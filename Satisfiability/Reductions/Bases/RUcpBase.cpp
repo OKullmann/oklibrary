@@ -37,6 +37,7 @@ License, or any later version. */
 */
 
 #include <vector>
+#include <list>
 #include <string>
 #include <iostream>
 #include <cassert>
@@ -64,7 +65,7 @@ namespace {
   const std::string program = "RUcpBase";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.5";
+  const std::string version = "0.0.6";
 
   inline int convert_seed(const char* const arg) {
     int seed;
@@ -80,18 +81,6 @@ namespace {
     assert(seed >= 1);
     base_rand_gen.seed(seed);
   }
-
-  template <class Cls, class Selector>
-  struct Select_clause {
-    const Cls& F;
-    const Selector& S;
-    typedef typename Cls::const_iterator iterator;
-    const iterator b;
-    Select_clause(const Cls& F, const Selector& S) : F(F), S(S), b(F.begin()) {}
-    bool operator()(const iterator it) const {
-      return S[it - b];
-    }
-  };
 
 }
 
@@ -111,21 +100,11 @@ int main(const int argc, const char* const argv[]) {
 
   typedef OKlib::Literals::Literals_int literal_type;
   typedef std::vector<literal_type> clause_type;
-  typedef std::vector<clause_type> clause_set_type;
-  typedef OKlib::InputOutput::RawDimacsCLSAdaptor<literal_type, clause_set_type> InputClsadaptor;
-  typedef InputClsadaptor::int_type int_type;
-  typedef InputClsadaptor::string_type string_type;
+  typedef std::vector<clause_type> clause_set1_type;
+  typedef OKlib::InputOutput::RawDimacsCLSAdaptor<literal_type, clause_set1_type> InputClsadaptor;
+  InputClsadaptor F1;
+  OKlib::InputOutput::StandardDIMACSInput<InputClsadaptor>(std::cin, F1);
 
-  typedef OKlib::Satisfiability::Reductions::UnitClausePropagation::CLSAdaptorUcpW<
-      OKlib::Satisfiability::ProblemInstances::Clauses::WatchedLiterals_mono<literal_type>,
-      OKlib::Satisfiability::Assignments::TotalAssignments::BAssignmentWithQueue<literal_type> >
-    Ucp;
-
-  typedef OKlib::InputOutput::ListTransfer<Ucp> TransferClsadaptor;
-
-
-  InputClsadaptor F;
-  OKlib::InputOutput::StandardDIMACSInput<InputClsadaptor>(std::cin, F);
   {
    typedef boost::uniform_int<> uniform_distribution_type;
    uniform_distribution_type uniform_distribution(0,std::numeric_limits<int>::max()); // is this correct???
@@ -133,23 +112,30 @@ int main(const int argc, const char* const argv[]) {
    generator_type rand_gen(base_rand_gen, uniform_distribution);
    typedef boost::random_number_generator<generator_type> RandomNumberGenerator;
    RandomNumberGenerator rg(rand_gen);
-   std::random_shuffle(F.clause_set.begin(), F.clause_set.end(), rg);
+   std::random_shuffle(F1.clause_set.begin(), F1.clause_set.end(), rg);
   }
-  
-  clause_set_type F_removed;
-  typedef std::vector<bool> selector_type;
-  selector_type S(F.clause_set.size(), true);
-  Select_clause<clause_set_type, selector_type> s_clause(F.clause_set, S);
-  // XXX
-  Ucp U;
-  TransferClsadaptor(F.clause_set, s_clause, U);
+
+  typedef std::list<clause_type> clause_set2_type;
+  clause_set2_type F2(F1.clause_set.begin(), F1.clause_set.end());
+  F1.clause_set.clear();
+  {
+   clause_set2_type F_removed;
+   typedef OKlib::Satisfiability::Reductions::UnitClausePropagation::CLSAdaptorUcpW<
+       OKlib::Satisfiability::ProblemInstances::Clauses::WatchedLiterals_mono<literal_type>,
+       OKlib::Satisfiability::Assignments::TotalAssignments::BAssignmentWithQueue<literal_type> >
+     Ucp;
+   Ucp U;
+   // XXX
+   typedef OKlib::InputOutput::ListTransfer<Ucp> TransferClsadaptor;
+   TransferClsadaptor(F2, U);
+  }
 
   {
-   typedef OKlib::InputOutput::CLSAdaptorDIMACSOutput<int_type, string_type> OutputClsadaptor;
+   typedef OKlib::InputOutput::CLSAdaptorDIMACSOutput<literal_type> OutputClsadaptor;
    OutputClsadaptor out(std::cout);
    std::stringstream comment;
    comment << "r_1 base for seed = " << seed;
-   OKlib::InputOutput::ListTransfer<OutputClsadaptor>(F.clause_set, out, comment.str());
+   OKlib::InputOutput::ListTransfer<OutputClsadaptor>(F2, out, comment.str());
   }
 
 }
