@@ -9,7 +9,7 @@ License, or any later version. */
   \file Satisfiability/Reductions/Bases/RUcpBase.cpp
   \brief Application for computing a random UCP-base of a clause-set
 
-  For the specification see  rand_rbase_cs in
+  For the specification see rand_rbase_cs in
   ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac.
 
   <ul>
@@ -27,6 +27,8 @@ License, or any later version. */
    <li> Instead of constantly refilling the clause-set for UCP, only the
    changes needed (removing one clause, readding some clause) should be
    performed. </li>
+   <li> Instead of the boost-classes for random numbers the C++0x components
+   should be used, once we move away from gcc-4.1.2. </li>
    <li> Use messages. </li>
    <li> DONE (removed it)
    The Boost-error-message is not very informative. </li>
@@ -39,8 +41,15 @@ License, or any later version. */
 #include <string>
 #include <iostream>
 #include <cassert>
+#include <sstream>
+#include <limits>
+#include <algorithm>
 
 #include <boost/lexical_cast.hpp>
+#include <boost/random/mersenne_twister.hpp>
+#include <boost/random/uniform_int.hpp>
+#include <boost/random/variate_generator.hpp>
+#include <boost/random/random_number_generator.hpp>
 
 #include <OKlib/Satisfiability/ProblemInstances/Literals/TrivialLiterals.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
@@ -56,7 +65,7 @@ namespace {
   const std::string program = "RUcpBase";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.3";
+  const std::string version = "0.0.4";
 
   int convert_seed(const char* const arg) {
     int seed;
@@ -64,6 +73,13 @@ namespace {
     catch (boost::bad_lexical_cast&) { return 0; }
     if (seed < 0) return 0;
     else return seed;
+  }
+
+  typedef boost::mt19937 base_generator_type;
+  base_generator_type base_rand_gen;
+  void set_random(const int seed) {
+    assert(seed >= 1);
+    base_rand_gen.seed(seed);
   }
 
 }
@@ -80,11 +96,11 @@ int main(const int argc, const char* const argv[]) {
     std::cerr << err << "The seed \"" << argv[1] << "\" must be an integer >= 1 fitting into type int.\n";
     return(errcode_parameter_value);
   }
-  assert(seed >= 1);
+  set_random(seed);
 
   typedef OKlib::Literals::Literals_int literal_type;
   typedef std::vector<literal_type> clause_type;
-  typedef std::list<clause_type> clause_set_type;
+  typedef std::vector<clause_type> clause_set_type;
   typedef OKlib::InputOutput::RawDimacsCLSAdaptor<literal_type, clause_set_type> InputClsadaptor;
   typedef InputClsadaptor::int_type int_type;
   typedef InputClsadaptor::string_type string_type;
@@ -95,6 +111,30 @@ int main(const int argc, const char* const argv[]) {
     Ucp;
 
   typedef OKlib::InputOutput::ListTransfer<Ucp> TransferClsadaptor;
+
+
+  InputClsadaptor F;
+  OKlib::InputOutput::StandardDIMACSInput<InputClsadaptor>(std::cin, F);
+  {
+   typedef boost::uniform_int<> uniform_distribution_type;
+   uniform_distribution_type uniform_distribution(0,std::numeric_limits<int>::max()); // is this correct???
+   typedef boost::variate_generator<base_generator_type&, uniform_distribution_type> generator_type;
+   generator_type rand_gen(base_rand_gen, uniform_distribution);
+   typedef boost::random_number_generator<generator_type> RandomNumberGenerator;
+   RandomNumberGenerator rg(rand_gen);
+   std::random_shuffle(F.clause_set.begin(), F.clause_set.end(), rg);
+  }
+  
+  clause_set_type F_removed;
+  // XXX
+
+  {
+   typedef OKlib::InputOutput::CLSAdaptorDIMACSOutput<int_type, string_type> OutputClsadaptor;
+   OutputClsadaptor out(std::cout);
+   std::stringstream comment;
+   comment << "r_1 base for seed = " << seed;
+   OKlib::InputOutput::ListTransfer<OutputClsadaptor>(F.clause_set, out, comment.str());
+  }
 
 }
 

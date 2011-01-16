@@ -1,5 +1,5 @@
 // Oliver Kullmann, 30.12.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -42,11 +42,22 @@ License, or any later version. */
     <ol>
      <li> The Maxima-documentation says that the "Knuth shuffle algorithm"
      is used. </li>
-     <li> And then we need to simulate the Maxima random-generator. </li>
-     <li> This should all be possible without too much effort. </li>
-     <li> However perhaps for now we just use examples with a unique base.
+     <li> While the C++ standard doesn't say anything about how the shuffling
+     is performed? </li>
+     <li> And then we need to simulate the Maxima random-generator.
+      <ol>
+       <li> The Boost documentation doesn't say anything how to construct the
+       distribution-object, so that out of that all the random_number_generator
+       in the sensible way is generated? Ask on the mailing list. </li>
+       <li> Then it is completely unclear how in Maxima out of "MT 19937"
+       a random integer is constructed. Ask on the Maxima mailing list. </li>
+      </ol>
      </li>
-     <li> Though we need to take these considerations into account for the
+     <li> Perhaps for now we just use examples with a unique base.
+     </li>
+     <li> DONE (we use the boost-mt19937-generator, and the std::random_shuffle
+     algorithm)
+     Though we need to take these considerations into account for the
      design. </li>
     </ol>
    </li>
