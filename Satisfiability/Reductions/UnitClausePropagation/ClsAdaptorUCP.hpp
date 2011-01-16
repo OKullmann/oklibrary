@@ -399,6 +399,7 @@ namespace OKlib {
             would be added
           */
           bool push_unit_clause(const literal_type x) {
+            assert(OKlib::Literals::var(x) <= num_var);
             const bool success = f.push(x);
             if (not success) contradicting_ucl = true;
             return success;
@@ -508,7 +509,6 @@ namespace OKlib {
             }
             A.finish();
           }
-
 
           /*!
             \brief returns true iff a contradiction was found, and computes the
