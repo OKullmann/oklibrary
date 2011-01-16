@@ -404,6 +404,7 @@ namespace OKlib {
             return success;
           }
           void clear_assignments() { f.clear(); }
+          void set_assignments(const assignment_type& fnew) { f = fnew; }
 
 
           //! output to cls-adaptor (adding a comment in case a contradiction was found)

@@ -132,10 +132,12 @@ int main(const int argc, const char* const argv[]) {
       Ucp U;
       typedef OKlib::InputOutput::ListTransfer<Ucp> TransferClsadaptor;
       TransferClsadaptor(F2, U);
+      typedef Ucp::assignment_type assignment_type;
+      const assignment_type f = U.assignment();
       bool removable = true;
       const clause_iterator Frend = F_removed.end();
       for (clause_iterator Di = F_removed.begin(); Di != Frend; ++Di) {
-        U.clear_assignments();
+        U.set_assignments(f);
         const clause_type& D = *Di;
         typedef clause_type::const_iterator literal_iterator;
         for (literal_iterator xi = D.begin(); xi != D.end(); ++xi)
