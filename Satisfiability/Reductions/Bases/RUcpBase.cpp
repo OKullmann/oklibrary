@@ -65,7 +65,7 @@ namespace {
   const std::string program = "RUcpBase";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.7";
+  const std::string version = "0.1";
 
   inline int convert_seed(const char* const arg) {
     int seed;
@@ -142,7 +142,7 @@ int main(const int argc, const char* const argv[]) {
         const clause_type& D = *Di;
         typedef clause_type::const_iterator literal_iterator;
         for (literal_iterator xi = D.begin(); xi != D.end(); ++xi)
-          U.push_unit_clause(*xi);
+          U.push_unit_clause(-*xi);
         if (not U.perform_ucp()) { removable = false; break; }
       }
       if (not removable) F2.splice(l.next, F_removed, F_removed.begin());
