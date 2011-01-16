@@ -64,8 +64,9 @@ namespace OKlib {
          next_lit = phi.begin();
        }
        BAssignmentWithQueue(const BAssignmentWithQueue& other) :
-         n(other.n), V(other.V), phi(other.phi), next_lit(phi.end() - other.size()) {
+         n(other.n), V(other.V), phi(other.phi) {
          phi.reserve(n);
+         next_lit = phi.end() - other.size();
          assert(size() == other.size());
        }
        BAssignmentWithQueue& operator =(const BAssignmentWithQueue& rhs) {
@@ -81,10 +82,11 @@ namespace OKlib {
        //! enlarging the capacity
        void resize(const index_type n_) {
          assert(n_ >= 0);
+         const index_type old_size = size();
          n = n_;
          V.resize(n+1,OKlib::Satisfiability::Values::unassigned);
          phi.reserve(n);
-         next_lit = phi.begin();
+         next_lit = phi.end() - old_size;
        }
 
        //! the value of the partial assignment for variable v
@@ -115,6 +117,7 @@ namespace OKlib {
          case OKlib::Satisfiability::Values::val1 :
            return true;
          default :
+           assert(phi.size() < phi.capacity());
            phi.push_back(x);
            V[index_type(OKlib::Literals::var(x))] = value_type(OKlib::Literals::cond(x));
            return true;
@@ -144,7 +147,7 @@ namespace OKlib {
        typedef std::vector<literal_type> pass_t;
        pass_t phi;
        typedef typename pass_t::const_iterator iterator_t;
-       iterator_t next_lit;
+       iterator_t next_lit; // iterator into phi
      };
 
 
