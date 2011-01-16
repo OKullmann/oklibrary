@@ -387,11 +387,11 @@ namespace OKlib {
       clause_set_type clause_set;
 
       RawDimacsCLSAdaptor() {}
-      void comment(const string_type&) {}
-      void n(const int_type) {} 
-      void c(const int_type) {}
-      void finish() {}
-      void tautological_clause(const int_type) {}
+      void comment(const string_type&) const {}
+      void n(const int_type) const {} 
+      void c(const int_type) const {}
+      void finish() const {}
+      void tautological_clause(const int_type) const {}
 
       //! all literal occurrences are copied as is
       template <class ForwardRange>
@@ -439,11 +439,11 @@ namespace OKlib {
       clause_set_type clause_set;
 
       RawDimacsCLSAdaptorSets() {}
-      void comment(const string_type&) {}
-      void n(const int_type) {} 
-      void c(const int_type) {}
-      void finish() {}
-      void tautological_clause(const int_type) {}
+      void comment(const string_type&) const {}
+      void n(const int_type) const {} 
+      void c(const int_type) const {}
+      void finish() const {}
+      void tautological_clause(const int_type) const {}
 
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type) {
