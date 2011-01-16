@@ -351,11 +351,14 @@ namespace OKlib {
             F.reserve(num_cl);
           }
           void tautological_clause(int_type) const {}
+          /*!
+            \brief Remarks on the implementation:
+             - returns immediately when an empty clause was found,
+             - unit-clauses are transferred into the assignment f,
+             - binary clauses are transferred to F2,
+             - all other clauses are transferred to F and watched via FW.
+          */
           template <class Range>
-          //! returns immediately when an empty clause was found, unit-clauses
-          //! are transferred into the assignment f, binary clauses are
-          //! transferred to F2, all other clauses are transferred to F and
-          //! watched via FW
           void clause(const Range& clause, int_type) {
             const size_type s = boost::distance(clause);
             if (s == 0) { empty_cl = true; return; }
@@ -389,7 +392,7 @@ namespace OKlib {
           bool empty_clause() const { return empty_cl; }
 
 
-          //! output to cls-adaptor
+          //! output to cls-adaptor (adding a comment in case a contradiction was found)
           template <class CLSAdaptor>
           void output(CLSAdaptor& A) {
             if (contradiction_ucp and not empty_cl and not contradicting_ucl)
@@ -492,7 +495,10 @@ namespace OKlib {
           }
 
 
-          //! return true iff a contradiction was found
+          /*!
+            \brief returns true iff a contradiction was found, and computes the
+            forced assignments
+          */
           bool perform_ucp() {
             add_com << "\nc Additional comments regarding trivial preprocessing and unit-clause propagation:";
             add_com << "\nc The original parameter were: n = " << num_var << ", c = " << num_cl << ".";

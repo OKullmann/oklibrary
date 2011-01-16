@@ -60,7 +60,7 @@ template <class ForwardRange> CLSAdaptor::clause(const ForwardRange& clause,
 #include <vector>
 #include <set>
 
-#include<boost/lexical_cast.hpp>
+#include <boost/lexical_cast.hpp>
 #include <boost/range/distance.hpp>
 #include <boost/range/value_type.hpp>
 #include <boost/range/const_iterator.hpp>
