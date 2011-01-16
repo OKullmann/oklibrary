@@ -387,30 +387,6 @@ namespace OKlib {
           out.clause(*Ci, Ci -> size());
         out.finish();
       }
-
-      //! for clause-iterator i of F, S(i) is false iff the clause is to be discarded
-      template <class Cls, class Selector>
-      ListTransfer(const Cls& F, const Selector& S, cls_adaptor_type& out, const string_type& comment = "") {
-        if (not comment.empty()) out.comment(comment);
-        typedef typename Cls::const_iterator clause_iterator;
-        typedef typename Cls::value_type clause_type;
-        typedef typename clause_type::const_iterator literal_iterator;
-        {
-          int_type n = 0, c = 0;
-          for (clause_iterator Ci = F.begin(); Ci != F.end(); ++Ci, ++c) {
-            if (not S(Ci)) continue;
-            const clause_type& C(*Ci);
-            for (literal_iterator li = C.begin(); li != C.end(); ++li) {
-              const int_type v(OKlib::Literals::var(*li));
-              if (v > n) n = v;
-            }
-          }
-          out.n(n); out.c(c);
-        }
-        for (clause_iterator Ci = F.begin(); Ci != F.end(); ++Ci)
-          if (S(Ci)) out.clause(*Ci, Ci -> size());
-        out.finish();
-      }
     };
 
     // Convenience wrappers
