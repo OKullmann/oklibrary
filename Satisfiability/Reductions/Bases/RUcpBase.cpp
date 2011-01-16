@@ -104,6 +104,7 @@ int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::RawDimacsCLSAdaptor<literal_type, clause_set1_type> InputClsadaptor;
   InputClsadaptor F1;
   OKlib::InputOutput::StandardDIMACSInput<InputClsadaptor>(std::cin, F1);
+  const InputClsadaptor::int_type n = F1.stat.parameter_n;
 
   {
    typedef boost::uniform_int<> uniform_distribution_type;
@@ -131,9 +132,9 @@ int main(const int argc, const char* const argv[]) {
         Ucp;
       Ucp U;
       typedef OKlib::InputOutput::ListTransfer<Ucp> TransferClsadaptor;
-      TransferClsadaptor(F2, U);
+      TransferClsadaptor(F2, U, n);
       typedef Ucp::assignment_type assignment_type;
-      const assignment_type f = U.assignment();
+      const assignment_type f(U.assignment());
       bool removable = true;
       const clause_iterator Frend = F_removed.end();
       for (clause_iterator Di = F_removed.begin(); Di != Frend; ++Di) {
