@@ -1,0 +1,76 @@
+#!/bin/bash
+# Matthew Gwynne, 16.1.2011 (Swansea)
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+
+#set -o errexit # currently "find" creates an error due to non-existing directories, and also the match-program might fail
+set -o nounset
+
+program=${OKlib}/Experimentation/Investigations/BooleanFunctions/analyse_random_permutations
+app_test_dir=${OKlib}/Experimentation/Investigations/BooleanFunctions/app_tests/
+gen_dir_prefix="random_perm_"
+
+cd ${app_test_dir}
+
+case ${test_level} in
+basic) list_test_cases="$(find test_cases/basic/analyse_random_permutations/ -name '*.param')"
+    ;;
+full) list_test_cases="$(find test_cases/basic/analyse_random_permutations/ -name '*.param') $(find test_cases/full/analyse_random_permutations/ -name '*.param')"
+    ;;
+extensive) list_test_cases="$(find test_cases/basic/analyse_random_permutations/ -name '*.param') $(find test_cases/full/analyse_random_permutations/ -name '*.param') $(find test_cases/extensive/analyse_random_permutations/ -name '*.param')"
+    ;;
+esac
+
+echo "TEST PARAMETERS FOUND:" 
+for T in ${list_test_cases}; do echo ${T}; done
+
+echo "EXECUTION OF PROGRAMS:"
+
+match_tool=${bin_dir}/MatchFiles-O3-DNDEBUG
+
+exit_status=0
+for P in ${list_test_cases}; do
+  echo "PARAMS: ${P}"
+  output="$(cat ${P} | xargs ${program})"
+  template_dir="$(dirname ${P})/output/$(basename ${P} .param)/"
+
+  num_template_exp=$(ls -ld ${template_dir}/* | wc -l)
+  num_gen_exp=$(ls -ld ${gen_dir_prefix}* | wc -l)
+  if [[ ${num_template_exp} -ne ${num_gen_exp} ]]; then
+    echo -e "ERROR: Experiment produces ${num_gen_exp} directories but"
+    echo -e "template has ${num_template_exp}." 
+    exit_status=1; break
+  fi
+  
+  for gen_dir in ${gen_dir_prefix}*; do
+    num_template_exp=$(ls -l ${template_dir}/${gen_dir}/ | wc -l)
+    num_gen_exp=$(ls -l ${gen_dir}/ | wc -l)
+    if [[ ${num_template_exp} -ne ${num_gen_exp} ]]; then
+      echo -e "ERROR: Experiment produces ${num_gen_exp} files but"
+      echo -e "template has ${num_template_exp}." 
+      exit_status=1; break 2
+    fi
+    
+    for exp_file in ${gen_dir}/*; do
+      template=${template_dir}/${exp_file}
+      cat ${exp_file} | ${match_tool} "${template}"
+      result=$?
+      if [[ ${result} != 0 ]]; then
+        echo -e "ERROR: INCORRECT OUTPUT for '${exp_file}'"
+        echo -e "ERROR: OUTPUT of solver is\n$(cat ${exp_file})\n, while TEMPLATE is"
+        cat ${template}; echo;
+        exit_status=1; break 3
+      fi
+    done
+  done
+
+  # Clear up.
+  rm -rf ${gen_dir_prefix}*
+done
+
+rm -rf ${gen_dir_prefix}*
+exit ${exit_status}
