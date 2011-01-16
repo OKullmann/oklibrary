@@ -39,6 +39,8 @@ License, or any later version. */
      <li> After further type-corrections it seems these errors have been
      resolved. </li>
      <li> But on cs-oksvr we still have a segmentation-fault for saps. </li>
+     <li> On cspcmg the issue is resolved (no segfaults on this instance for
+     any algorithm).</li>
     </ol>
    </li>
    <li> DONE
