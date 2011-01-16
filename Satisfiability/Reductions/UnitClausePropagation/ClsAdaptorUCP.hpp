@@ -365,8 +365,7 @@ namespace OKlib {
             typedef typename boost::range_const_iterator<Range>::type range_iterator;
             const range_iterator bc = boost::const_begin(clause);
             if (s == 1) {
-              const literal_type x = *bc;
-              if (not f.push(x)) contradicting_ucl = true;
+              push_unit_clause(*bc);
               return;
             }
             if (s == 2) {
@@ -390,6 +389,20 @@ namespace OKlib {
             num_ge3cl = F.size();
           }
           bool empty_clause() const { return empty_cl; }
+
+          //! returns true if contradicting unit-clauses were found
+          bool contradicting_uclause() const { return contradicting_ucl; }
+
+          /*!
+            \brief returns false if assignment not successful due to opposite
+            value already present; has the same effect as if unit-clause {x}
+            would be added
+          */
+          bool push_unit_clause(const literal_type x) {
+            const bool success = f.push(x);
+            if (not success) contradicting_ucl = true;
+            return success;
+          }
 
 
           //! output to cls-adaptor (adding a comment in case a contradiction was found)
