@@ -104,13 +104,24 @@ License, or any later version. */
   \todo CryptoMiniSat
   <ul>
    <li> Version 2.9.0.1 asserts:
-   \verbatim
+    <ol>
+     <li>
+     \verbatim
+OKplatform> PdVanderWaerdenCNF-O3-DNDEBUG 3 24 569 > VanDerWaerden_pd_2-3-24_569.cnf
 OKplatform> cryptominisat VanDerWaerden_pd_2-3-24_569.cnf
 ...
 cryptominisat: Solver.cpp:1103: Clause* Solver::analyze(PropBy, vec<Lit>&, int&, uint32_t&, bool): Assertion `level[my_var] <= (int)decisionLevel()' failed.
 Aborted (core dumped)
-   \endverbatim
-   valgrind doesn't find an error. </li>
+     \endverbatim
+     valgrind doesn't find an error. </li>
+     <li> Building by
+     \verbatim
+CXXFLAGS="-Wall -Wextra -Wno-ignored-qualifiers -Wfloat-equal -Wpointer-arith -Wcast-align -Wconversion -g -O2" oklib cryptominisat
+     \endverbatim
+     shows a lot of conversions from 64-bit values to 32-bit values. </li>
+     <li> Compiling only with "-O1", we don't get the assert. </li>
+    </ol>
+   </li>
    <li> DONE (the author corrected this; branch "cluster129-fixed")
    The solver runs immediately out of memory:
     <ol>
