@@ -76,6 +76,9 @@ License, or any later version. */
   \par Satisfiability/Interfaces version 0.0.8
   (see Satisfiability/Interfaces/plans/milestones.hpp)
 
+  \par Satisfiability/Reductions version 0.0.6
+  (see Satisfiability/Reductions/plans/milestones.hpp)
+
 
   \par Version 0.1.4
 
