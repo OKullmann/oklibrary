@@ -20,18 +20,21 @@ License, or any later version. */
    <li> Important for efficiency, that elimination of clauses and moving to
    a different clause (as partial assignment) can be done without much
    overhead. </li>
-   <li> It seems that
+   <li>
    OKlib::Satisfiability::Reductions::UnitClausePropagation::CLSAdaptorUcpW
    basically fulfills these requirements:
     <ol>
-     <li> The assignment can be just placed into the partial assignment,
+     <li> DONE (used after extension of functionality)
+     The assignment can be just placed into the partial assignment,
      without the need for further actions. </li>
-     <li> Once a propagation has been performed, then nothing needs to be
+     <li> DONE 
+     Once a propagation has been performed, then nothing needs to be
      reset, since the watched literals per clause are always valid. </li>
      <li> For removing a clause the interface has to be changed, but
      otherwise it should be a simple operation, just removing the two
      watched literals. </li>
-     <li> Perhaps we have to use the underlying clause-class
+     <li> DONE (shouldn't be necessary)
+     Perhaps we have to use the underlying clause-class
      OKlib::Satisfiability::ProblemInstances::Clauses::WatchedLiterals_mono ?
      </li>
     </ol>
