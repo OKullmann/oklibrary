@@ -9,12 +9,33 @@ License, or any later version. */
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp
   \brief Investigations into AES related to the SAT 2011 paper
 
+  The aim of these experiments is to investigate translations of the AES and 
+  small scale AES cryptosystems using the translation scheme given in 
+  ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac.
+
+  The key aspects of the investigation are the representations for the 
+  byte-function components of the AES (see 
+  ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac) and
+  the translations of AES using these component translations into CNF.
+  
 
   \todo Links
   <ul>
-   <li> For investigations into the various representations (CNF and otherwise)
-   of the AES boxes (Sbox, field multiplications etc) see
+   <li> For experiments and open problems, see
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp .
+   This includes a overview on the scope of the experiments in "Dimensions".
+   </li>
+   <li> For investigations into the various component/box (Sbox, 
+   field multiplication etc) representations (CNF and otherwise) see
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp .
+   </li>
+   <li> For investigations on using the AES translations for key discovery, 
+   see
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/general.hpp .
+   </li>
+   <li> For investigating encryption and decryption using our CNF translation 
+   scheme, see 
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/EncryptionDecryption.hpp .
    </li>
   </ul>
 
