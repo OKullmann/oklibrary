@@ -33,14 +33,16 @@ shell> QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_3.cnf > AES_byte_fi
    yields a CNF with:
    \verbatim
 shell> ExtendedDimacsFullStatistics-O3-DNDEBUG < AES_byte_field_mul_pi_3.cnf
-c's = 1, n = 16, c = 5048, tc = 0, ntc = 5048, tl = 39592, l = 39592, finished = 1
-3 : 24
-4 : 64
-5 : 224
-6 : 512
-7 : 768
-8 : 1408
-9 : 2048
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 5048 39592 0 39592 1 1
+ length count
+3 24
+4 64
+5 224
+6 512
+7 768
+8 1408
+9 2048
    \endverbatim
    </li>
   </ul>
@@ -49,10 +51,6 @@ c's = 1, n = 16, c = 5048, tc = 0, ntc = 5048, tl = 39592, l = 39592, finished =
   \todo Using weighted MaxSAT to compute small CNFs
   <ul>
    <li> Computing the weighted MaxSAT problem:
-   \verbatim
-maxima> output_rijnmult_fullcnf_stdname(3);
-   \endverbatim
-   and then 
    \verbatim
 shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_byte_field_mul_full_3.cnf > AES_byte_field_mul_shg_3.cnf
 shell> cat AES_byte_field_mul_shg_3.cnf | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > AES_byte_field_mul_3_shg.wcnf
@@ -76,6 +74,37 @@ shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 5000000 -i AES_byte_field_mul_
       9 0    36                59709              5000000 3915062434
    \endverbatim
    </li>
+  </ul>
+
+
+  \todo r_1-bases
+  <ul>
+   <li> Computing three r_1-bases:
+   \verbatim
+> seed=1; RUcpBase-O3-DNDEBUG ${seed} < AES_byte_field_mul_pi_3.cnf | tee AES_byte_field_mul_bases_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 80 328 0 328 1 1
+ length count
+3 24
+4 24
+5 32
+> seed=2; RUcpBase-O3-DNDEBUG ${seed} < AES_byte_field_mul_pi_3.cnf | tee AES_byte_field_mul_bases_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 80 328 0 328 1 1
+ length count
+3 24
+4 24
+5 32
+> seed=3; RUcpBase-O3-DNDEBUG ${seed} < AES_byte_field_mul_pi_3.cnf | tee AES_byte_field_mul_bases_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 80 328 0 328 1 1
+ length count
+3 24
+4 24
+5 32
+   \endverbatim
+   </li>
+   <li> Is there exactly one r_1-base here?! </li>
   </ul>
 
 */

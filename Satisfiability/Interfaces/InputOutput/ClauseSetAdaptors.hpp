@@ -60,7 +60,7 @@ template <class ForwardRange> CLSAdaptor::clause(const ForwardRange& clause,
 #include <vector>
 #include <set>
 
-#include<boost/lexical_cast.hpp>
+#include <boost/lexical_cast.hpp>
 #include <boost/range/distance.hpp>
 #include <boost/range/value_type.hpp>
 #include <boost/range/const_iterator.hpp>
@@ -386,16 +386,26 @@ namespace OKlib {
 
       clause_set_type clause_set;
 
+      typedef Statistics<int_type> statistics_type;
+      statistics_type stat;
+
       RawDimacsCLSAdaptor() {}
-      void comment(const string_type&) {}
-      void n(const int_type) {} 
-      void c(const int_type) {}
-      void finish() {}
-      void tautological_clause(const int_type) {}
+
+      void comment(const string_type&) { ++stat.comment_count; }
+      void n(const int_type pn) { stat.parameter_n = pn; } 
+      void c(const int_type pc) { stat.parameter_c = pc; }
+      void finish() { stat.finished = true; }
+      void tautological_clause(const int_type t) {
+        ++stat.tautological_clauses_count;
+        stat.total_number_literals += t;
+      }
 
       //! all literal occurrences are copied as is
       template <class ForwardRange>
-      void clause(const ForwardRange& r, const int_type) {
+      void clause(const ForwardRange& r, const int_type t) {
+        ++stat.non_tautological_clauses_count;
+        stat.total_number_literals += t;
+        stat.reduced_number_literals += boost::distance(r);
         clause_set.push_back(clause_type(boost::begin(r), boost::end(r)));
       }
 
@@ -439,11 +449,11 @@ namespace OKlib {
       clause_set_type clause_set;
 
       RawDimacsCLSAdaptorSets() {}
-      void comment(const string_type&) {}
-      void n(const int_type) {} 
-      void c(const int_type) {}
-      void finish() {}
-      void tautological_clause(const int_type) {}
+      void comment(const string_type&) const {}
+      void n(const int_type) const {} 
+      void c(const int_type) const {}
+      void finish() const {}
+      void tautological_clause(const int_type) const {}
 
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type) {

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.12.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -94,6 +94,7 @@ all_rbases_bydef_cs(F1,ucp_0_cs);
    <li> Perhaps the perspective of applying partial assignments is interesting
    here --- just being able to apply partial assignments and detecting the
    empty clause we are able to perform subsumption-elimination. </li>
+   <li> So likely we should have a dedicated application. </li>
   </ul>
 
 */

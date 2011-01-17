@@ -351,19 +351,21 @@ namespace OKlib {
             F.reserve(num_cl);
           }
           void tautological_clause(int_type) const {}
+          /*!
+            \brief Remarks on the implementation:
+             - returns immediately when an empty clause was found,
+             - unit-clauses are transferred into the assignment f,
+             - binary clauses are transferred to F2,
+             - all other clauses are transferred to F and watched via FW.
+          */
           template <class Range>
-          //! returns immediately when an empty clause was found, unit-clauses
-          //! are transferred into the assignment f, binary clauses are
-          //! transferred to F2, all other clauses are transferred to F and
-          //! watched via FW
           void clause(const Range& clause, int_type) {
             const size_type s = boost::distance(clause);
             if (s == 0) { empty_cl = true; return; }
             typedef typename boost::range_const_iterator<Range>::type range_iterator;
             const range_iterator bc = boost::const_begin(clause);
             if (s == 1) {
-              const literal_type x = *bc;
-              if (not f.push(x)) contradicting_ucl = true;
+              push_unit_clause(*bc);
               return;
             }
             if (s == 2) {
@@ -388,8 +390,25 @@ namespace OKlib {
           }
           bool empty_clause() const { return empty_cl; }
 
+          //! returns true if contradicting unit-clauses were found
+          bool contradicting_uclause() const { return contradicting_ucl; }
 
-          //! output to cls-adaptor
+          /*!
+            \brief returns false if assignment not successful due to opposite
+            value already present; has the same effect as if unit-clause {x}
+            would be added
+          */
+          bool push_unit_clause(const literal_type x) {
+            assert(OKlib::Literals::var(x) <= num_var);
+            const bool success = f.push(x);
+            if (not success) contradicting_ucl = true;
+            return success;
+          }
+          void clear_assignments() { f.clear(); }
+          void set_assignments(const assignment_type& fnew) { f = fnew; }
+
+
+          //! output to cls-adaptor (adding a comment in case a contradiction was found)
           template <class CLSAdaptor>
           void output(CLSAdaptor& A) {
             if (contradiction_ucp and not empty_cl and not contradicting_ucl)
@@ -491,8 +510,10 @@ namespace OKlib {
             A.finish();
           }
 
-
-          //! return true iff a contradiction was found
+          /*!
+            \brief returns true iff a contradiction was found, and computes the
+            forced assignments
+          */
           bool perform_ucp() {
             add_com << "\nc Additional comments regarding trivial preprocessing and unit-clause propagation:";
             add_com << "\nc The original parameter were: n = " << num_var << ", c = " << num_cl << ".";

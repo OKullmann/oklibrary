@@ -10,9 +10,9 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,38)
 
 
-  \todo vanderwaerden_2(3,38) > 1375
+  \todo vanderwaerden_2(3,38) > 1377
   <ul>
-   <li> The very weak current conjecture is vanderwaerden_2(3,38) = 1376. </li>
+   <li> The very weak current conjecture is vanderwaerden_2(3,38) = ???. </li>
    <li> Starting search with the best palindromic solution:
    \verbatim
 > k=38 n=1368 cutoff=30000000 expdate="2010-12-14-225335"; export k n; cat AltExp/Exp_PdVanderWaerden_2-3-${k}_gsat-tabu-100-${cutoff}_${expdate}/VanDerWaerden_pd_2-3-${k}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution
@@ -202,6 +202,28 @@ FlipsPerSecond = 2541
      \endverbatim
      So ag2wsat seems the clear winner.
      </li>
+     <li> With cutoff=10^6:
+     \verbatim
+E=run_ubcsat("VanDerWaerden_2-3-38_1376.cnf", cutoff=1000000,runs=100)
+
+ddfw
+ 1  2  3  4  5  6  7  8  9
+ 1  7 22 29 20 14  5  1  1
+ag2wsat
+ 2  3  4  5  6
+14 22 35 15 14
+paws
+ 2  3  4  5  6  7  8  9
+ 1  2 11 15 29 22 13  7
+rots
+ 3  4  5  6  7  8 10 11 16 20 21 22 23 24 26 27 28 29 30 31
+ 2  7 12 16  9 10  1  1  1  3  2  1  4  3  5  7  5  7  3  1
+anovpp
+ 3 26 32 41 44 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67
+ 2  1  1  2  1  2  3  1  3  1  3  2  3  5  6 11 12  5  9  5  2  8  3  5  3  1
+     \endverbatim
+     So ddfw and ag2wsat are the winners (where apparently ag2wsat is faster).
+     </li>
      <li> It seems very slow? (times on csltok):
      \verbatim
 > exp_dir="ubcsat_tmp_VanDerWaerden_2-3-38_1376.cnf_2011-01-11-104249"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done
@@ -388,6 +410,22 @@ interrupted; the FlipsPerSecond are likely corrupted.
      \endverbatim
      </li>
     </ol>
+   </li>
+   <li> n=1377: adaptg2wsat finds a solution (adapted from n=1376,
+   osteps=18215068, using "RunVdW3k 38 1376 adaptg2wsat 1000 20000000"):
+   \verbatim
+3,27,30,38,60,61,64,78,97,106,
+124,149,154,175,177,180,198,208,212,217,
+223,227,251,265,288,309,326,334,339,365,
+371,372,400,437,449,450,467,473,476,482,
+487,510,531,541,556,584,585,594,598,619,
+634,659,661,668,672,696,705,716,745,763,
+782,783,790,804,827,841,852,853,883,890,
+893,911,915,920,948,954,975,994,1000,1007,
+1012,1029,1031,1037,1065,1078,1086,1096,1100,1111,
+1137,1139,1170,1189,1214,1226,1248,1253,1259,1260,
+1264,1296,1297,1305,1322,1338,1360,1361,1375,1376
+   \endverbatim
    </li>
   </ul>
 

@@ -154,11 +154,14 @@ wsatt   FlipsPerSecond = 154823
    \verbatim
 On csoberon:
 
-E=run_ubcsat("~/AltExp/Exp_VanderWaerden_2-3-39_1415_rots-100-100000000_2011-01-06-203740/VanDerWaerden_2-3-39_1415.cnf", cutoff=1000000,runs=100, include_algs=names(new_run_ubcsat_cnf_algs), ubcsat_wrapper="new-ubcsat-okl")
+E=run_ubcsat("~/AltExp/Exp_VanderWaerden_2-3-39_1415_rots-100-100000000_2011-01-06-203740/VanDerWaerden_2-3-39_1415.cnf", cutoff=1000000,runs=100)
 
 ddfw
  1  2  3  4  5  6  7
  3  7 29 29 24  6  2
+ag2wsat
+ 1  2  3  4  5  6 21 23
+ 2 11 21 37 18  9  1  1
 paws
  1  2  3  4  5  6  7  8  9 10 12 13 15 28 30
  1  1  3  7 22 16 23  9  9  2  2  2  1  1  1
@@ -173,7 +176,8 @@ anovpp
 
 The FlipsPerSecond are likely corrupted.
    \endverbatim
-   </li>
+   From the saps-family sapsnr seems best. Altogether ddfw and ag2wsat seem
+   clearly best. </li>
   </ul>
 
 
