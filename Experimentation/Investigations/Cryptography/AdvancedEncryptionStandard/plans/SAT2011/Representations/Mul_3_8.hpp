@@ -52,10 +52,6 @@ shell> ExtendedDimacsFullStatistics-O3-DNDEBUG < AES_byte_field_mul_pi_3.cnf
   <ul>
    <li> Computing the weighted MaxSAT problem:
    \verbatim
-maxima> output_rijnmult_fullcnf_stdname(3);
-   \endverbatim
-   and then 
-   \verbatim
 shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_byte_field_mul_full_3.cnf > AES_byte_field_mul_shg_3.cnf
 shell> cat AES_byte_field_mul_shg_3.cnf | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > AES_byte_field_mul_3_shg.wcnf
    \endverbatim
