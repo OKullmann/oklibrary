@@ -21,7 +21,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RandomClauseSets.hpp
    the following topics are handled:
-    - Move random_full_fcs
+    - Move random_full_fcs : DONE
 
 
   \par Version 0.0.10

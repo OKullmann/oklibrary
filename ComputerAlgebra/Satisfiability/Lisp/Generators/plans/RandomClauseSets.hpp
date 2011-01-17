@@ -25,16 +25,6 @@ License, or any later version. */
    full clause-sets, i.e., one which doesn't require us to specify the number 
    of clauses. </li>
   </ul>
-
-
-  \todo Move random_full_fcs
-  <ul>
-   <li> random_full_fcs in  
-   ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac
-   actually considers random boolean functions and should actually be moved
-   to ComputerAlgebra/Satisfiability/Lisp/Generators/ . </li>
-   <li> The name and documentation should also be reconsidered. </li>
-  </ul>
   
   
   \todo Specifying the AES random generator
@@ -117,6 +107,18 @@ License, or any later version. */
    <li> A natural extensions of random generators is by applying some filter,
    removing for example instances with repeated clauses. </li>
    <li> We need a framework for this. </li>
+  </ul>
+
+
+  \todo DONE (moved to 
+  ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac)
+  Move random_full_fcs
+  <ul>
+   <li> random_full_fcs in  
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac
+   actually considers random boolean functions and should actually be moved
+   to ComputerAlgebra/Satisfiability/Lisp/Generators/ . </li>
+   <li> The name and documentation should also be reconsidered. </li>
   </ul>
 
 */
