@@ -16,8 +16,10 @@ License, or any later version. */
 
   \todo Random r_1-bases
   <ul>
-   <li> The application is Reductions/Bases/RUcpBase.cpp. </li>
-   <li> Important for efficiency, that elimination of clauses and moving to
+   <li> DONE
+   The application is Reductions/Bases/RUcpBase.cpp. </li>
+   <li> DONE
+   Important for efficiency, that elimination of clauses and moving to
    a different clause (as partial assignment) can be done without much
    overhead. </li>
    <li>
@@ -92,5 +94,31 @@ rand_perm(L);
     </ol>
    </li>
   </ul>
+
+
+  \todo Create application tests
+
+
+  \todo Improve efficiency
+  <ul>
+   <li> Instead of refilling the clause-set for UCP after every removal, only
+   the changes needed (removing one clause, re-adding one clause) should be
+   performed. </li>
+   <li> For removing a clause the interface has to be changed, but
+   otherwise it should be a simple operation, just removing the two
+   watched literals. </li>
+  </ul>
+
+
+  \todo Further improve implementation
+  <ul>
+   <li> The algorithm should go into a (reusable) class in RUcpBase.hpp. </li>
+   <li> Use messages. </li>
+   <li> Instead of the boost-classes for random numbers the C++0x components
+   should be used, once we move away from gcc-4.1.2. </li>
+  </ul>
+
+
+  \todo Create unit-tests
 
 */

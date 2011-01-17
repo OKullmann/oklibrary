@@ -19,21 +19,6 @@ License, or any later version. */
    random-number generator; the default-seed is 1. </li>
   </ul>
 
-  \todo Provide implementation : DONE
-
-  \todo Improve implementation
-  <ul>
-   <li> The algorithm should go into a (reusable) class in RUcpBase.hpp. </li>
-   <li> Instead of refilling the clause-set for UCP after every removal, only
-   the changes needed (removing one clause, readding one clause) should be
-   performed. </li>
-   <li> Instead of the boost-classes for random numbers the C++0x components
-   should be used, once we move away from gcc-4.1.2. </li>
-   <li> Use messages. </li>
-   <li> DONE (removed it)
-   The Boost-error-message is not very informative. </li>
-  </ul>
-
 */
 
 #include <vector>
