@@ -165,7 +165,7 @@ output_ss_sbox_linmap_fullcnf_gen_stdname(b,e,mod_poly,sbox_matrix) :=
   output_fcs(
     sconcat("AES Sbox linear (", sbox_matrix ,") map given the full",
       "CNF representation."),
-    ss_sbox_fullcnf_fcs(b,e,mod_poly, sbox_matrix),
+    ss_sbox_linmap_fullcnf_gen_fcs(b,e,mod_poly, sbox_matrix),
     sconcat("AES_sbox_lin_",b,"_",e,"_",ss_matrix2str(sbox_matrix),
       "_full.cnf"))$
 output_ss_sbox_linmap_fullcnf_stdname(b,e) := block(
