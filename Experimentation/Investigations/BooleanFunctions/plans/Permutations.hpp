@@ -471,6 +471,86 @@ output_perm_fullcnf_stdname(P)$
    <li> Looks similar to the AES Sbox (see "Basic data" in
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp).
    </li>
+   <li> 1557 experiments for n=8:
+   \verbatim
+shell> ${OKlib}/Experimentation/Investigations/BooleanFunctions/analyse_random_permutations 8 1
+^C
+   \endverbatim
+   and then:
+   \verbatim
+R> E = read_experiment_dirs("random_perm", list("e","seed"), "Permutation_full.cnf_primes_stats", header=TRUE, skip=2)
+R> ET = rows2columns_df(E, "length", "count", list("e","seed"))
+R> summary(ET)
+       0           1           2           3           4           5         
+ Min.   :0   Min.   :0   Min.   :0   Min.   :0   Min.   :0   Min.   : 0.000  
+ 1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.: 3.000  
+ Median :0   Median :0   Median :0   Median :0   Median :0   Median : 5.000  
+ Mean   :0   Mean   :0   Mean   :0   Mean   :0   Mean   :0   Mean   : 5.314  
+ 3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.: 7.000  
+ Max.   :0   Max.   :0   Max.   :0   Max.   :0   Max.   :0   Max.   :20.000  
+       6              7               8               9        
+ Min.   :2824   Min.   :76750   Min.   :39658   Min.   :502.0  
+ 1st Qu.:3999   1st Qu.:81310   1st Qu.:45265   1st Qu.:657.0  
+ Median :4272   Median :82419   Median :47247   Median :709.0  
+ Mean   :4289   Mean   :82355   Mean   :47256   Mean   :713.6  
+ 3rd Qu.:4563   3rd Qu.:83483   3rd Qu.:49195   3rd Qu.:765.0  
+ Max.   :5737   Max.   :86368   Max.   :58320   Max.   :997.0  
+       10               11          12          13          14          15   
+ Min.   :0.0000   Min.   :0   Min.   :0   Min.   :0   Min.   :0   Min.   :0  
+ 1st Qu.:0.0000   1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.:0  
+ Median :0.0000   Median :0   Median :0   Median :0   Median :0   Median :0  
+ Mean   :0.1933   Mean   :0   Mean   :0   Mean   :0   Mean   :0   Mean   :0  
+ 3rd Qu.:0.0000   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0  
+ Max.   :4.0000   Max.   :0   Max.   :0   Max.   :0   Max.   :0   Max.   :0  
+       16         seed           e       
+ Min.   :0   Min.   :1.000e+00   16:1557  
+ 1st Qu.:0   1st Qu.:2.147e+09           
+ Median :0   Median :2.147e+09           
+ Mean   :0   Mean   :1.950e+09           
+ 3rd Qu.:0   3rd Qu.:2.147e+09           
+ Max.   :0   Max.   :2.147e+09
+   \endverbatim
+   Note the experiment was stopped and restarted with a different seed at one 
+   point (hence the large seeds).
+   </li>
+   <li> Note here that not all permutations have prime implicates of length 5
+   or length 10, but all have length 6,7,8, and 9. </li>
+   <li> We can even have permutations without any length 5 or length 10 
+   prime implicates:
+   \verbatim
+R> E2[E2[6] == 0,]
+      0 1 2 3 4 5    6     7     8   9 10 11 12 13 14 15 16       seed e
+392   0 0 0 0 0 0 3522 85462 51359 746  0  0  0  0  0  0  0         12 16
+2415  0 0 0 0 0 0 3471 84533 52137 746  0  0  0  0  0  0  0 2147483733 16
+4098  0 0 0 0 0 0 3662 83895 52057 603  1  0  0  0  0  0  0 2147483832 16
+6036  0 0 0 0 0 0 4143 82732 49082 739  0  0  0  0  0  0  0 2147483946 16
+6376  0 0 0 0 0 0 3503 84905 52757 753  0  0  0  0  0  0  0 2147483966 16
+6580  0 0 0 0 0 0 3472 85034 51732 649  0  0  0  0  0  0  0 2147483978 16
+7141  0 0 0 0 0 0 3839 82370 51682 722  0  0  0  0  0  0  0 2147484011 16
+8892  0 0 0 0 0 0 3878 82136 53194 837  0  0  0  0  0  0  0 2147484114 16
+12921 0 0 0 0 0 0 3310 83318 57665 749  0  0  0  0  0  0  0 2147484351 16
+15624 0 0 0 0 0 0 3842 83251 50269 713  0  0  0  0  0  0  0 2147484510 16
+17188 0 0 0 0 0 0 3616 85329 49868 595  0  0  0  0  0  0  0 2147484602 16
+17460 0 0 0 0 0 0 3427 83065 55923 770  0  0  0  0  0  0  0 2147484618 16
+20962 0 0 0 0 0 0 3611 85249 50021 654  0  0  0  0  0  0  0 2147484824 16
+21285 0 0 0 0 0 0 3727 84473 51727 761  0  0  0  0  0  0  0 2147484843 16
+23835 0 0 0 0 0 0 4444 83594 45167 634  0  0  0  0  0  0  0 2147484993 16
+24804 0 0 0 0 0 0 3702 84340 50569 613  0  0  0  0  0  0  0 2147485050 16
+24821 0 0 0 0 0 0 3689 84816 49657 674  1  0  0  0  0  0  0 2147485051 16
+25263 0 0 0 0 0 0 4063 83608 47128 604  0  0  0  0  0  0  0         35 16
+25297 0 0 0 0 0 0 4327 82446 48222 725  1  0  0  0  0  0  0         37 16
+25739 0 0 0 0 0 0 3862 83246 51154 581  0  0  0  0  0  0  0         60 16
+   \endverbatim
+   Note, that infact most of the permutations we tested didn't have 
+   a clause of length 10 when it had a clause of length 5.
+   </li>
+   <li> For the total number of prime implicates we have:
+   \verbatim
+R>  min(as.data.frame(addmargins(as.matrix(E2)))$Sum)
+[1] 124400
+R> max(head(as.data.frame(addmargins(as.matrix(E2))),n=-1)$Sum)
+   \endverbatim
+   </li>
   </ul>
   
 */
