@@ -12,14 +12,25 @@ License, or any later version. */
 
   \todo Basic data
   <ul>
-   <li> The CNF is created by the Maxima-function
-   output_rijnsbox_fullcnf_stdname(), which is a full clause-set with 16
-   variables and 2^16 - 2^8 = 65280 clauses. </li>
+   <li> The CNF-file "AES_Sbox_full.cnf" is created by the Maxima-function
+   output_rijnsbox_fullcnf_stdname() in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac,
+   which is a full clause-set with 16
+   variables and 2^16 - 2^8 = 65280 clauses:
+   \verbatim
+> cat AES_Sbox_full.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 65280 1044480 0 1044480 1 1
+ length count
+16 65280
+   \endverbatim
+   </li>
    <li> Prime implicates:
     <ol>
      <li> There are 136253 prime implicates, with 999896 literals in total, and
      with clause-length-distribution as follows:
      \verbatim
+> QuineMcCluskey-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_PK.cnf
 > cat AES_PK.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 136253 999896 0 999896 1 1
