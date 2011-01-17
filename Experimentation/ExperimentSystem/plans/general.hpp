@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.11.2005 (Swansea)
-/* Copyright 2005 - 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -49,6 +49,23 @@ License, or any later version. */
    (see directory ExperimentSystem/RandomGenerator) to here. </li>
    <li> Compilation is not an issue yet, but renaming and initial
    documentation. </li>
+  </ul>
+
+
+  \todo Improve naming and documentation of rows2column_df
+  <ul>
+   <li> "rows2columns_df" in DataCollection.R was a quickly written
+   function to allow one to aggregate data from various rows in a data.frame.
+   Certain columns remain constant, and another "key" column ranges over
+   a fixed set, associating with values in a "value" column. The rows are
+   then aggregated such that new columns are introduced for each key, and
+   there is a row for each unique set of values in the constant column, where
+   each column in the row is given values from the "value" column associated
+   with each key. </li>
+   <li> The above needs to be better written and placed in the documentation.
+   </li>
+   <li> The name and placement of the function also needs to be considered.
+   </li>
   </ul>
 
 
