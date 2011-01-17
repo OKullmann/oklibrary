@@ -76,4 +76,35 @@ shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 5000000 -i AES_byte_field_mul_
    </li>
   </ul>
 
+
+  \todo r_1-bases
+  <ul>
+   <li> Computing three r_1-bases:
+   \verbatim
+> seed=1; RUcpBase-O3-DNDEBUG ${seed} < AES_byte_field_mul_pi_3.cnf | tee AES_byte_field_mul_bases_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 80 328 0 328 1 1
+ length count
+3 24
+4 24
+5 32
+> seed=2; RUcpBase-O3-DNDEBUG ${seed} < AES_byte_field_mul_pi_3.cnf | tee AES_byte_field_mul_bases_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 80 328 0 328 1 1
+ length count
+3 24
+4 24
+5 32
+> seed=3; RUcpBase-O3-DNDEBUG ${seed} < AES_byte_field_mul_pi_3.cnf | tee AES_byte_field_mul_bases_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 80 328 0 328 1 1
+ length count
+3 24
+4 24
+5 32
+   \endverbatim
+   </li>
+   <li> Is there exactly one r_1-base here?! </li>
+  </ul>
+
 */
