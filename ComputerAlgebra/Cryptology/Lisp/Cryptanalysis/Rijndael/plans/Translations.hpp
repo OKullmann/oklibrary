@@ -20,6 +20,9 @@ License, or any later version. */
    all experimental instances we wish to generate. </li>
    <li> For example, can we integrate "Rearranging linear components of Sbox 
    and MixColumns". </li>
+   <li> See also "Dimensions" in 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp .
+   </li>
   </ul>
 
   
