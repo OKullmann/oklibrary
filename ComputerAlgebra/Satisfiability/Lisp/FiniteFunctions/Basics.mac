@@ -1,0 +1,57 @@
+/* Matthew Gwynne, 17.1.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac
+  \brief Basic boolean functions translations
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac")$
+
+
+
+/***********************************************
+ * Random boolean functions                    *
+ ***********************************************
+*/
+
+/* Given a set, returns a random subset of this set where
+   each subset has the same probability of being chosen
+   (1/2^length(S)). */
+/* TODO: Move somewhere more appropriate. */
+random_subset(S) :=
+  setify(sublist(
+    map(lambda([a,b], if b = 1 then a else und),
+      listify(S),create_list(random(2),i,1,length(S))),
+      lambda([a], a # und)));
+
+/* In the following, "random" means that each function chosen
+   has equal probability of being chosen (uniform distribution). */
+
+/* Computes a random boolean function in n variables. */
+random_boolf_fcs(n) := [setn(n),random_subset(full_cs(n))]$
+
+/* Computes a random balanced boolean function in n variables.
+*/
+random_bal_boolf_fcs(n) :=
+  [setn(n),setify(random_k_sublist_l(listify(full_cs(n)),2^(n-1)))]$
+/* A boolean function is balanced if it has the same number
+   of true points as false points. */
+
+/*!
+\endhtmlonly
+*/

@@ -1,0 +1,35 @@
+/* Matthew Gwynne, 17.1.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/testobjects/Basics.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/testobjects/Basics.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/tests/Basics.mac")$
+
+/* *********************************
+   * The fixed-clause-length model *
+   *********************************
+*/
+
+okltest_random_subset(random_subset);
+okltest_random_boolf_fcs(random_boolf_fcs);
+okltest_random_bal_boolf_fcs(random_bal_boolf_fcs);
+
+/*!
+\endhtmlonly
+*/
