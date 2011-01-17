@@ -74,7 +74,7 @@ License, or any later version. */
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxMinimisation.hpp)
    we need an option to specify that we wish to use "new-ubcsat-okl"
    instead of "ubcsat-okl". </li>
-   <li> "e also need to ensure that all the weighted
+   <li> We also need to ensure that all the weighted
    versions of each algorithm are listed in the algorithms list, as well as
    new versions. </li>
    <li> DONE (use ubcsat_wrapper = "old-ubcsat-okl")
