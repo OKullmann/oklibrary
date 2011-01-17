@@ -202,6 +202,28 @@ FlipsPerSecond = 2541
      \endverbatim
      So ag2wsat seems the clear winner.
      </li>
+     <li> With cutoff=10^6:
+     \verbatim
+E=run_ubcsat("VanDerWaerden_2-3-38_1376.cnf", cutoff=1000000,runs=100)
+
+ddfw
+ 1  2  3  4  5  6  7  8  9
+ 1  7 22 29 20 14  5  1  1
+ag2wsat
+ 2  3  4  5  6
+14 22 35 15 14
+paws
+ 2  3  4  5  6  7  8  9
+ 1  2 11 15 29 22 13  7
+rots
+ 3  4  5  6  7  8 10 11 16 20 21 22 23 24 26 27 28 29 30 31
+ 2  7 12 16  9 10  1  1  1  3  2  1  4  3  5  7  5  7  3  1
+anovpp
+ 3 26 32 41 44 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67
+ 2  1  1  2  1  2  3  1  3  1  3  2  3  5  6 11 12  5  9  5  2  8  3  5  3  1
+     \endverbatim
+     So ddfw and ag2wsat are the winners (where apparently ag2wsat is faster).
+     </li>
      <li> It seems very slow? (times on csltok):
      \verbatim
 > exp_dir="ubcsat_tmp_VanDerWaerden_2-3-38_1376.cnf_2011-01-11-104249"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done
