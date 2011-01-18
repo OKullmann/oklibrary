@@ -120,6 +120,22 @@ License, or any later version. */
    regularities of each set of prime implicates can be discussed. </li>
   </ul>
 
+
+  \todo Computing a minimum CNF represetion : mincl_rinf <= 294
+  <ul>
+   <li> The current minimum clause-length of an r_infinity-base is 294. </li>
+   <li> Currently there are the following approaches:
+    <ol>
+     <li> see "Using weighted MaxSAT to compute small CNFs" below; apparently
+     most powerful </li>
+     <li> see "Minimum using exact espresso algorithms"; this doesn't work
+     (yet) </li>
+     <li> see "Small CNFs with espresso" </li>
+     <li> see "Using R QCA package"; this doesn't work (yet). </li>
+    </ol>
+   </li>
+  </ul>
+
   
   \todo Using weighted MaxSAT to compute small CNFs
   <ul>
