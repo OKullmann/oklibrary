@@ -43,10 +43,42 @@ License, or any later version. */
     - Further improve implementation
 
 
+  \par Version 0.1.3
+
+  \par
+   In Satisfiability/Reductions/Bases/RUcpGen.cpp the following topics
+   are handled:
+    - Write application tests
+
+
+  \par Version 0.1.4
+
+  \par
+   In Satisfiability/Reductions/Bases/RUcpGen.cpp the following topics
+   are handled:
+    - Improve efficiency
+
+
+  \par Version 0.1.5
+
+  \par
+   In Satisfiability/Reductions/Bases/RUcpGen.cpp the following topics
+   are handled:
+    - Shuffling and sorting
+
+
   \par Version 0.2
 
   \par
    In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
+   are handled:
+    - Create unit-tests
+
+
+  \par Version 0.2.1
+
+  \par
+   In Satisfiability/Reductions/Bases/RUcpGen.cpp the following topics
    are handled:
     - Create unit-tests
 
