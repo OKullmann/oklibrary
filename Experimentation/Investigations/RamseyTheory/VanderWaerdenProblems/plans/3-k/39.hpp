@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,39)
 
 
-  \todo vanderwaerden_2(3,39) > 1414
+  \todo vanderwaerden_2(3,39) > 1415
   <ul>
    <li> The very weak current conjecture is vanderwaerden_2(3,39) = ???. </li>
    <li> Starting search with the best palindromic solution:
@@ -178,6 +178,22 @@ The FlipsPerSecond are likely corrupted.
    \endverbatim
    From the saps-family sapsnr seems best. Altogether ddfw and ag2wsat seem
    clearly best. </li>
+   <li> n=1415 found satisfiable (rots, osteps=12345027, run 175,
+   cutoff=2*10^8):
+   \verbatim
+3,26,53,56,76,79,85,90,98,129,
+164,172,174,187,191,211,240,260,266,267,
+270,277,278,301,315,334,340,375,377,388,
+389,423,426,433,451,460,482,492,519,520,
+542,573,581,593,597,608,611,634,645,648,
+673,705,710,721,727,742,745,764,795,803,
+815,816,838,858,859,862,877,904,914,930,
+932,941,963,1000,1010,1015,1038,1041,1060,1062,
+1074,1091,1092,1097,1128,1129,1149,1186,1193,1208,
+1222,1239,1245,1259,1269,1276,1284,1300,1302,1311,
+1314,1351,1358,1373,1374,1380
+   \endverbatim
+   </li>
   </ul>
 
 
