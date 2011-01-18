@@ -97,6 +97,13 @@ rand_perm(L);
 
 
   \todo Create application tests for Bases/RUcpBase.cpp
+  <ul>
+   <li> We need to consider all extreme cases, plus a good mixture of normal
+   cases. </li>
+   <li> Once adding an assignment to the Ucp-object creates directly a
+   contradiction, this is not cleared, and so it should be possible to create
+   false output in this way? </li>
+  </ul>
 
 
   \todo Write application tests for Bases/RUcpGen.cpp
