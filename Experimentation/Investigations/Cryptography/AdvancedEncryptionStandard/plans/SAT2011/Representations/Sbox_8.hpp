@@ -225,6 +225,45 @@ Error: Impossible to solve the PI chart (too many possible combinations).
   </ul>
 
 
+  \todo r_1-bases
+  <ul>
+   <li> Starting with a generating set, created from scratch:
+   \verbatim
+> RUcpGen-O3-DNDEBUG AES_PK.cnf > AES_gen.cnf
+> cat AES_gen.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 9050 63306 0 63306 1 1
+ length count
+5 1
+6 1373
+7 6363
+8 1295
+9 18
+> seed=1; cat AES_gen.cnf | RUcpBase-O3-DNDEBUG ${seed} | tee AES_base_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 4754 32530 0 32530 1 1
+ length count
+5 1
+6 1140
+7 3223
+8 386
+9 4
+> seed=2; cat AES_gen.cnf | RUcpBase-O3-DNDEBUG ${seed} | tee AES_base_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+
+   \endverbatim
+   </li>
+   <li> Likely first sorting AES_PK.cnf by length (shortest first) should
+   yield a shorter generating set. </li>
+   <li> Another thing to do is to provide RUcpGen-O3-DNDEBUG with a non-empty
+   starting set, namely the clauses from a "small" representation. </li>
+   <li> How do these lengths compare (precisely) to the canonical transation?
+   </li>
+   <li> DONE (we have now the approach via first computing a generating set)
+   The direct computation (via "cat AES_PK.cnf | RUcpBase-O3-DNDEBUG")
+   of a base takes too long. </li>
+  </ul>
+
+
   \todo Generate good CNF hitting clause-sets
   <ul>
    <li> Different heuristics for generating hitting clause-sets
