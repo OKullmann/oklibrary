@@ -419,11 +419,19 @@ irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
   <ul>
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/Symmetries/plans/general.hpp. </li>
-   <li> We have at least the symmetry exchanging input and output variables.
-   (since x^(-1) in the field is self-inverse). </li>
-   <li> Then we could simply run through all 8! * 2^8 1,032,1920
-   literal substitutions on the input variables, while copying the
-    values for the output variables accordingly. </li>
+   <li> We have at least the symmetry exchanging input and output variables
+   (since x^(-1) in the field is self-inverse). ??? However the linear
+   transformation is not self-inverse?! </li>
+   <li> We can run through all 8! * 2^8 = 1,032,1920 permutations with flips
+   on the input variables, interpreted as a bijection from input-space to
+   output-space, to check whether they constitute an automorphism. </li>
+   <li> This would take into account all automorphisms "flipping sides". </li>
+   <li> Then there are automorphisms within the input variables resp. within
+   the output variables. </li>
+   <li> There might be further cases. </li>
+   <li> Since the DNF is rather small, Saucy (see "Symmetries" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp) should be able
+   to do the job. </li>
   </ul>
 
 */
