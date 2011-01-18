@@ -121,6 +121,8 @@ rand_perm(L);
    <li> Instead of recreating again and again a new Ucp-object U and filling it
    from scratch with the current F0, we should just update U by the clauses C
    added to F0 (if some change happened). </li>
+   <li> Likely we just need to call the clause-member-function to add the
+   clause, with a resetting of the assignment before that. </li>
   </ul>
 
 
