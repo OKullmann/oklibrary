@@ -111,15 +111,18 @@ rand_perm(L);
 
   \todo Shuffling and sorting
   <ul>
-   <li> We need an application which sorts a clause-list according to length,
-   and then applies random permutations (or the identity) to the blocks of
-   clauses of equal length. </li>
-   <li> Then normally input F should be first processed via this
-   sorting-shuffling. </li>
-   <li> Sorting should be an option. </li>
-   <li> For comparability with the Maxima-level we should use the Mersenne
-   twister; see "Random r_1-bases" in
-   Satisfiability/Reductions/Bases/plans/UcpBase.hpp. </li>
+   <li> We need an application which sorts a clause-list according to length
+   (shortest clauses first), keeping the order of clauses of equal length.
+   </li>
+   <li> Another application applies a random permutations to a clause-list.
+   </li>
+   <li> For comparability with the Maxima-level we use the Mersenne twister;
+   see "Random r_1-bases" above. </li>
+   <li> Instead of the boost-classes for random numbers, the C++0x components
+   should be used, once we move away from gcc-4.1.2. </li>
+   <li> These two applications are based on two CLS-adaptors. </li>
+   <li> Once we have that, the permutation-part should be removed from
+   Bases/RUcpBase.cpp. </li>
   </ul>
 
 
@@ -148,12 +151,6 @@ rand_perm(L);
   <ul>
    <li> The algorithm should go into a (reusable) class in RUcpBase.hpp. </li>
    <li> Use messages. </li>
-   <li> Instead of the boost-classes for random numbers the C++0x components
-   should be used, once we move away from gcc-4.1.2. </li>
-   <li> Perhaps seed=0 should mean that no permutation is performed. </li>
-   <li> Perhaps actually no permutation might be performed here at all, but
-   left to an external application (as with
-   Satisfiability/Reductions/Bases/RUcpGen.cpp)? </li>
   </ul>
 
 
