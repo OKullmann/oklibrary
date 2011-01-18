@@ -21,11 +21,100 @@ License, or any later version. */
   </ul>
 
 
+  \todo Encryption
+  <ul>
+   <li> Generating AES for 1 round:
+   \verbatim
+maxima> num_rounds : 1$
+maxima> num_columns : 4$
+maxima> num_rows : 4$
+maxima> exp : 8$
+maxima> final_round_b : true$
+maxima> box_tran : aes_ts_box$
+maxima> seed : 1$
+maxima> mc_tran : aes_mc_bidirectional$
+maxima> output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
+   \endverbatim
+   and then we can generate a random assignment with the plaintext and key,
+   leaving the ciphertext unknown:
+   \verbatim
+maxima> output_ss_random_pk_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
+   \endverbatim
+   and then we can merge the random plaintext, key assignment (as
+   a clause-set containing the relevant unit clauses) with:
+   \verbatim
+shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pkpair_r1_c4_rw4_e8_f1_s1.cnf > ssaes_r1_c4_rw4_e8_f1_encrypt.cnf
+   \endverbatim
+   </li>
+   <li> Testing encryption using minisat:
+   \verbatim
+shell> minisat ssaes_r1_c4_rw4_e8_f1_encrypt.cnf 
+==================================[MINISAT]===================================
+| Conflicts |     ORIGINAL     |              LEARNT              | Progress |
+|           | Clauses Literals |   Limit Clauses Literals  Lit/Cl |          |
+==============================================================================
+|         0 |   21044   170112 |    7014       0        0    -nan |  0.000 % |
+==============================================================================
+restarts              : 1
+conflicts             : 0              (0 /sec)
+decisions             : 1              (2 /sec)
+propagations          : 5928           (12098 /sec)
+conflict literals     : 0              (-nan % deleted)
+Memory used           : 17.28 MB
+CPU time              : 0.49 s
+
+SATISFIABLE
+   \endverbatim
+   Notice, satisfiability is found purely through unit clause propagation.
+   </li>
+  </ul>
+
+  
+  \todo Decryption
+  <ul>
+   <li> We generate the AES CNF translation as in "Encryption", except
+   instead of generating a plaintext and key assignment, we generate a
+   key and ciphertext assignment:
+   \verbatim
+maxima> output_ss_random_kc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
+   \endverbatim
+   and then we can merge the random plaintext, key assignment (as
+   a clause-set containing the relevant unit clauses) with:
+   \verbatim
+shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh ssaes_r1_c4_rw4_e8_f1.cnf ssaes_kcpair_r1_c4_rw4_e8_f1_s1.cnf > ssaes_r1_c4_rw4_e8_f1_decrypt.cnf
+   \endverbatim
+   </li>
+   <li> Testing decryption using minisat:
+   \verbatim
+shell> minisat ssaes_r1_c4_rw4_e8_f1_decrypt.cnf 
+==================================[MINISAT]===================================
+| Conflicts |     ORIGINAL     |              LEARNT              | Progress |
+|           | Clauses Literals |   Limit Clauses Literals  Lit/Cl |          |
+==============================================================================
+|         0 |   21044   170112 |    7014       0        0    -nan |  0.000 % |
+==============================================================================
+restarts              : 1
+conflicts             : 0              (0 /sec)
+decisions             : 1              (2 /sec)
+propagations          : 5928           (12098 /sec)
+conflict literals     : 0              (-nan % deleted)
+Memory used           : 17.28 MB
+CPU time              : 0.49 s
+
+SATISFIABLE
+   \endverbatim
+   Notice, satisfiability is found purely through unit clause propagation.
+   </li>
+  </ul>
+
+
   \todo Update instructions
   <ul>
-   <li> We need instructions here on how to generate the various
+   <li> DONE We need instructions here on how to generate the various
    CNFs which represent AES encryption and decryption with all the 
    various parameters. </li>
+   <li> The instructions also need to be improved to explain more fully
+   how everything works. </li>
    <li> See 
    ComputerAlgebra/Cryptography/Lisp/Cryptanalysis/Rijndael/Translations.mac. 
    </li>
