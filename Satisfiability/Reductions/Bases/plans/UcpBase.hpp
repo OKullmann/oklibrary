@@ -116,6 +116,10 @@ rand_perm(L);
    <li> Use messages. </li>
    <li> Instead of the boost-classes for random numbers the C++0x components
    should be used, once we move away from gcc-4.1.2. </li>
+   <li> Perhaps seed=0 should mean that no permutation is performed. </li>
+   <li> Perhaps actually no permutation might be performed here at all, but
+   left to an external application (as with
+   Satisfiability/Reductions/Bases/RUcpGen.cpp)? </li>
   </ul>
 
 
