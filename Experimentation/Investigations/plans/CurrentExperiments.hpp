@@ -47,6 +47,8 @@ License, or any later version. */
    </li>
    <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp .
    </li>
+   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp . 
+   </li>
   </ul>
 
 
