@@ -95,6 +95,17 @@ License, or any later version. */
   </ul>
 
 
+  \todo r_1-bases
+  <ul>
+   <li> Computing an r-1 base:
+   \verbatim
+shell> seed=2; RUcpBase-O3-DNDEBUG ${seed} < ../Experiments/AES/AES_Sbox_pi.cnf | tee Sbox_bases_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+   \endverbatim
+   </li>
+   <li> MG is currently running this experiment on cspcmg. </li>
+  </ul>
+
+
   \todo Overview
   <ul>
    <li> We do *not* currently know the minimum CNF size for the 8-bit Sbox.
