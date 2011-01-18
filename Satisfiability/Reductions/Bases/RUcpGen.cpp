@@ -17,30 +17,6 @@ License, or any later version. */
   Prerequisite is that all variables of F0 have at most the index n as given
   by the maxima variable-index in the parameter-line of the file for F.
 
-  \todo Write application tests
-
-  \todo Improve efficiency
-  <ul>
-   <li> Instead of recreating again and again a new Ucp-object U and filling it
-   from scratch with the current F0, we should just update U by the clauses C
-   added to F0 (if some change happened). </li>
-  </ul>
-
-  \todo Shuffling and sorting
-  <ul>
-   <li> We need an application which sorts a clause-list according to length,
-   and then applies random permutations (or the identity) to the blocks of
-   clauses of equal length. </li>
-   <li> Then normally input F should be first processed via this
-   sorting-shuffling. </li>
-   <li> Sorting should be an option. </li>
-   <li> For comparability with the Maxima-level we should use the Mersenne
-   twister; see "Random r_1-bases" in
-   Satisfiability/Reductions/Bases/plans/UcpBase.hpp. </li>
-  </ul>
-
-  \todo Create unit-tests
-
 */
 
 #include <string>

@@ -16,7 +16,15 @@ License, or any later version. */
   \par
    In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
    are handled:
-    - Create application tests
+    - Create application tests for Bases/RUcpBase.cpp
+
+
+  \par Version 0.0.9
+
+  \par
+   In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
+   are handled:
+    - Create application tests for Bases/RUcpGen.cpp
 
 
   \par Version 0.1
@@ -24,6 +32,7 @@ License, or any later version. */
   \par
    In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
    are handled:
+    - Shuffling and sorting
     - Random r_1-bases
 
 
@@ -32,39 +41,23 @@ License, or any later version. */
   \par
    In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
    are handled:
-    - Improve efficiency
+    - Improve efficiency of Bases/RUcpGen.cpp
 
 
-  \par Version 0.1.2
+   \par Version 0.1.2
 
   \par
    In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
    are handled:
-    - Further improve implementation
+    - Improve efficiency of Bases/RUcpBase.cpp
 
 
   \par Version 0.1.3
 
   \par
-   In Satisfiability/Reductions/Bases/RUcpGen.cpp the following topics
+   In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
    are handled:
-    - Write application tests
-
-
-  \par Version 0.1.4
-
-  \par
-   In Satisfiability/Reductions/Bases/RUcpGen.cpp the following topics
-   are handled:
-    - Improve efficiency
-
-
-  \par Version 0.1.5
-
-  \par
-   In Satisfiability/Reductions/Bases/RUcpGen.cpp the following topics
-   are handled:
-    - Shuffling and sorting
+    - Further improve implementation of Bases/RUcpBase.cpp
 
 
   \par Version 0.2
@@ -72,7 +65,7 @@ License, or any later version. */
   \par
    In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
    are handled:
-    - Create unit-tests
+    - Create unit-tests for Bases/RUcpBase.cpp
 
 
   \par Version 0.2.1
@@ -80,7 +73,7 @@ License, or any later version. */
   \par
    In Satisfiability/Reductions/Bases/RUcpGen.cpp the following topics
    are handled:
-    - Create unit-tests
+    - Create unit-tests for Bases/RUcpGen.cpp
 
 
   \par Version 0.3

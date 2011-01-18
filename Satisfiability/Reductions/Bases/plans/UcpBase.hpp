@@ -96,10 +96,35 @@ rand_perm(L);
   </ul>
 
 
-  \todo Create application tests
+  \todo Create application tests for Bases/RUcpBase.cpp
 
 
-  \todo Improve efficiency
+  \todo Write application tests for Bases/RUcpGen.cpp
+
+
+  \todo Shuffling and sorting
+  <ul>
+   <li> We need an application which sorts a clause-list according to length,
+   and then applies random permutations (or the identity) to the blocks of
+   clauses of equal length. </li>
+   <li> Then normally input F should be first processed via this
+   sorting-shuffling. </li>
+   <li> Sorting should be an option. </li>
+   <li> For comparability with the Maxima-level we should use the Mersenne
+   twister; see "Random r_1-bases" in
+   Satisfiability/Reductions/Bases/plans/UcpBase.hpp. </li>
+  </ul>
+
+
+  \todo Improve efficiency of Bases/RUcpGen.cpp
+  <ul>
+   <li> Instead of recreating again and again a new Ucp-object U and filling it
+   from scratch with the current F0, we should just update U by the clauses C
+   added to F0 (if some change happened). </li>
+  </ul>
+
+
+  \todo Improve efficiency of Bases/RUcpBase.cpp
   <ul>
    <li> Instead of refilling the clause-set for UCP after every removal, only
    the changes needed (removing one clause, re-adding one clause) should be
@@ -110,7 +135,7 @@ rand_perm(L);
   </ul>
 
 
-  \todo Further improve implementation
+  \todo Further improve implementation of Bases/RUcpBase.cpp
   <ul>
    <li> The algorithm should go into a (reusable) class in RUcpBase.hpp. </li>
    <li> Use messages. </li>
@@ -123,6 +148,9 @@ rand_perm(L);
   </ul>
 
 
-  \todo Create unit-tests
+  \todo Create unit-tests for Bases/RUcpBase.cpp
+
+
+  \todo Create unit-tests for Bases/RUcpGen.cpp
 
 */
