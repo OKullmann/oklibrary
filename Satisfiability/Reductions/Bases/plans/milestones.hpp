@@ -60,6 +60,14 @@ License, or any later version. */
     - Further improve implementation of Bases/RUcpBase.cpp
 
 
+  \par Version 0.1.4
+
+  \par
+   In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
+   are handled:
+    - Further improve implementation of Bases/RUcpGen.cpp
+
+
   \par Version 0.2
 
   \par

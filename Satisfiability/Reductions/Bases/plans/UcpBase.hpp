@@ -154,6 +154,13 @@ rand_perm(L);
   </ul>
 
 
+  \todo Further improve implementation of Bases/RUcpGen.cpp
+  <ul>
+   <li> The algorithm should go into a (reusable) class in RUcpGen.hpp. </li>
+   <li> Use messages. </li>
+  </ul>
+
+
   \todo Create unit-tests for Bases/RUcpBase.cpp
 
 
