@@ -49,19 +49,15 @@ okltest_prop_eq_vars_l(f) := block(
   assert(f([["eq_cst",[1,2,3,4]], ["test",[4,5,6]]]) = [veq(1,3),veq(2,4)]),
   true)$
 
-okltest_prop_eq_rep_vars_l(f) := block(
-  assert(f([],[]) = []),
-  assert(f([["eq_cst",[1,2,3,4]]],[]) = []),
-  assert(f([["eq_cst",[1,2,3,4]]],[1,2]) = [veq(1,3),veq(2,4)]),
-  true)$
-
-okltest_prop_eq_naive_csttl(f) := block(
-  assert(f([]) = []),
-  assert(f([["eq_cst",[1,2,3,4]]]) = []),
-  assert(f([["eq_cst",[1,2,3,4]], ["test",[4,5,6]]]) =
-    [["test",[veq(2,4),5,6]]]),
-  assert(f([["eq_cst",[1,2,3,4]], ["eq_cst",[3,4,5,6]], ["test",[4,5,6]]]) =
-    [["test",[veq(veq(2,4),6),veq(veq(1,3),5),veq(veq(2,4),6)]]]),
+okltest_prop_eq_csttl(f) := block(
+  assert(f([],[]) = [[],[]]),
+  assert(f([["eq_cst",[1,2,3,4]]],[1,2,3,4]) = [[],[veq(1,3),veq(2,4)]]),
+  assert(f([["eq_cst",[1,2,3,4]], ["test",[4,5,6]]], [1,2,3,4,5,6]) =
+    [[["test",[veq(2,4),5,6]]],[veq(1,3),veq(2,4),5,6]]),
+  assert(f([["eq_cst",[1,2,3,4]], ["eq_cst",[3,4,5,6]], ["test",[4,5,6]]],
+      [1,2,3,4,5,6]) =
+    [[["test",[veq(veq(2,4),6),veq(veq(1,3),5),veq(veq(2,4),6)]]],
+     [veq(veq(1,3),5),veq(veq(2,4),6)]]),
   true)$
 
 /*!
