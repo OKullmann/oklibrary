@@ -116,10 +116,8 @@ int main(const int argc, const char* const argv[]) {
           OKlib::Satisfiability::Assignments::TotalAssignments::BAssignmentWithQueue<literal_type> >
         Ucp;
       Ucp U;
-      typedef OKlib::InputOutput::ListTransfer<Ucp> TransferClsadaptor;
-      TransferClsadaptor(F2, U, n);
-      typedef Ucp::assignment_type assignment_type;
-      const assignment_type f(U.assignment());
+      OKlib::InputOutput::ListTransfer<Ucp>(F2, U, n);
+      const Ucp::assignment_type f(U.assignment());
       bool removable = true;
       const clause_iterator Frend = F_removed.end();
       for (clause_iterator Di = F_removed.begin(); Di != Frend; ++Di) {
