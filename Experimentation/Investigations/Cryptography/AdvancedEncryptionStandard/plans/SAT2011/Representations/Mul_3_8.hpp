@@ -104,6 +104,17 @@ shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 5000000 -i AES_byte_field_mul_
 5 32
    \endverbatim
    </li>
+   <li> Using the method "from below":
+   \verbatim
+> RUcpGen-O3-DNDEBUG AES_byte_field_mul_pi_3.cnf | RUcpBase-O3-DNDEBUG | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 80 328 0 328 1 1
+ length count
+3 24
+4 24
+5 32
+   \endverbatim
+   </li>
    <li> Is there exactly one r_1-base here?! </li>
   </ul>
 

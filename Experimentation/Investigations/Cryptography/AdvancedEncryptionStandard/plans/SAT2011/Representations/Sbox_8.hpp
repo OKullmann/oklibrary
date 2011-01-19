@@ -120,6 +120,22 @@ License, or any later version. */
    regularities of each set of prime implicates can be discussed. </li>
   </ul>
 
+
+  \todo Computing a minimum CNF represetion : mincl_rinf <= 294
+  <ul>
+   <li> The current minimum clause-length of an r_infinity-base is 294. </li>
+   <li> Currently there are the following approaches:
+    <ol>
+     <li> see "Using weighted MaxSAT to compute small CNFs" below; apparently
+     most powerful </li>
+     <li> see "Minimum using exact espresso algorithms"; this doesn't work
+     (yet) </li>
+     <li> see "Small CNFs with espresso" </li>
+     <li> see "Using R QCA package"; this doesn't work (yet). </li>
+    </ol>
+   </li>
+  </ul>
+
   
   \todo Using weighted MaxSAT to compute small CNFs
   <ul>
@@ -222,6 +238,54 @@ Error: Impossible to solve the PI chart (too many possible combinations).
    implicates. </li>
    <li> We should look into the options for this package, or perhaps
    e-mail the developers. </li>
+  </ul>
+
+
+  \todo r_1-bases : mincl_r1 <= 4754
+  <ul>
+   <li> Current minimum clause-count of an r_1-base: 4754. </li>
+   <li> Starting with a generating set, created from scratch:
+   \verbatim
+> RUcpGen-O3-DNDEBUG AES_PK.cnf > AES_gen.cnf
+> cat AES_gen.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 9050 63306 0 63306 1 1
+ length count
+5 1
+6 1373
+7 6363
+8 1295
+9 18
+> seed=1; cat AES_gen.cnf | RUcpBase-O3-DNDEBUG ${seed} | tee AES_base_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 4754 32530 0 32530 1 1
+ length count
+5 1
+6 1140
+7 3223
+8 386
+9 4
+> seed=2; cat AES_gen.cnf | RUcpBase-O3-DNDEBUG ${seed} | tee AES_base_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 4765 32606 0 32606 1 1
+ length count
+5 1
+6 1135
+7 3245
+8 380
+9 4
+   \endverbatim
+   </li>
+   <li> Likely first sorting AES_PK.cnf by length (shortest first) should
+   yield a shorter (better) generating set (while perhaps once the generating
+   set is fixed, there aren't so much choices anymore(?)). </li>
+   <li> Another thing to do is to provide RUcpGen-O3-DNDEBUG with a non-empty
+   starting set, namely the clauses from a "small" representation. </li>
+   <li> How do these lengths compare (precisely) to the canonical transation?
+   </li>
+   <li> DONE (we have now the approach via first computing a generating set)
+   The direct computation (via "cat AES_PK.cnf | RUcpBase-O3-DNDEBUG")
+   of a base takes too long. </li>
   </ul>
 
 
@@ -419,11 +483,19 @@ irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
   <ul>
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/Symmetries/plans/general.hpp. </li>
-   <li> We have at least the symmetry exchanging input and output variables.
-   (since x^(-1) in the field is self-inverse). </li>
-   <li> Then we could simply run through all 8! * 2^8 1,032,1920
-   literal substitutions on the input variables, while copying the
-    values for the output variables accordingly. </li>
+   <li> We have at least the symmetry exchanging input and output variables
+   (since x^(-1) in the field is self-inverse). ??? However the linear
+   transformation is not self-inverse?! </li>
+   <li> We can run through all 8! * 2^8 = 1,032,1920 permutations with flips
+   on the input variables, interpreted as a bijection from input-space to
+   output-space, to check whether they constitute an automorphism. </li>
+   <li> This would take into account all automorphisms "flipping sides". </li>
+   <li> Then there are automorphisms within the input variables resp. within
+   the output variables. </li>
+   <li> There might be further cases. </li>
+   <li> Since the DNF is rather small, Saucy (see "Symmetries" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp) should be able
+   to do the job. </li>
   </ul>
 
 */

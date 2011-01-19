@@ -96,10 +96,47 @@ rand_perm(L);
   </ul>
 
 
-  \todo Create application tests
+  \todo Create application tests for Bases/RUcpBase.cpp
+  <ul>
+   <li> We need to consider all extreme cases, plus a good mixture of normal
+   cases. </li>
+   <li> Once adding an assignment to the Ucp-object creates directly a
+   contradiction, this is not cleared, and so it should be possible to create
+   false output in this way? </li>
+  </ul>
 
 
-  \todo Improve efficiency
+  \todo Write application tests for Bases/RUcpGen.cpp
+
+
+  \todo Shuffling and sorting
+  <ul>
+   <li> We need an application which sorts a clause-list according to length
+   (shortest clauses first), keeping the order of clauses of equal length.
+   </li>
+   <li> Another application applies a random permutations to a clause-list.
+   </li>
+   <li> For comparability with the Maxima-level we use the Mersenne twister;
+   see "Random r_1-bases" above. </li>
+   <li> Instead of the boost-classes for random numbers, the C++0x components
+   should be used, once we move away from gcc-4.1.2. </li>
+   <li> These two applications are based on two CLS-adaptors. </li>
+   <li> Once we have that, the permutation-part should be removed from
+   Bases/RUcpBase.cpp. </li>
+  </ul>
+
+
+  \todo Improve efficiency of Bases/RUcpGen.cpp
+  <ul>
+   <li> Instead of recreating again and again a new Ucp-object U and filling it
+   from scratch with the current F0, we should just update U by the clauses C
+   added to F0 (if some change happened). </li>
+   <li> Likely we just need to call the clause-member-function to add the
+   clause, with a resetting of the assignment before that. </li>
+  </ul>
+
+
+  \todo Improve efficiency of Bases/RUcpBase.cpp
   <ul>
    <li> Instead of refilling the clause-set for UCP after every removal, only
    the changes needed (removing one clause, re-adding one clause) should be
@@ -110,15 +147,23 @@ rand_perm(L);
   </ul>
 
 
-  \todo Further improve implementation
+  \todo Further improve implementation of Bases/RUcpBase.cpp
   <ul>
    <li> The algorithm should go into a (reusable) class in RUcpBase.hpp. </li>
    <li> Use messages. </li>
-   <li> Instead of the boost-classes for random numbers the C++0x components
-   should be used, once we move away from gcc-4.1.2. </li>
   </ul>
 
 
-  \todo Create unit-tests
+  \todo Further improve implementation of Bases/RUcpGen.cpp
+  <ul>
+   <li> The algorithm should go into a (reusable) class in RUcpGen.hpp. </li>
+   <li> Use messages. </li>
+  </ul>
+
+
+  \todo Create unit-tests for Bases/RUcpBase.cpp
+
+
+  \todo Create unit-tests for Bases/RUcpGen.cpp
 
 */
