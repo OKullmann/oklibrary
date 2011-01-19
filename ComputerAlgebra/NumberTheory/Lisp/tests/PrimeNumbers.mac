@@ -37,7 +37,10 @@ okltest_primes_interval(f) := (
   assert(f(-10,2) = [2]),
   assert(f(2,2) = [2]),
   assert(f(2,10) = [2,3,5,7]),
-  assert(length(f(1,1000)) = 168),
+  block([L : f(1,1000)],
+    assert(length(f(1,1000)) = 168),
+    assert(L[31] = 127)
+  ),
   true)$
 
 okltest_primes_first(f) := (
