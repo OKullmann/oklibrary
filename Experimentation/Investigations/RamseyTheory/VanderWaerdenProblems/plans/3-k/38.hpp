@@ -126,7 +126,7 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> Trying to determine best ubcsat-1.2-algorithm:
+   <li> Trying to determine best ubcsat-1-2-0-algorithm:
     <ol>
      <li>
      \verbatim

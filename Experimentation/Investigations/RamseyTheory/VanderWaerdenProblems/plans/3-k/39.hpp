@@ -78,7 +78,7 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> Trying to determine best ubcsat-1.2-algorithm:
+   <li> Trying to determine the best ubcsat-1-2-0-algorithm:
    \verbatim
 E=run_ubcsat("VanDerWaerden_2-3-39_1415.cnf", cutoff=100000,runs=100)
 
