@@ -1,0 +1,82 @@
+#!/bin/bash
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+
+# Script which given an integer n and a 32-bit integer seed, computes a 
+# random boolean function f : {0,1}^n -> {0,1}, and computes the statistics 
+# for the boolean function.
+#
+# The statistics for the prime implicates and subsumption hypergraph for
+# this boolean function are then computed and output to files.
+#
+# Files are output to 
+#   random_boolf_${e}_${seed}/Permutation_full.cnf
+#     The CNF file for the generated permutation
+#   random_boolf_${e}_${seed}/Permutation_full.cnf_primes_stats
+#     The prime implicate statistics for the generated CNF file.
+#   random_boolf_${e}_${seed}/Permutation_full.cnf_shg_stats
+#     The subsumption hypergraph statistics for the generated CNF file.
+#   random_boolf_${e}_${seed}/maxima_log
+#     The log of the maxima execution to generate the CNF file.
+#
+# This process continues picking random boolean functions until it is quit
+# manually. The seed is incremented by one each iteration.
+# 
+
+set -o errexit
+set -o nounset
+
+script_name="analyse_random_boolean_functions"
+version_number="0.1.5"
+
+err="Error[analyse_random_boolean_functions]:"
+qmc_scriptname="QuineMcCluskeySubsumptionHypergraphFullStatistics-n"
+cnf_filename=Random_boolf.cnf
+maxima_log_filename=maxima_log
+exp_dir_prefix=random_boolf_
+
+if [[ $# -ne 2 && $# -ne 3 ]]; then
+  echo "${err} Takes at least two arguments, the number of variables and the"
+  echo "32-bit seed."
+  echo "Optionally a third argument, the maximum seed, may be provided. If no"
+  echo "maximum seed is provided, then 2^32 is assumed."
+  exit 1;
+fi
+
+n=$1
+seed=$2
+if [[ $# > 2 ]]; then
+  maximum_seed=$3
+else
+  maximum_seed=4294967296 # 2^32
+fi
+
+if ! type -P ${qmc_scriptname}${n}-O3-DNDEBUG > /dev/null; then
+    echo "${err} ${qmc_scriptname}${n}-O3-DNDEBUG doesn't exist."
+    echo "Please compile this executable and rerun the script."
+    exit 1
+fi
+
+while [[ ${seed} -le ${maximum_seed} ]]; do
+  exp_dir=${exp_dir_prefix}${n}_${seed}
+  if [[ -e ${exp_dir} ]]; then 
+    echo "Skipping seed=" ${seed} ". It already exists!"
+    echo "If this is not the case, please delete '${exp_dir}'."
+  else
+    echo "Computing statistics for random boolean function with seed ${seed} ..."
+    mkdir ${exp_dir} && cd ${exp_dir}
+
+    # Generate random boolean function as CNF file.
+    oklib --maxima --batch-string='"oklib_load(\"OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac\"); set_random('${seed}'); output_random_boolf_fcs_stdname('$n');"' > ${maxima_log_filename}
+
+    # Compute *full* statistics with all leading zeroes.
+    ${qmc_scriptname}${n}-O3-DNDEBUG ${cnf_filename} f
+
+    cd ../
+  fi
+  seed=$(expr ${seed} + 1)
+done
