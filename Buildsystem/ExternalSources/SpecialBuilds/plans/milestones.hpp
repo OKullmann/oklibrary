@@ -107,6 +107,11 @@ License, or any later version. */
     - Install version 1.7.2
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
+   topics are handled:
+    - Update to 11.1.1
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Valgrind.hpp the
    following topics are handled:
     - Install version 3.6.0 : DONE

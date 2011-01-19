@@ -1,5 +1,5 @@
 # Oliver Kullmann, 30.8.2008 (Swansea)
-# Copyright 2008, 2009, 2010 Oliver Kullmann
+# Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -8,7 +8,7 @@
 # Settings for building and using Ecl
 
 ecl_recommended_version_number_okl ?= 10.4.1
-ecl_other_versions_okl ?= 9.12.3
+ecl_other_versions_okl ?= 
 
 ecl_prefix_okl ?= ecl
 
