@@ -68,6 +68,20 @@ test2(n) := block([N : setn(n), P, MS, c0, h, t],
    </li>
    <li> test2 is much faster, but h becomes a global variable. </li>
    <li> So one needs to create a new variable-name to be used here. </li>
+   <li> Using "local" prevents h from becoming a global variable:
+   \verbatim
+(%i21) f(x) := block([a : 5], b[1] : a * x)$
+(%i22) f(1);
+(%o22) 5
+(%i23) b[1];
+(%o23) 5
+(%i24) f(x) := block([a : 5], local(c), c[1] : a * x)$
+(%i25) f(4);
+(%o25) 20
+(%i26) c[1];
+(%o26) c[1]
+   \endverbatim
+   </li>
   </ul>
 
 
