@@ -538,8 +538,8 @@ endif
 # and implemented):
 
 cryptominisat_version_number_extraction_okl ?= awk '/c This is CryptoMiniSat/ { print $$5 }'
-# assumes that the output of "espresso --version" contains a line of the form
-# (for example) "UC Berkeley, Espresso Version #2.3, Release date 01/31/88"
+# assumes that the output of "echo '' | cryptominisat" contains a line of the form
+# (for example) "c This is CryptoMiniSat 2.9.0"
 
 location_cryptominisat_call_okl ?= $(shell (type -P $(cryptominisat_call_okl)))
 ifeq ($(location_cryptominisat_call_okl),)
@@ -550,5 +550,24 @@ else
     cryptominisat_call_ready_okl ?= YES
   else
     cryptominisat_call_ready_okl ?= $(version_cryptominisat_call_okl)
+  endif
+endif
+
+# New variables for the configuration of building glucose (to be designed 
+# and implemented):
+
+glucose_version_number_extraction_okl ?= awk '/c This is glucose/ { print $$5 }'
+# assumes that the output of "echo '' | glucose" contains a line of the form
+# (for example) "c This is glucose 1.0 --  based on MiniSAT (Many thanks to MiniSAT team)"
+
+location_glucose_call_okl ?= $(shell (type -P $(glucose_call_okl)))
+ifeq ($(location_glucose_call_okl),)
+  glucose_call_ready_okl ?= NO
+else
+  version_glucose_call_okl ?= $(shell echo '' | $(glucose_call_okl) 2>&1 | $(glucose_version_number_extraction_okl))
+  ifeq ($(version_glucose_call_okl),$(glucose_recommended_version_number_okl))
+    glucose_call_ready_okl ?= YES
+  else
+    glucose_call_ready_okl ?= $(version_glucose_call_okl)
   endif
 endif

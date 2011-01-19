@@ -112,6 +112,7 @@ include $(OKbuildsystem)/ExternalSources/SpecialBuilds/argosat.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/zlib.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/espresso.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/cryptominisat.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/glucose.mak
 
 
 # #################################
