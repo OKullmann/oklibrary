@@ -160,6 +160,25 @@ R> summary(E)
    which seems similar in size to the currently known minimum size for the 
    Sbox.
    </li>
+   <li> Running:
+   \verbatim
+   \endverbatim
+   yields:
+   \verbatim
+       sat  min     osteps     msteps       seed
+      1 0   302             95182320            100000000 1059359629
+      2 0   294             65112315            100000000 3893735734
+      3 0   295             92855354            100000000  682303573
+      4 0   299             86329075            100000000  149424964
+      5 0   301             65994200            100000000 2815159967
+      6 0   291             99709711            100000000 2140824655
+      7 0   299             69771817            100000000  514714505
+      8 0   299             86578567            100000000  866241225
+      9 0   290             94516070            100000000 4055841638
+   \endverbatim
+   </li>
+   <li> Therefore, the AES field inversion has (so far) as small a
+   minimum size as the minimum Sbox. </li>
   </ul>
 
 
