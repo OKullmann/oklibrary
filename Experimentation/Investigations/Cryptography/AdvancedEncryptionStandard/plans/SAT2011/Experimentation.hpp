@@ -78,6 +78,7 @@ License, or any later version. */
    <li> We then have the following generalised AES parameters and
    possibilities, describing different variants of the standard
    AES:
+   <ul>
     <li> Number of rounds (10+ options): 1 - 10. </li>
     <li> Size of field (8+ options) : 1-8. </li>
     <li> Number of columns in AES block (4+ options): 1-4. </li>
