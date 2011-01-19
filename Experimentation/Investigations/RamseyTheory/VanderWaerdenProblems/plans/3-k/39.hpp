@@ -62,6 +62,13 @@ License, or any later version. */
 1000
      \endverbatim
      </li>
+     <li> cutoff=2*10^7:
+     \verbatim
+  1   2   3   4   5   6   7   8   9  10  14  16  17  19  20  21
+ 10  47 240 621 594 246  57  17   8   2   2   1   2   1   3   4
+1855
+     \endverbatim
+     </li>
      <li> cutoff=10^8:
      \verbatim
  1  2  3  4  5

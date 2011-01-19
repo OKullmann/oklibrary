@@ -87,6 +87,17 @@ License, or any later version. */
 1048,1051,1055,1085,1092,1109
    \endverbatim
    </li>
+   <li> n=1134:
+    <ol>
+     <li> rots, cutoff=2*10^8:
+     \verbatim
+ 1  2  3
+ 7 32  5
+44
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
