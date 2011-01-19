@@ -7,21 +7,22 @@
 
 
 # Script which given an exponent e and a 32-bit integer seed, computes a 
-# random permutation, and then a boolean function which is true if and only if
-# for every total assignment to the variables, the standard evaluation of the 
-# variables 1 to e, as an integer, is mapped to the standard evaluation of the 
-# variables e+2 to 2*e by the permutation.
+# random permutation P over {1,...,2^e}, and using a bijection from 
+# R : {1,...,2^e} -> {0,1}^k, computes statistics for the boolean function
+# which is true for all boolean vectors append(R(a), R(P(a))) of length 2k.
 #
 # The statistics for the prime implicates and subsumption hypergraph for
-# this boolean function are then computed.
+# this boolean function are then computed and output to files.
 #
 # Files are output to 
-#   random_perm_${set_size}_${seed}/Permutation_full.cnf
+#   random_perm_${e}_${seed}/Permutation_full.cnf
 #     The CNF file for the generated permutation
-#   random_perm_${set_size}_${seed}/Permutation_full.cnf_primes_stats
+#   random_perm_${e}_${seed}/Permutation_full.cnf_primes_stats
 #     The prime implicate statistics for the generated CNF file.
-#   random_perm_${set_size}_${seed}/Permutation_full.cnf_shg_stats
+#   random_perm_${e}_${seed}/Permutation_full.cnf_shg_stats
 #     The subsumption hypergraph statistics for the generated CNF file.
+#   random_perm_${e}_${seed}/maxima_log
+#     The log of the maxima execution to generate the CNF file.
 #
 # This process continues picking random permutations until it is quit
 # manually. The seed is incremented by one each iteration.
@@ -31,44 +32,52 @@ set -o errexit
 set -o nounset
 
 script_name="analyse_random_permutations"
-version_number="0.1.3"
+version_number="0.1.4"
 
 err="Error[analyse_random_permutations]:"
 qmc_scriptname="QuineMcCluskeySubsumptionHypergraphFullStatistics-n"
 cnf_filename=Permutation_full.cnf
+maxima_log_filename=maxima_log
 exp_dir_prefix=random_perm_
 
-if [[ $# -ne 2 ]]; then
-  echo "${err} Takes two arguments, the size of the set and the 32-bit seed."
+if [[ $# -ne 2 && $# -ne 3 ]]; then
+  echo "${err} Takes at least two arguments, the size of the set and the 32-bit seed."
+  echo "Optionally a third argument, the maximum seed, may be provided. If no maximum"
+  echo "seed is provided, then 2^32 is assumed."
   exit 1;
 fi
 
 exp_power=$1
 num_vars=$(expr ${exp_power} "*" 2)
 seed=$2
+if [[ $# > 2 ]]; then
+  maximum_seed=$3
+else
+  maximum_seed=4294967296 # 2^32
+fi
 
-if ! type -P ${qmc_scriptname}${num_vars}-O3-DNDEBUG; then
+if ! type -P ${qmc_scriptname}${num_vars}-O3-DNDEBUG > /dev/null; then
     echo "${err} ${qmc_scriptname}${num_vars}-O3-DNDEBUG doesn't exist."
     echo "Please compile this executable and rerun the script."
     exit 1
 fi
 
-while true; do
+while [[ ${seed} -le ${maximum_seed} ]]; do
+  exp_dir=${exp_dir_prefix}${exp_power}_${seed}
+  if [[ -e ${exp_dir} ]]; then 
+    echo "Skipping seed=" ${seed} ". It already exists!"
+    echo "If this is not the case, please delete '${exp_dir}'."
+  else
+    echo "Computing statistics for random permutation with seed ${seed} ..."
+    mkdir ${exp_dir} && cd ${exp_dir}
 
-exp_dir=${exp_dir_prefix}${exp_power}_${seed}
-if [[ -e ${exp_dir} ]]; then 
-  echo "Skipping seed=" ${seed} ". It already exists!"
-  echo "If this is not the case, please delete '${exp_dir}'."
-fi
-mkdir ${exp_dir} && cd ${exp_dir}
+    # Generate random permutation as CNF file.
+    oklib --maxima --batch-string='"oklib_load(\"OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac\"); set_random('${seed}'); P : random_permutation(create_list(i,i,1,2^'${exp_power}')); output_perm_fullcnf_stdname(P);"' > ${maxima_log_filename}
 
-# Generate random permutation as CNF file.
-oklib --maxima --batch-string='"oklib_load(\"OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac\"); set_random('${seed}'); P : random_permutation(create_list(i,i,1,2^'${exp_power}')); output_perm_fullcnf_stdname(P);"'
+    # Compute *full* statistics with all leading zeroes.
+    ${qmc_scriptname}${num_vars}-O3-DNDEBUG ${cnf_filename} f
 
-# Compute statistics
-${qmc_scriptname}${num_vars}-O3-DNDEBUG ${cnf_filename}
-
-seed=$(expr ${seed} + 1)
-cd ../
-
+    cd ../
+  fi
+  seed=$(expr ${seed} + 1)
 done
