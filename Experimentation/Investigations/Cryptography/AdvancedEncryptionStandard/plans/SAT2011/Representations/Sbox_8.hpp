@@ -241,9 +241,9 @@ Error: Impossible to solve the PI chart (too many possible combinations).
   </ul>
 
 
-  \todo r_1-bases : mincl_r1 <= 4754
+  \todo r_1-bases : mincl_r1 <= 4739
   <ul>
-   <li> Current minimum clause-count of an r_1-base: 4754. </li>
+   <li> Current minimum clause-count of an r_1-base: 4739. </li>
    <li> Starting with a generating set, created from scratch:
    \verbatim
 > RUcpGen-O3-DNDEBUG AES_PK.cnf > AES_gen.cnf
@@ -273,6 +273,15 @@ Error: Impossible to solve the PI chart (too many possible combinations).
 6 1135
 7 3245
 8 380
+9 4
+> seed=3; cat AES_gen.cnf | RUcpBase-O3-DNDEBUG ${seed} | tee AES_base_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 4739 32404 0 32404 1 1
+ length count
+5 1
+6 1152
+7 3205
+8 377
 9 4
    \endverbatim
    </li>

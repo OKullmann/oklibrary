@@ -94,6 +94,83 @@ License, or any later version. */
 425,444,452,457
      \endverbatim
      (close to the above solution). </li>
+     <li> adaptg2wsat with cutoff=10^6:
+     \verbatim
+ 1  2  3  4  5
+ 3 28 39 26  4
+100
+     \endverbatim
+     With cutoff=2*10^6:
+     \verbatim
+ 1  2  3  4 
+ 3 52 40  5 
+100 
+     \endverbatim
+     </li>
+     <li> ddfw with cutoff=10^6:
+     \verbatim
+ 1  2  3  4  5 
+ 2 30 39 28  1 
+100 
+     \endverbatim
+     With cutoff=2*10^6:
+     \verbatim
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> Determining the best algorithm from the ubcsat-1-2-0-suite:
+    <ol>
+     <li>
+     \verbatim
+E=run_ubcsat("AltExp/Exp_VanderWaerden_2-3-22_2010-10-27-111534_458_gsat-tabu-500-100000000/VanDerWaerden_2-3-22_463.cnf", cutoff=100000,runs=100)
+
+ddfw
+ 1  2  3  4  5  6  7  8 
+ 2  1 10 18 32 25 11  1 
+FlipsPerSecond = 16988
+ag2wsat
+ 1  2  3  4  5  6  7  8  9 
+ 1  4 13 21 26 26  7  1  1 
+FlipsPerSecond = 40228
+gsatt
+ 2  3  4  5  6  7  8 
+ 6  9 23 24 25 11  2 
+FlipsPerSecond = 75165
+dano
+ 2  3  4  5  6  7  8 
+ 4 19 21 29 16 10  1 
+FlipsPerSecond = 27754   
+rnov
+ 2  3  4  5  6  7  8 
+ 4 16 27 19 22 10  2 
+FlipsPerSecond = 28062
+anovp
+ 2  3  4  5  6  7 
+ 4 13 31 24 20  8 
+FlipsPerSecond = 27749
+rnovp
+ 2  3  4  5  6  7  8  9 
+ 3 23 24 22 17  7  3  1 
+FlipsPerSecond = 27927
+anovpp
+ 2  3  4  5  6  7  8 
+ 2 13 18 34 26  5  2 
+FlipsPerSecond = 27640   
+
+samd
+ 2  3  4  5  6  7  8  9 
+ 2  6 24 23 26 13  4  2 
+FlipsPerSecond = 75364   
+
+rots
+ 3  4  5  6  7  8  9 10 
+ 1  8 14 22 33 19  1  2 
+FlipsPerSecond = 60753   
+
+segmentation faults for saps, rsaps, sapsnr
+     \endverbatim
+     Also here ag2wsat seems best. </li>
     </ol>
    </li>
    <li> n=464, gsat-tabu:
