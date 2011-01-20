@@ -95,17 +95,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo r_1-bases
-  <ul>
-   <li> Computing an r-1 base:
-   \verbatim
-shell> seed=2; RUcpBase-O3-DNDEBUG ${seed} < ../Experiments/AES/AES_Sbox_pi.cnf | tee Sbox_bases_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
-   \endverbatim
-   </li>
-   <li> MG is currently running this experiment on cspcmg. </li>
-  </ul>
-
-
   \todo Overview
   <ul>
    <li> We do *not* currently know the minimum CNF size for the 8-bit Sbox.
@@ -301,8 +290,27 @@ Error: Impossible to solve the PI chart (too many possible combinations).
    set is fixed, there aren't so much choices anymore(?)). </li>
    <li> Another thing to do is to provide RUcpGen-O3-DNDEBUG with a non-empty
    starting set, namely the clauses from a "small" representation. </li>
-   <li> How do these lengths compare (precisely) to the canonical transation?
+   <li> The canonical translation has 4353 clauses and 272 variables:
+   <ol>
+    <li> 256 * length 17 clauses (1 for each DNF clause). </li>
+    <li> 256 * 16 = 1096 * length 2 clauses. </li>
+    <li> 1 * length 256 clause. </li>
+   </ol>
    </li>
+   <li> Using the smallest known Sbox CNF (mincl_rinf = 294) as a starting 
+   point with RUcpGen doesn't seem to yield a small RBase:
+   \verbatim
+> RUcpGen-O3-DNDEBUG AES_PK.cnf AES_294.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+  n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 8629 60248 0 60248 1 1
+ length count
+5 1
+6 1367
+7 6060
+8 1188
+9 13
+   \endverbatim
+   As can be seen above, this is nearly twice as large as mincl_r1. </li>
    <li> DONE (we have now the approach via first computing a generating set)
    The direct computation (via "cat AES_PK.cnf | RUcpBase-O3-DNDEBUG")
    of a base takes too long. </li>
