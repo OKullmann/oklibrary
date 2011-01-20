@@ -594,7 +594,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Cons
 declare(aes_small_box, noun)$
 declare(aes_ts_box, noun)$
 declare(aes_mc_forward, noun)$
-declare(aes_mc_bidrectional, noun)$
+declare(aes_mc_bidirectional, noun)$
 
 
 /* Constraint rewrite translations */
