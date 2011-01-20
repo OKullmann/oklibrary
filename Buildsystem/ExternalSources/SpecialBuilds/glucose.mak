@@ -10,7 +10,6 @@
 # ################################## 
 
 glucose_directories_okl := $(glucose_base_installation_dir_okl) $(glucose_base_build_dir_okl) $(glucose_installation_dir_okl)
-glucose_directories_okl := $(glucose_base_installation_dir_okl) $(glucose_base_build_dir_okl) $(glucose_installation_dir_okl)
 
 $(glucose_directories_okl) : % : 
 	mkdir -p $@
