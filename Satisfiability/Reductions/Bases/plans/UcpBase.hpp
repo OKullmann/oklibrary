@@ -118,9 +118,6 @@ rand_perm(L);
   </ul>
 
 
-  \todo DONE Write application tests for Bases/RUcpGen.cpp
-
-
   \todo Shuffling and sorting
   <ul>
    <li> We need an application which sorts a clause-list according to length
