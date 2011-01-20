@@ -46,7 +46,7 @@ current_transversal=1
 BoundedTransversals_bv ">=${lower_bound}" < ${shg_file}  | grep -v "^[pc]" > ${transversals_file}
 num_transversals=$(wc -l ${transversals_file})
 cat ${transversals_file} |  while read transversal; do
-      echo "Translating assignment for transversal [${current_tranversal}/${num_transversals}]..."
+      echo "Translating assignment for transversal [${current_transversal}/${num_transversals}]..."
       count=$(expr ${count} + 1)
       echo ${transversal} > ${transversal_file}
       cat ${pi_file} | FilterDimacs-O3-DNDEBUG ${transversal_file} > "${input_file}.trans_${count}"
