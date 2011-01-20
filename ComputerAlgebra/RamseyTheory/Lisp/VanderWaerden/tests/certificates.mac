@@ -22,7 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/tests/certific
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Certificates.mac")$
-oklib_include("OKlib/ComputerAlgebra/MaximaInternals/MemoryManagement.mac");
+oklib_include("OKlib/ComputerAlgebra/MaximaInternals/MemoryManagement.mac")$
 
 kill(f)$
 
