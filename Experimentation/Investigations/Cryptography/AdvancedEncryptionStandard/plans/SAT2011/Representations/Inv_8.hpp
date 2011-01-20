@@ -12,15 +12,25 @@ License, or any later version. */
 
   \todo Basic data
   <ul>
-   <li> The CNF is created by the Maxima-function
-   output_ssinv_fullcnf_stdname(2,8,ss_polynomial_2_8), which is a full 
-   clause-set with 16 variables and 2^16 - 2^8 = 65280 clauses. </li>
+   <li> The CNF file "ss_byte2_8_field_inv_full.cnf" is created by the Maxima-function
+   output_ssinv_fullcnf_stdname(2,8,ss_polynomial_2_8), in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac,
+   which is a full clause-set with 16
+   variables and 2^16 - 2^8 = 65280 clauses:
+   \verbatim
+> cat ss_byte2_8_field_inv_full.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 65280 1044480 0 1044480 1 1
+ length count
+16 65280
+   \endverbatim
+   </li>
    <li> Prime implicates:
     <ol>
      <li> There are 136647 prime implicates, with 1004920 literals in total, 
      and with clause-length-distribution as follows:
      \verbatim
-> cat ss_byte2_8_field_mul_full_.cnf_primes_stats
+> cat ss_byte2_8_field_inv_full.cnf_primes_stats
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 136647 1004920 0 1004920 0 1
  length count
@@ -72,7 +82,7 @@ License, or any later version. */
     <ol>
      <li> Creation:
      \verbatim
-> QuineMcCluskeySubsumptionHypergraphFullStatistics-n16-O3-DNDEBUG ss_byte2_8_field_mul_full.cnf
+> QuineMcCluskeySubsumptionHypergraphFullStatistics-n16-O3-DNDEBUG ss_byte2_8_field_inv_full.cnf
 > cat AES_S.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n > AES_S_stat
 
 > head -n 2 ss_byte2_8_field_mul_full.cnf_shg_stats 
@@ -130,13 +140,13 @@ maxima> output_ssinv_fullcnf_stdname(2,8);
    \endverbatim
    and then 
    \verbatim
-shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ss_byte2_8_field_mul_full.cnf > ss_byte2_8_field_mul_shg.cnf
-shell> cat ss_byte2_8_field_mul_full.cnf_shg | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > ss_byte2_8_field_mul_shg.wcnf
+shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ss_byte2_8_field_inv_full.cnf > ss_byte2_8_field_inv_shg.cnf
+shell> cat ss_byte2_8_field_inv_full.cnf_shg | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > ss_byte2_8_field_inv_shg.wcnf
    \endverbatim
    <li>
    <li> Running then:
    \verbatim
-shell> ubcsat-okl -alg gsat -w -runs 100 -cutoff 1000000 -i ss_byte2_8_field_mul_full_.cnf_shg.wcnf > ubcsat_agsat_r100_c1000000.runs
+shell> ubcsat-okl -alg gsat -w -runs 100 -cutoff 1000000 -i ss_byte2_8_field_inv_full_.cnf_shg.wcnf > ubcsat_agsat_r100_c1000000.runs
    \endverbatim
    yields:
    \verbatim

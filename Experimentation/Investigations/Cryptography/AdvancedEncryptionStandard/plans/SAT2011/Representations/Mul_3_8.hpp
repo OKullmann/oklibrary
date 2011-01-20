@@ -11,17 +11,20 @@ License, or any later version. */
 
 
 
-  \todo Overview
+  \todo Basic data
   <ul>
-   <li> There are 5048 prime implicates (See "Prime implicates"). </li>
-   <li> The smallest known CNF representation is of size 36 (see
-   "Using weighted MaxSAT to compute small CNFs"). </li>
-   <li> The minimum size CNF representation is *not* known. </li>
-  </ul>
-
-  
-  \todo Prime implicates
-  <ul>
+   <li> The CNF-file "AES_byte_field_mul_full_3.cnf" is created by the 
+   Maxima-function output_rijnmult_fullcnf_stdname(3); in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac,
+   which is a full clause-set with 16
+   variables and 2^16 - 2^8 = 65280 clauses:
+   \verbatim
+> cat AES_byte_field_mul_full_3.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 65280 1044480 0 1044480 1 1
+ length count
+16 65280
+   \endverbatim
    <li> Computing the prime implicates:
    \verbatim
 maxima> output_rijnmult_fullcnf_stdname(3);
@@ -45,6 +48,9 @@ shell> ExtendedDimacsFullStatistics-O3-DNDEBUG < AES_byte_field_mul_pi_3.cnf
 9 2048
    \endverbatim
    </li>
+   <li> The smallest known CNF representation is of size 36 (see
+   "Using weighted MaxSAT to compute small CNFs"). </li>
+   <li> The minimum size CNF representation is *not* known. </li>
   </ul>
 
   

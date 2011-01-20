@@ -13,11 +13,20 @@ License, or any later version. */
 
   \todo Basic data
   <ul>
-   <li> Computing the prime implicates:
+   <li> The CNF-file "AES_byte_field_mul_full_2.cnf" is created by the 
+   Maxima-function output_rijnmult_fullcnf_stdname(2); in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac,
+   which is a full clause-set with 16
+   variables and 2^16 - 2^8 = 65280 clauses:
    \verbatim
-maxima> output_rijnmult_fullcnf_stdname(2);
+> cat AES_byte_field_mul_full_2.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 65280 1044480 0 1044480 1 1
+ length count
+16 65280
    \endverbatim
-   and then
+   </li>
+   <li> Computing the prime implicates:
    \verbatim
 shell> QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_2.cnf > AES_byte_field_mul_pi_2.cnf
    \endverbatim

@@ -12,9 +12,21 @@ License, or any later version. */
 
   \todo Basic data
   <ul>
-   <li> The CNF is created by the Maxima-function
-   output_ss_sbox_linmap_fullcnf_stdname(2,8), which is a full 
-   clause-set with 16 variables and 2^16 - 2^8 = 65280 clauses. </li>
+   <li> The CNF file 
+   "AES_sbox_lin_2_8_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_full.cnf" 
+   is created by the Maxima-function 
+   output_ss_sbox_linmap_fullcnf_stdname(2,8), in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac 
+   which is a full clause-set with 16 variables and 2^16 - 2^8 = 65280 
+   clauses:
+   \verbatim
+> cat AES_sbox_lin_2_8_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_full.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 65280 1044480 0 1044480 1 1
+ length count
+16 65280
+   \endverbatim
+   </li>
    <li> Prime implicates:
     <ol>
      <li> There are 12672 prime implicates, with 97792 literals in total, 
@@ -84,7 +96,7 @@ R> subset(E, min==48)[1:5,]
   </ul>
 
 
-  \todo Using weighted MaxSAT to compute small CNFs
+  \todo Using weighted MaxSAT to compute small CNFs : mincl_rinf <= 48
   <ul>
    <li> Computing the weighted MaxSAT problem:
    \verbatim
