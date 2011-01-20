@@ -98,11 +98,23 @@ rand_perm(L);
 
   \todo Create application tests for Bases/RUcpBase.cpp
   <ul>
-   <li> We need to consider all extreme cases, plus a good mixture of normal
-   cases. </li>
    <li> Once adding an assignment to the Ucp-object creates directly a
    contradiction, this is not cleared, and so it should be possible to create
    false output in this way? </li>
+   <li> DONE 
+   We need to consider all extreme cases, plus a good mixture of normal
+   cases. </li>
+  </ul>
+
+  
+  \todo Sort output from RUcpBase
+  <ul>
+   <li> Given an clause-list which is it's own r_1 base, RUcpBase should
+   return the same clause-list back, however, due to the random nature
+   of it's choices of clauses, it doesn't. </li>
+   <li> We should sort the output clause-list into lexicographical order
+   before outputting it, so we at least have that running RUcpBase on it's
+   own output yields same result. </li>
   </ul>
 
 
