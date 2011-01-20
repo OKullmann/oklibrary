@@ -42,8 +42,8 @@ c's = 1, n = 16, c = 58, tc = 0, ntc = 58, tl = 188, l = 188, finished = 1
   </ul>  
 
   
-  \todo Minimising using hypergraph transversal tools 
-  (mincl_rinf = 20, num_mincl_rinf=102)
+  \todo Minimising using hypergraph transversal tools : 
+  mincl_rinf = 20, num_mincl_rinf=102
   <ul>
    <li> Computing all minimum CNFs:
    \verbatim
