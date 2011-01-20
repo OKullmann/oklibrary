@@ -19,9 +19,7 @@ $(glucose_directories_okl) : % :
 # Main Glucose targets
 # #################################
 
-.PHONY : glucose glucose cleanglucose cleanallglucose
-
-glucose : glucose
+.PHONY : glucose cleanglucose cleanallglucose
 
 glucose : $(glucose_directories_okl)
 	$(call unarchive,$(glucose_source_okl),$(glucose_base_build_dir_okl)) $(postcondition) \
@@ -29,6 +27,7 @@ glucose : $(glucose_directories_okl)
 	CC=$(gcc_call_okl) CXX=$(gpp_call_okl) ./build.sh; $(postcondition) \
 	cp glucose_static $(glucose_installation_dir_okl)/glucose; $(postcondition) \
 	ln -s --force $(glucose_call_okl) $(public_bin_dir_okl)/glucose; $(postcondition)
+
 
 # #################################
 # Cleaning
