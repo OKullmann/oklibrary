@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.3.1 (12.1.2011)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.3.2 (20.1.2011)
 
 
   \par Version 0.2.4 (updating especically Gcc and the existing SAT solvers)
@@ -98,8 +98,8 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
-    - Installation of version 5.23.0
-    - Installation of version 5.22.1
+    - Installation of version 5.23.2 : DONE
+    - Installation of version 5.22.1 : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Doxygen.hpp the following
