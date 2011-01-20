@@ -17,33 +17,8 @@ License, or any later version. */
   <h2> Advanced Encryption Standard </h2>
 
   <ul>
-   <li> Cryptography/AdvancedEncryptionStandard/plans/BreakingAES_R1-5.hpp
-    <ol>
-     <li> Breaking one round AES using the canonical translation for Sbox and 
-     Mul</li>
-     <li> Breaking two round AES using the canonical translation for Sbox and 
-     Mul </li>
-     <li> Breaking three round AES using the canonical translation for Sbox 
-     and Mul </li> 
-     <li> Breaking four round AES using the canonical translation for Sbox 
-     and Mul </li> 
-     <li> Breaking five round AES using the canonical translation for Sbox 
-     and Mul </li> 
-    </ol>
-   </li>
-   <li> Cryptography/AdvancedEncryptionStandard/plans/BreakingAES_R6-10.hpp
-    <ol>
-     <li> Breaking six round AES using the canonical translation for Sbox 
-     and Mul </li> 
-     <li> Breaking seven round AES using the canonical translation for Sbox 
-     and Mul </li> 
-     <li> Breaking eight round AES using the canonical translation for Sbox 
-     and Mul </li> 
-     <li> Breaking nine round AES using the canonical translation for Sbox 
-     and Mul </li>
-     <li> Breaking ten round AES using the canonical translation for Sbox 
-     and Mul </li> 
-    </ol>
+   <li> 
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r1_c1_rw1_e4_f1.hpp
    </li>
    <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp .
    </li>
