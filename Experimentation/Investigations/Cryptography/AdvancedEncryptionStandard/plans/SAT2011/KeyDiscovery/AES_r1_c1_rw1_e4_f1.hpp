@@ -7,9 +7,9 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r1_c1_rw1_e4_f1.hpp
-  \brief Investigations into AES key discovery
+  \brief Investigations into AES key discovery for one round AES without MixColumns
 
-  \todo Using the canonical translation and bidirectional MixColumns
+  \todo Using the canonical translation (solvable)
   <ul>
    <li> Generating AES for 1 round (without MixColumns):
    \verbatim
