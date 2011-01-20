@@ -13,7 +13,7 @@ buildsystem_targets_extsrc_okl ?= doxygen git
 compiler_targets_extsrc_okl ?= gcc412 gcc
 library_targets_extsrc_okl ?= bzip2 boost gmp bzip2412 boost412 gmp412 mpfr zlib # mhash
 math_targets_extsrc_okl ?= allmaxima gap R # sage
-sat_targets_extsrc_okl ?= ubcsat minisat march satz sp grasp picosat precosat argosat cryptominisat
+sat_targets_extsrc_okl ?= ubcsat minisat march satz sp grasp picosat precosat argosat cryptominisat glucose
 boolean_targets_extsrc_okl ?= espresso
 # Dependencies between these external sources:
 # minisat needs gmp and zlib
@@ -63,3 +63,4 @@ include $(OKconfiguration)/ExternalSources/zlib.mak
 include $(OKconfiguration)/ExternalSources/cryptominisat.mak
 include $(OKconfiguration)/ExternalSources/espresso.mak
 include $(OKconfiguration)/ExternalSources/mpfr.mak
+include $(OKconfiguration)/ExternalSources/glucose.mak

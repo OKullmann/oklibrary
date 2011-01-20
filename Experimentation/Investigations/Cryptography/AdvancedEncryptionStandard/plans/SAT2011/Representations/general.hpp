@@ -75,6 +75,32 @@ License, or any later version. */
    </li>
   </ul>
 
+  
+  \todo Scripts for generating statistics on random boxes
+  <ul>
+   <li> We currently wish to investigate various types of random 
+   boxes to see how they compare with the standard AES components. </li>
+   <li> Therefore, we need scripts to generate and almalgamate this data.
+   </li>
+   <li> We can generate the various random boxes using:
+   <ul>
+    <li> Random boolean function - random_full_fcs in 
+    ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac .
+    </li>
+    <li> Random linear maps - ss_sbox_linmap_gen_cnfp in
+    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac .
+    </li>
+    <li> Random permutations - random_permutation and perm2cnffcs in
+    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac .
+    </li>
+   </ul>
+   </li>
+   <li> We also need scripts to investigate the small scale multiplications,
+   as well as the multiplications combined with the Sbox linear map (see
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac).
+   </li>
+  </ul>
+
 
   \todo Find "best" solver(s) and local search algorithms for minimisation
   <ul>

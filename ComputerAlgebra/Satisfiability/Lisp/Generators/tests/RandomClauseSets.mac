@@ -31,33 +31,6 @@ kill(f)$
    *********************************
 */
 
-okltest_random_sublist_l(f) := block(
-  assert(f([]) = []),
-  set_random(1),
-  assert(f([1]) = [1]),
-  assert(f([1]) = [1]),
-  assert(f([1]) = []),
-  assert(f([1,2,3]) = [2,3]),
-  true)$
-
-okltest_random_full_fcs(f) := block(
-  set_random(1),
-  assert(f(0) = [{},{{}}]),
-  assert(f(1) = [{1},{{-1}}]),
-  assert(f(2) = [{1,2},{{-2,1},{-1,2},{1,2}}]),
-  assert(f(3) = [{1,2,3},{{-3,-2,-1},{-3,-2,1},{-2,-1,3},{-1,2,3},{1,2,3}}]),
-  true)$
-
-okltest_random_bal_full_fcs(f) := block(
-  set_random(1),
-  assert(f(1) = [{1},{{1}}]),
-  assert(f(2) = [{1,2},{{-2,-1},{1,2}}]),
-  assert(f(3) = [{1,2,3},{{-3,-2,-1},{-3,-1,2},{-3,1,2},{-2,-1,3}}]),
-  if oklib_test_level = 0 then return(true),
-  for i : 0 thru 20 do
-    assert(length(f(3)[2]) = 4),
-  true)$
-
 okltest_random_k_sublist_l(f) := block(
   assert(f([],0) = []),
   assert(f([1],0) = []),

@@ -11,20 +11,22 @@ License, or any later version. */
 
 
 
-  \todo Overview
+  \todo Basic data
   <ul>
-   <li> We can compute all 102 minimum CNF representations of size 20, see
-   "Minimising using hypergraph transversal tools". </li>
-  </ul>
-
-
-  \todo Prime implicates
-  <ul>
-   <li> Computing the prime implicates:
+   <li> The CNF-file "AES_byte_field_mul_full_2.cnf" is created by the 
+   Maxima-function output_rijnmult_fullcnf_stdname(2); in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac,
+   which is a full clause-set with 16
+   variables and 2^16 - 2^8 = 65280 clauses:
    \verbatim
-maxima> output_rijnmult_fullcnf_stdname(2);
+> cat AES_byte_field_mul_full_2.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 65280 1044480 0 1044480 1 1
+ length count
+16 65280
    \endverbatim
-   and then
+   </li>
+   <li> Computing the prime implicates:
    \verbatim
 shell> QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_2.cnf > AES_byte_field_mul_pi_2.cnf
    \endverbatim
@@ -40,7 +42,8 @@ c's = 1, n = 16, c = 58, tc = 0, ntc = 58, tl = 188, l = 188, finished = 1
   </ul>  
 
   
-  \todo Minimising using hypergraph transversal tools
+  \todo Minimising using hypergraph transversal tools : 
+  mincl_rinf = 20, num_mincl_rinf=102
   <ul>
    <li> Computing all minimum CNFs:
    \verbatim
@@ -63,5 +66,27 @@ shell> echo AES_byte_field_mul_full_2.cnf.trans_* | wc -w
    </li>
   </ul>
 
+
+  \todo r_1-bases : mincl_r1 <= 22
+  <ul>
+   <li> Current minimum clause-count of an r_1-base: 22. </li>
+   <li> For the mincl_rinf representations, see "Minimising using hypergraph
+   transversal tools". </li>
+   <li> Starting with a generating set, created from scratch:
+   \verbatim
+> RUcpBase-O3-DNDEBUG 1 <  AES_byte_field_mul_2_pi.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 22 56 0 56 1 1
+ length count
+2 10
+3 12
+   \endverbatim
+   </li>
+   <li> Again, as in "r_1-bases" in 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp,
+   using any of the minimal transversals from "Minimising using hypergraph 
+   transversal tools" using "RUcpGen" yields larger (> size 26) r_1 bases. 
+   </li>
+  </ul>
 
 */

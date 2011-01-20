@@ -33,22 +33,6 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
 */
 
 
-/* Given a set returns a random repetition-free sublist of this list. */
-random_sublist_l(L) :=
-  sublist(
-    map(lambda([a,b], if b = 1 then a else und),
-      L,create_list(random(2),i,1,length(L))),
-      lambda([a], a # und));
-
-/* Computes a random clause-set in n variables. */
-random_full_fcs(n) := [setn(n),setify(random_sublist_l(listify(full_cs(n))))]$
-
-/* Computes a random balanced clause-set.
-   Note, this doesn't make sense for n=0.
-*/
-random_bal_full_fcs(n) :=
-  [setn(n),setify(random_k_sublist_l(listify(full_cs(n)),2^(n-1)))]$
-
 /* Computing a random repetition-free sublist of a given length k;
    V is a list, repetitions determine the chance of being elected, but the
    result is repetition-free. */

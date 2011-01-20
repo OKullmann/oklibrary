@@ -32,7 +32,8 @@ License, or any later version. */
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
    the following topics are handled:
-    - Standard naming scheme for experiment files 
+    - Standard naming scheme for experiment files
+    - Scripts for generating statistics on random boxes
 
   \par Version 0.1.7 :
 
@@ -74,6 +75,7 @@ License, or any later version. */
     - Generate good CNF hitting clause-sets
     - Extracting prime implicate representations from the hitting-cls-representations
     - Find the symmetries of the AES Sbox DNF
+    - Find the symmetries of the AES inversion DNF
 
 
 

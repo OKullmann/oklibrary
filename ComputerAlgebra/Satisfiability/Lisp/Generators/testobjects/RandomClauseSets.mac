@@ -26,10 +26,6 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Random
    *********************************
 */
 
-okltest_random_sublist_l(random_sublist_l);
-okltest_random_full_fcs(random_full_fcs);
-okltest_random_bal_full_fcs(random_bal_full_fcs);
-
 okltest_random_k_sublist_l(random_k_sublist_l);
 
 okltest_random_fcl(random_fcl);

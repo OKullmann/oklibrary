@@ -18,6 +18,40 @@ License, or any later version. */
   </ul>
 
 
+  \todo Glucose outputs to STDERR not STDOUT
+  <ul>
+   <li> See:
+   \verbatim
+> echo '' | glucose > /dev/null
+
+c This is glucose 1.0 --  based on MiniSAT (Many thanks to MiniSAT team)
+
+Reading from standard input... Use '-h' or '--help' for help.
+c ============================[ Problem Statistics ]=============================
+c |                                                                             |
+c |  Parsing time:         0.00         s                                       |
+============================[ Search Statistics ]==============================
+| Conflicts |          ORIGINAL         |          LEARNT          | Progress |
+|           |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |
+===============================================================================
+|         0 |       0        0        0 |        0        0   -nan |  0.000 % |
+===============================================================================
+c restarts              : 1
+c nb ReduceDB           : 0
+c nb learnts DL2        : 0
+c nb learnts size 2     : 0
+c nb learnts size 1     : 0
+c conflicts             : 0              (-nan /sec)
+c decisions             : 1              (0.00 % random) (inf /sec)
+c propagations          : 0              (-nan /sec)
+c conflict literals     : 0              (-nan % deleted)
+c Memory used           : 1.86 MB
+c CPU time              : 0 s
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Fuzzing
   <ul>
    <li> Install tools by Biere's group, http://fmv.jku.at/software/ ,
@@ -278,6 +312,19 @@ builds/CryptoMiniSat> ./configure
 builds/CryptoMiniSat> make
    \endverbatim
    yielding a binary "cryptominisat" in the same directory.
+   </li>
+  </ul>
+
+
+  \todo Glucose
+  <ul>
+   <li> http://www.lri.fr/~simon/glucose/ </li>
+   <li> Install by:
+   \verbatim
+builds/Glucose> tar xvf ../../sources/SAT/Glucose/glucose_1.0.tar.bz2
+builds/Glucose> cd glucose_1.0
+builds/Glucose> ./build.sh
+   \endverbatim
    </li>
   </ul>
 

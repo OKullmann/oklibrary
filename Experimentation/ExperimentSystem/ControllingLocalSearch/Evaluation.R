@@ -33,53 +33,6 @@ read_ubcsat = function(filename, ...) {
 # "skip=m". If trailing lines are to be ignored, use "nrows=n" for the
 # number of rows to be selected.
 
-# #######################################################
-# # Evaluation functions for series of experiment files #
-# #######################################################
-
-# Takes a directory prefix, as well as a list of parameter names, and
-# a filename exp_filename and returns a data.frame containing the data from
-# exp_filename in every directory in the current working directory with the
-# name prefix followed by an arbitrary number of underscore separated
-# parameters as the name.
-#
-# The parameters in the filename are added to the data.frame as a column
-# with the name given by the associated element of the parameter name list.
-read_experiment_dirs = function(prefix, param_names, exp_filename, ...) {
-  prefix_dirs = dir(pattern=paste(prefix,".*",sep=""))
-  prefix_dirs = Filter(function(d) file.info(d)["isdir"][[1]], prefix_dirs)
-  result_df = NULL
-  num_processed_dirs = 0
-  for (dir in prefix_dirs) {
-    if (file.info(dir)["isdir"][[1]]) {
-      param_string = substring(dir, nchar(prefix)+2)
-      parameters = unlist(strsplit(param_string, "_"))
-      
-      dir_df = tryCatch(
-        read.table(paste(dir,"/",exp_filename,sep=""),...),
-        error = function(e) NULL, warning=function(e) NULL)
-      if (!is.null(dir_df)) {
-        print(
-              paste("[",num_processed_dirs,"/", length(prefix_dirs),
-                    "]: Reading ", paste(dir,"/",exp_filename,".",sep="")))
-        for (i in 1:length(parameters)) {
-          dir_df = add_constant_column(dir_df, parameters[i], param_names[i])
-        }
-        num_processed_dirs = num_processed_dirs + 1
-      } else {
-        print(paste(
-                    "WARNING[read_experiment_dirs]: Skipping '",
-                    dir,"/",exp_filename,"' due to error.", sep=""))
-      }
-      result_df = rbind(result_df,dir_df)
-    }
-  }
-  print(paste("Processed [",
-              num_processed_dirs, "/", length(prefix_dirs),
-              "] experiment directories.",sep=""))
-  return(result_df)
-}
-
 # #######################################
 # # Evaluation functions for run_ubcsat #
 # #######################################

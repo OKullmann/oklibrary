@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 28.9.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -725,7 +725,7 @@ aes_add_cst_cl(cst) := block(
   lappend(
     apply(map,
       append([parity_f],
-        partition_elements(cst[2],floor(length(cst[2])/(n+1)))))))$
+        partition_elements(cst[2],nb)))))$
 
 /* Returns a list of CNF clauses representing equivalence between the first
    half of the list of variables and the second half in the constraint.

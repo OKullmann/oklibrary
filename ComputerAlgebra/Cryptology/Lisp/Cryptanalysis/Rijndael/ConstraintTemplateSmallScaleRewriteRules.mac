@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 28.9.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -204,7 +204,7 @@ ss_cstr_cstl(cst) := block(
         append(ib,take_elements(num_block_bits,
             rest(ekBits,ss_num_rounds*num_block_bits)),ob),
         [ss_num_columns, ss_num_rows, ss_base, ss_exp,
-       ss_poly, ss_sbox_matrix, ss_affine_constant, ss_mixcolumns_matrix],
+       ss_poly, ss_sbox_matrix, ss_affine_constant],
        namespace),rs)
   else
     rs : cons(
@@ -352,7 +352,6 @@ ss_final_round_cstr_cstl(cst) := block(
   ss_poly : ss_arg_l[5],
   ss_sbox_matrix : ss_arg_l[6],
   ss_affine_constant : ss_arg_l[7],
-  ss_mixcolumns_matrix : ss_arg_l[8],
   num_block_bits : ss_num_columns * ss_num_rows * ss_exp,
   bits : cst[2],
   namespace : cstt_namespace_new(ss_final_round_namespace,cst),
@@ -367,7 +366,7 @@ ss_final_round_cstr_cstl(cst) := block(
        ss_poly, ss_sbox_matrix, ss_affine_constant],namespace),
     rs),
   iBits : tBits,
-  tBits : generate_ss_constraint_vars(1,128,namespace,nounify(ro)),
+  tBits : generate_ss_constraint_vars(1,num_block_bits,namespace,nounify(ro)),
   rs : cons(
     cstt_new("ss_shiftrows_cst",
         append(iBits,tBits),
@@ -817,7 +816,7 @@ ss_key_expansion_cstr_cstl(cst) := block(
           [ss_base, ss_exp,ss_poly, ss_sbox_matrix, ss_affine_constant,
           sbox_i : sbox_i + 1],namespace),
         rs),
-      var_offset : floor(j/(ss_num_columns*ss_num_rows)-1)*(ss_exp), 
+      var_offset : floor(j/(ss_num_columns)-1)*(ss_exp), 
       rcVars : generate_ss_constraint_vars(
         var_offset + 1,var_offset + ss_exp,namespace,nounify(rc)),
       rs : cons(

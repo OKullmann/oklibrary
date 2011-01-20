@@ -9,17 +9,21 @@ License, or any later version. */
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp
   \brief AES experiments related to the SAT 2011 paper
 
+  We consider experiments investigating the AES and small scale translations 
+  to CNF, as well as the translations of the associated AES boxes such as the
+  Sbox, field multiplication, field inversion and so on.
+
+  For information on the scope of the AES and small scale translations, see
+  "Dimensions" below. For an idea of the open problems, please see
+  "Open problems".
+
 
   \todo Links
   <ul>
    <li> See 
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/AESKeyDiscovery.hpp
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/general.hpp
    for experiments regarding breaking AES (i.e. finding the key given the
-   plaintext and ciphertext. </li>
-   <li> See 
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/SmallScaleKeyDiscovery.hpp
-   for experiments regarding breaking small scale AES (i.e. finding the key
-   given the plaintext and ciphertext. </li>
+   plaintext and ciphertext). </li>
    <li> See 
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/EncryptionDecryption.hpp 
    for experiments regarding computing encryption and decryption using the
@@ -27,6 +31,84 @@ License, or any later version. */
    <li> See 
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
    for experiments regarding representations of the AES and small scale boxes.
+   </li>
+  </ul>
+
+
+  \todo Dimensions
+  <ul>
+   <li> Using the translation scheme offered at 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac, we
+   wish to consider the following set of translations for each AES variant.
+   Each of the following constitutes an independent dimension to the 
+   translation, and given a fixed variant, are different translations of the
+   same function:
+   <ul>
+    <li> MixColumns direction (2 options):
+    <ol>
+     <li> Translation of the MixColumn component using both the encryption and
+     decryption components. </li>
+     <li> Translation using only the encryption direction. </li>
+    </ol>
+    </li>
+    <li> Movement of the Sbox linear map into MixColumns (2 options):
+    <ol>
+     <li> Sbox linear map is left in the Sbox. </li>
+     <li> Sbox linear map is moved through the ShiftRows operation and 
+     combined with the MixColumn multiplication components. </li>
+    </ol>
+    </li>
+    <li> Sbox affine constant (2 options):
+    <ol>
+     <li> Sbox affine constant addition remains in Sbox. </li>
+     <li> Sbox affine constant addition moved through ShiftRows and MixColumns
+     and added to the end of the round. </li>
+    </ol>
+    </li>
+    <li> Box representation (4 options):
+    <ol>
+     <li> Canonical translation. </li>
+     <li> Prime representation. </li>
+     <li> Minimum representation. </li>
+     <li> r_1-based representation. </li>    
+    </ol>
+    </li>
+   </ul>
+   </li>
+   <li> We then have the following generalised AES parameters and
+   possibilities, describing different variants of the standard
+   AES:
+   <ul>
+    <li> Number of rounds (10+ options): 1 - 10. </li>
+    <li> Size of field (8+ options) : 1-8. </li>
+    <li> Number of columns in AES block (4+ options): 1-4. </li>
+    <li> Number of rows in AES block (4+ options): 1-4. </li>
+    <li> Inclusion of special final round or not (2 options):
+    <ol>
+     <li> Final round is the same as every other (in line with small scale). 
+     </li>
+     <li> Final round doesn't include the MixColumns operation. </li>
+    </ol>
+    </li>
+    <li> Box replacements (3 options):
+    <ol>
+     <li> Original Sbox, field multiplication etc are used. </li>
+     <li> Random permutations are used. </li>
+     <li> The identity is used. </li>
+    </ol>
+    </li>
+   </ul>
+   </li>
+   <li> This yields 122,880 possible translations (including the different
+   variants), although not all of
+   which make sense to consider (for instance if the number of primes
+   implicates for a given box is small, then we should just use this). 
+   </li>
+   <li> In each case, the first option is considered the default. </li>
+   <li> We need instructions on how to generate each translation. These
+   should occur here (in this plans file). </li>
+   <li> For more information, see 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp .
    </li>
   </ul>
 
@@ -92,7 +174,9 @@ License, or any later version. */
       <li> The remaining 251. </li>
       <li> 03, see 
       Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp. </li>
-      <li> 02, minimum size 20 (see XXX) : DONE. </li>
+      <li> 02, minimum size 20 (see 
+      Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp) : 
+      DONE. </li>
       <li> 00, 01 : DONE (trivial) </li>
      </ul>
      </li>

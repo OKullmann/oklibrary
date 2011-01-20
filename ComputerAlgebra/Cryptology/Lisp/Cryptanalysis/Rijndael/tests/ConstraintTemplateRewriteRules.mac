@@ -63,7 +63,7 @@ okltest_aes_ns_var_l(f) := block([cst],
 okltest_aes_cstr_cstl(f) := block([ctl,ct],
   cst : ["aes_cst",create_list(i,i,1,384),1,nounify(n)],
   namespace : cstt_namespace_new(aes_namespace, cst),
-  ctl : f(["aes_cst",create_list(i,i,1,384),1,nounify(n)]),
+  ctl : f(cst),
   assert(map(first,ctl) =
     ["aes_round_cst","aes_add_cst","aes_key_expansion_cst"]),
   assert(map(lambda([a],length(a[2])), ctl) = [384,384,384]),
@@ -73,6 +73,11 @@ okltest_aes_cstr_cstl(f) := block([ctl,ct],
     namespace(aes_v(50,nounify(o)))),
   assert(ctl[2][2][200] =
     namespace(aes_v(72,nounify(k)))),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(aes_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 okltest_aes_round_ns_var_l(f) := block([cst],
@@ -102,6 +107,11 @@ okltest_aes_round_cstr_cstl(f) := block([cst],
   assert(map(lambda([a],length(a[2])), ctl) = [384,256,256,256]),
     assert(every_s(lambda([a], is(last(a) =
           namespace)),ctl)),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(aes_round_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 
@@ -129,6 +139,11 @@ okltest_aes_final_round_cstr_cstl(f) := block([cst],
   assert(map(lambda([a],length(a[2])), ctl) = [384,256,256]),
   assert(every_s(lambda([a], is(last(a) =
           namespace)),ctl)),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(aes_final_round_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 
@@ -146,6 +161,11 @@ okltest_aes_subbytes_cstr_cstl(f) := block([cst],
   assert(map(lambda([a],length(a[2])), ctl) = create_list(16,i,1,16)),
   assert(every_s(lambda([a], is(last(a) =
           namespace)),ctl)),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(aes_subbytes_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 
@@ -163,6 +183,11 @@ okltest_aes_shiftrows_cstr_cstl(f) := block([cst],
   assert(map(lambda([a],length(a[2])), ctl) = create_list(2,i,1,128)),
   assert(every_s(lambda([a], is(last(a) =
           namespace)),ctl)),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(aes_shiftrows_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 
@@ -179,6 +204,11 @@ okltest_aes_mixcolumns_cstr_cstl(f) := block([cst],
   assert(map(lambda([a],length(a[2])), ctl) = create_list(64,i,1,4)),
   assert(every_s(lambda([a], is(last(a) =
           namespace)),ctl)),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(aes_mixcolumns_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 
@@ -269,6 +299,11 @@ okltest_aes_bi_mixcolumn_cstr_cstl(f) := block([cst],
      16,16,16,40,16,16,16,16,40,16,16,16,16]),
   assert(every_s(lambda([a], is(last(a) = namespace_mc) or
         is(last(a) = namespace_invmc)),ctl)),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(aes_bi_mixcolumn_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 okltest_aes_mixcolumn_cstr_cstl(f) := block([cst],
@@ -282,6 +317,11 @@ okltest_aes_mixcolumn_cstr_cstl(f) := block([cst],
   assert(map(lambda([a],length(a[2])), ctl) =
     [40,16,16,40,16,16,40,16,16,40,16,16]),
   assert(every_s(lambda([a], is(last(a) = namespace)),ctl)),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(aes_mixcolumn_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 okltest_aes_key_expansion_ns_var_l(f) := block([cst],
@@ -319,6 +359,11 @@ okltest_aes_key_expansion_cstr_cstl(f) := block([cst],
     [24,24,24,24,24,24,24,24,24,24,24,24,24,16,24,16,24,16,24,8,24,16,16,16,
      16,16,16,16,16,16,16,16,16,16,16,16,16,16]),
   assert(every_s(lambda([a], is(last(a) = namespace)),ctl)),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(aes_key_expansion_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 
@@ -333,6 +378,14 @@ okltest_aes_add_cst_cl(f) := block(
   assert(f(["aes_add_cst", create_list(i,i,1,6)]) =
    [{-5,1,3},{-3,1,5},{-1,3,5},{-5,-3,-1},{-6,2,4},{-4,2,6},{-2,4,6},
     {-6,-4,-2}]),
+  assert(f(["aes_add_cst", [7,8,9,10,11,12]]) =
+   [{-11,7,9},{-9,7,11},{-7,9,11},{-11,-9,-7},{-12,8,10},{-10,8,12},{-8,10,12},
+    {-12,-10,-8}]),
+  assert(f(["aes_add_cst", [7,8,9,10,11,12,13,14],3, 'n]) =
+    [{-13,7,9,11},{-11,7,9,13},{-9,7,11,13},{-13,-11,-9,7},{-7,9,11,13},
+    {-13,-11,-7,9},{-13,-9,-7,11},{-11,-9,-7,13},{-14,8,10,12},{-12,8,10,14},
+    {-10,8,12,14},{-14,-12,-10,8},{-8,10,12,14},{-14,-12,-8,10},
+    {-14,-10,-8,12},{-12,-10,-8,14}]),
   true)$
 
 okltest_aes_eq_cst_cl(f) := block(

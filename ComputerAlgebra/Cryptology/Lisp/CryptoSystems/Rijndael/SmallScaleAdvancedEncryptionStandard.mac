@@ -596,11 +596,7 @@ block([n_C : length(pl)],
     rest(rest(ekl), -1), pl + initial_rk),
   /* Final Round */
   matrixmap(lambda([p],ss_stand(p,b,mod_poly)),
-    if num_rounds = 10 then
-      ss_final_round(initial_result,final_rk, b,mod_poly, sbox_f)
-    else
-      ss_round_gen(
-          initial_result,final_rk,b,e,mod_poly, sbox_f, mixcolumns_matrix))
+      ss_final_round(initial_result,final_rk, b,mod_poly, sbox_f))
 )$
 ss_encrypt_gen(pl, kl, num_rounds,b,e,mod_poly, sbox_f, mixcolumns_matrix) :=
 block(

@@ -109,5 +109,17 @@ License, or any later version. */
    <li> We need a framework for this. </li>
   </ul>
 
+
+  \todo DONE (moved to 
+  ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac)
+  Move random_full_fcs
+  <ul>
+   <li> random_full_fcs in  
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac
+   actually considers random boolean functions and should actually be moved
+   to ComputerAlgebra/Satisfiability/Lisp/Generators/ . </li>
+   <li> The name and documentation should also be reconsidered. </li>
+  </ul>
+
 */
 

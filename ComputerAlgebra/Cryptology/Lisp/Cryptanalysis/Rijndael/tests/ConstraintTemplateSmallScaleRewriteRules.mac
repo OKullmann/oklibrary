@@ -77,6 +77,11 @@ okltest_ss_cstr_cstl(f) := block([ctl,ct],
     namespace(ss_v(50,nounify(o)))),
   assert(ctl[2][2][200] =
     namespace(ss_v(72,nounify(k)))),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(ss_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 okltest_ss_round_ns_var_l(f) := block([cst],
@@ -110,6 +115,11 @@ okltest_ss_round_cstr_cstl(f) := block([cst],
   assert(map(lambda([a],length(a[2])), ctl) = [384,256,256,256]),
     assert(every_s(lambda([a], is(last(a) =
           namespace)),ctl)),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(ss_round_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 /* TODO: Update below with small scale generalisations. */
@@ -142,6 +152,11 @@ okltest_ss_final_round_cstr_cstl(f) := block([cst],
   assert(map(lambda([a],length(a[2])), ctl) = [384,256,256]),
   assert(every_s(lambda([a], is(last(a) =
           namespace)),ctl)),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(ss_final_round_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 
@@ -195,6 +210,11 @@ okltest_ss_mixcolumns_cstr_cstl(f) := block([cst],
   assert(map(lambda([a],length(a[2])), ctl) = create_list(64,i,1,4)),
   assert(every_s(lambda([a], is(last(a) =
           namespace)),ctl)),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(ss_mixcolumns_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 
@@ -250,6 +270,11 @@ okltest_ss_bi_mixcolumn_cstr_cstl(f) := block([cst],
      16,16,16,40,16,16,16,16,40,16,16,16,16]),
   assert(every_s(lambda([a], is(last(a) = namespace_mc) or
         is(last(a) = namespace_invmc)),ctl)),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(ss_bi_mixcolumn_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 okltest_ss_mixcolumn_cstr_cstl(f) := block([cst],
@@ -265,6 +290,11 @@ okltest_ss_mixcolumn_cstr_cstl(f) := block([cst],
   assert(map(lambda([a],length(a[2])), ctl) =
     [40,16,16,40,16,16,40,16,16,40,16,16]),
   assert(every_s(lambda([a], is(last(a) = namespace)),ctl)),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(ss_mixcolumn_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 okltest_ss_key_expansion_ns_var_l(f) := block([cst],
@@ -302,6 +332,11 @@ okltest_ss_key_expansion_cstr_cstl(f) := block([cst],
     [24,24,24,24,24,24,24,24,24,24,24,24,24,16,24,16,24,16,32,8,16,16,16,16,
      16,16,16,16,16,16,16,16,16,16,16,16,16]),
   assert(every_s(lambda([a], is(last(a) = namespace)),ctl)),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    setify(ss_key_expansion_ns_var_l(cst)) =
+    setdifference(setify(lappend(map(cstt_vars_l,ctl))),
+      setify(create_list(i,i,1,384)))),
   true)$
 
 

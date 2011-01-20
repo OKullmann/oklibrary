@@ -148,7 +148,7 @@ maxima> output_rijnsbox_fullcnf_stdname();
 shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_Sbox_shg.cnf
 shell> cat AES_Sbox_shg.cnf | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > AES_Sbox_shg.wcnf
    \endverbatim
-   <li>
+   </li>
    <li> Running then:
    \verbatim
 shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 40000000 -wtarget 294 -solve 1 -seed 3213901809 -i AES_Sbox_shg.wcnf -r model AES_Sbox_s294.ass; 
@@ -290,8 +290,27 @@ Error: Impossible to solve the PI chart (too many possible combinations).
    set is fixed, there aren't so much choices anymore(?)). </li>
    <li> Another thing to do is to provide RUcpGen-O3-DNDEBUG with a non-empty
    starting set, namely the clauses from a "small" representation. </li>
-   <li> How do these lengths compare (precisely) to the canonical transation?
+   <li> The canonical translation has 4353 clauses and 272 variables:
+   <ol>
+    <li> 256 * length 17 clauses (1 for each DNF clause). </li>
+    <li> 256 * 16 = 1096 * length 2 clauses. </li>
+    <li> 1 * length 256 clause. </li>
+   </ol>
    </li>
+   <li> Using the smallest known Sbox CNF (mincl_rinf = 294) as a starting 
+   point with RUcpGen doesn't seem to yield a small RBase:
+   \verbatim
+> RUcpGen-O3-DNDEBUG AES_PK.cnf AES_294.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+  n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 8629 60248 0 60248 1 1
+ length count
+5 1
+6 1367
+7 6060
+8 1188
+9 13
+   \endverbatim
+   As can be seen above, this is nearly twice as large as mincl_r1. </li>
    <li> DONE (we have now the approach via first computing a generating set)
    The direct computation (via "cat AES_PK.cnf | RUcpBase-O3-DNDEBUG")
    of a base takes too long. </li>
@@ -492,9 +511,9 @@ irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
   <ul>
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/Symmetries/plans/general.hpp. </li>
-   <li> We have at least the symmetry exchanging input and output variables
-   (since x^(-1) in the field is self-inverse). ??? However the linear
-   transformation is not self-inverse?! </li>
+   <li> We don't have full symmetry between the input and output bits, as the
+   linear map is not self-inverse. This is further evidenced by the single
+   prime implicate of length 5 (see "Basic data"). </li>
    <li> We can run through all 8! * 2^8 = 1,032,1920 permutations with flips
    on the input variables, interpreted as a bijection from input-space to
    output-space, to check whether they constitute an automorphism. </li>

@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 6.12.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -85,10 +85,6 @@ prop_eq_vars_l(csttl) := block([cstt_eq_l,new_var_l : []],
     cstt_eq_l : csttl_rename_vars(cstt_eq_l, eq_var_l[2], new_var_temp_l)),
   return(new_var_l))$
 
-prop_eq_rep_vars_l(csttl, var_list) := 
-  prop_eq_naive_csttl(cons(["fake_var_cst", var_list, lambda([a],a)],
-                sublist(csttl, lambda([a], cstt_named_p(a, "eq_cst")))))[1][2]$
-
 /* Given a constraint template list, returns the list of constraint templates
    where equality constraints (named "eq_cst") have been removed and the pairs
    of equivalent variables in each "eq_cst" constraint replaced with new
@@ -96,28 +92,35 @@ prop_eq_rep_vars_l(csttl, var_list) :=
 
    XXX
 */
-prop_eq_naive_csttl(csttl) := 
-block([csttl_eq,csttl_neq, cstt_eq_i,cstt_eq, csttl_new],
-    csttl_new : csttl,
-    cstt_eq_i : find_first_l(lambda([a],cstt_named_p(a,"eq_cst")),csttl_new),
-    while cstt_eq_i # inf do (
-      if oklib_monitor then print(
-        length(sublist(csttl_new, lambda([a],cstt_named_p(a,"eq_cst")))),
-        "Some equality constraints left to process!"),
-      cstt_eq : csttl_new[cstt_eq_i],
-      csttl_new : remove_element(cstt_eq_i, csttl_new),
-      cstt_eq_var_l : cstt_vars_l(cstt_eq),
-      new_var_l : prop_eq_vars_l([cstt_eq]),
-      csttl_rename_vars_ip(csttl_new,cstt_eq_var_l,
-        append(new_var_l,new_var_l)),
-      cstt_eq_i : find_first_l(
-        lambda([a],cstt_named_p(a,"eq_cst")),csttl_new)),
-    csttl_new)$
-prop_eq_csttl(csttl, old_var_l) := block([csttl_vars, var_rep],
-  new_var_l : prop_eq_rep_vars_l(csttl,old_var_l),
-  csttl_rename_vars_ip(csttl, old_var_l, new_var_l),
-  return([sublist(csttl, lambda([cstt], not(cstt_named_p(cstt,"eq_cst")))),
-    stable_unique(new_var_l)]))$
+prop_eq_csttl(csttl, old_var_l) := block(
+  [eq_csttl, var_mappings, var_map : sm2hm({}), pre_map : sm2hm({}), new_var_l, count],
+  eq_csttl : sublist(csttl, lambda([cstt], cstt_named_p(cstt,"eq_cst"))),
+  var_mappings :
+    lappend(map(lambda([a], map("[",a[1],a[2])),
+      map(lambda([a],partition_elements(a,ceiling(length(a)/2))),
+        map(cstt_vars_l, eq_csttl)))),
+  if oklib_monitor then print("Starting equivalence mapping!"),
+  count : 0,
+  for M in var_mappings do block(
+      [M1_mapped, M2_mapped, new_var_, preexisting_maps],
+    if oklib_monitor then print("Mapping [",count : count + 1, "/", length(var_mappings),"]"),
+    M1_mapped : ev_hm_d(var_map,M[1], M[1]),
+    M2_mapped : ev_hm_d(var_map,M[2], M[2]),
+    new_var_ : new_veq(M1_mapped, M2_mapped),
+    set_hm(var_map, M[1], new_var_),
+    set_hm(var_map, M[2], new_var_),
+    preexisting_maps : append(
+      ev_hm_d(pre_map, M1_mapped, []),ev_hm_d(pre_map, M2_mapped, [])),
+    for old_map in preexisting_maps do (
+      set_hm(var_map, old_map, new_var_)),
+    set_hm(pre_map, new_var_, append(preexisting_maps, [M1_mapped,M2_mapped])),
+    del_hm(pre_map, M1_mapped), del_hm(pre_map, M2_mapped)),
+  new_var_l : map(lambda([a], ev_hm_d(var_map,a,a)), old_var_l),
+  csttl : csttl_rename_vars(
+    sublist(csttl, lambda([cstt], not(cstt_named_p(cstt,"eq_cst")))),
+      old_var_l, new_var_l),
+  return([csttl, stable_unique(new_var_l)]))$
+  
 
 
 /*!
