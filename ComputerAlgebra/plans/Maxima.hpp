@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.12.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -11,6 +11,38 @@ License, or any later version. */
 
   For discussions (explanations, documentations) of Maxima-functionality see
   ComputerAlgebra/plans/MaximaTechniques.hpp.
+
+
+  \bug Maxima seg-faults when loading a file setting memory-limits
+  <ul>
+   <li> When running at test_level=full, we get
+   \verbatim
+okltest_certificates_vdw_3k(certificates_vdw_3k)
+/bin/bash: line 6: 28062 Segmentation fault      (core dumped) HOME=/home/kullmann/OKplatform/ExternalSources/Installations/Maxima/ecl/5.23.2 /home/kullmann/OKplatform/ExternalSources/Installations/Maxima/ecl/5.23.2/bin/rmaxima --batch-string="" --very-quiet
+make[2]: *** [/home/kullmann/OKplatform/OKsystem/OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/testobjects/certificates.mac] Error 1
+   \endverbatim
+   </li>
+   <li> Same with 5.21.1 and 5.23.2. </li>
+   <li> The same happens when just running
+   \verbatim
+oklib_test_level:1;
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/testobjects/certificates.mac");
+   \endverbatim
+   from the Maxima-shell. </li>
+   <li> However
+   \verbatim
+oklib_test_level:1;
+load(sconcat(OKsystem,"/OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/testobjects/certificates.mac"));
+   \endverbatim
+   works?! </li>
+   <li> On the other hand,
+   \verbatim
+oklib_test_level:1;
+batch(sconcat(OKsystem,"/OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/testobjects/certificates.mac"));
+   \endverbatim
+   fails again with a segmentation fault. </li>
+   <li> Notify the Maxima mailing-list. </li>
+  </ul>
 
 
   \todo Stable sorting
