@@ -1,0 +1,4 @@
+c r_1-generating sequence from F = app_tests/test_cases/basic/RUcpGen/TwoClausesToOne.cnf using all clauses from app_tests/test_cases/basic/RUcpGen/aux_input/TwoClausesToOne/TwoClausesToOne.cnf.
+p cnf 3 2
+1 2 0
+1 2 3 0

@@ -1,0 +1,2 @@
+c r_1-generating sequence from F = app_tests/test_cases/basic/RUcpGen/Empty.cnf using all clauses from app_tests/test_cases/basic/RUcpGen/aux_input/Empty/EmptyResult.cnf.
+p cnf 0 0

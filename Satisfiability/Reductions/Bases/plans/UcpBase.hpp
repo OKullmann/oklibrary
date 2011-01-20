@@ -118,7 +118,7 @@ rand_perm(L);
   </ul>
 
 
-  \todo Write application tests for Bases/RUcpGen.cpp
+  \todo DONE Write application tests for Bases/RUcpGen.cpp
 
 
   \todo Shuffling and sorting
