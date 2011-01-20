@@ -10,6 +10,20 @@ License, or any later version. */
   \brief Plans regarding building of SAT solvers and libraries
 
 
+  \bug Glucose build error
+  <ul>
+   <li> On csltok we get
+   \verbatim
+/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.5.2/bin/g++ Main.or Solver.or -m32 --static -lz -o glucose_static
+/usr/local/bin/ld: cannot find -lz
+collect2: ld returned 1 exit status
+   \endverbatim
+   </li>
+   <li> What is "-lz"? "lzip"? We need to find out, and then perhaps provide it
+   ourselfes. </li>
+  </ul>
+
+
   \todo Add todos for SAT-Race 2010 SAT solvers
   <ul>
    <li> See "Solvers to be used for experimentation" in 
