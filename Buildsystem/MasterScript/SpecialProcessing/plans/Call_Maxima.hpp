@@ -1,5 +1,5 @@
 // Oliver Kullmann, 11.8.2009 (Swansea)
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -61,10 +61,15 @@ License, or any later version. */
      <li> The culprit is maxima-init.mac, which is written and then
      possibly corrupted (in the interval between writing of the file,
      and Maxima actually reading it) by these processes. </li>
-     <li> The only handle on this initialisation file is given by
+     <li> See below on how to possibly handle this. </li>
+    </ol>
+   </li>
+   <li> Set userdir:
+    <ol>
+     <li> One handle on this initialisation file maxima-init.mac is given by
      the maxima-option "--userdir=". This directory is the first directory
      where to search for the initialisation-file. </li>
-     <li> So the only possibility is to create for each "run" a new
+     <li> So the possibility is to create for each "run" a new
      userdir-directory. </li>
      <li> An oklib-invocation would be one run, one testsystem-run
      would be one run (just a single run for the whole test-run), and
@@ -91,8 +96,32 @@ License, or any later version. */
      <li> These temporary directories need to be removed after usage. </li>
     </ol>
    </li>
+   <li> Set init-mac:
+    <ol>
+     <li> Maxima 5.23.2 has the option "--init-mac=<file>". </li>
+     <li> Hopefully <file> can be a full path. </li>
+     <li> So perhaps for each invocation a new variant of maxima-init.mac is
+     to be created, like "maxima-init_1234.mac". </li>
+     <li> This should be better than redefining userdir for each invocation
+     (see above). </li>
+     <li> One problem is that unsuccesful invocation might leave garbage
+     initialisation-files. </li>
+     <li> Another problem is how to pass the temporary value for
+     "$(maxima_init_okl)" to the make-target run_maxima. </li>
+    </ol>
+   </li>
    <li> If we ever can get rid off redefining HOME, then we need to remember
    that the link to .Xauthority should then no longer be created. </li>
+  </ul>
+
+
+  \todo Setting userdir
+  <ul>
+   <li> The current setting "HOME=$(maxima_homedir_okl)" should likely be
+   replaced by the option "--userdir=$(maxima_homedir_okl)". </li>
+   <li> With "maxima_homedir_okl ?= $(maxima_installation_dir_okl)/.maxima".
+   </li>
+   <li> Compare "Improve locality" above. </li>
   </ul>
 
 */

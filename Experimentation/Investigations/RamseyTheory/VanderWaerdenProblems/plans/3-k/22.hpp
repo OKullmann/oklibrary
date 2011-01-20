@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -114,6 +114,18 @@ License, or any later version. */
 100 
      \endverbatim
      With cutoff=2*10^6:
+     \verbatim
+ 1  2  3  4
+ 6 50 41  3
+100
+     \endverbatim
+     With cutoff=4*10^6:
+     \verbatim
+ 1  2  3
+10 80 10
+100
+     \endverbatim
+     With cutoff=8*10^6:
      \verbatim
      \endverbatim
      </li>

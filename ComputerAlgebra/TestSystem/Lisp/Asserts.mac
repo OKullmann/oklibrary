@@ -50,7 +50,7 @@ no_digits(x) := if x = 0 then 0 else entier(log(x)/log(10)) + 1$
    the floating-point precision: */
 assert_float_equal(expr1,expr2) := ev(
   buildq([expr1,expr2], 
-    assert(abs(expr1-expr2) < 2 * 10^(no_digits(max(abs(expr1), abs(expr2)))-16))),
+    assert(abs(expr1-expr2) < oklib_float_comparison_factor * 10^(no_digits(max(abs(expr1), abs(expr2)))-oklib_float_comparison_exponent))),
  eval)$
 
 /* Use "assert_bfloat_equal(a,b,d)" to state that a,b shall be equal as

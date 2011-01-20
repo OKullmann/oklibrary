@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.1.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -37,6 +37,115 @@ Exiting on signal 6
 make: *** [run_maxima] Aborted
    \endverbatim
    and so here the buildsystem detects the error. </li>
+  </ul>
+
+
+  \todo How to calibrate floating-point efficiency
+  <ul>
+   <li> Examples, contrasting Maxima version 5.21.1 with 5.22.1:
+   \verbatim
+
+testf1(n) := float(apply("+",create_list(log(i)*(-1)^i,i,1,n)));
+testf1c(n):=block([fpprec:30],bfloat(apply("+",create_list(log(i)*(-1)^i,i,1,n))));
+testf1f(n) := apply("+",create_list(float(log(i))*(-1)^i,i,1,n));
+
+21:
+
+(%i24) testf1(10000);
+Evaluation took 79.0520 seconds (125.7410 elapsed)
+(%o24) 4.830986538632788
+(%i25) testf1c(10000);
+Evaluation took 75.6320 seconds (141.3070 elapsed)
+(%o25) 4.8309865386327771337329138576b0
+(%i31) testf1f(10000);
+Evaluation took 0.3380 seconds (0.4770 elapsed)
+(%o31) 4.830986538632788
+
+(%i26) testf1(20000);
+Evaluation took 301.3270 seconds (546.0920 elapsed)
+(%o26) 5.177547628912792
+(%i27) testf1c(20000);
+Evaluation took 326.1730 seconds (542.8570 elapsed)
+(%o27) 5.17754762891278624677437887665b0
+(%i32) testf1f(20000);
+Evaluation took 0.6810 seconds (1.0060 elapsed)
+(%o32) 5.177547628912792
+
+(%i28) testf1(40000);
+Evaluation took 1244.4280 seconds (2258.0720 elapsed)
+(%o28) 5.524114969192852
+(%i29) testf1c(40000);
+Evaluation took 1256.1750 seconds (2077.7460 elapsed)
+(%o29) 5.52411496919276345877464646714b0
+(%i33) testf1f(40000);
+Evaluation took 1.3840 seconds (2.1210 elapsed)
+(%o33) 5.524114969192852
+
+22:
+
+(%i19) testf1(10000);
+Evaluation took 68.2900 seconds (123.3390 elapsed)
+(%o19) 4.83098653863282
+(%i20) testf1c(10000);
+Evaluation took 76.8890 seconds (123.0450 elapsed)
+(%o20) 4.8309865386327771337329138576b0
+(%i26) testf1f(10000);
+Evaluation took 0.3280 seconds (0.6130 elapsed)
+(%o26) 4.83098653863282
+
+(%i21) testf1(20000);
+Evaluation took 289.1520 seconds (468.5160 elapsed)
+(%o21) 5.17754762891287
+(%i22) testf1c(20000);
+Evaluation took 286.7340 seconds (559.2420 elapsed)
+(%o22) 5.17754762891278624677437887665b0
+(%i27) testf1f(20000);
+Evaluation took 0.7100 seconds (1.2810 elapsed)
+(%o27) 5.17754762891287
+
+(%i23) testf1(40000);
+Evaluation took 1175.0270 seconds (2232.6280 elapsed)
+(%o23) 5.524114969192786
+(%i24) testf1c(40000);
+Evaluation took 1206.8040 seconds (1911.2210 elapsed)
+(%o24) 5.52411496919276345877464646714b0
+(%i28) testf1f(40000);
+Evaluation took 1.3790 seconds (2.1250 elapsed)
+(%o28) 5.524114969192786
+
+   \endverbatim
+   There are differences, but no clear picture. </li>
+   <li> For comparison, a C++ implementation:
+   \verbatim
+// File SumLog.cpp
+#include <iostream>
+#include <sstream>
+#include <cmath>
+#include <iomanip>
+int main(const int argc, const char* const argv[]) {
+  if (argc != 2) return 1;
+  std::stringstream s;
+  s << argv[1];
+  unsigned int n;
+  s >> n;
+  if (not s) return 2;
+  double sum = 0;
+  for (struct {unsigned int i; int e;} l = {0,-1}; l.i < n; ++l.i, l.e*=-1)
+    sum += std::log(l.i+1) * l.e;
+  std::cout << "n=" << n << ": " << std::setprecision(16) << sum << "\n";
+}
+
+> g++ -O3 SumLog.cpp -o SumLog
+> ./SumLog 10000
+n=10000: 4.830986538632788
+> ./SumLog 20000
+n=20000: 5.177547628912792
+> ./SumLog 40000
+n=40000: 5.524114969192852
+   \endverbatim
+   </li>
+   <li> The question is what are good values for oklib_float_comparison_factor
+   and oklib_float_comparison_exponent ? </li>
   </ul>
 
 
