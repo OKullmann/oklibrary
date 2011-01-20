@@ -19,8 +19,16 @@ License, or any later version. */
 collect2: ld returned 1 exit status
    \endverbatim
    </li>
-   <li> What is "-lz"? "lzip"? We need to find out, and then perhaps provide it
-   ourselfes. </li>
+   <li> "-lz" refers to zlib, which we also build, however linking doesn't
+   work:
+   \verbatim
+/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.5.2/bin/g++ -I/home/kullmann/OKplatform/ExternalSources/Installations/Zlib/4.5.2/1.2.5/include -L/home/kullmann/OKplatform/ExternalSources/Installations/Zlib/4.5.2/1.2.5/lib -Wl,-rpath,/home/kullmann/OKplatform/ExternalSources/Installations/Zlib/4.5.2/1.2.5/lib Main.or Solver.or -m32 --static -lz -o glucose_static
+/usr/local/bin/ld: skipping incompatible /home/kullmann/OKplatform/ExternalSources/Installations/Zlib/4.5.2/1.2.5/lib/libz.a when searching for -lz
+/usr/local/bin/ld: cannot find -lz
+collect2: ld returned 1 exit status
+   \endverbatim
+   </li>
+   <li> Do we need a newer version of zlib? Or a "multilib"-version? </li>
   </ul>
 
 
