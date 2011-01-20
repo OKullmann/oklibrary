@@ -71,6 +71,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
    topics are handled:
+    - False Glucose build
     - Glucose build error
     - Add todos for SAT-Race 2010 SAT solvers
     - Fuzzing

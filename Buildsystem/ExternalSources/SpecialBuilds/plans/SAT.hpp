@@ -10,6 +10,12 @@ License, or any later version. */
   \brief Plans regarding building of SAT solvers and libraries
 
 
+  \bug False Glucose build
+  <ul>
+   <li> The directory naming-conventions do not follow our standards. </li>
+  </ul>
+
+
   \bug Glucose build error
   <ul>
    <li> On csltok we get
