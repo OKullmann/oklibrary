@@ -160,3 +160,16 @@ oklib_save([L]) := if oklib_store then block(
   else return(false))
  else false$
 
+
+/* Constants for  asserts handling floating-point numbers */
+
+define_variable(
+  oklib_float_comparison_factor,
+  2,
+  rational);
+
+define_variable(
+  oklib_float_comparison_exponent,
+  16,
+  fixnum);
+
