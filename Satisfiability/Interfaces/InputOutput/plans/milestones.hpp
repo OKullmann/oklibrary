@@ -26,6 +26,12 @@ License, or any later version. */
     - Weak implementation
     - Move CLSAdaptorFilter
 
+  \par
+   In Interfaces/InputOutput/SortByClauseLength.cpp the following topics
+   are handled:
+    - Add application tests
+    - Move AllEqual to OrderConstructions
+
 
   \par Version 0.1.2 :
 

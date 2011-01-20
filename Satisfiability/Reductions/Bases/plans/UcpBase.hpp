@@ -120,7 +120,8 @@ rand_perm(L);
 
   \todo Shuffling and sorting
   <ul>
-   <li> We need an application which sorts a clause-list according to length
+   <li> DONE (see Interfaces/InputOutput/SortByClauseLength.cpp)
+   We need an application which sorts a clause-list according to length
    (shortest clauses first), keeping the order of clauses of equal length.
    </li>
    <li> Another application applies a random permutations to a clause-list.
