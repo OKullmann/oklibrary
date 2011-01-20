@@ -48,7 +48,7 @@ shell> ExtendedDimacsFullStatistics-O3-DNDEBUG < AES_byte_field_mul_pi_3.cnf
   </ul>
 
   
-  \todo Using weighted MaxSAT to compute small CNFs
+  \todo Using weighted MaxSAT to compute small CNFs : mincl_rinf <= 36
   <ul>
    <li> Computing the weighted MaxSAT problem:
    \verbatim
@@ -77,7 +77,7 @@ shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 5000000 -i AES_byte_field_mul_
   </ul>
 
 
-  \todo r_1-bases
+  \todo r_1-bases : mincl_r1 <= 80
   <ul>
    <li> Computing three r_1-bases:
    \verbatim
