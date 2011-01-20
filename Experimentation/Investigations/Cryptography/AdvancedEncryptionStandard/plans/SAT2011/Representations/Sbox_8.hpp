@@ -148,7 +148,7 @@ maxima> output_rijnsbox_fullcnf_stdname();
 shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_Sbox_shg.cnf
 shell> cat AES_Sbox_shg.cnf | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > AES_Sbox_shg.wcnf
    \endverbatim
-   <li>
+   </li>
    <li> Running then:
    \verbatim
 shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 40000000 -wtarget 294 -solve 1 -seed 3213901809 -i AES_Sbox_shg.wcnf -r model AES_Sbox_s294.ass; 
@@ -511,9 +511,9 @@ irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
   <ul>
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/Symmetries/plans/general.hpp. </li>
-   <li> We have at least the symmetry exchanging input and output variables
-   (since x^(-1) in the field is self-inverse). ??? However the linear
-   transformation is not self-inverse?! </li>
+   <li> We don't have full symmetry between the input and output bits, as the
+   linear map is not self-inverse. This is further evidenced by the single
+   prime implicate of length 5 (see "Basic data"). </li>
    <li> We can run through all 8! * 2^8 = 1,032,1920 permutations with flips
    on the input variables, interpreted as a bijection from input-space to
    output-space, to check whether they constitute an automorphism. </li>

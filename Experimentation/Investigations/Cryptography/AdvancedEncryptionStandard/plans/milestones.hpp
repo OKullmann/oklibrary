@@ -75,6 +75,7 @@ License, or any later version. */
     - Generate good CNF hitting clause-sets
     - Extracting prime implicate representations from the hitting-cls-representations
     - Find the symmetries of the AES Sbox DNF
+    - Find the symmetries of the AES inversion DNF
 
 
 

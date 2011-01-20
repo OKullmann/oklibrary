@@ -191,5 +191,17 @@ R> summary(E)
    minimum size as the minimum Sbox. </li>
   </ul>
 
+  
+  \todo Find the symmetries of the AES inversion DNF
+  <ul>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/Symmetries/plans/general.hpp. </li>
+   <li> See "Find the symmetries of the AES Sbox DNF" in 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp .
+   </li>
+   <li> We have at least the symmetry exchanging input and output variables
+   (since x^(-1) in the field is self-inverse). </li>
+  </ul>
+
 
 */
