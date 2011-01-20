@@ -17,6 +17,7 @@ sat_targets_extsrc_okl ?= ubcsat minisat march satz sp grasp picosat precosat ar
 boolean_targets_extsrc_okl ?= espresso
 # Dependencies between these external sources:
 # minisat needs gmp and zlib
+# glucose needs zlib
 # march, grasp need gcc-4.1.2
 # boost needs bzip2
 # bzip2, boost, mhash, gmp, mpfr need gcc

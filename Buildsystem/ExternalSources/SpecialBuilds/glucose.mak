@@ -24,9 +24,13 @@ $(glucose_directories_okl) : % :
 glucose : $(glucose_directories_okl)
 	$(call unarchive,$(glucose_source_okl),$(glucose_base_build_dir_okl)) $(postcondition) \
 	cd $(glucose_build_dir_okl); $(postcondition) \
-	CC=$(gcc_call_okl) CXX=$(gpp_call_okl) ./build.sh; $(postcondition) \
+	alias g++="$(gpp_call_okl)" gcc="$(gcc_call_okl)"; $(postcondition) \
+	CC="$(gcc_call_okl) $(zlib_include_option_okl) $(zlib_link_option_okl)" CXX="$(gpp_call_okl) $(zlib_include_option_okl) $(zlib_link_option_okl)" ./build.sh; $(postcondition) \
 	cp glucose_static $(glucose_installation_dir_okl)/glucose; $(postcondition) \
 	ln -s --force $(glucose_call_okl) $(public_bin_dir_okl)/glucose; $(postcondition)
+# REMARK: appending the link-option to CC and CXX is ugly, but the Glucose
+# build doesn't use LFLAGS correctly.
+# And parts of the build don't use CC and CXX, and thus the aliasing.
 
 
 # #################################
