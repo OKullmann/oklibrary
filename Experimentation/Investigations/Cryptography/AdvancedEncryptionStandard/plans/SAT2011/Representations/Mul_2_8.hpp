@@ -74,7 +74,7 @@ shell> echo AES_byte_field_mul_full_2.cnf.trans_* | wc -w
    transversal tools". </li>
    <li> Starting with a generating set, created from scratch:
    \verbatim
-> RUcpBase-O3-DNDEBUG 1 <  AES_byte_field_mul_2_pi.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+> RandomShuffleDimacs-O3-DNDEBUG 1 < AES_byte_field_mul_2_pi.cnf | RUcpBase-O3-DNDEBUG | ExtendedDimacsFullStatistics-O3-DNDEBUG 
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 22 56 0 56 1 1
  length count

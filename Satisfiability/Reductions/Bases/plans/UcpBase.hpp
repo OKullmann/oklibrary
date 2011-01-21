@@ -120,18 +120,18 @@ rand_perm(L);
 
   \todo Shuffling and sorting
   <ul>
-   <li> DONE (see Interfaces/InputOutput/SortByClauseLength.cpp)
-   We need an application which sorts a clause-list according to length
-   (shortest clauses first), keeping the order of clauses of equal length.
-   </li>
-   <li> Another application applies a random permutations to a clause-list.
-   </li>
    <li> For comparability with the Maxima-level we use the Mersenne twister;
    see "Random r_1-bases" above. </li>
    <li> Instead of the boost-classes for random numbers, the C++0x components
    should be used, once we move away from gcc-4.1.2. </li>
-   <li> These two applications are based on two CLS-adaptors. </li>
-   <li> Once we have that, the permutation-part should be removed from
+   <li> DONE (see Interfaces/InputOutput/SortByClauseLength.cpp)
+   We need an application which sorts a clause-list according to length
+   (shortest clauses first), keeping the order of clauses of equal length.
+   </li>
+   <li> DONE Another application applies a random permutations to a 
+   clause-list. </li>
+   <li> DONE These two applications are based on two CLS-adaptors. </li>
+   <li> DONE Once we have that, the permutation-part should be removed from
    Bases/RUcpBase.cpp. </li>
   </ul>
 

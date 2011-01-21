@@ -256,7 +256,7 @@ Error: Impossible to solve the PI chart (too many possible combinations).
 7 6363
 8 1295
 9 18
-> seed=1; cat AES_gen.cnf | RUcpBase-O3-DNDEBUG ${seed} | tee AES_base_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+> seed=1; cat AES_gen.cnf | RandomShuffleDimacs-O3-DNDEBUG ${seed} | RUcpBase-O3-DNDEBUG | tee AES_base_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 4754 32530 0 32530 1 1
  length count
@@ -265,7 +265,7 @@ Error: Impossible to solve the PI chart (too many possible combinations).
 7 3223
 8 386
 9 4
-> seed=2; cat AES_gen.cnf | RUcpBase-O3-DNDEBUG ${seed} | tee AES_base_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+> seed=2; cat AES_gen.cnf | RandomShuffleDimacs-O3-DNDEBUG ${seed} | RUcpBase-O3-DNDEBUG | tee AES_base_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 4765 32606 0 32606 1 1
  length count
@@ -274,7 +274,7 @@ Error: Impossible to solve the PI chart (too many possible combinations).
 7 3245
 8 380
 9 4
-> seed=3; cat AES_gen.cnf | RUcpBase-O3-DNDEBUG ${seed} | tee AES_base_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+> seed=3; cat AES_gen.cnf | RandomShuffleDimacs-O3-DNDEBUG ${seed} | RUcpBase-O3-DNDEBUG | tee AES_base_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 4739 32404 0 32404 1 1
  length count
@@ -312,7 +312,7 @@ Error: Impossible to solve the PI chart (too many possible combinations).
    \endverbatim
    As can be seen above, this is nearly twice as large as mincl_r1. </li>
    <li> DONE (we have now the approach via first computing a generating set)
-   The direct computation (via "cat AES_PK.cnf | RUcpBase-O3-DNDEBUG")
+   The direct computation (via "cat AES_PK.cnf | RandomShuffleDimacs-O3-DNDEBUG | RUcpBase-O3-DNDEBUG")
    of a base takes too long. </li>
   </ul>
 

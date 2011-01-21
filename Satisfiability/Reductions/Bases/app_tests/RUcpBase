@@ -16,10 +16,8 @@ case ${test_level} in
 basic) list_test_cases="$(find app_tests/test_cases/basic/RUcpBase/ -name '*.cnf')"
     ;;
 full) list_test_cases="$(find app_tests/test_cases/basic/RUcpBase/ -name '*.cnf') $(find app_tests/test_cases/full/RUcpBase/ -name '*.cnf')"
-      list_programs="${list_programs} ${bin_dir}/RUcpBase*"
     ;;
 extensive) list_test_cases="$(find app_tests/test_cases/basic/RUcpBase/ -name '*.cnf') $(find app_tests/test_cases/full/RUcpBase/ -name '*.cnf') $(find app_tests/test_cases/extensive/RUcpBase/ -name '*.cnf')"
-	   list_programs="${list_programs} ${bin_dir}/RUcpBase*"
     ;;
 esac
 

@@ -87,21 +87,21 @@ shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 5000000 -i AES_byte_field_mul_
   <ul>
    <li> Computing three r_1-bases:
    \verbatim
-> seed=1; RUcpBase-O3-DNDEBUG ${seed} < AES_byte_field_mul_pi_3.cnf | tee AES_byte_field_mul_bases_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+> seed=1; RandomShuffleDimacs-O3-DNDEBUG ${seed} < AES_byte_field_mul_pi_3.cnf | RUcpBase-O3-DNDEBUG | tee AES_byte_field_mul_bases_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 80 328 0 328 1 1
  length count
 3 24
 4 24
 5 32
-> seed=2; RUcpBase-O3-DNDEBUG ${seed} < AES_byte_field_mul_pi_3.cnf | tee AES_byte_field_mul_bases_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+> seed=2; RandomShuffleDimacs-O3-DNDEBUG ${seed} < AES_byte_field_mul_pi_3.cnf | RUcpBase-O3-DNDEBUG | tee AES_byte_field_mul_bases_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 80 328 0 328 1 1
  length count
 3 24
 4 24
 5 32
-> seed=3; RUcpBase-O3-DNDEBUG ${seed} < AES_byte_field_mul_pi_3.cnf | tee AES_byte_field_mul_bases_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+> seed=3; RandomShuffleDimacs-O3-DNDEBUG ${seed} < AES_byte_field_mul_pi_3.cnf | RUcpBase-O3-DNDEBUG | tee AES_byte_field_mul_bases_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 80 328 0 328 1 1
  length count
@@ -112,7 +112,7 @@ shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 5000000 -i AES_byte_field_mul_
    </li>
    <li> Using the method "from below":
    \verbatim
-> RUcpGen-O3-DNDEBUG AES_byte_field_mul_pi_3.cnf | RUcpBase-O3-DNDEBUG | ExtendedDimacsFullStatistics-O3-DNDEBUG
+> RUcpGen-O3-DNDEBUG AES_byte_field_mul_pi_3.cnf | RandomShuffleDimacs-O3-DNDEBUG | RUcpBase-O3-DNDEBUG | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 80 328 0 328 1 1
  length count

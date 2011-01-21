@@ -52,36 +52,9 @@ namespace {
 
   const std::string version = "0.1";
 
-  inline int convert_seed(const char* const arg) {
-    int seed;
-    try { seed = boost::lexical_cast<int>(arg); }
-    catch (boost::bad_lexical_cast&) { return 0; }
-    if (seed < 0) return 0;
-    else return seed;
-  }
-
-  typedef boost::mt19937 base_generator_type;
-  base_generator_type base_rand_gen;
-  inline void set_random(const int seed) {
-    assert(seed >= 1);
-    base_rand_gen.seed(seed);
-  }
-
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (argc > 2) {
-    std::cerr << err << "At most one arguments is allowed "
-      "(the seed for the random-number generator).\n";
-    return errcode_parameter;
-  }
-
-  const int seed = (argc == 1) ? 1 : convert_seed(argv[1]);
-  if (seed == 0) {
-    std::cerr << err << "The seed \"" << argv[1] << "\" must be an integer >= 1 fitting into type int.\n";
-    return(errcode_parameter_value);
-  }
-  set_random(seed);
 
   typedef OKlib::Literals::Literals_int literal_type;
   typedef std::vector<literal_type> clause_type;
@@ -90,16 +63,6 @@ int main(const int argc, const char* const argv[]) {
   InputClsadaptor F1;
   OKlib::InputOutput::StandardDIMACSInput<InputClsadaptor>(std::cin, F1);
   const InputClsadaptor::int_type n = F1.stat.parameter_n;
-
-  {
-   typedef boost::uniform_int<> uniform_distribution_type;
-   uniform_distribution_type uniform_distribution(0,std::numeric_limits<int>::max()); // is this correct???
-   typedef boost::variate_generator<base_generator_type&, uniform_distribution_type> generator_type;
-   generator_type rand_gen(base_rand_gen, uniform_distribution);
-   typedef boost::random_number_generator<generator_type> RandomNumberGenerator;
-   RandomNumberGenerator rg(rand_gen);
-   std::random_shuffle(F1.clause_set.begin(), F1.clause_set.end(), rg);
-  }
 
   typedef std::list<clause_type> clause_set2_type;
   clause_set2_type F2(F1.clause_set.begin(), F1.clause_set.end());
@@ -135,9 +98,7 @@ int main(const int argc, const char* const argv[]) {
   {
    typedef OKlib::InputOutput::CLSAdaptorDIMACSOutput<literal_type> OutputClsadaptor;
    OutputClsadaptor out(std::cout);
-   std::stringstream comment;
-   comment << "r_1 base for seed = " << seed;
-   OKlib::InputOutput::ListTransfer<OutputClsadaptor>(F2, out, comment.str());
+   OKlib::InputOutput::ListTransfer<OutputClsadaptor>(F2, out, "");
   }
 
 }
