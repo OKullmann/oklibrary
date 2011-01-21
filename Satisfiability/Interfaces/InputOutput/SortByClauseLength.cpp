@@ -18,9 +18,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Add application tests
-
-
   \todo Move CLSAdaptorSortByClauseLength
   <ul>
    <li> This should likely go to into ClauseSetAdaptors.hpp. </li>
@@ -33,6 +30,9 @@ License, or any later version. */
     Programming/Utilities/OrderRelations/OrderConstructions.hpp .
     </li>
   </ul>
+
+
+  \todo DONE Add application tests
 
 */
 
@@ -131,7 +131,7 @@ namespace {
   const std::string program = "SortByClauseLength";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.2";
+  const std::string version = "0.0.3";
 
 }
 

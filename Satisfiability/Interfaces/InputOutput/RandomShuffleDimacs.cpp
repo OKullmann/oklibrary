@@ -19,13 +19,13 @@ License, or any later version. */
   </ul>
 
 
-  \todo Add application tests
-
-
   \todo Move CLSAdaptorRandomShuffle
   <ul>
    <li> This should likely go to into ClauseSetAdaptors.hpp. </li>
   </ul>
+
+
+  \todo DONE Add application tests
 
 */
 
@@ -124,7 +124,7 @@ namespace {
   const std::string program = "RandomShuffleDimacs";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.2";
+  const std::string version = "0.0.3";
 
   inline int convert_seed(const char* const arg) {
     int seed;

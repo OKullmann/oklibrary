@@ -29,13 +29,13 @@ License, or any later version. */
   \par
    In Interfaces/InputOutput/SortByClauseLength.cpp the following topics
    are handled:
-    - Add application tests
     - Move AllEqual to OrderConstructions
+    - Add application tests : DONE
 
   \par
    In Interfaces/InputOutput/RandomShuffleDimacs.cpp the following topics
    are handled:
-    - Add application tests
+    - Add application tests : DONE
 
 
   \par Version 0.1.2 :
