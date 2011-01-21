@@ -16,6 +16,19 @@ License, or any later version. */
   \bug False build for Espresso
   <ul>
    <li> The directory names do not follow our standards. </li>
+   <li> In particular, espresso has the package name
+   "espresso-ab-1.0-2.3.tar.gz" and directory names
+   "espresso-ab-1.0", and yet it's executable name is
+   "espresso2.3", all of which are very different. </li>
+   <li> This initial decision was made so as not to change
+   the version information too much from the original (keeping
+   with the authors original version information (1.0)) but adding
+   more reasonable version information at the same time (the
+   version number as printed by the executable). </li>
+   <li> To bring things inline with other packages, espresso
+   should simply be repackaged to "espresso-2.3.tar.bz2" with
+   "espresso-2.3" as the directory name and "espresso2.3" as
+   the executable name. </li>
   </ul>
 
 
