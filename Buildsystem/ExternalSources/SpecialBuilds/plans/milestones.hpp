@@ -114,6 +114,11 @@ License, or any later version. */
     - Update to 11.1.1
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp
+   the following topics are handled:
+    - False build for Espresso
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Valgrind.hpp the
    following topics are handled:
     - Install version 3.6.0 : DONE
