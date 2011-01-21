@@ -10,12 +10,6 @@ License, or any later version. */
   \brief Plans regarding building of SAT solvers and libraries
 
 
-  \bug False Glucose build
-  <ul>
-   <li> The directory naming-conventions do not follow our standards. </li>
-  </ul>
-
-
   \bug Glucose build error
   <ul>
    <li> On csltok we get
@@ -1086,6 +1080,15 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
   <ul>
    <li> SampleCount and xor-addition:
    http://www.cs.cornell.edu/~sabhar/#software </li>
+  </ul>
+
+
+  \bug DONE (repackaged glucose correctly)
+  False Glucose build
+  <ul>
+   <li> The directory naming-conventions do not follow our standards. </li>
+   <li> In particular glucose uses "_1.0" in it's version number, rather than
+   "_1.0". </li>
   </ul>
 
 */

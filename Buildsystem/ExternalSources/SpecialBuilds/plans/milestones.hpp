@@ -71,7 +71,6 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
    topics are handled:
-    - False Glucose build
     - Glucose build error
     - Add todos for SAT-Race 2010 SAT solvers
     - Fuzzing
@@ -88,6 +87,7 @@ License, or any later version. */
     - Argo
     - Satz
     - Belief and Survey propagation
+    - False Glucose build : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following

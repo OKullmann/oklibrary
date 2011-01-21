@@ -9,7 +9,7 @@ glucose_recommended_version_number_okl ?= 1.0
 glucose_other_versions_okl ?=
 
 glucose_base_name_okl := glucose
-glucose_recommended_okl := $(glucose_base_name_okl)_$(glucose_recommended_version_number_okl)
+glucose_recommended_okl := $(glucose_base_name_okl)-$(glucose_recommended_version_number_okl)
 glucose_base_source_okl := $(ExternalSources)/sources/SAT/Glucose
 glucose_source_okl := $(glucose_base_source_okl)/$(glucose_recommended_okl)
 
