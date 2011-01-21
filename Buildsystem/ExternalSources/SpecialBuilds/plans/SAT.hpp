@@ -73,7 +73,12 @@ collect2: ld returned 1 exit status
 collect2: ld returned 1 exit status
    \endverbatim
    </li>
-   <li> Do we need a newer version of zlib? Or a "multilib"-version? </li>
+   <li> We apparently have the latest version of zlib. Do we need a 
+   "multilib"-version (there doesn't seem to be one)? </li>
+   <li> Compiling zlib with CFLAGS="-m32" makes this error go away, and so it
+   seems a multilib issue, but then if we use this then we will likely get 
+   other errors in other packages that use zlib. </li>
+   <li> Perhaps we should offer a 64-bit and 32-bit zlib? </li>
   </ul>
 
 
