@@ -599,7 +599,8 @@ R> E2[E2[6] == 0,]
    \verbatim
 R>  min(as.data.frame(addmargins(as.matrix(E2)))$Sum)
 [1] 124400
-R> max(head(as.data.frame(addmargins(as.matrix(E2))),n=-1)$Sum)
+R>  max(as.data.frame(addmargins(as.matrix(E2)))$Sum)
+[1] 148212
    \endverbatim
    </li>
   </ul>
