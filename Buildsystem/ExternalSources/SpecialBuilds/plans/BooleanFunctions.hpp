@@ -13,25 +13,6 @@ License, or any later version. */
   the central module regarding boolean functions (and generalisations).
 
 
-  \bug False build for Espresso
-  <ul>
-   <li> The directory names do not follow our standards. </li>
-   <li> In particular, espresso has the package name
-   "espresso-ab-1.0-2.3.tar.gz" and directory names
-   "espresso-ab-1.0", and yet it's executable name is
-   "espresso2.3", all of which are very different. </li>
-   <li> This initial decision was made so as not to change
-   the version information too much from the original (keeping
-   with the authors original version information (1.0)) but adding
-   more reasonable version information at the same time (the
-   version number as printed by the executable). </li>
-   <li> To bring things inline with other packages, espresso
-   should simply be repackaged to "espresso-2.3.tar.bz2" with
-   "espresso-2.3" as the directory name and "espresso2.3" as
-   the executable name. </li>
-  </ul>
-
-
   \todo BDD's
   <ul>
     <li> CUDD http://vlsi.colorado.edu/~fabio/CUDD/ </li>
@@ -148,6 +129,27 @@ ExternalSources/Installations/R> oklib --R
    <li> At the ExternalSources page we need an index-page for the various
    pieces of documentation we have. </li>
    <li> We need to investigate what is in espresso-book-examples.tar.gz. </li>
+  </ul>
+
+
+  \bug DONE (added additional entries to the configuration specific
+  to the source directories)
+  False build for Espresso
+  <ul>
+   <li> The directory names do not follow our standards. </li>
+   <li> In particular, espresso has the package name
+   "espresso-ab-1.0-2.3.tar.gz" and directory names
+   "espresso-ab-1.0", and yet it's executable name is
+   "espresso2.3", all of which are very different. </li>
+   <li> This initial decision was made so as not to change
+   the version information too much from the original (keeping
+   with the authors original version information (1.0)) but adding
+   more reasonable version information at the same time (the
+   version number as printed by the executable). </li>
+   <li> To bring things inline with other packages, espresso
+   should simply be repackaged to "espresso-2.3.tar.bz2" with
+   "espresso-2.3" as the directory name and "espresso2.3" as
+   the executable name. </li>
   </ul>
 
 */
