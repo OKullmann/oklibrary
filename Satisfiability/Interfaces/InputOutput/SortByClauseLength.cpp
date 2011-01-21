@@ -94,12 +94,8 @@ namespace OKlib {
         output_cls_adaptor(cls_adaptor_arg), stored_cls_adaptor() {}
  
       void comment(const string_type& s) { output_cls_adaptor.comment(s); }
-      void n(const int_type pn) { 
-        output_cls_adaptor.n(pn); stored_cls_adaptor.n(pn);
-      }
-      void c(const int_type pc) { 
-        output_cls_adaptor.c(pc); stored_cls_adaptor.c(pc);
-      }
+      void n(const int_type pn) { stored_cls_adaptor.n(pn); }
+      void c(const int_type pc) { stored_cls_adaptor.c(pc); }
 
       void finish() {
         stored_cls_adaptor.finish();
