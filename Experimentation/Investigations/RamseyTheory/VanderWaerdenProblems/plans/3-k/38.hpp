@@ -427,6 +427,24 @@ interrupted; the FlipsPerSecond are likely corrupted.
 1264,1296,1297,1305,1322,1338,1360,1361,1375,1376
    \endverbatim
    </li>
+   <li> n=1378:
+    <ol>
+     <li> adaptg2wsat, cutoff=2*10^6:
+     \verbatim
+  1   2   3   4   5   6   7   8   9 
+  1  69 306 766 653 318  81  15   2 
+2211 
+     \endverbatim
+     </li>
+     <li> adaptg2wsat, cutoff=10^8:
+     \verbatim
+ 1  2  3 
+ 8 24  8 
+40 
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
