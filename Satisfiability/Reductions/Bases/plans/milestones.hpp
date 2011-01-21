@@ -8,15 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Reductions/Bases/plans/milestones.hpp
 
-  \module_version Satisfiability/Reductions/Bases 0.0.8 (20.1.2011)
-
-
-  \par Version 0.0.9
-
-  \par
-   In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
-   are handled:
-    - Create application tests for Bases/RUcpBase.cpp : DONE
+  \module_version Satisfiability/Reductions/Bases 0.0.9 (21.1.2011)
 
 
   \par Version 0.1
@@ -96,6 +88,7 @@ License, or any later version. */
 
    - 0.0.7 : 17.1.2011; initial version number (first implementation of r_1-base-sampling).
    - 0.0.8 : 20.1.2011; Added application tests for RUcpGen.
+   - 0.0.9 : 21.1.2011; Added application tests for RUcpBase and added proof of correctness.
 
 */
 

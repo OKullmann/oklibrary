@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Reductions/plans/milestones.hpp
 
-  \module_version Satisfiability/Reductions 0.0.4.4 (20.1.2011)
+  \module_version Satisfiability/Reductions 0.0.4.5 (21.1.2011)
 
 
   \par Version 0.0.5

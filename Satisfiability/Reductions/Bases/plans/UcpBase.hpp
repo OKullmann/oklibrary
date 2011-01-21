@@ -165,42 +165,4 @@ rand_perm(L);
 
   \todo Create unit-tests for Bases/RUcpGen.cpp
 
-
-  \todo DONE Create application tests for Bases/RUcpBase.cpp
-  <ul>
-   <li> DONE Once adding an assignment to the Ucp-object creates directly a
-   contradiction, this is not cleared, and so it should be possible to create
-   false output in this way?
-   <ul>
-    <li> This isn't possible in RUcpBase, as it is, as when checking if it
-    can add a new clause to the removed list, it adds it to the beginning
-    and first checks that clause. </li>
-    <li> Therefore the only possibility is that the current clause being
-    checked (call it C) contradicts some unit clause U with literal L in the
-    input, and removing C from the clause-set means another clause D,
-    already removed (i.e. later in the removed list), doesn't follow any more.
-    </li>
-    <li> However, if D no longer follows, then C must have been involved
-    in some unit clause propagation when applying phi_D. </li>
-    <li> For C to create a contradiction with U, it must contain L,
-    and therefore, we have two options:
-    <ol>
-     <li> phi_D applied to the clause-list including C involves C propagating 
-     L, in which case we get this anyway from U. </li>
-     <li> Applying phi_D involves propagating on another literal in C, which
-     means that phi_D must set -L, which will invalidate U, and therefore
-     again we get falsehood. </li>
-    </ol>
-    </li>
-    <li> In other words, in any such case, we can actually remove the clause 
-    anyway, as the unit clause that contradicts with removed clause yields
-    the same propagations (i.e. we can always removed such subsumed clauses).
-    </li>
-   </ul>
-   </li>
-   <li> DONE 
-   We need to consider all extreme cases, plus a good mixture of normal
-   cases. </li>
-  </ul>
-
 */
