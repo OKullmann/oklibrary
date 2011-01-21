@@ -226,9 +226,18 @@ The FlipsPerSecond are likely corrupted.
    \endverbatim
    From the saps-family sapsnr seems best. Altogether ddfw and ag2wsat seem
    clearly best. </li>
-   <li> n=1416: ddfw found a solution in run 108 (osteps=1366102,
-   cutoff=2*10^6):
-   \verbatim
+   <li> n=1416:
+    <ol>
+     <li> rots with cutoff=2*10^8
+     \verbatim
+ 2  3  4  5
+ 7 28 36  3
+74
+     \endverbatim
+     </li>
+     <li> ddfw found a solution in run 108 (osteps=1366102,
+     cutoff=2*10^6):
+     \verbatim
 34,47,63,71,93,100,101,112,138,140,
 167,169,204,211,214,228,251,262,266,285,
 293,297,302,317,339,340,373,396,399,404,
@@ -240,7 +249,9 @@ The FlipsPerSecond are likely corrupted.
 1094,1099,1137,1154,1173,1174,1191,1210,1240,1259,
 1261,1296,1304,1316,1322,1329,1335,1337,1338,1375,
 1377,1408,1410
-   \endverbatim
+     \endverbatim
+     </li>
+    </ol>
    </li>
   </ul>
 
