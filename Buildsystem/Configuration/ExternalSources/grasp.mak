@@ -1,5 +1,5 @@
 # Oliver Kullmann, 18.7.2007 (Swansea)
-# Copyright 2008, 2010 Oliver Kullmann
+# Copyright 2008, 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -18,7 +18,7 @@ grasp_base_build_dir_okl ?= $(ExternalSources_builds)/SAT/Grasp
 grasp_build_dir_okl ?= $(grasp_base_build_dir_okl)/$(grasp_recommended_okl)
 
 grasp_base_installation_dir_okl ?= $(ExternalSources_installations)/SAT/Grasp
-grasp_installation_dir_okl ?= $(grasp_base_installation_dir_okl)/$(grasp_recommended_okl)
+grasp_installation_dir_okl ?= $(grasp_base_installation_dir_okl)/$(grasp_recommended_version_number_okl)
 
 grasp_exec_okl ?= sat-grasp
 grasp_call_okl ?= $(grasp_installation_dir_okl)/$(grasp_exec_okl)

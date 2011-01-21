@@ -1,5 +1,5 @@
 # Matthew Gwynne, 31.7.2009 (Swansea)
-# Copyright 2009, 2010 Oliver Kullmann
+# Copyright 2009, 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -17,7 +17,7 @@ picosat_base_build_dir_okl ?= $(ExternalSources_builds)/SAT/Picosat
 picosat_build_dir_okl ?= $(picosat_base_build_dir_okl)/$(picosat_recommended_okl)
 
 picosat_base_installation_dir_okl ?= $(ExternalSources_installations)/SAT/Picosat
-picosat_installation_dir_okl ?= $(picosat_base_installation_dir_okl)/$(picosat_recommended_okl)
+picosat_installation_dir_okl ?= $(picosat_base_installation_dir_okl)/$(picosat_recommended_version_number_okl)
 
 picosat_exec_okl ?= picosat
 picosat_call_okl ?= $(picosat_installation_dir_okl)/$(picosat_exec_okl)

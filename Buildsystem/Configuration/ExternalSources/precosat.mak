@@ -18,7 +18,7 @@ precosat_base_build_dir_okl ?= $(ExternalSources_builds)/SAT/Precosat
 precosat_build_dir_okl ?= $(precosat_base_build_dir_okl)/$(precosat_recommended_okl)
 
 precosat_base_installation_dir_okl ?= $(ExternalSources_installations)/SAT/Precosat
-precosat_installation_dir_okl ?= $(precosat_base_installation_dir_okl)/$(precosat_recommended_okl)
+precosat_installation_dir_okl ?= $(precosat_base_installation_dir_okl)/$(precosat_recommended_version_number_okl)
 
 precosat_exec_okl ?= precosat
 precosat_call_okl ?= $(precosat_installation_dir_okl)/$(precosat_exec_okl)
