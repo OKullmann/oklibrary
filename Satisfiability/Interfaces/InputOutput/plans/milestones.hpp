@@ -32,6 +32,11 @@ License, or any later version. */
     - Add application tests
     - Move AllEqual to OrderConstructions
 
+  \par
+   In Interfaces/InputOutput/RandomShuffleDimacs.cpp the following topics
+   are handled:
+    - Add application tests
+
 
   \par Version 0.1.2 :
 

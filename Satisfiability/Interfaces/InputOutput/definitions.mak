@@ -5,7 +5,7 @@ Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestInputOutput
 
-programs := ExtendedToStrictDimacs ExtendedDimacsStatistics ExtendedDimacsFullStatistics FilterDimacs SortByClauseLength
+programs := ExtendedToStrictDimacs ExtendedDimacsStatistics ExtendedDimacsFullStatistics FilterDimacs SortByClauseLength RandomShuffleDimacs
 
 source_libraries = $(boost_include_option_okl)
 
