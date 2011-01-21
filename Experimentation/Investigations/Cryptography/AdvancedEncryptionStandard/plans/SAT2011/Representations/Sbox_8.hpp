@@ -297,10 +297,20 @@ Error: Impossible to solve the PI chart (too many possible combinations).
     <li> 1 * length 256 clause. </li>
    </ol>
    </li>
-   <li> Using the smallest known Sbox CNF (mincl_rinf = 294) as a starting 
-   point with RUcpGen doesn't seem to yield a small RBase:
+   <li> Using the smallest known Sbox CNF (mincl_rinf = 294, see 
+   "Using weighted MaxSAT to compute small CNFs") with statistics:
    \verbatim
-> RUcpGen-O3-DNDEBUG AES_PK.cnf AES_294.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+cat AES_294.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 294 1939 0 1939 0 1
+ length count
+6 143
+7 127
+8 24
+   \endverbatim
+   as a starting point we get the following bases of size 4788 and 4866:
+   \verbatim
+> RUcpGen-O3-DNDEBUG AES_PK.cnf AES_294.cnf | tee sbox_gen.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
   n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 8629 60248 0 60248 1 1
  length count
@@ -309,8 +319,33 @@ Error: Impossible to solve the PI chart (too many possible combinations).
 7 6060
 8 1188
 9 13
+> seed=1; cat sbox_gen.cnf | RandomShuffleDimacs-O3-DNDEBUG ${seed} | RUcpBase-O3-DNDEBUG | tee AES_base_nosort_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 4788 32748 0 32748 0 1
+ length count
+5 1
+6 1143
+7 3271
+8 369
+9 4
+> seed=1; cat sbox_gen.cnf | RandomShuffleDimacs-O3-DNDEBUG ${seed} | SortByClauseLength-O3-DNDEBUG | RUcpBase-O3-DNDEBUG | tee AES_base_sorted_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 4866 33409 0 33409 0 1
+ length count
+5 1
+6 1071
+7 3378
+8 412
+9 4
    \endverbatim
-   As can be seen above, this is nearly twice as large as mincl_r1. </li>
+   It is interesting in this case that neither using the small representation 
+   to form a generating set, or sorting the clauses before input seem to 
+   result in smaller bases. We need more data here.
+   </li>
+   <li> The smallest known representation (mincl_rinf=294) doesn't seem to use
+   the prime implicate of size 5 (see "Basic Data")? </li>
+   <li> Perhaps we can find a small representation using the clause of size 5
+   and then try and use that to generate a smaller r_1-base? </li>
    <li> DONE (we have now the approach via first computing a generating set)
    The direct computation (via "cat AES_PK.cnf | RandomShuffleDimacs-O3-DNDEBUG | RUcpBase-O3-DNDEBUG")
    of a base takes too long. </li>

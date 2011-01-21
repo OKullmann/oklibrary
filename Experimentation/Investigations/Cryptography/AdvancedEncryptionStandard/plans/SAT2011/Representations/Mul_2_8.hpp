@@ -72,7 +72,7 @@ shell> echo AES_byte_field_mul_full_2.cnf.trans_* | wc -w
    <li> Current minimum clause-count of an r_1-base: 22. </li>
    <li> For the mincl_rinf representations, see "Minimising using hypergraph
    transversal tools". </li>
-   <li> Starting with a generating set, created from scratch:
+   <li> Computing the bases directly:
    \verbatim
 > RandomShuffleDimacs-O3-DNDEBUG 1 < AES_byte_field_mul_2_pi.cnf | RUcpBase-O3-DNDEBUG | ExtendedDimacsFullStatistics-O3-DNDEBUG 
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
