@@ -10,7 +10,8 @@ License, or any later version. */
   \brief On investigations regarding boolean functions
 
 
-  \todo Plans for investigating random boolean functions
+  \todo DONE (see BooleanFunctions.hpp)
+  Plans for investigating random boolean functions
   <ul>
    <li> We need to investigate random boolean functions to
    compare with the AES investigations (see 

@@ -19,7 +19,7 @@ License, or any later version. */
    In Experimentation/Investigations/BooleanFunctions/plans/general.hpp the
    following topics are handled:
     - Add milestones
-    - Plans for investigating random boolean functions
+    - Plans for investigating random boolean functions : DONE
 
   \par
    Further milestones are created.
