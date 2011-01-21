@@ -241,9 +241,9 @@ Error: Impossible to solve the PI chart (too many possible combinations).
   </ul>
 
 
-  \todo r_1-bases : mincl_r1 <= 4739
+  \todo r_1-bases : mincl_r1 <= 4596
   <ul>
-   <li> Current minimum clause-count of an r_1-base: 4739. </li>
+   <li> Current minimum clause-count of an r_1-base: 4596. </li>
    <li> Starting with a generating set, created from scratch:
    \verbatim
 > RUcpGen-O3-DNDEBUG AES_PK.cnf > AES_gen.cnf
@@ -297,9 +297,42 @@ Error: Impossible to solve the PI chart (too many possible combinations).
     <li> 1 * length 256 clause. </li>
    </ol>
    </li>
-   <li> Using the smallest known Sbox CNF (mincl_rinf = 294, see 
-   "Using weighted MaxSAT to compute small CNFs") with statistics:
-   \verbatim
+   <li> Generation from scratch, using a sorted list of prime-clauses:
+    <ol>
+     <li> Sorting the list of prime-clauses yields a shorter generating
+     clause-set (which at least is considerably faster):
+     \verbatim
+> RUcpGen-O3-DNDEBUG AES_PK_sorted.cnf  | tee sbox_gen_from_sorted.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 5883 39850 0 39850 1 1
+ length count
+5 1
+6 1798
+7 3619
+8 461
+9 4
+     \endverbatim
+     </li>
+     <li> A base from that is smaller than what we got above:
+     \verbatim
+> cat sbox_gen_from_sorted.cnf | RUcpBase-O3-DNDEBUG | tee sbox_base_from_sorted.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 4596 31523 0 31523 0 1
+ length count
+5 1
+6 1109
+7 3028
+8 454
+9 4
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> Using the smallest known Sbox CNF (mincl_rinf = 294):
+    <ol>
+     <li> See 
+     "Using weighted MaxSAT to compute small CNFs") with statistics:
+     \verbatim
 cat AES_294.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 294 1939 0 1939 0 1
@@ -307,9 +340,9 @@ cat AES_294.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
 6 143
 7 127
 8 24
-   \endverbatim
-   as a starting point we get the following bases of size 4788 and 4866:
-   \verbatim
+     \endverbatim
+     as a starting point we get the following bases of size 4788 and 4866:
+     \verbatim
 > RUcpGen-O3-DNDEBUG AES_PK.cnf AES_294.cnf | tee sbox_gen.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
   n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 8629 60248 0 60248 1 1
@@ -337,10 +370,13 @@ cat AES_294.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
 7 3378
 8 412
 9 4
-   \endverbatim
-   It is interesting in this case that neither using the small representation 
-   to form a generating set, or sorting the clauses before input seem to 
-   result in smaller bases. We need more data here.
+     \endverbatim
+     It is interesting in this case that neither using the small
+     representation to form a generating set, or sorting the clauses before
+     input seem to result in smaller bases. </li>
+     <li> The basic problem here seems to be the missing sorting when creating
+     the generating clause-set. </li>
+    </ol>
    </li>
    <li> The smallest known representation (mincl_rinf=294) doesn't seem to use
    the prime implicate of size 5 (see "Basic Data")? </li>
