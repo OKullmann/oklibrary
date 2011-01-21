@@ -16,7 +16,7 @@ License, or any later version. */
   \par
    In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
    are handled:
-    - Create application tests for Bases/RUcpBase.cpp
+    - Create application tests for Bases/RUcpBase.cpp : DONE
 
 
   \par Version 0.1
