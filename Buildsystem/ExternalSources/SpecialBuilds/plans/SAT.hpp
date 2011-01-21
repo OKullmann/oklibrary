@@ -163,9 +163,10 @@ c CPU time              : 0 s
   </ul>
 
 
-  \todo CryptoMiniSat
+  \todo CryptoMiniSat : DONE
   <ul>
-   <li> Version 2.9.0.1 asserts:
+   <li> DONE (problem solved with the "official" release 2.9.0)
+   Version 2.9.0.1 asserts:
     <ol>
      <li>
      \verbatim
@@ -300,13 +301,8 @@ Cannot allocate enough memory!
      </li>
     </ol>
    </li>
-   <li> Available at http://www.msoos.org/cryptominisat2 and the winner
-   of the SAT-Race 2010 (see http://baldur.iti.uka.de/sat-race-2010/). 
-   </li>
    <li> DONE
    The newer versions don't use Boost anymore. </li>
-   <li> The Git-repository is
-   http://gitorious.org/cryptominisat/cryptominisat/. </li>
    <li> Wrong version number reporting:
     <ol>
      <li> We still get "This is CryptoMiniSat 2.7.0". </li>
@@ -316,6 +312,25 @@ Cannot allocate enough memory!
      <li> Or has this to do with the versions of the build tools? </li>
     </ol>
    </li>
+   <li> DONE Can be installed like so:
+   \verbatim
+builds/CryptoMiniSat> tar xvf ../../sources/SAT/CryptoMiniSat/cryptominisat-2.7.1.tar.gz
+builds/CryptoMiniSat> cd cryptominisat-2.7.1/
+builds/CryptoMiniSat> ./configure
+builds/CryptoMiniSat> make
+   \endverbatim
+   yielding a binary "cryptominisat" in the same directory.
+   </li>
+  </ul>
+
+
+  \todo Documentation for CryptoMiniSat
+  <ul>
+   <li> Available at http://www.msoos.org/cryptominisat2 and the winner
+   of the SAT-Race 2010 (see http://baldur.iti.uka.de/sat-race-2010/). 
+   </li>
+   <li> The Git-repository is
+   http://gitorious.org/cryptominisat/cryptominisat/. </li>
    <li> Installing newer versions, directly from the Git repository:
     <ol>
      <li> To create the package, newer versions of the auto-tools are needed.
@@ -331,15 +346,6 @@ Cannot allocate enough memory!
      \endverbatim
      </li>
     </ol>
-   </li>
-   <li> DONE Can be installed like so:
-   \verbatim
-builds/CryptoMiniSat> tar xvf ../../sources/SAT/CryptoMiniSat/cryptominisat-2.7.1.tar.gz
-builds/CryptoMiniSat> cd cryptominisat-2.7.1/
-builds/CryptoMiniSat> ./configure
-builds/CryptoMiniSat> make
-   \endverbatim
-   yielding a binary "cryptominisat" in the same directory.
    </li>
   </ul>
 

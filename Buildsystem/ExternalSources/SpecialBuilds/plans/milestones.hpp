@@ -73,6 +73,7 @@ License, or any later version. */
    topics are handled:
     - False Glucose build
     - Glucose build error
+    - Glucose
     - Add todos for SAT-Race 2010 SAT solvers
     - Fuzzing
     - Write docus for March
@@ -88,6 +89,7 @@ License, or any later version. */
     - Argo
     - Satz
     - Belief and Survey propagation
+    - CryptoMiniSat : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
@@ -162,6 +164,10 @@ License, or any later version. */
    the following topics are handled:
     - Improve documentation for Espresso
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
+   topics are handled:
+    - Documentation for CryptoMiniSat
 
 
   \par Version 0.2.6 (completion of general services, and installing SAT)
