@@ -73,7 +73,28 @@ rand_perm(L);
        <li> The above algorithm rand_perm is implemented as ::random_shuffle in
        Satisfiability/Reductions/Bases/RandomShuffle.cpp. </li>
        <li> It differs from the result of std::random_shuffle. </li>
-       <li> Ask on the Boost mailing list. </li>
+       <li> The code for std::random_shuffle seems to use a slightly different
+       algorithm (from libstdc++-3.0 at 
+       http://mirrors-us.seosue.com/gcc/libstdc++/old-releases/libstdc++-3.0.tar.gz - 
+       include/bits/stl_algo.h):
+       \verbatim
+template <class _RandomAccessIter, class _RandomNumberGenerator>
+void random_shuffle(_RandomAccessIter __first, _RandomAccessIter __last,
+                    _RandomNumberGenerator& __rand)
+{ 
+  // concept requirements
+  __glibcpp_function_requires(_Mutable_RandomAccessIteratorConcept<
+        _RandomAccessIter>);
+
+  if (__first == __last) return;
+  for (_RandomAccessIter __i = __first + 1; __i != __last; ++__i)
+    iter_swap(__i, __first + __rand((__i - __first) + 1));
+}
+       \endverbatim
+       Is this still uniformly distributed?
+       </li>
+       <li> Steven Watanabe on the boost mailing list claims 
+       std::random_shuffle is not standardised. </li>
       </ol>
      </li>
      <li> And then we need to simulate the Maxima random-generator.
@@ -81,8 +102,43 @@ rand_perm(L);
        <li> The Boost documentation doesn't say anything how to construct the
        distribution-object, so that out of that all the random_number_generator
        in the sensible way is generated? Ask on the mailing list. </li>
-       <li> Then it is completely unclear how in Maxima out of "MT 19937"
-       a random integer is constructed. Ask on the Maxima mailing list. </li>
+       <li> According to "Steven Watanabe" on the boost mailing list, one can
+       simply pass boost::mt19937 directly to random_number_generator. This 
+       works and yields the same results as when using uniform_distribution. 
+       </li>
+       <li> It is still not clear how either boost::random_number_generator or
+       boost::uniform_distribution maps the full integer range into 1 to n. 
+       There doesn't seem to be any real description of this at
+       http://www.boost.org/doc/libs/1_45_0/doc/html/boost_random/reference.html#boost_random.reference.concepts.uniform_random_number_generator .
+       </li>
+       <li> MG has asked further on the mailing list. </li>
+       <li> The code for Maxima's random number generation is in 
+       ExternalSources/builds/Maxima/ecl/maxima-5.21.1/src/rand-mt19937.lisp,
+       but it is completely unclear how in Maxima out of "MT 19937"
+       a random integer is constructed. The lisp code isn't easy to 
+       understand:
+       \verbatim
+(defun %random-integer (arg state)
+  "Generates an integer greater than or equal to zero and less than Arg.
+  Successive chunks are concatenated without overlap to construct integers
+  larger than a single chunk. The return value has this property:
+  If two integers are generated from the same state with Arg equal to 2^m and 2^n,
+  respectively, then bit k is the same in both integers for 0 <= k < min(m,n).
+  Each call to %RANDOM-INTEGER consumes at least one chunk; bits left over
+  from previous chunks are not re-used."
+  (declare (type (integer 1) arg) (type random-state state))
+    (do*
+      ((nchunks (ceiling (integer-length (1- arg)) random-chunk-length) (1- nchunks))
+        (new-bits 0 (random-chunk state))
+        (bits 0 (logior bits (ash new-bits shift)))
+        (shift 0 (+ shift random-chunk-length)))
+      ((= 0 nchunks)
+        (rem bits arg))))
+       \endverbatim
+       </li>
+       <li> MT19937 doesn't seem to specify how one maps the values it 
+       produces to another integer range, and so likely this isn't 
+       standardised. </li>
       </ol>
      </li>
      <li> Perhaps for now we just use examples with a unique base.
