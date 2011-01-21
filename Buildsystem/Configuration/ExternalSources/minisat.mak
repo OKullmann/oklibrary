@@ -9,8 +9,35 @@
 
 minisat_base_build_dir_okl ?= $(ExternalSources_builds)/SAT/Minisat
 minisat_base_installation_dir_okl ?= $(ExternalSources_installations)/SAT/Minisat
+minisat_base_doc_dir_okl ?= $(ExternalSources_doc)/SAT/Minisat
 
-# The "new" Minisat
+
+# The new Minisat
+
+minisat_recommended_version_number_okl ?= 2.2.0
+minisat_other_versions_okl ?= 
+
+minisat_base_name_okl := minisat
+minisat_recommended_okl := $(minisat_base_name_okl)-$(minisat_recommended_version_number_okl)
+minisat_base_source_okl := $(ExternalSources)/sources/SAT/MiniSat
+minisat_source_okl := $(minisat_base_source_okl)/$(minisat_recommended_okl)
+
+minisat_build_dir_okl ?= $(minisat_base_build_dir_okl)/$(minisat_recommended_okl)
+
+minisat_installation_dir_okl ?= $(minisat_base_installation_dir_okl)/$(minisat_recommended_version_number_okl)
+
+minisat_call_okl ?= $(minisat_installation_dir_okl)/minisat
+minisat_public_call_okl ?= $(minisat_recommended_okl)
+
+minisat_doc_dir_okl ?= $(minisat_base_doc_dir_okl)/$(minisat_recommended_okl)
+minisat_docu_page_okl ?= $(doc_dir)/doxygen_html/
+
+minisat_homepage_url_okl := http://minisat.se/MiniSat.html
+minisat_documentation_url_okl := 
+minisat_git_url_okl := https://github.com/niklasso/minisat
+
+
+# Minisat version 2.0
 
 minisat2_recommended_version_number_okl ?= 070721
 minisat2_other_versions_okl ?= 2.2.0
@@ -26,9 +53,6 @@ minisat2_docu_page_okl ?= $(doc_dir)/doxygen_html/
 
 minisat2_source_okl := $(ExternalSources)/sources/SAT/MiniSat/$(minisat2_extracted_archive_okl)2-$(minisat2_recommended_version_number_okl)
 
-minisat_homepage_url_okl := http://minisat.se/MiniSat.html
-minisat_documentation_url_okl := 
-minisat_git_url_okl := https://github.com/niklasso/minisat
 
 
 # The pseudo-boolean solver

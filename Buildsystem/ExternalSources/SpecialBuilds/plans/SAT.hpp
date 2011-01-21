@@ -114,7 +114,7 @@ c CPU time              : 0 s
   <ul>
    <li> Mention the patched makefile regarding minisat+, and the usage of the
    locally provided GMP. </li>
-   <li> See "Minisat" below
+   <li> See "Minisat" below. </li>
   </ul>
 
 
