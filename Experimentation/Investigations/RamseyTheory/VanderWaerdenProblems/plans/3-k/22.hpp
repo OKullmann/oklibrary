@@ -127,6 +127,9 @@ License, or any later version. */
      \endverbatim
      With cutoff=8*10^6:
      \verbatim
+ 1  2  3 
+25 72  3 
+100 
      \endverbatim
      </li>
     </ol>
