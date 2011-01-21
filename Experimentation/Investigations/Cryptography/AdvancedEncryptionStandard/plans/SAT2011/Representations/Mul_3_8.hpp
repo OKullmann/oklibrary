@@ -121,7 +121,17 @@ shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 5000000 -i AES_byte_field_mul_
 5 32
    \endverbatim
    </li>
-   <li> Is there exactly one r_1-base here?! </li>
+   <li> Each of these runs yields the same r_1 base:
+   \verbatim
+> sort AES_byte_field_mul_bases_1.cnf > AES_byte_field_mul_bases_1_sorted    
+> sort AES_byte_field_mul_bases_2.cnf > AES_byte_field_mul_bases_2_sorted
+> sort AES_byte_field_mul_bases_3.cnf > AES_byte_field_mul_bases_3_sorted
+> diff AES_byte_field_mul_bases_1_sorted AES_byte_field_mul_bases_2_sorted 
+> diff AES_byte_field_mul_bases_3_sorted AES_byte_field_mul_bases_2_sorted 
+> diff AES_byte_field_mul_bases_3_sorted AES_byte_field_mul_bases_1_sorted
+   \endverbatim
+   </li>
+   <li> Is this r_1-base unique?!?! </li>
   </ul>
 
 */
