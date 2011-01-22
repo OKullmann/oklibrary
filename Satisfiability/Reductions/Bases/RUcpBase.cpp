@@ -50,7 +50,7 @@ namespace {
   const std::string program = "RUcpBase";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.1";
+  const std::string version = "0.1.1";
 
 }
 
