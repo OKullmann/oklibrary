@@ -41,6 +41,12 @@ The following software needs to be installed:
    (check: run "makeinfo --version")
  - zip
    (check: run "zip -h")
+ - GNU tar
+  (check: run "tar --version")
+ - GNU ranlib
+  (check: run "ranlib --version")
+ - perl
+  (check: run "perl --version")
 
  - readline (development library).
  - glibc (development library).
@@ -74,7 +80,6 @@ And for installing and using Git we need the following:
  - openssl
  - wish (as part of the Tcl/Tk system)
  - ssh
- - perl
  - curl, and expat development library (for pulling/pushing from/to 
    a git repository via the http protocol).
 
@@ -202,16 +207,17 @@ actions):
 
 2) The C++ library Boost is installed locally (using the local gcc).
 
-3) The Gmp library is installed locally.
+3) The Gmp and Mpfr libraries are installed locally.
 
 4) The Maxima/Lisp computer-algebra-system is installed (by "oklib allmaxima",
 which installs further software needed).
 
-5) Further computer algebra systems installed are Gap and R.
+5) Further computer algebra systems installed are Gap, R and Sage.
 
-6) The SAT solver installed by default are Ubcsat, minisat2, minisat+, 
- march_pl, satz215, survey_propagation, sat-grasp. picosat913,
- precosat236, precosat-570 and the argosat solver (and library).
+6) The SAT solver installed by default are Ubcsat, minisat2, minisat-2.2.0, 
+ minisat+, march_pl, satz215, survey_propagation, sat-grasp. picosat913,
+ precosat236, precosat-570, the argosat solver (and library), cryptominisat,
+ and glucose.
 (The OKlibrary itself provides yet only OKsolver_2002_O3-DNDEBUG.)
 
 7) The only tool installed yet for handling boolean functions is Espresso.
