@@ -34,16 +34,16 @@ License, or any later version. */
 
   <h2> Computing r_1 bases </h2>
 
-  To compute an r_1-base for a clause-set given in F.cnf, one runs
+  To compute an r_1-base for a clause-set given in <code>F.cnf</code>, one runs
   \verbatim
 > RUcpBase-O3-DNDEBUG < F.cnf > Base.cnf
   \endverbatim
-  which outputs the resulting base to Base.cnf.
+  which outputs the resulting base to <code>Base.cnf</code>.
   
   
   <h3> Correctness of RUcpBase </h3>
 
-  The unit-clause-propagation object used in RUcpBase will return
+  The unit-clause-propagation object used in <code>RUcpBase</code> will return
   true (i.e. it has found the empty clause) for all assignments given to
   it after any assignment conflicts with a unit-clause in the input.
 
