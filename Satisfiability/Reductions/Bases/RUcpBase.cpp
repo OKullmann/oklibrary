@@ -23,16 +23,6 @@ License, or any later version. */
 #include <list>
 #include <string>
 #include <iostream>
-#include <cassert>
-#include <sstream>
-#include <limits>
-#include <algorithm>
-
-#include <boost/lexical_cast.hpp>
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/uniform_int.hpp>
-#include <boost/random/variate_generator.hpp>
-#include <boost/random/random_number_generator.hpp>
 
 #include <OKlib/Satisfiability/ProblemInstances/Literals/TrivialLiterals.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
