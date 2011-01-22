@@ -71,6 +71,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
    topics are handled:
+    - Improvements of CryptoMiniSat
     - False Glucose build
     - Glucose build error
     - Glucose

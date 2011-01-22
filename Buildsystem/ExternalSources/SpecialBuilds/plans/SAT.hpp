@@ -10,6 +10,33 @@ License, or any later version. */
   \brief Plans regarding building of SAT solvers and libraries
 
 
+  \todo Improvements of CryptoMiniSat
+  <ul>
+   <li> Learned clauses:
+    <ol>
+     <li> It seems for our applications information about short learned clauses
+     as well as obtaining the clauses themselves is most important. </li>
+     <li> So one option "showsizelearnt=k" enables showing the number of
+     learned clauses up to size k. </li>
+     <li> While the option "savelearnt=filename" enables saving all learned
+     clauses of size up to k to a file (in the order as the come, stored
+     immediately and with output-flushing). </li>
+     <li> Ask on the CryptoMiniSat mailing list. </li>
+    </ol>
+   </li>
+   <li> Wrapper:
+    <ol>
+     <li> Perhaps we should write a cryptominisat-wrapper, which has default
+     options "dumplearnts=filename_learned.cnf" and "maxdumplearnts=3". </li>
+     <li> Shall this wrapper replace cryptominisat? For that we needed to be
+     able to get rid off the additional options. </li>
+    </ol>
+   </li>
+   <li> At this occasion one might also learn whether "learned" or "learnt"
+   is better. </li>
+  </ul>
+
+
   \bug False Glucose build
   <ul>
    <li> The directory naming-conventions do not follow our standards. </li>
