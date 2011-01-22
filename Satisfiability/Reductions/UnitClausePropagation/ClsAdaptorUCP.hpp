@@ -392,6 +392,7 @@ namespace OKlib {
 
           //! returns true if contradicting unit-clauses were found
           bool contradicting_uclause() const { return contradicting_ucl; }
+          bool& contradicting_uclause() { return contradicting_ucl; }
 
           /*!
             \brief returns false if assignment not successful due to opposite
