@@ -24,10 +24,9 @@ License, or any later version. */
    "*" is the operator for the application of partial assignments. </li>
   </ul>
 
-  A simple algorithm to compute such an r-base (not necessarily a minimal
+  A simple algorithm to compute such an r-base (not necessarily a minimum
   one) is to go through all clauses C of F and check whether after
-  removing C, all of clauses removed so far still follow by r (as any clauses
-  we keep follow trivially).
+  removing C, all clauses removed so far still follow by r.
   
   This algorithm is presented for r_1, i.e. "unit-clause-propagation" in
   Satisfiability/Reductions/Bases/RUcpBase.cpp .
