@@ -7,10 +7,10 @@ License, or any later version. */
 
 /*!
   \file Satisfiability/Reductions/Bases/docus/RUcpBase.hpp
-  \brief Docus file for the r_1-base generator at the C++ level
+  \brief Docus file for r_1-base computations at the C++ level
 
 
-  <h1> Generating r_1 bases (in C++) </h1>
+  <h1> Computing r_1 bases (in C++) </h1>
 
   <h2> Basic definitions </h2>
 
@@ -20,7 +20,7 @@ License, or any later version. */
   here that phi_C is the partial assignment associated with the clause C and
   "*" is the operator for the application of partial assignments.
 
-  A simple algorithm to generate such an r-base (not necessarily a minimal
+  A simple algorithm to compute such an r-base (not necessarily a minimal
   one) is to go through all clauses C of F and check whether after
   removing C, all of clauses removed so far still follow by r (as any clauses
   we keep follow trivially).
@@ -29,9 +29,9 @@ License, or any later version. */
   Satisfiability/Reductions/Bases/RUcpBase.cpp .
 
 
-  <h2> Generating r_1 bases </h2>
+  <h2> Computing r_1 bases </h2>
 
-  To generate an r_1-base for a clause given in base.cnf, one runs:
+  To compute an r_1-base for a clause given in base.cnf, one runs:
   \verbatim
 > RUcpBase-O3-DNDEBUG < test.cnf > test_base.cnf
   \endverbatim
