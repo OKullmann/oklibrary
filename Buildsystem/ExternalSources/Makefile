@@ -1,5 +1,5 @@
 # Oliver Kullmann, 13.6.2005 (Swansea)
-# Copyright 2005-2008, 2009, 2010 Oliver Kullmann
+# Copyright 2005-2008, 2009, 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -33,11 +33,12 @@ export
 
 .PHONY : $(global_targets_extsrc_okl) 
 
-all : compilers libraries math sat boolean buildsystem 
-	echo "YET INCOMPLETE."
+all : compilers libraries math sat boolean buildsystem math2
+
 compilers : $(compiler_targets_extsrc_okl)
 libraries : $(library_targets_extsrc_okl)
 math : $(math_targets_extsrc_okl)
+math2 : $(math2_targets_extsrc_okl)
 sat : $(sat_targets_extsrc_okl)
 boolean : $(boolean_targets_extsrc_okl)
 buildsystem : $(buildsystem_targets_extsrc_okl)

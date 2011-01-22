@@ -7,12 +7,13 @@
 
 # Configuration variables regarding installation and documentation of external sources
 
-global_targets_extsrc_okl ?= all clean cleanall update math buildsystem libraries compilers sat boolean
+global_targets_extsrc_okl ?= all clean cleanall update math buildsystem libraries compilers sat boolean math2
 
 buildsystem_targets_extsrc_okl ?= doxygen git
 compiler_targets_extsrc_okl ?= gcc412 gcc
 library_targets_extsrc_okl ?= bzip2 boost gmp bzip2412 boost412 gmp412 mpfr zlib # mhash
-math_targets_extsrc_okl ?= allmaxima gap R # sage
+math_targets_extsrc_okl ?= allmaxima gap R
+math2_targets_extsrc_okl ?= sage
 sat_targets_extsrc_okl ?= ubcsat minisat march satz sp grasp picosat precosat argosat cryptominisat glucose
 boolean_targets_extsrc_okl ?= espresso
 # Dependencies between these external sources:

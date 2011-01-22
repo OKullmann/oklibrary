@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.8.2007 (Swansea)
-/* Copyright 2007, 2009 Oliver Kullmann
+/* Copyright 2007, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,12 +15,13 @@ License, or any later version. */
 
   <h2> On the purpose of Sage </h2>
 
-  Sage is a computer-algebra platform for uniform access to several platform.
+  Sage is a computer-algebra platform with uniform access to several platform.
   <ul>
-   <li> If necessary, we use it besides Maxima and Axiom/Aldor. </li>
-   <li> Though we have some troubles with it (at various levels). </li>
-   <li> Currently, we actually do not use it, and perhaps we drop support
-   for it in the future. </li>
+   <li> If necessary, we use it besides Maxima (and our other systems). </li>
+   <li> Though we strongly prefer to directly use the various underlying
+   systems. </li>
+   <li> Thus we only use original Sage-functionality, not the interfaces to
+   other systems (except for trying things out). </li>
   </ul>
 
 

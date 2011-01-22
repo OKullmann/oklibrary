@@ -1,5 +1,5 @@
 # Matthew Henderson, 21.7.2007 (Swansea)
-# Copyright 2007, 2008, 2009 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -10,7 +10,7 @@
 # ################################## 
 
 
-sage_directories_okl := $(sage_base_installation_dir_okl) $(sage_base_doc_dir_okl) $(sage_doc_dir_okl)
+sage_directories_okl := $(sage_base_installation_dir_okl) $(sage_datadir_okl)
 
 .PHONY : sage cleanallsage
 
@@ -23,11 +23,13 @@ $(sage_directories_okl) : % :
 
 sage : $(sage_directories_okl)
 	$(call unarchive_uncompressed,$(sage_source_okl),$(sage_base_installation_dir_okl))
-	cd $(sage_installation_dir_okl); ls; $(postcondition) \
-	make; $(postcondition) \
+	cd $(sage_base_installation_dir_okl); $(postcondition) \
+	mv $(sage_recommended_okl) $(sage_recommended_version_number_okl); $(postcondition)
+	cd $(sage_installation_dir_okl); $(postcondition) \
+	DOT_SAGE=$(sage_datadir_okl) make; $(postcondition) \
 	make test; $(postcondition) \
-	cat ./sage | awk '$$1 ~ /SAGE_ROOT=/ {print "SAGE_ROOT=\"$(sage_installation_dir_okl)\""}; $$1 !~ /SAGE_ROOT=/ {print}' > ./sage; $(postcondition)
 	ln -s --force $(sage_call_okl) $(public_bin_dir_okl)/sage
+
 
 # #################################
 # Cleaning

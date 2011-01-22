@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.7.2007 (Swansea)
-/* Copyright 2007, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,7 +14,8 @@ License, or any later version. */
   <ul>
    <li> Version 4.6:
     <ol>
-     <li> On cs-wsok (Suse 10.0):
+     <li> DONE (we will update the operating system)
+     On cs-wsok (Suse 10.0):
      \verbatim
 /usr/local/lib/../lib/libstdc++.so: could not read symbols: File in wrong format
 collect2: ld returned 1 exit status
@@ -50,19 +51,22 @@ sage: An error occurred while installing readline-6.0.p4
      development version of Sage at 
      http://sage.math.washington.edu/home/release/sage-4.6.1.alpha3/sage-4.6.1.alpha3.tar .
      </li>
-     <li> On csltok (Suse 11.3): Here finally the installation succeeds,
+     <li> DONE (using DOT_SAGE)
+     On csltok (Suse 11.3): Here finally the installation succeeds,
      however Sage installs a directory .sage in the home directory, and
      this we must avoid! We need to move this data-directory to the
      installation directory. (One could redefine HOME for the installation.)
      </li>
-     <li> Sage allows one to change the ".sage" directory using the "DOT_SAGE"
+     <li> DONE
+     Sage allows one to change the ".sage" directory using the "DOT_SAGE"
      environment variable either during the build process (setting the 
      default) or when running Sage. See "DOT_SAGE" on 
      http://www.sagemath.org/doc/installation/source.html for information on
      building Sage using this variable. </li>
     </ol>
    </li>
-   <li> Version 4.5.3:
+   <li> DONE (using 4.6)
+   Version 4.5.3:
     <ol>
      <li> On csltok (Suse 11.3, 64bit Intel i5) we get the error
      \verbatim
@@ -107,8 +111,10 @@ sage: An error occurred while installing libfplll-3.0.12.p0
    \endverbatim
    </li>
    <li> Let's wait whether over time the situation improves. </li>
-   <li> Still not corrected with Sage 4.2.1. </li>
-   <li> Same with version 4.4.1:
+   <li> DONE
+   Still not corrected with Sage 4.2.1. </li>
+   <li> DONE
+   Same with version 4.4.1:
    \verbatim
 /bin/sh ./libtool --tag=CXX --mode=link g++  -fPIC -I/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/include/ -L/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib   -o libfplll.la -rpath /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib -version-info 1:0:1 dummy.lo -lgmp -lmpfr -lmpfr -lgmp -lmpfr -lgmp
 g++ -shared -nostdlib /usr/lib/../lib64/crti.o /usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.1.2/crtbeginS.o  .libs/dummy.o  -Wl,--rpath -Wl,/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib -Wl,--rpath -Wl,/usr/local/lib/../lib -Wl,--rpath -Wl,/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib -Wl,--rpath -Wl,/usr/local/lib/../lib -L/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib/libmpfr.so /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Sage/sage-4.4.1/local/lib/libgmp.so -L/usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.1.2 -L/usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.1.2/../../../../x86_64-unknown-linux-gnu/lib -L/usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.1.2/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 /usr/local/lib/../lib/libstdc++.so -lm -lc -lgcc_s /usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.1.2/crtendS.o /usr/lib/../lib64/crtn.o  -Wl,-soname -Wl,libfplll.so.0 -o .libs/libfplll.so.0.1.0
@@ -124,7 +130,8 @@ make[4]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSo
    any form. </li>
    <li> MG has sent a message to the list asking what the problem
    could be with the above error. </li>
-   <li> So it seems best to drop support for Sage; or just use packages
+   <li> DONE (hopefully from 4.6 on we can work it out)
+   So it seems best to drop support for Sage; or just use packages
    which install without further efforts.
     <ol>
      <li> Perhaps this is best: 2.7.2 is installing fine (apparently),
@@ -133,10 +140,12 @@ make[4]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSo
      <li> Same error with 3.0, 2.11. </li>
     </ol>
    </li>
-   <li> If we would continue with Sage, then we need to update the
+   <li> DONE
+   If we would continue with Sage, then we need to update the
    documentation files (apparently in the doc-subdirectory of the
    installation directory). </li>
-   <li> Yet I have removed Sage from the list of external sources installed
+   <li> DONE (enabled again)
+   Yet I have removed Sage from the list of external sources installed
    by "all"; if we include it again, then we have to add to README the
    following:
    \verbatim
