@@ -27,6 +27,18 @@ License, or any later version. */
    one run possibly didn't find a solution). </li>
    <li> n=455, gsat-tabu, cutoff=10^8: in 3 runs one solution was found
    (seed=638321166, osteps=8804984). </li>
+   <li> n=458:
+    <ol>
+     <li> ddfw, cutoff=8*10^6:
+     \verbatim
+ 1  2 
+80 20 
+100 
+     \endverbatim
+     Looks good, but doesn't find a solution?
+     </li>
+    </ol>
+   </li>
    <li> n=460, gsat-tabu, cutoff=10^8: in 300 runs one solution was found
    (seed=3944359483, osteps=7057558):
    \verbatim
@@ -227,7 +239,13 @@ segmentation faults for saps, rsaps, sapsnr
     <ol>
      <li> n=464: unsat, 217593s. </li>
      <li> n=463: unsat, 15421s. </li>
-     <li> n=445: unsat, 23965.s</li>
+     <li> n=445: unsat, 23965s. </li>
+    </ol>
+   </li>
+   <li> cryptominisat version 2.9.0:
+    <ol>
+     <li> n=463: unsat, 47212s (csltok, high load, so possibly slow). </li>
+     <li> n=445: ?sat, s. </li>
     </ol>
    </li>
    <li>  "RunPdVdW3k 22 23 464 gsat-tabu 100 2000000": alle 1<=n<=444 sat,
