@@ -35,7 +35,7 @@ namespace {
 
   const std::string program = "RUcpBase";
 
-  const std::string version = "0.1.1";
+  const std::string version = "0.1.2";
 
 }
 
