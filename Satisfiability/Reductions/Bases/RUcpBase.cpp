@@ -43,10 +43,7 @@ License, or any later version. */
 
 namespace {
 
-  enum { errcode_parameter = 1, errcode_parameter_value = 2 };
-        
   const std::string program = "RUcpBase";
-  const std::string err = "ERROR[" + program + "]: ";
 
   const std::string version = "0.1.1";
 
