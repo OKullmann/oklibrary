@@ -39,46 +39,5 @@ License, or any later version. */
 > RUcpBase-O3-DNDEBUG < F.cnf > Base.cnf
   \endverbatim
   which outputs the resulting base to <code>Base.cnf</code>.
-  
-  
-  <h3> Correctness of RUcpBase </h3>
-
-  The unit-clause-propagation object used in <code>RUcpBase</code> will return
-  true (i.e., it has found the empty clause) for all assignments given to
-  it after any assignment conflicts with a unit-clause in the input.
-
-  This makes it seem like there is the possibility for false output, as
-  one might have a clause in the input which causes this behaviour, and
-  then some other clause, shouldn't be removable but is as the Ucp object
-  returns the wrong value.
-
-  However, this is not the case as:
-  <ul> 
-   <li> When checking if it can add a new clause to the removed clause list, 
-   it adds it to the beginning and checks that clause first to see if it 
-   follows. </li>
-   <li> Therefore the only possibility is that the current clause being
-   checked (call it C) contradicts some unit-clause U with literal L in the
-   input, and removing C from the clause-set means another clause D,
-   already removed (i.e., later in the removed list), doesn't follow any more.
-   </li>
-   <li> However, if D no longer follows, then C must have been involved
-   in some unit-clause propagation when applying phi_D. </li>
-   <li> For C to create a contradiction with U, it must contain L,
-   and therefore, we have two options:
-   <ol>
-    <li> phi_D applied to the clause-list including C involves C propagating 
-    L, in which case we get this anyway from U. </li>
-    <li> Applying phi_D involves propagating on another literal in C, which
-    means that phi_D must set -L, which will invalidate U, and therefore
-    again we get falsehood. </li>
-   </ol>
-   </li>
-   <li> In other words, in any such case, we can actually remove the clause 
-   anyway, as the unit-clause that contradicts with removed clause yields
-   the same propagations (i.e., we can always removed such subsumed clauses).
-   </li>
-  </ul>
-  
 
 */

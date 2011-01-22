@@ -14,6 +14,12 @@ License, or any later version. */
   input-resolution.
 
 
+  \bug Testcase Intransitive2 fails
+  <ul>
+   <li> Failure as predicted by OK, while todo falsely removed by MG. </li>
+  </ul>
+
+
   \todo Random r_1-bases
   <ul>
    <li> DONE

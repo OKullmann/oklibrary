@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
    are handled:
+    - Testcase Intransitive2 fails
     - Shuffling and sorting
     - Random r_1-bases
 
