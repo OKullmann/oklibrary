@@ -52,7 +52,7 @@ namespace {
 
 }
 
-int main(const int argc, const char* const argv[]) {
+int main() {
 
   typedef OKlib::Literals::Literals_int literal_type;
   typedef std::vector<literal_type> clause_type;
