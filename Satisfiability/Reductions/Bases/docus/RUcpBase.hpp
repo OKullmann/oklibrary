@@ -12,7 +12,7 @@ License, or any later version. */
 
   <h1> Generating r_1 bases (in C++) </h1>
 
-  <h2> Basic idea </h2>
+  <h2> Basic definitions </h2>
 
   Given a reduction r and a clause-set F, an r-base of F is a sub-clause-set 
   F' of F where all the clauses of F follow from those in F' by r, i.e., that
@@ -38,7 +38,7 @@ License, or any later version. */
   and the resultant base will be output to test_base.cnf.
   
   
-  <h2> Correctness of RUcpBase </h2>
+  <h3> Correctness of RUcpBase </h3>
 
   The unit clause propagation object used in RUcpBase will return
   true (i.e. it has found the empty clause) for all assignments given to
