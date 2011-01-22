@@ -25,7 +25,7 @@ License, or any later version. */
   removing C, all of clauses removed so far still follow by r (as any clauses
   we keep follow trivially).
   
-  This algorithm is presented for r_1, i.e. "unit clause propagation" in
+  This algorithm is presented for r_1, i.e. "unit-clause-propagation" in
   Satisfiability/Reductions/Bases/RUcpBase.cpp .
 
 
@@ -40,9 +40,9 @@ License, or any later version. */
   
   <h3> Correctness of RUcpBase </h3>
 
-  The unit clause propagation object used in RUcpBase will return
+  The unit-clause-propagation object used in RUcpBase will return
   true (i.e. it has found the empty clause) for all assignments given to
-  it after any assignment conflicts with a unit clause in the input.
+  it after any assignment conflicts with a unit-clause in the input.
 
   This makes it seem like there is the possibility for false output, as
   one might have a clause in the input which causes this behaviour, and
@@ -55,12 +55,12 @@ License, or any later version. */
    it adds it to the beginning and checks that clause first to see if it 
    follows. </li>
    <li> Therefore the only possibility is that the current clause being
-   checked (call it C) contradicts some unit clause U with literal L in the
+   checked (call it C) contradicts some unit-clause U with literal L in the
    input, and removing C from the clause-set means another clause D,
    already removed (i.e. later in the removed list), doesn't follow any more.
    </li>
    <li> However, if D no longer follows, then C must have been involved
-   in some unit clause propagation when applying phi_D. </li>
+   in some unit-clause propagation when applying phi_D. </li>
    <li> For C to create a contradiction with U, it must contain L,
    and therefore, we have two options:
    <ol>
@@ -72,7 +72,7 @@ License, or any later version. */
    </ol>
    </li>
    <li> In other words, in any such case, we can actually remove the clause 
-   anyway, as the unit clause that contradicts with removed clause yields
+   anyway, as the unit-clause that contradicts with removed clause yields
    the same propagations (i.e. we can always removed such subsumed clauses).
    </li>
   </ul>
