@@ -34,11 +34,11 @@ License, or any later version. */
 
   <h2> Computing r_1 bases </h2>
 
-  To compute an r_1-base for a clause given in base.cnf, one runs:
+  To compute an r_1-base for a clause-set given in F.cnf, one runs
   \verbatim
-> RUcpBase-O3-DNDEBUG < test.cnf > test_base.cnf
+> RUcpBase-O3-DNDEBUG < F.cnf > Base.cnf
   \endverbatim
-  and the resultant base will be output to test_base.cnf.
+  which outputs the resulting base to Base.cnf.
   
   
   <h3> Correctness of RUcpBase </h3>
