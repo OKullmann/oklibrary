@@ -405,7 +405,9 @@ namespace OKlib {
             if (not success) contradicting_ucl = true;
             return success;
           }
+          //! needs to take care of contradicting_uclause()
           void clear_assignments() { f.clear(); }
+          //! needs to take care of contradicting_uclause()
           void set_assignments(const assignment_type& fnew) { f = fnew; }
 
 
