@@ -28,8 +28,8 @@ License, or any later version. */
   one) is to go through all clauses C of F and check whether after
   removing C, all clauses removed so far still follow by r.
   
-  This algorithm is presented for r_1, i.e. "unit-clause-propagation" in
-  Satisfiability/Reductions/Bases/RUcpBase.cpp .
+  This algorithm is presented for r_1, i.e. "unit-clause-propagation", in
+  Satisfiability/Reductions/Bases/RUcpBase.cpp.
 
 
   <h2> Computing r_1 bases </h2>
