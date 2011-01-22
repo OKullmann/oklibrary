@@ -14,11 +14,15 @@ License, or any later version. */
 
   <h2> Basic definitions </h2>
 
-  Given a reduction r and a clause-set F, an r-base of F is a sub-clause-set 
-  F' of F where all the clauses of F follow from those in F' by r, i.e., that
-  for all C in F, we have that r(phi_C * F') contains the empty clause. Note 
-  here that phi_C is the partial assignment associated with the clause C and
-  "*" is the operator for the application of partial assignments.
+  Consider a reduction r and a clause-set F.
+  <ul>
+   <li> An r-base of F is a sub-clause-set F' of F where all the clauses of F
+   follow from those in F' by r. </li>
+   <li> That is, for all C in F we have that r(phi_C * F') contains the empty
+   clause. </li>
+   <li> Here phi_C is the partial assignment associated with the clause C, and
+   "*" is the operator for the application of partial assignments. </li>
+  </ul>
 
   A simple algorithm to compute such an r-base (not necessarily a minimal
   one) is to go through all clauses C of F and check whether after
