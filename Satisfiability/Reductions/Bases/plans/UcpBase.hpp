@@ -14,7 +14,8 @@ License, or any later version. */
   input-resolution.
 
 
-  \bug Testcase Intransitive2 fails
+  \bug DONE (resetting now old state of contradicting_ucl)
+  Testcase Intransitive2 fails
   <ul>
    <li> Failure as predicted by OK, while todo falsely removed by MG. </li>
   </ul>

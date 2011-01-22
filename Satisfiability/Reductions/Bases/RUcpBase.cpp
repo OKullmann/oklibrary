@@ -66,9 +66,10 @@ int main() {
       Ucp U;
       OKlib::InputOutput::ListTransfer<Ucp>(F2, U, n);
       const Ucp::assignment_type f(U.assignment());
+      if (U.contradicting_uclause()) continue;
       bool removable = true;
       const clause_iterator Frend = F_removed.end();
-      for (clause_iterator Di = F_removed.begin(); Di != Frend; ++Di) {
+      for (clause_iterator Di = F_removed.begin(); Di != Frend; ++Di, U.contradicting_uclause() = false) {
         U.set_assignments(f);
         const clause_type& D = *Di;
         typedef clause_type::const_iterator literal_iterator;
