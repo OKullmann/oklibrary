@@ -67,7 +67,6 @@ License, or any later version. */
    In Satisfiability/Reductions/Bases/RUcpGen.cpp the following topics
    are handled:
     - Create unit-tests for Bases/RUcpGen.cpp
-    - Sort output from RUcpBase
 
 
   \par Version 0.3
