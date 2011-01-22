@@ -15,8 +15,6 @@ License, or any later version. */
   <ul>
    <li> The input is a clause-list in DIMACS format on standard input. </li>
    <li> An r_1-base is output to standard output. </li>
-   <li> One optional argument is allowed, an integer used as seed for the
-   random-number generator; the default-seed is 1. </li>
   </ul>
 
 */
