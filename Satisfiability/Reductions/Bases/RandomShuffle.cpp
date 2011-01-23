@@ -9,6 +9,10 @@ License, or any later version. */
   \file Satisfiability/Reductions/Bases/RandomShuffle.cpp
   \brief Temporary file, to experiment with std::random_shuffle
 
+  Once the issues are understood (regarding std::random_shuffle and the
+  random number generator), appropriate components shall be created in
+  part Programming.
+
   At most two inputs are required, an integer seed (default 1) and an
   unsigned integer N (default 10; the number of elements to be shuffled).
 

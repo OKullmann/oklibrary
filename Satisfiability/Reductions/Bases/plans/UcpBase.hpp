@@ -52,6 +52,8 @@ License, or any later version. */
    ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac is how to
    reproduce the Maxima-function random_permutation:
     <ol>
+     <li> See "Sampling of r-bases" in
+     ComputerAlgebra/Satisfiability/Lisp/Reductions/plans/RBases.hpp. </li>
      <li> The Maxima-documentation says that the "Knuth shuffle algorithm"
      is used. This seems to be the following
      \verbatim
@@ -80,7 +82,7 @@ rand_perm(L);
        <li> The above algorithm rand_perm is implemented as ::random_shuffle in
        Satisfiability/Reductions/Bases/RandomShuffle.cpp. </li>
        <li> It differs from the result of std::random_shuffle. </li>
-       <li> The code for std::random_shuffle seems to use a slightly different
+       <li> The code for std::random_shuffle uses a slightly different
        algorithm (from libstdc++-3.0 at 
        http://mirrors-us.seosue.com/gcc/libstdc++/old-releases/libstdc++-3.0.tar.gz - 
        include/bits/stl_algo.h):
@@ -98,8 +100,10 @@ void random_shuffle(_RandomAccessIter __first, _RandomAccessIter __last,
     iter_swap(__i, __first + __rand((__i - __first) + 1));
 }
        \endverbatim
-       Is this still uniformly distributed?
        </li>
+       <li> The above implementation of random_shuffle needs
+       implementation in Bases/RandomShuffle.cpp, so that we can see whether
+       in this way std::random_shuffle can be simulated. </li>
        <li> Steven Watanabe on the boost mailing list claims 
        std::random_shuffle is not standardised. </li>
       </ol>
@@ -113,6 +117,9 @@ void random_shuffle(_RandomAccessIter __first, _RandomAccessIter __last,
        simply pass boost::mt19937 directly to random_number_generator. This 
        works and yields the same results as when using uniform_distribution. 
        </li>
+       <li> Has this been tested? What does it mean "the same result", when
+       we get different results for using uniform_distribution, namely
+       depending on the construction?? </li>
        <li> It is still not clear how either boost::random_number_generator or
        boost::uniform_distribution maps the full integer range into 1 to n. 
        There doesn't seem to be any real description of this at
@@ -146,6 +153,8 @@ void random_shuffle(_RandomAccessIter __first, _RandomAccessIter __last,
        <li> MT19937 doesn't seem to specify how one maps the values it 
        produces to another integer range, and so likely this isn't 
        standardised. </li>
+       <li> The Maxima-related aspects should go to
+       ComputerAlgebra/Satisfiability/Lisp/Reductions/plans/RBases.hpp. </li>
       </ol>
      </li>
      <li> Perhaps for now we just use examples with a unique base.
