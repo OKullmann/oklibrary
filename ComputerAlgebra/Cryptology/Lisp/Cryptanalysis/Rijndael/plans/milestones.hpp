@@ -18,6 +18,11 @@ License, or any later version. */
   the following topics are handled:
     - Functions should not cache return values
     - Test failure at level "full" : DONE
+
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/Translations.mac
+  the following topics are handled:
+   - C-STACK overflow : DONE
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
