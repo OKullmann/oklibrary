@@ -7,10 +7,10 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/docus/SmallScaleAdvancedEncryptionStandard.hpp
-  \brief User documentation for the Maxima computer algebra system implementation of the small scale AES block cipher.
+  \brief User documentation for the Maxima computer algebra system implementation of the small-scale AES block cipher
 
 
-  <h1> Using small scale AES at the Maxima/Lisp level </h1>
+  <h1> Using small-scale AES at the Maxima/Lisp level </h1>
 
   Functions are presented which implement the AES ("Advanced Encryption
   Standard") block cipher.
@@ -20,7 +20,7 @@ License, or any later version. */
 
   <ul>
    <li> XXX </li>
-   <li> See also - [Small Scale Variants of the AES; Carlos Cid, Sean Murphy 
+   <li> See also [Small Scale Variants of the AES; Carlos Cid, Sean Murphy 
    and M.J.B Robshaw]. </li>
   </ul>
 
@@ -31,16 +31,16 @@ License, or any later version. */
    <li> Throughout the implementation, particular parameters maintain the same
    shortened names for brevity, and ease of use:
    <ul>
-    <li> p - plaintext block </li>
-    <li> k - key block </li>
-    <li> c - ciphertext block. </li>
+    <li> p: plaintext block </li>
+    <li> k: key block </li>
+    <li> c: ciphertext block. </li>
    </ul>
    In each case, there is the assumption that each block is the appropriate
    dimension and field size (see "General idea").
    </li>
    <li> In all functions the plaintext, key and ciphertext blocks are
    assumed to be the same dimension. </li>
-   <li> For small scale encryption we have the following encryption
+   <li> For small-scale encryption we have the following encryption
    and decryption functions:
    <ul>
     <li> "ss_encrypt(p,k,r,b,e)" and "aes_decrypt(c,k,r,b,e)" are the 
@@ -55,13 +55,13 @@ License, or any later version. */
     additional parameters, which have been given default values (based
     on the other parameters) by "ss_encrypt" and "ss_decrypt":
     <ul>
-     <li> mod_poly - the modulo polynomial used to quotient polynomials for
-     the small scale field elements. Defaults in "ss_encrypt" to 
+     <li> mod_poly: the modulo polynomial used to quotient polynomials for
+     the small-scale field elements. Defaults in "ss_encrypt" to 
      ss_polynomial(b,e). </li>
-     <li> sbox_f - the sbox function, taking a polynomial and returning the
-     polynomial result of the small scale sbox for the given parameters.
+     <li> sbox_f: the sbox function, taking a polynomial and returning the
+     polynomial result of the small-scale sbox for the given parameters.
      Defaults in "ss_encrypt" to ss_sbox .</li>
-     <li> mixcolumns_matrix - the Mixcolumns matrix used in the MixColumns
+     <li> mixcolumns_matrix: the Mixcolumns matrix used in the MixColumns
      operation. Defaults to ss_mixcolumns_matrix(b,e,n_R) where n_R is the
      number of rows in the given plaintext and ciphertext blocks. </li>
     </ul>
@@ -71,26 +71,26 @@ License, or any later version. */
   </ul>  
 
 
-  <h2> Data Types </h2>
+  <h2> Data types </h2>
 
   <ul>
-   <li> The elements of the small scale word field (the elements of the block)
+   <li> The elements of the small-scale word-field (the elements of the block)
    are represented as arbitrary polynomials and then are 
    "brought into range" or "standardised" using the given polynomial 
    polynomial (see ss_polynomial in 
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteField.mac).
    </li>
    <li> AES blocks are then matrices of polynomials, where the dimensions of
-   the small scale AES block is given by the dimension of the matrix. 
+   the small-scale AES block is given by the dimension of the matrix. 
    </li>
    <li> As with the AES implementation, there is no interface to the bit
-   level operations of the small scale AES, but similar to the explanation
+   level operations of the small-scale AES, but similar to the explanation
    given in "Data Types" in
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/docus/SmallScaleAdvancedEncryptionStandard.hpp
    one may use the ss_stand function in 
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleWordField.mac
    to standardise the polynomial and then consider the coefficients of the
-   polynomial as the e bits of the small scale word (i.e., the coefficient of 
+   polynomial as the e bits of the small-scale word (i.e., the coefficient of 
    x^e becomes the most significant bit of the byte and the coefficient of 1 
    becomes the least - see [Design of Rijndael;John Daemen and Vincent Rijmen]
    and [Small Scale Variants of the AES; Carlos Cid, Sean Murphy and M.J.B 
@@ -101,7 +101,7 @@ License, or any later version. */
   <h2> Examples </h2>
   
   <ul>
-   <li> Encrypting a 128-bit word represented as a list of integers :
+   <li> Encrypting a 128-bit word represented as a list of integers:
    \verbatim
 > key : matrix([x,x^2],[0,1])$
 > plaintext : genmatrix(lambda([a,b],0),2,2)$
@@ -113,10 +113,6 @@ matrix([0,x^3+x^2],[x^3+x^2+1,x])
 > ss_decrypt(ciphertext,key,num_rounds,field_base,field_exponent);
 matrix([0,0],[0,0])
    \endverbatim
-   </li>
-   <li> One must take care when using the small scale AES as a cryptographic
-   primitive and so on. See the warnings given in "Examples" of
-   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/docus/AdvancedEncryptionStandard.hpp
    </li>
   </ul>
 

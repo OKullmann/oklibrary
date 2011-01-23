@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo Docus
   <ul>
-   <li> Add docus on small scale implementation, discussing the parameters,
+   <li> Add docus on small-scale implementation, discussing the parameters,
    design decisions etc. </li>
    <li> Included in the design decisions should be mention of the fact
    we choose to stick to a byte-matrix representation of the MixColumn
@@ -24,13 +24,12 @@ License, or any later version. */
 
   \todo Generating test vectors
   <ul>
-   <li> An implementation of the small scale variants presented in
+   <li> An implementation of the small-scale variants presented in
    [Algebraic Aspects of the Advanced Encryption Standard] and 
    in more detail in [Small Scale Variants of the AES] can be found 
-   in the SAGE system (see 
-   http://www.sagemath.org/doc/reference/sage/crypto/mq/sr.html). </li>
+   in SAGE. </li>
    <li> To run the encryption for AES given a plaintext and key, one
-   may do the following in the sage system (using version 4.2.1 below):
+   does the following in the Sage system:
    \verbatim
 import sage.crypto
 sr = mq.SR(10,4,4,8, star=true, allow_zero_inversions=true)
@@ -56,10 +55,10 @@ sr.hex_str(AES_e, typ="vector")
    <li> Note above that the first four parameters to the "sr" constructor are 
    r,n_R,n_C,e as specified above, and then 
    <ol>
-    <li> the "star" parameter specifies that the small scale AES variant should
+    <li> the "star" parameter specifies that the small-scale AES variant should
     include a different final round (as occurs with the standard AES), </li>
     <li> "allow_zero_inversions" specifies that the field inversion should be 
-    extended such that 0^(-1) = 0 (as in the AES), and </li>
+    extended such that 0^(-1) = 0 (as in the AES). </li>
    </ol>
    </li>
    <li> There also appears to be an "aes_mode" parameter which suggests that 
@@ -67,10 +66,6 @@ sr.hex_str(AES_e, typ="vector")
    does not seem to be the case in either the definition or in any basic
    tests so far. This needs to be further considered, or the authors should
    be e-mailed. </li>
-   <li> This system is not currently available in the OKlibrary as there
-   are there are issues compiling it in our system (see 
-   "Update to new Sage" in 
-   Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp). </li>
    <li> This information should be moved to the docus. </li>
   </ul>
 
@@ -80,7 +75,7 @@ sr.hex_str(AES_e, typ="vector")
   Datatypes and naming conventions
   <ul> 
    <li> A naming scheme for each of the datatypes used, as well
-   as for the whole class of small scale AES functions must be
+   as for the whole class of small-scale AES functions must be
    devised. </li>
    <li> DONE 
    For now, functions are prefixed with "ss_"  for "small-scale".
