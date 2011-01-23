@@ -611,6 +611,8 @@ CC = $(gcc412_call_okl)
 #  run-time-libraries.
 #
 
+# NEEDS UPDATE, ONCE WE MOVE THE THE NEW GCC
+
 alternative_library_path:= -L$(gcc412_lib64_okl) -Wl,-rpath,$(gcc412_lib64_okl) -L$(gcc412_lib_okl) -Wl,-rpath,$(gcc412_lib_okl)
 
 
