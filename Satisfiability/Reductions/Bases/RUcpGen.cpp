@@ -17,6 +17,16 @@ License, or any later version. */
   Prerequisite is that all variables of F0 have at most the index n as given
   by the maxima variable-index in the parameter-line of the file for F.
 
+  The Maxima-specification for empty F0 but general reduction r is
+  rbase_cl(F,r) in ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac.
+
+  \todo Update application tests
+  <ul>
+   <li> The application-tests for Bases/RUcpGen.cpp should coincide with the
+   relevant parts of the unit-tests for the Maxima-function rbase_cl(F,r).
+   </li>
+  </ul>
+
 */
 
 #include <string>
@@ -43,7 +53,7 @@ namespace {
   const std::string program = "RUcpGen";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.7";
+  const std::string version = "0.0.8";
 
 }
 

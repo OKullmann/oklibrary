@@ -20,6 +20,11 @@ License, or any later version. */
     - Shuffling and sorting
     - Random r_1-bases
 
+  \par
+   In Satisfiability/Reductions/Bases/RUcpGen.cpp the following topics
+   are handled:
+    - Update application tests
+
 
   \par Version 0.1.1
 
