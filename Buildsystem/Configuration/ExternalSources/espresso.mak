@@ -21,7 +21,7 @@ espresso_base_build_dir_okl ?= $(ExternalSources_builds)/Boolean/Espresso
 espresso_build_dir_okl ?= $(espresso_base_build_dir_okl)/$(espresso_src_base_name_okl)
 
 espresso_base_installation_dir_okl ?= $(ExternalSources_installations)/Boolean/Espresso
-espresso_installation_dir_okl ?= $(espresso_base_installation_dir_okl)/$(espresso_recommended_okl)
+espresso_installation_dir_okl ?= $(espresso_base_installation_dir_okl)/$(espresso_recommended_version_number_okl)
 
 espresso_exec_okl ?= espresso
 espresso_call_okl ?= $(espresso_installation_dir_okl)/$(espresso_exec_okl)

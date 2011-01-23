@@ -17,7 +17,7 @@ glucose_base_build_dir_okl ?= $(ExternalSources_builds)/SAT/Glucose
 glucose_build_dir_okl ?= $(glucose_base_build_dir_okl)/$(glucose_recommended_okl)
 
 glucose_base_installation_dir_okl ?= $(ExternalSources_installations)/SAT/Glucose
-glucose_installation_dir_okl ?= $(glucose_base_installation_dir_okl)/$(glucose_recommended_okl)
+glucose_installation_dir_okl ?= $(glucose_base_installation_dir_okl)/$(glucose_recommended_version_number_okl)
 
 glucose_exec_okl ?= glucose
 glucose_call_okl ?= $(glucose_installation_dir_okl)/$(glucose_exec_okl)
