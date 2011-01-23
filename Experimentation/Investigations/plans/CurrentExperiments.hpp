@@ -17,11 +17,19 @@ License, or any later version. */
   <h2> Advanced Encryption Standard </h2>
 
   <ul>
-   <li> 
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r1_c1_rw1_e4_f1.hpp
-   </li>
-   <li>
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r1_c1_rw1_e4_f0.hpp .
+   <li> Key Discovery:
+   <ul>
+    <li> 
+    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r10_c1_rw1_e4_f0.hpp
+    </li>
+    <li>
+    Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r1_c1_rw1_e4_f1.hpp
+    </li>
+    <li>
+    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r1_c1_rw1_e4_f0.hpp .
+    </li>
+    <li> Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r1_c1_rw1_e4_f0.hpp . </li>
+   </ul>
    </li>
    <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp .
    </li>
