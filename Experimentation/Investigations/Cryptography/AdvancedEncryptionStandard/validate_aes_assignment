@@ -10,7 +10,7 @@ set -o nounset
 
 script_name="validate_aes_assignment"
 err="ERROR[${script_name}]:"
-version="0.1.1"
+version="0.1.2"
 
 #
 # Script to check that the satisfying assignment returned from a SAT solver for
@@ -38,7 +38,7 @@ version="0.1.1"
 #   final_round_b
 #     Whether or not to use a special round function for the final round 
 #     without MixColumns (like the standard AES), or to have all rounds use
-#     the full round function.
+#     the full round function. Here we use 1 for true and 0 for false.
 #
 # Output:
 #   Returns 0 if the partial assignment represents a valid AES/small scale
@@ -49,14 +49,12 @@ if [[ $# -ne 5 ]]; then
   echo -n "${err} Takes precisely 5 arguments, the number of rounds, "
   echo -n "the number of columns in the block, the number of rows in the block, the "
   echo -n "size of the exponent of the field and whether or not the cipher uses the "
-  echo -n "special final round. The assignment, given as a v-line from a SAT solver "
-  echo -n "is taken from STDIN and a non-zero result is returned if the values are "
-  echo "incorrect."
+  echo -n "special final round (0 for false, 1 for true). The assignment, given as a "
+  echo -n "v-line from a SAT solver is taken from STDIN and a non-zero result is "
+  echo "returned if the values are incorrect."
   exit 1;
 fi  
 
-# Assume at first that the v-line is all on one line
-ass_set="{$(cat - | sed 's/^v\? *//g' | tr -d '\n' | sed 's/ *$//g' | sed 's/ \+/,/g')}"
 rounds=$1
 columns=$2
 rows=$3
@@ -64,6 +62,16 @@ e=$4
 final_round_b=$5
 max_input_var=$(expr ${columns} "*" ${rows} "*" ${e})
 
-oklib --maxima --batch-string='"oklib_load(\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac\"); ss_validate('${ass_set}','${rounds}','${columns}','${rows}', '${e}', if '${final_round_b}' = 1 then true else false);"' | tail -n 1 | grep "true" > /dev/null
 
-exit $?
+partial_assignment_mac_file=$(mktemp --suffix=".mac")
+echo "PA : {" > ${partial_assignment_mac_file}
+cat - | sed 's/^v\? *//g' | tr -d '\n' | sed 's/ *$//g' | sed 's/ \+/,/g' >> ${partial_assignment_mac_file}
+echo '}$' >> ${partial_assignment_mac_file}
+
+
+oklib --maxima --batch-string='"oklib_load(\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac\"); load(\"'${partial_assignment_mac_file}'\"); ss_validate(PA,'${rounds}','${columns}','${rows}', '${e}', if '${final_round_b}' = 1 then true else false);"' | tail -n 1 | grep "true" > /dev/null
+result=$?
+
+rm -f ${partial_assignment_mac_file}
+
+exit ${result}
