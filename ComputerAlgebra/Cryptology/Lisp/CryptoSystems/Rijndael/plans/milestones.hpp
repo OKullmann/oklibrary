@@ -16,12 +16,24 @@ License, or any later version. */
   \par 
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
    the following topics are handled:
-    - Docus
+    - Generating test vectors
+
+  \par 
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
+   the following topics are handled:
     - Add decomposed Sbox boxes : DONE
     - Datatypes and naming conventions : DONE
 
 
   \par Version 0.0.12
+
+  \par 
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
+   the following topics are handled:
+    - Docus
+
+
+  \par Version 0.0.13
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
@@ -34,7 +46,7 @@ License, or any later version. */
     - Requirements
 
 
-  \par Version 0.0.13
+  \par Version 0.0.14
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
@@ -51,11 +63,6 @@ License, or any later version. */
     - Notions and notations 
     - Requirements
     - Coding Standards
-
-  \par 
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
-   the following topics are handled:
-    - Generating test vectors
 
   \par
    By Version 0.1, the original basic implementation of AES should be
