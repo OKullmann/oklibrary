@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -37,6 +37,19 @@ License, or any later version. */
 
   \todo Version of RunVdW3k for palindromic problems
     <ol>
+     <li> For odd n the additional unit-clause according to
+     "Palindromic versions with arithmetic progressions of length 3" in
+     ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp
+     should be added:
+      <ol>
+       <li> There is the small technical problem how to get correct Dimacs
+       after the addition of the clause (which increases the clause-count by
+       1). </li>
+       <li> We need general tools for such trivial tasks. </li>
+       <li> See "Elementary file-surgery" in
+       Interfaces/InputOutput/plans/general.hpp. </li>
+      </ol>
+     </li>
      <li> We should have a statistics file, where at least for each n the
      run where a solution was found is shown. </li>
      <li> It could be that in case the solution for n-2 does not work, then

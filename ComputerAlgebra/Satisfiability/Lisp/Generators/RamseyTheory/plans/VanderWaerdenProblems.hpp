@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.9.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -79,11 +79,41 @@ License, or any later version. */
 
   \todo Palindromic versions with arithmetic progressions of length 3
   <ul>
-   <li> For progression length k=3 and odd n, if the middle point is
-   included, then all other points must be excluded (otherwise one gets
-   an arithmetic progression). </li>
+   <li> We consider parameter tuple (k=3,k'). </li>
+   <li> For progression length k=3 and odd n >= 3, if the middle point
+   (n+1)/2 is included, then all other points must be excluded (otherwise one
+   gets an arithmetic progression of length 3). </li>
+   <li> However then for most values of k' we get an arithmetic progression
+   of length k'. </li>
+   <li> Thus variable (n+1)/2 must be set to false. </li>
    <li> This follows by r_2-reduction, but might pose a problem for some
    solver, so perhaps should be supplied by the translation. </li>
+   <li> The remaining question is to determine those odd n for given k' such
+   that {1,...,n} - {(n+1)/2} contains an arithmetic progression of length k':
+    <ol>
+     <li> Trivially for k' <= (n+1)/2-1. </li>
+     <li> For n=5 this is tight, but not for n=3, where {1,3} contains (1,3),
+     nor for n=7, where {1,2,3,5,6,7} contains (1,3,5,7). </li>
+     <li> Call f(n) for odd n >= 3 the maximal length of an arithmetic
+     progression in {1,...,n} - {(n+1)/2}. </li>
+     <li> So f(n) >= (n+1)/2-1, f(3) = 2, f(5) = 2, f(7) = 4. </li>
+     <li> n=9: {1,2,3,4,6,7,8,9} allows only progressions of length 4, so
+     f(9) = 4. </li>
+     <li> n=11: {1,2,3,4,5,7,8,9,10,11} allows (1,3,5,7,9,11), so f(11) = 6.
+     <li>
+     <li> Thus one guesses that in case of (n+1)/2 odd on has
+     f(n) = (n+1)/2-1, while otherwise we have f(n) = (n+1)/2. </li>
+     <li> So the exceptional n, where the lower-bound can be increased by one,
+     would be the n where n+1 contains prime-factor 2 at least twice. </li>
+     <li> That is, the n of the form 4*k-1, k >= 1, are exceptional. </li>
+     <li> The formula thus is (with simple proof): If n = 4*k-1, then
+     f(n) = (n+1)/2, while otherwise f(n) = (n+1)/2-1. </li>
+    </ol>
+   </li>
+   <li> Perhaps we implement then pd_vanderwaerden3k_fcl(k,n), which includes
+   that additional unit-clauses in case of k <= f(n). </li>
+   <li> If later we find other interesting implications (prime implicates),
+   then we might add further versions. </li>
   </ul>
 
 

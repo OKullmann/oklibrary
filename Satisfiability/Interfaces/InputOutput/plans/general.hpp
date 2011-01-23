@@ -1,5 +1,5 @@
 // Matthew Henderson, 25.1.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -44,6 +44,7 @@ AppendDimacs file_1 ... file_n
      numbers read is to be computed. </li>
     </ol>
    </li>
+   <li> Perhaps adding a single clause is worth a dedicated tool. </li>
   </ul>
 
 
