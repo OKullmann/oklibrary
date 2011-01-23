@@ -34,6 +34,18 @@ License, or any later version. */
    </li>
    <li> At this occasion one might also learn whether "learned" or "learnt"
    is better. </li>
+   <li> xor-clauses:
+    <ol>
+     <li> It seems that on Ramsey-theory problems xor-clauses don't play any
+     role. </li>
+     <li> So one needs an option "--noxor" which completely turns off all
+     xor-related activity. </li>
+     <li> Currently there is a confusing number of options related to
+     xor-reasoning, and it is unclear how to achieve the complete turning-off.
+     </li>
+     <li> Ask on the CryptoMiniSat mailing list. </li>
+    </ol>
+   </li>
   </ul>
 
 
