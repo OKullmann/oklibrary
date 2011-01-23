@@ -45,6 +45,7 @@ gcj_call_okl ?= $(gcc_installation_dir_okl)/bin/gcj
 gfortran_call_okl ?= $(gcc_installation_dir_okl)/bin/gfortran
 gcc_lib_okl ?= $(gcc_installation_dir_okl)/lib
 gcc_lib64_okl ?= $(gcc_installation_dir_okl)/lib64
+gcc_linking_okl ?= -L$(gcc_lib64_okl) -Wl,-rpath,$(gcc_lib64_okl) -L$(gcc_lib_okl) -Wl,-rpath,$(gcc_lib_okl)
 
 gcc_docu_page_okl ?= $(doc_dir)/doxygen_html/d4/dfb/docus_2Gcc_8hpp.html
 
@@ -75,3 +76,4 @@ gcc412_call_okl ?= $(gcc412_installation_dir_okl)/bin/gcc
 gpp412_call_okl ?= $(gcc412_installation_dir_okl)/bin/g++
 gcc412_lib_okl ?= $(gcc412_installation_dir_okl)/lib
 gcc412_lib64_okl ?= $(gcc412_installation_dir_okl)/lib64
+gcc412_linking_okl ?= -L$(gcc412_lib64_okl) -Wl,-rpath,$(gcc412_lib64_okl) -L$(gcc412_lib_okl) -Wl,-rpath,$(gcc412_lib_okl)
