@@ -253,7 +253,7 @@ segmentation faults for saps, rsaps, sapsnr
    </li>
    <li> minisat-2.2.0, with unit-clause for middle-point added:
     <ol>
-     <li> n=463: ?sat, s (csltok). </li>
+     <li> n=463: unsat, 8554s (csltok). </li>
      <li> n=445: unsat, 8124s (same conditions). </li>
     </ol>
     So minisat-2.2.0 might be somewhat faster.
