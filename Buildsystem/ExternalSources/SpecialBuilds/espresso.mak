@@ -1,5 +1,5 @@
 # Oliver Kullmann, 30.11.2010 (Swansea)
-# Copyright 2010 Oliver Kullmann
+# Copyright 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -25,8 +25,8 @@ $(espresso_directories_okl) : % :
 espresso : $(espresso_directories_okl)
 	$(call unarchive,$(espresso_source_okl),$(espresso_base_build_dir_okl)) $(postcondition) \
 	cd $(espresso_build_dir_okl); $(postcondition) \
-	./configure; $(postcondition) \
-	make CC=$(gcc_call_okl) CXX=$(gpp_call_okl) all; $(postcondition) \
+	CC=$(gcc_call_okl) CXX=$(gpp_call_okl) ./configure; $(postcondition) \
+	make all; $(postcondition) \
 	cp -f src/$(espresso_exec_okl) $(espresso_call_okl); $(postcondition) \
 	cp -f README $(espresso_doc_dir_okl); $(postcondition) \
 	cp $(espresso_base_source_okl)/*.html $(espresso_doc_dir_okl); $(postcondition) \
