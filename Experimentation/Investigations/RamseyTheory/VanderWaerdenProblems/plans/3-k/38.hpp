@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,38)
 
 
-  \todo vanderwaerden_2(3,38) > 1377
+  \todo vanderwaerden_2(3,38) > 1378
   <ul>
    <li> The very weak current conjecture is vanderwaerden_2(3,38) = ???. </li>
    <li> Starting search with the best palindromic solution:
@@ -436,6 +436,20 @@ interrupted; the FlipsPerSecond are likely corrupted.
 2211 
      \endverbatim
      </li>
+     <li> adaptg2wsat, cutoff=4*10^6:
+     \verbatim
+  1   2   3   4   5   6   7 
+ 10  78 344 502 325 119  28 
+1406 
+     \endverbatim
+     </li>
+     <li> adaptg2wsat, cutoff=2*10^7:
+     \verbatim
+  0   1   2   3   4   5 
+  1   5  65 131  67   8 
+277 
+     \endverbatim
+     (see below for certificate). </li>
      <li> adaptg2wsat, cutoff=10^8:
      \verbatim
  1  2  3 
@@ -443,6 +457,23 @@ interrupted; the FlipsPerSecond are likely corrupted.
 40 
      \endverbatim
      </li>
+     <li> adaptg2wsat finds a solution in run 277 (cutoff=2*10^7,
+     osteps=19945502) with certificate
+     \verbatim
+35,50,58,72,95,97,110,134,147,161,
+163,164,193,198,201,226,237,245,275,280,
+300,309,312,331,332,354,369,383,391,409,
+410,415,442,446,448,459,480,497,516,526,
+539,541,563,570,608,615,631,645,652,665,
+674,707,712,718,738,742,753,775,776,781,
+800,829,867,874,886,890,901,909,923,924,
+929,964,970,975,1001,1007,1008,1012,1040,1051,
+1057,1081,1086,1109,1118,1131,1148,1162,1163,1168,
+1189,1200,1234,1242,1244,1259,1265,1293,1301,1303,
+1310,1311,1331,1348
+     \endverbatim
+     </li>
+     <li> It seems that this cutoff is about right. </li>
     </ol>
    </li>
   </ul>
