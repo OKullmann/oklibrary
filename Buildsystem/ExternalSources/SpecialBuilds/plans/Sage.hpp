@@ -51,6 +51,8 @@ sage: An error occurred while installing readline-6.0.p4
      development version of Sage at 
      http://sage.math.washington.edu/home/release/sage-4.6.1.alpha3/sage-4.6.1.alpha3.tar .
      </li>
+     <li> However with Sage version 6.1 we get exactly the same failure
+     (now with "An error occurred while installing readline-6.1"). </li>
      <li> DONE (using DOT_SAGE)
      On csltok (Suse 11.3): Here finally the installation succeeds,
      however Sage installs a directory .sage in the home directory, and
