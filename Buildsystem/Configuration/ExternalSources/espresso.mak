@@ -10,13 +10,15 @@
 espresso_recommended_version_number_okl ?= 2.3
 espresso_other_versions_okl ?= 
 
-espresso_base_name_okl := espresso-ab-1.0
+espresso_src_base_name_okl := espresso-ab-1.0
+espresso_base_name_okl := espresso
+espresso_src_recommended_okl := $(espresso_src_base_name_okl)-$(espresso_recommended_version_number_okl)
 espresso_recommended_okl := $(espresso_base_name_okl)-$(espresso_recommended_version_number_okl)
 espresso_base_source_okl := $(ExternalSources)/sources/Boolean/Espresso
-espresso_source_okl := $(espresso_base_source_okl)/$(espresso_recommended_okl)
+espresso_source_okl := $(espresso_base_source_okl)/$(espresso_src_recommended_okl)
 
 espresso_base_build_dir_okl ?= $(ExternalSources_builds)/Boolean/Espresso
-espresso_build_dir_okl ?= $(espresso_base_build_dir_okl)/$(espresso_base_name_okl)
+espresso_build_dir_okl ?= $(espresso_base_build_dir_okl)/$(espresso_src_base_name_okl)
 
 espresso_base_installation_dir_okl ?= $(ExternalSources_installations)/Boolean/Espresso
 espresso_installation_dir_okl ?= $(espresso_base_installation_dir_okl)/$(espresso_recommended_okl)
