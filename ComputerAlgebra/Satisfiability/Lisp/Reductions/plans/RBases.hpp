@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 18.12.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -42,6 +42,16 @@ License, or any later version. */
    true for any strict subset of F'. </li>
    <li> That means that all missing clauses D can be derived from F' by means
    of r. </li>
+   <li> Using additional assumptions for r one can derive more efficient
+   algorithms. </li>
+   <li> An "r-generating" clause-set drops the requirement that no clause
+   can be removed. </li>
+   <li> Both notions of generating clause-sets and base-clause-sets actually
+   make sense regarding the relation between arbitrary clause-sets F and F'
+   (F is r-generating resp. an r-base for F'). </li>
+   <li> As with Satisfiability/Reductions/Bases/RUcpGen.cpp, we need also
+   the form of rbase_cl(F,red_) using some given stock F0 of clauses to be
+   used. </li>
   </ul>
 
 
@@ -85,6 +95,13 @@ License, or any later version. */
      <li> Otherwise G := G + {C}, and another C is tried. </li>
      <li> The algorithm stops once F' = G, and then F' is an r-basis of F.
      </li>
+    </ol>
+   </li>
+   <li> The remaining problem here is to precisely specify the random
+   permutation.
+    <ol>
+     <li> See "Random r_1-bases" in
+     Satisfiability/Reductions/Bases/plans/UcpBase.hpp. </li>
     </ol>
    </li>
   </ul>

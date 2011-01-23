@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 28.12.2009 (Swansea) */
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,6 +20,33 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/testobjects/RBa
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/RBases.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+
+
+/* *****************
+   * Basic notions *
+   *****************
+*/
+
+okltest_rgen0_p_cs(rgen0_p_cs);
+okltest_rgen0_p_cl(rgen0_p_cl);
+
+okltest_rgen_p_cs(rgen_p_cs);
+
+okltest_rbase_p_cs(rbase_p_cs);
+
+okltest_all_rbases_bydef(all_rbases_bydef);
+
+/* ********************
+   * Basic algorithms *
+   ********************
+*/
+
+okltest_rand_rbase_cs(
+ lambda([F,red_], cl2cs(
+   rbase_cl(random_permutation(cs2cl(F)),
+            buildq([red_],lambda([G],cs2cl(red_(cl2cs(G))))))))
+)$
 
 /* ************
    * Sampling *

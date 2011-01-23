@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.12.2009 (Swansea) */
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,6 +21,13 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac");
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+
+
+/* *****************
+   * Basic notions *
+   *****************
+*/
 
 /*
  Consider a function r: CLS -> CLS; the meaning is that r is a "reduction",
@@ -32,16 +39,25 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssig
  An "r-base of F" is a minimal r-generating subset of F.
 */
 
-/* Predicate for deciding whether G is r-generating for F (assuming only
-   that if {} in F, then {} in red_(F)):
+/* Predicate for deciding whether G is r-generating for F:
 */
 
-/* First without subsumption-check: */
+/* First without subsumption-check (without stipulating any relation between
+   G and F), assuming only that if {} in F, then {} in red_(F)): */
 rgen0_p_cs(G,F,red_) :=
   every_s(lambda([C], elementp({}, red_(apply_pa_cs(comp_sl(C), G)))),
           setdifference(F,G))$
+/* For arbitrary clause-lists G, F (without stipulating any relation between
+   G and F), without any assumption of red_ (but red_ now operates on
+   clause-lists):
+*/
+rgen0_p_cl(G,F,red_) :=
+  every_s(lambda([C], elementp({}, cl2cs(red_(apply_pa_cl(comp_sl(C), G))))),
+          F)$
+
 /* Now the complete test: */
 rgen_p_cs(G,F,red_) := subsetp(G,F) and rgen0_p_cs(G,F,red_)$
+
 
 /* Now the predicate whether G is an r-base for F: */
 rbase_p_cs(G,F,red_) := rgen_p_cs(G,F,red_) and
@@ -50,7 +66,27 @@ rbase_p_cs(G,F,red_) := rgen_p_cs(G,F,red_) and
 /* Computes the set of all r-bases of clause-set F "by definition": */
 all_rbases_bydef(F,red_) :=
   subset(powerset(F), lambda([G], rbase_p_cs(G,F,red_)))$
-    
+
+
+/* ********************
+   * Basic algorithms *
+   ********************
+*/
+
+/* Computing the red_-base of clause-list F according to the definition,
+   that is, a minimal sublist S of F such that for all clauses D in F - S
+   we have {} in red_(phi_D * F), by trying to remove the clauses from
+   F in the given order.
+   The only assumption on red_ (besides {} in F => {} in red_(F)) is that
+   if {} in red_(F) then also {} in red_(F') for any super-set F'
+   of F (so that once a clause is classified as unremovable, then this
+   doesn't change after further removals).
+*/
+rbase_cl(F,red_) := block([Fb : F],
+  for C in F do block([Fb_new : delete(C,Fb)],
+    if rgen0_p_cl(Fb_new,F,red_) then Fb : Fb_new),
+ return(Fb))$
+
 
 /* ************
    * Sampling *
