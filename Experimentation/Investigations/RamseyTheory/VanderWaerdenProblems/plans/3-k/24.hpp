@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -332,7 +332,7 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
    <li> precosat:
     <ol>
      <li> n=593: unsat, 824141s with precosat236. </li>
-     <li> n=569: unsat, 275640.6s with precosat570, while precosat236
+     <li> n=569: unsat, 275640s with precosat570, while precosat236
      after 1125645s made only some progress (2 variables fixed). </li>
     </ol>
     So perhaps for the larger instances precosat570 is better.
