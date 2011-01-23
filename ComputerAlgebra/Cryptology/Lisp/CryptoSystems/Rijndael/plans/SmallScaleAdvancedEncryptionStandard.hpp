@@ -24,9 +24,14 @@ License, or any later version. */
 
   \todo Generating test vectors
   <ul>
+   <li> We need to see side-by-side, for all the variations, our computation
+   and the corresponding computation in the Sage system. </li>
+   <li> And this for several inputs. </li>
+   <li> And not only w.r.t. encryption and decryption, but also regarding
+   the basic building blocks. </li>
    <li> An implementation of the small-scale variants presented in
    [Algebraic Aspects of the Advanced Encryption Standard] and 
-   in more detail in [Small Scale Variants of the AES] can be found 
+   in more detail in [Small Scale Variants of the AES] is available
    in SAGE. </li>
    <li> To run the encryption for AES given a plaintext and key, one
    does the following in the Sage system:
