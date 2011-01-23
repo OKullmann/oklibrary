@@ -138,6 +138,17 @@ License, or any later version. */
      <li> n=401: unsat, 1303s. </li>
     </ol>
    </li>
+   <li> minisat-2.2.0:
+    <ol>
+     <li> n=405: unsat, 1116s (9179642 conflicts). </li>
+     <li> n=401: unsat, 1187s (10578132 conflicts). </li>
+    </ol>
+    It doesn't seem to find the one variable which can be set quickly. Perhaps
+    adding it directly would help? Adding "203 0" to the n=405-instance solves
+    it in 897s (7639216 conflicts), and adding "101 0" to the n=401-instance
+    solves it in 1037s (9627927 conflicts), so it helps here. And then
+    minisat-2.2.0 seems a bit faster.
+   </li>
    <li> DONE (the middle point; see
    "Palindromic versions with arithmetic progressions of length 3" in
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp)

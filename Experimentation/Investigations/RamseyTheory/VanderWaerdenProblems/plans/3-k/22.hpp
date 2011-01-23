@@ -245,8 +245,18 @@ segmentation faults for saps, rsaps, sapsnr
    <li> cryptominisat version 2.9.0:
     <ol>
      <li> n=463: unsat, 47212s (csltok, high load, so possibly slow). </li>
-     <li> n=445: ?sat, s. </li>
+     <li> n=445: unsat, 47673s (same conditions). </li>
     </ol>
+    One gets the impression, that cryptominisat is not better than for
+    example precosat236. Perhaps one could try turning off all xor-reasoning,
+    and also compiling with more optimisation.
+   </li>
+   <li> minisat-2.2.0, with unit-clause for middle-point added:
+    <ol>
+     <li> n=463: ?sat, s (csltok). </li>
+     <li> n=445: unsat, 8124s (same conditions). </li>
+    </ol>
+    So minisat-2.2.0 might be somewhat faster.
    </li>
    <li>  "RunPdVdW3k 22 23 464 gsat-tabu 100 2000000": alle 1<=n<=444 sat,
    and then
