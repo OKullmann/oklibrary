@@ -10,7 +10,7 @@ set -o nounset
 
 script_name="validate_aes_assignment"
 err="ERROR[${script_name}]:"
-version="0.1.2"
+version="0.1.3"
 
 #
 # Script to check that the satisfying assignment returned from a SAT solver for
@@ -65,7 +65,7 @@ max_input_var=$(expr ${columns} "*" ${rows} "*" ${e})
 
 partial_assignment_mac_file=$(mktemp --suffix=".mac")
 echo "PA : {" > ${partial_assignment_mac_file}
-cat - | sed 's/^v\? *//g' | tr -d '\n' | sed 's/ *$//g' | sed 's/ \+/,/g' >> ${partial_assignment_mac_file}
+cat - | sed 's/^v\? *//g' | sed 's/ *$/,/g' | tr -d '\n' | sed 's/ \+/,/g' >> ${partial_assignment_mac_file}
 echo '}$' >> ${partial_assignment_mac_file}
 
 
