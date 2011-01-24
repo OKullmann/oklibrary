@@ -337,6 +337,15 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
     </ol>
     So perhaps for the larger instances precosat570 is better.
    </li>
+   <li> minisat-2.2.0:
+    <ol>
+     <li> n=593: ?sat, s (csltok; with added
+     unit-clause). </li>
+     <li> n=569: ?sat, s (csltok; with added
+     unit-clause). </li>
+    </ol>
+   </li>
+
    <li> "RunPdVdW3k 24 25 593 gsat-tabu 100 6000000": all 1<=n<=568 sat,
    and then
    \verbatim

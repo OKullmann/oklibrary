@@ -170,6 +170,13 @@ License, or any later version. */
      <li> n=507: unsat, 128628s. </li>
     </ol>
    </li>
+   <li> minisat-2.2.0:
+    <ol>
+     <li> n=508: ?sat, s. </li>
+     <li> n=507: unsat, 24751s (112603401 conflicts, csltok; with added
+     unit-clause). </li>
+    </ol>
+   </li>
    <li> "RunPdVdW3k 23 24 516 gsat-tabu 100 4000000" (old version):
    all 1<=n<=506 sat, all 507<=n<=516 unsat. </li>
   </ul>
