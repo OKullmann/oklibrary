@@ -290,7 +290,10 @@ satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0
   <ul>
    <li> minisat2:
     <ol>
-     <li> k=13, n=160: 19681930 conflicts, 19 restarts (4500s). </li>
+     <li> k=12, n=134:  conflicts,  restarts (csltok; s). </li>
+     <li> k=12, n=135:  conflicts,  restarts (csltok; s). </li>
+     <li> k=13, n=159: 525039 conflicts,  20 restarts (csltok; 263s). </li>
+     <li> k=13, n=160: 9298288 conflicts, 27 restarts (csltok; 7019s). </li>
     </ol>
    </li>
    <li> minisat-2.2.0:
@@ -319,6 +322,7 @@ satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0
      <li> k=12, n=135: 526s (2425722 conflicts; csltok) </li>
     </ol>
    </li>
+   <li> minisat-2.2.0 seems best. </li>
   </ul>
 
 
