@@ -31,6 +31,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul9CNF.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SboxCNF.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac")$
 
 /* TODO: Add documentation at this level. */
 
@@ -266,7 +267,37 @@ block([block_size],
     is(ss_encrypt(P,K,r,2,ss_exp) = C))
 )$
 
+/******************************************************************
+ * Statistics                                                     *
+ ******************************************************************
+*/
 
+/* Given the appropriate parameters, computes the number of sboxes
+   in the associated small scale AES. The parameters are the number
+   of rounds, and the number of columns and rows in the block. */
+nsbox_ss_csttl(r,num_columns,num_rows) :=
+  (r*num_columns*num_rows) + (r * num_rows)$
+
+/* Given the appropriate parameters, computes the number of multiplications
+   by the finite field element e (given as a polynomial) in the associated
+   small scale AES. The parameters are the field element, given as a
+   polynomial, number of rounds, and the number of columns, the mixcolumns
+   matrix, whether or not to use a special final round (true/false) and
+   the MixColumns translation to use (aes_mc_forward or
+   aes_mc_bidirectional). */
+nmul_ss_csttl(e,r,num_cols,ss_exp,mixcolumns_matrix, final_round_b, mc_trans) :=
+block([inv_mixcolumns_matrix, nmul, nmul_inv],
+  inv_mixcolumns_matrix :
+    ss_mixcolumns_matrix2inv_mixcolumns_matrix(2,ss_exp,mixcolumns_matrix),
+  nmul : length(sublist(m2l_r(mixcolumns_matrix), lambda([a],is(a=e)))),
+  if mc_trans = aes_mc_bidirectional then
+    nmul_inv :
+      length(sublist(m2l_r(inv_mixcolumns_matrix), lambda([a],is(a=e))))
+  else nmul_inv : 0,
+  if final_round_b then r : r -1,
+  return(r * (nmul + nmul_inv) * num_cols))$
+ 
+  
 /******************************************************************
  * Data translation                                               *
  ******************************************************************

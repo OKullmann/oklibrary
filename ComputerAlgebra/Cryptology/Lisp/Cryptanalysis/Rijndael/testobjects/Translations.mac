@@ -31,6 +31,14 @@ okltest_aes_sbox_ts_gen(aes_sbox_ts_gen);
 okltest_aes_mul_ts_gen(aes_mul_ts_gen);
 
 /******************************************************************
+ * Statistics                                                     *
+ ******************************************************************
+*/
+
+okltest_nsbox_ss_csttl(nsbox_ss_csttl)$
+okltest_nmul_ss_csttl(nmul_ss_csttl)$
+
+/******************************************************************
  * Data translation                                               *
  ******************************************************************
 */

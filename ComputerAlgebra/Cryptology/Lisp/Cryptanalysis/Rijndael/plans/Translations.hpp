@@ -1,5 +1,5 @@
 // Matthew Gwynne, 26.3.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,7 +30,7 @@ License, or any later version. */
    </li>
    <li> We need at least the number of variables and clauses for each 
    translation, and preferably the clause-length list. </li>
-   <li> We also need statistics on the number of each box in each
+   <li> DONE We also need statistics on the number of each box in each
    translation. </li>
   </ul>
 
