@@ -120,6 +120,8 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Cons
              aes_small_box - Each box is represented by the smallest known cnf
              aes_ts_box    - Each box is represented by the canonical
                              translation using new variables.
+             aes_rbase_box - Each box is represented by a CNF which is
+                             an r_1 base.
 
          MixColumns -
              For the translation of the MixColumns component, we may either
@@ -133,6 +135,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Cons
 
 declare(aes_small_box, noun)$
 declare(aes_ts_box, noun)$
+declare(aes_rbase_box, noun)$
 declare(aes_mc_forward, noun)$
 declare(aes_mc_bidirectional, noun)$
 
@@ -218,6 +221,8 @@ ss_fcl(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran)
   csttl2fcl(prop_csttl[1],prop_csttl[2],
     if box_tran = aes_small_box then
       ss_pi_translation_mapping
+    else if box_tran = aes_rbase_box then
+      ss_rbase_translation_mapping
     else
       ss_ts_translation_mapping))$
 
@@ -494,7 +499,7 @@ ss_propagations : [prop_eq_csttl]$
 
 /* Translation mapping, mapping constraint templates to the corresponding
    translation functions where constraints are translated to CNF clause-set
-   representations using subsets of the prime implicates. */
+   representations using subsets of the prime implicates: */
 aes_pi_translation_mapping : [
   ["aes_add_cst", [aes_add_cst_cl, lambda([[a]],[])]],
   ["const_cst", [aes_const_cst_cl, lambda([[a]],[])]],
@@ -508,7 +513,7 @@ aes_pi_translation_mapping : [
 
 /* Translation mapping, mapping constraint templates to the corresponding
    translation functions where constraints are translated to representations
-   using subsets of the prime implicates. */
+   using subsets of the prime implicates: */
 aes_ts_translation_mapping : [
   ["aes_add_cst", [aes_add_cst_cl, lambda([[a]],[])]],
   ["const_cst", [aes_const_cst_cl, lambda([[a]],[])]],
@@ -524,7 +529,7 @@ aes_ts_translation_mapping : [
 
 /* Translation mapping, mapping constraint templates to the corresponding
    translation functions where constraints are translated to CNF clause-set
-   representations using subsets of the prime implicates. */
+   representations using subsets of the prime implicates: */
 ss_pi_translation_mapping : [
   ["ss_add_cst", [aes_add_cst_cl, lambda([[a]],[])]],
   ["const_cst", [aes_const_cst_cl, lambda([[a]],[])]],
@@ -532,8 +537,17 @@ ss_pi_translation_mapping : [
   ["ss_sbox_cst", [ss_sbox_pi_cst_cl, lambda([[a]],[])]]]$
 
 /* Translation mapping, mapping constraint templates to the corresponding
+   translation functions where constraints are translated to CNF clause-set
+   representations using r_1 bases: */
+ss_rbase_translation_mapping : [
+  ["ss_add_cst", [aes_add_cst_cl, lambda([[a]],[])]],
+  ["const_cst", [aes_const_cst_cl, lambda([[a]],[])]],
+  ["ss_mul_cst", [ss_mul_rbase_cst_cl, lambda([[a]],[])]],
+  ["ss_sbox_cst", [ss_sbox_rbase_cst_cl, lambda([[a]],[])]]]$
+
+/* Translation mapping, mapping constraint templates to the corresponding
    translation functions where constraints are translated to representations
-   using subsets of the prime implicates. */
+   using subsets of the prime implicates: */
 ss_ts_translation_mapping : [
   ["ss_add_cst", [aes_add_cst_cl, lambda([[a]],[])]],
   ["const_cst", [aes_const_cst_cl, lambda([[a]],[])]],
