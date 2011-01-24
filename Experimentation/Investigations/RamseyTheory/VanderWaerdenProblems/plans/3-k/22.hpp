@@ -37,6 +37,13 @@ License, or any later version. */
      \endverbatim
      Looks good, but doesn't find a solution?
      </li>
+     <li> ddfw, cutoff=16*10^6:
+     \verbatim
+ 0  1 
+ 1 43 
+44 
+     \endverbatim
+     with osteps=4921124 for the solution. </li>
     </ol>
    </li>
    <li> n=460, gsat-tabu, cutoff=10^8: in 300 runs one solution was found
@@ -69,6 +76,16 @@ License, or any later version. */
 267,272,280,286,299,309,311,315,324,328,
 330,340,353,359,367,372,383,386,402,415,
 417,430,440,459,460
+     \endverbatim
+     </li>
+     <li> ddfw finds a solution adapted from n=458, with certificate
+     \verbatim
+3,22,32,45,47,60,76,79,90,95,
+103,109,122,132,134,138,147,151,153,163,
+176,182,190,195,206,209,225,238,240,253,
+263,264,282,283,293,306,308,321,337,340,
+351,356,364,370,383,393,395,399,408,414,
+424,437,443
      \endverbatim
      </li>
     </ol>
@@ -141,6 +158,12 @@ License, or any later version. */
      \verbatim
  1  2  3 
 25 72  3 
+100 
+     \endverbatim
+     With cutoff=16*10^6:
+     \verbatim
+ 1  2 
+42 58 
 100 
      \endverbatim
      </li>
