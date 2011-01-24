@@ -1,5 +1,5 @@
 // Oliver Kullmann, 11.10.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo Improve default_memory_ecl
   <ul>
-   <li> Compare "Reasonable memory and stack limits" in
+   <li> Compare "What memory-bounds?" in
    Buildsystem/MasterScript/SpecialProcessing/plans/Maxima_Init.hpp. </li>
    <li> It seems that set_lisp_stack_ecl(ls) does not work as expected:
    \verbatim
@@ -41,6 +41,7 @@ lisp_stack_ecl: 33849600
    \endverbatim
    So apparently by itself Maxima increased the lisp-spack by a large amount.
    </li>
+   <li> We should check this again with Ecl 11.1.1.1 and Maxima 5.23.2. </li>
   </ul>
 
 */

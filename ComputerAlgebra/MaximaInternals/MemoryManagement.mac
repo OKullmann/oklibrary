@@ -23,12 +23,6 @@ oklib_include("OKlib/ComputerAlgebra/MaximaInternals/MemoryManagement.lisp")$
 
 /* Default values: */
 
-frame_stack_ecl : 2^14;
-binding_stack_ecl : 2^17;
-c_stack_ecl : 2^23;
-heap_size_ecl : 2^30;
-lisp_stack_ecl : 2^18;
-
 show_memory_ecl() := (
  print("frame_stack_ecl:", get_frame_stack_ecl()),
  print("binding_stack_ecl:", get_binding_stack_ecl()),

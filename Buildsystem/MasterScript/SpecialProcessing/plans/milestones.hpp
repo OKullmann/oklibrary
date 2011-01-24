@@ -14,20 +14,31 @@ License, or any later version. */
   \par Version 0.1.1
 
   \par
-   In Buildsystem/MasterScript/SpecialProcessing/plans/Call_Maxima.hpp
-   the following topics are handled:
-    - Improve locality
-    - Setting userdir
-
-  \par
    In Buildsystem/MasterScript/SpecialProcessing/plans/Maxima_Init.hpp
    the following topics are handled:
-    - Reasonable memory and stack limits
+    - Reasonable memory and stack limits : DONE
 
   \par
    in Buildsystem/MasterScript/SpecialProcessing/plans/general.hpp
    the following topics are handled:
     - Create milestones : DONE
+
+
+  \par Version 0.1.2
+
+  \par
+   In Buildsystem/MasterScript/SpecialProcessing/plans/Call_Maxima.hpp
+   the following topics are handled:
+    - Improve locality
+    - Setting userdir
+
+
+  \par Version 0.1.3
+
+  \par
+   In Buildsystem/MasterScript/SpecialProcessing/plans/Maxima_Init.hpp
+   the following topics are handled:
+    - What memory-bounds? 
 
 
 

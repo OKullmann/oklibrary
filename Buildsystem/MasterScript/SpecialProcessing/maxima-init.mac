@@ -173,3 +173,25 @@ define_variable(
   15,
   fixnum);
 
+/* Constants for Ecl memory-management */
+
+define_variable(
+  frame_stack_ecl,
+  m4_SHELL(frame_stack_ecl_okl),
+  fixnum);
+define_variable(
+  binding_stack_ecl,
+  m4_SHELL(binding_stack_ecl_okl),
+  fixnum);
+define_variable(
+  c_stack_ecl,
+  m4_SHELL(c_stack_ecl_okl),
+  fixnum);
+define_variable(
+  heap_size_ecl,
+  m4_SHELL(heap_size_ecl_okl),
+  fixnum);
+define_variable(
+  lisp_stack_ecl,
+  m4_SHELL(lisp_stack_ecl_okl),
+  fixnum);

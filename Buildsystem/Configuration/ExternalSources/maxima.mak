@@ -61,6 +61,14 @@ maxima_source_okl := $(maxima_source_dir_okl)/$(maxima_recommended_okl)
 
 maxima_homedir_okl ?= $(maxima_installation_dir_okl)
 maxima_init_okl ?= $(maxima_share_dir_okl)/maxima-init.mac
+maxima_preload_okl ?= $(maxima_installation_dir_okl)/preload.lisp
+
+frame_stack_ecl_okl ?= 16384 # 2^14;
+binding_stack_ecl_okl ?= 131072 # 2^17;
+c_stack_ecl_okl ?= 8388608 # 2^23;
+heap_size_ecl_okl ?= 1073741824 # 2^30;
+lisp_stack_ecl_okl ?= 262144 # 2^18;
+
 
 # Integer sequences
 

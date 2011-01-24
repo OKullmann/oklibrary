@@ -1,5 +1,5 @@
 # Oliver Kullmann, 4.1.2008 (Swansea)
-# Copyright 2008, 2009 Oliver Kullmann
+# Copyright 2008, 2009, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -31,6 +31,7 @@ all : maxima_configuration run_maxima
 
 maxima_configuration :
 	$(preprocessing_call) $(OKbuildsystem)/MasterScript/SpecialProcessing/maxima-init.mac > $(maxima_init_okl)
+	$(preprocessing_call) $(OKbuildsystem)/MasterScript/SpecialProcessing/preload.lisp > $(maxima_preload_okl)
 
 run_maxima :
-	HOME=$(maxima_homedir_okl) $(maxima_call_okl) $(argument_okl)
+	HOME=$(maxima_homedir_okl) $(maxima_call_okl) --preload="$(maxima_preload_okl)" $(argument_okl)

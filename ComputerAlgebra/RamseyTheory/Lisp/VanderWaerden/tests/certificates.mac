@@ -37,7 +37,6 @@ okltest_certificates_vdw_3k(f) := block([maxk : length(f)],
     )
   )),
   if oklib_test_level=0 then return(true),
-  default_memory_ecl(),
   for k : 1 thru maxk do block([C : f[k]],
     if not emptyp(C) then block(
      [n : vanderwaerden3k(k)],

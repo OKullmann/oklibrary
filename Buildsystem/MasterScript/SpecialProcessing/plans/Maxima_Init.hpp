@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding initialisation of Maxima
 
 
-  \todo Reasonable memory and stack limits
+  \todo DONE (our default values are now set when calling Maxima)
+  Reasonable memory and stack limits
   <ul>
    <li> DONE (we assume that the current default values are appropriate)
    We should enhance the various limits, appropriate for the minimum
@@ -83,11 +84,20 @@ lisp_stack_ecl : 2^17;
      <li> 
     </ol>
    </li>
-   <li> One also has the command-line parameters "--heap-size, --lisp-stack,
+   <li> DONE (we don't need them anymore)
+   One also has the command-line parameters "--heap-size, --lisp-stack,
    --frame-stack, --c-stack", but it seems they are not useful here. </li>
+  </ul>
+
+
+  \todo What memory-bounds?
+  <ul>
+   <li> Compare "Improve default_memory_ecl" in
+   ComputerAlgebra/MaximaInternals/plans/MemoryManagement.hpp. </li>
    <li> MG mentioned that increasing certain of the above values has a
    negative effect on others due to increased memory-consumption; MG should
    explore this. </li>
+   <li> Is frame_stack_ecl_okl too large? </li>
   </ul>
 
 */
