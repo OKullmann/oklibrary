@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.4.2009 (Swansea)
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -176,8 +176,65 @@ d - round(fnlq(X))
      the preprocessor does nothing). </li>
     </ol>
    </li>
-   <li> k=12, n=134, 135: 283568 resp. 281381 nodes (~ 7 minutes). </li>
-   <li> k=13, n=159,160:
+   <li> k=12, n=134, 135:
+   \verbatim
+> OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-12_134.cnf 
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         12
+c initial_number_of_variables           134
+c initial_number_of_clauses             5172
+c initial_number_of_literal_occurrences 22266
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     593.2
+c number_of_nodes                       283568
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                2060055
+c number_of_pure_literals               35
+c number_of_autarkies                   1
+c number_of_missed_single_nodes         0
+c max_tree_depth                        36
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 516
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+> OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-12_135.cnf 
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         12
+c initial_number_of_variables           135
+c initial_number_of_clauses             5251
+c initial_number_of_literal_occurrences 22611
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     636.0
+c number_of_nodes                       281381
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                2049274
+c number_of_pure_literals               29
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        36
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 490
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+   \endverbatim
+   </li>
+   <li> k=13, n=159, 160:
    \verbatim
 s SATISFIABLE
 c sat_status=1 initial_maximal_clause_length=13 initial_number_of_variables=159 initial_number_of_clauses=7216 initial_number_of_literal_occurrences=31398 running_time(s)=4187.7 number_of_nodes=1590137 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=13477703 number_of_pure_literals=455 number_of_autarkies=0 number_of_missed_single_nodes=1 max_tree_depth=43 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=12836 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=VanDerWaerden_2-3-13_159.cnf
@@ -190,6 +247,12 @@ c sat_status=0 initial_maximal_clause_length=13 initial_number_of_variables=160 
 
   \todo Performance of march_pl
   <ul>
+   <li> k=12:
+    <ol>
+     <li> k=12, n=134: 73s (5567 nodes, csltok) </li>
+     <li> k=12, n=135: 550s (47963 nodes, csltok) </li>
+    </ol>
+   </li>
    <li> k=13, n=160:
    \verbatim
 c main():: nodeCount: 279674
@@ -204,6 +267,12 @@ c main():: time=5111.450195
 
   \todo Performance of satz215
   <ul>
+   <li> k=12:
+    <ol>
+     <li> k=12, n=134: 214s (NB_BRANCHE= 240158, csltok) </li>
+     <li> k=12, n=135: 236s (NB_BRANCHE= 262304, csltok) </li>
+    </ol>
+   </li>
    <li> k=13, n=160:
    \verbatim
 > satz215 VanDerWaerden_2-3-13_160.cnf
@@ -217,9 +286,39 @@ satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0
   </ul>
 
 
-  \todo Performance of minisat2
+  \todo Performance of conflict-driven solvers
   <ul>
-   <li> k=13, n=160: 19681930 conflicts, 19 restarts (4500s). </li>
+   <li> minisat2:
+    <ol>
+     <li> k=13, n=160: 19681930 conflicts, 19 restarts (4500s). </li>
+    </ol>
+   </li>
+   <li> minisat-2.2.0:
+    <ol>
+     <li> k=12, n=134: 153s (3605914 conflicts; csltok) </li>
+     <li> k=12, n=135: 266s (5963349 conflicts; csltok) </li>
+     <li> k=13, n=159: 33s (701558 conflicts; csltok) </li>
+     <li> k=13, n=160: 4871s (63901998 conflicts; csltok) </li>
+    </ol>
+   </li>
+   <li> cryptominisat-2.9.0:
+    <ol>
+     <li> k=12, n=134: 91s (619145 conflicts; csltok) </li>
+     <li> k=12, n=135: 763s (2815643 conflicts; csltok) </li>
+    </ol>
+   </li>
+   <li> precosat236:
+    <ol>
+     <li> k=12, n=134: 159s (1145491 conflicts; csltok) </li>
+     <li> k=12, n=135: 744s (3583785 conflicts; csltok) </li>
+    </ol>
+   </li>
+   <li> precosat-570:
+    <ol>
+     <li> k=12, n=134: 278s (1531799 conflicts; csltok) </li>
+     <li> k=12, n=135: 526s (2425722 conflicts; csltok) </li>
+    </ol>
+   </li>
   </ul>
 
 
