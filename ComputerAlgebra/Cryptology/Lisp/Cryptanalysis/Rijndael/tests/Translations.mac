@@ -103,6 +103,14 @@ okltest_nmul_ss_csttl(f) := block([n : 4, rowcols : [1,2,4]],
             f(e,r,c,4,ss_mixcolumns_matrix(2,4,rw),false,aes_mc_forward))))),
   true)$
 
+okltest_nvar_ss_fcl(f) := (
+  assert(f(1,1,1,4,ss_mixcolumns_matrix(2,4,1),16,
+      [['x,16],['x+1,16]],false,aes_mc_forward) = 64),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),256,
+      [['x,256],['x+1,256], [x^3+1,256],[x^3+x+1,256],[x^3+x^2+1,256],
+      [x^3+x^2+x,256]],false,aes_mc_bidirectional) = 31400),
+  true)$
+
 /******************************************************************
  * Data translation                                               *
  ******************************************************************

@@ -37,6 +37,7 @@ okltest_aes_mul_ts_gen(aes_mul_ts_gen);
 
 okltest_nsbox_ss_csttl(nsbox_ss_csttl)$
 okltest_nmul_ss_csttl(nmul_ss_csttl)$
+okltest_nvar_ss_fcl(nvar_ss_fcl)$
 
 /******************************************************************
  * Data translation                                               *

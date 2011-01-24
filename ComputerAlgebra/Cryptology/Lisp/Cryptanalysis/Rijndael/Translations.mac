@@ -281,9 +281,9 @@ nsbox_ss_csttl(r,num_columns,num_rows) :=
 /* Given the appropriate parameters, computes the number of multiplications
    by the finite field element e (given as a polynomial) in the associated
    small scale AES. The parameters are the field element, given as a
-   polynomial, number of rounds, and the number of columns, the mixcolumns
-   matrix, whether or not to use a special final round (true/false) and
-   the MixColumns translation to use (aes_mc_forward or
+   polynomial, number of rounds, and the number of columns, the small scale
+   exponent, the mixcolumns matrix, whether or not to use a special final
+   round (true/false) and the MixColumns translation to use (aes_mc_forward or
    aes_mc_bidirectional). */
 nmul_ss_csttl(e,r,num_cols,ss_exp,mixcolumns_matrix, final_round_b, mc_trans) :=
 block([inv_mixcolumns_matrix, nmul, nmul_inv],
@@ -296,7 +296,39 @@ block([inv_mixcolumns_matrix, nmul, nmul_inv],
   else nmul_inv : 0,
   if final_round_b then r : r -1,
   return(r * (nmul + nmul_inv) * num_cols))$
- 
+
+/* Given the appropriate parameters, computes the number of variables
+   in the small scale AES clause-list translation.
+
+   The parameters are the number of rounds, the number of columns, the small
+   scale exponent, the mixcolumns matrix to use, the number of variables
+   introduced by the sbox CNF translation, a list-map from the field elements
+   in the mixcolumns to the number of variables introduced in the CNF
+   translation of each multiplication, whether or not to use a special
+   final round, and whether to include the MixColumns inversion or not
+   (aes_mc_forward vs aes_mc_bidirectional). */
+nvar_ss_fcl(r,num_cols,num_rows,ss_exp,mixcolumns_matrix,
+            num_sbox_vars,num_mul_vars_map,final_round_b,mc_trans) :=
+block([mul_h : osm2hm(num_mul_vars_map), block_size],
+  block_size : num_cols * num_rows * ss_exp,
+  return(
+    (block_size * 3) + /* Input */
+    ((r-1) * block_size) + /* AES constraint */
+    ((r-1) * 2 * block_size) + /* Normal rounds */
+    (if final_round_b then block_size else 2 * block_size) + /* Final round */
+    (r * num_cols * num_rows * num_sbox_vars) + /* Subbytes - sboxes */
+    sum_l(map(lambda([e],ev_hm_d(mul_h,e,0) +
+          if e # 0 then ss_exp else 0),
+        m2l_r(mixcolumns_matrix))) * num_cols + /* MixColumns - forward */
+    (if mc_trans = aes_mc_bidirectional then
+      sum_l(map(lambda([e],ev_hm_d(mul_h,e,0) +
+            if e # 0 then ss_exp else 0),
+          m2l_r(ss_mixcolumns_matrix2inv_mixcolumns_matrix(
+              2,ss_exp,mixcolumns_matrix)))) else 0) * num_cols +
+    /* MixColumns - inv */
+    ((ss_exp * r) + (num_rows * r * ss_exp) + (num_rows * r * num_sbox_vars))
+    /* Key Schedule */))$
+
   
 /******************************************************************
  * Data translation                                               *
