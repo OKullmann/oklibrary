@@ -104,7 +104,7 @@ License, or any later version. */
    <li> We need instructions on how to generate each translation. These
    should occur here (in this plans file). </li>
    <li> For more information, see 
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp .
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
    </li>
   </ul>
 
@@ -112,7 +112,7 @@ License, or any later version. */
   \todo Open problems
   <ul>
    <li> For a description of the investigation, please see
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp .
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp.
    </li>
    <li> Here is a list of experiments which still need to be run, or
    questions for which we still do not know the answer. 
@@ -305,7 +305,7 @@ License, or any later version. */
    for every experiment? </li>
    <li> Any solvers to be used which are not currently in the library, need
    to be added to ExternalSources (see also "Add todos for SAT-Race 2010 SAT 
-   solvers" in BuildSystem/ExternalSources/SpecialBuilds/plans/SAT.hpp) .
+   solvers" in BuildSystem/ExternalSources/SpecialBuilds/plans/SAT.hpp).
    </li>
   </ul>
 
