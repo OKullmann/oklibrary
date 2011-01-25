@@ -65,7 +65,6 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             r10_keyfind.cnf
    \endverbatim
    </li>
-   <li> Again the OKsolver finds the result with no decisions! </li>
    <li> However, minisat2 and glucose need to branch:
    \verbatim
 shell> minisat2 r10_keyfind.cnf 
