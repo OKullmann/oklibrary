@@ -10,7 +10,6 @@ License, or any later version. */
   \brief Investigations into AES field multiplication by arbitary elements (e) in the 8-bit field
 
 
-
   \todo Basic data
   <ul>
    <li> The CNF-files "AES_byte_field_mul_full_${e}.cnf" are created by the 

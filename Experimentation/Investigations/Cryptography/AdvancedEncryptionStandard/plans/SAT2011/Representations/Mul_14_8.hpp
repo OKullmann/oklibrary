@@ -7,7 +7,8 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_14_8.hpp
-  \brief Investigations into AES field multiplication by 14 for the 8-bit field.
+  \brief Investigations into AES field multiplication by 14 for the 8-bit field
+
 
   \todo Basic data
   <ul>

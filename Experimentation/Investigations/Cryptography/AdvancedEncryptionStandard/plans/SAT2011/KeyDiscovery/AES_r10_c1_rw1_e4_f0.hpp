@@ -9,6 +9,7 @@ License, or any later version. */
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r10_c1_rw1_e4_f0.hpp
   \brief Investigations into simplest small scale AES key discovery for ten rounds AES with MixColumns
 
+
   \todo Using the canonical translation
   <ul>
    <li> Generating simplest small scale AES for 10 round (with MixColumns):

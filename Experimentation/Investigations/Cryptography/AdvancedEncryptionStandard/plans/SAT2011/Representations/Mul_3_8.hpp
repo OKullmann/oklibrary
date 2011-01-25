@@ -7,8 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp
-  \brief Investigations into AES field multiplication by 03 for the 8-bit field.
-
+  \brief Investigations into AES field multiplication by 03 for the 8-bit field
 
 
   \todo Basic data

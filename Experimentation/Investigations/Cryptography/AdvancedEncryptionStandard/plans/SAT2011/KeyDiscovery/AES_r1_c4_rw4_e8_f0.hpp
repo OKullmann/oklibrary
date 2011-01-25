@@ -9,6 +9,7 @@ License, or any later version. */
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r1_c4_rw4_e8_f0.hpp
   \brief Investigations into AES key discovery for one round AES with MixColumns
 
+
   \todo Using the canonical translation
   <ul>
    <li> Generating AES for 1 round (with MixColumns):
