@@ -9,6 +9,20 @@ License, or any later version. */
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r1_c1_rw1_e4_f1.hpp
   \brief Investigations into AES key discovery for one round AES without MixColumns
 
+
+  \todo Explanations
+  <ul>
+   <li> For every such file, we need explanations what a "round" etc. is,
+   in elementary terms, using terms "addition, sub-bytes, shift-rows,
+   mix-columns, round-key". </li>
+   <li> In general, all discussions should be based on the general notions
+   as introduced in
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac.
+   </li>
+   <li> Also the file-name needs to be explained (in each file). </li>
+  </ul>
+
+
   \todo Using the canonical translation (solvable)
   <ul>
    <li> Generating AES for 1 round (without MixColumns):
