@@ -39,7 +39,7 @@ License, or any later version. */
   <ul>
    <li> Using the translation scheme offered at 
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac, we
-   wish to consider the following set of translations for each AES variant.
+   consider the following set of translations for each AES variant.
    Each of the following constitutes an independent dimension to the 
    translation, and given a fixed variant, are different translations of the
    same function:
