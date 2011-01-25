@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.8.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,7 +28,16 @@ License, or any later version. */
     - Output to files
 
 
-  \par Version 0.9.9
+  
+\par Version 0.9.9
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
+    - Differences
+
+
+  \par Version 0.9.10
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -36,7 +45,7 @@ License, or any later version. */
     - OUTPUTTREEDATAXML
 
 
-  \par Version 0.9.10
+  \par Version 0.9.11
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -45,7 +54,7 @@ License, or any later version. */
     - Language standards
 
 
-  \par Version 0.9.11
+  \par Version 0.9.12
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -53,7 +62,7 @@ License, or any later version. */
     - Buildsystem
 
 
-  \par Version 0.9.12
+  \par Version 0.9.13
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -61,7 +70,7 @@ License, or any later version. */
     - Complete the help facilities of the OKsolver
 
 
-  \par Version 0.9.13
+  \par Version 0.9.14
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics

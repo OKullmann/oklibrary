@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.8.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,6 +20,24 @@ License, or any later version. */
    <li> Compare also "Correct computation of basic statistics" below. </li>
    <li> On the other hand, the count for "Musatd2 n 1", namely n-1, seems
    correct. </li>
+  </ul>
+
+
+  \todo Differences
+  <ul>
+   <li> With VanDerWaerden_2-3-13_159.cnf, VanDerWaerden_2-3-13_160.cnf in
+   Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/general.hpp
+   we get different results, compared to older records. </li>
+   <li> We need to investigate this. </li>
+   <li> Likely we have a different order of clauses now, and perhaps also
+   a different order of literals in the clauses. </li>
+   <li> Are the running-times now, where variables etc. need 64 bits (as
+   pointers), really so much worse, or is it due to "overload" (w.r.t.
+   caching) on csltok? </li>
+   <li> Also the node-count is different : is this due to double-computations,
+   or is there a systematic reason for the difference of 2 nodes? </li>
+   <li> Interesting that the differences in the number of 2-reductions is
+   considerable. </li>
   </ul>
 
 
