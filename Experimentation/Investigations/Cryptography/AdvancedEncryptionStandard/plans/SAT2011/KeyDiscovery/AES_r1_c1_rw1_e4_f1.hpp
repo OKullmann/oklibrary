@@ -10,6 +10,15 @@ License, or any later version. */
   \brief Investigations into AES key discovery for one round AES without MixColumns
 
 
+  \bug Merging deficient
+  <ul>
+   <li> See below for error-report. </li>
+   <li> This merging-tool shouldn't exist in this form; see
+   "Elementary file-surgery" in
+   Interfaces/InputOutput/plans/general.hpp. </li>
+  </ul>
+
+
   \todo Explanations
   <ul>
    <li> For every such file, we need explanations what a "round" etc. is,
@@ -76,7 +85,11 @@ output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b)
      \verbatim
 shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pcpair_r1_c4_rw4_e8_f1_s1.cnf > ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
 
-
+> cat ssaes_r1_c4_rw4_e8_f1_keyfind.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+terminate called after throwing an instance of 'OKlib::InputOutput::ClauseInputError'
+  what():  OKlib::InputOutput::StandardDIMACSInput::read_clauses:
+  literal 5929 has variable index larger than the specified upper bound 5928
+line 94566, column 2, total characters read 21231687
      \endverbatim
      </li>
     </ol>
