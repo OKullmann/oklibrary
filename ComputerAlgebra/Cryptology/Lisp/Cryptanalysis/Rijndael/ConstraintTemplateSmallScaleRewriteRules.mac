@@ -683,8 +683,8 @@ ss_inv_mixcolumn_cstr_cstl(cst) := block(
   bits : cst[2],
   namespace :
     cstt_namespace_new(ss_inv_mixcolumn_namespace,cst),
-  iBits : partition_elements(take_elements(ss_column_size, bits),ss_exp),
-  oBits : partition_elements(rest(bits, ss_column_size), ss_exp),
+  oBits : partition_elements(take_elements(ss_column_size, bits),ss_exp),
+  iBits : partition_elements(rest(bits, ss_column_size), ss_exp),
   /* First element */
   for i : 1 thru ss_num_rows do block([mul_vars, mul_vars_l : []],
     for j : ss_num_rows thru 1 step -1 do block([var_block],

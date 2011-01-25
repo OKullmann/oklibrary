@@ -59,10 +59,11 @@ okltest_ss_mixcolumns_cstr_cstl(ss_mixcolumns_cstr_cstl);
 
 
 okltest_ss_bi_mixcolumn_ns_var_l(ss_bi_mixcolumn_ns_var_l);
-okltest_ss_mixcolumn_ns_var_l(ss_mixcolumn_ns_var_l);
-okltest_ss_inv_mixcolumn_ns_var_l(ss_inv_mixcolumn_ns_var_l);
 okltest_ss_bi_mixcolumn_cstr_cstl(ss_bi_mixcolumn_cstr_cstl);
+okltest_ss_mixcolumn_ns_var_l(ss_mixcolumn_ns_var_l);
 okltest_ss_mixcolumn_cstr_cstl(ss_mixcolumn_cstr_cstl);
+okltest_ss_inv_mixcolumn_ns_var_l(ss_inv_mixcolumn_ns_var_l);
+okltest_ss_inv_mixcolumn_cstr_cstl(ss_inv_mixcolumn_cstr_cstl);
 
 okltest_ss_key_expansion_ns_var_l(ss_key_expansion_ns_var_l);
 okltest_ss_key_expansion_cstr_cstl(ss_key_expansion_cstr_cstl);
