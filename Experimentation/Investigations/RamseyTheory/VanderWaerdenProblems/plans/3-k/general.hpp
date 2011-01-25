@@ -236,6 +236,64 @@ c file_name                             VanDerWaerden_2-3-12_135.cnf
    </li>
    <li> k=13, n=159, 160:
    \verbatim
+On new csltok (64bit):
+> OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-13_159.cnf 
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         13
+c initial_number_of_variables           159
+c initial_number_of_clauses             7216
+c initial_number_of_literal_occurrences 31398
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     6835.3
+c number_of_nodes                       1590139
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                12785699
+c number_of_pure_literals               455
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        43
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 12836
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-3-13_159.cnf
+
+> OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-13_160.cnf 
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         13
+c initial_number_of_variables           160
+c initial_number_of_clauses             7308
+c initial_number_of_literal_occurrences 31804
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     14095.2
+c number_of_nodes                       2970723
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                24138237
+c number_of_pure_literals               706
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        43
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 24075
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-3-13_160.cnf
+
+On old csltok (32bit):
 s SATISFIABLE
 c sat_status=1 initial_maximal_clause_length=13 initial_number_of_variables=159 initial_number_of_clauses=7216 initial_number_of_literal_occurrences=31398 running_time(s)=4187.7 number_of_nodes=1590137 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=13477703 number_of_pure_literals=455 number_of_autarkies=0 number_of_missed_single_nodes=1 max_tree_depth=43 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=12836 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=VanDerWaerden_2-3-13_159.cnf
 s UNSATISFIABLE
@@ -290,8 +348,8 @@ satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0
   <ul>
    <li> minisat2:
     <ol>
-     <li> k=12, n=134:  conflicts,  restarts (csltok; s). </li>
-     <li> k=12, n=135:  conflicts,  restarts (csltok; s). </li>
+     <li> k=12, n=134: 1387192 conflicts, 22 restarts (csltok; 598s). </li>
+     <li> k=12, n=135: 1454696 conflicts, 22 restarts (csltok; 608s). </li>
      <li> k=13, n=159: 525039 conflicts,  20 restarts (csltok; 263s). </li>
      <li> k=13, n=160: 9298288 conflicts, 27 restarts (csltok; 7019s). </li>
     </ol>
@@ -322,7 +380,8 @@ satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0
      <li> k=12, n=135: 526s (2425722 conflicts; csltok) </li>
     </ol>
    </li>
-   <li> minisat-2.2.0 seems best. </li>
+   <li> minisat-2.2.0 seems best (one should also add the unit-clause for
+   odd n). </li>
   </ul>
 
 
