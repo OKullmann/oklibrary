@@ -21,9 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/testobjects/ce
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/data/3k.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/tests/certificates.mac")$
 
-/* Removed temporarily due to Maxima segmentation-fault:
 okltest_certificates_vdw_3k(certificates_vdw_3k);
-*/
 
 /*!
 \endhtmlonly
