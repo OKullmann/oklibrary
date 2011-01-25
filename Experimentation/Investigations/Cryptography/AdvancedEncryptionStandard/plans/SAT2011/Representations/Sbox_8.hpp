@@ -243,7 +243,7 @@ Error: Impossible to solve the PI chart (too many possible combinations).
 
   \todo r_1-bases : mincl_r1 <= 4474
   <ul>
-   <li> Current minimum clause-count of an r_1-base: 4596. </li>
+   <li> Current minimum clause-count of an r_1-base: 4474. </li>
    <li> Starting with a generating set, created from scratch:
    \verbatim
 > RUcpGen-O3-DNDEBUG AES_PK.cnf > AES_gen.cnf
