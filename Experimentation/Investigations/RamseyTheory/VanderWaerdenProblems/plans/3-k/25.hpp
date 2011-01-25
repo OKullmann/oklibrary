@@ -226,8 +226,7 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
    </li>
    <li> precosat570:
     <ol>
-     <li> n=607: ?sat, ?s (had to be interrupted after 408250.5, without
-     visible progress (except of the one fixed variable)). </li>
+     <li> n=607: unsat, 1136821.9s (881484924 conflicts). </li>
      <li> n=587: ?sat, ?s (had to be interrupted after 408284.6, without
      visible progress (except of the one fixed variable)). </li>
     </ol>
