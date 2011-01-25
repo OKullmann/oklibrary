@@ -23,7 +23,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Using the canonical translation (solvable)
+  \todo Using the canonical translation
   <ul>
    <li> Generating AES for 1 round (without MixColumns):
    \verbatim
@@ -178,7 +178,6 @@ Registering switches
    </li>
    <li> With "seed : 2$" and "seed : 3", these runtimes and statistics
    seem stable. </li>
-   <li> This is slow, especially given we have no MixColumns included! </li>
   </ul>
 
 */
