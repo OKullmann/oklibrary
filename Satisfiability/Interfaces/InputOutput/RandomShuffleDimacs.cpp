@@ -12,10 +12,21 @@ License, or any later version. */
   <ul>
    <li> Reads a Dimacs clause-list from standard input, and writes to standard 
    output (and standard error). </li>
-   <li> A single argument is taken, a positive integer seed. </li>
+   <li> A single argument is taken, a positive integer seed (1 if not given). 
+   </li>
    <li> The result, given on standard output, is a Dimacs file containing 
    containing the input clause-list after applying a random permutation
    based on the seed. </li>
+   <li> The random permutation used is determined by using the given seed
+   value to initialise a random number generator (Mersenne twister - mt19937)
+   and this is then used as the random number generator input for 
+   boost::variate_generator and then boost::random_number_generator, which
+   is then passed as the random number generator for C++ std::random_shuffle 
+   on the clause-list (in the order it is given in the input). </li>
+   <li> See "Random r_1-bases" in 
+   Satisfiability/Reductions/Bases/plans/UcpBase.hpp for discussion on the
+   exact behaviour of std::random_shuffle and the random number generator. 
+   </li>
   </ul>
 
 
@@ -57,6 +68,15 @@ namespace OKlib {
        permutation to the given clause-list using the random
        number generator as input to std::random_shuffle. 
        The result clause-list is output to the given clause-adaptor.
+
+       The random permutation used is determined by using the given
+       random number generator and this is then used as the random number 
+       generator input for the C++ std::random_shuffle on the clause-list (in 
+       the order it is given in the input).
+
+       Note that as the input must all be read before it can be shuffled, 
+       there may be a large delay between the input of a clause into this
+       adaptor and it's output to the output adaptor.
 
     */
     template <typename Int = int, class String = std::string, 

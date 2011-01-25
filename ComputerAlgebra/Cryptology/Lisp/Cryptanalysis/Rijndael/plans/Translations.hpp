@@ -1,5 +1,5 @@
 // Matthew Gwynne, 26.3.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,41 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
+
+
+  \todo Move AES box translations into separate file
+  <ul>
+   <li> Currently we have functions such as "aes_mul_ts_gen", and
+   "ss_mul_pi_cst_cl" in 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac
+   and
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac.
+   </li>
+   <li> It would be better to move these into a separate file where each type
+   of box translation can be clearly separated. </li>
+  </ul>
+
+
+  \todo Add statistics for translations
+  <ul>
+   <li> We need statistics functions for the various translations in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac. 
+   </li>
+   <li> We need at least the number of variables and clauses for each 
+   translation, and preferably the clause-length list. </li>
+   <li> DONE We also need statistics on the number of each box in each
+   translation. </li>
+  </ul>
+
+
+  \todo Remove AES-specific translation
+  <ul>
+   <li> The small scale AES translation handles the full AES, and therefore 
+   there is no need for a separate AES translation now, and the duplication of
+   code means we constantly have to update two different versions. </li>
+   <li> Therefore, the full AES translation should be removed and the helper
+   functions made to use the small scale translation. </li>
+  </ul>
 
 
   \todo Complete small scale helper functions

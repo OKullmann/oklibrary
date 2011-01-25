@@ -125,7 +125,7 @@ output_strong_php_stdname(m,n) := output_strong_php(m,n,
 
 nvar_php(m,n) := m * n$
 
-/* List of clause-counts for weak_php as with ncl_list_f */
+/* List of clause-counts for weak_php as with ncl_list_fcs */
 ncl_list_weak_php(m,n) :=
   if m = 0 then []
   elseif n = 0 then [[0,1]]

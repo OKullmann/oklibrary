@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 24.12.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTra
 */
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 
 
 /* ****************************
@@ -83,6 +84,55 @@ dualtsext_fcl(FF,d) := block([c : length(FF[2]), NV, G1, G2],
   G2 : lappend(map(lambda([C,i], create_list({-dtsext_var(i,d),x},x,listify(C))),
         FF[2], create_list(i,i,1,c))),
   [append(FF[1],NV), append(G1,G2,[setify(NV)])])$
+
+
+/* Measures */
+
+nvar_dualts(FF) := length(FF[1])+length(FF[2])$
+/* For a full clause-set with n variables and c clauses: */
+nvar_full_dualts(n,c) := n+c$
+
+ncl_dualts(FF) := nlitocc_fcl(FF) + ncl_fcl(FF) + 1$
+/* For a full clause-set with n variables and c clauses: */
+ncl_full_dualts(n,c) := (n * c) + c + 1$
+
+ncl_list_dualts(FF) := sort(block(
+  [ncl_list_FF : ncl_list_fcl(FF), ncl_h,
+   n : nvar_fcl(FF), c : ncl_fcl(FF), nlitocc : nlitocc_fcl(FF),
+   ncl_unit, ncl_cm1, other_cl],
+  ncl_h : osm2hm(ncl_list_FF),
+  ncl_unit : ev_hm_d(ncl_h,1,0), ncl_cm1 : ev_hm_d(ncl_h,c-1,0),
+  other_cl : sublist(ncl_list_FF, lambda([P], is(P[1] # 1) and is(P[1] # c-1))),
+  other_cl : map(lambda([a], [a[1]+1,a[2]]), other_cl),
+  if c = 0 then [[0,1]]
+  else if n = 0 then [[1,2]]
+  else if c = 2 then append([[2,nlitocc+ncl_unit+1]],other_cl)
+  else append([[2,nlitocc+ncl_unit],[c,1+ncl_cm1]],other_cl)))$
+/* We count the following clauses:
+     - a binary clause for every literal occurrence L in FF, representing that
+       dts(i) => L.
+     - a (length(C)+1)-ary clause for every clause C in FF, representing that
+       C => dts(i).
+     - a clause specifying that at least one of the clauses in the input must
+       be satisfied for the result to be satisfied, and therefore, one of the
+       dts(i) variables must be set to true. This yields a single clause of
+       length ncl_fcl(FF).
+       
+   Note that unit clauses in the input will result in more binary clauses
+   being counted than there are literal occurrences (as length(C)+1 where
+   C is a unit clause yields a binary clause in the output of dualts_fcl).
+*/
+/* For a full clause-set with n variables and c clauses: */
+ncl_list_full_dualts(n,c) := sort(
+  if c = 0 then [[0,1]]
+  else if n = 0 then [[1,2]]
+  else if n = 1 and c = 2 then [[2,2*c+1]]
+  else if n = 1 and c # 2 then [[2,2*c],[c,1]]
+  else if n+1 = c then [[2,n*c],[n+1,c+1]]
+  else if c = 2 then [[2,n*c+1],[n+1,c]]
+  else [[2,n*c],[c,1],[n+1,c]])$
+
+   
 
 
 /*!

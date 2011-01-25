@@ -18,9 +18,17 @@ License, or any later version. */
   the following topics are handled:
     - Functions should not cache return values
     - Test failure at level "full" : DONE
+
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/Translations.mac
+  the following topics are handled:
+   - C-STACK overflow : DONE
   
   \par
-  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
+  the following topics are handled:
+    - Move AES box translations into separate file
+    - Add statistics for translations
     - Fix translation system : DONE
     - Parameterise inclusion of inverse operation in Mixcolumn translation : DONE
     - Standardise block ordering: DONE
@@ -53,6 +61,7 @@ License, or any later version. */
 
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - Remove AES-specific translation
     - Complete small scale helper functions
     - Remove hard-coding of multiplication by 01 in small scale MixColumn
     - Standardise output files names

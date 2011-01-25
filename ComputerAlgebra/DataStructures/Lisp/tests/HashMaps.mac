@@ -435,6 +435,13 @@ okltest_extract_arraylist(f) := (
    *********************
 */
 
+okltest_multi_list_distribution2list_distribution(f) := (
+  assert(f([]) = []),
+  assert(f([[1,0]]) = [[1,0]]),
+  assert(f([[1,0],[2,3]]) = [[1,0],[2,3]]),
+  assert(f([[1,5],[2,3],[1,6],[2,1]]) = [[1,11],[2,4]]),
+  true)$
+
 okltest_list_distribution(f) := (
   assert(f([]) = []),
   assert(f([{},{1},{},{2},{1}]) = [[{},2],[{1},2],[{2},1]]),

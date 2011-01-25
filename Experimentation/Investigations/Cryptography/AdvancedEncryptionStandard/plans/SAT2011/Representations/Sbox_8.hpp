@@ -241,7 +241,7 @@ Error: Impossible to solve the PI chart (too many possible combinations).
   </ul>
 
 
-  \todo r_1-bases : mincl_r1 <= 4596
+  \todo r_1-bases : mincl_r1 <= 4474
   <ul>
    <li> Current minimum clause-count of an r_1-base: 4596. </li>
    <li> Starting with a generating set, created from scratch:
@@ -290,12 +290,14 @@ Error: Impossible to solve the PI chart (too many possible combinations).
    set is fixed, there aren't so much choices anymore(?)). </li>
    <li> Another thing to do is to provide RUcpGen-O3-DNDEBUG with a non-empty
    starting set, namely the clauses from a "small" representation. </li>
-   <li> The canonical translation has 4353 clauses and 272 variables:
-   <ol>
-    <li> 256 * length 17 clauses (1 for each DNF clause). </li>
-    <li> 256 * 16 = 1096 * length 2 clauses. </li>
-    <li> 1 * length 256 clause. </li>
-   </ol>
+   <li> The canonical translation has the following statistics:
+   \verbatim
+maxima> FF_sbox_ts : ss_sbox_ts_gen(2,8,ss_polynomial_2_8)$
+maxima> statistics_fcs(F_sbox_ts);
+[272,4353,12800,256,2]
+maxima> ncl_list_full_dualts(16,256);
+[[2,4096],[17,256],[256,1]]
+   \endverbatim
    </li>
    <li> Generation from scratch, using a sorted list of prime-clauses:
     <ol>
@@ -326,56 +328,93 @@ Error: Impossible to solve the PI chart (too many possible combinations).
 9 4
      \endverbatim
      </li>
+     <li> Sorting the generating set in descending order (using 
+     SortByClauseLength-O3-DNDEBUG, "tac" and then manual editing), 
+     yields an even smaller r_1 base:
+     \verbatim
+> cat sbox_gen_from_revsorted.cnf | RUcpBase-O3-DNDEBUG | tee sbox_base_from_revsorted.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 4474 30569 0 30569 0 1
+ length count
+5 1
+6 1207
+7 2810
+8 452
+9 4
+     \endverbatim
+     See 'Need "ReverseDimacs" application and clause-set adaptor' in
+     Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp for discussion
+     on creating a clause-set "reverse" application" (we could also
+     offer another option in SortByClauseLength, although general
+     tools such as "Reverse" are also nice).
+     </li>
     </ol>
    </li>
+   <li> It makes sense that sorting the generating set in descending 
+   order of clause-size, when passing it to RUcpBase, would yield shorter
+   r_1 bases as then RUcpBase removes longer clauses first and keeps
+   the shorter ones (which cover more). </li>
    <li> Using the smallest known Sbox CNF (mincl_rinf = 294):
     <ol>
      <li> See 
      "Using weighted MaxSAT to compute small CNFs") with statistics:
      \verbatim
-cat AES_294.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+> cat AES_294.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 294 1939 0 1939 0 1
  length count
 6 143
 7 127
 8 24
+> cat AES_294.cnf | SortByClauseLength-O3-DNDEBUG > AES_294_sorted.cnf
      \endverbatim
-     as a starting point we get the following bases of size 4788 and 4866:
+     as a starting point we get the following bases of size 4735, 4744 and
+     4658:
      \verbatim
-> RUcpGen-O3-DNDEBUG AES_PK.cnf AES_294.cnf | tee sbox_gen.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
-  n non_taut_c red_l taut_c orig_l comment_count finished_bool
-16 8629 60248 0 60248 1 1
- length count
-5 1
-6 1367
-7 6060
-8 1188
-9 13
-> seed=1; cat sbox_gen.cnf | RandomShuffleDimacs-O3-DNDEBUG ${seed} | RUcpBase-O3-DNDEBUG | tee AES_base_nosort_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+> RUcpGen-O3-DNDEBUG AES_PK_sorted.cnf AES_294_sorted.cnf | tee sbox_gen.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
-16 4788 32748 0 32748 0 1
+16 5967 40615 0 40615 1 1
  length count
 5 1
-6 1143
-7 3271
-8 369
-9 4
-> seed=1; cat sbox_gen.cnf | RandomShuffleDimacs-O3-DNDEBUG ${seed} | SortByClauseLength-O3-DNDEBUG | RUcpBase-O3-DNDEBUG | tee AES_base_sorted_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+6 1638
+7 3847
+8 476
+9 5
+> seed=1; cat sbox_gen.cnf | RUcpBase-O3-DNDEBUG | tee AES_base_nosort_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
-16 4866 33409 0 33409 0 1
+16 4735 32492 0 32492 0 1
  length count
 5 1
-6 1071
-7 3378
-8 412
-9 4
+6 1106
+7 3178
+8 445
+9 5
+> seed=1; cat sbox_gen.cnf | SortByClauseLength-O3-DNDEBUG | RUcpBase-O3-DNDEBUG | tee AES_base_sorted_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 4744 32562 0 32562 0 1
+ length count
+5 1
+6 1099
+7 3194
+8 445
+9 5
+> seed=1; cat sbox_294_gen_revsort.cnf | RUcpBase-O3-DNDEBUG | tee AES_base_revsort_${seed}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 4658 31869 0 31869 0 1
+ length count
+5 1
+6 1190
+7 3017
+8 445
+9 5
      \endverbatim
-     It is interesting in this case that neither using the small
-     representation to form a generating set, or sorting the clauses before
-     input seem to result in smaller bases. </li>
-     <li> The basic problem here seems to be the missing sorting when creating
-     the generating clause-set. </li>
+     </li>
+     <li> Not that in this case (using an initial input of the 294 clauses 
+     from the smallest known representation), sorting the clauses of the 
+     generating set in reverse (sbox_294_gen_revsort.cnf - generated by hand 
+     from the sorted generating set using "tac" and moving the p line back to 
+     the top) yields the smallest r_1 base of the three (no sorting, sorting
+     and reverse). </li>
     </ol>
    </li>
    <li> The smallest known representation (mincl_rinf=294) doesn't seem to use

@@ -256,6 +256,11 @@ extract_arraylist(h) := okl_listarray(extract_array(h))$
 */
 enter_new_occurrence(h,x) :=
   set_hm(h,x,ev_hm_d(h,x,0)+1)$
+/* Allowing the addition of multiple occurrences at once, taking
+   a pair with x and n the number of occurrences of x, and adding n
+   to the number of occurrences in the map. */
+enter_new_occurrences(h,P) :=
+  set_hm(h,P[1],ev_hm_d(h,P[1],0)+P[2])$
 get_distribution(h) := listify(hm2sm(h))$
 
 /* Canning the above process in a function, that is, compute the
@@ -264,6 +269,18 @@ get_distribution(h) := listify(hm2sm(h))$
 list_distribution(L) := block([h : sm2hm({})],
   for x in L do enter_new_occurrence(h,x),
   get_distribution(h))$
+
+/* Given a list of pairs of the form [x,count], returns a list of pairs of the
+   form [x, sumcount] for every unique such x in the input, where sumcount is
+   the sum of counts over all pairs with x as the first element, and no two
+   pairs in the result have the same first element. */
+multi_list_distribution2list_distribution(L) := block([h : sm2hm({})],
+  for P in L do enter_new_occurrences(h,P),
+  get_distribution(h))$
+/* As an example we have:
+     multi_list_distribution2list_distribution(
+       [[1,5],[2,3],[1,6],[2,1]]) = [[1,11],[2,4]] 
+*/
 
 /* In the special case, where the x are numerical, we could do as
    follows; HOWEVER this is MUCH slower than the above: */

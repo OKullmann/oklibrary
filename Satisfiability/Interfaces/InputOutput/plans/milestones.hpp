@@ -14,6 +14,11 @@ License, or any later version. */
   \par Version 0.1.1 :
 
   \par
+   In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
+   are handled:
+    - Need "ReverseDimacs" application and clause-set adaptor
+
+  \par
    In Interfaces/InputOutput/plans/Colouring.hpp the following topics
    are handled:
     - Improve implementations

@@ -10,6 +10,17 @@ License, or any later version. */
   \brief Plans for adaptors (transferring clause-sets in streams to data structures)
 
 
+  \todo Need "ReverseDimacs" application and clause-set adaptor
+  <ul>
+   <li> When dealing with clause-sets which have some ordering,
+   it is sometimes useful to reverse this ordering (perhaps
+   whatever we ordered the clause-set with doesn't support the
+   inverse order that we truly want). </li>
+   <li> Therefore we need a simple application and clause-set 
+   adaptor which reverses the given clause-set. </li>
+  </ul>
+
+
   \todo Document the basic concept CLSAdaptor
   <ul>
    <li> See Interfaces/InputOutput/ClauseSetAdaptors.hpp. </li>
