@@ -14,8 +14,8 @@ License, or any later version. */
   Sbox, field multiplication, field inversion and so on.
 
   For information on the scope of the AES and small scale translations, see
-  "Dimensions" below. For an idea of the open problems, please see
-  "Open problems".
+  "Investigation dimensions" below. For an idea of the open problems, please
+  see "Open problems".
 
 
   \todo Links
@@ -35,7 +35,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Dimensions
+  \todo Investigation dimensions
   <ul>
    <li> Using the translation scheme offered at 
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac, we
