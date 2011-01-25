@@ -8,20 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/MasterScript/SpecialProcessing/plans/milestones.hpp
   
-  \module_version Buildsystem/MasterScript/SpecialProcessing 0.1.0.1 (11.8.2009)
-
-
-  \par Version 0.1.1
-
-  \par
-   In Buildsystem/MasterScript/SpecialProcessing/plans/Maxima_Init.hpp
-   the following topics are handled:
-    - Reasonable memory and stack limits : DONE
-
-  \par
-   in Buildsystem/MasterScript/SpecialProcessing/plans/general.hpp
-   the following topics are handled:
-    - Create milestones : DONE
+  \module_version Buildsystem/MasterScript/SpecialProcessing 0.1.1 (24.1.2011)
 
 
   \par Version 0.1.2
@@ -47,5 +34,6 @@ License, or any later version. */
   \par Version history
 
    - 0.1.0 : 11.8.2009; initial version: having established procedures for invoking Maxima and R.
+   - 0.1.1 : 25.1.2011; means to manage memory-bounds for Maxima with Ecl, improved general settings and test-handling in Maxima, and plans on improved locality of Maxima-invocation.
 
 */

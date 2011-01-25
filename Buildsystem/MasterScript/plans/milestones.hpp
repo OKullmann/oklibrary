@@ -8,12 +8,12 @@ License, or any later version. */
 /*!
   \file Buildsystem/MasterScript/plans/milestones.hpp
   
-  \module_version Buildsystem/MasterScript 0.0.5 (4.9.2008)
+  \module_version Buildsystem/MasterScript 0.0.5.1 (25.1.2011)
 
 
   \par Version 0.0.6 :
 
-  \par Buildsystem/MasterScript/SpecialProcessing version 0.1.1
+  \par Buildsystem/MasterScript/SpecialProcessing version 0.1.1 : DONE
   (see Buildsystem/MasterScript/SpecialProcessing/plans/milestones.hpp)
 
   \par
