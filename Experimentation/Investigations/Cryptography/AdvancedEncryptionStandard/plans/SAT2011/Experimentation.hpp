@@ -100,6 +100,17 @@ License, or any later version. */
     </li>
    </ul>
    </li>
+   <li> Also parts of the AES-scheme are altered, to treat certain components
+   more in isolation:
+    <ol>
+     <li> See "Explain how to replace various AES boxes with identity or
+     random" in AdvancedEncryptionStandard/plans/SAT2011/general.hpp; this
+     aspects needs better explanations. </li>
+     <li> See "Separate key-schedule and block-cipher" in
+     AdvancedEncryptionStandard/plans/SAT2011/general.hpp; this aspects needs
+     better explanations. </li>
+    </ol>
+   </li>
    <li> In each case, the first option is considered the default. </li>
    <li> We need instructions on how to generate each translation. These
    should occur here (in this plans file). </li>
