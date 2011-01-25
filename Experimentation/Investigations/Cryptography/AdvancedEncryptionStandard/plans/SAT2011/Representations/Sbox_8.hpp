@@ -241,7 +241,7 @@ Error: Impossible to solve the PI chart (too many possible combinations).
   </ul>
 
 
-  \todo r_1-bases : mincl_r1 <= 4596
+  \todo r_1-bases : mincl_r1 <= 4474
   <ul>
    <li> Current minimum clause-count of an r_1-base: 4596. </li>
    <li> Starting with a generating set, created from scratch:
@@ -328,8 +328,32 @@ maxima> ncl_list_full_dualts(16,256);
 9 4
      \endverbatim
      </li>
+     <li> Sorting the generating set in descending order (using 
+     SortByClauseLength-O3-DNDEBUG, "tac" and then manual editing), 
+     yields an even smaller r_1 base:
+     \verbatim
+> cat sbox_gen_from_revsorted.cnf | RUcpBase-O3-DNDEBUG | tee sbox_base_from_revsorted.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 4474 30569 0 30569 0 1
+ length count
+5 1
+6 1207
+7 2810
+8 452
+9 4
+     \endverbatim
+     See 'Need "ReverseDimacs" application and clause-set adaptor' in
+     Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp for discussion
+     on creating a clause-set "reverse" application" (we could also
+     offer another option in SortByClauseLength, although general
+     tools such as "Reverse" are also nice).
+     </li>
     </ol>
    </li>
+   <li> It makes sense that sorting the generating set in descending 
+   order of clause-size, when passing it to RUcpBase, would yield shorter
+   r_1 bases as then RUcpBase removes longer clauses first and keeps
+   the shorter ones (which cover more). </li>
    <li> Using the smallest known Sbox CNF (mincl_rinf = 294):
     <ol>
      <li> See 
