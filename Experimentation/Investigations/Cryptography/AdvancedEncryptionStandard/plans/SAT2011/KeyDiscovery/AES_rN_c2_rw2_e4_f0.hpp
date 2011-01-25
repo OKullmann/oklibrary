@@ -9,6 +9,7 @@ License, or any later version. */
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_rN_c2_rw2_e4_f0.hpp
   \brief Investigations into small scale AES key discovery for N round AES with a 2x2 block and 4-bit field elements and including MixColumns (0 < N <= 10)
 
+
   \todo Using the canonical translation
   <ul>
    <li> Generating small scale AES for 1-10 rounds (with MixColumns):
