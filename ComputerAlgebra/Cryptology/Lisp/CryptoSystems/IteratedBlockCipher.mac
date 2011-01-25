@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 23.12.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -41,7 +41,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/IteratedBlockCip
 
    f : KB x I -> KB
 
-   is the "key round function", while I = {1, ..., N}.
+   is the "key round-function", while I = {1, ..., N}.
 */
 
 /* For such a key round-function compute a function, call it F,
@@ -64,12 +64,12 @@ key_schedule_0(key_round_f) := buildq([key_round_f], lambda([key,N],
    C : MB x KB x I -> MB.
 
    For the constitutive functions rc (the "round composition") and mr (the
-   "message round function") we have
+   "message round-function") we have
 
    rc : MB x KB -> MB
    mr : MB x I -> MB.
 
-   The "round function" rf is the map MB x KB x I -> MB,
+   The "round-function" rf is the map MB x KB x I -> MB,
    given by
 
    rf(m,k,i) = m for i=0
@@ -86,7 +86,7 @@ key_schedule_0(key_round_f) := buildq([key_round_f], lambda([key,N],
    for the input has been counted as first round).
 */
 
-/* Given a key round-function, and a round function given by the
+/* Given a key round-function, and a round-function given by the
    message-round-function and the round-composition, compute a block cipher
    C such that C(m,k,N) = M_N according to the above definition:
 */
