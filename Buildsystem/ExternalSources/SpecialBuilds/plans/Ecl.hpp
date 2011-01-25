@@ -13,7 +13,22 @@ License, or any later version. */
   \todo Update to 11.1.1
   <ul>
    <li> Should we provide a local installation of libffi? Apparently Ecl can
-   live without it --- is this important for us? </li>
+   live without it --- is this important for us?
+    <ol>
+     <li> On cs-oksvr the build of 11.1.1.1 fails with
+     \verbatim
+cp /home/csoliver/OKplatform/ExternalSources/builds/Ecl/ecl-11.1.1.1/src/../contrib/unicode/ucd.dat .
+if [ -f CROSS-COMPILER ]; then \
+                ./CROSS-COMPILER compile; \
+        else \
+                ECLDIR=`pwd`/ ./ecl_min compile; \
+        fi
+./ecl_min: error while loading shared libraries: libffi.so.4: cannot open shared object file: No such file or directory
+     \endverbatim
+     </li>
+     <li> libffi is available at http://sourceware.org/libffi/ . </li>
+    </ol>
+   </li>
    <li> Apparently Ecl can also be built by a C++ compiler --- shall we do so?
    We already provide CC and CXX, so that hopefully suffices? </li>
    </li>
