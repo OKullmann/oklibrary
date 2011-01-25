@@ -100,11 +100,6 @@ License, or any later version. */
     </li>
    </ul>
    </li>
-   <li> This yields 122,880 possible translations (including the different
-   variants), although not all of
-   which make sense to consider (for instance if the number of primes
-   implicates for a given box is small, then we should just use this). 
-   </li>
    <li> In each case, the first option is considered the default. </li>
    <li> We need instructions on how to generate each translation. These
    should occur here (in this plans file). </li>
