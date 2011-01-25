@@ -53,7 +53,7 @@ License, or any later version. */
   \todo Explain how to replace various AES boxes with identity or random
   boxes
   <ul>
-   <li> As part of our investigations, we wish to make various parts of
+   <li> As part of our investigations, we make various parts of
    the AES sbox the identity, and then introduce the various boxes (Sbox,
    field multiplications etc), to determine which combinations of boxes
    "make AES difficult". </li>
