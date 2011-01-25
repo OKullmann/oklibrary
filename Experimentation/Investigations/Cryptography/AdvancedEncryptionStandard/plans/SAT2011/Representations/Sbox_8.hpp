@@ -290,12 +290,14 @@ Error: Impossible to solve the PI chart (too many possible combinations).
    set is fixed, there aren't so much choices anymore(?)). </li>
    <li> Another thing to do is to provide RUcpGen-O3-DNDEBUG with a non-empty
    starting set, namely the clauses from a "small" representation. </li>
-   <li> The canonical translation has 4353 clauses and 272 variables:
-   <ol>
-    <li> 256 * length 17 clauses (1 for each DNF clause). </li>
-    <li> 256 * 16 = 1096 * length 2 clauses. </li>
-    <li> 1 * length 256 clause. </li>
-   </ol>
+   <li> The canonical translation has the following statistics:
+   \verbatim
+maxima> FF_sbox_ts : ss_sbox_ts_gen(2,8,ss_polynomial_2_8)$
+maxima> statistics_fcs(F_sbox_ts);
+[272,4353,12800,256,2]
+maxima> ncl_list_full_dualts(16,256);
+[[2,4096],[17,256],[256,1]]
+   \endverbatim
    </li>
    <li> Generation from scratch, using a sorted list of prime-clauses:
     <ol>

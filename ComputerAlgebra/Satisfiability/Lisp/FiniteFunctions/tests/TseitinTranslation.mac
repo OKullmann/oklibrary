@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 24.12.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,6 +20,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/tests/Tsei
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac")$
 
 
 kill(f)$
@@ -30,7 +32,7 @@ kill(f)$
    ****************************
 */
 
-okltest_dualts_fcl(f) := (
+okltest_dualts_fcl(f) := block(
   assert(f([[],[]]) = [[],[{}]]),
   assert(f([[3,1],[]]) = [[3,1],[{}]]),
   assert(f([[],[{}]]) = [[dts(1)],[{dts(1)},{dts(1)}]]),
@@ -41,6 +43,13 @@ okltest_dualts_fcl(f) := (
     {-dts(2),1}, {-dts(2),3}, {-dts(3),-3}, {-dts(4),-3},{-dts(4),-1},
     {dts(1),dts(2),dts(3),dts(4)}
    ]]),
+  if oklib_test_level = 0 then return(true),
+  for n : 0 thru 10 do block([input_FF,FF],
+    input_FF : full_fcl(n),
+    FF : f(input_FF),
+    assert(nvar_fcl(FF) = nvar_dualts(input_FF)),
+    assert(ncl_fcl(FF) = ncl_dualts(input_FF)),
+    assert(ncl_list_fcl(FF) = ncl_list_dualts(input_FF))),
   true)$
 
 okltest_dualtsext_fcl(f) := block([x],
@@ -54,7 +63,74 @@ okltest_dualtsext_fcl(f) := block([x],
     {-dts(2,1),1}, {-dts(2,1),3}, {-dts(3,1),-3}, {-dts(4,1),-3},{-dts(4,1),-1},
     {dts(1,1),dts(2,1),dts(3,1),dts(4,1)}
    ]]),
+  if oklib_test_level = 0 then return(true),
+  for n : 0 thru 10 do block([input_FF,FF],
+    input_FF : full_fcl(n),
+    FF : f(input_FF,1),
+    assert(nvar_fcl(FF) = nvar_dualts(input_FF)),
+    assert(ncl_fcl(FF) = ncl_dualts(input_FF)),
+    assert(ncl_list_fcl(FF) = ncl_list_dualts(input_FF))),
   true)$
+
+/* Measures */
+
+okltest_nvar_dualts(f) := (
+  assert(f([[],[]]) = 0),
+  assert(f([[],[{}]]) = 1),
+  assert(f([[1,2],[{1,2},{-1,2}]]) = 4),
+  assert(f([[1,2],[{1,2},{-1}]]) = 4),
+  assert(f([[1,2],[{1,2},{-1,2},{1,-2}]]) = 5),
+  true)$
+
+okltest_nvar_full_dualts(f) := (
+  assert(f(0,0) = 0),
+  assert(f(1,0) = 1),
+  for i : 1 thru 10 do
+    assert(f(i,0) = i),
+  assert(f(1,1) = 2),
+  for i : 1 thru 5 do
+    assert(f(i,i) = 2*i),
+  assert(f(16,256) = 272),
+  true)$
+
+okltest_ncl_dualts(f) := (
+  assert(f([[],[]]) = 1),
+  assert(f([[],[{}]]) = 2),
+  assert(f([[1,2],[{1,2},{-1,2}]]) = 7),
+  assert(f([[1,2],[{1,2},{-1}]]) = 6),
+  assert(f([[1,2],[{1,2},{-1,2},{1,-2}]]) = 10),
+  true)$
+
+okltest_ncl_full_dualts(f) := (
+  assert(f(0,0) = 1),
+  assert(f(1,0) = 1),
+  assert(f(1,1) = 3),
+  assert(f(16,256) = 4353),
+  true)$
+
+okltest_ncl_list_dualts(f) := block(
+  assert(f([[],[]]) = [[0,1]]),
+  assert(f([[],[{}]]) = [[1,2]]),
+  assert(f([[1,2],[{1,2},{-1,2}]]) = [[2,5],[3,2]]),
+  assert(f([[1,2],[{1,2},{-1}]]) = [[2,5],[3,1]]),
+  assert(f([[1,2],[{1,2},{-1,2},{1,-2}]]) = [[2,6],[3,4]]),
+  assert(f([[1,2,3],[{1,2,3},{-1,2,3},{1,-2,3},{1,-2,-3},{-1,-2,-3}]]) =
+    [[2,15],[4,5],[5,1]]),
+  true)$
+
+okltest_ncl_list_full_dualts(f) := block(
+  assert(f(0,0) = [[0,1]]),
+  assert(f(1,0) = [[0,1]]),
+  assert(f(0,1) = [[1,2]]),
+  assert(f(1,1) = [[1,1],[2,2]]),
+  assert(f(2,2) = [[2,5],[3,2]]),
+  assert(f(2,4) = [[2,8],[3,4],[4,1]]),
+  assert(f(16,256) = [[2,4096],[17,256],[256,1]]),
+  if oklib_test_level = 1 then return(true),
+  for n : 0 thru 10 do
+    assert(f(n,n) = ncl_list_dualts([create_list(i,i,1,n),
+        take_elements(n,full_fcl(n)[2])])),
+  true)$   
 
 /*!
 \endhtmlonly
