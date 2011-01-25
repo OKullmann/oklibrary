@@ -12,6 +12,27 @@ License, or any later version. */
 
   \todo Update to 11.1.1
   <ul>
+   <li> Version 11.1.1.1 is an update by
+   \verbatim
+> ADDRESS=anonymous@ecls.cvs.sourceforge.net:/cvsroot/ecls
+> cvs -z3 -d:pserver:$ADDRESS checkout ecl
+   \endverbatim
+   </li>
+   <li> Test failure with 11.1.1.1:
+    <ol>
+     <li>
+     \verbatim
+okltest_dec2hex(dec2hex)
+ASSERT: Expression " "0b" = "0B" " does not evaluate to true.
+
+> printf(false,"~x",11);
+ "b"
+     \endverbatim
+     </li>
+     <li> Before we got "B" --- what is correct? </li>
+     <li> This is now the only test-failure. </li>
+    </ol>
+   </li>
    <li> Should we provide a local installation of libffi? Apparently Ecl can
    live without it --- is this important for us?
     <ol>
@@ -48,7 +69,8 @@ This differed from the expected result:
 The following 1 problem failed: (101)
    \endverbatim
    This looks like a new problem. </li>
-   <li> We get an OKlib test-failure (with Maxima 5.21.1 and 5.23.2):
+   <li> DONE (corrected with 11.1.1.1)
+   We get an OKlib test-failure (with Maxima 5.21.1 and 5.23.2):
     <ol>
      <li>
      \verbatim
