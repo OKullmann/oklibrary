@@ -33,8 +33,10 @@ License, or any later version. */
 
   \todo Using the canonical translation
   <ul>
-   <li> Generating AES for 1 round (without MixColumns) (in Maxima):
-   \verbatim
+   <li> Generating AES-instance for 1 round (without MixColumns):
+    <ol>
+     <li> First generating the basic instance in Maxima:
+     \verbatim
 num_rounds : 1;
 num_columns : 4;
 num_rows : 4;
@@ -44,16 +46,40 @@ box_tran : aes_ts_box;
 seed : 1;
 mc_tran : aes_mc_bidirectional;
 output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran);
-   \endverbatim
-   and then we can generate a random assignment with the plaintext and 
-   ciphertext, leaving the key unknown:
-   \verbatim
+
+> cat ssaes_r1_c4_rw4_e8_f1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+5928 88636 260776 0 260776 5929 1
+ length count
+1 8
+2 81920
+3 1504
+4 64
+17 5120
+256 20
+     \endverbatim
+     </li>
+     <li> These counts need explanations. </li>
+     <li> Then we generate a random assignment with the plaintext and 
+     ciphertext, leaving the key unknown:
+     \verbatim
 output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
-   \endverbatim
-   and then merging the assignment with the translation:
-   \verbatim
+
+> cat ssaes_pcpair_r1_c4_rw4_e8_f1_s1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+256 256 256 0 256 1 1
+ length count
+1 256
+     \endverbatim
+     </li>
+     <li> Finally we merge the assignment with the basic instance:
+     \verbatim
 shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pkpair_r1_c4_rw4_e8_f1_s1.cnf > ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
-   \endverbatim
+
+
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> Overall, most of the solvers in the OKlibrary solve the problem in
    either < 30s or < 6m. </li>
