@@ -44,11 +44,12 @@ License, or any later version. */
    translation, and given a fixed variant, are different translations of the
    same function:
    <ul>
-    <li> MixColumns direction (2 options):
+    <li> MixColumns direction (3 options):
     <ol>
      <li> Translation of the MixColumn component using both the encryption and
      decryption components. </li>
      <li> Translation using only the encryption direction. </li>
+     <li> Translation using only the decryption direction. </li>
     </ol>
     </li>
     <li> Movement of the Sbox linear map into MixColumns (2 options):
