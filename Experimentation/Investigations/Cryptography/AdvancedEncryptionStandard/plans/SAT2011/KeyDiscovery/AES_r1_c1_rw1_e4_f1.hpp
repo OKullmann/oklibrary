@@ -23,6 +23,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Problems sizes
+  <ul>
+   <li> For each such file, we need the complete information about the instance
+   sizes. </li>
+   <li> Both measured, and as a result of general formulas. </li>
+  </ul>
+
+
   \todo Using the canonical translation
   <ul>
    <li> Generating AES for 1 round (without MixColumns):
