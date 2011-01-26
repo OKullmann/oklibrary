@@ -25,21 +25,13 @@ shell> $OKlib/OKlib/Experimentation/Investigations/BooleanFunctions/analyse_rand
 R> E = read_experiment_dirs("random_boolf", list("n","seed"), "Random_boolf.cnf_primes_stats", header=TRUE, skip=2)
 R> E2 = rows2columns_df(E, "length", "count", list("n","seed"))
 R> summary(E2)
-       0           1           2           3           4           5
- Min.   :0   Min.   :0   Min.   :0   Min.   :0   Min.   :0   Min.   :0
- 1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.:0
- Median :0   Median :0   Median :0   Median :0   Median :0   Median :0
- Mean   :0   Mean   :0   Mean   :0   Mean   :0   Mean   :0   Mean   :0
- 3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0
- Max.   :0   Max.   :0   Max.   :0   Max.   :0   Max.   :0   Max.   :0
-
-       6           7           8           9           10          11
- Min.   :0   Min.   :0   Min.   :0   Min.   :0   Min.   :0   Min.   :0.000000
- 1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.:0.000000
- Median :0   Median :0   Median :0   Median :0   Median :0   Median :0.000000
- Mean   :0   Mean   :0   Mean   :0   Mean   :0   Mean   :0   Mean   :0.002573
- 3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0.000000
- Max.   :0   Max.   :0   Max.   :0   Max.   :0   Max.   :0   Max.   :1.000000
+        11
+ Min.   :0.000000
+ 1st Qu.:0.000000
+ Median :0.000000
+ Mean   :0.002573
+ 3rd Qu.:0.000000
+ Max.   :1.000000
 
        12              13              14              15
  Min.   : 76.0   Min.   :15326   Min.   :48167   Min.   :1441
@@ -49,14 +41,14 @@ R> summary(E2)
  3rd Qu.:125.0   3rd Qu.:17401   3rd Qu.:50102   3rd Qu.:1805
  Max.   :172.0   Max.   :19054   Max.   :51272   Max.   :2041
 
-       16          n             seed
- Min.   :0.0000   16:1166   1      :   1
- 1st Qu.:0.0000             10     :   1
- Median :0.0000             100    :   1
- Mean   :0.5189             1000   :   1
- 3rd Qu.:1.0000             1001   :   1
- Max.   :4.0000             1002   :   1
-                            (Other):1160
+       16          n
+ Min.   :0.0000   16:1166
+ 1st Qu.:0.0000
+ Median :0.0000
+ Mean   :0.5189
+ 3rd Qu.:1.0000
+ Max.   :4.0000
+
 R> sizes = unlist(Map(function(i) sum(ET[i,1:17]),1:2712))
 R> min(sizes)
 [1] 66820
