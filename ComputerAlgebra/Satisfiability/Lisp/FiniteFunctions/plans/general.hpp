@@ -54,13 +54,23 @@ License, or any later version. */
 
   \todo Notions of "finite functions"
   <ul>
-   <li> A triple [n,m,f], where n is the number of inputs, m the number
+   <li> For a "finite function" f implicitly a domain D of values is given,
+   with D = {0,1} for "boolean function", and furthermore we have an implicitly
+   associated size-domain S <= NN_0, such that for every n in S f accepts
+   lists of length n over D as inputs, and returns lists of length m_n (for
+   some fixed m_n) over D as results. </li>
+   <li> DONE (a finite function is just a function f, while n and m are not
+   specified, but actually can be variable)
+   A triple [n,m,f], where n is the number of inputs, m the number
    of outputs, and f the function, which accepts lists of length n,
    and returns lists of length m. </li>
-   <li> Let's speak of a "n x m" finite function. </li>
-   <li> The default is boolean values; shall this be "false, true", or
+   <li> Let's speak of a "n x m" finite function if we have n inputs and m
+   outputs. </li>
+   <li> DONE (0,1 is most common)
+   The default is boolean values; shall this be "false, true", or
    "0, 1", or perhaps "-1, +1" ? </li>
-   <li> If a quadruple [n,m,f,D] is used, then for input and output
+   <li> DONE (n,m,D are only given implicitly)
+   If a quadruple [n,m,f,D] is used, then for input and output
    the set of values is D. </li>
    <li> And if a quintuple [n,m,f,D,C] is used, then the values for the
    inputs are taken from D, while the values for the output are taken
