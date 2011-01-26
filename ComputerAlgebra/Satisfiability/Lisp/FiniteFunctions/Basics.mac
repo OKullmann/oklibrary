@@ -29,9 +29,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClause
  ****************************
 */
 
-/* Given a set, returns a random subset of this set where
-   each subset has the same probability of being chosen
-   (1/2^length(S)). */
+/* For a set S returns a random subset where each subset has the same
+   probability of being chosen (namely 1/2^length(S)): */
 /* TODO: Move somewhere more appropriate. */
 random_subset(S) :=
   setify(sublist(
