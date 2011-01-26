@@ -27,8 +27,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/tests/B
 */
 
 okltest_random_subset(random_subset);
-okltest_random_boolf_fcs(random_boolf_fcs);
-okltest_random_bal_boolf_fcs(random_bal_boolf_fcs);
+okltest_random_bf_fcs(random_bf_fcs);
+okltest_random_bal_bf_fcs(random_bal_bf_fcs);
 
 /*!
 \endhtmlonly
