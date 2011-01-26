@@ -36,8 +36,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClause
 random_subset(S) :=
   setify(sublist(
     map(lambda([a,b], if b = 1 then a else und),
-      listify(S),create_list(random(2),i,1,length(S))),
-      lambda([a], a # und)));
+               listify(S),
+               create_list(random(2),i,1,length(S))),
+    lambda([a], a # und)))$
 
 /* In the following, "random" means that each function chosen
    has equal probability of being chosen (uniform distribution). */
