@@ -85,27 +85,9 @@ rand_perm(L);
        <li> The code for std::random_shuffle uses a slightly different
        algorithm (from libstdc++-3.0 at 
        http://mirrors-us.seosue.com/gcc/libstdc++/old-releases/libstdc++-3.0.tar.gz - 
-       include/bits/stl_algo.h):
-       \verbatim
-template <class _RandomAccessIter, class _RandomNumberGenerator>
-void random_shuffle(_RandomAccessIter __first, _RandomAccessIter __last,
-                    _RandomNumberGenerator& __rand)
-{ 
-  // concept requirements
-  __glibcpp_function_requires(_Mutable_RandomAccessIteratorConcept<
-        _RandomAccessIter>);
-
-  if (__first == __last) return;
-  for (_RandomAccessIter __i = __first + 1; __i != __last; ++__i)
-    iter_swap(__i, __first + __rand((__i - __first) + 1));
-}
-       \endverbatim
-       </li>
-       <li> The above implementation of random_shuffle needs
-       implementation in Bases/RandomShuffle.cpp, so that we can see whether
-       in this way std::random_shuffle can be simulated. </li>
-       <li> Steven Watanabe on the boost mailing list claims 
-       std::random_shuffle is not standardised. </li>
+       include/bits/stl_algo.h) as can be seen in ::random_shuffle_libcpp and
+       this simulates std::random_shuffle. </li>
+       <li> std::random_shuffle is not standardised. </li>
       </ol>
      </li>
      <li> And then we need to simulate the Maxima random-generator.
@@ -113,13 +95,22 @@ void random_shuffle(_RandomAccessIter __first, _RandomAccessIter __last,
        <li> The Boost documentation doesn't say anything how to construct the
        distribution-object, so that out of that all the random_number_generator
        in the sensible way is generated? Ask on the mailing list. </li>
-       <li> According to "Steven Watanabe" on the boost mailing list, one can
-       simply pass boost::mt19937 directly to random_number_generator. This 
-       works and yields the same results as when using uniform_distribution. 
+       <li> One can simply pass boost::mt19937 directly to 
+       random_number_generator. This produces the same results as when using 
+       uniform_distribution, as can be seen by the generator rg_wo_variate in
+       Satisfiability/Reductions/Bases/RandomShuffle.cpp. </li>
+       <li> boost::random_number_generator is as follows (boost 1.44):
+       \verbatim
+  result_type operator()(argument_type n)
+  {
+    typedef uniform_int<IntType> dist_type;
+    return variate_generator<base_type&, dist_type>(_rng, dist_type(0, n-1))();
+  }
+       \endverbatim
        </li>
-       <li> Has this been tested? What does it mean "the same result", when
-       we get different results for using uniform_distribution, namely
-       depending on the construction?? </li>
+       <li> boost::uniform_distribution scales the random number generated
+       into the correct range by scaling using division (see ::randn in
+       Satisfiability/Reductions/Bases/RandomShuffle.hpp ). </li>
        <li> It is still not clear how either boost::random_number_generator or
        boost::uniform_distribution maps the full integer range into 1 to n. 
        There doesn't seem to be any real description of this at
