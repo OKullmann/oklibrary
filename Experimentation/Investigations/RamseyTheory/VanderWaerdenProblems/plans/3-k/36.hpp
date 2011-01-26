@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo vanderwaerden_2(3,36) > 1257
   <ul>
-   <li> The very weak current conjecture is vanderwaerden_2(3,36) = ???. </li>
+   <li> The very weak current conjecture is vanderwaerden_2(3,36) = 1258. </li>
    <li> Starting search with the best palindromic solution:
    \verbatim
 > k=36 n=1174 cutoff=10000000 expdate="2010-12-02-143818"; export k n; cat AltExp/Exp_PdVanderWaerden_2-3-${k}_gsat-tabu-100-${cutoff}_${expdate}/VanDerWaerden_pd_2-3-${k}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution
@@ -157,6 +157,13 @@ License, or any later version. */
   1   2   3   4
  19 198  87   1
 305
+     \endverbatim
+     </li>
+     <li> adaptg2wsat, cutoff=10^7:
+     \verbatim
+  1   2   3   4
+ 51 324 566  59
+1000
      \endverbatim
      </li>
     </ol>
