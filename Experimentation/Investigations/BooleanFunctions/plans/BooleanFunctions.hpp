@@ -58,9 +58,10 @@ R> max(sizes)
    </li>
    <li> Compared to random permutations in 
    Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp, 
-   there seem to be fewer prime implicates overall (~50000-71000 compared
-   with ~124000-145000) and the prime implicates for the random boolean
-   functions seem to be in general much larger? </li>
+   there are fewer prime implicates overall (66800-71000 compared
+   with 124000-149000), and the prime implicates for the random boolean
+   functions are larger (here all have at least 11 literals, while there
+   none has more than 10). </li>
   </ul>
 
 */
