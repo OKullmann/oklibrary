@@ -39,7 +39,7 @@ random_subset(S) :=
 /* In the following, "random" means that each function chosen
    has equal probability of being chosen (uniform distribution). */
 
-/* Computes a random boolean function in n variables. */
+/* Computes a random boolean function in n variables: */
 random_boolf_fcs(n) := [setn(n),random_subset(full_cs(n))]$
 output_random_boolf_fcs(n,filename_) :=
   output_fcs(
@@ -49,8 +49,7 @@ output_random_boolf_fcs(n,filename_) :=
 output_random_boolf_fcs_stdname(n) :=
   output_random_boolf_fcs(n,"Random_boolf.cnf")$
 
-/* Computes a random balanced boolean function in n variables.
-*/
+/* Computes a random balanced boolean function in n variables: */
 random_bal_boolf_fcs(n) :=
   [setn(n),setify(random_k_sublist_l(listify(full_cs(n)),2^(n-1)))]$
 /* A boolean function is balanced if it has the same number
