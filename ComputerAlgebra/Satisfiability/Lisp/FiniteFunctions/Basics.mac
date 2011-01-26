@@ -24,9 +24,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClause
 
 
 
-/***********************************************
- * Random boolean functions                    *
- ***********************************************
+/****************************
+ * Random boolean functions *
+ ****************************
 */
 
 /* Given a set, returns a random subset of this set where
