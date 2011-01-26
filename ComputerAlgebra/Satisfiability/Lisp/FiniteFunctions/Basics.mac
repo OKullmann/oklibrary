@@ -31,12 +31,10 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClause
 
 /* For a set S returns a random subset where each subset has the same
    probability of being chosen (namely 1/2^length(S)).
-   Prerequisite:: S does not contain the maxima-object und. */
+   Prerequisite:: S does not contain 0. */
 /* TODO: Move somewhere more appropriate. */
-random_subset(S) := disjoin(und, setify(
-    map(lambda([a,b], if b = 1 then a else und),
-               listify(S),
-               create_list(random(2),i,1,length(S)))))$
+random_subset(S) := 
+  disjoin(0, setify(listify(S) * create_list(random(2),i,1,length(S))))$
 
 /* In the following, "random" means that each function chosen
    has equal probability of being chosen (uniform distribution). */
