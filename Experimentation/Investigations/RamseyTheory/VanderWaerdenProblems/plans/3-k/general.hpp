@@ -205,6 +205,10 @@ c number_of_1-autarkies                 516
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+same machine csltok (Intel i5, 2.4GHz), but only with 2 processes altogether:
+329.4s
+
 > OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-12_135.cnf 
 s UNSATISFIABLE
 c sat_status                            0
@@ -232,6 +236,10 @@ c number_of_1-autarkies                 490
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+same machine csltok (Intel i5, 2.4GHz), but only with 1-2 processes altogether:
+306.0s
+
    \endverbatim
    </li>
    <li> k=13, n=159, 160:
@@ -265,6 +273,9 @@ c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-3-13_159.cnf
 
+same machine csltok (Intel i5, 2.4GHz), but only with 1-2 processes altogether:
+3224.7s
+
 > OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-13_160.cnf 
 s UNSATISFIABLE
 c sat_status                            0
@@ -292,6 +303,9 @@ c number_of_1-autarkies                 24075
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-3-13_160.cnf
+
+same machine csltok (Intel i5, 2.4GHz), but only with 1-2 processes altogether:
+5372s
 
 On old csltok (32bit):
 s SATISFIABLE
