@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/tests/Basics.mac
-  \brief Tests for boolean function translations
+  \brief Tests regarding basics for boolean function
 
 Use by
 
