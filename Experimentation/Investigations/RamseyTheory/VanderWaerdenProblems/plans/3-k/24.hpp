@@ -329,6 +329,30 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
      </li>
     </ol>
    </li>
+   <li> Instance statistics:
+   \verbatim
+> cat VanDerWaerden_pd_2-3-24_569.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+285 43133 192672 0 192672 1 1
+ length count
+1 1
+2 378
+3 39704
+12 12
+13 23
+24 3015
+> cat VanDerWaerden_pd_2-3-24_593.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+297 46882 209793 0 209793 1 1
+ length count
+1 1
+2 394
+3 43156
+12 12
+13 24
+24 3295
+   \endverbatim
+   </li>
    <li> precosat:
     <ol>
      <li> n=593: unsat, 824141s with precosat236. </li>
@@ -339,13 +363,14 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
    </li>
    <li> minisat-2.2.0:
     <ol>
-     <li> n=593: ?sat, s (csltok; with added
-     unit-clause). </li>
-     <li> n=569: ?sat, s (csltok; with added
-     unit-clause). </li>
+     <li> n=593: unsat, 89540s (csltok (with lower load); 468878167 conflicts,
+     with added unit-clause). </li>
+     <li> n=569: unsat, 87399s (csltok (with lower load); 487418128 conflicts,
+     with added unit-clause). </li>
     </ol>
+    The run-times seem a bit better than with precosat570 (though there is the
+    load-issue).
    </li>
-
    <li> "RunPdVdW3k 24 25 593 gsat-tabu 100 6000000": all 1<=n<=568 sat,
    and then
    \verbatim
