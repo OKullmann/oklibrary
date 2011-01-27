@@ -22,7 +22,7 @@ shell> $OKlib/OKlib/Experimentation/Investigations/BooleanFunctions/analyse_rand
    \endverbatim
    and then in R:
    \verbatim
-R> E = read_experiment_dirs("random_boolf", list("n","seed"), "Random_boolf.cnf_primes_stats", header=TRUE, skip=2)
+R> E = read_experiment_dirs("random_bf", list("n","seed"), "Random_bf_16.cnf_primes_stats", header=TRUE, skip=2)
 R> E2 = rows2columns_df(E, "length", "count", list("n","seed"))
 R> summary(E2)
         11

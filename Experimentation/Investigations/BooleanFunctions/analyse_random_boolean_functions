@@ -14,13 +14,13 @@
 # this boolean function are then computed and output to files.
 #
 # Files are output to 
-#   random_boolf_${e}_${seed}/Permutation_full.cnf
+#   random_bf_${e}_${seed}/Permutation_full.cnf
 #     The CNF file for the generated permutation
-#   random_boolf_${e}_${seed}/Permutation_full.cnf_primes_stats
+#   random_bf_${e}_${seed}/Permutation_full.cnf_primes_stats
 #     The prime implicate statistics for the generated CNF file.
-#   random_boolf_${e}_${seed}/Permutation_full.cnf_shg_stats
+#   random_bf_${e}_${seed}/Permutation_full.cnf_shg_stats
 #     The subsumption hypergraph statistics for the generated CNF file.
-#   random_boolf_${e}_${seed}/maxima_log
+#   random_bf_${e}_${seed}/maxima_log
 #     The log of the maxima execution to generate the CNF file.
 #
 # This process continues picking random boolean functions until it is quit
@@ -35,9 +35,8 @@ version_number="0.1.5"
 
 err="Error[analyse_random_boolean_functions]:"
 qmc_scriptname="QuineMcCluskeySubsumptionHypergraphFullStatistics-n"
-cnf_filename=Random_boolf.cnf
 maxima_log_filename=maxima_log
-exp_dir_prefix=random_boolf_
+exp_dir_prefix=random_bf_
 
 if [[ $# -ne 2 && $# -ne 3 ]]; then
   echo "${err} Takes at least two arguments, the number of variables and the"
@@ -49,6 +48,7 @@ fi
 
 n=$1
 seed=$2
+cnf_filename=Random_bf_${n}.cnf
 if [[ $# > 2 ]]; then
   maximum_seed=$3
 else
@@ -71,7 +71,7 @@ while [[ ${seed} -le ${maximum_seed} ]]; do
     mkdir ${exp_dir} && cd ${exp_dir}
 
     # Generate random boolean function as CNF file.
-    oklib --maxima --batch-string='"oklib_load(\"OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac\"); set_random('${seed}'); output_random_boolf_fcs_stdname('$n');"' > ${maxima_log_filename}
+    oklib --maxima --batch-string='"oklib_load(\"OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac\"); set_random('${seed}'); output_random_bf_fcs_stdname('$n');"' > ${maxima_log_filename}
 
     # Compute *full* statistics with all leading zeroes.
     ${qmc_scriptname}${n}-O3-DNDEBUG ${cnf_filename} f
