@@ -70,22 +70,23 @@ License, or any later version. */
   <ul>
    <li> Using the notions from
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac,
-   we should splitt off the key schedule. </li>
-   <li> That is, we consider two variations, one where the the
+   we should split off the key schedule. </li>
+   <li> That is, we consider two variations, one where the
    round-composition ignores the round-keys, and so the key-schedule can
    just be removed, and one where the message round-function is the identity.
    </li>
+   <li> However, cryptographically, removing the key schedule makes
+   cracking AES trivial. One just applies the inverted round a number of
+   times and then the key is just the plaintext XORed with the ciphertext.
+   </li>
+   <li> Therefore, we should also consider a key schedule where the round key
+   for every round is the input key. </li>
    <li> "Compositional iterated block ciphers with iterated key schedule" in
    the sense of
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac
    are compositions of two crypto-systems, the pure iteration of block ciphers
    and the pure addition of round-keys in every round; this likely should also
    be studied in separation. </li>
-   <li> The pure iteration of the block cipher needs "key whitening" (the
-   addition of the key to the plain text in a preparatory round) to make
-   minimal cryptographical sense, however as a SAT problem it might have a
-   small interest in its own right, at least when not all inversions (of
-   component functions) are present. </li>
   </ul>
 
 
