@@ -566,7 +566,7 @@ R> summary(ET)
    </li>
    <li> Note here that not all permutations have prime implicates of length 5
    or length 10, but all have length 6,7,8, and 9. </li>
-   <li> We can even have permutations without any length 5 or length 10 
+   <li> We can have permutations without any length 5 or length 10 
    prime implicates:
    \verbatim
 R> E2[E2[6] == 0,]
@@ -592,9 +592,9 @@ R> E2[E2[6] == 0,]
 25297 0 0 0 0 0 0 4327 82446 48222 725  1  0  0  0  0  0  0         37 16
 25739 0 0 0 0 0 0 3862 83246 51154 581  0  0  0  0  0  0  0         60 16
    \endverbatim
-   Note, that infact most of the permutations we tested didn't have 
-   a clause of length 10 when it had a clause of length 5.
-   </li>
+   In fact most of the permutations we tested didn't have a clause of length
+   10 when it had a clause of length 5 (as it would be expected if the events
+   would be independent). </li>
    <li> For the total number of prime implicates we have:
    \verbatim
 R>  min(as.data.frame(addmargins(as.matrix(E2)))$Sum)
