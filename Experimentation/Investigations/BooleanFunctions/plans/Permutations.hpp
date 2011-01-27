@@ -532,13 +532,13 @@ shell> ${OKlib}/Experimentation/Investigations/BooleanFunctions/analyse_random_p
 R> E = read_experiment_dirs("random_perm", list("e","seed"), "Permutation_full.cnf_primes_stats", header=TRUE, skip=2)
 R> ET = rows2columns_df(E, "length", "count", list("e","seed"))
 R> summary(ET)
-       0           1           2           3           4           5         
- Min.   :0   Min.   :0   Min.   :0   Min.   :0   Min.   :0   Min.   : 0.000  
- 1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.: 3.000  
- Median :0   Median :0   Median :0   Median :0   Median :0   Median : 5.000  
- Mean   :0   Mean   :0   Mean   :0   Mean   :0   Mean   :0   Mean   : 5.314  
- 3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.: 7.000  
- Max.   :0   Max.   :0   Max.   :0   Max.   :0   Max.   :0   Max.   :20.000  
+       5         
+ Min.   : 0.000  
+ 1st Qu.: 3.000  
+ Median : 5.000  
+ Mean   : 5.314  
+ 3rd Qu.: 7.000  
+ Max.   :20.000  
        6              7               8               9        
  Min.   :2824   Min.   :76750   Min.   :39658   Min.   :502.0  
  1st Qu.:3999   1st Qu.:81310   1st Qu.:45265   1st Qu.:657.0  
@@ -546,23 +546,23 @@ R> summary(ET)
  Mean   :4289   Mean   :82355   Mean   :47256   Mean   :713.6  
  3rd Qu.:4563   3rd Qu.:83483   3rd Qu.:49195   3rd Qu.:765.0  
  Max.   :5737   Max.   :86368   Max.   :58320   Max.   :997.0  
-       10               11          12          13          14          15   
- Min.   :0.0000   Min.   :0   Min.   :0   Min.   :0   Min.   :0   Min.   :0  
- 1st Qu.:0.0000   1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.:0   1st Qu.:0  
- Median :0.0000   Median :0   Median :0   Median :0   Median :0   Median :0  
- Mean   :0.1933   Mean   :0   Mean   :0   Mean   :0   Mean   :0   Mean   :0  
- 3rd Qu.:0.0000   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0  
- Max.   :4.0000   Max.   :0   Max.   :0   Max.   :0   Max.   :0   Max.   :0  
-       16         seed           e       
- Min.   :0   Min.   :1.000e+00   16:1557  
- 1st Qu.:0   1st Qu.:2.147e+09           
- Median :0   Median :2.147e+09           
- Mean   :0   Mean   :1.950e+09           
- 3rd Qu.:0   3rd Qu.:2.147e+09           
- Max.   :0   Max.   :2.147e+09
+       10
+ Min.   :0.0000
+ 1st Qu.:0.0000
+ Median :0.0000 
+ Mean   :0.1933 
+ 3rd Qu.:0.0000 
+ Max.   :4.0000 
+       16    e       
+ Min.   :0   16:1557  
+ 1st Qu.:0        
+ Median :0      
+ Mean   :0       
+ 3rd Qu.:0        
+ Max.   :0
    \endverbatim
    Note the experiment was stopped and restarted with a different seed at one 
-   point (hence the large seeds).
+   point.
    </li>
    <li> Note here that not all permutations have prime implicates of length 5
    or length 10, but all have length 6,7,8, and 9. </li>
