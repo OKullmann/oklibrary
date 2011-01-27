@@ -155,6 +155,38 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
    <li> 642 < vanderwaerden_g([3,26],"pd") =(conj) 643 =(conj)
    vanderwaerden([3,26]) - 84. </li>
    <li> vanderwaerden_g([3,26],"pdsat") =(conj) 634 </li>
+   <li> Instance statistics:
+   \verbatim
+> cat VanDerWaerden_pd_2-3-26_635.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+318 53476 240198 0 240198 1 1
+ length count
+1 1
+2 422
+3 49547
+13 12
+14 24
+26 3470
+> cat VanDerWaerden_pd_2-3-26_643.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+322 54844 246504 0 246504 1 1
+ length count
+1 1
+2 428
+3 50813
+13 12
+14 24
+26 3566
+   \endverbatim
+   </li>
+   <li> minisat-2.2.0:
+    <ol>
+     <li> n=643: ?sat, s (csltok (with lower load);  conflicts,
+     with added unit-clause). </li>
+     <li> n=635: ?sat, s (csltok (with lower load);  conflicts,
+     with added unit-clause). </li>
+    </ol>
+   </li>
    <li> "RunPdVdW3k 26 gsat-tabu 100 4000000":
    \verbatim
 Break point 1: 634
