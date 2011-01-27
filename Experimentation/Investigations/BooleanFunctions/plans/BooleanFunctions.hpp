@@ -64,5 +64,14 @@ R> max(sizes)
    none has more than 10). </li>
   </ul>
 
+
+  \todo Random boolean functions in 16 variables with 256 true points
+  <ul>
+   <li> A better comparison with random permutations in 16 variables is
+   given by random boolean functions with (exactly) 256 true points. </li>
+   <li> The above random boolean functions have on average 32768 true points.
+   </li>
+  </ul>
+
 */
 
