@@ -38,6 +38,11 @@ License, or any later version. */
     - Add application tests : DONE
 
   \par
+   In Interfaces/InputOutput/SortByClauseLengthDescending.cpp the following topics
+   are handled:
+    - Merge with SortByClauseLength.cpp
+
+  \par
    In Interfaces/InputOutput/RandomShuffleDimacs.cpp the following topics
    are handled:
     - Add application tests : DONE
