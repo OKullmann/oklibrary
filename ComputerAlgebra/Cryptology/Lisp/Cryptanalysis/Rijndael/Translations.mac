@@ -234,7 +234,11 @@ output_ss_fcl(n,r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran,
     if oklib_monitor then print("Starting standardisation..."),
     FF_std : standardise_fcl(FF),
     if oklib_monitor then print("Starting output..."),
-    output_fcl_v("Small Scale AES XXX", FF_std[1],n,
+    output_fcl_v(sconcat("Small Scale AES with ",
+                   "r=",r,",c=",ss_num_columns,",rw=",ss_num_rows,
+                   ",e=",ss_exp,",final=",final_round_b,
+                   ",box_tran=",box_tran,",mc_tran=",mc_tran),
+                 FF_std[1],n,
       FF_std[2]))$
   
 output_ss_fcl_std(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran) :=
