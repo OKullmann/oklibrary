@@ -72,7 +72,6 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
    topics are handled:
     - Improvements of CryptoMiniSat
-    - Glucose build error
     - Glucose
     - Add todos for SAT-Race 2010 SAT solvers
     - Fuzzing
@@ -89,6 +88,7 @@ License, or any later version. */
     - Argo
     - Satz
     - Belief and Survey propagation
+    - Glucose build error : DONE
     - False Glucose build : DONE
     - CryptoMiniSat : DONE
 

@@ -49,33 +49,6 @@ License, or any later version. */
   </ul>
 
 
-  \bug Glucose build error
-  <ul>
-   <li> On csltok we get
-   \verbatim
-/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.5.2/bin/g++ Main.or Solver.or -m32 --static -lz -o glucose_static
-/usr/local/bin/ld: cannot find -lz
-collect2: ld returned 1 exit status
-   \endverbatim
-   </li>
-   <li> "-lz" refers to zlib, which we also build, however linking doesn't
-   work:
-   \verbatim
-/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.5.2/bin/g++ -I/home/kullmann/OKplatform/ExternalSources/Installations/Zlib/4.5.2/1.2.5/include -L/home/kullmann/OKplatform/ExternalSources/Installations/Zlib/4.5.2/1.2.5/lib -Wl,-rpath,/home/kullmann/OKplatform/ExternalSources/Installations/Zlib/4.5.2/1.2.5/lib Main.or Solver.or -m32 --static -lz -o glucose_static
-/usr/local/bin/ld: skipping incompatible /home/kullmann/OKplatform/ExternalSources/Installations/Zlib/4.5.2/1.2.5/lib/libz.a when searching for -lz
-/usr/local/bin/ld: cannot find -lz
-collect2: ld returned 1 exit status
-   \endverbatim
-   </li>
-   <li> We apparently have the latest version of zlib. Do we need a 
-   "multilib"-version (there doesn't seem to be one)? </li>
-   <li> Compiling zlib with CFLAGS="-m32" makes this error go away, and so it
-   seems a multilib issue, but then if we use this then we will likely get 
-   other errors in other packages that use zlib. </li>
-   <li> Perhaps we should offer a 64-bit and 32-bit zlib? </li>
-  </ul>
-
-
   \todo Add todos for SAT-Race 2010 SAT solvers
   <ul>
    <li> See "Solvers to be used for experimentation" in 
@@ -1125,6 +1098,34 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
   <ul>
    <li> SampleCount and xor-addition:
    http://www.cs.cornell.edu/~sabhar/#software </li>
+  </ul>
+
+
+  \bug DONE (now we offer a 32-bit version as well)
+  Glucose build error
+  <ul>
+   <li> On csltok we get
+   \verbatim
+/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.5.2/bin/g++ Main.or Solver.or -m32 --static -lz -o glucose_static
+/usr/local/bin/ld: cannot find -lz
+collect2: ld returned 1 exit status
+   \endverbatim
+   </li>
+   <li> "-lz" refers to zlib, which we also build, however linking doesn't
+   work:
+   \verbatim
+/home/kullmann/OKplatform/ExternalSources/Installations/Gcc/4.5.2/bin/g++ -I/home/kullmann/OKplatform/ExternalSources/Installations/Zlib/4.5.2/1.2.5/include -L/home/kullmann/OKplatform/ExternalSources/Installations/Zlib/4.5.2/1.2.5/lib -Wl,-rpath,/home/kullmann/OKplatform/ExternalSources/Installations/Zlib/4.5.2/1.2.5/lib Main.or Solver.or -m32 --static -lz -o glucose_static
+/usr/local/bin/ld: skipping incompatible /home/kullmann/OKplatform/ExternalSources/Installations/Zlib/4.5.2/1.2.5/lib/libz.a when searching for -lz
+/usr/local/bin/ld: cannot find -lz
+collect2: ld returned 1 exit status
+   \endverbatim
+   </li>
+   <li> We apparently have the latest version of zlib. Do we need a 
+   "multilib"-version (there doesn't seem to be one)? </li>
+   <li> Compiling zlib with CFLAGS="-m32" makes this error go away, and so it
+   seems a multilib issue, but then if we use this then we will likely get 
+   other errors in other packages that use zlib. </li>
+   <li> DONE Perhaps we should offer a 64-bit and 32-bit zlib? </li>
   </ul>
 
 

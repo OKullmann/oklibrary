@@ -9,24 +9,43 @@
 # Directory Structure
 # ################################## 
 
-zlib_directories_okl := $(zlib_base_installation_dir_okl) $(zlib_base_build_dir_okl) $(zlib_base_doc_dir_okl) $(zlib_doc_dir_okl)
+zlib_directories_okl := $(zlib_base_installation_dir_okl) $(zlib_build_dir_okl) $(zlib_base_doc_dir_okl) $(zlib_doc_dir_okl)
+zlib_directories_32_okl := $(zlib_base_installation_dir_okl) $(zlib_build_dir_32_okl)
 
 $(zlib_directories_okl) : % : 
 	mkdir -p $@
-
+$(zlib_directories_32_okl) : % :
+	mkdir -p $@
 # #################################
 # Main zlib targets
 # #################################
 
 .PHONY : zlib cleanzlib cleanallzlib
 
-zlib : $(zlib_directories_okl)
+zlib: zlib64 zlib32
+
+zlib64 : $(zlib_directories_okl)
 	$(call unarchive,$(zlib_source_package_okl),$(zlib_base_build_dir_okl)) $(postcondition)
-	cd $(zlib_extracted_package_okl); $(postcondition) \
-	./configure --prefix $(zlib_installation_dir_okl); $(postcondition) \
-	make CC=$(gcc_call_okl); $(postcondition) \
+	mv -fT $(zlib_extracted_package_okl) $(zlib_build_dir_okl); $(postcondition) \
+	cd $(zlib_build_dir_okl); $(postcondition) \
+	CC=$(gcc_call_okl) ./configure --prefix $(zlib_installation_dir_okl); $(postcondition) \
+	make; $(postcondition) \
 	make test; $(postcondition) \
 	make install; $(postcondition)
+
+ifneq ($(machine_bits_okl),32)
+zlib32 : $(zlib_directories_32_okl)
+	$(call unarchive,$(zlib_source_package_okl),$(zlib_base_build_dir_okl)) $(postcondition)
+	mv -fT $(zlib_extracted_package_okl) $(zlib_build_dir_32_okl); $(postcondition) \
+	cd $(zlib_build_dir_32_okl); $(postcondition) \
+	CC=$(gcc_call_okl) CFLAGS="-m32" ./configure --prefix $(zlib_installation_dir_32_okl); $(postcondition) \
+	make; $(postcondition) \
+	make test; $(postcondition) \
+	make install; $(postcondition)
+else
+zlib32 :
+       : # No op
+endif
 
 
 # ####################################
