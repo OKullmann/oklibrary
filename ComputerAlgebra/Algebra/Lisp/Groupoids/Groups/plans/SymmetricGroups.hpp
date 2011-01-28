@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -41,9 +41,9 @@ License, or any later version. */
        standardised elements. </li>
        <li> Perhaps, since the cycle presentation is combinatorial in nature,
        we provide it only for standardised elements (i.e., in {1,...,n}). </li>
-       <li> Furthermore, perhaps for a cycle presentation of a permutation, only
-       the non-trivial cycles are given, while trivial (one-element) cycles are
-       discarded. </li>
+       <li> Furthermore, perhaps for a cycle presentation of a permutation,
+       only the non-trivial cycles are given, while trivial (one-element)
+       cycles are discarded. </li>
        <li> Or we speak of "reduced cycles". </li>
        <li> Or, as in [Rotman], of a "complete factorisation". </li>
       </ul>
