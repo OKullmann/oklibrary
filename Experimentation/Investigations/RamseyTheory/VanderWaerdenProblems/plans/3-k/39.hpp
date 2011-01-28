@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,39)
 
 
-  \todo vanderwaerden_2(3,39) > 1417
+  \todo vanderwaerden_2(3,39) > 1418
   <ul>
    <li> The very weak current conjecture is vanderwaerden_2(3,39) = ???. </li>
    <li> Starting search with the best palindromic solution:
@@ -267,6 +267,23 @@ The FlipsPerSecond are likely corrupted.
 1081,1083,1103,1126,1146,1150,1155,1181,1192,1228,
 1239,1261,1268,1274,1288,1291,1298,1313,1336,1350,
 1371,1377,1379,1407
+   \endverbatim
+   </li>
+   <li> n=1418: adaptg2wsat found a solution in run 1192 (osteps=1723631,
+   cutoff=4*10^6)
+   with certificate
+   \verbatim
+3,8,22,57,59,80,102,122,130,133,
+170,191,194,195,204,229,242,248,276,295,
+307,315,322,353,359,376,381,408,413,414,
+443,446,451,454,461,480,507,525,529,537,
+554,566,572,575,598,602,609,614,651,676,
+685,702,709,723,725,760,787,824,831,834,
+840,857,873,877,887,895,907,910,935,951,
+979,981,984,988,998,1016,1018,1019,1056,1079,
+1080,1092,1117,1146,1153,1183,1184,1190,1191,1195,
+1228,1231,1232,1238,1241,1257,1262,1270,1275,1305,
+1314,1337,1342,1375,1388
    \endverbatim
    </li>
   </ul>
