@@ -270,9 +270,9 @@ Error: Impossible to solve the PI chart (too many possible combinations).
   </ul>
 
 
-  \todo r_1-bases : mincl_r1 <= 4474
+  \todo r_1-bases : mincl_r1 <= 4467
   <ul>
-   <li> Current minimum clause-count of an r_1-base: 4474. </li>
+   <li> Current minimum clause-count of an r_1-base: 4467. </li>
    <li> Starting with a generating set, created from scratch:
    \verbatim
 > RUcpGen-O3-DNDEBUG AES_PK.cnf > AES_gen.cnf
@@ -378,6 +378,27 @@ maxima> ncl_list_full_dualts(16,256);
      tools such as "Reverse" are also nice).
      </li>
     </ol>
+   </li>
+   <li> Iterating through the random seeds, while sorting inputs in
+   ascending order of clause-length into RUcpGen, and descending into
+   RUcpBase yields a new smaller r_1 base:
+   \verbatim
+shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/find_r1bases AES_Sbox_full.cnf
+<snip>
+*** Currently trying gs=59,bs=5
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 4467 30721 0 30721 0 1
+ length count
+5 1
+6 1066
+7 2884
+8 512
+9 4
+------------------------------------------------------------------------------------
+CURRENT MINIMUM RBASE: *4467* with gs=59,bs=5
+------------------------------------------------------------------------------------
+<snip>
+   \endverbatim
    </li>
    <li> It makes sense that sorting the generating set in descending 
    order of clause-size, when passing it to RUcpBase, would yield shorter
