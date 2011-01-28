@@ -73,8 +73,10 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> n=1133: solution was found, adapted from n=1129:
-   \verbatim
+   <li> n=1133
+    <ol>
+     <li> solution was found by rots, adapted from n=1129:
+     \verbatim
 3,36,37,52,77,86,87,103,121,124,
 130,163,177,184,188,198,204,222,241,258,
 259,263,288,295,300,311,333,336,345,369,
@@ -85,7 +87,16 @@ License, or any later version. */
 813,824,826,833,843,850,863,866,892,907,
 917,924,938,966,972,975,1002,1009,1028,1036,
 1048,1051,1055,1085,1092,1109
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> adaptg2wsat, cutoff=10^7:
+     \verbatim
+  1   2   3   4
+  7  36 103  24
+170
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> n=1134:
     <ol>
