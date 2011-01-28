@@ -146,6 +146,43 @@ R> subset(E, min == 359)
   </ul>
 
 
+  \todo r_1-bases : mincl_r1 <= 4310
+  <ul>
+   <li> Current minimum clause-count of an r_1-base: 4310. </li>
+   <li> Iterating through the random seeds, while sorting inputs in
+   ascending order of clause-length into RUcpGen, and descending into
+   RUcpBase yields a new smaller r_1 base:
+   \verbatim
+shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/find_r1bases AES_Sbox_full.cnf
+<snip>
+*** Currently trying gs=15,bs=1
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 4310 29571 0 29571 0 1
+ length count
+5 16
+6 1042
+7 2781
+8 467
+9 4
+------------------------------------------------------------------------------------
+CURRENT MINIMUM RBASE: *4310* with gs=15,bs=1
+------------------------------------------------------------------------------------
+<snip>
+   \endverbatim
+   </li>
+   <li> Note that this is smaller (in terms of number of clauses) than the 
+   canonical translation:
+   \verbatim
+maxima> FF_sbox_ts : dualts_fcl(ssinv_fulldnf_fcl(2,8,ss_polynomial_2_8))$
+maxima> statistics_fcs(F_sbox_ts);
+[272,4353,12800,256,2]
+maxima> ncl_list_full_dualts(16,256);
+[[2,4096],[17,256],[256,1]]
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Using weighted MaxSAT to compute small CNFs
   <ul>
    <li> Computing the weighted MaxSAT problem:
