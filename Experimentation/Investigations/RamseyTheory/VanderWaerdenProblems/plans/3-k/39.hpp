@@ -253,9 +253,18 @@ The FlipsPerSecond are likely corrupted.
      </li>
     </ol>
    </li>
-   <li> n=1417: ddfw found a solution in run 87 (osteps=2887938, cutoff=4*10^6)
-   with certificate
-   \verbatim
+   <li> n=1417:
+    <ol>
+     <li> ddfw, cut=2*10^6:
+     \verbatim
+  1   2   3   4   5   6   7   8   9  20
+  6  71 320 652 713 353 125  28   7   1
+2276
+     \endverbatim
+     </li>
+     <li> ddfw found a solution in run 87 (osteps=2887938, cutoff=4*10^6)
+     with certificate
+     \verbatim
 9,16,30,67,80,108,141,159,164,178,
 182,193,221,225,230,232,240,269,290,293,
 299,307,327,330,336,351,363,381,386,410,
@@ -267,12 +276,16 @@ The FlipsPerSecond are likely corrupted.
 1081,1083,1103,1126,1146,1150,1155,1181,1192,1228,
 1239,1261,1268,1274,1288,1291,1298,1313,1336,1350,
 1371,1377,1379,1407
-   \endverbatim
+     \endverbatim
+     </li>
+    </ol>
    </li>
-   <li> n=1418: adaptg2wsat found a solution in run 1192 (osteps=1723631,
-   cutoff=4*10^6)
-   with certificate
-   \verbatim
+   <li> n=1418:
+    <ol>
+     <li> adaptg2wsat found a solution in run 1192 (osteps=1723631,
+     cutoff=4*10^6)
+     with certificate
+     \verbatim
 3,8,22,57,59,80,102,122,130,133,
 170,191,194,195,204,229,242,248,276,295,
 307,315,322,353,359,376,381,408,413,414,
@@ -284,7 +297,21 @@ The FlipsPerSecond are likely corrupted.
 1080,1092,1117,1146,1153,1183,1184,1190,1191,1195,
 1228,1231,1232,1238,1241,1257,1262,1270,1275,1305,
 1314,1337,1342,1375,1388
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> ddfw, cutoff=4*10^6:
+     \verbatim
+  1   2   3   4   5   6   7   8
+  3  21  63 129 169  73  11   1
+470
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> n=1419:
+    <ol>
+     <li> adaptg2wsat, cutoff=4*10^6: </li>
+    </ol>
    </li>
   </ul>
 

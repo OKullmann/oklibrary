@@ -70,9 +70,11 @@ License, or any later version. */
 1095,1121,1154,1164,1167
    \endverbatim
    </li>
-   <li> n=1180 found satisfiable (adapted from n=1169, run 118,
-   osteps=11416401) with certificate
-   \verbatim
+   <li> n=1180
+    <ol>
+     <li> Found satisfiable (adapted from n=1169, run 118,
+     osteps=11416401) with certificate
+     \verbatim
 19,32,63,71,100,106,108,124,125,143,
 157,163,175,194,198,204,209,217,246,248,
 249,269,278,311,315,320,322,342,343,357,
@@ -83,7 +85,16 @@ License, or any later version. */
 833,866,870,883,901,912,920,934,951,959,
 971,975,994,1012,1014,1018,1025,1026,1051,1070,
 1082,1092,1107,1125,1129,1160,1174
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> ddfw, cutoff=4*10^6:
+     \verbatim
+  1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
+  8  69 197 169  32   7   5   1   5  13  29  53  72  34   4
+698
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> n=1181:
     <ol>
