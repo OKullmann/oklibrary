@@ -129,7 +129,8 @@ rijn_natmul(a,b) :=
 
 rijn_natinv(a) := 
   polybin2nat(rijn_einv(nat2polybin(a)))$
-
+/* As a permutation-function of {1,...,256}: */
+rijn_inv_pmtf(n) := rijn_natinv(n-1)+1$
 
 /* The field operations with binary vectors (as lists) as input and output: */
 

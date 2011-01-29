@@ -7,11 +7,24 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp
-  \brief Investigations into the AES field inversion (8-bit)
+  \brief Investigations into the AES field-inversion (8-bit)
 
 
   \todo Basic data
   <ul>
+   <li> Algebraic data:
+    <ol>
+     <li> Cycle type and order:
+     \verbatim
+cycletype_pmtf(rijn_inv_pmtf,256);
+  [[1,2],[2,127]]
+
+order_element_pmtf(rijn_inv_pmtf,256);
+  2
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> The CNF file "ss_byte2_8_field_inv_full.cnf" is created by the Maxima-function
    output_ssinv_fullcnf_stdname(2,8,ss_polynomial_2_8), in
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac,

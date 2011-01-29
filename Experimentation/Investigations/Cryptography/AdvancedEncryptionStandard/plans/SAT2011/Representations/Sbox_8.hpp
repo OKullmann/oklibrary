@@ -12,6 +12,28 @@ License, or any later version. */
 
   \todo Basic data
   <ul>
+   <li> Algebraic data:
+    <ol>
+     <li> Cycle type and order:
+     \verbatim
+cycletype_pmtf(rijn_sbox_pmtf,256);
+  [[2,1],[27,1],[59,1],[81,1],[87,1]]
+
+order_element_pmtf(rijn_sbox_pmtf,256);
+  277182
+     \endverbatim
+     </li>
+     <li> How does this compare to a random permutation? </li>
+     <li> The cycle-type (i.e., the isomorphism-type, or the conjugacy-type)
+     of a permutation is independent of a permutation of the base-set, but
+     the boolean functions are not isomorphic (easy example?). Especially,
+     what is the easiest permutation from the view-point of prime-implicates
+     for a permutation of the above cycle-type? </li>
+     <li> It seems however that this can't be exploited for a better
+     translation, and thus such considerations should be moved to general
+     investigations on boolean functions. </li>
+    </ol>
+   </li>
    <li> The CNF-file "AES_Sbox_full.cnf" is created by the Maxima-function
    output_rijnsbox_fullcnf_stdname() in
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac,
