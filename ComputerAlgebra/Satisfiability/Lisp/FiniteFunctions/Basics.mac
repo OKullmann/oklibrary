@@ -43,6 +43,8 @@ boolval_p(v) := is(v=0) or is(v=1)$
 
 bv_p(v) := listp(v) and every_s(boolval_p,v)$
 
+/* The set of all boolean vectors of length k: */
+all_bv(k) := apply(cartesian_product, create_list({0,1},i,1,k))$
 
 /* The 2^k boolean vectors of length k in lexicographical order: */
 lex_bv_l(k) := cartesian_product_l(create_list([0,1],i,1,k))$
@@ -60,6 +62,50 @@ bv2c(v) := bv2c_wv(v,create_list(i,i,1,length(v)))$
    length as v):
 */
 bv2c_wv(v,V) := setify((2*v - 1) * V)$
+
+
+/* *********************
+   * Boolean functions *
+   *********************
+*/
+
+/*
+  A "boolean function" ("bf") is a function with the following properties:
+
+   - implicitly a size-domain S <= NN_0 is given
+   - for every n in S there is an m_n in NN_0 such that for all boolean vectors
+     x of length n the term f(x) is a boolean vector of length m_m.
+
+  f is an "n x m bf" if n in S and m_n = m.
+*/
+
+/* Testing whether f is a n x m boolean function: */
+bf_nm_p(f,n,m) :=
+ every_s(lambda([x], 
+           block([y:f(x)], listp(y) and is(length(y)=m) and bv_p(y))),
+         all_bv(n))$
+
+
+/* ********************************
+   * Some basic boolean functions *
+   ********************************
+*/
+
+/* Functions with size-domain NN_0 and m=1: */
+
+zero_bf : lambda([x], [0])$
+one_bf : lambda([x], [0])$
+
+and_bf : lambda([x], [lmin(x)])$
+or_bf : lambda([x], [lmax(x)])$
+
+xor_bf : lambda([x], [mod(apply("+", x),2)])$
+
+/* Functions with size-domain NN_0 and m=n: */
+
+id_bf : identity$
+neg_bf : lambda([x], 1-x)$
+
 
 /*!
 \endhtmlonly
