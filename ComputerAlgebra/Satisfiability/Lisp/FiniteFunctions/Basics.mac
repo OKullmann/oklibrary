@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac
-  \brief Basic tools for handling boolean and fine functions
+  \brief Basic tools for handling boolean and finite functions
 
 Use by
 
