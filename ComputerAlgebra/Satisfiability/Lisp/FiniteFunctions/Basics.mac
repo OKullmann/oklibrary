@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* *******************
@@ -29,11 +30,21 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 */
 
 /*
+  A "boolean value" is either 0 or 1.
+*/
+
+boolval_p(v) := is(v=0) or is(v=1)$
+
+
+/*
   A "boolean vector" ("bv") of length k (k in NN_0) is a list v of length k
   with entries 0, 1.
 */
 
-/* The boolean vectors of length k in lexicographical order: */
+bv_p(v) := listp(v) and every_s(boolval_p,v)$
+
+
+/* The 2^k boolean vectors of length k in lexicographical order: */
 lex_bv_l(k) := cartesian_product_l(create_list([0,1],i,1,k))$
 /* Unranking for 1 <= i <= 2^k: */
 unrank_lex_bv(i,k) := if k=0 then [] else int2polyadic_padd(i-1,2,k)$
