@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.7.2008 (Swansea)
-/* Copyright 2008. 2009 Oliver Kullmann
+/* Copyright 2008. 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,6 +15,11 @@ License, or any later version. */
    <li> The abbreviation for transformations is "trf", in the two forms
    "trf_l" (via lists), and "trf_sm" (more general, via set-maps). </li>
    <li> Provide trf_sm_compo and trf_sm_mon. </li>
+   <li> Compare "Acronyms" in
+   Algebra/Lisp/Groupoids/Groups/plans/SymmetricGroups.hpp. </li>
+   <li> It seems we should switch "trf_l" -> "trfl", and likewise "trf_sm"
+   -> "trfsm". </li>
+   <li> There is also "trff", that is, transformations as functions. </li>
   </ul>
 
 

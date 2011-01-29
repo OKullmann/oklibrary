@@ -53,6 +53,21 @@ License, or any later version. */
   </ul>
 
 
+  \todo Acronyms
+  <ul>
+   <li> Compare "Transformations" in
+   Algebra/Lisp/Groupoids/Semigroups/plans/general.hpp. </li>
+   <li> For transformations as lists, yet we use "trf_l" as well as "trfl".
+   </li>
+   <li> For transformations as functions yet we use "trff". </li>
+   <li> Perhaps the forms without underscore are preferable, since we get
+   more underscores in the rest of the names. </li>
+   <li> DONE
+   For permutations (special transformations) we use "per"; perhaps it
+   should be "pmt"? </li>
+  </ul>
+
+
   \todo Computing powers, based on the cycle representation
   <ul>
    <li> An additional service for permutation groups with cycle representation
