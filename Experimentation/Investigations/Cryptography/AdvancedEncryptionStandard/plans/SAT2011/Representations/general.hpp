@@ -177,6 +177,47 @@ License, or any later version. */
   </ul>
 
 
+  \todo The square of the Sbox
+  <ul>
+   <li> As a start into the consideration of mergers within the AES-"circuit"
+   we consider the square of the sbox. </li>
+   <li> As a Maxima boolean-function this is obtained by
+   \verbatim
+s2 : square_bf(rijn_sbox_bf);
+   \endverbatim
+   </li>
+   <li> The full CNF representation is then obtained by
+   \verbatim
+F2 : bf2relation_fullcnf_fcs(s2,8)$
+   \endverbatim
+   </li>
+   <li> A DIMACS file is created via
+   \verbatim
+output_fcs(
+    sconcat("The squared AES Sbox in full CNF representation."),
+    F2,
+    "AES_Sbox2_full.cnf")$
+   \verbatim
+   </li>
+   <li> Prime clauses:
+   \verbatim
+> QuineMcCluskey-n16-O3-DNDEBUG AES_Sbox2_full.cnf > AES_PK2.cnf
+> cat AES_PK2.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 137185 1007214 0 1007214 1 1
+ length count
+5 5
+6 3898
+7 83267
+8 49203
+9 812
+   \endverbatim
+   </li>
+   <li> This doesn't look much different from the Sbox itself; one needs to
+   consider further properties. </li>
+  </ul>
+
+
   \todo Understanding prime implicates after any partial assignment
   <ul>
    <li> To consider the AES boxes as an "active clause", we want to first be 
