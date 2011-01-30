@@ -34,18 +34,25 @@ order_element_pmtf(rijn_sbox_pmtf,256);
      investigations on boolean functions. </li>
     </ol>
    </li>
-   <li> The CNF-file "AES_Sbox_full.cnf" is created by the Maxima-function
-   output_rijnsbox_fullcnf_stdname() in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac,
-   which is a full clause-set with 16
-   variables and 2^16 - 2^8 = 65280 clauses:
-   \verbatim
+   <li> Generating the full CNF representation:
+    <ol>
+     <li> The CNF-file "AES_Sbox_full.cnf" is created by the Maxima-function
+     output_rijnsbox_fullcnf_stdname() in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac,
+     which is a full clause-set with 16
+     variables and 2^16 - 2^8 = 65280 clauses:
+     \verbatim
 > cat AES_Sbox_full.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 65280 1044480 0 1044480 1 1
  length count
 16 65280
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> The underlying clause-set is rijnsbox_fullcnf_fcs(). </li>
+     <li> This clause-set is also computed by
+     bf2relation_fullcnf_fcs(rijn_sbox_bf,8). </li>
+    </ol>
    </li>
    <li> Prime implicates:
     <ol>
