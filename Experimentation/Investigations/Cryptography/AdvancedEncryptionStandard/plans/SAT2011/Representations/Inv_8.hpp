@@ -25,7 +25,8 @@ order_element_pmtf(rijn_inv_pmtf,256);
      </li>
     </ol>
    </li>
-   <li> The CNF file "ss_byte2_8_field_inv_full.cnf" is created by the Maxima-function
+   <li> The CNF file "ss_byte2_8_field_inv_full.cnf" is created by the
+   Maxima-function
    output_ssinv_fullcnf_stdname(2,8,ss_polynomial_2_8), in
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac,
    which is a full clause-set with 16
@@ -57,7 +58,7 @@ order_element_pmtf(rijn_inv_pmtf,256);
      </li>
      <li> As with 
      Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp 
-     what are these small number of clauses of length 5?</li>
+     what are these small number of clauses of length 5? </li>
      <li> We have the following clauses of size 5:
      \verbatim
 -11 -6 -1 9 10 0
