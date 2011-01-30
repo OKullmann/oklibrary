@@ -120,6 +120,12 @@ neg_bf : lambda([x], 1-x)$
 bf2bv(f_, n) := map(lambda([x], first(f_(x))), lex_bv_l(n))$
 bv2bf(fv) := buildq([a : il2ary(fv)], lambda([x], [a[rank_lex_bv(x)]]))$
 
+/* Boolean functions as full DNF resp. DNF (the clause-order follows the
+   lexicographical order of the boolean vectors):
+*/
+bf2fulldnf_fcl(f,n) := [create_list(i,i,1,n), map(bv2c, sublist(lex_bv_l(n), lambda([x],is(f(x)=[1]))))]$
+bf2fullcnf_fcl(f,n) := [create_list(i,i,1,n), map(bv2c, 1 - sublist(lex_bv_l(n), lambda([x],is(f(x)=[0]))))]$
+
 /*!
 \endhtmlonly
 */
