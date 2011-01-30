@@ -77,7 +77,7 @@ okltest_aes_sbox_ts_gen(f) := block([FF],
  ******************************************************************
 */
 
-okltest_nsbox_ss_csttl(f) := block([n : 4],
+okltest_nsbox_ss(f) := block([n : 4],
   if oklib_test_level = 0 then n : 2,
   for r : 1 thru n do block([csttl],
     for c : 1 thru n do (
@@ -89,7 +89,7 @@ okltest_nsbox_ss_csttl(f) := block([n : 4],
           f(r,c,rw))))),
   true)$
 
-okltest_nmul_ss_csttl(f) := block([n : 4, rowcols : [1,2,4]],
+okltest_nmul_ss(f) := block([n : 4, rowcols : [1,2,4]],
   if oklib_test_level = 0 then (n : 1,rowcols : [1,2]),
   for e in ['x,'x+1] do
     for r : 1 thru n do block([csttl],
@@ -103,12 +103,34 @@ okltest_nmul_ss_csttl(f) := block([n : 4, rowcols : [1,2,4]],
             f(e,r,c,4,ss_mixcolumns_matrix(2,4,rw),false,aes_mc_forward))))),
   true)$
 
-okltest_nvar_ss_fcl(f) := (
+okltest_nvar_ss(f) := (
   assert(f(1,1,1,4,ss_mixcolumns_matrix(2,4,1),16,
-      [['x,16],['x+1,16]],false,aes_mc_forward) = 64),
+      [['x,16],['x+1,16]],false,aes_mc_forward) = 68),
   assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),256,
       [['x,256],['x+1,256], [x^3+1,256],[x^3+x+1,256],[x^3+x^2+1,256],
       [x^3+x^2+x,256]],false,aes_mc_bidirectional) = 31400),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),256,
+      [], true,aes_mc_bidirectional) = 5928),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),256,
+      [], true,aes_mc_forward) = 5928),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),256,
+      [[x,256],[x+1,256],[x^3+1,256],[x^3+x+1,256],
+      [x^3+x^2+1,256],[x^3+x^2+x,256]], false,aes_mc_forward) = 14504),
+  true)$
+
+okltest_ncl_ss(f) := (
+    assert(f(1,1,1,4,ss_mixcolumns_matrix(2,4,1),145,
+      [['x,145],['x+1,145]],false,aes_mc_forward) = 350),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),4353,
+      [['x,4353],['x+1,4353], [x^3+1,4353],[x^3+x+1,4353],[x^3+x^2+1,4353],
+      [x^3+x^2+x,4353]],false,aes_mc_bidirectional) = 510620),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),4353,
+      [], true,aes_mc_bidirectional) = 88636),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),4353,
+      [], true,aes_mc_forward) = 88636),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),4353,
+      [[x,4353],[x+1,4353],[x^3+1,4353],[x^3+x+1,4353],
+      [x^3+x^2+1,4353],[x^3+x^2+x,4353]], false,aes_mc_forward) = 229980),
   true)$
 
 /******************************************************************

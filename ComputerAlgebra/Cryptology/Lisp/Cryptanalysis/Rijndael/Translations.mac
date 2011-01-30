@@ -284,7 +284,7 @@ block([block_size],
 /* Given the appropriate parameters, computes the number of sboxes
    in the associated small scale AES. The parameters are the number
    of rounds, and the number of columns and rows in the block. */
-nsbox_ss_csttl(r,num_columns,num_rows) :=
+nsbox_ss(r,num_columns,num_rows) :=
   (r*num_columns*num_rows) + (r * num_rows)$
 
 /* Given the appropriate parameters, computes the number of multiplications
@@ -294,7 +294,7 @@ nsbox_ss_csttl(r,num_columns,num_rows) :=
    exponent, the mixcolumns matrix, whether or not to use a special final
    round (true/false) and the MixColumns translation to use (aes_mc_forward or
    aes_mc_bidirectional). */
-nmul_ss_csttl(e,r,num_cols,ss_exp,mixcolumns_matrix, final_round_b, mc_trans) :=
+nmul_ss(e,r,num_cols,ss_exp,mixcolumns_matrix, final_round_b, mc_trans) :=
 block([inv_mixcolumns_matrix, nmul, nmul_inv],
   inv_mixcolumns_matrix :
     ss_mixcolumns_matrix2inv_mixcolumns_matrix(2,ss_exp,mixcolumns_matrix),
@@ -316,27 +316,110 @@ block([inv_mixcolumns_matrix, nmul, nmul_inv],
    translation of each multiplication, whether or not to use a special
    final round, and whether to include the MixColumns inversion or not
    (aes_mc_forward vs aes_mc_bidirectional). */
-nvar_ss_fcl(r,num_cols,num_rows,ss_exp,mixcolumns_matrix,
+nvar_ss(r,num_cols,num_rows,ss_exp,mixcolumns_matrix,
             num_sbox_vars,num_mul_vars_map,final_round_b,mc_trans) :=
 block([mul_h : osm2hm(num_mul_vars_map), block_size],
   block_size : num_cols * num_rows * ss_exp,
-  return(
-    (block_size * 3) + /* Input */
-    ((r-1) * block_size) + /* AES constraint */
-    ((r-1) * 2 * block_size) + /* Normal rounds */
-    (if final_round_b then block_size else 2 * block_size) + /* Final round */
-    (r * num_cols * num_rows * num_sbox_vars) + /* Subbytes - sboxes */
-    sum_l(map(lambda([e],ev_hm_d(mul_h,e,0) +
-          if e # 0 then ss_exp else 0),
-        m2l_r(mixcolumns_matrix))) * num_cols + /* MixColumns - forward */
-    (if mc_trans = aes_mc_bidirectional then
+  if final_round_b then
+    return(
+      (block_size * 3) + /* Input */
+      (2 * r * block_size) + /* AES constraint (round keys + output) */
+      ((r-1) * 2 * block_size) + /* Normal rounds */
+      block_size + /* Normal rounds */
+      (r * num_cols * num_rows * num_sbox_vars) + /* Subbytes - sboxes */
       sum_l(map(lambda([e],ev_hm_d(mul_h,e,0) +
-            if e # 0 then ss_exp else 0),
-          m2l_r(ss_mixcolumns_matrix2inv_mixcolumns_matrix(
-              2,ss_exp,mixcolumns_matrix)))) else 0) * num_cols +
-    /* MixColumns - inv */
-    ((ss_exp * r) + (num_rows * r * ss_exp) + (num_rows * r * num_sbox_vars))
-    /* Key Schedule */))$
+            if e # 0 and e # 1 then ss_exp else 0),
+          m2l_r(mixcolumns_matrix))) * num_cols * (r-1) +
+      /* MixColumns - forward */
+      (if mc_trans = aes_mc_bidirectional then
+        sum_l(map(lambda([e],ev_hm_d(mul_h,e,0) +
+              if e # 0 and e # 1 then ss_exp else 0),
+            m2l_r(ss_mixcolumns_matrix2inv_mixcolumns_matrix(
+                2,ss_exp,mixcolumns_matrix)))) else 0) * num_cols * (r-1) +
+      /* MixColumns - inv */
+      ((ss_exp * r) + (num_rows * r * (ss_exp + num_sbox_vars)))
+      /* Key Schedule */)
+  else
+    return(
+      (block_size * 3) + /* Input */
+      (2 * r * block_size) + /* AES constraint (round keys + output) */
+      (2 * r * block_size) + /* Normal rounds */
+      (r * num_cols * num_rows * num_sbox_vars) + /* Subbytes - sboxes */
+      sum_l(map(lambda([e],ev_hm_d(mul_h,e,0) +
+            if e # 0 and e # 1 then ss_exp else 0),
+          m2l_r(mixcolumns_matrix))) * num_cols * r +
+      /* MixColumns - forward */
+      (if mc_trans = aes_mc_bidirectional then
+        sum_l(map(lambda([e],ev_hm_d(mul_h,e,0) +
+              if e # 0 and e # 1 then ss_exp else 0),
+            m2l_r(ss_mixcolumns_matrix2inv_mixcolumns_matrix(
+                2,ss_exp,mixcolumns_matrix)))) else 0) * num_cols * r +
+      /* MixColumns - inv */
+      ((ss_exp * r) + (num_rows * r * (ss_exp + num_sbox_vars)))
+      /* Key Schedule */))$
+
+/* Given the appropriate parameters, computes the number of clauses
+   in the small scale AES clause-list translation.
+
+   The parameters are the number of rounds, the number of columns, the small
+   scale exponent, the mixcolumns matrix to use, the number of variables
+   introduced by the sbox CNF translation, a list-map from the field elements
+   in the mixcolumns to the number of variables introduced in the CNF
+   translation of each multiplication, whether or not to use a special
+   final round, and whether to include the MixColumns inversion or not
+   (aes_mc_forward vs aes_mc_bidirectional). */
+ncl_ss(r,num_cols,num_rows,ss_exp,mixcolumns_matrix,
+            num_sbox_cl,num_mul_cl_map,final_round_b,mc_trans) :=
+block([mul_h : osm2hm(num_mul_cl_map), block_size],
+  block_size : num_cols * num_rows * ss_exp,
+  if final_round_b then
+    return(
+      4 * block_size * (r+1) + /* Addition constraints (binary) */
+      (r * num_cols * num_rows * num_sbox_cl) + /* Subbytes - sboxes */
+      sum_l(map(lambda([e],ev_hm_d(mul_h,e,0)),
+          m2l_r(mixcolumns_matrix))) * num_cols * (r-1) +
+      sum_l(map(lambda([R], 2^length(sublist(R,lambda([e],is(e#0))))),
+        args(mixcolumns_matrix))) * ss_exp * num_cols * (r-1) +
+      /* MixColumns - forward */
+      (if mc_trans = aes_mc_bidirectional then
+        sum_l(map(lambda([e],ev_hm_d(mul_h,e,0)),
+            m2l_r(ss_mixcolumns_matrix2inv_mixcolumns_matrix(
+                2,ss_exp,mixcolumns_matrix)))) else 0) * num_cols * (r-1) +
+      (if mc_trans = aes_mc_bidirectional then
+        sum_l(map(lambda([R], 2^length(sublist(R,lambda([e],is(e#0))))),
+          args(ss_mixcolumns_matrix2inv_mixcolumns_matrix(
+                2,ss_exp,mixcolumns_matrix)))) else 0) * ss_exp * num_cols * (r-1) +
+      /* MixColumns - inv */
+      ((ss_exp * r) + (num_rows * r * num_sbox_cl)) +
+      if num_cols > 1 then
+        ((num_rows * (num_cols-1) * 4) + ((num_rows-1) * 4) + 8) * ss_exp * r
+      else
+        ((num_cols-1) * num_rows + 1) * 4 * ss_exp * r
+      /* Key Schedule */)
+  else
+    return(
+      4 * block_size * (r+1) + /* Addition constraints (binary) */
+      (r * num_cols * num_rows * num_sbox_cl) + /* Subbytes - sboxes */
+      sum_l(map(lambda([e],ev_hm_d(mul_h,e,0)),
+          m2l_r(mixcolumns_matrix))) * num_cols * r +
+      sum_l(map(lambda([R], 2^length(sublist(R,lambda([e],is(e#0))))),
+        args(mixcolumns_matrix))) * ss_exp * num_cols * r +
+      /* MixColumns - forward */
+      (if mc_trans = aes_mc_bidirectional then
+        sum_l(map(lambda([e],ev_hm_d(mul_h,e,0)),
+            m2l_r(ss_mixcolumns_matrix2inv_mixcolumns_matrix(
+                2,ss_exp,mixcolumns_matrix)))) else 0) * num_cols * r +
+      (if mc_trans = aes_mc_bidirectional then
+        sum_l(map(lambda([R], 2^length(sublist(R,lambda([e],is(e#0))))),
+          args(ss_mixcolumns_matrix2inv_mixcolumns_matrix(
+                2,ss_exp,mixcolumns_matrix)))) else 0) * ss_exp * num_cols * r +
+      /* MixColumns - inv */
+      ((ss_exp * r) + (num_rows * r * num_sbox_cl)) +
+      if num_cols > 1 then
+        ((num_rows * (num_cols-1) * 4) + ((num_rows-1) * 4) + 8) * ss_exp * r
+      else
+        ((num_cols-1) * num_rows + 1) * 4 * ss_exp * r
+      /* Key Schedule */))$
 
   
 /******************************************************************
