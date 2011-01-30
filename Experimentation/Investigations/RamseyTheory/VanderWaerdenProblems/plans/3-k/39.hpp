@@ -310,7 +310,13 @@ The FlipsPerSecond are likely corrupted.
    </li>
    <li> n=1419:
     <ol>
-     <li> adaptg2wsat, cutoff=4*10^6: </li>
+     <li> adaptg2wsat, cutoff=4*10^6:
+     \verbatim
+  1   2   3   4   5   6   7   8
+  4  18 123 376 360 108  10   1
+1000
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
