@@ -23,6 +23,8 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 
 /* *******************
@@ -36,6 +38,8 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 boolval_p(v) := is(v=0) or is(v=1)$
 
+/* Translating Maxima-truth-values into boolean values: */
+tv2boolval(t) := if t then 1 else 0$
 
 /*
   A "boolean vector" ("bv") of length k (k in NN_0) is a list v of length k
@@ -132,10 +136,22 @@ bf2fullcnf_fcl(f,n) := [create_list(i,i,1,n), map(bv2c, 1 - sublist(lex_bv_l(n),
    *****************
 */
 
+/* The component-wise negation of a boolean function: */
+negation_bf(f) := buildq([f], lambda([x],1-f(x)))$
+
 /* The composition of boolean functions (first f, then g): */
 composition_bf(g,f) := buildq([f,g], lambda([x], g(f(x))))$
 square_bf(f) := composition_bf(f,f)$
 
+/* A boolean n x m function f as a boolean (n+m) x 1 function: */
+bf2relation_bf(f,n) := buildq([f,n], lambda([x], tv2boolval(is(f(take_l(n,x))=rest(x,n)))))$
+bf2relation_fulldnf_cl(f,n) :=
+ map(bv2c, map(lambda([x],append(x,f(x))), lex_bv_l(n)))$
+bf2relation_fullcnf_fcs(f,n) := block(
+ [F : map(comp_sl,bf2relation_fulldnf_cl(f,n))],
+  if emptyp(F) then [{},{{}}]
+  else block([N : length(first(F))],
+    [setn(N), setdifference(full_cs(N), setify(F))]))$
 
 /*!
 \endhtmlonly
