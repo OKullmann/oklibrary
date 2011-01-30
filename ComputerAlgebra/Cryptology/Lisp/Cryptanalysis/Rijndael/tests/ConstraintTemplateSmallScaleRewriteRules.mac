@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateSmallScaleRewriteRules.mac
-  \brief Tests for the AES constraint template translation functions
+  \brief Tests for the small-scale AES constraint template translation functions
 
 Use by
 
