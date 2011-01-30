@@ -23,7 +23,7 @@
 # instance is found in this way.
 # The results are two n-values n1, n2: n1 is maximal such that for all n <= n1
 # the instances are satisfiable, while n2 is minimal such that for all n >= n2
-# the instances are unsatisfiable (always heuristically)
+# the instances are unsatisfiable (always heuristically).
 
 # The parameters of the script can be found in file "Parameters" within the
 # experiment-directory, and the results are in file "Results".
