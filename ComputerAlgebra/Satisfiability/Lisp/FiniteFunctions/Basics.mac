@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /* *******************
@@ -106,6 +107,18 @@ xor_bf : lambda([x], [mod(apply("+", x),2)])$
 id_bf : identity$
 neg_bf : lambda([x], 1-x)$
 
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+/* The "bit-vector presentation" of an n x 1 boolean function f is the boolean
+   vector of length 2^n containing all values of f, applied to the 
+   lexicographical ordering of inputs:
+*/
+bf2bv(f_, n) := map(lambda([x], first(f_(x))), lex_bv_l(n))$
+bv2bf(fv) := buildq([a : il2ary(fv)], lambda([x], [a[rank_lex_bv(x)]]))$
 
 /*!
 \endhtmlonly
