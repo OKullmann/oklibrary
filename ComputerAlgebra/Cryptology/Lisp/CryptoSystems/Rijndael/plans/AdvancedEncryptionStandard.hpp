@@ -10,6 +10,12 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
+  \bug
+  <ul>
+   <li> rijn_sbox_vec([0,0,0,0,0,0,0,0]) = [1,1,0,0,0,1,1] </li>
+  </ul>
+
+
   \todo Provide function for generating AES term
   <ul>
    <li> Running something like
