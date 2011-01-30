@@ -126,6 +126,17 @@ bv2bf(fv) := buildq([a : il2ary(fv)], lambda([x], [a[rank_lex_bv(x)]]))$
 bf2fulldnf_fcl(f,n) := [create_list(i,i,1,n), map(bv2c, sublist(lex_bv_l(n), lambda([x],is(f(x)=[1]))))]$
 bf2fullcnf_fcl(f,n) := [create_list(i,i,1,n), map(bv2c, 1 - sublist(lex_bv_l(n), lambda([x],is(f(x)=[0]))))]$
 
+
+/* *****************
+   * Constructions *
+   *****************
+*/
+
+/* The composition of boolean functions (first f, then g): */
+composition_bf(g,f) := buildq([f,g], lambda([x], g(f(x))))$
+square_bf(f) := composition_bf(f,f)$
+
+
 /*!
 \endhtmlonly
 */
