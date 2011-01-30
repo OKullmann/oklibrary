@@ -18,7 +18,8 @@ License, or any later version. */
 > cvs -z3 -d:pserver:$ADDRESS checkout ecl
    \endverbatim
    </li>
-   <li> Test failure with 11.1.1.1:
+   <li> DONE (now using conversion to upper-case)
+   Test failure with 11.1.1.1:
     <ol>
      <li>
      \verbatim

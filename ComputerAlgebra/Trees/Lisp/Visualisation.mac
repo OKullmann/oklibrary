@@ -1,5 +1,5 @@
 /* Rui Wang, 28.10.2009 (Swansea) */
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -178,11 +178,12 @@ lrt2value(T) := if length(T) = 1 then [T[1]] else
           else cons(T[1],lrt2value(T[2])))$
           
           
-/* Convert a decimal number to a string in hexadecimal.
-   10 -> "0A"
+/* Convert a decimal number to a string in hexadecimal, e.g., 10 -> "0A";
+   the output is at least two hex-digits (padding with zero if needed), and
+   the hex-letters are upper-case:
 */
-dec2hex(n) := if n<16 then concat("0",printf(false,"~x",n))
-              else concat(printf(false,"~x",n))$          
+dec2hex(n) := if n<16 then sconcat("0",supcase(printf(false,"~x",n)))
+              else supcase(printf(false,"~x",n))$          
 
 
 /* Convert RGB decimal value to standard Maxima RGB code.
