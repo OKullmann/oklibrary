@@ -14,19 +14,19 @@
 # on the size of the minimum size clause-set representation of
 # the first argument.
 #
-# This script uses the OKsolver and iteratively computes the minimum
+# This script uses precosat236 and iteratively computes the minimum
 # representation using subsumption hypergraphs and cardinality constraints.
 
 #set -o errexit # Can't use as SAT solvers return non-zero.
 set -o nounset
 
-script_name="minimise_cnf_oksolver"
+script_name="minimise_cnf_precosat236"
 err="ERROR[${script_name}]:"
 version="0.0.5"
 
 # Programs
 shg_program=QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG
-solver_program="OKsolver_2002-O3-DNDEBUG -O" # Must output assignment and return UNSAT
+solver_program="precosat236" # Must output assignment and return UNSAT
 
 # Files
 exec_dir=$(dirname $0)
