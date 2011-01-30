@@ -65,7 +65,7 @@ oklib_plain_include(eigen)$
 */
 
 /* Translating a transformation T (standardised, as list) into a boolean
-   function representing this function as a full dnf.
+   function as a full dnf.
    Prerequisite: T is a transformation of {1,...,2^k} for k >= 0.
 */
 trans2dnffcl(T) := block([m : length(T), k, V, F, R],
