@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac
-  \brief Basic tools for handling boolean and fine functions
+  \brief Basic tools for handling boolean and finite functions
 
 Use by
 
@@ -20,41 +20,138 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac
 */
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 
-
-/****************************
- * Random boolean functions *
- ****************************
+/* *******************
+   * Boolean vectors *
+   *******************
 */
 
-/* For a set S returns a random subset where each subset has the same
-   probability of being chosen (namely 1/2^length(S)).
-   Prerequisite:: S does not contain 0. */
-/* TODO: Move somewhere more appropriate. */
-random_subset(S) := 
-  disjoin(0, setify(listify(S) * create_list(random(2),i,1,length(S))))$
+/*
+  A "boolean value" is either 0 or 1.
+*/
 
-/* In the following, "random" means that each function chosen
-   has equal probability of being chosen (uniform distribution). */
+boolval_p(v) := is(v=0) or is(v=1)$
 
-/* Computes a random boolean function in n variables as a full CNF: */
-random_bf_fcs(n) := [setn(n),random_subset(full_cs(n))]$
-output_random_bf_fcs(n,filename_) :=
-  output_fcs(
-    sconcat("Random boolean function in ", n, " variables."),
-    random_bf_fcs(n),
-    sconcat(filename_))$
-output_random_bf_fcs_stdname(n) :=
-  output_random_bf_fcs(n,sconcat("Random_bf_",n,".cnf"))$
+/* Translating Maxima-truth-values into boolean values: */
+tv2boolval(t) := if t then 1 else 0$
 
-/* Computes a random balanced boolean function in n variables as a full CNF: */
-random_bal_bf_fcs(n) :=
-  [setn(n),setify(random_k_sublist_l(listify(full_cs(n)),2^(n-1)))]$
-/* A boolean function is balanced if it has the same number
-   of true points as false points. */
+/*
+  A "boolean vector" ("bv") of length k (k in NN_0) is a list v of length k
+  with entries 0, 1.
+*/
+
+bv_p(v) := listp(v) and every_s(boolval_p,v)$
+
+/* The set of all boolean vectors of length k: */
+all_bv(k) := apply(cartesian_product, create_list({0,1},i,1,k))$
+
+/* The 2^k boolean vectors of length k in lexicographical order: */
+lex_bv_l(k) := cartesian_product_l(create_list([0,1],i,1,k))$
+/* Unranking for 1 <= i <= 2^k: */
+unrank_lex_bv(i,k) := if k=0 then [] else int2polyadic_padd(i-1,2,k)$
+/* Ranking of boolean vectors: */
+rank_lex_bv(x) := polyadic2int(x,2) + 1$
+
+
+/* Translating boolean vectors into (standardised) DNF-clauses (using the
+   positions as variables):
+*/
+bv2c(v) := bv2c_wv(v,create_list(i,i,1,length(v)))$
+/* More generally, supplying a vector V of boolean variables (of the same
+   length as v):
+*/
+bv2c_wv(v,V) := setify((2*v - 1) * V)$
+
+
+/* *********************
+   * Boolean functions *
+   *********************
+*/
+
+/*
+  A "boolean function" ("bf") is a function with the following properties:
+
+   - implicitly a size-domain S <= NN_0 is given
+   - for every n in S there is an m_n in NN_0 such that for all boolean vectors
+     x of length n the term f(x) is a boolean vector of length m_m.
+
+  f is an "n x m bf" if n in S and m_n = m.
+*/
+
+/* Testing whether f is a n x m boolean function: */
+bf_nm_p(f,n,m) :=
+ every_s(lambda([x], 
+           block([y:f(x)], listp(y) and is(length(y)=m) and bv_p(y))),
+         all_bv(n))$
+
+
+/* ********************************
+   * Some basic boolean functions *
+   ********************************
+*/
+
+/* Functions with size-domain NN_0 and m=1: */
+
+zero_bf : lambda([x], [0])$
+one_bf : lambda([x], [0])$
+
+and_bf : lambda([x], [lmin(x)])$
+or_bf : lambda([x], [lmax(x)])$
+
+xor_bf : lambda([x], [mod(apply("+", x),2)])$
+
+/* Functions with size-domain NN_0 and m=n: */
+
+id_bf : identity$
+neg_bf : lambda([x], 1-x)$
+
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+/* The "bit-vector presentation" of an n x 1 boolean function f is the boolean
+   vector of length 2^n containing all values of f, applied to the 
+   lexicographical ordering of inputs:
+*/
+bf2bv(f_, n) := map(lambda([x], first(f_(x))), lex_bv_l(n))$
+bv2bf(fv) := buildq([a : il2ary(fv)], lambda([x], [a[rank_lex_bv(x)]]))$
+
+/* Boolean functions as full DNF resp. DNF (the clause-order follows the
+   lexicographical order of the boolean vectors):
+*/
+bf2fulldnf_fcl(f,n) := [create_list(i,i,1,n), map(bv2c, sublist(lex_bv_l(n), lambda([x],is(f(x)=[1]))))]$
+bf2fullcnf_fcl(f,n) := [create_list(i,i,1,n), map(bv2c, 1 - sublist(lex_bv_l(n), lambda([x],is(f(x)=[0]))))]$
+
+
+/* *****************
+   * Constructions *
+   *****************
+*/
+
+/* The component-wise negation of a boolean function: */
+negation_bf(f) := buildq([f], lambda([x],1-f(x)))$
+
+/* The composition of boolean functions (first f, then g): */
+composition_bf(g,f) := buildq([f,g], lambda([x], g(f(x))))$
+square_bf(f) := composition_bf(f,f)$
+
+/* A boolean n x m function f as a boolean (n+m) x 1 function: */
+bf2relation_bf(f,n) := buildq([f,n], lambda([x], tv2boolval(is(f(take_l(n,x))=rest(x,n)))))$
+bf2relation_fulldnf_cl(f,n) :=
+ map(bv2c, map(lambda([x],append(x,f(x))), lex_bv_l(n)))$
+bf2relation_fullcnf_fcs(f,n) := block(
+ [F : map(comp_sl,bf2relation_fulldnf_cl(f,n))],
+  if emptyp(F) then [{},{{}}]
+  else block([N : length(first(F))],
+    [setn(N), setdifference(full_cs(N), setify(F))]))$
 
 /*!
 \endhtmlonly

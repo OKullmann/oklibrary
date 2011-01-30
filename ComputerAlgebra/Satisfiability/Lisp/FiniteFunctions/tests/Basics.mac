@@ -25,43 +25,41 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 kill(f)$
 
-/***********************************************
- * Random boolean functions                    *
- ***********************************************
+/* *******************
+   * Boolean vectors *
+   *******************
 */
 
-
-okltest_random_subset(f) := block(
-  assert(f({}) = {}),
-  set_random(1),
-  assert(f({1}) = {1}),
-  assert(f({1}) = {1}),
-  assert(f({1}) = {}),
-  assert(f({1,2,3}) = {2,3}),
-  if oklib_test_level = 0 then return(true),
-  for i : 0 thru 500 do
-    assert(subsetp(f({1,2,3,4,5,6,7,8}),{1,2,3,4,5,6,7,8})),
+okltest_lex_bv_l(f) := (
+  assert(f(0) = [[]]),
+  assert(f(1) = [[0],[1]]),
+  assert(f(2) = [[0,0],[0,1],[1,0],[1,1]]),
   true)$
 
-okltest_random_bf_fcs(f) := block(
-  set_random(1),
-  assert(f(0) = [{},{{}}]),
-  assert(f(1) = [{1},{{-1}}]),
-  assert(f(2) = [{1,2},{{-2,1},{-1,2},{1,2}}]),
-  assert(f(3) = [{1,2,3},{{-3,-2,-1},{-3,-2,1},{-2,-1,3},{-1,2,3},{1,2,3}}]),
+okltest_unrank_lex_bv(f) := (
+  for k : 0 thru 5 do
+    assert(lex_bv_l(k) = create_list(f(i,k),i,1,2^k)),
   true)$
 
-okltest_random_bal_bf_fcs(f) := block(
-  set_random(1),
-  assert(f(1) = [{1},{{1}}]),
-  assert(f(2) = [{1,2},{{-2,-1},{1,2}}]),
-  assert(f(3) = [{1,2,3},{{-3,-2,-1},{-3,-1,2},{-3,1,2},{-2,-1,3}}]),
-  if oklib_test_level = 0 then return(true),
-  for i : 0 thru 500 do
-    assert(length(f(3)[2]) = 4),
-  for i : 0 thru 500 do
-    assert(length(f(5)[2]) = 16),
+okltest_rank_lex_bv(f) := (
+  for k : 0 thru 5 do
+    assert(map(f,lex_bv_l(k)) = create_list(i,i,1,2^k)),
   true)$
+
+okltest_bv2c(f) := (
+  assert(f([]) = {}),
+  assert(f([0]) = {-1}),
+  assert(f([1]) = {1}),
+  assert(f([1,0,1,0,0]) = {-5,-4,-2,1,3}),
+  assert(f([0,0,0,0,0]) = {-5,-4,-3,-2,-1}),
+  true)$
+
+okltest_bv2c_wv(f) := block([a,b,c],
+  assert(f([],[]) = {}),
+  assert(f([0,1,0],[a,b,c]) = {-a,b,-c}),
+  assert(okltest_bv2c(buildq([f], lambda([v],f(v,create_list(i,i,1,length(v)))))) = true),
+  true)$
+
 
 /*!
 \endhtmlonly

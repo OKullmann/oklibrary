@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac
-  \brief Functions for translating AES constraint templates into further AES constraint templates and CNF representations.
+  \brief Functions for translating small-scale AES constraint templates into further AES constraint templates and CNF representations.
 
 Use by
 

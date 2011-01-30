@@ -21,14 +21,17 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/testobject
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/tests/Basics.mac")$
 
-/* *********************************
-   * The fixed-clause-length model *
-   *********************************
+/* *******************
+   * Boolean vectors *
+   *******************
 */
 
-okltest_random_subset(random_subset);
-okltest_random_bf_fcs(random_bf_fcs);
-okltest_random_bal_bf_fcs(random_bal_bf_fcs);
+okltest_lex_bv_l(lex_bv_l);
+okltest_unrank_lex_bv(unrank_lex_bv);
+okltest_rank_lex_bv(rank_lex_bv);
+
+okltest_bv2c(bv2c);
+okltest_bv2c_wv(bv2c_wv);
 
 /*!
 \endhtmlonly
