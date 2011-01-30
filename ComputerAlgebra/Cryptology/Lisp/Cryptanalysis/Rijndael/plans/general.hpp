@@ -10,6 +10,17 @@ License, or any later version. */
   \brief Plans for the Cryptanalysis of Rijndael in Maxima/Lisp
 
 
+  \bug Test failure
+  <ul>
+   <li> With test-level "full":
+   \verbatim
+(%i181) okltest_ss_inv_mixcolumn_cstr_cstl(ss_inv_mixcolumn_cstr_cstl)
+ASSERT: Expression " errexp1 " does not evaluate to true.
+   \endverbatim
+   </li>
+  </ul>
+
+
   \bug Missing includes
   <ul>
    <li> Rijndael/tests/ConstraintTemplateSmallScaleRewriteRules.mac obviously
