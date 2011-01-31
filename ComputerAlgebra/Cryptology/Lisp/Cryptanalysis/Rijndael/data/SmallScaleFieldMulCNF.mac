@@ -28,6 +28,13 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data
  *********************************************************
 */
 
+/* Generated using
+
+   $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_cryptominisat
+
+   applied to output_ssmult_fullcnf_stdname(e,2,4,ss_polynomial_2_4) for each
+   e in {2,...,15}. */
+
 /* Takes the exponent and the element in the field to multiply with */
 ss_field_cnfs : sm2hm({})$
 
