@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/milestones.hpp
 
-  \module_version Lisp/CryptoSystems/Rijndael 0.0.10 (3.1.2010)
+  \module_version Lisp/CryptoSystems/Rijndael 0.0.10.2 (31.1.2011)
 
 
   \par Version 0.0.11
