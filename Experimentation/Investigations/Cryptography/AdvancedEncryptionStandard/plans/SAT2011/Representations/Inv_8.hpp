@@ -146,9 +146,9 @@ R> subset(E, min == 359)
   </ul>
 
 
-  \todo r_1-bases : mincl_r1 <= 4310
+  \todo r_1-bases : mincl_r1 <= 4266
   <ul>
-   <li> Current minimum clause-count of an r_1-base: 4310. </li>
+   <li> Current minimum clause-count of an r_1-base: 4266. </li>
    <li> Iterating through the random seeds, while sorting inputs in
    ascending order of clause-length into RUcpGen, and descending into
    RUcpBase yields a new smaller r_1 base:
@@ -168,6 +168,18 @@ shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStan
 CURRENT MINIMUM RBASE: *4310* with gs=15,bs=1
 ------------------------------------------------------------------------------------
 <snip>
+*** Currently trying gs=395,bs=1
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 4266 29258 0 29258 0 1
+ length count
+5 18
+6 1031
+7 2757
+8 457
+9 3
+------------------------------------------------------------------------------------
+CURRENT MINIMUM RBASE: *4266* with gs=395,bs=1
+------------------------------------------------------------------------------------
    \endverbatim
    </li>
    <li> Note that this is smaller (in terms of number of clauses) than the 
