@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Byte
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Block.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/AdvancedEncryptionStandard.mac")$
 
 
 kill(f)$
@@ -95,6 +96,21 @@ okltest_ss_inv_sbox_gen(f) := block(
     assert(f(b,2,8,ss_polynomial_2_8,
       ss_inv_sbox_matrix_2_8,ss_inv_affine_constant_2_8) =
     rijn_lookup_inv_sbox(b)),
+  true)$
+
+
+okltest_ss_sbox_bf(f) := (
+  assert(okltest_rijn_sbox_vec(buildq([f], lambda([V],f(V,2,8))))),
+  true)$
+
+okltest_ss_sbox_w_add_bf(f) := (
+  assert(f([0,0,0,0,0,0,0,0],2,4) = [0,1,1,0]),
+  assert(f([0,0,0,0,0,0,0,1],2,4) = [0,1,1,1]),
+  assert(f([0,0,0,0,1,0,0,1],2,4) = [1,1,1,1]),
+  assert(f([0,0,0,0,1,1,0,1],2,4) = [1,0,1,1]),
+  assert(f([1,1,1,1,0,0,0,0],2,4) = [1,0,0,0]),
+  assert(f([1,1,1,1,1,1,1,1],2,4) = [0,1,1,1]),
+  assert(f([1,0,1,1,1,0,1,0],2,4) = [0,1,1,0]),
   true)$
 
 

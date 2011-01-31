@@ -231,6 +231,17 @@ ss_inv_sbox(field_element, b,e) :=
     ss_inv_sbox_matrix(b,e),ss_inv_affine_constant(b,e))$
 
 
+/* Small scale Sbox as boolean function */
+ss_sbox_bf(V,b,e) := poly2vec_ss(ss_sbox(vec2poly(V),b,e),e)$
+/* TODO: implement general versions of these functions. */
+
+/* Sbox with addition as a boolean function where the first half of
+   the input boolean vector is input to the Sbox and then the result of
+   the Sbox, is added to the other half of the input. */
+ss_sbox_w_add_bf(V,b,e) := block(
+  [V1 : take_elements(floor(length(V)/2),V), V2 : rest(V,floor(length(V)/2))],
+  ss_vecadd(ss_sbox_bf(V1,b,e),V2,b))$
+
 /* *************
    * Sub-bytes *
    *************
