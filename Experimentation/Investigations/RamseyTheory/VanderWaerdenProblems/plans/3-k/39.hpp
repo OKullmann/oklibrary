@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo vanderwaerden_2(3,39) > 1418
   <ul>
-   <li> The very weak current conjecture is vanderwaerden_2(3,39) = ???. </li>
+   <li> The very weak current conjecture is vanderwaerden_2(3,39) = 1419. </li>
    <li> Starting search with the best palindromic solution:
    \verbatim
 >  k=39 n=1410 cutoff=35000000 expdate="2010-12-14-225714"; export k n; cat AltExp/Exp_PdVanderWaerden_2-3-${k}_gsat-tabu-100-${cutoff}_${expdate}/VanDerWaerden_pd_2-3-${k}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution
@@ -315,6 +315,20 @@ The FlipsPerSecond are likely corrupted.
   1   2   3   4   5   6   7   8
   4  18 123 376 360 108  10   1
 1000
+     \endverbatim
+     </li>
+     <li> adaptg2wsat, cutoff=8*10^6:
+     \verbatim
+  1   2   3   4   5   6
+  4  43 221 477 244  11
+1000
+     \endverbatim
+     </li>
+     <li> ddfw, cutoff=8*10^6:
+     \verbatim
+ 2  3  4  5  6  7
+11 24 64 61 32  4
+196
      \endverbatim
      </li>
     </ol>
