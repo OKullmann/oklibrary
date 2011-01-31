@@ -324,7 +324,7 @@ okltest_ss_inv_mixcolumn_cstr_cstl(f) := block([cst],
      9,10,11,12,13,14,15,16,1,2,3,4,5,6,7,8]),
   if oklib_test_level = 0 then return(true),
   assert(
-    setify(ss_mixcolumn_ns_var_l(cst)) =
+    setify(ss_inv_mixcolumn_ns_var_l(cst)) =
     setdifference(setify(lappend(map(cstt_vars_l,ctl))),
       setify(create_list(i,i,1,384)))),
   true)$

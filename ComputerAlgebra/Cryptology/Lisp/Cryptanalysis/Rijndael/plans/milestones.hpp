@@ -18,6 +18,7 @@ License, or any later version. */
    the following topics are handled:
     - Missing includes
     - Functions should not cache return values
+    - Test failure : DONE
     - Test failure at level "full" : DONE
 
   \par
