@@ -64,7 +64,7 @@ rijn_inv_sbox_matrix : apply(matrix,
 
 /* Takes a value from the byte field as vector and returns the result
    of applying the Rijndael Sbox operation (as vector): */
-rijn_sbox_vec(v) := polybin2vecbin(rijn_sbox(vecbin2polybin(v)))$
+rijn_sbox_vec(v) := polybin2vecbin_rijn(rijn_sbox(vecbin2polybin(v)))$
 /* Now representing bytes as natural numbers: */
 rijn_sbox_nat(i) := polybin2nat(rijn_sbox(nat2polybin(i)))$
 /* Now representing bytes as polynomials (the standard representation): */
@@ -74,7 +74,7 @@ rijn_sbox(p) :=
     rijn_affine_constant)$
 
 /* Inverse of Sbox: */
-rijn_inv_sbox_vec(v) := polybin2vecbin(rijn_inv_sbox(vecbin2polybin(v)))$
+rijn_inv_sbox_vec(v) := polybin2vecbin_rijn(rijn_inv_sbox(vecbin2polybin(v)))$
 rijn_inv_sbox_nat(i) := polybin2nat(rijn_inv_sbox(nat2polybin(i)))$
 rijn_inv_sbox(p) :=
   rijn_einv(

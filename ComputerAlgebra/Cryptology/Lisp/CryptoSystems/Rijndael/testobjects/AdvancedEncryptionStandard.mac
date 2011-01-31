@@ -27,8 +27,10 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/test
    *********
 */
 
+okltest_rijn_sbox_vec(rijn_sbox_vec);
 okltest_rijn_sbox_nat(rijn_sbox_nat);
 okltest_rijn_sbox_nat(rijn_lookup_sbox_nat);
+okltest_rijn_inv_sbox_vec(rijn_inv_sbox_vec);
 okltest_rijn_inv_sbox_nat(rijn_inv_sbox_nat);
 okltest_rijn_inv_sbox_nat(rijn_lookup_inv_sbox_nat);
 

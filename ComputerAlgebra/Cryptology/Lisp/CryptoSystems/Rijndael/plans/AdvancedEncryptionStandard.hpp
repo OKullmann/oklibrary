@@ -10,12 +10,6 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
-  \bug
-  <ul>
-   <li> rijn_sbox_vec([0,0,0,0,0,0,0,0]) = [1,1,0,0,0,1,1] </li>
-  </ul>
-
-
   \todo Provide function for generating AES term
   <ul>
    <li> Running something like
@@ -135,6 +129,13 @@ matrix([('s('p(2,2)+'k(2,2))+'s('p(1,1)+'k(1,1)))*x
 
 
   \todo Add todos.
+
+
+  \bug DONE (Added missing "_rijn" specifier)
+  Sbox vector calculation yields wrong size
+  <ul>
+   <li> rijn_sbox_vec([0,0,0,0,0,0,0,0]) = [1,1,0,0,0,1,1] </li>
+  </ul>
 
 */
 

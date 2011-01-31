@@ -13,6 +13,11 @@ License, or any later version. */
 
   \par Version 0.0.11
 
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp
+   the following topics are handled:
+    - Sbox vector calculation yields wrong size : DONE
+
   \par 
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
    the following topics are handled:
