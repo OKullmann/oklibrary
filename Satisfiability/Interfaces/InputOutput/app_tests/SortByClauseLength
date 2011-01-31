@@ -9,7 +9,7 @@
 # set -o errexit # currently "find" creates an error due to non-existing directories, and also the match-program might fail
 set -o nounset
 
-list_programs="${bin_dir}/SortByClauseLength*"
+list_programs="${bin_dir}/SortByClauseLength ${bin_dir}/SortByClauseLength-*"
 app_test_dir=${OKlib}/Satisfiability/Interfaces/InputOutput/app_tests
 
 echo "PROGRAMS FOUND:"
@@ -21,10 +21,8 @@ case ${test_level} in
 basic) list_test_cases="$(find test_cases/basic/SortByClauseLength/ -name '*.cnf')"
     ;;
 full) list_test_cases="$(find test_cases/basic/SortByClauseLength/ -name '*.cnf') $(find test_cases/full/SortByClauseLength/ -name '*.cnf')"
-      list_programs="${list_programs} ${bin_dir}/SortByClauseLength*"
     ;;
 extensive) list_test_cases="$(find test_cases/basic/SortByClauseLength/ -name '*.cnf') $(find test_cases/full/SortByClauseLength/ -name '*.cnf') $(find test_cases/extensive/SortByClauseLength/ -name '*.cnf')"
-	   list_programs="${list_programs} ${bin_dir}/SortByClauseLength*"
     ;;
 esac
 
