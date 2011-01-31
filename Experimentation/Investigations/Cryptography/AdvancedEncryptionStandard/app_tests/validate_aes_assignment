@@ -1,0 +1,66 @@
+#!/bin/bash
+# Matthew Gwynne, 1.2.2011 (Swansea)
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# set -o errexit # currently "find" creates an error due to non-existing directories, and also the match-program might fail
+set -o nounset
+
+list_programs="${OKlib}/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/validate_aes_assignment"
+
+
+case ${test_level} in
+basic) list_valid_test_cases="$(find app_tests/test_cases/basic/validate_aes_assignment/valid/ -name '*.pa')"
+       list_invalid_test_cases="$(find app_tests/test_cases/basic/validate_aes_assignment/invalid/ -name '*.pa')"
+    ;;
+full) list_valid_test_cases="$(find app_tests/test_cases/basic/validate_aes_assignment/valid/ -name '*.pa') $(find app_tests/test_cases/full/validate_aes_assignment/valid/ -name '*.pa')"
+      list_invalid_test_cases="$(find app_tests/test_cases/basic/validate_aes_assignment/invalid/ -name '*.pa') $(find app_tests/test_cases/full/validate_aes_assignment/invalid/ -name '*.pa')"
+    ;;
+extensive) list_valid_test_cases="$(find app_tests/test_cases/basic/validate_aes_assignment/valid/ -name '*.pa') $(find app_tests/test_cases/full/validate_aes_assignment/valid/ -name '*.pa') $(find app_tests/test_cases/extensive/validate_aes_assignment/valid/ -name '*.pa')"
+           list_invalid_test_cases="$(find app_tests/test_cases/basic/validate_aes_assignment/invalid/ -name '*.pa') $(find app_tests/test_cases/full/validate_aes_assignment/invalid/ -name '*.pa') $(find app_tests/test_cases/extensive/validate_aes_assignment/invalid/ -name '*.pa')"
+    ;;
+esac
+
+echo "PROGRAMS FOUND:"
+for P in ${list_programs}; do echo ${P}; done
+
+echo "VALID TEST ASSIGNMENTS FOUND:" 
+for T in ${list_valid_test_cases}; do echo ${T}; done
+echo "INVALID TEST ASSIGNMENTS FOUND:" 
+for T in ${list_invalid_test_cases}; do echo ${T}; done
+
+echo "EXECUTION OF PROGRAMS:"
+
+num_prog_args=5
+
+for S in ${list_programs}; do
+  echo
+  for P in ${list_valid_test_cases}; do
+    params=$(echo $(basename ${P} .pa) | cut -d "_" -f "1-${num_prog_args}" --output-delimiter=" ")
+    echo "cat ${P} | ${S} ${params}"
+    cat ${P} | ${S} ${params}
+    result=$?
+    if [[ ${result} != 0 ]]; then
+      echo -e "ERROR: ${P} is VALID but ${S} returns INVALID."
+      echo; exit 1
+    fi
+  done
+
+  for P in ${list_invalid_test_cases}; do
+    params=$(echo $(basename ${P} .pa) | cut -d "_" -f "1-${num_prog_args}" --output-delimiter=" ")
+    echo ${S} ${P}
+    cat ${P} | ${S} ${params}
+    result=$?
+    if [[ ${result} -eq 0 ]]; then
+      echo -e "ERROR: ${P} is INVALID but ${S} returns VALID."
+      echo; exit 1
+    fi
+  done
+done
+
+
+exit 0
+
