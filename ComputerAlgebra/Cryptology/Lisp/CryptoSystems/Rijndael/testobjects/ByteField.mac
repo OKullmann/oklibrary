@@ -62,6 +62,7 @@ okltest_rijn_natadd(rijn_natadd);
 okltest_rijn_natadd(rijn_nataddl);
 okltest_rijn_natmul(rijn_natmul);
 okltest_rijn_natinv(rijn_natinv);
+okltest_rijn_inv_pmtf(rijn_inv_pmtf);
 
 okltest_rijn_vecadd(rijn_vecadd);
 okltest_rijn_vecmul(rijn_vecmul);
