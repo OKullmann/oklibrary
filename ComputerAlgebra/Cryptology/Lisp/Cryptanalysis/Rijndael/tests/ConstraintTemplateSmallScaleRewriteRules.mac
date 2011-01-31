@@ -514,7 +514,7 @@ okltest_ss_sbox_ts_cst_cl(f) := block([cl,cst],
 
 okltest_ss_mul_pi_cst_cl(f) := block([cl],
   assert(length(f(["ss_mul_cst",create_list(i,i,1,8),x,2,4,ss_polynomial_2_4,
-        'n])) = 240),
+        'n])) = 9),
   assert(f(["ss_mul_cst",create_list(i,i,1,16),x,2,8,ss_polynomial_2_8,'n]) =
     [{-16,-15,-8},{-16,8,15},{-15,1,8},{-14,7},{-13,-6,-1},{-13,6,16},
      {-12,-5,-1},{-12,1,5},{-11,4},{-10,3},{-9,2},{-8,1,15},{-7,14},{-6,13,16},
