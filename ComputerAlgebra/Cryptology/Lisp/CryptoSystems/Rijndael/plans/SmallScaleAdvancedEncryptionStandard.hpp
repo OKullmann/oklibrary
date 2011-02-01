@@ -10,21 +10,6 @@ License, or any later version. */
   \brief Plans on the AES implementation
 
 
-  \bug Test failure with level "full"
-  <ul>
-   <li>
-   \verbatim
-okltest_ss_inv_sbox_gen(ss_inv_sbox_gen)
-Evaluation took 2.1840 seconds (2.9790 elapsed)
-true
-okltest_ss_sbox_bf(ss_sbox_bf)
-ASSERT: Expression " done " does not evaluate to true.
-ERROR: /home/csoliver/OKplatform/system_directories/aux/tests/maxima/OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/testobjects/SmallScaleAdvancedEncryptionStandard
-   \endverbatim
-   </li>
-  </ul>
-
-
   \todo Docus
   <ul>
    <li> Add docus on small-scale implementation, discussing the parameters,
@@ -99,6 +84,23 @@ sr.hex_str(AES_e, typ="vector")
    devised. </li>
    <li> DONE 
    For now, functions are prefixed with "ss_"  for "small-scale".
+   </li>
+  </ul>
+
+
+
+  \bug DONE (Added missing final "true" in test)
+  Test failure with level "full"
+  <ul>
+   <li>
+   \verbatim
+okltest_ss_inv_sbox_gen(ss_inv_sbox_gen)
+Evaluation took 2.1840 seconds (2.9790 elapsed)
+true
+okltest_ss_sbox_bf(ss_sbox_bf)
+ASSERT: Expression " done " does not evaluate to true.
+ERROR: /home/csoliver/OKplatform/system_directories/aux/tests/maxima/OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/testobjects/SmallScaleAdvancedEncryptionStandard
+   \endverbatim
    </li>
   </ul>
 

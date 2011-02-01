@@ -22,6 +22,7 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
    the following topics are handled:
     - Generating test vectors
+    - Test failure with level "full" : DONE
 
   \par 
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp

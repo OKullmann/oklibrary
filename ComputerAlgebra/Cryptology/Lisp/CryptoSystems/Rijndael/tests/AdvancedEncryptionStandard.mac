@@ -38,8 +38,8 @@ okltest_rijn_sbox_vec(f) := block(
   assert(f([1,1,1,1,1,1,1,1]) = [0,0,0,1,0,1,1,0]),
   if oklib_test_level=0 then return(true),
   for b : 0 thru 255 do
-    assert(f(nat2vecbin_rijn(b)) = nat2vecbin_rijn(rijn_lookup_sbox_nat(b)))
-  )$
+    assert(f(nat2vecbin_rijn(b)) = nat2vecbin_rijn(rijn_lookup_sbox_nat(b))),
+  true)$
 
 okltest_rijn_sbox_nat(f) := block(
   assert(f(0) = 99),
