@@ -281,6 +281,13 @@ segmentation faults for saps, rsaps, sapsnr
     </ol>
     So minisat-2.2.0 might be somewhat faster.
    </li>
+   <li> glucose
+    <ol>
+     <li> n=463: unsat, 3548s (csltok, 12308366 conflicts). </li>
+     <li> n=445: unsat, 3843s (csltok, 13240093 conflicts). </li>
+    </ol>
+    So possibly glucose is fastest.
+   </li>
    <li>  "RunPdVdW3k 22 23 464 gsat-tabu 100 2000000": alle 1<=n<=444 sat,
    and then
      \verbatim

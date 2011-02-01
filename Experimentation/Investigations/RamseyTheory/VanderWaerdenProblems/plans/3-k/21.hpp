@@ -145,9 +145,17 @@ License, or any later version. */
     </ol>
     It doesn't seem to find the one variable which can be set quickly. Perhaps
     adding it directly would help? Adding "203 0" to the n=405-instance solves
-    it in 897s (7639216 conflicts), and adding "101 0" to the n=401-instance
+    it in 897s (7639216 conflicts), and adding "201 0" to the n=401-instance
     solves it in 1037s (9627927 conflicts), so it helps here. And then
     minisat-2.2.0 seems a bit faster.
+   </li>
+   <li> Glucose:
+    <ol>
+     <li> n=405: unsat, 474s (2786181 conflicts). </li>
+     <li> n=401: unsat, 468s (2931979 conflicts). </li>
+    </ol>
+    As minisat, finds the easy variable (the middle point) only very late.
+    However, with added unit-clauses, performance is very similar.
    </li>
    <li> DONE (the middle point; see
    "Palindromic versions with arithmetic progressions of length 3" in
