@@ -16,8 +16,8 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Missing includes
     - Functions should not cache return values
+    - Missing includes : DONE
     - Test failure : DONE
     - Test failure at level "full" : DONE
 

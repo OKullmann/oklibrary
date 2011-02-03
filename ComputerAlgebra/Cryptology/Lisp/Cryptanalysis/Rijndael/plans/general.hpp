@@ -10,13 +10,6 @@ License, or any later version. */
   \brief Plans for the Cryptanalysis of Rijndael in Maxima/Lisp
 
 
-  \bug Missing includes
-  <ul>
-   <li> Rijndael/tests/ConstraintTemplateSmallScaleRewriteRules.mac obviously
-   misses includes. </li>
-  </ul>
-
-
   \todo Connections
   <ul>
    <li> See Applications/Cryptanalysis/plans/Rijndael.hpp for the C++ level.
@@ -239,6 +232,14 @@ License, or any later version. */
   <ul>
    <li> The first goal is with milestone 0.1, where we have a working
    translation. </li>
+  </ul>
+
+
+  \bug DONE (Added missing includes)
+  Missing includes
+  <ul>
+   <li> Rijndael/tests/ConstraintTemplateSmallScaleRewriteRules.mac obviously
+   misses includes. </li>
   </ul>
 
 
