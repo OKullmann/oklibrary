@@ -1,0 +1,130 @@
+#!/bin/bash
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+set -o errexit
+set -o nounset
+
+script_name="generate_aes_experiment_fast"
+err="ERROR[${script_name}]:"
+version="0.0.2"
+
+#
+# Generates AES CNF translations and plaintext-ciphertext variable assignments 
+# for experimentation, using specialised renaming functions for a significant
+# speed up.
+#
+# Takes eight arguments:
+#
+#   - The number (r) of rounds to run the experiment over.
+#   - The number (k) of plaintext-ciphertext pairs to generate per round.
+#   - The number of columns (c) in the AES block (1-4).
+#   - The number of rows (rw) in the AES block (1-4).
+#   - The size (e) of the element field (4 or 8).
+#   - Whether or not to use a special final round (fin_b) (true or false).
+#   - The AES box translation to use:
+#       - aes_ts_box - The canonical translation for all boxes.
+#       - aes_small_box - The smallest CNF translations for all boxes.
+#       - aes_rbase_box - The smallest r_1 bases for each box.
+#   - Which MixColumns translation to use:
+#       - aes_mc_forward - Translating MixColumns in the forward direction.
+#       - aes_mc_bidirectional - Translating MixColumns in the both directions.
+# 
+# The script outputs a Dimacs file containing the CNF translation of the AES
+# encryption scheme with the given parameters for each round size in (1-r)
+# and for each round k Dimacs files are created containing the 
+# plaintext-ciphertext variable assignments for random plaintext ciphertext pair
+# chosen using seeds 1-k.
+#
+# To monitor the progress of the experiment generation, set the "oklib_monitor"
+# environment variable to "true".
+#
+# The files names of the translation output, and plaintext-ciphertext assignment
+# files are:
+#
+#  ssaes_r${ri}_c${c}_rw${rw}_e${e}_f${fin_z}.cnf
+#  ssaes_pcpair_r${r}_c${c}_rw${rw}_f${fin_z}_s${ki}
+#
+#
+# resp., where fin_z is 1 if fin_b is true and 0 otherwise, ri ranges from 
+# 1-r and ki ranges from 1-k. These files are created in the
+#
+# ssaes_r1-${r}_c${c}_rw${rw}_e${e}_f${fin_z}_k1-${k}
+#
+# directory (created by this script).
+#
+# The translation CNF file will not contain a recognisable variable mapping
+# within the Dimacs file, however, the variable mapping will be precisely
+# the same as if "generate_aes_experiment" were used.
+#
+# See output_ss_fcl_std and ss_random_pc_pair in 
+# OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac
+# for relevant functions at the Maxima level.
+# 
+
+if [[ ! $# -eq 8 ]]; then
+  echo -n "${err} Takes exactly eight arguments, the number of rounds, number ",
+  echo -n "of plaintext-ciphertext pairs per round, the number of columns, "
+  echo -n "the number of rows, the field size, whether or not to use a special "
+  echo -n "final round, which box translation to use and which MixColumn "
+  echo "translation to use."
+  exit 1;
+fi  
+
+# Check if monitor is set from the environment and set it if not.
+if [[ ! -n ${oklib_monitor+1} ]]; then
+    oklib_monitor=false
+fi
+rounds=$1
+unique_keys_per_round=$2
+columns=$3
+rows=$4
+e=$5
+fin_b=$6
+
+if [[ ${fin_b} == "true" ]]; then
+  fin_z=1
+else
+  fin_z=0
+fi
+
+exp_directory_name=ssaes_r1-${rounds}_c${columns}_rw${rows}_e${e}_f${fin_z}_k1-${unique_keys_per_round}
+mkdir ${exp_directory_name}
+cd ${exp_directory_name}
+
+shift 2
+args=$(echo "$@" | cut -d " " -f "1-" --output-delimiter=",")
+let num_key_args=$#-2
+key_gen_args=$(echo "${@:1:${num_key_args}}" | cut -d " " -f "1-" --output-delimiter=",")
+
+fast_rename_code=$(cat <<EOF
+rename_fcl(FF,VL) := block([count : -1], local(h),
+  for V in map(\"[\", FF[1], VL) do h[V[1]] : V[2],
+  return([create_list(i,i,1,length(FF[1])),
+   map(
+     lambda([C], (  
+       if oklib_monitor then 
+           (count : count + 1, 
+            if mod(count,1000) = 0 then 
+              print(\"Renaming \", count, \"/\",length(FF[2]))),
+       map(lambda([L], if L > 0 then h[L] else -h[-L]), C))), FF[2])]));
+gen_count : 384;
+generate_ss_constraint_vars(n,m,namespace, id) := 
+  create_list(
+          if integerp(gen_h[namespace(ss_var(i,id))]) then gen_h[namespace(ss_var(i,id))]
+          else gen_h[namespace(ss_var(i,id))] : (gen_count : gen_count +1),
+          i,n,m);
+EOF
+)
+
+fast_rename_code=$(echo ${fast_rename_code} | tr '\n' ' ')
+
+if [[ ${oklib_monitor} == "true" ]]; then
+    oklib --maxima --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac\\\"); oklib_monitor : ${oklib_monitor}; ${fast_rename_code} for r : 1 thru ${rounds} do ( output_ss_fcl_std(r,${args}), for i : 1 thru ${unique_keys_per_round} do output_ss_random_pc_pair(i,r,${key_gen_args}));\""
+else
+    oklib --maxima --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac\\\"); ${fast_rename_code} for r : 1 thru ${rounds} do ( output_ss_fcl_std(r,${args}), for i : 1 thru ${unique_keys_per_round} do output_ss_random_pc_pair(i,r,${key_gen_args}));\"" > /dev/null
+fi
+
