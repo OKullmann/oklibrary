@@ -181,9 +181,9 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
    </li>
    <li> minisat-2.2.0:
     <ol>
-     <li> n=643: ?sat, s (csltok (with lower load);  conflicts,
+     <li> n=643: ?sat, ?s (csltok, interrupted after 9190m); ? conflicts,
      with added unit-clause). </li>
-     <li> n=635: ?sat, s (csltok (with lower load);  conflicts,
+     <li> n=635: ?sat, ?s (csltok, interrupted after 9190m); ? conflicts,
      with added unit-clause). </li>
     </ol>
    </li>
