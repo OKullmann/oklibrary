@@ -179,11 +179,14 @@ License, or any later version. */
    </li>
    <li> glucose:
     <ol>
-     <li> n=508: ?sat, s (csltok, conflicts). </li>
+     <li> n=508: ?sat, ?s (csltok, interrupted after 3730m and 147401185
+     conflicts). </li>
      <li> n=507: unsat, 13547s (csltok, 32901254 conflicts). </li>
     </ol>
+    So it seems that glucose shows unstable behaviour --- on some problems
+    rather fast, but from some problem-size on it doesn't appear to make
+    progress even after a long time.
    </li>
-
    <li> "RunPdVdW3k 23 24 516 gsat-tabu 100 4000000" (old version):
    all 1<=n<=506 sat, all 507<=n<=516 unsat. </li>
   </ul>
