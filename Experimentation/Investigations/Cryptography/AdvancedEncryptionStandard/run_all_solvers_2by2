@@ -8,13 +8,13 @@
 #set -o errexit # Interferes with operation of subshell, SAT solvers return non-zero
 set -o nounset
 
-script_name="run_all_solvers"
+script_name="run_all_solvers_2by2"
 err="ERROR[${script_name}]:"
 version="0.0.6"
 
 #
 # Takes the path to a Dimacs CNF file and runs all solvers in the OKlibrary,
-# in parallel, on the given problem.
+# using two at a time in parallel, on the given problem.
 #
 # When each solver finished a message is printed to STDOUT informing the user
 # that that solver has finished, and the exit status of the solver.
@@ -38,24 +38,36 @@ full_cnf_filename=$1
 trap "kill 0" SIGINT SIGTERM EXIT
 
 # Start each solver
-echo "Starting GRASP"
-(sat-grasp ${full_cnf_filename} > ${full_cnf_filename}_satgrasp 2>&1 ; echo "GRASP Finished ($?)") &
+echo "Starting cryptominisat"
+(cryptominisat ${full_cnf_filename} > ${full_cnf_filename}_cryptominisat 2>&1 ; echo "cryptominisat Finished ($?)") &
+echo "Starting precosat236"
+(precosat236 ${full_cnf_filename} > ${full_cnf_filename}_precosat236 2>&1 ; echo "precosat236 Finished ($?)") &
+
+wait
+
+echo "Starting picosat913"
+(picosat913 ${full_cnf_filename} > ${full_cnf_filename}_picosat 2>&1 ; echo "picosat Finished ($?)") &
 echo "Starting Glucose"
 (glucose ${full_cnf_filename} > ${full_cnf_filename}_glucose 2>&1 ; echo "Glucose Finished ($?)") &
+
+wait
+
 echo "Starting minisat2"
 (minisat2 ${full_cnf_filename} > ${full_cnf_filename}_minisat2 2>&1 ; echo "minisat2 Finished ($?)") &
 echo "Starting minisat-2.2.0"
 (minisat-2.2.0 ${full_cnf_filename} > ${full_cnf_filename}_minisat22 2>&1 ; echo "minisat-2.2.0 Finished ($?)") &
-echo "Starting picosat913"
-(picosat913 ${full_cnf_filename} > ${full_cnf_filename}_picosat 2>&1 ; echo "picosat Finished ($?)") &
-echo "Starting precosat236"
-(precosat236 ${full_cnf_filename} > ${full_cnf_filename}_precosat236 2>&1 ; echo "precosat236 Finished ($?)") &
-echo "Starting precosat-570.1"
-(precosat-570.1 ${full_cnf_filename} > ${full_cnf_filename}_precosat570 2>&1 ; echo "precosat570 Finished ($?)") &
-echo "Starting cryptominisat"
-(cryptominisat ${full_cnf_filename} > ${full_cnf_filename}_cryptominisat 2>&1 ; echo "cryptominisat Finished ($?)") &
+
+wait
+
 echo "Starting OKsolver"
 (OKsolver_2002-O3-DNDEBUG -D10 -M ${full_cnf_filename} > ${full_cnf_filename}_OKsolver 2>&1 ; echo "OKsolver Finished ($?)") &
+echo "Starting precosat-570.1"
+(precosat-570.1 ${full_cnf_filename} > ${full_cnf_filename}_precosat570 2>&1 ; echo "precosat570 Finished ($?)") &
+
+wait
+
+echo "Starting GRASP"
+(sat-grasp ${full_cnf_filename} > ${full_cnf_filename}_satgrasp 2>&1 ; echo "GRASP Finished ($?)") &
 echo "Starting satz215"
 (sat215 ${full_cnf_filename} > ${full_cnf_filename}_sat215 2>&1 ; echo "satz215 Finished ($?)") &
 
