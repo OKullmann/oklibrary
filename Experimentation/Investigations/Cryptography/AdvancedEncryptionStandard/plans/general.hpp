@@ -40,6 +40,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo Replace "merge_cnf.sh" with "UnionDimacs"
+  <ul>
+   <li> All instances of the "merge_cnf.sh" script at
+   /home/csmg/Work/OKlibrary/OKplatform/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh
+   should be replaced with "UnionDimacs-O3-DNDEBUG" as
+   "UnionDimacs-O3-DNDEBUG" performs the same operation,
+   is correct and has tests. </li>
+  </ul>
+
+
    \todo Determining a "good" local search algorithm to use on AES instances
   <ul>
    <li> Question: what is a good algorithm to use, considering the algorithms
