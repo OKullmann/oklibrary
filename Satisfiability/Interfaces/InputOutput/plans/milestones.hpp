@@ -37,6 +37,12 @@ License, or any later version. */
     - Move AllEqual to OrderConstructions
     - Add application tests : DONE
 
+
+  \par
+   In Interfaces/InputOutput/AppendDimacs.cpp the following topics
+   are handled:
+    - Move CLSAdaptorAppend
+
   \par
    In Interfaces/InputOutput/SortByClauseLengthDescending.cpp the following topics
    are handled:

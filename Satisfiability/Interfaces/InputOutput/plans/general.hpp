@@ -15,7 +15,8 @@ License, or any later version. */
    <li> For adapting a single Dimacs-file we have
    InputOutput/ExtendedToStrictDimacs.cpp (see
    Interfaces/InputOutput/plans/ExtendedToStrictDimacs.hpp). </li>
-   <li> Appending files:
+   <li> DONE (wrote C++ application - see AppendDimacs.cpp)
+   Appending files:
     <ol>
      <li> We need a script
      \verbatim
