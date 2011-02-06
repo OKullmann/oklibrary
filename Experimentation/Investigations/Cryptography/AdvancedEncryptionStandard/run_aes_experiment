@@ -46,6 +46,8 @@ version="0.0.2"
 # SAT solver run in that instance. The contents of the file are simply the 
 # full output of the corresponding solver on that parameter instance.
 #
+# All experiments are run at nice level 19 to avoid disturbing other processes.
+#
 # Dependencies:
 #   This script depends on generate_aes_experiment yielding
 #   files with names of the form ss_r${r}_* and 

@@ -10,7 +10,7 @@ set -o nounset
 
 script_name="generate_aes_experiment"
 err="ERROR[${script_name}]:"
-version="0.0.3"
+version="0.0.4"
 
 #
 # Generates AES CNF translations and plaintext-ciphertext variable assignments 
@@ -64,6 +64,11 @@ version="0.0.3"
 # See output_ss_fcl_std and ss_random_pc_pair in 
 # OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac
 # for relevant functions at the Maxima level.
+#
+# Dependencies:
+#   This script depends on both the Maxima functions output_ss_fcl_std
+#   and ss_random_pc_pair yielding files with names in the format
+#   ss_r${r}_* and ssaes_pcpair_r${r}_*_s${k}.cnf.
 # 
 
 if [[ ! $# -eq 8 ]]; then
@@ -99,6 +104,8 @@ mkdir ${exp_directory_name}
 cd ${exp_directory_name}
 
 
+# Work out the number of arguments for the assignment clauses generator
+# Note, it doesn't take the two final translation arguments.
 shift 2
 args=$(echo "$@" | cut -d " " -f "1-" --output-delimiter=",")
 let num_key_args=$#-2

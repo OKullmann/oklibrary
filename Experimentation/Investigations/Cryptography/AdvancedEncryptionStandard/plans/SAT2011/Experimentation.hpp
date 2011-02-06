@@ -237,11 +237,6 @@ License, or any later version. */
      <li> An experiment is representing via a directory with a good descriptive
      name, where inside all information is found for reproduction and
      restarting. </li>
-     <li> It seems best to have first a script which takes as parameters
-     the generalised AES-parameters plus optionally a seed (default=1),
-     so that these parameters fully specify a sequence of generalised
-     AES problems, and then all combinations of SAT solvers and translations
-     are executed. </li>
      <li> The problems are created by computing the key by the Maxima
      random-number generator, encrypting the all-0 plaintext, and then
      taking the problem of guessing the key from given plain- and ciphertext.
@@ -265,6 +260,11 @@ License, or any later version. */
        </li>
       </ol>
      </li>
+     <li> DONE It seems best to have first a script which takes as parameters
+     the generalised AES-parameters plus optionally a seed (default=1),
+     so that these parameters fully specify a sequence of generalised
+     AES problems, and then all combinations of SAT solvers and translations
+     are executed. </li>
     </ol>
    </li>
   </ul>
