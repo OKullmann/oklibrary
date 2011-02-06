@@ -10,7 +10,7 @@ set -o nounset
 
 script_name="generate_aes_experiment"
 err="ERROR[${script_name}]:"
-version="0.0.2"
+version="0.0.3"
 
 #
 # Generates AES CNF translations and plaintext-ciphertext variable assignments 
@@ -24,11 +24,11 @@ version="0.0.2"
 #   - The number of rows (rw) in the AES block (1-4).
 #   - The size (e) of the element field (4 or 8).
 #   - Whether or not to use a special final round (fin_b) (true or false).
-#   - The AES box translation to use:
+#   - The AES box translation to use (box_tran):
 #       - aes_ts_box - The canonical translation for all boxes.
 #       - aes_small_box - The smallest CNF translations for all boxes.
 #       - aes_rbase_box - The smallest r_1 bases for each box.
-#   - Which MixColumns translation to use:
+#   - Which MixColumns translation to use (mc_tran):
 #       - aes_mc_forward - Translating MixColumns in the forward direction.
 #       - aes_mc_bidirectional - Translating MixColumns in the both directions.
 # 
@@ -41,6 +41,10 @@ version="0.0.2"
 # To monitor the progress of the experiment generation, set the "oklib_monitor"
 # environment variable to "true".
 #
+# To use specialised Maxima functions for faster generation (at the loss of
+# readability of the variable names), set the "oklib_fast" environment variable
+# to true.
+#
 # The files names of the translation output, and plaintext-ciphertext assignment
 # files are:
 #
@@ -50,7 +54,7 @@ version="0.0.2"
 # resp., where fin_z is 1 if fin_b is true and 0 otherwise, ri ranges from 
 # 1-r and ki ranges from 1-k. These files are created in the
 #
-# ssaes_r1-${r}_c${c}_rw${rw}_e${e}_f${fin_z}_k1-${k}
+#   ssaes_r1-${r}_c${c}_rw${rw}_e${e}_f${fin_z}_k1-${k}_${box_tran}_${mc_tran}
 #
 # directory (created by this script).
 #
@@ -81,6 +85,8 @@ columns=$3
 rows=$4
 e=$5
 fin_b=$6
+box_tran=$7
+mc_tran=$8
 
 if [[ ${fin_b} == "true" ]]; then
   fin_z=1
@@ -88,7 +94,7 @@ else
   fin_z=0
 fi
 
-exp_directory_name=ssaes_r1-${rounds}_c${columns}_rw${rows}_e${e}_f${fin_z}_k1-${unique_keys_per_round}
+exp_directory_name=ssaes_r1-${rounds}_c${columns}_rw${rows}_e${e}_f${fin_z}_k1-${unique_keys_per_round}_${box_tran}_${mc_tran}
 mkdir ${exp_directory_name}
 cd ${exp_directory_name}
 
@@ -98,9 +104,43 @@ args=$(echo "$@" | cut -d " " -f "1-" --output-delimiter=",")
 let num_key_args=$#-2
 key_gen_args=$(echo "${@:1:${num_key_args}}" | cut -d " " -f "1-" --output-delimiter=",")
 
-if [[ ${oklib_monitor} == "true" ]]; then
-    oklib --maxima --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac\\\"); oklib_monitor : true; for r : 1 thru ${rounds} do ( output_ss_fcl_std(r,${args}), for i : 1 thru ${unique_keys_per_round} do output_ss_random_pc_pair(i,r,${key_gen_args}));\""
+
+if [[ ! -n ${oklib_fast+1} ]]; then
+    oklib_fast=false
+fi
+
+# Specialised Maxima clause-set renaming and variable generation functions
+# which use Maxima's associative arrays instead of hash tables for a speed
+# up. They are introduced here as their use of global variables means they
+# aren't suitable for general use in the Maxima system.
+if [[ ${oklib_fast} == "true" ]]; then
+    fast_rename_code=$(cat <<EOF
+rename_fcl(FF,VL) := block([count : -1], local(h),
+  for V in map(\"[\", FF[1], VL) do h[V[1]] : V[2],
+  return([create_list(i,i,1,length(FF[1])),
+   map(
+     lambda([C], (  
+       if oklib_monitor then 
+           (count : count + 1, 
+            if mod(count,1000) = 0 then 
+              print(\"Renaming \", count, \"/\",length(FF[2]))),
+       map(lambda([L], if L > 0 then h[L] else -h[-L]), C))), FF[2])]));
+gen_count : 384;
+generate_ss_constraint_vars(n,m,namespace, id) := 
+  create_list(
+          if integerp(gen_h[namespace(ss_var(i,id))]) then gen_h[namespace(ss_var(i,id))]
+          else gen_h[namespace(ss_var(i,id))] : (gen_count : gen_count +1),
+          i,n,m);
+EOF
+    )
+    fast_rename_code=$(echo ${fast_rename_code} | tr '\n' ' ')
 else
-    oklib --maxima --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac\\\"); for r : 1 thru ${rounds} do ( output_ss_fcl_std(r,${args}), for i : 1 thru ${unique_keys_per_round} do output_ss_random_pc_pair(i,r,${key_gen_args}));\"" 2>&1 > /dev/null
+    fast_rename_code=""
+fi
+
+if [[ ${oklib_monitor} == "true" ]]; then
+    oklib --maxima --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac\\\"); oklib_monitor : true; ${fast_rename_code} for r : 1 thru ${rounds} do ( output_ss_fcl_std(r,${args}), for i : 1 thru ${unique_keys_per_round} do output_ss_random_pc_pair(i,r,${key_gen_args}));\""
+else
+    oklib --maxima --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac\\\"); ${fast_rename_code} for r : 1 thru ${rounds} do ( output_ss_fcl_std(r,${args}), for i : 1 thru ${unique_keys_per_round} do output_ss_random_pc_pair(i,r,${key_gen_args}));\"" 2>&1 > /dev/null
 fi
 

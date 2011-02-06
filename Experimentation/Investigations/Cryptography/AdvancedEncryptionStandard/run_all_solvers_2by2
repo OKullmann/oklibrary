@@ -34,41 +34,63 @@ fi
 
 full_cnf_filename=$1
 
-# On exit kill everything
-trap "kill 0" SIGINT SIGTERM EXIT
-
 # Start each solver
 echo "Starting cryptominisat"
 (cryptominisat ${full_cnf_filename} > ${full_cnf_filename}_cryptominisat 2>&1 ; echo "cryptominisat Finished ($?)") &
+pid_one=$!
 echo "Starting precosat236"
 (precosat236 ${full_cnf_filename} > ${full_cnf_filename}_precosat236 2>&1 ; echo "precosat236 Finished ($?)") &
+pid_two=$!
+
+# On exit kill everything
+trap "kill ${pid_one} ${pid_two} > /dev/null 2>&1" SIGINT SIGTERM EXIT
 
 wait
 
 echo "Starting picosat913"
 (picosat913 ${full_cnf_filename} > ${full_cnf_filename}_picosat 2>&1 ; echo "picosat Finished ($?)") &
+pid_one=$!
 echo "Starting Glucose"
 (glucose ${full_cnf_filename} > ${full_cnf_filename}_glucose 2>&1 ; echo "Glucose Finished ($?)") &
+pid_two=$!
+
+# On exit kill everything
+trap "kill ${pid_one} ${pid_two} > /dev/null 2>&1" SIGINT SIGTERM EXIT
 
 wait
 
 echo "Starting minisat2"
 (minisat2 ${full_cnf_filename} > ${full_cnf_filename}_minisat2 2>&1 ; echo "minisat2 Finished ($?)") &
+pid_one=$!
 echo "Starting minisat-2.2.0"
 (minisat-2.2.0 ${full_cnf_filename} > ${full_cnf_filename}_minisat22 2>&1 ; echo "minisat-2.2.0 Finished ($?)") &
+pid_two=$!
+
+# On exit kill everything
+trap "kill ${pid_one} ${pid_two} > /dev/null 2>&1" SIGINT SIGTERM EXIT
 
 wait
 
 echo "Starting OKsolver"
 (OKsolver_2002-O3-DNDEBUG -D10 -M ${full_cnf_filename} > ${full_cnf_filename}_OKsolver 2>&1 ; echo "OKsolver Finished ($?)") &
+pid_one=$!
 echo "Starting precosat-570.1"
 (precosat-570.1 ${full_cnf_filename} > ${full_cnf_filename}_precosat570 2>&1 ; echo "precosat570 Finished ($?)") &
+pid_two=$!
+
+# On exit kill everything
+trap "kill ${pid_one} ${pid_two} > /dev/null 2>&1" SIGINT SIGTERM EXIT
 
 wait
 
 echo "Starting GRASP"
 (sat-grasp ${full_cnf_filename} > ${full_cnf_filename}_satgrasp 2>&1 ; echo "GRASP Finished ($?)") &
+pid_one=$!
 echo "Starting satz215"
 (sat215 ${full_cnf_filename} > ${full_cnf_filename}_sat215 2>&1 ; echo "satz215 Finished ($?)") &
+pid_two=$!
+
+# On exit kill everything
+trap "kill ${pid_one} ${pid_two} > /dev/null 2>&1" SIGINT SIGTERM EXIT
 
 wait
