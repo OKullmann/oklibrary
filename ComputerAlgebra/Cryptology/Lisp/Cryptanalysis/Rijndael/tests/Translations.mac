@@ -89,7 +89,7 @@ okltest_nsbox_ss(f) := block([n : 4],
           f(r,c,rw))))),
   true)$
 
-okltest_nmul_ss(f) := block([n : 4, rowcols : [1,2,4]],
+okltest_nmul_ss_gen(f) := block([n : 4, rowcols : [1,2,4]],
   if oklib_test_level = 0 then (n : 1,rowcols : [1,2]),
   for e in ['x,'x+1] do
     for r : 1 thru n do block([csttl],
@@ -131,6 +131,40 @@ okltest_ncl_ss(f) := (
   assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),4353,
       [[x,4353],[x+1,4353],[x^3+1,4353],[x^3+x+1,4353],
       [x^3+x^2+1,4353],[x^3+x^2+x,4353]], false,aes_mc_forward) = 229980),
+  true)$
+
+okltest_nadd_ss_sm(f) := block(
+  [measure_num_add_f : lambda([cstl],
+     multi_list_distribution2list_distribution(
+       map(lambda([a],
+           if length(a) = 3 then [2,length(a[2])/3]
+           else [third(a),length(a[2])/(third(a)+1)]),
+         sublist(cstl,lambda([a], is(first(a) = "ss_add_cst"))))))],
+  assert(f(1,1,1,4,false,aes_mc_bidirectional) = {[1,8],[2,12]}),
+  assert(f(1,1,2,8,false,aes_mc_bidirectional) = {[2,72]}),
+  assert(f(1,2,2,8,false,aes_mc_bidirectional) = {[2,152],[3,8]}),
+  assert(f(1,2,3,8,false,aes_mc_bidirectional) = {[2,136],[3,104]}),
+  assert(f(1,1,3,4,false,aes_mc_forward) = {[2,28],[3,12]}),
+  assert(f(1,4,4,8,false,aes_mc_bidirectional) = {[2,376],[3,8],[4,256]}),
+  if oklib_test_level = 0 then return(true),
+  for r : 1 thru 4 do
+    for c : 1 thru 4 do
+      for rw : 1 thru 4 do
+        for e in [4,8] do
+        for f_b in [true,false] do
+            for mc_tran in [aes_mc_forward,aes_mc_bidirectional] do (
+              assert(
+                f(r,c,rw,e,f_b,mc_tran) =
+                setify(measure_num_add_f(ss_csttl(r,c,rw,e,f_b,mc_tran))))),  
+  true)$
+
+okltest_nadd_ss(f) := (
+  assert(f(1,1,1,4,false,aes_mc_bidirectional) = 20),
+  assert(f(1,1,2,8,false,aes_mc_bidirectional) = 72),
+  assert(f(1,2,2,8,false,aes_mc_bidirectional) = 160),
+  assert(f(1,2,3,8,false,aes_mc_bidirectional) = 240),
+  assert(f(1,1,3,4,false,aes_mc_forward) = 40),
+  assert(f(1,4,4,8,false,aes_mc_bidirectional) = 640),
   true)$
 
 /******************************************************************

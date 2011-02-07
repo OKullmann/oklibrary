@@ -297,7 +297,7 @@ nsbox_ss(r,num_columns,num_rows) :=
    exponent, the mixcolumns matrix, whether or not to use a special final
    round (true/false) and the MixColumns translation to use (aes_mc_forward or
    aes_mc_bidirectional). */
-nmul_ss(e,r,num_cols,ss_exp,mixcolumns_matrix, final_round_b, mc_trans) :=
+nmul_ss_gen(e,r,num_cols,ss_exp,mixcolumns_matrix, final_round_b, mc_trans) :=
 block([inv_mixcolumns_matrix, nmul, nmul_inv],
   inv_mixcolumns_matrix :
     ss_mixcolumns_matrix2inv_mixcolumns_matrix(2,ss_exp,mixcolumns_matrix),
@@ -308,6 +308,73 @@ block([inv_mixcolumns_matrix, nmul, nmul_inv],
   else nmul_inv : 0,
   if final_round_b then r : r -1,
   return(r * (nmul + nmul_inv) * num_cols))$
+/* Returns a set-map mapping field elements to the number of multiplications
+   by those field elements in the AES translation specified by the arguments.
+*/
+nmul_ss_gen_sm(r,num_cols,ss_exp,mixcolumns_matrix, final_round_b, mc_trans) :=
+block([inv_mixcolumns_matrix],
+  inv_mixcolumns_matrix :
+    ss_mixcolumns_matrix2inv_mixcolumns_matrix(2,ss_exp,mixcolumns_matrix),
+  setify(
+    map(lambda([e],[e,
+        nmul_ss_gen(e,r,num_cols,ss_exp,mixcolumns_matrix,
+          final_round_b, mc_trans)]),
+      append(m2l_r(mixcolumns_matrix),m2l_r(inv_mixcolumns_matrix)))))$
+nmul_ss_sm(r,num_cols,ss_exp, final_round_b, mc_trans) :=
+  nmul_ss_gen_sm(r,num_cols,ss_exp,
+    ss_mixcolumns_matrix(2, ss_exp, num_cols),final_round_b, mc_trans)$
+
+
+/* Takes the number of rounds, number of columns, exponent of the field,
+   the mixcolumns matrix, whether or not there is a special final round and
+   which MixColumns translation to use and returns a set-map mapping
+   the number of elements involved in each addition in the translation
+   to the number of such additions. */
+/* Note that this function currently assumes that any MixColumns matrix
+   doesn't contain a 0. This is the case currently, but if the translation
+   is updated to allow 0s, then this must also be updated. */
+nadd_ss_sm(r,num_cols, num_rows, ss_exp, final_round_b, mc_trans) :=
+  block([m: if mc_trans = aes_mc_bidirectional then 2 else 1,
+    r_w_mc : if final_round_b then r-1 else r,
+    block_size : num_cols * num_rows * ss_exp],
+  if num_rows = 2 and num_cols = 1 then
+    {[2, block_size * (r+1) + ss_exp*r + (num_cols-1) * num_rows*ss_exp*r +
+    num_rows*num_cols*r_w_mc*m*ss_exp]}
+  else if num_rows = 3 and num_cols = 1 and final_round_b and r = 1 then
+    {[2, block_size * (r+1) + ss_exp*r]}
+  else if num_rows = 3 and num_cols = 1 then
+    {[2, block_size * (r+1) + ss_exp*r], /* Round keys and key schedule */
+     [3,num_rows*num_cols*r_w_mc*m*ss_exp]} /* MixColumns */
+  else if num_rows = 2 then
+    {[2, block_size * (r+1) + num_rows*num_cols*r_w_mc*m*ss_exp +
+      ((num_cols-1) * num_rows + (num_rows-1))*ss_exp*r],
+      /* Round keys, MixColumns and some of the key schedule */
+    [3,ss_exp*r]} /* Key Schedule */
+  else if num_rows = 3 then
+      {[2, block_size * (r+1) +
+       ((num_cols-1) * num_rows + (num_rows-1))*ss_exp*r],
+       /* Round keys, and some of the key schedule */
+      [3,r*ss_exp+num_rows*num_cols*r_w_mc*m*ss_exp]}
+      /* Key Schedule and MixColumns */
+  else if num_cols = 1 and final_round_b and r = 1 then
+    {[2, block_size * (r+1) + ss_exp*r]}
+  else if num_cols = 1 then
+    {[2, block_size * (r+1) + ss_exp*r],
+    [num_rows,num_rows*num_cols*r_w_mc*m*ss_exp]} /* MixColumns */
+  else if final_round_b and r = 1 then
+    {[2, (block_size) * (r+1) +
+     ((num_cols-1) * num_rows + (num_rows-1))*ss_exp*r],
+     /* Round Keys, and some of key schedule */
+    [3,r*ss_exp]} /* Key Schedule*/
+  else
+    {[2, (block_size) * (r+1) +
+     ((num_cols-1) * num_rows + (num_rows-1))*ss_exp*r],
+    [3,r*ss_exp],
+    [num_rows,num_rows*num_cols*r_w_mc*m*ss_exp]})$
+nadd_ss(r,num_cols,num_rows,ss_exp, final_round_b, mc_trans) :=
+  sum_l(listify(map(second,
+      nadd_ss_sm(r,num_cols,num_rows,ss_exp, final_round_b, mc_trans))))$
+/*  := */
 
 /* Given the appropriate parameters, computes the number of variables
    in the small scale AES clause-list translation.
