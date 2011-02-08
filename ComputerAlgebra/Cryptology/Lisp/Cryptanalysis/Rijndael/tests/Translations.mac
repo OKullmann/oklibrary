@@ -36,6 +36,7 @@ Automatically continuing.
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac")$
 
 kill(f)$
@@ -89,48 +90,42 @@ okltest_nsbox_ss(f) := block([n : 4],
           f(r,c,rw))))),
   true)$
 
-okltest_nmul_ss_gen(f) := block([n : 4, rowcols : [1,2,4]],
-  if oklib_test_level = 0 then (n : 1,rowcols : [1,2]),
+okltest_nmul_ss_gen(f) := block(
+  [n : 4, rowcols : [1,2,4],mc_trans : [aes_mc_forward,aes_mc_bidirectional],
+   f_b_l : [true,false]],
+  if oklib_test_level = 0 or oklib_test_level = 1 then (
+    n : 1,rowcols : [1,2],f_b_l : [false], mc_trans : [aes_mc_forward]),
   for e in ['x,'x+1] do
     for r : 1 thru n do block([csttl],
       for c in rowcols do (
-        for rw in rowcols do (
-          csttl : ss_csttl(r,c, rw, 4, false, aes_mc_forward),
-          assert(
-            length(sublist(csttl,
-                lambda([C],is(cstt_name(C) = "ss_mul_cst") and
-                  is(C[3] = e)))) =
-            f(e,r,c,4,ss_mixcolumns_matrix(2,4,rw),false,aes_mc_forward))))),
+        for rw in rowcols do 
+          for f_b in f_b_l do
+            for mc_tran in mc_trans do (
+               csttl : ss_csttl(r,c, rw, 4, f_b, mc_tran),
+               assert(
+                 length(sublist(csttl,
+                     lambda([C],is(cstt_name(C) = "ss_mul_cst") and
+                       is(C[3] = e)))) =
+                 f(e,r,c,4,ss_mixcolumns_matrix(2,4,rw),f_b,mc_tran))))),
   true)$
 
-okltest_nvar_ss(f) := (
-  assert(f(1,1,1,4,ss_mixcolumns_matrix(2,4,1),16,
-      [['x,16],['x+1,16]],false,aes_mc_forward) = 68),
-  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),256,
-      [['x,256],['x+1,256], [x^3+1,256],[x^3+x+1,256],[x^3+x^2+1,256],
-      [x^3+x^2+x,256]],false,aes_mc_bidirectional) = 31400),
-  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),256,
-      [], true,aes_mc_bidirectional) = 5928),
-  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),256,
-      [], true,aes_mc_forward) = 5928),
-  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),256,
-      [[x,256],[x+1,256],[x^3+1,256],[x^3+x+1,256],
-      [x^3+x^2+1,256],[x^3+x^2+x,256]], false,aes_mc_forward) = 14504),
-  true)$
-
-okltest_ncl_ss(f) := (
-    assert(f(1,1,1,4,ss_mixcolumns_matrix(2,4,1),145,
-      [['x,145],['x+1,145]],false,aes_mc_forward) = 350),
-  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),4353,
-      [['x,4353],['x+1,4353], [x^3+1,4353],[x^3+x+1,4353],[x^3+x^2+1,4353],
-      [x^3+x^2+x,4353]],false,aes_mc_bidirectional) = 510620),
-  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),4353,
-      [], true,aes_mc_bidirectional) = 88636),
-  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),4353,
-      [], true,aes_mc_forward) = 88636),
-  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),4353,
-      [[x,4353],[x+1,4353],[x^3+1,4353],[x^3+x+1,4353],
-      [x^3+x^2+1,4353],[x^3+x^2+x,4353]], false,aes_mc_forward) = 229980),
+okltest_nmul_ss(f) := block(
+  [n : 4, rowcols : [1,2,4],mc_trans : [aes_mc_forward,aes_mc_bidirectional],
+   f_b_l : [true,false]],
+  if oklib_test_level = 0 or oklib_test_level = 1 then (
+    n : 1,rowcols : [1,2],f_b_l : [false], mc_trans : [aes_mc_forward]),
+  for e in ['x,'x+1] do
+    for r : 1 thru n do block([csttl],
+      for c in rowcols do (
+        for rw in rowcols do 
+          for f_b in f_b_l do
+            for mc_tran in mc_trans do (
+               csttl : ss_csttl(r,c, rw, 4, f_b, mc_tran),
+               assert(
+                 length(sublist(csttl,
+                     lambda([C],is(cstt_name(C) = "ss_mul_cst") and
+                       is(C[3] = e)))) =
+                 f(e,r,c,rw,4,f_b,mc_tran))))),
   true)$
 
 okltest_nadd_ss_sm(f) := block(
@@ -147,6 +142,7 @@ okltest_nadd_ss_sm(f) := block(
   assert(f(1,1,3,4,false,aes_mc_forward) = {[2,28],[3,12]}),
   assert(f(1,4,4,8,false,aes_mc_bidirectional) = {[2,376],[3,8],[4,256]}),
   if oklib_test_level = 0 then return(true),
+  if oklib_test_level = 1 then return(true),
   for r : 1 thru 4 do
     for c : 1 thru 4 do
       for rw : 1 thru 4 do
@@ -165,6 +161,105 @@ okltest_nadd_ss(f) := (
   assert(f(1,2,3,8,false,aes_mc_bidirectional) = 240),
   assert(f(1,1,3,4,false,aes_mc_forward) = 40),
   assert(f(1,4,4,8,false,aes_mc_bidirectional) = 640),
+  true)$
+
+okltest_nconstants_ss(f) := (
+  for r : 1 thru 20 do assert(f(r) = r),
+  true)$
+
+okltest_nvar_ss_gen(f) := (
+  assert(f(1,1,1,4,ss_mixcolumns_matrix(2,4,1),16,
+      [['x,16],['x+1,16]],false,aes_mc_forward) = 68),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),256,
+      [['x,256],['x+1,256], [x^3+1,256],[x^3+x+1,256],[x^3+x^2+1,256],
+      [x^3+x^2+x,256]],false,aes_mc_bidirectional) = 31400),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),256,
+      [], true,aes_mc_bidirectional) = 5928),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),256,
+      [], true,aes_mc_forward) = 5928),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),256,
+      [[x,256],[x+1,256],[x^3+1,256],[x^3+x+1,256],
+      [x^3+x^2+1,256],[x^3+x^2+x,256]], false,aes_mc_forward) = 14504),
+  true)$
+
+okltest_nvar_ss(f) := (
+  assert(f(1,1,1,4,false,aes_ts_box,aes_mc_forward) = 68),
+  assert(f(1,4,4,8,false,aes_ts_box,aes_mc_bidirectional) = 31400),
+  assert(f(1,4,4,8,true,aes_ts_box,aes_mc_bidirectional) = 5928),
+  assert(f(1,4,4,8,true,aes_ts_box,aes_mc_forward) = 5928),
+  assert(f(1,4,4,8,false,aes_ts_box,aes_mc_forward) = 14504),
+  assert(f(1,4,4,4,false,aes_small_box,aes_mc_forward) = 596),
+  true)$
+
+okltest_ncl_ss_gen(f) := (
+    assert(f(1,1,1,4,ss_mixcolumns_matrix(2,4,1),145,
+      [['x,145],['x+1,145]],false,aes_mc_forward) = 350),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),4353,
+      [['x,4353],['x+1,4353], [x^3+1,4353],[x^3+x+1,4353],[x^3+x^2+1,4353],
+      [x^3+x^2+x,4353]],false,aes_mc_bidirectional) = 510620),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),4353,
+      [], true,aes_mc_bidirectional) = 88636),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),4353,
+      [], true,aes_mc_forward) = 88636),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),4353,
+      [[x,4353],[x+1,4353],[x^3+1,4353],[x^3+x+1,4353],
+      [x^3+x^2+1,4353],[x^3+x^2+x,4353]], false,aes_mc_forward) = 229980),
+  true)$
+
+okltest_ncl_ss(f) := (
+  assert(f(1,1,1,4,false,aes_ts_box,aes_mc_forward) = 350),
+  assert(f(1,4,4,8,false,aes_ts_box,aes_mc_bidirectional) = 510620),
+  assert(f(1,4,4,8,true,aes_ts_box,aes_mc_bidirectional) = 88636),
+  assert(f(1,4,4,8,true,aes_ts_box,aes_mc_forward) = 88636),
+  assert(f(1,4,4,8,false,aes_ts_box,aes_mc_forward) = 229980),
+  assert(f(1,4,4,4,false,aes_small_box,aes_mc_forward) = 6236),
+  true)$
+
+okltest_ncl_list_ss_gen(f) := (
+  assert(f(1,1,1,4,ss_mixcolumns_matrix(2,4,1),
+      ncl_list_full_dualts(8,16), [], false, aes_mc_bidirectional) =
+    [[1,4],[2,272],[3,48],[9,32],[16,2]]),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),
+      ncl_list_full_dualts(16,256), [], true, aes_mc_bidirectional)
+    = [[1,8],[2,81920],[3,1504],[4,64],[17,5120],[256,20]]),
+  assert(f(1,2,2,4, ss_mixcolumns_matrix(2,4,2),ncl_list_full_dualts(8,16),
+      [[x,ncl_list_full_dualts(8,16)],[x+1,ncl_list_full_dualts(8,16)]],
+      false, aes_mc_bidirectional) =
+    [[1,4],[2,2816],[3,304],[4,32],[9,352],[16,22]]),
+  assert(f(1,2,2,4, ss_mixcolumns_matrix(2,4,2),ncl_list_full_dualts(8,16),
+      [[x,ncl_list_full_dualts(8,16)],[x+1,ncl_list_full_dualts(8,16)]],
+      false, aes_mc_forward) =
+    [[1,4],[2,1792],[3,240],[4,32],[9,224],[16,14]]),
+  true)$
+
+okltest_ncl_list_ss(f) := (
+  assert(f(1,1,1,4,false, aes_ts_box, aes_mc_bidirectional) =
+    [[1,4],[2,272],[3,48],[9,32],[16,2]]),
+  assert(f(1,4,4,8,true,aes_ts_box, aes_mc_bidirectional)
+    = [[1,8],[2,81920],[3,1504],[4,64],[17,5120],[256,20]]),
+  assert(f(1,2,2,4,false,aes_ts_box, aes_mc_bidirectional) =
+    [[1,4],[2,2816],[3,304],[4,32],[9,352],[16,22]]),
+  assert(f(1,2,2,4, false, aes_ts_box, aes_mc_forward) =
+    [[1,4],[2,1792],[3,240],[4,32],[9,224],[16,14]]),
+  true)$
+
+okltest_component_statistics_ss_gen(f) := block(
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),true, aes_mc_forward) =
+    [0,1,16,256,[],4,128,8]),
+  assert(f(1,4,4,8,ss_mixcolumns_matrix(2,8,4),false, aes_mc_forward) =
+    [1,0,16,384,[[1,32],[x,16],[x+1,16]],4,128,8]),
+  if oklib_test_level = 0 then return(true),
+  if oklib_test_level = 1 then return(true),
+  for r : 1 thru 4 do
+    for c in [1,2,4] do
+      for rw in [1,2,4] do
+        for e in [4,8] do
+        for f_b in [true,false] do
+            for mc_tran in [aes_mc_forward,aes_mc_bidirectional] do (
+              assert(
+                f(r,c,rw,e,ss_mixcolumns_matrix(2,e,rw),f_b,mc_tran)[4] +
+                f(r,c,rw,e,ss_mixcolumns_matrix(2,e,rw),f_b,mc_tran)[7] =
+                sum_l(map(second,listify(nadd_ss_sm(r,c,rw,e,f_b,mc_tran)))))),
   true)$
 
 /******************************************************************
