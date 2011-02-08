@@ -19,18 +19,19 @@ version="0.0.4"
 #
 # Takes eight arguments:
 #
-#   - The number (r) of rounds to run the experiment over.
+#   - The number r of rounds to run the experiment over.
 # BUG: what means "over"? "rounds" can have many meanings -- do we run the experiment several times?
-#   - The number (k) of plaintext-ciphertext pairs to generate per round.
-#   - The number of columns (c) in the AES block (1-4).
-#   - The number of rows (rw) in the AES block (1-4).
-#   - The size (e) of the element field (4 or 8).
-#   - Whether or not to use a special final round (fin_b) (true or false).
-#   - The AES box translation to use (box_tran):
+#   - The number k of plaintext-ciphertext pairs to generate per round.
+#   - The number c of columns in the AES block (1-4).
+#   - The number rw of rows in the AES block (1-4).
+#   - The size e of the element field (4 or 8).
+#   - Whether or not to use a special final round by variable fin_b (true or
+#     false).
+#   - The AES box translation to use, by variable box_tran, with values:
 #       - aes_ts_box - The canonical translation for all boxes.
 #       - aes_small_box - The smallest CNF translations for all boxes.
 #       - aes_rbase_box - The smallest r_1 bases for each box.
-#   - Which MixColumns translation to use (mc_tran):
+#   - Which MixColumns translation to use, by variable mc_tran, with values:
 #       - aes_mc_forward - Translating MixColumns in the forward direction.
 #       - aes_mc_bidirectional - Translating MixColumns in the both directions.
 # 
