@@ -20,6 +20,7 @@ version="0.0.4"
 # Takes eight arguments:
 #
 #   - The number (r) of rounds to run the experiment over.
+# BUG: what means "over"? "rounds" can have many meanings -- do we run the experiment several times?
 #   - The number (k) of plaintext-ciphertext pairs to generate per round.
 #   - The number of columns (c) in the AES block (1-4).
 #   - The number of rows (rw) in the AES block (1-4).
