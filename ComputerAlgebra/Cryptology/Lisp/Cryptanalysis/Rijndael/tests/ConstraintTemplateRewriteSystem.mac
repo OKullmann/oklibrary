@@ -13,6 +13,20 @@ Use by
 
 oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateRewriteSystem.mac");
 
+  \bug Tests not executed
+  <ul>
+   <li> We get
+   \verbatim
+okltest_cstt_namespace_replace(cstt_namespace_replace)
+Evaluation took 0.0000 seconds (0.0000 elapsed)
+okltest_cstt_namespace_replace(cstt_namespace_replace)
+okltest_cstt_new(cstt_new)
+Evaluation took 0.0020 seconds (0.0030 elapsed)
+true
+   \endverbatim
+   </li>
+  </ul>
+
 */
 
 /*!
