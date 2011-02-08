@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp
 
-  \module_version Investigations/Cryptography/AdvancedEncryptionStandard 0.1.5 (8.1.2011)
+  \module_version Investigations/Cryptography/AdvancedEncryptionStandard 0.1.5.1 (8.2.2011)
 
 
   \par Version 0.1.6 :
@@ -35,6 +35,16 @@ License, or any later version. */
    the following topics are handled:
     - Standard naming scheme for experiment files
     - Scripts for generating statistics on random boxes
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/general.hpp
+   the following topics are handled:
+    - Explanations
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r1_c4_rw4_e8_f1.hpp
+   the following topics are handled:
+    - Problems sizes : DONE
 
   \par Version 0.1.7 :
 

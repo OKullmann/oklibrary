@@ -10,21 +10,71 @@ License, or any later version. */
   \brief Investigations into AES key discovery for one round AES with MixColumns
 
 
+  \todo Problem specification
+  <ul>
+   <li> In this file, we collect the investigations into translations of
+   one round AES with the MixColumns operation. </li>
+   <li> The AES encryption scheme we model takes a 128-bit plaintext,
+   128-bit key and applies the following operations:
+   <ol>
+    <li> Key schedule which takes the key and generates two 128-bit round 
+    keys. </li>
+    <li> Addition of first round key (input key) to plaintext. </li>
+    <li> Application of SubBytes (Sbox to each byte) operation. </li>
+    <li> Application of ShiftRows operation. </li>
+    <li> Application of MixColumns operation. </li>
+    <li> Addition of second round key (from key schedule), resulting in the 
+    ciphertext. </li>
+   </ol>
+   </li>
+   <li> Note we have the following number of full rounds, special rounds,
+   sboxes in the rounds, multiplications by each field element, Sboxes in
+   the key expansion, additions in the key expansion and constants in the
+   key expansion:
+   \verbatim
+> component_statistics_ss(1,4,4,8,false,aes_mc_bidirectional);
+[1,0,16,512,[[1,32],[x,16],[x+1,16],[x^3+1,16],[x^3+x+1,16],[x^3+x^2+1,16],[x^3+x^2+x,16]],4,128,8]
+> component_statistics_ss(1,4,4,8,false,aes_mc_forward);
+[1,0,16,384,[[1,32],[x,16],[x+1,16]],4,128,8]
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Using the canonical translation
   <ul>
    <li> Generating AES for 1 round (with MixColumns):
    \verbatim
-maxima> num_rounds : 1$
-maxima> num_columns : 4$
-maxima> num_rows : 4$
-maxima> exp : 8$
-maxima> final_round_b : false$
-maxima> box_tran : aes_ts_box$
-maxima> seed : 1$
-maxima> mc_tran : aes_mc_bidirectional$
-maxima> output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
+num_rounds : 1$
+num_columns : 4$
+num_rows : 4$
+exp : 8$
+final_round_b : false$
+box_tran : aes_ts_box$
+seed : 1$
+mc_tran : aes_mc_bidirectional$
+output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
+
+shell> cat ssaes_r1_c4_rw4_e8_f0.cnf | ExtendedDimacsFullStatistics n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+31400 510620 1510056 0 1510056 31401 1
+ length count
+1 8
+2 475136
+3 1504
+4 64
+5 4096
+17 29696
+256 116
    \endverbatim
-   and then we can generate a random assignment with the plaintext and 
+   </li>
+   <li> The measured statistics match up to the computed statistics:
+   \verbatim
+maxima> ncl_list_ss(1,4,4,8,false,aes_ts_box,aes_mc_bidirectional);
+[[1,8],[2,475136],[3,1504],[4,64],[5,4096],[17,29696],[256,116]]
+   \endverbatim
+   </li>
+   <li> Then we can generate a random assignment with the plaintext and 
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);

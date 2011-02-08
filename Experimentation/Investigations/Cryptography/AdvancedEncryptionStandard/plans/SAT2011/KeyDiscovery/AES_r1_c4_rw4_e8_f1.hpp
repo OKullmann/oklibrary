@@ -10,33 +10,46 @@ License, or any later version. */
   \brief Investigations into AES key discovery for one round AES without MixColumns
 
 
+  \todo Problem specification
+  <ul>
+   <li> In this file, we collect the investigations into translations of
+   one round AES without the MixColumns operation. </li>
+   <li> The AES encryption scheme we model takes a 128-bit plaintext,
+   128-bit key and applies the following operations:
+   <ol>
+    <li> Key schedule which takes the key and generates two 128-bit round 
+    keys. </li>
+    <li> Addition of first round key (input key) to plaintext. </li>
+    <li> Application of SubBytes (Sbox to each byte) operation. </li>
+    <li> Application of ShiftRows operation. </li>
+    <li> Addition of second round key (from key schedule), resulting in the 
+    ciphertext. </li>
+   </ol>
+   </li>
+   <li> Note we have the following number of full rounds, special rounds,
+   sboxes in the rounds, additions in the rounds, multiplications by each 
+   field element, sboxes in the key expansion, additions in the key expansion 
+   and constants in the key expansion:
+   \verbatim
+> component_statistics_ss(1,4,4,8,true,aes_mc_bidirectional);
+[0,1,16,256,[],4,128,8]
+> component_statistics_ss(1,4,4,8,true,aes_mc_forward);
+[0,1,16,256,[],4,128,8]
+   \endverbatim
+   </li>
+  </ul>
+
+
   \bug Merging deficient
   <ul>
    <li> See below for error-report. </li>
    <li> This merging-tool shouldn't exist in this form; see
    "Elementary file-surgery" in
    Interfaces/InputOutput/plans/general.hpp. </li>
-  </ul>
-
-
-  \todo Explanations
-  <ul>
-   <li> For every such file, we need explanations what a "round" etc. is,
-   in elementary terms, using terms "addition, sub-bytes, shift-rows,
-   mix-columns, round-key". </li>
-   <li> In general, all discussions should be based on the general notions
-   as introduced in
-   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac.
-   </li>
-   <li> Also the file-name needs to be explained (in each file). </li>
-  </ul>
-
-
-  \todo Problems sizes
-  <ul>
-   <li> For each such file, we need the complete information about the instance
-   sizes. </li>
-   <li> Both measured, and as a result of general formulas. </li>
+   <li> There is now a specific C++ application for this with
+   tests. See "AppendDimacs". </li>
+   <li> The plans files must be updated to use "AppendDimacs"
+   instead of this merge script. </li>
   </ul>
 
 
@@ -56,7 +69,7 @@ seed : 1;
 mc_tran : aes_mc_bidirectional;
 output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran);
 
-> cat ssaes_r1_c4_rw4_e8_f1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+shell> cat ssaes_r1_c4_rw4_e8_f1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 5928 88636 260776 0 260776 5929 1
  length count
@@ -68,7 +81,12 @@ output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tra
 256 20
      \endverbatim
      </li>
-     <li> These counts need explanations. </li>
+     <li> The measured statistics match up to the computed statistics:
+     \verbatim
+maxima> ncl_list_ss(1,4,4,8,true,aes_ts_box,aes_mc_bidirectional);
+[[1,8],[2,81920],[3,1504],[4,64],[17,5120],[256,20]]
+     \endverbatim
+     </li>
      <li> Then we generate a random assignment with the plaintext and 
      ciphertext, leaving the key unknown:
      \verbatim
@@ -223,8 +241,16 @@ Registering switches
 	Done searching.... RESOURCES EXCEEDED. Elapsed time: 2256.6
    \endverbatim
    </li>
-   <li> With "seed : 2$" and "seed : 3", these runtimes and statistics
+   <li> With "seed : 2$" and "seed : 3$", these runtimes and statistics
    seem stable. </li>
+  </ul>
+
+
+  \todo DONE Problems sizes
+  <ul>
+   <li> For each such file, we need the complete information about the instance
+   sizes. </li>
+   <li> Both measured, and as a result of general formulas. </li>
   </ul>
 
 */
