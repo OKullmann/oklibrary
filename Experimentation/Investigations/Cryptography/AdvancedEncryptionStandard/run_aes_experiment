@@ -12,6 +12,8 @@ script_name="run_aes_experiment"
 err="ERROR[${script_name}]:"
 version="0.0.2"
 
+# BUG: misleading version number
+
 #
 # Goes through all combinations of AES translations and plaintext-ciphertext
 # pairs and runs all solvers on the combination of these instances.
