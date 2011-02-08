@@ -9,6 +9,17 @@ License, or any later version. */
   \file Interfaces/InputOutput/AppendDimacs.cpp
   \brief Application to select clauses from a clause-set
 
+
+  \bug Incomplete specification
+  <ul>
+   <li> What does "maximum number of variables" mean?? </li>
+   <li> It should be the maximal variable-*index*. </li>
+   <li> What is the strange requirement "that the variable set of every
+   argument clause-list is a subset of the variable set of the clause-list
+   with the most variables" ?? </li>
+   <li> This is very likely not meant. </li>
+  </ul>
+
   <ul>
    <li> Takes an arbitrary number of Dimacs file paths as arguments and
    outputs on standard output a Dimacs file containing the clauses from all
