@@ -18,6 +18,9 @@ version="0.0.2"
 # Goes through all combinations of AES translations and plaintext-ciphertext
 # pairs and runs all solvers on the combination of these instances.
 #
+
+# BUG: bad specification
+
 # Takes eight arguments:
 #
 #   - The number (r) of rounds to run the experiment over.
