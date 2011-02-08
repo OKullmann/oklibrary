@@ -28,12 +28,12 @@ version="0.0.4"
 #   - Whether or not to use a special final round by variable fin_b (true or
 #     false).
 #   - The AES box translation to use, by variable box_tran, with values:
-#       - aes_ts_box - The canonical translation for all boxes.
-#       - aes_small_box - The smallest CNF translations for all boxes.
-#       - aes_rbase_box - The smallest r_1 bases for each box.
+#       - aes_ts_box - the canonical translation for all boxes.
+#       - aes_small_box - the smallest CNF translations for all boxes.
+#       - aes_rbase_box - the smallest r_1 bases for each box.
 #   - Which MixColumns translation to use, by variable mc_tran, with values:
-#       - aes_mc_forward - Translating MixColumns in the forward direction.
-#       - aes_mc_bidirectional - Translating MixColumns in the both directions.
+#       - aes_mc_forward - translating MixColumns in the forward direction.
+#       - aes_mc_bidirectional - translating MixColumns in the both directions.
 # 
 # The script outputs a Dimacs file containing the CNF translation of the AES
 # encryption scheme with the given parameters for each round size in (1-r)
