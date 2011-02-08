@@ -10,6 +10,14 @@ License, or any later version. */
   \brief Investigations into the 4-bit AES S-box
 
 
+  \bug Update
+  <ul>
+   <li> Commit b47ed2bac74daaf648852bba0c61f26b3e7f7c8f added some
+   representation --- where does this come from, and where it is represented
+   here? </li>
+  </ul>
+
+
   \todo Basic data
   <ul>
    <li> Generating the full CNF representation:
