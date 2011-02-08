@@ -40,6 +40,7 @@ version="0.0.4"
 # BUG: what is "in (1-r)" ??
 # and for each round k Dimacs files are created containing the 
 # plaintext-ciphertext variable assignments for random plaintext ciphertext pair
+# BUG: apparently the files are just spilled into the current directory??
 # chosen using seeds 1-k.
 #
 # To monitor the progress of the experiment generation, set the "oklib_monitor"
