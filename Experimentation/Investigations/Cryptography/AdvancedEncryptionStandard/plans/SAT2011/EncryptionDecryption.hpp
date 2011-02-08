@@ -43,7 +43,7 @@ maxima> output_ss_random_pk_pair(seed,num_rounds,num_columns,num_rows,exp,final_
    and then we can merge the random plaintext, key assignment (as
    a clause-set containing the relevant unit clauses) with:
    \verbatim
-shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pkpair_r1_c4_rw4_e8_f1_s1.cnf > ssaes_r1_c4_rw4_e8_f1_encrypt.cnf
+shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pkpair_r1_c4_rw4_e8_f1_s1.cnf > ssaes_r1_c4_rw4_e8_f1_encrypt.cnf
    \endverbatim
    </li>
    <li> Testing encryption using minisat:
@@ -81,7 +81,7 @@ maxima> output_ss_random_kc_pair(seed,num_rounds,num_columns,num_rows,exp,final_
    and then we can merge the random plaintext, key assignment (as
    a clause-set containing the relevant unit clauses) with:
    \verbatim
-shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh ssaes_r1_c4_rw4_e8_f1.cnf ssaes_kcpair_r1_c4_rw4_e8_f1_s1.cnf > ssaes_r1_c4_rw4_e8_f1_decrypt.cnf
+shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f1.cnf ssaes_kcpair_r1_c4_rw4_e8_f1_s1.cnf > ssaes_r1_c4_rw4_e8_f1_decrypt.cnf
    \endverbatim
    </li>
    <li> Testing decryption using minisat:

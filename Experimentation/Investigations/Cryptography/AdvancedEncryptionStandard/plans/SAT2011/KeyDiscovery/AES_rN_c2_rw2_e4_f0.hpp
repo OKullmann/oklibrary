@@ -113,7 +113,7 @@ maxima> for i : 1 thru 10 do output_ss_random_pc_pair(seed,i,num_columns,num_row
    \endverbatim
    and the merging the assignments with the translations:
    \verbatim
-shell> for i in `seq 1 10`; do $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh ssaes_r${i}_c2_rw2_e4_f0.cnf ssaes_pkpair_r${i}_c2_rw2_e4_f0_s1.cnf > r${i}_keyfind.cnf; done
+shell> for i in `seq 1 10`; do AppendDimacs-O3-DNDEBUG ssaes_r${i}_c2_rw2_e4_f0.cnf ssaes_pkpair_r${i}_c2_rw2_e4_f0_s1.cnf > r${i}_keyfind.cnf; done
    \endverbatim
    </li>
   </ul>
@@ -406,7 +406,7 @@ maxima> for i : 1 thru 10 do output_ss_random_pc_pair(seed,i,num_columns,num_row
    \endverbatim
    and the merging the assignments with the translations:
    \verbatim
-shell> for i in `seq 1 10`; do $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh ssaes_r${i}_c2_rw2_e4_f0.cnf ssaes_pkpair_r${i}_c2_rw2_e4_f0_s1.cnf > r${i}_keyfind.cnf; done
+shell> for i in `seq 1 10`; do AppendDimacs-O3-DNDEBUG ssaes_r${i}_c2_rw2_e4_f0.cnf ssaes_pkpair_r${i}_c2_rw2_e4_f0_s1.cnf > r${i}_keyfind.cnf; done
    \endverbatim
    </li>
   </ul>
@@ -449,7 +449,7 @@ output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b)
    \endverbatim
    and the merging the assignment with the translation:
    \verbatim
-shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh ssaes_r1_c2_rw2_e4_f0.cnf ssaes_pkpair_r1_c2_rw2_e4_f0_s1.cnf > r1_keyfind.cnf
+shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c2_rw2_e4_f0.cnf ssaes_pkpair_r1_c2_rw2_e4_f0_s1.cnf > r1_keyfind.cnf
    \endverbatim
    </li>
    <li> OKsolver:
@@ -687,7 +687,7 @@ output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b)
    \endverbatim
    and the merging the assignment with the translation:
    \verbatim
-shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh ssaes_r2_c2_rw2_e4_f0.cnf ssaes_pkpair_r2_c2_rw2_e4_f0_s1.cnf > r2_keyfind.cnf
+shell> AppendDimacs-O3-DNDEBUG ssaes_r2_c2_rw2_e4_f0.cnf ssaes_pkpair_r2_c2_rw2_e4_f0_s1.cnf > r2_keyfind.cnf
    \endverbatim
    </li>
    <li> OKsolver:

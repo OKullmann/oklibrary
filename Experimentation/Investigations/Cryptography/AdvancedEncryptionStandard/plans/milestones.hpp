@@ -17,7 +17,7 @@ License, or any later version. */
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
    following topics are handled:
     - Update scripts
-    - Replace "merge_cnf.sh" with "UnionDimacs"
+    - Replace "merge_cnf.sh" with "AppendDimacs" : DONE
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the

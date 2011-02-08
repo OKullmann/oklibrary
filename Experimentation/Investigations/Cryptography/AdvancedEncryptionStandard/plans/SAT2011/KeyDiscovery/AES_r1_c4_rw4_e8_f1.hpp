@@ -40,19 +40,6 @@ License, or any later version. */
   </ul>
 
 
-  \bug Merging deficient
-  <ul>
-   <li> See below for error-report. </li>
-   <li> This merging-tool shouldn't exist in this form; see
-   "Elementary file-surgery" in
-   Interfaces/InputOutput/plans/general.hpp. </li>
-   <li> There is now a specific C++ application for this with
-   tests. See "AppendDimacs". </li>
-   <li> The plans files must be updated to use "AppendDimacs"
-   instead of this merge script. </li>
-  </ul>
-
-
   \todo Using the canonical translation
   <ul>
    <li> Generating AES-instance for 1 round (without MixColumns):
@@ -101,13 +88,7 @@ output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b)
      </li>
      <li> Finally we merge the assignment with the basic instance:
      \verbatim
-shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pcpair_r1_c4_rw4_e8_f1_s1.cnf > ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
-
-> cat ssaes_r1_c4_rw4_e8_f1_keyfind.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
-terminate called after throwing an instance of 'OKlib::InputOutput::ClauseInputError'
-  what():  OKlib::InputOutput::StandardDIMACSInput::read_clauses:
-  literal 5929 has variable index larger than the specified upper bound 5928
-line 94566, column 2, total characters read 21231687
+shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pcpair_r1_c4_rw4_e8_f1_s1.cnf > ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
      \endverbatim
      </li>
     </ol>
@@ -243,6 +224,32 @@ Registering switches
    </li>
    <li> With "seed : 2$" and "seed : 3$", these runtimes and statistics
    seem stable. </li>
+   <li> DONE (merge_cnf.sh replaced with AppendDimacs)
+   Finally we merge the assignment with the basic instance:
+   \verbatim
+shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pcpair_r1_c4_rw4_e8_f1_s1.cnf > ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
+
+> cat ssaes_r1_c4_rw4_e8_f1_keyfind.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+terminate called after throwing an instance of 'OKlib::InputOutput::ClauseInputError'
+  what():  OKlib::InputOutput::StandardDIMACSInput::read_clauses:
+  literal 5929 has variable index larger than the specified upper bound 5928
+line 94566, column 2, total characters read 21231687
+   \endverbatim
+   </li>
+  </ul>
+
+
+  \bug DONE (merging now handled by AppendDimacs)
+  Merging deficient
+  <ul>
+   <li> See below for error-report. </li>
+   <li> This merging-tool shouldn't exist in this form; see
+   "Elementary file-surgery" in
+   Interfaces/InputOutput/plans/general.hpp. </li>
+   <li> There is now a specific C++ application for this with
+   tests. See "AppendDimacs". </li>
+   <li> The plans files must be updated to use "AppendDimacs"
+   instead of this merge script. </li>
   </ul>
 
 

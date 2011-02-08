@@ -81,7 +81,7 @@ maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_
    \endverbatim
    and the merging the assignment with the translation:
    \verbatim
-shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh ssaes_r1_c4_rw4_e8_f0.cnf ssaes_pkpair_r1_c4_rw4_e8_f0_s1.cnf > ssaes_r1_c4_rw4_e8_f0_keyfind.cnf
+shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f0.cnf ssaes_pkpair_r1_c4_rw4_e8_f0_s1.cnf > ssaes_r1_c4_rw4_e8_f0_keyfind.cnf
    \endverbatim
    </li>
    <li> MG is running experiments with various solvers, but all are ongoing 

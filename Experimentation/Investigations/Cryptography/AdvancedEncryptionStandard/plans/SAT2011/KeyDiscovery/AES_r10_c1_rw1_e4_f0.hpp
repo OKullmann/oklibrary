@@ -84,7 +84,7 @@ maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_
    \endverbatim
    and the merging the assignment with the translation:
    \verbatim
-shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh ssaes_r10_c1_rw1_e4_f0.cnf ssaes_pkpair_r10_c1_rw1_e4_f0_s1.cnf > r10_keyfind.cnf
+shell> AppendDimacs-O3-DNDEBUG ssaes_r10_c1_rw1_e4_f0.cnf ssaes_pkpair_r10_c1_rw1_e4_f0_s1.cnf > r10_keyfind.cnf
    \endverbatim
    </li>
    <li> OKsolver solves this with no decisions:
