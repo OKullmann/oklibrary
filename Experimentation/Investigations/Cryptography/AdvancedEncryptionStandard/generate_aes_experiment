@@ -37,6 +37,7 @@ version="0.0.4"
 # 
 # The script outputs a Dimacs file containing the CNF translation of the AES
 # encryption scheme with the given parameters for each round size in (1-r)
+# BUG: what is "in (1-r)" ??
 # and for each round k Dimacs files are created containing the 
 # plaintext-ciphertext variable assignments for random plaintext ciphertext pair
 # chosen using seeds 1-k.
