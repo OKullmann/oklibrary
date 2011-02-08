@@ -12,6 +12,13 @@ License, or any later version. */
 Use by
 
 oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac");
+
+  \bug Bad specification
+  <ul>
+   <li> What is "mapping the number of elements involved in each addition in
+   the translation to the number of such additions" ? </li>
+   <li> What is "that any MixColumns matrix" ? </li>
+  </ul>
   
 */
 
