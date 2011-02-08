@@ -20,6 +20,14 @@ License, or any later version. */
    <li> This is very likely not meant. </li>
   </ul>
 
+
+  \bug False error message
+  <ul>
+   <li> "Failure opening file  << argv[i+1]" seems false (and will lead
+   to undefined behaviour). </li>
+  </ul>
+
+
   <ul>
    <li> Takes an arbitrary number of Dimacs file paths as arguments and
    outputs on standard output a Dimacs file containing the clauses from all
