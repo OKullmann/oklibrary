@@ -21,7 +21,7 @@ $(zlib_directories_32_okl) : % :
 # Main zlib targets
 # #################################
 
-.PHONY : zlib cleanzlib cleanallzlib
+.PHONY : zlib cleanzlib cleanallzlib zlib64 zlib32
 
 zlib: zlib64 zlib32
 
