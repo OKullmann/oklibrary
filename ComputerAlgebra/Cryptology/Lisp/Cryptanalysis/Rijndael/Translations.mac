@@ -315,6 +315,9 @@ block([inv_mixcolumns_matrix, nmul, nmul_inv],
   else nmul_inv : 0,
   if final_round_b then r : r -1,
   return(r * (nmul + nmul_inv) * num_cols))$
+nmul_ss(e,r,num_cols, num_rows,ss_exp, final_round_b, mc_trans) :=
+  nmul_ss_gen(e,r,num_cols,ss_exp,
+    ss_mixcolumns_matrix(2,ss_exp,num_rows), final_round_b, mc_trans)$
 /* Returns a set-map mapping field elements to the number of multiplications
    by those field elements in the AES translation specified by the arguments.
 */
@@ -322,11 +325,14 @@ nmul_ss_gen_sm(r,num_cols,ss_exp,mixcolumns_matrix, final_round_b, mc_trans) :=
 block([inv_mixcolumns_matrix],
   inv_mixcolumns_matrix :
     ss_mixcolumns_matrix2inv_mixcolumns_matrix(2,ss_exp,mixcolumns_matrix),
-  setify(
+  if final_round_b and r = 1 then []
+  else setify(
     map(lambda([e],[e,
         nmul_ss_gen(e,r,num_cols,ss_exp,mixcolumns_matrix,
           final_round_b, mc_trans)]),
-      append(m2l_r(mixcolumns_matrix),m2l_r(inv_mixcolumns_matrix)))))$
+      append(m2l_r(mixcolumns_matrix),
+        if mc_trans = aes_mc_bidirectional then m2l_r(inv_mixcolumns_matrix)
+        else []))))$
 nmul_ss_sm(r,num_cols,ss_exp, final_round_b, mc_trans) :=
   nmul_ss_gen_sm(r,num_cols,ss_exp,
     ss_mixcolumns_matrix(2, ss_exp, num_cols),final_round_b, mc_trans)$
@@ -381,7 +387,11 @@ nadd_ss_sm(r,num_cols, num_rows, ss_exp, final_round_b, mc_trans) :=
 nadd_ss(r,num_cols,num_rows,ss_exp, final_round_b, mc_trans) :=
   sum_l(listify(map(second,
       nadd_ss_sm(r,num_cols,num_rows,ss_exp, final_round_b, mc_trans))))$
-/*  := */
+
+/* Takes the number of rounds and returns the number of constants which appear
+   as "ss_const" constraints in the AES translation. */
+nconstants_ss(r) := r$
+
 
 /* Given the appropriate parameters, computes the number of variables
    in the small scale AES clause-list translation.
@@ -393,7 +403,7 @@ nadd_ss(r,num_cols,num_rows,ss_exp, final_round_b, mc_trans) :=
    translation of each multiplication, whether or not to use a special
    final round, and whether to include the MixColumns inversion or not
    (aes_mc_forward vs aes_mc_bidirectional). */
-nvar_ss(r,num_cols,num_rows,ss_exp,mixcolumns_matrix,
+nvar_ss_gen(r,num_cols,num_rows,ss_exp,mixcolumns_matrix,
             num_sbox_vars,num_mul_vars_map,final_round_b,mc_trans) :=
 block([mul_h : osm2hm(num_mul_vars_map), block_size],
   block_size : num_cols * num_rows * ss_exp,
@@ -434,6 +444,34 @@ block([mul_h : osm2hm(num_mul_vars_map), block_size],
       /* MixColumns - inv */
       ((ss_exp * r) + (num_rows * r * (ss_exp + num_sbox_vars)))
       /* Key Schedule */))$
+nvar_ss(r,num_cols,num_rows,ss_exp,final_round_b,box_tran,mc_trans) :=
+  if box_tran = aes_small_box then
+    nvar_ss_gen(r,num_cols,num_rows,ss_exp,
+        ss_mixcolumns_matrix(2,ss_exp,num_rows),
+        nvar_fcs(ev_hm(ss_sbox_cnfs,ss_exp))-(2*ss_exp),
+        create_list(
+          [nat2poly(e,2),
+          nvar_fcs(ev_hm_d(ss_field_cnfs,[ss_exp,e],[{},{}]))-2*ss_exp],
+          e,2,2^ss_exp-1),
+        final_round_b, mc_trans)
+  else if box_tran = aes_rbase_box then
+    nvar_ss_gen(r,num_cols,num_rows,ss_exp,
+        ss_mixcolumns_matrix(2,ss_exp,num_rows),
+        nvar_list_fcs(ev_hm(ss_sbox_rbase_cnfs,ss_exp))-(2*ss_exp),
+        create_list(
+          [nat2poly(e,2),
+           nvar_fcs(ev_hm_d(ss_field_rbase_cnfs,[ss_exp,e],[{},{}]))
+             -(2*ss_exp)],
+          e,2,2^ss_exp-1),
+        final_round_b, mc_trans)
+  else
+    nvar_ss_gen(r,num_cols,num_rows,ss_exp,
+        ss_mixcolumns_matrix(2,ss_exp,num_rows),
+        nvar_full_dualts(2*ss_exp,2^ss_exp)-(2*ss_exp),
+        create_list(
+          [nat2poly(e,2), nvar_full_dualts(2*ss_exp,2^ss_exp)-(2*ss_exp)],
+          e,2,2^ss_exp-1),
+        final_round_b, mc_trans)$
 
 /* Given the appropriate parameters, computes the number of clauses
    in the small scale AES clause-list translation.
@@ -445,7 +483,7 @@ block([mul_h : osm2hm(num_mul_vars_map), block_size],
    translation of each multiplication, whether or not to use a special
    final round, and whether to include the MixColumns inversion or not
    (aes_mc_forward vs aes_mc_bidirectional). */
-ncl_ss(r,num_cols,num_rows,ss_exp,mixcolumns_matrix,
+ncl_ss_gen(r,num_cols,num_rows,ss_exp,mixcolumns_matrix,
             num_sbox_cl,num_mul_cl_map,final_round_b,mc_trans) :=
 block([mul_h : osm2hm(num_mul_cl_map), block_size],
   block_size : num_cols * num_rows * ss_exp,
@@ -497,6 +535,136 @@ block([mul_h : osm2hm(num_mul_cl_map), block_size],
       else
         ((num_cols-1) * num_rows + 1) * 4 * ss_exp * r
       /* Key Schedule */))$
+ncl_ss(r,num_cols,num_rows,ss_exp,final_round_b,box_tran,mc_trans) :=
+  if box_tran = aes_small_box then
+    ncl_ss_gen(r,num_cols,num_rows,ss_exp,
+        ss_mixcolumns_matrix(2,ss_exp,num_rows),
+        ncl_fcs(ev_hm(ss_sbox_cnfs,ss_exp)),
+        create_list(
+          [nat2poly(e,2), ncl_fcs(ev_hm(ss_field_cnfs,[ss_exp,e]))],
+          e,2,2^ss_exp-1),
+        final_round_b, mc_trans)
+  else if box_tran = aes_rbase_box then
+    ncl_ss_gen(r,num_cols,num_rows,ss_exp,
+        ss_mixcolumns_matrix(2,ss_exp,num_rows),
+        ncl_list_fcs(ev_hm(ss_sbox_rbase_cnfs,ss_exp)),
+        create_list(
+          [nat2poly(e,2), ncl_fcs(ev_hm(ss_field_rbase_cnfs,[ss_exp,e]))],
+          e,2,2^ss_exp-1),
+        final_round_b, mc_trans)
+  else
+    ncl_ss_gen(r,num_cols,num_rows,ss_exp,
+        ss_mixcolumns_matrix(2,ss_exp,num_rows),
+        ncl_full_dualts(2*ss_exp,2^ss_exp),
+        create_list(
+          [nat2poly(e,2), ncl_full_dualts(2*ss_exp,2^ss_exp)],
+          e,2,2^ss_exp-1),
+        final_round_b, mc_trans)$
+
+/* Given the appropriate parameters, computes the number of clauses
+   of each length in the small scale AES clause-list translation, returning
+   the result as a list of pairs with the first element of each pair
+   being the size of the clause, and the second being the number of clauses
+   of that size in the translation.
+
+   The parameters are the number of rounds, the number of columns, the number
+   of rows, the small scale exponent, the mixcolumns matrix to use, the number
+   of variables introduced by the sbox CNF translation, a list-map from the
+   field elements in the MixColumns to the number of variables introduced in
+   the CNF translation of each multiplication, whether or not to use a special
+   final round, and whether to include the MixColumns inversion or not
+   (aes_mc_forward vs aes_mc_bidirectional). */
+ncl_list_ss_gen(r,num_cols,num_rows,ss_exp,mixcolumns_matrix,
+            ncl_list_sbox,ncl_list_mul_map,final_round_b,mc_trans) :=
+block([ncl_list_mul_h : sm2hm(ncl_list_mul_map)],
+multi_list_distribution2list_distribution(
+  append(
+    map(lambda([a],[a[1],nsbox_ss(r,num_cols,num_rows) * a[2]]),
+        ncl_list_sbox),
+    lappend(map(lambda([e],
+          map(lambda([a], [a[1],a[2]*e[2]]),
+            ev_hm_d(ncl_list_mul_h,e[1],[]))),
+        listify(nmul_ss_gen_sm(r,num_cols,ss_exp,mixcolumns_matrix,
+            final_round_b,mc_trans)))),
+    [[1, nconstants_ss(r)*ss_exp]],
+    map(lambda([P], [P[1]+1,2^(P[1]) * P[2]]),
+      listify(nadd_ss_sm(r,num_cols,num_rows,ss_exp,final_round_b,mc_trans)))
+    )))$
+ncl_list_ss(r,num_cols,num_rows,ss_exp,final_round_b,box_tran,mc_trans) :=
+  if box_tran = aes_small_box then
+    ncl_list_ss_gen(r,num_cols,num_rows,ss_exp,
+        ss_mixcolumns_matrix(2,ss_exp,num_rows),
+        ncl_list_fcs(ev_hm(ss_sbox_cnfs,ss_exp)),
+        create_list(
+          [nat2poly(e,2),
+            ncl_list_fcs(ev_hm_d(ss_field_cnfs,[ss_exp,e],[{},{}]))],
+          e,2,2^ss_exp-1),
+        final_round_b, mc_trans)
+  else if box_tran = aes_rbase_box then
+      ncl_list_ss_gen(r,num_cols,num_rows,ss_exp,
+        ss_mixcolumns_matrix(2,ss_exp,num_rows),
+        ncl_list_fcs(ev_hm(ss_sbox_rbase_cnfs,ss_exp)),
+        create_list(
+          [nat2poly(e,2),
+            ncl_list_fcs(ev_hm_d(ss_field_rbase_cnfs,[ss_exp,e],[{},{}]))],
+            e,2,2^ss_exp-1),
+        final_round_b, mc_trans)
+  else
+      ncl_list_ss_gen(r,num_cols,num_rows,ss_exp,
+        ss_mixcolumns_matrix(2,ss_exp,num_rows),
+        ncl_list_full_dualts(2*ss_exp,2^ss_exp),
+        create_list(
+          [nat2poly(e,2), ncl_list_full_dualts(2*ss_exp,2^ss_exp)],
+          e,2,2^ss_exp-1),
+        final_round_b, mc_trans)$
+
+
+/* Given the appropriate parameters returns basic statistics on
+   the number of each component in the AES translation specified
+   by the parameters.
+
+   The result is of the form:
+
+   [full_r,special_r,#round_sbox,#round_add,#mc_l,#ks_sbox,#ks_add,#ks_const]
+
+   where:
+      full_r       is the number of full rounds including MixColumns
+      special_r    is the number of final rounds excluding MixColumns (0/1)
+      #round_sbox  is the number of Sboxes occurring in the round components
+      #round_add   is the number of round additions
+      #mc_l        is a list of pairs mapping field elements to the number
+                   of multiplications by those field elements that occur
+                   in the translation (in the MixColumns operation)
+      #ks_sbox     is the number of Sboxes occurring in the AES key expansion
+      #ks_add      is the number of additions occurring in the AES key
+                   expansion
+      #ks_const    is the number of constant additions in the AES key
+                   expansion
+
+   The parameters are the number of rounds, the number of columns, the number
+   of rows, the small scale exponent, the mixcolumns matrix to use, whether or
+   not to use a special final round, and whether to include the MixColumns
+   inversion or not (aes_mc_forward vs aes_mc_bidirectional). */
+component_statistics_ss_gen(r,num_cols,num_rows,ss_exp,mixcolumns_matrix,
+  final_round_b,mc_trans) :=
+block([mc_r : if final_round_b then r-1 else r,
+       mc_c : if mc_trans = aes_mc_bidirectional then 2 else 1],
+  [
+    mc_r,
+    if final_round_b then 1 else 0,
+    r * num_cols * num_rows,
+    ss_exp*num_cols*num_rows*(r+1) + num_rows*num_cols*ss_exp*mc_r*mc_c,
+    listify(nmul_ss_gen_sm(r,num_cols,ss_exp,mixcolumns_matrix,
+      final_round_b, mc_trans)),
+    num_rows * r,
+    (if num_cols = 1 then 1 else num_rows) * ss_exp * r +
+      (num_cols-1) * num_rows*ss_exp*r,
+    ss_exp * r])$
+component_statistics_ss(r,num_cols,num_rows,ss_exp,final_round_b,mc_trans) :=
+  component_statistics_ss_gen(r,num_cols,num_rows,ss_exp,
+    ss_mixcolumns_matrix(2,ss_exp,num_rows),final_round_b,mc_trans)$
+    
+    
 
   
 /******************************************************************

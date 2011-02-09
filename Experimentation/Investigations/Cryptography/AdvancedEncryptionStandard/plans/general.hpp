@@ -30,23 +30,14 @@ License, or any later version. */
   \todo SAT 2011
   <ul>
    <li> We intend to submit a paper investigating the various translations of
-   the AES and small scale AES given in XXX to the SAT 2011 conference (see
+   the AES and small scale AES given in [Algebraic Aspects of the Advanced 
+   Encryption Standard;Cid,Murphy Robshaw] to the SAT 2011 conference (see
    http://www.lri.fr/SAT2011/). </li>
    <li> For investigations and open problems in this area see
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp .
    </li>
    <li> This should also link in with 
    Experimentation/Investigations/plans/CurrentExperiments.hpp . </li>
-  </ul>
-
-
-  \todo Replace "merge_cnf.sh" with "UnionDimacs"
-  <ul>
-   <li> All instances of the "merge_cnf.sh" script at
-   /home/csmg/Work/OKlibrary/OKplatform/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh
-   should be replaced with "UnionDimacs-O3-DNDEBUG" as
-   "UnionDimacs-O3-DNDEBUG" performs the same operation,
-   is correct and has tests. </li>
   </ul>
 
 
@@ -75,7 +66,6 @@ License, or any later version. */
   <ul>
   <li> The following scripts:
   <ul>
-   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh . </li>
    <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_oksolver . </li>
    <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/cardinality_bounded_cnf . </li>
    <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/extend_strict_dimacs_with_extended . </li>
@@ -90,5 +80,15 @@ License, or any later version. */
    <li> Add version numbers. </li>
   </ul>
   </li>
+
+
+  \todo DONE Replace "merge_cnf.sh" with "AppendDimacs"
+  <ul>
+   <li> All instances of the "merge_cnf.sh" script at
+   /home/csmg/Work/OKlibrary/OKplatform/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/merge_cnf.sh
+   should be replaced with "AppendDimacs-O3-DNDEBUG" as
+   "AppendDimacs-O3-DNDEBUG" performs the same operation,
+   is correct and has tests. </li>
+  </ul>
 
 */

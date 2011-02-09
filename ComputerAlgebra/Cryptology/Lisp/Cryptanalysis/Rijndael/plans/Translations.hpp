@@ -23,15 +23,13 @@ License, or any later version. */
   </ul>
 
 
-  \todo Add statistics for translations
+  \todo Rewrite ncl_list_ss correctly
   <ul>
-   <li> We need statistics functions for the various translations in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac. 
-   </li>
-   <li> We need at least the number of variables and clauses for each 
-   translation, and preferably the clause-length list. </li>
-   <li> DONE We also need statistics on the number of each box in each
-   translation. </li>
+   <li> Due to the large number of cases, ncl_list_ss is currently written
+   programmatically, using list functions to combine the results of various
+   other statistics functions. </li>
+   <li> Ideally this should be rewritten to enumerate all the cases and list
+   all of the formulas for the statistics in full. </li>
   </ul>
 
 
@@ -1142,6 +1140,19 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
     <li> Truncated AES </li>
     <li> Generalised AES </li>
    </ul>
+  </ul>
+
+
+  \todo DONE (see Translations.mac)
+  Add statistics for translations
+  <ul>
+   <li> We need statistics functions for the various translations in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac. 
+   </li>
+   <li> We need at least the number of variables and clauses for each 
+   translation, and preferably the clause-length list. </li>
+   <li> DONE We also need statistics on the number of each box in each
+   translation. </li>
   </ul>
 
 

@@ -34,6 +34,19 @@ License, or any later version. */
   </ul>
 
 
+  \todo Explanations
+  <ul>
+   <li> DONE For every such file, we need explanations what a "round" etc. is,
+   in elementary terms, using terms "addition, sub-bytes, shift-rows,
+   mix-columns, round-key". </li>
+   <li> In general, all discussions should be based on the general notions
+   as introduced in
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac.
+   </li>
+   <li> Also the file-name needs to be explained (in each file). </li>
+  </ul>
+
+
   \todo Fast generation of AES translations
   <ul>
    <li> At current, the AES translations are incredibly slow, mainly due to 

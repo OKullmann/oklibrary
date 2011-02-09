@@ -30,7 +30,7 @@ License, or any later version. */
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
    the following topics are handled:
     - Move AES box translations into separate file
-    - Add statistics for translations
+    - Add statistics for translations : DONE
     - Fix translation system : DONE
     - Parameterise inclusion of inverse operation in Mixcolumn translation : DONE
     - Standardise block ordering: DONE
@@ -67,6 +67,7 @@ License, or any later version. */
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the
    following topics are handled:
+    - Rewrite ncl_list_ss correctly
     - Remove AES-specific translation
     - Complete small scale helper functions
     - Remove hard-coding of multiplication by 01 in small scale MixColumn

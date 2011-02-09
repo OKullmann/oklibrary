@@ -29,8 +29,6 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/test
 
 okltest_aes_sbox_ts_gen(aes_sbox_ts_gen);
 okltest_aes_mul_ts_gen(aes_mul_ts_gen);
-okltest_nadd_ss_sm(nadd_ss_sm);
-okltest_nadd_ss(nadd_ss);
 
 /******************************************************************
  * Statistics                                                     *
@@ -39,8 +37,17 @@ okltest_nadd_ss(nadd_ss);
 
 okltest_nsbox_ss(nsbox_ss)$
 okltest_nmul_ss_gen(nmul_ss_gen)$
-okltest_nvar_ss(nvar_ss)$
-okltest_ncl_ss(ncl_ss)$
+okltest_nmul_ss(nmul_ss)$
+okltest_nadd_ss_sm(nadd_ss_sm);
+okltest_nadd_ss(nadd_ss);
+okltest_nconstants_ss(nconstants_ss);
+okltest_nvar_ss_gen(nvar_ss_gen);
+okltest_nvar_ss(nvar_ss);
+okltest_ncl_ss_gen(ncl_ss_gen);
+okltest_ncl_ss(ncl_ss);
+okltest_ncl_list_ss_gen(ncl_list_ss_gen);
+okltest_ncl_list_ss(ncl_list_ss);
+okltest_component_statistics_ss_gen(component_statistics_ss_gen);
 
 /******************************************************************
  * Data translation                                               *
