@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.4.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -180,7 +180,7 @@ nbfclud_p(FF) :=
 nbfcsfd_p(FF) := block(
  [e : errcatch(
    listp(FF) and is(length(FF)=3) and nbfcs_p(rest(FF,-1)) and
-   every_s(lambda([x], elementp(val_nbl(x), FF[3](var_nbl(x)))), lit_nbfcs(FF)))],
+   every_s(lambda([x], block([d: FF[3](var_nbl(x))], setp(d) and elementp(val_nbl(x),d))), lit_nbfcs(FF)))],
   not emptyp(e) and e[1])$
 
 /*
@@ -192,7 +192,7 @@ nbfcsfd_p(FF) := block(
 nbfclfd_p(FF) := block(
  [e : errcatch(
    listp(FF) and is(length(FF)=3) and nbfcl_p(rest(FF,-1)) and
-   every_s(lambda([x], elementp(val_nbl(x), FF[3](var_nbl(x)))), lit_nbfcl(FF)))],
+   every_s(lambda([x], block([d:FF[3](var_nbl(x))], setp(d) and elementp(val_nbl(x),d))), lit_nbfcl(FF)))],
   not emptyp(e) and e[1])$
 
 
