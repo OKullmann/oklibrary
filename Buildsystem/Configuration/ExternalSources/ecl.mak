@@ -76,8 +76,8 @@ libffi_installation_dir_okl ?= $(libffi_base_installation_dir_okl)/$(libffi_reco
 libffi_base_build_dir_okl ?= $(ecl_base_build_dir_okl)/Libffi
 libffi_build_dir_okl ?= $(libffi_base_build_dir_okl)/$(libffi_recommended_okl)
 
-libffi_link_path_okl ?= -Wl,-rpath,$(gmp_installation_dir_okl)/lib
-gmp_link_option_okl ?= -L $(libffi_install_directory_okl)/lib $(libffi_link_path_okl) -lffi
+libffi_link_path_okl ?= -Wl,-rpath,$(libffi_installation_dir_okl)/lib
+libffi_link_option_okl ?= -L $(libffi_install_directory_okl)/lib $(libffi_link_path_okl) -lffi
 
 libffi_source_library_okl ?= $(libffi_installation_dir_okl)/include
 libffi_include_option_okl ?= -I $(libffi_source_library_okl)
