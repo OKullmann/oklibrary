@@ -21,11 +21,11 @@ $(zlib_directories_32_okl) : % :
 # Main zlib targets
 # #################################
 
-.PHONY : zlib cleanzlib cleanallzlib zlib64 zlib32
+.PHONY : zlib cleanzlib cleanallzlib zlib zlib32
 
-zlib: zlib64 zlib32
+zlib: zlib zlib32
 
-zlib64 : $(zlib_directories_okl)
+zlib : $(zlib_directories_okl)
 	$(call unarchive,$(zlib_source_package_okl),$(zlib_base_build_dir_okl)) $(postcondition)
 	mv -fT $(zlib_extracted_package_okl) $(zlib_build_dir_okl); $(postcondition) \
 	cd $(zlib_build_dir_okl); $(postcondition) \
