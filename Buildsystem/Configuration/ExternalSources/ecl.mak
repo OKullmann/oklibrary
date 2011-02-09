@@ -62,3 +62,28 @@ rlwrap_homepage_url_okl := http://utopia.knoware.nl/~hlub/uck/rlwrap/
 rlwrap_recommended_okl := $(rlwrap_prefix_okl)-$(rlwrap_recommended_version_number_okl)
 rlwrap_source_okl := $(ExternalSources)/sources/Ecl/$(rlwrap_recommended_okl)
 
+# Tool: libffi
+
+libffi_recommended_version_number_okl ?= 3.0.9
+libffi_other_versions_okl ?= 
+
+libffi_prefix_okl ?= libffi
+
+libffi_recommended_okl := $(libffi_prefix_okl)-$(libffi_recommended_version_number_okl)
+
+libffi_base_installation_dir_okl ?= $(ExternalSources_installations)/Libffi
+libffi_installation_dir_okl ?= $(libffi_base_installation_dir_okl)/$(libffi_recommended_version_number_okl)
+libffi_base_build_dir_okl ?= $(ecl_base_build_dir_okl)/Libffi
+libffi_build_dir_okl ?= $(libffi_base_build_dir_okl)/$(libffi_recommended_okl)
+
+libffi_link_path_okl ?= -Wl,-rpath,$(gmp_installation_dir_okl)/lib
+gmp_link_option_okl ?= -L $(libffi_install_directory_okl)/lib $(libffi_link_path_okl) -lffi
+
+libffi_source_library_okl ?= $(libffi_installalation_dir_okl)/include
+libffi_include_option_okl ?= -I $(libffi_source_library_okl)
+
+
+libffi_homepage_url_okl := http://sourceware.org/libffi/
+
+libffi_source_okl := $(ExternalSources)/sources/Ecl/$(libffi_recommended_okl)
+
