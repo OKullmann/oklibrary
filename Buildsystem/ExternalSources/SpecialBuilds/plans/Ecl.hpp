@@ -49,6 +49,17 @@ if [ -f CROSS-COMPILER ]; then \
      \endverbatim
      </li>
      <li> libffi is available at http://sourceware.org/libffi/ . </li>
+     <li> Making a system-installation:
+     \verbatim
+builds> tar -xzf ../sources/Ecl/libffi-3.0.9.tar.gz
+builds> cd libffi-3.0.9/
+libffi-3.0.9> ./configure
+libffi-3.0.9> make
+libffi-3.0.9> make install
+     \endverbatim
+     </li>
+     <li> However this doesn't help since we build Ecl with the local gcc, and
+     thus we also need to build libffi with the local gcc. </li>
     </ol>
    </li>
    <li> Apparently Ecl can also be built by a C++ compiler --- shall we do so?
