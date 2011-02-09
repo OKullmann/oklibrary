@@ -18,6 +18,15 @@ License, or any later version. */
    basename(input_filename)_shg_stats. </li>
   </ul>
 
+  \bug Application tests don't work
+  <ul>
+   <li> We get
+   \verbatim
+ERROR[MatchFiles]: Pattern file "app_tests/test_cases/basic/QuineMcCluskeySubsumptionHypergraphFullStatistics/dimacs_output/AllClauses" is not readable.
+   \endverbatim
+   and so on. </li>
+  </ul>
+
 */
 
 #include <fstream>
