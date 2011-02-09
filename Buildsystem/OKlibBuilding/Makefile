@@ -766,7 +766,7 @@ $(maxima_testobject_files_okl) : $(OKsystem)/%.mac :
 	mkdir -p $$(dirname $${OKL_MAXIMA_TEST_OUTPUT}); $(postcondition)\
 	rm -f $${OKL_MAXIMA_TEST_OUTPUT}; $(postcondition)\
 	$(preprocessing_call) $(OKbuildsystem)/OKlibBuilding/Targets/new_check/maxima_init_tests.mac >> $(maxima_init_okl); $(postcondition)\
-	HOME=$(maxima_homedir_okl) $(maxima_call_okl) --batch-string="" --very-quiet; $(postcondition)\
+	HOME=$(maxima_homedir_okl) $(maxima_call_okl) --preload="$(maxima_preload_okl)" --batch-string="" --very-quiet; $(postcondition)\
 	if [[ -f $${OKL_MAXIMA_TEST_OUTPUT} ]]; then echo "ERROR: $${OKL_MAXIMA_TEST_OUTPUT}"; exit 1; fi
 
 # ----------------------------------------------------------
