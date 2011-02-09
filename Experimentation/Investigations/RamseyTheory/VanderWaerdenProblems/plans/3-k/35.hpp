@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,35)
 
 
-  \todo vanderwaerden_2(3,35) > 1202
+  \todo vanderwaerden_2(3,35) > 1204
   <ul>
    <li> The very weak current conjecture is vanderwaerden_2(3,35) = ???. </li>
    <li> Starting search with the best palindromic solution:
@@ -165,6 +165,21 @@ License, or any later version. */
 827,844,855,874,882,885,918,929,934,959,
 968,985,996,1005,1006,1008,1012,1030,1045,1049,
 1059,1066,1070,1077,1103,1116,1123,1151,1153,1182
+   \endverbatim
+   </li>
+   <li> n=1204 found satisfiable by adaptg2wsat (adapted from n=1203, there
+   run 425, osteps=4695882, cutoff=10^7) with certificate
+   \verbatim
+35,60,69,92,96,97,108,138,146,151,
+166,182,190,212,219,225,239,262,264,277,
+280,293,301,313,314,319,323,331,350,356,
+360,365,368,375,410,430,439,441,447,465,
+476,479,498,502,521,523,553,572,576,609,
+610,613,619,647,664,689,693,706,708,726,
+735,737,758,772,795,804,811,819,841,854,
+874,886,909,911,920,922,928,942,957,967,
+983,985,996,1004,1020,1034,1039,1053,1078,1091,
+1113,1137,1144,1145,1170
    \endverbatim
    </li>
   </ul>
