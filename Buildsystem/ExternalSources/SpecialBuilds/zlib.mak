@@ -9,25 +9,21 @@
 # Directory Structure
 # ################################## 
 
-zlib_directories_okl := $(zlib_base_installation_dir_okl) $(zlib_build_dir_okl) $(zlib_base_doc_dir_okl) $(zlib_doc_dir_okl)
-zlib_directories_32_okl := $(zlib_base_installation_dir_okl) $(zlib_build_dir_32_okl)
+zlib_directories_okl := $(zlib_base_installation_dir_okl) $(zlib_gccbuild_dir_okl)  $(zlib32_gccbuild_dir_okl)
 
 $(zlib_directories_okl) : % : 
-	mkdir -p $@
-$(zlib_directories_32_okl) : % :
 	mkdir -p $@
 
 # #################################
 # Main zlib targets
 # #################################
 
-.PHONY : zlib cleanzlib cleanallzlib zlib zlib32
+.PHONY : zlib zlib_core zlib32 cleanzlib cleanallzlib
 
-zlib: zlib zlib32
+zlib: zlib_core zlib32
 
-zlib : $(zlib_directories_okl)
-	$(call unarchive,$(zlib_source_package_okl),$(zlib_base_build_dir_okl)) $(postcondition)
-	mv -fT $(zlib_extracted_package_okl) $(zlib_build_dir_okl); $(postcondition) \
+zlib_core : $(zlib_directories_okl)
+	$(call unarchive,$(zlib_source_package_okl),$(zlib_gccbuild_dir_okl))
 	cd $(zlib_build_dir_okl); $(postcondition) \
 	CC=$(gcc_call_okl) ./configure --prefix $(zlib_installation_dir_okl); $(postcondition) \
 	make; $(postcondition) \
@@ -35,11 +31,10 @@ zlib : $(zlib_directories_okl)
 	make install; $(postcondition)
 
 ifneq ($(machine_bits_okl),32)
-zlib32 : $(zlib_directories_32_okl)
-	$(call unarchive,$(zlib_source_package_okl),$(zlib_base_build_dir_okl)) $(postcondition)
-	mv -fT $(zlib_extracted_package_okl) $(zlib_build_dir_32_okl); $(postcondition) \
-	cd $(zlib_build_dir_32_okl); $(postcondition) \
-	CC=$(gcc_call_okl) CFLAGS="-m32" ./configure --prefix $(zlib_installation_dir_32_okl); $(postcondition) \
+zlib32 : $(zlib_directories_okl)
+	$(call unarchive,$(zlib_source_package_okl),$(zlib32_gccbuild_dir_okl))
+	cd $(zlib32_build_dir_okl); $(postcondition) \
+	CC=$(gcc_call_okl) CFLAGS="-m32" ./configure --prefix $(zlib32_installation_dir_okl); $(postcondition) \
 	make; $(postcondition) \
 	make test; $(postcondition) \
 	make install; $(postcondition)
