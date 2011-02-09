@@ -25,7 +25,7 @@ ecl : libffi ecl_core rlwrap
 ecl_core : $(ecl_directories_okl)
 	$(call unarchive,$(ecl_source_okl),$(ecl_base_build_dir_okl))
 	cd $(ecl_build_dir_okl); $(postcondition) \
-	LDFLAGS="-Wl,-rpath=$(ecl_installation_dir_okl)/lib $(gmp_link_path_okl) $(libffi_link_path_okl)" ./configure --prefix=$(ecl_installation_dir_okl) --with-gmp-prefix=$(gmp_installation_dir_okl) CC=$(gcc_call_okl) CXX=$(gpp_call_okl) CPPFLAGS="$(libffi_include_option_okl)"; $(postcondition) \
+	LDFLAGS="-Wl,-rpath=$(ecl_installation_dir_okl)/lib $(gmp_link_path_okl) $(libffi_link_option_okl)" ./configure --prefix=$(ecl_installation_dir_okl) --with-gmp-prefix=$(gmp_installation_dir_okl) CC=$(gcc_call_okl) CXX=$(gpp_call_okl) CPPFLAGS="$(libffi_include_option_okl)"; $(postcondition) \
 	make; $(postcondition) \
 	make install; $(postcondition)
 
