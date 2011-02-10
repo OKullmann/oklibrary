@@ -40,16 +40,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Prepare benchmarks for SAT 2011
-  <ul>
-   <li> See "Benchmarks for SAT 2011" in
-   Experimentation/Investigations/plans/SATCompetition.hpp. </li>
-   <li> Other than the standard AES and small scale translations, the 
-   minimisation problems for the AES boxes (Sbox and field multiplications) 
-   should yield good benchmarks for weighted MaxSAT solvers. </li>
-  </ul>
-
-
   \todo Explain how to replace various AES boxes with identity or random
   boxes
   <ul>

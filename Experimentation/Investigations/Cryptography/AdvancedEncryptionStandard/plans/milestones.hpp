@@ -26,6 +26,11 @@ License, or any later version. */
     - Summary of previous experimental results
 
   \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Benchmarks.hpp the
+   following topics are handled:
+    - Prepare benchmarks for SAT 2011
+
+  \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/EncryptionDecryption.hpp the
    following topics are handled:
     - Update instructions
