@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.9.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -32,15 +32,34 @@ License, or any later version. */
   <ul>
    <li> See "Benchmarks for SAT 2011" in
    Experimentation/Investigations/plans/SATCompetition.hpp. </li>
-   <li> VanDerWaerden_pd_2-3-31_930.cnf is a hard satisfiable instance,
-   VanDerWaerden_2-3-31_931.cnf a hard unknown instance (see
-   RamseyTheory/VanderWaerdenProblems/plans/3-k/31.hpp). </li>
-   <li> For complete solvers very hard but solved unsatisfiable instances are
-   VanDerWaerden_pd_2-3-23_507.cnf and VanDerWaerden_pd_2-3-23_508.cnf
-   (see RamseyTheory/VanderWaerdenProblems/plans/3-k/23.hpp). </li>
-   <li> Harder but still solved unsatisfiable instances are
-   VanDerWaerden_pd_2-3-24_569.cnf and VanDerWaerden_pd_2-3-24_593.cnf
-   (see RamseyTheory/VanderWaerdenProblems/plans/3-k/24.hpp). </li>
+   <li> We should have two subclasses, related to vdw_2(3,k) and vdw_2^pd(3,k).
+   </li>
+   <li> Ordinary instances:
+    <ol>
+     <li> VanDerWaerden_pd_2-3-31_930.cnf is a hard satisfiable instance,
+     VanDerWaerden_2-3-31_931.cnf a hard unknown instance (see
+     RamseyTheory/VanderWaerdenProblems/plans/3-k/31.hpp). </li>
+    </ol>
+   </li>
+   <li> Palindromic instances:
+    <ol>
+     <li> For complete solvers hard but solved unsatisfiable instances are
+     VanDerWaerden_pd_2-3-23_507.cnf and VanDerWaerden_pd_2-3-23_508.cnf
+     (see RamseyTheory/VanderWaerdenProblems/plans/3-k/23.hpp). </li>
+     <li> Harder but still solved unsatisfiable instances are
+     VanDerWaerden_pd_2-3-24_569.cnf and VanDerWaerden_pd_2-3-24_593.cnf
+     (see RamseyTheory/VanderWaerdenProblems/plans/3-k/24.hpp). </li>
+     <li> The hardest but still solved unsatisfiable instances are
+     VanDerWaerden_pd_2-3-25_587.cnf and VanDerWaerden_pd_2-3-25_607.cnf
+     (see RamseyTheory/VanderWaerdenProblems/plans/3-k/24.hpp). </li>
+     <li> For k=24,25 we also need n=594 resp. n=608 (even harder unsatisfiable
+     instances). </li>
+     <li> For k=26 we should include the conjecturedly unsatisfiable
+     instances. </li>
+     <li> We also should include the relevant satisfiable instances. </li>
+     <li> And perhaps the two borderline sat-instances for k=39. </li>
+    </ol>
+   </li>
   </ul>
 
 
