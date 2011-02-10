@@ -18,6 +18,33 @@ License, or any later version. */
    - the representations for the various "boxes" of the AES
   - the reconfiguration of the computational network, to make the boolean
     analysis more powerful.
+
+
+  \todo Better organisation
+  <ul>
+   <li> The number of rounds is clearly sub-ordinated, and thus we should have
+   directories, where within we have files just for the various numbers of
+   rounds considered. </li>
+   <li> The directory names are then the names of the various investigations-
+   files (with the round-component of the name removed). </li>
+   <li> There should be no "aes" in the name, since it does not serve as
+   distinction. </li>
+   <li> The "f0" etc. are also to be removed from the name, since it is just
+   a variation on the (fractional) number of rounds (and thus to be placed
+   inside the directories). </li>
+   <li> No need for the letters "c" etc. </li>
+   <li> So for example "AES_r1_c4_rw4_e8_f1" becomes "1_4_8". </li>
+   <li> Should one tread "1_4_8" the same as "2_2_8", since it results in
+   the same overall sizes? </li>
+   <li> We always have the same number of bits for plain/cipher text and for
+   keys. Perhaps this number is most important? </li>
+   <li> So the directory name should perhaps be just one number, the number
+   of bits in the key (plain/cipher text)? </li>
+   <li> So currently we would have directories "4, 32, 64, 128" (for the
+   number of key-bits, which is the relevant aspect here). </li>
+   <li> Inside these directories we then have directories like "1_4_8" as
+   above. </li>
+  </ul>
   
 
   \todo Links
