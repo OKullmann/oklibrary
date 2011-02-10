@@ -18,7 +18,9 @@ License, or any later version. */
    basename(input_filename)_shg_stats. </li>
   </ul>
 
-  \bug Application tests don't work
+
+  \bug DONE (added missing template files)
+  Application tests don't work
   <ul>
    <li> We get
    \verbatim

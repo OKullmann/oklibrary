@@ -6,6 +6,9 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
+# set -o errexit # currently "find" creates an error due to non-existing directories, and also the match-program might fail
+set -o nounset
+
 list_programs="${bin_dir}/QuineMcCluskeySubsumptionHypergraphWithFullStatistics-n4*"
 
 
