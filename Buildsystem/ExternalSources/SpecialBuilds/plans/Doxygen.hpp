@@ -32,7 +32,7 @@ ldd doxytag
    \endverbatim
    whereas it should use the OKlibrary GCC libraries. </li>
    <li> We need to pass the LDFLAGS="$(gcc_linking_okl)" to
-   sat-grasp somehow, however, changing the configure line in
+   Doxygen somehow, however, changing the configure line in
    the Makefile to:
    \verbatim
          LDFLAGS="$(gcc_linking_okl)" sh ./configure --prefix $(doxygen_install_directory_okl); $(postcondition) \
