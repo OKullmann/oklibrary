@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding installation of the Common-Lisp Ecl
 
 
-  \todo Update to 11.1.1
+  \todo Update to 11.1.1 : DONE
   <ul>
    <li> Version 11.1.1.1 is an update by
    \verbatim
@@ -34,7 +34,8 @@ ASSERT: Expression " "0b" = "0B" " does not evaluate to true.
      <li> This is now the only test-failure. </li>
     </ol>
    </li>
-   <li> Should we provide a local installation of libffi? Apparently Ecl can
+   <li> DONE (now using a local installation of libffi)
+   Should we provide a local installation of libffi? Apparently Ecl can
    live without it --- is this important for us?
     <ol>
      <li> On cs-oksvr the build of 11.1.1.1 fails with
@@ -62,10 +63,12 @@ libffi-3.0.9> make install
      thus we also need to build libffi with the local gcc. </li>
     </ol>
    </li>
-   <li> Apparently Ecl can also be built by a C++ compiler --- shall we do so?
+   <li> DONE (likely not needed)
+   Apparently Ecl can also be built by a C++ compiler --- shall we do so?
    We already provide CC and CXX, so that hopefully suffices? </li>
    </li>
-   <li> Maxima test failure (5.21.1, but not 5.23.2):
+   <li> DONE (not relevant for the current configuration)
+   Maxima test failure (5.21.1, but not 5.23.2):
    \verbatim
 Running tests in rtest8: 
 ********************** Problem 101 ***************

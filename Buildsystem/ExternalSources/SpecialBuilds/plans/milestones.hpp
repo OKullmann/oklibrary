@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.3.2 (20.1.2011)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.3.3 (10.2.2011)
 
 
   \par Version 0.2.4 (updating especically Gcc and the existing SAT solvers)
@@ -114,7 +114,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
    topics are handled:
-    - Update to 11.1.1
+    - Update to 11.1.1 : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp
