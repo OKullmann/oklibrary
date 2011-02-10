@@ -1,18 +1,11 @@
 #!/bin/bash
+# Matthew Gwynne, 6.2.2011 (Swansea)
 # Copyright 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-# set -o errexit # Can't use as SAT solvers return non-zero.
-set -o nounset
-
-script_name="run_aes_experiment"
-err="ERROR[${script_name}]:"
-version="0.0.2"
-
-# BUG: misleading version number
 
 #
 # Goes through all combinations of AES translations and plaintext-ciphertext
@@ -66,6 +59,13 @@ version="0.0.2"
 #   the experiment directory. If there is, this file will be overwritten
 #   and then deleted.
 #
+
+# set -o errexit # Can't use as SAT solvers return non-zero.
+set -o nounset
+
+script_name="run_aes_experiment"
+err="ERROR[${script_name}]:"
+version="0.1.0"
 
 if [[ ! $# -eq 8 ]]; then
   echo -n "${err} Takes exactly eight arguments, the number of rounds, number ",

@@ -1,17 +1,10 @@
 #!/bin/bash
-# BUG: missing file-creation information
+# Matthew Gwynne, 3.2.2011 (Swansea)
 # Copyright 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
-
-set -o errexit
-set -o nounset
-
-script_name="generate_aes_experiment"
-err="ERROR[${script_name}]:"
-version="0.0.4"
 
 #
 # Generates AES CNF translations and plaintext-ciphertext variable assignments 
@@ -75,6 +68,13 @@ version="0.0.4"
 #   and ss_random_pc_pair yielding files with names in the format
 #   ss_r${r}_* and ssaes_pcpair_r${r}_*_s${k}.cnf.
 # 
+
+set -o errexit
+set -o nounset
+
+script_name="generate_aes_experiment"
+err="ERROR[${script_name}]:"
+version="0.1.2"
 
 if [[ ! $# -eq 8 ]]; then
   echo -n "${err} Takes exactly eight arguments, the number of rounds, number ",

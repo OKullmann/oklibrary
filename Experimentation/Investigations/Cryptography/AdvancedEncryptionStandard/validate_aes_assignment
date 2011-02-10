@@ -1,26 +1,20 @@
 #!/bin/bash
+# Matthew Gwynne, 22.1.2011 (Swansea)
 # Copyright 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-set -o errexit
-set -o nounset
-
-script_name="validate_aes_assignment"
-err="ERROR[${script_name}]:"
-version="0.1.4"
-
 #
 # Script to check that the satisfying assignment returned from a SAT solver for
-# the AES problem specified by the parameters given as arguments to this script, 
-# is a valid assignment. 
+# the AES problem, specified by the parameters given as arguments to this script, 
+# is a valid assignment.
 # 
 # In other words, the plaintext represented by the first num_columns * num_rows 
-# * exp bits, along with the key represented by the next set of bits, of the 
+# * exp bits, along with the key represented by the next set of bits of the 
 # same length, encrypts to the ciphertext given in the next set of bits 
-# (2*num_columns*num_rows*exp+1 - num_columns*num_rows*exp).
+# (2*num_columns*num_rows*exp+1 .. num_columns*num_rows*exp).
 #
 # See ss_validate in 
 # OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac .
@@ -44,6 +38,13 @@ version="0.1.4"
 #   Returns 0 if the partial assignment represents a valid AES/small scale
 #   encryption, or non-zero otherwise.
 # 
+
+set -o errexit
+set -o nounset
+
+script_name="validate_aes_assignment"
+err="ERROR[${script_name}]:"
+version="0.1.5"
 
 if [[ $# -ne 5 ]]; then
   echo -n "${err} Takes precisely 5 arguments, the number of rounds, "

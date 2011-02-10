@@ -1,16 +1,10 @@
 #!/bin/bash
+# Matthew Gwynne, 4.2.2011 (Swansea)
 # Copyright 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
-
-#set -o errexit # Interferes with operation of subshell, SAT solvers return non-zero
-set -o nounset
-
-script_name="run_all_solvers_2by2"
-err="ERROR[${script_name}]:"
-version="0.0.6"
 
 #
 # Takes the path to a Dimacs CNF file and runs all solvers in the OKlibrary,
@@ -25,6 +19,13 @@ version="0.0.6"
 #
 # The script exits when all solvers have finished.
 #
+
+#set -o errexit # Interferes with operation of subshell, SAT solvers return non-zero
+set -o nounset
+
+script_name="run_all_solvers_2by2"
+err="ERROR[${script_name}]:"
+version="0.1.0"
 
 if [[ ! $# -eq 1 ]]; then
   echo -n "${err} Takes precisely one argument, the name of the Dimacs "

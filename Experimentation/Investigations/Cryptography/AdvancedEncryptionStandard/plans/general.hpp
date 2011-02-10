@@ -77,7 +77,8 @@ License, or any later version. */
    <li> Error checking code. </li>
    <li> Merging with other scripts in other investigations into general tools.
    </li>
-   <li> Add version numbers. </li>
+   <li> Update documentation in comments. </li>
+   <li> Add version numbers. DONE </li>
   </ul>
   </li>
 

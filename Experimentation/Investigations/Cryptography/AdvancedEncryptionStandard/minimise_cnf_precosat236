@@ -1,4 +1,5 @@
 #!/bin/bash
+# Matthew Gwynne, 30.1.2011 (Swansea)
 # Copyright 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
@@ -22,7 +23,7 @@ set -o nounset
 
 script_name="minimise_cnf_precosat236"
 err="ERROR[${script_name}]:"
-version="0.0.5"
+version="0.1.1"
 
 # Programs
 shg_program=QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG

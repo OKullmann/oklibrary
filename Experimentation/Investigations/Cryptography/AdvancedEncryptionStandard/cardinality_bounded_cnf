@@ -1,4 +1,5 @@
 #!/bin/bash
+# Matthew Gwynne, 5.1.2011 (Swansea)
 # Copyright 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
@@ -8,9 +9,16 @@
 # Script which given a CNF file and a positive integer bound
 # as arguments, returns the CNF extended with cardinality
 # constraint bounding the number of variables set to true
-# in the any satisfying assignment for the result to the
+# in any satisfying assignment for the result CNF to the
 # bound given in the second argument.
 
+
+set -o errexit
+set -o nounset
+
+script_name="cardinality_bounded_cnf"
+err="ERROR[${script_name}]:"
+version="0.1.1"
 
 # Programs
 card_gen=LinInequal-O3-DNDEBUG

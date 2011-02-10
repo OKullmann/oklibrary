@@ -1,17 +1,31 @@
 #!/bin/bash
+# Matthew Gwynne, 5.1.2011 (Swansea)
 # Copyright 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-# Script which given a standard Dimacs file strict_file and  an extended 
-# Dimacs file extended_file where extended_file uses variables from strict_file
-# plus additional variables, returns a new Dimacs file on standard output
+# Script which given a standard Dimacs file strict_file and an extended 
+# Dimacs file extended_file returns a new Dimacs file on standard output
 # containing all the clauses from strict_file, followed by standardised
-# (i.e., non-integer variables replaced by integer variables) clauses from 
+# (i.e., non-integer variables replaced by new integer variables) clauses from 
 # extended_file where the variables from strict_file appearing in 
-# extended_file maintain their value.
+# extended_file maintain their value and extended_file uses variables from 
+# strict_file plus additional variables.
+#
+# The i-th variable in the repetition-free list of variables in extended_file
+# (in order of occurrence and excluding variables in strict_file) is given 
+# variable index n+i where n is the maximal variable index of strict_file given
+# on the p-line.
+
+
+set -o errexit
+set -o nounset
+
+script_name="extend_strict_dimacs_with_extended"
+err="ERROR[${script_name}]:"
+version="0.1.1"
 
 strict_file=$1
 extended_file=$2
