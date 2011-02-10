@@ -10,6 +10,15 @@ License, or any later version. */
   \brief Investigations into AES key discovery for one round AES without MixColumns
 
 
+  \todo Show and explain sizes of minimum-translations
+  <ul>
+   <li> To show the "minimum-size" translation, its sizes need to be discussed
+   everywhere. </li>
+   <li> This must include explanations of the numbers of different boxes and
+   their contributions to the overall size (explained, in each case). </li>
+  </ul>
+
+
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
