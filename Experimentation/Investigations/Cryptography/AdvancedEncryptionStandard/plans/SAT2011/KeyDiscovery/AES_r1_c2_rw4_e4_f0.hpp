@@ -10,6 +10,22 @@ License, or any later version. */
   \brief Investigations into small scale AES key discovery for one round AES with a 2x4 block and 4-bit field elements, including MixColumns
 
 
+  \todo Improve explanations of what a round is
+  <ul>
+   <li> Round always contain MixColumns. </li>
+   <li> So this shouldn't be mentioned. </li>
+   <li> Only the special cases *without* MixColumns need to be mentioned. </li>
+   <li> A full round has always key-addition, SubBytes and MixColumns. </li>
+   <li> We need nice notions when either key-addition or key-addition and
+   SubBytes are added. </li>
+   <li> Perhaps 1/3 rounds or 2/3 rounds. </li>
+   <li> So we would speak, e.g., of 1+2/3 or 4+1/3 rounds. </li>
+   <li> The last round could be notated by "2/3+1/3". </li>
+   <li> AES then had 9+2/3+1/3 rounds (MixColumns replaced by key-addition).
+   </li>
+  </ul>
+
+
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
