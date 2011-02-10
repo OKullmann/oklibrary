@@ -17,6 +17,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Explain sizes
+  <ul>
+   <li> Here and everywhere else we need precise explanations why we have so
+   and so many variables and clauses. </li>
+  </ul>
+
+
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
