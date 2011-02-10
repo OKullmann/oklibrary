@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Investigations into simplest small scale AES key discovery for ten rounds AES with MixColumns
 
 
+  \todo Update description
+  <ul>
+   <li> Now the key-addition happens at the beginning of each round. </li>
+   <li> This update must be performed here and everywhere else. </li>
+  </ul>
+
+
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
