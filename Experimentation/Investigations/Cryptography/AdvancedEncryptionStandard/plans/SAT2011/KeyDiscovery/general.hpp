@@ -34,7 +34,7 @@ License, or any later version. */
    inside the directories). </li>
    <li> No need for the letters "c" etc. </li>
    <li> So for example "AES_r1_c4_rw4_e8_f1" becomes "1_4_8". </li>
-   <li> Should one tread "1_4_8" the same as "2_2_8", since it results in
+   <li> Should one treat "1_4_8" the same as "2_2_8", since it results in
    the same overall sizes? </li>
    <li> We always have the same number of bits for plain/cipher text and for
    keys. Perhaps this number is most important? </li>
