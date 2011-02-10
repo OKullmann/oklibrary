@@ -32,14 +32,14 @@ minisat-new : $(minisat_directories_okl)
 	cd $(minisat_build_dir_okl); $(postcondition) \
 	export MROOT=$(minisat_build_dir_okl); $(postcondition) \
 	cd simp; $(postcondition) \
-	make rs CXX=$(gpp_call_okl) LFLAGS="$(zlib_link_option_okl) -lz"; $(postcondition) \
+	make rs CXX=$(gpp_call_okl) LFLAGS="$(gcc_linking_okl) $(zlib_link_option_okl) -lz"; $(postcondition) \
 	cp minisat_static $(minisat_call_okl); $(postcondition) \
 	ln -s --force $(minisat_call_okl) $(public_bin_dir_okl)/$(minisat_public_call_okl); $(postcondition)
 
 minisat2 : $(minisat2_directories_okl)
 	$(call unarchive,$(minisat2_source_okl),$(minisat_base_build_dir_okl)) $(postcondition) \
 	cd $(minisat2_build_dir_okl)/simp; $(postcondition) \
-	make rs CFLAGS='-I$$(MTL) -I$$(CORE) -Wall -ffloat-store'" -I$(zlib_source_library_okl)" LFLAGS="$(zlib_link_option_okl) -lz" CXX=$(gpp_call_okl); $(postcondition) \
+	make rs CFLAGS='-I$$(MTL) -I$$(CORE) -Wall -ffloat-store'" -I$(zlib_source_library_okl)" LFLAGS="$(gcc_linking_okl) $(zlib_link_option_okl) -lz" CXX=$(gpp_call_okl); $(postcondition) \
 	cp minisat_static $(minisat2_installation_dir_okl); $(postcondition) \
 	ln -s --force $(minisat2_call_okl) $(public_bin_dir_okl)/minisat2; $(postcondition)
 
@@ -49,7 +49,7 @@ minisatp : $(minisatp_directories_okl)
 	cp $(minisatp_corrected_okl) $(minisatp_build_dir_okl)/ADTs; $(postcondition) \
 	cd $(minisatp_build_dir_okl); $(postcondition) \
 	make GMP_INCLUDE_OPTION="${gmp_include_option_okl}" GMP_LINK_OPTION="${gmp_link_option_okl}" rx ZLIB_INCLUDE_OPTION="-I$(zlib_source_library_okl)" LFLAGS="$(zlib_link_option_okl)" CXX=$(gpp_call_okl); $(postcondition) \
-	make GMP_INCLUDE_OPTION="${gmp_include_option_okl}" GMP_LINK_OPTION="${gmp_link_option_okl}" rs ZLIB_INCLUDE_OPTION="-I$(zlib_source_library_okl)" LFLAGS="$(zlib_link_option_okl)" CXX=$(gpp_call_okl); $(postcondition) \
+	make GMP_INCLUDE_OPTION="${gmp_include_option_okl}" GMP_LINK_OPTION="${gmp_link_option_okl}" rs ZLIB_INCLUDE_OPTION="-I$(zlib_source_library_okl)" LFLAGS="$(gcc_linking_okl) $(zlib_link_option_okl)" CXX=$(gpp_call_okl); $(postcondition) \
 	cp minisat+_64-bit_static minisat+_bignum_static $(minisatp_installation_dir_okl); $(postcondition) \
 	ln -s --force $(minisatp_call_okl) $(public_bin_dir_okl)/minisat+; $(postcondition) \
 	ln -s --force $(minisatpb_call_okl) $(public_bin_dir_okl)/minisat+b; $(postcondition)

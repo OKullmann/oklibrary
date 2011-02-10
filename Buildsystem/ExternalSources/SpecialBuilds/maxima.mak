@@ -1,5 +1,5 @@
 # Oliver Kullmann, 24.12.2007 (Swansea)
-# Copyright 2007, 2008, 2009 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -79,7 +79,7 @@ $(gnuplot_directories_okl) : % :
 gnuplot : $(gnuplot_directories_okl) $(maxima_base_doc_dir_okl)
 	$(call unarchive,$(gnuplot_source_okl),$(gnuplot_base_build_dir_okl))
 	cd $(gnuplot_build_dir_okl); $(postcondition) \
-	./configure --prefix=$(gnuplot_installation_dir_okl); $(postcondition) \
+	LDFLAGS="$(gcc_linking_okl)" ./configure --prefix=$(gnuplot_installation_dir_okl); $(postcondition) \
 	make; $(postcondition) \
 	make install; $(postcondition)
 	ln -s --force $(gnuplot_call_okl) $(public_bin_dir_okl)/gnuplot

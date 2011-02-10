@@ -71,6 +71,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
    topics are handled:
+    - Grasp uses system C++ libraries
     - Improvements of CryptoMiniSat
     - Glucose
     - Add todos for SAT-Race 2010 SAT solvers
@@ -109,6 +110,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Doxygen.hpp the following
    topics are handled:
+    - Doxygen uses system C++ libraries
     - Install version 1.7.2
 
   \par

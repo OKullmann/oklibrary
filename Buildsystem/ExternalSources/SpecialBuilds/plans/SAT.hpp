@@ -10,6 +10,30 @@ License, or any later version. */
   \brief Plans regarding building of SAT solvers and libraries
 
 
+  \bug Grasp uses system C++ libraries
+  <ul>
+   <li> sat-grasp uses the system C++ libraries (libstdc++):
+   \verbatim
+bin> ldd sat-grasp 
+        linux-vdso.so.1 =>  (0x00007fffaf9d6000)
+        libstdc++.so.6 => /usr/lib/libstdc++.so.6 (0x00007f56e7a76000)
+        libm.so.6 => /lib/libm.so.6 (0x00007f56e77f3000)
+        libgcc_s.so.1 => /lib/libgcc_s.so.1 (0x00007f56e75dc000)
+        libc.so.6 => /lib/libc.so.6 (0x00007f56e7259000)
+        /lib64/ld-linux-x86-64.so.2 (0x00007f56e7d9f000)
+   \endverbatim
+   whereas it should use the OKlibrary GCC libraries. </li>
+   <li> We need to pass the LDFLAGS="$(gcc412_linking_okl)" to
+   sat-grasp somehow, however, changing the make line in
+   the Makefile to:
+   \verbatim
+   make CC=$(gcc412_call_okl) CXX=$(gpp412_call_okl) LDFLAGS="$(gcc412_linking_okl)" all; $(postcondition) \
+   \endverbatim
+   has no effect.
+   </li>
+  </ul>
+
+
   \todo Improvements of CryptoMiniSat
   <ul>
    <li> Learned clauses:
