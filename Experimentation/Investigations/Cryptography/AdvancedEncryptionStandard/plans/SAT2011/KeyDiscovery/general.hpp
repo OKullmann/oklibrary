@@ -15,11 +15,9 @@ License, or any later version. */
   "break" AES by discovering the key given a plaintext and ciphertext pair.
 
   The key aspects of the investigation are
-   - the representations for the various "boxes" of the AES (see 
-  ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac)
+   - the representations for the various "boxes" of the AES
   - the reconfiguration of the computational network, to make the boolean
-  analysis more powerful (see
-  ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac).
+    analysis more powerful.
   
 
   \todo Links
