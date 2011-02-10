@@ -14,10 +14,11 @@ License, or any later version. */
   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac, to 
   "break" AES by discovering the key given a plaintext and ciphertext pair.
 
-  The key aspects of the investigation are the representations for the 
-  byte-function components of the AES (see 
+  The key aspects of the investigation are
+   - the representations for the various "boxes" of the AES (see 
   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac)
-  and the translations of AES using these component translations into CNF (see
+  - the reconfiguration of the computational network, to make the boolean
+  analysis more powerful (see
   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac).
   
 
