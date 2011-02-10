@@ -13,7 +13,8 @@ Use by
 
 oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateRewriteSystem.mac");
 
-  \bug Tests not executed
+  \bug DONE (corrected typo)
+  Tests not executed
   <ul>
    <li> We get
    \verbatim
@@ -53,7 +54,7 @@ okltest_cstt_namespace_new(f) := block(
     nounify(f1)(nounify(f2)(0,[1,[],nounify(f1)]))),
   true)$
 
-okltest_cstt_replace_namespace(f) := block(
+okltest_cstt_namespace_replace(f) := block(
   assert(f([1,2,'m],'n)  = [1,2,'n]),
   true)$
 

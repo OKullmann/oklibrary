@@ -21,6 +21,11 @@ License, or any later version. */
     - Test failure : DONE
     - Test failure at level "full" : DONE
 
+  \par 
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateRewriteSystem.mac
+   the following topics are handled:
+     - Tests not executed : DONE
+
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/tests/Translations.mac
    the following topics are handled:
