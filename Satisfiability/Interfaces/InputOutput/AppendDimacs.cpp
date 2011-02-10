@@ -21,13 +21,6 @@ License, or any later version. */
   </ul>
 
 
-  \bug False error message
-  <ul>
-   <li> "Failure opening file  << argv[i+1]" seems false (and will lead
-   to undefined behaviour). </li>
-  </ul>
-
-
   <ul>
    <li> Takes an arbitrary number of Dimacs file paths as arguments and
    outputs on standard output a Dimacs file containing the clauses from all
@@ -52,6 +45,14 @@ License, or any later version. */
    filter, but a very specific one. </li>
    <li> On the other hand, a general filter which takes a predicate, similar
    to functions like std::remove_if etc might in fact be better. </li>
+  </ul>
+
+
+  \bug DONE (corrected)
+  False error message
+  <ul>
+   <li> "Failure opening file  << argv[i+1]" seems false (and will lead
+   to undefined behaviour). </li>
   </ul>
 
 */
@@ -139,7 +140,7 @@ int main(const int argc, const char* const argv[]) {
   for (int i = 1; i < argc; ++i) {
     std::ifstream f_in(argv[i]);
     if (not f_in) {
-      std::cerr << err << "Failure opening file " << argv[i+1] << ".\n";
+      std::cerr << err << "Failure opening file " << argv[i] << ".\n";
       return error_openfile;
     }
     OKlib::InputOutput::StandardDIMACSInput<CLSAdaptorAppend>(f_in, 

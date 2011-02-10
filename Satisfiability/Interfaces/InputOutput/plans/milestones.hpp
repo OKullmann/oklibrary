@@ -14,6 +14,11 @@ License, or any later version. */
   \par Version 0.1.1 :
 
   \par
+   In Interfaces/InputOutput/AppendDimacs.cpp the following topics are 
+   handled:
+    - False error message : DONE
+
+  \par
    In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
    are handled:
     - Need "ReverseDimacs" application and clause-set adaptor
