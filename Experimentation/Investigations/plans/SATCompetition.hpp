@@ -49,7 +49,7 @@ License, or any later version. */
      </li>
      <li> <em>Crafted</em> where instances designed to be hard for SAT solvers,
      representing difficult puzzles, mathematical problems etc are required. 
-     One must specify whether these instances are SAT or UNSAT). </li>
+     One should specify whether these instances are SAT or UNSAT. </li>
     </ul>
    </li>
    <li> PseudoBoolean competition:
@@ -94,7 +94,7 @@ License, or any later version. */
      a standard Dimacs CNF and the solver tries to find an assignment
      which minimises the number of falsified clauses. </li>
      <li> <em>Partial MaxSAT</em> where the benchmark is a standard
-     CNF file augmented with "hard" and "soft" weights which are 
+     CNF file augmented with "hard" and "soft" indicators which are 
      added as prefixes to each clause, such that the solver must
      find an assignment which minimises the number of falsified
      clauses but satisifies all "hard" clauses. </li>
@@ -133,8 +133,8 @@ License, or any later version. */
    <li> For each class of instances, we need a README and PDF document
    explaining:
    <ol>
-    <li> how they were generated. </li>
-    <li> their significance. </li>
+    <li> how they were generated </li>
+    <li> their significance </li>
     <li> calculations for the various statistics for the clause-sets. </li>
    </ol>
    </li>
