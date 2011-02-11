@@ -10,6 +10,14 @@ License, or any later version. */
   \brief Investigating boolean functions representing linear permutations of {0,1}^n
 
 
+  \todo Connections
+  <ul>
+   <li> See
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations
+   for several interesting examples in the context of AES. </li>
+  </ul>
+
+
   \todo Affine bijections over ZZ_2
   <ul>
    <li> We need to find out all about the representations of boolean functions
