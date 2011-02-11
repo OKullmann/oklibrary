@@ -18,12 +18,21 @@ License, or any later version. */
    <li> Simplest are translations x -> a+x by vector a:
     <ol>
      <li> Here we have independent parallel composition, and so we just have
-     the appropriate combinations of the above representations of identity
-     and negation (bitwise). </li>
+     the appropriate combinations of the representations of identity
+     and negation (bitwise) as in "Prime implicates of simple permutations" in
+     Experimentation/Investigations/BooleanFunctions/plans/general.hpp. </li>
     </ol>
    </li>
-   <li> More complicated are linear bijections x -> M*x for invertible matrices
+   <li> So the set of prime implicants of affine bijections over ZZ_2 is
+   isomorphic to the set of prime implicants of the underlying linear
+   bijection, and we only need to be concerned about them. </li>
+   <li> That is, we consider linear bijections x -> M*x for invertible matrices
    M. </li>
+  </ul>
+
+
+  \todo Linear bijections over ZZ_2
+  <ul>
    <li> Considering the complement of the diagonal matrix:
     <ol>
      <li> Just a natural example, to start the investigations.
