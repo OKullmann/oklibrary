@@ -265,6 +265,7 @@ EXPLANATIONS ARE NEEDED
    </li>
    <li> Another is to consider examples like above the complement of the
    diagonal matrix. </li>
+   <li> What can Groeber bases do in this context? </li>
   </ul>
 
 */
