@@ -181,6 +181,8 @@ LTrans_8.cnf
    <li> Random experiments for arbitrary invertible maps of size 8 for seed=1 
    to 2712 (so far, ongoing on cscarme):
    \verbatim
+UPDATE NEEDED
+
 shell> ../OKlib/Experimentation/Investigations/BooleanFunctions/analyse_random_linear_maps 8 1
    \endverbatim
    and then:
