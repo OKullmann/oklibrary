@@ -31,12 +31,10 @@ License, or any later version. */
   </ul>
 
 
-  \todo Linear bijections over ZZ_2
+  \todo The complement of the diagonal matrix
   <ul>
-   <li> Considering the complement of the diagonal matrix:
-    <ol>
-     <li> Just a natural example, to start the investigations.
-     \verbatim
+   <li> Just a natural example, to start the investigations.
+   \verbatim
 diagz(n) := zeromatrix(n,n)+1 - ident(n);
 for n : 1 thru 20 do print(n,newdet(diagz(n)));
 1 0 
@@ -59,12 +57,12 @@ for n : 1 thru 20 do print(n,newdet(diagz(n)));
 18 -17 
 19 18 
 20 -19 
-     \endverbatim
-     </li>
-     <li> So (over RR) det(diagz(n)) = (-1)^(n-1) * (n-1), and thus over ZZ_2
-     we have that diagz(n) is invertible iff n is even. </li>
-     <li> Experiment:
-     \verbatim
+   \endverbatim
+   </li>
+   <li> So (over RR) det(diagz(n)) = (-1)^(n-1) * (n-1), and thus over ZZ_2
+   we have that diagz(n) is invertible iff n is even. </li>
+   <li> Experiment:
+   \verbatim
 > mkdir ExpLTrans
 > cd ExpLTrans
 
@@ -172,21 +170,24 @@ LTrans_8.cnf
 79 28672
 80 17920
 128 256
-     \endverbatim
-     </li>
-     <li> These counts look pretty regular, and one should be able to determine
-     the laws. </li>
-     <li> For n=8 some prime-clauses of length 4 are
-     \verbatim
+   \endverbatim
+   </li>
+   <li> These counts look pretty regular, and one should be able to determine
+   the laws. </li>
+   <li> For n=8 some prime-clauses of length 4 are
+   \verbatim
 -10 -9 -2 1 0
 -10 -9 -1 2 0
 -10 -2 -1 9 0
 -10 1 2 9 0
      \endverbatim
-     This partially expresses that (M*x)_1 - (M*x)_2 = x_1 + x_2. </li>
-     </li>
-    </ol>
+   This partially expresses that (M*x)_1 - (M*x)_2 = x_1 + x_2. </li>
    </li>
+  </ul>
+
+
+  \todo Random sampling
+  <ul>
    <li> Random experiments for arbitrary invertible maps of size 8 for seed=1 
    to 2712 (so far, ongoing on cscarme):
    \verbatim
