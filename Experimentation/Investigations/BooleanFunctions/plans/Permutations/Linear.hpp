@@ -230,4 +230,33 @@ EXPLANATIONS ARE NEEDED
    <li> Why do we not see any clauses of size 10? </li>
   </ul>
 
+
+  \todo Mathematical investigations
+  <ul>
+   <li> Can something be proven about the prime implicants of linear
+   permutations? Is something in the literature? </li>
+   <li> Are there better algorithms for computing r_k-bases (at least for
+   special k)? </li>
+   <li> In terms of linear algebra a prime implicant can be described as
+   follows:
+    <ol>
+     <li> Consider an n-dimensional vectorspace V over ZZ_2, together with a
+     basis B (a set of vector). </li>
+     <li> Consider an automorphism f of V. </li>
+     <li> The task is now to determine "minimal inconsistent subspaces", given
+     by a pair (C,D) of subsets of B, such that the intersection of the affine
+     subspaces f(sum(C)+hull(B-C)) and sum(D)+hull(B-D) is empty, and
+     such that both C and D are minimal w.r.t. this property; here sum(X) is
+     the sum over the elements of X, so that sum(X)+hull(B-X) is an n-|X|
+     dimensional subspace (for a subset X of B). </li>
+     <li> For more general fields instead of mere summation one had to consider
+     linear combinations. </li>
+    </ol>
+   </li>
+   <li> One route of attack is to consider in detail (very) low dimensions.
+   </li>
+   <li> Another is to consider examples like above the complement of the
+   diagonal matrix. </li>
+  </ul>
+
 */
