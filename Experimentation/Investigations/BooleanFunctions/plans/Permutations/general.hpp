@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp
+  \file Experimentation/Investigations/BooleanFunctions/plans/general.hpp
   \brief Investigating boolean functions representing permutations of {0,1}^n
 
 
