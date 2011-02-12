@@ -929,7 +929,7 @@ export
 # old test system.
 # ----------------------------------------------------------
 $(programs) : $(bin_dir)/% : $(lib_dir)/%.o | $(bin_dir)
-	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(General_options) $< $(alternative_library_path) $(get-options) $(get-link_libraries)
+	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(General_options) $< $(alternative_library_path) $(get-options) $(get-link_libraries) $(LDFLAGS)
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -940,7 +940,7 @@ $(programs) : $(bin_dir)/% : $(lib_dir)/%.o | $(bin_dir)
 # old test system.
 # ----------------------------------------------------------
 $(programs_optimised) : $(bin_dir)/%$(name_addition) : $(lib_dir)/%$(name_addition).o | $(bin_dir)
-	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $< $(alternative_library_path) $(get-options_optimised) $(get-link_libraries_optimised)
+	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $< $(alternative_library_path) $(get-options_optimised) $(get-link_libraries_optimised) $(LDFLAGS)
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
