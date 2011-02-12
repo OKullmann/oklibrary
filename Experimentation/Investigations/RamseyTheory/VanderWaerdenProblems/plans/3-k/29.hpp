@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On investigations into vdw_2(3,29)
 
 
-  \todo vanderwaerden_2(3,29) > 867
+  \todo vanderwaerden_2(3,29) >= 868
   <ul>
    <li> The (weak) conjecture is vanderwaerden_2(3,29) = 868. </li>
    <li> Search starting with n=620:
@@ -116,7 +116,7 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
   \todo Palindromic numbers
   <ul>
    <li> 820 < vanderwaerden_g([3,29],"pd") =(conj) 821 =(conj)
-   vanderwaerden([3,29]) - 46. </li>
+   vanderwaerden([3,29]) - 47. </li>
    <li> vanderwaerden_g([3,29],"pdsat") =(conj) 810. </li>
    <li> "RunPdVdW3k 29 gsat-tabu 100 10000000" yields
    \verbatim
