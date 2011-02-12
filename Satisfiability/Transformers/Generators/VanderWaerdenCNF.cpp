@@ -22,6 +22,10 @@ License, or any later version. */
      <li> Otherwise the output is put into a file named S. </li>
     </ol>
    </li>
+   <li> For the Maxima specification see
+   output_vanderwaerden2nd_stdname(k1,k2,n) in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/VanderWaerdenProblems.mac.
+   </li>
   </ul>
 
   \todo Update needed
