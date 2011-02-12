@@ -1,0 +1,95 @@
+/* Oliver Kullmann, 12.2.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/PdNumbers.mac
+  \brief Handling of palindromic van der Waerden numbers
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/PdNumbers.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac");
+
+/* ***************************************
+   * Palindromic van der Waerden numbers *
+   ***************************************
+*/
+
+/* The main function, which handles all parameter-values (gathering all
+   knowledge from all our sources). */
+/* Prerequisites: L ascendingly sorted list of natural numbers >= 1 */
+pdvanderwaerden(L) := if emptyp(L) then 1
+ elseif first(L) = 1 then pdvanderwaerden(rest(L))
+ elseif pdvanderwaerdend_a(L)#[] then apply(pdvanderwaerdend,pdvanderwaerdend_a(L))
+ elseif pdvanderwaerden3k_a(L)#[] then apply(pdvanderwaerden3k,pdvanderwaerden3k_a(L))
+ else unknown$
+
+/* Checking whether L is a valid input: */
+pdvanderwaerden_p(L) := vanderwaerden_p(L)$
+
+
+/* ****************
+   * Binary cases *
+   ****************
+*/
+
+pdvanderwaerden3k(k) := 
+ if k <= 39 then [
+  [2,3],[3,6],[6,9],[15,16],[16,21],[30,31],[41,44],[52,57],[62,77],[93,94],
+  [110,113],[126,135],[142,155],[174,183],[200,205],[232,237],[256,279],[299,312],[338,347],[380,389],
+  [400,405],[444,463],[506,507],[568,593],[586,607],[[634,inf-1],[643,inf-1]],[[664,inf-1],[699,inf-1]],[[728,inf-1],[743,inf-1]],[[810,inf-1],[821,inf-1]],[[844,inf-1],[855,inf-1]],
+  [[916,inf-1],[931,inf-1]],[[958,inf-1],[963,inf-1]],[[1002,inf-1],[1003,inf-1]],[[1046,inf-1],[1079,inf-1]],[[1102,inf-1],[1143,inf-1]],[[1158,inf-1],[1175,inf-1]],[[1264,inf-1],[1295,inf-1]],[[1336,inf-1],[1369,inf-1]],[[1406,inf-1],[1411,inf-1]]
+ ][k]
+ else unknown$
+pdvanderwaerden3k_a(L) := vanderwaerden3k_a(L)$
+
+
+/* *********************
+   * The diagonal case *
+   *********************
+*/
+
+/* The "diagonal case", i.e., m parts, arithmetic progressions of length k: */
+pdvanderwaerdend(m,k) := if m=0 then [0,1]
+ elseif m=1 then [k-1,k]
+ elseif k=1 then [0,1]
+ elseif k=2 then [1,2]
+ elseif m=2 then pdvanderwaerdend2(k)
+ else unknown$
+/* pdvanderwaerdend(m,k) = pdvanderwaerden(create_list(k,i,1,m)) */
+pdvanderwaerdend_a(L) := vanderwaerdend_a(L)$
+
+/* The diagonal cases with two parts: */
+pdvanderwaerdend2(k) :=
+ if k <= 3 then [
+  [0,1],[1,2],[6,9]
+ ][k]
+ else unknown$
+pdvanderwaerdend2_a(L) := vanderwaerdend2_a(L)$
+
+
+/* ****************************
+   * Palindromic span and gap *
+   ****************************
+*/
+
+pd_span(L) := block([p : pdvanderwaerden(L)], 
+ if p=unknown then unknown else p[2] - p[1])$
+pd_gap(L) := block([v : vanderwaerden(L), p : pdvanderwaerden(L)],
+ if v=unknown and p=unknown then unknown else v - p[2])$
+
+
+/*!
+\endhtmlonly
+*/
