@@ -371,7 +371,7 @@ satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0
    <li> minisat-2.2.0:
     <ol>
      <li> k=12, n=134: 153s (3605914 conflicts; csltok) </li>
-     <li> k=12, n=135: 266s (5963349 conflicts; csltok) </li>
+     <li> k=12, n=135: 266s (5963349 conflicts; csltok (higher load)) </li>
      <li> k=13, n=159: 33s (701558 conflicts; csltok) </li>
      <li> k=13, n=160: 4871s (63901998 conflicts; csltok) </li>
     </ol>
@@ -394,8 +394,16 @@ satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0
      <li> k=12, n=135: 526s (2425722 conflicts; csltok) </li>
     </ol>
    </li>
-   <li> minisat-2.2.0 seems best (one should also add the unit-clause for
-   odd n). </li>
+   <li> glucose:
+    <ol>
+     <li> k=12, n=134: 39s (425399 conflicts; csltok) </li>
+     <li> k=12, n=135: 191s (1356325 conflicts; csltok) </li>
+     <li> k=13, n=159: 139s (957255 conflicts; csltok) </li>
+     <li> k=13, n=160: 3274s (9907932 conflicts; csltok) </li>
+    </ol>
+   </li>
+   <li> minisat-2.2.0 and glucose seem best (for the conflict-driven solvers,
+   while satz215 seems best overall). </li>
   </ul>
 
 
