@@ -18,7 +18,7 @@ License, or any later version. */
     <ol>
      <li>
      \verbatim
-> VanderWaerdenCNF-O3-DNDEBUG 3 38 1376 > VanDerWaerden_2-3-38_1376.cnf
+> VanderWaerdenCNF-O3-DNDEBUG 3 38 1376
 
 > valgrind ExternalSources/Installations/SAT/Ubcsat/1-2-0-beta/bin/ubcsat-1-2-0-beta -alg saps -i VanDerWaerden_2-3-38_1376.cnf
 ...
@@ -57,7 +57,7 @@ License, or any later version. */
     <ol>
      <li> Version 1-2-0 is slower than our version 1-0-0:
      \verbatim
-> VanderWaerdenCNF-O3-DNDEBUG 3 36 1256 > VanDerWaerden_2-3-36_1256.cnf
+> VanderWaerdenCNF-O3-DNDEBUG 3 36 1256
 
 > ubcsat-okl -alg rots -runs 10 -i VanDerWaerden_2-3-36_1256.cnf
 ...

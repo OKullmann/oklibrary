@@ -27,7 +27,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunVdW3k"
-version_number="0.3.7"
+version_number="0.3.8"
 
 if [[ $# != 5 && $# != 6 ]]; then
   echo "ERROR[${script_name}]: Five parameters k, n0, alg, runs, cutoff
@@ -78,7 +78,7 @@ for ((n=n0; 1; ++n)); do
 
   SATinstance="VanDerWaerden_2-3-${k}_${n}.cnf"
   # Creating the Dimacs-file:
-  ${generator} 3 ${k} ${n} > ${SATinstance}
+  ${generator} 3 ${k} ${n}
 
   Output="${SATinstance}_OUT"
   Solution="${SATinstance}_sol"
