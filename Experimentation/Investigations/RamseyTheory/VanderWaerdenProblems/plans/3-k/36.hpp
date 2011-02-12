@@ -174,7 +174,7 @@ License, or any later version. */
   \todo Palindromic version:
   <ul>
    <li> 1174 < vanderwaerden_g([3,36],"pd") =(conj) 1175 =(conj)
-   vanderwaerden([3,36]) - 81. </li>
+   vanderwaerden([3,36]) - 83. </li>
    <li> vanderwaerden_g([3,36],"pdsat") =(conj) 1158. </li>
    <li> Certificates:
     <ol>
