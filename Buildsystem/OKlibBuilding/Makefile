@@ -475,7 +475,6 @@ testop_file := $(srcdir)/testop
 #
 # Language-standard options for C++ and C compilation.
 # Passed to the compiler for every program.
-# Default values : -ansi -pedantic resp. -std=c99 -pedantic.
 # ----------------------------------------------------------
 Standard_options   := -ansi -pedantic
 Standard_options_c := -std=c99 -pedantic 
@@ -486,7 +485,6 @@ Standard_options_c := -std=c99 -pedantic
 #
 # Compiler warnings. Passed to 
 # the compiler for every program.
-# Default value : -Wall
 # ----------------------------------------------------------
 Warning_options := -Wall
 # ----------------------------------------------------------
