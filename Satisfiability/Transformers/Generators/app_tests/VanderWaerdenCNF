@@ -39,7 +39,7 @@ for prog in ${list_programs}; do
     parameter_line=${parameter_line%.cnf}
     parameter_line=$(echo ${parameter_line} | tr '_-' '  ')
     output=$(${prog} ${parameter_line} -)
-    echo "${output}" | tail +5 | diff - "${P}"
+    echo "${output}" | tail -n +5 | diff - "${P}"
     if [[ $? -ne 0 ]]; then exit 1; fi
   done
 done
