@@ -59,7 +59,7 @@ namespace {
   const std::string program = "VanderWaerdenCNF";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.3.6";
+  const std::string version = "0.3.7";
 
 }
 
@@ -86,7 +86,7 @@ int main(const int argc, const char* const argv[]) {
 
     const std::string filename = (argc == 5) ?
       (std::string(argv[4]) == "-" ? "" : argv[4]) :
-      std::string("VanDerWaerden_pd_2-") + argv[1] + "-" + argv[2] + "_" + argv[3] + ".cnf";
+      std::string("VanDerWaerden_2-") + argv[1] + "-" + argv[2] + "_" + argv[3] + ".cnf";
 
     if (filename.empty())
       OKlib::Satisfiability::Transformers::Generators::VanderWaerden_TwoParts_1
