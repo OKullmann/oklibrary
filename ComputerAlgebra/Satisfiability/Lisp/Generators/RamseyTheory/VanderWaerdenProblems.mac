@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.9.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -196,7 +196,7 @@ output_pd_vanderwaerden2nd(k1,k2,n,filename) :=
     sconcat("Palindromic van der Waerden problem: 2 parts, arithmetic progressions of size ", k1, " and ", k2, ", and ", n, " elements, yielding ", ceiling(n/2), " variables."), 
     pd_vanderwaerden2nd_fcl(k1,k2,n),
     filename, [])$
-/* Providing a standard name: "VanDerWaerden_pd__2-k1-k2_n.cnf": */
+/* Providing a standard name: "VanDerWaerden_pd_2-k1-k2_n.cnf": */
 output_pd_vanderwaerden2nd_stdname(k1,k2,n) := output_pd_vanderwaerden2nd(k1,k2,n,
   sconcat("VanDerWaerden_pd_2-",k1,"-",k2,"_",n,".cnf"))$
 
