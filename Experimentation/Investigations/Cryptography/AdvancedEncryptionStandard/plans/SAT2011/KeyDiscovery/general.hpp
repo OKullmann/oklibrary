@@ -108,8 +108,22 @@ generate_ss_constraint_vars(n,m,namespace, id) :=
    the file output will be slightly different as the variable mappings will
    not be maintained. Therefore, if knowing precisely what variables are what
    (excluding the plaintext, key and ciphertext variables, which are always
-   at 1-3*num_rows*num_columns*exp) is important, then the standard
-   translation, without these faster functions, should be used. </li>
+   at 1-3*num_rows*num_columns*exp) is important, then one should exclude
+   the replacement of "generate_ss_constraint_vars", i.e., only use the
+   following:
+   \verbatim
+rename_fcl(FF,VL) := block([count : -1], local(h),
+  for V in map("[", FF[1], VL) do h[V[1]] : V[2],
+  return([create_list(i,i,1,length(FF[1])),
+   map(
+     lambda([C], (  
+       if oklib_monitor then 
+           (count : count + 1, 
+            if mod(count,1000) = 0 then 
+              print("Renaming ", count, "/",length(FF[2]))),
+       map(lambda([L], if L > 0 then h[L] else -h[-L]), C))), FF[2])]))$
+   \endverbatim. 
+   </li>
    <li> Also note that "gen_h" is global in this example as we want
    generate_ss_constraint_vars to yield the same result across calls. </li>
    <li> Therefore, a typical AES translation might be:
