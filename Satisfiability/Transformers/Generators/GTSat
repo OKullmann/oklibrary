@@ -19,7 +19,7 @@
 # for s>2  the problem is translated into boolean SAT via the strong
 # direct translation.
 
-# The resulting file is called "GreenTao_2-k_1-...k_2_n.cnf".
+# The resulting file is called "GreenTao_s-k_1-...k_s_n.cnf".
 # If however the environment defines variable "resultfile", then this
 # name is used for the output-file.
 # The Maxima-specification is output_greentao2nd_stdname for s=2, and
