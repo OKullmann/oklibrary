@@ -1,6 +1,6 @@
 #!/bin/bash
 # Oliver Kullmann, 20.11.2010 (Swansea)
-# Copyright 2010 Oliver Kullmann
+# Copyright 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -38,7 +38,7 @@ for prog in ${list_programs}; do
     parameter_line=${parameter_line#VanDerWaerden_pd_*-}
     parameter_line=${parameter_line%.cnf}
     parameter_line=$(echo ${parameter_line} | tr '_-' '  ')
-    output=$(${prog} ${parameter_line})
+    output=$(${prog} ${parameter_line} -)
     echo "${output}" | diff - "${P}"
     if [[ $? -ne 0 ]]; then exit 1; fi
   done

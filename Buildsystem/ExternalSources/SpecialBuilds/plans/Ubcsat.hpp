@@ -75,7 +75,7 @@ FlipsPerSecond = 14102
      </li>
      <li> With the newest ubcsat-version, on cs-oksvr we get
      \verbatim
-> PdVanderWaerdenCNF-O3-DNDEBUG 3 24 569 > VanDerWaerden_pd_2-3-24_569.cnf
+> PdVanderWaerdenCNF-O3-DNDEBUG 3 24 569
 > cat VanDerWaerden_pd_2-3-24_569.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 285 43132 192671 0 192671 1 1

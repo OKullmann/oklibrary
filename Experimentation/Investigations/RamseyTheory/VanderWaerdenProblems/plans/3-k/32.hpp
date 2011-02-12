@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -194,7 +194,7 @@ wsattn :
    <li> vanderwaerden_g([3,32],"pdsat") =(conj) 958. </li>
    <li> Best ubcsat-algorithm:
    \verbatim
-> PdVanderWaerdenCNF-O3-DNDEBUG 3 32 1007 > VanDerWaerden_pd_2-3-32_1007.cnf
+> PdVanderWaerdenCNF-O3-DNDEBUG 3 32 1007
 
 > E=run_ubcsat("VanDerWaerden_pd_2-3-32_1007.cnf",runs=100,cutoff=1000000)
 

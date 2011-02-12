@@ -237,7 +237,7 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
    </li>
    <li> Best ubcsat-algorithm:
    \verbatim
-> PdVanderWaerdenCNF-O3-DNDEBUG 3 30 903 > VanDerWaerden_pd_2-3-30_903.cnf
+> PdVanderWaerdenCNF-O3-DNDEBUG 3 30 903
 
 > E=run_ubcsat("VanDerWaerden_pd_2-3-30_903.cnf",runs=100,cutoff=1000000)
 

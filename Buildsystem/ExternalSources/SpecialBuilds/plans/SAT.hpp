@@ -205,7 +205,7 @@ c CPU time              : 0 s
     <ol>
      <li>
      \verbatim
-OKplatform> PdVanderWaerdenCNF-O3-DNDEBUG 3 24 569 > VanDerWaerden_pd_2-3-24_569.cnf
+OKplatform> PdVanderWaerdenCNF-O3-DNDEBUG 3 24 569
 OKplatform> cryptominisat VanDerWaerden_pd_2-3-24_569.cnf
 ...
 cryptominisat: Solver.cpp:1103: Clause* Solver::analyze(PropBy, vec<Lit>&, int&, uint32_t&, bool): Assertion `level[my_var] <= (int)decisionLevel()' failed.

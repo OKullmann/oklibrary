@@ -32,7 +32,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunPdVdW3k"
-version_number="0.2.2"
+version_number="0.2.3"
 
 if [[ $# != 4 ]]; then
   echo "ERROR[${script_name}]: Four parameters k, alg, runs, cutoff
@@ -68,7 +68,7 @@ phase=1
 
 for ((n=k; n<=k+1; ++n)); do
   SATinstance="VanDerWaerden_pd_2-3-${k}_${n}.cnf"
-  ${generator} 3 ${k} ${n} > ${SATinstance}
+  ${generator} 3 ${k} ${n}
   Output="${SATinstance}_OUT"
   Solution="${SATinstance}_sol"
   parameter_line="-alg ${alg} -runs ${runs} -cutoff ${cutoff} -i ${SATinstance} -solve"
@@ -86,7 +86,7 @@ for ((n=k+2; phase<=2; ++n, ++n0)); do
 
   SATinstance="VanDerWaerden_pd_2-3-${k}_${n}.cnf"
   # Creating the Dimacs-file:
-  ${generator} 3 ${k} ${n} > ${SATinstance}
+  ${generator} 3 ${k} ${n}
 
   Output="${SATinstance}_OUT"
   Solution="${SATinstance}_sol"

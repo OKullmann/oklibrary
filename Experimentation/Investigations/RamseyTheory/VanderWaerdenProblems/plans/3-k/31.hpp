@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -162,7 +162,7 @@ Certificate (the vertices for k=3) for n = 930 :
    <li> vanderwaerden_g([3,31],"pdsat") =(conj) 916. </li>
    <li> Best ubcsat-algorithm:
    \verbatim
-> PdVanderWaerdenCNF-O3-DNDEBUG 3 31 919 > VanDerWaerden_pd_2-3-31_919.cnf
+> PdVanderWaerdenCNF-O3-DNDEBUG 3 31 919
 
 > E=run_ubcsat("VanDerWaerden_pd_2-3-31_919.cnf",runs=100,cutoff=1000000)
 

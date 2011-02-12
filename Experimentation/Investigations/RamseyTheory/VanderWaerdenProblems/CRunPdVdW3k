@@ -23,7 +23,7 @@
 set -o nounset
 
 script_name="CRunPdVdW3k"
-version_number="0.0.8"
+version_number="0.0.9"
 
 if [[ $# != 2 ]]; then
   echo "ERROR[${script_name}]: Two parameters k, solver, are needed:
@@ -55,7 +55,7 @@ for ((n=k; phase<=2; ++n)); do
 
   SATinstance="VanDerWaerden_pd_2-3-${k}_${n}.cnf"
   # Creating the Dimacs-file:
-  ${generator} 3 ${k} ${n} > ${SATinstance}
+  ${generator} 3 ${k} ${n}
 
   Output="${SATinstance}_OUT"
   ${solver} ${SATinstance} > ${Output}; result=$?

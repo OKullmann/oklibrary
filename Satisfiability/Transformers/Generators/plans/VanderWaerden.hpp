@@ -66,13 +66,13 @@ make: Leaving directory `/home/csmg/Work/OKlibrary/OKplatform/OKsystem/OKlib/Sat
    However on cs-wsok it now takes about five minutes? </li>
    <li> Timings on csltok:
    \verbatim
-> time PdVanderWaerden-O3-DNDEBUG 3 1000 > Test01
+> time PdVanderWaerden-O3-DNDEBUG 3 1000
 user    3m3.253s
 sys     0m0.152s
 user    2m51.189s
 sys     0m0.183s
 
-> time PdVanderWaerdenCNF-O3-DNDEBUG 3 30 1000 > Test01
+> time PdVanderWaerdenCNF-O3-DNDEBUG 3 30 1000
 user    2m54.118s
 sys     0m0.092s
 user    2m51.469s
