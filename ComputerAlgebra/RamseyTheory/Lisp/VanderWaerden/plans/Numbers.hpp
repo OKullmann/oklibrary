@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.4.2009 (Swansea)
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -45,8 +45,8 @@ License, or any later version. */
      <li> How to access the parts (sat- resp. unsat-related)? At Maxima-level
      we could simply use pdvanderwaerden(t)[1 / 2]. It works, however it is
      not very expressive. </li>
-     <li> DONE (palindromic versions are somthing special, a kind of "universal
-     variation", and so they deserve their own treatmeant)
+     <li> DONE (palindromic versions are something special, a kind of
+     "universal variation", and so they deserve their own treatmeant)
      Or perhaps we should provide g_vanderwaerden(t,p), where p is some
      parameter, perhaps a string, which selects which form of a generalised
      vdW-number is considered. </li>
