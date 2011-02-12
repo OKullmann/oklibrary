@@ -25,20 +25,20 @@ License, or any later version. */
   <ul>
    <li> Generating AES for 1 round:
    \verbatim
-maxima> num_rounds : 1$
-maxima> num_columns : 4$
-maxima> num_rows : 4$
-maxima> exp : 8$
-maxima> final_round_b : true$
-maxima> box_tran : aes_ts_box$
-maxima> seed : 1$
-maxima> mc_tran : aes_mc_bidirectional$
-maxima> output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
+num_rounds : 1$
+num_columns : 4$
+num_rows : 4$
+exp : 8$
+final_round_b : true$
+box_tran : aes_ts_box$
+seed : 1$
+mc_tran : aes_mc_bidirectional$
+output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
    \endverbatim
    and then we can generate a random assignment with the plaintext and key,
    leaving the ciphertext unknown:
    \verbatim
-maxima> output_ss_random_pk_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
+output_ss_random_pk_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
    \endverbatim
    and then we can merge the random plaintext, key assignment (as
    a clause-set containing the relevant unit clauses) with:
@@ -76,7 +76,7 @@ SATISFIABLE
    instead of generating a plaintext and key assignment, we generate a
    key and ciphertext assignment:
    \verbatim
-maxima> output_ss_random_kc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
+output_ss_random_kc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
    \endverbatim
    and then we can merge the random plaintext, key assignment (as
    a clause-set containing the relevant unit clauses) with:
