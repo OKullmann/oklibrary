@@ -172,7 +172,7 @@ License, or any later version. */
    </li>
    <li> minisat-2.2.0:
     <ol>
-     <li> n=508: ?sat, s. </li>
+     <li> n=508: unsat, 158371s (913502019 conflicts, csltok). </li>
      <li> n=507: unsat, 24751s (112603401 conflicts, csltok; with added
      unit-clause). </li>
     </ol>
