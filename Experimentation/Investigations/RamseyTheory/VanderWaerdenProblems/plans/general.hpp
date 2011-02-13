@@ -34,14 +34,18 @@ License, or any later version. */
    Experimentation/Investigations/plans/SATCompetition.hpp. </li>
    <li> We should have two subclasses, related to vdw_2(3,k) and vdw_2^pd(3,k).
    </li>
-   <li> Ordinary instances:
+   <li> DONE
+   Ordinary instances:
     <ol>
      <li> VanDerWaerden_pd_2-3-31_930.cnf is a hard satisfiable instance,
      VanDerWaerden_2-3-31_931.cnf a hard unknown instance (see
      RamseyTheory/VanderWaerdenProblems/plans/3-k/31.hpp). </li>
+     <li> All first unsatisfiable instances for 12 <= k <= 19. </li>
+     <li> Perhaps also the last satisfiable instances for 20 <= k <= 30. </li>
     </ol>
    </li>
-   <li> Palindromic instances:
+   <li> DONE
+   Palindromic instances:
     <ol>
      <li> For complete solvers hard but solved unsatisfiable instances are
      VanDerWaerden_pd_2-3-23_507.cnf and VanDerWaerden_pd_2-3-23_508.cnf
@@ -59,6 +63,27 @@ License, or any later version. */
      <li> We also should include the relevant satisfiable instances. </li>
      <li> And perhaps the two borderline sat-instances for k=39. </li>
     </ol>
+   </li>
+   <li> DONE
+   Generators:
+    <ol>
+     <li> Generating statically linked generators by
+     \verbatim
+Generators> oklib cleanall
+Generators> LDFLAGS="-static" oklib all
+     \endverbatim
+     </li>
+     <li> The relevant generators are VanderWaerdenCNF-O3-DNDEBUG and
+     PdVanderWaerdenCNF-O3-DNDEBUG. </li>
+     <li> We should provide a simple generation-script, just containing all
+     calls to the generators. </li>
+    </ol>
+   </li>
+   <li> README file:
+
+   </li>
+   <li> Pdf file:
+
    </li>
   </ul>
 

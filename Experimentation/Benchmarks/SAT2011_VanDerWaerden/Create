@@ -1,0 +1,156 @@
+#!/bin/bash
+# Oliver Kullmann, 12.2.2011 (Swansea)
+
+set -o errexit
+set -o nounset
+
+vdw_dir=VanderWaerden3k
+vdwpd_dir=VanderWaerden_pd_3k
+
+vdw_gen=../VanderWaerdenCNF-O3-DNDEBUG
+vdwpd_gen=../PdVanderWaerdenCNF-O3-DNDEBUG
+
+md5sum --check --status MD5_gen
+
+mkdir ${vdw_dir}
+mkdir ${vdwpd_dir}
+
+cd ${vdw_dir}
+
+# medium to extremely hard unsatisfiable instances
+${vdw_gen} 3 12 135 
+${vdw_gen} 3 13 160 
+${vdw_gen} 3 14 186 
+${vdw_gen} 3 15 218 
+${vdw_gen} 3 16 238 
+${vdw_gen} 3 17 279 
+${vdw_gen} 3 18 312 
+${vdw_gen} 3 19 349 
+
+# medium to very hard satisfiable instance
+${vdw_gen} 3 20 388 
+${vdw_gen} 3 21 415 
+${vdw_gen} 3 22 463 
+${vdw_gen} 3 23 515 
+${vdw_gen} 3 24 592 
+${vdw_gen} 3 25 655 
+${vdw_gen} 3 26 726 
+${vdw_gen} 3 27 769 
+${vdw_gen} 3 28 826 
+${vdw_gen} 3 29 867 
+${vdw_gen} 3 30 902 
+${vdw_gen} 3 31 930
+${vdw_gen} 3 32 1006 
+${vdw_gen} 3 33 1063 
+${vdw_gen} 3 34 1143 
+${vdw_gen} 3 35 1204 
+${vdw_gen} 3 36 1257 
+${vdw_gen} 3 37 1338 
+${vdw_gen} 3 38 1378 
+${vdw_gen} 3 39 1418 
+
+# unknown instances (the first eleven conjectured unsatisfiable,
+# for the remaining ones the likelihood of satisfiability increases);
+# excessively hard as unsatisfiable instances, becoming very hard as
+# satisfiable instances
+${vdw_gen} 3 20 389 
+${vdw_gen} 3 21 416 
+${vdw_gen} 3 22 464 
+${vdw_gen} 3 23 516 
+${vdw_gen} 3 24 593 
+${vdw_gen} 3 25 656 
+${vdw_gen} 3 26 727 
+${vdw_gen} 3 27 770 
+${vdw_gen} 3 28 827 
+${vdw_gen} 3 29 868 
+${vdw_gen} 3 30 903 
+${vdw_gen} 3 31 931 
+${vdw_gen} 3 32 1007 
+${vdw_gen} 3 33 1064 
+${vdw_gen} 3 34 1144 
+${vdw_gen} 3 35 1205 
+${vdw_gen} 3 36 1258 
+${vdw_gen} 3 37 1339 
+${vdw_gen} 3 38 1379 
+${vdw_gen} 3 39 1419 
+
+cd ..
+
+md5sum --check --status MD5_vdw
+
+cd ${vdwpd_dir}
+
+# from easy to hard satisfiable instances (also for incomplete solvers;
+# becoming excessively hard for complete solvers)
+${vdwpd_gen} 3 18 298
+${vdwpd_gen} 3 18 311
+${vdwpd_gen} 3 19 337
+${vdwpd_gen} 3 19 346
+${vdwpd_gen} 3 20 379
+${vdwpd_gen} 3 20 388
+${vdwpd_gen} 3 21 399
+${vdwpd_gen} 3 21 404
+${vdwpd_gen} 3 22 443
+${vdwpd_gen} 3 22 462
+${vdwpd_gen} 3 23 505
+${vdwpd_gen} 3 23 506
+${vdwpd_gen} 3 24 567
+${vdwpd_gen} 3 24 592
+${vdwpd_gen} 3 25 585
+${vdwpd_gen} 3 25 606
+${vdwpd_gen} 3 26 633
+${vdwpd_gen} 3 26 642
+${vdwpd_gen} 3 27 663
+${vdwpd_gen} 3 27 698
+${vdwpd_gen} 3 28 727
+${vdwpd_gen} 3 28 742
+${vdwpd_gen} 3 29 809
+${vdwpd_gen} 3 29 820
+${vdwpd_gen} 3 30 843
+${vdwpd_gen} 3 30 854
+${vdwpd_gen} 3 31 915
+${vdwpd_gen} 3 31 930
+${vdwpd_gen} 3 32 957
+${vdwpd_gen} 3 32 962
+${vdwpd_gen} 3 33 1001
+${vdwpd_gen} 3 33 1002
+${vdwpd_gen} 3 34 1045
+${vdwpd_gen} 3 34 1078
+${vdwpd_gen} 3 35 1101
+${vdwpd_gen} 3 35 1142
+${vdwpd_gen} 3 36 1157
+${vdwpd_gen} 3 36 1174
+${vdwpd_gen} 3 37 1263
+${vdwpd_gen} 3 37 1294
+${vdwpd_gen} 3 38 1335
+${vdwpd_gen} 3 38 1368
+${vdwpd_gen} 3 39 1405
+${vdwpd_gen} 3 39 1410
+
+# from easy to very hard unsatisfiable instances
+${vdwpd_gen} 3 18 300
+${vdwpd_gen} 3 18 313
+${vdwpd_gen} 3 19 339
+${vdwpd_gen} 3 19 348
+${vdwpd_gen} 3 20 381
+${vdwpd_gen} 3 20 390
+${vdwpd_gen} 3 21 401
+${vdwpd_gen} 3 21 406
+${vdwpd_gen} 3 22 445
+${vdwpd_gen} 3 22 464
+${vdwpd_gen} 3 23 507
+${vdwpd_gen} 3 23 508
+${vdwpd_gen} 3 24 569
+${vdwpd_gen} 3 24 594
+${vdwpd_gen} 3 25 587
+${vdwpd_gen} 3 25 608
+
+# conjectured unsatisfiable instances
+${vdwpd_gen} 3 26 635
+${vdwpd_gen} 3 26 644
+
+cd ..
+
+md5sum --check --status MD5_vdwpd
+
+echo "SUCCESS"
