@@ -137,5 +137,75 @@ f78b135ae128e679aaf7fc7cd50dfd71  SAT2011_GreenTao.tar.bz2
 
   <h2> AES instances </h2>
 
+  General information:
+  <ul>
+   <li> Portable generators not available. Generation occurs using
+   "output_ss_fcl_std" in 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac.
+   </li>
+   <li> The generated instances are created by:
+   \verbatim
+OKlib/Experimentation/Benchmarks/SAT2011_AES> oklib --maxima
+maxima> oklib_load_all()$
+maxima> output_ss_fcl_std(10,4,4,8,true,aes_small_box,aes_mc_forward);
+maxima> output_ss_fcl_std(2,4,4,8,true,aes_small_box,aes_mc_bidirectional);
+maxima> output_ss_fcl_std(2,4,4,4,true,aes_small_box,aes_mc_bidirectional);
+maxima> output_ss_random_pk_pair(1,10,4,4,8,true);
+maxima> output_ss_random_kc_pair(1,10,4,4,8,true);
+maxima> output_ss_random_pc_pair(1,2,4,4,8,true);
+maxima> output_ss_random_pc_pair(1,2,4,4,4,true);
+maxima> quit();
+OKlib/Experimentation/Benchmarks/SAT2011_AES> mv ssaes_r10_c4_rw4_e8_f1.cnf aes_128.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> mv ssaes_r2_c4_rw4_e8_f1.cnf aes_128_2.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> mv ssaes_r2_c4_rw4_e4_f1.cnf aes_64_2.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> mv ssaes_pkpair_r10_c4_rw4_e8_f1_s1.cnf aes_ass_128_encrypt.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> mv ssaes_kcpair_r10_c4_rw4_e8_f1_s1.cnf aes_ass_128_decrypt.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> mv ssaes_pcpair_r2_c4_rw4_e8_f1_s1.cnf aes_ass_128_2_keyfind.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> mv ssaes_pcpair_r2_c4_rw4_e4_f1_s1.cnf aes_ass_64_2_keyfind.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> AppendDimacs-O3-DNDEBUG aes_128.cnf aes_ass_128_encrypt.cnf > aes_128_encrypt.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> AppendDimacs-O3-DNDEBUG aes_128.cnf aes_ass_128_decrypt.cnf > aes_128_decrypt.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> AppendDimacs-O3-DNDEBUG aes_128_2.cnf aes_ass_128_2_keyfind.cnf > aes_128_2_keyfind.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> AppendDimacs-O3-DNDEBUG aes_64_2.cnf aes_ass_64_2_keyfind.cnf > aes_64_2_keyfind.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> mkdir -p EncryptionDecryption KeyDiscovery/128 KeyDiscovery/64
+OKlib/Experimentation/Benchmarks/SAT2011_AES> mv aes_128.cnf aes_128_encrypt.cnf aes_128_decrypt.cnf aes_ass_128_encrypt.cnf aes_ass_128_decrypt.cnf EncryptionDecryption/.
+OKlib/Experimentation/Benchmarks/SAT2011_AES> mv aes_128_2.cnf aes_128_2_keyfind.cnf aes_ass_128_2_keyfind.cnf KeyDiscovery/128/.
+OKlib/Experimentation/Benchmarks/SAT2011_AES> mv aes_64_2.cnf aes_64_2_keyfind.cnf aes_ass_64_2_keyfind.cnf KeyDiscovery/64/.
+   \endverbatim
+   </li>
+   <li> The main files of interest are then:
+   <ul>
+    <li> EncryptionDecryption/aes_128_encrypt.cnf 
+    (128-bit 10 round AES encryption). </li>
+    <li> EncryptionDecryption/aes_128_decrypt.cnf 
+    (128-bit 10 round AES decryption). </li>
+    <li> KeyDiscovery/128/aes_128_2_keyfind.cnf 
+    (128-bit 2 round AES key discovery). </li>
+    <li> KeyDiscovery/64/aes_64_2_keyfind.cnf 
+    (64-bit 2 round small scale AES key discovery). 
+    </li>
+   </ul>
+   </li>
+   <li> The Git-ID of the relevant state of the OKlibrary is
+   \verbatim
+54afbadfb72018a4cb9ec5fc77b2d47252095009
+   \endverbatim
+   </li>
+   <li> The package-template is given by the directory
+   <code>OKlib/Experimentation/Benchmarks/SAT2011_AES</code>. </li>
+   <li> Created by
+   \verbatim
+OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES.tar.bz2 SAT2011_AES
+   \endverbatim
+   </li>
+   <li> The package has md5sum
+   \verbatim
+1443b70e365a0dd3b3363600d4542971  SAT2011_AES.tar.bz2
+   \endverbatim
+   </li>
+   <li> Extracting this archive (by
+   <code>tar -xjf SAT2011_AES.tar.bz2</code>) yields directory
+   <code>SAT2011_AES</code>. </li>
+  </ul>
+
 */
 

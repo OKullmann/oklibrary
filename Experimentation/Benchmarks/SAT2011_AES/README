@@ -1,0 +1,58 @@
+-------------------------------------------------
+|      Advanced Encryption System benchmarks     |
+--------------------------------------------------
+
+We provide instances based around our translation of the Advanced Encryption 
+Standard into SAT.
+
+There are four main instances:
+
+
+EncryptionDecryption/  (EASY)
+
+  aes_128_encrypt.cnf   - the ten round AES encryption instantiated with a 
+                          randomly generated plaintext and key leaving the 
+                          ciphertext unknown.
+  aes_128_decrypt.cnf   - the ten round AES decryption instantiated with a 
+                          randomly generated key and ciphertext leaving the 
+                          plaintext unknown.
+
+KeyDiscovery/128/      (HARD)
+
+  aes_128_2_keyfind.cnf - the two round AES key discovery instantiated with a 
+                          randomly generated plaintext and ciphertext, leaving 
+                          the key variables unknown.
+
+KeyDiscovery/64/       (HARD)
+
+  aes_64_2_keyfind.cnf  - the two round small scale AES key discovery using 
+                          4-bit words instead of 8-bit, instantiated with a 
+                          randomly generated plaintext and ciphertext, leaving 
+                          the key variables unknown.
+
+All instances are satisfiable and the encryption/decryption cases should be easy for a solver to solve, while all key discovery instances should be hard.
+
+-------------------------------------------------
+|             Generating new instances          |
+-------------------------------------------------
+
+Along with the above, we provide the uninstantiated versions of the AES verification problems: 
+
+  EncryptionDecryption/aes_128.cnf
+  KeyDiscovery/128/aes_128_2.cnf 
+  KeyDiscovery/64/aes_64_2.cnf. 
+
+For the 128-bit cases, these instances can be instantiated to produce new instances by setting the plaintext variables (1,...,128), key variables (129,...,256) and ciphertext variables (257,...,384) to valid instantiations for the 128-bit case. 
+
+For the 64-bit instance, one may do the same, but must set the plaintext variables (1,...,64), key variables (67,...,128) and ciphertext variables (129,...,192).
+
+We also provide the random assignments used to generate the instantiated instances. There are given as unit clauses in: 
+
+  EncryptionDecryption/aes_ass_128_encrypt.cnf.
+  EncryptionDecryption/aes_ass_128_decrypt.cnf. 
+  KeyDiscovery/128/aes_ass_128_2_keyfind.cnf.
+  KeyDiscovery/64/aes_ass_64_2_keyfind.cnf.
+
+These can simply be appended to the uninstantiated clause-sets to produce instantiated versions.
+
+For further information, see http://ok-sat-library.org  or e-mail the authors, Matthew Gwynne (csmg@swan.ac.uk) or Oliver Kullmann (O.Kullmann@Swansea.ac.uk).
