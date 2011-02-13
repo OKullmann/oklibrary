@@ -1,0 +1,78 @@
+#!/bin/bash
+# Oliver Kullmann, 6.12.2009 (Swansea)
+# Copyright 2009, 2010, 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# Copy of OKplatform/OKsystem/OKlib/Satisfiability/Transformers/Generators/GTSat,
+# adapted for the local use here. Can only be used from a sub-directory of
+# directory SAT2011_GreenTao
+
+# Wrapper script for creating Green-Tao SAT problems in Dimacs format
+
+# Usage:
+
+# GTSat k_1 k_2 ... k_s n
+
+# where s >= 2. The k_i are the lengths of arithmetic progressions, while
+# n is the number of vertices (i.e., prime numbers).
+
+# For s=2 the problem is directly expressed as a boolean SAT problem,
+# for s>2  the problem is translated into boolean SAT via the strong
+# direct translation.
+
+# The resulting file is called "GreenTao_s-k_1-...k_s_n.cnf".
+# If however the environment defines variable "resultfile", then this
+# name is used for the output-file.
+# The Maxima-specification is output_greentao2nd_stdname for s=2, and
+# output_greentao_stdname for s>2.
+
+# For diagonal problems (all k_i are equal) better use "GTdSat" (since
+# the filename is abbreviated there).
+
+set -o errexit
+set -o nounset
+
+script_name="GTSat"
+
+if [[ $# -le 2 ]]; then
+  echo "ERROR[${script_name}]: At least three parameters k1, k2, n are needed:
+  Two progression-lengths k1, k2, and the number n of prime numbers."
+  exit 1
+fi
+
+boolean_translation="../GreenTaoCNF-O3-DNDEBUG"
+nonboolean_translation="GreenTaoGCNF-O3-DNDEBUG" # not provided here
+parameter_line="$*"
+num_colours=$(($#-1))
+
+if [[ ${resultfile:+0} != 0 ]]; then
+  resultfile="GreenTao_${num_colours}"
+  while [[ $# != 1 ]]; do
+    resultfile="${resultfile}-$1"
+    shift
+  done
+  resultfile="${resultfile}_$1.cnf"
+fi
+
+if [[ ${num_colours} == 2 ]]; then
+  ${boolean_translation} ${parameter_line} > ${resultfile}
+  status=$?
+  if [[ ${status} != 0 ]]; then
+    rm ${resultfile}
+    exit ${status}
+  fi
+else
+  ${nonboolean_translation} ${parameter_line} > ${resultfile}
+  status=$?
+  if [[ ${status} != 0 ]]; then
+    rm ${resultfile}
+    exit ${status}
+  fi
+fi
+
+echo "Created ${resultfile}."
+
+exit 0

@@ -1,0 +1,52 @@
+#!/bin/bash
+# Oliver Kullmann, 13.2.2011 (Swansea)
+
+set -o errexit
+set -o nounset
+
+gt_dir=GreenTaok1k2
+
+gt_gen=../GTSat
+
+md5sum --check --status MD5_gen
+
+mkdir ${gt_dir}
+
+cd ${gt_dir}
+
+# easy sat (for local search; medium hard for complete solvers):
+${gt_gen} 3 5 527
+# medium hard unsat:
+${gt_gen} 3 5 528
+
+# hard sat (for local search):
+${gt_gen} 3 6 2071
+# conjectured unsat (potentially excessively hard):
+${gt_gen} 3 6 2072
+
+# hard sat (for local search):
+${gt_gen} 3 7 13800
+# unknown (perhaps unsat; if so then excessively hard):
+${gt_gen} 3 7 13850
+
+# easy sat (for local search; hard for complete solvers):
+${gt_gen} 4 4 511
+# hard unsat:
+${gt_gen} 4 4 512
+
+# hard sat (for local search):
+${gt_gen} 4 5 4231
+# conjectured unsat (potentially excessively hard):
+${gt_gen} 4 5 4232
+
+# very hard sat (for local search; only solved by survey propagation):
+${gt_gen} 5 5 34308
+# conjectured unsat (likely excessively hard):
+${gt_gen} 5 5 34309
+
+cd ..
+
+md5sum --check --status MD5_gt
+
+echo "SUCCESS"
+

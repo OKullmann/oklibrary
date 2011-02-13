@@ -40,7 +40,7 @@ OKlib/Satisfiability/Transformers/Generators> LDFLAGS="-static" oklib all
 ab24cceb1074bc2a0c4486922b415de60bd3cb07
    \endverbatim
    </li>
-   <li> The template is given by the directory
+   <li> The package-template is given by the directory
    <code>OKlib/Experimentation/Benchmarks/SAT2011_VanDerWaerden</code>. </li>
    <li> The "empty" package (the template-directory, without the instances,
    but with the generator-executables added) has md5sum
@@ -73,7 +73,66 @@ eec7580151a41b53d263845c2c2ebdb7  SAT2011_VanDerWaerden.tar.bz2
    </li>
   </ul>
 
+
   <h2> Green-Tao instances </h2>
+
+  General information:
+  <ul>
+   <li> One generator:
+    <ol>
+     <li> <code>GreenTaoCNF-O3-DNDEBUG</code>
+     (Satisfiability/Transformers/Generators/GreenTaoCNF.cpp) </li>
+     <li> Creates gt-instances, encoding "grt_2(k1,k2) > n"
+     (satisfiable iff the answer is yes). </li>
+     <li> <code>GTSat</code> is a wrapper script, which in general allows
+     also to create problems using more than two colours, however this
+     functionality is not available for this copy. </li>
+    </ol>
+   </li>
+   <li> The generator-executable, statically linked, is created by
+   \verbatim
+OKlib/Satisfiability/Transformers/Generators> oklib cleanall
+OKlib/Satisfiability/Transformers/Generators> LDFLAGS="-static" oklib all
+   \endverbatim
+   and then copied from <code>OKplatform/system_directories/bin</code>.
+   </li>
+   <li> The Git-ID of the relevant state of the OKlibrary is
+   \verbatim
+ab24cceb1074bc2a0c4486922b415de60bd3cb07
+   \endverbatim
+   </li>
+   <li> The package-template is given by the directory
+   <code>OKlib/Experimentation/Benchmarks/SAT2011_GreenTao</code>. </li>
+   <li> The "empty" package (the template-directory, without the instances,
+   but with the generator-executables added) has md5sum
+   \verbatim
+0bbbef7b9581bd15135fa2aea1576e7c  SAT2011_GreenTao_Empty.tar.bz2
+   \endverbatim
+   </li>
+   <li> Created by
+   \verbatim
+OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_GreenTao_Empty.tar.bz2 SAT2011_GreenTao
+   \endverbatim
+   </li>
+   <li> Extracting this archive (by
+   <code>tar -xjf SAT2011_GreenTao_Empty.tar.bz2</code>) yields directory
+   <code>SAT2011_GreenTao</code>. </li>
+   <li> The "full" package (additionally with the instances) has md5sum
+   \verbatim
+f78b135ae128e679aaf7fc7cd50dfd71  SAT2011_GreenTao.tar.bz2
+   \endverbatim
+   </li>
+   <li> From the "empty" package the "full" package is created by running
+   <code>./Create</code> in the (extracted) directory
+   <code>SAT2011_GreenTao</code>.
+    <ol>
+     <li> This script prints "SUCCESS" and returns code 0 if no error occurred.
+     </li>
+     <li> This includes checking of the md5sums of the two generator-files and
+     all the benchmark files. </li>
+    </ol>
+   </li>
+  </ul>
 
 
   <h2> AES instances </h2>
