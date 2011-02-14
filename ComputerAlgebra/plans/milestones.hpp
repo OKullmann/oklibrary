@@ -129,6 +129,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
     - Maxima seg-faults when loading a file setting memory-limits
+    - Why is Maxima file output so slow?
     - Weak recursion for memoised functions
 
 

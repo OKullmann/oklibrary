@@ -40,6 +40,18 @@ assignment: cannot assign 10001 to linel
    \endverbatim
    we get an error.
    </li>
+   <li> According to Robert Dodler on the Maxima mailing list, we
+   can do the following to set linel via lisp directly:
+   \verbatim
+:lisp (setq $linel 10001 linel 10001)
+   \endverbatim
+   however, it is not clear how we can do the same from a loaded
+   Maxima file.
+   </li>
+   <li> Robert Dodler says that there is currently a hard limit of 10000
+   in the Maxima code, which is what triggers this error and according to
+   Dieter Kalser, this is because Maxima crashes when linel is set to
+   certain large values (unspecified). </li>
   </ul>
 
 
