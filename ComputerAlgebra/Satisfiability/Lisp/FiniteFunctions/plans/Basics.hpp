@@ -51,6 +51,9 @@ License, or any later version. */
    </li>
    <li> An especially important case, realised for example by signed
    clause-sets, is that of a "finite relation", a map f: D^n -> {0,1}. </li>
+   <li> Definitely we have the need for "formal boolean functions", which are
+   associated with variables; see "Basic operations for boolean functions" in
+   Satisfiability/Lisp/FiniteFunctions/plans/BDDs.hpp. </li>
   </ul>
 
 

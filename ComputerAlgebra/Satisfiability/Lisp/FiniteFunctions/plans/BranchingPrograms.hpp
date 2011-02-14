@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.5.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,14 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/BranchingPrograms.hpp
   \brief Plans regarding branching programs (for finite functions)
+
+
+  \todo Connections
+  <ul>
+   <li> In ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/BDDs.hpp
+   we discuss BDDs. </li>
+   <li> We need to find out how to organise these topics. </li>
+  </ul>
 
 
   \todo The notion of "branching program" (BP)

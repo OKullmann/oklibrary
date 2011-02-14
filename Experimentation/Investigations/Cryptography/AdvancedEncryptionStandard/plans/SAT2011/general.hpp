@@ -80,6 +80,25 @@ License, or any later version. */
   </ul>
 
 
+  \todo Using SBSAT
+  <ul>
+   <li> As discussed in the manual
+   http://gauss.ececs.uc.edu/sbsat_user_manual/, the input can consist of a
+   list of files containing DNFs ir XOR constraints, and so we can easily
+   specify AES and generalisations. </li>
+   <li> The MixColumns constraint can either be represented via the xor of
+   boxes, or by the direct representation via 32 xor-constraints (for
+   standard AES). </li>
+   <li> We need to get the respective file-formats and the translations into
+   our system (while we can't get the solver into our system, since it is not
+   open-source). </li>
+   <li> Most basic is to get the sizes of smurfs for the various boolean
+   functions ("boxes"); see "Smurfs" in
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/BDDs.hpp for the
+   general theory. </li>
+  </ul>
+
+
   \todo Investigating conditions and their representations
   <ul>
    <li> A first central research question is how to choose appropriate

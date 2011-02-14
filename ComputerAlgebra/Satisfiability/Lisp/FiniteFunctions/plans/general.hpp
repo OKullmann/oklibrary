@@ -54,6 +54,8 @@ License, or any later version. */
 
   \todo Finite functions with full application of partial assignments
   <ul>
+   <li> Compare to "Smurfs" in
+   Satisfiability/Lisp/FiniteFunctions/plans/BDDs.hpp. </li>
    <li> Consider a set D of values. </li>
    <li> A "finite function with full application", for short "fffa", is either
    an element of D (for a constant function, without variables), or some object
@@ -66,9 +68,9 @@ License, or any later version. */
     </ol>
    </li>
    <li> f is a constant iff var(f) = {} iff f is semantically a constant. </li>
-   <li> Variables v in phi with v notin var(F) have no influence on phi * F.
+   <li> Variables v in phi with v notin var(f) have no influence on phi * f.
    </li>
-   <li> We have (psi * phi) * F = psi * (phi * F), where psi * phi is the
+   <li> We have (psi * phi) * f = psi * (phi * f), where psi * phi is the
    composition of partial assignments. </li>
    <li> For hitting CNF and hitting DNF we can implement models. </li>
    <li> Even more efficient for permutations of {0,1}^n as boolean conditions
