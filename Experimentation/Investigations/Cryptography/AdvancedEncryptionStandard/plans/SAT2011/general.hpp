@@ -19,6 +19,12 @@ License, or any later version. */
   the translations of AES using these component translations into CNF.
   
 
+  \todo Add milestones
+  <ul>
+   <li> We urgently need milestones at this level. </li>
+  </ul>
+
+
   \todo Links
   <ul>
    <li> For experiments and open problems, see

@@ -1,4 +1,4 @@
-// Matthew Gwynne, 23.1.2011 (Swansea)
+// Matthew Gwynne, 15.2.2011 (Swansea)
 /* Copyright 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -6,8 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r1_c2_rw4_e4_f0.hpp
-  \brief Investigations into small scale AES key discovery for one round AES with a 2x4 block and 4-bit field elements, including MixColumns
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/32/2_4_4/1_1.hpp
+  \brief Investigations into small scale AES key discovery for one round AES with a 2x4 block and 4-bit field elements (1+1/3)
 
 
   \todo Improve explanations of what a round is
@@ -30,7 +30,7 @@ License, or any later version. */
   <ul>
    <li> In this file, we collect the investigations into translations of
    one round small scale AES with two columns, four rows, using the 4-bit
-   field size, and including the MixColumns operation. </li>
+   field size. </li>
    <li> The AES encryption scheme we model takes a 32-bit plaintext,
    32-bit key and applies the following operations:
    <ol>

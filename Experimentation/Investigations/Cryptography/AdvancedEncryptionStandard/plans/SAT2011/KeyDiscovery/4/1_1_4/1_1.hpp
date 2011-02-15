@@ -1,4 +1,4 @@
-// Matthew Gwynne, 23.1.2011 (Swansea)
+// Matthew Gwynne, 15.2.2011 (Swansea)
 /* Copyright 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -6,8 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r1_c1_rw1_e4_f0.hpp
-  \brief Investigations into simplest small scale AES key discovery for one round AES with MixColumns
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/4/1_1_4/1_1.hpp
+  \brief Investigations into simplest small scale AES key discovery for one round AES (1+1/3)
 
 
   \todo Problem specification
@@ -44,7 +44,7 @@ License, or any later version. */
 
   \todo Using the canonical translation
   <ul>
-   <li> Generating simplest small scale AES for 1 round (with MixColumns):
+   <li> Generating simplest small scale AES for 1 round:
    \verbatim
 num_rounds : 1$
 num_columns : 1$

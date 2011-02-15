@@ -1,4 +1,4 @@
-// Matthew Gwynne, 17.1.2011 (Swansea)
+// Matthew Gwynne, 15.2.2011 (Swansea)
 /* Copyright 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -6,8 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r1_c4_rw4_e8_f1.hpp
-  \brief Investigations into AES key discovery for one round AES without MixColumns
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/4_4_8/0_2_1.hpp
+  \brief Investigations into AES key discovery for one round AES without MixColumns (0+2/3+1/3)
 
 
   \todo Show and explain sizes of minimum-translations
