@@ -124,7 +124,7 @@ License, or any later version. */
 
   \todo Explanations
   <ul>
-   <li> DONE For every such file, we need explanations what a "round" etc. is,
+   <li> For every such file, we need explanations what a "round" etc. is,
    in elementary terms, using terms "addition, sub-bytes, shift-rows,
    mix-columns, round-key". </li>
    <li> In general, all discussions should be based on the general notions
