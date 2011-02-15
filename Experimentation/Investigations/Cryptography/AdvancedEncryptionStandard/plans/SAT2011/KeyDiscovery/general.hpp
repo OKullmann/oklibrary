@@ -89,7 +89,8 @@ License, or any later version. */
     <li> 64 bit key:
      <ul>
       <li> 4 column, 4 row, 4 bits up to <em>1</em> rounds in <em> 21 </em>
-      seconds with minisat-2.2.0 in 64/4_4_4/1_1.hpp. </li>
+      seconds with minisat-2.2.0 in 64/4_4_4/1_1.hpp. ??? what is one round
+      here ??? one round is trivial ??? </li>
      </ul>
     </li>
     <li> 32 bit key:
