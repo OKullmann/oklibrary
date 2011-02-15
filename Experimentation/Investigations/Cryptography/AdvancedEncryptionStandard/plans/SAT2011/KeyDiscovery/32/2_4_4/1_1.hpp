@@ -85,7 +85,8 @@ shell> cat ssaes_r1_c2_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
 16 60
    \endverbatim
    </li>
-   <li> The measured statistics match up to the computed statistics:
+   <li> The measured statistics match up to the computed statistics: ??? what
+   is the meaning of this ???
    \verbatim
 maxima> ncl_list_ss(1,2,4,4,false,aes_ts_box,aes_mc_bidirectional);
 [[1,4],[2,7680],[3,368],[4,32],[5,1024],[9,960],[16,60]]
