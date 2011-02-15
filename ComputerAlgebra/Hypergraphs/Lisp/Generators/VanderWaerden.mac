@@ -157,7 +157,7 @@ has_arithprog(S,k) :=
 */
 
 /* VdW-hypergraphs G have the mirror symmetry m, defined as reflection on the
-   middle point of the vertex-set. Now for an ordered  vdW-hypergraph G
+   middle point of the vertex-set. Now for an ordered vdW-hypergraph G we
    enforce that all colourings f are symmetric w.r.t. m, that is,
      f(v) = f(m(v)).
    More precisely:
@@ -167,8 +167,8 @@ has_arithprog(S,k) :=
    is fixed by m.
    Now the function palindromise_vdw_(o)hg(G) replaces every vertex v >= n/2+1
    by its mirror image m(v). The new vertices are 1, ..., ceil(n/2).
-   Removes all subsumed clauses from the obtained list of hyperedges, sorting
-   the clauses then in colexicographical order.
+   Furthermore all subsumed clauses are removed from the obtained list of
+   hyperedges, sorting the clauses then in colexicographical order.
 
    This amounts to considering for colourings of G only the palindromic
    colourings (those colourings which read forward and backward the same).
