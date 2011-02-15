@@ -49,6 +49,7 @@ License, or any later version. */
    <li> See "Using the canonical translation" in
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/32/2_4_4/1_1.hpp .
    </li>
+   <li> Just use "time"! </li>
   </ul>
 
 
