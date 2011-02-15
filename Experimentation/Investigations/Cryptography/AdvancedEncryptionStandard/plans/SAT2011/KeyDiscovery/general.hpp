@@ -54,6 +54,19 @@ License, or any later version. */
   with a final key addition), are in 128/4_4_8/1_1.hpp.
 
 
+  \todo Better directory names (regarding their order)
+  <ul>
+   <li> Directory names should be "004", "008", "032" etc., so that a file
+   browser lists them automatically in the right order. </li>
+   <li> Just to mention: moving files should always be done in *two* steps:
+    <ol>
+     <li> First move the files with "git mv", without change of content. </li>
+     <li> Then update content to reflect new filenames. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Add milestones
   <ul>
    <li> We urgently need milestones at this level. </li>
