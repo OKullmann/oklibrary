@@ -132,7 +132,7 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             r1_keyfind.cnf
    \endverbatim
    </li>
-   <li> minisat and glucose:
+   <li> minisat and glucose: ??? why "minisat2" ???
    \verbatim
 shell> minisat2 r1_keyfind.cnf 
 <snip>
