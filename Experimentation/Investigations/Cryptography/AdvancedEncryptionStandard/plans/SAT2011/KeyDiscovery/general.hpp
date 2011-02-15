@@ -51,7 +51,7 @@ License, or any later version. */
   n_2_1.hpp respectively. ??? what does this mean ???
 
   As an example, experiments on the standard one round AES (no final round,
-  with a final key addition), are in 128/4_4_8/1_1.hpp .
+  with a final key addition), are in 128/4_4_8/1_1.hpp.
 
 
   \todo Add milestones
