@@ -1,4 +1,4 @@
-// Matthew Gwynne, 23.1.2011 (Swansea)
+// Matthew Gwynne, 15.2.2011 (Swansea)
 /* Copyright 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r10_c1_rw1_e4_f0.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/4/1_1_4/10_1.hpp
   \brief Investigations into simplest small scale AES key discovery for ten rounds AES with MixColumns
 
 
@@ -28,7 +28,7 @@ License, or any later version. */
   <ul>
    <li> In this file, we collect the investigations into translations of
    ten round small scale AES with one column, one row, using the 4-bit
-   field size, and including the MixColumns operation. </li>
+   field size. </li>
    <li> The AES encryption scheme we model takes a 4-bit plaintext,
    4-bit key and applies the following operations:
    <ol>

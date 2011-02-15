@@ -41,7 +41,18 @@ License, or any later version. */
   </ul>
 
 
-   \todo Determining a "good" local search algorithm to use on AES instances
+  \bug MiniSAT2 based solvers return incorrect times using experiment script
+  <ul>
+   <li> minisat2 based solvers (glucose and minisat2) return run times of
+   a fraction of a second using when run using "run_all_solvers_2by2" 
+   while they clearly take much much longer when run separately. </li>
+   <li> See "Using the canonical translation" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/32/2_4_4/1_1.hpp .
+   </li>
+  </ul>
+
+
+  \todo Determining a "good" local search algorithm to use on AES instances
   <ul>
    <li> Question: what is a good algorithm to use, considering the algorithms
    tested by "run_ubcsat" (see 

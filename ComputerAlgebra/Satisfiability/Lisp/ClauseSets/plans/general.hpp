@@ -10,6 +10,51 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding clause-sets
 
 
+  \bug print_nlb doesn't allow lines more than 10000 characters long
+  <ul>
+   <li> We get the following error:
+   \verbatim
+> print_nlb(apply(sconcat,create_list(1,i,1,10000)));
+assignment: cannot assign 10001 to linel
+#0: print_nlb(s=1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111...)
+ -- an error. To debug this try: debugmode(true);
+   \endverbatim
+   </li>
+   <li> This bug causes problems with the AES generation scripts, where
+   we get a similar error with print_nlb:
+   \verbatim
+> output_ss_fcl_std(1,4,4,4,false,aes_ts_box,aes_mc_bidirectional);
+#0: print_nlb(s=c 1173 : ss_ctr_ns(ss_round_ns(ss_mixcolumns_ns(ss_bi_mixcolumn_ns(ss_inv_mixcolumn_ns(ss_mul_ts_ns(...)
+#1: print_fcl_v(comment=Small Scale AES with r=1,c=4,rw=4,e=4,final=false,box_tran=aes_ts_box,mc_tran=aes_mc_bidirectional,ff=[[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36...,
+   \endverbatim
+   </li>
+   </li>
+   <li> print_nlb sets the maxima linel variable to the length of the string
+   but with:
+   \verbatim
+> linel : 10000;
+10000
+> linel : 10001;
+assignment: cannot assign 10001 to linel
+ -- an error. To debug this try: debugmode(true);
+   \endverbatim
+   we get an error.
+   </li>
+   <li> According to Robert Dodler on the Maxima mailing list, we
+   can do the following to set linel via lisp directly:
+   \verbatim
+:lisp (setq $linel 10001 linel 10001)
+   \endverbatim
+   however, it is not clear how we can do the same from a loaded
+   Maxima file.
+   </li>
+   <li> Robert Dodler says that there is currently a hard limit of 10000
+   in the Maxima code, which is what triggers this error and according to
+   Dieter Kalser, this is because Maxima crashes when linel is set to
+   certain large values (unspecified). </li>
+  </ul>
+
+
   \todo Create milestones
 
 

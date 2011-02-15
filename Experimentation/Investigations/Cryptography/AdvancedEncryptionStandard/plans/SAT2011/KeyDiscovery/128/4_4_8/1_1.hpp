@@ -1,4 +1,4 @@
-// Matthew Gwynne, 21.1.2011 (Swansea)
+// Matthew Gwynne, 15.2.2011 (Swansea)
 /* Copyright 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -6,8 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/AES_r1_c4_rw4_e8_f0.hpp
-  \brief Investigations into AES key discovery for one round AES with MixColumns
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/4_4_8/1_1.hpp
+  \brief Investigations into AES key discovery for one round AES (1+1/3)
 
 
   \todo Problem specification

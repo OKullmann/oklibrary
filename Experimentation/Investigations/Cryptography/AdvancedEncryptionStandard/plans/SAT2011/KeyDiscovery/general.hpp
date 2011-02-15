@@ -19,33 +19,46 @@ License, or any later version. */
   - the reconfiguration of the computational network, to make the boolean
     analysis more powerful.
 
-
-  \todo Better organisation
+  The investigations are arranged into subdirectories based on the bit
+  size of the key (4,16,32,64,128 and so on), and then by the number of
+  columns, rows and field size (e.g. 4_4_8 for standard AES). At the
+  lowest level in this directory structure, we then have files for
+  experiments on each number of rounds, where we classify rounds as
+  follows:
+     
   <ul>
-   <li> The number of rounds is clearly sub-ordinated, and thus we should have
-   directories, where within we have files just for the various numbers of
-   rounds considered. </li>
-   <li> The directory names are then the names of the various investigations-
-   files (with the round-component of the name removed). </li>
-   <li> There should be no "aes" in the name, since it does not serve as
-   distinction. </li>
-   <li> The "f0" etc. are also to be removed from the name, since it is just
-   a variation on the (fractional) number of rounds (and thus to be placed
-   inside the directories). </li>
-   <li> No need for the letters "c" etc. </li>
-   <li> So for example "AES_r1_c4_rw4_e8_f1" becomes "1_4_8". </li>
-   <li> Should one treat "1_4_8" the same as "2_2_8", since it results in
-   the same overall sizes? </li>
-   <li> We always have the same number of bits for plain/cipher text and for
-   keys. Perhaps this number is most important? </li>
-   <li> So the directory name should perhaps be just one number, the number
-   of bits in the key (plain/cipher text)? </li>
-   <li> So currently we would have directories "4, 32, 64, 128" (for the
-   number of key-bits, which is the relevant aspect here). </li>
-   <li> Inside these directories we then have directories like "1_4_8" as
-   above. </li>
+   <li> A number n of rounds with no further qualification means that
+   the AES consists of n AES rounds (key addition, then SubBytes, then 
+   Shiftrows, then MixColumns) with no final key addition. </li>
+   <li> A number n of rounds with the addition of 1/3 (e.g. n + 1/3) means 
+   that the AES consists of n AES rounds (key addition, then SubBytes, then 
+   Shiftrows, then MixColumns) with a final key addition (the first third of 
+   the round, ignoring the Shiftrows). </li>
+   <li> A number n of rounds with the addition of 2/3 (e.g. n + 2/3) means
+   that the AES consists of n AES rounds (key addition, then SubBytes, then 
+   Shiftrows, then MixColumns) and then another special final round with just
+   key addition, SubBytes and ShiftRows (i.e. two thirds of a round, ignoring 
+   Shiftrows). </li>
+   <li> A number n of rounds with the addition of 2/3 and 1/3 (n + 2/3 + 1/3) 
+   means that the AES consists of n AES rounds (key addition, then SubBytes,
+   then Shiftrows, then MixColumns) and then another special final round with 
+   just key addition, SubBytes and ShiftRows (i.e. two thirds of a round, 
+   ignoring Shiftrows). After this final round, we also have an additional key
+   addition (the first third of the round, ignoring the Shiftrows). </li>
   </ul>
-  
+
+  These conventions are converted to filenames as n.hpp, n_1.hpp, n_2.hpp and 
+  n_2_1.hpp respectively.
+
+  As an example, experiments on the standard one round AES (no final round,
+  with a final key addition), are in 128/4_4_8/1_1.hpp .
+
+
+  \todo Add milestones
+  <ul>
+   <li> We urgently need milestones at this level. </li>
+  </ul>
+
 
   \todo Links
   <ul>
@@ -57,6 +70,54 @@ License, or any later version. */
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp
    for the more general investigations.
    </li>   
+  </ul>
+
+
+  \todo Boundaries
+  <ul>
+   <li> We need to have a good understanding of the boundaries of the
+   parameters and sizes of AES key discovery instances that we can 
+   solve in a reasonable time (in less than a day or two). </li>
+   <li> So far, we can solve the following in the listed times for
+   the n + 1/3 round variants:
+   <ul>
+    <li> 128 bit key:
+     <ul>
+      <li> So far can't break one round. </li>
+     </ul>
+    </li>
+    <li> 64 bit key:
+     <ul>
+      <li> 4 column, 4 row, 4 bits up to <em>1</em> rounds in <em> 21 </em>
+      seconds with minisat-2.2.0 in 64/4_4_4/1_1.hpp. </li>
+     </ul>
+    </li>
+    <li> 32 bit key:
+     <ul>
+      <li> 2 column, 4 row, 4 bits up to <em>1</em> rounds in <em> 1.27 </em>
+      seconds with glucose in 32/2_4_4/1_1.hpp. </li>
+     </ul>
+    </li>
+    <li> 16 bit key:
+     <ul>
+      <li> 2 column, 2 row, 4 bits up to <em>4</em> rounds in <em> 0.8 </em>
+      seconds with glucose in 16/2_2_4/4_1.hpp. </li>
+     </ul>
+    </li>
+    <li> 8 bit key:
+     <ul>
+      <li> 1 column, 1 row, 8 bits up to <em>20</em> rounds in <em> 0.5 </em>
+      seconds with precosat236 in 8/1_1_4/20_1.hpp. </li>
+     </ul>
+    </li>
+    <li> 4 bit key:
+     <ul>
+      <li> 1 column, 1 row, 4 bits up to <em>10</em> rounds in <em> 0.1 </em>
+      seconds with glucose in 4/1_1_4/10_1.hpp. </li>
+     </ul>
+    </li>
+   </ul>
+   </li>
   </ul>
 
 
@@ -108,8 +169,22 @@ generate_ss_constraint_vars(n,m,namespace, id) :=
    the file output will be slightly different as the variable mappings will
    not be maintained. Therefore, if knowing precisely what variables are what
    (excluding the plaintext, key and ciphertext variables, which are always
-   at 1-3*num_rows*num_columns*exp) is important, then the standard
-   translation, without these faster functions, should be used. </li>
+   at 1-3*num_rows*num_columns*exp) is important, then one should exclude
+   the replacement of "generate_ss_constraint_vars", i.e., only use the
+   following:
+   \verbatim
+rename_fcl(FF,VL) := block([count : -1], local(h),
+  for V in map("[", FF[1], VL) do h[V[1]] : V[2],
+  return([create_list(i,i,1,length(FF[1])),
+   map(
+     lambda([C], (  
+       if oklib_monitor then 
+           (count : count + 1, 
+            if mod(count,1000) = 0 then 
+              print("Renaming ", count, "/",length(FF[2]))),
+       map(lambda([L], if L > 0 then h[L] else -h[-L]), C))), FF[2])]))$
+   \endverbatim. 
+   </li>
    <li> Also note that "gen_h" is global in this example as we want
    generate_ss_constraint_vars to yield the same result across calls. </li>
    <li> Therefore, a typical AES translation might be:
@@ -140,5 +215,32 @@ maxima> output_ss_fcl_std(1,4,4,8,0,aes_ts_box, aes_mc_bidirectional);
 
 
   \todo Add todos
+
+
+  \todo DONE Better organisation
+  <ul>
+   <li> The number of rounds is clearly sub-ordinated, and thus we should have
+   directories, where within we have files just for the various numbers of
+   rounds considered. </li>
+   <li> The directory names are then the names of the various investigations-
+   files (with the round-component of the name removed). </li>
+   <li> There should be no "aes" in the name, since it does not serve as
+   distinction. </li>
+   <li> The "f0" etc. are also to be removed from the name, since it is just
+   a variation on the (fractional) number of rounds (and thus to be placed
+   inside the directories). </li>
+   <li> No need for the letters "c" etc. </li>
+   <li> So for example "AES_r1_c1_rw4_e8_f1" becomes "1_4_8". </li>
+   <li> Should one treat "1_4_8" the same as "2_2_8", since it results in
+   the same overall sizes? </li>
+   <li> We always have the same number of bits for plain/cipher text and for
+   keys. Perhaps this number is most important? </li>
+   <li> So the directory name should perhaps be just one number, the number
+   of bits in the key (plain/cipher text)? </li>
+   <li> So currently we would have directories "4, 32, 64, 128" (for the
+   number of key-bits, which is the relevant aspect here). </li>
+   <li> Inside these directories we then have directories like "1_4_8" as
+   above. </li>
+  </ul>
 
 */

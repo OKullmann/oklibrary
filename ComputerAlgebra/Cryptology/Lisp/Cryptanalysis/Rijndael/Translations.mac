@@ -541,7 +541,7 @@ ncl_ss(r,num_cols,num_rows,ss_exp,final_round_b,box_tran,mc_trans) :=
         ss_mixcolumns_matrix(2,ss_exp,num_rows),
         ncl_fcs(ev_hm(ss_sbox_cnfs,ss_exp)),
         create_list(
-          [nat2poly(e,2), ncl_fcs(ev_hm(ss_field_cnfs,[ss_exp,e]))],
+          [nat2poly(e,2), ncl_fcs(ev_hm_d(ss_field_cnfs,[ss_exp,e],[{},{}]))],
           e,2,2^ss_exp-1),
         final_round_b, mc_trans)
   else if box_tran = aes_rbase_box then
@@ -549,7 +549,8 @@ ncl_ss(r,num_cols,num_rows,ss_exp,final_round_b,box_tran,mc_trans) :=
         ss_mixcolumns_matrix(2,ss_exp,num_rows),
         ncl_list_fcs(ev_hm(ss_sbox_rbase_cnfs,ss_exp)),
         create_list(
-          [nat2poly(e,2), ncl_fcs(ev_hm(ss_field_rbase_cnfs,[ss_exp,e]))],
+          [nat2poly(e,2),
+          ncl_fcs(ev_hm_d(ss_field_rbase_cnfs,[ss_exp,e],[{},{}]))],
           e,2,2^ss_exp-1),
         final_round_b, mc_trans)
   else
@@ -591,32 +592,40 @@ multi_list_distribution2list_distribution(
       listify(nadd_ss_sm(r,num_cols,num_rows,ss_exp,final_round_b,mc_trans)))
     )))$
 ncl_list_ss(r,num_cols,num_rows,ss_exp,final_round_b,box_tran,mc_trans) :=
+block([mixcolumns_matrix : ss_mixcolumns_matrix(2,ss_exp,num_rows),
+       inv_mixcolumns_matrix, mixcolumns_mult_l],
+  inv_mixcolumns_matrix :
+    ss_mixcolumns_matrix2inv_mixcolumns_matrix(2,ss_exp,mixcolumns_matrix),
+  mixcolumns_mult_l :
+    unique(append(m2l_r(mixcolumns_matrix),m2l_r(inv_mixcolumns_matrix))),
+  mixcolumns_mult_l :
+    sublist(mixcolumns_mult_l, lambda([a], is(a # 1) and is(a # 0))),
   if box_tran = aes_small_box then
     ncl_list_ss_gen(r,num_cols,num_rows,ss_exp,
         ss_mixcolumns_matrix(2,ss_exp,num_rows),
         ncl_list_fcs(ev_hm(ss_sbox_cnfs,ss_exp)),
         create_list(
-          [nat2poly(e,2),
-            ncl_list_fcs(ev_hm_d(ss_field_cnfs,[ss_exp,e],[{},{}]))],
-          e,2,2^ss_exp-1),
+          [e, ncl_list_fcs(
+            ev_hm(ss_field_cnfs,[ss_exp,poly2nat(e,2)]))],
+          e, mixcolumns_mult_l),
         final_round_b, mc_trans)
   else if box_tran = aes_rbase_box then
       ncl_list_ss_gen(r,num_cols,num_rows,ss_exp,
         ss_mixcolumns_matrix(2,ss_exp,num_rows),
         ncl_list_fcs(ev_hm(ss_sbox_rbase_cnfs,ss_exp)),
         create_list(
-          [nat2poly(e,2),
-            ncl_list_fcs(ev_hm_d(ss_field_rbase_cnfs,[ss_exp,e],[{},{}]))],
-            e,2,2^ss_exp-1),
+          [e, ncl_list_fcs(
+            ev_hm(ss_field_rbase_cnfs,[ss_exp,poly2nat(e,2)]))],
+          e, mixcolumns_mult_l),
         final_round_b, mc_trans)
   else
       ncl_list_ss_gen(r,num_cols,num_rows,ss_exp,
         ss_mixcolumns_matrix(2,ss_exp,num_rows),
         ncl_list_full_dualts(2*ss_exp,2^ss_exp),
         create_list(
-          [nat2poly(e,2), ncl_list_full_dualts(2*ss_exp,2^ss_exp)],
-          e,2,2^ss_exp-1),
-        final_round_b, mc_trans)$
+          [e, ncl_list_full_dualts(2*ss_exp,2^ss_exp)],
+          e, mixcolumns_mult_l),
+        final_round_b, mc_trans))$
 
 
 /* Given the appropriate parameters returns basic statistics on

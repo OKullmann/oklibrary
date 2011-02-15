@@ -45,6 +45,24 @@ batch(sconcat(OKsystem,"/OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/t
   </ul>
 
 
+  \todo Why is Maxima file output so slow?
+  <ul>
+   <li> We have the following very slow output in Maxima:
+   \verbatim
+(%i12) A : apply(sconcat,create_list("1",i,1,500))$
+Evaluation took 0.0000 seconds (0.0070 elapsed)
+(%i13) with_stdout("test.txt", for i : 1 thru 100000 do print(A))$
+Evaluation took 7.1600 seconds (7.4840 elapsed)
+   \endverbatim
+   </li>
+   <li> However, in C++, this would take a fraction of a section,
+   and even in interpreted languages like python, this takes
+   only 0.2 seconds. </li>
+   <li> MG has sent an e-mail to the Maxima mailing list regarding
+   this issue. </li>
+  </ul>
+
+
   \todo Stable sorting
   <ul>
    <li> The documentation of "sort" doesn't say anything about the behaviour

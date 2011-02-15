@@ -213,6 +213,7 @@ okltest_ncl_ss(f) := (
   assert(f(1,4,4,8,true,aes_ts_box,aes_mc_forward) = 88636),
   assert(f(1,4,4,8,false,aes_ts_box,aes_mc_forward) = 229980),
   assert(f(1,4,4,4,false,aes_small_box,aes_mc_forward) = 6236),
+  assert(f(10,4,4,8,true,aes_small_box,aes_mc_forward) = 153048),
   true)$
 
 okltest_ncl_list_ss_gen(f) := (
@@ -241,6 +242,8 @@ okltest_ncl_list_ss(f) := (
     [[1,4],[2,2816],[3,304],[4,32],[9,352],[16,22]]),
   assert(f(1,2,2,4, false, aes_ts_box, aes_mc_forward) =
     [[1,4],[2,1792],[3,240],[4,32],[9,224],[16,14]]),
+  assert(f(1,2,2,4, false, aes_small_box, aes_mc_forward) =
+    [[1,4],[2,20],[3,304],[4,104],[5,12],[8,960]]),
   true)$
 
 okltest_component_statistics_ss_gen(f) := block(
