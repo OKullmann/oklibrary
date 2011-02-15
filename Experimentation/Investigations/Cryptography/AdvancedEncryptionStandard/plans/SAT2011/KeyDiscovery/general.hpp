@@ -73,6 +73,48 @@ License, or any later version. */
   </ul>
 
 
+  \todo Boundaries
+  <ul>
+   <li> We need to have a good understanding of the boundaries of the
+   parameters and sizes of AES key discovery instances that we can 
+   solve in a reasonable time (in less than a day or two). </li>
+   <li> So far, we can solve the following in the listed times for
+   the n + 1/3 round variants:
+   <ul>
+    <li> 128 bit key:
+     <ul>
+      <li> So far can't break one round. </li>
+     </ul>
+    </li>
+    <li> 32 bit key:
+     <ul>
+      <li> 2 column, 4 row, 4 bits up to <em>1</em> rounds in <em> 1.27 </em>
+      seconds with glucose in 32/2_4_4/1_1.hpp. </li>
+     </ul>
+    </li>
+    <li> 16 bit key:
+     <ul>
+      <li> 2 column, 2 row, 4 bits up to <em>4</em> rounds in <em> 0.8 </em>
+      seconds with glucose in 16/2_2_4/4_1.hpp. </li>
+     </ul>
+    </li>
+    <li> 8 bit key:
+     <ul>
+      <li> 1 column, 1 row, 8 bits up to <em>20</em> rounds in <em> 0.5 </em>
+      seconds with precosat236 in 8/1_1_4/20_1.hpp. </li>
+     </ul>
+    </li>
+    <li> 4 bit key:
+     <ul>
+      <li> 1 column, 1 row, 4 bits up to <em>10</em> rounds in <em> 0.1 </em>
+      seconds with glucose in 4/1_1_4/10_1.hpp. </li>
+     </ul>
+    </li>
+   </ul>
+   </li>
+  </ul>
+
+
   \todo Explanations
   <ul>
    <li> DONE For every such file, we need explanations what a "round" etc. is,
