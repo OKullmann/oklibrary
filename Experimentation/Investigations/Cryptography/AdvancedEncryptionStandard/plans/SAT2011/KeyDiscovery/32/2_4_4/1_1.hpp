@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Investigations into small scale AES key discovery for one round AES with a 2x4 block and 4-bit field elements (1+1/3)
 
 
-  \todo Improve explanations of what a round is
+  \todo Improve explanations of what a round is ??? what is this doing here ???
   <ul>
    <li> Round always contain MixColumns. </li>
    <li> So this shouldn't be mentioned. </li>
@@ -29,8 +29,8 @@ License, or any later version. */
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   one round small scale AES with two columns, four rows, using the 4-bit
-   field size. </li>
+   one round ??? one round ??? small scale AES with two columns, four rows,
+   using the 4-bit field size. </li>
    <li> The AES encryption scheme we model takes a 32-bit plaintext,
    32-bit key and applies the following operations:
    <ol>
@@ -60,7 +60,7 @@ License, or any later version. */
 
   \todo Using the canonical translation
   <ul>
-   <li> Generating small scale AES for 1 round (with MixColumns):
+   <li> Generating small scale AES for 1 round (with MixColumns): ??? 1 round ???
    \verbatim
 num_rounds : 1$
 num_columns : 2$
