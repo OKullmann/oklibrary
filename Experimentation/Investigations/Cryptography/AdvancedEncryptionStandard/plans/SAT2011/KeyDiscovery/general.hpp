@@ -54,19 +54,6 @@ License, or any later version. */
   with a final key addition), are in 128/4_4_8/1_1.hpp.
 
 
-  \todo Better directory names (regarding their order)
-  <ul>
-   <li> Directory names should be "004", "008", "032" etc., so that a file
-   browser lists them automatically in the right order. </li>
-   <li> Just to mention: moving files should always be done in *two* steps:
-    <ol>
-     <li> First move the files with "git mv", without change of content. </li>
-     <li> Then update content to reflect new filenames. </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Add milestones
   <ul>
    <li> We urgently need milestones at this level. </li>
@@ -105,34 +92,34 @@ License, or any later version. */
     <li> 64 bit key:
      <ul>
       <li> 16 column, 1 row, 4 bits, up to <em>5 + 1/3</em> rounds in
-      <em> 26 </em> seconds with minisat-2.2.0 in 64/16_1_4/4_1.hpp. </li>
+      <em> 26 </em> seconds with minisat-2.2.0 in 064/16_1_4/4_1.hpp. </li>
       <li> 4 column, 4 row, 4 bits up to <em>1+1/3</em> rounds in 
-      <em> 21 </em> seconds with minisat-2.2.0 in 64/4_4_4/1_1.hpp.
+      <em> 21 </em> seconds with minisat-2.2.0 in 064/4_4_4/1_1.hpp.
       </li>
      </ul>
     </li>
     <li> 32 bit key:
      <ul>
       <li> 2 column, 4 row, 4 bits up to <em>1 + 1/3</em> rounds in 
-      <em> 1.27 </em> seconds with glucose in 32/2_4_4/1_1.hpp. </li>
+      <em> 1.27 </em> seconds with glucose in 032/2_4_4/1_1.hpp. </li>
      </ul>
     </li>
     <li> 16 bit key:
      <ul>
       <li> 2 column, 2 row, 4 bits up to <em>4 + 1/3</em> rounds in 
-      <em> 0.8 </em> seconds with glucose in 16/2_2_4/4_1.hpp. </li>
+      <em> 0.8 </em> seconds with glucose in 016/2_2_4/4_1.hpp. </li>
      </ul>
     </li>
     <li> 8 bit key:
      <ul>
       <li> 1 column, 1 row, 8 bits up to <em>20 + 1/3</em> rounds in 
-      <em> 0.5 </em> seconds with precosat236 in 8/1_1_4/20_1.hpp. </li>
+      <em> 0.5 </em> seconds with precosat236 in 008/1_1_4/20_1.hpp. </li>
      </ul>
     </li>
     <li> 4 bit key:
      <ul>
       <li> 1 column, 1 row, 4 bits up to <em>10 + 1/3</em> rounds in 
-      <em> 0.1 </em> seconds with glucose in 4/1_1_4/10_1.hpp. </li>
+      <em> 0.1 </em> seconds with glucose in 004/1_1_4/10_1.hpp. </li>
      </ul>
     </li>
    </ul>
@@ -260,6 +247,19 @@ maxima> output_ss_fcl_std(1,4,4,8,0,aes_ts_box, aes_mc_bidirectional);
    number of key-bits, which is the relevant aspect here). </li>
    <li> Inside these directories we then have directories like "1_4_8" as
    above. </li>
+  </ul>
+
+
+  \todo DONE Better directory names (regarding their order)
+  <ul>
+   <li> Directory names should be "004", "008", "032" etc., so that a file
+   browser lists them automatically in the right order. </li>
+   <li> Just to mention: moving files should always be done in *two* steps:
+    <ol>
+     <li> First move the files with "git mv", without change of content. </li>
+     <li> Then update content to reflect new filenames. </li>
+    </ol>
+   </li>
   </ul>
 
 */

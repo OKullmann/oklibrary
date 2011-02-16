@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/64/4_4_4/1_1.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/064/4_4_4/1_1.hpp
   \brief Investigations into small scale AES key discovery for one round AES with a 4x4 block and 4-bit field elements (1+1/3)
 
 
