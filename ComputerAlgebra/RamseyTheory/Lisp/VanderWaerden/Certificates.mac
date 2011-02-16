@@ -33,7 +33,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    {1,...,n}, yielding a partition of this set (with possibly empty subsets).
 */
 check_certificate_vdw(L,n,P) := block([N : setn(n)],
-  is(length(L) = length(P)) and is(apply(union,P) = N) and
+  length(L) = length(P) and lunion(P) = N and
     sum_l(map(length,P)) = n and
     every(lambda([k,b], not has_arithprog(b,k)), L, P))$
 /* See "The notion of a certificate" in 
