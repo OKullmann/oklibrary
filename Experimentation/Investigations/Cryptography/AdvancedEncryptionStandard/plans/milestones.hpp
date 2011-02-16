@@ -47,7 +47,7 @@ License, or any later version. */
     - Explanations
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/4_4_8/0_2_1.hpp
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/4_4_8/0_23_13.hpp
    the following topics are handled:
     - Problems sizes : DONE
 

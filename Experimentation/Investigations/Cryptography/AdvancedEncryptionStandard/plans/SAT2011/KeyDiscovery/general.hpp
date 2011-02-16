@@ -47,11 +47,11 @@ License, or any later version. */
    addition (the first third of the round, ignoring the Shiftrows). </li>
   </ul>
 
-  These conventions are converted to filenames as n.hpp, n_1.hpp, n_2.hpp and 
-  n_2_1.hpp respectively. ??? what does this mean ???
+  Experiments run over n, n + 1/3, n + 2/3 and n + 2/3 + 1/3 AES rounds are 
+  then in files named n.hpp, n_13.hpp, n_23.hpp and n_23_13.hpp respectively.
 
   As an example, experiments on the standard one round AES (no final round,
-  with a final key addition), are in 128/4_4_8/1_1.hpp.
+  with a final key addition), are in 128/4_4_8/1_13.hpp.
 
 
   \todo Add milestones
@@ -92,34 +92,34 @@ License, or any later version. */
     <li> 64 bit key:
      <ul>
       <li> 16 column, 1 row, 4 bits, up to <em>5 + 1/3</em> rounds in
-      <em> 26 </em> seconds with minisat-2.2.0 in 064/16_1_4/4_1.hpp. </li>
+      <em> 26 </em> seconds with minisat-2.2.0 in 064/16_1_4/4_13.hpp. </li>
       <li> 4 column, 4 row, 4 bits up to <em>1+1/3</em> rounds in 
-      <em> 21 </em> seconds with minisat-2.2.0 in 064/4_4_4/1_1.hpp.
+      <em> 21 </em> seconds with minisat-2.2.0 in 064/4_4_4/1_13.hpp.
       </li>
      </ul>
     </li>
     <li> 32 bit key:
      <ul>
       <li> 2 column, 4 row, 4 bits up to <em>1 + 1/3</em> rounds in 
-      <em> 1.27 </em> seconds with glucose in 032/2_4_4/1_1.hpp. </li>
+      <em> 1.27 </em> seconds with glucose in 032/2_4_4/1_13.hpp. </li>
      </ul>
     </li>
     <li> 16 bit key:
      <ul>
       <li> 2 column, 2 row, 4 bits up to <em>4 + 1/3</em> rounds in 
-      <em> 0.8 </em> seconds with glucose in 016/2_2_4/4_1.hpp. </li>
+      <em> 0.8 </em> seconds with glucose in 016/2_2_4/4_13.hpp. </li>
      </ul>
     </li>
     <li> 8 bit key:
      <ul>
       <li> 1 column, 1 row, 8 bits up to <em>20 + 1/3</em> rounds in 
-      <em> 0.5 </em> seconds with precosat236 in 008/1_1_4/20_1.hpp. </li>
+      <em> 0.5 </em> seconds with precosat236 in 008/1_1_4/20_13.hpp. </li>
      </ul>
     </li>
     <li> 4 bit key:
      <ul>
       <li> 1 column, 1 row, 4 bits up to <em>10 + 1/3</em> rounds in 
-      <em> 0.1 </em> seconds with glucose in 004/1_1_4/10_1.hpp. </li>
+      <em> 0.1 </em> seconds with glucose in 004/1_1_4/10_13.hpp. </li>
      </ul>
     </li>
    </ul>
