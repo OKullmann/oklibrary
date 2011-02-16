@@ -96,38 +96,43 @@ License, or any later version. */
    <ul>
     <li> 128 bit key:
      <ul>
-      <li> So far can't break one round. </li>
+      <li> Can break standard AES for 2/3 + 1/3 rounds in 18s with picosat913.
+      </li>
+      <li> So far can't break standard AES for 1 + 1/3 round after two days 
+      computation with all solvers. </li>
      </ul>
     </li>
     <li> 64 bit key:
      <ul>
-      <li> 4 column, 4 row, 4 bits up to <em>1</em> rounds in <em> 21 </em>
-      seconds with minisat-2.2.0 in 64/4_4_4/1_1.hpp. ??? what is one round
-      here ??? one round is trivial ??? </li>
+      <li> 16 column, 1 row, 4 bits, up to <em>5 + 1/3</em> rounds in
+      <em> 26 </em> seconds with minisat-2.2.0 in 64/16_1_4/4_1.hpp. </li>
+      <li> 4 column, 4 row, 4 bits up to <em>1+1/3</em> rounds in 
+      <em> 21 </em> seconds with minisat-2.2.0 in 64/4_4_4/1_1.hpp.
+      </li>
      </ul>
     </li>
     <li> 32 bit key:
      <ul>
-      <li> 2 column, 4 row, 4 bits up to <em>1</em> rounds in <em> 1.27 </em>
-      seconds with glucose in 32/2_4_4/1_1.hpp. </li>
+      <li> 2 column, 4 row, 4 bits up to <em>1 + 1/3</em> rounds in 
+      <em> 1.27 </em> seconds with glucose in 32/2_4_4/1_1.hpp. </li>
      </ul>
     </li>
     <li> 16 bit key:
      <ul>
-      <li> 2 column, 2 row, 4 bits up to <em>4</em> rounds in <em> 0.8 </em>
-      seconds with glucose in 16/2_2_4/4_1.hpp. </li>
+      <li> 2 column, 2 row, 4 bits up to <em>4 + 1/3</em> rounds in 
+      <em> 0.8 </em> seconds with glucose in 16/2_2_4/4_1.hpp. </li>
      </ul>
     </li>
     <li> 8 bit key:
      <ul>
-      <li> 1 column, 1 row, 8 bits up to <em>20</em> rounds in <em> 0.5 </em>
-      seconds with precosat236 in 8/1_1_4/20_1.hpp. </li>
+      <li> 1 column, 1 row, 8 bits up to <em>20 + 1/3</em> rounds in 
+      <em> 0.5 </em> seconds with precosat236 in 8/1_1_4/20_1.hpp. </li>
      </ul>
     </li>
     <li> 4 bit key:
      <ul>
-      <li> 1 column, 1 row, 4 bits up to <em>10</em> rounds in <em> 0.1 </em>
-      seconds with glucose in 4/1_1_4/10_1.hpp. </li>
+      <li> 1 column, 1 row, 4 bits up to <em>10 + 1/3</em> rounds in 
+      <em> 0.1 </em> seconds with glucose in 4/1_1_4/10_1.hpp. </li>
      </ul>
     </li>
    </ul>
