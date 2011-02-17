@@ -28,7 +28,7 @@ License, or any later version. */
 
   \todo Computation of r_k-bases
   <ul>
-   <li> See Experimentation/Investigations/BooleanFunctions/plans/Linear.hpp
+   <li> See Experimentation/Investigations/BooleanFunctions/plans/Permutations/Linear.hpp
    for general investigations. </li>
    <li> For very small sizes we can directly compute r_0- and r_1-bases. </li>
    <li> Can we learn something from that for the bigger cases? </li>
