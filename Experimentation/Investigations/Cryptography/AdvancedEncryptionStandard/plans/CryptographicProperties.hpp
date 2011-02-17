@@ -1,5 +1,5 @@
 // Matthew Gwynne, 30.12.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -54,6 +54,23 @@ License, or any later version. */
     K1=K2 etc. </li>
     <li> Again we should consider using QBF solvers here to translate
     this property for all plaintext ciphertext pairs. </li>
+   </ul>
+   </li>
+   <li> Does the AES have any key for which the cipher becomes the 
+   identity with that key? 
+   <ul>
+    <li> Considering only a single plaintext (that there is a key K for which 
+    AES with that K maps some plaintext P to itself) can be translated simply 
+    as "AES(P,K,P)". </li>
+    <li> This question can then be expanded to whether there is a key which
+    makes the ciphertext act identically on all blocks using QBF solvers.
+    </li>
+    <li> The single plaintext translation of this question into a SAT
+    problem should be implemented in the Maxima system. </li>
+    <li> See output_ss_fcl_id_p in 
+    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac
+    for the implemented translation of the single plaintext cryptographic 
+    question. </li>
    </ul>
    </li>
   </ul>
