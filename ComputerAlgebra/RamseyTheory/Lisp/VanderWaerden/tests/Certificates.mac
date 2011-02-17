@@ -30,7 +30,7 @@ kill(f)$
    *****************
 */
 
-okltest_check_certificate_vdw(f) := (
+okltest_certificate_vdw_p(f) := (
   assert(f([],0,[]) = true),
   assert(f([],1,[]) = false),
   assert(f([],1,[{1}]) = false),
@@ -76,6 +76,18 @@ okltest_palindromic_subsets_p(f) := block([P],
   assert(f(5,[{1,5},{2,4}]) = true),
   assert(f(5,[{1,5},{2,3,4}]) = true),
   assert(f(5,[{1,5},{2,3},{4}]) = false),
+  true)$
+
+okltest_certificate_pdvdw_p(f) := (
+  /* XXX */
+  true)$
+
+okltest_compress_palindromic_subsets(f) := (
+  /* XXX */
+  true)$
+
+okltest_uncompress_palindromic_subsets(f) := (
+  /* XXX */
   true)$
 
 

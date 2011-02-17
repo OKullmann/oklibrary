@@ -26,9 +26,15 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/tests/Certi
    *****************
 */
 
-okltest_check_certificate_vdw(check_certificate_vdw);
+okltest_certificate_vdw_p(certificate_vdw_p);
 
 okltest_palindromic_subsets_p(palindromic_subsets_p);
+
+okltest_certificate_pdvdw_p(certificate_pdvdw_p);
+
+okltest_compress_palindromic_subsets(compress_palindromic_subsets);
+
+okltest_uncompress_palindromic_subsets(uncompress_palindromic_subsets);
 
 /* *******************
    * Transformations *

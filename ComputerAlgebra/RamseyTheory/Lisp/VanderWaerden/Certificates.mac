@@ -32,7 +32,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 /* L is a vdW-parameter-tuple, n a natural number, P a list of subsets of
    {1,...,n}, yielding a partition of this set (with possibly empty subsets).
 */
-check_certificate_vdw(L,n,P) := block([N : setn(n)],
+certificate_vdw_p(L,n,P) := block([N : setn(n)],
   length(L) = length(P) and lunion(P) = N and
     sum_l(map(length,P)) = n and
     every(lambda([k,b], not has_arithprog(b,k)), L, P))$
@@ -50,6 +50,23 @@ palindromic_subsets_p(n,P) := if n <= 1 then true else
     for x in p while palin do
       if not elementp(n+1-x,p) then palin : false,
   return(palin))$
+
+/* Check whether P is a palindromic vdW-certificate for L and n: */
+certificate_pdvdw_p(L,n,P) := palindromic_subsets_p(n,P) and
+ certificate_vdw_p(L,n,P)$
+
+/* The compression of a palindromic partition of {1,...,n}, restricting to
+   the elements <= (n+1)/2:
+*/
+compress_palindromic_subsets(P) := 
+block([n : lmax(map(lmax,P)), H],
+  if n = minf then return(P),
+  H : setn(ceiling(n/2)),
+  map(lambda([p], intersection(p,H)), P))$
+
+/* Unfolding a compressed palindromic partition: */
+uncompresss_palindromic_subsets(n,P) := block([m : lambda([v], {v,n+1-v})],
+  map(lambda([p], lunion(map(m,listify(p)))), P))$
 
 
 /* *******************

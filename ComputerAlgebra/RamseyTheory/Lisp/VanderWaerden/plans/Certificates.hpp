@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,24 +16,32 @@ License, or any later version. */
    length m and n is a natural number, corresponds to a solution of
    vanderwaerden_nbfclud(L,n), that is, certifies that vanderwaerden(L) > n.
    </li>
-   <li> We need a good mathematical presentation of such certificates. </li>
-   <li> Reasonably seems to use a list Z of length n with numbers 1, ..., m,
-   denoting the map {1,...,n} -> {1,...,m}. </li>
-   <li> "Z" looks like a reasonable letter here: capital since it's a list, and
-   "z" for "Zertifikat" ("C" can not be used). </li>
-   <li> More precisely these are "vdW-certificates". </li>
-   <li> certificate_vdW_p(Z,L,n) checks whether Z is indeed a certificate.
+   <li> We need a good mathematical presentation of such certificates.
+    <ol>
+     <li> Reasonably seems to use a list Z of length n with numbers 1, ..., m,
+     denoting the map {1,...,n} -> {1,...,m}. </li>
+     <li> "Z" looks like a reasonable letter here: capital since it's a list,
+     and "Z" for "Zertifikat" ("C" can not be used). </li>
+     <li> More precisely these are "vdW-certificates". </li>
+     <li> However, more natural seems to use a block partition P of {1,...,n}
+     via m blocks. </li>
+     <li> Given such a certificate P, via certificatevdw2list(P) the list is
+     created, compressing multiple successive occurrences of indices i into
+     pairs [i,k], where k counts the number of occurrences. </li>
+    </ol>
+   </ol>
+   <li> certificate_vdW_p(L,n,P) checks whether P is indeed a certificate.
    </li>
   </ul>
 
 
-  \todo Implementation check_certificate_vdw(L,n,P)
+  \todo Implementation certificate_vdw_p(L,n,P)
   <ul>
    <li> See
    ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Hypergraphs.mac. </li>
-   <li> This function uses an alternative representation of a certificate for
-   [L,n] as a list P of the same size as L, with elements subsets of
-   {1,...,n} representing a partitioning. </li>
+   <li> This function uses the representation of a certificate for [L,n] as a
+   list P of the same size as L, with subsets of {1,...,n} representing a
+   partitioning. </li>
    <li> DONE
    Perhaps we should have a dedicated file "Certificates.mac". </li>
    <li> The current check is rather slow:
