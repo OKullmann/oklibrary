@@ -40,6 +40,17 @@ check_certificate_vdw(L,n,P) := block([N : setn(n)],
    ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/plans/Certificates.hpp.
 */
 
+/* For a list of subsets of {1,...,n} check whether P is "palindromic",
+   that is, whether for every element (subset) p of P it is true that
+   v is in p iff n+1-v is in p:
+*/
+palindromic_subsets_p(n,P) := if n <= 1 then true else
+ block([palin : true],
+  for p in P while palin do
+    for x in p while palin do
+      if not elementp(n+1-x,p) then palin : false,
+  return(palin))$
+
 
 /* *******************
    * Transformations *
