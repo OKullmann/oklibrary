@@ -132,9 +132,20 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             r10_keyfind.cnf
    \endverbatim
    </li>
-   <li> However, minisat2 and glucose need to branch:
+   <li> However, minisat-2.2.0 and glucose need to branch:
    \verbatim
+shell> minisat-2.2.0 r10_keyfind.cnf 
+<snip>
+restarts              : 1
+conflicts             : 22             (inf /sec)
+decisions             : 41             (0.00 % random) (inf /sec)
+propagations          : 6095           (inf /sec)
+conflict literals     : 295            (41.93 % deleted)
+Memory used           : 19.00 MB
+CPU time              : 0 s
+
 shell> minisat2 r10_keyfind.cnf 
+<snip>
 restarts              : 1
 conflicts             : 29             (1450 /sec)
 decisions             : 67             (0.00 % random) (3350 /sec)

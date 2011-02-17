@@ -120,7 +120,7 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             r1_keyfind.cnf
    \endverbatim
    </li>
-   <li> However, minisat2 and glucose need to branch a lot more:
+   <li> However, minisat-2.2.0 and glucose need to branch a lot more:
    \verbatim
 shell> minisat2 r1_keyfind.cnf 
 <snip>
@@ -236,8 +236,8 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             r1_keyfind.cnf
    \endverbatim
    </li>
-   <li> However, minisat2, minisat2.2 and glucose need a considerable number
-   of decisions (given the key is only 16-bit):
+   <li> However, minisat2, minisat-2.2.0 and glucose need a considerable 
+   number of decisions (given the key is only 16-bit):
    \verbatim
 shell> minisat2 r1_keyfind.cnf 
 <snip>

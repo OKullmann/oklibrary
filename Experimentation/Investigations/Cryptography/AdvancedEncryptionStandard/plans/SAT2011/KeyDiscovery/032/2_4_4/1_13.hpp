@@ -133,8 +133,17 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             r1_keyfind.cnf
    \endverbatim
    </li>
-   <li> minisat and glucose: ??? why "minisat2" ???
+   <li> minisat-2.2.0 and glucose:
    \verbatim
+shell> minisat-2.2.0 r1_keyfind.cnf
+restarts              : 126
+conflicts             : 38174          (11967 /sec)
+decisions             : 41318          (0.00 % random) (12952 /sec)
+propagations          : 15523483       (4866296 /sec)
+conflict literals     : 1218353        (59.04 % deleted)
+Memory used           : 19.00 MB
+CPU time              : 3.19 s
+
 shell> minisat2 r1_keyfind.cnf 
 <snip>
 restarts              : 14
