@@ -106,8 +106,8 @@ License, or any later version. */
     </li>
     <li> 16 bit key:
      <ul>
-      <li> 2 column, 2 row, 4 bits up to <em>4 + 1/3</em> rounds in 
-      <em> 0.8 </em> seconds with glucose in 016/2_2_4/4_13.hpp. </li>
+      <li> 2 column, 2 row, 4 bits up to <em>20 + 1/3</em> rounds in 
+      <em> 40s </em> seconds with minisat-2.2.0 in 016/2_2_4/20_13.hpp. </li>
      </ul>
     </li>
     <li> 8 bit key:
