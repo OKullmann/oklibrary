@@ -87,7 +87,7 @@ FlipsPerSecond = 14102
 24 3015
 
 
-> E=run_ubcsat("VanDerWaerden_pd_2-3-24_569.cnf", cutoff=50000,runs=10, include_algs=names(new_run_ubcsat_cnf_algs), ubcsat_wrapper="new-ubcsat-okl")
+> E=run_ubcsat("VanDerWaerden_pd_2-3-24_569.cnf", cutoff=50000,runs=10)
 
 OKplatform> exp_dir="ubcsat_tmp_VanDerWaerden_pd_2-3-24_569.cnf_2011-01-14-203622/"; for F in ${exp_dir}/*.run_ubcsat_stats; do echo -ne "$(basename $F .run_ubcsat_stats)\t"; grep "Flips" $F; done
 ag2wsat FlipsPerSecond = 62735
@@ -271,6 +271,9 @@ power management:
      \endverbatim
      Again, the flips-per-second seem correct measurements. Apparently the
      bigger cache makes it quite a bit faster. </li>
+     <li> With the newest version beta-9 on csltok still we get segmentation
+     faults with rsaps and sapsnr. And again with the debug-version we don't
+     get the error. </li>
      <li> While the above numbers seem reasonable, for the computations
      w.r.t VanDerWaerden_2-3-39_1415.cnf and VanDerWaerden_2-3-38_1376.cnf we
      get values well over a million (cscharon, csoberon) which can't be right.
