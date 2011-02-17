@@ -50,7 +50,7 @@ License, or any later version. */
    (besides the old version). </li>
    <li> Update to a newer version via
    \verbatim
-> ubcsat-1-2-0-beta> git pull https://github.com/dtompkins/ubcsat.git beta
+ubcsat-1-2-0-beta> git pull https://github.com/dtompkins/ubcsat.git beta
    \endverbatim
    inside the extracted archive (then archiving it again). </li>
    <li> Speed issues:

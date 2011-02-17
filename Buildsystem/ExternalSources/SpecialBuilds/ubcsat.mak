@@ -57,7 +57,7 @@ ubcsat-new : ubcsat-beta ubcsat-okl-beta
 ubcsat-beta : $(ubcsat_directories)
 	$(call unarchive,$(ubcsat_source_okl),$(ubcsat_base_build_dir_okl))
 	cd $(ubcsat_build_dir_okl); $(postcondition) \
-	make CC=$(gcc_call_okl) CXX=$(gpp_call_okl) ubcsat ubcsat_cpp ubcsat_debug; $(postcondition) \
+	make CC=$(gcc_call_okl) CXX=$(gpp_call_okl) LDFLAGS="$(gcc_linking_okl)" ubcsat ubcsat_cpp ubcsat_debug; $(postcondition) \
 	mv ubcsat bin/$(ubcsat_recommended_okl); $(postcondition) \
 	mv ubcsat_cpp ubcsat_debug bin; $(postcondition)
 	cp -r $(ubcsat_bin_directory) $(ubcsat_installation_dir_okl)

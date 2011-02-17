@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/32/2_4_4/1_1.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/2_4_4/1_13.hpp
   \brief Investigations into small scale AES key discovery for one round AES with a 2x4 block and 4-bit field elements (1+1/3)
 
 
@@ -133,8 +133,17 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             r1_keyfind.cnf
    \endverbatim
    </li>
-   <li> minisat and glucose: ??? why "minisat2" ???
+   <li> minisat-2.2.0 and glucose:
    \verbatim
+shell> minisat-2.2.0 r1_keyfind.cnf
+restarts              : 126
+conflicts             : 38174          (11967 /sec)
+decisions             : 41318          (0.00 % random) (12952 /sec)
+propagations          : 15523483       (4866296 /sec)
+conflict literals     : 1218353        (59.04 % deleted)
+Memory used           : 19.00 MB
+CPU time              : 3.19 s
+
 shell> minisat2 r1_keyfind.cnf 
 <snip>
 restarts              : 14

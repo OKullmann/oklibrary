@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/BooleanFunctions/plans/Linear.hpp
+  \file Experimentation/Investigations/BooleanFunctions/plans/Permutations/Linear.hpp
   \brief Investigating boolean functions representing linear permutations of {0,1}^n
 
 
@@ -197,10 +197,8 @@ LTrans_8.cnf
   \todo Random sampling
   <ul>
    <li> Random experiments for arbitrary invertible maps of size 8 for seed=1 
-   to 2712 (so far, ongoing on cscarme):
+   to 2712:
    \verbatim
-UPDATE NEEDED
-
 shell> ../OKlib/Experimentation/Investigations/BooleanFunctions/analyse_random_linear_maps 8 1
    \endverbatim
    and then:
@@ -208,30 +206,33 @@ shell> ../OKlib/Experimentation/Investigations/BooleanFunctions/analyse_random_l
 R> E = read_experiment_dirs("random_ss_linmap", list("e","seed"), "LinearTransformation_full.cnf_primes_stats", header=TRUE,skip=2)
 R> ET = rows2columns_df(E, "length", "count", list("e","seed"))
 R> summary(ET)
-       2                3                4         
+
+         2                3                4         
 Min.   :0.0000   Min.   : 0.000   Min.   :  0.00  
 1st Qu.:0.0000   1st Qu.: 4.000   1st Qu.: 40.00  
 Median :0.0000   Median : 8.000   Median : 48.00  
-Mean   :0.7071   Mean   : 7.938   Mean   : 53.38  
+Mean   :0.7097   Mean   : 7.965   Mean   : 53.62  
 3rd Qu.:2.0000   3rd Qu.:12.000   3rd Qu.: 64.00  
 Max.   :8.0000   Max.   :32.000   Max.   :176.00  
                                                                            
-       5               6                7              8              9       
- Min.   :  0.0   Min.   : 256.0   Min.   :   0   Min.   :   0   Min.   :   0  
- 1st Qu.:224.0   1st Qu.: 832.0   1st Qu.:2048   1st Qu.:3456   1st Qu.:2816  
- Median :272.0   Median : 928.0   Median :2432   Median :4224   Median :3840  
- Mean   :264.9   Mean   : 933.4   Mean   :2355   Mean   :4137   Mean   :3804  
- 3rd Qu.:304.0   3rd Qu.:1024.0   3rd Qu.:2688   3rd Qu.:4864   3rd Qu.:4864  
- Max.   :464.0   Max.   :2432.0   Max.   :3968   Max.   :9472   Max.   :9216  
+       5               6              7              8              9       
+ Min.   :  0.0   Min.   : 256   Min.   :   0   Min.   :   0   Min.   :   0  
+ 1st Qu.:224.0   1st Qu.: 832   1st Qu.:2048   1st Qu.:3328   1st Qu.:2816  
+ Median :272.0   Median : 928   Median :2432   Median :4224   Median :3840  
+ Mean   :265.0   Mean   : 932   Mean   :2350   Mean   :4129   Mean   :3780  
+ 3rd Qu.:304.0   3rd Qu.:1024   3rd Qu.:2688   3rd Qu.:4864   3rd Qu.:4864  
+ Max.   :464.0   Max.   :2432   Max.   :3968   Max.   :9472   Max.   :9216  
                                                                               
 R> sizes = unlist(Map(function(i) sum(ET[i,1:17]),1:2712))
 R> summary(sizes)
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-   1914    9760   11780   11560   13700   18990
-
-EXPLANATIONS ARE NEEDED
+   1914    9733   11770   11520   13650   19030 
    \endverbatim
    </li>
+   <li> In the above, "sizes" is the number of prime implicates for
+   each random instance generated. This is calculated for each instance by 
+   taking the sum, over the sizes of clause, of the number of prime implicates
+   of each size. </li>
    <li> Overall, these are all much smaller sizes than those we see in
    "First considerations of random permutation" in
    Experimentation/Investigations/BooleanFunctions/plans/general.hpp. </li>

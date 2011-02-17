@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/4/1_1_4/1_1.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/004/1_1_4/1_13.hpp
   \brief Investigations into simplest small scale AES key discovery for one round AES (1+1/3)
 
 
@@ -114,8 +114,18 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             r1_keyfind.cnf
    \endverbatim
    </li>
-   <li> However, minisat2 and glucose need to branch:
+   <li> However, minisat-2.2.0 and glucose need to branch:
    \verbatim
+shell> minisat-2.2.0 r1_keyfind.cnf
+<snip>
+restarts              : 1
+conflicts             : 7              (inf /sec)
+decisions             : 14             (0.00 % random) (inf /sec)
+propagations          : 198            (inf /sec)
+conflict literals     : 83             (0.00 % deleted)
+Memory used           : 18.00 MB
+CPU time              : 0 s
+
 shell> minisat2 r1_keyfind.cnf 
 <snip>
 restarts              : 1
@@ -126,7 +136,6 @@ conflict literals     : 115            (5.74 % deleted)
 Memory used           : 14.64 MB
 CPU time              : 0 s
 
-SATISFIABLE
 shell> glucose r1_keyfind.cnf 
 <snip>
 c restarts              : 1

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/4_4_8/0_2_1.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/4_4_8/0_23_13.hpp
   \brief Investigations into AES key discovery for one round AES without MixColumns (0+2/3+1/3)
 
 
@@ -157,8 +157,18 @@ c Memory used           : 66.94 MB
 c CPU time              : 131.55 s
    \endverbatim
    </li>
-   <li> MiniSAT finishes in 98s:
+   <li> MiniSAT-2.2.0 finishes in 60s:
    \verbatim
+shell> minisat-2.2.0 test_keyfind.cnf
+<snip>
+restarts              : 382
+conflicts             : 143515         (2413 /sec)
+decisions             : 801345         (0.00 % random) (13473 /sec)
+propagations          : 25615653       (430660 /sec)
+conflict literals     : 40285635       (26.74 % deleted)
+Memory used           : 295.00 MB
+CPU time              : 59.48 s
+
 shell> minisat2 ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
 Verified 87756 original clauses.
 Verified 1128 eliminated clauses.

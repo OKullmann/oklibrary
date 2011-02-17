@@ -6,14 +6,14 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/16/2_2_4/4_1.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_2_4/4_13.hpp
   \brief Investigations into small scale AES key discovery for one round AES with a 2x2 block and 4-bit field elements (4+1/3)
 
 
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   four round small scale AES with two columns and two rows, including the 
+   4 + 1/3 round small scale AES with two columns and two rows, including the 
    MixColumns operation (no special final round). </li>
    <li> The AES encryption scheme we model takes a 16-bit plaintext,
    16-bit key and applies the following operations:
@@ -37,9 +37,9 @@ License, or any later version. */
    field element, sboxes in the key expansion, additions in the key expansion 
    and constants in the key expansion:
    \verbatim
-> print(component_statistics_ss(4,2,2,4,false,aes_mc_bidirectional));
+> component_statistics_ss(4,2,2,4,false,aes_mc_bidirectional);
 [4,0,16,208,[[x,32],[x+1,32]],8,64,16] 
-> print(component_statistics_ss(4,2,2,4,false,aes_mc_forward));
+> component_statistics_ss(4,2,2,4,false,aes_mc_forward);
 [4,0,16,144,[[x,16],[x+1,16]],8,64,16] 
    \endverbatim
    Note that the inverse MixColumns uses the same multiplication
@@ -87,7 +87,7 @@ maxima> output_ss_random_pc_pair(seed,rounds,num_columns,num_rows,exp,final_roun
    \endverbatim
    and the merging the assignments with the translations:
    \verbatim
-shell> AppendDimacs-O3-DNDEBUG ssaes_r4_c2_rw2_e4_f0.cnf ssaes_pkpair_r4_c2_rw2_e4_f0_s1.cnf > r4_keyfind.cnf; done
+shell> AppendDimacs-O3-DNDEBUG ssaes_r4_c2_rw2_e4_f0.cnf ssaes_pkpair_r4_c2_rw2_e4_f0_s1.cnf > r4_keyfind.cnf
    \endverbatim
    </li>
    <li> OKsolver solves this with very few decisions:
