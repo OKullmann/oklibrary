@@ -7,29 +7,13 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/2_4_4/1_13.hpp
-  \brief Investigations into small scale AES key discovery for one round AES with a 2x4 block and 4-bit field elements (1+1/3)
-
-
-  \todo Improve explanations of what a round is ??? what is this doing here ???
-  <ul>
-   <li> Round always contain MixColumns. </li>
-   <li> So this shouldn't be mentioned. </li>
-   <li> Only the special cases *without* MixColumns need to be mentioned. </li>
-   <li> A full round has always key-addition, SubBytes and MixColumns. </li>
-   <li> We need nice notions when either key-addition or key-addition and
-   SubBytes are added. </li>
-   <li> Perhaps 1/3 rounds or 2/3 rounds. </li>
-   <li> So we would speak, e.g., of 1+2/3 or 4+1/3 rounds. </li>
-   <li> The last round could be notated by "2/3+1/3". </li>
-   <li> AES then had 9+2/3+1/3 rounds (MixColumns replaced by key-addition).
-   </li>
-  </ul>
+  \brief Investigations into small scale AES key discovery for 1+1/3 round AES with a 2x4 block and 4-bit field elements (1+1/3)
 
 
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   one round ??? one round ??? small scale AES with two columns, four rows,
+   1 + 1/3 round small scale AES with two columns, four rows,
    using the 4-bit field size. </li>
    <li> The AES encryption scheme we model takes a 32-bit plaintext,
    32-bit key and applies the following operations:
