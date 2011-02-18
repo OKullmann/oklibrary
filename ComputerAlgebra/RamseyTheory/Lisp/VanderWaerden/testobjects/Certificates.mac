@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 12.11.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,7 +26,11 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/tests/Certi
    *****************
 */
 
-okltest_check_certificate_vdw(check_certificate_vdw);
+okltest_certificate_vdw_p(certificate_vdw_p);
+
+okltest_palindromic_subsets_p(palindromic_subsets_p);
+
+okltest_certificate_pdvdw_p(certificate_pdvdw_p);
 
 /* *******************
    * Transformations *
@@ -37,6 +41,11 @@ okltest_create_certificate2_vdw(create_certificate2_vdw);
 
 okltest_certificatevdw2list(certificatevdw2list);
 okltest_certificatevdw2string(certificatevdw2string);
+
+okltest_compress_palindromic_subsets(compress_palindromic_subsets);
+okltest_uncompress_palindromic_subsets(uncompress_palindromic_subsets);
+
+okltest_create_certificate2c_pdvdw(create_certificate2c_pdvdw);
 
 /*!
 \endhtmlonly

@@ -43,7 +43,7 @@ okltest_certificates_vdw_3k(f) := block([maxk : length(f)],
       if listp(n) then n : first(n),
       n : n-1,
       for c in C do block([P : create_certificate2_vdw(c,n)],
-        assert(check_certificate_vdw([3,k],n,P) = true)
+        assert(certificate_vdw_p([3,k],n,P) = true)
       ) 
     )
   ),

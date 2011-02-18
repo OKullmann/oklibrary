@@ -29,16 +29,34 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    *****************
 */
 
-/* L is a vdW-parameter-tuple, n a natural number, P a list of subsets of
-   {1,...,n}, yielding a partition of this set (with possibly empty subsets).
+/* Tests whether P is a palindromic vdW-certificate for parameter tuple L
+   and n vertices. It is assumed that L is an extended vdW-parameter-tuple,
+   n a natural number, and P a list of sets. A valid certificate can have
+   empty parts, but overlaps between the parts and additional elements are
+   not allowed.
 */
-check_certificate_vdw(L,n,P) := block([N : setn(n)],
-  is(length(L) = length(P)) and is(apply(union,P) = N) and
+certificate_vdw_p(L,n,P) := block([N : setn(n)],
+  length(L) = length(P) and lunion(P) = N and
     sum_l(map(length,P)) = n and
     every(lambda([k,b], not has_arithprog(b,k)), L, P))$
 /* See "The notion of a certificate" in 
    ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/plans/Certificates.hpp.
 */
+
+/* For a list of subsets of {1,...,n} check whether P is "palindromic",
+   that is, whether for every element (subset) p of P it is true that
+   v is in p iff n+1-v is in p:
+*/
+palindromic_subsets_p(n,P) := if n <= 1 then true else
+ block([palin : true],
+  for p in P while palin do
+    for x in p while palin do
+      if not elementp(n+1-x,p) then palin : false,
+  return(palin))$
+
+/* Check whether P is a palindromic vdW-certificate for L and n: */
+certificate_pdvdw_p(L,n,P) := palindromic_subsets_p(n,P) and
+ certificate_vdw_p(L,n,P)$
 
 
 /* *******************
@@ -74,6 +92,27 @@ certificatevdw2string(P) := block([distribute_over:false, x,y],
     map(lambda([p], block([a,b], [a,b]:p, if a=0 then a:x elseif a=1 then a:y, 
                           if b=1 then a else a^{b})),
         certificatevdw2list(P))))))$
+
+/* The compression of a palindromic partition of {1,...,n}, restricting to
+   the elements <= (n+1)/2:
+*/
+compress_palindromic_subsets(P) := 
+block([n : lmax(map(lmax,P)), H],
+  if n = minf then return(P),
+  H : setn(ceiling(n/2)),
+  map(lambda([p], intersection(p,H)), P))$
+
+/* Unfolding a compressed palindromic partition: */
+uncompresss_palindromic_subsets(n,P) := block([m : lambda([v], {v,n+1-v})],
+  map(lambda([p], lunion(map(m,listify(p)))), P))$
+
+/* For a "half compressed palindromic certificate" S, that is, a sublist of
+   {1,...,m} with m = ceiling(n/2), which specifies the elements of the
+   first part of the partition, create a full palindromic certificate:
+*/
+create_certificate2c_pdvdw(S,n) := block([m : ceiling(n/2), P],
+  P : create_certificate2_vdw(S,m),
+  uncompresss_palindromic_subsets(n,P))$
 
 /*!
 \endhtmlonly

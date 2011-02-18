@@ -76,7 +76,7 @@ S : [
  553,561
 ]$
 P : create_certificate2_vdw(S,578);
-check_certificate_vdw([3,24],578,P);
+certificate_vdw_p([3,24],578,P);
   true
      \endverbatim
      </li>
@@ -108,7 +108,7 @@ S : [
  523,540,559
 ]$
 P : create_certificate2_vdw(S,580);
-check_certificate_vdw([3,24],580,P);
+certificate_vdw_p([3,24],580,P);
   true
      \endverbatim
      (63 elements). </li>

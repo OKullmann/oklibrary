@@ -236,7 +236,7 @@ check_certificates_vdw_3k(k) := block([C : certificates_vdw_3k[k]],
   block([n : vanderwaerden3k(k)],
     if listp(n) then n : first(n),
     n : n-1,
-    create_list(check_certificate_vdw([3,k],n,create_certificate2_vdw(c,n)),
+    create_list(certificate_vdw_p([3,k],n,create_certificate2_vdw(c,n)),
                 c, C)))$
 
 /*!
