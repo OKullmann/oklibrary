@@ -100,8 +100,8 @@ License, or any later version. */
     </li>
     <li> 32 bit key:
      <ul>
-      <li> 2 column, 4 row, 4 bits up to <em>1 + 1/3</em> rounds in 
-      <em> 1.27 </em> seconds with glucose in 032/2_4_4/1_13.hpp. </li>
+      <li> 2 column, 4 row, 4 bits up to <em>2 + 1/3</em> rounds in 
+      <em> 2718 </em> seconds with glucose in 032/2_4_4/2_13.hpp. </li>
      </ul>
     </li>
     <li> 16 bit key:
