@@ -87,6 +87,8 @@ License, or any later version. */
       </li>
       <li> So far can't break standard AES for 1 + 1/3 round after two days 
       computation with all solvers. </li>
+      <li> 16 column, 1 row, 8 bits, up to <em> 2 + 1/3 </em> rounds in
+      <em>40s</em> with minisat-2.2.0 in 128/16_1_8/2_13.hpp. </li>
      </ul>
     </li>
     <li> 64 bit key:
