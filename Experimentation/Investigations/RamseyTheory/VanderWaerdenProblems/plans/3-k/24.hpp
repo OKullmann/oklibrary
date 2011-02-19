@@ -306,9 +306,9 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
 
   \todo Palindromic numbers
   <ul>
-   <li> vanderwaerden_g([3,24],"pd") =(conj) 593 =(conj)
+   <li> vanderwaerden_g([3,24],"pd") = 593 =(conj)
    vanderwaerden([3,24]). </li>
-   <li> vanderwaerden_g([3,24],"pdsat") = 568 </li>
+   <li> vanderwaerden_g([3,24],"pdsat") = 568. </li>
    <li> Certificates:
     <ol>
      <li> n=568:
@@ -363,7 +363,8 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
    </li>
    <li> minisat-2.2.0:
     <ol>
-     <li> n=594: ?sat, s (csltok (with lower load); ? conflicts. </li>
+     <li> n=594: unsat, 750979s (csltok, partially with lower clock frequency,
+     thus unreliable); 1889572833 conflicts. </li>
      <li> n=593: unsat, 89540s (csltok (with lower load); 468878167 conflicts,
      with added unit-clause). </li>
      <li> n=569: unsat, 87399s (csltok (with lower load); 487418128 conflicts,
