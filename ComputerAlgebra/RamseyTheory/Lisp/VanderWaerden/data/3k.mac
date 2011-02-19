@@ -23,7 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Certificates.mac")$
 
 
-/* For k >= 1 the list of lists of certificates for best lower bounds
+/* For k >= 1 a list of lists of certificates for best lower bounds
    on vdw_2(3,k). Each certificate c is to be translated into a full
    certificate by create_certificate2_vdw(c,n), where n+1 is the current lower
    bound w.r.t. k.
@@ -228,7 +228,7 @@ full_certificate_string_vdw_3k(k) :=
   map(certificatevdw2string, full_certificate_vdw_3k(k))$
 
 /* Checking whether certificates_vdw_3k[k] are actually vdW-certificates
-   for the corresponding lower bound (returning tree resp. false for
+   for the corresponding lower bound (returning true resp. false for
    every alleged certificate):
 */
 check_certificates_vdw_3k(k) := block([C : certificates_vdw_3k[k]],
