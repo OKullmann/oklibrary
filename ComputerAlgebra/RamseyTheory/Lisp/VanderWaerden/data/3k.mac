@@ -547,26 +547,48 @@ certificates_pdvdw_3k : [
 ]
 ]$
 
-/* Checking whether certificates_vdw_3k[k] are actually vdW-certificates
-   for the corresponding pair of lower bound (returning true resp. false for
-   every alleged certificate):
+/* Making the data related to certificates_pdvdw_3k[k] available in an
+   easy to use form: the two lists of certificates, the parameter
+   tuple, and the two lower bounds.
 */
-check_certificates_pdvdw_3k(k) := block([C1,C2,L],
+extract_data_certificates_pdvdw_3k(k) := block([C1,C2,L,n1,n2],
   [C1,C2] : certificates_pdvdw_3k[k],
   L : if k<3 then [k,3] else [3,k],
-  block([n1,n2,n],
-    [n1,n2] : pdvanderwaerden3k(k),
-    if listp(n1) then n1 : first(n1),
-    if listp(n2) then n2 : first(n2),
-    [n1,n2] : [n1,n2]-1,
-    [
-     create_list(
-       certificate_pdvdw_p(L,n1,create_certificate2c_pdvdw(c,n1)),
-       c, C1),
-     create_list(
-       certificate_pdvdw_p(L,n2,create_certificate2c_pdvdw(c,n2)),
-       c, C2)
-    ]))$
+  [n1,n2] : pdvanderwaerden3k(k),
+  if listp(n1) then n1 : first(n1),
+  if listp(n2) then n2 : first(n2),
+  [L,n1,n2,C1,C2])$
+    
+
+/* The compressed "full certificates" (as partitions with two blocks) for
+   vdw_2^pd(3,k):
+*/
+cfull_certificate_pdvdw_3k(k) := block([L,n1,n2,C1,C2],
+  [L,n1,n2,C1,C2] : extract_data_certificates_pdvdw_3k(k),
+  [n1,n2] : ceiling(([n1,n2]-1)/2),
+  [map(lambda([c], create_certificate2_vdw(c,n1)), C1),
+   map(lambda([c], create_certificate2_vdw(c,n2)), C2)
+  ])$
+
+/* The certificates as bit-string: */
+cfull_certificate_string_pdvdw_3k(k) :=
+  map(lambda([L], map(certificatevdw2string,L)), cfull_certificate_pdvdw_3k(k))$
+
+/* Checking whether certificates_pdvdw_3k[k] are actually pd-vdW-certificates
+   for the corresponding pair of lower bounds (returning true resp. false for
+   every alleged certificate):
+*/
+check_certificates_pdvdw_3k(k) := block([L,n1,n2,C1,C2],
+  [L,n1,n2,C1,C2] : extract_data_certificates_pdvdw_3k(k),
+  [n1,n2] : [n1,n2]-1,
+  [
+   create_list(
+     certificate_pdvdw_p(L,n1,create_certificate2c_pdvdw(c,n1)),
+     c, C1),
+   create_list(
+     certificate_pdvdw_p(L,n2,create_certificate2c_pdvdw(c,n2)),
+     c, C2)
+  ])$
 
 /*!
 \endhtmlonly
