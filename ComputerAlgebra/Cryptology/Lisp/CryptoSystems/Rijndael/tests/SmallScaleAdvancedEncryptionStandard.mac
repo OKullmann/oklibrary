@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Bloc
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/AdvancedEncryptionStandard.mac")$
+oklib_plain_include(eigen)$ /* (for function columnvector) */
 
 
 kill(f)$
@@ -185,6 +186,33 @@ okltest_ss_mixcolumn_gen_bf(f) := block(
       [0,0,1,1,0,0,1,0,0,1,0,0,0,0,1,1,0,0,0,0,0,1,1,1,0,0,1,1,0,1,0,0],2,8,
       ss_polynomial_2_8,ss_mixcolumns_matrix_2_8_4) =
     [1,0,0,1,0,0,1,0,1,0,0,0,1,0,0,1,0,0,1,0,0,0,1,1,0,1,1,1,1,0,1,0]),
+  true)$
+
+okltest_ss_mixcolumn_gen_boolm(f) := block(
+  assert(f(2,4,ss_polynomial(2,4),ss_mixcolumns_matrix(2,4,4)) =
+    matrix(
+      [0,1,0,0,1,1,0,0,1,0,0,0,1,0,0,0],
+      [0,0,1,0,0,1,1,0,0,1,0,0,0,1,0,0],
+      [1,0,0,1,1,0,1,1,0,0,1,0,0,0,1,0],
+      [1,0,0,0,1,0,0,1,0,0,0,1,0,0,0,1],
+      [1,0,0,0,0,1,0,0,1,1,0,0,1,0,0,0],
+      [0,1,0,0,0,0,1,0,0,1,1,0,0,1,0,0],
+      [0,0,1,0,1,0,0,1,1,0,1,1,0,0,1,0],
+      [0,0,0,1,1,0,0,0,1,0,0,1,0,0,0,1],
+      [1,0,0,0,1,0,0,0,0,1,0,0,1,1,0,0],
+      [0,1,0,0,0,1,0,0,0,0,1,0,0,1,1,0],
+      [0,0,1,0,0,0,1,0,1,0,0,1,1,0,1,1],
+      [0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,1],
+      [1,1,0,0,1,0,0,0,1,0,0,0,0,1,0,0],
+      [0,1,1,0,0,1,0,0,0,1,0,0,0,0,1,0],
+      [1,0,1,1,0,0,1,0,0,0,1,0,1,0,0,1],
+      [1,0,0,1,0,0,0,1,0,0,0,1,1,0,0,0])),
+  assert(
+    okltest_ss_mixcolumn_gen_bf(
+      buildq([f],
+        lambda([V,b,e,mod_poly,mixcolumns_matrix],
+          ss_stand_vec(
+            m2l_r(f(b,e,mod_poly,mixcolumns_matrix) . columnvector(V)),2))))),
   true)$
 
 okltest_ss_inv_mixcolumn_gen(f) := block(

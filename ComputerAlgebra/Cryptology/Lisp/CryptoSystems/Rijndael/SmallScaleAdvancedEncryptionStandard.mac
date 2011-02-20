@@ -407,6 +407,19 @@ ss_mixcolumn_bf(V,b,e) :=
   ss_mixcolumn_gen_bf(V,b,e,ss_polynomial(b,e),
     ss_mixcolumns_matrix(b,e,floor(length(V)/e)))$
 
+/* The boolean matrix representing the MixColumns operation  */
+ss_mixcolumn_gen_boolm(b,e,mod_poly,mixcolumns_matrix) := block([rows],
+  rows : length(mixcolumns_matrix),
+  transpose(apply(matrix,
+      create_list(
+        ss_mixcolumn_gen_bf(
+          create_list(if i = j then 1 else 0, j, 1, e * rows),
+          b,e,mod_poly, mixcolumns_matrix),
+        i,1,e*rows))))$
+ss_mixcolumn_boolm(b,e,rows) :=
+  ss_mixcolumn_gen_boolm(b,e,ss_polynomial(b,e),
+    ss_mixcolumns_matrix(b,e,rows))$
+
 /* Takes a (maxima) matrix of polynomials and returns the result of
    multiplying the input matrix by the given mixcolumns_matrix
    in field specified by b, e and mod_poly.
