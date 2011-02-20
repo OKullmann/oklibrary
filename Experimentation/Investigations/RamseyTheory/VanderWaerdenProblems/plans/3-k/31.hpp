@@ -160,6 +160,28 @@ Certificate (the vertices for k=3) for n = 930 :
    <li> 930 < vanderwaerden_g([3,31],"pd") =(conj) 931 =(conj)
    vanderwaerden([3,31]) - 0. </li>
    <li> vanderwaerden_g([3,31],"pdsat") =(conj) 916. </li>
+   <li> Certificates:
+    <ol>
+     <li> n=915:
+     \verbatim
+13,17,22,30,42,51,68,79,84,88,
+93,113,143,150,177,181,183,208,217,234,
+236,237,263,267,276,279,296,299,301,305,
+330,338,342,367,370,372,401,422,434,436,
+453
+     \endverbatim
+     </li>
+     <li> n=930:
+     \verbatim
+13,33,50,61,71,75,80,95,108,123,
+142,143,154,159,173,182,188,190,201,219,
+235,252,261,267,276,278,283,292,312,329,
+335,354,359,385,400,417,421,431,438,452,
+464
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> Best ubcsat-algorithm:
    \verbatim
 > PdVanderWaerdenCNF-O3-DNDEBUG 3 31 919
@@ -224,15 +246,7 @@ Certificate (the vertices for k=3) for n = 930 :
 Break point 1: 916
 Break point 2: 931
    \endverbatim
-   where the certificate for n=930 is
-   \verbatim
-13,33,50,61,71,75,80,95,108,123,
-142,143,154,159,173,182,188,190,201,219,
-235,252,261,267,276,278,283,292,312,329,
-335,354,359,385,400,417,421,431,438,452,
-464
-   \endverbatim
-   and finding the solution needed up to 48 runs. </li>
+   where finding the solution needed up to 48 runs. </li>
    <li> Checking the unsatisfiability for n=932:
    \verbatim
 > ubcsat-okl -alg gsat-tabu -runs 200 -cutoff 20000000 -i Exp_PdVanderWaerden_2-3-31_gsat-tabu-100-10000000_2010-11-30-010719/VanDerWaerden_pd_2-3-31_932.cnf | tee VanDerWaerden_pd_2-3-31_932.cnf_OUT

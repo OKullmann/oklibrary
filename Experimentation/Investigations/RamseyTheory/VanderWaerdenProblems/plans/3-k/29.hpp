@@ -118,6 +118,26 @@ OKplatform> RunVdW3k 29 750 rots 1000 5000000
    <li> 820 < vanderwaerden_g([3,29],"pd") =(conj) 821 =(conj)
    vanderwaerden([3,29]) - 47. </li>
    <li> vanderwaerden_g([3,29],"pdsat") =(conj) 810. </li>
+   <li> Certificates:
+    <ol>
+     <li> n=809:
+     \verbatim
+23,44,73,87,91,98,103,120,143,160,
+172,185,186,189,197,203,214,226,230,236,
+259,261,265,290,302,306,313,323,335,348,
+360,363,388,389,393
+     \endverbatim
+     </li>
+     <li> n=820:
+     \verbatim
+14,16,17,34,50,65,67,72,75,103,
+108,109,124,137,154,161,169,180,188,195,
+212,225,246,256,261,283,299,307,314,328,
+335,336,348,369,391,393,399,406
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> "RunPdVdW3k 29 gsat-tabu 100 10000000" yields
    \verbatim
 Break point 1: 810

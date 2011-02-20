@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -155,6 +155,26 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
    <li> 642 < vanderwaerden_g([3,26],"pd") =(conj) 643 =(conj)
    vanderwaerden([3,26]) - 84. </li>
    <li> vanderwaerden_g([3,26],"pdsat") =(conj) 634 </li>
+   <li> Certificates:
+    <ol>
+     <li> n=633:
+     \verbatim
+4,18,23,36,57,79,86,105,113,120,
+128,129,142,157,158,163,166,181,207,210,
+215,216,231,244,245,260,265,268,282,287,
+297,316
+     \endverbatim
+     </li>
+     <li> n=642:
+     \verbatim
+16,40,47,61,66,81,84,98,110,126,
+127,134,147,153,161,176,177,189,190,192,
+206,211,229,234,248,255,263,272,277,284,
+298,316
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> Instance statistics:
    \verbatim
 > cat VanDerWaerden_pd_2-3-26_635.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -155,7 +155,27 @@ OKplatform> RunVdW3k 28 750 rots 1000 50000000
   <ul>
    <li> 742 < vanderwaerden_g([3,28],"pd") =(conj) 743 =(conj)
    vanderwaerden([3,28]) - 84. </li>
-   <li> vanderwaerden_g([3,28],"pdsat") =(conj) ??? </li>
+   <li> vanderwaerden_g([3,28],"pdsat") =(conj) 728. </li>
+   <li> Certificates:
+    <ol>
+     <li> n=727:
+     \verbatim
+27,33,47,56,76,90,101,121,134,150,
+158,159,172,174,187,188,193,203,206,222,
+245,261,264,274,280,293,295,309,324,333,
+346,351,362
+     \endverbatim
+     </li>
+     <li> n=742:
+     \verbatim
+22,45,47,52,78,89,91,115,127,128,
+138,146,150,158,159,169,184,212,213,233,
+251,252,256,262,275,287,295,305,306,314,
+336,349,363,370
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> "RunPdVdW3k 28 gsat-tabu 100 8000000":
    \verbatim
 Break point 1: 728

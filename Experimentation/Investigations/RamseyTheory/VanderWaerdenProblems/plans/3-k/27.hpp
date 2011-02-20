@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -149,6 +149,26 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
    <li> 698 < vanderwaerden_g([3,27],"pd") =(conj) 699 =(conj)
    vanderwaerden([3,27]) - 71. </li>
    <li> vanderwaerden_g([3,27],"pdsat") =(conj) 664. </li>
+   <li> Certificates:
+    <ol>
+     <li> n=663:
+     \verbatim
+19,38,61,67,81,82,104,109,119,120,
+123,132,135,139,148,149,162,181,191,206,
+212,222,241,254,255,268,283,284,294,297,
+323,328
+     \endverbatim
+     </li>
+     <li> n=698:
+     \verbatim
+23,30,56,67,93,105,106,116,118,124,
+128,136,137,147,162,186,190,191,211,229,
+230,234,240,253,265,273,283,284,292,314,
+327,341,348
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> "RunPdVdW3k 27 gsat-tabu 100 6000000" yields
    \verbatim
 Break point 1: 664
