@@ -192,6 +192,26 @@ wsattn :
    <li> 962 < vanderwaerden_g([3,32],"pd") =(conj) 963 =(conj)
    vanderwaerden([3,32]) - 44. </li>
    <li> vanderwaerden_g([3,32],"pdsat") =(conj) 958. </li>
+   <li> Certificates:
+    <ol>
+     <li> n=957:
+     \verbatim
+25,29,37,57,64,69,87,118,119,126,
+132,157,158,170,189,194,212,232,243,255,
+263,281,282,286,310,323,335,343,344,348,
+374,379,385,393,416,424,437,468,471,478
+     \endverbatim
+     </li>
+     <li> n=962:
+     \verbatim
+12,13,32,54,60,63,81,101,103,120,
+134,138,163,169,172,196,209,233,234,240,
+265,267,273,274,276,286,304,320,327,347,
+357,382,388,391,397,398,422,450,459,479
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> Best ubcsat-algorithm:
    \verbatim
 > PdVanderWaerdenCNF-O3-DNDEBUG 3 32 1007
@@ -250,6 +270,35 @@ wsattn :
    while everything above 964 on seems unsat. </li>
    <li> Rerunning it with doubled cutoff, and using the previous solutions
    properly. We also need the ability to start late. </li>
+   <li> n=957:
+    <ol>
+     <li> From scratch, adaptg2wsat with cutoff=10^6:
+     \verbatim
+ 1  2  3  4
+ 3 33 54 10
+100
+     \endverbatim
+     </li>
+     <li> From scratch, adaptg2wsat with cutoff=2*10^6:
+     \verbatim
+ 0  1  2  3 
+ 1  3 61 31 
+96 
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> n=962:
+    <ol>
+     <li> From scratch, adaptg2wsat with cutoff=2*10^6:
+     \verbatim
+ 0  1  2  3  4 
+ 1  2 14 17  2 
+36 
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 */
