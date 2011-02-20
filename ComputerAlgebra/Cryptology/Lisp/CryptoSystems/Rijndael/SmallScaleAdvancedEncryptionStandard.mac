@@ -397,6 +397,16 @@ ss_mixcolumn(V,b,e) :=
     ss_polynomial(b,e),
     ss_mixcolumns_matrix(b,e,length(V)))$
 
+/* The small scale MixColumns operation as a boolean function: */
+ss_mixcolumn_gen_bf(V,b,e,mod_poly,mixcolumns_matrix) := block(
+  [Vec : map(vec2poly,partition_elements(V,e))],
+  lappend(
+    m2l_r(matrixmap(lambda([E],poly2vec_ss(E,e)),
+        ss_mixcolumn_gen(Vec,b,e,mod_poly,mixcolumns_matrix)))))$
+ss_mixcolumn_bf(V,b,e) := 
+  ss_mixcolumn_gen_bf(V,b,e,ss_polynomial(b,e),
+    ss_mixcolumns_matrix(b,e,floor(length(V)/e)))$
+
 /* Takes a (maxima) matrix of polynomials and returns the result of
    multiplying the input matrix by the given mixcolumns_matrix
    in field specified by b, e and mod_poly.

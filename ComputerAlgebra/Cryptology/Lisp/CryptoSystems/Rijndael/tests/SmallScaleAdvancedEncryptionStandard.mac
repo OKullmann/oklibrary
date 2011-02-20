@@ -177,6 +177,16 @@ okltest_ss_mixcolumn_gen(f) := block(
     ss_natl2m([146, 137, 35, 122],2,4)),
   true)$
 
+okltest_ss_mixcolumn_gen_bf(f) := block(
+  assert(f(create_list(0,i,1,32),2,8,
+      ss_polynomial_2_8,ss_mixcolumns_matrix_2_8_4) =
+    create_list(0,i,1,32)),
+  assert(f(
+      [0,0,1,1,0,0,1,0,0,1,0,0,0,0,1,1,0,0,0,0,0,1,1,1,0,0,1,1,0,1,0,0],2,8,
+      ss_polynomial_2_8,ss_mixcolumns_matrix_2_8_4) =
+    [1,0,0,1,0,0,1,0,1,0,0,0,1,0,0,1,0,0,1,0,0,0,1,1,0,1,1,1,1,0,1,0]),
+  true)$
+
 okltest_ss_inv_mixcolumn_gen(f) := block(
   assert(f(ss_natl2m([0,0,0,0],2,4),2,8,
       ss_polynomial_2_8,ss_inv_mixcolumns_matrix_2_8_4) =
