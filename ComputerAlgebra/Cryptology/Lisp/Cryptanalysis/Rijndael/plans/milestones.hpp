@@ -13,6 +13,12 @@ License, or any later version. */
 
   \par Version 0.0.7
 
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac
+   the following topics are handled:
+    - Bad specification : DONE
+
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    the following topics are handled:
@@ -34,6 +40,7 @@ License, or any later version. */
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
    the following topics are handled:
+    - Update specifications
     - Move AES box translations into separate file
     - Add statistics for translations : DONE
     - Fix translation system : DONE

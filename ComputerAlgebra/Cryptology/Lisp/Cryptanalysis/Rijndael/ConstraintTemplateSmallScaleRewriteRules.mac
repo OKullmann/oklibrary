@@ -9,6 +9,17 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac
   \brief Functions for translating small-scale AES constraint templates into further AES constraint templates and CNF representations.
 
+  Functions are defined here for the translation of constraints for components
+  of the small scale AES block cipher.
+
+  The functions provided are to be used with the general translation
+  mechanisms given in
+  ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteSystem.mac
+  and
+  ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateTranslation.mac.
+  The notions of constraint templates, rewrite bundles and so on, are
+  explained in each of these files.
+
 Use by
 
 oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac");
@@ -31,29 +42,29 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data
 
 
 /* ***********************************************
-   * Constraint template rewrite translation     *
+   * Constraint template rewrite translations    *
    ***********************************************
 */
 
-/* The translation system given below is designed to replace the above
-   translation system in it's entirety but must be introduced piecewise,
-   with appropriate tests. */
-
-/* AES variables - aes_v(i,id) */
-/* id here is used as an identifier such as "ks" for key schedule bits, "o"
-   for output bits etc. */
-/* These are used throughout for all AES constraint templates */
+/* Small scale AES variables, ss_v(i,id), for i in NN where id is an
+   identifier used to allow specialisation:  */
 kill(ss_v)$
 declare(ss_v, noun)$
 declare(ss_v, posfun)$
 ss_var(i,id) := nounify(ss_v)(i,id)$
+/* For example, ss_v(1,o) is the first output bit.
+
+   Note that these variables are then later wrapped in namespaces. */
 
 /* Given two integers n and m, a namespace, and
    a noun identifier, returns a list of AES variables of the form
-   ss_v(i,id) for n <= i <= m. */
+   namespace(ss_v(i,id)) for n <= i <= m. */
 generate_ss_constraint_vars(n,m,namespace, id) :=
   create_list(namespace(ss_var(i,id)),i,n,m)$
 
+/* Rewrite maps */
+
+/* Standard rewrite mapping: */
 ss_rewrite_mapping_std :
   [["ss_cst",ss_cstrb],["ss_key_expansion_cst",ss_key_expansion_cstrb],
   ["ss_round_cst",ss_round_cstrb],
@@ -63,6 +74,8 @@ ss_rewrite_mapping_std :
   ["ss_mixcolumns_cst",ss_mixcolumns_cstrb],
   ["ss_mixcolumn_cst",ss_mixcolumn_cstrb]]$
 
+/* Rewrite mapping introducing both forward and backward
+   MixColumns translations: */
 ss_bimc_rewrite_mapping_std :
   [["ss_cst",ss_cstrb],["ss_key_expansion_cst",ss_key_expansion_cstrb],
   ["ss_round_cst",ss_round_cstrb],
@@ -72,40 +85,57 @@ ss_bimc_rewrite_mapping_std :
   ["ss_mixcolumns_cst",ss_mixcolumns_cstrb],
   ["ss_mixcolumn_cst",ss_bi_mixcolumn_cstrb]]$
 
+/* Rewrite mapping translating the MixColumns operation as a boolean
+   matrix multiplication (using addition constraints): */
+ss_boolm_rewrite_mapping_std :
+  [["ss_cst",ss_cstrb],["ss_key_expansion_cst",ss_key_expansion_cstrb],
+  ["ss_round_cst",ss_round_cstrb],
+  ["ss_final_round_cst",ss_final_round_cstrb],
+  ["ss_subbytes_cst",ss_subbytes_cstrb],
+  ["ss_shiftrows_cst",ss_shiftrows_cstrb],
+  ["ss_mixcolumns_cst",ss_mixcolumns_cstrb],
+  ["ss_mixcolumn_cst",ss_mixcolumn_boolm_cstrb]]$
+
+/* Rewrite mapping translating the MixColumns operation using
+   the canonical translation: */
+ss_tsmc_rewrite_mapping_std :
+  [["ss_cst",ss_cstrb],["ss_key_expansion_cst",ss_key_expansion_cstrb],
+  ["ss_round_cst",ss_round_cstrb],
+  ["ss_final_round_cst",ss_final_round_cstrb],
+  ["ss_subbytes_cst",ss_subbytes_cstrb],
+  ["ss_shiftrows_cst",ss_shiftrows_cstrb],
+  ["ss_mixcolumns_cst",ss_mixcolumns_cstrb]]$
+/* Note that the MixColumns is left unspecified and
+   the user must specify use the "ss_ts_translation_mapping" translation
+   mapping which will then translate all constraints remaining after the
+   constraint rewrite stage, using the canonical translation, including
+   the MixColumn.
+
+   In all other rewrite maps, the MixColumn is translated during the
+   rewrite stage and therefore, even if one uses "ss_ts_translation_mapping",
+   there are no "ss_mixcolumn_cst" constraints to be translated using the
+   canonical translation, only the multiplications etc which the MixColumns
+   was rewritten to.
+*/
+
 
 /* ***********************************************
    * Constraint template rewrite functions       *
    ***********************************************
 */
 
-/* AES constraint rewrite bundle */
+/* Small scale AES constraint rewrite bundle: */
 ss_cstrb : [ss_cstr_cstl,ss_namespace,ss_ns_var_l]$
 
-/* Namespace */
+/* Small scale AES namespace: */
 kill(ss_ctr_ns)$
 declare(ss_ctr_ns,noun)$
 declare(ss_ctr_ns,posfun)$
 ss_namespace([args]) := apply(nounify(ss_ctr_ns),args)$
 
 
-/* Returns a list of the variables introduced when
-   applying ss_ctr_ctl given the auxiliary parameter
-   list arg_l, under the given rewrite_mapping.
-
-   For example, given the constraint template instance
-
-   ss_ct(1,...,384,arg_l)
-
-   is rewritten using ss_ctr_ctl, under
-   rewrite_mapping, the list of variables
-   returned by this function are exactly those
-   variables introduced by ss_ctr_ctl and
-   any rewritten-subconstraints it introduces
-   (mapped to the corresponding rewrite functions
-   by variable mapping, that is, this function
-   recursively generates such a variable list,
-   based on sub-constraints it uses).
-*/
+/* The list of new variables introduced by ss_cstr_cstl
+   with the constraint template cst as input: */
 ss_ns_var_l(cst) := block(
   [ss_num_rounds,vars : [],namespace, ss_args_l,
   ss_num_columns, ss_num_rows, ss_base, ss_exp,
@@ -125,6 +155,9 @@ ss_ns_var_l(cst) := block(
     generate_ss_constraint_vars(1,ss_num_rounds*num_block_bits,
       namespace,nounify(o)),vars),
   return(lappend(vars)))$
+
+/* TODO: Rewrite documentation below. */
+
 /* Rewrite function designed to rewrite the AES constraint template "ss_ct".
 
    Takes as arguments 385 variables, which are the arguments of the "aes_ct"
@@ -628,6 +661,55 @@ ss_mixcolumn_cstr_cstl(cst) := block(
 )$
 
 
+ss_mixcolumn_boolm_cstrb :
+ [ss_mixcolumn_boolm_cstr_cstl,ss_mixcolumn_boolm_namespace,
+  ss_mixcolumn_boolm_ns_var_l]$
+
+
+/* MixColumns translation as a boolean matrix. */
+
+kill(ss_mixcolumn_boolm_ns)$
+declare(ss_mixcolumn_boolm_ns,noun)$
+declare(ss_mixcolumn_boolm_ns,posfun)$
+ss_mixcolumn_boolm_namespace([args]) :=
+  apply(nounify(ss_mixcolumn_boolm_ns),args)$
+
+ss_mixcolumn_boolm_ns_var_l(cst) := []$
+ss_mixcolumn_boolm_cstr_cstl(cst) := block(
+  [namespace,bits,iBits, oBits, nc,rs : [],ss_arg_l, ss_column_size,
+   ss_num_rows, ss_base, ss_exp, ss_column_size, ss_poly,
+   ss_mixcolumns_matrix, ss_mixcolumns_boolm_l, extract_vars],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rows : ss_arg_l[1],
+  ss_base : ss_arg_l[2],
+  ss_exp : ss_arg_l[3],
+  ss_poly : ss_arg_l[4],
+  ss_mixcolumns_matrix : ss_arg_l[5],
+  ss_column_size : ss_exp * ss_num_rows,
+  bits : cst[2],
+  namespace :
+    cstt_namespace_new(ss_mixcolumn_boolm_namespace,cst),
+  iBits : take_elements(ss_column_size, bits),
+  oBits : rest(bits, ss_column_size),
+  ss_mixcolumns_boolm_l :
+    ss_mixcolumn_gen_boolm(ss_base,ss_exp,ss_poly,ss_mixcolumns_matrix),
+  ss_mixcolumns_boolm_l : args(ss_mixcolumns_boolm_l),
+  extract_vars(V,sublist_ind) :=
+    delete(false,
+      map(lambda([v,i], if i = 1 then v else false),V,sublist_ind)),
+  /* First element */
+  for i : 1 thru ss_column_size do block(
+    [involved_vars : extract_vars(iBits,ss_mixcolumns_boolm_l[i])],
+    rs : cons(
+      cstt_new("ss_add_cst",
+        endcons(oBits[i],involved_vars),
+        [length(involved_vars)], namespace),
+      rs)
+  ),
+  return(rs)
+)$
+
+
 /*
    Inverse Mixcolumn
 
@@ -914,6 +996,29 @@ ss_sbox_ts_gen(b,e,mod_poly) := block([hash_key : [b,e,mod_poly]],
         return(ev_hm(ss_sbox_ts_CNF,hash_key))
         ) else ev_hm(ss_sbox_ts_CNF,hash_key))$
 
+ss_mixcolumn_ts_CNF : sm2hm({})$
+ss_mixcolumn_ts_gen(b,e,mod_poly,mixcolumns_matrix) := block(
+  [hash_key : [b,e,mod_poly,mixcolumns_matrix],num_rows],
+  num_rows : length(mixcolumns_matrix),
+  if ev_hm_d(ss_mixcolumn_ts_CNF,hash_key,false) = false then
+    block([plus16 : lambda([x],x+2*e),
+      mc_dnf :
+        fcl2fcs(cl2fcl(bf2relation_fulldnf_cl(lambda([V],
+            ss_mixcolumn_gen_bf(V,b,e,mod_poly,mixcolumns_matrix)),
+          e*num_rows)))],
+      set_hm(ss_mixcolumn_ts_CNF,hash_key,
+        dualts_fcl(
+          [listify(mc_dnf[1]),
+          sort(
+            listify(mc_dnf[2]),
+            lambda([c,d], is(
+                rank_lex_ksubsets(map(plus16,c),e*4) < 
+                rank_lex_ksubsets(map(plus16,d),e*4)))
+            )]
+          )),
+      return(ev_hm(ss_mixcolumn_ts_CNF,hash_key))
+      ) else ev_hm(ss_mixcolumn_ts_CNF,hash_key))$
+
 /* Returns a list of CNF clauses representing the sbox relation
    given the appropriate sbox constraint ("ss_sbox_cst" with 16 variables
    in the constraint).
@@ -1025,7 +1130,6 @@ ss_mul_rbase_cst_cl(cst) := block([ss_arg_l,ss_element,
       cst[2])[2])
   )$
 
-/* SS mul2 namespace */
 kill(ss_mul_ts_ns)$
 declare(ss_mul_ts_ns,noun)$
 declare(ss_mul_ts_ns,posfun)$
@@ -1061,6 +1165,33 @@ ss_mul_ts_cst_cl(cst) := block(
     append(bits,
       generate_ss_constraint_vars(1,2^(length(bits)/2),
         namespace,nounify(mul_ts))))[2])$
+
+
+/* MixColumns translation using the canonical translation: */
+
+kill(ss_mixcolumn_ts_ns)$
+declare(ss_mixcolumn_ts_ns,noun)$
+declare(ss_mixcolumn_ts_ns,posfun)$
+ss_mixcolumn_ts_namespace([args]) :=
+  apply(nounify(ss_mixcolumn_ts_ns),args)$
+
+ss_mixcolumn_ts_var_l(cst) := block([bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_mixcolumn_ts_namespace,cst),
+  generate_ss_constraint_vars(1,2^(length(bits)/2), namespace,nounify(mixcolumn_ts)))$
+
+ss_mixcolumn_ts_cst_cl(cst) := block(
+  [bits : cst[2],namespace,ss_arg_l,ss_base,ss_exp,ss_poly,ss_element],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rows : ss_arg_l[1],
+  ss_base : ss_arg_l[2],
+  ss_exp : ss_arg_l[3],
+  ss_poly : ss_arg_l[4],
+  ss_mixcolumns_matrix : ss_arg_l[5],
+  namespace : cstt_namespace_new(ss_mixcolumn_ts_namespace,cst),
+  rename_fcl(ss_mixcolumn_ts_gen(ss_base, ss_exp, ss_poly,ss_mixcolumns_matrix),
+    append(bits,
+      generate_ss_constraint_vars(1,2^(length(bits)/2),
+        namespace,nounify(mixcolumn_ts))))[2])$
 
 
 /*!
