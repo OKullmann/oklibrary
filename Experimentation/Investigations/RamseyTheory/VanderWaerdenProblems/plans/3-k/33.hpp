@@ -224,6 +224,28 @@ License, or any later version. */
    <li> 1002 < vanderwaerden_g([3,33],"pd") =(conj) 1003 =(conj)
    vanderwaerden([3,33]) - 61. </li>
    <li> vanderwaerden_g([3,33],"pdsat") =(conj) 992. </li>
+   <li> Certificates:
+    <ol>
+     <li> n=991:
+     \verbatim
+12,35,46,71,97,108,126,140,143,149,
+165,176,195,196,202,211,221,232,236,254,
+258,267,285,289,294,304,326,331,335,353,
+360,362,388,399,409,422,424,440,446,469,
+477,490
+     \endverbatim
+     </li>
+     <li> n=1002:
+     \verbatim
+32,53,59,76,78,88,90,94,96,107,
+134,145,146,164,165,187,218,222,224,225,
+245,255,256,281,282,289,295,311,313,324,
+336,349,351,357,382,386,388,410,411,429,
+460,479,497,499
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> Best ubcsat-algorithm:
    \verbatim
 > PdVanderWaerdenCNF-O3-DNDEBUG 3 33 1064
@@ -266,6 +288,28 @@ Break point 1: 992
 Break point 2: 1003
    \endverbatim
    where all solutions were found within in the first 7 runs. </li>
+   <li> n=991:
+    <ol>
+     <li> From scratch, adaptg2wsat with cutoff=2*10^6:
+     \verbatim
+ 0  1  2  3 
+ 1 21 52 14 
+88 
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> n=1002:
+    <ol>
+     <li> From scratch, adaptg2wsat with cutoff=2*10^6:
+     \verbatim
+ 0  1  2  3  4  5 
+ 1  2 15 52 27  3 
+100 
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 */
