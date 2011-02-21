@@ -23,6 +23,17 @@ License, or any later version. */
   </ul>
 
 
+  \todo Update specifications
+  <ul>
+   <li> The comments and specifications in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac
+   and 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteRules.mac
+   are stale. </li>
+   <li> The specifications need to be updated urgently. </li>
+  </ul>
+
+
   \todo Rewrite ncl_list_ss correctly
   <ul>
    <li> Due to the large number of cases, ncl_list_ss is currently written
