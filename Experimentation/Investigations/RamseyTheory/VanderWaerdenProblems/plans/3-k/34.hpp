@@ -133,6 +133,18 @@ License, or any later version. */
    <li> 1078 < vanderwaerden_g([3,34],"pd") =(conj) 1079 =(conj)
    vanderwaerden([3,34]) - ???. </li>
    <li> vanderwaerden_g([3,34],"pdsat") =(conj) 1046. </li>
+   <li> Certificates:
+    <ol>
+     <li> n=1045:
+     \verbatim
+     \endverbatim
+     </li>
+     <li> n=1078:
+     \verbatim
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> "RunPdVdW3k 34 gsat-tabu 100 10000000" (old version) yields
    \verbatim
 Break point 1: 1046
@@ -142,6 +154,39 @@ Break point 2: 1079
    break-point is rather weak). </li>
    <li> Rerunning it with doubled cutoff, and using the previous solutions
    properly. We also need the ability to start late. </li>
+   <li> n=1045:
+    <ol>
+     <li> From scratch, adaptg2wsat with cutoff=2*10^6:
+     \verbatim
+ 1  2  3  4  5  6 
+ 2  2 15 31 41  9 
+100 
+     \endverbatim
+     </li>
+     <li> From scratch, adaptg2wsat with cutoff=4*10^6:
+     \verbatim
+ 2  3  4  5
+ 2 27 56 15
+100
+     \endverbatim
+     </li>
+     <li> From scratch, ddfw with cutoff=4*10^6:
+     \verbatim
+ 1  2  3  4  5 
+ 2 17 39 40  2 
+100 
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> n=1078:
+    <ol>
+     <li> From scratch, adaptg2wsat with cutoff=2*10^6:
+     \verbatim
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 */
