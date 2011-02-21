@@ -148,6 +148,8 @@ declare(aes_ts_box, noun)$
 declare(aes_rbase_box, noun)$
 declare(aes_mc_forward, noun)$
 declare(aes_mc_bidirectional, noun)$
+declare(aes_mc_boolm, noun)$
+declare(aes_mc_ts, noun)$
 
 
 /* Constraint rewrite translations */
@@ -203,6 +205,8 @@ ss_csttl(r,ss_num_columns, ss_num_rows, ss_exp, final_round_b, mc_tran) :=
            ss_mixcolumns_matrix(2,ss_exp,ss_num_rows),final_round_b],
            lambda([a],a))],
     if mc_tran = aes_mc_bidirectional then ss_bimc_rewrite_mapping_std
+    else if mc_tran = aes_mc_boolm then ss_boolm_rewrite_mapping_std
+    else if mc_tran = aes_mc_ts then ss_tsmc_rewrite_mapping_std
     else ss_rewrite_mapping_std))$
 /*aes_cstt_std_l(r) := aes_csttl(r, aes_mc_forward)$*/
 
@@ -285,7 +289,6 @@ block([block_size],
   return(
     is(ss_encrypt(P,K,r,2,ss_exp) = C))
 )$
-
 
 /******************************************************************
  * Testing cryptographic properties                               *
@@ -932,7 +935,8 @@ ss_ts_translation_mapping : [
   ["ss_add_cst", [aes_add_cst_cl, lambda([[a]],[])]],
   ["const_cst", [aes_const_cst_cl, lambda([[a]],[])]],
   ["ss_mul_cst", [ss_mul_ts_cst_cl, ss_mul_ts_var_l]],
-  ["ss_sbox_cst", [ss_sbox_ts_cst_cl, ss_sbox_ts_var_l]]]$
+  ["ss_sbox_cst", [ss_sbox_ts_cst_cl, ss_sbox_ts_var_l]],
+  ["ss_mixcolumn_cst", [ss_mixcolumn_ts_cst_cl, ss_mixcolumn_ts_var_l]]]$
 
 /*!
 \endhtmlonly

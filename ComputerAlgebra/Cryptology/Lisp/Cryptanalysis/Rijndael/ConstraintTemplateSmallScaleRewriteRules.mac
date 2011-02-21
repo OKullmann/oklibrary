@@ -72,6 +72,23 @@ ss_bimc_rewrite_mapping_std :
   ["ss_mixcolumns_cst",ss_mixcolumns_cstrb],
   ["ss_mixcolumn_cst",ss_bi_mixcolumn_cstrb]]$
 
+ss_boolm_rewrite_mapping_std :
+  [["ss_cst",ss_cstrb],["ss_key_expansion_cst",ss_key_expansion_cstrb],
+  ["ss_round_cst",ss_round_cstrb],
+  ["ss_final_round_cst",ss_final_round_cstrb],
+  ["ss_subbytes_cst",ss_subbytes_cstrb],
+  ["ss_shiftrows_cst",ss_shiftrows_cstrb],
+  ["ss_mixcolumns_cst",ss_mixcolumns_cstrb],
+  ["ss_mixcolumn_cst",ss_mixcolumn_boolm_cstrb]]$
+
+ss_tsmc_rewrite_mapping_std :
+  [["ss_cst",ss_cstrb],["ss_key_expansion_cst",ss_key_expansion_cstrb],
+  ["ss_round_cst",ss_round_cstrb],
+  ["ss_final_round_cst",ss_final_round_cstrb],
+  ["ss_subbytes_cst",ss_subbytes_cstrb],
+  ["ss_shiftrows_cst",ss_shiftrows_cstrb],
+  ["ss_mixcolumns_cst",ss_mixcolumns_cstrb]]$
+
 
 /* ***********************************************
    * Constraint template rewrite functions       *
@@ -628,6 +645,55 @@ ss_mixcolumn_cstr_cstl(cst) := block(
 )$
 
 
+ss_mixcolumn_boolm_cstrb :
+ [ss_mixcolumn_boolm_cstr_cstl,ss_mixcolumn_boolm_namespace,
+  ss_mixcolumn_boolm_ns_var_l]$
+
+
+/* MixColumns translation as a boolean matrix. */
+
+kill(ss_mixcolumn_boolm_ns)$
+declare(ss_mixcolumn_boolm_ns,noun)$
+declare(ss_mixcolumn_boolm_ns,posfun)$
+ss_mixcolumn_boolm_namespace([args]) :=
+  apply(nounify(ss_mixcolumn_boolm_ns),args)$
+
+ss_mixcolumn_boolm_ns_var_l(cst) := []$
+ss_mixcolumn_boolm_cstr_cstl(cst) := block(
+  [namespace,bits,iBits, oBits, nc,rs : [],ss_arg_l, ss_column_size,
+   ss_num_rows, ss_base, ss_exp, ss_column_size, ss_poly,
+   ss_mixcolumns_matrix, ss_mixcolumns_boolm_l, extract_vars],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rows : ss_arg_l[1],
+  ss_base : ss_arg_l[2],
+  ss_exp : ss_arg_l[3],
+  ss_poly : ss_arg_l[4],
+  ss_mixcolumns_matrix : ss_arg_l[5],
+  ss_column_size : ss_exp * ss_num_rows,
+  bits : cst[2],
+  namespace :
+    cstt_namespace_new(ss_mixcolumn_boolm_namespace,cst),
+  iBits : take_elements(ss_column_size, bits),
+  oBits : rest(bits, ss_column_size),
+  ss_mixcolumns_boolm_l :
+    ss_mixcolumn_gen_boolm(ss_base,ss_exp,ss_poly,ss_mixcolumns_matrix),
+  ss_mixcolumns_boolm_l : args(ss_mixcolumns_boolm_l),
+  extract_vars(V,sublist_ind) :=
+    delete(false,
+      map(lambda([v,i], if i = 1 then v else false),V,sublist_ind)),
+  /* First element */
+  for i : 1 thru ss_column_size do block(
+    [involved_vars : extract_vars(iBits,ss_mixcolumns_boolm_l[i])],
+    rs : cons(
+      cstt_new("ss_add_cst",
+        endcons(oBits[i],involved_vars),
+        [length(involved_vars)], namespace),
+      rs)
+  ),
+  return(rs)
+)$
+
+
 /*
    Inverse Mixcolumn
 
@@ -914,6 +980,29 @@ ss_sbox_ts_gen(b,e,mod_poly) := block([hash_key : [b,e,mod_poly]],
         return(ev_hm(ss_sbox_ts_CNF,hash_key))
         ) else ev_hm(ss_sbox_ts_CNF,hash_key))$
 
+ss_mixcolumn_ts_CNF : sm2hm({})$
+ss_mixcolumn_ts_gen(b,e,mod_poly,mixcolumns_matrix) := block(
+  [hash_key : [b,e,mod_poly,mixcolumns_matrix],num_rows],
+  num_rows : length(mixcolumns_matrix),
+  if ev_hm_d(ss_mixcolumn_ts_CNF,hash_key,false) = false then
+    block([plus16 : lambda([x],x+2*e),
+      mc_dnf :
+        fcl2fcs(cl2fcl(bf2relation_fulldnf_cl(lambda([V],
+            ss_mixcolumn_gen_bf(V,b,e,mod_poly,mixcolumns_matrix)),
+          e*num_rows)))],
+      set_hm(ss_mixcolumn_ts_CNF,hash_key,
+        dualts_fcl(
+          [listify(mc_dnf[1]),
+          sort(
+            listify(mc_dnf[2]),
+            lambda([c,d], is(
+                rank_lex_ksubsets(map(plus16,c),e*4) < 
+                rank_lex_ksubsets(map(plus16,d),e*4)))
+            )]
+          )),
+      return(ev_hm(ss_mixcolumn_ts_CNF,hash_key))
+      ) else ev_hm(ss_mixcolumn_ts_CNF,hash_key))$
+
 /* Returns a list of CNF clauses representing the sbox relation
    given the appropriate sbox constraint ("ss_sbox_cst" with 16 variables
    in the constraint).
@@ -1025,7 +1114,6 @@ ss_mul_rbase_cst_cl(cst) := block([ss_arg_l,ss_element,
       cst[2])[2])
   )$
 
-/* SS mul2 namespace */
 kill(ss_mul_ts_ns)$
 declare(ss_mul_ts_ns,noun)$
 declare(ss_mul_ts_ns,posfun)$
@@ -1061,6 +1149,33 @@ ss_mul_ts_cst_cl(cst) := block(
     append(bits,
       generate_ss_constraint_vars(1,2^(length(bits)/2),
         namespace,nounify(mul_ts))))[2])$
+
+
+/* MixColumns translation using the canonical translation: */
+
+kill(ss_mixcolumn_ts_ns)$
+declare(ss_mixcolumn_ts_ns,noun)$
+declare(ss_mixcolumn_ts_ns,posfun)$
+ss_mixcolumn_ts_namespace([args]) :=
+  apply(nounify(ss_mixcolumn_ts_ns),args)$
+
+ss_mixcolumn_ts_var_l(cst) := block([bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_mixcolumn_ts_namespace,cst),
+  generate_ss_constraint_vars(1,2^(length(bits)/2), namespace,nounify(mixcolumn_ts)))$
+
+ss_mixcolumn_ts_cst_cl(cst) := block(
+  [bits : cst[2],namespace,ss_arg_l,ss_base,ss_exp,ss_poly,ss_element],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rows : ss_arg_l[1],
+  ss_base : ss_arg_l[2],
+  ss_exp : ss_arg_l[3],
+  ss_poly : ss_arg_l[4],
+  ss_mixcolumns_matrix : ss_arg_l[5],
+  namespace : cstt_namespace_new(ss_mixcolumn_ts_namespace,cst),
+  rename_fcl(ss_mixcolumn_ts_gen(ss_base, ss_exp, ss_poly,ss_mixcolumns_matrix),
+    append(bits,
+      generate_ss_constraint_vars(1,2^(length(bits)/2),
+        namespace,nounify(mixcolumn_ts))))[2])$
 
 
 /*!

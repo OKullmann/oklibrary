@@ -62,6 +62,8 @@ okltest_ss_bi_mixcolumn_ns_var_l(ss_bi_mixcolumn_ns_var_l);
 okltest_ss_bi_mixcolumn_cstr_cstl(ss_bi_mixcolumn_cstr_cstl);
 okltest_ss_mixcolumn_ns_var_l(ss_mixcolumn_ns_var_l);
 okltest_ss_mixcolumn_cstr_cstl(ss_mixcolumn_cstr_cstl);
+okltest_ss_mixcolumn_boolm_ns_var_l(ss_mixcolumn_boolm_ns_var_l);
+okltest_ss_mixcolumn_boolm_cstr_cstl(ss_mixcolumn_boolm_cstr_cstl);
 okltest_ss_inv_mixcolumn_ns_var_l(ss_inv_mixcolumn_ns_var_l);
 okltest_ss_inv_mixcolumn_cstr_cstl(ss_inv_mixcolumn_cstr_cstl);
 
@@ -76,12 +78,15 @@ okltest_ss_key_expansion_cstr_cstl(ss_key_expansion_cstr_cstl);
 
 okltest_ss_mul_ts_gen(ss_mul_ts_gen);
 okltest_ss_sbox_ts_gen(ss_sbox_ts_gen);
+okltest_ss_mixcolumn_ts_gen(ss_mixcolumn_ts_gen);
 okltest_ss_sbox_pi_cst_cl(ss_sbox_pi_cst_cl);
 okltest_ss_sbox_ts_var_l(ss_sbox_ts_var_l);
 okltest_ss_sbox_ts_cst_cl(ss_sbox_ts_cst_cl);
 okltest_ss_mul_pi_cst_cl(ss_mul_pi_cst_cl);
 okltest_ss_mul_ts_var_l(ss_mul_ts_var_l);
 okltest_ss_mul_ts_cst_cl(ss_mul_ts_cst_cl);
+okltest_ss_mixcolumn_ts_var_l(ss_mixcolumn_ts_var_l);
+okltest_ss_mixcolumn_ts_cst_cl(ss_mixcolumn_ts_cst_cl);
 
 /*!
 \endhtmlonly
