@@ -187,14 +187,24 @@ Break point 2: 1079
 100 
      \endverbatim
      </li>
-    </ol>
-   </li>
-   <li> n=1078:
-    <ol>
-     <li> From scratch, adaptg2wsat with cutoff=2*10^6:
+     <li> From scratch, gsat-tabu with cutoff=4*10^6:
      \verbatim
+ 0 1 2 3 
+1 3 6 2 
+12 
      \endverbatim
      </li>
+     <li> So it seems that for palindromic problems definitely gsat-tabu is
+     best. </li>
+     <li> The certificate found is
+     \verbatim
+6,21,43,45,50,78,87,112,145,149,
+154,171,185,187,190,224,228,233,237,254,
+256,270,274,291,298,332,333,343,348,380,
+383,385,402,407,439,443,446,454,455,478,
+480,489,520
+     \endverbatim
+     which is similar to the one above. </li>
     </ol>
    </li>
   </ul>
