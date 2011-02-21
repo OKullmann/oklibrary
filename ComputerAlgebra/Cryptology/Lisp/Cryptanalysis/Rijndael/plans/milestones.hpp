@@ -13,6 +13,12 @@ License, or any later version. */
 
   \par Version 0.0.7
 
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac
+   the following topics are handled:
+    - Bad specification : DONE
+
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    the following topics are handled:
