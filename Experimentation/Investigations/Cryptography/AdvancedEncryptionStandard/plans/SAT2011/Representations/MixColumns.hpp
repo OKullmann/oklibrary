@@ -159,7 +159,12 @@ CURRENT MINIMUM RBASE: *2208* with gs=1,bs=1
    ALL r1_bases had the same statistics. </li>
    <li> Are these r1-bases actually the same? </li>
    <li> All r_1-bases we generated for the multiplication by 03 were also the
-   same. Do all linear operations have a unique r1-base? </li>
+   same. Is the inclusion of the 03 in the MixColumns matrix the reason we
+   seem to have a unique r_1-base? </li>
+   <li> Not all linear maps have unique r_1-bases, as can be seen by 
+   considering the multiplication by 02 in "r_1-bases" in
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp .
+   </li>
    <li> See also "r_1-bases" in
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp.
    </li>
