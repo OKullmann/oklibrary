@@ -740,6 +740,112 @@ ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/O
   </ul>
 
 
+  \todo Experiment monitoring tools
+  <ul>
+   <li> When running SAT solvers on a non-trivial instance, one often wishes
+   to place a time limit on the computation, after which we try another solver
+   or try to solve some other instance. </li>
+   <li> It is also useful, given the use of shared machines (such as in a 
+   university lab) to place constraints on the memory usage of the solver to
+   avoid the solver taking over the machine. </li>
+   <li> Therefore it makes sense to consider tools for running SAT solvers
+   with given time and space limits:
+   <ul>
+    <li> run is a tool for running solvers (or any program) and monitoring
+    and limiting the resource usage of the solver.
+     <ul>
+      <li> Available at http://fmv.jku.at/run/index.html. </li>
+      <li> Installation:
+      \verbatim
+builds/> mkdir Run && cd Run
+builds/Run> tar zxvf ../../../sources/SAT/Run/run-1.4.tar.gz
+builds/Run> cd run-1.4
+builds/Run/run-1.4> ./configure
+builds/Run/run-1.4> make
+      \endverbatim
+      </li>
+      <li> Allows one to specify time, real time and memory limits:
+      \verbatim
+$OKPLATFORM/ExternalSources/builds/Run/run-1.4/run -h
+usage: run [option ...] program [arg ...]
+
+  where option is from the following list:
+
+    -h                         print this command line summary
+    --help
+
+    --version                  print version number
+
+    -o <file>                  overwrite or create <file> for logging
+    --output-file=<file>
+
+    --space-limit=<number>     set space limit to <number> MB
+    -s <number>
+
+    --time-limit=<number>      set time limit to <number> seconds
+    -t <number>
+
+    --real-time-limit=<number> set real time limit to <number> seconds
+    -r <number>
+
+    -k|--kill                  propagate signals
+
+The program is the name of an executable followed by its arguments.
+      \endverbatim
+      </li>
+      <li> Specifying an output file with "-o" causes run to output
+      various statistics detailing the resource usage and result of
+      the solver:
+      \verbatim
+shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/generate_aes_experiment 5 1 4 2 4 false aes_small_box aes_mc_forward
+shell> cd ssaes_r1-5_c4_rw2_e4_f0_k1-1_aes_ts_box_aes_mc_forward
+shell> AppendDimacs-O3-DNDEBUG ssaes_r3_c4_rw2_e4_f0.cnf ssaes_pcpair_r3_c4_rw2_e4_f0_s1.cnf  > experiment_r3_k1.cnf
+shell> $OKPLATFORM/ExternalSources/builds/Run/run-1.4/run -o experiment_r3_k1.cnf_cryptominisat --time-limit=20 cryptominisat experiment_r3_k1.cnf
+shell> cat experiment_r3_k1.cnf_cryptominisat
+[run] time limit:	20 seconds
+[run] real time limit:	311040000 seconds
+[run] space limit:	7873 MB
+[run] argv[0]:		cryptominisat
+[run] argv[1]:		experiment_r3_k1.cnf
+[run] start:		Wed Feb 23 13:44:39 2011
+[run] main pid:	5102
+[run] sample:		1.0 seconds, 5.6 MB
+[run] sample:		2.0 seconds, 11.2 MB
+[run] sample:		3.0 seconds, 10.9 MB
+[run] sample:		4.0 seconds, 11.2 MB
+[run] sample:		5.0 seconds, 12.0 MB
+[run] sample:		6.0 seconds, 12.0 MB
+[run] sample:		7.0 seconds, 11.9 MB
+[run] sample:		8.0 seconds, 19.1 MB
+[run] sample:		9.0 seconds, 18.6 MB
+[run] sample:		10.0 seconds, 18.1 MB
+[run] sample:		11.0 seconds, 19.1 MB
+[run] sample:		12.0 seconds, 18.7 MB
+[run] sample:		13.0 seconds, 24.1 MB
+[run] sample:		14.0 seconds, 24.3 MB
+[run] sample:		15.0 seconds, 22.8 MB
+[run] sample:		16.0 seconds, 23.9 MB
+[run] sample:		17.0 seconds, 24.6 MB
+[run] sample:		18.0 seconds, 23.7 MB
+[run] sample:		19.0 seconds, 24.4 MB
+[run] sample:		20.0 seconds, 23.5 MB
+[run] end:		Wed Feb 23 13:44:59 2011
+[run] status:		out of time
+[run] result:		1
+[run] children:		0
+[run] real:		20.38 seconds
+[run] time:		20.09 seconds
+[run] space:		25.1 MB
+[run] samples:		201
+      \endverbatim
+      </li>
+     </ul> 
+    </li>
+   </ul>
+   </li>
+  </ul>
+
+
   \todo Argo
   <ul>
    <li> DONE (as stated)
