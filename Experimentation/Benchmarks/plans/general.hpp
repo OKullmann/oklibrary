@@ -1,0 +1,60 @@
+// Oliver Kullmann, 25.2.2011 (Swansea)
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file Experimentation/Benchmarks/plans/general.hpp
+  \brief Plans for producing benchmarks
+
+
+  \todo AES Challenge
+  <ul>
+   <li> One plain-text/cipher-text pair for standard 128-bit is provided,
+   as is, and as a SAT formula, just using the minimum translation. </li>
+   <li> Later more translation might follow, once we understand them better.
+   </li>
+   <li> The directory "SAT2011_AES-Challenge" contains the templates for
+   the "AES Challenge". </li>
+   <li> The package shall be called "AES-Challenge_OKlibrary". </li>
+   <li> The key, created by 128 coin flips (one pound, 2001; erased after
+   usage):
+   \verbatim
+key_24022011 : [???]$
+   \endverbatim
+   </li>
+   <li> The input:
+   \verbatim
+set_random(1);
+message_24022011 : create_list(random(2),i,1,128);
+[1,1,0,0,1,1,1,1,1,0,0,1,0,1,1,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,0,1,1,1,1,1,
+ 0,0,0,1,1,1,1,1,1,0,1,1,0,0,1,0,0,1,1,1,0,1,0,0,1,1,0,1,1,1,1,0,0,1,1,0,0,
+ 0,0,1,1,1,0,1,0,0,1,1,0,1,1,0,1,0,0,1,1,1,0,1,1,0,1,1,1,1,0,0,0,0,0,1,1,1,
+ 1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,0]
+   \endverbatim
+   </li>
+   <li> The output:
+   \verbatim
+key_24022011_int : polyadic2int(key_24022011,2)$
+integerp(key_24022011_int);
+  true
+message_24022011_int : polyadic2int(message_24022011,2);
+  275930429712199798024509060124983156862
+cipher_24022011_int : aes_int_std(message_24022011_int,key_24022011_int);
+  82288044290978544244364916044704454498
+aes_int_decrypt_std(cipher_24022011_int,key_24022011_int);
+  275930429712199798024509060124983156862
+cipher_24022011 : int2polyadic(cipher_24022011_int,2);
+[1,1,1,1,0,1,1,1,1,0,1,0,0,0,0,0,0,1,1,0,0,1,1,1,0,1,0,0,0,1,1,0,1,1,1,0,1,
+ 1,0,1,1,0,0,0,1,0,0,1,0,0,1,1,0,1,1,1,0,1,1,0,1,0,0,0,1,1,0,1,0,1,1,1,1,0,
+ 0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,1,1,1,0,1,0,0,0,1,0,0,1,0,1,1,0,0,0,0,1,1,0,
+ 0,0,1,0,1,1,1,0,1,1,0,0,0,1,0]
+   \endverbatim
+    </li>
+   </ul>
+  </ul>
+
+*/
+
