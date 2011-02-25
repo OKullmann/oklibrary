@@ -437,6 +437,15 @@ aes_int(p,k,num_rounds) :=
     ),
     256)$
 aes_int_std(p,k) := aes_int(p,k,10)$
+aes_int_decrypt(c,k,num_rounds) :=
+  polyadic2int(
+    aes_decrypt_nat_l(
+      pad_block_16(int2polyadic(c,256)), 
+      pad_block_16(int2polyadic(k,256)),
+      num_rounds
+    ),
+    256)$
+aes_int_decrypt_std(c,k) := aes_int_decrypt(c,k,10)$
 
 
 /*!
