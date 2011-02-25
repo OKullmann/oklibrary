@@ -106,8 +106,9 @@ ab24cceb1074bc2a0c4486922b415de60bd3cb07
    <li> The "empty" package (the template-directory, without the instances,
    but with the generator-executables added) has md5sum
    \verbatim
-0bbbef7b9581bd15135fa2aea1576e7c  SAT2011_GreenTao_Empty.tar.bz2
+d83bae730891c958fc84048b616425cb  SAT2011_GreenTao_Empty.tar.bz2
    \endverbatim
+   and 2,374,254 bytes.
    </li>
    <li> Created by
    \verbatim
@@ -119,8 +120,15 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_GreenTao_Empty.tar.bz2 SAT201
    <code>SAT2011_GreenTao</code>. </li>
    <li> The "full" package (additionally with the instances) has md5sum
    \verbatim
-f78b135ae128e679aaf7fc7cd50dfd71  SAT2011_GreenTao.tar.bz2
+f5f34df8899c004796a5a73e995844c5  SAT2011_GreenTao.tar.bz2
    \endverbatim
+   and size 63,927,692 bytes.
+   </li>
+   <li> Created by
+   \verbatim
+OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_GreenTao.tar.bz2 SAT2011_GreenTao
+   \endverbatim
+   after running <code>Create</code>.
    </li>
    <li> From the "empty" package the "full" package is created by running
    <code>./Create</code> in the (extracted) directory
