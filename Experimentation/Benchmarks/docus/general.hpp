@@ -98,7 +98,7 @@ OKlib/Satisfiability/Transformers/Generators> LDFLAGS="-static" oklib all
    </li>
    <li> The Git-ID of the relevant state of the OKlibrary is
    \verbatim
-ab24cceb1074bc2a0c4486922b415de60bd3cb07
+080a2210bf3c195fc91ab489de2640559b089f44
    \endverbatim
    </li>
    <li> The package-template is given by the directory
@@ -106,9 +106,9 @@ ab24cceb1074bc2a0c4486922b415de60bd3cb07
    <li> The "empty" package (the template-directory, without the instances,
    but with the generator-executables added) has md5sum
    \verbatim
-d83bae730891c958fc84048b616425cb  SAT2011_GreenTao_Empty.tar.bz2
+796f11c54b80ee06a1e32cff3060004e  SAT2011_GreenTao_Empty.tar.bz2
    \endverbatim
-   and 2,374,254 bytes.
+   and 2,374,142 bytes.
    </li>
    <li> Created by
    \verbatim
@@ -120,9 +120,9 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_GreenTao_Empty.tar.bz2 SAT201
    <code>SAT2011_GreenTao</code>. </li>
    <li> The "full" package (additionally with the instances) has md5sum
    \verbatim
-f5f34df8899c004796a5a73e995844c5  SAT2011_GreenTao.tar.bz2
+af931da9094acd9a082c7a8e340b41f7  SAT2011_GreenTao.tar.bz2
    \endverbatim
-   and size 63,927,692 bytes.
+   and size 63,926,698 bytes.
    </li>
    <li> Created by
    \verbatim
