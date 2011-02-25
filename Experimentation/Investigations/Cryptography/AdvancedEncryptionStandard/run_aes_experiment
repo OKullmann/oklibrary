@@ -95,7 +95,7 @@ else
   fin_z=0
 fi
 
-union_program=UnionDimacs-O3-DNDEBUG
+union_program=AppendDimacs-O3-DNDEBUG
 experiment_output_file=experiment.cnf
 run_all_solvers_script=$(readlink -m $(dirname $0))/run_all_solvers_2by2
 
