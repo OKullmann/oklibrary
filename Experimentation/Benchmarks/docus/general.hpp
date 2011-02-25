@@ -37,7 +37,7 @@ OKlib/Satisfiability/Transformers/Generators> LDFLAGS="-static" oklib all
    </li>
    <li> The Git-ID of the relevant state of the OKlibrary is
    \verbatim
-ab24cceb1074bc2a0c4486922b415de60bd3cb07
+9fc269649716c7a848878fe58edfbdadf11faff0
    \endverbatim
    </li>
    <li> The package-template is given by the directory
@@ -45,8 +45,9 @@ ab24cceb1074bc2a0c4486922b415de60bd3cb07
    <li> The "empty" package (the template-directory, without the instances,
    but with the generator-executables added) has md5sum
    \verbatim
-5b355957671e20f033bd130af4d633b8  SAT2011_VanDerWaerden_Empty.tar.bz2
+fcb95d587988f266b17bd2727afffe38  SAT2011_VanDerWaerden_Empty.tar.bz2
    \endverbatim
+   and 4,572,689 bytes.
    </li>
    <li> Created by
    \verbatim
@@ -58,7 +59,13 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_VanDerWaerden_Empty.tar.bz2 S
    <code>SAT2011_VanDerWaerden</code>. </li>
    <li> The "full" package (additionally with the instances) has md5sum
    \verbatim
-eec7580151a41b53d263845c2c2ebdb7  SAT2011_VanDerWaerden.tar.bz2
+3a37725576bacb61b0b25d3adeb475df  SAT2011_VanDerWaerden.tar.bz2
+   \endverbatim
+   and size 42,306,960 bytes.
+   </li>
+   <li> Created by
+   \verbatim
+OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_VanDerWaerden.tar.bz2 SAT2011_VanDerWaerden
    \endverbatim
    </li>
    <li> From the "empty" package the "full" package is created by running
