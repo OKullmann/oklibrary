@@ -8,6 +8,9 @@ gt_dir=GreenTaok1k2
 
 gt_gen=../GTSat
 
+# to get the C++ generator within the OKlibrary:
+# cp ../../../../../system_directories/bin/GreenTaoCNF-O3-DNDEBUG .
+
 md5sum --check --status MD5_gen
 
 mkdir ${gt_dir}

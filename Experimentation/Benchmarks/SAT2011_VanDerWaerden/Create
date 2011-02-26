@@ -10,6 +10,9 @@ vdwpd_dir=VanderWaerden_pd_3k
 vdw_gen=../VanderWaerdenCNF-O3-DNDEBUG
 vdwpd_gen=../PdVanderWaerdenCNF-O3-DNDEBUG
 
+# to get the C++ generators within the OKlibrary:
+# cp ../../../../../system_directories/bin/*VanderWaerdenCNF-O3-DNDEBUG .
+
 md5sum --check --status MD5_gen
 
 mkdir ${vdw_dir}
