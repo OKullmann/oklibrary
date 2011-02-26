@@ -22,9 +22,11 @@ License, or any later version. */
      <li> MaxSAT evaluation doesn't currently have any date specified. </li>
     </ol>
    </li>
-   <li> Likely only things where we have published something (to be cited).
+   <li> DONE
+   Likely only things where we have published something (to be cited).
    </li>
-   <li> So for this year it should be Green-Tao and van-der-Waerden instances.
+   <li> DONE
+   So for this year it should be Green-Tao and van-der-Waerden instances.
    </li>
    <li> And also AES-related instances are of interest. </li>
    <li> See "Prepare benchmarks for SAT 2011" in
@@ -33,8 +35,8 @@ License, or any later version. */
    Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp. </li>
    <li> Best in every series to have a mixture, from known to unknown
    instances, from not-too-hard to likely-very-hard. </li>
-   <li> What is the format? </li>
-   <li> What are the categories? </li>
+   <li> For the formats see below. </li>
+   <li> For the categories see below. </li>
   </ul>
 
 
