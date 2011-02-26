@@ -17,7 +17,9 @@ License, or any later version. */
    <li> DONE
    For now we only do the naturally boolean problems. </li>
    <li> README file:
-
+    <ol>
+     <li> Yet missing the links to the OKlibrary. </li>
+    </ol>
    </li>
    <li> Pdf file:
 

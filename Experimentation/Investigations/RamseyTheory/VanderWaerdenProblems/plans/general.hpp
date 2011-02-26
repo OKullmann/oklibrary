@@ -32,7 +32,8 @@ License, or any later version. */
   <ul>
    <li> See "Benchmarks for SAT 2011" in
    Experimentation/Investigations/plans/SATCompetition.hpp. </li>
-   <li> We should have two subclasses, related to vdw_2(3,k) and vdw_2^pd(3,k).
+   <li> DONE
+   We should have two subclasses, related to vdw_2(3,k) and vdw_2^pd(3,k).
    </li>
    <li> DONE
    Ordinary instances:
@@ -80,7 +81,9 @@ Generators> LDFLAGS="-static" oklib all
     </ol>
    </li>
    <li> README file:
-
+    <ol>
+     <li> Yet missing the links to the OKlibrary. </li>
+    </ol>
    </li>
    <li> Pdf file:
 
