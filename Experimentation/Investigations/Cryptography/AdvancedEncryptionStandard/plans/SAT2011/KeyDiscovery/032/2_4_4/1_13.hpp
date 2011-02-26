@@ -24,17 +24,6 @@ License, or any later version. */
     <li> Addition of round key 1, resulting in the ciphertext. </li>
    </ol>
    </li>
-   <li> Note we have the following number of full rounds, special rounds,
-   sboxes in the rounds, multiplications by each field element, sboxes in
-   the key expansion, additions in the key expansion and constants in the
-   key expansion:
-   \verbatim
-> component_statistics_ss(1,2,4,4,false,aes_mc_bidirectional);
-[1,0,8,128,[[1,16],[x,8],[x+1,8],[x^3+1,8],[x^3+x+1,8],[x^3+x^2+1,8],[x^3+x^2+x,8]],4,32,4]
-> component_statistics_ss(1,2,4,4,false,aes_mc_forward);
-[1,0,8,96,[[1,16],[x,8],[x+1,8]],4,32,4]
-   \endverbatim
-   </li>
   </ul>
 
 
