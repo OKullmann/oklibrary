@@ -46,7 +46,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Using the canonical translation
+  \todo Using the canonical translation ??? INAPPROPRIATE: what type of translation ???
   <ul>
    <li> Generating small scale AES for 2 + 1/3 round:
    \verbatim
