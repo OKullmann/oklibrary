@@ -282,3 +282,28 @@ This clause-set together with ./VanderWaerdenCNF-O3-DNDEBUG 3 19 349
 are perhaps currently the hardest unsatisfiable instances determined by
 SAT solving.
 
+
+IX The OKlibrary http://www.ok-sat-library.org
+
+All developments took place within the OKlibrary, an open-source research
+platform around the SAT problem. Also the source-code of the generators (also
+for more than 2 colours) is provided there.
+
+List of relevant directories in OKplatform/OKsystem/OKlib (where OKplatform
+is the directory of the unpacked OKlibrary-package):
+
+ - Experimentation/Benchmarks: all our benchmark packages (typically without
+   the instances)
+ - Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems: all
+   current investigations into vdW-numbers (and related problems)
+ - Satisfiability/Transformers/Generators: the generators (C++ programs and
+   wrapper scripts)
+ - ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory: the SAT
+   generators at the Maxima-level (a general computer-algebra system)
+ - ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden: the vdW-numbers and
+   other (mathematical or algorithmic) concepts (at Maxima-level).
+
+The OKlibrary-internal documentation for the SAT2011-benchmarks is provided at
+
+http://XXX/Experimentation/Benchmarks/docus/SAT2011.hpp
+

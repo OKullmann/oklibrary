@@ -216,3 +216,28 @@ which yield non-boolean clause-sets, for which via the generic translation
 from \cite{Kullmann2010GreenTao} there are many possibilities for boolean
 translations.
 
+
+X The OKlibrary http://www.ok-sat-library.org
+
+All developments took place within the OKlibrary, an open-source research
+platform around the SAT problem. Also the source-code of the generator (also
+for more than 2 colours) is provided there.
+
+List of relevant directories in OKplatform/OKsystem/OKlib (where OKplatform
+is the directory of the unpacked OKlibrary-package):
+
+ - Experimentation/Benchmarks: all our benchmark packages (typically without
+   the instances)
+ - Experimentation/Investigations/RamseyTheory/GreenTaoProblems: all current
+   investigations into Green-Tao numbers (and related problems)
+ - Satisfiability/Transformers/Generators: the generators (C++ programs and
+   wrapper scripts)
+ - ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory: the SAT
+   generators at the Maxima-level (a general computer-algebra system)
+ - ComputerAlgebra/RamseyTheory/Lisp/GreenTao: the Green-Tao numbers and
+   other (mathematical or algorithmic) concepts (at Maxima-level).
+
+The OKlibrary-internal documentation for the SAT2011-benchmarks is provided at
+
+http://XXX/Experimentation/Benchmarks/docus/SAT2011.hpp
+
