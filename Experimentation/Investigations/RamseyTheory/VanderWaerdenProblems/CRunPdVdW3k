@@ -19,11 +19,11 @@
 # The parameters of the script can be found in file "Parameters" within the
 # experiment-directory, and the results are in file "Results".
 
-# set -o errexit # SAT-solvers return values different from 0 on success
+set -o errexit
 set -o nounset
 
 script_name="CRunPdVdW3k"
-version_number="0.0.9"
+version_number="0.1"
 
 if [[ $# != 2 ]]; then
   echo "ERROR[${script_name}]: Two parameters k, solver, are needed:
@@ -58,7 +58,7 @@ for ((n=k; phase<=2; ++n)); do
   ${generator} 3 ${k} ${n}
 
   Output="${SATinstance}_OUT"
-  ${solver} ${SATinstance} > ${Output}; result=$?
+  result=$(${solver} ${SATinstance} > ${Output}; echo $?)
   
   if [[ ${result} == 10 ]]; then
     if [[ ${phase} == 2 ]]; then
