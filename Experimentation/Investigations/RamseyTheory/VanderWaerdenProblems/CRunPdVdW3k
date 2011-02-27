@@ -23,7 +23,7 @@ set -o errexit
 set -o nounset
 
 script_name="CRunPdVdW3k"
-version_number="0.1.1"
+version_number="0.1.2"
 
 if [[ $# != 2 ]]; then
   echo "ERROR[${script_name}]: Two parameters k, solver, are needed:
@@ -66,7 +66,7 @@ for ((n=k; phase<=2; ++n)); do
     fi
 
   elif [[ ${result} == 20 ]]; then
-    echo "Break point ${phase}: $((n-1))" >> ${result_file}
+    echo "vdw_2^pd(3,${k})_${phase}: $((n-1))" >> ${result_file}
     echo "UNSAT for n=${n}"
     let phase+=1
 
