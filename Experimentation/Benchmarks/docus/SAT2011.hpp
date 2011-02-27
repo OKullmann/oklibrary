@@ -228,7 +228,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES.tar.bz2 SAT2011_AES
    </li>
    <li> The package has md5sum
    \verbatim
-2e546d139a317cd2fb455a0882c14f19  SAT2011_AES.tar.bz2
+947e4944bdb8bc1e6426bcadbc6a2ca8  SAT2011_AES.tar.bz2
    \endverbatim
    </li>
    <li> Extracting this archive (by
@@ -287,7 +287,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES-Challenge_OKlibrary.tar.b
    </li>
    <li> The package has md5sum
    \verbatim
-030a5c8f2a1ed949747b1d9d4575e282  SAT2011_AES-Challenge_OKlibrary.tar.bz2
+4bbec491c0b508e18c64d66ad84d3c36  SAT2011_AES-Challenge_OKlibrary.tar.bz2
    \endverbatim
    </li>
    <li> Extracting this archive (by

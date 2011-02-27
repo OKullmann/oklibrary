@@ -317,13 +317,13 @@ the instances, examining variables 129,...,256 yields the key
 25FF4FCCEB89C0478CCB90ED488581FC to 40FBC7D2468AD643DF44554CA65C47C3).
 
 
-IX On the choice of instances
+VIII On the choice of instances
 
 The Advanced Encryption Standard is a widely used encryption algorithm and
 the performance of SAT solvers on these instances has a bearing the 
 cryptographic security of the cipher.
 
-X The OKlibrary http://www.ok-sat-library.org
+IX The OKlibrary http://www.ok-sat-library.org
 
 All developments took place within the OKlibrary, an open-source research
 platform around the SAT problem. Also the translation framework used to

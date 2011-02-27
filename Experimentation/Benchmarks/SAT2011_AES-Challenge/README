@@ -117,7 +117,7 @@ using 128 coin flips, as a open challenge to the community. The generated
 key has now been destroyed, and so the only way to find the key is to
 solve this instance.
 
-X The OKlibrary http://www.ok-sat-library.org
+VII The OKlibrary http://www.ok-sat-library.org
 
 All developments took place within the OKlibrary, an open-source research
 platform around the SAT problem. Also the translation framework used to
