@@ -1,0 +1,91 @@
+#!/bin/bash
+# Oliver Kullmann, 27.2.2011 (Swansea)
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# "CRunPdVdWk1k2 k1 k2 solver" creates a directory
+# "Exp_PdVanderWaerdenC_2-k1-k2_solver_date", where the SAT instances
+# VanDerWaerden_pd_2-k1-k2_n.cnf for n = k2, k2+1, ... are created
+# and solver is executed on these instances, storing the output in 
+# VanDerWaerden_pd_2-k1-k2_n.cnf_OUT.
+
+# The results are two n-values n1, n2: n1 is maximal such that for all n <= n1
+# the instances are satisfiable, while n2 is minimal such that for all n >= n2
+# the instances are unsatisfiable.
+
+# The parameters of the script can be found in file "Parameters" within the
+# experiment-directory, and the results are in file "Results".
+
+set -o errexit
+set -o nounset
+
+script_name="CRunPdVdWk1k2"
+version_number="0.1"
+
+if [[ $# != 3 ]]; then
+  echo "ERROR[${script_name}]: Three parameters k1, k2, solver, are needed:
+  The progression-lengths k1, k2 and the SAT solver."
+  exit 1
+fi
+
+k1=$1
+k2=$2
+solver=$3
+
+if [[ ${k1} > ${k2} ]]; then
+  echo "ERROR[${script_name}]: k1 <= k2 must hold."
+  exit 1
+fi
+
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+
+ExpDir="Exp_PdVanderWaerdenC_2-${k1}-${k2}_${solver}_${timestamp}"
+echo -e "Running \"${script_name}\" in version ${version_number}."
+echo -e "Creating directory ${ExpDir}.\n"
+mkdir ${ExpDir}
+cd ${ExpDir}
+
+result_file=Results
+
+echo -e "${script_name}:\n k1=${k1}\n k2=${k2}\n solver=${solver}\n" > Parameters
+
+generator="PdVanderWaerdenCNF-O3-DNDEBUG"
+
+phase=1 
+# first phase is "all sat", second phase is "alternating", third phase is "all unsat"
+
+for ((n=k2; phase<=2; ++n)); do
+
+  echo -n "${n} "
+
+  SATinstance="VanDerWaerden_pd_2-${k1}-${k2}_${n}.cnf"
+  # Creating the Dimacs-file:
+  ${generator} ${k1} ${k2} ${n}
+
+  Output="${SATinstance}_OUT"
+  result=$(${solver} ${SATinstance} >& ${Output}; echo $?)
+  
+  if [[ ${result} == 10 ]]; then
+    if [[ ${phase} == 2 ]]; then
+      let n+=1
+    fi
+
+  elif [[ ${result} == 20 ]]; then
+    echo "vdw_2^pd(${k1},${k2})_${phase}: $((n-1))" >> ${result_file}
+    echo -e "\nUNSAT for n=${n}"
+    let phase+=1
+
+  else
+    echo -e "\nERROR[${script_name}]: Solver return-value neither 10 nor 20."
+    exit 1
+  fi
+
+done
+
+echo -e "\nFinal result:"
+cat ${result_file}
+
+exit 0
