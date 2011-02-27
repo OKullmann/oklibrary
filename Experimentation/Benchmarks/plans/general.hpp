@@ -53,6 +53,19 @@ cipher_24022011 : int2polyadic(cipher_24022011_int,2);
  0,0,1,0,1,1,1,0,1,1,0,0,0,1,0]
    \endverbatim
     </li>
+    <li> Generating the plaintext-ciphertext unit clauses:
+    \verbatim
+plaintext_lits : ss_matrix2pa(ss_hex2matrix(int2hex(275930429712199798024509060124983156862), 2,8,ss_polynomial_2_8,4), create_list(i,i,1,128),2,8,ss_polynomial_2_8)$
+ciphertext_lits : ss_matrix2pa(ss_hex2matrix(int2hex(82288044290978544244364916044704454498), 2,8,ss_polynomial_2_8,4), create_list(i,i,257,384),2,8,ss_polynomial_2_8)$
+comment : sconcat(
+      "P :  CF964488F8FD93A6F30E9B4EDE0FE07E ",
+      "C : 3DE819D1BB624DDA35E4445D12C31762")$
+pc_phi : append(plaintext_lits, ciphertext_lits)$
+pc_unit_fcs : [
+  setify(create_list(i,i,1, 384)),setify(map(set, pc_phi))]$
+output_fcs(comment, pc_unit_fcs, "aes_ass_challenge.cnf")$
+    \endverbatim
+    </li>
    </ul>
   </ul>
 

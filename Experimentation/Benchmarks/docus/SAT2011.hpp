@@ -236,5 +236,64 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES.tar.bz2 SAT2011_AES
    <code>SAT2011_AES</code>. </li>
   </ul>
 
+
+  <h1> AES Challenge </h1>
+
+  General information:
+  <ul>
+   <li> Generation occurs using "output_ss_fcl_std" in 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac.
+   </li>
+   <li> The concatenation tool, <code>AppendDimacs-O3-DNDEBUG</code>, 
+   statically linked, is created by
+   \verbatim
+OKlib/Satisfiability/Interfaces/InputOutput> oklib cleanall
+OKlib/Satisfiability/Interfaces/InputOutput> LDFLAGS="-static" oklib all
+   \endverbatim
+   and then copied from <code>OKplatform/system_directories/bin</code>.
+   </li>
+   <li> The generated instances are created by:
+   \verbatim
+OKlib/Experimentation/Benchmarks/SAT2011_AES> oklib --maxima
+maxima> oklib_load_all()$
+maxima> output_ss_fcl_std(10,4,4,8,true,aes_small_box,aes_mc_forward);
+maxima> plaintext_lits : ss_matrix2pa(ss_hex2matrix(int2hex(275930429712199798024509060124983156862), 2,8,ss_polynomial_2_8,4), create_list(i,i,1,128),2,8,ss_polynomial_2_8)$
+maxima> ciphertext_lits : ss_matrix2pa(ss_hex2matrix(int2hex(82288044290978544244364916044704454498), 2,8,ss_polynomial_2_8,4), create_list(i,i,257,384),2,8,ss_polynomial_2_8)$
+maxima> comment : sconcat(
+      "P :  CF964488F8FD93A6F30E9B4EDE0FE07E ",
+      "C : 3DE819D1BB624DDA35E4445D12C31762")$
+maxima> pc_phi : append(plaintext_lits, ciphertext_lits)$
+maxima> pc_unit_fcs : [
+  setify(create_list(i,i,1, 384)),setify(map(set, pc_phi))]$
+maxima> output_fcs(comment, pc_unit_fcs, "aes_ass_challenge.cnf")$
+maxima> quit();
+OKlib/Experimentation/Benchmarks/SAT2011_AES> mv ssaes_r10_c4_rw4_e8_f1.cnf aes_128_10.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> AppendDimacs-O3-DNDEBUG aes_128_10.cnf aes_ass_challenge.cnf > aes_challenge.cnf
+   \endverbatim
+   </li>
+   <li> The AES challenge instance is <code>aes_challenge.cnf</code>. </li>
+   </li>
+   <li> The Git-ID of the relevant state of the OKlibrary is
+   \verbatim
+54afbadfb72018a4cb9ec5fc77b2d47252095009
+   \endverbatim
+   </li>
+   <li> The package-template is given by the directory
+   <code>OKlib/Experimentation/Benchmarks/SAT2011_AES-Challenge</code>. </li>
+   <li> Created by
+   \verbatim
+OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES-Challenge_OKlibrary.tar.bz2 SAT2011_AES-Challenge
+   \endverbatim
+   </li>
+   <li> The package has md5sum
+   \verbatim
+d0f0d35abee0d866c0f73fa762745df3  SAT2011_AES-Challenge_OKlibrary.tar.bz2
+   \endverbatim
+   </li>
+   <li> Extracting this archive (by
+   <code>tar -xjf SAT2011_AES-Challenge_OKlibrary.tar.bz2</code>) yields 
+   directory <code>SAT2011_AES-Challenge</code>. </li>
+  </ul>
+
 */
 
