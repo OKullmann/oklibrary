@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.2.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,23 @@ License, or any later version. */
 /*!
   \file Satisfiability/Solvers/Minisat/Minisat2/plans/general.hpp
   \brief Plans for maintaining Minisat2
+
+
+  \todo Newer versions
+  <ul>
+   <li> Likely this module should also include minisat-2.2.0 and further
+   versions. </li>
+   <li> While perhaps version 2 is abandoned (compare "Minisat" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp). </li>
+  </ul>
+
+
+  \todo Links
+  <ul>
+   <li> See "Minisat" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp for further
+   improvements. </li>
+  </ul>
 
 
   \todo Output learned clauses

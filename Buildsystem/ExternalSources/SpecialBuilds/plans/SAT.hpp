@@ -495,6 +495,8 @@ BUILD FAILED
      <li> We could wrap minisat2, or just stop using it. </li>
     </ol>
    </li>
+   <li> See also Satisfiability/Solvers/Minisat/Minisat2/plans/general.hpp
+   for further plans on improving minisat. </li>
    <li> DONE (installed locally)
    Minisat needs the library zlib http://www.zlib.net/ ; which we should
    install locally.
