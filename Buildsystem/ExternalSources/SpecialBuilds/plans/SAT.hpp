@@ -470,6 +470,15 @@ BUILD FAILED
   \todo Minisat
   <ul>
    <li> http://www.cs.chalmers.se/Cs/Research/FormalMethods/MiniSat/
+   <li> minisat2 doesn't return the DIMACS-return-code:
+    <ol>
+     <li> However for example in VdWTransversalsInc we used minisat2 in the
+     ordinary way. </li>
+     <li> So that seems to be a bug of minisat2, occurring on newer platforms.
+     </li>
+     <li> We could wrap minisat2, or just stop using it. </li>
+    </ol>
+   </li>
    <li> DONE (installed locally)
    Minisat needs the library zlib http://www.zlib.net/ ; which we should
    install locally.
