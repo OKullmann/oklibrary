@@ -470,6 +470,22 @@ BUILD FAILED
   \todo Minisat
   <ul>
    <li> http://www.cs.chalmers.se/Cs/Research/FormalMethods/MiniSat/
+   <li> Conflict-count only 32-bit int with minisat-2.2.0:
+    <ol>
+     <li> For example with VanDerWaerden_pd_2-3-25_608.cnf we get
+     \verbatim
+| 1474310757 |     304    49427   225828 |   677887    58975     32 |  0.002 % |
+| -2083501051 |     304    49427   225828 |   745676   545806     36 |  0.003 % |
+| -977767819 |     304    49427   225828 |   820244   159204     38 |  0.001 % |
+     \endverbatim
+     </li>
+     <li> It should have no effect on performance to make such variables
+     64-bit variables. </li>
+     <li> We should ask the minisat-developers. </li>
+     <li> Hopefully although the count is incorrect, everything else works.
+     </li>
+    </ol>
+   </li>
    <li> minisat2 doesn't return the DIMACS-return-code:
     <ol>
      <li> However for example in VdWTransversalsInc we used minisat2 in the
