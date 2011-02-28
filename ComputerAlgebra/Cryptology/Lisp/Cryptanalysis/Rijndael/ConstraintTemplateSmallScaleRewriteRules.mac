@@ -98,7 +98,7 @@ ss_boolm_rewrite_mapping_std :
 
 /* Rewrite mapping translating the MixColumns operation using
    the canonical translation: */
-ss_tsmc_rewrite_mapping_std :
+ss_boxmc_rewrite_mapping_std :
   [["ss_cst",ss_cstrb],["ss_key_expansion_cst",ss_key_expansion_cstrb],
   ["ss_round_cst",ss_round_cstrb],
   ["ss_final_round_cst",ss_final_round_cstrb],
