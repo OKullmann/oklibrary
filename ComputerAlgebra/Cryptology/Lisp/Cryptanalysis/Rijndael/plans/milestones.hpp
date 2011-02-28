@@ -40,6 +40,7 @@ License, or any later version. */
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
    the following topics are handled:
+    - Handling external data
     - Update specifications
     - Move AES box translations into separate file
     - Add statistics for translations : DONE

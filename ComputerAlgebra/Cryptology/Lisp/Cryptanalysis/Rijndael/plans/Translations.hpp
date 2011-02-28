@@ -10,6 +10,37 @@ License, or any later version. */
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
 
+  \todo Handling external data
+  <ul>
+   <li> We need to offer translations of the AES which use
+   larger (thousands of clauses) representations of the Sbox,
+   field multiplications etc. </li>
+   <li> However, including these in the OKlibrary git repository drastically 
+   increases the size of the repository, and realistically, the repository
+   is not the place for data. </li>
+   <li> Therefore we should create a directory ExternalSources/data and
+   have a subdirectory "AdvancedEncryptionStandard" in which we can store 
+   files like those currently stored in 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/ and with much 
+   larger representations. </li>
+   <li> We can then provide a function "ss_load_external_data()" which
+   looks in this directory and loads all of the files found within. </li>
+   <li> Questions:
+    <ul>
+     <li> Should we be storing Maxima files as the data or CNFs which are
+     then somehow read in? </li>
+     <li> How does this external data show up in the git repository? 
+     There should, at least, be md5sums for each of the files. </li>
+     <li> What directory structure to use? Is 
+     "ExternalSources/data/AdvancedEncryptionStandard" sufficient or
+     should we maintain a more fine grained structure mirroring the
+     modules in the git repository?
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Move AES box translations into separate file
   <ul>
    <li> Currently we have functions such as "aes_mul_ts_gen", and
