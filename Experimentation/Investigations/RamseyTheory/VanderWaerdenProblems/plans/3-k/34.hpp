@@ -125,6 +125,17 @@ License, or any later version. */
 1047,1068,1081,1098,1106,1110
    \endverbatim
    </li>
+   <li> n=1144:
+    <ol>
+     <li> adaptg2wsat with cutoff 2*10^7:
+     \verbatim
+  1   2   3   4   5
+ 12 109 503 365  11
+1000
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
