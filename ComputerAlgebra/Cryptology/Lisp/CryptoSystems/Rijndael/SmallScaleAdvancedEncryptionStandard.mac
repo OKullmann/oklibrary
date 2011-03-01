@@ -242,6 +242,14 @@ ss_sbox_w_add_bf(V,b,e) := block(
   [V1 : take_elements(floor(length(V)/2),V), V2 : rest(V,floor(length(V)/2))],
   ss_vecadd(ss_sbox_bf(V1,b,e),V2,b))$
 
+/* Sbox followed by multiplication by word field element elem as a boolean 
+   function where the first half of the input boolean vector is input to the 
+   Sbox and then the result of the Sbox, is added to the other half of the 
+   input. */
+ss_sbox_w_mul_bf(V,elem,b,e) :=
+  ss_vecmul(ss_sbox_bf(V,b,e),poly2vec_ss(elem,e),b,e,ss_polynomial(b,e))$
+
+
 /* *************
    * Sub-bytes *
    *************
