@@ -17,18 +17,14 @@ License, or any later version. */
    <li> The AES encryption scheme we model takes a 16-bit plaintext,
    16-bit key and applies the following operations:
    <ol>
-    <li> Key schedule which takes the key and generates two 16-bit round 
-    keys. </li>
-    <li> Addition of first round key (input key) to plaintext. </li>
     <li> Round:
     <ol>
+     <li> Addition of round key 0. </li>
      <li> Application of SubBytes (Sbox to each byte) operation. </li>
-     <li> Application of ShiftRows operation. </li>
-     <li> Application of MixColumns operation. </li>
-     <li> Addition of second round key (from key schedule), resulting in the
-     ciphertext. </li>
+     <li> Application of MixColumns' operation. </li>
     </ol>
     </li>
+    <li> Addition of round key 1 yielding the ciphertext. </li>
    </ol>
    </li>
    <li> Note we have the following number of full rounds, special rounds,
