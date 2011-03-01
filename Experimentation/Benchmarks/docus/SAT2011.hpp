@@ -209,7 +209,7 @@ OKlib/Experimentation/Benchmarks/SAT2011_AES> for r in $(seq 1 5); do for s in 1
 OKlib/Experimentation/Benchmarks/SAT2011_AES> cd ../../
 OKlib/Experimentation/Benchmarks/SAT2011_AES> bits=128; for r in 1 2 3 4; do for s in 1 2; do AppendDimacs-O3-DNDEBUG Formulas/${bits}/aes_${bits}_${r}.cnf Assignments/${bits}/aes_ass_${bits}_${r}_keyfind_${s}.cnf > Benchmarks/${bits}/aes_${bits}_${r}_keyfind_${s}.cnf; done; done
 OKlib/Experimentation/Benchmarks/SAT2011_AES> bits=64; for r in 1 2 3 4; do for s in 1 2; do AppendDimacs-O3-DNDEBUG Formulas/${bits}/aes_${bits}_${r}.cnf Assignments/${bits}/aes_ass_${bits}_${r}_keyfind_${s}.cnf > Benchmarks/${bits}/aes_${bits}_${r}_keyfind_${s}.cnf; done; done
-OKlib/Experimentation/Benchmarks/SAT2011_AES> bits=32; for r in 1 2 3 4; do for s in 1 2; do AppendDimacs-O3-DNDEBUG Formulas/${bits}/aes_${bits}_${r}.cnf Assignments/${bits}/aes_ass_${bits}_${r}_keyfind_${s}.cnf > Benchmarks/${bits}/aes_${bits}_${r}_keyfind_${s}.cnf; done; done
+OKlib/Experimentation/Benchmarks/SAT2011_AES> bits=32; for r in 1 2 3 4 5; do for s in 1 2; do AppendDimacs-O3-DNDEBUG Formulas/${bits}/aes_${bits}_${r}.cnf Assignments/${bits}/aes_ass_${bits}_${r}_keyfind_${s}.cnf > Benchmarks/${bits}/aes_${bits}_${r}_keyfind_${s}.cnf; done; done
    \endverbatim
    </li>
    <li> The instances are then found in SAT2011_AES/Benchmarks/. </li>
@@ -228,7 +228,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES.tar.bz2 SAT2011_AES
    </li>
    <li> The package has md5sum
    \verbatim
-947e4944bdb8bc1e6426bcadbc6a2ca8  SAT2011_AES.tar.bz2
+99b9075b8542a2e84ff8906fab24e539  SAT2011_AES.tar.bz2
    \endverbatim
    </li>
    <li> Extracting this archive (by
@@ -269,6 +269,7 @@ maxima> output_fcs(comment, pc_unit_fcs, "aes_ass_challenge.cnf")$
 maxima> quit();
 OKlib/Experimentation/Benchmarks/SAT2011_AES> mv ssaes_r10_c4_rw4_e8_f1.cnf aes_128_10.cnf
 OKlib/Experimentation/Benchmarks/SAT2011_AES> AppendDimacs-O3-DNDEBUG aes_128_10.cnf aes_ass_challenge.cnf > aes_challenge.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> rm aes_128_10.cnf aes_ass_challenge.cnf
    \endverbatim
    </li>
    <li> The AES challenge instance is <code>aes_challenge.cnf</code>. </li>
@@ -287,7 +288,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES-Challenge_OKlibrary.tar.b
    </li>
    <li> The package has md5sum
    \verbatim
-4bbec491c0b508e18c64d66ad84d3c36  SAT2011_AES-Challenge_OKlibrary.tar.bz2
+26be11079036159c83d8a47240088445  SAT2011_AES-Challenge_OKlibrary.tar.bz2
    \endverbatim
    </li>
    <li> Extracting this archive (by
