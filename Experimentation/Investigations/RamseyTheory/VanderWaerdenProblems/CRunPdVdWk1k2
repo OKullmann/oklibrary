@@ -35,7 +35,7 @@ k1=$1
 k2=$2
 solver=$3
 
-if [[ ${k1} > ${k2} ]]; then
+if [[ ${k1} -gt ${k2} ]]; then
   echo "ERROR[${script_name}]: k1 <= k2 must hold."
   exit 1
 fi
