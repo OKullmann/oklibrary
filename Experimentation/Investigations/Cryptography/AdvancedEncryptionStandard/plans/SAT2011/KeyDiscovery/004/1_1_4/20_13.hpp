@@ -20,16 +20,17 @@ License, or any later version. */
    <ol>
     <li> Key schedule which takes the key and generates twenty-one 4-bit round
     keys. </li>
-    <li> Addition of first round key (input key) to plaintext. </li>
     <li> Application of the following operation (the "round") ten times:
      <ol>
+      <li> Addition of round key n-1. </li>
       <li> Application of SubBytes (Sbox to each byte) operation. </li>
       <li> Application of ShiftRows operation. </li>
       <li> Application of MixColumns operation. </li>
-      <li> Addition of (n+1)-th round key (from key schedule). </li>
      </ol>
     </li>
-    <li> The result of the last round key is then the ciphertext. </li>
+    <li> Addition of round key n. </li>
+    <li> The result of the last round key addition is then the ciphertext. 
+    </li>
    </ol>
    </li>
    <li> Note we have the following number of full rounds, special rounds,
