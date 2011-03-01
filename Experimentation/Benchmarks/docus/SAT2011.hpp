@@ -148,7 +148,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_GreenTao.tar.bz2 SAT2011_Gree
   </ul>
 
 
-  <h1> AES instances </h1>
+  <h1> Small AES instances </h1>
 
   General information:
   <ul>
@@ -228,7 +228,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES.tar.bz2 SAT2011_AES
    </li>
    <li> The package has md5sum
    \verbatim
-99b9075b8542a2e84ff8906fab24e539  SAT2011_AES.tar.bz2
+e435a9e0cc073c53e650863c141d187d  SAT2011_AES.tar.bz2
    \endverbatim
    </li>
    <li> Extracting this archive (by
@@ -237,7 +237,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES.tar.bz2 SAT2011_AES
   </ul>
 
 
-  <h1> AES Challenge </h1>
+  <h1> Small AES Challenge </h1>
 
   General information:
   <ul>
@@ -288,7 +288,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES-Challenge_OKlibrary.tar.b
    </li>
    <li> The package has md5sum
    \verbatim
-26be11079036159c83d8a47240088445  SAT2011_AES-Challenge_OKlibrary.tar.bz2
+7bf3f8b2f5eb02bb59fbbe99fd9bc499  SAT2011_AES-Challenge_OKlibrary.tar.bz2
    \endverbatim
    </li>
    <li> Extracting this archive (by

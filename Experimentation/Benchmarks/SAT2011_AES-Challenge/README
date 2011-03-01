@@ -1,6 +1,6 @@
-# Matthew Gwynne 28.2.2011 (Swansea)
+# Matthew Gwynne 29.2.2011 (Swansea)
 
-I The AES Challenge
+I The small AES Challenge
 
 As a challenge to the SAT community, we present a SAT translation of the 
 128-bit Advanced Encryption Standard cipher as a key discovery problem. 
@@ -20,6 +20,20 @@ to the ciphertext,
 The Advanced Encryption Standard is a widely used encryption algorithm and 
 solving this instance in a reasonable time would break the AES, and have
 a significant impact in the cryptographic community.
+
+We call the translation used to generate this instance, the minimum box 
+translation. This translation uses minimum representations of the components 
+of the AES, such as the Sbox and field multiplications, and composes them 
+using new variables to produce a translation with as few clauses as possible. 
+
+This translation is only the beginning, and not, we believe, the best; finding a
+good translation is a hard problem. We investigate better representations in
+the OKlibrary (see IV) and consider what it means to be a good translation in a 
+forthcoming technical report on attacking the AES cipher using SAT. 
+
+A wider range of AES benchmarks based on these same translations are available 
+as the "Small Advanced Encryption Standard" benchmark set for SAT2011 
+competition.
 
 II Directory content:
 
