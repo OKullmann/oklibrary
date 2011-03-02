@@ -104,8 +104,8 @@ License, or any later version. */
      <ul>
       <li> 2 column, 4 row, 4 bits up to <em>2 + 1/3</em> rounds in 
       <em> 2718 </em> seconds with glucose in 032/2_4_4/2_13.hpp. </li>
-      <li> 4 column, 2 row, 4 bits up to <em>1 + 1/3</em> rounds in 
-      <em> 0.03 </em> seconds with minisat-2.2.0 in 032/4_2_4/1_13.hpp. </li>
+      <li> 4 column, 2 row, 4 bits up to <em>5 + 1/3</em> rounds in 
+      <em> 903 </em> seconds with picosat in 032/4_2_4/5_13.hpp. </li>
      </ul>
     </li>
     <li> 16 bit key:
@@ -117,7 +117,7 @@ License, or any later version. */
     <li> 8 bit key:
      <ul>
       <li> 1 column, 1 row, 8 bits up to <em>20 + 1/3</em> rounds in 
-      <em> 0.5 </em> seconds with precosat236 in 008/1_1_4/20_13.hpp. </li>
+      <em> 0.5 </em> seconds with precosat236 in 008/1_1_8/20_13.hpp. </li>
      </ul>
     </li>
     <li> 4 bit key:
