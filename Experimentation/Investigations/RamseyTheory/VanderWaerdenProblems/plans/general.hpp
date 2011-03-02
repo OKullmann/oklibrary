@@ -80,9 +80,11 @@ Generators> LDFLAGS="-static" oklib all
      calls to the generators. </li>
     </ol>
    </li>
-   <li> README file:
+   <li> DONE
+   README file:
     <ol>
-     <li> Yet missing the links to the OKlibrary. </li>
+     <li> DONE
+     Yet missing the links to the OKlibrary. </li>
     </ol>
    </li>
    <li> Pdf file:
