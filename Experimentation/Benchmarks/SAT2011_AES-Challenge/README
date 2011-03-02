@@ -1,61 +1,81 @@
 # Matthew Gwynne 29.2.2011 (Swansea)
 
-I The small AES Challenge
+I Directory content:
 
-As a challenge to the SAT community, we present a SAT translation of the 
-128-bit Advanced Encryption Standard cipher as a key discovery problem. 
-The translation has been instantiated with a plaintext and a ciphertext, where 
-the ciphertext was encrypted using a key determined by 128 flips of a 2001 
-British pound coin. The key has now been destroyed and the only way to 
-rediscover it is to solve this instance.
-
-The challenge amounts to finding any key which encrypts the plaintext,
-
-  CF964488F8FD93A6F30E9B4EDE0FE07E
-
-to the ciphertext,
-
-  3DE819D1BB624DDA35E4445D12C31762.
-
-The Advanced Encryption Standard is a widely used encryption algorithm and 
-solving this instance in a reasonable time would break the AES, and have
-a significant impact in the cryptographic community.
-
-We call the translation used to generate this instance, the minimum box 
-translation. This translation uses minimum representations of the components 
-of the AES, such as the Sbox and field multiplications, and composes them 
-using new variables to produce a translation with as few clauses as possible. 
-
-This translation is only the beginning, and not, we believe, the best; finding a
-good translation is a hard problem. We investigate better representations in
-the OKlibrary (see IV) and consider what it means to be a good translation in a 
-forthcoming technical report on attacking the AES cipher using SAT. 
-
-A wider range of AES benchmarks based on these same translations are available 
-as the "Small Advanced Encryption Standard" benchmark set for SAT2011 
-competition.
-
-
-II Directory content:
-
-  - aes_challenge.cnf is the 128-bit AES key discovery challenge.
-
-  - MD5_Challenge contains the md5 hash values of the AES challenge.
-
+  - aes_challenge.cnf is the 128-bit AES key discovery challenge
+  - MD5_Challenge contains the md5 hash value of the AES challenge
   - this README file.
 
 
-III Instance
+II The AES Challenge
 
-The instance is 19211831 bytes and should be *excessively hard* for any solver to solve.
+As a challenge to the SAT community, we present a SAT translation of the 
+128-bit Advanced Encryption Standard cipher as a key discovery problem. 
+The provided instance is satisfiable, and a solution corresponds to a
+valid key for some fixed choice of plain-text and cipher-text.
 
-Instance statistics
-  - first row: number of variables, number of clauses, number of literal
-    occurrences
-  - then the occurring clause-lengths and the number of clauses of that length
 
-Benchmarks/128/aes_challenge.cnf
-8080 153304 940464
+III Choice of plain-text, cipher-text and key
+
+The ciphertext was encrypted using a key determined by 128 coin flips.
+The key has been destroyed and the only way to rediscover it is to solve this
+instance.
+
+The challenge amounts to finding a key which encrypts the plaintext
+
+  CF964488F8FD93A6F30E9B4EDE0FE07E
+
+to the ciphertext
+
+  3DE819D1BB624DDA35E4445D12C31762.
+
+
+IV Background
+
+The Advanced Encryption Standard is a widely used encryption algorithm.
+Solving this instance in a reasonable time would break the AES, and would have
+a significant impact in the cryptographic community.
+
+We call the translation used to generate this instance "the minimum box 
+translation". This translation uses CNF representations of minimum size of the
+components of the AES, with the aim of producing a translation with as few
+clauses as possible. These components ("boxes") are 8-bit permutations and
+yield 16-bit boolean functions. Composition happens by using new variables.
+
+In fact, for some of these boxes we couldn't prove that we have minimum
+size CNF representations. See the related SAT2011 benchmarks for MAXSAT
+and pseudo-boolean problems.
+
+This translation is the natural first choice, minimising size.
+More powerful translations are the subject of the forthcoming technical report
+
+@TechReport{GwynneKullmann2008AES,
+  author =       {Matthew Gwynne and Oliver Kullmann},
+  title =        {Attacking {AES} via {SAT}},
+  institution =  {arXiv},
+  year =         2011,
+  number =       {arXiv:??? [cs.DM]},
+  month =        {April},
+  annote =       {In preparation.}
+}
+
+A wider range of AES benchmarks is available as the "Advanced Encryption
+Standard I" benchmark set for SAT2011 competition.
+
+
+V Instance
+
+The instance has 
+
+ - 19,211,831 bytes
+ - 8080 variables
+ - 153304 clauses
+ - 940464 literal occurrences
+
+and should be extremely hard for any solver to solve.
+
+The occurring clause-lengths are 1 to 9, and we have the following numbers
+of clauses belonging to these clause-lengths:
 1 336
 2 1152
 3 14896
@@ -66,8 +86,13 @@ Benchmarks/128/aes_challenge.cnf
 8 11032
 9 144
 
+The unit-clauses are the
+ - 128 plain-text bits
+ - 128 cipher-text bits
+ - 10 * 8 bits representing the so-called "round constants".
 
-IV The OKlibrary http://www.ok-sat-library.org
+
+VI The OKlibrary http://www.ok-sat-library.org
 
 All developments took place within the OKlibrary, an open-source research
 platform around the SAT problem. Also the translation framework used to
