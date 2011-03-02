@@ -148,7 +148,153 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_GreenTao.tar.bz2 SAT2011_Gree
   </ul>
 
 
-  <h1> AES instances </h1>
+  <h1> Small AES instances </h1>
+
+  General information:
+  <ul>
+   <li> Generation occurs using "output_ss_fcl_std" in 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac.
+   </li>
+   <li> The concatenation tool, <code>AppendDimacs-O3-DNDEBUG</code>, 
+   statically linked, is created by
+   \verbatim
+OKlib/Satisfiability/Interfaces/InputOutput> oklib cleanall
+OKlib/Satisfiability/Interfaces/InputOutput> LDFLAGS="-static" oklib all
+   \endverbatim
+   and then copied from <code>OKplatform/system_directories/bin</code>.
+   </li>
+   <li> The generated instances are created by:
+   \verbatim
+OKlib/Experimentation/Benchmarks/SAT2011_AES> mkdir -p Assignments/{128,64,32} Benchmarks/{128,64,32} Formulas/{128,64,32}
+OKlib/Experimentation/Benchmarks/SAT2011_AES> cd Formulas/128
+OKlib/Experimentation/Benchmarks/SAT2011_AES> oklib --maxima
+maxima> oklib_load_all()$
+maxima> for r :1 thru 3 do output_ss_fcl_std(r,4,4,8,false,aes_small_box,aes_mc_forward);
+maxima> output_ss_fcl_std(10,4,4,8,true,aes_small_box,aes_mc_forward);
+maxima> quit();
+OKlib/Experimentation/Benchmarks/SAT2011_AES> for r in 1 2 3; do mv ssaes_r${r}_c4_rw4_e8_f0.cnf aes_128_${r}.cnf; done
+OKlib/Experimentation/Benchmarks/SAT2011_AES> mv ssaes_r10_c4_rw4_e8_f1.cnf aes_128_10.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> cd ../64
+OKlib/Experimentation/Benchmarks/SAT2011_AES> oklib --maxima
+maxima> oklib_load_all()$
+maxima> for r :1 thru 4 do output_ss_fcl_std(r,4,4,4,false,aes_small_box,aes_mc_forward);
+maxima> quit();
+OKlib/Experimentation/Benchmarks/SAT2011_AES> for r in $(seq 1 4); do mv ssaes_r${r}_c4_rw4_e4_f0.cnf aes_64_${r}.cnf; done
+OKlib/Experimentation/Benchmarks/SAT2011_AES> cd ../32
+OKlib/Experimentation/Benchmarks/SAT2011_AES> oklib --maxima
+maxima> oklib_load_all()$
+maxima> for r :1 thru 5 do output_ss_fcl_std(r,4,2,4,false,aes_small_box,aes_mc_forward);
+maxima> quit();
+OKlib/Experimentation/Benchmarks/SAT2011_AES> for r in $(seq 1 5); do mv ssaes_r${r}_c4_rw2_e4_f0.cnf aes_32_${r}.cnf; done
+OKlib/Experimentation/Benchmarks/SAT2011_AES> cd ../../Assignments/128
+OKlib/Experimentation/Benchmarks/SAT2011_AES> oklib --maxima
+maxima> oklib_load_all()$
+maxima> for r :1 thru 3 do for s in [1,2] do output_ss_random_pc_pair(s,r,4,4,8,false,aes_small_box,aes_mc_forward);
+maxima> for s in [1,2] do output_ss_random_pc_pair(s,10,4,4,8,true,aes_small_box,aes_mc_forward);
+maxima> quit();
+OKlib/Experimentation/Benchmarks/SAT2011_AES> for r in 1 2 3 10; do for s in 1 2; do mv ssaes_pcpair_r${r}_c4_rw4_e8_f0_s${s}.cnf aes_ass_128_${r}_keyfind_${s}.cnf; done; done
+OKlib/Experimentation/Benchmarks/SAT2011_AES> for s in 1 2; do mv ssaes_pcpair_r10_c4_rw4_e8_f1_s${s}.cnf aes_ass_128_10_keyfind_${s}.cnf; done
+OKlib/Experimentation/Benchmarks/SAT2011_AES> cd ../64
+OKlib/Experimentation/Benchmarks/SAT2011_AES> oklib --maxima
+maxima> oklib_load_all()$
+maxima> for r :1 thru 4 do for s in [1,2] do output_ss_random_pc_pair(s,r,4,4,4,false,aes_small_box,aes_mc_forward);
+maxima> quit();
+OKlib/Experimentation/Benchmarks/SAT2011_AES> for r in $(seq 1 4); do for s in 1 2; do mv ssaes_pcpair_r${r}_c4_rw4_e4_f0_s${s}.cnf aes_ass_64_${r}_keyfind_${s}.cnf; done; done
+OKlib/Experimentation/Benchmarks/SAT2011_AES> cd ../32
+OKlib/Experimentation/Benchmarks/SAT2011_AES> oklib --maxima
+maxima> oklib_load_all()$
+maxima> for r :1 thru 5 do for s in [1,2] do output_ss_random_pc_pair(s,r,4,2,4,false,aes_small_box,aes_mc_forward);
+maxima> quit();
+OKlib/Experimentation/Benchmarks/SAT2011_AES> for r in $(seq 1 5); do for s in 1 2; do mv ssaes_pcpair_r${r}_c4_rw2_e4_f0_s${s}.cnf aes_ass_32_${r}_keyfind_${s}.cnf; done; done
+OKlib/Experimentation/Benchmarks/SAT2011_AES> cd ../../
+OKlib/Experimentation/Benchmarks/SAT2011_AES> bits=128; for r in 1 2 3 4; do for s in 1 2; do AppendDimacs-O3-DNDEBUG Formulas/${bits}/aes_${bits}_${r}.cnf Assignments/${bits}/aes_ass_${bits}_${r}_keyfind_${s}.cnf > Benchmarks/${bits}/aes_${bits}_${r}_keyfind_${s}.cnf; done; done
+OKlib/Experimentation/Benchmarks/SAT2011_AES> bits=64; for r in 1 2 3 4; do for s in 1 2; do AppendDimacs-O3-DNDEBUG Formulas/${bits}/aes_${bits}_${r}.cnf Assignments/${bits}/aes_ass_${bits}_${r}_keyfind_${s}.cnf > Benchmarks/${bits}/aes_${bits}_${r}_keyfind_${s}.cnf; done; done
+OKlib/Experimentation/Benchmarks/SAT2011_AES> bits=32; for r in 1 2 3 4 5; do for s in 1 2; do AppendDimacs-O3-DNDEBUG Formulas/${bits}/aes_${bits}_${r}.cnf Assignments/${bits}/aes_ass_${bits}_${r}_keyfind_${s}.cnf > Benchmarks/${bits}/aes_${bits}_${r}_keyfind_${s}.cnf; done; done
+   \endverbatim
+   </li>
+   <li> The instances are then found in SAT2011_AES/Benchmarks/. </li>
+   </li>
+   <li> The Git-ID of the relevant state of the OKlibrary is
+   \verbatim
+54afbadfb72018a4cb9ec5fc77b2d47252095009
+   \endverbatim
+   </li>
+   <li> The package-template is given by the directory
+   <code>OKlib/Experimentation/Benchmarks/SAT2011_AES</code>. </li>
+   <li> Created by
+   \verbatim
+OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES.tar.bz2 SAT2011_AES
+   \endverbatim
+   </li>
+   <li> The package has md5sum
+   \verbatim
+e435a9e0cc073c53e650863c141d187d  SAT2011_AES.tar.bz2
+   \endverbatim
+   </li>
+   <li> Extracting this archive (by
+   <code>tar -xjf SAT2011_AES.tar.bz2</code>) yields directory
+   <code>SAT2011_AES</code>. </li>
+  </ul>
+
+
+  <h1> Small AES Challenge </h1>
+
+  General information:
+  <ul>
+   <li> Generation occurs using "output_ss_fcl_std" in 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac.
+   </li>
+   <li> The concatenation tool, <code>AppendDimacs-O3-DNDEBUG</code>, 
+   statically linked, is created by
+   \verbatim
+OKlib/Satisfiability/Interfaces/InputOutput> oklib cleanall
+OKlib/Satisfiability/Interfaces/InputOutput> LDFLAGS="-static" oklib all
+   \endverbatim
+   and then copied from <code>OKplatform/system_directories/bin</code>.
+   </li>
+   <li> The generated instances are created by:
+   \verbatim
+OKlib/Experimentation/Benchmarks/SAT2011_AES> oklib --maxima
+maxima> oklib_load_all()$
+maxima> output_ss_fcl_std(10,4,4,8,true,aes_small_box,aes_mc_forward);
+maxima> plaintext_lits : ss_matrix2pa(ss_hex2matrix(int2hex(275930429712199798024509060124983156862), 2,8,ss_polynomial_2_8,4), create_list(i,i,1,128),2,8,ss_polynomial_2_8)$
+maxima> ciphertext_lits : ss_matrix2pa(ss_hex2matrix(int2hex(82288044290978544244364916044704454498), 2,8,ss_polynomial_2_8,4), create_list(i,i,257,384),2,8,ss_polynomial_2_8)$
+maxima> comment : sconcat(
+      "P :  CF964488F8FD93A6F30E9B4EDE0FE07E ",
+      "C : 3DE819D1BB624DDA35E4445D12C31762")$
+maxima> pc_phi : append(plaintext_lits, ciphertext_lits)$
+maxima> pc_unit_fcs : [
+  setify(create_list(i,i,1, 384)),setify(map(set, pc_phi))]$
+maxima> output_fcs(comment, pc_unit_fcs, "aes_ass_challenge.cnf")$
+maxima> quit();
+OKlib/Experimentation/Benchmarks/SAT2011_AES> mv ssaes_r10_c4_rw4_e8_f1.cnf aes_128_10.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> AppendDimacs-O3-DNDEBUG aes_128_10.cnf aes_ass_challenge.cnf > aes_challenge.cnf
+OKlib/Experimentation/Benchmarks/SAT2011_AES> rm aes_128_10.cnf aes_ass_challenge.cnf
+   \endverbatim
+   </li>
+   <li> The AES challenge instance is <code>aes_challenge.cnf</code>. </li>
+   </li>
+   <li> The Git-ID of the relevant state of the OKlibrary is
+   \verbatim
+54afbadfb72018a4cb9ec5fc77b2d47252095009
+   \endverbatim
+   </li>
+   <li> The package-template is given by the directory
+   <code>OKlib/Experimentation/Benchmarks/SAT2011_AES-Challenge</code>. </li>
+   <li> Created by
+   \verbatim
+OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES-Challenge_OKlibrary.tar.bz2 SAT2011_AES-Challenge
+   \endverbatim
+   </li>
+   <li> The package has md5sum
+   \verbatim
+7bf3f8b2f5eb02bb59fbbe99fd9bc499  SAT2011_AES-Challenge_OKlibrary.tar.bz2
+   \endverbatim
+   </li>
+   <li> Extracting this archive (by
+   <code>tar -xjf SAT2011_AES-Challenge_OKlibrary.tar.bz2</code>) yields 
+   directory <code>SAT2011_AES-Challenge</code>. </li>
+  </ul>
 
 */
 

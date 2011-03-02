@@ -1,0 +1,88 @@
+# Matthew Gwynne 29.2.2011 (Swansea)
+
+I The small AES Challenge
+
+As a challenge to the SAT community, we present a SAT translation of the 
+128-bit Advanced Encryption Standard cipher as a key discovery problem. 
+The translation has been instantiated with a plaintext and a ciphertext, where 
+the ciphertext was encrypted using a key determined by 128 flips of a 2001 
+British pound coin. The key has now been destroyed and the only way to 
+rediscover it is to solve this instance.
+
+The challenge amounts to finding any key which encrypts the plaintext,
+
+  CF964488F8FD93A6F30E9B4EDE0FE07E
+
+to the ciphertext,
+
+  3DE819D1BB624DDA35E4445D12C31762.
+
+The Advanced Encryption Standard is a widely used encryption algorithm and 
+solving this instance in a reasonable time would break the AES, and have
+a significant impact in the cryptographic community.
+
+We call the translation used to generate this instance, the minimum box 
+translation. This translation uses minimum representations of the components 
+of the AES, such as the Sbox and field multiplications, and composes them 
+using new variables to produce a translation with as few clauses as possible. 
+
+This translation is only the beginning, and not, we believe, the best; finding a
+good translation is a hard problem. We investigate better representations in
+the OKlibrary (see IV) and consider what it means to be a good translation in a 
+forthcoming technical report on attacking the AES cipher using SAT. 
+
+A wider range of AES benchmarks based on these same translations are available 
+as the "Small Advanced Encryption Standard" benchmark set for SAT2011 
+competition.
+
+II Directory content:
+
+  - aes_challenge.cnf is the 128-bit AES key discovery challenge.
+
+  - MD5_Challenge contains the md5 hash values of the AES challenge.
+
+  - this README file.
+
+III Instance
+
+The instance is 19211831 bytes and should be *excessively hard* for any solver to solve.
+
+Instance statistics
+  - first row: number of variables, number of clauses, number of literal
+    occurrences
+  - then the occurring clause-lengths and the number of clauses of that length
+
+Benchmarks/128/aes_challenge.cnf
+8080 153304 940464
+1 336
+2 1152
+3 14896
+4 3376
+5 20016
+6 26464
+7 75888
+8 11032
+9 144
+
+IV The OKlibrary http://www.ok-sat-library.org
+
+All developments took place within the OKlibrary, an open-source research
+platform around the SAT problem. Also the translation framework used to
+generate the instance is provided there, as well as a more general set of
+benchmarks with reduced variants of the AES.
+
+List of relevant directories in OKplatform/OKsystem/OKlib (where OKplatform
+is the directory of the unpacked OKlibrary-package):
+
+ - Experimentation/Benchmarks: all our benchmark packages (typically without
+   the instances)
+ - Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard: all
+   current investigations into AES
+ - ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/: an AES 
+   implementation in the Maxima computer algebra system
+ - ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/: the AES 
+   translation in the Maxima computer algebra system
+
+The OKlibrary-internal documentation for the SAT2011-benchmarks is provided at
+
+http://cs.swan.ac.uk/~csoliver/ok-sat-library/internet_html/doc/doxygen_html/d3/d83/SAT2011_8hpp.html
