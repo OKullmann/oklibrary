@@ -127,7 +127,7 @@ IV Underlying article:
 
 V Underlying report
 
-@TechReport{Kullmann2009RamseySATExtern2,
+@TechReport{Kullmann2010RamseySAT,
   author =       {Oliver Kullmann},
   title =        {Exact {R}amsey Theory: {G}reen-{T}ao numbers and {SAT}},
   institution =  {arXiv},

@@ -160,15 +160,14 @@ IV Underlying report
   author =       {Tanbir Ahmed and Oliver Kullmann and Hunter Snevily},
   title =        {On the van der {W}aerden numbers $w(2; 3, t)$},
   institution =  {arXiv},
-  year =         {2011},
-  OPTnumber =    {},
-  month =     {March},
-  OPTannote =    {}
+  year =         2011,
+  number =       {arXiv:1102.5433v1 [math.CO]},
+  month =        {February}
 }
 
 See also
 
-@TechReport{Kullmann2009RamseySATExtern2,
+@TechReport{Kullmann2010RamseySAT,
   author =       {Oliver Kullmann},
   title =        {Exact {R}amsey Theory: {G}reen-{T}ao numbers and {SAT}},
   institution =  {arXiv},
