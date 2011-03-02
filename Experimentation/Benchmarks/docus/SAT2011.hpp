@@ -1,4 +1,4 @@
-// Oliver Kullmann, 26.2.2011 (Swansea)
+-// Oliver Kullmann, 26.2.2011 (Swansea)
 /* Copyright 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -103,7 +103,7 @@ OKlib/Satisfiability/Transformers/Generators> LDFLAGS="-static" oklib all
    </li>
    <li> The Git-ID of the relevant state of the OKlibrary is
    \verbatim
-080a2210bf3c195fc91ab489de2640559b089f44
+96183df1d88c240d98663666726d7d79cc34fdc0
    \endverbatim
    </li>
    <li> The package-template is given by the directory
@@ -111,9 +111,9 @@ OKlib/Satisfiability/Transformers/Generators> LDFLAGS="-static" oklib all
    <li> The "empty" package (the template-directory, without the instances,
    but with the generator-executables added) has md5sum
    \verbatim
-c4bfcbee9bde472004f24fd09b929908  SAT2011_GreenTao_Empty.tar.bz2
+623f44fddfa3dc002a488e71e73e2f43  SAT2011_GreenTao_Empty.tar.bz2
    \endverbatim
-   and 2,373,827 bytes.
+   and 2,373,674 bytes.
    </li>
    <li> Created by
    \verbatim
@@ -125,9 +125,9 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_GreenTao_Empty.tar.bz2 SAT201
    <code>SAT2011_GreenTao</code>. </li>
    <li> The "full" package (additionally with the instances) has md5sum
    \verbatim
-6b4c33ace52ccfc7b7b8ec0b25213122  SAT2011_GreenTao.tar.bz2
+94b7f8bfd62eab7c399a27bdf81bc652  SAT2011_GreenTao.tar.bz2
    \endverbatim
-   and size 63,911,867 bytes.
+   and size 63,910,079 bytes.
    </li>
    <li> Created by
    \verbatim
