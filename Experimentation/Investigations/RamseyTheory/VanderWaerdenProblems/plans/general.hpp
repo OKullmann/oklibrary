@@ -80,9 +80,11 @@ Generators> LDFLAGS="-static" oklib all
      calls to the generators. </li>
     </ol>
    </li>
-   <li> README file:
+   <li> DONE
+   README file:
     <ol>
-     <li> Yet missing the links to the OKlibrary. </li>
+     <li> DONE
+     Yet missing the links to the OKlibrary. </li>
     </ol>
    </li>
    <li> Pdf file:
@@ -137,6 +139,48 @@ Generators> LDFLAGS="-static" oklib all
    </li>
    <li> For vanderwaerden_2(6) see
    Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-6-6.hpp.
+   </li>
+  </ul>
+
+
+  \todo Palindromic diagonal problems
+  <ul>
+   <li> pdvanderwaerden_2(3) = (6,9). </li>
+   <li> pdvanderwaerden_2(4) = (24,25). </li>
+   <li> pdvanderwaerden_2(5) = (150,177). </li>
+   <li> pdvanderwaerden_2(6) = (567,1132)
+    <ol>
+     <li> OKsolver_2002 </li>
+     <li> minisat-2.2.0
+      <ul>
+       <li> Far more efficient than OKsolver_2002; performed complete
+       calculation. </li>
+       <li> Plotting the conflicts in dependency on the number of variables:
+       \verbatim
+> cd Exp_PdVanderWaerdenC_2-6-6_minisat-2.2.0_2011-02-28-071109
+> oklib --R
+oklib_load_all()
+E =  read_minisat2_outputs(dir(pattern=glob2rx("*_OUT")))
+plot(E$num_variables,E$conflicts)
+       \endverbatim
+       </li>
+       <li> Clearly four phases (using n, the number of variables (half the
+       number of original vertices)):
+        <ol>
+         <li> For n < ~80 we have three plateaus. </li>
+         <li> For ~80 <= n <= 283 we have (very) linear growth. </li>
+         <li> For 283 <= n <= ~500 we have again (very) linear growth,
+         continously extending the previous segment, but with slower
+         growth. </li>
+         <li> For ~500 <= n we again have (very) linear growth, however we
+         have a jump at n ~ 500 *down* to a much lower level. </li>
+         <li> STOP, this is all possibly false, since "conflicts" are treated
+         as factors! </li>
+        </ol>
+       </li>
+      </ul>
+     </li>
+    </ol>
    </li>
   </ul>
 

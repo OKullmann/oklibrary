@@ -16,9 +16,11 @@ License, or any later version. */
    Experimentation/Investigations/plans/SATCompetition.hpp. </li>
    <li> DONE
    For now we only do the naturally boolean problems. </li>
-   <li> README file:
+   <li> DONE
+   README file:
     <ol>
-     <li> Yet missing the links to the OKlibrary. </li>
+     <li> DONE
+     Yet missing the links to the OKlibrary. </li>
     </ol>
    </li>
    <li> Pdf file:
