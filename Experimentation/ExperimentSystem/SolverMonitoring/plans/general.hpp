@@ -13,6 +13,15 @@ License, or any later version. */
   \todo Create milestones
 
 
+  \bug False treatmeant of "decisions"
+  <ul>
+   <li> Column "decisions" is treated as factor! This is obviously false.
+   </li>
+   <li> The cause of the problem is that the dataframe was never specified,
+   but just some "data put into it". </li>
+  </ul>
+
+
   \bug Inappropriate column names
   <ul>
    <li> Column names must be short, never like
