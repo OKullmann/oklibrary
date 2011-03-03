@@ -469,7 +469,7 @@ BUILD FAILED
 
   \todo Minisat
   <ul>
-   <li> http://www.cs.chalmers.se/Cs/Research/FormalMethods/MiniSat/
+   <li> http://www.cs.chalmers.se/Cs/Research/FormalMethods/MiniSat/ </li>
    <li> Conflict-count only 32-bit int with minisat-2.2.0:
     <ol>
      <li> For example with VanDerWaerden_pd_2-3-25_608.cnf we get
@@ -486,6 +486,7 @@ BUILD FAILED
      </li>
     </ol>
    </li>
+   <li> minisat-2.2.0 does not flush output: This should be easy to fix. </li>
    <li> minisat2 doesn't return the DIMACS-return-code:
     <ol>
      <li> However for example in VdWTransversalsInc we used minisat2 in the
