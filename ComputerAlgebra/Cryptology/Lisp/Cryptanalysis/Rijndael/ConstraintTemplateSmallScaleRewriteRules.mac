@@ -118,6 +118,17 @@ ss_boxmc_rewrite_mapping_std :
    was rewritten to.
 */
 
+/* Sbox and MixColumns combined: */
+ss_boxcombined_rewrite_mapping_std :
+  [["ss_cst",ss_cstrb],["ss_key_expansion_cst",ss_key_expansion_cstrb],
+  ["ss_round_cst",ss_round_cstrb],
+  ["ss_final_round_cst",ss_final_round_cstrb],
+  ["ss_shiftrows_cst",ss_shiftrows_cstrb],
+  ["ss_mixcolumns_cst",ss_mixcolumns_cstrb],
+  ["ss_mixcolumn_cst",ss_mixcolumn_cstrb],
+  ["ss_subbytes_cst", [lambda([cst],[cons("eq_cst",rest(cst))]),lambda([cst],[]),lambda([a],a)]],
+  ["ss_mul_cst",[lambda([cst],[cons("ss_sbox_w_mul_cst",rest(cst))]),lambda([cst],[]),lambda([a],a)]]]$
+
 
 /* ***********************************************
    * Constraint template rewrite functions       *
@@ -1019,6 +1030,28 @@ ss_mixcolumn_ts_gen(b,e,mod_poly,mixcolumns_matrix) := block(
       return(ev_hm(ss_mixcolumn_ts_CNF,hash_key))
       ) else ev_hm(ss_mixcolumn_ts_CNF,hash_key))$
 
+ss_sbox_w_mul_ts_CNF : sm2hm({})$
+ss_sbox_w_mul_ts_gen(p, b,e,mod_poly) := block(
+  [hash_key : [p,b,e,mod_poly]],
+  if ev_hm_d(ss_sbox_w_mul_ts_CNF,hash_key,false) = false then
+    block([plus16 : lambda([x],x+2*e),
+      mc_dnf :
+        fcl2fcs(cl2fcl(bf2relation_fulldnf_cl(lambda([V],
+            ss_sbox_w_mul_bf(V,p,b,e)),
+          e)))],
+      set_hm(ss_sbox_w_mul_ts_CNF,hash_key,
+        dualts_fcl(
+          [listify(mc_dnf[1]),
+          sort(
+            listify(mc_dnf[2]),
+            lambda([c,d], is(
+                rank_lex_ksubsets(map(plus16,c),e*4) < 
+                rank_lex_ksubsets(map(plus16,d),e*4)))
+            )]
+          )),
+      return(ev_hm(ss_sbox_w_mul_ts_CNF,hash_key))
+      ) else ev_hm(ss_sbox_w_mul_ts_CNF,hash_key))$
+
 /* Returns a list of CNF clauses representing the sbox relation
    given the appropriate sbox constraint ("ss_sbox_cst" with 16 variables
    in the constraint).
@@ -1083,6 +1116,31 @@ ss_sbox_ts_cst_cl(cst) := block(
       nounify(sbox_ts))),
   cnf : rename_fcl(sbox,vars),
   cnf[2])$
+
+/* Sbox and multiplication operations as a single box: */
+
+kill(ss_sbox_w_mul_ts_ns)$
+declare(ss_sbox_w_mul_ts_ns,noun)$
+declare(ss_sbox_w_mul_ts_ns,posfun)$
+ss_sbox_w_mul_ts_namespace([args]) :=
+  apply(nounify(ss_sbox_w_mul_ts_ns),args)$
+
+ss_sbox_w_mul_ts_var_l(cst) := block([bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_sbox_w_mul_ts_namespace,cst),
+  generate_ss_constraint_vars(1,2^(length(bits)/2), namespace,nounify(sbox_w_mul_ts)))$
+
+ss_sbox_w_mul_ts_cst_cl(cst) := block(
+  [bits : cst[2],namespace,ss_arg_l,ss_base,ss_exp,ss_poly,ss_elem],
+  ss_arg_l : cstt_args_l(cst),
+  ss_elem : ss_arg_l[1],
+  ss_base : ss_arg_l[2],
+  ss_exp : ss_arg_l[3],
+  ss_poly : ss_arg_l[4],
+  namespace : cstt_namespace_new(ss_sbox_w_mul_ts_namespace,cst),
+  rename_fcl(ss_sbox_w_mul_ts_gen(ss_elem, ss_base, ss_exp, ss_poly),
+    append(bits,
+      generate_ss_constraint_vars(1,2^(length(bits)/2),
+        namespace,nounify(sbox_w_mul_ts))))[2])$
 
 /* Takes an "ss_mul_cst" constraint with, as arguments, the field element e as
    a polynomial, the small scale base, exponent, modulo polynomial, and
