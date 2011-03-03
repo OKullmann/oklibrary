@@ -43,9 +43,9 @@ OKlib/Satisfiability/Transformers/Generators> LDFLAGS="-static" oklib all
    <li> The "empty" package (the template-directory, without the instances,
    but with the generator-executables added) has md5sum
    \verbatim
-fc27cd5d5f9c964ff4765d3158676129  SAT2011_VanDerWaerden_Empty.tar.bz2
+a1714135997bc1c52300f842be4093f7  SAT2011_VanDerWaerden_Empty.tar.bz2
    \endverbatim
-   and 4,571,804 bytes.
+   and 4,556,198 bytes.
    </li>
    <li> Created by
    \verbatim
@@ -57,9 +57,9 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_VanDerWaerden_Empty.tar.bz2 S
    <code>SAT2011_VanDerWaerden</code>. </li>
    <li> The "full" package (additionally with the instances) has md5sum
    \verbatim
-7fa12c2c513f824a82fdfac7e940e584  SAT2011_VanDerWaerden.tar.bz2
+5c6a16114a3de773b54f15c7ef711959  SAT2011_VanDerWaerden.tar.bz2
    \endverbatim
-   and size 42,060,941 bytes.
+   and size 42,057,116 bytes.
    </li>
    <li> Created by
    \verbatim
