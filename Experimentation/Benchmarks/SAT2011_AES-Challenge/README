@@ -17,15 +17,15 @@ valid key for some fixed choice of plain-text and cipher-text.
 
 III Choice of plain-text, cipher-text and key
 
-The ciphertext was encrypted using a key determined by 128 coin flips.
+The cipher-text was encrypted using a key determined by 128 coin flips.
 The key has been destroyed and the only way to rediscover it is to solve this
 instance.
 
-The challenge amounts to finding a key which encrypts the plaintext
+The challenge amounts to finding a key which encrypts the plain-text
 
   CF964488F8FD93A6F30E9B4EDE0FE07E
 
-to the ciphertext
+to the cipher-text
 
   3DE819D1BB624DDA35E4445D12C31762.
 
