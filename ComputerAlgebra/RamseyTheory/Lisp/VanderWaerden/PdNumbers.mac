@@ -72,8 +72,8 @@ pdvanderwaerdend_a(L) := vanderwaerdend_a(L)$
 
 /* The diagonal cases with two parts: */
 pdvanderwaerdend2(k) :=
- if k <= 3 then [
-  [0,1],[1,2],[6,9]
+ if k <= 6 then [
+  [0,1],[1,2],[6,9],[24,25],[150,177],[567,1132]
  ][k]
  else unknown$
 pdvanderwaerdend2_a(L) := vanderwaerdend2_a(L)$
