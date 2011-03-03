@@ -82,7 +82,7 @@ read_minisat2_outputs = function(filenames) {
   result_df
 }
 # Note one can use:
-# read_minisat2_outputs(dir(pattern=glob2rx("*.result")))
+# E = read_minisat2_outputs(dir(pattern=glob2rx("*.result")))
 # to read all files with ".result" as the end.
 #
 # The format of the data.frame is the same as with
@@ -91,7 +91,7 @@ read_minisat2_outputs = function(filenames) {
 #
 # For example:
 #
-# > read_minisat2_outputs(list("AES_R1_P0_K0_CX_KN0.cnf.result.minisat2","AES_R1_P0_K0_CX_KN2.cnf.result.minisat2"))
+# > E = read_minisat2_outputs(list("AES_R1_P0_K0_CX_KN0.cnf.result.minisat2","AES_R1_P0_K0_CX_KN2.cnf.result.minisat2"))
 #   num_variables num_clauses parsing_time restarts conflicts conflicts_per_sec
 # 1         32176      510492            0        1         0                 0
 # 2         32176      510490            0        1         0                 0
