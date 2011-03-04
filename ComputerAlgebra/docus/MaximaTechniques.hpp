@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.6.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -35,7 +35,9 @@ License, or any later version. */
      <li> it makes the code hard to write, read, and maintain, </li>
      <li> creates considerable runtime overhead, </li>
      <li> and is inadequate at this level, where experimentation and
-     interaction is the focus. </li>
+     interaction is the focus, </li>
+     <li> and finally, Maxima represents the set-theoretical level, the
+     (full) mathematical world. </li>
     </ol>
    </li>
    <li> For a definition "D" of a special type of Maxima-objects, for
