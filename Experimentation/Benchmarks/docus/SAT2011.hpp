@@ -272,6 +272,21 @@ OKlib/Experimentation/Benchmarks/SAT2011_AES> AppendDimacs-O3-DNDEBUG aes_128_10
 OKlib/Experimentation/Benchmarks/SAT2011_AES> rm aes_128_10.cnf aes_ass_challenge.cnf
    \endverbatim
    </li>
+   <li> We also remove by hand the generated comments at the beginning of the file
+   and replace the following:
+   \verbatim
+c The AES Challenge
+c
+c Derive the 128-bit key which encrypts the plain-text
+c
+c   CF964488F8FD93A6F30E9B4EDE0FE07E
+c
+c to the cipher-text
+c
+c   3DE819D1BB624DDA35E4445D12C31762.
+c
+   \endverbatim
+   </li>
    <li> The AES challenge instance is <code>aes_challenge.cnf</code>. </li>
    </li>
    <li> The Git-ID of the relevant state of the OKlibrary is
@@ -288,7 +303,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES-Challenge_OKlibrary.tar.b
    </li>
    <li> The package has md5sum
    \verbatim
-a8de45ac703e829b71d8be662d19bfc5  SAT2011_AES-Challenge_OKlibrary.tar.bz2
+5fcd7d7c18f7b8b77cc32a0f98dea0b5  SAT2011_AES-Challenge_OKlibrary.tar.bz2
    \endverbatim
    </li>
    <li> Extracting this archive (by
