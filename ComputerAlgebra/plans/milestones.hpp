@@ -45,6 +45,7 @@ License, or any later version. */
     - Maxima seg-faults when loading a file setting memory-limits : DONE
     - Why is Maxima file output so slow?
     - Weak recursion for memoised functions
+    - Strings cause errors in evaluation of expressions : DONE
 
   \par
    Replacement of "some" by "some_s", and of "every" by "every_s"
