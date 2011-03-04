@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_2_4/2_13.hpp
-  \brief Investigations into small scale AES key discovery for two round AES with a 2x2 block and 4-bit field elements (2+1/3)
+  \brief Investigations into small scale AES key discovery for 2 + 1/3 round AES with a 2x2 block and 4-bit field elements
 
 
   \todo Problem specification
@@ -21,12 +21,15 @@ License, or any later version. */
     <ol>
      <li> Addition of round key (n-1). </li>
      <li> Application of SubBytes (Sbox to each byte) operation. </li>
-     <li> Application of MixColumns' operation. </li>
+     <li> Application of linear diffusion operation. </li>
     </ol>
     </li>
     <li> Addition of round key 2 yielding the ciphertext. </li>
    </ol>
    </li>
+   <li> The linear diffusion operation applies a shift of row i by i-1 
+   bytes to the left and then applies the AES MixColumns operation
+   (a matrix multiplication at the byte level). </li>
    <li> Note we have the following number of full rounds, special rounds,
    sboxes in the rounds, additions in the rounds, multiplications by each 
    field element, sboxes in the key expansion, additions in the key expansion 
@@ -37,15 +40,15 @@ License, or any later version. */
 > print(component_statistics_ss(2,2,2,4,false,aes_mc_forward));
 [2,0,8,80,[[x,8],[x+1,8]],4,32,8] 
    \endverbatim
-   Note that the inverse MixColumns uses the same multiplication
-   constants as the MixColumns.
+   Note that the inverse diffusion operation uses the same multiplication
+   constants as the diffusion operation.
    </li>
   </ul>
 
 
   \todo Using the canonical translation
   <ul>
-   <li> Generating small scale AES for two rounds (with MixColumns):
+   <li> Generating small scale AES for 2 + 1/3 rounds:
    \verbatim
 rounds : 2$
 num_columns : 2$

@@ -21,12 +21,15 @@ License, or any later version. */
     <ol>
      <li> Addition of round key 0. </li>
      <li> Application of SubBytes (Sbox to each byte) operation. </li>
-     <li> Application of MixColumns' operation. </li>
+     <li> Application of linear diffusion operation. </li>
     </ol>
     </li>
     <li> Addition of round key 1 yielding the ciphertext. </li>
    </ol>
    </li>
+   <li> The linear diffusion operation applies a shift of row i by i-1 
+   bytes to the left and then applies the AES MixColumns operation
+   (a matrix multiplication at the byte level). </li>
    <li> Note we have the following number of full rounds, special rounds,
    sboxes in the rounds, additions in the rounds, multiplications by each 
    field element, sboxes in the key expansion, additions in the key expansion 
@@ -37,8 +40,8 @@ License, or any later version. */
 > print(component_statistics_ss(1,2,2,4,false,aes_mc_forward));
 [1,0,4,48,[[x,4],[x+1,4]],2,16,4] 
    \endverbatim
-   Note that the inverse MixColumns uses the same multiplication
-   constants as the MixColumns.
+   Note that the inverse diffusion operation uses the same multiplication
+   constants as the diffusion operation.
    </li>
   </ul>
 
@@ -163,7 +166,7 @@ VALID
 
   \todo Using the rbase translation
   <ul>
-   <li> Generating small scale AES for 1-10 rounds (with MixColumns):
+   <li> Generating small scale AES for 1,...,10 rounds:
    \verbatim
 round : 1$
 num_columns : 2$

@@ -14,16 +14,19 @@ License, or any later version. */
   <ul>
    <li> In this file, we collect the investigations into translations of
    one round small scale AES with one column, one row, using the 4-bit
-   field size, and including the MixColumns operation. </li>
+   field size. </li>
    <li> The AES encryption scheme we model takes a 4-bit plaintext,
    4-bit key and applies the following operations:
    <ol>
     <li> Addition of round key 0 to plaintext. </li>
     <li> Application of SubBytes (Sbox to each byte) operation. </li>
-    <li> Application of MixColumns' operation. </li>
+    <li> Application of linear diffusion operation. </li>
     <li> Addition of round key 1, resulting in the ciphertext. </li>
    </ol>
    </li>
+   <li> The linear diffusion operation applies a shift of row i by i-1 
+   bytes to the left and then applies the AES MixColumns operation
+   (a matrix multiplication at the byte level). </li>
    <li> Note we have the following number of full rounds, special rounds,
    sboxes in the rounds, multiplications by each field element, sboxes in
    the key expansion, additions in the key expansion and constants in the

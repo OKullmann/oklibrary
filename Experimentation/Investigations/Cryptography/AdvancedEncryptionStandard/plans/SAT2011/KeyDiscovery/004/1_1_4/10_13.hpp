@@ -31,7 +31,7 @@ License, or any later version. */
      <ol>
       <li> Addition of round key n-1. </li>
       <li> Application of SubBytes (Sbox to each byte) operation. </li>
-      <li> Application of MixColumns' operation. </li>
+      <li> Application of linear diffusion operation. </li>
      </ol>
     </li>
     <li> Addition of round key n. </li>
@@ -39,6 +39,9 @@ License, or any later version. */
     </li>
    </ol>
    </li>
+   <li> The linear diffusion operation applies a shift of row i by i-1 
+   bytes to the left and then applies the AES MixColumns operation. 
+   (a matrix multiplication at the byte level). </li>
    <li> Note we have the following number of full rounds, special rounds,
    sboxes in the rounds, multiplications by each field element, sboxes in
    the key expansion, additions in the key expansion and constants in the

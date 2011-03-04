@@ -20,9 +20,12 @@ License, or any later version. */
    <ol>
     <li> Addition of round key 0 (input key) to plaintext. </li>
     <li> Application of SubBytes (Sbox to each byte) operation. </li>
-    <li> Application of MixColumns' operation. </li>
+    <li> Application of linear diffusion operation. </li>
     <li> Addition of round key 1, resulting in the ciphertext. </li>
    </ol>
+   </li>
+   <li> The linear diffusion operation applies a shift of row i by i-1 
+   bytes to the left and then applies the AES MixColumns operation. 
    </li>
    <li> In this file, we collect:
    <ul>
@@ -67,7 +70,7 @@ maxima> component_statistics_ss(1,4,2,4,false,aes_mc_bidirectional);
    \endverbatim
    That is, we have:
    <ul>
-    <li> One full round (Key Addition, SubBytes, and MixColumns').
+    <li> One full round (Key Addition, SubBytes, and diffusion operation).
     </li>
     <li> No special rounds (Key Addition, SubBytes and ShiftRows). </li>
     <li> 8 Sboxes in the AES round components. This comes from the four 

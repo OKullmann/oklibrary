@@ -46,6 +46,41 @@ License, or any later version. */
   </ul>
 
 
+  \todo Notions for AES operation
+  <ul>
+   <li> When considering the AES round, we don't consider the
+   ShiftRows operation as a separate operation, as it rewires
+   bits of the AES block, and nothing else. As it is simply
+   a renaming, it isn't represented by any clauses in the
+   translation. </li>
+   <li> To remove the ShiftRows as a separate operation, we
+   can move it into the MixColumns operation. </li>
+   <li> We need the correct notion and name for this
+   operation, and at the same time we should consider the
+   notions of the AES round and key schedule. </li>
+   <li> Possible notions for the combined MixColumns and ShiftRows
+   operation:
+   <ul>
+    <li> "linear diffusion operation" is a reasonable name which
+    brings attention to the following relevant facts:
+    <ul>
+     <li> The reason for the inclusion of MixColumns and ShiftRows in the AES
+     is for their "diffusion" properties and linearity, and both operations 
+     share these properties while the SubBytes is non-linear. 
+     </li>
+     <li> In [Algebraic Aspects of the Advanced Encryption Standard;Cid, 
+     Murphy and Robshaw], they call these operations, together, the "diffusion
+     layer". </li>
+     <li> The two operations in the core of the AES round (i.e., excluding the
+     key addition) are made up of a non-linear component and a linear 
+     component. </li>
+    </ul>
+    </li>
+   </ul>
+   </li>
+  </ul>
+
+
   \todo Explain how to replace various AES boxes with identity or random
   boxes
   <ul>

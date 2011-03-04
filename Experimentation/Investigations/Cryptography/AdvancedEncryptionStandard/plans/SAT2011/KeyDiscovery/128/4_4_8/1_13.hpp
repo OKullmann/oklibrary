@@ -13,16 +13,19 @@ License, or any later version. */
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   one round AES with the MixColumns operation. </li>
+   1+1/3 round AES. </li>
    <li> The AES encryption scheme we model takes a 128-bit plaintext,
    128-bit key and applies the following operations:
    <ol>
     <li> Addition of round key 0 (input key) to plaintext. </li>
     <li> Application of SubBytes (Sbox to each byte) operation. </li>
-    <li> Application of MixColumns' operation. </li>
+    <li> Application of linear diffusion operation. </li>
     <li> Addition of round key 1, resulting in the ciphertext. </li>
    </ol>
    </li>
+   <li> The linear diffusion operation applies a shift of row i by i-1 
+   bytes to the left and then applies the AES MixColumns operation
+   (a matrix multiplication at the byte level). </li>
    <li> Note we have the following number of full rounds, special rounds,
    sboxes in the rounds, multiplications by each field element, Sboxes in
    the key expansion, additions in the key expansion and constants in the
@@ -39,7 +42,7 @@ License, or any later version. */
 
   \todo Using the canonical translation
   <ul>
-   <li> Generating AES for 1 round (with MixColumns):
+   <li> Generating AES for 1 + 1/3 round:
    \verbatim
 num_rounds : 1$
 num_columns : 4$

@@ -20,10 +20,13 @@ License, or any later version. */
    <ol>
     <li> Addition of round key 0 (input key) to plaintext. </li>
     <li> Application of SubBytes (Sbox to each byte) operation. </li>
-    <li> Application of MixColumns' operation. </li>
+    <li> Application of linear diffusion operation. </li>
     <li> Addition of round key 1, resulting in the ciphertext. </li>
    </ol>
    </li>
+   <li> The linear diffusion operation applies a shift of row i by i-1 
+   bytes to the left and then applies the AES MixColumns operation
+   (a matrix multiplication at the byte level). </li>
   </ul>
 
 
@@ -62,7 +65,7 @@ maxima> component_statistics_ss(1,2,4,4,false,aes_mc_bidirectional);
    \endverbatim
    That is, we have:
    <ul>
-    <li> One full round (Key Addition, SubBytes, and MixColumns').
+    <li> One full round (Key Addition, SubBytes, and diffusion operation).
     </li>
     <li> No special rounds (Key Addition, SubBytes and ShiftRows). </li>
     <li> 8 Sboxes in the AES round components. This comes from the two 
@@ -77,7 +80,7 @@ maxima> component_statistics_ss(1,2,4,4,false,aes_mc_bidirectional);
      </ul>
     </li>
     <li> 8 multiplications each by 02, 03, 09, 11,13 and 14 across the 
-    MixColumns and inverse MixColumns operations. We have four  of each
+    diffusion and inverse diffusion operations. We have four of each
     multiplications in each  matrix mulitiplication, across two columns, 
     applied twice (once forward and once in for the inverse MixColumn), 
     giving 4 x 2 x 2 = 16 instances of each multiplication. </li>
@@ -113,7 +116,7 @@ maxima> ncl_list_full_dualts(8,16);
     <li> 32 clauses of length four, coming from 4 additions of arity three
     (4 * 8 = 32). </li>
     <li> 1024 clauses of length 5, coming from 64 additions of arity 4
-    from the MixColumns (64 * 16 = 1024). </li>
+    from the diffusion operation (64 * 16 = 1024). </li>
     <li> 960 clauses of length 9, coming from 12 Sboxes and 8 of each of
     the six multiplications (60 * 16 = 960). </li>
     <li> 60 clauses of length sixteen, coming from from 12 Sboxes and 8 of 
