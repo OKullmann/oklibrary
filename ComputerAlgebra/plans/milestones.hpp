@@ -41,6 +41,12 @@ License, or any later version. */
     - Outline of the test system
 
   \par
+   In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
+    - Maxima seg-faults when loading a file setting memory-limits
+    - Why is Maxima file output so slow?
+    - Weak recursion for memoised functions
+
+  \par
    Replacement of "some" by "some_s", and of "every" by "every_s"
    (supplying tests for all modified functions): DONE
    <ol>
@@ -125,12 +131,6 @@ License, or any later version. */
     <li> TestSystem : DONE </li>
     <li> Trees : DONE </li>
    </ol>
-
-  \par
-   In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
-    - Maxima seg-faults when loading a file setting memory-limits
-    - Why is Maxima file output so slow?
-    - Weak recursion for memoised functions
 
 
   \par Version 0.1.4
