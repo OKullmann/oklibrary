@@ -13,7 +13,10 @@ License, or any later version. */
   ComputerAlgebra/plans/MaximaTechniques.hpp.
 
 
-  \bug Maxima seg-faults when loading a file setting memory-limits
+  \bug DONE (now setting the memory-limits when loading Maxima; resetting them
+  from the command-line is okay with Ecl, but setting them when loading a
+  file is asking for too much)
+  Maxima seg-faults when loading a file setting memory-limits
   <ul>
    <li> When running at test_level=full, we get
    \verbatim
