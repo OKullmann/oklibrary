@@ -19,6 +19,9 @@ License, or any later version. */
 
   \par Version 0.0.7 :
 
+  \par Structures/Sets/SetAlgorithms version 0.3.4
+  (see Sets/SetAlgorithms/plans/milestones.hpp)
+
   \par Structures/Cryptology version 0.0.9
   (see Structures/Cryptology/plans/milestones.hpp)
 
@@ -31,11 +34,16 @@ License, or any later version. */
 
   \par Version 0.0.8 :
 
+  \par Structures/Sets/SetAlgorithms version 0.3.5
+  (see Sets/SetAlgorithms/plans/milestones.hpp)
+
   \par Structures/Cryptology version 0.1
   (see Structures/Cryptology/plans/milestones.hpp)
 
   \par NumberTheory/BigIntegers 0.0.4
   (see BigIntegers/plans/milestones.hpp)
+
+  \par Create new milestones
 
 
 

@@ -14,31 +14,39 @@ License, or any later version. */
   \par Version 0.3.2 :
 
   \par
-   In Structures/Sets/SetAlgorithms/plans/general.hpp the following items are
-   handled:
-    - Update namespace
-    - Update namespace-usage
-    - Update doxygen-documentation
+   In Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp the
+   following items are handled:
+    - Test failure : DONE
 
   \par
    In Structures/Sets/SetAlgorithms/plans/SubsumptionHypergraph.hpp the
    following items are handled:
-    - Write application tests for SubsumptionHypergraph.cpp
-
-  \par
-   In Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp the
-   following items are handled:
-    - Improve code quality
-    - Organisation
-    - Test failure : DONE
+    - Write application tests for SubsumptionHypergraph.cpp (MG)
 
 
   \par Version 0.3.3 :
 
   \par
-   In Structures/Sets/SetAlgorithms/plans/general.hpp the following items are handled:
+   In Structures/Sets/SetAlgorithms/plans/general.hpp the following items are
+   handled:
     - Update plans, transfer todos
     - Reorganisation
+    - Update namespace
+    - Update namespace-usage
+    - Update doxygen-documentation
+
+
+  \par Version 0.3.4 :
+
+  \par
+  \par
+   In Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp the
+   following items are handled:
+    - Improve code quality
+    - Organisation
+
+
+  \par Version 0.3.5 :
 
   \par
    In Structures/Sets/SetAlgorithms/plans/SubsumptionHypergraph.hpp the
