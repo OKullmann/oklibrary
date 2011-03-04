@@ -117,7 +117,8 @@ Maxima encountered a Lisp error:
   </ul>
 
 
-  \todo Restricted recursion for memoised functions
+  \todo DONE (transferred to docus)
+  Restricted recursion for memoised functions
   <ul>
    <li> Consider
    \verbatim
@@ -149,8 +150,23 @@ is(fib_mem(6100) = fib(6100));
   true
    \endverbatim
    </li>
+  </ul>
+
+
+  \todo Memoised functions
+  <ul>
+   <li> Consider
+      \verbatim
+_fib_mem[n] := if n <= 1 then n else _fib_mem[n-1] + _fib_mem[n-2]$
+fib_mem(n) := (for i : 0 thru n-1 do _fib_mem[i], _fib_mem[n])$
+is(fib_mem(6100) = fib(6100));
+  true
+   \endverbatim
+   </li>
    <li> It would be better if one could find out whether the value _fib_mem[n]
    is already defined. </li>
+   <li> Then fib_mem would first check whether _fib_mem[n] is already defined,
+   and only if this is not the case would it run through the loop. </li>
   </ul>
 
 

@@ -42,9 +42,9 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
-    - Maxima seg-faults when loading a file setting memory-limits : DONE
     - Why is Maxima file output so slow?
-    - Restricted recursion for memoised functions
+    - Maxima seg-faults when loading a file setting memory-limits : DONE
+    - Restricted recursion for memoised functions : DONE
     - Strings cause errors in evaluation of expressions : DONE
 
   \par
@@ -151,6 +151,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
     - Stable sorting
+    - Memoised functions
     - Argument-length restriction
     - How to use function-parameters reliably??
     - Problems with errcatch
