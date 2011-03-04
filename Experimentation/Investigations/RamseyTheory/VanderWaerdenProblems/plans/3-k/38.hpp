@@ -476,6 +476,17 @@ interrupted; the FlipsPerSecond are likely corrupted.
      <li> It seems that this cutoff is about right. </li>
     </ol>
    </li>
+   <li> n=1379:
+    <ul>
+     <li> adaptg2wsat, cutoff=2*10^7:
+     \verbatim
+ 1  2  3  4  5 
+ 1  7 40 53 11 
+112 
+     \endverbatim
+     </li>
+    </ul>
+   </li>
   </ul>
 
 

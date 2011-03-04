@@ -162,9 +162,9 @@ License, or any later version. */
      \endverbatim
      With cutoff=16*10^6:
      \verbatim
- 1  2 
-42 58 
-100 
+  1   2
+130 148
+278
      \endverbatim
      </li>
     </ol>
