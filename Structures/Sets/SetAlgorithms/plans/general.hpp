@@ -28,6 +28,8 @@ License, or any later version. */
    the module-name. </li>
    <li> Perhaps we should have a module with basic set operations (like
    union and intersection), and another one with subsumption. </li>
+   <li> Called "BasicOperations" and "Subsumption", replacing the current
+   "SetAlgorithms". </li>
   </ul>
 
 
