@@ -62,7 +62,8 @@ Evaluation took 7.1600 seconds (7.4840 elapsed)
    and even in interpreted languages like python, this takes
    only 0.2 seconds. </li>
    <li> MG has sent an e-mail to the Maxima mailing list regarding
-   this issue. </li>
+   this issue. The results of this discussion is needed now. And what are
+   the possible actions? </li>
   </ul>
 
 
