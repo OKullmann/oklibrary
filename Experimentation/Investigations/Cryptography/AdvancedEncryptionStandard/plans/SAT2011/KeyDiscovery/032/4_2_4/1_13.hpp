@@ -24,6 +24,12 @@ License, or any later version. */
     <li> Addition of round key 1, resulting in the ciphertext. </li>
    </ol>
    </li>
+   <li> In this file, we collect:
+   <ul>
+    <li> Solvable in 0.9 seconds by the OKsolver. See "Using the canonical
+    translation". </li>
+   </ul>
+   </li>
   </ul>
 
 
@@ -53,40 +59,41 @@ shell> cat ssaes_r1_c4_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
 16 42
    \endverbatim
    </li>
-   <li> Note we have number of each type of box in this translation:
+   <li> Note we have the following numbers of each type of box in this 
+   translation:
    \verbatim
 maxima> component_statistics_ss(1,4,2,4,false,aes_mc_bidirectional);
 [1,0,8,128,[[x,16],[x+1,16]],2,32,4]
    \endverbatim
    That is, we have:
    <ul>
-    <li> One full round (Key Addition, SubBytes, ShiftRows and MixColumns).
+    <li> One full round (Key Addition, SubBytes, and MixColumns').
     </li>
     <li> No special rounds (Key Addition, SubBytes and ShiftRows). </li>
     <li> 8 Sboxes in the AES round components. This comes from the four 
-    columns and two rows of the block with one round). </li>
+    columns and two rows of the block with one round. </li>
     <li> 128 additions within the round and key additions, coming from:
      <ul>
-      <li> Two key 32-bit key additions (adding two bits), yielding 
+      <li> Two 32-bit key additions (adding two bits), yielding 
       64 additions of arity two in total. </li>
-      <li> Two additions for the MixColumn operation over four rows, applied 
-      twice (forward and backward), yielding 64 additions of arity two in
-      total. </li>
+      <li> Two additions for the MixColumn operation over four columns, 
+      applied twice (forward and backward), yielding 64 additions of arity two
+      in total. </li>
      </ul>
     </li>
-    <li> 16 multiplications each by 02, 03 across the MixColumns 
-    operations, two 02 multiplications and two 03 from each MixColumns
-    matrix mulitiplcation, across four columns, applied twice (once
+    <li> 16 multiplications each by 02 and 03 across the MixColumns 
+    operations. Two 02 multiplications and two 03 from each MixColumn
+    matrix mulitiplication, across four columns, applied twice (once
     forward and once in for the inverse MixColumn), giving 2 x 4 x 2 = 16
-    instances of each multiplicative constant. </li>
+    instances of each multiplication. </li>
     <li> 2 Sboxes in the AES key schedule. </li>
     <li> 32 additions in the key schedule. One addition of arity three
     for each bit in the element in the AES key, and one addition of arity two
-    for all remaining bits in the Key schedule. </li>
+    for all remaining bits in the key schedule. </li>
     <li> 4 bits for the constant in the key schedule. </li>
    </ul>
    </li>
-   <li> The number of clauses in the translation, computed by:
+   <li> The number of clauses of each length in the translation, computed by:
    \verbatim
 maxima> ncl_list_ss(1,4,2,4,false,aes_ts_box,aes_mc_bidirectional);
 [[1,4],[2,5376],[3,624],[4,32],[9,672],[16,42]]
@@ -99,16 +106,16 @@ maxima> ncl_list_full_dualts(8,16);
    are comprised of:
    <ul>
     <li> 4 unit clauses for the 4-bit constant in the Key schedule. </li>
-    <li> 5376 binary clauses, coming from 10 Sboxes and 16 of each 
-    multiplication (42 * 128 = 5376). </li>
+    <li> 5376 binary clauses, coming from 10 Sboxes and 16 of each of the two 
+    multiplications (42 * 128 = 5376). </li>
     <li> 624 ternary clauses, coming from 156 additions of arity two
     (156 * 4 = 624). </li>
     <li> 32 clauses of length four, coming from 4 additions of arity three
     (4 * 8 = 32). </li>
-    <li> 672 clauses of length seven, coming from 10 Sboxes and 16 of 
-    each multiplication (42 * 16 = 672). </li>
+    <li> 672 clauses of length seven, coming from 10 Sboxes and 16 of each of 
+    the two multiplications (42 * 16 = 672). </li>
     <li> 42 clauses of length sixteen, coming from from 10 Sboxes and 16 of 
-    each multiplication (42 * 1 = 42). </li>
+    each of the two multiplications (42 * 1 = 42). </li>
    </ul>
    </li>
    <li> Then we can generate a random assignment with the plaintext and 
