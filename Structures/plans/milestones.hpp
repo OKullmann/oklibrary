@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.8.2007 (Swansea)
-/* Copyright 2007, 2010 Oliver Kullmann
+/* Copyright 2007, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,6 +14,7 @@ License, or any later version. */
   \par Version 0.0.6 :
 
   \par Structures/Sets/SetAlgorithms version 0.3.2
+  (see Sets/SetAlgorithms/plans/milestones.hpp)
 
 
   \par Version 0.0.7 :
