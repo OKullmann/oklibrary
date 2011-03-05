@@ -10,6 +10,16 @@ License, or any later version. */
   \brief Investigations into small scale AES key discovery for 1+1/3 round AES with a 2x4 block and 4-bit field elements (1+1/3)
 
 
+  \bug False specification of sizes
+  <ul>
+   <li> The directory is "2_4_4", and a "2x4 block" is mentioned, while
+   below it says "two columns, four rows". </li>
+   <li> What is a "block"? This likely should be a matrix. </li>
+   <li> The dimensions of a matrix is specified as first the number of rows,
+   then the number of columns. So we have an inconsistency. </li>
+  </ul>
+
+
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
