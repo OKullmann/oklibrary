@@ -69,11 +69,14 @@ shell> cat ssaes_r1_c2_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
    </li>
    <li> Note we have the following numbers of each type of box in this 
    translation:
+
+??? as discussed, this is meaningless ???
+
    \verbatim
 maxima> component_statistics_ss(1,2,4,4,false,aes_mc_bidirectional);
 [1,0,8,128,[[1,16],[x,8],[x+1,8],[x^3+1,8],[x^3+x+1,8],[x^3+x^2+1,8],[x^3+x^2+x,8]],4,32,4]
    \endverbatim
-   That is, we have:
+   That is, we have: ??? "that is" is meaningless here, since no relation ???
    <ul>
     <li> One full round (Key Addition, SubBytes, and diffusion operation).
     </li>
