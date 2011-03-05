@@ -36,7 +36,9 @@ License, or any later version. */
    </li>
    <li> The linear diffusion operation applies a shift of row i by i-1 
    bytes to the left and then applies the AES MixColumns operation
-   (a matrix multiplication at the byte level). </li>
+   (a matrix multiplication at the byte level). ??? this needs more
+   information: at least what is the *type* of the operations involved ???
+   </li>
   </ul>
 
 
