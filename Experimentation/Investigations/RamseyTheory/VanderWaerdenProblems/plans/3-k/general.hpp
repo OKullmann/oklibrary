@@ -12,13 +12,15 @@ License, or any later version. */
   Instances created by output_vanderwaerden2nd_stdname(3,k,n) at Maxima-level,
   or by "VanderWaerden-O3-DNDEBUG 3 k n" at C++ level (instances differ by
   the order of negated literals in clauses).
-  An experiment is run by "RunVdW3k k n0 alg runs cutoff".
+  An ubcsat-experiment is run by "RunVdW3k k n0 alg runs cutoff".
 
   The palindromic versions are created by
   output_pd_vanderwaerden2nd_stdname(3,k,n) at Maxima-level, or by
   "PdVanderWaerdenCNF-O3-DNDEBUG 3 k n" at C++ level (instances differ by
   the order of negated literals in clauses).
-  
+  An ubcsat-experiment is run by "RunPdVdW3k k n0 alg runs cutoff".
+  And running a complete solver by "CRunPdVdW3k k solver".
+
 
   \todo Predictions of vdw_2(3,k)
   <ul>
