@@ -148,7 +148,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_GreenTao.tar.bz2 SAT2011_Gree
   </ul>
 
 
-  <h1> Small AES instances </h1>
+  <h1> Advanced Encryption Standard I benchmarks </h1>
 
   General information:
   <ul>
@@ -237,7 +237,7 @@ e435a9e0cc073c53e650863c141d187d  SAT2011_AES.tar.bz2
   </ul>
 
 
-  <h1> Small AES Challenge </h1>
+  <h1> The AES Challenge </h1>
 
   General information:
   <ul>
