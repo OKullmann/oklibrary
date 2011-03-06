@@ -38,8 +38,11 @@ License, or any later version. */
   </ul>
 
 
-  \todo Using the canonical translation
+  \todo Using the canonical box translation
   <ul>
+   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   as whole boxes and translating these boxes using the canonical translation.
+   </li>
    <li> Generating small scale AES for 5 + 1/3 rounds:
    \verbatim
 num_rounds : 5$
@@ -63,6 +66,61 @@ shell> cat ssaes_r5_c16_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
 9 1360
 16 85
    \endverbatim
+   </li>
+   <li> In this translation, we have:
+   <ul>
+    <li> Five full rounds (Key Addition, SubBytes, and diffusion operation).
+    </li>
+    <li> 80 Sboxes in the SubBytes operation 
+    (1 rows * 16 columns * 5 rounds = 80). </li>
+    <li> 1024 additions within the round and key additions, coming from:
+     <ul>
+      <li> 384 additions of arity two from key additions 
+      (6 round keys * 64-bit additions = 384). </li>
+      <li> 640 additions from the identity matrix multiplication in the 
+      diffusion operation of arity one
+      (1 rows * 16 columns * 2 directions * 4 bits * 5 rounds = 640).
+      </li>
+     </ul>
+    </li>
+    <li> 5 Sboxes in the AES key schedule 
+    (1 rows * 5 rounds = 5). </li>
+    <li> 320 additions in the key schedule:
+    <ul>
+     <li> 20 additions of arity three 
+     (1 row * 1 column * 4 bits * 5 rounds = 20). </li>
+     <li> 300 additions of arity two 
+     (15 columns * 4 bits * 5 rounds = 300). </li>
+    </ul>
+    </li>
+    <li> 20 bits for the constant in the key schedule
+    (1 rows * 4 bit * 5 rounds = 20). </li>
+   </ul>
+   </li>
+   <li> The number of clauses of each length in the translation, computed by:
+   \verbatim
+maxima> ncl_list_ss(5,16,1,4,false,aes_ts_box,aes_mc_bidirectional);
+[[1,20],[2,12160],[3,2736],[4,160],[9,1360],[16,85]]
+maxima> ncl_list_ss_gen(5,16,1,4,ss_mixcolumns_matrix(2,4,1),[[2,'s2],[9,'s9],[16,'s16]],[],false,aes_mc_bidirectional);
+[[1,20],[2,85*s2+1280],[3,2736],[4,160],[9,85*s9],[16,85*s16]]
+maxima> ncl_list_full_dualts(8,16);
+[[2,128],[9,16],[16,1]]
+   \endverbatim
+   are comprised of:
+   <ul>
+    <li> 20 unit clauses for the 4-bit constants in the key expansion
+    (4 bits  * 5 rounds = 20). </li>
+    <li> 12160 binary clauses, coming from 80 Sboxes and 640 additions of
+    arity one (80 * 128 + 640 * 2 = 12160). </li>
+    <li> 2736 ternary clauses, coming from 684 additions of arity two
+    (560 * 4 = 2736). </li>
+    <li> 160 clauses of length four, coming from 20 additions of arity three
+    (20 * 8 = 160). </li>
+    <li> 1360 clauses of length nine, coming from 85 Sboxes 
+    (85 * 16 = 1360). </li>
+    <li> 85 clauses of length sixteen, coming from from 85 Sboxes 
+    (85 * 1 = 85). </li>
+   </ul>
    </li>
    <li> Then we can generate a random assignment with the plaintext and 
    ciphertext, leaving the key unknown:
@@ -90,8 +148,11 @@ CPU time              : 25.4 s
   </ul>
 
 
-  \todo Using the rbase translation
+  \todo Using the rbase box translation
   <ul>
+   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   as whole boxes and translating these boxes using r_1-base translations.
+   </li>
    <li> Generating small scale AES for 5 + 1/3 rounds:
    \verbatim
 num_rounds : 5$
@@ -113,6 +174,57 @@ shell> cat ssaes_r5_c16_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
 3 3756
 4 1435
    \endverbatim
+   </li>
+   <li> In this translation, we have:
+   <ul>
+    <li> Five full rounds (Key Addition, SubBytes, and diffusion operation).
+    </li>
+    <li> 80 Sboxes in the SubBytes operation 
+    (1 rows * 16 columns * 5 rounds = 80). </li>
+    <li> 1024 additions within the round and key additions, coming from:
+     <ul>
+      <li> 384 additions of arity two from key additions 
+      (6 round keys * 64-bit additions = 384). </li>
+      <li> 640 additions from the identity matrix multiplication in the 
+      diffusion operation of arity one
+      (1 rows * 16 columns * 2 directions * 4 bits * 5 rounds = 640).
+      </li>
+     </ul>
+    </li>
+    <li> 5 Sboxes in the AES key schedule 
+    (1 rows * 5 rounds = 5). </li>
+    <li> 320 additions in the key schedule:
+    <ul>
+     <li> 20 additions of arity three 
+     (1 row * 1 column * 4 bits * 5 rounds = 20). </li>
+     <li> 300 additions of arity two 
+     (15 columns * 4 bits * 5 rounds = 300). </li>
+    </ul>
+    </li>
+    <li> 20 bits for the constant in the key schedule
+    (1 rows * 4 bit * 5 rounds = 20). </li>
+   </ul>
+   </li>
+   <li> The number of clauses of each length in the translation, computed by:
+   \verbatim
+maxima> ncl_list_ss(5,16,1,4,false,aes_rbase_box,aes_mc_bidirectional);
+[[1,20],[2,1280],[3,3756],[4,1435]]
+maxima> ncl_list_ss_gen(5,16,1,4,ss_mixcolumns_matrix(2,4,1),[[3,'s3],[4,'s4]],[],false,aes_mc_bidirectional);
+[[1,20],[2,1280],[3,85*s3+2736],[4,85*s4+160]]
+maxima> ncl_list_fcs(ev_hm(ss_sbox_rbase_cnfs,4));
+[[3,12],[4,15]]
+   \endverbatim
+   are comprised of:
+   <ul>
+    <li> 20 unit clauses for the 4-bit constants in the key expansion
+    (4 bits  * 5 rounds = 20). </li>
+    <li> 1280 binary clauses, coming from 640 additions of arity one 
+    (640 * 2 = 1280). </li>
+    <li> 3756 ternary clauses, coming from 85 Sboxes and 684 additions of 
+    arity two (85 * 12 + 684 * 4 = 3756). </li>
+    <li> 1435 clauses of length four, coming from 85 Sboxes and 20 additions
+    of arity three (85 * 15 + 20 * 8 = 1435). </li>
+   </ul>
    </li>
    <li> Then we can generate a random assignment with the plaintext and 
    ciphertext, leaving the key unknown:

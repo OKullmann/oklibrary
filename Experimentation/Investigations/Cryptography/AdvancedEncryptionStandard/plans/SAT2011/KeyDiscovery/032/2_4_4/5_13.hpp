@@ -68,6 +68,9 @@ maxima> ss_mixcolumns_matrix(2,4,2);
   
   \todo Using the rbase box translation
   <ul>
+   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   as whole boxes and translating these boxes using r_1-base translations.
+   </li>
    <li> Generating small scale AES for 5 + 1/3 round:
    \verbatim
 num_rounds : 5$
@@ -90,41 +93,37 @@ shell> cat ssaes_r5_c4_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
 4 1550
    \endverbatim
    </li>
-   <li> Note we have the following numbers of each type of box in this 
-   translation:
-   \verbatim
-maxima> component_statistics_ss(5,4,2,4,false,aes_mc_bidirectional);
-[5,0,40,512,[[x,80],[x+1,80]],10,160,20]
-   \endverbatim
-   That is, we have:
+   <li> In this translation, we have:
    <ul>
     <li> Five full rounds (Key Addition, SubBytes, and diffusion operation).
     </li>
-    <li> No special rounds (Key Addition, SubBytes and ShiftRows). </li>
-    <li> 40 Sboxes in the AES round components. This comes from the four 
-    columns and two rows of the plaintext matrix with five rounds. </li>
+    <li> 40 Sboxes in the SubBytes operation 
+    (2 rows * 4 columns * 5 rounds = 8). </li>
     <li> 512 additions within the round and key additions, coming from:
      <ul>
-      <li> Six 32-bit key additions (adding two bits), yielding 
-      64 additions of arity two in total. </li>
-      <li> Two additions for the MixColumn operation over four columns, 
-      applied twice (forward and backward) over five rounds, yielding 512 
-      additions of arity two in total. </li>
+      <li> 192 additions from key additions 
+      (6 round keys * 32-bit additions = 192). </li>
+      <li> 320 additions from the matrix multiplication in the diffusion 
+      operation (2 rows * 4 columns * 2 directions * 4 bits * 5 rounds = 320).
+      </li>
      </ul>
     </li>
-    <li> 80 multiplications each by 02 and 03 across the MixColumns 
-    operations. Two 02 multiplications and two 03 from each MixColumn
-    matrix mulitiplication, across four columns, applied twice (once
-    forward and once in for the inverse MixColumn) across five rounds, giving 
-    2 * 4 * 2 * 5 = 80 instances of each multiplication. </li>
-    <li> 2 Sboxes in the AES key schedule per round, yielding 10 overall. 
+    <li> 80 multiplications by 02 from the MixColumns operation
+    (2 rows * 4 columns * 2 directions * 5 rounds = 80). </li>
+    <li> 80 multiplications by 03 from the MixColumns operation
+    (2 rows * 4 columns * 2 directions = 80). </li>
+    <li> 10 Sboxes in the AES key schedule (2 rows * 5 rounds = 10). </li>
+    <li> 160 additions in the key schedule:
+    <ul>
+     <li> 20 additions of arity three 
+     (1 row * 1 column * 4 bits * 5 rounds = 20). </li>
+     <li> 140 additions of arity two 
+     ((1 rows * 3 columns + 2 rows * 2 columns) * 4 bits * 5 rounds = 140). 
+     </li>
+    </ul>
     </li>
-    <li> 32 additions in the key schedule per round, yielding 5 * 32 = 160 
-    overall. One addition of arity three for each bit in one element in the 
-    AES key, and one addition of arity two for all remaining bits in the key 
-    schedule (160 - (5*4) = 140). </li>
-    <li> 4 bits for the constant in the key schedule in each round, yielding
-    5 * 4 = 20 bits overall. </li>
+    <li> 20 bits for the constant in the key schedule 
+    (4 bits * 5 rounds = 20). </li>
    </ul>
    </li>
    <li> The number of clauses of each length in the translation, computed by:
@@ -143,7 +142,7 @@ maxima> ncl_list_fcs(ev_hm(ss_field_rbase_cnfs,[4,3]));
    \endverbatim
    are comprised of:
    <ul>
-    <li> 20 unit clauses for the 4-bit constants in the Key schedule. </li>
+    <li> 20 unit clauses for the 4-bit constants in the key expansion. </li>
     <li> 480 binary clauses, coming from 50 Sboxes and 80 of each of the two 
     multiplications ((50 * 0) + (80 * 6) + (80 * 0) = 480). </li>
     <li> 4808 ternary clauses, coming from 652 additions of arity two,

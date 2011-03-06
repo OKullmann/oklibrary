@@ -56,8 +56,11 @@ maxima> ss_mixcolumns_matrix(2,8,4);
   </ul>
 
 
-  \todo Using the canonical translation
+  \todo Using the canonical box translation
   <ul>
+   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   as whole boxes and translating these boxes using the canonical translation.
+   </li>
    <li> Generating AES for 1 + 1/3 round:
    \verbatim
 num_rounds : 1$
@@ -83,11 +86,74 @@ shell> cat ssaes_r1_c4_rw4_e8_f0.cnf | ExtendedDimacsFullStatistics n
 256 116
    \endverbatim
    </li>
-   <li> The measured statistics match up to the computed statistics:
+  <li> In this translation, we have:
+   <ul>
+    <li> One full round (Key Addition, SubBytes, and diffusion operation).
+    </li>
+    <li> 16 Sboxes in the SubBytes operation (4 rows * 4 columns = 16). </li>
+    <li> 512 additions within the round and key additions, coming from:
+     <ul>
+      <li> 256 additions of arity two from key additions 
+      (2 round keys * 128-bit additions = 256). </li>
+      <li> 256 additions of arity four from the matrix multiplication in the
+      diffusion operation (4 rows * 4 columns * 2 directions * 8 bits = 256).
+      </li>
+     </ul>
+    </li>
+    <li> 16 multiplications by 02 from the MixColumns operation
+    (2 rows * 4 columns * 2 directions = 16). </li>
+    <li> 16 multiplications by 03 from the MixColumns operation
+    (2 rows * 4 columns * 2 directions = 16). </li>
+    <li> 16 multiplications by 09 from the MixColumns operation
+    (2 rows * 4 columns * 2 directions = 16). </li>
+    <li> 16 multiplications by 11 from the MixColumns operation
+    (2 rows * 4 columns * 2 directions = 16). </li>
+    <li> 16 multiplications by 13 from the MixColumns operation
+    (2 rows * 4 columns * 2 directions = 16). </li>
+    <li> 16 multiplications by 14 from the MixColumns operation
+    (2 rows * 4 columns * 2 directions = 16). </li>
+    <li> 4 Sboxes in the AES key schedule (4 rows). </li>
+    <li> 128 additions in the key schedule:
+    <ul>
+     <li> 8 additions of arity three (1 row * 1 column * 8 bits = 8). </li>
+     <li> 120 additions of arity two 
+     ((3 rows * 4 columns + 1 rows * 3 columns) * 8 bits = 120). </li>
+    </ul>
+    </li>
+    <li> 8 bits for the constant in the key schedule. </li>
+   </ul>
+   </li>
+   <li> The number of clauses of each length in the translation, computed by:
    \verbatim
 maxima> ncl_list_ss(1,4,4,8,false,aes_ts_box,aes_mc_bidirectional);
 [[1,8],[2,475136],[3,1504],[4,64],[5,4096],[17,29696],[256,116]]
+maxima> mul_map(epoly) := block([e:poly2nat(epoly,2)], 
+  [epoly,[[2,'m(e,2)],[17,'m(e,17)],[256,'m(e,256)]]])$
+maxima> ncl_list_ss_gen(1,4,4,8,ss_mixcolumns_matrix(2,8,4),[[2,'s2],[9,'s9],[16,'s16]],create_list(mul_map(p),p,[x,x+1,x^3+1,x^3+x+1,x^3+x^2+1,x^3+x^2+x]),false,aes_mc_bidirectional);
+[[1,8],
+ [2,20*s2+16*'m(14,2)+16*'m(13,2)+16*'m(11,2)+16*'m(9,2)+16*'m(3,2)+16*'m(2,2)],
+ [3,1504],[4,64],[5,4096],[9,20*s9],[16,20*s16],
+ [17,16*'m(14,17)+16*'m(13,17)+16*'m(11,17)+16*'m(9,17)+16*'m(3,17)+16*'m(2,17)],
+ [256,16*'m(14,256)+16*'m(13,256)+16*'m(11,256)+16*'m(9,256)+16*'m(3,256)+16*'m(2,256)]]
+maxima> ncl_list_full_dualts(16,256);
+[[2,4096],[17,256],[256,1]]
    \endverbatim
+   are comprised of:
+   <ul>
+    <li> 8 unit clauses for the 8-bit constant in the key expansion. </li>
+    <li> 475136 binary clauses, coming from 20 Sboxes and 16 of each of the 
+    six multiplications (116 * 4096 = 475136). </li>
+    <li> 1504 ternary clauses, coming from 376 additions of arity two
+    (376 * 4 = 1504). </li>
+    <li> 64 clauses of length four, coming from 8 additions of arity three
+    (8 * 8 = 64). </li>
+    <li> 4096 clauses of length five, coming from 512 additions of arity
+    four (256 * 16 = 4096). </li>
+    <li> 29696 clauses of length seventeen, coming from 20 Sboxes and 16 of
+    each of the six multiplications (116 * 256 = 29656). </li>
+    <li> 116 clauses of length sixteen, coming from from 20 Sboxes and 16 of 
+    each of the six multiplications (116 * 1 = 116). </li>
+   </ul>
    </li>
    <li> Then we can generate a random assignment with the plaintext and 
    ciphertext, leaving the key unknown:

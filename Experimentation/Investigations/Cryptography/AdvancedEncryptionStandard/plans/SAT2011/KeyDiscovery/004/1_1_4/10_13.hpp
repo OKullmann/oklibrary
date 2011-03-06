@@ -75,11 +75,56 @@ shell> cat ssaes_r10_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
 16 20
    \endverbatim
    </li>
-   <li> The measured statistics match up to the computed statistics:
+   <li> In this translation, we have:
+   <ul>
+    <li> Ten full rounds (Key Addition, SubBytes, and diffusion operation).
+    </li>
+    <li> 10 Sboxes in the SubBytes operation 
+    (1 rows * 1 columns * 10 rounds = 10). </li>
+    <li> 124 additions within the round and key additions, coming from:
+     <ul>
+      <li> 44 additions of arity 2 from key additions 
+      (11 round keys * 4-bit additions = 44). </li>
+      <li> 80 additions of arity one from the identity matrix multiplication
+      in the diffusion operation 
+      (1 rows * 1 columns * 2 directions * 4 bits * 10 rounds = 80).
+      </li>
+     </ul>
+    </li>
+    <li> 10 Sboxes in the AES key schedule 
+    (1 rows * 10 rounds = 10). </li>
+    <li> 40 additions in the key schedule:
+    <ul>
+     <li> 40 additions of arity two
+     (1 row * 1 column * 4 bits * 10 rounds = 40). </li>
+    </ul>
+    </li>
+    <li> 40 bits for the constant in the key schedule
+    (4 bits * 10 rounds = 40).
+    </li>
+   </ul>
+   </li>
+   <li> The number of clauses of each length in the translation, computed by:
    \verbatim
 maxima> ncl_list_ss(10,1,1,4,false,aes_ts_box,aes_mc_bidirectional);
 [[1,40],[2,2720],[3,336],[9,320],[16,20]]
+maxima> ncl_list_ss_gen(10,1,1,4,ss_mixcolumns_matrix(2,4,1),[[2,'s2],[9,'s9],[16,'s16]],[],false,aes_mc_bidirectional);
+[[1,40],[2,20*s2+160],[3,336],[9,20*s9],[16,20*s16]]
+maxima> ncl_list_full_dualts(8,16);
+[[2,128],[9,16],[16,1]]
    \endverbatim
+   are comprised of:
+   <ul>
+    <li> 40 unit clauses for the 4-bit constant in the key expansion. </li>
+    <li> 2720 binary clauses, coming from 20 Sboxes and 80 additions of arity
+    one (20 * 128 + 80 * 2 = 2720). </li>
+    <li> 336 ternary clauses, coming from 84 additions of arity two
+    (84 * 4 = 336). </li>
+    <li> 320 clauses of length nine, coming from 20 Sboxes
+    (20 * 16 = 320). </li>
+    <li> 20 clauses of length sixteen, coming from from 20 Sboxes
+    (20 * 1 = 20). </li>
+   </ul>
    </li>
    <li> Then we can generate a random assignment with the plaintext and 
    ciphertext, leaving the key unknown:

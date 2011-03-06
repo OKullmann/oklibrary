@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/008/1_1_8/20_13.hpp
-  \brief Investigations into simplest 8-bit small scale AES key discovery for twenty rounds AES (20+1/3)
+  \brief Investigations into simplest 8-bit small scale AES key discovery for 20 + 1/3 round AES
 
 
   \todo Problem specification
@@ -43,7 +43,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Using the canonical translation
+  \todo Using the canonical box translation
   <ul>
    <li> Generating simplest small scale AES for 20+1/3 rounds:
    \verbatim
@@ -59,11 +59,56 @@ shell> cat ssaes_r20_c1_rw1_e8_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
 256 40
    \endverbatim
    </li>
-   <li> The measured statistics match up to the computed statistics:
+   <li> In this translation, we have:
+   <ul>
+    <li> Twenty full rounds (Key Addition, SubBytes, and diffusion operation).
+    </li>
+    <li> 20 Sboxes in the SubBytes operation 
+    (1 rows * 1 columns * 20 rounds = 20). </li>
+    <li> 488 additions within the round and key additions, coming from:
+     <ul>
+      <li> 168 additions of arity 2 from key additions 
+      (21 round keys * 8-bit additions = 168). </li>
+      <li> 320 additions of arity one from the identity matrix multiplication
+      in the diffusion operation 
+      (1 rows * 1 columns * 2 directions * 8 bits * 20 rounds = 320).
+      </li>
+     </ul>
+    </li>
+    <li> 20 Sboxes in the AES key schedule 
+    (1 rows * 20 rounds = 20). </li>
+    <li> 160 additions in the key schedule:
+    <ul>
+     <li> 160 additions of arity two
+     (1 row * 1 column * 8 bits * 20 rounds = 160). </li>
+    </ul>
+    </li>
+    <li> 160 bits for the constant in the key schedule
+    (8 bits * 20 rounds = 160).
+    </li>
+   </ul>
+   </li>
+   <li> The number of clauses of each length in the translation, computed by:
    \verbatim
 maxima> ncl_list_ss(20,1,1,4,false,aes_ts_box,aes_mc_bidirectional);
 [[1,160],[2,164480],[3,1312],[17,10240],[256,40]]
+maxima> ncl_list_ss_gen(10,1,1,4,ss_mixcolumns_matrix(2,4,1),[[2,'s2],[9,'s9],[16,'s16]],[],false,aes_mc_bidirectional);
+[[1,160],[2,40*s2+640],[3,1312],[9,40*s9],[16,40*s16]]
+maxima> ncl_list_full_dualts(8,16);
+[[2,4096],[17,256],[256,1]]
    \endverbatim
+   are comprised of:
+   <ul>
+    <li> 160 unit clauses for the 4-bit constant in the key expansion. </li>
+    <li> 164480 binary clauses, coming from 40 Sboxes and 320 additions of 
+    arity one (40 * 4096 + 320 * 2 = 164480). </li>
+    <li> 1312 ternary clauses, coming from 328 additions of arity two
+    (328 * 4 = 656). </li>
+    <li> 10240 clauses of length nine, coming from 40 Sboxes
+    (40 * 256 = 10240). </li>
+    <li> 40 clauses of length 256, coming from from 40 Sboxes
+    (40 * 1 = 40). </li>
+   </ul>
    </li>
    <li> Then we run experiments for AES instances with one round, up to
    those with twenty rounds, and inspect the results for round 20.

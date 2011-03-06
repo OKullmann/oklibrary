@@ -43,8 +43,11 @@ License, or any later version. */
   </ul>
 
 
-  \todo Using the canonical translation
+  \todo Using the canonical box translation
   <ul>
+   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   as whole boxes and translating these boxes using the canonical translation.
+   </li>
    <li> Generating simplest small scale AES for 10 rounds (with MixColumns):
    \verbatim
 num_rounds : 20$
@@ -68,11 +71,56 @@ shell> cat ssaes_r20_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
 16 40
    \endverbatim
    </li>
-   <li> The measured statistics match up to the computed statistics:
+   <li> In this translation, we have:
+   <ul>
+    <li> Twenty full rounds (Key Addition, SubBytes, and diffusion operation).
+    </li>
+    <li> 20 Sboxes in the SubBytes operation 
+    (1 rows * 1 columns * 20 rounds = 10). </li>
+    <li> 244 additions within the round and key additions, coming from:
+     <ul>
+      <li> 84 additions of arity 2 from key additions 
+      (21 round keys * 4-bit additions = 84). </li>
+      <li> 160 additions of arity one from the identity matrix multiplication
+      in the diffusion operation 
+      (1 rows * 1 columns * 2 directions * 4 bits * 10 rounds = 160).
+      </li>
+     </ul>
+    </li>
+    <li> 20 Sboxes in the AES key schedule 
+    (1 rows * 20 rounds = 20). </li>
+    <li> 80 additions in the key schedule:
+    <ul>
+     <li> 80 additions of arity two
+     (1 row * 1 column * 4 bits * 20 rounds = 80). </li>
+    </ul>
+    </li>
+    <li> 80 bits for the constant in the key schedule
+    (4 bits * 20 rounds = 80).
+    </li>
+   </ul>
+   </li>
+   <li> The number of clauses of each length in the translation, computed by:
    \verbatim
 maxima> ncl_list_ss(20,1,1,4,false,aes_ts_box,aes_mc_bidirectional);
 [[1,80],[2,5440],[3,656],[9,640],[16,40]]
+maxima> ncl_list_ss_gen(20,1,1,4,ss_mixcolumns_matrix(2,4,1),[[2,'s2],[9,'s9],[16,'s16]],[],false,aes_mc_bidirectional);
+[[1,80],[2,40*s2+320],[3,656],[9,40*s9],[16,40*s16]]
+maxima> ncl_list_full_dualts(8,16);
+[[2,128],[9,16],[16,1]]
    \endverbatim
+   are comprised of:
+   <ul>
+    <li> 80 unit clauses for the 4-bit constant in the key expansion. </li>
+    <li> 5440 binary clauses, coming from 40 Sboxes and 160 additions of arity
+    one (40 * 128 + 160 * 2 = 5440). </li>
+    <li> 656 ternary clauses, coming from 164 additions of arity two
+    (164 * 4 = 656). </li>
+    <li> 640 clauses of length nine, coming from 40 Sboxes
+    (40 * 16 = 640). </li>
+    <li> 40 clauses of length sixteen, coming from from 40 Sboxes
+    (40 * 1 = 40). </li>
+   </ul>
    </li>
    <li> Then we can generate a random assignment with the plaintext and 
    ciphertext, leaving the key unknown:

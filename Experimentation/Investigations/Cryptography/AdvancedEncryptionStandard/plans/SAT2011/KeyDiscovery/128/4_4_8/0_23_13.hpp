@@ -50,12 +50,13 @@ License, or any later version. */
   </ul>
 
 
-  \todo Using the canonical translation
+  \todo Using the canonical box translation
   <ul>
-   <li> Generating AES-instance for 1 round (without MixColumns):
-    <ol>
-     <li> First generating the basic instance in Maxima:
-     \verbatim
+   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   as whole boxes and translating these boxes using the canonical translation.
+   </li>
+   <li> Generating AES-instance for 0 + 2/3 + 1/3 round:
+   \verbatim
 num_rounds : 1;
 num_columns : 4;
 num_rows : 4;
@@ -76,17 +77,58 @@ shell> cat ssaes_r1_c4_rw4_e8_f1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
 4 64
 17 5120
 256 20
-     \endverbatim
-     </li>
-     <li> The measured statistics match up to the computed statistics:
-     \verbatim
+   \endverbatim
+   </li>
+   <li> In this translation, we have:
+   <ul>
+    <li> One special round (Key Addition, SubBytes, and ShiftRows).
+    </li>
+    <li> 16 Sboxes in the SubBytes operation (4 rows * 4 columns = 16). </li>
+    <li> 256 additions within the round and key additions, coming from:
+     <ul>
+      <li> 256 additions from key additions 
+      (2 round keys * 128-bit additions = 256). </li>
+     </ul>
+    </li>
+    <li> 4 Sboxes in the AES key schedule (4 rows). </li>
+    <li> 128 additions in the key schedule:
+    <ul>
+     <li> 8 additions of arity three 
+     (1 row * 1 column * 8 bits = 8). </li>
+     <li> 120 additions of arity two 
+     ((3 rows * 4 columns + 1 rows * 3 columns) * 8 bits = 120). </li>
+    </ul>
+    </li>
+    <li> 8 bits for the constant in the key schedule. </li>
+   </ul>
+   </li>
+   <li> The number of clauses of each length in the translation, computed by:
+   \verbatim
 maxima> ncl_list_ss(1,4,4,8,true,aes_ts_box,aes_mc_bidirectional);
 [[1,8],[2,81920],[3,1504],[4,64],[17,5120],[256,20]]
-     \endverbatim
-     </li>
-     <li> Then we generate a random assignment with the plaintext and 
-     ciphertext, leaving the key unknown:
-     \verbatim
+maxima> ncl_list_ss_gen(1,4,4,8,ss_mixcolumns_matrix(2,8,4),[[2,'s2],[9,'s9],[16,'s16]],[],true,aes_mc_bidirectional);
+[[1,8],[2,20*s2],[3,1504],[4,64],[9,20*s9],[16,20*s16]]
+maxima> ncl_list_full_dualts(16,256);
+[[2,4096],[17,256],[256,1]]
+   \endverbatim
+   are comprised of:
+   <ul>
+    <li> 8 unit clauses for the 8-bit constant in the key expansion. </li>
+    <li> 81920 binary clauses, coming from 20 Sboxes 
+    (20 * 4096 = 81920). </li>
+    <li> 1504 ternary clauses, coming from 376 additions of arity two
+    (376 * 4 = 1504). </li>
+    <li> 64 clauses of length four, coming from 8 additions of arity three
+    (8 * 8 = 64). </li>
+    <li> 5120 clauses of length seventeen, coming from 20 Sboxes
+    (20 * 256 = 5120). </li>
+    <li> 20 clauses of length 256, coming from from 20 Sboxes
+    (20 * 1 = 20). </li>
+   </ul>
+   </li>
+   <li> Then we generate a random assignment with the plaintext and 
+   ciphertext, leaving the key unknown:
+   \verbatim
 output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
 
 > cat ssaes_pcpair_r1_c4_rw4_e8_f1_s1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
@@ -94,14 +136,12 @@ output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b)
 256 256 256 0 256 1 1
  length count
 1 256
-     \endverbatim
-     </li>
-     <li> Finally we merge the assignment with the basic instance:
-     \verbatim
+   \endverbatim
+   </li>
+   <li> Finally we merge the assignment with the basic instance:
+   \verbatim
 shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pcpair_r1_c4_rw4_e8_f1_s1.cnf > ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
-     \endverbatim
-     </li>
-    </ol>
+    \endverbatim
    </li>
    <li> Overall, most of the solvers in the OKlibrary solve the problem in
    either < 30s or < 6m. </li>
@@ -180,10 +220,10 @@ propagations          : 5270395        (53637 /sec)
 conflict literals     : 9386723        (16.92 % deleted)
 Memory used           : 66.55 MB
 CPU time              : 98.26 s
-   \endverbatim
-   </li>
-   <li> march_pl solves it in 19.92s:
-   \verbatim
+  \endverbatim
+  </li>
+  <li> march_pl solves it in 19.92s:
+  \verbatim
 shell> march_pl ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
 c main():: nodeCount: 5
 c main():: dead ends in main: 0
