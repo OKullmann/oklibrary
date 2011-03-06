@@ -10,6 +10,12 @@ License, or any later version. */
   \brief On investigations into vdw_2(4,10) > 328
 
 
+  \todo Best ubcsat-solver
+  <ul>
+   <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
+  </ul>
+
+
   \todo vanderwaerden_2(4,10) > 328
   <ul>
    <li> We don't have a nice prediction, except of that it's greater (or 

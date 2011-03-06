@@ -10,6 +10,12 @@ License, or any later version. */
   \brief On investigations into vdw_2(4,9) >= 309
 
 
+  \todo Best ubcsat-solver
+  <ul>
+   <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
+  </ul>
+
+
   \todo vanderwaerden_2(4,9) >= 309
   <ul>
    <li> [Ahmed 2009] states vanderwaerden4k(9) > 254. </li>
