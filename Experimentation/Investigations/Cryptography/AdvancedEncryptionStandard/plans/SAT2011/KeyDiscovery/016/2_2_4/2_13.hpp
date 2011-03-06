@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_2_4/2_13.hpp
-  \brief Investigations into small scale AES key discovery for 2 + 1/3 round AES with a 2x2 block and 4-bit field elements
+  \brief Investigations into small scale AES key discovery for 2 + 1/3 round AES with a 2x2 plaintext matrix and 4-bit field elements
 
 
   \todo Problem specification

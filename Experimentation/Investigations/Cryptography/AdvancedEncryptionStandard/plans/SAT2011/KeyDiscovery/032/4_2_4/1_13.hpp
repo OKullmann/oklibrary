@@ -6,25 +6,15 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/2_4_4/1_13.hpp
-  \brief Investigations into small scale AES key discovery for 1+1/3 round AES with a 2x4 block and 4-bit field elements (1+1/3)
-
-
-  \bug False specification of sizes
-  <ul>
-   <li> The directory is "2_4_4", and a "2x4 block" is mentioned, while
-   below it says "two columns, four rows". </li>
-   <li> What is a "block"? This likely should be a matrix. </li>
-   <li> The dimensions of a matrix is specified as first the number of rows,
-   then the number of columns. So we have an inconsistency. </li>
-  </ul>
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/4_2_4/1_13.hpp
+  \brief Investigations into small scale AES key discovery for 1+1/3 round AES with a 4x2 plaintext matrix and 4-bit field elements
 
 
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   1 + 1/3 round small scale AES with two columns, four rows,
-   using the 4-bit field size. </li>
+   1 + 1/3 round small scale AES with four rows, two columns, using the 4-bit
+   field size. </li>
    <li> The AES encryption scheme we model takes a 32-bit plaintext,
    32-bit key and applies the following operations:
    <ol>
@@ -84,7 +74,7 @@ maxima> component_statistics_ss(1,2,4,4,false,aes_mc_bidirectional);
     </li>
     <li> No special rounds (Key Addition, SubBytes and ShiftRows). </li>
     <li> 8 Sboxes in the AES round components. This comes from the two 
-    columns and four rows of the block with one round. </li>
+    columns and four rows of the plaintext matrix with one round. </li>
     <li> 128 additions within the round and key additions, coming from:
      <ul>
       <li> Two 32-bit key additions (adding two bits), yielding 
@@ -220,6 +210,22 @@ shell> OKsolver_2002-O3-DNDEBUG -O r1_keyfind.cnf | grep "^v" | $OKlib/Experimen
 VALID
    \endverbatim
    </li>
+  </ul>
+
+
+  \bug DONE (Corrected dimensions and specification for each file; added
+  todo on updating translation functions)
+  False specification of sizes
+  <ul>
+   <li> The directory is "2_4_4", and a "2x4 block" is mentioned, while
+   below it says "two columns, four rows". </li>
+   <li> What is a "block"? This likely should be a matrix. </li>
+   <li> The dimensions of a matrix is specified as first the number of rows,
+   then the number of columns. So we have an inconsistency. </li>
+   <li> See "Order of small scale matrix dimensions" in 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
+   for a todo on updating the translation function parameter order to 
+   correctly reflect the standard ordering for matrix dimensions.</li>
   </ul>
 
 */

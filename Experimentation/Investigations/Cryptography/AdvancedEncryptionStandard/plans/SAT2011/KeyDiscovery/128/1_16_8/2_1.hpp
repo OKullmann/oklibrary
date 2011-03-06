@@ -6,14 +6,15 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/16_1_8/2_13.hpp
-  \brief Investigations into small scale AES key discovery for 2+/13 round AES with 16 columns
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/1_16_8/2_13.hpp
+  \brief Investigations into small scale AES key discovery for 2+/13 round AES with one row and 16 columns
 
 
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   2+1/3 round AES. </li>
+   2+1/3 round small scale AES variant with one row, sixteen columns and
+   8-bit field elements. </li>
    <li> The AES encryption scheme we model takes a 128-bit plaintext,
    128-bit key and applies the following operations:
    <ol>

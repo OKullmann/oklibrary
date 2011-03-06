@@ -6,15 +6,15 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/4_2_4/1_13.hpp
-  \brief Investigations into small scale AES key discovery for 1+1/3 round AES with a 4x2 block and 4-bit field elements (1+1/3)
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/2_4_4/1_13.hpp
+  \brief Investigations into small scale AES key discovery for 1+1/3 round AES with a 2x4 plaintext matrix and 4-bit field elements
 
 
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   1 + 1/3 round small scale AES with four columns, two rows,
-   using the 4-bit field size. </li>
+   1 + 1/3 round small scale AES with two rows, four columns, using the 4-bit
+   field size. </li>
    <li> The AES encryption scheme we model takes a 32-bit plaintext,
    32-bit key and applies the following operations:
    <ol>
@@ -74,7 +74,7 @@ maxima> component_statistics_ss(1,4,2,4,false,aes_mc_bidirectional);
     </li>
     <li> No special rounds (Key Addition, SubBytes and ShiftRows). </li>
     <li> 8 Sboxes in the AES round components. This comes from the four 
-    columns and two rows of the block with one round. </li>
+    columns and two rows of the plaintext matrix with one round. </li>
     <li> 128 additions within the round and key additions, coming from:
      <ul>
       <li> Two 32-bit key additions (adding two bits), yielding 

@@ -6,14 +6,14 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/064/16_1_4/5_13.hpp
-  \brief Investigations into small scale AES key discovery for 5 + 1/3 round AES with a 16x1 block and 4-bit field elements
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/064/1_16_4/5_13.hpp
+  \brief Investigations into small scale AES key discovery for 5 + 1/3 round AES with a 1x16 plaintext matrix and 4-bit field elements
 
 
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   5 + 1/3 round small scale AES with sixteen columns, one row, using the 
+   5 + 1/3 round small scale AES with one row, sixteen columns, using the 
    4-bit field size. </li>
    <li> The AES encryption scheme we model takes a 64-bit plaintext,
    64-bit key and applies the following operations:
