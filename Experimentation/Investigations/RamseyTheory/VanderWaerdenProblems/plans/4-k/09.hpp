@@ -511,4 +511,11 @@ BestSolution_Max = 59.000000
    </li>
   </ul>
 
+
+  \todo vdw_2^pd(4,9) = (300,309)
+  <ul>
+   <li> Established by minisat-2.2.0. </li>
+   <li> Do we have an easy-hard pattern based on parity? </li>
+  </ul>
+
 */

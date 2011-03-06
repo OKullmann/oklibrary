@@ -557,4 +557,17 @@ BestSolution_Max = 2.000000
    case where better performance for smaller cutoff-values is misleading. </li>
   </ul>
 
+
+  \todo Palindromic numbers for k <= 8
+  <ul>
+   <li> All these numbers have been easily established with minisat-2.2.0.
+   </li>
+   <li> vdw_2^pd(4,4) = (24,25). </li>
+   <li> vdw_2^pd(4,5) = (34,55). </li>
+   <li> vdw_2^pd(4,6) = (62,65). </li>
+   <li> vdw_2^pd(4,7) = (101,106). </li>
+   <li> vdw_2^pd(4,8) = (126,129). </li>
+   <li> Are there easy-hard patterns based on parity? </li>
+  </ul>
+
 */

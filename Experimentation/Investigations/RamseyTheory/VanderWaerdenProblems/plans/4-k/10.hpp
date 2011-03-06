@@ -278,4 +278,11 @@ E = run_ubcsat("VanDerWaerden_2-4-10_330.cnf", runs=100,cutoff=100000,monitor=TR
    </li>
   </ul>
 
+
+  \todo vdw_2^pd(4,10) = (320,329)
+  <ul>
+   <li> Established by minisat-2.2.0. </li>
+   <li> Do we have an easy-hard pattern based on parity? </li>
+  </ul>
+
 */
