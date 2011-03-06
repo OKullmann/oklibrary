@@ -41,6 +41,18 @@ License, or any later version. */
   </ul>
 
 
+  \todo Order of small scale matrix dimensions
+  <ul>
+   <li> Functions such as "ss_fcl" take first the number of columns and
+   then the number of rows. </li>
+   <li> Taking the arguments in this order is inconsistent with the standard
+   order for specifying matrix dimensions (first the number of rows, then
+   the number of columns). </li>
+   <li> The order should be corrected and all references to the altered
+   functions updated. </li>
+  </ul>
+
+
   \todo Move AES box translations into separate file
   <ul>
    <li> Currently we have functions such as "aes_mul_ts_gen", and

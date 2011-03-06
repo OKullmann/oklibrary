@@ -40,6 +40,7 @@ License, or any later version. */
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
    the following topics are handled:
+    - Order of small scale matrix dimensions
     - Handling external data
     - Update specifications
     - Move AES box translations into separate file
