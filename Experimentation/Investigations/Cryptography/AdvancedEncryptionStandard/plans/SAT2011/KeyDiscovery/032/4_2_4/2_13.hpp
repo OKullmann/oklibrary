@@ -7,39 +7,53 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/4_2_4/2_13.hpp
-  \brief Investigations into small scale AES key discovery for 2+1/3 round AES with a 4x2 plaintext matrix and 4-bit field elements
+  \brief Investigations into small scale AES key discovery for 2 + 1/3 round AES with a 4x2 plaintext matrix and 4-bit field elements
 
 
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   2 + 1/3 round small scale AES with four rows, two columns,
-   using the 4-bit field size. </li>
-   <li> The AES encryption scheme we model takes a 32-bit plaintext,
-   32-bit key and applies the following operations:
+   2 + 1/3 round small scale AES with four rows, two columns, using the 4-bit
+   field size. </li>
+   <li> The AES encryption scheme we model takes a 32-bit plaintext and
+   32-bit key and outputs a 32-bit ciphertext. The plaintext, key and 
+   ciphertext are all considered, column by column, as 4x2 matrices of 4-bit 
+   elements. </li>
+   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc), 
+   the 4-bit element at position (i,j) in the matrix is the ((i-1)*4 + j)-th 
+   4-bit word of the 32-bits. </li>
+   <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
+   b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
+   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
+   </li>
+   <li> The encryption scheme applies the following operations:
    <ol>
     <li> Addition of round key 0 (input key) to plaintext. </li>
-    <li> Application of SubBytes (Sbox to each byte) operation. </li>
+    <li> Application of SubBytes (Sbox to each 4-bit element) operation. </li>
     <li> Application of linear diffusion operation. </li>
-    <li> Addition of round key 1. </li>
-    <li> Application of SubBytes (Sbox to each byte) operation. </li>
+    <li> Addition of round key 1, resulting in the ciphertext. </li>
+    <li> Application of SubBytes (Sbox to each 4-bit element) operation. </li>
     <li> Application of linear diffusion operation. </li>
     <li> Addition of round key 2, resulting in the ciphertext. </li>
    </ol>
    </li>
-   <li> The linear diffusion operation applies a shift of row i by i-1 
-   bytes to the left and then applies the AES MixColumns operation. 
-   </li>
-   <li> Note we have the following number of full rounds, special rounds,
-   sboxes in the rounds, multiplications by each field element, sboxes in
-   the key expansion, additions in the key expansion and constants in the
-   key expansion:
-   \verbatim
-> component_statistics_ss(2,2,4,4,false,aes_mc_bidirectional);
-[2,0,16,224,[[1,32],[x,16],[x+1,16],[x^3+1,16],[x^3+x+1,16],[x^3+x^2+1,16],[x^3+x^2+x,16]],8,64,8]
-> component_statistics_ss(2,2,4,4,false,aes_mc_forward);
-[2,0,16,160,[[1,32],[x,16],[x+1,16]],8,64,8]
-   \endverbatim
+   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
+   defined as inversion within the 4-bit field composed with an affine
+   transformation. </li>
+   <li> The linear diffusion operation applies a linear permutation to
+   the input matrix, consisting of:
+   <ol>
+    <li> A shift of row i by i-1 to the left for all i from 1 to the number of rows.. </li>
+    <li> The AES MixColumns operation, which takes the input matrix and
+    applies a matrix multiplication by the constant matrix 
+    \verbatim
+maxima> ss_mixcolumns_matrix(2,4,4);
+ matrix([x,x+1,1,1],[1,x,x+1,1],[1,1,x,x+1],[x+1,1,1,x])
+    \endverbatim
+    over the 4-bit field. As it is a matrix multiplication, this operation can
+    be broken down into a "MixColumn" operation on each column of the input
+    matrix. </li>
+   </ol>
    </li>
   </ul>
 

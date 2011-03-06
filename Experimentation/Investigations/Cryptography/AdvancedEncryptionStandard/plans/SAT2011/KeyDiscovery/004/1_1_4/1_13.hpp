@@ -13,31 +13,25 @@ License, or any later version. */
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   one round small scale AES with one column, one row, using the 4-bit
+   1 + 1/3 round small scale AES with one rows, one columns, using the 4-bit
    field size. </li>
-   <li> The AES encryption scheme we model takes a 4-bit plaintext,
-   4-bit key and applies the following operations:
+   <li> The AES encryption scheme we model takes a 4-bit plaintext and
+   4-bit key and outputs a 4-bit ciphertext. 
+   </li>
+   <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
+   b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
+   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
+   </li>
+   <li> The encryption scheme applies the following operations:
    <ol>
-    <li> Addition of round key 0 to plaintext. </li>
-    <li> Application of SubBytes (Sbox to each byte) operation. </li>
-    <li> Application of linear diffusion operation. </li>
+    <li> Addition of round key 0 (input key) to plaintext. </li>
+    <li> Application of Sbox operation. </li>
     <li> Addition of round key 1, resulting in the ciphertext. </li>
    </ol>
    </li>
-   <li> The linear diffusion operation applies a shift of row i by i-1 
-   bytes to the left and then applies the AES MixColumns operation
-   (a matrix multiplication at the byte level). </li>
-   <li> Note we have the following number of full rounds, special rounds,
-   sboxes in the rounds, multiplications by each field element, sboxes in
-   the key expansion, additions in the key expansion and constants in the
-   key expansion:
-   \verbatim
-> component_statistics_ss(1,1,1,4,false,aes_mc_bidirectional);
-[1,0,1,16,[[1,2]],1,4,4]
-> component_statistics_ss(1,1,1,4,false,aes_mc_forward);
-[1,0,1,12,[[1,1]],1,4,4]
-   \endverbatim
-   </li>
+   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
+   defined as inversion within the 4-bit field composed with an affine
+   transformation. </li>
   </ul>
 
 

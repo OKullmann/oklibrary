@@ -13,34 +13,27 @@ License, or any later version. */
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   2+1/3 round small scale AES variant with one row, sixteen columns and
-   8-bit field elements. </li>
-   <li> The AES encryption scheme we model takes a 128-bit plaintext,
-   128-bit key and applies the following operations:
+   2 + 1/3 round small scale AES with one rows, sixteen columns, using the 
+   8-bit field size. </li>
+   <li> The AES encryption scheme we model takes a 128-bit plaintext and
+   128-bit key and outputs a 128-bit ciphertext. </li>
+   <li> Each consequtive 8-bits (b_0,b_1,b_2,b_3,b_4,b_5,b_6,b_7) is 
+   considered as the polynomial b_0 * x^7 + b_1 * x^6 + b_2 * x^5 + b_4 * x^3 
+   + b_5 * x^2 + b^6 * x + b_7. Addition and multiplication on these 
+   polynomials is defined as usual, modulo the polynomial 
+   x^8+x^4+x^3+x+1. </li>
+   <li> The encryption scheme applies the following operations:
    <ol>
     <li> Addition of round key 0 (input key) to plaintext. </li>
-    <li> Application of SubBytes (Sbox to each byte) operation. </li>
-    <li> Application of linear diffusion operation. </li>
+    <li> Application of SubBytes (Sbox to each 8-bit element) operation. </li>
     <li> Addition of round key 1. </li>
-    <li> Application of SubBytes (Sbox to each byte) operation. </li>
-    <li> Application of linear diffusion operation. </li>
+    <li> Application of SubBytes (Sbox to each 8-bit element) operation. </li>
     <li> Addition of round key 2, resulting in the ciphertext. </li>
    </ol>
    </li>
-   <li> The linear diffusion operation applies a shift of row i by i-1 
-   bytes to the left and then applies the AES MixColumns operation
-   (a matrix multiplication at the byte level). </li>
-   <li> Note we have the following number of full rounds, special rounds,
-   sboxes in the rounds, multiplications by each field element, Sboxes in
-   the key expansion, additions in the key expansion and constants in the
-   key expansion:
-   \verbatim
-> component_statistics_ss(2,16,1,8,false,aes_mc_bidirectional);
-[2,0,32,896,[[1,64]],2,256,16]
-> component_statistics_ss(2,16,1,8,false,aes_mc_forward);
-[2,0,32,640,[[1,32]],2,256,16]
-   \endverbatim
-   </li>
+   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
+   defined as inversion within the 4-bit field composed with an affine
+   transformation. </li>
   </ul>
 
 

@@ -9,40 +9,31 @@ License, or any later version. */
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/064/1_16_4/4_13.hpp
   \brief Investigations into small scale AES key discovery for 4 + 1/3 round AES with a 1x16 plaintext matrix and 4-bit field elements
 
-
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   4 + 1/3 round small scale AES with one row and sixteen columns, using the 
-   4-bit field size. </li>
-   <li> The AES encryption scheme we model takes a 64-bit plaintext,
-   64-bit key and applies the following operations:
+   4 + 1/3 round small scale AES with two rows, two columns, using the 4-bit
+   field size. </li>
+   <li> The AES encryption scheme we model takes a 64-bit plaintext and
+   64-bit key and outputs a 64-bit ciphertext. </li>
+   <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
+   b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
+   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
+   </li>
+   <li> The encryption scheme applies the following operations:
    <ol>
     <li> Round (iterated four times):
     <ol>
-     <li> Addition of round key n-1. </li>
-     <li> Application of SubBytes (Sbox to each byte) operation. </li>
-     <li> Application of linear diffusion operation. </li>
-     <li> Application of MixColumns' operation. </li>
+     <li> Addition of round key (n-1). </li>
+     <li> Application of SubBytes (Sbox to each 4-bit element) operation. </li>
     </ol>
     </li>
-    <li> Addition of round key n yielding the ciphertext. </li>
+    <li> Addition of round key 4 yielding the ciphertext. </li>
    </ol>
    </li>
-   <li> The linear diffusion operation applies a shift of row i by i-1 
-   bytes to the left and then applies the AES MixColumns operation
-   (a matrix multiplication at the byte level). </li>
-   <li> Note we have the following number of full rounds, special rounds,
-   sboxes in the rounds, multiplications by each field element, sboxes in
-   the key expansion, additions in the key expansion and constants in the
-   key expansion:
-   \verbatim
-> component_statistics_ss(4,16,1,4,false,aes_mc_bidirectional);
-[4,0,64,832,[[1,128]],4,256,16]
-> component_statistics_ss(4,16,1,4,false,aes_mc_forward);
-[4,0,64,576,[[1,64]],4,256,16]
-   \endverbatim
-   </li>
+   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
+   defined as inversion within the 4-bit field composed with an affine
+   transformation. </li>
   </ul>
 
 
