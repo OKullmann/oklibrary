@@ -34,7 +34,7 @@ License, or any later version. */
     <li> Addition of round key 1, resulting in the ciphertext. </li>
    </ol>
    </li>
-   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
+   <li> The Sbox is a non-linear permutation over the set of 4-bit elements,
    defined as inversion within the 4-bit field composed with an affine
    transformation. </li>
    <li> The linear diffusion operation applies a linear permutation to
