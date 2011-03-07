@@ -41,7 +41,7 @@ License, or any later version. */
    the input matrix, consisting of:
    <ol>
     <li> A shift of row i by i-1 to the left for all i from 1 to the number of
-    rows. </li>
+    rows. ??? the number of rows is known here ??? </li>
     <li> The AES MixColumns operation, which takes the input matrix and
     applies a matrix multiplication by the constant matrix 
     \verbatim
