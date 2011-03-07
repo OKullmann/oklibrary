@@ -38,11 +38,11 @@ csttl2cl(csttl, rewrite_map) := block(
       if oklib_monitor then
         print("Translating '", first(a), "(",
           prog_l : prog_l + 1,"/",csttl_len,")"),
-        cstrb : ev_hm(rewrite_hash, cstt_name(a)),
-        if cstrb # false then cstrb[1](a) else (
-          print("Warning: \"", cstt_name(a),
-                "\" does not match any rewrite mapping! Mapped to []."),
-          []))),
+      cstrb : ev_hm(rewrite_hash, cstt_name(a)),
+      if cstrb # false then cstrb[1](a) else (
+        print("Warning: \"", cstt_name(a),
+              "\" does not match any rewrite mapping! Mapped to []."),
+        []))),
   csttl)))$
 
 csttl2fcl(csttl, var_list, rewrite_map) := block(
@@ -53,18 +53,19 @@ csttl2fcl(csttl, var_list, rewrite_map) := block(
       if oklib_monitor then
         print("Translating '", first(a), "(",
           prog_l : prog_l + 1,"/",csttl_len,")"),
-        cstrb : ev_hm(rewrite_hash, cstt_name(a)),
-        if cstrb # false then block(
-          new_var_list : append(new_var_list, cstrb[2](a)),
-          cstrb[1](a)) else (
-          print("Warning: \"", cstt_name(a),
-                "\" does not match any rewrite mapping! Mapped to []."),
-          []))),
+      cstrb : ev_hm(rewrite_hash, cstt_name(a)),
+      if cstrb # false then block(
+        new_var_list : append(new_var_list, cstrb[2](a)),
+        cstrb[1](a))
+      else (
+        print("Warning: \"", cstt_name(a),
+          "\" does not match any rewrite mapping! Mapped to []."),
+        []))),
   csttl)),
   return([new_var_list, cl]))$
 
 /****************************************
- * Translation bundles                      *
+ * Translation bundles                  *
  ****************************************
 */
 

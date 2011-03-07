@@ -7,47 +7,64 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_2_4/4_13.hpp
-  \brief Investigations into small scale AES key discovery for one round AES with a 2x2 block and 4-bit field elements (4+1/3)
+  \brief Investigations into small scale AES key discovery for 4 + 1/3 round AES with a 2x2 plaintext matrix and 4-bit field elements
 
 
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   4 + 1/3 round small scale AES with two columns and two rows. </li>
-   <li> The AES encryption scheme we model takes a 16-bit plaintext,
-   16-bit key and applies the following operations:
+   4 + 1/3 round small scale AES with two rows, two columns, using the 4-bit
+   field size. </li>
+   <li> The AES encryption scheme we model takes a 16-bit plaintext and
+   16-bit key and outputs a 16-bit ciphertext. The plaintext, key and 
+   ciphertext are all considered, column by column, as 2x2 matrices of 4-bit 
+   elements. </li>
+   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc), 
+   the 4-bit element at position (i,j) in the matrix is the ((i-1)*2 + j)-th 
+   4-bit word of the 16-bits. </li>
+   <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
+   b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
+   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
+   </li>
+   <li> The encryption scheme applies the following operations:
    <ol>
-    <li> Round (iterated n times):
+    <li> Round (iterated four times):
     <ol>
      <li> Addition of round key (n-1). </li>
-     <li> Application of SubBytes (Sbox to each byte) operation. </li>
+     <li> Application of SubBytes (Sbox to each 4-bit element) operation. </li>
      <li> Application of linear diffusion operation. </li>
     </ol>
     </li>
-    <li> Addition of round key n yielding the ciphertext. </li>
+    <li> Addition of round key 4 yielding the ciphertext. </li>
    </ol>
    </li>
-   <li> The linear diffusion operation applies a shift of row i by i-1 
-   bytes to the left and then applies the AES MixColumns operation
-   (a matrix multiplication at the byte level). </li>
-   <li> Note we have the following number of full rounds, special rounds,
-   sboxes in the rounds, additions in the rounds, multiplications by each 
-   field element, sboxes in the key expansion, additions in the key expansion 
-   and constants in the key expansion:
-   \verbatim
-> component_statistics_ss(4,2,2,4,false,aes_mc_bidirectional);
-[4,0,16,208,[[x,32],[x+1,32]],8,64,16] 
-> component_statistics_ss(4,2,2,4,false,aes_mc_forward);
-[4,0,16,144,[[x,16],[x+1,16]],8,64,16] 
-   \endverbatim
-   Note that the inverse diffusion operation uses the same multiplication
-   constants as the diffusion operation.
+   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
+   defined as inversion within the 4-bit field composed with an affine
+   transformation. </li>
+   <li> The linear diffusion operation applies a linear permutation to
+   the input matrix, consisting of:
+   <ol>
+    <li> A shift of row i by i-1 to the left for all i from 1 to the number of
+    rows. </li>
+    <li> The AES MixColumns operation, which takes the input matrix and
+    applies a matrix multiplication by the constant matrix 
+    \verbatim
+maxima> ss_mixcolumns_matrix(2,4,2);
+ matrix([x+1,x],[x,x+1])
+    \endverbatim
+    over the 4-bit field. As it is a matrix multiplication, this operation can
+    be broken down into a "MixColumn" operation on each column of the input
+    matrix. </li>
+   </ol>
    </li>
   </ul>
 
 
-  \todo Using the canonical translation
+  \todo Using the canonical box translation
   <ul>
+   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   as whole boxes and translating these boxes using the canonical translation.
+   </li>
    <li> Generating small scale AES for 4 + 1/3 rounds:
    \verbatim
 rounds : 4$
@@ -72,11 +89,64 @@ shell> cat ssaes_r4_c2_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
 16 88
    \endverbatim
    </li>
-   <li> We have the following statistics (computed):
+   <li> In this translation, we have:
+   <ul>
+    <li> Four full rounds (Key Addition, SubBytes, and diffusion operation).
+    </li>
+    <li> 16 Sboxes in the SubBytes operation
+    (2 rows * 2 columns * 4 rounds = 16). </li>
+    <li> 208 additions within the round and key additions, coming from:
+     <ul>
+      <li> 80 additions from key additions 
+      (5 round keys * 16-bit additions = 80). </li>
+      <li> 128 additions from the matrix multiplication in the diffusion 
+      operation (2 rows * 2 columns * 2 directions * 4 bits * 4 rounds = 128).
+      </li>
+     </ul>
+    </li>
+    <li> 32 multiplications by 02 from the MixColumns operation
+    (2 rows * 2 columns * 2 directions * 4 rounds = 32). </li>
+    <li> 32 multiplications by 03 from the MixColumns operation
+    (2 rows * 2 columns * 2 directions * 4 rounds = 32). </li>
+    <li> 8 Sboxes in the AES key schedule
+    (2 rows * 4 rounds = 8). </li>
+    <li> 64 additions in the key schedule:
+    <ul>
+     <li> 16 additions of arity three
+     (1 row * 1 column * 4 bits * 4 rounds = 16). </li>
+     <li> 48 additions of arity two 
+     ((1 rows * 2 columns + 1 row * 1 column) * 4 bits * 4 rounds = 48). 
+     </li>
+    </ul>
+    </li>
+    <li> 16 bits for the constant in the key schedule. 
+    (4 bits * 4 rounds = 16). </li>
+   </ul>
+   </li>
+   <li> The number of clauses of each length in the translation, computed by:
    \verbatim
-maxima> for r : 1 thru 10 do print(ncl_list_ss(r,2,2,4,false,aes_ts_box,aes_mc_bidirectional));
-[[1,16],[2,11264],[3,1024],[4,128],[9,1408],[16,88]] 
+maxima> ncl_list_ss(4,2,2,4,false,aes_ts_box,aes_mc_bidirectional);
+[[1,16],[2,11264],[3,1024],[4,128],[9,1408],[16,88]]
+maxima> ncl_list_ss_gen(4,2,2,4,ss_mixcolumns_matrix(2,4,2),[[2,'s2],[9,'s9],[16,'s16]],[[x,[[2,'m2_2],[9,'m2_9],[16,'m2_16]]],[x+1,[[2,'m3_2],[9,'m3_9],[16,'m3_16]]]],false,aes_mc_bidirectional);
+[[1,16],[2,24*s2+32*m3_2+32*m2_2],[3,1024],[4,128],[9,24*s9+32*m3_9+32*m2_9],
+        [16,24*s16+32*m3_16+32*m2_16]]
+maxima> ncl_list_full_dualts(8,16);
+[[2,128],[9,16],[16,1]]
    \endverbatim
+   are comprised of:
+   <ul>
+    <li> 16 unit clauses for the 4-bit constants in the key expansion. </li>
+    <li> 11264 binary clauses, coming from 24 Sboxes and 32 of each of the two
+    multiplications (88 * 128 = 11264). </li>
+    <li> 1024 ternary clauses, coming from 136 additions of arity two
+    (256 * 4 = 1024). </li>
+    <li> 128 clauses of length four, coming from 16 additions of arity three
+    (16 * 8 = 128). </li>
+    <li> 1408 clauses of length seven, coming from 24 Sboxes and 32 of each of
+    the two multiplications (88 * 16 = 1408). </li>
+    <li> 88 clauses of length sixteen, coming from from 24 Sboxes and 32 of 
+    each of the two multiplications (88 * 1 = 88). </li>
+   </ul>
    </li>
    <li> Then we can generate random assignments with the plaintext and 
    ciphertext, leaving the key unknown:

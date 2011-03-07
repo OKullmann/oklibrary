@@ -22,35 +22,41 @@ License, or any later version. */
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   one round AES without the MixColumns operation. </li>
-   <li> The AES encryption scheme we model takes a 128-bit plaintext,
-   128-bit key and applies the following operations:
+   0 + 2/3 + 1/3 round small scale AES with four rows, two columns, using the
+   8-bit field size. </li>
+   <li> The AES encryption scheme we model takes a 128-bit plaintext and
+   128-bit key and outputs a 128-bit ciphertext. The plaintext, key and 
+   ciphertext are all considered, column by column, as 4x4 matrices of 8-bit 
+   elements. </li>
+   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc), 
+   the 8-bit element at position (i,j) in the matrix is the ((i-1)*4 + j)-th 
+   8-bit word of the 128-bits. </li>
+   <li> The 8-bit element (b_0,b_1,b_2,b_3,b_4,b_5,b_6,b_7) is considered as 
+   the polynomial b_0 * x^7 + b_1 * x^6 + b_2 * x^5 + b_4 * x^3 + b_5 * x^2 + 
+   b^6 * x + b_7. Addition and multiplication on these polynomials is defined
+   as usual, modulo the polynomial x^8+x^4+x^3+x+1. </li>
+   <li> The encryption scheme applies the following operations:
    <ol>
     <li> Addition of round key 0 (input key) to plaintext. </li>
-    <li> Application of SubBytes (Sbox to each byte) operation. </li>
+    <li> Application of SubBytes (Sbox to each 8-bit element) operation. </li>
+    <li> A shift of row i by i-1 to the left for all i from 1 to the number of
+    rows. </li>
     <li> Addition of round key 1, resulting in the ciphertext. </li>
    </ol>
    </li>
-   <li> Note we have the following number of full rounds, special rounds,
-   sboxes in the rounds, additions in the rounds, multiplications by each 
-   field element, sboxes in the key expansion, additions in the key expansion 
-   and constants in the key expansion:
-   \verbatim
-> component_statistics_ss(1,4,4,8,true,aes_mc_bidirectional);
-[0,1,16,256,[],4,128,8]
-> component_statistics_ss(1,4,4,8,true,aes_mc_forward);
-[0,1,16,256,[],4,128,8]
-   \endverbatim
-   </li>
+   <li> The Sbox is non-linear permutation over the set of 8-bit elements,
+   defined as inversion within the 8-bit field composed with an affine
+   transformation. </li>
   </ul>
 
 
-  \todo Using the canonical translation
+  \todo Using the canonical box translation
   <ul>
-   <li> Generating AES-instance for 1 round (without MixColumns):
-    <ol>
-     <li> First generating the basic instance in Maxima:
-     \verbatim
+   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   as whole boxes and translating these boxes using the canonical translation.
+   </li>
+   <li> Generating AES-instance for 0 + 2/3 + 1/3 round:
+   \verbatim
 num_rounds : 1;
 num_columns : 4;
 num_rows : 4;
@@ -71,17 +77,58 @@ shell> cat ssaes_r1_c4_rw4_e8_f1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
 4 64
 17 5120
 256 20
-     \endverbatim
-     </li>
-     <li> The measured statistics match up to the computed statistics:
-     \verbatim
+   \endverbatim
+   </li>
+   <li> In this translation, we have:
+   <ul>
+    <li> One special round (Key Addition, SubBytes, and ShiftRows).
+    </li>
+    <li> 16 Sboxes in the SubBytes operation (4 rows * 4 columns = 16). </li>
+    <li> 256 additions within the round and key additions, coming from:
+     <ul>
+      <li> 256 additions from key additions 
+      (2 round keys * 128-bit additions = 256). </li>
+     </ul>
+    </li>
+    <li> 4 Sboxes in the AES key schedule (4 rows). </li>
+    <li> 128 additions in the key schedule:
+    <ul>
+     <li> 8 additions of arity three 
+     (1 row * 1 column * 8 bits = 8). </li>
+     <li> 120 additions of arity two 
+     ((3 rows * 4 columns + 1 rows * 3 columns) * 8 bits = 120). </li>
+    </ul>
+    </li>
+    <li> 8 bits for the constant in the key schedule. </li>
+   </ul>
+   </li>
+   <li> The number of clauses of each length in the translation, computed by:
+   \verbatim
 maxima> ncl_list_ss(1,4,4,8,true,aes_ts_box,aes_mc_bidirectional);
 [[1,8],[2,81920],[3,1504],[4,64],[17,5120],[256,20]]
-     \endverbatim
-     </li>
-     <li> Then we generate a random assignment with the plaintext and 
-     ciphertext, leaving the key unknown:
-     \verbatim
+maxima> ncl_list_ss_gen(1,4,4,8,ss_mixcolumns_matrix(2,8,4),[[2,'s2],[9,'s9],[16,'s16]],[],true,aes_mc_bidirectional);
+[[1,8],[2,20*s2],[3,1504],[4,64],[9,20*s9],[16,20*s16]]
+maxima> ncl_list_full_dualts(16,256);
+[[2,4096],[17,256],[256,1]]
+   \endverbatim
+   are comprised of:
+   <ul>
+    <li> 8 unit clauses for the 8-bit constant in the key expansion. </li>
+    <li> 81920 binary clauses, coming from 20 Sboxes 
+    (20 * 4096 = 81920). </li>
+    <li> 1504 ternary clauses, coming from 376 additions of arity two
+    (376 * 4 = 1504). </li>
+    <li> 64 clauses of length four, coming from 8 additions of arity three
+    (8 * 8 = 64). </li>
+    <li> 5120 clauses of length seventeen, coming from 20 Sboxes
+    (20 * 256 = 5120). </li>
+    <li> 20 clauses of length 256, coming from from 20 Sboxes
+    (20 * 1 = 20). </li>
+   </ul>
+   </li>
+   <li> Then we generate a random assignment with the plaintext and 
+   ciphertext, leaving the key unknown:
+   \verbatim
 output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
 
 > cat ssaes_pcpair_r1_c4_rw4_e8_f1_s1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
@@ -89,14 +136,12 @@ output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b)
 256 256 256 0 256 1 1
  length count
 1 256
-     \endverbatim
-     </li>
-     <li> Finally we merge the assignment with the basic instance:
-     \verbatim
+   \endverbatim
+   </li>
+   <li> Finally we merge the assignment with the basic instance:
+   \verbatim
 shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pcpair_r1_c4_rw4_e8_f1_s1.cnf > ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
-     \endverbatim
-     </li>
-    </ol>
+    \endverbatim
    </li>
    <li> Overall, most of the solvers in the OKlibrary solve the problem in
    either < 30s or < 6m. </li>
@@ -175,10 +220,10 @@ propagations          : 5270395        (53637 /sec)
 conflict literals     : 9386723        (16.92 % deleted)
 Memory used           : 66.55 MB
 CPU time              : 98.26 s
-   \endverbatim
-   </li>
-   <li> march_pl solves it in 19.92s:
-   \verbatim
+  \endverbatim
+  </li>
+  <li> march_pl solves it in 19.92s:
+  \verbatim
 shell> march_pl ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
 c main():: nodeCount: 5
 c main():: dead ends in main: 0

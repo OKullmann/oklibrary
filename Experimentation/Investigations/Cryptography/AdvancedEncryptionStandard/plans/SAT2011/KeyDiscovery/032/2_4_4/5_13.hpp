@@ -6,31 +6,57 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/4_2_4/5_13.hpp
-  \brief Investigations into small scale AES key discovery for 5+1/3 round AES with a 4x2 block and 4-bit field elements
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/2_4_4/5_13.hpp
+  \brief Investigations into small scale AES key discovery for 5+1/3 round AES with a 2x4 plaintext matrix and 4-bit field elements
 
 
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   5 + 1/3 round small scale AES with four columns, two rows,
-   using the 4-bit field size. </li>
-   <li> The AES encryption scheme we model takes a 32-bit plaintext,
-   32-bit key and applies the following operations:
+   5 + 1/3 round small scale AES with two rows, four columns, using the 4-bit
+   field size. </li>
+   <li> The AES encryption scheme we model takes a 32-bit plaintext and
+   32-bit key and outputs a 32-bit ciphertext. The plaintext, key and 
+   ciphertext are all considered, column by column, as 2x4 matrices of 4-bit 
+   elements. </li>
+   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc), 
+   the 4-bit element at position (i,j) in the matrix is the ((i-1)*2 + j)-th 
+   4-bit word of the 32-bits. </li>
+   <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
+   b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
+   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
+   </li>
+   <li> The encryption scheme applies the following operations:
    <ol>
     <li> The round function iterated five times, consisting of (for 
     round 0 <= i < 5):
     <ol>
      <li> Addition of round key i-1 to plaintext. </li>
-     <li> Application of SubBytes (Sbox to each byte) operation. </li>
+     <li> Application of SubBytes (Sbox to each 4-bit element) operation. </li>
      <li> Application of linear diffusion operation. </li>
     </ol>
     <li> Addition of round key 5, resulting in the ciphertext. </li>
    </ol>
    </li>
-   <li> The linear diffusion operation applies a shift of row i by i-1 
-   bytes to the left and then applies the AES MixColumns operation. 
-   (a matrix multiplication at the byte level). </li>
+   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
+   defined as inversion within the 4-bit field composed with an affine
+   transformation. </li>
+   <li> The linear diffusion operation applies a linear permutation to
+   the input matrix, consisting of:
+   <ol>
+    <li> A shift of row i by i-1 to the left for all i from 1 to the number of
+    rows. </li>
+    <li> The AES MixColumns operation, which takes the input matrix and
+    applies a matrix multiplication by the constant matrix 
+    \verbatim
+maxima> ss_mixcolumns_matrix(2,4,2);
+ matrix([x+1,x],[x,x+1]
+    \endverbatim
+    over the 4-bit field. As it is a matrix multiplication, this operation can
+    be broken down into a "MixColumn" operation on each column of the input
+    matrix. </li>
+   </ol>
+   </li>
    <li> In this file, we collect:
    <ul>
     <li> Solvable in 903.5 seconds by picosat, see "Using the rbase box 
@@ -42,6 +68,9 @@ License, or any later version. */
   
   \todo Using the rbase box translation
   <ul>
+   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   as whole boxes and translating these boxes using r_1-base translations.
+   </li>
    <li> Generating small scale AES for 5 + 1/3 round:
    \verbatim
 num_rounds : 5$
@@ -64,41 +93,37 @@ shell> cat ssaes_r5_c4_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
 4 1550
    \endverbatim
    </li>
-   <li> Note we have the following numbers of each type of box in this 
-   translation:
-   \verbatim
-maxima> component_statistics_ss(5,4,2,4,false,aes_mc_bidirectional);
-[5,0,40,512,[[x,80],[x+1,80]],10,160,20]
-   \endverbatim
-   That is, we have:
+   <li> In this translation, we have:
    <ul>
     <li> Five full rounds (Key Addition, SubBytes, and diffusion operation).
     </li>
-    <li> No special rounds (Key Addition, SubBytes and ShiftRows). </li>
-    <li> 40 Sboxes in the AES round components. This comes from the four 
-    columns and two rows of the block with five rounds. </li>
+    <li> 40 Sboxes in the SubBytes operation 
+    (2 rows * 4 columns * 5 rounds = 8). </li>
     <li> 512 additions within the round and key additions, coming from:
      <ul>
-      <li> Six 32-bit key additions (adding two bits), yielding 
-      64 additions of arity two in total. </li>
-      <li> Two additions for the MixColumn operation over four columns, 
-      applied twice (forward and backward) over five rounds, yielding 512 
-      additions of arity two in total. </li>
+      <li> 192 additions from key additions 
+      (6 round keys * 32-bit additions = 192). </li>
+      <li> 320 additions from the matrix multiplication in the diffusion 
+      operation (2 rows * 4 columns * 2 directions * 4 bits * 5 rounds = 320).
+      </li>
      </ul>
     </li>
-    <li> 80 multiplications each by 02 and 03 across the MixColumns 
-    operations. Two 02 multiplications and two 03 from each MixColumn
-    matrix mulitiplication, across four columns, applied twice (once
-    forward and once in for the inverse MixColumn) across five rounds, giving 
-    2 * 4 * 2 * 5 = 80 instances of each multiplication. </li>
-    <li> 2 Sboxes in the AES key schedule per round, yielding 10 overall. 
+    <li> 80 multiplications by 02 from the MixColumns operation
+    (2 rows * 4 columns * 2 directions * 5 rounds = 80). </li>
+    <li> 80 multiplications by 03 from the MixColumns operation
+    (2 rows * 4 columns * 2 directions = 80). </li>
+    <li> 10 Sboxes in the AES key schedule (2 rows * 5 rounds = 10). </li>
+    <li> 160 additions in the key schedule:
+    <ul>
+     <li> 20 additions of arity three 
+     (1 row * 1 column * 4 bits * 5 rounds = 20). </li>
+     <li> 140 additions of arity two 
+     ((1 rows * 3 columns + 2 rows * 2 columns) * 4 bits * 5 rounds = 140). 
+     </li>
+    </ul>
     </li>
-    <li> 32 additions in the key schedule per round, yielding 5 * 32 = 160 
-    overall. One addition of arity three for each bit in one element in the 
-    AES key, and one addition of arity two for all remaining bits in the key 
-    schedule (160 - (5*4) = 140). </li>
-    <li> 4 bits for the constant in the key schedule in each round, yielding
-    5 * 4 = 20 bits overall. </li>
+    <li> 20 bits for the constant in the key schedule 
+    (4 bits * 5 rounds = 20). </li>
    </ul>
    </li>
    <li> The number of clauses of each length in the translation, computed by:
@@ -117,7 +142,7 @@ maxima> ncl_list_fcs(ev_hm(ss_field_rbase_cnfs,[4,3]));
    \endverbatim
    are comprised of:
    <ul>
-    <li> 20 unit clauses for the 4-bit constants in the Key schedule. </li>
+    <li> 20 unit clauses for the 4-bit constants in the key expansion. </li>
     <li> 480 binary clauses, coming from 50 Sboxes and 80 of each of the two 
     multiplications ((50 * 0) + (80 * 6) + (80 * 0) = 480). </li>
     <li> 4808 ternary clauses, coming from 652 additions of arity two,
