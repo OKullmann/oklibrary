@@ -126,6 +126,17 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> n=1339:
+    <ol>
+     <li> ddfw, cutoff=10^7:
+     \verbatim
+  1   2   3   4   5   6   7
+  4  32 112 120  66  19   5
+358
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 

@@ -166,6 +166,14 @@ License, or any later version. */
 1000
      \endverbatim
      </li>
+     <li> ddfw, cutoff=10^7:
+     \verbatim
+  1   2   3   4   5
+ 12  60 229 296  34
+631
+     \endverbatim
+     Seems clearly worse than adaptg2wsat.
+     </li>
     </ol>
    </li>
   </ul>
