@@ -62,8 +62,22 @@ Evaluation took 7.1600 seconds (7.4840 elapsed)
    and even in interpreted languages like python, this takes
    only 0.2 seconds. </li>
    <li> MG has sent an e-mail to the Maxima mailing list regarding
-   this issue. The results of this discussion is needed now. And what are
-   the possible actions? </li>
+   this issue. </li>
+   <li> It is suggested on the Maxima mailing list that the reason
+   for slow printing is the checking and simplification Maxima performs
+   on the expression passed to print. </li>
+   <li> For faster output of strings, we should pass the output directly
+   to lisp print functions.
+   \verbatim
+maxima> A : apply(sconcat,create_list("1",i,1,500))$
+maxima> with_stdout("test.txt", for i : 1 thru 100000 do print(A))$
+Evaluation took 8.9100 seconds (9.1250 elapsed)
+maxima> with_stdout("test.txt", for i : 1 thru 100000 do (?princ(A), ?terpri()))$
+Evaluation took 3.3100 seconds (3.6900 elapsed)
+   \endverbatim
+   </li>
+   <li> Note that the lisp function princ doesn't print an extra space
+   after the string, whereas Maxima's print function does. </li>
   </ul>
 
 
