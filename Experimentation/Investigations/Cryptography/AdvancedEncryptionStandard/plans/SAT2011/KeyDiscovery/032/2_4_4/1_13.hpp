@@ -200,6 +200,7 @@ c conflict literals        : 6178        (21.18     % deleted)
 c Memory used              : 30.70       MB
 c CPU time                 : 0.03        s
    \endverbatim
+   ??? what does "Verified 1017 clauses." mean here ???
    </li>
    <li> OKsolver solves it in 0.9s:
    \verbatim
