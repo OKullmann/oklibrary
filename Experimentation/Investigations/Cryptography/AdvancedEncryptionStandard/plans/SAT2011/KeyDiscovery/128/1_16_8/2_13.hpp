@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/1_16_8/2_13.hpp
-  \brief Investigations into small scale AES key discovery for 2+/13 round AES with one row and 16 columns
+  \brief Investigations into small scale AES key discovery for 2+1/3 round AES with one row and 16 columns
 
 
   \todo Problem specification
