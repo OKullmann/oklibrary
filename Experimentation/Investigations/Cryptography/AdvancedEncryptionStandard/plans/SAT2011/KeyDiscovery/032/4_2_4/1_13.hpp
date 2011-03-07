@@ -165,7 +165,7 @@ maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_
 shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c2_rw4_e4_f0.cnf ssaes_pkpair_r1_c2_rw4_e4_f0_s1.cnf > r1_keyfind.cnf
    \endverbatim
    </li>
-   <li> OKsolver solves this without backtracking:
+   <li> OKsolver_2002:
    \verbatim
 shell> OKsolver_2002-O3-DNDEBUG r1_keyfind.cnf
 s SATISFIABLE
