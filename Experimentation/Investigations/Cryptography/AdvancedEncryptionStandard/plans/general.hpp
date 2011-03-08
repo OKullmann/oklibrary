@@ -34,10 +34,10 @@ License, or any later version. */
    Encryption Standard;Cid,Murphy Robshaw] to the SAT 2011 conference (see
    http://www.lri.fr/SAT2011/). </li>
    <li> For investigations and open problems in this area see
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp .
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp.
    </li>
    <li> This should also link in with 
-   Experimentation/Investigations/plans/CurrentExperiments.hpp . </li>
+   Experimentation/Investigations/plans/CurrentExperiments.hpp. </li>
   </ul>
 
 
@@ -47,7 +47,7 @@ License, or any later version. */
    a fraction of a second using when run using "run_all_solvers_2by2" 
    while they clearly take much much longer when run separately. </li>
    <li> See "Using the canonical translation" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/2_4_4/1_13.hpp .
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/2_4_4/1_13.hpp.
    </li>
    <li> Just use "time"! </li>
   </ul>
@@ -78,10 +78,10 @@ License, or any later version. */
   <ul>
   <li> The following scripts:
   <ul>
-   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_oksolver . </li>
-   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/cardinality_bounded_cnf . </li>
-   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/extend_strict_dimacs_with_extended . </li>
-   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/all_minimum_cnf . </li>
+   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_oksolver. </li>
+   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/cardinality_bounded_cnf. </li>
+   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/extend_strict_dimacs_with_extended. </li>
+   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/all_minimum_cnf. </li>
   </ul>
   need the following changes:
   <ul>
