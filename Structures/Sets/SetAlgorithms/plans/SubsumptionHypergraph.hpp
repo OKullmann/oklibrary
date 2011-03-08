@@ -64,9 +64,6 @@ License, or any later version. */
    output to separate files. </li>
   </ul>
 
-
-  \todo Write application tests for SubsumptionHypergraph.cpp : DONE
-
 */
 
 

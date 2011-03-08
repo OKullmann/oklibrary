@@ -59,14 +59,6 @@ License, or any later version. */
 
   \todo More unit tests
 
-  \bug DONE Test failure
-  <ul>
-   <li> Bug was introduced by OK during cleanup of code, as 
-   "count++" -> "++count" was not equivalent in the place it
-   was changed. </li>
-   <li> MG's use of "count++" *was* intentional but misguided. </li>
-  </ul>
-
 */
 
 #ifndef SUBSUMPTION_HYPERGRAPH_yhgBBv567

@@ -8,20 +8,7 @@ License, or any later version. */
 /*!
   \file Structures/Sets/SetAlgorithms/plans/milestones.hpp
 
-  \module_version Structures/Sets/SetAlgorithms 0.3.1 (22.12.2007)
-
-
-  \par Version 0.3.2 :
-
-  \par
-   In Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp the
-   following items are handled:
-    - Test failure : DONE
-
-  \par
-   In Structures/Sets/SetAlgorithms/plans/SubsumptionHypergraph.hpp the
-   following items are handled:
-    - Write application tests for SubsumptionHypergraph.cpp : DONE
+  \module_version Structures/Sets/SetAlgorithms 0.3.2 (8.3.2011)
 
 
   \par Version 0.3.3 :
@@ -84,5 +71,6 @@ License, or any later version. */
 
    - 0.3   : 19.11.2006; initial version number (several components).
    - 0.3.1 : 22.12.2007; moved to supermodule Structures/Sets, and editorial updates.
+   - 0.3.2 : 8.3.2011; Added subsumption hypergraph generator, including tests.
 
 */

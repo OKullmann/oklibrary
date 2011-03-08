@@ -12,8 +12,5 @@ License, or any later version. */
 
   \todo Create a milestones file.
 
-
-  \todo Move module SetAlgorithms to here. DONE
-
 */
 
