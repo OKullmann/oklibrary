@@ -10,6 +10,20 @@ License, or any later version. */
   \brief Investigations into representations for components of the AES related to the SAT 2011 paper
 
 
+  \todo Considering output bits on their own
+  <ul>
+   <li> For better comparison with the DES-paper (see
+   Cryptography/AdvancedEncryptionStandard/plans/general.hpp), we also need
+   to consider the treatment of the boxes as 8 boolean functions (one for each
+   output bit). </li>
+   <li> In this way at least encryption by just UCP is ensured. </li>
+   <li> We need to compare it with our standard approach, considering the
+   whole boolean function. </li>
+   <li> This needs to be done for all approaches (minimum, canonical, and
+   bases). </li>
+  </ul>
+
+
   \todo Overview
   <ul>
    <li> One needs to systematically explore CNF representations, with and
