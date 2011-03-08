@@ -11,12 +11,6 @@ License, or any later version. */
   \module_version Structures 0.0.6 (8.3.2011)
 
 
-  \par Version 0.0.6 :
-
-  \par Structures/Sets/SetAlgorithms version 0.3.2
-  (see Sets/SetAlgorithms/plans/milestones.hpp)
-
-
   \par Version 0.0.7 :
 
   \par Structures/Sets/SetAlgorithms version 0.3.4
