@@ -21,7 +21,7 @@ License, or any later version. */
   \par
    In Structures/Sets/SetAlgorithms/plans/SubsumptionHypergraph.hpp the
    following items are handled:
-    - Write application tests for SubsumptionHypergraph.cpp (MG)
+    - Write application tests for SubsumptionHypergraph.cpp : DONE
 
 
   \par Version 0.3.3 :

@@ -1,5 +1,5 @@
 // Matthew Gwynne, 15.9.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,9 +9,6 @@ License, or any later version. */
   \file Structures/Sets/SetAlgorithms/plans/SubsumptionHypergraph.hpp
   \brief Plans for subsumption hypergraph generator
   
-  
-  \todo Write application tests for SubsumptionHypergraph.cpp
-
   
   \todo Test performance of Subsumption_Hypergraph generator
   <ul>
@@ -66,6 +63,9 @@ License, or any later version. */
    guarantee output ordering of the hyperedges however, although they could be
    output to separate files. </li>
   </ul>
+
+
+  \todo Write application tests for SubsumptionHypergraph.cpp : DONE
 
 */
 
