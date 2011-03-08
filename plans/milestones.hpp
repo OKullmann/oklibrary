@@ -28,7 +28,7 @@ License, or any later version. */
   (see Buildsystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.3 (OK, MG)
   (see OKlib/ComputerAlgebra/plans/milestones.hpp)
-  \par Structures version 0.0.6
+  \par Structures version 0.0.6 : DONE
   (see OKlib/Structures/plans/milestones.hpp)
   \par Experimentation version 0.4.1 : DONE
   (see Experimentation/plans/milestones.hpp)
