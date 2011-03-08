@@ -123,7 +123,8 @@ License, or any later version. */
     <li> 4 bit key:
      <ul>
       <li> 1 column, 1 row, 4 bits up to <em>20 + 1/3</em> rounds in 
-      <em> 0.0 </em> seconds with OKsolver in 004/1_1_4/20_13.hpp. </li>
+      <em> 0.0 </em> seconds, and  with <em> 1 </em> decision, with OKsolver
+      in 004/1_1_4/20_13.hpp. </li>
      </ul>
     </li>
    </ul>
