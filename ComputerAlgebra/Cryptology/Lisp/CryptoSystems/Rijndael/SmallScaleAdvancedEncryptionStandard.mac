@@ -428,6 +428,19 @@ ss_mixcolumn_boolm(b,e,rows) :=
   ss_mixcolumn_gen_boolm(b,e,ss_polynomial(b,e),
     ss_mixcolumns_matrix(b,e,rows))$
 
+/* The small scale SubBytes followed by MixColumns operation on a single
+   column of the AES block as a boolean function: */
+ss_round_column_gen_bf(V,b,e,mod_poly,mixcolumns_matrix,sbox_f_) := block(
+  [Vec : map(vec2poly,partition_elements(V,e))],
+  lappend(
+    m2l_r(matrixmap(lambda([E],poly2vec_ss(E,e)),
+          ss_mixcolumn_gen(
+            ss_subbytes(Vec,sbox_f_),b,e,mod_poly,mixcolumns_matrix)))))$
+ss_round_column_bf(V,b,e) := 
+  ss_round_column_gen_bf(V,b,e,ss_polynomial(b,e),
+    ss_mixcolumns_matrix(b,e,floor(length(V)/e)),
+    lambda([p],ss_sbox(p,b,e)))$
+
 /* Takes a (maxima) matrix of polynomials and returns the result of
    multiplying the input matrix by the given mixcolumns_matrix
    in field specified by b, e and mod_poly.

@@ -224,6 +224,21 @@ okltest_ss_mixcolumn_gen_boolm(f) := block(
             m2l_r(f(b,e,mod_poly,mixcolumns_matrix) . columnvector(V)),2))))),
   true)$
 
+okltest_ss_round_column_gen_bf(f) := block(
+    assert(f(create_list(0,i,1,32),2,8,
+      ss_polynomial_2_8,ss_mixcolumns_matrix_2_8_4,
+      lambda([p],ss_sbox(p,2,8))) =
+    [0,1,1,0,0,0,1,1,0,1,1,0,0,0,1,1,0,1,1,0,0,0,1,1,0,1,1,0,0,0,1,1]),
+  assert(f(
+      [0,0,1,1,0,0,1,0,0,1,0,0,0,0,1,1,0,0,0,0,0,1,1,1,0,0,1,1,0,1,0,0],2,8,
+      ss_polynomial_2_8,ss_mixcolumns_matrix_2_8_4,
+      lambda([p],ss_sbox(p,2,8))) =
+    [1,0,1,1,0,1,0,1,0,1,0,1,1,0,1,1,1,0,0,0,0,0,0,0,1,0,0,0,1,0,1,0]),
+  if oklib_test_level = 0 then return(true),
+  okltest_ss_mixcolumn_gen_bf(
+    buildq([f],lambda([V,b,e,poly,mc],f(V,b,e,poly,mc,lambda([p],p))))),
+  true)$
+
 okltest_ss_inv_mixcolumn_gen(f) := block(
   assert(f(ss_natl2m([0,0,0,0],2,4),2,8,
       ss_polynomial_2_8,ss_inv_mixcolumns_matrix_2_8_4) =
