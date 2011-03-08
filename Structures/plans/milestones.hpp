@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file OKlib/Structures/plans/milestones.hpp
 
-  \module_version Structures 0.0.5 (27.8.2007)
+  \module_version Structures 0.0.6 (8.3.2011)
 
 
   \par Version 0.0.6 :
@@ -52,6 +52,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.5 : 27.8.2007; initial version number (some components and experience with module Cryptology, plans with module NumberTheory/BigIntegers)
+   - 0.0.6 : 8.3.2011; implementations of ranking and approximation functions at the NumberTheory level and generators at the Sets level.
 
 */
 

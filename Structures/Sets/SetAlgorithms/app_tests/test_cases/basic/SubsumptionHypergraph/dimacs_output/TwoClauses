@@ -1,0 +1,4 @@
+c Subsumption hypergraph for app_tests/test_cases/basic/SubsumptionHypergraph/F_TwoClauses.cnf and app_tests/test_cases/basic/SubsumptionHypergraph/G_TwoClauses.cnf
+p cnf 1 2
+1 0
+1 0

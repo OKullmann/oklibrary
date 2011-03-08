@@ -10,17 +10,21 @@ License, or any later version. */
   \brief Module, which implements a subsumption hypergraph generator
 
   Given two set systems F and G, the subsumption hypergraph of F with
-  respect to G is the hypergraph with F as the vertex set and a hyperedge H
-  for every set S in G, where H is the largest subset of F where every T in H 
-  subsumes (i.e. is a subset of) S.
+  respect to G is the hypergraph (F,E) where
+    
+    * F is the vertex set,
+    * E is the set of hyperedges H such that for every set S in G, H is the 
+      largest subset of F where every T in H subsumes (i.e. is a subset of) S.
 
-  One typically doesn't need the original sets from G and wants a standardised
-  version, and also wants an ordered version rather than using sets.
+  One typically doesn't need the original sets from G and wants standardised
+  vertex names, rather than sets as vertices. For reproducibility one also 
+  wants an ordered version rather than using sets.
 
   Therefore assuming an order on F and G, one considers the standardised 
-  ordered subsumption hypergraph of F and G with vertex list (1,..,|F|) and
+  ordered subsumption hypergraph of F and G with vertex list (1,...,|F|) and
   hyperedge list (H_1,...,H_|G|) where for all 1 <= j <= |G|, we have that H_j
-  is the sublist of (1,...,|F|) and i is in H_j if F_i subsumes G_j.
+  is a subset of (1,...,|F|) and, for all  1 <= i <= |F|, i is in H_j if F_i 
+  subsumes G_j.
 
   The class implemented here implements the generation of such an ordered
   subsumption hypergraph given (ordered) set systems F and G.
@@ -45,21 +49,15 @@ License, or any later version. */
    <li> DONE And it needs more precision. </li>
   </ul>
 
+
   \todo Organisation
   <ul>
    <li> This submodule must go to Combinatorics/Hypergraphs, since it does not
    provide general set-operations. </li>
   </ul>
 
-  \todo More unit tests
 
-  \bug DONE Test failure
-  <ul>
-   <li> Bug was introduced by OK during cleanup of code, as 
-   "count++" -> "++count" was not equivalent in the place it
-   was changed. </li>
-   <li> MG's use of "count++" *was* intentional but misguided. </li>
-  </ul>
+  \todo More unit tests
 
 */
 
