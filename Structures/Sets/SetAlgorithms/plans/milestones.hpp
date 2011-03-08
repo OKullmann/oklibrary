@@ -71,6 +71,6 @@ License, or any later version. */
 
    - 0.3   : 19.11.2006; initial version number (several components).
    - 0.3.1 : 22.12.2007; moved to supermodule Structures/Sets, and editorial updates.
-   - 0.3.2 : 8.3.2011; added subsumption hypergraph generator, including tests.
+   - 0.3.2 : 8.3.2011; added subsumption hypergraph generator.
 
 */
