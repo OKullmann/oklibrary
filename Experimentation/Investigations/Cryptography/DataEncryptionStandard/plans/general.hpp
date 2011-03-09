@@ -69,6 +69,8 @@ License, or any later version. */
   <ul>
    <li> The reference is [SAT 2000, editors Gent, van Maaren, Walsh, pages
    343-375]. </li>
+   <li> There benchmarks should become part of the OKlibrary (ExternalSources).
+   </li>
    <li> The article speaks about the "commercial version" ? Likely this means
    just full DES? </li>
    <li> It seems superfluous variables are used, since the "superstructure",
@@ -83,14 +85,32 @@ License, or any later version. */
      <li> However on pages 356-357 Espresso and minimisation is mentioned,
      in two versions, considering an S-box as a 6-to-4 bit functions and
      as 4 6-bit functions. </li>
-     <li> Apparently they go for a minimum representation. </li>
+     <li> Apparently they go for a minimum representation? </li>
      <li> If they use the 6-to-4 bit representation, then the output bit
      can't be inferred. </li>
      <li> But using the 4 6-bit functions, the output bit is trivially inferred
      since it's the only variable left. </li>
      <li> So that seems to be it. </li>
+     <li> However in Section 4.3 they speak of "PLAs" ("Programmable Logic
+     Arrays") and of minterms (constituting the canonical DNF, consisting of
+     all full DNF-clauses). </li>
+     <li> We have some information on PLAs in
+     Buildsystem/ExternalSources/SpecialBuilds/docus/Espresso.hpp. We need
+     to have full information there. </li>
+     <li> Then Espresso is used to minimise some PLAs. They speak actually
+     again of "minterms", where they could "obtain a further improvement
+     in terms of the number of minterms associated with each output"?
+     When using (only) minterms, there is no choice! </li>
+     <li> Since in Figure 3 in the article a disjunction of minterms is used,
+     perhaps they use roughly the canonical translation for the full DNF? </li>
     </ol>
    </li>
+   <li> Overall one sees with that article the fundamental problem of "logic
+   cryptoanalysis": Careless use of all sorts of extended boolean formulas,
+   which are then *somehow* transformed into some "clausal form", which is
+   not considered on its own, but is just treated as some sort of "file
+   format". On the contrary, in the OKlibrary full attention is given to
+   clauses (as one would with graphs). </li>
   </ul>
 
 
