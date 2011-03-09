@@ -134,6 +134,13 @@ License, or any later version. */
 1000
      \endverbatim
      </li>
+     <li> adaptg2wsat with cutoff 4*10^7:
+     \verbatim
+  1   2   3   4
+  3  70 144  29
+246
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
