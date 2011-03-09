@@ -129,6 +129,9 @@ ExternalSources/Installations/R> oklib --R
    <li> At the ExternalSources page we need an index-page for the various
    pieces of documentation we have. </li>
    <li> We need to investigate what is in espresso-book-examples.tar.gz. </li>
+   <li> We need to fully specify (in our system, using our language) what
+   "PLAs" are, and create documentation for that. Perhaps we also need that
+   at Maxima-level. </li>
   </ul>
 
 
