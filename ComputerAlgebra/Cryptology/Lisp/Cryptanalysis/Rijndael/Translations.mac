@@ -152,6 +152,7 @@ declare(aes_rbase_box, noun)$
 declare(aes_mc_forward, noun)$
 declare(aes_mc_bidirectional, noun)$
 declare(aes_combined_box, noun)$
+declare(aes_core_round_box, noun)$
 declare(aes_mc_boolm, noun)$
 declare(aes_mc_box, noun)$
 
@@ -212,6 +213,7 @@ ss_csttl(r,ss_num_columns, ss_num_rows, ss_exp, final_round_b, mc_tran) :=
     else if mc_tran = aes_mc_boolm then ss_boolm_rewrite_mapping_std
     else if mc_tran = aes_mc_box then ss_boxmc_rewrite_mapping_std
     else if mc_tran = aes_combined_box then ss_boxcombined_rewrite_mapping_std
+    else if mc_tran = aes_core_round_box then ss_round_column_rewrite_mapping_std
     else ss_rewrite_mapping_std))$
 /*aes_cstt_std_l(r) := aes_csttl(r, aes_mc_forward)$*/
 
@@ -229,6 +231,10 @@ ss_cstt_vars_l(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, mc_tran) :
            ss_mixcolumns_matrix(2,ss_exp,ss_num_rows),final_round_b],
            lambda([a],a))],
       if mc_tran = aes_mc_bidirectional then ss_bimc_rewrite_mapping_std
+      else if mc_tran = aes_mc_boolm then ss_boolm_rewrite_mapping_std
+      else if mc_tran = aes_mc_box then ss_boxmc_rewrite_mapping_std
+      else if mc_tran = aes_combined_box then ss_boxcombined_rewrite_mapping_std
+      else if mc_tran = aes_core_round_box then ss_round_column_rewrite_mapping_std
       else ss_rewrite_mapping_std))$
 
 ss_fcl(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran) := block(
@@ -268,9 +274,16 @@ output_ss_fcl_std(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tra
     
 
 ss_trans_fcl(cst, box_tran, mc_tran) := block(
-  [ss_csttl : rewrite_all_csttl([cst],ss_rewrite_mapping_std),
-  ss_vars_l, prop_csttl],
-  ss_vars_l : append(cstt_vars_l(cst),rewrite_all_cstt_vars_l([cst], ss_rewrite_mapping_std)),
+  [ss_csttl,ss_vars_l, prop_csttl,rm],
+  rm :
+    if mc_tran = aes_mc_bidirectional then ss_bimc_rewrite_mapping_std
+    else if mc_tran = aes_mc_boolm then ss_boolm_rewrite_mapping_std
+    else if mc_tran = aes_mc_box then ss_boxmc_rewrite_mapping_std
+    else if mc_tran = aes_combined_box then ss_boxcombined_rewrite_mapping_std
+    else if mc_tran = aes_core_round_box then ss_round_column_rewrite_mapping_std
+    else ss_rewrite_mapping_std,
+  ss_csttl : rewrite_all_csttl([cst],ss_rewrite_mapping_std),
+  ss_vars_l : append(cstt_vars_l(cst),rewrite_all_cstt_vars_l([cst], rm)),
   prop_csttl : prop_all_csttl(ss_csttl, ss_vars_l, ss_propagations),
   csttl2fcl(prop_csttl[1],prop_csttl[2],
     if box_tran = aes_small_box then
@@ -1048,6 +1061,8 @@ ss_ts_translation_mapping : [
   ["ss_mul_cst", [ss_mul_ts_cst_cl, ss_mul_ts_var_l]],
   ["ss_sbox_cst", [ss_sbox_ts_cst_cl, ss_sbox_ts_var_l]],
   ["ss_sbox_w_mul_cst", [ss_sbox_w_mul_ts_cst_cl, ss_sbox_w_mul_ts_var_l]],
+  ["ss_round_column_cst",
+    [ss_round_column_ts_cst_cl, ss_round_column_ts_var_l]],
   ["ss_mixcolumn_cst", [ss_mixcolumn_ts_cst_cl, ss_mixcolumn_ts_var_l]]]$
 
 /*!
