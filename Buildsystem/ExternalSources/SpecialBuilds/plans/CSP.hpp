@@ -22,6 +22,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo Sugar
+  <ul>
+   <li> http://bach.istc.kobe-u.ac.jp/sugar/ </li>
+   <li> See ExternalSources/sources/CSP/Sugar. </li>
+   <li> The older version of this translation-system is "CSP2SAT"; see
+   http://bach.istc.kobe-u.ac.jp/csp2sat/. They recommend to use "Sugar",
+   however Sugar is written in Java. </li>
+  </ul>
+
+
   \todo Gecode
   <ul>
    <li> Gecode http://www.gecode.org/ </li>
