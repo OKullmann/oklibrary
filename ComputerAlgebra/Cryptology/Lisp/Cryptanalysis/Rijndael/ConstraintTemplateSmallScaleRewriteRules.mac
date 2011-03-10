@@ -126,8 +126,8 @@ ss_boxcombined_rewrite_mapping_std :
   ["ss_shiftrows_cst",ss_shiftrows_cstrb],
   ["ss_mixcolumns_cst",ss_mixcolumns_cstrb],
   ["ss_mixcolumn_cst",ss_mixcolumn_cstrb],
-  ["ss_subbytes_cst", [lambda([cst],[cons("eq_cst",rest(cst))]),lambda([cst],[]),lambda([a],a)]],
-  ["ss_mul_cst",[lambda([cst],[cons("ss_sbox_w_mul_cst",rest(cst))]),lambda([cst],[]),lambda([a],a)]]]$
+  ["ss_subbytes_cst", [lambda([cst],[cons("eq_cst",rest(cst))]),lambda([cst],[]),cstt_id_ns]],
+  ["ss_mul_cst",[lambda([cst],[cons("ss_sbox_w_mul_cst",rest(cst))]),lambda([cst],[]),cstt_id_ns]]]$
 
 /* Core round operation on single column treated as one operation: */
 ss_round_column_rewrite_mapping_std :

@@ -46,8 +46,8 @@ kill(f)$
 
 okltest_cstt_namespace_new(f) := block(
   assert(
-    f(lambda([[a]],a),["",[],[],lambda([a],a)])(0) = [0,["",[],lambda([a],a)]]),
-  assert(f(nounify(f),["",[],[],lambda([a],a)])(0) = nounify(f)(0,["",[],lambda([a],a)])),
+    f(lambda([[a]],a),["",[],[],cstt_id_ns])(0) = [0,["",[],cstt_id_ns]]),
+  assert(f(nounify(f),["",[],[],cstt_id_ns])(0) = nounify(f)(0,["",[],cstt_id_ns])),
   assert(f(lambda([[a]],a),["",[],[],nounify(f1)])(0) = nounify(f1)([0,["",[],nounify(f1)]])),
   assert(f(nounify(f2),["",[],[],nounify(f1)])(0) = nounify(f1)(nounify(f2)(0,["",[],nounify(f1)]))),
   assert(f(nounify(f2),[1,[],[],nounify(f1)])(0) =
@@ -64,11 +64,11 @@ okltest_cstt_namespace_replace(f) := block(
 */
 
 okltest_cstt_new(f) := block(
-  assert(f("f",[],[], lambda([a],a)) = ["f",[],lambda([a],a)]),
+  assert(f("f",[],[], cstt_id_ns) = ["f",[],cstt_id_ns]),
   for i : 0 thru 5 do
-    assert(f("f",[i],[],lambda([a],a)) = ["f",[i],lambda([a],a)]),
+    assert(f("f",[i],[],cstt_id_ns) = ["f",[i],cstt_id_ns]),
   for i : 0 thru 5 do
-    assert(f("f",[],[i],lambda([a],a)) = ["f",[],i,lambda([a],a)]),
+    assert(f("f",[],[i],cstt_id_ns) = ["f",[],i,cstt_id_ns]),
   assert(f("f", [1,2,3],[],'n) = ["f",[1,2,3],'n]),
   assert(f("f", [1,2],[3,4],'n) = ["f",[1,2],3,4,'n]),
   true)$
@@ -128,7 +128,7 @@ okltest_rewrite_all_csttl(f) := block([test_ctrb],
   assert(f([],[]) = []),
   assert(f([["f",[],'n],["g",[],'m]],[]) = [["g",[],'m],["f",[],'n]]),
   test_ctrb : [lambda([a],[["f1", a[2],a[3]]]),
-               lambda([a],a),lambda([a],a)],
+               lambda([a],a),cstt_id_ns],
   assert(f([["x",[1,2,3],'n]], [["x",test_ctrb]]) =
     [["f1",[1,2,3],'n]]),
   true)$

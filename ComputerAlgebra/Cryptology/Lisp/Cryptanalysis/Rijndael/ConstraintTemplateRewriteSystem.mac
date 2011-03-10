@@ -90,7 +90,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 */
 cstt_namespace_new(namespace_name,cst_p) := block([namespace_p,res_cstt_p],
   namespace_p :
-    if list_p(cst_p) and length(cst_p) < 3 then lambda([a],a) else last(cst_p),
+    if list_p(cst_p) and length(cst_p) < 3 then cstt_id_ns else last(cst_p),
   res_cstt_p : append([cstt_name(cst_p)],cstt_args_l(cst_p), [cstt_namespace_f(cst_p)]),
   return(buildq([res_cstt_p,namespace_name,namespace_p],
         lambda([a],namespace_p(namespace_name(a,res_cstt_p))))))$
@@ -101,6 +101,10 @@ cstt_namespace_new(namespace_name,cst_p) := block([namespace_p,res_cstt_p],
    the namespace has been composed with the input namespace. */
 cstt_namespace_replace(cstt, namespace) :=
   append(rest(cstt,-1), [namespace])$
+
+
+/* Namespace which acts as the identity on the given variable: */
+cstt_id_ns(a) := a$
 
 
 /****************************
@@ -130,7 +134,7 @@ cstt_args_l(cst) :=
 /* Given a constraint template returns the namespace of the constraint
    template. ??? */
 cstt_namespace_f(cst) :=
-  if listp(cst) and length(cst) > 3 then last(cst) else lambda([a],a)$
+  if listp(cst) and length(cst) > 3 then last(cst) else cstt_id_ns$
 
 /* Check whether a given object is a constraint template ??? */
 cstt_p(cstt) := is(listp(cstt) and length(cstt) >= 2)$
@@ -207,7 +211,7 @@ rewrite_all_cstt_vars_l(cstl,rewrite_map) := block(
    (i.e the rewrite function it represents has the identity
    as it's namespace, and no variables are introduced by it's
    rewrite function). */
-zero_csttrb : [lambda([[a]],[]), lambda([a],a),lambda([[a]],[])]$
+zero_csttrb : [lambda([[a]],[]), cstt_id_ns,lambda([[a]],[])]$
 
 /*!
 \endhtmlonly
