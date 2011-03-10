@@ -51,8 +51,54 @@ create_list(vanderwaerden5k(k),k,1,1);
 > PdVanderWaerdenCNF-O3-DNDEBUG 5 8 312
 
 > E=run_ubcsat("VanDerWaerden_pd_2-5-8_312.cnf",runs=100,cutoff=1000000)
+
+ag2wsat
+ 0  1  2
+57 36  7
+FlipsPerSecond = 208908
+paws
+ 0  1  2  3
+52 22 25  1
+FlipsPerSecond = 204942
+nov
+ 0  1  2  3
+43 20 28  9
+FlipsPerSecond = 169408
+novp_p
+ 0  1  2  3  4
+39 18 27 15  1
+FlipsPerSecond = 129391
+novpc
+ 0  1  2  3  4
+36 11 29 23  1
+FlipsPerSecond = 206143
+anovp
+ 0  1  2
+35 48 17
+FlipsPerSecond = 172125
+novp
+ 0  1  2  3
+34 16 35 15
+FlipsPerSecond = 169951
+anovpp
+ 0  1  2
+33 41 26
+FlipsPerSecond = 170963
+ddfw
+ 0  1  2
+29 59 12
+FlipsPerSecond = 89456
+dano
+ 0  1  2
+27 44 29
+FlipsPerSecond = 169269
+g2wsat
+ 0  1  2  3
+27 23 44  6
+FlipsPerSecond = 221298
    \endverbatim
-   </li>
+   (segmentation faults with saps and sapsnr).So adaptg2wsat seems clearly
+   strongest. </li>
   </ul>
 
 */
