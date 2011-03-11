@@ -47,7 +47,7 @@ License, or any later version. */
    a fraction of a second using when run using "run_all_solvers_2by2" 
    while they clearly take much much longer when run separately. </li>
    <li> See "Using the canonical translation" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/2_4_4/1_13.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/4_2_4/1_13.hpp.
    </li>
    <li> Just use "time"! </li>
   </ul>

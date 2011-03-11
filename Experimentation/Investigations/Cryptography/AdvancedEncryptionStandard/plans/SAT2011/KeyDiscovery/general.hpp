@@ -88,13 +88,13 @@ License, or any later version. */
       <li> So far can't break standard AES for 1 + 1/3 round after two days 
       computation with all solvers. </li>
       <li> 16 column, 1 row, 8 bits, up to <em> 2 + 1/3 </em> rounds in
-      <em>40s</em> with minisat-2.2.0 in 128/16_1_8/2_13.hpp. </li>
+      <em>40s</em> with minisat-2.2.0 in 128/1_16_8/2_13.hpp. </li>
      </ul>
     </li>
     <li> 64 bit key:
      <ul>
       <li> 16 column, 1 row, 4 bits, up to <em>5 + 1/3</em> rounds in
-      <em> 26 </em> seconds with minisat-2.2.0 in 064/16_1_4/4_13.hpp. </li>
+      <em> 26 </em> seconds with minisat-2.2.0 in 064/1_16_4/4_13.hpp. </li>
       <li> 4 column, 4 row, 4 bits up to <em>1+1/3</em> rounds in 
       <em> 21 </em> seconds with minisat-2.2.0 in 064/4_4_4/1_13.hpp.
       </li>
@@ -103,9 +103,9 @@ License, or any later version. */
     <li> 32 bit key:
      <ul>
       <li> 2 column, 4 row, 4 bits up to <em>2 + 1/3</em> rounds in 
-      <em> 2718 </em> seconds with glucose in 032/2_4_4/2_13.hpp. </li>
+      <em> 2718 </em> seconds with glucose in 032/4_2_4/2_13.hpp. </li>
       <li> 4 column, 2 row, 4 bits up to <em>5 + 1/3</em> rounds in 
-      <em> 903 </em> seconds with picosat in 032/4_2_4/5_13.hpp. </li>
+      <em> 903 </em> seconds with picosat in 032/2_4_4/5_13.hpp. </li>
      </ul>
     </li>
     <li> 16 bit key:
@@ -123,7 +123,8 @@ License, or any later version. */
     <li> 4 bit key:
      <ul>
       <li> 1 column, 1 row, 4 bits up to <em>20 + 1/3</em> rounds in 
-      <em> 0.0 </em> seconds with OKsolver in 004/1_1_4/20_13.hpp. </li>
+      <em> 0.0 </em> seconds, and  with <em> 1 </em> decision, with OKsolver
+      in 004/1_1_4/20_13.hpp. </li>
      </ul>
     </li>
    </ul>
