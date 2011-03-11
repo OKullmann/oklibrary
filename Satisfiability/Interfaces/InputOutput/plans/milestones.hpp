@@ -22,6 +22,7 @@ License, or any later version. */
    In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
    are handled:
     - Need "ReverseDimacs" application and clause-set adaptor
+    - Add MinOnes2WCNF output clause-set adaptor
 
   \par
    In Interfaces/InputOutput/plans/Colouring.hpp the following topics
