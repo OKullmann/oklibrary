@@ -57,9 +57,9 @@ pdvanderwaerden3k_a(L) := vanderwaerden3k_a(L)$
 
 
 pdvanderwaerden4k(k) := 
- if k <= 12 then [
+ if k <= 13 then [
   [3,4],[3,6],[15,16],[24,25],[34,55],[62,65],[101,106],[126,129],[300,309],[320,329],
-  [343,348],[[387,inf-1],[394,inf-1]]
+  [343,348],[[387,inf-1],[394,inf-1]],[[519,inf-1],[538,inf-1]]
  ][k]
  else unknown$
 pdvanderwaerden4k_a(L) := vanderwaerden4k_a(L)$
