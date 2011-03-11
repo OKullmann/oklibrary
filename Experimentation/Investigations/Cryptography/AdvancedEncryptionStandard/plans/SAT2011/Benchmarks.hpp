@@ -70,6 +70,12 @@ License, or any later version. */
    moved into their respective accompanying documents (see "Supporting 
    documents" in Experimentation/Investigations/plans/SATCompetition.hpp .
    </li>
+   <li> We need proper translations of the minimum hypergraph transversal
+   problem into a weighted MaxSAT problem. See "Add MinOnes2WCNF output 
+   clause-set adaptor" in Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp.
+   </li>
+   <li> We also need proper translations of the minimum hypergraph transversal
+   problem into a pseudo-boolean problem. </li>
   </ul>
 
 */
