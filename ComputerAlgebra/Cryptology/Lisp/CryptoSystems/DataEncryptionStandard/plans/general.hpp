@@ -15,6 +15,9 @@ License, or any later version. */
   
   \todo Links
   <ul>
+   <li> Cryptanalysis functions for the DES 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp.
+   </li>
    <li> See 
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp .
    </li>
