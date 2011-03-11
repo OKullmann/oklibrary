@@ -75,4 +75,50 @@ FlipsPerSecond = 221298
    strongest. </li>
   </ul>
 
+
+  \todo vdw_2^pd(5,8) >= (312,323)
+  <ul>
+   <li> Certificates:
+    <ol>
+     <li> n=311:
+     \verbatim
+1,6,8,9,11,14,16,17,19,22,
+26,29,30,32,33,35,40,41,49,50,
+55,57,60,61,62,64,68,71,73,74,
+75,76,79,80,81,83,84,85,88,89,
+90,91,93,96,100,102,104,106,107,109,
+114,115,123,124,129,131,132,134,135,136,
+138,142,145,147,148,149,150,153,154,155
+     \endverbatim
+     </li>
+     <li> n=322:
+     \verbatim
+1,2,4,5,6,7,13,14,18,21,
+27,32,35,37,39,41,45,46,47,48,
+50,51,52,53,55,56,62,64,66,68,
+71,76,82,85,89,90,94,96,97,99,
+100,101,102,108,109,110,112,120,125,126,
+127,129,133,135,136,138,139,140,143,144,
+145,150,152,153,154,156,159
+     \endverbatim
+    </ol>
+   </li>
+   <li> "RunPdVdWk1k2 5 8 adaptg2wsat 100 1000000" yields
+   \verbatim
+Break point 1: 306
+Break point 2: 323
+   \endverbatim
+   </li>
+   <li> However minisat-2.2.0 determines instances with n <= 312 as
+   satisfiable. So this is our first case of a failure of the
+   RunPdVdWk1k2-method. Increase the cutoff. </li>
+   li> "RunPdVdWk1k2 5 8 adaptg2wsat 100 2000000" yields
+   \verbatim
+Break point 1: 312
+Break point 2: 323
+   \endverbatim
+   finding all solutions in the first run with the previous solution.
+   </li>
+  </ul>
+
 */
