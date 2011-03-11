@@ -146,9 +146,9 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
 
   \todo Palindromic numbers
   <ul>
-   <li> 698 < vanderwaerden_g([3,27],"pd") =(conj) 699 =(conj)
+   <li> 698 < pdvanderwaerden([3,27])[2] =(conj) 699 =(conj)
    vanderwaerden([3,27]) - 71. </li>
-   <li> vanderwaerden_g([3,27],"pdsat") =(conj) 664. </li>
+   <li> pdvanderwaerden([3,27])[1] =(conj) 664. </li>
    <li> Certificates:
     <ol>
      <li> n=663:

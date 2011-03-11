@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -92,8 +92,8 @@ satz215 VanDerWaerden_2-3-15_218.cnf 99407.850 66642611 33796681 10812633494 373
 
   \todo Palindromic numbers
   <ul>
-   <li> vanderwaerden_g([3,15],"pd") = 205 = vanderwaerden([3,15])-13 . </li>
-   <li> vanderwaerden_g([3,15],"pdsat") = 200. </li>
+   <li> pdvanderwaerden([3,15])[2] = 205 = vanderwaerden([3,15])-13 . </li>
+   <li> pdvanderwaerden([3,15])[1] = 200. </li>
    <li> OKsolver_2002 easily determines n=204 as satisfiable and n=201,
    205,...,218 as unsatisfiable. </li>
    <li> So does satz215, march_pl and minisat2. </li>

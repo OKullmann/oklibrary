@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -115,9 +115,9 @@ License, or any later version. */
 
   \todo Palindromic numbers
   <ul>
-   <li> vanderwaerden_g([3,21],"pd") = 405 =(conj) vanderwaerden([3,21])-11.
+   <li> pdvanderwaerden([3,21])[2] = 405 =(conj) vanderwaerden([3,21])-11.
    </li>
-   <li> vanderwaerden_g([3,21],"pdsat") = 400. </li>
+   <li> pdvanderwaerden([3,21])[1] = 400. </li>
    <li> precosat236:
     <ol>
      <li> n=416: unsat, 14336s. </li>

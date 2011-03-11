@@ -148,9 +148,9 @@ License, or any later version. */
 
   \todo Palindromic version:
   <ul>
-   <li> 1078 < vanderwaerden_g([3,34],"pd") =(conj) 1079 =(conj)
+   <li> 1078 < pdvanderwaerden([3,34])[2] =(conj) 1079 =(conj)
    vanderwaerden([3,34]) - ???. </li>
-   <li> vanderwaerden_g([3,34],"pdsat") =(conj) 1046. </li>
+   <li> pdvanderwaerden([3,34])[1] =(conj) 1046. </li>
    <li> Certificates:
     <ol>
      <li> n=1045:

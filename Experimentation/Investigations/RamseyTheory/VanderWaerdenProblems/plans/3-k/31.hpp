@@ -157,9 +157,9 @@ Certificate (the vertices for k=3) for n = 930 :
 
   \todo Palindromic version
   <ul>
-   <li> 930 < vanderwaerden_g([3,31],"pd") =(conj) 931 =(conj)
+   <li> 930 < pdvanderwaerden([3,31])[2] =(conj) 931 =(conj)
    vanderwaerden([3,31]) - 0. </li>
-   <li> vanderwaerden_g([3,31],"pdsat") =(conj) 916. </li>
+   <li> pdvanderwaerden([3,31])[1] =(conj) 916. </li>
    <li> Certificates:
     <ol>
      <li> n=915:

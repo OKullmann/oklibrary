@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -76,8 +76,8 @@ E = run_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=TR
 
   \todo Palindromic numbers
   <ul>
-   <li> vanderwaerden_g([3,19],"pd") = 347 = vanderwaerden([3,19])-2. </li>
-   <li> vanderwaerden_g([3,19],"pdsat") = 338. </li>
+   <li> pdvanderwaerden([3,19])[2] = 347 = vanderwaerden([3,19])-2. </li>
+   <li> pdvanderwaerden([3,19])[1] = 338. </li>
    <li> picosat913:
     <ol>
      <li> n=349: unsat, 68s. </li>

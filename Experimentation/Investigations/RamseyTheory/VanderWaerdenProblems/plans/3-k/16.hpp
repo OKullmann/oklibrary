@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -43,8 +43,8 @@ satz215 VanDerWaerden_2-3-16_238.cnf 990144.910 600383827 304409259 99369777769 
 
   \todo Palindromic numbers
   <ul>
-   <li> vanderwaerden_g([3,16],"pd") = 237 = vanderwaerden([3,16])-1 . </li>
-   <li> vanderwaerden_g([3,16],"pdsat") = 232. </li>
+   <li> pdvanderwaerden([3,16])[2] = 237 = vanderwaerden([3,16])-1 . </li>
+   <li> pdvanderwaerden([3,16])[1] = 232. </li>
    <li> OKsolver_2002 rather easily determines n=236 as satisfiable and
    n=233, 237,238 as unsatisfiable. </li>
    <li> So does satz215 (somewhat faster), march_pl and minisat2 (somewhat

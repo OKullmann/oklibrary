@@ -189,9 +189,9 @@ wsattn :
 
   \todo Palindromic version:
   <ul>
-   <li> 962 < vanderwaerden_g([3,32],"pd") =(conj) 963 =(conj)
+   <li> 962 < pdvanderwaerden([3,32])[2] =(conj) 963 =(conj)
    vanderwaerden([3,32]) - 44. </li>
-   <li> vanderwaerden_g([3,32],"pdsat") =(conj) 958. </li>
+   <li> pdvanderwaerden([3,32])[1] =(conj) 958. </li>
    <li> Certificates:
     <ol>
      <li> n=957:
