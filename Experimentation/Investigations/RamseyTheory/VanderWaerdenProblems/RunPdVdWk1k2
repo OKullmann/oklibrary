@@ -32,7 +32,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunPdVdWk1k2"
-version_number="0.2"
+version_number="0.2.1"
 
 if [[ $# != 5 ]]; then
   echo "ERROR[${script_name}]: Five parameters k1, k2, alg, runs, cutoff
@@ -46,6 +46,11 @@ k2=$2
 alg=$3
 runs=$4
 cutoff=$5
+
+if [[ ${k1} -gt ${k2} ]]; then
+  echo "ERROR[${script_name}]: k1 <= k2 must hold."
+  exit 1
+fi
 
 repeats_prevassign=3
 
