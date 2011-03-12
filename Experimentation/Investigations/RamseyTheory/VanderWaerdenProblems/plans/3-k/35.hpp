@@ -205,9 +205,9 @@ License, or any later version. */
 
   \todo Palindromic version:
   <ul>
-   <li> 1142 < vanderwaerden_g([3,35],"pd") =(conj) 1143 =(conj)
+   <li> 1142 < pdvanderwaerden([3,35])[2] =(conj) 1143 =(conj)
    vanderwaerden([3,35]) - ???. </li>
-   <li> vanderwaerden_g([3,35],"pdsat") =(conj) 1102. </li>
+   <li> pdvanderwaerden([3,35])[1] =(conj) 1102. </li>
    <li> Certificates:
     <ol>
      <li> n=1101:

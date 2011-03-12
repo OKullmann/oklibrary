@@ -306,9 +306,8 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
 
   \todo Palindromic numbers
   <ul>
-   <li> vanderwaerden_g([3,24],"pd") = 593 =(conj)
-   vanderwaerden([3,24]). </li>
-   <li> vanderwaerden_g([3,24],"pdsat") = 568. </li>
+   <li> pdvanderwaerden([3,24])[2] = 593 =(conj) vanderwaerden([3,24]). </li>
+   <li> pdvanderwaerden([3,24])[1] = 568. </li>
    <li> Certificates:
     <ol>
       <li> n=567:

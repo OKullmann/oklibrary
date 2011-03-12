@@ -140,9 +140,8 @@ License, or any later version. */
 
   \todo Palindromic numbers
   <ul>
-   <li> vanderwaerden_g([3,23],"pd") = 507 =(conj) vanderwaerden([3,23])-9.
-   </li>
-   <li> vanderwaerden_g([3,23],"pdsat") = 506. </li>
+   <li> pdvanderwaerden([3,23])[2] = 507 =(conj) vanderwaerden([3,23])-9. </li>
+   <li> pdvanderwaerden([3,23])[1] = 506. </li>
    <li> Certificates:
     <ol>
      <li> n=505:

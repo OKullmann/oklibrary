@@ -34,6 +34,7 @@ pdvanderwaerden(L) := if emptyp(L) then 1
  elseif pdvanderwaerdend_a(L)#[] then apply(pdvanderwaerdend,pdvanderwaerdend_a(L))
  elseif pdvanderwaerden3k_a(L)#[] then apply(pdvanderwaerden3k,pdvanderwaerden3k_a(L))
  elseif pdvanderwaerden4k_a(L)#[] then apply(pdvanderwaerden4k,pdvanderwaerden4k_a(L))
+ elseif pdvanderwaerden5k_a(L)#[] then apply(pdvanderwaerden5k,pdvanderwaerden5k_a(L))
  else unknown$
 
 /* Checking whether L is a valid input: */
@@ -57,12 +58,19 @@ pdvanderwaerden3k_a(L) := vanderwaerden3k_a(L)$
 
 
 pdvanderwaerden4k(k) := 
- if k <= 11 then [
+ if k <= 15 then [
   [3,4],[3,6],[15,16],[24,25],[34,55],[62,65],[101,106],[126,129],[300,309],[320,329],
-  [343,348]
+  [343,348],[[387,inf-1],[394,inf-1]],[[519,inf-1],[538,inf-1]],[[611,inf-1],[624,inf-1]],[[631,inf-1],[680,inf-1]]
  ][k]
  else unknown$
 pdvanderwaerden4k_a(L) := vanderwaerden4k_a(L)$
+
+pdvanderwaerden5k(k) := 
+ if k <= 8 then [
+  [4,5],unknown,[16,21],[34,55],[150,177],unknown,unknown,[[312,inf-1],[323,inf-1]]
+ ][k]
+ else unknown$
+pdvanderwaerden5k_a(L) := vanderwaerden5k_a(L)$
 
 
 /* *********************

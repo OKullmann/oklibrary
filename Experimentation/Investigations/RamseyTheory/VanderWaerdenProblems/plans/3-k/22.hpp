@@ -255,9 +255,8 @@ segmentation faults for saps, rsaps, sapsnr
 
   \todo Palindromic numbers
   <ul>
-   <li> vanderwaerden_g([3,22],"pd") = 463 =(conj)
-   vanderwaerden([3,22])-1. </li>
-   <li> vanderwaerden_g([3,22],"pdsat") = 444. </li>
+   <li> pdvanderwaerden([3,22])[2] = 463 =(conj) vanderwaerden([3,22])-1. </li>
+   <li> pdvanderwaerden([3,22])[1] = 444. </li>
    <li> precosat236:
     <ol>
      <li> n=464: unsat, 217593s. </li>

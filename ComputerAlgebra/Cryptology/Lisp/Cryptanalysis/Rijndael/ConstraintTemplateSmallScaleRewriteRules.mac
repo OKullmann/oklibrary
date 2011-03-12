@@ -126,8 +126,16 @@ ss_boxcombined_rewrite_mapping_std :
   ["ss_shiftrows_cst",ss_shiftrows_cstrb],
   ["ss_mixcolumns_cst",ss_mixcolumns_cstrb],
   ["ss_mixcolumn_cst",ss_mixcolumn_cstrb],
-  ["ss_subbytes_cst", [lambda([cst],[cons("eq_cst",rest(cst))]),lambda([cst],[]),lambda([a],a)]],
-  ["ss_mul_cst",[lambda([cst],[cons("ss_sbox_w_mul_cst",rest(cst))]),lambda([cst],[]),lambda([a],a)]]]$
+  ["ss_subbytes_cst", [lambda([cst],[cons("eq_cst",rest(cst))]),lambda([cst],[]),cstt_id_ns]],
+  ["ss_mul_cst",[lambda([cst],[cons("ss_sbox_w_mul_cst",rest(cst))]),lambda([cst],[]),cstt_id_ns]]]$
+
+/* Core round operation on single column treated as one operation: */
+ss_round_column_rewrite_mapping_std :
+  [["ss_cst",ss_cstrb],["ss_key_expansion_cst",ss_key_expansion_cstrb],
+  ["ss_round_cst",ss_round_core_box_cstrb],
+  ["ss_final_round_cst",ss_final_round_cstrb],
+  ["ss_shiftrows_cst",ss_shiftrows_cstrb],
+  ["ss_round_columns_cst",ss_round_columns_cstrb]]$
 
 
 /* ***********************************************
@@ -348,7 +356,71 @@ ss_round_cstr_cstl(cst) := block(
   return(rs)
 )$
 
-/* TODO: Update below with small scale generalisations. */
+/* The round as shiftrows then num_columns column boxes: */
+ss_round_core_box_cstrb :
+ [ss_round_core_box_cstr_cstl, ss_round_core_box_namespace, ss_round_core_box_ns_var_l]$
+
+/* SS round namespace: */
+kill(ss_round_core_box_ns)$
+declare(ss_round_core_box_ns,noun)$
+declare(ss_round_core_box_ns,posfun)$
+ss_round_core_box_namespace([args]) := apply(nounify(ss_round_core_box_ns),args)$
+
+ss_round_core_box_ns_var_l(cst) := block([vars : [],namespace, ss_num_columns,
+  ss_num_rows, ss_base, ss_exp, ss_poly, ss_sbox_matrix, ss_affine_constant,
+  ss_mixcolumns_matrix, ss_arg_l, num_block_bits, gen_vars],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_columns : ss_arg_l[2],
+  ss_num_rows : ss_arg_l[3],
+  ss_exp : ss_arg_l[5],
+  num_block_bits : ss_num_columns * ss_num_rows * ss_exp,
+  namespace : cstt_namespace_new(ss_round_core_box_namespace,cst),
+  gen_vars : generate_ss_constraint_vars,
+  vars : cons(gen_vars(1,num_block_bits,namespace,nounify(ro)), vars),
+  vars : cons(gen_vars(1,num_block_bits,namespace,nounify(mo)), vars),
+  return(lappend(vars)))$
+ss_round_core_box_cstr_cstl(cst) := block(
+  [namespace,bits,iBits, rkBits, oBits,tBits,rs:[], ss_num_columns,
+   ss_num_rows, ss_base, ss_exp, ss_poly, ss_sbox_matrix, ss_affine_constant,
+   ss_mixcolumns_matrix, ss_arg_l, num_block_bits],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rounds : ss_arg_l[1],
+  ss_num_columns : ss_arg_l[2],
+  ss_num_rows : ss_arg_l[3],
+  ss_base : ss_arg_l[4],
+  ss_exp : ss_arg_l[5],
+  ss_poly : ss_arg_l[6],
+  ss_sbox_matrix : ss_arg_l[7],
+  ss_affine_constant : ss_arg_l[8],
+  ss_mixcolumns_matrix : ss_arg_l[9],
+  bits : cstt_vars_l(cst),
+  num_block_bits : ss_num_columns * ss_num_rows * ss_exp,
+  namespace : cstt_namespace_new(ss_round_core_box_namespace,cst),
+  gen_vars : generate_ss_constraint_vars,
+  iBits : take_elements(num_block_bits,bits),
+  oBits : rest(bits,num_block_bits*2),
+  tBits : gen_vars(1,num_block_bits,namespace,nounify(ro)),
+  rs : cons(
+    cstt_new("ss_shiftrows_cst",
+      append(iBits,tBits),[ss_num_columns, ss_num_rows],namespace),
+    rs),
+  iBits : tBits,
+  tBits : gen_vars(1,num_block_bits,namespace,nounify(mo)),
+  rs : cons(
+    cstt_new("ss_round_columns_cst",
+      append(iBits, tBits),
+      [ss_num_columns, ss_num_rows, ss_base, ss_exp, ss_poly, ss_sbox_matrix,
+       ss_affine_constant, ss_mixcolumns_matrix],
+      namespace),
+    rs),
+  iBits : tBits,
+  rkBits : take_elements(num_block_bits,rest(bits,num_block_bits)),
+  tBits : oBits,
+  rs : cons(
+    cstt_new("ss_add_cst", append(iBits, rkBits, tBits), [],namespace),
+    rs),
+  return(rs)
+)$
 
 /*
    SS Final round
@@ -552,6 +624,55 @@ ss_mixcolumns_cstr_cstl(cst) := block(
       append(lappend(a),lappend(b)),
       [ss_num_rows, ss_base, ss_exp,
        ss_poly, ss_mixcolumns_matrix, mc_i : mc_i + 1],namespace)),
+    partition_elements(partition_elements(iBits,ss_exp),ss_num_rows),
+    partition_elements(partition_elements(oBits,ss_exp),ss_num_rows),
+    create_list(i,i,1,ss_num_columns))
+)$
+
+
+/*
+   Whole column treated as one operation:
+
+*/
+
+ss_round_columns_cstrb :
+ [ss_round_columns_cstr_cstl,ss_round_columns_namespace,
+  ss_round_columns_ns_var_l]$
+
+/* SS round_columns namespace: */
+kill(ss_round_columns_ns)$
+declare(ss_round_columns_ns,noun)$
+declare(ss_round_columns_ns,posfun)$
+ss_round_columns_namespace([arg_l]) :=
+  apply(nounify(ss_round_columns_ns),arg_l)$
+
+
+ss_round_columns_ns_var_l([a]) := []$
+ss_round_columns_cstr_cstl(cst) := block(
+  [namespace, bits,iBits, oBits, mc_i : 0,ss_arg_l,
+   ss_num_columns, ss_num_rows, ss_base, ss_exp, ss_column_size,
+   ss_poly, ss_mixcolumns_matrix, num_block_bits],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_columns : ss_arg_l[1],
+  ss_num_rows : ss_arg_l[2],
+  ss_base : ss_arg_l[3],
+  ss_exp : ss_arg_l[4],
+  ss_poly : ss_arg_l[5],
+  ss_sbox_matrix : ss_arg_l[6],
+  ss_sbox_affine_constant : ss_arg_l[7],
+  ss_mixcolumns_matrix : ss_arg_l[8],
+  num_block_bits : ss_num_columns * ss_num_rows * ss_exp,
+  ss_column_size : ss_num_rows * ss_exp,
+  bits : cst[2],
+  namespace : cstt_namespace_new(ss_round_columns_namespace,cst),
+  iBits : take_elements(num_block_bits,bits),
+  oBits : rest(bits,num_block_bits),
+  map(lambda([a,b,column], 
+    cstt_new("ss_round_column_cst",
+      append(lappend(a),lappend(b)),
+      [ss_num_rows, ss_base, ss_exp,
+       ss_poly,ss_sbox_matrix,ss_sbox_affine_constant,
+       ss_mixcolumns_matrix, mc_i : mc_i + 1],namespace)),
     partition_elements(partition_elements(iBits,ss_exp),ss_num_rows),
     partition_elements(partition_elements(oBits,ss_exp),ss_num_rows),
     create_list(i,i,1,ss_num_columns))
@@ -1003,10 +1124,11 @@ ss_sbox_ts_gen(b,e,mod_poly) := block([hash_key : [b,e,mod_poly]],
 
 ss_mixcolumn_ts_CNF : sm2hm({})$
 ss_mixcolumn_ts_gen(b,e,mod_poly,mixcolumns_matrix) := block(
-  [hash_key : [b,e,mod_poly,mixcolumns_matrix],num_rows],
+  [hash_key : [b,e,mod_poly,mixcolumns_matrix],num_rows,num_col_bits],
   num_rows : length(mixcolumns_matrix),
+  num_col_bits : 2*num_rows*e,
   if ev_hm_d(ss_mixcolumn_ts_CNF,hash_key,false) = false then
-    block([plus16 : lambda([x],x+2*e),
+    block([plus16 : lambda([x],x+num_col_bits),
       mc_dnf :
         fcl2fcs(cl2fcl(bf2relation_fulldnf_cl(lambda([V],
             ss_mixcolumn_gen_bf(V,b,e,mod_poly,mixcolumns_matrix)),
@@ -1017,12 +1139,40 @@ ss_mixcolumn_ts_gen(b,e,mod_poly,mixcolumns_matrix) := block(
           sort(
             listify(mc_dnf[2]),
             lambda([c,d], is(
-                rank_lex_ksubsets(map(plus16,c),e*4) < 
-                rank_lex_ksubsets(map(plus16,d),e*4)))
+                rank_lex_ksubsets(map(plus16,c),2*num_col_bits) < 
+                rank_lex_ksubsets(map(plus16,d),2*num_col_bits)))
             )]
           )),
       return(ev_hm(ss_mixcolumn_ts_CNF,hash_key))
       ) else ev_hm(ss_mixcolumn_ts_CNF,hash_key))$
+
+ss_round_column_ts_CNF : sm2hm({})$
+ss_round_column_ts_gen(b,e,mod_poly,ss_sbox_matrix,
+                       ss_affine_constant,mixcolumns_matrix) := block(
+  [hash_key : [b,e,mod_poly,ss_sbox_matrix,
+               ss_affine_constant,mixcolumns_matrix],num_rows,num_col_bits],
+  num_rows : length(mixcolumns_matrix),
+  num_col_bits : 2*num_rows*e,
+  if ev_hm_d(ss_round_column_ts_CNF,hash_key,false) = false then
+    block([plus16 : lambda([x],x+num_col_bits),
+      mc_dnf :
+        fcl2fcs(cl2fcl(bf2relation_fulldnf_cl(lambda([V],
+            ss_round_column_gen_bf(V,b,e,mod_poly,mixcolumns_matrix,
+              lambda([p],ss_sbox_gen(p,b,e,mod_poly,ss_sbox_matrix,
+                       ss_affine_constant)))),
+          e*num_rows)))],
+      set_hm(ss_round_column_ts_CNF,hash_key,
+        dualts_fcl(
+          [listify(mc_dnf[1]),
+          sort(
+            listify(mc_dnf[2]),
+            lambda([c,d], is(
+                rank_lex_ksubsets(map(plus16,c),2*num_col_bits) < 
+                rank_lex_ksubsets(map(plus16,d),2*num_col_bits)))
+            )]
+          )),
+      return(ev_hm(ss_round_column_ts_CNF,hash_key))
+      ) else ev_hm(ss_round_column_ts_CNF,hash_key))$
 
 ss_sbox_w_mul_ts_CNF : sm2hm({})$
 ss_sbox_w_mul_ts_gen(p, b,e,mod_poly) := block(
@@ -1244,6 +1394,40 @@ ss_mixcolumn_ts_cst_cl(cst) := block(
     append(bits,
       generate_ss_constraint_vars(1,2^(length(bits)/2),
         namespace,nounify(mixcolumn_ts))))[2])$
+
+/* Translating the whole round on one column using the canonical translation:
+*/
+
+kill(ss_round_column_ts_ns)$
+declare(ss_round_column_ts_ns,noun)$
+declare(ss_round_column_ts_ns,posfun)$
+ss_round_column_ts_namespace([args]) :=
+  apply(nounify(ss_round_column_ts_ns),args)$
+
+ss_round_column_ts_var_l(cst) := block([bits : cst[2],namespace],
+  namespace : cstt_namespace_new(ss_round_column_ts_namespace,cst),
+  generate_ss_constraint_vars(1,2^(length(bits)/2), namespace,nounify(round_column_ts)))$
+
+ss_round_column_ts_cst_cl(cst) := block(
+  [bits : cst[2],namespace,ss_arg_l,ss_base,ss_exp,ss_poly,ss_element,
+   ss_sbox_matrix, ss_sbox_affine_constant, ss_mixcolumns_matrix,ss_num_rows],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rows : ss_arg_l[1],
+  ss_base : ss_arg_l[2],
+  ss_exp : ss_arg_l[3],
+  ss_poly : ss_arg_l[4],
+  ss_sbox_matrix : ss_arg_l[5],
+  ss_sbox_affine_constant : ss_arg_l[6],
+  ss_mixcolumns_matrix : ss_arg_l[7],
+  namespace : cstt_namespace_new(ss_round_column_ts_namespace,cst),
+  rename_fcl(
+    ss_round_column_ts_gen(ss_base, ss_exp, ss_poly,
+                           ss_sbox_matrix,
+                           ss_sbox_affine_constant,
+                           ss_mixcolumns_matrix),
+    append(bits,
+      generate_ss_constraint_vars(1,2^(length(bits)/2),
+        namespace,nounify(round_column_ts))))[2])$
 
 
 /*!

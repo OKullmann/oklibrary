@@ -204,9 +204,9 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 
   \todo Palindromic version
   <ul>
-   <li> 854 < vanderwaerden_g([3,30],"pd") =(conj) 855 =(conj)
+   <li> 854 < pdvanderwaerden([3,30])[2] =(conj) 855 =(conj)
    vanderwaerden([3,30])-48. </li>
-   <li> vanderwaerden_g([3,30],"pdsat") =(conj) 844. </li>
+   <li> pdvanderwaerden([3,30])[1] =(conj) 844. </li>
    <li> Certificates:
     <ol>
      <li> n=843:

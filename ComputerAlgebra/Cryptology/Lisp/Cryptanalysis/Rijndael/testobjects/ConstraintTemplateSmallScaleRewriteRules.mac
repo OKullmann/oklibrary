@@ -43,7 +43,8 @@ okltest_ss_cstr_cstl(ss_cstr_cstl);
 okltest_ss_round_ns_var_l(ss_round_ns_var_l);
 okltest_ss_round_cstr_cstl(ss_round_cstr_cstl);
 
-/* TODO: Update below with small scale generalisations. */
+okltest_ss_round_core_box_ns_var_l(ss_round_core_box_ns_var_l);
+okltest_ss_round_core_box_cstr_cstl(ss_round_core_box_cstr_cstl);
 
 okltest_ss_final_round_ns_var_l(ss_final_round_ns_var_l);
 okltest_ss_final_round_cstr_cstl(ss_final_round_cstr_cstl);
@@ -80,6 +81,7 @@ okltest_ss_mul_ts_gen(ss_mul_ts_gen);
 okltest_ss_sbox_ts_gen(ss_sbox_ts_gen);
 okltest_ss_sbox_w_mul_ts_gen(ss_sbox_w_mul_ts_gen);
 okltest_ss_mixcolumn_ts_gen(ss_mixcolumn_ts_gen);
+okltest_ss_round_column_ts_gen(ss_round_column_ts_gen);
 okltest_ss_sbox_pi_cst_cl(ss_sbox_pi_cst_cl);
 okltest_ss_sbox_ts_var_l(ss_sbox_ts_var_l);
 okltest_ss_sbox_ts_cst_cl(ss_sbox_ts_cst_cl);
@@ -90,6 +92,8 @@ okltest_ss_mul_ts_var_l(ss_mul_ts_var_l);
 okltest_ss_mul_ts_cst_cl(ss_mul_ts_cst_cl);
 okltest_ss_mixcolumn_ts_var_l(ss_mixcolumn_ts_var_l);
 okltest_ss_mixcolumn_ts_cst_cl(ss_mixcolumn_ts_cst_cl);
+okltest_ss_round_column_ts_var_l(ss_round_column_ts_var_l);
+okltest_ss_round_column_ts_cst_cl(ss_round_column_ts_cst_cl);
 
 /*!
 \endhtmlonly

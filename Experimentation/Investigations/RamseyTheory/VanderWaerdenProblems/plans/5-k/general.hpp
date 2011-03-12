@@ -24,8 +24,8 @@ License, or any later version. */
 
   \todo Literature overview
   <ul>
-   <li> Apparently nothing is known about vdw_2(5,k) ? Could there also be
-   a conjecture that it's polynomially bounded? </li>
+   <li> Apparently nothing is known about vdw_2(5,k) ? </li>
+   <li> Our conjecture is that it's polynomially bounded, </li>
    <li> The known values:
    \verbatim
 create_list(vanderwaerden5k(k),k,1,1);
@@ -35,24 +35,20 @@ create_list(vanderwaerden5k(k),k,1,1);
   </ul>
 
 
-  \todo Best complete solver
+  \todo Best complete solver for palindromic problems
   <ul>
    <li> Considering k=8, it seems that from the conflict-driven solvers
    minisat-2.2.0 is best, from the look-ahead solvers march_pl (followed
    by OKsolver_2002, then satz215), and that overall minisat-2.2.0 is best.
+   See Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/08.hpp.
    </li>
   </ul>
 
 
-  \todo Best local-search solver
+  \todo Best local-search solver for palindromic problems
   <ul>
-   <li> Best ubcsat-algorithm:
-   \verbatim
-> PdVanderWaerdenCNF-O3-DNDEBUG 5 8 312
-
-> E=run_ubcsat("VanDerWaerden_pd_2-5-8_312.cnf",runs=100,cutoff=1000000)
-   \endverbatim
-   </li>
+   <li> adaptg2wsat seems clearly strongest for k=8 (see
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/08.hpp). </li>
   </ul>
 
 */

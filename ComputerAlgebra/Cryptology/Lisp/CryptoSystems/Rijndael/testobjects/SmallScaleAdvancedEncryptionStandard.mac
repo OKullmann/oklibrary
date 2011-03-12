@@ -67,6 +67,7 @@ okltest_ss_inv_shiftrows(ss_inv_shiftrows);
 okltest_ss_mixcolumn_gen(ss_mixcolumn_gen);
 okltest_ss_mixcolumn_gen_bf(ss_mixcolumn_gen_bf);
 okltest_ss_mixcolumn_gen_boolm(ss_mixcolumn_gen_boolm);
+okltest_ss_round_column_gen_bf(ss_round_column_gen_bf);
 okltest_ss_inv_mixcolumn_gen(ss_inv_mixcolumn_gen);
 
 

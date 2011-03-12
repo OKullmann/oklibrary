@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -137,8 +137,8 @@ BestSolution_Max = 2.000000
 
   \todo Palindromic numbers
   <ul>
-   <li> vanderwaerden_g([3,17],"pd") = 279 = vanderwaerden([3,17]). </li>
-   <li> vanderwaerden_g([3,17],"pdsat") = 256. </li>
+   <li> pdvanderwaerden([3,17])[2] = 279 = vanderwaerden([3,17]). </li>
+   <li> pdvanderwaerden([3,17])[1] = 256. </li>
    <li> OKsolver_2002 determines n=278 as satisfiable (3m) and
    n=279 as unsatisfiable (30s). </li>
    <li> So does satz215 (1m,20s), march_pl (8s,1m) and minisat2 (27s,16s).

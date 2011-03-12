@@ -21,8 +21,6 @@ License, or any later version. */
    <ul>
     <li> Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_2_4/1_1.hpp.
     </li>
-    <li> Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/2_4_4/1_0.hpp.
-    </li>
    </ul>
    </li>
    <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp .
