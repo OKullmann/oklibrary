@@ -36,6 +36,7 @@ pdvanderwaerden(L) := if emptyp(L) then 1
  elseif pdvanderwaerden4k_a(L)#[] then apply(pdvanderwaerden4k,pdvanderwaerden4k_a(L))
  elseif pdvanderwaerden5k_a(L)#[] then apply(pdvanderwaerden5k,pdvanderwaerden5k_a(L))
  elseif pdvanderwaerden6k_a(L)#[] then apply(pdvanderwaerden6k,pdvanderwaerden6k_a(L))
+ elseif pdvanderwaerden7k_a(L)#[] then apply(pdvanderwaerden7k,pdvanderwaerden7k_a(L))
  else unknown$
 
 /* Checking whether L is a valid input: */
@@ -79,6 +80,13 @@ pdvanderwaerden6k(k) :=
  ][k]
  else unknown$
 pdvanderwaerden6k_a(L) := vanderwaerden6k_a(L)$
+
+pdvanderwaerden7k(k) := 
+ if k <= 7 then [
+  [6,7],unknown,[41,44],[101,106],unknown,unknown,[[660,inf-1],[839,inf-1]]
+ ][k]
+ else unknown$
+pdvanderwaerden7k_a(L) := vanderwaerden7k_a(L)$
 
 
 /* *********************

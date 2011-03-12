@@ -109,6 +109,11 @@ vanderwaerden6k_a(L) := if length(L)#2 then [] else
     if length(S)=1 then [6] else [first(listify(disjoin(6,S)))]
   else [])$
 
+vanderwaerden7k_a(L) := if length(L)#2 then [] else
+ block([S : setify(L)],
+  if elementp(7,S) then
+    if length(S)=1 then [7] else [first(listify(disjoin(7,S)))]
+  else [])$
 
 
 /* *****************
