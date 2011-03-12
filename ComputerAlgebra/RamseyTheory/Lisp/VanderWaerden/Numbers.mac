@@ -103,6 +103,13 @@ vanderwaerden5k_a(L) := if length(L)#2 then [] else
     if length(S)=1 then [5] else [first(listify(disjoin(5,S)))]
   else [])$
 
+vanderwaerden6k_a(L) := if length(L)#2 then [] else
+ block([S : setify(L)],
+  if elementp(6,S) then
+    if length(S)=1 then [6] else [first(listify(disjoin(6,S)))]
+  else [])$
+
+
 
 /* *****************
    * Ternary cases *
