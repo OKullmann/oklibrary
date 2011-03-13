@@ -40,14 +40,14 @@ p wcnf n c+n
   </ul>
 
 
-  \todo Add application tests
-
-
   \todo Move to correct place
   <ul>
    <li> Satisfiability/Interfaces/InputOutput/ is likely not
    the right place for this application. </li>
   </ul>
+
+
+  \todo DONE Add application tests
 
 */
 

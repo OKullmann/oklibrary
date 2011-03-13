@@ -1,0 +1,53 @@
+#!/bin/bash
+# Matthew Gwynne, 13.3.2011 (Swansea)
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# set -o errexit # currently "find" creates an error due to non-existing directories, and also the match-program might fail
+set -o nounset
+
+list_programs="${bin_dir}/MinOnes2WeightedMaxSAT ${bin_dir}/MinOnes2WeightedMaxSAT-*"
+app_test_dir=${OKlib}/Satisfiability/Interfaces/InputOutput/app_tests
+
+echo "PROGRAMS FOUND:"
+for P in ${list_programs}; do echo ${P}; done
+
+cd ${app_test_dir}
+
+case ${test_level} in
+basic) list_test_cases="$(find test_cases/basic/MinOnes2WeightedMaxSAT/ -name '*.cnf')"
+    ;;
+full) list_test_cases="$(find test_cases/basic/MinOnes2WeightedMaxSAT/ -name '*.cnf') $(find test_cases/full/MinOnes2WeightedMaxSAT/ -name '*.cnf')"
+    ;;
+extensive) list_test_cases="$(find test_cases/basic/MinOnes2WeightedMaxSAT/ -name '*.cnf') $(find test_cases/full/MinOnes2WeightedMaxSAT/ -name '*.cnf') $(find test_cases/extensive/MinOnes2WeightedMaxSAT/ -name '*.cnf')"
+    ;;
+esac
+
+echo "TEST FORMULAS FOUND:" 
+for T in ${list_test_cases}; do echo ${T}; done
+
+echo "EXECUTION OF PROGRAMS:"
+
+match_tool=${bin_dir}/MatchFiles-O3-DNDEBUG
+
+for S in ${list_programs}; do
+  echo
+  for P in ${list_test_cases}; do
+    echo ${S} "<" ${P}
+    output="$(${S} < ${P})"
+    template="$(dirname ${P})/dimacs_output/$(basename ${P} .cnf)"
+    echo "${output}" | ${match_tool} "${template}"
+    result=$?
+    if [[ ${result} != 0 ]]; then
+      echo -e "ERROR: OUTPUT of solver is\n${output}\n, while TEMPLATE is"
+      cat ${template}; echo; exit 1
+    fi
+  done
+done
+
+
+exit 0
+
