@@ -33,6 +33,7 @@ pdvanderwaerden(L) := if emptyp(L) then 1
  elseif first(L) = 1 then pdvanderwaerden(rest(L))
  elseif length(L) >= 2 and first(L)=2 and second(L)=2 then pdvanderwaerden(rest(L))
  elseif pdvanderwaerdend_a(L)#[] then apply(pdvanderwaerdend,pdvanderwaerdend_a(L))
+ elseif pdvanderwaerden2k_a(L)#[] then apply(pdvanderwaerden2k,pdvanderwaerden2k_a(L))
  elseif pdvanderwaerden3k_a(L)#[] then apply(pdvanderwaerden3k,pdvanderwaerden3k_a(L))
  elseif pdvanderwaerden4k_a(L)#[] then apply(pdvanderwaerden4k,pdvanderwaerden4k_a(L))
  elseif pdvanderwaerden5k_a(L)#[] then apply(pdvanderwaerden5k,pdvanderwaerden5k_a(L))
@@ -48,6 +49,13 @@ pdvanderwaerden_p(L) := vanderwaerden_p(L)$
    * Binary cases *
    ****************
 */
+
+pdvanderwaerden2k(k) := if oddp(k) then [k,2*k] else [k-1,2*(k-1)]$
+pdvanderwaerden2k_a(L) := if length(L)#2 then [] else
+ block([S : setify(L)],
+  if elementp(2,S) then
+    if length(S)=1 then [2] else [first(listify(disjoin(2,S)))]
+  else [])$
 
 pdvanderwaerden3k(k) := 
  if k <= 39 then [
