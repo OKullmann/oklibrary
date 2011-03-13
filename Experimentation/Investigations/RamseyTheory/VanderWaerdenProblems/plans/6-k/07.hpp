@@ -14,6 +14,16 @@ License, or any later version. */
 
 
   \todo Best local-search solver for palindromic problems
+  <ul>
+   <li> Best ubcsat-algorithm:
+   \verbatim
+> PdVanderWaerdenCNF-O3-DNDEBUG 6 7 1155
+
+> E=run_ubcsat("VanDerWaerden_pd_2-6-7_1155.cnf",runs=100,cutoff=1000000)
+
+   \endverbatim
+   </li>
+  </ul>
 
 
   \todo vdw_2^pd(6,7) >= (587,1156)
