@@ -31,6 +31,7 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac
 /* Prerequisites: L ascendingly sorted list of natural numbers >= 1 */
 pdvanderwaerden(L) := if emptyp(L) then 1
  elseif first(L) = 1 then pdvanderwaerden(rest(L))
+ elseif length(L) >= 2 and first(L)=2 and second(L)=2 then pdvanderwaerden(rest(L))
  elseif pdvanderwaerdend_a(L)#[] then apply(pdvanderwaerdend,pdvanderwaerdend_a(L))
  elseif pdvanderwaerden3k_a(L)#[] then apply(pdvanderwaerden3k,pdvanderwaerden3k_a(L))
  elseif pdvanderwaerden4k_a(L)#[] then apply(pdvanderwaerden4k,pdvanderwaerden4k_a(L))
