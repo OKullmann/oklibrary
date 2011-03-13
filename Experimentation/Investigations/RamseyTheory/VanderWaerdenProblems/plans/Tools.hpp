@@ -36,54 +36,61 @@ License, or any later version. */
 
 
   \todo Version of RunVdW3k for palindromic problems
+  <ul>
+   <li> We have now RunPdVdW3k and RunPdVdWk1k2. The only reason to keep the
+   special version for k1=3 would be to use the additional unit-clause (next
+   item), however likely such things should be made parameters of the general
+   script. </li>
+   <li> For odd n the additional unit-clause according to
+   "Palindromic versions with arithmetic progressions of length 3" in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp
+   should be added:
     <ol>
-     <li> For odd n the additional unit-clause according to
-     "Palindromic versions with arithmetic progressions of length 3" in
-     ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp
-     should be added:
-      <ol>
-       <li> There is the small technical problem how to get correct Dimacs
-       after the addition of the clause (which increases the clause-count by
-       1). </li>
-       <li> We need general tools for such trivial tasks. </li>
-       <li> See "Elementary file-surgery" in
-       Interfaces/InputOutput/plans/general.hpp. </li>
-      </ol>
-     </li>
-     <li> We should have a statistics file, where at least for each n the
-     run where a solution was found is shown. </li>
-     <li> It could be that in case the solution for n-2 does not work, then
-     the solution for n-1 still is a better starting point than just complete
-     random initialisation. So we could have, in case solutions for n-2 and
-     n-1 are available (that is, we are in the first phase), after a failed
-     attempt at using the solution for n-2, another similar round (with 3
-     trials) for using the solution for n-1. </li>
-     <li> Later, one could increase cutoff or rounds, however in the first
-     version we just stop. </li>
-     <li> DONE (most solutions are now just small modifications)
-     Use of solution for n-2:
-      <ol>
-       <li> Likely this solution should be translated, that is, interpreted
-       as concerning now the vertices 2, ..., n-1, while vertices 1 and n
-       are left open. </li>
-      </ol>
-     </li>
-     <li> DONE
-     Let's call it "RunPdVdW33k". </li>
-     <li> DONE (we don't impose such restrictions, since we need to explore
-     the whole range)
-     An upper bound on the unsat-gap is given; say unsat_gap is 2 or 3.
-     </li>
-     <li> DONE (there are no sat- or unsat-gaps)
-     That is, if unsat_gap consecutive "unsatisfiable" problems
-     (according to the current settings) are found, then the first
-     unsatisfiable problem is revisited. </li>
-     <li> DONE (different from RunVdW33k, here solution-inheritance happens
-     for n -> n+2)
-     So RunPdVdW33k is very similar to RunVdW33k, except that it only
-     stops after unsat-gap many unsatisfiable problems in a row, and that
-     a different generator is used. </li>
+     <li> There is the small technical problem how to get correct Dimacs
+     after the addition of the clause (which increases the clause-count by
+     1). </li>
+     <li> We need general tools for such trivial tasks. </li>
+     <li> See "Elementary file-surgery" in
+     Interfaces/InputOutput/plans/general.hpp. </li>
     </ol>
    </li>
+   <li> Better statistics:
+    <ol>
+     <li> We should have a statistics file, where at least for each n the
+     run where a solution was found is shown. </li>
+    </ol>
+   </li>
+   <li> It could be that in case the solution for n-2 does not work, then
+   the solution for n-1 still is a better starting point than just complete
+   random initialisation. So we could have, in case solutions for n-2 and
+   n-1 are available (that is, we are in the first phase), after a failed
+   attempt at using the solution for n-2, another similar round (with 3
+   trials) for using the solution for n-1. </li>
+   <li> Later, one could increase cutoff or rounds, however in the first
+   version we just stop. </li>
+   <li> DONE (most solutions are now just small modifications)
+   Use of solution for n-2:
+    <ol>
+     <li> Likely this solution should be translated, that is, interpreted
+     as concerning now the vertices 2, ..., n-1, while vertices 1 and n
+     are left open. </li>
+    </ol>
+   </li>
+   <li> DONE
+   Let's call it "RunPdVdW3k". </li>
+   <li> DONE (we don't impose such restrictions, since we need to explore
+   the whole range)
+   An upper bound on the unsat-gap is given; say unsat_gap is 2 or 3.
+   </li>
+   <li> DONE (there are no sat- or unsat-gaps)
+   That is, if unsat_gap consecutive "unsatisfiable" problems
+   (according to the current settings) are found, then the first
+   unsatisfiable problem is revisited. </li>
+   <li> DONE (different from RunVdW3k, here solution-inheritance happens
+   for n -> n+2)
+   So RunPdVdW3k is very similar to RunVdW3k, except that it only
+   stops after unsat-gap many unsatisfiable problems in a row, and that
+   a different generator is used. </li>
+  </ul>
 
 */
