@@ -92,7 +92,7 @@ pdvanderwaerden6k_a(L) := vanderwaerden6k_a(L)$
 
 pdvanderwaerden7k(k) := 
  if k <= 7 then [
-  [6,7],[7,14],[41,44],[101,106],unknown,[[587,inf-1],[1156,inf-1]],[[660,inf-1],[839,inf-1]]
+  [6,7],[7,14],[41,44],[101,106],unknown,[[587,inf-1],[1156,inf-1]],[[1544,inf-1],[1547,inf-1]]
  ][k]
  else unknown$
 pdvanderwaerden7k_a(L) := vanderwaerden7k_a(L)$
