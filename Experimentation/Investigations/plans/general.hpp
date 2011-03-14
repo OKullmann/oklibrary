@@ -72,5 +72,17 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Translations from CSP to SAT
+  <ul>
+   <li> For the order-encoding and variations, especially for arithmetical
+   constraints, see [Tamura, Taga, Kitagawa, Banbara, Compiling finite linear
+   {CSP} into {SAT}, Constraints, 2009, 14(2):254-272, doi =
+   10.1007/s10601-008-9061-0Open Access]. </li>
+   <li> There is also the "compact order encoding" by the same people. </li>
+   <li> See also "Sugar" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp. </li>
+  </ul>
+
 */
 
