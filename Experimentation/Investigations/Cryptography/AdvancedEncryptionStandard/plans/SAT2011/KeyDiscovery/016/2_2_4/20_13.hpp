@@ -61,9 +61,20 @@ maxima> ss_mixcolumns_matrix(2,4,2);
 
   \todo Using the canonical core round box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes in the key schedule
-   and the operation of the round (SubBytes and MixColumns) as boxes
-   using the canonical translation for those boxes. </li>
+   <li> In this translation of the AES cipher, the cipher is 
+   decomposed into rounds such that each round consists of
+   two "core round column operations", that is, the SubBytes and MixColumns
+   operation combined, applied to each column in the input matrix. We have:
+   <ul>
+    <li> 40 4-bit Sboxes in the AES key schedule, yielding
+    8-bit boolean functions which are translated using the
+    canonical translation. </li>
+    <li> 40 core round column operations, yielding 16-bit boolean functions
+    which are translated using the canonical translation. </li>
+    <li> 656 addition (XOR) constraints, translated using the prime
+    implicates for each constraint. </li>
+   </ul>
+   </li>
    <li> Generating small scale AES for twenty rounds:
    \verbatim
 rounds : 20$

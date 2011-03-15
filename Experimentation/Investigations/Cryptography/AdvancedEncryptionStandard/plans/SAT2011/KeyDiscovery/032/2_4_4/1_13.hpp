@@ -63,8 +63,23 @@ maxima> ss_mixcolumns_matrix(2,4,2);
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
-   as whole boxes and translating these boxes using the canonical translation.
+   <li> In this translation of the AES cipher, the cipher is 
+   decomposed into rounds, and then each round is decomposed into
+   SubBytes, and linear diffusion operations, which are then further
+   decomposed into Sbox and multiplication constraints along with
+   addition (XOR) constraints. We have:
+   <ul>
+    <li> 10 4-bit Sboxes in the AES round and key schedule, yielding
+    8-bit boolean functions which are translated using the
+    canonical translation. </li>
+    <li> 32 multiplication operations yielding 16-bit boolean functions
+    which are translated using the canonical translation. </li>
+    <li> Addition (XOR) constraints, translated using the prime
+    implicates for each constraint. </li>
+   </ul>
+   Note that the linear diffusion operation is translated as the
+   conjunction of translation of the operation and it's inverse,
+   and so there are 32 multiplication operations, rather than 16.
    </li>
    <li> Generating small scale AES for 1 + 1/3 round:
    \verbatim
