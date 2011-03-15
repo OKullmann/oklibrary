@@ -470,7 +470,9 @@ BUILD FAILED
   \todo Minisat
   <ul>
    <li> http://www.cs.chalmers.se/Cs/Research/FormalMethods/MiniSat/ </li>
-   <li> Conflict-count-output only 32-bit int with minisat-2.2.0:
+   <li> The following needs to be transferred to the installation-docus. </li>
+   <li> DONE (we have provided a patch)
+   Conflict-count-output only 32-bit int with minisat-2.2.0:
     <ol>
      <li> For example with VanDerWaerden_pd_2-3-25_608.cnf we get
      \verbatim
@@ -482,11 +484,22 @@ BUILD FAILED
      <li> This is just an output bug! </li>
      <li> We should tell the minisat-developers, but we can also do it
      ourselves. </li>
-     <li> The stable factor for reporting conflicts seems to be 1.5. </li>
-     <li> Perhaps we should make that smaller, say 1.3. </li>
     </ol>
    </li>
-   <li> minisat-2.2.0 does not flush output: This should be easy to fix. </li>
+   <li> DONE (we have provided a patch)
+   minisat-2.2.0 does not flush output: This should be easy to fix. </li>
+   <li> More information:
+    <ol>
+     <li> The option "-verb=2" doesn't seem interesting (only information on
+     garbage collection). </li>
+     <li> The stable factor for reporting conflicts seems to be 1.5. </li>
+     <li> Perhaps we should make that smaller, say 1.2. </li>
+     <li> The general information ("Problem Statistics", including info on
+     garbage collection) is no longer exactly aligned with the "Search
+     Statistics" (due to the conflict-count using one more space). It seems
+     to OK that we could keep that, as a sign of our modifications. </li>
+    </ol>
+   </li>
    <li> minisat2 doesn't return the DIMACS-return-code:
     <ol>
      <li> However for example in VdWTransversalsInc we used minisat2 in the
