@@ -56,8 +56,11 @@ License, or any later version. */
    </li>
    <li> Better statistics:
     <ol>
-     <li> We should have a statistics file, where at least for each n the
+     <li> DONE
+     We should have a statistics file, where at least for each n the
      run where a solution was found is shown. </li>
+     <li> Also the statistics for the two unsuccessful runs would be good
+     to compute. </li>
     </ol>
    </li>
    <li> It could be that in case the solution for n-2 does not work, then
