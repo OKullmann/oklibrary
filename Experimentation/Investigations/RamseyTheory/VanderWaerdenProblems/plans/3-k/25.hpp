@@ -202,7 +202,7 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
 
   \todo Palindromic numbers
   <ul>
-   <li> pdvanderwaerden([3,25])[2] =(conj) 607 =(conj)
+   <li> pdvanderwaerden([3,25])[2] = 607 =(conj)
    vanderwaerden([3,25])-49. </li>
    <li> pdvanderwaerden([3,25])[1] = 586. </li>
    <li> Certificates:
@@ -240,7 +240,10 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
    </li>
    <li> minisat-2.2.0:
     <ol>
-     <li> n=608: ?sat, s ( conflicts). </li>
+     <li> n=608: unsat, 30days (on csltok, with unstable clock frequency;
+     6708604472 conflicts, 8254745835 decisions, 256909484007 propagations,
+     234914164662 conflict
+     literals). </li>
     </ol>
    </li>
    <li> "RunPdVdW3k 25 26 618 gsat-tabu 100 8000000" (old version): all
