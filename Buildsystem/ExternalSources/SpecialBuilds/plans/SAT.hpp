@@ -470,7 +470,7 @@ BUILD FAILED
   \todo Minisat
   <ul>
    <li> http://www.cs.chalmers.se/Cs/Research/FormalMethods/MiniSat/ </li>
-   <li> Conflict-count only 32-bit int with minisat-2.2.0:
+   <li> Conflict-count-output only 32-bit int with minisat-2.2.0:
     <ol>
      <li> For example with VanDerWaerden_pd_2-3-25_608.cnf we get
      \verbatim
@@ -479,11 +479,11 @@ BUILD FAILED
 | -977767819 |     304    49427   225828 |   820244   159204     38 |  0.001 % |
      \endverbatim
      </li>
-     <li> It should have no effect on performance to make such variables
-     64-bit variables. </li>
-     <li> We should ask the minisat-developers. </li>
-     <li> Hopefully although the count is incorrect, everything else works.
-     </li>
+     <li> This is just an output bug! </li>
+     <li> We should tell the minisat-developers, but we can also do it
+     ourselves. </li>
+     <li> The stable factor for reporting conflicts seems to be 1.5. </li>
+     <li> Perhaps we should make that smaller, say 1.3. </li>
     </ol>
    </li>
    <li> minisat-2.2.0 does not flush output: This should be easy to fix. </li>
