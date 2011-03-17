@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding installation of Lisp compiler/interpreters othen then Ecl (the current default)
 
 
-  \todo Update to CLisp version 2.49
+  \todo DONE (work now (but CLisp is very slow))
+  Update to CLisp version 2.49
   <ul>
    <li> Installation works on cs-wsok and cs-oksvr. </li>
    <li> We must now generalise the Maxima-system, so that special Ecl-code

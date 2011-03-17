@@ -31,7 +31,13 @@ all : maxima_configuration run_maxima
 
 maxima_configuration :
 	$(preprocessing_call) $(OKbuildsystem)/MasterScript/SpecialProcessing/maxima-init.mac > $(maxima_init_okl)
+ifeq ($(maxima_lisp_name_okl),ecl)
 	$(preprocessing_call) $(OKbuildsystem)/MasterScript/SpecialProcessing/preload.lisp > $(maxima_preload_okl)
+endif
 
 run_maxima :
+ifeq ($(maxima_lisp_name_okl),ecl)
 	HOME=$(maxima_homedir_okl) $(maxima_call_okl) --preload="$(maxima_preload_okl)" $(argument_okl)
+else
+	HOME=$(maxima_homedir_okl) $(maxima_call_okl) $(argument_okl)
+endif

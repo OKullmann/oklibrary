@@ -19,7 +19,8 @@ oklib_load("OKlib/ComputerAlgebra/MaximaInternals/MemoryManagement.mac");
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/MaximaInternals/MemoryManagement.lisp")$
+if maxima_lisp_name_okl = "ecl" then
+ oklib_include("OKlib/ComputerAlgebra/MaximaInternals/MemoryManagement.lisp")$
 
 /* Default values: */
 

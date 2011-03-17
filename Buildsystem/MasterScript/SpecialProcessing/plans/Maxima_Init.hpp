@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding initialisation of Maxima
 
 
-  \todo Using CLisp
+  \todo DONE (now Ecl-memory-management only loaded for Ecl)
+  Using CLisp
   <ul>
    <li> The special Ecl-code should be only included when using Ecl. </li>
    <li> This todo is sub-todo of "Update to CLisp version 2.49" in
