@@ -151,8 +151,8 @@ else
 fi
 
 if [[ ${oklib_monitor} == "true" ]]; then
-    oklib --maxima --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac\\\"); oklib_monitor : true; ${fast_rename_code} for r : 1 thru ${rounds} do ( output_ss_fcl_std(r,${args}), for i : 1 thru ${unique_keys_per_round} do output_ss_random_pc_pair(i,r,${key_gen_args}));\""
+    oklib --maxima --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac\\\"); oklib_monitor : true; ${fast_rename_code} file_search_maxima : cons(\\\"$(pwd)\\\",file_search_maxima); print(file_search_demo); oklib_plain_include(\\\"AESExperimentAuxilliary.mac\\\"); for r : 1 thru ${rounds} do ( output_ss_fcl_std(r,${args}), for i : 1 thru ${unique_keys_per_round} do output_ss_random_pc_pair(i,r,${key_gen_args}));\""
 else
-    oklib --maxima --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac\\\"); ${fast_rename_code} for r : 1 thru ${rounds} do ( output_ss_fcl_std(r,${args}), for i : 1 thru ${unique_keys_per_round} do output_ss_random_pc_pair(i,r,${key_gen_args}));\"" 2>&1 > /dev/null
+    oklib --maxima --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac\\\"); ${fast_rename_code} file_search_maxima : cons(\\\"$(pwd)\\\",file_search_maxima);  print(file_search_demo); if file_search(\\\"AESExperimentAuxilliary.mac\\\") # false then oklib_plain_include(\\\"AESExperimentAuxilliary.mac\\\"); for r : 1 thru ${rounds} do ( output_ss_fcl_std(r,${args}), for i : 1 thru ${unique_keys_per_round} do output_ss_random_pc_pair(i,r,${key_gen_args}));\"" 2>&1 > /dev/null
 fi
 

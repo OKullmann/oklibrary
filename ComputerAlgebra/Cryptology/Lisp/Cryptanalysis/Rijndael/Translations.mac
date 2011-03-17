@@ -1040,7 +1040,9 @@ ss_pi_translation_mapping : [
   ["const_cst", [aes_const_cst_cl, lambda([[a]],[])]],
   ["ss_mul_cst", [ss_mul_pi_cst_cl, lambda([[a]],[])]],
   ["ss_sbox_w_mul_cst", [ss_sbox_w_mul_pi_cst_cl, lambda([[a]],[])]],
-  ["ss_sbox_cst", [ss_sbox_pi_cst_cl, lambda([[a]],[])]]]$
+  ["ss_sbox_cst", [ss_sbox_pi_cst_cl, lambda([[a]],[])]],
+  ["ss_round_column_cst",
+    [ss_round_column_pi_cst_cl, lambda([a],[])]]]$
 
 /* Translation mapping, mapping constraint templates to the corresponding
    translation functions where constraints are translated to CNF clause-set
@@ -1050,7 +1052,9 @@ ss_rbase_translation_mapping : [
   ["const_cst", [aes_const_cst_cl, lambda([[a]],[])]],
   ["ss_mul_cst", [ss_mul_rbase_cst_cl, lambda([[a]],[])]],
   ["ss_sbox_w_mul_cst", [ss_sbox_w_mul_rbase_cst_cl, lambda([[a]],[])]],
-  ["ss_sbox_cst", [ss_sbox_rbase_cst_cl, lambda([[a]],[])]]]$
+  ["ss_sbox_cst", [ss_sbox_rbase_cst_cl, lambda([[a]],[])]],
+  ["ss_round_column_cst",
+    [ss_round_column_rbase_cst_cl, lambda([a],[])]]]$
 
 /* Translation mapping, mapping constraint templates to the corresponding
    translation functions where constraints are translated to representations
