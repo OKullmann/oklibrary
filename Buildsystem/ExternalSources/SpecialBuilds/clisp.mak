@@ -28,7 +28,7 @@ clisp : $(clisp_directories_okl)
 	make install; $(postcondition)
 	cp -f $(clisp_installation_dir_okl)/share/doc/clisp/doc/* $(clisp_doc_dir_okl)
 
-clispall : libsigsegv64 libffcall64 clisp
+clispall : libsigsegv libffcall clisp
 
 # #################################
 # Cleaning
@@ -50,7 +50,7 @@ cleanallclispall : cleanallclisp cleanalllibsigsegv cleanalllibffcall
 
 libsigsegv_directories_okl := $(libsigsegv_base_build_dir_okl) $(libsigsegv_base_installation_dir_okl)
 
-.PHONY : libsigsegv libsigsegv64 cleanlibsigsegv cleanalllibsigsegv
+.PHONY : libsigsegv cleanlibsigsegv cleanalllibsigsegv
 
 $(libsigsegv_directories_okl) : % : 
 	mkdir -p $@
@@ -62,8 +62,6 @@ libsigsegv : $(libsigsegv_directories_okl)
 	make; $(postcondition) \
 	make check; $(postcondition) \
 	make install; $(postcondition)
-
-libsigsegv64 : libsigsegv
 #ifeq ($(machine_bits_okl),64)
 	cp -r $(libsigsegv_installation_dir_okl)/lib $(libsigsegv_installation_dir_okl)/lib64
 #endif
@@ -81,7 +79,7 @@ cleanalllibsigsegv : cleanlibsigsegv
 
 libffcall_directories_okl := $(libffcall_base_build_dir_okl) $(libffcall_base_installation_dir_okl)
 
-.PHONY : libffcall libffcall64 cleanlibffcall cleanalllibffcall
+.PHONY : libffcall cleanlibffcall cleanalllibffcall
 
 $(libffcall_directories_okl) : % : 
 	mkdir -p $@
@@ -93,8 +91,6 @@ libffcall : $(libffcall_directories_okl)
 	make; $(postcondition) \
 	make check; $(postcondition) \
 	make install; $(postcondition)
-
-libffcall64 : libffcall
 #ifeq ($(machine_bits_okl),64)
 	cp -r $(libffcall_installation_dir_okl)/lib $(libffcall_installation_dir_okl)/lib64
 #endif
