@@ -102,6 +102,11 @@ License, or any later version. */
     - Make clear the required package for dos2unix
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
+   topics are handled:
+    - Update to CLisp version 2.49
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
     - Installation of version 5.23.2 : DONE

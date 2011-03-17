@@ -1,5 +1,5 @@
 # Oliver Kullmann, 19.12.2007 (Swansea)
-# Copyright 2007, 2008, 2010 Oliver Kullmann
+# Copyright 2007, 2008, 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -7,9 +7,9 @@
 
 # Settings for building and using Clisp
 
-clisp_recommended_version_number_okl ?= 2.48
+clisp_recommended_version_number_okl ?= 2.49
 # on 64-bit machines this needs libffcall
-clisp_other_versions_okl ?= 2.47
+clisp_other_versions_okl ?= 2.48
 
 clisp_prefix_okl ?= clisp
 
