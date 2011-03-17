@@ -1,5 +1,5 @@
 // Matthew Henderson, 15.11.2006 (Swansea)
-/* Copyright 2006 - 2007, 2009, 2010 Oliver Kullmann
+/* Copyright 2006 - 2007, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,36 @@ License, or any later version. */
 /*!
   \file Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp
   \brief Plans for the documentation-extraction from the source-code
+
+
+  \todo Problems with version 1.7.3
+  <ul>
+   <li> With an older Konqueror version pages are not shown correctly. </li>
+   <li> Under Firefox, the notes about OKlibrary at page-bottom is not
+   shown.
+    <ol>
+     <li> Actually it shows up at the very bottom, very small, and hardly
+     readable. </li>
+     <li> We need to investigate this, whether it is a bug of Doxyen, or
+     whether we need to change something in our system. </li>
+     <li> Has this to do with the old Firefox-version? </li>
+    </ol>
+   </li>
+   <li> Under Firefox, the menus on the main-page extend to full depth and
+   length, making them unusable.
+    <ol>
+     <li> Hopefully this can be configured. </li>
+    </ol>
+   </li>
+   <li> Firefox takes a long time to open pages.
+    <ol>
+     <li> This is a rather old version --- is this better with newer versions?
+     </li>
+    </ol>
+   </li>
+   <li> So we wait at least until ok cs-wsok a new Linux is installed, and
+   until the above problems have been solved. </li>
+  </ul>
 
 
   \todo Move
