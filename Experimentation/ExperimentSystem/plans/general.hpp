@@ -13,6 +13,23 @@ License, or any later version. */
   \todo Update namespaces
 
 
+  \todo Organisation
+  <ul>
+   <li> The script "DataCollection.R" in Experimentation/ExperimentSystem
+   is misnamed, since it considers only some very special form of experiments.
+   </li>
+   <li> It is also misplaced, as a special tool. </li>
+   <li> A directory ExperimentSystem/HelpingInvestigations shall be created,
+   with subdirectories which have the same names of those in
+   Experimentation/Investigations, and where special special R-scripts
+   helping these investigations are placed. </li>
+   <li> ExperimentSystem/DataCollection.R shall be moved there, with all
+   appropriate updates. </li>
+   <li> At this time then a proper specification of the functionality in
+   ExperimentSystem/DataCollection.R (currently) is needed. </li>
+  </ul>
+
+
   \todo Simple script for monitoring remote processes
   <ul>
    <li> See "Translation via addition" in
