@@ -1,5 +1,5 @@
 // Oliver Kullmann, 30.11.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -236,7 +236,10 @@ assignment: cannot assign 10001 to linel
    </li>
    <li> We need also reading from Dimacs-files.
     <ul>
-     <li> A simple function for reading from a standard "cnf" DIMACS file might
+     <li> DONE (We used Maxima's readline and read_list functions - see
+     read_fcs_f in 
+     ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac)
+     A simple function for reading from a standard "cnf" DIMACS file might
      be:
      \verbatim
 oklib_plain_include("stringproc")$
