@@ -87,12 +87,21 @@ nvar_full_dualts(10,64) - 10;
    10,336 variables. </li>
    <li> So the canonical translation yields more clauses than
    their translation but less variables. </li>
-   <li> We should be able to get a translation using less clauses by using
-   irredundant but non-canonical DNFs for the canonical translation, or using
-   an r_1-based translation. </li>
-   <li> Or using minimum-translations: smallest treating the S-box as a
-   single boolean function, or, similar to Massaci and Marraro, treating it as
-   4 6-bit functions. </li>
+  </ul>
+
+
+  \todo Analysing the S-boxes
+  <ul>
+   <li> Most urgent is to use all our instruments to analyse the 8 S-boxes.
+   </li>
+   <li> Of course, starting with defining them at Maxima-level. </li>
+   <li> Considering them as one 10-bit boolean function, or as 4 6-bit
+   boolean functions. Likely better the first view, but we need to consider
+   all possibilities. </li>
+   <li> Determining the number of prime implicates, data on the subsumption
+   hypergraph, and minimum CNFs, and r_0-,r_1-bases. </li>
+   <li> Here also minimum DNF-representations are of interest! </li>
+   <li> They can be used to yield pseudo-canonical translations. </li>
   </ul>
 
 
