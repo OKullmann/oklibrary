@@ -84,10 +84,15 @@ nvar_full_dualts(10,64) - 10;
    </ul>
    </li>
    <li> In comparison to Massaci and Marraro, they have 61,935 clauses and
-   10,336 variables. So the canonical translation yields more clauses than
-   their translation but less variables. We should be able to get a 
-   translation using less clauses by using irredundant but non-canonical DNFs
-   for the canonical translation, or using an r_1-base translation. </li>
+   10,336 variables. </li>
+   <li> So the canonical translation yields more clauses than
+   their translation but less variables. </li>
+   <li> We should be able to get a translation using less clauses by using
+   irredundant but non-canonical DNFs for the canonical translation, or using
+   an r_1-based translation. </li>
+   <li> Or using minimum-translations: smallest treating the S-box as a
+   single boolean function, or, similar to Massaci and Marraro, treating it as
+   4 6-bit functions. </li>
   </ul>
 
 
