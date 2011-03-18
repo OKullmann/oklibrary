@@ -77,8 +77,16 @@ License, or any later version. */
    \endverbatim
 Break point 1: 655
 Break point 2: 1168
-   using at most ?? runs.
    </li>
+   <li> "RunPdVdWk1k2 6 8 adaptg2wsat 100 80000000" yields also
+   \verbatim
+   \endverbatim
+Break point 1: 655
+Break point 2: 1168
+   using at most 28 runs. </li>
+   <li> Hardest problems apparently at around 500 < n < 670. Before *and*
+   after always solving it in the first run with previous solution, just a few
+   changes needing. </li>
   </ul>
 
 */
