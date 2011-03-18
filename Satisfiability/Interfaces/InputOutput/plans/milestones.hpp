@@ -22,7 +22,7 @@ License, or any later version. */
    In Interfaces/InputOutput/MinOnes2WeightedMaxSAT.cpp the following topics
    are handled:
     - Improve specification
-    - Add application tests
+    - Add application tests : DONE
 
   \par
    In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
