@@ -371,6 +371,26 @@ c Maximal literal degree: ", S[8], "
 c Minimal variable degree: ", S[9], "
 c Maximal variable degree: ", S[10]))$
 
+/* *****************************************
+   * Reading clause-sets in Dimacs-format  *
+   *****************************************
+*/
+
+
+oklib_plain_include("stringproc")$
+
+read_fcl_f(n) := block([fh, line, ll,p_n, p_found : false],
+  fh : openr(n),
+  while stringp(line : readline(fh)) and not(p_found) do (
+    if (slength(line) >= 1) and (charat(line,1) = "p") then (
+      p_n : parse_string(tokens(line)[3]),
+      p_found : true)
+  ),
+  assert(p_found),
+  return(
+    [listify(setn(p_n)),
+     rest(map(setify, split_list(read_list(fh),0)),-1)]))$
+
 
 /*!
 \endhtmlonly

@@ -25,6 +25,7 @@ License, or any later version. */
    </li>
   </ul>
 
+
   \todo Add application tests
 
   \todo Weak implementation
@@ -36,6 +37,7 @@ License, or any later version. */
    </li>
    <li> Reading in of the clause-indices is awkward. </li>
   </ul>
+
 
   \todo Move CLSAdaptorFilter
   <ul>

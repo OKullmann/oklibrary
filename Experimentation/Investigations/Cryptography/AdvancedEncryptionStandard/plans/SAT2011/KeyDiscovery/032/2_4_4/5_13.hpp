@@ -44,8 +44,9 @@ License, or any later version. */
    <li> The linear diffusion operation applies a linear permutation to
    the input matrix, consisting of:
    <ol>
-    <li> A shift of row i by i-1 to the left for all i from 1 to the number of
-    rows. </li>
+    <li> A cyclical shift of row 2 of the matrix by one 4-bit element to the
+    left, that is, the matrix matrix([1,2],[3,4]) would map to 
+    matrix([1,2],[4,3]). </li>
     <li> The AES MixColumns operation, which takes the input matrix and
     applies a matrix multiplication by the constant matrix 
     \verbatim

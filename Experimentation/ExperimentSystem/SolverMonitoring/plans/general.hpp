@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Create milestones
 
 
-  \bug False treatmeant of "decisions"
+  \bug False treatment of "decisions"
   <ul>
    <li> Column "decisions" is treated as factor! This is obviously false.
    </li>
