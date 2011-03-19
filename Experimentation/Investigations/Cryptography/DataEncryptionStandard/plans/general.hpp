@@ -56,7 +56,7 @@ nvar_full_dualts(10,64) - 10;
    <li> Using the canonical box translation and treating the Sboxes as 6-to-4
    bit functions, the full 16 round DES will contain:
    <ul>
-    <li> 9984+64+56=10104 variables: 
+    <li> 64+56+9984=10104 variables: 
      <ol>
       <li> 64 variables for the input plaintext. </li>
       <li> 56 variables for the key. </li>
@@ -87,7 +87,21 @@ nvar_full_dualts(10,64) - 10;
    </li>
    <li> In comparison to Massaci and Marraro, they have 61,935 clauses and
    10,336 variables. </li>
-   <li> Using a minimum-representation for the S-boxes, we get: </li>
+   <li> Using a minimum-representation for the S-boxes, we get:
+    <ol>
+     <li> 64+56+16*(48+32+32)=1912 variables. </li>
+     <li> If a minimum representation of an S-box (a 10-bit boolean function)
+     needs P clauses (assuming that the eight different S-boxes share the same
+     size), then 16*((48+32)*4+8*P)= 5120 + 128*P clauses are used. </li>
+     <li> We should have P <= 100, and so less than 20000 clauses are needed
+     (for this smallest representation). </li>
+     <li> Alternatively every S-box is represented by 4 1-bit-output functions.
+     </li>
+     <li> If such a (6-bit) function uses Q clauses, then
+     16*((48+32)*4+8*4*Q)= 5120 + 512*Q clauses are used. </li>
+     <li> Likely Q <= 30, and thus around 20000 clauses are needed. </li>
+    </ol>
+   </li>
   </ul>
 
 
