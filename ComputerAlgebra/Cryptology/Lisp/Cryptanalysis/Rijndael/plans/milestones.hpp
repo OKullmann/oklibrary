@@ -16,7 +16,6 @@ License, or any later version. */
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
    the following topics are handled:
-    - Organisation : DONE
     - Compute *all* prime implicates (for the purpose of analysis) : DONE
 
   \par

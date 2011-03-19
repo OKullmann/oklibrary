@@ -20,7 +20,7 @@ License, or any later version. */
   \todo Add decomposed Sbox operations
   <ul>
    <li> In "Rearranging linear components of Sbox and MixColumns " in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
+   Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
    we wish to translate the AES by splitting the various parts of the Sbox
    (inversion, linear multiplication) and moving them into the MixColumns by
    combining them with the field multiplications. </li>
@@ -61,11 +61,9 @@ License, or any later version. */
    DNF-representation.
     <ol>
      <li> See
-     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/TseitinTranslation.hpp
-     </li>
+     Satisfiability/Lisp/FiniteFunctions/plans/TseitinTranslation.hpp. </li>
      <li> Most natural should be to use dualts_fcl in
-     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
-     </li>
+     Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac. </li>
     </ol>
    </li>
   </ul>
@@ -110,13 +108,6 @@ OK: What is the "direct translation"? What does this mean for our cases?
    Advanced Encryption Standard], see 
    http://www.sagemath.org/doc/reference/sage/crypto/mq/sr.html#module-sage.crypto.mq.sr).
    </li>
-  </ul>
-
-
-  \todo DONE Organisation
-  <ul>
-   <li> DONE (no, this is too large)
-   Perhaps we should provide a constant for rijnsbox_fullcnf_fcs(). </li>
   </ul>
 
 
