@@ -1,5 +1,5 @@
 // Oliver Kullmann, 30.8.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,16 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp
   \brief Plans regarding installation of Lisp compiler/interpreters othen then Ecl (the current default)
+
+
+  \todo DONE (work now (but CLisp is very slow))
+  Update to CLisp version 2.49
+  <ul>
+   <li> Installation works on cs-wsok and cs-oksvr. </li>
+   <li> We must now generalise the Maxima-system, so that special Ecl-code
+   is provided only when Ecl is used. See "Using CLisp"
+   in MasterScript/SpecialProcessing/plans/Maxima_Init.hpp. </li>
+  </ul>
 
 
   \todo Libffcall not installing on AB's 64-bit Xeon machine

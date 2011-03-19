@@ -1,4 +1,4 @@
-// Matthew Gwynne, 8.3.2011 (Swansea)
+// Oliver Kullmann, 8.3.2011 (Swansea)
 /* Copyright 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp
+  \file Investigations/Cryptography/DataEncryptionStandard/plans/general.hpp
   \brief On investigations into the Data Encryption Standard
 
 
@@ -44,6 +44,50 @@ License, or any later version. */
    Marraro obtained. To be comparable, for the minimum translation we also need
    two versions: one treating an S-box as one 6-to-4 bit function, and one
    treating it as 4 6-bit functions. </li>
+   <li> The canonical translation for the 6-to-4 bit Sbox contains
+   64 new variables and 705 clauses:
+   \verbatim
+maxima> ncl_list_full_dualts(10,64);
+[[2,640],[11,64],[64,1]]
+nvar_full_dualts(10,64) - 10;
+64
+   \endverbatim
+   </li>
+   <li> Using the canonical box translation and treating the Sboxes as 6-to-4
+   bit functions, the full 16 round DES will contain:
+   <ul>
+    <li> 1856 variables: 
+     <ol>
+      <li> 64 variables for the input plaintext. </li>
+      <li> 1792 variables from 16 rounds consisting of:
+      <ol>
+       <li> 48 variables for the output of the key addition. </li>
+       <li> 32 variables for the output of Sbox substitutions. </li>
+       <li> 32 variables for the output of the final addition. </li>
+      </ol>
+      </li>
+     </ol>
+    </li>
+    <li> 95360 clauses:
+    <ol>
+     <li> 81920 clauses of size 2
+     (16 rounds * 8 Sboxes * 640 clauses = 81,920). </li>
+     <li> 5120 clauses of size 4
+     (16 rounds * (48-bit addition + 32-bit addition) * 4 clauses = 5120). 
+     </li>
+     <li> 8192 clauses of size 11
+     (16 rounds * 8 Sboxes * 64 clauses = 8,192). </li>
+     <li> 128 clauses of size 64
+     (16 rounds * 8 Sboxes * 1 clause = 128). </li>
+    </ol>
+    </li>
+   </ul>
+   </li>
+   <li> In comparison to Massaci and Marraro, they have 61,935 clauses and
+   10,336 variables. So the canonical translation yields more clauses than
+   their translation but less variables. We should be able to get a 
+   translation using less clauses by using irredundant but non-canonical DNFs
+   for the canonical translation, or using an r_1-base translation. </li>
   </ul>
 
 
@@ -65,7 +109,7 @@ License, or any later version. */
   </ul>
 
 
-  <li> Understanding the Massacci-Marraro translation
+  \todo Understanding the Massacci-Marraro translation
   <ul>
    <li> The reference is [SAT 2000, editors Gent, van Maaren, Walsh, pages
    343-375]. </li>

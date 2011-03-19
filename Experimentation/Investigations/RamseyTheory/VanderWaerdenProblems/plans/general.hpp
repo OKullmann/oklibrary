@@ -242,5 +242,17 @@ plot(E$num_variables,E$conflicts)
    Waerden problems. </li>
   </ul>
 
+
+  \todo Lower bounds
+  <ul>
+   <li> We need to get all known lower bounds into our system. </li>
+   <li> And algorithmic lower bounds should be implemented. See [William
+   Gasarch and Bernhard Haeupler, A Survey of Lower Bounds on the van der
+   {W}aerden Number ${W}(k,2)$: {R}-Constructive and {P}-Constructive, arXiv,
+   2010, arXiv:1005.3749v1 [math.CO]] for an overview w.r.t. vdw_2(k). </li>
+   <li> Compare "Lower bounds" in
+   ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/plans/general.hpp. </li>
+  </ul>
+
 */
 

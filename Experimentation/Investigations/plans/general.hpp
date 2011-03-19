@@ -1,5 +1,5 @@
 // Oliver Kullmann, 14.2.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -55,7 +55,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Add section on AES experiments to be run
+  \todo Add section on AES experiments to be run NEEDS UPDATE
   <ul>
    <li> Experiments need to be run on AES instances with different types
    of SAT algorithm (local search, dpll etc) to see how things stand
@@ -70,6 +70,18 @@ License, or any later version. */
      investigations on heuristics") . </li>
     </ul>
    </li>
+  </ul>
+
+
+  \todo Translations from CSP to SAT
+  <ul>
+   <li> For the order-encoding and variations, especially for arithmetical
+   constraints, see [Tamura, Taga, Kitagawa, Banbara, Compiling finite linear
+   {CSP} into {SAT}, Constraints, 2009, 14(2):254-272, doi =
+   10.1007/s10601-008-9061-0Open Access]. </li>
+   <li> There is also the "compact order encoding" by the same people. </li>
+   <li> See also "Sugar" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp. </li>
   </ul>
 
 */

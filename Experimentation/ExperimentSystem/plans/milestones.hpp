@@ -15,8 +15,8 @@ License, or any later version. */
 
   \par
    In ExperimentSystem/plans/general.hpp the following topics are handled:
-    - Simple script for monitoring remote processes
-    - Improve naming and documentation of rows2column_df
+    - Organisation
+    - Update namespaces
 
   \par
    All submodules have milestones.
@@ -26,25 +26,32 @@ License, or any later version. */
 
   \par
    In ExperimentSystem/plans/general.hpp the following topics are handled:
-    - Update namespaces
+    - Simple script for monitoring remote processes
+    - Improve naming and documentation of rows2column_df
+
+
+  \par Version 0.2 :
+
+  \par
+   In ExperimentSystem/plans/general.hpp the following topics are handled:
     - Transfer
 
 
-  \par Version 0.1.5 :
+  \par Version 0.2.1 :
 
   \par
    In ExperimentSystem/plans/general.hpp the following topics are handled:
     - Working again
 
 
-  \par Version 0.1.6 :
+  \par Version 0.2.2 :
 
   \par
    In ExperimentSystem/plans/general.hpp the following topics are handled:
     - Necessary extensions
 
 
-  \par Version 0.2 :
+  \par Version 0.3 :
   The old tools work nicely (again), and are tested and documented. Further
   milestones are created for the extended functionality.
 

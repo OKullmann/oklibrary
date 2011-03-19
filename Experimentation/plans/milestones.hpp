@@ -43,7 +43,7 @@ License, or any later version. */
   \par Experimentation/Investigations version 0.3.2
   (see  Experimentation/Investigations/plans/milestones.hpp)
 
-  \par Experimentation/ExperimentSystem version 0.1.5
+  \par Experimentation/ExperimentSystem version 0.2
   (see ExperimentSystem/plans/milestones.hpp)
 
   \par Experimentation/RandomGenerator version 0.6

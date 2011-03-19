@@ -52,12 +52,19 @@ License, or any later version. */
    <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
    <li> For now we consider adaptg2wsat as best (it was determined as best
    for vdw_2^pd(5,8) in VanderWaerdenProblems/plans/5-k/general.hpp. </li>
-   <li>  "RunPdVdWk1k2 4 13 adaptg2wsat 100 1000000" yields
+   <li> "RunPdVdWk1k2 4 13 adaptg2wsat 100 1000000" yields
    \verbatim
 Break point 1: 519
 Break point 2: 538
    \endverbatim
-   finding all solutions at the latest in the 6th run with random seed.
+   </li>
+   <li> "RunPdVdWk1k2 4 13 adaptg2wsat 100 10000000" yields
+   \verbatim
+Break point 1: 519
+Break point 2: 538
+   \endverbatim
+   All solutions found in the first round using the previous solution (using
+   at most 2609468 steps).
    </li>
   </ul>
 

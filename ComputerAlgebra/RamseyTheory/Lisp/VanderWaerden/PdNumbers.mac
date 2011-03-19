@@ -31,7 +31,9 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac
 /* Prerequisites: L ascendingly sorted list of natural numbers >= 1 */
 pdvanderwaerden(L) := if emptyp(L) then 1
  elseif first(L) = 1 then pdvanderwaerden(rest(L))
+ elseif length(L) >= 2 and first(L)=2 and second(L)=2 then pdvanderwaerden(rest(L))
  elseif pdvanderwaerdend_a(L)#[] then apply(pdvanderwaerdend,pdvanderwaerdend_a(L))
+ elseif pdvanderwaerden2k_a(L)#[] then apply(pdvanderwaerden2k,pdvanderwaerden2k_a(L))
  elseif pdvanderwaerden3k_a(L)#[] then apply(pdvanderwaerden3k,pdvanderwaerden3k_a(L))
  elseif pdvanderwaerden4k_a(L)#[] then apply(pdvanderwaerden4k,pdvanderwaerden4k_a(L))
  elseif pdvanderwaerden5k_a(L)#[] then apply(pdvanderwaerden5k,pdvanderwaerden5k_a(L))
@@ -48,6 +50,13 @@ pdvanderwaerden_p(L) := vanderwaerden_p(L)$
    ****************
 */
 
+pdvanderwaerden2k(k) := if oddp(k) then [k,2*k] else [k-1,2*(k-1)]$
+pdvanderwaerden2k_a(L) := if length(L)#2 then [] else
+ block([S : setify(L)],
+  if elementp(2,S) then
+    if length(S)=1 then [2] else [first(listify(disjoin(2,S)))]
+  else [])$
+
 pdvanderwaerden3k(k) := 
  if k <= 39 then [
   [2,3],[3,6],[6,9],[15,16],[16,21],[30,31],[41,44],[52,57],[62,77],[93,94],
@@ -60,30 +69,31 @@ pdvanderwaerden3k_a(L) := vanderwaerden3k_a(L)$
 
 
 pdvanderwaerden4k(k) := 
- if k <= 15 then [
+ if k <= 16 then [
   [3,4],[3,6],[15,16],[24,25],[34,55],[62,65],[101,106],[126,129],[300,309],[320,329],
-  [343,348],[[387,inf-1],[394,inf-1]],[[519,inf-1],[538,inf-1]],[[611,inf-1],[624,inf-1]],[[631,inf-1],[680,inf-1]]
+  [343,348],[[387,inf-1],[394,inf-1]],[[519,inf-1],[538,inf-1]],[[617,inf-1],[682,inf-1]],[[724,inf-1],[727,inf-1]],[[812,inf-1],[813,inf-1]]
  ][k]
  else unknown$
 pdvanderwaerden4k_a(L) := vanderwaerden4k_a(L)$
 
 pdvanderwaerden5k(k) := 
- if k <= 9 then [
-  [4,5],unknown,[16,21],[34,55],[150,177],unknown,unknown,[[312,inf-1],[323,inf-1]],[[446,inf-1],[451,inf-1]]
+ if k <= 11 then [
+  [4,5],[5,10],[16,21],[34,55],[150,177],unknown,unknown,[[312,inf-1],[323,inf-1]],[[446,inf-1],[473,inf-1]],[[595,inf-1],[612,inf-1]],
+  [[742,inf-1],[757,inf-1]]
  ][k]
  else unknown$
 pdvanderwaerden5k_a(L) := vanderwaerden5k_a(L)$
 
 pdvanderwaerden6k(k) := 
- if k <= 7 then [
-  [5,6],unknown,[30,31],[62,65],unknown,[567,1132],[[393,inf-1],[594,inf-1]]
+ if k <= 8 then [
+  [5,6],[5,10],[30,31],[62,65],unknown,[567,1132],[[587,inf-1],[1156,inf-1]],[[655,inf-1],[1168,inf-1]]
  ][k]
  else unknown$
 pdvanderwaerden6k_a(L) := vanderwaerden6k_a(L)$
 
 pdvanderwaerden7k(k) := 
  if k <= 7 then [
-  [6,7],unknown,[41,44],[101,106],unknown,unknown,[[660,inf-1],[839,inf-1]]
+  [6,7],[7,14],[41,44],[101,106],unknown,[[587,inf-1],[1156,inf-1]],[[1544,inf-1],[1547,inf-1]]
  ][k]
  else unknown$
 pdvanderwaerden7k_a(L) := vanderwaerden7k_a(L)$

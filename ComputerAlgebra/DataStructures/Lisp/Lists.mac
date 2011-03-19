@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.2.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -260,6 +260,20 @@ partition_list_eq(L,eq_) := block([H : sm2hm({}),v],
     if (v : ev_hm_d(H,eq_(x),undef)) = undef then set_hm(H,eq_(x),[x])
     else set_hm(H,eq_(x),cons(x,v)),
   return(map(lambda([A],reverse(A[2])),listify(hm2sm(H)))))$
+
+
+/* Split a list into sublists using elements for which the given predicate
+   returns true as the delimiting elements: */
+split_list(L,e) := split_list_epo(L,buildq([e],lambda([a], is(a = e))))$
+
+/* Split a list into sublists using elements for which the given predicate
+   returns true as the delimiting elements: */
+split_list_epo(L,pred_) := block([R:[],CL : []],
+  for e in L do
+    if pred_(e) then (R : cons(reverse(CL),R),CL : [])
+    else CL : cons(e,CL),
+  R : cons(reverse(CL),R),
+  return(reverse(R)))$
 
 
 /* **********************

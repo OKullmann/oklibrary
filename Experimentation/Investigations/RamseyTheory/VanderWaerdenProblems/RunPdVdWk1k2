@@ -15,24 +15,30 @@
 # VanDerWaerden_pd_2-k1-k2_n.cnf_sol.
 
 # A solution found for n-2 is used as the initial ubcsat-assignment for n.
-# Once the first phase is finised, that is, the first unsatisfiable
+# Once the first phase is finished, that is, the first unsatisfiable
 # instance was found (that is, heuristically determined as unsat),
 # the second phase is entered, where in steps of +2 the search advances
 # to the next potentially satisfiable instance, skipping the unsatisfiable
-# instance inbetween. The third phase is entered once the second unsatisfiable
+# instance in-between. The third phase is entered once the second unsatisfiable
 # instance is found in this way.
 # The results are two n-values n1, n2: n1 is maximal such that for all n <= n1
 # the instances are satisfiable, while n2 is minimal such that for all n >= n2
 # the instances are unsatisfiable (always heuristically).
 
 # The parameters of the script can be found in file "Parameters" within the
-# experiment-directory, and the results are in file "Results".
+# experiment-directory, and the (final) results are in file "Results".
+# And in file "Statistics" for the successful runs one finds lines with
+# - n
+# - runs needed
+# - osteps of final (successful) run
+# - seed
+# - "p" for previous or "r" for random initial assignment.
 
 set -o errexit
 set -o nounset
 
 script_name="RunPdVdWk1k2"
-version_number="0.2.1"
+version_number="0.2.3"
 
 if [[ $# != 5 ]]; then
   echo "ERROR[${script_name}]: Five parameters k1, k2, alg, runs, cutoff
@@ -62,9 +68,13 @@ echo -e "Creating directory ${ExpDir}.\n"
 mkdir ${ExpDir}
 cd ${ExpDir}
 
+parameter_file=Parameters
 result_file=Results
+statistics_file=Statistics
 
-echo -e "${script_name}:\n k1=${k1}\n k2=${k2}\n alg=${alg}\n runs=${runs}\n cutoff=${cutoff}\n" > Parameters
+echo -e "${script_name}:\n k1=${k1}\n k2=${k2}\n alg=${alg}\n runs=${runs}\n cutoff=${cutoff}\n" > ${parameter_file}
+
+printf "%7s %5s %10s %10s %2s\n" n run osteps seed type > ${statistics_file}
 
 generator="PdVanderWaerdenCNF-O3-DNDEBUG"
 shifter="SolutionShift-O3-DNDEBUG"
@@ -98,6 +108,7 @@ for ((n=k2+2; phase<=2; ++n, ++n0)); do
   Solution="${SATinstance}_sol"
 
   # Using the assignment two steps before as initial assignment:
+  previous_solution=p # for "previous"
   Output_init="${Output}_init"
   parameter_line="-alg ${alg} -runs ${repeats_prevassign} -cutoff ${cutoff} -i ${SATinstance} -solve -varinitfile ${initial_assignment}"
   ubcsat-okl ${parameter_line} | tee ${Output_init}
@@ -110,6 +121,7 @@ for ((n=k2+2; phase<=2; ++n, ++n0)); do
 
   # Using random initial assignments:
   if [[ ${success} != 1 ]]; then
+    previous_solution=r # for "random"
     parameter_line="-alg ${alg} -runs ${runs} -cutoff ${cutoff} -i ${SATinstance} -solve"
     ubcsat-okl ${parameter_line} | tee ${Output}
     # Finding out whether a satisfying assignment was found:
@@ -120,10 +132,17 @@ for ((n=k2+2; phase<=2; ++n, ++n0)); do
 
     # Extracting the solution
     cat ${Output} | extract_solution_ubcsat > ${Solution}
+
     # Printing the solution
+    solution_parameters=$(awk '/^  +[0-9]+ 1/ {\
+      print $1, $4, $5, $6}' ${Output})
+    par_run=$(echo ${solution_parameters} | cut -d " " -f 1)
+    par_osteps=$(echo ${solution_parameters} | cut -d " " -f 2)
+    par_msteps=$(echo ${solution_parameters} | cut -d " " -f 3)
+    par_seed=$(echo ${solution_parameters} | cut -d " " -f 4)
     echo "Solution ubcsat-parameters are:"
-    awk '/^  +[0-9]+ 1/ {\
-      print " run=",$1, "osteps=",$4, "msteps=",$5, "seed=",$6}' ${Output}
+    echo " run= ${par_run} osteps= ${par_osteps} msteps= ${par_msteps} seed= ${par_seed}"
+    printf "%7u %5u %10u %10s %2s\n" ${n} ${par_run} ${par_osteps} ${par_seed} ${previous_solution} >> ${statistics_file}
     echo "Certificate (the vertices for k=${k1}) for n = ${n} : "
     ExtractCertificate_vdW2 ${Output}
     if [[ ${phase} == 2 ]]; then

@@ -36,6 +36,7 @@ minisat_homepage_url_okl := http://minisat.se/MiniSat.html
 minisat_documentation_url_okl := 
 minisat_git_url_okl := https://github.com/niklasso/minisat
 
+minisat_oklib_dir_okl ?= $(OKlib)/Satisfiability/Solvers/Minisat/Minisat2
 
 # Minisat version 2.0
 

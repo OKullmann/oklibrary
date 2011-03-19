@@ -19,9 +19,16 @@ License, or any later version. */
     - False error message : DONE
 
   \par
+   In Interfaces/InputOutput/MinOnes2WeightedMaxSAT.cpp the following topics
+   are handled:
+    - Improve specification
+    - Add application tests : DONE
+
+  \par
    In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
    are handled:
     - Need "ReverseDimacs" application and clause-set adaptor
+    - Add MinOnes2WCNF output clause-set adaptor : DONE 
 
   \par
    In Interfaces/InputOutput/plans/Colouring.hpp the following topics
@@ -60,6 +67,11 @@ License, or any later version. */
 
 
   \par Version 0.1.2 :
+
+  \par
+   In Interfaces/InputOutput/MinOnes2WeightedMaxSAT.cpp the following topics
+   are handled:
+    - Move to correct place
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics

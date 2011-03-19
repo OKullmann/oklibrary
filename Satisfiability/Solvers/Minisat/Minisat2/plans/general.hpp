@@ -10,6 +10,18 @@ License, or any later version. */
   \brief Plans for maintaining Minisat2
 
 
+  \todo Create milestones
+
+
+  \todo Improve patches
+  <ul>
+   <li> OK doesn't know the "standard" way of providing and applying patches.
+   </li>
+   <li> MG should look into this, and update the patches and their application
+   accordingly. </li>
+  </ul>
+
+
   \todo Newer versions
   <ul>
    <li> Likely this module should also include minisat-2.2.0 and further

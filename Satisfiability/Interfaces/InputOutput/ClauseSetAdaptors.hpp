@@ -77,7 +77,7 @@ namespace OKlib {
 
     /*!
       \class Statistics
-      \brief Class for gathering statistics about input/output (especially in DIMCAS format).
+      \brief Class for gathering statistics about input/output (especially in DIMACS format).
 
       Meaning of data members:
       <ul>
@@ -135,7 +135,7 @@ namespace OKlib {
 
     /*!
       \class FullStatistics
-      \brief Class for gathering "all" statistics about input/output (especially in DIMCAS format).
+      \brief Class for gathering "all" statistics about input/output (especially in DIMACS format).
     */
 
     template <typename Int = int>

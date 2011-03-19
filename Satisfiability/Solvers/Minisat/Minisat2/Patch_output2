@@ -1,0 +1,10 @@
+766,769c766,769
+<         printf("============================[ Search Statistics ]==============================\n");
+<         printf("| Conflicts |          ORIGINAL         |          LEARNT          | Progress |\n");
+<         printf("|           |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |\n");
+<         printf("===============================================================================\n");
+---
+>         printf("=============================[ Search Statistics ]==============================\n");
+>         printf("| Conflicts  |          ORIGINAL         |          LEARNT          | Progress |\n");
+>         printf("|            |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |\n");
+>         printf("================================================================================\n");
