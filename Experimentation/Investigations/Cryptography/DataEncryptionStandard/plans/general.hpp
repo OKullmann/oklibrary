@@ -127,7 +127,7 @@ nvar_full_dualts(10,64) - 10;
   <ul>
    <li> The reference is [SAT 2000, editors Gent, van Maaren, Walsh, pages
    343-375]. </li>
-   <li> There benchmarks should become part of the OKlibrary (ExternalSources).
+   <li> Their benchmarks should become part of the OKlibrary (ExternalSources).
    </li>
    <li> The article speaks about the "commercial version" ? Likely this means
    just full DES? </li>
