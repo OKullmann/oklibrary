@@ -15,7 +15,7 @@ set -o errexit
 set -o nounset
 
 script_name="all_minimum_cnf"
-version="0.2.2"
+version="0.2.3"
 
 err="ERROR[${script_name}]"
 if [[ $# > 2 || $# < 1 ]]; then
@@ -35,17 +35,20 @@ else
   lower_bound=0
 fi
 
+shg_computation=QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG
+transversal_computation=BoundedTransversals_bv-O3-DNDEBUG
+
 echo "Starting with lower bound of ${lower_bound} ..."
 
 # Compute subsumption hypergraph and prime implicates
 echo "Computing subsumption hypergraph ..."
-QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ${input_file} > ${shg_file}
+${shg_computation} ${input_file} > ${shg_file}
 
 echo "Computing bounded transversals ..."
 # Compute transversals and then extract the CNFs from the prime clauses using the result.
 count=0
 current_transversal=1
-BoundedTransversals_bv ">=${lower_bound}" < ${shg_file}  | grep -v "^[pc]" > ${transversals_file}
+${transversal_computation} ">=${lower_bound}" < ${shg_file}  | grep -v "^[pc]" > ${transversals_file}
 num_transversals=$(wc -l ${transversals_file})
 cat ${transversals_file} |  while read transversal; do
       echo "Translating assignment for transversal [${current_transversal}/${num_transversals}] ..."
