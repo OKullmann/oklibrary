@@ -13,13 +13,6 @@ License, or any later version. */
 
   \par Version 0.0.7
 
-
-  \par
-   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
-   the following topics are handled:
-    - Fix translation system : DONE
-
-
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
    the following topics are handled:
@@ -36,8 +29,16 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
     - Randomly choosing "unknown" block bits: DONE
 
-    
+
   \par Version 0.0.8
+
+  \par
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
+   the following topics are handled:
+    - Fix translation system
+
+    
+  \par Version 0.0.9
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
@@ -66,7 +67,7 @@ License, or any later version. */
     - Update
 
 
-  \par Version 0.0.9
+  \par Version 0.0.10
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
@@ -91,7 +92,7 @@ License, or any later version. */
     - Add XOR translations for field multiplications
   
 
-  \par Version 0.0.10
+  \par Version 0.0.11
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the
