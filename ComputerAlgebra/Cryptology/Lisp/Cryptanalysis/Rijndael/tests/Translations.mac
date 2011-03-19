@@ -13,22 +13,6 @@ Use by
 
 oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/Translations.mac");
 
-  \bug DONE (old code removed)
-  C-STACK overflow
-  <ul>
-   <li> When running at test-level "full" we get the error
-   \verbatim
-okltest_aes_key_expansion_cp(aes_key_expansion_cp)
-Maxima encountered a Lisp error:
-
- C-STACK overflow at size 557056. Stack can probably be resized.
-
-Automatically continuing.
-   \endverbatim
-   </li>
-   <li> Is there really a stack problem? </li>
-  <ul>
-
 */
 
 /*!

@@ -13,16 +13,6 @@ Use by
 
 oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac");
 
-  \bug DONE (updated specifications)
-  Bad specification
-  <ul>
-   <li> DONE (updated specification)
-   What is "mapping the number of elements involved in each addition in
-   the translation to the number of such additions" ? </li>
-   <li> DONE (updated specification)
-   What is "that any MixColumns matrix" ? </li>
-  </ul>
-  
 */
 
 /*!

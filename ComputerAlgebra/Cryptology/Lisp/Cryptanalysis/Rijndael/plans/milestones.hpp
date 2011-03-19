@@ -15,35 +15,9 @@ License, or any later version. */
 
 
   \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac
-   the following topics are handled:
-    - Bad specification : DONE
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
-   the following topics are handled:
-    - Missing includes : DONE
-    - Test failure : DONE
-    - Test failure at level "full" : DONE
-
-  \par 
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateRewriteSystem.mac
-   the following topics are handled:
-     - Tests not executed : DONE
-
-  \par
-   In Cryptology/Lisp/Cryptanalysis/Rijndael/tests/Translations.mac
-   the following topics are handled:
-    - C-STACK overflow : DONE
-  
-  \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
    the following topics are handled:
-    - Add statistics for translations : DONE
     - Fix translation system : DONE
-    - Parameterise inclusion of inverse operation in Mixcolumn translation : DONE
-    - Standardise block ordering: DONE
-    - Truncate AES for reduced rounds: DONE
 
 
   \par

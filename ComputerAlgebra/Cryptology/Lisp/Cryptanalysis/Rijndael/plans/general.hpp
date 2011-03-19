@@ -234,41 +234,5 @@ License, or any later version. */
    translation. </li>
   </ul>
 
-
-  \bug DONE (Added missing includes)
-  Missing includes
-  <ul>
-   <li> Rijndael/tests/ConstraintTemplateSmallScaleRewriteRules.mac obviously
-   misses includes. </li>
-  </ul>
-
-
-  \bug DONE (fixed typo in test)
-  Test failure
-  <ul>
-   <li> With test-level "full":
-   \verbatim
-(%i181) okltest_ss_inv_mixcolumn_cstr_cstl(ss_inv_mixcolumn_cstr_cstl)
-ASSERT: Expression " errexp1 " does not evaluate to true.
-   \endverbatim
-   </li>
-  </ul>
-
-
-  \bug DONE (caused by lack of uniqueness of hash keys used to
-  cache the values)
-  Test failure at level "full"
-  <ul>
-   <li> For Rijndael/tests/ConstraintTemplateSmallScaleRewriteRules.mac we get
-   \verbatim
-okltest_ss_mul_ts_var_l(ss_mul_ts_var_l)
-Evaluation took 0.0900 seconds (0.1800 elapsed)
-true
-okltest_ss_mul_ts_cst_cl(ss_mul_ts_cst_cl)
-map: arguments must be the same length.
-   \endverbatim
-   </li>
-  </ul>
-
 */
 
