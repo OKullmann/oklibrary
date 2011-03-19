@@ -7,9 +7,14 @@
 # License, or any later version.
 
 # Script which given the path to a full Dimacs CNF file "file"
-# computes all minimum CNF representations of this file
+# computes all minimum CNF representations of this CNF,
 # and then generates files with the names file.trans_$i containing 
-# the i-th minimum size CNF representation for all i.
+# these minimum size CNF representation for 1 <= i <= number of solutions.
+
+# The algorithm used is
+# Combinatorics/Hypergraphs/Transversals/Bounded/BoundedTransversals_bv.cpp
+# in the iterative version, searching for transversals of size 0, 1, ... .
+# This is a simple algorithm, and succeeds only for smaller examples.
 
 set -o errexit
 set -o nounset
