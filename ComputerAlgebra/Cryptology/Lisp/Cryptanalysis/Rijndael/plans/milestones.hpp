@@ -22,7 +22,6 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Functions should not cache return values
     - Missing includes : DONE
     - Test failure : DONE
     - Test failure at level "full" : DONE
@@ -40,10 +39,6 @@ License, or any later version. */
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
    the following topics are handled:
-    - Order of small scale matrix dimensions
-    - Handling external data
-    - Update specifications
-    - Move AES box translations into separate file
     - Add statistics for translations : DONE
     - Fix translation system : DONE
     - Parameterise inclusion of inverse operation in Mixcolumn translation : DONE
@@ -54,7 +49,6 @@ License, or any later version. */
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
    the following topics are handled:
-    - Add decomposed Sbox operations
     - Organisation : DONE
     - Compute *all* prime implicates (for the purpose of analysis) : DONE
 
@@ -66,11 +60,39 @@ License, or any later version. */
   
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
-    - Update
     - Randomly choosing "unknown" block bits: DONE
 
     
   \par Version 0.0.8
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
+   the following topics are handled:
+    - Functions should not cache return values
+
+  \par
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
+   the following topics are handled:
+    - Order of small scale matrix dimensions
+    - Handling external data
+    - Update specifications
+    - Move AES box translations into separate file
+
+  \par
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
+   the following topics are handled:
+    - Add decomposed Sbox operations
+
+  \par
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
+   the following topics are handled:
+    - Add decomposed Sbox operations
+
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+    - Update
+
+
+  \par Version 0.0.9
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
@@ -95,7 +117,7 @@ License, or any later version. */
     - Add XOR translations for field multiplications
   
 
-  \par Version 0.0.9
+  \par Version 0.0.10
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the
