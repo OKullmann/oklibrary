@@ -14,11 +14,6 @@ License, or any later version. */
   \par Version 0.0.7
 
   \par
-   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
-   the following topics are handled:
-    - Compute *all* prime implicates (for the purpose of analysis) : DONE
-
-  \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp
    the following topics are handled:  
     - Provide tests for all functions: DONE
@@ -35,6 +30,11 @@ License, or any later version. */
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
    the following topics are handled:
     - Fix translation system
+
+  \par
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
+   the following topics are handled:
+    - Determine *all* prime implicates (for the purpose of analysis)
 
     
   \par Version 0.0.9
