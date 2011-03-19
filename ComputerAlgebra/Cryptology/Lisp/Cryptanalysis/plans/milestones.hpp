@@ -6,18 +6,9 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/plans/milestones.hpp
+  \file Cryptology/Lisp/Cryptanalysis/plans/milestones.hpp
 
-  \module_version Cryptology/Lisp/Cryptanalysis 0.0.2 (7.3.2008)
-
-
-  \par Version 0.0.3
-
-  \par Cryptology/Lisp/Cryptanalysis/Rijndael version 0.0.6 : DONE
-  (see Cryptology/Lisp/Cryptanalysis/Rijndael/plans/milestones.hpp)
-
-  \par
-   Update the following milestones. : DONE
+  \module_version Cryptology/Lisp/Cryptanalysis 0.0.3 (4.6.2009)
 
 
   \par Version 0.0.4
@@ -36,5 +27,6 @@ License, or any later version. */
 
   \par Version history
    - 0.0.2 : 7.3.2008; initial version number (several plans related to AES).
+   - 0.0.3 : 4.6.2009; completed first version of system for translating AES into SAT.
 
 */

@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Cryptology/Lisp 0.0.5.2 (8.1.2011)
+  \module_version ComputerAlgebra/Cryptology/Lisp 0.0.5.3 (19.3.2011)
 
 
   \par Version 0.0.6
@@ -22,6 +22,9 @@ License, or any later version. */
     - New structure : DONE
     - Create milestones : DONE
 
+  \par Cryptology/Lisp/Cryptanalysis version 0.0.3 : DONE
+  (see Cryptology/Lisp/Cryptanalysis/plans/milestones.hpp)
+
   \todo
    Update the following milestones.
 
@@ -31,9 +34,8 @@ License, or any later version. */
   \par ComputerAlgebra/Cryptology/Lisp/CryptoSystems version 0.0.7
   (ComputerAlgebra/Cryptology/Lisp/CryptoSystems/plans/milestones.hpp)
   
-  \par ComputerAlgebra/Cryptology/Lisp/Cryptanalysis version 0.0.3
-  (ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/plans/milestones.hpp)
-
+  \par Cryptology/Lisp/Cryptanalysis version 0.0.4
+  (see Cryptology/Lisp/Cryptanalysis/plans/milestones.hpp)
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/plans/general.hpp
