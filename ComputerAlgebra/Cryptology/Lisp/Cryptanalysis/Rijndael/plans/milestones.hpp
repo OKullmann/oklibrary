@@ -13,11 +13,6 @@ License, or any later version. */
 
   \par Version 0.0.7
 
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
-    - Randomly choosing "unknown" block bits: DONE
-
-
   \par Version 0.0.8
 
   \par
