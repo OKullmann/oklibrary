@@ -56,28 +56,30 @@ nvar_full_dualts(10,64) - 10;
    <li> Using the canonical box translation and treating the Sboxes as 6-to-4
    bit functions, the full 16 round DES will contain:
    <ul>
-    <li> 1856 variables: 
+    <li> 9984+64+56=10104 variables: 
      <ol>
       <li> 64 variables for the input plaintext. </li>
-      <li> 1792 variables from 16 rounds consisting of:
+      <li> 56 variables for the key. </li>
+      <li> 16*(48+512+32+32)=9984 variables from 16 rounds consisting of:
       <ol>
        <li> 48 variables for the output of the key addition. </li>
+       <li> 8*64=512 variables for the S-box representation. </li>
        <li> 32 variables for the output of Sbox substitutions. </li>
        <li> 32 variables for the output of the final addition. </li>
       </ol>
       </li>
      </ol>
     </li>
-    <li> 95360 clauses:
+    <li> 81920+5120+8192+128=95360 clauses:
     <ol>
-     <li> 81920 clauses of size 2
+     <li> 16*8*640=81920 clauses of size 2
      (16 rounds * 8 Sboxes * 640 clauses = 81,920). </li>
-     <li> 5120 clauses of size 4
+     <li> 16*(48+32)*4=5120 clauses of size 4
      (16 rounds * (48-bit addition + 32-bit addition) * 4 clauses = 5120). 
      </li>
-     <li> 8192 clauses of size 11
+     <li> 16*8*64=8192 clauses of size 11
      (16 rounds * 8 Sboxes * 64 clauses = 8,192). </li>
-     <li> 128 clauses of size 64
+     <li> 16*8=128 clauses of size 64
      (16 rounds * 8 Sboxes * 1 clause = 128). </li>
     </ol>
     </li>
@@ -85,8 +87,7 @@ nvar_full_dualts(10,64) - 10;
    </li>
    <li> In comparison to Massaci and Marraro, they have 61,935 clauses and
    10,336 variables. </li>
-   <li> So the canonical translation yields more clauses than
-   their translation but less variables. </li>
+   <li> Using a minimum-representation for the S-boxes, we get: </li>
   </ul>
 
 
@@ -179,6 +180,7 @@ nvar_full_dualts(10,64) - 10;
    <li> The point is that even if we have a very good representation of a
    round, the sixteen rounds together likely still have enough confusion
    power to make the problem very hard for a SAT solver. </li>
+   <li> Definitely xor-constraint can be merged. </li>
   </ul>
 
 */
