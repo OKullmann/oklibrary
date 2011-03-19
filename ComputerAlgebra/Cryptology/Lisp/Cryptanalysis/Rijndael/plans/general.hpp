@@ -10,6 +10,19 @@ License, or any later version. */
   \brief Plans for the Cryptanalysis of Rijndael in Maxima/Lisp
 
 
+  \todo Update
+  <ul>
+   <li> Plans-files are needed for all sub-modules, and all todos need to be
+   moved there. </li>
+   <li> All todos need to appear in the milestones. </li>
+   <li> Milestones need to be updated, to reflect the current state. </li>
+   <li> All stale todos need to be removed (after careful inspection). </li>
+   <li> All current todos need to be inspected and updated accordingly. </li>
+   <li> Special care must be taken that with version 0.1 some form of
+   completion is achieved. </li>
+  </ul>
+
+
   \todo Connections
   <ul>
    <li> See Applications/Cryptanalysis/plans/Rijndael.hpp for the C++ level.
@@ -100,20 +113,6 @@ License, or any later version. */
    we find this polynomial via linear interpolation. </li>
    <li> We need to implement linear interpolation over the field
    for arbitrary fields. </li>
-  </ul>
-
-
-  \todo Update
-  <ul>
-   <li> It seems that these todos as well as the milestones are out-of-date.
-   </li>
-   <li> Especially the small-scale generalisation is not mentioned. </li>
-   <li> Likely the version number should be advanced. </li>
-   <li> The todos "Review and tidy todos" and "Create / update milestones"
-   are not mentioned in the milestones, which must not happen! MG must
-   look up these todos in this history, and either remove them (potentially
-   adding to the milestones-history), or add them to the current milestones.
-   </li>
   </ul>
 
 

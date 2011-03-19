@@ -16,6 +16,11 @@ License, or any later version. */
   \par Version 0.0.8
 
   \par
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+    - Update
+    - Determine *all* prime implicates (for the purpose of analysis)
+
+  \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
    the following topics are handled:
     - Fix translation system
@@ -25,11 +30,7 @@ License, or any later version. */
    the following topics are handled:
     - Determine *all* prime implicates (for the purpose of analysis)
 
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
-    - Determine *all* prime implicates (for the purpose of analysis)
 
-    
   \par Version 0.0.9
 
   \par
@@ -54,9 +55,6 @@ License, or any later version. */
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
    the following topics are handled:
     - Add decomposed Sbox operations
-
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
-    - Update
 
 
   \par Version 0.0.10
