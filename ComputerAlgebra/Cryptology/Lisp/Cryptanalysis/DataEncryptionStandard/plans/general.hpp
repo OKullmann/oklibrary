@@ -15,10 +15,10 @@ License, or any later version. */
   
   \todo Links
   <ul>
-   <li> For  the implementation of the DES see
+   <li> For the implementation of the DES see
    Lisp/CryptoSystems/DataEncryptionStandard/plans/general.hpp. </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp.
+   Experimentation/Investigations/Cryptography/DataEncryptionStandard/plans/general.hpp.
    </li>
   </ul>
 
