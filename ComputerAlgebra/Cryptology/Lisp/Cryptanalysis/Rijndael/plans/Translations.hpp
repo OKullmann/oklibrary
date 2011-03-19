@@ -212,7 +212,8 @@ License, or any later version. */
   
   \todo How to represent elements of arbitrary fields as boolean variables?
   <ul>
-   <li> In CryptoSystems/Lisp/Rijndael/SmallScaleAdvancedEncryptionStandard.mac,
+   <li> In
+   CryptoSystems/Lisp/Rijndael/SmallScaleAdvancedEncryptionStandard.mac
    an arbitrary field can be used for the small scale AES word field. </li>
    <li> However, a GF(3^2) field would have 9 elements, and there is no
    longer a simple match between polynomial coefficients of the element
@@ -248,7 +249,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Write Docus
+  \todo Write docus
   <ul>
    <li> Documentation should be written explaining the way the translation
    system works, as well as pointing out the standard functions to use. </li>
@@ -272,16 +273,16 @@ License, or any later version. */
      <li> Box translations for the Sbox and field multiplications using:
      <ul>
       <li> Small CNF representations (see 
-      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp 
+      Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp 
       and 
-      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp).
+      Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp).
       </li>
       <li> The canonical DNF translation (see 
       ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac). </li>
       <li> r_k-reduced representation (see 
       OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac). </li>
       <li> Small hitting clause-set representations (see 
-      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp). 
+      Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp). 
       </li>
      </ul>
      </li>
@@ -302,7 +303,7 @@ License, or any later version. */
      </ul>
      </li>
      <li> Generalised small scale parameters (see 
-     ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac)
+     Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac)
      <ul>
       <li> n_R: number of rows in the AES block (default 4, can be
       1, 2 or 4). </li>
@@ -346,7 +347,7 @@ License, or any later version. */
    satisfying assignments). </li>
    <li> For CNF representations see "Generate good CNF clause-sets for the AES
    Sbox" in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
+   Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
    (obviously all the algorithmic techniques can be generalised to any function
    given by truth tables. </li>
    <li> Obviously also of interest are OBDD representations of these boolean
@@ -437,9 +438,9 @@ License, or any later version. */
 
   \todo Generate translation that allows multiple plaintext/ciphertext pairs
   <ul>
-   <li> Given that a single plaintext/ciphertext pair (P,C), encrypted with AES 
-   using a key K, might not be enough, on it's own, to deduce K (as there may
-   be some K' which performs the same mapping for this specific (P,C)), for
+   <li> Given that a single plaintext/ciphertext pair (P,C), encrypted with
+   AES  using a key K, might not be enough, on it's own, to deduce K (as there
+   may be some K' which performs the same mapping for this specific (P,C)), for
    genuine experiments and understanding of AES, translations allowing
    multiple plaintext/ciphertext pairs but sharing the key variables are 
    needed. </li>
@@ -531,8 +532,7 @@ License, or any later version. */
       <li> The second step can be replaced with other translations into
       constraint languages, or replacement of constraint templates with "true
       constraints". See
-      ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/Conditions.hpp. 
-      </li>
+      Satisfiability/Lisp/ConstraintProblems/plans/Conditions.hpp. </li>
      </ul>
      </li>
      <li> Alter the constraint template format to the form 
