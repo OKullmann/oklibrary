@@ -6,9 +6,9 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/milestones.hpp
+  \file Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/milestones.hpp
 
-  \module_version Cryptology/Lisp/Cryptanalysis 0.0.1 (10.3.2011)
+  \module_version Lisp/Cryptanalysis/DataEncryptionStandard 0.0.1 (10.3.2011)
 
 
   \par Version 0.0.2

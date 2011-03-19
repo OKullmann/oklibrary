@@ -17,7 +17,18 @@ License, or any later version. */
   (see Cryptology/Lisp/Cryptanalysis/Rijndael/plans/milestones.hpp)
 
   \par
-   Update the following milestones.
+   Update the following milestones. : DONE
+
+
+  \par Version 0.0.4
+
+  \par Cryptology/Lisp/Cryptanalysis/Rijndael version 0.0.8
+  (see Cryptology/Lisp/Cryptanalysis/Rijndael/plans/milestones.hpp)
+
+  \par Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard version 0.0.2
+
+  \par
+   Create further milestones.
 
 
 
