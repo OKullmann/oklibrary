@@ -6,9 +6,9 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-# Script which given the path to a full Dimacs CNF file "strict_file"
+# Script which given the path to a full Dimacs CNF file "file"
 # computes all minimum CNF representations of this file
-# and then generates files with the names ${strict_file}.trans_$i containing 
+# and then generates files with the names file.trans_$i containing 
 # the i-th minimum size CNF representation for all i.
 
 set -o errexit
