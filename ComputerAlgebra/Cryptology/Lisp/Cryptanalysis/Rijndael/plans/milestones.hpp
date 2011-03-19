@@ -14,12 +14,6 @@ License, or any later version. */
   \par Version 0.0.7
 
   \par
-   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp
-   the following topics are handled:  
-    - Provide tests for all functions: DONE
-
-  
-  \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
     - Randomly choosing "unknown" block bits: DONE
 
@@ -34,6 +28,10 @@ License, or any later version. */
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
    the following topics are handled:
+    - Determine *all* prime implicates (for the purpose of analysis)
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
     - Determine *all* prime implicates (for the purpose of analysis)
 
     
