@@ -11,8 +11,6 @@ License, or any later version. */
   \module_version Lisp/Cryptanalysis/Rijndael 0.0.7 (19.3.2011)
 
 
-  \par Version 0.0.7
-
   \par Version 0.0.8
 
   \par
@@ -153,5 +151,6 @@ License, or any later version. */
    - 0.0.4 : 7.3.2008; initial version number (quite a few plans for translations to SAT).
    - 0.0.5 : 3.6.2009; added tests for all most Sbox analysis functions and tidied the implementation.
    - 0.0.6 : 4.6.2009; added tests and finalised the initial translation system ready for rewriting using new notions.
+   - 0.0.7 : 19.3.2011; improved the translation system by introducing meaningful variable-names and separate handling of clauses, and various extensions.
 
 */

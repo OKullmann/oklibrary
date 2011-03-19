@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Cryptology/Lisp/Cryptanalysis/plans/milestones.hpp
 
-  \module_version Cryptology/Lisp/Cryptanalysis 0.0.3 (4.6.2009)
+  \module_version Cryptology/Lisp/Cryptanalysis 0.0.3.1 (19.3.2011)
 
 
   \par Version 0.0.4
