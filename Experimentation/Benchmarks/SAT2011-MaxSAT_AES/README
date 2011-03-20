@@ -2,6 +2,8 @@
 
 I Directory content:
 
+XXX OBVIOUSLY THE BENCHMARKS MUST GO TO SUBDIRECTORIES XXX
+
   - sbox_8.wcnf is the CNF minimisation problem for the 8-bit boolean function
     for the small scale AES Sbox as a weighted MaxSAT problem.
   - sbox_16.wcnf is the CNF minimisation problem for the 16-bit boolean function

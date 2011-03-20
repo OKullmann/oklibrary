@@ -2,6 +2,8 @@
 
 I Directory content:
 
+XXX OBVIOUSLY THE BENCHMARKS MUST GO TO SUBDIRECTORIES XXX
+
   - sbox_8.pb is the pseudo-boolean translation of the problem of finding
     a minimum CNF for the 8-bit boolean function for the small scale AES Sbox.
   - sbox_16.pb is the pseudo-boolean translation of the problem of finding
