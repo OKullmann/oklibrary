@@ -66,10 +66,10 @@ des_validation_cipher : [
 1,1,0,0, 1,0,0,1, 0,1,0,1, 0,1,1,1, 0,1,0,0, 0,1,0,0, 0,0,1,0, 0,1,0,1,
 0,1,1,0, 1,0,1,0, 0,1,0,1, 1,1,1,0, 1,1,0,1, 0,0,1,1, 0,0,0,1, 1,1,0,1]$
 
-/* des_encryption(des_validation_plain,des_validation_key) = 
-   des_validation_cipher
-   des_decryption(des_validation_cipher, des_validation_key) =
-   des_validation_plain
+/* is(des_encryption(des_validation_plain,des_validation_key)=des_validation_cipher)
+   = true
+   is(des_decryption(des_validation_cipher, des_validation_key)=des_validation_plain)
+   = true
 */
 
 /*!
