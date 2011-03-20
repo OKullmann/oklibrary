@@ -4,13 +4,14 @@ I Directory content:
 
 XXX OBVIOUSLY THE BENCHMARKS MUST GO TO SUBDIRECTORIES XXX
 
-  - sbox_8.wcnf is the CNF minimisation problem for the 8-bit boolean function
-    for the small scale AES Sbox as a weighted MaxSAT problem.
-  - sbox_16.wcnf is the CNF minimisation problem for the 16-bit boolean
-    function for the AES Sbox as a weighted MaxSAT problem.
-  - mul_16_E.wcnf are the CNF minimisation problems for the 16-bit boolean
-    functions for multiplication by E in the AES byte field instances
-    as a weighted MaxSAT problem.
+  - sbox_8.wcnf corresponds to finding a smallest CNF for the 8-bit boolean
+    function representing the small scale AES Sbox.
+  - sbox_16.wcnf corresponds to finding a smallest CNF for the 16-bit boolean
+    function representing the AES Sbox.
+  - mul_16_x.wcnf corresponds to finding smallest CNFs for the 16-bit boolean
+    functions representing multiplication by x in the AES byte field, for x in
+    {3,9,11,13,14}.
+
   - *_primes.cnf are the prime implicates for the corresponding boolean
     functions.
   - MD5_components contains the md5 hash values of benchmarks.
