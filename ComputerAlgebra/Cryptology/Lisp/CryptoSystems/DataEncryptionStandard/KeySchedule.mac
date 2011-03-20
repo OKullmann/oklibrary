@@ -36,7 +36,7 @@ des_key_compression : [
 41,52,31,37,47,55,30,40,51,45,33,48,
 44,49,39,56,34,53,46,42,50,36,29,32]$
 
-des_round_keys() := block(
+des_round_keys_template() := block(
  [key1 : take_l(28,des_key_initial_selection),
   key2 : rest(des_key_initial_selection,28),
   keylist : []],
@@ -47,6 +47,10 @@ des_round_keys() := block(
     keylist : cons(key, keylist)
   ),
   reverse(keylist))$
+
+/* key is a boolean vector of length 64: */
+des_round_keys(key) :=
+ map(lambda([K], map(lambda([x],key[x]), K)), des_round_keys_template())$
 
 /*!
 \endhtmlonly

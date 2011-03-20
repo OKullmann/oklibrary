@@ -50,9 +50,9 @@ des_template(text, roundkeys) := block([previous,current,result],
 
 /* plaintext, ciphertext and key are boolean vectors of length 64: */
 des_encryption(plaintext, key) :=
- des_template(plaintext, des_round_keys())$
+ des_template(plaintext, des_round_keys(key))$
 des_decryption(ciphertext, key) :=
- des_template(ciphertext, reverse(des_round_keys()))$
+ des_template(ciphertext, reverse(des_round_keys(key)))$
 
 des_validation_key : [
 0,0,0,0, 0,0,0,1, 0,0,1,0, 0,0,1,1, 0,1,0,0, 0,1,0,1, 0,1,1,0, 0,1,1,1,
