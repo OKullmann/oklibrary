@@ -99,34 +99,8 @@ representing the:
 XXX WHAT DOES "8-bit" AND "16-bit" MEAN HERE? This information is misleading.
 XXX Obviously there are 4-bit and 8-bit boxes!
 
-The translations are constructed by generating the prime implicates for each
-boolean function and then producing the subsumption hypergraph G for these
-prime implicates and the full CNF, where:
 
- - Each vertex in the hypergraph represents a prime implicate.
- - There is a hyperedge for each clause C in the full CNF which contains all 
-   the vertices corresponding to prime clauses which subsume C.
-
-A CNF clause-set F given by taking the subsumption hypergraph directly as a
-clause-set has the transversals of G as it's satisfying assignments, and so
-the problem of finding a minimum CNF, which corresponds to finding the minimum
-transversals of the constructed hypergraph is the problem of finding an 
-assignment to the variables of F which minimises the number of variables
-set to 1. 
-
-We translate the problem of finding such an assignment directly
-into a weighted MaxSAT problem, applying a "hard" weight to all clauses in
-F (i.e., in this case the number of variables + 1), and then introducing
-a unit clause with weight one for each variable, containing the negation of 
-that variable. In such a way, the solutions satisfying the clauses of
-maximum total weight yield assignments which minimise the number of 1s, and
-therefore minimise the number of clauses in the corresponding CNF
-representation of the associated boolean function.
-
-In each problem, the variable with index xi corresponds to the i-th prime
-implicate in the associated CNF file containing the prime implicates for that
-boolean function. For example, variable x2 in sbox_4.wcnf corresponds to
-the second clause in sbox_4_primes.cnf, {-1,3,-2,-5}.
+XXX
 
 For full specifications of the AES Sbox and field operations, the AES cipher
 itself and small scale variants, please refer to the following:
