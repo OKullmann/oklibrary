@@ -125,17 +125,6 @@ itself and small scale variants, please refer to the following:
 
 VI On the choice of instances
 
-The Advanced Encryption Standard is a widely used encryption algorithm and
-the performance of SAT solvers on translations of the AES has a bearing the 
-cryptographic security of the cipher. Analysis of the representations of these
-core functions within the AES should yield insights into the cryptographic
-security of the cipher, as well as providing smaller CNF representations
-of the cipher itself.
-
-The 16-bit boolean functions problems come directly from the standard AES
-cipher and present hard optimisation benchmarks, while we include the 8-bit
-small scale AES Sbox as an example of a benchmark which is feasible for
-modern weighted MaxSAT solvers.
 
 
 VII The OKlibrary http://www.ok-sat-library.org
