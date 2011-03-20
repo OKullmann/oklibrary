@@ -22,6 +22,17 @@ License, or any later version. */
   </ul>
 
 
+  \todo Just an unstructured morass of scripts
+  <ul>
+   <li> Regarding the computation of minimum CNF representations, the scripts
+   here are misplaced. </li>
+   <li> They do not link to the rest of the library. </li>
+   <li> They are just random attempts. Obviously a systematic approach is
+   needed, collecting all methods currently in use in the *whole* library.
+   </li>
+  </ul>
+
+
   \todo Connections
   <ul>
    <li> See
