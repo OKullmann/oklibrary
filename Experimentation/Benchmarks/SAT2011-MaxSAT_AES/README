@@ -136,14 +136,13 @@ generate the translations of the AES cipher is provided there.
 List of relevant directories in OKplatform/OKsystem/OKlib (where OKplatform
 is the directory of the unpacked OKlibrary-package):
 
- - Experimentation/Benchmarks: all our benchmark packages (typically without
-   the instances)
+ - Experimentation/Benchmarks: all our benchmark packages
  - Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard: all
    current investigations into AES
  - ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/: an AES 
-   implementation in the Maxima computer algebra system
- - ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/: the AES 
-   translation in the Maxima computer algebra system
+   implementation using the Maxima computer algebra system
+ - ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/: the AES-to-SAT
+   translation, using the Maxima computer algebra system.
 
 The OKlibrary-internal documentation for the SAT2011-benchmarks is provided at
 
