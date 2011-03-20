@@ -79,6 +79,9 @@ The only known optimum solution is for sbox_8.wcnf which has an optimum
 solution of size 22. All instances are weighted MaxSAT problems. ???
 this is obviously false ???
 
+XXX HOW DOES A SOLUTION FOR THE ABOVE PROBLEMS TRANSLATE INTO "a solution
+of size 22"??? WHAT DOES SIZE MEAN HERE???
+
 
 V The Advanced Encryption Standard components
 
