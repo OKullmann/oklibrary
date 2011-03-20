@@ -10,6 +10,15 @@ License, or any later version. */
   \brief Plans regarding building of SAT solvers and libraries
 
 
+  \todo Install Relsat
+  <ul>
+   <li> http://code.google.com/p/relsat/ has the newest version 2.02
+   (January 2007). </li>
+   <li> We need this solver for historical reasons, for its performance
+   on the original DES instances. </li>
+  </ul>
+
+
   \bug Grasp uses system C++ libraries
   <ul>
    <li> sat-grasp uses the system C++ libraries (libstdc++):
