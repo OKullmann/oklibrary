@@ -19,7 +19,7 @@ XXX OBVIOUSLY THE BENCHMARKS MUST GO TO SUBDIRECTORIES XXX
 
 II Advanced Encryption Standard component benchmarks
 
-We provide translations of CNF minimisation problems for boolean functions
+We provide translations of CNF minimisation problems for boolean functions,
 given by components of the Advanced Encryption Standard (AES) and small scale
 variants. Optimal solutions to these benchmarks correspond to minimum size 
 CNF representations for the AES Sbox and field multiplications.
@@ -28,18 +28,18 @@ CNF representations for the AES Sbox and field multiplications.
 III Background
 
 In a forthcoming technical report, we investigate different translations of
-the AES into SAT. We provide instances of the AES key discovery problem, using
+AES into SAT. We provide instances of the AES key discovery problem, using
 one such translation, which we call "the minimum box translation", to generate
-benchmarks for the main track of SAT2011. This translation used CNF 
+benchmarks for the main track of SAT2011. This translation uses CNF 
 representations of minimum size of the components of the AES, with the aim of
 producing a translation with as few clauses as possible. Finding such minimum 
 CNF representations for these boxes is the problem presented by the set of 
 benchmarks discussed here.
 
 Using such minimum representations is a natural starting point. We investigate
-better representations in the OKlibrary (see VII) and consider what
+other representations in the OKlibrary (see VII), and consider what
 constitutes a good translation in a forthcoming technical report on attacking
-the AES cipher using SAT
+the AES cipher using SAT:
 
 @TechReport{GwynneKullmann2011AES,
   author =       {Matthew Gwynne and Oliver Kullmann},
@@ -56,8 +56,7 @@ Additional to this benchmark set, we separately provide:
 - Advanced Encryption Standard I benchmarks          (SAT2011 - main track)
     Key discovery problem instances for AES and small scale variants of AES.
 - "The AES challenge" benchmark                      (SAT2011 - main track)
-    A full AES instance with an unknown key: an open challenge to the
-    SAT community.
+    A full AES instance with an unknown key: a challenge to the SAT community.
 - Advanced Encryption Standard component benchmarks  (SAT2011 - PseudoBoolean)
     Minimisation problems for the AES component functions, as provided in 
     this benchmark, but using a translation into pseudo-boolean problems.
@@ -67,7 +66,6 @@ IV Instances
 
   - with size in bytes
   - "e" for easy, "h" for hard, "vh" for very hard.
-
 
 11102     sbox_4.wcnf    (e)
 366673984 sbox_8.wcnf    (vh)
