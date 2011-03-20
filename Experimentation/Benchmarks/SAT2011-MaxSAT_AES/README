@@ -12,8 +12,6 @@ XXX OBVIOUSLY THE BENCHMARKS MUST GO TO SUBDIRECTORIES XXX
     functions representing multiplication by x in the AES byte field, for x in
     {3,9,11,13,14}.
 
-  - *_primes.cnf are the prime implicates for the corresponding boolean
-    functions.
   - MD5_components contains the md5 hash values of benchmarks.
   - MD5_primes contains the md5 hash values of prime implicate files.
   - this README file.
