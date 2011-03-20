@@ -1,0 +1,195 @@
+/* Oliver Kullmann, 20.3.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/ConstraintTranslation.mac
+  \brief Translating the computation of DES into a system of "constraints"
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/ConstraintTranslation.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/RoundFunction.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/KeySchedule.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
+/* *************
+   * Variables *
+   *************
+*/
+
+/* desr(i,r) for i in {1,...,32} and r in {-1,0,...,16} represents the 16
+   rounds as follows:
+
+    - desr(i,-1) = plaintext[des_init_permutation[i]]
+    - desr(i,0)  = plaintext[des_init_permutation[32+i]]
+    - desr(i,r)  = the result of round r for 1 <= r <= 16
+   
+   Then
+     ciphertext[i] = 
+     append(create_list(desr(i,16),i,1,32),create_list(desr(i,15),i,1,32))[des_final_permutation[i]].
+
+*/
+
+declare(desr, noun)$
+declare(desr, posfun)$
+desr_var(i,r) := nounify(desr)(i,r)$
+
+/* desk(i) for i in {1,...,56} represents the key via
+
+     desk(i) = key[des_key_initial_selection[i]].
+
+*/
+
+declare(desk, noun)$
+declare(desk, posfun)$
+desk_var(i) := nounify(desk)(i)$
+
+/* desi(i,r) for i in {1,...,48} and r in {1,...,16} represents the input
+   to the S-boxes in round r.
+*/
+
+declare(desi, noun)$
+declare(desi, posfun)$
+desi_var(i,r) := nounify(desi)(i,r)$
+
+/* deso(i,r) for i in {1,...,32} and r in {1,...,16} represents the output
+   of the S-boxes in round r.
+*/
+
+declare(deso, noun)$
+declare(deso, posfun)$
+deso_var(i,r) := nounify(deso)(i,r)$
+
+
+/* *******************
+   * xor-Constraints *
+   *******************
+*/
+
+/* See ComputerAlgebra/Satisfiability/Lisp/LinearConditions/plans/general.hpp
+   for xor-constraints.
+*/
+
+/*
+  For i in {1,...,48} and r in {1,...,16}:
+
+  desi(i,r) = 
+    desr(des_expansion[i],r-1) + desk(des_round_keys_template()[r][i])
+
+*/
+
+/* For r in {1,...,16}: */
+des_xor_desi(r) := block([key : des_round_keys_template()[r]],
+ create_list(
+  [[desr_var(des_expansion[i],r-1), desk_var(key[i]),
+    desi_var(i,r)],
+   0],
+  i,1,48))$
+
+/*
+  For i in {1,...,32} and r in {1,...,16}:
+
+  desr(i,r) = desr(i,r-2) + deso(des_pbox[i],r).
+
+*/
+
+/* For r in {1,...,16}: */
+des_xor_desr(r) := create_list(
+ [[desr_var(i,r-2), deso_var(des_pbox[i],r), desr_var(i,r)], 0],
+ i,1,32)$
+
+
+/* *********************
+   * S-box constraints *
+   *********************
+*/
+
+/*
+  A "DES S-box constraint for box number i" is a triple
+
+  [i,[v_1,...v_6],[w_1,...,w_4]]
+
+  where v_1,...,v_6 are the input variables and w_1,...,w_4 are the
+  output variables.
+*/
+
+/* For r in {1,...,16}: */
+des_sbox_deso(r) := block(
+ [I : partition_elements(create_list(desi_var(i,r),i,1,48),6),
+  O : partition_elements(create_list(deso_var(i,r),i,1,32),4)],
+  create_list([i,I[i],O[i]], i,1,8))$
+
+
+/* ***********************
+   * The complete system *
+   ***********************
+*/
+
+/* The xor-constraints in round 1 <= r <= 16: */
+des_round_xor(r) := append(des_xor_desi(r), des_xor_desr(r))$
+
+/* All xor-constraints: */
+des_xor() := lappend(create_list(des_round_xor(r),r,1,16))$
+
+/* All sbox-constraints: */
+des_sboxc() := lappend(create_list(des_sbox_deso(r),r,1,16))$
+
+/* All (constraint-)variables: */
+des_var() := append(
+ create_list(desr_var(i,r), r,-1,16, i,1,32),
+ create_list(desk_var(i), i,1,56),
+ create_list(desi_var(i,r), r,1,16, i,1,48),
+ create_list(deso_var(i,r), r,1,16, i,1,32))$
+
+/*
+  Translating plaintext-, ciphertext- and key-assignments into formal
+  clause-sets, using partial boolean vectors.
+  A "partial boolean vector" contains besides 0,1 also possibly "und".
+*/
+
+/* plain is a partial boolean vector of length 64: */
+des_plain2fcl(plain) := block(
+[V : create_list(desr_var(i,r), r,-1,0, i,1,32)],
+ [V,
+  delete(und,
+         create_list(block([x:plain[i]], 
+             if x=und then und else {(2*x-1)*V[des_final_permutation[i]]}),
+           i,1,64))])$
+
+/* cipher is a partial boolean vector of length 64: */
+des_cipher2fcl(plain) := block(
+[V : create_list(desr_var(i,r), r,[16,15], i,1,32)],
+ [V,
+  delete(und,
+         create_list(
+           block([x:plain[i]],
+             if x=und then und else {(2*x-1)*V[des_init_permutation[i]]}),
+           i,1,64))])$
+
+/* key is a partial boolean vector of length 64: */
+des_key2fcl(plain) := block(
+[V : create_list(desk_var(i), i,1,56),
+ h : osm2hm(l2osm_inv(des_key_initial_selection))],
+ [V,
+  delete(und,
+         create_list(
+           block([x:plain[i],y],
+             if x=und then und else (y:ev_hm(h,i), if y=false then und else {(2*x-1)*V[y]})),
+           i,1,64))])$
+
+/*!
+\endhtmlonly
+*/
