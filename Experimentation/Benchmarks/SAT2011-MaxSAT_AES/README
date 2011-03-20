@@ -76,7 +76,8 @@ IV Instances
 26610816  mul_8_14.wcnf  (h)
 
 The only known optimum solution is for sbox_8.wcnf which has an optimum
-solution of size 22. All instances are weighted MaxSAT problems.
+solution of size 22. All instances are weighted MaxSAT problems. ???
+this is obviously false ???
 
 
 V The Advanced Encryption Standard components
