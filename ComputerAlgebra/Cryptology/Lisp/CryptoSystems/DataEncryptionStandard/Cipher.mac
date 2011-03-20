@@ -35,7 +35,7 @@ des_final_permutation : [
 36,4,44,12,52,20,60,28,35,3,43,11,51,19,59,27,
 34,2,42,10,50,18,58,26,33,1,41,9,49,17,57,25]$
 
-/* plaintext and key are boolean vectors of length 64: */
+/* text and key are boolean vectors of length 64: */
 des_template(text, roundkeys) := block([previous,current,result],
  text : map(lambda([x],text[x]), des_init_permutation),
  previous : take_l(32,text),
@@ -48,10 +48,11 @@ des_template(text, roundkeys) := block([previous,current,result],
  result : append(current,previous),
  map(lambda([x],result[x]), des_final_permutation))$
 
+/* plaintext, ciphertext and key are boolean vectors of length 64: */
 des_encryption(plaintext, key) :=
  des_template(plaintext, des_round_keys())$
-des_decryption(plaintext, key) :=
- des_template(plaintext, reverse(des_round_keys()))$
+des_decryption(ciphertext, key) :=
+ des_template(ciphertext, reverse(des_round_keys()))$
 
 des_validation_key : [
 0,0,0,0, 0,0,0,1, 0,0,1,0, 0,0,1,1, 0,1,0,0, 0,1,0,1, 0,1,1,0, 0,1,1,1,
@@ -64,6 +65,12 @@ des_validation_plain :  [
 des_validation_cipher : [
 1,1,0,0, 1,0,0,1, 0,1,0,1, 0,1,1,1, 0,1,0,0, 0,1,0,0, 0,0,1,0, 0,1,0,1,
 0,1,1,0, 1,0,1,0, 0,1,0,1, 1,1,1,0, 1,1,0,1, 0,0,1,1, 0,0,0,1, 1,1,0,1]$
+
+/* des_encryption(des_validation_plain,des_validation_key) = 
+   des_validation_cipher
+   des_decryption(des_validation_cipher, des_validation_key) =
+   des_validation_plain
+*/
 
 /*!
 \endhtmlonly
