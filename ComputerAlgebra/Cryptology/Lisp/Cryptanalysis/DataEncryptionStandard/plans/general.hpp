@@ -9,9 +9,6 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp
   \brief Plans for the cryptanalysis of the Data Encryption Standard in Maxima/Lisp
 
-
-  \todo Add todos
-
   
   \todo Links
   <ul>
@@ -20,6 +17,15 @@ License, or any later version. */
    <li> See 
    Experimentation/Investigations/Cryptography/DataEncryptionStandard/plans/general.hpp.
    </li>
+  </ul>
+
+
+  \todo Translating the constraint-system into SAT, CSP, ...
+  <ul>
+   <li> In Cryptanalysis/DataEncryptionStandard/ConstraintTranslation.mac
+   we compute the "constraint system" corresponding to the DES-constraint.
+   </li>
+   <li> Now translations into SAT, CSP etc. are needed. </li>
   </ul>
 
 */
