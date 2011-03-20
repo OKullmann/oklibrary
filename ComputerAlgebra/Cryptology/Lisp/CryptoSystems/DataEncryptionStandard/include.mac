@@ -19,6 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionSt
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/KeySchedule.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/RoundFunction.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Sboxes.mac")$
