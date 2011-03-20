@@ -38,9 +38,9 @@ CNF representations for these boxes is the problem presented by the set of
 benchmarks discussed here.
 
 Using such minimum representations is a natural starting point. We investigate
-better representations in the OKlibrary (see VII) and consider what constitutes 
-a good translation in a forthcoming technical report on attacking the AES
-cipher using SAT
+better representations in the OKlibrary (see VII) and consider what
+constitutes a good translation in a forthcoming technical report on attacking
+the AES cipher using SAT
 
 @TechReport{GwynneKullmann2011AES,
   author =       {Matthew Gwynne and Oliver Kullmann},
