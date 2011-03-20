@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionSt
 */
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 des_key_initial_selection : [
 57,49,41,33,25,17,9,1,58,50,42,34,26,18,
@@ -49,8 +50,8 @@ des_round_keys_template() := block(
   reverse(keylist))$
 
 /* key is a boolean vector of length 64: */
-des_round_keys(key) :=
- map(lambda([K], map(lambda([x],key[x]), K)), des_round_keys_template())$
+des_round_keys(key) := block([keya : il2ary(key)],
+ map(lambda([K], map(lambda([x],keya[x]), K)), des_round_keys_template()))$
 
 /*!
 \endhtmlonly
