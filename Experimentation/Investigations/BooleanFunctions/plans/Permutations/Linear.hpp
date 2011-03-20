@@ -13,8 +13,11 @@ License, or any later version. */
   \todo Connections
   <ul>
    <li> See
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations
    for several interesting examples in the context of AES. </li>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/LinearConditions/plans/general.hpp for
+   the handling of linear constraints in general. </li>
   </ul>
 
 

@@ -1,5 +1,5 @@
 // Matthew Gwynne, 5.10.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -58,18 +58,18 @@ License, or any later version. */
     it's 2nd and last elements which will relate to the working of each 
     constraint template. </li>
     <li> A <strong>constraint template rewrite rule</strong> is a function 
-    which takes a constraint template and returns a list of constraint templates
-    which model the input constraint template. Note here that new variables can 
-    be introduced using the namespace of the original constraint template 
-    composed with a new namespace constructed for the new constraint templates. 
-    </li>
-    <li> A rewrite bundle is a list with two elements, where the first element
-    is a constraint template rewrite rule f, and the second element is a function 
-    which, given a constraint template, returns a list of variables introduced 
-    by f. </li>
+    which takes a constraint template and returns a list of constraint
+    templates which model the input constraint template. Note here that new
+    variables can be introduced using the namespace of the original constraint
+    template composed with a new namespace constructed for the new constraint
+    templates. </li>
+    <li> A <strong>rewrite bundle</strong> is a list with two elements, where
+    the first element is a constraint template rewrite rule f, and the second
+    element is a function which, given a constraint template, returns a list
+    of variables introduced by f. </li>
     <li> A <strong>constraint rewrite map</strong> is a an ordered (i.e. list) 
     set map which maps a given constraint template name to a rewrite bundle. 
-    This allows rewrite functions to be passed rewrite maps, which then 
+    This allows rewrite functions to be passed to rewrite maps, which then 
     determine how each constraint is rewritten, and allow the user to tailor 
     the rewrite process to produce multiple, different, translations. </li>
    </ul>
@@ -86,11 +86,11 @@ declare(even_par_ns, posfun);
 declare(even_par_ns, noun);
 even_par_cstt : ["even_parity",['v1,'v2,'v3,'v4], even_par_ns];
    \endverbatim
-   Then even_par_ns would be the namespace and even_par_cst would be the
-   constraint template. Note that one could translate this constraint
-   to two constraints each computing the parity of two variables and
-   introducing new variables v1 and v2 to store the intermediate results. 
-   </li>
+   Then "even_par_ns" would be the namespace and "even_par_cst" would be the
+   constraint template. </li>
+   <li> Note that one could translate this constraint to two constraints, each
+   computing the parity of two variables and introducing new variables v1 and
+   v2 to store the intermediate results. </li>
   </ul>
 
 */

@@ -8,35 +8,34 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/milestones.hpp
 
-  \module_version Lisp/Cryptanalysis/Rijndael 0.0.6 (4.6.2009)
+  \module_version Lisp/Cryptanalysis/Rijndael 0.0.7 (19.3.2011)
 
 
-  \par Version 0.0.7
-
+  \par Version 0.0.8
 
   \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+    - Update
+    - Determine *all* prime implicates (for the purpose of analysis)
+
+  \par
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
    the following topics are handled:
-    - Bad specification : DONE
+    - Fix translation system
+
+  \par
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
+   the following topics are handled:
+    - Determine *all* prime implicates (for the purpose of analysis)
+
+
+  \par Version 0.0.9
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    the following topics are handled:
     - Functions should not cache return values
-    - Missing includes : DONE
-    - Test failure : DONE
-    - Test failure at level "full" : DONE
 
-  \par 
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/ConstraintTemplateRewriteSystem.mac
-   the following topics are handled:
-     - Tests not executed : DONE
-
-  \par
-   In Cryptology/Lisp/Cryptanalysis/Rijndael/tests/Translations.mac
-   the following topics are handled:
-    - C-STACK overflow : DONE
-  
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
    the following topics are handled:
@@ -44,33 +43,19 @@ License, or any later version. */
     - Handling external data
     - Update specifications
     - Move AES box translations into separate file
-    - Add statistics for translations : DONE
-    - Fix translation system : DONE
-    - Parameterise inclusion of inverse operation in Mixcolumn translation : DONE
-    - Standardise block ordering: DONE
-    - Truncate AES for reduced rounds: DONE
-
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
    the following topics are handled:
     - Add decomposed Sbox operations
-    - Organisation : DONE
-    - Compute *all* prime implicates (for the purpose of analysis) : DONE
 
   \par
-   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp
-   the following topics are handled:  
-    - Provide tests for all functions: DONE
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
+   the following topics are handled:
+    - Add decomposed Sbox operations
 
-  
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
-    - Update
-    - Randomly choosing "unknown" block bits: DONE
 
-    
-  \par Version 0.0.8
+  \par Version 0.0.10
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
@@ -95,7 +80,7 @@ License, or any later version. */
     - Add XOR translations for field multiplications
   
 
-  \par Version 0.0.9
+  \par Version 0.0.11
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the
@@ -166,5 +151,6 @@ License, or any later version. */
    - 0.0.4 : 7.3.2008; initial version number (quite a few plans for translations to SAT).
    - 0.0.5 : 3.6.2009; added tests for all most Sbox analysis functions and tidied the implementation.
    - 0.0.6 : 4.6.2009; added tests and finalised the initial translation system ready for rewriting using new notions.
+   - 0.0.7 : 19.3.2011; improved the translation system by introducing meaningful variable-names and separate handling of clauses, and various extensions.
 
 */

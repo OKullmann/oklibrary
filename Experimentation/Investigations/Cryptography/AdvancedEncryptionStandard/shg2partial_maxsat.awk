@@ -6,8 +6,8 @@
 # License, or any later version.
 
 
-# Awk script which, given a stream on STDIN containing a number of standard
-# DIMACS file, returns a weighted partial MaxSAT file where all original
+# Awk script which, given a stream on STDIN containing a standard DIMACS file,
+# returns a weighted partial MaxSAT file where all original
 # clauses are hard clauses, and additional (negated) unit clauses with weight 
 # 1 are added for every variable in the input.
 #

@@ -26,16 +26,16 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    ********************************************
 */
 
-/* The idea is that the args should uniquely identify a given constraint
-   within the context of it's parent constraint and therefore, as it's
+/* The idea is that the arguments should uniquely identify a given constraint
+   within the context of its parent constraint and therefore, as its
    parent constraint is uniquely identified above, we have inductively
    that any variable is uniquely identified.
 
-   The four main data types represented below are "namespaces", "constraint
+   The five main data types represented below are "namespaces", "constraint
    templates", "rewrite bundles", "rewrite maps" and
    "constraint template rewrite rules".
 
-   A namespace is simply a function which takes a variable and returns a
+   A "namespace" is a function which takes a variable and returns a
    variable. This function need not actually evaluate, and in fact, this
    is precisely the point in the majority of cases. For the standard 
    namespaces constructed in this system see cstt_namespace_new.
@@ -43,26 +43,26 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    As the output type of any namespace function is a variable, the function
    should be declared posfun and noun if it is not evaluated.
 
-   A constraint template is a list of at least three elements, where the first
-   element is the name of the constraint template, the second element is the
-   list of variables associated with the constraint template and the last
+   A "constraint template" is a list of at least three elements, where the
+   first element is the name of the constraint template, the second element is
+   the list of variables associated with the constraint template and the last
    (note, not the third) is the namespace of the function. A constraint
    template may optionally have any number of arguments situated in between
    it's 2nd and last elements which will relate to the working of each
    constraint template.
 
-   A constraint template rewrite rule is a function which takes a constraint
+   A "constraint template rewrite rule" is a function which takes a constraint
    template and returns a list of constraint templates which model the input
    constraint template. Note here that new variables can be introduced using
    the namespace of the original constraint template composed with a new
    namespace constructed for the new constraint templates. 
 
-   A rewrite bundle is a list with two elements, where the first element
+   A "rewrite bundle" is a list with two elements, where the first element
    is a constraint template rewrite rule f, and the second element is a 
    function which, given a constraint template, returns a list of
    variables introduced by f. 
 
-   A constraint rewrite map is a an ordered (i.e. list) set map which maps
+   A "constraint rewrite map" is a an ordered set map which maps
    a given constraint template name to a rewrite bundle.
  
    For examples see docus/ConstraintTemplateRewriteSystem.hpp.

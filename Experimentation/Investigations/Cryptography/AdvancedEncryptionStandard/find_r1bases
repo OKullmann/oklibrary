@@ -10,8 +10,8 @@
 # Given a full CNF in a Dimacs file, computes random r_1 bases for
 # the given CNF file using RUcpGen and RUcpBase, randomly permuting and then
 # sorting the input to RUcpGen in ascending order of clause length and randomly
-# permuting and then sorting the input to RUcpBase in descending order of clause 
-# length. 
+# permuting and then sorting the input to RUcpBase in descending order of
+# clause length. 
 #
 # Optionally one may specify the initial seed into RandomShuffleDimacs used 
 # to permute the clause-list given to RUcpGen and also

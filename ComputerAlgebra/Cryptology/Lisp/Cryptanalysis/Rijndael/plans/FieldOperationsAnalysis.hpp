@@ -1,5 +1,5 @@
 // Matthew Gwynne, 12.4.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -29,7 +29,7 @@ License, or any later version. */
   \todo Move experimental todos to investigations
   <ul>
    <li> The following todos need to be split and moved to 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/ :
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/:
    <ul>
     <li> Generate good CNF hitting clause-sets for the AES Field Operations.
     </li>
@@ -82,10 +82,11 @@ statistics_cs(rijnmult2hittingcnf_fcs(intToGF2t8Poly(14),dll_heuristics_max_lit)
   </ul>
   
   
-  \todo Extracting prime implicate representations from the hitting-cls-representations
+  \todo Extracting prime implicate representations from the
+  hitting-cls-representations
   <ul>
    <li> As explained in "Hitting clause-sets" in
-   ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp,
+   Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp,
    given a hitting clause-set representation, from it we can obtain a shorter
    representation by prime implicates. This is a better representation. </li>
    <li> This is achieved by "replace_by_prime_implicates_hitting". </li>
@@ -256,13 +257,9 @@ true
   </ul>
 
 
-  \todo DONE (see Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp)
-  Compute *all* prime implicates (for the purpose of analysis):
+  \todo Determine *all* prime implicates (for the purpose of analysis)
 
   
-  \todo DONE Provide tests for all functions
-
-
   \bug DONE rijnmult_fulldnf_fcs only works for trivial arguments
   <ul>
    <li> "rijnmult_fulldnf_fcs(n)" for n >= 10 produces

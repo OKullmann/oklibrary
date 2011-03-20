@@ -56,38 +56,141 @@ nvar_full_dualts(10,64) - 10;
    <li> Using the canonical box translation and treating the Sboxes as 6-to-4
    bit functions, the full 16 round DES will contain:
    <ul>
-    <li> 1856 variables: 
+    <li> 64+56+9984=10104 variables: 
      <ol>
       <li> 64 variables for the input plaintext. </li>
-      <li> 1792 variables from 16 rounds consisting of:
+      <li> 56 variables for the key. </li>
+      <li> 16*(48+512+32+32)=9984 variables from 16 rounds consisting of:
       <ol>
        <li> 48 variables for the output of the key addition. </li>
+       <li> 8*64=512 variables for the S-box representation. </li>
        <li> 32 variables for the output of Sbox substitutions. </li>
        <li> 32 variables for the output of the final addition. </li>
       </ol>
       </li>
      </ol>
     </li>
-    <li> 95360 clauses:
+    <li> 81920+5120+8192+128=95360 clauses:
     <ol>
-     <li> 81920 clauses of size 2
+     <li> 16*8*640=81920 clauses of size 2
      (16 rounds * 8 Sboxes * 640 clauses = 81,920). </li>
-     <li> 5120 clauses of size 4
+     <li> 16*(48+32)*4=5120 clauses of size 4
      (16 rounds * (48-bit addition + 32-bit addition) * 4 clauses = 5120). 
      </li>
-     <li> 8192 clauses of size 11
+     <li> 16*8*64=8192 clauses of size 11
      (16 rounds * 8 Sboxes * 64 clauses = 8,192). </li>
-     <li> 128 clauses of size 64
+     <li> 16*8=128 clauses of size 64
      (16 rounds * 8 Sboxes * 1 clause = 128). </li>
     </ol>
     </li>
    </ul>
    </li>
    <li> In comparison to Massaci and Marraro, they have 61,935 clauses and
-   10,336 variables. So the canonical translation yields more clauses than
-   their translation but less variables. We should be able to get a 
-   translation using less clauses by using irredundant but non-canonical DNFs
-   for the canonical translation, or using an r_1-base translation. </li>
+   10,336 variables. </li>
+   <li> Using a minimum-representation for the S-boxes, we get:
+    <ol>
+     <li> 64+56+16*(48+32+32)=1912 variables. </li>
+     <li> If a minimum representation of an S-box (a 10-bit boolean function)
+     needs P clauses (assuming that the eight different S-boxes share the same
+     size), then 16*((48+32)*4+8*P)= 5120 + 128*P clauses are used. </li>
+     <li> We should have P <= 100, and so less than 20000 clauses are needed
+     (for this smallest representation). </li>
+     <li> Alternatively every S-box is represented by 4 1-bit-output functions.
+     </li>
+     <li> If such a (6-bit) function uses Q clauses, then
+     16*((48+32)*4+8*4*Q)= 5120 + 512*Q clauses are used. </li>
+     <li> Likely Q <= 30, and thus around 20000 clauses are needed. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Analysing the S-boxes
+  <ul>
+   <li> These considerations need a dedicated sub-module. </li>
+   <li> Most urgent is to use all our instruments to analyse the 8 S-boxes.
+   </li>
+   <li> Of course, starting with defining them at Maxima-level. </li>
+   <li> Considering them as one 10-bit boolean function, or as 4 6-bit
+   boolean functions. Likely better the first view, but we need to consider
+   all possibilities. </li>
+   <li> Determining the number of prime implicates, data on the subsumption
+   hypergraph, and minimum CNFs, and r_0-,r_1-bases. </li>
+   <li> Here also minimum DNF-representations are of interest! </li>
+   <li> They can be used to yield pseudo-canonical translations. </li>
+   <li> Analysis of the prime clauses:
+    <ol>
+     <li> Creating the CNF/DNF files:
+     \verbatim
+OKplatform> mkdir EXP_DES
+OKplatform> cd EXP_DES/
+EXP_DES> oklib --maxima
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/Sboxes.mac");
+for i : 1 thru 8 do (output_dessbox_fulldnf_stdname(i),output_dessbox_fullcnf_stdname(i));
+     \endverbatim
+     </li>
+     <li> Prime-clause statistics:
+     \verbatim
+EXP_DES> for F in *.cnf; do QuineMcCluskeySubsumptionHypergraphFullStatistics-n16-O3-DNDEBUG ${F}; done
+
+EXP_DES> for F in DES_Sbox_?_fullDNF.cnf_primes_stats; do cat ${F}; done
+
+EXP_DES> for F in DES_Sbox_?_fullCNF.cnf_primes_stats; do cat ${F}; done
+
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+10 1624 9554 0 9554 0 1
+ length count
+5 243
+6 1328
+7 53
+
+10 1844 10967 0 10967 0 1
+5 154
+6 1633
+7 57
+
+10 1767 10458 0 10458 0 1
+5 219
+6 1473
+7 75
+
+10 1881 11197 0 11197 0 1
+5 153
+6 1664
+7 64
+
+10 1812 10768 0 10768 0 1
+5 174
+6 1568
+7 70
+
+10 1705 10115 0 10115 0 1
+5 204
+6 1412
+7 89
+
+10 1673 9891 0 9891 0 1
+5 228
+6 1364
+7 81
+
+10 2047 12227 0 12227 0 1
+5 106
+6 1890
+7 51
+     \endverbatim
+     </li>
+     <li> The DNF-output shows that no resolutions are possible, and thus these
+     boolean functions have unique DNF. </li>
+     <li> Quite some differences regarding the prime implicates. S-box number
+     1 is the easiest, number 8 is the hardest. </li>
+     <li> This is also confirmed by r_1-bases: Box 1 has an r_1-base with 126
+     clauses, while for box 8 only one with 157 clauses was found. </li>
+     <li> Also minimum representations need to be studied. </li>
+     <li> As a model one can study random 6 x 4 boolean functions. </li>
+    <ol>
+   </li>
   </ul>
 
 
@@ -113,7 +216,7 @@ nvar_full_dualts(10,64) - 10;
   <ul>
    <li> The reference is [SAT 2000, editors Gent, van Maaren, Walsh, pages
    343-375]. </li>
-   <li> There benchmarks should become part of the OKlibrary (ExternalSources).
+   <li> Their benchmarks should become part of the OKlibrary (ExternalSources).
    </li>
    <li> The article speaks about the "commercial version" ? Likely this means
    just full DES? </li>
@@ -165,6 +268,7 @@ nvar_full_dualts(10,64) - 10;
    <li> The point is that even if we have a very good representation of a
    round, the sixteen rounds together likely still have enough confusion
    power to make the problem very hard for a SAT solver. </li>
+   <li> Definitely xor-constraint can be merged. </li>
   </ul>
 
 */

@@ -9,6 +9,11 @@ License, or any later version. */
   \file Satisfiability/Reductions/Bases/RandomShuffle.cpp
   \brief Temporary file, to experiment with std::random_shuffle
 
+  \bug This file is stale, and has urgently to be removed by MG
+  <ul>
+   <li> The issue has to be solved, and appropriate actions to be taken. </li>
+  </ul>
+
   Once the issues are understood (regarding std::random_shuffle and the
   random number generator), appropriate components shall be created in
   part Programming.

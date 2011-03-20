@@ -20,7 +20,7 @@ License, or any later version. */
   \todo Add decomposed Sbox operations
   <ul>
    <li> In "Rearranging linear components of Sbox and MixColumns " in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
+   Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
    we wish to translate the AES by splitting the various parts of the Sbox
    (inversion, linear multiplication) and moving them into the MixColumns by
    combining them with the field multiplications. </li>
@@ -61,11 +61,9 @@ License, or any later version. */
    DNF-representation.
     <ol>
      <li> See
-     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/TseitinTranslation.hpp
-     </li>
+     Satisfiability/Lisp/FiniteFunctions/plans/TseitinTranslation.hpp. </li>
      <li> Most natural should be to use dualts_fcl in
-     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
-     </li>
+     Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac. </li>
     </ol>
    </li>
   </ul>
@@ -113,19 +111,12 @@ OK: What is the "direct translation"? What does this mean for our cases?
   </ul>
 
 
-  \todo DONE Organisation
+  \todo Determine *all* prime implicates (for the purpose of analysis)
   <ul>
-   <li> DONE (no, this is too large)
-   Perhaps we should provide a constant for rijnsbox_fullcnf_fcs(). </li>
-  </ul>
-
-
-  \todo DONE (see "Prime implicates" in
-  Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp)
-  Compute *all* prime implicates (for the purpose of analysis):
-  <ul>
+   <li> The task here is to try to *understand* the structure of the
+   prime implicates. </li>
    <li> See
-   ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp
+   Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp
    </li>
    <li> For a permutation of GF(2^8) we have 2 * 2^8 * 8 = 2^12 = 4096
    potential prime implicates, given by fixing 8 bit in either the input or

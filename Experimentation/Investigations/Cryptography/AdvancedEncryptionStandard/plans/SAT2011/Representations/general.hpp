@@ -10,6 +10,14 @@ License, or any later version. */
   \brief Investigations into representations for components of the AES related to the SAT 2011 paper
 
 
+  \todo Connections
+  <ul>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/LinearConditions/plans/general.hpp for
+   the handling of linear constraints in general. </li>
+  </ul>
+
+
   \todo Considering output bits on their own
   <ul>
    <li> For better comparison with the DES-paper (see

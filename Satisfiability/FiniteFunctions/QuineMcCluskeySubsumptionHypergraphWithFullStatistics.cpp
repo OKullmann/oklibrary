@@ -7,18 +7,19 @@ License, or any later version. */
 
 /*!
   \file Satisfiability/FiniteFunctions/QuineMcCluskeySubsumptionHypergraphWithFullStatistics.cpp
-  \brief Application for computing the subsumption hypergraph of the prime clauses of a full clause-set as well as statistics.
+  \brief Application for computing the subsumption hypergraph of the prime clauses of a full clause-set as well as statistics
 
   <ul>
    <li> One parameter is needed, the file containing the clause-set F in DIMACS
    format. </li>
-   <li> The result is printed to standard output (a hypergraph in DIMACS
-   format). </li>
-   <li> The subsumption hypergraph is output in lexicographical order, without
-   duplicate clauses. </li>
-   <li> Additionally the clause-set statistics for the prime implicates and 
-   the subsumption hypergraph (with duplicate clauses removed) are output to 
-   basename(input_filename)_all_primes_stats and 
+   <li> The subsumption hypergraph is printed to standard output, a hypergraph
+   in DIMACS format, in lexicographical order, without duplicated clauses.
+   </li>
+   <li> The prime clauses of F are output (in DIMACS format) to
+   basename(input_filename)_primes. </li>
+   <li> Additionally the clause-set statistics for the prime clauses and
+   the subsumption hypergraph is output to
+   basename(input_filename)_primes_stats and
    basename(input_filename)_shg_stats. </li>
   </ul>
 
@@ -52,7 +53,7 @@ namespace {
   const std::string program = "QuineMcCluskeySubsumptionHypergraphWithFullStatistics";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2.0";
+  const std::string version = "0.2.1";
 
   using namespace OKlib::InputOutput;
 
@@ -71,9 +72,8 @@ int main(const int argc, const char* const argv[]) {
   if (argc != 2 and argc != 3) {
     std::cerr << err << "Exactly one input is required,\n"
       " the name of the file with the clause-set in DIMACS-format.\n"
-     "One may also specify additionally \"n\", \"ni\" or \"f\" to force \n"
-      "removal of all zeroes, leading and trailing zeroes or no removal of\n"
-      "zeroes from statistics output.\n"
+      "One may also specify additionally \"n\", \"ni\" or \"f\" for\n"
+      " no zero-counts, no initial and final zero-counts, or full output (\"ni\" is default).\n"
       "However, the actual number of input parameters was " << argc-1 << ".\n";
     return error_parameters;
   }

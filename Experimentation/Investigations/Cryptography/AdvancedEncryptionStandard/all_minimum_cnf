@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 # Matthew Gwynne, 5.1.2011 (Swansea)
 # Copyright 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
@@ -6,16 +6,21 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-# Script which given the path to a full Dimacs CNF file "strict_file"
-# computes all minimum CNF representations of this file
-# and then generates files with the names ${strict_file}.trans_$i containing 
-# the i-th minimum size CNF representation for all i.
+# Script which given the path to a full Dimacs CNF file "file"
+# computes all minimum CNF representations of this CNF,
+# and then generates files with the names file.trans_$i containing 
+# these minimum size CNF representation for 1 <= i <= number of solutions.
+
+# The algorithm used is
+# Combinatorics/Hypergraphs/Transversals/Bounded/BoundedTransversals_bv.cpp
+# in the iterative version, searching for transversals of size 0, 1, ... .
+# This is a simple algorithm, and succeeds only for smaller examples.
 
 set -o errexit
 set -o nounset
 
 script_name="all_minimum_cnf"
-version="0.2.2"
+version="0.2.3"
 
 err="ERROR[${script_name}]"
 if [[ $# > 2 || $# < 1 ]]; then
@@ -35,20 +40,23 @@ else
   lower_bound=0
 fi
 
-echo "Starting with lower bound of ${lower_bound}..."
+shg_computation=QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG
+transversal_computation=BoundedTransversals_bv-O3-DNDEBUG
+
+echo "Starting with lower bound of ${lower_bound} ..."
 
 # Compute subsumption hypergraph and prime implicates
-echo "Computing subsumption hypergraph..."
-QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ${input_file} > ${shg_file}
+echo "Computing subsumption hypergraph ..."
+${shg_computation} ${input_file} > ${shg_file}
 
-echo "Computing bounded transversals..."
+echo "Computing bounded transversals ..."
 # Compute transversals and then extract the CNFs from the prime clauses using the result.
 count=0
 current_transversal=1
-BoundedTransversals_bv ">=${lower_bound}" < ${shg_file}  | grep -v "^[pc]" > ${transversals_file}
+${transversal_computation} ">=${lower_bound}" < ${shg_file}  | grep -v "^[pc]" > ${transversals_file}
 num_transversals=$(wc -l ${transversals_file})
 cat ${transversals_file} |  while read transversal; do
-      echo "Translating assignment for transversal [${current_transversal}/${num_transversals}]..."
+      echo "Translating assignment for transversal [${current_transversal}/${num_transversals}] ..."
       count=$(expr ${count} + 1)
       echo ${transversal} > ${transversal_file}
       cat ${pi_file} | FilterDimacs-O3-DNDEBUG ${transversal_file} > "${input_file}.trans_${count}"

@@ -16,9 +16,9 @@ License, or any later version. */
   </ul>
 
 
-  \todo vanderwaerden_2(4,16) > ?
+  \todo vanderwaerden_2(4,16) > 812
   <ul>
-   <li> Start with the palindromic solution for n=?. </li>
+   <li> Start with the palindromic solution for n=812. </li>
   </ul>
 
 

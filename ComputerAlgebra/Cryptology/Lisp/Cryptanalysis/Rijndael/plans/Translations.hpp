@@ -212,7 +212,8 @@ License, or any later version. */
   
   \todo How to represent elements of arbitrary fields as boolean variables?
   <ul>
-   <li> In CryptoSystems/Lisp/Rijndael/SmallScaleAdvancedEncryptionStandard.mac,
+   <li> In
+   CryptoSystems/Lisp/Rijndael/SmallScaleAdvancedEncryptionStandard.mac
    an arbitrary field can be used for the small scale AES word field. </li>
    <li> However, a GF(3^2) field would have 9 elements, and there is no
    longer a simple match between polynomial coefficients of the element
@@ -248,7 +249,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Write Docus
+  \todo Write docus
   <ul>
    <li> Documentation should be written explaining the way the translation
    system works, as well as pointing out the standard functions to use. </li>
@@ -272,16 +273,16 @@ License, or any later version. */
      <li> Box translations for the Sbox and field multiplications using:
      <ul>
       <li> Small CNF representations (see 
-      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp 
+      Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp 
       and 
-      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp).
+      Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp).
       </li>
       <li> The canonical DNF translation (see 
       ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac). </li>
       <li> r_k-reduced representation (see 
       OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac). </li>
       <li> Small hitting clause-set representations (see 
-      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp). 
+      Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp). 
       </li>
      </ul>
      </li>
@@ -302,7 +303,7 @@ License, or any later version. */
      </ul>
      </li>
      <li> Generalised small scale parameters (see 
-     ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac)
+     Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac)
      <ul>
       <li> n_R: number of rows in the AES block (default 4, can be
       1, 2 or 4). </li>
@@ -346,7 +347,7 @@ License, or any later version. */
    satisfying assignments). </li>
    <li> For CNF representations see "Generate good CNF clause-sets for the AES
    Sbox" in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
+   Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
    (obviously all the algorithmic techniques can be generalised to any function
    given by truth tables. </li>
    <li> Obviously also of interest are OBDD representations of these boolean
@@ -437,9 +438,9 @@ License, or any later version. */
 
   \todo Generate translation that allows multiple plaintext/ciphertext pairs
   <ul>
-   <li> Given that a single plaintext/ciphertext pair (P,C), encrypted with AES 
-   using a key K, might not be enough, on it's own, to deduce K (as there may
-   be some K' which performs the same mapping for this specific (P,C)), for
+   <li> Given that a single plaintext/ciphertext pair (P,C), encrypted with
+   AES  using a key K, might not be enough, on it's own, to deduce K (as there
+   may be some K' which performs the same mapping for this specific (P,C)), for
    genuine experiments and understanding of AES, translations allowing
    multiple plaintext/ciphertext pairs but sharing the key variables are 
    needed. </li>
@@ -450,10 +451,20 @@ License, or any later version. */
   </ul>
 
 
-  \todo DONE (fixed; remaining issues handled by "Write Docus" and 
-  "Complete small scale helper functions")
-  Fix translation system
+  \todo Fix translation system
   <ul>
+   <li> Each of the following todos must be completed on its own, with
+   explanations how it was achieved. </li>
+   <li> The discussions here, and in the already removed todos (see ticket
+   MG-22), need to be fully checked for being completely transferred to
+   specifications and/or docus. </li>
+   <li> Special care must be devoted to the notions of "active clauses" and
+   "constraint", where some progress must be achieved in more general modules,
+   learning from the experiences here. </li>
+   <li> The notion of "active clause" implies that for example AES encryption/
+   decryption can be executed by just providing plain-text and key as a partial
+   assignment and evaluating the whole active clause-set. Has this been
+   achieved?? </li>
    <li> The current translation system works in the following way: 
    <ul>
     <li> The common datatype is a set of "constraint templates" of the form
@@ -531,8 +542,7 @@ License, or any later version. */
       <li> The second step can be replaced with other translations into
       constraint languages, or replacement of constraint templates with "true
       constraints". See
-      ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/Conditions.hpp. 
-      </li>
+      Satisfiability/Lisp/ConstraintProblems/plans/Conditions.hpp. </li>
      </ul>
      </li>
      <li> Alter the constraint template format to the form 
@@ -932,49 +942,6 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
   </ul>
 
 
-  \todo DONE 
-  Parameterise inclusion of inverse operation in Mixcolumn translation
-  <ul>
-   <li> In the initial AES translation, only the encryption direction was
-   included in the translation for the Mixcolumn, however, as this operation
-   involves the use of multiple xors, decryption does not follow from simple
-   UCP. </li>
-   <li> Therefore, to both allow decryption to follow solely via UCP and to 
-   generally increase the decision power of the translation (i.e. increase the
-   likelyhood of cracking certain round AES variants), the inverse of the 
-   Mixcolumn operation was included. </li>
-   <li> To compare and contrast the different approaches, as well as to allow 
-   for different translations of the encryption and inverse/decryption only
-   versions of the Mixcolumns, there should be a parameter to control whether
-   this inverse Mixcolumn is included in the translation. </li>
-   <li> This should be done by introducing a rewrite rules for the inverse
-   mixcolumn, along with a replacement rewrite rule for MixColumn which
-   rewrites MixColumn using both and returns the appended result. </li>
-  </ul>
-
-
-  \todo (DONE There are tests for all functions in the new system) 
-  Rewrite tests based on rewritten translation system
-  <ul>
-   <li> After the translation system is rewritten (see "Fix translation system")
-   the tests must be rewritten to take account of this. </li>
-   <li> Also additionally tests for the following functions are necessary:
-    <ul>
-     <li> aes_cp </li>
-     <li> aes_cnf_cs </li>
-     <li> aes_cnf_fcs </li>
-    </ul>
-   </li>
-  </ul>
-
-
-  \todo Rewrite the following todos (DONE Reconsidered in Write Docus)
-  <ul>
-   <li> Split the following todos, especially "Fix translation system"
-   and mark off any todos already done. </li>
-  </ul>
-
-
   \todo DONE Move notion of AES constraints to separate module/unit
   <ul>
    <li> The representation of components of the AES as constraints
@@ -989,226 +956,6 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
    <li> Doing this also allows various todos to be moved into a separate
    todo file. </li>
   </ul>
-
-
-  \todo DONE Standardise block ordering
-  <ul>
-   <li> Within the translation system, any time a list of variables 
-   representing a block within the AES are passed, the list is interpreted
-   as the "block"/"matrix" given *row by row*. </li>
-   <li> However, the standard when representing such blocks in hexidecimal etc
-   is to list the block, *column by column*, which makes much more sense as
-   the number of columns may increase, whereas the number of rows (i.e column
-   size) remains the same. </li>
-   <li> Therefore, each of the translation functions and tests should be
-   rewritten to consider such list of variables *column by column*. </li>
-   <li> This should make the implementation of functions such as aes_hex2pa
-   etc must simpler. </li>
-   <li> This has already been done for the AES implementation in
-   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ . </li>
-  </ul>
-
-
-  \todo Constraint rewrite system (DONE Covered in "Fix translation system")
-  <ul>
-   <li> In translating AES to a CNF, one can define a rewrite system based
-   around sets of constraints.
-    <ol>
-     <li> A "constraint" is simply a 3-tuple with a name, a set of variables
-     and a function for evaluation given a partial assignment to the variables.
-     OK: The notion of "constraint" is not really appropriate. And in general
-     the partial assignment must be *total* w.r.t. the scope.
-     MG: What would be better terminology? Active unit? Condition also doesn't
-     appear to fit for similar reasons (?).
-     </li>
-     <li> A rewrite function "f" is defined to take a constraint, and if it is
-     applicable (i.e., if "f" is a rewrite rule for that constraint), it
-     returns a set of new constraints, otherwise it returns false (in some
-     way). This may be handled by a unit list and empty list rather than use
-     of "false". </li>
-     <li> An application function is necessary to apply a given rewrite rule
-     to a set of constraints. When a particular rewrite rule applies, the 
-     constraints it returns must be joined to the current set of constraints
-     and issues such as variable clashes etc handled. </li>
-     <li> Translations may be achieved by applying such rewrite rules using
-     the application functions to sets of constraints in an interative manner.
-     </li>
-     <li> Starting initially with a single "aes" constraint, rewrite rules 
-     can then be iteratively applied to reduce the system to simpler
-     sets of constraints. </li>
-    </ol>
-   </li>
-   <li> How  to handle variables?
-    <ol>
-      <li> How to name variables? Seperate variable prefixes for plaintext, 
-      ciphertext, key and round key bits seem sensible, as well as seperate
-      input and output bits for each round, and then a variable
-      prefix for each constraint? </li>
-      <li> %Variables used when rewriting a particular
-      constraint would then use the variables appropriate to that constraint? 
-      </li>
-      <li> Indices can be used to represent that a variable belongs to a 
-      particular round "r" (if applicable), and then it seems sensible to 
-      provide an index "i" which specifies the position of the bit in a 
-      particular grouping, for instance the "ith" bit of the plaintext. </li>
-      <li> Lastly, an index "n" to determine that this is the nth set of such
-      variables should suffice, for situations within constraint rewriting
-      where multiple sets of internal variables are needed for a single
-      constraint rewrite. </li>
-      <li> When applying a rewrite rule "f" to a constraint "c", given that 
-      a particular rewrite rule has no knowledge of the wider set of
-      constraints "S_t" (only the constraint given to it), how to rename or
-      reindex the variables in the set of constraints "S_o" that "f" outputs,
-      so that internal variables (i.e., variables not present in the variable
-      set "S_c" for "c") do not clash with others in "S_t"? </li>
-      <li> Simply take some kind of maximum index "m" derived from indices 
-      used in variables in "S_t", and then rewrite any variables in "S_o"
-      by taking the indices "u" used there and adding to them "m"? </li>
-      <li> For instance transforming "sbox_var(r,u,i)" to "sbox_var(r,u+m,i)".
-      %Variables occuring in "S_c" must obviously be exempt from this, but this
-      should be trivial to achieve. </li>
-      <li> How should a given rewrite rule know which variables represent which
-      bits in the problem when we consider only a set of variables? Special 
-      knowledge of the system works well enough for everything outside of the 
-      Sbox and potentially addition within the rijndael byte field, as these
-      are used in various places? </li>
-      <li> Should the rewrite rules for such constraints (sbox etc) simply make
-      hardcoded case distinctions based on the variables occuring in the 
-      variable set? </li>
-    </ol>
-   </li>
-  </ul>
-
-
-  \todo Encoding AES (top down) (DONE Covered in "Fix Translation System")
-  <ul>
-   <li> Break this todo into separate todos </li>
-   <li> Using the concept of a "constraint" (rather than condition), where this
-   can be represented by a tuple consisting of a name, a set of variables
-   and a function to evaluate it, given an assignment. </li>
-   <li> Compare the discussion under "Condition" in
-   ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp. </li>
-   <li> The following needs updating, so that from the beginning
-   we consider families of encoding, using different "granularity
-   levels" for the "active clauses" used; see "Partitioning into active
-   clauses" above. </li>
-   <li> First the formulas F_AES(p, k, c) encoding
-   the encryption via AES, and F'_AES(p, k, c) encoding
-   the decryption via AES have to be created, as
-   plain CNF. The formulas F_AES etc. actually need a
-   further parameter 0 <= r <= 10, the number of rounds.
-   </li>
-   <li> That is, we can consider F_AES^r(p, k, c') for 0 <= r < = 10
-   which encodes that encryption of p via k in r rounds yields c',
-   and F'_AES^s(p', k, c) for 0 <= s < = 10
-   which encodes that decryption of c via k in s rounds yields p'. </li>
-   <li> We have  F_AES(p, k, c) = F_AES^10(p, k, c) and
-   F'_AES(p, k, c) = F'_AES^10(p, k, c). </li>
-   <li> It seams reasonable to demand that F_AES^r(p, k, c') contains
-   F_AES^r'(p, k, c') for r' <= r, and the same for F'_AES^s(p', k, c).
-   </li>
-   <li> The variables used in  F_AES^r(p, k, c') and F'_AES^s(p', k, c)
-   must be consistently named, so that these formulas can be combined.
-   </li>
-   <li> (Compare the 2006-BSc-project by Gareth Thomas. The difference
-   between F_AES(p, k, c) and F'_AES(p, k, c) is in the use
-   of the auxiliary variables.)
-   </li>
-   <li> Only later should we consider a full C++ implementation, but first
-   we create a prototype in the computer-algebra system. DONE </li>
-   <li> (DONE Discussion reformulated in "Constraint Rewrite System")
-   For an initial translation to CNF, the following seems sensible
-    <ol>
-     <li> Function of the form aes_cp(p1,...,p128,k1,...,k128,c1,...,c128) 
-     which given the plaintext, key and ciphertext variables, produces a
-     set of conditions. </li>
-     <li> At the highest level, the "aes_cp" could produce a set of conditions
-     in terms of an "aes_round_cd" condition, which could then later be defined
-     through functions which would then be substituted for conditions in the
-     set. </li>
-     <li> The conditions can be replaced by functions that 
-     are only *then* evaluated by use of "obsubst", providing a more
-     structured intentional approach, which makes substituting different
-     conditions into the final expansion far easier (without constant 
-     function renaming). </li>
-     <li> This methodology can be applied down to levels such as the sbox
-     and field element multiplications (within reason) and then additional
-     must be made of these operations. </li>
-     <li> An issue that arises is the naming/production of new variables. 
-     Given that these will be needed at various levels to "join" various
-     result bits to input bits of different conditions, but if such a scheme
-     uses function evaluations, how to produce such variables without sharing
-     some kind of global state? </li>
-     <li> Passing an initial variable pool (list of variables) into the 
-     conditions could work, but this doesn't seem to fit well with the
-     conditions being simple conditions given a set of input bits. Perhaps a
-     method which evaluates a given set of conditions and condition producing
-     functions and then defines this variable pool, which is then in the scope
-     of the condition producing functions when they are substituted and
-     evaluated? </li>
-     <li> Also, if each of these functions produces a set of conditions, then
-     simple substitution would yield a set of sets, and then a set of set of
-     sets etc. A simple solution here seems to be, to return the union of 
-     any unevaluated conditions, where this union will be applied 
-     (automatically by maxima) only when the entire expression has been 
-     sufficiently evaluated, such that each of these conditions yields
-     a set. </li>
-     <li> On second thought, it seems more natural, considering each of
-     these functions can be run in isolation and should produce a set of
-     conditions, that only at the substitution stage should the issue,
-     of joining the set produced by a condition to the parent set, be
-     considered. </li>
-     <li> For the unevaluated conditions (placeholders) within the sets, 
-     perhaps the postfix "_c" for condition, could be used, and for the
-     functions producing the conditions, perhaps "_cp" as a postfix? </li>
-     <li> (DONE yes this is precisely the intention)
-     Could such condition sets also be used as a representation when
-     dealing with active clauses? A generalised solver that looked for 
-     operators within the set and then applied appropriate given functions
-     for those operators that would determine heuristics etc? </li>
-     <li> DONE (Not needed, we want a set of conditions to be produced)
-     "nounify" appears to be useful here, to force functions such as
-     "union" to become "nouns" rather than "verbs", which are then not 
-     immediately evaluated. This is only an issue in some cases such as "union"
-     where it expects it's arguments to be of the correct type and won't return
-     the unevaluated expression if not, but instead returns an error. </li>
-    </ol>
-   </li>
-  </ul>
-
-
-  \todo DONE Truncate AES for reduced rounds
-  <ul>
-   <li> The current behaviour of the AES SAT translation when 
-   the variable aes_num_rounds is specified, is to translate an
-   AES variant with (aes_num_rounds - 1) full "normal" AES rounds and
-   then a single instance of the final AES round (which is a special
-   case in Rijndael). </li>
-   <li> To truly say that AES is being "stopped" and inspected after
-   aes_num_rounds rounds, the true behaviour should be that exactly
-   (aes_num_rounds - 1) rounds and 1 final round are translated iff
-   aes_num_rounds = 10, otherwise exactly aes_num_rounds rounds are
-   translated and the special final AES round is not used. </li>
-   <li> Perhaps this should somehow be an option for:
-   <ul>
-    <li> Truncated AES </li>
-    <li> Generalised AES </li>
-   </ul>
-  </ul>
-
-
-  \todo DONE (see Translations.mac)
-  Add statistics for translations
-  <ul>
-   <li> We need statistics functions for the various translations in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac. 
-   </li>
-   <li> We need at least the number of variables and clauses for each 
-   translation, and preferably the clause-length list. </li>
-   <li> DONE We also need statistics on the number of each box in each
-   translation. </li>
-  </ul>
-
 
 */
 
