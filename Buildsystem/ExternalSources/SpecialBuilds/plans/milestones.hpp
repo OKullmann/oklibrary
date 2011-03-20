@@ -72,6 +72,7 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
    topics are handled:
     - Install Relsat
+    - DES generator
     - Grasp uses system C++ libraries
     - Improvements of CryptoMiniSat
     - Glucose

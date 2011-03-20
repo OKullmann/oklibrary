@@ -16,6 +16,16 @@ License, or any later version. */
    (January 2007). </li>
    <li> We need this solver for historical reasons, for its performance
    on the original DES instances. </li>
+   <li> The sources are in sources/SAT/Relsat. </li>
+  </ul>
+
+
+  \todo DES generator
+  <ul>
+   <li> http://disi.unitn.it/~massacci/CryptoSAT/ contains the generator
+   and an update. </li>
+   <li> The sources are in sources/SAT/Des. </li>
+   <li> We need this for comparison (and for historical reasons). </li>
   </ul>
 
 
