@@ -107,6 +107,7 @@ nvar_full_dualts(10,64) - 10;
 
   \todo Analysing the S-boxes
   <ul>
+   <li> These considerations need a dedicated sub-module. </li>
    <li> Most urgent is to use all our instruments to analyse the 8 S-boxes.
    </li>
    <li> Of course, starting with defining them at Maxima-level. </li>
@@ -117,6 +118,79 @@ nvar_full_dualts(10,64) - 10;
    hypergraph, and minimum CNFs, and r_0-,r_1-bases. </li>
    <li> Here also minimum DNF-representations are of interest! </li>
    <li> They can be used to yield pseudo-canonical translations. </li>
+   <li> Analysis of the prime clauses:
+    <ol>
+     <li> Creating the CNF/DNF files:
+     \verbatim
+OKplatform> mkdir EXP_DES
+OKplatform> cd EXP_DES/
+EXP_DES> oklib --maxima
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/Sboxes.mac");
+for i : 1 thru 8 do (output_dessbox_fulldnf_stdname(i),output_dessbox_fullcnf_stdname(i));
+     \endverbatim
+     </li>
+     <li> Prime-clause statistics:
+     \verbatim
+EXP_DES> for F in *.cnf; do QuineMcCluskeySubsumptionHypergraphFullStatistics-n16-O3-DNDEBUG ${F}; done
+
+EXP_DES> for F in DES_Sbox_?_fullDNF.cnf_primes_stats; do cat ${F}; done
+
+EXP_DES> for F in DES_Sbox_?_fullCNF.cnf_primes_stats; do cat ${F}; done
+
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+10 1624 9554 0 9554 0 1
+ length count
+5 243
+6 1328
+7 53
+
+10 1844 10967 0 10967 0 1
+5 154
+6 1633
+7 57
+
+10 1767 10458 0 10458 0 1
+5 219
+6 1473
+7 75
+
+10 1881 11197 0 11197 0 1
+5 153
+6 1664
+7 64
+
+10 1812 10768 0 10768 0 1
+5 174
+6 1568
+7 70
+
+10 1705 10115 0 10115 0 1
+5 204
+6 1412
+7 89
+
+10 1673 9891 0 9891 0 1
+5 228
+6 1364
+7 81
+
+10 2047 12227 0 12227 0 1
+5 106
+6 1890
+7 51
+     \endverbatim
+     </li>
+     <li> The DNF-output shows that no resolutions are possible, and thus these
+     boolean functions have unique DNF. </li>
+     <li> Quite some differences regarding the prime implicates. S-box number
+     1 is the easiest, number 8 is the hardest. </li>
+     <li> This is also confirmed by r_1-bases: Box 1 has an r_1-base with 126
+     clauses, while for box 8 only one with 157 clauses was found. </li>
+     <li> Also minimum representations need to be studied. </li>
+     <li> As a model one can study random 6 x 4 boolean functions. </li>
+    <ol>
+   </li>
   </ul>
 
 
