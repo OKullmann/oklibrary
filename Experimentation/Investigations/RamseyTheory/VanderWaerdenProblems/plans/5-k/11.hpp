@@ -66,7 +66,14 @@ Break point 2: 755
    \endverbatim
    </li>
    <li> Hard regions starts around n=700, and at most 25 runs needed. </li>
-   <li> sapsnr yields segmentation fault (cs-oksvr), and so does rsaps. </li>
+   <li> sapsnr yields segmentation fault (cs-oksvr), and so does rsaps.
+   On cscarme "RunPdVdWk1k2 5 11 sapsnr 100 40000000" yields
+   \verbatim
+Break point 1: 692
+Break point 2: 725
+   \endverbatim
+   using at most one run in random-mode. So adaptg2wsat seems superior here.
+   </li>
   </ul>
 
 */
