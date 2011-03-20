@@ -96,6 +96,9 @@ representing the:
 - 16-bit AES multiplication by 13.
 - 16-bit AES multiplication by 14.
 
+XXX WHAT DOES "8-bit" AND "16-bit" MEAN HERE? This information is misleading.
+XXX Obviously there are 4-bit and 8-bit boxes!
+
 The translations are constructed by generating the prime implicates for each
 boolean function and then producing the subsumption hypergraph G for these
 prime implicates and the full CNF, where:
