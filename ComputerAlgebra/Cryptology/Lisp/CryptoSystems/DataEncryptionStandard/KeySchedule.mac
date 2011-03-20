@@ -1,0 +1,53 @@
+/* Oliver Kullmann, 20.3.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/KeySchedule.mac
+  \brief The 16 round keys of DES
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/KeySchedule.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+des_key_initial_selection : [
+57,49,41,33,25,17,9,1,58,50,42,34,26,18,
+10,2,59,51,43,35,27,19,11,3,60,52,44,36,
+63,55,47,39,31,23,15,7,62,54,46,38,30,22,
+14,6,61,53,45,37,29,21,13,5,28,20,12,4]$
+
+des_key_left_shifts : [
+1,1,2,2,2,2,2,2,1,2,2,2,2,2,2,1]$
+
+des_key_compression : [
+14,17,11,24,1,5,3,28,15,6,21,10,
+23,19,12,4,26,8,16,7,27,20,13,2,
+41,52,31,37,47,55,30,40,51,45,33,48,
+44,49,39,56,34,53,46,42,50,36,29,32]$
+
+des_round_keys() := block(
+ [key1 : take_l(28,des_key_initial_selection),
+  key2 : rest(des_key_initial_selection,28),
+  keylist : []],
+  for s in des_key_left_shifts do block([key],
+    key1 : rotate(key1,-s), key2 : rotate(key2,-s),
+    key : append(key1,key2),
+    key : map(lambda([x],key[x]), des_key_compression),
+    keylist : cons(key, keylist)
+  ),
+  reverse(keylist))$
+
+/*!
+\endhtmlonly
+*/
