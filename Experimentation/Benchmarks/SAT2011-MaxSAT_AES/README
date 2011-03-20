@@ -40,9 +40,9 @@ better representations in the OKlibrary (see VII) and consider what constitutes
 a good translation in a forthcoming technical report on attacking the AES
 cipher using SAT
 
-@TechReport{GwynneKullmann2008AES,
+@TechReport{GwynneKullmann2011AES,
   author =       {Matthew Gwynne and Oliver Kullmann},
-  title =        {Attacking {AES} via {SAT}},
+  title =        {Attacking {AES} via {SAT}: Constraints and boolean functions},
   institution =  {arXiv},
   year =         2011,
   number =       {arXiv:??? [cs.DM]},
