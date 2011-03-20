@@ -6,8 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/10.hpp
-  \brief On investigations into vdw_2(5,10)
+  \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/11.hpp
+  \brief On investigations into vdw_2(5,11)
 
 
   \todo Best complete solver for palindromic problems
