@@ -2,19 +2,15 @@
 
 I Directory content:
 
-XXX OBVIOUSLY THE BENCHMARKS MUST GO TO SUBDIRECTORIES XXX
+  - Benchmarks/sbox_4.pb corresponds to finding a smallest CNF for the 
+    8-bit boolean function representing the small scale AES Sbox.
+  - Benchmarks/sbox_8.pb corresponds to finding a smallest CNF for the
+    16-bit boolean function representing the AES Sbox.
+  - Benchmarks/mul_8_x.pb corresponds to finding smallest CNFs for the
+    16-bit boolean functions representing multiplication by x in the AES
+    byte field, for x in {3,9,11,13,14}.
 
-  - sbox_8.pb is the pseudo-boolean translation of the problem of finding
-    a minimum CNF for the 8-bit boolean function for the small scale AES Sbox.
-  - sbox_16.pb is the pseudo-boolean translation of the problem of finding
-    a minimum CNF for the 16-bit boolean function for the AES Sbox.
-  - mul_16_E.pb are the pseudo-boolean translations of the problem of finding
-    a minimum CNF for the 16-bit boolean function for the multiplication by E
-    in the AES byte field.
-  - *_primes.cnf are the prime implicates for the corresponding boolean
-    functions.
-  - MD5_components contains the md5 hash values of benchmarks.
-  - MD5_primes contains the md5 hash values of prime implicate files.
+  - MD5_Benchmarks contains the md5 hash values of benchmarks.
   - this README file.
 
 
@@ -69,16 +65,17 @@ IV Instances
   - with size in bytes
   - "e" for easy, "h" for hard, "vh" for very hard.
 
+In Benchmarks:
 
-24142     sbox_8.pb    (e)
-662020638 sbox_16.pb    (vh)
-23669676  mul_16_3.pb   (h)
-35237716  mul_16_9.pb   (h)
-54849639  mul_16_11.pb  (h)
-54473031  mul_16_13.pb  (h)
-52090303  mul_16_14.pb  (h)
+24142     sbox_4.pb    (e)
+662020638 sbox_8.pb    (vh)
+23669676  mul_8_3.pb   (h)
+35237716  mul_8_9.pb   (h)
+54849639  mul_8_11.pb  (h)
+54473031  mul_8_13.pb  (h)
+52090303  mul_8_14.pb  (h)
 
-The only known optimum solution is for sbox_8.pb which has an optimum
+The only known optimum solution is for sbox_4.pb which has an optimum
 solution of size 22.
 
 

@@ -2,18 +2,15 @@
 
 I Directory content:
 
-XXX OBVIOUSLY THE BENCHMARKS MUST GO TO SUBDIRECTORIES XXX
+  - Benchmarks/sbox_4.wcnf corresponds to finding a smallest CNF for the 
+    8-bit boolean function representing the small scale AES Sbox.
+  - Benchmarks/sbox_8.wcnf corresponds to finding a smallest CNF for the
+    16-bit boolean function representing the AES Sbox.
+  - Benchmarks/mul_8_x.wcnf corresponds to finding smallest CNFs for the
+    16-bit boolean functions representing multiplication by x in the AES
+    byte field, for x in {3,9,11,13,14}.
 
-  - sbox_8.wcnf corresponds to finding a smallest CNF for the 8-bit boolean
-    function representing the small scale AES Sbox.
-  - sbox_16.wcnf corresponds to finding a smallest CNF for the 16-bit boolean
-    function representing the AES Sbox.
-  - mul_16_x.wcnf corresponds to finding smallest CNFs for the 16-bit boolean
-    functions representing multiplication by x in the AES byte field, for x in
-    {3,9,11,13,14}.
-
-  - MD5_components contains the md5 hash values of benchmarks.
-  - MD5_primes contains the md5 hash values of prime implicate files.
+  - MD5_Benchmarks contains the md5 hash values of benchmarks.
   - this README file.
 
 
@@ -67,6 +64,8 @@ IV Instances
   - with size in bytes
   - "e" for easy, "h" for hard, "vh" for very hard.
 
+In Benchmarks:
+
 11102     sbox_4.wcnf    (e)
 366673984 sbox_8.wcnf    (vh)
 11386697  mul_8_3.wcnf   (h)
@@ -76,8 +75,7 @@ IV Instances
 26610816  mul_8_14.wcnf  (h)
 
 The only known optimum solution is for sbox_8.wcnf which has an optimum
-solution of size 22. All instances are weighted MaxSAT problems. ???
-this is obviously false ???
+solution of size 22. All instances are weighted MaxSAT problems. 
 
 XXX HOW DOES A SOLUTION FOR THE ABOVE PROBLEMS TRANSLATE INTO "a solution
 of size 22"??? WHAT DOES SIZE MEAN HERE???
@@ -88,16 +86,13 @@ V The Advanced Encryption Standard components
 We provide translations of the problem of finding a CNF of minimum size
 representing the:
 
-- 8-bit small scale AES Sbox.
-- 16-bit AES Sbox.
-- 16-bit AES multiplication by 03.
-- 16-bit AES multiplication by 09.
-- 16-bit AES multiplication by 11.
-- 16-bit AES multiplication by 13.
-- 16-bit AES multiplication by 14.
-
-XXX WHAT DOES "8-bit" AND "16-bit" MEAN HERE? This information is misleading.
-XXX Obviously there are 4-bit and 8-bit boxes!
+- 4-bit small scale AES Sbox.
+- 8-bit AES Sbox.
+- 8-bit AES multiplication by 03.
+- 8-bit AES multiplication by 09.
+- 8-bit AES multiplication by 11.
+- 8-bit AES multiplication by 13.
+- 8-bit AES multiplication by 14.
 
 
 XXX
