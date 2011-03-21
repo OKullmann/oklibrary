@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 7.6.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* **************
@@ -118,6 +119,13 @@ int2bin(m) := int2polyadicstr(m,2)$
 int2boct(m) := int2polyadicstr(m,8)$
 int2dec(m) := int2polyadicstr(m,10)$
 int2hex(m) := int2polyadicstr(m,16)$
+
+/* Converting an hexadecimal string str into a binary vector, where str
+   can use upper- or lower-case letters (also mixed): */
+hexstr2binv(str) := lappend(map(lambda([x],int2polyadic_padd(x,2,4)),map(digit2int,str2chrl(supcase(str)))))$
+/* Converting a binary vector v into a hexadecimal string (using upper-case):
+*/
+binv2hexstr(v) := simplode(map(int2digit,map(lambda([x],polyadic2int(x,2)),partition_elements(v,4))))$
 
 
 /* ************
