@@ -469,6 +469,7 @@ Output Statistics:
   Total number of decisions                                           74
   Largest depth in decision tree                                      14
    \endverbatim
+XXX every output must be edited, to compress and extract the information XXX
    </li>
    <li> We can check we get the right result with:
    \verbatim
