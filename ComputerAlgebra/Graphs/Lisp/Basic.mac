@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.1.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -152,7 +152,7 @@ generic_g2mug(G) := [G[1], G[2], lambda([e],1)]$
 generic_g2gg(G) := [G[1], G[2], identity]$
 /* Works for mug2gg, mugl2gg, mudg2gdg, mudgl2gdg: */
 generic_mug2gg(G) := block([L : listify(G[2])],
-  [G[1], 
+  [G[1],
    setify(create_list([e,i], e,L, i,1,G[3](e))),
    first
   ])$
@@ -189,6 +189,7 @@ dg2mudg(G) := generic_g2mug(G)$
 dgl2mudgl(G) := generic_g2mug(G)$
 dg2gdg(G) := generic_g2gg(G)$
 dgl2gdg(G) := generic_g2gg(G)$
+mudg2gdg(G) := generic_mug2gg(G)$
 mudgl2gdg(G) := generic_mug2gg(G)$
 
 odgl2omudgl(G) := generic_g2mug(G)$
@@ -264,6 +265,8 @@ ogl2og(G) := [G[1], sublist(G[2],lambda([e],is(length(e)=2)))]$
 ogg2og(G) := ogl2og(ogg2ogl(G))$
 mugl2mug(G) := [G[1], subset(G[2],lambda([e],is(length(e)=2))), G[3]]$
 omugl2omug(G) := [G[1], sublist(G[2],lambda([e],is(length(e)=2))), G[3]]$
+dgl2dg(G) := [G[1], subset(G[2],lambda([e],is(first(e)#second(e))))]$
+odgl2odg(G) := [G[1], sublist(G[2],lambda([e],is(first(e)#second(e))))]$
 
 /* Underlying graphs of directed graphs: */
 dg2g(G) := [G[1], map(setify,G[2])]$
@@ -441,8 +444,8 @@ sconnected_mudg_p(G) := sconnected_dg_p(mudg2dg(G))$
 sconnected_omudg_p(G) := sconnected_odg_p(omudg2odg(G))$
 sconnected_gdg_p(G) := sconnected_dgl_p(gdg2dgl(G))$
 sconnected_ogdg_p(G) := sconnected_odgl_p(ogdg2odgl(G))$
-sconnected_dgl_p(G) := is_connected(dg2mdg(dgl2dg(G)))$
-sconnected_odgl_p(G) := is_connected(odg2mg(odgl2odg(G)))$
+sconnected_dgl_p(G) := sconnected_dg_p(dgl2dg(G))$
+sconnected_odgl_p(G) := sconnected_odg_p(odgl2odg(G))$
 sconnected_mudgl_p(G) := sconnected_dgl_p(mudgl2dgl(G))$
 sconnected_omudgl_p(G) := sconnected_odgl_p(omudgl2odgl(G))$
 
