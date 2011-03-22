@@ -65,13 +65,13 @@ In directory Benchmarks:
   - with size in bytes
   - current smallest sum of weights of falsified clauses.
 
-11102     sbox_4.wcnf    (known optimum)
+11102     sbox_4.wcnf    22 (known optimum)
 366673984 sbox_8.wcnf    294
 11386697  mul_8_3.wcnf   36
-17386969  mul_8_9.wcnf   75
-28060140  mul_8_11.wcnf  149
-28011516  mul_8_13.wcnf  143
-26610816  mul_8_14.wcnf  129
+17386969  mul_8_9.wcnf   42
+28060140  mul_8_11.wcnf  66
+28011516  mul_8_13.wcnf  60
+26610816  mul_8_14.wcnf  56
 
 All instances are weighted MaxSAT problems.
 

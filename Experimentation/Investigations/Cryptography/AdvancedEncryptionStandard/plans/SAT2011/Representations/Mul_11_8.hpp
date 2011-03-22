@@ -45,6 +45,54 @@ c's = 1, n = 16, c = 15008, tc = 0, ntc = 15008, tl = 119824, l = 119824, finish
 9 : 5632 
    \endverbatim
    </li>
+   <li> The smallest known CNF representation is of size 66 (see
+   "Using weighted MaxSAT to compute small CNFs"). </li>
+   <li> The minimum size CNF representation is *not* known. </li>
+  </ul>
+
+
+  \todo Using weighted MaxSAT to compute small CNFs : mincl_rinf <= 66
+  <ul>
+   <li> Computing the weighted MaxSAT problem:
+   \verbatim
+shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_byte_field_mul_full_11.cnf > AES_byte_field_mul_shg_11.cnf
+shell> cat AES_byte_field_mul_shg_11.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > AES_byte_field_mul_11_shg.wcnf
+   \endverbatim
+   </li>
+   <li> Running then:
+   \verbatim
+shell> ubcsat-okl -alg gsat -w -cutoff 1000000 -runs 100 -i AES_byte_field_mul_11_shg.wcnf
+   \endverbatim
+   yields:
+   \verbatim
+       sat  min     osteps     msteps       seed
+      1 0    85               690970              1000000  651138378
+      2 0    72               353973              1000000 1635869598
+      3 0    74               589507              1000000 3503387899
+      4 0    72               334496              1000000 2193890246
+      5 0    68               684981              1000000 3037183790
+      6 0    74               400412              1000000 2310997959
+      7 0    76               455696              1000000 1697964535
+      8 0    71               893641              1000000  372929467
+      9 0    73               369444              1000000 4221454731
+     10 0    68               530949              1000000 1754477525
+     11 0    79               395268              1000000 2300315436
+     12 0    72               745484              1000000 3254974086
+     13 0    74               269095              1000000 1993743598
+     14 0    66               295210              1000000 3873470822
+<snip>
+TotalLiterals = 5388960
+FlipsPerSecond = 25671
+BestStep_Mean = 571227.38
+Steps_Mean = 1000000
+Steps_Max = 1000000
+PercentSuccess = 0.00
+BestSolution_Mean = 74.53
+BestSolution_Median = 74
+BestSolution_Min = 66
+BestSolution_Max = 87
+   \endverbatim
+   </li>
   </ul>
 
 */
