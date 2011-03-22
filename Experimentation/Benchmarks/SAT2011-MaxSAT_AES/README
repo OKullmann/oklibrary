@@ -74,12 +74,7 @@ In Benchmarks:
 28011516  mul_8_13.wcnf  (h)
 26610816  mul_8_14.wcnf  (h)
 
-The only known optimum solution is for sbox_8.wcnf which has an optimum
-solution of size 22. All instances are weighted MaxSAT problems. 
-
-XXX HOW DOES A SOLUTION FOR THE ABOVE PROBLEMS TRANSLATE INTO "a solution
-of size 22"??? WHAT DOES SIZE MEAN HERE???
-
+The only known optimum solution is for sbox_4.wcnf. It's minimum sum of weights for the falsified clauses is 22. All instances are weighted MaxSAT problems. 
 
 V The Advanced Encryption Standard components
 
@@ -94,8 +89,32 @@ representing the:
 - 8-bit AES multiplication by 13.
 - 8-bit AES multiplication by 14.
 
+Consider the 8-bit Sbox boolean function f, and the:
 
-XXX
+  - Clauses D in the full CNF F of f.
+  - Prime implicates C in PI(F) of f.
+
+We then construct the CNF SHG(F) with:
+
+  - A variable for every prime implicate C in PI(F).
+  - A clause for every D specifying some C subsumes it.
+
+A satisfying assignment for SHG(F) corresponds to a CNF F'. F' contains prime implicates corresponding to variables set to true. 
+
+Consider a satisfying assignment with the minimum number of ones. This assignment corresponds to a minimum size CNF F' subset PI(F). That is, F' is a minimum sized CNF representation for f.
+
+We construct a weighted MaxSAT instance with:
+
+  - The variable set V(F).
+  - The clauses of SHG(F) with weight |V(F)|+1.
+  - Unit clauses {-v} with weight 1 for every v in V(F).
+
+The underlying clause-set is then unsatisfiable, whereas SHG(F) is satisfiable. Observe that an assignment phi with maximum weight has that:
+
+  - phi satisfies all clauses in SHG(F), as |V(F)|+1 > |V(F)|.
+  - phi minimises the number of variables set to true.
+
+Therefore, such maximum weight assignments correspond to minimum sized CNFs.
 
 For full specifications of the AES Sbox and field operations, the AES cipher
 itself and small scale variants, please refer to the following:
