@@ -139,7 +139,9 @@ itself and small scale variants, please refer to the following:
 
 VI On the choice of instances
 
+The Advanced Encryption Standard is widely used and well studied. Analysis of these core functions will yield new translations of AES. These translations should offer insights into the cryptographic properties of AES.
 
+The 8-bit components come directly from the AES. They represent hard optimisation benchmarks of practical importance. The 4-bit component offers a feasible, novel and non-trivial benchmark.
 
 VII The OKlibrary http://www.ok-sat-library.org
 
