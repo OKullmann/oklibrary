@@ -352,7 +352,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011-MaxSAT_AES.tar.bz2 SAT2011-Ma
    </li>
    <li> The package has md5sum
    \verbatim
-d5b7712061484abbc8a4219cde9f91b7  SAT2011-MaxSAT_AES.tar.bz2
+a722cb97b04a84dc7bd266b535fef66e  SAT2011-MaxSAT_AES.tar.bz2
    \endverbatim
    </li>
    <li> Extracting this archive (by
