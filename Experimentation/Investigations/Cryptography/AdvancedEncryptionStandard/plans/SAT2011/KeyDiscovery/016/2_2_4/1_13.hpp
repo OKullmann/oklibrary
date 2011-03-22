@@ -36,9 +36,14 @@ License, or any later version. */
    </li>
    <li> The Sbox is non-linear permutation over the set of 4-bit elements,
    defined as inversion within the 4-bit field composed with an affine
-   transformation. </li>
+   transformation.
+   XXX this is irrelevant inforamtion --- such information should go to
+   general.hpp in this directory --- with links to the Maxima-specication!
+   XXX </li>
    <li> The linear diffusion operation applies a linear permutation to
-   the input matrix, consisting of:
+   the input matrix, consisting of: XXX we don't speak of "linear diffusion"
+   anymore XXX irrelevant to spefify the operations --- but what is missing
+   is *structural information*, stating the main *structural* parameters XXX
    <ol>
     <li> A shift of row i by i-1 to the left for all i from 1 to the number of
     rows. </li>
@@ -136,7 +141,8 @@ maxima> ncl_list_full_dualts(8,16);
     <li> 352 clauses of length seven, coming from 6 Sboxes and 8 of each of 
     the two multiplications (22 * 16 = 352). </li>
     <li> 22 clauses of length sixteen, coming from from 6 Sboxes and 8 of 
-    each of the two multiplications (22 * 1 = 22). </li>
+    each of the two multiplications (22 * 1 = 22).
+    XXX this all is ugly to read --- less words, more structure! XXX </li>
    </ul>
    </li>
    <li> Then we can generate random assignments with the plaintext and 
