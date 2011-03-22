@@ -63,16 +63,17 @@ IV Instances
 
   - with size in bytes
   - "e" for easy, "h" for hard, "vh" for very hard.
+  - current smallest sum of weights.
 
 In Benchmarks:
 
-11102     sbox_4.wcnf    (e)
-366673984 sbox_8.wcnf    (vh)
-11386697  mul_8_3.wcnf   (h)
-17386969  mul_8_9.wcnf   (h)
-28060140  mul_8_11.wcnf  (h)
-28011516  mul_8_13.wcnf  (h)
-26610816  mul_8_14.wcnf  (h)
+11102     sbox_4.wcnf    (e)   22
+366673984 sbox_8.wcnf    (vh)  294
+11386697  mul_8_3.wcnf   (h)   36
+17386969  mul_8_9.wcnf   (h)   75
+28060140  mul_8_11.wcnf  (h)   149
+28011516  mul_8_13.wcnf  (h)   143
+26610816  mul_8_14.wcnf  (h)   129
 
 The only known optimum solution is for sbox_4.wcnf. It's minimum sum of weights
 for the falsified clauses is 22. All instances are weighted MaxSAT problems. 

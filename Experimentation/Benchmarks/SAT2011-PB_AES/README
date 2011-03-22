@@ -63,19 +63,21 @@ IV Instances
 
   - with size in bytes
   - "e" for easy, "h" for hard, "vh" for very hard.
+  - current smallest solution.
 
 In Benchmarks:
 
-24142     sbox_4.pb    (e)
-662020638 sbox_8.pb    (vh)
-23669676  mul_8_3.pb   (h)
-35237716  mul_8_9.pb   (h)
-54849639  mul_8_11.pb  (h)
-54473031  mul_8_13.pb  (h)
-52090303  mul_8_14.pb  (h)
+24142     sbox_4.pb    (e)   22
+662020638 sbox_8.pb    (vh)  294
+23669676  mul_8_3.pb   (h)   36
+35237716  mul_8_9.pb   (h)   75
+54849639  mul_8_11.pb  (h)   149
+54473031  mul_8_13.pb  (h)   143
+52090303  mul_8_14.pb  (h)   129
 
 All benchmarks are linear optimisation problems. The only known optimum 
-solution is for sbox_4.pb, which is 22.
+solution is for sbox_4.pb, which is 22. For the semantics of the problem
+translation, see V.
 
 
 V The Advanced Encryption Standard components
