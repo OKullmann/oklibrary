@@ -24,7 +24,32 @@ License, or any later version. */
 
   \todo vdw_2^pd(4,12) >= (387,394)
   <ul>
-   <li> Established by minisat-2.2.0 XXX </li>
+   <li> minisat-2.2.0:
+    <ol>
+     <li> n=388: aborted:
+     \verbatim
+restarts              : 2490360
+conflicts             : 2538607498     (2596 /sec)
+decisions             : 2932947182     (0.00 % random) (3000 /sec)
+propagations          : 62093142862    (63504 /sec)
+conflict literals     : 75126436549    (30.65 % deleted)
+Memory used           : 276.00 MB
+     \endverbatim
+     (cpu-time unreliable). </li>
+     <li> This is a hard, but rather small clause-set:
+     \verbatim
+> cat VanDerWaerden_pd_2-4-12_388.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+194 15544 87698 0 87698 1 1
+ length count
+2 65
+4 12259
+6 18
+12 3202
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> Do we have an easy-hard pattern based on parity? </li>
    <li> Certificates:
     <ol>
