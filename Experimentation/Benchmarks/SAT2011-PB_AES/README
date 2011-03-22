@@ -74,8 +74,8 @@ In Benchmarks:
 54473031  mul_8_13.pb  (h)
 52090303  mul_8_14.pb  (h)
 
-The only known optimum solution is for sbox_4.pb which has an optimum
-solution of size 22.
+All benchmarks are linear optimisation problems. The only known optimum 
+solution is for sbox_4.pb, which is 22.
 
 
 V The Advanced Encryption Standard components
@@ -83,36 +83,43 @@ V The Advanced Encryption Standard components
 We provide translations of the problem of finding a CNF of minimum size
 representing the:
 
-- 8-bit small scale AES Sbox.
-- 16-bit AES Sbox.
-- 16-bit AES multiplication by 03.
-- 16-bit AES multiplication by 09.
-- 16-bit AES multiplication by 11.
-- 16-bit AES multiplication by 13.
-- 16-bit AES multiplication by 14.
+- 4-bit small scale AES Sbox.
+- 8-bit AES Sbox.
+- 8-bit AES multiplication by 03.
+- 8-bit AES multiplication by 09.
+- 8-bit AES multiplication by 11.
+- 8-bit AES multiplication by 13.
+- 8-bit AES multiplication by 14.
 
-The translations are constructed by generating the prime implicates for each
-boolean function and then producing the subsumption hypergraph G for these
-prime implicates and the full CNF, where:
+Consider the 8-bit Sbox boolean function f, and the:
 
- - Each vertex in the hypergraph represents a prime implicate.
- - There is a hyperedge for each clause C in the full CNF which contains all 
-   the vertices corresponding to prime clauses which subsume C.
+  - Clauses D in the full CNF F of f.
+  - Prime implicates C in PI(f) of f.
 
-A CNF clause-set F given by taking the subsumption hypergraph directly as a
-clause-set has the transversals of G as it's satisfying assignments, and so
-the problem of finding a minimum CNF, which corresponds to finding the minimum
-transversals of the constructed hypergraph is the problem of finding an 
-assignment to the variables of F which minimises the number of variables
-set to 1. We translate the problem of finding such an assignment directly
-into a pseudo-boolean problem, taking each clause as the corresponding
-pseudo-boolean constraint, and specifying that the problem is to
-minimise the sum of the variables (i.e. the number of 1s in the assignment).
+We then construct the CNF SHG(f) with:
 
-In each problem, the variable with index xi corresponds to the i-th prime
-implicate in the associated CNF file containing the prime implicates for that
-boolean function. For example, variable x2 in sbox_4.pb corresponds to
-the second clause in sbox_4_primes.cnf, {-1,3,-2,-5}.
+  - A variable for every prime implicate C.
+  - A clause for every D specifying some C subsumes it.
+
+A satisfying assignment for SHG(f) corresponds to a CNF F'. F' contains prime
+implicates for those variables set to true. 
+
+Consider a satisfying assignment with the minimum number of ones. This 
+assignment corresponds to a minimum size CNF F' subset PI(f). That is, F' is a
+minimum sized CNF representation for f.
+
+We construct a pseudo-boolean instance with:
+
+  - The variable set V(F).
+  - Linear pseudo-boolean constraints translating the clauses of SHG(F).
+  - The sum of the V(F) as the objective function.
+
+Observe that an optimum solution must:
+
+  - Satisfy all clauses in SHG(F).
+  - Minimise the number of variables set to true.
+
+Therefore, such an optimum solution corresponds to minimum sized CNF.
 
 For full specifications of the AES Sbox and field operations, the AES cipher
 itself and small scale variants, please refer to the following:
@@ -137,17 +144,13 @@ itself and small scale variants, please refer to the following:
 
 VI On the choice of instances
 
-The Advanced Encryption Standard is a widely used encryption algorithm and
-the performance of SAT solvers on translations of the AES has a bearing the 
-cryptographic security of the cipher. Analysis of the representations of these
-core functions within the AES should yield insights into the cryptographic
-security of the cipher, as well as providing smaller CNF representations
-of the cipher itself.
+The Advanced Encryption Standard is widely used and well studied. Analysis of 
+these core functions will yield new translations of AES. These translations 
+should offer insights into the cryptographic properties of AES.
 
-The 16-bit boolean functions problems come directly from the standard AES
-cipher and present hard optimisation benchmarks, while we include the 8-bit
-small scale AES Sbox as an example of a benchmark which is feasible for
-modern pseudo-boolean solvers.
+The 8-bit components come directly from the AES. They represent hard 
+optimisation benchmarks of practical importance. The 4-bit component offers a
+feasible, novel and non-trivial benchmark.
 
 
 VII The OKlibrary http://www.ok-sat-library.org

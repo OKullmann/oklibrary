@@ -74,7 +74,9 @@ In Benchmarks:
 28011516  mul_8_13.wcnf  (h)
 26610816  mul_8_14.wcnf  (h)
 
-The only known optimum solution is for sbox_4.wcnf. It's minimum sum of weights for the falsified clauses is 22. All instances are weighted MaxSAT problems. 
+The only known optimum solution is for sbox_4.wcnf. It's minimum sum of weights
+for the falsified clauses is 22. All instances are weighted MaxSAT problems. 
+For the semantics of the problem translation, see V.
 
 V The Advanced Encryption Standard components
 
@@ -92,16 +94,19 @@ representing the:
 Consider the 8-bit Sbox boolean function f, and the:
 
   - Clauses D in the full CNF F of f.
-  - Prime implicates C in PI(F) of f.
+  - Prime implicates C in PI(f) of f.
 
-We then construct the CNF SHG(F) with:
+We then construct the CNF SHG(f) with:
 
-  - A variable for every prime implicate C in PI(F).
+  - A variable for every prime implicate C.
   - A clause for every D specifying some C subsumes it.
 
-A satisfying assignment for SHG(F) corresponds to a CNF F'. F' contains prime implicates corresponding to variables set to true. 
+A satisfying assignment for SHG(f) corresponds to a CNF F'. F' contains prime
+implicates for those variables set to true. 
 
-Consider a satisfying assignment with the minimum number of ones. This assignment corresponds to a minimum size CNF F' subset PI(F). That is, F' is a minimum sized CNF representation for f.
+Consider a satisfying assignment with the minimum number of ones. This 
+assignment corresponds to a minimum size CNF F' subset PI(f). That is, F' is a
+minimum sized CNF representation for f.
 
 We construct a weighted MaxSAT instance with:
 
@@ -109,7 +114,8 @@ We construct a weighted MaxSAT instance with:
   - The clauses of SHG(F) with weight |V(F)|+1.
   - Unit clauses {-v} with weight 1 for every v in V(F).
 
-The underlying clause-set is then unsatisfiable, whereas SHG(F) is satisfiable. Observe that an assignment phi with maximum weight has that:
+The underlying clause-set is then unsatisfiable, whereas SHG(F) is satisfiable.
+Observe that an assignment phi with maximum weight has that:
 
   - phi satisfies all clauses in SHG(F), as |V(F)|+1 > |V(F)|.
   - phi minimises the number of variables set to true.
@@ -139,9 +145,13 @@ itself and small scale variants, please refer to the following:
 
 VI On the choice of instances
 
-The Advanced Encryption Standard is widely used and well studied. Analysis of these core functions will yield new translations of AES. These translations should offer insights into the cryptographic properties of AES.
+The Advanced Encryption Standard is widely used and well studied. Analysis of 
+these core functions will yield new translations of AES. These translations 
+should offer insights into the cryptographic properties of AES.
 
-The 8-bit components come directly from the AES. They represent hard optimisation benchmarks of practical importance. The 4-bit component offers a feasible, novel and non-trivial benchmark.
+The 8-bit components come directly from the AES. They represent hard 
+optimisation benchmarks of practical importance. The 4-bit component offers a
+feasible, novel and non-trivial benchmark.
 
 VII The OKlibrary http://www.ok-sat-library.org
 
