@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.4.2008 (Guangzhou) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -82,6 +82,7 @@ okltest_dg2mudg(dg2mudg);
 okltest_dgl2mudgl(dgl2mudgl);
 okltest_dg2gdg(dg2gdg);
 okltest_dgl2gdg(dgl2gdg);
+okltest_mudg2gdg(mudg2gdg);
 okltest_mudgl2gdg(mudgl2gdg);
 
 okltest_odgl2omudgl(odgl2omudgl);
@@ -143,6 +144,8 @@ okltest_ogl2og(ogl2og);
 okltest_ogg2og(ogg2og);
 okltest_mugl2mug(mugl2mug);
 okltest_omugl2omug(omugl2omug);
+okltest_dgl2dg(dgl2dg);
+okltest_odgl2odg(odgl2odg);
 
 okltest_dg2g(dg2g);
 okltest_odg2og(odg2og);
