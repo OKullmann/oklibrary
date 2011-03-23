@@ -21,7 +21,6 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionSt
 
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/RoundFunction.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/KeySchedule.mac")$
-oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
@@ -181,13 +180,12 @@ des_cipher2fcl(cipher) := block(
 
 /* key is a partial boolean vector of length 64: */
 des_key2fcl(key) := block(
-[V : create_list(desk_var(i), i,1,64),
- h : osm2hm(l2osm_inv(des_key_initial_selection))],
+[V : create_list(desk_var(i), i,1,64)],
  [V,
   delete(und,
          create_list(
-           block([x:key[i],y],
-             if x=und then und else (y:ev_hm(h,i), if y=false then und else {(2*x-1)*V[y]})),
+           block([x:key[i]],
+             if x=und then und else {(2*x-1)*V[i]}),
            i,1,64))])$
 
 /*!
