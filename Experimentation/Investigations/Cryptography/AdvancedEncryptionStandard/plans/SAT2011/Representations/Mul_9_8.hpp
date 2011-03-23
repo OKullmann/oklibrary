@@ -46,6 +46,44 @@ c's = 1, n = 16, c = 7840, tc = 0, ntc = 7840, tl = 60352, l = 60352, finished =
 9 : 2048
    \endverbatim
    </li>
+   <li> The smallest known CNF representation is of size 42 (see
+   "Using weighted MaxSAT to compute small CNFs"). </li>
+   <li> The minimum size CNF representation is *not* known. </li>
+  </ul>
+
+
+  \todo Using weighted MaxSAT to compute small CNFs : mincl_rinf <= 42
+  <ul>
+   <li> Computing the weighted MaxSAT problem:
+   \verbatim
+shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_byte_field_mul_full_9.cnf > AES_byte_field_mul_shg_9.cnf
+shell> cat AES_byte_field_mul_shg_9.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > AES_byte_field_mul_9_shg.wcnf
+   \endverbatim
+   </li>
+   <li> Running then:
+   \verbatim
+shell> ubcsat-okl -alg gsat -w -cutoff 1000000 -runs 100 -i AES_byte_field_mul_9_shg.wcnf
+   \endverbatim
+   yields:
+   \verbatim
+       sat  min     osteps     msteps       seed   
+      1 0    44                80289              1000000  626575130
+      2 0    46               143131              1000000 3777510035
+      3 0    44               130040              1000000 3438911282
+      4 0    42               192199              1000000  900059187
+<snip>
+TotalLiterals = 3579552
+FlipsPerSecond = 51088
+BestStep_Mean = 116674.64
+Steps_Mean = 1000000
+Steps_Max = 1000000
+PercentSuccess = 0.00
+BestSolution_Mean = 43.28
+BestSolution_Median = 42
+BestSolution_Min = 42
+BestSolution_Max = 48
+   \endverbatim
+   </li>
   </ul>
 
 */

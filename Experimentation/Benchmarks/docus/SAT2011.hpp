@@ -329,12 +329,11 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES-Challenge_OKlibrary.tar.b
 maxima> output_ss_sbox_fullcnf_stdname(2,4,ss_polynomial_2_4);
 maxima> output_ss_sbox_fullcnf_stdname(2,8,ss_polynomial_2_8);
 maxima> for e in [3,9,11,13,14] do output_ssmult_fullcnf_stdname(e,2,8,ss_polynomial_2_8);
-shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_sbox_2_4_full.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > sbox_8.wcnf
-shell> mv AES_sbox_2_4_full.cnf_primes sbox_8_primes.cnf
-shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_sbox_2_8_full.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > sbox_16.wcnf
-shell> mv AES_sbox_2_8_full.cnf_primes sbox_16_primes.cnf
-shell> for x in 3 9 11 13 14; do QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ss_byte2_8_field_mul_full_${x}.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > mul_16_${x}.wcnf; done
-shell> for x in 3 9 11 13 14; do mv ss_byte2_8_field_mul_full_${x}.cnf_primes mul_16_${x}_primes.cnf; done
+shell> mkdir Benchmarks
+shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_sbox_2_4_full.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > Benchmarks/sbox_4.wcnf
+shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_sbox_2_8_full.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > Benchmarks/sbox_8.wcnf
+shell> for x in 3 9 11 13 14; do QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ss_byte2_8_field_mul_full_${x}.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > Benchmarks/mul_8_${x}.wcnf; done
+shell> rm *_primes*
    \endverbatim
    </li>
    <li> The instances are then found in SAT2011-MaxSAT_AES/Benchmarks/. </li>
@@ -353,7 +352,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011-MaxSAT_AES.tar.bz2 SAT2011-Ma
    </li>
    <li> The package has md5sum
    \verbatim
-d5b7712061484abbc8a4219cde9f91b7  SAT2011-MaxSAT_AES.tar.bz2
+a722cb97b04a84dc7bd266b535fef66e  SAT2011-MaxSAT_AES.tar.bz2
    \endverbatim
    </li>
    <li> Extracting this archive (by
@@ -379,12 +378,11 @@ d5b7712061484abbc8a4219cde9f91b7  SAT2011-MaxSAT_AES.tar.bz2
 maxima> output_ss_sbox_fullcnf_stdname(2,4,ss_polynomial_2_4);
 maxima> output_ss_sbox_fullcnf_stdname(2,8,ss_polynomial_2_8);
 maxima> for e in [3,9,11,13,14] do output_ssmult_fullcnf_stdname(e,2,8,ss_polynomial_2_8);
-shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_sbox_2_4_full.cnf | MinOnes2PseudoBoolean-O3-DNDEBUG > sbox_4_shg.pb
-shell> mv AES_sbox_2_4_full.cnf_primes sbox_8_primes.cnf
-shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_sbox_2_8_full.cnf | MinOnes2PseudoBoolean-O3-DNDEBUG > sbox_8_shg.pb
-shell> mv AES_sbox_2_8_full.cnf_primes sbox_16_primes.cnf
-shell> for x in 3 9 11 13 14; do QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ss_byte2_8_field_mul_full_${x}.cnf | MinOnes2PseudoBoolean-O3-DNDEBUG > mul_8_${x}_shg.pb; done
-shell> for x in 3 9 11 13 14; do mv ss_byte2_8_field_mul_full_${x}.cnf_primes mul_16_${x}_primes.cnf; done
+shell> mkdir Benchmarks
+shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_sbox_2_4_full.cnf | MinOnes2PseudoBoolean-O3-DNDEBUG > Benchmarks/sbox_4_shg.pb
+shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_sbox_2_8_full.cnf | MinOnes2PseudoBoolean-O3-DNDEBUG > Benchmarks/sbox_8_shg.pb
+shell> for x in 3 9 11 13 14; do QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ss_byte2_8_field_mul_full_${x}.cnf | MinOnes2PseudoBoolean-O3-DNDEBUG > Benchmarks/mul_8_${x}_shg.pb; done
+shell> rm *_primes*
    \endverbatim
    </li>
    <li> The instances are then found in SAT2011-PB_AES/Benchmarks/. </li>

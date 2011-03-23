@@ -23,14 +23,18 @@
 #     n (positive integer)
 #       The number of variables in the DIMACS file minisat2 was run on to
 #       generate filename.
+# ??? "on to generate filename" ??? what does this mean ???
 #     c (positive integer)
 #       The number of variables in the DIMACS file minisat2 was run on to
 #       generate filename.
+# ??? number of variables ???
 #     parse_time (double)
 #       The time in seconds that minisat2 took to parse the input file given
 #       to it.
+# ??? what is all "given to it" etc. ???
 #     restarts (positive integer)
 #       The number of restarts minisat2 has performed while solving filename.
+# ??? these specifications must be much more concise ???
 #     conflicts (positive integer)
 #       The number of conflicts minisat2 has found while solving filename.
 #     decisions (positive integer)
@@ -38,6 +42,9 @@
 #     propagations (positive integer)
 #       The number of unit clause propagations that minisat2 has performed
 #       while solving filename.
+# ??? endless repetitions of "while solving filename" ???
+# ??? it is also pointless to mention minisat2 (which is false anyway), that
+# it has "performed" something etc. ???
 #     mem (double)
 #       The maximum amount of main memory in Megabytes used by minisat2 when
 #       solving filename.
@@ -52,6 +59,7 @@
 #       filename it is working on as part of it's output.
 #
 # Note this function also reads minisat-2.2.0 output.
+# ??? this is not a "note", but central information, which must be said upfront ???
 #  
 read_minisat2_output = function(filename) {
   S = system(paste("cat ", filename,
@@ -107,6 +115,7 @@ read_minisat2_output = function(filename) {
 }
 # As an example, we can generate the CNF for the 4-bit AES Sbox in maxima:
 #
+# ??? this is a bad example --- only simple examples! ???
 # maxima> oklib_load_all()$
 # maxima> output_ss_sbox_fullcnf_stdname(2,4,ss_polynomial_2_4)$
 #

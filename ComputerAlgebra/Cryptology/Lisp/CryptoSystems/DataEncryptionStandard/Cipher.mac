@@ -72,6 +72,22 @@ des_validation_cipher : [
    = true
 */
 
+/* The hexadecimal versions: */
+des_encryption_hex(plaintext, key) :=
+ binv2hexstr(des_encryption(hexstr2binv(plaintext), hexstr2binv(key)))$
+des_decryption_hex(ciphertext, key) :=
+ binv2hexstr(des_decryption(hexstr2binv(ciphertext), hexstr2binv(key)))$
+
+des_validation_key_hex : "15FBC08D31B0D521"$
+des_validation_plain_hex : "038E596D4841D03B"$
+des_validation_cipher_hex : "A2FB6032638EC79D"$
+
+/* is(des_encryption_hex(des_validation_plain_hex,des_validation_key_hex)=des_validation_cipher_hex)
+   = true
+   is(des_decryption_hex(des_validation_cipher_hex, des_validation_key_hex)=des_validation_plain_hex)
+   = true
+*/
+
 /*!
 \endhtmlonly
 */
