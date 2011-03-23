@@ -30,8 +30,9 @@ License, or any later version. */
      solver. </li>
     </ol>
    </li>
-   <li> The script RunVdW3k is a first very simple tool, just using a fixed
-   number of runs and a fixed cutoff. </li>
+   <li> DONE The script RunVdW3k is a first very simple tool, just using a
+   fixed number of runs and a fixed cutoff. </li>
+   <li> The more general version RunVdWk1k2 should superseed RunVdW3k. </li>
   </ul>
 
 
