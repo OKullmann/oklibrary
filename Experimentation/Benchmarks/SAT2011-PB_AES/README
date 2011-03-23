@@ -1,42 +1,36 @@
-# Matthew Gwynne 18.3.2011 (Swansea)
+# Matthew Gwynne 18.3.2011 (Swansea), csmg@swansea.ac.uk
 
-I Directory content:
+I AES minimum components benchmarks
 
-  - Benchmarks/sbox_4.pb corresponds to finding a smallest CNF for the 
-    8-bit boolean function representing the small scale AES Sbox.
-  - Benchmarks/sbox_8.pb corresponds to finding a smallest CNF for the
-    16-bit boolean function representing the AES Sbox.
-  - Benchmarks/mul_8_x.pb corresponds to finding smallest CNFs for the
-    16-bit boolean functions representing multiplication by x in the AES
-    byte field, for x in {3,9,11,13,14}.
+We provide translations of CNF minimisation problems for boolean functions.
+They come from components of the Advanced Encryption Standard (AES),
+and "small-scale" variants.
 
-  - MD5_Benchmarks contains the md5 hash values of benchmarks.
+
+II Directory content:
+
+  - Benchmarks/sbox_4.pb: smallest CNF for the small-scale AES Sbox
+  - Benchmarks/sbox_8.pb: smallest CNF for the AES Sbox
+  - Benchmarks/mul_8_x.pb: smallest CNFs for the multiplication by x in the
+    AES byte-field (x in {3,9,11,13,14}).
+
+  - MD5_Benchmarks: md5 hash values of benchmarks
   - this README file.
-
-
-II Advanced Encryption Standard component benchmarks
-
-We provide translations of CNF minimisation problems for boolean functions,
-given by components of the Advanced Encryption Standard (AES) and small scale
-variants. Optimal solutions to these benchmarks correspond to minimum size 
-CNF representations for the AES Sbox and field multiplications.
 
 
 III Background
 
-In a forthcoming technical report, we investigate different translations of
-AES into SAT. We provide instances of the AES key discovery problem, using
-one such translation, which we call "the minimum box translation", to generate
-benchmarks for the main track of SAT2011. This translation uses CNF 
-representations of minimum size of the components of the AES, with the aim of
-producing a translation with as few clauses as possible. Finding such minimum 
-CNF representations for these boxes is the problem presented by the set of 
-benchmarks discussed here.
+We investigate translations of AES into SAT. We consider the "key discovery
+problem". The "minimum box translation" was used for benchmarks for
+the main track of SAT2011. This translation uses CNF representations of
+minimum size.
 
-Using such minimum representations is a natural starting point. We investigate
-other representations in the OKlibrary (see VII) and consider what
-constitutes a good translation in a forthcoming technical report on attacking
-the AES cipher using SAT:
+Finding minimum CNF representations for such "boxes" is the concern of
+the benchmarks here.
+
+Using such "minimum representations" is a natural starting point. We
+investigate other (better) representations in the OKlibrary (see IX).
+What constitutes a good translation is the topic of:
 
 @TechReport{GwynneKullmann2011AES,
   author =       {Matthew Gwynne and Oliver Kullmann},
@@ -48,130 +42,109 @@ the AES cipher using SAT:
   annote =       {In preparation.}
 }
 
+
+IV Related benchmarks
+
 Additional to this benchmark set, we separately provide:
 
 - Advanced Encryption Standard I benchmarks          (SAT2011 - main track)
-    Key discovery problem instances for AES and small scale variants of AES.
+    Key discovery problem instances for AES and small-scale variants of AES.
 - "The AES challenge" benchmark                      (SAT2011 - main track)
-    A full AES instance with an unknown key: a challenge to the SAT community.
-- Advanced Encryption Standard component benchmarks  (SAT2011 - MaxSAT)
-    Minimisation problems for the AES component functions, as provided in 
-    this benchmark, but using a translation into weighted MaxSAT.
+    A full AES instance with an unknown key.
+- AES minimum components benchmarks (SAT2011 - MaxSAT)
+    Same problems as in this benchmark, but translating into weighted MaxSAT
+    problems.
 
 
-IV Instances
+V Instances
 
   - with size in bytes
-  - "e" for easy, "h" for hard, "vh" for very hard.
-  - current smallest solution.
+  - current smallest sum of weights of falsified clauses.
 
 In Benchmarks:
 
-24142     sbox_4.pb    (e)   22
-662020638 sbox_8.pb    (vh)  294
-23669676  mul_8_3.pb   (h)   36
-35237716  mul_8_9.pb   (h)   75
-54849639  mul_8_11.pb  (h)   149
-54473031  mul_8_13.pb  (h)   143
-52090303  mul_8_14.pb  (h)   129
+24142     sbox_4.pb    22 (known optimum)
+662020638 sbox_8.pb    294
+23669676  mul_8_3.pb   36
+35237716  mul_8_9.pb   42
+54849639  mul_8_11.pb  66
+54473031  mul_8_13.pb  60
+52090303  mul_8_14.pb  56
 
-All benchmarks are linear optimisation problems. The only known optimum 
-solution is for sbox_4.pb, which is 22. For the semantics of the problem
-translation, see V.
+All benchmarks are linear optimisation problems. 
 
 
-V The Advanced Encryption Standard components
+VI The AES boxes
 
-We provide translations of the problem of finding a CNF of minimum size
-representing the:
+AES consists of various components. We consider these components as
+boolean functions. The task is to find minimum CNF representations of them.
+These components are all x-bit permutations. They are represented by boolean
+functions in 2x variables. We consider the following 7 components:
 
-- 4-bit small scale AES Sbox.
-- 8-bit AES Sbox.
-- 8-bit AES multiplication by 03.
-- 8-bit AES multiplication by 09.
-- 8-bit AES multiplication by 11.
-- 8-bit AES multiplication by 13.
-- 8-bit AES multiplication by 14.
+- 4-bit "small-scale AES Sbox"
+- 8-bit "AES Sbox"
 
-Consider the 8-bit Sbox boolean function f, and the:
+8-bit "byte-multiplications" by
 
-  - Clauses D in the full CNF F of f.
-  - Prime implicates C in PI(f) of f.
+- 03
+- 09
+- 11
+- 13
+- 14.
 
-We then construct the CNF SHG(f) with:
-
-  - A variable for every prime implicate C.
-  - A clause for every D specifying some C subsumes it.
-
-A satisfying assignment for SHG(f) corresponds to a CNF F'. F' contains prime
-implicates for those variables set to true. 
-
-Consider a satisfying assignment with the minimum number of ones. This 
-assignment corresponds to a minimum size CNF F' subset PI(f). That is, F' is a
-minimum sized CNF representation for f.
-
-We construct a pseudo-boolean instance with:
-
-  - The variable set V(F).
-  - Linear pseudo-boolean constraints translating the clauses of SHG(F).
-  - The sum of the V(F) as the objective function.
-
-Observe that an optimum solution must:
-
-  - Satisfy all clauses in SHG(F).
-  - Minimise the number of variables set to true.
-
-Therefore, such an optimum solution corresponds to minimum sized CNF.
-
-For full specifications of the AES Sbox and field operations, the AES cipher
-itself and small scale variants, please refer to the following:
-
-@Book{DaemenRijmen2001Rijndael,
-  author =	 {Joan Daemen and Vincent Rijmen},
-  title = 	 {The Design of Rijndael},
-  publisher = 	 {Springer},
-  year = 	 2001,
-  address =	 {Berlin},
-  note =	 {ISBN 3-540-42580-2; QA76.9.A25 D32 2001}
-}
-
-@Book{CidMurphyRobshaw2006AlgebraicAES,
-  author =       {Carlos Cid and Sean Murphy and Matthew Robshaw},
-  title =        {Algebraic Aspects of the Advanced Encryption Standard},
-  publisher =    {Springer},
-  year =         2006,
-  note =         {ISBN-10 0-387-24363-1}
-}
+For full specification see \cite{GwynneKullmann2011AES}.
 
 
-VI On the choice of instances
+VII The translation
+
+The following translation is the natural approach. It is based on minimising
+hypergraph transversals.
+
+Consider a 2x-bit boolean function f. Let F be the canonical CNF of f. I.e.,
+F contains all maximal clauses following from f.
+
+Recall: A "prime implicate" is a *minimal* clause following from f.
+Let m be the number of prime implicates of f.
+
+We construct the positive CNF shg(f) (the "subsumption hypergraph").
+We have a variable for every prime implicate. That is, we have m variables.
+The clauses D correspond to the clauses C of F. D contains the variables for
+prime implicate contained in C.
+
+A satisfying assignment phi for shg(f) corresponds to a CNF F'. F' contains the
+prime implicates for variables set to 1. Every such F' is equivalent to F.
+F' has minimum size iff the number of 1's in phi is minimum.
+Accordingly, we construct a pseudo-boolean instance.
+
+The variables are those of shg(f). We have one constraint encoding each clause
+in shg(f). That is, encoding the sum of the literals is >=1. The objective 
+function is then the sum of the variables.
+
+
+VIII On the choice of instances
 
 The Advanced Encryption Standard is widely used and well studied. Analysis of 
-these core functions will yield new translations of AES. These translations 
-should offer insights into the cryptographic properties of AES.
+these core functions yields new translations of AES. We use these translations 
+to attack AES via SAT.
 
 The 8-bit components come directly from the AES. They represent hard 
-optimisation benchmarks of practical importance. The 4-bit component offers a
-feasible, novel and non-trivial benchmark.
+benchmarks. The 4-bit component offers a feasible benchmark.
 
 
-VII The OKlibrary http://www.ok-sat-library.org
+IX The OKlibrary http://www.ok-sat-library.org
 
-All developments took place within the OKlibrary, an open-source research
-platform around the SAT problem. Also the translation framework used to
-generate the translations of the AES cipher is provided there.
+All developments took place within the OKlibrary. It is an open-source research
+platform around the SAT problem.
 
-List of relevant directories in OKplatform/OKsystem/OKlib (where OKplatform
-is the directory of the unpacked OKlibrary-package):
+List of relevant directories in OKplatform/OKsystem/OKlib:
 
- - Experimentation/Benchmarks: all our benchmark packages (typically without
-   the instances)
+ - Experimentation/Benchmarks: all our benchmark packages
  - Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard: all
    current investigations into AES
  - ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/: an AES 
-   implementation in the Maxima computer algebra system
- - ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/: the AES 
-   translation in the Maxima computer algebra system
+   implementation using the Maxima computer algebra system
+ - ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/: the AES-to-SAT
+   translation, using the Maxima computer algebra system.
 
 The OKlibrary-internal documentation for the SAT2011-benchmarks is provided at
 
