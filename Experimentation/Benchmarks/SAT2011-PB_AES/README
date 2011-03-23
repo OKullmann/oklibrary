@@ -120,11 +120,9 @@ prime implicate contained in C.
 A satisfying assignment phi for shg(f) corresponds to a CNF F'. F' contains the
 prime implicates for variables set to 1. Every such F' is equivalent to F.
 F' has minimum size iff the number of 1's in phi is minimum.
-Accordingly, we construct a pseudo-boolean instance.
 
-The variables are those of shg(f). We have one constraint encoding each clause
-in shg(f). That is, encoding the sum of the literals is >=1. The objective 
-function is then the sum of the variables.
+The CNF shg(f) is trivially represented as a pseudoboolean problem.
+The objective function is the sum of the variables (to be minimised).
 
 
 VIII On the choice of instances
