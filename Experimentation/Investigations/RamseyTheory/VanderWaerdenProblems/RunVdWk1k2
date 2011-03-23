@@ -23,12 +23,18 @@
 # script stops with exit value 20.
 # The parameters of the script can be found in file "Parameters" within the
 # experiment-directory.
+# And in file "Statistics" for the successful runs one finds lines with
+# - n
+# - runs needed
+# - osteps of final (successful) run
+# - seed
+# - "p" for previous or "r" for random initial assignment.
 
 set -o errexit
 set -o nounset
 
 script_name="RunVdWk1k2"
-version_number="0.3"
+version_number="0.3.1"
 
 if [[ $# != 6 && $# != 7 ]]; then
   echo "ERROR[${script_name}]: Six parameters k1, k2, n0, alg, runs, cutoff
@@ -45,6 +51,11 @@ n0=$3
 alg=$4
 runs=$5
 cutoff=$6
+
+if [[ ${k1} -gt ${k2} ]]; then
+  echo "ERROR[${script_name}]: k1 <= k2 must hold."
+  exit 1
+fi
 
 if [[ $# == 6 ]]; then
   initial_assignment=0
@@ -72,7 +83,13 @@ echo -e "Creating directory ${ExpDir}.\n"
 mkdir ${ExpDir}
 cd ${ExpDir}
 
-echo -e "${script_name}:\n k1=${k1}\n k2=${k2}\n n0=${n0}\n alg=${alg}\n runs=${runs}\n cutoff=${cutoff}\n initial assignment=${initial_assignment}" > Parameters
+parameter_file=Parameters
+result_file=Results
+statistics_file=Statistics
+
+echo -e "${script_name}:\n k1=${k1}\n k2=${k2}\n n0=${n0}\n alg=${alg}\n runs=${runs}\n cutoff=${cutoff}\n initial assignment=${initial_assignment}" > ${parameter_file}
+
+printf "%7s %5s %10s %10s %2s\n" n run osteps seed type > ${statistics_file}
 
 generator="VanderWaerdenCNF-O3-DNDEBUG"
 
@@ -88,6 +105,7 @@ for ((n=n0; 1; ++n)); do
   success="unknown"
 
   # Using the previous assignment as initial assignment:
+  previous_solution=p # for "previous"
   if [[ ${initial_assignment} != 0 ]]; then
     Output_init="${Output}_init"
     parameter_line="-alg ${alg} -runs ${repeats_prevassign} -cutoff ${cutoff} -i ${SATinstance} -solve -varinitfile ${initial_assignment}"
@@ -102,11 +120,16 @@ for ((n=n0; 1; ++n)); do
 
   # Using random initial assignments:
   if [[ ${success} != 1 ]]; then
+    previous_solution=r # for "random"
     parameter_line="-alg ${alg} -runs ${runs} -cutoff ${cutoff} -i ${SATinstance} -solve"
     ubcsat-okl ${parameter_line} | tee ${Output}
     # Finding out whether a satisfying assignment was found:
     success=$(awk "/^PercentSuccess = .*/ {if (\$3 > 0) print 1; else print 0;}" ${Output})
-    if [[ ${success} == 0 ]]; then exit 20; fi
+    if [[ ${success} == 0 ]]; then
+      echo "Break point: ${n}" >> ${result_file}
+      echo "UNSAT for n=${n}"
+      exit 20
+    fi
   fi
 
   # Extracting the solution
@@ -114,9 +137,15 @@ for ((n=n0; 1; ++n)); do
   initial_assignment=${Solution}
 
   # Printing the solution
+  solution_parameters=$(awk '/^  +[0-9]+ 1/ {\
+    print $1, $4, $5, $6}' ${Output})
+  par_run=$(echo ${solution_parameters} | cut -d " " -f 1)
+  par_osteps=$(echo ${solution_parameters} | cut -d " " -f 2)
+  par_msteps=$(echo ${solution_parameters} | cut -d " " -f 3)
+  par_seed=$(echo ${solution_parameters} | cut -d " " -f 4)
   echo "Solution ubcsat-parameters are:"
-  awk '/^  +[0-9]+ 1/ {\
-    print " run=",$1, "osteps=",$4, "msteps=",$5, "seed=",$6}' ${Output}
+  echo " run= ${par_run} osteps= ${par_osteps} msteps= ${par_msteps} seed= ${par_seed}"
+  printf "%7u %5u %10u %10s %2s\n" ${n} ${par_run} ${par_osteps} ${par_seed} ${previous_solution} >> ${statistics_file}
   echo "Certificate (the vertices for k=${k1}) for n = ${n} : "
   ExtractCertificate_vdW2 ${Output}
   echo
