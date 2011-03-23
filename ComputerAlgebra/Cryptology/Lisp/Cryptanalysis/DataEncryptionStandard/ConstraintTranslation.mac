@@ -176,7 +176,7 @@ des_cipher2fcl(cipher) := block(
   delete(und,
          create_list(
            block([x:cipher[i]],
-             if x=und then und else {(2*x-1)*V[des_init_permutation[i]]}),
+             if x=und then und else {(2*x-1)*V[des_final_permutation[i]]}),
            i,1,64))])$
 
 /* key is a partial boolean vector of length 64: */
