@@ -282,7 +282,7 @@ License, or any later version. */
    \endverbatim
    where the solutions have been found within at most the first 30 runs.
    </li>
-   <li> "RunPdVdW3k 33 gsat-tabu 100 10000000" yields
+   <li> "RunPdVdWk1k2 3 33 gsat-tabu 100 10000000" yields
    \verbatim
 Break point 1: 992
 Break point 2: 1003

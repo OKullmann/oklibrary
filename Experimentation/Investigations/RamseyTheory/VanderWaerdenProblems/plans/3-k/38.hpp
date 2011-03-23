@@ -527,7 +527,7 @@ interrupted; the FlipsPerSecond are likely corrupted.
      </li>
     </ol>
    </li>
-   <li> "RunPdVdW3k 38 gsat-tabu 100 30000000" yields
+   <li> "RunPdVdWk1k2 3 38 gsat-tabu 100 30000000" yields
    \verbatim
    \endverbatim
 Break point 1: 1336

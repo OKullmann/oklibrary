@@ -241,7 +241,7 @@ Certificate (the vertices for k=3) for n = 930 :
 377,386,391,398,401,417,424,444,453
    \endverbatim
    </li>
-   <li> "RunPdVdW3k 31 gsat-tabu 100 10000000" yields
+   <li> "RunPdVdWk1k2 3 31 gsat-tabu 100 10000000" yields
    \verbatim
 Break point 1: 916
 Break point 2: 931

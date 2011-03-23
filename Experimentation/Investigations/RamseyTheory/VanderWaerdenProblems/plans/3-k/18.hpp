@@ -171,7 +171,7 @@ BestSolution_Max = 10.000000
    </li>
    <li> So actually picosat913 seems best. Determines also n=300, 313 as
    unsat (81s, 23s). </li>
-   <li> "RunPdVdW3k 18 gsat-tabu 100 500000" yields
+   <li> "RunPdVdWk1k2 3 18 gsat-tabu 100 500000" yields
    \verbatim
 Break point 1: 299
 Break point 2: 312

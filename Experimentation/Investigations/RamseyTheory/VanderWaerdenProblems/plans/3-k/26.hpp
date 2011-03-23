@@ -207,7 +207,7 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
      with added unit-clause). </li>
     </ol>
    </li>
-   <li> "RunPdVdW3k 26 gsat-tabu 100 4000000":
+   <li> "RunPdVdWk1k2 3 26 gsat-tabu 100 4000000":
    \verbatim
 Break point 1: 634
 Break point 2: 643

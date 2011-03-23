@@ -37,10 +37,8 @@ License, or any later version. */
 
   \todo Version of RunVdW3k for palindromic problems
   <ul>
-   <li> We have now RunPdVdW3k and RunPdVdWk1k2. The only reason to keep the
-   special version for k1=3 would be to use the additional unit-clause (next
-   item), however likely such things should be made parameters of the general
-   script. </li>
+   <li> DONE
+   We have now RunPdVdWk1k2. </li>
    <li> For odd n the additional unit-clause according to
    "Palindromic versions with arithmetic progressions of length 3" in
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp

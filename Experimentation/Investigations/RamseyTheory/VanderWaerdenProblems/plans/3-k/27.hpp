@@ -169,7 +169,7 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
      </li>
     </ol>
    </li>
-   <li> "RunPdVdW3k 27 gsat-tabu 100 6000000" yields
+   <li> "RunPdVdWk1k2 3 27 gsat-tabu 100 6000000" yields
    \verbatim
 Break point 1: 664
 Break point 2: 699

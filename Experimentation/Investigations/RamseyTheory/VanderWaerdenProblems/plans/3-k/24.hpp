@@ -411,7 +411,8 @@ OKplatform> RunVdW3k 24 593 rots 1000 5000000 Solution_n592
    \endverbatim
    All solutions found in the first run.
    </li>
-   <li> "RunPdVdW3k 24 gsat-tabu 100 2000000" confirms the above numbers. </li>
+   <li> "RunPdVdWk1k2 3 24 gsat-tabu 100 2000000" confirms the above numbers.
+   </li>
   </ul>
 
 */

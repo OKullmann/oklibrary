@@ -18,7 +18,7 @@ License, or any later version. */
   output_pd_vanderwaerden2nd_stdname(3,k,n) at Maxima-level, or by
   "PdVanderWaerdenCNF-O3-DNDEBUG 3 k n" at C++ level (instances differ by
   the order of negated literals in clauses).
-  An ubcsat-experiment is run by "RunPdVdW3k k n0 alg runs cutoff".
+  An ubcsat-experiment is run by "RunPdVdWk1k2 3 k n0 alg runs cutoff".
   And running a complete solver by "CRunPdVdWk1k2 3 k solver".
 
 
