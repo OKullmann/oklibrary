@@ -112,6 +112,9 @@ okltest_split_list_epo(split_list_epo);
    **********************
 */
 
+okltest_listn(listn);
+okltest_listmn(listmn);
+
 okltest_rotate(rotate);
 
 okltest_stable_unique(stable_unique);

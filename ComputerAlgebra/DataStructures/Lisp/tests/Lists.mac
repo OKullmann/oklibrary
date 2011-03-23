@@ -434,6 +434,22 @@ okltest_split_list_epo(f) := block(
    **********************
 */
 
+okltest_listn(f) := (
+  assert(f(0) = []),
+  assert(f(1) = [1]),
+  assert(f(2) = [1,2]),
+  assert(f(-1) = []),
+  true)$
+
+okltest_listmn(f) := (
+  okltest_listn(buildq([f],lambda([n],f(1,n)))),
+  assert(f(0,0) = [0]),
+  assert(f(2,5) = [2,3,4,5]),
+  assert(f(2,1) = []),
+  assert(f(-3,-4) = []),
+  assert(f(-4,-3) = [-4,-3]),
+  true)$
+
 okltest_rotate(f) := (
   assert(f([1,2,3],1) = [3,1,2]),
   assert(f([1,2,3],2) = [2,3,1]),

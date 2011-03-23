@@ -281,6 +281,12 @@ split_list_epo(L,pred_) := block([R:[],CL : []],
    **********************
 */
 
+/* The list [1,...,n]: */
+listn(n) := create_list(i,i,1,n)$
+
+/* The list [m,...,n]: */
+listmn(m,n) := create_list(i,i,m,n)$
+
 /* Rotates a list n elements to the right. Negative n rotates to the left. */
 rotate(l,n) := 
   if n = 0 or l = [] then l
