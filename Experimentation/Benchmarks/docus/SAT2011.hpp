@@ -291,7 +291,7 @@ c
    </li>
    <li> The Git-ID of the relevant state of the OKlibrary is
    \verbatim
-54afbadfb72018a4cb9ec5fc77b2d47252095009
+0293c1751342d05f76180be93a23c3771d9c0362
    \endverbatim
    </li>
    <li> The package-template is given by the directory
@@ -303,7 +303,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES-Challenge_OKlibrary.tar.b
    </li>
    <li> The package has md5sum
    \verbatim
-5fcd7d7c18f7b8b77cc32a0f98dea0b5  SAT2011_AES-Challenge_OKlibrary.tar.bz2
+45b5b7e532cea6bb7861f2a5d0d476aa  SAT2011_AES-Challenge_OKlibrary.tar.bz2
    \endverbatim
    </li>
    <li> Extracting this archive (by
