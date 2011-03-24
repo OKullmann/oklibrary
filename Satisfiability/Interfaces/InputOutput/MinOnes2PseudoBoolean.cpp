@@ -21,6 +21,8 @@ p cnf n c
 * #variable= n #constraint= c
    \endverbatim
    </li>
+   <li> Any comments occurring before the p-line are output as comments
+   prefixed with "* " *after* the pseudo-boolean parameter line. </li>
    <li> All clauses in the input are translated from CNF clauses of the form
    \verbatim
 1 2 3 4 -5 0
@@ -91,18 +93,25 @@ namespace OKlib {
     template <typename Int = int, class String = std::string, class AdaptorStatistics = CLSAdaptorStatistics<Int, String> >
     class CLSAdaptorMinOnes2PseudoBooleanOutput {
 
+    public:
+      typedef String string_type;
+
+    private:
+
       typedef AdaptorStatistics adaptor_statistics_type;
 
       std::ostream& out;
       adaptor_statistics_type adaptor_statistics;
+      string_type comments;
+      bool p_line_read;
 
     public :
 
       typedef Int int_type;
-      typedef String string_type;
       typedef typename adaptor_statistics_type::statistics_type statistics_type;
 
-      CLSAdaptorMinOnes2PseudoBooleanOutput(std::ostream& out) : out(out) {
+      CLSAdaptorMinOnes2PseudoBooleanOutput(std::ostream& out) : 
+        out(out), p_line_read(false) {
         if (not out)
           throw OKlib::InputOutput::OStreamError("OKlib::InputOutput::CLSAdaptorMinOnes2PseudoBooleanOutput::CLSAdaptorMinOnes2PseudoBooleanOutput(std::ostream&):\n  cannot open the output stream");
       }
@@ -110,13 +119,14 @@ namespace OKlib {
       void comment(const string_type& s) {
         adaptor_statistics.comment(s);
         if (s.empty())
-          out << "*";
+          comments = comments + "*\n";
         else
           if (boost::algorithm::is_space()(s[0]))
-            out << "*" << s;
+            comments = comments + "*" + s + "\n";
           else
-            out << "* " << s;
-        out << "\n";
+            comments = comments + "* " + s + "\n";
+        if (p_line_read)
+          out << comments;
       }
       void n(const int_type pn) {
         adaptor_statistics.n(pn);
@@ -127,13 +137,15 @@ namespace OKlib {
         adaptor_statistics.c(pc);
         if (pc < 0)
           throw OKlib::InputOutput::ParameterOutputError("OKlib::InputOutput::CLSAdaptorMinOnes2PseudoBooleanOutput::n:\n  number of clauses is a negative quantity = " + boost::lexical_cast<std::string>(pc));
-        out << "* #variables= " << adaptor_statistics.stat.parameter_n << " #constraint= " << adaptor_statistics.stat.parameter_c + adaptor_statistics.stat.parameter_n << "\n";
+        out << "* #variable= " << adaptor_statistics.stat.parameter_n << " #constraint= " << adaptor_statistics.stat.parameter_c + adaptor_statistics.stat.parameter_n << "\n";
+        out << comments;
         out << "min: ";
         const int_type n = adaptor_statistics.stat.parameter_n;
         for (int_type i = 1; i <= n; ++i) {
           out << "+1 x" << i << " ";
         }
         out << ";\n";
+        p_line_read = true;
       }
       void finish() {
         adaptor_statistics.finish();
