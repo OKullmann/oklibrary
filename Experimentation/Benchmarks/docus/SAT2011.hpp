@@ -189,25 +189,25 @@ OKlib/Experimentation/Benchmarks/SAT2011_AES> for r in $(seq 1 5); do mv ssaes_r
 OKlib/Experimentation/Benchmarks/SAT2011_AES> cd ../../Assignments/128
 OKlib/Experimentation/Benchmarks/SAT2011_AES> oklib --maxima
 maxima> oklib_load_all()$
-maxima> for r :1 thru 3 do for s in [1,2] do output_ss_random_pc_pair(s,r,4,4,8,false,aes_small_box,aes_mc_forward);
-maxima> for s in [1,2] do output_ss_random_pc_pair(s,10,4,4,8,true,aes_small_box,aes_mc_forward);
+maxima> for r :1 thru 3 do for s in [1,2] do output_ss_random_pc_pair(s,r,4,4,8,false);
+maxima> for s in [1,2] do output_ss_random_pc_pair(s,10,4,4,8,true);
 maxima> quit();
-OKlib/Experimentation/Benchmarks/SAT2011_AES> for r in 1 2 3 10; do for s in 1 2; do mv ssaes_pcpair_r${r}_c4_rw4_e8_f0_s${s}.cnf aes_ass_128_${r}_keyfind_${s}.cnf; done; done
+OKlib/Experimentation/Benchmarks/SAT2011_AES> for r in 1 2 3; do for s in 1 2; do mv ssaes_pcpair_r${r}_c4_rw4_e8_f0_s${s}.cnf aes_ass_128_${r}_keyfind_${s}.cnf; done; done
 OKlib/Experimentation/Benchmarks/SAT2011_AES> for s in 1 2; do mv ssaes_pcpair_r10_c4_rw4_e8_f1_s${s}.cnf aes_ass_128_10_keyfind_${s}.cnf; done
 OKlib/Experimentation/Benchmarks/SAT2011_AES> cd ../64
 OKlib/Experimentation/Benchmarks/SAT2011_AES> oklib --maxima
 maxima> oklib_load_all()$
-maxima> for r :1 thru 4 do for s in [1,2] do output_ss_random_pc_pair(s,r,4,4,4,false,aes_small_box,aes_mc_forward);
+maxima> for r :1 thru 4 do for s in [1,2] do output_ss_random_pc_pair(s,r,4,4,4,false);
 maxima> quit();
 OKlib/Experimentation/Benchmarks/SAT2011_AES> for r in $(seq 1 4); do for s in 1 2; do mv ssaes_pcpair_r${r}_c4_rw4_e4_f0_s${s}.cnf aes_ass_64_${r}_keyfind_${s}.cnf; done; done
 OKlib/Experimentation/Benchmarks/SAT2011_AES> cd ../32
 OKlib/Experimentation/Benchmarks/SAT2011_AES> oklib --maxima
 maxima> oklib_load_all()$
-maxima> for r :1 thru 5 do for s in [1,2] do output_ss_random_pc_pair(s,r,4,2,4,false,aes_small_box,aes_mc_forward);
+maxima> for r :1 thru 5 do for s in [1,2] do output_ss_random_pc_pair(s,r,4,2,4,false);
 maxima> quit();
 OKlib/Experimentation/Benchmarks/SAT2011_AES> for r in $(seq 1 5); do for s in 1 2; do mv ssaes_pcpair_r${r}_c4_rw2_e4_f0_s${s}.cnf aes_ass_32_${r}_keyfind_${s}.cnf; done; done
 OKlib/Experimentation/Benchmarks/SAT2011_AES> cd ../../
-OKlib/Experimentation/Benchmarks/SAT2011_AES> bits=128; for r in 1 2 3 4; do for s in 1 2; do AppendDimacs-O3-DNDEBUG Formulas/${bits}/aes_${bits}_${r}.cnf Assignments/${bits}/aes_ass_${bits}_${r}_keyfind_${s}.cnf > Benchmarks/${bits}/aes_${bits}_${r}_keyfind_${s}.cnf; done; done
+OKlib/Experimentation/Benchmarks/SAT2011_AES> bits=128; for r in 1 2 3 10; do for s in 1 2; do AppendDimacs-O3-DNDEBUG Formulas/${bits}/aes_${bits}_${r}.cnf Assignments/${bits}/aes_ass_${bits}_${r}_keyfind_${s}.cnf > Benchmarks/${bits}/aes_${bits}_${r}_keyfind_${s}.cnf; done; done
 OKlib/Experimentation/Benchmarks/SAT2011_AES> bits=64; for r in 1 2 3 4; do for s in 1 2; do AppendDimacs-O3-DNDEBUG Formulas/${bits}/aes_${bits}_${r}.cnf Assignments/${bits}/aes_ass_${bits}_${r}_keyfind_${s}.cnf > Benchmarks/${bits}/aes_${bits}_${r}_keyfind_${s}.cnf; done; done
 OKlib/Experimentation/Benchmarks/SAT2011_AES> bits=32; for r in 1 2 3 4 5; do for s in 1 2; do AppendDimacs-O3-DNDEBUG Formulas/${bits}/aes_${bits}_${r}.cnf Assignments/${bits}/aes_ass_${bits}_${r}_keyfind_${s}.cnf > Benchmarks/${bits}/aes_${bits}_${r}_keyfind_${s}.cnf; done; done
    \endverbatim
@@ -216,7 +216,7 @@ OKlib/Experimentation/Benchmarks/SAT2011_AES> bits=32; for r in 1 2 3 4 5; do fo
    </li>
    <li> The Git-ID of the relevant state of the OKlibrary is
    \verbatim
-54afbadfb72018a4cb9ec5fc77b2d47252095009
+0293c1751342d05f76180be93a23c3771d9c0362
    \endverbatim
    </li>
    <li> The package-template is given by the directory
@@ -228,7 +228,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES.tar.bz2 SAT2011_AES
    </li>
    <li> The package has md5sum
    \verbatim
-d9022f97763c45bf8236b96f1078ecae  SAT2011_AES.tar.bz2
+2a1f18ddf5a9faf4fcc445704034c4b4  SAT2011_AES.tar.bz2
    \endverbatim
    </li>
    <li> Extracting this archive (by
