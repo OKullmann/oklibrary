@@ -15,9 +15,9 @@ and "small-scale" variants.
 
 II Directory content:
 
-  - Benchmarks/sbox_4.pb: smallest CNF for the small-scale AES Sbox
-  - Benchmarks/sbox_8.pb: smallest CNF for the AES Sbox
-  - Benchmarks/mul_8_x.pb: smallest CNFs for the multiplication by x in the
+  - Benchmarks/sbox_4.opb: smallest CNF for the small-scale AES Sbox
+  - Benchmarks/sbox_8.opb: smallest CNF for the AES Sbox
+  - Benchmarks/mul_8_x.opb: smallest CNFs for the multiplication by x in the
     AES byte-field (x in {3,9,11,13,14}).
 
   - MD5_Benchmarks: md5 hash values of benchmarks
@@ -69,13 +69,13 @@ V Instances
 
 In Benchmarks:
 
-24141     sbox_4.pb    22 (known optimum)
-662020637 sbox_8.pb    294
-23669675  mul_8_3.pb   36
-35237715  mul_8_9.pb   42
-54849638  mul_8_11.pb  66
-54473030  mul_8_13.pb  60
-52090302  mul_8_14.pb  56
+24141     sbox_4.opb    22 (known optimum)
+662020637 sbox_8.opb    294
+23669675  mul_8_3.opb   36
+35237715  mul_8_9.opb   42
+54849638  mul_8_11.opb  66
+54473030  mul_8_13.opb  60
+52090302  mul_8_14.opb  56
 
 All benchmarks are linear optimisation problems. 
 

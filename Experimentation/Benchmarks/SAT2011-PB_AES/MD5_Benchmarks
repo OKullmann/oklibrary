@@ -1,7 +1,7 @@
-1e04971270de046d7e64d9d185e863e3  Benchmarks/mul_8_11_shg.pb
-2f5c7d29e644801ea3757261dcb14d96  Benchmarks/mul_8_13_shg.pb
-87c34b4b652d980a583068890fb398bb  Benchmarks/mul_8_14_shg.pb
-0575bde75f8cb4fc48dbcd8ee2367ec2  Benchmarks/mul_8_3_shg.pb
-4859cdc23f06e8ed719b0df4d6fdde87  Benchmarks/mul_8_9_shg.pb
-7c94e13f432c2a152685887e7025fe53  Benchmarks/sbox_4_shg.pb
-6c3966410c6e527219ddaec818056a99  Benchmarks/sbox_8_shg.pb
+1e04971270de046d7e64d9d185e863e3  Benchmarks/mul_8_11_shg.opb
+2f5c7d29e644801ea3757261dcb14d96  Benchmarks/mul_8_13_shg.opb
+87c34b4b652d980a583068890fb398bb  Benchmarks/mul_8_14_shg.opb
+0575bde75f8cb4fc48dbcd8ee2367ec2  Benchmarks/mul_8_3_shg.opb
+4859cdc23f06e8ed719b0df4d6fdde87  Benchmarks/mul_8_9_shg.opb
+7c94e13f432c2a152685887e7025fe53  Benchmarks/sbox_4_shg.opb
+6c3966410c6e527219ddaec818056a99  Benchmarks/sbox_8_shg.opb
