@@ -47,7 +47,7 @@ Statistics : [16, 559, 3838, 8, 6]
 
 */
 /* TODO: This is not the minimum currently known, and needs to be updated. */
-set_hm(ss_sbox_cnfs, 8, Sbox44ICCNF)$
+set_hm(ss_sbox_cnfs, 8, SboxMinCNF)$
 
 
 /*********************************************************

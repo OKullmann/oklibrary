@@ -58,12 +58,13 @@ shell> ExtendedDimacsFullStatistics-O3-DNDEBUG < AES_byte_field_mul_pi_3.cnf
    <li> Computing the weighted MaxSAT problem:
    \verbatim
 shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_byte_field_mul_full_3.cnf > AES_byte_field_mul_shg_3.cnf
-shell> cat AES_byte_field_mul_shg_3.cnf | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > AES_byte_field_mul_3_shg.wcnf
+shell> cat AES_byte_field_mul_shg_3.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > AES_byte_field_mul_3_shg.wcnf 
    \endverbatim
    <li>
    <li> Running then:
    \verbatim
-shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 5000000 -i AES_byte_field_mul_3_shg.wcnf
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 5000000 -i AES_byte_field_mul_3_shg.wcnf -r model AES_byte_field_mul_3_36.ass -wtarget 36 -solve
+shell> cat AES_byte_field_mul_full_3.cnf_primes | FilterDimacs AES_byte_field_mul_3_36.ass > AES_byte_field_mul_3_s36.cnf
    \endverbatim
    so far yields:
    \verbatim
