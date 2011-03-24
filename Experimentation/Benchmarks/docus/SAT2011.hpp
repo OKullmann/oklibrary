@@ -389,7 +389,7 @@ shell> rm *_primes*
    </li>
    <li> The Git-ID of the relevant state of the OKlibrary is
    \verbatim
-286e9a49ba92e23ca24d3b8c5f7b3b620abcda75
+0293c1751342d05f76180be93a23c3771d9c0362
    \endverbatim
    </li>
    <li> The package-template is given by the directory
@@ -401,7 +401,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011-PB_AES.tar.bz2 SAT2011-PB_AES
    </li>
    <li> The package has md5sum
    \verbatim
-0c61ffda9fa647b64a711d5324125bd6  SAT2011-PB_AES.tar.bz2
+fcfdb8561875df91b8698d58488ccaa7  SAT2011-PB_AES.tar.bz2
    \endverbatim
    </li>
    <li> Extracting this archive (by

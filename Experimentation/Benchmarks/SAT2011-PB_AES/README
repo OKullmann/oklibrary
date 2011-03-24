@@ -69,13 +69,13 @@ V Instances
 
 In Benchmarks:
 
-24142     sbox_4.pb    22 (known optimum)
-662020638 sbox_8.pb    294
-23669676  mul_8_3.pb   36
-35237716  mul_8_9.pb   42
-54849639  mul_8_11.pb  66
-54473031  mul_8_13.pb  60
-52090303  mul_8_14.pb  56
+24141     sbox_4.pb    22 (known optimum)
+662020637 sbox_8.pb    294
+23669675  mul_8_3.pb   36
+35237715  mul_8_9.pb   42
+54849638  mul_8_11.pb  66
+54473030  mul_8_13.pb  60
+52090302  mul_8_14.pb  56
 
 All benchmarks are linear optimisation problems. 
 
