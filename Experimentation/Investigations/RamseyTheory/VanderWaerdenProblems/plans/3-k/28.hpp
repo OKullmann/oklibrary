@@ -176,7 +176,7 @@ OKplatform> RunVdW3k 28 750 rots 1000 50000000
      </li>
     </ol>
    </li>
-   <li> "RunPdVdW3k 28 gsat-tabu 100 8000000":
+   <li> "RunPdVdWk1k2 3 28 gsat-tabu 100 8000000":
    \verbatim
 Break point 1: 728
 Break point 2: 743

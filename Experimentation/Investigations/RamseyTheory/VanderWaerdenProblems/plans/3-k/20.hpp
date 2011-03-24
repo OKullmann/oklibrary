@@ -247,7 +247,7 @@ License, or any later version. */
 389 0
    \endverbatim
    </li>
-   <li> "RunPdVdW3k 20 gsat-tabu 100 900000" confirms this by
+   <li> "RunPdVdWk1k2 3 20 gsat-tabu 100 900000" confirms this by
    \verbatim
 Break point 1: 380
 Break point 2: 389

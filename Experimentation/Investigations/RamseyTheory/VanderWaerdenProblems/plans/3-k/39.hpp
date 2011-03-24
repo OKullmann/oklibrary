@@ -381,7 +381,7 @@ The FlipsPerSecond are likely corrupted.
      </li>
     </ol>
    </li>
-   <li> "RunPdVdW3k 39 gsat-tabu 100 35000000" yields
+   <li> "RunPdVdWk1k2 3 39 gsat-tabu 100 35000000" yields
    \verbatim
 Break point 1: 1406
 Break point 2: 1411

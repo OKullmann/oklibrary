@@ -21,7 +21,6 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionSt
 
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/RoundFunction.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/KeySchedule.mac")$
-oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
@@ -47,7 +46,7 @@ declare(desr, noun)$
 declare(desr, posfun)$
 desr_var(i,r) := nounify(desr)(i,r)$
 
-/* desk(i) for i in {1,...,56} represents the key via
+/* desk(i) for i in {1,...,64} represents the key via
 
      desk(i) = key[des_key_initial_selection[i]].
 
@@ -150,7 +149,7 @@ des_sboxc() := lappend(create_list(des_sbox_deso(r),r,1,16))$
 /* All (constraint-)variables: */
 des_var() := append(
  create_list(desr_var(i,r), r,-1,16, i,1,32),
- create_list(desk_var(i), i,1,56),
+ create_list(desk_var(i), i,1,64),
  create_list(desi_var(i,r), r,1,16, i,1,48),
  create_list(deso_var(i,r), r,1,16, i,1,32))$
 
@@ -176,18 +175,17 @@ des_cipher2fcl(cipher) := block(
   delete(und,
          create_list(
            block([x:cipher[i]],
-             if x=und then und else {(2*x-1)*V[des_init_permutation[i]]}),
+             if x=und then und else {(2*x-1)*V[des_final_permutation[i]]}),
            i,1,64))])$
 
 /* key is a partial boolean vector of length 64: */
 des_key2fcl(key) := block(
-[V : create_list(desk_var(i), i,1,56),
- h : osm2hm(l2osm_inv(des_key_initial_selection))],
+[V : create_list(desk_var(i), i,1,64)],
  [V,
   delete(und,
          create_list(
-           block([x:key[i],y],
-             if x=und then und else (y:ev_hm(h,i), if y=false then und else {(2*x-1)*V[y]})),
+           block([x:key[i]],
+             if x=und then und else {(2*x-1)*V[i]}),
            i,1,64))])$
 
 /*!

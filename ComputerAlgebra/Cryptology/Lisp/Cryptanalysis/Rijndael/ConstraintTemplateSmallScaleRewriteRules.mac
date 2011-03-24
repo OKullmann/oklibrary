@@ -1202,7 +1202,7 @@ ss_sbox_w_mul_ts_gen(p, b,e,mod_poly) := block(
 
    The clauses returned are those originally produced manually through
    experimentation into finding small Sbox representations (see plans
-   and Sbox44ICCNF).
+   and SboxMinCNF).
 */
 ss_sbox_pi_cst_cl(cst) := block([ss_arg_l,
   ss_base, ss_exp,ss_poly, ss_sbox_matrix, ss_affine_constant],

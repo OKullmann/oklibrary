@@ -119,7 +119,7 @@ E = run_ubcsat("VanDerWaerden_2-3-19_348.cnf", runs=100,cutoff=100000,monitor=TR
 349 0
    \endverbatim
    </li>
-   <li> "RunPdVdW3k 19 gsat-tabu 100 800000" confirms this by
+   <li> "RunPdVdWk1k2 3 19 gsat-tabu 100 800000" confirms this by
    \verbatim
 Break point 1: 338
 Break point 2: 347

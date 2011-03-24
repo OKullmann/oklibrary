@@ -1,4 +1,10 @@
-# Matthew Gwynne 29.2.2011 (Swansea)
+# Matthew Gwynne, 29.2.2011 (Swansea)
+
+Authors:
+ - Matthew Gwynne, csmg@swansea.ac.uk
+ - Oliver Kullmann, O.Kullmann@Swansea.ac.uk
+ Swansea University, Computer Science, United Kingdom
+
 
 I Directory content:
 
@@ -67,24 +73,23 @@ V Instance
 
 The instance has 
 
- - 19,211,831 bytes
+ - 3,076,996 bytes
  - 8080 variables
- - 153304 clauses
- - 940464 literal occurrences
+ - 96704 clauses
+ - 539496 literal occurrences
 
 and should be extremely hard for any solver to solve.
 
-The occurring clause-lengths are 1 to 9, and we have the following numbers
+The occurring clause-lengths are 1 to 8, and we have the following numbers
 of clauses belonging to these clause-lengths:
 1 336
 2 1152
-3 14896
-4 3376
-5 20016
-6 26464
-7 75888
-8 11032
-9 144
+3 15040
+4 2944
+5 18432
+6 28600
+7 25400
+8 4800
 
 The unit-clauses are the
  - 128 plain-text bits

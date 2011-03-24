@@ -6,7 +6,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-# "RunPdVdW3k k1 k2 alg runs cutoff" creates a directory
+# "RunPdVdWk1k2 k1 k2 alg runs cutoff" creates a directory
 # "Exp_PdVanderWaerden_2-k1-k2_alg-runs-cutoff_date", where the SAT instances
 # VanDerWaerden_pd_2-k1-k2_n.cnf for n = k2, k2+1, ... are created
 # and ubcsat-okl with parameters alg, runs, cutoff is executed on

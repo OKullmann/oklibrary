@@ -30,17 +30,16 @@ License, or any later version. */
      solver. </li>
     </ol>
    </li>
-   <li> The script RunVdW3k is a first very simple tool, just using a fixed
-   number of runs and a fixed cutoff. </li>
+   <li> DONE The script RunVdW3k is a first very simple tool, just using a
+   fixed number of runs and a fixed cutoff. </li>
+   <li> The more general version RunVdWk1k2 should superseed RunVdW3k. </li>
   </ul>
 
 
   \todo Version of RunVdW3k for palindromic problems
   <ul>
-   <li> We have now RunPdVdW3k and RunPdVdWk1k2. The only reason to keep the
-   special version for k1=3 would be to use the additional unit-clause (next
-   item), however likely such things should be made parameters of the general
-   script. </li>
+   <li> DONE
+   We have now RunPdVdWk1k2. </li>
    <li> For odd n the additional unit-clause according to
    "Palindromic versions with arithmetic progressions of length 3" in
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp

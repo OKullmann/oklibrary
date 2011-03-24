@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.9.2007 (Swansea)
-/* Copyright 2007, 2009 Oliver Kullmann
+/* Copyright 2007, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,6 +21,8 @@ License, or any later version. */
    <li> Via Satisfiability/Transformers/Generators/LinInequal.cpp one
    can add the clauses expressing the bound "<= k" (or "= k"), obtaining
    an ordinary SAT problem. </li>
+   <li> See Investigations/Transversals/Bounded/plans/general.hpp for
+   investigations. </li>
   </ul>
 
 

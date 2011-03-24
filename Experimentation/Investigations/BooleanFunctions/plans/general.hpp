@@ -10,6 +10,12 @@ License, or any later version. */
   \brief On investigations regarding boolean functions
 
 
+  \bug Application tests not run
+  <ul>
+   <li> Yet no recursive descend takes place in module BooleanFunctions. </li>
+  </ul>
+
+
   \todo DONE (see BooleanFunctions.hpp)
   Plans for investigating random boolean functions
   <ul>

@@ -145,7 +145,7 @@ BestSolution_Max = 2.000000
    </li>
    <li> So minisat2 seems best here; determines also n=257, 280 as
    unsatisfiable (15s, 73s). </li>
-   <li> "RunPdVdW3k 17 gsat-tabu 100 400000" yields
+   <li> "RunPdVdWk1k2 3 17 gsat-tabu 100 400000" yields
    \verbatim
 Break point 1: 256
 Break point 2: 279

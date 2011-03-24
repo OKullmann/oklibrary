@@ -292,8 +292,7 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
 855 0
    \endverbatim
    while everything from 856 on seems unsat. </li>
-   <li> "RunPdVdW3k 30 gsat-tabu 100 10000000" confirms this (run with old
-   and new scheme for using old solutions as initial assignments). </li>
+   <li> "RunPdVdWk1k2 3 30 gsat-tabu 100 10000000" confirms this. </li>
   </ul>
 
 */

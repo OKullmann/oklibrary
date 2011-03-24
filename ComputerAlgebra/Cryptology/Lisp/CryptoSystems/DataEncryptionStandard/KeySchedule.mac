@@ -37,6 +37,9 @@ des_key_compression : [
 41,52,31,37,47,55,30,40,51,45,33,48,
 44,49,39,56,34,53,46,42,50,36,29,32]$
 
+/* Produces a list of 16 boolean vectors of length 48, containing the indices
+   of the bits in the original key to be used in the 16 rounds:
+*/
 des_round_keys_template() := block(
  [key1 : take_l(28,des_key_initial_selection),
   key2 : rest(des_key_initial_selection,28),

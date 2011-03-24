@@ -751,9 +751,9 @@ aes_const_cst_cl(cst) := block(
 
    The clauses returned are those originally produced manually through
    experimentation into finding small Sbox representations (see plans
-   and Sbox44ICCNF).
+   and SboxMinCNF).
 */
-aes_sbox_pi_cst_cl(cst) := rename_fcl(map(listify,Sbox44ICCNF),cst[2])[2]$
+aes_sbox_pi_cst_cl(cst) := rename_fcl(map(listify,SboxMinCNF),cst[2])[2]$
 
 
 /* AES sbox namespace */

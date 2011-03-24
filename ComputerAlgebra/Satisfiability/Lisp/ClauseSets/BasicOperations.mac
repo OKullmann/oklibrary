@@ -381,7 +381,7 @@ oklib_plain_include("stringproc")$
 
 read_fcl_f(n) := block([fh, line, ll,p_n, p_found : false],
   fh : openr(n),
-  while stringp(line : readline(fh)) and not(p_found) do (
+  while not(p_found) and stringp(line : readline(fh))  do (
     if (slength(line) >= 1) and (charat(line,1) = "p") then (
       p_n : parse_string(tokens(line)[3]),
       p_found : true)

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.4.2008 (Guangzhou) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -569,9 +569,19 @@ okltest_dgl2gdg(f) := block([k],
       assert(gdg2dgl(f(G)) = G),
   true)$
 
+okltest_mudg2gdg(f) := block([k1,k2],
+  assert(gr_equalp(f([{},{},k1]), [{},{},k2]) = true),
+  assert(gr_equalp(f([{1},{},k1]), [{1},{},k2]) = true),
+  assert(gr_equalp(f([{1,2},{[1,2]},lambda([e],2)]), [{1,2},{[[1,2],1],[[1,2],2]},first]) = true),
+  for L in [okltest_list_mudg] do
+    for G in L do
+      assert(gr_equalp(gdg2mudgl(f(G)),G) = true),
+  true)$
+
 okltest_mudgl2gdg(f) := block([k1,k2],
   assert(gr_equalp(f([{},{},k1]), [{},{},k2]) = true),
   assert(gr_equalp(f([{1},{},k1]), [{1},{},k2]) = true),
+  assert(gr_equalp(f([{1},{[1,1]},lambda([e],3)]), [{1},{[[1,1],1],[[1,1],2],[[1,1],3]},first]) = true),
   assert(gr_equalp(f([{1,2},{[1,2]},lambda([e],2)]), [{1,2},{[[1,2],1],[[1,2],2]},first]) = true),
   for L in [okltest_list_mudg,okltest_list_mudgl] do
     for G in L do
@@ -868,6 +878,17 @@ okltest_mugl2mug(f) := (
 okltest_omugl2omug(f) := (
   /* XXX */
   assert(okltest_ogl2og(buildq([f],lambda([G],omug2og(f(ogl2omugl(G))))))),
+  true)$
+
+okltest_dgl2dg(f) := (
+  assert(f([{},{}]) = [{},{}]),
+  assert(f([{1},{[1,1]}]) = [{1},{}]),
+  assert(f([{1,2,3},{[1,2],[2,1],[3,3],[1,3]}]) = [{1,2,3},{[1,2],[2,1],[1,3]}]),
+  true)$
+
+okltest_odgl2odg(f) := (
+    assert(f([[2,1,3],[[1,2],[2,1],[3,3],[1,3]]]) = [[2,1,3],[[1,2],[2,1],[1,3]]]),
+  assert(okltest_dgl2dg(buildq([f], lambda([G], odgl2dgl(f(dgl2odgl(G)))))) = true),
   true)$
 
 okltest_dg2g(f) := (
@@ -1399,6 +1420,7 @@ okltest_connected_omugl_p(f) := (
   true)$
 
 okltest_sconnected_dg_p(f) := (
+  assert(f([{},{}]) = true),
   assert(f([{1,2},{[1,2]}]) = false),
   assert(f([{1,2},{[1,2],[2,1]}]) = true),
   assert(f([{1,2,3},{[1,2],[2,3],[3,1]}]) = true),
@@ -1420,27 +1442,28 @@ okltest_sconnected_omudg_p(f) := (
   true)$
 
 okltest_sconnected_gdg_p(f) := (
-
+  assert(okltest_sconnected_mudg_p(buildq([f], lambda([G], f(mudg2gdg(G))))) = true),
+  assert(okltest_sconnected_dg_p(buildq([f], lambda([G], f(dg2gdg(G))))) = true),
   true)$
 
 okltest_sconnected_ogdg_p(f) := (
-
+  assert(okltest_sconnected_gdg_p(buildq([f], lambda([G], f(gdg2ogdg(G))))) = true),
   true)$
 
 okltest_sconnected_dgl_p(f) := (
-
+  assert(okltest_sconnected_gdg_p(buildq([f], lambda([G], f(gdg2dgl(G))))) = true),
   true)$
 
 okltest_sconnected_odgl_p(f) := (
-
+  assert(okltest_sconnected_ogdg_p(buildq([f], lambda([G], f(ogdg2odgl(G))))) = true),
   true)$
 
 okltest_sconnected_mudgl_p(f) := (
-
+  assert(okltest_sconnected_gdg_p(buildq([f], lambda([G], f(gdg2mudgl(G))))) = true),
   true)$
 
 okltest_sconnected_omudgl_p(f) := (
-
+  assert(okltest_sconnected_mudgl_p(buildq([f], lambda([G], f(mudgl2omudgl(G))))) = true),
   true)$
 
 okltest_regular_g_p(f) := (

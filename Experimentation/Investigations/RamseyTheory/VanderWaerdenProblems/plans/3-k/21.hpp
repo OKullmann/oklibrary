@@ -198,7 +198,7 @@ License, or any later version. */
      <li> Also all 1 <= n <= 380 are sat. </li>
     </ol>
    </li>
-   <li> "RunPdVdW3k 21 gsat-tabu 100 1000000" confirms this by
+   <li> "RunPdVdWk1k2 3 21 gsat-tabu 100 1000000" confirms this by
    \verbatim
 Break point 1: 400
 Break point 2: 405
