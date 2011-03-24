@@ -12,7 +12,56 @@ License, or any later version. */
 
   \todo Best ubcsat-solver
   <ul>
-   <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
+   <li> Best ubcsat-algorithm:
+   \verbatim
+> VanderWaerdenCNF-O3-DNDEBUG 4 9 308
+
+> E=run_ubcsat("VanDerWaerden_2-4-9_308.cnf",runs=100,cutoff=1000000)
+gwsat
+ 0 49 52 53 54 55 56 57 58 59 60
+ 1  2  1  5 15 17 18 18 11 11  1
+dano
+ 2 51 55 59 60 61 62 63 64 65 66 67 68 69 70 71 72
+ 3  1  1  1  2  2  4  5  7  7 18 13  8  9 12  6  1
+ag2wsat
+ 2  3  4  5 47 48 50 51 52 53 54 55 56 57 58 59
+ 2  2  4  1  2  1  1  1  2 14 11 19 19 16  4  1
+rsaps
+ 2  3  4 54 56 57 58 59 60 61 62 63 64
+ 1  2  1  2  2  1  4  3 16 25 25 15  3
+g2wsat
+ 2  5 56 58 59 60 61 62 63 64 65
+ 1  2  1  1  9 10 30 22 16  7  1
+anovp
+ 2 51 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70
+ 1  1  2  1  3  1  3  2  4  3  8  7 18 12 12 11  6  4  1
+ddfw
+ 3  4  5 47 48 49 50 51 52 53 54 55
+ 2  4  2  3  4  3  7 14 27 22 10  2
+irots
+ 3  4  5 51 52 53 54 55 56 57 58 59 60
+ 2  1  2  2  1  2  7  7 13 23 17 20  3
+paws
+ 3 54 56 57 58 59 60 61 62 63 64 65
+ 1  1  1  1  5  2  6 11 19 24 22  7
+rnov
+ 3 58 61 62 63 64 65 66 67 68 69 70 71 72 73 74
+ 1  1  1  1  1  6  5  6  6  9 15 17 16 11  3  1
+anovpp
+ 4 51 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70
+ 1  1  1  1  3  2  4  6  5  7  9 19 11 15  9  4  2
+sapsnr
+ 5 55 56 57 58 59 60 61 62 63
+ 1  1  1  2  5  7 27 30 20  6
+rots
+ 7 47 48 49 50 51 52 53
+ 1  1  5  9 23 25 25 11
+   \endverbatim
+   Segmentation fault with saps.
+   \verbatim
+> E=run_ubcsat("VanDerWaerden_2-4-9_308.cnf",runs=100,cutoff=2000000,include_algs=list("gwsat","dano","ag2wsat","rsaps","g2wsat","anovp","ddfw","irots","paws","rnov","anovpp","sapsnr","rots"))
+   \endverbatim
+   </li>
   </ul>
 
 
