@@ -12,6 +12,15 @@ License, or any later version. */
 
   \todo Add todos
 
+
+  \todo Find more test vectors
+  <ul>
+   <li> For the tests of the DES cipher, we should have a wide range
+   of test vectors to ensure we match the standard. </li>
+   <li> This becomes especially important when we consider reduced round
+   variants. </li>
+  </ul>
+
   
   \todo Links
   <ul>
