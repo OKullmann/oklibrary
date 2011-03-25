@@ -18,7 +18,19 @@ License, or any later version. */
    <li> http://en.wikipedia.org/wiki/Constraint_programming gives an
    overview. </li>
    <li> The MAC-algorithm at http://www.hulubei.net/tudor/csp ? </li>
-   <li> Benchmarks? Competitions? </li>
+   <li> Competitions:
+    <ul>
+     <li> There was a CSP competition, http://www.cril.univ-artois.fr/CPAI09/.
+     It appears to have stopped in 2009. </li>
+    </ul>
+   </li>
+   <li> Benchmarks:
+    <ul>
+     <li> Available at the competition sites 
+     http://www.cril.univ-artois.fr/CPAI08/ and 
+     http://www.cril.univ-artois.fr/CPAI09/.
+    </ul>
+   </li>
   </ul>
 
 
@@ -120,6 +132,19 @@ CC="../../../Gcc/4.1.2/bin/gcc" CXX="../../../Gcc/4.1.2/bin/g++" BOOST_INCLUDEDI
    <li> http://pythonsudoku.sourceforge.net/ (Python) </li>
    <li> http://sudoku-sensei.sourceforge.net/ (C) </li>
    <li> http://robert.rsa3.com/sudoku.html (C++) </li>
+  </ul>
+
+
+  \todo TAILOR
+  <ul>
+   <li> http://www.cs.st-andrews.ac.uk/~andrea/tailor/ </li>
+   <li> A tool for translating general CSP modelling languages
+   to specific CSP solver input formats. </li>
+   <li> It can translate Essence and XCSP to Minion input. 
+   XCSP is the language used for the CSP08 and CSP09 competitions.
+   XCSP is an XML format. </li>
+   <li> We should install this and consider using one of these general
+   formats, rather than writing many different translations. </li>
   </ul>
 
 
