@@ -1,0 +1,53 @@
+/* Matthew Gwynne, 25.3.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/testobjects/ConstraintTranslation.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/testobjects/ConstraintTranslation.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/ConstraintTranslation.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/tests/ConstraintTranslation.mac")$
+
+
+/* *******************
+   * xor-Constraints *
+   *******************
+*/
+
+okltest_des_xor_desi(des_xor_desi);
+okltest_des_xor_desr(des_xor_desr);
+
+
+/* *********************
+   * S-box constraints *
+   *********************
+*/
+
+okltest_des_sbox_desr(des_sbox_deso);
+
+
+/* ***********************
+   * The complete system *
+   ***********************
+*/
+
+okltest_des_plain2fcl(des_plain2fcl);
+okltest_des_cipher2fcl(des_cipher2fcl);
+okltest_des_key2fcl(des_key2fcl);
+
+/*!
+\endhtmlonly
+*/

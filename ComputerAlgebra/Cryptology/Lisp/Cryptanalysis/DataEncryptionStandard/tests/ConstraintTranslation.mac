@@ -1,0 +1,295 @@
+/* Matthew Gwynne, 25.3.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/tests/ConstraintTranslation.mac
+  \brief Tests regarding constraint translations of DES.
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/tests/ConstraintTranslation.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+kill(f)$
+
+
+/* *******************
+   * xor-Constraints *
+   *******************
+*/
+
+okltest_des_xor_desi(f) := block(
+  assert(f(1) =
+    [[[desr(32,0),desk(10),desi(1,1)],0],[[desr(1,0),desk(51),desi(2,1)],0],
+    [[desr(2,0),desk(34),desi(3,1)],0],[[desr(3,0),desk(60),desi(4,1)],0],
+    [[desr(4,0),desk(49),desi(5,1)],0],[[desr(5,0),desk(17),desi(6,1)],0],
+    [[desr(4,0),desk(33),desi(7,1)],0],[[desr(5,0),desk(57),desi(8,1)],0],
+    [[desr(6,0),desk(2),desi(9,1)],0],[[desr(7,0),desk(9),desi(10,1)],0],
+    [[desr(8,0),desk(19),desi(11,1)],0],[[desr(9,0),desk(42),desi(12,1)],0],
+    [[desr(8,0),desk(3),desi(13,1)],0],[[desr(9,0),desk(35),desi(14,1)],0],
+    [[desr(10,0),desk(26),desi(15,1)],0],[[desr(11,0),desk(25),desi(16,1)],0],
+    [[desr(12,0),desk(44),desi(17,1)],0],[[desr(13,0),desk(58),desi(18,1)],0],
+    [[desr(12,0),desk(59),desi(19,1)],0],[[desr(13,0),desk(1),desi(20,1)],0],
+    [[desr(14,0),desk(36),desi(21,1)],0],[[desr(15,0),desk(27),desi(22,1)],0],
+    [[desr(16,0),desk(18),desi(23,1)],0],[[desr(17,0),desk(41),desi(24,1)],0],
+    [[desr(16,0),desk(22),desi(25,1)],0],[[desr(17,0),desk(28),desi(26,1)],0],
+    [[desr(18,0),desk(39),desi(27,1)],0],[[desr(19,0),desk(54),desi(28,1)],0],
+    [[desr(20,0),desk(37),desi(29,1)],0],[[desr(21,0),desk(4),desi(30,1)],0],
+    [[desr(20,0),desk(47),desi(31,1)],0],[[desr(21,0),desk(30),desi(32,1)],0],
+    [[desr(22,0),desk(5),desi(33,1)],0],[[desr(23,0),desk(53),desi(34,1)],0],
+    [[desr(24,0),desk(23),desi(35,1)],0],[[desr(25,0),desk(29),desi(36,1)],0],
+    [[desr(24,0),desk(61),desi(37,1)],0],[[desr(25,0),desk(21),desi(38,1)],0],
+    [[desr(26,0),desk(38),desi(39,1)],0],[[desr(27,0),desk(63),desi(40,1)],0],
+    [[desr(28,0),desk(15),desi(41,1)],0],[[desr(29,0),desk(20),desi(42,1)],0],
+    [[desr(28,0),desk(45),desi(43,1)],0],[[desr(29,0),desk(14),desi(44,1)],0],
+    [[desr(30,0),desk(13),desi(45,1)],0],[[desr(31,0),desk(62),desi(46,1)],0],
+    [[desr(32,0),desk(55),desi(47,1)],0],[[desr(1,0),desk(31),desi(48,1)],0]]),
+  assert(f(8) =
+    [[[desr(32,7),desk(36),desi(1,8)],0],[[desr(1,7),desk(41),desi(2,8)],0],
+    [[desr(2,7),desk(60),desi(3,8)],0],[[desr(3,7),desk(50),desi(4,8)],0],
+    [[desr(4,7),desk(10),desi(5,8)],0],[[desr(5,7),desk(43),desi(6,8)],0],
+    [[desr(4,7),desk(59),desi(7,8)],0],[[desr(5,7),desk(18),desi(8,8)],0],
+    [[desr(6,7),desk(57),desi(9,8)],0],[[desr(7,7),desk(35),desi(10,8)],0],
+    [[desr(8,7),desk(9),desi(11,8)],0],[[desr(9,7),desk(3),desi(12,8)],0],
+    [[desr(8,7),desk(58),desi(13,8)],0],[[desr(9,7),desk(25),desi(14,8)],0],
+    [[desr(10,7),desk(52),desi(15,8)],0],[[desr(11,7),desk(51),desi(16,8)],0],
+    [[desr(12,7),desk(34),desi(17,8)],0],[[desr(13,7),desk(19),desi(18,8)],0],
+    [[desr(12,7),desk(49),desi(19,8)],0],[[desr(13,7),desk(27),desi(20,8)],0],
+    [[desr(14,7),desk(26),desi(21,8)],0],[[desr(15,7),desk(17),desi(22,8)],0],
+    [[desr(16,7),desk(44),desi(23,8)],0],[[desr(17,7),desk(2),desi(24,8)],0],
+    [[desr(16,7),desk(12),desi(25,8)],0],[[desr(17,7),desk(54),desi(26,8)],0],
+    [[desr(18,7),desk(61),desi(27,8)],0],[[desr(19,7),desk(13),desi(28,8)],0],
+    [[desr(20,7),desk(31),desi(29,8)],0],[[desr(21,7),desk(30),desi(30,8)],0],
+    [[desr(20,7),desk(6),desi(31,8)],0],[[desr(21,7),desk(20),desi(32,8)],0],
+    [[desr(22,7),desk(62),desi(33,8)],0],[[desr(23,7),desk(47),desi(34,8)],0],
+    [[desr(24,7),desk(45),desi(35,8)],0],[[desr(25,7),desk(23),desi(36,8)],0],
+    [[desr(24,7),desk(55),desi(37,8)],0],[[desr(25,7),desk(15),desi(38,8)],0],
+    [[desr(26,7),desk(28),desi(39,8)],0],[[desr(27,7),desk(22),desi(40,8)],0],
+    [[desr(28,7),desk(37),desi(41,8)],0],[[desr(29,7),desk(46),desi(42,8)],0],
+    [[desr(28,7),desk(39),desi(43,8)],0],[[desr(29,7),desk(4),desi(44,8)],0],
+    [[desr(30,7),desk(7),desi(45,8)],0],[[desr(31,7),desk(21),desi(46,8)],0],
+    [[desr(32,7),desk(14),desi(47,8)],0],[[desr(1,7),desk(53),desi(48,8)],0]]),
+    true)$
+
+okltest_des_xor_desr(f) := block(
+  assert(f(1) =
+    [[[desr(1,-1),deso(16,1),desr(1,1)],0],
+     [[desr(2,-1),deso(7,1),desr(2,1)],0],
+     [[desr(3,-1),deso(20,1),desr(3,1)],0],
+     [[desr(4,-1),deso(21,1),desr(4,1)],0],
+     [[desr(5,-1),deso(29,1),desr(5,1)],0],
+     [[desr(6,-1),deso(12,1),desr(6,1)],0],
+     [[desr(7,-1),deso(28,1),desr(7,1)],0],
+     [[desr(8,-1),deso(17,1),desr(8,1)],0],
+     [[desr(9,-1),deso(1,1),desr(9,1)],0],
+     [[desr(10,-1),deso(15,1),desr(10,1)],0],
+     [[desr(11,-1),deso(23,1),desr(11,1)],0],
+     [[desr(12,-1),deso(26,1),desr(12,1)],0],
+     [[desr(13,-1),deso(5,1),desr(13,1)],0],
+     [[desr(14,-1),deso(18,1),desr(14,1)],0],
+     [[desr(15,-1),deso(31,1),desr(15,1)],0],
+     [[desr(16,-1),deso(10,1),desr(16,1)],0],
+     [[desr(17,-1),deso(2,1),desr(17,1)],0],
+     [[desr(18,-1),deso(8,1),desr(18,1)],0],
+     [[desr(19,-1),deso(24,1),desr(19,1)],0],
+     [[desr(20,-1),deso(14,1),desr(20,1)],0],
+     [[desr(21,-1),deso(32,1),desr(21,1)],0],
+     [[desr(22,-1),deso(27,1),desr(22,1)],0],
+     [[desr(23,-1),deso(3,1),desr(23,1)],0],
+     [[desr(24,-1),deso(9,1),desr(24,1)],0],
+     [[desr(25,-1),deso(19,1),desr(25,1)],0],
+     [[desr(26,-1),deso(13,1),desr(26,1)],0],
+     [[desr(27,-1),deso(30,1),desr(27,1)],0],
+     [[desr(28,-1),deso(6,1),desr(28,1)],0],
+     [[desr(29,-1),deso(22,1),desr(29,1)],0],
+     [[desr(30,-1),deso(11,1),desr(30,1)],0],
+     [[desr(31,-1),deso(4,1),desr(31,1)],0],
+     [[desr(32,-1),deso(25,1),desr(32,1)],0]]),
+  assert(f(8) =
+    [[[desr(1,6),deso(16,8),desr(1,8)],0],
+    [[desr(2,6),deso(7,8),desr(2,8)],0],
+    [[desr(3,6),deso(20,8),desr(3,8)],0],
+    [[desr(4,6),deso(21,8),desr(4,8)],0],
+    [[desr(5,6),deso(29,8),desr(5,8)],0],
+    [[desr(6,6),deso(12,8),desr(6,8)],0],
+    [[desr(7,6),deso(28,8),desr(7,8)],0],
+    [[desr(8,6),deso(17,8),desr(8,8)],0],
+    [[desr(9,6),deso(1,8),desr(9,8)],0],
+    [[desr(10,6),deso(15,8),desr(10,8)],0],
+    [[desr(11,6),deso(23,8),desr(11,8)],0],
+    [[desr(12,6),deso(26,8),desr(12,8)],0],
+    [[desr(13,6),deso(5,8),desr(13,8)],0],
+    [[desr(14,6),deso(18,8),desr(14,8)],0],
+    [[desr(15,6),deso(31,8),desr(15,8)],0],
+    [[desr(16,6),deso(10,8),desr(16,8)],0],
+    [[desr(17,6),deso(2,8),desr(17,8)],0],
+    [[desr(18,6),deso(8,8),desr(18,8)],0],
+    [[desr(19,6),deso(24,8),desr(19,8)],0],
+    [[desr(20,6),deso(14,8),desr(20,8)],0],
+    [[desr(21,6),deso(32,8),desr(21,8)],0],
+    [[desr(22,6),deso(27,8),desr(22,8)],0],
+    [[desr(23,6),deso(3,8),desr(23,8)],0],
+    [[desr(24,6),deso(9,8),desr(24,8)],0],
+    [[desr(25,6),deso(19,8),desr(25,8)],0],
+    [[desr(26,6),deso(13,8),desr(26,8)],0],
+    [[desr(27,6),deso(30,8),desr(27,8)],0],
+    [[desr(28,6),deso(6,8),desr(28,8)],0],
+    [[desr(29,6),deso(22,8),desr(29,8)],0],
+    [[desr(30,6),deso(11,8),desr(30,8)],0],
+    [[desr(31,6),deso(4,8),desr(31,8)],0],
+    [[desr(32,6),deso(25,8),desr(32,8)],0]]),
+  true)$
+
+
+/* *********************
+   * S-box constraints *
+   *********************
+*/
+
+okltest_des_sbox_deso(f) := block(
+  assert(f(1) =
+    [[1,[desi(1,1),desi(2,1),desi(3,1),desi(4,1),desi(5,1),desi(6,1)],
+        [deso(1,1),deso(2,1),deso(3,1),deso(4,1)]],
+     [2,[desi(7,1),desi(8,1),desi(9,1),desi(10,1),desi(11,1),desi(12,1)],
+        [deso(5,1),deso(6,1),deso(7,1),deso(8,1)]],
+     [3,[desi(13,1),desi(14,1),desi(15,1),desi(16,1),desi(17,1),desi(18,1)],
+        [deso(9,1),deso(10,1),deso(11,1),deso(12,1)]],
+     [4,[desi(19,1),desi(20,1),desi(21,1),desi(22,1),desi(23,1),desi(24,1)],
+        [deso(13,1),deso(14,1),deso(15,1),deso(16,1)]],
+     [5,[desi(25,1),desi(26,1),desi(27,1),desi(28,1),desi(29,1),desi(30,1)],
+        [deso(17,1),deso(18,1),deso(19,1),deso(20,1)]],
+     [6,[desi(31,1),desi(32,1),desi(33,1),desi(34,1),desi(35,1),desi(36,1)],
+        [deso(21,1),deso(22,1),deso(23,1),deso(24,1)]],
+     [7,[desi(37,1),desi(38,1),desi(39,1),desi(40,1),desi(41,1),desi(42,1)],
+        [deso(25,1),deso(26,1),deso(27,1),deso(28,1)]],
+     [8,[desi(43,1),desi(44,1),desi(45,1),desi(46,1),desi(47,1),desi(48,1)],
+        [deso(29,1),deso(30,1),deso(31,1),deso(32,1)]]]),
+  assert(f(8) =
+    [[1,[desi(1,8),desi(2,8),desi(3,8),desi(4,8),desi(5,8),desi(6,8)],
+        [deso(1,8),deso(2,8),deso(3,8),deso(4,8)]],
+     [2,[desi(7,8),desi(8,8),desi(9,8),desi(10,8),desi(11,8),desi(12,8)],
+        [deso(5,8),deso(6,8),deso(7,8),deso(8,8)]],
+     [3,[desi(13,8),desi(14,8),desi(15,8),desi(16,8),desi(17,8),desi(18,8)],
+        [deso(9,8),deso(10,8),deso(11,8),deso(12,8)]],
+     [4,[desi(19,8),desi(20,8),desi(21,8),desi(22,8),desi(23,8),desi(24,8)],
+        [deso(13,8),deso(14,8),deso(15,8),deso(16,8)]],
+     [5,[desi(25,8),desi(26,8),desi(27,8),desi(28,8),desi(29,8),desi(30,8)],
+        [deso(17,8),deso(18,8),deso(19,8),deso(20,8)]],
+     [6,[desi(31,8),desi(32,8),desi(33,8),desi(34,8),desi(35,8),desi(36,8)],
+        [deso(21,8),deso(22,8),deso(23,8),deso(24,8)]],
+     [7,[desi(37,8),desi(38,8),desi(39,8),desi(40,8),desi(41,8),desi(42,8)],
+        [deso(25,8),deso(26,8),deso(27,8),deso(28,8)]],
+     [8,[desi(43,8),desi(44,8),desi(45,8),desi(46,8),desi(47,8),desi(48,8)],
+        [deso(29,8),deso(30,8),deso(31,8),deso(32,8)]]]),
+  true)$
+
+
+/* ***********************
+   * The complete system *
+   ***********************
+*/
+
+okltest_des_plain2fcl(f) := block(
+  assert(f(des_validation_plain) =
+    [[desr(1,-1),desr(2,-1),desr(3,-1),desr(4,-1),desr(5,-1),desr(6,-1),
+      desr(7,-1),desr(8,-1),desr(9,-1),desr(10,-1),desr(11,-1),
+      desr(12,-1),desr(13,-1),desr(14,-1),desr(15,-1),desr(16,-1),
+      desr(17,-1),desr(18,-1),desr(19,-1),desr(20,-1),desr(21,-1),
+      desr(22,-1),desr(23,-1),desr(24,-1),desr(25,-1),desr(26,-1),
+      desr(27,-1),desr(28,-1),desr(29,-1),desr(30,-1),desr(31,-1),
+      desr(32,-1),desr(1,0),desr(2,0),desr(3,0),desr(4,0),desr(5,0),
+      desr(6,0),desr(7,0),desr(8,0),desr(9,0),desr(10,0),desr(11,0),
+      desr(12,0),desr(13,0),desr(14,0),desr(15,0),desr(16,0),desr(17,0),
+      desr(18,0),desr(19,0),desr(20,0),desr(21,0),desr(22,0),desr(23,0),
+      desr(24,0),desr(25,0),desr(26,0),desr(27,0),desr(28,0),desr(29,0),
+      desr(30,0),desr(31,0),desr(32,0)],
+     [{-desr(8,0)},{-desr(8,-1)},{-desr(16,0)},{-desr(16,-1)},
+      {-desr(24,0)},{-desr(24,-1)},{-desr(32,0)},{desr(32,-1)},
+      {-desr(7,0)},{-desr(7,-1)},{desr(15,0)},{-desr(15,-1)},
+      {-desr(23,0)},{-desr(23,-1)},{desr(31,0)},{desr(31,-1)},
+      {-desr(6,0)},{desr(6,-1)},{-desr(14,0)},{-desr(14,-1)},
+      {-desr(22,0)},{desr(22,-1)},{-desr(30,0)},{desr(30,-1)},
+      {-desr(5,0)},{desr(5,-1)},{desr(13,0)},{-desr(13,-1)},
+      {-desr(21,0)},{desr(21,-1)},{desr(29,0)},{desr(29,-1)},
+      {desr(4,0)},{-desr(4,-1)},{-desr(12,0)},{-desr(12,-1)},
+      {desr(20,0)},{-desr(20,-1)},{-desr(28,0)},{desr(28,-1)},
+      {desr(3,0)},{-desr(3,-1)},{desr(11,0)},{-desr(11,-1)},
+      {desr(19,0)},{-desr(19,-1)},{desr(27,0)},{desr(27,-1)},
+      {desr(2,0)},{desr(2,-1)},{-desr(10,0)},{-desr(10,-1)},
+      {desr(18,0)},{desr(18,-1)},{-desr(26,0)},{desr(26,-1)},
+      {desr(1,0)},{desr(1,-1)},{desr(9,0)},{-desr(9,-1)},
+      {-desr(17,0)},{desr(17,-1)},{desr(25,0)},{desr(25,-1)}]]),
+  true)$
+
+okltest_des_cipher2fcl(f) := block(
+  assert(f(des_validation_cipher) =
+    [[desr(1,16),desr(2,16),desr(3,16),desr(4,16),desr(5,16),desr(6,16),
+      desr(7,16),desr(8,16),desr(9,16),desr(10,16),desr(11,16),
+      desr(12,16),desr(13,16),desr(14,16),desr(15,16),desr(16,16),
+      desr(17,16),desr(18,16),desr(19,16),desr(20,16),desr(21,16),
+      desr(22,16),desr(23,16),desr(24,16),desr(25,16),desr(26,16),
+      desr(27,16),desr(28,16),desr(29,16),desr(30,16),desr(31,16),
+      desr(32,16),desr(1,15),desr(2,15),desr(3,15),desr(4,15),desr(5,15),
+      desr(6,15),desr(7,15),desr(8,15),desr(9,15),desr(10,15),desr(11,15),
+      desr(12,15),desr(13,15),desr(14,15),desr(15,15),desr(16,15),
+      desr(17,15),desr(18,15),desr(19,15),desr(20,15),desr(21,15),
+      desr(22,15),desr(23,15),desr(24,15),desr(25,15),desr(26,15),
+      desr(27,15),desr(28,15),desr(29,15),desr(30,15),desr(31,15),
+      desr(32,15)],
+     [{desr(8,15)},{desr(8,16)},{-desr(16,15)},{-desr(16,16)},
+      {desr(24,15)},{-desr(24,16)},{-desr(32,15)},{desr(32,16)},
+      {-desr(7,15)},{desr(7,16)},{-desr(15,15)},{desr(15,16)},
+      {-desr(23,15)},{desr(23,16)},{desr(31,15)},{desr(31,16)},
+      {-desr(6,15)},{desr(6,16)},{-desr(14,15)},{-desr(14,16)},
+      {-desr(22,15)},{desr(22,16)},{-desr(30,15)},{-desr(30,16)},
+      {-desr(5,15)},{-desr(5,16)},{desr(13,15)},{-desr(13,16)},
+      {-desr(21,15)},{desr(21,16)},{-desr(29,15)},{desr(29,16)},
+      {-desr(4,15)},{desr(4,16)},{desr(12,15)},{-desr(12,16)},
+      {desr(20,15)},{-desr(20,16)},{desr(28,15)},{-desr(28,16)},
+      {-desr(3,15)},{desr(3,16)},{-desr(11,15)},{desr(11,16)},
+      {desr(19,15)},{desr(19,16)},{desr(27,15)},{-desr(27,16)},
+      {desr(2,15)},{desr(2,16)},{-desr(10,15)},{desr(10,16)},
+      {-desr(18,15)},{-desr(18,16)},{desr(26,15)},{desr(26,16)},
+      {-desr(1,15)},{-desr(1,16)},{-desr(9,15)},{desr(9,16)},
+      {desr(17,15)},{desr(17,16)},{-desr(25,15)},{desr(25,16)}]]),
+  true)$
+
+okltest_des_key2fcl(f) := block(
+  assert(f(des_validation_key) =
+    [[desk(1),desk(2),desk(3),desk(4),desk(5),desk(6),desk(7),desk(8),
+      desk(9),desk(10),desk(11),desk(12),desk(13),desk(14),desk(15),
+      desk(16),desk(17),desk(18),desk(19),desk(20),desk(21),desk(22),
+      desk(23),desk(24),desk(25),desk(26),desk(27),desk(28),desk(29),
+      desk(30),desk(31),desk(32),desk(33),desk(34),desk(35),desk(36),
+      desk(37),desk(38),desk(39),desk(40),desk(41),desk(42),desk(43),
+      desk(44),desk(45),desk(46),desk(47),desk(48),desk(49),desk(50),
+      desk(51),desk(52),desk(53),desk(54),desk(55),desk(56),desk(57),
+      desk(58),desk(59),desk(60),desk(61),desk(62),desk(63),desk(64)],
+     [{-desk(1)},{-desk(2)},{-desk(3)},{-desk(4)},{-desk(5)},{-desk(6)},
+      {-desk(7)},{desk(8)},{-desk(9)},{-desk(10)},{desk(11)},{-desk(12)},
+      {-desk(13)},{-desk(14)},{desk(15)},{desk(16)},{-desk(17)},
+      {desk(18)},{-desk(19)},{-desk(20)},{-desk(21)},{desk(22)},
+      {-desk(23)},{desk(24)},{-desk(25)},{desk(26)},{desk(27)},
+      {-desk(28)},{-desk(29)},{desk(30)},{desk(31)},{desk(32)},{desk(33)},
+      {-desk(34)},{-desk(35)},{-desk(36)},{desk(37)},{-desk(38)},
+      {-desk(39)},{desk(40)},{desk(41)},{-desk(42)},{desk(43)},
+      {-desk(44)},{desk(45)},{-desk(46)},{desk(47)},{desk(48)},{desk(49)},
+      {desk(50)},{-desk(51)},{-desk(52)},{desk(53)},{desk(54)},
+      {-desk(55)},{desk(56)},{desk(57)},{desk(58)},{desk(59)},{-desk(60)},
+      {desk(61)},{desk(62)},{desk(63)},{desk(64)}]]),
+  true)$
+
+/*!
+\endhtmlonly
+*/
