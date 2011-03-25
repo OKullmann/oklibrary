@@ -598,6 +598,13 @@ BestSolution_Max = 59.000000
      </li>
     </ol>
    </li>
+   <li> Using RunVdWk1k2:
+    <ol>
+     <li> "RunVdWk1k2 4 9 10 irots 100 1000000" yields "UNSAT for n=300",
+     where the maximal number of runs (with success) was 56 (for n=186). </li>
+    </ol>
+   </li>
+   <li> Using the palindromic solution for n=308: XXX </li>
   </ul>
 
 
@@ -605,6 +612,7 @@ BestSolution_Max = 59.000000
   <ul>
    <li> Established by minisat-2.2.0. </li>
    <li> Do we have an easy-hard pattern based on parity? </li>
+   <li> Certificates: XXX </li>
   </ul>
 
 */
