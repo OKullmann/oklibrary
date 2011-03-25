@@ -1,0 +1,41 @@
+/* Matthew Gwynne, 25.3.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/tests/RoundFunction.mac
+  \brief Tests regarding the DES round function.
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/tests/RoundFunction.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+kill(f)$
+
+okltest_des_round(f) := block(
+  assert(
+    binv2hexstr(
+      f(hexstr2binv("00000000"),hexstr2binv("00000000"),
+        hexstr2binv("000000000000"))) = "D8D8DBBC"),
+  assert(
+    binv2hexstr(
+      des_round(
+        take_l(32,des_validation_plain),
+        take_l(32,des_validation_cipher),
+        take_l(48,des_validation_key))) = "C19D2FDF"),
+  true)$
+
+/*!
+\endhtmlonly
+*/
