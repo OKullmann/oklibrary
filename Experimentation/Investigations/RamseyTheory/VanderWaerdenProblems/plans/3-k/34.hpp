@@ -146,7 +146,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Palindromic version:
+  \todo vdw_2^pd(3,34) >= (1046,1079)
   <ul>
    <li> 1078 < pdvanderwaerden([3,34])[2] =(conj) 1079 =(conj)
    vanderwaerden([3,34]) - ???. </li>
