@@ -161,8 +161,10 @@ Break point 2: 1547
    \endverbatim
    <li> "RunPdVdWk1k2 7 7 gwsat 100 20000000" yields
    \verbatim
+Break point 1: 584
+Break point 2: 829
    \endverbatim
-   using at most ?? runs.
+   using at most 53 runs.
    </li>
 
 */
