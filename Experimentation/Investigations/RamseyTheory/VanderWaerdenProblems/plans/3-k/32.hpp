@@ -187,7 +187,7 @@ wsattn :
   </ul>
 
 
-  \todo Palindromic version:
+  \todo vdw_2^pd(3,32) >= (958,963)
   <ul>
    <li> 962 < pdvanderwaerden([3,32])[2] =(conj) 963 =(conj)
    vanderwaerden([3,32]) - 44. </li>
@@ -209,6 +209,7 @@ wsattn :
 265,267,273,274,276,286,304,320,327,347,
 357,382,388,391,397,398,422,450,459,479
      \endverbatim
+     (12 can be replaced by 14).
      </li>
     </ol>
    </li>
@@ -268,8 +269,6 @@ wsattn :
 963 0
    \endverbatim
    while everything above 964 on seems unsat. </li>
-   <li> Rerunning it with doubled cutoff, and using the previous solutions
-   properly. We also need the ability to start late. </li>
    <li> n=957:
     <ol>
      <li> From scratch, adaptg2wsat with cutoff=10^6:
@@ -299,6 +298,12 @@ wsattn :
      </li>
     </ol>
    </li>
+   <li> RunPdVdWk1k2 3 32 gsat-tabu 100 20000000" yields
+   \verbatim
+Break point 1: 958
+Break point 2: 963
+   \endverbatim
+   where all solutions were found within in the first 10 runs. </li>
   </ul>
 
 */
