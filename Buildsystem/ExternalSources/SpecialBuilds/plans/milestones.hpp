@@ -115,6 +115,11 @@ License, or any later version. */
     - False build for Espresso
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/PseudoBoolean.hpp
+   the following topics are handled:
+    - BoolVar/PB
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
    topics are handled:
     - Update to CLisp version 2.49 : DONE
