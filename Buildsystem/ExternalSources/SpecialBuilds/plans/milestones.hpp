@@ -11,7 +11,7 @@ License, or any later version. */
   \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.3.4 (17.3.2011)
 
 
-  \par Version 0.2.4 (updating especically Gcc and the existing SAT solvers)
+  \par Version 0.2.4 (updating especially Gcc and the existing SAT solvers)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
