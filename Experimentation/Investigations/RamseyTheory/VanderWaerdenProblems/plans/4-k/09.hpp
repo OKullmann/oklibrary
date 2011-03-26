@@ -107,6 +107,21 @@ gwsat
 
   \todo vanderwaerden_2(4,9) >= 309
   <ul>
+   <li> The conjecture is vanderwaerden_2(4,9) = 309. </li>
+   <li> Certificate for n=308:
+   \verbatim
+9,13,15,18,19,20,23,24,26,30,
+32,34,35,41,44,48,57,58,67,71,
+74,80,81,83,85,89,91,92,95,96,
+97,100,102,110,112,115,116,117,120,121,
+123,127,129,131,132,138,141,145,154,155,
+164,168,171,177,178,180,182,186,188,189,
+192,193,194,197,199,207,209,212,213,214,
+217,218,220,224,226,228,229,235,238,242,
+251,252,261,265,268,274,275,277,279,283,
+285,286,289,290,291,294,296,300
+   \endverbatim
+   (palindromic). </li>
    <li> [Ahmed 2009] states vanderwaerden4k(9) > 254. </li>
    <li> n=254 found satisfiable by adaptnovelty+ (first run with cutoff=10^6;
    seed=719877201, osteps=677160):
@@ -504,7 +519,7 @@ BestSolution_Max = 59.000000
 147 242 291 412 527 555 505 424 272 130  49  16   1
    \endverbatim
    </li>
-   <li> n=309
+   <li> n=309 (adaptnovelty+)
     <ol>
      <li> cutoff=2*10^6
      \verbatim
@@ -602,9 +617,29 @@ BestSolution_Max = 59.000000
     <ol>
      <li> "RunVdWk1k2 4 9 10 irots 100 1000000" yields "UNSAT for n=300",
      where the maximal number of runs (with success) was 56 (for n=186). </li>
+     <li> "RunVdWk1k2 4 9 10 irots 100 10000000" yields "UNSAT for n=307",
+     where the maximal number of runs (with success) was 51 (for n=306). </li>
     </ol>
    </li>
-   <li> Using the palindromic solution for n=308: XXX </li>
+   <li> Using the palindromic solution for n=308:
+    <ol>
+     <li> Different from k=3, here now the standard problems seem rather
+     intractable for local search, while the palindromic instances are
+     very easy. </li>
+     <li> Starting search with the best palindromic solution:
+     \verbatim
+> k1=4 k2=9 n=308 cutoff=100000 expdate="2011-03-26-033845"; export k1 k2 n; cat AltExp/Exp_PdVanderWaerden_2-${k1}-${k2}_gsat-tabu-100-${cutoff}_${expdate}/VanDerWaerden_pd_2-${k1}-${k2}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution
+
+> RunVdWk1k2 ${k1} ${k2} ${n} irots 100 10000000 solution
+
+UNSAT for n=309
+ 1  2  3  4  5  6 49 50 51 52 53 54 55 56 57 58
+ 1  1 12  7  4  2  1  1  7  3 12 12 21 11  4  1
+100
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -612,7 +647,34 @@ BestSolution_Max = 59.000000
   <ul>
    <li> Established by minisat-2.2.0. </li>
    <li> Do we have an easy-hard pattern based on parity? </li>
-   <li> Certificates: XXX </li>
+   <li> Certificates:
+    <ol>
+     <li> n=299:
+     \verbatim
+9,10,12,13,15,16,17,24,29,37,
+40,46,48,50,51,55,56,58,60,66,
+69,77,82,84,89,90,91,93,94,96,
+97,106,107,109,110,112,113,114,119,121,
+126,134,137,143,145,147,148,150
+     \endverbatim
+     </li>
+     <li> n=308:
+     \verbatim
+9,13,15,18,19,20,23,24,26,30,
+32,34,35,41,44,48,57,58,67,71,
+74,80,81,83,85,89,91,92,95,96,
+97,100,102,110,112,115,116,117,120,121,
+123,127,129,131,132,138,141,145,154
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> "RunPdVdWk1k2 4 9 gsat-tabu 100 100000" yields
+   \verbatim
+Break point 1: 300
+Break point 2: 309
+   \endverbatim
+   where all solutions were found within 17 runs. </li>
   </ul>
 
 */
