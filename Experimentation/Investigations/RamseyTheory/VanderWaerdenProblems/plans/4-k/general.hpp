@@ -464,6 +464,7 @@ conflicts             : 194391         (20058 /sec)
    \endverbatim
    </li>
    <li> This looks much worse than OKsolver_2002. </li>
+   <li> Using minisat-2.2.0: XXX </li>
   </ul>
 
 
@@ -508,6 +509,15 @@ c 4860329 decisions
    </li>
    <li> Seems comparable to OKsolver_2002 (likely better than minisat2). </li>
   </ul>
+
+
+  \todo Picosat913
+
+
+  \todo Precosat
+
+
+  \todo Glucose
 
 
   \todo Local search for the satisfiable instances

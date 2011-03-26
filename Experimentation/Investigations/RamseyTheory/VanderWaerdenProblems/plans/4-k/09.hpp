@@ -60,8 +60,48 @@ rots
    Segmentation fault with saps.
    \verbatim
 > E=run_ubcsat("VanDerWaerden_2-4-9_308.cnf",runs=100,cutoff=2000000,include_algs=list("gwsat","dano","ag2wsat","rsaps","g2wsat","anovp","ddfw","irots","paws","rnov","anovpp","sapsnr","rots"))
+
+irots
+ 0  3  4  6  8 50 51 52 53 54 55 56 57 58 59 60
+ 1  1  2  1  1  1  1  6  9  8 15 24 14 10  5  1
+rots
+ 0  3  4 43 46 47 48 49 50 51 52 53
+ 1  1  1  1  1  2  7 14 24 33 13  2
+rnov
+ 1  3  5  7 61 62 63 64 65 66 67 68 69 70 71
+ 1  1  1  1  1  2  3  6  9 14  8 17 13 15  8
+ddfw
+ 2  3  4  5  6  7 45 46 47 48 49 50 51 52 53
+ 3 11  5  2  2  1  1  2  1  4  3 15 27 16  7
+paws
+ 2  4 56 58 59 60 61 62 63 64
+ 1  1  1  3 10 15 17 32 12  8
+sapsnr
+ 2  3 53 55 56 57 58 59 60 61 62
+ 1  3  1  1  2  7  5 25 24 25  6
+ag2wsat
+ 3  4  5 43 44 45 47 48 49 50 51 52 53 54 55 56 57
+ 5  7  2  1  1  1  1  1  3  3  5  9 11 15 20 10  5
+anovp
+ 3 56 57 58 59 60 61 62 63 64 65 66 67 68
+ 3  3  1  6  7 10 12 14 16  8  8  9  2  1
+g2wsat
+ 3  4  6 56 57 58 59 60 61 62 63
+ 2  1  1  2  5  4 16 23 19 20  7
+dano
+ 3  4 51 55 56 58 59 60 61 62 63 64 65 66 67 68 69 70
+ 2  1  1  2  1  1  2  3  4  4 10  8 17 15 13 10  5  1
+rsaps
+ 3  5 50 54 55 56 57 58 59 60 61 62 63
+ 1  1  1  2  2  4  5  6 20 15 28 12  3
+anovpp
+46 53 55 56 57 58 59 60 61 62 63 64 65 66 67
+ 1  1  1  5  2  1  6  8  9 17 15 13 11  5  5
+gwsat
+49 50 51 52 53 54 55 56 57 58 59
+ 1  1  4  4 11 17 14 20 20  6  2
    \endverbatim
-   </li>
+   So for now let's consider irots as best. </li>
   </ul>
 
 
@@ -558,6 +598,13 @@ BestSolution_Max = 59.000000
      </li>
     </ol>
    </li>
+   <li> Using RunVdWk1k2:
+    <ol>
+     <li> "RunVdWk1k2 4 9 10 irots 100 1000000" yields "UNSAT for n=300",
+     where the maximal number of runs (with success) was 56 (for n=186). </li>
+    </ol>
+   </li>
+   <li> Using the palindromic solution for n=308: XXX </li>
   </ul>
 
 
@@ -565,6 +612,7 @@ BestSolution_Max = 59.000000
   <ul>
    <li> Established by minisat-2.2.0. </li>
    <li> Do we have an easy-hard pattern based on parity? </li>
+   <li> Certificates: XXX </li>
   </ul>
 
 */
