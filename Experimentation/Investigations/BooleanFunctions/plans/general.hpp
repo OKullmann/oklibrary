@@ -10,7 +10,11 @@ License, or any later version. */
   \brief On investigations regarding boolean functions
 
 
-  \bug Application tests not run
+  \todo Add milestones
+
+
+  \bug (DONE Added modules to buildsystem makefile)
+  Application tests not run
   <ul>
    <li> Yet no recursive descend takes place in module BooleanFunctions. </li>
   </ul>
@@ -30,8 +34,7 @@ License, or any later version. */
    example of similar investigations into permutations. </li>
   </ul>
 
- 
-  \todo Add milestones
+
 
 */
 
