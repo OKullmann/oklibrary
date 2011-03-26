@@ -104,6 +104,17 @@ License, or any later version. */
     - Make clear the required package for dos2unix
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Doxygen.hpp the following
+   topics are handled:
+    - Doxygen uses system C++ libraries
+    - Install version 1.7.2
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp
+   the following topics are handled:
+    - False build for Espresso
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
    topics are handled:
     - Update to CLisp version 2.49 : DONE
@@ -115,20 +126,9 @@ License, or any later version. */
     - Installation of version 5.22.1 : DONE
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Doxygen.hpp the following
-   topics are handled:
-    - Doxygen uses system C++ libraries
-    - Install version 1.7.2
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
    topics are handled:
     - Update to 11.1.1 : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp
-   the following topics are handled:
-    - False build for Espresso
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Valgrind.hpp the
