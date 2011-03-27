@@ -29,6 +29,41 @@ License, or any later version. */
   </ul>
 
 
+  \todo Install pseudo-boolean solvers
+  <ul>
+   <li> We offer translations to pseudo-boolean instances
+   (Satisfiability/InputOutput/Interfaces/MinOnes2PseudoBoolean.cpp
+   but no pseudo-boolean solvers. </li>
+   <li> We should add (at least) the following pseudo-boolean solvers to the
+   library:
+   <ul>
+    <li> borg-pb:
+     <ul>
+      <li> Available at 
+      http://nn.cs.utexas.edu/pages/research/borg/resources.html . </li>
+      <li> Github repository at
+      https://github.com/borg-project/pb-competition-borg . </li>
+     </ul>
+    </li>
+    <li> clasp:
+     <ul>
+      <li> Available at http://www.cs.uni-potsdam.de/clasp/ . </li>
+      <li> See ExternalSources/SAT/Potassco/ . </li>
+      <li> Replaces pbclasp. </li>
+     </ul>
+    </li>
+    <li> SAT4J:
+     <ul>
+      <li> Available at http://www.sat4j.org/ . </li>
+      <li> Offers both pseudo-boolean and MaxSAT variants. </li>
+      <li> See "SAT4J". </li>
+     </ul>
+    </li>
+   </ul>
+   </li>
+  </ul>
+
+
   \bug Grasp uses system C++ libraries
   <ul>
    <li> sat-grasp uses the system C++ libraries (libstdc++):
