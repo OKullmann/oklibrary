@@ -87,7 +87,16 @@ CMake Error: Boost not found -- do you have the iostreams component?
    Ensuring all of the above and using the following command seems to generate
    the minion Makefile : 
    \verbatim
-CC="../../../Gcc/4.1.2/bin/gcc" CXX="../../../Gcc/4.1.2/bin/g++" BOOST_INCLUDEDIR=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Boost/1_34_1+4.1.2/include/boost-1_34_1/ BOOST_LIBRARYDIR=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Boost/1_34_1+4.1.2/lib/ cmake ..
+CC="$OKPLATFORM/ExternalSources/Installations/Gcc/4.5.2/bin/gcc" CXX="$OKPLATFORM/ExternalSources/Installations/Gcc/4.5.2/bin/g++" BOOST_INCLUDEDIR=$OKPLATFORM/ExternalSources/Installations/Boost/4.5.2/1_44_0/include/boost/ BOOST_LIBRARYDIR=$OKPLATFORM/ExternalSources/Installations/Boost/4.5.2/1_44_0/lib/ cmake ..
+   \endverbatim
+   </li>
+   <li> Building minion 0.12:
+   \verbatim
+builds/CSP> tar -xzf ../../sources/CSP/Minion/minion-0.12-src.tar.gz
+builds/CSP> cd minion-0.12
+minion-0.12> mkdir bin
+minion-0.12> cd bin
+minion-0.12/bin> CC="$OKPLATFORM/ExternalSources/Installations/Gcc/4.5.2/bin/gcc" CXX="$OKPLATFORM/ExternalSources/Installations/Gcc/4.5.2/bin/g++" cmake -DBOOST_ROOT:PATH=$OKPLATFORM/ExternalSources/Installations/Boost/4.5.2/1_44_0/ -DBZIP2_LIBRARIES:PATH=/home/aeternus/Work/OKlibrary/OKplatform/ExternalSources/Installations/Bzip2/4.5.2/1.0.5/lib/libbz2.a
    \endverbatim
    </li>
    <li> We should build CMake, and put it into OKlibrary/bin. </li>
