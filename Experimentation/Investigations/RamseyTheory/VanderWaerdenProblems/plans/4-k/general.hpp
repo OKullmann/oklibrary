@@ -572,8 +572,10 @@ c 4860329 decisions
      better than OKsolver_2002. </li>
      <li> k=8
      \verbatim
+400142616 conflicts
+29146.6 s
      \endverbatim
-     </li>
+     Perhaps the fastest solver here. </li>
     </ol>
    </li>
   </ul>
