@@ -146,29 +146,29 @@ License, or any later version. */
   </ul>
 
 
-  \todo vdw_2^pd(3,34) >= (1046,1079)
+  \todo vdw_2^pd(3,34) >= (1054,1081)
   <ul>
-   <li> 1078 < pdvanderwaerden([3,34])[2] =(conj) 1079 =(conj)
+   <li> pdvanderwaerden([3,34])[2] =(conj) 1081 =(conj)
    vanderwaerden([3,34]) - ???. </li>
-   <li> pdvanderwaerden([3,34])[1] =(conj) 1046. </li>
+   <li> pdvanderwaerden([3,34])[1] =(conj) 1054. </li>
    <li> Certificates:
     <ol>
-     <li> n=1045:
+     <li> n=1053:
      \verbatim
-6,8,21,40,50,78,87,112,145,149,
-154,161,171,185,187,190,224,228,233,237,
-254,256,270,274,291,298,332,333,343,348,
-380,383,385,402,407,439,443,446,454,455,
-478,480,489,520
+10,25,47,49,54,82,91,116,149,153,
+158,175,189,191,194,228,232,237,241,258,
+260,274,278,295,302,336,337,347,352,384,
+387,389,406,411,443,447,450,458,459,482,
+484,493,524
      \endverbatim
      </li>
-     <li> n=1078:
+     <li> n=1080:
      \verbatim
-23,24,34,57,71,97,98,120,129,145,
-157,176,177,182,203,205,208,214,236,245,
-250,274,279,288,310,321,342,347,348,351,
-379,390,395,398,425,427,453,462,472,490,
-495,496,509,531,532,536
+24,25,35,58,72,98,99,121,130,146,
+158,177,178,183,204,206,209,215,237,246,
+251,275,280,289,311,322,343,348,349,352,
+380,391,396,399,426,428,454,463,473,491,
+496,497,510,532,533,537
      \endverbatim
      </li>
     </ol>
@@ -180,8 +180,6 @@ Break point 2: 1079
    \endverbatim
    where all solutions were found within in the first 73 runs (so the second
    break-point is rather weak). </li>
-   <li> Rerunning it with doubled cutoff, and using the previous solutions
-   properly. We also need the ability to start late. </li>
    <li> n=1045:
     <ol>
      <li> From scratch, adaptg2wsat with cutoff=2*10^6:
@@ -214,17 +212,14 @@ Break point 2: 1079
      </li>
      <li> So it seems that for palindromic problems definitely gsat-tabu is
      best. </li>
-     <li> The certificate found is
-     \verbatim
-6,21,43,45,50,78,87,112,145,149,
-154,171,185,187,190,224,228,233,237,254,
-256,270,274,291,298,332,333,343,348,380,
-383,385,402,407,439,443,446,454,455,478,
-480,489,520
-     \endverbatim
-     which is similar to the one above. </li>
     </ol>
    </li>
+   <li> "RunPdVdWk1k2 3 34 gsat-tabu 100 30000000" yields
+   \verbatim
+Break point 1: 1054
+Break point 2: 1081
+   \endverbatim
+   where all solutions were found within in the first 28 runs. </li>
   </ul>
 
 */
