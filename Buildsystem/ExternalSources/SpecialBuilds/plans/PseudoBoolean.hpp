@@ -10,6 +10,41 @@ License, or any later version. */
   \brief Plans regarding building of pseudo-boolean solvers and libraries
 
 
+  \todo Install pseudo-boolean solvers
+  <ul>
+   <li> We offer translations to pseudo-boolean instances
+   (Satisfiability/Interfaces/InputOutput/MinOnes2PseudoBoolean.cpp)
+   but no pseudo-boolean solvers. </li>
+   <li> We should add all known pseudo-boolean solvers to the library. 
+   </li>
+  </ul>
+
+
+  \todo borg-pb
+  <ul>
+   <li> Available at 
+   http://nn.cs.utexas.edu/pages/research/borg/resources.html . </li>
+   <li> Github repository at
+   https://github.com/borg-project/pb-competition-borg . </li>
+  </ul>
+
+
+  \todo clasp:
+  <ul>
+   <li> Available at http://www.cs.uni-potsdam.de/clasp/ . </li>
+   <li> See ExternalSources/SAT/Potassco/ . </li>
+   <li> Replaces pbclasp. </li>
+  </ul>
+
+
+  \todo SAT4J:
+  <ul>
+   <li> Available at http://www.sat4j.org/ . </li>
+   <li> Offers both pseudo-boolean and MaxSAT variants. </li>
+   <li> See "SAT4J". </li>
+  </ul>
+
+
   \todo BoolVar/PB
   <ul>
    <li> http://arxiv.org/abs/1103.3954 describes a java library for translating
