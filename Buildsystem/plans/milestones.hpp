@@ -58,6 +58,7 @@ License, or any later version. */
 
   \par
    In Buildsystem/plans/general.hpp the following topics are handled:
+    - Evaluation mode for oklib
     - Further renamings
     - System documentation
     - Renaming module Buildsystem

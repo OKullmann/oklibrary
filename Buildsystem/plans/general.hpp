@@ -10,6 +10,21 @@ License, or any later version. */
   \brief Plans for the buildsystem in general
 
 
+  \todo Evaluation mode for oklib
+  <ul>
+   <li> In the plans, one places shell commands referencing
+   locations given by make variables. This is especially true
+   when discussing new external sources. </li>
+   <li> For example, see "Minion" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp . </li>
+   <li> These commands can not be run directly in a shell. The
+   make variables must be replaced by hand. </li>
+   <li> We should have a "--evaluate" option for oklib. This option
+   would evaluate the command given to it in the context of the
+   BuildSystem environment. </li>
+  </ul>
+
+
   \todo Making make-variables compatible with shell-variables:
   <ul>
    <li> To avoid problems, we should use C(++) naming conventions for
