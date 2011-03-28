@@ -9,6 +9,28 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp
   \brief Plans for the cryptanalysis of the Data Encryption Standard in Maxima/Lisp
 
+
+  \todo Create constraint evaluation system
+  <ul>
+   <li> We wish to provide tests for functions such as "des_round_xor".
+   To do this, we must evaluate the generated constraints. </li>
+   <li> We need a constraint evaluation system. </li>
+   <li> This system should:
+   <ul>
+    <li> Take a list of constraints. </li>
+    <li> Take an assignment to all "input varables". The "input variables"
+    should be enough to determine all others. </li>
+    <li> Evaluate each constraint using an associated evaluation function.
+    For example functions in 
+    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac.
+    </li>
+    <li> Propagate the inferred variables for each constraint to all others.
+    </li>
+    <li> Return the assignment to the variables after all propagations. </li>
+   </ul>
+   </li>
+  </ul>
+
   
   \todo Links
   <ul>
