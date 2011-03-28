@@ -61,7 +61,7 @@ musatd2_okl ?= $(bin_dir)/Musatd2-O3-DNDEBUG
 quinemccluskey_okl ?= $(bin_dir)/QuineMcCluskey-n16-O3-DNDEBUG
 quinemccluskeysubsumptionhypergraph_okl ?= $(bin_dir)/QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG
 quinemccluskeysubsumptionhypergraphwithfullstatistics_okl ?= $(bin_dir)/QuineMcCluskeySubsumptionHypergraphWithFullStatistics-n16-O3-DNDEBUG
-quinemccluskeysubsumptionhypergraphfullstatistics_okl ?= $(bin_dir)/QuineMcCluskeySubsumptionHypergraphFullStatistics-n16-O3-DNDEBUG
+quinemccluskeysubsumptionhypergraphfullstatistics_okl ?= $(bin_dir)/QuineMcCluskeySubsumptionHypergraphFullStatistics-n16-O3-DNDEBUG $(bin_dir)/QuineMcCluskeySubsumptionHypergraphFullStatistics-n4-O3-DNDEBUG
 
 sortbyclauselength_okl ?= $(bin_dir)/SortByClauseLength-O3-DNDEBUG
 

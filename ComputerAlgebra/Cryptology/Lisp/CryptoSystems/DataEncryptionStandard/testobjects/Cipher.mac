@@ -1,0 +1,33 @@
+/* Matthew Gwynne, 25.3.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/testobjects/Cipher.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/testobjects/Cipher.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/tests/Cipher.mac")$
+
+
+okltest_des_template(des_template);
+okltest_des_encryption(des_encryption);
+okltest_des_decryption(des_decryption);
+kltest_des_encryption_hex(des_encryption_hex);
+okltest_des_decryption_hex(des_decryption_hex);
+
+/*!
+\endhtmlonly
+*/
