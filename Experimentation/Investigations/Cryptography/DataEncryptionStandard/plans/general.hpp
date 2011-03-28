@@ -25,6 +25,9 @@ License, or any later version. */
    <li> We also need to think about different organisations of the round.
    Perhaps the key-involvement could happen at the beginning or end of a round,
    instead of in the middle. </li>
+   <li> See 
+   Experimentation/Investigations/Cryptography/DataEncryptionStandard/plans/Representations/Sboxes.hpp
+   for investigations into the DES Sboxes. </li>
   </ul>
 
 
@@ -181,6 +184,86 @@ EXP_DES> for F in DES_Sbox_?_fullCNF.cnf_primes_stats; do cat ${F}; done
 7 51
      \endverbatim
      </li>
+     <li> Subsumption hypergraph statistics:
+     \verbatim
+> sbox1_df = read.table(paste("DES_Sbox_",1,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
+> summary(sbox1_df)
+     length          count      
+ Min.   :10.00   Min.   : 0.00  
+ 1st Qu.:22.25   1st Qu.: 5.00  
+ Median :34.50   Median :19.00  
+ Mean   :34.50   Mean   :19.20  
+ 3rd Qu.:46.75   3rd Qu.:31.75  
+ Max.   :59.00   Max.   :48.00
+> sbox2_df = read.table(paste("DES_Sbox_",2,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
+> summary(sbox2_df)
+     length          count      
+ Min.   :11.00   Min.   : 0.00  
+ 1st Qu.:23.75   1st Qu.: 3.75  
+ Median :36.50   Median :19.50  
+ Mean   :36.50   Mean   :18.46  
+ 3rd Qu.:49.25   3rd Qu.:30.00  
+ Max.   :62.00   Max.   :56.00
+> sbox3_df = read.table(paste("DES_Sbox_",3,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
+> summary(sbox3_df)
+     length         count      
+ Min.   : 7.0   Min.   : 0.00  
+ 1st Qu.:20.5   1st Qu.: 3.00  
+ Median :34.0   Median :17.00  
+ Mean   :34.0   Mean   :17.45  
+ 3rd Qu.:47.5   3rd Qu.:29.50  
+ Max.   :61.0   Max.   :49.00
+> sbox4_df = read.table(paste("DES_Sbox_",4,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
+> summary(sbox4_df)
+     length          count   
+ Min.   :12.00   Min.   : 0  
+ 1st Qu.:23.75   1st Qu.: 7  
+ Median :35.50   Median :21  
+ Mean   :35.50   Mean   :20  
+ 3rd Qu.:47.25   3rd Qu.:32  
+ Max.   :59.00   Max.   :52
+> sbox5_df = read.table(paste("DES_Sbox_",5,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
+> summary(sbox5_df)
+     length         count      
+ Min.   :11.0   Min.   : 0.00  
+ 1st Qu.:23.5   1st Qu.: 5.50  
+ Median :36.0   Median :19.00  
+ Mean   :36.0   Mean   :18.82  
+ 3rd Qu.:48.5   3rd Qu.:29.00  
+ Max.   :61.0   Max.   :43.00
+> sbox6_df = read.table(paste("DES_Sbox_",6,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
+> summary(sbox6_df)
+     length          count      
+ Min.   :11.00   Min.   : 0.00  
+ 1st Qu.:23.75   1st Qu.: 3.75  
+ Median :36.50   Median :15.00  
+ Mean   :36.50   Mean   :18.46  
+ 3rd Qu.:49.25   3rd Qu.:31.50  
+ Max.   :62.00   Max.   :56.00
+> sbox7_df = read.table(paste("DES_Sbox_",7,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
+> summary(sbox7_df)
+     length       count      
+ Min.   :11   Min.   : 0.00  
+ 1st Qu.:23   1st Qu.: 4.00  
+ Median :35   Median :21.00  
+ Mean   :35   Mean   :19.59  
+ 3rd Qu.:47   3rd Qu.:30.00  
+ Max.   :59   Max.   :53.00
+> sbox8_df = read.table(paste("DES_Sbox_",8,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
+> summary(sbox8_df)
+     length         count      
+ Min.   :12.0   Min.   : 1.00  
+ 1st Qu.:24.5   1st Qu.: 5.50  
+ Median :37.0   Median :17.00  
+ Mean   :37.0   Mean   :18.82  
+ 3rd Qu.:49.5   3rd Qu.:28.00  
+ Max.   :62.0   Max.   :45.00
+     \endverbatim
+     </li>
+     <li> All curves k -> nr (clause-length to number of occurrences) look
+     like nice relatively symmetric curves. They have maximums around 30. 
+     Some (1,2,4) look slightly concave and some look slightly convex
+     (3,5,6,7,8). </li>
      <li> The DNF-output shows that no resolutions are possible, and thus these
      boolean functions have unique DNF. </li>
      <li> Quite some differences regarding the prime implicates. S-box number
@@ -189,9 +272,10 @@ EXP_DES> for F in DES_Sbox_?_fullCNF.cnf_primes_stats; do cat ${F}; done
      clauses, while for box 8 only one with 157 clauses was found. </li>
      <li> Also minimum representations need to be studied. </li>
      <li> As a model one can study random 6 x 4 boolean functions. </li>
-    <ol>
+    </ol>
    </li>
   </ul>
+
 
 
   \todo r_2-bases of a round
@@ -210,7 +294,6 @@ EXP_DES> for F in DES_Sbox_?_fullCNF.cnf_primes_stats; do cat ${F}; done
    representations. </li>
    <li> We should obtain r_2-based representations of a round. </li>
   </ul>
-
 
   \todo Understanding the Massacci-Marraro translation
   <ul>
