@@ -35,6 +35,29 @@ create_list(vanderwaerden5k(k),k,1,1);
   </ul>
 
 
+  \todo Best complete solver for vdw_2(5,k)
+  <ul>
+   <li> For vdw_2(4,k) in
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/4-k/general.hpp
+   picosat913 seems strongest. </li>
+   <li> k=5, n=178:
+    <ol>
+     <li> picosat913 needs 15.5 s and 491198 conflicts. </li>
+     <li> precosat236 needs 55.5 seconds and 541873 conflicts. </li>
+     <li> precosat-570.1 needs 65.1 seconds and 630130 conflicts. </li>
+     <li> march_pl needs 97.129997 s and 51527 nodes. </li>
+     <li> minisat-2.2.0 needs 119.879 s and 3698746 conflict. </li>
+     <li> OKsolver_2002 needs 179.0 s and 109721 nodes. </li>
+     <li> glucose needs 183.496 s and 1163241 conflicts. </li>
+     <li> minisat2 needs 279.645 s and 881363 conflicts. </li>
+     <li> cryptominisat needs 334.18 s and 1485531 conflicts. </li>
+     <li> satz215 aborted after 800 s. </li>
+    </ol>
+   </li>
+   <li> k=6, n=206: picosat913 needs  conflicts and s. </li>
+  </ul>
+
+
   \todo Best complete solver for palindromic problems
   <ul>
    <li> Considering k=8, it seems that from the conflict-driven solvers
