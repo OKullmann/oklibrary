@@ -64,7 +64,7 @@ builds/CSP> tar -xzf ../../sources/CSP/Minion/minion-0.8.1-src.tar.gz
 builds/CSP> cd minion-0.8.1
 minion-0.8.1> mkdir bin
 minion-0.8.1> cd bin
-minion-0.8.1/bin> BOOST_INCLUDEDIR=$OKPLATFORM/ExternalSources/Boost/1_34_1+4.1.2/include/boost-1_34_1 BOOST_LIBRARYDIR=$OKPLATFORM/ExternalSources/Boost/1_34_1+4.1.2/lib/ cmake ..
+minion-0.8.1/bin> BOOST_INCLUDEDIR=$(boost_source_library_okl)/boost BOOST_LIBRARYDIR=$(boost_link_library_okl) cmake ..
 CMake Error: Boost not found -- do you have the iostreams component?
    \endverbatim
    So we need CMake and Boost --- how to tell Minion about the location
@@ -87,10 +87,20 @@ CMake Error: Boost not found -- do you have the iostreams component?
    Ensuring all of the above and using the following command seems to generate
    the minion Makefile : 
    \verbatim
-CC="../../../Gcc/4.1.2/bin/gcc" CXX="../../../Gcc/4.1.2/bin/g++" BOOST_INCLUDEDIR=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Boost/1_34_1+4.1.2/include/boost-1_34_1/ BOOST_LIBRARYDIR=/home/aeternus/Work/OKlibrary/OKlib/OKplatform/ExternalSources/Boost/1_34_1+4.1.2/lib/ cmake ..
+CC="$(gcc_call_okl)" CXX="$(gcc_call_okl)" BOOST_INCLUDEDIR=$(boost_source_library_okl)/boost/ BOOST_LIBRARYDIR=$(boost_link_library_okl) cmake ..
    \endverbatim
    </li>
-   <li> We should build CMake, and put it into OKlibrary/bin. </li>
+   <li> Building minion 0.12 with current (outdated) cmake:
+   \verbatim
+builds/CSP> tar -xzf ../../sources/CSP/Minion/minion-0.12-src.tar.gz
+builds/CSP> cd minion-0.12
+minion-0.12> mkdir bin
+minion-0.12> cd bin
+minion-0.12/bin> CC="$(gcc_call_okl)" CXX="$(gcc_call_okl)" cmake -DBOOST_ROOT:PATH=$(boost_installation_dir_okl) -DBZIP2_LIBRARIES:PATH=$(bzip2_link_library_okl)/libbz2.a
+   \endverbatim
+   Note that $(gcc_call_okl) are make variables.
+   </li>
+   <li> We should update CMake. </li>
   </ul>
 
 
