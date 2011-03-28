@@ -42,6 +42,50 @@ License, or any later version. */
    </li>
   </ul>
 
+  \todo Canonical translation comparison to Argosat-desgen example
+  <ul>
+   <li> Generating the instances for 16 rounds using the canonical translation:
+   \verbatim
+unknown_bits : 13$
+sbox_fcl_l : create_list(dualts_fcl([listn(10), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
+F : des2fcl(sbox_fcl_l)$
+P : des_plain2fcl(hexstr2binv("038E596D4841D03B"))$
+C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
+K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
+F_std : standardise_fcs([F[1],append(F[2],P[2],K[2],C[2])])$
+output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std , sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
+   \endverbatim
+   </li>
+   <li> Instances with unknown key bits up to 13 all take less than 5s, 
+   except the OKsolver which takes 73.5s (203 nodes). </li>
+   <li> Solving time (ranked best to worst):
+   <ul>
+    <li> unknown_bits = 14: precosat-570.1 (2.6s), cryptominisat (3.96s),
+    minisat-2.2.0 (4.66s), precosat236 (4.9s), glucose (10.1s),
+    OKsolver (114s). </li>
+    <li> unknown_bits = 15: precosat236-570.1 (0.4s), precosat236 (1.1s),
+    cryptominisat (4.26s), minisat-2.2.0 (7.15s), glucose (12.9s),
+    OKsolver (273.3s). </li>
+    <li> unknown_bits = 16: precosat-570.1 (0.4s), precosat236 (1.1s),
+    cryptominisat (2.83s), minisat-2.2.0 (6.78s), glucose (23.49s),
+    OKsolver (270.8s). </li>
+    <li> unknown_bits = 17: minisat-2.2.0 (6.96s), precosat236 (9s), 
+    cryptominisat (12.8s), precosat-570.1 (33.3s), glucose (58.94s).
+    </li> 
+    <li> unknown_bits = 18: minisat-2.2.0 (20.57s), precosat236 (33.2s) . 
+    </li>
+    <li> unknown_bits = 19: minisat-2.2.0 (68.14s), precosat236 (81.6s). </li>
+    <li> unknown_bits = 20: minisat-2.2.0 (6.87s), precosat236 (160.9s) </li>
+    <li> unknown_bits = 21: precosat236 (10.3s), minisat-2.2.0 (1715s).  </li>
+    <li> unknown_bits = 22: precosat236 (32.5s). </li>
+    </ul>
+   </li>
+   <li> These times are rather sporadic, yet nothing else runs on the 
+   machine. </li>
+   <li> We should investigate with more keys, and also randomly permuting
+   the clause-lists. </li>
+  </ul>
+
 
   \todo Move into separate sub-module
 
