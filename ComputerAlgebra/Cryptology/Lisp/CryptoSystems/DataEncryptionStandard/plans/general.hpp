@@ -12,6 +12,15 @@ License, or any later version. */
 
   \todo Add todos
 
+
+  \todo Find more test vectors
+  <ul>
+   <li> We need test vectors for reduced round variants of DES. </li>
+   <li> Full 16 round DES swaps the two 32-bit outputs. Do reduced round
+   DES variants do this? </li>
+   <li> Authorative test vectors should answer this question. </li>
+  </ul>
+
   
   \todo Links
   <ul>
