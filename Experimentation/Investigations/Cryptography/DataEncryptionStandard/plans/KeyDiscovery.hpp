@@ -38,9 +38,29 @@ License, or any later version. */
      <li> X = 17 : minisat-2.2.0 (31.77s), precosat-570.1 (70.8s), 
      precosat236 (109.8s), cryptominisat (144.73s), glucose (896.53s).
      </li>
+     <li> X = 19 : minisat-2.2.0 (321.1s). </li>
+     <li> X = 20 : minisat-2.2.0 (1376.75s). </li>
+     <li> X = 21 : minisat-2.2.0 (6181.81s). </li>
+     <li> X = 22 : minisat-2.2.0 (17361.05s). </li>
+     <li> X = 23 : minisat-2.2.0 (2166.59s). </li>
+     <li> X = 24 : minisat-2.2.0 (39297.07s). </li>
+     <li> X = 25 : minisat-2.2.0 (239.77s). </li>
+     <li> X = 26 : minisat-2.2.0 (>4956s - still running). </li>
     </ul>
    </li>
+   <li> Why are these times so erratic? </li>
+   <li> We should consider other plaintext-ciphertext pairs so we
+   can get average runtimes. </li>
+   <li> The ArgoSAT DES instances have already applied some UCP.
+   This is after applying the plaintext-ciphertext assignment.
+   This makes it difficult to apply different plaintext-ciphertext
+   assignments. </li>
+   <li> The ArgoSAT DES instances all have 64 unit clauses. What are
+   these unit clauses? </li>
+   <li> We should contact the ArgoSAT guys and ask for the generators.
+   </li>
   </ul>
+
 
   \todo Canonical translation comparison to Argosat-desgen example
   <ul>
