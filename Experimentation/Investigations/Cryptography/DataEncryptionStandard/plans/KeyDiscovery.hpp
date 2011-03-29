@@ -98,6 +98,8 @@ output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", un
     <li> unknown_bits = 20: minisat-2.2.0 (6.87s), precosat236 (160.9s) </li>
     <li> unknown_bits = 21: precosat236 (10.3s), minisat-2.2.0 (1715s).  </li>
     <li> unknown_bits = 22: precosat236 (32.5s). </li>
+    <li> unknown_bits = 23: precosat236 (517.6s). </li>
+    <li> unknown_bits = 24: precosat236 (517.8s). </li>
     </ul>
    </li>
    <li> These times are rather sporadic, yet nothing else runs on the 
