@@ -48,7 +48,17 @@ License, or any later version. */
      <li> X = 26 : minisat-2.2.0 (>4956s - still running). </li>
     </ul>
    </li>
-   <li> Why are these times so erratic? </li>
+   <li> Why are these times so erratic?
+    <ul>
+     <li> Randomly shuffling clause-list for X = 25: minisat-2.2.0 (>3600s -
+     still running).
+     \verbatim
+shell> cat gss-25-s100.cnf | RandomShuffleDimacs-O3-DNDEBUG > 25-shuffled_test.cnf
+shell> minisat-2.2.0 25-shuffled_test.cnf
+     \endverbatim
+     </li>
+    </ul>
+   </li>
    <li> We should consider other plaintext-ciphertext pairs so we
    can get average runtimes. </li>
    <li> The ArgoSAT DES instances have already applied some UCP.
