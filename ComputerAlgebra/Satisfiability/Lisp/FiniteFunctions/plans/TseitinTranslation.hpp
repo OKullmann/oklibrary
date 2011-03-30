@@ -10,6 +10,9 @@ License, or any later version. */
   \brief Plans regarding the Tseitin translation from boolean circuits to CNF
 
 
+  \todo Add statistics for dualtsplus_fcl
+
+
   \todo Translation of boolean circuits into boolean CNF-clause-sets
   <ul>
    <li> It seems there is basically only one translation to CNF known, the
