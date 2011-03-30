@@ -45,18 +45,20 @@ License, or any later version. */
      <li> X = 23 : minisat-2.2.0 (2166.59s). </li>
      <li> X = 24 : minisat-2.2.0 (39297.07s). </li>
      <li> X = 25 : minisat-2.2.0 (239.77s). </li>
-     <li> X = 26 : minisat-2.2.0 (>4956s - still running). </li>
+     <li> X = 26 : minisat-2.2.0 (>36000s - timed out). </li>
     </ul>
    </li>
    <li> Why are these times so erratic?
     <ul>
-     <li> Randomly shuffling clause-list for X = 25: minisat-2.2.0 (>3600s -
+     <li> Randomly shuffling clause-list for X = 25: minisat-2.2.0 (>25h -
      still running).
      \verbatim
 shell> cat gss-25-s100.cnf | RandomShuffleDimacs-O3-DNDEBUG > 25-shuffled_test.cnf
 shell> minisat-2.2.0 25-shuffled_test.cnf
      \endverbatim
      </li>
+     <li> It seems the solver was just "lucky" with the original clause
+     order. </li>
     </ul>
    </li>
    <li> We should consider other plaintext-ciphertext pairs so we
