@@ -73,6 +73,55 @@ shell> minisat-2.2.0 25-shuffled_test.cnf
    </li>
   </ul>
 
+  
+  \todo Summarise results
+  <ul>
+   <li> We need the results from each todo summarised in a highly
+   visible todo/place. </li>
+   <li> We also need to know which are the best solvers in each instance.
+   </li>
+  </ul>
+
+
+  \todo Canonical+ translation comparison to Argosat-desgen example
+  <ul>
+   <li> Generating the instances for 16 rounds using the canonical translation:
+   \verbatim
+unknown_bits : 13$
+sbox_fcl_l : create_list(dualtsplus_fcl([listn(10), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
+F : des2fcl(sbox_fcl_l)$
+P : des_plain2fcl(hexstr2binv("038E596D4841D03B"))$
+C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
+K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
+F_std : standardise_fcs([F[1],append(F[2],P[2],K[2],C[2])])$
+output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std , sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
+   \endverbatim
+   </li>
+   <li> Instances with unknown key bits up to 18 all take less than a
+   minute. This includes the OKsolver. </li>
+   <li> Solving time (ranked best to worst):
+   <ul>
+    <li> unknown_bits = 20: precosat-570.1 (50s), precosat236 (82s),
+    minisat-2.2.0 (110s), cryptominisat (276s), . </li>
+    <li> unknown_bits = 21: precosat236 (392s), minisat-2.2.0 (765s),
+    cryptominisat (624s), OKsolver (1195s), precosat-570.1 (2771s). </li>
+    <li> unknown_bits = 22: precosat-570.1 (2019s), minisat-2.2.0 (2367s),
+    cryptominisat (2611s), OKsolver (6452s), precosat236 (6855s) . </li>
+    <li> unknown_bits = 23: minisat-2.2.0 (149s), cryptominisat (1018s),
+    precosat-570.1 (3091s), OKsolver(4052s) precosat236 (11680s), . </li>
+    <li> unknown_bits = 24: minisat-2.2.0 (148s), precosat-570.1 (3121s),
+    OKsolver (4080s), cryptominisat (6581s), precosat236 (13015s). </li>
+    <li> unknown_bits = 25: minisat-2.2.0 (11548s), cryptominisat (12975s), 
+    precosat236 (17554s), precosat-570.1 (23984s). </li>
+    <li> unknown_bits = 26: precosat-570.1 (1681s), precosat236 (33395s),
+    minisat-2.2.0 (>36000s), cryptominisat (>36000s). </li>
+    </ul>
+   </li>
+   <li> These times are rather erratic. </li>
+   <li> We should investigate with more keys, and also randomly permuting
+   the clause-lists. </li>
+  </ul>
+
 
   \todo Canonical translation comparison to Argosat-desgen example
   <ul>
