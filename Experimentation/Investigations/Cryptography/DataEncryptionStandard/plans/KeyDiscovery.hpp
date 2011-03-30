@@ -98,19 +98,19 @@ output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", un
    \endverbatim
    </li>
    <li> Instances with unknown key bits up to 18 all take less than a
-   minute. This includes the OKsolver. </li>
+   minute. This includes the OKsolver_2002. </li>
    <li> Solving time (ranked best to worst):
    <ul>
     <li> unknown_bits = 20: precosat-570.1 (50s), precosat236 (82s),
     minisat-2.2.0 (110s), cryptominisat (276s), . </li>
     <li> unknown_bits = 21: precosat236 (392s), minisat-2.2.0 (765s),
-    cryptominisat (624s), OKsolver (1195s), precosat-570.1 (2771s). </li>
+    cryptominisat (624s), OKsolver_2002 (1195s), precosat-570.1 (2771s). </li>
     <li> unknown_bits = 22: precosat-570.1 (2019s), minisat-2.2.0 (2367s),
-    cryptominisat (2611s), OKsolver (6452s), precosat236 (6855s) . </li>
+    cryptominisat (2611s), OKsolver_2002 (6452s), precosat236 (6855s) . </li>
     <li> unknown_bits = 23: minisat-2.2.0 (149s), cryptominisat (1018s),
-    precosat-570.1 (3091s), OKsolver(4052s) precosat236 (11680s), . </li>
+    precosat-570.1 (3091s), OKsolver_2002(4052s) precosat236 (11680s), . </li>
     <li> unknown_bits = 24: minisat-2.2.0 (148s), precosat-570.1 (3121s),
-    OKsolver (4080s), cryptominisat (6581s), precosat236 (13015s). </li>
+    OKsolver_2002 (4080s), cryptominisat (6581s), precosat236 (13015s). </li>
     <li> unknown_bits = 25: minisat-2.2.0 (11548s), cryptominisat (12975s), 
     precosat236 (17554s), precosat-570.1 (23984s). </li>
     <li> unknown_bits = 26: precosat-570.1 (1681s), precosat236 (33395s),
@@ -138,18 +138,18 @@ output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", un
    \endverbatim
    </li>
    <li> Instances with unknown key bits up to 13 all take less than 5s, 
-   except the OKsolver which takes 73.5s (203 nodes). </li>
+   except the OKsolver_2002 which takes 73.5s (203 nodes). </li>
    <li> Solving time (ranked best to worst):
    <ul>
     <li> unknown_bits = 14: precosat-570.1 (2.6s), cryptominisat (3.96s),
     minisat-2.2.0 (4.66s), precosat236 (4.9s), glucose (10.1s),
-    OKsolver (114s). </li>
+    OKsolver_2002 (114s). </li>
     <li> unknown_bits = 15: precosat236-570.1 (0.4s), precosat236 (1.1s),
     cryptominisat (4.26s), minisat-2.2.0 (7.15s), glucose (12.9s),
-    OKsolver (273.3s). </li>
+    OKsolver_2002 (273.3s). </li>
     <li> unknown_bits = 16: precosat-570.1 (0.4s), precosat236 (1.1s),
     cryptominisat (2.83s), minisat-2.2.0 (6.78s), glucose (23.49s),
-    OKsolver (270.8s). </li>
+    OKsolver_2002 (270.8s). </li>
     <li> unknown_bits = 17: minisat-2.2.0 (6.96s), precosat236 (9s), 
     cryptominisat (12.8s), precosat-570.1 (33.3s), glucose (58.94s).
     </li> 
