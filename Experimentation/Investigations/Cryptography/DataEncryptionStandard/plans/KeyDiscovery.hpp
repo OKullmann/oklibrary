@@ -158,9 +158,15 @@ output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", un
     <li> unknown_bits = 19: minisat-2.2.0 (68.14s), precosat236 (81.6s). </li>
     <li> unknown_bits = 20: minisat-2.2.0 (6.87s), precosat236 (160.9s) </li>
     <li> unknown_bits = 21: precosat236 (10.3s), minisat-2.2.0 (1715s).  </li>
-    <li> unknown_bits = 22: precosat236 (32.5s). </li>
-    <li> unknown_bits = 23: precosat236 (517.6s). </li>
-    <li> unknown_bits = 24: precosat236 (517.8s). </li>
+    <li> unknown_bits = 22: precosat236 (32.5s), precosat-570.1 (71s),
+    cryptominisat (769s), glucose (3088s), minisat-2.2.0 (5832s), 
+    OKsolver_2002 (16809s). </li>
+    <li> unknown_bits = 23: precosat-570.1 (251s), glucose (266s),
+    precosat236 (517.6s), cryptominisat (4073s), minisat-2.2.0 (4089s),
+    OKsolver_2002 (35652s). </li>
+    <li> unknown_bits = 24: precosat-570.1 (251s), precosat236 (517.8s),
+    minisat-2.2.0 (4092s), cryptominisat (4477s), glucose (15612s). </li>
+    <li> unknown_bits = 25: precosat236 (8911s). </li>
     </ul>
    </li>
    <li> These times are rather sporadic, yet nothing else runs on the 
