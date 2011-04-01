@@ -26,7 +26,7 @@ License, or any later version. */
    Perhaps the key-involvement could happen at the beginning or end of a round,
    instead of in the middle. </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/DataEncryptionStandard/plans/Representations/Sboxes.hpp
+   Experimentation/Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp
    for investigations into the DES Sboxes. </li>
   </ul>
 
