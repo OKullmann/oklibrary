@@ -16,7 +16,25 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp
    the following topics are handled:
-    - Add todos
+    - Add todos : DONE
+
+
+  \par Version 0.0.3
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp
+   the following topics are handled:
+    - Improve tests
+
+
+  \par Version 0.0.4
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp
+   the following topics are handled:
+    - Create constraint evaluation system
+    - Translating the constraint-system into SAT, CSP, ...
+  
 
   \par
    Update the following milestones.
