@@ -137,7 +137,7 @@ n non_taut_c red_l taut_c orig_l comment_count finished_bool
    </li>
    <li> We have an r1-base with the following statistics:
    \verbatim
-shell> ${OKlib}/Satisfiability/Reductions/Bases/RandomRUcpBases mixcolumn_32.cnf
+shell> RandomRUcpBases mixcolumn_32.cnf
 <snip>
 ------------------------------------------------------------------------------------
 CURRENT MINIMUM RBASE: *2208* with gs=1,bs=1

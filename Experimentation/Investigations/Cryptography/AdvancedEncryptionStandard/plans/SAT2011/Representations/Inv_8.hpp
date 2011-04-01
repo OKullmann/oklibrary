@@ -153,7 +153,7 @@ R> subset(E, min == 359)
    ascending order of clause-length into RUcpGen, and descending into
    RUcpBase yields a new smaller r_1 base:
    \verbatim
-shell> ${OKlib}/Satisfiability/Reductions/Bases/RandomRUcpBases AES_Sbox_full.cnf
+shell> RandomRUcpBases AES_Sbox_full.cnf
 <snip>
 *** Currently trying gs=15,bs=1
  n non_taut_c red_l taut_c orig_l comment_count finished_bool

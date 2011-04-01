@@ -115,12 +115,12 @@ R> plot(E)
   <ul>
    <li> We can compute r_1-base statistics by:
    \verbatim
-shell> ${OKlib}/Satisfiability/Reductions/Bases/RandomRUcpBases round_column_16_full.cnf
+shell> RandomRUcpBases round_column_16_full.cnf
    \endverbatim
    </li>
    <li> We have that a minimum size r_1-base has less than 2770 clauses:
    \verbatim
-shell> ${OKlib}/Satisfiability/Reductions/Bases/RandomRUcpBases round_column_16_full.cnf
+shell> RandomRUcpBases round_column_16_full.cnf
 *snip*
 *** Currently trying gs=10,bs=5
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
