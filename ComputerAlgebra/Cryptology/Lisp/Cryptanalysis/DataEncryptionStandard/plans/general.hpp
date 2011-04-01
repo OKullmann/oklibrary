@@ -10,6 +10,19 @@ License, or any later version. */
   \brief Plans for the cryptanalysis of the Data Encryption Standard in Maxima/Lisp
 
 
+  \todo Improve tests
+  <ul>
+   <li> The tests "okltest_des_sbox_fulldnf_cl" and 
+   "okltest_des_sbox_fullcnf_fcs" only test Sboxes 1 and 5. </li>
+   <li> The tests should cover all Sboxes! </li>
+   <li> The tests should also test properties of the Sboxes. 
+   See "Analysing the S-boxes" in
+   Experimentation/Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp .
+   </li>
+   </li>
+  </ul>
+
+
   \todo Create constraint evaluation system
   <ul>
    <li> We wish to provide tests for functions such as "des_round_xor".
