@@ -23,6 +23,34 @@ License, or any later version. */
      yields
      \verbatim
    154:  55247  20065.21  2.15E+13   449.86s   158.79s  5406y 123d 10h 17m 21s     0     0   60
+   155:  97776  20566.57  2.21E+13   761.72s   162.68s  5538y 285d 10h 31m 55s     0     0   60
+   156: 209358  21776.77  2.34E+13  1649.76s   172.21s  5863y 127d  9h 26m 21s     1     0   61
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         9
+c initial_number_of_variables           309
+c initial_number_of_clauses             21573
+c initial_number_of_literal_occurrences 115362
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     26999.3
+c number_of_nodes                       3414700
+c number_of_single_nodes                18
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                19186524
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         90
+c max_tree_depth                        61
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-4-9_309.cnf
      \endverbatim
      </li>
      <li> The best chance is to use parallelisation as discussed below, using

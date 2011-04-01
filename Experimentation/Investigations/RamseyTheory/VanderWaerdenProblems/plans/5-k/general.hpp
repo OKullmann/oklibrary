@@ -54,7 +54,8 @@ create_list(vanderwaerden5k(k),k,1,1);
      <li> satz215 aborted after 800 s. </li>
     </ol>
    </li>
-   <li> k=6, n=206: picosat913 needs  conflicts and s. </li>
+   <li> k=6, n=206: Aborted picosat913 after 6 days without visible progress.
+   </li>
   </ul>
 
 
