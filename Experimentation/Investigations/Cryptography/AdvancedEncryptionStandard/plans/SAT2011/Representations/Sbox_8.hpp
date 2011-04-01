@@ -383,7 +383,7 @@ maxima> ncl_list_full_dualts(16,256);
    ascending order of clause-length into RUcpGen, and descending into
    RUcpBase yields a new smaller r_1 base:
    \verbatim
-shell> $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/find_r1bases AES_Sbox_full.cnf
+shell> ${OKlib}/Satisfiability/Reductions/Bases/RandomRUcpBases AES_Sbox_full.cnf
 <snip>
 *** Currently trying gs=59,bs=5
  n non_taut_c red_l taut_c orig_l comment_count finished_bool

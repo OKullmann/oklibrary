@@ -35,7 +35,7 @@
 set -o errexit
 set -o nounset
 
-script_name="find_r1bases"
+script_name="RandomRUcpBases"
 err="ERROR[${script_name}]:"
 version="0.2.0"
 
