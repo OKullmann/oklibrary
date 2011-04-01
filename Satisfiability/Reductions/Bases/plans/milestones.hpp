@@ -34,6 +34,11 @@ License, or any later version. */
   \par Version 0.1.1
 
   \par
+   In Satisfiability/Reductions/Bases/plans/general.hpp the following topics
+   are handled:
+    - Add application tests for RandomUcpBases
+
+  \par
    In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
    are handled:
     - Improve efficiency of Bases/RUcpGen.cpp

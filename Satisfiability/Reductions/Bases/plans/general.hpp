@@ -14,12 +14,17 @@ License, or any later version. */
   <ul>
    <li> As usual, when files are created, then an experiment-directory needs
    to be created. </li>
+   <li> At the same time, all aspects should be improved. </li>
+   <li> Also documentation should be checked. </li>
    <li> DONE And a link to it needs to be provided. </li>
    <li> DONE The name is not appropriate: "find" is too general, and programs
    start with capital letters. </li>
    <li> DONE This script is also mislocated here. Obviously it belongs to
    Reductions/Bases. </li>
   </ul>
+
+
+  \todo Add application tests for RandomUcpBases
 
 
   \todo Connections
