@@ -8,15 +8,7 @@ License, or any later version. */
 /*!
   \file Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/milestones.hpp
 
-  \module_version Lisp/Cryptanalysis/DataEncryptionStandard 0.0.1 (10.3.2011)
-
-
-  \par Version 0.0.2
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp
-   the following topics are handled:
-    - Add todos : DONE
+  \module_version Lisp/Cryptanalysis/DataEncryptionStandard 0.0.2 (1.4.2011)
 
 
   \par Version 0.0.3
@@ -45,5 +37,6 @@ License, or any later version. */
 
   \par Version history
    - 0.0.1 : 10.3.2011; initial version number (general plans file).
+   - 0.0.2 : 1.4.2011; DES constraint system generator implemented.
 
 */
