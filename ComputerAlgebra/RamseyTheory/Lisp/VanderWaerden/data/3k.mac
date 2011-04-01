@@ -619,8 +619,8 @@ certificates_pdvdw_3k : [
 ]$
 
 /* Making the data related to certificates_pdvdw_3k[k] available in an
-   easy to use form: the two lists of certificates, the parameter
-   tuple, and the two lower bounds.
+   easy to use form: the parameter tuple, the two lower bounds, and then
+   the two lists of certificates.
 */
 extract_data_certificates_pdvdw_3k(k) := block([C1,C2,L,n1,n2],
   [C1,C2] : certificates_pdvdw_3k[k],
