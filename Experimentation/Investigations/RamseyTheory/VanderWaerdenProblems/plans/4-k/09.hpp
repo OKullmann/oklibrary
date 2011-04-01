@@ -10,6 +10,43 @@ License, or any later version. */
   \brief On investigations into vdw_2(4,9) >= 309
 
 
+  \todo Complete solvers
+  <ul>
+   <li> With RamseyTheory/VanderWaerdenProblems/plans/4-k/general.hpp one has
+   the impression that for VanDerWaerden_2-4-9_309.cnf the best look-ahead
+   solver might be march_pl, followed by OKsolver_2002, while the best
+   conflict-driven solver seems picosat913. And overall picosat913 might be
+   best. </li>
+   <li> Predictions of running times:
+    <ul>
+     <li> "OKsolver_2002-O3-DNDEBUG -M -D30 -F VanDerWaerden_2-4-9_309.cnf"
+     yields
+     \verbatim
+   154:  55247  20065.21  2.15E+13   449.86s   158.79s  5406y 123d 10h 17m 21s     0     0   60
+     \endverbatim
+     </li>
+     <li> The best chance is to use parallelisation as discussed below, using
+     picosat913 for the subproblems (which hopefully is faster). </li>
+    </ul>
+   </li>
+   <li> Parallelisation:
+    <ol>
+     <li> A simple parallelisation would be to use the OKsolver_2002 to split
+     the problem into subproblems (see "Simple parallelisation" in
+     Solvers/OKsolver/SAT2002/plans/general.hpp), and to use picosat913 to
+     solve the subproblems. </li>
+     <li> The main problem here would be to determine the splitting depth D.
+     </li>
+     <li> That is, we have (up to) 2^D subproblems (it seems that we would
+     have exactly 2^D subproblems here). </li>
+     <li> One needs to sample for various D the solving times of the
+     subproblems, to estimate the running time of picosat913. </li>
+     <li> Starting with D=30, and then lowering D. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Best ubcsat-solver
   <ul>
    <li> Best ubcsat-algorithm:
