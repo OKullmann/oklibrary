@@ -54,7 +54,10 @@ create_list(vanderwaerden5k(k),k,1,1);
      <li> satz215 aborted after 800 s. </li>
     </ol>
    </li>
-   <li> k=6, n=206: Aborted picosat913 after 6 days without visible progress.
+   <li> k=6, n=206:
+    <ol>
+     <li> Aborted picosat913 after 6 days without visible progress. </li>
+    </ol>
    </li>
   </ul>
 
@@ -66,6 +69,7 @@ create_list(vanderwaerden5k(k),k,1,1);
    by OKsolver_2002, then satz215), and that overall minisat-2.2.0 is best.
    See Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/08.hpp.
    </li>
+   <li> k=6: minisat-2.2.0 determines easily vdw_2^pd(5,6) = (195,206). </li>
   </ul>
 
 
