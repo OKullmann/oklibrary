@@ -14,7 +14,7 @@ License, or any later version. */
   <ul>
    <li> Steps required to add module M to the library:
    <ul>
-    <li> Add make variable "makefile_XXX" to BuildSystem/Makefile.
+    <li> Add make-variable "makefile_XXX" to BuildSystem/Makefile.
     XXX is a shortened version of the module name. The value
     is the path to the Makefile M/makefile. For example for the
     Experimentation/Investigations module, we add:
