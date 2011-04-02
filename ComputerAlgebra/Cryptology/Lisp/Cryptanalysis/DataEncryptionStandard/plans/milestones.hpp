@@ -8,15 +8,25 @@ License, or any later version. */
 /*!
   \file Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/milestones.hpp
 
-  \module_version Lisp/Cryptanalysis/DataEncryptionStandard 0.0.1 (10.3.2011)
+  \module_version Lisp/Cryptanalysis/DataEncryptionStandard 0.0.2 (1.4.2011)
 
 
-  \par Version 0.0.2
+  \par Version 0.0.3
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp
    the following topics are handled:
-    - Add todos
+    - Improve tests
+
+
+  \par Version 0.0.4
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp
+   the following topics are handled:
+    - Create constraint evaluation system
+    - Translating the constraint-system into SAT, CSP, ...
+  
 
   \par
    Update the following milestones.
@@ -27,5 +37,6 @@ License, or any later version. */
 
   \par Version history
    - 0.0.1 : 10.3.2011; initial version number (general plans file).
+   - 0.0.2 : 1.4.2011; DES constraint system generator implemented.
 
 */

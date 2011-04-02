@@ -10,18 +10,6 @@ License, or any later version. */
   \brief On investigations into the Advanced Encryption Standard
 
 
-  \bug find_r1bases defect
-  <ul>
-   <li> As usual, when files are created, then an experiment-directory needs
-   to be created. </li>
-   <li> The name is not appropriate: "find" is too general, and programs start
-   with capital letters. </li>
-   <li> This script is also mislocated here. Obviously it belongs to
-   Reductions/Bases. </li>
-   <li> And a link to it needs to be provided. </li>
-  </ul>
-
-
   \todo Just an unstructured morass of scripts
   <ul>
    <li> Regarding the computation of minimum CNF representations, the scripts
