@@ -24,6 +24,8 @@ makefile_investigations := $(OKsystem)/OKlib/Experimentation/Investigations/make
      \endverbatim
      </li>
      <li> Add "makefile_XXX" to "OKlib_links" in Buildsystem/Makefile. </li>
+     <li> Run "oklib --prebuild" (and mention this in the Git-log-message),
+     to install the new links. </li>
     </ul>
    </li>
    <li> These steps are not documented. They should appear in the docus. 
