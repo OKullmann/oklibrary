@@ -14,10 +14,11 @@ License, or any later version. */
   <ul>
    <li> Steps required to add module M to the library:
    <ul>
-    <li> Add make-variable "makefile_XXX" to BuildSystem/Makefile.
-    XXX is a shortened version of the module name. The value
-    is the path to the Makefile M/makefile. For example for the
-    Experimentation/Investigations module, we add:
+    <li> Add make-variable "makefile_XXX" to BuildSystem/Makefile. </li>
+    <li> XXX is a shortened version of the module name. </li>
+    <li> The value of this make-variable is the path to the Makefile
+    Module/makefile. </li>
+    <li> For example for the Experimentation/Investigations module, we add:
     \verbatim
 makefile_investigations := $(OKsystem)/OKlib/Experimentation/Investigations/makefile
     \endverbatim
