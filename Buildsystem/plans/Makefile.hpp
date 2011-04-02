@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo Documentation
   <ul>
-   <li> Steps required to add module M to the library:
+   <li> Steps for making the test-system aware of a module:
     <ul>
      <li> Add make-variable "makefile_XXX" to Buildsystem/Makefile. </li>
      <li> XXX is a shortened version of the module name. </li>
