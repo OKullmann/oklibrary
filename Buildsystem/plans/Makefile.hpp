@@ -13,18 +13,18 @@ License, or any later version. */
   \todo Documentation
   <ul>
    <li> Steps required to add module M to the library:
-   <ul>
-    <li> Add make-variable "makefile_XXX" to BuildSystem/Makefile. </li>
-    <li> XXX is a shortened version of the module name. </li>
-    <li> The value of this make-variable is the path to the Makefile
-    Module/makefile. </li>
-    <li> For example for the Experimentation/Investigations module, we add:
-    \verbatim
+    <ul>
+     <li> Add make-variable "makefile_XXX" to BuildSystem/Makefile. </li>
+     <li> XXX is a shortened version of the module name. </li>
+     <li> The value of this make-variable is the path to the Makefile
+     Module/makefile. </li>
+     <li> For example for the Experimentation/Investigations module, we add:
+     \verbatim
 makefile_investigations := $(OKsystem)/OKlib/Experimentation/Investigations/makefile
-    \endverbatim
-    </li>
-    <li> Add "makefile_XXX" to "OKlib_links" in BuildSystem/Makefile. </li>
-   </ul>
+     \endverbatim
+     </li>
+     <li> Add "makefile_XXX" to "OKlib_links" in BuildSystem/Makefile. </li>
+    </ul>
    </li>
    <li> These steps are not documented. They should appear in the docus. 
    </li>
