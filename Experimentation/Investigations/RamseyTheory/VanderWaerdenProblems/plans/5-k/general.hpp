@@ -69,7 +69,10 @@ create_list(vanderwaerden5k(k),k,1,1);
    by OKsolver_2002, then satz215), and that overall minisat-2.2.0 is best.
    See Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/08.hpp.
    </li>
-   <li> k=6: minisat-2.2.0 determines easily vdw_2^pd(5,6) = (195,206). </li>
+   <li> k=6: minisat-2.2.0 determines easily (< 1s) vdw_2^pd(5,6) = (195,206).
+   </li>
+   <li> k=7: minisat-2.2.0 determines vdw_2^pd(5,7) = (227,236) (48,363,829
+   conflicts for n=228, 267,783 conflicts for n=237). </li>
   </ul>
 
 
