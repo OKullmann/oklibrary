@@ -72,6 +72,12 @@ Break point 2: 1187
    \endverbatim
    using at most 14 runs.
    </li>
+   <li> "RunPdVdWk1k2 5 13 adaptg2wsat 100 160000000" yields
+   \verbatim
+Break point 1: 1154
+   \endverbatim
+    before being aborted, using at most 79 runs.
+   </li>
   </ul>
 
 */
