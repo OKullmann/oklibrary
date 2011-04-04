@@ -123,6 +123,13 @@ nvar_full_dualts(10,64) - 10;
    <li> Again we consider at least minimum, canonical and r_0-, r_1-based
    representations. </li>
    <li> We should obtain r_2-based representations of a round. </li>
+   <li> Do we have an r_1-base of the operation which applies all Sboxes
+   to the 48-bit input?
+   <ul>
+    <li> This is complicated by the fact that the Sboxes share input
+    bits due to repetition. </li>
+   </ul>
+   </li>
   </ul>
 
 
