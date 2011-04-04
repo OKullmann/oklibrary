@@ -23,14 +23,15 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 
 kill(f)$
 
-okltest_des_round(f) := block(
+okltest_des_round(f) := block([plaintext],
+  /* Trivial inputs (computed directly using des_round): */
   assert(
     binv2hexstr(
       f(hexstr2binv("00000000"),hexstr2binv("00000000"),
         hexstr2binv("000000000000"))) = "D8D8DBBC"),
   assert(
     binv2hexstr(
-      des_round(
+      f(
         take_l(32,des_validation_plain),
         take_l(32,des_validation_cipher),
         take_l(48,des_validation_key))) = "C19D2FDF"),
