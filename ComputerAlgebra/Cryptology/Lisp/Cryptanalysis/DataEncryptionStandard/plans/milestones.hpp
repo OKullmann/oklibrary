@@ -26,6 +26,7 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp
    the following topics are handled:
     - Create constraint evaluation system
+    - Improve constraint generation tests
     - Translating the constraint-system into SAT, CSP, ...
   
 
