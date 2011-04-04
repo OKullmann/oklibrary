@@ -84,6 +84,11 @@ License, or any later version. */
      <li> Return the assignment to the variables after all propagations. </li>
     </ul>
    </li>
+   <li> See "Evaluation functions" in
+   ComputerAlgebra/Satisfiability/Lisp/LinearConditions/plans/general.hpp .
+   </li>
+   <li> The Sbox specific constraint evaluation functions should be defined in
+   this module. </li>
   </ul>
 
   
