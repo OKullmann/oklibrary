@@ -82,6 +82,42 @@ des_encryption_reduced(plaintext, key, r) :=
    <li> The tests should then be extended. </li>
   </ul>
 
+
+  \todo Notion of DES round
+  <ul>
+   <li> We consider the DES round function where:
+   <ul>
+    <li> It takes two 32-bit inputs (previous and current) and a 48-bit round
+    key. </li>
+    <li> The first 32-bit input, "previous", is the output of the
+    round two rounds ago. </li>
+    <li> The second 32-bit input, "current", is the output of the previous
+    round. </li>
+    <li> For the first round, previous is the first 32-bits and
+    current is the second 32-bits of the 64-bit DES input. </li>
+   </ul>
+   </li>
+   <li> The round function does the following:
+   <ul>
+    <li> Applies an "expansion map" to current. This rearranges and repeats
+    some bits to make 48-bits. </li>
+    <li> Adds the result of the expansion to the 48-bit key. </li>
+    <li> Applies DES Sbox i, for i in {1,...,6}, to the i-th 6-bit block
+    in the result. This yields 32-bits, as the Sboxes are 6-to-4 bit 
+    functions. </li>
+    <li> Applies a "permutation box", i.e., a rewiring of bits, to the 
+    32-bit result of the Sbox operations. </li>
+    <li> Adds previous to the result of the "permutation box". </li>
+   </ul>
+   </li>
+   <li> Can the DES encryption scheme be fit into the notion of an
+   iterated block cipher (see 
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac)?
+   </li>
+   <li> Can the DES key addition be moved to the beginning of the round? This
+   would then fit with our description of AES. </li>
+  </ul>
+
   
   \todo Links
   <ul>
