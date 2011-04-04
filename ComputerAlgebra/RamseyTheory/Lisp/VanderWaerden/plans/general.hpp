@@ -23,6 +23,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo Handling of duplicate entries for vdW-numbers
+  <ul>
+   <li> The functions (pd)vanderwaerdenxk, (pd)vanderwaerdend2 etc. overlap
+   in their stored values. </li>
+   <li> Perhaps it is best to remove these duplications. </li>
+   <li> On the other hand, it might be a burden to plan for all cases, and
+   one might just write a test which checks for consistency. </li>
+  </ul>
+
+
   \todo Lower bounds
   <ul>
    <li> See "Lower bounds" in
