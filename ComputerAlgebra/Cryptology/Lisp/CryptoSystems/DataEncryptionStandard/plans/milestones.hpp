@@ -23,6 +23,8 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/plans/general.hpp
    the following topics are handled:
+    - Specification
+    - Improve key schedule tests
     - Find more test vectors
     - Add variants with reduced number of rounds
 
