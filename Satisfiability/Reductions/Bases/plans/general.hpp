@@ -12,8 +12,6 @@ License, or any later version. */
 
   \bug RandomRUcpBases defect
   <ul>
-   <li> As usual, when files are created, then an experiment-directory needs
-   to be created. </li>
    <li> At the same time, all aspects should be improved. </li>
    <li> Also documentation should be checked. </li>
    <li> DONE And a link to it needs to be provided. </li>
@@ -21,6 +19,8 @@ License, or any later version. */
    start with capital letters. </li>
    <li> DONE This script is also mislocated here. Obviously it belongs to
    Reductions/Bases. </li>
+   <li> DONE As usual, when files are created, then an experiment-directory
+   needs to be created. </li>
   </ul>
 
 
