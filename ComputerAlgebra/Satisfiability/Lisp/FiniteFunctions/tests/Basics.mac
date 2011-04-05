@@ -61,6 +61,31 @@ okltest_bv2c_wv(f) := block([a,b,c],
   true)$
 
 
+/* *****************
+   * Constructions *
+   *****************
+*/
+
+okltest_bf2bfl(f) := block([bfl],
+  bfl : f(zero_bf,1),
+  assert(length(bfl) = 1),
+  assert(bfl[1]([0]) = [0]),
+  assert(bfl[1]([1]) = [0]),
+  assert(bfl[1]([1,0,1,0,1]) = [0]),
+  bfl : f(one_bf,1),
+  assert(length(bfl) = 1),
+  assert(bfl[1]([0]) = [1]),
+  assert(bfl[1]([1]) = [1]),
+  assert(bfl[1]([1,0,1,0,1]) = [1]),
+  bfl : f(neg_bf,4),
+  assert(length(bfl) = 4),
+  assert(bfl[1]([1,0,1,0]) = [0]),
+  assert(bfl[2]([1,0,1,0]) = [1]),
+  assert(bfl[3]([1,0,1,0]) = [0]),
+  assert(bfl[4]([1,0,1,0]) = [1]),
+  true)$
+
+
 /*!
 \endhtmlonly
 */

@@ -33,6 +33,14 @@ okltest_rank_lex_bv(rank_lex_bv);
 okltest_bv2c(bv2c);
 okltest_bv2c_wv(bv2c_wv);
 
+
+/* *****************
+   * Constructions *
+   *****************
+*/
+
+okltest_bf2bfl(bf2bfl);
+
 /*!
 \endhtmlonly
 */

@@ -153,6 +153,10 @@ bf2relation_fullcnf_fcs(f,n) := block(
   else block([N : length(first(F))],
     [setn(N), setdifference(full_cs(N), setify(F))]))$
 
+/* A boolean n x m function f as m boolean n x 1 functions: */
+bf2bfl(f,m) :=
+  create_list(buildq([f,n,m,i], lambda([x], [f(x)[i]])), i, 1, m)$
+
 /*!
 \endhtmlonly
 */
