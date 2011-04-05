@@ -17,6 +17,7 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp
    the following topics are handled:
     - Improve tests
+    - Add variants with reduced number of rounds
 
 
   \par Version 0.0.4

@@ -10,6 +10,43 @@ License, or any later version. */
   \brief Plans for the cryptanalysis of the Data Encryption Standard in Maxima/Lisp
 
 
+  \todo Add variants with reduced number of rounds
+  <ul>
+   <li> Variants of DES with smaller numbers of rounds (from 1 to 3) are
+   considered in [Logical cryptanalysis as a SAT problem; Massaci and
+   Marraro]. </li>
+   <li> We need to implement translations of these variants to compare. </li>
+   <li> We should offer generalised versions of the current functions. </li>
+   <li> These generalised functions should take the number r of rounds. </li>
+   <li> For discussions of the notion of "DES with reduced number of rounds",
+   see "Add variants with reduced number of rounds" in 
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/plans/general.hpp.
+   </li>
+   <li> We do not use the full 16-round DES constraint translation for
+   encryption purposes. </li>
+   <li> The translations of variants with smaller numbers of rounds will be
+   investigated just as much as the full DES. </li>
+   <li> Therefore, we should add a round parameter to the following functions:
+   <ul>
+    <li> des_xor. </li>
+    <li> des_sboxc. </li>
+    <li> des_var. </li>
+    <li> des_cipher2fcl. </li>
+    <li> des2fcl. </li>
+   </ul>
+   </li>
+   <li> We should then add convenience functions for the full DES translation.
+   </li>
+   <li> Variable ordering:
+   <ul>
+    <li> How to order the variables for variants with smaller numbers of
+    rounds? </li>
+    <li> Should variables given by des_var, round by round? </li>
+   </ul>
+   </li>
+  </ul>
+
+
   \todo Improve tests
   <ul>
    <li> The tests "okltest_des_sbox_fulldnf_cl" and 
