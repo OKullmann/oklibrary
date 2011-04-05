@@ -66,6 +66,9 @@ okltest_deficiency_cs(deficiency_cs);
 
 okltest_max_deficiency_fcs(max_deficiency_fcs);
 
+okltest_surplus_bydef_fcs(surplus_bydef_fcs);
+okltest_surplus_bydef_cs(surplus_bydef_cs);
+
 /* ************
    * Analysis *
    ************

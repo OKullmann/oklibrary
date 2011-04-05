@@ -191,7 +191,7 @@ okltest_implication_dg_fcs(f) := block(
    ************
 */
 
-okltest_min_degree_cvg_cs(f) := block(
+okltest_min_degree_cvg_cs(f) := (
   assert(f({}) = inf),
   assert(f({{}}) = 0),
   assert(f({{1}}) = 0),
@@ -199,7 +199,7 @@ okltest_min_degree_cvg_cs(f) := block(
   assert(f({{1},{-1},{}}) = 0),
   true)$
 
-okltest_max_degree_cvg_cs(f) := block(
+okltest_max_degree_cvg_cs(f) := (
   assert(f({}) = minf),
   assert(f({{}}) = 0),
   assert(f({{1}}) = 0),
@@ -207,7 +207,7 @@ okltest_max_degree_cvg_cs(f) := block(
   assert(f({{1},{-1},{}}) = 1),
   true)$
 
-okltest_deficiency_fcs(f) := block(
+okltest_deficiency_fcs(f) := (
   assert(f([{},{}]) = 0),
   assert(f([{},{{}}]) = 1),
   assert(f([{1},{{1}}]) = 0),
@@ -217,7 +217,7 @@ okltest_deficiency_fcs(f) := block(
   assert(okltest_deficiency_cs(buildq([f], lambda([F], f(cs2fcs(F))))) = true),
   true)$
 
-okltest_deficiency_cs(f) := block(
+okltest_deficiency_cs(f) := (
   assert(f({}) = 0),
   assert(f({{}}) = 1),
   assert(f({{1}}) = 0),
@@ -227,13 +227,32 @@ okltest_deficiency_cs(f) := block(
     assert(f(full_cs(n)) = 2^n-n),
   true)$
 
-okltest_max_deficiency_fcs(f) := block(
+okltest_max_deficiency_fcs(f) := (
   assert(f([{},{}]) = 0),
   assert(f([{},{{}}]) = 1),
   assert(f([{1},{{1}}]) = 0),
   assert(f([{1},{{1},{-1}}]) = 1),
   assert(f([{1},{{1},{-1},{}}]) = 2),
   assert(f([{1,2},{{1},{-1}}]) = 1),
+  true)$
+
+okltest_surplus_bydef_fcs(f) := (
+  assert(f([{},{}]) = 0),
+  assert(f([{},{{}}]) = 0),
+  assert(f([{1},{}]) = -1),
+  assert(f([{1},{{}}]) = -1),
+  assert(f([{1,2},{}]) = -2),
+  assert(f([{1,2},{{}}]) = -2),
+  assert(f([{1},{{1}}]) = 0),
+  assert(f([{1},{{1},{-1}}]) = 1),
+  assert(f([{1},{{1},{-1},{}}]) = 1),
+  assert(f([{1,2},{{1},{-1},{2},{-2}}]) = 1),
+  true)$
+
+okltest_surplus_bydef_cs(f) := (
+  assert(okltest_surplus_bydef_fcs(buildq([f], lambda([FF], 
+    block([d : nvar_fcs(FF) - nvar_cs(FF[2])], 
+      if d>0 then min(f(FF[2]), 0) - d else f(FF[2]))))) = true),
   true)$
 
 

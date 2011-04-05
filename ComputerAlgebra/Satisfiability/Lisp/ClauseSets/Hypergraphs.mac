@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
+
 /* *******************************************
    * Clause-variable matrices and variations *
    *******************************************
@@ -206,6 +207,11 @@ deficiency_cs(F) := deficiency_fcs(cs2fcs(F))$
 
 /* The maximal deficiency of a formal clause-set: */
 max_deficiency_fcs(FF) := length(FF[2]) - length(max_matching(g2mg(clvar_g(FF))))$
+
+/* The surplus of a formal clause-set, computed by definition: */
+surplus_bydef_fcs(FF) := if emptyp(FF[1]) then 0 else
+  lmin(map(lambda([V], length(scs_V(FF[2],V)) - length(V)), disjoin({},powerset(FF[1]))))$
+surplus_bydef_cs(F) := surplus_bydef_fcs(cs2fcs(F))$
 
 
 /* ************
