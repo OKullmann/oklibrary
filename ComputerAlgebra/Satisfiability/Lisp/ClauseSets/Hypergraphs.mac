@@ -202,7 +202,7 @@ max_degree_cvg_cs(F) := if emptyp(F) then minf else
 /* The deficiency of a formal clause-set: */
 deficiency_fcs(FF) := length(FF[2]) - length(FF[1])$
 /* The deficiency of a clause-set */
-deficiency_cs(F) := deficiency_fcs(cs_to_fcs(F))$
+deficiency_cs(F) := deficiency_fcs(cs2fcs(F))$
 
 /* The maximal deficiency of a formal clause-set: */
 max_deficiency_fcs(FF) := length(FF[2]) - length(max_matching(g2mg(clvar_g(FF))))$
