@@ -187,6 +187,23 @@ EXP_DES> for F in DES_Sbox_?_fullCNF.cnf_primes_stats; do cat ${F}; done
    functions. </li>
    <li> We should investigate the DNF and CNF representations, prime
    implicates, and so on, of these 6-to-1 bit representations. </li>
+   <li> The DNFs are not unique. See the prime implicants:
+   \verbatim
+for i : 1 thru 8 do for j : 1 thru 4 do print(i,j,length(des_sbox_bit_fulldnf_cl(i,j)), min_2resolution_closure(des_sbox_bit_fulldnf_cl(i,j)))$
+*snip*
+   \endverbatim
+   </li>
+   <li> The number of prime implicants range from 50 to 68. All except
+   5 (out of the 32) have less than 64 prime implicants. </li>
+   <li>
+   <li> Generating the CNFs and prime implicates:
+   \verbatim
+maxima> for i : 1 thru 8 do for j : 1 thru 4 do output_dessbox_bit_fullcnf_stdname(i,j);
+shell> for i in $(seq 1 8); do for j in $(seq 1 4); do QuineMcCluskey-n16-O3-DNDEBUG DES_Sbox_${i}_${j}_fullCNF.cnf > ${i}_${j}_primes; done; done
+   \endverbatim
+   </li>
+   <li> The number of prime implicates are exactly the same as the number
+   of prime implicants. Why is this? </li>
    <li> See bf2bfl in
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac.
    </li>
