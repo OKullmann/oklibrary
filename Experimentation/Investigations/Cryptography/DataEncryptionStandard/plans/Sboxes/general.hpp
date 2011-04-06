@@ -190,7 +190,6 @@ EXP_DES> for F in DES_Sbox_?_fullCNF.cnf_primes_stats; do cat ${F}; done
    <li> The DNFs are not unique. See the prime implicants:
    \verbatim
 for i : 1 thru 8 do for j : 1 thru 4 do print(i,j,length(des_sbox_bit_fulldnf_cl(i,j)), min_2resolution_closure(des_sbox_bit_fulldnf_cl(i,j)))$
-*snip*
    \endverbatim
    </li>
    <li> The number of prime implicants range from 50 to 68. All except
@@ -204,6 +203,15 @@ shell> for i in $(seq 1 8); do for j in $(seq 1 4); do QuineMcCluskey-n16-O3-DND
    </li>
    <li> The number of prime implicates are exactly the same as the number
    of prime implicants. Why is this? </li>
+   <li> We can generate the minimum DNF and CNF representations like so:
+   \verbatim
+shell> for i in $(seq 1 8); do for j in $(seq 1 4); do $OKLIB/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_cryptominisat DES_Sbox_${i}_${j}_fullDNF.cnf > ${i}_${j}_min_dnf; done; done
+shell> for i in $(seq 1 8); do for j in $(seq 1 4); do $OKLIB/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_cryptominisat DES_Sbox_${i}_${j}_fullCNF.cnf > ${i}_${j}_min_cnf; done; done
+   \endverbatim
+   </li>
+   <li> The minimum DNF representations have between 30 and 46 clauses. </li>
+   <li> The minimum CNF representations have exactly the same number of
+   clauses as the DNF representations. Why is this? </li>
    <li> See bf2bfl in
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac.
    </li>
