@@ -21,11 +21,19 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionSt
 
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Sboxes.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac")$
 
 
 /* The DES S-boxes as full DNF/CNF: */
 des_sbox_fulldnf_cl(i) := bf2relation_fulldnf_cl(des_sbox_bf(i),6)$
 des_sbox_fullcnf_fcs(i) := bf2relation_fullcnf_fcs(des_sbox_bf(i),6)$
+
+/* The boolean function for the j-th bit of the i-th DES S-box as
+   full DNF/CNF: */
+des_sbox_bit_fulldnf_cl(i,j) :=
+  bf2relation_fulldnf_cl(bf2bfl(des_sbox_bf(i),4)[j],6)$
+des_sbox_bit_fullcnf_fcs(i,j) :=
+  bf2relation_fullcnf_fcs(bf2bfl(des_sbox_bf(i),4)[j],6)$
 
 /* Output the full DNF/CNF clause-set representing the i-th DES S-box to the
    file "AES_Sbox_full.cnf":
@@ -40,6 +48,22 @@ output_dessbox_fullcnf_stdname(i) :=
     sconcat("The DES Sbox ",i," in full CNF representation."),
     des_sbox_fullcnf_fcs(i),
     sconcat("DES_Sbox_",i,"_fullCNF.cnf"))$
+
+/* Output the full DNF/CNF clause-set representing boolean function for the
+   j-th bit of the i-th DES S-box as full DNF/CNF:
+*/
+output_dessbox_bit_fulldnf_stdname(i,j) :=
+  outputext_fcl(
+    sconcat("The boolean function for the ",j,"-th bit DES Sbox ",i,
+            " in full DNF representation."),
+    cl2fcl(des_sbox_bit_fulldnf_cl(i,j)),
+    sconcat("DES_Sbox_",i,"_",j,"_fullDNF.cnf"))$
+output_dessbox_bit_fullcnf_stdname(i,j) :=
+  outputext_fcs(
+    sconcat("The boolean function for the ",j,"-th bit DES Sbox ",i,
+            " in full CNF representation."),
+    des_sbox_bit_fullcnf_fcs(i,j),
+    sconcat("DES_Sbox_",i,"_",j,"_fullCNF.cnf"))$
 
 
 
