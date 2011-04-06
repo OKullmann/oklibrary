@@ -16,7 +16,7 @@ License, or any later version. */
   \par
    In Satisfiability/Reductions/Bases/plans/general.hpp the following topics
    are handled:
-    - RandomRUcpBases defect
+    - RandomRUcpBases defect : DONE
 
   \par
    In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
