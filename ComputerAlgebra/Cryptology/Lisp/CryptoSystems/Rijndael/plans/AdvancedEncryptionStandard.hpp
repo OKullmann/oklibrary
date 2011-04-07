@@ -112,7 +112,7 @@ matrix([('s('p(2,2)+'k(2,2))+'s('p(1,1)+'k(1,1)))*x
      size of p and k? 
      </li>
      <li> DONE A separate round function to allow greater flexibility 
-     when investigating reduced round variants. </li>
+     when investigating variants with a smaller number of rounds. </li>
      <li> (DONE Moved to Generalisations) What sort of generalisations are
      needed?
       <ol>

@@ -150,7 +150,8 @@ License, or any later version. */
    and producing AES/Rijndael variants with reduced complexity, which might
    offer better and possibly interesting results with translations and the
    relationships between these variants and the full AES seems less explored in
-   previous research than simple reduced round variants of the cipher. </li>
+   previous research than simple smaller variants (with less rounds) of the
+   cipher. </li>
    <li> So we get a more general parameterised AES function of the form
    AES(r,n_R, n_C,e)(P,K,C), where
     <ol>
@@ -165,14 +166,14 @@ License, or any later version. */
    round variable r, which is fairly trivial to include) as including a variety
    of parameters which can be reduced to make more easily attackable, and more
    thoroughly analysable AES variants is advantageous, as most likely the full
-   AES will not be broken and simple reduced round variants seem less
+   AES will not be broken and smaller variants with less rounds seem less
    interesting, than reducing parameters such as e. </li>
    <li> Especially because inversion within GF(2^8) can be expressed as
    operations on the inversion of the two GF(2^4) elements comprising it (see
    discussion on efficient implementation of AES in [Design of Rijndael]), and
    the relationships between these variants and the full AES seems less
-   explored in previous research than simple reduced round variants of the
-   cipher. </li>
+   explored in previous research than variants of the
+   cipher with less rounds. </li>
   </ul>
 
 */

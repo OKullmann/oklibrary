@@ -45,9 +45,10 @@ des_encryption_reduced(plaintext, key, r) :=
 
   \todo Find more test vectors
   <ul>
-   <li> We need test vectors for reduced round variants of DES. </li>
-   <li> Full 16 round DES swaps the two 32-bit outputs. Do reduced round
-   DES variants do this? </li>
+   <li> We need test vectors for variants of DES with smaller numbers of
+   rounds. </li>
+   <li> Full 16 round DES swaps the two 32-bit outputs. Do DES variants
+   with less rounds do this? </li>
    <li> Authorative test vectors should answer this question. </li>
   </ul>
 
