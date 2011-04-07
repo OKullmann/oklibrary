@@ -17,6 +17,7 @@ License, or any later version. */
    In Satisfiability/Reductions/Bases/plans/general.hpp the following topics
    are handled:
     - RandomRUcpBases defect : DONE
+    - RandomRUcpBases sorts clauses in ascending order of clause-length
 
   \par
    In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
