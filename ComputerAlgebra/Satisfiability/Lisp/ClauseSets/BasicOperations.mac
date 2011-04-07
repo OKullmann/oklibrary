@@ -188,7 +188,7 @@ cl2fcl(F) := [listify(var_cl(F)), F]$
 ocs2fcl(F) := [listify(var_ocs(F)), F]$
 ocs2ofcs(F) := [ovar_cl(F), F]$
 /* So a clause-list is promoted to a formal clause-list by taking the
-   order of variables as given by the given order on the variables,
+   order of variables as given by the given (Maxima) order on the variables,
    while for an ordered clause-set we take the order of the
    variables as found in the clause-list (this is more expensive).
    This is the only case where we have given an order on the clauses,
@@ -201,6 +201,7 @@ cs2cl(F) := listify(F)$
 fcs2ofcs(FF) := map(listify,FF)$
 fcs2fcl(FF) := map(listify,FF)$
 
+cs2fcl(F) := cl2fcl(cs2cl(F))$
 
 /* Downcasts: */
 
