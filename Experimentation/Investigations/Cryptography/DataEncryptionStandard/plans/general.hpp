@@ -41,8 +41,6 @@ License, or any later version. */
    boolean functions. </li>
    <li> These can be analysed completely, and we can study the various
    representations (at least minimum, canonical, r_0- and r_1-bases). </li>
-   <li> Do we need also to include decryption? Can the basic scheme encrypt
-   and decrypt by just unit-clause propagation? </li>
    <li> We should obtain a considerably smaller formula than what Massacci and
    Marraro obtained. To be comparable, for the minimum translation we also need
    two versions: one treating an S-box as one 6-to-4 bit function, and one
@@ -104,6 +102,86 @@ nvar_full_dualts(10,64) - 10;
      16*((48+32)*4+8*4*Q)= 5120 + 512*Q clauses are used. </li>
      <li> Likely Q <= 30, and thus around 20000 clauses are needed. </li>
     </ol>
+   </li>
+   <li> DONE (No, both follow by UCP; see "Encryption and decryption")
+   Do we need also to include decryption? Can the basic scheme encrypt
+   and decrypt by just unit-clause propagation? </li>
+  </ul>
+
+
+  \todo Encryption and decryption
+  <ul>
+   <li> We consider encryption and decryption instances of the 16 round
+   DES. </li>
+   <li> These instances are the full 16 round DES translation. </li>
+   <li> Unit-clauses are added for the plaintext and key, or ciphertext and
+   key. This is for encryption and decryption respectively. </li>
+   <li> See "Basic translation" for statistics for these instances. </li>
+   <li> The task of the solver is then to derive the ciphertext or plaintext
+   variables for encryption and decryption respectively. </li>
+   <li> Using the canonical translation for the Sboxes:
+   <ul>
+    <li> Encryption and decryption of DES follows by unit-clause propagation.
+    </li>
+    <li> Encryption:
+    <ul>
+     <li> Generating an encryption instance for 16 rounds using ArgoSAT test
+     vectors (see
+     Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery.hpp):
+     \verbatim
+sbox_fcl_l : create_list(dualtsplus_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
+F : des2fcl(sbox_fcl_l)$
+P : des_plain2fcl(hexstr2binv("038E596D4841D03B"))$
+K : des_key2fcl(hexstr2binv("15FBC08D31B0D521"))$
+F_std : standardise_fcs([F[1],append(F[2],P[2],K[2])])$
+output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std[1] , sconcat("des_argocomp_encrypt.cnf"), F_std[2]);
+     \endverbatim
+     </li>
+     <li> precosat236 and OKsolver_2002 need 0 decisions to solve this
+     instance:
+     \verbatim
+shell> precosat236 des_argocomp_encrypt.cnf
+*snip*
+c 0 conflicts, 0 decisions, 0 random
+*snip*
+shell> OKsolver_2002-O3-DNDEBUG des_argocomp_encrypt.cnf
+*snip*
+c number_of_nodes                       0
+*snip*
+     \endverbatim
+     </li>
+    </ul>
+    </li>
+    <li> Decryption:
+    <ul>
+     <li> Generating a decryption instance for 16 rounds and ArgoSAT test
+     vectors (see
+     Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery.hpp):
+     \verbatim
+sbox_fcl_l : create_list(dualtsplus_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
+F : des2fcl(sbox_fcl_l)$
+C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
+K : des_key2fcl(hexstr2binv("15FBC08D31B0D521"))$
+F_std : standardise_fcs([F[1],append(F[2],C[2],K[2])])$
+output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std[1] , sconcat("des_argocomp_decrypt.cnf"), F_std[2]);
+     \endverbatim
+     </li>
+     <li> precosat236 and OKsolver_2002 need 0 decisions to solve this
+     instance:
+     \verbatim
+shell> precosat236 des_argocomp_decrypt.cnf
+*snip*
+c 0 conflicts, 0 decisions, 0 random
+*snip*
+shell> OKsolver_2002-O3-DNDEBUG des_argocomp_decrypt.cnf
+*snip*
+c number_of_nodes                       0
+*snip*
+     \endverbatim
+     </li>
+    </ul>
+    </li>
+   </ul>
    </li>
   </ul>
 
