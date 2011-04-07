@@ -105,7 +105,7 @@ maxima> output_ss_sbox_linmap_fullcnf_stdname(2,8);
    and then 
    \verbatim
 shell> QuineMcCluskeySubsumptionHypergraphWithFullStatistics-n16-O3-DNDEBUG AES_sbox_lin_2_8_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_full.cnf > shg.cnf
-shell> cat shg.cnf | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > shg.wcnf
+shell> cat shg.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > shg.wcnf
    \endverbatim
    <li>
    <li> Running then:
