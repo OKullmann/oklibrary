@@ -1,8 +1,0 @@
-652,653c652,653
-<                     printf("| %9d | %7d %8d %8d | %8d %8d %6.0f | %6.3f %% |\n", 
-<                            (int)conflicts, 
----
->                     printf("| %10ju | %7d %8d %8d | %8d %8d %6.0f | %6.3f %% |\n", 
->                            conflicts, 
-655a656
->                     fflush(stdout);
