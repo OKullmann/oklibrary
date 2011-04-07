@@ -219,7 +219,7 @@ des2fcl(sbox_l) := block(
         i, new_var_i, new_var_i + num_sbox_var_l[C[1]]-1),
       new_var_i : new_var_i + num_sbox_var_l[C[1]],
       rename_fcl(sbox_l[C[1]], append(C[2],C[3],aux_vars))[2]),
-      C, des_sboxc()),
+    C, des_sboxc()),
   return([append(des_var(),create_list(desaux_var(i),i,1,new_var_i-1)),
           lappend(append(xor_cl_l,reverse(sbox_cl_l)))]))$
 
