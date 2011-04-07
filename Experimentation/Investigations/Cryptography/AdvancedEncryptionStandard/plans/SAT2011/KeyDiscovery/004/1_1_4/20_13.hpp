@@ -163,7 +163,7 @@ maxima> ncl_list_fcs(ev_hm(ss_sbox_rbase_cnfs,4));
    \endverbatim
    are comprised of:
    <ul>
-    <li> 80 unit clauses for the 4-bit constant in the key expansion. </li>
+    <li> 80 unit-clauses for the 4-bit constant in the key expansion. </li>
     <li> 160 binary clauses, coming from 80 additions of arity one 
     (80 * 2 = 160). </li>
     <li> 1136 ternary clauses, coming from 40 Sboxes and 164 additions of 
@@ -320,7 +320,7 @@ maxima> ncl_list_fcs(ev_hm(ss_sbox_cnfs,4));
    \endverbatim
    are comprised of:
    <ul>
-    <li> 80 unit clauses for the 4-bit constant in the key expansion. </li>
+    <li> 80 unit-clauses for the 4-bit constant in the key expansion. </li>
     <li> 160 binary clauses, coming from 80 additions of arity one 
     (80 * 2 = 160). </li>
     <li> 1136 ternary clauses, coming from 40 Sboxes and 164 additions of 
@@ -479,7 +479,7 @@ maxima> ncl_list_full_dualts(8,16);
    \endverbatim
    are comprised of:
    <ul>
-    <li> 80 unit clauses for the 4-bit constant in the key expansion. </li>
+    <li> 80 unit-clauses for the 4-bit constant in the key expansion. </li>
     <li> 5280 binary clauses, coming from 40 Sboxes and 80 additions of arity
     one (40 * 128 + 80 * 2 = 5280). </li>
     <li> 656 ternary clauses, coming from 164 additions of arity two

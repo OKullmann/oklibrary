@@ -23,7 +23,7 @@ p wcnf n c+n
    </li>
    <li> All clauses in the input are output directly, prefixed with the
    integer n+1 (as the weight of that clause). </li>
-   <li> After all clauses have been read from the input, a unit clause 
+   <li> After all clauses have been read from the input, a unit-clause 
    containing the negated literal for each variable from 1 to n is output 
    prefixed with weight 1. </li>
   </ul>
@@ -159,7 +159,7 @@ namespace {
   const std::string program = "MinOnes2WeightedMaxSAT";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.8";
+  const std::string version = "0.0.9";
 
 }
 

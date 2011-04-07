@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.7.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -137,7 +137,7 @@ License, or any later version. */
      (immediately) added to the end of the deque (and thus is processed
      directly with the new column). </li>
      <li> We stop processing once a round didn't create a new unit-clause. </li>
-     <li> Since we need only to run through all current unit clauses and to
+     <li> Since we need only to run through all current unit-clauses and to
      add to the right, remove from the left, perhaps a list is better
      than a deque. </li>
      <li> We also stop once a column becomes empty. We have counters for

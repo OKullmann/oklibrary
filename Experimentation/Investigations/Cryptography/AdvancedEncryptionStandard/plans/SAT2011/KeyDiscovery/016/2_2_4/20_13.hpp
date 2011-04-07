@@ -137,7 +137,7 @@ maxima> ncl_list_full_dualts(16,256);
    \endverbatim
    We have the following number of clauses of each size:
    <ul>
-    <li> 80 unit clauses for the 4-bit constant in the key expansion. </li>
+    <li> 80 unit-clauses for the 4-bit constant in the key expansion. </li>
     <li> 168960 binary clauses, coming from 40 core round column operations
     and 20 Sboxes (40 * 4096 + 40 * 128 = 168960). </li>
     <li> 2304 ternary clauses, coming from 576 additions of arity two
@@ -373,7 +373,7 @@ maxima> ncl_list_full_dualts(8,16);
    \endverbatim
    are comprised of:
    <ul>
-    <li> 80 unit clauses for the 4-bit constant in the key expansion. </li>
+    <li> 80 unit-clauses for the 4-bit constant in the key expansion. </li>
     <li> 56320 binary clauses, coming from 120 Sboxes and 160 of each of the 
     two multiplications (440 * 128 = 56320). </li>
     <li> 4864 ternary clauses, coming from 1216 additions of arity two

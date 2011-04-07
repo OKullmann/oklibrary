@@ -879,7 +879,7 @@ ss_pa2matrix_std(lit_set, e,num_rows, num_cols) :=
     2,e,ss_polynomial(2,e),num_rows)$
 
 /* Outputs random plaintext, ciphertext pair as a clause-set with
-   the associated unit clauses, given the small scale parameters. */
+   the associated unit-clauses, given the small scale parameters. */
 output_ss_random_pc_pair(seed, num_rounds, num_cols, num_rows,ss_exp, final_round_b) :=
   block(
     [s, plaintext, key, ciphertext, comment, filename, plaintext_vars,

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.3.2003 (Swansea)
-/* Copyright 2003 - 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2003 - 2007, 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -67,7 +67,7 @@ namespace UnitPropagation {
     // Return value Auxiliary::satisfiable is not used.
     // If r_1(F) does not yield unsatisfiable, then phi * F = r_1(F),
     // while otherwise phi * F contains the empty clause, and phi
-    // corresponds to partial unit clause elimination on F.
+    // corresponds to partial unit-clause elimination on F.
 
     // Initialisation
     for (typename Cls::const_iterator Ci = F.begin(); Ci != F.end(); ++Ci) {

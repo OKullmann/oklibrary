@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.3.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -55,7 +55,7 @@ License, or any later version. */
      while if G occurs negatively in F, (ii) can be dropped
      (so the process might be non-deterministic).
      </li>
-     <li> F' is obtained by adding the unit clause {v(F)} to all these
+     <li> F' is obtained by adding the unit-clause {v(F)} to all these
      clauses. </li>
     </ol>
    </li>

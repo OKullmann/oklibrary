@@ -67,8 +67,8 @@ shell> minisat-2.2.0 25-shuffled_test.cnf
    This is after applying the plaintext-ciphertext assignment.
    This makes it difficult to apply different plaintext-ciphertext
    assignments. </li>
-   <li> The ArgoSAT DES instances all have 64 unit clauses. What are
-   these unit clauses? </li>
+   <li> The ArgoSAT DES instances all have 64 unit-clauses. What are
+   these unit-clauses? </li>
    <li> We should contact the ArgoSAT guys and ask for the generators.
    </li>
   </ul>

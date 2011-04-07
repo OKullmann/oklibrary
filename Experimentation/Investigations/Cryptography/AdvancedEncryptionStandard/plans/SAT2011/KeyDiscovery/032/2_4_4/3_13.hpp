@@ -138,7 +138,7 @@ maxima> ncl_list_full_dualts(8,16);
    \endverbatim
    are comprised of:
    <ul>
-    <li> 12 unit clauses for the 4-bit constants in the key expansion. </li>
+    <li> 12 unit-clauses for the 4-bit constants in the key expansion. </li>
     <li> 16128 binary clauses, coming from 30 Sboxes and 48 of each of the two
     multiplications (126 * 128 = 16128). </li>
     <li> 1616 ternary clauses, coming from 404 additions of arity two

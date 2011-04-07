@@ -1,5 +1,5 @@
 // Matthew Gwynne, 16.7.2009 (Swansea)
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -435,7 +435,7 @@ unary_bb_add_fcl(A,B,C) := block([F:[]],
    In the base case where length(E) = 1, totalizer takes S_1 = E_1, and
    S_2 = E2, since E_1 and E_2 are their own unary representations.
 
-   The comparator generates a list of unit clauses
+   The comparator generates a list of unit-clauses
 
        [{S[1]},...,{S[a]},{S[b+1]},...,{S[length(L)]}]
 

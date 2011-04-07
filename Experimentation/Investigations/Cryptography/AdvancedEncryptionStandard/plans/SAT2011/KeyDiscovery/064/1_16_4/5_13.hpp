@@ -108,7 +108,7 @@ maxima> ncl_list_full_dualts(8,16);
    \endverbatim
    are comprised of:
    <ul>
-    <li> 20 unit clauses for the 4-bit constants in the key expansion
+    <li> 20 unit-clauses for the 4-bit constants in the key expansion
     (4 bits  * 5 rounds = 20). </li>
     <li> 12160 binary clauses, coming from 80 Sboxes and 640 additions of
     arity one (80 * 128 + 640 * 2 = 12160). </li>
@@ -216,7 +216,7 @@ maxima> ncl_list_fcs(ev_hm(ss_sbox_rbase_cnfs,4));
    \endverbatim
    are comprised of:
    <ul>
-    <li> 20 unit clauses for the 4-bit constants in the key expansion
+    <li> 20 unit-clauses for the 4-bit constants in the key expansion
     (4 bits  * 5 rounds = 20). </li>
     <li> 1280 binary clauses, coming from 640 additions of arity one 
     (640 * 2 = 1280). </li>

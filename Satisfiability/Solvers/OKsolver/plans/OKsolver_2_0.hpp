@@ -1,5 +1,5 @@
 // Oliver Kullmann, 1.2.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -507,7 +507,7 @@ map(rank,all_tuples_l([0,1],3));
      <li> The number of learned clauses containing v; since we go "far back",
      it might be appropriate here to consider v's involvement in the whole
      resolution process leading to the learned clause in the end. </li>
-     <li> The number of unit clauses with variable v found during reduction.
+     <li> The number of unit-clauses with variable v found during reduction.
      </li>
      <li> The number of failed literals with variable v. </li>
     </ol>
