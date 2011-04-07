@@ -13,6 +13,16 @@ License, or any later version. */
   \todo Add application tests for RandomUcpBases
 
 
+  \bug RandomRUcpBases sorts clauses in ascending order of clause-length
+  <ul>
+   <li> The documentation for RandomRUcpBases states that it sorts the
+   generating set in descending order of clause-length before passing
+   it to RUcpBase. </li>
+   <li> However, it sorts the generating set in ascending order. </li>
+   <li> This must be corrected and all references updated. </li>
+  </ul>
+
+
   \todo Connections
   <ul>
    <li> See
