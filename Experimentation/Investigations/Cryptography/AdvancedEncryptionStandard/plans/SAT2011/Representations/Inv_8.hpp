@@ -204,7 +204,7 @@ maxima> output_ssinv_fullcnf_stdname(2,8);
    and then 
    \verbatim
 shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ss_byte2_8_field_inv_full.cnf > ss_byte2_8_field_inv_shg.cnf
-shell> cat ss_byte2_8_field_inv_full.cnf_shg | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > ss_byte2_8_field_inv_shg.wcnf
+shell> cat ss_byte2_8_field_inv_full.cnf_shg | MinOnes2WeightedMaxSAT-O3-DNDEBUG > ss_byte2_8_field_inv_shg.wcnf
    \endverbatim
    <li>
    <li> Running then:

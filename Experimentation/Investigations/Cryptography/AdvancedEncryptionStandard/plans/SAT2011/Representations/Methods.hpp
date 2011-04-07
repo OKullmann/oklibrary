@@ -313,8 +313,7 @@ maxima> output_rijnmult_fullcnf_stdname(2);
    encodes that we wish to find an assignment setting the minimum number of 
    variables to true:
    \verbatim
-shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_byte_field_mul_full_2.cnf> AES_byte_field_mul_2_shg.cnf
-shell> cat AES_byte_field_mul_2_shg.cnf | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > AES_byte_field_mul_2_shg.wcnf
+shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_byte_field_mul_full_2.cnf> AES_byte_field_mul_2_shg.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > AES_byte_field_mul_2_shg.wcnf
    \endverbatim
    </li>
    <li> We can then use both complete and incomplete weighted partial
