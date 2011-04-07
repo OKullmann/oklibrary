@@ -497,6 +497,24 @@ okltest_singular_variables_fcs(f) := (
    **********************
 */
 
+okltest_nfcl_fcl(f) := (
+  assert(f([[],[]]) = 0),
+  assert(f([[],[{}]]) = 1),
+  assert(f([[],[{},{}]]) = 2),
+  assert(f([[1],[{}]]) = 0),
+  assert(f([[1],[{1},{},{-1},{1},{},{-1}]]) = 4),
+  assert(f([[1,2],[{1,2},{-1,2},{2}]]) = 2),
+  assert(f([[1,2,3],[{1,2},{-1,2},{2}]]) = 0),
+  assert(okltest_nfcl_cs(buildq([f], lambda([F], f(cs2fcl(F))))) = true),
+  true)$
+
+okltest_nfcl_cs(f) := (
+  assert(f({}) = 0),
+  assert(f({{}}) = 1),
+  assert(f({{1},{-1},{}}) = 2),
+  assert(f({{1,2},{3},{-1},{1,2,3}}) = 1),
+  true)$
+
 okltest_weighted_ncl_2n_cs(f) := (
   assert(f({}) = 0),
   assert(f({{}}) = 1),

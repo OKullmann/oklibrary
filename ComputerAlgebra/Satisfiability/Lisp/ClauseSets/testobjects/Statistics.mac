@@ -131,6 +131,9 @@ okltest_singular_variables_fcs(singular_variables_fcs);
    **********************
 */
 
+okltest_nfcl_fcl(nfcl_fcl);
+okltest_nfcl_cs(nfcl_cs);
+
 okltest_weighted_ncl_2n_cs(weighted_ncl_2n_cs);
 okltest_weighted_ncl_2n_fcs(weighted_ncl_2n_fcs);
 

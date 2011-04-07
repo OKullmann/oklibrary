@@ -289,6 +289,13 @@ singular_variables_fcs(FF) := singular_variables_cs(fcs2cs(FF))$
    **********************
 */
 
+/* The number of full clauses in a formal clause-list: */
+nfcl_fcl(FF) := block([n : length(FF[1])],
+  length(sublist_indices(FF[2], lambda([C], is(length(C)=n)))))$
+/* The number of full clauses in a clause-set: */
+nfcl_cs(F) := nfcl_fcl(cs2fcl(F))$
+
+
 /* The weighted number of clauses, using weights 2^(-k) for clause-length k.
    This is also the expected number of falsified clauses, under a random
    assignment (with uniform distribution). And for a hitting clause-set,
