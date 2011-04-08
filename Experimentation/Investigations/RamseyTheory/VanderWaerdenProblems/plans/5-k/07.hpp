@@ -6,8 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/08.hpp
-  \brief On investigations into vdw_2(5,8)
+  \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/07.hpp
+  \brief On investigations into vdw_2(5,7)
 
 
   \todo Best local search solver
