@@ -12,8 +12,8 @@ License, or any later version. */
 
   \todo Relations to other modules
   <ul>
-   <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp for
-   the function ramsey_hg(q,r,n) and its variations. </li>
+   <li> See ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac for
+   the function arithprog_hg(k,n) and its variations. </li>
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp
    for the SAT translation. </li>
