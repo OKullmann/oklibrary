@@ -27,22 +27,22 @@ License, or any later version. */
    <li> The translations of variants with smaller numbers of rounds will be
    investigated just as much as the full DES. </li>
    <li> Therefore, we should add a round parameter to the following functions:
-   <ul>
-    <li> des_xor. </li>
-    <li> des_sboxc. </li>
-    <li> des_var. </li>
-    <li> des_cipher2fcl. </li>
-    <li> des2fcl. </li>
-   </ul>
+    <ul>
+     <li> des_xor. </li>
+     <li> des_sboxc. </li>
+     <li> des_var. </li>
+     <li> des_cipher2fcl. </li>
+     <li> des2fcl. </li>
+    </ul>
    </li>
    <li> We should then add convenience functions for the full DES translation.
    </li>
    <li> Variable ordering:
-   <ul>
-    <li> How to order the variables for variants with smaller numbers of
-    rounds? </li>
-    <li> Should variables given by des_var, round by round? </li>
-   </ul>
+    <ul>
+     <li> How to order the variables for variants with smaller numbers of
+     rounds? </li>
+     <li> Should variables given by des_var, round by round? </li>
+    </ul>
    </li>
   </ul>
 
@@ -66,18 +66,18 @@ License, or any later version. */
    To do this, we must evaluate the generated constraints. </li>
    <li> We need a constraint evaluation system. </li>
    <li> This system should:
-   <ul>
-    <li> Take a list of constraints. </li>
-    <li> Take an assignment to all "input varables". The "input variables"
-    should be enough to determine all others. </li>
-    <li> Evaluate each constraint using an associated evaluation function.
-    For example functions in 
-    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac.
-    </li>
-    <li> Propagate the inferred variables for each constraint to all others.
-    </li>
-    <li> Return the assignment to the variables after all propagations. </li>
-   </ul>
+    <ul>
+     <li> Take a list of constraints. </li>
+     <li> Take an assignment to all "input varables". The "input variables"
+     should be enough to determine all others. </li>
+     <li> Evaluate each constraint using an associated evaluation function.
+     For example functions in 
+     ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac.
+     </li>
+     <li> Propagate the inferred variables for each constraint to all others.
+     </li>
+     <li> Return the assignment to the variables after all propagations. </li>
+    </ul>
    </li>
   </ul>
 
