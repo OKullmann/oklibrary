@@ -23,10 +23,11 @@ License, or any later version. */
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/plans/general.hpp.
    </li>
    <li> We do not use the full 16-round DES constraint translation for
-   encryption purposes. </li>
+   encryption purposes. XXX What does this mean??? XXX </li>
    <li> The translations of variants with smaller numbers of rounds will be
    investigated just as much as the full DES. </li>
    <li> Therefore, we should add a round parameter to the following functions:
+   XXX if parameters are added, then something is REPLACED??? XXX
     <ul>
      <li> des_xor. </li>
      <li> des_sboxc. </li>
@@ -41,7 +42,11 @@ License, or any later version. */
     <ul>
      <li> How to order the variables for variants with smaller numbers of
      rounds? </li>
-     <li> Should variables given by des_var, round by round? </li>
+     <li> Should variables given by des_var, round by round?
+     XXX why a question mark??? MG must stop the permanent question-mode,
+     as if there would be an alternative --- only then (or if it is really
+     doubtful) are question marks to be used XXX
+     </li>
     </ul>
    </li>
   </ul>
