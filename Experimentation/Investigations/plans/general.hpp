@@ -64,7 +64,7 @@ License, or any later version. */
    </li>
    <li> Also experiments with the following need to be run :
     <ul>
-     <li> Reduced round variants </li>
+     <li> Variants with less rounds. </li>
      <li> AES variants with different Sboxes. </li>
      <li> Analysis of good heuristics for AES (See "Experimental 
      investigations on heuristics") . </li>
