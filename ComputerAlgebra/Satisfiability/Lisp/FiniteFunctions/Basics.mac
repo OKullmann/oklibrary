@@ -99,7 +99,7 @@ bf_nm_p(f,n,m) :=
 /* Functions with size-domain NN_0 and m=1: */
 
 zero_bf : lambda([x], [0])$
-one_bf : lambda([x], [0])$
+one_bf : lambda([x], [1])$
 
 and_bf : lambda([x], [lmin(x)])$
 or_bf : lambda([x], [lmax(x)])$

@@ -88,13 +88,13 @@ shell> minisat-2.2.0 25-shuffled_test.cnf
    <li> Generating the instances for 16 rounds using the canonical translation:
    \verbatim
 unknown_bits : 13$
-sbox_fcl_l : create_list(dualtsplus_fcl([listn(10), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
+sbox_fcl_l : create_list(dualtsplus_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
 F : des2fcl(sbox_fcl_l)$
 P : des_plain2fcl(hexstr2binv("038E596D4841D03B"))$
 C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
 K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
 F_std : standardise_fcs([F[1],append(F[2],P[2],K[2],C[2])])$
-output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std , sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
+output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std[1] , sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
    \endverbatim
    </li>
    <li> Instances with unknown key bits up to 18 all take less than a
@@ -128,13 +128,13 @@ output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", un
    <li> Generating the instances for 16 rounds using the canonical translation:
    \verbatim
 unknown_bits : 13$
-sbox_fcl_l : create_list(dualts_fcl([listn(10), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
+sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
 F : des2fcl(sbox_fcl_l)$
 P : des_plain2fcl(hexstr2binv("038E596D4841D03B"))$
 C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
 K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
 F_std : standardise_fcs([F[1],append(F[2],P[2],K[2],C[2])])$
-output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std , sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
+output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std[1], sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
    \endverbatim
    </li>
    <li> Instances with unknown key bits up to 13 all take less than 5s, 
@@ -166,7 +166,14 @@ output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", un
     OKsolver_2002 (35652s). </li>
     <li> unknown_bits = 24: precosat-570.1 (251s), precosat236 (517.8s),
     minisat-2.2.0 (4092s), cryptominisat (4477s), glucose (15612s). </li>
-    <li> unknown_bits = 25: precosat236 (8911s). </li>
+    <li> unknown_bits = 25: minisat-2.2.0 (1020s), precosat236 (8682s),
+    precosat236 (8911s), cryptominisat (27032s) . </li>
+    <li> unknown_bits = 26: precosat-570.1 (12520s), precosat236 (25521s), 
+    cryptominisat (>10 hours; timed out), glucose (>10 hours;timed out), 
+    minisat2 (>10 hours; timed out). </li>
+    <li> unknown_bits = 27: minisat-2.2.0 (19557s), precosat236 (23822s), 
+    precosat-570.1 (34226s), cryptominisat (> 10 hours; timed out),
+    glucose (> 10 hours; timed out). </li>
     </ul>
    </li>
    <li> These times are rather sporadic, yet nothing else runs on the 
