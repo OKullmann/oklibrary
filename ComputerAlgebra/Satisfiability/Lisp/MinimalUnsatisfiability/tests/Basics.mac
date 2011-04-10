@@ -118,7 +118,7 @@ okltest_non_saturating_pas_bydef(f) := block([S : dll_simplest_trivial1],
    ***************************
 */
 
-okltest_max_min_var_degree_def_rec(f) := (
+okltest_nonmersenne_rec(f) := (
   assert(f[1] = 2),
   assert(f[2] = 4),
   assert(f[3] = 5),
@@ -135,25 +135,25 @@ okltest_max_min_var_degree_def_rec(f) := (
     assert(f[2^n-n] = 2^n),
   true)$
 
-okltest_max_min_var_degree_def_law(f) := (
+okltest_nonmersenne_law(f) := (
   for k : 1 thru 12 do
-    assert(f(k) = max_min_var_degree_def_rec[k]))$
+    assert(f(k) = nonmersenne_rec[k]))$
 
-okltest_max_min_var_degree_def_lb(f) := (
+okltest_nonmersenne_lb(f) := (
   assert(f(1) = 2),
   assert(f(2) = 3),
   assert(f(3) = 5),
   assert(f(4) = 6),
   true)$
 
-okltest_max_min_var_degree_def_ub(f) := (
+okltest_nonmersenne_ub(f) := (
   assert(f(1) = 2),
   assert(f(2) = 4),
   assert(f(3) = 5),
   assert(f(4) = 7),
   true)$
 
-okltest_analyse_max_min_var_degree_def_rec(f) := (
+okltest_analyse_nonmersenne_rec(f) := (
   assert(f(1) = []),
   assert(f(2) = [[2,1,"ab"]]),
   assert(f(3) = [[3,1,"b"]]),
@@ -161,14 +161,14 @@ okltest_analyse_max_min_var_degree_def_rec(f) := (
   assert(f(5) = [[4,2,"ab"]]),
   true)$
 
-okltest_index_max_min_var_degree_def_rec(f) := (
+okltest_index_nonmersenne_rec(f) := (
   assert(f(2) = 2),
   assert(f(3) = 3),
   assert(f(4) = 4),
   assert(f(5) = 4),
   true)$
 
-okltest_step_max_min_var_degree_def_rec(f) := (
+okltest_step_nonmersenne_rec(f) := (
   assert(f(2) = [1,0,1,0]),
   assert(f(3) = [1,0,1,1]),
   assert(f(4) = [2,2,0,2]),

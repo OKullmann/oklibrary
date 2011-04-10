@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.4.2008 (Guangzhou) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -545,14 +545,14 @@ classify_candidates_uhit_def(L) := block([result : []],
   return(result))$
 
 /* Similarly to analyse_isorepo_defset, but only keeps the clause-sets s.t.
-   their min-var-degree is equal to the upper bound max_min_var_degree_def
+   their min-var-degree is equal to the upper bound nonmersenne
    and which are not already in the uhit-catalogue. */
 /* Repository must be an isomorphism-type repository of unsatisfiable
    non-singular hitting clause-sets. */
 analyse_isorepo_defset_mvd(repository) := block(
  [M : hm2sm(repository), h : sm2hm({})],
   for P in M do block([def : P[1][2] - P[1][1], mvd],
-    mvd : max_min_var_degree_def_rec[def],
+    mvd : nonmersenne_rec[def],
     set_hm(h,def,union(ev_hm_d(h,def,{}),
       subset(map(fcs2cs,P[2]),
         lambda([F],is(min_variable_degree_cs(F)=mvd
@@ -567,7 +567,7 @@ analyse_isorepo_defset_imprmvd(repository) := block(
  [M : hm2sm(repository), h : sm2hm({})],
   for P in M do block([def : P[1][2] - P[1][1], mvd],
     mvd : max_min_var_deg_uhit_def_mem[def],
-    if mvd < max_min_var_degree_def_rec[def] then (
+    if mvd < nonmersenne_rec[def] then (
       set_hm(h,def,union(ev_hm_d(h,def,{}),
         subset(map(fcs2cs,P[2]),
           lambda([F],is(min_variable_degree_cs(F) > mvd))))))),

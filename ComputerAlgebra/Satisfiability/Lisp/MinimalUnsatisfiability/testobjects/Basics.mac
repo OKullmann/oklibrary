@@ -48,17 +48,17 @@ okltest_non_saturating_pas_bydef(non_saturating_pas_bydef);
    ***************************
 */
 
-okltest_max_min_var_degree_def_rec(max_min_var_degree_def_rec);
-okltest_max_min_var_degree_def_law(max_min_var_degree_def_law);
-okltest_max_min_var_degree_def_lb(max_min_var_degree_def_lb);
-okltest_max_min_var_degree_def_ub(max_min_var_degree_def_ub);
+okltest_nonmersenne_rec(nonmersenne_rec);
+okltest_nonmersenne_law(nonmersenne_law);
+okltest_nonmersenne_lb(nonmersenne_lb);
+okltest_nonmersenne_ub(nonmersenne_ub);
 
-okltest_analyse_max_min_var_degree_def_rec(analyse_max_min_var_degree_def_rec);
+okltest_analyse_nonmersenne_rec(analyse_nonmersenne_rec);
 
-okltest_index_max_min_var_degree_def_rec(index_max_min_var_degree_def_rec);
-okltest_max_min_var_degree_def_law(max_min_var_degree_def_rec2);
+okltest_index_nonmersenne_rec(index_nonmersenne_rec);
+okltest_nonmersenne_law(nonmersenne_rec2);
 
-okltest_step_max_min_var_degree_def_rec(step_max_min_var_degree_def_rec);
+okltest_step_nonmersenne_rec(step_nonmersenne_rec);
 
 /*!
 \endhtmlonly

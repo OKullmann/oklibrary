@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 12.2.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -267,7 +267,7 @@ all_cld_uhit_minvd(def,n,mvd) := apply(union,
   create_list(all_cld_uhit(def,n,m),m,0,((def+n)-mvd)*n))$
 /* The instance where we search for clause-sets where the general upper
    bound on the min-var-degree is attained. */
-all_cld_uhit_maxminvd(def,n) := all_cld_uhit_minvd(def,n,max_min_var_degree_def_rec[def])$
+all_cld_uhit_maxminvd(def,n) := all_cld_uhit_minvd(def,n,nonmersenne_rec[def])$
 /* Filtering out cases with unit-clauses. */
 all_cld_uhit_maxminvd_nu(def,n) := subset(all_cld_uhit_maxminvd(def,n),
  lambda([S],is(listify(S)[1][1] # 1)))$
@@ -506,7 +506,7 @@ all_derived_hitting_cs_pred_isoelim_mvd(F,repository,pred) :=
 /* Uses random_permutation, and is thus governed by set_random_state. */
 all_derived_hitting_cs_pred_forb_isoelim_mvd(F,forb_pairs,check) := block(
  [count : 0, V : var_cs(F), max_mvd],
-  max_mvd : max_min_var_degree_def_rec[deficiency_fcs([V,F]) - 1],
+  max_mvd : nonmersenne_rec[deficiency_fcs([V,F]) - 1],
   oklib_save('repository),
   if check then
     if not manage_repository_isomorphism_types([V,F], repository) then
@@ -608,21 +608,21 @@ all_unsinghitting_mvd(n, _hash_repo) := block([count],
    ***************************
 */
 
-/* The sharpening of the general MU-bound (see max_min_var_degree_def_rec in 
+/* The sharpening of the general MU-bound (see nonmersenne_rec in 
    Lisp/MinimalUnsatisfiability/Basics.mac) according [OK, XSZ; 2008]. */
-hit_max_min_var_degree_def_rec[k] :=
- if k <= 5 then max_min_var_degree_def_rec[k] 
- elseif k=6 then max_min_var_degree_def_rec[6]-1
+hit_nonmersenne_rec[k] :=
+ if k <= 5 then nonmersenne_rec[k] 
+ elseif k=6 then nonmersenne_rec[6]-1
  else block(
-  [K : max_min_var_degree_def_rec[k], res : minf],
+  [K : nonmersenne_rec[k], res : minf],
    for a : K - k thru k do block([b : K - a],
      res : max(res, min(
-       hit_max_min_var_degree_def_rec[k-a+1] + a,
-       hit_max_min_var_degree_def_rec[k-b+1] + b)
+       hit_nonmersenne_rec[k-a+1] + a,
+       hit_nonmersenne_rec[k-b+1] + b)
      )),
    return(min(K,res)))$
 /* It follows that for k=2^n-n+1 we have
-   hit_max_min_var_degree_def_rec[k] = max_min_var_degree_def_rec[k]-1,
+   hit_nonmersenne_rec[k] = nonmersenne_rec[k]-1,
    while otherwise we have equality.
 */
 
@@ -645,7 +645,7 @@ hit_max_min_var_degree_def_rec[k] :=
 /* For the uhit-catalogue check for the existence of examples where the
    bound is sharp (these have value 0 in the last component). */
 check_uhit_catalogue_maxminvardeg() :=
-  apply_uhit(lambda([k,n,i,F], [k, n, i, hit_max_min_var_degree_def_rec[k] - min_variable_degree_cs(F)]))$
+  apply_uhit(lambda([k,n,i,F], [k, n, i, hit_nonmersenne_rec[k] - min_variable_degree_cs(F)]))$
 /* Extract the [k,n,i]-tuples where the bound is sharp, sorted 
    lexicographically. */
 sharp_uhit_catalogue_maxminvardeg() :=

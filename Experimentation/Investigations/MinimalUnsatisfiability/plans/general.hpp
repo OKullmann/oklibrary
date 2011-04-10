@@ -20,8 +20,8 @@ License, or any later version. */
   \todo Understanding the recursion for non-Mersenne numbers
   <ul>
    <li> DONE (see [Kullmann Zhao, SAT 2011]
-   How to prove that max_min_var_degree_def_rec[k] and
-   max_min_var_degree_def_law(k) in
+   How to prove that nonmersenne_rec[k] and
+   nonmersenne_law(k) in
    ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac
    are the same functions? </li>
    <li> Can we determine which i in the recursive formula
@@ -30,7 +30,7 @@ License, or any later version. */
     <ol>
      <li> Analysing the patterns:
      \verbatim
-for k : 2 thru 70 do print(k, analyse_max_min_var_degree_def_rec(k));
+for k : 2 thru 70 do print(k, analyse_nonmersenne_rec(k));
 
 2 [[2,1,"ab"]] 
 3 [[3,1,"b"]] 

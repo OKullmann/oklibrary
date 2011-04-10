@@ -105,19 +105,19 @@ non_saturating_pas_bydef(FF,solver) := block(
  - k=3 (realised by minvdegdef3(n))
  - k=4 (realised by minvdegdef4(n)). */
 /* I.e., min_unsat_bydef(F) and is(deficiency_cs(F) <= k) -> 
-         min_variable_degree_cs(F) <= max_min_var_degree_def[k]. */
+         min_variable_degree_cs(F) <= nonmersenne[k]. */
 /* First the recursive computation: */
-max_min_var_degree_def_rec[k] := 
+nonmersenne_rec[k] := 
  if k = 1 then 2 else
- lmax(create_list(min(2*i,max_min_var_degree_def_rec[k-i+1]+i),i,2,k))$
+ lmax(create_list(min(2*i,nonmersenne_rec[k-i+1]+i),i,2,k))$
 /* This is sequence A062289 (http://www.research.att.com/~njas/sequences/),
    and accordingly we have 
-   max_min_var_degree_def_rec[k] = max_min_var_degree_def_law(k). */
-max_min_var_degree_def_law(k) := k + fld(k+1 + fld(k+1))$
+   nonmersenne_rec[k] = nonmersenne_law(k). */
+nonmersenne_law(k) := k + fld(k+1 + fld(k+1))$
 /* A natural lower bound: */
-max_min_var_degree_def_lb(k) := k + fld(k+1)$
+nonmersenne_lb(k) := k + fld(k+1)$
 /* A natural upper bound: */
-max_min_var_degree_def_ub(k) := k + 1 + fld(k)$
+nonmersenne_ub(k) := k + 1 + fld(k)$
 
 /* Compare Lisp/ConflictCombinatorics/HittingClauseSets.mac
    for the treatmeant of hitting clause-sets.
@@ -125,18 +125,18 @@ max_min_var_degree_def_ub(k) := k + 1 + fld(k)$
 
 /* Analysis of the recurrence behaviour:
    Return [] iff k=1, else return the list of tuples T_i for 2 <= i <= k where
-   min(2i,max_min_var_degree_def_rec[k-i+1]+i) = max_min_var_degree_def_rec[k],
+   min(2i,nonmersenne_rec[k-i+1]+i) = nonmersenne_rec[k],
    where the last component of T_i is
     - "a" if the first component is strictly less than the second,
     - "ab" if they are equal,
     - and "b" otherwise,
    where in the first case T_i has a leading i, and otherwise leading i, k-i+1.
 */
-analyse_max_min_var_degree_def_rec(k) := 
+analyse_nonmersenne_rec(k) := 
  if k=1 then []
  else block([res : [], maxv : minf],
   for i : 2 thru k do block(
-   [a : 2 * i, b : max_min_var_degree_def_rec[k-i+1]+i, minv],
+   [a : 2 * i, b : nonmersenne_rec[k-i+1]+i, minv],
     minv : min(a,b),
     if minv >= maxv then (
       if minv > maxv then(maxv : minv,  res : []),
@@ -151,14 +151,14 @@ analyse_max_min_var_degree_def_rec(k) :=
    with i >= nonmer(k-i+1) + i.
    Prerequisite: k >= 2.
 */
-index_max_min_var_degree_def_rec(k) :=
+index_nonmersenne_rec(k) :=
   block([i : 2],
-    while i < max_min_var_degree_def_rec[k-i+1] do i : i + 1,
+    while i < nonmersenne_rec[k-i+1] do i : i + 1,
   return(i))$
-/* The alternative recursive formula for max_min_var_degree_def_rec[k]: */
-max_min_var_degree_def_rec2(k) := if k=1 then 2 else block(
- [i : index_max_min_var_degree_def_rec(k)],
-  max_min_var_degree_def_rec[k-i+1]+i)$
+/* The alternative recursive formula for nonmersenne_rec[k]: */
+nonmersenne_rec2(k) := if k=1 then 2 else block(
+ [i : index_nonmersenne_rec(k)],
+  nonmersenne_rec[k-i+1]+i)$
 
 /* Analysis of the various steps, for k >= 2:
   [Delta nonmer(k),
@@ -166,14 +166,14 @@ max_min_var_degree_def_rec2(k) := if k=1 then 2 else block(
    i(k+1)-i(k),
    i(k) - nonmer(k-i(k)+1).
 */
-step_max_min_var_degree_def_rec(k) := block(
- [i : index_max_min_var_degree_def_rec(k),
-  ip : index_max_min_var_degree_def_rec(k+1)],
+step_nonmersenne_rec(k) := block(
+ [i : index_nonmersenne_rec(k),
+  ip : index_nonmersenne_rec(k+1)],
   [
-   max_min_var_degree_def_rec[k+1] - max_min_var_degree_def_rec[k],
-   max_min_var_degree_def_rec[(k+1)-ip+1] - max_min_var_degree_def_rec[k-i+1],
+   nonmersenne_rec[k+1] - nonmersenne_rec[k],
+   nonmersenne_rec[(k+1)-ip+1] - nonmersenne_rec[k-i+1],
    ip-i,
-   i - max_min_var_degree_def_rec[k-i+1]
+   i - nonmersenne_rec[k-i+1]
   ])$
 
 /*!

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.2.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -52,7 +52,7 @@ License, or any later version. */
   \todo Maximal min-var-degrees
   <ul>
    <li> The general quest here is for example which show that the bound
-   max_min_var_degree_def is sharp. </li>
+   nonmersenne is sharp. </li>
    <li> See Experimentation/Investigations/plans/MaximiseMinVarDegrees.hpp
    for the general investigation. </li>
    <li> Perhaps the considerations regarding hitting clause-sets should go
