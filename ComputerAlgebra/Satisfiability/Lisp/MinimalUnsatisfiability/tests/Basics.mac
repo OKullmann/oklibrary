@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 28.3.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -118,7 +118,7 @@ okltest_non_saturating_pas_bydef(f) := block([S : dll_simplest_trivial1],
    ***************************
 */
 
-okltest_max_min_var_degree_def_rec(f) := block(
+okltest_max_min_var_degree_def_rec(f) := (
   assert(f[1] = 2),
   assert(f[2] = 4),
   assert(f[3] = 5),
@@ -131,11 +131,48 @@ okltest_max_min_var_degree_def_rec(f) := block(
   assert(f[10] = 13),
   assert(f[11] = 14),
   assert(f[12] = 16),
+  for n : 1 thru 6 do
+    assert(f[2^n-n] = 2^n),
   true)$
 
-okltest_max_min_var_degree_def_law(f) := block(
+okltest_max_min_var_degree_def_law(f) := (
   for k : 1 thru 12 do
     assert(f(k) = max_min_var_degree_def_rec[k]))$
+
+okltest_max_min_var_degree_def_lb(f) := (
+  assert(f(1) = 2),
+  assert(f(2) = 3),
+  assert(f(3) = 5),
+  assert(f(4) = 6),
+  true)$
+
+okltest_max_min_var_degree_def_ub(f) := (
+  assert(f(1) = 2),
+  assert(f(2) = 4),
+  assert(f(3) = 5),
+  assert(f(4) = 7),
+  true)$
+
+okltest_analyse_max_min_var_degree_def_rec(f) := (
+  assert(f(1) = []),
+  assert(f(2) = [[2,1,"ab"]]),
+  assert(f(3) = [[3,1,"b"]]),
+  assert(f(4) = [[3,"a"],[4,1,"b"]]),
+  assert(f(5) = [[4,2,"ab"]]),
+  true)$
+
+okltest_index_max_min_var_degree_def_rec(f) := (
+  assert(f(2) = 2),
+  assert(f(3) = 3),
+  assert(f(4) = 4),
+  assert(f(5) = 4),
+  true)$
+
+okltest_step_max_min_var_degree_def_rec(f) := (
+  assert(f(2) = [1,0,1,0]),
+  assert(f(3) = [1,0,1,1]),
+  assert(f(4) = [2,2,0,2]),
+  true)$
 
 /*!
 \endhtmlonly

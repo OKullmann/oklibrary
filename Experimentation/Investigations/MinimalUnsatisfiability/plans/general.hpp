@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.10.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,7 +19,8 @@ License, or any later version. */
 
   \todo Understanding the recursion for non-Mersenne numbers
   <ul>
-   <li> How to prove that max_min_var_degree_def_rec[k] and
+   <li> DONE (see [Kullmann Zhao, SAT 2011]
+   How to prove that max_min_var_degree_def_rec[k] and
    max_min_var_degree_def_law(k) in
    ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac
    are the same functions? </li>

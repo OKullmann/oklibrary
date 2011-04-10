@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.11.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -98,7 +98,7 @@ non_saturating_pas_bydef(FF,solver) := block(
 */
 
 /* An upper bound on the maximal min-var-degree of a minimally unsatisfiable
-   clause-set of deficiency k, according to [OK, XSZ, 2008]. */
+   clause-set of deficiency k, according to [OK, XSZ, SAT 2011]. */
 /* This bound is sharp at least for 
  - k = 2^n-n (realised by full_fcs(n))
  - k=2 (realised by musatd2_fcs(n))
@@ -123,7 +123,15 @@ max_min_var_degree_def_ub(k) := k + 1 + fld(k)$
    for the treatmeant of hitting clause-sets.
 */
 
-/* Analysis of the recurrence behaviour: */
+/* Analysis of the recurrence behaviour:
+   Return [] iff k=1, else return the list of tuples T_i for 2 <= i <= k where
+   min(2i,max_min_var_degree_def_rec[k-i+1]+i) = max_min_var_degree_def_rec[k],
+   where the last component of T_i is
+    - "a" if the first component is strictly less than the second,
+    - "ab" if they are equal,
+    - and "b" otherwise,
+   where in the first case T_i has a leading i, and otherwise leading i, k-i+1.
+*/
 analyse_max_min_var_degree_def_rec(k) := 
  if k=1 then []
  else block([res : [], maxv : minf],
@@ -138,9 +146,9 @@ analyse_max_min_var_degree_def_rec(k) :=
     )
   ),
   return(reverse(res)))$
-/* Computation of the "primary recursion index", that i in {2,...,k}
-   such that
-     max_min_var_degree_def_rec[k] = max_min_var_degree_def_rec[k-i+1] + i.
+
+/* Computation of the "primary recursion index", the smallest i in {2,...,k}
+   with i >= nonmer(k-i+1) + i.
    Prerequisite: k >= 2.
 */
 index_max_min_var_degree_def_rec(k) :=
@@ -148,10 +156,16 @@ index_max_min_var_degree_def_rec(k) :=
     while i < max_min_var_degree_def_rec[k-i+1] do i : i + 1,
   return(i))$
 /* The alternative recursive formula for max_min_var_degree_def_rec[k]: */
-max_min_var_degree_def_rec2(k) := block(
+max_min_var_degree_def_rec2(k) := if k=1 then 2 else block(
  [i : index_max_min_var_degree_def_rec(k)],
   max_min_var_degree_def_rec[k-i+1]+i)$
-/* Analysis of the various steps, for k >= 2: */
+
+/* Analysis of the various steps, for k >= 2:
+  [Delta nonmer(k),
+   Delta (k -> nonmer(k-i(k)+1))(k),
+   i(k+1)-i(k),
+   i(k) - nonmer(k-i(k)+1).
+*/
 step_max_min_var_degree_def_rec(k) := block(
  [i : index_max_min_var_degree_def_rec(k),
   ip : index_max_min_var_degree_def_rec(k+1)],
