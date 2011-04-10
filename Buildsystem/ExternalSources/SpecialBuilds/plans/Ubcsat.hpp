@@ -12,6 +12,7 @@ License, or any later version. */
 
   \todo Update to version 1.2.0
   <ul>
+   <li> The target "ubcsat-new" should be removed (just using "ubcsat"). </li>
    <li> We created a new package "ubcsat-1-2-0-beta.tar.bz2", cloning
    https://github.com/dtompkins/ubcsat.git, checking out branch beta. </li>
    <li> Segmentation faults for saps, rsaps, sapsnr:

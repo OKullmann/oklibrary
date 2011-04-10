@@ -27,7 +27,7 @@ $(ubcsat_directories) : % :
 
 .PHONY : ubcsat ubcsat-old old-ubcsat-core old-ubcsat-okl ubcsat-new ubcsat-beta ubcsat-okl-beta
 
-ubcsat : ubcsat-old ubcsat-new
+ubcsat : ubcsat-new
 
 ubcsat-old :
 	env -i PATH=${PATH} make -f $(OKbuildsystem)/ExternalSources/Makefile OKplatform=$(OKplatform) ubcsat_recommended_version_number_okl="1-0-0" ubcsat_build_dir_okl="$(ubcsat_base_build_dir_okl)/ubcsat-1-0-0" old-ubcsat-core old-ubcsat-okl
