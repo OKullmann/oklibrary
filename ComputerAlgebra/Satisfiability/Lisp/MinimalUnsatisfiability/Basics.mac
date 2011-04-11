@@ -176,6 +176,25 @@ step_nonmersenne_rec(k) := block(
    i - nonmersenne_rec[k-i+1]
   ])$
 
+/* For deficiency k and considered minimal variable degree m of a saturated
+   non-singular minimally unsatisfiable F of deficiency k, the possible
+   pairs [e0,e1] with e0+e1=m and e0 <= e1 of degrees of a variable v of F
+   realising degree m, using the upper bound nonmersenne(k') on the degree
+   of minimally unsatisfiable clause-sets of deficiency k', obtained by
+   splitting on v.
+   Additionally to [e0,e1] the triple [k0,d0,k1,d1] is computed, with k0,k1
+   the deficiencies after splitting, and d0, d1 the resulting upper bounds
+   on the degree of v.
+   Prerequisites: k >= 2, 4 <= m <= nonmersenne(k).
+*/
+possible_degree_pairs_nm(k,m) := block([res : []],
+  for e0 : 2 thru min(k,m/2) do block(
+   [e1 : m - e0, k0,k1, d0,d1],
+    k0 : k-e0+1, k1 : k-e1+1,
+    d0 : nonmersenne_rec[k0]+e0, d1 : nonmersenne_rec[k1]+e1,
+    if d0 >= m and d1 >= m then res : cons([[e0,e1],[k0,d0,k1,d1]],res)),
+  return(reverse(res)))$
+
 /*!
 \endhtmlonly
 */

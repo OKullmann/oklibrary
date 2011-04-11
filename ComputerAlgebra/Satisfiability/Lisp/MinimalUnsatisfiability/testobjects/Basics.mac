@@ -60,6 +60,8 @@ okltest_nonmersenne_law(nonmersenne_rec2);
 
 okltest_step_nonmersenne_rec(step_nonmersenne_rec);
 
+okltest_possible_degree_pairs_nm(possible_degree_pairs_nm);
+
 /*!
 \endhtmlonly
 */
