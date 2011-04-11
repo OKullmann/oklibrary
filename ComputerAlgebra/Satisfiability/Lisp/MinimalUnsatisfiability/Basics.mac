@@ -164,7 +164,7 @@ nonmersenne_rec2(k) := if k=1 then 2 else block(
   [Delta nonmer(k),
    Delta (k -> nonmer(k-i(k)+1))(k),
    i(k+1)-i(k),
-   i(k) - nonmer(k-i(k)+1).
+   i(k) - nonmer(k-i(k)+1)].
 */
 step_nonmersenne_rec(k) := block(
  [i : index_nonmersenne_rec(k),
@@ -175,6 +175,20 @@ step_nonmersenne_rec(k) := block(
    ip-i,
    i - nonmersenne_rec[k-i+1]
   ])$
+
+
+/* An alternative recursion for nonmersenne(k) for k >= 2:
+   The maximal s in {4,...,2k} such that there exists (e_0,e_1) in {2,...,k}^2
+   with e_0 + e_1 >= s and nonmersenne(k-e_i+1)+e_i >= s for both i in {0,1}.
+*/
+nonmersenne_rec3[k] := if k=1 then 2 else last(
+ sublist(create_list(i,i,4,2*k),
+         lambda([s],
+                some_s(lambda([i], is(nonmersenne_rec3[k-i+1]+i >= s
+                         and nonmersenne_rec3[k-(s-i)+1]+(s-i) >= s)),
+                       create_list(i,i,max(s-k,2),min(s-2,k)))
+   )))$
+
 
 /* For deficiency k and considered minimal variable degree m of a saturated
    non-singular minimally unsatisfiable F of deficiency k, the possible
