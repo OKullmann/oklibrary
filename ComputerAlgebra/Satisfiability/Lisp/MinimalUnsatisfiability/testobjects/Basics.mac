@@ -64,6 +64,8 @@ okltest_nonmersenne_rec(nonmersenne_rec3);
 
 okltest_possible_degree_pairs_nm(possible_degree_pairs_nm);
 
+okltest_nonmersenne_gen_rec(nonmersenne_gen_rec);
+
 /*!
 \endhtmlonly
 */

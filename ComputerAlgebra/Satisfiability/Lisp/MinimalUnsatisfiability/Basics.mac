@@ -196,10 +196,10 @@ nonmersenne_rec3[k] := if k=1 then 2 else last(
    realising degree m, using the upper bound nonmersenne(k') on the degree
    of minimally unsatisfiable clause-sets of deficiency k', obtained by
    splitting on v.
-   Additionally to [e0,e1] the triple [k0,d0,k1,d1] is computed, with k0,k1
+   Additionally to [e0,e1] the quadruple [k0,d0,k1,d1] is computed, with k0,k1
    the deficiencies after splitting, and d0, d1 the resulting upper bounds
-   on the degree of v.
-   Prerequisites: k >= 2, 4 <= m <= nonmersenne(k).
+   on the degree of v in F.
+   Prerequisites: k >= 2, 4 <= m.
 */
 possible_degree_pairs_nm(k,m) := block([res : []],
   for e0 : 2 thru min(k,m/2) do block(
@@ -208,6 +208,25 @@ possible_degree_pairs_nm(k,m) := block([res : []],
     d0 : nonmersenne_rec[k0]+e0, d1 : nonmersenne_rec[k1]+e1,
     if d0 >= m and d1 >= m then res : cons([[e0,e1],[k0,d0,k1,d1]],res)),
   return(reverse(res)))$
+/* Remark: If the result is the empty list, then this proves that variable
+   degree m (or more) can not be realised in MU(delta=k).
+*/
+
+/* The generalised non-Mersenne numbers (according to [Kullmann, Zhao, 2011]),
+   using the additional parameter r: These numbers are one less than
+   non-Mersenne numbers for k = 2^(2+r')-2, 1 <= r' <= r, which triggers
+   further reductions by one according to the recursions in
+   possible_degree_pairs_nm.
+   Prerequisites: k >= 1, r >= 0.
+*/
+nonmersenne_gen_rec[k,r] :=
+ if r=0 then nonmersenne_rec[k]
+ else block([nM : nonmersenne_gen_rec[k,r-1]],
+   if k < 2^(2+r)-2 then nM
+   elseif k=2^(2+r)-2 then nM-1
+   else min(nM,lmax(create_list(min(nonmersenne_gen_rec[k-e+1,r]+e,
+                                    nonmersenne_gen_rec[k-(nM-e)+1,r]+(nM-e)),
+                                e,nM-k,k))))$
 
 /*!
 \endhtmlonly
