@@ -40,6 +40,9 @@ log10(x) := radcan(log(x) / log(10))$
 fld(n) := if n = 0 then minf else 
  block([l : 0, b : 1], while b < n do (l : l + 1, b : b * 2),
   if b > n then return(l-1) else return(l))$
+/* Now ceiling(ld(n)), again with faster computation: */
+cld(n) := if n = 0 then minf else 
+ block([l : 0, b : 1], while b < n do (l : l + 1, b : b * 2), l)$
 
 /* Returns the floor of the logarithm of n base b, correcting
    for issues in precision causing round off. Cannot handle large

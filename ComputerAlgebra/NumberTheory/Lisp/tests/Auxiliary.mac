@@ -39,7 +39,7 @@ okltest_log10(f) := (
     assert(f(10^n) = n),
   true)$
 
-okltest_fld(f) := block(
+okltest_fld(f) := (
   assert(f(0) = minf),
   assert(f(1) = 0),
   assert(f(2) = 1),
@@ -51,6 +51,12 @@ okltest_fld(f) := block(
   assert(f(2^10+1) = 10),
   for n : 1 thru 100 do
     assert(f(n) = floor(log(n)/log(2))),
+  true)$
+
+okltest_cld(f) := (
+  assert(f(0) = minf),
+  for n : 1 thru 100 do
+    assert(f(n) = ceiling(log(n)/log(2))),
   true)$
 
 okltest_floorlog(f) := (
