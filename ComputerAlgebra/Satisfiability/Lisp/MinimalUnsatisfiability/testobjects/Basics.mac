@@ -66,6 +66,16 @@ okltest_possible_degree_pairs_nm(possible_degree_pairs_nm);
 
 okltest_nonmersenne_gen_rec(nonmersenne_gen_rec);
 
+okltest_epoche_nonmersenne_gen(epoche_nonmersenne_gen);
+
+okltest_nonmersenne_inf_rec(nonmersenne_inf_rec);
+
+okltest_nonmersenne_level(nonmersenne_level);
+
+okltest_nonmersenne_law(nonmersenne_law2);
+
+okltest_nonmersenne_inf_rec(nonmersenne_inf_law);
+
 /*!
 \endhtmlonly
 */

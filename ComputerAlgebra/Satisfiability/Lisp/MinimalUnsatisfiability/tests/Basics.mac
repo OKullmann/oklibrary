@@ -136,7 +136,7 @@ okltest_nonmersenne_rec(f) := (
   true)$
 
 okltest_nonmersenne_law(f) := (
-  for k : 1 thru 12 do
+  for k : 1 thru 100 do
     assert(f(k) = nonmersenne_rec[k]),
   true)$
 
@@ -193,6 +193,19 @@ okltest_nonmersenne_gen_rec(f) := (
   assert(f[14,2] = 17),
   assert(f[29,2] = 33),
   assert(f[60,2] = 65),
+  true)$
+
+okltest_epoche_nonmersenne_gen(f) := (
+  assert(map(f,create_list(i,i,1,14)) = [-1,0,0,0,0,1,1,1,1,1,1,1,1,2]),
+  true)$
+
+okltest_nonmersenne_inf_rec(f) := (
+  for k : 1 thru 60 do
+    assert(f(k) = nonmersenne_gen_rec[k,k]),
+  true)$
+
+okltest_nonmersenne_level(f) := (
+  assert(map(f,create_list(i,i,1,12)) = [1,2,2,2,3,3,3,3,3,3,3,4]),
   true)$
 
 /*!

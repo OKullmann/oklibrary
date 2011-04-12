@@ -228,6 +228,31 @@ nonmersenne_gen_rec[k,r] :=
                                     nonmersenne_gen_rec[k-(nM-e)+1,r]+(nM-e)),
                                 e,nM-k,k))))$
 
+/* The "epoche" of k is the largest r which can have an influence on
+   nonmersenne_gen_rec[k,r]:
+*/
+epoche_nonmersenne_gen(k) := fld(k+2)-2$
+
+nonmersenne_inf_rec(k) := if k=1 then 2 else
+ nonmersenne_gen_rec[k,epoche_nonmersenne_gen(k)]$
+
+/* The largest natural number l >= 0 such that 2^l-l <= k.
+   Prerequisite k >= 1.
+*/
+nonmersenne_level(k) := if k=1 then 1 elseif k=2 then 2 else
+ block([l : cld(k)], if k >= 2^l-l then l else l-1)$
+
+nonmersenne_law2(k) := k + nonmersenne_level(k)$
+
+nonmersenne_inf_law(k) := block(
+ [nM : nonmersenne_law(k),
+  l : nonmersenne_level(k),
+  e : epoche_nonmersenne_gen(k)],
+  if k <= 2^l-l then nM
+  elseif k <= 2^l-l+e then nM-1
+  else nM)$
+
+
 /*!
 \endhtmlonly
 */
