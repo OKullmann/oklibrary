@@ -147,8 +147,9 @@ FlipsPerSecond = 36925
   </ul>
 
 
-  \todo vdw_2(5,7) > 259
+  \todo vdw_2(5,7) >= 260
   <ul>
+   <li> The conjecture is vdw_2(5,7) = 260. </li>
    <li> Certificate for n=259:
    \verbatim
  7,12,18,19,20,21,26,27,28,29,
@@ -228,7 +229,23 @@ UNSAT for n=260
 200
 
 > RunVdWk1k2 ${k1} ${k2} ${n} ddfw 200 40000000 AltExp/Exp_VanderWaerden_2-5-7_258_ddfw-200-20000000_2011-04-05-101330/VanDerWaerden_2-5-7_${n}.cnf_sol
+> E=read_ubcsat("Exp_VanderWaerden_2-5-7_259_ddfw-200-40000000_2011-04-07-015657/VanDerWaerden_2-5-7_260.cnf_OUT",nrows=200)
+ 1  2  3  4  5  6  7
+12 52 78 16 25  9  8
+200
 
+> E=read_ubcsat("Exp_VanderWaerden_2-5-7_259_adaptg2wsat-200-80000000_2011-04-08-063442/VanDerWaerden_2-5-7_260.cnf_OUT",nrows=200)
+ 1  2  3  4  5  6  7
+ 8 78 72 14 18  7  3
+200
+> E=read_ubcsat("Exp_VanderWaerden_2-5-7_260_ddfw-200-80000000_2011-04-09-121350/VanDerWaerden_2-5-7_260.cnf_OUT",nrows=200)
+ 1  2  3  4  5  6
+ 5 49 40  2  5  1
+102
+> E=read_ubcsat("Exp_VanderWaerden_2-5-7_260_ddfw-200-80000000_2011-04-11-011901/VanDerWaerden_2-5-7_260.cnf_OUT",nrows=200)
+ 1  2  3  4  5  6  7
+ 5 84 71  9  6  3  1
+179
      \endverbatim
      </li>
     </ol>
