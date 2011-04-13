@@ -492,7 +492,7 @@ interrupted; the FlipsPerSecond are likely corrupted.
 
   \todo Palindromic version:
   <ul>
-   <li> 1368 < pdvanderwaerden([3,38])[2] =(conj) 1369 =(conj)
+   <li> pdvanderwaerden([3,38])[2] =(conj) 1369 =(conj)
    vanderwaerden([3,38]) - ???. </li>
    <li> pdvanderwaerden([3,38])[1] =(conj) 1336. </li>
    <li> Certificates:
@@ -506,21 +506,20 @@ interrupted; the FlipsPerSecond are likely corrupted.
 534,563,565,587,588,608,618,655,662
      \endverbatim
      </li>
-     <li> n=1336:
-     \verbatim
-18,29,50,63,92,96,103,131,157,161,
-164,198,200,214,237,240,275,283,286,298,
-307,309,314,322,344,348,351,383,394,423,
-425,431,433,436,455,460,473,492,507,512,
-542,547,549,570,607,608,616,619,623,656
-     \endverbatim
-     </li>
      <li> n=1368:
      \verbatim
 12,20,57,90,91,95,96,105,126,128,
 140,174,179,196,205,234,242,247,274,285,
 308,313,322,327,339,345,350,362,376,401,
 419,433,438,461,469,487,496,506,507,512,
+540,561,580,603,607,617,618,644,655,683
+     \endverbatim
+     A variation is
+     \verbatim
+12,20,57,89,91,96,105,126,128,140,
+174,179,196,205,234,242,247,274,285,308,
+313,322,327,339,345,350,362,376,401,419,
+433,438,461,469,487,496,506,507,512,533,
 540,561,580,603,607,617,618,644,655,683
      \endverbatim
      </li>
@@ -532,6 +531,19 @@ interrupted; the FlipsPerSecond are likely corrupted.
 Break point 1: 1336
 Break point 2: 1369
    where all solutions were found within in the first 17 runs. </li>
+   <li> "RunPdVdWk1k2 3 38 gsat-tabu 100 70000000" yields
+   \verbatim
+   \endverbatim
+Break point 1: 1336
+Break point 2: 1369
+   where all solutions were found within in the first 53 runs, and with
+   \verbatim
+> E=read_ubcsat("Exp_PdVanderWaerden_2-3-38_gsat-tabu-100-70000000_2011-03-27-195851/VanDerWaerden_pd_2-3-38_1370.cnf_OUT",nrows=100)
+ 1  2  3  9 14
+24 69  5  1  1
+100
+   \endverbatim
+   </li>
   </ul>
 
 */
