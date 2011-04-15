@@ -43,7 +43,7 @@ License, or any later version. */
    <li> In ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac
    we have, besides the hitting clause-sets:
     <ol>
-     <li> weak_ph(n+1,n) </li>
+     <li> weak_php_fcs(n+1,n) </li>
     </ol>
    </li>
   </ul>
