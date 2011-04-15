@@ -48,23 +48,5 @@ License, or any later version. */
    </li>
   </ul>
 
-
-  \todo Maximal min-var-degrees
-  <ul>
-   <li> The general quest here is for example which show that the bound
-   nonmersenne is sharp. </li>
-   <li> See Experimentation/Investigations/plans/MaximiseMinVarDegrees.hpp
-   for the general investigation. </li>
-   <li> Perhaps the considerations regarding hitting clause-sets should go
-   to a module regarding hitting clause-sets ?
-    <ol>
-     <li> The smallest deficiency where we do not have an example is 6. </li>
-     <li> See "derived_hitting_cs_pred_isoelim" in
-     ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp
-     for how to find examples. </li>
-    </ol>
-   </li>
-  </ul>
-
 */
 
