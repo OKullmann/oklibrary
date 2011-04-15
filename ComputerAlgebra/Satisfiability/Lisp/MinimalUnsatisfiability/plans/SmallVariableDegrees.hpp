@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.3.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,7 +22,8 @@ License, or any later version. */
      <li> Then there are several functions for computing upper bounds, which
      can be invoked for unknown k. </li>
      <li> Once we computed such an upper bound, then we might wish to store it
-     (especially if the computation was rather expensive); how to do this? </li>
+     (especially if the computation was rather expensive); how to do this?
+     </li>
     </ol>
    </li>
    <li> We also need witnesses for the upper and lower bounds:
