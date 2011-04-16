@@ -212,6 +212,7 @@ possible_degree_pairs_nm(k,m) := block([res : []],
    degree m (or more) can not be realised in MU(delta=k).
 */
 
+
 /* The generalised non-Mersenne numbers (according to [Kullmann, Zhao, 2011]),
    using the additional parameter r: These numbers are one less than
    non-Mersenne numbers for k = 2^(2+r')-2, 1 <= r' <= r, which triggers
@@ -251,6 +252,45 @@ nonmersenne_inf_law(k) := block(
   if k <= 2^l-l then nM
   elseif k <= 2^l-l+e then nM-1
   else nM)$
+
+possible_degree_pairs_gen(k,m,nmf_) := block([res : []],
+  for e0 : 2 thru min(k,m/2) do block(
+   [e1 : m - e0, k0,k1, d0,d1],
+    k0 : k-e0+1, k1 : k-e1+1,
+    d0 : nmf_(k0)+e0, d1 : nmf_(k1)+e1,
+    if d0 >= m and d1 >= m then res : cons([[e0,e1],[k0,d0,k1,d1]],res)),
+  return(reverse(res)))$
+
+
+possible_degree_pairs_nminf(k,m) :=
+ possible_degree_pairs_gen(k,m,nonmersenne_inf_law)$
+
+possible_degree_pairs_genextr(k,nmf_) :=
+ possible_degree_pairs_gen(k,nmf_(k),nmf_)$
+
+possible_degree_pairs_nminfextr(k) :=
+ possible_degree_pairs_nminf(k,nonmersenne_inf_law(k))$
+
+/* A "sharpened non-Mersenne function" is a map f: NN -> NN with
+   - f(1) = 2
+   - f(2) = 4
+   - f(k) in {nM(k),nM(k)-1} for all k in NN.
+
+   f is furthermore called "consistent" if
+     possible_degree_pairs_genextr(k,f) # {} for all k in NN.
+*/
+sharpenednm_p(nmf_,K) := if nmf_(1)#2 or nmf_(2)#4 then false else
+ is(done = block([nm],
+   for k : 3 thru K do (
+     nm : nonmersenne_law(k),
+     if not elementp(nmf_(k), {nm,nm-1}) then return(false)
+   )))$
+
+consistentsnm_p(nmf_,K) := sharpenednm_p(nmf_,K) and
+ is (done = block([nm],
+ for k : 3 thru K do
+   if emptyp(possible_degree_pairs_genextr(k,nmf_)) then return(false)
+ ))$
 
 
 /*!
