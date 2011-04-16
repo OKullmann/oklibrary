@@ -14,7 +14,8 @@ License, or any later version. */
   <ul>
    <li> The functions should go to a dedicated file:
     <ol>
-     <li> There is confusion with
+     <li> DONE (renamed to MaxVarDegrees.hpp/mac)
+     There is confusion with
      MinimalUnsatisfiability/plans/SmallVariableDegrees.hpp. </li>
     </ol>
    </li>
