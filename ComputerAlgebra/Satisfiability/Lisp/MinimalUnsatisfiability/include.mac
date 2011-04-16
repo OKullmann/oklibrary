@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Deficiency4.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/InverseSingularDP.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/MaxVarDegrees.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/SplittingAnalysis.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Transformations.mac")$
 
@@ -37,6 +38,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/Deficiency3.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/Deficiency4.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/InverseSingularDP.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/MinVarDegrees.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/SplittingAnalysis.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/Transformations.mac")$
 

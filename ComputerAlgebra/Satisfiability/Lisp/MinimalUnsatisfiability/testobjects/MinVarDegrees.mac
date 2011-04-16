@@ -1,0 +1,59 @@
+/* Oliver Kullmann, 16.4.2011 (Guangzhou) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/testobjects/MinVarDegrees.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/testobjects/MinVarDegrees.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/MinVarDegrees.mac")$
+
+/* ***************************
+   * Maximal min-var-degrees *
+   ***************************
+*/
+
+okltest_nonmersenne_rec(nonmersenne_rec);
+okltest_nonmersenne_law(nonmersenne_law);
+okltest_nonmersenne_lb(nonmersenne_lb);
+okltest_nonmersenne_ub(nonmersenne_ub);
+
+okltest_analyse_nonmersenne_rec(analyse_nonmersenne_rec);
+
+okltest_index_nonmersenne_rec(index_nonmersenne_rec);
+okltest_nonmersenne_law(nonmersenne_rec2);
+
+okltest_step_nonmersenne_rec(step_nonmersenne_rec);
+
+okltest_nonmersenne_rec(nonmersenne_rec3);
+
+okltest_possible_degree_pairs_nm(possible_degree_pairs_nm);
+
+okltest_nonmersenne_gen_rec(nonmersenne_gen_rec);
+
+okltest_epoche_nonmersenne_gen(epoche_nonmersenne_gen);
+
+okltest_nonmersenne_inf_rec(nonmersenne_inf_rec);
+
+okltest_nonmersenne_level(nonmersenne_level);
+
+okltest_nonmersenne_law(nonmersenne_law2);
+
+okltest_nonmersenne_inf_rec(nonmersenne_inf_law);
+
+/*!
+\endhtmlonly
+*/
