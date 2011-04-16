@@ -14,6 +14,9 @@ License, or any later version. */
   <ul>
    <li> W.r.t. the classification of unsatisfiable hitting clause-sets see
    Experimentation/Investigations/UHittingCatalogue/plans/general.hpp. </li>
+   <li> For the Maxima functions see
+   Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac
+   </li>
   </ul>
 
 
@@ -22,7 +25,7 @@ License, or any later version. */
    <li> DONE (see [Kullmann Zhao, SAT 2011]
    How to prove that nonmersenne_rec[k] and
    nonmersenne_law(k) in
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac
+   Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac
    are the same functions? </li>
    <li> Can we determine which i in the recursive formula
    nm(k) = max_{i in {2,...,k} min(2*i, nm(k-i+1)+i)

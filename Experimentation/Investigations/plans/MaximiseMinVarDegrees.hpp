@@ -12,20 +12,18 @@ License, or any later version. */
 
   \todo Minimally unsatisfiable clause-sets
   <ul>
-   <li> See under "Maximal min-var-degrees" in
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac
+   <li> See
+   Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac
    </li>
   </ul>
 
 
   \todo Unsatisfiable non-singular hitting clause-sets
   <ul>
-   <li> See under "Maximal min-var-degrees" in
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac
-   </li>
-   <li> And see todo "Maximal min-var-degrees" in
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/general.hpp
-   </li>
+   <li> See
+   Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac. </li>
+   <li> And see
+   Satisfiability/Lisp/MinimalUnsatisfiability/plans/MinVarDegrees.hpp. </li>
    <li> The function "sharp_uhit_catalogue_maxminvardeg" investigates
    the catalogue for the sharp cases w.r.t. the general upper bound
    hit_nonmersenne_rec. </li>
