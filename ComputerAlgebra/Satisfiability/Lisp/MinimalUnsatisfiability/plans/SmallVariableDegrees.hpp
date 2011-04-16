@@ -32,15 +32,16 @@ License, or any later version. */
      <li> See topic "Pumping up binary clauses" for a method of constructing
      clause-sets, which is directly connected to the NP-completeness proof.
      </li>
-     <li> In [Hoory, Szeider, arXiv, 2004], identical with [Hoory, Szeider, SIAM
-     Discrete Mathematics, 2006], a general construction is discussed;
+     <li> In [Hoory, Szeider, arXiv, 2004], identical with [Hoory, Szeider,
+     SIAM Discrete Mathematics, 2006], a general construction is discussed;
      see todo below. </li>
      <li> See "Small variable-degrees in MUSAT(1)" in
-     ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/DeficiencyOne.hpp
-     for methods, which apparently yield the strongest examples currently. </li>
-     <li> Apparently the examples are rather large, so that also more compressed
-     representations (term-based, or merely stating main parameters), are
-     needed. </li>
+     Satisfiability/Lisp/MinimalUnsatisfiability/plans/DeficiencyOne.hpp
+     for methods, which apparently yield the strongest examples currently.
+     </li>
+     <li> Apparently the examples are rather large, so that also more
+     compressed representations (term-based, or merely stating main
+     parameters), are needed. </li>
      <li> For lower bounds one needs algorithms which find quickly a
      satisfying assignments. </li>
      <li> The lower bound k+1 (k >= 1) is realised by matching-satisfiability.
@@ -48,7 +49,7 @@ License, or any later version. */
     </ol>
    </li>
    <li> The restrictions to hitting clause-sets F are considered in
-   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp.
+   Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp.
    </li>
   </ul>
 
@@ -63,11 +64,11 @@ License, or any later version. */
    Then we have minvardeg_umu(k) <= m(k), as follows by the satisfiability-
    equivalence of the general transformation (pumping up binary clauses by
    such a helper clause-set). </li>
-   <li> Perhaps m(k) is easier to determine than minvardeg_umu(k). Or do we have
-   minvardeg_umu(k) = m(k) ??? </li>
+   <li> Perhaps m(k) is easier to determine than minvardeg_umu(k). Or do we
+   have minvardeg_umu(k) = m(k) ??? </li>
    <li> In [Tovey, 1984, DAM] such an F_v for k=3, s=4 is given, which is
    implemented as "tovey84" in
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/SmallVariableDegrees.mac
+   Satisfiability/Lisp/MinimalUnsatisfiability/SmallVariableDegrees.mac
    </li>
    <li> Due to m(3) <= 4 we get m(k) <= 2^(k-1) for all k >= 3, simply by
    expanding the above F_v to higher clause-length using inverse 2-subsumption
