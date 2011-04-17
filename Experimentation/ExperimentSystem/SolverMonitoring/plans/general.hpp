@@ -26,11 +26,18 @@ License, or any later version. */
   </ul>
 
 
-  \bug DONE (shortened and specified column names)
-  Inappropriate column names
+  \todo Inappropriate column names
   <ul>
    <li> Column names must be short, never like
-   "decisions_per_sec". </li>
+   "decisions_per_sec" or "bin_clauses_after" etc.:
+    <ol>
+     <li> Most of the names regarding the OKsolver_2002 are badly chosen. </li>
+     <li> For example "max_tree_depth": Why "max"? And to what could a depth
+     refer than to a tree? </li>
+     <li> Instead of "clauses" we use "c". Etc. </li>
+     <li> However "l" in "cl" refers to "clause-length"! </li>
+    </ol>
+   </li>
    <li> We also use standardised notations where possible:
     <ol>
      <li> "n" for the number of variables </li>
