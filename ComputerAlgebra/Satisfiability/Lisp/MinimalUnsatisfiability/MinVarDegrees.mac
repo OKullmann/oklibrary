@@ -31,6 +31,12 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    ***************************
 */
 
+
+/* **************************************
+   * (Generalised) non-Mersenne numbers *
+   **************************************
+*/
+
 /* An upper bound on the maximal min-var-degree of a minimally unsatisfiable
    clause-set of deficiency k, according to [OK, XSZ, SAT 2011]. */
 /* This bound is sharp at least for 

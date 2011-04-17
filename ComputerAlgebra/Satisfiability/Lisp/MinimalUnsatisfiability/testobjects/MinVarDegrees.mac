@@ -26,6 +26,12 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
    ***************************
 */
 
+
+/* **************************************
+   * (Generalised) non-Mersenne numbers *
+   **************************************
+*/
+
 okltest_nonmersenne_rec(nonmersenne_rec);
 okltest_nonmersenne_law(nonmersenne_law);
 okltest_nonmersenne_lb(nonmersenne_lb);

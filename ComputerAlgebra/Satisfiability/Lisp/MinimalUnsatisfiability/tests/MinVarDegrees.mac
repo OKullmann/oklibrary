@@ -29,6 +29,12 @@ kill(f)$
    ***************************
 */
 
+
+/* **************************************
+   * (Generalised) non-Mersenne numbers *
+   **************************************
+*/
+
 okltest_nonmersenne_rec(f) := (
   assert(f[1] = 2),
   assert(f[2] = 4),
