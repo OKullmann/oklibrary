@@ -25,75 +25,44 @@ read_oksolver_mon = function(filename, ...) {
 # data plots); but often, say, plot(E[-(1:100),]) is more appropriate,
 # which eliminates the first 100 rows from the data frame.
 
+
 # Reading the output of an OKsolver_2002 computation from stats_filename and
 # returning a data.frame containing the statistics on the computation.
-#
 # Inputs:
 #   stats_filename
 #     The filename containing the output of a run of the OKsolver_2002.
-#
 # Output:
 #   A data.frame with a single row with the following fields in the
 #   following order:
 #
-#     sat ({0,1,2})
-#       Whether OKsolver_2002 found the DIMACS file to be SATISFIABLE (1),
-#       UNSATISFIABLE (0) or it was unable to determine satisfiability (2).
-#     init_max_cl (positive integer)
-#       Initial maximum clause-length.                                        
-#     n (positive integer)
-#       Initial number of variables.
-#     c (positive integer)
-#       Initial number of clauses.
-#     l (positive integer)
-#       Initial number of literal occurrences.
-#     init_unit (positive integer)
-#       Number of unit-clause propagations.
-#     diff_max_cl (positive integer)
-#       Difference between the maximum clause-length before and after
-#       preprocessing.
-#     diff_n (positive integer)
-#       Difference between the number of variables before and after
-#       preprocessing.
-#     diff_c (positive integer)
-#       Difference between the number of clauses before and after
-#       preprocessing.
-#     diff_l (positive integer)
-#       Difference between the number of literal occurrences before and after
-#       preprocessing.
-#     bin_clauses (positive integer)
-#       Number of binary clauses after preprocessing.
-#     time (double)
-#       Total time in seconds to solve the problem.
-#     nodes (positive integer)
-#       Number of nodes in the search tree.
-#     single_nodes (positive integer)
-#       Number of single nodes in the search tree.
-#     quasi_single_nodes (positive integer)
-#       Number of quasi-single nodes in the search tree.
-#     r2 (positive integer)
-#       Number of r_2 / failed-literal reductions performed.
-#     pure_lits (positive integer)
-#       Number of pure literals found during search.
-#     aut (positive integer)
-#       Number of autarkies found during search.
-#     missed_1nodes (positive integer)
-#       Number of nodes which would have been found as single nodes
-#       if the OKsolver_2002 had chosen to search the "other" branch first.
-#     max_tree_depth (positive integer)
-#       Maximum depth of the search tree.
-#     tab_enlarge (positive integer)
-#       Number of table enlargements needed during the search.
-#     aut1 (positive integer)
-#       Number of 1-autarkies found during the search.
-#       A 1-autarky satisfies all clauses except one.
-#     new_2clauses (positive integer)
-#       Number of new binary clauses learnt during the search.
-#     max_added_2cl (positive integer)
-#       Maximum number of new binary clauses added during the search.
-#     filename (string)
-#       Name of the DIMACS file input to OKsolver_2002.
-#
+#     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0), UNKNOWN (2).
+#     init_max_cl (positive integer): Initial maximum clause-length.
+#     n (pos int): Initial number of variables.
+#     c (pos int): Initial number of clauses.
+#     l (pos int): Initial number of literal occurrences.
+#     init_unit (pos int): Number of unit-clause propagations.
+#     diff_max_cl (pos int): Difference between maximum clause-length before
+#       and after preprocessing.
+#     diff_n (pos int): Diff. in variables before/after preprocessing.
+#     diff_c (pos int): Diff. in clauses before/after preprocessing.
+#     diff_l (pos int): Diff. in literal occurrences before/after preproc.
+#     bin_clauses (pos int): Number of 2-clauses after preproc.
+#     time (double): Total time in seconds to solve the problem.
+#     nodes (pos int): Number of nodes in the search tree.
+#     single_nodes (pos int): Number of single nodes in search tree.
+#     quasi_single_nodes (pos int): Number of quasi-single nodes.
+#     r2 (pos int): Number of r_2-reductions.
+#     pure_lits (pos int): Pure literals found during search.
+#     aut (pos int): Number of autarkies.
+#     missed_1nodes (pos int): Nodes which would have been found as
+#       single nodes if the the "other" branch had been chosen first.
+#     max_tree_depth (pos int): Maximum depth of the search tree.
+#     tab_enlarge (pos int): Table enlargements during the search.
+#     aut1 (pos int): Number of 1-autarkies. A 1-autarky satisfies all clauses
+#       except one.
+#     new_2clauses (pos int): New binary clauses learnt.
+#     max_added_2cl (pos int): Maximum number of new binary clauses added.
+#     filename (string): Name of the DIMACS file input to OKsolver_2002.
 #
 read_oksolver_output = function(filename, ...) {
   S = system(paste("cat ", filename," | grep \"^c\\|s\""), intern=TRUE)
