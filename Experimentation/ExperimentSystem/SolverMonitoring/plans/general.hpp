@@ -13,7 +13,11 @@ License, or any later version. */
   \todo Create milestones
 
 
-  \bug False treatment of "decisions"
+  \todo Add monitoring for all other solvers
+
+
+  \bug DONE (types of columns specified)
+  False treatment of "decisions"
   <ul>
    <li> Column "decisions" is treated as factor! This is obviously false.
    </li>
@@ -22,7 +26,8 @@ License, or any later version. */
   </ul>
 
 
-  \bug Inappropriate column names
+  \bug DONE (shortened and specified column names)
+  Inappropriate column names
   <ul>
    <li> Column names must be short, never like
    "decisions_per_sec". </li>

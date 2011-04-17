@@ -13,58 +13,49 @@
 # data.frame containing the statistics on the computation.
 #
 # Inputs:
-#   filename
-#     The filename containing the output of a run of the picosat913 solver.
+#   stats_filename
+#     The filename containing the output of the solver run.
 #
 # Output:
+#   Statistics corresponding to the run of the solver on filename.
 #   A data.frame with a single row with the following fields in the
 #   following order:
 #
 #     filename (string)
-#       The name of the file picosat913 was run on to produce the output.
+#       Name of the DIMACS file the solver was run on.
 #     n (positive integer)
-#       The number of variables in the DIMACS file picosat913 was run on to
-#       generate filename.
+#       Initial number of variables.
 #     c (positive integer)
-#       The number of variables in the DIMACS file picosat913 was run on to
-#       generate filename.
+#       Initial number of clauses.
 #     sat ({0,1,2})
 #       Whether picosat913 found filename to be SATISFIABLE (1),
-#       UNSATISFIABLE (0) or it was unable to determine satisfiablity (2).
+#       UNSATISFIABLE (0) or it was unable to determine satisfiability (2).
 #     restarts (positive integer)
-#       The number of restarts picosat913 has performed while solving filename.
+#       Number of restarts.
 #     failed_lits (positive integer)
-#       Number of forced assignments found using partial failed literal
-#       reductions.
+#       Number of forced assignments found using failed literal reductions.
 #     conflicts (positive integer)
-#       The number of conflicts picosat913 has found while solving filename.
+#       Number of conflicts found while solving filename.
 #     decisions (positive integer)
-#       The number of decisions picosat913 has performed while solving filename.
+#       Number of "decisions".
 #     fixed_vars (positive integer)
-#       The number of variables fixed to true or false by picosat913 during
-#       it's search.
+#       Number of variables fixed to true or false during search.
 #     learned_lits (positive integer)
-#       The number of literals which picosat913 determined by conflict clause
-#       analysis.
+#       Number of literals determined by conflict clause analysis.
 #     deleted_lits (double)
-#       The percentage of literals deleted from the problem by picosat913
-#       during the search and inference steps.
+#       Percentage of literals deleted.
 #     prop (positive integer)
-#       The number of unit clause propagations that picosat913 has performed
-#       while solving filename.
+#       Total number of unit clause propagations.
 #     simps (positive integer)
-#       The number of simplications performed by picosat913 during it's
-#       search.
+#       Total number of simplications performed.
 #     mem (double)
-#       The maximum amount of main memory in Megabytes used by picosat913 when
-#       solving filename.
+#       Maximum amount of main memory in Megabytes used.
 #     time (double)
-#       The number of seconds it took picosat913 to solve filename.
+#       Total time taken in seconds to solve.
 #
-# Note this function will not read the output of any of the precosat solvers,
-# as their output format is considerably different to picosat.
+# Note this function will not read the output of any of the precosat solvers.
 #  
-read_picosat_output = function(filename, ...) {
+read_picosat_output = function(stats_filename, ...) {
   S = system(paste("cat ", filename," | grep \"^c\\|s\""), intern=TRUE)
   result = list()
   for (line in S) {
@@ -121,14 +112,39 @@ read_picosat_output = function(filename, ...) {
   }
   data.frame(result)
 }
-# As an example, we can generate the CNF for the 4-bit AES Sbox in maxima:
-#
-# maxima> oklib_load_all()$
-# maxima> output_ss_sbox_fullcnf_stdname(2,4,ss_polynomial_2_4)$
-#
-# and then running picosat913 on the file:
-#
-# shell> picosat913 AES_sbox_2_4_full.cnf > sbox.result 2>&1
+# From the following picosat913 output (in sbox.result):
+# 
+# c PicoSAT SAT Solver Version 913
+# c Copyright (c) 2006 - 2009 Armin Biere JKU Linz
+# c gcc -Wall -Wextra -m32 -static -DNDEBUG -O3 -fomit-frame-pointer -finline-limit=1000000
+# c
+# c parsing AES_sbox_2_4_full.cnf
+# c parsed header 'p cnf 8 240'
+# c initialized 8 variables
+# c found 240 non trivial clauses
+# c
+# *snip*
+# c
+# s SATISFIABLE
+# v -1 -2 -3 -4 -5 6 7 -8 0
+# c
+# c 0 iterations
+# c 0 restarts
+# c 0 failed literals
+# c 2 conflicts
+# c 8 decisions
+# c 0 fixed variables
+# c 13 learned literals
+# c 0.0% deleted literals
+# c 11 propagations
+# c 100.0% variables used
+# c 0.0 seconds in library
+# c 0.0 megaprops/second
+# c 1 simplifications
+# c 0 reductions
+# c 0.0 MB recycled
+# c 0.0 MB maximally allocated
+# c 0.0 seconds total run time
 #
 # we get the following data.frame:
 #
@@ -142,7 +158,7 @@ read_picosat_output = function(filename, ...) {
 #
 
 # Reading multiple picosat913 output files into a data.frame.
-# See read_picosat913_output.
+# See read_picosat_output.
 read_picosat_outputs = function(filenames) {
  result_df = NULL
  for(file in filenames) {
@@ -150,40 +166,4 @@ read_picosat_outputs = function(filenames) {
  }
  result_df
 }
-# As an example, we can generate the CNFs for unsatisfiable PHP formulas
-# mapping m+1 pigeons to m holes:
-#
-# maxima> oklib_load_all()$
-# maxima> for i : 1  thru 5 do output_weak_php_stdname(i+1,i);
-#
-# and then running picosat913 on these files:
-#
-# shell> for i in $(seq 1 5); do picosat913 PHP_weak_*_${i}.cnf > php_${i}.result 2>&1; done
-#
-# we get the following data.frame (using Sys.glob to generate the list of
-# files):
-#
-# R> oklib_load_all()
-# R> E = read_picosat_outputs(Sys.glob("php_*.result"))
-# R> E
-#           filename  n  c sat iter restarts failed_lits conflicts decisions
-# 1 PHP_weak_2_1.cnf  2  3   1    0        0           0         1         0
-# 2 PHP_weak_3_2.cnf  6  9   1    0        0           1         2         0
-# 3 PHP_weak_4_3.cnf 12 22   1    1        0           0         7         9
-# 4 PHP_weak_5_4.cnf 20 45   1    3        0           0        30        40
-# 5 PHP_weak_6_5.cnf 30 81   1    4        0           0       139       161
-#   fixed_vars learned_lits deleted_lits prop simps mem time
-# 1          2            0          0.0    2     0   0    0
-# 2          6            6          0.0   12     0   0    0
-# 3         12           21          8.3  115     1   0    0
-# 4         20          116          7.4  447     1   0    0
-# 5         30          938         11.8 2038     1   0    0
-#
-# If one has parameters in the filename of the CNFs that picosat913 was run
-# on, we can add an extra column to the data.frame, extracting the value from
-# the filename:
-#
-# R> E$m = as.integer(gsub("(^PHP_weak_.*_|.cnf$)","",E$filename))
-# R> plot(E$m, E$decisions)
-# 
-#
+
