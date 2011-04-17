@@ -9,7 +9,7 @@ License, or any later version. */
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp
   \brief AES experiments related to the SAT 2011 paper
 
-  We consider experiments investigating the AES and small scale translations 
+  We consider experiments investigating the AES and small-scale translations
   to CNF, as well as the translations of the associated AES boxes such as the
   Sbox, field multiplication, field inversion and so on.
 
@@ -21,22 +21,22 @@ License, or any later version. */
   \todo Links
   <ul>
    <li> See 
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/general.hpp
+   Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/general.hpp
    for experiments regarding breaking AES (i.e. finding the key given the
    plaintext and ciphertext). </li>
    <li> See 
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/EncryptionDecryption.hpp 
+   AdvancedEncryptionStandard/plans/SAT2011/EncryptionDecryption.hpp
    for experiments regarding computing encryption and decryption using the
    AES SAT translation. </li>
    <li> See 
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
+   AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
    for experiments regarding representations of the AES and small scale boxes.
    </li>
   </ul>
 
 
 
-  \todo Investigation dimensions
+  \todo Investigating dimensions
   <ul>
    <li> The translation is available at
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac.
@@ -44,7 +44,7 @@ License, or any later version. */
    <li> The translation system (irrespective of the AES) has three conceptual
    levels:
     <ul>
-     <li> <em>Variant</em> - which AES function we consider (small scale
+     <li> <em>Variant</em> - which AES function we consider (small-scale
      parameters etc). This level defines the whole boolean function we
      consider. </li>
      <li> <em>Decomposition</em> - how to decompose the large boolean
@@ -61,22 +61,22 @@ License, or any later version. */
    schedule. </li>
    <li> Variants (AES parameters):
     <ul>
-     <li> Number of rounds (10+ options): 1 - 10. </li>
+     <li> Number of rounds (10+ options): 1 - 10. ??? what is "10+" ??? </li>
      <li> Size of field (8+ options) : 1-8. </li>
      <li> Number of columns in AES block (4+ options): 1-4. </li>
      <li> Number of rows in AES block (4+ options): 1-4. </li>
      <li> Inclusion of special final round or not (2 options):
       <ol>
-       <li> Final round is the same as every other (in line with small scale). 
+       <li> Final round is the same as every other (in line with small-scale).
        </li>
        <li> Final round doesn't include the MixColumns operation. </li>
       </ol>
      </li>
      <li> Box replacements (3 options):
       <ol>
-       <li> Original Sbox, field multiplication etc are used. </li>
+       <li> Original Sbox, field multiplication etc. are used. </li>
        <li> Random permutations are used. </li>
-       <li> The identity is used. 
+       <li> The identity is used. </li>
        <li> See "Explain how to replace various AES boxes with identity or
        random" in AdvancedEncryptionStandard/plans/SAT2011/general.hpp; this
        aspects needs better explanations. </li>
@@ -107,7 +107,7 @@ License, or any later version. */
        </li>
       </ul>
      </li>
-     <li> So far, the key decompositions we consider revolve around the
+     <li> So far, the decompositions we consider revolve around the
      Sboxes and MixColumn operation. </li>
      <li> Sbox decompositions:
       <ul>
@@ -132,8 +132,8 @@ License, or any later version. */
       <ul>
        <li> MixColumns direction (3 options):
         <ol>
-         <li> Translation of the MixColumn component using both the encryption and
-         decryption components. </li>
+         <li> Translation of the MixColumn component using both the encryption
+         and decryption components. </li>
          <li> Translation using only the encryption direction. </li>
          <li> Translation using only the decryption direction. </li>
         </ol>
@@ -177,7 +177,8 @@ License, or any later version. */
          column from the previous round key. </li>
         </ul>
        </li>
-       <li> "By definition" computation (not implemented):
+       <li> "By definition" computation (not implemented): ??? what does this
+       mean ???
         <ul>
          <li> Translates the Sbox operations as individual functions. </li>
          <li> Column i of the new round key is computed by
@@ -194,8 +195,8 @@ License, or any later version. */
     <ul>
      <li> Box representation (4 options):
       <ol>
-       <li> Canonical translation. </li>
-       <li> Prime representation. </li>
+       <li> Canonical translation. ??? here we have more options ??? </li>
+       <li> r_0-based representation. </li>
        <li> Minimum representation. </li>
        <li> r_1-based representation. </li>    
       </ol>
@@ -209,25 +210,22 @@ License, or any later version. */
    AdvancedEncryptionStandard/plans/SAT2011/general.hpp; this aspects needs
    better explanations. </li>
    <li> For more information, see 
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
-   </li>
+   Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp. </li>
   </ul>
 
 
   \todo Open problems
   <ul>
    <li> For a description of the investigation, please see
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp.
-   </li>
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp. </li>
    <li> Here is a list of experiments which still need to be run, or
-   questions for which we still do not know the answer. 
-   <ul>
-    <li> We need to find out which solvers and local search algorithms
-    perform best on different minimisation problems, see 
-    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp.
-    </li>
-    <li> We need basic data on the prime implicates and subsumption 
-    hypergraphs for the following:
+   questions for which we still do not know the answer. </li>
+   <li> We need to find out which solvers and local search algorithms
+   perform best on different minimisation problems, see
+   AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp.
+   </li>
+   <li> We need basic data on the prime implicates and subsumption
+   hypergraphs for the following:
     <ul>
      <li> Small scale Sbox (no plans file yet). </li>
      <li> Small scale field multiplications (no plans file yet). </li>
@@ -235,31 +233,37 @@ License, or any later version. */
      <li> Small scale linear map (no plans file yet). </li>
      <li> Small scale linear map with field multiplications (no plans file 
      yet). </li>
-     <li> AES field multiplications (255):
-     <ul>
-      <li> 00, 01, 02, 03, 09, 11, 13, 14 : DONE. </li>
-      <li> The other 247. </li>
-     </ul>
+     <li> AES field multiplications (255): ??? what is the meaning of "255" ???
+      <ul>
+       <li> 00, 01, 02, 03, 09, 11, 13, 14 : DONE. </li>
+       <li> The other 247. </li>
+      </ul>
      </li>
      <li> AES Sbox linear map with field multiplications (no plans file yet). 
      </li>
      <li> AES Sbox (see 
-     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp) : DONE. </li>
+     AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp)
+     : DONE. </li>
      <li> AES field inversion (see 
-     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp) : DONE. </li>
+     AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp)
+     : DONE. </li>
      <li> AES Sbox linear map (see 
-     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/LinearMap_8.hpp) : DONE. </li>
+     AdvancedEncryptionStandard/plans/SAT2011/Representations/LinearMap_8.hpp)
+     : DONE. </li>
     </ul>
-    </li>
-    <li> We need to find minimum CNF representations for the following
-    functions:
+   </li>
+   <li> We need to find minimum CNF representations for the following
+   functions:
     <ul>
      <li> AES Sbox; no minimum yet, smallest 294 (see 
-     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp). </li>
+     AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp).
+     </li>
      <li> AES field inversion (see 
-     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp). </li>
+     AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp).
+     </li>
      <li> AES Sbox linear map (see 
-     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/LinearMap_8.hpp). </li>
+     AdvancedEncryptionStandard/plans/SAT2011/Representations/LinearMap_8.hpp).
+     </li>
      <li> AES Sbox linear map with field multiplications (no plans file yet). 
      </li>
      <li> Small scale Sbox (no plans file yet). </li>
@@ -268,22 +272,22 @@ License, or any later version. */
      <li> Small scale linear map (no plans file yet). </li>
      <li> Small scale linear map with field multiplications (no plans file 
      yet). </li>
-     <li> 
      <li> AES field multiplications (255):
-     <ul>
-      <li> The remaining 251. </li>
-      <li> 03, see 
-      Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp. </li>
-      <li> 02, minimum size 20 (see 
-      Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp) : 
-      DONE. </li>
-      <li> 00, 01 : DONE (trivial) </li>
-     </ul>
+      <ul>
+       <li> The remaining 251. </li>
+       <li> 03, see
+       AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp.
+       </li>
+       <li> 02, minimum size 20 (see
+       AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp) :
+       DONE. </li>
+       <li> 00, 01 : DONE (trivial) </li>
+      </ul>
      </li>
     </ul>
-    </li>
-    <li> Investigations into the prime implicates, subsumption hypergraphs
-    and minimum representations of:
+   </li>
+   <li> Investigations into the prime implicates, subsumption hypergraphs
+   and minimum representations of:
     <ul>
      <li> Random permutations (see 
      "First considerations of random permutation" in 
@@ -291,17 +295,17 @@ License, or any later version. */
      </li>
      <li> Random linear maps (see 
      "Affine bijections over ZZ_2" in
-     Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp). </li>
+     Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp).
+     </li>
      <li> Random boolean functions (see 
      Experimentation/Investigations/BooleanFunctions/plans/general.hpp). </li>
     </ul>
-    </li>
-   </ul>
    </li>
   </ul>
 
 
-  \todo Prepare experiments for the SAT 2011 paper
+  \todo Prepare experiments for the SAT 2011 paper ??? what is the status of
+  this ???
   <ul>
    <li> Milestones are needed. </li>
    <li> A full update of the existing investigations-reports is needed. </li>
@@ -368,7 +372,7 @@ License, or any later version. */
    <li> We need a list of the solvers we will use for all experiments. </li>
    <li> As time goes on, some solvers might not be used for later experiments
    based on earlier results, and this can be recorded here. </li>
-   <li> Solvers to be used: 
+   <li> Solvers to be used: ??? not up-to-date ???
     <ul>
      <li> ArgoSAT </li>
      <li> OKsolver_2002 </li>
@@ -385,7 +389,8 @@ License, or any later version. */
    </li>
    <li> The following solvers (from the SAT 2010 race) are not in the library,
    but should be added to the library (see 
-   BuildSystem/ExternalSources/plans/SAT.hpp):
+   BuildSystem/ExternalSources/plans/SAT.hpp): ??? this should go to the
+   build-system plans ???
    <ul>
     <li> Barcelogic </li>
     <li> borg-sat </li>
