@@ -26,6 +26,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
    ***************************
 */
 
+okltest_order_deficiency(order_deficiency);
 
 /* **************************************
    * (Generalised) non-Mersenne numbers *

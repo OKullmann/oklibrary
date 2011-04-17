@@ -31,6 +31,8 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    ***************************
 */
 
+order_deficiency(k) := if k=1 then 0 elseif k=2 then 2 else
+ block([l : cld(k)], if k <= 2^l-l then l else l+1)$
 
 /* **************************************
    * (Generalised) non-Mersenne numbers *

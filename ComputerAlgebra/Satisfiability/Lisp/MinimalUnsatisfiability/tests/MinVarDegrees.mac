@@ -29,6 +29,11 @@ kill(f)$
    ***************************
 */
 
+okltest_order_deficiency(f) := (
+  assert(map(f,create_list(i,i,1,13)) = [0,2,3,3,3,4,4,4,4,4,4,4,5]),
+  for n : 2 thru 10 do
+    assert(f(2^n-n) = n),
+  true)$
 
 /* **************************************
    * (Generalised) non-Mersenne numbers *
