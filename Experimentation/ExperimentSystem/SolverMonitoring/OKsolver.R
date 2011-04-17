@@ -190,7 +190,7 @@ read_oksolver_output = function(filename, ...) {
 
 # Reading a set of OKsolver_2002 outputs into a data.frame (given as a list of
 # filenames).
-# See read_oksolver_output.
+# See read_oksolver_output. ??? this is not a specification ???
 read_oksolver_outputs = function(filenames) {
   result_df = NULL
   for(file in filenames) {
@@ -198,7 +198,7 @@ read_oksolver_outputs = function(filenames) {
  }
  result_df
 }
-
+# ??? how to use directories ???
   
 # ##############
 # # Evaluation #
