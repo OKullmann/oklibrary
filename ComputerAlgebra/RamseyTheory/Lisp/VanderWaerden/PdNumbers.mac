@@ -62,7 +62,7 @@ pdvanderwaerden3k(k) :=
   [2,3],[3,6],[6,9],[15,16],[16,21],[30,31],[41,44],[52,57],[62,77],[93,94],
   [110,113],[126,135],[142,155],[174,183],[200,205],[232,237],[256,279],[299,312],[338,347],[380,389],
   [400,405],[444,463],[506,507],[568,593],[586,607],[[634,inf-1],[643,inf-1]],[[664,inf-1],[699,inf-1]],[[728,inf-1],[743,inf-1]],[[810,inf-1],[821,inf-1]],[[844,inf-1],[855,inf-1]],
-  [[916,inf-1],[931,inf-1]],[[958,inf-1],[963,inf-1]],[[992,inf-1],[1003,inf-1]],[[1046,inf-1],[1079,inf-1]],[[1102,inf-1],[1143,inf-1]],[[1158,inf-1],[1175,inf-1]],[[1264,inf-1],[1295,inf-1]],[[1336,inf-1],[1369,inf-1]],[[1406,inf-1],[1411,inf-1]]
+  [[916,inf-1],[931,inf-1]],[[958,inf-1],[963,inf-1]],[[996,inf-1],[1005,inf-1]],[[1054,inf-1],[1081,inf-1]],[[1114,inf-1],[1155,inf-1]],[[1162,inf-1],[1175,inf-1]],[[1272,inf-1],[1295,inf-1]],[[1336,inf-1],[1369,inf-1]],[[1406,inf-1],[1411,inf-1]]
  ][k]
  else unknown$
 pdvanderwaerden3k_a(L) := vanderwaerden3k_a(L)$
@@ -78,22 +78,22 @@ pdvanderwaerden4k_a(L) := vanderwaerden4k_a(L)$
 
 pdvanderwaerden5k(k) := 
  if k <= 13 then [
-  [4,5],[5,10],[16,21],[34,55],[150,177],unknown,unknown,[[312,inf-1],[323,inf-1]],[[446,inf-1],[473,inf-1]],[[595,inf-1],[612,inf-1]],
-  [[742,inf-1],[757,inf-1]],[[914,inf-1],[937,inf-1]],[[1176,inf-1],[1187,inf-1]]
+  [4,5],[5,10],[16,21],[34,55],[150,177],[195,206],[227,236],[[312,inf-1],[323,inf-1]],[[446,inf-1],[473,inf-1]],[[595,inf-1],[612,inf-1]],
+  [[742,inf-1],[757,inf-1]],[[943,inf-1],[950,inf-1]],[[1176,inf-1],[1187,inf-1]]
  ][k]
  else unknown$
 pdvanderwaerden5k_a(L) := vanderwaerden5k_a(L)$
 
 pdvanderwaerden6k(k) := 
  if k <= 9 then [
-  [5,6],[5,10],[30,31],[62,65],unknown,[567,1132],[[591,inf-1],[1156,inf-1]],[[655,inf-1],[1168,inf-1]],[[809,inf-1],[1382,inf-1]]
+  [5,6],[5,10],[30,31],[62,65],[195,206],[567,1132],[[591,inf-1],[1156,inf-1]],[[655,inf-1],[1168,inf-1]],[[857,inf-1],[1382,inf-1]]
  ][k]
  else unknown$
 pdvanderwaerden6k_a(L) := vanderwaerden6k_a(L)$
 
 pdvanderwaerden7k(k) := 
  if k <= 7 then [
-  [6,7],[7,14],[41,44],[101,106],unknown,[[587,inf-1],[1156,inf-1]],[[1544,inf-1],[1547,inf-1]]
+  [6,7],[7,14],[41,44],[101,106],[227,236],[[591,inf-1],[1156,inf-1]],[[1544,inf-1],[1547,inf-1]]
  ][k]
  else unknown$
 pdvanderwaerden7k_a(L) := vanderwaerden7k_a(L)$
@@ -116,8 +116,8 @@ pdvanderwaerdend_a(L) := vanderwaerdend_a(L)$
 
 /* The diagonal cases with two parts: */
 pdvanderwaerdend2(k) :=
- if k <= 6 then [
-  [0,1],[1,2],[6,9],[24,25],[150,177],[567,1132]
+ if k <= 7 then [
+  [0,1],[1,2],[6,9],[24,25],[150,177],[567,1132],[[1544,inf-1],[1547,inf-1]]
  ][k]
  else unknown$
 pdvanderwaerdend2_a(L) := vanderwaerdend2_a(L)$

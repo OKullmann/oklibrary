@@ -179,30 +179,21 @@ License, or any later version. */
   </ul>
 
 
-  \todo Palindromic version:
+  \todo vdw_2^pd(3,36) >= (1162,1175)
   <ul>
-   <li> 1174 < pdvanderwaerden([3,36])[2] =(conj) 1175 =(conj)
+   <li> pdvanderwaerden([3,36])[2] =(conj) 1175 =(conj)
    vanderwaerden([3,36]) - 83. </li>
    <li> pdvanderwaerden([3,36])[1] =(conj) 1158. </li>
    <li> Certificates:
     <ol>
-     <li> n=1157:
+     <li> n=1161:
      \verbatim
-13,36,42,64,77,95,107,109,114,117,
-136,159,169,188,189,191,210,228,247,263,
-270,300,304,310,315,323,329,341,362,370,
-386,396,397,403,405,427,437,446,474,485,
-515,519,526,528,560,561
-     \endverbatim
-     </li>
-     <li> n=1158:
-     \verbatim
-27,56,58,62,74,91,101,130,132,148,
-149,154,161,165,171,187,189,218,228,232,
-257,263,270,276,301,305,321,338,346,364,
-393,399,428,432,467,469,473,475,486,498,
-520,537,569,572
-     \endverbatim
+10,32,43,69,79,82,101,110,116,117,
+129,162,174,181,187,217,218,240,256,268,
+275,287,290,309,315,323,345,347,348,358,
+384,392,397,416,427,455,486,490,521,524,
+533,543,560,571,572
+    \endverbatim
      </li>
      <li> n=1174:
      \verbatim
@@ -225,6 +216,8 @@ Break point 2: 1175
    break-point is rather weak). </li>
    <li> Rerunning it with doubled cutoff, and using the solution for n-1.
    We also need the ability to start late. </li>
+   <li> "RunPdVdWk1k2 3 36 gsat-tabu 100 50000000" found solutions up to
+   n=1162 (within the first 24 runs), before being aborted. </li>
   </ul>
 
 */

@@ -203,29 +203,29 @@ License, or any later version. */
   </ul>
 
 
-  \todo Palindromic version:
+  \todo vdw_2^pd(3,35) >= (1114,1155)
   <ul>
-   <li> 1142 < pdvanderwaerden([3,35])[2] =(conj) 1143 =(conj)
+   <li> pdvanderwaerden([3,35])[2] =(conj) 1155 =(conj)
    vanderwaerden([3,35]) - ???. </li>
-   <li> pdvanderwaerden([3,35])[1] =(conj) 1102. </li>
+   <li> pdvanderwaerden([3,35])[1] =(conj) 1114. </li>
    <li> Certificates:
     <ol>
-     <li> n=1101:
+     <li> n=1113:
      \verbatim
-23,27,48,74,75,97,106,122,130,144,
-148,161,165,183,206,232,235,253,254,266,
-272,285,288,294,319,354,359,377,380,381,
-394,397,418,425,450,451,467,499,504,511,
-515,533,536,550
+8,21,43,72,76,93,95,119,124,126,
+137,146,161,190,200,213,235,259,260,262,
+268,272,294,297,321,327,342,358,362,364,
+365,367,373,391,402,426,428,432,435,445,
+467,482,513,539,550
      \endverbatim
      </li>
-     <li> n=1142:
+     <li> n=1154:
      \verbatim
-10,37,50,80,93,97,129,131,140,163,
-174,177,188,209,210,218,220,242,271,285,
-312,315,319,336,341,358,369,373,374,376,
-384,409,435,443,446,470,478,487,500,514,
-525,540,562
+29,38,57,64,74,104,111,121,128,141,
+147,149,160,186,215,229,238,248,252,278,
+299,303,325,331,342,345,380,382,386,389,
+405,423,426,454,474,483,484,491,493,496,
+497,517,548,570
      \endverbatim
      </li>
     </ol>
@@ -237,8 +237,12 @@ Break point 2: 1143
    \endverbatim
    where all solutions were found within in the first 71 runs (so the second
    break-point is rather weak). </li>
-   <li> Rerunning it with doubled cutoff, and using the previous solutions
-   properly. We also need the ability to start late. </li>
+   <li> "RunPdVdWk1k2 3 35 gsat-tabu 100 40000000" yields
+   \verbatim
+Break point 1: 1114
+Break point 2: 1155
+  \endverbatim
+   where all solutions were found within in the first 25 runs. </li>
   </ul>
 
 */

@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/tests/T
 */
 
 okltest_dualts_fcl(dualts_fcl);
+okltest_dualtsplus_fcl(dualtsplus_fcl);
 okltest_dualtsext_fcl(dualtsext_fcl);
 
 /* Measures */

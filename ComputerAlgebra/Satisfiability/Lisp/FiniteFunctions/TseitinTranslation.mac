@@ -64,12 +64,57 @@ dualts_fcl(FF) := block([c : length(FF[2]), NV, G1, G2],
    (that is, on FF[1]) via the unique extension.
    Thus if m=0 then dualts_fcl(FF) is unsatisfiable, while otherwise
    dualts_fcl(FF) is satisfiable.
+   If FF is irredundant, then we have the following property.
    Given any partial assignment phi such that phi cannot be extended to a
    satisfying assignment of FF, phi * F yields the empty clause via
    unit-clause propagation (since dualts_fcl(FF) is "r_1-based"; see
    "Understanding dualts_fcl" in FiniteFunctions/plans/TseitinTranslation.hpp).
    (However, even if all extension of phi make FF true, this cannot be
    seen "directly" with dualts_fcl(FF) (consider for example a tautology FF)).
+*/
+
+/* dualtsplus_fcl(FF) has the variables FF[1] from FF. It also has variables
+   dts(i) where i ranges from 1 to c. c = length(FF[2]) = number of clauses in
+   FF.
+   The clauses of dualts_fcl(FF) are canonical translations. They are
+   translations of::
+     - (C <-> dts(i)) for all clauses C of FF with index i.
+     - the disjunction of all dts(i).
+     - (l <-> T) for every literal l occurring in FF[2].
+       T is the conjunction of -dts(i) where -l is in C with index i.
+   Thus we obtain per C one clause of length |C|+1. We also obtain |C| clauses
+   of length 2. We obtain one clause of length literal_degree_cs(FF[2],-l)
+   for every literal l in FF[2]. Finally we have one clause of length |FF|.
+   The clauses are given in the order:
+     - mirror-clauses.
+     - binary clauses (with the natural order on them, given by the
+       order of clauses in FF and the order of the literals in C in FF),
+     - literal equivalence clauses (with the order given by the natural order
+       on the literals)
+     - the long clause.
+*/
+dualtsplus_fcl(FF) := block([c : length(FF[2]), NV, G1, G2, G3],
+  NV : create_list(dts_var(i),i,1,c),
+  G1 : map(lambda([C,i], adjoin(dts_var(i),comp_sl(C))), 
+        FF[2], create_list(i,i,1,c)),
+  G2 : lappend(map(lambda([C,i], create_list({-dts_var(i),x},x,listify(C))),
+        FF[2], create_list(i,i,1,c))),
+  G3 : map(
+         lambda([l], setify(
+             cons(l, map(dts_var,
+                 sublist_indices(FF[2], lambda([C], elementp(-l,C))))))),
+         listify(literals_v(
+             sublist(FF[1], lambda([v], elementp(v,var_cs(FF[2]))))))),
+  [append(FF[1],NV), append(G1,G2,G3,[setify(NV)])])$
+/* Characteristic properties:
+   dualtsplus_fcl has the characteristics properties of dualts_fcl.
+   It also has the following property if FF is full.
+
+   Consider all partial assignments phi on dualtsplus_fcl(FF). If
+   phi * dualtsplus_fcl(FF) has a forced assignment <v -> b> then
+   phi * dualtsplus_fcl(FF)[2] contains {l}. l is v if b = 1 and
+   -v otherwise. {l} is the unit clause enforcing <v -> b>. b is
+   a value in {0,1}.
 */
 
 /* The variation which uses value d (for "distinguish") as second parameter

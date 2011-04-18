@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 28.3.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -113,29 +113,6 @@ okltest_non_saturating_pas_bydef(f) := block([S : dll_simplest_trivial1],
   assert(f([{1,2},{{1,2},{-1},{-2,1}}],S) = {}),
   true)$
 
-/* ***************************
-   * Maximal min-var-degrees *
-   ***************************
-*/
-
-okltest_max_min_var_degree_def_rec(f) := block(
-  assert(f[1] = 2),
-  assert(f[2] = 4),
-  assert(f[3] = 5),
-  assert(f[4] = 6),
-  assert(f[5] = 8),
-  assert(f[6] = 9),
-  assert(f[7] = 10),
-  assert(f[8] = 11),
-  assert(f[9] = 12),
-  assert(f[10] = 13),
-  assert(f[11] = 14),
-  assert(f[12] = 16),
-  true)$
-
-okltest_max_min_var_degree_def_law(f) := block(
-  for k : 1 thru 12 do
-    assert(f(k) = max_min_var_degree_def_rec[k]))$
 
 /*!
 \endhtmlonly

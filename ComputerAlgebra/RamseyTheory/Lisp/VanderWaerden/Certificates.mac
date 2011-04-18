@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Certificates.mac
-  \brief Basic functions for investigating Van der Waerden hypergraphs
+  \brief Functions for investigating certificates of vdW-lower-bounds
 
 Use by
 

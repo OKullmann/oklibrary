@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 7.6.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -39,7 +39,7 @@ okltest_log10(f) := (
     assert(f(10^n) = n),
   true)$
 
-okltest_fld(f) := block(
+okltest_fld(f) := (
   assert(f(0) = minf),
   assert(f(1) = 0),
   assert(f(2) = 1),
@@ -49,6 +49,14 @@ okltest_fld(f) := block(
   assert(f(2^10) = 10),
   assert(f(2^10-1) = 9),
   assert(f(2^10+1) = 10),
+  for n : 1 thru 100 do
+    assert(f(n) = floor(log(n)/log(2))),
+  true)$
+
+okltest_cld(f) := (
+  assert(f(0) = minf),
+  for n : 1 thru 100 do
+    assert(f(n) = ceiling(log(n)/log(2))),
   true)$
 
 okltest_floorlog(f) := (

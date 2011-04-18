@@ -12,14 +12,24 @@ License, or any later version. */
 
   \todo Relations to other modules
   <ul>
-   <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp for
-   the function ramsey_hg(q,r,n) and its variations. </li>
+   <li> See ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac for
+   the function arithprog_hg(k,n) and its variations. </li>
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp
    for the SAT translation. </li>
    <li> See
    Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/general.hpp
    for investigations. </li>
+  </ul>
+
+
+  \todo Handling of duplicate entries for vdW-numbers
+  <ul>
+   <li> The functions (pd)vanderwaerdenxk, (pd)vanderwaerdend2 etc. overlap
+   in their stored values. </li>
+   <li> Perhaps it is best to remove these duplications. </li>
+   <li> On the other hand, it might be a burden to plan for all cases, and
+   one might just write a test which checks for consistency. </li>
   </ul>
 
 

@@ -1,5 +1,5 @@
 # Oliver Kullmann, 15.4.2005 (Swansea)
-# Copyright 2005-2007, 2009 Oliver Kullmann
+# Copyright 2005-2007, 2009, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -56,6 +56,7 @@ makefile_activeclauses := $(OKsystem)/OKlib/Satisfiability/ProblemInstances/Acti
 makefile_conditions := $(OKsystem)/OKlib/Satisfiability/ProblemInstances/Conditions/makefile
 makefile_reductions := $(OKsystem)/OKlib/Satisfiability/Reductions/makefile
 makefile_experimentation := $(OKsystem)/OKlib/Experimentation/makefile
+makefile_investigations := $(OKsystem)/OKlib/Experimentation/Investigations/makefile
 makefile_structures := $(OKsystem)/OKlib/Structures/makefile
 makefile_sets := $(OKsystem)/OKlib/Structures/Sets/makefile
 makefile_linearalgebra := $(OKsystem)/OKlib/Structures/LinearAlgebra/makefile
@@ -78,7 +79,7 @@ makefile_numbertheory := $(OKsystem)/OKlib/Structures/NumberTheory/makefile
 OKsystem_links := $(makefile_oksystem)
 Annotations_links := $(makefile_Annotations)
 annotations_links := $(makefile_annotations)
-OKlib_links := $(makefile_oklib) $(makefile_satisfiability) $(makefile_solvers) $(makefile_oksolver) $(makefile_algorithms) $(makefile_experimentation) $(makefile_structures) $(makefile_sets) $(makefile_programming) $(makefile_applications) $(makefile_proofsystems) $(makefile_assignments) $(makefile_autarkies) $(makefile_probleminstances) $(makefile_activeclauses) $(makefile_interfaces) $(makefile_conditions) $(makefile_reductions) $(makefile_tools) $(makefile_combinatorics) $(makefile_hypergraphs) $(makefile_trhypergraphs) $(makefile_transformers) $(makefile_graphs) $(makefile_linearalgebra) $(OKsystem)/OKlib/Programming/Utilities/makefile $(makefile_datastructures) $(makefile_oldoksolver) $(makefile_oldoksolver_experimental) $(makefile_numbertheory)
+OKlib_links := $(makefile_oklib) $(makefile_satisfiability) $(makefile_solvers) $(makefile_oksolver) $(makefile_algorithms) $(makefile_experimentation) $(makefile_investigations) $(makefile_structures) $(makefile_sets) $(makefile_programming) $(makefile_applications) $(makefile_proofsystems) $(makefile_assignments) $(makefile_autarkies) $(makefile_probleminstances) $(makefile_activeclauses) $(makefile_interfaces) $(makefile_conditions) $(makefile_reductions) $(makefile_tools) $(makefile_combinatorics) $(makefile_hypergraphs) $(makefile_trhypergraphs) $(makefile_transformers) $(makefile_graphs) $(makefile_linearalgebra) $(OKsystem)/OKlib/Programming/Utilities/makefile $(makefile_datastructures) $(makefile_oldoksolver) $(makefile_oldoksolver_experimental) $(makefile_numbertheory)
 
 
 ########### Rules ######################

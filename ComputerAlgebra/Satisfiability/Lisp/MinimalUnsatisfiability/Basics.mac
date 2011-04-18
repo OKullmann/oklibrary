@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.11.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,8 +20,6 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Ba
 */
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
-oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 
@@ -91,76 +89,6 @@ non_saturating_pas_bydef(FF,solver) := block(
       result : adjoin(phi,result),
   return(result))$
 
-
-/* ***************************
-   * Maximal min-var-degrees *
-   ***************************
-*/
-
-/* An upper bound on the maximal min-var-degree of a minimally unsatisfiable
-   clause-set of deficiency k, according to [OK, XSZ, 2008]. */
-/* This bound is sharp at least for 
- - k = 2^n-n (realised by full_fcs(n))
- - k=2 (realised by musatd2_fcs(n))
- - k=3 (realised by minvdegdef3(n))
- - k=4 (realised by minvdegdef4(n)). */
-/* I.e., min_unsat_bydef(F) and is(deficiency_cs(F) <= k) -> 
-         min_variable_degree_cs(F) <= max_min_var_degree_def[k]. */
-/* First the recursive computation: */
-max_min_var_degree_def_rec[k] := 
- if k = 1 then 2 else
- lmax(create_list(min(2*i,max_min_var_degree_def_rec[k-i+1]+i),i,2,k))$
-/* This is sequence A062289 (http://www.research.att.com/~njas/sequences/),
-   and accordingly we have 
-   max_min_var_degree_def_rec[k] = max_min_var_degree_def_law(k). */
-max_min_var_degree_def_law(k) := k + fld(k+1 + fld(k+1))$
-/* A natural lower bound: */
-max_min_var_degree_def_lb(k) := k + fld(k+1)$
-/* A natural upper bound: */
-max_min_var_degree_def_ub(k) := k + 1 + fld(k)$
-
-/* Compare Lisp/ConflictCombinatorics/HittingClauseSets.mac
-   for the treatmeant of hitting clause-sets.
-*/
-
-/* Analysis of the recurrence behaviour: */
-analyse_max_min_var_degree_def_rec(k) := 
- if k=1 then []
- else block([res : [], maxv : minf],
-  for i : 2 thru k do block(
-   [a : 2 * i, b : max_min_var_degree_def_rec[k-i+1]+i, minv],
-    minv : min(a,b),
-    if minv >= maxv then (
-      if minv > maxv then(maxv : minv,  res : []),
-      if a < b then res : cons([i,"a"], res)
-      elseif a = b then res : cons([i,k-i+1,"ab"], res)
-      else res : cons([i,k-i+1,"b"], res)
-    )
-  ),
-  return(reverse(res)))$
-/* Computation of the "primary recursion index", that i in {2,...,k}
-   such that
-     max_min_var_degree_def_rec[k] = max_min_var_degree_def_rec[k-i+1] + i.
-   Prerequisite: k >= 2.
-*/
-index_max_min_var_degree_def_rec(k) :=
-  block([i : 2],
-    while i < max_min_var_degree_def_rec[k-i+1] do i : i + 1,
-  return(i))$
-/* The alternative recursive formula for max_min_var_degree_def_rec[k]: */
-max_min_var_degree_def_rec2(k) := block(
- [i : index_max_min_var_degree_def_rec(k)],
-  max_min_var_degree_def_rec[k-i+1]+i)$
-/* Analysis of the various steps, for k >= 2: */
-step_max_min_var_degree_def_rec(k) := block(
- [i : index_max_min_var_degree_def_rec(k),
-  ip : index_max_min_var_degree_def_rec(k+1)],
-  [
-   max_min_var_degree_def_rec[k+1] - max_min_var_degree_def_rec[k],
-   max_min_var_degree_def_rec[(k+1)-ip+1] - max_min_var_degree_def_rec[k-i+1],
-   ip-i,
-   i - max_min_var_degree_def_rec[k-i+1]
-  ])$
 
 /*!
 \endhtmlonly

@@ -18,6 +18,14 @@ License, or any later version. */
    the following topics are handled:
     - Add todos
 
+  \par Version 0.0.3
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/plans/general.hpp
+   the following topics are handled:
+    - Find more test vectors
+    - Add variants with reduced number of rounds
+
   \par
    Update the following milestones.
 

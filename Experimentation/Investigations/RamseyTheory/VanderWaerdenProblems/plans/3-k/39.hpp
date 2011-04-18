@@ -342,9 +342,9 @@ The FlipsPerSecond are likely corrupted.
   </ul>
 
 
-  \todo Palindromic version:
+  \todo vdw_2^pd(3,39) >= (1406,1411)
   <ul>
-   <li> 1410 < pdvanderwaerden([3,39])[2] =(conj) 1411 =(conj)
+   <li> pdvanderwaerden([3,39])[2] =(conj) 1411 =(conj)
    vanderwaerden([3,39]) - ???. </li>
    <li> pdvanderwaerden([3,39])[1] =(conj) 1406. </li>
    <li> Certificates:

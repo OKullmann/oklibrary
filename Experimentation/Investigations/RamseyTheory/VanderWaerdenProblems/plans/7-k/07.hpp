@@ -153,16 +153,24 @@ Break point 1: 660
 Break point 2: 839
    \endverbatim
    </li>
-  </ul>
    <li> "RunPdVdWk1k2 7 7 adaptg2wsat 100 20000000" yields
    \verbatim
 Break point 1: 1544
 Break point 2: 1547
    \endverbatim
+   </li>
    <li> "RunPdVdWk1k2 7 7 gwsat 100 20000000" yields
    \verbatim
+Break point 1: 584
+Break point 2: 829
    \endverbatim
-   using at most ?? runs.
+   using at most 53 runs.
+   </li>
+   <li> "RunPdVdWk1k2 7 7 adaptg2wsat 200 40000000" yields
+   \verbatim
+Break point 1: 1327
+   \endverbatim
+   before being aborted, using at most 46 runs (for n=840)
    </li>
 
 */

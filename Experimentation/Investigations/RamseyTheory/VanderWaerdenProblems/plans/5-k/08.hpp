@@ -10,6 +10,84 @@ License, or any later version. */
   \brief On investigations into vdw_2(5,8)
 
 
+  \todo Best local search solver
+  <ul>
+   <li> For k=7 adaptg2wsat and ddfw are best (see
+   VanderWaerdenProblems/plans/5-k/07.hpp). </li>
+  </ul>
+
+
+  \todo vdw_2(5,8) > 330
+   <li> Certificate for n=330:
+   \verbatim
+3,4,5,6,9,12,13,14,21,22,
+27,32,35,37,39,41,46,48,50,51,
+52,53,55,57,62,64,65,68,71,76,
+81,85,89,90,91,96,97,99,100,102,
+106,108,110,115,120,125,126,127,133,135,
+136,138,139,140,143,144,145,146,150,152,
+153,154,156,164,167,170,171,173,177,178,
+179,180,182,183,184,185,187,188,190,194,
+196,197,198,203,211,213,214,215,217,221,
+222,223,224,226,227,229,232,233,234,241,
+242,247,252,255,258,261,266,270,271,272,
+274,275,277,282,283,285,288,291,295,296,
+301,305,309,310,311,316,317,318,320,323,
+324,325,328,330
+   \endverbatim
+   or
+   \verbatim
+2,6,8,10,11,12,13,15,18,22,
+27,32,35,37,39,41,45,46,47,51,
+52,57,58,62,64,66,71,79,81,82,
+83,85,89,90,91,92,94,95,96,97,
+99,100,106,108,109,110,112,115,123,126,
+133,134,135,136,138,139,140,143,144,146,
+152,153,154,159,164,169,170,171,173,177,
+179,180,182,183,185,187,188,189,190,194,
+197,200,208,211,213,214,215,217,222,224,
+226,228,229,231,234,238,240,241,242,244,
+252,257,259,261,265,266,267,271,272,273,
+276,277,278,284,286,291,296,301,302,303,
+305,311,313,314,316,317,320,321,324,325,
+327,328,330
+   \endverbatim
+   </li>
+   <li> Using the palindromic solution for n=322:
+    <ol>
+     <li> Starting search with the best palindromic solution:
+     \verbatim
+> k1=5 k2=8 n=322 alg="adaptg2wsat" cutoff=1000000 runs=100 expdate=""; export k1 k2 n; cat AltExp/Exp_PdVanderWaerden_2-${k1}-${k2}_${alg}-${runs}-${cutoff}_${expdate}/VanDerWaerden_pd_2-${k1}-${k2}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution
+
+> RunVdWk1k2 ${k1} ${k2} ${n} adaptg2wsat 100 10000000 solution
+UNSAT for n=331
+> E=read_ubcsat("Exp_VanderWaerden_2-5-8_322_adaptg2wsat-100-10000000_2011-04-13-080441/VanDerWaerden_2-5-8_331.cnf_OUT",nrows=100)
+ 3  4  5
+ 5 46 49
+100
+
+> RunVdWk1k2 ${k1} ${k2} ${n} ddfw 100 10000000 solution
+UNSAT for n=331
+> E=read_ubcsat("Exp_VanderWaerden_2-5-8_322_ddfw-100-10000000_2011-04-13-185202/VanDerWaerden_2-5-8_331.cnf_OUT",nrows=100)
+ 1  2  3  4  5
+ 3  1  8 53 35
+100
+
+> n=330; RunVdWk1k2 ${k1} ${k2} ${n} adaptg2wsat 100 20000000 AltExp/Exp_VanderWaerden_2-5-8_322_ddfw-100-10000000_2011-04-13-185202/VanDerWaerden_2-${k1}-${k2}_${n}.cnf_sol
+UNSAT for n=331
+> E=read_ubcsat("AltExp/Exp_VanderWaerden_2-5-8_330_adaptg2wsat-100-20000000_2011-04-13-232550/VanDerWaerden_2-5-8_331.cnf_OUT",nrows=100)
+ 1  2  3  4  5
+ 2  3 19 60 16
+100
+
+> RunVdWk1k2 ${k1} ${k2} ${n} ddfw 100 20000000 AltExp/Exp_VanderWaerden_2-5-8_322_ddfw-100-10000000_2011-04-13-185202/VanDerWaerden_2-${k1}-${k2}_${n}.cnf_sol
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Best complete solver for palindromic problems
   <ul>
    <li> It seems that from the conflict-driven solvers minisat-2.2.0 is best,

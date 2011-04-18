@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.12.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,29 @@ License, or any later version. */
 /*!
   \file Buildsystem/plans/Makefile.hpp
   \brief Plans for the buildsystem-makefile
+
+
+  \todo Documentation
+  <ul>
+   <li> Steps for making the test-system aware of a module:
+    <ul>
+     <li> Add make-variable "makefile_XXX" to Buildsystem/Makefile. </li>
+     <li> XXX is a shortened version of the module name. </li>
+     <li> The value of this make-variable is the path to the Makefile
+     Module/makefile. </li>
+     <li> For example for the Experimentation/Investigations module, we add:
+     \verbatim
+makefile_investigations := $(OKsystem)/OKlib/Experimentation/Investigations/makefile
+     \endverbatim
+     </li>
+     <li> Add "makefile_XXX" to "OKlib_links" in Buildsystem/Makefile. </li>
+     <li> Run "oklib --prebuild" (and mention this in the Git-log-message),
+     to install the new links. </li>
+    </ul>
+   </li>
+   <li> These steps are not documented. They should appear in the docus. 
+   </li>
+  </ul>
 
 
   \todo Future of this makefile:

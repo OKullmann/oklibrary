@@ -182,7 +182,8 @@ aes_cstr_cstl(cst) := block(
     ib : ob
   ),
   /* Final Round */
-  /* If we have a reduced round variant, truncate rather than generalise */
+  /* If we have a variant with a reduced number of rounds, truncate rather
+     than generalise */
   ob : cBits,
   if aes_num_rounds = 10 then 
     rs : cons(

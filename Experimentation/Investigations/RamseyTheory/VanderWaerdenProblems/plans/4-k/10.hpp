@@ -18,6 +18,7 @@ License, or any later version. */
 
   \todo vanderwaerden_2(4,10) > 328
   <ul>
+   <li> The (weak) conjecture is vanderwaerden_2(4,10) = 329. </li>
    <li> We don't have a nice prediction, except of that it's greater (or 
    equal) than 309. </li>
    <li> Evaluating
@@ -276,6 +277,21 @@ E = run_ubcsat("VanDerWaerden_2-4-10_330.cnf", runs=100,cutoff=100000,monitor=TR
      </li>
     </ol>
    </li>
+   <li> Using the palindromic solution for n=328:
+    <ol>
+     <li> Starting search with the best palindromic solution:
+     \verbatim
+> k1=4 k2=10 n=328 alg="adaptg2wsat" cutoff=1000000 runs=10 expdate="2011-03-26-101957"; export k1 k2 n; cat AltExp/Exp_PdVanderWaerden_2-${k1}-${k2}_${alg}-${runs}-${cutoff}_${expdate}/VanDerWaerden_pd_2-${k1}-${k2}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution
+
+> RunVdWk1k2 ${k1} ${k2} ${n} irots 100 10000000 solution
+UNSAT for n=329
+ 2  4 27 28 29 30 31 32 33 34 35
+ 1  1  1  1  3  7 22 14 26 20  4
+100
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -283,6 +299,49 @@ E = run_ubcsat("VanDerWaerden_2-4-10_330.cnf", runs=100,cutoff=100000,monitor=TR
   <ul>
    <li> Established by minisat-2.2.0. </li>
    <li> Do we have an easy-hard pattern based on parity? </li>
+   <li> Certificates:
+    <ol>
+     <li> n=319:
+     \verbatim
+7,10,20,23,25,26,27,34,39,47,
+50,56,58,60,61,65,66,68,70,76,
+79,87,92,94,99,100,101,103,104,106,
+107,116,117,119,120,122,123,124,129,131,
+136,144,147,153,155,157,158,160
+     \endverbatim
+     </li>
+     <li> n=328:
+     \verbatim
+10,19,23,25,29,30,33,34,36,40,
+42,44,45,51,58,67,68,77,81,84,
+90,91,93,95,99,101,102,105,106,107,
+110,112,120,122,125,126,127,130,131,133,
+137,139,141,142,148,151,155,164
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> "RunPdVdWk1k2 4 10 gsat-tabu 10 200000" yields
+   \verbatim
+Break point 1: 315
+Break point 2: 316
+   \endverbatim
+   while "RunPdVdWk1k2 4 10 gsat-tabu 10 1000000" yields
+   \verbatim
+Break point 1: 316
+Break point 2: 329
+   \endverbatim
+   By "RunPdVdWk1k2 4 10 adaptg2wsat 10 200000" we get
+   \verbatim
+Break point 1: 315
+Break point 2: 320
+   \endverbatim
+   while by "RunPdVdWk1k2 4 10 adaptg2wsat 10 1000000" we get
+   \verbatim
+Break point 1: 320
+Break point 2: 329
+   \endverbatim
+   It seems that adaptg2wsat is better than gsat-tabu. </li>
   </ul>
 
 */

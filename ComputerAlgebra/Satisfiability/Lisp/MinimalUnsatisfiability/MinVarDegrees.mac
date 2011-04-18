@@ -1,0 +1,232 @@
+/* Oliver Kullmann, 16.4.2011 (Guanzhou) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac
+  \brief Functions regarding the minimal variable-degree of minimally unsatisfiable clause-sets
+
+  Considering classes of minimally unsatisfiable clause-sets, the
+  min-var-degree is to be maximised.
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
+/* ***************************
+   * Maximal min-var-degrees *
+   ***************************
+*/
+
+/* An upper bound on the maximal min-var-degree of a minimally unsatisfiable
+   clause-set of deficiency k, according to [OK, XSZ, SAT 2011]. */
+/* This bound is sharp at least for 
+ - k = 2^n-n (realised by full_fcs(n))
+ - k=2 (realised by musatd2_fcs(n))
+ - k=3 (realised by minvdegdef3(n))
+ - k=4 (realised by minvdegdef4(n)). */
+/* I.e., min_unsat_bydef(F) and is(deficiency_cs(F) <= k) -> 
+         min_variable_degree_cs(F) <= nonmersenne[k]. */
+/* First the recursive computation: */
+nonmersenne_rec[k] := 
+ if k = 1 then 2 else
+ lmax(create_list(min(2*i,nonmersenne_rec[k-i+1]+i),i,2,k))$
+/* This is sequence A062289 (http://www.research.att.com/~njas/sequences/),
+   and accordingly we have 
+   nonmersenne_rec[k] = nonmersenne_law(k). */
+nonmersenne_law(k) := k + fld(k+1 + fld(k+1))$
+/* A natural lower bound: */
+nonmersenne_lb(k) := k + fld(k+1)$
+/* A natural upper bound: */
+nonmersenne_ub(k) := k + 1 + fld(k)$
+
+/* Compare Lisp/ConflictCombinatorics/HittingClauseSets.mac
+   for the treatmeant of hitting clause-sets.
+*/
+
+/* Analysis of the recurrence behaviour:
+   Return [] iff k=1, else return the list of tuples T_i for 2 <= i <= k where
+   min(2i,nonmersenne_rec[k-i+1]+i) = nonmersenne_rec[k],
+   where the last component of T_i is
+    - "a" if the first component is strictly less than the second,
+    - "ab" if they are equal,
+    - and "b" otherwise,
+   where in the first case T_i has a leading i, and otherwise leading i, k-i+1.
+*/
+analyse_nonmersenne_rec(k) := 
+ if k=1 then []
+ else block([res : [], maxv : minf],
+  for i : 2 thru k do block(
+   [a : 2 * i, b : nonmersenne_rec[k-i+1]+i, minv],
+    minv : min(a,b),
+    if minv >= maxv then (
+      if minv > maxv then(maxv : minv,  res : []),
+      if a < b then res : cons([i,"a"], res)
+      elseif a = b then res : cons([i,k-i+1,"ab"], res)
+      else res : cons([i,k-i+1,"b"], res)
+    )
+  ),
+  return(reverse(res)))$
+
+/* Computation of the "primary recursion index", the smallest i in {2,...,k}
+   with i >= nonmer(k-i+1) + i.
+   Prerequisite: k >= 2.
+*/
+index_nonmersenne_rec(k) :=
+  block([i : 2],
+    while i < nonmersenne_rec[k-i+1] do i : i + 1,
+  return(i))$
+/* The alternative recursive formula for nonmersenne_rec[k]: */
+nonmersenne_rec2(k) := if k=1 then 2 else block(
+ [i : index_nonmersenne_rec(k)],
+  nonmersenne_rec[k-i+1]+i)$
+
+/* Analysis of the various steps, for k >= 2:
+  [Delta nonmer(k),
+   Delta (k -> nonmer(k-i(k)+1))(k),
+   i(k+1)-i(k),
+   i(k) - nonmer(k-i(k)+1)].
+*/
+step_nonmersenne_rec(k) := block(
+ [i : index_nonmersenne_rec(k),
+  ip : index_nonmersenne_rec(k+1)],
+  [
+   nonmersenne_rec[k+1] - nonmersenne_rec[k],
+   nonmersenne_rec[(k+1)-ip+1] - nonmersenne_rec[k-i+1],
+   ip-i,
+   i - nonmersenne_rec[k-i+1]
+  ])$
+
+
+/* An alternative recursion for nonmersenne(k) for k >= 2:
+   The maximal s in {4,...,2k} such that there exists (e_0,e_1) in {2,...,k}^2
+   with e_0 + e_1 >= s and nonmersenne(k-e_i+1)+e_i >= s for both i in {0,1}.
+*/
+nonmersenne_rec3[k] := if k=1 then 2 else last(
+ sublist(create_list(i,i,4,2*k),
+         lambda([s],
+                some_s(lambda([i], is(nonmersenne_rec3[k-i+1]+i >= s
+                         and nonmersenne_rec3[k-(s-i)+1]+(s-i) >= s)),
+                       create_list(i,i,max(s-k,2),min(s-2,k)))
+   )))$
+
+
+/* For deficiency k and considered minimal variable degree m of a saturated
+   non-singular minimally unsatisfiable F of deficiency k, the possible
+   pairs [e0,e1] with e0+e1=m and e0 <= e1 of degrees of a variable v of F
+   realising degree m, using the upper bound nonmersenne(k') on the degree
+   of minimally unsatisfiable clause-sets of deficiency k', obtained by
+   splitting on v.
+   Additionally to [e0,e1] the quadruple [k0,d0,k1,d1] is computed, with k0,k1
+   the deficiencies after splitting, and d0, d1 the resulting upper bounds
+   on the degree of v in F.
+   Prerequisites: k >= 2, 4 <= m.
+*/
+possible_degree_pairs_nm(k,m) := block([res : []],
+  for e0 : 2 thru min(k,m/2) do block(
+   [e1 : m - e0, k0,k1, d0,d1],
+    k0 : k-e0+1, k1 : k-e1+1,
+    d0 : nonmersenne_rec[k0]+e0, d1 : nonmersenne_rec[k1]+e1,
+    if d0 >= m and d1 >= m then res : cons([[e0,e1],[k0,d0,k1,d1]],res)),
+  return(reverse(res)))$
+/* Remark: If the result is the empty list, then this proves that variable
+   degree m (or more) can not be realised in MU(delta=k).
+*/
+
+
+/* The generalised non-Mersenne numbers (according to [Kullmann, Zhao, 2011]),
+   using the additional parameter r: These numbers are one less than
+   non-Mersenne numbers for k = 2^(2+r')-2, 1 <= r' <= r, which triggers
+   further reductions by one according to the recursions in
+   possible_degree_pairs_nm.
+   Prerequisites: k >= 1, r >= 0.
+*/
+nonmersenne_gen_rec[k,r] :=
+ if r=0 then nonmersenne_rec[k]
+ else block([nM : nonmersenne_gen_rec[k,r-1]],
+   if k < 2^(2+r)-2 then nM
+   elseif k=2^(2+r)-2 then nM-1
+   else min(nM,lmax(create_list(min(nonmersenne_gen_rec[k-e+1,r]+e,
+                                    nonmersenne_gen_rec[k-(nM-e)+1,r]+(nM-e)),
+                                e,nM-k,k))))$
+
+/* The "epoche" of k is the largest r which can have an influence on
+   nonmersenne_gen_rec[k,r]:
+*/
+epoche_nonmersenne_gen(k) := fld(k+2)-2$
+
+nonmersenne_inf_rec(k) := if k=1 then 2 else
+ nonmersenne_gen_rec[k,epoche_nonmersenne_gen(k)]$
+
+/* The largest natural number l >= 0 such that 2^l-l <= k.
+   Prerequisite k >= 1.
+*/
+nonmersenne_level(k) := if k=1 then 1 elseif k=2 then 2 else
+ block([l : cld(k)], if k >= 2^l-l then l else l-1)$
+
+nonmersenne_law2(k) := k + nonmersenne_level(k)$
+
+nonmersenne_inf_law(k) := block(
+ [nM : nonmersenne_law(k),
+  l : nonmersenne_level(k),
+  e : epoche_nonmersenne_gen(k)],
+  if k <= 2^l-l then nM
+  elseif k <= 2^l-l+e then nM-1
+  else nM)$
+
+possible_degree_pairs_gen(k,m,nmf_) := block([res : []],
+  for e0 : 2 thru min(k,m/2) do block(
+   [e1 : m - e0, k0,k1, d0,d1],
+    k0 : k-e0+1, k1 : k-e1+1,
+    d0 : nmf_(k0)+e0, d1 : nmf_(k1)+e1,
+    if d0 >= m and d1 >= m then res : cons([[e0,e1],[k0,d0,k1,d1]],res)),
+  return(reverse(res)))$
+
+
+possible_degree_pairs_nminf(k,m) :=
+ possible_degree_pairs_gen(k,m,nonmersenne_inf_law)$
+
+possible_degree_pairs_genextr(k,nmf_) :=
+ possible_degree_pairs_gen(k,nmf_(k),nmf_)$
+
+possible_degree_pairs_nminfextr(k) :=
+ possible_degree_pairs_nminf(k,nonmersenne_inf_law(k))$
+
+/* A "sharpened non-Mersenne function" is a map f: NN -> NN with
+   - f(1) = 2
+   - f(2) = 4
+   - f(k) in {nM(k),nM(k)-1} for all k in NN.
+
+   f is furthermore called "consistent" if
+     possible_degree_pairs_genextr(k,f) # {} for all k in NN.
+*/
+sharpenednm_p(nmf_,K) := if nmf_(1)#2 or nmf_(2)#4 then false else
+ is(done = block([nm],
+   for k : 3 thru K do (
+     nm : nonmersenne_law(k),
+     if not elementp(nmf_(k), {nm,nm-1}) then return(false)
+   )))$
+
+consistentsnm_p(nmf_,K) := sharpenednm_p(nmf_,K) and
+ is (done = block([nm],
+ for k : 3 thru K do
+   if emptyp(possible_degree_pairs_genextr(k,nmf_)) then return(false)
+ ))$
+
+
+/*!
+\endhtmlonly
+*/

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 28.1.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -315,6 +315,12 @@ okltest_fcs2ofcs(f) := (
 
 okltest_fcs2fcl(f) := (
   assert(okltest_fcs2ofcs(f)),
+  true)$
+
+okltest_cs2fcl(f):= (
+  assert(f({}) = [[],[]]),
+  assert(f({{}}) = [[],[{}]]),
+  assert(f({{5},{-5},{2},{2,3}}) = [[2,3,5],[{-5},{2},{2,3},{5}]]),
   true)$
 
 okltest_ocs2cs(f) := (

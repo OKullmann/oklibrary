@@ -1,0 +1,125 @@
+/* Oliver Kullmann, 16.4.2011 (Guangzhou) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/MinVarDegrees.mac
+  \brief Tests for functions regarding min-var-degrees of minimal unsatisfiable clause-sets
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/MinVarDegrees.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+kill(f)$
+
+
+/* ***************************
+   * Maximal min-var-degrees *
+   ***************************
+*/
+
+okltest_nonmersenne_rec(f) := (
+  assert(f[1] = 2),
+  assert(f[2] = 4),
+  assert(f[3] = 5),
+  assert(f[4] = 6),
+  assert(f[5] = 8),
+  assert(f[6] = 9),
+  assert(f[7] = 10),
+  assert(f[8] = 11),
+  assert(f[9] = 12),
+  assert(f[10] = 13),
+  assert(f[11] = 14),
+  assert(f[12] = 16),
+  for n : 1 thru 6 do
+    assert(f[2^n-n] = 2^n),
+  true)$
+
+okltest_nonmersenne_law(f) := (
+  for k : 1 thru 100 do
+    assert(f(k) = nonmersenne_rec[k]),
+  true)$
+
+okltest_nonmersenne_lb(f) := (
+  assert(f(1) = 2),
+  assert(f(2) = 3),
+  assert(f(3) = 5),
+  assert(f(4) = 6),
+  true)$
+
+okltest_nonmersenne_ub(f) := (
+  assert(f(1) = 2),
+  assert(f(2) = 4),
+  assert(f(3) = 5),
+  assert(f(4) = 7),
+  true)$
+
+okltest_analyse_nonmersenne_rec(f) := (
+  assert(f(1) = []),
+  assert(f(2) = [[2,1,"ab"]]),
+  assert(f(3) = [[3,1,"b"]]),
+  assert(f(4) = [[3,"a"],[4,1,"b"]]),
+  assert(f(5) = [[4,2,"ab"]]),
+  true)$
+
+okltest_index_nonmersenne_rec(f) := (
+  assert(f(2) = 2),
+  assert(f(3) = 3),
+  assert(f(4) = 4),
+  assert(f(5) = 4),
+  true)$
+
+okltest_step_nonmersenne_rec(f) := (
+  assert(f(2) = [1,0,1,0]),
+  assert(f(3) = [1,0,1,1]),
+  assert(f(4) = [2,2,0,2]),
+  true)$
+
+okltest_possible_degree_pairs_nm(f) := (
+  assert(f(2,4) = [[[2,2],[1,4,1,4]]]),
+  assert(f(3,4) = [[[2,2],[2,6,2,6]]]),
+  assert(f(3,5) = [[[2,3],[2,6,1,5]]]),
+  assert(f(4,4) = [[[2,2],[3,7,3,7]]]),
+  assert(f(4,5) = [[[2,3],[3,7,2,7]]]),
+  assert(f(4,6) = [[[2,4],[3,7,1,6]],[[3,3],[2,7,2,7]]]),
+  true)$
+
+okltest_nonmersenne_gen_rec(f) := (
+  assert(okltest_nonmersenne_law(buildq([f], lambda([k], f[k,0]))) = true),
+  assert(f[6,1] = 8),
+  assert(f[13,1] = 16),
+  assert(f[28,1] = 32),
+  assert(f[59,1] = 64),
+  assert(f[14,2] = 17),
+  assert(f[29,2] = 33),
+  assert(f[60,2] = 65),
+  true)$
+
+okltest_epoche_nonmersenne_gen(f) := (
+  assert(map(f,create_list(i,i,1,14)) = [-1,0,0,0,0,1,1,1,1,1,1,1,1,2]),
+  true)$
+
+okltest_nonmersenne_inf_rec(f) := (
+  for k : 1 thru 60 do
+    assert(f(k) = nonmersenne_gen_rec[k,k]),
+  true)$
+
+okltest_nonmersenne_level(f) := (
+  assert(map(f,create_list(i,i,1,12)) = [1,2,2,2,3,3,3,3,3,3,3,4]),
+  true)$
+
+
+/*!
+\endhtmlonly
+*/

@@ -41,6 +41,19 @@ License, or any later version. */
   </ul>
 
 
+  \todo Generalised canonical translation
+  <ul>
+   <li> See Satisfiability/Lisp/FiniteFunctions/plans/TseitinTranslation.hpp
+   for the boolean case. </li>
+   <li> Consider a generalised DNF clause-sets F (i.e., with literals
+   "variable = value"). </li>
+   <li> The natural generalisation of the canonical translation has new
+   variables for all clauses C of F, set to be equivalent to DNF({C}). </li>
+   <li> This naturally needs the direct encoding, using one boolean variable
+   for the literal "variable = value". </li>
+  </ul>
+
+
   \todo DONE Translating non-boolean clause-sets into boolean clause-sets
   <ul>
    <li> DONE

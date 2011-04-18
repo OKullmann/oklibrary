@@ -10,6 +10,71 @@ License, or any later version. */
   \brief On investigations into vdw_2(4,9) >= 309
 
 
+  \todo Complete solvers
+  <ul>
+   <li> With RamseyTheory/VanderWaerdenProblems/plans/4-k/general.hpp one has
+   the impression that for VanDerWaerden_2-4-9_309.cnf the best look-ahead
+   solver might be march_pl, followed by OKsolver_2002, while the best
+   conflict-driven solver seems picosat913. And overall picosat913 might be
+   best. </li>
+   <li> Predictions of running times:
+    <ul>
+     <li> "OKsolver_2002-O3-DNDEBUG -M -D30 -F VanDerWaerden_2-4-9_309.cnf"
+     yields
+     \verbatim
+   154:  55247  20065.21  2.15E+13   449.86s   158.79s  5406y 123d 10h 17m 21s     0     0   60
+   155:  97776  20566.57  2.21E+13   761.72s   162.68s  5538y 285d 10h 31m 55s     0     0   60
+   156: 209358  21776.77  2.34E+13  1649.76s   172.21s  5863y 127d  9h 26m 21s     1     0   61
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         9
+c initial_number_of_variables           309
+c initial_number_of_clauses             21573
+c initial_number_of_literal_occurrences 115362
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     26999.3
+c number_of_nodes                       3414700
+c number_of_single_nodes                18
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                19186524
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         90
+c max_tree_depth                        61
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-4-9_309.cnf
+     \endverbatim
+     </li>
+     <li> The best chance is to use parallelisation as discussed below, using
+     picosat913 for the subproblems (which hopefully is faster). </li>
+    </ul>
+   </li>
+   <li> Parallelisation:
+    <ol>
+     <li> A simple parallelisation would be to use the OKsolver_2002 to split
+     the problem into subproblems (see "Simple parallelisation" in
+     Solvers/OKsolver/SAT2002/plans/general.hpp), and to use picosat913 to
+     solve the subproblems. </li>
+     <li> The main problem here would be to determine the splitting depth D.
+     </li>
+     <li> That is, we have (up to) 2^D subproblems (it seems that we would
+     have exactly 2^D subproblems here). </li>
+     <li> One needs to sample for various D the solving times of the
+     subproblems, to estimate the running time of picosat913. </li>
+     <li> Starting with D=30, and then lowering D. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Best ubcsat-solver
   <ul>
    <li> Best ubcsat-algorithm:
@@ -107,6 +172,21 @@ gwsat
 
   \todo vanderwaerden_2(4,9) >= 309
   <ul>
+   <li> The conjecture is vanderwaerden_2(4,9) = 309. </li>
+   <li> Certificate for n=308:
+   \verbatim
+9,13,15,18,19,20,23,24,26,30,
+32,34,35,41,44,48,57,58,67,71,
+74,80,81,83,85,89,91,92,95,96,
+97,100,102,110,112,115,116,117,120,121,
+123,127,129,131,132,138,141,145,154,155,
+164,168,171,177,178,180,182,186,188,189,
+192,193,194,197,199,207,209,212,213,214,
+217,218,220,224,226,228,229,235,238,242,
+251,252,261,265,268,274,275,277,279,283,
+285,286,289,290,291,294,296,300
+   \endverbatim
+   (palindromic). </li>
    <li> [Ahmed 2009] states vanderwaerden4k(9) > 254. </li>
    <li> n=254 found satisfiable by adaptnovelty+ (first run with cutoff=10^6;
    seed=719877201, osteps=677160):
@@ -504,7 +584,7 @@ BestSolution_Max = 59.000000
 147 242 291 412 527 555 505 424 272 130  49  16   1
    \endverbatim
    </li>
-   <li> n=309
+   <li> n=309 (adaptnovelty+)
     <ol>
      <li> cutoff=2*10^6
      \verbatim
@@ -602,9 +682,29 @@ BestSolution_Max = 59.000000
     <ol>
      <li> "RunVdWk1k2 4 9 10 irots 100 1000000" yields "UNSAT for n=300",
      where the maximal number of runs (with success) was 56 (for n=186). </li>
+     <li> "RunVdWk1k2 4 9 10 irots 100 10000000" yields "UNSAT for n=307",
+     where the maximal number of runs (with success) was 51 (for n=306). </li>
     </ol>
    </li>
-   <li> Using the palindromic solution for n=308: XXX </li>
+   <li> Using the palindromic solution for n=308:
+    <ol>
+     <li> Different from k=3, here now the standard problems seem rather
+     intractable for local search, while the palindromic instances are
+     very easy. </li>
+     <li> Starting search with the best palindromic solution:
+     \verbatim
+> k1=4 k2=9 n=308 cutoff=100000 expdate="2011-03-26-033845"; export k1 k2 n; cat AltExp/Exp_PdVanderWaerden_2-${k1}-${k2}_gsat-tabu-100-${cutoff}_${expdate}/VanDerWaerden_pd_2-${k1}-${k2}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution
+
+> RunVdWk1k2 ${k1} ${k2} ${n} irots 100 10000000 solution
+
+UNSAT for n=309
+ 1  2  3  4  5  6 49 50 51 52 53 54 55 56 57 58
+ 1  1 12  7  4  2  1  1  7  3 12 12 21 11  4  1
+100
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -612,7 +712,34 @@ BestSolution_Max = 59.000000
   <ul>
    <li> Established by minisat-2.2.0. </li>
    <li> Do we have an easy-hard pattern based on parity? </li>
-   <li> Certificates: XXX </li>
+   <li> Certificates:
+    <ol>
+     <li> n=299:
+     \verbatim
+9,10,12,13,15,16,17,24,29,37,
+40,46,48,50,51,55,56,58,60,66,
+69,77,82,84,89,90,91,93,94,96,
+97,106,107,109,110,112,113,114,119,121,
+126,134,137,143,145,147,148,150
+     \endverbatim
+     </li>
+     <li> n=308:
+     \verbatim
+9,13,15,18,19,20,23,24,26,30,
+32,34,35,41,44,48,57,58,67,71,
+74,80,81,83,85,89,91,92,95,96,
+97,100,102,110,112,115,116,117,120,121,
+123,127,129,131,132,138,141,145,154
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> "RunPdVdWk1k2 4 9 gsat-tabu 100 100000" yields
+   \verbatim
+Break point 1: 300
+Break point 2: 309
+   \endverbatim
+   where all solutions were found within 17 runs. </li>
   </ul>
 
 */

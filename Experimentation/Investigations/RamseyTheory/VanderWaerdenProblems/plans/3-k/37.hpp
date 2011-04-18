@@ -140,35 +140,35 @@ License, or any later version. */
   </ul>
 
 
-  \todo Palindromic version:
+  \todo vdw_2^pd(3,37) >= (1272,1295)
   <ul>
-   <li> 1294 < pdvanderwaerden([3,37])[2] =(conj) 1295 =(conj)
+   <li> pdvanderwaerden([3,37])[2] =(conj) 1295 =(conj)
    vanderwaerden([3,37]) - 44. </li>
-   <li> pdvanderwaerden([3,37])[1] =(conj) 1264. </li>
+   <li> pdvanderwaerden([3,37])[1] =(conj) 1272. </li>
    <li> Certificates:
     <ol>
-     <li> n=1263:
+     <li> n=1271:
      \verbatim
-26,39,63,72,109,110,122,130,141,154,
-156,191,193,211,215,224,258,267,285,291,
-298,304,309,332,335,337,369,374,400,418,
-420,437,443,451,476,489,494,511,513,526,
-562,587,596,599,600,624,627
-     \endverbatim
-     </li>
-     <li> n=1264:
-     \verbatim
-1,38,69,79,102,106,116,117,134,149,
-158,180,187,191,201,217,223,234,256,275,
-293,298,302,307,335,345,350,361,375,382,
-404,435,449,450,454,460,472,478,486,493,
-528,560,567,571,587,589,608,626
+31,38,54,68,92,94,95,111,112,141,
+149,178,181,185,199,222,223,236,240,242,
+243,280,309,326,327,329,346,370,384,393,
+397,407,420,428,458,475,481,483,499,501,
+502,536,567,568,575,588,606,612,622,625,
+630
      \endverbatim
      </li>
      <li> n=1294:
      \verbatim
 8,33,65,72,76,107,109,113,118,141,
 176,178,187,220,229,252,255,263,266,270,
+294,301,324,335,337,342,352,372,377,381,
+389,405,435,442,446,448,451,462,485,514,
+527,536,553,562,564,573,596,620,625,638
+     \endverbatim
+     A variation is
+     \verbatim
+8,33,44,65,67,72,76,107,113,118,
+141,176,187,220,229,252,255,263,266,270,
 294,301,324,335,337,342,352,372,377,381,
 389,405,435,442,446,448,451,462,485,514,
 527,536,553,562,564,573,596,620,625,638
@@ -184,8 +184,16 @@ Break point 2: 1295
    \endverbatim
    where all solutions were found within in the first 52 runs (so the second
    break-point is rather weak). </li>
-   <li> Rerunning it with doubled cutoff, and using the solution for n-1.
-   We also need the ability to start late. </li>
+   <li> "RunPdVdWk1k2 3 37 gsat-tabu 100 60000000" yields
+   \verbatim
+Break point 1: 1272
+Break point 2: 1295
+> E=read_ubcsat("Exp_PdVanderWaerden_2-3-37_gsat-tabu-100-60000000_2011-03-27-195941/VanDerWaerden_pd_2-3-37_1296.cnf_OUT",nrows=100)
+ 1  2
+98  2
+100
+   \endverbatim
+   where all solutions were found within in the first 19 runs. </li>
   </ul>
 
 */

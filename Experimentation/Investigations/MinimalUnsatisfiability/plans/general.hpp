@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.10.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,14 +14,18 @@ License, or any later version. */
   <ul>
    <li> W.r.t. the classification of unsatisfiable hitting clause-sets see
    Experimentation/Investigations/UHittingCatalogue/plans/general.hpp. </li>
+   <li> For the Maxima functions see
+   Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac
+   </li>
   </ul>
 
 
   \todo Understanding the recursion for non-Mersenne numbers
   <ul>
-   <li> How to prove that max_min_var_degree_def_rec[k] and
-   max_min_var_degree_def_law(k) in
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac
+   <li> DONE (see [Kullmann Zhao, SAT 2011]
+   How to prove that nonmersenne_rec[k] and
+   nonmersenne_law(k) in
+   Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac
    are the same functions? </li>
    <li> Can we determine which i in the recursive formula
    nm(k) = max_{i in {2,...,k} min(2*i, nm(k-i+1)+i)
@@ -29,7 +33,7 @@ License, or any later version. */
     <ol>
      <li> Analysing the patterns:
      \verbatim
-for k : 2 thru 70 do print(k, analyse_max_min_var_degree_def_rec(k));
+for k : 2 thru 70 do print(k, analyse_nonmersenne_rec(k));
 
 2 [[2,1,"ab"]] 
 3 [[3,1,"b"]] 

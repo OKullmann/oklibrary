@@ -10,6 +10,22 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding operations on lists
 
 
+  \todo Generating list of elements 1 to n
+  <ul>
+   <li> One must often generate the list of elements 1 to n:
+   \verbatim
+create_list(i,i,1,n);
+   \endverbatim
+   </li>
+   <li> "create_list" is too long for such a simple task. </li> 
+   <li> Also, it makes the simple statement of "1..n" hard to read. The reader
+   must apply more thought to realise what is meant. </li>
+   <li> For sets, we have setn and setmn. These functions provide the 
+   functionality for sets. </li>
+   <li> We should provide some function like setn for lists. </li>
+  </ul>
+
+
   \todo Apply-functionality
   <ul>
    <li> Better if Maxima would correct "apply" so that we don't need

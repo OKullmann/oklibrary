@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.12.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,9 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/TseitinTranslation.hpp
   \brief Plans regarding the Tseitin translation from boolean circuits to CNF
+
+
+  \todo Add statistics for dualtsplus_fcl
 
 
   \todo Translation of boolean circuits into boolean CNF-clause-sets
@@ -36,6 +39,10 @@ License, or any later version. */
 
   \todo Understanding dualts_fcl
   <ul>
+   <li> The following needs to be updated according to the AES-DES-report.
+   </li>
+   <li> Then also all variations need to be implemented. </li>
+   <li> And likely the notion of "dualts" is not appropriate. </li>
    <li> Consider a DNF F. The task is to understand the CNF G := dualts_cl(F).
    </li>
    <li> Let n be the number of variables of F, and let c be the number of

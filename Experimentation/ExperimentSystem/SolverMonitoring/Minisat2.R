@@ -9,66 +9,54 @@
 # Input #
 # #######
 
-# Reading the output of a minisat2 computation from filename and returning a
-# data.frame containing the statistics on the computation.
+# Reading the output of a minisat-like solver. Solver output is read from
+# stats_filename. A data.frame containing the statistics on the computation is
+# returned.
 #
 # Inputs:
-#   filename
-#     The filename containing the output of a run of the minisat2 solver.
+#   stats_filename
+#     The filename containing the output of the solver run.
 #
 # Output:
+#   Statistics corresponding to the run of the solver on some DIMACS file.
 #   A data.frame with a single row with the following fields in the
 #   following order:
 #
 #     n (positive integer)
-#       The number of variables in the DIMACS file minisat2 was run on to
-#       generate filename.
-# ??? "on to generate filename" ??? what does this mean ???
+#       Initial number of variables.
 #     c (positive integer)
-#       The number of variables in the DIMACS file minisat2 was run on to
-#       generate filename.
-# ??? number of variables ???
+#       Initial number of clauses.
 #     parse_time (double)
-#       The time in seconds that minisat2 took to parse the input file given
-#       to it.
-# ??? what is all "given to it" etc. ???
+#       Time taken in seconds to parse the DIMACS file.
 #     restarts (positive integer)
-#       The number of restarts minisat2 has performed while solving filename.
-# ??? these specifications must be much more concise ???
+#       Number of restarts.
 #     conflicts (positive integer)
-#       The number of conflicts minisat2 has found while solving filename.
+#       Number of conflicts.
 #     decisions (positive integer)
-#       The number of decisions minisat2 has performed while solving filename.
+#       Number of "decisions".
 #     propagations (positive integer)
-#       The number of unit clause propagations that minisat2 has performed
-#       while solving filename.
-# ??? endless repetitions of "while solving filename" ???
-# ??? it is also pointless to mention minisat2 (which is false anyway), that
-# it has "performed" something etc. ???
+#       Number of unit clause propagations.
 #     mem (double)
-#       The maximum amount of main memory in Megabytes used by minisat2 when
-#       solving filename.
+#       Maximum amount of main memory in Megabytes used.
 #     time (double)
-#       The number of seconds it took minisat2 to solve filename.
+#       Total time taken in seconds to solve the instance.
 #     sat ({0,1,2})
 #       Whether minisat2 found filename to be SATISFIABLE (1),
-#       UNSATISFIABLE (0) or it was unable to determine satisfiablity (2).
+#       UNSATISFIABLE (0) or it was unable to determine satisfiability (2).
 #     filename (string)
-#       The name of the output file minisat2 was written to. Note that this
-#       is not the file input to minisat2, as minisat2 does not have the
-#       filename it is working on as part of it's output.
-#
-# Note this function also reads minisat-2.2.0 output.
-# ??? this is not a "note", but central information, which must be said upfront ???
+#       Name of the file the output statistics were written to. Note that
+#       this is not the DIMACS file input to the solver. Minisat-like solvers
+#       do not print the input filename as part of their output.
 #  
-read_minisat2_output = function(filename) {
-  S = system(paste("cat ", filename,
+read_minisat_output = function(stats_filename) {
+  S = system(paste("cat ", stats_filename,
     " | grep \"\\(restarts\\|conflicts\\|decisions\\|propagations\\|",
     "conflict\\|Memory\\|CPU\\|variables\\|clauses\\|time\\|",
     "SATISFIABLE\\|UNSATISFIABLE\\|INTERRUPTED\\|INDETERMINATE\\)\"", sep=""),
     intern=TRUE)
   result = list()
   for (line in S) {
+    line = gsub("^[cs] *", "",line)
     name_value = unlist(strsplit(line," *: *"))
     name_value[1] = gsub("^\\| *","",name_value[1])
     if (name_value[1] == "restarts") {
@@ -110,18 +98,33 @@ read_minisat2_output = function(filename) {
       result = c(result, list(sat = 2))
     }
   }
-  result = c(result,list(filename = filename))
+  result = c(result,list(filename = stats_filename))
   data.frame(result)
 }
-# As an example, we can generate the CNF for the 4-bit AES Sbox in maxima:
+# From the following minisat-2.2.0 output (in sbox.result):
 #
-# ??? this is a bad example --- only simple examples! ???
-# maxima> oklib_load_all()$
-# maxima> output_ss_sbox_fullcnf_stdname(2,4,ss_polynomial_2_4)$
+# WARNING: for repeatability, setting FPU to use double precision
+# ============================[ Problem Statistics ]=============================
+# |                                                                             |
+# |  Number of variables:             8                                         |
+# |  Number of clauses:             240                                         |
+# |  Parse time:                   0.00 s                                       |
+# |  Simplification time:          0.00 s                                       |
+# |                                                                             |
+# =============================[ Search Statistics ]==============================
+# | Conflicts  |          ORIGINAL         |          LEARNT          | Progress |
+# |            |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |
+# ================================================================================
+# ===============================================================================
+# restarts              : 1
+# conflicts             : 4              (inf /sec)
+# decisions             : 9              (0.00 % random) (inf /sec)
+# propagations          : 19             (inf /sec)
+# conflict literals     : 14             (12.50 % deleted)
+# Memory used           : 18.00 MB
+# CPU time              : 0 s
 #
-# and then running minisat2 on the file:
-#
-# shell> minisat2 AES_sbox_2_4_full.cnf > sbox.result 2>&1
+# SATISFIABLE
 #
 # we get the following data.frame:
 #
@@ -134,58 +137,12 @@ read_minisat2_output = function(filename) {
 # 1 sbox.result
 #
 
-# Reading multiple minisat2 output files into a data.frame.
-# See read_minisat2_output.
-read_minisat2_outputs = function(filenames) {
+# Reading multiple minisat-like solver output files into a data.frame.
+# See read_minisat_output.
+read_minisat_outputs = function(filenames) {
   result_df = NULL
   for(file in filenames) {
     result_df = rbind(result_df,read_minisat2_output(file))
   }
   result_df
 }
-# As an example, we can generate the CNFs for the 4-bit AES field
-# multiplications in maxima:
-#
-# maxima> oklib_load_all()$
-# maxima> for i : 2 thru 10 do output_ssmult_fullcnf_stdname(i,2,4,ss_polynomial_2_4);
-#
-# and then running minisat2 on these files:
-#
-# shell> for i in $(seq 2 10); do minisat2 ss_byte2_4_field_mul_full_${i}.cnf > mult_${i}.result 2>&1; done
-#
-# we get the following data.frame (using Sys.glob to generate the list of
-# files):
-#
-# R> oklib_load_all()
-# R> E = read_minisat2_outputs(Sys.glob("mult_*.result"))
-# R> E
-#   n   c parse_time restarts conflicts decisions propagations   mem time sat
-# 1 8 240          0        1         0         7            8 14.63 0.01   1
-# 2 8 240          0        1         0         1            0 14.64 0.01   1
-# 3 8 240          0        1         0         6            8 14.63 0.00   1
-# 4 8 240          0        1         0         1            0 14.64 0.01   1
-# 5 8 240          0        1         0         7            8 14.64 0.01   1
-# 6 8 240          0        1         0         8            8 14.63 0.01   1
-# 7 8 240          0        1         0         8            8 14.64 0.01   1
-# 8 8 240          0        1         0         6            8 14.64 0.01   1
-# 9 8 240          0        1         0         1            0 14.63 0.01   1
-#         filename
-# 1 mult_10.result
-# 2  mult_2.result
-# 3  mult_3.result
-# 4  mult_4.result
-# 5  mult_5.result
-# 6  mult_6.result
-# 7  mult_7.result
-# 8  mult_8.result
-# 9  mult_9.result
-#
-#
-# If one has parameters in the output files that minisat2 produced,
-# we can add an extra column to the data.frame, extracting the value from
-# the filename:
-#
-# R> E$element = as.integer(gsub("(^mult_|.result$)","",E$filename))
-# R> plot(E$element, E$decisions)
-# 
-#

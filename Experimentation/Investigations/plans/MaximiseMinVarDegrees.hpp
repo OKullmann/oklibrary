@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.6.2008 (Swansea)
-/* Copyright 2008, 2010 Oliver Kullmann
+/* Copyright 2008, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,23 +12,21 @@ License, or any later version. */
 
   \todo Minimally unsatisfiable clause-sets
   <ul>
-   <li> See under "Maximal min-var-degrees" in
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac
+   <li> See
+   Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac
    </li>
   </ul>
 
 
   \todo Unsatisfiable non-singular hitting clause-sets
   <ul>
-   <li> See under "Maximal min-var-degrees" in
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac
-   </li>
-   <li> And see todo "Maximal min-var-degrees" in
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/general.hpp
-   </li>
+   <li> See
+   Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac. </li>
+   <li> And see
+   Satisfiability/Lisp/MinimalUnsatisfiability/plans/MinVarDegrees.hpp. </li>
    <li> The function "sharp_uhit_catalogue_maxminvardeg" investigates
    the catalogue for the sharp cases w.r.t. the general upper bound
-   hit_max_min_var_degree_def_rec. </li>
+   hit_nonmersenne_rec. </li>
    <li> n-oriented investigations:
     <ol>
      <li> One tool is e.g. "all_unsinghitting(5, 'all_n5)" and
@@ -50,7 +48,7 @@ License, or any later version. */
      ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp
      for further strengthenings of this approach (especially regarding
      the use of (generalised) SAT solving). </li>
-     <li> We know that the bound max_min_var_degree_def is sharp
+     <li> We know that the bound nonmersenne is sharp
      for given n and deficiencies k = 2^n-n - i for 0 <= i <= n. </li>
      <li> For n <= 3 this cannot be applied fully, and there we also
      have full information. </li>
@@ -253,7 +251,7 @@ License, or any later version. */
      <li> For 1 <= k <= 59 sharpness of the bound is not known for
      14 <= k <= 17, 29 <= k <= 42 and 44 <= k <= 51. </li>
      <li> We have the current maxima for the non-sharp cases (compared
-     to the upper bound hit_max_min_var_degree_def_rec):
+     to the upper bound hit_nonmersenne_rec):
       <ul>
        <li> k = 14 : 17 = 18-1
         <ol>
