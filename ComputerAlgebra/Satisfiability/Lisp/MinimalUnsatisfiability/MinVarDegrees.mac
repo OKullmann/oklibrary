@@ -31,8 +31,26 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    ***************************
 */
 
+/* For k in NN the smallest integer o with k <= 2^o-o: */
 order_deficiency(k) := if k=1 then 0 elseif k=2 then 2 else
- block([l : cld(k)], if k <= 2^l-l then l else l+1)$
+ block([o : cld(k)], if k <= 2^o-o then o else o+1)$
+
+/* For deficiency k in NN the maximum minimal-variable-degree in minimally
+   unsatisfiable clause-sets of deficiency k; if the precise value is not
+   known, then an interval [lower-bound,upper-bound] is given.
+*/
+minvardegree_dmu(k) := block(
+ [o : order_deficiency(k),
+  l : nonmersenne_level(k), disto,distl],
+  disto : (2^o-o) - k,
+  distl : k - (2^l-l),
+  if k=1 then 2
+  elseif disto=0 then 2^o
+  elseif disto<=o then 2^o-1-disto
+  elseif distl=1 then 2^l
+  else block([lb : minvardegree_dmu(k-1)],
+    [if integerp(lb) then lb else first(lb), nonmersenne_law(k)]))$
+
 
 /* **************************************
    * (Generalised) non-Mersenne numbers *
