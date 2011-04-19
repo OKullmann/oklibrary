@@ -183,6 +183,21 @@ okltest_first_arithprog_primes(f) := (
   assert(f(5) = 10),
   true)$
 
+/* *****************
+   * Prime factors *
+   *****************
+*/
+
+okltest_expfact(f) := (
+  assert(f(1,2) = 0),
+  assert(f(-1,-2) = 0),
+  for e : 1 thru 4 do
+    for p : 2 thru 6 do (
+      assert(f(p^e,p) = e),
+      assert(f(p^e-1,p) = 0)
+    ),
+  true)$
+
 /*!
 \endhtmlonly
 */
