@@ -24,6 +24,56 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Mi
 
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
+
+
+/* **************************
+   * Number of full clauses *
+   **************************
+*/
+
+firste(x) := if listp(x) then first(x) else x$
+seconde(x) := if listp(x) then second(x) else x$
+
+/* The lower bound on the maximal number of full clauses for deficiency k,
+   using inverse 2-subsumption-resolution with a new variable:
+*/
+fullclauses_dmu_lb1[k]:= if k=1 then 2 else
+  max(4,
+      2 * first(k+1-sublist(create_list(i,i,1,k-1), 
+                      lambda([k2],is(k-k2+1<=fullclauses_dmu_lb1[k2])))))$
+
+/* The Smarandache Primitive Numbers for a natural number n >= 0,
+   defined as the minimal natural number k >= 1 such that 2^n divides k!;
+   this is http://oeis.org/A007843.
+*/
+Sma_S2_bydef(n) := block([e:2^n, p:1, k:1],
+ while mod(p,e)#0 do (k:k+1, p:p*k), k)$
+
+/* A different computation, yielding the list of the first n numbers: */
+Sma_S2_list(n) := if n=0 then [] else block([res:[1], e : 2],
+ n : n-1,
+ while n>0 do block([count : expfact(e,2), t],
+  t : min(n,count),
+  n : n-t,
+  res : append(res, create_list(e,i,1,t)),
+  e : e+2
+ ),
+ res)$
+
+/* We have fullclauses_dmu_lb1[k] = Sma_S2_bydef(k). */
+
+/* Upper bound on the number of full clauses for deficiency k: */
+fullclauses_dmu_ub1[k]:= if k=1 then 2 else
+ block([mvd : seconde(minvardegree_dmu(k)), ub],
+  if oddp(mvd) then ub : mvd-1 else ub : mvd,
+  if ub=mvd and 2*seconde(fullclauses_dmu[k-mvd/2+1]) < mvd then ub : mvd-1,
+  ub)$
+
+/* Lower and upper bound combined: */
+fullclauses_dmu[k]:=
+ block([lb : fullclauses_dmu_lb1[k], ub : fullclauses_dmu_ub1[k]],
+  if lb=ub then lb else [lb,ub])$
 
 
 /* ***************************
