@@ -945,11 +945,24 @@ Usage: argosat problem [options]
   \todo Satz
   <ul>
    <li> ParaSatz
-   \verbatim
-Satz> tar -xzf ../../../sources/SAT/Satz/ParaSatz.tar.gz
+    <ul>
+     <li> Installation:
+     \verbatim
+builds/SAT/Satz> tar -xzf ../../../sources/SAT/Satz/ParaSatz.tar.gz
 Satz> cd ParaSatz
-   \endverbatim
-   this is mainly a script to run Satz (214) in parallel. </li>
+     \endverbatim
+     This is mainly a script to compile and run Satz (214) in parallel. </li>
+     <li> ParaSatz runs on any Linux or Unix machines in a local network with
+     the shared home directory. </li>
+     <li> ParaSatz can be called from an arbitray machine in the local network
+     as the master, while all other machines run as slaves. </li>
+     <li> A workload balancing mechanism is provided such that an idle slave
+     always gets a remaining subtree from the most loaded slave. </li>
+     <li> Machine names stored in file 'machine' end with '0'.</li>
+     <li> Some scripts are provided for PS, Kill, Resume all ParaSatz threads.
+     </li>
+    </ul>
+   </li>
    <li> adaptg2wsat+
    \verbatim
 Satz> tar -xf ../../../sources/SAT/Satz/adaptg2wsat+ForCompetition.tar
