@@ -39,8 +39,8 @@ seconde(x) := if listp(x) then second(x) else x$
    using inverse 2-subsumption-resolution with a new variable:
 */
 fullclauses_dmu_lb1[k]:= if k=1 then 2 else
-  2 * first(k+1-sublist(create_list(i,i,1,k-1),
-                        lambda([k2],is(k-k2+1<=fullclauses_dmu_lb1[k2]))))$
+  for i : 1 thru k-1 do
+    if k-i+1<=fullclauses_dmu_lb1[i] then return(2 * (k-i+1))$
 
 /* The Smarandache Primitive Numbers for a natural number n >= 0,
    defined as the minimal natural number k >= 1 such that 2^n divides k!;
