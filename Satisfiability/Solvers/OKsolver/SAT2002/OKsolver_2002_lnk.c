@@ -155,11 +155,9 @@ Ausgabeformat Format = XML_Format;
 // gesetzt werden.)
 
 
-
 unsigned int MAXN = 30000;
 unsigned int MAXL = 400000;
 unsigned int MAXK = 150000;
-
 
 /* ------------------------------------------------------------- */
 
@@ -218,14 +216,12 @@ static enum Ergebniswerte s = Unbestimmt; /* Ergebniswert */
 /* Lokale Datenstrukturen und Variablen */
 
 
-
 /* Der Stapel, der die Belegungen fuer den jeweils zweiten Zweig enthaelt */
 
 static StapeleintragFZ zweiteBel = NULL;
 
 static unsigned int Zeiger2;
 static unsigned int Groesse2;
-
 
 
 /* Zur Simulation der Rekursion */
@@ -368,41 +364,28 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
 __inline__ static void Verzweigungsliteralausgabe(const LIT x, const unsigned int Tiefe) {
   const VAR v = Var(x);
   const VZ e = (x == Literal(v, Pos)) ? Pos : Neg;
-  if (Belegung) {
-    fprintf(fpmo, "# %-6d %7s %d\n", Tiefe, Symbol(v), e);
-  }
+  if (Belegung) fprintf(fpmo, "# %-6d %7s %d\n", Tiefe, Symbol(v), e);
   fflush(NULL);
 }
 
 /* ------------------------------------------------------------- */
 
-
 typedef enum { gleich = 0, groesser = 1, kleiner = 2} VERGL;
 
 /* Zur Bestimmung, ob einer Gleitpunktzahl "wirklich" groesser ist als eine andere: */
 
-static VERGL Vergleich(float a, float b)
-{
-  float h;
-  h = b * 4 * FLT_EPSILON;
-  if (a > b + h)
-    return groesser;
-  else if (a < b - h)
-    return kleiner;
-  else
-    return gleich;
+static VERGL Vergleich(const float a, const float b) {
+  const float h = b * 4 * FLT_EPSILON;
+  if (a > b + h) return groesser;
+  else if (a < b - h) return kleiner;
+  else return gleich;
 }
-
 
 /* ------------------------------------------------------------- */
 
-
-
 /* Prozeduren zur Speicherverwaltung */
 
-
-static struct Sammlung *neuerKnoten()
-{
+static struct Sammlung *neuerKnoten() {
   struct Sammlung *s;
   s = (struct Sammlung *) xmalloc(sizeof(struct Sammlung) + (P + 1) * sizeof(unsigned int));
   s -> AnzK2 = (unsigned int *)(s + 1);
@@ -415,37 +398,24 @@ static struct Sammlung *neuerKnoten()
 /* Randomisierung */
 
 static long unsigned int Schluessel = 1;
-
 static long unsigned int randx;
-
 static float Verhaeltnis = 0.2;
 
+__inline__ static void srand_S() { randx = Schluessel; }
 
-__inline__ static void srand_S()
-{
-  randx = Schluessel;
-}
-
-__inline__ static int rand_S()
-{
+__inline__ static int rand_S() {
   return(((randx = randx * 1103515245L + 12345)>>16) & 0x7fff);
 }
 
-__inline__ static float Verschmierung(double x)
-{
+__inline__ static float Verschmierung(const double x) {
   return (rand_S() / ((float) 0x7fff) * Verhaeltnis + 1) * x;
 }
 
-
-
 /* -------------------------------------------------------------------------------- */
-
 
 /* Initialisierung */
 
-
-void InitSat()
-{
+void InitSat() {
   Groesse2 = N;
   zweiteBel = (StapeleintragFZ) xmalloc(Groesse2 * sizeof(StapeleintragF));
   SatVar0 = SatVar = neuerKnoten();
@@ -453,24 +423,20 @@ void InitSat()
   
   Runde = 0; Zeiger2 = 0;
 
-  if (Monitor && (! nurVorreduktion))
-    {
-      unsigned int p; unsigned int *Z;
-      totalbeobachtet = 0;
-      Rekursionstiefe = 0;
-      Zweiglast = (unsigned int *) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
-      for (p = 1, Z = Zweiglast + Beobachtungsniveau; Z != Zweiglast; p *= 2)
-        *(--Z) = p;
-      Gesamtlast = p;
-      beobachtet = (unsigned int *) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
-      beobachtet[0] = 0;
-    }
-
-  return;
+  if (Monitor && (! nurVorreduktion)) {
+    unsigned int p; unsigned int *Z;
+    totalbeobachtet = 0;
+    Rekursionstiefe = 0;
+    Zweiglast = (unsigned int *) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
+    for (p = 1, Z = Zweiglast + Beobachtungsniveau; Z != Zweiglast; p *= 2)
+      *(--Z) = p;
+    Gesamtlast = p;
+    beobachtet = (unsigned int *) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
+    beobachtet[0] = 0;
+  }
 }
 
-static void AufraeumenSat()
-{
+static void AufraeumenSat() {
   struct Sammlung *Z; struct Sammlung *Z0;
   
   Knoten = SingleKnoten = VerSingleKnoten = QuasiSingleKnoten = PureL = Autarkien = V1KlRed = Suchbaumtiefe = Ueberschreitung2 = FastAutarkien = InitEinerRed = neue2Klauseln = maxneue2K = init2Klauseln = 0;
@@ -479,12 +445,11 @@ static void AufraeumenSat()
   free(zweiteBel); zweiteBel = NULL;
 
   Z0 = SatVar0;
-  while (Z0 != NULL)
-    {
-      Z = Z0 -> danach;
-      free(Z0);
-      Z0 = Z;
-    }
+  while (Z0 != NULL) {
+    Z = Z0 -> danach;
+    free(Z0);
+    Z0 = Z;
+  }
   SatVar0 = NULL;
 
   free(Zweiglast); Zweiglast = NULL;
@@ -513,7 +478,6 @@ void FinaliseSATPath() {
 }
 
 #endif
-
 
 /*!
   \brief The (recursive) SAT decision procedure
@@ -570,14 +534,12 @@ alleReduktionen:
       return UNSAT;
     }
     if (Monitor) --Rekursionstiefe;
-    switch (r)
-      {
-      case SAT1 : goto nachSAT1;
-      case SAT2 : goto nachSAT2;
-      }
+    switch (r) {
+    case SAT1 : goto nachSAT1;
+    case SAT2 : goto nachSAT2;
+    }
   }
-  
-  
+
  Schleife:
 
 #ifdef DYNAMISCH
@@ -591,7 +553,6 @@ alleReduktionen:
    grossen Aufwand mit sich braechte. So wird also nur Reduktion1() 
    beruecksichtigt.
 */
-
 
   /* Reduktionen, die von Autarkien affiziert werden */
   /* (zumindest pure Literale): */
@@ -618,11 +579,10 @@ alleReduktionen:
       return UNSAT;
     }
     if (Monitor) --Rekursionstiefe;
-    switch (r)
-      {
-      case SAT1 : goto nachSAT1;
-      case SAT2 : goto nachSAT2;
-      }
+    switch (r) {
+    case SAT1 : goto nachSAT1;
+    case SAT2 : goto nachSAT2;
+    }
   }
 
   {
@@ -694,8 +654,7 @@ alleReduktionen:
         const float a = (randomisiert) ? Verschmierung(Projektion()) : Projektion();
         switch (Vergleich(a, opta)) {
         case gleich :
-          if (Projektion2() <= optaS)
-            break;
+          if (Projektion2() <= optaS) break;
         case groesser :
           opta = a; optaS = Projektion2();
           Schalter = ! Schalter;
@@ -775,7 +734,6 @@ alleReduktionen:
 #endif
     }
   goto Anfang; // Branching (recursion simulated)
-
 
   nachSAT1 :
 
@@ -876,14 +834,10 @@ alleReduktionen:
   Rueckgaengigmachung(SatVar -> Marke);
 #else
 # ifndef BAUMRES
-  do {
-    --Tiefe;
-    rebelege(PfadLit());
-  }
+  do { --Tiefe; rebelege(PfadLit()); }
   while (Tiefe > SatVar -> altTiefe);
 # else
-  while (--Tiefe > SatVar -> altTiefe)
-    rebelege(PfadLit());
+  while (--Tiefe > SatVar -> altTiefe) rebelege(PfadLit());
   if (rebelege_Verz(PfadLit())) relVMhinzufuegen();
   else ++VerSingleKnoten;
 # endif
@@ -1048,10 +1002,8 @@ void Statistikzeile(FILE *fp) {
 
 const char* BasisName(const char* const name) {
   const char* const basis = strrchr(aktName, '/');
-  if (basis == NULL)
-    return name;
-  else
-    return basis + 1;
+  if (basis == NULL) return name;
+  else return basis + 1;
 }
 
 
@@ -1059,8 +1011,7 @@ const char* BasisName(const char* const name) {
 
 static FILE *fpaus = NULL; /* fuer die Ausgabe der Ergebnisse */
 
-static void Zustandsanzeige (int signum)
-{
+static void Zustandsanzeige (int signum) {
 #ifndef SYSTIME
   Verbrauch = clock() - akkVerbrauch;
 #else
@@ -1092,7 +1043,6 @@ static unsigned int Argument;
 static char *NameBel = NULL; char *NameMon = NULL;
 
 
-
 int main(const int argc, const char* const argv[]) {
   const char* const Ausgabedatei = "OKs" VERSIONSNUMMER1 "_" VERSIONSNUMMER2 "_" OPTIONENKENNUNG5 OPTIONENKENNUNG6 OPTIONENKENNUNG7 OPTIONENKENNUNG1 OPTIONENKENNUNG2 OPTIONENKENNUNG3 OPTIONENKENNUNG4".res";
   const char* const Version = VERSIONSNUMMER1 "." VERSIONSNUMMER2;
@@ -1104,8 +1054,7 @@ int main(const int argc, const char* const argv[]) {
   signal(SIGUSR1, Zustandsanzeige);
   signal(SIGINT, Abbruch);
   signal(SIGALRM, Abbruch);
-  if (setjmp(Ausgabepunkt))
-    goto Ausgabe;
+  if (setjmp(Ausgabepunkt)) goto Ausgabe;
 
   if (Konstantenfehler()) {
     fprintf(stderr, "%s\n", Meldung(0));
@@ -1484,6 +1433,5 @@ int main(const int argc, const char* const argv[]) {
     case UNSAT : return 20;
     case Unbestimmt : return 0;
     }
-  else
-    return 0;
+  else return 0;
 }
