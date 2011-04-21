@@ -17,7 +17,7 @@ License, or any later version. */
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
    are handled:
     - The basic idea
-    - Computing the sub-problems
+    - Planning for computing the sub-problems
 
 
   \par Version 0.9.8

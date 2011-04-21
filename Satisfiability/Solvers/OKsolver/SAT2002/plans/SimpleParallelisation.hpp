@@ -17,7 +17,9 @@ License, or any later version. */
    suitable names indicating the decisions leading to that clause-set). </li>
    <li> This should simply employ the monitoring-mode, outputting the (reduced)
    clause-sets at the monitoring nodes, while not going into the branches, but
-   immediately backtracking (with result "unknown"). </li>
+   immediately backtracking (stipulating result "unsat", using all variables,
+   but at the end outputting "unknown" if no solution was found and at least
+   one open node was created). </li>
    <li> Then a simple script would allocate these problem-instances to
    the available machines, monitor their execution, record the results,
    and schedule new jobs if possible (and needed). </li>
@@ -26,9 +28,25 @@ License, or any later version. */
   </ul>
 
 
-  \todo Computing the sub-problems
+  \todo Planning for computing the sub-problems
   <ul>
-   <li> Installing an additional parameter to just compute one node:
+   <li> A new option "-S" (for "splitting") is introduced. </li>
+   <li> The monitoring-depth D (>= 0) is also used here. </li>
+   <li> When the OKsolver comes to branch at depth D, then the current
+   partial assignment is output, representing the sub-problem to be solved,
+   and for both branches the answer UNSAT is assumed, using all variables
+   in the sub-problems. </li>
+   <li> This is repeated until the complete problem is processed. </li>
+   <li> If no open problems was created, then we output the decision. </li>
+   <li> A counter open_problem_index=1,.. counts the open problems. </li>
+   <li> The output goes into a directory whose name follows our usual
+   standard for experiment-directories. </li>
+   <li> Insight we have a file containing all the OKsolver-parameters,
+   and the files 1.pass, ..., containing the partial assignments yielding
+   the subproblems. </li>
+   <li> DONE (we don't do this, but we compute all sub-problems, in the
+   form of partial assignments, once at the beginning)
+   Installing an additional parameter to just compute one node:
     <ol>
      <li> To handle a large number of jobs, it must also be possible to
      just output a certain clause-set from the long list; for example
