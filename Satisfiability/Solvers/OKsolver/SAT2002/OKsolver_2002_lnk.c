@@ -247,14 +247,15 @@ static struct Sammlung *SatVar0 = NULL;
 
 //! the depth of the monitoring nodes
 static unsigned int Beobachtungsniveau = 6;
-
+//! the depth of the current node
 static unsigned int Rekursionstiefe;
 
+//! array containing the constants 2^(Beobachtungsniveau-1), ..., 2^0
 static unsigned int *Zweiglast = NULL;
-/* = 2^0, ..., 2^(Beobachtungsniveau-1) */
+//! constant with value 2^Beobachtungsniveau
+static unsigned int Gesamtlast;
 
-static unsigned int Gesamtlast; /* = 2^Beobachtungsniveau */
-
+//! array with Beobachtungsniveau many elements
 static unsigned int *beobachtet = NULL;
 //! the (total) count of nodes yet monitored
 static unsigned int totalbeobachtet;
@@ -414,13 +415,14 @@ void InitSat() {
   Runde = 0; Zeiger2 = 0;
 
   if (Monitor && (! nurVorreduktion)) {
-    unsigned int p; unsigned int *Z;
     totalbeobachtet = 0;
     Rekursionstiefe = 0;
     Zweiglast = (unsigned int *) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
-    for (p = 1, Z = Zweiglast + Beobachtungsniveau; Z != Zweiglast; p *= 2)
-      *(--Z) = p;
-    Gesamtlast = p;
+    {unsigned int p = 1;
+     for (unsigned int* Z = Zweiglast+Beobachtungsniveau; Z != Zweiglast; p *= 2)
+       *(--Z) = p;
+     Gesamtlast = p;
+    }
     beobachtet = (unsigned int *) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
     beobachtet[0] = 0;
   }
