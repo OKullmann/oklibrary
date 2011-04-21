@@ -207,8 +207,8 @@ License, or any later version. */
   \par Version 1.3.3
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
-   are handled:
+   In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following
+   topics are handled:
     - Simple parallelisation
 
 
