@@ -488,7 +488,6 @@ static enum Ergebniswerte SATEntscheidung() {
   VZ optZweig;
   enum Spruenge r;
   unsigned int DN, DN2;
-  StapeleintragFZ Z;
 
 #ifdef ALLSAT
   assert(! Belegung);
@@ -596,12 +595,11 @@ alleReduktionen:
       if (erfuellt) {
         if (Belegung) { /* Durchfuehrung der Belegung (zur Ausgabe) */
           DN = DeltaN[Zweig][Schalter];
-          Z = Huelle[Zweig][Schalter];
-          for (unsigned int i = 0; i < DN; ++i, ++Z) {
+          for (struct {unsigned int i; StapeleintragFZ Z;} l = {0,Huelle[Zweig][Schalter]}; l.i < DN; ++l.i, ++l.Z) {
 #ifndef BAUMRES
-            belege(*Z);
+            belege(*l.Z);
 #else
-            belege(Z -> l);
+            belege(l.Z -> l);
 #endif
           }
         }
@@ -621,12 +619,11 @@ alleReduktionen:
 #ifdef LOKALLERNEN
           eintragenTiefe();
 #endif
-          Z = Huelle[Zweig][Schalter];
-          for (unsigned int i = 0; i < DN; ++i, ++Z) {
+          for (struct {unsigned int i; StapeleintragFZ Z;} l = {0,Huelle[Zweig][Schalter]}; l.i < DN; ++l.i, ++l.Z) {
 #ifndef BAUMRES
-            belege(*Z);
+            belege(*l.Z);
 #else
-            belege(Z -> l);
+            belege(l.Z -> l);
 #endif
           }
           /* Falls BAUMRES gesetzt ist: */
@@ -686,9 +683,11 @@ alleReduktionen:
   for (struct {unsigned int i; StapeleintragFZ Z;} l = {0,Huelle[optZweig][! Schalter]}; l.i < DN; ++l.i, ++l.Z)
     belege(*l.Z);
 #else
-  Z = Huelle[optZweig][! Schalter];
-  belege((Z++) -> l);
-  for (unsigned int i = 1; i < DN; ++i, ++Z) belege_VK(Z -> l, Z -> k);
+  {
+   StapeleintragFZ Z = Huelle[optZweig][! Schalter];
+   belege((Z++) -> l);
+   for (unsigned int i = 1; i < DN; ++i, ++Z) belege_VK(Z -> l, Z -> k);
+  }
 #endif
   aktP = LaP[optZweig][! Schalter];
   SatVar -> P2 = LaP[! optZweig][! Schalter];
@@ -787,10 +786,12 @@ alleReduktionen:
   for (struct {unsigned i; StapeleintragFZ Z;} l = {SatVar->altZeiger2, zweiteBel + (SatVar -> altZeiger2)}; l.i < Zeiger2; ++l.i, ++l.Z)
     belege(*l.Z);
 #else
-  Z = zweiteBel + (SatVar -> altZeiger2);
-  belege((Z++) -> l);
-  for (unsigned int i = SatVar -> altZeiger2 + 1; i < Zeiger2; ++i, ++Z)
+  {
+   StapeleintragFZ Z = zweiteBel + (SatVar -> altZeiger2);
+   belege((Z++) -> l);
+   for (unsigned int i = SatVar -> altZeiger2 + 1; i < Zeiger2; ++i, ++Z)
     belege_VK(Z -> l, Z -> k);
+  }
 #endif
 
   Zeiger2 = SatVar -> altZeiger2;
