@@ -44,6 +44,37 @@ License, or any later version. */
    <li> Insight we have a file containing all the OKsolver-parameters,
    and the files 1.pass, ..., containing the partial assignments yielding
    the subproblems. </li>
+   <li> The experiment-subdirectory:
+    <ol>
+     <li> Since this belongs to the operating-system, perhaps we have a
+     wrapper-script, which computes the directory-name, and passes it to
+     the OKsolver. </li>
+     <li> The option -S would then get an argument "-S=dir-name". </li>
+    </ol>
+   </li>
+   <li> Output of the partial assignments:
+    <ol>
+     <li> The options for outputting satisfying assignments must be
+     activated. </li>
+     <li> If a satisfying assignment was found, we need it, and otherwise
+     we need to output partial assignments (that is, we need to output
+     variable-names). </li>
+     <li> Should we use a DIMACS-like format for that, as unit-clauses? </li>
+     <li> This would have the advantage, that these unit-clauses can then be
+     merged with the main file (for the basic problem). </li>
+     <li> For the parameter line, the parameter n, should it be the overall
+     maximal index, or the maximal index used here? </li>
+     <li> The maximal index used here is more informative, and shouldn't pose
+     a problem. </li>
+     <li> Perhaps we write some wrapper-script "AddUnitClauses", which has
+     as input the CNF F.cnf, and the CNF A.cnf (for "addition"), append A
+     to the end of F, performs unit-clause-propagation, and stores the result
+     in "F_A.cnf". </li>
+    </ol>
+   </li>
+   <li> Perhaps the mode "-S" is considered as a sub-mode of the
+   monitoring-mode, only not outputting statistics, but the partial assignments
+   in the form of a clause-set of unit-clauses. </li>
    <li> DONE (we don't do this, but we compute all sub-problems, in the
    form of partial assignments, once at the beginning)
    Installing an additional parameter to just compute one node:
