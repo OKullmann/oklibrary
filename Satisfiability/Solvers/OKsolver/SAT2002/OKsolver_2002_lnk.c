@@ -81,11 +81,12 @@ License, or any later version. */
 #include <math.h>
 #include <float.h>
 #include <string.h>
-#include <sys/stat.h>
 #include <signal.h>
 #include <setjmp.h>
-#include <unistd.h>
 #include <assert.h>
+
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include "OK.h"
 #include "BaumRes.h"
