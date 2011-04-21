@@ -154,13 +154,11 @@ Ausgabeformat Format = XML_Format;
 // (Fuer den Wettbewerb muss sowohl BELEGUNG als auch DIMACSAUS
 // gesetzt werden.)
 
-
 unsigned int MAXN = 30000;
 unsigned int MAXL = 400000;
 unsigned int MAXK = 150000;
 
 /* ------------------------------------------------------------- */
-
 
 /* Einheiten pro Sekunde */
 #ifndef SYSTIME
@@ -176,7 +174,6 @@ unsigned int MAXK = 150000;
 
 clock_t akkVerbrauch = 0; /* akkumulierter Verbrauch */
 
-
 /* ------------------------------------------------------------- */
 
 /* Die Darstellung der Eingabe */
@@ -187,7 +184,6 @@ unsigned int P, P0, N, N0, K, K0, L, L0, aktN, aktP;
 
 unsigned int Runde;
 
-
 /* ------------------------------------------------------------- */
 
 /* Statistik */
@@ -195,7 +191,6 @@ unsigned int Runde;
 StatisticsCount Knoten, SingleKnoten, VerSingleKnoten, QuasiSingleKnoten, PureL, Autarkien, V1KlRed, FastAutarkien, InitEinerRed, neue2Klauseln, maxneue2K;
 
 StatisticsCount_short Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
-
 
 static clock_t Verbrauch;
 
@@ -212,9 +207,7 @@ static enum Ergebniswerte s = Unbestimmt; /* Ergebniswert */
 
 /* ------------------------------------------------------------- */
 
-
 /* Lokale Datenstrukturen und Variablen */
-
 
 /* Der Stapel, der die Belegungen fuer den jeweils zweiten Zweig enthaelt */
 
@@ -222,7 +215,6 @@ static StapeleintragFZ zweiteBel = NULL;
 
 static unsigned int Zeiger2;
 static unsigned int Groesse2;
-
 
 /* Zur Simulation der Rekursion */
 
@@ -251,7 +243,6 @@ static struct Sammlung *SatVar0 = NULL;
 
 /* ------------------------------------------------------------- */
 
-
 /* Zur Beobachtung der SAT-Entscheidung */
 
 //! the depth of the monitoring nodes
@@ -269,7 +260,6 @@ static unsigned int *beobachtet = NULL;
 static unsigned int totalbeobachtet;
 
 static FILE *fpmo = NULL; /* die aktuelle Ausgabeidatei zur Ueberwachung */
-
 
 /*!
   \brief Given the current count of monitoring nodes, output the monitoring
@@ -1147,10 +1137,7 @@ int main(const int argc, const char* const argv[]) {
       else // relativer Pfadname
         printf("%s/%s\" />\n", getenv("PWD"), argv[0]);
       printf("  <options string = \"%s\" />\n", OPTIONENKENNUNG5 OPTIONENKENNUNG6 OPTIONENKENNUNG7 OPTIONENKENNUNG1 OPTIONENKENNUNG2 OPTIONENKENNUNG3 OPTIONENKENNUNG4);
-      {
-        if (internal)
-          printf("  <internal/>\n");
-      }
+      if (internal) printf("  <internal/>\n");
       printf("</SAT-solver.specification>\n");
     }
     else if (strncmp("--language=", argv[Argument], 11) == 0) {
@@ -1368,18 +1355,15 @@ int main(const int argc, const char* const argv[]) {
       times(Zeiger);
       Verbrauch = SysZeit.tms_utime - akkVerbrauch;
 #endif
-      if (Monitor)
-        printf("\n");
+      if (Monitor) printf("\n");
       Statistikzeile(stdout);
-      if (Dateiausgabe)
-        Statistikzeile(fpaus);
+      if (Dateiausgabe) Statistikzeile(fpaus);
       
       /* Achtung: Die Analyse der Ausgabe verlangt, dass das allererste */
       /* Zeichen die SAT-Zugehoerigkeit (d.h.: 0 oder 1) angibt. */
       
-      if (Belegung && (s == SAT)) {
-        if (! Dateiausgabe)
-          AusgabeBelegung(stdout);
+      if (Belegung && (s == SAT))
+        if (! Dateiausgabe) AusgabeBelegung(stdout);
         else {
           if ((fppa = fopen(NameBel, "w")) == NULL) {
             fprintf(stderr, "%s %s\n", Meldung(27), NameBel);
@@ -1387,7 +1371,6 @@ int main(const int argc, const char* const argv[]) {
           }
           AusgabeBelegung(fppa);
         }
-      }
     Aufraeumen :
       
       alarm(0);
@@ -1408,18 +1391,10 @@ int main(const int argc, const char* const argv[]) {
         fclose(TreeDataFile); TreeDataFile = NULL;
       }
 #endif
-      if (fp != NULL) {
-        fclose(fp); fp = NULL;
-      }
-      if (fpmo != NULL) {
-        fclose(fpmo); fpmo = NULL;
-      }
-      if (fpaus != NULL) {
-        fclose(fpaus); fpaus = NULL;
-      }
-      if (fppa != NULL) {
-        fclose(fppa); fppa = NULL;
-      }
+      if (fp != NULL) { fclose(fp); fp = NULL; }
+      if (fpmo != NULL) { fclose(fpmo); fpmo = NULL; }
+      if (fpaus != NULL) { fclose(fpaus); fpaus = NULL; }
+      if (fppa != NULL) { fclose(fppa); fppa = NULL; }
     }
   }
   
