@@ -485,7 +485,6 @@ void FinaliseSATPath() {
 */
 
 static enum Ergebniswerte SATEntscheidung() {
-  VAR v;
   VZ optZweig;
   enum Spruenge r;
   unsigned int DN, DN2;
@@ -592,7 +591,7 @@ alleReduktionen:
     sie ersetzt, falls besser, die alte, bisher beste Verzweigung.
     (Die Zweigauswahl wird von "Abstand" mitberechnet.) 
 */
-    for (v = ersteVar(); echteVar(v); v = naechsteVar(v)) {
+    for (VAR v = ersteVar(); echteVar(v); v = naechsteVar(v)) {
       Filter(v);
       if (erfuellt) {
         if (Belegung) { /* Durchfuehrung der Belegung (zur Ausgabe) */
