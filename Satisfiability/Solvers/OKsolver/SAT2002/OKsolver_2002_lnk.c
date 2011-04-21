@@ -233,12 +233,12 @@ struct Sammlung {
   // clock_t start_run_time;
   StatisticsCount number_2_reductions_at_new_node;
 #endif
-  struct Sammlung * davor;
-  struct Sammlung * danach;
+  struct Sammlung* davor;
+  struct Sammlung* danach;
 };
 
-static struct Sammlung *SatVar;
-static struct Sammlung *SatVar0 = NULL;
+static struct Sammlung* SatVar;
+static struct Sammlung* SatVar0 = NULL;
 /* speichert den initialen Wert von SatVar */
 
 /* ------------------------------------------------------------- */
@@ -251,16 +251,16 @@ static unsigned int Beobachtungsniveau = 6;
 static unsigned int Rekursionstiefe;
 
 //! array containing the constants 2^(Beobachtungsniveau-1), ..., 2^0
-static unsigned int *Zweiglast = NULL;
+static unsigned int* Zweiglast = NULL;
 //! constant with value 2^Beobachtungsniveau
 static unsigned int Gesamtlast;
 
 //! array with Beobachtungsniveau many elements
-static unsigned int *beobachtet = NULL;
+static unsigned int* beobachtet = NULL;
 //! the (total) count of nodes yet monitored
 static unsigned int totalbeobachtet;
 
-static FILE *fpmo = NULL; /* die aktuelle Ausgabeidatei zur Ueberwachung */
+static FILE* fpmo = NULL; /* die aktuelle Ausgabeidatei zur Ueberwachung */
 
 /*!
   \brief Given the current count of monitoring nodes, output the monitoring
@@ -376,10 +376,10 @@ static VERGL Vergleich(const float a, const float b) {
 
 /* Prozeduren zur Speicherverwaltung */
 
-static struct Sammlung *neuerKnoten() {
-  struct Sammlung *s;
-  s = (struct Sammlung *) xmalloc(sizeof(struct Sammlung) + (P + 1) * sizeof(unsigned int));
-  s -> AnzK2 = (unsigned int *)(s + 1);
+static struct Sammlung* neuerKnoten() {
+  struct Sammlung* s;
+  s = (struct Sammlung*) xmalloc(sizeof(struct Sammlung) + (P + 1) * sizeof(unsigned int));
+  s -> AnzK2 = (unsigned int*)(s + 1);
   s -> danach = NULL;
   return s;
 }
@@ -417,19 +417,19 @@ void InitSat() {
   if (Monitor && (! nurVorreduktion)) {
     totalbeobachtet = 0;
     Rekursionstiefe = 0;
-    Zweiglast = (unsigned int *) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
+    Zweiglast = (unsigned int*) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
     {unsigned int p = 1;
      for (unsigned int* Z = Zweiglast+Beobachtungsniveau; Z != Zweiglast; p *= 2)
        *(--Z) = p;
      Gesamtlast = p;
     }
-    beobachtet = (unsigned int *) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
+    beobachtet = (unsigned int*) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
     beobachtet[0] = 0;
   }
 }
 
 static void AufraeumenSat() {
-  struct Sammlung *Z; struct Sammlung *Z0;
+  struct Sammlung* Z; struct Sammlung* Z0;
   
   Knoten = SingleKnoten = VerSingleKnoten = QuasiSingleKnoten = PureL = Autarkien = V1KlRed = Suchbaumtiefe = Ueberschreitung2 = FastAutarkien = InitEinerRed = neue2Klauseln = maxneue2K = init2Klauseln = 0;
   Tiefe = NULL;
@@ -624,7 +624,7 @@ alleReduktionen:
           /* muss hier in relVar nichts eingetragen werden. */
           aktP = LaP[Zweig][Schalter];
           aktN -= DeltaN[Zweig][Schalter];
-          memcpy((void *)(aktAnzK + 2), (void *)(LaAnzK[Zweig][Schalter] + 2), (aktP - 1) * sizeof(unsigned int));
+          memcpy((void*)(aktAnzK + 2), (void*)(LaAnzK[Zweig][Schalter] + 2), (aktP - 1) * sizeof(unsigned int));
           goto Schleife;
         }
         else {
@@ -683,8 +683,8 @@ alleReduktionen:
 #endif
   aktP = LaP[optZweig][! Schalter];
   SatVar -> P2 = LaP[! optZweig][! Schalter];
-  memcpy((void *)(aktAnzK + 2), (void *)(LaAnzK[optZweig][! Schalter] + 2), (aktP - 1) * sizeof(unsigned int));
-  memcpy((void *)((SatVar -> AnzK2) + 2), (void *)(LaAnzK[! optZweig][! Schalter] + 2), ((SatVar -> P2) - 1) * sizeof(unsigned int));
+  memcpy((void*)(aktAnzK + 2), (void*)(LaAnzK[optZweig][! Schalter] + 2), (aktP - 1) * sizeof(unsigned int));
+  memcpy((void*)((SatVar -> AnzK2) + 2), (void*)(LaAnzK[! optZweig][! Schalter] + 2), ((SatVar -> P2) - 1) * sizeof(unsigned int));
   SatVar -> N2 = aktN - DN2;
   aktN -= DN;
   SatVar -> altZeiger2 = Zeiger2;
@@ -696,11 +696,11 @@ alleReduktionen:
     Groesse2 += N;
     zweiteBel = (StapeleintragFZ) xrealloc(zweiteBel, Groesse2 * sizeof(StapeleintragF));
   }
-  memcpy((void *)(zweiteBel + Zeiger2), (void *)(Huelle[! optZweig][! Schalter]), DN2 * sizeof(StapeleintragF));
+  memcpy((void*)(zweiteBel + Zeiger2), (void*)(Huelle[! optZweig][! Schalter]), DN2 * sizeof(StapeleintragF));
   Zeiger2 += DN2;
   
   if (SatVar -> danach == NULL) {
-    struct Sammlung *Z;
+    struct Sammlung* Z;
     ++Suchbaumtiefe;
     SatVar -> danach = (Z = neuerKnoten());
     Z -> davor = SatVar;
@@ -789,10 +789,10 @@ alleReduktionen:
   Zeiger2 = SatVar -> altZeiger2;
   aktP = SatVar -> P2;
   aktN = SatVar -> N2;
-  memcpy((void *)(aktAnzK + 2), (void *)((SatVar -> AnzK2) + 2), (aktP - 1) * sizeof(unsigned int));
+  memcpy((void*)(aktAnzK + 2), (void*)((SatVar -> AnzK2) + 2), (aktP - 1) * sizeof(unsigned int));
 
   if (SatVar -> danach == NULL) {
-    struct Sammlung *Z;
+    struct Sammlung* Z;
     ++Suchbaumtiefe;
     SatVar -> danach = (Z = neuerKnoten());
     Z -> davor = SatVar;
@@ -855,7 +855,7 @@ alleReduktionen:
   Either to stdout or to file.
 */
 
-void Statistikzeile(FILE *fp) {
+void Statistikzeile(FILE* fp) {
   if (Format == Dimacs_Format) {
     fprintf(fp, "s ");
     switch (s) {
@@ -997,7 +997,7 @@ const char* BasisName(const char* const name) {
 
 /* ------------------------------------------------------------- */
 
-static FILE *fpaus = NULL; /* fuer die Ausgabe der Ergebnisse */
+static FILE* fpaus = NULL; /* fuer die Ausgabe der Ergebnisse */
 
 static void Zustandsanzeige (int signum) {
 #ifndef SYSTIME
@@ -1022,13 +1022,13 @@ static void Abbruch (int signum) {
   longjmp(Ausgabepunkt, 1);
 }
 
-static FILE *fp = NULL; /* die aktuelle Eingabedatei */
+static FILE* fp = NULL; /* die aktuelle Eingabedatei */
 static unsigned int Groesse;
-static FILE *fppa = NULL; /* fuer die Ausgabe einer erfuellenden Belegung */
+static FILE* fppa = NULL; /* fuer die Ausgabe einer erfuellenden Belegung */
 
 static unsigned int Argument;
 
-static char *NameBel = NULL; char *NameMon = NULL;
+static char* NameBel = NULL; char* NameMon = NULL;
 
 
 int main(const int argc, const char* const argv[]) {
@@ -1286,11 +1286,11 @@ int main(const int argc, const char* const argv[]) {
         if (Belegung || (Monitor && (! nurVorreduktion))) {
           Wurzel = BasisName(aktName);
           if (Belegung) {
-            NameBel = (char *) xmalloc((strlen(Wurzel) + 3 + 1) * sizeof(char));
+            NameBel = (char*) xmalloc((strlen(Wurzel) + 3 + 1) * sizeof(char));
             strcpy(NameBel, Wurzel); strcat(NameBel, ".pa");
           }
           if (Monitor && (! nurVorreduktion)) {
-            NameMon = (char *) xmalloc((strlen(Wurzel) + 3 + 1) * sizeof(char));
+            NameMon = (char*) xmalloc((strlen(Wurzel) + 3 + 1) * sizeof(char));
             strcpy(NameMon, Wurzel); strcat(NameMon, ".mo");
             if ((fpmo = fopen(NameMon, "w")) == NULL) {
               fprintf(stderr, "%s %s\n", Meldung(29), NameMon);
