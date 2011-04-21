@@ -243,24 +243,40 @@ static struct Sammlung* SatVar0 = NULL;
 
 /* ------------------------------------------------------------- */
 
-/* Zur Beobachtung der SAT-Entscheidung */
+/* Monitoring the search */
 
-//! the depth of the monitoring nodes
+//! the (precise) depth of the monitoring nodes
 static unsigned int Beobachtungsniveau = 6;
 //! the depth of the current node
 static unsigned int Rekursionstiefe;
 
 //! array containing the constants 2^(Beobachtungsniveau-1), ..., 2^0
 static unsigned int* Zweiglast = NULL;
-//! constant with value 2^Beobachtungsniveau
+/*!
+  \brief Constant with value 2^Beobachtungsniveau
+
+  <ul>
+   <li> There are exactly 2^Beobachtungsniveau many monitoring nodes (all at
+   depth (exactly) Beobachtungsniveau). </li>
+   <li> If nodes don't get expanded in the search tree up to depth
+   Beobachtungsniveau (due to earlier decisions, or due to a single node),
+   then they are "virtually" expanded. </li>
+  </ul>
+*/
 static unsigned int Gesamtlast;
 
-//! array with Beobachtungsniveau many elements
+/*!
+  \brief Helper array with Beobachtungsniveau many elements
+
+  For depth 0 <= d < Beobachtungsniveau the number of monitoring nodes yet
+  solved which lie above solved nodes at depth d.
+*/
 static unsigned int* beobachtet = NULL;
-//! the (total) count of nodes yet monitored
+//! (total) count of monitoring nodes yet solved (search completed iff totalbeobachtet is equal to Gesamtlast)
 static unsigned int totalbeobachtet;
 
-static FILE* fpmo = NULL; /* die aktuelle Ausgabeidatei zur Ueberwachung */
+//! output file for monitoring-results
+static FILE* fpmo = NULL;
 
 /*!
   \brief Given the current count of monitoring nodes, output the monitoring
@@ -269,9 +285,15 @@ static FILE* fpmo = NULL; /* die aktuelle Ausgabeidatei zur Ueberwachung */
   Details:
   <ul>
    <li> This function is only called when monitoring is activated. </li>
-   <li> Output only happens when at least one monitor-node more was counted.
-   </li>
+   <li> Called whenever a branch for a node with depth < Beobachtungsniveau
+   has been solved. </li>
+   <li> Output only happens when at least one new monitoring node has been
+   completed. </li>
    <li> Has the task of updating variable totalbeobachtet. </li>
+   <li> The output for the number of nodes is the total number of nodes
+   solved after the last call. </li>
+   <li> So the numbers of nodes add up to the total number of nodes in the
+   whole search tree. </li>
   </ul>
 */
 __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
@@ -714,7 +736,7 @@ alleReduktionen:
       beobachtet[Rekursionstiefe] = beobachtet[Rekursionstiefe-1];
       if (Dateiausgabe)
 #ifndef BAUMRES
-	Verzweigungsliteralausgabe(*Huelle[optZweig][! Schalter], Rekursionstiefe - 1);
+	  Verzweigungsliteralausgabe(*Huelle[optZweig][! Schalter], Rekursionstiefe - 1);
 #else
         Verzweigungsliteralausgabe(Huelle[optZweig][! Schalter] -> l, Rekursionstiefe - 1);
 #endif
