@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.1998 (Frankfurt)
-/* Copyright 1998 - 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 1998 - 2007, 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -562,8 +562,7 @@ alleReduktionen:
 #endif
       return UNSAT;
     }
-    if (Monitor)
-      Rekursionstiefe--;
+    if (Monitor) --Rekursionstiefe;
     switch (r)
       {
       case SAT1 : goto nachSAT1;
@@ -611,8 +610,7 @@ alleReduktionen:
 #endif
       return UNSAT;
     }
-    if (Monitor)
-      Rekursionstiefe--;
+    if (Monitor) --Rekursionstiefe;
     switch (r)
       {
       case SAT1 : goto nachSAT1;
@@ -791,7 +789,7 @@ alleReduktionen:
 #else
 # ifndef BAUMRES
   do {
-    Tiefe--;
+    --Tiefe;
     rebelege(PfadLit());
   }
   while (Tiefe > SatVar -> altTiefe);
@@ -811,8 +809,7 @@ alleReduktionen:
 #  endif
       return UNSAT;
     }
-    if (Monitor)
-      Rekursionstiefe--;
+    if (Monitor) --Rekursionstiefe;
     switch (r) {
     case SAT1 : goto nachSAT1;
     case SAT2 : goto nachSAT2;
@@ -873,7 +870,7 @@ alleReduktionen:
 #else
 # ifndef BAUMRES
   do {
-    Tiefe--;
+    --Tiefe;
     rebelege(PfadLit());
   }
   while (Tiefe > SatVar -> altTiefe);
@@ -894,8 +891,7 @@ alleReduktionen:
 #endif
     return UNSAT;
   }
-  if (Monitor)
-      Rekursionstiefe--;
+  if (Monitor) --Rekursionstiefe;
   switch (r) {
   case SAT1 : goto nachSAT1;
   case SAT2 : goto nachSAT2;
