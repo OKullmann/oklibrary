@@ -269,6 +269,7 @@ static unsigned int *Zweiglast = NULL;
 static unsigned int Gesamtlast; /* = 2^Beobachtungsniveau */
 
 static unsigned int *beobachtet = NULL;
+//! the (total) count of nodes yet monitored
 static unsigned int totalbeobachtet;
 
 static FILE *fpmo = NULL; /* die aktuelle Ausgabeidatei zur Ueberwachung */
@@ -278,7 +279,13 @@ static FILE *fpmo = NULL; /* die aktuelle Ausgabeidatei zur Ueberwachung */
   \brief Given the current count of monitoring nodes, output the monitoring
   statistics to stdout, and to the file if file-output is set.
 
-  This function is only called when monitoring is activated.
+  Details:
+  <ul>
+   <li> This function is only called when monitoring is activated. </li>
+   <li> Output only happens when at least one monitor-node more was counted.
+   </li>
+   <li> Has the task of updating variable totalbeobachtet. </li>
+  </ul>
 */
 __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
   static StatisticsCount old_nodes = 0;
