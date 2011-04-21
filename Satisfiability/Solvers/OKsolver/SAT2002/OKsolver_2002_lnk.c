@@ -721,12 +721,12 @@ alleReduktionen:
   eintragenTiefe();
 #endif
 #ifndef BAUMRES
-  for (i = 0, Z = Huelle[optZweig][! Schalter]; i < DN; i++, Z++)
+  for (i = 0, Z = Huelle[optZweig][! Schalter]; i < DN; ++i, ++Z)
     belege(*Z);
 #else
   Z = Huelle[optZweig][! Schalter];
   belege((Z++) -> l);
-  for (i = 1; i < DN; i++, Z++)
+  for (i = 1; i < DN; ++i, ++Z)
     belege_VK(Z -> l, Z -> k);
 #endif
   aktP = LaP[optZweig][! Schalter];
@@ -740,7 +740,7 @@ alleReduktionen:
 /* Ist noch genug Speicher fuer die zweite Belegung?!: */
 
   if (Zeiger2 + DN2 >= Groesse2) {
-    Ueberschreitung2++;
+    ++Ueberschreitung2;
     Groesse2 += N;
     zweiteBel = (StapeleintragFZ) xrealloc(zweiteBel, Groesse2 * sizeof(StapeleintragF));
   }
@@ -749,7 +749,7 @@ alleReduktionen:
   
   if (SatVar -> danach == NULL) {
     struct Sammlung *Z;
-    Suchbaumtiefe++;
+    ++Suchbaumtiefe;
     SatVar -> danach = (Z = neuerKnoten());
     Z -> davor = SatVar;
     SatVar = Z;
@@ -800,7 +800,7 @@ alleReduktionen:
     aktV_eintragen_relV();
   else {
     Zeiger2 = SatVar -> altZeiger2;
-    SingleKnoten++;
+    ++SingleKnoten;
     r = SatVar -> Ruecksprung;
     SatVar = SatVar -> davor;
     if (SatVar == NULL) {
@@ -824,12 +824,12 @@ alleReduktionen:
   eintragenTiefe();
 #endif
 #ifndef BAUMRES
-  for (i = SatVar -> altZeiger2, Z = zweiteBel + (SatVar -> altZeiger2); i < Zeiger2; i++, Z++)
+  for (i = SatVar -> altZeiger2, Z = zweiteBel + (SatVar -> altZeiger2); i < Zeiger2; ++i, ++Z)
     belege(*Z);
 #else
   Z = zweiteBel + (SatVar -> altZeiger2);
   belege((Z++) -> l);
-  for (i = SatVar -> altZeiger2 + 1; i < Zeiger2; i++, Z++)
+  for (i = SatVar -> altZeiger2 + 1; i < Zeiger2; ++i, ++Z)
     belege_VK(Z -> l, Z -> k);
 #endif
 
@@ -840,7 +840,7 @@ alleReduktionen:
 
   if (SatVar -> danach == NULL) {
     struct Sammlung *Z;
-    Suchbaumtiefe++;
+    ++Suchbaumtiefe;
     SatVar -> danach = (Z = neuerKnoten());
     Z -> davor = SatVar;
     SatVar = Z;
@@ -877,10 +877,8 @@ alleReduktionen:
 # else
   while (--Tiefe > SatVar -> altTiefe)
     rebelege(PfadLit());
-  if (rebelege_Verz(PfadLit()))
-    relVMhinzufuegen();
-  else
-    VerSingleKnoten++;
+  if (rebelege_Verz(PfadLit())) relVMhinzufuegen();
+  else ++VerSingleKnoten;
 # endif
 #endif
   r = SatVar -> Ruecksprung;
@@ -1025,7 +1023,7 @@ void Statistikzeile(FILE *fp) {
       fprintf(fp, "      <clause-length type = \"maximal\" specifier = \"exact\" value = \"%d\" />\n", P);
       fprintf(fp, "      <total_number_of_clauses specifier = \"exact\" count = \"%d\" />\n", K);
       fprintf(fp, "      <numbers_of_clauses list_of_clause-lengths = \"complete\" >\n");
-      for (unsigned int i = 0; i <= P - 2; i++)
+      for (unsigned int i = 0; i <= P - 2; ++i)
 	if (InitAnzK[i+2] != 0)
 	  fprintf(fp, "        <number length = \"%d\" count = \"%d\" />\n", i+2, InitAnzK[i+2]);
       fprintf(fp, "      </numbers_of_clauses>\n");
@@ -1114,7 +1112,7 @@ int main(const int argc, const char* const argv[]) {
 
   setzenStandard();
 
-  for (Argument = 1; Argument < argc; Argument++) {
+  for (Argument = 1; Argument < argc; ++Argument) {
     if (strcmp("--version", argv[Argument]) == 0) {
       printf("%s %s; %s %s\n%s: %s, %s\n", Meldung(24), DATUM, Meldung(2), Version, Meldung(6), __DATE__, __TIME__);
       printf("%s", Meldung(44));
