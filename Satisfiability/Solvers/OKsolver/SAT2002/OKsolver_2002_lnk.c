@@ -401,7 +401,7 @@ static VERGL Vergleich(float a, float b)
 /* Prozeduren zur Speicherverwaltung */
 
 
-static struct Sammlung *neuerKnoten( void )
+static struct Sammlung *neuerKnoten()
 {
   struct Sammlung *s;
   s = (struct Sammlung *) xmalloc(sizeof(struct Sammlung) + (P + 1) * sizeof(unsigned int));
@@ -421,12 +421,12 @@ static long unsigned int randx;
 static float Verhaeltnis = 0.2;
 
 
-__inline__ static void srand_S(void)
+__inline__ static void srand_S()
 {
   randx = Schluessel;
 }
 
-__inline__ static int rand_S(void)
+__inline__ static int rand_S()
 {
   return(((randx = randx * 1103515245L + 12345)>>16) & 0x7fff);
 }
@@ -444,7 +444,7 @@ __inline__ static float Verschmierung(double x)
 /* Initialisierung */
 
 
-void InitSat( void )
+void InitSat()
 {
   Groesse2 = N;
   zweiteBel = (StapeleintragFZ) xmalloc(Groesse2 * sizeof(StapeleintragF));
@@ -469,7 +469,7 @@ void InitSat( void )
   return;
 }
 
-static void AufraeumenSat(void)
+static void AufraeumenSat()
 {
   struct Sammlung *Z; struct Sammlung *Z0;
   
@@ -521,7 +521,7 @@ void FinaliseSATPath() {
   Assumes input has been read, and returns a decision.
 */
 
-static enum Ergebniswerte SATEntscheidung(void) {
+static enum Ergebniswerte SATEntscheidung() {
   typedef unsigned int loop_t;
   loop_t i;
   VAR v;
