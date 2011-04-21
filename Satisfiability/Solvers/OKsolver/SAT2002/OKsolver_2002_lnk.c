@@ -487,7 +487,6 @@ void FinaliseSATPath() {
 static enum Ergebniswerte SATEntscheidung() {
   VZ optZweig;
   enum Spruenge r;
-  unsigned int DN, DN2;
 
 #ifdef ALLSAT
   assert(! Belegung);
@@ -594,7 +593,7 @@ alleReduktionen:
       Filter(v);
       if (erfuellt) {
         if (Belegung) { /* Durchfuehrung der Belegung (zur Ausgabe) */
-          DN = DeltaN[Zweig][Schalter];
+          const unsigned int DN = DeltaN[Zweig][Schalter];
           for (struct {unsigned int i; StapeleintragFZ Z;} l = {0,Huelle[Zweig][Schalter]}; l.i < DN; ++l.i, ++l.Z) {
 #ifndef BAUMRES
             belege(*l.Z);
@@ -615,7 +614,7 @@ alleReduktionen:
       if (Wahl) {
         if (Single) {  /* (zur Zeit) der (nicht-erfuellende) Autarkiefall */
           /* Durchfuehrung der Belegung: */
-          DN = DeltaN[Zweig][Schalter];
+          const unsigned int DN = DeltaN[Zweig][Schalter];
 #ifdef LOKALLERNEN
           eintragenTiefe();
 #endif
@@ -674,8 +673,8 @@ alleReduktionen:
 
   /* zuerst optZweig: */
 
-  DN = DeltaN[optZweig][! Schalter];
-  DN2 = DeltaN[! optZweig][! Schalter];
+  const unsigned int DN = DeltaN[optZweig][! Schalter];
+  const unsigned int DN2 = DeltaN[! optZweig][! Schalter];
 #ifdef LOKALLERNEN
   eintragenTiefe();
 #endif
