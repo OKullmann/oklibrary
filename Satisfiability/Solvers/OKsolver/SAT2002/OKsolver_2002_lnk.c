@@ -485,8 +485,6 @@ void FinaliseSATPath() {
 */
 
 static enum Ergebniswerte SATEntscheidung() {
-  typedef unsigned int loop_t;
-  loop_t i;
   VAR v;
   VZ optZweig;
   enum Spruenge r;
@@ -600,7 +598,7 @@ alleReduktionen:
         if (Belegung) { /* Durchfuehrung der Belegung (zur Ausgabe) */
           DN = DeltaN[Zweig][Schalter];
           Z = Huelle[Zweig][Schalter];
-          for (loop_t i = 0; i < DN; ++i, ++Z) {
+          for (unsigned int i = 0; i < DN; ++i, ++Z) {
 #ifndef BAUMRES
             belege(*Z);
 #else
@@ -625,7 +623,7 @@ alleReduktionen:
           eintragenTiefe();
 #endif
           Z = Huelle[Zweig][Schalter];
-          for (loop_t i = 0; i < DN; ++i, ++Z) {
+          for (unsigned int i = 0; i < DN; ++i, ++Z) {
 #ifndef BAUMRES
             belege(*Z);
 #else
@@ -686,13 +684,12 @@ alleReduktionen:
   eintragenTiefe();
 #endif
 #ifndef BAUMRES
-  for (i = 0, Z = Huelle[optZweig][! Schalter]; i < DN; ++i, ++Z)
-    belege(*Z);
+  for (struct {unsigned int i; StapeleintragFZ Z;} l = {0,Huelle[optZweig][! Schalter]}; l.i < DN; ++l.i, ++l.Z)
+    belege(*l.Z);
 #else
   Z = Huelle[optZweig][! Schalter];
   belege((Z++) -> l);
-  for (i = 1; i < DN; ++i, ++Z)
-    belege_VK(Z -> l, Z -> k);
+  for (unsigned int i = 1; i < DN; ++i, ++Z) belege_VK(Z -> l, Z -> k);
 #endif
   aktP = LaP[optZweig][! Schalter];
   SatVar -> P2 = LaP[! optZweig][! Schalter];
@@ -788,12 +785,12 @@ alleReduktionen:
   eintragenTiefe();
 #endif
 #ifndef BAUMRES
-  for (i = SatVar -> altZeiger2, Z = zweiteBel + (SatVar -> altZeiger2); i < Zeiger2; ++i, ++Z)
-    belege(*Z);
+  for (struct {unsigned i; StapeleintragFZ Z;} l = {SatVar->altZeiger2, zweiteBel + (SatVar -> altZeiger2)}; l.i < Zeiger2; ++l.i, ++l.Z)
+    belege(*l.Z);
 #else
   Z = zweiteBel + (SatVar -> altZeiger2);
   belege((Z++) -> l);
-  for (i = SatVar -> altZeiger2 + 1; i < Zeiger2; ++i, ++Z)
+  for (unsigned int i = SatVar -> altZeiger2 + 1; i < Zeiger2; ++i, ++Z)
     belege_VK(Z -> l, Z -> k);
 #endif
 
