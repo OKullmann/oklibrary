@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans on extending OKsolver-2002 for using it to compute a splitting of a large problem into subproblems
 
 
-  \todo Simple parallelisation
+  \todo The basic idea
   </ul>
    <li> As a simple means to achieve parallelisation, for a given depth
    the clause-sets at that level should be output (to files, with
@@ -23,6 +23,11 @@ License, or any later version. */
    and schedule new jobs if possible (and needed). </li>
    <li> For monitoring-depth 0 one would get the OKsolver_2002 to act
    as preprocessor (applying r_2-reduction and autarky-reduction). </li>
+  </ul>
+
+
+  \todo Computing the sub-problems
+  <ul>
    <li> Installing an additional parameter to just compute one node:
     <ol>
      <li> To handle a large number of jobs, it must also be possible to
@@ -80,6 +85,11 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Computing a splitting tree
+  <ul>
    <li> In order to see what really needs to be done, for a given depth
    one actually wants also the list of indices of nodes which still need to be
    processed; if a satisfying assignment was found then the whole process
