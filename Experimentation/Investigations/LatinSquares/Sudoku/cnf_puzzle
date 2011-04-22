@@ -14,24 +14,28 @@
 #      cnf_puzzle outputs a Sudoku puzzle in Dimacs-cnf-format according to 
 #      the direct encoding. The file "empty" is a cnf-file in Dimacs format 
 #      representing an empty Sudoku puzzle. The puzzle-string, read from
-#      standard input, contains 81 digits with values between 0 and 9. 
-#      0 represents an empty cell. The fixed fields of the puzzle are 
-#      specified by non-zero values. If position 1 <= i <= 81 contains 
-#      non-zero value k then the final Sudoku puzzle output has fixed field 
-#      ((i-1)/9+1, (i-1)%9+1) with value k, where / is integer division and 
-#      % is the modulus operator.
+#      standard input, contains <=81 digits with values from 0 to 9.
+#      0 or a missing trailing value represents an empty cell.
+#      The fixed fields of the puzzle are  specified by non-zero values.
+#      If position 1 <= i <= 81 contains non-zero value k then the final
+#      Sudoku puzzle output has fixed field  ((i-1)/9+1, (i-1)%9+1) with value
+#      k, where / is integer division and is the modulus operator.
 # EXAMPLE
 #      If "sudoku17" is a file containing lines of 81 digits, with each line
 #      representing a different Sudoku puzzle according to the input format 
 #      given above, then:
-#       head -n 1 sudoku17 | ./cnf_puzzle WeakPb_Sudoku_Box_dim_3.cnf > p.cnf
-#      creates a Dimacs-cnf-format file "p.cnf" representing the first 
+#       head -n 1 sudoku17 | ./cnf_puzzle WeakPb_Sudoku_Box_dim_3.cnf > p1.cnf
+#      creates a Dimacs-cnf-format file "p1.cnf" representing the first
 #      puzzle from "sudoku17".
+#      While
+#       echo "005" | ./cnf_puzzle WeakPb_Sudoku_Box_dim_3.cnf > p2.cnf
+#      represents the Sudoku puzzle where field (1,3) is set to 5, and all
+#      other fields are empty.
 
 set -o errexit
 set -o nounset
 
-version_number="0.1.1"
+version_number="0.1.2"
 
 # Dimacs-cnf-format file for empty puzzle.
 emptypuzzle=$1
@@ -73,6 +77,7 @@ unit_clause() {
 for (( x=0; x<m; ++x ))
 do
   y=${puzzles:$x:1}
+  y=${y=0}
   if [ $y -ne 0 ]
   then {
     ((++ff)) || true
