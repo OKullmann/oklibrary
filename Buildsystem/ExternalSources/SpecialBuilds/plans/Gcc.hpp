@@ -207,6 +207,26 @@ ExternalSources> oklib gcc gcc_user_options_okl="--with-system-zlib"
   </ul>
   
 
+  \todo Latest texi2dvi fails to build gcc.texi on some systems
+  <ul>
+   <li> The latest texinfo package has a bug due to poor formatting of
+   strings passed to egrep, which results in an error from texi2dvi during
+   the gcc (4.5.2) build process complaining about precisely this. </li>
+   <li> The error arises as texi2dvi uses egrep with using "[A-z]" rather
+   than "[A-Za-z]", and the first isn't a valid pattern when using certain
+   unicode (UTF-8 type) character sets. </li>
+   <li> One can run "LC_ALL=C oklib gcc" and the build completes without a
+   problem. </li>
+   <li> According to
+   http://www.mail-archive.com/bug-texinfo@gnu.org/msg04519.html
+   and the corresponding bug report, there is now a fix, and presumably
+   this should be available in a new texinfo package soon on most systems.
+   </li>
+   <li> This is not a bug in the OKlibrary, but users should be aware of the
+   issue. </li>
+  </ul>
+
+
   \bug DONE (no system-libraries needed anymore)
   Local Gmp/Mpfr are not used (appropriately)
   <ul>
