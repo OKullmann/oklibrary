@@ -197,6 +197,9 @@ static clock_t Verbrauch;
 static const char* aktName;
 static const char* Wurzel = NULL;
 
+//! the depth of the current node
+static unsigned int Rekursionstiefe;
+
 enum Ergebniswerte {SAT = 1, UNSAT = 0, Unbestimmt = 2};
 
 static enum Ergebniswerte s = Unbestimmt; /* Ergebniswert */
@@ -247,8 +250,6 @@ static struct Sammlung* SatVar0 = NULL;
 
 //! the (precise) depth of the monitoring nodes
 static unsigned int Beobachtungsniveau = 6;
-//! the depth of the current node
-static unsigned int Rekursionstiefe;
 
 //! array containing the constants 2^(Beobachtungsniveau-1), ..., 2^0
 static unsigned int* Zweiglast = NULL;
@@ -546,7 +547,7 @@ alleReduktionen:
 #endif
       return UNSAT;
     }
-    if (Monitor) --Rekursionstiefe;
+    --Rekursionstiefe;
     switch (r) {
     case SAT1 : goto nachSAT1;
     case SAT2 : goto nachSAT2;
@@ -591,7 +592,7 @@ alleReduktionen:
 #endif
       return UNSAT;
     }
-    if (Monitor) --Rekursionstiefe;
+    --Rekursionstiefe;
     switch (r) {
     case SAT1 : goto nachSAT1;
     case SAT2 : goto nachSAT2;
@@ -735,8 +736,9 @@ alleReduktionen:
   else
     SatVar = SatVar -> danach;
   SatVar -> Ruecksprung = SAT1;
+  ++Rekursionstiefe;
   if (Monitor)
-    if (++Rekursionstiefe < Beobachtungsniveau) {
+    if (Rekursionstiefe < Beobachtungsniveau) {
       beobachtet[Rekursionstiefe] = beobachtet[Rekursionstiefe-1];
       if (Dateiausgabe)
 #ifndef BAUMRES
@@ -786,7 +788,7 @@ alleReduktionen:
 #  endif
       return UNSAT;
     }
-    if (Monitor) --Rekursionstiefe;
+    --Rekursionstiefe;
     switch (r) {
     case SAT1 : goto nachSAT1;
     case SAT2 : goto nachSAT2;
@@ -827,8 +829,9 @@ alleReduktionen:
   else
     SatVar = SatVar -> danach;
   SatVar -> Ruecksprung = SAT2;
+  ++Rekursionstiefe;
   if (Monitor)
-    if (++Rekursionstiefe < Beobachtungsniveau)
+    if (Rekursionstiefe < Beobachtungsniveau)
       beobachtet[Rekursionstiefe] = beobachtet[Rekursionstiefe-1];
   goto Anfang;
 
@@ -864,7 +867,7 @@ alleReduktionen:
 #endif
     return UNSAT;
   }
-  if (Monitor) --Rekursionstiefe;
+  --Rekursionstiefe;
   switch (r) {
   case SAT1 : goto nachSAT1;
   case SAT2 : goto nachSAT2;
