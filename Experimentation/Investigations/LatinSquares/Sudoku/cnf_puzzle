@@ -28,6 +28,11 @@
 #      creates a Dimacs-cnf-format file "p.cnf" representing the first 
 #      puzzle from "sudoku17".
 
+set -o errexit
+set -o nounset
+
+version_number="0.1"
+
 # Dimacs-cnf-format file for empty puzzle.
 emptypuzzle=$1
 # Sudoku puzzles from standard input.
