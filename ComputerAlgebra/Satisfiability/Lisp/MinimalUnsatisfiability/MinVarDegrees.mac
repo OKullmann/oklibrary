@@ -42,6 +42,10 @@ fullclauses_dmu_lb1[k]:= if k=1 then 2 else
   for i : 1 thru k-1 do
     if k-i+1<=fullclauses_dmu_lb1[i] then return(2 * (k-i+1))$
 
+/* For k >= 2: */
+index_Sma_S2_rec(k) := for i : 1 do
+  if k-i+1<=fullclauses_dmu_lb1[i] then return(i)$
+
 /* The Smarandache Primitive Numbers for a natural number n >= 0,
    defined as the minimal natural number k >= 1 such that 2^n divides k!;
    this is http://oeis.org/A007843.
