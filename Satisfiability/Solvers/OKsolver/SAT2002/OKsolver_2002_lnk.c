@@ -557,9 +557,7 @@ alleReduktionen:
  Schleife:
 
 #ifdef DYNAMISCH
-  
   InitAbstand2();
-
 #endif
 
 /* Zwar werden so die Autarkien nicht in die dynamische Gewichtsberechnung 
