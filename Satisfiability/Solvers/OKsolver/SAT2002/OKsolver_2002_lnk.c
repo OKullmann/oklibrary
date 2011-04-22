@@ -494,9 +494,13 @@ void FinaliseSATPath() {
 #endif
 
 /*!
-  \brief The (recursive) SAT decision procedure
+  \brief The SAT decision procedure
 
-  Assumes input has been read, and returns a decision.
+  <ul>
+   <li> Recursion is simulated (the main variable is SatVar). </li>
+   <li> Assumes input has been read. </li>
+   <li> Returns a decision. </li>
+  </ul>
 */
 
 static enum Ergebniswerte SATEntscheidung() {
