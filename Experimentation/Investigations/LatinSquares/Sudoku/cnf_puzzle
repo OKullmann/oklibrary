@@ -50,6 +50,7 @@ ff=0
 
 # Unit-clauses (to be computed from fixed fields).
 ucs=
+ncs=
 
 # Function: unit_clause $x $y
 #   0 <= x <= m - 1   (Puzzle string index)
@@ -74,8 +75,8 @@ do
   y=${puzzles:$x:1}
   if [ $y -ne 0 ]
   then {
-    ((ff++))
-    unit_clause $x $y
+    ((ff++)) || true
+    unit_clause $x $y || true
     ucs=$ucs$ncs    
   }
   fi
