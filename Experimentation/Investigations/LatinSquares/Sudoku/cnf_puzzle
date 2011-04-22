@@ -31,7 +31,7 @@
 set -o errexit
 set -o nounset
 
-version_number="0.1"
+version_number="0.1.1"
 
 # Dimacs-cnf-format file for empty puzzle.
 emptypuzzle=$1
@@ -75,7 +75,7 @@ do
   y=${puzzles:$x:1}
   if [ $y -ne 0 ]
   then {
-    ((ff++)) || true
+    ((++ff)) || true
     unit_clause $x $y || true
     ucs=$ucs$ncs    
   }
