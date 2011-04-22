@@ -223,11 +223,11 @@ enum Spruenge { SAT1, SAT2 };
 struct Sammlung {
   unsigned int P2, N2, altZeiger2;
   enum Spruenge Ruecksprung;
-  unsigned int *AnzK2;
+  unsigned int* AnzK2;
 #ifndef LOKALLERNEN
-  Pfadinfo *altTiefe;
+  Pfadinfo* altTiefe;
 #else
-  Marken *Marke;
+  Marken* Marke;
 #endif
 #ifdef OUTPUTTREEDATAXML
   // clock_t start_run_time;
