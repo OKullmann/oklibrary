@@ -1,4 +1,4 @@
-// Oliver Kullmann, 22.4.2011 (Swansea)
+// Oliver Kullmann, 22.4.2011 (Guangzhou)
 /* Copyright 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -75,4 +75,4 @@ sys	0m9.289s
    Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/07.hpp. </li>
   </ul>
   
-  */
+*/
