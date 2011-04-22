@@ -1,7 +1,6 @@
 #!/bin/bash
-
 # Matthew Henderson, 3.4.2010 (Berea)
-# Copyright 2010 Oliver Kullmann
+# Copyright 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can 
 # redistribute it and/or modify it under the terms of the GNU General Public
 # License as published by the Free Software Foundation and included in this 
@@ -44,13 +43,13 @@ m=$n**2
 # Number of fixed fields for current puzzle.
 ff=0
 
-# Unit clauses (to be computed from fixed fields).
+# Unit-clauses (to be computed from fixed fields).
 ucs=
 
 # Function: unit_clause $x $y
 #   0 <= x <= m - 1   (Puzzle string index)
 #   1 <= y <= n       (Field entry)
-# Assigns to the variable ncs a unit clause string in Dimacs-cnf-format 
+# Assigns to the variable ncs a unit-clause string in Dimacs-cnf-format 
 # representing the fixed field (i,j)=k according to the direct encoding. 
 
 unit_clause() {
@@ -62,7 +61,7 @@ unit_clause() {
 }
 
 # Iterate over the m fields of the input puzzle. If a field is non-zero then
-# append an appropriate unit clause to the list of unit clauses and increment 
+# append an appropriate unit-clause to the list of unit-clauses and increment 
 # the total count of fixed fields.
 
 for (( x=0; x<m; ++x ))
@@ -77,8 +76,8 @@ do
   fi
 done
 
-# Output the empty puzzle file with modified clause count.
+# Output the empty puzzle file with modified clause-count.
 awk -f inc_cls.awk -v x=$ff $emptypuzzle
-# Output the unit clauses.
+# Output the unit-clauses.
 printf "%s %s\n" $ucs
 
