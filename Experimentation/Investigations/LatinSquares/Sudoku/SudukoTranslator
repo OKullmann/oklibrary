@@ -11,8 +11,8 @@
 # SYNOPSIS
 #      cnf_puzzle empty
 # DESCRIPTION
-#      cnf_puzzle outputs a Sudoku puzzle in Dimacs-cnf-format according to 
-#      the direct encoding. The file "empty" is a cnf-file in Dimacs format 
+#      cnf_puzzle outputs a Sudoku puzzle in Dimacs-cnf-format according to
+#      the direct encoding. The file "empty" is a cnf-file in Dimacs format
 #      representing an empty Sudoku puzzle. The puzzle-string, read from
 #      standard input, contains <=81 digits with values from 0 to 9.
 #      0 or a missing trailing value represents an empty cell.
@@ -22,7 +22,7 @@
 #      k, where / is integer division and is the modulus operator.
 # EXAMPLE
 #      If "sudoku17" is a file containing lines of 81 digits, with each line
-#      representing a different Sudoku puzzle according to the input format 
+#      representing a different Sudoku puzzle according to the input format
 #      given above, then:
 #       head -n 1 sudoku17 | ./cnf_puzzle WeakPb_Sudoku_Box_dim_3.cnf > p1.cnf
 #      creates a Dimacs-cnf-format file "p1.cnf" representing the first
@@ -59,19 +59,19 @@ ncs=
 # Function: unit_clause $x $y
 #   0 <= x <= m - 1   (Puzzle string index)
 #   1 <= y <= n       (Field entry)
-# Assigns to the variable ncs a unit-clause string in Dimacs-cnf-format 
-# representing the fixed field (i,j)=k according to the direct encoding. 
+# Assigns to the variable ncs a unit-clause string in Dimacs-cnf-format
+# representing the fixed field (i,j)=k according to the direct encoding.
 
 unit_clause() {
   index=$1
-  k=$2   
+  k=$2
   i=$((index / n + 1))
   j=$((index % n + 1))
   printf -v ncs "%s %s\n" $(((i-1)*n**2+(j-1)*n+(k-1)+1)) 0
 }
 
 # Iterate over the m fields of the input puzzle. If a field is non-zero then
-# append an appropriate unit-clause to the list of unit-clauses and increment 
+# append an appropriate unit-clause to the list of unit-clauses and increment
 # the total count of fixed fields.
 
 for (( x=0; x<m; ++x ))
@@ -82,7 +82,7 @@ do
   then {
     ((++ff)) || true
     unit_clause $x $y || true
-    ucs=$ucs$ncs    
+    ucs=$ucs$ncs
   }
   fi
 done
