@@ -14,7 +14,7 @@ License, or any later version. */
   \par Version 0.9.7
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following topics
    are handled:
     - The basic idea
     - Planning for computing the sub-problems
