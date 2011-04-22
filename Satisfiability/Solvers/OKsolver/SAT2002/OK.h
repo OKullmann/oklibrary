@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.1998 (Frankfurt)
-/* Copyright 1998 - 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 1998 - 2007, 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -123,10 +123,10 @@ License, or any later version. */
 #include <stdbool.h>
 
 #define VERSIONSNUMMER1 "1"
-#define VERSIONSNUMMER2 "32"
+#define VERSIONSNUMMER2 "38"
 /* Version = VERSIONSNUMMER1 "." VERSIONSNUMMER2 */
 
-#define DATUM "11.10.2009"
+#define DATUM "21.4.2011"
 
 extern const bool internal;
 

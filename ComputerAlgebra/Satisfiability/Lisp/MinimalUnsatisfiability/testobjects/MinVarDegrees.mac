@@ -21,9 +21,25 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/te
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/MinVarDegrees.mac")$
 
+/* **************************
+   * Number of full clauses *
+   **************************
+*/
+
+okltest_Sma_S2_list(lambda([n], if n=0 then [] else cons(1,create_list(fullclauses_dmu_lb1[k],k,1,n-1))));
+okltest_Sma_S2_list(lambda([n], create_list(Sma_S2_bydef(k),k,0,n-1)));
+okltest_Sma_S2_list(Sma_S2_list);
+
 /* ***************************
    * Maximal min-var-degrees *
    ***************************
+*/
+
+okltest_order_deficiency(order_deficiency);
+
+/* **************************************
+   * (Generalised) non-Mersenne numbers *
+   **************************************
 */
 
 okltest_nonmersenne_rec(nonmersenne_rec);

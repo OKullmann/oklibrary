@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.1998 (Frankfurt)
-/* Copyright 1998 - 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 1998 - 2007, 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -73,8 +73,7 @@ License, or any later version. */
 /* 6.3.2001: Feld 14 (Redplus) aus der Statistikausgabe gestrichen. */
 
 
-/* --------------------------------------------------------- */
-
+/* ------------------------------------------------------------- */
 
 #include <stdio.h>
 #include <time.h>
@@ -82,11 +81,12 @@ License, or any later version. */
 #include <math.h>
 #include <float.h>
 #include <string.h>
-#include <sys/stat.h>
 #include <signal.h>
 #include <setjmp.h>
-#include <unistd.h>
 #include <assert.h>
+
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include "OK.h"
 #include "BaumRes.h"
@@ -154,15 +154,11 @@ Ausgabeformat Format = XML_Format;
 // (Fuer den Wettbewerb muss sowohl BELEGUNG als auch DIMACSAUS
 // gesetzt werden.)
 
-
-
 unsigned int MAXN = 30000;
 unsigned int MAXL = 400000;
 unsigned int MAXK = 150000;
 
-
 /* ------------------------------------------------------------- */
-
 
 /* Einheiten pro Sekunde */
 #ifndef SYSTIME
@@ -178,7 +174,6 @@ unsigned int MAXK = 150000;
 
 clock_t akkVerbrauch = 0; /* akkumulierter Verbrauch */
 
-
 /* ------------------------------------------------------------- */
 
 /* Die Darstellung der Eingabe */
@@ -189,7 +184,6 @@ unsigned int P, P0, N, N0, K, K0, L, L0, aktN, aktP;
 
 unsigned int Runde;
 
-
 /* ------------------------------------------------------------- */
 
 /* Statistik */
@@ -197,7 +191,6 @@ unsigned int Runde;
 StatisticsCount Knoten, SingleKnoten, VerSingleKnoten, QuasiSingleKnoten, PureL, Autarkien, V1KlRed, FastAutarkien, InitEinerRed, neue2Klauseln, maxneue2K;
 
 StatisticsCount_short Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
-
 
 static clock_t Verbrauch;
 
@@ -214,10 +207,7 @@ static enum Ergebniswerte s = Unbestimmt; /* Ergebniswert */
 
 /* ------------------------------------------------------------- */
 
-
 /* Lokale Datenstrukturen und Variablen */
-
-
 
 /* Der Stapel, der die Belegungen fuer den jeweils zweiten Zweig enthaelt */
 
@@ -226,8 +216,6 @@ static StapeleintragFZ zweiteBel = NULL;
 static unsigned int Zeiger2;
 static unsigned int Groesse2;
 
-
-
 /* Zur Simulation der Rekursion */
 
 enum Spruenge { SAT1, SAT2 };
@@ -235,50 +223,78 @@ enum Spruenge { SAT1, SAT2 };
 struct Sammlung {
   unsigned int P2, N2, altZeiger2;
   enum Spruenge Ruecksprung;
-  unsigned int *AnzK2;
+  unsigned int* AnzK2;
 #ifndef LOKALLERNEN
-  Pfadinfo *altTiefe;
+  Pfadinfo* altTiefe;
 #else
-  Marken *Marke;
+  Marken* Marke;
 #endif
 #ifdef OUTPUTTREEDATAXML
   // clock_t start_run_time;
   StatisticsCount number_2_reductions_at_new_node;
 #endif
-  struct Sammlung * davor;
-  struct Sammlung * danach;
+  struct Sammlung* davor;
+  struct Sammlung* danach;
 };
 
-static struct Sammlung *SatVar;
-static struct Sammlung *SatVar0 = NULL;
+static struct Sammlung* SatVar;
+static struct Sammlung* SatVar0 = NULL;
 /* speichert den initialen Wert von SatVar */
 
 /* ------------------------------------------------------------- */
 
+/* Monitoring the search */
 
-/* Zur Beobachtung der SAT-Entscheidung */
-
-//! the depth of the monitoring nodes
+//! the (precise) depth of the monitoring nodes
 static unsigned int Beobachtungsniveau = 6;
-
+//! the depth of the current node
 static unsigned int Rekursionstiefe;
 
-static unsigned int *Zweiglast = NULL;
-/* = 2^0, ..., 2^(Beobachtungsniveau-1) */
+//! array containing the constants 2^(Beobachtungsniveau-1), ..., 2^0
+static unsigned int* Zweiglast = NULL;
+/*!
+  \brief Constant with value 2^Beobachtungsniveau
 
-static unsigned int Gesamtlast; /* = 2^Beobachtungsniveau */
+  <ul>
+   <li> There are exactly 2^Beobachtungsniveau many monitoring nodes (all at
+   depth (exactly) Beobachtungsniveau). </li>
+   <li> If nodes don't get expanded in the search tree up to depth
+   Beobachtungsniveau (due to earlier decisions, or due to a single node),
+   then they are "virtually" expanded. </li>
+  </ul>
+*/
+static unsigned int Gesamtlast;
 
-static unsigned int *beobachtet = NULL;
+/*!
+  \brief Helper array with Beobachtungsniveau many elements
+
+  For depth 0 <= d < Beobachtungsniveau the number of monitoring nodes yet
+  solved which lie above solved nodes at depth d.
+*/
+static unsigned int* beobachtet = NULL;
+//! (total) count of monitoring nodes yet solved (search completed iff totalbeobachtet is equal to Gesamtlast)
 static unsigned int totalbeobachtet;
 
-static FILE *fpmo = NULL; /* die aktuelle Ausgabeidatei zur Ueberwachung */
-
+//! output file for monitoring-results
+static FILE* fpmo = NULL;
 
 /*!
   \brief Given the current count of monitoring nodes, output the monitoring
   statistics to stdout, and to the file if file-output is set.
 
-  This function is only called when monitoring is activated.
+  Details:
+  <ul>
+   <li> This function is only called when monitoring is activated. </li>
+   <li> Called whenever a branch for a node with depth < Beobachtungsniveau
+   has been solved. </li>
+   <li> Output only happens when at least one new monitoring node has been
+   completed. </li>
+   <li> Has the task of updating variable totalbeobachtet. </li>
+   <li> The output for the number of nodes is the total number of nodes
+   solved after the last call. </li>
+   <li> So the numbers of nodes add up to the total number of nodes in the
+   whole search tree. </li>
+  </ul>
 */
 __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
   static StatisticsCount old_nodes = 0;
@@ -361,84 +377,58 @@ __inline__ static void Monitorausgabe(const unsigned int count_monitor_nodes) {
 __inline__ static void Verzweigungsliteralausgabe(const LIT x, const unsigned int Tiefe) {
   const VAR v = Var(x);
   const VZ e = (x == Literal(v, Pos)) ? Pos : Neg;
-  if (Belegung) {
-    fprintf(fpmo, "# %-6d %7s %d\n", Tiefe, Symbol(v), e);
-  }
+  if (Belegung) fprintf(fpmo, "# %-6d %7s %d\n", Tiefe, Symbol(v), e);
   fflush(NULL);
 }
 
 /* ------------------------------------------------------------- */
 
-
 typedef enum { gleich = 0, groesser = 1, kleiner = 2} VERGL;
 
 /* Zur Bestimmung, ob einer Gleitpunktzahl "wirklich" groesser ist als eine andere: */
 
-static VERGL Vergleich(float a, float b)
-{
-  float h;
-  h = b * 4 * FLT_EPSILON;
-  if (a > b + h)
-    return groesser;
-  else if (a < b - h)
-    return kleiner;
-  else
-    return gleich;
+static VERGL Vergleich(const float a, const float b) {
+  const float h = b * 4 * FLT_EPSILON;
+  if (a > b + h) return groesser;
+  else if (a < b - h) return kleiner;
+  else return gleich;
 }
-
 
 /* ------------------------------------------------------------- */
 
-
-
 /* Prozeduren zur Speicherverwaltung */
 
-
-static struct Sammlung *neuerKnoten( void )
-{
-  struct Sammlung *s;
-  s = (struct Sammlung *) xmalloc(sizeof(struct Sammlung) + (P + 1) * sizeof(unsigned int));
-  s -> AnzK2 = (unsigned int *)(s + 1);
+static struct Sammlung* neuerKnoten() {
+  struct Sammlung* s;
+  s = (struct Sammlung*) xmalloc(sizeof(struct Sammlung) + (P + 1) * sizeof(unsigned int));
+  s -> AnzK2 = (unsigned int*)(s + 1);
   s -> danach = NULL;
   return s;
 }
 
-/* -------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------- */
 
 /* Randomisierung */
 
 static long unsigned int Schluessel = 1;
-
 static long unsigned int randx;
-
 static float Verhaeltnis = 0.2;
 
+__inline__ static void srand_S() { randx = Schluessel; }
 
-__inline__ static void srand_S(void)
-{
-  randx = Schluessel;
-}
-
-__inline__ static int rand_S(void)
-{
+__inline__ static int rand_S() {
   return(((randx = randx * 1103515245L + 12345)>>16) & 0x7fff);
 }
 
-__inline__ static float Verschmierung(double x)
-{
+__inline__ static float Verschmierung(const double x) {
   return (rand_S() / ((float) 0x7fff) * Verhaeltnis + 1) * x;
 }
 
-
-
-/* -------------------------------------------------------------------------------- */
-
+/* ------------------------------------------------------------- */
 
 /* Initialisierung */
 
-
-void InitSat( void )
-{
+void InitSat() {
   Groesse2 = N;
   zweiteBel = (StapeleintragFZ) xmalloc(Groesse2 * sizeof(StapeleintragF));
   SatVar0 = SatVar = neuerKnoten();
@@ -446,25 +436,22 @@ void InitSat( void )
   
   Runde = 0; Zeiger2 = 0;
 
-  if (Monitor && (! nurVorreduktion))
-    {
-      unsigned int p; unsigned int *Z;
-      totalbeobachtet = 0;
-      Rekursionstiefe = 0;
-      Zweiglast = (unsigned int *) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
-      for (p = 1, Z = Zweiglast + Beobachtungsniveau; Z != Zweiglast; p *= 2)
-        *(--Z) = p;
-      Gesamtlast = p;
-      beobachtet = (unsigned int *) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
-      beobachtet[0] = 0;
+  if (Monitor && (! nurVorreduktion)) {
+    totalbeobachtet = 0;
+    Rekursionstiefe = 0;
+    Zweiglast = (unsigned int*) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
+    {unsigned int p = 1;
+     for (unsigned int* Z = Zweiglast+Beobachtungsniveau; Z != Zweiglast; p *= 2)
+       *(--Z) = p;
+     Gesamtlast = p;
     }
-
-  return;
+    beobachtet = (unsigned int*) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
+    beobachtet[0] = 0;
+  }
 }
 
-static void AufraeumenSat(void)
-{
-  struct Sammlung *Z; struct Sammlung *Z0;
+static void AufraeumenSat() {
+  struct Sammlung* Z; struct Sammlung* Z0;
   
   Knoten = SingleKnoten = VerSingleKnoten = QuasiSingleKnoten = PureL = Autarkien = V1KlRed = Suchbaumtiefe = Ueberschreitung2 = FastAutarkien = InitEinerRed = neue2Klauseln = maxneue2K = init2Klauseln = 0;
   Tiefe = NULL;
@@ -472,12 +459,11 @@ static void AufraeumenSat(void)
   free(zweiteBel); zweiteBel = NULL;
 
   Z0 = SatVar0;
-  while (Z0 != NULL)
-    {
-      Z = Z0 -> danach;
-      free(Z0);
-      Z0 = Z;
-    }
+  while (Z0 != NULL) {
+    Z = Z0 -> danach;
+    free(Z0);
+    Z0 = Z;
+  }
   SatVar0 = NULL;
 
   free(Zweiglast); Zweiglast = NULL;
@@ -485,7 +471,7 @@ static void AufraeumenSat(void)
 }
 
 
-/* -------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------- */
 
 #ifdef OUTPUTTREEDATAXML
 
@@ -507,21 +493,19 @@ void FinaliseSATPath() {
 
 #endif
 
-
 /*!
-  \brief The (recursive) SAT decision procedure
+  \brief The SAT decision procedure
 
-  Assumes input has been read, and returns a decision.
+  <ul>
+   <li> Recursion is simulated (the main variable is SatVar). </li>
+   <li> Assumes input has been read. </li>
+   <li> Returns a decision. </li>
+  </ul>
 */
 
-static enum Ergebniswerte SATEntscheidung(void) {
-  typedef unsigned int loop_t;
-  loop_t i;
-  VAR v;
+static enum Ergebniswerte SATEntscheidung() {
   VZ optZweig;
   enum Spruenge r;
-  unsigned int DN, DN2;
-  StapeleintragFZ Z;
 
 #ifdef ALLSAT
   assert(! Belegung);
@@ -562,16 +546,13 @@ alleReduktionen:
 #endif
       return UNSAT;
     }
-    if (Monitor)
-      Rekursionstiefe--;
-    switch (r)
-      {
-      case SAT1 : goto nachSAT1;
-      case SAT2 : goto nachSAT2;
-      }
+    if (Monitor) --Rekursionstiefe;
+    switch (r) {
+    case SAT1 : goto nachSAT1;
+    case SAT2 : goto nachSAT2;
+    }
   }
-  
-  
+
  Schleife:
 
 #ifdef DYNAMISCH
@@ -585,7 +566,6 @@ alleReduktionen:
    grossen Aufwand mit sich braechte. So wird also nur Reduktion1() 
    beruecksichtigt.
 */
-
 
   /* Reduktionen, die von Autarkien affiziert werden */
   /* (zumindest pure Literale): */
@@ -611,13 +591,11 @@ alleReduktionen:
 #endif
       return UNSAT;
     }
-    if (Monitor)
-      Rekursionstiefe--;
-    switch (r)
-      {
-      case SAT1 : goto nachSAT1;
-      case SAT2 : goto nachSAT2;
-      }
+    if (Monitor) --Rekursionstiefe;
+    switch (r) {
+    case SAT1 : goto nachSAT1;
+    case SAT2 : goto nachSAT2;
+    }
   }
 
   {
@@ -630,17 +608,16 @@ alleReduktionen:
     sie ersetzt, falls besser, die alte, bisher beste Verzweigung.
     (Die Zweigauswahl wird von "Abstand" mitberechnet.) 
 */
-    for (v = ersteVar(); echteVar(v); v = naechsteVar(v)) {
+    for (VAR v = ersteVar(); echteVar(v); v = naechsteVar(v)) {
       Filter(v);
       if (erfuellt) {
         if (Belegung) { /* Durchfuehrung der Belegung (zur Ausgabe) */
-          DN = DeltaN[Zweig][Schalter];
-          Z = Huelle[Zweig][Schalter];
-          for (loop_t i = 0; i < DN; ++i, ++Z) {
+          const unsigned int DN = DeltaN[Zweig][Schalter];
+          for (struct {unsigned int i; StapeleintragFZ Z;} l = {0,Huelle[Zweig][Schalter]}; l.i < DN; ++l.i, ++l.Z) {
 #ifndef BAUMRES
-            belege(*Z);
+            belege(*l.Z);
 #else
-            belege(Z -> l);
+            belege(l.Z -> l);
 #endif
           }
         }
@@ -656,16 +633,15 @@ alleReduktionen:
       if (Wahl) {
         if (Single) {  /* (zur Zeit) der (nicht-erfuellende) Autarkiefall */
           /* Durchfuehrung der Belegung: */
-          DN = DeltaN[Zweig][Schalter];
+          const unsigned int DN = DeltaN[Zweig][Schalter];
 #ifdef LOKALLERNEN
           eintragenTiefe();
 #endif
-          Z = Huelle[Zweig][Schalter];
-          for (loop_t i = 0; i < DN; ++i, ++Z) {
+          for (struct {unsigned int i; StapeleintragFZ Z;} l = {0,Huelle[Zweig][Schalter]}; l.i < DN; ++l.i, ++l.Z) {
 #ifndef BAUMRES
-            belege(*Z);
+            belege(*l.Z);
 #else
-            belege(Z -> l);
+            belege(l.Z -> l);
 #endif
           }
           /* Falls BAUMRES gesetzt ist: */
@@ -674,7 +650,7 @@ alleReduktionen:
           /* muss hier in relVar nichts eingetragen werden. */
           aktP = LaP[Zweig][Schalter];
           aktN -= DeltaN[Zweig][Schalter];
-          memcpy((void *)(aktAnzK + 2), (void *)(LaAnzK[Zweig][Schalter] + 2), (aktP - 1) * sizeof(unsigned int));
+          memcpy((void*)(aktAnzK + 2), (void*)(LaAnzK[Zweig][Schalter] + 2), (aktP - 1) * sizeof(unsigned int));
           goto Schleife;
         }
         else {
@@ -689,8 +665,7 @@ alleReduktionen:
         const float a = (randomisiert) ? Verschmierung(Projektion()) : Projektion();
         switch (Vergleich(a, opta)) {
         case gleich :
-          if (Projektion2() <= optaS)
-            break;
+          if (Projektion2() <= optaS) break;
         case groesser :
           opta = a; optaS = Projektion2();
           Schalter = ! Schalter;
@@ -717,24 +692,25 @@ alleReduktionen:
 
   /* zuerst optZweig: */
 
-  DN = DeltaN[optZweig][! Schalter];
-  DN2 = DeltaN[! optZweig][! Schalter];
+  const unsigned int DN = DeltaN[optZweig][! Schalter];
+  const unsigned int DN2 = DeltaN[! optZweig][! Schalter];
 #ifdef LOKALLERNEN
   eintragenTiefe();
 #endif
 #ifndef BAUMRES
-  for (i = 0, Z = Huelle[optZweig][! Schalter]; i < DN; i++, Z++)
-    belege(*Z);
+  for (struct {unsigned int i; StapeleintragFZ Z;} l = {0,Huelle[optZweig][! Schalter]}; l.i < DN; ++l.i, ++l.Z)
+    belege(*l.Z);
 #else
-  Z = Huelle[optZweig][! Schalter];
-  belege((Z++) -> l);
-  for (i = 1; i < DN; i++, Z++)
-    belege_VK(Z -> l, Z -> k);
+  {
+   StapeleintragFZ Z = Huelle[optZweig][! Schalter];
+   belege((Z++) -> l);
+   for (unsigned int i = 1; i < DN; ++i, ++Z) belege_VK(Z -> l, Z -> k);
+  }
 #endif
   aktP = LaP[optZweig][! Schalter];
   SatVar -> P2 = LaP[! optZweig][! Schalter];
-  memcpy((void *)(aktAnzK + 2), (void *)(LaAnzK[optZweig][! Schalter] + 2), (aktP - 1) * sizeof(unsigned int));
-  memcpy((void *)((SatVar -> AnzK2) + 2), (void *)(LaAnzK[! optZweig][! Schalter] + 2), ((SatVar -> P2) - 1) * sizeof(unsigned int));
+  memcpy((void*)(aktAnzK + 2), (void*)(LaAnzK[optZweig][! Schalter] + 2), (aktP - 1) * sizeof(unsigned int));
+  memcpy((void*)((SatVar -> AnzK2) + 2), (void*)(LaAnzK[! optZweig][! Schalter] + 2), ((SatVar -> P2) - 1) * sizeof(unsigned int));
   SatVar -> N2 = aktN - DN2;
   aktN -= DN;
   SatVar -> altZeiger2 = Zeiger2;
@@ -742,16 +718,16 @@ alleReduktionen:
 /* Ist noch genug Speicher fuer die zweite Belegung?!: */
 
   if (Zeiger2 + DN2 >= Groesse2) {
-    Ueberschreitung2++;
+    ++Ueberschreitung2;
     Groesse2 += N;
     zweiteBel = (StapeleintragFZ) xrealloc(zweiteBel, Groesse2 * sizeof(StapeleintragF));
   }
-  memcpy((void *)(zweiteBel + Zeiger2), (void *)(Huelle[! optZweig][! Schalter]), DN2 * sizeof(StapeleintragF));
+  memcpy((void*)(zweiteBel + Zeiger2), (void*)(Huelle[! optZweig][! Schalter]), DN2 * sizeof(StapeleintragF));
   Zeiger2 += DN2;
   
   if (SatVar -> danach == NULL) {
-    struct Sammlung *Z;
-    Suchbaumtiefe++;
+    struct Sammlung* Z;
+    ++Suchbaumtiefe;
     SatVar -> danach = (Z = neuerKnoten());
     Z -> davor = SatVar;
     SatVar = Z;
@@ -764,13 +740,12 @@ alleReduktionen:
       beobachtet[Rekursionstiefe] = beobachtet[Rekursionstiefe-1];
       if (Dateiausgabe)
 #ifndef BAUMRES
-	Verzweigungsliteralausgabe(*Huelle[optZweig][! Schalter], Rekursionstiefe - 1);
+	  Verzweigungsliteralausgabe(*Huelle[optZweig][! Schalter], Rekursionstiefe - 1);
 #else
         Verzweigungsliteralausgabe(Huelle[optZweig][! Schalter] -> l, Rekursionstiefe - 1);
 #endif
     }
   goto Anfang; // Branching (recursion simulated)
-
 
   nachSAT1 :
 
@@ -791,7 +766,7 @@ alleReduktionen:
 #else
 # ifndef BAUMRES
   do {
-    Tiefe--;
+    --Tiefe;
     rebelege(PfadLit());
   }
   while (Tiefe > SatVar -> altTiefe);
@@ -802,7 +777,7 @@ alleReduktionen:
     aktV_eintragen_relV();
   else {
     Zeiger2 = SatVar -> altZeiger2;
-    SingleKnoten++;
+    ++SingleKnoten;
     r = SatVar -> Ruecksprung;
     SatVar = SatVar -> davor;
     if (SatVar == NULL) {
@@ -811,8 +786,7 @@ alleReduktionen:
 #  endif
       return UNSAT;
     }
-    if (Monitor)
-      Rekursionstiefe--;
+    if (Monitor) --Rekursionstiefe;
     switch (r) {
     case SAT1 : goto nachSAT1;
     case SAT2 : goto nachSAT2;
@@ -827,23 +801,25 @@ alleReduktionen:
   eintragenTiefe();
 #endif
 #ifndef BAUMRES
-  for (i = SatVar -> altZeiger2, Z = zweiteBel + (SatVar -> altZeiger2); i < Zeiger2; i++, Z++)
-    belege(*Z);
+  for (struct {unsigned i; StapeleintragFZ Z;} l = {SatVar->altZeiger2, zweiteBel + (SatVar -> altZeiger2)}; l.i < Zeiger2; ++l.i, ++l.Z)
+    belege(*l.Z);
 #else
-  Z = zweiteBel + (SatVar -> altZeiger2);
-  belege((Z++) -> l);
-  for (i = SatVar -> altZeiger2 + 1; i < Zeiger2; i++, Z++)
+  {
+   StapeleintragFZ Z = zweiteBel + (SatVar -> altZeiger2);
+   belege((Z++) -> l);
+   for (unsigned int i = SatVar -> altZeiger2 + 1; i < Zeiger2; ++i, ++Z)
     belege_VK(Z -> l, Z -> k);
+  }
 #endif
 
   Zeiger2 = SatVar -> altZeiger2;
   aktP = SatVar -> P2;
   aktN = SatVar -> N2;
-  memcpy((void *)(aktAnzK + 2), (void *)((SatVar -> AnzK2) + 2), (aktP - 1) * sizeof(unsigned int));
+  memcpy((void*)(aktAnzK + 2), (void*)((SatVar -> AnzK2) + 2), (aktP - 1) * sizeof(unsigned int));
 
   if (SatVar -> danach == NULL) {
-    struct Sammlung *Z;
-    Suchbaumtiefe++;
+    struct Sammlung* Z;
+    ++Suchbaumtiefe;
     SatVar -> danach = (Z = neuerKnoten());
     Z -> davor = SatVar;
     SatVar = Z;
@@ -872,18 +848,12 @@ alleReduktionen:
   Rueckgaengigmachung(SatVar -> Marke);
 #else
 # ifndef BAUMRES
-  do {
-    Tiefe--;
-    rebelege(PfadLit());
-  }
+  do { --Tiefe; rebelege(PfadLit()); }
   while (Tiefe > SatVar -> altTiefe);
 # else
-  while (--Tiefe > SatVar -> altTiefe)
-    rebelege(PfadLit());
-  if (rebelege_Verz(PfadLit()))
-    relVMhinzufuegen();
-  else
-    VerSingleKnoten++;
+  while (--Tiefe > SatVar -> altTiefe) rebelege(PfadLit());
+  if (rebelege_Verz(PfadLit())) relVMhinzufuegen();
+  else ++VerSingleKnoten;
 # endif
 #endif
   r = SatVar -> Ruecksprung;
@@ -894,8 +864,7 @@ alleReduktionen:
 #endif
     return UNSAT;
   }
-  if (Monitor)
-      Rekursionstiefe--;
+  if (Monitor) --Rekursionstiefe;
   switch (r) {
   case SAT1 : goto nachSAT1;
   case SAT2 : goto nachSAT2;
@@ -904,7 +873,7 @@ alleReduktionen:
   } 
 }
 
-/* -------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------- */
 
 /*!
   \brief Output of statistics
@@ -912,7 +881,7 @@ alleReduktionen:
   Either to stdout or to file.
 */
 
-void Statistikzeile(FILE *fp) {
+void Statistikzeile(FILE* fp) {
   if (Format == Dimacs_Format) {
     fprintf(fp, "s ");
     switch (s) {
@@ -1029,7 +998,7 @@ void Statistikzeile(FILE *fp) {
       fprintf(fp, "      <clause-length type = \"maximal\" specifier = \"exact\" value = \"%d\" />\n", P);
       fprintf(fp, "      <total_number_of_clauses specifier = \"exact\" count = \"%d\" />\n", K);
       fprintf(fp, "      <numbers_of_clauses list_of_clause-lengths = \"complete\" >\n");
-      for (unsigned int i = 0; i <= P - 2; i++)
+      for (unsigned int i = 0; i <= P - 2; ++i)
 	if (InitAnzK[i+2] != 0)
 	  fprintf(fp, "        <number length = \"%d\" count = \"%d\" />\n", i+2, InitAnzK[i+2]);
       fprintf(fp, "      </numbers_of_clauses>\n");
@@ -1047,19 +1016,16 @@ void Statistikzeile(FILE *fp) {
 
 const char* BasisName(const char* const name) {
   const char* const basis = strrchr(aktName, '/');
-  if (basis == NULL)
-    return name;
-  else
-    return basis + 1;
+  if (basis == NULL) return name;
+  else return basis + 1;
 }
 
 
-/* -------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------- */
 
-static FILE *fpaus = NULL; /* fuer die Ausgabe der Ergebnisse */
+static FILE* fpaus = NULL; /* fuer die Ausgabe der Ergebnisse */
 
-static void Zustandsanzeige (int signum)
-{
+static void Zustandsanzeige (int signum) {
 #ifndef SYSTIME
   Verbrauch = clock() - akkVerbrauch;
 #else
@@ -1082,14 +1048,13 @@ static void Abbruch (int signum) {
   longjmp(Ausgabepunkt, 1);
 }
 
-static FILE *fp = NULL; /* die aktuelle Eingabedatei */
+static FILE* fp = NULL; /* die aktuelle Eingabedatei */
 static unsigned int Groesse;
-static FILE *fppa = NULL; /* fuer die Ausgabe einer erfuellenden Belegung */
+static FILE* fppa = NULL; /* fuer die Ausgabe einer erfuellenden Belegung */
 
 static unsigned int Argument;
 
-static char *NameBel = NULL; char *NameMon = NULL;
-
+static char* NameBel = NULL; char* NameMon = NULL;
 
 
 int main(const int argc, const char* const argv[]) {
@@ -1103,8 +1068,7 @@ int main(const int argc, const char* const argv[]) {
   signal(SIGUSR1, Zustandsanzeige);
   signal(SIGINT, Abbruch);
   signal(SIGALRM, Abbruch);
-  if (setjmp(Ausgabepunkt))
-    goto Ausgabe;
+  if (setjmp(Ausgabepunkt)) goto Ausgabe;
 
   if (Konstantenfehler()) {
     fprintf(stderr, "%s\n", Meldung(0));
@@ -1118,7 +1082,7 @@ int main(const int argc, const char* const argv[]) {
 
   setzenStandard();
 
-  for (Argument = 1; Argument < argc; Argument++) {
+  for (Argument = 1; Argument < argc; ++Argument) {
     if (strcmp("--version", argv[Argument]) == 0) {
       printf("%s %s; %s %s\n%s: %s, %s\n", Meldung(24), DATUM, Meldung(2), Version, Meldung(6), __DATE__, __TIME__);
       printf("%s", Meldung(44));
@@ -1201,10 +1165,7 @@ int main(const int argc, const char* const argv[]) {
       else // relativer Pfadname
         printf("%s/%s\" />\n", getenv("PWD"), argv[0]);
       printf("  <options string = \"%s\" />\n", OPTIONENKENNUNG5 OPTIONENKENNUNG6 OPTIONENKENNUNG7 OPTIONENKENNUNG1 OPTIONENKENNUNG2 OPTIONENKENNUNG3 OPTIONENKENNUNG4);
-      {
-        if (internal)
-          printf("  <internal/>\n");
-      }
+      if (internal) printf("  <internal/>\n");
       printf("</SAT-solver.specification>\n");
     }
     else if (strncmp("--language=", argv[Argument], 11) == 0) {
@@ -1351,11 +1312,11 @@ int main(const int argc, const char* const argv[]) {
         if (Belegung || (Monitor && (! nurVorreduktion))) {
           Wurzel = BasisName(aktName);
           if (Belegung) {
-            NameBel = (char *) xmalloc((strlen(Wurzel) + 3 + 1) * sizeof(char));
+            NameBel = (char*) xmalloc((strlen(Wurzel) + 3 + 1) * sizeof(char));
             strcpy(NameBel, Wurzel); strcat(NameBel, ".pa");
           }
           if (Monitor && (! nurVorreduktion)) {
-            NameMon = (char *) xmalloc((strlen(Wurzel) + 3 + 1) * sizeof(char));
+            NameMon = (char*) xmalloc((strlen(Wurzel) + 3 + 1) * sizeof(char));
             strcpy(NameMon, Wurzel); strcat(NameMon, ".mo");
             if ((fpmo = fopen(NameMon, "w")) == NULL) {
               fprintf(stderr, "%s %s\n", Meldung(29), NameMon);
@@ -1422,18 +1383,15 @@ int main(const int argc, const char* const argv[]) {
       times(Zeiger);
       Verbrauch = SysZeit.tms_utime - akkVerbrauch;
 #endif
-      if (Monitor)
-        printf("\n");
+      if (Monitor) printf("\n");
       Statistikzeile(stdout);
-      if (Dateiausgabe)
-        Statistikzeile(fpaus);
+      if (Dateiausgabe) Statistikzeile(fpaus);
       
       /* Achtung: Die Analyse der Ausgabe verlangt, dass das allererste */
       /* Zeichen die SAT-Zugehoerigkeit (d.h.: 0 oder 1) angibt. */
       
-      if (Belegung && (s == SAT)) {
-        if (! Dateiausgabe)
-          AusgabeBelegung(stdout);
+      if (Belegung && (s == SAT))
+        if (! Dateiausgabe) AusgabeBelegung(stdout);
         else {
           if ((fppa = fopen(NameBel, "w")) == NULL) {
             fprintf(stderr, "%s %s\n", Meldung(27), NameBel);
@@ -1441,7 +1399,6 @@ int main(const int argc, const char* const argv[]) {
           }
           AusgabeBelegung(fppa);
         }
-      }
     Aufraeumen :
       
       alarm(0);
@@ -1462,18 +1419,10 @@ int main(const int argc, const char* const argv[]) {
         fclose(TreeDataFile); TreeDataFile = NULL;
       }
 #endif
-      if (fp != NULL) {
-        fclose(fp); fp = NULL;
-      }
-      if (fpmo != NULL) {
-        fclose(fpmo); fpmo = NULL;
-      }
-      if (fpaus != NULL) {
-        fclose(fpaus); fpaus = NULL;
-      }
-      if (fppa != NULL) {
-        fclose(fppa); fppa = NULL;
-      }
+      if (fp != NULL) { fclose(fp); fp = NULL; }
+      if (fpmo != NULL) { fclose(fpmo); fpmo = NULL; }
+      if (fpaus != NULL) { fclose(fpaus); fpaus = NULL; }
+      if (fppa != NULL) { fclose(fppa); fppa = NULL; }
     }
   }
   
@@ -1483,6 +1432,5 @@ int main(const int argc, const char* const argv[]) {
     case UNSAT : return 20;
     case Unbestimmt : return 0;
     }
-  else
-    return 0;
+  else return 0;
 }

@@ -16,11 +16,28 @@ License, or any later version. */
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
    are handled:
+    - The basic idea
+    - Planning for computing the sub-problems
+
+
+  \par Version 0.9.8
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
+    - Computing a splitting tree
+
+
+  \par Version 0.9.9
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
     - False counting of initial unit-clause eliminations
     - Improve the Dimacs-output
 
 
-  \par Version 0.9.8
+  \par Version 0.9.10
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -29,7 +46,7 @@ License, or any later version. */
 
 
   
-\par Version 0.9.9
+\par Version 0.9.11
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -37,7 +54,7 @@ License, or any later version. */
     - Differences
 
 
-  \par Version 0.9.10
+  \par Version 0.9.12
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -45,7 +62,7 @@ License, or any later version. */
     - OUTPUTTREEDATAXML
 
 
-  \par Version 0.9.11
+  \par Version 0.9.13
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -54,7 +71,7 @@ License, or any later version. */
     - Language standards
 
 
-  \par Version 0.9.12
+  \par Version 0.9.14
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -62,7 +79,7 @@ License, or any later version. */
     - Buildsystem
 
 
-  \par Version 0.9.13
+  \par Version 0.9.15
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -70,7 +87,7 @@ License, or any later version. */
     - Complete the help facilities of the OKsolver
 
 
-  \par Version 0.9.14
+  \par Version 0.9.16
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -202,14 +219,6 @@ License, or any later version. */
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
    are handled:
     - Inefficiency on 64-bit platforms
-
-
-  \par Version 1.3.3
-
-  \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
-   are handled:
-    - Simple parallelisation
 
 
   \par Version 1.4
