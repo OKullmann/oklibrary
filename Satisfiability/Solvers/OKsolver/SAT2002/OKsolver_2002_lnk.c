@@ -506,7 +506,6 @@ void FinaliseSATPath() {
 
 static enum Ergebniswerte SATEntscheidung() {
   VZ optZweig;
-  enum Spruenge r;
 
 #ifdef ALLSAT
   assert(! Belegung);
@@ -539,18 +538,19 @@ alleReduktionen:
 #ifdef OUTPUTTREEDATAXML
     BeginTreeElement();
 #endif
-    r = SatVar -> Ruecksprung;
-    SatVar = SatVar -> davor;
-    if (SatVar == NULL) {
+    {const enum Spruenge r = SatVar -> Ruecksprung;
+     SatVar = SatVar -> davor;
+     if (SatVar == NULL) {
 #ifdef OUTPUTTREEDATAXML
-      EndTreeElement();
+       EndTreeElement();
 #endif
-      return UNSAT;
-    }
-    --Rekursionstiefe;
-    switch (r) {
-    case SAT1 : goto nachSAT1;
-    case SAT2 : goto nachSAT2;
+       return UNSAT;
+     }
+     --Rekursionstiefe;
+     switch (r) {
+     case SAT1 : goto nachSAT1;
+     case SAT2 : goto nachSAT2;
+     }
     }
   }
 
@@ -584,18 +584,19 @@ alleReduktionen:
 #ifdef OUTPUTTREEDATAXML
     BeginTreeElement();
 #endif
-    r = SatVar -> Ruecksprung;
-    SatVar = SatVar -> davor;
-    if (SatVar == NULL) {
+    {const enum Spruenge r = SatVar -> Ruecksprung;
+     SatVar = SatVar -> davor;
+     if (SatVar == NULL) {
 #ifdef OUTPUTTREEDATAXML
-      EndTreeElement();
+       EndTreeElement();
 #endif
-      return UNSAT;
-    }
-    --Rekursionstiefe;
-    switch (r) {
-    case SAT1 : goto nachSAT1;
-    case SAT2 : goto nachSAT2;
+       return UNSAT;
+     }
+     --Rekursionstiefe;
+     switch (r) {
+     case SAT1 : goto nachSAT1;
+     case SAT2 : goto nachSAT2;
+     }
     }
   }
 
@@ -780,18 +781,19 @@ alleReduktionen:
   else {
     Zeiger2 = SatVar -> altZeiger2;
     ++SingleKnoten;
-    r = SatVar -> Ruecksprung;
-    SatVar = SatVar -> davor;
-    if (SatVar == NULL) {
+    {const enum Spruenge r = SatVar -> Ruecksprung;
+     SatVar = SatVar -> davor;
+     if (SatVar == NULL) {
 #  ifdef OUTPUTTREEDATAXML
-      EndTreeElement();
+       EndTreeElement();
 #  endif
-      return UNSAT;
-    }
-    --Rekursionstiefe;
-    switch (r) {
-    case SAT1 : goto nachSAT1;
-    case SAT2 : goto nachSAT2;
+       return UNSAT;
+     }
+     --Rekursionstiefe;
+     switch (r) {
+     case SAT1 : goto nachSAT1;
+     case SAT2 : goto nachSAT2;
+     }
     }
   }
 # endif
@@ -859,21 +861,22 @@ alleReduktionen:
   else ++VerSingleKnoten;
 # endif
 #endif
-  r = SatVar -> Ruecksprung;
-  SatVar = SatVar -> davor;
-  if (SatVar == NULL) {
+  {const enum Spruenge r = SatVar -> Ruecksprung;
+   SatVar = SatVar -> davor;
+   if (SatVar == NULL) {
 #ifdef OUTPUTTREEDATAXML
-    EndTreeElement();
+     EndTreeElement();
 #endif
-    return UNSAT;
+     return UNSAT;
+   }
+   --Rekursionstiefe;
+   switch (r) {
+   case SAT1 : goto nachSAT1;
+   case SAT2 : goto nachSAT2;
+   default :
+     assert(0);
+   }
   }
-  --Rekursionstiefe;
-  switch (r) {
-  case SAT1 : goto nachSAT1;
-  case SAT2 : goto nachSAT2;
-  default :
-    assert(0);
-  } 
 }
 
 /* ------------------------------------------------------------- */
