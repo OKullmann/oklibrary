@@ -77,6 +77,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Introduce error-codes
+  <ul>
+   <li> For each error-situation there should be a dedicated return-code
+   (different from 0,10,20). </li>
+   <li> Check all returns in main, and all exit's elsewhere. </li>
+  </ul>
+
+
   \todo Output to files
   <ul>
    <li> Monitoring output to file:

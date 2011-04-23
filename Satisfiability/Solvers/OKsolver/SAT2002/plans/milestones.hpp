@@ -42,16 +42,15 @@ License, or any later version. */
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
    are handled:
-    - Output to files
+    - Introduce error-codes
 
 
-  
-\par Version 0.9.11
+  \par Version 0.9.11
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
    are handled:
-    - Differences
+    - Output to files
 
 
   \par Version 0.9.12
@@ -59,10 +58,18 @@ License, or any later version. */
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
    are handled:
-    - OUTPUTTREEDATAXML
+    - Differences
 
 
   \par Version 0.9.13
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
+    - OUTPUTTREEDATAXML
+
+
+  \par Version 0.9.14
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -71,7 +78,7 @@ License, or any later version. */
     - Language standards
 
 
-  \par Version 0.9.14
+  \par Version 0.9.15
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -79,7 +86,7 @@ License, or any later version. */
     - Buildsystem
 
 
-  \par Version 0.9.15
+  \par Version 0.9.16
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -87,7 +94,7 @@ License, or any later version. */
     - Complete the help facilities of the OKsolver
 
 
-  \par Version 0.9.16
+  \par Version 0.9.17
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
