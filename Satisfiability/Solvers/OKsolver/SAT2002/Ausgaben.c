@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.1.2001 (Toronto)
-/* Copyright 2001 - 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2001 - 2007, 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,7 +28,7 @@ License, or any later version. */
 
 
 
-const char *Meldungen[ANZSPRACHEN][57] =
+const char *Meldungen[ANZSPRACHEN][60] =
 {
   {"Fehler in der Definition der Konstanten! Abbruch.", /* 0 */
    "Kombination von BAUMRES mit LOKALLERNEN zur Zeit noch nicht moeglich.", /* 1 */
@@ -87,6 +87,9 @@ const char *Meldungen[ANZSPRACHEN][57] =
    "Die folgende Datei konnte nicht zum Einschreiben der Baumdaten geoeffnet werden: (XML; Makro OUTPUTTREEDATAXML definiert)", /* 54 */
    "Niveau: Anzahl Knoten, durchschnittliche Anzahl Knoten, geschaetzte totale Knotenzahl, Zeitverbrauch des Beobachtungsknotens, durchschnittliche Zeit, geschaetzte Restzeit, Singleknoten, Autarkien, Suchbaumtiefe", /* 55 */
    "    level  nodes ave_nodes      time  ave_time singles autarkies depth ave_reductions", /* 56 */
+   "Verzeichnisname (fuer Paralllelisierungs-Verzeichnis) darf nicht leer sein.", /* 57 */
+   "Ausgabe partieller Belegungen muss aktiviert sein fuer Option -S.", /* 58 */
+   "Die Datei fuer eine Aufspaltungsinstanz konnte nicht erzeugt werden.", /* 59 */
   },
 
   {"Error in the definition of the constants! Abbort.", /* 0 */
@@ -146,6 +149,9 @@ const char *Meldungen[ANZSPRACHEN][57] =
    "The following file could not be opened for writing the tree data (xml; Macro OUTPUTTREEDATAXML defined):", /* 54 */
    "level: nodes processed, average nodes, predicted total nodes, time for monitoring node, average time, predicted remaining time, single nodes, autarkies, depth", /* 55 */
    "    level  nodes ave_nodes      time  ave_time singles autarkies depth ave_reductions", /* 56 */
+   "Directory name (for splitting-directory) can not be empty.", /* 57 */
+   "Output of partial assignments must be enabled with option -S.", /* 58 */
+   "Could not create file with splitting-instance.", /* 59 */
   },
 };
 

@@ -12,10 +12,13 @@ License, or any later version. */
 
   \todo The basic idea
   </ul>
+   <li> Needs to be transferred to the docus. </li>
    <li> As a simple means to achieve parallelisation, for a given depth
    the clause-sets at that level should be output (to files, with
    suitable names indicating the decisions leading to that clause-set). </li>
-   <li> This should simply employ the monitoring-mode, outputting the (reduced)
+   <li> DONE (this is not the right way, since monitoring happens after a
+   branch was completed, while here we act before branching)
+   This should simply employ the monitoring-mode, outputting the (reduced)
    clause-sets at the monitoring nodes, while not going into the branches, but
    immediately backtracking (stipulating result "unsat", using all variables,
    but at the end outputting "unknown" if no solution was found and at least
@@ -28,23 +31,32 @@ License, or any later version. */
   </ul>
 
 
-  \todo Planning for computing the sub-problems
+  \todo Planning for computing the sub-problems : DONE
   <ul>
-   <li> A new option "-S" (for "splitting") is introduced. </li>
-   <li> The monitoring-depth D (>= 0) is also used here. </li>
-   <li> When the OKsolver comes to branch at depth D, then the current
+   <li> DONE
+   A new option "-S" (for "splitting") is introduced. </li>
+   <li> DONE
+   The monitoring-depth D (>= 0) is also used here. </li>
+   <li> DONE
+   When the OKsolver comes to branch at depth D, then the current
    partial assignment is output, representing the sub-problem to be solved,
    and for both branches the answer UNSAT is assumed, using all variables
    in the sub-problems. </li>
-   <li> This is repeated until the complete problem is processed. </li>
-   <li> If no open problems was created, then we output the decision. </li>
-   <li> A counter open_problem_index=1,.. counts the open problems. </li>
-   <li> The output goes into a directory whose name follows our usual
+   <li> DONE
+   This is repeated until the complete problem is processed. </li>
+   <li> DONE
+   If no open problems was created, then we output the decision. </li>
+   <li> DONE
+   A counter splitting_cases=1,.. counts the open problems. </li>
+   <li> DONE
+   The output goes into a directory whose name follows our usual
    standard for experiment-directories. </li>
-   <li> Insight we have a file containing all the OKsolver-parameters,
+   <li> DONE (files have no extensions)
+   Insight we have a file containing all the OKsolver-parameters,
    and the files 1.pass, ..., containing the partial assignments yielding
    the subproblems. </li>
-   <li> The experiment-subdirectory:
+   <li> DONE
+   The experiment-subdirectory:
     <ol>
      <li> Since this belongs to the operating-system, perhaps we have a
      wrapper-script, which computes the directory-name, and passes it to
@@ -52,7 +64,8 @@ License, or any later version. */
      <li> The option -S would then get an argument "-S=dir-name". </li>
     </ol>
    </li>
-   <li> Output of the partial assignments:
+   <li> DONE
+   Output of the partial assignments:
     <ol>
      <li> The options for outputting satisfying assignments must be
      activated. </li>
@@ -60,19 +73,24 @@ License, or any later version. */
      we need to output partial assignments (that is, we need to output
      variable-names). </li>
      <li> Should we use a DIMACS-like format for that, as unit-clauses? </li>
-     <li> This would have the advantage, that these unit-clauses can then be
+     <li> DONE (we use the DIMACS-format for assignments instead)
+     This would have the advantage, that these unit-clauses can then be
      merged with the main file (for the basic problem). </li>
-     <li> For the parameter line, the parameter n, should it be the overall
+     <li> DONE (not needed anymore)
+     For the parameter line, the parameter n, should it be the overall
      maximal index, or the maximal index used here? </li>
-     <li> The maximal index used here is more informative, and shouldn't pose
+     <li> DONE (not needed anymore)
+     The maximal index used here is more informative, and shouldn't pose
      a problem. </li>
-     <li> Perhaps we write some wrapper-script "AddUnitClauses", which has
+     <li> DONE (not needed anymore)
+     Perhaps we write some wrapper-script "AddUnitClauses", which has
      as input the CNF F.cnf, and the CNF A.cnf (for "addition"), append A
      to the end of F, performs unit-clause-propagation, and stores the result
      in "F_A.cnf". </li>
     </ol>
    </li>
-   <li> Perhaps the mode "-S" is considered as a sub-mode of the
+   <li> DONE (monitoring is independent)
+   Perhaps the mode "-S" is considered as a sub-mode of the
    monitoring-mode, only not outputting statistics, but the partial assignments
    in the form of a clause-set of unit-clauses. </li>
    <li> DONE (we don't do this, but we compute all sub-problems, in the
@@ -134,6 +152,37 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Wrapper script
+  <ul>
+   <li> Transfers the parameters to the call of OKsolver_2002_NTP-O3-DNDEBUG,
+   except that before the final parameter (the file-name) the option
+   "-S=dir-name" is inserted. </li>
+   <li> So we should provide a public link to this version of the OKsolver.
+   </li>
+   <li> The directory dir-name contains the splitting instances; "dir-name"
+   is formed according to our usual standards for naming
+   experiment-directories. </li>
+   <li> A file "dir-name/Parameters" is to be created:
+    <ol>
+     <li> Containing the parameter-line. </li>
+     <li> And the output of running the used form of the OKsolver-2002 with
+     option "--version". </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Script for applying partial assignments
+  <ul>
+   <li> The script ApplyPASS_UCP takes one argument, the file with the partial
+   assignment. </li>
+   <li> It reads from standard input the CNF F (DIMACS). </li>
+   <li> Internally, it then adds the assignments as unit-clauses, and performs
+   unit-clause propgatation. </li>
+   <li> The result (in DIMACS format) is output to standard output. </li>
   </ul>
 
 

@@ -130,6 +130,7 @@ bool nurVorreduktion = false;
 bool Schranken = false;
 unsigned int Zeitschranke = 0;
 bool randomisiert = false;
+bool splitting_only = false;
 
 // Setzen des voreingestellen Ausgabeformates
 
@@ -265,6 +266,11 @@ static unsigned int* Zweiglast = NULL;
   </ul>
 */
 static unsigned int Gesamtlast;
+
+//! in case of splitting_only the number of sub-problems yet encountered
+static unsigned int splitting_cases;
+//! directory with splitting cases
+const char* splitting_dir;
 
 /*!
   \brief Helper array with Beobachtungsniveau many elements
@@ -436,10 +442,11 @@ void InitSat() {
   SatVar -> davor = NULL;
   
   Runde = 0; Zeiger2 = 0;
+  Rekursionstiefe = 0;
+  if (splitting_only) splitting_cases = 0;
 
   if (Monitor && (! nurVorreduktion)) {
     totalbeobachtet = 0;
-    Rekursionstiefe = 0;
     Zweiglast = (unsigned int*) xmalloc(Beobachtungsniveau * sizeof(unsigned int));
     {unsigned int p = 1;
      for (unsigned int* Z = Zweiglast+Beobachtungsniveau; Z != Zweiglast; p *= 2)
@@ -680,6 +687,48 @@ alleReduktionen:
   
   /* Nun ist die beste Variable gefunden, und es wird verzweigt: */
 
+  if (splitting_only && Rekursionstiefe == Beobachtungsniveau) {
+    ++splitting_cases;
+    {
+      assert(splitting_cases <= 1073741824U);
+      char buf[10+1];
+      snprintf(buf,10+1,"%u",splitting_cases);
+      char* name_sc = (char*) xmalloc(strlen(splitting_dir)+1+strlen(buf)+1);
+      strcpy(name_sc,splitting_dir); strcat(name_sc,"/"), strcat(name_sc,buf);
+      FILE* const file_sc = fopen(name_sc, "w");
+      if (file_sc == NULL) {
+        fprintf(stderr, "%s\n", Meldung(59));
+        exit(1);
+      }
+      AusgabeBelegung(file_sc);
+      fclose(file_sc);
+    }
+    const enum Spruenge r = SatVar -> Ruecksprung;
+    SatVar = SatVar -> davor;
+    if (SatVar == NULL) {
+      assert(Rekursionstiefe == 0);
+#ifdef OUTPUTTREEDATAXML
+      EndTreeElement();
+#endif
+      assert(splitting_cases > 0);
+      return Unbestimmt;
+    }
+    --Rekursionstiefe;
+#ifdef BAUMRES
+    printf("NOT IMPLEMENTED: combination of -S with BAUMRES!\n");
+    exit(1);
+#endif
+#ifdef LOKALLERNEN
+    printf("NOT IMPLEMENTED: combination of -S with LOKALLERNEN!\n");
+    exit(1);
+#endif
+    switch (r) {
+    case SAT1 : goto nachSAT1;
+    case SAT2 : goto nachSAT2;
+    }
+  }
+  assert(! splitting_only || Rekursionstiefe < Beobachtungsniveau);
+
 #ifdef OUTPUTTREEDATAXML
   BeginTreeElement();
 #endif
@@ -885,7 +934,7 @@ alleReduktionen:
   Either to stdout or to file.
 */
 
-void Statistikzeile(FILE* fp) {
+void Statistikzeile(FILE* const fp) {
   if (Format == Dimacs_Format) {
     fprintf(fp, "s ");
     switch (s) {
@@ -931,6 +980,11 @@ void Statistikzeile(FILE* fp) {
 	    Ueberschreitung2, 
 	    FastAutarkien, neue2Klauseln, maxneue2K,
 	    aktName);
+          if (splitting_only)
+            fprintf(fp,
+            "c splitting_directory                   %s\n"
+            "c splitting_cases                       %u\n",
+            splitting_dir, splitting_cases);
   }
   else {
     fprintf(fp, "<SAT-solver.output timestamp = \"%ld\" >\n", time(0));
@@ -954,6 +1008,8 @@ void Statistikzeile(FILE* fp) {
     fprintf(fp, "      <nodes type = \"single\" count = \"%ld\" />\n", SingleKnoten);
     fprintf(fp, "      <nodes type = \"quasi-single\" count = \"%ld\" />\n", QuasiSingleKnoten);
     fprintf(fp, "      <nodes type = \"missed_single\" count = \"%ld\" />\n", VerSingleKnoten);
+    fprintf(fp, "      <nodes type = \"splitting_cases\" count = \"%u\" />\n", splitting_cases);
+
     fprintf(fp, "    </basic>\n");
     fprintf(fp, "    <extended>\n");
     fprintf(fp, "      <generalised_unit_reductions where = \"initial\" level = \"1\" count = \"%ld\" />\n", InitEinerRed);
@@ -967,8 +1023,11 @@ void Statistikzeile(FILE* fp) {
     fprintf(fp, "      </numbers_of_new_clauses>\n");
     fprintf(fp, "    </extended>\n");
     fprintf(fp, "  </processing-description>\n");
- 
+
+    if (! splitting_only)
     fprintf(fp, "  <instance_specs system-name = \"%s\" >\n", aktName);
+    else
+    fprintf(fp, "  <instance_specs system-name = \"%s\" splitting-dir = \"%s\" >\n", aktName, splitting_dir);
 
     fprintf(fp, "    <measures>\n");
     fprintf(fp, "      <reduction> <none/> </reduction>\n");
@@ -1198,7 +1257,7 @@ int main(const int argc, const char* const argv[]) {
       setzenStandard();
     }
     else if (strncmp("-D", argv[Argument], 2) == 0) {
-      // -D fuer Beobachtungstiefe (depth)
+      // -D fuer Beobachtungsniveau (depth)
       // Verzweigungsliterale werden (falls ueberhaupt Dateiausgabe gesetzt ist)
       // nur bis zu zwei Stufen unterhalb der Beobachtungsschicht ausgegeben,
       // so dass hierfuer als das Beobachtungsniveau mindestens zwei sein
@@ -1279,11 +1338,24 @@ int main(const int argc, const char* const argv[]) {
         }
       Verhaeltnis = V;
     }
+    else if (strncmp("-S=", argv[Argument], 3) == 0) {
+      splitting_only = true;
+      Belegung = true;
+      splitting_dir = argv[Argument]+3;
+      if (strlen(splitting_dir) == 0) {
+        fprintf(stderr, "%s\n", Meldung(57));
+        return 1;
+      }
+    }
     else if (strncmp("-", argv[Argument], 1) == 0) {
       fprintf(stderr, "%s %s\n", Meldung(22), argv[Argument]);
       return 1;
     }
     else {
+      if (splitting_only && ! Belegung) {
+        fprintf(stderr, "%s\n", Meldung(58));
+        return 1;
+      }
       aktName = argv[Argument];
       s = Unbestimmt;
       alarm(Zeitschranke);
@@ -1293,8 +1365,7 @@ int main(const int argc, const char* const argv[]) {
       times(Zeiger);
       akkVerbrauch = SysZeit.tms_utime;
 #endif
-      if (randomisiert)
-        srand_S();
+      if (randomisiert) srand_S();
       if ((fp = fopen(aktName, "r")) == NULL) {
         fprintf(stderr, "%s %s\n", Meldung(4), aktName);
         return 1;
@@ -1377,6 +1448,7 @@ int main(const int argc, const char* const argv[]) {
         }
         
         s = SATEntscheidung();
+        if (splitting_only && splitting_cases != 0) s = Unbestimmt;
       }
       
     Ausgabe :
