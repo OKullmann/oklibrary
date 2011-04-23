@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.3.2001 (Toronto)
-/* Copyright 2001 - 2007 Oliver Kullmann
+/* Copyright 2001 - 2007, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -37,7 +37,7 @@ VarMenge aktrelV0;
 /* ------------------------------------------------------------------------- */
 
 
-size_t BedarfBaumResV( void ) {
+size_t BedarfBaumResV() {
   return 2 * GroesseVarMenge;
 }
 
@@ -48,7 +48,7 @@ void *BaumResV(void* Z) {
 }
 
 
-void AufraeumenBaumRes( void ) {
+void AufraeumenBaumRes() {
   if (Pfad != NULL) {
     Pfadinfo* Z = Pfad;
     for (unsigned int i = 0; i < N; ++Z, ++i) {
@@ -92,15 +92,13 @@ __inline__ void setzenKl (const KLN k) {
 #endif
 }
 
-__inline__ void relVhinzufuegen (void) {
+__inline__ void relVhinzufuegen () {
   const KLN k = Tiefe -> k;
-  if (k != NULL)
-    hinzufuegenKl(k);
-  else
-    hinzufuegen(Tiefe -> M);
+  if (k != NULL) hinzufuegenKl(k); 
+  else hinzufuegen(Tiefe -> M);
 }
 
-__inline__ void relVMhinzufuegen (void) {
+__inline__ void relVMhinzufuegen () {
   hinzufuegen(Tiefe -> M);
 }
 
@@ -111,24 +109,24 @@ __inline__ void Kln_eintragen_relV(const KLN k) {
   Tiefe -> k = k;
 }
 
-__inline__ void aktV_eintragen_relV(void) {
+__inline__ void aktV_eintragen_relV() {
   if (Tiefe -> M == NULL)
     Tiefe -> M = (VarMenge) xmalloc(GroesseVarMenge);
   memcpy((void *)(Tiefe -> M), (void *) aktrelV, GroesseVarMenge);
 } 
 
-__inline__ void aktV_volleintragen_relV(void) {
+__inline__ void aktV_volleintragen_relV() {
   Tiefe -> k = NULL;
   if (Tiefe -> M == NULL)
     Tiefe -> M = (VarMenge) xmalloc(GroesseVarMenge);
   memcpy((void *)(Tiefe -> M), (void *) aktrelV, GroesseVarMenge);
 }
 
-__inline__ void aktV_speichern( void ) {
+__inline__ void aktV_speichern() {
   memcpy((void *) aktrelV0, (void *) aktrelV, GroesseVarMenge);
 }
 
-__inline__ void hinzufuegenS ( void ) {
+__inline__ void hinzufuegenS() {
   hinzufuegen(aktrelV0);
 }
 
