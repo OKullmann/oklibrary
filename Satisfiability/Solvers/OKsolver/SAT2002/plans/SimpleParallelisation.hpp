@@ -46,6 +46,11 @@ License, or any later version. */
      <li> Containing the parameter-line. </li>
      <li> And the output of running the used form of the OKsolver-2002 with
      option "--version". </li>
+     <li> And also the statistics output shall go there. </li>
+     <li> Or perhaps we should have different files for these different types
+     of information? </li>
+     <li> Perhaps, via R, also some statistics on the lengths of the partial
+     assignments should be computed and stored. </li>
     </ol>
    </li>
   </ul>
@@ -59,6 +64,10 @@ License, or any later version. */
    <li> Internally, it then adds the assignments as unit-clauses, and performs
    unit-clause propgatation. </li>
    <li> The result (in DIMACS format) is output to standard output. </li>
+   <li> Actually, the partiall assignments computed by the OKsolver-2002
+   already contain all derived unit-clause-eliminations, and thus better a
+   script ApplyPASS is provided, which just applies the partial assignment.
+   </li>
   </ul>
 
 
