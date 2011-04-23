@@ -16,7 +16,7 @@ License, or any later version. */
   \par
    In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following topics
    are handled:
-    - The basic idea
+    - The basic idea : DONE
     - Wrapper script : DONE
     - Script for applying partial assignments
 
@@ -205,6 +205,14 @@ License, or any later version. */
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
    are handled:
     - Elimination of compile-time options
+
+
+  \par Version 1.2.6
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following
+   topics are handled:
+    - Distributing the tasks to machines
 
 
   \par Version 1.3

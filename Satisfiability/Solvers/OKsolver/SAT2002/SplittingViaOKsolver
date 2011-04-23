@@ -6,11 +6,33 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
+# Split a SAT-problem into sub-problems, using the OKsolver
+
+# Usage:
+#   SplittingViaOKsolver parameters F
+# where F is the CNF in DIMACS format, and parameters are for
+# the OKsolver-2002.
+
+# Creates a directory "SplitViaOKsolver_parameters_timestamp", containing
+# the following files:
+# - Parameters : the parameters passed over to the OKsolver
+# - Version : information on the OKsolver
+# - F : a copy of the instance
+# - Result : output of the OKsolver, after creating the instances
+# - N : the number of sub-instances
+# - Data : for 1 <= i <= N the number of variables in the partial
+#          assignment for the i-th sub-instance
+# - Statistics : basic evaluation of Data.
+# And in the directory Instances we have files with names 1, ..., N,
+# each containing a partial assignment in DIMACS format (one line, starting
+# with v, followed by literals set to true, concluded by "0") yielding the
+# corresponding sub-instance.
+
 set -o errexit
 set -o nounset
 
 script_name="SplittingViaOKsolver"
-version_number=0.0.7
+version_number=0.0.8
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 

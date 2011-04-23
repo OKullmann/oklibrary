@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans on extending OKsolver-2002 for using it to compute a splitting of a large problem into subproblems
 
 
-  \todo The basic idea
+  \todo The basic idea : DONE
   </ul>
    <li> Needs to be transferred to the docus. </li>
    <li> As a simple means to achieve parallelisation, for a given depth
@@ -23,9 +23,6 @@ License, or any later version. */
    immediately backtracking (stipulating result "unsat", using all variables,
    but at the end outputting "unknown" if no solution was found and at least
    one open node was created). </li>
-   <li> Then a simple script would allocate these problem-instances to
-   the available machines, monitor their execution, record the results,
-   and schedule new jobs if possible (and needed). </li>
    <li> For monitoring-depth 0 one would get the OKsolver_2002 to act
    as preprocessor (applying r_2-reduction and autarky-reduction). </li>
   </ul>
@@ -89,6 +86,14 @@ License, or any later version. */
      nodes", but tree resolution pruning is always to be performed. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Distributing the tasks to machines
+  <ul>
+   <li> Some means are needed for allocating the sub-problem-instances to
+   the available machines, monitoring their execution, recording the results,
+   and scheduling new jobs if possible (and needed). </li>
   </ul>
 
 */
