@@ -31,7 +31,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo Wrapper script
+  \todo DONE
+  Wrapper script
   <ul>
    <li> Transfers the parameters to the call of OKsolver_2002_NTP-O3-DNDEBUG,
    except that before the final parameter (the file-name) the option

@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Solvers/OKsolver/SAT2002/plans/milestones.hpp
   
-  \module_version OKsolver/SAT2002 0.9.7 (23.4.2011)
+  \module_version OKsolver/SAT2002 0.9.7.1 (23.4.2011)
 
 
   \par Version 0.9.8
@@ -17,7 +17,7 @@ License, or any later version. */
    In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following topics
    are handled:
     - The basic idea
-    - Wrapper script
+    - Wrapper script : DONE
     - Script for applying partial assignments
 
 

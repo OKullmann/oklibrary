@@ -10,7 +10,7 @@ set -o errexit
 set -o nounset
 
 script_name="SplittingViaOKsolver"
-version_number=0.0.6
+version_number=0.0.7
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -35,3 +35,19 @@ cp ../${filename} .
 
 cd ..
 ${solver} ${new_param} > ${directory}/Result
+
+cd ${directory}
+
+N=$(awk '/splitting_cases/ {print $3}' Result)
+echo $N > N
+
+echo " n" > Data
+for (( i=1; i<=N; ++i )); do
+  F=Instances/$i
+  n=$(wc ${F} | awk '{ print $2}')
+  n=$((n-2))
+  echo $i $n >> Data
+done
+
+echo -e "E=read.table(\"Data\")\nsummary(E)\ntable(E)" | oklib --R --quiet --vanilla | tail +3 > Statistics
+
