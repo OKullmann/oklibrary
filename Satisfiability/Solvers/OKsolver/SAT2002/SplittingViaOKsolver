@@ -1,0 +1,37 @@
+#!/bin/bash
+# Oliver Kullmann, 23.4.2011 (Guangzhou)
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+set -o errexit
+set -o nounset
+
+script_name="SplittingViaOKsolver"
+version_number=0.0.6
+
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+
+directory=SplitViaOKsolver_$(echo $* | tr -d " -.")_${timestamp}
+
+solver=OKsolver_2002_NTP-O3-DNDEBUG
+
+mkdir ${directory}
+cd ${directory}
+mkdir Instances
+
+${solver} --version > Version
+
+parameters="$*"
+filename="${!#}"
+length=$(($#-1))
+other_param=${@:1:$length}
+new_param="${other_param} -S=${directory}/Instances ${filename}"
+echo ${new_param} > Parameters
+
+cp ../${filename} .
+
+cd ..
+${solver} ${new_param} > ${directory}/Result
