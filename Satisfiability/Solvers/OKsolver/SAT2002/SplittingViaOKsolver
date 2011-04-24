@@ -66,7 +66,7 @@ echo $N > N
 echo " n" > Data
 for (( i=1; i<=N; ++i )); do
   F=Instances/$i
-  n=$(wc ${F} | awk '{ print $2}')
+  n=$(cat ${F} | wc -w)
   n=$((n-2))
   echo $i $n >> Data
 done
