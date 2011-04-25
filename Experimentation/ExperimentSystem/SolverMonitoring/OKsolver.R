@@ -309,8 +309,8 @@ read_oksolver_outputs = function(filenames) {
 # 1             7     8           0    0      0            0 test1.cnf
 # 2             9    10           0    0      0            0 test2.cnf
 #
-# Note the use of "Sys.glob" to produce a list of files based on a glob
-# pattern.
+# Note the use of "Sys.glob" to produce a list of files in a directory based
+# on a glob pattern.
 #
   
 # ##############
