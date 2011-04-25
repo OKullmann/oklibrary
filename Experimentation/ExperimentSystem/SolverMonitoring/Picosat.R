@@ -11,47 +11,31 @@
 
 # Reading the output of a picosat913 computation from filename and returning a
 # data.frame containing the statistics on the computation.
-#
 # Inputs:
 #   stats_filename
 #     The filename containing the output of the solver run.
-#
 # Output:
 #   Statistics corresponding to the run of the solver on filename.
 #   A data.frame with a single row with the following fields in the
 #   following order:
 #
-#     filename (string)
-#       Name of the DIMACS file the solver was run on.
-#     n (positive integer)
-#       Initial number of variables.
-#     c (positive integer)
-#       Initial number of clauses.
-#     sat ({0,1,2})
-#       Whether picosat913 found filename to be SATISFIABLE (1),
-#       UNSATISFIABLE (0) or it was unable to determine satisfiability (2).
-#     restarts (positive integer)
-#       Number of restarts.
-#     failed_lits (positive integer)
-#       Number of forced assignments found using failed literal reductions.
-#     conflicts (positive integer)
-#       Number of conflicts found while solving filename.
-#     decisions (positive integer)
-#       Number of "decisions".
-#     fixed_vars (positive integer)
-#       Number of variables fixed to true or false during search.
-#     learned_lits (positive integer)
-#       Number of literals determined by conflict clause analysis.
-#     deleted_lits (double)
-#       Percentage of literals deleted.
-#     prop (positive integer)
-#       Total number of unit clause propagations.
-#     simps (positive integer)
-#       Total number of simplications performed.
-#     mem (double)
-#       Maximum amount of main memory in Megabytes used.
-#     time (double)
-#       Total time taken in seconds to solve.
+#     filename (string): Name of the DIMACS file the solver was run on.
+#     n (pos int): Initial number of variables.
+#     c (pos int): Initial number of clauses.
+#     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
+#     restarts (pos int): Number of restarts.
+#     failed_l (pos int): Number of forced assignments found using
+#       failed literal reductions.
+#     conflicts (pos int): Number of conflicts.
+#     decisions (pos int): Number of "decisions".
+#     fixed_vars (pos int): Number of variables fixed during search.
+#     learned_l (pos int): Number of literals determined by conflict
+#       clause analysis.
+#     deleted_l (double): Percentage of literals deleted.
+#     prop (pos int): Total number of unit clause propagations.
+#     simps (pos int): Total number of simplications performed.
+#     mem (double): Maximum amount of main memory in Megabytes used.
+#     time (double): Total time taken in seconds to solve.
 #
 # Note this function will not read the output of any of the precosat solvers.
 #  
@@ -79,13 +63,13 @@ read_picosat_output = function(stats_filename, ...) {
         list(fixed_vars = as.integer(gsub("[^0-9]","",line))))
     } else if (length(grep("learned literals",line)) > 0) {
       result = c(result,
-        list(learned_lits = as.integer(gsub("[^0-9]","",line))))
+        list(learned_l = as.integer(gsub("[^0-9]","",line))))
     } else if (length(grep("failed literals",line)) > 0) {
       result = c(result,
-        list(failed_lits = as.integer(gsub("[^0-9]","",line))))
+        list(failed_l = as.integer(gsub("[^0-9]","",line))))
     } else if (length(grep("deleted literals",line)) > 0) {
       result = c(result,
-        list(deleted_lits = as.double(gsub("[^0-9\\.]","",line))))
+        list(deleted_l = as.double(gsub("[^0-9\\.]","",line))))
     } else if (length(grep("propagations",line)) > 0) {
       result = c(result,
         list(prop = as.integer(gsub("[^0-9]","",line))))
@@ -151,10 +135,10 @@ read_picosat_output = function(stats_filename, ...) {
 # R> oklib_load_all()
 # R> E = read_picosat_output("sbox.result")
 # R> E
-#                filename n   c sat iter restarts failed_lits conflicts decisions
-# 1 AES_sbox_2_4_full.cnf 8 240   1    0        0           0         2         8
-#   fixed_vars learned_lits deleted_lits prop simps mem time
-# 1          0           13            0   11     1   0    0
+#                filename n   c sat iter restarts failed_l conflicts decisions
+# 1 AES_sbox_2_4_full.cnf 8 240   1    0        0        0         2         8
+#   fixed_vars learned_l deleted_l prop simps mem time
+# 1          0        13         0   11     1   0    0
 #
 
 # Reading multiple picosat913 output files into a data.frame.

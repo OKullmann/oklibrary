@@ -30,15 +30,17 @@ License, or any later version. */
      However "l" in "cl" refers to "clause-length"! </li>
     </ol>
    </li>
-   <li> We also use standardised notations where possible:
+   <li> Once the new names are in places (for all such functions), then also
+   specification must be provided (not just some example). </li>
+   <li> DONE (removed all uses of the words variables, clauses and literals)
+   We also use standardised notations where possible:
     <ol>
      <li> "n" for the number of variables </li>
      <li> "c" for the number of clauses </li>
     </ol>
    </li>
-   <li> Once the new names are in places (for all such functions), then also
-   specification must be provided (not just some example). </li>
-   <li> And there is also a type mismatch: we get warnings
+   <li> DONE (added type-casts for all fields)
+   And there is also a type mismatch: we get warnings
    "1: inaccurate integer conversion in coercion". </li>
   </ul>
 

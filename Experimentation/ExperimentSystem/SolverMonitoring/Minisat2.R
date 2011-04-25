@@ -12,41 +12,25 @@
 # Reading the output of a minisat-like solver. Solver output is read from
 # stats_filename. A data.frame containing the statistics on the computation is
 # returned.
-#
 # Inputs:
 #   stats_filename
 #     The filename containing the output of the solver run.
-#
 # Output:
 #   Statistics corresponding to the run of the solver on some DIMACS file.
 #   A data.frame with a single row with the following fields in the
 #   following order:
 #
-#     n (positive integer)
-#       Initial number of variables.
-#     c (positive integer)
-#       Initial number of clauses.
-#     parse_time (double)
-#       Time taken in seconds to parse the DIMACS file.
-#     restarts (positive integer)
-#       Number of restarts.
-#     conflicts (positive integer)
-#       Number of conflicts.
-#     decisions (positive integer)
-#       Number of "decisions".
-#     propagations (positive integer)
-#       Number of unit clause propagations.
-#     mem (double)
-#       Maximum amount of main memory in Megabytes used.
-#     time (double)
-#       Total time taken in seconds to solve the instance.
-#     sat ({0,1,2})
-#       Whether minisat2 found filename to be SATISFIABLE (1),
-#       UNSATISFIABLE (0) or it was unable to determine satisfiability (2).
-#     filename (string)
-#       Name of the file the output statistics were written to. Note that
-#       this is not the DIMACS file input to the solver. Minisat-like solvers
-#       do not print the input filename as part of their output.
+#     n (pos int): Initial number of variables.
+#     c (pos int): Initial number of clauses.
+#     parse_time (double):  Time taken in seconds to parse the DIMACS file.
+#     restarts (pos int): Number of restarts.
+#     conflicts (pos int): Number of conflicts.
+#     decisions (pos int): Number of "decisions".
+#     propagations (pos int): Number of unit clause propagations.
+#     mem (double): Maximum amount of main memory used in Megabytes.
+#     time (double): Total time taken in seconds to solve the instance.
+#     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
+#     filename (string) : Name of the file statistics were read from.
 #  
 read_minisat_output = function(stats_filename) {
   S = system(paste("cat ", stats_filename,
