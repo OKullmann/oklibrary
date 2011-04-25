@@ -16,26 +16,18 @@ License, or any later version. */
   \todo Add monitoring for all other solvers
 
 
-  \bug DONE (types of columns specified)
-  False treatment of "decisions"
-  <ul>
-   <li> Column "decisions" is treated as factor! This is obviously false.
-   </li>
-   <li> The cause of the problem is that the dataframe was never specified,
-   but just some "data put into it". </li>
-  </ul>
-
-
   \todo Inappropriate column names
   <ul>
    <li> Column names must be short, never like
    "decisions_per_sec" or "bin_clauses_after" etc.:
     <ol>
      <li> Most of the names regarding the OKsolver_2002 are badly chosen. </li>
-     <li> For example "max_tree_depth": Why "max"? And to what could a depth
+     <li> DONE (this was from the OKsolver output)
+     For example "max_tree_depth": Why "max"? And to what could a depth
      refer than to a tree? </li>
-     <li> Instead of "clauses" we use "c". Etc. </li>
-     <li> However "l" in "cl" refers to "clause-length"! </li>
+     <li> DONE Instead of "clauses" we use "c". Etc. </li>
+     <li> DONE (renamed "max_added_2cl" to "max_added_2c")
+     However "l" in "cl" refers to "clause-length"! </li>
     </ol>
    </li>
    <li> We also use standardised notations where possible:
@@ -48,6 +40,16 @@ License, or any later version. */
    specification must be provided (not just some example). </li>
    <li> And there is also a type mismatch: we get warnings
    "1: inaccurate integer conversion in coercion". </li>
+  </ul>
+
+
+  \bug DONE (types of columns specified)
+  False treatment of "decisions"
+  <ul>
+   <li> Column "decisions" is treated as factor! This is obviously false.
+   </li>
+   <li> The cause of the problem is that the dataframe was never specified,
+   but just some "data put into it". </li>
   </ul>
 
 */
