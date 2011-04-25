@@ -25,7 +25,7 @@
 #     restarts (pos int): Number of restarts.
 #     conflicts (pos int): Number of conflicts.
 #     decisions (pos int): Number of "decisions".
-#     propagations (pos int): Number of unit clause propagations.
+#     propagations (pos int): Number of unit-clause propagations.
 #     mem (double): Maximum amount of main memory used in Megabytes.
 #     time (double): Total time taken in seconds to solve the instance.
 #     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
@@ -127,8 +127,8 @@ read_minisat_output = function(stats_filename) {
 #   stats_filename_l
 #     A list of filenames each containing the output of a solver run.
 # Output:
-#   A data.frame with a row for each file in stats_filename_l with the
-#   following fields in the following order:
+#   A data.frame with a row for each file in stats_filename_l. Each row
+#   contains the following fields in the following order:
 #
 #     n (pos int): Initial number of variables.
 #     c (pos int): Initial number of clauses.
@@ -136,7 +136,7 @@ read_minisat_output = function(stats_filename) {
 #     restarts (pos int): Number of restarts.
 #     conflicts (pos int): Number of conflicts.
 #     decisions (pos int): Number of "decisions".
-#     propagations (pos int): Number of unit clause propagations.
+#     propagations (pos int): Number of unit-clause propagations.
 #     mem (double): Maximum amount of main memory used in Megabytes.
 #     time (double): Total time taken in seconds to solve the instance.
 #     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).

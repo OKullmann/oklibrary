@@ -196,8 +196,8 @@ read_oksolver_output = function(filename, ...) {
 #     A list of filenames each containing the output of a run of the
 #     OKsolver_2002.
 # Output:
-#   A data.frame with a row for each filename in stats_filename_l with the
-#   following fields in following order:
+#   A data.frame with a row for each filename in stats_filename_l. Each row
+#   contains the following fields in following order:
 #     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0), UNKNOWN (2).
 #     init_max_cl (pos int): Initial maximum clause-length.
 #     n (pos int): Initial number of variables.

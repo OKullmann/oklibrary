@@ -16,12 +16,14 @@ License, or any later version. */
   \todo Add monitoring for all other solvers
 
 
-  \todo Inappropriate column names
+  \todo DONE Inappropriate column names
   <ul>
-   <li> Column names must be short, never like
+   <li> DONE Column names must be short, never like
    "decisions_per_sec" or "bin_clauses_after" etc.:
     <ol>
-     <li> Most of the names regarding the OKsolver_2002 are badly chosen. </li>
+     <li> DONE (shortened names and ensured consistent use of "_c", "_n",
+     and "_l")
+     Most of the names regarding the OKsolver_2002 are badly chosen. </li>
      <li> DONE (this was from the OKsolver output)
      For example "max_tree_depth": Why "max"? And to what could a depth
      refer than to a tree? </li>
@@ -30,7 +32,8 @@ License, or any later version. */
      However "l" in "cl" refers to "clause-length"! </li>
     </ol>
    </li>
-   <li> Once the new names are in places (for all such functions), then also
+   <li> DONE
+   Once the new names are in places (for all such functions), then also
    specification must be provided (not just some example). </li>
    <li> DONE (removed all uses of the words variables, clauses and literals)
    We also use standardised notations where possible:

@@ -148,8 +148,8 @@ read_picosat_output = function(stats_filename, ...) {
 #   stats_filename_l
 #     A list of filenames each containing the output of a solver run.
 # Output:
-#   A data.frame with a row for each file in stats_filename_l with the
-#   following fields in the following order:
+#   A data.frame with a row for each file in stats_filename_l. Each row
+#   contains the following fields in the following order:
 #
 #     filename (string): Name of the DIMACS file the solver was run on.
 #     n (pos int): Initial number of variables.
