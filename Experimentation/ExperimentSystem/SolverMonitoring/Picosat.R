@@ -32,7 +32,7 @@
 #     learned_l (pos int): Number of literals determined by conflict
 #       clause analysis.
 #     deleted_l (double): Percentage of literals deleted.
-#     prop (pos int): Total number of unit clause propagations.
+#     prop (pos int): Total number of unit-clause propagations.
 #     simps (pos int): Total number of simplications performed.
 #     mem (double): Maximum amount of main memory in Megabytes used.
 #     time (double): Total time taken in seconds to solve.
@@ -40,7 +40,7 @@
 # Note this function will not read the output of any of the precosat solvers.
 #  
 read_picosat_output = function(stats_filename, ...) {
-  S = system(paste("cat ", filename," | grep \"^c\\|s\""), intern=TRUE)
+  S = system(paste("cat ", stats_filename," | grep \"^c\\|s\""), intern=TRUE)
   result = list()
   for (line in S) {
     line = gsub("^[cs] *", "",line)
@@ -102,7 +102,7 @@ read_picosat_output = function(stats_filename, ...) {
 # c Copyright (c) 2006 - 2009 Armin Biere JKU Linz
 # c gcc -Wall -Wextra -m32 -static -DNDEBUG -O3 -fomit-frame-pointer -finline-limit=1000000
 # c
-# c parsing AES_sbox_2_4_full.cnf
+# c parsing test1.cnf
 # c parsed header 'p cnf 8 240'
 # c initialized 8 variables
 # c found 240 non trivial clauses
@@ -135,14 +135,42 @@ read_picosat_output = function(stats_filename, ...) {
 # R> oklib_load_all()
 # R> E = read_picosat_output("sbox.result")
 # R> E
-#                filename n   c sat iter restarts failed_l conflicts decisions
-# 1 AES_sbox_2_4_full.cnf 8 240   1    0        0        0         2         8
+#    filename n   c sat iter restarts failed_l conflicts decisions
+# 1 test1.cnf 8 240   1    0        0        0         2         8
 #   fixed_vars learned_l deleted_l prop simps mem time
 # 1          0        13         0   11     1   0    0
 #
 
-# Reading multiple picosat913 output files into a data.frame.
-# See read_picosat_output.
+# Reading the outputs of picosat913 computations from stats_filename_l, a list
+# of filenames. A data.frame containing the statistics on the computations
+# is returned.
+# Inputs:
+#   stats_filename_l
+#     A list of filenames each containing the output of a solver run.
+# Output:
+#   A data.frame with a row for each file in stats_filename_l with the
+#   following fields in the following order:
+#
+#     filename (string): Name of the DIMACS file the solver was run on.
+#     n (pos int): Initial number of variables.
+#     c (pos int): Initial number of clauses.
+#     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
+#     restarts (pos int): Number of restarts.
+#     failed_l (pos int): Number of forced assignments found using
+#       failed literal reductions.
+#     conflicts (pos int): Number of conflicts.
+#     decisions (pos int): Number of "decisions".
+#     fixed_vars (pos int): Number of variables fixed during search.
+#     learned_l (pos int): Number of literals determined by conflict
+#       clause analysis.
+#     deleted_l (double): Percentage of literals deleted.
+#     prop (pos int): Total number of unit-clause propagations.
+#     simps (pos int): Total number of simplications performed.
+#     mem (double): Maximum amount of main memory in Megabytes used.
+#     time (double): Total time taken in seconds to solve.
+#
+# Note this function will not read the output of any of the precosat solvers.
+#  
 read_picosat_outputs = function(filenames) {
  result_df = NULL
  for(file in filenames) {
@@ -150,4 +178,85 @@ read_picosat_outputs = function(filenames) {
  }
  result_df
 }
+# From the following picosat913 outputs
+# (in testdir/test1.result and testdir/test2.result):
+# 
+# c PicoSAT SAT Solver Version 913
+# c Copyright (c) 2006 - 2009 Armin Biere JKU Linz
+# c gcc -Wall -Wextra -m32 -static -DNDEBUG -O3 -fomit-frame-pointer -finline-limit=1000000
+# c
+# c parsing test1.cnf
+# c parsed header 'p cnf 8 240'
+# c initialized 8 variables
+# c found 240 non trivial clauses
+# c
+# *snip*
+# c
+# s SATISFIABLE
+# v -1 -2 -3 -4 -5 6 7 -8 0
+# c
+# c 0 iterations
+# c 0 restarts
+# c 0 failed literals
+# c 2 conflicts
+# c 8 decisions
+# c 0 fixed variables
+# c 13 learned literals
+# c 0.0% deleted literals
+# c 11 propagations
+# c 100.0% variables used
+# c 0.0 seconds in library
+# c 0.0 megaprops/second
+# c 1 simplifications
+# c 0 reductions
+# c 0.0 MB recycled
+# c 0.0 MB maximally allocated
+# c 0.0 seconds total run time
+#
+# and
+#
+# c PicoSAT SAT Solver Version 913
+# c Copyright (c) 2006 - 2009 Armin Biere JKU Linz
+# c gcc -Wall -Wextra -m32 -static -DNDEBUG -O3 -fomit-frame-pointer -finline-limit=1000000
+# c
+# c parsing test2.cnf
+# c parsed header 'p cnf 16 480'
+# c initialized 16 variables
+# c found 480 non trivial clauses
+# c
+# *snip*
+# c
+# s SATISFIABLE
+# v -1 -2 -3 -4 -5 6 7 -8 9 10 11 12 13 14 15 16 0
+# c
+# c 0 iterations
+# c 0 restarts
+# c 0 failed literals
+# c 4 conflicts
+# c 16 decisions
+# c 0 fixed variables
+# c 26 learned literals
+# c 0.0% deleted literals
+# c 22 propagations
+# c 100.0% variables used
+# c 0.0 seconds in library
+# c 0.0 megaprops/second
+# c 2 simplifications
+# c 0 reductions
+# c 0.0 MB recycled
+# c 0.0 MB maximally allocated
+# c 0.1 seconds total run time
+#
+# we get the following data.frame:
+#
+# R> oklib_load_all()
+# R> E = read_picosat_outputs(Sys.glob("testdir/*.result"))
+# R> E
+#    filename  n   c sat iter restarts failed_l conflicts decisions
+# 1 test1.cnf  8 240   1    0        0        0         2         8
+# 2 test2.cnf 16 480   1    0        0        0         4        16
+#   fixed_vars learned_l deleted_l prop simps mem time
+# 1          0        13         0   11     1   0  0.0
+# 2          0        26         0   22     2   0  0.1
+#
 
