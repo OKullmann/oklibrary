@@ -143,5 +143,31 @@ c sat_status=0 initial_maximal_clause_length=100 initial_number_of_variables=100
    <li> march_pl was stopped after 11 1/2 hours. </li>
   </ul>
 
+
+  \todo Searching pandiagonal latin squares
+  <ul>
+   <li> According to [Constructions for pandiagonal strongly symmetric
+   self-orthogonal diagonal Latin squares, Chen, Li, Zhang]. </li>
+   <li> There PSSSODLS(n) is defined, which we treat as the set of all
+   "pandiagonal strongly symmetric self-orthogonal diagonal Latin squares of
+   order n":
+    <ol>
+     <li> "Diagonal" means that diagonal and "back-diagonal" (from right-top
+     to left-bottom) contains all numbers. </li>
+     <li> "Self-orthogonal": see above. </li>
+     <li> The set of all self-orthogonal diagonal Latin squares of order n is
+     SODLS(n). </li>
+     <li> "Strongly symmetric" means we have l_{i,j} + l_{n-1-i,n-1-j} = n-1,
+     using indices 0,...,n-1 for the square l. </li>
+     <li> This additional condition yields SSSODLS(n). </li>
+     <li> "Pandiagonal" means if for each w in {0,1...,n-1}, using arithmetic
+     modulo n in the indices, we have sum_{i=0}^{n-1} l_{i,i+w} =
+     sum{i=0}^{n-1} l_{i,w-i} = n*(n-1)/2. </li>
+    </ol>
+   </li>
+   <li> Problem 4.2 in the paper asks whether PSSSODLS(n) is non-empty
+   for n=12,24 or n congruent 3 (mod 6) (where n >= 9). </li>
+  </ul>
+
 */
 
