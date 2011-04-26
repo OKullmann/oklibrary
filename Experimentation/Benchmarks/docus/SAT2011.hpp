@@ -152,10 +152,10 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_GreenTao.tar.bz2 SAT2011_Gree
 
   General information:
   <ul>
-   <li> Generation occurs using "output_ss_fcl_std" in 
+   <li> Generation occurs using "output_ss_fcl_std" in
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac.
    </li>
-   <li> The concatenation tool, <code>AppendDimacs-O3-DNDEBUG</code>, 
+   <li> The concatenation tool, <code>AppendDimacs-O3-DNDEBUG</code>,
    statically linked, is created by
    \verbatim
 OKlib/Satisfiability/Interfaces/InputOutput> oklib cleanall
@@ -241,10 +241,10 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES.tar.bz2 SAT2011_AES
 
   General information:
   <ul>
-   <li> Generation occurs using "output_ss_fcl_std" in 
+   <li> Generation occurs using "output_ss_fcl_std" in
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac.
    </li>
-   <li> The concatenation tool, <code>AppendDimacs-O3-DNDEBUG</code>, 
+   <li> The concatenation tool, <code>AppendDimacs-O3-DNDEBUG</code>,
    statically linked, is created by
    \verbatim
 OKlib/Satisfiability/Interfaces/InputOutput> oklib cleanall
@@ -307,7 +307,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES-Challenge_OKlibrary.tar.b
    \endverbatim
    </li>
    <li> Extracting this archive (by
-   <code>tar -xjf SAT2011_AES-Challenge_OKlibrary.tar.bz2</code>) yields 
+   <code>tar -xjf SAT2011_AES-Challenge_OKlibrary.tar.bz2</code>) yields
    directory <code>SAT2011_AES-Challenge</code>. </li>
   </ul>
 
@@ -317,7 +317,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES-Challenge_OKlibrary.tar.b
 
   General information:
   <ul>
-   <li> Generation of full CNFs for boolean functions for the AES Sbox and 
+   <li> Generation of full CNFs for boolean functions for the AES Sbox and
    field multiplications occurs using "output_ss_sbox_fullcnf_stdname" and
    "output_ssmult_fullcnf_stdname" in
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac
@@ -366,7 +366,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011-MaxSAT_AES.tar.bz2 SAT2011-Ma
 
   General information:
   <ul>
-   <li> Generation of full CNFs for boolean functions for the AES Sbox and 
+   <li> Generation of full CNFs for boolean functions for the AES Sbox and
    field multiplications occurs using "output_ss_sbox_fullcnf_stdname" and
    "output_ssmult_fullcnf_stdname" in
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac
