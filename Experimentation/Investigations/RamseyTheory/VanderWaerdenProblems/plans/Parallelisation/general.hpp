@@ -116,7 +116,7 @@ c splitting_directory                   SplitViaOKsolver_D12VanDerWaerden_249_30
 cnf_2011-04-23-114006/Instances
 c splitting_cases                       4096
 
-
+OKplatform> SplittingViaOKsolver -D16 VanDerWaerden_2-4-9_309.cnf
 OKplatform> more SplitViaOKsolver_D16VanDerWaerden_249_309cnf_2011-04-23-115118/Statistics
 > E=read.table("Data")
 > summary(E)
@@ -163,13 +163,87 @@ c file_name                             VanDerWaerden_2-4-9_309.cnf
 c splitting_directory                   SplitViaOKsolver_D16VanDerWaerden_249_309
 cnf_2011-04-23-115118/Instances
 c splitting_cases                       65536
-   we split it into 2^12=4096 resp. 2^16=65536 subproblems. </li>
+
+OKplatform> SplittingViaOKsolver -D20 VanDerWaerden_2-4-9_309.cnf
+Kplatform> more SplitViaOKsolver_D20VanDerWaerden_249_309cnf_2011-04-23-154844/Statistics
+> E=read.table("Data")
+> summary(E)
+       n
+ Min.   : 20.00
+ 1st Qu.: 26.00
+ Median : 29.00
+ Mean   : 29.68
+ 3rd Qu.: 33.00
+ Max.   :152.00
+> table(E)
+E
+   20    21    22    23    24    25    26    27    28    29    30    31    32
+ 5450 14228 32543 49590 69076 81356 88914 88741 86047 79358 71111 62380 53753
+   33    34    35    36    37    38    39    40    41    42    43    44    45
+45800 39111 32446 27142 22184 18379 15028 12098  9927  8171  6647  5320  4327
+   46    47    48    49    50    51    52    53    54    55    56    57    58
+ 3394  2862  2267  1765  1478  1103   944   766   578   500   403   291   299
+   59    60    61    62    63    64    65    66    67    68    69    70    71
+  254   173   165   141   119    89    81    56    44    44    37    37    20
+   72    73    74    75    76    77    78    79    80    81    82    84    85
+   17    15    14    11     9     9     7     2     2     2     1     4     1
+   87    88    89    91    94   118   125   127   131   132   139   140   143
+    1     1     1     2     1     1     1     1     1     1     1     2     1
+  144   145   146   148   149   150   152
+    4     1     1     2     1     1     1
+Kplatform> more SplitViaOKsolver_D20VanDerWaerden_249_309cnf_2011-04-23-154844/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         9
+c initial_number_of_variables           309
+c initial_number_of_clauses             21573
+c initial_number_of_literal_occurrences 115362
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     38099.4
+c number_of_nodes                       2096621
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                57332
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        20
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-4-9_309.cnf
+c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_249_309
+cnf_2011-04-23-154844/Instances
+c splitting_cases                       1047157
+   \endverbatim
+   we split it into 2^12=4096 resp. 2^16=65536 resp. 1047157 subproblems.
+   </li>
+   <li> So with D=20 we have less then 2^20=1048576 possible sub-problems.
+   </li>
    <li> For these subproblems one needs to find out the best solver, and
    what the average running time might be. </li>
    <li> One should try to fit the curve for node/conflict-numbers in dependency
    on the size of the partial assignment ("n" above). </li>
-   <li> And one needs to repeat this for different values of D (here D=16),
-   searching for the optimum. </li>
+   <li> And one needs to repeat this for different values of D, searching for
+   the optimum. </li>
+   <li> One should ease the access to subproblems with a given number of
+   eliminated variables.
+    <ol>
+     <li> Perhaps sorting the table in R, and then outputting it in some
+     appropriate form. </li>
+     <li> This should be linked to experimentation. </li>
+     <li> The problems with, say, more than 100 variables eliminated should be
+     very easy. </li>
+    </ol>
+   </li>
+   <li> One should investigate whether at least for splitting-depth 20 there
+   could be single nodes. </li>
   </ul>
   
   
@@ -177,6 +251,154 @@ c splitting_cases                       65536
   <ul>
    <li> See 
    Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/07.hpp. </li>
+   <li>
+   \verbatim
+OKplatform> SplittingViaOKsolver -D12 VanDerWaerden_2-5-7_260.cnf
+OKplatform> more SplitViaOKsolver_D12VanDerWaerden_257_260cnf_2011-04-25-142303/Statistics
+> E=read.table("Data")
+> summary(E)
+       n
+ Min.   :12.00
+ 1st Qu.:12.00
+ Median :13.00
+ Mean   :13.38
+ 3rd Qu.:14.00
+ Max.   :22.00
+> table(E)
+E
+  12   13   14   15   16   17   18   19   20   21   22
+1428 1118  740  452  203   84   54    8    6    2    1
+OKplatform> more SplitViaOKsolver_D12VanDerWaerden_257_260cnf_2011-04-25-142303/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         7
+c initial_number_of_variables           260
+c initial_number_of_clauses             13824
+c initial_number_of_literal_occurrences 80128
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     71.0
+c number_of_nodes                       8191
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        12
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-5-7_260.cnf
+c splitting_directory                   SplitViaOKsolver_D12VanDerWaerden_257_260
+cnf_2011-04-25-142303/Instances
+c splitting_cases                       4096
+
+OKplatform> SplittingViaOKsolver -D16 VanDerWaerden_2-5-7_260.cnf
+OKplatform> more SplitViaOKsolver_D16VanDerWaerden_257_260cnf_2011-04-25-143203/Statistics
+> E=read.table("Data")
+> summary(E)
+       n
+ Min.   :16.00
+ 1st Qu.:17.00
+ Median :18.00
+ Mean   :18.68
+ 3rd Qu.:20.00
+ Max.   :34.00
+> table(E)
+E
+   16    17    18    19    20    21    22    23    24    25    26    27    28
+ 9177 12561 13302 10882  7966  4878  3145  1769   931   486   223   121    53
+   29    30    32    33    34
+   25    13     2     1     1
+OKplatform> more SplitViaOKsolver_D16VanDerWaerden_257_260cnf_2011-04-25-143203/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         7
+c initial_number_of_variables           260
+c initial_number_of_clauses             13824
+c initial_number_of_literal_occurrences 80128
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     3805.9
+c number_of_nodes                       131071
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                134
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        16
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-5-7_260.cnf
+c splitting_directory                   SplitViaOKsolver_D16VanDerWaerden_257_260
+cnf_2011-04-25-143203/Instances
+c splitting_cases                       65536
+
+OKplatform> SplittingViaOKsolver -D20 VanDerWaerden_2-5-7_260.cnf
+OKplatform> more SplitViaOKsolver_D20VanDerWaerden_257_260cnf_2011-04-25-170946/Statistics
+> E=read.table("Data")
+> summary(E)
+       n
+ Min.   :20.00
+ 1st Qu.:22.00
+ Median :24.00
+ Mean   :24.65
+ 3rd Qu.:26.00
+ Max.   :70.00
+> table(E)
+E
+    20     21     22     23     24     25     26     27     28     29     30
+ 40841  88833 133680 153876 151467 131506 104803  79336  56249  38242  25576
+    31     32     33     34     35     36     37     38     39     40     41
+ 16393  10392   6558   4070   2492   1564    947    638    394    266    162
+    42     43     44     45     46     47     48     49     50     51     53
+   101     63     45     31     10     12      5      3      2      1      5
+    54     55     56     59     61     62     66     67     70
+     1      1      1      3      2      1      1      1      1
+OKplatform> more SplitViaOKsolver_D20VanDerWaerden_257_260cnf_2011-04-25-170946/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         7
+c initial_number_of_variables           260
+c initial_number_of_clauses             13824
+c initial_number_of_literal_occurrences 80128
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     42958.5
+c number_of_nodes                       2097151
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                5912
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        20
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-5-7_260.cnf
+c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_257_260
+cnf_2011-04-25-170946/Instances
+c splitting_cases                       1048575
+   \endverbatim
   </ul>
   
 */
