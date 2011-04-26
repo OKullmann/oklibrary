@@ -230,7 +230,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES.tar.bz2 SAT2011_AES
    \verbatim
 2a1f18ddf5a9faf4fcc445704034c4b4  SAT2011_AES.tar.bz2
    \endverbatim
-   </li>
+   and 4,884,115 bytes. </li>
    <li> Extracting this archive (by
    <code>tar -xjf SAT2011_AES.tar.bz2</code>) yields directory
    <code>SAT2011_AES</code>. </li>
@@ -272,8 +272,8 @@ OKlib/Experimentation/Benchmarks/SAT2011_AES> AppendDimacs-O3-DNDEBUG aes_128_10
 OKlib/Experimentation/Benchmarks/SAT2011_AES> rm aes_128_10.cnf aes_ass_challenge.cnf
    \endverbatim
    </li>
-   <li> We also remove by hand the generated comments at the beginning of the file
-   and replace the following:
+   <li> We also remove by hand the generated comments at the beginning of the
+   file and replace with the following:
    \verbatim
 c The AES Challenge
 c
@@ -305,7 +305,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES-Challenge_OKlibrary.tar.b
    \verbatim
 45b5b7e532cea6bb7861f2a5d0d476aa  SAT2011_AES-Challenge_OKlibrary.tar.bz2
    \endverbatim
-   </li>
+   and 492,465 bytes. </li>
    <li> Extracting this archive (by
    <code>tar -xjf SAT2011_AES-Challenge_OKlibrary.tar.bz2</code>) yields
    directory <code>SAT2011_AES-Challenge</code>. </li>
@@ -317,13 +317,16 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_AES-Challenge_OKlibrary.tar.b
 
   General information:
   <ul>
-   <li> Generation of full CNFs for boolean functions for the AES Sbox and
-   field multiplications occurs using "output_ss_sbox_fullcnf_stdname" and
-   "output_ssmult_fullcnf_stdname" in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac
-   and
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac
-   respectively. </li>
+   <li> Generation of full CNFs for boolean functions for the
+    <ul>
+     <li> AES Sbox using "output_ss_sbox_fullcnf_stdname" in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac.
+     </li>
+     <li> Field multiplications using "output_ssmult_fullcnf_stdname" in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac.
+     </li>
+    </ul>
+   </li>
    <li> The generated instances are created by:
    \verbatim
 maxima> output_ss_sbox_fullcnf_stdname(2,4,ss_polynomial_2_4);
@@ -354,7 +357,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011-MaxSAT_AES.tar.bz2 SAT2011-Ma
    \verbatim
 184741b55a8359796f34593db4f32537  SAT2011-MaxSAT_AES.tar.bz2
    \endverbatim
-   </li>
+   and 48,194,818 bytes. </li>
    <li> Extracting this archive (by
    <code>tar -xjf SAT2011-MaxSAT_AES.tar.bz2</code>) yields directory
    <code>SAT2011-MaxSAT_AES</code>. </li>
@@ -366,13 +369,16 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011-MaxSAT_AES.tar.bz2 SAT2011-Ma
 
   General information:
   <ul>
-   <li> Generation of full CNFs for boolean functions for the AES Sbox and
-   field multiplications occurs using "output_ss_sbox_fullcnf_stdname" and
-   "output_ssmult_fullcnf_stdname" in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac
-   and
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac
-   respectively. </li>
+   <li> Generation of full CNFs for boolean functions for the
+    <ul>
+     <li> AES Sbox using "output_ss_sbox_fullcnf_stdname" in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac.
+     </li>
+     <li> Field multiplications using "output_ssmult_fullcnf_stdname" in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac.
+     </li>
+    </ul>
+   </li>
    <li> The generated instances are created by:
    \verbatim
 maxima> output_ss_sbox_fullcnf_stdname(2,4,ss_polynomial_2_4);
@@ -403,7 +409,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011-PB_AES.tar.bz2 SAT2011-PB_AES
    \verbatim
 3dcddd0dfb9400fbdaa35f6dcf2e39e5  SAT2011-PB_AES.tar.bz2
    \endverbatim
-   </li>
+   and 56,365,764 bytes. </li>
    <li> Extracting this archive (by
    <code>tar -xjf SAT2011-PB_AES.tar.bz2</code>) yields directory
    <code>SAT2011-PB_AES</code>. </li>
