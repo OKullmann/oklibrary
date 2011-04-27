@@ -21,6 +21,25 @@ Licence text: See OKplatform/OKsystem/OKlib/System/LegalIssues/GPLv3.txt
 * familiar with the innards of it.     
 ****************************************
 
+*****************************************
+* Many things will be mentioned which
+* you will not understand --- that's
+* perfectly natural, given 1 GB of
+* compressed source-code. Just relax.
+* The Linux philosophy is not to hide
+* anything. You then need to decide what
+* to ignore (most things) and what to
+* consider in more depth. When it says
+* above "to become familiar with the
+* innards of it", then this just mean the
+* basic outline (the directory structure,
+* the oklib-tool). And it does not mean
+* the external sources, the packages
+* (possibly improved) from other sources
+* we provide (in the right version number
+* etc.) --- this is far too much.
+*****************************************
+
 
 Prerequisites
 -------------
