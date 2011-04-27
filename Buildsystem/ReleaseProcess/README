@@ -108,7 +108,7 @@ Finally, you need basic knowledge on the Linux command line:
 
 System requirements:
 
->= 4 GB main memory.
+>= 4 GB main memory
 (though with 1 GB you will still be able to run nearly everything).
 
 Disc space:
@@ -193,12 +193,29 @@ For this, doxygen is needed. See how to install "external sources"
 (such as doxygen) below.
 
 
+5) Build external sources --- see the following section.
+
 ----------------------------------------------
 
 Building external sources
 -------------------------
 
 ----------------------------------------------
+
+In a nutshell:
+ - run "oklib all" in OKplatform/ExternalSources
+ - it will take, say, 5-20 hours to build the "external sources"
+   (compilers, computer-algebra, SAT solvers, etc.)
+ - so just let it run, and ignore the output it prints to the terminal window
+ - if it stops, either we succeeded, and that's it
+ - or in the last few lines it will rather clearly say "ERROR"
+ - the most common problem is a missing package --- just install that,
+   typically using your package manager
+ - after having installed the missing package, easiest is to say
+   "oklib cleanall" (still in OKplatform/ExternalSources), which will re-start
+   the whole process (from scratch).
+
+Now in more depth:
 
 In general, for installing an external source "extsrc", go to
 directory OKplatform/ExternalSources, and call "oklib extsrc" there.
