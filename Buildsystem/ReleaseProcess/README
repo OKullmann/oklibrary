@@ -98,6 +98,12 @@ build-problems (go for a "fat distribution"; especially Ubuntu is
 problematic, since not much is installed by default).
 
 
+Finally, you need basic knowledge on the Linux command line:
+ - directories, files, links
+ - processes in general
+ - some basic make and bash knowledge
+
+
 ----------------------------------------------
 
 System requirements:
