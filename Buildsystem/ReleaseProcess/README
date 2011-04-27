@@ -47,6 +47,10 @@ The following software needs to be installed:
   (check: run "ranlib --version")
  - perl
   (check: run "perl --version")
+ - patch
+  (check: run "patch --version")
+ - tcsh
+  (check: run "tcsh --version")
 
  - readline (development library).
  - glibc (development library).
