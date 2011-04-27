@@ -195,6 +195,12 @@ For this, doxygen is needed. See how to install "external sources"
 
 5) Build external sources --- see the following section.
 
+6) Compile and test the OKlibrary's own programs, and update all
+documentation by running "oklib all check new_check app_tests html"
+in directory OKplatform/OKsystem; see below the penultimate section.
+
+7) Study the documentation; see the final section below.
+
 ----------------------------------------------
 
 Building external sources
@@ -269,6 +275,13 @@ an appropriate earlier version).
 happens if OKplatform/bin is on your PATH), then you can just delete that
 link on OKplatform/bin (together with the other git-prefixed links).)
 
+
+----------------------------------------------
+
+Building the OKlibrary
+-------------------------
+
+----------------------------------------------
 
 After having installed these tools, via
 
