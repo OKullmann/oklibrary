@@ -87,18 +87,16 @@ And for installing and using Git we need the following:
  - curl, and expat development library (for pulling/pushing from/to 
    a git repository via the http protocol).
 
+And Latex should include the srcltx-package.
+
 Any recent Linux distribution supplies these prerequisites.
 (asciidoc can be installed through the OKlibrary by calling "oklib asciidoc"
 in OKplatform/ExternalSources, provided you have the root-password.)
 
-There are other Unix/Linux tools, which some "lean distributions"
-do not include (we propose you better go with a "fat distribution"),
-e.g.
+In general we recommend to pre-install as much as possible to minimise
+build-problems (go for a "fat distribution"; especially Ubuntu is
+problematic, since not much is installed by default).
 
- - sudo
- - dos2unix
-
-And Latex should include the srcltx-package.
 
 ----------------------------------------------
 
