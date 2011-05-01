@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.11.2006 (Swansea)
-/* Copyright 2006 - 2007, 2009 Oliver Kullmann
+/* Copyright 2006 - 2007, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Connections
   <ul>
    <li> See ComputerAlgebra/Satisfiability/Lisp/plans/PartialAssignments.hpp
-   for the C++ level. </li>
+   for the Maxima level. </li>
    <li> See OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp
    for older concepts of partial assignments. </li>
   </ul>
@@ -37,7 +37,7 @@ License, or any later version. */
    unique variable and a unique truth value (thus such partial assignments are
    never inconsistent). </li>
    <li> There are several possibilities for evaluating partial assignments;
-   for (single) variable-based onces one can compute for example for a
+   for (single) variable-based pa's one can compute for example for a
    variable the set of allowed values. </li>
    <li> Perhaps the most general form of partial assignment should be called
    "partial specification". </li>
