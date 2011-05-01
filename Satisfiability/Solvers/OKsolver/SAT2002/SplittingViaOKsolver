@@ -23,7 +23,7 @@
 # - Data : for 1 <= i <= N the number of variables in the partial
 #          assignment for the i-th sub-instance
 # - Statistics : basic evaluation of Data
-# - Md5sum : the sum (in hex) of the md5sums of the files in Instances.
+# - Md5sum : a combined md5sum-hash-value of all files in Instances
 # And in the directory Instances we have files with names 1, ..., N,
 # each containing a partial assignment in DIMACS format (one line, starting
 # with v, followed by literals set to true, concluded by "0") yielding the
@@ -33,7 +33,7 @@ set -o errexit
 set -o nounset
 
 script_name="SplittingViaOKsolver"
-version_number=0.0.9
+version_number=0.0.10
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -64,12 +64,11 @@ cd ${directory}
 N=$(awk '/splitting_cases/ {print $3}' Result)
 echo $N > N
 
-sum_md5=0
+current_md5sum=0
 for F in Instances/*; do
-  new_md5=$(md5sum $F | awk '{print $1}' | tr [:lower:] [:upper:])
-  sum_md5=$(echo "obase=16;ibase=16;${sum_md5}+${new_md5}" | bc)
+  current_md5sum=$(echo ${current_md5sum} | cat ${F} - | md5sum | awk '{print $1}')
 done
-echo ${sum_md5} > Md5sum
+echo ${current_md5sum} > Md5sum
 
 echo " n" > Data
 for (( i=1; i<=N; ++i )); do
