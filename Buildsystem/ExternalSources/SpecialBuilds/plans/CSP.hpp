@@ -10,9 +10,6 @@ License, or any later version. */
   \brief Plans regarding installation of constraint satisfaction systems
 
 
-  \todo Enter these todos into the milestones.
-
-
   \todo Overview
   <ul>
    <li> http://en.wikipedia.org/wiki/Constraint_programming gives an
@@ -102,6 +99,19 @@ minion-0.12/bin> CC="$(gcc_call_okl)" CXX="$(gcc_call_okl)" cmake -DBOOST_ROOT:P
    </li>
    <li> We should update CMake. </li>
   </ul>
+
+
+  \todo Mistral
+  <ul>
+   <li> Seems to be a library. </li>
+   <li> Open-source? </li>
+  </ul>
+
+
+  \todo Choco
+  <ul>
+   <li> An open-source Java library. </li>
+  </ul?
 
 
   \todo Mozart

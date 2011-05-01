@@ -11,7 +11,8 @@ License, or any later version. */
   \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.3.4 (17.3.2011)
 
 
-  \par Version 0.2.4 (updating especially Gcc and the existing SAT solvers)
+  \par Version 0.2.4 (updating especially Gcc and the existing SAT solvers,
+  and installing CSP-software)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
@@ -121,6 +122,18 @@ License, or any later version. */
     - BoolVar/PB
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp
+   the following topics are handled:
+    - Overview
+    - Sugar
+    - Gecode
+    - Minion
+    - Mistral
+    - Choco
+    - Mozart
+    - TAILOR
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
    topics are handled:
     - Update to CLisp version 2.49 : DONE
@@ -185,6 +198,13 @@ License, or any later version. */
    topics are handled:
     - Documentation for CryptoMiniSat
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp
+   the following topics are handled:
+    - Eclipse
+    - N Queens
+    - Sudoku
+    - Local search
 
   \par Version 0.2.6 (completion of general services, and installing SAT)
 
