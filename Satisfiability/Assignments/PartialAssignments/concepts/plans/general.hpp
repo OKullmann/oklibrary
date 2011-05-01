@@ -36,9 +36,19 @@ License, or any later version. */
    <li> So for standard boolean partial assignments every literal has a
    unique variable and a unique truth value (thus such partial assignments are
    never inconsistent). </li>
-   <li> There are several possibilities for evaluating partial assignments;
-   for (single) variable-based pa's one can compute for example for a
-   variable the set of allowed values. </li>
+   <li> There are several possibilities for evaluating partial assignments:
+    <ol>
+     <li> For (single) variable-based pa's one can compute for example for a
+     variable the set of allowed values. </li>
+     <li> However the most fundamental form of evaluation should yield a
+     truth-value, when evaluating a literal. </li>
+     <li> Most basic results are "true, false, unknown". </li>
+     <li> The syntax should be "phi(x)", for a literal x. </li>
+     <li> As for total assignments; see
+     Satisfiability/Assignments/TotalAssignments/AssignmentsWithBuffer.hpp.
+     </li>
+    </ol>
+   </li>
    <li> Perhaps the most general form of partial assignment should be called
    "partial specification". </li>
    <li> And if for a variable in the domain of the partial assignment more
@@ -47,8 +57,19 @@ License, or any later version. */
    <li> Here the "domain" is the set of variables underlying the literals
    constituting the partial assignment. </li>
    <li> A partial specification involves only one type of literal; shall we
-   call tuples of partial speciciations (over different types of literals)
-   "alliances of partial speciciations"? </li>
+   call tuples of partial specifications (over different types of literals)
+   "alliances of partial specifications"? </li>
+   <li> Minimal concept of a type P of "partial specifications":
+    <ol>
+     <li> Literal type P::literal_type. </li>
+     <li> Default construction (empty partial assignment). </li>
+     <li> Construction P(begin,end) with a sequence of literals. </li>
+     <li> Or should this be a range? </li>
+     <li> P::size_type and P.size() (for the number of literals). </li>
+     <li> Evaluation P(literal_type x), yielding Values::Assignment_status.
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
