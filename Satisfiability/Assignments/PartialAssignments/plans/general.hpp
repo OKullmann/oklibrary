@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.2.2006 (Swansea)
-/* Copyright 2006 - 2007, 2009 Oliver Kullmann
+/* Copyright 2006 - 2007, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -32,12 +32,14 @@ License, or any later version. */
 
   \todo Evaluation
   <ul>
-   <li> It seems sensible that evaluation of literals is the direct
-   responsibility of the partial assignment class, while for the evaluation
-   of active clause-sets we have an algorithm
+   <li> Evaluation of literals is the direct responsibility of the partial
+   assignment class (yielding val0, val1 or unassigned). </li>
+   <li> While for the evaluation of active clause-sets we have an algorithm
    \code
 template <class PASS, class CLS>
-boost::logic::tribool evaluate(PASS phi, CLS F, OKlib::PartialAssignments::evaluation_tag<CLS>::type, const OKlib::RootEvaluationTag& tag);
+Satisfiability::Values::Assignment_status evaluate
+ (PASS phi, CLS F, OKlib::PartialAssignments::evaluation_tag<CLS>::type,
+  const OKlib::RootEvaluationTag& tag);
    \endcode
    with
    <code> struct RootEvaluationTag {}; </code>
@@ -51,7 +53,8 @@ boost::logic::tribool evaluate(PASS phi, CLS F, OKlib::PartialAssignments::evalu
 
   \todo Design study for evaluation
   <ul>
-   <li>
+   <li> In the following likely boost::tribool should be replaced by
+   Satisfiability::Values::Assignment_status:
    \code
 template <class PartialAssignment, class Formula>
 class Evaluate : std::binary_function<const PartialAssignment&, const Formula&, boost::tribool> {
