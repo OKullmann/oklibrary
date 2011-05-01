@@ -33,12 +33,21 @@ namespace PartAssignments {
     struct inconsistent_extension {};
   }
 
-  struct Pass {
-    Pass () {}
+  class Pass {
+    typedef std::map<Var, bool> map_type;
+    map_type pa;
+  public :
+    typedef map_type::size_type size_type;
+    typedef Var var_type;
+    typedef Lit literal_type;
+    typedef std::set<Var> varset_type;
+    typedef Cl clause_type;
+    typedef Cls clauseset_type;
+    Pass () {};
     Pass (Lit);
-    Pass (const Cl&)
-    bool is_empty() const;
-    set_length n() const;
+    Pass (const Cl&);
+    bool empty() const;
+    size_type size() const;
     std::set<Var> var() const;
     bool in_domain(Var) const;
     bool val(Var) const;
@@ -47,26 +56,25 @@ namespace PartAssignments {
     Pass& restrict(const std::set<Var>&);
     Cl clause() const;
     Cls operator* (const Cls&) const;
-    std::map<Var, bool> pa;
   };
 
   inline Pass::Pass(const Lit x) {
-    pa = std::map<Var, bool>();
+    pa = Pass::map_type();
     pa[x.var()] = x.val();
   }
   inline Pass::Pass (const Cl& C) {
-    pa = std::map<Var, bool>();
+    pa = Pass::map_type();
     for (std::set<Lit>::const_iterator i = C.ls.begin(); i != C.ls.end(); ++i)
       pa[i -> var()] = i -> val();
   }
-  inline bool Pass::is_empty() const { return pa.empty(); }
+  inline bool Pass::empty() const { return pa.empty(); }
   inline std::set<Var> Pass::var() const {
     std::set<Var> V;
     for (std::map<Var,bool>::const_iterator i = pa.begin(); i != pa.end(); ++i)
       V.insert(i -> first);
     return V;
   }
-  inline set_length Pass::n() const { return pa.size(); }
+  inline Pass::size_type Pass::size() const { return pa.size(); }
   inline bool Pass::in_domain(const Var v) const {
     return pa.find(v) != pa.end();
   }
@@ -86,15 +94,14 @@ namespace PartAssignments {
   }
   inline Cl Pass::clause() const {
     Cl C;
-    for (std::map<Var,bool>::const_iterator i = pa.begin(); i != pa.end(); i++)
+    for (std::map<Var,bool>::const_iterator i = pa.begin(); i != pa.end(); ++i)
       C.ls.insert(Lit(i -> first, i -> second));
     return C;
   }
   inline Cls Pass::operator *(const Cls& F) const {
     Cls G;
-    for (std::set<Cl>::iterator i = F.cls.begin(); i != F.cls.end(); i++)
-      if ((*i & this -> clause().comp()).is_empty())
-	G.add(*i - this -> clause());
+    for (std::set<Cl>::iterator i = F.clauseset().begin(); i != F.clauseset().end(); ++i)
+      if ((*i & this->clause().comp()).empty()) G.add(*i - this->clause());
     return G;
   }
 
