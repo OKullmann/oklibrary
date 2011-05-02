@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.5.2005 (Swansea)
-/* Copyright 2005 - 2007 Oliver Kullmann
+/* Copyright 2005 - 2007, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,16 +27,23 @@ namespace OKlib {
       \class Variables
       \brief Basic variables concept
 
-      Variables play the role of "tokens", and they are assumed to be lightweight objects.
-      Variables are fully constructible and a(n) (implementation-defined) linear order < is
-      defined on them. Variables can be "singular" and "non-singular", which can be found
-      out by an implicit conversion into bool (true for non-singular). All singular variables
-      are equal.
+      <ul>
+       <li> Variables play the role of "tokens", and they are assumed to be
+       lightweight objects. </li>
+       <li> Variables are fully constructible and a(n)
+       (implementation-defined) linear order < is defined on them. </li>
+       <li> Variables can be "singular" and "non-singular", which can be found
+       out by an implicit conversion into bool (true for non-singular). </li>
+       <li> All singular variables are equal. </li>
+       <li> Since built-in types can model variables, for variables in general
+       the initialisation behaviour of built-in types must be assumed. </li>
+      </ul>
 
-      Since built-in types can model variables, for variables in general the initialisation
-      behaviour of built-in types must be assumed.
-
-      \todo Shouldn't the conversion operator of Variables_Archetype return convertible_to_bool ?
+      \todo Archetype
+      <ul>
+       <li> Shouldn't the conversion operator of Variables_Archetype return
+       convertible_to_bool ? </li>
+      </ul>
     */
 
     template <typename Var>
