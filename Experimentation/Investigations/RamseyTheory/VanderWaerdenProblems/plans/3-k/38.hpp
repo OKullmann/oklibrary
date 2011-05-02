@@ -490,7 +490,7 @@ interrupted; the FlipsPerSecond are likely corrupted.
   </ul>
 
 
-  \todo Palindromic version:
+  \todo vdw_2^pd(3,38) >= (1336,1369)
   <ul>
    <li> pdvanderwaerden([3,38])[2] =(conj) 1369 =(conj)
    vanderwaerden([3,38]) - ???. </li>
