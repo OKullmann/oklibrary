@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.5.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,7 +15,8 @@ License, or any later version. */
    <li> DONE (we use Sourceforge instead)
    Set up the mailman system on cs-wsok.
     <ol>
-     <li> See Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp. </li>
+     <li> See Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp.
+     </li>
     </ol>
    </li>
    <li> The following entries need update (they still refer to the local
@@ -52,23 +53,27 @@ License, or any later version. */
      </li>
      <li> General notifications (announcements@ok-sat-library.org)
       <ul>
-       <li> Only special notifications, when new versions are reached etc. </li>
+       <li> Only special notifications, when new versions are reached etc.
+       </li>
       </ul>
      </li>
      <li> Git-notifications developers
       <ul>
-       <li> Exactly all the Git-e-mail notifications for the central repository </li>
+       <li> Exactly all the Git-e-mail notifications for the central
+       repository </li>
       </ul>
      </li>
      <li> Git-notifications users
       <ul>
-       <li> Exactly all the Git-e-mail notifications for the user-pull-clone. </li>
+       <li> Exactly all the Git-e-mail notifications for the user-pull-clone.
+       </li>
        <li> This allerts users about new updates. </li>
       </ul>
      </li>
      <li> Git-notifications user-submissions
       <ul>
-       <li> Exactly all the Git-e-mail notifications for the user-push-clones. </li>
+       <li> Exactly all the Git-e-mail notifications for the user-push-clones.
+       </li>
        <li> This serves also as a certificate of submission. </li>
       </ul>
      </li>
@@ -97,8 +102,8 @@ License, or any later version. */
    </li>
    <li> Which part of the mailing-list-system is under version control?
     <ol>
-     <li> The mailing-lists-archives are not under version control, but they are backed-up (by the
-     departmental back-up on cs-svr1). </li>
+     <li> The mailing-lists-archives are not under version control, but they
+     are backed-up (by the departmental back-up on cs-svr1). </li>
      <li> The web-pages and related configuration data is part of the OKlibrary. </li>
      <li> Also the list of developers is part of the OKlibrary. </li>
      <li> What about the list of users? </li>
@@ -114,16 +119,16 @@ License, or any later version. */
    (registration etc.) </li>
    <li> How to access the history. </li>
    <li> About the identity of developers. </li>
-   <li> Subject-lines in e-mails: "precise and short specifications", no nonsense
-   like "newbie needs help". </li>
+   <li> Subject-lines in e-mails: "precise and short specifications", no
+   nonsense like "newbie needs help". </li>
    <li> "How to reply". </li>
   </ul>
 
 
   \todo User mailing list
   <ul>
-  <li> Invite the participants (roughly in the following order --- slowly going on):
-  <ol>
+   <li> Invite the participants (roughly in the following order --- slowly
+   going on). </li>
    <li> Ines Lynce and Joao Marques-Silva: General (?) </li>
    <li> Further collaborators of Ines Lynce and Joao Marques-Silva </li>
    <li> John Franco and Sean Weaver: General (?) </li>
@@ -165,26 +170,24 @@ License, or any later version. */
    <li> Alasdair Urquhart and group (theoretical aspects) </li>
    <li> Tonian Pitassi and group </li>
    <li> Moshe Vardi </li>
-  </ol>
-  </li>
-  <li> Contact e-mail:
-   <ol>
-    <li> Yet we do not have much resources, but with their help we want to ask for
-    further funding. </li>
-    <li> Yet please do not publish the web-address at other places (public release
-    in 6 months). </li>
+   <li> Contact e-mail:
+    <ol>
+    <li> Yet we do not have much resources, but with their help we want to ask
+    for further funding. </li>
+    <li> Yet please do not publish the web-address at other places (public
+    release in 6 months). </li>
     <li> Main request: State your wishes. </li>
     <li> Please stay for some time on the user-list (you can ask for daily
     summaries); if too much "noise", then there is the notification list. </li>
-    <li> If you wish to submit, then you need to become member of the developpers
-    list. </li>
-    <li> It is a "proto release" --- larger changes possible (for example on request
-    of these first users(!)). </li>
-   </ol>
-   We need an official text, and OK contacts each of the above personally,
-   adding this text.
-  </li>
-  <li> Only by invitation (yet). </li>
+    <li> If you wish to submit, then you need to become member of the
+    developpers list. </li>
+    <li> It is a "proto release" --- larger changes possible (for example on
+    request of these first users(!)). </li>
+    </ol>
+    We need an official text, and OK contacts each of the above personally,
+    adding this text.
+   </li>
+   <li> Only by invitation (yet). </li>
   </ul>
 
 */
