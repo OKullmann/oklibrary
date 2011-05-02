@@ -30,10 +30,14 @@ namespace Clausesets {
   using namespace Literals;
 
   class Cls {
-    std::set<Clauses::Cl> cls;
+    typedef Clauses::Cl clause_type;
+    typedef std::set<clause_type> clauseset_t;
+    clauseset_t cls;
   public :
+    typedef clauseset_t::const_iterator iterator;
+    typedef iterator const_iterator;
     Cls () {}
-    Cls (const std::set<Clauses::Cl>&);
+    Cls (const clauseset_t&);
     Cls& read(Var_Set&); // input from standard input in 
     // "generalised DIMACS format";
     // arbitrary (non-empty) strings are allowed as names except 
@@ -48,13 +52,13 @@ namespace Clausesets {
     unsigned long int l() const;
     Clauses::size_type pmin() const;
     Clauses::size_type pmax() const;
-    Cls& add(const Clauses::Cl&);
-    Cls& remove(const Clauses::Cl&);
+    Cls& add(const clause_type&);
+    Cls& remove(const clause_type&);
     bool operator ==(const Cls&) const;
     const Cls operator +(const Cls&) const;
     const Cls operator -(const Cls&) const;
     const Cls operator &(const Cls&) const;
-    const std::set<Clauses::Cl>& clauseset() const { return cls; }
+    const clauseset_t& clauseset() const { return cls; }
   };
 
   inline Cls::Cls(const std::set<Clauses::Cl>& F) { cls = F; }
