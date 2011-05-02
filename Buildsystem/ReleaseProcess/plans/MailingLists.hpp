@@ -10,9 +10,10 @@ License, or any later version. */
   \brief Plans for the mailing lists
 
 
-  \todo Mailing lists:
+  \todo DONE
+  Mailing lists
   <ul>
-   <li> DONE (we use Sourceforge instead)
+   <li> DONE (we use http://www.freelists.org instead)
    Set up the mailman system on cs-wsok.
     <ol>
      <li> See Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp.
@@ -21,7 +22,8 @@ License, or any later version. */
    </li>
    <li> The following entries need update (they still refer to the local
    installation of Mailman). </li>
-   <li> For the following public e-mail-addresses we need corresponding
+   <li> DONE (we use a public service, so no local e-mail etc. needed)
+   For the following public e-mail-addresses we need corresponding
    local e-mail-addresses.
     <ol>
      <li> The question is, whether one is sufficient (would be easier)? </li>
@@ -30,7 +32,8 @@ License, or any later version. */
      mailing lists. </li>
     </ol>
    </li>
-   <li> Lists:
+   <li> DONE (for now we just have a users-list)
+   Lists:
     <ol>
      <li> Developers (developers@ok-sat-library.org)
       <ul>
@@ -80,7 +83,8 @@ License, or any later version. */
     </ol>
     Every e-mail is sent to exactly one list.
    </li>
-   <li> Adminstration
+   <li> DONE (now using a public service)
+   Adminstration
     <ol>
      <li> The automatic "Mailman" mailing list is not listed, and subscription
      needs authorisation. </li>
@@ -93,18 +97,22 @@ License, or any later version. */
      this password. </li>
     </ol>
    </li>
-   <li> General appearance
+   <li> DONE (not using mailman etc.)
+   General appearance
     <ol>
      <li> How can we modify the entry page
      http://cs-oksvr.swan.ac.uk/mailman/listinfo/ ? We should mention there
      the OKlibrary. </li>
     </ol>
    </li>
-   <li> Which part of the mailing-list-system is under version control?
+   <li> DONE (we must hope that the public service stays alive, and everything
+   will also be stored by OK)
+   Which part of the mailing-list-system is under version control?
     <ol>
      <li> The mailing-lists-archives are not under version control, but they
      are backed-up (by the departmental back-up on cs-svr1). </li>
-     <li> The web-pages and related configuration data is part of the OKlibrary. </li>
+     <li> The web-pages and related configuration data is part of the
+     OKlibrary. </li>
      <li> Also the list of developers is part of the OKlibrary. </li>
      <li> What about the list of users? </li>
     </ol>
@@ -112,8 +120,10 @@ License, or any later version. */
   </ul>
 
 
-  \todo Instructions:
+  \todo Instructions
   <ul>
+   <li> The mail-address is oklibrary-users@freelists.org (at
+   http://www.freelists.org/list/oklibrary-users, with OK as list-owner). </li>
    <li> A dedicated web-page is needed on howto use the mailing-lists. </li>
    <li> The meaning of the different mailing lists, and how to use them
    (registration etc.) </li>
@@ -127,6 +137,8 @@ License, or any later version. */
 
   \todo User mailing list
   <ul>
+   <li> The following (old) invitation-plans need update, and are only to be
+   considered once we actually have the resources for user-requests. </li>
    <li> Invite the participants (roughly in the following order --- slowly
    going on). </li>
    <li> Ines Lynce and Joao Marques-Silva: General (?) </li>
