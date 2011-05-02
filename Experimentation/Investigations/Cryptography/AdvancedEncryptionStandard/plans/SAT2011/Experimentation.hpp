@@ -291,11 +291,11 @@ License, or any later version. */
     <ul>
      <li> Random permutations (see
      "First considerations of random permutation" in
-     Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp).
+     Experimentation/Investigations/BooleanFunctions/plans/Permutations/general.hpp).
      </li>
      <li> Random linear maps (see
      "Affine bijections over ZZ_2" in
-     Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp).
+     Experimentation/Investigations/BooleanFunctions/plans/Permutations/Linear.hpp).
      </li>
      <li> Random boolean functions (see
      Experimentation/Investigations/BooleanFunctions/plans/general.hpp). </li>
