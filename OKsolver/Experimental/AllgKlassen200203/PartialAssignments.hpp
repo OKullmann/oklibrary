@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.7.2003 (Swansea)
-/* Copyright 2003 - 2007, 2008 Oliver Kullmann
+/* Copyright 2003 - 2007, 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -50,19 +50,11 @@ namespace PartialAssignments {
 
   public :
 
-    PassViaMap() {}
-    PassViaMap(const PassViaMap& phi) : pass(phi.pass) {}
-    PassViaMap& operator =(const PassViaMap& phi) {
-      pass = phi.pass;
-    }
-
     val_iterator operator[] (Var v) const {
       assert(not v.null());
       const const_map_iterator i = pass.find(v);
-      if (i == pass.end())
-	return Dom::end();
-      else
-	return i -> second;
+      if (i == pass.end()) return Dom::end();
+      else return i -> second;
     }
     val_iterator& operator[] (Var v) {
       assert(not v.null());
@@ -76,7 +68,7 @@ namespace PartialAssignments {
   /*!
     \class PassAsMaps
     \brief PassAsMaps<Literals> yields partial assignments, implemented via std::maps.
-    This class template was deprecated, and replaced by PartialAssignments::PassViaMap.
+    \deprecated Replaced by PartialAssignments::PassViaMap.
   */
 
   template <class Literals>
