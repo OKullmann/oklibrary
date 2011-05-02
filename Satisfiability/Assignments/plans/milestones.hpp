@@ -8,19 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Assignments/plans/milestones.hpp
 
-  \module_version Satisfiability/Assignments 0.0.5.1 (12.12.2009)
-
-
-  \par Version 0.0.6
-
-  \par Assignments/PartialAssignments version 0.0.6 : DONE
-  (see Assignments/PartialAssignments/plans/milestones.hpp)
-
-  \par
-   In Satisfiability/Assignments/plans/general.hpp the following
-   topics are handled:
-    - How to handle "unassigned" ? : DONE
-    - Move the OKlib/Concepts/plans/Assignments.hpp here : DONE
+  \module_version Satisfiability/Assignments 0.0.6 (2.5.2011)
 
 
   \par Version 0.0.7
@@ -49,5 +37,6 @@ License, or any later version. */
 
    - 0.0.4 : 24.9.2007; initial version number (several plans, and some implementations).
    - 0.0.5 : 29.9.2007; update of module structure.
+   - 0.0.6 : 2.5.2011; various updates, established handling of status-values, provided first concepts and implementations of total-assignment-classes equipped with buffers, established concepts and a first implementation of partial assignments.
 
 */

@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file OKlib/Satisfiability/plans/milestones.hpp
 
-  \module_version OKlib/Satisfiability 0.1.1.1 (8.1.2011)
+  \module_version OKlib/Satisfiability 0.1.1.2 (2.5.2011)
 
 
   \par Version 0.1.2
@@ -18,9 +18,6 @@ License, or any later version. */
 
   \par Satisfiability/ProblemInstances 0.0.4
   (see Satisfiability/ProblemInstances/plans/milestones.hpp)
-
-  \par Satisfiability/Assignments version 0.0.6 (OK)
-  (see Satisfiability/Assignments/plans/milestones.hpp)
 
   \par Satisfiability/Transformers version 0.0.6
   (see Satisfiability/Transformers/plans/milestones.hpp)
@@ -52,6 +49,9 @@ License, or any later version. */
   \par Satisfiability/Enumeration 0.0.4
   (see Satisfiability/Enumeration/plans/milestones.hpp)
 
+  \par Satisfiability/Assignments version 0.0.6 (OK) : DONE
+  (see Satisfiability/Assignments/plans/milestones.hpp)
+
   \par Satisfiability/FiniteFunctions 0.1 : DONE
   (see Satisfiability/FiniteFunctions/plans/milestones.hpp)
 
@@ -81,6 +81,9 @@ License, or any later version. */
 
   \par Satisfiability/Reductions version 0.0.6
   (see Satisfiability/Reductions/plans/milestones.hpp)
+
+  \par Satisfiability/Assignments version 0.0.7
+  (see Satisfiability/Assignments/plans/milestones.hpp)
 
 
   \par Version 0.1.4
