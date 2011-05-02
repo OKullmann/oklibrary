@@ -155,7 +155,7 @@ sources> tar jcvf gcc-4.1.2.tar.bz2 gcc-4.1.2
   </ul>
 
 
-  \todo Install GCC 4.5.2
+  \todo Install GCC 4.5.3
   <ul>
    <li> DONE (building it, requiring zip)
    gcj
@@ -173,7 +173,8 @@ Usage: jar {ctxui}[vfm0Me] [jar-file] [manifest-file] [entry-point] [-C dir] fil
      <li> But we can simply add "zip" to the requirement. </li>
     </ol>
    </li>
-   <li> We need to install zip locally, and provide it to the gcc-build.
+   <li> DONE (we require zip)
+   We need to install zip locally, and provide it to the gcc-build.
     <ol>
      <li> Building it shouldn't be a problem. </li>
      <li> Gcc doesn't make provisions for that. </li>
@@ -183,7 +184,8 @@ Usage: jar {ctxui}[vfm0Me] [jar-file] [manifest-file] [entry-point] [-C dir] fil
      yet) we say that putting OKplatform/bin on PATH isn't required. </li>
     </ol>
    </li>
-   <li> Build error on cs-oksvr:
+   <li> DONE (we require now also zlib, and use this)
+   Build error on cs-oksvr:
     <ol>
      <li> We get (for "oklib gcc")
      \verbatim

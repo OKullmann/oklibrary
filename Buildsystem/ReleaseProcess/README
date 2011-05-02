@@ -76,7 +76,9 @@ The following software needs to be installed:
  - X libraries (development libraries; needed by gnuplot).
  - postgresql development library ("postgresql-devel").
  - binutils development library ("binutils-devel"),
-   version 2.19.1 or higher (check: "ld --version").
+   version 2.19.1 or higher (check: "ld --version")
+ - zlib (development library, needed by gcc-4.5.2 (due to defective build)
+   and git).
 
 If the build-machine is a 64-bit machine, then
 additionally also the 32-bit version of glibc
@@ -99,7 +101,6 @@ For creation of documentation we also need:
 
 And for installing and using Git we need the following:
 
- - zlib
  - openssl
  - wish (as part of the Tcl/Tk system)
  - ssh
