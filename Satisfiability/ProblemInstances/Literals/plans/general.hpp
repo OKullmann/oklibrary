@@ -24,6 +24,10 @@ License, or any later version. */
    is easiest. </li>
    <li> While a boolean literal x is positive iff OKlib::Literals::cond(x)
    is true. </li>
+   <li> A literal should be singular iff the underlying variable is singular,
+   and the condition of a singular literal is implementation-defined. </li>
+   <li> As with variables, literals are implicitly converted to bool, with the
+   result true iff the literal is not singular. </li>
   </ul>
 
 
