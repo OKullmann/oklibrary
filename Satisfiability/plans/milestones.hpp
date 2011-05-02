@@ -67,6 +67,9 @@ License, or any later version. */
 
   \par Version 0.1.3
 
+  \par Satisfiability/ProblemInstances 0.0.5
+  (see Satisfiability/ProblemInstances/plans/milestones.hpp)
+
   \par Satisfiability/Transformers version 0.0.6
   (see Satisfiability/Transformers/plans/milestones.hpp)
 
