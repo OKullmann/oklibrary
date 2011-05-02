@@ -44,7 +44,7 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
    topics are handled:
     - Providing gcc 4.1.2
-    - Install GCC 4.5.2
+    - Install GCC 4.5.3 : DONE
     - Latest texi2dvi fails to build gcc.texi on some systems
     - Local Gmp/Mpfr are not used (appropriately) : DONE
     - How to use local Gmp + Mpfr? : DONE
@@ -205,6 +205,12 @@ License, or any later version. */
     - N Queens
     - Sudoku
     - Local search
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
+   topics are handled:
+    - Loop-optimisation
+
 
   \par Version 0.2.6 (completion of general services, and installing SAT)
 

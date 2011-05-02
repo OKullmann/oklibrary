@@ -155,7 +155,7 @@ sources> tar jcvf gcc-4.1.2.tar.bz2 gcc-4.1.2
   </ul>
 
 
-  \todo Install GCC 4.5.3
+  \todo Install GCC 4.5.3 : DONE
   <ul>
    <li> DONE (building it, requiring zip)
    gcj
@@ -204,6 +204,11 @@ ExternalSources> oklib gcc gcc_user_options_okl="--with-system-zlib"
      </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Loop-optimisation
+  <ul>
    <li> We should also install these additional libraries "PPL" ("Parma
    Polyhedra Library") and "CLooG" for loop-optimisation. </li>
   </ul>
