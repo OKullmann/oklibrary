@@ -65,9 +65,40 @@ License, or any later version. */
      <li> Default construction (empty partial assignment). </li>
      <li> Construction P(begin,end) with a sequence of literals. </li>
      <li> Or should this be a range? </li>
-     <li> P::size_type and P.size() (for the number of literals). </li>
-     <li> Evaluation P(literal_type x), yielding Values::Assignment_status.
+     <li> P::size_type and ps.size() (for the number of literals). </li>
+     <li> Evaluation ps(x) for literal_type x, yielding
+     Values::Assignment_status. </li>
+    </ol>
+   </li>
+   <li> In Satisfiability/Assignments/PartialAssignments/PartAssign.hpp we have
+   additionally the following operations (class PartAssignments):
+    <ol>
+     <li> Copy construction and assignment: okay (the latter only in case of
+     mutability). </li>
+     <li> Equality comparison: okay. </li>
+     <li> ps.empty(): okay. </li>
+     <li> Construction P(literal_type x): seems reasonable. </li>
+     <li> P::var_type; seems reasonable (derived from literal_type). </li>
+     <li> ps.var() for the set of variables: seems reasonable. </li>
+     <li> ps.in_domain(v) for var_type v: seems reasonable. </li>
+     <li> Or shall variables only be provided for a refined concept? </li>
+     <li> Removal of variables from the domain: seems okay when variables are
+     provided. </li>
+     <li> Associated clause_type and construction from and conversion to
+     clause_type: better only for refined concepts. </li>
+     <li> Composition of partial assignments: better a freestanding function?
      </li>
+     <li> Application of partial assignment to a clause-set: better a
+     freestanding function? </li>
+    </ol>
+   </li>
+   <li> In OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp
+   we have the following operations (class PassViaMap):
+    <ol>
+     <li> Access to a value-iterator (const and non-const) for a variable:
+     can be done for a map, and thus perhaps belongs to a refined concept?
+     </li>
+     <li> ps.clear(): seems reasonable (in case of mutability). </li>
     </ol>
    </li>
   </ul>
