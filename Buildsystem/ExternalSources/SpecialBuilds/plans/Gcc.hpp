@@ -152,6 +152,9 @@ sources> tar jcvf gcc-4.1.2.tar.bz2 gcc-4.1.2
      needed (note that we are using already an altered gcc!). </li>
     </ul>
    </li>
+   <li> We need information about gcc-4.1.2 in the installation page. </li>
+   <li> DONE (in the FAQ)
+   We need also general information on why we need gcc-4.1.2 etc. </li>
   </ul>
 
 
@@ -295,7 +298,7 @@ LDFLAGS="$(gmp_locsys_link_path_okl) $(mpfr_locsys_link_path_okl)"
   </ul>
 
 
-  \bug DONE (works now; problems where Gmp,Mpfr related)
+  \bug DONE (works now; problems were Gmp,Mpfr related)
   Local build of Fortran fails (for 4.1.2)
   <ul>
    <li> DONE (we don't build Fortran with 4.1.2)

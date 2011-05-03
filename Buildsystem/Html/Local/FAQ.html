@@ -3,7 +3,7 @@
   PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<!-- Copyright 2007 - 2009, 2010 Oliver Kullmann -->
+<!-- Copyright 2007 - 2009, 2010, 2011 Oliver Kullmann -->
 <!-- This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the 
@@ -23,11 +23,77 @@ License, or any later version. -->
  <body>
   
   <h1> FAQ </h1>
+
+
+  <h2> General philosophy </h2>
+
+  <ul>
+   <li> Why do we build all these external sources?
+    <ol>
+     <li> One major goal of the OKlibrary is <strong>reproducibility</strong>,
+      that is, given the ID of the repository, all experiments performed using
+      the OKlibrary should be reproducible. This needs a tight control over the
+      environment. </li>
+     <li> So we make a separation between "sources important for us", which
+      we install, and "background sources", where we don't expect different
+      versions to make a difference, and we don't install them, but require
+      them from your Linux distribution. </li>
+     <li> Running-times are also important to us, and they depend on the
+      compilers and libraries used. </li>
+     <li> Furthermore, just building and running the many external sources we
+      use creates a network of complex requirements. Packages sometimes work
+      only with other packages with a special version-number, and many
+      packages we use are not included in any Linux distribution </li>
+     <li> Often we (need to) improve/correct the packages. </li>
+     <li> Another system which (like the OKlibrary) needs to install many and
+      diverse "external sources", the SAGE computer algebra system, also
+      installs all components like compilers etc. itself --- there is no
+      alternative. </li>
+     <li> If a user experiences problems, we wouldn't have any chance finding
+      out what goes on if major software wouldn't come from the OKlibrary.
+     </li>
+     <li> Finally, we anyway need a strong system for installing external
+      sources for the many non-standard sources we install (e.g. SAT/CSP etc.
+      solvers). </li>
+    </ol>
+   </li>
+   <li> Can I adjust the build system?
+    <ol>
+     <li> The build system of the OKlibrary is designed as an open system.
+     </li>
+     <li> So in principle nearly everything can be adjusted by changing
+      certain variables of the build-system (typically make-variables). </li>
+     <li> However this can also create problems nearly impossible to spot,
+      for example just forgetting certain special settings. </li>
+     <li> And problems will arise in case of some update. </li>
+     <li> So you need to know what you are doing, that is, you need to explore
+      the system in greater depth --- starting yourself. </li>
+    </ol>
+   </li>
+  </ul>
   
   
   <h2> Installation </h2>
   
   <ul>
+   <li> What to do in case of a build-error?
+    <ol>
+     <li> Often clearly some package is missing. </li>
+     <li> Otherwise, in the directory
+      <code>OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans</code>
+      there are plans regarding all the external sources we build, and if we
+      are aware of some build problem, then we discuss it there. </li>
+     <li> Before re-building, first everything must be cleaned:
+      <ul>
+       <li> If you were just using "oklib all", then use "oklib cleanall",
+        and start again. </li>
+       <li> If you were building a special target "XXX", i.e., you used
+        "oklib XXX", then use "oklib cleanallXXX" (no space!), and start
+        again. </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
    <li> The links in the public bin-directory do not work?
     <ol>
      <li> In <code>OKplatform/bin</code> you find links to the main
@@ -48,6 +114,51 @@ License, or any later version. -->
       <code>OKplatform/ExternalSources</code>). </li>
      <li> In order to create links which were introduced after the initial
       building of the OKlibrary, use <code>oklib --prebuild</code>. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  <h2> External sources </h2>
+
+  <ul>
+   <li> Why do we provide <code>gcc-4.1.2</code> ?
+    <ol>
+     <li> We have a fixed gcc-version, namely 4.1.2, and a current version,
+      rather close to the newest gcc-version. Why this? </li>
+     <li> Consider the evolution of C++:
+      <ol>
+       <li> The first real C++ was C++98; before this first ISO standard,
+       many versions floated around. </li>
+       <li> Fixing problems we get C++03, a minor revision. </li>
+       <li> C++09 now is a major revision, also extending the language.
+       It is not yet fully realised by Gcc. </li>
+       <li> C++1X will further introduce major features. </li>
+      </ol>
+     </li>
+     <li> A great thing about C++ is the strength of the standard (the
+      "bible"), and all major C++ compilers moved (and are still moving)
+      towards greater standard compliance. </li>
+     <li> But only now (2011) are the major compilers in a state that
+      standard-conforming C++03 can be written --- it's the compiler who tells
+      you what is correct and what not! </li>
+     <li> So there is a lot of C++ code out there with many weaknesses. </li>
+     <li> One of the goals of the OKlibrary is to build up over time a
+      repository of "historic solvers", and those won't compile with newer
+      compiler versions. </li>
+     <li> And if C++ code is not actively maintained, it will likely stop
+      compiling at some point. </li>
+     <li> Currently the OKlibrary itself does not build with gcc version 4.2.1
+      or later, due to the use of non-standard template mechanisms (we weren't
+      aware of). We are waiting now for features of C++09 to be included, so
+      that the repair becomes easier. </li>
+     <li> Gcc version 4.1.2 seems to be a watershed --- starting with version
+      4.2.1 a major push towards only providing standard C++ took place (which
+      is a good thing), while version 4.1.2 is the most stable version
+      supporting most of the old non-standard features. </li>
+     <li> Perhaps at some point in the future we need three gcc
+      compiler-versions (no problem with the flexible build-system of the
+      OKlibrary). </li>
     </ol>
    </li>
   </ul>
@@ -141,7 +252,7 @@ OKplatform> grep -rl --exclude="*~" --include="*.hpp" "TEXT" *
   
   <hr />
    <!-- hhmts start -->
-Last modified: Sat Nov 27 21:14:30 GMT 2010
+Last modified: Tue May  3 21:14:28 BST 2011
 <!-- hhmts end -->
    <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
    
