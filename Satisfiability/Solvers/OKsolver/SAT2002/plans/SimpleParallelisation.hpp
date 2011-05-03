@@ -9,6 +9,8 @@ License, or any later version. */
   \file Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp
   \brief Plans on extending OKsolver-2002 for using it to compute a splitting of a large problem into subproblems
 
+  The main tool is SplittingViaOKsolver.
+
 
   \todo The basic idea : DONE
   </ul>
