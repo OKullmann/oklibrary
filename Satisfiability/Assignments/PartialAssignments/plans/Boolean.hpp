@@ -23,4 +23,28 @@ License, or any later version. */
    BPass0. </li>
   </ul>
 
+
+  \todo Application ApplyPASS
+  <ul>
+   <li> Takes exactly one argument, a file with the partial assignment phi.
+   </li>
+   <li> See "Input and output of partial assignments" in
+   Interfaces/InputOutput/plans/general.hpp. </li>
+   <li> From standard input the clause-list F in Dimacs format is read, and
+   to standard output phi * F is output, again in Dimacs format. </li>
+   <li> Parameter handling:
+    <ol>
+     <li> Since the application uses only one pass and does not store the
+     partial assignment, the p-line is copied verbatim from F. </li>
+     <li> However then we have a false number of clauses? </li>
+     <li> Seems unavoidable, and needed to be repaired afterwards. </li>
+     <li> See for example the application "Script for applying partial
+     assignments" in Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp.
+     </li>
+    </ol>
+   </li>
+   <li> Just before the p-line, as a comment the partial assignment is given.
+   </li>
+  </ul>
+
 */
