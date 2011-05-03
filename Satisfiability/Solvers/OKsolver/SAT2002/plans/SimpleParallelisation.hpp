@@ -80,6 +80,14 @@ License, or any later version. */
    already contain all derived unit-clause-eliminations, and thus better a
    script ApplyPASS is provided, which just applies the partial assignment.
    </li>
+   <li> See "Application ApplyPASS" in
+   Satisfiability/Assignments/PartialAssignments/plans/Boolean.hpp. </li>
+   <li> And after that, we need to apply ExtendedToStrictDimacs, which makes
+   for gapless variable-numbers and correct parameter-values. </li>
+   <li> However for this we need to improve
+   InputOutput/ExtendedToStrictDimacs.cpp. See "Parameter handling" and
+   "Extended Dimacs format" in
+   Interfaces/InputOutput/plans/ExtendedToStrictDimacs.hpp. </li>
   </ul>
 
 
