@@ -16,7 +16,7 @@ License, or any later version. */
   \par Structures/Sets/SetAlgorithms version 0.3.4
   (see Sets/SetAlgorithms/plans/milestones.hpp)
 
-  \par Structures/Cryptology version 0.0.9
+  \par Structures/Cryptology version 0.0.10
   (see Structures/Cryptology/plans/milestones.hpp)
 
   \par NumberTheory/BigIntegers version 0.0.3

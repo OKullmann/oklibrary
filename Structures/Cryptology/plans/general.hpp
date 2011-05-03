@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.11.2006 (Swansea)
-/* Copyright 2006 - 2007, 2009, 2010 Oliver Kullmann
+/* Copyright 2006 - 2007, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,19 +24,6 @@ License, or any later version. */
    <li> We also should have application tests, which can be used for the
    computer-algebra programs as well (see
    ComputerAlgebra/Cryptology/plans/Rijndael.hpp). </li>
-  </ul>
-
-
-  \todo MHash
-  <ul>
-   <li> See "MHash segmentation fault" in
-   Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp. </li>
-   <li> For now, the related applications have been disabled. </li>
-   <li> Update the usage of the MHash-library. </li>
-   <li> DONE (no releases anymore)
-   Are the newer version of the MHash-library? </li>
-   <li> HashMD5.cpp shall become an application. </li>
-   <li> What about "newHash" ? </li>
   </ul>
 
 
