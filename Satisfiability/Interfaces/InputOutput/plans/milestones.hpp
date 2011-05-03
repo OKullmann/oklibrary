@@ -8,33 +8,21 @@ License, or any later version. */
 /*!
   \file Satisfiability/Interfaces/InputOutput/plans/milestones.hpp
 
-  \module_version Interfaces/InputOutput 0.1.0.2 (10.2.2011)
+  \module_version Interfaces/InputOutput 0.1.0.3 (3.5.2011)
 
 
   \par Version 0.1.1 :
 
   \par
-   In Interfaces/InputOutput/AppendDimacs.cpp the following topics are 
-   handled:
-    - False error message : DONE
+   In Interfaces/InputOutput/plans/general.hpp the following topics
+   are handled:
+    - Input and output of partial assignments
 
   \par
    In Interfaces/InputOutput/MinOnes2WeightedMaxSAT.cpp the following topics
    are handled:
     - Improve specification
     - Add application tests : DONE
-
-  \par
-   In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
-   are handled:
-    - Need "ReverseDimacs" application and clause-set adaptor
-    - Add MinOnes2WCNF output clause-set adaptor : DONE 
-
-  \par
-   In Interfaces/InputOutput/plans/Colouring.hpp the following topics
-   are handled:
-    - Improve implementations
-    - Generic translation
 
   \par
    In Interfaces/InputOutput/FilterDimacs.cpp the following topics
@@ -55,17 +43,41 @@ License, or any later version. */
     - Move CLSAdaptorAppend
 
   \par
-   In Interfaces/InputOutput/SortByClauseLengthDescending.cpp the following
-   topics are handled:
-    - Merge with SortByClauseLength.cpp
+   In Interfaces/InputOutput/AppendDimacs.cpp the following topics are
+   handled:
+    - False error message : DONE
 
   \par
    In Interfaces/InputOutput/RandomShuffleDimacs.cpp the following topics
    are handled:
     - Add application tests : DONE
 
+  \par
+   In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
+   are handled:
+    - Add MinOnes2WCNF output clause-set adaptor : DONE
+
 
   \par Version 0.1.2 :
+
+  \par
+   In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
+   are handled:
+    - Need "ReverseDimacs" application and clause-set adaptor
+
+  \par
+   In Interfaces/InputOutput/plans/Colouring.hpp the following topics
+   are handled:
+    - Improve implementations
+    - Generic translation
+
+  \par
+   In Interfaces/InputOutput/SortByClauseLengthDescending.cpp the following
+   topics are handled:
+    - Merge with SortByClauseLength.cpp
+
+
+  \par Version 0.1.3 :
 
   \par
    In Interfaces/InputOutput/MinOnes2WeightedMaxSAT.cpp the following topics
@@ -86,7 +98,7 @@ License, or any later version. */
     - Improving output
 
 
-  \par Version 0.1.3 :
+  \par Version 0.1.4 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -104,7 +116,7 @@ License, or any later version. */
     - Complete the doxygen-documentation.
 
 
-  \par Version 0.1.4 :
+  \par Version 0.1.5 :
 
   \par
    In InputOutput/plans/general.hpp the following topics are handled:
@@ -120,7 +132,7 @@ License, or any later version. */
     - Write docus
 
 
-  \par Version 0.1.5 :
+  \par Version 0.1.6 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -133,7 +145,7 @@ License, or any later version. */
     - Write demos
 
 
-  \par Version 0.1.6 :
+  \par Version 0.1.7 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -147,7 +159,7 @@ License, or any later version. */
     - Consider the code-comments regarding checking
 
 
-  \par Version 0.1.7 :
+  \par Version 0.1.8 :
 
   \par
    In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
@@ -157,7 +169,7 @@ License, or any later version. */
     - Write concept for InputOutput::Statistics class
 
 
-  \par Version 0.1.8 :
+  \par Version 0.1.9 :
 
   \par
    In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
@@ -228,7 +240,6 @@ License, or any later version. */
    In Interfaces/InputOutput/plans/general.hpp the following topics
    are handled:
     - Move InputOutput/ExtendedToStrictDimacs.cpp
-    - Input and output of partial assignments
     - Write Dimacs-parser for weighted (partial) MaxSAT formats
 
 

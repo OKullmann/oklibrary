@@ -10,6 +10,9 @@ License, or any later version. */
   \brief Plans for the module on SAT-related input/output.
 
 
+  \todo Input and output of partial assignments
+
+
   \todo Elementary file-surgery
   <ul>
    <li> For adapting a single Dimacs-file we have
@@ -114,9 +117,6 @@ InputOutput::List2DIMACSOutput(F, out, comment)
 
 
   \todo Complete the functionality.
-
-
-  \todo Input and output of partial assignments.
 
 
   \todo Input and output of propositional formulas
