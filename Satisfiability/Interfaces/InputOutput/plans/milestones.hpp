@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Interfaces/InputOutput/plans/milestones.hpp
 
-  \module_version Interfaces/InputOutput 0.1 (9.1.2011)
+  \module_version Interfaces/InputOutput 0.1.0.2 (10.2.2011)
 
 
   \par Version 0.1.1 :
@@ -49,15 +49,14 @@ License, or any later version. */
     - Move AllEqual to OrderConstructions
     - Add application tests : DONE
 
-
   \par
    In Interfaces/InputOutput/AppendDimacs.cpp the following topics
    are handled:
     - Move CLSAdaptorAppend
 
   \par
-   In Interfaces/InputOutput/SortByClauseLengthDescending.cpp the following topics
-   are handled:
+   In Interfaces/InputOutput/SortByClauseLengthDescending.cpp the following
+   topics are handled:
     - Merge with SortByClauseLength.cpp
 
   \par
