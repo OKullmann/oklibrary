@@ -12,6 +12,18 @@ License, or any later version. */
   The main tool is SplittingViaOKsolver.
 
 
+  \todo The order of the md5sum-computation (SplittingViaOKsolver)
+  <ul>
+   <li> The files are not processed in numerical order (unlike with
+   "Data"). </li>
+   <li> Currently just "ls" is used. </li>
+   <li> Using "ls" here has the advantage that it could be easier to use an
+   external tool (which just needed to duplicate the ls-order). </li>
+   <li> We stick to the ls-order, but provided reliably via our own tool
+   (see "Improving SplittingViaOKsolver" below). </li>
+  </ul>
+
+
   \todo The basic idea : DONE
   </ul>
    <li> Needs to be transferred to the docus. </li>

@@ -26,6 +26,7 @@ License, or any later version. */
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
    are handled:
+    - The order of the md5sum-computation (SplittingViaOKsolver)
     - Improving SplittingViaOKsolver
     - Computing a splitting tree
 
