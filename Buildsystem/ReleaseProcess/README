@@ -56,6 +56,8 @@ The following software needs to be installed:
    (check: run "awk --version")
  - gcc
    (check: run "gcc --version")
+ - g++
+   (check: run "g++ --version")
  - GNU texinfo 
    (check: run "makeinfo --version")
  - zip
