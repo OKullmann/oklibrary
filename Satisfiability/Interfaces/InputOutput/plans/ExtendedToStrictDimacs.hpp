@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.1.2010 (Belgrade)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,6 +22,21 @@ License, or any later version. */
    file-name, for the original parameter values, and if some cleaning
    happened (tautological clauses or repeated literals), then these
    numbers are also stated. </li>
+   <li> The problem is that currently we have just one pass and we do not
+   store the clause-set:
+    <ol>
+     <li> This is an advantage. </li>
+     <li> But it does not allow for the correct parameter values. </li>
+     <li> Perhaps we allow as optional parameter a string, which is taken
+     as the output-filename, and in this case then the parameter line in
+     the file is corrected. </li>
+     <li> In order for this to make sense, that is, not to require a second
+     pass, we need the ability to overwrite characters in a file "cheaply".
+     </li>
+     <li> Unclear whether the C++ standard allows this; but should be
+     possible. </li>
+    </ol>
+   </li>
   </ul>
 
 
