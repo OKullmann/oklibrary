@@ -33,4 +33,16 @@ License, or any later version. */
    <li> What about "newHash" ? </li>
   </ul>
 
+
+  \todo Computing the md5sum-value of a directory
+  <ul>
+   <li> With SplittingViaOKsolver (see
+   Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp) we have a
+   reasonable computation of the md5sum-value of a whole directory. </li>
+   <li> Going through the files in numerical order, appending the
+   current md5sum-value and computing the new md5sum-value. </li>
+   <li> The shell-script however is very slow, and we need a C++
+   application for it. </li>
+  </ul>
+
 */

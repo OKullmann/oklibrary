@@ -69,6 +69,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Improving SplittingViaOKsolver
+  <ul>
+   <li> The computation of the md5sum-value of the directory Instances is very
+   slow, and we need a dedicated application of it. See "Computing the
+   md5sum-value of a directory" in Structures/Cryptology/plans/MHash.hpp. </li>
+  </ul>
+
+
   \todo Computing a splitting tree
   <ul>
    <li> In order to see what really needs to be done, for a given depth
