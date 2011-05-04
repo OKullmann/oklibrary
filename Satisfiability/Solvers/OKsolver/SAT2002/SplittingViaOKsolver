@@ -78,5 +78,5 @@ for (( i=1; i<=N; ++i )); do
   echo $i $n >> Data
 done
 
-echo -e "E=read.table(\"Data\")\nsummary(E)\ntable(E)" | oklib --R --quiet --vanilla | tail +3 > Statistics
+echo -e "E=read.table(\"Data\")\nsummary(E)\ntable(E)" | oklib --R --quiet --vanilla | tail -n +3 > Statistics
 
