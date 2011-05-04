@@ -12,41 +12,24 @@
 # Reading the output of a minisat-like solver. Solver output is read from
 # stats_filename. A data.frame containing the statistics on the computation is
 # returned.
-#
 # Inputs:
 #   stats_filename
 #     The filename containing the output of the solver run.
-#
 # Output:
-#   Statistics corresponding to the run of the solver on some DIMACS file.
 #   A data.frame with a single row with the following fields in the
 #   following order:
 #
-#     n (positive integer)
-#       Initial number of variables.
-#     c (positive integer)
-#       Initial number of clauses.
-#     parse_time (double)
-#       Time taken in seconds to parse the DIMACS file.
-#     restarts (positive integer)
-#       Number of restarts.
-#     conflicts (positive integer)
-#       Number of conflicts.
-#     decisions (positive integer)
-#       Number of "decisions".
-#     propagations (positive integer)
-#       Number of unit clause propagations.
-#     mem (double)
-#       Maximum amount of main memory in Megabytes used.
-#     time (double)
-#       Total time taken in seconds to solve the instance.
-#     sat ({0,1,2})
-#       Whether minisat2 found filename to be SATISFIABLE (1),
-#       UNSATISFIABLE (0) or it was unable to determine satisfiability (2).
-#     filename (string)
-#       Name of the file the output statistics were written to. Note that
-#       this is not the DIMACS file input to the solver. Minisat-like solvers
-#       do not print the input filename as part of their output.
+#     n (pos int): Initial number of variables.
+#     c (pos int): Initial number of clauses.
+#     parse_time (double):  Time taken in seconds to parse the DIMACS file.
+#     restarts (pos int): Number of restarts.
+#     conflicts (pos int): Number of conflicts.
+#     decisions (pos int): Number of "decisions".
+#     propagations (pos int): Number of unit-clause propagations.
+#     mem (double): Maximum amount of main memory used in Megabytes.
+#     time (double): Total time taken in seconds to solve the instance.
+#     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
+#     filename (string) : Name of the file statistics were read from.
 #  
 read_minisat_output = function(stats_filename) {
   S = system(paste("cat ", stats_filename,
@@ -101,7 +84,7 @@ read_minisat_output = function(stats_filename) {
   result = c(result,list(filename = stats_filename))
   data.frame(result)
 }
-# From the following minisat-2.2.0 output (in sbox.result):
+# From the following minisat-2.2.0 output (in test1.result):
 #
 # WARNING: for repeatability, setting FPU to use double precision
 # ============================[ Problem Statistics ]=============================
@@ -129,7 +112,7 @@ read_minisat_output = function(stats_filename) {
 # we get the following data.frame:
 #
 # R> oklib_load_all()
-# R> E = read_minisat2_output("sbox.result")
+# R> E = read_minisat2_output("test1.result")
 # R> E
 #   n   c parse_time restarts conflicts decisions propagations   mem time sat
 # 1 8 240          0        1         4         9           19 14.63 0.01   1
@@ -137,12 +120,93 @@ read_minisat_output = function(stats_filename) {
 # 1 sbox.result
 #
 
-# Reading multiple minisat-like solver output files into a data.frame.
-# See read_minisat_output.
+# Reading the outputs of a minisat-like solver from files in the list
+# stats_filename_l. A data.frame containing the statistics on the computations
+# is returned.
+# Inputs:
+#   stats_filename_l
+#     A list of filenames each containing the output of a solver run.
+# Output:
+#   A data.frame with a row for each file in stats_filename_l. Each row
+#   contains the following fields in the following order:
+#
+#     n (pos int): Initial number of variables.
+#     c (pos int): Initial number of clauses.
+#     parse_time (double):  Time taken in seconds to parse the DIMACS file.
+#     restarts (pos int): Number of restarts.
+#     conflicts (pos int): Number of conflicts.
+#     decisions (pos int): Number of "decisions".
+#     propagations (pos int): Number of unit-clause propagations.
+#     mem (double): Maximum amount of main memory used in Megabytes.
+#     time (double): Total time taken in seconds to solve the instance.
+#     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
+#     filename (string) : Name of the file statistics were read from.
+#  
 read_minisat_outputs = function(filenames) {
   result_df = NULL
   for(file in filenames) {
-    result_df = rbind(result_df,read_minisat2_output(file))
+    result_df = rbind(result_df,read_minisat_output(file))
   }
   result_df
 }
+# From the following minisat-2.2.0 outputs
+# (in testdir/test1.result and testdir/test2.result):
+#
+# WARNING: for repeatability, setting FPU to use double precision
+# ============================[ Problem Statistics ]=============================
+# |                                                                             |
+# |  Number of variables:             8                                         |
+# |  Number of clauses:             240                                         |
+# |  Parse time:                   0.00 s                                       |
+# |  Simplification time:          0.00 s                                       |
+# |                                                                             |
+# =============================[ Search Statistics ]==============================
+# | Conflicts  |          ORIGINAL         |          LEARNT          | Progress |
+# |            |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |
+# ================================================================================
+# ===============================================================================
+# restarts              : 1
+# conflicts             : 4              (inf /sec)
+# decisions             : 9              (0.00 % random) (inf /sec)
+# propagations          : 19             (inf /sec)
+# conflict literals     : 14             (12.50 % deleted)
+# Memory used           : 18.00 MB
+# CPU time              : 0 s
+#
+# SATISFIABLE
+#
+# WARNING: for repeatability, setting FPU to use double precision
+# ============================[ Problem Statistics ]=============================
+# |                                                                             |
+# |  Number of variables:             16                                        |
+# |  Number of clauses:              480                                        |
+# |  Parse time:                   0.00 s                                       |
+# |  Simplification time:          0.00 s                                       |
+# |                                                                             |
+# =============================[ Search Statistics ]==============================
+# | Conflicts  |          ORIGINAL         |          LEARNT          | Progress |
+# |            |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |
+# ================================================================================
+# ===============================================================================
+# restarts              : 2
+# conflicts             : 8              (inf /sec)
+# decisions             : 18              (0.00 % random) (inf /sec)
+# propagations          : 38             (inf /sec)
+# conflict literals     : 28             (12.50 % deleted)
+# Memory used           : 38.00 MB
+# CPU time              : 0 s
+#
+# SATISFIABLE
+#
+# we get the following data.frame:
+#
+# R> oklib_load_all()
+# R> E = read_minisat_outputs(Sys.glob("testdir/*.result"))
+# R> E
+#    n   c restarts decisions propagations mem time sat             filename
+# 1  8 240        1         9           19  18    0   1 testdir/test1.result
+# 2 16 480        2        18           38  38    0   1 testdir/test2.result
+#
+# Note the use of "Sys.glob" to produce a list of files in a directory based
+# on a glob pattern.
+#
