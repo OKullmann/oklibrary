@@ -16,13 +16,13 @@
 #   A data.frame, containing in a single row the following fields in the
 #   following order:
 #
-#     n (pos int): Initial number of variables.
-#     c (pos int): Initial number of clauses.
+#     n (int): Initial number of variables.
+#     c (int): Initial number of clauses.
 #     parse_time (double):  Time taken in seconds to parse the DIMACS file.
-#     restarts (pos int): Number of restarts.
-#     conflicts (pos int): Number of conflicts.
-#     decisions (pos int): Number of decisions.
-#     propagations (pos int): Number of unit-clause propagations.
+#     restarts (int): Number of restarts.
+#     conflicts (int): Number of conflicts.
+#     decisions (int): Number of decisions.
+#     propagations (int): Number of unit-clause propagations.
 #     mem (double): Maximum amount of main memory used in Megabytes.
 #     time (double): Total time taken in seconds to solve the instance.
 #     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
