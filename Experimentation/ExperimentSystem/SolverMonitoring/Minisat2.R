@@ -9,14 +9,11 @@
 # Input #
 # #######
 
-# Reading the output of a minisat-like solver. Solver output is read from
-# stats_filename. A data.frame containing the statistics on the computation is
-# returned.
-# Inputs:
-#   stats_filename
-#     The filename containing the output of the solver run.
+# Reading the output of a minisat-like solver, and putting it into a dataframe.
+# Input:
+#   stats_filename: The file containing the output of a solver-run.
 # Output:
-#   A data.frame with a single row with the following fields in the
+#   A data.frame, containing in a single row the following fields in the
 #   following order:
 #
 #     n (pos int): Initial number of variables.
@@ -24,13 +21,15 @@
 #     parse_time (double):  Time taken in seconds to parse the DIMACS file.
 #     restarts (pos int): Number of restarts.
 #     conflicts (pos int): Number of conflicts.
-#     decisions (pos int): Number of "decisions".
+#     decisions (pos int): Number of decisions.
 #     propagations (pos int): Number of unit-clause propagations.
 #     mem (double): Maximum amount of main memory used in Megabytes.
 #     time (double): Total time taken in seconds to solve the instance.
 #     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
-#     filename (string) : Name of the file statistics were read from.
-#  
+#     filename (string) : Name of the input-file.
+#
+# For reading many files, see read_minisat_output below.
+
 read_minisat_output = function(stats_filename) {
   S = system(paste("cat ", stats_filename,
     " | grep \"\\(restarts\\|conflicts\\|decisions\\|propagations\\|",
@@ -84,21 +83,13 @@ read_minisat_output = function(stats_filename) {
   result = c(result,list(filename = stats_filename))
   data.frame(result)
 }
-# From the following minisat-2.2.0 output (in test1.result):
+# EXAMPLE, using the following minisat-2.2.0 output (shortened, in
+# test1.result):
 #
-# WARNING: for repeatability, setting FPU to use double precision
-# ============================[ Problem Statistics ]=============================
-# |                                                                             |
-# |  Number of variables:             8                                         |
-# |  Number of clauses:             240                                         |
-# |  Parse time:                   0.00 s                                       |
-# |  Simplification time:          0.00 s                                       |
-# |                                                                             |
-# =============================[ Search Statistics ]==============================
-# | Conflicts  |          ORIGINAL         |          LEARNT          | Progress |
-# |            |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |
-# ================================================================================
-# ===============================================================================
+# |  Number of variables:             8
+# |  Number of clauses:             240
+# |  Parse time:                   0.00 s
+# |  Simplification time:          0.00 s
 # restarts              : 1
 # conflicts             : 4              (inf /sec)
 # decisions             : 9              (0.00 % random) (inf /sec)
@@ -109,7 +100,7 @@ read_minisat_output = function(stats_filename) {
 #
 # SATISFIABLE
 #
-# we get the following data.frame:
+# We get the following data.frame:
 #
 # R> oklib_load_all()
 # R> E = read_minisat2_output("test1.result")
@@ -120,28 +111,15 @@ read_minisat_output = function(stats_filename) {
 # 1 sbox.result
 #
 
-# Reading the outputs of a minisat-like solver from files in the list
-# stats_filename_l. A data.frame containing the statistics on the computations
-# is returned.
-# Inputs:
-#   stats_filename_l
-#     A list of filenames each containing the output of a solver run.
+# Takes a list of files with output of a minisat-like solver, and puts the
+# data into a dataframe.
+# Input:
+#   stats_filename_l: A list of filenames for outputs of a solver runs.
 # Output:
-#   A data.frame with a row for each file in stats_filename_l. Each row
-#   contains the following fields in the following order:
-#
-#     n (pos int): Initial number of variables.
-#     c (pos int): Initial number of clauses.
-#     parse_time (double):  Time taken in seconds to parse the DIMACS file.
-#     restarts (pos int): Number of restarts.
-#     conflicts (pos int): Number of conflicts.
-#     decisions (pos int): Number of "decisions".
-#     propagations (pos int): Number of unit-clause propagations.
-#     mem (double): Maximum amount of main memory used in Megabytes.
-#     time (double): Total time taken in seconds to solve the instance.
-#     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
-#     filename (string) : Name of the file statistics were read from.
-#  
+#   A data.frame with a row for each file in stats_filename_l.
+#   Specification as read_minisat_output above.
+# See below for an example for reading all files in a directory.
+
 read_minisat_outputs = function(filenames) {
   result_df = NULL
   for(file in filenames) {
@@ -149,22 +127,13 @@ read_minisat_outputs = function(filenames) {
   }
   result_df
 }
-# From the following minisat-2.2.0 outputs
-# (in testdir/test1.result and testdir/test2.result):
+# EXAMPLE, using the following minisat-2.2.0 outputs (shortened, in
+# testdir/test1.result and testdir/test2.result):
 #
-# WARNING: for repeatability, setting FPU to use double precision
-# ============================[ Problem Statistics ]=============================
-# |                                                                             |
-# |  Number of variables:             8                                         |
-# |  Number of clauses:             240                                         |
-# |  Parse time:                   0.00 s                                       |
-# |  Simplification time:          0.00 s                                       |
-# |                                                                             |
-# =============================[ Search Statistics ]==============================
-# | Conflicts  |          ORIGINAL         |          LEARNT          | Progress |
-# |            |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |
-# ================================================================================
-# ===============================================================================
+# |  Number of variables:             8
+# |  Number of clauses:             240
+# |  Parse time:                   0.00 s
+# |  Simplification time:          0.00 s
 # restarts              : 1
 # conflicts             : 4              (inf /sec)
 # decisions             : 9              (0.00 % random) (inf /sec)
@@ -175,19 +144,10 @@ read_minisat_outputs = function(filenames) {
 #
 # SATISFIABLE
 #
-# WARNING: for repeatability, setting FPU to use double precision
-# ============================[ Problem Statistics ]=============================
-# |                                                                             |
-# |  Number of variables:             16                                        |
-# |  Number of clauses:              480                                        |
-# |  Parse time:                   0.00 s                                       |
-# |  Simplification time:          0.00 s                                       |
-# |                                                                             |
-# =============================[ Search Statistics ]==============================
-# | Conflicts  |          ORIGINAL         |          LEARNT          | Progress |
-# |            |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |
-# ================================================================================
-# ===============================================================================
+# |  Number of variables:             16
+# |  Number of clauses:              480
+# |  Parse time:                   0.00 s
+# |  Simplification time:          0.00 s
 # restarts              : 2
 # conflicts             : 8              (inf /sec)
 # decisions             : 18              (0.00 % random) (inf /sec)
@@ -198,7 +158,7 @@ read_minisat_outputs = function(filenames) {
 #
 # SATISFIABLE
 #
-# we get the following data.frame:
+# We get the following data.frame:
 #
 # R> oklib_load_all()
 # R> E = read_minisat_outputs(Sys.glob("testdir/*.result"))
