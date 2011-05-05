@@ -19,10 +19,10 @@
 #     n (int): Initial number of variables.
 #     c (int): Initial number of clauses.
 #     parse_time (double):  Time taken in seconds to parse the DIMACS file.
-#     restarts (int): Number of restarts.
-#     conflicts (int): Number of conflicts.
-#     decisions (int): Number of decisions.
-#     propagations (int): Number of unit-clause propagations.
+#     restarts (double): Number of restarts.
+#     conflicts (double): Number of conflicts.
+#     decisions (double): Number of decisions.
+#     propagations (double): Number of unit-clause propagations.
 #     mem (double): Maximum amount of main memory used in Megabytes.
 #     time (double): Total time taken in seconds to solve the instance.
 #     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
@@ -42,14 +42,13 @@ read_minisat_output = function(stats_filename) {
     name_value = unlist(strsplit(line," *: *"))
     name_value[1] = gsub("^\\| *","",name_value[1])
     if (name_value[1] == "restarts") {
-      result = c(result, list(restarts = as.integer(name_value[2])))
+      result = c(result, list(restarts = as.double(name_value[2])))
     } else if (name_value[1] == "conflicts") {
       temp = unlist(strsplit(name_value[2], " *\\("))
-      result = c(result, list(conflicts = as.integer(temp[1])))
+      result = c(result, list(conflicts = as.double(temp[1])))
     } else if (name_value[1] == "propagations") {
       temp = unlist(strsplit(name_value[2], " *\\("))
-      result = c(result,
-        list(propagations = as.integer(temp[1])))
+      result = c(result, list(propagations = as.double(temp[1])))
     } else if (name_value[1] == "Memory used") {
       result = c(result,
         list(mem = as.double(gsub(" *MB *$","",name_value[2]))))
@@ -58,7 +57,7 @@ read_minisat_output = function(stats_filename) {
         list(time = as.double(gsub(" *s *","",name_value[2]))))
     } else if (name_value[1] == "decisions") {
       temp = unlist(strsplit(name_value[2], " *\\("))
-      result = c(result, list(decisions = as.integer(temp[1])))
+      result = c(result, list(decisions = as.double(temp[1])))
     } else if (name_value[1] == "Number of variables") {
       result = c(result,
         list(n = as.integer(gsub(" *\\|","",name_value[2]))))
