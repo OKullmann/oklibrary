@@ -19,6 +19,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Improving read_minisat_output
+  <ul>
+   <li> The simplification time is missing. </li>
+   <li> The column-names are too long; planning is needed, and standardisation,
+   if possible, with the other extraction-tools. </li>
+  </ul>
+
+
   \todo Move read_minisat2_output functionality to wrapper script
   <ul>
    <li> See "Move read_picosat_output functionality to wrapper script"
