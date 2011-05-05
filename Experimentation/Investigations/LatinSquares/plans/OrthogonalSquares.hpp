@@ -154,7 +154,8 @@ c sat_status=0 initial_maximal_clause_length=100 initial_number_of_variables=100
     <ol>
      <li> "Diagonal" means that diagonal and "back-diagonal" (from right-top
      to left-bottom) contains all numbers. </li>
-     <li> "Self-orthogonal": see above. </li>
+     <li> "Self-orthogonal": the matrix is orthogonal (see above) to its
+     transposed. </li>
      <li> The set of all self-orthogonal diagonal Latin squares of order n is
      SODLS(n). </li>
      <li> "Strongly symmetric" means we have l_{i,j} + l_{n-1-i,n-1-j} = n-1,
