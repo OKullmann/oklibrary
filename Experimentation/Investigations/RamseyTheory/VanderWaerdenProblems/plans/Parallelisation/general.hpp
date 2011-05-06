@@ -71,7 +71,10 @@ sys	0m9.289s
    <li> Via
    \verbatim
 OKplatform> SplittingViaOKsolver -D12 VanDerWaerden_2-4-9_309.cnf
-OKplatform> more SplitViaOKsolver_D12VanDerWaerden_249_309cnf_2011-04-23-114006/Statistics
+> cd SplitViaOKsolver_D12VanDerWaerden_249_309cnf_2011-05-01-054004
+> more Md5sum
+c3cba5f0bfaef209e76a1c31d8e2a033
+> more Statistics
 > E=read.table("Data")
 > summary(E)
        n
@@ -85,7 +88,7 @@ OKplatform> more SplitViaOKsolver_D12VanDerWaerden_249_309cnf_2011-04-23-114006/
 E
   12   13   14   15   16   17   18   19   20   21   22   23   25   28
 1157  779  957  420  413  167  109   39   28   12    8    4    1    2
-OKplatform> more SplitViaOKsolver_D12VanDerWaerden_249_309cnf_2011-04-23-114006/Result
+> more Result
 s UNKNOWN
 c sat_status                            2
 c initial_maximal_clause_length         9
@@ -98,7 +101,7 @@ c reddiff_number_of_variables           0
 c reddiff_number_of_clauses             0
 c reddiff_number_of_literal_occurrences 0
 c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     486.1
+c running_time(sec)                     150.1
 c number_of_nodes                       8191
 c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
@@ -112,12 +115,14 @@ c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-4-9_309.cnf
-c splitting_directory                   SplitViaOKsolver_D12VanDerWaerden_249_309
-cnf_2011-04-23-114006/Instances
+c splitting_directory                   SplitViaOKsolver_D12VanDerWaerden_249_309cnf_2011-05-01-054004/Instances
 c splitting_cases                       4096
 
 OKplatform> SplittingViaOKsolver -D16 VanDerWaerden_2-4-9_309.cnf
-OKplatform> more SplitViaOKsolver_D16VanDerWaerden_249_309cnf_2011-04-23-115118/Statistics
+> cd SplitViaOKsolver_D16VanDerWaerden_249_309cnf_2011-05-01-054712
+> more md5sum
+9e90bae7dec6eba6f7fd2a3639c289dc
+> more Statistics
 > E=read.table("Data")
 > summary(E)
        n
@@ -133,7 +138,7 @@ E
 3595 5286 9092 8508 8788 7294 5932 4546 3366 2610 1870 1369  959  679  540  325
   32   33   34   35   36   37   38   39   40   41   42   43   44   45   46   52
  241  176  121   76   56   27   13   18   12    8   12    5    4    6    1    1
-OKplatform> more SplitViaOKsolver_D16VanDerWaerden_249_309cnf_2011-04-23-115118/Result
+> more Result
 s UNKNOWN
 c sat_status                            2
 c initial_maximal_clause_length         9
@@ -146,7 +151,7 @@ c reddiff_number_of_variables           0
 c reddiff_number_of_clauses             0
 c reddiff_number_of_literal_occurrences 0
 c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     4656.9
+c running_time(sec)                     2384.1
 c number_of_nodes                       131071
 c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
@@ -160,12 +165,14 @@ c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-4-9_309.cnf
-c splitting_directory                   SplitViaOKsolver_D16VanDerWaerden_249_309
-cnf_2011-04-23-115118/Instances
+c splitting_directory                   SplitViaOKsolver_D16VanDerWaerden_249_309cnf_2011-05-01-054712/Instances
 c splitting_cases                       65536
 
 OKplatform> SplittingViaOKsolver -D20 VanDerWaerden_2-4-9_309.cnf
-Kplatform> more SplitViaOKsolver_D20VanDerWaerden_249_309cnf_2011-04-23-154844/Statistics
+> cd SplitViaOKsolver_D20VanDerWaerden_249_309cnf_2011-05-01-071943
+> more Md5sum
+e6a5fe975c9248355b1b3b2abc230e7a
+> more Statistics
 > E=read.table("Data")
 > summary(E)
        n
@@ -191,7 +198,7 @@ E
     1     1     1     2     1     1     1     1     1     1     1     2     1
   144   145   146   148   149   150   152
     4     1     1     2     1     1     1
-Kplatform> more SplitViaOKsolver_D20VanDerWaerden_249_309cnf_2011-04-23-154844/Result
+Kplatform> more Result
 s UNKNOWN
 c sat_status                            2
 c initial_maximal_clause_length         9
@@ -218,8 +225,7 @@ c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-4-9_309.cnf
-c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_249_309
-cnf_2011-04-23-154844/Instances
+c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_249_309cnf_2011-05-01-071943/Instances
 c splitting_cases                       1047157
    \endverbatim
    we split it into 2^12=4096 resp. 2^16=65536 resp. 1047157 subproblems.
@@ -254,7 +260,10 @@ c splitting_cases                       1047157
    <li>
    \verbatim
 OKplatform> SplittingViaOKsolver -D12 VanDerWaerden_2-5-7_260.cnf
-OKplatform> more SplitViaOKsolver_D12VanDerWaerden_257_260cnf_2011-04-25-142303/Statistics
+> cd SplitViaOKsolver_D12VanDerWaerden_257_260cnf_2011-05-04-192928
+> more Md5sum
+7f04792a3aaa3a9d4395c9f85342e66b
+> more Statistics
 > E=read.table("Data")
 > summary(E)
        n
@@ -268,7 +277,7 @@ OKplatform> more SplitViaOKsolver_D12VanDerWaerden_257_260cnf_2011-04-25-142303/
 E
   12   13   14   15   16   17   18   19   20   21   22
 1428 1118  740  452  203   84   54    8    6    2    1
-OKplatform> more SplitViaOKsolver_D12VanDerWaerden_257_260cnf_2011-04-25-142303/Result
+> more Result
 s UNKNOWN
 c sat_status                            2
 c initial_maximal_clause_length         7
@@ -295,12 +304,14 @@ c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-5-7_260.cnf
-c splitting_directory                   SplitViaOKsolver_D12VanDerWaerden_257_260
-cnf_2011-04-25-142303/Instances
+c splitting_directory                   SplitViaOKsolver_D12VanDerWaerden_257_260cnf_2011-05-04-192928/Instances
 c splitting_cases                       4096
 
 OKplatform> SplittingViaOKsolver -D16 VanDerWaerden_2-5-7_260.cnf
-OKplatform> more SplitViaOKsolver_D16VanDerWaerden_257_260cnf_2011-04-25-143203/Statistics
+> cd SplitViaOKsolver_D16VanDerWaerden_257_260cnf_2011-05-04-193348
+> more Md5sum
+12804168d8212efd37f5cbcb8550888a
+> more Statistics
 > E=read.table("Data")
 > summary(E)
        n
@@ -316,7 +327,7 @@ E
  9177 12561 13302 10882  7966  4878  3145  1769   931   486   223   121    53
    29    30    32    33    34
    25    13     2     1     1
-OKplatform> more SplitViaOKsolver_D16VanDerWaerden_257_260cnf_2011-04-25-143203/Result
+OKplatform> more Result
 s UNKNOWN
 c sat_status                            2
 c initial_maximal_clause_length         7
@@ -329,7 +340,7 @@ c reddiff_number_of_variables           0
 c reddiff_number_of_clauses             0
 c reddiff_number_of_literal_occurrences 0
 c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     3805.9
+c running_time(sec)                     884.0
 c number_of_nodes                       131071
 c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
@@ -343,12 +354,14 @@ c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-5-7_260.cnf
-c splitting_directory                   SplitViaOKsolver_D16VanDerWaerden_257_260
-cnf_2011-04-25-143203/Instances
+c splitting_directory                   SplitViaOKsolver_D16VanDerWaerden_257_260cnf_2011-05-04-193348/Instances
 c splitting_cases                       65536
 
 OKplatform> SplittingViaOKsolver -D20 VanDerWaerden_2-5-7_260.cnf
-OKplatform> more SplitViaOKsolver_D20VanDerWaerden_257_260cnf_2011-04-25-170946/Statistics
+> cd SplitViaOKsolver_D20VanDerWaerden_257_260cnf_2011-05-05-050221
+> more Md5sum
+de6910bd80af2b5961613741068664af
+OKplatform> more Statistics
 > E=read.table("Data")
 > summary(E)
        n
@@ -368,7 +381,7 @@ E
    101     63     45     31     10     12      5      3      2      1      5
     54     55     56     59     61     62     66     67     70
      1      1      1      3      2      1      1      1      1
-OKplatform> more SplitViaOKsolver_D20VanDerWaerden_257_260cnf_2011-04-25-170946/Result
+OKplatform> more Result
 s UNKNOWN
 c sat_status                            2
 c initial_maximal_clause_length         7
@@ -381,7 +394,7 @@ c reddiff_number_of_variables           0
 c reddiff_number_of_clauses             0
 c reddiff_number_of_literal_occurrences 0
 c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     42958.5
+c running_time(sec)                     12610.3
 c number_of_nodes                       2097151
 c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
@@ -395,8 +408,7 @@ c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-5-7_260.cnf
-c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_257_260
-cnf_2011-04-25-170946/Instances
+c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_257_260cnf_2011-05-05-050221/Instances
 c splitting_cases                       1048575
    \endverbatim
   </ul>
