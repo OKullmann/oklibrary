@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.12.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -46,6 +46,7 @@ comlso_p(A,H) := sqscom_p(A,H) and block([n : length(H)],
    enough, since also value permuations must be considered; see below for the 
    various notions considered.
    "comlso" stands for "combinatorial latin square over" (the value set).
+   "Standardised" means, as usual, that H={1,...,n} for n >= 0.
 */
 
 /* A "combinatorial latin square" is a quasigroup: */
@@ -95,7 +96,8 @@ rls_p(A) := hrls_p(A) and block([s : matrix_size(A)],
 ocomls_p(A,B) := is(A[1] = B[1]) and block([L : listify(A[1])],
   is(length(unique(create_list([A[2](i,j), B[2](i,j)], i,L, j,L))) = length(L)^2))$
 
-/* Whether a list of latin squares is "mutually" (i.e., pairwise) orthogonal:
+/* Whether a list of combinatorial latin squares is "mutually" (i.e.,
+   pairwise) orthogonal:
 */
 mocomls_p(L) := listp(L) and block([n : length(L), is_mols : true],
   for i : 1 thru n unless not is_mols do block([A : L[i]],
