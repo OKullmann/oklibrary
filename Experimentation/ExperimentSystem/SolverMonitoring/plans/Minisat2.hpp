@@ -10,10 +10,9 @@ License, or any later version. */
   \brief General plans monitoring Minisat2
 
 
-  \bug ??? THIS MAKES NO SENSE (self-reference) ???
-  Bad specifications and documentation
+  \bug Bad specifications and documentation
   <ul>
-   <li> See comments in SolverMonitoring/plans/Minisat2.hpp, marked by "???".
+   <li> See comments in SolverMonitoring/Minisat2.R, marked by "???".
    </li>
    <li> The same also applies at other places. </li>
   </ul>
