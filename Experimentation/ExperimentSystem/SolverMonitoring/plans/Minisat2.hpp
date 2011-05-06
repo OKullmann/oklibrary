@@ -10,14 +10,6 @@ License, or any later version. */
   \brief General plans monitoring Minisat2
 
 
-  \bug Bad specifications and documentation
-  <ul>
-   <li> See comments in SolverMonitoring/Minisat2.R, marked by "???".
-   </li>
-   <li> The same also applies at other places. </li>
-  </ul>
-
-
   \todo Improving read_minisat_output
   <ul>
    <li> The simplification time is missing. </li>
@@ -43,6 +35,17 @@ License, or any later version. */
   <ul>
    <li> See "Move read_picosat_output functionality to wrapper script"
    in SolverMonitoring/plans/Picosat.hpp. </li>
+  </ul>
+
+
+  \bug DONE (specifications improved; additional todos added)
+  Bad specifications and documentation
+  <ul>
+    <li> DONE (used simple examples; specified data types; improved
+    specification; created additional todos)
+    See comments in SolverMonitoring/Minisat2.R, marked by "???".
+   </li>
+   <li> DONE The same also applies at other places. </li>
   </ul>
 
 */
