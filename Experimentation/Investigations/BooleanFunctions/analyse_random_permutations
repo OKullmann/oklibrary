@@ -6,14 +6,9 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-
-# Script which given an exponent e and a 32-bit integer seed, computes a 
-# random permutation P over {1,...,2^e}, and using a bijection from 
-# R : {1,...,2^e} -> {0,1}^k, computes statistics for the boolean function
-# which is true for all boolean vectors append(R(a), R(P(a))) of length 2k.
-#
-# The statistics for the prime implicates and subsumption hypergraph for
-# this boolean function are then computed and output to files.
+# For input e and a 32-bit integer "seed", computing statistics for
+# random permutations over {1,...,2^e} as boolean functions, according
+# to ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac.
 #
 # Files are output to 
 #   random_perm_${e}_${seed}/Permutation_full.cnf
@@ -25,8 +20,8 @@
 #   random_perm_${e}_${seed}/maxima_log
 #     The log of the maxima execution to generate the CNF file.
 #
-# This process continues picking random permutations until it is quit
-# manually. The seed is incremented by one each iteration.
+# This process continues until it is quit manually. The seed is incremented by
+# one each iteration.
 # 
 
 set -o errexit
