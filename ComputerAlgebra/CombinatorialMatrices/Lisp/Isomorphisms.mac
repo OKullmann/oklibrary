@@ -69,12 +69,9 @@ is_isomorphic_incl1_com(A,B) :=
 is_isomorphic_incl2_com(A,B) :=
   block([check0 : is_isomorphic_incl0_com(A,B)],
   if check0 # unknown then check0 else block(
-   [a : com2m(A), b : com2m(B), ta, tb, ra, rb, ca, cb, x],
-    ta : transpose(a), tb : transpose(b),
-    ra : a . ta, rb : b . tb,
-    if charpoly_m(ra) # charpoly_m(rb) then return(false),
-    ca : ta . a, cb : tb . b,
-    if charpoly_m(ca) # charpoly_m(cb) then return(false),
+   [a : com2m(A), b : com2m(B), x],
+    if charpoly_m(a . transpose(a)) # charpoly_m(b . transpose(b)) then
+      return(false),
     return(unknown)))$
 
 

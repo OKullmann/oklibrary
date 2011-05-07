@@ -46,7 +46,8 @@ License, or any later version. */
      <li> The conditions for equal row- and column-sum-distributions are also
      covered by considering the associated square matrices, since their
      diagonals contain the column- and row-sums. </li>
-     <li> The matrices A^t A and A A^t (as well as B^t B and B B^t) have
+     <li> DONE
+     The matrices A^t A and A A^t (as well as B^t B and B B^t) have
      identical characteristic polynomials, so they don't need to be computed
      twice. </li>
     </ol>
