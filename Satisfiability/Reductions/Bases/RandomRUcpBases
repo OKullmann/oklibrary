@@ -54,11 +54,12 @@
 # 
 # The statistics for each generated r_1 base are available in 
 #    
-#    ${full_cnf_filename}_rucp_base/stats_gs${gen_seed}_bs_${base_seed}
+#    ${full_cnf_filename}_rucp_base_DATE/stats_gs${gen_seed}_bs_${base_seed}
 #
 # where:
 #   ${gen_seed} is the seed for the random shuffling of the input to RUcpGen.
 #   ${base_seed} is the seed for the random shuffling of the input to RUcpBase.
+#   DATE is the current datetime in the format "%Y-%m-%d-%H%M%S".
 #
 
 set -o errexit
@@ -66,7 +67,7 @@ set -o nounset
 
 script_name="RandomRUcpBases"
 err="ERROR[${script_name}]:"
-version="0.2.3"
+version="0.2.4"
 
 if [[ $# -lt 1 || $# -gt 3 ]]; then
   echo -n "${err} Takes precisely one argument, the name of the file full "
@@ -79,7 +80,8 @@ if [[ $# -lt 1 || $# -gt 3 ]]; then
 fi
 
 full_cnf_filename=$1
-experiment_dirname=${full_cnf_filename}_rucp_base
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+experiment_dirname=${full_cnf_filename}_rucp_base_${timestamp}
 if [ ! -f ${experiment_dirname} ]; then
   mkdir ${experiment_dirname}
 fi
