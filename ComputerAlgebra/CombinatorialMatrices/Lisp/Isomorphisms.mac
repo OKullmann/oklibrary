@@ -92,13 +92,14 @@ is_isomorphic_incl2_com(A,B) :=
 is_isomorphic_rowperm_com(A,B) := 
  block(
   [found : false,
-   Bcolumns : map(lambda([j], 
-                    map(lambda([i],B[3](i,j)),listify(B[1]))),
-                  B[2])],
+   Bcolumns : sort(map(lambda([j],
+                     map(lambda([i],B[3](i,j)),listify(B[1]))),
+                   listify(B[2]))),
+   L : listify(A[2])],
    for p in permutations(listify(A[1])) unless found#false do
-     if Bcolumns = map(lambda([j], 
-                    map(lambda([i],A[3](i,j)),p)),
-                   A[2])
+     if Bcolumns = sort(map(lambda([j],
+                          map(lambda([i],A[3](i,j)),p)),
+                        L))
      then found : p,
    return(found))$
 
