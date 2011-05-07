@@ -34,7 +34,8 @@ License, or any later version. */
   <ul>
    <li> Additionally to the distribution of row- and column-sums we should
    involve other invariants for isomorphic matrices. </li>
-   <li> We have the rank. </li>
+   <li> DONE (covered by characteristic polynomial)
+   We have the rank. </li>
    <li> If matrices A, B are isomorphic, then the square matrices A^t A, B^t B
    are isomorphic, and, since A^t, B^t are isomorphic, also A A^t, B B^t are
    isomorphic (again, as square matrices(!)).
@@ -43,7 +44,8 @@ License, or any later version. */
      </li>
      <li> This covers the rank-criterion, since we have rank(A^t A) =
      rank(A A^t) = rank(A). </li>
-     <li> The conditions for equal row- and column-sum-distributions are also
+     <li> DONE (covered by is_isomorphic_inclall_scom)
+     The conditions for equal row- and column-sum-distributions are also
      covered by considering the associated square matrices, since their
      diagonals contain the column- and row-sums. </li>
      <li> DONE

@@ -30,7 +30,7 @@ kill(f)$
    ********************************
 */
 
-okltest_is_isomorphic_incl0_com(f) := block([fun1,fun2],
+okltest_decisions_is_isomorphic_incl0_com(f) := block([fun1,fun2],
   assert(f([{},{},fun1],[{},{},fun2]) = true),
   assert(f([{},{1},fun1],[{},{2},fun2]) = true),
   assert(f([{3},{},fun1],[{4},{},fun2]) = true),
@@ -44,30 +44,41 @@ okltest_is_isomorphic_incl0_com(f) := block([fun1,fun2],
   assert(f(zerocom({1},{2}),constantcom({1},{2},1)) = false),
   true)$
 
-okltest_is_isomorphic_incl1_com(f) := (
-  assert(okltest_is_isomorphic_incl0_com(f)),
+okltest_decisions_is_isomorphic_incl1_com(f) := (
+  assert(okltest_decisions_is_isomorphic_incl0_com(f)),
   assert(f(zerocom({1,2},{2}),constantcom({1,2},{2},1)) = false),
   assert(f(m2com(matrix([1,1],[0,0])),m2com(matrix([1,0],[0,1]))) = false),
   true)$
 
-okltest_is_isomorphic_incl2a_com(f) := (
-  assert(okltest_is_isomorphic_incl1_com(f)),
+okltest_decisions_is_isomorphic_incl2a_com(f) := (
+  assert(okltest_decisions_is_isomorphic_incl1_com(f)),
   assert(f(m2com(matrix([1,1],[1,1])),m2com(matrix([2,0],[0,2]))) = false),
   assert(f(m2com(matrix([0,1,1],[1,0,1],[1,1,0])),m2com(matrix([2,0,0],[0,2,0],[0,0,2]))) = false),
   assert(f(m2com(matrix([1,1,0],[0,1,1],[0,0,1])),m2com(matrix([2,0,1],[0,1,1],[0,0,1]))) = false),
   assert(f(m2com(matrix([1,1,0,0],[1,1,0,0],[0,0,1,0],[0,0,0,1])),m2com(matrix([1,0,1,0],[0,1,0,1],[1,0,0,0],[0,0,0,1]))) = false),
-  assert(f(m2com(matrix([2,0],[0,0])),m2com(matrix([1,1],[1,1]))) = unknown),
-  assert(f(m2com(matrix([0,1,1],[1,0,1],[1,1,0])),m2com(matrix([1,1,0],[1,0,1],[0,1,1]))) = unknown),
   true)$
 
-okltest_is_isomorphic_incl2b_com(f) := (
-  assert(okltest_is_isomorphic_incl1_com(f)),
+okltest_unknown_is_isomorphic_incl2a_com(f) := (
+  assert(f(m2com(matrix([2,0],[0,0])),m2com(matrix([1,1],[1,1]))) = unknown), /* 2b succeeds */
+  assert(f(m2com(matrix([0,1,1],[1,0,1],[1,1,0])),m2com(matrix([1,1,0],[1,0,1],[0,1,1]))) = unknown), /* iso */
+  true)$
+
+okltest_decisions_is_isomorphic_incl2b_com(f) := (
+  assert(okltest_decisions_is_isomorphic_incl1_com(f)),
   assert(f(m2com(matrix([1,1],[1,1])),m2com(matrix([2,0],[0,2]))) = false),
   assert(f(m2com(matrix([2,0],[0,0])),m2com(matrix([1,1],[1,1]))) = false),
   assert(f(m2com(matrix([0,1,1],[1,0,1],[1,1,0])),m2com(matrix([2,0,0],[0,2,0],[0,0,2]))) = false),
-  assert(f(m2com(matrix([0,1,1],[1,0,1],[1,1,0])),m2com(matrix([1,1,0],[1,0,1],[0,1,1]))) = unknown),
   assert(f(m2com(matrix([1,1,0],[0,1,1],[0,0,1])),m2com(matrix([2,0,1],[0,1,1],[0,0,1]))) = false),
-  assert(f(m2com(matrix([1,1,0,0],[1,1,0,0],[0,0,1,0],[0,0,0,1])),m2com(matrix([1,0,1,0],[0,1,0,1],[1,0,0,0],[0,0,0,1]))) = unknown),
+  true)$
+
+okltest_unknown_is_isomorphic_incl2b_com(f) := (
+  assert(f(m2com(matrix([1,1,0,0],[1,1,0,0],[0,0,1,0],[0,0,0,1])),m2com(matrix([1,0,1,0],[0,1,0,1],[1,0,0,0],[0,0,0,1]))) = unknown), /* 2a succeeds */
+  assert(f(m2com(matrix([0,1,1],[1,0,1],[1,1,0])),m2com(matrix([1,1,0],[1,0,1],[0,1,1]))) = unknown), /* iso */
+  true)$
+
+okltest_decisions_is_isomorphic_inclall_com(f) := (
+  assert(okltest_decisions_is_isomorphic_incl2a_com(f)),
+  assert(okltest_decisions_is_isomorphic_incl2b_com(f)),
   true)$
 
 

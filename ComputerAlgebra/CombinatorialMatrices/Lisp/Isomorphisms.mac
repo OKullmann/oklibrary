@@ -81,6 +81,24 @@ is_isomorphic_incl2b_com(A,B) :=
   else unknown)$
 
 
+/* "All" invariants for combinatorial matrices: */
+is_isomorphic_inclall_com(A,B)  :=
+  block([check : is_isomorphic_incl2b_com(A,B)],
+  if check # unknown then check
+  else block([a : com2m(A), b : com2m(B), x],
+    is_isomorphic_inclall_scom(m2scom(a . transpose(a)), m2scom(b . transpose(b)))))$
+
+
+/* "All" invariants for square combinatorial matrices: */
+is_isomorphic_inclall_scom(A,B) :=
+  block([check : is_isomorphic_incl2b_com(scom2com(A),scom2com(B))],
+  if check # unknown then check
+  else block([x],
+    if charpoly_m(scom2m(A)) # charpoly_m(scom2m(B)) then false
+    elseif maindiagoms_scom(A) # maindiagoms_scom(B) then false
+    else unknown))$
+
+
 /* ******************************
    * Complete isomorphism tests *
    ******************************
@@ -128,6 +146,15 @@ is_isomorphic_rowperm2a_com(A,B) := block(
   elseif check2a=false then false
   else is_isomorphic_rowperm_com(A,B))$
 is_isomorphic_rowperm2a_com_p(A,B) := listp(is_isomorphic_rowperm2a_com(A,B))$
+
+/* The "strongest" combination: */
+is_isomorphic_rowpermall_com(A,B) := block(
+ [checkall : is_isomorphic_inclall_com(A,B)],
+  if checkall=true then listify(A[1])
+  elseif checkall=false then false
+  else is_isomorphic_rowperm_com(A,B))$
+is_isomorphic_rowpermall_com_p(A,B) :=
+ listp(is_isomorphic_rowpermall_com(A,B))$
 
 
 /* ************************
