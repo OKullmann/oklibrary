@@ -331,6 +331,12 @@ com2omsoms_r(M) := list_distribution(map(list_distribution,com2ll_r(M)))$
 com2omsoms_c(M) := list_distribution(map(list_distribution,com2ll_c(M)))$
 
 
+/* The main diagonal of a square combinatorial matrix: */
+maindiag_scom(M) := create_list(M[2](i,i), i,listify(M[1]))$
+/* As an ordered multiset: */
+maindiagoms_scom(M) := list_distribution(maindiag_scom(M))$
+
+
 /* *******************
    * Transformations *
    *******************

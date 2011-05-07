@@ -135,6 +135,9 @@ okltest_column_m(column_m);
 okltest_com2omsoms_r(com2omsoms_r);
 okltest_com2omsoms_c(com2omsoms_c);
 
+okltest_maindiag_scom(maindiag_scom);
+okltest_maindiagoms_scom(maindiagoms_scom);
+
 /* *******************
    * Transformations *
    *******************
