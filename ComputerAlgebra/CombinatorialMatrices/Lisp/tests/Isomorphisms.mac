@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 9.8.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008,  2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -56,10 +56,9 @@ okltest_is_isomorphic_incl2_com(f) := (
   true)$
 
 
-
-/* ***********************
-   * Isomorphic matrices *
-   ***********************
+/* ******************************
+   * Complete isomorphism tests *
+   ******************************
 */
 
 /* Generic testfunction for binary predicates f(A,B), which return true
