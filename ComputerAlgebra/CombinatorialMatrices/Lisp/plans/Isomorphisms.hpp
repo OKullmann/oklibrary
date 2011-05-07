@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.8.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -37,7 +37,7 @@ License, or any later version. */
    <li> We have the rank. </li>
    <li> If matrices A, B are isomorphic, then the square matrices A^t A, B^t B
    are isomorphic, and, since A^t, B^t are isomorphic, also A A^t, B B^t are
-   isomorphic (again, as square matrices).
+   isomorphic (again, as square matrices(!)).
     <ol>
      <li> So we can use invariants for square matrix isomorphism (see below).
      </li>
@@ -52,7 +52,8 @@ License, or any later version. */
      twice. </li>
     </ol>
    </li>
-   <li> But the value-distributions for A, B are not covered. </li>
+   <li> DONE (we have now is_isomorphic_incl2b_com)
+   But the value-distributions for A, B are not covered. </li>
    <li> A polytime computable invariant in case of externally square matrices
    is whether the matrices are fully indecomposable. </li>
   </ul>

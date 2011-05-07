@@ -28,7 +28,8 @@ oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Isomorphis
 
 okltest_is_isomorphic_incl0_com(is_isomorphic_incl0_com);
 okltest_is_isomorphic_incl1_com(is_isomorphic_incl1_com);
-okltest_is_isomorphic_incl2_com(is_isomorphic_incl2_com);
+okltest_is_isomorphic_incl2a_com(is_isomorphic_incl2a_com);
+okltest_is_isomorphic_incl2b_com(is_isomorphic_incl2b_com);
 
 /* ******************************
    * Complete isomorphism tests *
@@ -37,7 +38,7 @@ okltest_is_isomorphic_incl2_com(is_isomorphic_incl2_com);
 
 okltest_is_isomorphic_com_p(is_isomorphic_rowperm0_com_p);
 okltest_is_isomorphic_com_p(is_isomorphic_rowperm1_com_p);
-okltest_is_isomorphic_com_p(is_isomorphic_rowperm2_com_p);
+okltest_is_isomorphic_com_p(is_isomorphic_rowperm2a_com_p);
 
 /* ************************
    * Duality and polarity *

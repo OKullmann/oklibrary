@@ -66,13 +66,19 @@ is_isomorphic_incl1_com(A,B) :=
     else unknown)$
 /* Stronger, compute the associated symmetric matrices and the
    characteristic polynomials: */
-is_isomorphic_incl2_com(A,B) :=
+is_isomorphic_incl2a_com(A,B) :=
   block([check0 : is_isomorphic_incl0_com(A,B)],
   if check0 # unknown then check0 else block(
    [a : com2m(A), b : com2m(B), x],
-    if charpoly_m(a . transpose(a)) # charpoly_m(b . transpose(b)) then
-      return(false),
-    return(unknown)))$
+    if charpoly_m(a . transpose(a)) # charpoly_m(b . transpose(b)) then false
+    else unknown))$
+/* Alternatively, consider the associated multisets of row/column-multisets: */
+is_isomorphic_incl2b_com(A,B) :=
+  block([check0 : is_isomorphic_incl0_com(A,B)],
+  if check0 # unknown then check0
+  elseif com2omsoms_r(A) # com2omsoms_r(B) then false
+  elseif com2omsoms_c(A) # com2omsoms_c(B) then false
+  else unknown)$
 
 
 /* ******************************
@@ -116,12 +122,12 @@ is_isomorphic_rowperm1_com(A,B) := block(
   else is_isomorphic_rowperm_com(A,B))$
 is_isomorphic_rowperm1_com_p(A,B) := listp(is_isomorphic_rowperm1_com(A,B))$
 
-is_isomorphic_rowperm2_com(A,B) := block(
- [check2 : is_isomorphic_incl2_com(A,B)],
-  if check2=true then listify(A[1])
-  elseif check2=false then false
+is_isomorphic_rowperm2a_com(A,B) := block(
+ [check2a : is_isomorphic_incl2a_com(A,B)],
+  if check2a=true then listify(A[1])
+  elseif check2a=false then false
   else is_isomorphic_rowperm_com(A,B))$
-is_isomorphic_rowperm2_com_p(A,B) := listp(is_isomorphic_rowperm2_com(A,B))$
+is_isomorphic_rowperm2a_com_p(A,B) := listp(is_isomorphic_rowperm2a_com(A,B))$
 
 
 /* ************************
