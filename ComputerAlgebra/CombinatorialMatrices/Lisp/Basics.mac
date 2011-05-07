@@ -294,9 +294,9 @@ random_inv_m(r,c,F,add_f,mul_f) := block([avail_rows, rows : [], hull : {}],
   return(apply(matrix, rows)))$
   
 
-/* *******************
-   * Transformations *
-   *******************
+/* ****************************
+   * Rows, columns, diagonals *
+   ****************************
 */
 
 /* Transforms a combinatorial matrix into a list, row-wise: */
@@ -330,6 +330,11 @@ com2omsoms_r(M) := list_distribution(map(list_distribution,com2ll_r(M)))$
 /* The same, for the columns: */
 com2omsoms_c(M) := list_distribution(map(list_distribution,com2ll_c(M)))$
 
+
+/* *******************
+   * Transformations *
+   *******************
+*/
 
 /* Transforms a symmetric combinatorial matrix into a graph: */
 /* RENAME: scom2g */

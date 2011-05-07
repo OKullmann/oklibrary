@@ -117,9 +117,9 @@ okltest_extend_linear_hull(extend_linear_hull);
 okltest_linear_hull(linear_hull);
 okltest_random_inv_m(random_inv_m);
 
-/* *******************
-   * Transformations *
-   *******************
+/* ****************************
+   * Rows, columns, diagonals *
+   ****************************
 */
 
 okltest_com2l_r(com2l_r);
@@ -134,6 +134,11 @@ okltest_column_m(column_m);
 
 okltest_com2omsoms_r(com2omsoms_r);
 okltest_com2omsoms_c(com2omsoms_c);
+
+/* *******************
+   * Transformations *
+   *******************
+*/
 
 okltest_scom2g(scom2g);
 okltest_scom2gl(scom2gl);
