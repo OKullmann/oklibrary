@@ -322,6 +322,15 @@ row_m(M,i) := M[i]$
 /* Extracting column i from Maxima-matrix M as list: */
 column_m(M,i) := transpose(col(M,i))[1]$
 
+
+/* Transforms a combinatorial matrix into an ordered multiset of rows as
+   ordered multi-sets:
+*/
+com2omsoms_r(M) := list_distribution(map(list_distribution,com2ll_r(M)))$
+/* The same, for the columns: */
+com2omsoms_c(M) := list_distribution(map(list_distribution,com2ll_c(M)))$
+
+
 /* Transforms a symmetric combinatorial matrix into a graph: */
 /* RENAME: scom2g */
 com2g(M) := [M[1], subset(powerset(M[1],2), lambda([S],

@@ -132,6 +132,9 @@ okltest_scom2ll_c(scom2ll_c);
 okltest_row_m(row_m);
 okltest_column_m(column_m);
 
+okltest_com2omsoms_r(com2omsoms_r);
+okltest_com2omsoms_c(com2omsoms_c);
+
 okltest_scom2g(scom2g);
 okltest_scom2gl(scom2gl);
 okltest_scom2dg(scom2dg);
