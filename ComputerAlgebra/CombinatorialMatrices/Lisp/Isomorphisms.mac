@@ -100,6 +100,8 @@ is_isomorphic_rowperm_com(A,B) :=
      then found : p,
    return(found))$
 
+/* Combining is_isomorphic_rowperm_com with the various tests: */
+
 is_isomorphic_rowperm0_com(A,B) := block(
  [check0 : is_isomorphic_incl0_com(A,B)],
   if check0=true then listify(A[1])
