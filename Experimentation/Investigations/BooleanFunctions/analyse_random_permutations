@@ -28,9 +28,9 @@ set -o errexit
 set -o nounset
 
 script_name="analyse_random_permutations"
-version_number="0.1.4"
+version_number="0.1.5"
+err="ERROR[${script_name}]:"
 
-err="Error[analyse_random_permutations]:"
 qmc_scriptname="QuineMcCluskeySubsumptionHypergraphFullStatistics-n"
 cnf_filename=Permutation_full.cnf
 maxima_log_filename=maxima_log
