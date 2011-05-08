@@ -10,6 +10,17 @@ License, or any later version. */
   \brief On investigations regarding boolean functions
 
 
+  \bug analyse_random_permutations does not create experiment-directories
+  <ul>
+   <li> Every experiment takes places in its own directory. </li>
+   <li> This standard has been explained and used many times. </li>
+   <li> Perhaps MG would finally take notice of it. </li>
+   <li> Also the weak Bash-usage has to be corrected. </li>
+   <li> And the other scripts in this directory need also to be corrected.
+   </li>
+  </ul>
+
+
   \todo Add milestones
 
 
@@ -25,10 +36,10 @@ License, or any later version. */
   <ul>
    <li> We need to investigate random boolean functions to
    compare with the AES investigations (see 
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp). 
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp).
    </li>
-   <li> Likely, we should create a new plans file for arbitrary boolean functions
-   which may not fit into other categories? </li>
+   <li> Likely, we should create a new plans file for arbitrary boolean
+   functions which may not fit into other categories? </li>
    <li> See "First considerations of random permutation" in 
    Experimentation/Investigations/BooleanFunctions/plans/general.hpp for an
    example of similar investigations into permutations. </li>

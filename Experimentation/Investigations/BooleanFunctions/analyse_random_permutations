@@ -34,6 +34,7 @@ err="ERROR[${script_name}]:"
 qmc_scriptname="QuineMcCluskeySubsumptionHypergraphFullStatistics-n"
 cnf_filename=Permutation_full.cnf
 maxima_log_filename=maxima_log
+
 exp_dir_prefix=random_perm_
 
 if [[ $# -ne 2 && $# -ne 3 ]]; then
