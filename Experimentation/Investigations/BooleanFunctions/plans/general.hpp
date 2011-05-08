@@ -21,6 +21,25 @@ License, or any later version. */
   </ul>
 
 
+  \todo All essential computations of analyse_random_permutations at C++ level
+  <ul>
+   <li> The C++ simulation of the Maxima random-generator then needs to be
+   reconsidered. </li>
+  </ul>
+
+
+  \todo Write "analyse_all_permutations"
+  <ul>
+   <li> Similar to analyse_random_permutations, but now considering all
+   permutations. </li>
+   <li> See investigate_permutations in
+   Experimentation/Investigations/BooleanFunctions/Permutations.mac for
+   a Maxima role-model. </li>
+   <li> Once we have a full-blown C++ implementation, then likely the simple
+   Maxima-function should be removed. </li>
+  </ul>
+
+
   \todo Add milestones
 
 
