@@ -53,12 +53,29 @@ investigate_permutations(n) := block(
    count:count+1,
    if monitor and oklib_monitor_level=0 then printf(true, "~d ", count),
    t : evalpermasbf(P),
-   if monitor and oklib_monitor_level >= 1 then print(count, t),
+   if monitor and oklib_monitor_level >= 1 then print(count, P, t),
    L : ev_hm(h,t),
    if monitor and L=false then (countf:countf+1, print("NEW:", countf, P, t)),
    set_hm(h,t, if L=false then [P] else cons(P,L))
  ),
  return(h))$
+
+/* Only run through the transpositions: */
+investigate_transpositions(n) := block(
+ [m : 2^n, h : sm2hm({}), count:0, countf:0,
+  monitor : oklib_monitor, oklib_monitor: false],
+ for S in powerset(setn(m),2) do block([p1:first(S), p2:second(S),P],
+   count:count+1,
+   if monitor and oklib_monitor_level=0 then printf(true, "~d ", count),
+   P : create_list(if i=p1 then p2 elseif i=p2 then p1 else i, i,1,m),
+   t : evalpermasbf(P),
+   if monitor and oklib_monitor_level >= 1 then print(count, P, t),
+   L : ev_hm(h,t),
+   if monitor and L=false then (countf:countf+1, print("NEW:", countf, P, t)),
+   set_hm(h,t, if L=false then [P] else cons(P,L))
+ ),
+ return(h))$
+
 
 /* Output the occurring tuples t together with the number of permutations
    belonging to them:
