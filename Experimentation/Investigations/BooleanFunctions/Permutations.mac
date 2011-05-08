@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 19.12.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -31,11 +31,16 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
    CNF representation, and the number of such representations.
    Returned is a hash-map, which for the occurring 4-tuples returns the
    list of permutations P belonging to them.
+   If oklib_monitor is true, then the new permutations and their statistics
+   are printed, together with a total count.
 */
-investigate_permutations(n) := block([m : 2^n, h : sm2hm({})],
+investigate_permutations(n) := block(
+ [m : 2^n, h : sm2hm({}), count:0, countf:0,
+  monitor : oklib_monitor, oklib_monitor: false],
  for P in permutations(setn(m)) do block(
-  [F : perm2cnffcs(P)[2], Pr, S, Pr, Min, pr,nec,min,s,t, L, 
-   monitor : oklib_monitor, oklib_monitor: false],
+  [F : perm2cnffcs(P)[2], Pr, S, Pr, Min, pr,nec,min,s,t, L],
+   count:count+1,
+   if monitor and oklib_monitor_level=0 then printf(true, "~d ", count),
    Pr : min_2resolution_closure_cs(F),
    pr : length(Pr),
    S : rsubsumption_hg(Pr,F),
@@ -44,8 +49,9 @@ investigate_permutations(n) := block([m : 2^n, h : sm2hm({})],
    min : length(Min),
    s : length(first(Min)),
    t : [pr, nec, s, min],
+   if monitor and oklib_monitor_level >= 1 then print(count, t),
    L : ev_hm(h,t),
-   if monitor and L = false then print(P, t),
+   if monitor and L=false then (countf:countf+1, print("NEW:", countf, P, t)),
    set_hm(h,t, if L=false then [P] else cons(P,L))
  ),
  return(h))$
