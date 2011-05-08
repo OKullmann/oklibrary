@@ -88,7 +88,7 @@ somenary_s([_L]) := block(
   return(_countex))$
 /* Remarks:
  - some is faster than some_s if all elements are to be evaluated;
-   some_s is faster than somenary_s if the predicate is unary.
+ - some_s is faster than somenary_s if the predicate is unary.
 */
 
 /* Checks whether L is a list without repetitions: */
