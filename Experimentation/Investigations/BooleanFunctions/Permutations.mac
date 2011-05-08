@@ -24,6 +24,18 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permuta
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
+/* Evaluation of permutation P of {1,...,2^n}: */
+evalpermasbf(P) := block(
+  [F : perm2cnffcs(P)[2], Pr, S, Min, pr,nec,min,s, L],
+   Pr : min_2resolution_closure_cs(F),
+   pr : length(Pr),
+   S : rsubsumption_hg(Pr,F),
+   nec : length(S[2]),
+   Min : all_minequiv_bvs_rsubhg(S),
+   min : length(Min),
+   s : length(first(Min)),
+   [pr, nec, s, min]
+)$
 
 /* For n >= 0, runs through the permutations P of {1,..,2^n}, determines the
    4-tuple [pr, nec, s, min], the number of prime implicates, the number of 
@@ -37,18 +49,10 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 investigate_permutations(n) := block(
  [m : 2^n, h : sm2hm({}), count:0, countf:0,
   monitor : oklib_monitor, oklib_monitor: false],
- for P in permutations(setn(m)) do block(
-  [F : perm2cnffcs(P)[2], Pr, S, Pr, Min, pr,nec,min,s,t, L],
+ for P in permutations(setn(m)) do block([t, L],
    count:count+1,
    if monitor and oklib_monitor_level=0 then printf(true, "~d ", count),
-   Pr : min_2resolution_closure_cs(F),
-   pr : length(Pr),
-   S : rsubsumption_hg(Pr,F),
-   nec : length(S[2]),
-   Min : all_minequiv_bvs_rsubhg(S),
-   min : length(Min),
-   s : length(first(Min)),
-   t : [pr, nec, s, min],
+   t : evalpermasbf(P),
    if monitor and oklib_monitor_level >= 1 then print(count, t),
    L : ev_hm(h,t),
    if monitor and L=false then (countf:countf+1, print("NEW:", countf, P, t)),
