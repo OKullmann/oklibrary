@@ -234,6 +234,40 @@ ev_ip(t3);
      <li> It remains the task to find for these 3 cases (in general n cases)
      all prime implicates, and to determine their structure (irredundant
      clauses, minimum representations). </li>
+     <li> Special transitive permutations:
+     \verbatim
+P : cyclepres2perl({[1,2,3,4,5,6,7,8]});
+  [2,3,4,5,6,7,8,1]
+evalpermasbf(P);
+  [28,0,10,48]
+
+P : cyclepres2perl({[1,4,7,2,5,8,3,6]});
+  [4,5,6,7,8,1,2,3]
+evalpermasbf(P);
+  [28,0,10,48]
+
+P : cyclepres2perl({[1,2,6,5,4,3,8,7]});
+  [2,6,8,3,4,5,1,7]
+evalpermasbf(P);
+  [41,0,12,592]
+     \verbatim
+     </li>
+     <li> There are 7! = 5040 transitive permutations; perhaps this class is
+     too large? Or can we say something, e.g., what are the most complicated
+     boolean functions amongst them? </li>
+     <li> The maximal order of a permutation here is 3*5=15:
+     \verbatim
+P : cyclepres2perl({[1,2,3],[4,5,6,7,8]});
+  [2,3,1,5,6,7,8,4]
+evalpermasbf(P);
+  [38,0,11,67]
+
+P : cyclepres2perl({[1,8,3],[2,6,4,7,5]});
+  [8,6,1,7,2,4,5,3]
+evalpermasbf(P);
+  [35,2,12,7680]
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> The number of linear automorphisms is order_gl(3,2) = 168, while
