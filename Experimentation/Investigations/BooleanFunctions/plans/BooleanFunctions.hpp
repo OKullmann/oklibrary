@@ -17,7 +17,7 @@ License, or any later version. */
   <ul>
    <li> Considering random boolean functions on 16 variables:
    \verbatim
-shell> $OKlib/OKlib/Experimentation/Investigations/BooleanFunctions/analyse_random_boolean_functions 16 1
+shell> OKlib/Experimentation/Investigations/BooleanFunctions/analyse_random_boolean_functions 16 1
 ^C
    \endverbatim
    and then in R:
