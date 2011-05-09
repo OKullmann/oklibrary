@@ -154,8 +154,36 @@ FlipsPerSecond = 221298
   </ul>
 
 
-  \todo vdw_2^pd(5,8) >= (312,323)
+  \todo vdw_2^pd(5,8) = (312,323)
   <ul>
+   <li> Determined by minisat-2.2.0:
+    <ol>
+     <li> Hardest problem for n=324:
+     \verbatim
+restarts              : 16777214
+conflicts             : 19006590162    (4124 /sec)
+decisions             : 21516030010    (0.00 % random) (4668 /sec)
+propagations          : 379970924722   (82439 /sec)
+conflict literals     : 508510692844   (22.16 % deleted)
+Memory used           : 225.14 MB
+CPU time              : 4.60912e+06 s
+UNSATISFIABLE
+     \endverbatim
+     </li>
+     <li> While for n=313:
+     \verbatim
+restarts              : 2097150
+conflicts             : 2076757141     (6872 /sec)
+decisions             : 2356337872     (0.00 % random) (7798 /sec)
+propagations          : 41736971474    (138117 /sec)
+conflict literals     : 50113566661    (23.17 % deleted)
+Memory used           : 91.68 MB
+CPU time              : 302186 s
+UNSATISFIABLE
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> Certificates:
     <ol>
      <li> n=311:
