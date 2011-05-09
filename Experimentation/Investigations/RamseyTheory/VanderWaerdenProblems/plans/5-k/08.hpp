@@ -182,6 +182,111 @@ CPU time              : 302186 s
 UNSATISFIABLE
      \endverbatim
      </li>
+     <li> Splitting the problem for n=324:
+     \verbatim
+> SplittingViaOKsolver -D12 VanDerWaerden_pd_2-5-8_324.cnf
+> cd SplitViaOKsolver_D12VanDerWaerden_pd_258_324cnf_2011-05-09-224144
+> more Md5sum
+64d71cced212d7377c121092fa7476ce
+> more Statistics
+> E=read.table("Data")
+> summary(E)
+       n
+ Min.   :12.00
+ 1st Qu.:14.00
+ Median :15.00
+ Mean   :15.07
+ 3rd Qu.:16.00
+ Max.   :32.00
+> table(E)
+E
+ 12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  32
+230 651 933 834 620 371 223 130  47  23  14   7   6   2   1   3   1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           162
+c initial_number_of_clauses             9973
+c initial_number_of_literal_occurrences 60446
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     39.0
+c number_of_nodes                       8191
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                8
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        12
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_pd_2-5-8_324.cnf
+c splitting_directory                   SplitViaOKsolver_D12VanDerWaerden_pd_258_324cnf_2011-05-09-224144/Instances
+c splitting_cases                       4096
+
+> SplittingViaOKsolver -D16 VanDerWaerden_pd_2-5-8_324.cnf
+> cd SplitViaOKsolver_D16VanDerWaerden_pd_258_324cnf_2011-05-09-224526
+> > more Md5sum
+df571321afc590fa67f5cec11a8499a0
+> more Statistics
+> E=read.table("Data")
+> summary(E)
+       n
+ Min.   :16.00
+ 1st Qu.:19.00
+ Median :21.00
+ Mean   :21.49
+ 3rd Qu.:23.00
+ Max.   :53.00
+> table(E)
+E
+  16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31
+ 800 3146 6552 8855 9865 9037 7533 5790 4329 2867 1917 1253  888  681  472  370
+  32   33   34   35   36   37   38   39   40   41   42   43   44   45   46   47
+ 282  180  122   97   76   68   66   35   33   30   21   18    8    9   10    7
+  48   49   50   51   52   53
+   8    1    3    3    2    1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           162
+c initial_number_of_clauses             9973
+c initial_number_of_literal_occurrences 60446
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     546.8
+c number_of_nodes                       131045
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                3415
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        16
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_pd_2-5-8_324.cnf
+c splitting_directory                   SplitViaOKsolver_D16VanDerWaerden_pd_258_324cnf_2011-05-09-224526/Instances
+c splitting_cases                       65435
+     \endverbatim
+     </li>
+     <li> The question is whether via splitting we could actually gain running
+     time. </li>
     </ol>
    </li>
    <li> Certificates:
