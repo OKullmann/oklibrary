@@ -379,6 +379,11 @@ trans_l2m(L) := scom2m(trans_l2scom(L))$
    ********************
 */
 
+/* Recall that for a Maxima matrix via matrix_size the pair
+   [number_rows,number_columns]
+   is computed.
+*/
+
 /* The dimensions of a combinatorial matrix: */
 dim_com(M) := [length(M[1]), length(M[2])]$
 /* The order of a square combinatorial matrix: */
@@ -428,15 +433,21 @@ min_com(M) := lmin(com2l_r(M))$
 /* The maximum over all entries of a non-empty combinatorial matrix: */
 max_com(M) := lmax(com2l_r(M))$
 
+
 /* The sum over all entries of a combinatorial matrix */
 sum_com(M) := sum_l(com2l_r(M))$
 /* The sum over all entries of a square combinatorial matrix */
 sum_scom(M) := sum_com(scom2com(M))$
 
+/* The sum of matrix entries at positions given by L for Maxima matrix A: */
+sum_m(A,L) := sum_l(map(lambda([p], A[p[1],p[2]]), L))$
+
+
 /* The entrywise absolute values of a combinatorial matrix */
 abs_com(M) := [M[1], M[2], buildq([M],lambda([i,j], abs(M[3](i,j))))]$
 /* The entrywise absolute values of a square combinatorial matrix */
 abs_scom(M) := [M[1], buildq([M],lambda([i,j], abs(M[2](i,j))))]$
+
 
 /* The distribution of row-sums, that is a list of pairs [possible
     row-sum, number of rows], sorted by ascending row-sum. */
@@ -491,6 +502,10 @@ obsscom_com_p(M) := is(M[1] = M[2])$
 
 symmetric_scom_p(M) := scom_equalp(M,trans_scom(M))$
 symmetric_m_p(M) := is(M = transpose(M))$
+
+/* Whether Maxima matrix A has entries all different at the positions given
+   by L: */
+alldifferent_m_p(A,L) := listnorep_p(map(lambda([p], A[p[1],p[2]]), L))$
 
 
 /* ***************

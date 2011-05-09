@@ -585,6 +585,14 @@ okltest_sum_scom(f) := (
   assert(f(constantscom(setn(3),2)) = 18),
   true)$
 
+okltest_sum_m(f) := block([a,b,c,d],
+  assert(f(matrix(),[]) = 0),
+  assert(f(matrix([5]),[]) = 0),
+  assert(f(matrix([5]),[[1,1]]) = 5),
+  assert(f(matrix([a,b],[c,d]), [[1,2]]) = b),
+  assert(f(matrix([a,b],[c,d]), [[1,2],[2,2]]) = b+d),
+  true)$
+
 okltest_abs_com(f) := (
   assert(com_equalp(f(emptycom), emptycom) = true),
   assert(com_equalp(f(zerocom({1},{2})), zerocom({1},{2})) = true),
@@ -737,6 +745,16 @@ okltest_symmetric_m_p(f) := (
   assert(f(matrix([1])) = true),
   assert(f(zeromatrix(3,3)) = true),
   assert(f(zeromatrix(2,3)) = false),
+  true)$
+
+okltest_alldifferent_m_p(f) := (
+  assert(f(matrix(),[]) = true),
+  assert(f(matrix([1]),[]) = true),
+  assert(f(matrix([1]),[[1,1]]) = true),
+  assert(f(matrix([1,1]),[[1,1]]) = true),
+  assert(f(matrix([1,1]),[[1,1],[1,2]]) = false),
+  assert(f(matrix([1,2],[2,3]),[[1,1],[1,2],[2,2]]) = true),
+  assert(f(matrix([1,2],[2,3]),[[1,2],[2,1]]) = false),
   true)$
 
 

@@ -184,6 +184,8 @@ okltest_max_com(max_com);
 okltest_sum_com(sum_com);
 okltest_sum_scom(sum_scom);
 
+okltest_sum_m(sum_m);
+
 okltest_abs_com(abs_com);
 okltest_abs_scom(abs_scom);
 
@@ -215,6 +217,8 @@ okltest_obsscom_com_p(obsscom_com_p);
 
 okltest_symmetric_scom_p(symmetric_scom_p);
 okltest_symmetric_m_p(symmetric_m_p);
+
+okltest_alldifferent_m_p(alldifferent_m_p);
 
 /* ***************
    * Polynomials *
