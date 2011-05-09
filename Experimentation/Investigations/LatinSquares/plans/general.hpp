@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.12.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,17 @@ License, or any later version. */
 /*!
   \file Experimentation/Investigations/LatinSquares/plans/general.hpp
   \brief On investigations regarding latin squares and variations
+
+
+  \todo Strictly pandiagonal latin squares
+  <ul>
+   <li> See spdl_abn_ls(n,a,b) in
+    ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/BasicNotions.mac.
+    </li>
+    <li> SAT-translations are easy to do (basically the same as latin squares
+    themselves), and we should provide them. </li>
+    <li> For n >= 4 divisible by 2 or 3, is it known that SPLS(n)=0 ? </li>
+  </ul>
 
 
   \todo Counting the number of n-jective relations
