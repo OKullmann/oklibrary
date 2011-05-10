@@ -399,7 +399,7 @@ CURRENT MINIMUM RBASE: *4401* with gs=59,bs=2
 ------------------------------------------------------------------------------------
 <snip>
    \endverbatim
-   </li>
+   Experiment run up to gs=90, bs=3 so far. </li>
    <li> It makes sense that sorting the generating set in descending
    order of clause-size, when passing it to RUcpBase, would yield shorter
    r_1 bases as then RUcpBase removes longer clauses first and keeps
