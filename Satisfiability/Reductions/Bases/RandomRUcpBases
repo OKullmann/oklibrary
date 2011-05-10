@@ -80,7 +80,7 @@ else
 fi
 
 sort_program=SortByClauseLength-O3-DNDEBUG
-sort_desc_program=SortByClauseLength-O3-DNDEBUG
+sort_desc_program=SortByClauseLengthDescending-O3-DNDEBUG
 shuffle_program=RandomShuffleDimacs-O3-DNDEBUG
 statistics_program=ExtendedDimacsFullStatistics-O3-DNDEBUG
 primes_program=QuineMcCluskey-n16-O3-DNDEBUG
