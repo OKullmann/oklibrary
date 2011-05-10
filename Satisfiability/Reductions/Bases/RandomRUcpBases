@@ -46,7 +46,7 @@ set -o nounset
 
 script_name="RandomRUcpBases"
 err="ERROR[${script_name}]:"
-version="0.2.5"
+version="0.3"
 
 if [[ $# -lt 1 || $# -gt 3 ]]; then
   echo -n "${err} Takes precisely one argument, the name of the file full "
@@ -80,7 +80,7 @@ else
 fi
 
 sort_program=SortByClauseLength-O3-DNDEBUG
-sort_desc_program=SortByClauseLength-O3-DNDEBUG
+sort_desc_program=SortByClauseLengthDescending-O3-DNDEBUG
 shuffle_program=RandomShuffleDimacs-O3-DNDEBUG
 statistics_program=ExtendedDimacsFullStatistics-O3-DNDEBUG
 primes_program=QuineMcCluskey-n16-O3-DNDEBUG
