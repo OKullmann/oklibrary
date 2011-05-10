@@ -60,7 +60,7 @@ order_element_pmtf(rijn_sbox_pmtf,256);
      with clause-length-distribution as follows:
      \verbatim
 > QuineMcCluskey-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_PK.cnf
-> cat AES_PK.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+> cat AES_PK.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 136253 999896 0 999896 1 1
  length count
@@ -99,13 +99,13 @@ order_element_pmtf(rijn_sbox_pmtf,256);
      <li> R-summary:
      \verbatim
 > E=read.table("AES_S_stat",skip=2,header=TRUE)
-     length           count       
- Min.   : 170.0   Min.   :  1.00  
- 1st Qu.: 555.2   1st Qu.: 11.25  
- Median : 846.5   Median : 38.00  
- Mean   : 845.8   Mean   : 55.99  
- 3rd Qu.:1137.8   3rd Qu.:102.00  
- Max.   :1517.0   Max.   :173.00  
+     length           count
+ Min.   : 170.0   Min.   :  1.00
+ 1st Qu.: 555.2   1st Qu.: 11.25
+ Median : 846.5   Median : 38.00
+ Mean   : 845.8   Mean   : 55.99
+ 3rd Qu.:1137.8   3rd Qu.:102.00
+ Max.   :1517.0   Max.   :173.00
 > plot(E)
      \endverbatim
      </li>
@@ -115,7 +115,7 @@ order_element_pmtf(rijn_sbox_pmtf,256);
      </li>
     </ol>
    </li>
-   <li> See "Basic data" in 
+   <li> See "Basic data" in
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp.
    </li>
    <li> See "First considerations of random permutation" in
@@ -130,12 +130,12 @@ order_element_pmtf(rijn_sbox_pmtf,256);
    </li>
    <li> The smallest CNF we have so far is of size 294, described in
    "Using weighted MaxSAT to compute small CNFs". </li>
-   <li> Here we should have an overview of the current state of this 
+   <li> Here we should have an overview of the current state of this
    investigation and open problems. </li>
-   <li> There are open investigations on finding the smallest 
+   <li> There are open investigations on finding the smallest
    hitting-clause-set representation, and small representations derived
    from this. See "Generate good CNF hitting clause-sets" and
-   "Extracting prime implicate representations from the 
+   "Extracting prime implicate representations from the
    hitting-cls-representations". </li>
    <li> There is also the open problem of investigating the symmetries
    of the DNF, see "Find the symmetries of the AES Sbox DNF". </li>
@@ -165,14 +165,14 @@ order_element_pmtf(rijn_sbox_pmtf,256);
    </li>
   </ul>
 
-  
+
   \todo Using weighted MaxSAT to compute small CNFs
   <ul>
    <li> Computing the weighted MaxSAT problem:
    \verbatim
 maxima> output_rijnsbox_fullcnf_stdname();
    \endverbatim
-   and then 
+   and then
    \verbatim
 shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_Sbox_shg.cnf
 shell> cat AES_Sbox_shg.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > AES_Sbox_shg.wcnf
@@ -180,18 +180,18 @@ shell> cat AES_Sbox_shg.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > AES_Sbox_shg.w
    </li>
    <li> Running then:
    \verbatim
-shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 40000000 -wtarget 294 -solve 1 -seed 3213901809 -i AES_Sbox_shg.wcnf -r model AES_Sbox_s294.ass; 
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 40000000 -wtarget 294 -solve 1 -seed 3213901809 -i AES_Sbox_shg.wcnf -r model AES_Sbox_s294.ass;
 shell> cat  AES_Sbox_full.cnf_primes | FilterDimacs AES_Sbox_s294.ass > AES_Sbox_s294.cnf
    \endverbatim
    yields a CNF of size 294 with the following statistics:
    \verbatim
-shell> cat AES_Sbox_s294.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+shell> cat AES_Sbox_s294.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
 c's = 0, n = 16, c = 294, tc = 0, ntc = 294, tl = 1939, l = 1939, finished = 1
 6 : 143
 7 : 127
 8 : 24
    \endverbatim
-   and we can check this is indeed a CNF representation of the Sbox using 
+   and we can check this is indeed a CNF representation of the Sbox using
    Maxima:
    \verbatim
 > is(rijnsbox_fulldnf_fcs()[2] = all_sat_fcs(Sbox294CNFF));
@@ -205,7 +205,7 @@ true
 
   \todo Minimum using exact espresso algorithms
   <ul>
-   <li> See    
+   <li> See
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/Espresso/Ss_sbox_8.hpp .
    </li>
    <li> Computing the minimum CNF:
@@ -219,7 +219,7 @@ shell> espresso2.3 -Dexact Sbox.pla
    \endverbatim
    causes espresso to run out of memory on an 8GB machine.
    </li>
-   <li> The same occurs using the espresso "signature" algorithm. 
+   <li> The same occurs using the espresso "signature" algorithm.
    </li>
    <li> Machines with more memory should be found. </li>
   </ul>
@@ -240,10 +240,10 @@ shell> espresso2.3 Sbox.pla
    </li>
   </ul>
 
-  
+
   \todo Using R QCA package
   <ul>
-   <li> See    
+   <li> See
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/RQCA/general.hpp .
    </li>
    <li> Computing a minimum CNF:
@@ -263,7 +263,7 @@ R> eqmcc(sbox_tt, outcome="O", expl.0=TRUE)
 Error: Impossible to solve the PI chart (too many possible combinations).
    \endverbatim
    </li>
-   <li> This suggests that it at may at least be computing the prime 
+   <li> This suggests that it at may at least be computing the prime
    implicates. </li>
    <li> We should look into the options for this package, or perhaps
    e-mail the developers. </li>
@@ -357,8 +357,8 @@ maxima> ncl_list_full_dualts(16,256);
 9 4
      \endverbatim
      </li>
-     <li> Sorting the generating set in descending order (using 
-     SortByClauseLength-O3-DNDEBUG, "tac" and then manual editing), 
+     <li> Sorting the generating set in descending order (using
+     SortByClauseLength-O3-DNDEBUG, "tac" and then manual editing),
      yields an even smaller r_1 base:
      \verbatim
 > cat sbox_gen_from_revsorted.cnf | RUcpBase-O3-DNDEBUG | tee sbox_base_from_revsorted.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
@@ -400,16 +400,16 @@ CURRENT MINIMUM RBASE: *4401* with gs=59,bs=2
 <snip>
    \endverbatim
    </li>
-   <li> It makes sense that sorting the generating set in descending 
+   <li> It makes sense that sorting the generating set in descending
    order of clause-size, when passing it to RUcpBase, would yield shorter
    r_1 bases as then RUcpBase removes longer clauses first and keeps
    the shorter ones (which cover more). </li>
    <li> Using the smallest known Sbox CNF (mincl_rinf = 294):
     <ol>
-     <li> See 
+     <li> See
      "Using weighted MaxSAT to compute small CNFs") with statistics:
      \verbatim
-> cat AES_294.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+> cat AES_294.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 294 1939 0 1939 0 1
  length count
@@ -459,10 +459,10 @@ CURRENT MINIMUM RBASE: *4401* with gs=59,bs=2
 9 5
      \endverbatim
      </li>
-     <li> Note that in this case (using an initial input of the 294 clauses 
-     from the smallest known representation), sorting the clauses of the 
-     generating set in reverse (sbox_294_gen_revsort.cnf - generated by hand 
-     from the sorted generating set using "tac" and moving the p line back to 
+     <li> Note that in this case (using an initial input of the 294 clauses
+     from the smallest known representation), sorting the clauses of the
+     generating set in reverse (sbox_294_gen_revsort.cnf - generated by hand
+     from the sorted generating set using "tac" and moving the p line back to
      the top) yields the smallest r_1 base of the three (no sorting, sorting
      and reverse). </li>
     </ol>
@@ -497,7 +497,7 @@ statistics_cs(rijnsbox2hittingcnf_fcs(dll_heuristics_max_lit_tb(4,4)));
 [16, 1438, 18536, 16, 6]
    \endverbatim
    Would be interesting to understand this. See below. </li>
-   <li> DONE (explained below: there are no forced assignments, so no 
+   <li> DONE (explained below: there are no forced assignments, so no
    false-condensation can take place, while true-condensations can't happen
    with clause-sets) Also interesting that all the hitting trees
    produced by the SAT solvers are already condensed. </li>
@@ -535,10 +535,10 @@ statistics_cs(rijnsbox2hittingcnf_fcs(choose_most_sat_literal_h(satprob_dll_simp
      <li> DONE (differences are due to ties)
      The strange thing here are these little differences "1513, 1515, 1516",
      where actually all three trees should be identical! We need to
-     investigate this. (Perhaps this comes from tie-braking. But still, 
+     investigate this. (Perhaps this comes from tie-braking. But still,
      shouldn't be there.) </li>
      <li> Also the reductions and the look-ahead need to be considered. </li>
-     <li> "The strongest approach is to use full elimination of forced 
+     <li> "The strongest approach is to use full elimination of forced
      assignments at each node. The look-ahead then also takes all forced
      assignments into account." </li>
      <li> If the reduction misses forced assignments, then in principle this
@@ -569,17 +569,17 @@ statistics_cs(rijnsbox2hittingcnf_fcs(choose_most_sat_literal_h(satprob_dll_simp
    <li> It is likely that the SAT approximation heuristic would benefit from
    some lookahead:
     <ol>
-     <li> As was presented with regards to max_lit, so as to differentiate 
+     <li> As was presented with regards to max_lit, so as to differentiate
      when ties occur for the maximal probability of satisfiability. </li>
-     <li> We wish the same idea of maximising satisfiability to occur when we 
-     make the assignment and move 1 level down in the tree, and so the literal 
-     which results in the most "bias" when that literal assignment is made 
+     <li> We wish the same idea of maximising satisfiability to occur when we
+     make the assignment and move 1 level down in the tree, and so the literal
+     which results in the most "bias" when that literal assignment is made
      (or potentially taking into account both branches) should be chosen. </li>
      <li> The reasoning behind maximising "bias" at each level needs to be made
-     clear here (falsifying assignments occurring along the same "path" down 
-     the tree result in less "branch off"s for the satisfying assignments, 
+     clear here (falsifying assignments occurring along the same "path" down
+     the tree result in less "branch off"s for the satisfying assignments,
      where the "branch off"s are then the clauses we take for the dual hitting
-     clause set (after condensing?) - this is likely very imprecise and 
+     clause set (after condensing?) - this is likely very imprecise and
      unclear). </li>
     </ol>
    </li>
@@ -649,12 +649,12 @@ irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
    <li> Alternatively we compute all maximal non-equivalent sub-clause-sets
   via all_max_noneq_scs_bydef:
     <ol>
-     <li> See 
+     <li> See
      ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Cores.mac
      </li>
      <li> Function rijnsbox_cnfp delivers the required equivalence test.
      </li>
-     <li> Then via hypergraph transversals we obtain all irredundant cores. 
+     <li> Then via hypergraph transversals we obtain all irredundant cores.
      </li>
      <li> Likely there are (too) many sub-clause-sets, but we can try. </li>
     </ol>

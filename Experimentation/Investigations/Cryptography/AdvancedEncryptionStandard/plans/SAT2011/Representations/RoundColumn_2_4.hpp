@@ -14,7 +14,7 @@ License, or any later version. */
   <ul>
    <li> We consider the operation "round column" which takes two 4-bit words
    of the AES input, applies the Sbox, and then applies the MixColumns matrix
-   multiplication.  We look at the properties of this operation on these two 
+   multiplication.  We look at the properties of this operation on these two
    4-bit words as a single 8-bit permutation. </li>
    <li> The original AES round as part of a (2*4*m)-bit AES cipher (for all
    positive integers m) can be considered as:
@@ -25,7 +25,7 @@ License, or any later version. */
    where the AES (2*4*m)-bit input is considered as a 2xm matrix of 4-bit
    elements.
    </li>
-   <li> This combination of the SubBytes and the matrix multiplication 
+   <li> This combination of the SubBytes and the matrix multiplication
    can be achived because the linear diffusion operation in the AES shifts
    the results of each Sbox in the SubBytes operation as a whole, and doesn't
    mix the output bits of one Sbox with those of another. Therefore we can
@@ -33,7 +33,7 @@ License, or any later version. */
    <li> The round column operation is an 8-bit permutation, and intuitively
    should mimic a random permutation and so see also
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp
-   and 
+   and
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp
    for comparison. </li>
   </ul>
@@ -94,13 +94,13 @@ shell> cat round_column_16_full.cnf_primes_stats
 shell> oklib --R
 R> E = read.table("round_column_16_full.cnf_shg_stats",header=TRUE,skip=2)
 R> summary(E)
-     length           count       
- Min.   : 255.0   Min.   :  0.00  
- 1st Qu.: 483.5   1st Qu.:  8.00  
- Median : 712.0   Median : 38.00  
- Mean   : 712.0   Mean   : 71.34  
- 3rd Qu.: 940.5   3rd Qu.:131.50  
- Max.   :1169.0   Max.   :264.00 
+     length           count
+ Min.   : 255.0   Min.   :  0.00
+ 1st Qu.: 483.5   1st Qu.:  8.00
+ Median : 712.0   Median : 38.00
+ Mean   : 712.0   Mean   : 71.34
+ 3rd Qu.: 940.5   3rd Qu.:131.50
+ Max.   :1169.0   Max.   :264.00
 R> plot(E)
    \endverbatim
    </li>
