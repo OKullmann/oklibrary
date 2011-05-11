@@ -58,9 +58,9 @@ maxima> ss_mixcolumns_matrix(2,4,4);
   </ul>
 
 
-  \todo Using the canonical box translation 
+  \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   <li> Translating the AES cipher treating Sboxes and field multiplications
    as whole boxes and translating these boxes using the canonical translation.
    </li>
    <li> Generating small scale AES for 2 + 1/3 round:
