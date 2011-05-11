@@ -8,15 +8,10 @@ License, or any later version. */
 /*!
   \file Satisfiability/Interfaces/InputOutput/plans/milestones.hpp
 
-  \module_version Interfaces/InputOutput 0.1.0.3 (3.5.2011)
+  \module_version Interfaces/InputOutput 0.1.0.4 (11.5.2011)
 
 
   \par Version 0.1.1 :
-
-  \par
-   In Interfaces/InputOutput/plans/general.hpp the following topics
-   are handled:
-    - Input and output of partial assignments
 
   \par
    In Interfaces/InputOutput/MinOnes2WeightedMaxSAT.cpp the following topics
@@ -41,6 +36,11 @@ License, or any later version. */
    In Interfaces/InputOutput/AppendDimacs.cpp the following topics
    are handled:
     - Move CLSAdaptorAppend
+
+  \par
+   In Interfaces/InputOutput/plans/PartialAssignments.hpp the following topics
+   are handled:
+    - Input of partial assignments : DONE
 
   \par
    In Interfaces/InputOutput/AppendDimacs.cpp the following topics are
@@ -75,6 +75,13 @@ License, or any later version. */
    In Interfaces/InputOutput/SortByClauseLengthDescending.cpp the following
    topics are handled:
     - Merge with SortByClauseLength.cpp
+
+  \par
+   In Interfaces/InputOutput/plans/PartialAssignments.hpp the following topics
+   are handled:
+    - Exceptions
+    - Improvements of InputOutput::ReadPass
+    - Write unit-tests
 
 
   \par Version 0.1.3 :
