@@ -22,9 +22,16 @@ License, or any later version. */
   In Assignments/PartialAssignments/plans/Boolean.hpp the following topics
    are handled:
     - Class BPass0
+    - Application ApplyPass : DONE
 
 
   \par Version 0.0.8
+
+  \par
+  In Assignments/PartialAssignments/plans/Boolean.hpp the following topics
+   are handled:
+    - Adaptor ApplyPassAdaptor
+    - Write application tests for ApplyPass
 
   \par
    In PartialAssignments/plans/MultivaluedPartialAssignments.hpp the following

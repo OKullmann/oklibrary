@@ -18,13 +18,20 @@ License, or any later version. */
      the pairs (var, cond). </li>
     </ol>
    </li>
-   <li> We need tests. </li>
+   <li> We need unit-tests. </li>
    <li> Update the general concepts, and create a suitable concept for
    BPass0. </li>
   </ul>
 
 
-  \todo Application ApplyPASS
+  \todo Adaptor ApplyPassAdaptor
+  <ul>
+   <li> We need unit-tests. </li>
+  </ul>
+
+
+  \todo DONE
+  Application ApplyPass
   <ul>
    <li> Takes exactly one argument, a file with the partial assignment phi.
    </li>
@@ -46,5 +53,8 @@ License, or any later version. */
    <li> Just before the p-line, as a comment the partial assignment is given.
    </li>
   </ul>
+
+
+  \todo Write application tests for ApplyPass
 
 */
