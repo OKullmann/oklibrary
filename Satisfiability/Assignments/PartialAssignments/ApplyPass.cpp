@@ -13,18 +13,24 @@ License, or any later version. */
 
 #include <iostream>
 #include <string>
+#include <fstream>
 
+#include <OKlib/Satisfiability/ProblemInstances/Literals/TrivialLiterals.hpp>
 #include <OKlib/Satisfiability/Assignments/PartialAssignments/Boolean.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/PartialAssignments.hpp>
 
 namespace {
 
-  enum { errcode_parameter = 1 };
+  enum { errcode_parameter = 1, errcode_file = 2 };
+
+  typedef OKlib::Literals::Literals_int literal_type;
+  typedef OKlib::Satisfiability::Assignments::PartialAssignments::BPass0<literal_type> pass_type;
+  typedef OKlib::Satisfiability::Interfaces::InputOutput::ReadPass<literal_type, pass_type> readpass_t;
 
   const std::string program = "ApplyPass";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.1";
+  const std::string version = "0.0.2";
 
 }
 
@@ -33,5 +39,17 @@ int main(const int argc, const char* const argv[]) {
     std::cerr << err << "Exactly one argument is needed, the filename for the partial assignment.\n";
     return errcode_parameter;
   }
+
+  const std::string filename = argv[1];
+  std::ifstream file_pa(filename.c_str());
+  if (not file_pa) {
+    std::cerr << err << "Can not open file \"" <<filename << "\" (the file with the partial assignment).\n";
+    return errcode_file;
+  }
+
+  readpass_t rpa(file_pa);
+  file_pa.close();
+
+  // XXX
 
 }
