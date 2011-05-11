@@ -70,17 +70,22 @@ License, or any later version. */
 
   \todo Script for applying partial assignments
   <ul>
-   <li> The script ApplyPASS_UCP takes one argument, the file with the partial
+   <li> DONE (see below)
+   The script ApplyPASS_UCP takes one argument, the file with the partial
    assignment. </li>
-   <li> It reads from standard input the CNF F (DIMACS). </li>
-   <li> Internally, it then adds the assignments as unit-clauses, and performs
+   <li> DONE (see below)
+   It reads from standard input the CNF F (DIMACS). </li>
+   <li> DONE (see below)
+   Internally, it then adds the assignments as unit-clauses, and performs
    unit-clause propgatation. </li>
-   <li> The result (in DIMACS format) is output to standard output. </li>
-   <li> Actually, the partiall assignments computed by the OKsolver-2002
+   <li> DONE (see below)
+   The result (in DIMACS format) is output to standard output. </li>
+   <li> DONE (see below)
+   Actually, the partiall assignments computed by the OKsolver-2002
    already contain all derived unit-clause-eliminations, and thus better a
-   script ApplyPASS is provided, which just applies the partial assignment.
+   script ApplyPass is provided, which just applies the partial assignment.
    </li>
-   <li> See "Application ApplyPASS" in
+   <li> See "Application ApplyPass" in
    Satisfiability/Assignments/PartialAssignments/plans/Boolean.hpp. </li>
    <li> And after that, we need to apply ExtendedToStrictDimacs, which makes
    for gapless variable-numbers and correct parameter-values. </li>
@@ -88,6 +93,9 @@ License, or any later version. */
    InputOutput/ExtendedToStrictDimacs.cpp. See "Parameter handling" and
    "Extended Dimacs format" in
    Interfaces/InputOutput/plans/ExtendedToStrictDimacs.hpp. </li>
+   <li> Also the renaming should be shown in the comments. </li>
+   <li> Or are SAT solvers nowadays able to handle these things themselves?
+   The OKsolver definitely is. </li>
   </ul>
 
 
