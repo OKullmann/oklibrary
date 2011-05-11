@@ -16,6 +16,10 @@ License, or any later version. */
 #include <map>
 #include <utility>
 #include <cassert>
+#include <sstream>
+#include <iterator>
+#include <algorithm>
+#include <vector>
 
 #include <OKlib/Satisfiability/ProblemInstances/Literals/var.hpp>
 #include <OKlib/Satisfiability/ProblemInstances/Literals/cond.hpp>
@@ -66,11 +70,12 @@ namespace OKlib {
           }
 
           status_type operator()(const literal_type x) const {
-            const var_type v = OKlib::Literals::var(x);
+            using namespace OKlib::Literals;
+            const var_type v = var(x);
             const iterator it = map.find(v);
             if (it == map.end()) return OKlib::Satisfiability::Values::unassigned;
             assert(v);
-            return it->second;
+            return (status_type) ((cond(x)) ? it->second : not it->second);
           }
 
         private :
@@ -87,6 +92,76 @@ namespace OKlib {
             return result;
           }
         };
+
+
+        /*!
+          \class ApplyPassAdaptor
+          \brief CLSAdaptor, which applies a partial assignments, and transfers the result to another CLSAdaptor
+
+           - Inserts a comment showing the partial assignment directly before
+             the parameter line.
+           - Keeps the parameter values as given.
+           - Maintains also the variables, the order of clauses and the
+             order of literals.
+           - Via the member function new_c() one gets the current number
+           - of clauses (clauses transferred minus clauses satisfied).
+           - Construction with an object as produced by InputOutput::ReadPass,
+             and the adaptor-object for transfer.
+        */
+
+        template <typename Int, class RPass, class CLSAdaptor>
+        class ApplyPassAdaptor {
+        public :
+          typedef Int int_type;
+          typedef std::string string_type;
+
+          typedef RPass rpass_type;
+          typedef typename rpass_type::pass_type pass_type;
+          typedef int_type literal_type;
+          typedef CLSAdaptor cls_adaptor_t;
+
+          const rpass_type& rpa;
+          cls_adaptor_t& ad;
+
+          ApplyPassAdaptor(const rpass_type& rpa, cls_adaptor_t& ad) : rpa(rpa), ad(ad),  numcl(0) {}
+
+          void comment(const string_type& com) { ad.comment(com); }
+          void n(const int_type nvar) {
+            ad.comment("Applied the following partial assignment:");
+            std::stringstream new_line;
+            typedef std::ostream_iterator<literal_type> oiterator;
+            std::copy(rpa.litset.begin(), rpa.litset.end(), oiterator(new_line, " "));
+            ad.comment(new_line.str());
+            ad.n(nvar);
+          }
+          void c(const int_type nclauses) { ad.c(nclauses); }
+          void finish() { ad.finish(); }
+          void tautological_clause(int_type) {}
+          template <class ForwardRange>
+          void clause(const ForwardRange& clause, const int_type) {
+            typedef typename ForwardRange::const_iterator iterator;
+            const iterator clauseend = clause.end();
+            typedef std::vector<literal_type> cl_t;
+            cl_t C;
+            for (iterator i = clause.begin(); i != clauseend; ++i) {
+              typedef typename pass_type::status_type status_type;
+              const literal_type x = *i;
+              const status_type s = rpa.pa(x);
+              using namespace OKlib::Satisfiability::Values;
+              if (s == val0) continue;
+              if (s == val1) return;
+              C.push_back(x);
+            }
+            ad.clause(C, C.size());
+            ++numcl;
+          }
+
+          int_type new_c() const { return numcl; }
+
+        private :
+          int_type numcl;
+        };
+
       }
     }
   }
