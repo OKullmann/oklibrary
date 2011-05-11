@@ -33,6 +33,7 @@ namespace OKlib {
           typedef typename OKlib::Literals::traits::var_type<Lit>::type var_type;
           typedef typename OKlib::Literals::traits::cond_type<Lit>::type cond_type;
           typedef std::pair<var_type,cond_type> litaspair_type;
+          Literal2pair() {}
           litaspair_type operator()(const literal_type x) const {
             return litaspair_type(OKlib::Literals::var(x),
                                   OKlib::Literals::cond(x));
