@@ -42,7 +42,7 @@
 #   1 <= j <= bases_per_gen and 1 <= i <= 2^32 - 1, the statistics for that
 #   1-base are output to the file
 #
-#     stats_gs${gen_seed_i}_bs_${j}
+#     stats_gs${gen_seed_i}_bs${j}
 #
 #   in the experiment directory, where gen_seed_i is gen_seed + i.
 #
@@ -52,7 +52,7 @@ set -o nounset
 
 script_name="RandomRUcpBases"
 err="ERROR[${script_name}]:"
-version="0.3.2"
+version="0.3.3"
 
 if [[ $# -lt 1 || $# -gt 3 ]]; then
   echo -n "${err} Takes precisely one argument, the path to the input "
@@ -111,7 +111,7 @@ while [ ${gen_seed} -lt ${max_gen_seed} ]; do
   ${gen_program} ${rand_primes_filename} > ${gen_filename}
   for base_seed in $(seq 1 ${bases_per_gen}); do
       echo "*** Currently trying gs=${gen_seed},bs=${base_seed}"
-      stats_filename=${experiment_dirname}/stats_gs${gen_seed}_bs_${base_seed}
+      stats_filename=${experiment_dirname}/stats_gs${gen_seed}_bs${base_seed}
       current_num_cl=$(cat ${gen_filename} | ${shuffle_program} ${base_seed} | 
         ${sort_desc_program} | ${base_program} | ${statistics_program} | 
         tee ${stats_filename} | extract_num_clauses_from_stats)
