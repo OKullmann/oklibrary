@@ -50,6 +50,7 @@ License, or any later version. */
   \par
    In Interfaces/InputOutput/RandomShuffleDimacs.cpp the following topics
    are handled:
+    - Seed should be uint32_t
     - Add application tests : DONE
 
   \par
