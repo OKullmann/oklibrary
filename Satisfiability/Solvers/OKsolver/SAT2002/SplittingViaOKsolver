@@ -20,8 +20,8 @@
 # - F : a copy of the instance
 # - Result : output of the OKsolver, after creating the instances
 # - N : the number of sub-instances
-# - Data : for 1 <= i <= N the number of variables in the partial
-#          assignment for the i-th sub-instance
+# - Data : for indices 1 <= i <= N the number n of variables in the partial
+#          assignment for the i-th sub-instance, sorted by descending n
 # - Statistics : basic evaluation of Data
 # - Md5sum : a combined md5sum-hash-value of all files in Instances
 # And in the directory Instances we have files with names 1, ..., N,
@@ -33,13 +33,14 @@ set -o errexit
 set -o nounset
 
 script_name="SplittingViaOKsolver"
-version_number=0.1.1
+version_number=0.1.2
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
 directory=SplitViaOKsolver_$(echo $* | tr -d " -.")_${timestamp}
 
 solver=OKsolver_2002_NTP-O3-DNDEBUG
+data_preprocessing=PreprocessSplitting-O3-DNDEBUG
 
 mkdir ${directory}
 cd ${directory}
@@ -64,19 +65,18 @@ cd ${directory}
 N=$(awk '/splitting_cases/ {print $3}' Result)
 echo $N > N
 
+cd Instances
+
 current_md5sum=0
-for F in Instances/*; do
+for F in *; do
   current_md5sum=$(echo ${current_md5sum} | cat ${F} - | md5sum | awk '{print $1}')
 done
-echo ${current_md5sum} > Md5sum
+echo ${current_md5sum} > ../Md5sum
 
-echo " n" > Data
-for (( i=1; i<=N; ++i )); do
-  F=Instances/$i
-  n=$(cat ${F} | wc -w)
-  n=$((n-2))
-  echo $i $n >> Data
-done
+echo " i n" > ../Data
+${data_preprocessing} $N >> ../Data
 
-echo -e "E=read.table(\"Data\")\nsummary(E)\ntable(E)" | oklib --R --quiet --vanilla | tail -n +3 > Statistics
+cd ..
+
+echo -e "E=read.table(\"Data\")\nsummary(E\$n)\ntable(E\$n)" | oklib --R --quiet --vanilla | tail -n +3 > Statistics
 

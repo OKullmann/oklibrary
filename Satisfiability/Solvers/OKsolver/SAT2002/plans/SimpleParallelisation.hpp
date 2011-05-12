@@ -104,7 +104,8 @@ License, or any later version. */
    <li> The computation of the md5sum-value of the directory Instances is very
    slow, and we need a dedicated application of it. See "Computing the
    md5sum-value of a directory" in Structures/Cryptology/plans/MHash.hpp. </li>
-   <li> The computation of file Data is very slow: we need a little C++
+   <li> DONE (also sorting the lines now)
+   The computation of file Data is very slow: we need a little C++
    application for it. </li>
   </ul>
 

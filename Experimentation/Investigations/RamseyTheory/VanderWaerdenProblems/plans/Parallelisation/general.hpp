@@ -62,6 +62,14 @@ sys	0m9.289s
    5000A"; see above) one needs to utilise the Open-Mpi-interface. </li>
    <li> See http://www.open-mpi.org. </li>
   </ul>
+
+
+  \todo Update Data
+  <ul>
+   <li> The Data-files for the following splittings have been changed with
+   SplittingViaOKsolver version 0.1.2. </li>
+   <li> This involves some changes of the output formatting. </li>
+  </ul>
   
   
   \todo Verify vdw_2(4,9) = 309 (conjectured)
@@ -76,16 +84,10 @@ OKplatform> SplittingViaOKsolver -D12 VanDerWaerden_2-4-9_309.cnf
 c3cba5f0bfaef209e76a1c31d8e2a033
 > more Statistics
 > E=read.table("Data")
-> summary(E)
-       n
- Min.   :12.00
- 1st Qu.:12.00
- Median :14.00
- Mean   :13.92
- 3rd Qu.:15.00
- Max.   :28.00
-> table(E)
-E
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  12.00   12.00   14.00   13.92   15.00   28.00
+> table(E$n)
   12   13   14   15   16   17   18   19   20   21   22   23   25   28
 1157  779  957  420  413  167  109   39   28   12    8    4    1    2
 > more Result
