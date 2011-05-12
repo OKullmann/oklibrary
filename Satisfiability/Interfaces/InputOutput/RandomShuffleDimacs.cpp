@@ -30,6 +30,20 @@ License, or any later version. */
   </ul>
 
 
+  \bug Seed should be uint32_t
+  <ul>
+   <li> The boost::mt19337::seed is by default of type uint32_t. </li>
+   <li> Therefore "seed" in the main function below should be of
+   type uint32_t. </li>
+   <li> Also the specification states that the seed must be positive. Why?
+   </li>
+   <li> Likely this behaviour was copied without thinking from
+   Satisfiability/Reductions/Bases/RandomShuffle.cpp. </li>
+   <li> All references to this script need to be checked to ensure they
+   also don't make the same mistake in their specifications. </li>
+  </ul>
+
+
   \todo Move CLSAdaptorRandomShuffle
   <ul>
    <li> This should likely go to into ClauseSetAdaptors.hpp. </li>
