@@ -27,6 +27,7 @@ License, or any later version. */
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
 
 namespace {
+
   enum { errcode_parameter_values = 1 };
   const std::string program = "ExtendedDimacsFullStatistics";
   const std::string err = "ERROR[" + program + "]: ";
@@ -61,4 +62,3 @@ int main(const int argc, const char* const argv[]) {
   StandardDIMACSInput<CLSAdaptor, LiteralReadingExtended>(std::cin, output);
   std::cout << output.stat;
 }
-
