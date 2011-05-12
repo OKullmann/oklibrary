@@ -9,10 +9,11 @@
 #
 # Generates random 1-bases for the input clause-set F.
 #
-# Random generating sets are computed for F. For each generating set,
-# bases_per_gen 1-bases are randomly generated, statistics computed and
-# the statistics written to separate files in the experiment directory. To exit
-# the script the user must send the SIGINT signal (i.e. ctrl+c).
+# 2^32 - gen_seed random generating sets are computed for F. For each
+# generating set, bases_per_gen 1-bases are randomly generated, statistics
+# computed and the statistics written to separate files in the experiment
+# directory. To exit the script without generating all 1-bases, the user must
+# send the SIGINT signal (i.e. ctrl+c).
 #
 # For definitions of the notions of "generating set" and "1-base", see
 # Satisfiability/Reductions/Bases/docus/RUcpBase.hpp and 
@@ -51,7 +52,7 @@ set -o nounset
 
 script_name="RandomRUcpBases"
 err="ERROR[${script_name}]:"
-version="0.3.1"
+version="0.3.2"
 
 if [[ $# -lt 1 || $# -gt 3 ]]; then
   echo -n "${err} Takes precisely one argument, the path to the input "
@@ -91,6 +92,7 @@ statistics_program=ExtendedDimacsFullStatistics-O3-DNDEBUG
 primes_program=QuineMcCluskey-n16-O3-DNDEBUG
 gen_program=RUcpGen-O3-DNDEBUG
 base_program=RUcpBase-O3-DNDEBUG
+let max_gen_seed=2**32-1
 
 # Generate prime implicates
 echo "${primes_program} ${input_file} > ${primes_filename}"
@@ -103,7 +105,7 @@ min_num_cl_sofar=$(cat ${primes_filename} | ${statistics_program} | extract_num_
 min_gen_seed=unknown
 min_base_seed=unknown
 
-while true; do
+while [ ${gen_seed} -lt ${max_gen_seed} ]; do
   cat ${primes_filename} | ${shuffle_program} ${gen_seed} | 
     ${sort_program} > ${rand_primes_filename}
   ${gen_program} ${rand_primes_filename} > ${gen_filename}
