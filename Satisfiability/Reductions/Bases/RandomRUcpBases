@@ -7,38 +7,43 @@
 # License, or any later version.
 
 #
-# Script for generating random 1-bases for the input clause-set.
+# Generates random 1-bases for the input clause-set F.
 #
-# The input is a full CNF in a Dimacs file. Random 1-bases for the CNF file are
-# computed using RUcpGen and RUcpBase. Statistics for these clause-sets are
-# output to STDOUT and to file. The script continues computing 1-bases until
-# the user exits the script (ctrl+c/SIGINT).
+# Random generating sets are computed for F. For each generating set,
+# bases_per_gen 1-bases are randomly generated, statistics computed and
+# the statistics written to separate files in the experiment directory. To exit
+# the script the user must send the SIGINT signal (i.e. ctrl+c).
 #
-# Arguments:
-#   full_cnf_filename: Path to Dimacs file containing a full CNF.
-#   gen_seed (1 ... 2^(32)-1): The initial seed into RandomShuffleDimacs.
-#   bases_per_gen (1 ... 2^(32)-1): The number of 1-bases to generate from
-#     each generating set.
+# For definitions of the notions of "generating set" and "1-base", see
+# Satisfiability/Reductions/Bases/docus/RUcpBase.hpp and 
+# Satisfiability/Reductions/Bases/RUcpGen.cpp.
+#
+# Inputs:
+#   input_file: Path to Dimacs file containing a full CNF. A full CNF
+#     clause-set is a clause-set where every clause contains the same
+#     variables (i.e. "all" variables).
+#   gen_seed (1 ... 2^(32)-1, optional): The seed used to initialise
+#     the random generator when computing the first random generating set.
+#     This seed is incremented by one for each successive generating set.
+#   bases_per_gen (1 ... 2^(32)-1, optional): The number of 1-bases to generate
+#     from each generating set (default 5). The generation of the i-th random
+#     1-base (for 1 <= i <= bases_per_gen) from the generating set is seeded by
+#     by i.
 # Output:
-#   For each 1-base generated the statistics for that clause-set are printed
-#   to STDOUT. A reminder of the two seeds used to generate the minimum sized
-#   1-base, so far, is also printed. The seeds are those used for the random
-#   shuffling of the inputs to RUcpGen and RUcpBase.
+#   First, an experiment directory
 #
-# The pseudo-code for generating the r_1 generating sets and 1-bases is:
+#     ${input_file}_rucp_base_DATE
 #
-#   for gen_seed_i in ${gen_seed} .. inf; do
-#     cat PRIMES | RandomShuffleDimacs ${gen_seed_i} | SortByClauseLength | RUcpGen > G
-#     for base_seed_i in 1 .. ${bases_per_gen}; do
-#       cat G | RandomShuffleDimacs ${base_seed_i} | SortByClauseLengthDescending | RUcpBase > B
-#     done
-#   done
-# 
-# The statistics for each generated 1-base are available in
-#    
-#    ${full_cnf_filename}_rucp_base_DATE/stats_gs${gen_seed_i}_bs_${base_seed_i}
+#   is created where DATE is the current datetime in the format 
+#   "%Y-%m-%d-%H%M%S".
 #
-# where DATE is the current datetime in the format "%Y-%m-%d-%H%M%S".
+#   For the j-th 1-base generated from the i-th generating set, for
+#   1 <= j <= bases_per_gen and 1 <= i <= 2^32 - 1, the statistics for that
+#   1-base are output to the file
+#
+#     stats_gs${gen_seed_i}_bs_${j}
+#
+#   in the experiment directory, where gen_seed_i is gen_seed + i.
 #
 
 set -o errexit
@@ -46,28 +51,28 @@ set -o nounset
 
 script_name="RandomRUcpBases"
 err="ERROR[${script_name}]:"
-version="0.3"
+version="0.3.1"
 
 if [[ $# -lt 1 || $# -gt 3 ]]; then
-  echo -n "${err} Takes precisely one argument, the name of the file full "
-  echo -n "Dimacs clause-set (using 16 variables or less) to generate r_1 "
-  echo -n "bases for. Optionally one may also specify the initial seeds for "
-  echo -n "RandomShuffleDimacs of the input to RUcpGen, to "
-  echo "RandomShuffleDimacs of the input to RUcpBase, and also the number of "
-  echo  "times to run RUcpBase for each generating set (default 5)."
+  echo -n "${err} Takes precisely one argument, the path to the input "
+  echo -n "Dimacs clause-set (using 16 variables or less) to generate "
+  echo -n "1-bases for. Optionally one may also specify the (first) seed "
+  echo -n "used to initialise the random number generation. One may also specify "
+  echo -n "the number of 1-bases to generate from each generating set "
+  echo -n "(default 5)."
   exit 1;
 fi
 
-full_cnf_filename=$1
+input_file=$1
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
-experiment_dirname=${full_cnf_filename}_rucp_base_${timestamp}
+experiment_dirname=${input_file}_rucp_base_${timestamp}
 if [ ! -f ${experiment_dirname} ]; then
   mkdir ${experiment_dirname}
 fi
 
-primes_filename=${experiment_dirname}/${full_cnf_filename}_primes
-rand_primes_filename=${experiment_dirname}/${full_cnf_filename}_primes_rand
-gen_filename=${experiment_dirname}/${full_cnf_filename}_gen
+primes_filename=${experiment_dirname}/${input_file}_primes
+rand_primes_filename=${experiment_dirname}/${input_file}_primes_rand
+gen_filename=${experiment_dirname}/${input_file}_gen
 if [[ $# -gt 1 ]]; then
   gen_seed=$2
 else
@@ -88,8 +93,8 @@ gen_program=RUcpGen-O3-DNDEBUG
 base_program=RUcpBase-O3-DNDEBUG
 
 # Generate prime implicates
-echo "${primes_program} ${full_cnf_filename} > ${primes_filename}"
-${primes_program} ${full_cnf_filename} > ${primes_filename}
+echo "${primes_program} ${input_file} > ${primes_filename}"
+${primes_program} ${input_file} > ${primes_filename}
 
 function extract_num_clauses_from_stats { 
   head -n 2 | tail -n 1 | awk '{print $2}' 
