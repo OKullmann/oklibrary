@@ -101,6 +101,16 @@ all_rbases_bydef_cs(F1,ucp_0_cs);
   </ul>
 
 
+  \todo Docus for RUcpGen
+  <ul>
+   <li> The notion of an "r-generating" needs to be extracted from "The notion
+   of r-bases" and moved to the docus. </li>
+   <li> In this way we can refer to these generating sets in specifications
+   and other documentation in the library. For example in
+   Satisfiability/Reductions/Bases/RandomRUcpBases. </li>
+  </ul>
+
+
   \bug DONE RandomRUcpBases sorts clauses in ascending order of clause-length
   <ul>
    <li> DONE The documentation for RandomRUcpBases states that it sorts the
