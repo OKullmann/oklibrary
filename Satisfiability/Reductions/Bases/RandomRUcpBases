@@ -52,7 +52,7 @@ set -o nounset
 
 script_name="RandomRUcpBases"
 err="ERROR[${script_name}]:"
-version="0.3.3"
+version="0.3.4"
 
 if [[ $# -lt 1 || $# -gt 3 ]]; then
   echo -n "${err} Takes precisely one argument, the path to the input "
@@ -74,6 +74,9 @@ fi
 primes_filename=${experiment_dirname}/${input_file}_primes
 rand_primes_filename=${experiment_dirname}/${input_file}_primes_rand
 gen_filename=${experiment_dirname}/${input_file}_gen
+trap "rm -f ${gen_filename} ${rand_primes_filename} ${primes_filename}" SIGINT EXIT
+
+
 if [[ $# -gt 1 ]]; then
   gen_seed=$2
 else
@@ -126,6 +129,5 @@ while [ ${gen_seed} -lt ${max_gen_seed} ]; do
       echo "------------------------------------------------------------------------------------"
   done 
   gen_seed=$(expr ${gen_seed} + 1)
-  rm -f ${gen_filename} ${rand_primes_filename}
 done
-rm -f ${primes_filename}
+rm -f ${gen_filename} ${rand_primes_filename} ${primes_filename}
