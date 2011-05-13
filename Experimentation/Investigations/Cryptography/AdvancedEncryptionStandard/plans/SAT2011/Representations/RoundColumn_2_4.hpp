@@ -111,33 +111,33 @@ R> plot(E)
   </ul>
 
 
-  \todo r_1-bases : mincl_r1 <= 2770
+  \todo r_1-bases : mincl_r1 <= 2712
   <ul>
    <li> We can compute r_1-base statistics by:
    \verbatim
 shell> RandomRUcpBases round_column_16_full.cnf
    \endverbatim
    </li>
-   <li> We have that a minimum size r_1-base has less than 2770 clauses:
+   <li> We have that a minimum size r_1-base has less than 2712 clauses:
    \verbatim
 shell> RandomRUcpBases round_column_16_full.cnf
 *snip*
-*** Currently trying gs=10,bs=5
+*** Currently trying gs=36,bs=4
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
-16 2770 19119 0 19119 0 1
+16 2712 18667 0 18667 0 1
  length count
 4 4
-5 118
-6 589
-7 1494
-8 564
-9 1
+5 129
+6 604
+7 1420
+8 553
+9 2
 ------------------------------------------------------------------------------------
-CURRENT MINIMUM RBASE: *2770* with gs=10,bs=5
+CURRENT MINIMUM RBASE: *2712* with gs=36,bs=4
 ------------------------------------------------------------------------------------
 *snip*
    \endverbatim
-   </li>
+   Currently experiments have run up to gs=36, bs=4. </li>
    <li> You can generate this r_1-base by:
    \verbatim
 shell> gen_seed=10; base_seed=5;
