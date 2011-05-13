@@ -18,10 +18,6 @@ License, or any later version. */
    <li> In the literature, such as [Logical cryptanalysis as a SAT problem;
    Massaci and Marraro], variants of DES with smaller numbers of rounds are
    considered. </li>
-   <li> We should offer generalised versions of the current functions. </li>
-   <li> These generalised functions should take the number r of rounds. </li>
-   <li> The functions should then compute the DES encryption with r rounds on
-   the other inputs. </li>
    <li> Do variants of the DES with smaller numbers of rounds flip the two
    32-bit outputs? <ul>
     <li> It makes sense to do so. Then applying the cipher with the reversed
@@ -29,17 +25,26 @@ License, or any later version. */
     16-round DES. </li>
    </ul>
    </li>
-   <li> We should have a clear simple function for the full DES.
+   <li> To be able to properly test this, we need test vectors for
+   smaller variants; see "Find more test vectors". </li>
+   <li> All functions which can have a variant with a reduced number of rounds
+   should have one. For example, des_encryption_hex should have
+   des_encryption_reduced_hex. </li>
+   <li> DONE We should have a clear simple function for the full DES.
    Therefore, it is best to have a different function for the smaller
    variants. For instance "des_encryption_reduced". </li>
-   <li> With the current system, this is as simple as:
+   <li> DONE With the current system, this is as simple as:
    \verbatim
 des_encryption_reduced(plaintext, key, r) :=
  des_template(plaintext, take_elements(r,des_round_keys(key)))$
    \endverbatim
    </li>
-   <li> To be able to properly test this, we need test vectors for
-   smaller variants; see "Find more test vectors". </li>
+   <li> DONE We should offer generalised versions of the current functions.
+   </li>
+   <li> DONE These generalised functions should take the number r of rounds.
+   </li>
+   <li> DONE The functions should then compute the DES encryption with r
+   rounds on the other inputs. </li>
   </ul>
 
 
@@ -50,6 +55,7 @@ des_encryption_reduced(plaintext, key, r) :=
    <li> Full 16 round DES swaps the two 32-bit outputs. Do DES variants
    with less rounds do this? </li>
    <li> Authorative test vectors should answer this question. </li>
+   <li> The tests should then be extended. </li>
   </ul>
 
   

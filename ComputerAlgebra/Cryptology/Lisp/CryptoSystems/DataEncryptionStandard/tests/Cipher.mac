@@ -54,6 +54,18 @@ okltest_des_decryption(f) := block(
           binv2hexstr(f(hexstr2binv(plain),hexstr2binv(key))))))),
   true)$
 
+okltest_des_encryption_reduced(f) := block(
+  assert(
+    okltest_des_encryption(
+      buildq([f],lambda([plain,key],f(16,plain,key))))),
+  true)$
+
+okltest_des_decryption_reduced(f) := block(
+  assert(
+    okltest_des_decryption(
+      buildq([f],lambda([plain,key],f(16,plain,key))))),
+  true)$
+
 okltest_des_encryption_hex(f) := block(
   assert(
     f("0000000000000000","0000000000000000") = "8CA64DE9C1B123A7"),
