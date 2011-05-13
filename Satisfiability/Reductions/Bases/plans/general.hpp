@@ -13,17 +13,6 @@ License, or any later version. */
   \todo Add application tests for RandomUcpBases
 
 
-  \bug RandomRUcpBases sorts clauses in ascending order of clause-length
-  <ul>
-   <li> Also all references must be updated. </li>
-   <li> DONE The documentation for RandomRUcpBases states that it sorts the
-   generating set in descending order of clause-length before passing
-   it to RUcpBase. </li>
-   <li> DONE However, it sorts the generating set in ascending order. </li>
-   <li> DONE This must be corrected. </li>
-  </ul>
-
-
   \todo Connections
   <ul>
    <li> See
@@ -109,6 +98,17 @@ all_rbases_bydef_cs(F1,ucp_0_cs);
    here --- just being able to apply partial assignments and detecting the
    empty clause we are able to perform subsumption-elimination. </li>
    <li> So likely we should have a dedicated application. </li>
+  </ul>
+
+
+  \bug DONE RandomRUcpBases sorts clauses in ascending order of clause-length
+  <ul>
+   <li> DONE The documentation for RandomRUcpBases states that it sorts the
+   generating set in descending order of clause-length before passing
+   it to RUcpBase. </li>
+   <li> DONE However, it sorts the generating set in ascending order. </li>
+   <li> DONE This must be corrected. </li>
+   <li> DONE Also all references must be updated. </li>
   </ul>
 
 
