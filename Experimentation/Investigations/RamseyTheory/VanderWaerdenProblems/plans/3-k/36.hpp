@@ -179,29 +179,29 @@ License, or any later version. */
   </ul>
 
 
-  \todo vdw_2^pd(3,36) >= (1162,1175)
+  \todo vdw_2^pd(3,36) >= (1186,1213)
   <ul>
    <li> pdvanderwaerden([3,36])[2] =(conj) 1175 =(conj)
    vanderwaerden([3,36]) - 83. </li>
    <li> pdvanderwaerden([3,36])[1] =(conj) 1158. </li>
    <li> Certificates:
     <ol>
-     <li> n=1161:
+     <li> n=1185:
      \verbatim
-10,32,43,69,79,82,101,110,116,117,
-129,162,174,181,187,217,218,240,256,268,
-275,287,290,309,315,323,345,347,348,358,
-384,392,397,416,427,455,486,490,521,524,
-533,543,560,571,572
+7,36,47,64,93,129,134,142,166,168,
+171,180,183,187,193,209,212,214,234,265,
+291,304,308,323,332,344,352,357,376,378,
+386,390,393,398,405,427,431,460,485,509,
+513,514,516,549,555,567,578
     \endverbatim
      </li>
-     <li> n=1174:
+     <li> n=1212:
      \verbatim
-27,32,40,57,62,79,93,110,116,120,
-121,145,151,167,168,196,203,232,234,237,
-254,283,289,293,320,337,339,342,356,380,
-394,396,409,425,431,448,460,483,512,514,
-515,522,549,552,571,577
+4,30,44,69,75,80,98,112,123,132,
+161,163,164,197,208,222,243,245,250,263,
+265,279,300,302,311,316,349,351,380,385,
+405,438,445,464,467,474,475,479,504,511,
+532,546,561,569,593,598
      \endverbatim
      </li>
     </ol>
@@ -214,10 +214,25 @@ Break point 2: 1175
    \endverbatim
    where all solutions were found within in the first 43 runs (so the second
    break-point is rather weak). </li>
-   <li> Rerunning it with doubled cutoff, and using the solution for n-1.
-   We also need the ability to start late. </li>
-   <li> "RunPdVdWk1k2 3 36 gsat-tabu 100 50000000" found solutions up to
+    <li> "RunPdVdWk1k2 3 36 gsat-tabu 100 50000000" found solutions up to
    n=1162 (within the first 24 runs), before being aborted. </li>
+    <li> "RunPdVdWk1k2 3 36 gsat-tabu 200 60000000" yields
+    \verbatim
+Break point 1: 1186
+Break point 2: 1213
+    \endverbatim
+    with all solution found in the first 22 runs, and with
+    \verbatim
+> E=read_ubcsat("Exp_PdVanderWaerden_2-3-36_gsat-tabu-200-60000000_2011-04-03-054450/VanDerWaerden_pd_2-3-36_1187.cnf_OUT",nrows=200)
+  1   2   3   4
+116  78   4   2
+200
+> E=read_ubcsat("Exp_PdVanderWaerden_2-3-36_gsat-tabu-200-60000000_2011-04-03-054450/VanDerWaerden_pd_2-3-36_1214.cnf_OUT",nrows=200)
+  1   2   3   4
+  6 180  12   2
+200
+   \endverbatim
+   </li>
   </ul>
 
 */
