@@ -172,5 +172,33 @@ Break point 1: 1327
    \endverbatim
    before being aborted, using at most 46 runs (for n=840)
    </li>
+   <li> "RunPdVdWk1k2 7 7 adaptg2wsat 400 80000000" yields
+    \verbatim
+Break point 1: 1544
+Break point 2: 1547
+    \endverbatim
+    with all solution found in the first 355 runs, and with
+    \verbatim
+> E=read_ubcsat("VanDerWaerden_pd_2-7-7_1545.cnf_OUT",nrows=400)
+102 285 286 297 300 302 303 304 307 309 310 321 365 368 370 371 372 373 374 375
+  1   1   2   1   1   1   3   1   1   1   1   1   1   1   1   4   1   1   3   3
+376 377 378 379 380 381 382 383 384 385 386 387 388 389 390 391 392 393 394 395
+  8   2   3   3   4   6  10  21  15  17  25  17  35  21  23  30  26  17  29  16
+396 397 398 399 401 402
+ 15  11   9   5   1   1
+400
+> E=read_ubcsat("VanDerWaerden_pd_2-7-7_1548.cnf_OUT",nrows=400)
+
+ 83  85  87 157 168 169 171 172 173 275 282 284 286 287 294 359 361 363 364 365
+  2   1   2   1   1   1   1   1   1   1   1   1   2   1   1   1   2   1   1   1
+366 367 368 369 370 371 372 373 374 375 376 377 378 379 380 381 382 383 384 385
+  1   2   1   3   3   5   4   6  17  17  20  18  22  25  32  27  23  41  30  18
+386 387 388 389 390 391
+ 25  20  10   4   1   1
+400
+    \endverbatim
+   </li>
+   <li> These instances look very hard. </li>
+  </ul>
 
 */
