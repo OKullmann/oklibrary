@@ -12,6 +12,20 @@ License, or any later version. */
   Collaboration of OK, YP.
 
 
+  \todo Plingeling
+  <ul>
+   <li> Running in default-configuration (on this machine with 2 threads):
+   \verbatim
+> plingeling276-6264d55-100731 -v VanDerWaerden_2-3-12_135.cnf
+   \endverbatim
+   or with 4 threads:
+   \verbatim
+> plingeling276-6264d55-100731 -v -t 4 VanDerWaerden_2-3-12_135.cnf
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Cryptominisat
   <ul>
    <li> Running on a machine (YP, Dawning 5000A/compute-0-80) with 8 quadcore
