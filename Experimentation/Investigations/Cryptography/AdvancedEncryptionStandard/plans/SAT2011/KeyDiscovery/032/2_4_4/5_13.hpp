@@ -143,7 +143,7 @@ maxima> ncl_list_fcs(ev_hm(ss_field_rbase_cnfs,[4,3]));
    \endverbatim
    are comprised of:
    <ul>
-    <li> 20 unit clauses for the 4-bit constants in the key expansion. </li>
+    <li> 20 unit-clauses for the 4-bit constants in the key expansion. </li>
     <li> 480 binary clauses, coming from 50 Sboxes and 80 of each of the two 
     multiplications ((50 * 0) + (80 * 6) + (80 * 0) = 480). </li>
     <li> 4808 ternary clauses, coming from 652 additions of arity two,

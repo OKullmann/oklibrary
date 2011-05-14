@@ -8,7 +8,7 @@
 
 # Awk script which, given a stream on STDIN containing a standard DIMACS file,
 # returns a weighted partial MaxSAT file where all original
-# clauses are hard clauses, and additional (negated) unit clauses with weight 
+# clauses are hard clauses, and additional (negated) unit-clauses with weight 
 # 1 are added for every variable in the input.
 #
 # In such a way, this script yields a weighted partial MaxSAT Dimacs file

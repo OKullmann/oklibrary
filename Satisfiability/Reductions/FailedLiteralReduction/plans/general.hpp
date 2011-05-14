@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.12.2005 (Swansea)
-/* Copyright 2005 - 2007, 2008, 2010 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -82,9 +82,9 @@ License, or any later version. */
    the invariant that this graph is a strict order (irreflexive and
    transitive), and for every arc x -> y we have also the arc -y -> -x. </li>
    <li> UCP then proceeds in stages: For envisaged failed literal x -> 1
-   we obtain all derived unit clauses in one go and transfer them to the
-   partial assignment, and then we perform the unit clause propagation;
-   all unit clauses derived from >2-clauses must necessarily be new,
+   we obtain all derived unit-clauses in one go and transfer them to the
+   partial assignment, and then we perform the unit-clause propagation;
+   all unit-clauses derived from >2-clauses must necessarily be new,
    we collect all of them, and go to the next stage etc. </li>
    <li> In [Bacchus, SAT 2003] HyperBinRes needs to be investigated. </li>
   </ul>
@@ -118,7 +118,7 @@ License, or any later version. */
    <li> Who is performing the r_2-reduction? </li>
    <li> One could imagine that every
    active clause-sets itself performs it, "flushing" at least when UCP has been
-   completed the found unit clauses to the other active clause-sets --- but
+   completed the found unit-clauses to the other active clause-sets --- but
    then each active clause-set had to know about the others. </li>
    <li> And since r_2-reduction is like branching ("more so" than just UCP),
    likely it is better that the alliance handles it: Choosing a literal for

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 1.11.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,7 +16,7 @@ License, or any later version. */
    <li> We want to find a minimal sub-assignment phi' of phi such that the 
    assignments of phi - phi' are all enforced. </li>
    <li> If phi * FF is uniquely satisfiable, then phi' * FF, or, equivalent,
-   FF together with the unit clauses representing the assignments from phi',
+   FF together with the unit-clauses representing the assignments from phi',
    is still uniquely satisfiable. </li>
    <li> DONE (see minUNISAT)
    The easiest approach is to choose for each step a random ordering

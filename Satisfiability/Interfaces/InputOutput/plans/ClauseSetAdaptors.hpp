@@ -98,11 +98,11 @@ License, or any later version. */
    weighted MaxSAT problem, we construct a partial weighted MaxSAT
    problem G, which:
    <ul>
-    <li> Includes the clauses from F, and a unit clause for every variable in
+    <li> Includes the clauses from F, and a unit-clause for every variable in
     F, containing the negation of the variable. </li>
     <li> The clauses from F are given a high weight, greater than the number
     of variables. </li>
-    <li> The unit clauses are given weight 1. </li>
+    <li> The unit-clauses are given weight 1. </li>
    </ul>
    Assuming the original CNF is satisfiable, the optimum solutions to this
    weighted MaxSAT problem are those satisfying assignments on F with

@@ -598,7 +598,7 @@ aes_key_expansion_cstrb :
  [aes_key_expansion_cstr_cstl,aes_key_expansion_namespace,
   aes_key_expansion_ns_var_l]$
 
-/* Generates a set of unit clauses (initially simpler than simplifying constants
+/* Generates a set of unit-clauses (initially simpler than simplifying constants
    or making partial assignments) to set the given vars (representing the bits
    of AES round constants) to the round constant for round n */
 aes_round_constant_l( n) := block([rc_el,rc_l],

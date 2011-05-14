@@ -53,7 +53,7 @@ cipher_24022011 : int2polyadic(cipher_24022011_int,2);
  0,0,1,0,1,1,1,0,1,1,0,0,0,1,0]
    \endverbatim
     </li>
-    <li> Generating the plaintext-ciphertext unit clauses:
+    <li> Generating the plaintext-ciphertext unit-clauses:
     \verbatim
 plaintext_lits : ss_matrix2pa(ss_hex2matrix(int2hex(275930429712199798024509060124983156862), 2,8,ss_polynomial_2_8,4), create_list(i,i,1,128),2,8,ss_polynomial_2_8)$
 ciphertext_lits : ss_matrix2pa(ss_hex2matrix(int2hex(82288044290978544244364916044704454498), 2,8,ss_polynomial_2_8,4), create_list(i,i,257,384),2,8,ss_polynomial_2_8)$

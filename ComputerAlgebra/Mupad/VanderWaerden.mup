@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 12.5.2005 (Swansea) */
-/* Copyright 2005-2007 Oliver Kullmann
+/* Copyright 2005-2007, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -161,7 +161,7 @@ end_proc:
 /* TO DO */
 
 unit_clause_prop := proc(remaining_nodes, left_partition, right_partition) begin
-/* Returns new remaining_nodes, left_partition, right_partition together with the number of unit clauses eliminated and a number from 0,1,2, indicating whether finally a situation where reached where for some variable both choices yield an arithmetic progression (we found the problem "unsatisfiable), or all variables have been (succesfully) distributed (the problem was found "satisfiable"), or else.
+/* Returns new remaining_nodes, left_partition, right_partition together with the number of unit-clauses eliminated and a number from 0,1,2, indicating whether finally a situation where reached where for some variable both choices yield an arithmetic progression (we found the problem "unsatisfiable), or all variables have been (succesfully) distributed (the problem was found "satisfiable"), or else.
 */
 end_proc:
 

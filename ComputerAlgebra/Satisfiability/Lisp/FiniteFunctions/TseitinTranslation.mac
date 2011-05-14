@@ -113,7 +113,7 @@ dualtsplus_fcl(FF) := block([c : length(FF[2]), NV, G1, G2, G3],
    Consider all partial assignments phi on dualtsplus_fcl(FF). If
    phi * dualtsplus_fcl(FF) has a forced assignment <v -> b> then
    phi * dualtsplus_fcl(FF)[2] contains {l}. l is v if b = 1 and
-   -v otherwise. {l} is the unit clause enforcing <v -> b>. b is
+   -v otherwise. {l} is the unit-clause enforcing <v -> b>. b is
    a value in {0,1}.
 */
 
@@ -163,9 +163,9 @@ ncl_list_dualts(FF) := sort(block(
        dts(i) variables must be set to true. This yields a single clause of
        length ncl_fcl(FF).
        
-   Note that unit clauses in the input will result in more binary clauses
+   Note that unit-clauses in the input will result in more binary clauses
    being counted than there are literal occurrences (as length(C)+1 where
-   C is a unit clause yields a binary clause in the output of dualts_fcl).
+   C is a unit-clause yields a binary clause in the output of dualts_fcl).
 */
 /* For a full clause-set with n variables and c clauses: */
 ncl_list_full_dualts(n,c) := sort(
