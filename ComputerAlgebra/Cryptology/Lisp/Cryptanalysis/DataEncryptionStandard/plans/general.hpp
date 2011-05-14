@@ -19,34 +19,33 @@ License, or any later version. */
    <li> We should offer generalised versions of the current functions. </li>
    <li> These generalised functions should take the number r of rounds. </li>
    <li> For discussions of the notion of "DES with reduced number of rounds",
-   see "Add variants with reduced number of rounds" in 
+   see "Add variants with reduced number of rounds" in
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/plans/general.hpp.
    </li>
-   <li> We do not use the full 16-round DES constraint translation for
-   encryption purposes. XXX What does this mean??? XXX </li>
    <li> The translations of variants with smaller numbers of rounds will be
    investigated just as much as the full DES. </li>
-   <li> Therefore, we should add a round parameter to the following functions:
-   XXX if parameters are added, then something is REPLACED??? XXX
+   <li> Therefore in this case, the full DES should be considered a special
+   case of the general scheme with an arbitrary number of rounds. A special
+   convenience function needs then to be provided for the translation of
+   the 16 round DES. </li>
+   <li> So the following functions should be replaced with new
+   functions with an additional round parameter r:
     <ul>
-     <li> des_xor. </li>
-     <li> des_sboxc. </li>
-     <li> des_var. </li>
-     <li> des_cipher2fcl. </li>
-     <li> des2fcl. </li>
+     <li> des_xor() |-> des_xor(r). </li>
+     <li> des_sboxc() |-> des_sboxc(r). </li>
+     <li> des_var() |-> des_var(r). </li>
+     <li> des_cipher2fcl(cipher) |-> des_cipher2fcl(r,cipher). </li>
+     <li> des2fcl(sbox_l) |-> des2fcl(r,sbox_l). </li>
     </ul>
-   </li>
-   <li> We should then add convenience functions for the full DES translation.
    </li>
    <li> Variable ordering:
     <ul>
-     <li> How to order the variables for variants with smaller numbers of
-     rounds? </li>
-     <li> Should variables given by des_var, round by round?
-     XXX why a question mark??? MG must stop the permanent question-mode,
-     as if there would be an alternative --- only then (or if it is really
-     doubtful) are question marks to be used XXX
-     </li>
+     <li> The variables returned by des_var should be ordered
+     "round by round". That is, the variables for round i+1 should occur after
+     round i in the list. </li>
+     <li> Using a "round by round" order on the variables ensures that all
+     variables from round i always have the same index after standardisation,
+     no matter the variant we use. </li>
     </ul>
    </li>
   </ul>
