@@ -9,5 +9,12 @@ License, or any later version. */
   \file Interfaces/DistributedSolving/plans/general.hpp
   \brief Plans regarding distributed solving of SAT problems
 
+
+  \todo Connections
+  <ul>
+   <li> See Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp for the
+   currently only splitting tool. </li>
+  </ul>
+
 */
 

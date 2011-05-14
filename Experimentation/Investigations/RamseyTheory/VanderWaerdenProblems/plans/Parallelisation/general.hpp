@@ -45,6 +45,8 @@ sys	0m9.289s
    <li> See Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp. </li>
    <li> This tool is ready now, via the helper script
    SAT2002/SplittingViaOKsolver (available through a public link). </li>
+   <li> See Interfaces/DistributedSolving/plans/general.hpp for plans on
+   tools. </li>
   </ul>
   
   

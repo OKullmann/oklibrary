@@ -12,6 +12,15 @@ License, or any later version. */
   The main tool is SplittingViaOKsolver.
 
 
+  \todo Connections
+  <ul>
+   <li> See module Satisfiability/Interfaces/DistributedSolving for general
+   tools for distributed solving; especially see
+   Interfaces/DistributedSolving/plans/general.hpp for the general plans.
+   </li>
+  </ul>
+
+
   \todo The order of the md5sum-computation (SplittingViaOKsolver)
   <ul>
    <li> The files are not processed in numerical order (unlike with
@@ -94,7 +103,9 @@ License, or any later version. */
    "Extended Dimacs format" in
    Interfaces/InputOutput/plans/ExtendedToStrictDimacs.hpp. </li>
    <li> Also the renaming should be shown in the comments. </li>
-   <li> Or are SAT solvers nowadays able to handle these things themselves?
+   <li> DONE (glucose is not (shows wrong number of variables), and thus
+   we need the renaming and the precise number of variables)
+   Or are SAT solvers nowadays able to handle these things themselves?
    The OKsolver definitely is. </li>
   </ul>
 
