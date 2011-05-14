@@ -9,15 +9,16 @@
 # Split a SAT-problem into sub-problems, using the OKsolver
 
 # Usage:
-#   SplittingViaOKsolver parameters F
-# where F is the CNF in DIMACS format, and parameters are for
+#   SplittingViaOKsolver parameters File
+# where File is the CNF in DIMACS format, and parameters are for
 # the OKsolver-2002.
 
 # Creates a directory "SplitViaOKsolver_parameters_timestamp", containing
 # the following files:
 # - Parameters : the parameters passed over to the OKsolver
 # - Version : information on the OKsolver
-# - F : a copy of the instance
+# - File : a copy of the instance
+# - F : containing the value of File (note that File is a string-variable)
 # - Result : output of the OKsolver, after creating the instances
 # - N : the number of sub-instances
 # - Data : for indices 1 <= i <= N the number n of variables in the partial
@@ -33,11 +34,11 @@ set -o errexit
 set -o nounset
 
 script_name="SplittingViaOKsolver"
-version_number=0.1.2
+version_number=0.1.3
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
-directory=SplitViaOKsolver_$(echo $* | tr -d " -.")_${timestamp}
+directory=SplitViaOKsolver_$(echo $* | tr -d " -./")_${timestamp}
 
 solver=OKsolver_2002_NTP-O3-DNDEBUG
 data_preprocessing=PreprocessSplitting-O3-DNDEBUG
@@ -56,6 +57,7 @@ new_param="${other_param} -S=${directory}/Instances ${filename}"
 echo ${new_param} > Parameters
 
 cp ../${filename} .
+echo $(basename ${filename}) > F
 
 cd ..
 ${solver} ${new_param} > ${directory}/Result
