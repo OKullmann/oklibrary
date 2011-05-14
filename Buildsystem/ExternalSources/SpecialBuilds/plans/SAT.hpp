@@ -959,7 +959,7 @@ Satz> cd ParaSatz
      as the master, while all other machines run as slaves. </li>
      <li> A workload balancing mechanism is provided such that an idle slave
      always gets a remaining subtree from the most loaded slave. </li>
-     <li> Machine names stored in file 'machine' end with '0'.</li>
+     <li> Machine names stored in file 'machine' end with '0'. </li>
      <li> Some scripts are provided for PS, Kill, Resume all ParaSatz threads.
      </li>
     </ul>
