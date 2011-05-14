@@ -13,6 +13,70 @@ License, or any later version. */
   \todo Create milestones
 
 
+  \todo Extraction tools
+  <ul>
+   <li> The most fundamental tool for a solver is a script, which takes the
+   solver output from standard input, and puts it into a single line (just
+   data) on standard output, usable for R. </li>
+   <li> This is without parameters; with parameter "header" (as string) it
+   just prints the header (which would be at the top of the R-script). </li>
+   <li> And with parameter "dir=Directory" it reads all the files in Directory,
+   and prints to standard output the header followed by the data-lines. </li>
+   <li> Then an additional column with the filename is added:
+    <ol>
+     <li> No path information, just the basename. </li>
+     <li> Having the possibility for extracting information from the filename
+     is also needed. </li>
+     <li> This information can be given as a string which specifies an
+     sed-script (for transforming a script). </li>
+     <li> Parameter "extraction=sed-string". </li>
+    </ol>
+   </li>
+   <li> Then we do not need wrappers. This is better since it avoids possible
+   complications. </li>
+   <li> Remark: with the Ubcsat-wrapper it's different, since there we only
+   need to supply default parameter (which can also be overwritten if needed).
+   </li>
+   <li> For each solver-class we have such a script:
+    <ol>
+     <li> ExtractMinisat (see
+     ExperimentSystem/SolverMonitoring/plans/Minisat2.hpp). </li>
+     <li> ExtractPicosat (see
+     ExperimentSystem/SolverMonitoring/plans/Picosat.hpp). </li>
+     <li> ExtractOKsolver (see
+     ExperimentSystem/SolverMonitoring/plans/OKsolver.hpp). </li>
+    </ol>
+   </li>
+   <li> Standardised column names:
+    <ol>
+     <li> n : integer, number of variables. </li>
+     <li> c : integer, number of clauses. </li>
+     <li> l : integer, number of literal occurrences. </li>
+     <li> Such general measures always refer to the original input (not
+     after preprocessing). </li>
+     <li> t : double, solution time (in seconds). </li>
+     <li> sat : in {0,1,2} for UNSAT, SAT, UNKNOWN. </li>
+     <li> nds : double, number of nodes for look-ahead solvers. </li>
+     <li> cfls : double, number of conflicts for conflict-driven solvers. </li>
+     <li> dec : double, number of decisions for conflict-driven solvers. </li>
+     <li> rsts : double, number of restarts. </li>
+     <li> r1 : double, number of unit-clause propagations. </li>
+     <li> r2 : double, number of failed-literal reductions. </li>
+     <li> pls : double, number of pure literals. </li>
+     <li> auts : double, number of autarkies (not pure literals). </li>
+     <li> h : integer, height of search-tree for look-ahead solvers. </li>
+     <li> mem : double, in MB. </li>
+     <li> ptime : double, parse time (in seconds). </li>
+     <li> file : string. </li>
+     <li> There can be more attributes; the above ones always occur in that
+     order. </li>
+    </ol>
+   </li>
+   <li> With such tools in place, the current R-functions should be transformed
+   to functions for reading and evaluating files created with the tools. </li>
+  </ul>
+
+
   \todo Add monitoring for all other solvers
 
 

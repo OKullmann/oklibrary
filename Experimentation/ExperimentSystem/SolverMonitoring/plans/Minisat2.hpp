@@ -15,6 +15,8 @@ License, or any later version. */
    <li> The simplification time is missing. </li>
    <li> The column-names are too long; planning is needed, and standardisation,
    if possible, with the other extraction-tools. </li>
+   <li> This is to be achieved with "Extraction tools" in
+   ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
   </ul>
 
 
@@ -27,14 +29,15 @@ License, or any later version. */
    allows to create a mask for extracting such a parameter, storing it as
    "param" (an integer) in the dataframe. </li>
    <li> The order of rows then should follow increasing parameter values. </li>
-   <li> This should be realised by the wrapper-script; see below. </li>
+   <li> This is to be achieved with "Extraction tools" in
+   ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
   </ul>
 
 
   \todo Move read_minisat2_output functionality to wrapper script
   <ul>
-   <li> See "Move read_picosat_output functionality to wrapper script"
-   in SolverMonitoring/plans/Picosat.hpp. </li>
+   <li> This is to be achieved with "Extraction tools" in
+   ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
   </ul>
 
 
