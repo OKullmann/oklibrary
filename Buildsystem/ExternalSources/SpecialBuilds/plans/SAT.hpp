@@ -15,13 +15,15 @@ License, or any later version. */
    <li> manySAT is proprietary? </li>
    <li> NAGSAT? </li>
    <li> PMSAT? </li>
-   <li> There is a parallel version of Precosat: See Plingeling below. </li>
+   <li> DONE
+   There is a parallel version of Precosat: See Plingeling below. </li>
   </ul>
 
 
   \todo (P)Lingeling
   <ul>
-   <li> First installatioin:
+   <li> DONE (installed)
+   First installatioin:
    \verbatim
 builds/Lingeling> tar -xzf ../../../sources/SAT/Precosat/lingeling-276-6264d55-100731.tar.gz
 > cd lingeling-276-6264d55-100731
@@ -29,6 +31,8 @@ builds/Lingeling> tar -xzf ../../../sources/SAT/Precosat/lingeling-276-6264d55-1
 > make
    \endverbatim
    </li>
+   <li> We need an installation page: Perhaps picosat, precosat, lingeling etc.
+   all go to the same page? </li>
    <li> Basic information:
    \verbatim
 > ./lingeling --help

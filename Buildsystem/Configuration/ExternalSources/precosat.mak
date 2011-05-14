@@ -31,3 +31,34 @@ precosat_docu_page_okl ?= $(doc_dir)/doxygen_html/d8/d96/Precosat_8hpp.html
 precosat_homepage_url_okl := http://fmv.jku.at/precosat/
 precosat_documentation_url_okl := http://fmv.jku.at/precosat/preicosat-sc09.pdf
 
+
+# Settings for building and using Lingeling and Plingeling
+
+lingeling_recommended_version_number_okl ?= 276-6264d55-100731
+lingeling_other_versions_okl ?= 
+
+lingeling_recommended_okl := lingeling-$(lingeling_recommended_version_number_okl)
+lingeling_base_source_okl := $(ExternalSources)/sources/SAT/Precosat
+lingeling_source_okl := $(lingeling_base_source_okl)/$(lingeling_recommended_okl)
+
+lingeling_base_build_dir_okl ?= $(ExternalSources_builds)/SAT/Lingeling
+lingeling_build_dir_okl ?= $(lingeling_base_build_dir_okl)/$(lingeling_recommended_okl)
+
+lingeling_base_installation_dir_okl ?= $(ExternalSources_installations)/SAT/Lingeling
+lingeling_installation_dir_okl ?= $(lingeling_base_installation_dir_okl)/$(lingeling_recommended_version_number_okl)
+
+lingeling_exec_okl ?= lingeling
+lingeling_call_okl ?= $(lingeling_installation_dir_okl)/$(lingeling_exec_okl)
+lingeling_public_call_okl ?= $(lingeling_exec_okl)$(lingeling_recommended_version_number_okl)
+plingeling_exec_okl ?= plingeling
+plingeling_call_okl ?= $(lingeling_installation_dir_okl)/$(plingeling_exec_okl)
+plingeling_public_call_okl ?= $(plingeling_exec_okl)$(lingeling_recommended_version_number_okl)
+
+
+lingeling_base_doc_dir_okl ?= $(ExternalSources_doc)/SAT/Lingeling
+lingeling_doc_dir_okl ?= $(lingeling_base_doc_dir_okl)/$(lingeling_recommended_okl)
+lingeling_docu_page_okl ?= $(doc_dir)/
+
+lingeling_homepage_url_okl := 
+lingeling_documentation_url_okl := 
+
