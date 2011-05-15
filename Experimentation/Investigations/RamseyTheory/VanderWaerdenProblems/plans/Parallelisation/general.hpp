@@ -85,6 +85,9 @@ sys	0m9.289s
    SAT2002/SplittingViaOKsolver (available through a public link). </li>
    <li> See Interfaces/DistributedSolving/plans/general.hpp for plans on
    tools. </li>
+   <li> See "vdw_2^pd(5,8) = (312,323)" in
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/08.hpp for
+   another example. </li>
    <li> The above example:
    \verbatim
 > SplittingViaOKsolver -D4 VanDerWaerden_2-3-12_135.cnf

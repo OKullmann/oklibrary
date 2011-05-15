@@ -169,6 +169,7 @@ Memory used           : 225.14 MB
 CPU time              : 4.60912e+06 s
 UNSATISFIABLE
      \endverbatim
+     (this is, 53.3 days)
      </li>
      <li> While for n=313:
      \verbatim
@@ -182,24 +183,19 @@ CPU time              : 302186 s
 UNSATISFIABLE
      \endverbatim
      </li>
-     <li> Splitting the problem for n=324:
+     <li> Splitting the problem for n=324, first with depth 12 (from the above
+     time, we get an "average" of 1125.273s per sub-instance):
      \verbatim
 > SplittingViaOKsolver -D12 VanDerWaerden_pd_2-5-8_324.cnf
-> cd SplitViaOKsolver_D12VanDerWaerden_pd_258_324cnf_2011-05-09-224144
+> cd SplitViaOKsolver_D12VanDerWaerden_pd_258_324cnf_2011-05-15-101121
 > more Md5sum
 64d71cced212d7377c121092fa7476ce
 > more Statistics
 > E=read.table("Data")
-> summary(E)
-       n
- Min.   :12.00
- 1st Qu.:14.00
- Median :15.00
- Mean   :15.07
- 3rd Qu.:16.00
- Max.   :32.00
-> table(E)
-E
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  12.00   14.00   15.00   15.07   16.00   32.00
+> table(E$n)
  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  32
 230 651 933 834 620 371 223 130  47  23  14   7   6   2   1   3   1
 > more Result
@@ -215,7 +211,7 @@ c reddiff_number_of_variables           0
 c reddiff_number_of_clauses             0
 c reddiff_number_of_literal_occurrences 0
 c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     39.0
+c running_time(sec)                     22.8
 c number_of_nodes                       8191
 c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
@@ -229,9 +225,18 @@ c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_pd_2-5-8_324.cnf
-c splitting_directory                   SplitViaOKsolver_D12VanDerWaerden_pd_258_324cnf_2011-05-09-224144/Instances
+c splitting_directory                   SplitViaOKsolver_D12VanDerWaerden_pd_258_324cnf_2011-05-15-101121/Instances
 c splitting_cases                       4096
 
+> cd Instances
+> I="../$(cat ../F)"; echo " i n t" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf 2>&1 | cat - > Temp.out; T=$(cat Temp.out | awk '/CPU time/ {print $4}'); echo "$C $F $N $T" >> Stats; echo -n "$C:$T "; done; rm Temp.cnf Temp.out
+
+# Monitoring in R via
+#> E=read.table("Stats"); plot(E$t); cat(length(E$t),":",sum(E$t)/60/60,"h\n"); summary(E$t)
+     \endverbatim
+     </li>
+     <li> Now with depth 16:
+     \verbatim
 > SplittingViaOKsolver -D16 VanDerWaerden_pd_2-5-8_324.cnf
 > cd SplitViaOKsolver_D16VanDerWaerden_pd_258_324cnf_2011-05-09-224526
 > > more Md5sum
