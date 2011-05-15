@@ -63,15 +63,17 @@ Sma_S2_list(n) := if n=0 then [] else block([res:[1], e : 2],
 
 /* We have fullclauses_dmu_lb1[k] = Sma_S2_bydef(k). */
 
-/* Upper bound on the number of full clauses for deficiency k: */
-fullclauses_dmu_ub1[k]:= if k=1 then 2 else
+/* Upper bound on the number of full clauses for deficiency k, using the
+   known best upper bound on the min-var-degree:
+*/
+fullclauses_dmu_ub1[k] := if k=1 then 2 else
  block([mvd : seconde(minvardegree_dmu(k)), ub],
   if oddp(mvd) then ub : mvd-1 else ub : mvd,
   if ub=mvd and 2*seconde(fullclauses_dmu[k-mvd/2+1]) < mvd then ub : mvd-1,
   ub)$
 
-/* Lower and upper bound combined: */
-fullclauses_dmu[k]:=
+/* Lower and upper bounds combined: */
+fullclauses_dmu(k) :=
  block([lb : fullclauses_dmu_lb1[k], ub : fullclauses_dmu_ub1[k]],
   if lb=ub then lb else [lb,ub])$
 
@@ -99,7 +101,7 @@ minvardegree_dmu(k) := block(
   elseif disto<=o then 2^o-1-disto
   elseif distl=1 then 2^l
   else block(
-   [lb : max(firste(minvardegree_dmu(k-1)), fullclauses_dmu_lb1[k]),
+   [lb : max(firste(minvardegree_dmu(k-1)), seconde(fullclauses_dmu(k))),
     ub : nonmersenne_law(k)],
     if lb=ub then lb else [lb,ub]))$
 
