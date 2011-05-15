@@ -190,9 +190,9 @@ h3 : investigate_permutations(3)$
 [1,4,6,7,8,5,3,2] [40,0,10,20]
 XXX
    \endverbatim
-   Computation aborted (took too long; unclear whether there might be more
-   cases --- better monitoring is needed, and faster computation, at C++
-   level). </li>
+   Computation aborted (last output for permutation 1897, and then until
+   permutation 3277 no new cases; unclear whether there might be more
+   cases --- faster computation, at C++ level is needed). </li>
    <li> Some permutations take more than a minute to process, while some take
    only a few seconds? It can't be the small hash-map? It seems it is just
    that some permutations are more difficult than others. </li>
