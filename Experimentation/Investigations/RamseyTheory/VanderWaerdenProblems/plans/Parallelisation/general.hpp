@@ -17,12 +17,36 @@ License, or any later version. */
    <li> Running in default-configuration (on this machine with 2 threads):
    \verbatim
 > plingeling276-6264d55-100731 -v VanDerWaerden_2-3-12_135.cnf
+c 6442836 decisions, 5457271 conflicts
+c 123459397 propagations, 0.1 megaprops/sec
+c 4302.8 process time, 100% utilization
+c 2160.2 seconds, 58.6 MB
+s UNSATISFIABLE
    \endverbatim
    or with 4 threads:
    \verbatim
 > plingeling276-6264d55-100731 -v -t 4 VanDerWaerden_2-3-12_135.cnf
+c 12955195 decisions, 10977898 conflicts
+c 248353207 propagations, 0.1 megaprops/sec
+c 7409.4 process time, 93% utilization
+c 1999.0 seconds, 117.8 MB
+s UNSATISFIABLE
    \endverbatim
    </li>
+   <li> Without parallelism much faster:
+   \verbatim
+> lingeling276-6264d55-100731 -v VanDerWaerden_2-3-12_135.cnf
+c 3557174 decisions, 3017745 conflicts
+c 68243987 propagations, 0.2 megaprops/sec
+c 369.1 seconds, 30.1 MB
+s UNSATISFIABLE
+   \endverbatim
+   </li>
+   <li> There seems to be a big communication overhead. </li>
+   <li> The running times above are on csltok, and so highly unreliable
+   (unstable cpu-frequency), and the experiments need to be repeated.
+   According to "megaprops" perhaps lingeling run with double the frequency
+   --- still much faster! </li>
   </ul>
 
 
@@ -61,6 +85,74 @@ sys	0m9.289s
    SAT2002/SplittingViaOKsolver (available through a public link). </li>
    <li> See Interfaces/DistributedSolving/plans/general.hpp for plans on
    tools. </li>
+   <li> The above example:
+   \verbatim
+> SplittingViaOKsolver -D4 VanDerWaerden_2-3-12_135.cnf
+> cd SplitViaOKsolver_D4VanDerWaerden_2312_135cnf_2011-05-15-073354
+> more Md5sum
+3115296eddcf269616a3f2cce5355eaf
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  4.000   4.000   6.000   7.438  11.000  18.000
+> table(E$n)
+ 4  6  7 11 18
+ 5  5  1  4  1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         12
+c initial_number_of_variables           135
+c initial_number_of_clauses             5251
+c initial_number_of_literal_occurrences 22611
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     0.1
+c number_of_nodes                       31
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                0
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        4
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+c splitting_directory                   SplitViaOKsolver_D4VanDerWaerden_2312_135cnf_2011-05-15-073354/Instances
+c splitting_cases                       16
+
+> cd Instances/
+> time for F in $(awk 'NR!=1 {print $2}' ../Data); do cat ../$(cat ../F) | ApplyPass-O3-DNDEBUG $F > Temp.cnf; echo $F $(satz215 Temp.cnf | awk '/terminated/ {print $4}'); done; rm Temp.cnf satz215_timetable
+13 0.320
+7 0.960
+11 0.860
+14 0.830
+15 0.660
+3 3.570
+6 2.560
+8 3.690
+10 3.410
+12 2.910
+16 2.500
+1 39.490
+2 11.990
+4 12.030
+5 12.250
+9 10.490
+
+real    1m49.306s
+user    1m48.887s
+sys     0m0.144s
+   \endverbatim
+   </li>
   </ul>
   
   
