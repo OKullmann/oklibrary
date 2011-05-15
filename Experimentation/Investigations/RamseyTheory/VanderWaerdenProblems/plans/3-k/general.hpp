@@ -343,8 +343,8 @@ c main():: time=5111.450195
   <ul>
    <li> k=12:
     <ol>
-     <li> k=12, n=134: 214s (NB_BRANCHE= 240158, csltok) </li>
-     <li> k=12, n=135: 236s (NB_BRANCHE= 262304, csltok) </li>
+     <li> k=12, n=134: 106s (NB_BRANCHE= 240158, csltok) </li>
+     <li> k=12, n=135: 119s (NB_BRANCHE= 262304, csltok) </li>
     </ol>
    </li>
    <li> k=13, n=160:
