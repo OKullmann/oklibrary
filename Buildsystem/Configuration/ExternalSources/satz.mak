@@ -12,16 +12,21 @@ satz_base_installation_dir_okl ?= $(ExternalSources_installations)/SAT/Satz
 
 # Satz 215
 
-satz215_recommended_version_number_okl ?= 215
-satz215_build_dir_okl ?= $(satz_base_build_dir_okl)/satz215
-satz215_installation_dir_okl ?= $(satz_base_installation_dir_okl)/215
-satz215_corrected_src_okl ?= $(OKsystem)/OKlib/Satisfiability/Solvers/Satz/satz215.2.c
+satz_recommended_version_number_okl ?= 215
 
-satz215_call_okl ?= $(satz215_installation_dir_okl)/satz215
-satz215_wrapper_okl ?= $(OKlib)/Satisfiability/Solvers/Satz/satz215
-satz215_m2pp_okl ?= $(OKlib)/Satisfiability/Solvers/Satz/satz215-m2pp
+satz_base_name_okl := satz
+satz_recommended_okl := $(satz_base_name_okl)$(satz_recommended_version_number_okl)
 
-satz215_docu_page_okl ?= $(doc_dir)/doxygen_html/
+satz_build_dir_okl ?= $(satz_base_build_dir_okl)/$(satz_recommended_okl)
+satz_installation_dir_okl ?= $(satz_base_installation_dir_okl)/$(satz_recommended_version_number_okl)
+satz_corrected_src_base_okl ?= satz215.2.c
+satz_corrected_src_okl ?= $(OKsystem)/OKlib/Satisfiability/Solvers/Satz/$(satz_corrected_src_base_okl)
 
-satz215_source_okl := $(ExternalSources)/sources/SAT/Satz/satz215.2.c
+satz_call_okl ?= $(satz_installation_dir_okl)/$(satz_recommended_okl)
+satz_public_call_okl ?= $(satz_recommended_okl)
+satz_m2pp_okl ?= $(OKlib)/Satisfiability/Solvers/Satz/satz215-m2pp
+
+satz_docu_page_okl ?= $(doc_dir)/doxygen_html/
+
+satz_source_okl := $(ExternalSources)/sources/SAT/Satz/satz.2.c
 
