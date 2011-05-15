@@ -77,6 +77,15 @@ License, or any later version. */
    </li>
    <li> With such tools in place, the current R-functions should be transformed
    to functions for reading and evaluating files created with the tools. </li>
+   <li> We need also a simple system to connect a solver with its extraction
+   tool:
+    <ol>
+     <li> So that in an application, where the solver is run, one can also
+     easily do the extraction. </li>
+     <li> Perhaps just a helper-shell-script "ExtractInfo", which takes the
+     solver-name as input, and returns the name of the extraction-script. </li>
+    </ol>
+   </li>
   </ul>
 
 

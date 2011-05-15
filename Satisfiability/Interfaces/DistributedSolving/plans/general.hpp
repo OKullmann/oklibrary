@@ -20,6 +20,32 @@ License, or any later version. */
   </ul>
 
 
+  \todo Simple tool for running through all sub-instances
+  <ul>
+   <li> In Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/08.hpp
+   we have a simple sequence of Bash-commands. </li>
+   <li> Looks alright, and must now be transferred into a proper script
+   (creating an experiment-directory etc.). </li>
+   <li> This just runs through the instances in the order given in the
+   Data-file, and stores the statistics in an R-readable file. </li>
+   <li> This is for investigations into the effectiveness of the splitting.
+   </li>
+   <li> And also harder instances can be attacked in this way, since we can
+   easily stop and continue. For that we need also the ability to re-start.
+   </li>
+   <li> We need thus the possibility to stop (sending the signal from Ctrl-C)
+   and to restart (just with the experiment-directory as parameter). </li>
+   <li> If a satisfying assignment is found, likely it should just stop. </li>
+   <li> Of course, with extraction of all statistical data (not just the time,
+   as in that prototype).
+    <ol>
+     <li> See "Extraction tools" in
+     ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Sampling tool
   <ul>
    <li> A tool "SamplingSplitting" is to be written, for sampling N
