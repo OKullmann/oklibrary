@@ -104,6 +104,7 @@ minvardegree_dmu(k) := block(
   elseif disto=0 then 2^o
   elseif disto<=o then 2^o-1-disto
   elseif distl=1 then 2^l
+  elseif k=7 then 10
   else block(
    [lb : max(firste(minvardegree_dmu(k-1)), fullclauses_dmu_lb(k)),
     ub : nonmersenne_inf_law(k)],
