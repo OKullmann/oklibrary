@@ -66,7 +66,7 @@ Sma_S2_list(n) := if n=0 then [] else block([res:[1], e : 2],
 /* Upper bound on the number of full clauses for deficiency k, using the
    known best upper bound on the min-var-degree:
 */
-fullclauses_dmu_ub1[k] := if k=1 then 2 else
+fullclauses_dmu_ub1(k) := if k=1 then 2 else
  block([mvd : seconde(minvardegree_dmu(k)), ub],
   if oddp(mvd) then ub : mvd-1 else ub : mvd,
   if ub=mvd and 2*seconde(fullclauses_dmu[k-mvd/2+1]) < mvd then ub : mvd-1,
@@ -74,7 +74,7 @@ fullclauses_dmu_ub1[k] := if k=1 then 2 else
 
 /* Best lower and upper bounds: */
 fullclauses_dmu_lb(k) := fullclauses_dmu_lb1[k]$
-fullclauses_dmu_ub(k) := fullclauses_dmu_ub1[k]$
+fullclauses_dmu_ub(k) := fullclauses_dmu_ub1(k)$
 
 /* Lower and upper bounds combined: */
 fullclauses_dmu(k) :=
