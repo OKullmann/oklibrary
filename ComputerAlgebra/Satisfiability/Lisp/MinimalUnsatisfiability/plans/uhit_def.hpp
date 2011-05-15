@@ -10,6 +10,21 @@ License, or any later version. */
   \brief Plans regarding the catalogue of unsatisfiable non-singular hitting clause-sets
 
 
+  \todo Problems with evaluation
+  <ul>
+   <li> If at the time of a definition of an uhit_def-value via an expression,
+   a function in that expression is not yet defined, only later, then when
+   calling e.g. all_uhit_def(k) that expression is not evaluated (even though
+   the function-definition is now available). </li>
+   <li> Is this a Maxima-bug? I (OK) haven't encountered such behaviour
+   before. </li>
+   <li> A solution is to use ev(all_uhit_def(k),eval). </li>
+   <li> Potentially this behaviour could be useful, since one could leave
+   terms in the uhit_def-catalogue unevaluated, and evaluation only happens
+   when needed. </li>
+  </ul>
+
+
   \todo Organisation
   <ul>
    <li> Rename this file to Uhit_def.hpp, and move data/uhit_def.hpp to

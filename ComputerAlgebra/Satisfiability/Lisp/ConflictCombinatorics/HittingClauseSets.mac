@@ -624,8 +624,8 @@ sharp_uhit_catalogue_maxminvardeg() :=
 
 /* For given deficiency, compute the maximal min-var-degree (in the
    uhit-catalogue). */
-max_min_var_deg_uhit_def(k) := max_min_var_deg_cs(all_uhit_def(k))$
-max_min_var_deg_uhit_def_mem[k] := max_min_var_deg_cs(all_uhit_def(k))$
+max_min_var_deg_uhit_def(k) := max_min_var_deg_cs(ev(all_uhit_def(k),eval))$
+max_min_var_deg_uhit_def_mem[k] := max_min_var_deg_cs(ev(all_uhit_def(k),eval))$
 /* Apply "remarray(max_min_var_deg_uhit_def_mem)" in case an update
    of uhit_def occurred. */
 
