@@ -106,7 +106,7 @@ minvardegree_dmu(k) := block(
   elseif distl=1 then 2^l
   else block(
    [lb : max(firste(minvardegree_dmu(k-1)), fullclauses_dmu_lb(k)),
-    ub : nonmersenne_law(k)],
+    ub : nonmersenne_inf_law(k)],
     if lb=ub then lb else [lb,ub]))$
 
 
