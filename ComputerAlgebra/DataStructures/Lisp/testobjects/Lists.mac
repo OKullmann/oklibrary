@@ -21,6 +21,16 @@ oklib_load("OKlib/ComputerAlgebra/DataStructures/Lisp/testobjects/Lists.mac");
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac")$
 
+/* ***************
+   * List access *
+   ***************
+*/
+
+okltest_firste(firste);
+okltest_seconde(seconde);
+okltest_thirde(thirde);
+okltest_fourthe(fourthe);
+
 /* ***********************
    * Apply-functionality *
    ***********************

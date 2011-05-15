@@ -32,9 +32,6 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
    **************************
 */
 
-firste(x) := if listp(x) then first(x) else x$
-seconde(x) := if listp(x) then second(x) else x$
-
 /* The lower bound on the maximal number of full clauses for deficiency k,
    using inverse 2-subsumption-resolution with a new variable:
 */
