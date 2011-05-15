@@ -72,9 +72,13 @@ fullclauses_dmu_ub1[k] := if k=1 then 2 else
   if ub=mvd and 2*seconde(fullclauses_dmu[k-mvd/2+1]) < mvd then ub : mvd-1,
   ub)$
 
+/* Best lower and upper bounds: */
+fullclauses_dmu_lb(k) := fullclauses_dmu_lb1[k]$
+fullclauses_dmu_ub(k) := fullclauses_dmu_ub1[k]$
+
 /* Lower and upper bounds combined: */
 fullclauses_dmu(k) :=
- block([lb : fullclauses_dmu_lb1[k], ub : fullclauses_dmu_ub1[k]],
+ block([lb : fullclauses_dmu_lb(k), ub : fullclauses_dmu_ub(k)],
   if lb=ub then lb else [lb,ub])$
 
 
@@ -101,7 +105,7 @@ minvardegree_dmu(k) := block(
   elseif disto<=o then 2^o-1-disto
   elseif distl=1 then 2^l
   else block(
-   [lb : max(firste(minvardegree_dmu(k-1)), seconde(fullclauses_dmu(k))),
+   [lb : max(firste(minvardegree_dmu(k-1)), fullclauses_dmu_lb(k)),
     ub : nonmersenne_law(k)],
     if lb=ub then lb else [lb,ub]))$
 
