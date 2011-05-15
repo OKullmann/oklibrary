@@ -26,6 +26,8 @@ License, or any later version. */
    <li> Is this a Maxima-bug? I (OK) haven't encountered such behaviour
    before. </li>
    <li> A solution is to use ev(all_uhit_def(k),eval). </li>
+   <li> Applied with apply_uhit and max_min_var_deg_uhit_def,
+   max_min_var_deg_uhit_def_mem. </li>
    <li> Potentially this behaviour could be useful, since one could leave
    terms in the uhit_def-catalogue unevaluated, and evaluation only happens
    when needed. </li>
