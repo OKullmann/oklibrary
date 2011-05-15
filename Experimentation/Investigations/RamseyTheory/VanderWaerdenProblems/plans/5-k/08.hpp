@@ -234,8 +234,14 @@ c splitting_cases                       4096
 # Monitoring in R via
 #> E=read.table("Stats"); plot(E$t); cat(length(E$t),":",sum(E$t)/60/60,"h\n"); summary(E$t)
      \endverbatim
-     </li>
-     <li> Now with depth 16:
+     Aborted after 3.1 hours, with a mean of 19.4s per sub-instance, and a
+     maximum of 825s (579 sub-instances, with final n=17). This needs to be
+     repeated (and completed!) on a stable machine with a similar speed as
+     where the original solution was obtained. Also with storing all data of
+     the runs; see "Simple tool for running through all sub-instances" in
+     Interfaces/DistributedSolving/plans/general.hpp. </li>
+     <li> Now with depth 16 (from the above time, we get an "average" of 70.4s
+     per sub-instance):
      \verbatim
 > SplittingViaOKsolver -D16 VanDerWaerden_pd_2-5-8_324.cnf
 > cd SplitViaOKsolver_D16VanDerWaerden_pd_258_324cnf_2011-05-09-224526
@@ -243,16 +249,10 @@ c splitting_cases                       4096
 df571321afc590fa67f5cec11a8499a0
 > more Statistics
 > E=read.table("Data")
-> summary(E)
-       n
- Min.   :16.00
- 1st Qu.:19.00
- Median :21.00
- Mean   :21.49
- 3rd Qu.:23.00
- Max.   :53.00
-> table(E)
-E
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  16.00   19.00   21.00   21.49   23.00   53.00
+> table(E$n)
   16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31
  800 3146 6552 8855 9865 9037 7533 5790 4329 2867 1917 1253  888  681  472  370
   32   33   34   35   36   37   38   39   40   41   42   43   44   45   46   47
@@ -288,8 +288,24 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_pd_2-5-8_324.cnf
 c splitting_directory                   SplitViaOKsolver_D16VanDerWaerden_pd_258_324cnf_2011-05-09-224526/Instances
 c splitting_cases                       65435
+
+> cd Instances
+> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf 2>&1 | cat - > Temp.out; T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; done; rm Temp.cnf Temp.out
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+# Overview via
+#> plot(E)
+
+# Aborted:
+26701: 5.57h, sum-cfs=5.225178e+08, mean-t=0.752s, mean-cfs=19569
+> E[26701,]
+          i  n        t  cfs
+26701 60636 22 0.724889 7725
      \endverbatim
-     </li>
+     Until this point it looks good. However the hard problems are mostly
+     ahead. (The usual problems with slow execution on csltok due to low
+     clock-frequency.) </li>
      <li> The question is whether via splitting we could actually gain running
      time. </li>
     </ol>
