@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans regarding the catalogue of unsatisfiable non-singular hitting clause-sets
 
 
+  \todo Shall uhit_def be redefined with every loading?
+  <ul>
+   <li> We used to have "kill(uhit_def)$" in data/uhit_def.mac. </li>
+   <li> Was that really needed? </li>
+  </ul>
+
+
   \todo Problems with evaluation
   <ul>
    <li> If at the time of a definition of an uhit_def-value via an expression,
