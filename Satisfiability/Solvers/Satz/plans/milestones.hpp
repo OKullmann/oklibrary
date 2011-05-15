@@ -8,15 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Solvers/Satz/plans/milestones.hpp
 
-  \module_version Satisfiability/Solvers/Satz 0.2 (17.8.2009)
-
-
-  \par Version 0.3
-
-  \par
-   In Satisfiability/Solvers/Satz/plans/general.hpp the following topics
-   are handled:
-    - Improve time measurement : DONE
+  \module_version Satisfiability/Solvers/Satz 0.3 (15.5.2011)
 
 
   \par Version 0.4
@@ -89,6 +81,7 @@ License, or any later version. */
   \par Version history
 
    - 0.2   : 17.8.2009; added Dimacs exit-values and copyright/licence statement, updated time-measurement code, and provided a version with minisat2-preprocessor.
+   - 0.3   : 15.5.2011; corrected time measurement.
 
 */
 
