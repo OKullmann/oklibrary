@@ -251,13 +251,9 @@ License, or any later version. */
      <li> For 1 <= k <= 59 sharpness of the bound is not known for
      14 <= k <= 17, 29 <= k <= 42 and 44 <= k <= 51. </li>
      <li> We have the current maxima for the non-sharp cases (compared
-     to the upper bound minvardegree_dmu):
+     to the upper bound minvardegree_dmu; use
+     sharp_uhit_catalogue_maxminvardeg()):
       <ul>
-       <li> k = 14 : 17 = 18-1
-        <ol>
-         <li> The above show that for a sharp case we have n >= 8. </li>
-        </ol>
-       </li>
        <li> k = 15 : 18 = 19-1
         <ol>
          <li> The above show that for a sharp case we have n >= 8. </li>
