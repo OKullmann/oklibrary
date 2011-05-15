@@ -94,6 +94,7 @@ order_deficiency(k) := if k=1 then 0 elseif k=2 then 2 else
 /* For deficiency k in NN the maximum minimal-variable-degree in minimally
    unsatisfiable clause-sets of deficiency k; if the precise value is not
    known, then an interval [lower-bound,upper-bound] is given.
+   The "hitting-catalogue" is accessed via max_min_var_deg_uhit_def(k).
 */
 minvardegree_dmu(k) := block(
  [o : order_deficiency(k),
@@ -104,7 +105,11 @@ minvardegree_dmu(k) := block(
   elseif disto=0 then 2^o
   elseif disto<=o then 2^o-1-disto
   elseif distl=1 then 2^l
-  elseif k=7 then 10
+  elseif k=7 then 10 /* according to hitting-catalogue */
+  elseif k=14 then 17 /* according to hitting-catalogue */
+  elseif k=18 then 22 /* according to hitting-catalogue */
+  elseif k=19 then 23 /* according to hitting-catalogue */
+  elseif k=21 then 25 /* according to hitting-catalogue */
   else block(
    [lb : max(firste(minvardegree_dmu(k-1)), fullclauses_dmu_lb(k)),
     ub : nonmersenne_inf_law(k)],
