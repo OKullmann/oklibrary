@@ -1,5 +1,5 @@
 // Oliver Kullmann, 31.8.2005 (Swansea)
-/* Copyright 2005 - 2007, 2008, 2010 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,6 +10,29 @@ License, or any later version. */
   \brief Decision, whether a given partial assignment contains an autarky, and
   applications for autarky search (via enumeration of all total assignments, or
   local search through total assignments).
+
+
+  \todo Shall we abort this development?
+  <ul>
+   <li> Currently the (not completed) application
+   Search/AnalyseTotalAssignment.cpp has been disabled. </li>
+   <li> This was necessary since currently Ubcsat is not built as library.
+   </li>
+   <li> Compare "Update to version 1.2.0" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp. </li>
+   <li> It seems best to transfers to the plans what has been achieved until
+   now, and then to remove the current code. </li>
+   <li> Reasons:
+    <ol>
+     <li> The code wasn't updated for a long time. </li>
+     <li> Ubcsat has changed. </li>
+     <li> The code likely isn't that good. Though one should have a look.
+     </li>
+     <li> To analyse total assignments via Ubcsat, we should contact the
+     developers. </li>
+    </ol>
+   </li>
+  </ul>
 
   
   \todo Complete correct compilation:

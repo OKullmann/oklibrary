@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.9.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,11 +15,18 @@ License, or any later version. */
 
   \par
    In Autarkies/Search/plans/general.hpp the following topics are handled:
+    - Shall we abort this development?
+
+
+  \par Version 0.0.9
+
+  \par
+   In Autarkies/Search/plans/general.hpp the following topics are handled:
     - Update namespace usage
     - Link to ComputerAlgebra/Satisfiability/Lisp/Autarkies/plans/general.hpp
 
 
-  \par Version 0.0.9
+  \par Version 0.0.10
 
   \par
    In Autarkies/Search/plans/AnalyseTotalAssignment.hpp the following topics
@@ -29,7 +36,7 @@ License, or any later version. */
     - Design and implement class ComputeLargestAutarky
 
 
-  \par Version 0.0.10
+  \par Version 0.0.11
 
   \par
    In Autarkies/Search/plans/AnalyseTotalAssignment.hpp the following topics
@@ -37,7 +44,7 @@ License, or any later version. */
     - Design and implement class AutarkySearchUbcsat
 
 
-  \par Version 0.0.11
+  \par Version 0.0.12
 
   \par
    In Autarkies/Search/plans/AnalyseTotalAssignment.hpp the following topics

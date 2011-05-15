@@ -3,7 +3,7 @@
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
 
-programs := AnalyseTotalAssignment
+programs := # AnalyseTotalAssignment
 
 source_libraries = $(ubcsat_include_option_okl)
 
