@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.8.2009 (Swansea)
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,7 +16,7 @@ License, or any later version. */
   \par
    In Satisfiability/Solvers/Satz/plans/general.hpp the following topics
    are handled:
-    - Improve the statistics output
+    - Improve time measurement : DONE
 
 
   \par Version 0.4
@@ -24,7 +24,7 @@ License, or any later version. */
   \par
    In Satisfiability/Solvers/Satz/plans/general.hpp the following topics
    are handled:
-    - Improve range of statistic measurements
+    - Improve the statistics output
 
 
   \par Version 0.5
@@ -32,7 +32,7 @@ License, or any later version. */
   \par
    In Satisfiability/Solvers/Satz/plans/general.hpp the following topics
    are handled:
-    - Improve time measurement
+    - Improve range of statistic measurements
 
 
   \par Version 0.6

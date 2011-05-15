@@ -37,7 +37,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Improve time measurement
+  \todo Improve time measurement : DONE
   <ul>
    <li> Adapt the method of OKsolver_2002, to use the Unix time system for
    32-bit machines. </li>

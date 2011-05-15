@@ -6,8 +6,12 @@ either version 3 of the License, or any later version. */
 
 /*!
   \file Satisfiability/Solvers/Satz/satz215.2.c
-  \brief Updated version w.r.t. output conventions
-  and C usage
+  \brief Updated and corrected version
+
+  <ul>
+   <li> Updated output conventions and C usage. </li>
+   <li> Corrected time measurement. </li>
+  </ul>
 */
 
 /****************************************************************************/
@@ -30,10 +34,10 @@ added into the formule in the preprocessing */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <limits.h>
 
 #include <sys/times.h>
-#include <limits.h>
+#include <unistd.h>
 
 typedef signed int my_type;
 typedef unsigned int my_unsigned_type;
@@ -1776,8 +1780,9 @@ int dpl() {
 main(int argc, char *argv[]) {
    char saved_input_file[WORD_LENGTH];
    int i,  var; 
-   long begintime, endtime;
+   clock_t begintime, endtime;
    struct tms *a_tms;
+   const long EPS = sysconf(_SC_CLK_TCK);
    FILE *fp_time;
    int exit_value;
 
@@ -1826,16 +1831,16 @@ main(int argc, char *argv[]) {
          NB_MONO, NB_UNIT, NB_BRANCHE, NB_BACK);
 	        
   printf ("Program terminated in %5.3f seconds.\n",
-          ((double)(endtime-begintime)/CLOCKS_PER_SEC));
+          ((double)(endtime-begintime)/EPS));
 
   fp_time = fopen("satz215_timetable", "a");
   fprintf(fp_time, "satz215 %s %5.3f %ld %ld %ld %ld %d %d %d %d %ld %ld\n", 
-          saved_input_file, ((double)(endtime-begintime)/CLOCKS_PER_SEC), 
+          saved_input_file, ((double)(endtime-begintime)/EPS),
           NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED, 
           satisfiable(), NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
           NB_SECOND_SEARCH, NB_SECOND_FIXED);
   printf("satz215 %s %5.3f %ld %ld %ld %ld %d %d %d %d %ld %ld\n", 
-          saved_input_file, ((double)(endtime-begintime)/CLOCKS_PER_SEC), 
+          saved_input_file, ((double)(endtime-begintime)/EPS),
           NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED, 
           satisfiable(), NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
           NB_SECOND_SEARCH, NB_SECOND_FIXED);
