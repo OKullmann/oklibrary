@@ -45,6 +45,9 @@ License, or any later version. */
      ExperimentSystem/SolverMonitoring/plans/Picosat.hpp). </li>
      <li> ExtractOKsolver (see
      ExperimentSystem/SolverMonitoring/plans/OKsolver.hpp). </li>
+     <li> ExtractSatz </li>
+     <li> ExtractMarchpl </li>
+     <li> To be completed </li>
     </ol>
    </li>
    <li> Standardised column names:
