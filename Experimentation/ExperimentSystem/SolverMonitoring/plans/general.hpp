@@ -60,13 +60,13 @@ License, or any later version. */
      <li> t : double, solution time (in seconds). </li>
      <li> sat : in {0,1,2} for UNSAT, SAT, UNKNOWN. </li>
      <li> nds : double, number of nodes for look-ahead solvers. </li>
-     <li> cfls : double, number of conflicts for conflict-driven solvers. </li>
+     <li> cfs : double, number of conflicts for conflict-driven solvers. </li>
      <li> dec : double, number of decisions for conflict-driven solvers. </li>
-     <li> rsts : double, number of restarts. </li>
+     <li> rts : double, number of restarts. </li>
      <li> r1 : double, number of unit-clause propagations. </li>
      <li> r2 : double, number of failed-literal reductions. </li>
      <li> pls : double, number of pure literals. </li>
-     <li> auts : double, number of autarkies (not pure literals). </li>
+     <li> ats : double, number of autarkies (not pure literals). </li>
      <li> h : integer, height of search-tree for look-ahead solvers. </li>
      <li> mem : double, in MB. </li>
      <li> ptime : double, parse time (in seconds). </li>
