@@ -18,6 +18,8 @@ License, or any later version. */
      </li>
      <li> Sbox 2: Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_2.hpp.
      </li>
+     <li> Sbox 3: Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_3.hpp.
+     </li>
     </ol>
    </li>
   </ul>
