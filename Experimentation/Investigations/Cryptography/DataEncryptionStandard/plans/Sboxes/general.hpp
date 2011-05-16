@@ -10,6 +10,17 @@ License, or any later version. */
   \brief On investigations into the Data Encryption Standard
 
 
+  \todo Links
+  <ul>
+   <li> Investigations into specific Sboxes:
+    <ol>
+     <li> Sbox 1: Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_1.hpp.
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Analysing the S-boxes
   <ul>
    <li> Most urgent is to use all our instruments to analyse the 8 S-boxes.
