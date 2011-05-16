@@ -26,7 +26,7 @@ License, or any later version. */
    Perhaps the key-involvement could happen at the beginning or end of a round,
    instead of in the middle. </li>
    <li> See 
-   Experimentation/Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp
+   Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp
    for investigations into the DES Sboxes. </li>
   </ul>
 
@@ -127,7 +127,7 @@ nvar_full_dualts(10,64) - 10;
     <ul>
      <li> Generating an encryption instance for 16 rounds using ArgoSAT test
      vectors (see
-     Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery.hpp):
+     Cryptography/DataEncryptionStandard/plans/KeyDiscovery.hpp):
      \verbatim
 sbox_fcl_l : create_list(dualtsplus_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
 F : des2fcl(sbox_fcl_l)$
@@ -156,7 +156,7 @@ c number_of_nodes                       0
     <ul>
      <li> Generating a decryption instance for 16 rounds and ArgoSAT test
      vectors (see
-     Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery.hpp):
+     Cryptography/DataEncryptionStandard/plans/KeyDiscovery.hpp):
      \verbatim
 sbox_fcl_l : create_list(dualtsplus_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
 F : des2fcl(sbox_fcl_l)$
