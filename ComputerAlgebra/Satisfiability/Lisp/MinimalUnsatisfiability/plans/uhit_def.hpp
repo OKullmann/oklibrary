@@ -31,6 +31,36 @@ License, or any later version. */
    <li> Potentially this behaviour could be useful, since one could leave
    terms in the uhit_def-catalogue unevaluated, and evaluation only happens
    when needed. </li>
+   <li> An example session:
+   \verbatim
+(%i1) a[0]:f(0);
+(%o1) f(0)
+(%i2) f(x):= x+77;
+(%o2) f(x):=77+x
+(%i3) is(a[0] > 0);
+(%o3) unknown
+(%i4) is(ev(a[0]) > 0);
+(%o4) true
+   \endverbatim
+   This seems strange behaviour (same for 5.23.2 and 5.24.0). This does not
+   depend on arrays:
+   \verbatim
+(%i1) a:f(0);
+(%o1) f(0)
+(%i2) f(x):= x+77;
+(%o2) f(x):=77+x
+(%i3) is(a > 0);
+(%o3) unknown
+(%i4) is(ev(a) > 0);
+(%o4) true
+(%i5) is(a > 0);
+(%o5) unknown
+(%i6) a:ev(a);
+(%o6) 77
+(%i7) is(a > 0);
+(%o7) true
+   \endverbatim
+   </li>
   </ul>
 
 
