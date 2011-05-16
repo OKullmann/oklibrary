@@ -14,7 +14,8 @@ License, or any later version. */
 
   \todo Plingeling
   <ul>
-   <li> Running in default-configuration (on this machine with 2 threads):
+   <li> Running in default-configuration (on the test-machine with 2 threads;
+   creation of instance by "VanderWaerdenCNF-O3-DNDEBUG 3 12 135")
    \verbatim
 > plingeling276-6264d55-100731 -v VanDerWaerden_2-3-12_135.cnf
 c 6442836 decisions, 5457271 conflicts
