@@ -184,7 +184,8 @@ UNSATISFIABLE
      \endverbatim
      </li>
      <li> Splitting the problem for n=324, first with depth 12 (from the above
-     time, we get an "average" of 1125.273s per sub-instance):
+     time, we get an "average" of 1125.273s per sub-instance; recall that the
+     instance is created by "PdVanderWaerdenCNF-O3-DNDEBUG 5 8 324"):
      \verbatim
 > SplittingViaOKsolver -D12 VanDerWaerden_pd_2-5-8_324.cnf
 > cd SplitViaOKsolver_D12VanDerWaerden_pd_258_324cnf_2011-05-15-101121
@@ -229,10 +230,13 @@ c splitting_directory                   SplitViaOKsolver_D12VanDerWaerden_pd_258
 c splitting_cases                       4096
 
 > cd Instances
-> I="../$(cat ../F)"; echo " i n t" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf 2>&1 | cat - > Temp.out; T=$(cat Temp.out | awk '/CPU time/ {print $4}'); echo "$C $F $N $T" >> Stats; echo -n "$C:$T "; done; rm Temp.cnf Temp.out
+> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf 2>&1 | cat - > Temp.out; T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; done; rm Temp.cnf Temp.out
 
 # Monitoring in R via
-#> E=read.table("Stats"); plot(E$t); cat(length(E$t),":",sum(E$t)/60/60,"h\n"); summary(E$t)
+#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+# Overview via
+#> plot(E)
+ summary(E$t)
      \endverbatim
      Aborted after 3.1 hours, with a mean of 19.4s per sub-instance, and a
      maximum of 825s (579 sub-instances, with final n=17). This needs to be
