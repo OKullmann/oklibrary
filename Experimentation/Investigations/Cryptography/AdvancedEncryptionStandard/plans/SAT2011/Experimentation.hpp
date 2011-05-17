@@ -61,10 +61,10 @@ License, or any later version. */
    schedule. </li>
    <li> Variants (AES parameters):
     <ul>
-     <li> Number of rounds (10+ options): 1 - 10. ??? what is "10+" ??? </li>
-     <li> Size of field (8+ options) : 1-8. </li>
-     <li> Number of columns in AES block (4+ options): 1-4. </li>
-     <li> Number of rows in AES block (4+ options): 1-4. </li>
+     <li> Number of rounds (10 options): 1,...,10. </li>
+     <li> Size of field (8 options) : 1,...,8. </li>
+     <li> Number of columns in AES block (4 options): 1,...,4. </li>
+     <li> Number of rows in AES block (4 options): 1,...,4. </li>
      <li> Inclusion of special final round or not (2 options):
       <ol>
        <li> Final round is the same as every other (in line with small-scale).
@@ -177,14 +177,19 @@ License, or any later version. */
          column from the previous round key. </li>
         </ul>
        </li>
-       <li> "By definition" computation (not implemented): ??? what does this
-       mean ???
+       <li> Larger arity addition computation (not implemented):
         <ul>
          <li> Translates the Sbox operations as individual functions. </li>
          <li> Column i of the new round key is computed by
          SBox(K_p) + C + sum(K_1,...,K_i). K_i is the i-th column of the
          previous round key. K_p is a column of certain key words from the
          previous round key. </li>
+         <li> The point here is that later columns of the *new* round key are
+         defined using earlier columns of the *new* round key. </li>
+         <li> In this translation, instead of using earlier columns of the new
+         round key, we expand the computation out. Each new round key is
+         specified using only columns from the previous round key (no reusing
+         results). </li>
         </ul>
        </li>
       </ul>
@@ -195,14 +200,18 @@ License, or any later version. */
     <ul>
      <li> Box representation (4 options):
       <ol>
-       <li> Canonical translation. ??? here we have more options ??? </li>
-       <li> r_0-based representation. </li>
-       <li> Minimum representation. </li>
-       <li> r_1-based representation. </li>
+       <li> Canonical translation. </li>
+       <li> Canonical+ translation. </li>
+       <li> 0-based representation. </li>
+       <li> 1-based representation. </li>
+       <li> Minimum representation (i.e., |var(F)|-based representation).
+       </li>
       </ol>
      </li>
     </ul>
    </li>
+   <li> Note that addition constraints are always represented using their
+   prime implicates. </li>
    <li> In each case, the first option is considered the default. </li>
    <li> We need instructions on how to generate each translation. These
    should occur here (in this plans file). </li>
