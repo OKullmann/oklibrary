@@ -235,8 +235,7 @@ c splitting_cases                       4096
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 # Overview via
-#> plot(E)
- summary(E$t)
+#> plot(E); summary(E)
      \endverbatim
      Aborted after 3.1 hours, with a mean of 19.4s per sub-instance, and a
      maximum of 825s (579 sub-instances, with final n=17). This needs to be
@@ -299,7 +298,7 @@ c splitting_cases                       65435
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 # Overview via
-#> plot(E)
+#> plot(E); summary(E)
 
 # Aborted:
 26701: 5.57h, sum-cfs=5.225178e+08, mean-t=0.752s, mean-cfs=19569
