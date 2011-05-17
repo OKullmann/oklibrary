@@ -22,6 +22,8 @@ License, or any later version. */
      </li>
      <li> Sbox 4: Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_4.hpp.
      </li>
+     <li> Sbox 5: Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_5.hpp.
+     </li>
     </ol>
    </li>
   </ul>
