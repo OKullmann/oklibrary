@@ -14,7 +14,7 @@ library_targets_extsrc_okl ?= bzip2 boost gmp bzip2412 boost412 gmp412 mpfr zlib
 math_targets_extsrc_okl ?= allmaxima gap R
 sat_targets_extsrc_okl ?= ubcsat minisat march satzall sp grasp picosat precosat argosat cryptominisat glucose
 boolean_targets_extsrc_okl ?= espresso
-buildsystem_targets_extsrc_okl ?= doxygen git
+buildsystem_targets_extsrc_okl ?= doxygen
 math2_targets_extsrc_okl ?= sage
 # Dependencies between these external sources:
 # minisat needs gmp and zlib

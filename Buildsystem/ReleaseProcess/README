@@ -50,6 +50,8 @@ The following software needs to be installed:
    (check: run "bash --version")
  - GNU make, version 3.80 or higher
    (check: run "make --version")
+ - git, version 1.7 or later
+   (check: run "git --version")
  - GNU sed
    (check: run "sed --version")
  - GNU awk
@@ -72,6 +74,8 @@ The following software needs to be installed:
   (check: run "patch --version")
  - tcsh
   (check: run "tcsh --version")
+ - ssh
+  (check: run "ssh --version")
 
  - readline (development library).
  - glibc (development library).
@@ -79,8 +83,7 @@ The following software needs to be installed:
  - postgresql development library ("postgresql-devel").
  - binutils development library ("binutils-devel"),
    version 2.19.1 or higher (check: "ld --version")
- - zlib (development library, needed by gcc-4.5.3 (due to defective build)
-   and git).
+ - zlib (development library, needed by gcc-4.5.3 (due to defective build)).
 
 If the build-machine is a 64-bit machine, then
 additionally also the 32-bit version of glibc
@@ -100,14 +103,6 @@ For creation of documentation we also need:
    (check: "flex --version")
  - Bison
    (check: "bison --version").
-
-And for installing and using Git we need the following:
-
- - openssl
- - wish (as part of the Tcl/Tk system)
- - ssh
- - curl, and expat development library (for pulling/pushing from/to 
-   a git repository via the http protocol).
 
 And Latex should include the srcltx-package.
 
@@ -286,18 +281,8 @@ A link to the (locally installed) doxygen is planted in the
 public bin-directory OKplatform/bin, so that you can use doxygen yourself
 (by just calling "doxygen" somewhere; try "doxygen --version").
 
-9) In order to use the version control system, we install git (locally).
-
 Again, after installation a link is planted in the public bin-directory 
 OKplatform/bin.
-
-Git comes with modern Linux distributions, but the OKlibrary should provide
-the most suitable version (either the newest one, or in case of some trouble
-an appropriate earlier version).
-
-(In case you don't want this git replacing your system-git (which likely
-happens if OKplatform/bin is on your PATH), then you can just delete that
-link on OKplatform/bin (together with the other git-prefixed links).)
 
 
 ----------------------------------------------

@@ -12,6 +12,7 @@ License, or any later version. */
 
   \todo Prerequisites
   <ul>
+   <li> We need to discuss these in the Git installation information. </li>
    <li> What to do about xmlto --- is this available in recent
    distributions, so that we don't need to provide an installation
    ourselves (only documentation)?
@@ -19,8 +20,11 @@ License, or any later version. */
      <li> Suse 10.0 has it. </li>
     </ol>
    </li>
-   <li> libcurl is another prerequisite, which can be installed by the
-   Linux distribution. </li>
+   <li> curl + libcurl and expat development library (for pulling/pushing
+   from/to  a git repository via the http protocol) is another prerequisite,
+   which can be installed by the Linux distribution. </li>
+   <li> openssl ? </li>
+   <li> wish (as part of the Tcl/Tk system) ? </li>
    <li> DONE
    The build system can install asciidoc if needed; put it into
    the documentation. (Is it available in recent distributions?) </li>
