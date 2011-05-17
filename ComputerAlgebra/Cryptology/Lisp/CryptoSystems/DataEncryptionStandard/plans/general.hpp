@@ -12,6 +12,30 @@ License, or any later version. */
 
   \todo Add todos
 
+  
+  \todo Improve key schedule tests
+  <ul>
+   <li> We should look for tests vectors for the DES key schedule.
+   </li>
+   <li> These test vectors should then be added to the tests. </li>
+   <li> The test vectors should provide good test coverage. </li>
+   <li> Before we can properly test the function, we need a specification
+   (see "Specification"). </li>
+  </ul>
+
+
+  \todo Specification
+  <ul>
+   <li> We need full specifications for the following functions:
+   <ul>
+    <li> des_round_keys. </li>
+    <li> des_encryption. </li>
+    <li> des_decryption. </li>
+    <li> des_template. </li>
+   </ul>
+   </li>
+  </ul>
+
 
   \todo Add variants with reduced number of rounds
   <ul>
