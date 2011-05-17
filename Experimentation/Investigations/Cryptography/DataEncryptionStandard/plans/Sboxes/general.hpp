@@ -28,6 +28,8 @@ License, or any later version. */
      </li>
      <li> Sbox 7: Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_7.hpp.
      </li>
+     <li> Sbox 8: Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_8.hpp.
+     </li>
     </ol>
    </li>
   </ul>
