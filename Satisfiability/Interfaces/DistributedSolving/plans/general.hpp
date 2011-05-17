@@ -24,6 +24,7 @@ License, or any later version. */
   <ul>
    <li> In Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/08.hpp
    we have a simple sequence of Bash-commands. </li>
+   <li> Also in RamseyTheory/VanderWaerdenProblems/plans/3-k/25.hpp. </li>
    <li> Looks alright, and must now be transferred into a proper script
    (creating an experiment-directory etc.). </li>
    <li> This just runs through the instances in the order given in the
