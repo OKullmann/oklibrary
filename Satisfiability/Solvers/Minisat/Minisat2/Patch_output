@@ -1,8 +1,32 @@
-652,653c652,653
-<                     printf("| %9d | %7d %8d %8d | %8d %8d %6.0f | %6.3f %% |\n", 
-<                            (int)conflicts, 
----
->                     printf("| %10ju | %7d %8d %8d | %8d %8d %6.0f | %6.3f %% |\n", 
->                            conflicts, 
-655a656
->                     fflush(stdout);
+diff -ruN minisat-2.2.0-old//core/Solver.cc minisat-2.2.0/core/Solver.cc
+--- minisat-2.2.0-old//core/Solver.cc	2010-07-10 17:07:36.000000000 +0100
++++ minisat-2.2.0/core/Solver.cc	2011-04-07 11:48:17.420045997 +0100
+@@ -649,10 +649,11 @@
+                 max_learnts             *= learntsize_inc;
+ 
+                 if (verbosity >= 1)
+-                    printf("| %9d | %7d %8d %8d | %8d %8d %6.0f | %6.3f %% |\n", 
+-                           (int)conflicts, 
++                    printf("| %10ju | %7d %8d %8d | %8d %8d %6.0f | %6.3f %% |\n", 
++                           conflicts, 
+                            (int)dec_vars - (trail_lim.size() == 0 ? trail.size() : trail_lim[0]), nClauses(), (int)clauses_literals, 
+                            (int)max_learnts, nLearnts(), (double)learnts_literals/nLearnts(), progressEstimate()*100);
++                    fflush(stdout);
+             }
+ 
+         }else{
+@@ -762,10 +763,10 @@
+     lbool   status            = l_Undef;
+ 
+     if (verbosity >= 1){
+-        printf("============================[ Search Statistics ]==============================\n");
+-        printf("| Conflicts |          ORIGINAL         |          LEARNT          | Progress |\n");
+-        printf("|           |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |\n");
+-        printf("===============================================================================\n");
++        printf("=============================[ Search Statistics ]==============================\n");
++        printf("| Conflicts  |          ORIGINAL         |          LEARNT          | Progress |\n");
++        printf("|            |    Vars  Clauses Literals |    Limit  Clauses Lit/Cl |          |\n");
++        printf("================================================================================\n");
+     }
+ 
+     // Search:

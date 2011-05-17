@@ -13,15 +13,6 @@ License, or any later version. */
   \todo Create milestones
 
 
-  \todo Improve patches
-  <ul>
-   <li> OK doesn't know the "standard" way of providing and applying patches.
-   </li>
-   <li> MG should look into this, and update the patches and their application
-   accordingly. </li>
-  </ul>
-
-
   \todo Newer versions
   <ul>
    <li> Likely this module should also include minisat-2.2.0 and further
@@ -47,6 +38,20 @@ License, or any later version. */
    minisat2 output (certain) learned clauses. </li>
    <li> Definitely learned unit-clauses are of interest, and perhaps in general
    one could use a size bound (with default value 1). </li>
+  </ul>
+
+
+  \todo DONE Improve patches
+  <ul>
+   <li> OK doesn't know the "standard" way of providing and applying patches.
+   </li>
+   <li> MG should look into this, and update the patches and their application
+   accordingly. </li>
+   <li> Consider http://www.linuxjournal.com/article/3991?page=0,0 on 
+   contributing to the linux kernel, as well as the Linux kernel mailing
+   list. </li>
+   <li> See "Patches" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp . </li>
   </ul>
 
 */
