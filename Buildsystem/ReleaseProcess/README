@@ -240,8 +240,8 @@ In a nutshell:
  - the most common problem is a missing package --- just install that,
    typically using your package manager
  - after having installed the missing package, easiest is to say
-   "oklib cleanall" (still in OKplatform/ExternalSources), which will re-start
-   the whole process (from scratch).
+   "oklib cleanall all" (still in OKplatform/ExternalSources), which will
+   re-start the whole process from scratch.
 
 Now in more depth:
 
@@ -252,6 +252,8 @@ For convenience we provide "oklib all" (in ExternalSources), which
 gives you a reasonable first selection. (Currently we cannot
 install just everything, due to build dependencies.)
 
+Removing of build-data happens via "oklib clean", removal also of the
+installed external sources via "oklib cleanall" (both in ExternalSources).
 
 Some specific installations are as follows (all included with "oklib all",
 so if this has been (successfully) executed then there is no need for further 
@@ -271,7 +273,7 @@ which installs further software needed).
 6) The SAT solver installed by default are Ubcsat, minisat2, minisat-2.2.0, 
  minisat+, march_pl, satz215, survey_propagation, sat-grasp. picosat913,
  precosat236, precosat-570, the argosat solver (and library), cryptominisat,
- and glucose.
+ glucose, and lingeling/plingeling276.
 (The OKlibrary itself provides yet only OKsolver_2002_O3-DNDEBUG.)
 
 7) The only tool installed yet for handling boolean functions is Espresso.
