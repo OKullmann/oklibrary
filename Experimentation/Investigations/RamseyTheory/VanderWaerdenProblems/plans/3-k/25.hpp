@@ -242,8 +242,79 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
     <ol>
      <li> n=608: unsat, 30days (on csltok, with unstable clock frequency;
      6708604472 conflicts, 8254745835 decisions, 256909484007 propagations,
-     234914164662 conflict
-     literals). </li>
+     234914164662 conflict literals). </li>
+     <li> Splitting n=608 via OKsolver, depth 16:
+     \verbatim
+> SplittingViaOKsolver -D16 VanDerWaerden_pd_2-3-25_608.cnf
+> cd SplitViaOKsolver_D16VanDerWaerden_pd_2325_608cnf_2011-05-16-200325
+> more Md5sum
+fd2be28e9eeea3114c0a50a86561fc69
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   17.0    78.0    97.0    97.7   118.0   207.0
+> table(E$n)
+ 17  18  19  20  21  22  23  24  25  26  28  29  30  31  32  33  34  35  36  37
+  2   2   1   6  21  26  11  11   8   2   5  18  36  60  75 126 116  71  19   3
+ 38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57
+  6   9  20  45 108 121 142 181 219 281 254 205 143  80  37  54  77 129 178 211
+ 58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75  76  77
+231 315 305 354 403 436 462 423 403 362 230 196 221 234 249 318 360 428 476 569
+ 78  79  80  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97
+576 607 587 608 577 511 491 508 495 407 412 380 429 420 478 544 555 577 625 609
+ 98  99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117
+604 603 546 547 511 515 512 486 428 485 439 430 447 422 450 430 438 472 477 478
+118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137
+494 438 459 429 403 395 421 402 347 366 339 335 320 302 276 268 290 244 264 272
+138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157
+233 238 213 212 206 191 183 152 172 140 153 125 131  84  92  94  88  79  67  67
+158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177
+ 60  61  42  42  45  38  53  51  30  42  16  26  21  22  24  13  15  11   6   8
+178 179 180 181 182 183 185 186 187 188 190 192 193 194 204 207
+  8   9   4   7   2   1   2   1   2   2   5   1   2   1   1   1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         25
+c initial_number_of_variables           304
+c initial_number_of_clauses             49427
+c initial_number_of_literal_occurrences 225828
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   101
+c running_time(sec)                     21881.3
+c number_of_nodes                       105059
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                621004
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        16
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_pd_2-3-25_608.cnf
+c splitting_directory                   SplitViaOKsolver_D16VanDerWaerden_pd_2325
+_608cnf_2011-05-16-200325/Instances
+c splitting_cases                       40869
+
+> cd Instances
+> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf 2>&1 | cat - > Temp.out; T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; done; rm Temp.cnf Temp.out
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+# Overview via
+#> plot(E)
+     \endverbatim
+     One sees that here the OKsolver achieved already quite something; perhaps
+     there would have been also single nodes (the running-time is for csltok,
+     and so highly unreliable). </li>
     </ol>
    </li>
    <li> "RunPdVdW3k 25 26 618 gsat-tabu 100 8000000" (old version): all
