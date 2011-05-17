@@ -148,34 +148,26 @@ is placed), call
 
 This creates links and directories.
 
-
 2) For using the package, we need "oklib" on your path (or otherwise you
    have to call it always with its full path):
-
  - One symbolic link is already planted in the base directory OKplatform
    (you have used that in Step 1), but this is only for the purpose of 
    setting up the OKlibrary, and otherwise its use is inconvenient
    (though possible, and sufficient for all tasks).
-
  - The public bin-directory "OKplatform/bin" (in this directory) contains
    links to the main executables supplied by the OKlibrary, 
    including "oklib".
-
  - So you can put this bin-directory on your path via adding
-
 export PATH=OKPLATFORM/bin:${PATH}
-
    to ~/.bashrc, where OKPLATFORM is to be replaced by the (absolute)
    path to the OKplatform-directory. In order to conveniently use
    all main programs supplied by the OKlibrary, this step is RECOMMENDED.
-
 
 Once you decided on how to access "oklib" in the future, you might delete the
 symbolic link in directory OKplatform.
 
 The master script oklib should now be functional. (You can test this
 by just calling "oklib --version" somewhere.)
-
 
 3) Except for the minimal package, precomputed documentation is included
 in the documentation (see "local home page" below).
@@ -200,7 +192,6 @@ Remarks:
 All necessary installations can be carried out through the OKlibrary; see
 information on external sources below and on the local home page.
 
-
 4) "oklib documentation_index" cannot update for examples the links in the
 html-documentation to documentation of external sources. To get the 
 documentation fully updated, run "oklib html" (in directory OKsystem or 
@@ -209,12 +200,11 @@ below).
 For this, doxygen is needed. See how to install "external sources"
 (such as doxygen) below.
 
-
 5) Build external sources --- see the following section.
 
 6) Compile and test the OKlibrary's own programs, and update all
 documentation by running "oklib all check new_check app_tests html"
-in directory OKplatform/OKsystem; see below the penultimate section.
+in directory OKplatform/OKsystem; see below.
 
 7) Study the documentation; see the final section below.
 
