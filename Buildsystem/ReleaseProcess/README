@@ -287,8 +287,8 @@ OKplatform/bin.
 
 ----------------------------------------------
 
-Building the OKlibrary
--------------------------
+Building the OKlibrary itself
+-----------------------------
 
 ----------------------------------------------
 
@@ -300,6 +300,35 @@ called in directory OKplatform/OKsystem, all executables provided
 by the OKlibrary itself are built, tests are run, and finally the
 documentation is updated.
 
+
+----------------------------------------------
+
+Updating the OKlibrary
+----------------------
+
+----------------------------------------------
+
+Via
+
+git pull
+
+in directory OKplatform/OKsystem/OKlib (or below) the OKlibrary is
+updated (from the public repository at Github).
+After that you should run
+
+oklib all check new_check app_tests html
+
+to update all applications and the documentation.
+
+It might be the case that certain external sources do not work after
+an update anymore, typically due to changes to newer versions. Via
+
+oklib cleanallsrc src
+
+the external source "src" will be rebuild from scratch.
+(Note that "cleanallsrc" has no space --- with a space it would
+first completely remove all external sources, and then build
+src twice!)
 
 ----------------------------------------------
 
