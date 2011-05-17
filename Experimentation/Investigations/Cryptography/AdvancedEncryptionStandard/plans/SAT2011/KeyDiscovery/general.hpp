@@ -64,8 +64,31 @@ License, or any later version. */
   <ul>
    <li> For each experiment on some AES variant with some specific translation
    we have a todo. </li>
-   <li> What title to give this todo? </li>
-   <li> The first thought is for the title of the
+   <li> One must someone specify in the title and content of the todo which
+   translation is meant. See "Investigating dimensions" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   </li>
+   <li> For example "Using the canonical box translation" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/4_2_4/2_13.hpp
+   doesn't provide enough information on it's own to understand which
+   translation is meant. </li>
+   <li> The first thought is for the title of the todo to fully specify the
+   translation. So for example, one would have "Using the whole Sbox and
+   encryption-only Mixcolumns with "multiplication-based" decompositions
+   translated using the canonical translation and Key schedule using the
+   shared sub-expression translation.". </li>
+   <li> The full specification is hard to read, however, and isn't appropriate
+   for a todo heading. </li>
+   <li> Another solution would be to specify defaults for each aspect of
+   the translation, and then only specify the non-standard parts of the
+   translation. The above example would then be
+   "Using standard translation but with encryption-only MixColumns.". </li>
+   <li> This is much more succinct but one must constantly refer to
+   the "standard" translation. </li>
+   <li> A balance between these two approaches is needed. </li>
+   <li> One weapon in tackling the large number of dimensions of the AES
+   translation is to derive overarching named concepts which categorise
+   several dimensions at once. </li>
   </ul>
 
 
