@@ -194,8 +194,8 @@ EXP_DES> for F in DES_Sbox_?_fullCNF.cnf_primes_stats; do cat ${F}; done
      boolean functions have unique DNF. </li>
      <li> Quite some differences regarding the prime implicates. S-box number
      1 is the easiest, number 8 is the hardest. </li>
-     <li> This is also confirmed by r_1-bases: Box 1 has an r_1-base with 126
-     clauses, while for box 8 only one with 157 clauses was found. </li>
+     <li> This is also confirmed by r_1-bases: Box 1 has an r_1-base with 124
+     clauses, while for box 8 only one with 152 clauses was found. </li>
      <li> Also minimum representations need to be studied. </li>
      <li> As a model one can study random 6 x 4 boolean functions. </li>
     </ol>
