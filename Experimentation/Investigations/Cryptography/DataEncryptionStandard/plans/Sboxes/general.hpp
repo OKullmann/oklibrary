@@ -196,8 +196,11 @@ EXP_DES> for F in DES_Sbox_?_fullCNF.cnf_primes_stats; do cat ${F}; done
      1 is the easiest, number 8 is the hardest. </li>
      <li> This is also confirmed by r_1-bases: Box 1 has an r_1-base with 124
      clauses, while for box 8 only one with 152 clauses was found. </li>
-     <li> Also minimum representations need to be studied. </li>
+     <li> The minimum representations seem to be of a similar size (from 66
+     to 69 clauses). See "Investigations into specific Sboxes" under "Links".
+     </li>
      <li> As a model one can study random 6 x 4 boolean functions. </li>
+     <li> DONE Also minimum representations need to be studied. </li>
     </ol>
    </li>
    <li> DONE These considerations need a dedicated sub-module. </li>

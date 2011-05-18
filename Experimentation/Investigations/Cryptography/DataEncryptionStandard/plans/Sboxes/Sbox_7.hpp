@@ -31,6 +31,31 @@ License, or any later version. */
      bf2relation_fullcnf_fcs(des_sbox_bf(7),6). </li>
     </ol>
    </li>
+   <li> The minimum CNF representation has at most 67 clauses. See
+   "Using weighted MaxSAT to compute small CNFs". </li>
+  </ul>
+
+
+  \todo Using weighted MaxSAT to compute small CNFs (mincl_rinf <= 67)
+  <ul>
+   <li> Computing the weighted MaxSAT problem:
+   \verbatim
+shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG DES_Sbox_7_fullCNF.cnf > DES_Sbox_7_shg.cnf
+shell> cat DES_Sbox_7_shg.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > DES_Sbox_7_shg.wcnf
+   \endverbatim
+   </li>
+   <li> Running then:
+   \verbatim
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 67 -solve 1 -seed 1856244582 -i DES_Sbox_7_shg.wcnf -r model DES_Sbox_7_s67.ass;
+shell> cat DES_Sbox_7_fullCNF.cnf_primes | FilterDimacs DES_Sbox_7_s67.ass > DES_Sbox_7_s67.cnf
+shell> cat DES_Sbox_7_s67.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+10 66 368 0 368 1 1
+ length count
+5 28
+6 38
+   \endverbatim
+   </li>
   </ul>
 
 
