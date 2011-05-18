@@ -49,6 +49,9 @@ License, or any later version. */
     - Handling of version-numbers : DONE
     - Research sub-modules : DONE
   \par
+   In OKlib/plans/general.hpp the following topics are handled:
+    - Special actions July/August 2011
+  \par
    In OKlib/plans/Foundations.hpp the following topics are handled:
     - Improve the general design discussions : DONE
   \par Update
