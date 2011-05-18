@@ -33,7 +33,8 @@ License, or any later version. */
      <li> In order for this to make sense, that is, not to require a second
      pass, we need the ability to overwrite characters in a file "cheaply".
      </li>
-     <li> Unclear whether the C++ standard allows this; we need to experiment.
+     <li> DONE (yes, possible: see InputOutput/ManipParam.cpp)
+     Unclear whether the C++ standard allows this; we need to experiment.
      </li>
      <li> A "cheap" alternative is to allow parameters "n=" and "c=", and
      to use these as the new values. This solves those case where the
