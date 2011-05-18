@@ -44,16 +44,15 @@ License, or any later version. */
    <li> The translation system (irrespective of the AES) has three conceptual
    levels:
     <ul>
-     <li> <em>Variant</em> - which AES function we consider (small-scale
+     <li> <em>Variant</em>: which AES function we consider (small-scale
      parameters etc). This level defines the whole boolean function we
      consider. </li>
-     <li> <em>Decomposition</em> - how to decompose the large boolean
+     <li> <em>Decomposition</em>: how to decompose the large boolean
      function into smaller functions. </li>
-     <li> <em>Representation</em> - how to represent the small boolean
+     <li> <em>Representation</em>: how to represent the small boolean
      functions. </li>
     </ul>
    </li>
-   <li> The names of these levels, and the idea needs discussion. </li>
    <li> Discussion of each of the possible dimensions of the translations
    should become a separate todo. </li>
    <li> A separate todo is needed on the decomposition of the AES. </li>
