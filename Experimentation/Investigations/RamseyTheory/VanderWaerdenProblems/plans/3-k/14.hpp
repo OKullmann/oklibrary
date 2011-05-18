@@ -121,6 +121,64 @@ satz215 VanDerWaerden_2-3-14_186.cnf 11507.900 10842443 5511751 1544946578 56724
   </ul>
 
 
+  \todo SplittingViaOKsolver and minisat-2.2.0
+  <ul>
+   <li> Depth 11:
+   \verbatim
+> SplittingViaOKsolver -D11 VanDerWaerden_2-3-14_186.cnf
+> cd SplitViaOKsolver_D11VanDerWaerden_2314_186cnf_2011-05-18-184528
+> more Md5sum
+22faa6218bd2cfaa3b81690bed15e2f1
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  11.00   26.00   35.00   37.64   46.00   95.00
+> table(E$n)
+11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36
+12  8 25 22  1 18 23 61 33 29  5 22 38 85 98 37 31 16 33 38 76 79 91 69 44 21
+37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62
+24 34 61 56 70 75 55 45 29 22 26 25 30 31 45 25 32 30 19 22 19 15 12  8 12 15
+63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 80 82 83 85 86 88 89 95
+17 16 13  8 11 12  8  3  1  4  5  3  5  4  2  4  3  3  1  1  2  1  1  1
+>
+csoliver@cs-oksvr:~/OKplatform/SplitViaOKsolver_D11VanDerWaerden_2314_186cnf_2011-05-18-184528> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         14
+c initial_number_of_variables           186
+c initial_number_of_clauses             9795
+c initial_number_of_literal_occurrences 43014
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     44.1
+c number_of_nodes                       4073
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                2019
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        11
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-3-14_186.cnf
+c splitting_directory                   SplitViaOKsolver_D11VanDerWaerden_2314_186cnf_2011-05-18-184528/Instances
+c splitting_cases                       1981
+
+> cd Instances
+. I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Palindromic numbers
   <ul>
    <li> pdvanderwaerden([3,14])[2] = 183 = vanderwaerden([3,14])-3 . </li>

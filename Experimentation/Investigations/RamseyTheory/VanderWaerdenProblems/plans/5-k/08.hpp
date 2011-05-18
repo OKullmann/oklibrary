@@ -237,12 +237,8 @@ c splitting_cases                       4096
 # Overview via
 #> plot(E); summary(E)
      \endverbatim
-     Aborted after 3.1 hours, with a mean of 19.4s per sub-instance, and a
-     maximum of 825s (579 sub-instances, with final n=17). This needs to be
-     repeated (and completed!) on a stable machine with a similar speed as
-     where the original solution was obtained. Also with storing all data of
-     the runs; see "Simple tool for running through all sub-instances" in
-     Interfaces/DistributedSolving/plans/general.hpp. </li>
+     Aborted after 3200nm where 2500 sub-instances were solved. This is much
+     worse than depth 16 (see below). </li>
      <li> Now with depth 16 (from the above time, we get an "average" of 70.4s
      per sub-instance):
      \verbatim
@@ -300,17 +296,17 @@ c splitting_cases                       65435
 # Overview via
 #> plot(E); summary(E)
 
-# Aborted:
-26701: 5.57h, sum-cfs=5.225178e+08, mean-t=0.752s, mean-cfs=19569
-> E[26701,]
-          i  n        t  cfs
-26701 60636 22 0.724889 7725
+# Completed (cs-oksvr):
+real    3051m16.442s
+user    3041m24.429s
+sys     38m48.998s
      \endverbatim
-     Until this point it looks good. However the hard problems are mostly
-     ahead. (The usual problems with slow execution on csltok due to low
-     clock-frequency.) </li>
-     <li> The question is whether via splitting we could actually gain running
-     time. </li>
+     Needs to be completed with complete data collection. But this is a speed
+     up by one order of magnitude! </li>
+     <li> So we see that via splitting we can be much faster! Perhaps one
+     could roughly say that conflict-driven solvers are most effective on
+     easy instances. Once they "learned too much" they are becoming very
+     ineffective. </li>
     </ol>
    </li>
    <li> Certificates:

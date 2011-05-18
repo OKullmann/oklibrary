@@ -62,6 +62,16 @@ License, or any later version. */
      \endverbatim
     </ol>
    </li>
+   <li> Using SplittingViaOKsolver together with minisat-2.2.0:
+    <ol>
+     <li> n=447:
+     \verbatim
+> SplittingViaOKsolver -D17 VanDerWaerden_pd_2-5-9_447.cnf
+
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> "RunPdVdWk1k2 5 9 adaptg2wsat 100 2000000" yields
    \verbatim
 Break point 1: 446
