@@ -37,7 +37,7 @@ License, or any later version. */
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   <li> Translating the AES cipher treating Sboxes and field multiplications
    as whole boxes and translating these boxes using the canonical translation.
    </li>
    <li> Generating simplest small scale AES for 1 round:
@@ -70,10 +70,10 @@ shell> cat ssaes_r1_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
     <li> 1 Sbox in the SubBytes operation (1 rows * 1 columns = 1). </li>
     <li> 16 additions within the round and key additions, coming from:
      <ul>
-      <li> 8 additions of arity 2 from key additions 
+      <li> 8 additions of arity 2 from key additions
       (2 round keys * 4-bit additions = 8). </li>
       <li> 8 additions of arity one from the identity matrix multiplication
-      in the diffusion operation 
+      in the diffusion operation
       (1 rows * 1 columns * 2 directions * 4 bits = 8).
       </li>
      </ul>
@@ -109,7 +109,7 @@ maxima> ncl_list_full_dualts(8,16);
     (2 * 1 = 2). </li>
    </ul>
    </li>
-   <li> Then we can generate a random assignment with the plaintext and 
+   <li> Then we can generate a random assignment with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
@@ -162,7 +162,7 @@ conflict literals     : 83             (0.00 % deleted)
 Memory used           : 18.00 MB
 CPU time              : 0 s
 
-shell> minisat2 r1_keyfind.cnf 
+shell> minisat2 r1_keyfind.cnf
 <snip>
 restarts              : 1
 conflicts             : 13             (inf /sec)
@@ -172,7 +172,7 @@ conflict literals     : 115            (5.74 % deleted)
 Memory used           : 14.64 MB
 CPU time              : 0 s
 
-shell> glucose r1_keyfind.cnf 
+shell> glucose r1_keyfind.cnf
 <snip>
 c restarts              : 1
 c nb ReduceDB           : 0
