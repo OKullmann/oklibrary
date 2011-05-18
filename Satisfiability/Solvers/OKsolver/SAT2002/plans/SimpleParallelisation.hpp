@@ -102,7 +102,16 @@ License, or any later version. */
    InputOutput/ExtendedToStrictDimacs.cpp. See "Parameter handling" and
    "Extended Dimacs format" in
    Interfaces/InputOutput/plans/ExtendedToStrictDimacs.hpp. </li>
-   <li> Also the renaming should be shown in the comments. </li>
+   <li> Also the renaming should be shown in the comments, Or perhaps
+   better in an additional file? </li>
+   <li> After applying the partial assignment we have the correct number
+   of clauses. And also the correct number of (occurring) variables could
+   be determined. This could be passed to the renaming script. This then
+   needed only one pass, without storing the instance (when outputting the
+   variable-renaming to a separate file). </li>
+   <li> Fastest however would be to integrate application of partial
+   assignments and renaming. This can be done in one pass, without storage.
+   At the end the new number of variables and clauses is known. </li>
    <li> DONE (glucose is not (shows wrong number of variables), and thus
    we need the renaming and the precise number of variables)
    Or are SAT solvers nowadays able to handle these things themselves?

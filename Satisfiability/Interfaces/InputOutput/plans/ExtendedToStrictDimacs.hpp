@@ -33,8 +33,13 @@ License, or any later version. */
      <li> In order for this to make sense, that is, not to require a second
      pass, we need the ability to overwrite characters in a file "cheaply".
      </li>
-     <li> Unclear whether the C++ standard allows this; but should be
-     possible. </li>
+     <li> Unclear whether the C++ standard allows this; we need to experiment.
+     </li>
+     <li> A "cheap" alternative is to allow parameters "n=" and "c=", and
+     to use these as the new values. This solves those case where the
+     correct values are already known. Then just a small change is needed.
+     </li>
+     <li> Perhaps such parameters are always beneficial for such tools. </li>
     </ol>
    </li>
   </ul>
@@ -48,6 +53,9 @@ License, or any later version. */
    the map index -> original name. </li>
    <li> This map should be produced by the CLSAdaptor, and a standard
    format is needed, so that it can be extracted by some tool. </li>
+   <li> If we would store it in an additional file, then we didn't need
+   a second pass, and also extraction should be easier. So perhaps
+   this is the way to go. </li>
    <li> Should we have a command-line option to turn on extended Dimacs
    format? Seems useless: turn it always on (this can handle also standard
    Dimacs input). DONE </li>
