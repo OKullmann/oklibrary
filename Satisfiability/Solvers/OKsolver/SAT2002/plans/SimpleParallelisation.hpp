@@ -130,6 +130,20 @@ License, or any later version. */
   </ul>
 
 
+  \todo Taking the length of the partial assignments into account
+  <ul>
+   <li> An alternative interpretation of the depth-parameter for the OKsolver
+   is needed:
+    <ol>
+     <li> Not the depth of the tree, but the size of the partial assignment.
+     </li>
+     <li> As soon as the size is reached, splitting occurs. </li>
+     <li> This should make more balanced splitting possible. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Computing a splitting tree
   <ul>
    <li> In order to see what really needs to be done, for a given depth

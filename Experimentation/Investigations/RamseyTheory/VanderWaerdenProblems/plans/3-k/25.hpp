@@ -314,6 +314,11 @@ c splitting_cases                       40869
      \endverbatim
      One sees that here the OKsolver achieved already quite something; perhaps
      there would have been also single nodes. </li>
+     <li> A major efficiency bottleneck seems to be the uneven splitting, and
+     for example splitting instance 818 further seems beneficial (saving at
+     least 50% running time). See "Taking the length of the partial
+     assignments into account" in
+     Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp. </li>
     </ol>
    </li>
    <li> "RunPdVdW3k 25 26 618 gsat-tabu 100 8000000" (old version): all

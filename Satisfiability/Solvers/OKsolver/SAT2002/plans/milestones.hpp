@@ -19,6 +19,7 @@ License, or any later version. */
     - The basic idea : DONE
     - Wrapper script : DONE
     - Script for applying partial assignments
+    - Taking the length of the partial assignments into account
 
 
   \par Version 0.9.9
