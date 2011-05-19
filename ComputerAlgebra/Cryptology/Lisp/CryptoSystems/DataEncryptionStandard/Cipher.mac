@@ -54,6 +54,12 @@ des_encryption(plaintext, key) :=
 des_decryption(ciphertext, key) :=
  des_template(ciphertext, reverse(des_round_keys(key)))$
 
+/* variants with a reduced number of rounds */
+des_encryption_reduced(r, plaintext, key) :=
+  des_template(plaintext, take_elements(r,des_round_keys(key)))$
+des_decryption_reduced(r, plaintext, key) :=
+  des_template(plaintext, reverse(take_elements(r,des_round_keys(key))))$
+
 des_validation_key : [
 0,0,0,0, 0,0,0,1, 0,0,1,0, 0,0,1,1, 0,1,0,0, 0,1,0,1, 0,1,1,0, 0,1,1,1,
 1,0,0,0, 1,0,0,1, 1,0,1,0, 1,0,1,1, 1,1,0,0, 1,1,0,1, 1,1,1,0, 1,1,1,1]$

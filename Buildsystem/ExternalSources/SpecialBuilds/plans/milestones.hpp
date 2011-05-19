@@ -11,7 +11,8 @@ License, or any later version. */
   \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.3.4 (17.3.2011)
 
 
-  \par Version 0.2.4 (updating especially Gcc and the existing SAT solvers)
+  \par Version 0.2.4 (updating especially Gcc and the existing SAT solvers,
+  and installing CSP-software)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
@@ -22,6 +23,7 @@ License, or any later version. */
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:
     - Complete documentation
+    - Patches
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
@@ -43,7 +45,8 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
    topics are handled:
     - Providing gcc 4.1.2
-    - Install GCC 4.5.2
+    - Install GCC 4.5.3 : DONE
+    - Latest texi2dvi fails to build gcc.texi on some systems
     - Local Gmp/Mpfr are not used (appropriately) : DONE
     - How to use local Gmp + Mpfr? : DONE
     - Local build of Fortran fails (for 4.1.2) : DONE
@@ -72,6 +75,8 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
    topics are handled:
     - Install Relsat
+    - Parallel SAT solvers
+    - (P)Lingeling
     - DES generator
     - Grasp uses system C++ libraries
     - Improvements of CryptoMiniSat
@@ -118,6 +123,18 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/PseudoBoolean.hpp
    the following topics are handled:
     - BoolVar/PB
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp
+   the following topics are handled:
+    - Overview
+    - Sugar
+    - Gecode
+    - Minion
+    - Mistral
+    - Choco
+    - Mozart
+    - TAILOR
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
@@ -183,6 +200,19 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
    topics are handled:
     - Documentation for CryptoMiniSat
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp
+   the following topics are handled:
+    - Eclipse
+    - N Queens
+    - Sudoku
+    - Local search
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
+   topics are handled:
+    - Loop-optimisation
 
 
   \par Version 0.2.6 (completion of general services, and installing SAT)

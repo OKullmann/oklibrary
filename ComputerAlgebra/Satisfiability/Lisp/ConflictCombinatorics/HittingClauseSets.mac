@@ -37,6 +37,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Construction
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/InverseSingularDP.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac")$
 
 
 /* ***************************************
@@ -608,44 +609,11 @@ all_unsinghitting_mvd(n, _hash_repo) := block([count],
    ***************************
 */
 
-/* The sharpening of the general MU-bound (see nonmersenne_rec in 
-   Lisp/MinimalUnsatisfiability/Basics.mac) according [OK, XSZ; 2008]. */
-hit_nonmersenne_rec[k] :=
- if k <= 5 then nonmersenne_rec[k] 
- elseif k=6 then nonmersenne_rec[6]-1
- else block(
-  [K : nonmersenne_rec[k], res : minf],
-   for a : K - k thru k do block([b : K - a],
-     res : max(res, min(
-       hit_nonmersenne_rec[k-a+1] + a,
-       hit_nonmersenne_rec[k-b+1] + b)
-     )),
-   return(min(K,res)))$
-/* It follows that for k=2^n-n+1 we have
-   hit_nonmersenne_rec[k] = nonmersenne_rec[k]-1,
-   while otherwise we have equality.
-*/
-
-/*
-   Now it seems that new "defects" crop up for k in {14,...,17},
-   and this will again create infinitely many new defect-cases.
-   It seems that introducing a defect for k=14 reduces exactly
-   all cases 2^n-n+2 (for n >= 4), similar for k=15, etc.
-*/
-/* So the refined conjecture is that we have s_n,
-     s_1=s_2=0, s_3 = 1, s_4 = 5,
-   where s_n is strictly increasing, such that the cases
-     2^n-n + 1, ..., 2^n-n + s_n
-   are exactly the cases where the bound is lowered by 1.
-*/
-
-
-/* *** Checking the uhit_def catalogue: *** */
-
 /* For the uhit-catalogue check for the existence of examples where the
-   bound is sharp (these have value 0 in the last component). */
+   bound minvardegree_dmu(k) is sharp (these have value 0 in the last
+   component). */
 check_uhit_catalogue_maxminvardeg() :=
-  apply_uhit(lambda([k,n,i,F], [k, n, i, hit_nonmersenne_rec[k] - min_variable_degree_cs(F)]))$
+  apply_uhit(lambda([k,n,i,F], [k, n, i, seconde(minvardegree_dmu(k)) - min_variable_degree_cs(F)]))$
 /* Extract the [k,n,i]-tuples where the bound is sharp, sorted 
    lexicographically. */
 sharp_uhit_catalogue_maxminvardeg() :=
@@ -656,8 +624,8 @@ sharp_uhit_catalogue_maxminvardeg() :=
 
 /* For given deficiency, compute the maximal min-var-degree (in the
    uhit-catalogue). */
-max_min_var_deg_uhit_def(k) := max_min_var_deg_cs(all_uhit_def(k))$
-max_min_var_deg_uhit_def_mem[k] := max_min_var_deg_cs(all_uhit_def(k))$
+max_min_var_deg_uhit_def(k) := max_min_var_deg_cs(ev(all_uhit_def(k),eval))$
+max_min_var_deg_uhit_def_mem[k] := max_min_var_deg_cs(ev(all_uhit_def(k),eval))$
 /* Apply "remarray(max_min_var_deg_uhit_def_mem)" in case an update
    of uhit_def occurred. */
 

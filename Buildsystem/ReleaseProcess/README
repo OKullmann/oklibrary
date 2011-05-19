@@ -21,6 +21,25 @@ Licence text: See OKplatform/OKsystem/OKlib/System/LegalIssues/GPLv3.txt
 * familiar with the innards of it.     
 ****************************************
 
+*****************************************
+* Many things will be mentioned which
+* you will not understand --- that's
+* perfectly natural, given 1 GB of
+* compressed source-code. Just relax.
+* The Linux philosophy is not to hide
+* anything. You then need to decide what
+* to ignore (most things) and what to
+* consider in more depth. When it says
+* above "to become familiar with the
+* innards of it", then this just mean the
+* basic outline (the directory structure,
+* the oklib-tool). And it does not mean
+* the external sources, the packages
+* (possibly improved) from other sources
+* we provide (in the right version number
+* etc.) --- this is far too much.
+*****************************************
+
 
 Prerequisites
 -------------
@@ -31,12 +50,16 @@ The following software needs to be installed:
    (check: run "bash --version")
  - GNU make, version 3.80 or higher
    (check: run "make --version")
+ - git, version 1.7 or later
+   (check: run "git --version")
  - GNU sed
    (check: run "sed --version")
  - GNU awk
    (check: run "awk --version")
  - gcc
    (check: run "gcc --version")
+ - g++
+   (check: run "g++ --version")
  - GNU texinfo 
    (check: run "makeinfo --version")
  - zip
@@ -47,13 +70,20 @@ The following software needs to be installed:
   (check: run "ranlib --version")
  - perl
   (check: run "perl --version")
+ - patch
+  (check: run "patch --version")
+ - tcsh
+  (check: run "tcsh --version")
+ - ssh
+  (check: run "ssh --version")
 
  - readline (development library).
  - glibc (development library).
  - X libraries (development libraries; needed by gnuplot).
  - postgresql development library ("postgresql-devel").
  - binutils development library ("binutils-devel"),
-   version 2.19.1 or higher (check: "ld --version").
+   version 2.19.1 or higher (check: "ld --version")
+ - zlib (development library, needed by gcc-4.5.3 (due to defective build)).
 
 If the build-machine is a 64-bit machine, then
 additionally also the 32-bit version of glibc
@@ -74,33 +104,29 @@ For creation of documentation we also need:
  - Bison
    (check: "bison --version").
 
-And for installing and using Git we need the following:
-
- - zlib
- - openssl
- - wish (as part of the Tcl/Tk system)
- - ssh
- - curl, and expat development library (for pulling/pushing from/to 
-   a git repository via the http protocol).
+And Latex should include the srcltx-package.
 
 Any recent Linux distribution supplies these prerequisites.
 (asciidoc can be installed through the OKlibrary by calling "oklib asciidoc"
 in OKplatform/ExternalSources, provided you have the root-password.)
 
-There are other Unix/Linux tools, which some "lean distributions"
-do not include (we propose you better go with a "fat distribution"),
-e.g.
+In general we recommend to pre-install as much as possible to minimise
+build-problems (go for a "fat distribution"; especially Ubuntu is
+problematic, since not much is installed by default).
 
- - sudo
- - dos2unix
 
-And Latex should include the srcltx-package.
+Finally, you need basic knowledge on the Linux command line:
+ - directories, files, links
+ - processes in general
+ - some basic make and bash knowledge
+
 
 ----------------------------------------------
 
 System requirements:
 
->= 4 GB main memory.
+>= 4 GB main memory
+(though with 1 GB you will still be able to run nearly everything).
 
 Disc space:
 
@@ -122,34 +148,26 @@ is placed), call
 
 This creates links and directories.
 
-
 2) For using the package, we need "oklib" on your path (or otherwise you
    have to call it always with its full path):
-
  - One symbolic link is already planted in the base directory OKplatform
    (you have used that in Step 1), but this is only for the purpose of 
    setting up the OKlibrary, and otherwise its use is inconvenient
    (though possible, and sufficient for all tasks).
-
  - The public bin-directory "OKplatform/bin" (in this directory) contains
    links to the main executables supplied by the OKlibrary, 
    including "oklib".
-
  - So you can put this bin-directory on your path via adding
-
 export PATH=OKPLATFORM/bin:${PATH}
-
    to ~/.bashrc, where OKPLATFORM is to be replaced by the (absolute)
    path to the OKplatform-directory. In order to conveniently use
    all main programs supplied by the OKlibrary, this step is RECOMMENDED.
-
 
 Once you decided on how to access "oklib" in the future, you might delete the
 symbolic link in directory OKplatform.
 
 The master script oklib should now be functional. (You can test this
 by just calling "oklib --version" somewhere.)
-
 
 3) Except for the minimal package, precomputed documentation is included
 in the documentation (see "local home page" below).
@@ -174,7 +192,6 @@ Remarks:
 All necessary installations can be carried out through the OKlibrary; see
 information on external sources below and on the local home page.
 
-
 4) "oklib documentation_index" cannot update for examples the links in the
 html-documentation to documentation of external sources. To get the 
 documentation fully updated, run "oklib html" (in directory OKsystem or 
@@ -183,6 +200,13 @@ below).
 For this, doxygen is needed. See how to install "external sources"
 (such as doxygen) below.
 
+5) Build external sources --- see the following section.
+
+6) Compile and test the OKlibrary's own programs, and update all
+documentation by running "oklib all check new_check app_tests html"
+in directory OKplatform/OKsystem; see below.
+
+7) Study the documentation; see the final section below.
 
 ----------------------------------------------
 
@@ -191,6 +215,21 @@ Building external sources
 
 ----------------------------------------------
 
+In a nutshell:
+ - run "oklib all" in OKplatform/ExternalSources
+ - it will take, say, 5-20 hours to build the "external sources"
+   (compilers, computer-algebra, SAT solvers, etc.)
+ - so just let it run, and ignore the output it prints to the terminal window
+ - if it stops, either we succeeded, and that's it
+ - or in the last few lines it will rather clearly say "ERROR"
+ - the most common problem is a missing package --- just install that,
+   typically using your package manager
+ - after having installed the missing package, easiest is to say
+   "oklib cleanall all" (still in OKplatform/ExternalSources), which will
+   re-start the whole process from scratch.
+
+Now in more depth:
+
 In general, for installing an external source "extsrc", go to
 directory OKplatform/ExternalSources, and call "oklib extsrc" there.
 
@@ -198,6 +237,8 @@ For convenience we provide "oklib all" (in ExternalSources), which
 gives you a reasonable first selection. (Currently we cannot
 install just everything, due to build dependencies.)
 
+Removing of build-data happens via "oklib clean", removal also of the
+installed external sources via "oklib cleanall" (both in ExternalSources).
 
 Some specific installations are as follows (all included with "oklib all",
 so if this has been (successfully) executed then there is no need for further 
@@ -217,7 +258,7 @@ which installs further software needed).
 6) The SAT solver installed by default are Ubcsat, minisat2, minisat-2.2.0, 
  minisat+, march_pl, satz215, survey_propagation, sat-grasp. picosat913,
  precosat236, precosat-570, the argosat solver (and library), cryptominisat,
- and glucose.
+ glucose, and lingeling/plingeling276.
 (The OKlibrary itself provides yet only OKsolver_2002_O3-DNDEBUG.)
 
 7) The only tool installed yet for handling boolean functions is Espresso.
@@ -230,19 +271,16 @@ A link to the (locally installed) doxygen is planted in the
 public bin-directory OKplatform/bin, so that you can use doxygen yourself
 (by just calling "doxygen" somewhere; try "doxygen --version").
 
-9) In order to use the version control system, we install git (locally).
-
 Again, after installation a link is planted in the public bin-directory 
 OKplatform/bin.
 
-Git comes with modern Linux distributions, but the OKlibrary should provide
-the most suitable version (either the newest one, or in case of some trouble
-an appropriate earlier version).
 
-(In case you don't want this git replacing your system-git (which likely
-happens if OKplatform/bin is on your PATH), then you can just delete that
-link on OKplatform/bin (together with the other git-prefixed links).)
+----------------------------------------------
 
+Building the OKlibrary itself
+-----------------------------
+
+----------------------------------------------
 
 After having installed these tools, via
 
@@ -255,6 +293,35 @@ documentation is updated.
 
 ----------------------------------------------
 
+Updating the OKlibrary
+----------------------
+
+----------------------------------------------
+
+Via
+
+git pull
+
+in directory OKplatform/OKsystem/OKlib (or below) the OKlibrary is
+updated (from the public repository at Github).
+After that you should run
+
+oklib all check new_check app_tests html
+
+to update all applications and the documentation.
+
+It might be the case that certain external sources do not work after
+an update anymore, typically due to changes to newer versions. Via
+
+oklib cleanallsrc src
+
+the external source "src" will be rebuild from scratch.
+(Note that "cleanallsrc" has no space --- with a space it would
+first completely remove all external sources, and then build
+src twice!)
+
+----------------------------------------------
+
 ***********************************************
 
 All further documentation is found on the local home page in
@@ -263,5 +330,8 @@ OKplatform/system_directories/doc/local_html/index.html.
 
 (Note that for the minimal package the documentation is not pre-installed,
 but has to be created by running "oklib html" (see Step 4) above).)
+
+Please use the mailing list of the OKlibrary in case of problems
+(see the OKlibrary homepage for how to find it).
 
 ***********************************************

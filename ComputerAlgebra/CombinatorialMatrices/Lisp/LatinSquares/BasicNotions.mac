@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.12.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -31,21 +31,23 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac")$
    *****************************
 */
 
-/* A "combinatorial latin square over H" is a combinatorial matrix A such that
-   the size of the row index-set as well as the size of the column index-set is
-   equal to the size of the set H, and such that every row and every column is
-   a permutation of H:
+/* A "combinatorial latin square over H" is a square-sized combinatorial
+   matrix A such that the size of the row index-set as well as the size of the
+   column index-set is equal to the size of the set H, and such that every row
+   and every column is a permutation of H:
 */
 comlso_p(A,H) := sqscom_p(A,H) and block([n : length(H)],
   is(n = length(A[1])) and
     every_s(lambda([R],length(unique(R))=n),com2ll_r(A)) and
     every_s(lambda([C],length(unique(C))=n),com2ll_c(A)))$
-/* Remarks: Accordingly, isomorphism of latin squares are isomorphisms of
+
+/* Accordingly, isomorphism of latin squares would be isomorphisms of
    combinatorial matrices, and thus treat columns and rows independently.
    However this inherited standard notion of isomorphism is not general 
-   enough, since also value permuations must be considered; see below for the 
+   enough, since also value permutations must be considered; see below for the
    various notions considered.
    "comlso" stands for "combinatorial latin square over" (the value set).
+   "Standardised" means, as usual, that H={1,...,n} for n >= 0.
 */
 
 /* A "combinatorial latin square" is a quasigroup: */
@@ -53,9 +55,7 @@ comls_p(A) := qgrp_p(A)$
 /* 
   So here row index set, column index set and value set coincide. We have
     comls_p(A) = scom_p(A) and block([B : scom2com(A)], comlso_p(B,B[1])).
-*/
 
-/*
   The notion of "isomorphic quasigroups" is not of (high) relevance for latin 
   squares, but the three more general notions used for quasigroups are 
   to be used: Isotopism, parastrophism and paratopism (their combination) .
@@ -79,9 +79,46 @@ hrls_p(A) := ls_p(A) and block([s : matrix_size(A)],
 rls_p(A) := hrls_p(A) and block([s : matrix_size(A)],
   is(s[1] = 0) or is(A[1] = create_list(i,i,1,s[1])))$
 
-/* Reduced non-empty latin squares fully correspond to standardised unital 
+/* Reduced non-empty latin squares 1-1 correspond to standardised unital
    quasigroups (with element 1 as the unit).
+   While half-reduced non-empty latin squares 1-1 correspond to standardised
+   left-unital quasigroups (with element 1 as the unit).
 */
+
+
+/* *********************
+   * Various diagonals *
+   *********************
+*/
+
+/* For a natural number n >= 0: */
+main_diagonal(n) := create_list([i,i],i,1,n)$
+side_diagonal(n) := create_list([i,n-i+1],i,1,n)$
+
+/* For a natural number n >= 1 and a "difference" 0 <= d < n: */
+main_pandiagonal(n,d) := 1+mod(create_list([i+d,i],i,0,n-1),n)$
+/* For a natural number n >= 1 and a "sum" 0 <= s < n: */
+side_pandiagonal(n,s) := 1+mod(create_list([i,s-i],i,0,n-1),n)$
+
+/* Whether a latin square is diagonal: */
+dls_p(A) := block([n:matrix_size(A)[1]],
+  alldifferent_m_p(A, main_diagonal(n)) and
+  alldifferent_m_p(A, side_diagonal(n)))$
+
+/* Whether a non-empty latin square is strictly pandiagonal: */
+spls_p(A) := block([n:matrix_size(A)[1]],
+  every_s(lambda([L], alldifferent_m_p(A,L)),
+          create_list(main_pandiagonal(n,d), d,0,n-1)) and
+  every_s(lambda([L], alldifferent_m_p(A,L)),
+          create_list(side_pandiagonal(n,d), d,0,n-1)))$
+
+/* Whether a non-empty latin square is pandiagonal: */
+pls_p(A) := block([n:matrix_size(A)[1], s],
+  s : n*(n+1)/2,
+  every_s(lambda([L], is(sum_m(A,L)=s)),
+          create_list(main_pandiagonal(n,d), d,0,n-1)) and
+  every_s(lambda([L], is(sum_m(A,L)=s)),
+          create_list(side_pandiagonal(n,d), d,0,n-1)))$
 
 
 /* *****************
@@ -94,14 +131,38 @@ rls_p(A) := hrls_p(A) and block([s : matrix_size(A)],
 /* Prerequisite: A, B are combinatorial latin squares. */
 ocomls_p(A,B) := is(A[1] = B[1]) and block([L : listify(A[1])],
   is(length(unique(create_list([A[2](i,j), B[2](i,j)], i,L, j,L))) = length(L)^2))$
+/* The same for latin squares (square Maxima matrices of order n with entries
+   in {1,...,n}):
+*/
+ols_p(A,B) := ocomls_p(m2scom(A),m2scom(B))$
 
-/* Whether a list of latin squares is "mutually" (i.e., pairwise) orthogonal:
+/* Whether a list of combinatorial latin squares is "mutually" (i.e.,
+   pairwise) orthogonal:
 */
 mocomls_p(L) := listp(L) and block([n : length(L), is_mols : true],
   for i : 1 thru n unless not is_mols do block([A : L[i]],
     for j : i+1 thru n unless not is_mols do
       is_mols : ocomls_p(A,L[j])),
   is_mols)$
+/* The same for latin squares: */
+mols_p(L) := mocomls_p(map(m2scom,L))$
+
+/* Whether a combinatorial latin square is "self-orthogonal", i.e., orthogonal
+   to its complement:
+*/
+socomls_p(A) := ocomls_p(A,trans_scom(A))$
+/* The same for latin squares: */
+sols_p(A) := socomls_p(m2scom(A))$
+
+
+/* ************
+   * Symmetry *
+   ************
+*/
+
+ssls_p(A) := block([n : matrix_size(A)[1]],
+  every_s(lambda([p], is(A[p[1],p[2]]+A[n+1-p[1],n+1-p[2]]=n+1)),
+          all_tuples(setn(n), 2)))$
 
 
 /* ************
@@ -162,6 +223,50 @@ dk10_o_hrls : matrix(
  [9,1,3,4,7,10,2,8,6,5],
  [10,5,4,7,2,9,3,6,8,1]
 )$
+
+/* From [Constructions for pandiagonal strongly symmetric self-orthogonal
+   diagonal Latin squares, Chen, Li, Zhang].
+   Standardised (i.e., values in {1,...,8}).
+*/
+psssodls_8_ls : 1+matrix(
+ [0,1,3,2,4,5,7,6],
+ [5,4,6,7,1,0,2,3],
+ [6,7,5,4,2,3,1,0],
+ [3,2,0,1,7,6,4,5],
+ [2,3,1,0,6,7,5,4],
+ [7,6,4,5,3,2,0,1],
+ [4,5,7,6,0,1,3,2],
+ [1,0,2,3,5,4,6,7]
+)$
+
+
+/* **************
+   * Generators *
+   **************
+*/
+
+/* Strictly pandiagonal latin squares of order n, for appropriate
+   parameter a, b (see spdl_abn_ls_p):
+*/
+spdl_abn_ls(n,a,b) := 1+mod(
+  apply(matrix,
+        create_list(create_list(i*b+j*a,j,0,n-1), i,0,n-1)),
+  n)$
+/* Checking for correct inputs: */
+spdl_abn_ls_p(n,a,b) := integerp(n) and integerp(a) and integerp(b) and
+ n>a and a>b and
+ gcd(a,n)=1 and gcd(b,n)=1 and gcd(a+b,n)=1 and gcd(a-b,n)=1$
+
+/* Remark:
+   Let SPLS(n) for n>=0 denote the number of strictly pandiagonal latin squares
+   of order n.
+   For n in {0,1} trivially SPLS(n) >= 1.
+   For n=2 obviously SPLS(n) = 0.
+   Also for n=3 obviously SPLS(n) = 0.
+   For n > 2 not divisible by 2,3 we can choose a := 2, b := 1, and so
+   SPLS(n) >= 1.
+   Leaves open n >= 4 divisible by 2 or 3 (or both) ?
+*/
 
 
 /* ***************

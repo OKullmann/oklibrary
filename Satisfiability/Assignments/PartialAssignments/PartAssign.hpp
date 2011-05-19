@@ -1,5 +1,5 @@
 // Oliver Kullmann, 1.3.2002 (Swansea)
-/* Copyright 2002 - 2007, 2009 Oliver Kullmann
+/* Copyright 2002 - 2007, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,110 +23,86 @@ License, or any later version. */
 
 namespace PartAssignments {
 
-  using namespace Variables;
-  using namespace Literals;
-  using namespace Clauses;
-  using namespace Clausesets;
-
   namespace Error {
-
     struct not_in_domain {};
     struct inconsistent_extension {};
-
   }
 
   class Pass {
-
   public :
+    typedef Variables::Var var_type;
+  private :
+    typedef std::map<var_type, bool> map_type;
+    typedef map_type::const_iterator iterator;
+    map_type pa;
+  public :
+    typedef Literals::Lit literal_type;
+    typedef map_type::size_type size_type;
+    typedef std::set<var_type> varset_type;
+    typedef Clauses::Cl clause_type;
+    typedef Clausesets::Cls clauseset_type;
 
-    Pass () {}
-    Pass (Lit);
-    Pass (const Cl&);
+    Pass() {}
+    Pass(const literal_type x) : pa(map_type()) { pa[x.var()] = x.val(); }
+    Pass (const clause_type& C) : pa(map_type()) {
+      typedef clause_type::litset_t::const_iterator literator;
+      const literator C_end = C.ls.end();
+      for (literator i = C.ls.begin(); i != C_end; ++i)
+        pa[i->var()] = i->val();
+    }
 
-    bool is_empty() const;
+    friend bool operator ==(const Pass& lhs, const Pass& rhs) {
+      return lhs.pa == rhs.pa;
+    }
+    bool empty() const { return pa.empty(); }
+    bool in_domain(const var_type v) const { return pa.find(v) != pa.end(); }
 
-    set_length n() const;
+    size_type size() const  { return pa.size(); }
+    varset_type var() const {
+      varset_type V;
+      const iterator pa_end = pa.end();
+      for (iterator i = pa.begin(); i != pa_end; ++i) V.insert(i->first);
+      return V;
+    }
 
-    std::set<Var> var() const;
+    bool val(const var_type v) const {
+      const iterator p = pa.find(v);
+      if (p == pa.end()) throw Error::not_in_domain();
+      return p -> second;
+    }
 
-    bool in_domain(Var) const;
-    bool val(Var) const;
+    //! conversion to clause
+    clause_type clause() const {
+      clause_type C;
+      const iterator pa_end = pa.end();
+      for (iterator i = pa.begin(); i != pa_end; ++i)
+        C.ls.insert(literal_type(i->first, i->second));
+      return C;
+    }
+    //! applying the partial assignment to a clause-set
+    clauseset_type operator *(const clauseset_type& F) const {
+      clauseset_type G;
+      typedef clauseset_type::const_iterator citerator;
+      const citerator F_end = F.clauseset().end();
+      for (citerator i = F.clauseset().begin(); i != F_end; ++i)
+        if ((*i & this->clause().comp()).empty()) G.add(*i - this->clause());
+      return G;
+    }
 
-    Pass& composition_left(const Pass&);
-    // Attention: the argument is composed from the *left*
-
-    Pass& restrict(const std::set<Var>&);
-
-    Cl clause() const;
-
-    Cls operator * (const Cls&) const;
-
-    std::map<Var, bool> pa;
-
+    //! computing (phi composition this)
+    Pass& composition_left(const Pass& phi) {
+      pa.insert(phi.pa.begin(), phi.pa.end());
+      return *this;
+    }
+    //! remove assignments for variables in V
+    Pass& restrict(const varset_type& V) {
+      typedef varset_type::const_iterator viterator;
+      const viterator V_end = V.end();
+      for (viterator i = V.begin(); i != V_end; ++i) pa.erase(*i);
+      return *this;
+    }
   };
 
-  inline Pass::Pass(const Lit x) {
-    pa = std::map<Var, bool>();
-    pa[x.var()] = x.val();
-  }
-
-  inline Pass::Pass (const Cl& C) {
-    pa = std::map<Var, bool>();
-    for (std::set<Lit>::const_iterator i = C.ls.begin(); i != C.ls.end(); i++)
-      pa[i -> var()] = i -> val();
-  }
-
-  inline bool Pass::is_empty() const {
-    return pa.empty();
-  }
-
-  inline std::set<Var> Pass::var() const {
-    std::set<Var> V;
-    for (std::map<Var,bool>::const_iterator i = pa.begin(); i != pa.end(); i++)
-      V.insert(i -> first);
-    return V;
-  }
-
-  inline set_length Pass::n() const {
-    return pa.size();
-  }
-
-  inline bool Pass::in_domain(const Var v) const {
-    return pa.find(v) != pa.end();
-  }
-
-  inline bool Pass::val(const Var v) const {
-    std::map<Var,bool>::const_iterator p = pa.find(v);
-    if (p == pa.end())
-      throw Error::not_in_domain();
-    return p -> second;
-  }
-
-  inline Pass& Pass::composition_left(const Pass& phi) {
-    pa.insert(phi.pa.begin(), phi.pa.end());
-    return *this;
-  }
-
-  inline Pass& Pass::restrict(const std::set<Var>& V) {
-    for (std::set<Var>::const_iterator i = V.begin(); i != V.end(); i++)
-      pa.erase(*i);
-    return *this;
-  }
-
-  inline Cl Pass::clause() const {
-    Cl C;
-    for (std::map<Var,bool>::const_iterator i = pa.begin(); i != pa.end(); i++)
-      C.ls.insert(Lit(i -> first, i -> second));
-    return C;
-  }
-
-  inline Cls Pass::operator * (const Cls& F) const {
-    Cls G;
-    for (std::set<Cl>::iterator i = F.cls.begin(); i != F.cls.end(); i++)
-      if ((*i & this -> clause().comp()).is_empty())
-	G.add(*i - this -> clause());
-    return G;
-  }
 
 }
 

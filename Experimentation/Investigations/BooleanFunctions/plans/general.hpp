@@ -10,6 +10,36 @@ License, or any later version. */
   \brief On investigations regarding boolean functions
 
 
+  \bug analyse_random_permutations does not create experiment-directories
+  <ul>
+   <li> Every experiment takes places in its own directory. </li>
+   <li> This standard has been explained and used many times. </li>
+   <li> Perhaps MG would finally take notice of it. </li>
+   <li> Also the weak Bash-usage has to be corrected. </li>
+   <li> And the other scripts in this directory need also to be corrected.
+   </li>
+  </ul>
+
+
+  \todo All essential computations of analyse_random_permutations at C++ level
+  <ul>
+   <li> The C++ simulation of the Maxima random-generator then needs to be
+   reconsidered. </li>
+  </ul>
+
+
+  \todo Write "analyse_all_permutations"
+  <ul>
+   <li> Similar to analyse_random_permutations, but now considering all
+   permutations. </li>
+   <li> See investigate_permutations in
+   Experimentation/Investigations/BooleanFunctions/Permutations.mac for
+   a Maxima role-model. </li>
+   <li> Once we have a full-blown C++ implementation, then likely the simple
+   Maxima-function should be removed. </li>
+  </ul>
+
+
   \todo Add milestones
 
 
@@ -25,10 +55,10 @@ License, or any later version. */
   <ul>
    <li> We need to investigate random boolean functions to
    compare with the AES investigations (see 
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp). 
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp).
    </li>
-   <li> Likely, we should create a new plans file for arbitrary boolean functions
-   which may not fit into other categories? </li>
+   <li> Likely, we should create a new plans file for arbitrary boolean
+   functions which may not fit into other categories? </li>
    <li> See "First considerations of random permutation" in 
    Experimentation/Investigations/BooleanFunctions/plans/general.hpp for an
    example of similar investigations into permutations. </li>

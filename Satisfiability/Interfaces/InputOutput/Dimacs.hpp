@@ -73,16 +73,20 @@ namespace OKlib {
       \brief Extended policy, which allows arbitrary strings as variables.
 
       The Dimacs-parser uses member-function <code>read(in, literal)</code>,
-      while after parsing the mapping between strings and natural numbers
+      where literal is an integer-reference, containing the literal converted
+      to an integer.
+
+      The mapping between strings and natural numbers established so far
       is available as follows:
       <ul>
        <li> <code>index(name)</code> returns the index of a variable (runs in
-       logarithmic time); </li>
+       logarithmic time; return 0 if not found); </li>
        <li> <code>name(index)</code> returns the name belonging to an index
-       (runs in constant time). </li>
+       (runs in constant time, assumes a valid index). </li>
       </ul>
 
-      There are some restrictions on the strings:
+      Throws exceptions in case of syntax errors, according to the following
+      restrictions on the strings:
       <ul>
        <li> They must be non-empty. </li>
        <li> They must not contain space-symbols (more precisely, they are read

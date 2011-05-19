@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 19.12.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,18 +24,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permuta
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
-
-/* For n >= 0, runs through the permutations P of {1,..,2^n}, determines the
-   4-tuple [pr, nec, s, min], the number of prime implicates, the number of 
-   irredundant clauses amongst them, the number of clauses in a minimum
-   CNF representation, and the number of such representations.
-   Returned is a hash-map, which for the occurring 4-tuples returns the
-   list of permutations P belonging to them.
-*/
-investigate_permutations(n) := block([m : 2^n, h : sm2hm({})],
- for P in permutations(setn(m)) do block(
-  [F : perm2cnffcs(P)[2], Pr, S, Pr, Min, pr,nec,min,s,t, L, 
-   monitor : oklib_monitor, oklib_monitor: false],
+/* Evaluation of permutation P of {1,...,2^n}: */
+evalpermasbf(P) := block(
+  [F : perm2cnffcs(P)[2], Pr, S, Min, pr,nec,min,s, L],
    Pr : min_2resolution_closure_cs(F),
    pr : length(Pr),
    S : rsubsumption_hg(Pr,F),
@@ -43,12 +34,48 @@ investigate_permutations(n) := block([m : 2^n, h : sm2hm({})],
    Min : all_minequiv_bvs_rsubhg(S),
    min : length(Min),
    s : length(first(Min)),
-   t : [pr, nec, s, min],
+   [pr, nec, s, min]
+)$
+
+/* For n >= 0, runs through the permutations P of {1,..,2^n}, determines the
+   4-tuple [pr, nec, s, min], the number of prime implicates, the number of 
+   irredundant clauses amongst them, the number of clauses in a minimum
+   CNF representation, and the number of such representations.
+   Returned is a hash-map, which for the occurring 4-tuples returns the
+   list of permutations P belonging to them.
+   If oklib_monitor is true, then the new permutations and their statistics
+   are printed, together with a total count.
+*/
+investigate_permutations(n) := block(
+ [m : 2^n, h : sm2hm({}), count:0, countf:0,
+  monitor : oklib_monitor, oklib_monitor: false],
+ for P in permutations(setn(m)) do block([t, L],
+   count:count+1,
+   if monitor and oklib_monitor_level=0 then printf(true, "~d ", count),
+   t : evalpermasbf(P),
+   if monitor and oklib_monitor_level >= 1 then print(count, P, t),
    L : ev_hm(h,t),
-   if monitor and L = false then print(P, t),
+   if monitor and L=false then (countf:countf+1, print("NEW:", countf, P, t)),
    set_hm(h,t, if L=false then [P] else cons(P,L))
  ),
  return(h))$
+
+/* Only run through the transpositions: */
+investigate_transpositions(n) := block(
+ [m : 2^n, h : sm2hm({}), count:0, countf:0,
+  monitor : oklib_monitor, oklib_monitor: false],
+ for S in powerset(setn(m),2) do block([p1:first(S), p2:second(S),P],
+   count:count+1,
+   if monitor and oklib_monitor_level=0 then printf(true, "~d ", count),
+   P : create_list(if i=p1 then p2 elseif i=p2 then p1 else i, i,1,m),
+   t : evalpermasbf(P),
+   if monitor and oklib_monitor_level >= 1 then print(count, P, t),
+   L : ev_hm(h,t),
+   if monitor and L=false then (countf:countf+1, print("NEW:", countf, P, t)),
+   set_hm(h,t, if L=false then [P] else cons(P,L))
+ ),
+ return(h))$
+
 
 /* Output the occurring tuples t together with the number of permutations
    belonging to them:

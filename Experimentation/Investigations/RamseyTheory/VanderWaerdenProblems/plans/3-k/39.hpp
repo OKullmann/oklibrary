@@ -466,6 +466,23 @@ wsatt   FlipsPerSecond = 2322880
    \endverbatim
    Are these FPS'values correct?
    </li>
+    <li> "RunPdVdWk1k2 3 39 gsat-tabu 200 90000000" yields
+    \verbatim
+Break point 1: 1406
+Break point 2: 1411
+    \endverbatim
+    with all solution found in the first 6 runs, and with
+    \verbatim
+> E=read_ubcsat("VanDerWaerden_pd_2-3-39_1407.cnf_OUT",nrows=200)
+  1   2   3   4   5   7
+ 62 109  24   2   2   1
+200
+> E=read_ubcsat("VanDerWaerden_pd_2-3-39_1412.cnf_OUT",nrows=200)
+  1   2   3   4   7   9
+162  26   9   1   1   1
+200
+   \endverbatim
+   </li>
   </ul>
 
 */

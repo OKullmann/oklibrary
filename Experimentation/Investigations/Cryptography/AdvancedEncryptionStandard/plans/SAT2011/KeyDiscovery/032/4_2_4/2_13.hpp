@@ -58,9 +58,9 @@ maxima> ss_mixcolumns_matrix(2,4,4);
   </ul>
 
 
-  \todo Using the canonical box translation 
+  \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   <li> Translating the AES cipher treating Sboxes and field multiplications
    as whole boxes and translating these boxes using the canonical translation.
    </li>
    <li> Generating small scale AES for 2 + 1/3 round:
@@ -148,7 +148,7 @@ maxima> ncl_list_full_dualts(8,16);
    \endverbatim
    are comprised of:
    <ul>
-    <li> 8 unit clauses for the 4-bit constants in the Key schedule
+    <li> 8 unit-clauses for the 4-bit constants in the Key schedule
     (4 bits * 2 rounds = 8). </li>
     <li> 15360 binary clauses, coming from 24 Sboxes and 16 of each of the six
     multiplications (120 * 128 = 7680). </li>

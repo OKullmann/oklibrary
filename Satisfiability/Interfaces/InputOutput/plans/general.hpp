@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Interfaces/InputOutput/plans/general.hpp
-  \brief Plans for the module on SAT-related input/output.
+  \brief Plans for the module on SAT-related input/output
 
 
   \todo Elementary file-surgery
@@ -114,9 +114,6 @@ InputOutput::List2DIMACSOutput(F, out, comment)
 
 
   \todo Complete the functionality.
-
-
-  \todo Input and output of partial assignments.
 
 
   \todo Input and output of propositional formulas

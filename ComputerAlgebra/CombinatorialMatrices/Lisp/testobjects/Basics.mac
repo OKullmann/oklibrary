@@ -117,9 +117,9 @@ okltest_extend_linear_hull(extend_linear_hull);
 okltest_linear_hull(linear_hull);
 okltest_random_inv_m(random_inv_m);
 
-/* *******************
-   * Transformations *
-   *******************
+/* ****************************
+   * Rows, columns, diagonals *
+   ****************************
 */
 
 okltest_com2l_r(com2l_r);
@@ -131,6 +131,17 @@ okltest_scom2ll_c(scom2ll_c);
 
 okltest_row_m(row_m);
 okltest_column_m(column_m);
+
+okltest_com2omsoms_r(com2omsoms_r);
+okltest_com2omsoms_c(com2omsoms_c);
+
+okltest_maindiag_scom(maindiag_scom);
+okltest_maindiagoms_scom(maindiagoms_scom);
+
+/* *******************
+   * Transformations *
+   *******************
+*/
 
 okltest_scom2g(scom2g);
 okltest_scom2gl(scom2gl);
@@ -173,6 +184,8 @@ okltest_max_com(max_com);
 okltest_sum_com(sum_com);
 okltest_sum_scom(sum_scom);
 
+okltest_sum_m(sum_m);
+
 okltest_abs_com(abs_com);
 okltest_abs_scom(abs_scom);
 
@@ -204,6 +217,8 @@ okltest_obsscom_com_p(obsscom_com_p);
 
 okltest_symmetric_scom_p(symmetric_scom_p);
 okltest_symmetric_m_p(symmetric_m_p);
+
+okltest_alldifferent_m_p(alldifferent_m_p);
 
 /* ***************
    * Polynomials *

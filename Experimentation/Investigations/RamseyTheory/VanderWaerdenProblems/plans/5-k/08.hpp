@@ -154,8 +154,161 @@ FlipsPerSecond = 221298
   </ul>
 
 
-  \todo vdw_2^pd(5,8) >= (312,323)
+  \todo vdw_2^pd(5,8) = (312,323)
   <ul>
+   <li> Determined by minisat-2.2.0:
+    <ol>
+     <li> Hardest problem for n=324:
+     \verbatim
+restarts              : 16777214
+conflicts             : 19006590162    (4124 /sec)
+decisions             : 21516030010    (0.00 % random) (4668 /sec)
+propagations          : 379970924722   (82439 /sec)
+conflict literals     : 508510692844   (22.16 % deleted)
+Memory used           : 225.14 MB
+CPU time              : 4.60912e+06 s
+UNSATISFIABLE
+     \endverbatim
+     (this is, 53.3 days)
+     </li>
+     <li> While for n=313:
+     \verbatim
+restarts              : 2097150
+conflicts             : 2076757141     (6872 /sec)
+decisions             : 2356337872     (0.00 % random) (7798 /sec)
+propagations          : 41736971474    (138117 /sec)
+conflict literals     : 50113566661    (23.17 % deleted)
+Memory used           : 91.68 MB
+CPU time              : 302186 s
+UNSATISFIABLE
+     \endverbatim
+     </li>
+     <li> Splitting the problem for n=324, first with depth 12 (from the above
+     time, we get an "average" of 1125.273s per sub-instance; recall that the
+     instance is created by "PdVanderWaerdenCNF-O3-DNDEBUG 5 8 324"):
+     \verbatim
+> SplittingViaOKsolver -D12 VanDerWaerden_pd_2-5-8_324.cnf
+> cd SplitViaOKsolver_D12VanDerWaerden_pd_258_324cnf_2011-05-15-101121
+> more Md5sum
+64d71cced212d7377c121092fa7476ce
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  12.00   14.00   15.00   15.07   16.00   32.00
+> table(E$n)
+ 12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  32
+230 651 933 834 620 371 223 130  47  23  14   7   6   2   1   3   1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           162
+c initial_number_of_clauses             9973
+c initial_number_of_literal_occurrences 60446
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     22.8
+c number_of_nodes                       8191
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                8
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        12
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_pd_2-5-8_324.cnf
+c splitting_directory                   SplitViaOKsolver_D12VanDerWaerden_pd_258_324cnf_2011-05-15-101121/Instances
+c splitting_cases                       4096
+
+> cd Instances
+> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf 2>&1 | cat - > Temp.out; T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; done; rm Temp.cnf Temp.out
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+# Overview via
+#> plot(E); summary(E)
+     \endverbatim
+     Aborted after 3200nm where 2500 sub-instances were solved. This is much
+     worse than depth 16 (see below). </li>
+     <li> Now with depth 16 (from the above time, we get an "average" of 70.4s
+     per sub-instance):
+     \verbatim
+> SplittingViaOKsolver -D16 VanDerWaerden_pd_2-5-8_324.cnf
+> cd SplitViaOKsolver_D16VanDerWaerden_pd_258_324cnf_2011-05-09-224526
+> > more Md5sum
+df571321afc590fa67f5cec11a8499a0
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  16.00   19.00   21.00   21.49   23.00   53.00
+> table(E$n)
+  16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31
+ 800 3146 6552 8855 9865 9037 7533 5790 4329 2867 1917 1253  888  681  472  370
+  32   33   34   35   36   37   38   39   40   41   42   43   44   45   46   47
+ 282  180  122   97   76   68   66   35   33   30   21   18    8    9   10    7
+  48   49   50   51   52   53
+   8    1    3    3    2    1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           162
+c initial_number_of_clauses             9973
+c initial_number_of_literal_occurrences 60446
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     546.8
+c number_of_nodes                       131045
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                3415
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        16
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_pd_2-5-8_324.cnf
+c splitting_directory                   SplitViaOKsolver_D16VanDerWaerden_pd_258_324cnf_2011-05-09-224526/Instances
+c splitting_cases                       65435
+
+> cd Instances
+> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf 2>&1 | cat - > Temp.out; T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; done; rm Temp.cnf Temp.out
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+# Overview via
+#> plot(E); summary(E)
+
+# Completed (cs-oksvr):
+real    3051m16.442s
+user    3041m24.429s
+sys     38m48.998s
+     \endverbatim
+     Needs to be completed with complete data collection. But this is a speed
+     up by one order of magnitude! </li>
+     <li> So we see that via splitting we can be much faster! Perhaps one
+     could roughly say that conflict-driven solvers are most effective on
+     easy instances. Once they "learned too much" they are becoming very
+     ineffective. </li>
+    </ol>
+   </li>
    <li> Certificates:
     <ol>
      <li> n=311:

@@ -152,10 +152,13 @@ sources> tar jcvf gcc-4.1.2.tar.bz2 gcc-4.1.2
      needed (note that we are using already an altered gcc!). </li>
     </ul>
    </li>
+   <li> We need information about gcc-4.1.2 in the installation page. </li>
+   <li> DONE (in the FAQ)
+   We need also general information on why we need gcc-4.1.2 etc. </li>
   </ul>
 
 
-  \todo Install GCC 4.5.2
+  \todo Install GCC 4.5.3 : DONE
   <ul>
    <li> DONE (building it, requiring zip)
    gcj
@@ -173,7 +176,8 @@ Usage: jar {ctxui}[vfm0Me] [jar-file] [manifest-file] [entry-point] [-C dir] fil
      <li> But we can simply add "zip" to the requirement. </li>
     </ol>
    </li>
-   <li> We need to install zip locally, and provide it to the gcc-build.
+   <li> DONE (we require zip)
+   We need to install zip locally, and provide it to the gcc-build.
     <ol>
      <li> Building it shouldn't be a problem. </li>
      <li> Gcc doesn't make provisions for that. </li>
@@ -183,7 +187,8 @@ Usage: jar {ctxui}[vfm0Me] [jar-file] [manifest-file] [entry-point] [-C dir] fil
      yet) we say that putting OKplatform/bin on PATH isn't required. </li>
     </ol>
    </li>
-   <li> Build error on cs-oksvr:
+   <li> DONE (we require now also zlib, and use this)
+   Build error on cs-oksvr:
     <ol>
      <li> We get (for "oklib gcc")
      \verbatim
@@ -202,10 +207,35 @@ ExternalSources> oklib gcc gcc_user_options_okl="--with-system-zlib"
      </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Loop-optimisation
+  <ul>
    <li> We should also install these additional libraries "PPL" ("Parma
    Polyhedra Library") and "CLooG" for loop-optimisation. </li>
   </ul>
   
+
+  \todo Latest texi2dvi fails to build gcc.texi on some systems
+  <ul>
+   <li> The latest texinfo package has a bug due to poor formatting of
+   strings passed to egrep, which results in an error from texi2dvi during
+   the gcc (4.5.2) build process complaining about precisely this. </li>
+   <li> The error arises as texi2dvi uses egrep with using "[A-z]" rather
+   than "[A-Za-z]", and the first isn't a valid pattern when using certain
+   unicode (UTF-8 type) character sets. </li>
+   <li> One can run "LC_ALL=C oklib gcc" and the build completes without a
+   problem. </li>
+   <li> According to
+   http://www.mail-archive.com/bug-texinfo@gnu.org/msg04519.html
+   and the corresponding bug report, there is now a fix, and presumably
+   this should be available in a new texinfo package soon on most systems.
+   </li>
+   <li> This is not a bug in the OKlibrary, but users should be aware of the
+   issue. </li>
+  </ul>
+
 
   \bug DONE (no system-libraries needed anymore)
   Local Gmp/Mpfr are not used (appropriately)
@@ -268,7 +298,7 @@ LDFLAGS="$(gmp_locsys_link_path_okl) $(mpfr_locsys_link_path_okl)"
   </ul>
 
 
-  \bug DONE (works now; problems where Gmp,Mpfr related)
+  \bug DONE (works now; problems were Gmp,Mpfr related)
   Local build of Fortran fails (for 4.1.2)
   <ul>
    <li> DONE (we don't build Fortran with 4.1.2)

@@ -10,6 +10,125 @@ License, or any later version. */
   \brief Plans regarding building of SAT solvers and libraries
 
 
+  \todo Parallel SAT solvers
+  <ul>
+   <li> manySAT is proprietary? </li>
+   <li> NAGSAT? </li>
+   <li> PMSAT? </li>
+   <li> DONE
+   There is a parallel version of Precosat: See Plingeling below. </li>
+  </ul>
+
+
+  \todo (P)Lingeling
+  <ul>
+   <li> DONE (installed)
+   First installatioin:
+   \verbatim
+builds/Lingeling> tar -xzf ../../../sources/SAT/Precosat/lingeling-276-6264d55-100731.tar.gz
+> cd lingeling-276-6264d55-100731
+> ./configure
+> make
+   \endverbatim
+   </li>
+   <li> We need an installation page: Perhaps picosat, precosat, lingeling etc.
+   all go to the same page? </li>
+   <li> Basic information:
+   \verbatim
+> ./lingeling --help
+usage: lingeling [<option> ...][<file>[.gz]]
+
+where <option> is one of the following:
+
+--help        | -h    print command line option summary
+--force       | -f    force reading even without header
+--ignore      | -i    ignore additional clauses
+--ranges      | -r    print value ranges of options
+--defaults    | -d    print default values of options
+--nowitness   | -n    no solution (see '--witness')
+
+The following options can also be used in the form '--<name>=<int>',
+just '--<name>' for increment and '--no-<name>' for zero.  They
+can be embedded into the CNF file or set through the API as well.
+Their default values are displayed at higher verbose levels or
+explicitly with the command line option '-d' or '--defaults'.
+
+--agile               agility limit for restarts
+--bias                variable decision order initial bias
+--block               enable initial blocked clause elimination
+--blkmaxeff           maximal effort in blocked clause elimination
+--blkmineff           minimal effort in blocked clause elimination
+--blkreleff           relative effort in blocked clause elimination
+--blkocclim           maximum number of occurrences in blocked clause elimination
+--decompose           enable decompose
+--dcpcintinc          decompose conflict interval increment
+--dcpvintinc          decompose prop interval increment
+--defragint           defragmentation pushed watches interval
+--defragfree          defragmentation free watches limit
+--distill             enable distillation
+--dstcintinc          distill conflict interval increment
+--dstvintinc          distill prop interval increment
+--dstmaxeff           maximal effort in distilling
+--dstmineff           minimal effort in distilling
+--dstreleff           relative effort in distilling
+--elim                enable eliminiation
+--elmcintinc          eliminiation conflict interval increment
+--elmvintinc          eliminiation prop interval increment
+--elmaxeff            maximal effort in eliminiation
+--elmineff            minimal effort in eliminiation
+--elmreleff           relative effort in eliminiation
+--elmreslim           maximum resolvent size in elimination
+--elmocclim           maximum number of occurences in elimination
+--elmpenlim           minimum eliminated variables penalty limit
+--gccintinc           gc conflict interval increment
+--gcvintinc           gc prop interval increment
+--hte                 enable hidden tautology elimination
+--htemaxeff           maximal effort in hidden tautology elimination
+--htemineff           minimal effort in hidden tautology elimination
+--htereleff           relative effort in hidden tautology elimination
+--lhbr                enable lazy hyber binary reasoning
+--phase               default phase
+--plain               plain mode disables all preprocessing
+--probe               enable probing
+--prbcintinc          probing conflict interval increment
+--prbvintinc          probing prop interval increment
+--prbmaxeff           maximal effort in probing
+--prbmineff           minimal effort in probing
+--prbreleff           relative effort in probing
+--seed                random number generator seed
+--smallve             enable small number variables elimination
+--smallvevars         variables in small number variables elimination
+--randec              enable random decisions
+--randecint           random decision interval
+--rebias              enable rebiasing phases
+--rebiasint           rebias interval
+--redlinit            initial reduce limit
+--redlinc             reduce limit increment
+--redlmininc          minimum reduce limit increment
+--restartint          restart interval
+--scincinc            score increment increment in per mille
+--transred            enable transitive reduction
+--trdcintinc          transitive reduction prop interval increment
+--trdvintinc          transitive reduction prop interval increment
+--trdmineff           minimial effort in transitive reduction
+--trdmaxeff           maximal effort in transitive reduction
+--trdreleff           relative effort in transitive reduction
+--verbose     | -v    verbosity level
+--witness     | -w    print witness
+
+kullmann-0:lingeling-276-6264d55-100731> ./plingeling -h
+usage: plingeling [-t <threads>][-h][-n][-p][-v][<dimacs>[.gz]]
+  -t <num>   number of worker threads (default 2 on this machine)
+  -h         print this command line option summary
+  -n         do NOT print solution / witness
+  -p         plain portfolio, no sharing
+  -v         increase verbose level
+  -i         ignore additional clauses
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Install Relsat
   <ul>
    <li> http://code.google.com/p/relsat/ has the newest version 2.02
@@ -168,6 +287,7 @@ c CPU time              : 0 s
   <ul>
    <li> Mention the patched makefile regarding minisat+, and the usage of the
    locally provided GMP. </li>
+   <li> Explain the different versions. </li>
    <li> See "Minisat" below. </li>
   </ul>
 
@@ -945,11 +1065,24 @@ Usage: argosat problem [options]
   \todo Satz
   <ul>
    <li> ParaSatz
-   \verbatim
-Satz> tar -xzf ../../../sources/SAT/Satz/ParaSatz.tar.gz
+    <ul>
+     <li> Installation:
+     \verbatim
+builds/SAT/Satz> tar -xzf ../../../sources/SAT/Satz/ParaSatz.tar.gz
 Satz> cd ParaSatz
-   \endverbatim
-   this is mainly a script to run Satz (214) in parallel. </li>
+     \endverbatim
+     This is mainly a script to compile and run Satz (214) in parallel. </li>
+     <li> ParaSatz runs on any Linux or Unix machines in a local network with
+     the shared home directory. </li>
+     <li> ParaSatz can be called from an arbitray machine in the local network
+     as the master, while all other machines run as slaves. </li>
+     <li> A workload balancing mechanism is provided such that an idle slave
+     always gets a remaining subtree from the most loaded slave. </li>
+     <li> Machine names stored in file 'machine' end with '0'. </li>
+     <li> Some scripts are provided for PS, Kill, Resume all ParaSatz threads.
+     </li>
+    </ul>
+   </li>
    <li> adaptg2wsat+
    \verbatim
 Satz> tar -xf ../../../sources/SAT/Satz/adaptg2wsat+ForCompetition.tar

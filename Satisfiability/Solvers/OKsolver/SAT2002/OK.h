@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.1998 (Frankfurt)
-/* Copyright 1998 - 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 1998 - 2007, 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -123,10 +123,10 @@ License, or any later version. */
 #include <stdbool.h>
 
 #define VERSIONSNUMMER1 "1"
-#define VERSIONSNUMMER2 "32"
+#define VERSIONSNUMMER2 "42"
 /* Version = VERSIONSNUMMER1 "." VERSIONSNUMMER2 */
 
-#define DATUM "11.10.2009"
+#define DATUM "19.5.2011"
 
 extern const bool internal;
 
@@ -364,13 +364,15 @@ extern bool Belegung;
 /* und Klauselnanzahl in der Eingabe und nach Vorreduktion */
 
 extern unsigned int P0, P;
-extern unsigned int N0, N;
+//! number of variables in input (a constant)
+extern unsigned int N0;
+//! number of variables after initial reduction (a constant)
+extern unsigned int N;
 extern unsigned int L0, L;
 extern unsigned int K0, K;
 
-
+//! current number of unassigned variables (<= N)
 extern unsigned int aktN;
-/* aktN <= N ist die aktuelle Zahl von unbelegten Variablen */
 
 extern unsigned int aktP;
 /* aktP <= P ist die aktuelle maximale Klauselnlaenge */

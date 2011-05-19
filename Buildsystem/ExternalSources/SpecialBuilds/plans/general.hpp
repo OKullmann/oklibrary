@@ -28,6 +28,56 @@ License, or any later version. */
   </ul>
 
 
+  \todo Patches
+  <ul>
+   <li> An overview is needed on the correct way use the diff and
+   patch tools. This should then be moved to docus. </li>
+   <li> One has two packages, an "original" package and an updated
+   version. </li>
+   <li> The task is to produce a "patch" file. This contains the difference
+   between the original and updated package. This is done using the diff
+   tool. </li>
+   <li> This file can then be applied to the original package by another user.
+   The application of the patch occurs using the patch tool. </li>
+   <li> The standard method:
+   <ul>
+    <li> The old package is in directory A (with files, subdirectories etc).
+    </li>
+    <li> The updated package is in directory B. </li>
+    <li> Both packages are in the same parent directory. </li>
+    <li> From the parent directory run:
+    \verbatim
+diff -ruN A B > patchfile
+    \endverbatim
+    </li>
+    <li> The flags "r", "u" and "N" specify that the diff should:
+    <ul>
+     <li> Be recursive over the given directories. </li>
+     <li> Be unified. That is, 3 lines of context are printed for each
+     difference. </li>
+     <li> Treat non-existant files as empty files. </li>
+    </ul>
+    </li>
+    <li> The patch file can then be applied from inside the directory of the
+    package to be patched by running:
+    \verbatim
+patch -p1 < patchfile
+    \endverbatim
+    </li>
+    <li> Note, the filenames to be updated are included in the patchfile.
+    </li>
+    <li> The "-p" argument here specifies the number of directories to
+    remove from the file paths in the patchfile when looking for the files
+    to patch. </li>
+    <li> So using "-p1", if a file was originally in A/file1, the patch tool
+    will look for this file in file1 rather than A/file1. </li>
+    <li> "-p1" is important here, as we are inside the package directory
+    and so must ignore the original package directory names. </li>
+   </ul>
+   </li>
+  </ul>
+
+
   \todo Enable local/global installation for all packages
   <ul>
    <li> Likely local installation should be the default. </li>

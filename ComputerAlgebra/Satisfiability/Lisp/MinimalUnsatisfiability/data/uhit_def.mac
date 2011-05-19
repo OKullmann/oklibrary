@@ -9,7 +9,7 @@ License, or any later version. */
   \file ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac
   \brief Classification of unsatisfiable hitting clause-sets in dependency on the deficiency, only considering clause-sets which are reduced w.r.t. singular DP-reduction
 
-  Only small datasets here; others are excluded from for example
+  Only small datasets here; others are included from for example
   "uhit_def_4.mac" for deficiency 4.
 
 Use by
@@ -37,7 +37,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.m
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
-kill(uhit_def)$
+/* kill(uhit_def)$ */
 
 /* The list of available deficiencies. */
 uhit_def[0,"info"] : append(create_list(k,k,1,28),[43,58,59])$
@@ -477,7 +477,7 @@ all_uhit_def(k) := block([L : uhit_def[k,"info"]],
    Call f(k,n,i,F), store the results in a list. */
 apply_uhit(f) := block([list_def : uhit_def[0,"info"], result : []],
   for k in list_def do block([list_n : map(first,uhit_def[k,"info"][4])],
-    for n in list_n do block([L : uhit_def[k,n]],
+    for n in list_n do block([L : ev(uhit_def[k,n],eval)],
       for i : 1 thru length(L) do block([F : L[i]],
         result : endcons(f(k,n,i,F),result)))
   ),

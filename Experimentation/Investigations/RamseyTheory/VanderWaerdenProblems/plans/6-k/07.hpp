@@ -99,6 +99,44 @@ g2wsat
 
   \todo vdw_2^pd(6,7) >= (591,1156)
   <ul>
+   <li> minisat-2.2.0:
+    <ol>
+     <li> Last solved problem for n=374. </li>
+     <li> Do we have an easy-hard pattern based on parity?
+     <li> Getting the data from
+     Exp_PdVanderWaerdenC_2-6-7_minisat-2.2.0_2011-03-07-194459:
+     \verbatim
+> E = read_minisat_outputs(Sys.glob("Exp_PdVanderWaerdenC_2-6-7_minisat-2.2.0_2011-03-07-194459/VanDerWaerden_pd_2-6-7_*.cnf_OUT"))
+> plot(E$n[E$n>=175], E$decisions[E$n>=175])
+> lines(E$n[E$n>=175], E$decisions[E$n>=175])
+     \endverbatim
+     </li>
+     <li> That that with that table, n is the number of variables in the SAT
+     problem, not the original number of vertices. </li>
+     <li> We have the problem that the original number of vertices is not in
+     the table, and so we always have two identical n-values for the even and
+     the corresponding odd number of vertices. </li>
+     <li> Thus the pattern is not as visible as it should be. The number of
+     vertices must be extracted from the file name. </li>
+     <li> Due to the ordering according to filename, in most cases (but see
+     "Improved handling of file-names" in
+     ExperimentSystem/SolverMonitoring/plans/Minisat2.hpp) odd comes before
+     even. Unclear whether there is a pattern (if so, then it is unstable).
+     </li>
+     <li> There are slightly more cases with odd harder than cases with even
+     harder, with the biggest difference for n=185:
+     \verbatim
+> E[E$n==185,]
+      n     c restarts  decisions propagations    mem       time sat
+296 185 11887  1086969 1242578530  23942560994 123.66 179851.000   1
+298 185 12166     8191    6237556    116377530  29.83    418.978   1
+                                                                                         filename
+296 Exp_PdVanderWaerdenC_2-6-7_minisat-2.2.0_2011-03-07-194459/VanDerWaerden_pd_2-6-7_369.cnf_OUT
+298 Exp_PdVanderWaerdenC_2-6-7_minisat-2.2.0_2011-03-07-194459/VanDerWaerden_pd_2-6-7_370.cnf_OUT
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> Certificates:
     <ol>
      <li> n=590:

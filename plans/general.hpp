@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.6.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,33 @@ License, or any later version. */
 /*!
   \file OKlib/plans/general.hpp
   \brief Plans for the library which do not belong to a single module
+
+
+  \todo Special actions July/August 2011 (MG, OK)
+  <ul>
+   <li> Everything into the milestones. </li>
+   <li> General systems:
+    <ol>
+     <li> Program options </li>
+     <li> Testsystem </li>
+     <li> Cryptology library </li>
+    </ol>
+   </li>
+   <li> General Sat components:
+    <ol>
+     <li> Clause-set input/output completed </li>
+     <li> OKgenerator </li>
+    </ol>
+   </li>
+   <li> OKsolver-related:
+    <ol>
+     <li> SplittingViaOKsolver </li>
+     <li> r_1, r_2 reductions free-standing (as efficient as possible) </li>
+     <li> r_2-base computation </li>
+     <li> OKsolver_2002: improving w.r.t. r_1, r_2 </li>
+    </ol>
+   </li>
+  </ul>
 
 
   \todo "OKlib" instead of "Transitional" : DONE

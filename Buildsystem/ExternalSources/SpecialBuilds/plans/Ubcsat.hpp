@@ -15,6 +15,15 @@ License, or any later version. */
    <li> The target "ubcsat-new" should be removed (just using "ubcsat"). </li>
    <li> We created a new package "ubcsat-1-2-0-beta.tar.bz2", cloning
    https://github.com/dtompkins/ubcsat.git, checking out branch beta. </li>
+   <li> Likely we stop supporting version 1.0.0:
+    <ol>
+     <li> See "Shall we abort this development?" in
+     Autarkies/Search/plans/AnalyseTotalAssignment.hpp. </li>
+     <li> Then also the dos2unix-problems (see
+     "Make clear the required package for dos2unix" below) disappears (at least
+     for now). </li>
+    </ol>
+   </li>
    <li> Segmentation faults for saps, rsaps, sapsnr:
     <ol>
      <li>

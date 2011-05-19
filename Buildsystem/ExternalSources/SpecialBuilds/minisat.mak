@@ -30,8 +30,7 @@ minisat : minisat2 minisat-new minisatp
 minisat-new : $(minisat_directories_okl)
 	$(call unarchive,$(minisat_source_okl),$(minisat_base_build_dir_okl))
 	cd $(minisat_build_dir_okl); $(postcondition) \
-	patch core/Solver.cc $(minisat_oklib_dir_okl)/Patch_output; $(postcondition) \
-	patch core/Solver.cc $(minisat_oklib_dir_okl)/Patch_output2; $(postcondition) \
+	patch -p1 < $(minisat_oklib_dir_okl)/Patch_output; $(postcondition) \
 	export MROOT=$(minisat_build_dir_okl); $(postcondition) \
 	cd simp; $(postcondition) \
 	make rs CXX=$(gpp_call_okl) LFLAGS="$(gcc_linking_okl) $(zlib_link_option_okl) -lz"; $(postcondition) \

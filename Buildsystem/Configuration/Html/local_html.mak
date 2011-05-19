@@ -67,6 +67,7 @@ internet_home_page_output ?= $(internet_home_page_output_dir)/index.html
 
 oklibrary_domain := http://www.ok-sat-library.org
 oklibrary_sourceforge := http://oklibrary.sourceforge.net/
+oklibrary_mailinglist_users := http://www.freelists.org/list/oklibrary-users
 oklibrary_mailinglist_devel := http://lists.sourceforge.net/mailman/listinfo/oklibrary-developers
 
 main_docu_page ?= $(doc_dir)/doxygen_html/d5/d70/OKlib_2docus_2general_8hpp.html

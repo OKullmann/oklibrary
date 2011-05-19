@@ -1601,8 +1601,7 @@ void AusgabeBelegung(FILE* const fp) {
   extern enum Ausgabeformat Format;
   const char* Einrueckung = 0;
 
-  if (Format == Dimacs_Format)
-    fprintf(fp, "v");
+  if (Format == Dimacs_Format) fprintf(fp, "v");
   else {
     assert(Format == XML_Format);
     extern bool Dateiausgabe;
@@ -1615,12 +1614,9 @@ void AusgabeBelegung(FILE* const fp) {
       assert(Pfad0[i] > INT_MIN);
       const unsigned int v = abs(Pfad0[i]);
       const VZ e = (Pfad0[i] > 0) ? Pos : Neg;
-      if (Format == Dimacs_Format) {
-        if (e == Neg)
-          fprintf(fp, " %s", Symbol1(v));
-        else
-          fprintf(fp, " -%s", Symbol1(v));
-      }
+      if (Format == Dimacs_Format)
+        if (e == Neg) fprintf(fp, " %s", Symbol1(v));
+        else fprintf(fp, " -%s", Symbol1(v));
       else {
         assert(Einrueckung);
         fprintf(fp, "%s  <value var = \"%s\"> %d </value>\n", Einrueckung, Symbol1(v), e);
@@ -1631,12 +1627,9 @@ void AusgabeBelegung(FILE* const fp) {
     for (Tiefe = Pfad; Tiefe < Z; ++Tiefe) {
       const LIT l = PfadLit(); const VAR v = Var(l);
       const VZ e = (l == Literal(v, Pos)) ? Pos : Neg;
-      if (Format == Dimacs_Format) {
-        if (e == Neg)
-          fprintf(fp, " %s", Symbol(v));
-        else
-          fprintf(fp, " -%s", Symbol(v));
-      }
+      if (Format == Dimacs_Format)
+        if (e == Neg) fprintf(fp, " %s", Symbol(v));
+        else fprintf(fp, " -%s", Symbol(v));
       else {
         assert(Einrueckung);
         fprintf(fp, "%s  <value var = \"%s\"> %d </value>\n", Einrueckung, Symbol(v), e);
@@ -1645,14 +1638,12 @@ void AusgabeBelegung(FILE* const fp) {
     Tiefe = (Pfadinfo*) Z;
   }
 
-  if (Format == Dimacs_Format)
-    fprintf(fp, " 0\n");
+  if (Format == Dimacs_Format) fprintf(fp, " 0\n");
   else {
     assert(Einrueckung);
     fprintf(fp, "%s</solution>\n", Einrueckung);
     extern bool Dateiausgabe;
-    if (! Dateiausgabe)
-      fprintf(fp, "</SAT-Solver.output>\n");
+    if (! Dateiausgabe) fprintf(fp, "</SAT-Solver.output>\n");
   }
 }
 

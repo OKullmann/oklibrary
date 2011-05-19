@@ -52,6 +52,28 @@ c's = 1, n = 16, c = 7840, tc = 0, ntc = 7840, tl = 60352, l = 60352, finished =
   </ul>
 
 
+  \todo r_1-bases : mincl_r1 <= 272
+  <ul>
+   <li> Computing an r_1-base:
+   \verbatim
+shell> QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_9.cnf > AES_byte_field_mul_pi_9.cnf
+shell> RandomShuffleDimacs-O3-DNDEBUG 1 < AES_byte_field_mul_pi_9.cnf | SortByClauseLength-O3-DNDEBUG > AES_byte_field_mul_9_sortedpi.cnf
+shell> RUcpGen-O3-DNDEBUG AES_byte_field_mul_9_sortedpi.cnf > AES_byte_field_mul_9_gen.cnf 
+shell> RandomShuffleDimacs-O3-DNDEBUG 1 < AES_byte_field_mul_9_gen.cnf | SortByClauseLengthDescending-O3-DNDEBUG | RUcpBase-O3-DNDEBUG > AES_byte_field_mul_9_base.cnf
+shell> cat AES_byte_field_mul_9_base.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 272 1504 0 1504 0 1
+ length count
+3 16
+4 48
+5 48
+6 96
+7 64
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Using weighted MaxSAT to compute small CNFs : mincl_rinf <= 42
   <ul>
    <li> Computing the weighted MaxSAT problem:

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 9.8.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008,  2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,7 +30,7 @@ kill(f)$
    ********************************
 */
 
-okltest_is_isomorphic_incl0_com(f) := block([fun1,fun2],
+okltest_decisions_is_isomorphic_incl0_com(f) := block([fun1,fun2],
   assert(f([{},{},fun1],[{},{},fun2]) = true),
   assert(f([{},{1},fun1],[{},{2},fun2]) = true),
   assert(f([{3},{},fun1],[{4},{},fun2]) = true),
@@ -44,22 +44,47 @@ okltest_is_isomorphic_incl0_com(f) := block([fun1,fun2],
   assert(f(zerocom({1},{2}),constantcom({1},{2},1)) = false),
   true)$
 
-okltest_is_isomorphic_incl1_com(f) := (
-  assert(okltest_is_isomorphic_incl0_com(f)),
+okltest_decisions_is_isomorphic_incl1_com(f) := (
+  assert(okltest_decisions_is_isomorphic_incl0_com(f)),
   assert(f(zerocom({1,2},{2}),constantcom({1,2},{2},1)) = false),
   assert(f(m2com(matrix([1,1],[0,0])),m2com(matrix([1,0],[0,1]))) = false),
   true)$
 
-okltest_is_isomorphic_incl2_com(f) := (
-  assert(okltest_is_isomorphic_incl1_com(f)),
+okltest_decisions_is_isomorphic_incl2a_com(f) := (
+  assert(okltest_decisions_is_isomorphic_incl1_com(f)),
+  assert(f(m2com(matrix([1,1],[1,1])),m2com(matrix([2,0],[0,2]))) = false),
+  assert(f(m2com(matrix([0,1,1],[1,0,1],[1,1,0])),m2com(matrix([2,0,0],[0,2,0],[0,0,2]))) = false),
+  assert(f(m2com(matrix([1,1,0],[0,1,1],[0,0,1])),m2com(matrix([2,0,1],[0,1,1],[0,0,1]))) = false),
+  assert(f(m2com(matrix([1,1,0,0],[1,1,0,0],[0,0,1,0],[0,0,0,1])),m2com(matrix([1,0,1,0],[0,1,0,1],[1,0,0,0],[0,0,0,1]))) = false),
+  true)$
 
+okltest_unknown_is_isomorphic_incl2a_com(f) := (
+  assert(f(m2com(matrix([2,0],[0,0])),m2com(matrix([1,1],[1,1]))) = unknown), /* 2b succeeds */
+  assert(f(m2com(matrix([0,1,1],[1,0,1],[1,1,0])),m2com(matrix([1,1,0],[1,0,1],[0,1,1]))) = unknown), /* iso */
+  true)$
+
+okltest_decisions_is_isomorphic_incl2b_com(f) := (
+  assert(okltest_decisions_is_isomorphic_incl1_com(f)),
+  assert(f(m2com(matrix([1,1],[1,1])),m2com(matrix([2,0],[0,2]))) = false),
+  assert(f(m2com(matrix([2,0],[0,0])),m2com(matrix([1,1],[1,1]))) = false),
+  assert(f(m2com(matrix([0,1,1],[1,0,1],[1,1,0])),m2com(matrix([2,0,0],[0,2,0],[0,0,2]))) = false),
+  assert(f(m2com(matrix([1,1,0],[0,1,1],[0,0,1])),m2com(matrix([2,0,1],[0,1,1],[0,0,1]))) = false),
+  true)$
+
+okltest_unknown_is_isomorphic_incl2b_com(f) := (
+  assert(f(m2com(matrix([1,1,0,0],[1,1,0,0],[0,0,1,0],[0,0,0,1])),m2com(matrix([1,0,1,0],[0,1,0,1],[1,0,0,0],[0,0,0,1]))) = unknown), /* 2a succeeds */
+  assert(f(m2com(matrix([0,1,1],[1,0,1],[1,1,0])),m2com(matrix([1,1,0],[1,0,1],[0,1,1]))) = unknown), /* iso */
+  true)$
+
+okltest_decisions_is_isomorphic_inclall_com(f) := (
+  assert(okltest_decisions_is_isomorphic_incl2a_com(f)),
+  assert(okltest_decisions_is_isomorphic_incl2b_com(f)),
   true)$
 
 
-
-/* ***********************
-   * Isomorphic matrices *
-   ***********************
+/* ******************************
+   * Complete isomorphism tests *
+   ******************************
 */
 
 /* Generic testfunction for binary predicates f(A,B), which return true
@@ -82,6 +107,7 @@ okltest_is_isomorphic_com_p(f) := block([fun1,fun2,M],
   if oklib_test_level = 0 then return(true),
   M : m2com(matrix([0,1,0,1,0,0],[0,0,1,1,1,0],[1,0,0,1,1,1],[0,1,1,0,1,0],[1,1,0,0,1,1],[0,1,1,1,1,1])),
   assert(f(M,trans_com(M)) = false),
+  assert(f(m2com(matrix([1,1,2])),m2com(matrix([1,2,2]))) = false),
   true)$
 
 

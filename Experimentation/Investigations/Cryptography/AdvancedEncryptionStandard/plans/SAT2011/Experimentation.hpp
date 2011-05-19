@@ -20,15 +20,15 @@ License, or any later version. */
 
   \todo Links
   <ul>
-   <li> See 
+   <li> See
    Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/general.hpp
    for experiments regarding breaking AES (i.e. finding the key given the
    plaintext and ciphertext). </li>
-   <li> See 
+   <li> See
    AdvancedEncryptionStandard/plans/SAT2011/EncryptionDecryption.hpp
    for experiments regarding computing encryption and decryption using the
    AES SAT translation. </li>
-   <li> See 
+   <li> See
    AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
    for experiments regarding representations of the AES and small scale boxes.
    </li>
@@ -44,16 +44,15 @@ License, or any later version. */
    <li> The translation system (irrespective of the AES) has three conceptual
    levels:
     <ul>
-     <li> <em>Variant</em> - which AES function we consider (small-scale
+     <li> <em>Variant</em>: which AES function we consider (small-scale
      parameters etc). This level defines the whole boolean function we
      consider. </li>
-     <li> <em>Decomposition</em> - how to decompose the large boolean
+     <li> <em>Decomposition</em>: how to decompose the large boolean
      function into smaller functions. </li>
-     <li> <em>Representation</em> - how to represent the small boolean
+     <li> <em>Representation</em>: how to represent the small boolean
      functions. </li>
     </ul>
    </li>
-   <li> The names of these levels, and the idea needs discussion. </li>
    <li> Discussion of each of the possible dimensions of the translations
    should become a separate todo. </li>
    <li> A separate todo is needed on the decomposition of the AES. </li>
@@ -61,10 +60,10 @@ License, or any later version. */
    schedule. </li>
    <li> Variants (AES parameters):
     <ul>
-     <li> Number of rounds (10+ options): 1 - 10. ??? what is "10+" ??? </li>
-     <li> Size of field (8+ options) : 1-8. </li>
-     <li> Number of columns in AES block (4+ options): 1-4. </li>
-     <li> Number of rows in AES block (4+ options): 1-4. </li>
+     <li> Number of rounds (10 options): 1,...,10. </li>
+     <li> Size of field (8 options) : 1,...,8. </li>
+     <li> Number of columns in AES block (4 options): 1,...,4. </li>
+     <li> Number of rows in AES block (4 options): 1,...,4. </li>
      <li> Inclusion of special final round or not (2 options):
       <ol>
        <li> Final round is the same as every other (in line with small-scale).
@@ -114,7 +113,7 @@ License, or any later version. */
        <li> Movement of the Sbox linear map into MixColumns (2 options):
         <ol>
          <li> Sbox linear map is left in the Sbox. </li>
-         <li> Sbox linear map is moved through the ShiftRows operation. 
+         <li> Sbox linear map is moved through the ShiftRows operation.
          It is then combined with the MixColumn multiplication components.
          </li>
         </ol>
@@ -142,13 +141,13 @@ License, or any later version. */
         <ol>
          <li> Multiplication function decomposition (default):
           <ul>
-           <li> Representing the MixColumns using individual multiplication 
+           <li> Representing the MixColumns using individual multiplication
            functions as well as addition constraints. </li>
           </ul>
          </li>
          <li> Bit-matrix representation:
           <ul>
-           <li> Representing the MixColumns as a bit-matrix multiplication. 
+           <li> Representing the MixColumns as a bit-matrix multiplication.
            </li>
            <li> Representing the multiplication of each row in the bit
            matrix using addition constraints. </li>
@@ -177,14 +176,19 @@ License, or any later version. */
          column from the previous round key. </li>
         </ul>
        </li>
-       <li> "By definition" computation (not implemented): ??? what does this
-       mean ???
+       <li> Larger arity addition computation (not implemented):
         <ul>
          <li> Translates the Sbox operations as individual functions. </li>
          <li> Column i of the new round key is computed by
          SBox(K_p) + C + sum(K_1,...,K_i). K_i is the i-th column of the
          previous round key. K_p is a column of certain key words from the
          previous round key. </li>
+         <li> The point here is that later columns of the *new* round key are
+         defined using earlier columns of the *new* round key. </li>
+         <li> In this translation, instead of using earlier columns of the new
+         round key, we expand the computation out. Each new round key is
+         specified using only columns from the previous round key (no reusing
+         results). </li>
         </ul>
        </li>
       </ul>
@@ -195,21 +199,25 @@ License, or any later version. */
     <ul>
      <li> Box representation (4 options):
       <ol>
-       <li> Canonical translation. ??? here we have more options ??? </li>
-       <li> r_0-based representation. </li>
-       <li> Minimum representation. </li>
-       <li> r_1-based representation. </li>    
+       <li> Canonical translation. </li>
+       <li> Canonical+ translation. </li>
+       <li> 0-based representation. </li>
+       <li> 1-based representation. </li>
+       <li> Minimum representation (i.e., |var(F)|-based representation).
+       </li>
       </ol>
      </li>
     </ul>
    </li>
+   <li> Note that addition constraints are always represented using their
+   prime implicates. </li>
    <li> In each case, the first option is considered the default. </li>
    <li> We need instructions on how to generate each translation. These
    should occur here (in this plans file). </li>
    <li> See "Separate key-schedule and block-cipher" in
    AdvancedEncryptionStandard/plans/SAT2011/general.hpp; this aspects needs
    better explanations. </li>
-   <li> For more information, see 
+   <li> For more information, see
    Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp. </li>
   </ul>
 
@@ -231,7 +239,7 @@ License, or any later version. */
      <li> Small scale field multiplications (no plans file yet). </li>
      <li> Small scale field inversion (no plans file yet). </li>
      <li> Small scale linear map (no plans file yet). </li>
-     <li> Small scale linear map with field multiplications (no plans file 
+     <li> Small scale linear map with field multiplications (no plans file
      yet). </li>
      <li> AES field multiplications (255): ??? what is the meaning of "255" ???
       <ul>
@@ -239,15 +247,15 @@ License, or any later version. */
        <li> The other 247. </li>
       </ul>
      </li>
-     <li> AES Sbox linear map with field multiplications (no plans file yet). 
+     <li> AES Sbox linear map with field multiplications (no plans file yet).
      </li>
-     <li> AES Sbox (see 
+     <li> AES Sbox (see
      AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp)
      : DONE. </li>
-     <li> AES field inversion (see 
+     <li> AES field inversion (see
      AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp)
      : DONE. </li>
-     <li> AES Sbox linear map (see 
+     <li> AES Sbox linear map (see
      AdvancedEncryptionStandard/plans/SAT2011/Representations/LinearMap_8.hpp)
      : DONE. </li>
     </ul>
@@ -255,22 +263,22 @@ License, or any later version. */
    <li> We need to find minimum CNF representations for the following
    functions:
     <ul>
-     <li> AES Sbox; no minimum yet, smallest 294 (see 
+     <li> AES Sbox; no minimum yet, smallest 294 (see
      AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp).
      </li>
-     <li> AES field inversion (see 
+     <li> AES field inversion (see
      AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp).
      </li>
-     <li> AES Sbox linear map (see 
+     <li> AES Sbox linear map (see
      AdvancedEncryptionStandard/plans/SAT2011/Representations/LinearMap_8.hpp).
      </li>
-     <li> AES Sbox linear map with field multiplications (no plans file yet). 
+     <li> AES Sbox linear map with field multiplications (no plans file yet).
      </li>
      <li> Small scale Sbox (no plans file yet). </li>
      <li> Small scale field multiplications (no plans file yet). </li>
      <li> Small scale field inversion (no plans file yet). </li>
      <li> Small scale linear map (no plans file yet). </li>
-     <li> Small scale linear map with field multiplications (no plans file 
+     <li> Small scale linear map with field multiplications (no plans file
      yet). </li>
      <li> AES field multiplications (255):
       <ul>
@@ -289,15 +297,15 @@ License, or any later version. */
    <li> Investigations into the prime implicates, subsumption hypergraphs
    and minimum representations of:
     <ul>
-     <li> Random permutations (see 
-     "First considerations of random permutation" in 
-     Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp). 
+     <li> Random permutations (see
+     "First considerations of random permutation" in
+     Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp).
      </li>
-     <li> Random linear maps (see 
+     <li> Random linear maps (see
      "Affine bijections over ZZ_2" in
      Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp).
      </li>
-     <li> Random boolean functions (see 
+     <li> Random boolean functions (see
      Experimentation/Investigations/BooleanFunctions/plans/general.hpp). </li>
     </ul>
    </li>
@@ -388,7 +396,7 @@ License, or any later version. */
     </ul>
    </li>
    <li> The following solvers (from the SAT 2010 race) are not in the library,
-   but should be added to the library (see 
+   but should be added to the library (see
    BuildSystem/ExternalSources/plans/SAT.hpp): ??? this should go to the
    build-system plans ???
    <ul>
@@ -408,12 +416,12 @@ License, or any later version. */
     <li> SApperloT </li>
     <li> SAT-Power </li>
     <li> SATHYS </li>
-   </ul>   
+   </ul>
    </li>
    <li> Is it possible in the time constraints to run ALL of these solvers
    for every experiment? </li>
    <li> Any solvers to be used which are not currently in the library, need
-   to be added to ExternalSources (see also "Add todos for SAT-Race 2010 SAT 
+   to be added to ExternalSources (see also "Add todos for SAT-Race 2010 SAT
    solvers" in BuildSystem/ExternalSources/SpecialBuilds/plans/SAT.hpp).
    </li>
   </ul>

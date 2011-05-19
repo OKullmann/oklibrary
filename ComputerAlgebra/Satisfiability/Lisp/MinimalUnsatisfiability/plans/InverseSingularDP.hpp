@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.6.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -129,7 +129,7 @@ License, or any later version. */
      extensions to other problems (of course, SAT, etc.). </li>
      <li> Especially UHIT-extensions should be interesting.
       <ul>
-       <li> There is always one, introducing a unit clause, but the rest
+       <li> There is always one, introducing a unit-clause, but the rest
        might not exist. </li>
        <li> One should first compute the conflict matrix. </li>
        <li> Then the common neighbours yield first approximations of what

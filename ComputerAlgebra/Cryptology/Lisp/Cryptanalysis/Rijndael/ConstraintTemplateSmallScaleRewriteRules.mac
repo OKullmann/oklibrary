@@ -936,7 +936,7 @@ ss_key_expansion_cstrb :
  [ss_key_expansion_cstr_cstl,ss_key_expansion_namespace,
   ss_key_expansion_ns_var_l]$
 
-/* Generates a set of unit clauses (initially simpler than simplifying constants
+/* Generates a set of unit-clauses (initially simpler than simplifying constants
    or making partial assignments) to set the given vars (representing the bits
    of SS round constants) to the round constant for round n */
 ss_round_constant_l(n, b, e, mod_poly) := block([rc_el,rc_l],

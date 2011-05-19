@@ -1,0 +1,84 @@
+#!/bin/bash
+# Oliver Kullmann, 23.4.2011 (Guangzhou)
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# Split a SAT-problem into sub-problems, using the OKsolver
+
+# Usage:
+#   SplittingViaOKsolver parameters File
+# where File is the CNF in DIMACS format, and parameters are for
+# the OKsolver-2002.
+
+# Creates a directory "SplitViaOKsolver_parameters_timestamp", containing
+# the following files:
+# - Parameters : the parameters passed over to the OKsolver
+# - Version : information on the OKsolver
+# - File : a copy of the instance
+# - F : containing the value of File (note that File is a string-variable)
+# - Result : output of the OKsolver, after creating the instances
+# - N : the number of sub-instances
+# - Data : for indices 1 <= i <= N the number n of variables in the partial
+#          assignment for the i-th sub-instance, sorted by descending n
+# - Statistics : basic evaluation of Data
+# - Md5sum : a combined md5sum-hash-value of all files in Instances
+# And in the directory Instances we have files with names 1, ..., N,
+# each containing a partial assignment in DIMACS format (one line, starting
+# with v, followed by literals set to true, concluded by "0") yielding the
+# corresponding sub-instance.
+
+set -o errexit
+set -o nounset
+
+script_name="SplittingViaOKsolver"
+version_number=0.1.4
+
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+
+directory=SplitViaOKsolver_$(echo $* | tr -d " -./")_${timestamp}
+
+solver=OKsolver_2002_NTP-O3-DNDEBUG
+data_preprocessing=PreprocessSplitting-O3-DNDEBUG
+
+mkdir ${directory}
+cd ${directory}
+mkdir Instances
+
+${solver} --version > Version
+
+parameters="$*"
+filename="${!#}"
+length=$(($#-1))
+other_param=${@:1:$length}
+new_param="${other_param} -S=${directory}/Instances ${filename}"
+echo ${new_param} > Parameters
+
+cp ../${filename} .
+echo $(basename ${filename}) > F
+
+cd ..
+${solver} ${new_param} > ${directory}/Result
+
+cd ${directory}
+
+N=$(awk '/splitting_cases/ {print $3}' Result)
+echo $N > N
+
+cd Instances
+
+current_md5sum=0
+for F in *; do
+  current_md5sum=$(echo ${current_md5sum} | cat ${F} - | md5sum | awk '{print $1}')
+done
+echo ${current_md5sum} > ../Md5sum
+
+echo " i n" > ../Data
+${data_preprocessing} $N >> ../Data
+
+cd ..
+
+echo -e "E=read.table(\"Data\")\nsummary(E\$n)\ntable(E\$n)" | oklib --R --quiet --vanilla | tail -n +3 > Statistics
+

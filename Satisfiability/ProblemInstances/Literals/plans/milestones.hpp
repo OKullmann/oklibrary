@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.11.2006 (Swansea)
-/* Copyright 2006 - 2007, 2009 Oliver Kullmann
+/* Copyright 2006 - 2007, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,12 +13,18 @@ License, or any later version. */
 
   \par Version 0.0.5 :
    In ProblemInstances/Literals/plans/general.hpp the following topics are handled:
+    - Update namespace-usage
     - Move the related concepts and plans from OKlib/Concepts here : DONE
       (now in ProblemInstances/Literals/concepts/general.hpp)
-    - Prototypes
 
   \par
    Further milestones are created.
+
+
+  \par Version 0.0.6 :
+   In ProblemInstances/Literals/plans/general.hpp the following topics are handled:
+    - Prototypes
+    - Write tests
 
 
 

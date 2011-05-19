@@ -14,7 +14,7 @@ License, or any later version. */
   <ul>
    <li> Question here is: Given the current translation, how well can a SAT
    solver perform a simple AES computation (encryption/decryption)? </li>
-   <li> It should be that through unit clause propagation etc, the SAT solver
+   <li> It should be that through unit-clause propagation etc, the SAT solver
    should be very quick, as there should be no decisions, just simple
    computation. </li>
    <li> See "Encryption" and "Decryption". </li>
@@ -41,7 +41,7 @@ output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tra
 output_ss_random_pk_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
    \endverbatim
    and then we can merge the random plaintext, key assignment (as
-   a clause-set containing the relevant unit clauses) with:
+   a clause-set containing the relevant unit-clauses) with:
    \verbatim
 shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pkpair_r1_c4_rw4_e8_f1_s1.cnf > ssaes_r1_c4_rw4_e8_f1_encrypt.cnf
    \endverbatim
@@ -65,7 +65,7 @@ CPU time              : 0.49 s
 
 SATISFIABLE
    \endverbatim
-   Notice, satisfiability is found purely through unit clause propagation.
+   Notice, satisfiability is found purely through unit-clause propagation.
    </li>
   </ul>
 
@@ -79,7 +79,7 @@ SATISFIABLE
 output_ss_random_kc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
    \endverbatim
    and then we can merge the random plaintext, key assignment (as
-   a clause-set containing the relevant unit clauses) with:
+   a clause-set containing the relevant unit-clauses) with:
    \verbatim
 shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f1.cnf ssaes_kcpair_r1_c4_rw4_e8_f1_s1.cnf > ssaes_r1_c4_rw4_e8_f1_decrypt.cnf
    \endverbatim
@@ -103,7 +103,7 @@ CPU time              : 0.49 s
 
 SATISFIABLE
    \endverbatim
-   Notice, satisfiability is found purely through unit clause propagation.
+   Notice, satisfiability is found purely through unit-clause propagation.
    </li>
   </ul>
 

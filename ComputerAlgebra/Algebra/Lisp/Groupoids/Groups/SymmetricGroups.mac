@@ -21,6 +21,8 @@ oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGroups.
 
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/TransformationMonoids.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* **************************
@@ -42,6 +44,11 @@ sym_l_ugrp(n) :=
    **********************
 */
 
+/* A "cycle presentation" of some permutation over {1,...,n} is a
+   set of repetition-free lists, each list starting with its smallest
+   element, so that these lists as sets are a partitioning of {1,...,n}.
+*/
+
 /* For a permutation over {1,...,n} as function/list compute the 
    cycle presentation (a set of lists, each list representing a
    cyle, standardised to start with the smallest element):
@@ -60,10 +67,23 @@ cyclepres_pmtf(p,n) := block([res:{}, rem:setn(n)],
  res)$
 cyclepres_perl(p) := cyclepres_pmtf(trfl2trff(p), length(p))$
 
+/* Inversely, for a cycle presentation c over {1,...,n} compute the
+   corresponding permutation as a hash-map resp. as a list:
+*/
+cyclepres2hm(c) := block([h : sm2hm({})],
+  for C in c do h : compose_hm_sm(h, map("[",C,rotate(C,-1))), h)$
+cyclepres2perl(c) := block([h : cyclepres2hm(c)],
+  create_list(ev_hm(h,i),i,1,sum_l(map(length,listify(c)))))$
+
+/* Remark: cyclepres_perl(cyclepres2perl(c)) = c and
+           cyclepres2perl(cyclepres_perl(p)) = p.
+*/
+
 /* The cycle-type of a permutation as function/list: */
 cycletype_pmtf(p,n) := 
   list_distribution(map(length,listify(cyclepres_pmtf(p,n))))$
 cycletype_perl(p) := cycletype_pmtf(trfl2trff(p), length(p))$
+
 /* Note that two permutations over {1,...,n} are conjugated iff their
    cycle-types are equal.
 */

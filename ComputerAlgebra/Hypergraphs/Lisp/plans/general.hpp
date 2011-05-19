@@ -1,5 +1,5 @@
 // Oliver Kullmann, 30.11.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -64,9 +64,24 @@ statistics_hg(G) := statistics_fcs(G)$
   \todo Intersecting hypergraphs
   <ul>
    <li> See "Allowed parameter values" in
-   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp
+   Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp
    for a motivation to study intersecting hypergraphs (no empty hyperedges,
    and every two hyperedges intersect). </li>
+  </ul>
+
+
+  \todo Helly property
+  <ul>
+   <li> In [Chepoi, Creignou, Hermann, Salzer, The {H}elly property and
+   satisfiability of {B}oolean formulas defined on set families, European
+   Journal of Combinatorics, 2010, 31(2):502-516] the Helly property of
+   hypergraphs (every intersecting sub-hypergraph is a star) is applied to
+   signed CNF (the vertices are the possible values, the hyperedges the
+   allowed positive signs). </li>
+   <li> They also discuss two algorithms for deciding the Helly property in
+   polynomial time. </li>
+   <li> We should implement these algorithms. (And, of course, also the other
+   algorithms from the paper.) </li>
   </ul>
 
 

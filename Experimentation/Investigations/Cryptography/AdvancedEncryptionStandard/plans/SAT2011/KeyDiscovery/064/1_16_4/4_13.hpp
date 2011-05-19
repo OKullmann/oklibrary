@@ -9,6 +9,7 @@ License, or any later version. */
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/064/1_16_4/4_13.hpp
   \brief Investigations into small scale AES key discovery for 4 + 1/3 round AES with a 1x16 plaintext matrix and 4-bit field elements
 
+
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
@@ -105,7 +106,7 @@ maxima> ncl_list_full_dualts(8,16);
    \endverbatim
    are comprised of:
    <ul>
-    <li> 16 unit clauses for the 4-bit constants in the key expansion
+    <li> 16 unit-clauses for the 4-bit constants in the key expansion
     (4 bits  * 4 rounds = 16). </li>
     <li> 9728 binary clauses, coming from 68 Sboxes and 512 additions of
     arity one (68 * 128 + 512 * 2 = 9728). </li>
@@ -230,7 +231,7 @@ maxima> ncl_list_fcs(ev_hm(ss_sbox_rbase_cnfs,4));
    \endverbatim
    are comprised of:
    <ul>
-    <li> 16 unit clauses for the 4-bit constants in the key expansion
+    <li> 16 unit-clauses for the 4-bit constants in the key expansion
     (4 bits  * 4 rounds = 16). </li>
     <li> 1024 binary clauses, coming from 512 additions of arity one 
     (512 * 2 = 1024). </li>

@@ -118,7 +118,7 @@ output_strong_ls(p,filename) := block([FF : standardise_fcs(strong_ls(p))],
    squares. For the values k in {1,...,p} the set C(k) for
    coordinates (i,j) with A[i,j] = k are computed, and then
    the orthogonality conditions are just that all C(k) must
-   be multicoloured (no two different colours).
+   be "multicoloured" (all values for the fields of C(k) must be different).
 */
 /* Given A, compute the negative orthogonality conditions as boolean
    clause-set:

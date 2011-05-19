@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.8.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -34,24 +34,28 @@ License, or any later version. */
   <ul>
    <li> Additionally to the distribution of row- and column-sums we should
    involve other invariants for isomorphic matrices. </li>
-   <li> We have the rank. </li>
+   <li> DONE (covered by characteristic polynomial)
+   We have the rank. </li>
    <li> If matrices A, B are isomorphic, then the square matrices A^t A, B^t B
    are isomorphic, and, since A^t, B^t are isomorphic, also A A^t, B B^t are
-   isomorphic (again, as square matrices).
+   isomorphic (again, as square matrices(!)).
     <ol>
      <li> So we can use invariants for square matrix isomorphism (see below).
      </li>
      <li> This covers the rank-criterion, since we have rank(A^t A) =
      rank(A A^t) = rank(A). </li>
-     <li> The conditions for equal row- and column-sum-distributions are also
+     <li> DONE (covered by is_isomorphic_inclall_scom)
+     The conditions for equal row- and column-sum-distributions are also
      covered by considering the associated square matrices, since their
      diagonals contain the column- and row-sums. </li>
-     <li> The matrices A^t A and A A^t (as well as B^t B and B B^t) have
+     <li> DONE
+     The matrices A^t A and A A^t (as well as B^t B and B B^t) have
      identical characteristic polynomials, so they don't need to be computed
      twice. </li>
     </ol>
    </li>
-   <li> But the value-distributions for A, B are not covered. </li>
+   <li> DONE (we have now is_isomorphic_incl2b_com)
+   But the value-distributions for A, B are not covered. </li>
    <li> A polytime computable invariant in case of externally square matrices
    is whether the matrices are fully indecomposable. </li>
   </ul>

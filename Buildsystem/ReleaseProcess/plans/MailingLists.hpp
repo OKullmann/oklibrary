@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.5.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,17 +10,20 @@ License, or any later version. */
   \brief Plans for the mailing lists
 
 
-  \todo Mailing lists:
+  \todo DONE
+  Mailing lists
   <ul>
-   <li> DONE (we use Sourceforge instead)
+   <li> DONE (we use http://www.freelists.org instead)
    Set up the mailman system on cs-wsok.
     <ol>
-     <li> See Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp. </li>
+     <li> See Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp.
+     </li>
     </ol>
    </li>
    <li> The following entries need update (they still refer to the local
    installation of Mailman). </li>
-   <li> For the following public e-mail-addresses we need corresponding
+   <li> DONE (we use a public service, so no local e-mail etc. needed)
+   For the following public e-mail-addresses we need corresponding
    local e-mail-addresses.
     <ol>
      <li> The question is, whether one is sufficient (would be easier)? </li>
@@ -29,7 +32,8 @@ License, or any later version. */
      mailing lists. </li>
     </ol>
    </li>
-   <li> Lists:
+   <li> DONE (for now we just have a users-list)
+   Lists:
     <ol>
      <li> Developers (developers@ok-sat-library.org)
       <ul>
@@ -52,30 +56,35 @@ License, or any later version. */
      </li>
      <li> General notifications (announcements@ok-sat-library.org)
       <ul>
-       <li> Only special notifications, when new versions are reached etc. </li>
+       <li> Only special notifications, when new versions are reached etc.
+       </li>
       </ul>
      </li>
      <li> Git-notifications developers
       <ul>
-       <li> Exactly all the Git-e-mail notifications for the central repository </li>
+       <li> Exactly all the Git-e-mail notifications for the central
+       repository </li>
       </ul>
      </li>
      <li> Git-notifications users
       <ul>
-       <li> Exactly all the Git-e-mail notifications for the user-pull-clone. </li>
+       <li> Exactly all the Git-e-mail notifications for the user-pull-clone.
+       </li>
        <li> This allerts users about new updates. </li>
       </ul>
      </li>
      <li> Git-notifications user-submissions
       <ul>
-       <li> Exactly all the Git-e-mail notifications for the user-push-clones. </li>
+       <li> Exactly all the Git-e-mail notifications for the user-push-clones.
+       </li>
        <li> This serves also as a certificate of submission. </li>
       </ul>
      </li>
     </ol>
     Every e-mail is sent to exactly one list.
    </li>
-   <li> Adminstration
+   <li> DONE (now using a public service)
+   Adminstration
     <ol>
      <li> The automatic "Mailman" mailing list is not listed, and subscription
      needs authorisation. </li>
@@ -88,18 +97,22 @@ License, or any later version. */
      this password. </li>
     </ol>
    </li>
-   <li> General appearance
+   <li> DONE (not using mailman etc.)
+   General appearance
     <ol>
      <li> How can we modify the entry page
      http://cs-oksvr.swan.ac.uk/mailman/listinfo/ ? We should mention there
      the OKlibrary. </li>
     </ol>
    </li>
-   <li> Which part of the mailing-list-system is under version control?
+   <li> DONE (we must hope that the public service stays alive, and everything
+   will also be stored by OK)
+   Which part of the mailing-list-system is under version control?
     <ol>
-     <li> The mailing-lists-archives are not under version control, but they are backed-up (by the
-     departmental back-up on cs-svr1). </li>
-     <li> The web-pages and related configuration data is part of the OKlibrary. </li>
+     <li> The mailing-lists-archives are not under version control, but they
+     are backed-up (by the departmental back-up on cs-svr1). </li>
+     <li> The web-pages and related configuration data is part of the
+     OKlibrary. </li>
      <li> Also the list of developers is part of the OKlibrary. </li>
      <li> What about the list of users? </li>
     </ol>
@@ -107,23 +120,27 @@ License, or any later version. */
   </ul>
 
 
-  \todo Instructions:
+  \todo Instructions
   <ul>
+   <li> The mail-address is oklibrary-users@freelists.org (at
+   http://www.freelists.org/list/oklibrary-users, with OK as list-owner). </li>
    <li> A dedicated web-page is needed on howto use the mailing-lists. </li>
    <li> The meaning of the different mailing lists, and how to use them
    (registration etc.) </li>
    <li> How to access the history. </li>
    <li> About the identity of developers. </li>
-   <li> Subject-lines in e-mails: "precise and short specifications", no nonsense
-   like "newbie needs help". </li>
+   <li> Subject-lines in e-mails: "precise and short specifications", no
+   nonsense like "newbie needs help". </li>
    <li> "How to reply". </li>
   </ul>
 
 
   \todo User mailing list
   <ul>
-  <li> Invite the participants (roughly in the following order --- slowly going on):
-  <ol>
+   <li> The following (old) invitation-plans need update, and are only to be
+   considered once we actually have the resources for user-requests. </li>
+   <li> Invite the participants (roughly in the following order --- slowly
+   going on). </li>
    <li> Ines Lynce and Joao Marques-Silva: General (?) </li>
    <li> Further collaborators of Ines Lynce and Joao Marques-Silva </li>
    <li> John Franco and Sean Weaver: General (?) </li>
@@ -165,26 +182,24 @@ License, or any later version. */
    <li> Alasdair Urquhart and group (theoretical aspects) </li>
    <li> Tonian Pitassi and group </li>
    <li> Moshe Vardi </li>
-  </ol>
-  </li>
-  <li> Contact e-mail:
-   <ol>
-    <li> Yet we do not have much resources, but with their help we want to ask for
-    further funding. </li>
-    <li> Yet please do not publish the web-address at other places (public release
-    in 6 months). </li>
+   <li> Contact e-mail:
+    <ol>
+    <li> Yet we do not have much resources, but with their help we want to ask
+    for further funding. </li>
+    <li> Yet please do not publish the web-address at other places (public
+    release in 6 months). </li>
     <li> Main request: State your wishes. </li>
     <li> Please stay for some time on the user-list (you can ask for daily
     summaries); if too much "noise", then there is the notification list. </li>
-    <li> If you wish to submit, then you need to become member of the developpers
-    list. </li>
-    <li> It is a "proto release" --- larger changes possible (for example on request
-    of these first users(!)). </li>
-   </ol>
-   We need an official text, and OK contacts each of the above personally,
-   adding this text.
-  </li>
-  <li> Only by invitation (yet). </li>
+    <li> If you wish to submit, then you need to become member of the
+    developpers list. </li>
+    <li> It is a "proto release" --- larger changes possible (for example on
+    request of these first users(!)). </li>
+    </ol>
+    We need an official text, and OK contacts each of the above personally,
+    adding this text.
+   </li>
+   <li> Only by invitation (yet). </li>
   </ul>
 
 */

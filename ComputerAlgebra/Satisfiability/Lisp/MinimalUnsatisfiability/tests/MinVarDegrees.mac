@@ -24,9 +24,31 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 kill(f)$
 
 
+/* **************************
+   * Number of full clauses *
+   **************************
+*/
+
+okltest_Sma_S2_list(f) := (
+  assert(f(0) = []),
+  assert(f(21) = [1,2,4,4,6,8,8,8,10,12,12,14,16,16,16,16,18,20,20,22,24]),
+  true)$
+
+
 /* ***************************
    * Maximal min-var-degrees *
    ***************************
+*/
+
+okltest_order_deficiency(f) := (
+  assert(map(f,create_list(i,i,1,13)) = [0,2,3,3,3,4,4,4,4,4,4,4,5]),
+  for n : 2 thru 10 do
+    assert(f(2^n-n) = n),
+  true)$
+
+/* **************************************
+   * (Generalised) non-Mersenne numbers *
+   **************************************
 */
 
 okltest_nonmersenne_rec(f) := (

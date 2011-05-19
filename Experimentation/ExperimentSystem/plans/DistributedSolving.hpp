@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.4.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,7 +21,7 @@ License, or any later version. */
    {1,...,L} to available machines (using appropriate solvers S_i). </li>
    <li> The problem instance F_i is just the instance at the corresponding
    node of T, which is created by adding the assignments on the path to leaf i
-   to F (as unit clauses; so the reduction of S_i must be strong enough
+   to F (as unit-clauses; so the reduction of S_i must be strong enough
    to recover all forced assignments (possibly helped by the amendments)).
    </li>
    <li> The main task is to find a suitable T; but even if we split the

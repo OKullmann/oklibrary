@@ -8,10 +8,29 @@ License, or any later version. */
 /*!
   \file Solvers/OKsolver/SAT2002/plans/milestones.hpp
   
-  \module_version OKsolver/SAT2002 0.9.6 (15.8.2009)
+  \module_version OKsolver/SAT2002 0.9.8.1 (19.5.2011)
 
 
-  \par Version 0.9.7
+  \par Version 0.9.9
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following
+   topics are handled:
+    - Taking the length of the partial assignments into account : DONE
+    - Script for applying partial assignments
+
+
+  \par Version 0.9.10
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
+    - The order of the md5sum-computation (SplittingViaOKsolver)
+    - Improving SplittingViaOKsolver
+    - Computing a splitting tree
+
+
+  \par Version 0.9.11
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -20,7 +39,15 @@ License, or any later version. */
     - Improve the Dimacs-output
 
 
-  \par Version 0.9.8
+  \par Version 0.9.12
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
+    - Introduce error-codes
+
+
+  \par Version 0.9.13
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -28,8 +55,7 @@ License, or any later version. */
     - Output to files
 
 
-  
-\par Version 0.9.9
+  \par Version 0.9.14
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -37,7 +63,7 @@ License, or any later version. */
     - Differences
 
 
-  \par Version 0.9.10
+  \par Version 0.9.15
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -45,7 +71,7 @@ License, or any later version. */
     - OUTPUTTREEDATAXML
 
 
-  \par Version 0.9.11
+  \par Version 0.9.16
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -54,7 +80,7 @@ License, or any later version. */
     - Language standards
 
 
-  \par Version 0.9.12
+  \par Version 0.9.17
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -62,7 +88,7 @@ License, or any later version. */
     - Buildsystem
 
 
-  \par Version 0.9.13
+  \par Version 0.9.18
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -70,7 +96,7 @@ License, or any later version. */
     - Complete the help facilities of the OKsolver
 
 
-  \par Version 0.9.14
+  \par Version 0.9.19
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -182,6 +208,14 @@ License, or any later version. */
     - Elimination of compile-time options
 
 
+  \par Version 1.2.6
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following
+   topics are handled:
+    - Distributing the tasks to machines
+
+
   \par Version 1.3
 
   \par
@@ -204,15 +238,12 @@ License, or any later version. */
     - Inefficiency on 64-bit platforms
 
 
-  \par Version 1.3.3
+  \par Version 1.4
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
-   are handled:
-    - Simple parallelisation
-
-
-  \par Version 1.4
+   In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following
+   topics are handled:
+    - Good splitting
 
   \par
    Improved usability.
@@ -285,6 +316,7 @@ License, or any later version. */
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
    are handled:
     - Optimising the code
+    - Why so slow on easy instances?
 
 
   \par Version 1.9
@@ -339,6 +371,8 @@ License, or any later version. */
    - 0.9.4 : 16.9.2008; various "spontaneous" workings: improved the build, extended plans, created application tests, basic code overhauls, using SIGINT instead of SIGUSR2, better documentation, corrected output of statistics.
    - 0.9.5 : 22.7.2009; extended plans, more documentation, provided combination with minisat2-preprocessor, improved timing and monitoring output.
    - 0.9.6 : 15.8.2009; improved monitoring output, improved documentation, some local code improvements, more plans on extensions.
+   - 0.9.7 : 23.4.2011; provided simple parallelisation by splitting, improved coding-style, improved output, improved time measurement, clean-up of code, various plans developed.
+   - 0.9.8 : 19.5.2011; implemented tool SplittingViaOKsolver for managing the splitting option, and started experimentation.
 
 */
 

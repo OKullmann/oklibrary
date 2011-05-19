@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 9.8.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,18 +26,24 @@ oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Isomorphis
    ********************************
 */
 
-okltest_is_isomorphic_incl0_com(is_isomorphic_incl0_com);
-okltest_is_isomorphic_incl1_com(is_isomorphic_incl1_com);
-okltest_is_isomorphic_incl2_com(is_isomorphic_incl2_com);
+okltest_decisions_is_isomorphic_incl0_com(is_isomorphic_incl0_com);
+okltest_decisions_is_isomorphic_incl1_com(is_isomorphic_incl1_com);
+okltest_decisions_is_isomorphic_incl2a_com(is_isomorphic_incl2a_com);
+okltest_unknown_is_isomorphic_incl2a_com(is_isomorphic_incl2a_com);
+okltest_decisions_is_isomorphic_incl2b_com(is_isomorphic_incl2b_com);
+okltest_unknown_is_isomorphic_incl2b_com(is_isomorphic_incl2b_com);
+okltest_decisions_is_isomorphic_inclall_com(is_isomorphic_inclall_com);
 
-/* ***********************
-   * Isomorphic matrices *
-   ***********************
+/* ******************************
+   * Complete isomorphism tests *
+   ******************************
 */
 
 okltest_is_isomorphic_com_p(is_isomorphic_rowperm0_com_p);
 okltest_is_isomorphic_com_p(is_isomorphic_rowperm1_com_p);
-okltest_is_isomorphic_com_p(is_isomorphic_rowperm2_com_p);
+okltest_is_isomorphic_com_p(is_isomorphic_rowperm2a_com_p);
+okltest_is_isomorphic_com_p(is_isomorphic_rowpermall_com_p);
+
 
 /* ************************
    * Duality and polarity *

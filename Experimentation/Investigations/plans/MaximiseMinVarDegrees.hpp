@@ -26,7 +26,7 @@ License, or any later version. */
    Satisfiability/Lisp/MinimalUnsatisfiability/plans/MinVarDegrees.hpp. </li>
    <li> The function "sharp_uhit_catalogue_maxminvardeg" investigates
    the catalogue for the sharp cases w.r.t. the general upper bound
-   hit_nonmersenne_rec. </li>
+   minvardegree_dmu (w.r.t. deficiency, for MU). </li>
    <li> n-oriented investigations:
     <ol>
      <li> One tool is e.g. "all_unsinghitting(5, 'all_n5)" and
@@ -251,13 +251,9 @@ License, or any later version. */
      <li> For 1 <= k <= 59 sharpness of the bound is not known for
      14 <= k <= 17, 29 <= k <= 42 and 44 <= k <= 51. </li>
      <li> We have the current maxima for the non-sharp cases (compared
-     to the upper bound hit_nonmersenne_rec):
+     to the upper bound minvardegree_dmu; use
+     sharp_uhit_catalogue_maxminvardeg()):
       <ul>
-       <li> k = 14 : 17 = 18-1
-        <ol>
-         <li> The above show that for a sharp case we have n >= 8. </li>
-        </ol>
-       </li>
        <li> k = 15 : 18 = 19-1
         <ol>
          <li> The above show that for a sharp case we have n >= 8. </li>

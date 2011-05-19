@@ -17,7 +17,8 @@ License, or any later version. */
   (see Interfaces/InputOutput/plans/milestones.hpp)
 
   \par
-   In Satisfiability/Interfaces/plans/general.hpp the following topics are handled:
+   In Satisfiability/Interfaces/plans/general.hpp the following topics are
+   handled:
     - Ladder logic
 
   \par

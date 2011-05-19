@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.12.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -32,13 +32,39 @@ okltest_ls_p(ls_p);
 okltest_hrls_p(hrls_p);
 okltest_rls_p(rls_p);
 
+/* *********************
+   * Various diagonals *
+   *********************
+*/
+
+okltest_main_diagonal(main_diagonal);
+okltest_side_diagonal(side_diagonal);
+
+okltest_main_pandiagonal(main_pandiagonal);
+okltest_side_pandiagonal(side_pandiagonal);
+
+okltest_dls_p(dls_p);
+okltest_spls_p(spls_p);
+okltest_pls_p(pls_p);
+
 /* *****************
    * Orthogonality *
    *****************
 */
 
 okltest_ocomls_p(ocomls_p);
+okltest_ols_p(ols_p);
 okltest_mocomls_p(mocomls_p);
+okltest_mols_p(mols_p);
+okltest_socomls_p(socomls_p);
+okltest_sols_p(sols_p);
+
+/* ************
+   * Symmetry *
+   ************
+*/
+
+okltest_ssls_p(ssls_p);
 
 /* ************
    * Examples *
@@ -50,6 +76,15 @@ okltest_cyc3_o_hrls(cyc3_o_hrls);
 okltest_nassoc_rls(nassoc_rls);
 okltest_dk10_rls(dk10_rls);
 okltest_dk10_o_hrls(dk10_o_hrls);
+okltest_psssodls_8_ls(psssodls_8_ls);
+
+/* **************
+   * Generators *
+   **************
+*/
+
+okltest_spdl_abn_ls(spdl_abn_ls);
+okltest_spdl_abn_ls_p(spdl_abn_ls_p);
 
 /* ***************
    * Conversions *

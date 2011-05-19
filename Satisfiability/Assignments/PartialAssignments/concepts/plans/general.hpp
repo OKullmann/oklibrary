@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.11.2006 (Swansea)
-/* Copyright 2006 - 2007, 2009 Oliver Kullmann
+/* Copyright 2006 - 2007, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Connections
   <ul>
    <li> See ComputerAlgebra/Satisfiability/Lisp/plans/PartialAssignments.hpp
-   for the C++ level. </li>
+   for the Maxima level. </li>
    <li> See OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp
    for older concepts of partial assignments. </li>
   </ul>
@@ -36,9 +36,19 @@ License, or any later version. */
    <li> So for standard boolean partial assignments every literal has a
    unique variable and a unique truth value (thus such partial assignments are
    never inconsistent). </li>
-   <li> There are several possibilities for evaluating partial assignments;
-   for (single) variable-based onces one can compute for example for a
-   variable the set of allowed values. </li>
+   <li> There are several possibilities for evaluating partial assignments:
+    <ol>
+     <li> For (single) variable-based pa's one can compute for example for a
+     variable the set of allowed values. </li>
+     <li> However the most fundamental form of evaluation should yield a
+     truth-value, when evaluating a literal. </li>
+     <li> Most basic results are "true, false, unknown". </li>
+     <li> The syntax should be "phi(x)", for a literal x. </li>
+     <li> As for total assignments; see
+     Satisfiability/Assignments/TotalAssignments/AssignmentsWithBuffer.hpp.
+     </li>
+    </ol>
+   </li>
    <li> Perhaps the most general form of partial assignment should be called
    "partial specification". </li>
    <li> And if for a variable in the domain of the partial assignment more
@@ -47,8 +57,50 @@ License, or any later version. */
    <li> Here the "domain" is the set of variables underlying the literals
    constituting the partial assignment. </li>
    <li> A partial specification involves only one type of literal; shall we
-   call tuples of partial speciciations (over different types of literals)
-   "alliances of partial speciciations"? </li>
+   call tuples of partial specifications (over different types of literals)
+   "alliances of partial specifications"? </li>
+   <li> Minimal concept of a type P of "partial specifications":
+    <ol>
+     <li> Literal type P::literal_type. </li>
+     <li> Default construction (empty partial assignment). </li>
+     <li> Construction P(begin,end) with a sequence of literals. </li>
+     <li> Or should this be a range? </li>
+     <li> P::size_type and ps.size() (for the number of literals). </li>
+     <li> Evaluation ps(x) for literal_type x, yielding
+     Values::Assignment_status. </li>
+    </ol>
+   </li>
+   <li> In Satisfiability/Assignments/PartialAssignments/PartAssign.hpp we have
+   additionally the following operations (class PartAssignments):
+    <ol>
+     <li> Copy construction and assignment: okay (the latter only in case of
+     mutability). </li>
+     <li> Equality comparison: okay. </li>
+     <li> ps.empty(): okay. </li>
+     <li> Construction P(literal_type x): seems reasonable. </li>
+     <li> P::var_type; seems reasonable (derived from literal_type). </li>
+     <li> ps.var() for the set of variables: seems reasonable. </li>
+     <li> ps.in_domain(v) for var_type v: seems reasonable. </li>
+     <li> Or shall variables only be provided for a refined concept? </li>
+     <li> Removal of variables from the domain: seems okay when variables are
+     provided. </li>
+     <li> Associated clause_type and construction from and conversion to
+     clause_type: better only for refined concepts. </li>
+     <li> Composition of partial assignments: better a freestanding function?
+     </li>
+     <li> Application of partial assignment to a clause-set: better a
+     freestanding function? </li>
+    </ol>
+   </li>
+   <li> In OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp
+   we have the following operations (class PassViaMap):
+    <ol>
+     <li> Access to a value-iterator (const and non-const) for a variable:
+     can be done for a map, and thus perhaps belongs to a refined concept?
+     </li>
+     <li> ps.clear(): seems reasonable (in case of mutability). </li>
+    </ol>
+   </li>
   </ul>
 
 

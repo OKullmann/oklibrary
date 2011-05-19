@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.1.2007 (Swansea)
-/* Copyright 2007, 2009 Oliver Kullmann
+/* Copyright 2007, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,12 +8,12 @@ License, or any later version. */
 /*!
   \file Satisfiability/Solvers/OKsolver/plans/milestones.hpp
 
-  \module_version OKsolver 0.5.1.1 (22.7.2009)
+  \module_version OKsolver 0.5.1.3 (19.5.2011)
 
 
   \par Version 0.5.2
 
-  \par OKsolver/SAT2002 version 0.9.5 : DONE
+  \par OKsolver/SAT2002 version 0.9.8 : DONE
   (see Solvers/OKsolver/SAT2002/plans/milestones.hpp)
 
   \par

@@ -24,13 +24,17 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 kill(f)$
 
 okltest_des_template(f) := block(
+  /* Trivial keys (computed using des_encryption_hex): */
   assert(
     f(hexstr2binv("0000000000000000"),
       des_round_keys(hexstr2binv("0000000000000000"))) =
       hexstr2binv("8CA64DE9C1B123A7")),
-  /* Test vector from SAT09 desgen benchmark.
-     See "DES generator" in
-     Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp .
+  assert(
+    f(hexstr2binv("FFFFFFFFFFFFFFFF"),
+      des_round_keys(hexstr2binv("FFFFFFFFFFFFFFFF"))) =
+      hexstr2binv("7359B2163E4EDC58")),
+  /* Test vector from SAT09 desgen benchmark (see "DES generator" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp):
   */
   assert(
     f(hexstr2binv("038E596D4841D03B"),
@@ -54,23 +58,39 @@ okltest_des_decryption(f) := block(
           binv2hexstr(f(hexstr2binv(plain),hexstr2binv(key))))))),
   true)$
 
+okltest_des_encryption_reduced(f) := block(
+  assert(
+    okltest_des_encryption(
+      buildq([f],lambda([plain,key],f(16,plain,key))))),
+  true)$
+
+okltest_des_decryption_reduced(f) := block(
+  assert(
+    okltest_des_decryption(
+      buildq([f],lambda([plain,key],f(16,plain,key))))),
+  true)$
+
 okltest_des_encryption_hex(f) := block(
+  /* Trivial keys (computed using des_encryption_hex): */
   assert(
     f("0000000000000000","0000000000000000") = "8CA64DE9C1B123A7"),
-  /* Test vector from SAT09 desgen benchmark.
-     See "DES generator" in
-     Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp .
+  assert(
+    f("FFFFFFFFFFFFFFFF","FFFFFFFFFFFFFFFF") = "7359B2163E4EDC58"),
+  /* Test vector from SAT09 desgen benchmark (see "DES generator" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp):
   */
   assert(
     f("038E596D4841D03B","15FBC08D31B0D521") = "A2FB6032638EC79D"),
   true)$
 
 okltest_des_decryption_hex(f) := block(
+  /* Trivial keys (computed using des_decryption_hex): */
   assert(
     f("8CA64DE9C1B123A7","0000000000000000") = "0000000000000000"),
-  /* Test vector from SAT09 desgen benchmark.
-     See "DES generator" in
-     Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp .
+  assert(
+    f("7359B2163E4EDC58","FFFFFFFFFFFFFFFF") = "FFFFFFFFFFFFFFFF"),
+  /* Test vector from SAT09 desgen benchmark (see "DES generator" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp):
   */
   assert(
     f("A2FB6032638EC79D","15FBC08D31B0D521") = "038E596D4841D03B"),

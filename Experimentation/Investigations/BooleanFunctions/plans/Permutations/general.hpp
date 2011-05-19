@@ -190,8 +190,85 @@ h3 : investigate_permutations(3)$
 [1,4,6,7,8,5,3,2] [40,0,10,20]
 XXX
    \endverbatim
-   Computation aborted (took too long; unclear whether there might be more
-   cases --- better monitoring is needed, and faster computation).
+   Computation aborted (last output for permutation 1897, and then until
+   permutation 3277 no new cases; unclear whether there might be more
+   cases --- faster computation, at C++ level is needed). </li>
+   <li> Some permutations take more than a minute to process, while some take
+   only a few seconds? It can't be the small hash-map? It seems it is just
+   that some permutations are more difficult than others. </li>
+   <li> See "Write analyse_all_permutations" in
+   Investigations/BooleanFunctions/plans/general.hpp for a tool at C++ level.
+   </li>
+   <li> Some special cases of permutations p:
+    <ol>
+     <li> Some transpositions (2-cycles):
+     \verbatim
+P : [2,1,3,4,5,6,7,8];
+evalpermasbf(P);
+  [20,4,10,256]
+P : [1,3,2,4,5,6,7,8];
+evalpermasbf(P);
+  [26,2,10,288]
+P : [8,2,3,4,5,6,7,1];
+evalpermasbf(P);
+  [36,0,14,870]
+     \endverbatim
+     </li>
+     <li> There are 8*7/2=28 transpositions (in general 2^n*(2^n-1)/2):
+     \verbatim
+t3 : investigate_transpositions(3);
+ev_ip(t3);
+ [20,4,10,256] 12
+ [26,2,10,288] 12
+ [36,0,14,870] 4
+     \endverbatim
+     </li>
+     <li> The isomorphism-type of the boolean function should be just
+     determined by the number of bits flipped in the transposition? </li>
+     <li> Then in general there would be exactly n isomorphism types,
+     corresponding to 1 <= f <= n flipped bits. </li>
+     <li> And for f flipped bits there would be 2^n*binom(n,i)/2 permutations
+     belonging to it. </li>
+     <li> So in this case, for n=3: i=1 -> 8*3/2=12, i=2 -> 8*3/2=12, i=3 ->
+     8*1/2=4. </li>
+     <li> It remains the task to find for these 3 cases (in general n cases)
+     all prime implicates, and to determine their structure (irredundant
+     clauses, minimum representations). </li>
+     <li> Special transitive permutations:
+     \verbatim
+P : cyclepres2perl({[1,2,3,4,5,6,7,8]});
+  [2,3,4,5,6,7,8,1]
+evalpermasbf(P);
+  [28,0,10,48]
+
+P : cyclepres2perl({[1,4,7,2,5,8,3,6]});
+  [4,5,6,7,8,1,2,3]
+evalpermasbf(P);
+  [28,0,10,48]
+
+P : cyclepres2perl({[1,2,6,5,4,3,8,7]});
+  [2,6,8,3,4,5,1,7]
+evalpermasbf(P);
+  [41,0,12,592]
+     \verbatim
+     </li>
+     <li> There are 7! = 5040 transitive permutations; perhaps this class is
+     too large? Or can we say something, e.g., what are the most complicated
+     boolean functions amongst them? </li>
+     <li> The maximal order of a permutation here is 3*5=15:
+     \verbatim
+P : cyclepres2perl({[1,2,3],[4,5,6,7,8]});
+  [2,3,1,5,6,7,8,4]
+evalpermasbf(P);
+  [38,0,11,67]
+
+P : cyclepres2perl({[1,8,3],[2,6,4,7,5]});
+  [8,6,1,7,2,4,5,3]
+evalpermasbf(P);
+  [35,2,12,7680]
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> The number of linear automorphisms is order_gl(3,2) = 168, while
    there are 2^3=8 translations, which makes 1344 affine automorphisms

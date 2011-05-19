@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.9.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -191,7 +191,8 @@ CFLAGS="-UMACHINE_BITS_OKL"
    <li> <code>OKsolver_2002</code> (the default version; a link is also
    provided in the public bin-directory <code>$(public_bin_dir_okl)</code>)
    </li>
-   <li> <code>OKsolver_2002_NTP</code> (no tree pruning) </li>
+   <li> <code>OKsolver_2002_NTP</code> (no tree pruning; link provided
+   in <code>$(public_bin_dir_okl)</code>) </li>
    <li> <code>OKsolver_2002_NLT</code> (tree pruning needs more space, but is
    faster) </li>
    <li> <code>OKsolver_2002_osa</code> (outputs satisfying assignments) </li>
@@ -342,6 +343,38 @@ CFLAGS="-UMACHINE_BITS_OKL"
      default is ON). </li>
     </ul>
    </li>
+   <li> <code>-S=directory</code>:
+    <ol>
+     <li> The directory must already exist and must be writable. </li>
+     <li> Uses the depth-parameter "-D=d" as above for monitoring. </li>
+     <li> Stores in <code>directory</code> the partial assignments leading to
+     the (reduced) nodes at depth d of the splitting tree, from left to right.
+     </li>
+     <li> The main usage is for splitting a hard problem into (at most) 2^d
+     many subproblems; see below for a helper script. </li>
+     <li> The partial assignments yielding the sub-problems are stored in files
+     1, ... in <code>directory</code>. </li>
+     <li> Via the switch "-SN" the interpretation of d is changed:
+      <ol>
+       <li> The criterion for aborting the development of the splitting tree
+       is changed. </li>
+       <li> Now not the depth of the node is considered; this is equal to the
+       number of decision variables on the path to the node. </li>
+       <li> But the size n of the partial assignment leading to the node;
+       so now also inferred assignments and autarky assignments are taken into
+       account. </li>
+       <li> The default is the depth-interpretation, and the switch changes it
+       to the "n"-interpretation. </li>
+       <li> As usual with such switches, another application switches it back
+       to the default value, and so on. </li>
+      </ol>
+     </li>
+     <li> A special case is "-D0": Here now in file <code>directory/1</code>
+     one finds the partial assignment for the fully reduced input --- not just
+     cleaning-up and unit-clause-propagation (as "-P" above), but also
+     r_2-reduction and the associated autarky-reduction. </li>
+    </ol>
+   </li>
    <li> To be completed. </li>
   </ul>
 
@@ -398,8 +431,7 @@ CFLAGS="-UMACHINE_BITS_OKL"
     </ol>
     For non-DIMACS output the return value is <code>0</code> for all cases of
     proper exit. </li>
-   </li>
-   <li> 
+   </li> 
   </ul>
 
 
@@ -416,6 +448,26 @@ CFLAGS="-UMACHINE_BITS_OKL"
      Statistics on the original input, and the output of the Minisat2
      preprocessor. </li>
     </ol>
+  </ul>
+
+
+  <h2> Splitting into sub-problems </h2>
+
+  <ul>
+   <li> For hard problems we have the script
+   <code>SplittingViaOKsolver</code>. </li>
+   <li> This is a script for calling the OKsolver with the option "-S"; see
+   above for some details of this option. </li>
+   <li> As explained above, this uses the depth-option "-D=d" as above, however
+   not for monitoring, but for outputting the sub-instances of the splitting
+   at depth d. </li>
+   <li> The parameters of <code>SplittingViaOKsolver</code> are passed over to
+   the OKsolver, adding the parameter "-S=dir" with appropriate value for dir,
+   the experiment-directory. </li>
+   <li> The script creates the experiment-directory, calls the OKsolver, and
+   stores all data related to this computation in files in this directory.
+   </li>
+   <li> See the documentation of <code>SplittingViaOKsolver</code>. </li>
   </ul>
 
 */

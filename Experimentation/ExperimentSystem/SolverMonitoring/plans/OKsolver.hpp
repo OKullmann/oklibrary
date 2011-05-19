@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.8.2009 (Swansea)
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,13 @@ License, or any later version. */
 /*!
   \file ExperimentSystem/SolverMonitoring/plans/OKsolver.hpp
   \brief General plans monitoring OKsolver_2002
+
+
+  \todo Write extraction tool
+  <ul>
+   <li> See "Extraction tools" in
+   ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
+  </ul>
 
 
   \todo R-problem with read_oksolver_mon

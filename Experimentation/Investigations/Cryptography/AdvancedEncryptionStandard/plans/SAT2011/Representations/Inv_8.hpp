@@ -146,42 +146,29 @@ R> subset(E, min == 359)
   </ul>
 
 
-  \todo r_1-bases : mincl_r1 <= 4266
+  \todo r_1-bases : mincl_r1 <= 4200
   <ul>
-   <li> Current minimum clause-count of an r_1-base: 4266. </li>
+   <li> Current minimum clause-count of an r_1-base: 4200. </li>
    <li> Iterating through the random seeds, while sorting inputs in
    ascending order of clause-length into RUcpGen, and descending into
    RUcpBase yields a new smaller r_1 base:
    \verbatim
-shell> RandomRUcpBases AES_Sbox_full.cnf
+shell> RandomRUcpBases ss_byte2_8_field_inv_full.cnf
 <snip>
-*** Currently trying gs=15,bs=1
+*** Currently trying gs=54,bs=2
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
-16 4310 29571 0 29571 0 1
+16 4200 28774 0 28774 0 1
  length count
-5 16
-6 1042
-7 2781
-8 467
-9 4
+5 20
+6 1099
+7 2575
+8 499
+9 7
 ------------------------------------------------------------------------------------
-CURRENT MINIMUM RBASE: *4310* with gs=15,bs=1
-------------------------------------------------------------------------------------
-<snip>
-*** Currently trying gs=395,bs=1
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-16 4266 29258 0 29258 0 1
- length count
-5 18
-6 1031
-7 2757
-8 457
-9 3
-------------------------------------------------------------------------------------
-CURRENT MINIMUM RBASE: *4266* with gs=395,bs=1
+CURRENT MINIMUM RBASE: *4200* with gs=54,bs=2
 ------------------------------------------------------------------------------------
    \endverbatim
-   </li>
+   Experiment run up to gs=97, bs=1 so far. </li>
    <li> Note that this is smaller (in terms of number of clauses) than the 
    canonical translation:
    \verbatim
@@ -204,7 +191,7 @@ maxima> output_ssinv_fullcnf_stdname(2,8);
    and then 
    \verbatim
 shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ss_byte2_8_field_inv_full.cnf > ss_byte2_8_field_inv_shg.cnf
-shell> cat ss_byte2_8_field_inv_full.cnf_shg | awk --file ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/shg2partial_maxsat.awk > ss_byte2_8_field_inv_shg.wcnf
+shell> cat ss_byte2_8_field_inv_full.cnf_shg | MinOnes2WeightedMaxSAT-O3-DNDEBUG > ss_byte2_8_field_inv_shg.wcnf
    \endverbatim
    <li>
    <li> Running then:

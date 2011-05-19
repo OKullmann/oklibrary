@@ -1,4 +1,4 @@
-/* Oliver Kullmann, 16.4.2011 (Guanzhou) */
+/* Oliver Kullmann, 16.4.2011 (Guangzhou) */
 /* Copyright 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -24,11 +24,101 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Mi
 
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
+
+
+/* **************************
+   * Number of full clauses *
+   **************************
+*/
+
+/* The lower bound on the maximal number of full clauses for deficiency k,
+   using inverse 2-subsumption-resolution with a new variable:
+*/
+fullclauses_dmu_lb1[k]:= if k=1 then 2 else
+  for i : 1 thru k-1 do
+    if k-i+1<=fullclauses_dmu_lb1[i] then return(2 * (k-i+1))$
+
+/* For k >= 2: */
+index_Sma_S2_rec(k) := for i : 1 do
+  if k-i+1<=fullclauses_dmu_lb1[i] then return(i)$
+
+/* The Smarandache Primitive Numbers for a natural number n >= 0,
+   defined as the minimal natural number k >= 1 such that 2^n divides k!;
+   this is http://oeis.org/A007843.
+*/
+Sma_S2_bydef(n) := block([e:2^n, p:1, k:1],
+ while mod(p,e)#0 do (k:k+1, p:p*k), k)$
+
+/* A different computation, yielding the list of the first n numbers: */
+Sma_S2_list(n) := if n=0 then [] else block([res:[1], e : 2],
+ n : n-1,
+ while n>0 do block([count : expfact(e,2), t],
+  t : min(n,count),
+  n : n-t,
+  res : append(res, create_list(e,i,1,t)),
+  e : e+2
+ ),
+ res)$
+
+/* We have fullclauses_dmu_lb1[k] = Sma_S2_bydef(k). */
+
+/* Upper bound on the number of full clauses for deficiency k, using the
+   known best upper bound on the min-var-degree:
+*/
+fullclauses_dmu_ub1(k) := if k=1 then 2 else
+ block([mvd : seconde(minvardegree_dmu(k)), ub],
+  if oddp(mvd) then ub : mvd-1 else ub : mvd,
+  if ub=mvd and 2*seconde(fullclauses_dmu[k-mvd/2+1]) < mvd then ub : mvd-1,
+  ub)$
+
+/* Best lower and upper bounds: */
+fullclauses_dmu_lb(k) := fullclauses_dmu_lb1[k]$
+fullclauses_dmu_ub(k) := fullclauses_dmu_ub1(k)$
+
+/* Lower and upper bounds combined: */
+fullclauses_dmu(k) :=
+ block([lb : fullclauses_dmu_lb(k), ub : fullclauses_dmu_ub(k)],
+  if lb=ub then lb else [lb,ub])$
 
 
 /* ***************************
    * Maximal min-var-degrees *
    ***************************
+*/
+
+/* For k in NN the smallest integer o with k <= 2^o-o: */
+order_deficiency(k) := if k=1 then 0 elseif k=2 then 2 else
+ block([o : cld(k)], if k <= 2^o-o then o else o+1)$
+
+/* For deficiency k in NN the maximum minimal-variable-degree in minimally
+   unsatisfiable clause-sets of deficiency k; if the precise value is not
+   known, then an interval [lower-bound,upper-bound] is given.
+   The "hitting-catalogue" is accessed via max_min_var_deg_uhit_def(k).
+*/
+minvardegree_dmu(k) := block(
+ [o : order_deficiency(k),
+  l : nonmersenne_level(k), disto,distl],
+  disto : (2^o-o) - k,
+  distl : k - (2^l-l),
+  if k=1 then 2
+  elseif disto=0 then 2^o
+  elseif disto<=o then 2^o-1-disto
+  elseif distl=1 then 2^l
+  elseif k=7 then 10 /* according to hitting-catalogue */
+  elseif k=14 then 17 /* according to hitting-catalogue */
+  elseif k=18 then 22 /* according to hitting-catalogue */
+  elseif k=19 then 23 /* according to hitting-catalogue */
+  elseif k=21 then 25 /* according to hitting-catalogue */
+  else block(
+   [lb : max(firste(minvardegree_dmu(k-1)), fullclauses_dmu_lb(k)),
+    ub : nonmersenne_inf_law(k)],
+    if lb=ub then lb else [lb,ub]))$
+
+
+/* **************************************
+   * (Generalised) non-Mersenne numbers *
+   **************************************
 */
 
 /* An upper bound on the maximal min-var-degree of a minimally unsatisfiable

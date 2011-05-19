@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 9.8.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,6 +21,19 @@ oklib_load("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Isomorphisms.mac");
 
 oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+
+/* *****************************************************
+   * The notion of "isomorphic combinatorial matrices" *
+   *****************************************************
+*/
+
+/*
+  Combinatorial matrices are algebraic structures [A,B,f], where
+  dom(f) = AxB, and thus an isomorphims from [A,B,f] to [A',B',f']
+  is a pair [alpha,beta] of bijection alpha: A -> A', beta: B -> B'
+  with f'(alpha(i),beta(j)) = f(i,j) for i in A, j in B.
+*/
 
 
 /* ********************************
@@ -53,16 +66,37 @@ is_isomorphic_incl1_com(A,B) :=
     else unknown)$
 /* Stronger, compute the associated symmetric matrices and the
    characteristic polynomials: */
-is_isomorphic_incl2_com(A,B) :=
+is_isomorphic_incl2a_com(A,B) :=
   block([check0 : is_isomorphic_incl0_com(A,B)],
   if check0 # unknown then check0 else block(
-   [a : com2m(A), b : com2m(B), ta, tb, ra, rb, ca, cb, x],
-    ta : transpose(a), tb : transpose(b),
-    ra : a . ta, rb : b . tb,
-    if charpoly_m(ra) # charpoly_m(rb) then return(false),
-    ca : ta . a, cb : tb . b,
-    if charpoly_m(ca) # charpoly_m(cb) then return(false),
-    return(unknown)))$
+   [a : com2m(A), b : com2m(B), x],
+    if charpoly_m(a . transpose(a)) # charpoly_m(b . transpose(b)) then false
+    else unknown))$
+/* Alternatively, consider the associated multisets of row/column-multisets: */
+is_isomorphic_incl2b_com(A,B) :=
+  block([check0 : is_isomorphic_incl0_com(A,B)],
+  if check0 # unknown then check0
+  elseif com2omsoms_r(A) # com2omsoms_r(B) then false
+  elseif com2omsoms_c(A) # com2omsoms_c(B) then false
+  else unknown)$
+
+
+/* "All" invariants for combinatorial matrices: */
+is_isomorphic_inclall_com(A,B)  :=
+  block([check : is_isomorphic_incl2b_com(A,B)],
+  if check # unknown then check
+  else block([a : com2m(A), b : com2m(B), x],
+    is_isomorphic_inclall_scom(m2scom(a . transpose(a)), m2scom(b . transpose(b)))))$
+
+
+/* "All" invariants for square combinatorial matrices: */
+is_isomorphic_inclall_scom(A,B) :=
+  block([check : is_isomorphic_incl2b_com(scom2com(A),scom2com(B))],
+  if check # unknown then check
+  else block([x],
+    if charpoly_m(scom2m(A)) # charpoly_m(scom2m(B)) then false
+    elseif maindiagoms_scom(A) # maindiagoms_scom(B) then false
+    else unknown))$
 
 
 /* ******************************
@@ -79,15 +113,18 @@ is_isomorphic_incl2_com(A,B) :=
 is_isomorphic_rowperm_com(A,B) := 
  block(
   [found : false,
-   Bcolumns : map(lambda([j], 
-                    map(lambda([i],B[3](i,j)),listify(B[1]))),
-                  B[2])],
+   Bcolumns : sort(map(lambda([j],
+                     map(lambda([i],B[3](i,j)),listify(B[1]))),
+                   listify(B[2]))),
+   L : listify(A[2])],
    for p in permutations(listify(A[1])) unless found#false do
-     if Bcolumns = map(lambda([j], 
-                    map(lambda([i],A[3](i,j)),p)),
-                   A[2])
+     if Bcolumns = sort(map(lambda([j],
+                          map(lambda([i],A[3](i,j)),p)),
+                        L))
      then found : p,
    return(found))$
+
+/* Combining is_isomorphic_rowperm_com with the various tests: */
 
 is_isomorphic_rowperm0_com(A,B) := block(
  [check0 : is_isomorphic_incl0_com(A,B)],
@@ -103,12 +140,21 @@ is_isomorphic_rowperm1_com(A,B) := block(
   else is_isomorphic_rowperm_com(A,B))$
 is_isomorphic_rowperm1_com_p(A,B) := listp(is_isomorphic_rowperm1_com(A,B))$
 
-is_isomorphic_rowperm2_com(A,B) := block(
- [check2 : is_isomorphic_incl2_com(A,B)],
-  if check2=true then listify(A[1])
-  elseif check2=false then false
+is_isomorphic_rowperm2a_com(A,B) := block(
+ [check2a : is_isomorphic_incl2a_com(A,B)],
+  if check2a=true then listify(A[1])
+  elseif check2a=false then false
   else is_isomorphic_rowperm_com(A,B))$
-is_isomorphic_rowperm2_com_p(A,B) := listp(is_isomorphic_rowperm2_com(A,B))$
+is_isomorphic_rowperm2a_com_p(A,B) := listp(is_isomorphic_rowperm2a_com(A,B))$
+
+/* The "strongest" combination: */
+is_isomorphic_rowpermall_com(A,B) := block(
+ [checkall : is_isomorphic_inclall_com(A,B)],
+  if checkall=true then listify(A[1])
+  elseif checkall=false then false
+  else is_isomorphic_rowperm_com(A,B))$
+is_isomorphic_rowpermall_com_p(A,B) :=
+ listp(is_isomorphic_rowpermall_com(A,B))$
 
 
 /* ************************

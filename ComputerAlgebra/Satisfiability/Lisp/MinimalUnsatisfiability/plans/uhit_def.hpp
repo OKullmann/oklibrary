@@ -10,6 +10,60 @@ License, or any later version. */
   \brief Plans regarding the catalogue of unsatisfiable non-singular hitting clause-sets
 
 
+  \todo Shall uhit_def be redefined with every loading?
+  <ul>
+   <li> We used to have "kill(uhit_def)$" in data/uhit_def.mac. </li>
+   <li> Was that really needed? </li>
+  </ul>
+
+
+  \todo Problems with evaluation
+  <ul>
+   <li> If at the time of a definition of an uhit_def-value via an expression,
+   a function in that expression is not yet defined, only later, then when
+   calling e.g. all_uhit_def(k) that expression is not evaluated (even though
+   the function-definition is now available). </li>
+   <li> Is this a Maxima-bug? I (OK) haven't encountered such behaviour
+   before. </li>
+   <li> A solution is to use ev(all_uhit_def(k),eval). </li>
+   <li> Applied with apply_uhit and max_min_var_deg_uhit_def,
+   max_min_var_deg_uhit_def_mem. </li>
+   <li> Potentially this behaviour could be useful, since one could leave
+   terms in the uhit_def-catalogue unevaluated, and evaluation only happens
+   when needed. </li>
+   <li> An example session:
+   \verbatim
+(%i1) a[0]:f(0);
+(%o1) f(0)
+(%i2) f(x):= x+77;
+(%o2) f(x):=77+x
+(%i3) is(a[0] > 0);
+(%o3) unknown
+(%i4) is(ev(a[0]) > 0);
+(%o4) true
+   \endverbatim
+   This seems strange behaviour (same for 5.23.2 and 5.24.0). This does not
+   depend on arrays:
+   \verbatim
+(%i1) a:f(0);
+(%o1) f(0)
+(%i2) f(x):= x+77;
+(%o2) f(x):=77+x
+(%i3) is(a > 0);
+(%o3) unknown
+(%i4) is(ev(a) > 0);
+(%o4) true
+(%i5) is(a > 0);
+(%o5) unknown
+(%i6) a:ev(a);
+(%o6) 77
+(%i7) is(a > 0);
+(%o7) true
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Organisation
   <ul>
    <li> Rename this file to Uhit_def.hpp, and move data/uhit_def.hpp to

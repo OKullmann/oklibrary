@@ -10,6 +10,31 @@ License, or any later version. */
   \brief On investigations into the Data Encryption Standard
 
 
+  \todo Links
+  <ul>
+   <li> Investigations into specific Sboxes:
+    <ol>
+     <li> Sbox 1: Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_1.hpp.
+     </li>
+     <li> Sbox 2: Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_2.hpp.
+     </li>
+     <li> Sbox 3: Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_3.hpp.
+     </li>
+     <li> Sbox 4: Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_4.hpp.
+     </li>
+     <li> Sbox 5: Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_5.hpp.
+     </li>
+     <li> Sbox 6: Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_6.hpp.
+     </li>
+     <li> Sbox 7: Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_7.hpp.
+     </li>
+     <li> Sbox 8: Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_8.hpp.
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Analysing the S-boxes
   <ul>
    <li> Most urgent is to use all our instruments to analyse the 8 S-boxes.
@@ -89,90 +114,93 @@ EXP_DES> for F in DES_Sbox_?_fullCNF.cnf_primes_stats; do cat ${F}; done
      \verbatim
 > sbox1_df = read.table(paste("DES_Sbox_",1,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
 > summary(sbox1_df)
-     length          count      
- Min.   :10.00   Min.   : 0.00  
- 1st Qu.:22.25   1st Qu.: 5.00  
- Median :34.50   Median :19.00  
- Mean   :34.50   Mean   :19.20  
- 3rd Qu.:46.75   3rd Qu.:31.75  
+     length          count
+ Min.   :10.00   Min.   : 0.00
+ 1st Qu.:22.25   1st Qu.: 5.00
+ Median :34.50   Median :19.00
+ Mean   :34.50   Mean   :19.20
+ 3rd Qu.:46.75   3rd Qu.:31.75
  Max.   :59.00   Max.   :48.00
 > sbox2_df = read.table(paste("DES_Sbox_",2,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
 > summary(sbox2_df)
-     length          count      
- Min.   :11.00   Min.   : 0.00  
- 1st Qu.:23.75   1st Qu.: 3.75  
- Median :36.50   Median :19.50  
- Mean   :36.50   Mean   :18.46  
- 3rd Qu.:49.25   3rd Qu.:30.00  
+     length          count
+ Min.   :11.00   Min.   : 0.00
+ 1st Qu.:23.75   1st Qu.: 3.75
+ Median :36.50   Median :19.50
+ Mean   :36.50   Mean   :18.46
+ 3rd Qu.:49.25   3rd Qu.:30.00
  Max.   :62.00   Max.   :56.00
 > sbox3_df = read.table(paste("DES_Sbox_",3,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
 > summary(sbox3_df)
-     length         count      
- Min.   : 7.0   Min.   : 0.00  
- 1st Qu.:20.5   1st Qu.: 3.00  
- Median :34.0   Median :17.00  
- Mean   :34.0   Mean   :17.45  
- 3rd Qu.:47.5   3rd Qu.:29.50  
+     length         count
+ Min.   : 7.0   Min.   : 0.00
+ 1st Qu.:20.5   1st Qu.: 3.00
+ Median :34.0   Median :17.00
+ Mean   :34.0   Mean   :17.45
+ 3rd Qu.:47.5   3rd Qu.:29.50
  Max.   :61.0   Max.   :49.00
 > sbox4_df = read.table(paste("DES_Sbox_",4,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
 > summary(sbox4_df)
-     length          count   
- Min.   :12.00   Min.   : 0  
- 1st Qu.:23.75   1st Qu.: 7  
- Median :35.50   Median :21  
- Mean   :35.50   Mean   :20  
- 3rd Qu.:47.25   3rd Qu.:32  
+     length          count
+ Min.   :12.00   Min.   : 0
+ 1st Qu.:23.75   1st Qu.: 7
+ Median :35.50   Median :21
+ Mean   :35.50   Mean   :20
+ 3rd Qu.:47.25   3rd Qu.:32
  Max.   :59.00   Max.   :52
 > sbox5_df = read.table(paste("DES_Sbox_",5,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
 > summary(sbox5_df)
-     length         count      
- Min.   :11.0   Min.   : 0.00  
- 1st Qu.:23.5   1st Qu.: 5.50  
- Median :36.0   Median :19.00  
- Mean   :36.0   Mean   :18.82  
- 3rd Qu.:48.5   3rd Qu.:29.00  
+     length         count
+ Min.   :11.0   Min.   : 0.00
+ 1st Qu.:23.5   1st Qu.: 5.50
+ Median :36.0   Median :19.00
+ Mean   :36.0   Mean   :18.82
+ 3rd Qu.:48.5   3rd Qu.:29.00
  Max.   :61.0   Max.   :43.00
 > sbox6_df = read.table(paste("DES_Sbox_",6,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
 > summary(sbox6_df)
-     length          count      
- Min.   :11.00   Min.   : 0.00  
- 1st Qu.:23.75   1st Qu.: 3.75  
- Median :36.50   Median :15.00  
- Mean   :36.50   Mean   :18.46  
- 3rd Qu.:49.25   3rd Qu.:31.50  
+     length          count
+ Min.   :11.00   Min.   : 0.00
+ 1st Qu.:23.75   1st Qu.: 3.75
+ Median :36.50   Median :15.00
+ Mean   :36.50   Mean   :18.46
+ 3rd Qu.:49.25   3rd Qu.:31.50
  Max.   :62.00   Max.   :56.00
 > sbox7_df = read.table(paste("DES_Sbox_",7,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
 > summary(sbox7_df)
-     length       count      
- Min.   :11   Min.   : 0.00  
- 1st Qu.:23   1st Qu.: 4.00  
- Median :35   Median :21.00  
- Mean   :35   Mean   :19.59  
- 3rd Qu.:47   3rd Qu.:30.00  
+     length       count
+ Min.   :11   Min.   : 0.00
+ 1st Qu.:23   1st Qu.: 4.00
+ Median :35   Median :21.00
+ Mean   :35   Mean   :19.59
+ 3rd Qu.:47   3rd Qu.:30.00
  Max.   :59   Max.   :53.00
 > sbox8_df = read.table(paste("DES_Sbox_",8,"_fullCNF.cnf_shg_stats",sep=""), head=TRUE, skip=2)
 > summary(sbox8_df)
-     length         count      
- Min.   :12.0   Min.   : 1.00  
- 1st Qu.:24.5   1st Qu.: 5.50  
- Median :37.0   Median :17.00  
- Mean   :37.0   Mean   :18.82  
- 3rd Qu.:49.5   3rd Qu.:28.00  
+     length         count
+ Min.   :12.0   Min.   : 1.00
+ 1st Qu.:24.5   1st Qu.: 5.50
+ Median :37.0   Median :17.00
+ Mean   :37.0   Mean   :18.82
+ 3rd Qu.:49.5   3rd Qu.:28.00
  Max.   :62.0   Max.   :45.00
      \endverbatim
      </li>
      <li> All curves k -> nr (clause-length to number of occurrences) look
-     like nice relatively symmetric curves. They have maximums around 30. 
+     like nice relatively symmetric curves. They have maximums around 30.
      Some (1,2,4) look slightly concave and some look slightly convex
      (3,5,6,7,8). </li>
      <li> The DNF-output shows that no resolutions are possible, and thus these
      boolean functions have unique DNF. </li>
      <li> Quite some differences regarding the prime implicates. S-box number
      1 is the easiest, number 8 is the hardest. </li>
-     <li> This is also confirmed by r_1-bases: Box 1 has an r_1-base with 126
-     clauses, while for box 8 only one with 157 clauses was found. </li>
-     <li> Also minimum representations need to be studied. </li>
+     <li> This is also confirmed by r_1-bases: Box 1 has an r_1-base with 124
+     clauses, while for box 8 only one with 152 clauses was found. </li>
+     <li> The minimum representations seem to be of a similar size (from 66
+     to 69 clauses). See "Investigations into specific Sboxes" under "Links".
+     </li>
      <li> As a model one can study random 6 x 4 boolean functions. </li>
+     <li> DONE Also minimum representations need to be studied. </li>
     </ol>
    </li>
    <li> DONE These considerations need a dedicated sub-module. </li>

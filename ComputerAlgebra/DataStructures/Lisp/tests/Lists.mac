@@ -25,6 +25,40 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 kill(f)$
 
+/* ***************
+   * List access *
+   ***************
+*/
+
+okltest_firste(f) := block([x],
+  assert(f([0]) = 0),
+  assert(f([1,2,3]) = 1),
+  assert(f(x) = x),
+  assert(f(0) = 0),
+  true)$
+
+okltest_seconde(f) := block([x],
+  assert(f([1,2]) = 2),
+  assert(f([1,7,3]) = 7),
+  assert(f(x) = x),
+  assert(f(0) = 0),
+  true)$
+
+okltest_thirde(f) := block([x],
+  assert(f([1,2,3]) = 3),
+  assert(f([1,2,7,4]) = 7),
+  assert(f(x) = x),
+  assert(f(0) = 0),
+  true)$
+
+okltest_fourthe(f) := block([x],
+  assert(f([1,2,3,4]) = 4),
+  assert(f([1,2,3,7,5]) = 7),
+  assert(f(x) = x),
+  assert(f(0) = 0),
+  true)$
+
+
 /* ***********************
    * Apply-functionality *
    ***********************
