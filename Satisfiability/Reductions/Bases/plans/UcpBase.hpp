@@ -23,12 +23,6 @@ License, or any later version. */
 
   \todo Random r_1-bases
   <ul>
-   <li> DONE
-   The application is Reductions/Bases/RUcpBase.cpp. </li>
-   <li> DONE
-   Important for efficiency, that elimination of clauses and moving to
-   a different clause (as partial assignment) can be done without much
-   overhead. </li>
    <li>
    OKlib::Satisfiability::Reductions::UnitClausePropagation::CLSAdaptorUcpW
    basically fulfills these requirements:
@@ -156,6 +150,12 @@ rand_perm(L);
      design. </li>
     </ol>
    </li>
+   <li> DONE
+   The application is Reductions/Bases/RUcpBase.cpp. </li>
+   <li> DONE
+   Important for efficiency, that elimination of clauses and moving to
+   a different clause (as partial assignment) can be done without much
+   overhead. </li>
   </ul>
 
   
