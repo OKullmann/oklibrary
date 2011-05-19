@@ -37,6 +37,7 @@ License, or any later version. */
   \par
    In Satisfiability/Reductions/Bases/plans/general.hpp the following topics
    are handled:
+    - Docus for RUcpGen
     - Add application tests for RandomUcpBases
 
   \par
