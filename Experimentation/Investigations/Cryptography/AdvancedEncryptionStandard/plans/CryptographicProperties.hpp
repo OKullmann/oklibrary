@@ -19,8 +19,8 @@ License, or any later version. */
    <li> Does AES have two distinct keys which maps the same plaintext block
    to the same ciphertext block?
    <ul>
-    <li> This can be translated as "AES(P,K1,C) and AES(P,K2,C) and 
-    NEQ(K1,K2)" where "NEQ" specifies that K1 differs form K2 in at least one 
+    <li> This can be translated as "AES(P,K1,C) and AES(P,K2,C) and
+    NEQ(K1,K2)" where "NEQ" specifies that K1 differs form K2 in at least one
     bit. </li>
    </ul>
    </li>
@@ -29,47 +29,47 @@ License, or any later version. */
    <ul>
     <li> This can be translated as "AES(P,K,P)". </li>
     <li> This can also be expanded trivially to find keys where AES algorithm
-    acts as the identity on "k" or more plaintext blocks (for reasonable k) 
-    by simply considering "AES(P1,K,P1) and AES(P2,K,P2) and ... and 
-    AES(Pk,K,Pk) and NEQ(P1,P2,...,Pk)" where here "NEQ" specifies that every 
+    acts as the identity on "k" or more plaintext blocks (for reasonable k)
+    by simply considering "AES(P1,K,P1) and AES(P2,K,P2) and ... and
+    AES(Pk,K,Pk) and NEQ(P1,P2,...,Pk)" where here "NEQ" specifies that every
     argument differs in at least one variable from every other. </li>
-    <li> This may also be made more damaging to the AES by considering 
+    <li> This may also be made more damaging to the AES by considering
     specifically plaintexts of a particular form (plaintext blocks
     representing particular common ASCII sequences). </li>
     <li> We should also consider the use of QBF translations here. </li>
    </ul>
-   <li> Does AES have any key which is the inverse of any other for some 
+   <li> Does AES have any key which is the inverse of any other for some
    plaintext/ciphertext pair?
    <ul>
     <li> Considering only a single piece of plaintext (that there are two
-    keys K1 and K2 for which AES with that K1 maps some plaintext P to 
-    ciphertext C and AES with K2 maps C to P) can be translated simply as 
+    keys K1 and K2 for which AES with that K1 maps some plaintext P to
+    ciphertext C and AES with K2 maps C to P) can be translated simply as
     "AES(P,K1,C) and AES(C,K2,P)". </li>
     <li> This can be expanded to find keys K1 and K2 where AES using K2 is
-    the inverse of AES with K1 for at least "k" plaintext blocks in the 
-    following way: "AES(P1,K1,C1) and AES(C1,K2,P1) and ... and 
+    the inverse of AES with K1 for at least "k" plaintext blocks in the
+    following way: "AES(P1,K1,C1) and AES(C1,K2,P1) and ... and
     AES(Pk,K(k-1),Ck) and AES(Ck,Kk,Pk) and NEQ(P1,P2,...,Pk)" . </li>
-    <li> There is obviously then the question of whether there is key which 
+    <li> There is obviously then the question of whether there is key which
     acts as it's own inverse for at least "k" plaintext blocks, where
     K1=K2 etc. </li>
     <li> Again we should consider using QBF solvers here to translate
     this property for all plaintext ciphertext pairs. </li>
    </ul>
    </li>
-   <li> Does the AES have any key for which the cipher becomes the 
-   identity with that key? 
+   <li> Does the AES have any key for which the cipher becomes the
+   identity with that key?
    <ul>
-    <li> Considering only a single plaintext (that there is a key K for which 
-    AES with that K maps some plaintext P to itself) can be translated simply 
+    <li> Considering only a single plaintext (that there is a key K for which
+    AES with that K maps some plaintext P to itself) can be translated simply
     as "AES(P,K,P)". </li>
     <li> This question can then be expanded to whether there is a key which
     makes the ciphertext act identically on all blocks using QBF solvers.
     </li>
     <li> The single plaintext translation of this question into a SAT
     problem should be implemented in the Maxima system. </li>
-    <li> See output_ss_fcl_id_p in 
+    <li> See output_ss_fcl_id_p in
     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac
-    for the implemented translation of the single plaintext cryptographic 
+    for the implemented translation of the single plaintext cryptographic
     question. </li>
    </ul>
    </li>
