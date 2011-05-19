@@ -17,7 +17,7 @@ License, or any later version. */
 Use by
 
 oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateGlobalPropagation.mac");
-  
+
 */
 
 /* TODO : Update specification below */
@@ -54,7 +54,8 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Cons
 prop_all_csttl(csttl, old_var_l, prop_l) :=
   lreduce(lambda([csttl_new,csttpb], csttpb(csttl_new[1],csttl_new[2])),
     prop_l,[csttl,old_var_l])$
-  
+
+
 /**************************************************
  * Standard propagation bundles                   *
  **************************************************
@@ -120,7 +121,6 @@ prop_eq_csttl(csttl, old_var_l) := block(
     sublist(csttl, lambda([cstt], not(cstt_named_p(cstt,"eq_cst")))),
       old_var_l, new_var_l),
   return([csttl, stable_unique(new_var_l)]))$
-  
 
 
 /*!

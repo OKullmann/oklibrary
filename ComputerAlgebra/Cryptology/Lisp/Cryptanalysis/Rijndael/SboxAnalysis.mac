@@ -64,6 +64,7 @@ output_rijnsbox_fullcnf_stdname() :=
 rijnsbox_cnfp(FF) := 
  is(cs2fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) = rijnsbox_fulldnf_fcs())$
 
+
 /* ******************************************************
    * Small Scale Sbox Analysis                          *
    ******************************************************
@@ -189,7 +190,6 @@ ss_sbox_linmap_gen_cnfp(FF,b,e,mod_poly,sbox_matrix) :=
     lambda([a], ss_sbox_linmap_gen(a,b,e,mod_poly,sbox_matrix)),b,e)$
 ss_sbox_linmap_cnfp(FF,b,e) := 
   ss_sbox_linmap_gen_cnfp(FF,b,e,ss_polynomial(b,e), ss_sbox_matrix(b,e))$
-
 
 
 /* ******************************************************************

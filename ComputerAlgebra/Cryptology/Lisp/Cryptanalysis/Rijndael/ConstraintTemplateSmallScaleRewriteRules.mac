@@ -40,7 +40,6 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac")$
 
 
-
 /* ***********************************************
    * Constraint template rewrite translations    *
    ***********************************************
@@ -1081,6 +1080,7 @@ ss_key_expansion_cstr_cstl(cst) := block(
     ),
   return(rs)
 )$
+
 
 /* ****************************************
    * CNF Translation functions            *
