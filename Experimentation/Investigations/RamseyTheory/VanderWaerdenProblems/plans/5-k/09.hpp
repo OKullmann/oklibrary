@@ -146,9 +146,66 @@ INDETERMINATE
      <li> Okay, let's set n=23:
      \verbatim
 > SplittingViaOKsolver -D23 -SN VanDerWaerden_pd_2-5-9_447.cnf
+> cd SplitViaOKsolver_D23SNVanDerWaerden_pd_259_447cnf_2011-05-19-162049
+> more Md5sum
+4ff22969902730f5ccbebea4e17f1db1
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   23.0    23.0    23.0    23.9    24.0    43.0
+> table(E$n)
+   23    24    25    26    27    28    29    30    31    32    33    34    35
+52207 26728 13411  5934  2457   963   410   178    88    50    30    24    11
+   36    37    38    40    43
+    8     4     4     1     1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c running_time(sec)                     4262.6
+c number_of_nodes                       205017
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1769
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        23
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_pd_2-5-9_447.cnf
+c splitting_directory                   SplitViaOKsolver_D23SNVanDerWaerden_pd_259_447cnf_2011-05-19-162049/Instances
+c splitting_cases                       102509
 
+> tail Data
+102500 102478 23
+102501 102480 23
+102502 102481 23
+102503 102482 23
+102504 102488 23
+102505 102494 23
+102506 102495 23
+102507 102503 23
+102508 102504 23
+102509 102505 23
+
+> cat VanDerWaerden_pd_2-5-9_447.cnf | ApplyPass-O3-DNDEBUG Instances/102478 > I102478.cnf
+> minisat-2.2.0 I102478.cnf
+conflicts             : 272490         (17725 /sec)
+CPU time              : 15.373 s
+UNSATISFIABLE
+> cat VanDerWaerden_pd_2-5-9_447.cnf | ApplyPass-O3-DNDEBUG Instances/102505 > I102505.cnf
+> minisat-2.2.0 I102505.cnf
+conflicts             : 51219          (17279 /sec)
+CPU time              : 2.96419 s
+UNSATISFIABLE
      \endverbatim
      </li>
+     <li> Okay, let's then try n=25:
+     \verbatim
+> SplittingViaOKsolver -D24 -SN VanDerWaerden_pd_2-5-9_447.cnf
     </ol>
    </li>
    <li> "RunPdVdWk1k2 5 9 adaptg2wsat 100 2000000" yields

@@ -328,6 +328,102 @@ sys     16m5.296s
      <li> For now using depth 18:
      \verbatim
 > SplittingViaOKsolver -D18 VanDerWaerden_pd_2-3-25_608.cnf
+> cd SplitViaOKsolver_D18VanDerWaerden_pd_2325_608cnf_2011-05-18-183649/
+> more Md5sum
+eeff4185a32994257ad97647af83425f
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   20.0    85.0   105.0   105.9   126.0   207.0
+> table(E$n)
+  20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35
+   2    2    8   22   26    8    7    4    2    2   10   28   51   75  108  134
+  36   37   38   39   40   41   42   43   44   45   46   47   48   49   50   51
+ 130   73   26    5    7   21   46   94  192  231  258  299  373  409  382  287
+  52   53   54   55   56   57   58   59   60   61   62   63   64   65   66   67
+ 191  120   83  116  178  250  377  480  537  627  655  700  739  829  858  759
+  68   69   70   71   72   73   74   75   76   77   78   79   80   81   82   83
+ 670  668  473  403  489  548  674  787  929 1057 1188 1346 1327 1404 1450 1326
+  84   85   86   87   88   89   90   91   92   93   94   95   96   97   98   99
+1391 1298 1232 1187 1163 1116 1114 1176 1245 1317 1372 1467 1617 1611 1668 1732
+ 100  101  102  103  104  105  106  107  108  109  110  111  112  113  114  115
+1662 1636 1509 1537 1446 1429 1366 1346 1300 1221 1239 1207 1335 1244 1367 1369
+ 116  117  118  119  120  121  122  123  124  125  126  127  128  129  130  131
+1427 1443 1440 1469 1468 1357 1374 1346 1267 1303 1273 1164 1204 1186 1187 1096
+ 132  133  134  135  136  137  138  139  140  141  142  143  144  145  146  147
+1110 1078 1038  991  985  942  991  940  850  860  831  787  748  717  683  596
+ 148  149  150  151  152  153  154  155  156  157  158  159  160  161  162  163
+ 574  461  463  469  394  419  368  335  313  297  300  281  277  238  246  245
+ 164  165  166  167  168  169  170  171  172  173  174  175  176  177  178  179
+ 215  198  194  167  141  146   93  117   97   84   63   82   50   47   36   30
+ 180  181  182  183  184  185  186  187  188  189  190  191  192  193  195  196
+  31   38   31   26   17   13   10    7   10    5    6    7    5    4    3    1
+ 197  200  203  207
+   1    3    1    1
+SplitViaOKsolver_D18VanDerWaerden_pd_2325_608cnf_2011-05-18-183649> more Result
+s UNKNOWN
+c running_time(sec)                     82657.6
+c number_of_nodes                       323973
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                2493116
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        18
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_pd_2-3-25_608.cnf
+c splitting_directory                   SplitViaOKsolver_D18VanDerWaerden_pd_2325_608cnf_2011-05-18-183649/Instances
+c splitting_cases                       112290
+     \endverbatim
+     </li>
+     <li> Let's go for n=30:
+     \verbatim
+> SplittingViaOKsolver -D30 -SN VanDerWaerden_pd_2-3-25_608.cnf
+> cd SplitViaOKsolver_D30SNVanDerWaerden_pd_2325_608cnf_2011-05-19-182858/
+> more Md5sum
+b69e55a43063ee062364ffc827aa7b08
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  30.00   32.00   36.00   36.53   41.00   47.00
+> table(E$n)
+ 30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47
+355 107 116 114 113  99  97  82  97  86 107 115 125 119 104  63  25   4
+> more Result
+c running_time(sec)                     1341.6
+c number_of_nodes                       3855
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                69
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        27
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_pd_2-3-25_608.cnf
+c splitting_directory                   SplitViaOKsolver_D30SNVanDerWaerden_pd_2325_608cnf_2011-05-19-182858/Instances
+c splitting_cases                       1928
+     \endverbatim
+     This is very small!
+     </li>
+     <li> Then let's go for n=35:
+     \verbatim
+> SplittingViaOKsolver -D35 -SN VanDerWaerden_pd_2-3-25_608.cnf
+
+> cd Instances
+> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 
      \endverbatim
      </li>
