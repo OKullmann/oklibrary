@@ -10,20 +10,6 @@ License, or any later version. */
   \brief Plans regarding the computations of "r-bases" of clause-sets
 
 
-  \bug RandomRUcpBases defect
-  <ul>
-   <li> At the same time, all aspects should be improved. </li>
-   <li> Also documentation should be checked. </li>
-   <li> DONE And a link to it needs to be provided. </li>
-   <li> DONE The name is not appropriate: "find" is too general, and programs
-   start with capital letters. </li>
-   <li> DONE This script is also mislocated here. Obviously it belongs to
-   Reductions/Bases. </li>
-   <li> DONE As usual, when files are created, then an experiment-directory
-   needs to be created. </li>
-  </ul>
-
-
   \todo Add application tests for RandomUcpBases
 
 
@@ -112,6 +98,21 @@ all_rbases_bydef_cs(F1,ucp_0_cs);
    here --- just being able to apply partial assignments and detecting the
    empty clause we are able to perform subsumption-elimination. </li>
    <li> So likely we should have a dedicated application. </li>
+  </ul>
+
+
+  \bug DONE RandomRUcpBases defect
+  <ul>
+   <li> DONE (improved documentation, layout and variable names)
+   At the same time, all aspects should be improved. </li>
+   <li> DONE Also documentation should be checked. </li>
+   <li> DONE And a link to it needs to be provided. </li>
+   <li> DONE The name is not appropriate: "find" is too general, and programs
+   start with capital letters. </li>
+   <li> DONE This script is also mislocated here. Obviously it belongs to
+   Reductions/Bases. </li>
+   <li> DONE As usual, when files are created, then an experiment-directory
+   needs to be created. </li>
   </ul>
 
 */
