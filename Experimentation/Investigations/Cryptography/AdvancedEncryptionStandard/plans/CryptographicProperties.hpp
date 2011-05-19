@@ -121,6 +121,38 @@ for i in $(seq 1 10); do cryptominisat ssaes_id_p_r${i}_c1_rw1_e4_f0.cnf | awk "
      </li>
     </ul>
    </li>
+  <li> Investigating identity-map keys for the 16-bit AES scheme
+   (2 row, 2 column, 4-bit field) using the standard canonical box translation
+   with bidirectional MixColumns translation:
+    <ul>
+     <li> Generating the instances for rounds 1 to 10:
+     \verbatim
+for i : 1 thru 10 do output_ss_fcl_id_p_std(i,1,1,4,false,aes_ts_box,aes_mc_bidirectional);
+     \endverbatim
+     </li>
+     <li> Running solvers via (using cryptominisat as an example):
+     \verbatim
+for i in $(seq 1 10); do cryptominisat ssaes_id_p_r${i}_c1_rw1_e4_f0.cnf | awk " { print \"[$i/10] \" \$0 }"; done
+     \endverbatim
+     </li>
+     <li> All instances up to round 4 were found satisfiable in <0.1s using
+     very few conflicts (<50). </li>
+     <li> Experiments still running for rounds > 4. </li>
+     <li> Comparing the solvers for finding an example of an identity mapping
+     key for 4 rounds:
+      <ul>
+       <li> cryptominisat (time: 0.53s, conflicts: 6889). </li>
+       <li> precosat236 (time: 1.1s, conflicts: 15684). </li>
+       <li> minisat-2.2.0 (time: 1.95s, conflicts: 26539). </li>
+       <li> glucose (time: 2.59s, conflicts: 23614). </li>
+       <li> precosat-570.1 (time: 20.4s, conflicts: 139328). </li>
+       <li> picosat913 (time: 68.5s, conflicts: 866125). </li>
+       <li> minisat2 (time: 85.72, conflicts: 118350). </li>
+      </ul>
+      cryptominisat seems best here.
+     </li>
+    </ul>
+   </li>
   </ul>
 
 */
