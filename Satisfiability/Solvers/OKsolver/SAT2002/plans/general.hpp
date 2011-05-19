@@ -756,6 +756,25 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
   </ul>
 
 
+  \todo Why so slow on easy instances?
+  <ul>
+   <li> Using SplittingViaOKsolver together with minisat-2.2.0, it seems best
+   performance is obtained when we have sub-problems which all take at most
+   a few seconds. </li>
+   <li> This is much faster than minisat-2.2.0 alone or OKsolver-2002 alone.
+   </li>
+   <li> Why is OKsolver-2002 so slow on these easy instances?
+    <ol>
+     <li> Could be the different strategies. </li>
+     <li> Or the datastructures of the OKsolver might not be suitable for small
+     problems? </li>
+     <li> Perhaps for small (sub-)problems one should switch to a lazy
+     datastructure? </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Extension by cardinality constraints
   <ul>
    <li> Allowing cardinality constraints as a special form of active clauses

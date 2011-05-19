@@ -316,6 +316,7 @@ License, or any later version. */
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
    are handled:
     - Optimising the code
+    - Why so slow on easy instances?
 
 
   \par Version 1.9
