@@ -174,6 +174,9 @@ c splitting_cases                       1981
 
 > cd Instances
 > I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
    \endverbatim
    </li>
    <li> Depth 14 with minisat-2.2.0:
@@ -198,7 +201,7 @@ bc7f0029b0598d58508739368d0ce4d0
  85  82  80  95  68  62  53  53  50  33  33  18  26  26  13  11  17   9  12   8
  94  95  96  98  99 100 101 102 107
   3   3   3   2   1   2   2   1   1
-kullmann-0:SplitViaOKsolver_D14VanDerWaerden_2314_186cnf_2011-05-18-211753> more Result
+> more Result
 s UNKNOWN
 c sat_status                            2
 c initial_maximal_clause_length         14
@@ -246,6 +249,241 @@ sys     2m20.526s
  Mean   : 6096   Mean   : 49.54   Mean   : 0.297203   Mean   :   7260
  3rd Qu.: 9144   3rd Qu.: 60.00   3rd Qu.: 0.037994   3rd Qu.:   1663
  Max.   :12192   Max.   :107.00   Max.   :92.735900   Max.   :1734015
+   \endverbatim
+   </li>
+   <li> Now going for 20, 22, 24 variables:
+   \verbatim
+> SplittingViaOKsolver -D20 -SN VanDerWaerden_2-3-14_186.cnf
+> cd SplitViaOKsolver_D20SNVanDerWaerden_2314_186cnf_2011-05-19-082856
+> more Md5sum
+1186456b5b403df8e2b268db4f60c250
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  20.00   20.00   23.00   23.19   25.00   38.00
+> table(E$n)
+ 20  21  22  23  24  25  26  27  28  29  30  31  32  36  37  38
+465 122 118 157 196 245 152  89  58  17   8   4   6   1   1   1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         14
+c initial_number_of_variables           186
+c initial_number_of_clauses             9795
+c initial_number_of_literal_occurrences 43014
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     19.2
+c number_of_nodes                       3279
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                32
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        20
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-3-14_186.cnf
+c splitting_directory                   SplitViaOKsolver_D20SNVanDerWaerden_2314_186cnf_2011-05-19-082856/Instances
+c splitting_cases                       1640
+
+> cd Instances
+> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
+real    32m17.272s
+user    31m56.807s
+sys     0m11.869s
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+1640: 0.52h, sum-cfs=7.392376e+07, mean-t=1.139s, mean-cfs=45075
+
+> SplittingViaOKsolver -D22 -SN VanDerWaerden_2-3-14_186.cnf
+> cd SplitViaOKsolver_D22SNVanDerWaerden_2314_186cnf_2011-05-19-090835/
+> more Md5sum
+fb08f52075b5dfa7d59a4d643a31f0ba
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  22.00   23.00   25.00   25.37   27.00   40.00
+> table(E$n)
+ 22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40
+593 186 247 355 358 344 256 163  75  35  10   2   2   1   5   3   4   3   2
+kullmann-0:SplitViaOKsolver_D22SNVanDerWaerden_2314_186cnf_2011-05-19-090835> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         14
+c initial_number_of_variables           186
+c initial_number_of_clauses             9795
+c initial_number_of_literal_occurrences 43014
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     31.8
+c number_of_nodes                       5287
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                113
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        20
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-3-14_186.cnf
+c splitting_directory                   SplitViaOKsolver_D22SNVanDerWaerden_2314_186cnf_2011-05-19-090835/Instances
+c splitting_cases                       2644
+
+> cd Instances
+> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
+real    27m51.405s
+user    27m24.827s
+sys     0m20.277s
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+2644: 0.43h, sum-cfs=6.502005e+07, mean-t=0.592s, mean-cfs=24592
+
+> SplittingViaOKsolver -D24 -SN VanDerWaerden_2-3-14_186.cnf
+> cd SplitViaOKsolver_D24SNVanDerWaerden_2314_186cnf_2011-05-19-095029/
+> more Md5sum
+1c4afe2b722115f7cbb1c6c1be7c2e88
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  24.00   25.00   27.00   27.47   29.00   42.00
+> table(E$n)
+ 24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42
+756 408 440 533 479 409 285 235 127  77  37   8   8  13  28  17   8   1   1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         14
+c initial_number_of_variables           186
+c initial_number_of_clauses             9795
+c initial_number_of_literal_occurrences 43014
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     46.6
+c number_of_nodes                       7739
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                228
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        22
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-3-14_186.cnf
+c splitting_directory                   SplitViaOKsolver_D24SNVanDerWaerden_2314_186cnf_2011-05-19-095029/Instances
+c splitting_cases                       3870
+
+> cd Instances
+> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
+real    25m55.044s
+user    25m20.717s
+sys     0m31.755s
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+3870: 0.39h, sum-cfs=6.025254e+07, mean-t=0.362s, mean-cfs=15569
+
+> SplittingViaOKsolver -D26 -SN VanDerWaerden_2-3-14_186.cnf
+> cd SplitViaOKsolver_D26SNVanDerWaerden_2314_186cnf_2011-05-19-102727/
+> more Md5sum
+3a2a81550cd63d4bfbda0039b9367640
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  26.00   27.00   29.00   29.56   32.00   45.00
+> table(E$n)
+  26   27   28   29   30   31   32   33   34   35   36   37   38   39   40   41
+1326  619  613  585  538  495  358  368  297  187   85   37   38   33   18   13
+  42   43   44   45
+  19    5    3    1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         14
+c initial_number_of_variables           186
+c initial_number_of_clauses             9795
+c initial_number_of_literal_occurrences 43014
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     68.6
+c number_of_nodes                       11275
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                359
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        23
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-3-14_186.cnf
+c splitting_directory                   SplitViaOKsolver_D26SNVanDerWaerden_2314_186cnf_2011-05-1
+9-102727/Instances
+c splitting_cases                       5638
+
+> cd Instances
+> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
+real    25m58.393s
+user    25m15.591s
+sys     0m50.155s
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+5638: 0.37h, sum-cfs=5.847048e+07, mean-t=0.236s, mean-cfs=10371
+   \endverbatim
+   A further considerable improvement. </li>
+   <li> Trying glucose (with the last splitting, n=26):
+   \verbatim
+> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; glucose Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $5}'); CF=$(cat Temp.out | awk '/conflicts/ {print $4}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
+real    91m29.089s
+user    76m1.246s
+sys     1m12.151s
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+5638: 1.19h, sum-cfs=8.203454e+07, mean-t=0.762s, mean-cfs=14550
+   \endverbatim
+   So, as usual, glucose doesn't show good performance. </li>
+   <li> The OKsolver-2002 itself:
+   \verbatim
+> I="../$(cat ../F)"; echo " i n t nds" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; OKsolver_2002-O3-DNDEBUG Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/running_time/ {print $3}'); ND=$(cat Temp.out | awk '/number_of_nodes/ {print $3}'); echo "$C $F $N $T $ND" >> Stats; echo -n "$C:$T "; fi; done
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-nds=%e, mean-t=%.3fs, mean-nds=%.0f",length(E$t),sum(E$t)/60/60,sum(E$nds),mean(E$t),mean(E$nds)),"\n")
+
    \endverbatim
    </li>
   </ul>
