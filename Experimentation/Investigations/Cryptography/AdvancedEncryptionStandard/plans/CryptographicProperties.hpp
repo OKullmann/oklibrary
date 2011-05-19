@@ -57,6 +57,13 @@ License, or any later version. */
    </ul>
    </li>
    <li> Does the AES have any key for which the cipher becomes the
+   identity with that key? See "Identity-map keys". </li>
+  </ul>
+
+
+  \todo Identity-map keys
+  <ul>
+   <li> Does the AES have any key for which the cipher becomes the
    identity with that key?
    <ul>
     <li> Considering only a single plaintext (that there is a key K for which
@@ -72,6 +79,47 @@ License, or any later version. */
     for the implemented translation of the single plaintext cryptographic
     question. </li>
    </ul>
+   </li>
+   <li> Investigating identity-map keys for the 4-bit trivial AES scheme
+   (1 row, 1 column, 4-bit field) using the standard canonical box translation
+   with bidirectional MixColumns translation:
+    <ul>
+     <li> Generating the instances for rounds 1 to 10:
+     \verbatim
+for i : 1 thru 10 do output_ss_fcl_id_p_std(i,1,1,4,false,aes_ts_box,aes_mc_bidirectional);
+     \endverbatim
+     </li>
+     <li> Running solvers via (using cryptominisat as an example):
+     \verbatim
+for i in $(seq 1 10); do cryptominisat ssaes_id_p_r${i}_c1_rw1_e4_f0.cnf | awk " { print \"[$i/10] \" \$0 }"; done
+     \endverbatim
+     </li>
+     <li> All instances were found satisfiable in <0.1s using very few
+     conflicts (<50). </li>
+     <li> Comparing the solvers for finding an example of an identity mapping
+     key for 10 rounds:
+      <ul>
+       <li> march_pl (node_count: 2). </li>
+       <li> minisat-2.2.0 (conflicts: 3). </li>
+       <li> precosat-570.1 (conflicts: 5). </li>
+       <li> picosat913 (conflicts: 12). </li>
+       <li> precosat236 (conflicts: 12). </li>
+       <li> cryptominisat (conflicts: 13). </li>
+       <li> minisat2 (conflicts: 45). </li>
+       <li> glucose (conflicts: 67). </li>
+       <li> satz:
+       \verbatim
+[10/10] **** The instance is satisfiable. *****
+[10/10] NB_MONO= 0, NB_UNIT= 24035, NB_BRANCHE= 403, NB_BACK= 197
+[10/10] Program terminated in 0.000 seconds.
+[10/10] satz215 -v 0.000 403 197 64768 763 1 568 3436 -200 3028 0
+       \endverbatim
+       </li>
+      </ul>
+      march_pl or minisat-2.2.0 seems best here but the instance is
+      trivially solved and so there isn't much difference between solvers.
+     </li>
+    </ul>
    </li>
   </ul>
 
