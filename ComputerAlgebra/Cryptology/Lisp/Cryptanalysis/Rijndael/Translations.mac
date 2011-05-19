@@ -397,15 +397,16 @@ block([block_size],
     is(ss_encrypt(P,K,r,2,ss_exp) = C))
 )$
 
+
 /******************************************************************
  * Testing cryptographic properties                               *
  ******************************************************************
 */
 
-/* Outputs to the filename n a CNF which is satisfiable if the AES cipher
+/* Outputs to file "name" a CNF which is satisfiable iff the AES cipher
    specified by input parameters has at least one key K and at least one
    plaintext P, such that the plaintext encrypted with K yields P. */
-output_ss_fcl_id_p(n,r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran) :=
+output_ss_fcl_id_p(name,r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran) :=
   block([FF, FF_std,block_size : ss_num_columns * ss_num_rows * ss_exp],
     if oklib_monitor then print("Starting translation..."),
     FF : ss_fcl(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran),
@@ -424,13 +425,14 @@ output_ss_fcl_id_p(n,r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_
                    "r=",r,",c=",ss_num_columns,",rw=",ss_num_rows,
                    ",e=",ss_exp,",final=",final_round_b,
                    ",box_tran=",box_tran,",mc_tran=",mc_tran),
-                 FF_std[1],n,
+                 FF_std[1],name,
       FF_std[2]))$  
 output_ss_fcl_id_p_std(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran) :=
   output_ss_fcl_id_p(
     sconcat("ssaes_id_p_r", r, "_c",ss_num_columns, "_rw",ss_num_rows,"_e",
       ss_exp,"_f",if final_round_b then 1 else 0, ".cnf"),
     r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran)$
+
 
 /******************************************************************
  * Statistics                                                     *
