@@ -8,16 +8,7 @@ License, or any later version. */
 /*!
   \file Solvers/OKsolver/SAT2002/plans/milestones.hpp
   
-  \module_version OKsolver/SAT2002 0.9.7.1 (23.4.2011)
-
-
-  \par Version 0.9.8
-
-  \par
-   In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following topics
-   are handled:
-    - The basic idea : DONE
-    - Wrapper script : DONE
+  \module_version OKsolver/SAT2002 0.9.8 (19.5.2011)
 
 
   \par Version 0.9.9
@@ -382,6 +373,7 @@ License, or any later version. */
    - 0.9.5 : 22.7.2009; extended plans, more documentation, provided combination with minisat2-preprocessor, improved timing and monitoring output.
    - 0.9.6 : 15.8.2009; improved monitoring output, improved documentation, some local code improvements, more plans on extensions.
    - 0.9.7 : 23.4.2011; provided simple parallelisation by splitting, improved coding-style, improved output, improved time measurement, clean-up of code, various plans developed.
+   - 0.9.8 : 19.5.2011; implemented tool SplittingViaOKsolver for managing the splitting option, and started experimentation.
 
 */
 

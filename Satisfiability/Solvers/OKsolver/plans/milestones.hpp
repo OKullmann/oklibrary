@@ -8,12 +8,12 @@ License, or any later version. */
 /*!
   \file Satisfiability/Solvers/OKsolver/plans/milestones.hpp
 
-  \module_version OKsolver 0.5.1.2 (23.4.2011)
+  \module_version OKsolver 0.5.1.3 (19.5.2011)
 
 
   \par Version 0.5.2
 
-  \par OKsolver/SAT2002 version 0.9.7 : DONE
+  \par OKsolver/SAT2002 version 0.9.8 : DONE
   (see Solvers/OKsolver/SAT2002/plans/milestones.hpp)
 
   \par

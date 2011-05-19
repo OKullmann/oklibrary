@@ -33,50 +33,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo The basic idea : DONE
-  </ul>
-   <li> Needs to be transferred to the docus. </li>
-   <li> As a simple means to achieve parallelisation, for a given depth
-   the clause-sets at that level should be output (to files, with
-   suitable names indicating the decisions leading to that clause-set). </li>
-   <li> DONE (this is not the right way, since monitoring happens after a
-   branch was completed, while here we act before branching)
-   This should simply employ the monitoring-mode, outputting the (reduced)
-   clause-sets at the monitoring nodes, while not going into the branches, but
-   immediately backtracking (stipulating result "unsat", using all variables,
-   but at the end outputting "unknown" if no solution was found and at least
-   one open node was created). </li>
-   <li> For monitoring-depth 0 one would get the OKsolver_2002 to act
-   as preprocessor (applying r_2-reduction and autarky-reduction). </li>
-  </ul>
-
-
-  \todo DONE
-  Wrapper script
-  <ul>
-   <li> Transfers the parameters to the call of OKsolver_2002_NTP-O3-DNDEBUG,
-   except that before the final parameter (the file-name) the option
-   "-S=dir-name" is inserted. </li>
-   <li> So we should provide a public link to this version of the OKsolver.
-   </li>
-   <li> The directory dir-name contains the splitting instances; "dir-name"
-   is formed according to our usual standards for naming
-   experiment-directories. </li>
-   <li> A file "dir-name/Parameters" is to be created:
-    <ol>
-     <li> Containing the parameter-line. </li>
-     <li> And the output of running the used form of the OKsolver-2002 with
-     option "--version". </li>
-     <li> And also the statistics output shall go there. </li>
-     <li> Or perhaps we should have different files for these different types
-     of information? </li>
-     <li> Perhaps, via R, also some statistics on the lengths of the partial
-     assignments should be computed and stored. </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Script for applying partial assignments
   <ul>
    <li> DONE (see below)
