@@ -174,11 +174,16 @@ c splitting_cases                       1981
 
 > cd Instances
 > I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
+real    119m1.569s
+user    104m29.760s
+sys     0m40.783s
 
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+1981: 1.72h, sum-cfs=1.441837e+08, mean-t=3.122s, mean-cfs=72783
    \endverbatim
-   </li>
+   Times for cs-oksvr. Better than without splitting, but by further splitting
+   one can do better, as the following shows. </li>
    <li> Depth 14 with minisat-2.2.0:
    \verbatim
 > SplittingViaOKsolver -D14 VanDerWaerden_2-3-14_186.cnf
