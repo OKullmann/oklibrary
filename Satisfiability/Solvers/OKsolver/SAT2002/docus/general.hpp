@@ -346,19 +346,18 @@ CFLAGS="-UMACHINE_BITS_OKL"
    <li> <code>-S=directory</code>:
     <ol>
      <li> The directory must already exist and must be writable. </li>
-     <li> Uses the depth-parameter -D as above for monitoring. </li>
+     <li> Uses the depth-parameter "-D=d" as above for monitoring. </li>
      <li> Stores in <code>directory</code> the partial assignments leading to
-     the (reduced) nodes at depth D of the splitting tree, from left to right.
+     the (reduced) nodes at depth d of the splitting tree, from left to right.
      </li>
      <li> The main usage is for splitting a hard problem into (at most) 2^d
      many subproblems; see below for a helper script. </li>
      <li> The partial assignments yielding the sub-problems are stored in files
      1, ... in <code>directory</code>. </li>
-     <li> Another usage is with "-D0": Here now in file
-     <code>directory/1</code> one finds the partial assignment for the fully
-     reduced input --- not just cleaning-up and unit-clause-propagation (as
-     "-P" above), but also r_2-reduction and the associated autarky-reduction.
-     </li>
+     <li> A special case is "-D0": Here now in file <code>directory/1</code>
+     one finds the partial assignment for the fully reduced input --- not just
+     cleaning-up and unit-clause-propagation (as "-P" above), but also
+     r_2-reduction and the associated autarky-reduction. </li>
     </ol>
    </li>
    <li> To be completed. </li>
@@ -442,13 +441,16 @@ CFLAGS="-UMACHINE_BITS_OKL"
   <ul>
    <li> For hard problems we have the script
    <code>SplittingViaOKsolver</code>. </li>
-   <li> This is a script for calling the OKsolver with the option "-S";
-   see above for some details of this option. </li>
-   <li> This uses the depth-option "-D" as above, however not for monitoring,
-   but for outputting the sub-instances of the splitting at depth D. </li>
-   <li> The script <code>SplittingViaOKsolver</code> creates an appropriate
-   directory, calls the OKsolver with the right (additional) parameters,
-   and stores all data related to this computation in files in this directory.
+   <li> This is a script for calling the OKsolver with the option "-S"; see
+   above for some details of this option. </li>
+   <li> As explained above, this uses the depth-option "-D=d" as above, however
+   not for monitoring, but for outputting the sub-instances of the splitting
+   at depth d. </li>
+   <li> The parameters of <code>SplittingViaOKsolver</code> are passed over to
+   the OKsolver, adding the parameter "-S=dir" with appropriate value for dir,
+   the experiment-directory. </li>
+   <li> The script creates the experiment-directory, calls the OKsolver, and
+   stores all data related to this computation in files in this directory.
    </li>
    <li> See the documentation of <code>SplittingViaOKsolver</code>. </li>
   </ul>
