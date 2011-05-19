@@ -112,18 +112,19 @@ Mean= 5.639659
   <ul>
    <li> k=14, n=186:
    \verbatim
-****the instance is unsatisfiable *****
-NB_MONO= 1011, NB_UNIT= 275097539, NB_BRANCHE= 10842443, NB_BACK= 5511751
-Program terminated in 11507.900 seconds.
-satz215 VanDerWaerden_2-3-14_186.cnf 11507.900 10842443 5511751 1544946578 56724610 0 186 9795 0 26796344 10549534
+> satz215 VanDerWaerden_2-3-14_186.cnf
+**** The instance is unsatisfiable. *****
+NB_MONO= 1435, NB_UNIT= 277867725, NB_BRANCHE= 10822316, NB_BACK= 5500793
+Program terminated in 14939.760 seconds.
+satz215 VanDerWaerden_2-3-14_186.cnf 14939.760 10822316 5500793 1573930613 58462301 0 186 9795 0 29371201 12582731
    \endverbatim
    </li>
   </ul>
 
 
-  \todo SplittingViaOKsolver and minisat-2.2.0
+  \todo SplittingViaOKsolver
   <ul>
-   <li> Depth 11:
+   <li> Depth 11 with minisat-2.2.0:
    \verbatim
 > SplittingViaOKsolver -D11 VanDerWaerden_2-3-14_186.cnf
 > cd SplitViaOKsolver_D11VanDerWaerden_2314_186cnf_2011-05-18-184528
@@ -141,7 +142,6 @@ satz215 VanDerWaerden_2-3-14_186.cnf 11507.900 10842443 5511751 1544946578 56724
 24 34 61 56 70 75 55 45 29 22 26 25 30 31 45 25 32 30 19 22 19 15 12  8 12 15
 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 80 82 83 85 86 88 89 95
 17 16 13  8 11 12  8  3  1  4  5  3  5  4  2  4  3  3  1  1  2  1  1  1
->
 csoliver@cs-oksvr:~/OKplatform/SplitViaOKsolver_D11VanDerWaerden_2314_186cnf_2011-05-18-184528> more Result
 s UNKNOWN
 c sat_status                            2
@@ -173,7 +173,79 @@ c splitting_directory                   SplitViaOKsolver_D11VanDerWaerden_2314_1
 c splitting_cases                       1981
 
 > cd Instances
-. I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
+> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
+   \endverbatim
+   </li>
+   <li> Depth 14 with minisat-2.2.0:
+   \verbatim
+> SplittingViaOKsolver -D14 VanDerWaerden_2-3-14_186.cnf
+> cd SplitViaOKsolver_D14VanDerWaerden_2314_186cnf_2011-05-18-211753
+> more Md5sum
+bc7f0029b0598d58508739368d0ce4d0
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  14.00   38.00   49.00   49.54   60.00  107.00
+> table(E$n)
+ 14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33
+  8  16  36  31  27  69  65  77  53  64  38  97 156 212 201 128  85  66  99 203
+ 34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53
+320 384 351 211 178 135 170 215 313 352 402 417 368 282 226 189 206 229 317 348
+ 54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73
+365 363 324 285 227 194 167 175 168 210 216 222 182 187 175 145 118 106  77  90
+ 74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90  91  92  93
+ 85  82  80  95  68  62  53  53  50  33  33  18  26  26  13  11  17   9  12   8
+ 94  95  96  98  99 100 101 102 107
+  3   3   3   2   1   2   2   1   1
+kullmann-0:SplitViaOKsolver_D14VanDerWaerden_2314_186cnf_2011-05-18-211753> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         14
+c initial_number_of_variables           186
+c initial_number_of_clauses             9795
+c initial_number_of_literal_occurrences 43014
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     151.0
+c number_of_nodes                       29309
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                65529
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        14
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 1
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-3-14_186.cnf
+c splitting_directory                   SplitViaOKsolver_D14VanDerWaerden_2314_186cnf_2011-05-18-211753/Instances
+c splitting_cases                       12192
+
+> cd Instances
+> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
+real    70m20.221s
+user    69m42.983s
+sys     2m20.526s
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+12192: 1.01h, sum-cfs=8.851248e+07, mean-t=0.297s, mean-cfs=7260
+
+#> summary(E)
+        i               n                t                  cfs
+ Min.   :    1   Min.   : 14.00   Min.   : 0.000999   Min.   :     10
+ 1st Qu.: 3049   1st Qu.: 38.00   1st Qu.: 0.007998   1st Qu.:    161
+ Median : 6096   Median : 49.00   Median : 0.013997   Median :    413
+ Mean   : 6096   Mean   : 49.54   Mean   : 0.297203   Mean   :   7260
+ 3rd Qu.: 9144   3rd Qu.: 60.00   3rd Qu.: 0.037994   3rd Qu.:   1663
+ Max.   :12192   Max.   :107.00   Max.   :92.735900   Max.   :1734015
    \endverbatim
    </li>
   </ul>
