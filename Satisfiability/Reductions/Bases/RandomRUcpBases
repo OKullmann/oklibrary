@@ -7,29 +7,38 @@
 # License, or any later version.
 
 #
-# Given a full CNF in a Dimacs file, computes random r_1 bases for
-# the given CNF file using RUcpGen and RUcpBase, randomly permuting and then
-# sorting the input to RUcpGen in ascending order of clause length and randomly
-# permuting and then sorting the input to RUcpBase in descending order of
-# clause length. 
+# Script for generating random 1-bases for the input clause-set.
 #
-# Optionally one may specify the initial seed into RandomShuffleDimacs used 
-# to permute the clause-list given to RUcpGen and also
-# the number of times t to call RUcpBase with a different seed per generating
-# set which is generated (the RandomShuffleDimacs call to permute the input
-# to RUcpBase is seeded with 1-t for each generating set).
+# The input is a full CNF in a Dimacs file. Random 1-bases for the CNF file are
+# computed using RUcpGen and RUcpBase. Statistics for these clause-sets are
+# output to STDOUT and to file. The script continues computing 1-bases until
+# the user exits the script (ctrl+c/SIGINT).
 #
-# RBases are continually computed, increasing the seed each time by 1, and
-# statistics for the r_1 bases generated printed out on STDOUT, along with
-# the current minimum found (to avoid losing this information in a sea of
-# text).
+# Arguments:
+#   full_cnf_filename: Path to Dimacs file containing a full CNF.
+#   gen_seed (1 ... 2^(32)-1): The initial seed into RandomShuffleDimacs.
+#   bases_per_gen (1 ... 2^(32)-1): The number of 1-bases to generate from
+#     each generating set.
+# Output:
+#   For each 1-base generated the statistics for that clause-set are printed
+#   to STDOUT. A reminder of the two seeds used to generate the minimum sized
+#   1-base, so far, is also printed. The seeds are those used for the random
+#   shuffling of the inputs to RUcpGen and RUcpBase.
 #
-# Additionally the statistics for each r_1 base are available in 
+# The pseudo-code for generating the r_1 generating sets and 1-bases is:
+#
+#   for gen_seed_i in ${gen_seed} .. inf; do
+#     cat PRIMES | RandomShuffleDimacs ${gen_seed_i} | SortByClauseLength | RUcpGen > G
+#     for base_seed_i in 1 .. ${bases_per_gen}; do
+#       cat G | RandomShuffleDimacs ${base_seed_i} | SortByClauseLengthDescending | RUcpBase > B
+#     done
+#   done
+# 
+# The statistics for each generated 1-base are available in
 #    
-#    ${full_cnf_filename}_rucp_base/stats_gs${gen_seed}_bs_${base_seed}
+#    ${full_cnf_filename}_rucp_base_DATE/stats_gs${gen_seed_i}_bs_${base_seed_i}
 #
-# where ${gen_seed} is the current seed, and ${base_seed} is the current
-# seed being passed to the RandomShuffleDimacs call leading into RUcpBase (1-t).
+# where DATE is the current datetime in the format "%Y-%m-%d-%H%M%S".
 #
 
 set -o errexit
@@ -37,13 +46,13 @@ set -o nounset
 
 script_name="RandomRUcpBases"
 err="ERROR[${script_name}]:"
-version="0.2.2"
+version="0.2.3"
 
 if [[ $# -lt 1 || $# -gt 3 ]]; then
   echo -n "${err} Takes precisely one argument, the name of the file full "
   echo -n "Dimacs clause-set (using 16 variables or less) to generate r_1 "
-  echo -n "bases for. Optionally one may also specify the initial seed for "
-  echo -n "RandomShuffleDimacs of the input to RUcpGen, and to "
+  echo -n "bases for. Optionally one may also specify the initial seeds for "
+  echo -n "RandomShuffleDimacs of the input to RUcpGen, to "
   echo "RandomShuffleDimacs of the input to RUcpBase, and also the number of "
   echo  "times to run RUcpBase for each generating set (default 5)."
   exit 1;
