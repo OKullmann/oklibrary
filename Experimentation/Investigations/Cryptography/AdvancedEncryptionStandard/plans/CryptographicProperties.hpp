@@ -101,6 +101,7 @@ for i in $(seq 1 10); do cryptominisat ssaes_id_p_r${i}_c1_rw1_e4_f0.cnf | awk "
       <ul>
        <li> march_pl (node_count: 2). </li>
        <li> minisat-2.2.0 (conflicts: 3). </li>
+       <li> OKsolver_2002 (nodes: 5). </li>
        <li> precosat-570.1 (conflicts: 5). </li>
        <li> picosat913 (conflicts: 12). </li>
        <li> precosat236 (conflicts: 12). </li>
@@ -146,6 +147,7 @@ for i in $(seq 1 10); do cryptominisat ssaes_id_p_r${i}_c1_rw1_e4_f0.cnf | awk "
        <li> minisat-2.2.0 (time: 1.95s, conflicts: 26539). </li>
        <li> glucose (time: 2.59s, conflicts: 23614). </li>
        <li> precosat-570.1 (time: 20.4s, conflicts: 139328). </li>
+       <li> OKsolver_2002 (time: 57.1s, nodes: 2007). </li>
        <li> picosat913 (time: 68.5s, conflicts: 866125). </li>
        <li> minisat2 (time: 85.72, conflicts: 118350). </li>
       </ul>
