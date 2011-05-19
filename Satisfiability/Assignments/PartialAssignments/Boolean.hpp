@@ -101,10 +101,12 @@ namespace OKlib {
            - Inserts a comment showing the partial assignment directly before
              the parameter line.
            - Keeps the parameter values as given.
-           - Maintains also the variables, the order of clauses and the
-             order of literals.
+           - Maintains also the variables (i.e., no renaming), the order of
+             clauses and the order of literals.
            - Via the member function new_c() one gets the current number
-           - of clauses (clauses transferred minus clauses satisfied).
+             of clauses (clauses transferred minus clauses satisfied).
+           - And via new_n() one gets the current maximal variable index
+             (which occurs in the result of the application).
            - Construction with an object as produced by InputOutput::ReadPass,
              and the adaptor-object for transfer.
         */
@@ -123,7 +125,7 @@ namespace OKlib {
           const rpass_type& rpa;
           cls_adaptor_t& ad;
 
-          ApplyPassAdaptor(const rpass_type& rpa, cls_adaptor_t& ad) : rpa(rpa), ad(ad),  numcl(0) {}
+          ApplyPassAdaptor(const rpass_type& rpa, cls_adaptor_t& ad) : rpa(rpa), ad(ad),  numcl(0), maxvar(0) {}
 
           void comment(const string_type& com) { ad.comment(com); }
           void n(const int_type nvar) {
@@ -143,6 +145,7 @@ namespace OKlib {
             const iterator clauseend = clause.end();
             typedef std::vector<literal_type> cl_t;
             cl_t C;
+            int_type maxv = 0;
             for (iterator i = clause.begin(); i != clauseend; ++i) {
               typedef typename pass_type::status_type status_type;
               const literal_type x = *i;
@@ -151,15 +154,20 @@ namespace OKlib {
               if (s == val0) continue;
               if (s == val1) return;
               C.push_back(x);
+              const int_type v = OKlib::Literals::var(x);
+              if (v > maxv) maxv = v;
             }
             ad.clause(C, C.size());
             ++numcl;
+            if (maxv > maxvar) maxvar = maxv;
           }
 
           int_type new_c() const { return numcl; }
+          int_type new_n() const { return maxvar; }
 
         private :
           int_type numcl;
+          int_type maxvar;
         };
 
       }
