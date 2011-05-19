@@ -7,29 +7,29 @@
 # License, or any later version.
 
 #
-# Given a full CNF in a Dimacs file, computes random r_1 bases for
-# the given CNF file using RUcpGen and RUcpBase, randomly permuting and then
-# sorting the input to RUcpGen in ascending order of clause length and randomly
-# permuting and then sorting the input to RUcpBase in descending order of
-# clause length. 
+# RandomRUcpBases F seed N
 #
-# Optionally one may specify the initial seed into RandomShuffleDimacs used 
-# to permute the clause-list given to RUcpGen and also
-# the number of times t to call RUcpBase with a different seed per generating
-# set which is generated (the RandomShuffleDimacs call to permute the input
-# to RUcpBase is seeded with 1-t for each generating set).
+# Generates random 1-bases for F. F is a file containing a full CNF clause-set,
+# i.e., every clause contains all variables. seed is a positive integer, from 1
+# to 2^(32)-1, used to seed the random number generator. N is a positive integer
+# from 1 to 2^(32)-1 and is how many random 1-bases to be generated for each
+# randomly generated "generating set" (one for each value of seed). The output, 
+# for each 1-base generated, is a statistics file stats_gs${i}_bs${j} where i
+# and j are the random seeds used to generate that 1-base. All files are
+# written to the experiment directory ${F}_rucp_base_DATE where DATE is the
+# current date time in the format "%Y-%m-%d-%H%M%S".
 #
-# RBases are continually computed, increasing the seed each time by 1, and
-# statistics for the r_1 bases generated printed out on STDOUT, along with
-# the current minimum found (to avoid losing this information in a sea of
-# text).
+# For definitions of the notions of "generating set" and "1-base", see
+# Satisfiability/Reductions/Bases/docus/RUcpBase.hpp and 
+# Satisfiability/Reductions/Bases/RUcpGen.cpp.
 #
-# Additionally the statistics for each r_1 base are available in 
-#    
-#    ${full_cnf_filename}_stats_gs${gen_seed}_bs_${base_seed}
+# To compute the 1-base with parameters i and j, do the following:
 #
-# where ${gen_seed} is the current seed, and ${base_seed} is the current
-# seed being passed to the RandomShuffleDimacs call leading into RUcpBase (1-t).
+# > QuineMcCluskey-n16-O3-DNDEBUG ${F} > ${F}_primes.cnf
+# > cat ${F}_primes.cnf | RandomShuffleDimacs-O3-DNDEBUG ${i} | SortByClauseLength-O3-DNDEBUG > ${F}_primes.cnf_sorted
+# > RUcpGen-O3-DNDEBUG ${F}_primes.cnf_sorted > ${F}_primes.cnf_gen
+# > cat ${F}_primes.cnf_gen | RandomShuffleDimacs-O3-DNDEBUG ${j} | SortByClauseLength-O3-DNDEBUG | RUcpBase-O3-DNDEBUG > ${F}_r1base_${i}_${j}.cnf
+#
 #
 
 set -o errexit
@@ -37,22 +37,28 @@ set -o nounset
 
 script_name="RandomRUcpBases"
 err="ERROR[${script_name}]:"
-version="0.2.0"
+version="0.3.1"
 
 if [[ $# -lt 1 || $# -gt 3 ]]; then
-  echo -n "${err} Takes precisely one argument, the name of the file full "
-  echo -n "Dimacs clause-set (using 16 variables or less) to generate r_1 "
-  echo -n "bases for. Optionally one may also specify the initial seed for "
-  echo -n "RandomShuffleDimacs of the input to RUcpGen, and to "
-  echo "RandomShuffleDimacs of the input to RUcpBase, and also the number of "
-  echo  "times to run RUcpBase for each generating set (default 5)."
+  echo -n "${err} Takes precisely one argument, the path to the input "
+  echo -n "Dimacs clause-set (using 16 variables or less) to generate "
+  echo -n "1-bases for. Optionally one may also specify the seed "
+  echo -n "used to initialise the random number generation. One may also "
+  echo -n "specify the number of 1-bases to generate from each generating "
+  echo -n "set (default 5)."
   exit 1;
 fi
 
-full_cnf_filename=$1
-primes_filename=${full_cnf_filename}_primes
-rand_primes_filename=${full_cnf_filename}_primes_rand
-gen_filename=${full_cnf_filename}_gen
+input_file=$1
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+experiment_dirname=${input_file}_rucp_base_${timestamp}
+if [ ! -f ${experiment_dirname} ]; then
+  mkdir ${experiment_dirname}
+fi
+
+primes_filename=${experiment_dirname}/${input_file}_primes
+rand_primes_filename=${experiment_dirname}/${input_file}_primes_rand
+gen_filename=${experiment_dirname}/${input_file}_gen
 if [[ $# -gt 1 ]]; then
   gen_seed=$2
 else
@@ -65,41 +71,43 @@ else
 fi
 
 sort_program=SortByClauseLength-O3-DNDEBUG
-sort_desc_program=SortByClauseLength-O3-DNDEBUG
+sort_desc_program=SortByClauseLengthDescending-O3-DNDEBUG
 shuffle_program=RandomShuffleDimacs-O3-DNDEBUG
 statistics_program=ExtendedDimacsFullStatistics-O3-DNDEBUG
 primes_program=QuineMcCluskey-n16-O3-DNDEBUG
 gen_program=RUcpGen-O3-DNDEBUG
 base_program=RUcpBase-O3-DNDEBUG
-function extract_min_cl { 
-  head -n 2 | tail -n 1 | awk '{print $2}' 
-}
+let max_gen_seed=2**32-1
 
 # Generate prime implicates
-echo "${primes_program} ${full_cnf_filename} > ${primes_filename}"
-${primes_program} ${full_cnf_filename} > ${primes_filename}
+echo "${primes_program} ${input_file} > ${primes_filename}"
+${primes_program} ${input_file} > ${primes_filename}
 
-
-min_cl_sofar=$(cat ${primes_filename} | ${statistics_program} | extract_min_cl)
+function extract_num_clauses_from_stats { 
+  head -n 2 | tail -n 1 | awk '{print $2}' 
+}
+min_num_cl_sofar=$(cat ${primes_filename} | ${statistics_program} | extract_num_clauses_from_stats)
 min_gen_seed=unknown
 min_base_seed=unknown
 
-while true; do
-  cat ${primes_filename} | ${shuffle_program} ${gen_seed} | ${sort_program} > ${rand_primes_filename}
+while [ ${gen_seed} -lt ${max_gen_seed} ]; do
+  cat ${primes_filename} | ${shuffle_program} ${gen_seed} | 
+    ${sort_program} > ${rand_primes_filename}
   ${gen_program} ${rand_primes_filename} > ${gen_filename}
   for base_seed in $(seq 1 ${bases_per_gen}); do
       echo "*** Currently trying gs=${gen_seed},bs=${base_seed}"
-      stats_filename=${full_cnf_filename}_stats_gs${gen_seed}_bs_${base_seed}
-      current_cl=$(cat ${gen_filename} | ${shuffle_program} ${base_seed} | 
-        ${sort_desc_program} | ${base_program} | ${statistics_program} | tee ${stats_filename} | extract_min_cl)
+      stats_filename=${experiment_dirname}/stats_gs${gen_seed}_bs${base_seed}
+      current_num_cl=$(cat ${gen_filename} | ${shuffle_program} ${base_seed} | 
+        ${sort_desc_program} | ${base_program} | ${statistics_program} | 
+        tee ${stats_filename} | extract_num_clauses_from_stats)
       cat ${stats_filename}
-      if [[ ${current_cl} -lt ${min_cl_sofar} ]]; then
-          min_cl_sofar=${current_cl}
+      if [[ ${current_num_cl} -lt ${min_num_cl_sofar} ]]; then
+          min_num_cl_sofar=${current_num_cl}
           min_gen_seed=${gen_seed}
           min_base_seed=${base_seed}
       fi
       echo "------------------------------------------------------------------------------------"
-      echo "CURRENT MINIMUM RBASE: *${min_cl_sofar}* with gs=${min_gen_seed},bs=${min_base_seed}"
+      echo "CURRENT MINIMUM RBASE: *${min_num_cl_sofar}* with gs=${min_gen_seed},bs=${min_base_seed}"
       echo "------------------------------------------------------------------------------------"
   done 
   gen_seed=$(expr ${gen_seed} + 1)
