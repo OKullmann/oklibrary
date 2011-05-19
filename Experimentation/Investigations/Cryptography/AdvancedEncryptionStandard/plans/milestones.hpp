@@ -74,6 +74,12 @@ License, or any later version. */
   \par Version 0.1.8 :
 
   \par
+   In Cryptography/AdvancedEncryptionStandard/plans/CryptographicProperties.hpp
+   the following topics are handled:
+    - Cryptographic properties of AES
+    - Identity-map keys
+
+  \par
    In Experimentation/Investigations/plans/CurrentExperiments.hpp the section
    on AES is updated.
 
