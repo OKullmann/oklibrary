@@ -14,13 +14,6 @@ License, or any later version. */
   input-resolution.
 
 
-  \bug DONE (resetting now old state of contradicting_ucl)
-  Testcase Intransitive2 fails
-  <ul>
-   <li> Failure as predicted by OK, while todo falsely removed by MG. </li>
-  </ul>
-
-
   \todo Random r_1-bases
   <ul>
    <li>
@@ -30,7 +23,7 @@ License, or any later version. */
      <li> DONE (used after extension of functionality)
      The assignment can be just placed into the partial assignment,
      without the need for further actions. </li>
-     <li> DONE 
+     <li> DONE
      Once a propagation has been performed, then nothing needs to be
      reset, since the watched literals per clause are always valid. </li>
      <li> For removing a clause the interface has to be changed, but
@@ -44,13 +37,31 @@ License, or any later version. */
    </li>
    <li> The problem with the Maxima-specification rand_rbase_cs in
    ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac is how to
-   reproduce the Maxima-function random_permutation:
-    <ol>
-     <li> See "Sampling of r-bases" in
-     ComputerAlgebra/Satisfiability/Lisp/Reductions/plans/RBases.hpp. </li>
-     <li> The Maxima-documentation says that the "Knuth shuffle algorithm"
-     is used. This seems to be the following
-     \verbatim
+   reproduce the Maxima-function random_permutation? See "Random shuffling"
+   and "Random number generation". </li>
+   <li> Perhaps for now we just use examples with a unique base.
+   </li>
+   <li> DONE (we use the boost-mt19937-generator, and the std::random_shuffle
+   algorithm)
+   Though we need to take these considerations into account for the
+   design. </li>
+   <li> DONE
+   The application is Reductions/Bases/RUcpBase.cpp. </li>
+   <li> DONE
+   Important for efficiency, that elimination of clauses and moving to
+   a different clause (as partial assignment) can be done without much
+   overhead. </li>
+  </ul>
+
+
+  \todo Random shuffling
+  <ul>
+   <li> How to reproduce the Maxima-function random_permutation? </li>
+   <li> See "Sampling of r-bases" in
+   ComputerAlgebra/Satisfiability/Lisp/Reductions/plans/RBases.hpp. </li>
+   <li> The Maxima-documentation says that the "Knuth shuffle algorithm"
+   is used. This seems to be the following
+   \verbatim
 rand_perm(L) := block([n : length(L)],
  if n <= 1 then return(L),
  for i : 1 thru n-1 do block([r : random(n-i+1), s],
@@ -66,57 +77,63 @@ set_random(1);
 random_permutation(L);
 set_random(1);
 rand_perm(L);
-     \endverbatim
-     In both cases we get [6,14,3,12,20,19,2,10,5,8,1,15,17,11,16,4,7,18,13,9],
-     while for N=10 in both cases we get [6,7,2,3,1,9,10,4,8,5]. In the latter
-     case the sequence of random numbers is (5,5,4,3,1,3,3,2,1). </li>
-     <li> While the C++ standard doesn't say anything about how the shuffling
-     is performed?
-      <ol>
-       <li> The above algorithm rand_perm is implemented as ::random_shuffle in
-       Satisfiability/Reductions/Bases/RandomShuffle.cpp. </li>
-       <li> It differs from the result of std::random_shuffle. </li>
-       <li> The code for std::random_shuffle uses a slightly different
-       algorithm (from libstdc++-3.0 at 
-       http://mirrors-us.seosue.com/gcc/libstdc++/old-releases/libstdc++-3.0.tar.gz - 
-       include/bits/stl_algo.h) as can be seen in ::random_shuffle_libcpp and
-       this simulates std::random_shuffle. </li>
-       <li> std::random_shuffle is not standardised. </li>
-      </ol>
-     </li>
-     <li> And then we need to simulate the Maxima random-generator.
-      <ol>
-       <li> The Boost documentation doesn't say anything how to construct the
-       distribution-object, so that out of that all the random_number_generator
-       in the sensible way is generated? Ask on the mailing list. </li>
-       <li> One can simply pass boost::mt19937 directly to 
-       random_number_generator. This produces the same results as when using 
-       uniform_distribution, as can be seen by the generator rg_wo_variate in
-       Satisfiability/Reductions/Bases/RandomShuffle.cpp. </li>
-       <li> boost::random_number_generator is as follows (boost 1.44):
-       \verbatim
+   \endverbatim
+   In both cases we get [6,14,3,12,20,19,2,10,5,8,1,15,17,11,16,4,7,18,13,9],
+   while for N=10 in both cases we get [6,7,2,3,1,9,10,4,8,5]. In the latter
+   case the sequence of random numbers is (5,5,4,3,1,3,3,2,1). </li>
+   <li> While the C++ standard doesn't say anything about how the shuffling
+   is performed?
+    <ol>
+     <li> The above algorithm rand_perm is implemented as ::random_shuffle in
+     Satisfiability/Reductions/Bases/RandomShuffle.cpp. </li>
+     <li> It differs from the result of std::random_shuffle. </li>
+     <li> The code for std::random_shuffle uses a slightly different
+     algorithm (from libstdc++-3.0 at 
+     http://mirrors-us.seosue.com/gcc/libstdc++/old-releases/libstdc++-3.0.tar.gz - 
+     include/bits/stl_algo.h) as can be seen in ::random_shuffle_libcpp and
+     this simulates std::random_shuffle. </li>
+     <li> std::random_shuffle is not standardised. </li>
+    </ol>
+   </li>
+   <li> The Maxima-related aspects should go to
+   ComputerAlgebra/Satisfiability/Lisp/Reductions/plans/RBases.hpp. </li>
+  </ul>
+
+
+  \todo Random number generation
+  <ul>
+   <li> How to simulate the Maxima random-generator? </li>
+   <li> The Boost documentation doesn't say anything how to construct the
+   distribution-object, so that out of that all the random_number_generator
+   in the sensible way is generated? Ask on the mailing list. </li>
+   <li> One can simply pass boost::mt19937 directly to
+   random_number_generator. This produces the same results as when using
+   uniform_distribution, as can be seen by the generator rg_wo_variate in
+   Satisfiability/Reductions/Bases/RandomShuffle.cpp. </li>
+   <li> boost::random_number_generator is as follows (boost 1.44):
+   \verbatim
   result_type operator()(argument_type n)
   {
     typedef uniform_int<IntType> dist_type;
     return variate_generator<base_type&, dist_type>(_rng, dist_type(0, n-1))();
   }
-       \endverbatim
-       </li>
-       <li> boost::uniform_distribution scales the random number generated
-       into the correct range by scaling using division (see ::randn in
-       Satisfiability/Reductions/Bases/RandomShuffle.hpp ). </li>
-       <li> It is still not clear how either boost::random_number_generator or
-       boost::uniform_distribution maps the full integer range into 1 to n. 
-       There doesn't seem to be any real description of this at
-       http://www.boost.org/doc/libs/1_45_0/doc/html/boost_random/reference.html#boost_random.reference.concepts.uniform_random_number_generator .
-       </li>
-       <li> MG has asked further on the mailing list. </li>
-       <li> The code for Maxima's random number generation is in 
-       ExternalSources/builds/Maxima/ecl/maxima-5.21.1/src/rand-mt19937.lisp,
-       but it is completely unclear how in Maxima out of "MT 19937"
-       a random integer is constructed. The lisp code isn't easy to 
-       understand:
-       \verbatim
+   \endverbatim
+   </li>
+   <li> boost::uniform_distribution scales the random number generated
+   into the correct range by scaling using division (see ::randn in
+   Satisfiability/Reductions/Bases/RandomShuffle.hpp ). </li>
+   <li> It is still not clear how either boost::random_number_generator or
+   boost::uniform_distribution maps the full integer range into 1 to n.
+   There doesn't seem to be any real description of this at
+   http://www.boost.org/doc/libs/1_45_0/doc/html/boost_random/reference.html#boost_random.reference.concepts.uniform_random_number_generator .
+   </li>
+   <li> MG has asked further on the mailing list. </li>
+   <li> The code for Maxima's random number generation is in
+   ExternalSources/builds/Maxima/ecl/maxima-5.21.1/src/rand-mt19937.lisp,
+   but it is completely unclear how in Maxima out of "MT 19937"
+   a random integer is constructed. The lisp code isn't easy to
+   understand:
+   \verbatim
 (defun %random-integer (arg state)
   "Generates an integer greater than or equal to zero and less than Arg.
   Successive chunks are concatenated without overlap to construct integers
@@ -150,15 +167,15 @@ rand_perm(L);
      design. </li>
     </ol>
    </li>
-   <li> DONE
-   The application is Reductions/Bases/RUcpBase.cpp. </li>
-   <li> DONE
-   Important for efficiency, that elimination of clauses and moving to
-   a different clause (as partial assignment) can be done without much
-   overhead. </li>
+   <li> The Maxima-related aspects should go to
+   ComputerAlgebra/Satisfiability/Lisp/Reductions/plans/RBases.hpp. </li>
+   <li> DONE (this is the role of the MT19937 "tempering transform")
+   MT19937 doesn't seem to specify how one maps the values it
+   produces to another integer range, and so likely this isn't
+   standardised. </li>
   </ul>
 
-  
+
   \todo Shuffling and sorting
   <ul>
    <li> For comparability with the Maxima-level we use the Mersenne twister;
@@ -216,5 +233,12 @@ rand_perm(L);
 
 
   \todo Create unit-tests for Bases/RUcpGen.cpp
+
+
+  \bug DONE (resetting now old state of contradicting_ucl)
+  Testcase Intransitive2 fails
+  <ul>
+   <li> Failure as predicted by OK, while todo falsely removed by MG. </li>
+  </ul>
 
 */
