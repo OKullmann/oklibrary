@@ -103,32 +103,54 @@ rand_perm(L);
   \todo Random number generation
   <ul>
    <li> How to simulate the Maxima random-generator? </li>
-   <li> The Boost documentation doesn't say anything how to construct the
-   distribution-object, so that out of that all the random_number_generator
-   in the sensible way is generated? Ask on the mailing list. </li>
-   <li> One can simply pass boost::mt19937 directly to
-   random_number_generator. This produces the same results as when using
-   uniform_distribution, as can be seen by the generator rg_wo_variate in
-   Satisfiability/Reductions/Bases/RandomShuffle.cpp. </li>
-   <li> boost::random_number_generator is as follows (boost 1.44):
+   <li> Maxima implements MT19937, as does boost (in boost::mt19937). This
+   includes the generation of a 32-bit integer number. </li>
+   <li> Maxima scales the 32-bit value it generates using MT19937 by taking
+   the number modulo the upper range limit:
    \verbatim
+set_random_state(make_random_state(1));
+create_list(mod(random(2**32),20),i, 1,20);
+  [5,19,4,8,3,13,11,1,19,12,8,9,16,3,13,0,2,1,2,16]
+set_random_state(make_random_state(1));
+create_list(random(20),i, 1,20);
+  [5,19,4,8,3,13,11,1,19,12,8,9,16,3,13,0,2,1,2,16]
+   \endverbatim
+   </li>
+   <li> Maxima's random() function can be simulated by using boost::mt19937
+   directly and the C++ mod operator. See the "Underlying MT19937 generated
+   integers scaled using mod" output from RandomShuffle.cpp. </li>
+   <li> Understanding how boost scales the result of MT19937 into range:
+   <ul>
+    <li> The Boost documentation doesn't say anything how to construct the
+    distribution-object, so that out of that all the random_number_generator
+    in the sensible way is generated? Ask on the mailing list. </li>
+    <li> One can simply pass boost::mt19937 directly to
+    random_number_generator. This produces the same results as when using
+    uniform_distribution, as can be seen by the generator rg_wo_variate in
+    Satisfiability/Reductions/Bases/RandomShuffle.cpp. </li>
+    <li> boost::random_number_generator is as follows (boost 1.44):
+    \verbatim
   result_type operator()(argument_type n)
   {
     typedef uniform_int<IntType> dist_type;
     return variate_generator<base_type&, dist_type>(_rng, dist_type(0, n-1))();
   }
-   \endverbatim
-   </li>
-   <li> boost::uniform_distribution scales the random number generated
-   into the correct range by scaling using division (see ::randn in
-   Satisfiability/Reductions/Bases/RandomShuffle.hpp ). </li>
-   <li> It is still not clear how either boost::random_number_generator or
-   boost::uniform_distribution maps the full integer range into 1 to n.
-   There doesn't seem to be any real description of this at
-   http://www.boost.org/doc/libs/1_45_0/doc/html/boost_random/reference.html#boost_random.reference.concepts.uniform_random_number_generator .
-   </li>
-   <li> MG has asked further on the mailing list. </li>
-   <li> The code for Maxima's random number generation is in
+    \endverbatim
+    </li>
+    <li> boost::uniform_distribution scales the random number generated
+    into the correct range by scaling using division (see ::randn in
+    Satisfiability/Reductions/Bases/RandomShuffle.hpp ). </li>
+    <li> It is still not clear how either boost::random_number_generator or
+    boost::uniform_distribution maps the full integer range into 1 to n.
+    There doesn't seem to be any real description of this at
+    http://www.boost.org/doc/libs/1_45_0/doc/html/boost_random/reference.html#boost_random.reference.concepts.uniform_random_number_generator .
+    </li>
+   </ul>
+   <li> The Maxima-related aspects should go to
+   ComputerAlgebra/Satisfiability/Lisp/Reductions/plans/RBases.hpp. </li>
+   <li> DONE MG has asked further on the mailing list. </li>
+   <li> DONE (Maxima implements MT19937 the same as boost)
+   The code for Maxima's random number generation is in
    ExternalSources/builds/Maxima/ecl/maxima-5.21.1/src/rand-mt19937.lisp,
    but it is completely unclear how in Maxima out of "MT 19937"
    a random integer is constructed. The lisp code isn't easy to
