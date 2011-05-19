@@ -111,6 +111,12 @@ License, or any later version. */
    <li> Still, if splitting doesn't take too long, one can first split via
    the depth-interpretation, estimating how much higher one can set d for the
    n-interpretation. </li>
+   <li> Or one does n-splitting, makes a few samples from the last 100
+   sub-instances in the Data-file, and if solving takes more than 1 or 2
+   seconds, then one increases n. </li>
+   <li> The rought idea is that conflict-driven solvers are "good for easy
+   instances" (considering here a conflict-driven solver at the distributed
+   end). </li>
   </ul>
 
 
