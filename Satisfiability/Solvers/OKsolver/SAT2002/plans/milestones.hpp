@@ -8,26 +8,19 @@ License, or any later version. */
 /*!
   \file Solvers/OKsolver/SAT2002/plans/milestones.hpp
   
-  \module_version OKsolver/SAT2002 0.9.8 (19.5.2011)
+  \module_version OKsolver/SAT2002 0.9.8.1 (19.5.2011)
 
 
   \par Version 0.9.9
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following topics
-   are handled:
-    - Taking the length of the partial assignments into account
-
-
-  \par Version 0.9.10
-
-  \par
-   In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following topics
-   are handled:
+   In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following
+   topics are handled:
+    - Taking the length of the partial assignments into account : DONE
     - Script for applying partial assignments
 
 
-  \par Version 0.9.11
+  \par Version 0.9.10
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -37,7 +30,7 @@ License, or any later version. */
     - Computing a splitting tree
 
 
-  \par Version 0.9.12
+  \par Version 0.9.11
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -46,7 +39,7 @@ License, or any later version. */
     - Improve the Dimacs-output
 
 
-  \par Version 0.9.13
+  \par Version 0.9.12
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -54,7 +47,7 @@ License, or any later version. */
     - Introduce error-codes
 
 
-  \par Version 0.9.14
+  \par Version 0.9.13
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -62,7 +55,7 @@ License, or any later version. */
     - Output to files
 
 
-  \par Version 0.9.15
+  \par Version 0.9.14
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -70,7 +63,7 @@ License, or any later version. */
     - Differences
 
 
-  \par Version 0.9.16
+  \par Version 0.9.15
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -78,7 +71,7 @@ License, or any later version. */
     - OUTPUTTREEDATAXML
 
 
-  \par Version 0.9.17
+  \par Version 0.9.16
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -87,7 +80,7 @@ License, or any later version. */
     - Language standards
 
 
-  \par Version 0.9.18
+  \par Version 0.9.17
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -95,7 +88,7 @@ License, or any later version. */
     - Buildsystem
 
 
-  \par Version 0.9.19
+  \par Version 0.9.18
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -103,7 +96,7 @@ License, or any later version. */
     - Complete the help facilities of the OKsolver
 
 
-  \par Version 0.9.20
+  \par Version 0.9.19
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
@@ -246,6 +239,11 @@ License, or any later version. */
 
 
   \par Version 1.4
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following
+   topics are handled:
+    - Good splitting
 
   \par
    Improved usability.

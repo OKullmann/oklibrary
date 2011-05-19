@@ -86,7 +86,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo Taking the length of the partial assignments into account
+  \todo DONE
+  Taking the length of the partial assignments into account
   <ul>
    <li> An alternative interpretation of the depth-parameter for the OKsolver
    is needed:
@@ -97,6 +98,19 @@ License, or any later version. */
      <li> This should make more balanced splitting possible. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Good splitting
+  <ul>
+   <li> How to find good values for the d-parameter? </li>
+   <li> Yet we first use the depth-interpretation, see how it works out, and
+   then switch to the n-interpretation. </li>
+   <li> This is reasonable for exploration, but of course for (just) solving
+   instances we need to find a direct strategy. </li>
+   <li> Still, if splitting doesn't take too long, one can first split via
+   the depth-interpretation, estimating how much higher one can set d for the
+   n-interpretation. </li>
   </ul>
 
 

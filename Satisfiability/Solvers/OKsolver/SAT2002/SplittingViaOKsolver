@@ -34,7 +34,7 @@ set -o errexit
 set -o nounset
 
 script_name="SplittingViaOKsolver"
-version_number=0.1.3
+version_number=0.1.4
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 

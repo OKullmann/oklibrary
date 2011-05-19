@@ -130,7 +130,10 @@ bool nurVorreduktion = false;
 bool Schranken = false;
 unsigned int Zeitschranke = 0;
 bool randomisiert = false;
+//! using the solver in splitting-only mode
 bool splitting_only = false;
+//! for the splitting-only mode, whether n is to be used instead of depth
+bool splitting_n = false;
 
 // Setzen des voreingestellen Ausgabeformates
 
@@ -687,7 +690,9 @@ alleReduktionen:
   
   /* Nun ist die beste Variable gefunden, und es wird verzweigt: */
 
-  if (splitting_only && Rekursionstiefe == Beobachtungsniveau) {
+  if (splitting_only &&
+      ((! splitting_n && Rekursionstiefe == Beobachtungsniveau) ||
+       (splitting_n && N - aktN >= Beobachtungsniveau))) {
     ++splitting_cases;
     {
       assert(splitting_cases <= 1073741824U);
@@ -1205,6 +1210,8 @@ int main(const int argc, const char* const argv[]) {
       printf("%s\n%s\n", Meldung(47), Meldung(48));
     else if (strcmp("-RA", argv[Argument]) == 0)
       randomisiert = ! randomisiert;
+    else if (strcmp("-SN", argv[Argument]) == 0)
+      splitting_n = ! splitting_n;
     else if (strcmp("-DO", argv[Argument]) == 0) {
       Format = Dimacs_Format;
       spezRueckgabe = true;

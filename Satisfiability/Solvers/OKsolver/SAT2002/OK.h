@@ -123,10 +123,10 @@ License, or any later version. */
 #include <stdbool.h>
 
 #define VERSIONSNUMMER1 "1"
-#define VERSIONSNUMMER2 "41"
+#define VERSIONSNUMMER2 "42"
 /* Version = VERSIONSNUMMER1 "." VERSIONSNUMMER2 */
 
-#define DATUM "23.4.2011"
+#define DATUM "19.5.2011"
 
 extern const bool internal;
 
@@ -364,13 +364,15 @@ extern bool Belegung;
 /* und Klauselnanzahl in der Eingabe und nach Vorreduktion */
 
 extern unsigned int P0, P;
-extern unsigned int N0, N;
+//! number of variables in input (a constant)
+extern unsigned int N0;
+//! number of variables after initial reduction (a constant)
+extern unsigned int N;
 extern unsigned int L0, L;
 extern unsigned int K0, K;
 
-
+//! current number of unassigned variables (<= N)
 extern unsigned int aktN;
-/* aktN <= N ist die aktuelle Zahl von unbelegten Variablen */
 
 extern unsigned int aktP;
 /* aktP <= P ist die aktuelle maximale Klauselnlaenge */
