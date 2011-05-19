@@ -24,6 +24,8 @@ License, or any later version. */
     - Testcase Intransitive2 fails : DONE
     - Shuffling and sorting
     - Random r_1-bases
+    - Random shuffling
+    - Random number generation
 
   \par
    In Satisfiability/Reductions/Bases/RUcpGen.cpp the following topics
