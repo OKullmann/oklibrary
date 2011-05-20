@@ -9,6 +9,10 @@ License, or any later version. */
   \file Interfaces/DistributedSolving/plans/general.hpp
   \brief Plans regarding distributed solving of SAT problems
 
+  See ExperimentSystem/plans/DistributedSolving.hpp for tools/plans which
+  are mostly related to managing different machines and/or different
+  groups.
+
 
   \todo Create milestones
 
@@ -16,7 +20,12 @@ License, or any later version. */
   \todo Connections
   <ul>
    <li> See Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp for the
-   currently only splitting tool. </li>
+   currently only splitting tool (SplittingViaOKsolver). </li>
+   <li> See ExperimentSystem/plans/DistributedSolving.hpp for other plans
+   on distributed solving. </li>
+   <li> See
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/Parallelisation/general.hpp
+   for solving hard van-der-Waerden problems, as an application. </li>
   </ul>
 
 

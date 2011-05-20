@@ -9,6 +9,30 @@ License, or any later version. */
   \file ExperimentSystem/plans/DistributedSolving.hpp
   \brief Plans for distributed SAT solving via a splitting tree
 
+  Here we are concerned more with experimentation, collaboration of
+  different groups etc., while in
+  Interfaces/DistributedSolving/plans/general.hpp the emphasise is on
+  specific tools in the realm of SplittingViaOKsolver.
+
+
+  \todo Connections
+  <ul>
+   <li> See Interfaces/DistributedSolving/plans/general.hpp for tools in the
+   realm of SplittingViaOKsolver. </li>
+  </ul>
+
+
+  \todo Adding distribution power to SplittingViaOKsolver
+  <ul>
+   <li> Basically a script which has given a list of machines where it
+   launches and monitors solving of the sub-instances computed by
+   SplittingViaOKsolver. </li>
+   <li> See "Simple script for monitoring remote processes" and
+   "Launching and monitoring" in ExperimentSystem/plans/general.hpp. </li>
+   <li> The "database" perhaps is just as described below in "Organising
+   distributed solving". </li>
+  </ul>
+
 
   \todo Distribution via splitting trees
   <ul>
@@ -33,6 +57,38 @@ License, or any later version. */
    in Solvers/OKsolver/SAT2002/plans/general.hpp), but also stronger reduction
    means could be used. </li>
    <li> First we implement all this at the Maxima/Lisp level. </li>
+  </ul>
+
+
+  \todo Organising distributed solving
+  <ul>
+   <li> This is about larger tasks, involving separated groups, attacked by
+   SplittingViaOKsolver. </li>
+   <li> Would be good if it could be organised via Github. </li>
+   <li> The "database" could be just a file with one entry per line,
+   either a single number i, or a range i-j, for the sub-instances which
+   have been solved already. </li>
+   <li> Should we have a compression tool:
+    <ol>
+     <li> This would create maximal ranges. </li>
+     <li> And also sorting the lines. </li>
+     <li> However this would likely incur a large Git-overhead. </li>
+     <li> So perhaps we avoid this, and trust that entries will be already
+     condensed enough. </li>
+     <li> In this way just the repository with its mechanisms is sufficient
+     to organise the distributed solving. </li>
+    </ol>
+   </li>
+   <li> How to distribute the workload:
+    <ol>
+     <li> Given that everything needs to be solved, and with the new
+     organisation of splitting (according to the number of variables in the
+     paths) we have a rather balanced workload, distributing just means
+     assigning chunks, i.e., intervals i-j of indices of sub-problems. </li>
+     <li> One need then to have a file with participants, and their assigned
+     intervals. </li>
+    </ol>
+   </li>
   </ul>
 
 */

@@ -33,8 +33,10 @@ License, or any later version. */
   \todo Simple script for monitoring remote processes
   <ul>
    <li> See "Translation via addition" in
-   Investigations/RamseyTheory/VanderWaerdenProblems/Transversals/plans/UsingSAT.hpp
+   RamseyTheory/VanderWaerdenProblems/Transversals/plans/UsingSAT.hpp
    for first plans. </li>
+   <li> See "Adding distribution power to SplittingViaOKsolver" in
+   ExperimentSystem/plans/DistributedSolving.hpp for a concrete project. </li>
    <li> Such a script perhaps visits every hour each process, restarts it if
    necessary, and performs also some output-action, stored to some file
    dedicated to the experiment. </li>

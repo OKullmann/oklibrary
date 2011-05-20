@@ -12,6 +12,14 @@ License, or any later version. */
   Collaboration of OK, YP.
 
 
+  \todo Connections
+  <ul>
+   <li> Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp </li>
+   <li> Interfaces/DistributedSolving/plans/general.hpp </li>
+   <li> ExperimentSystem/plans/DistributedSolving.hpp </li>
+  </ul>
+
+
   \todo Plingeling
   <ul>
    <li> Running in default-configuration (on the test-machine with 2 threads;
