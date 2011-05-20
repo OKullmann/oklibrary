@@ -485,11 +485,25 @@ sys     1m12.151s
    <li> The OKsolver-2002 itself:
    \verbatim
 > I="../$(cat ../F)"; echo " i n t nds" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F > Temp.cnf; OKsolver_2002-O3-DNDEBUG Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/running_time/ {print $3}'); ND=$(cat Temp.out | awk '/number_of_nodes/ {print $3}'); echo "$C $F $N $T $ND" >> Stats; echo -n "$C:$T "; fi; done
+real    1037m34.368s
+user    1034m34.938s
+sys     0m52.852s
 
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-nds=%e, mean-t=%.3fs, mean-nds=%.0f",length(E$t),sum(E$t)/60/60,sum(E$nds),mean(E$t),mean(E$nds)),"\n")
-
+5638: 17.18h, sum-nds=2.246460e+07, mean-t=10.972s, mean-nds=3984
    \endverbatim
+   We need to find out why the OKsolver-2002 is so inefficient here.
+    <ol>
+     <li> It could be the large clauses or the non-existing 2-reductions. </li>
+     <li> But actually the average clause-length is just 5 already for the
+     input. </li>
+     <li> And we also get a reasonable number of 2-reductions (see above, for
+     the free-standing run). </li>
+     <li> Perhaps in general the OKsolver-2002 branching-heuristics is good
+     for the beginning (creating many new shorter clauses), but bad for
+     finishing off? </li>
+    </ol>
    </li>
   </ul>
 
