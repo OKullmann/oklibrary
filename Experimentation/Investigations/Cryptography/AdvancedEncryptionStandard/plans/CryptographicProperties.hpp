@@ -61,7 +61,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo Identity-map keys
+  \todo Identity-map keys ??? MISLEADING --- no maps, just simple input/output
+  pairs ???
   <ul>
    <li> Does the AES have any key for which the cipher becomes the
    identity with that key?
@@ -157,7 +158,7 @@ for i in $(seq 1 10); do cryptominisat ssaes_id_p_r${i}_c1_rw1_e4_f0.cnf | awk "
       <ul>
        <li> minisat-2.2.0 (time: 11s, conflicts: 48883). </li>
        <li> cryptominisat (time: 42s, conflicts: 143094). </li>
-       <li> precosat-570.1 (time:51s, conflicts:155752). </li>
+       <li> precosat-570.1 (time: 51s, conflicts:155752). </li>
        <li> precosat236 (time: 143s, conflicts: 446841). </li>
        <li> glucose (time: 253s, conflicts: 551680). </li>
        <li>
