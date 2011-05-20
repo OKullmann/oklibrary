@@ -18,6 +18,11 @@ License, or any later version. */
    <li> The most fundamental tool for a solver is a script, which takes the
    solver output from standard input, and puts it into a single line (just
    data) on standard output, usable for R. </li>
+   <li> First we implement this as an awk script. See
+   <ul>
+    <li> ExtractMinisat.awk. </li>
+   </ul>
+   </li>
    <li> This is without parameters; with parameter "header" (as string) it
    just prints the header (which would be at the top of the R-script). </li>
    <li> And with parameter "dir=Directory" it reads all the files in Directory,
@@ -73,6 +78,15 @@ License, or any later version. */
      <li> file : string. </li>
      <li> There can be more attributes; the above ones always occur in that
      order. </li>
+     <li> For handling parameters that aren't produced by certain solvers,
+     for example nds by minisat-2.2.0, there are two options:
+     <ol>
+      <li> Output "NA" for that column. </li>
+      <li> Don't output an nds column. This has the disadvantage that
+      outputs from different solvers are harder to compare. </li>
+     </ol>
+     For now the awk scripts (see above) don't output the column.
+     </li>
     </ol>
    </li>
    <li> With such tools in place, the current R-functions should be transformed
