@@ -18,6 +18,8 @@ License, or any later version. */
      <li> Program options </li>
      <li> Testsystem </li>
      <li> Cryptology library </li>
+     <li> Update to our current gcc-version (making all C++ code compiling)
+     </li>
     </ol>
    </li>
    <li> General Sat components:
