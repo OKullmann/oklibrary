@@ -68,6 +68,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    For examples see docus/ConstraintTemplateRewriteSystem.hpp.
 */
 
+
 /****************************
  * Namespaces               *
  ****************************

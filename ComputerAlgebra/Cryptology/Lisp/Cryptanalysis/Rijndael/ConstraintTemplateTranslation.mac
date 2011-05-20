@@ -22,8 +22,9 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Constra
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteSystem.mac")$
 
+
 /********************************
- * Translation functions            *
+ * Translation functions        *
  ********************************
 */
 
@@ -63,6 +64,7 @@ csttl2fcl(csttl, var_list, rewrite_map) := block(
         []))),
   csttl)),
   return([new_var_list, cl]))$
+
 
 /****************************************
  * Translation bundles                  *

@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/Smal
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
+
 /* ************************************************************
    * General small scale field analysis                       *
    ************************************************************
@@ -99,6 +100,7 @@ output_rijnmult_fullcnf_stdname(field_element) :=
 rijnmult_cnfp(field_element,FF) := 
  is(cs2fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) =
    rijnmult_fulldnf_fcs(field_element))$
+
 
 /* *********************************************
    * Small scale field multiplication analysis *
@@ -189,6 +191,7 @@ output_ssinv_fullcnf_stdname(b,e, mod_poly) :=
 ssinv_cnfp(FF, b, e, mod_poly) := 
  is(cs2fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) =
    ssinv_fulldnf_fcs(b, e, mod_poly))$
+
 
 /* ******************************************
    * Representations by hitting clause-sets *

@@ -12,7 +12,7 @@ License, or any later version. */
 Use by
 
 oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteRules.mac");
-  
+
 */
 
 /*!
@@ -28,7 +28,6 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permuta
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
 
-
 /*!
   \todo Editorial improvements
   <ul>
@@ -42,6 +41,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
    <li> Expand names like  pBits etc for clarity. </li>
   </ul>
 */
+
 
 /* ***********************************************
    * Constraint template rewrite translation     *
@@ -601,7 +601,7 @@ aes_key_expansion_cstrb :
 /* Generates a set of unit-clauses (initially simpler than simplifying constants
    or making partial assignments) to set the given vars (representing the bits
    of AES round constants) to the round constant for round n */
-aes_round_constant_l( n) := block([rc_el,rc_l],
+aes_round_constant_l(n) := block([rc_el,rc_l],
   rc_el : xreduce(lambda([a,b],aes_field_mul_data[b,a+1]),
                create_list(2,i,1,(n -1)),1),
   rc_l : egf_coeffs(rijn_bit_field,egf_num2poly(rijn_byte_field,rc_el),7),
@@ -710,6 +710,7 @@ aes_key_expansion_cstr_cstl(cst) := block(
   ),
   return(rs)
 )$
+
 
 /* ****************************************
    * CNF Translation functions            *
