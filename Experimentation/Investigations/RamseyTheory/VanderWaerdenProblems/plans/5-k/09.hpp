@@ -205,7 +205,51 @@ UNSATISFIABLE
      </li>
      <li> Okay, let's then try n=25:
      \verbatim
-> SplittingViaOKsolver -D24 -SN VanDerWaerden_pd_2-5-9_447.cnf
+> SplittingViaOKsolver -D25 -SN VanDerWaerden_pd_2-5-9_447.cnf
+> cd SplitViaOKsolver_D25SNVanDerWaerden_pd_259_447cnf_2011-05-19-182415
+> cd more Md5sum
+bd884564a5da1944e4820c0120010133
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  25.00   25.00   26.00   25.97   27.00   48.00
+> table(E$n)
+    25     26     27     28     29     30     31     32     33     34     35
+112730  60677  31829  14740   6319   2772   1229    573    261    173     93
+    36     37     38     39     40     41     42     43     45     47     48
+    65     35     20     12      6      1      5      6      2      1      1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         9
+c initial_number_of_variables           224
+c initial_number_of_clauses             18025
+c initial_number_of_literal_occurrences 113027
+c running_time(sec)                     9183.4
+c number_of_nodes                       463099
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                5286
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        25
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_pd_2-5-9_447.cnf
+c splitting_directory                   SplitViaOKsolver_D25SNVanDerWaerden_pd_259_447cnf_2011-05-19-182415/Instances
+c splitting_cases                       231550
+
+> cd Instances
+> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> "RunPdVdWk1k2 5 9 adaptg2wsat 100 2000000" yields

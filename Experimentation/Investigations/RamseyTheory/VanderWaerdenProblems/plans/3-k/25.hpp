@@ -415,9 +415,29 @@ c splitting_cases                       1928
      \endverbatim
      This is very small!
      </li>
-     <li> Then let's go for n=35:
+     <li> Then let's go for n=35, 40, 45:
      \verbatim
 > SplittingViaOKsolver -D35 -SN VanDerWaerden_pd_2-3-25_608.cnf
+ 35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  54
+755 131  97 103  94 138 207 232 302 357 396 446 449 410 265 160  50   8   3
+c running_time(sec)                     3075.2
+c number_of_nodes                       9205
+c number_of_2-reductions                201
+c max_tree_depth                        28
+c splitting_cases                       4603
+
+> SplittingViaOKsolver -D40 -SN VanDerWaerden_pd_2-3-25_608.cnf
+ 40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59
+713 323 268 336 406 482 569 670 735 779 763 668 605 424 254 176  83  42  19  19
+ 60  61
+ 10   3
+c running_time(sec)                     6277.1
+c number_of_nodes                       16693
+c number_of_2-reductions                822
+c max_tree_depth                        33
+c splitting_cases                       8347
+
+> SplittingViaOKsolver -D45 -SN VanDerWaerden_pd_2-3-25_608.cnf
 
 > cd Instances
 > I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
