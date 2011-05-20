@@ -6,7 +6,7 @@
 # License, or any later version.
 
 
-# Converts the output of OKsolver_2002 to a single line, readable by R.
+# Extracts the numerical data from output of OKsolver_2002, in a single line.
 
 /^c initial_number_of_variables/ { n=$3; }
 /^c initial_number_of_clauses/ { c=$3; }

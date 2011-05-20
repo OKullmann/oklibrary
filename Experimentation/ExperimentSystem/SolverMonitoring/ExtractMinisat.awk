@@ -6,7 +6,7 @@
 # License, or any later version.
 
 
-# Converts the output of minisat-2.2.0 to a single line, readable by R.
+# Extracts the numerical data from output of a minisat-like solver, in a single line.
 
 /^\|  *Number of variables:/ { n=$5; }
 /^\|  *Number of clauses:/ { c=$5; }
