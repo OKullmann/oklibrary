@@ -92,6 +92,35 @@ License, or any later version. */
    <li> Some solvers do not always output their full statistics. See
    "Correct solvers with poor handling of trivial CNFs" in
    Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp. </li>
+   <li> Not all solver outputs are comparable.
+   <ul>
+    <li> Variable numbers:
+     <ul>
+      <li> Consider the Dimacs %file:
+      \verbatim
+shell> cat test.cnf
+p cnf 100 1
+100 0
+      \endverbatim
+      </li>
+      <li> OKsolver_2002 returns the true number of variables:
+      \verbatim
+shell> OKsolver_2002-O3-DNDEBUG test.cnf
+c initial_number_of_variables           1
+      \endverbatim
+      </li>
+      <li> minisat-2.2.0 returns the upper bound on the variable index:
+      \verbatim
+shell> minisat-2.2.0 test.cnf
+|  Number of variables:           100                                         |
+      \endverbatim
+      </li>
+      <li> We should output both of these outputs (true number and
+      maximum variable index). </li>
+     </ul>
+    </li>
+   </ul>
+   </li>
    <li> With such tools in place, the current R-functions should be transformed
    to functions for reading and evaluating files created with the tools. </li>
    <li> We need also a simple system to connect a solver with its extraction
