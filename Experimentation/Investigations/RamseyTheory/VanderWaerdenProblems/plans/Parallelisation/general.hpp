@@ -134,7 +134,7 @@ c splitting_directory                   SplitViaOKsolver_D4VanDerWaerden_2312_13
 c splitting_cases                       16
 
 > cd Instances/
-> time for F in $(awk 'NR!=1 {print $2}' ../Data); do cat ../$(cat ../F) | ApplyPass-O3-DNDEBUG $F > Temp.cnf; echo $F $(satz215 Temp.cnf | awk '/terminated/ {print $4}'); done; rm Temp.cnf satz215_timetable
+> time for F in $(awk 'NR!=1 {print $2}' ../Data); do cat ../$(cat ../F) | ApplyPass-O3-DNDEBUG $F Temp.cnf; echo $F $(satz215 Temp.cnf | awk '/terminated/ {print $4}'); done; rm Temp.cnf satz215_timetable
 13 0.320
 7 0.960
 11 0.860

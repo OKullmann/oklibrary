@@ -50,7 +50,8 @@ License, or any later version. */
    already contain all derived unit-clause-eliminations, and thus better a
    script ApplyPass is provided, which just applies the partial assignment.
    </li>
-   <li> See "Application ApplyPass" in
+   <li> DONE
+   See "Application ApplyPass" in
    Satisfiability/Assignments/PartialAssignments/plans/Boolean.hpp. </li>
    <li> And after that, we need to apply ExtendedToStrictDimacs, which makes
    for gapless variable-numbers and correct parameter-values. </li>
@@ -60,7 +61,8 @@ License, or any later version. */
    Interfaces/InputOutput/plans/ExtendedToStrictDimacs.hpp. </li>
    <li> Also the renaming should be shown in the comments, Or perhaps
    better in an additional file? </li>
-   <li> After applying the partial assignment we have the correct number
+   <li> DONE
+   After applying the partial assignment we have the correct number
    of clauses. And also the correct number of (occurring) variables could
    be determined. This could be passed to the renaming script. This then
    needed only one pass, without storing the instance (when outputting the
