@@ -89,9 +89,8 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> Some solvers do not always output their full statistics. See
-   "Correct solvers with poor handling of trivial CNFs" in
-   Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp. </li>
+   <li> Some solvers do not always output their full statistics. In such
+   cases, appropriate 0-values have to be entered. </li>
    <li> Not all solver outputs are comparable.
    <ul>
     <li> Variable numbers:

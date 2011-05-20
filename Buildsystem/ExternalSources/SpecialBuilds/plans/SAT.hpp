@@ -20,36 +20,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Correct solvers with poor handling of trivial CNFs
-  <ul>
-   <li> For the Dimacs file:
-   \verbatim
-p cnf 1 2
-1 0
--1 0
-   \endverbatim
-   glucose and minisat2 return:
-   \verbatim
-c This is glucose 1.0 --  based on MiniSAT (Many thanks to MiniSAT team)
-
-c ============================[ Problem Statistics ]=============================
-c |                                                                             |
-c |  Number of variables:  1                                                    |
-c |  Number of clauses:    2                                                    |
-c |  Parsing time:         0.00         s                                       |
-c Solved by unit propagation
-s UNSATISFIABLE
-   \endverbatim
-   </li>
-   <li> If solved by UCP, the solvers should at least return the number
-   of propagations! </li>
-   <li> The solvers should return full statistics. </li>
-   <li> Without full statistics, properly extracting statistics from
-   solver runs becomes more difficult. </li>
-   <li> We should contact the authors. </li>
-  </ul>
-
-
   \todo (P)Lingeling
   <ul>
    <li> DONE (installed)
@@ -1451,6 +1421,39 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
   <ul>
    <li> SampleCount and xor-addition:
    http://www.cs.cornell.edu/~sabhar/#software </li>
+  </ul>
+
+
+  \todo DONE (no need to do something here; the number of unit-propagations
+  is not interesting, and the extraction tools shall just return 0 for
+  numbers of conflicts etc.)
+  Correct solvers with poor handling of trivial CNFs
+  <ul>
+   <li> For the Dimacs file:
+   \verbatim
+p cnf 1 2
+1 0
+-1 0
+   \endverbatim
+   glucose and minisat2 return:
+   \verbatim
+c This is glucose 1.0 --  based on MiniSAT (Many thanks to MiniSAT team)
+
+c ============================[ Problem Statistics ]=============================
+c |                                                                             |
+c |  Number of variables:  1                                                    |
+c |  Number of clauses:    2                                                    |
+c |  Parsing time:         0.00         s                                       |
+c Solved by unit propagation
+s UNSATISFIABLE
+   \endverbatim
+   </li>
+   <li> If solved by UCP, the solvers should at least return the number
+   of propagations! </li>
+   <li> The solvers should return full statistics. </li>
+   <li> Without full statistics, properly extracting statistics from
+   solver runs becomes more difficult. </li>
+   <li> We should contact the authors. </li>
   </ul>
 
 
