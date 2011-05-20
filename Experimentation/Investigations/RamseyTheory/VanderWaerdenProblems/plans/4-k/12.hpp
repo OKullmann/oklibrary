@@ -134,6 +134,12 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_pd_2-4-12_388.cnf
 c splitting_directory                   SplitViaOKsolver_D30SNVanDerWaerden_pd_2412_388cnf_2011-05-20-091001/Instances
 c splitting_cases                       132131
+
+> cd Instances
+> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
      \endverbatim
      So n=30 seems about right. </li>
     </ol>
