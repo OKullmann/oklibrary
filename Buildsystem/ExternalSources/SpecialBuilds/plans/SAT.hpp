@@ -20,6 +20,36 @@ License, or any later version. */
   </ul>
 
 
+  \todo Correct solvers with poor handling of trivial CNFs
+  <ul>
+   <li> For the Dimacs file:
+   \verbatim
+p cnf 1 2
+1 0
+-1 0
+   \endverbatim
+   glucose and minisat2 return:
+   \verbatim
+c This is glucose 1.0 --  based on MiniSAT (Many thanks to MiniSAT team)
+
+c ============================[ Problem Statistics ]=============================
+c |                                                                             |
+c |  Number of variables:  1                                                    |
+c |  Number of clauses:    2                                                    |
+c |  Parsing time:         0.00         s                                       |
+c Solved by unit propagation
+s UNSATISFIABLE
+   \endverbatim
+   </li>
+   <li> If solved by UCP, the solvers should at least return the number
+   of propagations! </li>
+   <li> The solvers should return full statistics. </li>
+   <li> Without full statistics, properly extracting statistics from
+   solver runs becomes more difficult. </li>
+   <li> We should contact the authors. </li>
+  </ul>
+
+
   \todo (P)Lingeling
   <ul>
    <li> DONE (installed)
