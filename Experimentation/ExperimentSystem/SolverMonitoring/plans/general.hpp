@@ -78,7 +78,8 @@ License, or any later version. */
      <li> file : string. </li>
      <li> There can be more attributes; the above ones always occur in that
      order. </li>
-     <li> For handling parameters that aren't produced by certain solvers,
+     <li> DONE (no need to make incomparable data comparable)
+     For handling parameters that aren't produced by certain solvers,
      for example nds by minisat-2.2.0, there are two options:
      <ol>
       <li> Output "NA" for that column. </li>
@@ -91,9 +92,14 @@ License, or any later version. */
    </li>
    <li> Some solvers do not always output their full statistics. In such
    cases, appropriate 0-values have to be entered. </li>
-   <li> Not all solver outputs are comparable.
+   <li> DONE (solver-outputs in general are not comparable, only similar
+   families of solvers should be treated similarly)
+   Not all solver outputs are comparable.
    <ul>
-    <li> Variable numbers:
+    <li>  DONE (different solvers have different interpretations, that's it;
+    if we want additional input statistics, then it can be easily provided
+    for each investigation)
+    Variable numbers:
      <ul>
       <li> Consider the Dimacs %file:
       \verbatim
@@ -114,7 +120,8 @@ shell> minisat-2.2.0 test.cnf
 |  Number of variables:           100                                         |
       \endverbatim
       </li>
-      <li> We should output both of these outputs (true number and
+      <li> DONE (no need)
+      We should output both of these outputs (true number and
       maximum variable index). </li>
      </ul>
     </li>
