@@ -28,6 +28,13 @@ License, or any later version. */
     - Find more test vectors
     - Add variants with reduced number of rounds
 
+  \par Version 0.0.4
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/plans/general.hpp
+   the following topics are handled:
+    - Notion of DES round
+
   \par
    Update the following milestones.
 
