@@ -282,9 +282,7 @@ namespace OKlib {
 
     template <typename Int = int, class String = std::string, class AdaptorStatistics = CLSAdaptorStatistics<Int, String> >
     class CLSAdaptorDIMACSOutput {
-
       typedef AdaptorStatistics adaptor_statistics_type;
-
       std::ostream& out;
       adaptor_statistics_type adaptor_statistics;
 
@@ -301,13 +299,10 @@ namespace OKlib {
 
       void comment(const string_type& s) {
         adaptor_statistics.comment(s);
-        if (s.empty())
-          out << "c";
+        if (s.empty()) out << "c";
         else
-          if (boost::algorithm::is_space()(s[0]))
-            out << "c" << s;
-          else
-            out << "c " << s;
+          if (boost::algorithm::is_space()(s[0])) out << "c" << s;
+          else out << "c " << s;
         out << "\n";
       }
       void n(const int_type pn) {
@@ -321,9 +316,7 @@ namespace OKlib {
           throw OKlib::InputOutput::ParameterOutputError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::n:\n  number of clauses is a negative quantity = " + boost::lexical_cast<std::string>(pc));
         out << "p cnf " << adaptor_statistics.stat.parameter_n << " " << adaptor_statistics.stat.parameter_c << "\n";
       }
-      void finish() {
-        adaptor_statistics.finish();
-      }
+      void finish() { adaptor_statistics.finish(); }
       void tautological_clause(const int_type t) {
         adaptor_statistics.tautological_clause(t);
       }
