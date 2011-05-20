@@ -89,6 +89,9 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> Some solvers do not always output their full statistics. See
+   "Correct solvers with poor handling of trivial CNFs" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp. </li>
    <li> With such tools in place, the current R-functions should be transformed
    to functions for reading and evaluating files created with the tools. </li>
    <li> We need also a simple system to connect a solver with its extraction
