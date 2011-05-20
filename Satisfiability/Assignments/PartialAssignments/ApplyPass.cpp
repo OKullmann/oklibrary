@@ -9,21 +9,30 @@ License, or any later version. */
   \file OKlib/Satisfiability/Assignments/PartialAssignments/ApplyPass.cpp
   \brief Application for applying partial assignments
 
-  Takes one parameter, a file with a partial assignment phi, reads a
-  clause-list F from standard input, and prints to standard output the result
-  of applying phi to F.
+    ApplyPass phi
+  or
+    ApplyPass phi Out
+
+  Takes at least one parameter phi, a file with a partial assignment, reads a
+  clause-list F from standard input, and outputs the result of applying phi to
+  F, either to standard output or to file Out.
 
    - The old comments are kept, only before the parameter-line a comment is
      added showing phi.
    - The application uses only one pass, and does not store the clause-list.
-   - Thus it can not update the parameter-line, but keeps it as is.
-   - So the number of clauses is then only an upper bound.
+   - Thus in case of output to standard output, it can not update the
+     parameter-line, but keeps it as is.
+   - And so then the number of clauses is then only an upper bound.
+   - However, in case of output to file Out, then (in-place) the parameter-line
+     is updated.
    - Variables, the order of clauses and the order of literals are kept.
 */
 
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <sstream>
+#include <cassert>
 
 #include <OKlib/Satisfiability/ProblemInstances/Literals/TrivialLiterals.hpp>
 #include <OKlib/Satisfiability/Assignments/PartialAssignments/Boolean.hpp>
@@ -33,41 +42,70 @@ License, or any later version. */
 
 namespace {
 
-  enum { errcode_parameter = 1, errcode_file = 2 };
+  enum { errcode_parameter = 1, errcode_ifile = 2,
+         errcode_ofile = 3, errcode_write = 4 };
 
   typedef OKlib::Literals::Literals_int literal_type;
   typedef OKlib::Satisfiability::Assignments::PartialAssignments::BPass0<literal_type> pass_type;
   typedef OKlib::Satisfiability::Interfaces::InputOutput::ReadPass<literal_type, pass_type> readpass_t;
-  typedef OKlib::InputOutput::CLSAdaptorDIMACSOutput<literal_type> output_t;
-  typedef OKlib::Satisfiability::Assignments::PartialAssignments::ApplyPassAdaptor<literal_type, readpass_t,  output_t> applypass_t;
-  typedef OKlib::InputOutput::StandardDIMACSInput<applypass_t, OKlib::InputOutput::LiteralReadingStrict, literal_type> input_t;
 
   const std::string program = "ApplyPass";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.6";
+  const std::string version = "0.1";
 
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (argc != 2) {
-    std::cerr << err << "Exactly one argument is needed, the filename\n"
-      " for the partial assignment.\n";
+  if (argc != 2 and argc != 3) {
+    std::cerr << err << "Either one or two arguments are needed,\n"
+      " the file with the partial assignment, and optionally the output file.\n";
     return errcode_parameter;
   }
+  const bool with_file = argc == 3;
 
   const std::string filename = argv[1];
   std::ifstream file_pa(filename.c_str());
   if (not file_pa) {
     std::cerr << err << "Can not open file \"" <<filename << "\"\n"
       " (the file with the partial assignment).\n";
-    return errcode_file;
+    return errcode_ifile;
   }
 
-  readpass_t rpa(file_pa);
-  file_pa.close();
-  output_t out(std::cout);
-  applypass_t apply(rpa, out);
-  input_t in(std::cin, apply);
-
+  if (not with_file) {
+    typedef OKlib::InputOutput::CLSAdaptorDIMACSOutput<literal_type> output_t;
+    typedef OKlib::Satisfiability::Assignments::PartialAssignments::ApplyPassAdaptor<literal_type, readpass_t,  output_t> applypass_t;
+    typedef OKlib::InputOutput::StandardDIMACSInput<applypass_t, OKlib::InputOutput::LiteralReadingStrict, literal_type> input_t;
+    readpass_t rpa(file_pa);
+    file_pa.close();
+    output_t out(std::cout);
+    applypass_t apply(rpa, out);
+    input_t in(std::cin, apply);
+  }
+  else {
+    typedef OKlib::InputOutput::CLSAdaptorDIMACSFileOutput<literal_type> output_t;
+    typedef OKlib::Satisfiability::Assignments::PartialAssignments::ApplyPassAdaptor<literal_type, readpass_t,  output_t> applypass_t;
+    typedef OKlib::InputOutput::StandardDIMACSInput<applypass_t, OKlib::InputOutput::LiteralReadingStrict, literal_type> input_t;
+    const std::string ofilename = argv[2];
+    std::fstream f(ofilename.c_str(), std::ios::in | std::ios::out | std::ios::trunc);
+    if (not f) {
+      std::cerr << err << "Can not create file \"" << filename << "\".\n";
+      return errcode_ofile;
+    }
+    readpass_t rpa(file_pa);
+    file_pa.close();
+    output_t out(f);
+    applypass_t apply(rpa, out);
+    input_t in(std::cin, apply);
+    std::stringstream new_pline_;
+    new_pline_ << "p cnf " << apply.new_n() << " " << apply.new_c();
+    const std::string new_pline = new_pline_.str();
+    assert(new_pline.size() <= out.pline_length());
+    f.seekp(out.pline_position());
+    f << new_pline;
+    if (not f) {
+      std::cerr << err << "Write error with file \"" << ofilename << "\".\n";
+      return errcode_write;
+    }
+  }
 }
