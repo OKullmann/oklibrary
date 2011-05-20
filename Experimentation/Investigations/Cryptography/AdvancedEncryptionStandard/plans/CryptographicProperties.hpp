@@ -136,9 +136,9 @@ for i : 1 thru 10 do output_ss_fcl_id_p_std(i,1,1,4,false,aes_ts_box,aes_mc_bidi
 for i in $(seq 1 10); do cryptominisat ssaes_id_p_r${i}_c1_rw1_e4_f0.cnf | awk " { print \"[$i/10] \" \$0 }"; done
      \endverbatim
      </li>
-     <li> All instances up to round 4 were found satisfiable in <0.1s using
-     very few conflicts (<50). </li>
-     <li> Experiments still running for rounds > 4. </li>
+     <li> All instances up to round 10 were found satisfiable. </li>
+     <li> Experiments still running for rounds > 4 for some solvers.
+     See "For 10 rounds" below. </li>
      <li> Comparing the solvers for finding an example of an identity mapping
      key for 4 rounds:
       <ul>
@@ -152,6 +152,16 @@ for i in $(seq 1 10); do cryptominisat ssaes_id_p_r${i}_c1_rw1_e4_f0.cnf | awk "
        <li> minisat2 (time: 85.72, conflicts: 118350). </li>
       </ul>
       cryptominisat seems best here.
+     </li>
+     <li> For 10 rounds:
+      <ul>
+       <li> minisat-2.2.0 (time: 11s, conflicts: 48883). </li>
+       <li> cryptominisat (time: 42s, conflicts: 143094). </li>
+       <li> precosat-570.1 (time:51s, conflicts:155752). </li>
+       <li> precosat236 (time: 143s, conflicts: 446841). </li>
+       <li> glucose (time: 253s, conflicts: 551680). </li>
+       <li>
+      </ul>
      </li>
     </ul>
    </li>
