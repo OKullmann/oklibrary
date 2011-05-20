@@ -438,15 +438,33 @@ c max_tree_depth                        33
 c splitting_cases                       8347
 
 > SplittingViaOKsolver -D45 -SN VanDerWaerden_pd_2-3-25_608.cnf
+> cd SplitViaOKsolver_D45SNVanDerWaerden_pd_2325_608cnf_2011-05-20-183549
+> more Md5sum
+28f54b573829547370bc370a5a4e2809
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  45.00   48.00   52.00   52.24   56.00   66.00
+> table(E$n)
+  45   46   47   48   49   50   51   52   53   54   55   56   57   58   59   60
+1915  628  723  773  830  834  794  825  780  700  724  674  635  541  518  441
+  61   62   63   64   65   66
+ 434  318  217  110   41    7
+> more Result
+c running_time(sec)                     10351.5
+c number_of_nodes                       26923
+c number_of_2-reductions                1271
+c max_tree_depth                        36
+c splitting_cases                       13462
 
 > cd Instances
-> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
+> OKP=~/SAT-Algorithmen/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
 
 # Monitoring in R via
-#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
-
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
      \endverbatim
-     </li>
+     Likely one should go higher (say, n=50 or n=55). </li>
     </ol>
    </li>
    <li> "RunPdVdW3k 25 26 618 gsat-tabu 100 8000000" (old version): all
