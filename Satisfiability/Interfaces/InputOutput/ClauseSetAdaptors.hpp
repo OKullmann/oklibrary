@@ -19,6 +19,8 @@ License, or any later version. */
   <ul>
    <li> InputOutput::CLSAdaptorStatistics (computing statistics) </li>
    <li> InputOutput::CLSAdaptorDIMACSOutput (output in DIMACs format) </li>
+   <li> InputOutput::CLSAdaptorDIMACSFileOutput (output in DIMACs format to
+   files) </li>
    <li> InputOutput::RawDimacsCLSAdaptor (transfer to vector of vectors) </li>
    <li> InputOutput::RawDimacsCLSAdaptorSets (transfer to set of sets) </li>
   </ul>
@@ -28,8 +30,8 @@ License, or any later version. */
   <ul>
    <li> <code> CLSAdaptor::int_type </code> (default = int) </li>
    <li> <code> CLSAdaptor::string_type </code> (default = std::string) </li>
-   <li> <code> adaptor.comment(string_type) </code> (input of comment-lines)
-   </li>
+   <li> <code> adaptor.comment(string_type) </code> (input of comment-lines
+   (without the leading "c"-part and without end-of-line)) </li>
    <li> <code> adaptor.n(int_type) </code> (input of parameter n) </li>
    <li> <code> adaptor.c(int_type) </code> (input of parameter c) </li>
    <li> <code> adaptor.finish() </code> (signal that input of clause-set is
@@ -54,7 +56,7 @@ template <class ForwardRange> CLSAdaptor::clause(const ForwardRange& clause,
 #define CLAUSESETADAPTORS_UjXSW3
 
 #include <string>
-#include <ostream>
+#include <istream>
 #include <cstdlib>
 #include <cassert>
 #include <vector>
@@ -341,6 +343,51 @@ namespace OKlib {
         return adaptor_statistics.stat;
       }
 
+    };
+
+
+    /*!
+      \class CLSAdaptorDIMACSFileOutput
+      \brief Adaptor for clause-sets for file-output in DIMACS format
+
+      As CLSAdaptorDIMACSOutput, but with two additional member functions:
+       - pline_position() returns the file-position of the parameter-line
+       - pline_length() returns the length of the parameter-line (without
+         the line-end).
+    */
+
+    template <typename Int = int, class String = std::string, class AdaptorStatistics = CLSAdaptorStatistics<Int, String> >
+    class CLSAdaptorDIMACSFileOutput {
+      typedef CLSAdaptorDIMACSOutput<Int, String, AdaptorStatistics> output_adaptor;
+      std::iostream& file;
+      output_adaptor out;
+    public :
+      typedef typename output_adaptor::int_type int_type;
+      typedef typename output_adaptor::string_type string_type;
+      typedef typename output_adaptor::statistics_type adaptor_statistics_type;
+      typedef std::ios::pos_type pos_type;
+      typedef std::string::size_type size_type;
+
+      pos_type pline_position() { return ppos; }
+      size_type pline_length() { return plength; }
+
+      CLSAdaptorDIMACSFileOutput(std::iostream& f) : file(f), out(file) {}
+      void comment(const string_type& s) { out.comment(s); }
+      void n(const int_type pn) { out.n(pn); }
+      void c(const int_type pc) {
+        ppos = file.tellg();
+        out.c(pc);
+        plength = (file.tellg() - ppos) - 1;
+        assert(plength >= 1 + 1 + 3 + 1 + 1 + 1);
+      }
+      void finish() { out.finish(); }
+      void tautological_clause(const int_type t) {out.tautological_clause(t);}
+      template <class ForwardRange>
+      void clause(const ForwardRange& r, const int_type t) {out.clause(r,t);}
+      const adaptor_statistics_type& stat() const { out.stat(); }
+    private :
+      pos_type ppos;
+      size_type plength;
     };
 
 
