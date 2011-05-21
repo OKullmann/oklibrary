@@ -15,7 +15,8 @@ License, or any later version. */
    <li> Comparing the different translations. </li>
    <li> See:
     <ul>
-     <li> "The canonical box translation". </li>
+     <li> 'The canonical box translation'. </li>
+     <li> 'The "minimum" box translation'. </li>
     </ul>
    </li>
   </ul>
@@ -39,13 +40,19 @@ License, or any later version. */
   </ul>
 
 
-  \todo The 1-base box translation
+  \todo The "minimum" box translation
   <ul>
+   <li> Up to 1 rounds solved in ~ 0s. </li>
+   <li> Minimum times to solve with best solvers:
+    <ul>
+     <li> 1 round; 0.0s; precosat236. </li>
+    </ul>
+   </li>
    <li> Add data. </li>
   </ul>
 
 
-  \todo The "minimum" box translation
+  \todo The 1-base box translation
   <ul>
    <li> Add data. </li>
   </ul>
