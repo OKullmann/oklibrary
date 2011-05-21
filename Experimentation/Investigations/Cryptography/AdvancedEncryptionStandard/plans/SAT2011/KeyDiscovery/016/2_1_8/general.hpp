@@ -13,6 +13,8 @@ License, or any later version. */
   \todo Comparisons
   <ul>
    <li> Comparing the different translations. </li>
+   <li> For 10 round instances, the canonical translation
+   seems to perform best by a factor of 20 or more. </li>
    <li> See:
     <ul>
      <li> 'The canonical box translation'. </li>
@@ -28,12 +30,17 @@ License, or any later version. */
    <li> Minimum times to solve with best solvers:
     <ul>
      <li> 1 round; 0.11s; minisat-2.2.0. </li>
+     <li> 10 rounds; 6.06s; cryptominisat. </li>
      <li> 14 rounds; 181.9s; precosat236. </li>
     </ul>
+   </li>
+   <li> Note that for 14 rounds, there is only 1 second difference between
+   precosat236 and cryptminisat.
    </li>
    <li> See:
     <ul>
      <li> Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/1_13.hpp. </li>
+     <li> Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/10_13.hpp. </li>
      <li> Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/14_13.hpp. </li>
     </ul>
    </li>
@@ -46,6 +53,13 @@ License, or any later version. */
    <li> Minimum times to solve with best solvers:
     <ul>
      <li> 1 round; 0.0s; precosat236. </li>
+     <li> 10 rounds; 619.39s; glucose. </li>
+    </ul>
+   </li>
+   <li> See:
+    <ul>
+     <li> Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/1_13.hpp. </li>
+     <li> Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/10_13.hpp. </li>
     </ul>
    </li>
    <li> Add data. </li>
