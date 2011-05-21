@@ -9,6 +9,9 @@ License, or any later version. */
   \file ComputerAlgebra/Satisfiability/Lisp/Autarkies/LeanKernel.mac
   \brief Functions for computing lean kernels
 
+  See ComputerAlgebra/Satisfiability/Lisp/Autarkies/TableauAlgorithm.mac for
+  algorithms related to the Tableau-algorithm.
+
 Use by
 
 oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Autarkies/LeanKernel.mac");
