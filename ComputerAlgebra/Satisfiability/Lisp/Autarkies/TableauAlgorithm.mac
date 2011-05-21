@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,7 +7,10 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Autarkies/TableauAlgorithm.mac
-  \brief Functions for computing lean kernels
+  \brief Functions for computing lean kernels via the Tableau-algorithm
+
+  See ComputerAlgebra/Satisfiability/Lisp/Autarkies/LeanKernel.mac for
+  generic algorithms.
 
 Use by
 
@@ -22,6 +25,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Autarkies/TableauAlgorithm
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+
 
 /* ***********************
    * The basic algorithm *
@@ -121,6 +126,8 @@ lean_kernel_tableau_cl(F,h) := block([phi,lvar,L],
 find_aut_tableau_fs_cl(F) := find_aut_tableau_cl(F,min_cllength_h_tableau)$
 find_autlvar_tableau_fs_cl(F) := find_autkvar_tableau_cl(F,min_cllength_h_tableau)$
 lean_kernel_tableau_fs_cl(F) := lean_kernel_tableau_cl(F,min_cllength_h_tableau)$
+lean_kernel_tableau_fs_cs(F) := block([L:lean_kernel_tableau_fs_cl(cs2cl(F))],
+ [cl2cs(first(L)),second(L)])$
 
 
 /*!
