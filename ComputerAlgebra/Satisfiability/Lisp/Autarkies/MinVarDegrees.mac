@@ -1,0 +1,48 @@
+/* Oliver Kullmann, 21.5.2011 (London) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Autarkies/MinVarDegrees.mac
+  \brief Functions related to the minimal variable-degree of lean clause-sets
+
+  See
+  ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac
+  for the considerations regarding minimally unsatisfiable clause-sets,
+  especially regarding the numerical functions.
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Autarkies/MinVarDegrees.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+
+/* For k >= 1 standardised formal lean clause-sets of deficiency k with
+   minimal variable-degree nonmersenne(k):
+*/
+extremal_lean_mvdd_fcs(k) := block([l : nonmersenne_level(k), F, d, C],
+  F : full_cs(l),
+  d : 2^l-l,
+  C : choose_element(F),
+  while d # k do (
+    d : d+1, l : l+1,
+    F : add_element(l,F),
+    F : union(F,{{-l},C}),
+    C : adjoin(l,C)
+  ),
+  [setn(l),F])$
+
+/*!
+\endhtmlonly
+*/
