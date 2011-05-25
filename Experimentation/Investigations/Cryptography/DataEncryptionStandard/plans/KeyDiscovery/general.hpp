@@ -1,4 +1,4 @@
-// Matthew Gwynne, 27.3.2011 (Swansea)
+// Matthew Gwynne, 25.5.2011 (Swansea)
 /* Copyright 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
