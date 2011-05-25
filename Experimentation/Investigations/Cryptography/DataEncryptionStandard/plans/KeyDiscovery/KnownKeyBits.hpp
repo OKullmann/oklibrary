@@ -10,6 +10,42 @@ License, or any later version. */
   \brief On investigations into the full Data Encryption Standard key discovery where some key bits are known
 
 
+  \todo Translations
+  <ul>
+   <li> We must compare the following translations of DES into SAT:
+    <ul>
+     <li> Massacci translation, see "DES generator" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp. </li>
+     <li> Translations using:
+      <ol>
+       <li> Prime implicates (0-bases). </li>
+       <li> 1-bases for all Sboxes (without new variables). </li>
+       <li> "minimum" representations (inf-soft representations). </li>
+       <li> DONE The canonical translation (1-soft representation). </li>
+       <li> DONE The canonical+ translation (1-soft representation). </li>
+      </ol>
+     </li>
+     <li> DONE Argosat-desgen translation, see
+     "Transferring the Argosat-desgen example". </li>
+    </ul>
+   </li>
+   <li> Solving key discovery with last q key bits unknown:
+    <ul>
+     <li> Argosat-desgen, solves up to q = 23 in ~35 minutes.
+     q=24 takes > 10 hours. </li>
+     <li> canonical translation, solves up to q = 27 in ~5.5 hours.
+     q = 28 takes > 10 hours. </li>
+     <li> canonical+ translation, solves up to q = 26 in ~30 minutes.
+     q = 27 takes > 10 hours. </li>
+    </ul>
+   </li>
+   <li> Note that in some cases higher q can be solved but
+   randomising the order of the clause-set means that this isn't
+   always the case. A study of many different randomised examples
+   is necessary. </li>
+  </ul>
+
+
   \todo Transferring the Argosat-desgen example
   <ul>
    <li> Exactly as with argosat-desgen-sat09.tar.bz2, we shall consider
@@ -50,8 +86,7 @@ License, or any later version. */
    </li>
    <li> Why are these times so erratic?
     <ul>
-     <li> Randomly shuffling clause-list for X = 25: minisat-2.2.0 (>25h -
-     still running).
+     <li> Randomly shuffling clause-list for X = 25: minisat-2.2.0 (>25h).
      \verbatim
 shell> cat gss-25-s100.cnf | RandomShuffleDimacs-O3-DNDEBUG > 25-shuffled_test.cnf
 shell> minisat-2.2.0 25-shuffled_test.cnf
