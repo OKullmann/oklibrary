@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery.hpp
+  \file Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/general.hpp
   \brief On investigations into the Data Encryption Standard key discovery
 
 
