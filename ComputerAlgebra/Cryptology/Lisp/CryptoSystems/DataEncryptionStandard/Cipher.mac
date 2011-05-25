@@ -54,10 +54,10 @@ des_encryption(plaintext, key) :=
 des_decryption(ciphertext, key) :=
  des_template(ciphertext, reverse(des_round_keys(key)))$
 
-/* variants with a reduced number of rounds */
-des_encryption_reduced(r, plaintext, key) :=
+/* variants with an arbitrary number of rounds */
+des_encryption_gen(r, plaintext, key) :=
   des_template(plaintext, take_elements(r,des_round_keys(key)))$
-des_decryption_reduced(r, plaintext, key) :=
+des_decryption_gen(r, plaintext, key) :=
   des_template(plaintext, reverse(take_elements(r,des_round_keys(key))))$
 
 des_validation_key : [
@@ -83,6 +83,10 @@ des_encryption_hex(plaintext, key) :=
  binv2hexstr(des_encryption(hexstr2binv(plaintext), hexstr2binv(key)))$
 des_decryption_hex(ciphertext, key) :=
  binv2hexstr(des_decryption(hexstr2binv(ciphertext), hexstr2binv(key)))$
+des_encryption_hex_gen(r, plaintext, key) :=
+ binv2hexstr(des_encryption_gen(r, hexstr2binv(plaintext), hexstr2binv(key)))$
+des_decryption_hex_gen(r, ciphertext, key) :=
+ binv2hexstr(des_decryption_gen(r, hexstr2binv(ciphertext), hexstr2binv(key)))$
 
 des_validation_key_hex : "15FBC08D31B0D521"$
 des_validation_plain_hex : "038E596D4841D03B"$
