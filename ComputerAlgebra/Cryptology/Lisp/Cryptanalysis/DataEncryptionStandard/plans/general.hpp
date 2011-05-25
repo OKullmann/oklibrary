@@ -15,30 +15,14 @@ License, or any later version. */
    <li> Variants of DES with smaller numbers of rounds (from 1 to 3) are
    considered in [Logical cryptanalysis as a SAT problem; Massaci and
    Marraro]. </li>
-   <li> We need to implement translations of these variants to compare. </li>
-   <li> We should offer generalised versions of the current functions. </li>
-   <li> These generalised functions should take the number r of rounds. </li>
    <li> For discussions of the notion of "DES with reduced number of rounds",
    see "Add variants with reduced number of rounds" in
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/plans/general.hpp.
    </li>
    <li> The translations of variants with smaller numbers of rounds will be
    investigated just as much as the full DES. </li>
-   <li> Therefore in this case, the full DES should be considered a special
-   case of the general scheme with an arbitrary number of rounds. A special
-   convenience function needs then to be provided for the translation of
-   the 16 round DES. </li>
-   <li> So the following functions should be replaced with new
-   functions with an additional round parameter r:
-    <ul>
-     <li> des_xor() |-> des_xor(r). </li>
-     <li> des_sboxc() |-> des_sboxc(r). </li>
-     <li> des_var() |-> des_var(r). </li>
-     <li> des_cipher2fcl(cipher) |-> des_cipher2fcl(r,cipher). </li>
-     <li> des2fcl(sbox_l) |-> des2fcl(r,sbox_l). </li>
-    </ul>
-   </li>
-   <li> Variable ordering:
+   <li> Tests are needed for all functions. </li>
+   <li> DONE Variable ordering:
     <ul>
      <li> The variables returned by des_var should be ordered
      "round by round". That is, the variables for round i+1 should occur after
@@ -48,6 +32,30 @@ License, or any later version. */
      no matter the variant we use. </li>
     </ul>
    </li>
+   <li> DONE This "round by round" variable ordering scheme differs from the
+   original ordering used for the full DES translation. It is more complex
+   and so we keep the original DES translation and put the functions
+   for the generalised version in "GeneralisedConstraintTranslation.mac".
+   </li>
+   <li> DONE We need to implement translations of these variants to compare. </li>
+   <li> DONE We should offer generalised versions of the current functions. </li>
+   <li> DONE These generalised functions should take the number r of rounds. </li>
+   <li> DONE So the following functions should be created with an additional round
+   parameter r:
+    <ul>
+     <li> des_xor() |-> des_xor_gen(r). </li>
+     <li> des_sboxc() |-> des_sboxc_gen(r). </li>
+     <li> des_var() |-> des_var_gen(r). </li>
+     <li> des_cipher2fcl(cipher) |-> des_cipher2fcl_gen(r,cipher). </li>
+     <li> des2fcl(sbox_l) |-> des2fcl_gen(r,sbox_l). </li>
+    </ul>
+   </li>
+   <li> DONE (To test the water first, we implement "_gen" versions of
+   each function)
+   Therefore in this case, the full DES should be considered a special
+   case of the general scheme with an arbitrary number of rounds. A special
+   convenience function needs then to be provided for the translation of
+   the 16 round DES. </li>
   </ul>
 
 
