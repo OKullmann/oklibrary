@@ -31,11 +31,11 @@ License, or any later version. */
      (3.72s), cryptominisat (7s), precosat236 (10.2s). </li>
      <li> X = 14 : precosat-570.1 (2s), minisat-2.2.0 (12.35s), cryptominisat
      (22.33s), precosat236 (32s), glucose (58.53s). </li>
-     <li> X = 15 : minisat-2.2.0 (5.43s), cryptominisat (10.71s), 
+     <li> X = 15 : minisat-2.2.0 (5.43s), cryptominisat (10.71s),
      precosat-570.1 (44.7s), precosat236 (53.8s), glucose (68.75). </li>
-     <li> X = 16 : minisat-2.2.0 (6.76s), precosat236 (32.1s), precosat-570.1 
+     <li> X = 16 : minisat-2.2.0 (6.76s), precosat236 (32.1s), precosat-570.1
      (53.8s), cryptominisat (104.38s), glucose (133.32s) . </li>
-     <li> X = 17 : minisat-2.2.0 (31.77s), precosat-570.1 (70.8s), 
+     <li> X = 17 : minisat-2.2.0 (31.77s), precosat-570.1 (70.8s),
      precosat236 (109.8s), cryptominisat (144.73s), glucose (896.53s).
      </li>
      <li> X = 19 : minisat-2.2.0 (321.1s). </li>
@@ -73,7 +73,7 @@ shell> minisat-2.2.0 25-shuffled_test.cnf
    </li>
   </ul>
 
-  
+
   \todo Summarise results
   <ul>
    <li> We need the results from each todo summarised in a highly
@@ -111,7 +111,7 @@ output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", un
     precosat-570.1 (3091s), OKsolver_2002(4052s) precosat236 (11680s), . </li>
     <li> unknown_bits = 24: minisat-2.2.0 (148s), precosat-570.1 (3121s),
     OKsolver_2002 (4080s), cryptominisat (6581s), precosat236 (13015s). </li>
-    <li> unknown_bits = 25: minisat-2.2.0 (11548s), cryptominisat (12975s), 
+    <li> unknown_bits = 25: minisat-2.2.0 (11548s), cryptominisat (12975s),
     precosat236 (17554s), precosat-570.1 (23984s). </li>
     <li> unknown_bits = 26: precosat-570.1 (1681s), precosat236 (33395s),
     minisat-2.2.0 (>36000s), cryptominisat (>36000s). </li>
@@ -137,7 +137,7 @@ F_std : standardise_fcs([F[1],append(F[2],P[2],K[2],C[2])])$
 output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std[1], sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
    \endverbatim
    </li>
-   <li> Instances with unknown key bits up to 13 all take less than 5s, 
+   <li> Instances with unknown key bits up to 13 all take less than 5s,
    except the OKsolver_2002 which takes 73.5s (203 nodes). </li>
    <li> Solving time (ranked best to worst):
    <ul>
@@ -150,16 +150,16 @@ output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", un
     <li> unknown_bits = 16: precosat-570.1 (0.4s), precosat236 (1.1s),
     cryptominisat (2.83s), minisat-2.2.0 (6.78s), glucose (23.49s),
     OKsolver_2002 (270.8s). </li>
-    <li> unknown_bits = 17: minisat-2.2.0 (6.96s), precosat236 (9s), 
+    <li> unknown_bits = 17: minisat-2.2.0 (6.96s), precosat236 (9s),
     cryptominisat (12.8s), precosat-570.1 (33.3s), glucose (58.94s).
-    </li> 
-    <li> unknown_bits = 18: minisat-2.2.0 (20.57s), precosat236 (33.2s) . 
+    </li>
+    <li> unknown_bits = 18: minisat-2.2.0 (20.57s), precosat236 (33.2s) .
     </li>
     <li> unknown_bits = 19: minisat-2.2.0 (68.14s), precosat236 (81.6s). </li>
     <li> unknown_bits = 20: minisat-2.2.0 (6.87s), precosat236 (160.9s) </li>
     <li> unknown_bits = 21: precosat236 (10.3s), minisat-2.2.0 (1715s).  </li>
     <li> unknown_bits = 22: precosat236 (32.5s), precosat-570.1 (71s),
-    cryptominisat (769s), glucose (3088s), minisat-2.2.0 (5832s), 
+    cryptominisat (769s), glucose (3088s), minisat-2.2.0 (5832s),
     OKsolver_2002 (16809s). </li>
     <li> unknown_bits = 23: precosat-570.1 (251s), glucose (266s),
     precosat236 (517.6s), cryptominisat (4073s), minisat-2.2.0 (4089s),
@@ -168,15 +168,15 @@ output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", un
     minisat-2.2.0 (4092s), cryptominisat (4477s), glucose (15612s). </li>
     <li> unknown_bits = 25: minisat-2.2.0 (1020s), precosat236 (8682s),
     precosat236 (8911s), cryptominisat (27032s) . </li>
-    <li> unknown_bits = 26: precosat-570.1 (12520s), precosat236 (25521s), 
-    cryptominisat (>10 hours; timed out), glucose (>10 hours;timed out), 
+    <li> unknown_bits = 26: precosat-570.1 (12520s), precosat236 (25521s),
+    cryptominisat (>10 hours; timed out), glucose (>10 hours;timed out),
     minisat2 (>10 hours; timed out). </li>
-    <li> unknown_bits = 27: minisat-2.2.0 (19557s), precosat236 (23822s), 
+    <li> unknown_bits = 27: minisat-2.2.0 (19557s), precosat236 (23822s),
     precosat-570.1 (34226s), cryptominisat (> 10 hours; timed out),
     glucose (> 10 hours; timed out). </li>
     </ul>
    </li>
-   <li> These times are rather sporadic, yet nothing else runs on the 
+   <li> These times are rather sporadic, yet nothing else runs on the
    machine. </li>
    <li> We should investigate with more keys, and also randomly permuting
    the clause-lists. </li>
