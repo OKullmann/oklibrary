@@ -25,10 +25,12 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptio
 okltest_des_template(des_template);
 okltest_des_encryption(des_encryption);
 okltest_des_decryption(des_decryption);
-okltest_des_encryption_reduced(des_encryption_reduced);
-okltest_des_decryption_reduced(des_decryption_reduced);
+okltest_des_encryption_gen(des_encryption_gen);
+okltest_des_decryption_gen(des_decryption_gen);
 kltest_des_encryption_hex(des_encryption_hex);
 okltest_des_decryption_hex(des_decryption_hex);
+kltest_des_encryption_hex_gen(des_encryption_hex_gen);
+okltest_des_decryption_hex_gen(des_decryption_hex_gen);
 
 /*!
 \endhtmlonly
