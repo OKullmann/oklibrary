@@ -17,10 +17,10 @@ License, or any later version. */
    </li>
    <li> Using the:
     <ul>
-     <li> "minimum" translation; fastest solver solves in 0.5s, all (so far) in
+     <li> "minimum" translation; fastest solver solves in 0.5s, all in
      less than 1600s. See "Using the 1-base translation". </li>
-     <li> 1-base translation; fastest solver solves in 7s, all (so far) in
-     less than 60s. See "Using the 1-base translation". </li>
+     <li> 1-base translation; fastest solver solves in 7s, all in
+     less than 761s. See "Using the 1-base translation". </li>
      <li> canonical translation; fastest solver solves in 31s, all in less
      than 330s. See "Using the canonical translation". </li>
    </li>
@@ -75,7 +75,7 @@ done
    which has clauses of size 5 and 6 as well as 2 of size 7. </li>
    <li> Generating the instance:
    \verbatim
-rounds : 2$
+rounds : 4$
 sbox_fcl_l : create_list(read_fcl_f(sconcat("DES_Sbox_",i,"_1base.cnf")), i, 1, 8)$
 P_hex : "038E596D4841D03B"$
 K_hex : "15FBC08D31B0D521"$
@@ -94,7 +94,8 @@ print("DONE!");
    </li>
    <li> Solvers (t:time,c:conflicts,n:nodes): cryptominisat (t:7.52s,c:124339),
    precosat236 (t:15s,c:276563), minisat-2.2.0 (t:18s,c:613128),
-   precosat-570.1 (t:18.4s,c:252715), glucose (t:60s,c:437112). </li>
+   precosat-570.1 (t:18.4s,c:252715), glucose (t:60s,c:437112),
+   OKsolver_2002 (t:761s,n:1361497). </li>
   </ul>
 
 
