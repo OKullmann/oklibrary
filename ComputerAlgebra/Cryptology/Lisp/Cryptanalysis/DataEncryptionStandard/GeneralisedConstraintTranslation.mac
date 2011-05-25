@@ -45,12 +45,13 @@ des_sboxc_gen(r) := lappend(create_list(des_sbox_deso(r_t),r_t,1,r))$
 des_var_gen(r) := append(
  /* Key variables first as they don't change */
  create_list(desk_var(i), i,1,64),
- create_list(
-   append(
-     create_list(desr_var(i,r_t),i,1,32),
-     if r_t > 0 then create_list(desi_var(i,r_t),i,1,48) else [],
-     if r_t > 0 then create_list(deso_var(i,r_t),i,1,32) else [],
-   r_t,-1,r)))$
+ lappend(
+   create_list(
+     append(
+       create_list(desr_var(i,r_t),i,1,32),
+       if r_t > 0 then create_list(desi_var(i,r_t),i,1,48) else [],
+       if r_t > 0 then create_list(deso_var(i,r_t),i,1,32) else []),
+     r_t,-1,r)))$
 
 /*
   Translating plaintext-, ciphertext- and key-assignments into formal
