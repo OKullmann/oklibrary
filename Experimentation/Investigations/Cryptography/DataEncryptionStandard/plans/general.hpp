@@ -127,7 +127,7 @@ nvar_full_dualts(10,64) - 10;
     <ul>
      <li> Generating an encryption instance for 16 rounds using ArgoSAT test
      vectors (see
-     Cryptography/DataEncryptionStandard/plans/KeyDiscovery.hpp):
+     Cryptography/DataEncryptionStandard/plans/KeyDiscovery/general.hpp):
      \verbatim
 sbox_fcl_l : create_list(dualtsplus_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
 F : des2fcl(sbox_fcl_l)$
@@ -156,7 +156,7 @@ c number_of_nodes                       0
     <ul>
      <li> Generating a decryption instance for 16 rounds and ArgoSAT test
      vectors (see
-     Cryptography/DataEncryptionStandard/plans/KeyDiscovery.hpp):
+     Cryptography/DataEncryptionStandard/plans/KeyDiscovery/general.hpp):
      \verbatim
 sbox_fcl_l : create_list(dualtsplus_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
 F : des2fcl(sbox_fcl_l)$
