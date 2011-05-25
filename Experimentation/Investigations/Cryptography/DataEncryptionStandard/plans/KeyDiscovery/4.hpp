@@ -17,10 +17,12 @@ License, or any later version. */
    </li>
    <li> Using the:
     <ul>
-     <li> canonical translation; fastest solver solves in 31s, all in less
-     than 330s. See "Using the canonical translation". </li>
+     <li> "minimum" translation; fastest solver solves in 0.5s, all (so far) in
+     less than 1600s. See "Using the 1-base translation". </li>
      <li> 1-base translation; fastest solver solves in 7s, all (so far) in
      less than 60s. See "Using the 1-base translation". </li>
+     <li> canonical translation; fastest solver solves in 31s, all in less
+     than 330s. See "Using the canonical translation". </li>
    </li>
   </ul>
 
@@ -93,6 +95,56 @@ print("DONE!");
    <li> Solvers (t:time,c:conflicts,n:nodes): cryptominisat (t:7.52s,c:124339),
    precosat236 (t:15s,c:276563), minisat-2.2.0 (t:18s,c:613128),
    precosat-570.1 (t:18.4s,c:252715), glucose (t:60s,c:437112). </li>
+  </ul>
+
+
+  \todo Using the "minimum" translation
+  <ul>
+   <li> Generating the "minimum" CNFs for the Sboxes:
+   \verbatim
+maxima> for i : 1 thru 8 do output_dessbox_fullcnf_stdname(i)$
+shell> for i in $(seq 1 8); do
+  QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG DES_Sbox_${i}_fullCNF.cnf > DES_Sbox_${i}_shg.cnf;
+  cat DES_Sbox_${i}_shg.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > DES_Sbox_${i}_shg.wcnf;
+done
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 67 -solve 1 -seed 2444475534 -i DES_Sbox_1_shg.wcnf -r model DES_Sbox_1.ass;
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 67 -solve 1 -seed 2521057446 -i DES_Sbox_2_shg.wcnf -r model DES_Sbox_2.ass;
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 68 -solve 1 -seed 3544367510 -i DES_Sbox_3_shg.wcnf -r model DES_Sbox_3.ass;
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 69 -solve 1 -seed 3808694681 -i DES_Sbox_4_shg.wcnf -r model DES_Sbox_4.ass;
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 67 -solve 1 -seed 1876503362 -i DES_Sbox_5_shg.wcnf -r model DES_Sbox_5.ass;
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 66 -solve 1 -seed 68018538 -i DES_Sbox_6_shg.wcnf -r model DES_Sbox_6.ass;
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 67 -solve 1 -seed 1856244582 -i DES_Sbox_7_shg.wcnf -r model DES_Sbox_7.ass;
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 69 -solve 1 -seed 4223500633 -i DES_Sbox_8_shg.wcnf -r model DES_Sbox_8.ass;
+shell> for i in $(seq 1 8); do
+  cat DES_Sbox_${i}_fullCNF.cnf_primes | FilterDimacs DES_Sbox_${i}.ass > DES_Sbox_${i}_min.cnf;
+done
+   </li>
+   <li> The numbers of clauses in the 1-bases are 124, 129, 138, 128, 134,
+   136, 123, 152 respectively. </li>
+   <li> All the 1-bases used have clauses of sizes 5 and 6, except Sbox 4
+   which has clauses of size 5 and 6 as well as 2 of size 7. </li>
+   <li> Generating the instance:
+   \verbatim
+rounds : 4$
+sbox_fcl_l : create_list(read_fcl_f(sconcat("DES_Sbox_",i,"_min.cnf")), i, 1, 8)$
+P_hex : "038E596D4841D03B"$
+K_hex : "15FBC08D31B0D521"$
+C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
+P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
+C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
+F : des2fcl_gen(sbox_fcl_l,rounds)$
+F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
+output_fcs_v(
+  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  F_std[1],
+  sconcat("des_argocomp_r",rounds,".cnf"),
+  F_std[2])$
+print("DONE!");
+   \endverbatim
+   </li>
+   <li> Solvers (t:time,c:conflicts,n:nodes): precosat-570.1 (t:0.5s,c:20603),
+   minisat-2.2.0 (t:9s, c:479829), precosat236 (t:10.1s,c:242455),
+   cryptominisat (t:30s,c:372190), OKsolver_2002 (t:1600s,n:5797). </li>
   </ul>
 
 */
