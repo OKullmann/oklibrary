@@ -14,6 +14,9 @@ License, or any later version. */
   <ul>
    <li> Solving the key discovery problem for:
     <ul>
+     <li> 1-round DES, see
+     Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/1.hpp.
+     </li>
      <li> 16-round DES with some known key bits, see
      Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
      </li>
