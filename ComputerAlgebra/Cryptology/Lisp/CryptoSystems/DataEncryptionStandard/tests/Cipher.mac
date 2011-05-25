@@ -58,13 +58,13 @@ okltest_des_decryption(f) := block(
           binv2hexstr(f(hexstr2binv(plain),hexstr2binv(key))))))),
   true)$
 
-okltest_des_encryption_reduced(f) := block(
+okltest_des_encryption_gen(f) := block(
   assert(
     okltest_des_encryption(
       buildq([f],lambda([plain,key],f(16,plain,key))))),
   true)$
 
-okltest_des_decryption_reduced(f) := block(
+okltest_des_decryption_gen(f) := block(
   assert(
     okltest_des_decryption(
       buildq([f],lambda([plain,key],f(16,plain,key))))),
@@ -94,6 +94,18 @@ okltest_des_decryption_hex(f) := block(
   */
   assert(
     f("A2FB6032638EC79D","15FBC08D31B0D521") = "038E596D4841D03B"),
+  true)$
+
+okltest_des_encryption_hex_gen(f) := block(
+  assert(
+    okltest_des_encryption_hex(
+      buildq([f],lambda([plain,key],f(16,plain,key))))),
+  true)$
+
+okltest_des_decryption_hex_gen(f) := block(
+  assert(
+    okltest_des_decryption_hex(
+      buildq([f],lambda([plain,key],f(16,plain,key))))),
   true)$
 
 
