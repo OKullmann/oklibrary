@@ -10,6 +10,18 @@ License, or any later version. */
   \brief On investigations into the Data Encryption Standard key discovery
 
 
+  \todo Overview
+  <ul>
+   <li> Solving the key discovery problem for:
+    <ul>
+     <li> 16-round DES with some known key bits, see
+     Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo DONE Move into separate sub-module
 
 */
