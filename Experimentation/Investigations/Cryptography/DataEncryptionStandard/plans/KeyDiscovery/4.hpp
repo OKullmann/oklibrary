@@ -15,11 +15,12 @@ License, or any later version. */
    pairs. See "Transferring the Argosat-desgen example" in
    Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
    </li>
-   <li> All translations are solved in < 0.1s. </li>
    <li> Using the:
     <ul>
      <li> canonical translation; fastest solver solves in 31s, all in less
      than 330s. See "Using the canonical translation". </li>
+     <li> 1-base translation; fastest solver solves in 7s, all (so far) in
+     less than 60s. See "Using the 1-base translation". </li>
    </li>
   </ul>
 
@@ -49,6 +50,49 @@ print("DONE!");
    minisat-2.2.0 (t:131s,c:555383), cryptominisat (t:195s,c:676495),
    precosat236 (t:306s,c:1144952), OKsolver_2002 (t:327s,n:5601). </li>
    </li>
+  </ul>
+
+
+  \todo Using the 1-base translation
+  <ul>
+   <li> Generating the 1-bases:
+   \verbatim
+maxima> for i : 1 thru 8 do output_dessbox_fullcnf_stdname(i)$
+shell> gen_seed[1]=7;gen_seed[2]=71;gen_seed[3]=185;gen_seed[4]=346;gen_seed[5]=67;gen_seed[6]=327;gen_seed[7]=148;gen_seed[8]=167;
+shell> base_seed[1]=1;base_seed[2]=1;base_seed[3]=2;base_seed[4]=4;base_seed[5]=2;base_seed[6]=1;base_seed[7]=2;base_seed[8]=1;
+shell> for i in $(seq 1 8); do
+  QuineMcCluskey-n16-O3-DNDEBUG DES_Sbox_${i}_fullCNF.cnf > DES_Sbox_${i}_pi.cnf;
+  RandomShuffleDimacs-O3-DNDEBUG ${gen_seed[$i]} < DES_Sbox_${i}_pi.cnf | SortByClauseLength-O3-DNDEBUG > DES_Sbox_${i}_sortedpi.cnf;
+  RUcpGen-O3-DNDEBUG DES_Sbox_${i}_sortedpi.cnf > DES_Sbox_${i}_gen.cnf;
+  RandomShuffleDimacs-O3-DNDEBUG ${base_seed[$i]}  < DES_Sbox_${i}_gen.cnf | SortByClauseLengthDescending-O3-DNDEBUG | RUcpBase-O3-DNDEBUG > DES_Sbox_${i}_1base.cnf;
+done
+   </li>
+   <li> The numbers of clauses in the 1-bases are 124, 129, 138, 128, 134,
+   136, 123, 152 respectively. </li>
+   <li> All the 1-bases used have clauses of sizes 5 and 6, except Sbox 4
+   which has clauses of size 5 and 6 as well as 2 of size 7. </li>
+   <li> Generating the instance:
+   \verbatim
+rounds : 2$
+sbox_fcl_l : create_list(read_fcl_f(sconcat("DES_Sbox_",i,"_1base.cnf")), i, 1, 8)$
+P_hex : "038E596D4841D03B"$
+K_hex : "15FBC08D31B0D521"$
+C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
+P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
+C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
+F : des2fcl_gen(sbox_fcl_l,rounds)$
+F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
+output_fcs_v(
+  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  F_std[1],
+  sconcat("des_argocomp_r",rounds,".cnf"),
+  F_std[2])$
+print("DONE!");
+   \endverbatim
+   </li>
+   <li> Solvers (t:time,c:conflicts,n:nodes): cryptominisat (t:7.52s,c:124339),
+   precosat236 (t:15s,c:276563), minisat-2.2.0 (t:18s,c:613128),
+   precosat-570.1 (t:18.4s,c:252715), glucose (t:60s,c:437112). </li>
   </ul>
 
 */
