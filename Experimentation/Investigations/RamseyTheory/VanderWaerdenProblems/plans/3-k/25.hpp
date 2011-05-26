@@ -243,145 +243,7 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
      <li> n=608: unsat, 30days (on csltok, with unstable clock frequency;
      6708604472 conflicts, 8254745835 decisions, 256909484007 propagations,
      234914164662 conflict literals). </li>
-     <li> Splitting n=608 via OKsolver, depth 16:
-     \verbatim
-> SplittingViaOKsolver -D16 VanDerWaerden_pd_2-3-25_608.cnf
-> cd SplitViaOKsolver_D16VanDerWaerden_pd_2325_608cnf_2011-05-16-200325
-> more Md5sum
-fd2be28e9eeea3114c0a50a86561fc69
-> more Statistics
-> E=read.table("Data")
-> summary(E$n)
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-   17.0    78.0    97.0    97.7   118.0   207.0
-> table(E$n)
- 17  18  19  20  21  22  23  24  25  26  28  29  30  31  32  33  34  35  36  37
-  2   2   1   6  21  26  11  11   8   2   5  18  36  60  75 126 116  71  19   3
- 38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57
-  6   9  20  45 108 121 142 181 219 281 254 205 143  80  37  54  77 129 178 211
- 58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75  76  77
-231 315 305 354 403 436 462 423 403 362 230 196 221 234 249 318 360 428 476 569
- 78  79  80  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97
-576 607 587 608 577 511 491 508 495 407 412 380 429 420 478 544 555 577 625 609
- 98  99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117
-604 603 546 547 511 515 512 486 428 485 439 430 447 422 450 430 438 472 477 478
-118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137
-494 438 459 429 403 395 421 402 347 366 339 335 320 302 276 268 290 244 264 272
-138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157
-233 238 213 212 206 191 183 152 172 140 153 125 131  84  92  94  88  79  67  67
-158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177
- 60  61  42  42  45  38  53  51  30  42  16  26  21  22  24  13  15  11   6   8
-178 179 180 181 182 183 185 186 187 188 190 192 193 194 204 207
-  8   9   4   7   2   1   2   1   2   2   5   1   2   1   1   1
-> more Result
-s UNKNOWN
-c sat_status                            2
-c initial_maximal_clause_length         25
-c initial_number_of_variables           304
-c initial_number_of_clauses             49427
-c initial_number_of_literal_occurrences 225828
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   101
-c running_time(sec)                     21881.3
-c number_of_nodes                       105059
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                621004
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        16
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_pd_2-3-25_608.cnf
-c splitting_directory                   SplitViaOKsolver_D16VanDerWaerden_pd_2325
-_608cnf_2011-05-16-200325/Instances
-c splitting_cases                       40869
-
-> cd Instances
-> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
-
-# Monitoring in R via
-#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
-# Overview via
-#> plot(E)
-
-# Aborted at instance 40347:
-real    1357m9.472s
-user    1337m38.496s
-sys     16m5.296s
-     \endverbatim
-     One sees that here the OKsolver achieved already quite something; perhaps
-     there would have been also single nodes. But it needs more splitting
-     for the harder instances. </li>
-     <li> A major efficiency bottleneck seems to be the uneven splitting, and
-     for example splitting instance 818 further seems beneficial (saving at
-     least 50% running time). See "Taking the length of the partial
-     assignments into account" in
-     Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp. </li>
-     <li> For now using depth 18:
-     \verbatim
-> SplittingViaOKsolver -D18 VanDerWaerden_pd_2-3-25_608.cnf
-> cd SplitViaOKsolver_D18VanDerWaerden_pd_2325_608cnf_2011-05-18-183649/
-> more Md5sum
-eeff4185a32994257ad97647af83425f
-> more Statistics
-> E=read.table("Data")
-> summary(E$n)
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-   20.0    85.0   105.0   105.9   126.0   207.0
-> table(E$n)
-  20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35
-   2    2    8   22   26    8    7    4    2    2   10   28   51   75  108  134
-  36   37   38   39   40   41   42   43   44   45   46   47   48   49   50   51
- 130   73   26    5    7   21   46   94  192  231  258  299  373  409  382  287
-  52   53   54   55   56   57   58   59   60   61   62   63   64   65   66   67
- 191  120   83  116  178  250  377  480  537  627  655  700  739  829  858  759
-  68   69   70   71   72   73   74   75   76   77   78   79   80   81   82   83
- 670  668  473  403  489  548  674  787  929 1057 1188 1346 1327 1404 1450 1326
-  84   85   86   87   88   89   90   91   92   93   94   95   96   97   98   99
-1391 1298 1232 1187 1163 1116 1114 1176 1245 1317 1372 1467 1617 1611 1668 1732
- 100  101  102  103  104  105  106  107  108  109  110  111  112  113  114  115
-1662 1636 1509 1537 1446 1429 1366 1346 1300 1221 1239 1207 1335 1244 1367 1369
- 116  117  118  119  120  121  122  123  124  125  126  127  128  129  130  131
-1427 1443 1440 1469 1468 1357 1374 1346 1267 1303 1273 1164 1204 1186 1187 1096
- 132  133  134  135  136  137  138  139  140  141  142  143  144  145  146  147
-1110 1078 1038  991  985  942  991  940  850  860  831  787  748  717  683  596
- 148  149  150  151  152  153  154  155  156  157  158  159  160  161  162  163
- 574  461  463  469  394  419  368  335  313  297  300  281  277  238  246  245
- 164  165  166  167  168  169  170  171  172  173  174  175  176  177  178  179
- 215  198  194  167  141  146   93  117   97   84   63   82   50   47   36   30
- 180  181  182  183  184  185  186  187  188  189  190  191  192  193  195  196
-  31   38   31   26   17   13   10    7   10    5    6    7    5    4    3    1
- 197  200  203  207
-   1    3    1    1
-SplitViaOKsolver_D18VanDerWaerden_pd_2325_608cnf_2011-05-18-183649> more Result
-s UNKNOWN
-c running_time(sec)                     82657.6
-c number_of_nodes                       323973
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                2493116
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        18
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_pd_2-3-25_608.cnf
-c splitting_directory                   SplitViaOKsolver_D18VanDerWaerden_pd_2325_608cnf_2011-05-18-183649/Instances
-c splitting_cases                       112290
-     \endverbatim
-     </li>
-     <li> Let's go for n=30:
+     <li> W.r.t. SplittingViaOKsolver, let's go for n=30:
      \verbatim
 > SplittingViaOKsolver -D30 -SN VanDerWaerden_pd_2-3-25_608.cnf
 > cd SplitViaOKsolver_D30SNVanDerWaerden_pd_2325_608cnf_2011-05-19-182858/
@@ -460,11 +322,16 @@ c splitting_cases                       13462
 
 > cd Instances
 > OKP=~/SAT-Algorithmen/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+real    2987m55.420s
+user    2972m38.595s
+sys     11m37.584s
 
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+13462: 48.77h, sum-cfs=1.428662e+09, mean-t=13.043s, mean-cfs=106126
      \endverbatim
-     Likely one should go higher (say, n=50 or n=55). </li>
+     Likely one should go higher (say, n=50 or n=55); but already here a big
+     saving. </li>
     </ol>
    </li>
    <li> "RunPdVdW3k 25 26 618 gsat-tabu 100 8000000" (old version): all
