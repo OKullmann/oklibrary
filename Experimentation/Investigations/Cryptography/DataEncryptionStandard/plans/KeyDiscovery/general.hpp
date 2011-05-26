@@ -20,6 +20,9 @@ License, or any later version. */
      <li> 4-round DES, see
      Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/4.hpp.
      </li>
+     <li> 5-round DES, see
+     Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/5.hpp.
+     </li>
      <li> 16-round DES with some known key bits, see
      Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
      </li>
