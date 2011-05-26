@@ -19,6 +19,8 @@ License, or any later version. */
     <ul>
      <li> 1-base translation; fastest solver solves in 553s.
      See "Using the 1-base translation". </li>
+     <li> canonical translation; fastest solver solves in 567s.
+     See "Using the canonical translation". </li>
      <li> "minimum" translation; fastest solver solves in 6 days.
      See 'Using the "minimum"  translation'. </li>
    </li>
@@ -121,6 +123,49 @@ c decisions                : 262651549   (0.19      % random)
    \endverbatim
    </li>
    <li> OKsolver doesn't finish in 550,000s (> 6 days). </li>
+  </ul>
+
+
+  \todo Using the canonical translation
+  <ul>
+   <li> Generating the instance:
+   \verbatim
+rounds : 5$
+sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
+P_hex : "038E596D4841D03B"$
+K_hex : "15FBC08D31B0D521"$
+C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
+P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
+C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
+F : des2fcl_gen(sbox_fcl_l,rounds)$
+F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
+output_fcs_v(
+  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  F_std[1],
+  sconcat("des_argocomp_r",rounds,".cnf"),
+  F_std[2])$
+print("DONE!");
+   \endverbatim
+   </li>
+   <li> precosat236 solves in 567s with 2,423,412 conflicts:
+   \verbatim
+c 2423412 conflicts, 4652299 decisions, 2044 random
+c 0 iterations, 4094 restarts, 0 skipped
+c 567.9 seconds, 57 MB max, 1479 MB recycled
+   \endverbatim
+   </li>
+   <li> minisat-2.2.0 solves in 17221s using 40,018,619 conflicts:
+   \verbatim
+shell> minisat-2.2.0 des_argocomp_r4.cnf
+restarts              : 56057
+conflicts             : 40018619       (612167 /sec)
+decisions             : 82938445       (0.00 % random) (1268714 /sec)
+propagations          : 13510152814    (206665548 /sec)
+conflict literals     : 7079980812     (48.30 % deleted)
+   \endverbatim
+   </li>
+   <li> cryptominisat, precosat-570.1, and the OKsolver_2002 are
+   still running after 13 hours. </li>
   </ul>
 
 */
