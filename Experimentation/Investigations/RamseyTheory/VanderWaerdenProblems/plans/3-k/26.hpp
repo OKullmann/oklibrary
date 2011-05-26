@@ -199,12 +199,18 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
 26 3566
    \endverbatim
    </li>
-   <li> minisat-2.2.0:
+   <li> SplittingViaOKsolver, using minisat-2.2.0:
     <ol>
-     <li> n=643: ?sat, ?s (csltok, interrupted after 9190m); ? conflicts,
-     with added unit-clause). </li>
-     <li> n=635: ?sat, ?s (csltok, interrupted after 9190m); ? conflicts,
-     with added unit-clause). </li>
+     <li> n=644: . </li>
+     <li> n=635:
+     \verbatim
+> SplittingViaOKsolver -D30 -SN VanDerWaerden_pd_2-3-26_635.cnf
+ 30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48
+283 105  82  84  87  72  72  72  78  71  84  79  70  51  43  29  20   7   1
+> SplittingViaOKsolver -D40 -SN VanDerWaerden_pd_2-3-26_635.cnf
+
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> "RunPdVdWk1k2 3 26 gsat-tabu 100 4000000":
