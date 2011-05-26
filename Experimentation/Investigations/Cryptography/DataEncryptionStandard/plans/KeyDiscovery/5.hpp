@@ -65,7 +65,9 @@ print("DONE!");
    \endverbatim
    </li>
    <li> Solvers (t:time,c:conflicts,n:nodes): cryptominisat (t:553s,c:3198466),
-   OKsolver_2002 (t:36760s,n:70636225).  </li>
+   minisat-2.2.0 (t:13363s,c:183335114), OKsolver_2002 (t:36760s,n:70636225).
+   </li>
+   <li> precosat236 and precosat-570.1 are still running after 13 hours. </li>
   </ul>
 
 
