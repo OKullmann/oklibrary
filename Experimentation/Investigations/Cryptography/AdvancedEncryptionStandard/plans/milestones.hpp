@@ -78,6 +78,7 @@ License, or any later version. */
    the following topics are handled:
     - Cryptographic properties of AES
     - Keys for which AES encrypts P to P
+    - Create sub-module
 
   \par
    In Experimentation/Investigations/plans/CurrentExperiments.hpp the section

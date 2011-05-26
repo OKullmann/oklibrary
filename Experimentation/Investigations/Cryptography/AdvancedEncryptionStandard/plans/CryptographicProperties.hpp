@@ -10,6 +10,12 @@ License, or any later version. */
   \brief On investigating the cryptographic properties of AES and small scale variations.
 
 
+  \todo Create sub-module
+  <ul>
+   <li> These plans need their own sub-module. </li>
+  </ul>
+
+
   \todo Cryptographic properties of AES
   <ul>
    <li> Given a correct translation of the AES into a SAT problem, represented
@@ -79,6 +85,16 @@ License, or any later version. */
     for the implemented translation of the single plaintext cryptographic
     question. </li>
    </ul>
+   </li>
+   <li> What to call these two properties ("exists P . AES(P,K,P)" and
+   "for all P . AES(P,K,P)")? </li>
+   <li> There exist K and P such that AES(P,K,P) for:
+    <ul>
+     <li> 4-bit AES with 1 row, 1 column, 4-bit field up to 10 rounds.
+     All solvers find K and P in < 0.1s. </li>
+     <li> 16-bit AES with 1 row, 1 column, 4-bit field up to 4 rounds.
+     Fastest solver for 4 rounds finds K and P in < 1s. </li>
+    </ul>
    </li>
    <li> Do there exist K and P such that AES(P,K,P) for the 4-bit trivial AES
    scheme (1 row, 1 column, 4-bit field)?
