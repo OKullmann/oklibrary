@@ -70,16 +70,14 @@ License, or any later version. */
   \todo Keys for which AES encrypts P to P
   <ul>
    <li> Does the AES have any key for which the cipher maps plaintext
-   P back to itself for all P?
+   P back to itself, for all P?
    <ul>
-    <li> Considering only a single plaintext (that there is a key K and
-    plaintext P for which AES with that K encrypts P to P) can be translated
-    simply as "AES(P,K,P)". </li>
+    <li> Is a key K and plaintext P for which AES, with that K, encrypts P to
+    P can be translated simply as "exists P . AES(P,K,P)" and can easily
+    be formulated as a SAT problem. </li>
     <li> This question can then be expanded to whether there is a K
-    such that for all P, AES with K encrypts P to P as
+    such that for all P, AES, with K, encrypts P to P. That is,
     "for all P . AES(P,K,P)". </li>
-    <li> The single plaintext translation of this question into a SAT
-    problem should be implemented in the Maxima system. </li>
     <li> See output_ss_fcl_id_p in
     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac
     for the implemented translation of the single plaintext cryptographic
@@ -189,6 +187,8 @@ for i in $(seq 1 10); do cryptominisat ssaes_id_p_r${i}_c1_rw1_e4_f0.cnf | awk "
      </li>
     </ul>
    </li>
+   <li> DONE The single plaintext translation of this question into a SAT
+   problem should be implemented in the Maxima system. </li>
   </ul>
 
 */
