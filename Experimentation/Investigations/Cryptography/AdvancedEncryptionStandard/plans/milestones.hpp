@@ -77,7 +77,7 @@ License, or any later version. */
    In Cryptography/AdvancedEncryptionStandard/plans/CryptographicProperties.hpp
    the following topics are handled:
     - Cryptographic properties of AES
-    - Identity-map keys
+    - Keys for which AES encrypts P to P
 
   \par
    In Experimentation/Investigations/plans/CurrentExperiments.hpp the section
