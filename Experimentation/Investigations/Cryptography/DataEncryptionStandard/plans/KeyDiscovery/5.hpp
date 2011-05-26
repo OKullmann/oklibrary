@@ -21,7 +21,7 @@ License, or any later version. */
      See "Using the 1-base translation". </li>
      <li> canonical translation; fastest solver solves in 567s.
      See "Using the canonical translation". </li>
-     <li> "minimum" translation; fastest solver solves in 6 days.
+     <li> "minimum" translation; fastest solver solves in 4 hours.
      See 'Using the "minimum"  translation'. </li>
    </li>
   </ul>
@@ -115,6 +115,16 @@ output_fcs_v(
 print("DONE!");
    \endverbatim
    </li>
+   <li> minisat-2.2.0 solves in  14,291s (~4 hours) using 258,451,462
+   conflicts:
+   \verbatim
+shell> minisat-2.2.0 des_argocomp_r4.cnf
+restarts              : 294909
+conflicts             : 258451462      (3953546 /sec)
+decisions             : 308556223      (0.00 % random) (4720001 /sec)
+propagations          : 20792733621    (318067586 /sec)
+   \endverbatim
+   </li>
    <li> cryptominisat solves in 520,000s (~6 days):
    \verbatim
 c static restarts          : 629
@@ -124,7 +134,9 @@ c conflicts                : 247428989   (3780713.58 / sec)
 c decisions                : 262651549   (0.19      % random)
    \endverbatim
    </li>
-   <li> OKsolver doesn't finish in 550,000s (> 6 days). </li>
+   <li> precosat236 and precosat-570.1 are still running after
+   13 hours. </li>
+   <li> OKsolver doesn't solve in 550,000s (> 6 days). </li>
   </ul>
 
 
