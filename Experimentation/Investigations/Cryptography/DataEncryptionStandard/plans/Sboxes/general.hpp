@@ -43,6 +43,9 @@ License, or any later version. */
    <li> Considering them as one 10-bit boolean function, or as 4 6-bit
    boolean functions. Likely better the first view, but we need to consider
    all possibilities. </li>
+   <li> See "Add 6-to-1 bit Sbox functions" in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp.
+   </li>
    <li> Determining the number of prime implicates, data on the subsumption
    hypergraph, and minimum CNFs, and r_0-,r_1-bases. </li>
    <li> Here also minimum DNF-representations are of interest! </li>
