@@ -54,6 +54,7 @@ License, or any later version. */
     <ul>
      <li> 1 round; 0.0s; precosat236. </li>
      <li> 10 rounds; 619.39s; glucose. </li>
+     <li> 14 rounds; 432.36s; cryptominisat. </li>
     </ul>
    </li>
    <li> See:

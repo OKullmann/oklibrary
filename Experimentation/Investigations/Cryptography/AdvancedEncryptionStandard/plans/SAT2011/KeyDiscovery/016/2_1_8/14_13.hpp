@@ -183,4 +183,143 @@ VALID
    </li>
   </ul>
 
+
+  \todo Using the "minimum" box translation
+  <ul>
+   <li> Translating the AES cipher treating Sboxes and field multiplications
+   as whole boxes and translating these boxes using small CNFs.
+   </li>
+   <li> The CNFs for the Sbox and multiplications:
+   \verbatim
+/* Multiplication by 02: */
+maxima> FieldMul2CNF : [{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16},{{-9,2},{-2,9},{-10,3},{-3,10},{-11,4},{-4,11},{-12,-5,-1},{-12,1,5},{-5,1,12},{-1,5,12},{-13,-6,-1},{-1,6,13},{-14,7},{-7,14},{-15,1,8},{-8,1,15},{-16,-15,-8},{-16,8,15},{-13,6,16},{-6,13,16}}]$
+set_hm(ss_field_cnfs,[8,2], FieldMul2CNF));
+/* Multiplication by 03: */
+maxima> FieldMul3CNF :
+ [[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
+  [{-9,-2,-1},{-2,1,9},{-10,2,3},{-10,-9,-3,1},{-10,-3,-1,9},{-3,2,10},{-9,1,3,10},{-1,3,9,10},{-11,-4,-3},{-11,3,4},{-4,3,11},{-3,4,11},{-12,-5,-4,1},{-12,-4,-1,5},{-5,1,4,12},{-1,4,5,12},{-13,-5,-1,6},{-13,1,5,6},{-13,-12,-6,4},{-13,-6,-4,12},{-6,-5,-1,13},{-6,1,5,13},
+   {-12,4,6,13},{-4,6,12,13},{-14,-7,-6},{-14,6,7},{-7,6,14},{-6,7,14},{-16,-8,-1},{-16,1,8},{-16,-15,-7},{-16,7,15},{-8,1,16},{-1,8,16},{-15,7,16},{-7,15,16}]]$
+set_hm(ss_field_cnfs,[8,2], FieldMul3CNF));
+/* Sbox: */
+maxima> output_rijnsbox_fullcnf_stdname();
+shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_Sbox_shg.cnf
+shell> cat AES_Sbox_shg.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > AES_Sbox_shg.wcnf
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 40000000 -wtarget 294 -solve 1 -seed 3213901809 -i AES_Sbox_shg.wcnf -r model AES_Sbox_s294.ass;
+shell> cat  AES_Sbox_full.cnf_primes | FilterDimacs AES_Sbox_s294.ass > AES_Sbox_s294.cnf
+maxima> SboxMinCNF : read_fcl_f("AES_Sbox_s294.cnf");
+maxima> set_hm(ss_sbox_cnfs,8, SboxMinCNF));
+   \endverbatim
+   </li>
+   <li> Generating small scale AES for 14 + 1/3 rounds:
+   \verbatim
+rounds : 14$
+num_rows : 2$
+num_columns : 1$
+exp : 8$
+final_round_b : false$
+box_tran : aes_small_box$
+seed : 1$
+mc_tran : aes_mc_bidirectional$
+output_ss_fcl_std(rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
+
+shell> cat ssaes_r14_c1_rw2_e8_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+2064 22912 128152 0 128152 2065 1
+ length count
+1 112
+2 448
+3 4992
+4 896
+6 8008
+7 7112
+8 1344
+   \endverbatim
+   </li>
+   <li> In this translation, we have:
+   <ul>
+    <li> Fourteen full rounds (Key Addition, SubBytes, and MixColumn
+    operation).
+    </li>
+    <li> 56 Sboxes (28 from SubBytes; 28 from key schedule). </li>
+    <li> 800 additions (240 from key additions; 448 from MixColumns; 112 from
+    key schedule). </li>
+    <li> 56 multiplications by 02, 03 (from MixColumns).
+    </li>
+    <li> 112 bits for the constants in the key schedule. </li>
+   </ul>
+   </li>
+   <li> Note that as this variant has only one column, the key schedule
+   applies Sbox(K_i) + C rather than Sbox(K_i) + K_j + C where K_i and
+   K_j are key words from the previous round key. </li>
+   <li> The Sboxes and multiplications use the "minimum" translations,
+   which have the following number of clauses of each length:
+   \verbatim
+maxima> ncl_list_fcs(ev_hm(ss_sbox_cnfs,8));
+[[6,143],[7,127],[8,24]]
+maxima> ncl_list_fcs(ev_hm(ss_field_cnfs,[8,2]))
+[[2,8],[3,12]]
+maxima> ncl_list_fcs(ev_hm(ss_field_cnfs,[8,3]))
+[[3,20],[4,16]]
+   \endverbatim
+   </li>
+   <li> The number of clauses of each length in the translation are:
+    <ul>
+     <li> 112 unit-clauses (key schedule constant). </li>
+     <li> 448 binary clauses (56 multiplications by 02). </li>
+     <li> 4992 ternary clauses (800 arity two additions; 56 multiplications *
+     2). </li>
+     <li> 896 clauses of length four (56 multiplications by 03). </li>
+     <li> 8008 clauses of length six (56 Sboxes). </li>
+     <li> 7112 clauses of length seven (56 Sboxes). </li>
+     <li> 1344 clauses of length eight (56 Sboxes). </li>
+    </ul>
+   </li>
+   <li> Generate random assignments for the plaintext and ciphertext, leaving
+   the key unknown:
+   \verbatim
+maxima> output_ss_random_pc_pair(seed,rounds,num_columns,num_rows,exp,final_round_b);
+   \endverbatim
+   Merge the assignments with the translations:
+   \verbatim
+shell> AppendDimacs-O3-DNDEBUG ssaes_r14_c1_rw2_e4_f0.cnf ssaes_pkpair_r14_c1_rw2_e4_f0_s1.cnf > r14_keyfind.cnf; done
+   \endverbatim
+   </li>
+   <li> Solver runs:
+    <ul>
+     <li> cryptominisat:
+     \verbatim
+shell> cryptominisat r14_keyfind.cnf
+<snip>
+c restarts                 : 9433
+c dynamic restarts         : 9403
+c static restarts          : 30
+c full restarts            : 4
+c conflicts                : 2030565     (4696.47   / sec)
+c decisions                : 4350327     (1.04      % random)
+c conflict literals        : 28915735    (12.47     % deleted)
+c CPU time                 : 432.36      s
+     \endverbatim
+     </li>
+     <li> glucose:
+     \verbatim
+shell> glucose r14_keyfind.cnf
+<snip>
+c restarts              : 918
+c conflicts             : 2226769        (2807 /sec)
+c decisions             : 2781657        (1.75 % random) (3507 /sec)
+c propagations          : 136974745      (172675 /sec)
+c Memory used           : 47.67 MB
+c CPU time              : 793.25 s
+     \endverbatim
+     </li>
+    </ul>
+   </li>
+   <li> We can check we get the right result with:
+   \verbatim
+shell> OKsolver_2002-O3-DNDEBUG -O r14_keyfind.cnf | grep "^v" | $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/validate_aes_assignment 1 1 2 8 0 && echo "VALID"
+VALID
+   \endverbatim
+   </li>
+  </ul>
+
 */
