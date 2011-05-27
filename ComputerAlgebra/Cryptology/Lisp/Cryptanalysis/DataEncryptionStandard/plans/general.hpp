@@ -10,6 +10,17 @@ License, or any later version. */
   \brief Plans for the cryptanalysis of the Data Encryption Standard in Maxima/Lisp
 
 
+  \todo Add 6-to-1 bit Sbox functions
+  <ul>
+   <li> The 10-to-4 bit boolean functions for the DES Sboxes can be split
+   into 4 6-to-1 bit functions. </li>
+   <li> We must provide these functions at the Maxima level. </li>
+   <li> See "Analysing the S-boxes" in
+   Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp.
+   </li>
+  </ul>
+
+
   \todo Add variants with reduced number of rounds
   <ul>
    <li> Variants of DES with smaller numbers of rounds (from 1 to 3) are

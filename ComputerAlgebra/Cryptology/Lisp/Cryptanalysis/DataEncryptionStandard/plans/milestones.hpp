@@ -18,6 +18,7 @@ License, or any later version. */
    the following topics are handled:
     - Improve tests
     - Add variants with reduced number of rounds
+    - Add 6-to-1 bit Sbox functions
 
 
   \par Version 0.0.4
@@ -27,7 +28,7 @@ License, or any later version. */
    the following topics are handled:
     - Create constraint evaluation system
     - Translating the constraint-system into SAT, CSP, ...
-  
+
 
   \par
    Update the following milestones.
