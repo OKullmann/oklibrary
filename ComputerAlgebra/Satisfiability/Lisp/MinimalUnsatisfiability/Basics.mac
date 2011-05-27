@@ -71,6 +71,12 @@ all_irrcl_bydef(FF,S) := block([V : FF[1], F : FF[2], I : {}],
 all_irrcl_bydef_fcs(FF) := all_irrcl_bydef(FF,current_satsolver)$
 all_irrcl_bydef_cs(F) := all_irrcl_bydef_fcs(cs2fcs(F))$
 
+
+/* **************************************
+   * Saturated minimal unsatisfiability *
+   **************************************
+*/
+
 /* Returns true iff input FF is saturated minimally unsatisfiable: */
 saturated_min_unsat_bydef(FF, solver) := min_unsat_bydef(FF,solver) and
  every_s(lambda([x],min_unsat_bydef(apply_pa_f({x},FF),solver)), 
