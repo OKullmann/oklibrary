@@ -208,7 +208,22 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48
 283 105  82  84  87  72  72  72  78  71  84  79  70  51  43  29  20   7   1
 > SplittingViaOKsolver -D40 -SN VanDerWaerden_pd_2-3-26_635.cnf
-
+ 40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59
+603 322 345 369 414 481 480 466 435 400 367 304 226 171 113  93  52  56  50  30
+ 60  61  62  65  68  70  71
+ 13   4   4   1   1   1   1
+> SplittingViaOKsolver -D50 -SN VanDerWaerden_pd_2-3-26_635.cnf
+  50   51   52   53   54   55   56   57   58   59   60   61   62   63   64   65
+2700 1078  956 1115 1236 1465 1535 1474 1319 1246 1170 1146 1104 1191 1038 1029
+  66   67   68   69   70   71   72   73   74   75   76   78   79   80   82   83
+ 810  578  424  224  111   56   40   16   11    7    2    1    1    1    1    4
+  84   85   86   87   88   90
+   4    2    1    4    3    1
+c running_time(sec)                     21294.6
+c number_of_nodes                       46207
+c number_of_2-reductions                4882
+c splitting_cases                       23104
+> SplittingViaOKsolver -D60 -SN VanDerWaerden_pd_2-3-26_635.cnf
      \endverbatim
      </li>
     </ol>

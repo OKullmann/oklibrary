@@ -147,10 +147,73 @@ sys     50m59.587s
 132131: 41.18h, sum-cfs=3.998369e+09, mean-t=1.122s, mean-cfs=30261
      \endverbatim
      </li>
-     <li> Now considering n=395. Trying D=31:
+     <li> Now considering n=395. Trying D=31,34:
      \verbatim
 > SplittingViaOKsolver -D31 -SN VanDerWaerden_pd_2-4-12_395.cnf
+   31    32    33    34    35    36    37    38    39    40    41    42    43
+20597 11607 10643  8971  6600  4031  2209  1122   559   270   147    84    58
+   44    45    46    47    48    49    50    52    53    54    55    57    61
+   38    23    13     9     6     9     4     2     5     3     1     3     1
+   62    64    73
+    1     1     1
+c running_time(sec)                     3029.3
+c number_of_nodes                       134037
+c number_of_2-reductions                5191
+c max_tree_depth                        25
 
+> SplittingViaOKsolver -D34 -SN VanDerWaerden_pd_2-4-12_395.cnf
+> cd SplitViaOKsolver_D34SNVanDerWaerden_pd_2412_395cnf_2011-05-27-131557
+> more Md5sum
+0de78936d281545108d9ef3d6e3f2c8c
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  34.00   34.00   36.00   36.31   38.00   86.00
+> table(E$n)
+   34    35    36    37    38    39    40    41    42    43    44    45    46
+42061 24202 22756 19772 14990 10051  5909  3277  1649   945   501   340   238
+   47    48    49    50    51    52    53    54    55    56    57    58    59
+  142    99    78    52    39    26    23    18    12    10    12     8     3
+   60    61    62    63    64    65    68    71    73    75    79    86
+    4     3     5     2     1     2     1     1     2     1     1     1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         12
+c initial_number_of_variables           198
+c initial_number_of_clauses             15889
+c initial_number_of_literal_occurrences 88834
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   65
+c running_time(sec)                     5747.0
+c number_of_nodes                       294541
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                18043
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        27
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_pd_2-4-12_395.cnf
+c splitting_directory                   SplitViaOKsolver_D34SNVanDerWaerden_pd_2412_395cnf_2011-05-27-131557/Instances
+c splitting_cases                       147237
+
+> cd Instances
+> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+
+     \endverbatim
      </li>
     </ol>
    </li>

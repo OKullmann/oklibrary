@@ -164,19 +164,8 @@ s UNKNOWN
 c sat_status                            2
 c running_time(sec)                     4262.6
 c number_of_nodes                       205017
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                1769
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        23
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_pd_2-5-9_447.cnf
-c splitting_directory                   SplitViaOKsolver_D23SNVanDerWaerden_pd_259_447cnf_2011-05-19-162049/Instances
 c splitting_cases                       102509
 
 > tail Data
@@ -245,9 +234,20 @@ c splitting_cases                       231550
 
 > cd Instances
 > I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
+# INTERRUPTED:
+real    10123m47.215s
+user    9945m21.669s
+sys     9m22.735s
 
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+13246: 165.07h, sum-cfs=9.404562e+09, mean-t=44.863s, mean-cfs=709993
+     \endverbatim
+     Still instances are too hard. </li>
+     <li> To have a chance, let's try n=28:
+     \verbatim
+> SplittingViaOKsolver -D28 -SN VanDerWaerden_pd_2-5-9_447.cnf
+
      \endverbatim
      </li>
     </ol>
