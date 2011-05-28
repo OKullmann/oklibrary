@@ -111,8 +111,13 @@ License, or any later version. */
   <h2> Van der Waerden problems </h2>
 
   <ul>
+   <li> RamseyTheory/VanderWaerdenProblems/plans/Parallelisation/general.hpp
+   </li>
    <li> RamseyTheory/VanderWaerdenProblems/plans/3-k/general.hpp </li>
-   <li> RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_2-4-k.hpp </li>
+   <li> RamseyTheory/VanderWaerdenProblems/plans/4-k/general.hpp </li>
+   <li> RamseyTheory/VanderWaerdenProblems/plans/5-k/general.hpp </li>
+   <li> RamseyTheory/VanderWaerdenProblems/plans/6-k/general.hpp </li>
+   <li> RamseyTheory/VanderWaerdenProblems/plans/7-k/general.hpp </li>
    <li> (Postponed for now until the full Ramsey-theory-project starts)
    RamseyTheory/VanderWaerdenProblems/plans/VanderWaerden_3-3-3-k.hpp </li>
    <li> (Postponed for now until the full Ramsey-theory-project starts)
