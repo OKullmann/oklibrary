@@ -16,18 +16,18 @@ License, or any later version. */
 
   <h2> Advanced Encryption Standard </h2>
 
-  NEEDS UPDATE
+  NEEDS URGEND UPDATE --- one needs to see what's going on!!!
 
   <ul>
    <li> Key Discovery:
    <ul>
-    <li> Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_2_4/1_1.hpp.
+    <li> AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_2_4/1_1.hpp.
     </li>
    </ul>
    </li>
-   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp .
+   <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
    </li>
-   <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp . 
+   <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp.
    </li>
   </ul>
 
