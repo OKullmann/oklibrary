@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Investigations into small scale AES key discovery for one round AES with a 4x4 plaintext matrix and 4-bit field elements (1+1/3)
 
 
-  \todo Problem specification
+  \todo Problem specification ??? The MAIN POINT here is to see information
+  about the boolean functions involved --- but nothing is said ???
   <ul>
    <li> In this file, we collect the investigations into translations of
    1 + 1/3 round small scale AES with four rows, two columns, using the 4-bit
