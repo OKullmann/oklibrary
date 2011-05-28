@@ -81,11 +81,12 @@ all_irrcl_bydef_cs(F) := all_irrcl_bydef_fcs(cs2fcs(F))$
 saturated_min_unsat_bydef(FF, solver) := min_unsat_bydef(FF,solver) and
  every_s(lambda([x],min_unsat_bydef(apply_pa_f({x},FF),solver)), 
          literals_v(FF[1]))$
+saturated_min_unsat_bydef_fcs(FF) :=
+  saturated_min_unsat_bydef(FF, current_satsolver)$
 
 /* Return the set of partial assignments of size at most 1 which after
-   application do not result in a minimally unsatisfiable clause-set. */
-/* So saturated_min_unsat_bydef(FF) = true iff 
-   non_saturating_pas_bydef(FF) = {}.
+   application do not result in a minimally unsatisfiable clause-set. So
+    saturated_min_unsat_bydef(FF) = true iff non_saturating_pas_bydef(FF) = {}.
 */
 non_saturating_pas_bydef(FF,solver) := block(
  [assignments : union({{}}, map(set,literals_v(FF[1]))),
@@ -94,7 +95,8 @@ non_saturating_pas_bydef(FF,solver) := block(
     if not min_unsat_bydef(apply_pa_f(phi,FF),solver) then
       result : adjoin(phi,result),
   return(result))$
-
+non_saturating_pas_bydef_fcs(FF) :=
+  non_saturating_pas_bydef(FF, current_satsolver)$
 
 /*!
 \endhtmlonly
