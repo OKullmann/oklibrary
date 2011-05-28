@@ -167,6 +167,8 @@ maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_
 shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e4_f0.cnf ssaes_pkpair_r1_c4_rw4_e4_f0_s1.cnf > experiment_r1_k1.cnf
    \endverbatim
    </li>
+??? This todo is obviously too long --- the solvers etc. must go into another
+todo ???
    <li> minisat-2.2.0 takes only 20s:
    \verbatim
 restarts              : 435
