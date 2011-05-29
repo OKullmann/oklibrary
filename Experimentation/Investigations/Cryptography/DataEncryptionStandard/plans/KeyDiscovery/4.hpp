@@ -48,9 +48,10 @@ output_fcs_v(
 print("DONE!");
    \endverbatim
    </li>
-   <li> Solvers (t:time,c:conflicts,n:nodes): glucose (t:39.31s,c:178662),
-   minisat-2.2.0 (t:131s,c:555383), cryptominisat (t:195s,c:676495),
-   precosat236 (t:306s,c:1144952), OKsolver_2002 (t:327s,n:5601). </li>
+   <li> Solvers (t:time,cfs:conflicts,nds:nodes): glucose
+   (t:39.31s,cfs:178662), minisat-2.2.0 (t:131s,cfs:555383), cryptominisat
+   (t:195s,cfs:676495), precosat236 (t:306s,cfs:1144952),
+   OKsolver_2002 (t:327s,nds:5601). </li>
    </li>
   </ul>
 
@@ -92,10 +93,10 @@ output_fcs_v(
 print("DONE!");
    \endverbatim
    </li>
-   <li> Solvers (t:time,c:conflicts,n:nodes): cryptominisat (t:7.52s,c:124339),
-   precosat236 (t:15s,c:276563), minisat-2.2.0 (t:18s,c:613128),
-   precosat-570.1 (t:18.4s,c:252715), glucose (t:60s,c:437112),
-   OKsolver_2002 (t:761s,n:1361497). </li>
+   <li> Solvers (t:time,cfs:conflicts,nds:nodes): cryptominisat
+   (t:7.52s,cfs:124339), precosat236 (t:15s,cfs:276563), minisat-2.2.0
+   (t:18s,cfs:613128), precosat-570.1 (t:18.4s,cfs:252715), glucose
+   (t:60s,cfs:437112), OKsolver_2002 (t:761s,nds:1361497). </li>
   </ul>
 
 
@@ -143,9 +144,10 @@ output_fcs_v(
 print("DONE!");
    \endverbatim
    </li>
-   <li> Solvers (t:time,c:conflicts,n:nodes): precosat-570.1 (t:0.5s,c:20603),
-   minisat-2.2.0 (t:9s, c:479829), precosat236 (t:10.1s,c:242455),
-   cryptominisat (t:30s,c:372190), OKsolver_2002 (t:1600s,n:5797). </li>
+   <li> Solvers (t:time,cfs:conflicts,nds:nodes): precosat-570.1
+   (t:0.5s,cfs:20603), minisat-2.2.0 (t:9s, cfs:479829), precosat236
+   (t:10.1s,cfs:242455), cryptominisat (t:30s,cfs:372190), OKsolver_2002
+   (t:1600s,nds:5797). </li>
   </ul>
 
 */
