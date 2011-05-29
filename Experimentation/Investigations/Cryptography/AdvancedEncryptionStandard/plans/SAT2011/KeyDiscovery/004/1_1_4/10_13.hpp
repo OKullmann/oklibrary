@@ -14,6 +14,33 @@ License, or any later version. */
   <ul>
    <li> Here and everywhere else we need precise explanations why we have so
    and so many variables and clauses. </li>
+   <li> This is needed in the following files:
+    <ul>
+     <li> SAT2011/KeyDiscovery/004/1_1_4/10_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/004/1_1_4/20_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/008/1_1_8/20_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/016/2_1_8/1_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/016/2_1_8/10_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/016/2_1_8/14_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/016/2_2_4/1_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/016/2_2_4/2_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/016/2_2_4/4_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/016/2_2_4/20_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/016/2_2_4/20_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/032/2_4_4/1_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/032/2_4_4/3_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/032/2_4_4/5_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/032/4_2_4/1_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/032/4_2_4/2_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/064/1_16_4/4_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/064/1_16_4/5_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/064/4_4_4/1_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/128/1_16_8/2_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/128/4_4_8/0_23_13.hpp. </li>
+     <li> SAT2011/KeyDiscovery/128/4_4_8/1_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/004/1_1_4/1_13.hpp. </li>
+    </ul>
+   </li>
   </ul>
 
 
