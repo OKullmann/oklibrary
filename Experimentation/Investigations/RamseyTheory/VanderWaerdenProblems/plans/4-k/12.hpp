@@ -22,9 +22,9 @@ License, or any later version. */
   </ul>
 
 
-  \todo vdw_2^pd(4,12): (=387,>=394)
+  \todo vdw_2^pd(4,12) = (387,394)
   <ul>
-   <li> n=388 determined as unsatisfiable; see below. </li>
+   <li> n=388, 395 determined as unsatisfiable; see below. </li>
    <li> minisat-2.2.0:
     <ol>
      <li> n=388: aborted:
@@ -209,10 +209,13 @@ c splitting_cases                       147237
 
 > cd Instances
 > OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+real    1031m44.125s
+user    977m35.662s
+sys     53m4.491s
 
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
-
+147237: 8.22h, sum-cfs=7.677296e+08, mean-t=0.201s, mean-cfs=5214
      \endverbatim
      </li>
     </ol>
