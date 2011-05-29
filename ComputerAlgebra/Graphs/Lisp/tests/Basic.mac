@@ -1466,6 +1466,23 @@ okltest_sconnected_omudgl_p(f) := (
   assert(okltest_sconnected_mudgl_p(buildq([f], lambda([G], f(mudgl2omudgl(G))))) = true),
   true)$
 
+okltest_tree_g_p(f) := (
+  assert(f([{},{}]) = false),
+  assert(f([{1},{}]) = true),
+  assert(f([{2},{}]) = true),
+  assert(f([{1,2},{}]) = false),
+  assert(f([{1,2},{{1,2}}]) = true),
+  assert(f([{1,2,3},{}]) = false),
+  assert(f([{1,2,3},{{1,2}}]) = false),
+  assert(f([{1,2,3},{{1,2},{1,3}}]) = true),
+  assert(f([{1,2,3},{{1,2},{2,3}}]) = true),
+  assert(f([{1,2,3},{{1,2},{1,3},{2,3}}]) = false),
+  for n : 0 thru 4 do
+    assert(f(complete_stdg(n)) = if n=1 or n=2 then true else false),
+  for n : 1 thru 4 do
+    assert(f(pathgraph_g(n)) = true),
+  true)$
+
 okltest_regular_g_p(f) := (
   assert(f(0,[{},{}]) = true),
   assert(f(1,[{},{}]) = true),

@@ -245,7 +245,7 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
      234914164662 conflict literals). </li>
      <li> W.r.t. SplittingViaOKsolver, let's go for n=30:
      \verbatim
-> SplittingViaOKsolver -D30 -SN VanDerWaerden_pd_2-3-25_608.cnf
+> SplittingViaOKsolver -D30 VanDerWaerden_pd_2-3-25_608.cnf
 > cd SplitViaOKsolver_D30SNVanDerWaerden_pd_2325_608cnf_2011-05-19-182858/
 > more Md5sum
 b69e55a43063ee062364ffc827aa7b08
@@ -279,7 +279,7 @@ c splitting_cases                       1928
      </li>
      <li> Then let's go for n=35, 40, 45:
      \verbatim
-> SplittingViaOKsolver -D35 -SN VanDerWaerden_pd_2-3-25_608.cnf
+> SplittingViaOKsolver -D35 VanDerWaerden_pd_2-3-25_608.cnf
  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  54
 755 131  97 103  94 138 207 232 302 357 396 446 449 410 265 160  50   8   3
 c running_time(sec)                     3075.2
@@ -288,7 +288,7 @@ c number_of_2-reductions                201
 c max_tree_depth                        28
 c splitting_cases                       4603
 
-> SplittingViaOKsolver -D40 -SN VanDerWaerden_pd_2-3-25_608.cnf
+> SplittingViaOKsolver -D40 VanDerWaerden_pd_2-3-25_608.cnf
  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59
 713 323 268 336 406 482 569 670 735 779 763 668 605 424 254 176  83  42  19  19
  60  61
@@ -299,7 +299,7 @@ c number_of_2-reductions                822
 c max_tree_depth                        33
 c splitting_cases                       8347
 
-> SplittingViaOKsolver -D45 -SN VanDerWaerden_pd_2-3-25_608.cnf
+> SplittingViaOKsolver -D45 VanDerWaerden_pd_2-3-25_608.cnf
 > cd SplitViaOKsolver_D45SNVanDerWaerden_pd_2325_608cnf_2011-05-20-183549
 > more Md5sum
 28f54b573829547370bc370a5a4e2809

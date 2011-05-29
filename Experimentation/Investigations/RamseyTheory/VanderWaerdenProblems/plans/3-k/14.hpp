@@ -126,7 +126,7 @@ satz215 VanDerWaerden_2-3-14_186.cnf 14939.760 10822316 5500793 1573930613 58462
   <ul>
    <li> Depth 11 with minisat-2.2.0:
    \verbatim
-> SplittingViaOKsolver -D11 VanDerWaerden_2-3-14_186.cnf
+> SplittingViaOKsolver -D11 -SD VanDerWaerden_2-3-14_186.cnf
 > cd SplitViaOKsolver_D11VanDerWaerden_2314_186cnf_2011-05-18-184528
 > more Md5sum
 22faa6218bd2cfaa3b81690bed15e2f1
@@ -142,7 +142,7 @@ satz215 VanDerWaerden_2-3-14_186.cnf 14939.760 10822316 5500793 1573930613 58462
 24 34 61 56 70 75 55 45 29 22 26 25 30 31 45 25 32 30 19 22 19 15 12  8 12 15
 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 80 82 83 85 86 88 89 95
 17 16 13  8 11 12  8  3  1  4  5  3  5  4  2  4  3  3  1  1  2  1  1  1
-csoliver@cs-oksvr:~/OKplatform/SplitViaOKsolver_D11VanDerWaerden_2314_186cnf_2011-05-18-184528> more Result
+> more Result
 s UNKNOWN
 c sat_status                            2
 c initial_maximal_clause_length         14
@@ -186,7 +186,7 @@ sys     0m40.783s
    one can do better, as the following shows. </li>
    <li> Depth 14 with minisat-2.2.0:
    \verbatim
-> SplittingViaOKsolver -D14 VanDerWaerden_2-3-14_186.cnf
+> SplittingViaOKsolver -D14 -SD VanDerWaerden_2-3-14_186.cnf
 > cd SplitViaOKsolver_D14VanDerWaerden_2314_186cnf_2011-05-18-211753
 > more Md5sum
 bc7f0029b0598d58508739368d0ce4d0
@@ -207,33 +207,11 @@ bc7f0029b0598d58508739368d0ce4d0
  94  95  96  98  99 100 101 102 107
   3   3   3   2   1   2   2   1   1
 > more Result
-s UNKNOWN
-c sat_status                            2
-c initial_maximal_clause_length         14
-c initial_number_of_variables           186
-c initial_number_of_clauses             9795
-c initial_number_of_literal_occurrences 43014
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   0
 c running_time(sec)                     151.0
 c number_of_nodes                       29309
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                65529
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        14
-c number_of_table_enlargements          0
 c number_of_1-autarkies                 1
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_2-3-14_186.cnf
-c splitting_directory                   SplitViaOKsolver_D14VanDerWaerden_2314_186cnf_2011-05-18-211753/Instances
 c splitting_cases                       12192
 
 > cd Instances
@@ -256,9 +234,9 @@ sys     2m20.526s
  Max.   :12192   Max.   :107.00   Max.   :92.735900   Max.   :1734015
    \endverbatim
    </li>
-   <li> Now going for 20, 22, 24 variables:
+   <li> Now going for 20, 22, 24, 26 variables:
    \verbatim
-> SplittingViaOKsolver -D20 -SN VanDerWaerden_2-3-14_186.cnf
+> SplittingViaOKsolver -D20 VanDerWaerden_2-3-14_186.cnf
 > cd SplitViaOKsolver_D20SNVanDerWaerden_2314_186cnf_2011-05-19-082856
 > more Md5sum
 1186456b5b403df8e2b268db4f60c250
@@ -272,32 +250,10 @@ sys     2m20.526s
 465 122 118 157 196 245 152  89  58  17   8   4   6   1   1   1
 > more Result
 s UNKNOWN
-c sat_status                            2
-c initial_maximal_clause_length         14
-c initial_number_of_variables           186
-c initial_number_of_clauses             9795
-c initial_number_of_literal_occurrences 43014
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   0
 c running_time(sec)                     19.2
 c number_of_nodes                       3279
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                32
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        20
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_2-3-14_186.cnf
-c splitting_directory                   SplitViaOKsolver_D20SNVanDerWaerden_2314_186cnf_2011-05-19-082856/Instances
 c splitting_cases                       1640
 
 > cd Instances
@@ -310,7 +266,7 @@ sys     0m11.869s
 #> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 1640: 0.52h, sum-cfs=7.392376e+07, mean-t=1.139s, mean-cfs=45075
 
-> SplittingViaOKsolver -D22 -SN VanDerWaerden_2-3-14_186.cnf
+> SplittingViaOKsolver -D22 VanDerWaerden_2-3-14_186.cnf
 > cd SplitViaOKsolver_D22SNVanDerWaerden_2314_186cnf_2011-05-19-090835/
 > more Md5sum
 fb08f52075b5dfa7d59a4d643a31f0ba
@@ -322,34 +278,11 @@ fb08f52075b5dfa7d59a4d643a31f0ba
 > table(E$n)
  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40
 593 186 247 355 358 344 256 163  75  35  10   2   2   1   5   3   4   3   2
-kullmann-0:SplitViaOKsolver_D22SNVanDerWaerden_2314_186cnf_2011-05-19-090835> more Result
-s UNKNOWN
-c sat_status                            2
-c initial_maximal_clause_length         14
-c initial_number_of_variables           186
-c initial_number_of_clauses             9795
-c initial_number_of_literal_occurrences 43014
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   0
+> more Result
 c running_time(sec)                     31.8
 c number_of_nodes                       5287
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                113
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        20
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_2-3-14_186.cnf
-c splitting_directory                   SplitViaOKsolver_D22SNVanDerWaerden_2314_186cnf_2011-05-19-090835/Instances
 c splitting_cases                       2644
 
 > cd Instances
@@ -362,7 +295,7 @@ sys     0m20.277s
 #> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 2644: 0.43h, sum-cfs=6.502005e+07, mean-t=0.592s, mean-cfs=24592
 
-> SplittingViaOKsolver -D24 -SN VanDerWaerden_2-3-14_186.cnf
+> SplittingViaOKsolver -D24 VanDerWaerden_2-3-14_186.cnf
 > cd SplitViaOKsolver_D24SNVanDerWaerden_2314_186cnf_2011-05-19-095029/
 > more Md5sum
 1c4afe2b722115f7cbb1c6c1be7c2e88
@@ -375,33 +308,10 @@ sys     0m20.277s
  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42
 756 408 440 533 479 409 285 235 127  77  37   8   8  13  28  17   8   1   1
 > more Result
-s UNKNOWN
-c sat_status                            2
-c initial_maximal_clause_length         14
-c initial_number_of_variables           186
-c initial_number_of_clauses             9795
-c initial_number_of_literal_occurrences 43014
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   0
 c running_time(sec)                     46.6
 c number_of_nodes                       7739
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                228
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        22
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_2-3-14_186.cnf
-c splitting_directory                   SplitViaOKsolver_D24SNVanDerWaerden_2314_186cnf_2011-05-19-095029/Instances
 c splitting_cases                       3870
 
 > cd Instances
@@ -414,7 +324,7 @@ sys     0m31.755s
 #> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 3870: 0.39h, sum-cfs=6.025254e+07, mean-t=0.362s, mean-cfs=15569
 
-> SplittingViaOKsolver -D26 -SN VanDerWaerden_2-3-14_186.cnf
+> SplittingViaOKsolver -D26 VanDerWaerden_2-3-14_186.cnf
 > cd SplitViaOKsolver_D26SNVanDerWaerden_2314_186cnf_2011-05-19-102727/
 > more Md5sum
 3a2a81550cd63d4bfbda0039b9367640
@@ -429,34 +339,10 @@ sys     0m31.755s
   42   43   44   45
   19    5    3    1
 > more Result
-s UNKNOWN
-c sat_status                            2
-c initial_maximal_clause_length         14
-c initial_number_of_variables           186
-c initial_number_of_clauses             9795
-c initial_number_of_literal_occurrences 43014
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   0
 c running_time(sec)                     68.6
 c number_of_nodes                       11275
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                359
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        23
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_2-3-14_186.cnf
-c splitting_directory                   SplitViaOKsolver_D26SNVanDerWaerden_2314_186cnf_2011-05-1
-9-102727/Instances
 c splitting_cases                       5638
 
 > cd Instances

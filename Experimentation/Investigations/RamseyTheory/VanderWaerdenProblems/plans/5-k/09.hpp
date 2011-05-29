@@ -66,7 +66,7 @@ License, or any later version. */
     <ol>
      <li> n=447:
      \verbatim
-> SplittingViaOKsolver -D17 VanDerWaerden_pd_2-5-9_447.cnf
+> SplittingViaOKsolver -D17 -SD VanDerWaerden_pd_2-5-9_447.cnf
 > cd SplitViaOKsolver_D17VanDerWaerden_pd_259_447cnf_2011-05-18-182137/
 > more Md5sum
 f11f67fd06ffd653818137f130c07a7c
@@ -145,7 +145,7 @@ INDETERMINATE
      </li>
      <li> Okay, let's set n=23:
      \verbatim
-> SplittingViaOKsolver -D23 -SN VanDerWaerden_pd_2-5-9_447.cnf
+> SplittingViaOKsolver -D23 VanDerWaerden_pd_2-5-9_447.cnf
 > cd SplitViaOKsolver_D23SNVanDerWaerden_pd_259_447cnf_2011-05-19-162049
 > more Md5sum
 4ff22969902730f5ccbebea4e17f1db1
@@ -194,7 +194,7 @@ UNSATISFIABLE
      </li>
      <li> Okay, let's then try n=25:
      \verbatim
-> SplittingViaOKsolver -D25 -SN VanDerWaerden_pd_2-5-9_447.cnf
+> SplittingViaOKsolver -D25 VanDerWaerden_pd_2-5-9_447.cnf
 > cd SplitViaOKsolver_D25SNVanDerWaerden_pd_259_447cnf_2011-05-19-182415
 > cd more Md5sum
 bd884564a5da1944e4820c0120010133

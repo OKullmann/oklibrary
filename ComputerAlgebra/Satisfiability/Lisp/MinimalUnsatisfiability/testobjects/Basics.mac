@@ -40,6 +40,11 @@ okltest_irredundant_bydef(irredundant_bydef);
 
 okltest_all_irrcl_bydef(all_irrcl_bydef);
 
+/* **************************************
+   * Saturated minimal unsatisfiability *
+   **************************************
+*/
+
 okltest_saturated_min_unsat_bydef(saturated_min_unsat_bydef);
 okltest_non_saturating_pas_bydef(non_saturating_pas_bydef);
 

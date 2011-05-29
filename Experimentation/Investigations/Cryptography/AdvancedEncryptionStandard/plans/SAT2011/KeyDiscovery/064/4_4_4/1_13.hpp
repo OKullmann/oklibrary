@@ -6,11 +6,12 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/064/4_4_4/1_13.hpp
+  \file AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/064/4_4_4/1_13.hpp
   \brief Investigations into small scale AES key discovery for one round AES with a 4x4 plaintext matrix and 4-bit field elements (1+1/3)
 
 
-  \todo Problem specification
+  \todo Problem specification ??? The MAIN POINT here is to see information
+  about the boolean functions involved --- but nothing is said ???
   <ul>
    <li> In this file, we collect the investigations into translations of
    1 + 1/3 round small scale AES with four rows, two columns, using the 4-bit
@@ -27,31 +28,31 @@ License, or any later version. */
    on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
    </li>
    <li> The encryption scheme applies the following operations:
-   <ol>
-    <li> Addition of round key 0 (input key) to plaintext. </li>
-    <li> Application of SubBytes (Sbox to each 4-bit element) operation. </li>
-    <li> Application of linear diffusion operation. </li>
-    <li> Addition of round key 1, resulting in the ciphertext. </li>
-   </ol>
+    <ol>
+     <li> Addition of round key 0 (input key) to plaintext. </li>
+     <li> Application of SubBytes (Sbox to each 4-bit element) operation. </li>
+     <li> Application of linear diffusion operation. </li>
+     <li> Addition of round key 1, resulting in the ciphertext. </li>
+    </ol>
    </li>
    <li> The Sbox is non-linear permutation over the set of 4-bit elements,
    defined as inversion within the 4-bit field composed with an affine
    transformation. </li>
    <li> The linear diffusion operation applies a linear permutation to
    the input matrix, consisting of:
-   <ol>
-    <li> A shift of row i by i-1 to the left for all i from 1 to the number of
-    rows. </li>
-    <li> The AES MixColumns operation, which takes the input matrix and
-    applies a matrix multiplication by the constant matrix 
-    \verbatim
+    <ol>
+     <li> A shift of row i by i-1 to the left for all i from 1 to the number of
+     rows. </li>
+     <li> The AES MixColumns operation, which takes the input matrix and
+     applies a matrix multiplication by the constant matrix 
+     \verbatim
 maxima> ss_mixcolumns_matrix(2,4,4);
  matrix([x,x+1,1,1],[1,x,x+1,1],[1,1,x,x+1],[x+1,1,1,x])
-    \endverbatim
-    over the 4-bit field. As it is a matrix multiplication, this operation can
-    be broken down into a "MixColumn" operation on each column of the input
-    matrix. </li>
-   </ol>
+     \endverbatim
+     over the 4-bit field. As it is a matrix multiplication, this operation can
+     be broken down into a "MixColumn" operation on each column of the input
+     matrix. </li>
+    </ol>
    </li>
   </ul>
 
@@ -166,6 +167,8 @@ maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_
 shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e4_f0.cnf ssaes_pkpair_r1_c4_rw4_e4_f0_s1.cnf > experiment_r1_k1.cnf
    \endverbatim
    </li>
+??? This todo is obviously too long --- the solvers etc. must go into another
+todo ???
    <li> minisat-2.2.0 takes only 20s:
    \verbatim
 restarts              : 435
@@ -199,6 +202,7 @@ c CPU time              : 0.13098 s
    See "MiniSAT2 based solvers return incorrect times using experiment script"
    in 
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp.
+??? This is trivial to fix --- just apply "time" ???
    </li>
    <li> Other solvers such as cryptominisat take longer (but still only a few 
    minutes):
@@ -261,6 +265,7 @@ c
 c 4505.6 seconds, 56 MB max, 1732 MB recycled
    \endverbatim
    </li>
+??? where are 2 rounds etc.? where is the general plans-file ???
   </ul>
 
 */

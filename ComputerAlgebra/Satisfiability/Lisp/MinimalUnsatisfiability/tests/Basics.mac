@@ -86,6 +86,12 @@ okltest_all_irrcl_bydef(f) := block([S : dll_simplest_trivial1],
   assert(f([{1,2},{{1},{1,2}}],S) = {{1}}),
   true)$
 
+
+/* **************************************
+   * Saturated minimal unsatisfiability *
+   **************************************
+*/
+
 okltest_saturated_min_unsat_bydef(f) := block([S : dll_simplest_trivial1],
   assert(f([{},{}],S) = false),
   assert(f([{},{{}}],S) = true),
