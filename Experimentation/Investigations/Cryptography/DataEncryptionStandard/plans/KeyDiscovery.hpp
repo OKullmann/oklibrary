@@ -17,7 +17,7 @@ License, or any later version. */
    A2FB6032638EC79D, and providing the examples for all 0 <= p <= 64,
    where the last p keybits are provided (as unit-clauses). </li>
    <li> This can be easily achieved by using function des_key2fcl(key),
-   where the first 64-p entries of the 64-bit vector key' are replaced by
+   where the first 64-p entries of the 64-bit vector key are replaced by
    the value "und" (while by hexstr2binv(key) we obtain the key as boolean
    vector). </li>
    <li> Their benchmarks only consider 13 <= 64-p <= 34, d.h.,
@@ -50,7 +50,7 @@ License, or any later version. */
    </li>
    <li> Why are these times so erratic?
     <ul>
-     <li> Randomly shuffling clause-list for X = 25: minisat-2.2.0 (>25h -
+     <li> Randomly shuffling clause-list for X = 25: minisat-2.2.0 (>25h and
      still running).
      \verbatim
 shell> cat gss-25-s100.cnf | RandomShuffleDimacs-O3-DNDEBUG > 25-shuffled_test.cnf
