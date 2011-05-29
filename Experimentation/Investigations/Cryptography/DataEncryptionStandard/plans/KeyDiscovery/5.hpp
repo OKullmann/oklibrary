@@ -67,7 +67,14 @@ print("DONE!");
    <li> Solvers (t:time,c:conflicts,n:nodes): cryptominisat (t:553s,c:3198466),
    minisat-2.2.0 (t:13363s,c:183335114), OKsolver_2002 (t:36760s,n:70636225).
    </li>
-   <li> precosat236 and precosat-570.1 are still running after 13 hours. </li>
+   <li> precosat236 solves in 298212s:
+   \verbatim
+c 692463380 conflicts, 762268518 decisions, 1 random
+c 0 iterations, 2 restarts, 762102 skipped
+c 298212.3 seconds, 91 MB max, 3183 MB recycled
+   \endverbatim
+   </li>
+   <li> precosat-570.1 is still running after 13 hours. </li>
   </ul>
 
 
@@ -115,7 +122,7 @@ output_fcs_v(
 print("DONE!");
    \endverbatim
    </li>
-   <li> minisat-2.2.0 solves in  14,291s (~4 hours) using 258,451,462
+   <li> minisat-2.2.0 solves in 14,291s (~4 hours) using 258,451,462
    conflicts:
    \verbatim
 shell> minisat-2.2.0 des_argocomp_r4.cnf
@@ -127,15 +134,29 @@ propagations          : 20792733621    (318067586 /sec)
    </li>
    <li> cryptominisat solves in 520,000s (~6 days):
    \verbatim
+shell> cryptominisat des_argocomp_r4.cnf
 c static restarts          : 629
 c full restarts            : 8
-c total simplify time      : 0.01
 c conflicts                : 247428989   (3780713.58 / sec)
 c decisions                : 262651549   (0.19      % random)
    \endverbatim
    </li>
-   <li> precosat236 and precosat-570.1 are still running after
-   13 hours. </li>
+   <li> precosat236 solves in 167361s (~2 days):
+   \verbatim
+shell> precosat236 des_argocomp_r4.cnf
+c 611003123 conflicts, 674624629 decisions, 1 random
+c 0 iterations, 3 restarts, 657401 skipped
+c 167361.8 seconds, 51 MB max, 3661 MB recycled
+   \endverbatim
+   </li>
+   <li> precosat-570.1 solves in 250789s (~3 days):
+   \verbatim
+shell> precosat-570.1 -v des_argocomp_r4.cnf
+c 129305771 conflicts, 138334129 decisions, 69735 random
+c 0 iterations, 28 restarts, 1310689 skipped
+c 250789.7 seconds, 176 MB max, 3937 MB recycled
+   \endverbatim
+   </li>
    <li> OKsolver doesn't solve in 550,000s (> 6 days). </li>
   </ul>
 
@@ -178,8 +199,9 @@ propagations          : 13510152814    (206665548 /sec)
 conflict literals     : 7079980812     (48.30 % deleted)
    \endverbatim
    </li>
-   <li> cryptominisat, precosat-570.1, and the OKsolver_2002 are
-   still running after 13 hours. </li>
+   <li> cryptominisat is still running after 13 hours. </li>
+   <li> OKsolver_2002 and precosat-570.1 still running after ~3.5 days.
+   </li>
   </ul>
 
 */
