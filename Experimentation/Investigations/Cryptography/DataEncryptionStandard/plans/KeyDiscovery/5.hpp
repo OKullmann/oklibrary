@@ -64,9 +64,9 @@ output_fcs_v(
 print("DONE!");
    \endverbatim
    </li>
-   <li> Solvers (t:time,c:conflicts,n:nodes): cryptominisat (t:553s,c:3198466),
-   minisat-2.2.0 (t:13363s,c:183335114), OKsolver_2002 (t:36760s,n:70636225).
-   </li>
+   <li> Solvers (t:time,cfs:conflicts,nds:nodes): cryptominisat
+   (t:553s,cfs:3198466), minisat-2.2.0 (t:13363s,cfs:183335114),
+   OKsolver_2002 (t:36760s,nds:70636225). </li>
    <li> precosat236 solves in 298212s:
    \verbatim
 c 692463380 conflicts, 762268518 decisions, 1 random
