@@ -16,10 +16,10 @@ License, or any later version. */
    20 + 1/3 round small scale AES with one rows, one columns, using the 8-bit
    field size. </li>
    <li> The AES encryption scheme we model takes a 8-bit plaintext and
-   8-bit key and outputs a 8-bit ciphertext. 
+   8-bit key and outputs a 8-bit ciphertext.
    </li>
-   <li> The 8-bit element (b_0,b_1,b_2,b_3,b_4,b_5,b_6,b_7) is considered as 
-   the polynomial b_0 * x^7 + b_1 * x^6 + b_2 * x^5 + b_4 * x^3 + b_5 * x^2 + 
+   <li> The 8-bit element (b_0,b_1,b_2,b_3,b_4,b_5,b_6,b_7) is considered as
+   the polynomial b_0 * x^7 + b_1 * x^6 + b_2 * x^5 + b_4 * x^3 + b_5 * x^2 +
    b^6 * x + b_7. Addition and multiplication on these polynomials is defined
    as usual, modulo the polynomial x^8+x^4+x^3+x+1. </li>
    <li> The encryption scheme applies the following operations:
@@ -33,7 +33,7 @@ License, or any later version. */
      </ol>
     </li>
     <li> Addition of round key n. </li>
-    <li> The result of the last round key addition is then the ciphertext. 
+    <li> The result of the last round key addition is then the ciphertext.
     </li>
    </ol>
    </li>

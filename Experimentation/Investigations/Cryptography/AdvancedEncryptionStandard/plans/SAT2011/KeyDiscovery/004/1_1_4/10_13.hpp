@@ -50,15 +50,15 @@ License, or any later version. */
    10 + 1/3 round small scale AES with one rows, one columns, using the 4-bit
    field size. </li>
    <li> The AES encryption scheme we model takes a 4-bit plaintext and
-   4-bit key and outputs a 4-bit ciphertext. 
+   4-bit key and outputs a 4-bit ciphertext.
    </li>
    <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
    b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
+   on these polynomials is defined as usual, modulo the polynomial x^4+x+1.
    </li>
    <li> The encryption scheme applies the following operations:
    <ol>
-    <li> Key schedule which takes the key and generates eleven 4-bit round 
+    <li> Key schedule which takes the key and generates eleven 4-bit round
     keys. </li>
     <li> Application of the following operation (the "round") ten times:
      <ol>
@@ -67,7 +67,7 @@ License, or any later version. */
      </ol>
     </li>
     <li> Addition of round key n. </li>
-    <li> The result of the last round key addition is then the ciphertext. 
+    <li> The result of the last round key addition is then the ciphertext.
     </li>
    </ol>
    </li>
@@ -106,19 +106,19 @@ shell> cat ssaes_r10_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    <ul>
     <li> Ten full rounds (Key Addition, SubBytes, and diffusion operation).
     </li>
-    <li> 10 Sboxes in the SubBytes operation 
+    <li> 10 Sboxes in the SubBytes operation
     (1 rows * 1 columns * 10 rounds = 10). </li>
     <li> 124 additions within the round and key additions, coming from:
      <ul>
-      <li> 44 additions of arity 2 from key additions 
+      <li> 44 additions of arity 2 from key additions
       (11 round keys * 4-bit additions = 44). </li>
       <li> 80 additions of arity one from the identity matrix multiplication
-      in the diffusion operation 
+      in the diffusion operation
       (1 rows * 1 columns * 2 directions * 4 bits * 10 rounds = 80).
       </li>
      </ul>
     </li>
-    <li> 10 Sboxes in the AES key schedule 
+    <li> 10 Sboxes in the AES key schedule
     (1 rows * 10 rounds = 10). </li>
     <li> 40 additions in the key schedule:
     <ul>
@@ -153,7 +153,7 @@ maxima> ncl_list_full_dualts(8,16);
     (20 * 1 = 20). </li>
    </ul>
    </li>
-   <li> Then we can generate a random assignment with the plaintext and 
+   <li> Then we can generate a random assignment with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
@@ -196,7 +196,7 @@ c file_name                             r10_keyfind.cnf
    </li>
    <li> However, minisat-2.2.0 and glucose need to branch:
    \verbatim
-shell> minisat-2.2.0 r10_keyfind.cnf 
+shell> minisat-2.2.0 r10_keyfind.cnf
 <snip>
 restarts              : 1
 conflicts             : 22             (inf /sec)
@@ -206,7 +206,7 @@ conflict literals     : 295            (41.93 % deleted)
 Memory used           : 19.00 MB
 CPU time              : 0 s
 
-shell> minisat2 r10_keyfind.cnf 
+shell> minisat2 r10_keyfind.cnf
 <snip>
 restarts              : 1
 conflicts             : 29             (1450 /sec)
@@ -215,7 +215,7 @@ propagations          : 5397           (269850 /sec)
 conflict literals     : 364            (37.67 % deleted)
 Memory used           : 15.18 MB
 CPU time              : 0.02 s
-shell> glucose r10_keyfind.cnf 
+shell> glucose r10_keyfind.cnf
 c restarts              : 1
 c nb ReduceDB           : 0
 c nb learnts DL2        : 15
