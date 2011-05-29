@@ -209,27 +209,10 @@ bd884564a5da1944e4820c0120010133
     36     37     38     39     40     41     42     43     45     47     48
     65     35     20     12      6      1      5      6      2      1      1
 > more Result
-s UNKNOWN
-c sat_status                            2
-c initial_maximal_clause_length         9
-c initial_number_of_variables           224
-c initial_number_of_clauses             18025
-c initial_number_of_literal_occurrences 113027
 c running_time(sec)                     9183.4
 c number_of_nodes                       463099
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                5286
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        25
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_pd_2-5-9_447.cnf
-c splitting_directory                   SplitViaOKsolver_D25SNVanDerWaerden_pd_259_447cnf_2011-05-19-182415/Instances
 c splitting_cases                       231550
 
 > cd Instances
@@ -247,6 +230,47 @@ sys     9m22.735s
      <li> To have a chance, let's try n=28:
      \verbatim
 > SplittingViaOKsolver -D28 -SN VanDerWaerden_pd_2-5-9_447.cnf
+> cd SplitViaOKsolver_D28SNVanDerWaerden_pd_259_447cnf_2011-05-27-174054/
+> more Md5sum
+54431bf25ea1625939ac37201678490a
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  28.00   28.00   29.00   29.11   30.00   85.00
+> table(E$n)
+    28     29     30     31     32     33     34     35     36     37     38
+341102 190356 109098  55076  25984  12113   5818   2722   1521    882    567
+    39     40     41     42     43     44     45     46     47     48     49
+   333    190    125     77     53     39     33     21     20     10     14
+    50     51     52     53     54     55     56     57     59     62     70
+     7      6      1      3      3      2      4      2      2      1      1
+    78     85
+     1      1
+> more Result
+c running_time(sec)                     32155.7
+c number_of_nodes                       1492387
+c number_of_2-reductions                24983
+c max_tree_depth                        28
+c splitting_cases                       746188
+
+> tail -2 Data
+746187 746184 28
+746188 746188 28
+> cat VanDerWaerden_pd_2-5-9_447.cnf | ApplyPass-O3-DNDEBUG Instances/746184 746184.cnf
+> minisat-2.2.0 746184.cnf
+conflicts             : 278932         (18417 /sec)
+CPU time              : 15.1449 s
+> cat VanDerWaerden_pd_2-5-9_447.cnf | ApplyPass-O3-DNDEBUG Instances/746188 746188.cnf
+> minisat-2.2.0 746188.cnf
+conflicts             : 54483          (20857 /sec)
+CPU time              : 2.61216 s
+
+> cd Instances
+> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 
      \endverbatim
      </li>

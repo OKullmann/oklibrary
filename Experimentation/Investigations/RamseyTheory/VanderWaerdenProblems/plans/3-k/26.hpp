@@ -223,7 +223,38 @@ c running_time(sec)                     21294.6
 c number_of_nodes                       46207
 c number_of_2-reductions                4882
 c splitting_cases                       23104
+
 > SplittingViaOKsolver -D60 VanDerWaerden_pd_2-3-26_635.cnf
+> cd SplitViaOKsolver_D60SNVanDerWaerden_pd_2326_635cnf_2011-05-27-192636/
+> more Md5sum
+04555cc13f284e6025de4b76016121c8
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  60.00   63.00   67.00   67.95   71.00  137.00
+> table(E$n)
+  60   61   62   63   64   65   66   67   68   69   70   71   72   73   74   75
+8921 3586 3287 3699 4337 5182 5776 5920 5578 4519 3551 2676 2106 1684 1488 1414
+  76   77   78   79   80   81   82   83   84   85   86   87   88   89   90   91
+1428 1582 1635 1558 1369 1133  877  526  328  182   74   48   37   25   14   13
+  92   93   94   95   96   98   99  100  101  102  103  104  105  106  107  108
+  10    8    2    3    5    3    4    6    2    6    3    4    4    6    3    5
+ 109  110  118  123  124  125  126  131  137
+   4    2    1    1    1    1    2    1    1
+> more Result
+c running_time(sec)                     64585.8
+c number_of_nodes                       149285
+c number_of_2-reductions                24779
+c max_tree_depth                        37
+c splitting_cases                       74641
+
+> cd Instances
+> OKP=~/SAT-Algorithmen/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+
      \endverbatim
      </li>
     </ol>
