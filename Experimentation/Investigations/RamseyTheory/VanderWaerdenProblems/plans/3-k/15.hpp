@@ -94,12 +94,12 @@ satz215 VanDerWaerden_2-3-15_218.cnf 99407.850 66642611 33796681 10812633494 373
   <ul>
    <li> Starting with n=26:
    \verbatim
-> SplittingViaOKsolver -D26 -SN VanDerWaerden_2-3-15_218.cnf
+> SplittingViaOKsolver -D26 VanDerWaerden_2-3-15_218.cnf
   26   27   28   29   30   31   32   33   34   35   36   37   38   39   40   41
 1202  505  641  612  621  535  472  388  268  186   76   23   19   14   17   12
   42   43   44
   12   13    3
-> SplittingViaOKsolver -D30 -SN VanDerWaerden_2-3-15_218.cnf
+> SplittingViaOKsolver -D30 VanDerWaerden_2-3-15_218.cnf
 > cd more Md5sum
 f5c6e03a97f4e218cfa29389a9701569
 > more Statistics

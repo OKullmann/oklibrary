@@ -348,23 +348,23 @@ CFLAGS="-UMACHINE_BITS_OKL"
      <li> The directory must already exist and must be writable. </li>
      <li> Uses the depth-parameter "-D=d" as above for monitoring. </li>
      <li> Stores in <code>directory</code> the partial assignments leading to
-     the (reduced) nodes at depth d of the splitting tree, from left to right.
-     </li>
+     the (reduced) nodes with at least d assignments (decisions and enforced)
+     of the splitting tree, from left to right. </li>
      <li> The main usage is for splitting a hard problem into (at most) 2^d
      many subproblems; see below for a helper script. </li>
      <li> The partial assignments yielding the sub-problems are stored in files
      1, ... in <code>directory</code>. </li>
-     <li> Via the switch "-SN" the interpretation of d is changed:
+     <li> Via the switch "-SD" the interpretation of d is changed:
       <ol>
        <li> The criterion for aborting the development of the splitting tree
        is changed. </li>
-       <li> Now not the depth of the node is considered; this is equal to the
-       number of decision variables on the path to the node. </li>
-       <li> But the size n of the partial assignment leading to the node;
-       so now also inferred assignments and autarky assignments are taken into
-       account. </li>
-       <li> The default is the depth-interpretation, and the switch changes it
-       to the "n"-interpretation. </li>
+       <li> After the switch, the depth of the node is considered; this is
+       equal to the number of decision variables on the path to the node. </li>
+       <li> The default is to consider the size n of the partial assignment
+       leading to the node; so also inferred assignments and autarky
+       assignments are taken into account. </li>
+       <li> The default is the "n-interpretation", and the switch changes it
+       to the "depth-interpretation". </li>
        <li> As usual with such switches, another application switches it back
        to the default value, and so on. </li>
       </ol>

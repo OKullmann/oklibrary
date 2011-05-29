@@ -53,16 +53,16 @@ Memory used           : 276.00 MB
      <li> First considering n=388. </li>
      <li> First finding the n-parameter:
      \verbatim
-> SplittingViaOKsolver -D10 -SN VanDerWaerden_pd_2-4-12_388.cnf
+> SplittingViaOKsolver -D10 VanDerWaerden_pd_2-4-12_388.cnf
 10 11 12 13
 47 27 13  4
-> SplittingViaOKsolver -D15 -SN VanDerWaerden_pd_2-4-12_388.cnf
+> SplittingViaOKsolver -D15 VanDerWaerden_pd_2-4-12_388.cnf
  15  16  17  18  19  20  21
 310 159 114  59  18   2   3
-> SplittingViaOKsolver -D20 -SN VanDerWaerden_pd_2-4-12_388.cnf
+> SplittingViaOKsolver -D20 VanDerWaerden_pd_2-4-12_388.cnf
   20   21   22   23   24   25   26   27   28   29   30
 2029  879  673  453  234   90   35   18    4    2    2
-> SplittingViaOKsolver -D25 -SN VanDerWaerden_pd_2-4-12_388.cnf
+> SplittingViaOKsolver -D25 VanDerWaerden_pd_2-4-12_388.cnf
    25    26    27    28    29    30    31    32    33    34    35    36    37
 10850  4618  4097  3203  2125  1154   503   255   113    43    34    13     9
    38    39    40
@@ -90,7 +90,7 @@ conflicts             : 286648         (29254 /sec)
 CPU time              : 9.79851 s
 UNSATISFIABLE
 
-> SplittingViaOKsolver -D30 -SN VanDerWaerden_pd_2-4-12_388.cnf
+> SplittingViaOKsolver -D30 VanDerWaerden_pd_2-4-12_388.cnf
 > cd SplitViaOKsolver_D30SNVanDerWaerden_pd_2412_388cnf_2011-05-20-091001
 > more Md5sum
 316fb102dce8874b4512acaecfde9db3
@@ -149,7 +149,7 @@ sys     50m59.587s
      </li>
      <li> Now considering n=395. Trying D=31:
      \verbatim
-> SplittingViaOKsolver -D31 -SN VanDerWaerden_pd_2-4-12_395.cnf
+> SplittingViaOKsolver -D31 VanDerWaerden_pd_2-4-12_395.cnf
 
      </li>
     </ol>
