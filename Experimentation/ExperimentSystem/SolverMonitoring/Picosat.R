@@ -20,20 +20,20 @@
 #   following order:
 #
 #     filename (string): Name of the DIMACS file the solver was run on.
-#     n (pos int): Initial number of variables.
-#     c (pos int): Initial number of clauses.
+#     n (int): Initial number of variables.
+#     c (int): Initial number of clauses.
 #     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
-#     restarts (pos int): Number of restarts.
-#     failed_l (pos int): Number of forced assignments found using
+#     restarts (int): Number of restarts.
+#     failed_l (int): Number of forced assignments found using
 #       failed literal reductions.
-#     conflicts (pos int): Number of conflicts.
-#     decisions (pos int): Number of "decisions".
-#     fixed_vars (pos int): Number of variables fixed during search.
-#     learned_l (pos int): Number of literals determined by conflict
+#     conflicts (int): Number of conflicts.
+#     decisions (int): Number of "decisions".
+#     fixed_vars (int): Number of variables fixed during search.
+#     learned_l (int): Number of literals determined by conflict
 #       clause analysis.
 #     deleted_l (double): Percentage of literals deleted.
-#     prop (pos int): Total number of unit-clause propagations.
-#     simps (pos int): Total number of simplications performed.
+#     prop (int): Total number of unit-clause propagations.
+#     simps (int): Total number of simplications performed.
 #     mem (double): Maximum amount of main memory in Megabytes used.
 #     time (double): Total time taken in seconds to solve.
 #
@@ -152,20 +152,20 @@ read_picosat_output = function(stats_filename, ...) {
 #   contains the following fields in the following order:
 #
 #     filename (string): Name of the DIMACS file the solver was run on.
-#     n (pos int): Initial number of variables.
-#     c (pos int): Initial number of clauses.
+#     n (int): Initial number of variables.
+#     c (int): Initial number of clauses.
 #     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
-#     restarts (pos int): Number of restarts.
-#     failed_l (pos int): Number of forced assignments found using
+#     restarts (int): Number of restarts.
+#     failed_l (int): Number of forced assignments found using
 #       failed literal reductions.
-#     conflicts (pos int): Number of conflicts.
-#     decisions (pos int): Number of "decisions".
-#     fixed_vars (pos int): Number of variables fixed during search.
-#     learned_l (pos int): Number of literals determined by conflict
+#     conflicts (int): Number of conflicts.
+#     decisions (int): Number of "decisions".
+#     fixed_vars (int): Number of variables fixed during search.
+#     learned_l (int): Number of literals determined by conflict
 #       clause analysis.
 #     deleted_l (double): Percentage of literals deleted.
-#     prop (pos int): Total number of unit-clause propagations.
-#     simps (pos int): Total number of simplications performed.
+#     prop (int): Total number of unit-clause propagations.
+#     simps (int): Total number of simplications performed.
 #     mem (double): Maximum amount of main memory in Megabytes used.
 #     time (double): Total time taken in seconds to solve.
 #

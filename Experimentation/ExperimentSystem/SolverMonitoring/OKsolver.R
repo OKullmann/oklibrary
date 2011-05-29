@@ -36,32 +36,32 @@ read_oksolver_mon = function(filename, ...) {
 #   following order:
 #
 #     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0), UNKNOWN (2).
-#     init_max_cl (pos int): Initial maximum clause-length.
-#     n (pos int): Initial number of variables.
-#     c (pos int): Initial number of clauses.
-#     l (pos int): Initial number of literal occurrences.
-#     init_unit (pos int): Number of unit-clause propagations.
-#     diff_max_cl (pos int): Difference between maximum clause-length before
+#     init_max_cl (int): Initial maximum clause-length.
+#     n (int): Initial number of variables.
+#     c (int): Initial number of clauses.
+#     l (int): Initial number of literal occurrences.
+#     init_unit (int): Number of unit-clause propagations.
+#     diff_max_cl (int): Difference between maximum clause-length before
 #       and after preprocessing.
-#     diff_n (pos int): Diff. in variables before/after preprocessing.
-#     diff_c (pos int): Diff. in clauses before/after preprocessing.
-#     diff_l (pos int): Diff. in literal occurrences before/after preproc.
-#     bin_c (pos int): Number of 2-clauses after preproc.
+#     diff_n (int): Diff. in variables before/after preprocessing.
+#     diff_c (int): Diff. in clauses before/after preprocessing.
+#     diff_l (int): Diff. in literal occurrences before/after preproc.
+#     bin_c (int): Number of 2-clauses after preproc.
 #     time (double): Total time in seconds to solve the problem.
-#     nodes (pos int): Number of nodes in the search tree.
-#     single_nodes (pos int): Number of single nodes in search tree.
-#     quasi_single_nodes (pos int): Number of quasi-single nodes.
-#     r2 (pos int): Number of r_2-reductions.
-#     pure_lits (pos int): Pure literals found during search.
-#     aut (pos int): Number of autarkies.
-#     missed_1nodes (pos int): Nodes which would have been found as
+#     nodes (int): Number of nodes in the search tree.
+#     single_nodes (int): Number of single nodes in search tree.
+#     quasi_single_nodes (int): Number of quasi-single nodes.
+#     r2 (int): Number of r_2-reductions.
+#     pure_lits (int): Pure literals found during search.
+#     aut (int): Number of autarkies.
+#     missed_1nodes (int): Nodes which would have been found as
 #       single nodes if the the "other" branch had been chosen first.
-#     depth (pos int): Maximum depth of the search tree.
-#     tab_enlarge (pos int): Table enlargements during the search.
-#     aut1 (pos int): Number of 1-autarkies. A 1-autarky satisfies all clauses
+#     depth (int): Maximum depth of the search tree.
+#     tab_enlarge (int): Table enlargements during the search.
+#     aut1 (int): Number of 1-autarkies. A 1-autarky satisfies all clauses
 #       except one.
-#     new_2c (pos int): New binary clauses learnt.
-#     max_added_2c (pos int): Maximum number of new binary clauses added.
+#     new_2c (int): New binary clauses learnt.
+#     max_added_2c (int): Maximum number of new binary clauses added.
 #     filename (string): Name of the DIMACS file input to OKsolver_2002.
 #
 read_oksolver_output = function(filename, ...) {
@@ -199,32 +199,32 @@ read_oksolver_output = function(filename, ...) {
 #   A data.frame with a row for each filename in stats_filename_l. Each row
 #   contains the following fields in following order:
 #     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0), UNKNOWN (2).
-#     init_max_cl (pos int): Initial maximum clause-length.
-#     n (pos int): Initial number of variables.
-#     c (pos int): Initial number of clauses.
-#     l (pos int): Initial number of literal occurrences.
-#     init_unit (pos int): Number of unit-clause propagations.
-#     diff_max_cl (pos int): Difference between maximum clause-length before
+#     init_max_cl (int): Initial maximum clause-length.
+#     n (int): Initial number of variables.
+#     c (int): Initial number of clauses.
+#     l (int): Initial number of literal occurrences.
+#     init_unit (int): Number of unit-clause propagations.
+#     diff_max_cl (int): Difference between maximum clause-length before
 #       and after preprocessing.
-#     diff_n (pos int): Diff. in variables before/after preprocessing.
-#     diff_c (pos int): Diff. in clauses before/after preprocessing.
-#     diff_l (pos int): Diff. in literal occurrences before/after preproc.
-#     bin_c (pos int): Number of 2-clauses after preproc.
+#     diff_n (int): Diff. in variables before/after preprocessing.
+#     diff_c (int): Diff. in clauses before/after preprocessing.
+#     diff_l (int): Diff. in literal occurrences before/after preproc.
+#     bin_c (int): Number of 2-clauses after preproc.
 #     time (double): Total time in seconds to solve the problem.
-#     nodes (pos int): Number of nodes in the search tree.
-#     single_nodes (pos int): Number of single nodes in search tree.
-#     quasi_single_nodes (pos int): Number of quasi-single nodes.
-#     r2 (pos int): Number of r_2-reductions.
-#     pure_lits (pos int): Pure literals found during search.
-#     aut (pos int): Number of autarkies.
-#     missed_1nodes (pos int): Nodes which would have been found as
+#     nodes (int): Number of nodes in the search tree.
+#     single_nodes (int): Number of single nodes in search tree.
+#     quasi_single_nodes (int): Number of quasi-single nodes.
+#     r2 (int): Number of r_2-reductions.
+#     pure_lits (int): Pure literals found during search.
+#     aut (int): Number of autarkies.
+#     missed_1nodes (int): Nodes which would have been found as
 #       single nodes if the the "other" branch had been chosen first.
-#     depth (pos int): Maximum depth of the search tree.
-#     tab_enlarge (pos int): Table enlargements during the search.
-#     aut1 (pos int): Number of 1-autarkies. A 1-autarky satisfies all clauses
+#     depth (int): Maximum depth of the search tree.
+#     tab_enlarge (int): Table enlargements during the search.
+#     aut1 (int): Number of 1-autarkies. A 1-autarky satisfies all clauses
 #       except one.
-#     new_2c (pos int): New binary clauses learnt.
-#     max_added_2c (pos int): Maximum number of new binary clauses added.
+#     new_2c (int): New binary clauses learnt.
+#     max_added_2c (int): Maximum number of new binary clauses added.
 #     filename (string): Name of the DIMACS file input to OKsolver_2002.
 #
 read_oksolver_outputs = function(filenames) {
