@@ -16,12 +16,12 @@ License, or any later version. */
    1 + 1/3 round small scale AES with one rows, one columns, using the 4-bit
    field size. </li>
    <li> The AES encryption scheme we model takes a 4-bit plaintext and
-   4-bit key and outputs a 4-bit ciphertext. 
+   4-bit key and outputs a 4-bit ciphertext.
    </li>
    <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
-   b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
-   </li>
+   b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. </li>
+   <li> Addition and multiplication on these polynomials is defined as usual,
+   modulo the polynomial x^4+x+1. </li>
    <li> The encryption scheme applies the following operations:
    <ol>
     <li> Addition of round key 0 (input key) to plaintext. </li>
@@ -29,9 +29,6 @@ License, or any later version. */
     <li> Addition of round key 1, resulting in the ciphertext. </li>
    </ol>
    </li>
-   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
-   defined as inversion within the 4-bit field composed with an affine
-   transformation. </li>
   </ul>
 
 
@@ -65,48 +62,21 @@ shell> cat ssaes_r1_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
    </li>
    <li> In this translation, we have:
    <ul>
-    <li> One full round (Key Addition, SubBytes, and diffusion operation).
+    <li> One full round (Key Addition, SubBytes, and MixColumns operation).
     </li>
-    <li> 1 Sbox in the SubBytes operation (1 rows * 1 columns = 1). </li>
-    <li> 16 additions within the round and key additions, coming from:
-     <ul>
-      <li> 8 additions of arity 2 from key additions
-      (2 round keys * 4-bit additions = 8). </li>
-      <li> 8 additions of arity one from the identity matrix multiplication
-      in the diffusion operation
-      (1 rows * 1 columns * 2 directions * 4 bits = 8).
-      </li>
-     </ul>
-    </li>
-    <li> 1 Sbox in the AES key schedule (1 rows). </li>
-    <li> 4 additions in the key schedule:
-    <ul>
-     <li> 4 additions of arity three (1 row * 1 column * 4 bits = 4). </li>
-    </ul>
-    </li>
+    <li> 2 Sboxes (1 from SubBytes; 1 from key schedule). </li>
+    <li> 20 additions (8 from key additions; 8 from MixColumns
+    matrix multiplications; 4 from the keyschedule). </li>
     <li> 4 bits for the constant in the key schedule. </li>
    </ul>
    </li>
-   <li> The number of clauses of each length in the translation, computed by:
-   \verbatim
-maxima> ncl_list_ss(1,1,1,4,false,aes_ts_box,aes_mc_bidirectional);
-[[1,4],[2,272],[3,48],[9,32],[16,2]]
-maxima> ncl_list_ss_gen(1,1,1,4,ss_mixcolumns_matrix(2,4,1),[[2,'s2],[9,'s9],[16,'s16]],[],false,aes_mc_bidirectional);
-[[1,4],[2,2*s2+16],[3,48],[9,2*s9],[16,2*s16]]
-maxima> ncl_list_full_dualts(8,16);
-[[2,128],[9,16],[16,1]]
-   \endverbatim
-   are comprised of:
+   <li> The number of clauses of each length in the translation are:
    <ul>
-    <li> 4 unit-clauses for the 4-bit constant in the key expansion. </li>
-    <li> 272 binary clauses, coming from 2 Sboxes and 8 additions of arity
-    one (2 * 128 + 8 * 2 = 272). </li>
-    <li> 48 ternary clauses, coming from 12 additions of arity two
-    (12 * 4 = 48). </li>
-    <li> 32 clauses of length four, coming from 4 additions of arity three
-    (4 * 8 = 32). </li>
-    <li> 2 clauses of length sixteen, coming from from 2 Sboxes
-    (2 * 1 = 2). </li>
+    <li> 4 unit-clauses (key schedule constant) </li>
+    <li> 272 binary clauses (2 Sboxes; 8 arity one "additions"). </li>
+    <li> 48 ternary clauses (12 arity two additions). </li>
+    <li> 32 clauses of length four (4 arity three additions). </li>
+    <li> 2 clauses of length sixteen, (2 Sboxes). </li>
    </ul>
    </li>
    <li> Then we can generate a random assignment with the plaintext and
@@ -122,31 +92,10 @@ shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c1_rw1_e4_f0.cnf ssaes_pkpair_r1_c1_rw1_
    <li> OKsolver solves this with no decisions:
    \verbatim
 shell> OKsolver_2002-O3-DNDEBUG r1_keyfind.cnf
-s SATISFIABLE
-c sat_status                            1
-c initial_maximal_clause_length         16
-c initial_number_of_variables           68
-c initial_number_of_clauses             366
-c initial_number_of_literal_occurrences 1020
-c number_of_initial_unit-eliminations   12
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           12
-c reddiff_number_of_clauses             36
-c reddiff_number_of_literal_occurrences 108
-c number_of_2-clauses_after_reduction   296
 c running_time(sec)                     0.0
 c number_of_nodes                       1
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                19
-c number_of_pure_literals               0
 c number_of_autarkies                   1
-c number_of_missed_single_nodes         0
-c max_tree_depth                        0
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
 c file_name                             r1_keyfind.cnf
    \endverbatim
    </li>
@@ -158,32 +107,20 @@ restarts              : 1
 conflicts             : 7              (inf /sec)
 decisions             : 14             (0.00 % random) (inf /sec)
 propagations          : 198            (inf /sec)
-conflict literals     : 83             (0.00 % deleted)
-Memory used           : 18.00 MB
 CPU time              : 0 s
-
 shell> minisat2 r1_keyfind.cnf
 <snip>
 restarts              : 1
 conflicts             : 13             (inf /sec)
 decisions             : 21             (0.00 % random) (inf /sec)
 propagations          : 286            (inf /sec)
-conflict literals     : 115            (5.74 % deleted)
-Memory used           : 14.64 MB
 CPU time              : 0 s
-
 shell> glucose r1_keyfind.cnf
 <snip>
 c restarts              : 1
-c nb ReduceDB           : 0
-c nb learnts DL2        : 5
-c nb learnts size 2     : 0
-c nb learnts size 1     : 2
 c conflicts             : 12             (inf /sec)
 c decisions             : 32             (0.00 % random) (inf /sec)
 c propagations          : 215            (inf /sec)
-c conflict literals     : 146            (11.52 % deleted)
-c Memory used           : 1.88 MB
 c CPU time              : 0 s
    \endverbatim
    </li>
