@@ -24,6 +24,7 @@ License, or any later version. */
      See "Using the canonical translation". </li>
      <li> "minimum" translation; fastest solver solves in 4 hours.
      See 'Using the "minimum"  translation'. </li>
+    </ul>
    </li>
   </ul>
 
