@@ -24,6 +24,7 @@ License, or any later version. */
      less than 761s. See "Using the 1-base translation". </li>
      <li> canonical translation; fastest solver solves in 31s, all in less
      than 330s. See "Using the canonical translation". </li>
+    </ul>
    </li>
   </ul>
 
