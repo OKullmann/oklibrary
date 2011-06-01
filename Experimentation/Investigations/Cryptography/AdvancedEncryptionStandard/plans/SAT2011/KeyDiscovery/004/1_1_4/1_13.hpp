@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   1 + 1/3 round small scale AES with one rows, one columns, using the 4-bit
+   1 + 1/3 round small scale AES with one row, one column, using the 4-bit
    field size. </li>
    <li> The AES encryption scheme we model takes a 4-bit plaintext and
    4-bit key and outputs a 4-bit ciphertext.
@@ -28,6 +28,17 @@ License, or any later version. */
     <li> Application of Sbox operation. </li>
     <li> Addition of round key 1, resulting in the ciphertext. </li>
    </ol>
+   </li>
+  </ul>
+
+
+  \todo Overview
+  <ul>
+   <li> Fastest solvers find the key for (t:time,cfs:conflicts,nds:nodes):
+    <ol>
+     <li> canonical translation; cryptominisat (t:0s,cfs:0). </li>
+    </ol>
+    Ordered first by time, then conflicts.
    </li>
   </ul>
 
