@@ -22,6 +22,7 @@ License, or any later version. */
    <ul>
     <li> ExtractMinisat.awk. </li>
     <li> ExtractOKsolver.awk. </li>
+    <li> ExtractGlucose.awk. </li>
    </ul>
    </li>
    <li> This is without parameters; with parameter "header" (as string) it
