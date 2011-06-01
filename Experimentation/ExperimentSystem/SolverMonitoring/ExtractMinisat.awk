@@ -8,6 +8,7 @@
 
 # Extracts the numerical data from output of a minisat-like solver, in a single line.
 
+BEGIN { n=0;c=0;t=0;sat=2;cfs=0;dec=0;rts=0;r1=0;mem=0;ptime=0;stime=0;cfl=0; }
 /^\|  *Number of variables:/ { n=$5; }
 /^\|  *Number of clauses:/ { c=$5; }
 /^CPU time +: ([0-9]+|[0-9]+.[0-9]+) s/ { t=$4; }
