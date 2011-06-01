@@ -104,6 +104,7 @@ shell> for i in $(seq 1 8); do
   RUcpGen-O3-DNDEBUG DES_Sbox_${i}_sortedpi.cnf > DES_Sbox_${i}_gen.cnf;
   RandomShuffleDimacs-O3-DNDEBUG ${base_seed[$i]}  < DES_Sbox_${i}_gen.cnf | SortByClauseLengthDescending-O3-DNDEBUG | RUcpBase-O3-DNDEBUG > DES_Sbox_${i}_1base.cnf;
 done
+   \endverbatim
    </li>
    <li> The numbers of clauses in the 1-bases are 124, 129, 138, 128, 134,
    136, 123, 152 respectively. </li>
@@ -155,6 +156,7 @@ shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 69 -solve 1 -s
 shell> for i in $(seq 1 8); do
   cat DES_Sbox_${i}_fullCNF.cnf_primes | FilterDimacs DES_Sbox_${i}.ass > DES_Sbox_${i}_min.cnf;
 done
+   \endverbatim
    </li>
    <li> The numbers of clauses in the CNFs are 67, 67, 68, 69, 67, 66, 67, and
    69 respectively. </li>
