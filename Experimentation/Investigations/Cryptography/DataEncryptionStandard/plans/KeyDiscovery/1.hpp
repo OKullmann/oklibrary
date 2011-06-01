@@ -29,6 +29,9 @@ License, or any later version. */
      <li> "minimum" translation; some (but not all) solvers solve with
      no conflicts. See 'Using the "minimum" translation". OKsolver_2002
      needs some backtracking. </li>
+     <li> full clause-set translation; some (but not all) solvers solve with
+     no conflicts. See 'Using the "minimum" translation". OKsolver_2002
+     needs some backtracking. </li>
     </ul>
     Ordered by the number of conflicts needed to solve.
    </li>
@@ -189,6 +192,37 @@ c number_of_nodes                       1
 c number_of_autarkies                   8
    \endverbatim
    In this case, everything follows completely by UCP.
+   </li>
+  </ul>
+
+
+  \todo Using the full clause-set translation
+  <ul>
+   <li> Translating the DES Sboxes using the canonical CNFs.
+   That is, each Sbox is represented with a CNF where all
+   clauses are of length 10. </li>
+   <li> Generating the instance:
+   \verbatim
+rounds : 1$
+sbox_fcl_l : create_list(fcs2fcl(des_sbox_fullcnf_fcs(i)), i, 1, 8)$
+P_hex : "038E596D4841D03B"$
+K_hex : "15FBC08D31B0D521"$
+C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
+P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
+C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
+F : des2fcl_gen(sbox_fcl_l,rounds)$
+F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
+output_fcs_v(
+  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  F_std[1],
+  sconcat("des_argocomp_r",rounds,".cnf"),
+  F_std[2])$
+print("DONE!");
+   \endverbatim
+   </li>
+   <li> Solvers (t:time,cfs:conflicts,nds:nodes): precosat-570.1 (t:0s,cfs:0)
+   precosat236 (t:0s,cfs:0), minisat-2.2.0 (t:0.18s,cfs:2), cryptominisat
+   (t:0.01s,cfs:9), glucose (t:0.01s,cfs:31), OKsolver_2002 (t:0.0,nds:34).
    </li>
   </ul>
 
