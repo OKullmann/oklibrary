@@ -24,6 +24,8 @@ License, or any later version. */
      less than 761s. See "Using the 1-base translation". </li>
      <li> canonical translation; fastest solver solves in 31s, all in less
      than 330s. See "Using the canonical translation". </li>
+     <li> full clause-set translation; fastest solver solves in 32s.
+     See "Using the full clause-set translation". </li>
     </ul>
    </li>
   </ul>
@@ -55,6 +57,37 @@ print("DONE!");
    (t:195s,cfs:676495), precosat236 (t:306s,cfs:1144952),
    OKsolver_2002 (t:327s,nds:5601). </li>
    </li>
+  </ul>
+
+
+  \todo Using the full clause-set translation
+  <ul>
+   <li> Translating the DES Sboxes using the canonical CNFs.
+   That is, each Sbox is represented with a CNF where all
+   clauses are of length 10. </li>
+   <li> Generating the instance:
+   \verbatim
+rounds : 4$
+sbox_fcl_l : create_list(fcs2fcl(des_sbox_fullcnf_fcs(i)), i, 1, 8)$
+P_hex : "038E596D4841D03B"$
+K_hex : "15FBC08D31B0D521"$
+C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
+P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
+C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
+F : des2fcl_gen(sbox_fcl_l,rounds)$
+F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
+output_fcs_v(
+  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  F_std[1],
+  sconcat("des_argocomp_r",rounds,".cnf"),
+  F_std[2])$
+print("DONE!");
+   \endverbatim
+   </li>
+   <li> Solvers (t:time,cfs:conflicts,nds:nodes): minisat-2.2.0
+   (t:32s,cfs:501165), cryptominisat (t:63.87s,cfs:462089),
+   precosat-570.1 (t:171s,cfs:986636), glucose (t:487s,cfs:1835817),
+   precosat236 (t:912s,cfs:2436641). </li>
   </ul>
 
 
