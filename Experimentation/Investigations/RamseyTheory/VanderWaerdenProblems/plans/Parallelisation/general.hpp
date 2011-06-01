@@ -97,9 +97,10 @@ sys	0m9.289s
    <li> See "vdw_2^pd(5,8) = (312,323)" in
    Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/08.hpp for
    another example. </li>
-   <li> The above example:
+   <li> The above example, first using the "depth-interpretation" of the
+   D-parameter:
    \verbatim
-> SplittingViaOKsolver -D4 VanDerWaerden_2-3-12_135.cnf
+> SplittingViaOKsolver -D4 -SD VanDerWaerden_2-3-12_135.cnf
 > cd SplitViaOKsolver_D4VanDerWaerden_2312_135cnf_2011-05-15-073354
 > more Md5sum
 3115296eddcf269616a3f2cce5355eaf
@@ -163,8 +164,75 @@ c splitting_cases                       16
 real    1m49.306s
 user    1m48.887s
 sys     0m0.144s
+     \endverbatim
+   </li>
+   <li> Now using the "n-interpretation":
+   \verbatim
+> SplittingViaOKsolver -D8 VanDerWaerden_2-3-12_135.cnf
+> cd SplitViaOKsolver_D8VanDerWaerden_2312_135cnf_2011-05-30-082907/
+> more Md5sum
+5edbf75d79e5021292a7a6bd25a2363d
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  8.000   8.000   9.000   9.755  11.000  13.000
+> table(E$n)
+ 8  9 10 11 12 13
+21  6  8  6  7  5
+> more Result
+c running_time(sec)                     0.2
+c number_of_nodes                       105
+c number_of_2-reductions                0
+c max_tree_depth                        8
+c splitting_cases                       53
+
+> cd Instances
+> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+real    0m39.139s
+user    0m38.440s
+sys     0m0.293s
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+53: 0.01h, sum-cfs=1.990552e+06, mean-t=0.708s, mean-cfs=37558
+
+> SplittingViaOKsolver -D12 VanDerWaerden_2-3-12_135.cnf
+> cd SplitViaOKsolver_D12VanDerWaerden_2312_135cnf_2011-05-30-083254/
+> more Md5sum
+96d44d832aa27f0abbc531c35baee49d
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  12.00   12.00   14.00   14.05   15.00   20.00
+> table(E$n)
+12 13 14 15 16 17 18 19 20
+65 23 32 27 23 15  3  4  2
+> more Result
+c running_time(sec)                     0.8
+c number_of_nodes                       387
+c number_of_2-reductions                2
+c max_tree_depth                        12
+c splitting_cases                       194
+
+> cd Instances
+> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+real    0m28.275s
+user    0m26.884s
+sys     0m0.889s
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+194: 0.01h, sum-cfs=1.389903e+06, mean-t=0.121s, mean-cfs=7164
    \endverbatim
    </li>
+   <li> One sees that the n-interpretation creates are much more evenly
+   splitting, enabling to split harder problems much further (which seems to
+   be essential). </li>
+   <li> It also seems that the combination of the OKsolver with minisat-2.2.0
+   is a good combination: The OKsolver for splitting the hard problem, the
+   conflict-driven solver for finishing off. </li>
   </ul>
   
   
@@ -194,11 +262,11 @@ sys     0m0.144s
   
   \todo Verify vdw_2(4,9) = 309 (conjectured)
   <ul>
-   <li> See 
+   <li> See
    Investigations/RamseyTheory/VanderWaerdenProblems/plans/4-k/09.hpp. </li>
    <li> Via
    \verbatim
-OKplatform> SplittingViaOKsolver -D12 VanDerWaerden_2-4-9_309.cnf
+> SplittingViaOKsolver -D12 -SD VanDerWaerden_2-4-9_309.cnf
 > cd SplitViaOKsolver_D12VanDerWaerden_249_309cnf_2011-05-01-054004
 > more Md5sum
 c3cba5f0bfaef209e76a1c31d8e2a033
@@ -240,7 +308,7 @@ c file_name                             VanDerWaerden_2-4-9_309.cnf
 c splitting_directory                   SplitViaOKsolver_D12VanDerWaerden_249_309cnf_2011-05-01-054004/Instances
 c splitting_cases                       4096
 
-OKplatform> SplittingViaOKsolver -D16 VanDerWaerden_2-4-9_309.cnf
+> SplittingViaOKsolver -D16 -SD VanDerWaerden_2-4-9_309.cnf
 > cd SplitViaOKsolver_D16VanDerWaerden_249_309cnf_2011-05-01-054712
 > more md5sum
 9e90bae7dec6eba6f7fd2a3639c289dc
@@ -261,36 +329,13 @@ E
   32   33   34   35   36   37   38   39   40   41   42   43   44   45   46   52
  241  176  121   76   56   27   13   18   12    8   12    5    4    6    1    1
 > more Result
-s UNKNOWN
-c sat_status                            2
-c initial_maximal_clause_length         9
-c initial_number_of_variables           309
-c initial_number_of_clauses             21573
-c initial_number_of_literal_occurrences 115362
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   0
 c running_time(sec)                     2384.1
 c number_of_nodes                       131071
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                401
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        16
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_2-4-9_309.cnf
-c splitting_directory                   SplitViaOKsolver_D16VanDerWaerden_249_309cnf_2011-05-01-054712/Instances
 c splitting_cases                       65536
 
-OKplatform> SplittingViaOKsolver -D20 VanDerWaerden_2-4-9_309.cnf
+> SplittingViaOKsolver -D20 -SD VanDerWaerden_2-4-9_309.cnf
 > cd SplitViaOKsolver_D20VanDerWaerden_249_309cnf_2011-05-01-071943
 > more Md5sum
 e6a5fe975c9248355b1b3b2abc230e7a
@@ -320,45 +365,26 @@ E
     1     1     1     2     1     1     1     1     1     1     1     2     1
   144   145   146   148   149   150   152
     4     1     1     2     1     1     1
-Kplatform> more Result
-s UNKNOWN
-c sat_status                            2
-c initial_maximal_clause_length         9
-c initial_number_of_variables           309
-c initial_number_of_clauses             21573
-c initial_number_of_literal_occurrences 115362
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   0
+> more Result
 c running_time(sec)                     38099.4
 c number_of_nodes                       2096621
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                57332
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        20
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_2-4-9_309.cnf
-c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_249_309cnf_2011-05-01-071943/Instances
 c splitting_cases                       1047157
    \endverbatim
    we split it into 2^12=4096 resp. 2^16=65536 resp. 1047157 subproblems.
    </li>
    <li> So with D=20 we have less then 2^20=1048576 possible sub-problems.
    </li>
-   <li> For these subproblems one needs to find out the best solver, and
+   <li> DONE (the above splitting is inefficient, and we go with minisat-2.2.0)
+   For these subproblems one needs to find out the best solver, and
    what the average running time might be. </li>
-   <li> One should try to fit the curve for node/conflict-numbers in dependency
+   <li> DONE (likely too erratic, and also of not much relevance, since the
+   above splitting is inefficient)
+   One should try to fit the curve for node/conflict-numbers in dependency
    on the size of the partial assignment ("n" above). </li>
-   <li> And one needs to repeat this for different values of D, searching for
+   <li> DONE (this type of splitting is inefficient)
+   And one needs to repeat this for different values of D, searching for
    the optimum. </li>
    <li> One should ease the access to subproblems with a given number of
    eliminated variables.
@@ -372,16 +398,71 @@ c splitting_cases                       1047157
    </li>
    <li> One should investigate whether at least for splitting-depth 20 there
    could be single nodes. </li>
+   <li> Now using the "n-interpretation":
+   \verbatim
+> SplittingViaOKsolver -D20 VanDerWaerden_2-4-9_309.cnf
+   20    21    22    23    24    25    26    27    28    29    30    31    32
+64695 23014 17608  8883  4567  1960   838   313   151    60    18     7     1
+   33    34    36
+    3     2     2
+c running_time(sec)                     4515.5
+c number_of_nodes                       244243
+c number_of_2-reductions                856
+c max_tree_depth                        20
+c splitting_cases                       122122
+
+> SplittingViaOKsolver -D22 VanDerWaerden_2-4-9_309.cnf
+    22     23     24     25     26     27     28     29     30     31     32
+140248  53742  41713  23555  12663   5728   2669   1135    526    216    104
+    33     34     35     36     37     38     39     40
+    39     14      3      4      3      2      2      1
+c running_time(sec)                     14774.3
+c number_of_nodes                       564733
+c number_of_2-reductions                2788
+c max_tree_depth                        22
+c splitting_cases                       282367
+
+> SplittingViaOKsolver -D24 VanDerWaerden_2-4-9_309.cnf
+    24     25     26     27     28     29     30     31     32     33     34
+292434 118411  95187  57045  33102  15873   7689   3450   1685    697    328
+    35     36     37     38     39     40     41     43     44     46
+   119     82     44     14     10      4      6      1      1      1
+c running_time(sec)                     52115.9
+c number_of_nodes                       1252365
+c number_of_2-reductions                8358
+c max_tree_depth                        24
+c splitting_cases                       626183
+
+> tail -2 Data
+626182 626176 24
+626183 626179 24
+
+> cat VanDerWaerden_2-4-9_309.cnf | ApplyPass-O3-DNDEBUG Instances/626176 > 626176.cnf
+> minisat-2.2.0 626176.cnf
+conflicts             : 15078          (27469 /sec)
+CPU time              : 0.548916 s
+> cat VanDerWaerden_2-4-9_309.cnf | ApplyPass-O3-DNDEBUG Instances/626179 > 626179.cnf
+> minisat-2.2.0 626179.cnf
+conflicts             : 6486           (28204 /sec)
+CPU time              : 0.229965 s
+
+> cd Instances
+> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+   \endverbatim
+   So perhaps the problem isn't that hard?! </li>
   </ul>
   
   
   \todo Verify vdw_2(5,7) = 260 (conjectured)
   <ul>
-   <li> See 
+   <li> See
    Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/07.hpp. </li>
-   <li>
+   <li> First using the depth-interpretation:
    \verbatim
-OKplatform> SplittingViaOKsolver -D12 VanDerWaerden_2-5-7_260.cnf
+> SplittingViaOKsolver -D12 -SD VanDerWaerden_2-5-7_260.cnf
 > cd SplitViaOKsolver_D12VanDerWaerden_257_260cnf_2011-05-04-192928
 > more Md5sum
 7f04792a3aaa3a9d4395c9f85342e66b
@@ -429,7 +510,7 @@ c file_name                             VanDerWaerden_2-5-7_260.cnf
 c splitting_directory                   SplitViaOKsolver_D12VanDerWaerden_257_260cnf_2011-05-04-192928/Instances
 c splitting_cases                       4096
 
-OKplatform> SplittingViaOKsolver -D16 VanDerWaerden_2-5-7_260.cnf
+ SplittingViaOKsolver -D16 -SD VanDerWaerden_2-5-7_260.cnf
 > cd SplitViaOKsolver_D16VanDerWaerden_257_260cnf_2011-05-04-193348
 > more Md5sum
 12804168d8212efd37f5cbcb8550888a
@@ -450,36 +531,13 @@ E
    29    30    32    33    34
    25    13     2     1     1
 OKplatform> more Result
-s UNKNOWN
-c sat_status                            2
-c initial_maximal_clause_length         7
-c initial_number_of_variables           260
-c initial_number_of_clauses             13824
-c initial_number_of_literal_occurrences 80128
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   0
 c running_time(sec)                     884.0
 c number_of_nodes                       131071
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                134
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        16
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_2-5-7_260.cnf
-c splitting_directory                   SplitViaOKsolver_D16VanDerWaerden_257_260cnf_2011-05-04-193348/Instances
 c splitting_cases                       65536
 
-OKplatform> SplittingViaOKsolver -D20 VanDerWaerden_2-5-7_260.cnf
+> SplittingViaOKsolver -D20 -SD VanDerWaerden_2-5-7_260.cnf
 > cd SplitViaOKsolver_D20VanDerWaerden_257_260cnf_2011-05-05-050221
 > more Md5sum
 de6910bd80af2b5961613741068664af
@@ -503,36 +561,20 @@ E
    101     63     45     31     10     12      5      3      2      1      5
     54     55     56     59     61     62     66     67     70
      1      1      1      3      2      1      1      1      1
-OKplatform> more Result
-s UNKNOWN
-c sat_status                            2
-c initial_maximal_clause_length         7
-c initial_number_of_variables           260
-c initial_number_of_clauses             13824
-c initial_number_of_literal_occurrences 80128
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   0
+> more Result
 c running_time(sec)                     12610.3
 c number_of_nodes                       2097151
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                5912
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        20
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             VanDerWaerden_2-5-7_260.cnf
-c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_257_260cnf_2011-05-05-050221/Instances
 c splitting_cases                       1048575
    \endverbatim
+   </li>
+   <li> Now using the "n-interpretation":
+   \verbatim
+> SplittingViaOKsolver -D20 -SD VanDerWaerden_2-5-7_260.cnf
+
+   \endverbatim
+   </li>
   </ul>
   
 */
