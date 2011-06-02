@@ -571,7 +571,7 @@ c splitting_cases                       1048575
    </li>
    <li> Now using the "n-interpretation":
    \verbatim
-> SplittingViaOKsolver -D20 -SD VanDerWaerden_2-5-7_260.cnf
+> SplittingViaOKsolver -D20 VanDerWaerden_2-5-7_260.cnf
 
    \endverbatim
    </li>
