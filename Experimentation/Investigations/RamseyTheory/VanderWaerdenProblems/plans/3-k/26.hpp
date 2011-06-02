@@ -150,7 +150,7 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
   </ul>
 
 
-  \todo Palindromic numbers
+  \todo vdw_2^pd(3,26) : (=634, >=643)
   <ul>
    <li> 642 < pdvanderwaerden([3,26])[2] =(conj) 643 =(conj)
    vanderwaerden([3,26]) - 84. </li>
@@ -201,7 +201,11 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
    </li>
    <li> SplittingViaOKsolver, using minisat-2.2.0:
     <ol>
-     <li> n=644: . </li>
+     <li> n=644:
+     \verbatim
+> SplittingViaOKsolver -D60 VanDerWaerden_pd_2-3-26_644.cnf
+
+     </li>
      <li> n=635:
      \verbatim
 > SplittingViaOKsolver -D30 VanDerWaerden_pd_2-3-26_635.cnf
@@ -254,7 +258,7 @@ c splitting_cases                       74641
 
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
-
+74641: 40.58h, sum-cfs=1.292356e+09, mean-t=1.957s, mean-cfs=17314
      \endverbatim
      </li>
     </ol>
