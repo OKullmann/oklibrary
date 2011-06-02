@@ -1,0 +1,63 @@
+/* Oliver Kullmann, 1.6.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/NumberTheory/Lisp/testobjects/SurrealNumbers.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/testobjects/SurrealNumbers.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/SurrealNumbers.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/SurrealNumbers.mac")$
+
+/* ******************************************
+   * The basic notion of a "surreal number" *
+   ******************************************
+*/
+
+okltest_surnum_p(surnum_p);
+
+okltest_surnum_lep(surnum_lep);
+okltest_surnum_ltp(surnum_ltp);
+
+okltest_epoche_surnum(epoche_surnum);
+
+okltest_surnum_equalp(surnum_equalp);
+
+okltest_eqc_epoche_surnum(eqc_epoche_surnum);
+
+/* ***************************
+   * Arithmetical operations *
+   ***************************
+*/
+
+okltest_surnum_add(surnum_add);
+
+okltest_surnum_neg1(surnum_neg1);
+okltest_surnum_neg2(surnum_neg2);
+
+okltest_surnum_prod(surnum_prod);
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+okltest_nat2surnum(nat2surnum);
+okltest_nnat2surnum(nnat2surnum);
+okltest_int2surnum(int2surnum);
+
+/*!
+\endhtmlonly
+*/

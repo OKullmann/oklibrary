@@ -1,0 +1,130 @@
+/* Oliver Kullmann, 31.5.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/NumberTheory/Lisp/SurrealNumbers.mac
+  \brief Functions related to surreal numbers
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/SurrealNumbers.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+/* ******************************************
+   * The basic notion of a "surreal number" *
+   ******************************************
+*/
+
+/* The intuitive notion of a "surreal number" x ("surnum") is
+   that it is a pair x = (x_1,x_2), where x_1, x_2 are sets
+   of surreal numbers, such that for all a in x_1 and for all b in x_2
+   we have a < b.
+
+   So in parallel we need to define "x < y" for surreal numbers.
+   It seems more convenient to define "x <= y", and then to define
+   x < y <=> x <= y und not (y <= x).
+
+  Now x <= y is defined to hold if
+   - for all a in x_1 we have a < y
+   - for all b in y_2 we have x < b.
+
+  This expresses exactly all the relations we know that hold for sure,
+  since x_1 is a set of lower bounds for x, while y_2 is a set of
+  upper bounds for y; note that x_2 as well as y_1 does not yield any
+  information here.
+
+  The induced equivalence relation x ~ y is defined as usual as
+  x <= y and y <= x.
+
+  For a given universe U (of set theory) we have the set SQ_U of all
+  such surreal numbers in U, where "SQ" stands for "surreal quasi", since
+  <= for surreal numbers is only a quasiorder, and the true surreal numbers
+  are the equivalence classes within U w.r.t. ~.
+*/
+
+/* Whether x is a "surreal number": */
+surnum_p(x) := listp(x) and is(length(x)=2) and
+ every_s(surnum_p,first(x)) and every_s(surnum_p,second(x)) and
+ block([res : true],
+   for a in first(x) while res do
+     for b in second(x) while res do
+       if not surnum_ltp(a,b) then res : false,
+   res)$
+
+/* Whether for surreal numbers x, y we have x <= y : */
+surnum_lep(x,y) :=
+ every_s(lambda([a], surnum_ltp(a,y)), first(x)) and
+ every_s(lambda([b], surnum_ltp(x,b)), second(y))$
+
+/* Whether for surreal numbers x, y we have x < y : */
+surnum_ltp(x,y) := not surnum_lep(y,x)$
+
+/* All surreal numbers (in all presentations) created at "epoche <= n": */
+epoche_surnum(n) := block(
+ [prev : powerset(if n=0 then {} else epoche_surnum(n-1))],
+  subset(cartesian_product(prev,prev), surnum_p))$
+
+/* The induced equivalence-relation x ~ y (when two surreal numbers are to be
+   considered "equal"):
+*/
+surnum_equalp(x,y) := surnum_lep(x,y) and surnum_lep(y,x)$
+
+/* The equivalence classes of surreal numbers created up to epoche n: */
+eqc_epoche_surnum(n) := equiv_classes(epoche_surnum(n), surnum_equalp)$
+
+
+/* ***************************
+   * Arithmetical operations *
+   ***************************
+*/
+
+/* x + y : */
+surnum_add(x,y) := [
+ union(map(lambda([a], surnum_add(a,y)), first(x)), 
+       map(lambda([a], surnum_add(x,a)), first(y))),
+  union(map(lambda([a], surnum_add(a,y)), second(x)), 
+        map(lambda([a], surnum_add(x,a)), second(y)))
+]$
+
+/* -x : */
+surnum_neg1(x) := [map(surnum_neg1, second(x)), map(surnum_neg1, first(x))]$
+/* x - y : */
+surnum_neg2(x,y) := surnum_add(x,surnum_neg1(y))$
+
+/* x * y : */
+surnum_prod(x,y) := [
+ union(map(lambda([p], surnum_neg2(surnum_add(surnum_prod(p[1],y),surnum_prod(x,p[2])), surnum_prod(p[1],p[2]))), cartesian_product(first(x),first(y))),
+       map(lambda([p], surnum_neg2(surnum_add(surnum_prod(p[1],y),surnum_prod(x,p[2])), surnum_prod(p[1],p[2]))), cartesian_product(second(x),second(y)))),
+ union(map(lambda([p], surnum_neg2(surnum_add(surnum_prod(p[1],y),surnum_prod(x,p[2])), surnum_prod(p[1],p[2]))), cartesian_product(first(x),second(y))),
+       map(lambda([p], surnum_neg2(surnum_add(surnum_prod(p[1],y),surnum_prod(x,p[2])), surnum_prod(p[1],p[2]))), cartesian_product(second(x),first(y))))
+]$
+
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+/* n >= 0 as surreal number: */
+nat2surnum(n) := [setify(create_list(nat2surnum(i),i,0,n-1)), {}]$
+/* For n >= 0 the negative integer -n as surreal number: */
+nnat2surnum(n) := [{}, setify(create_list(nnat2surnum(i),i,0,n-1))]$
+/* Note nnat2surnum(n) = surnum_neg1(nat2surnum(n)). */
+/* Integers as surreal numbers: */
+int2surnum(z) := if z >= 0 then nat2surnum(z) else nnat2surnum(-z)$
+
+/*!
+\endhtmlonly
+*/
+

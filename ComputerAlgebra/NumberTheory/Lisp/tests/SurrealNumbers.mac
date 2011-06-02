@@ -1,0 +1,132 @@
+/* Oliver Kullmann, 1.6.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/NumberTheory/Lisp/tests/SurrealNumbers.mac
+  \brief Tests regarding surreal numbers
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/SurrealNumbers.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+kill(f)$
+
+/* ******************************************
+   * The basic notion of a "surreal number" *
+   ******************************************
+*/
+
+okltest_surnum_p(f) := (
+  assert(f(0) = false),
+  assert(f([{}]) = false),
+  assert(f([{},{}]) = true),
+  assert(f([{[{},{}]},{}]) = true),
+  assert(f([{},{[{},{}]}]) = true),
+  assert(f([{[{},{}]},{[{},{}]}]) = false),
+  true)$
+
+okltest_surnum_lep(f) := (
+  assert(f([{},{}], [{},{}]) = true),
+  assert(f([{},{[{},{}]}], [{},{}]) = true),
+  assert(f([{[{},{}]},{}], [{},{}]) = false),
+  true)$
+
+okltest_surnum_ltp(f) := (
+  assert(f([{},{}], [{},{}]) = false),
+  assert(f([{},{[{},{}]}], [{},{}]) = true),
+  assert(f([{[{},{}]},{}], [{},{}]) = false),
+  true)$
+
+okltest_epoche_surnum(f) := (
+  assert(f(0) = {[{},{}]}),
+  assert(f(1) = {[{},{}], [{[{},{}]},{}], [{},{[{},{}]}]}),
+  /* XXX */
+  true)$
+
+okltest_surnum_equalp(f) := (
+  assert(f([{},{}], [{},{}]) = true),
+  assert(f([{},{[{},{}]}], [{},{}]) = false),
+  assert(f([{[{},{}]},{}], [{},{}]) = false),
+  assert(f([{},{}], [{[{},{[{},{}]}]},{[{[{},{}]},{}]}]) = true),
+  /* XXX */
+  true)$
+
+okltest_eqc_epoche_surnum(f) := (
+  assert(f(0) = {{[{},{}]}}),
+  assert(f(1) = {{[{},{}]}, {[{[{},{}]},{}]}, {[{},{[{},{}]}]}}),
+  /* XXX */
+  true)$
+
+
+/* ***************************
+   * Arithmetical operations *
+   ***************************
+*/
+
+okltest_surnum_add(f) := (
+  assert(f([{},{}],[{},{}]) = [{},{}]),
+  assert(f([{},{}],[{[{},{}]},{}]) = [{[{},{}]},{}]),
+  /* XXX */
+  true)$
+
+okltest_surnum_neg1(f) := (
+  assert(f([{},{}]) = [{},{}]),
+  assert(f([{[{},{}]},{}]) = [{},{[{},{}]}]),
+  assert(f([{},{[{},{}]}]) = [{[{},{}]},{}]),
+  /* XXX */
+  true)$
+
+okltest_surnum_neg2(f) := (
+  assert(f([{},{}],[{},{}]) = [{},{}]),
+  assert(f([{},{}],[{[{},{}]},{}]) = [{},{[{},{}]}]),
+  assert(f([{},{[{},{}]}],[{},{[{},{}]}]) = [{[{},{[{},{}]}]},{[{[{},{}]},{}]}]),
+  /* XXX */
+  true)$
+
+okltest_surnum_prod(f) := (
+  assert(f([{},{}],[{},{}]) = [{},{}]),
+  assert(f([{[{},{}]},{}], ([{[{},{}]},{}])) = [{[{},{}]},{}]),
+  assert(f([{[{},{}]},{}], ([{},{[{},{}]}])) = [{},{[{},{}]}]),
+  /* XXX */
+  true)$
+
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+okltest_nat2surnum(f) := (
+  assert(f(0) = [{},{}]),
+  assert(f(1) = [{[{},{}]},{}]),
+  assert(f(2) = [{[{},{}],[{[{},{}]},{}]},{}]),
+  true)$
+
+okltest_nnat2surnum(f) := (
+  assert(f(0) = [{},{}]),
+  assert(f(1) = [{},{[{},{}]}]),
+  assert(f(2) = [{},{[{},{}],[{},{[{},{}]}]}]),
+  true)$
+
+okltest_int2surnum(f) := (
+  assert(f(0) = [{},{}]),
+  assert(okltest_nat2surnum(f) = true),
+  assert(okltest_nnat2surnum(buildq([f],lambda([n],f(-n)))) = true),
+  true)$
+
+
+/*!
+\endhtmlonly
+*/
