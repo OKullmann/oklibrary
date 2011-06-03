@@ -43,7 +43,7 @@ satz215 VanDerWaerden_2-3-16_238.cnf 990144.910 600383827 304409259 99369777769 
 
   \todo Splitting via OKsolver
   <ul>
-   <li> Starting with n=30:
+   <li> Trying depth n=30,33,35,40:
    \verbatim
 > SplittingViaOKsolver -D30 VanDerWaerden_2-3-16_238.cnf
   30   31   32   33   34   35   36   37   38   39   40   41   42   43   44   45
@@ -123,6 +123,36 @@ c splitting_cases                       39329
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 36638: 42.63h, sum-cfs=3.639830e+09, mean-t=4.189s, mean-cfs=99346
+
+> SplittingViaOKsolver -D40 VanDerWaerden_2-3-16_238.cnf
+> cd SplitViaOKsolver_D40VanDerWaerden_2316_238cnf_2011-06-03-140014/
+> more Md5sum
+143889cee91c45c1b8f365b591de8eed
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  40.00   41.00   43.00   44.02   46.00   74.00
+> table(E$n)
+   40    41    42    43    44    45    46    47    48    49    50    51    52
+22879  9023 10240 11197 10567  8604  6931  6189  5598  4912  3775  2280  1062
+   53    54    55    56    57    58    59    60    61    62    63    64    65
+  468   279   203   141   142    73    80    44    31    36    16    12     8
+   66    67    72    73    74
+    2     2     1     1     1
+> more Result
+c running_time(sec)                     9088.7
+c number_of_nodes                       209593
+c number_of_2-reductions                8957
+c max_tree_depth                        33
+c splitting_cases                       104797
+
+> cd Instances
+> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+
    \endverbatim
    </li>
   </ul>
