@@ -572,6 +572,15 @@ c splitting_cases                       1048575
    <li> Now using the "n-interpretation":
    \verbatim
 > SplittingViaOKsolver -D20 VanDerWaerden_2-5-7_260.cnf
+    20     21     22     23     24     25     26     27     28     29     30
+175461  43196  22448   6666   2676    729    250     97     35     21      4
+    31     32
+     5      2
+c running_time(sec)                     8320.0
+c number_of_nodes                       503179
+c number_of_2-reductions                829
+c max_tree_depth                        20
+c splitting_cases                       251590
 
    \endverbatim
    </li>

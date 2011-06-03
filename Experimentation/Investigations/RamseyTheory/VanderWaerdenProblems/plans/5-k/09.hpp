@@ -143,7 +143,7 @@ INDETERMINATE
      \endverbatim
      This looks rather bleak.
      </li>
-     <li> Okay, let's set n=23:
+     <li> Okay, let's set n=23, "n-interpretation":
      \verbatim
 > SplittingViaOKsolver -D23 VanDerWaerden_pd_2-5-9_447.cnf
 > cd SplitViaOKsolver_D23SNVanDerWaerden_pd_259_447cnf_2011-05-19-162049
@@ -229,7 +229,7 @@ sys     9m22.735s
      Still instances are too hard. </li>
      <li> To have a chance, let's try n=28:
      \verbatim
-> SplittingViaOKsolver -D28 -SN VanDerWaerden_pd_2-5-9_447.cnf
+> SplittingViaOKsolver -D28 VanDerWaerden_pd_2-5-9_447.cnf
 > cd SplitViaOKsolver_D28SNVanDerWaerden_pd_259_447cnf_2011-05-27-174054/
 > more Md5sum
 54431bf25ea1625939ac37201678490a
@@ -268,9 +268,16 @@ CPU time              : 2.61216 s
 
 > cd Instances
 > OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+# Aborted
 
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+30257: 44.36h, sum-cfs=3.240764e+09, mean-t=5.278s, mean-cfs=107108
+     \endverbatim
+     Still instances are too hard. </li>
+     <li> Now n=30:
+     \verbatim
+> SplittingViaOKsolver -D30 VanDerWaerden_pd_2-5-9_447.cnf
 
      \endverbatim
      </li>
