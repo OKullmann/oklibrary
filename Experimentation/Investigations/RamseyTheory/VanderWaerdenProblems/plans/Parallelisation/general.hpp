@@ -451,8 +451,19 @@ CPU time              : 0.229965 s
 
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+# Aborted:
+952: 1.43h, sum-cfs=1.176527e+08, mean-t=5.395s, mean-cfs=123585
+> summary(E$t)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+  0.05299   0.39290   1.17600   5.39500   3.04700 689.50000
+> summary(E$cfs)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+     523    11860    34930   123600    86760 11490000
+
+> SplittingViaOKsolver -D26 VanDerWaerden_2-4-9_309.cnf
+
    \endverbatim
-   So perhaps the problem isn't that hard?! </li>
+    </li>
   </ul>
   
   
