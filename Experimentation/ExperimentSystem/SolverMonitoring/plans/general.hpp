@@ -25,6 +25,7 @@ License, or any later version. */
     <li> ExtractGlucose.awk. </li>
     <li> ExtractPrecosat236.awk. </li>
     <li> ExtractPrecosat570.awk. </li>
+    <li> ExtractSatz. </li>
    </ul>
    </li>
    <li> This is without parameters; with parameter "header" (as string) it
