@@ -149,6 +149,9 @@ output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", un
 ??? again "DES ArgoSat comparison" is inappropriate, and what are the
 parameters ???
 
+??? blind standardisation is not appropriate here; obviously a well-defined
+function which handles all these aspects is needed ???
+
    \endverbatim
    </li>
    <li> Instances with unknown key bits up to 13 all take less than 5s,
