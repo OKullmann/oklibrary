@@ -86,6 +86,8 @@ shell> minisat-2.2.0 25-shuffled_test.cnf
   \todo Canonical+ translation comparison to Argosat-desgen example
   <ul>
    <li> Generating the instances for 16 rounds using the canonical translation:
+??? this contradicts the title ???
+??? what is translated ???
    \verbatim
 unknown_bits : 13$
 sbox_fcl_l : create_list(dualtsplus_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
@@ -95,6 +97,12 @@ C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
 K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
 F_std : standardise_fcs([F[1],append(F[2],P[2],K[2],C[2])])$
 output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std[1] , sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
+
+??? what are the sizes etc. ???
+
+??? what is meant here with "DES ArgoSat comparison" ??? first of all, these
+instances have nothing to do with "ArgoSat", and the main point is the
+form of translation ! ???
    \endverbatim
    </li>
    <li> Instances with unknown key bits up to 18 all take less than a
@@ -127,6 +135,8 @@ output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", un
   <ul>
    <li> Generating the instances for 16 rounds using the canonical translation:
    \verbatim
+??? what is translated ???
+
 unknown_bits : 13$
 sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
 F : des2fcl(sbox_fcl_l)$
@@ -135,6 +145,10 @@ C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
 K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
 F_std : standardise_fcs([F[1],append(F[2],P[2],K[2],C[2])])$
 output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std[1], sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
+
+??? again "DES ArgoSat comparison" is inappropriate, and what are the
+parameters ???
+
    \endverbatim
    </li>
    <li> Instances with unknown key bits up to 13 all take less than 5s,
