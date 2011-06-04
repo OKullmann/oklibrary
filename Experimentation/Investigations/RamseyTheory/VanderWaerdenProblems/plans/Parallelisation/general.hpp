@@ -398,7 +398,7 @@ c splitting_cases                       1047157
    </li>
    <li> One should investigate whether at least for splitting-depth 20 there
    could be single nodes. </li>
-   <li> Now using the "n-interpretation":
+   <li> Now using the "n-interpretation", D=20,22,24,26:
    \verbatim
 > SplittingViaOKsolver -D20 VanDerWaerden_2-4-9_309.cnf
    20    21    22    23    24    25    26    27    28    29    30    31    32
@@ -461,9 +461,43 @@ CPU time              : 0.229965 s
      523    11860    34930   123600    86760 11490000
 
 > SplittingViaOKsolver -D26 VanDerWaerden_2-4-9_309.cnf
+> more Md5sum
+ca544b13e9f145a4d83166237daa160a
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  26.00   26.00   27.00   27.38   28.00   52.00
+> table(E$n)
+    26     27     28     29     30     31     32     33     34     35     36
+589561 250702 205602 132160  78760  39668  20052   9586   4820   2246   1091
+    37     38     39     40     41     42     43     44     45     46     47
+   521    247    124     81     52     20     19     13      5      4      3
+    48     49     50     51     52
+     1      1      1      3      2
+c running_time(sec)                     48066.5
+c number_of_nodes                       2670689
+c number_of_2-reductions                23499
+c max_tree_depth                        26
+c splitting_cases                       1335345
 
+> cd Instances
+> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+# Aborted
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+5008: 10.21h, sum-cfs=3.668411e+08, mean-t=7.337s, mean-cfs=73251
+> summary(E$cfs)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    277    7916   19190   73250   52720 8366000
+> summary(E$t)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+4.499e-02 5.007e-01 1.376e+00 7.337e+00 3.927e+00 1.443e+03
+
+> SplittingViaOKsolver -D28 VanDerWaerden_2-4-9_309.cnf
    \endverbatim
-    </li>
+   (time-measurement unreliable (on csltok). </li>
+   <li> The hard sub-problems needed further splitting; with our current simple
+   tools we can't do that only for them, but we need to further split in
+   general. </li>
   </ul>
   
   
