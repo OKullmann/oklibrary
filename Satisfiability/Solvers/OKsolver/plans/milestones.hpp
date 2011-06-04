@@ -45,6 +45,11 @@ License, or any later version. */
   (see Solvers/OKsolver/SAT2002/plans/milestones.hpp)
 
   \par
+   In Satisfiability/Solvers/OKsolver/plans/general.hpp the following
+   topics are handled:
+    - Combination of OKsolver with Minisat
+
+  \par
    In Solvers/OKsolver/plans/OKsolver_1_0.hpp the following
    topics are handled:
     - Create detailed milestones until completion

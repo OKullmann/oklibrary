@@ -45,5 +45,27 @@ License, or any later version. */
    <li> The version of each OKsolver is the version of its module. </li>
   </ul>
 
+
+  \todo Combination of OKsolver with Minisat
+  <ul>
+   <li> The current, very simple combination of OKsolver-2002 and minisat-2.2.0
+   via SplittingViaOKsolver is very successful; see
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/Parallelisation/general.hpp
+   for a general overview. </li>
+   <li> The current abortion criterion, the size of the partial assignment
+   leading to the node, is not too bad, but to handle hard problems more
+   efficiently, a more "intelligent" method is needed. </li>
+   <li> Writing all sub-problems as partial assignments to file is good for
+   distributed solving, however it makes more flexible splitting hard to
+   realise. </li>
+   <li> Though one can imagine a recursive directory structure, where hard
+   problems, where minisat takes more than, say, 5 seconds, are then further
+   split. </li>
+   <li> Or one creates a combination of minisat with OKsolver, where first
+   minisat is run for a few seconds, and if this doesn't solve the problem,
+   then OKsolver is used to split up the problem, and for these sub-problems
+   this combined solver is run again. </li>
+  </ul>
+
 */
 

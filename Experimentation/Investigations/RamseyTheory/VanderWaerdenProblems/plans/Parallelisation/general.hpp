@@ -14,7 +14,10 @@ License, or any later version. */
 
   \todo Connections
   <ul>
-   <li> Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp </li>
+   <li> See Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp for the
+   tool "SplittingViaOKsolver". </li>
+   <li> See "Combination of OKsolver with Minisat" for plans on more
+   sophisticated tools for combining OKsolver with minisat. </li>
    <li> Interfaces/DistributedSolving/plans/general.hpp </li>
    <li> ExperimentSystem/plans/DistributedSolving.hpp </li>
   </ul>
