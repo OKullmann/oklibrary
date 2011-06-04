@@ -14,7 +14,10 @@ License, or any later version. */
   <ul>
    <li> In this file, we collect the investigations into translations of
    1 + 1/3 round small scale AES with four rows, two columns, using the 8-bit
-   field size. </li>
+   field size.
+   ??? How does "4_4_8" relate to "four rows, two columns" ???
+   ??? Why is it "small scale" ??? This should be AES!
+   </li>
    <li> The AES encryption scheme we model takes a 128-bit plaintext and
    128-bit key and outputs a 128-bit ciphertext. The plaintext, key and 
    ciphertext are all considered, column by column, as 4x4 matrices of 8-bit 
