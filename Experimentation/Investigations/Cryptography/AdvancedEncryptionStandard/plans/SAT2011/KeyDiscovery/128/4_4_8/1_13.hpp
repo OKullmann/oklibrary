@@ -21,7 +21,10 @@ License, or any later version. */
    <li> The AES encryption scheme we model takes a 128-bit plaintext and
    128-bit key and outputs a 128-bit ciphertext. The plaintext, key and 
    ciphertext are all considered, column by column, as 4x4 matrices of 8-bit 
-   elements. </li>
+   elements.
+   ??? what is the meaning of "we model" ??? are there several AES encryption
+   schemes ???
+   </li>
    <li> In other words, in the AES blocks (plaintext, key, ciphertext etc), 
    the 8-bit element at position (i,j) in the matrix is the ((i-1)*4 + j)-th 
    8-bit word of the 128-bits. </li>
@@ -39,7 +42,11 @@ License, or any later version. */
    </li>
    <li> The Sbox is non-linear permutation over the set of 8-bit elements,
    defined as inversion within the 8-bit field composed with an affine
-   transformation. </li>
+   transformation.
+   ??? One shouldn't have such general information at such low-level files:
+   the parameters are important, and reminders about their meaning, but NOT
+   such general information ???
+   </li>
    <li> The linear diffusion operation applies a linear permutation to
    the input matrix, consisting of:
    <ol>
@@ -53,7 +60,10 @@ maxima> ss_mixcolumns_matrix(2,8,4);
     \endverbatim
     over the 8-bit field. As it is a matrix multiplication, this operation can
     be broken down into a "MixColumn" operation on each column of the input
-    matrix. </li>
+    matrix.
+    ??? Again, this general information is misplaced --- one wants to see
+    clearly the general parameters (also information regarding complexity) ???
+    </li>
    </ol>
    </li>
   </ul>
