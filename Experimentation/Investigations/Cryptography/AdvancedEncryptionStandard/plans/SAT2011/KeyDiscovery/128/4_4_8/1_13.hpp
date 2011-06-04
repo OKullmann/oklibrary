@@ -86,6 +86,13 @@ seed : 1$
 mc_tran : aes_mc_bidirectional$
 output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
 
+???
+Maxima encountered a Lisp error:
+
+ Memory limit reached. Please jump to an outer pointer, quit program and enlarge the
+memory limits before executing the program again.
+???
+
 shell> cat ssaes_r1_c4_rw4_e8_f0.cnf | ExtendedDimacsFullStatistics n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 31400 510620 1510056 0 1510056 31401 1
