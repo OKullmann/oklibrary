@@ -144,7 +144,9 @@ P : des_plain2fcl(hexstr2binv("038E596D4841D03B"))$
 C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
 K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
 F_std : standardise_fcs([F[1],append(F[2],P[2],K[2],C[2])])$
+??? F_std is a fcl ???
 output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std[1], sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
+??? F_std is a fcl ???
 
 ??? again "DES ArgoSat comparison" is inappropriate, and what are the
 parameters ???
