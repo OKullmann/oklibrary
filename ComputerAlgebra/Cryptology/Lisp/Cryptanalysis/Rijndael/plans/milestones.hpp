@@ -21,6 +21,7 @@ License, or any later version. */
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
    the following topics are handled:
+    - output_ss_fcl_std runs out of memory generating one round AES
     - Fix translation system
 
   \par

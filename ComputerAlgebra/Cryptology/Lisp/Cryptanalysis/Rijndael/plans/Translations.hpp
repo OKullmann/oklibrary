@@ -10,18 +10,94 @@ License, or any later version. */
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
 
+  \bug output_ss_fcl_std runs out of memory generating one round AES
+  <ul>
+   <li> Running the following:
+   \verbatim
+oklib_load_all()$
+num_rounds : 1$
+num_columns : 4$
+num_rows : 4$
+exp : 8$
+final_round_b : false$
+box_tran : aes_ts_box$
+seed : 1$
+mc_tran : aes_mc_bidirectional$
+output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
+   \endverbatim
+   results in the following error:
+   \verbatim
+Maxima encountered a Lisp error:
+
+ Memory limit reached. Please jump to an outer pointer, quit program and enlarge the
+memory limits before executing the program again.
+   \endverbatim
+   </li>
+   <li> The Maxima memory limit is 2GB. </li>
+   <li> Using "oklib_monitor : true$", to watch the progress of the function,
+   shows us that Maxima runs out of memory when it runs standardise_fcl
+   in output_ss_fcl_std. </li>
+   <li> Before standardise_fcl is called, Maxima uses around 300MB. This
+   is as seen from the "top" command. </li>
+   <li> There are two issues here:
+    <ol>
+     <li> The translated AES clause-set F is far larger than it needs to be:
+      <ul>
+       <li> F has 31400 variables. </li>
+       <li> F has 1510056 literal occurrences. </li>
+       <li> If each literal was stored as a 32-bit integer, then F should
+       take up 1510056 * 4 / (1024 * 1024) = ~5.8MB in memory. </li>
+       <li> However, each literal in F is an unevaluated composition
+       of nounified Maxima functions terms. The string representation
+       of this function could be > 200 characters. </li>
+       <li> How does Maxima store functions terms? </li>
+      </ul>
+     </li>
+     <li> Passing F standardise_fcl seems to balloon the memory use from
+     ~300MB to >2GB:
+      <ul>
+       <li> Redefining rename_fcl to:
+       \verbatim
+rename_fcl(FF,VL) := block(local(h),
+  for V in map("[", FF[1], VL) do h[V[1]] : V[2],
+  return([create_list(i,i,1,length(FF[1])),
+   map(
+     lambda([C], (
+       map(lambda([L], if L > 0 then h[L] else -h[-L]), C))), FF[2])]))$
+       \endverbatim
+       before running output_ss_fcl_std results in Maxima using only
+       ~500MB and running output_fcl_v. </li>
+       <li> Does the use of Maxima's associative arrays reduce memory usage?
+       Perhaps the conversion of hash keys to strings causes a blow-up in
+       memory? </li>
+       <li> Does the inlining of functions such as substitutetotal_cl
+       and substitutetotal_c result in less copying and therefore less
+       memory usage?
+        <ul>
+         <li> This shouldn't be the case as Maxima lists are passed
+         by reference. </li>
+         <li> However, various calls to map might create new lists. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Handling external data
   <ul>
    <li> We need to offer translations of the AES which use
    larger (thousands of clauses) representations of the Sbox,
    field multiplications etc. </li>
-   <li> However, including these in the OKlibrary git repository drastically 
+   <li> However, including these in the OKlibrary git repository drastically
    increases the size of the repository, and realistically, the repository
    is not the place for data. </li>
    <li> Therefore we should create a directory ExternalSources/data and
-   have a subdirectory "AdvancedEncryptionStandard" in which we can store 
-   files like those currently stored in 
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/ and with much 
+   have a subdirectory "AdvancedEncryptionStandard" in which we can store
+   files like those currently stored in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/ and with much
    larger representations. </li>
    <li> We can then provide a function "ss_load_external_data()" which
    looks in this directory and loads all of the files found within. </li>
@@ -29,9 +105,9 @@ License, or any later version. */
     <ul>
      <li> Should we be storing Maxima files as the data or CNFs which are
      then somehow read in? </li>
-     <li> How does this external data show up in the git repository? 
+     <li> How does this external data show up in the git repository?
      There should, at least, be md5sums for each of the files. </li>
-     <li> What directory structure to use? Is 
+     <li> What directory structure to use? Is
      "ExternalSources/data/AdvancedEncryptionStandard" sufficient or
      should we maintain a more fine grained structure mirroring the
      modules in the git repository?
@@ -56,7 +132,7 @@ License, or any later version. */
   \todo Move AES box translations into separate file
   <ul>
    <li> Currently we have functions such as "aes_mul_ts_gen", and
-   "ss_mul_pi_cst_cl" in 
+   "ss_mul_pi_cst_cl" in
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac
    and
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac.
@@ -70,7 +146,7 @@ License, or any later version. */
   <ul>
    <li> The comments and specifications in
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac
-   and 
+   and
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteRules.mac
    are stale. </li>
    <li> The specifications need to be updated urgently. </li>
@@ -89,7 +165,7 @@ License, or any later version. */
 
   \todo Remove AES-specific translation
   <ul>
-   <li> The small scale AES translation handles the full AES, and therefore 
+   <li> The small scale AES translation handles the full AES, and therefore
    there is no need for a separate AES translation now, and the duplication of
    code means we constantly have to update two different versions. </li>
    <li> Therefore, the full AES translation should be removed and the helper
@@ -101,23 +177,23 @@ License, or any later version. */
   <ul>
    <li> We need generation and output functions for the small
    scale translation. </li>
-   <li> Some exist (see 
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translation.mac), 
-   but these need to be checked and some thought given to whether they cover 
+   <li> Some exist (see
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translation.mac),
+   but these need to be checked and some thought given to whether they cover
    all experimental instances we wish to generate. </li>
-   <li> For example, can we integrate "Rearranging linear components of Sbox 
+   <li> For example, can we integrate "Rearranging linear components of Sbox
    and MixColumns". </li>
-   <li> See also "Dimensions" in 
+   <li> See also "Dimensions" in
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp .
    </li>
   </ul>
 
-  
+
   \todo Standardise output files names
   <ul>
-   <li> Currently the filenames output by functions such as 
-   "output_ssmult_fullcnf_stdname" and so on in 
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac. 
+   <li> Currently the filenames output by functions such as
+   "output_ssmult_fullcnf_stdname" and so on in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac.
    have not been well thought out. </li>
    <li> Therefore some thought needs to be taken and a simple scheme developed.
    </li>
@@ -151,17 +227,17 @@ License, or any later version. */
    <li> For each column [A,B,C,D] in the matrix, the MixColumns (for AES) is
    [M3 . A + M2 . B + C + D, A + M3 . B + M2 . C + D, A + B + M3 . C + M2 . D,
    M2 . A + B + C + M3 . D], where M3 and M2 are the bit matrices representing
-   multiplication by 03 (x^2+1) and 02 (x) in the byte field respectively. 
+   multiplication by 03 (x^2+1) and 02 (x) in the byte field respectively.
    </li>
-   <li> We therefore have two additional possibilities other than the 
+   <li> We therefore have two additional possibilities other than the
    default AES translation:
    <ol>
-    <li> The Sboxes affine constant addition becomes a separate operation 
+    <li> The Sboxes affine constant addition becomes a separate operation
     giving:
     <ol>
      <li> Sbox: M . s^(-1)
      <li> MixColumns is the same as standard. </li>
-     <li> Affine constant operation: + 
+     <li> Affine constant operation: +
      [M3 . Ac + M2 . Ac + Ac + Ac, ...,  M3 . Ac + M2 . Ac + Ac + Ac]
      performed after MixColumns and AddRoundKey. </li>
     </ol>
@@ -170,17 +246,17 @@ License, or any later version. */
     the linear matrix multiplication joins with the MixColumn:
     <ol>
      <li> Sbox: s^(-1)
-     <li> MixColumns: Each column becomes: 
+     <li> MixColumns: Each column becomes:
      \verbatim
-[(M. M3) . A + (M . M2) . B + M . C + M . D, 
- M . A + (M . M3) . B + (M . M2) . C + M . D, 
- M . A + M . B + (M . M3) . C + (M . M2) . D, 
+[(M. M3) . A + (M . M2) . B + M . C + M . D,
+ M . A + (M . M3) . B + (M . M2) . C + M . D,
+ M . A + M . B + (M . M3) . C + (M . M2) . D,
  (M . M2) . A + M . B + M . C + (M . M3) . D]
      \endverbatim
      </li>
      <li> Affine constant operation (same as without moving the linear matrix)
      : + [M3 . Ac + M2 . Ac + Ac + Ac, ...,  M3 . Ac + M2 . Ac + Ac + Ac]
-     performed after MixColumns and AddRoundKey (all values are just 
+     performed after MixColumns and AddRoundKey (all values are just
      constants).
      </li>
     </ol>
@@ -193,15 +269,15 @@ License, or any later version. */
     functions, including (see SboxAnalysis.mac, FieldOperationsAnalysis.mac):
     <ul>
      <li> The combination of linear maps (i.e. M . M3, M . M2 etc for AES
-     and small scale, including the multiplications for the inverse 
+     and small scale, including the multiplications for the inverse
      mixcolumns).
      </li>
      <li> The inverse map (i.e. s^(-1)). </li>
-     <li> The inverse map with the linear matrix multiplication (i.e. 
+     <li> The inverse map with the linear matrix multiplication (i.e.
      M . s^(-1)). </li>
     </ul>
     </li>
-    <li> Additional rewrite functions for the AES round which includes the 
+    <li> Additional rewrite functions for the AES round which includes the
     affine constant addition as a separate constraint. </li>
     <li> Rewrite functions for the constraint denoting the affine constant
     addition. </li>
@@ -209,7 +285,7 @@ License, or any later version. */
    </li>
   </ul>
 
-  
+
   \todo How to represent elements of arbitrary fields as boolean variables?
   <ul>
    <li> In
@@ -227,7 +303,7 @@ License, or any later version. */
    generality within the implementation and translation. </li>
   </ul>
 
-  
+
   \todo Provide additional translation into CSP-solver format
   <ul>
    <li> A translation of the AES into a format usable by popular CSP solvers
@@ -235,7 +311,7 @@ License, or any later version. */
    </li>
    <li> Is there a generic input format (like DIMACS) for CSP problems? </li>
    <li> Translating to something Minion can read seems reasonably simple, using
-   constraints such as: 
+   constraints such as:
    <ul>
     <li> difference (for xor) </li>
     <li> table or negativetable (for sbox, GF multiplication etc) </li>
@@ -244,7 +320,7 @@ License, or any later version. */
    </li>
    <li> The specification of the sbox and multiplication operations are then
    separate from their instances within the constraint set. This should allow
-   for a variety of different translations (including using large prime 
+   for a variety of different translations (including using large prime
    implicate representations). </li>
   </ul>
 
@@ -257,10 +333,10 @@ License, or any later version. */
    </li>
    <li> This has been started but needs to be extended significantly. </li>
    <li> The following information on the different possible translations
-   should also be included and linked to 
+   should also be included and linked to
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp:
    <ul>
-    <li> We model a generalised AES system (see 
+    <li> We model a generalised AES system (see
     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac)
     which supports the following different translations:
     <ul>
@@ -272,17 +348,17 @@ License, or any later version. */
      </li>
      <li> Box translations for the Sbox and field multiplications using:
      <ul>
-      <li> Small CNF representations (see 
-      Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp 
-      and 
+      <li> Small CNF representations (see
+      Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
+      and
       Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp).
       </li>
-      <li> The canonical DNF translation (see 
+      <li> The canonical DNF translation (see
       ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac). </li>
-      <li> r_k-reduced representation (see 
+      <li> r_k-reduced representation (see
       OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac). </li>
-      <li> Small hitting clause-set representations (see 
-      Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp). 
+      <li> Small hitting clause-set representations (see
+      Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp).
       </li>
      </ul>
      </li>
@@ -291,18 +367,18 @@ License, or any later version. */
       <li> We have the standard AES which has the Sbox made up of the
       word (byte) level inversion of block elements, following by the
       application of an affine transformation. </li>
-      <li> On the other hand, the affine portion of the Sbox can be moved 
-      through the Shiftrows operation such that it can be combined with the 
-      MixColumns component, yielding a component which is entirely linear at 
-      the byte level, leaving only the non-linear inversion and addition of 
+      <li> On the other hand, the affine portion of the Sbox can be moved
+      through the Shiftrows operation such that it can be combined with the
+      MixColumns component, yielding a component which is entirely linear at
+      the byte level, leaving only the non-linear inversion and addition of
       the affine constant as part of the Sbox operation. </li>
       <li> Splitting the two types of operation like this will hopefully
       yield Sbox translations which are more compact and more amenable to
-      SAT solvers as the affine transformation is specifically designed to 
+      SAT solvers as the affine transformation is specifically designed to
       increase equation size, and make the Sbox harder to model. </li>
      </ul>
      </li>
-     <li> Generalised small scale parameters (see 
+     <li> Generalised small scale parameters (see
      Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac)
      <ul>
       <li> n_R: number of rows in the AES block (default 4, can be
@@ -320,7 +396,7 @@ License, or any later version. */
    </ul>
    </li>
   </ul>
-  
+
 
   \todo Partitioning into active clauses
   <ul>
@@ -442,11 +518,11 @@ License, or any later version. */
    AES  using a key K, might not be enough, on it's own, to deduce K (as there
    may be some K' which performs the same mapping for this specific (P,C)), for
    genuine experiments and understanding of AES, translations allowing
-   multiple plaintext/ciphertext pairs but sharing the key variables are 
+   multiple plaintext/ciphertext pairs but sharing the key variables are
    needed. </li>
-   <li> A simple method here is to perform the translation multiple times, 
-   introducing distinct variables for each pair of plaintext/ciphertext, but 
-   using the same key variables in each translation. The union of all such 
+   <li> A simple method here is to perform the translation multiple times,
+   introducing distinct variables for each pair of plaintext/ciphertext, but
+   using the same key variables in each translation. The union of all such
    translations is then the required result. </li>
   </ul>
 
@@ -465,10 +541,10 @@ License, or any later version. */
    decryption can be executed by just providing plain-text and key as a partial
    assignment and evaluating the whole active clause-set. Has this been
    achieved?? </li>
-   <li> The current translation system works in the following way: 
+   <li> The current translation system works in the following way:
    <ul>
     <li> The common datatype is a set of "constraint templates" of the form
-    "aes_c(p_1,p_2,p_3,...p_128,k_1,...)" where: 
+    "aes_c(p_1,p_2,p_3,...p_128,k_1,...)" where:
     <ul>
      <li> "aes_cp" is an unevaluated function. </li>
      <li> "p_1" etc represent variables within the constraint system. </li>
@@ -477,7 +553,7 @@ License, or any later version. */
     </ul>
     </li>
     <li> The process starts off with the set with just the "aes_c" constraint
-    template with the plaintext, key and ciphertext input variables as 
+    template with the plaintext, key and ciphertext input variables as
     arguments. </li>
     <li> For each constraint template, there are rewrite rules, for instance
     "aes_cp" which take as arguments the variables given to the constraint
@@ -489,20 +565,20 @@ License, or any later version. */
     <li> Such rewrite rules are applied across the set of constraint templates
     using "rewrite_condition". This is done by simply giving the rewrite rule
     the arguments for the template, and then replacing it in the set of
-    constraint templates with the new set of templates returned by the rule. 
-    </li> 
-    <li> Some rewrite rules, such as "aes_sbox_cp" produce sets of clauses, 
+    constraint templates with the new set of templates returned by the rule.
+    </li>
+    <li> Some rewrite rules, such as "aes_sbox_cp" produce sets of clauses,
     instead of sets of constraint templates. </li>
     <li> Rewrite rules are applied in a set order using "rewrite_all" to
     produce a final clause set. </li>
    </ul>
    </li>
-   <li> This translation works and has the following advantages: 
+   <li> This translation works and has the following advantages:
     <ul>
      <li> It is a simple rewrite procedure. </li>
      <li> Rewrite rules are easy to replace. </li>
     </ul>
-    however, it also has several disadvantages: 
+    however, it also has several disadvantages:
     <ul>
      <li> %Clauses are injected directly into the set of constraint templates,
      requiring explicit detection of "sets" within the rewrite system, as they
@@ -525,7 +601,7 @@ License, or any later version. */
     The main systematic disadvantage of using some "random" variables
     is that we are losing the meaning of variables.
    </li>
-   <li> To improve the system, the following changes are suggested: 
+   <li> To improve the system, the following changes are suggested:
     <ul>
      <li> Split the overall clause set generation process into two steps:
      <ol>
@@ -545,7 +621,7 @@ License, or any later version. */
       Satisfiability/Lisp/ConstraintProblems/plans/Conditions.hpp. </li>
      </ul>
      </li>
-     <li> Alter the constraint template format to the form 
+     <li> Alter the constraint template format to the form
      "aes_cp([p_1,...,p_n],[namespace,...])":
      <ul>
       <li> The first argument to the template is a list of variables. </li>
@@ -568,36 +644,36 @@ License, or any later version. */
    </li>
    <li> Further questions are:
     <ul>
-     <li> What is the best way to control the rewrite process? 
-     <li> The current system works but a more precise, systematic way of 
-     controlling how many rounds, or which rewrite rules are used etc is 
+     <li> What is the best way to control the rewrite process?
+     <li> The current system works but a more precise, systematic way of
+     controlling how many rounds, or which rewrite rules are used etc is
      needed. </li>
      <li> DONE What is the best way to handle parameters controlling the translation?
      <ul>
-      <li> There are already many parameters, many of which are controlled via 
-      global variables, which is potentially bad practice and underdocumented. 
+      <li> There are already many parameters, many of which are controlled via
+      global variables, which is potentially bad practice and underdocumented.
       </li>
-      <li> However taking these parameters as explicit parameters (which must 
+      <li> However taking these parameters as explicit parameters (which must
       always be provided) is incredibly cumbersome. </li>
       <li> These parameters should become arguments to the constraint templates,
       as this is precisely what these additionals arguments are for, then such
-      information (%e.g. that the 2 round AES variant should be considered) is 
+      information (%e.g. that the 2 round AES variant should be considered) is
       not hidden away. </li>
       <li> These can be considered simply by their position in the argument list,
       and if an argument is optional, then you must still provide it if one of
       the arguments appearing later in the list must be specified. </li>
-      <li> For this reason, for such parameters, defaults should be provided, 
+      <li> For this reason, for such parameters, defaults should be provided,
       however, they should not be changed in the global scope. </li>
      </ul>
      </li>
     </ul>
    </li>
-   <li> Specification: 
-    <ul> 
+   <li> Specification:
+    <ul>
      <li> Concepts:
       <ul>
        <li> Constraint - A list with at least 2 arguments, the first being
-       the name of the constraint, the second a list of variables in a 
+       the name of the constraint, the second a list of variables in a
        predefined order, and then any additional arguments which may
        be required for the computation of the constraints. For example:
        \verbatim
@@ -607,7 +683,7 @@ License, or any later version. */
        have a namespace as it's last argument.
        See
        Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
-       for an example of similar such constraints. 
+       for an example of similar such constraints.
        </li>
        <li> Namespace - An unevaluated function, where
         <ol>
@@ -617,7 +693,7 @@ License, or any later version. */
 	 include the number of rounds as an additional parameter. </li>
 	 <li> The last argument to a namespace is then simply
 	 a constraint, providing context for the namespace. In all currrently
-	 considered cases, this constraint will be a constraint being 
+	 considered cases, this constraint will be a constraint being
 	 rewritten by the constraint rewrite rule associated with the given
 	 namespace. </li>
 	 <li> The result of the function (if it were to be evaluated) is
@@ -626,34 +702,34 @@ License, or any later version. */
   	 function is assumed to be a variable, we may nest namespaces
 	 within each other. </li>
 	 <li> As the namespace is an unevaluated function, it may be
-	 an unevaluated lambda expression, and so arguments may be 
+	 an unevaluated lambda expression, and so arguments may be
 	 included in a namespace in this way, that is:
 	 \verbatim
 lambda([a],some_namespace_x(a,1,2,3))
 	 \endverbatim
 	 </li>
-	 <li> The problem with having the whole constraint as the final 
+	 <li> The problem with having the whole constraint as the final
 	 argument for the namespace here, is that as more and more rewrites
-	 occur, there is a significant overhead, as each variable is then a 
+	 occur, there is a significant overhead, as each variable is then a
 	 rather large object. This grows exponentially, as at each level,
 	 the namespace used for the level above occurs for every variable
 	 instance. </li>
-	 <li> Such an overhead is quite significant, taking more than 30 
+	 <li> Such an overhead is quite significant, taking more than 30
 	 seconds to generate just 8 variables 3 levels down. </li>
-	 <li> This makes generating the AES translation for any number of 
+	 <li> This makes generating the AES translation for any number of
 	 rounds rather difficult. </li>
-	 <li> One solution would be to have every rewrite function take 
+	 <li> One solution would be to have every rewrite function take
 	 the namespace to use, rather than using a namespace specific
 	 to that rewrite function. Then the rewrite_all_csttl function
 	 would use the namespace associated given in the constraint
 	 rewrite bundle. </li>
 	 <li> If rewrite_all_csttl used the namespace in the constraint
-	 rewrite bundle, then for efficient generation of the AES 
+	 rewrite bundle, then for efficient generation of the AES
 	 translation, one could simply use a different constraint
 	 rewrite bundle which would specify namespaces which drop, hash, or
 	 canonically map the constraint variables to a much smaller
 	 object. </li>
-	 <li> Another solution is to simply include additional wrapper 
+	 <li> Another solution is to simply include additional wrapper
 	 functions for rewrite_all_csttl, rewrite_all_cstt_vars_l etc, which
 	 avoid this explosion by keeping track of constraints individually
 	 and only introducing an identifier when a new constraint appears.
@@ -670,45 +746,45 @@ rewrite_all_csttl_fast(cstl,rewrite_map) := block(
   rewrite_all_csttl(cstl,rewrite_map))$
 	 \endverbatim
 	 </li>
-	 <li> Such a system would only affect the actual variable 
+	 <li> Such a system would only affect the actual variable
 	 representations, but not the order of the variables, or anything
-	 else about the translation, and so there would be an exact 
-	 one to one mapping between the variables returned by 
-         rewrite_all_cstt_vars_l and rewrite_all_vars_l_fast. Therefore, one 
-         could use the fast translation, and simply map back to the full 
+	 else about the translation, and so there would be an exact
+	 one to one mapping between the variables returned by
+         rewrite_all_cstt_vars_l and rewrite_all_vars_l_fast. Therefore, one
+         could use the fast translation, and simply map back to the full
          variable representations if needed. </li>
 	 <li> The namespace here should not include the entire constraint,
-	 but just additional information which uniquely identifies the 
+	 but just additional information which uniquely identifies the
 	 namespace, specific to an individual constraint. </li>
         </ol>
        </li>
        <li> Variable - A positive noun, defined in the usual way
        (see ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac) for
-       each constraint template, where the arguments are used to indicate 
-       which instance of a particular type of variable are being used (that 
-       is, using nouns in the same way as is usual, see 
+       each constraint template, where the arguments are used to indicate
+       which instance of a particular type of variable are being used (that
+       is, using nouns in the same way as is usual, see
        ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac). </li>
       </ul>
      </li>
      <li> Datatypes (in an abstract sense):
       <ul>
        <li> Constraint - denoted by postfix "cst". </li>
-       <li> Constraint rewrite function - denoted by "cstr" in 
+       <li> Constraint rewrite function - denoted by "cstr" in
        function name. </li>
        <li> Constraint list - denoted by "cstl". </li>
       </ul>
      </li>
-     <li> Necessary functions and structures: 
+     <li> Necessary functions and structures:
       <ul>
        <li> Constraint rewrite bundle:
         <ul>
 	 <li> Three element list containing:
-	  <ol> 
+	  <ol>
            <li> A constraint rewrite function. </li>
-	   <li> A namespace used for any new variables introduced in the 
+	   <li> A namespace used for any new variables introduced in the
 	   constraint template rule. </li>
 	   <li> A function which computes a list of variables
-	   introduced by the constraint template rewrite 
+	   introduced by the constraint template rewrite
 	   function. </li>
 	  </ol>
 	 </li>
@@ -721,13 +797,13 @@ rewrite_all_csttl_fast(cstl,rewrite_map) := block(
 	 <li> Take as argument, a constraint. </li>
 	 <li> Returns a list of constraint templates representing the original
 	 constraint. </li>
-	 <li> If the given constraint is of the type which the function 
+	 <li> If the given constraint is of the type which the function
 	 rewrites then the returned list will be a new list of constraints,
-	 otherwise the function just returns the singleton list with 
+	 otherwise the function just returns the singleton list with
 	 the input constraint as the only element. </li>
-	 <li> Each of the constraints in the returned list should 
+	 <li> Each of the constraints in the returned list should
 	 have a namespace n as their final
-	 argument, where n is the functional composition of 
+	 argument, where n is the functional composition of
 	 the namespace for this rewrite function, and the namespace given
 	 as the "parent namespace" for the constraint being
 	 rewritten. </li>
@@ -751,7 +827,7 @@ rewrite_all_csttl_fast(cstl,rewrite_map) := block(
         <ul>
 	 <li> Takes as first argument a constraint. </li>
 	 <li> Takes as the second argument a rewrite mapping. </li>
-	 <li> Return a list of variables introduced by the associated 
+	 <li> Return a list of variables introduced by the associated
 	 constraint rewrite function, when given the above constraint. </li>
 	 <li> Note here, that through such functions, one has immediately
 	 a method of translating variables to integer values, as such
@@ -762,18 +838,18 @@ rewrite_all_csttl_fast(cstl,rewrite_map) := block(
        </li>
        <li> Rewrite mapping:
         <ul>
-	 <li> A list of mappings, where a mapping is simply a two element 
+	 <li> A list of mappings, where a mapping is simply a two element
 	 list, with the first element being the name of a constraint,
 	 for example, "aes_ct", and the second argument being a constraint
 	 template rewrite bundle, with which to rewrite this template. </li>
 	 <li> That is, a rewrite mapping is simply an ordered set map, from
-	 constraint names to a constraint rewrite bundles to rewrite with. 
+	 constraint names to a constraint rewrite bundles to rewrite with.
 	 </li>
 	 <li> Such rewrite mappings then determine which rewrite rules are to
 	 be applied by global rewrite functions (see "Rewrite all constraint
 	 templates function"), and also the order in which these
 	 rewrites will be done. </li>
-	 <li> Several default rewrite mappings can then be provided in the 
+	 <li> Several default rewrite mappings can then be provided in the
 	 library for convenience. </li>
 	 </li>
 	</ul>
@@ -792,12 +868,12 @@ rewrite_all_csttl_fast(cstl,rewrite_map) := block(
 	 <li> Returns a list containing:
 	  <ol>
 	   <li> A list of variables present in the rewritten list. </li>
-	   <li> A list of clauses and constraint templates after 
+	   <li> A list of clauses and constraint templates after
 	   applying all translations from constraint templates to CNF.
 	   </li>
 	  </ol>
 	 </li>
-	 <li> Call this result list a formal pseudo-constraint list. 
+	 <li> Call this result list a formal pseudo-constraint list.
 	 </li>
 	 <li> The point here is that if there are only constraints
 	 in the input, which are rewritable to CNFs, then the result is simply
@@ -813,15 +889,15 @@ rewrite_all_csttl_fast(cstl,rewrite_map) := block(
        </li>
        <li> Constraint list to CNF clause list mapping function:
         <ul>
-	 <li> This function should take as an argument a list of constraint 
+	 <li> This function should take as an argument a list of constraint
 	 templates. </li>
-	 <li> The result should be a formal CNF clause-list representing the 
+	 <li> The result should be a formal CNF clause-list representing the
          constraint system. </li>
-	 <li> Auxilliary functions which translate individual constraint 
+	 <li> Auxilliary functions which translate individual constraint
 	 templates into clause-lists are also necessary (and exist for the
 	 most part). </li>
 	 <li> Additionally, constraints such as equality constraints should
-	 be rewritten, to simple replace literals with their equivalent 
+	 be rewritten, to simple replace literals with their equivalent
 	 literals, although there are different options which
 	 should be represented by different rewrite functions. </li>
 	</ul>
@@ -835,13 +911,13 @@ rewrite_all_csttl_fast(cstl,rewrite_map) := block(
 	 and can be recursively calculated based on sub-namespaces. </li>
 	</ul>
        </li>
-       <li> (DONE Replaced with variable generator) 
+       <li> (DONE Replaced with variable generator)
        Variable to integer mapping function:
         <ul>
 	 <li> Take as an argument a variable. </li>
 	 <li> Return the integer representing that variable. </li>
 	 <li> Note that the argument may have unevaluated namespaces
-	 surrounding it, and these can then be used by the mapping 
+	 surrounding it, and these can then be used by the mapping
 	 function to determine the correct mapping. </li>
 	 <li> Such a mapping function should exist for each namespace,
 	 where the mapping from the set of all variables V(N) in a namespace
@@ -852,7 +928,7 @@ rewrite_all_csttl_fast(cstl,rewrite_map) := block(
 	</ul>
        </li>
        <li> (DONE Replaced with variable generator)
-       Integer to variable mapping function - simply the inverse of the 
+       Integer to variable mapping function - simply the inverse of the
        "Variable to integer mapping function". </li>
       </ul>
      </li>
@@ -860,20 +936,20 @@ rewrite_all_csttl_fast(cstl,rewrite_map) := block(
      <ul>
       <li> To translate AES one would call a rewrite all constraint
       function called "rewrite_all_csttl", which would take as an argument a
-      list containing only a constraint called "aes_cst", where 
-      arguments for the constraint are the variables of AES 
-      (plaintext, key and ciphertext), along with a list of arguments, which 
+      list containing only a constraint called "aes_cst", where
+      arguments for the constraint are the variables of AES
+      (plaintext, key and ciphertext), along with a list of arguments, which
       would include the identity as the namespace (i.e., "lambda([a],a)"), and
       then additionally arguments specifying which translation is used for the
-      Sbox, field multiplications, and whether one should include the 
+      Sbox, field multiplications, and whether one should include the
       mixcolumn inverse operation etc. </li>
       <li> So for example:
       \verbatim
 rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a)]]);
       \endverbatim
       </li>
-      <li> "rewrite_all_csttl" would then call constraint rewrite 
-      function, called for instance, "aes_cstr_cstl", which would take as an 
+      <li> "rewrite_all_csttl" would then call constraint rewrite
+      function, called for instance, "aes_cstr_cstl", which would take as an
       argument, the constraint, along with a rewrite mapping. </li>
       <li> aes_cstr_cstl would then translate this into a list of constraints,
       such as "aes_subbytes_cst", for which all newly introduced
@@ -887,7 +963,7 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
       produced constraints, and existing constraints
       until all constraint rewrite functions have been applied
       in the order specified by the given rewrite mapping. </li>
-      <li> The result of "rewrite_all_csttl" is then a set of constraints 
+      <li> The result of "rewrite_all_csttl" is then a set of constraints
       which can no longer be rewritten into smaller
       constraints. </li>
       <li> At this point one can then call a "translate to CNF" function
@@ -899,7 +975,7 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
       <li> MG needs to alter the currently implemented parts of the new system
       to take account of the altered specification (change from notions of
       constraint templates to simply constraints). </li>
-      <li> (DONE) MG should see 
+      <li> (DONE) MG should see
       Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
       and replace the functional notation used in the new system with
       lists and clarify the distinction between constraint templates
@@ -923,7 +999,7 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
    </li>
    <li> The advantages here are that:
     <ul>
-     <li> The system avoids pushing type information into the constraint 
+     <li> The system avoids pushing type information into the constraint
      object itself, and is therefore more in line with the rest of the
      OKlibrary. </li>
      <li> Determining the number of any given type of constraint is much
@@ -945,13 +1021,13 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
   \todo DONE Move notion of AES constraints to separate module/unit
   <ul>
    <li> The representation of components of the AES as constraints
-   and the evaluation of these constraints is separate from the 
+   and the evaluation of these constraints is separate from the
    rewriting of these constraints (constraints, plus additional information).
    </li>
-   <li> The AES implementation at 
-   Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac 
-   should be updated to take the same arguments as each of the constraints 
-   used within this system (no global variables like aes_num_rounds), so one 
+   <li> The AES implementation at
+   Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac
+   should be updated to take the same arguments as each of the constraints
+   used within this system (no global variables like aes_num_rounds), so one
    can evaluate the constraints generated by the rewrite functions. </li>
    <li> Doing this also allows various todos to be moved into a separate
    todo file. </li>
