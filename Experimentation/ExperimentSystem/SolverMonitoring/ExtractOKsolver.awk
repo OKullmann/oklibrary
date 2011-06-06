@@ -37,6 +37,6 @@ BEGIN {
 /^c number_of_new_2-clauses/ { n2cs=$3; }
 /^c maximal_number_of_added_2-clauses/ { m2cs=$3; }
 END { 
-  print n " " c " " l " " t " " sat " " nds " " r1 " " r2 " " pls " " ats " "
-    h " \"" file "\" " n2cr " " dmcl " " dn " " dc " " dl " " snds " " qnds " "
-    mnds " " tel " " oats " " n2cs " " m2cs; }
+  print n " " c " " l " " t " " sat " " nds " " r1 " " r2 " " pls " " ats " " \
+    h " \"" file "\" " n2cr " " dmcl " " dn " " dc " " dl " " snds " " \
+    qnds " " mnds " " tel " " oats " " n2cs " " m2cs; }

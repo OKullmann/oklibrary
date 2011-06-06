@@ -23,4 +23,5 @@ BEGIN { n=0;c=0;t=0;sat=2;cfs=0;dec=0;rts=0;r1=0;mem=0;ptime=0;stime=0;cfl=0; }
 /^\|  *Pars(e|ing) time:/ { ptime=$4; }
 /^\|  *Simplification time:/ { stime=$4; }
 /^conflict literals +:/ { cfl=$4; }
-END { print n " " c " " t " " sat " " cfs " " dec " " rts " " r1 " " mem " " ptime " " stime " " cfl; }
+END { print n " " c " " t " " sat " " cfs " " dec " " rts " " r1 " " mem " " \
+        ptime " " stime " " cfl; }

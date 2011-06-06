@@ -41,10 +41,10 @@ BEGIN {
 /^c +doms: [0-9]+ dominators, [0-9]+ high,/ { dom=$3; domh=$5; domlow=$7; }
 /^c +prps: [0-9]+ propagations, [0-9]+.[0-9]+ megaprops/ { r1=$3; mpr=$5; }
 END {
-  print n " " c " " t " " sat " " cfs " " dec " " rts " " r1 " " mem " " rnd " "
-    its " " skip " " enl " " shk " " resc " " rebi " " simp " " red " " nfix " "
-    neq " " nel " " nmg " " sb " " sbn " " sba " " sbx " " sbi " " ar " "
-    arx " " pb " " pbph " " pbr " " pbf " " pblf " " pbmg " " sccnt " " sccf " "
-    sccm " " hshu " " hshm " " minln " " mindel " " minst " " mind " " subf " "
-    subb " " subdm " " strf " " strb " " dom " " domh " " domlow " " mpr " " 
-    memr }
+  print n " " c " " t " " sat " " cfs " " dec " " rts " " r1 " " mem " " \
+    rnd " " its " " skip " " enl " " shk " " resc " " rebi " " simp " " \
+    red " " nfix " " neq " " nel " " nmg " " sb " " sbn " " sba " " sbx " " \
+    sbi " " ar " " arx " " pb " " pbph " " pbr " " pbf " " pblf " " pbmg " " \
+    sccnt " " sccf " " sccm " " hshu " " hshm " " minln " " mindel " " \
+    minst " " mind " " subf " " subb " " subdm " " strf " " strb " " dom " " \
+    domh " " domlow " " mpr " " memr }

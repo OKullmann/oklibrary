@@ -60,17 +60,17 @@ BEGIN {
   nfix=$3; neq=$5; nel=$7; npur=$9; nzmb=$11; naut=$13; }
 /^c zmbs: 0 = 0 explicit + 0 elim + 0 blkd + 0 autark/ { zmb=$3; zmbexp=$5; zmbel=$8; zmbblk=$11; }
 END {
-  print n " " c " " t " " sat " " cfs " " dec " " rts " " r1 " " pls " "
-    ats " " mem " " ptime " \"" file "\" " rnd " " its " " skip " " enl " "
-    shk " " resc " " rebi " " simp " " red " "  ar " " arx " " atssz " " bck " "
-    bckct " " bckj " " bckjln " " blkres " " blkph " " blkr " " blk " "
-    blkimp " " blkexp " " clsrec " " clspur " " clsaut " " dom " " domh " "
-    domlow " " elres " " elph " " elr " " extf " " extass " " extfl " " glu " "
-    glusl " " minln " " mindel " " minst " " mininv " " mind " " otfsd " "
-    otfsd2 " " otfsd3 " " otfsdlg " " otfss " " otfss2 " " otfss3 " "
-    otfsslg " " pb " " pbph " " pbr " " pbf " " pblf " " pbmg " " mpr " "
-    plexp " " plel " " plblk " " plaut " " sb " " sbn " " sba " " sbx " "
-    sbi " " sccnt " " sccf " " sccm " " strf " " strb " " strdyn " "
-    strorg " " strasy " " subf " " subb " " subdyn " " suborg " " subdm " "
-    subgc " " srtime " " otime " " nfix " " neq " " nel " " npur " " nzmb " "
+  print n " " c " " t " " sat " " cfs " " dec " " rts " " r1 " " pls " " \
+    ats " " mem " " ptime " \"" file "\" " rnd " " its " " skip " " enl " " \
+    shk " " resc " " rebi " " simp " " red " "  ar " " arx " " atssz " " \
+    bck " " bckct " " bckj " " bckjln " " blkres " " blkph " " blkr " " \
+    blk " " blkimp " " blkexp " " clsrec " " clspur " " clsaut " " dom " " \
+    domh " " domlow " " elres " " elph " " elr " " extf " " extass " " \
+    extfl " " glu " " glusl " " minln " " mindel " " minst " " mininv " " \
+    mind " " otfsd " " otfsd2 " " otfsd3 " " otfsdlg " " otfss " " otfss2 " " \
+    otfss3 " " otfsslg " " pb " " pbph " " pbr " " pbf " " pblf " " pbmg " " \
+    mpr " " plexp " " plel " " plblk " " plaut " " sb " " sbn " " sba " " \
+    sbx " " sbi " " sccnt " " sccf " " sccm " " strf " " strb " " strdyn " " \
+    strorg " " strasy " " subf " " subb " " subdyn " " suborg " " subdm " " \
+    subgc " " srtime " " otime " " nfix " " neq " " nel " " npur " " nzmb " " \
     naut " " zmb " " zmbexp " " zmbel " " zmbblk " " memr; }

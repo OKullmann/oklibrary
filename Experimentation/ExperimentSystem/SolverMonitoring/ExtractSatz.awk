@@ -18,5 +18,5 @@ BEGIN {
 /^real	[0-9]+m[0-9\.]+s/ { 
   split($2,tarr,"m"); sub(/s/,"", tarr[2]); t=tarr[1]*60 + tarr[2]; }
 END { 
-  print n " " c " " t " " sat " " nds " " r1 " " pls " " file " " bck " "
+  print n " " c " " t " " sat " " nds " " r1 " " pls " " file " " bck " " \
     src " " fix " " dc " " src2 " " fix2; }
