@@ -630,6 +630,54 @@ c number_of_2-reductions                829
 c max_tree_depth                        20
 c splitting_cases                       251590
 
+> SplittingViaOKsolver -D22 VanDerWaerden_2-5-7_260.cnf
+> more Md5sum
+26ac75768382fd0367a80d8a399b0a52
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  22.00   22.00   22.00   22.56   23.00   36.00
+> table(E$n)
+    22     23     24     25     26     27     28     29     30     31     32
+478980 131515  70627  22974   9576   2898   1043    396    140     65     29
+    33     34     35     36
+    10      8      3      2
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         7
+c initial_number_of_variables           260
+c initial_number_of_clauses             13824
+c initial_number_of_literal_occurrences 80128
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     38803.0
+c number_of_nodes                       1436531
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                3165
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        22
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-5-7_260.cnf
+c splitting_directory                   SplitViaOKsolver_D22VanDerWaerden_257_260cnf_2011-06-04-174027/Instances
+c splitting_cases                       718266
+
+> cd Instances
+> OKP=~/SAT-Algorithmen/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
    \endverbatim
    </li>
   </ul>

@@ -166,6 +166,9 @@ FlipsPerSecond = 36925
 249,251,256
   \endverbatim
    </li>
+   <li> See
+   RamseyTheory/VanderWaerdenProblems/plans/Parallelisation/general.hpp
+    for attacking the problem via distributed solving. </li>
    <li> Using the palindromic solution for n=235:
     <ol>
      <li> Starting search with the best palindromic solution:

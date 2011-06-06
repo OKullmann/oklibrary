@@ -152,7 +152,7 @@ c splitting_cases                       104797
 
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
-
+104797: 40.23h, sum-cfs=3.723995e+09, mean-t=1.382s, mean-cfs=35535
    \endverbatim
    </li>
   </ul>
