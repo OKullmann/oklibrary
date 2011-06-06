@@ -10,6 +10,82 @@ License, or any later version. */
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
 
+  \bug output_ss_fcl_std runs out of memory generating one round AES
+  <ul>
+   <li> Running the following:
+   \verbatim
+oklib_load_all()$
+num_rounds : 1$
+num_columns : 4$
+num_rows : 4$
+exp : 8$
+final_round_b : false$
+box_tran : aes_ts_box$
+seed : 1$
+mc_tran : aes_mc_bidirectional$
+output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
+   \endverbatim
+   results in the following error:
+   \verbatim
+Maxima encountered a Lisp error:
+
+ Memory limit reached. Please jump to an outer pointer, quit program and enlarge the
+memory limits before executing the program again.
+   \endverbatim
+   </li>
+   <li> The Maxima memory limit is 2GB. </li>
+   <li> Using "oklib_monitor : true$", to watch the progress of the function,
+   shows us that Maxima runs out of memory when it runs standardise_fcl
+   in output_ss_fcl_std. </li>
+   <li> Before standardise_fcl is called, Maxima uses around 300MB. This
+   is as seen from the "top" command. </li>
+   <li> There are two issues here:
+    <ol>
+     <li> The translated AES clause-set F is far larger than it needs to be:
+      <ul>
+       <li> F has 31400 variables. </li>
+       <li> F has 1510056 literal occurrences. </li>
+       <li> If each literal was stored as a 32-bit integer, then F should
+       take up 1510056 * 4 / (1024 * 1024) = ~5.8MB in memory. </li>
+       <li> However, each literal in F is an unevaluated composition
+       of nounified Maxima functions terms. The string representation
+       of this function could be > 200 characters. </li>
+       <li> How does Maxima store functions terms? </li>
+      </ul>
+     </li>
+     <li> Passing F standardise_fcl seems to balloon the memory use from
+     ~300MB to >2GB:
+      <ul>
+       <li> Redefining rename_fcl to:
+       \verbatim
+rename_fcl(FF,VL) := block(local(h),
+  for V in map("[", FF[1], VL) do h[V[1]] : V[2],
+  return([create_list(i,i,1,length(FF[1])),
+   map(
+     lambda([C], (
+       map(lambda([L], if L > 0 then h[L] else -h[-L]), C))), FF[2])]))$
+       \endverbatim
+       before running output_ss_fcl_std results in Maxima using only
+       ~500MB and running output_fcl_v. </li>
+       <li> Does the use of Maxima's associative arrays reduce memory usage?
+       Perhaps the conversion of hash keys to strings causes a blow-up in
+       memory? </li>
+       <li> Does the inlining of functions such as substitutetotal_cl
+       and substitutetotal_c result in less copying and therefore less
+       memory usage?
+        <ul>
+         <li> This shouldn't be the case as Maxima lists are passed
+         by reference. </li>
+         <li> However, various calls to map might create new lists. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Handling external data
   <ul>
    <li> We need to offer translations of the AES which use
