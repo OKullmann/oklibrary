@@ -204,4 +204,301 @@ function which handles all these aspects is needed ???
 
   \todo Move into separate sub-module
 
+
+  \todo Applying SplittingViaOKsolver
+  <ul>
+   <li> First what apparently should be the canonical translation for the
+   boxes as 10-bit functions, corrected in the most obvious places:
+   \verbatim
+unknown_bits : 27$
+sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
+F : des2fcl(sbox_fcl_l)$
+P : des_plain2fcl(hexstr2binv("038E596D4841D03B"))$
+C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
+K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
+Fs : standardise_fcl([F[1],append(F[2],P[2],K[2],C[2])])$
+output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key bits undefined."), Fs[1], sconcat("des_b",unknown_bits,".cnf"), Fs[2]);
+   \endverbatim
+   </li>
+   <li> Basic statistics are
+   \verbatim
+> UB=27
+> cat des_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+10112 95525 277669 0 277669 10113 1
+ length count
+1 165
+2 81920
+3 5120
+11 8192
+64 128
+
+> cat des_b${UB}.cnf | UnitClausePropagationW-O3-DNDEBUG > des_ucp_b${UB}.cnf
+> cat des_ucp_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+10112 83526 241826 0 241826 10118 1
+ length count
+2 73441
+3 2692
+4 6
+6 2
+7 24
+8 81
+11 7168
+64 112
+   \endverbatim
+   These statistics need explanation. </li>
+   <li> Determining a reasonable splitting-depth:
+   \verbatim
+> SplittingViaOKsolver -D0 des_ucp_b${UB}.cnf
+> more SplitViaOKsolver_D0des_ucp_b${UB}cnf_2011-06-05-111558/Statistics
+37
+ 1
+
+> SplittingViaOKsolver -D40 des_ucp_b${UB}.cnf
+233
+  2
+
+> SplittingViaOKsolver -D240 des_ucp_b${UB}.cnf
+${UB}4
+  4
+
+> SplittingViaOKsolver -D300 des_ucp_b${UB}.cnf
+406 436
+  4   8
+
+> SplittingViaOKsolver -D410 des_ucp_b${UB}.cnf
+436
+ 16
+
+> SplittingViaOKsolver -D450 des_ucp_b${UB}.cnf
+463
+ 32
+
+> SplittingViaOKsolver -D480 des_ucp_b${UB}.cnf
+573 633
+ 64  64
+
+> SplittingViaOKsolver -D580 des_ucp_b${UB}.cnf
+633 680 688
+ 64  64  64
+
+> SplittingViaOKsolver -D640 des_ucp_b${UB}.cnf
+680 688
+128 128
+
+> SplittingViaOKsolver -D685 des_ucp_b${UB}.cnf
+686 688
+256 128
+
+> SplittingViaOKsolver -D688 des_ucp_b${UB}.cnf
+688 736 746 756
+128 128 256 128
+   \endverbatim
+   Clearly something systematic is going in, which needs to be explored. </li>
+   <li>
+   \verbatim
+> cd SplitViaOKsolver_D688des_ucp_b${UB}cnf_2011-06-05-114707/
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  688.0   736.0   746.0   734.4   746.0   756.0
+> table(E$n)
+688 736 746 756
+128 128 256 128
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         64
+c initial_number_of_variables           8962
+c initial_number_of_clauses             83526
+c initial_number_of_literal_occurrences 241826
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   73441
+c running_time(sec)                     720.5
+c number_of_nodes                       1279
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                9646
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        10
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             des_ucp_b27.cnf
+c splitting_directory                   SplitViaOKsolver_D688des_ucp_b27cnf_2011-06-05-114707/Instances
+c splitting_cases                       640
+
+> cd Instances
+> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+1 ... 73 UNEXPECTED RETURN VALUE 10\!
+real    19m28.193s
+user    19m24.485s
+sys     0m1.344s
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+73: 0.32h, sum-cfs=1.459788e+06, mean-t=15.697s, mean-cfs=19997
+   \endverbatim
+   As one can see, this approach holds great promisses. </li>
+   <li> Now with 35 unknown bits (continuing the above Maxima-computation):
+   \verbatim
+unknown_bits : 35$
+K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
+Fs : standardise_fcl([F[1],append(F[2],P[2],K[2],C[2])])$
+output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key bits undefined."), Fs[1], sconcat("des_b",unknown_bits,".cnf"), Fs[2]);
+
+> UB=35
+> cat des_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+10112 95517 277661 0 277661 10113 1
+ length count
+1 157
+2 81920
+3 5120
+11 8192
+64 128
+> cat des_b${UB}.cnf | UnitClausePropagationW-O3-DNDEBUG > des_ucp_b${UB}.cnf
+> cat des_ucp_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+10112 84608 245120 0 245120 10118 1
+ length count
+2 74100
+3 3024
+4 1
+7 4
+8 81
+9 80
+10 32
+11 7168
+16 5
+32 1
+64 112
+
+> SplittingViaOKsolver -D0 des_ucp_b${UB}.cnf
+0
+1
+
+> SplittingViaOKsolver -D5 des_ucp_b${UB}.cnf
+46 77
+ 1  1
+> SplittingViaOKsolver -D100 des_ucp_b${UB}.cnf
+193
+  4
+> SplittingViaOKsolver -D200 des_ucp_b${UB}.cnf
+234
+  8
+> SplittingViaOKsolver -D300 des_ucp_b${UB}.cnf
+305 373
+ 64  64
+> SplittingViaOKsolver -D400 des_ucp_b${UB}.cnf
+418 434
+128 128
+> SplittingViaOKsolver -D500 des_ucp_b${UB}.cnf
+> cd SplitViaOKsolver_D500des_ucp_b35cnf_2011-06-05-142032/
+> more Md5sum
+b6448203fbb62d3c864c08e89ea5b0cd
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  505.0   519.0   577.0   564.4   598.0   620.0
+> table(E$n)
+505 513 521 561 569 577 585 596 604 610 612 618 620
+512 256 256 256 128 384 256 256 128 256 128 128 128
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         64
+c initial_number_of_variables           9073
+c initial_number_of_clauses             84608
+c initial_number_of_literal_occurrences 245120
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   74100
+c running_time(sec)                     4293.6
+c number_of_nodes                       6143
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                47788
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        12
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             des_ucp_b35.cnf
+c splitting_directory                   SplitViaOKsolver_D500des_ucp_b35cnf_2011-06-05-142032/Instances
+c splitting_cases                       3072
+
+> cd Instances
+> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+# Aborted
+Instances> tail Stats
+ i n t sat cfs dec rts r1 mem ptime stime cfl
+1 10112 78088 11198.5 0 5438716 6201208 8464 18222770660 173.00 0.03 0.04 288629608
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+
+> SplittingViaOKsolver -D600 des_ucp_b${UB}.cnf
+> more Md5sum
+80ea472f725f825a7fdc01ee265884f9
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  601.0   624.5   723.0   694.0   737.0   745.0
+> table(E$n)
+ 601  604  610  612  618  620  626  634  715  723  737  745
+ 256  256  256  256  256  256  256  256  768  512 1792 1024
+> more Result
+c running_time(sec)                     10094.9
+c number_of_nodes                       12287
+c number_of_2-reductions                62412
+c max_tree_depth                        13
+c splitting_cases                       6144
+
+> cd Instances
+> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+# Aborted
+> cat Stats
+ i n t sat cfs dec rts r1 mem ptime stime cfl
+1 10112 76731 1004.16 0 847267 976918 1796 3553672413 107.00 0.03 0.04 28968805
+2 10112 76731 764.748 0 735776 808505 1534 3241826510 84.00 0.03 0.04 20171828
+3 10112 76731 740.549 0 769142 882894 1627 2958263481 114.00 0.03 0.04 28677199
+4 10112 76731 1744.42 0 1215076 1401107 2301 4156482006 91.00 0.03 0.04 48238569
+5 10112 76731 1279.79 0 721716 793579 1534 3640664306 84.00 0.04 0.07 16922471
+6 10112 76731 1243.12 0 731168 816242 1534 2735598762 132.00 0.05 0.06 29142121
+7 10112 76731 1227.7 0 738869 833943 1534 3171143916 92.00 0.04 0.07 23929650
+8 10112 76731 1902.28 0 1133544 1299501 2077 4429735974 91.00 0.04 0.06 40980923
+9 10112 76731 1175.01 0 751187 833601 1565 2975769953 87.00 0.05 0.07 23208699
+10 10112 76731 1039.99 0 626715 682545 1326 2702304667 95.00 0.04 0.07 19029727
+11 10112 76731 1221.4 0 807618 895448 1724 2873258239 84.00 0.04 0.07 29330746
+12 10112 76731 1009.75 0 675993 742704 1467 2799526491 96.00 0.05 0.07 20747437
+13 10112 76731 937.177 0 584729 632928 1244 2599219882 54.00 0.04 0.07 14297574
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+13: 4.25h, sum-cfs=1.033880e+07, mean-t=1176.161s, mean-cfs=795292
+
+> SplittingViaOKsolver -D800 des_ucp_b${UB}.cnf
+
+   \endverbatim
+   Interesting that these 13 sub-instances are so much harder than the
+   instances for 27 unknown bits. </li>
+  </ul>
+
 */
