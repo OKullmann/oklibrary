@@ -83,11 +83,10 @@ shell> minisat-2.2.0 25-shuffled_test.cnf
   </ul>
 
 
-  \todo Canonical+ translation comparison to Argosat-desgen example
+  \todo Canonical+ translation
   <ul>
-   <li> Generating the instances for 16 rounds using the canonical translation:
-??? this contradicts the title ???
-??? what is translated ???
+   <li> Translating the full 16 round DES key discovery problem using the
+   canonical+ translation:
    \verbatim
 unknown_bits : 13$
 sbox_fcl_l : create_list(dualtsplus_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
@@ -95,16 +94,48 @@ F : des2fcl(sbox_fcl_l)$
 P : des_plain2fcl(hexstr2binv("038E596D4841D03B"))$
 C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
 K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
-F_std : standardise_fcs([F[1],append(F[2],P[2],K[2],C[2])])$
-output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std[1] , sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
-
-??? what are the sizes etc. ???
-
-??? what is meant here with "DES ArgoSat comparison" ??? first of all, these
-instances have nothing to do with "ArgoSat", and the main point is the
-form of translation ! ???
+Fs : standardise_fcl([F[1],append(F[2],P[2],K[2],C[2])])$
+output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key bits undefined."), Fs[1], sconcat("des_b",unknown_bits,".cnf"), Fs[2]);
    \endverbatim
    </li>
+   <li> Basic statistics are
+   \verbatim
+> UB=13
+> cat des_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+10112 98099 362163 0 362163 10113 1
+ length count
+1 179
+2 81920
+3 5120
+11 8192
+33 2560
+64 128
+> cat des_b${UB}.cnf | UnitClausePropagationW-O3-DNDEBUG > des_ucp_b${UB}.cnf
+> cat des_ucp_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+10104 77910 286532 0 286532 10118 1
+ length count
+2 66927
+3 2016
+4 59
+5 56
+6 8
+7 20
+8 63
+9 58
+10 227
+11 6272
+15 2
+16 16
+17 102
+18 10
+19 2
+32 14
+33 1960
+64 98
+   \endverbatim
+   These statistics need explanation. </li>
    <li> Instances with unknown key bits up to 18 all take less than a
    minute. This includes the OKsolver_2002. </li>
    <li> Solving time (ranked best to worst):
@@ -131,31 +162,52 @@ form of translation ! ???
   </ul>
 
 
-  \todo Canonical translation comparison to Argosat-desgen example
+  \todo Canonical translation
   <ul>
-   <li> Generating the instances for 16 rounds using the canonical translation:
+   <li> Translating the full 16 round DES key discovery problem using the
+   canonical translation:
    \verbatim
-??? what is translated ???
-
 unknown_bits : 13$
 sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
 F : des2fcl(sbox_fcl_l)$
 P : des_plain2fcl(hexstr2binv("038E596D4841D03B"))$
 C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
 K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
-F_std : standardise_fcs([F[1],append(F[2],P[2],K[2],C[2])])$
-??? F_std is a fcl ???
-output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std[1], sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
-??? F_std is a fcl ???
-
-??? again "DES ArgoSat comparison" is inappropriate, and what are the
-parameters ???
-
+Fs : standardise_fcl([F[1],append(F[2],P[2],K[2],C[2])])$
+output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key bits undefined."), Fs[1], sconcat("des_b",unknown_bits,".cnf"), Fs[2]);
 ??? blind standardisation is not appropriate here; obviously a well-defined
 function which handles all these aspects is needed ???
 
    \endverbatim
    </li>
+   <li> Basic statistics are
+   \verbatim
+> UB=13
+> cat des_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+10112 95539 277683 0 277683 10113 1
+ length count
+1 179
+2 81920
+3 5120
+11 8192
+64 128
+> cat des_b${UB}.cnf | UnitClausePropagationW-O3-DNDEBUG > des_ucp_b${UB}.cnf
+> cat des_ucp_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+10104 81135 234596 0 234596 10118 1
+ length count
+2 71850
+3 2088
+4 5
+6 20
+7 20
+10 128
+11 6912
+32 4
+64 108
+   \endverbatim
+   These statistics need explanation. </li>
    <li> Instances with unknown key bits up to 13 all take less than 5s,
    except the OKsolver_2002 which takes 73.5s (203 nodes). </li>
    <li> Solving time (ranked best to worst):
