@@ -495,10 +495,30 @@ c splitting_cases                       6144
 13: 4.25h, sum-cfs=1.033880e+07, mean-t=1176.161s, mean-cfs=795292
 
 > SplittingViaOKsolver -D800 des_ucp_b${UB}.cnf
+> more Md5sum
+3ab10361c7312e3f8c95e374cad26a65
+> more Statistics
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  800.0   828.0   832.0   849.4   850.0   929.0
+ 800  826  828  830  832  842  845  849  850  878  882  929
+1024 1024 3072 1024 3072 1024 1024 1024 1024 1024 1024 2048
+> more Result
+c running_time(sec)                     24976.9
+c number_of_nodes                       34815
+c number_of_2-reductions                102604
+c max_tree_depth                        15
+c splitting_cases                       17408
+
+> cd Instances
+> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 
    \endverbatim
-   Interesting that these 13 sub-instances are so much harder than the
-   instances for 27 unknown bits. </li>
+   Interesting that the 13 sub-instances for D=600 are so much harder than the
+   instances for 27 unknown bits. And the instances for D=800 are still much
+   harder. </li>
   </ul>
 
 */
