@@ -17,7 +17,7 @@ BEGIN {
 /^c initial_number_of_literal_occurrences/ { l=$3; }
 /^c running_time\(sec\)/ { t=$3; }
 /^c sat_status/ { sat=$3; }
-/^c number_of_nodes +:/ { nds=$3; }
+/^c number_of_nodes +/ { nds=$3 }
 /^c number_of_initial_unit-eliminations/ { r1=$3; }
 /^c number_of_2-reductions/ { r2=$3; }
 /^c number_of_pure_literals/ { pls=$3; }
