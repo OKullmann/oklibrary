@@ -138,6 +138,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Cons
 */
 
 declare(aes_small_box, noun)$
+declare(aes_full_box, noun)$
 declare(aes_ts_box, noun)$
 declare(aes_rbase_box, noun)$
 declare(aes_mc_forward, noun)$
@@ -239,6 +240,8 @@ ss_fcl(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran)
       ss_pi_translation_mapping
     else if box_tran = aes_rbase_box then
       ss_rbase_translation_mapping
+    else if box_tran = aes_full_box then
+      ss_full_translation_mapping
     else
       ss_ts_translation_mapping))$
 
@@ -1048,7 +1051,7 @@ ss_rbase_translation_mapping : [
 
 /* Translation mapping, mapping constraint templates to the corresponding
    translation functions where constraints are translated to representations
-   using subsets of the prime implicates: */
+   using the canonical translation: */
 ss_ts_translation_mapping : [
   ["ss_add_cst", [aes_add_cst_cl, lambda([[a]],[])]],
   ["const_cst", [aes_const_cst_cl, lambda([[a]],[])]],
@@ -1058,6 +1061,19 @@ ss_ts_translation_mapping : [
   ["ss_round_column_cst",
     [ss_round_column_ts_cst_cl, ss_round_column_ts_var_l]],
   ["ss_mixcolumn_cst", [ss_mixcolumn_ts_cst_cl, ss_mixcolumn_ts_var_l]]]$
+
+/* Translation mapping, mapping constraint templates to the corresponding
+   translation functions where constraints are translated to representations
+   using the canonical CNF: */
+ss_full_translation_mapping : [
+  ["ss_add_cst", [aes_add_cst_cl, lambda([[a]],[])]],
+  ["const_cst", [aes_const_cst_cl, lambda([[a]],[])]],
+  ["ss_mul_cst", [ss_mul_full_cst_cl, lambda([[a]],[])]],
+  ["ss_sbox_cst", [ss_sbox_full_cst_cl, lambda([[a]],[])]],
+  ["ss_sbox_w_mul_cst", [ss_sbox_w_mul_full_cst_cl, lambda([[a]],[])]],
+  ["ss_round_column_cst",
+    [ss_round_column_full_cst_cl, lambda([[a]],[])]],
+  ["ss_mixcolumn_cst", [ss_mixcolumn_full_cst_cl, lambda([[a]],[])]]]$
 
 /*!
 \endhtmlonly

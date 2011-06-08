@@ -1212,6 +1212,18 @@ ss_sbox_pi_cst_cl(cst) := block([ss_arg_l,
     rename_fcl(map(listify,ev_hm(ss_sbox_cnfs,ss_exp)),cst[2])[2])
   )$
 
+/* Returns the canonical CNF clauses representing the sbox relation
+   given the appropriate sbox constraint ("ss_sbox_cst" with 16 variables
+   in the constraint).
+*/
+ss_sbox_full_cst_cl(cst) := block([ss_arg_l, ss_exp],
+  ss_arg_l : cstt_args_l(cst),  ss_exp : ss_arg_l[2],
+  return(
+    rename_fcl(
+      fcs2fcl(ss_sbox_fullcnf_fcs(2,ss_exp,ss_polynomial(2,ss_exp))),
+      cst[2])[2])
+  )$
+
 /* Takes an "ss_sbox_cst" constraint with the small scale base, exponent,
    modulo polynomial, sbox_matrix and affine constant and returns the
    smallest known (in terms of number of clauses) r_1 base for the AES Sbox
@@ -1274,6 +1286,20 @@ ss_sbox_w_mul_ts_var_l(cst) := block([bits : cst[2],namespace],
   namespace : cstt_namespace_new(ss_sbox_w_mul_ts_namespace,cst),
   generate_ss_constraint_vars(1,2^(length(bits)/2), namespace,nounify(sbox_w_mul_ts)))$
 
+ss_sbox_w_mul_full_cst_cl(cst) := block(
+  [bits : cst[2],namespace,ss_arg_l,ss_base,ss_exp,ss_poly,ss_elem],
+  ss_arg_l : cstt_args_l(cst),
+  ss_elem : ss_arg_l[1],
+  ss_base : ss_arg_l[2],
+  ss_exp : ss_arg_l[3],
+  ss_poly : ss_arg_l[4],
+  namespace : cstt_namespace_new(ss_sbox_w_mul_ts_namespace,cst),
+  rename_fcl(
+    fcs2fcl(
+      bf2relation_fullcnf_fcs(
+        lambda([V],ss_sbox_w_mul_bf(V,ss_elem,ss_base,ss_exp)),ss_exp)),
+    append(bits))[2])$
+
 ss_sbox_w_mul_ts_cst_cl(cst) := block(
   [bits : cst[2],namespace,ss_arg_l,ss_base,ss_exp,ss_poly,ss_elem],
   ss_arg_l : cstt_args_l(cst),
@@ -1303,6 +1329,20 @@ ss_mul_pi_cst_cl(cst) := block([ss_arg_l,ss_element,
   return(
     rename_fcl(map(listify,ev_hm(ss_field_cnfs,
           [ss_exp,poly2nat(ss_element,ss_base)])),
+      cst[2])[2])
+  )$
+
+
+ss_mul_full_cst_cl(cst) := block([ss_arg_l,ss_element,
+  ss_base, ss_exp,ss_poly],
+  ss_arg_l : cstt_args_l(cst),
+  ss_element : ss_arg_l[1],
+  ss_base : ss_arg_l[2],
+  ss_exp : ss_arg_l[3],
+  ss_poly : ss_arg_l[4],
+  return(
+    rename_fcl(
+      fcs2fcl(ssmult_fullcnf_fcs(poly2nat(ss_element,ss_base), ss_base,ss_exp, ss_poly)),
       cst[2])[2])
   )$
 
@@ -1396,8 +1436,61 @@ ss_mixcolumn_ts_cst_cl(cst) := block(
       generate_ss_constraint_vars(1,2^(length(bits)/2),
         namespace,nounify(mixcolumn_ts))))[2])$
 
+ss_mixcolumn_full_cst_cl(cst) := block([ss_arg_l,ss_base,ss_exp,ss_poly,
+   ss_element, ss_sbox_matrix, ss_sbox_affine_constant, ss_mixcolumns_matrix,
+   ss_num_rows],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rows : ss_arg_l[1],
+  ss_base : ss_arg_l[2],
+  ss_exp : ss_arg_l[3],
+  ss_poly : ss_arg_l[4],
+  ss_mixcolumns_matrix : ss_arg_l[5],
+  return(
+    rename_fcl(
+      fcs2fcl(bf2relation_fullcnf_fcs(
+          lambda([V], ss_mixcolumn_gen_bf(V,ss_base,ss_exp,ss_poly,ss_mixcolumns_matrix)),
+          ss_exp*ss_num_rows)),
+      cst[2])[2])
+  )$
+
 /* Translating the whole round on one column:
 */
+
+ss_round_column_pi_cst_cl(cst) := block([ss_arg_l,ss_base,ss_exp,ss_poly,
+   ss_element, ss_sbox_matrix, ss_sbox_affine_constant, ss_mixcolumns_matrix,
+   ss_num_rows],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rows : ss_arg_l[1],
+  ss_base : ss_arg_l[2],
+  ss_exp : ss_arg_l[3],
+  ss_poly : ss_arg_l[4],
+  ss_sbox_matrix : ss_arg_l[5],
+  ss_sbox_affine_constant : ss_arg_l[6],
+  ss_mixcolumns_matrix : ss_arg_l[7],
+  return(
+    rename_fcl(map(listify,ev_hm(ss_round_column_cnfs,
+          [ss_exp,ss_num_rows])),
+      cst[2])[2])
+  )$
+
+ss_round_column_full_cst_cl(cst) := block([ss_arg_l,ss_base,ss_exp,ss_poly,
+   ss_element, ss_sbox_matrix, ss_sbox_affine_constant, ss_mixcolumns_matrix,
+   ss_num_rows],
+  ss_arg_l : cstt_args_l(cst),
+  ss_num_rows : ss_arg_l[1],
+  ss_base : ss_arg_l[2],
+  ss_exp : ss_arg_l[3],
+  ss_poly : ss_arg_l[4],
+  ss_sbox_matrix : ss_arg_l[5],
+  ss_sbox_affine_constant : ss_arg_l[6],
+  ss_mixcolumns_matrix : ss_arg_l[7],
+  return(
+    rename_fcl(
+      fcs2fcl(bf2relation_fullcnf_fcs(
+          lambda([V], ss_round_column_gen_bf(V,ss_base,ss_exp,ss_poly,ss_mixcolumns_matrix)),
+          ss_exp*ss_num_rows)),
+      cst[2])[2])
+  )$
 
 ss_round_column_pi_cst_cl(cst) := block([ss_arg_l,ss_base,ss_exp,ss_poly,
    ss_element, ss_sbox_matrix, ss_sbox_affine_constant, ss_mixcolumns_matrix,
