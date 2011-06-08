@@ -87,10 +87,10 @@ shell> for r in $(seq 1 20); do
 done
      \endverbatim
      </li>
-     <li> The small box translation:
+     <li> The "minimum" box translation:
      \verbatim
-shell> mkdir ssaes_r1-20_c1_rw1_e4_f0_k1-1_aes_canon_box_aes_mc_bidirectional
-shell> cd ssaes_r1-20_c1_rw1_e4_f0_k1-1_aes_canon_box_aes_mc_bidirectional
+shell> mkdir ssaes_r1-20_c1_rw1_e4_f0_k1-1_aes_min_box_aes_mc_bidirectional
+shell> cd ssaes_r1-20_c1_rw1_e4_f0_k1-1_aes_min_box_aes_mc_bidirectional
 shell> oklib --maxima
 num_rows : 1$
 num_columns : 1$
