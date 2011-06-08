@@ -278,6 +278,33 @@ CPU time              : 2.61216 s
      <li> Now n=30:
      \verbatim
 > SplittingViaOKsolver -D30 VanDerWaerden_pd_2-5-9_447.cnf
+> more Md5sum
+48e67af9785a537c45a78f86c403346d
+> more Statistics
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  30.00   30.00   31.00   31.22   32.00   85.00
+    30     31     32     33     34     35     36     37     38     39     40
+682765 395286 238455 126854  63102  30353  15045   7750   4201   2493   1489
+    41     42     43     44     45     46     47     48     49     50     51
+   961    639    462    264    206    158    111     78     67     45     39
+    52     53     54     55     56     57     58     59     60     61     62
+    33     15     18     18     15      6      9      5      5      4      6
+    63     64     65     66     68     70     73     76     77     78     84
+     1      3      1      3      1      2      2      1      1      1      1
+    85
+     1
+> more Result
+c running_time(sec)                     65870.3
+c number_of_nodes                       3142047
+c number_of_2-reductions                68934
+c max_tree_depth                        29
+c splitting_cases                       1570975
+
+> cd Instances
+> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C "; fi; done
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 
      \endverbatim
      </li>
