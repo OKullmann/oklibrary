@@ -515,6 +515,8 @@ c splitting_cases                       17408
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 
+> SplittingViaOKsolver -D900 des_ucp_b${UB}.cnf
+
    \endverbatim
    Interesting that the 13 sub-instances for D=600 are so much harder than the
    instances for 27 unknown bits. And the instances for D=800 are still much

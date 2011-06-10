@@ -675,11 +675,23 @@ c splitting_cases                       718266
 
 > cd Instances
 > OKP=~/SAT-Algorithmen/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+# Aborted
+real    6164m6.490s
+user    6061m51.875s
+sys     16m52.403s
 
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+248: 100.96h, sum-cfs=3.898054e+09, mean-t=1465.519s, mean-cfs=15717959
+> summary(E$t)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+    1.724   167.900   593.200  1466.000  1428.000 25040.000
+> summary(E$cfs)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+    38260   2534000   7662000  15720000  16650000 216600000
    \endverbatim
-   </li>
+   So the problem is very hard, and further splitting is needed, at least
+   D=26. </li>
   </ul>
   
 */
