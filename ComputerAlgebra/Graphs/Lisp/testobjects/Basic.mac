@@ -212,12 +212,12 @@ okltest_parallel_edges_ogg_p(parallel_edges_ogg_p);
 okltest_parallel_edges_omug_p(parallel_edges_omug_p);
 okltest_parallel_edges_omugl_p(parallel_edges_omugl_p);
 
-okltest_irreflexive_gl(irreflexive_gl);
-okltest_irreflexive_mugl(irreflexive_mugl);
-okltest_irreflexive_gg(irreflexive_gg);
-okltest_irreflexive_ogl(irreflexive_ogl);
-okltest_irreflexive_omugl(irreflexive_omugl);
-okltest_irreflexive_ogg(irreflexive_ogg);
+okltest_irreflexive_gl_p(irreflexive_gl_p);
+okltest_irreflexive_mugl_p(irreflexive_mugl_p);
+okltest_irreflexive_gg_p(irreflexive_gg_p);
+okltest_irreflexive_ogl_p(irreflexive_ogl_p);
+okltest_irreflexive_omugl_p(irreflexive_omugl_p);
+okltest_irreflexive_ogg_p(irreflexive_ogg_p);
 
 okltest_orientedgraph_dg_p(orientedgraph_dg_p);
 okltest_orientedgraph_dgl_p(orientedgraph_dgl_p);

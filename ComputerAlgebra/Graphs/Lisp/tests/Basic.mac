@@ -1193,34 +1193,34 @@ okltest_parallel_edges_omugl_p(f) := (
   assert(okltest_parallel_edges_mugl_p(buildq([f],lambda([G],f(mugl2omugl(G))))) = true),
   true)$
 
-okltest_irreflexive_gl(f) := (
+okltest_irreflexive_gl_p(f) := (
   assert(f([{},{}]) = true),
   assert(f([{1},{{1}}]) = false),
   /* XXX */
   true)$
 
-okltest_irreflexive_mugl(f) := block([EF],
+okltest_irreflexive_mugl_p(f) := block([EF],
   assert(f([{},{},EF]) = true),
   assert(f([{1},{{1}},lambda([e],1)]) = false),
   assert(f([{1},{{1}},lambda([e],2)]) = false),
-  assert(okltest_irreflexive_gl(buildq([f],lambda([G],f(gl2mugl(G))))) = true),
+  assert(okltest_irreflexive_gl_p(buildq([f],lambda([G],f(gl2mugl(G))))) = true),
   /* XXX */
   true)$
 
-okltest_irreflexive_gg(f) := (
-  assert(okltest_irreflexive_mugl(buildq([f],lambda([G],f(mugl2gg(G))))) = true),
+okltest_irreflexive_gg_p(f) := (
+  assert(okltest_irreflexive_mugl_p(buildq([f],lambda([G],f(mugl2gg(G))))) = true),
   true)$
 
-okltest_irreflexive_ogl(f) := (
-  assert(okltest_irreflexive_gl(buildq([f],lambda([G],f(gl2ogl(G))))) = true),
+okltest_irreflexive_ogl_p(f) := (
+  assert(okltest_irreflexive_gl_p(buildq([f],lambda([G],f(gl2ogl(G))))) = true),
   true)$
 
-okltest_irreflexive_omugl(f) := (
-  assert(okltest_irreflexive_mugl(buildq([f],lambda([G],f(mugl2omugl(G))))) = true),
+okltest_irreflexive_omugl_p(f) := (
+  assert(okltest_irreflexive_mugl_p(buildq([f],lambda([G],f(mugl2omugl(G))))) = true),
   true)$
 
-okltest_irreflexive_ogg(f) := (
-  assert(okltest_irreflexive_gg(buildq([f],lambda([G],f(gg2ogg(G))))) = true),
+okltest_irreflexive_ogg_p(f) := (
+  assert(okltest_irreflexive_gg_p(buildq([f],lambda([G],f(gg2ogg(G))))) = true),
   true)$
 
 okltest_orientedgraph_dg_p(f) := (

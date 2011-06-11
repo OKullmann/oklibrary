@@ -379,12 +379,12 @@ parallel_edges_omugl_p(G) := some_s(lambda([e],is(G[3](e)>1)),G[2])$
 
 /* Tests whether a graph with loops is irreflexive (that is, doesn't actually
    have loops): */
-irreflexive_gl(G) := every_s(lambda([e],is(length(e)=2)), G[2])$
-irreflexive_mugl(G) := every_s(lambda([e],is(length(e)=2)),G[2])$
-irreflexive_gg(G) := every_s(lambda([e],is(length(G[3](e))=2)),G[2])$
-irreflexive_ogl(G) := every_s(lambda([e],is(length(e)=2)),G[2])$
-irreflexive_omugl(G) := every_s(lambda([e],is(length(e)=2)),G[2])$
-irreflexive_ogg(G) := every_s(lambda([e],is(length(G[3](e))=2)),G[2])$
+irreflexive_gl_p(G) := every_s(lambda([e],is(length(e)=2)), G[2])$
+irreflexive_mugl_p(G) := every_s(lambda([e],is(length(e)=2)),G[2])$
+irreflexive_gg_p(G) := every_s(lambda([e],is(length(G[3](e))=2)),G[2])$
+irreflexive_ogl_p(G) := every_s(lambda([e],is(length(e)=2)),G[2])$
+irreflexive_omugl_p(G) := every_s(lambda([e],is(length(e)=2)),G[2])$
+irreflexive_ogg_p(G) := every_s(lambda([e],is(length(G[3](e))=2)),G[2])$
 
 
 /* An "oriented graph" is, following the abuse of language in [Jensen,
@@ -486,7 +486,7 @@ completebipartite_g_p(G) := if emptyp(G[1]) then true
    not emptyp(B) and is(length(B[1]) * length(B[2]) = length(G[2])))$
 /* Remark: A graph is complete bipartite iff adding any edge either destroys
    the graph property of destroys bipartiteness. */
-completebipartite_gl_p(G) := irreflexive_gl(G) and completebipartite_g_p(G)$
+completebipartite_gl_p(G) := irreflexive_gl_p(G) and completebipartite_g_p(G)$
 completebipartite_gg_p(G) := completebipartite_gl_p(gg2gl(G))$
 
 
