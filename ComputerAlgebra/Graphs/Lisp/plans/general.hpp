@@ -52,7 +52,7 @@ License, or any later version. */
      <li> Conversions : DONE </li>
      <li> Basic graph operations : DONE </li>
      <li> Basic graph constructions : DONE </li>
-     <li> Tests </li>
+     <li> Tests : DONE </li>
      <li> Connections to Maxima-graphs </li>
     </ol>
    </li>

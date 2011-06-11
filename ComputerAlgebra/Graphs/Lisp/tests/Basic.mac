@@ -1498,7 +1498,30 @@ okltest_tree_omug_p(f) := (
 
 okltest_tree_gg_p(f) := (
   assert(okltest_tree_mug_p(buildq([f], lambda([G], f(mug2gg(G))))) = true),
+  assert(f([{1},{{1}},identity]) = false),
+  true)$
 
+okltest_tree_ogg_p(f) := (
+  assert(okltest_tree_gg_p(buildq([f], lambda([G],f(gg2ogg(G))))) = true),
+  true)$
+
+okltest_tree_gl_p(f) := (
+  assert(f([{1},{{1}}]) = false),
+  assert(okltest_tree_g_p(f) = true),
+  true)$
+
+okltest_tree_ogl_p(f) := (
+  assert(okltest_tree_gl_p(buildq([f], lambda([G],f(gl2ogl(G))))) = true),
+  true)$
+
+okltest_tree_mugl_p(f) := (
+  assert(f([{1},{{1}},lambda([e],2)]) = false),
+  assert(okltest_tree_gl_p(buildq([f], lambda([G], f(gl2mugl(G))))) = true),
+  assert(okltest_tree_mug_p(f) = true),
+  true)$
+
+okltest_tree_omugl_p(f) := (
+  assert(okltest_tree_mugl_p(buildq([f], lambda([G],f(mugl2omugl(G))))) = true),
   true)$
 
 okltest_regular_g_p(f) := (

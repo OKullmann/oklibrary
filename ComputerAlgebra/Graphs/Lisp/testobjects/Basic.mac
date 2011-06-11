@@ -268,6 +268,11 @@ okltest_tree_og_p(tree_og_p);
 okltest_tree_mug_p(tree_mug_p);
 okltest_tree_omug_p(tree_omug_p);
 okltest_tree_gg_p(tree_gg_p);
+okltest_tree_ogg_p(tree_ogg_p);
+okltest_tree_gl_p(tree_gl_p);
+okltest_tree_ogl_p(tree_ogl_p);
+okltest_tree_mugl_p(tree_mugl_p);
+okltest_tree_omugl_p(tree_omugl_p);
 
 okltest_regular_g_p(regular_g_p);
 okltest_regular1_gg_p(regular1_gg_p);

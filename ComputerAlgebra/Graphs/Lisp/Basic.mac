@@ -457,10 +457,10 @@ tree_mug_p(G) :=  not parallel_edges_mug_p(G) and tree_g_p(mug2g(G))$
 tree_omug_p(G) :=  not parallel_edges_omug_p(G) and tree_og_p(omug2og(G))$
 tree_gg_p(G) :=  not parallel_edges_gg_p(G) and tree_gl_p(gg2gl(G))$
 tree_ogg_p(G) :=  not parallel_edges_ogg_p(G) and tree_ogl_p(ogg2ogl(G))$
-tree_gl_p(G) := irreflexive_gl_p(G) and is_tree(g2mg(gl2g(G)))$
-tree_ogl_p(G) := irreflexive_ogl_p(G) and is_tree(og2mg(ogl2og(G)))$
-tree_mugl_p(G) :=  irreflexive_mugl_p(G) and tree_gl_p(mugl2gl(G))$
-tree_omugl_p(G) :=  irreflexive_omugl_p(G) and tree_ogl_p(omugl2ogl(G))$
+tree_gl_p(G) := irreflexive_gl_p(G) and tree_g_p(G)$
+tree_ogl_p(G) := irreflexive_ogl_p(G) and tree_og_p(G)$
+tree_mugl_p(G) :=  irreflexive_mugl_p(G) and tree_mug_p(G)$
+tree_omugl_p(G) :=  irreflexive_omugl_p(G) and tree_omug_p(G)$
 
 
 /* Tests whether a graph is regular: */
