@@ -1483,6 +1483,24 @@ okltest_tree_g_p(f) := (
     assert(f(pathgraph_g(n)) = true),
   true)$
 
+okltest_tree_og_p(f) := (
+  assert(okltest_tree_g_p(buildq([f],lambda([G], f(g2og(G))))) = true),
+  true)$
+
+okltest_tree_mug_p(f) := (
+  assert(okltest_tree_g_p(buildq([f], lambda([G], f(g2mug(G))))) = true),
+  assert(f([{1,2},{{1,2}},lambda([e],2)]) = false),
+  true)$
+
+okltest_tree_omug_p(f) := (
+  assert(okltest_tree_mug_p(buildq([f], lambda([G], f(mug2omug(G))))) = true),
+  true)$
+
+okltest_tree_gg_p(f) := (
+  assert(okltest_tree_mug_p(buildq([f], lambda([G], f(mug2gg(G))))) = true),
+
+  true)$
+
 okltest_regular_g_p(f) := (
   assert(f(0,[{},{}]) = true),
   assert(f(1,[{},{}]) = true),
