@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.6.2006 (Swansea)
-/* Copyright 2006 - 2007, 2009 Oliver Kullmann
+/* Copyright 2006 - 2007, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -46,6 +46,13 @@ License, or any later version. */
   \par
    In ComplexitySystem/plans/general.hpp the following topics are handled:
     - Designing measurement accumulation
+
+
+   \par Version 0.0.7 :
+
+  \par
+   In ComplexitySystem/plans/general.hpp the following topics are handled:
+    - Timing the Maxima tests and the application tests
 
   
   \par Version 0.1.0 :

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.12.2005 (Swansea)
-/* Copyright 2005 - 2007, 2009 Oliver Kullmann
+/* Copyright 2005 - 2007, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -11,6 +11,51 @@ License, or any later version. */
 
 
   \todo Update namespaces.
+
+
+  \todo Timing the Maxima tests and the application tests
+  <ul>
+   <li> Currently we have on csltok (with standard frequency 2.4GHz):
+   \verbatim
+> time oklib app_tests
+real    0m17.889s
+user    0m9.686s
+sys     0m5.290s
+> time oklib new_check
+real    4m53.804s
+user    4m35.116s
+sys     0m16.470s
+> time oklib new_check app_tests
+real    5m9.457s
+user    4m44.035s
+sys     0m21.836s
+
+> time oklib app_tests test_level=full
+real    18m55.624s
+user    18m43.219s
+sys     0m8.319s
+> time oklib new_check test_level=full
+real    79m50.318s
+user    79m16.117s
+sys     0m16.927s
+> time oklib new_check app_tests test_level=full
+real    97m17.190s
+user    96m37.758s
+sys     0m24.457s
+
+> time oklib app_tests test_level=extensive
+real    14m4.718s
+user    13m55.285s
+sys     0m6.125s
+> time oklib new_check test_level=extensive
+real    113m10.107s
+user    112m34.656s
+sys     0m20.518s
+
+   \endverbatim
+   </li>
+   <li> The complexity system needs also to include these timings. </li>
+  </ul>
 
 
   \todo Designing the file structure
