@@ -83,6 +83,17 @@ rename_fcl(FF,VL) := block(local(h),
      </li>
     </ol>
    </li>
+   <li> For now, the Maxima heap size, heap_size_ecl_okl in
+   Buildsystem/Configuration/ExternalSources/maxima.mak should be increased to
+   4GB. This would bring it in line with the amount of main memory required in
+   Buildsystem/ReleaseProcess/README. </li>
+   <li> Setting the heap size to 4GB allows the computation to go through:
+   \verbatim
+set_heap_size_ecl(2**32);
+   \endverbatim
+   </li>
+   <li> MG is testing the generation of the full 10 round AES with 4GB
+   memory limit. </li>
   </ul>
 
 
