@@ -144,7 +144,7 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
   </ul>
 
 
-  \todo Palindromic numbers
+  \todo vdw_2^pd(3,27) =(conj) (664, 699)
   <ul>
    <li> 698 < pdvanderwaerden([3,27])[2] =(conj) 699 =(conj)
    vanderwaerden([3,27]) - 71. </li>
@@ -165,6 +165,17 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
 128,136,137,147,162,186,190,191,211,229,
 230,234,240,253,265,273,283,284,292,314,
 327,341,348
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> SplittingViaOKsolver, using minisat-2.2.0:
+    <ol>
+     <li> n=700: </li>
+     <li> n=665:
+     \verbatim
+> SplittingViaOKsolver -D65 VanDerWaerden_pd_2-3-27_665.cnf
+
      \endverbatim
      </li>
     </ol>
