@@ -48,49 +48,65 @@ License, or any later version. */
 
   \todo Overview
   <ul>
-   <li> We consider the DES encryption system, see
-   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac.
-   </li>
-   <li> The DES is a 192-bit boolean function where the first
-   64 bits are the plaintext bits P, the next 64 bits are the key
-   bits K and the final 64 bits are the ciphertext C. </li>
-   <li> DES(P,K,C) is true iff the DES encrypts P to C using the key K. </li>
    <li> We consider the full 16 round DES given by the encryption function
    des_encryption in
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac.
    </li>
-   <li> The translation:
+   <li> The DES(P,K,C) is a 192-bit boolean function where the first
+   64 bits are the plaintext bits P, the next 64 bits are the key
+   bits K and the final 64 bits are the ciphertext C. </li>
+   <li> DES(P,K,C) is true iff DES encrypts P to C using K. </li>
+   <li> The translation of DES(P,K,C) to SAT is given at the Maxima level by
+   des_fcl in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/ConstraintTranslation.mac.
+   </li>
+   <li> The DES consists of certain rewiring of the bits, additions (XOR) and
+   the application of 8 S-boxes (substitution boxes) for each round. </li>
+   <li> We consider the DES S-boxes as 6-bit to 4-bit boolean functions,
+   given by des_sbox_bf in
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Sboxes.mac.
+   </li>
+   <li> We should also consider the DES S-boxes as 4 6-bit to 1-bit functions.
+   See "Basic translation" in
+   Investigations/Cryptography/DataEncryptionStandard/plans/general.hpp. </li>
+   <li> We translate the DES by treating the additions and S-boxes as the
+   boolean functions we consider our units of translation. </li>
+   <li> The additions are translated by the set of their prime implicates.
+   </li>
+   <li> The S-boxes are translated using each of the following CNF
+   representations:
     <ul>
-     <li> The translation of the encryption system at the Maxima level is
-     given by <code>des_fcl</code> in
-     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/ConstraintTranslation.mac.
+     <li> canonical(+) representation, see dualts_fcl and dualtsplus_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac;
      </li>
-     <li> <code>des_fcl</code> is parameterised by a list <code>sbox_l</code>
-     of 8 CNF formal clause-lists, each with at least 10 variables. </li>
-     <li> <code>sbox_l[i]</code> for i in 1 to 8 must contain a CNF
-     representation of the i-th DES S-box. </li>
-     <li> The j-th variable of <code>sbox_l[j]</code> for j from 1 to 6
-     corresponds to the j-th input variable for the i-th DES S-box.</li>
-     <li> The j-th variable of <code>sbox_l[j]</code> for j from 7 to 10
-     corresponds to the (j-6)-th output variable for the i-th DES S-box. </li>
-     <li> Note that the CNF representations for the S-box can have more
-     than 10 variables. </li>
+     <li> 1-base translations, see
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp;
+     </li>
+     <li> minimum translations, see
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp;
+     </li>
+     <li> their prime implicates; </li>
+     <li> their canonical CNF representations. </li>
     </ul>
+   All such translations apply to both the 6-bit to 4-bit S-box functions and
+   the 4 decomposed 6-bit to 1-bit functions.
    </li>
-   <li> At present, the only different translations of the DES we consider
-   are those that use different translations of the DES S-boxes. </li>
-   <li> Determining X unknown key bits for the 16-round DES with
-   the plaintext and ciphertext variables known
-   (X; best solver time; best solver):
+   <li> Summary of results:
     <ul>
-     <li> Canonical+ (26; 1681s; precosat-570.1). </li>
-     <li> Canonical (27; 19557s; minisat-2.2.0). </li>
+     <li> Determining X unknown key bits for 16-round DES(P,?,C) using
+     the following translations for the S-boxes
+     (X; best solver time; best solver):
+      <ul>
+       <li> Canonical+ (26; 1681s; precosat-570.1). </li>
+       <li> Canonical (27; 19557s; minisat-2.2.0). </li>
+      </ul>
+     </li>
+     <li> SplittingViaOKsolver finds 27 unknown key bits for the 16-round DES
+     using the canonical translation for the S-boxes in ~35m. This is far better
+     than solvers on any other translation so far. See "Applying
+     SplittingViaOKsolver". </li>
     </ul>
    </li>
-   <li> SplittingViaOKsolver finds 27 unknown key bits for the 16-round DES
-   using the canonical translation for the S-boxes in ~35m. This is far better
-   than solvers on any other translation so far. See "Applying
-   SplittingViaOKsolver". </li>
   </ul>
 
 
@@ -171,7 +187,7 @@ shell> minisat-2.2.0 25-shuffled_test.cnf
    <li> Translating the full 16 round DES key discovery problem using the
    canonical+ translation for the DES Sboxes. </li>
    <li> The canonical+ translation is implemented by
-   <code>dualtsplus_fcl</code> in
+   dualtsplus_fcl in
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac
    at the Maxima level. </li>
    <li> Generating the CNF:
@@ -254,7 +270,7 @@ output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key b
   <ul>
    <li> Translating the full 16 round DES key discovery problem using the
    canonical translation for the DES Sboxes. </li>
-   <li> The canonical translation is implemented by <code>dualts_fcl</code> in
+   <li> The canonical translation is implemented by dualts_fcl in
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac
    at the Maxima level. </li>
    <li> Generating the CNF:
