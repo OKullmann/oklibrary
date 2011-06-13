@@ -92,8 +92,8 @@ rename_fcl(FF,VL) := block(local(h),
 set_heap_size_ecl(2**32);
    \endverbatim
    </li>
-   <li> MG is testing the generation of the full 10 round AES with 4GB
-   memory limit. </li>
+   <li> The full 10 round AES translations (<code>num_rounds : 1$</code>)
+   runs out of memory when the heap memory limit is 4GB. </li>
   </ul>
 
 
