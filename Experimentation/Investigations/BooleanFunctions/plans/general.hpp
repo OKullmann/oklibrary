@@ -10,6 +10,48 @@ License, or any later version. */
   \brief On investigations regarding boolean functions
 
 
+  \todo Hardness of boolean function representations
+  <ul>
+   <li> The hardness h(F) of a CNF F is defined to be the minimum k such that
+   for all implicates C of F, we have that r_k(phi_C * F) yields the
+   empty clause. </li>
+   <li> We have that:
+    <ul>
+     <li> h(F) = 0 if F contains all it's prime implicates. </li>
+     <li> h(F) <= h(F') where F' is the canonical (full) CNF representation
+     of F. </li>
+     <li> If F is a full clause-set, i.e., only clauses of length n(F)),
+     then h(F) = n(F) - m where m is the size of a prime implicate of
+     F with the minimum clause-length. </li>
+     <li> If F is renamable horn then h(F) <= 1. </li>
+     <li> If F is a 2-SAT formula then h(F) <= 2. </li>
+    </ul>
+   </li>
+   <li> How does this hardness notion relate to the performance of SAT solvers
+   on existing problems? </li>
+   <li> Investigations into how representations with different hardness
+   affect SAT solving is being investigated in:
+    <ul>
+     <li> AES: Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp. </li>
+     <li> DES: Investigations/Cryptography/DataEncryptionStandard/plans/general.hpp. </li>
+    </ul>
+   </li>
+   <li> The hardness of the following should also be investigated:
+    <ul>
+     <li> pigeon hole formulas, see
+     ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp. </li>
+     <li> cardinality constraints, see
+     ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp.
+     </li>
+    </ul>
+   </li>
+   <li> Consider a boolean function f : V -> {0,1} for which the maximum
+   hardness any representation F of f can be is k_max. Can we always
+   construct representation F_0,...,F_{k_max} such that F_i is a CNF
+   representation of f with hardness i? </li>
+  </ul>
+
+
   \bug analyse_random_permutations does not create experiment-directories
   <ul>
    <li> Every experiment takes places in its own directory. </li>
