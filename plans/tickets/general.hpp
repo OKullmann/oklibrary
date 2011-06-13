@@ -19,6 +19,7 @@ License, or any later version. */
      <li> "A" means urgent, must be done as the next step. </li>
      <li> "B" means is also urgent, but might use a bit more time, since
      also some planning is involved. </li>
+     <li> "C" means to just follow the numerical order of the tickets. </li>
     </ol>
    </li>
   </ul>
