@@ -68,6 +68,11 @@ bv2c(v) := bv2c_wv(v,create_list(i,i,1,length(v)))$
 */
 bv2c_wv(v,V) := setify((2*v - 1) * V)$
 
+/* Translating boolean vectors into hyperedges consisting of the indices
+   of the position where the vector is true:
+*/
+bv2he(v) := setify(sublist_indices(v,lambda([x],x=1)))$
+
 
 /* *********************
    * Boolean functions *
@@ -129,6 +134,21 @@ bv2bf(fv) := buildq([a : il2ary(fv)], lambda([x], [a[rank_lex_bv(x)]]))$
 */
 bf2fulldnf_fcl(f,n) := [create_list(i,i,1,n), map(bv2c, sublist(lex_bv_l(n), lambda([x],is(f(x)=[1]))))]$
 bf2fullcnf_fcl(f,n) := [create_list(i,i,1,n), map(bv2c, 1 - sublist(lex_bv_l(n), lambda([x],is(f(x)=[0]))))]$
+/* Converting a boolean function as full DNF into into a boolean function: */
+fulldnf2bf_cs(F) := buildq([F], lambda([x], tv2boolval(elementp(bv2c(x),F))))$
+
+
+/* The "DNF hypergraph representation" of an n x 1 boolean function f
+   is obtained from its full DNF by taking the variable as vertices and
+   converting the clauses into hyperedges by removing the negative literals.
+*/
+/* Converting a boolean function given as a full DNF into its DNF hypergraph
+   representation:
+*/
+fulldnf2dnfhg_ofcs2ohg(FF) :=
+ [ FF[1], map(lambda([C],subset(C,lambda([x],is(x>0)))), FF[2]) ]$
+/* Translating a boolean function as set-system into a boolean function: */
+dnfhg2bf_ses(S) := buildq([S], lambda([x], tv2boolval(elementp(bv2he(x), S))))$
 
 
 /* *****************

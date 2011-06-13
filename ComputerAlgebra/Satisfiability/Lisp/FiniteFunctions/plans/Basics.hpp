@@ -82,6 +82,74 @@ License, or any later version. */
   </ul>
 
 
+  \todo Algebraic normal form
+  <ul>
+   <li> The algebraic normal form of an n x 1 boolean function f is as a
+   sum of monomials in variables x_1, ..., x_n over the field (boolean ring)
+   ZZ_2. </li>
+   <li> One can also say that these are exactly the representations by
+   polynomials in variables x_1, ..., x_n, since multiplication is idempotent,
+   and thus only mononials need to be considered (using only powers 0 and 1).
+   </li>
+   <li> Every boolean function has exactly one such algebraic normal form,
+   for which we should use the abbreviation "anf". </li>
+   <li> How to represent anf's:
+    <ol>
+     <li> One could use Maxima terms together with ordinary addition and
+     multiplication. </li>
+     <li> For evaluation values 0, 1 are substituted into the variables, and
+     the sum is evaluated modulo 2. </li>
+     <li> However then we have the problem that for example natural numbers
+     are not variables anymore, and renaming needs to happen. </li>
+     <li> So this shouldn't be the main form, but for the main form we just
+     use hypergraphs, where the hyperedges represent the monomials. </li>
+     <li> Calling this "anf", while the sum of monomials in the Maxima-sense
+     is called "manf". </li>
+     <li> A function "anf2manf" performs the translation, where we need various
+     forms, like anf2manf_hg, if the input is a hypergraph, anf2manf_ohg, if
+     the input is an ordered hypergraph. </li>
+     <li> For variables in the manf-form we use terms anf(v), where v is the
+     original vertex. </li>
+     <li> eval_manf(t, S) evaluates such a term, where S is the list of
+     substitutions in appropriate form. </li>
+    </ol>
+   </li>
+   <li> Direct computation of manf for n x 1 bf f:
+    <ol>
+     <li> The direct formula is as the sum over the vector v in f^-1(1) of
+     products (x_1 + v_1 + 1) * ... * (x_n + v_n + 1), using variables x_i
+     and arithmetic in ZZ_2. </li>
+     <li> This is true since each such product is exactly 1 iff x = v. </li>
+     <li> How can we evaluate these products more efficiently, taking
+     idempotence of multiplication into account? </li>
+     <li> This argument shows existence of anf's, and uniqueness follows since
+     there are only 2^(2^n) different anf's, and each thus must represent a
+     different boolean function (of which there are exactly 2^(2^n)). </li>
+    </ol>
+   </li>
+   <li> Alternative computation:
+    <ol>
+     <li> The proof of uniqueness of anf for f: One has to show that an
+     anf is zero iff its the empty hypergraph. Assume we have hyperedges.
+     Choose a minimal hyperedge E (w.r.t. set-inclusion). Setting the
+     variables in E to 1 and the other variables to 0, this hyperedge evaluates
+     to 1, while the other hyperedges evaluate to 0. Thus E is a hyperedge
+     in the anf of f. </li>
+     <li> So we get the following algorithm: For f compute its DNF hypergraph
+     representation (for example by fulldnf2dnfhg_ofcs2ohg(FF)), collect the
+     minimal hyperedge into the result-anf, subtract these hyperedges
+     from f, in the algebraic interpretation over ZZ_2, and repeat with the
+     new f. </li>
+     <li> The algorithmic problem is the subtraction: How to do this
+     efficiently, without having to use the whole f ? </li>
+    </ol>
+   </li>
+   <li> Perhaps these functions go into a new file, AlgebraicNormalForm.mac.
+   There will be further functions, like extracting the degree (the maximal
+   size of a hyperedge). </li>
+  </ul>
+
+
   \todo DONE (we just use full clause-sets)
   Boolean functions represented by sets of satisfied/falsified inputs
   <ul>
