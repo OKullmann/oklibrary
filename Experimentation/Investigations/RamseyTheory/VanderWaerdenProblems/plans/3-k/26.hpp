@@ -150,7 +150,7 @@ OKplatform> RunVdW3k 26 678 rots 1000 5000000 Solution_n677
   </ul>
 
 
-  \todo vdw_2^pd(3,26) : (=634, >=643)
+  \todo vdw_2^pd(3,26) = (634, 643)
   <ul>
    <li> 642 < pdvanderwaerden([3,26])[2] =(conj) 643 =(conj)
    vanderwaerden([3,26]) - 84. </li>
@@ -253,9 +253,19 @@ c splitting_cases                       107107
 
 > cd Instances
 > OKP=~/SAT-Algorithmen/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+real    9354m16.459s
+user    9191m2.280s
+sys     58m55.581s
 
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+107107: 146.45h, sum-cfs=4.607996e+09, mean-t=4.922s, mean-cfs=43022
+> summary(E$t)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+  0.08001   1.27200   2.78400   4.92200   5.66800 249.80000
+> summary(E$cfs)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     61   12560   26060   43020   51370 1585000
      \endverbatim
      </li>
      <li> n=635:
