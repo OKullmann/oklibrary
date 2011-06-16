@@ -175,6 +175,61 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
      <li> n=665:
      \verbatim
 > SplittingViaOKsolver -D65 VanDerWaerden_pd_2-3-27_665.cnf
+> more Md5sum
+19228edf731c9135b8bba2c5fe4b0e64
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  65.00   68.00   72.00   73.67   79.00  181.00
+> table(E$n)
+   65    66    67    68    69    70    71    72    73    74    75    76    77
+14246  6658  6706  7086  7363  7151  6515  5770  4944  4288  4117  3953  3962
+   78    79    80    81    82    83    84    85    86    87    88    89    90
+ 4273  4381  4390  4416  4308  3852  3349  2469  1702  1186   775   545   428
+   91    92    93    94    95    96    97    98    99   100   101   102   103
+  290   195   114    62    48    22    12     4     4     6    11    14    12
+  104   105   106   107   108   109   110   111   112   113   114   115   116
+   16    11    17    17    14    20    11     9     5     5     3     3     3
+  118   119   120   121   122   125   126   127   128   129   131   133   134
+    1     1     2     2     1     1     3     2     1     1     1     1     1
+  136   137   139   141   152   157   180   181
+    1     2     1     1     1     1     1     1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         27
+c initial_number_of_variables           333
+c initial_number_of_clauses             58526
+c initial_number_of_literal_occurrences 263527
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   442
+c running_time(sec)                     134471.6
+c number_of_nodes                       239579
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                42914
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        39
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_pd_2-3-27_665.cnf
+c splitting_directory                   SplitViaOKsolver_D65VanDerWaerden_pd_2327_665cnf_2011-06-13-115318/Instances
+c splitting_cases                       119788
+
+> cd Instances
+> nohup OKP=~/SAT-Algorithmen/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C "; fi; done &
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 
      \endverbatim
      </li>
