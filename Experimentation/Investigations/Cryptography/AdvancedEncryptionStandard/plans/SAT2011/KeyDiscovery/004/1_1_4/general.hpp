@@ -17,13 +17,30 @@ License, or any later version. */
    size. </li>
    <li> We consider variants of this small scale AES cipher with 1 to 20
    rounds. </li>
-   <li> The small scale AES variant is translated to a CNF using the
-   translation methods in "Investigating dimensions" in
+   <li> The AES encryption scheme we model takes a 4-bit plaintext and
+   4-bit key and outputs a 4-bit ciphertext.
+   </li>
+   <li> aes(r,1,1,4) applies the following operations:
+    <ol>
+     <li> Key schedule which takes the key and generates r+1 4-bit round
+     keys. </li>
+     <li> Application of the following operation (the "round") r times:
+      <ol>
+       <li> Addition of round key n-1. </li>
+       <li> Application of Sbox operation. </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
+   <li> The small scale AES variant is decomposed into small boolean functions
+   which are then translated to SAT. </li>
+   <li> The decompositions and translations are listed in "Investigating
+   dimensions" in
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
    </li>
    <li> The plaintext and ciphertext variables are then set, and the SAT
    SAT solver is run on this instance to deduce the key variables. </li>
-   <li> Comparing the translations:
+   <li> Comparing the translations using a single plaintext-ciphertext pair:
     <ol>
      <li> "Minimum" translation:
       <ul>
@@ -46,6 +63,17 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Remove linear diffusion from translation
+  <ul>
+   <li> Currently the AES linear diffusion operation creates equality
+   clauses in the translation of this AES instance, as the translation
+   does not check if the MixColumns matrix is the identity matrix. </li>
+   <li> These equivalences clauses can only get in the way for the solvers
+   and skew results, and therefore the translation should be updated to
+   check for the identity matrix and rename variables instead. </li>
   </ul>
 
 

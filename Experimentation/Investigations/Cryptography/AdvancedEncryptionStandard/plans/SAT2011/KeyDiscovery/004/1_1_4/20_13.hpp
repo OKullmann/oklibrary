@@ -15,31 +15,8 @@ License, or any later version. */
    <li> In this file, we collect the investigations into translations of
    20 + 1/3 round small scale AES with one rows, one columns, using the 4-bit
    field size. </li>
-   <li> The AES encryption scheme we model takes a 4-bit plaintext and
-   4-bit key and outputs a 4-bit ciphertext. 
-   </li>
-   <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
-   b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
-   </li>
-   <li> The encryption scheme applies the following operations:
-   <ol>
-    <li> Key schedule which takes the key and generates twenty-one 4-bit round
-    keys. </li>
-    <li> Application of the following operation (the "round") twenty times:
-     <ol>
-      <li> Addition of round key n-1. </li>
-      <li> Application of Sbox operation. </li>
-     </ol>
-    </li>
-    <li> Addition of round key n. </li>
-    <li> The result of the last round key addition is then the ciphertext. 
-    </li>
-   </ol>
-   </li>
-   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
-   defined as inversion within the 4-bit field composed with an affine
-   transformation. </li>
+   <li> For a description of the AES instance, see
+   SAT2011/KeyDiscovery/004/1_1_4/general.hpp. </li>
   </ul>
 
 
@@ -61,34 +38,22 @@ License, or any later version. */
    <li> The canonical translation does best in terms of number of
    decisions, followed by the r_1-base, followed by the small translation.
    </li>
-   <li> Comparing the translations on the number of decisions:
+   <li> Comparing the translations on the number of conflicts/nodes:
    <ul>
     <li> OKsolver:
      <ul>
-      <li> canonical box translation: 1 </li>
-      <li> r_1-base box translation: 4 </li>
-      <li> small box translation: 6 </li>
+      <li> canonical box translation: 1; </li>
+      <li> 1-base box translation: 6.61; </li>
+      <li> small box translation: 16.07; </li>
+      <li> canonical CNF translation: 1521.34. </li>
      </ul>
     </li>
     <li> minisat-2.2.0:
      <ul>
-      <li> canonical box translation: 62 </li>
-      <li> r_1-base box translation: 142 </li>
-      <li> small box translation: 1225 </li>
-     </ul>
-    </li>
-    <li> minisat2:
-     <ul>
-      <li> canonical box translation: 56 </li>
-      <li> r_1-base box translation: 221 </li>
-      <li> small box translation: 634 </li>
-     </ul>
-    </li>
-    <li> glucose:
-     <ul>
-      <li> canonical box translation: 29 </li>
-      <li> r_1-base box translation: 178 </li>
-      <li> small box translation: 1652 </li>
+      <li> canonical box translation: 27.84; </li>
+      <li> 1-base box translation: 96.53; </li>
+      <li> small box translation: 472.35; </li>
+      <li> canonical CNF translation: 3856.75. </li>
      </ul>
     </li>
    </ul>
@@ -96,476 +61,509 @@ License, or any later version. */
   </ul>
 
 
-  \todo Using the rbase box translation
+  \todo Using the 1-base box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   <li> Translating the AES cipher treating Sboxes and field multiplications
    as whole boxes and translating these boxes using the r_1-base translation.
    </li>
    <li> Generating simplest small scale AES for 20 rounds:
    \verbatim
+shell> mkdir aes_1_1_4/1base
+shell> cd aes_1_1_4/1base
+shell> oklib --maxima
+oklib_load_all()$
 num_rounds : 20$
-num_columns : 1$
 num_rows : 1$
+num_columns : 1$
 exp : 4$
 final_round_b : false$
 box_tran : aes_rbase_box$
-seed : 1$
-mc_tran : aes_mc_forward$
+mc_tran : aes_mc_bidirectional$
+oklib_monitor : true$
 output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
 
 shell> cat ssaes_r20_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
-492 1976 6208 0 6208 493 1
+492 2136 6528 0 6528 493 1
  length count
 1 80
-2 160
+2 320
 3 1136
 4 600
    \endverbatim
    </li>
    <li> In this translation, we have:
    <ul>
-    <li> Twenty full rounds (Key Addition, SubBytes, and diffusion operation).
+    <li> Twenty full rounds (Key Addition, SubBytes and MixColumns).
     </li>
-    <li> 20 Sboxes in the SubBytes operation 
-    (1 rows * 1 columns * 20 rounds = 10). </li>
-    <li> 244 additions within the round and key additions, coming from:
-     <ul>
-      <li> 84 additions of arity 2 from key additions 
-      (21 round keys * 4-bit additions = 84). </li>
-      <li> 80 additions of arity one from the identity matrix multiplication
-      in the diffusion operation 
-      (1 rows * 1 columns * 1 directions * 4 bits * 10 rounds = 80).
-      </li>
-     </ul>
-    </li>
-    <li> 20 Sboxes in the AES key schedule 
-    (1 rows * 20 rounds = 20). </li>
-    <li> 80 additions in the key schedule:
-    <ul>
-     <li> 80 additions of arity two
-     (1 row * 1 column * 4 bits * 20 rounds = 80). </li>
-    </ul>
-    </li>
-    <li> 80 bits for the constant in the key schedule
-    (4 bits * 20 rounds = 80).
-    </li>
+    <li> 40 Sboxes (20 from SubBytes; 20 from key schedule). </li>
+    <li> 304 additions (84 from key additions; 160 from MixColumns
+    (encryption and decryption); 80 from Key Schedule). </li>
+    <li> 80 bits for the constant in the key schedule. </li>
    </ul>
    </li>
-   <li> The number of clauses of each length in the translation, computed by:
+   <li> The additions are translated by their prime implicates. </li>
+   <li> The S-boxes are translated by a 1-base representation. See 
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_4.hpp.
+   </li>
+   <li> The number of clauses for the 1-base representation of the S-box:
    \verbatim
-maxima> ncl_list_ss(20,1,1,4,false,aes_rbase_box,aes_mc_forward);
-[[1,80],[2,160],[3,1136],[4,600]]
-maxima> ncl_list_ss_gen(20,1,1,4,ss_mixcolumns_matrix(2,4,1),[[3,'s3],[4,'s4]],[],false,aes_mc_forward);
-[[1,80],[2,160],[3,40*s3+656],[4,40*s4]]
 maxima> ncl_list_fcs(ev_hm(ss_sbox_rbase_cnfs,4));
 [[3,12],[4,15]]
    \endverbatim
-   are comprised of:
+   </li>
+   <li> The number of clauses of each length in the translation are:
    <ul>
-    <li> 80 unit-clauses for the 4-bit constant in the key expansion. </li>
-    <li> 160 binary clauses, coming from 80 additions of arity one 
-    (80 * 2 = 160). </li>
-    <li> 1136 ternary clauses, coming from 40 Sboxes and 164 additions of 
-    arity two (40 * 12 + 164 * 4 = 1136). </li>
-    <li> 600 clauses of length four, coming from 40 Sboxes
-    (40 * 15 = 600). </li>
+    <li> 80 unit-clauses (key schedule constant). </li>
+    <li> 320 binary clauses (160 arity one "additions" from MixColumns). </li>
+    <li> 1136 ternary clauses (164 arity two additions; 40 S-boxes). </li>
+    <li> 600 clauses of length four (40 S-boxes). </li>
    </ul>
    </li>
-   <li> Then we can generate a random assignment with the plaintext and 
-   ciphertext, leaving the key unknown:
-   \verbatim
-maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
-   \endverbatim
-   and the merging the assignment with the translation:
-   \verbatim
-shell> AppendDimacs-O3-DNDEBUG ssaes_r20_c1_rw1_e4_f0.cnf ssaes_pkpair_r20_c1_rw1_e4_f0_s1.cnf > experiment_r20_k1.cnf
-   \endverbatim
-   </li>
-   <li> OKsolver solves this with very few decisions:
-   \verbatim
-shell> OKsolver_2002-O3-DNDEBUG experiment_r20_k1.cnf
-<snip>
-c number_of_initial_unit-eliminations   88
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           88
-c reddiff_number_of_clauses             264
-c reddiff_number_of_literal_occurrences 792
-c number_of_2-clauses_after_reduction   336
-c running_time(sec)                     0.0
-c number_of_nodes                       4
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                7
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        2
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-   \endverbatim
-   </li>
-   <li> However, minisat-2.2.0 and glucose need to branch more:
-   \verbatim
-shell> minisat-2.2.0 experiment_r20_k1.cnf
-<snip>
-restarts              : 2
-conflicts             : 126            (inf /sec)
-decisions             : 142            (0.00 % random) (inf /sec)
-propagations          : 9029           (inf /sec)
-conflict literals     : 612            (35.65 % deleted)
-Memory used           : 19.00 MB
-CPU time              : 0 s
-
-shell> minisat2 experiment_r20_k1.cnf
-<snip>
-restarts              : 2
-conflicts             : 182            (18200 /sec)
-decisions             : 221            (2.26 % random) (22100 /sec)
-propagations          : 12249          (1224900 /sec)
-conflict literals     : 892            (36.78 % deleted)
-Memory used           : 14.89 MB
-CPU time              : 0.01 s
-
-shell> glucose experiment_r20_k1.cnf
-c restarts              : 1
-c nb ReduceDB           : 0
-c nb learnts DL2        : 32
-c nb learnts size 2     : 4
-c nb learnts size 1     : 1
-c conflicts             : 142            (inf /sec)
-c decisions             : 178            (2.25 % random) (inf /sec)
-c propagations          : 10968          (inf /sec)
-c conflict literals     : 699            (37.87 % deleted)
-c Memory used           : 2.02 MB
-c CPU time              : 0 s
-   \endverbatim
-   </li>
-   <li> We can check we get the right result with:
-   \verbatim
-shell> OKsolver_2002-O3-DNDEBUG -O experiment_r20_k1.cnf | grep "^v" | $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/validate_aes_assignment 20 1 1 4 0 && echo "VALID"
-VALID
-   \endverbatim
+   <li> Generating 20 random plaintext-ciphertext pairs and running
+   solvers instances instantiated with these pairs to find the key:
+    <ul>
+     <li> Computing the random plaintext-ciphertext pairs:
+     \verbatim
+for seed : 1 thru 20 do output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
+     \endverbatim
+     </li>
+     <li> Running minisat-2.2.0:
+     \verbatim
+shell> col=1; row=1; e=4; r=20; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    echo "Seed ${s}; Key ${k} Round ${r}";
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c${col}_rw${row}_e${e}_f0.cnf ssaes_pcpair_r${r}_c${col}_rw${row}_e${e}_f0_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
+    minisat-2.2.0 r${r}_k${k}_s${s}.cnf > minisat_r${r}_k${k}_s${s}.result 2>&1;
+  done;
+done;
+shell> echo "n  c  t  sat  cfs dec rts r1 mem ptime stime cfl r k s" > minisat_results; for s in $(seq 1 5); do 
+  for k in $(seq 1 20); do 
+    cat minisat_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk | awk " { print \$0 \"  $r  $k $s\" }"; 
+  done; 
+done >> minisat_results;
+     \endverbatim
+     yields:
+     \verbatim
+shell> oklib --R
+E = read.table("minisat_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+   r   n       c t sat   cfs    dec rts      r1 mem ptime stime    cfl  r    k
+1 20 492 1961.93 0   1 96.53 113.17 1.6 7300.43  19     0     0 476.47 20 10.5
+  s
+1 3
+     \endverbatim
+     </li>
+     <li> Running OKsolver_2002:
+     \verbatim
+shell> col=1; row=1; e=4; r=20; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    echo "Seed ${s}; Key ${k} Round ${r}";
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c${col}_rw${row}_e${e}_f0.cnf ssaes_pcpair_r${r}_c${col}_rw${row}_e${e}_f0_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
+    OKsolver_2002-O3-DNDEBUG r${r}_k${k}_s${s}.cnf > oksolver_r${r}_k${k}_s${s}.result 2>&1;
+  done;
+done;
+shell> echo "n  c  l  t  sat  nds  r1  r2  pls  ats h file n2cr  dmcl dn  dc  dl snds qnds mnds  tel  oats  n2cs  m2cs r k s" > oksolver_results; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    cat oksolver_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractOKsolver.awk | awk " { print \$0 \"  $r  $k $s\" }";
+  done;
+done >> oksolver_results;
+     \endverbatim
+     yields:
+     \verbatim
+shell> oklib --R
+E = read.table("oksolver_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+   r   n    c    l t sat  nds r1    r2 pls  ats    h file n2cr dmcl dn  dc  dl
+1 20 492 2144 6536 0   1 6.61 88 24.13   0 0.38 2.88   NA  496    0 88 264 792
+  snds qnds mnds tel oats n2cs m2cs  r    k s
+1    0    0    0   0    0    0    0 20 10.5 3
+     \endverbatim
+     </li>
+    </ul>
    </li>
   </ul>
 
 
-  \todo Using the small box translation 
+  \todo Using the "minimum" box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
-   as whole boxes and translating these boxes using the smallest CNF 
+   <li> Translating the AES cipher treating Sboxes and field multiplications
+   as whole boxes and translating these boxes using the smallest CNF
    translations. </li>
    <li> Generating simplest small scale AES for 20 rounds:
    \verbatim
+shell> mkdir aes_1_1_4/min
+shell> cd aes_1_1_4/min
+shell> oklib --maxima
+oklib_load_all()$
 num_rounds : 20$
-num_columns : 1$
 num_rows : 1$
+num_columns : 1$
 exp : 4$
 final_round_b : false$
 box_tran : aes_small_box$
-seed : 1$
-mc_tran : aes_mc_forward$
+mc_tran : aes_mc_bidirectional$
+oklib_monitor : true$
 output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
 
 shell> cat ssaes_r20_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
-492 1776 5648 0 5648 493 1
+492 1936 5968 0 5968 493 1
  length count
 1 80
-2 160
+2 320
 3 976
 4 480
 5 80
    \endverbatim
    </li>
    <li> In this translation, we have:
-   <ul>
-    <li> Twenty full rounds (Key Addition, SubBytes, and diffusion operation).
-    </li>
-    <li> 20 Sboxes in the SubBytes operation 
-    (1 rows * 1 columns * 20 rounds = 10). </li>
-    <li> 244 additions within the round and key additions, coming from:
-     <ul>
-      <li> 84 additions of arity 2 from key additions 
-      (21 round keys * 4-bit additions = 84). </li>
-      <li> 80 additions of arity one from the identity matrix multiplication
-      in the diffusion operation 
-      (1 rows * 1 columns * 1 directions * 4 bits * 20 rounds = 80).
-      </li>
-     </ul>
-    </li>
-    <li> 20 Sboxes in the AES key schedule 
-    (1 rows * 20 rounds = 20). </li>
-    <li> 80 additions in the key schedule:
     <ul>
-     <li> 80 additions of arity two
-     (1 row * 1 column * 4 bits * 20 rounds = 80). </li>
+     <li> Twenty full rounds (Key Addition, SubBytes and MixColumns).
+     </li>
+     <li> 40 Sboxes (20 from SubBytes; 20 from key schedule). </li>
+     <li> 304 additions (84 from key additions; 160 from MixColumns
+     (encryption and decryption); 80 from Key Schedule). </li>
+     <li> 80 bits for the constant in the key schedule. </li>
     </ul>
-    </li>
-    <li> 80 bits for the constant in the key schedule
-    (4 bits * 20 rounds = 80).
-    </li>
-   </ul>
    </li>
-   <li> The number of clauses of each length in the translation, computed by:
+   <li> The additions are translated by their prime implicates. </li>
+   <li> The S-boxes are translated by a "minimum" representation. See
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_4.hpp.
+   </li>
+   <li> The number of clauses for the "minimum" representation of the S-box:
    \verbatim
-maxima> ncl_list_ss(20,1,1,4,false,aes_small_box,aes_mc_forward);
-[[1,80],[2,160],[3,976],[4,480],[5,80]]
-maxima> ncl_list_ss_gen(20,1,1,4,ss_mixcolumns_matrix(2,4,1),[[3,'s3],[4,'s4],[5,'s5]],[],false,aes_mc_forward);
-[[1,80],[2,160],[3,40*s3+656],[4,40*s4],[5,40*s5]]
 maxima> ncl_list_fcs(ev_hm(ss_sbox_cnfs,4));
 [[3,8],[4,12],[5,2]]
    \endverbatim
-   are comprised of:
-   <ul>
-    <li> 80 unit-clauses for the 4-bit constant in the key expansion. </li>
-    <li> 160 binary clauses, coming from 80 additions of arity one 
-    (80 * 2 = 160). </li>
-    <li> 1136 ternary clauses, coming from 40 Sboxes and 164 additions of 
-    arity two (40 * 12 + 164 * 4 = 1136). </li>
-    <li> 480 clauses of length four, coming from 40 Sboxes
-    (40 * 12 = 480). </li>
-    <li> 80 clauses of length five, coming from 40 Sboxes
-    (40 * 2 = 80). </li>
-   </ul>
    </li>
-   <li> Then we can generate a random assignment with the plaintext and 
-   ciphertext, leaving the key unknown:
-   \verbatim
-maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
-   \endverbatim
-   and the merging the assignment with the translation:
-   \verbatim
-shell> AppendDimacs-O3-DNDEBUG ssaes_r20_c1_rw1_e4_f0.cnf ssaes_pkpair_r20_c1_rw1_e4_f0_s1.cnf > experiment_r20_k1.cnf
-   \endverbatim
+   <li> The number of clauses of each length in the translation are:
+    <ul>
+     <li> 80 unit-clauses (key schedule constant). </li>
+     <li> 320 binary clauses (160 arity one "additions" from MixColumns). </li>
+     <li> 976 ternary clauses (164 arity two additions; 40 S-boxes). </li>
+     <li> 480 clauses of length four (40 S-boxes). </li>
+     <li> 80 clauses of length four (40 S-boxes). </li>
+    </ul>
    </li>
-   <li> OKsolver solves this with very few decisions:
-   \verbatim
-shell> OKsolver_2002-O3-DNDEBUG experiment_r20_k1.cnf
-<snip>
-c number_of_initial_unit-eliminations   88
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           88
-c reddiff_number_of_clauses             264
-c reddiff_number_of_literal_occurrences 792
-c number_of_2-clauses_after_reduction   336
-c running_time(sec)                     0.0
-c number_of_nodes                       6
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                58
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        4
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-   \endverbatim
-   </li>
-   <li> However, minisat-2.2.0 and glucose need to branch more:
-   \verbatim
-shell> minisat-2.2.0 experiment_r20_k1.cnf
-<snip>
-restarts              : 6
-conflicts             : 680            (inf /sec)
-decisions             : 1225           (0.00 % random) (inf /sec)
-propagations          : 24639          (inf /sec)
-conflict literals     : 4691           (19.27 % deleted)
-Memory used           : 19.00 MB
-CPU time              : 0 s
-
-shell> minisat2 experiment_r20_k1.cnf
-<snip>
-restarts              : 3
-conflicts             : 306            (15300 /sec)
-decisions             : 634            (1.58 % random) (31700 /sec)
-propagations          : 9686           (484300 /sec)
-conflict literals     : 1946           (18.44 % deleted)
-Memory used           : 14.89 MB
-CPU time              : 0.02 s
-
-shell> glucose experiment_r20_k1.cnf
-c restarts              : 1
-c nb ReduceDB           : 0
-c nb learnts DL2        : 236
-c nb learnts size 2     : 17
-c nb learnts size 1     : 3
-c conflicts             : 910            (91000 /sec)
-c decisions             : 1652           (1.39 % random) (165200 /sec)
-c propagations          : 42103          (4210300 /sec)
-c conflict literals     : 5786           (24.28 % deleted)
-c Memory used           : 2.01 MB
-c CPU time              : 0.01 s
-   \endverbatim
-   </li>
-   <li> We can check we get the right result with:
-   \verbatim
-shell> OKsolver_2002-O3-DNDEBUG -O experiment_r20_k1.cnf | grep "^v" | $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/validate_aes_assignment 20 1 1 4 0 && echo "VALID"
-VALID
-   \endverbatim
+   <li> Generating 20 random plaintext-ciphertext pairs and running
+   solvers instances instantiated with these pairs to find the key:
+    <ul>
+     <li> Computing the random plaintext-ciphertext pairs:
+     \verbatim
+for seed : 1 thru 20 do output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
+     \endverbatim
+     </li>
+     <li> Running minisat-2.2.0:
+     \verbatim
+shell> col=1; row=1; e=4; r=20; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    echo "Seed ${s}; Key ${k} Round ${r}";
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c${col}_rw${row}_e${e}_f0.cnf ssaes_pcpair_r${r}_c${col}_rw${row}_e${e}_f0_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
+    minisat-2.2.0 r${r}_k${k}_s${s}.cnf > minisat_r${r}_k${k}_s${s}.result 2>&1;
+  done;
+done;
+shell> echo "n  c  t  sat  cfs dec rts r1 mem ptime stime cfl r k s" > minisat_results; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    cat minisat_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk | awk " { print \$0 \"  $r  $k $s\" }"; 
+  done;
+done >> minisat_results;
+     \endverbatim
+     yields:
+     \verbatim
+shell> oklib --R
+E = read.table("minisat_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+   r   n       c      t sat    cfs    dec  rts       r1 mem ptime stime     cfl
+1 20 492 1769.47 0.0011   1 472.35 859.28 4.15 17016.65  19     0     0 3085.59
+   r    k s
+1 20 10.5 3
+     \endverbatim
+     </li>
+     <li> Running OKsolver_2002:
+     \verbatim
+shell> col=1; row=1; e=4; r=20; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    echo "Seed ${s}; Key ${k} Round ${r}";
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c${col}_rw${row}_e${e}_f0.cnf ssaes_pcpair_r${r}_c${col}_rw${row}_e${e}_f0_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
+    OKsolver_2002-O3-DNDEBUG r${r}_k${k}_s${s}.cnf > oksolver_r${r}_k${k}_s${s}.result 2>&1;
+  done;
+done;
+shell> echo "n  c  l  t  sat  nds  r1  r2  pls  ats h file n2cr  dmcl dn  dc  dl snds qnds mnds  tel  oats  n2cs  m2cs r k s" > oksolver_results; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    cat oksolver_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractOKsolver.awk | awk " { print \$0 \"  $r  $k $s\" }";
+  done;
+done >> oksolver_results;
+     \endverbatim
+     yields:
+     \verbatim
+shell> oklib --R
+E = read.table("oksolver_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+   r   n    c    l t sat   nds r1     r2 pls ats    h file n2cr dmcl dn  dc  dl
+1 20 492 1944 5976 0   1 16.07 88 157.92   0   0 4.73   NA  496    0 88 264 792
+  snds qnds mnds tel oats n2cs m2cs  r    k s
+1    0    0    0   0    0    0    0 20 10.5 3
+     \endverbatim
+     </li>
+    </ul>
    </li>
   </ul>
 
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   <li> Translating the AES cipher treating Sboxes and field multiplications
    as whole boxes and translating these boxes using the canonical translation.
    </li>
    <li> Generating simplest small scale AES for 20 rounds:
    \verbatim
+shell> mkdir aes_1_1_4/canon
+shell> cd aes_1_1_4/canon
+shell> oklib --maxima
+oklib_load_all()$
 num_rounds : 20$
-num_columns : 1$
 num_rows : 1$
+num_columns : 1$
 exp : 4$
 final_round_b : false$
 box_tran : aes_ts_box$
 seed : 1$
-mc_tran : aes_mc_forward$
+mc_tran : aes_mc_bidirectional$
+oklib_monitor : true$
 output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
 
 shell> cat ssaes_r20_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
-1132 6696 19008 0 19008 1133 1
+1132 6856 19328 0 19328 1133 1
  length count
 1 80
-2 5280
+2 5440
 3 656
 9 640
 16 40
    \endverbatim
    </li>
    <li> In this translation, we have:
-   <ul>
-    <li> Twenty full rounds (Key Addition, SubBytes, and diffusion operation).
-    </li>
-    <li> 20 Sboxes in the SubBytes operation 
-    (1 rows * 1 columns * 20 rounds = 10). </li>
-    <li> 164 additions within the round and key additions, coming from:
-     <ul>
-      <li> 84 additions of arity 2 from key additions 
-      (21 round keys * 4-bit additions = 84). </li>
-      <li> 80 additions of arity one from the identity matrix multiplication
-      in the diffusion operation 
-      (1 rows * 1 columns * 1 directions * 4 bits * 20 rounds = 80).
-      </li>
-     </ul>
-    </li>
-    <li> 20 Sboxes in the AES key schedule 
-    (1 rows * 20 rounds = 20). </li>
-    <li> 80 additions in the key schedule:
     <ul>
-     <li> 80 additions of arity two
-     (1 row * 1 column * 4 bits * 20 rounds = 80). </li>
-    </ul>
-    </li>
-    <li> 80 bits for the constant in the key schedule
-    (4 bits * 20 rounds = 80).
-    </li>
+     <li> Twenty full rounds (Key Addition, SubBytes and MixColumns).
+     </li>
+     <li> 40 Sboxes (20 from SubBytes; 20 from key schedule). </li>
+     <li> 304 additions (84 from key additions; 160 from MixColumns
+     (encryption and decryption); 80 from Key Schedule). </li>
+     <li> 80 bits for the constant in the key schedule. </li>
    </ul>
    </li>
-   <li> The number of clauses of each length in the translation, computed by:
+   <li> The additions are translated by their prime implicates. </li>
+   <li> The S-boxes are translated by a canonical translation. </li>
+   <li> The number of clauses for the canonical representation of the S-box:
    \verbatim
-maxima> ncl_list_ss(20,1,1,4,false,aes_ts_box,aes_mc_bidirectional);
-[[1,80],[2,5280],[3,656],[9,640],[16,40]]
-maxima> ncl_list_ss_gen(20,1,1,4,ss_mixcolumns_matrix(2,4,1),[[2,'s2],[9,'s9],[16,'s16]],[],false,aes_mc_forward);
-[[1,80],[2,40*s2+160],[3,656],[9,40*s9],[16,40*s16]]
 maxima> ncl_list_full_dualts(8,16);
 [[2,128],[9,16],[16,1]]
    \endverbatim
-   are comprised of:
-   <ul>
-    <li> 80 unit-clauses for the 4-bit constant in the key expansion. </li>
-    <li> 5280 binary clauses, coming from 40 Sboxes and 80 additions of arity
-    one (40 * 128 + 80 * 2 = 5280). </li>
-    <li> 656 ternary clauses, coming from 164 additions of arity two
-    (164 * 4 = 656). </li>
-    <li> 640 clauses of length nine, coming from 40 Sboxes
-    (40 * 16 = 640). </li>
-    <li> 40 clauses of length sixteen, coming from from 40 Sboxes
-    (40 * 1 = 40). </li>
+   </li>
+   <li> The number of clauses of each length in the translation are:
+    <ul>
+     <li> 80 unit-clauses (key schedule constant). </li>
+     <li> 5440 binary clauses (160 arity one "additions" from MixColumns;
+     40 S-boxes). </li>
+     <li> 656 ternary clauses (164 arity two additions). </li>
+     <li> 640 clauses of length nine (40 S-boxes). </li>
+     <li> 40 clauses of length sixteen (40 S-boxes). </li>
    </ul>
    </li>
-   <li> Then we can generate a random assignment with the plaintext and 
-   ciphertext, leaving the key unknown:
-   \verbatim
-maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
-   \endverbatim
-   and the merging the assignment with the translation:
-   \verbatim
-shell> AppendDimacs-O3-DNDEBUG ssaes_r20_c1_rw1_e4_f0.cnf ssaes_pkpair_r20_c1_rw1_e4_f0_s1.cnf > experiment_r20_k1.cnf
-   \endverbatim
+   <li> Generating 20 random plaintext-ciphertext pairs and running
+   solvers instances instantiated with these pairs to find the key:
+    <ul>
+     <li> Computing the random plaintext-ciphertext pairs:
+     \verbatim
+for seed : 1 thru 20 do output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
+     \endverbatim
+     </li>
+     <li> Running minisat-2.2.0:
+     \verbatim
+shell> col=1; row=1; e=4; r=20; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    echo "Seed ${s}; Key ${k} Round ${r}";
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c${col}_rw${row}_e${e}_f0.cnf ssaes_pcpair_r${r}_c${col}_rw${row}_e${e}_f0_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
+    minisat-2.2.0 r${r}_k${k}_s${s}.cnf > minisat_r${r}_k${k}_s${s}.result 2>&1;
+  done;
+done;
+shell> echo "n  c  t  sat  cfs dec rts r1 mem ptime stime cfl r k s" > minisat_results; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    cat minisat_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk | awk " { print \$0 \"  $r  $k $s\" }"; 
+  done;
+done >> minisat_results;
+     \endverbatim
+     yields:
+     \verbatim
+shell> oklib --R
+E = read.table("minisat_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+  r    n       c      t sat   cfs   dec  rts       r1 mem ptime  stime    cfl
+1 20 1132 6687.08 0.0052   1 27.84 68.37 1.02 10783.73  19     0 0.0046 396.14
+   r    k s
+1 20 10.5 3
+     \endverbatim
+     </li>
+     <li> Running OKsolver_2002:
+     \verbatim
+shell> col=1; row=1; e=4; r=20; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    echo "Seed ${s}; Key ${k} Round ${r}";
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c${col}_rw${row}_e${e}_f0.cnf ssaes_pcpair_r${r}_c${col}_rw${row}_e${e}_f0_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
+    OKsolver_2002-O3-DNDEBUG r${r}_k${k}_s${s}.cnf > oksolver_r${r}_k${k}_s${s}.result 2>&1;
+  done;
+done;
+shell> echo "n  c  l  t  sat  nds  r1  r2  pls  ats h file n2cr  dmcl dn  dc  dl snds qnds mnds  tel  oats  n2cs  m2cs r k s" > oksolver_results; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    cat oksolver_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractOKsolver.awk | awk " { print \$0 \"  $r  $k $s\" }";
+  done;
+done >> oksolver_results;
+     \endverbatim
+     yields:
+     \verbatim
+shell> oklib --R
+E = read.table("oksolver_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+   r    n    c     l     t sat nds r1     r2 pls ats h file n2cr dmcl dn  dc
+1 20 1132 6864 19336 0.015   1   1 88 335.38   0 0.6 0   NA 5616    0 88 264
+   dl snds qnds mnds tel oats n2cs m2cs  r    k s
+1 792    0    0    0   0    0    0    0 20 10.5 3
+     \endverbatim
+     </li>
+    </ul>
    </li>
-   <li> OKsolver solves this with one decisions:
-   \verbatim
-shell> OKsolver_2002-O3-DNDEBUG experiment_r20_k1.cnf
-<snip>
-c number_of_initial_unit-eliminations   88
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           88
-c reddiff_number_of_clauses             264
-c reddiff_number_of_literal_occurrences 792
-c number_of_2-clauses_after_reduction   5456
-c running_time(sec)                     0.0
-c number_of_nodes                       1
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                15
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        0
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-   \endverbatim
-   </li>
-   <li> However, minisat-2.2.0 and glucose need to branch:
-   \verbatim
-shell> minisat-2.2.0 experiment_r20_k1.cnf
-<snip>
-restarts              : 1
-conflicts             : 26             (2600 /sec)
-decisions             : 62             (0.00 % random) (6200 /sec)
-propagations          : 12396          (1239600 /sec)
-conflict literals     : 284            (43.65 % deleted)
-Memory used           : 19.00 MB
-CPU time              : 0.01 s
+  </ul>
 
-shell> minisat2 experiment_r20_k1.cnf
-<snip>
-restarts              : 1
-conflicts             : 36             (514 /sec)
-decisions             : 56             (0.00 % random) (800 /sec)
-propagations          : 17061          (243729 /sec)
-conflict literals     : 339            (50.87 % deleted)
-Memory used           : 15.61 MB
-CPU time              : 0.07 s
 
-shell> glucose experiment_r20_k1.cnf
-c restarts              : 1
-c nb ReduceDB           : 0
-c nb learnts DL2        : 3
-c nb learnts size 2     : 1
-c nb learnts size 1     : 1
-c conflicts             : 13             (inf /sec)
-c decisions             : 29             (0.00 % random) (inf /sec)
-c propagations          : 2132           (inf /sec)
-c conflict literals     : 152            (39.68 % deleted)
-c Memory used           : 2.30 MB
-c CPU time              : 0 s
+  \todo Using the canonical CNF box translation
+  <ul>
+   <li> Translating the AES cipher treating Sboxes and field multiplications
+   as whole boxes and translating these boxes using the canonical CNF.
+   </li>
+   <li> Generating simplest small scale AES for 20 rounds:
+   \verbatim
+shell> mkdir aes_1_1_4/full
+shell> cd aes_1_1_4/full
+shell> oklib --maxima
+oklib_load_all()$
+num_rounds : 20$
+num_rows : 1$
+num_columns : 1$
+exp : 4$
+final_round_b : false$
+box_tran : aes_full_box$
+seed : 1$
+mc_tran : aes_mc_bidirectional$
+oklib_monitor : true$
+output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
+
+shell> cat ssaes_r20_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+492 10656 79488 0 79488 493 1
+ length count
+1 80
+2 320
+3 656
+8 9600
    \endverbatim
    </li>
-   <li> We can check we get the right result with:
+   <li> In this translation, we have:
+    <ul>
+     <li> Twenty full rounds (Key Addition, SubBytes and MixColumns).
+     </li>
+     <li> 40 Sboxes (20 from SubBytes; 20 from key schedule). </li>
+     <li> 304 additions (84 from key additions; 160 from MixColumns
+     (encryption and decryption); 80 from Key Schedule). </li>
+     <li> 80 bits for the constant in the key schedule. </li>
+   </ul>
+   </li>
+   <li> The additions are translated by their prime implicates. </li>
+   <li> The S-boxes are translated by the canonical CNF. </li>
+   <li> The number of clauses for the canonical representation of the S-box:
    \verbatim
-shell> OKsolver_2002-O3-DNDEBUG -O experiment_r20_k1.cnf | grep "^v" | $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/validate_aes_assignment 20 1 1 4 0 && echo "VALID"
-VALID
+maxima> ncl_list_full_dualts(8,16);
+[[2,128],[9,16],[16,1]]
    \endverbatim
+   </li>
+   <li> The number of clauses of each length in the translation are:
+    <ul>
+     <li> 80 unit-clauses (key schedule constant). </li>
+     <li> 320 binary clauses (160 arity one "additions" from MixColumns). </li>
+     <li> 656 ternary clauses (164 arity two additions). </li>
+     <li> 9600 clauses of length eight (40 S-boxes). </li>
+   </ul>
+   </li>
+   <li> Generating 20 random plaintext-ciphertext pairs and running
+   solvers instances instantiated with these pairs to find the key:
+    <ul>
+     <li> Computing the random plaintext-ciphertext pairs:
+     \verbatim
+for seed : 1 thru 20 do output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
+     \endverbatim
+     </li>
+     <li> Running minisat-2.2.0:
+     \verbatim
+shell> col=1; row=1; e=4; r=20; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    echo "Seed ${s}; Key ${k} Round ${r}";
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c${col}_rw${row}_e${e}_f0.cnf ssaes_pcpair_r${r}_c${col}_rw${row}_e${e}_f0_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
+    minisat-2.2.0 r${r}_k${k}_s${s}.cnf > minisat_r${r}_k${k}_s${s}.result 2>&1;
+  done;
+done;
+shell> echo "n  c  t  sat  cfs dec rts r1 mem ptime stime cfl r k s" > minisat_results; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    cat minisat_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk | awk " { print \$0 \"  $r  $k $s\" }"; 
+  done;
+done >> minisat_results;
+     \endverbatim
+     yields:
+     \verbatim
+shell> oklib --R
+E = read.table("minisat_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+   r   n        c      t sat     cfs     dec   rts       r1 mem  ptime  stime
+1 20 492 10486.18 0.1134   1 3856.75 7533.03 19.84 56119.41  20 0.0019 0.0843
+       cfl  r    k s
+1 29084.22 20 10.5 3
+     \endverbatim
+     </li>
+     <li> Running OKsolver_2002:
+     \verbatim
+shell> col=1; row=1; e=4; r=20; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    echo "Seed ${s}; Key ${k} Round ${r}";
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c${col}_rw${row}_e${e}_f0.cnf ssaes_pcpair_r${r}_c${col}_rw${row}_e${e}_f0_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
+    OKsolver_2002-O3-DNDEBUG r${r}_k${k}_s${s}.cnf > oksolver_r${r}_k${k}_s${s}.result 2>&1;
+  done;
+done;
+shell> echo "n  c  l  t  sat  nds  r1  r2  pls  ats h file n2cr  dmcl dn  dc  dl snds qnds mnds  tel  oats  n2cs  m2cs r k s" > oksolver_results; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    cat oksolver_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractOKsolver.awk | awk " { print \$0 \"  $r  $k $s\" }";
+  done;
+done >> oksolver_results;
+     \endverbatim
+     yields:
+     \verbatim
+shell> oklib --R
+E = read.table("oksolver_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+   r   n     c     l     t sat     nds r1     r2 pls ats  h file n2cr dmcl dn
+1 20 492 10664 79496 3.408   1 1521.34 88 991.06   0   0 82   NA  496    0 88
+   dc  dl snds qnds mnds tel oats n2cs m2cs  r    k s
+1 264 792    0 13.2    0   0    0    0    0 20 10.5 3
+     \endverbatim
+     </li>
+    </ul>
    </li>
   </ul>
 
