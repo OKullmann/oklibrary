@@ -64,7 +64,7 @@ License, or any later version. */
   \todo Using the 1-base box translation
   <ul>
    <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the r_1-base translation.
+   as whole boxes and translating these boxes using the 1-base translation.
    </li>
    <li> Generating simplest small scale AES for 20 rounds:
    \verbatim
@@ -96,7 +96,7 @@ shell> cat ssaes_r20_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    <ul>
     <li> Twenty full rounds (Key Addition, SubBytes and MixColumns).
     </li>
-    <li> 40 Sboxes (20 from SubBytes; 20 from key schedule). </li>
+    <li> 40 S-boxes (20 from SubBytes; 20 from key schedule). </li>
     <li> 304 additions (84 from key additions; 160 from MixColumns
     (encryption and decryption); 80 from Key Schedule). </li>
     <li> 80 bits for the constant in the key schedule. </li>
@@ -189,7 +189,7 @@ EM
 
   \todo Using the "minimum" box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
+   <li> Translating the AES cipher treating S-boxes and field multiplications
    as whole boxes and translating these boxes using the smallest CNF
    translations. </li>
    <li> Generating simplest small scale AES for 20 rounds:
@@ -223,7 +223,7 @@ shell> cat ssaes_r20_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
     <ul>
      <li> Twenty full rounds (Key Addition, SubBytes and MixColumns).
      </li>
-     <li> 40 Sboxes (20 from SubBytes; 20 from key schedule). </li>
+     <li> 40 S-boxes (20 from SubBytes; 20 from key schedule). </li>
      <li> 304 additions (84 from key additions; 160 from MixColumns
      (encryption and decryption); 80 from Key Schedule). </li>
      <li> 80 bits for the constant in the key schedule. </li>
@@ -317,7 +317,7 @@ EM
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
+   <li> Translating the AES cipher treating S-boxes and field multiplications
    as whole boxes and translating these boxes using the canonical translation.
    </li>
    <li> Generating simplest small scale AES for 20 rounds:
@@ -332,7 +332,6 @@ num_columns : 1$
 exp : 4$
 final_round_b : false$
 box_tran : aes_ts_box$
-seed : 1$
 mc_tran : aes_mc_bidirectional$
 oklib_monitor : true$
 output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
@@ -352,7 +351,7 @@ shell> cat ssaes_r20_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
     <ul>
      <li> Twenty full rounds (Key Addition, SubBytes and MixColumns).
      </li>
-     <li> 40 Sboxes (20 from SubBytes; 20 from key schedule). </li>
+     <li> 40 S-boxes (20 from SubBytes; 20 from key schedule). </li>
      <li> 304 additions (84 from key additions; 160 from MixColumns
      (encryption and decryption); 80 from Key Schedule). </li>
      <li> 80 bits for the constant in the key schedule. </li>
@@ -445,7 +444,7 @@ EM
 
   \todo Using the canonical CNF box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
+   <li> Translating the AES cipher treating S-boxes and field multiplications
    as whole boxes and translating these boxes using the canonical CNF.
    </li>
    <li> Generating simplest small scale AES for 20 rounds:
@@ -460,7 +459,6 @@ num_columns : 1$
 exp : 4$
 final_round_b : false$
 box_tran : aes_full_box$
-seed : 1$
 mc_tran : aes_mc_bidirectional$
 oklib_monitor : true$
 output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
@@ -479,7 +477,7 @@ shell> cat ssaes_r20_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
     <ul>
      <li> Twenty full rounds (Key Addition, SubBytes and MixColumns).
      </li>
-     <li> 40 Sboxes (20 from SubBytes; 20 from key schedule). </li>
+     <li> 40 S-boxes (20 from SubBytes; 20 from key schedule). </li>
      <li> 304 additions (84 from key additions; 160 from MixColumns
      (encryption and decryption); 80 from Key Schedule). </li>
      <li> 80 bits for the constant in the key schedule. </li>
@@ -520,7 +518,7 @@ shell> col=1; row=1; e=4; r=20; for s in $(seq 1 5); do
 done;
 shell> echo "n  c  t  sat  cfs dec rts r1 mem ptime stime cfl r k s" > minisat_results; for s in $(seq 1 5); do
   for k in $(seq 1 20); do
-    cat minisat_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk | awk " { print \$0 \"  $r  $k $s\" }"; 
+    cat minisat_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk | awk " { print \$0 \"  $r  $k $s\" }";
   done;
 done >> minisat_results;
      \endverbatim

@@ -18,10 +18,10 @@ License, or any later version. */
   </ul>
 
 
-  \todo Using the rbase box translation
+  \todo Using the 1-base box translation
   <ul>
    <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the r_1-base translation.
+   as whole boxes and translating these boxes using the 1-base translation.
    </li>
    <li> Generating simplest small scale AES for 20 rounds:
    \verbatim
@@ -189,7 +189,8 @@ shell> cat ssaes_r20_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    </ul>
    </li>
    <li> The additions are translated by their prime implicates. </li>
-   <li> The S-boxes are translated by a minimum representation. See XXX.
+   <li> The S-boxes are translated by a minimum representation. See
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_4.hpp.
    </li>
    <li> The number of clauses for the "minimum" representation of the S-box:
    \verbatim
@@ -320,7 +321,7 @@ shell> cat ssaes_r20_c2_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    </ul>
    </li>
    <li> The additions are translated by their prime implicates. </li>
-   <li> The S-boxes are translated by a canonical translation. </li>
+   <li> The S-boxes are translated by the canonical translation. </li>
    <li> The number of clauses for the canonical representation of the S-box:
    \verbatim
 maxima> ncl_list_full_dualts(8,16);
@@ -451,7 +452,7 @@ shell> cat ssaes_r20_c2_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    </ul>
    </li>
    <li> The additions are translated by their prime implicates. </li>
-   <li> The S-boxes are translated by a canonical CNF. </li>
+   <li> The S-boxes are translated by the canonical CNF. </li>
    <li> The number of clauses for the canonical representation of the S-box:
    \verbatim
 maxima> ncl_list_full_dualts(8,16);
