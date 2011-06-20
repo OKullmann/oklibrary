@@ -28,14 +28,14 @@ License, or any later version. */
      which is a full clause-set with 8
      variables and 2^8 - 2^4 = 240 clauses:
      \verbatim
-> cat AES_sbox_2_4_full.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+> cat AES_sbox_2_4_full.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 8 240 1920 0 1920 1 1
  length count
 8 240
      \endverbatim
      </li>
-     <li> The underlying clause-set is 
+     <li> The underlying clause-set is
      ss_sbox_fullcnf_fcs(2,4,ss_polynomial_2_4). </li>
      <li> This clause-set is also computed by
      bf2relation_fullcnf_fcs(lambda([V],ss_sbox_bf(V,2,4)),4). </li>
@@ -47,7 +47,7 @@ License, or any later version. */
      with clause-length-distribution as follows:
      \verbatim
 > QuineMcCluskey-n16-O3-DNDEBUG AES_sbox_2_4_full.cnf > AES_sbox_2_4_full.cnf_primes
-> cat AES_sbox_2_4_full.cnf_primes | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+> cat AES_sbox_2_4_full.cnf_primes | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 8 147 581 0 581 1 1
  length count
@@ -93,7 +93,7 @@ shell> hardness(setify(Sbox_4_min[2]));
   <ul>
    <li> We do *not* currently know the minimum CNF size for the 4-bit Sbox.
    </li>
-   <li> Here we should have an overview of the current state of this 
+   <li> Here we should have an overview of the current state of this
    investigation and open problems. </li>
   </ul>
 
@@ -101,7 +101,7 @@ shell> hardness(setify(Sbox_4_min[2]));
   \todo Combining Sbox with field addition
   <ul>
    <li> The AES key schedule includes various field additions which applying
-   associativity and commutativity rules can be combined with the Sbox of the 
+   associativity and commutativity rules can be combined with the Sbox of the
    round *after* the key schedule. </li>
    <li> In particular, the round key is output by the key schedule, and then
    added (XORed) to the result of the previous round, and given as input to
@@ -119,7 +119,7 @@ shell> hardness(setify(Sbox_4_min[2]));
    \verbatim
 maxima> FF : bf2relation_fullcnf_fcs(lambda([V],ss_sbox_w_add_bf(V,2,4)),8)$
 maxima> output_fcs("SboxPlusKey4.cnf", FF, "SboxPlusKey4.cnf")$
-> cat SboxPlusKey4.cnf_primes | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+> cat SboxPlusKey4.cnf_primes | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 12 634 4020 0 4020 1 1
  length count
