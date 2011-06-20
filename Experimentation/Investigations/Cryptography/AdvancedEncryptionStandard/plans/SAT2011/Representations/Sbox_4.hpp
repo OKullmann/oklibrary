@@ -58,6 +58,34 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> Minimum representations:
+    <ul>
+     <li> A minimum representation can be computed by:
+     \verbatim
+maxima> oklib_load_all()$
+maxima> output_ss_sbox_fullcnf_stdname(2,4,ss_polynomial_2_4);
+shell> OKP=~/Work/OKlibrary/OKplatform/ ${OKP}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_cryptominisat AES_sbox_2_4_full.cnf | tee Sbox_4_min.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+8 22 82 0 82 1 1
+ length count
+3 8
+4 12
+5 2
+       \endverbatim
+       </li>
+       <li> The hardness of this representation is 2:
+       \verbatim
+shell> Sbox_4_min : read_fcl_f("Sbox_4_min.cnf")$
+shell> hardness(setify(Sbox_4_min[2]));
+2
+     \endverbatim
+     </li>
+     <li> See "Hardness of boolean function representations" in
+     Experimentation/Investigations/BooleanFunctions/plans/general.hpp
+     for discussion on the notions of hardness and methods
+     for computing it. </li>
+    </ul>
+   </li>
   </ul>
 
 
