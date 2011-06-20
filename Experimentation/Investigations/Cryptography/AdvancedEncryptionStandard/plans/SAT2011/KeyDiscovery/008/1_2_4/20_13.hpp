@@ -16,6 +16,11 @@ License, or any later version. */
    20 + 1/3 round small scale AES with one rows, two columns, using the 4-bit
    field size. </li>
    <li> A full description of this instance must be added. </li>
+   <li> Note that we consider the canonical CNF translation, as
+   this is an example of the "hardest" representation without
+   new variables. See "Hardness of boolean function representations"
+   in
+   Experimentation/Investigations/BooleanFunctions/plans/general.hpp. </li>
   </ul>
 
 

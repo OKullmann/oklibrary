@@ -27,6 +27,11 @@ License, or any later version. */
      <li> If F is a 2-SAT formula then h(F) <= 2. </li>
     </ul>
    </li>
+   <li> For a boolean function f, then the "hardest" representation F, without
+   new variables, is the canonical CNF representation of f. This follows
+   from the fact that for every partial assignment phi, applying phi to F
+   yields the canonical unsatisfiable CNF on the remaining variables, which
+   is of maximum hardness. </li>
    <li> How does this hardness notion relate to the performance of SAT solvers
    on existing problems? </li>
    <li> Investigations into how representations with different hardness
