@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo Basic data
   <ul>
-   <li> The CNF-file "AES_byte_field_mul_full_3.cnf" is created by the 
+   <li> The CNF-file "AES_byte_field_mul_full_3.cnf" is created by the
    Maxima-function output_rijnmult_fullcnf_stdname(3); in
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac,
    which is a full clause-set with 16
@@ -52,13 +52,13 @@ shell> ExtendedDimacsFullStatistics-O3-DNDEBUG < AES_byte_field_mul_pi_3.cnf
    <li> The minimum size CNF representation is *not* known. </li>
   </ul>
 
-  
+
   \todo Using weighted MaxSAT to compute small CNFs : mincl_rinf <= 36
   <ul>
    <li> Computing the weighted MaxSAT problem:
    \verbatim
 shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_byte_field_mul_full_3.cnf > AES_byte_field_mul_shg_3.cnf
-shell> cat AES_byte_field_mul_shg_3.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > AES_byte_field_mul_3_shg.wcnf 
+shell> cat AES_byte_field_mul_shg_3.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > AES_byte_field_mul_3_shg.wcnf
    \endverbatim
    <li>
    <li> Running then:
@@ -123,11 +123,11 @@ shell> cat AES_byte_field_mul_full_3.cnf_primes | FilterDimacs AES_byte_field_mu
    </li>
    <li> Each of these runs yields the same r_1 base:
    \verbatim
-> sort AES_byte_field_mul_bases_1.cnf > AES_byte_field_mul_bases_1_sorted    
+> sort AES_byte_field_mul_bases_1.cnf > AES_byte_field_mul_bases_1_sorted
 > sort AES_byte_field_mul_bases_2.cnf > AES_byte_field_mul_bases_2_sorted
 > sort AES_byte_field_mul_bases_3.cnf > AES_byte_field_mul_bases_3_sorted
-> diff AES_byte_field_mul_bases_1_sorted AES_byte_field_mul_bases_2_sorted 
-> diff AES_byte_field_mul_bases_3_sorted AES_byte_field_mul_bases_2_sorted 
+> diff AES_byte_field_mul_bases_1_sorted AES_byte_field_mul_bases_2_sorted
+> diff AES_byte_field_mul_bases_3_sorted AES_byte_field_mul_bases_2_sorted
 > diff AES_byte_field_mul_bases_3_sorted AES_byte_field_mul_bases_1_sorted
    \endverbatim
    </li>

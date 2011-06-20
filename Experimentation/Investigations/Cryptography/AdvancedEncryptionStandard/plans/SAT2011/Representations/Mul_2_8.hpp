@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo Basic data
   <ul>
-   <li> The CNF-file "AES_byte_field_mul_full_2.cnf" is created by the 
+   <li> The CNF-file "AES_byte_field_mul_full_2.cnf" is created by the
    Maxima-function output_rijnmult_fullcnf_stdname(2); in
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac,
    which is a full clause-set with 16
@@ -31,17 +31,17 @@ shell> QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_2.cnf > AES_byte_fi
    \endverbatim
    yields a CNF with:
    \verbatim
-shell> ExtendedDimacsFullStatistics-O3-DNDEBUG < AES_byte_field_mul_pi_2.cnf 
+shell> ExtendedDimacsFullStatistics-O3-DNDEBUG < AES_byte_field_mul_pi_2.cnf
 c's = 1, n = 16, c = 58, tc = 0, ntc = 58, tl = 188, l = 188, finished = 1
 2 : 10
 3 : 24
 4 : 24
    \endverbatim
    </li>
-  </ul>  
+  </ul>
 
-  
-  \todo Minimising using hypergraph transversal tools : 
+
+  \todo Minimising using hypergraph transversal tools :
   mincl_rinf = 20, num_mincl_rinf=102
   <ul>
    <li> Computing all minimum CNFs:
@@ -59,9 +59,9 @@ shell> echo AES_byte_field_mul_full_2.cnf.trans_* | wc -w
    \endverbatim
    that is, there are 102 representations of size 20.
    </li>
-   <li> Most (90) of the minimum representations contain 8 clauses of size 2, 
-   and 12 clauses of size 3. There are then a further twelve clause-sets 
-   where there are only 8 clause of size 3, but then 4 clauses of size 4. 
+   <li> Most (90) of the minimum representations contain 8 clauses of size 2,
+   and 12 clauses of size 3. There are then a further twelve clause-sets
+   where there are only 8 clause of size 3, but then 4 clauses of size 4.
    </li>
    <li> The hardness of the minimum representations are:
     <ul>
@@ -96,7 +96,7 @@ maxima> Mul2_min_F_hd_l : create_list(hardness_wpi(setify(Mul2_min_F_l[i][2]),Mu
    transversal tools". </li>
    <li> Computing the bases directly:
    \verbatim
-> RandomShuffleDimacs-O3-DNDEBUG 1 < AES_byte_field_mul_2_pi.cnf | RUcpBase-O3-DNDEBUG | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+> RandomShuffleDimacs-O3-DNDEBUG 1 < AES_byte_field_mul_2_pi.cnf | RUcpBase-O3-DNDEBUG | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 22 56 0 56 1 1
  length count
@@ -104,10 +104,10 @@ maxima> Mul2_min_F_hd_l : create_list(hardness_wpi(setify(Mul2_min_F_l[i][2]),Mu
 3 12
    \endverbatim
    </li>
-   <li> Again, as in "r_1-bases" in 
+   <li> Again, as in "r_1-bases" in
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp,
-   using any of the minimal transversals from "Minimising using hypergraph 
-   transversal tools" using "RUcpGen" yields larger (> size 26) r_1 bases. 
+   using any of the minimal transversals from "Minimising using hypergraph
+   transversal tools" using "RUcpGen" yields larger (> size 26) r_1 bases.
    </li>
   </ul>
 
