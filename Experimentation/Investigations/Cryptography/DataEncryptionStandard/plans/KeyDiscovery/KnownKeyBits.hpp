@@ -1,4 +1,4 @@
-// Matthew Gwynne, 27.3.2011 (Swansea)
+// Matthew Gwynne, 25.5.2011 (Swansea)
 /* Copyright 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -6,8 +6,44 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery.hpp
-  \brief On investigations into the Data Encryption Standard key discovery
+  \file Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp
+  \brief On investigations into the full Data Encryption Standard key discovery where some key bits are known
+
+
+  \todo Translations
+  <ul>
+   <li> We must compare the following translations of DES into SAT:
+    <ul>
+     <li> Massacci translation, see "DES generator" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp. </li>
+     <li> Translations using:
+      <ol>
+       <li> Prime implicates (0-bases). </li>
+       <li> 1-bases for all Sboxes (without new variables). </li>
+       <li> "minimum" representations (inf-soft representations). </li>
+       <li> DONE The canonical translation (1-soft representation). </li>
+       <li> DONE The canonical+ translation (1-soft representation). </li>
+      </ol>
+     </li>
+     <li> DONE Argosat-desgen translation, see
+     "Transferring the Argosat-desgen example". </li>
+    </ul>
+   </li>
+   <li> Solving key discovery with last q key bits unknown:
+    <ul>
+     <li> Argosat-desgen, solves up to q = 23 in ~35 minutes.
+     q=24 takes > 10 hours. </li>
+     <li> canonical translation, solves up to q = 27 in ~5.5 hours.
+     q = 28 takes > 10 hours. </li>
+     <li> canonical+ translation, solves up to q = 26 in ~30 minutes.
+     q = 27 takes > 10 hours. </li>
+    </ul>
+   </li>
+   <li> Note that in some cases higher q can be solved but
+   randomising the order of the clause-set means that this isn't
+   always the case. A study of many different randomised examples
+   is necessary. </li>
+  </ul>
 
 
   \todo Transferring the Argosat-desgen example
@@ -17,7 +53,7 @@ License, or any later version. */
    A2FB6032638EC79D, and providing the examples for all 0 <= p <= 64,
    where the last p keybits are provided (as unit-clauses). </li>
    <li> This can be easily achieved by using function des_key2fcl(key),
-   where the first 64-p entries of the 64-bit vector key are replaced by
+   where the first 64-p entries of the 64-bit vector key' are replaced by
    the value "und" (while by hexstr2binv(key) we obtain the key as boolean
    vector). </li>
    <li> Their benchmarks only consider 13 <= 64-p <= 34, d.h.,
@@ -50,8 +86,7 @@ License, or any later version. */
    </li>
    <li> Why are these times so erratic?
     <ul>
-     <li> Randomly shuffling clause-list for X = 25: minisat-2.2.0 (>25h and
-     still running).
+     <li> Randomly shuffling clause-list for X = 25: minisat-2.2.0 (>25h).
      \verbatim
 shell> cat gss-25-s100.cnf | RandomShuffleDimacs-O3-DNDEBUG > 25-shuffled_test.cnf
 shell> minisat-2.2.0 25-shuffled_test.cnf
@@ -86,8 +121,6 @@ shell> minisat-2.2.0 25-shuffled_test.cnf
   \todo Canonical+ translation comparison to Argosat-desgen example
   <ul>
    <li> Generating the instances for 16 rounds using the canonical translation:
-??? this contradicts the title ???
-??? what is translated ???
    \verbatim
 unknown_bits : 13$
 sbox_fcl_l : create_list(dualtsplus_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
@@ -97,12 +130,6 @@ C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
 K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
 F_std : standardise_fcs([F[1],append(F[2],P[2],K[2],C[2])])$
 output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std[1] , sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
-
-??? what are the sizes etc. ???
-
-??? what is meant here with "DES ArgoSat comparison" ??? first of all, these
-instances have nothing to do with "ArgoSat", and the main point is the
-form of translation ! ???
    \endverbatim
    </li>
    <li> Instances with unknown key bits up to 18 all take less than a
@@ -135,8 +162,6 @@ form of translation ! ???
   <ul>
    <li> Generating the instances for 16 rounds using the canonical translation:
    \verbatim
-??? what is translated ???
-
 unknown_bits : 13$
 sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
 F : des2fcl(sbox_fcl_l)$
@@ -144,16 +169,7 @@ P : des_plain2fcl(hexstr2binv("038E596D4841D03B"))$
 C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
 K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
 F_std : standardise_fcs([F[1],append(F[2],P[2],K[2],C[2])])$
-??? F_std is a fcl ???
 output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std[1], sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
-??? F_std is a fcl ???
-
-??? again "DES ArgoSat comparison" is inappropriate, and what are the
-parameters ???
-
-??? blind standardisation is not appropriate here; obviously a well-defined
-function which handles all these aspects is needed ???
-
    \endverbatim
    </li>
    <li> Instances with unknown key bits up to 13 all take less than 5s,
@@ -200,9 +216,6 @@ function which handles all these aspects is needed ???
    <li> We should investigate with more keys, and also randomly permuting
    the clause-lists. </li>
   </ul>
-
-
-  \todo Move into separate sub-module
 
 
   \todo Applying SplittingViaOKsolver
@@ -541,5 +554,8 @@ c splitting_cases                       41952
    instances for 27 unknown bits. And the instances for D=800 are still much
    harder. </li>
   </ul>
+
+
+  \todo DONE Add todos
 
 */
