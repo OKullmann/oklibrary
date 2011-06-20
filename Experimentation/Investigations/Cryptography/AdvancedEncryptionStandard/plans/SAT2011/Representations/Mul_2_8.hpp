@@ -63,6 +63,29 @@ shell> echo AES_byte_field_mul_full_2.cnf.trans_* | wc -w
    and 12 clauses of size 3. There are then a further twelve clause-sets 
    where there are only 8 clause of size 3, but then 4 clauses of size 4. 
    </li>
+   <li> The hardness of the minimum representations are:
+    <ul>
+     <li> Computing the hardness:
+     \verbatim
+maxima> Mul2_min_F_l : create_list(read_fcl_f(sconcat("AES_byte_field_mul_full_2.cnf.trans_",i)),i,1,102)$
+maxima> Mul2_pi_F : min_resolution_closure_cs(setify(Mul2_min_F_l[1][2]))$
+maxima> Mul2_min_F_hd_l : create_list(hardness_wpi(setify(Mul2_min_F_l[i][2]),Mul2_pi_F[1]),i,1,102);
+[2,2,2,2,2,2,2,2,3,2,2,2,2,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,
+ 2,2,2,2,2,2,3,2,2,2,2,3,3,2,2,2,2,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+ 2,2,3,2,2,2,2,3,3,3,2,2,2,2,2,2,2,2,2,2,2,3,2,2,2,2]
+     \endverbatim
+     </li>
+     <li> For the definition and computation of hardness in general, see
+     "Hardness of boolean function representations" in
+     Experimentation/Investigations/BooleanFunctions/plans/general.hpp.
+     </li>
+     <li> Note that most of these minimum representations (including the
+     one we use in the library) have hardness 2. </li>
+     <li> However, some minimum representations have hardness 3! This is
+     a nice simple example of a boolean function with minimum representations
+     of different hardnesses. </li>
+    </ul>
+   </li>
   </ul>
 
 
