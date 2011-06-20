@@ -57,6 +57,22 @@ shell> cat DES_Sbox_3_s68.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
 7 2
    \endverbatim
    </li>
+   <li> The hardness of this "minimum" representation is 3:
+    <ul>
+     <li> See "Hardness of boolean function representations" in
+     Experimentation/Investigations/BooleanFunctions/plans/general.hpp
+     for a description of the notion of hardness, and method of computation.
+     </li>
+     <li> Computing the hardness:
+     \verbatim
+maxima> Sbox_min_F : read_fcl_f("DES_Sbox_3_s68.cnf")$
+maxima> Sbox_primes_F : read_fcl_f("DES_Sbox_3_fullCNF.cnf_primes")$
+maxima> hardness_wpi(setify(Sbox_min_F[2]), setify(Sbox_primes_F[2]));
+3
+     \endverbatim
+     </li>
+    </ul>
+   </li>
   </ul>
 
 
