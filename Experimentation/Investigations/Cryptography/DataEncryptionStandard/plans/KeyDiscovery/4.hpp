@@ -24,10 +24,12 @@ License, or any later version. */
      less than 761s. See "Using the 1-base translation". </li>
      <li> canonical translation; fastest solver solves in 31s, all in less
      than 330s. See "Using the canonical translation". </li>
-     <li> full clause-set translation; fastest solver solves in 32s.
-     See "Using the full clause-set translation". </li>
+     <li> canonical CNF translation; fastest solver solves in 32s.
+     See "Using the canonical CNF translation". </li>
     </ul>
    </li>
+   <li> Note that we use the canonical CNF translation for the S-boxes to
+   compare other representations to the "hardest" representation. </li>
   </ul>
 
 
@@ -60,7 +62,7 @@ print("DONE!");
   </ul>
 
 
-  \todo Using the full clause-set translation
+  \todo Using the canonical CNF translation
   <ul>
    <li> Translating the DES Sboxes using the canonical CNFs.
    That is, each Sbox is represented with a CNF where all

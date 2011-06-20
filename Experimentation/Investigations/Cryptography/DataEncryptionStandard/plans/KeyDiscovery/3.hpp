@@ -20,11 +20,13 @@ License, or any later version. */
    average:
     <ul>
      <li> canonical (minisat-2.2.0: 3987.84, OKsolver_2002: 90.17). </li>
-     <li> full clause-set (minisat-2.2.0: 5946.08, OKsolver_2002: ??). </li>
+     <li> canonical CNF (minisat-2.2.0: 5946.08, OKsolver_2002: ??). </li>
      <li> 1-base (minisat-2.2.0: 1397.14, OKsolver_2002: 13477.65). </li>
      <li> minimum (minisat-2.2.0: 3220.98, OKsolver_2002: 408094.4). </li>
     </ul>
    </li>
+   <li> Note that we use the canonical CNF translation for the S-boxes to
+   compare other representations to the "hardest" representation. </li>
   </ul>
 
 
@@ -120,7 +122,7 @@ EM
   </ul>
 
 
-  \todo Using the full clause-set translation for the S-boxes
+  \todo Using the canonical CNF translation for the S-boxes
   <ul>
    <li> Translating the DES Sboxes using the canonical CNFs.
    That is, each Sbox is represented with a CNF where all
