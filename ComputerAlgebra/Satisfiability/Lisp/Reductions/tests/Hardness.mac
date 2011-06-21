@@ -1,0 +1,57 @@
+/* Matthew Gwynne, 21.6.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/Hardness.mac
+  \brief Tests for components related to hardness
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/Hardness.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleFieldMulCNF.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac")$
+
+kill(f)$
+
+
+/* ***************************
+   * Computing the hardness  *
+   ***************************
+*/
+
+okltest_hardness_wpi(f) := block([F],
+  assert(
+    okltest_hardness(
+      buildq([f],lambda([F],f(F,min_resolution_closure_cs(F)[1]))))),
+  assert(f({},{{}}) = und),
+  assert(f({{1,2}},{{1}}) = und),
+  true)$
+
+okltest_hardness(f) := block(
+  assert(f({}) = 0),
+  assert(f({{}}) = 0),
+  assert(f({{1}}) = 0),
+  assert(f({{1},{1,2},{1,-2}}) = 0),
+  assert(f({{1,2},{1,-2}}) = 1),
+  assert(f({{1,2,3},{1,-2,3},{1,2,-3},{1,-2,-3}}) = 2),
+  assert(f(setify(ev_hm(ss_field_rbase_cnfs,[4,2])[2])) = 1),
+  if oklib_test_level = 0 then return(true),
+  assert(f(setify(ev_hm(ss_field_rbase_cnfs,[4,3])[2])) = 1),
+  true)$
+
+/*!
+\endhtmlonly
+*/

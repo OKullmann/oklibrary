@@ -35,7 +35,8 @@ hardness_wpi(F,F_PI) := block([max_k : 0, count : 0, maxcount : length(F_PI)],
 hardness(F) := hardness_wpi(F,min_resolution_closure_cs(F)[1])$
    \endverbatim
    </li>
-   <li> A new file Hardness.mac should be created in this module and
+   <li> DONE (see Hardness.mac)
+   A new file Hardness.mac should be created in this module and
    these functions transferred there with tests. </li>
   </ul>
 
