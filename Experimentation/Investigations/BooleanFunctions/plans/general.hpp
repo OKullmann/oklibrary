@@ -50,6 +50,22 @@ License, or any later version. */
      </li>
     </ul>
    </li>
+   <li> Computing the hardness of small functions:
+    <ul>
+     <li> We do not, in general, compute the hardness of boolean function
+     representations, but construct representations with low hardness. </li>
+     <li> However, for experimental evaluation and curiousities sake, we can
+     and should measure the hardness of certain representations of small
+     boolean functions. </li>
+     <li> For example, we should measure the hardness of the minimum
+     representations of the DES and AES boxes. See
+     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp.
+     </li>
+     <li> See "Computing the hardness of a clause-set representation"
+     in Satisfiability/Lisp/Reductions/plans/general.hpp. </li>
+     </li>
+    </ul>
+   </li>
    <li> Consider a boolean function f : V -> {0,1} for which the maximum
    hardness any representation F of f can be is k_max. Can we always
    construct representation F_0,...,F_{k_max} such that F_i is a CNF

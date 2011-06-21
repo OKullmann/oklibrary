@@ -13,6 +13,33 @@ License, or any later version. */
   Satisfiability/Lisp/Preprocessing.
 
 
+  \todo Computing the hardness of a clause-set representation
+  <ul>
+   <li> See "Hardness of boolean function representations" in
+   Experimentation/Investigations/BooleanFunctions/plans/general.hpp.
+   </li>
+   <li> To compute the hardness of a clause-set F we can do the following:
+   \verbatim
+/* Computing the hardness of a clause-set F with it's prime implicates F_PI
+   as input. */
+hardness_wpi(F,F_PI) := block([max_k : 0, count : 0, maxcount : length(F_PI)],
+  maxcount : length(F_PI),
+  for C in F_PI do (
+    count : count + 1,
+    if mod(count, 50) = 0 then
+      print(sconcat("[",count,"/",maxcount,"] Hardness(F) >= ", max_k," ...")),
+    for k : 0 while generalised_ucp(apply_pa(comp_sl(C),F),k) # {{}} do
+      max_k : max(max_k, k + 1)),
+  return(max_k))$
+
+hardness(F) := hardness_wpi(F,min_resolution_closure_cs(F)[1])$
+   \endverbatim
+   </li>
+   <li> A new file Hardness.mac should be created in this module and
+   these functions transferred there with tests. </li>
+  </ul>
+
+
   \todo Create milestones
 
 
