@@ -148,7 +148,7 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
   <ul>
    <li> 698 < pdvanderwaerden([3,27])[2] =(conj) 699 =(conj)
    vanderwaerden([3,27]) - 71. </li>
-   <li> pdvanderwaerden([3,27])[1] =(conj) 664. </li>
+   <li> pdvanderwaerden([3,27])[1] = 664. </li>
    <li> Certificates:
     <ol>
      <li> n=663:
@@ -171,7 +171,12 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
    </li>
    <li> SplittingViaOKsolver, using minisat-2.2.0:
     <ol>
-     <li> n=700: </li>
+     <li> n=700:
+     \verbatim
+> SplittingViaOKsolver -D70 VanDerWaerden_pd_2-3-27_700.cnf
+
+     \endverbatim
+     </li>
      <li> n=665:
      \verbatim
 > SplittingViaOKsolver -D65 VanDerWaerden_pd_2-3-27_665.cnf
@@ -230,7 +235,13 @@ c splitting_cases                       119788
 
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
-
+119788: 121.49h, sum-cfs=3.624973e+09, mean-t=3.651s, mean-cfs=30262
+> summary(E$t)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+  0.0520   0.9841   1.7880   3.6510   3.6200 388.2000
+> summary(E$cfs)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     40    8176   15840   30260   30970 2572000
      \endverbatim
      </li>
     </ol>
