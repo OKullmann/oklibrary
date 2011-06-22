@@ -58,6 +58,9 @@ output_random_fcl(n,k,c,filename) := output_fcl_v(
  "Pseudo-random clause-list created by Maxima::output_random_fcl.",
  random_fcl(n,k,c),filename,[])$
 output_random_fcl_stdname(n,k,c) := output_random_fcl(n,k,c,sconcat("Random_",n,"_",k,"_",c,".cnf"))$
+/* Convenience instantiation, specifying density and seed: */
+output_random_fcl_ds_stdname(n,k,density,seed) := (set_random(seed),
+ output_random_fcl_stdname(n,k,round(density*n)))$
 
 
 /* **********************************
