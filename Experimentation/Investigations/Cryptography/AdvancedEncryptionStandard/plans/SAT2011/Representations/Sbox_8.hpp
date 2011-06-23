@@ -188,6 +188,11 @@ shell> hardness_wpi(setify(F_Sbox[2]), setify(F_Sbox_pi[2]));
 4
      \endverbatim
      </li>
+     <li> Note we only consider some small representation for the AES S-box
+     here, not a minimum representation. We, as yet, do not know the
+     minimum size for the S-box. </li>
+     <li> Also, we certainly do not yet know if all (or even any) of
+     the minimum representations of the 8-bit AES S-box have hardness 4. </li>
     </ul>
    </li>
   </ul>
