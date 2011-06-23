@@ -27,8 +27,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/Hardne
    ***************************
 */
 
-okltest_hardness_wpi(hardness_wpi);
-okltest_hardness(hardness);
+okltest_hardness_wpi_cs(hardness_wpi_cs);
+okltest_hardness_cs(hardness_cs);
 
 /*!
 \endhtmlonly

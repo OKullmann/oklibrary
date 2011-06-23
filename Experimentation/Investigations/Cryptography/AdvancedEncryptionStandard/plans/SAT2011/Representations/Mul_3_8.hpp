@@ -92,7 +92,7 @@ shell> cat AES_byte_field_mul_full_3.cnf_primes | FilterDimacs AES_byte_field_mu
 maxima> output_ssmult_fullcnf_stdname(3,2,8,ss_polynomial_2_8);
 shell> QuineMcCluskey-n16-O3-DNDEBUG ss_byte2_8_field_mul_full_3.cnf > ss_byte2_8_field_mul_full_3.cnf_primes
 maxima> Mul3_F_primes : read_fcl_f("ss_byte2_8_field_mul_full_3.cnf_primes")$
-maxima> hardness_wpi(setify(ev_hm(ss_field_cnfs,[8,3])[2]),Mul3_F_primes[2]);
+maxima> hardness_wpi_cs(setify(ev_hm(ss_field_cnfs,[8,3])[2]),Mul3_F_primes[2]);
 3
      \endverbatim
      </li>

@@ -184,7 +184,7 @@ shell> cat  AES_Sbox_full.cnf_primes | FilterDimacs AES_Sbox_s294.ass > AES_Sbox
      \verbatim
 shell> F_Sbox_pi : read_fcl_f("AES_Sbox_full.cnf_primes")$
 shell> F_Sbox : read_fcl_f("AES_Sbox_s294.cnf")$
-shell> hardness_wpi(setify(F_Sbox[2]), setify(F_Sbox_pi[2]));
+shell> hardness_wpi_cs(setify(F_Sbox[2]), setify(F_Sbox_pi[2]));
 4
      \endverbatim
      </li>

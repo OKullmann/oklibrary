@@ -22,7 +22,7 @@ License, or any later version. */
    \verbatim
 /* Computing the hardness of a clause-set F with it's prime implicates F_PI
    as input. */
-hardness_wpi(F,F_PI) := block([max_k : 0, count : 0, maxcount : length(F_PI)],
+hardness_wpi_cs(F,F_PI) := block([max_k : 0, count : 0, maxcount : length(F_PI)],
   maxcount : length(F_PI),
   for C in F_PI do (
     count : count + 1,
@@ -32,7 +32,7 @@ hardness_wpi(F,F_PI) := block([max_k : 0, count : 0, maxcount : length(F_PI)],
       max_k : max(max_k, k + 1)),
   return(max_k))$
 
-hardness(F) := hardness_wpi(F,min_resolution_closure_cs(F)[1])$
+hardness_cs(F) := hardness_wpi_cs(F,min_resolution_closure_cs(F)[1])$
    \endverbatim
    </li>
    <li> DONE (see Hardness.mac)

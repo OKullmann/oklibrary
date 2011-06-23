@@ -76,7 +76,7 @@ shell> OKP=~/Work/OKlibrary/OKplatform/ ${OKP}/OKsystem/OKlib/Experimentation/In
        <li> The hardness of this representation is 2:
        \verbatim
 shell> Sbox_4_min : read_fcl_f("Sbox_4_min.cnf")$
-shell> hardness(setify(Sbox_4_min[2]));
+shell> hardness_cs(setify(Sbox_4_min[2]));
 2
      \endverbatim
      </li>

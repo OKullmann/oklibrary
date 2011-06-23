@@ -67,7 +67,7 @@ shell> cat DES_Sbox_4_s69.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
      \verbatim
 maxima> Sbox_min_F : read_fcl_f("DES_Sbox_4_s69.cnf")$
 maxima> Sbox_primes_F : read_fcl_f("DES_Sbox_4_fullCNF.cnf_primes")$
-maxima> hardness_wpi(setify(Sbox_min_F[2]), setify(Sbox_primes_F[2]));
+maxima> hardness_wpi_cs(setify(Sbox_min_F[2]), setify(Sbox_primes_F[2]));
 3
      \endverbatim
      </li>
