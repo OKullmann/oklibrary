@@ -13,11 +13,10 @@ License, or any later version. */
   \todo Overview
   <ul>
    <li> Investigating translation of 3-round DES into SAT, see
-   Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/general.hpp.
-   </li>
+   Cryptography/DataEncryptionStandard/plans/KeyDiscovery/general.hpp. </li>
    <li> Using the following translations for the DES S-boxes, solvers solve 20
    instances with random keys with the following number of conflicts/nodes on
-   average:
+   average: ??? what is translated ???
     <ul>
      <li> canonical (minisat-2.2.0: 3987.84, OKsolver_2002: 90.17). </li>
      <li> canonical CNF (minisat-2.2.0: 5946.08, OKsolver_2002: ??). </li>
