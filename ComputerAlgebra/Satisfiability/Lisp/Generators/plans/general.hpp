@@ -10,18 +10,6 @@ License, or any later version. */
   \brief Plans for Maxima-generators for clause-sets
 
 
-  \todo Add tests for weak_php_ext_fcs
-  <ul>
-   <li> Tests are needed for:
-    <ul>
-     <li> weak_php_unsat_ext_fcs; </li>
-     <li> php_induction_cl; </li>
-     <li> php_induction_step_cl. </li>
-    </ul>
-   </li>
-  </ul>
-
-
   \todo Extended Resolution clauses for the Pigeon Hole Principle
   <ul>
    <li> See [A short proof of the pigeon hole principle using
@@ -296,6 +284,18 @@ phi_n(i) = phi(i) if phi(i) # n
    ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/DeficiencyOne.hpp)
    is hidden inside a "misleading" combination of other clauses (variable-
    disjoint). We should implement these clause-sets. </li>
+  </ul>
+
+
+  \todo DONE Add tests for weak_php_ext_fcs
+  <ul>
+   <li> DONE Tests are needed for:
+    <ul>
+     <li> DONE weak_php_unsat_ext_fcs; </li>
+     <li> DONE php_induction_cl; </li>
+     <li> DONE php_induction_step_cl. </li>
+    </ul>
+   </li>
   </ul>
 
 */
