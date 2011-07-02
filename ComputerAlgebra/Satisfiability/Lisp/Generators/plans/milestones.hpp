@@ -18,6 +18,7 @@ License, or any later version. */
    the following topics are handled:
     - Update milestones
     - Extended Resolution clauses for the Pigeon Hole Principle
+    - Add tests for weak_php_ext_fcs
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RandomClauseSets.hpp
