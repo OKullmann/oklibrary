@@ -80,6 +80,8 @@ phi_n(i) = phi(i) if phi(i) # n
    ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac
    for the generator of the weak pigeon-hole principle with the
    extended resolution clauses. </li>
+   <li> See also "Hardness of boolean function representations" in
+   Experimentation/Investigations/BooleanFunctions/plans/general.hpp. </li>
   </ul>
 
 
