@@ -49,6 +49,14 @@ okltest_deficiency_full_fcs(deficiency_full_fcs);
    ***********************
 */
 
+/* Extended Resolution */
+
+okltest_php_induction_step_cl(php_induction_step_cl)$
+okltest_php_induction_cl(php_induction_cl)$
+okltest_weak_php_unsat_ext_fcs(weak_php_unsat_ext_fcs)$
+
+/* Measures */
+
 okltest_nvar_php(nvar_php);
 okltest_ncl_list_weak_php(ncl_list_weak_php);
 okltest_ncl_weak_php(ncl_weak_php);

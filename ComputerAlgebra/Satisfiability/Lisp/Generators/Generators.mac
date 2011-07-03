@@ -121,6 +121,56 @@ output_strong_php(m,n,filename) := block([FF : standardise_fcs(strong_php(m,n))]
 output_strong_php_stdname(m,n) := output_strong_php(m,n,
   sconcat("PHP_weak_",m,"_",n,".cnf"))$
 
+/* Extended Resolution */
+
+/* Additional clauses, using new variables, allowing polynomial size
+   resolution proof: */
+
+/* Variables are "php_ext(n,i,j)", meaning that pigeon i is in hole j in the map
+   from {1,...,n} to {1,...,n-1}  */
+kill(php_ext)$
+declare(php_ext, noun)$
+declare(php_ext, posfun)$
+php_ext_var(n,i,j) := nounify(php_ext)(n,i,j)$
+
+/* Clauses enforcing that if the variables
+     php_ext_var(mp+1,i,j) for i in {1,...,mp+1}, j in {1,...,mp}
+   represent an injective map phi : {1,...,mp+1} -> {1,...,mp} then variables
+     php_ext_var(mp,i,j) for i in {1,...,mp}, j in {1,...,mp-1}
+   represent the map phi_mp :  {1,...,mp} -> {1,...,mp-1}:
+     phi_n(i) = phi(i) if phi(i) # n
+                phi(n+1) if phi(i) = n.
+*/
+php_induction_step_cl(mp) :=
+    lappend(create_list(
+      [{php_ext_var(mp,i,j), -php_ext_var(mp+1,i,j)},
+       {php_ext_var(mp,i,j), -php_ext_var(mp+1,i,mp), -php_ext_var(mp+1,mp+1,j)},
+       {-php_ext_var(mp,i,j), php_ext_var(mp+1,i,j), php_ext_var(mp+1,i,mp)},
+       {-php_ext_var(mp,i,j), php_ext_var(mp+1,i,j), php_ext_var(mp+1,mp+1,j)}],
+      i,1,mp,j,1,mp-1))$
+php_induction_cl(m) :=
+  lappend(
+    create_list(
+      if mp # m-1 then php_induction_step_cl(mp)
+      /* php_ext_var(m,i,j) = php_var(i,j) for all i,j */
+      else substitute_cl(
+        php_induction_step_cl(m-1),
+        sm2hm(lappend(
+          create_list(
+            [[ php_ext_var(m,i,j),  php_var(i,j)],
+             [-php_ext_var(m,i,j), -php_var(i,j)]],
+            i,1,mp+1,j,1,mp)))),
+      mp,1,m-1))$
+/* union(weak_php(m,m-1), setify(weak_php_induction_cl(m)) has a polynomial
+   size resolution proof. */
+
+/* For m > 0, yields weak_php_fcs(m,m-1) with Extended Resolution clauses: */
+weak_php_unsat_ext_fcs(m) := block([F : weak_php_fcs(m,m-1)],
+  [union(
+    F[1],
+    setify(create_list(php_ext_var(mp,i,j), mp, 1, m-1, i, 1, mp, j, 1, mp-1))),
+  union(F[2], setify(php_induction_cl(m)))])$
+
 /* Measures */
 
 nvar_php(m,n) := m * n$
