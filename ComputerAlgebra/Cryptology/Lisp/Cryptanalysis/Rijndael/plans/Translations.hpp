@@ -53,7 +53,7 @@ memory limits before executing the program again.
        <li> How does Maxima store functions terms? </li>
       </ul>
      </li>
-     <li> Passing F standardise_fcl seems to balloon the memory use from
+     <li> Passing F to standardise_fcl seems to balloon the memory use from
      ~300MB to >2GB:
       <ul>
        <li> Redefining rename_fcl to:
