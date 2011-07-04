@@ -23,8 +23,8 @@ License, or any later version. */
    <li> The clause-set for the weak/strong SAT translation of PHP is given by
    weak/strong_php_fcs(m,n). </li>
    <li> The clause-set weak_php_fcs(m+1,m) has only exponential size
-   resolution proofs. See [The intractability of resolution; Armin Haken].
-   </li>
+   resolution proofs. Investigations started with [The intractability of
+   resolution; Armin Haken]. </li>
    <li> In [A short proof of the pigeon hole principle using Extended
    Resolution; Stephen Cook], Cook shows that there is a polynomial size
    Extended Resolution proof of weak_php_fcs(m+1,m). </li>
