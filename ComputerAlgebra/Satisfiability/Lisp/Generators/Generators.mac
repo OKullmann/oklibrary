@@ -121,13 +121,13 @@ output_strong_php(m,n,filename) := block([FF : standardise_fcs(strong_php(m,n))]
 output_strong_php_stdname(m,n) := output_strong_php(m,n,
   sconcat("PHP_weak_",m,"_",n,".cnf"))$
 
-/* Extended Resolution */
+/* Extended Resolution refutation
+   Additional clauses, using new variables, allow polynomial size
+   resolution proofs.
+*/
 
-/* Additional clauses, using new variables, allowing polynomial size
-   resolution proof: */
-
-/* Variables are "php_ext(n,i,j)", meaning that pigeon i is in hole j in the map
-   from {1,...,n} to {1,...,n-1}  */
+/* Variables are "php_ext(n,i,j)", meaning that pigeon i is in hole j in the
+   map from {1,...,n} to {1,...,n-1}.  */
 kill(php_ext)$
 declare(php_ext, noun)$
 declare(php_ext, posfun)$
@@ -175,7 +175,7 @@ weak_php_unsat_ext_fcs(m) := block([F : weak_php_fcs(m,m-1)],
 
 nvar_php(m,n) := m * n$
 
-/* List of clause-counts for weak_php as with ncl_list_fcs */
+/* List of clause-counts for weak_php as with ncl_list_fcs: */
 ncl_list_weak_php(m,n) :=
   if m = 0 then []
   elseif n = 0 then [[0,1]]
