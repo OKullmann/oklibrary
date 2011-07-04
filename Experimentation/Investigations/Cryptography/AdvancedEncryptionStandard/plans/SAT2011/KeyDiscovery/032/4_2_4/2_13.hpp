@@ -156,9 +156,9 @@ maxima> ncl_list_full_dualts(8,16);
     (152 * 4 clauses per xor = 624). </li>
     <li> 64 clauses of length four, coming from 8 additions of arity three
     (8 * 8 clauses per xor = 32). </li>
-    <li> 2048 clauses of length 5, coming from 128 additions of arity 4
+    <li> 2048 clauses of length five, coming from 128 additions of arity 4
     from the diffusion operation (128 * 16 = 2048). </li>
-    <li> 1920 clauses of length 9, coming from 24 Sboxes and 16 of each of
+    <li> 1920 clauses of length nine, coming from 24 Sboxes and 16 of each of
     the six multiplications (120 * 16 = 1920). </li>
     <li> 120 clauses of length sixteen, coming from from 24 Sboxes and 16 of 
     each of the six multiplications (120 * 1 = 60). </li>
