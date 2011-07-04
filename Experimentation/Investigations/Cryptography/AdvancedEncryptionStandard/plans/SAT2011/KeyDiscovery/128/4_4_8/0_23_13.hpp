@@ -40,8 +40,7 @@ License, or any later version. */
    <ol>
     <li> Addition of round key 0 (input key) to plaintext. </li>
     <li> Application of SubBytes (Sbox to each 8-bit element) operation. </li>
-    <li> A shift of row i by i-1 to the left for all i from 1 to the number of
-    rows. </li>
+    <li> A shift of row i by i-1 to the left for all i in {1,...,4}. </li>
     <li> Addition of round key 1, resulting in the ciphertext. </li>
    </ol>
    </li>

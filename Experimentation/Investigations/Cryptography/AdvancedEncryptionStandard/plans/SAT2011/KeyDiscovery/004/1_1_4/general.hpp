@@ -66,11 +66,13 @@ License, or any later version. */
   </ul>
 
 
-  \todo Remove linear diffusion from translation
+  \todo Remove ShiftRows from translation
   <ul>
-   <li> Currently the AES linear diffusion operation creates equality
+   <li> Currently the AES ShiftRows operation creates equality
    clauses in the translation of this AES instance, as the translation
    does not check if the MixColumns matrix is the identity matrix. </li>
+   <li> That is, the addition constraints are "unary" additions, i.e.,
+   just equality constraints. </li>
    <li> These equivalences clauses can only get in the way for the solvers
    and skew results, and therefore the translation should be updated to
    check for the identity matrix and rename variables instead. </li>
