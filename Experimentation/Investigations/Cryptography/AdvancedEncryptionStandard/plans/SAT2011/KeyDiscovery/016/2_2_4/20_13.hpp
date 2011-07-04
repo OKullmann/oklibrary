@@ -78,8 +78,8 @@ maxima> ss_mixcolumns_matrix(2,4,2);
    <li> Generating small scale AES for twenty rounds:
    \verbatim
 rounds : 20$
-num_columns : 2$
 num_rows : 2$
+num_columns : 2$
 exp : 4$
 final_round_b : false$
 box_tran : aes_ts_box$
@@ -305,8 +305,8 @@ c CPU time              : 133.51 s
    <li> Generating small scale AES for twenty rounds (with MixColumns):
    \verbatim
 rounds : 20$
-num_columns : 2$
 num_rows : 2$
+num_columns : 2$
 exp : 4$
 final_round_b : false$
 box_tran : aes_ts_box$

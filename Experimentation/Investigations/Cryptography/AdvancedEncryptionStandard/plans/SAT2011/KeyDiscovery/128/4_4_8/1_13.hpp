@@ -77,8 +77,8 @@ maxima> ss_mixcolumns_matrix(2,8,4);
    <li> Generating AES for 1 + 1/3 round:
    \verbatim
 num_rounds : 1$
-num_columns : 4$
 num_rows : 4$
+num_columns : 4$
 exp : 8$
 final_round_b : false$
 box_tran : aes_ts_box$
