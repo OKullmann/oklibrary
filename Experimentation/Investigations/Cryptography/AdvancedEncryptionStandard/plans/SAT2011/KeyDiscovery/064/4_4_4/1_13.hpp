@@ -14,18 +14,18 @@ License, or any later version. */
   about the boolean functions involved --- but nothing is said ???
   <ul>
    <li> In this file, we collect the investigations into translations of
-   1 + 1/3 round small scale AES with four rows, two columns, using the 4-bit
+   1 + 1/3 round small scale AES with four rows, four columns, using the 4-bit
    field size. </li>
    <li> The AES encryption scheme we model takes a 64-bit plaintext and
-   64-bit key and outputs a 64-bit ciphertext. The plaintext, key and 
-   ciphertext are all considered, column by column, as 4x4 matrices of 4-bit 
+   64-bit key and outputs a 64-bit ciphertext. The plaintext, key and
+   ciphertext are all considered, column by column, as 4x4 matrices of 4-bit
    elements. </li>
-   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc), 
-   the 4-bit element at position (i,j) in the matrix is the ((i-1)*4 + j)-th 
+   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc),
+   the 4-bit element at position (i,j) in the matrix is the ((i-1)*4 + j)-th
    4-bit word of the 64-bits. </li>
    <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
    b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
+   on these polynomials is defined as usual, modulo the polynomial x^4+x+1.
    </li>
    <li> The encryption scheme applies the following operations:
     <ol>
@@ -44,7 +44,7 @@ License, or any later version. */
      <li> A shift of row i by i-1 to the left for all i from 1 to the number of
      rows. </li>
      <li> The AES MixColumns operation, which takes the input matrix and
-     applies a matrix multiplication by the constant matrix 
+     applies a matrix multiplication by the constant matrix
      \verbatim
 maxima> ss_mixcolumns_matrix(2,4,4);
  matrix([x,x+1,1,1],[1,x,x+1,1],[1,1,x,x+1],[x+1,1,1,x])
@@ -59,7 +59,7 @@ maxima> ss_mixcolumns_matrix(2,4,4);
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   <li> Translating the AES cipher treating Sboxes and field multiplications
    as whole boxes and translating these boxes using the canonical translation.
    </li>
    <li> Generating small scale AES for one round:
@@ -94,10 +94,10 @@ shell> cat ssaes_r1_c4_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
     <li> 16 Sboxes in the SubBytes operation (4 rows * 4 columns = 16). </li>
     <li> 256 additions within the round and key additions, coming from:
      <ul>
-      <li> 128 additions from key additions 
+      <li> 128 additions from key additions
       (2 round keys * 64-bit additions = 128). </li>
-      <li> 128 additions from the matrix multiplication in the diffusion 
-      operation of arity 4 
+      <li> 128 additions from the matrix multiplication in the diffusion
+      operation of arity 4
       (4 rows * 4 columns * 2 directions * 4 bits = 128).
       </li>
      </ul>
@@ -118,7 +118,7 @@ shell> cat ssaes_r1_c4_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
     <li> 64 additions in the key schedule:
     <ul>
      <li> 4 additions of arity three (1 row * 1 column * 4 bits = 4). </li>
-     <li> 60 additions of arity two 
+     <li> 60 additions of arity two
      ((3 rows * 4 columns + 1 rows * 3 columns) * 4 bits = 60). </li>
     </ul>
     </li>
@@ -129,7 +129,7 @@ shell> cat ssaes_r1_c4_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
    \verbatim
 maxima> ncl_list_ss(1,4,4,4,false,aes_ts_box,aes_mc_bidirectional);
 [[1,4],[2,14848],[3,752],[4,32],[5,2048],[9,1856],[16,116]]
-maxima> mul_map(epoly) := block([e:poly2nat(epoly,2)], 
+maxima> mul_map(epoly) := block([e:poly2nat(epoly,2)],
   [epoly,[[2,'m(e,2)],[9,'m(e,9)],[16,'m(e,16)]]])$
 maxima> ncl_list_ss_gen(1,4,4,4,ss_mixcolumns_matrix(2,4,4),[[2,'s2],[9,'s9],[16,'s16]],create_list(mul_map(p),p,[x,x+1,x^3+1,x^3+x+1,x^3+x^2+1,x^3+x^2+x]),false,aes_mc_bidirectional);
 [[1,4],
@@ -151,13 +151,13 @@ maxima> ncl_list_full_dualts(8,16);
     (4 * 8 = 32). </li>
     <li> 2048 clauses of length five, 128 additions of arity 4
     (256 * 16 = 2048). </li>
-    <li> 1856 clauses of length nine, coming from 20 Sboxes and 16 of each of 
+    <li> 1856 clauses of length nine, coming from 20 Sboxes and 16 of each of
     the six multiplications (116 * 16 = 1856). </li>
-    <li> 116 clauses of length sixteen, coming from from 20 Sboxes and 16 of 
+    <li> 116 clauses of length sixteen, coming from from 20 Sboxes and 16 of
     each of the six multiplications (116 * 1 = 116). </li>
    </ul>
    </li>
-   <li> Then we can generate a random assignment with the plaintext and 
+   <li> Then we can generate a random assignment with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
@@ -197,14 +197,14 @@ c Memory used           : 112.15 MB
 c CPU time              : 0.13098 s
    \endverbatim
    however, re-running glucose does not yield the same behaviour, and there
-   are a very large number of restarts in just 0.13s. Does glucose have a bug 
+   are a very large number of restarts in just 0.13s. Does glucose have a bug
    in it's timing code? Perhaps there is a bug in the experiment run script?
    See "MiniSAT2 based solvers return incorrect times using experiment script"
-   in 
+   in
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp.
 ??? This is trivial to fix --- just apply "time" ???
    </li>
-   <li> Other solvers such as cryptominisat take longer (but still only a few 
+   <li> Other solvers such as cryptominisat take longer (but still only a few
    minutes):
    \verbatim
 shell> cryptominisat experiment_r1_k1.cnf

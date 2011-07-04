@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   5 + 1/3 round small scale AES with two rows, two columns, using the 4-bit
+   5 + 1/3 round small scale AES with one row, sixteen columns, using the 4-bit
    field size. </li>
    <li> The AES encryption scheme we model takes a 64-bit plaintext and
    64-bit key and outputs a 64-bit ciphertext. </li>
