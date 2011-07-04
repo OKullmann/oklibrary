@@ -20,8 +20,8 @@ License, or any later version. */
    for m pigeons and n holes. </li>
    <li> That is, consider the decision problem: is there an injective map
    from {1,...,m} to {1,...,n}? </li>
-   <li> The clause-set giving the SAT encoding of the PHP is given by
-   weak_php_fcs(m,n) at the Maxima level. </li>
+   <li> The clause-set for the weak/strong SAT translation of PHP is given by
+   weak/strong_php_fcs(m,n). </li>
    <li> The clause-set weak_php_fcs(m+1,m) has only exponential size
    resolution proofs. See [The intractability of resolution; Armin Haken].
    </li>
