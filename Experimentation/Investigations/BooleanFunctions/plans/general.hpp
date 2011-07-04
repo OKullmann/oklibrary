@@ -62,11 +62,11 @@ maxima> for m : 1 while true do
      </li>
     </ul>
    </li>
-   <li> The hardness of the following should also be investigated:
+   <li> The hardness of the following should be investigated:
     <ul>
-     <li> pigeon hole formulas, . </li>
+     <li> pigeon hole formulas </li>
      <li> cardinality constraints, see
-     ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp.
+     Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp.
      </li>
     </ul>
    </li>
