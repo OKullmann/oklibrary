@@ -37,8 +37,8 @@ License, or any later version. */
    <li> Investigations into how representations with different hardness
    affect SAT solving is being investigated in:
     <ul>
-     <li> AES: Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp. </li>
-     <li> DES: Investigations/Cryptography/DataEncryptionStandard/plans/general.hpp. </li>
+     <li> AES: Cryptography/AdvancedEncryptionStandard/plans/general.hpp. </li>
+     <li> DES: Cryptography/DataEncryptionStandard/plans/general.hpp. </li>
     </ul>
    </li>
    <li> The hardness of pigeon-hole formulas:
