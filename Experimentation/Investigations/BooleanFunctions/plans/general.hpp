@@ -86,10 +86,6 @@ maxima> for m : 1 while true do
      </li>
     </ul>
    </li>
-   <li> Consider a boolean function f : V -> {0,1} for which the maximum
-   hardness any representation F of f can be is k_max. Can we always
-   construct representation F_0,...,F_{k_max} such that F_i is a CNF
-   representation of f with hardness i? </li>
   </ul>
 
 
