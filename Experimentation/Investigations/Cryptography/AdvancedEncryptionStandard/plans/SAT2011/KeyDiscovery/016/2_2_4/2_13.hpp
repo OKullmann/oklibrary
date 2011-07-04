@@ -61,8 +61,8 @@ shell> cd aes_2_2_4/canon
 shell> oklib --maxima
 oklib_load_all()$
 num_rounds : 2$
-num_columns : 2$
 num_rows : 2$
+num_columns : 2$
 exp : 4$
 final_round_b : false$
 box_tran : aes_ts_box$
@@ -188,8 +188,8 @@ shell> cd aes_2_2_4/1base
 shell> oklib --maxima
 oklib_load_all()$
 num_rounds : 2$
-num_columns : 2$
 num_rows : 2$
+num_columns : 2$
 exp : 4$
 final_round_b : false$
 box_tran : aes_rbase_box$
@@ -315,8 +315,8 @@ shell> cd aes_2_2_4/min
 shell> oklib --maxima
 oklib_load_all()$
 num_rounds : 2$
-num_columns : 2$
 num_rows : 2$
+num_columns : 2$
 exp : 4$
 final_round_b : false$
 box_tran : aes_small_box$
@@ -444,8 +444,8 @@ shell> cd aes_2_2_4/full
 shell> oklib --maxima
 oklib_load_all()$
 num_rounds : 2$
-num_columns : 2$
 num_rows : 2$
+num_columns : 2$
 exp : 4$
 final_round_b : false$
 box_tran : aes_full_box$

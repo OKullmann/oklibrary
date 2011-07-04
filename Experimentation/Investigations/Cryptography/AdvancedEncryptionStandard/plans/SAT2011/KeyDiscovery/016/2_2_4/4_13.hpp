@@ -68,8 +68,8 @@ maxima> ss_mixcolumns_matrix(2,4,2);
    <li> Generating small scale AES for 4 + 1/3 rounds:
    \verbatim
 rounds : 4$
-num_columns : 2$
 num_rows : 2$
+num_columns : 2$
 exp : 4$
 final_round_b : false$
 box_tran : aes_ts_box$

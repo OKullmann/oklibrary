@@ -51,8 +51,8 @@ License, or any later version. */
    <li> Generating simplest small scale AES for 1 round:
    \verbatim
 num_rounds : 1$
-num_columns : 1$
 num_rows : 1$
+num_columns : 1$
 exp : 4$
 final_round_b : false$
 box_tran : aes_ts_box$
