@@ -16,15 +16,15 @@ License, or any later version. */
    1 + 1/3 round small scale AES with two rows, two columns, using the 4-bit
    field size. </li>
    <li> The AES encryption scheme we model takes a 16-bit plaintext and
-   16-bit key and outputs a 16-bit ciphertext. The plaintext, key and 
-   ciphertext are all considered, column by column, as 2x2 matrices of 4-bit 
+   16-bit key and outputs a 16-bit ciphertext. The plaintext, key and
+   ciphertext are all considered, column by column, as 2x2 matrices of 4-bit
    elements. </li>
-   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc), 
-   the 4-bit element at position (i,j) in the matrix is the ((i-1)*2 + j)-th 
+   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc),
+   the 4-bit element at position (i,j) in the matrix is the ((i-1)*2 + j)-th
    4-bit word of the 16-bits. </li>
    <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
    b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
+   on these polynomials is defined as usual, modulo the polynomial x^4+x+1.
    </li>
    <li> The encryption scheme applies the following operations:
    <ol>
@@ -48,7 +48,7 @@ License, or any later version. */
     <li> A shift of row i by i-1 to the left for all i from 1 to the number of
     rows. </li>
     <li> The AES MixColumns operation, which takes the input matrix and
-    applies a matrix multiplication by the constant matrix 
+    applies a matrix multiplication by the constant matrix
     \verbatim
 maxima> ss_mixcolumns_matrix(2,4,2);
  matrix([x+1,x],[x,x+1])
@@ -63,7 +63,7 @@ maxima> ss_mixcolumns_matrix(2,4,2);
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   <li> Translating the AES cipher treating Sboxes and field multiplications
    as whole boxes and translating these boxes using the canonical translation.
    </li>
    <li> Generating small scale AES for 1 + 1/3 rounds:
@@ -97,9 +97,9 @@ shell> cat ssaes_r1_c2_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
     <li> 4 Sboxes in the SubBytes operation (2 rows * 2 columns = 4). </li>
     <li> 64 additions within the round and key additions, coming from:
      <ul>
-      <li> 32 additions from key additions 
+      <li> 32 additions from key additions
       (2 round keys * 16-bit additions = 32). </li>
-      <li> 32 additions from the matrix multiplication in the diffusion 
+      <li> 32 additions from the matrix multiplication in the diffusion
       operation (2 rows * 2 columns * 2 directions * 4 bits = 32).
       </li>
      </ul>
@@ -112,7 +112,7 @@ shell> cat ssaes_r1_c2_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
     <li> 16 additions in the key schedule:
     <ul>
      <li> 4 additions of arity three (1 row * 1 column * 4 bits = 4). </li>
-     <li> 12 additions of arity two 
+     <li> 12 additions of arity two
      ((1 rows * 2 columns + 1 row * 1 column) * 4 bits = 12). </li>
     </ul>
     </li>
@@ -132,20 +132,20 @@ maxima> ncl_list_full_dualts(8,16);
    are comprised of:
    <ul>
     <li> 4 unit-clauses for the 4-bit constant in the key expansion. </li>
-    <li> 2816 binary clauses, coming from 6 Sboxes and 8 of each of the two 
+    <li> 2816 binary clauses, coming from 6 Sboxes and 8 of each of the two
     multiplications (22 * 128 = 2816). </li>
     <li> 304 ternary clauses, coming from 76 additions of arity two
     (76 * 4 = 624). </li>
     <li> 32 clauses of length four, coming from 4 additions of arity three
     (4 * 8 = 32). </li>
-    <li> 352 clauses of length seven, coming from 6 Sboxes and 8 of each of 
+    <li> 352 clauses of length seven, coming from 6 Sboxes and 8 of each of
     the two multiplications (22 * 16 = 352). </li>
-    <li> 22 clauses of length sixteen, coming from from 6 Sboxes and 8 of 
+    <li> 22 clauses of length sixteen, coming from from 6 Sboxes and 8 of
     each of the two multiplications (22 * 1 = 22).
     XXX this all is ugly to read --- less words, more structure! XXX </li>
    </ul>
    </li>
-   <li> Then we can generate random assignments with the plaintext and 
+   <li> Then we can generate random assignments with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,rounds,num_columns,num_rows,exp,final_round_b);
@@ -188,7 +188,7 @@ c file_name                             r1_keyfind.cnf
    </li>
    <li> However, minisat-2.2.0 and glucose need to branch a lot more:
    \verbatim
-shell> minisat2 r1_keyfind.cnf 
+shell> minisat2 r1_keyfind.cnf
 <snip>
 restarts              : 3
 conflicts             : 333            (4757 /sec)
@@ -205,7 +205,7 @@ propagations          : 17092          (1709200 /sec)
 conflict literals     : 3314           (24.44 % deleted)
 Memory used           : 19.00 MB
 CPU time              : 0.01 s
-shell> glucose r1_keyfind.cnf 
+shell> glucose r1_keyfind.cnf
 <snip>
 c restarts              : 2
 c nb ReduceDB           : 0
@@ -258,10 +258,10 @@ shell> cat ssaes_r1_c2_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
    <li> We have the following statistics (computed):
    \verbatim
 maxima> print(ncl_list_ss(1,2,2,4,false,aes_rbase_box,aes_mc_bidirectional));
-[[1,4],[2,48],[3,536],[4,186]] 
+[[1,4],[2,48],[3,536],[4,186]]
    \endverbatim
    </li>
-   <li> Then we can generate random assignments with the plaintext and 
+   <li> Then we can generate random assignments with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,round,num_columns,num_rows,exp,final_round_b);
@@ -302,10 +302,10 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             r1_keyfind.cnf
    \endverbatim
    </li>
-   <li> However, minisat2, minisat-2.2.0 and glucose need a considerable 
+   <li> However, minisat2, minisat-2.2.0 and glucose need a considerable
    number of decisions (given the key is only 16-bit):
    \verbatim
-shell> minisat2 r1_keyfind.cnf 
+shell> minisat2 r1_keyfind.cnf
 <snip>
 restarts              : 2
 conflicts             : 242            (13447 /sec)
@@ -323,7 +323,7 @@ propagations          : 11341          (2835959 /sec)
 conflict literals     : 1920           (35.00 % deleted)
 Memory used           : 8.00 MB
 CPU time              : 0.003999 s
-shell> glucose r1_keyfind.cnf 
+shell> glucose r1_keyfind.cnf
 <snip>
 c restarts              : 1
 c nb ReduceDB           : 0
@@ -371,7 +371,7 @@ c conflict literals        : 1975        (30.09     % deleted)
 c Memory used              : 13.31       MB
 c CPU time                 : 0.01        s
    \endverbatim
-   Doesn't this solver do some non-trivial reductions? Apparently they don't 
+   Doesn't this solver do some non-trivial reductions? Apparently they don't
    help here?
    </li>
    <li> precosat:
@@ -402,7 +402,7 @@ c 211 conflicts, 221 decisions, 0 random
 c 1 iterations, 0 restarts, 0 skipped
 c 0 enlarged, 0 shrunken, 1 rescored, 0 rebiased
 c 1 simplifications, 0 reductions
-c 
+c
 c arty: 0.00 ands 2.00 xors average arity
 c autk: 0 autarkies of 0.0 avg size
 c autk: dhs 0 0 0 0 0 0

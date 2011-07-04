@@ -63,19 +63,19 @@ shell> cat ssaes_r20_c1_rw1_e8_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    <ul>
     <li> Twenty full rounds (Key Addition, SubBytes, and diffusion operation).
     </li>
-    <li> 20 Sboxes in the SubBytes operation 
+    <li> 20 Sboxes in the SubBytes operation
     (1 rows * 1 columns * 20 rounds = 20). </li>
     <li> 488 additions within the round and key additions, coming from:
      <ul>
-      <li> 168 additions of arity 2 from key additions 
+      <li> 168 additions of arity 2 from key additions
       (21 round keys * 8-bit additions = 168). </li>
       <li> 320 additions of arity one from the identity matrix multiplication
-      in the diffusion operation 
+      in the diffusion operation
       (1 rows * 1 columns * 2 directions * 8 bits * 20 rounds = 320).
       </li>
      </ul>
     </li>
-    <li> 20 Sboxes in the AES key schedule 
+    <li> 20 Sboxes in the AES key schedule
     (1 rows * 20 rounds = 20). </li>
     <li> 160 additions in the key schedule:
     <ul>
@@ -100,7 +100,7 @@ maxima> ncl_list_full_dualts(8,16);
    are comprised of:
    <ul>
     <li> 160 unit-clauses for the 4-bit constant in the key expansion. </li>
-    <li> 164480 binary clauses, coming from 40 Sboxes and 320 additions of 
+    <li> 164480 binary clauses, coming from 40 Sboxes and 320 additions of
     arity one (40 * 4096 + 320 * 2 = 164480). </li>
     <li> 1312 ternary clauses, coming from 328 additions of arity two
     (328 * 4 = 656). </li>

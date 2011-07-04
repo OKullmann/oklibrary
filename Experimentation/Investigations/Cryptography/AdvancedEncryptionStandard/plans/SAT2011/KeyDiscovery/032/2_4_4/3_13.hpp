@@ -16,19 +16,19 @@ License, or any later version. */
    3 + 1/3 round small scale AES with two rows, four columns, using the 4-bit
    field size. </li>
    <li> The AES encryption scheme we model takes a 32-bit plaintext and
-   32-bit key and outputs a 32-bit ciphertext. The plaintext, key and 
-   ciphertext are all considered, column by column, as 2x4 matrices of 4-bit 
+   32-bit key and outputs a 32-bit ciphertext. The plaintext, key and
+   ciphertext are all considered, column by column, as 2x4 matrices of 4-bit
    elements. </li>
-   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc), 
-   the 4-bit element at position (i,j) in the matrix is the ((i-1)*2 + j)-th 
+   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc),
+   the 4-bit element at position (i,j) in the matrix is the ((i-1)*2 + j)-th
    4-bit word of the 32-bits. </li>
    <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
    b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
+   on these polynomials is defined as usual, modulo the polynomial x^4+x+1.
    </li>
    <li> The encryption scheme applies the following operations:
    <ol>
-    <li> The round function iterated three times, consisting of (for 
+    <li> The round function iterated three times, consisting of (for
     round 0 <= i < 3):
     <ol>
      <li> Addition of round key i-1 to plaintext. </li>
@@ -45,10 +45,10 @@ License, or any later version. */
    the input matrix, consisting of:
    <ol>
     <li> A cyclical shift of row 2 of the matrix by one 4-bit element to the
-    left, that is, the matrix matrix([1,2],[3,4]) would map to 
+    left, that is, the matrix matrix([1,2],[3,4]) would map to
     matrix([1,2],[4,3]). </li>
     <li> The AES MixColumns operation, which takes the input matrix and
-    applies a matrix multiplication by the constant matrix 
+    applies a matrix multiplication by the constant matrix
     \verbatim
 maxima> ss_mixcolumns_matrix(2,4,2);
  matrix([x+1,x],[x,x+1]
@@ -68,7 +68,7 @@ maxima> ss_mixcolumns_matrix(2,4,2);
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   <li> Translating the AES cipher treating Sboxes and field multiplications
    as whole boxes and translating these boxes using the canonical translation.
    </li>
    <li> Generating small scale AES for 1 + 1/3 round:
@@ -103,9 +103,9 @@ shell> cat ssaes_r3_c4_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
     (3 rounds * 2 rows * 4 columns = 24). </li>
     <li> 128 additions within the round and key additions, coming from:
      <ul>
-      <li> 128 additions from key additions 
+      <li> 128 additions from key additions
       (4 round keys * 32-bit additions = 128). </li>
-      <li> 192 additions from the matrix multiplication in the diffusion 
+      <li> 192 additions from the matrix multiplication in the diffusion
       operation (3 rounds * 2 rows * 4 columns * 2 directions * 4 bits = 192).
       </li>
      </ul>
@@ -114,13 +114,13 @@ shell> cat ssaes_r3_c4_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
     (3 rounds * 2 rows * 4 columns * 2 directions = 48). </li>
     <li> 48 multiplications by 03 from the MixColumns operation
     (3 rounds * 2 rows * 4 columns * 2 directions = 48). </li>
-    <li> 6 Sboxes in the AES key schedule 
+    <li> 6 Sboxes in the AES key schedule
     (3 rounds * 2 rows = 6). </li>
     <li> 96 additions in the key schedule:
     <ul>
-     <li> 12 additions of arity three 
+     <li> 12 additions of arity three
      (3 rounds * 1 row * 1 column * 4 bits = 12). </li>
-     <li> 84 additions of arity two 
+     <li> 84 additions of arity two
      ((3 rounds * 1 rows * 3 columns + 2 rows * 2 columns) * 4 bits = 84).
      </li>
     </ul>
@@ -145,13 +145,13 @@ maxima> ncl_list_full_dualts(8,16);
     (404 * 4 = 1616). </li>
     <li> 96 clauses of length four, coming from 12 additions of arity three
     (12 * 8 = 96). </li>
-    <li> 2016 clauses of length nine, coming from 30 Sboxes and 48 of each of 
+    <li> 2016 clauses of length nine, coming from 30 Sboxes and 48 of each of
     the two multiplications (126 * 16 = 2016). </li>
-    <li> 126 clauses of length sixteen, coming from from 30 Sboxes and 48 of 
+    <li> 126 clauses of length sixteen, coming from from 30 Sboxes and 48 of
     each of the two multiplications (126 * 1 = 126). </li>
    </ul>
    </li>
-   <li> Then we can generate a random assignment with the plaintext and 
+   <li> Then we can generate a random assignment with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);

@@ -19,7 +19,7 @@ License, or any later version. */
    64-bit key and outputs a 64-bit ciphertext. </li>
    <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
    b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
+   on these polynomials is defined as usual, modulo the polynomial x^4+x+1.
    </li>
    <li> The encryption scheme applies the following operations:
    <ol>
@@ -40,7 +40,7 @@ License, or any later version. */
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   <li> Translating the AES cipher treating Sboxes and field multiplications
    as whole boxes and translating these boxes using the canonical translation.
    </li>
    <li> Generating small scale AES for 4 + 1/3 rounds:
@@ -69,25 +69,25 @@ shell> cat ssaes_r4_c16_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    <ul>
     <li> Four full rounds (Key Addition, SubBytes, and diffusion operation).
     </li>
-    <li> 64 Sboxes in the SubBytes operation 
+    <li> 64 Sboxes in the SubBytes operation
     (1 rows * 16 columns * 4 rounds = 64). </li>
     <li> 832 additions within the round and key additions, coming from:
      <ul>
-      <li> 320 additions from key additions 
+      <li> 320 additions from key additions
       (5 round keys * 64-bit additions = 320). </li>
-      <li> 512 additions from the identity matrix multiplication in the 
+      <li> 512 additions from the identity matrix multiplication in the
       diffusion operation of arity one
       (1 rows * 16 columns * 2 directions * 4 bits * 4 rounds = 512).
       </li>
      </ul>
     </li>
-    <li> 4 Sboxes in the AES key schedule 
+    <li> 4 Sboxes in the AES key schedule
     (1 rows * 4 rounds = 4). </li>
     <li> 256 additions in the key schedule:
     <ul>
-     <li> 16 additions of arity three 
+     <li> 16 additions of arity three
      (1 row * 1 column * 4 bits * 4 rounds = 16). </li>
-     <li> 240 additions of arity two 
+     <li> 240 additions of arity two
      (15 columns * 4 bits * 4 rounds = 240). </li>
     </ul>
     </li>
@@ -114,13 +114,13 @@ maxima> ncl_list_full_dualts(8,16);
     (560 * 4 = 2240). </li>
     <li> 128 clauses of length four, coming from 16 additions of arity three
     (16 * 8 = 128). </li>
-    <li> 1088 clauses of length nine, coming from 68 Sboxes 
+    <li> 1088 clauses of length nine, coming from 68 Sboxes
     (68 * 16 = 1088). </li>
-    <li> 68 clauses of length sixteen, coming from from 68 Sboxes 
+    <li> 68 clauses of length sixteen, coming from from 68 Sboxes
     (68 * 1 = 68). </li>
    </ul>
    </li>
-   <li> Then we can generate a random assignment with the plaintext and 
+   <li> Then we can generate a random assignment with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
@@ -165,7 +165,7 @@ CPU time              : 18.79 s
 
   \todo Using the rbase box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   <li> Translating the AES cipher treating Sboxes and field multiplications
    as whole boxes and translating these boxes using the canonical translation.
    </li>
    <li> Generating small scale AES for 4 + 1/3 rounds:
@@ -194,25 +194,25 @@ shell> cat ssaes_r4_c16_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    <ul>
     <li> Four full rounds (Key Addition, SubBytes, and diffusion operation).
     </li>
-    <li> 64 Sboxes in the SubBytes operation 
+    <li> 64 Sboxes in the SubBytes operation
     (1 rows * 16 columns * 4 rounds = 64). </li>
     <li> 832 additions within the round and key additions, coming from:
      <ul>
-      <li> 320 additions from key additions 
+      <li> 320 additions from key additions
       (5 round keys * 64-bit additions = 320). </li>
-      <li> 512 additions from the identity matrix multiplication in the 
+      <li> 512 additions from the identity matrix multiplication in the
       diffusion operation of arity one
       (1 rows * 16 columns * 2 directions * 4 bits * 4 rounds = 512).
       </li>
      </ul>
     </li>
-    <li> 4 Sboxes in the AES key schedule 
+    <li> 4 Sboxes in the AES key schedule
     (1 rows * 4 rounds = 4). </li>
     <li> 256 additions in the key schedule:
     <ul>
-     <li> 16 additions of arity three 
+     <li> 16 additions of arity three
      (1 row * 1 column * 4 bits * 4 rounds = 16). </li>
-     <li> 240 additions of arity two 
+     <li> 240 additions of arity two
      (15 columns * 4 bits * 4 rounds = 240). </li>
     </ul>
     </li>
@@ -233,15 +233,15 @@ maxima> ncl_list_fcs(ev_hm(ss_sbox_rbase_cnfs,4));
    <ul>
     <li> 16 unit-clauses for the 4-bit constants in the key expansion
     (4 bits  * 4 rounds = 16). </li>
-    <li> 1024 binary clauses, coming from 512 additions of arity one 
+    <li> 1024 binary clauses, coming from 512 additions of arity one
     (512 * 2 = 1024). </li>
-    <li> 3056 ternary clauses, coming from 68 Sboxes and 560 additions of 
+    <li> 3056 ternary clauses, coming from 68 Sboxes and 560 additions of
     arity two (68 * 12 + 560 * 4 = 3056). </li>
     <li> 1148 clauses of length four, coming from 68 Sboxes and 16 additions
     of arity three (68 * 15 + 16 * 8 = 1148). </li>
    </ul>
    </li>
-   <li> Then we can generate a random assignment with the plaintext and 
+   <li> Then we can generate a random assignment with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);

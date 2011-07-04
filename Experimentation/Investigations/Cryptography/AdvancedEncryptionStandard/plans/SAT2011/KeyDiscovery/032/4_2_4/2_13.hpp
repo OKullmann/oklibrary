@@ -16,15 +16,15 @@ License, or any later version. */
    2 + 1/3 round small scale AES with four rows, two columns, using the 4-bit
    field size. </li>
    <li> The AES encryption scheme we model takes a 32-bit plaintext and
-   32-bit key and outputs a 32-bit ciphertext. The plaintext, key and 
-   ciphertext are all considered, column by column, as 4x2 matrices of 4-bit 
+   32-bit key and outputs a 32-bit ciphertext. The plaintext, key and
+   ciphertext are all considered, column by column, as 4x2 matrices of 4-bit
    elements. </li>
-   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc), 
-   the 4-bit element at position (i,j) in the matrix is the ((i-1)*4 + j)-th 
+   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc),
+   the 4-bit element at position (i,j) in the matrix is the ((i-1)*4 + j)-th
    4-bit word of the 32-bits. </li>
    <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
    b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
+   on these polynomials is defined as usual, modulo the polynomial x^4+x+1.
    </li>
    <li> The encryption scheme applies the following operations:
    <ol>
@@ -45,7 +45,7 @@ License, or any later version. */
    <ol>
     <li> A shift of row i by i-1 to the left for all i from 1 to the number of rows.. </li>
     <li> The AES MixColumns operation, which takes the input matrix and
-    applies a matrix multiplication by the constant matrix 
+    applies a matrix multiplication by the constant matrix
     \verbatim
 maxima> ss_mixcolumns_matrix(2,4,4);
  matrix([x,x+1,1,1],[1,x,x+1,1],[1,1,x,x+1],[x+1,1,1,x])
@@ -94,13 +94,13 @@ shell> cat ssaes_r2_c2_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
    <ul>
     <li> Two full rounds (Key Addition, SubBytes, and diffusion operation).
     </li>
-    <li> 16 Sboxes in the SubBytes operation 
+    <li> 16 Sboxes in the SubBytes operation
     (4 rows * 2 columns * 2 rounds = 16). </li>
     <li> 224 additions within the round and key additions, coming from:
      <ul>
-      <li> 64 additions from key additions 
+      <li> 64 additions from key additions
       (3 round keys * 32-bit additions = 96). </li>
-      <li> 64 additions from the matrix multiplication in the diffusion 
+      <li> 64 additions from the matrix multiplication in the diffusion
       operation (4 rows * 2 columns * 2 directions * 4 bits * 2 rounds = 128).
       </li>
      </ul>
@@ -120,10 +120,10 @@ shell> cat ssaes_r2_c2_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
     <li> 8 Sboxes in the AES key schedule (4 rows * 2 rounds = 8). </li>
     <li> 64 additions in the key schedule:
     <ul>
-     <li> 8 additions of arity three 
+     <li> 8 additions of arity three
      (1 row * 1 column * 4 bits * 2 rounds = 8). </li>
-     <li> 56 additions of arity two 
-     ((3 rows * 1 columns + 4 rows * 1 columns) * 4 bits * 2 rounds = 56). 
+     <li> 56 additions of arity two
+     ((3 rows * 1 columns + 4 rows * 1 columns) * 4 bits * 2 rounds = 56).
      </li>
     </ul>
     </li>
@@ -135,7 +135,7 @@ shell> cat ssaes_r2_c2_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
    \verbatim
 maxima> ncl_list_ss(1,2,4,4,false,aes_ts_box,aes_mc_bidirectional);
 [[1,8],[2,15360],[3,608],[4,64],[5,2048],[9,1920],[16,120]]
-maxima> mul_map(epoly) := block([e:poly2nat(epoly,2)], 
+maxima> mul_map(epoly) := block([e:poly2nat(epoly,2)],
   [epoly,[[2,'m(e,2)],[9,'m(e,9)],[16,'m(e,16)]]])$
 maxima> ncl_list_ss_gen(1,4,2,4,ss_mixcolumns_matrix(2,4,2),[[2,'s2],[9,'s9],[16,'s16]],create_list(mul_map(p),p,[x,x+1,x^3+1,x^3+x+1,x^3+x^2+1,x^3+x^2+x]),false,aes_mc_bidirectional);
 [[1,4],
@@ -160,11 +160,11 @@ maxima> ncl_list_full_dualts(8,16);
     from the diffusion operation (128 * 16 = 2048). </li>
     <li> 1920 clauses of length 9, coming from 24 Sboxes and 16 of each of
     the six multiplications (120 * 16 = 1920). </li>
-    <li> 120 clauses of length sixteen, coming from from 24 Sboxes and 16 of 
+    <li> 120 clauses of length sixteen, coming from from 24 Sboxes and 16 of
     each of the six multiplications (120 * 1 = 60). </li>
    </ul>
    </li>
-   <li> Then we can generate a random assignment with the plaintext and 
+   <li> Then we can generate a random assignment with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
