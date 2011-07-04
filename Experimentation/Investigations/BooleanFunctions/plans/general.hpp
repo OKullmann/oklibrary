@@ -79,7 +79,7 @@ maxima> for m : 1 while true do
      boolean functions. </li>
      <li> For example, we should measure the hardness of the minimum
      representations of the DES and AES boxes. See
-     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp.
+     AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp.
      </li>
      <li> See "Computing the hardness of a clause-set representation"
      in Satisfiability/Lisp/Reductions/plans/general.hpp. </li>
