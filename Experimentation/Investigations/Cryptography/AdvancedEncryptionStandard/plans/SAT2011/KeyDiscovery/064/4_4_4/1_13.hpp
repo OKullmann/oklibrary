@@ -31,27 +31,8 @@ License, or any later version. */
     <ol>
      <li> Addition of round key 0 (input key) to plaintext. </li>
      <li> Application of SubBytes (Sbox to each 4-bit element) operation. </li>
-     <li> Application of linear diffusion operation. </li>
+     <li> Application of MixColumns operation. </li>
      <li> Addition of round key 1, resulting in the ciphertext. </li>
-    </ol>
-   </li>
-   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
-   defined as inversion within the 4-bit field composed with an affine
-   transformation. </li>
-   <li> The linear diffusion operation applies a linear permutation to
-   the input matrix, consisting of:
-    <ol>
-     <li> A shift of row i by i-1 to the left for all i from 1 to the number of
-     rows. </li>
-     <li> The AES MixColumns operation, which takes the input matrix and
-     applies a matrix multiplication by the constant matrix 
-     \verbatim
-maxima> ss_mixcolumns_matrix(2,4,4);
- matrix([x,x+1,1,1],[1,x,x+1,1],[1,1,x,x+1],[x+1,1,1,x])
-     \endverbatim
-     over the 4-bit field. As it is a matrix multiplication, this operation can
-     be broken down into a "MixColumn" operation on each column of the input
-     matrix. </li>
     </ol>
    </li>
   </ul>
