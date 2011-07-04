@@ -121,6 +121,28 @@ output_strong_php(m,n,filename) := block([FF : standardise_fcs(strong_php(m,n))]
 output_strong_php_stdname(m,n) := output_strong_php(m,n,
   sconcat("PHP_weak_",m,"_",n,".cnf"))$
 
+
+/* Measures */
+
+nvar_php(m,n) := m * n$
+
+/* List of clause-counts for weak_php as with ncl_list_fcs: */
+ncl_list_weak_php(m,n) :=
+  if m = 0 then []
+  elseif n = 0 then [[0,1]]
+  elseif m = 1 then [[n,m]]
+  elseif n = 1 then [[n,m], [2,n*binomial(m,2)]]
+  elseif n = 2 then [[2,n*binomial(m,2)+m]]
+  else [[2,n*binomial(m,2)], [n,m]]$
+ncl_weak_php(m,n) := block([L : ncl_list_weak_php(m,n)],
+ return(sum(L[i][2], i, 1, length(L))))$
+
+deficiency_weak_php(m,n) := ncl_weak_php(m,n) - nvar_php(m,n)$
+
+/* The probability that a random assignment is satisfiable: */
+satprob_weak_php(m,n) := sum(binomial(n,i) * stirling2(i,m) * m! ,i,m,n) / 2^nvar_php(m,n)$
+
+
 /* Extended Resolution refutation
    Additional clauses, using new variables, allow polynomial size
    resolution proofs.
@@ -170,26 +192,6 @@ weak_php_unsat_ext_fcs(m) := block([F : weak_php_fcs(m,m-1)],
     F[1],
     setify(create_list(php_ext_var(mp,i,j), mp, 1, m-1, i, 1, mp, j, 1, mp-1))),
   union(F[2], setify(php_induction_cl(m)))])$
-
-/* Measures */
-
-nvar_php(m,n) := m * n$
-
-/* List of clause-counts for weak_php as with ncl_list_fcs: */
-ncl_list_weak_php(m,n) :=
-  if m = 0 then []
-  elseif n = 0 then [[0,1]]
-  elseif m = 1 then [[n,m]]
-  elseif n = 1 then [[n,m], [2,n*binomial(m,2)]]
-  elseif n = 2 then [[2,n*binomial(m,2)+m]]
-  else [[2,n*binomial(m,2)], [n,m]]$
-ncl_weak_php(m,n) := block([L : ncl_list_weak_php(m,n)],
- return(sum(L[i][2], i, 1, length(L))))$
-
-deficiency_weak_php(m,n) := ncl_weak_php(m,n) - nvar_php(m,n)$
-
-/* The probability that a random assignment is satisfiable: */
-satprob_weak_php(m,n) := sum(binomial(n,i) * stirling2(i,m) * m! ,i,m,n) / 2^nvar_php(m,n)$
 
 
 /* ************************

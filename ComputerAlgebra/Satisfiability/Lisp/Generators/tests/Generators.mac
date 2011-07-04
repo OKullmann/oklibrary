@@ -112,6 +112,35 @@ okltest_deficiency_full_fcs(f) := block(
    ***********************
 */
 
+/* Measures */
+
+okltest_nvar_php(f) := block(
+ for m : 0 thru 6 do
+  for n : 0 thru 6 do
+   assert(f(m,n) = nvar_f(weak_php(m,n))),
+ true)$
+
+okltest_ncl_list_weak_php(f) := block(
+ for m : 0 thru 6 do
+  for n : 0 thru 6 do
+   assert(f(m,n) = ncl_list_fcs(weak_php(m,n))),
+ true
+)$
+
+okltest_ncl_weak_php(f) := block(
+ for m : 0 thru 6 do
+  for n : 0 thru 6 do
+   assert(f(m,n) = ncl_fcs(weak_php(m,n))),
+ true
+)$
+
+okltest_deficiency_weak_php(f) := block(
+ for m : 0 thru 6 do
+  for n : 0 thru 6 do
+   assert(f(m,n) = deficiency_fcs(weak_php(m,n))),
+ true
+)$
+
 /* Extended Resolution */
 
 okltest_php_induction_step_cl(f) := block(
@@ -150,35 +179,6 @@ okltest_weak_php_unsat_ext_fcs(f) := block(
        -php_ext(2,2,1)}, {php(2,1),-php_ext(2,2,1),php(3,1)},{-php(2,2),
        php_ext(2,2,1),-php(3,1)},{-php(2,2),-php(3,2)},{php(3,1),php(3,2)}}]),
   true)$
-
-/* Measures */
-
-okltest_nvar_php(f) := block(
- for m : 0 thru 6 do
-  for n : 0 thru 6 do
-   assert(f(m,n) = nvar_f(weak_php(m,n))),
- true)$
-
-okltest_ncl_list_weak_php(f) := block(
- for m : 0 thru 6 do
-  for n : 0 thru 6 do
-   assert(f(m,n) = ncl_list_fcs(weak_php(m,n))),
- true
-)$
-
-okltest_ncl_weak_php(f) := block(
- for m : 0 thru 6 do
-  for n : 0 thru 6 do
-   assert(f(m,n) = ncl_fcs(weak_php(m,n))),
- true
-)$
-
-okltest_deficiency_weak_php(f) := block(
- for m : 0 thru 6 do
-  for n : 0 thru 6 do
-   assert(f(m,n) = deficiency_fcs(weak_php(m,n))),
- true
-)$
 
 
 /* ************************
