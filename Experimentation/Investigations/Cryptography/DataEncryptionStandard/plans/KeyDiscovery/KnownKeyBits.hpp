@@ -173,15 +173,6 @@ shell> minisat-2.2.0 25-shuffled_test.cnf
   </ul>
 
 
-  \todo Summarise results
-  <ul>
-   <li> We need the results from each todo summarised in a highly
-   visible todo/place. </li>
-   <li> We also need to know which are the best solvers in each instance.
-   </li>
-  </ul>
-
-
   \todo Canonical+ translation
   <ul>
    <li> Translating the full 16 round DES key discovery problem using the
@@ -700,5 +691,16 @@ c splitting_cases                       41952
 
 
   \todo DONE Add todos
+
+
+  \todo DONE Summarise results
+  <ul>
+   <li> DONE (see "Overview" and "Translations")
+   We need the results from each todo summarised in a highly
+   visible todo/place. </li>
+   <li> DONE (see "Overview" and "Translations")
+   We also need to know which are the best solvers in each instance.
+   </li>
+  </ul>
 
 */
