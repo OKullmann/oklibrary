@@ -10,6 +10,70 @@ License, or any later version. */
   \brief Plans for the cryptanalysis of the Data Encryption Standard in Maxima/Lisp
 
 
+  \todo Variable ordering and standardisation
+  <ul>
+   <li> At present, the variables in the standard translation of the full DES,
+   des2fcl(...)[1], are in the order:
+    <ol>
+     <li> First half of input: 32 variables, desr(i,-1) for i in
+     [1,...,32]; </li>
+     <li> Second half of input: 32 variables, desr(i,0) for i in
+     [1,...32]; </li>
+     <li> Result of each round: 16 * 32 = 512 variables, desr(i,r) for r in
+     [1,...,16] and i in [1,...,32]; </li>
+     <li> Key variables: 64 variables, desk(i) for i in [1,...,64]; </li>
+     <li> Result of xor with key in each round: 16 * 48 = 768 variables,
+     desi(i,r) for r in [1,...,16] and i in [1,...,48]; </li>
+     <li> Result of S-boxes: 16 * 32 = 512 variables, deso(i,r) for r
+     in [1,...,16] and i in [1,...,32]. </li>
+     <li> Auxilliary variables for Sbox translations. </li>
+    </ol>
+   </li>
+   <li> The variables in the generalised translation of the m-round DES,
+   des2fcl_gen(...,r)[1], are in the order:
+    <ol>
+     <li> Key variables: 64 variables, desk(i) for i in [1,...,64]; </li>
+     <li> First half of input: 32 variables, desr(i,-1) for i in
+     [1,...,32]); </li>
+     <li> Second half of input: 32 variables, desr(i,0) for i in
+     [1,...32]; </li>
+     <li> For each round r in [1,...,16]:
+      <ol>
+       <li> Result of each round: 16 * 32 = 512 variables, desr(i,r) fpr
+       i in [1,...,32]; </li>
+       <li> Result of xor with key in each round: 16 * 48 = 768 variables,
+       desi(i,r) for r in [1,...,16] and i in [1,...,48]; </li>
+       <li> Result of S-boxes: 16 * 32 = 512 variables, deso(i,r) for r
+       in [1,...,16] and i in [1,...,32]. </li>
+      </ol>
+     </li>
+     <li> Auxilliary variables for Sbox translations. </li>
+    </ol>
+   </li>
+   <li> These variable orderings were based on the the general structure
+   and order of the DES specification. </li>
+   <li> There is a clear separation between the standard DES and generalised
+   DES, and so they have different variable orderings. </li>
+   <li> We must decide whether these variable orderings are suitable,
+   and whether the order makes sense when standardising with standardise_fcl:
+    <ul>
+     <li> In the translation of the generalised DES, the current order of
+     the variables ensures that variables have the same index, whether they
+     appear in a translation of 10-round DES or 12-round DES. </li>
+     <li> This is a desirable property, as it makes it easier to compare
+     translations, and to remember which variables are which, as the number
+     of rounds in the translation changes. </li>
+     <li> A key question is: should the order of the auxilliary variables
+     be fixed? </li>
+     <li> It is better not to include auxilliary variables in the
+     "round by round" variables of the generalised translation. That way,
+     the round variables, such as desi(...) etc, keep the same index across
+     different Sbox translations of the DES. </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Add 6-to-1 bit Sbox functions
   <ul>
    <li> The 10-to-4 bit boolean functions for the DES Sboxes can be split

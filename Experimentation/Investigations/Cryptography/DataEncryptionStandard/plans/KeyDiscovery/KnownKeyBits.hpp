@@ -43,6 +43,10 @@ License, or any later version. */
    randomising the order of the clause-set means that this isn't
    always the case. A study of many different randomised examples
    is necessary. </li>
+   <li> For discussions on the variable order and standardisation of variable
+   names, see "Variable ordering and standardisation" in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp.
+   </li>
   </ul>
 
 
@@ -274,8 +278,6 @@ C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
 K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
 Fs : standardise_fcl([F[1],append(F[2],P[2],K[2],C[2])])$
 output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key bits undefined."), Fs[1], sconcat("des_b",unknown_bits,".cnf"), Fs[2]);
-??? blind standardisation is not appropriate here; obviously a well-defined
-function which handles all these aspects is needed ???
    \endverbatim
    </li>
    <li> Basic statistics are
