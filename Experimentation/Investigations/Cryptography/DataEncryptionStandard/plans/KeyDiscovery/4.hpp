@@ -94,16 +94,16 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  sconcat("DES over ",rounds," rounds; translated using the canonical translation for the S-boxes (6-to-4)."),
   F_std[1],
-  sconcat("des_argocomp_r",rounds,".cnf"),
+  sconcat("des_6t4_canon_r",rounds,".cnf"),
   F_std[2])$
 print("DONE!");
    \endverbatim
    </li>
    <li> Statistics:
    \verbatim
-shell> cat des_argocomp_r4.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+shell> cat des_6t4_canon_r4.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 2624 23968 69504 0 69504 2625 1
  length count
@@ -154,16 +154,16 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  sconcat("DES over ",rounds," rounds; translated using the canonical CNF translation for the S-boxes (6-to-4)."),
   F_std[1],
-  sconcat("des_argocomp_r",rounds,".cnf"),
+  sconcat("des_6t4_full_r",rounds,".cnf"),
   F_std[2])$
 print("DONE!");
    \endverbatim
    </li>
    <li> Statistics:
    \verbatim
-shell> cat des_argocomp_r4.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+shell> cat des_6t4_full_r4.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 576 32128 311168 0 311168 577 1
  length count
@@ -225,16 +225,16 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  sconcat("DES over ",rounds," rounds; translated using 1-base translations for the S-boxes (6-to-4)."),
   F_std[1],
-  sconcat("des_argocomp_r",rounds,".cnf"),
+  sconcat("des_6t4_1base_r",rounds,".cnf"),
   F_std[2])$
 print("DONE!");
    \endverbatim
    </li>
    <li> Statistics:
    \verbatim
-shell> cat des_argocomp_r4.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+shell> cat des_6t4_1base_r4.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 576 5664 27076 0 27076 577 1
  length count
@@ -312,16 +312,16 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  sconcat("DES over ",rounds," rounds; translated using minimum translations for the S-boxes (6-to-4)."),
   F_std[1],
-  sconcat("des_argocomp_r",rounds,".cnf"),
+  sconcat("des_6t4_min_r",rounds,".cnf"),
   F_std[2])$
 print("DONE!");
    \endverbatim
    </li>
    <li> Statistics:
    \verbatim
-shell> cat des_argocomp_r4.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+shell> cat des_6t4_min_r4.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 576 3568 16048 0 16048 577 1
  length count

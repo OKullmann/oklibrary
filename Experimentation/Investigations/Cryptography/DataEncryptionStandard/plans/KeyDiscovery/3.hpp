@@ -92,16 +92,16 @@ for seed : 1 thru 20 do block(
   F : des2fcl_gen(sbox_fcl_l,rounds),
   Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
   output_fcs_v(
-    sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed),
+    sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the canonical translation for the S-boxes (6-to-4)."),
     Fs[1],
-    sconcat("des_argocomp_r",rounds,"_s",seed,".cnf"),
+    sconcat("des_6t4_canon_r",rounds,"_s",seed,".cnf"),
     Fs[2]))$
 print("DONE!");
    \endverbatim
    </li>
    <li> Statistics:
    \verbatim
-cat des_argocomp_r3.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+cat des_6t4_canon_r3.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 2000 18008 52160 0 52160 2003 1
  length count
@@ -133,7 +133,7 @@ shell> r=3;
 shell> for s in $(seq 1 5); do
   for k in $(seq 1 20); do
     echo "Round ${r}; Key Seed ${k}; Random Seed ${s}...";
-    cat des_argocomp_r${r}_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
+    cat des_6t4_canon_r${r}_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
     minisat-2.2.0 r${r}_k${k}_s${s}.cnf > minisat_r${r}_k${k}_s${s}.result 2>&1;
   done;
 done;
@@ -161,7 +161,7 @@ shell> r=3;
 shell> for s in $(seq 1 5); do
   for k in $(seq 1 20); do
     echo "Round ${r}; Key Seed ${k}; Random Seed ${s}...";
-    cat des_argocomp_r${r}_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
+    cat des_6t4_canon_r${r}_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
     OKsolver_2002-O3-DNDEBUG r${r}_k${k}_s${s}.cnf > oksolver_r${r}_k${k}_s${s}.result 2>&1;
   done;
 done;
@@ -206,16 +206,16 @@ for seed : 1 thru 20 do block(
   F : des2fcl_gen(sbox_fcl_l,rounds),
   Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
   output_fcs_v(
-    sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed),
+  sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed,"; translated using the canonical CNF translation for the S-boxes (6-to-4)."),
     Fs[1],
-    sconcat("des_argocomp_r",rounds,"_s",seed,".cnf"),
+    sconcat("des_6t4_full_r",rounds,"_s",seed,".cnf"),
     Fs[2]))$
 print("DONE!");
    \endverbatim
    </li>
    <li> Statistics:
    \verbatim
-shell> cat des_argocomp_r3.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+shell> cat des_6t4_full_r3.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 464 24128 233408 0 233408 467 1
  length count
@@ -243,7 +243,7 @@ shell> r=3;
 shell> for s in $(seq 1 5); do
   for k in $(seq 1 20); do
     echo "Round ${r}; Key Seed ${k}; Random Seed ${s}...";
-    cat des_argocomp_r${r}_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
+    cat des_6t4_full_r${r}_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
     minisat-2.2.0 r${r}_k${k}_s${s}.cnf > minisat_r${r}_k${k}_s${s}.result 2>&1;
   done;
 done;
@@ -305,16 +305,16 @@ for seed : 1 thru 20 do block(
   F : des2fcl_gen(sbox_fcl_l,rounds),
   Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
   output_fcs_v(
-    sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed),
+  sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the 1-base translation for the S-boxes (6-to-4)."),
     Fs[1],
-    sconcat("des_argocomp_r",rounds,"_s",seed,".cnf"),
+    sconcat("des_6t4_1base_r",rounds,"_s",seed,".cnf"),
     Fs[2]))$
 print("DONE!");
    \endverbatim
    </li>
    <li> Statistics:
    \verbatim
-shell> cat des_argocomp_r3.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+shell> cat des_6t4_1base_r3.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 464 4280 20339 0 20339 467 1
  length count
@@ -353,7 +353,7 @@ shell> r=3;
 shell> for s in $(seq 1 5); do
   for k in $(seq 1 20); do
     echo "Round ${r}; Key Seed ${k}; Random Seed ${s}...";
-    cat des_argocomp_r${r}_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
+    cat des_6t4_1base_r${r}_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
     minisat-2.2.0 r${r}_k${k}_s${s}.cnf > minisat_r${r}_k${k}_s${s}.result 2>&1;
   done;
 done;
@@ -381,7 +381,7 @@ shell> r=3;
 shell> for s in $(seq 1 5); do
   for k in $(seq 1 20); do
     echo "Round ${r}; Key Seed ${k}; Random Seed ${s}...";
-    cat des_argocomp_r${r}_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
+    cat des_6t4_1base_r${r}_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
     OKsolver_2002-O3-DNDEBUG r${r}_k${k}_s${s}.cnf > oksolver_r${r}_k${k}_s${s}.result 2>&1;
   done;
 done;
@@ -447,16 +447,16 @@ for seed : 1 thru 20 do block(
   F : des2fcl_gen(sbox_fcl_l,rounds),
   Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
   output_fcs_v(
-    sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed),
+  sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the minimum translation for the S-boxes (6-to-4)."),
     Fs[1],
-    sconcat("des_argocomp_r",rounds,"_s",seed,".cnf"),
+    sconcat("des_6t4_min_r",rounds,"_s",seed,".cnf"),
     Fs[2]))$
 print("DONE!");
    \endverbatim
    </li>
    <li> Statistics:
    \verbatim
-shell> cat des_argocomp_r3.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+shell> cat des_6t4_min_r3.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 464 2708 12068 0 12068 467 1
  length count
@@ -496,7 +496,7 @@ shell> r=3;
 shell> for s in $(seq 1 5); do
   for k in $(seq 1 20); do
     echo "Round ${r}; Key Seed ${k}; Random Seed ${s}...";
-    cat des_argocomp_r${r}_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
+    cat des_6t4_min_r${r}_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
     minisat-2.2.0 r${r}_k${k}_s${s}.cnf > minisat_r${r}_k${k}_s${s}.result 2>&1;
   done;
 done;
@@ -524,7 +524,7 @@ shell> r=3;
 shell> for s in $(seq 1 5); do
   for k in $(seq 1 20); do
     echo "Round ${r}; Key Seed ${k}; Random Seed ${s}...";
-    cat des_argocomp_r${r}_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
+    cat des_6t4_min_r${r}_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
     OKsolver_2002-O3-DNDEBUG r${r}_k${k}_s${s}.cnf > oksolver_r${r}_k${k}_s${s}.result 2>&1;
   done;
 done;

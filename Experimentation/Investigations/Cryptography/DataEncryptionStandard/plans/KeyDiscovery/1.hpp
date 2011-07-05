@@ -96,7 +96,7 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES over ",rounds," rounds; translated using canonical translation"),
+  sconcat("DES over ",rounds," rounds; translated using the canonical translation for the S-boxes (6-to-4)."),
   F_std[1],
   sconcat("des_canon_r",rounds,".cnf"),
   F_std[2])$
@@ -192,7 +192,7 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES over ",rounds," rounds; S-boxes translated using 1-bases"),
+  sconcat("DES over ",rounds," rounds; translated using the 1-base translation for the S-boxes (6-to-4)."),
   F_std[1],
   sconcat("des_1base_r",rounds,".cnf"),
   F_std[2])$
@@ -280,7 +280,7 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES over ",rounds," rounds; translated using the canonical+ translation"),
+  sconcat("DES over ",rounds," rounds; translated using the canonical+ translation for the S-boxes (6-to-4)."),
   F_std[1],
   sconcat("des_canonp_r",rounds,".cnf"),
   F_std[2])$
@@ -358,7 +358,7 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-sconcat("DES over ",rounds," rounds; translated using the canonical CNF for S-boxes"),
+sconcat("DES over ",rounds," rounds; translated using the canonical CNF for S-boxes (6-to-4)."),
   F_std[1],
   sconcat("des_full_r",rounds,".cnf"),
   F_std[2])$
@@ -435,7 +435,7 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
 output_fcl_v(
-  sconcat("DES over ",rounds," rounds; translating S-box using minimum translation"),
+  sconcat("DES over ",rounds," rounds; translated using the minimum translation for the S-boxes (6-to-4)."),
   Fs[1],
   sconcat("des_min_r",rounds,".cnf"),
   Fs[2])$

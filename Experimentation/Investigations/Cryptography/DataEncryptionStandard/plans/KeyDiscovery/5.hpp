@@ -101,16 +101,16 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  sconcat("DES over ",rounds," rounds; translated using 1-base translations for the S-boxes (6-to-4)."),
   F_std[1],
-  sconcat("des_argocomp_r",rounds,".cnf"),
+  sconcat("des_6t4_1base_r",rounds,".cnf"),
   F_std[2])$
 print("DONE!");
    \endverbatim
    </li>
    <li> Statistics:
    \verbatim
-shell> cat des_argocomp_r5.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+shell> cat des_6t4_1base_r5.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 688 7048 33813 0 33813 689 1
  length count
@@ -195,16 +195,16 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  sconcat("DES over ",rounds," rounds; translated using the minimum translation for the S-boxes (6-to-4)."),
   F_std[1],
-  sconcat("des_argocomp_r",rounds,".cnf"),
+  sconcat("des_6t4_min_r",rounds,".cnf"),
   F_std[2])$
 print("DONE!");
    \endverbatim
    </li>
    <li> Statistics:
    \verbatim
-shell> cat des_argocomp_r5.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+shell> cat des_6t4_min_r5.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 688 4428 20028 0 20028 689 1
  length count
@@ -241,7 +241,7 @@ for F in sbox_fcl_l do print(ncl_list_fcl(F));
    <li> minisat-2.2.0 solves in 14,291s (~4 hours) using 258,451,462
    conflicts:
    \verbatim
-shell> minisat-2.2.0 des_argocomp_r4.cnf
+shell> minisat-2.2.0 des_6t4_min_r5.cnf
 restarts              : 294909
 conflicts             : 258451462      (3953546 /sec)
 decisions             : 308556223      (0.00 % random) (4720001 /sec)
@@ -250,7 +250,7 @@ propagations          : 20792733621    (318067586 /sec)
    </li>
    <li> cryptominisat solves in 520,000s (~6 days):
    \verbatim
-shell> cryptominisat des_argocomp_r4.cnf
+shell> cryptominisat des_6t4_min_r5.cnf
 c static restarts          : 629
 c full restarts            : 8
 c conflicts                : 247428989   (3780713.58 / sec)
@@ -259,7 +259,7 @@ c decisions                : 262651549   (0.19      % random)
    </li>
    <li> precosat236 solves in 167361s (~2 days):
    \verbatim
-shell> precosat236 des_argocomp_r4.cnf
+shell> precosat236 des_6t4_min_r5.cnf
 c 611003123 conflicts, 674624629 decisions, 1 random
 c 0 iterations, 3 restarts, 657401 skipped
 c 167361.8 seconds, 51 MB max, 3661 MB recycled
@@ -267,7 +267,7 @@ c 167361.8 seconds, 51 MB max, 3661 MB recycled
    </li>
    <li> precosat-570.1 solves in 250789s (~3 days):
    \verbatim
-shell> precosat-570.1 -v des_argocomp_r4.cnf
+shell> precosat-570.1 -v des_6t4_min_r5.cnf
 c 129305771 conflicts, 138334129 decisions, 69735 random
 c 0 iterations, 28 restarts, 1310689 skipped
 c 250789.7 seconds, 176 MB max, 3937 MB recycled
@@ -296,16 +296,16 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  sconcat("DES over ",rounds," rounds; translated using the canonical translation for the S-boxes (6-to-4)."),
   F_std[1],
-  sconcat("des_argocomp_r",rounds,".cnf"),
+  sconcat("des_6t4_canon_r",rounds,".cnf"),
   F_std[2])$
 print("DONE!");
    \endverbatim
    </li>
    <li> Statistics:
    \verbatim
-shell> cat des_argocomp_r5.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+shell> cat des_6t4_canon_r5.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 3248 29928 86848 0 86848 3249 1
  length count
@@ -340,7 +340,7 @@ c 567.9 seconds, 57 MB max, 1479 MB recycled
    </li>
    <li> minisat-2.2.0 solves in 17221s using 40,018,619 conflicts:
    \verbatim
-shell> minisat-2.2.0 des_argocomp_r4.cnf
+shell> minisat-2.2.0 des_6t4_canon_r5.cnf
 restarts              : 56057
 conflicts             : 40018619       (612167 /sec)
 decisions             : 82938445       (0.00 % random) (1268714 /sec)
