@@ -524,9 +524,35 @@ c splitting_cases                       17408
 
 > cd Instances
 > OKP=~/SAT-Algorithmen/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+# Solution found
 
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+> summary(E)
+       i               n               t               sat         cfs
+ Min.   :10104   Min.   :74861   Min.   : 140.6   Min.   :0   Min.   : 69610
+ 1st Qu.:10104   1st Qu.:74861   1st Qu.: 178.0   1st Qu.:0   1st Qu.: 94226
+ Median :10104   Median :75340   Median : 382.4   Median :0   Median :189122
+ Mean   :10108   Mean   :75319   Mean   : 354.5   Mean   :0   Mean   :184186
+ 3rd Qu.:10112   3rd Qu.:75630   3rd Qu.: 430.1   3rd Qu.:0   3rd Qu.:218465
+ Max.   :10112   Max.   :75726   Max.   :1390.5   Max.   :0   Max.   :964029
+      dec               rts               r1                 mem
+ Min.   :  73663   Min.   : 219.0   Min.   :3.963e+08   Min.   : 28.00
+ 1st Qu.: 103266   1st Qu.: 255.0   1st Qu.:4.369e+08   1st Qu.: 40.00
+ Median : 203532   Median : 509.0   Median :9.437e+08   Median : 47.00
+ Mean   : 201539   Mean   : 468.6   Mean   :8.518e+08   Mean   : 49.81
+ 3rd Qu.: 237944   3rd Qu.: 511.0   3rd Qu.:1.025e+09   3rd Qu.: 60.00
+ Max.   :1228755   Max.   :2045.0   Max.   :2.601e+09   Max.   :136.00
+     ptime             stime              cfl
+ Min.   :0.02000   Min.   :0.05000   Min.   :  839163
+ 1st Qu.:0.04000   1st Qu.:0.07000   1st Qu.: 2058694
+ Median :0.04000   Median :0.07000   Median : 3652514
+ Mean   :0.04264   Mean   :0.07127   Mean   : 4294789
+ 3rd Qu.:0.04000   3rd Qu.:0.07000   3rd Qu.: 5207808
+ Max.   :0.10000   Max.   :0.15000   Max.   :47672816
+> sum(E$t)/60/60/24
+[1] 27.4666
+
 
 > SplittingViaOKsolver -D900 des_ucp_b${UB}.cnf
 > more Md5sum
@@ -553,6 +579,9 @@ c splitting_cases                       41952
    Interesting that the 13 sub-instances for D=600 are so much harder than the
    instances for 27 unknown bits. And the instances for D=800 are still much
    harder. </li>
+   <li> It seems the SAT solvers "don't understand the instance anymore" (35
+   unknown bits is 8 bits more than 27 bits, and 20m multiplied with 2^8=256
+   would mean 4 days, not 27). </li>
   </ul>
 
 
