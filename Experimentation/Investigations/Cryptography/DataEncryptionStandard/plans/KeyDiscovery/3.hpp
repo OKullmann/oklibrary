@@ -12,11 +12,48 @@ License, or any later version. */
 
   \todo Overview
   <ul>
-   <li> Investigating translation of 3-round DES into SAT, see
-   Cryptography/DataEncryptionStandard/plans/KeyDiscovery/general.hpp. </li>
+   <li> We consider the three round DES given by the encryption function
+   des_encryption_gen in
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac.
+   </li>
+   <li> The translation of one round DES to SAT is given at the Maxima level by
+   des_fcl_gen in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/GeneralisedConstraintTranslation.mac.
+   </li>
+   <li> The DES consists of certain rewiring of the bits, additions (XOR) and
+   the application of 8 S-boxes (substitution boxes) for each round. </li>
+   <li> We consider the DES S-boxes as 6-bit to 4-bit boolean functions,
+   given by des_sbox_bf in
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Sboxes.mac.
+   </li>
+   <li> We should also consider the DES S-boxes as 4 6-bit to 1-bit functions.
+   See "Basic translation" in
+   Investigations/Cryptography/DataEncryptionStandard/plans/general.hpp. </li>
+   <li> We translate the DES by treating the additions and S-boxes as the
+   boolean functions, which we consider our units of translation. </li>
+   <li> The additions are translated by the set of their prime implicates.
+   </li>
+   <li> The S-boxes are translated using each of the following CNF
+   representations:
+    <ul>
+     <li> canonical(+) representation, see dualts_fcl and dualtsplus_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac;
+     </li>
+     <li> 1-base translations, see
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp;
+     </li>
+     <li> minimum translations, see
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp;
+     </li>
+     <li> their prime implicates; </li>
+     <li> their canonical CNF representations. </li>
+    </ul>
+   All such translations apply to both the 6-bit to 4-bit S-box functions and
+   the 4 decomposed 6-bit to 1-bit functions.
+   </li>
    <li> Using the following translations for the DES S-boxes, solvers solve 20
    instances with random keys with the following number of conflicts/nodes on
-   average: ??? what is translated ???
+   average:
     <ul>
      <li> canonical (minisat-2.2.0: 3987.84, OKsolver_2002: 90.17). </li>
      <li> canonical CNF (minisat-2.2.0: 5946.08, OKsolver_2002: ??). </li>
@@ -29,11 +66,11 @@ License, or any later version. */
   </ul>
 
 
-  \todo Using the canonical translation for the S-boxes
+  \todo Using the canonical translation for the S-boxes (6-to-4)
   <ul>
-   <li> Translating the DES Sboxes using the canonical representation.
-   That is, each Sbox is represented with the canonical representation
-   given by dualts_fcl in
+   <li> Translating the DES Sboxes, as 6-to-4-bit boolean functions, using the
+   canonical representation. That is, each Sbox is represented with the
+   canonical representation given by dualts_fcl in
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
    </li>
    <li> Generating instances for 20 random plaintext-ciphertext pairs:
@@ -61,6 +98,34 @@ for seed : 1 thru 20 do block(
     Fs[2]))$
 print("DONE!");
    \endverbatim
+   </li>
+   <li> Statistics:
+   \verbatim
+cat des_argocomp_r3.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+2000 18008 52160 0 52160 2003 1
+ length count
+1 128
+2 15360
+3 960
+11 1536
+64 24
+   \endverbatim
+   </li>
+   <li> S-box statistics (canonical translation):
+   \verbatim
+ncl_list_fcl(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(1)]));
+[[2,640],[11,64],[64,1]]
+   \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 128 unit-clauses (setting plaintext + ciphertext); </li>
+     <li> 15360 binary clauses (8 * 3 = 24 S-boxes); </li>
+     <li> 960 ternary clauses (80 * 3 = 240 binary additions); </li>
+     <li> 1536 clauses of length eleven (8 * 3 = 24 S-boxes); </li>
+     <li> 24 clauses of length 64 (8 * 3 = 24 S-boxes). </li>
+    </ul>
    </li>
    <li> Running minisat-2.2.0 on these instances:
    \verbatim
@@ -121,10 +186,10 @@ EM
   </ul>
 
 
-  \todo Using the canonical CNF translation for the S-boxes
+  \todo Using the canonical CNF translation for the S-boxes (6-to-4)
   <ul>
-   <li> Translating the DES Sboxes using the canonical CNFs.
-   That is, each Sbox is represented with a CNF where all
+   <li> Translating the DES Sboxes, as 6-to-4 bit boolean functions, using the
+   canonical CNFs. That is, each Sbox is represented with a CNF where all
    clauses are of length 10. </li>
    <li> Generating instances for 20 random plaintext-ciphertext pairs:
    \verbatim
@@ -147,6 +212,30 @@ for seed : 1 thru 20 do block(
     Fs[2]))$
 print("DONE!");
    \endverbatim
+   </li>
+   <li> Statistics:
+   \verbatim
+shell> cat des_argocomp_r3.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+464 24128 233408 0 233408 467 1
+ length count
+1 128
+3 960
+10 23040
+   \endverbatim
+   </li>
+   <li> S-box statistics (canonical CNF translation):
+   \verbatim
+ncl_list_fcl(des_sbox_fullcnf_fcs(1));
+[[10,960]]
+  \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 128 unit-clauses (setting plaintext + ciphertext); </li>
+     <li> 960 ternary clauses (80 * 3 = 240 binary additions); </li>
+     <li> 23040 clauses of length ten (8 * 3 = 24 S-boxes); </li>
+    </ul>
    </li>
    <li> Running minisat-2.2.0 on these instances:
    \verbatim
@@ -180,8 +269,10 @@ EM
   </ul>
 
 
-  \todo Using the 1-base translation for the S-boxes
+  \todo Using the 1-base translation for the S-boxes (6-to-4)
   <ul>
+   <li> Translating the DES Sboxes, as 6-to-4 bit boolean functions, using
+   1-bases. </li>
    <li> Generating the 1-bases:
    \verbatim
 maxima> for i : 1 thru 8 do output_dessbox_fullcnf_stdname(i)$
@@ -220,6 +311,41 @@ for seed : 1 thru 20 do block(
     Fs[2]))$
 print("DONE!");
    \endverbatim
+   </li>
+   <li> Statistics:
+   \verbatim
+shell> cat des_argocomp_r3.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+464 4280 20339 0 20339 467 1
+ length count
+1 128
+3 960
+5 1824
+6 1365
+7 3
+   \endverbatim
+   </li>
+   <li> S-box statistics (1-base translations):
+   \verbatim
+for F in sbox_fcl_l do print(ncl_list_fcl(F));
+[[5,84],[6,39],[7,1]]
+[[5,75],[6,54]]
+[[5,76],[6,62]]
+[[5,69],[6,59]]
+[[5,78],[6,56]]
+[[5,83],[6,53]]
+[[5,75],[6,48]]
+[[5,68],[6,84]]
+  \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 128 unit-clauses (setting plaintext + ciphertext); </li>
+     <li> 960 ternary clauses (80 * 3 = 24 binary additions); </li>
+     <li> 1824 clauses of length five (8 * 3 = 24 S-boxes); </li>
+     <li> 1365 clauses of length six (8 * 3 = 24 S-boxes); </li>
+     <li> 3 clauses of length seven (1 * 3 = 3 S-boxes). </li>
+    </ul>
    </li>
    <li> Running minisat-2.2.0 on these instances:
    \verbatim
@@ -280,8 +406,10 @@ EM
   </ul>
 
 
-  \todo Using the "minimum" translation
+  \todo Using the "minimum" translation for the S-boxes (6-to-4)
   <ul>
+   <li> Translating the DES Sboxes, as 6-to-4 bit boolean functions, using the
+   "minimum" (inf-based) representations. </li>
    <li> Generating the "minimum" CNFs for the Sboxes:
    \verbatim
 maxima> for i : 1 thru 8 do output_dessbox_fullcnf_stdname(i)$
@@ -325,6 +453,42 @@ for seed : 1 thru 20 do block(
     Fs[2]))$
 print("DONE!");
    \endverbatim
+   </li>
+   <li> Statistics:
+   \verbatim
+shell> cat des_argocomp_r3.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+464 2708 12068 0 12068 467 1
+ length count
+1 128
+3 960
+5 696
+6 888
+7 36
+   \endverbatim
+   </li>
+   <li> S-box statistics ("minimum" translation):
+   \verbatim
+for F in sbox_fcl_l do print(ncl_list_fcl(F));
+
+[[5,30],[6,35],[7,2]]
+[[5,33],[6,33],[7,1]]
+[[5,28],[6,38],[7,2]]
+[[5,29],[6,38],[7,2]]
+[[5,29],[6,36],[7,2]]
+[[5,28],[6,38]]
+[[5,29],[6,37],[7,1]]
+[[5,26],[6,41],[7,2]]
+  \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 128 unit-clauses (setting plaintext + ciphertext); </li>
+     <li> 960 ternary clauses (80 * 3 = 240 binary additions); </li>
+     <li> 696 clauses of length five (8 * 3 = 24 S-boxes); </li>
+     <li> 888 clauses of length six (8 * 3 = 24 S-boxes); </li>
+     <li> 36 clauses of length seven (7 * 3 = 21 S-boxes). </li>
+    </ul>
    </li>
    <li> Running minisat-2.2.0 on these instances:
    \verbatim

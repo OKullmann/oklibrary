@@ -74,7 +74,7 @@ License, or any later version. */
    See "Basic translation" in
    Investigations/Cryptography/DataEncryptionStandard/plans/general.hpp. </li>
    <li> We translate the DES by treating the additions and S-boxes as the
-   boolean functions we consider our units of translation. </li>
+   boolean functions, which we consider our units of translation. </li>
    <li> The additions are translated by the set of their prime implicates.
    </li>
    <li> The S-boxes are translated using each of the following CNF
@@ -177,10 +177,11 @@ shell> minisat-2.2.0 25-shuffled_test.cnf
   </ul>
 
 
-  \todo Canonical+ translation
+  \todo Canonical+ translation for the S-box (6-to-4)
   <ul>
    <li> Translating the full 16 round DES key discovery problem using the
-   canonical+ translation for the DES Sboxes. </li>
+   canonical+ translation for the DES Sboxes, as 6-to-4 bit boolean functions.
+   </li>
    <li> The canonical+ translation is implemented by
    dualtsplus_fcl in
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac
@@ -234,7 +235,23 @@ output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key b
 33 1960
 64 98
    \endverbatim
-   These statistics need explanation. </li>
+   </li>
+   <li> S-box statistics (canonical+ translation):
+   \verbatim
+ncl_list_fcl(dualtsplus_fcl([listify(setn(10)), des_sbox_fulldnf_cl(1)]));
+[[2,640],[11,64],[33,20],[64,1]]
+   \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 179 unit-clauses (setting plaintext + key + ciphertext); </li>
+     <li> 81920 binary clauses (8*16 = 128 S-boxes); </li>
+     <li> 5120 ternary clauses (80 * 16 = 1280 binary additions); </li>
+     <li> 8192 clauses of length eleven (8 * 16 = 128 S-boxes); </li>
+     <li> 2560 clauses of length 33 (8 * 16 = 128 S-boxes); </li>
+     <li> 128 clauses of length 64 (8 * 16 = 128 S-boxes). </li>
+    </ul>
+   </li>
    <li> Instances with unknown key bits up to 18 all take less than a
    minute. This includes the OKsolver_2002. </li>
    <li> Solving time (ranked best to worst):
@@ -261,10 +278,11 @@ output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key b
   </ul>
 
 
-  \todo Canonical translation
+  \todo Canonical translation for the S-box (6-to-4)
   <ul>
    <li> Translating the full 16 round DES key discovery problem using the
-   canonical translation for the DES Sboxes. </li>
+   canonical translation for the DES Sboxes, as 6-to-4 bit boolean functions.
+   </li>
    <li> The canonical translation is implemented by dualts_fcl in
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac
    at the Maxima level. </li>
@@ -308,6 +326,21 @@ output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key b
 64 108
    \endverbatim
    These statistics need explanation. </li>
+   <li> S-box statistics (canonical translation):
+   \verbatim
+ncl_list_fcl(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(1)]));
+[[2,640],[11,64],[64,1]]
+   \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 179 unit-clauses (setting plaintext + key + ciphertext); </li>
+     <li> 81920 binary clauses (8*16 = 128 S-boxes); </li>
+     <li> 5120 ternary clauses (80 * 16 = 1280 binary additions); </li>
+     <li> 8192 clauses of length eleven (8 * 16 = 128 S-boxes); </li>
+     <li> 128 clauses of length 64 (8 * 16 = 128 S-boxes). </li>
+    </ul>
+   </li>
    <li> Instances with unknown key bits up to 13 all take less than 5s,
    except the OKsolver_2002 which takes 73.5s (203 nodes). </li>
    <li> Solving time (ranked best to worst):
