@@ -9,6 +9,19 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp
   \brief Plans for the cryptanalysis of the Data Encryption Standard in Maxima/Lisp
 
+  \todo Convenience functions
+  <ul>
+   <li> Convenience functions are needed for the translations of the
+   DES and generalised-DES to SAT. </li>
+   <li> A function such as output_des_fcl(sbox_l,n) should be written
+   which outputs the result of des_fcl(sbox_l) to the file n. </li>
+   <li> We also need a function, output_des_fcl_kd(sbox_l,seed,n), for
+   outputting a random DES key discovery instance. </li>
+   <li> output_des_fcl_kd should generate a random plaintext and ciphertext
+   using the seed, and output the result of des_fcl, with the plaintext
+   and ciphertext unit-clauses to the file n. </li>
+  </ul>
+
 
   \todo Variable ordering and standardisation
   <ul>
