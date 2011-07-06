@@ -79,6 +79,13 @@ des_encryption_reduced(plaintext, key, r) :=
    <li> Full 16 round DES swaps the two 32-bit outputs. Do DES variants
    with less rounds do this? </li>
    <li> Authorative test vectors should answer this question. </li>
+   <li> [NIST Special Publication 800-17; NIST] provides test vectors for
+   the full DES, and a small set of vectors for DES "round outputs". </li>
+   <li> In this case "round outputs" means the output of each round in
+   the *16-round* DES computation. That is, these are not (directly) test
+   vectors for generalised m-round DES. </li>
+   <li> These test vectors should be moved into the library. </li>
+   <li> Test vectors are also needed for the generalised m-round DES. </li>
    <li> The tests should then be extended. </li>
   </ul>
 
