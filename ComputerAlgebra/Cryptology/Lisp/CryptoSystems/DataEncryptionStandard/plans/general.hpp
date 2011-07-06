@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo Add todos
 
-  
+
   \todo Improve key schedule tests
   <ul>
    <li> We should look for tests vectors for the DES key schedule.
@@ -45,7 +45,7 @@ License, or any later version. */
    <li> Do variants of the DES with smaller numbers of rounds flip the two
    32-bit outputs? <ul>
     <li> It makes sense to do so. Then applying the cipher with the reversed
-    round key list gives the decryption algorithm. This is the same as with 
+    round key list gives the decryption algorithm. This is the same as with
     16-round DES. </li>
    </ul>
    </li>
@@ -103,22 +103,22 @@ des_encryption_reduced(plaintext, key, r) :=
     some bits to make 48-bits. </li>
     <li> Adds the result of the expansion to the 48-bit key. </li>
     <li> Applies DES Sbox i, for i in {1,...,6}, to the i-th 6-bit block
-    in the result. This yields 32-bits, as the Sboxes are 6-to-4 bit 
+    in the result. This yields 32-bits, as the Sboxes are 6-to-4 bit
     functions. </li>
-    <li> Applies a "permutation box", i.e., a rewiring of bits, to the 
+    <li> Applies a "permutation box", i.e., a rewiring of bits, to the
     32-bit result of the Sbox operations. </li>
     <li> Adds previous to the result of the "permutation box". </li>
    </ul>
    </li>
    <li> Can the DES encryption scheme be fit into the notion of an
-   iterated block cipher (see 
+   iterated block cipher (see
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac)?
    </li>
    <li> Can the DES key addition be moved to the beginning of the round? This
    would then fit with our description of AES. </li>
   </ul>
 
-  
+
   \todo Links
   <ul>
    <li> For cryptanalysis functions for the DES see
