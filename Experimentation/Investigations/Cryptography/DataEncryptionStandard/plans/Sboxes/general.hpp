@@ -218,18 +218,20 @@ EXP_DES> for F in DES_Sbox_?_fullCNF.cnf_primes_stats; do cat ${F}; done
    functions. </li>
    <li> We should investigate the DNF and CNF representations, prime
    implicates, and so on, of these 6-to-1 bit representations. </li>
-   <li> The number of prime implicants range from 50 to 68. All except
-   5 (out of the 32) have less than 64 prime implicants. </li>
-   <li> The DNFs are not unique. </li>
-   <li> Generating the CNFs and prime implicates:
-   \verbatim
+   <li> Prime implicates/implicants:
+    <ul>
+     <li> The number of prime implicants range from 50 to 68. All except
+     5 (out of the 32) have less than 64 prime implicants. </li>
+     <li> The DNFs are not unique. </li>
+     <li> Generating the CNFs and prime implicates:
+     \verbatim
 maxima> for i : 1 thru 8 do for j : 1 thru 4 do output_dessbox_bit_fullcnf_stdname(i,j);
 shell> for i in $(seq 1 8); do for j in $(seq 1 4); do QuineMcCluskey-n16-O3-DNDEBUG DES_Sbox_${i}_${j}_fullCNF.cnf > ${i}_${j}_primes; done; done
-   \endverbatim
-   </li>
-   <li> The number of prime implicates for all DES S-box 6-to-1 bit functions
-   is exactly the same as the number of prime implicants:
-   \verbatim
+     \endverbatim
+     </li>
+     <li> The number of prime implicates for all DES S-box 6-to-1 bit functions
+     is exactly the same as the number of prime implicants:
+     \verbatim
 oklib_load_all()$
 prime1_len_l :  create_list(
       length(min_2resolution_closure_cs(setify( des_sbox_bit_fulldnf_cl(i,j) ))),
@@ -241,8 +243,26 @@ is(prime1_len_l = prime0_len_l);
 
 [55,60,57,51,66,50,59,53,60,63,57,57,61,68,68,61,63,65,53,60,57,58,63,56,61,56,57,62,67,61,53,61]
 true
-   \endverbatim
-   Why is this? </li>
+     \endverbatim
+     Why is this? </li>
+    </ul>
+   </li>
+   <li> Minimum representations:
+    <ul>
+     <li> We can generate the minimum DNF and CNF representations like so:
+     \verbatim
+maxima> for i : 1 thru 8 do for j : 1 thru 4 do output_dessbox_bit_fulldnf_stdname(i,j)$
+maxima> for i : 1 thru 8 do for j : 1 thru 4 do output_dessbox_bit_fullcnf_stdname(i,j)$
+shell> for i in $(seq 1 8); do for j in $(seq 1 4); do $OKLIB/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_cryptominisat DES_Sbox_${i}_${j}_fullDNF.cnf > ${i}_${j}_min_dnf; done; done
+shell> for i in $(seq 1 8); do for j in $(seq 1 4); do $OKLIB/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_cryptominisat DES_Sbox_${i}_${j}_fullCNF.cnf > ${i}_${j}_min_cnf; done; done
+     \endverbatim
+     </li>
+     <li> The minimum DNF representations have between 30 and 46 clauses. </li>
+     <li> Every minimum CNF representations for the 6-to-1 bit DES S-box
+     functions have exactly the same number of clauses as their respective
+     minimum DNF representations. Why is this? </li>
+    </ul>
+   </li>
    <li> See bf2nm2n1 in
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac.
    </li>
