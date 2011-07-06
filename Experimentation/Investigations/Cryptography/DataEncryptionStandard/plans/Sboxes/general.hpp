@@ -209,4 +209,18 @@ EXP_DES> for F in DES_Sbox_?_fullCNF.cnf_primes_stats; do cat ${F}; done
    <li> DONE These considerations need a dedicated sub-module. </li>
   </ul>
 
+
+  \todo Analysing the 6-to-1 bit Sbox functions
+  <ul>
+   <li> In general we consider each DES Sboxes as one whole 6-to-4 bit boolean
+   function. </li>
+   <li> However, the Sbox can be represented as 4 6-to-1 bit boolean
+   functions. </li>
+   <li> We should investigate the DNF and CNF representations, prime
+   implicates, and so on, of these 6-to-1 bit representations. </li>
+   <li> See bf2nm2n1 in
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac.
+   </li>
+  </ul>
+
 */
