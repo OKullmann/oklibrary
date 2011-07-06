@@ -151,6 +151,9 @@ License, or any later version. */
   <ul>
    <li> The tests "okltest_des_sbox_fulldnf_cl" and 
    "okltest_des_sbox_fullcnf_fcs" only test Sboxes 1 and 5. </li>
+   <li> The tests for "okltest_des_sbox_bit_fulldnf_cl" and
+   "okltest_des_sbox_bit_fullcnf_fcs" need improving in the same
+   way. </li>
    <li> The tests should cover all Sboxes! </li>
    <li> The tests should also test properties of the Sboxes. 
    See "Analysing the S-boxes" in

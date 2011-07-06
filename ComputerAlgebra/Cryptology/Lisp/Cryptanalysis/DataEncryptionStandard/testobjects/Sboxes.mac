@@ -25,6 +25,9 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptio
 okltest_des_sbox_fulldnf_cl(des_sbox_fulldnf_cl);
 okltest_des_sbox_fullcnf_fcs(des_sbox_fullcnf_fcs);
 
+okltest_des_sbox_bit_fulldnf_cl(des_sbox_bit_fulldnf_cl);
+okltest_des_sbox_bit_fullcnf_fcs(des_sbox_bit_fullcnf_fcs);
+
 
 /*!
 \endhtmlonly
