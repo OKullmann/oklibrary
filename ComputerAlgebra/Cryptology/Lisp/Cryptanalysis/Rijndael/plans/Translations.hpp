@@ -10,6 +10,41 @@ License, or any later version. */
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
 
+  \todo Simplify AES translation
+  <ul>
+   <li> The current AES translation tries to provide a "general" translation
+   framework, and then translate the AES using that. </li>
+   <li> If we were translating many ciphers and didn't care about the details,
+   this would be suited, but we do care about the details. </li>
+   <li> The disadvantages of the current system are:
+    <ul>
+     <li> %Variables are hard to identify and have very long names (nested
+     namespaces etc). </li>
+     <li> Due to large variable names, the size of clause-sets in memory
+     is MUCH larger than necessary; see "output_ss_fcl_std runs out of memory
+     generating one round AES". </li>
+     <li> Code is hard to read due to accomodating the "framework". </li>
+     <li> Statistics functions are hard to write because many different
+     translations are bundled together, leading to many case distinctions.
+     </li>
+     <li> The translation is hard to reason about due to the added
+     complexities of a general translation framework. </li>
+    </ul>
+   </li>
+   <li> The current system should be replaced with a system like with the
+   DES, see Cryptanalysis/DataEncryptionStandard/ConstraintTranslation.mac.
+   </li>
+   <li> %Variables should always be specially and specifically declared; no
+   namespaces or anything similar. </li>
+   <li> If there are two different translations, then these should be written
+   separately, possibly in separate files. </li>
+   <li> There should be no "equality" constraints, we just use variables where
+   they occur. </li>
+   <li> The disadvantage of a more "custom" translation is that it requires
+   far more thought and understanding. However, this is what we want! </li>
+  </ul>
+
+
   \bug output_ss_fcl_std runs out of memory generating one round AES
   <ul>
    <li> Running the following:
@@ -90,6 +125,12 @@ set_heap_size_ecl(2**32);
    </li>
    <li> The full 10 round AES translations (<code>num_rounds : 1$</code>)
    runs out of memory when the heap memory limit is 4GB. </li>
+   <li> The 4 round AES translation has been running for 3 days and is still
+   running. </li>
+   <li> The only real sustainable solution is to rewrite the AES translation
+   using short specially named and thought out variables, like in the DES;
+   see "Simplify AES translation" and
+   Cryptanalysis/DataEncryptionStandard/ConstraintTranslation.mac. </li>
    <li> DONE For now, the Maxima heap size, heap_size_ecl_okl in
    Buildsystem/Configuration/ExternalSources/maxima.mak should be increased to
    4GB. This would bring it in line with the amount of main memory required in
