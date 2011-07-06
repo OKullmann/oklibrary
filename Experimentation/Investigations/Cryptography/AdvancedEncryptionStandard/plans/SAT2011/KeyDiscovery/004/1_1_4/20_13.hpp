@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   20 + 1/3 round small scale AES with one rows, one columns, using the 4-bit
+   20 + 1/3 round small scale AES with one row, one column, using the 4-bit
    field size. </li>
    <li> For a description of the AES instance, see
    SAT2011/KeyDiscovery/004/1_1_4/general.hpp. </li>
@@ -108,7 +108,7 @@ shell> cat ssaes_r20_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    </ul>
    </li>
    <li> The additions are translated by their prime implicates. </li>
-   <li> The S-boxes are translated by a 1-base representation. See 
+   <li> The S-boxes are translated by a 1-base representation. See
    Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_4.hpp.
    </li>
    <li> The number of clauses for the 1-base representation of the S-box:
@@ -142,10 +142,10 @@ shell> col=1; row=1; e=4; r=20; for s in $(seq 1 5); do
     minisat-2.2.0 r${r}_k${k}_s${s}.cnf > minisat_r${r}_k${k}_s${s}.result 2>&1;
   done;
 done;
-shell> echo "n  c  t  sat  cfs dec rts r1 mem ptime stime cfl r k s" > minisat_results; for s in $(seq 1 5); do 
-  for k in $(seq 1 20); do 
-    cat minisat_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk | awk " { print \$0 \"  $r  $k $s\" }"; 
-  done; 
+shell> echo "n  c  t  sat  cfs dec rts r1 mem ptime stime cfl r k s" > minisat_results; for s in $(seq 1 5); do
+  for k in $(seq 1 20); do
+    cat minisat_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk | awk " { print \$0 \"  $r  $k $s\" }";
+  done;
 done >> minisat_results;
      \endverbatim
      yields:
@@ -272,7 +272,7 @@ shell> col=1; row=1; e=4; r=20; for s in $(seq 1 5); do
 done;
 shell> echo "n  c  t  sat  cfs dec rts r1 mem ptime stime cfl r k s" > minisat_results; for s in $(seq 1 5); do
   for k in $(seq 1 20); do
-    cat minisat_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk | awk " { print \$0 \"  $r  $k $s\" }"; 
+    cat minisat_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk | awk " { print \$0 \"  $r  $k $s\" }";
   done;
 done >> minisat_results;
      \endverbatim
@@ -399,7 +399,7 @@ shell> col=1; row=1; e=4; r=20; for s in $(seq 1 5); do
 done;
 shell> echo "n  c  t  sat  cfs dec rts r1 mem ptime stime cfl r k s" > minisat_results; for s in $(seq 1 5); do
   for k in $(seq 1 20); do
-    cat minisat_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk | awk " { print \$0 \"  $r  $k $s\" }"; 
+    cat minisat_r${r}_k${k}_s${s}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk | awk " { print \$0 \"  $r  $k $s\" }";
   done;
 done >> minisat_results;
      \endverbatim

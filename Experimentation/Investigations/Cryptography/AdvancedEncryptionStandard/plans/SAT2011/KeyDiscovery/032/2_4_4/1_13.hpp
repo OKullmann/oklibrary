@@ -16,15 +16,15 @@ License, or any later version. */
    1 + 1/3 round small scale AES with two rows, four columns, using the 4-bit
    field size. </li>
    <li> The AES encryption scheme we model takes a 32-bit plaintext and
-   32-bit key and outputs a 32-bit ciphertext. The plaintext, key and 
-   ciphertext are all considered, column by column, as 2x4 matrices of 4-bit 
+   32-bit key and outputs a 32-bit ciphertext. The plaintext, key and
+   ciphertext are all considered, column by column, as 2x4 matrices of 4-bit
    elements. </li>
-   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc), 
-   the 4-bit element at position (i,j) in the matrix is the ((i-1)*2 + j)-th 
+   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc),
+   the 4-bit element at position (i,j) in the matrix is the ((i-1)*2 + j)-th
    4-bit word of the 32-bits. </li>
    <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
    b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
+   on these polynomials is defined as usual, modulo the polynomial x^4+x+1.
    </li>
    <li> The encryption scheme applies the following operations:
    <ol>
@@ -41,10 +41,10 @@ License, or any later version. */
    the input matrix, consisting of:
    <ol>
     <li> A cyclical shift of row 2 of the matrix by one 4-bit element to the
-    left, that is, the matrix matrix([1,2],[3,4]) would map to 
+    left, that is, the matrix matrix([1,2],[3,4]) would map to
     matrix([1,2],[4,3]). </li>
     <li> The AES MixColumns operation, which takes the input matrix and
-    applies a matrix multiplication by the constant matrix 
+    applies a matrix multiplication by the constant matrix
     \verbatim
 maxima> ss_mixcolumns_matrix(2,4,2);
  matrix([x+1,x],[x,x+1]
@@ -65,7 +65,7 @@ maxima> ss_mixcolumns_matrix(2,4,2);
 
   \todo Using the canonical box translation
   <ul>
-   <li> In this translation of the AES cipher, the cipher is 
+   <li> In this translation of the AES cipher, the cipher is
    decomposed into rounds, and then each round is decomposed into
    SubBytes, and linear diffusion operations, which are then further
    decomposed into Sbox and multiplication constraints along with
@@ -114,9 +114,9 @@ shell> cat ssaes_r1_c4_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
     <li> 8 Sboxes in the SubBytes operation (2 rows * 4 columns = 8). </li>
     <li> 128 additions within the round and key additions, coming from:
      <ul>
-      <li> 64 additions from key additions 
+      <li> 64 additions from key additions
       (2 round keys * 32-bit additions = 64). </li>
-      <li> 64 additions from the matrix multiplication in the diffusion 
+      <li> 64 additions from the matrix multiplication in the diffusion
       operation (2 rows * 4 columns * 2 directions * 4 bits = 64).
       </li>
      </ul>
@@ -129,7 +129,7 @@ shell> cat ssaes_r1_c4_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
     <li> 32 additions in the key schedule:
     <ul>
      <li> 4 additions of arity three (1 row * 1 column * 4 bits = 4). </li>
-     <li> 28 additions of arity two 
+     <li> 28 additions of arity two
      ((1 rows * 3 columns + 2 rows * 2 columns) * 4 bits = 28). </li>
     </ul>
     </li>
@@ -149,19 +149,19 @@ maxima> ncl_list_full_dualts(8,16);
    are comprised of:
    <ul>
     <li> 4 unit-clauses for the 4-bit constant in the key expansion. </li>
-    <li> 5376 binary clauses, coming from 10 Sboxes and 16 of each of the two 
+    <li> 5376 binary clauses, coming from 10 Sboxes and 16 of each of the two
     multiplications (42 * 128 = 5376). </li>
     <li> 624 ternary clauses, coming from 156 additions of arity two
     (156 * 4 = 624). </li>
     <li> 32 clauses of length four, coming from 4 additions of arity three
     (4 * 8 = 32). </li>
-    <li> 672 clauses of length nine, coming from 10 Sboxes and 16 of each of 
+    <li> 672 clauses of length nine, coming from 10 Sboxes and 16 of each of
     the two multiplications (42 * 16 = 672). </li>
-    <li> 42 clauses of length sixteen, coming from from 10 Sboxes and 16 of 
+    <li> 42 clauses of length sixteen, coming from from 10 Sboxes and 16 of
     each of the two multiplications (42 * 1 = 42). </li>
    </ul>
    </li>
-   <li> Then we can generate a random assignment with the plaintext and 
+   <li> Then we can generate a random assignment with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);

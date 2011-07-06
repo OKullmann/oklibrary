@@ -16,15 +16,15 @@ License, or any later version. */
    1 + 1/3 round small scale AES with four rows, two columns, using the 4-bit
    field size. </li>
    <li> The AES encryption scheme we model takes a 32-bit plaintext and
-   32-bit key and outputs a 32-bit ciphertext. The plaintext, key and 
-   ciphertext are all considered, column by column, as 4x2 matrices of 4-bit 
+   32-bit key and outputs a 32-bit ciphertext. The plaintext, key and
+   ciphertext are all considered, column by column, as 4x2 matrices of 4-bit
    elements. </li>
-   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc), 
-   the 4-bit element at position (i,j) in the matrix is the ((i-1)*4 + j)-th 
+   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc),
+   the 4-bit element at position (i,j) in the matrix is the ((i-1)*4 + j)-th
    4-bit word of the 32-bits. </li>
    <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
    b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
+   on these polynomials is defined as usual, modulo the polynomial x^4+x+1.
    </li>
    <li> The encryption scheme applies the following operations:
    <ol>
@@ -43,7 +43,7 @@ License, or any later version. */
     <li> A shift of row i by i-1 to the left for all i from 1 to the number of
     rows. </li>
     <li> The AES MixColumns operation, which takes the input matrix and
-    applies a matrix multiplication by the constant matrix 
+    applies a matrix multiplication by the constant matrix
     \verbatim
 maxima> ss_mixcolumns_matrix(2,4,4);
  matrix([x,x+1,1,1],[1,x,x+1,1],[1,1,x,x+1],[x+1,1,1,x])
@@ -58,7 +58,7 @@ maxima> ss_mixcolumns_matrix(2,4,4);
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   <li> Translating the AES cipher treating Sboxes and field multiplications
    as whole boxes and translating these boxes using the canonical translation.
    </li>
    <li> Generating small scale AES for 1 + 1/3 round:
@@ -93,9 +93,9 @@ shell> cat ssaes_r1_c2_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
     <li> 8 Sboxes in the SubBytes operation (4 rows * 2 columns = 8). </li>
     <li> 128 additions within the round and key additions, coming from:
      <ul>
-      <li> 64 additions from key additions 
+      <li> 64 additions from key additions
       (2 round keys * 32-bit additions = 64). </li>
-      <li> 64 additions from the matrix multiplication in the diffusion 
+      <li> 64 additions from the matrix multiplication in the diffusion
       operation (4 rows * 2 columns * 2 directions * 4 bits = 64).
       </li>
      </ul>
@@ -116,7 +116,7 @@ shell> cat ssaes_r1_c2_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
     <li> 32 additions in the key schedule:
     <ul>
      <li> 4 additions of arity three (1 row * 1 column * 4 bits = 4). </li>
-     <li> 28 additions of arity two 
+     <li> 28 additions of arity two
      ((3 rows * 1 columns + 4 rows * 1 columns) * 4 bits = 28). </li>
     </ul>
     </li>
@@ -127,7 +127,7 @@ shell> cat ssaes_r1_c2_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
    \verbatim
 maxima> ncl_list_ss(1,2,4,4,false,aes_ts_box,aes_mc_bidirectional);
 [[1,4],[2,7680],[3,368],[4,32],[5,1024],[9,960],[16,60]]
-maxima> mul_map(epoly) := block([e:poly2nat(epoly,2)], 
+maxima> mul_map(epoly) := block([e:poly2nat(epoly,2)],
   [epoly,[[2,'m(e,2)],[9,'m(e,9)],[16,'m(e,16)]]])$
 maxima> ncl_list_ss_gen(1,4,2,4,ss_mixcolumns_matrix(2,4,2),[[2,'s2],[9,'s9],[16,'s16]],create_list(mul_map(p),p,[x,x+1,x^3+1,x^3+x+1,x^3+x^2+1,x^3+x^2+x]),false,aes_mc_bidirectional);
 [[1,4],
@@ -151,11 +151,11 @@ maxima> ncl_list_full_dualts(8,16);
     from the diffusion operation (64 * 16 = 1024). </li>
     <li> 960 clauses of length 9, coming from 12 Sboxes and 8 of each of
     the six multiplications (60 * 16 = 960). </li>
-    <li> 60 clauses of length sixteen, coming from from 12 Sboxes and 8 of 
+    <li> 60 clauses of length sixteen, coming from from 12 Sboxes and 8 of
     each of the six multiplications (60 * 1 = 60). </li>
    </ul>
    </li>
-   <li> Then we can generate a random assignment with the plaintext and 
+   <li> Then we can generate a random assignment with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
@@ -207,7 +207,7 @@ conflict literals     : 1218353        (59.04 % deleted)
 Memory used           : 19.00 MB
 CPU time              : 3.19 s
 
-shell> minisat2 r1_keyfind.cnf 
+shell> minisat2 r1_keyfind.cnf
 <snip>
 restarts              : 14
 conflicts             : 43604          (1401 /sec)
@@ -216,7 +216,7 @@ propagations          : 17037471       (547477 /sec)
 conflict literals     : 1360321        (61.63 % deleted)
 Memory used           : 18.44 MB
 CPU time              : 31.12 s
-shell> glucose r1_keyfind.cnf 
+shell> glucose r1_keyfind.cnf
 <snip>
 c restarts              : 8
 c nb ReduceDB           : 2
@@ -249,9 +249,9 @@ VALID
    <li> What is a "block"? This likely should be a matrix. </li>
    <li> The dimensions of a matrix is specified as first the number of rows,
    then the number of columns. So we have an inconsistency. </li>
-   <li> See "Order of small scale matrix dimensions" in 
+   <li> See "Order of small scale matrix dimensions" in
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
-   for a todo on updating the translation function parameter order to 
+   for a todo on updating the translation function parameter order to
    correctly reflect the standard ordering for matrix dimensions.</li>
   </ul>
 

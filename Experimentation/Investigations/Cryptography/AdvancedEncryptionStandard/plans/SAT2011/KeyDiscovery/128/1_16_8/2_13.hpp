@@ -13,14 +13,14 @@ License, or any later version. */
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   2 + 1/3 round small scale AES with one rows, sixteen columns, using the 
+   2 + 1/3 round small scale AES with one row, sixteen columns, using the
    8-bit field size. </li>
    <li> The AES encryption scheme we model takes a 128-bit plaintext and
    128-bit key and outputs a 128-bit ciphertext. </li>
-   <li> Each consequtive 8-bits (b_0,b_1,b_2,b_3,b_4,b_5,b_6,b_7) is 
-   considered as the polynomial b_0 * x^7 + b_1 * x^6 + b_2 * x^5 + b_4 * x^3 
-   + b_5 * x^2 + b^6 * x + b_7. Addition and multiplication on these 
-   polynomials is defined as usual, modulo the polynomial 
+   <li> Each consequtive 8-bits (b_0,b_1,b_2,b_3,b_4,b_5,b_6,b_7) is
+   considered as the polynomial b_0 * x^7 + b_1 * x^6 + b_2 * x^5 + b_4 * x^3
+   + b_5 * x^2 + b^6 * x + b_7. Addition and multiplication on these
+   polynomials is defined as usual, modulo the polynomial
    x^8+x^4+x^3+x+1. </li>
    <li> The encryption scheme applies the following operations:
    <ol>
@@ -39,7 +39,7 @@ License, or any later version. */
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   <li> Translating the AES cipher treating Sboxes and field multiplications
    as whole boxes and translating these boxes using the canonical translation.
    </li>
    <li> Generating AES for 2 + 1/3 round:
@@ -70,14 +70,14 @@ shell> cat ssaes_r2_c16_rw1_e8_f0.cnf | ExtendedDimacsFullStatistics n
    <ul>
     <li> Two full rounds (Key Addition, SubBytes, and diffusion operation).
     </li>
-    <li> 32 Sboxes in the SubBytes operation 
+    <li> 32 Sboxes in the SubBytes operation
     (1 rows * 16 columns * 2 rounds = 32). </li>
     <li> 896 additions within the round and key additions, coming from:
      <ul>
-      <li> 384 additions from key additions 
+      <li> 384 additions from key additions
       (3 round keys * 128-bit additions = 384). </li>
-      <li> 512 additions from the matrix multiplication in the diffusion 
-      operation 
+      <li> 512 additions from the matrix multiplication in the diffusion
+      operation
       (1 rows * 16 columns * 2 directions * 8 bits * 2 rounds = 512).
       </li>
      </ul>
@@ -85,9 +85,9 @@ shell> cat ssaes_r2_c16_rw1_e8_f0.cnf | ExtendedDimacsFullStatistics n
     <li> 2 Sboxes in the AES key schedule (1 rows * 2 rounds = 2). </li>
     <li> 256 additions in the key schedule:
     <ul>
-     <li> 16 additions of arity three 
+     <li> 16 additions of arity three
      (1 row * 1 column * 8 bits * 2 rounds = 16). </li>
-     <li> 240 additions of arity two 
+     <li> 240 additions of arity two
      ((3 rows * 4 columns + 1 rows * 3 columns) * 8 bits * 2 rounds = 240).
      </li>
     </ul>
@@ -115,13 +115,13 @@ maxima> ncl_list_full_dualts(8,16);
     (624 * 4 = 2496). </li>
     <li> 128 clauses of length four, coming from 16 additions of arity three
     (16 * 8 = 128). </li>
-    <li> 8704 clauses of length seventeen, coming from 34 Sboxes 
+    <li> 8704 clauses of length seventeen, coming from 34 Sboxes
     (34 * 256 = 8704). </li>
     <li> 34 clauses of length 256, coming from from 34 Sboxes
     (34 * 1 = 34). </li>
    </ul>
    </li>
-   <li> Then we can generate a random assignment with the plaintext and 
+   <li> Then we can generate a random assignment with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);

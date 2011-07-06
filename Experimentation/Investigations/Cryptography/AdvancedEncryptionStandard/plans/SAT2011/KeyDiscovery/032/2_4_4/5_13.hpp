@@ -16,19 +16,19 @@ License, or any later version. */
    5 + 1/3 round small scale AES with two rows, four columns, using the 4-bit
    field size. </li>
    <li> The AES encryption scheme we model takes a 32-bit plaintext and
-   32-bit key and outputs a 32-bit ciphertext. The plaintext, key and 
-   ciphertext are all considered, column by column, as 2x4 matrices of 4-bit 
+   32-bit key and outputs a 32-bit ciphertext. The plaintext, key and
+   ciphertext are all considered, column by column, as 2x4 matrices of 4-bit
    elements. </li>
-   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc), 
-   the 4-bit element at position (i,j) in the matrix is the ((i-1)*2 + j)-th 
+   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc),
+   the 4-bit element at position (i,j) in the matrix is the ((i-1)*2 + j)-th
    4-bit word of the 32-bits. </li>
    <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
    b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
+   on these polynomials is defined as usual, modulo the polynomial x^4+x+1.
    </li>
    <li> The encryption scheme applies the following operations:
    <ol>
-    <li> The round function iterated five times, consisting of (for 
+    <li> The round function iterated five times, consisting of (for
     round 0 <= i < 5):
     <ol>
      <li> Addition of round key i-1 to plaintext. </li>
@@ -45,10 +45,10 @@ License, or any later version. */
    the input matrix, consisting of:
    <ol>
     <li> A cyclical shift of row 2 of the matrix by one 4-bit element to the
-    left, that is, the matrix matrix([1,2],[3,4]) would map to 
+    left, that is, the matrix matrix([1,2],[3,4]) would map to
     matrix([1,2],[4,3]). </li>
     <li> The AES MixColumns operation, which takes the input matrix and
-    applies a matrix multiplication by the constant matrix 
+    applies a matrix multiplication by the constant matrix
     \verbatim
 maxima> ss_mixcolumns_matrix(2,4,2);
  matrix([x+1,x],[x,x+1]
@@ -60,16 +60,16 @@ maxima> ss_mixcolumns_matrix(2,4,2);
    </li>
    <li> In this file, we collect:
    <ul>
-    <li> Solvable in 903.5 seconds by picosat, see "Using the rbase box 
+    <li> Solvable in 903.5 seconds by picosat, see "Using the rbase box
     translation". </li>
    </ul>
    </li>
   </ul>
 
-  
+
   \todo Using the rbase box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   <li> Translating the AES cipher treating Sboxes and field multiplications
    as whole boxes and translating these boxes using r_1-base translations.
    </li>
    <li> Generating small scale AES for 5 + 1/3 round:
@@ -98,13 +98,13 @@ shell> cat ssaes_r5_c4_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
    <ul>
     <li> Five full rounds (Key Addition, SubBytes, and diffusion operation).
     </li>
-    <li> 40 Sboxes in the SubBytes operation 
+    <li> 40 Sboxes in the SubBytes operation
     (2 rows * 4 columns * 5 rounds = 8). </li>
     <li> 512 additions within the round and key additions, coming from:
      <ul>
-      <li> 192 additions from key additions 
+      <li> 192 additions from key additions
       (6 round keys * 32-bit additions = 192). </li>
-      <li> 320 additions from the matrix multiplication in the diffusion 
+      <li> 320 additions from the matrix multiplication in the diffusion
       operation (2 rows * 4 columns * 2 directions * 4 bits * 5 rounds = 320).
       </li>
      </ul>
@@ -116,14 +116,14 @@ shell> cat ssaes_r5_c4_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
     <li> 10 Sboxes in the AES key schedule (2 rows * 5 rounds = 10). </li>
     <li> 160 additions in the key schedule:
     <ul>
-     <li> 20 additions of arity three 
+     <li> 20 additions of arity three
      (1 row * 1 column * 4 bits * 5 rounds = 20). </li>
-     <li> 140 additions of arity two 
-     ((1 rows * 3 columns + 2 rows * 2 columns) * 4 bits * 5 rounds = 140). 
+     <li> 140 additions of arity two
+     ((1 rows * 3 columns + 2 rows * 2 columns) * 4 bits * 5 rounds = 140).
      </li>
     </ul>
     </li>
-    <li> 20 bits for the constant in the key schedule 
+    <li> 20 bits for the constant in the key schedule
     (4 bits * 5 rounds = 20). </li>
    </ul>
    </li>
@@ -144,7 +144,7 @@ maxima> ncl_list_fcs(ev_hm(ss_field_rbase_cnfs,[4,3]));
    are comprised of:
    <ul>
     <li> 20 unit-clauses for the 4-bit constants in the key expansion. </li>
-    <li> 480 binary clauses, coming from 50 Sboxes and 80 of each of the two 
+    <li> 480 binary clauses, coming from 50 Sboxes and 80 of each of the two
     multiplications ((50 * 0) + (80 * 6) + (80 * 0) = 480). </li>
     <li> 4808 ternary clauses, coming from 652 additions of arity two,
     50 Sboxes and 80 of each multiplication
@@ -154,7 +154,7 @@ maxima> ncl_list_fcs(ev_hm(ss_field_rbase_cnfs,[4,3]));
     ((20 * 8) + (50 * 15) + (80 * 8) = 1550). </li>
    </ul>
    </li>
-   <li> Then we can generate a random assignment with the plaintext and 
+   <li> Then we can generate a random assignment with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
@@ -185,8 +185,8 @@ c 5.6 MB maximally allocated
 c 903.5 seconds total run time
    \endverbatim
    </li>
-   <li> All other solvers run in the experiment were unable to solve the 
-   instance within 10 hours (cryptominisat, precosat236, precosat-570.1, 
+   <li> All other solvers run in the experiment were unable to solve the
+   instance within 10 hours (cryptominisat, precosat236, precosat-570.1,
    minisat-2.2.0). </li>
   </ul>
 

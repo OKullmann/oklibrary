@@ -15,15 +15,15 @@ License, or any later version. */
    20 + 1/3 round small scale AES with two rows, two columns, using the 4-bit
    field size. </li>
    <li> The AES encryption scheme we model takes a 16-bit plaintext and
-   16-bit key and outputs a 16-bit ciphertext. The plaintext, key and 
-   ciphertext are all considered, column by column, as 2x2 matrices of 4-bit 
+   16-bit key and outputs a 16-bit ciphertext. The plaintext, key and
+   ciphertext are all considered, column by column, as 2x2 matrices of 4-bit
    elements. </li>
-   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc), 
-   the 4-bit element at position (i,j) in the matrix is the ((i-1)*2 + j)-th 
+   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc),
+   the 4-bit element at position (i,j) in the matrix is the ((i-1)*2 + j)-th
    4-bit word of the 16-bits. </li>
    <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
    b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1. 
+   on these polynomials is defined as usual, modulo the polynomial x^4+x+1.
    </li>
    <li> The encryption scheme applies the following operations:
    <ol>
@@ -46,7 +46,7 @@ License, or any later version. */
     <li> A shift of row i by i-1 to the left for all i from 1 to the number of
     rows. </li>
     <li> The AES MixColumns operation, which takes the input matrix and
-    applies a matrix multiplication by the constant matrix 
+    applies a matrix multiplication by the constant matrix
     \verbatim
 maxima> ss_mixcolumns_matrix(2,4,2);
  matrix([x+1,x],[x,x+1])
@@ -61,7 +61,7 @@ maxima> ss_mixcolumns_matrix(2,4,2);
 
   \todo Using the canonical core round box translation
   <ul>
-   <li> In this translation of the AES cipher, the cipher is 
+   <li> In this translation of the AES cipher, the cipher is
    decomposed into rounds such that each round consists of
    two "core round column operations", that is, the SubBytes and MixColumns
    operation combined, applied to each column in the input matrix. We have:
@@ -110,7 +110,7 @@ shell> cat ssaes_r20_c2_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
     operation on each column (20 rounds * 2 columns = 40). </li>
     <li> 336 additions within the round and key additions, coming from:
      <ul>
-      <li> 48 additions from key additions 
+      <li> 48 additions from key additions
       (21 round keys * 16-bit additions = 336). </li>
      </ul>
     </li>
@@ -118,12 +118,12 @@ shell> cat ssaes_r20_c2_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
     <ul>
      <li> 80 additions of arity three
      (1 row * 1 column * 4 bits * 20 rounds = 80). </li>
-     <li> 240 additions of arity two 
-     ((1 rows * 2 columns + 1 row * 1 column) * 4 bits * 20 rounds = 240). 
+     <li> 240 additions of arity two
+     ((1 rows * 2 columns + 1 row * 1 column) * 4 bits * 20 rounds = 240).
      </li>
     </ul>
     </li>
-    <li> 80 bits for the constant in the key schedule. 
+    <li> 80 bits for the constant in the key schedule.
     (4 bits * 20 rounds = 80). </li>
    </ul>
    </li>
@@ -144,7 +144,7 @@ maxima> ncl_list_full_dualts(16,256);
     (576 * 4 = 2304). </li>
     <li> 640 clauses of length four, coming from 80 additions of arity three
     (80 * 8 = 640). </li>
-    <li> 640 clauses of length nine, coming from 40 Sboxes (40 * 16 = 640). 
+    <li> 640 clauses of length nine, coming from 40 Sboxes (40 * 16 = 640).
     </li>
     <li> 40 clauses of length sixteen, coming 40 Sboxes (40 * 1 = 40). </li>
     <li> 10240 clauses of length seventeen, coming from from 40 core round
@@ -153,7 +153,7 @@ maxima> ncl_list_full_dualts(16,256);
     (40 * 1 = 40). </li>
    </ul>
    </li>
-   <li> Then we can generate random assignments with the plaintext and 
+   <li> Then we can generate random assignments with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,rounds,num_columns,num_rows,exp,final_round_b);
@@ -299,7 +299,7 @@ c CPU time              : 133.51 s
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications 
+   <li> Translating the AES cipher treating Sboxes and field multiplications
    as whole boxes and translating these boxes using the canonical translation.
    </li>
    <li> Generating small scale AES for twenty rounds (with MixColumns):
@@ -334,10 +334,10 @@ shell> cat ssaes_r20_c2_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
     (2 rows * 2 columns * 20 rounds = 80). </li>
     <li> 976 additions within the round and key additions, coming from:
      <ul>
-      <li> 48 additions from key additions 
+      <li> 48 additions from key additions
       (21 round keys * 16-bit additions = 336). </li>
-      <li> 640 additions from the matrix multiplication in the diffusion 
-      operation 
+      <li> 640 additions from the matrix multiplication in the diffusion
+      operation
       (2 rows * 2 columns * 2 directions * 4 bits * 20 rounds = 640).
       </li>
      </ul>
@@ -352,12 +352,12 @@ shell> cat ssaes_r20_c2_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
     <ul>
      <li> 80 additions of arity three
      (1 row * 1 column * 4 bits * 20 rounds = 80). </li>
-     <li> 24 additions of arity two 
-     ((1 rows * 2 columns + 1 row * 1 column) * 4 bits * 20 rounds = 240). 
+     <li> 24 additions of arity two
+     ((1 rows * 2 columns + 1 row * 1 column) * 4 bits * 20 rounds = 240).
      </li>
     </ul>
     </li>
-    <li> 80 bits for the constant in the key schedule. 
+    <li> 80 bits for the constant in the key schedule.
     (4 bits * 20 rounds = 80). </li>
    </ul>
    </li>
@@ -374,7 +374,7 @@ maxima> ncl_list_full_dualts(8,16);
    are comprised of:
    <ul>
     <li> 80 unit-clauses for the 4-bit constant in the key expansion. </li>
-    <li> 56320 binary clauses, coming from 120 Sboxes and 160 of each of the 
+    <li> 56320 binary clauses, coming from 120 Sboxes and 160 of each of the
     two multiplications (440 * 128 = 56320). </li>
     <li> 4864 ternary clauses, coming from 1216 additions of arity two
     (1216 * 4 = 4864). </li>
@@ -386,7 +386,7 @@ maxima> ncl_list_full_dualts(8,16);
     of each of the two multiplications (440 * 1 = 440). </li>
    </ul>
    </li>
-   <li> Then we can generate random assignments with the plaintext and 
+   <li> Then we can generate random assignments with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,rounds,num_columns,num_rows,exp,final_round_b);
