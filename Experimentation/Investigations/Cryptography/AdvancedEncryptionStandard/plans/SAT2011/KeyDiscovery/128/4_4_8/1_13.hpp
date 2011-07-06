@@ -104,9 +104,6 @@ shell> cat ssaes_r1_c4_rw4_e8_f0.cnf | ExtendedDimacsFullStatistics n
 5 4096
 17 29696
 256 116
-
-??? what are the clauses of length 256 ??? there shouldn't be any ???
-
    \endverbatim
    </li>
   <li> In this translation, we have:
@@ -174,9 +171,7 @@ maxima> ncl_list_full_dualts(16,256);
     four (256 * 16 = 4096). </li>
     <li> 29696 clauses of length seventeen, coming from 20 Sboxes and 16 of
     each of the six multiplications (116 * 256 = 29656). </li>
-    <li> 116 clauses of length sixteen
-??? length 16 ???
-, coming from from 20 Sboxes and 16 of
+    <li> 116 clauses of length 256, coming from 20 Sboxes and 16 of
     each of the six multiplications (116 * 1 = 116). </li>
    </ul>
    </li>
