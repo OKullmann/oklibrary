@@ -61,6 +61,25 @@ okltest_bv2c_wv(f) := block([a,b,c],
   true)$
 
 
+/* *****************
+   * Constructions *
+   *****************
+*/
+
+okltest_bfnm2n1(f) := block(
+  assert(f(zero_bf,1)([0]) = [0]),
+  assert(f(zero_bf,1)([1]) = [0]),
+  assert(f(zero_bf,1)([1,0,1,0,1]) = [0]),
+  assert(f(one_bf,1)([0]) = [1]),
+  assert(f(one_bf,1)([1]) = [1]),
+  assert(f(one_bf,1)([1,0,1,0,1]) = [1]),
+  assert(f(neg_bf,1)([1,0,1,0]) = [0]),
+  assert(f(neg_bf,2)([1,0,1,0]) = [1]),
+  assert(f(neg_bf,3)([1,0,1,0]) = [0]),
+  assert(f(neg_bf,4)([1,0,1,0]) = [1]),
+  true)$
+
+
 /*!
 \endhtmlonly
 */

@@ -173,6 +173,10 @@ bf2relation_fullcnf_fcs(f,n) := block(
   else block([N : length(first(F))],
     [setn(N), setdifference(full_cs(N), setify(F))]))$
 
+/* The boolean n x 1 function giving the i-th output bit of the boolean n x m
+   function f: */
+bfnm2n1(f,i) := buildq([f,n,i], lambda([x], [f(x)[i]]))$
+
 /*!
 \endhtmlonly
 */
