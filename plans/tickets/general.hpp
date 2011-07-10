@@ -16,7 +16,9 @@ License, or any later version. */
    processing the tickets. </li>
    <li> In the fourth column we can use precise priority-specifications:
     <ol>
-     <li> "A" means urgent, must be done as the next step. </li>
+     <li> "A" means urgent, must be done as the next step (on a daily basis --
+     this is work which can be done rather quickly, and on which other work
+     depends). </li>
      <li> "B" means is also urgent, but might use a bit more time, since
      also some planning is involved. </li>
      <li> "C" means to just follow the numerical order of the tickets. </li>
