@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
-   2 + 1/3 round small scale AES with four rows, two columns, using the 4-bit
+   2 + 1/3 round small scale AES with 4 rows, 2 columns, using the 4-bit
    field size. </li>
    <li> The AES encryption scheme we model takes a 32-bit plaintext and
    32-bit key and outputs a 32-bit ciphertext. The plaintext, key and
@@ -43,7 +43,8 @@ License, or any later version. */
    <li> The linear diffusion operation applies a linear permutation to
    the input matrix, consisting of:
    <ol>
-    <li> A shift of row i by i-1 to the left for all i from 1 to the number of rows.. </li>
+    <li> A shift of row i by i-1 to the left for all i from 1 to the number of
+    rows. </li>
     <li> The AES MixColumns operation, which takes the input matrix and
     applies a matrix multiplication by the constant matrix
     \verbatim
@@ -92,7 +93,7 @@ shell> cat ssaes_r2_c2_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
         8,64,8]
    <li> In this translation we have:
    <ul>
-    <li> Two full rounds (Key Addition, SubBytes, and diffusion operation).
+    <li> 2 full rounds (Key Addition, SubBytes, and diffusion operation).
     </li>
     <li> 16 Sboxes in the SubBytes operation
     (4 rows * 2 columns * 2 rounds = 16). </li>
@@ -120,9 +121,9 @@ shell> cat ssaes_r2_c2_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
     <li> 8 Sboxes in the AES key schedule (4 rows * 2 rounds = 8). </li>
     <li> 64 additions in the key schedule:
     <ul>
-     <li> 8 additions of arity three
+     <li> 8 additions of arity 3
      (1 row * 1 column * 4 bits * 2 rounds = 8). </li>
-     <li> 56 additions of arity two
+     <li> 56 additions of arity 3
      ((3 rows * 1 columns + 4 rows * 1 columns) * 4 bits * 2 rounds = 56).
      </li>
     </ul>
@@ -150,18 +151,18 @@ maxima> ncl_list_full_dualts(8,16);
    <ul>
     <li> 8 unit-clauses for the 4-bit constants in the Key schedule
     (4 bits * 2 rounds = 8). </li>
-    <li> 15360 binary clauses, coming from 24 Sboxes and 16 of each of the six
+    <li> 15360 binary clauses, coming from 24 Sboxes and 16 of each of the 6
     multiplications (120 * 128 = 7680). </li>
-    <li> 608 ternary clauses, coming from 152 additions of arity two
+    <li> 608 ternary clauses, coming from 152 additions of arity 2
     (152 * 4 clauses per xor = 624). </li>
-    <li> 64 clauses of length four, coming from 8 additions of arity three
+    <li> 64 clauses of length 4, coming from 8 additions of arity 3
     (8 * 8 clauses per xor = 32). </li>
-    <li> 2048 clauses of length five, coming from 128 additions of arity 4
+    <li> 2048 clauses of length 5, coming from 128 additions of arity 4
     from the diffusion operation (128 * 16 = 2048). </li>
-    <li> 1920 clauses of length nine, coming from 24 Sboxes and 16 of each of
-    the six multiplications (120 * 16 = 1920). </li>
-    <li> 120 clauses of length sixteen, coming from from 24 Sboxes and 16 of
-    each of the six multiplications (120 * 1 = 60). </li>
+    <li> 1920 clauses of length 9, coming from 24 Sboxes and 16 of each of
+    the 6 multiplications (120 * 16 = 1920). </li>
+    <li> 120 clauses of length 16, coming from from 24 Sboxes and 16 of
+    each of the 6 multiplications (120 * 1 = 60). </li>
    </ul>
    </li>
    <li> Then we can generate a random assignment with the plaintext and

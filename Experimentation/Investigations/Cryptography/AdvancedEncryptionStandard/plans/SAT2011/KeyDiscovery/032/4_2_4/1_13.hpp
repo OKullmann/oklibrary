@@ -115,8 +115,8 @@ shell> cat ssaes_r1_c2_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
     <li> 4 Sboxes in the AES key schedule (4 rows). </li>
     <li> 32 additions in the key schedule:
     <ul>
-     <li> 4 additions of arity three (1 row * 1 column * 4 bits = 4). </li>
-     <li> 28 additions of arity two
+     <li> 4 additions of arity 3 (1 row * 1 column * 4 bits = 4). </li>
+     <li> 28 additions of arity 2
      ((3 rows * 1 columns + 4 rows * 1 columns) * 4 bits = 28). </li>
     </ul>
     </li>
@@ -145,14 +145,14 @@ maxima> ncl_list_full_dualts(8,16);
     multiplications (60 * 128 = 7680). </li>
     <li> 368 ternary clauses, coming from 92 additions of arity two
     (92 * 4 = 624). </li>
-    <li> 32 clauses of length four, coming from 4 additions of arity three
+    <li> 32 clauses of length 4, coming from 4 additions of arity three
     (4 * 8 = 32). </li>
-    <li> 1024 clauses of length five, coming from 64 additions of arity 4
+    <li> 1024 clauses of length 5, coming from 64 additions of arity 4
     from the diffusion operation (64 * 16 = 1024). </li>
-    <li> 960 clauses of length nine, coming from 12 Sboxes and 8 of each of
-    the six multiplications (60 * 16 = 960). </li>
-    <li> 60 clauses of length sixteen, coming from from 12 Sboxes and 8 of
-    each of the six multiplications (60 * 1 = 60). </li>
+    <li> 960 clauses of length 9, coming from 12 Sboxes and 8 of each of
+    the 6 multiplications (60 * 16 = 960). </li>
+    <li> 60 clauses of length 16, coming from from 12 Sboxes and 8 of
+    each of the 6 multiplications (60 * 1 = 60). </li>
    </ul>
    </li>
    <li> Then we can generate a random assignment with the plaintext and
