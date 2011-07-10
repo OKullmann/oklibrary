@@ -29,7 +29,24 @@ License, or any later version. */
    </ul>
    </li>
    <li> This is without parameters; with parameter "header" (as string) it
-   just prints the header (which would be at the top of the R-script). </li>
+   just prints the header (which is also at the top of the R-output).
+    <ol>
+     <li> How to handle this data-dependency? </li>
+     <li> Perhaps, at least at the beginning, we just state in comments that
+     the header must be the same as used in the ask-script, but don't provide
+     some mechanism for avoiding the duplication. </li>
+     <li> The string uses a single space for separation, and not leading or
+     trailing space(-symbolds). </li>
+     <li> The header-string is provided in a data-file, e.g., "Minisat.header".
+     Or one could use a directory "headers", containing e.g. "minisat" etc.
+     </li>
+     <li> In case something else than "header" is provided to the script, and
+     which can not be interpreted, an error occurs. </li>
+     <li> Perhaps we should have possible parameter-values "header-only"
+     and "data-only" (while without anything both header and data are
+     printed). </li>
+    </ol>
+   </li>
    <li> And with parameter "dir=Directory" it reads all the files in Directory,
    and prints to standard output the header followed by the data-lines. </li>
    <li> Then an additional column with the filename is added:
@@ -101,7 +118,7 @@ License, or any later version. */
    families of solvers should be treated similarly)
    Not all solver outputs are comparable.
    <ul>
-    <li>  DONE (different solvers have different interpretations, that's it;
+    <li> DONE (different solvers have different interpretations, that's it;
     if we want additional input statistics, then it can be easily provided
     for each investigation)
     Variable numbers:
