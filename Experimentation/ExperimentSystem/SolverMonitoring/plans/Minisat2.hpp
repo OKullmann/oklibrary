@@ -10,7 +10,7 @@ License, or any later version. */
   \brief General plans monitoring Minisat2
 
 
-  \todo Improving read_minisat_output
+  \todo Improving read_minisat_output : MG, please update
   <ul>
    <li> The simplification time is missing. </li>
    <li> The column-names are too long; planning is needed, and standardisation,
@@ -20,7 +20,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Improved handling of file-names
+  \todo Improved handling of file-names : MG, please update
   <ul>
    <li> Typically, filenames contain an important parameter, like
    "VanDerWaerden_pd_2-6-7_350.cnf_OUT" containing 350, the number of
@@ -34,7 +34,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo Move read_minisat2_output functionality to wrapper script
+  \todo Move read_minisat2_output functionality to wrapper script :
+  MG, please update
   <ul>
    <li> This is to be achieved with "Extraction tools" in
    ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
