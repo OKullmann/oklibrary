@@ -19,6 +19,7 @@ License, or any later version. */
     - Improve tests
     - Add variants with reduced number of rounds
     - Add 6-to-1 bit Sbox functions
+    - Variable ordering and standardisation
 
 
   \par Version 0.0.4

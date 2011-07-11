@@ -12,6 +12,45 @@ License, or any later version. */
 
   \todo Overview
   <ul>
+   <li> We consider the one round DES given by the encryption function
+   des_encryption_gen in
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac.
+   </li>
+   <li> The translation of one round DES to SAT is given at the Maxima level by
+   des_fcl_gen in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/GeneralisedConstraintTranslation.mac.
+   </li>
+   <li> The DES consists of certain rewiring of the bits, additions (XOR) and
+   the application of 8 S-boxes (substitution boxes) for each round. </li>
+   <li> We consider the DES S-boxes as 6-bit to 4-bit boolean functions,
+   given by des_sbox_bf in
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Sboxes.mac.
+   </li>
+   <li> We should also consider the DES S-boxes as 4 6-bit to 1-bit functions.
+   See "Basic translation" in
+   Investigations/Cryptography/DataEncryptionStandard/plans/general.hpp. </li>
+   <li> We translate the DES by treating the additions and S-boxes as the
+   boolean functions, which we consider our units of translation. </li>
+   <li> The additions are translated by the set of their prime implicates.
+   </li>
+   <li> The S-boxes are translated using each of the following CNF
+   representations:
+    <ul>
+     <li> canonical(+) representation, see dualts_fcl and dualtsplus_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac;
+     </li>
+     <li> 1-base translations, see
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp;
+     </li>
+     <li> minimum translations, see
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp;
+     </li>
+     <li> their prime implicates; </li>
+     <li> their canonical CNF representations. </li>
+    </ul>
+   All such translations apply to both the 6-bit to 4-bit S-box functions and
+   the 4 decomposed 6-bit to 1-bit functions.
+   </li>
    <li> For initial experiments we use the Argosat-desgen plaintext-ciphertext
    pairs. See "Transferring the Argosat-desgen example" in
    Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
@@ -20,26 +59,31 @@ License, or any later version. */
    <li> Using the:
     <ul>
      <li> canonical+ translation; all solvers solve with no
-     conflicts. See "Using the canonical+ translation". </li>
+     conflicts. See "Using the canonical+ translation for the S-boxes
+     (6-to-4)". </li>
      <li> canonical translation; most (but not all) solvers solve with no
-     conflicts. See "Using the canonical translation". </li>
+     conflicts. See "Using the canonical translation for the S-boxes
+     (6-to-4)". </li>
      <li> 1-base translation; most (but not all) solvers solve with no
-     conflicts. See "Using the 1-base translation". OKsolver_2002 needs some
-     backtracking. </li>
+     conflicts. See "Using the 1-base translation for the S-boxes (6-to-4)".
+     OKsolver_2002 needs some backtracking. </li>
      <li> "minimum" translation; some (but not all) solvers solve with
-     no conflicts. See 'Using the "minimum" translation". OKsolver_2002
-     needs some backtracking. </li>
+     no conflicts. See 'Using the "minimum" translation for the S-boxes
+     (6-to-4)". OKsolver_2002 needs some backtracking. </li>
      <li> full clause-set translation; some (but not all) solvers solve with
-     no conflicts. See 'Using the "minimum" translation". OKsolver_2002
-     needs some backtracking. </li>
+     no conflicts. See 'Using the "minimum" translation for the S-boxes
+     (6-to-4)". OKsolver_2002 needs some backtracking. </li>
     </ul>
     Ordered by the number of conflicts needed to solve.
    </li>
   </ul>
 
 
-  \todo Using the canonical translation
+  \todo Using the canonical translation for the S-box (6-to-4)
   <ul>
+   <li> Translating the one round DES key discovery problem using the
+   canonical translation for the DES Sboxes, as 6-to-4 bit boolean functions.
+   </li>
    <li> Generating the instance:
    \verbatim
 rounds : 1$
@@ -52,21 +96,49 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  sconcat("DES over ",rounds," rounds; translated using the canonical translation for the S-boxes (6-to-4)."),
   F_std[1],
-  sconcat("des_argocomp_r",rounds,".cnf"),
+  sconcat("des_canon_r",rounds,".cnf"),
   F_std[2])$
 print("DONE!");
    \endverbatim
    </li>
+   <li> Statistics:
+   \verbatim
+shell> cat des_canon_r1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+752 6088 17472 0 17472 753 1
+ length count
+1 128
+2 5120
+3 320
+11 512
+64 8
+   \endverbatim
+   </li>
+   <li> S-box statistics (canonical translation):
+   \verbatim
+ncl_list_fcl(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(1)]));
+[[2,640],[11,64],[64,1]]
+   \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 128 unit-clauses (setting plaintext + ciphertext); </li>
+     <li> 5120 binary clauses (8 S-boxes); </li>
+     <li> 320 ternary clauses (80 binary additions); </li>
+     <li> 512 clauses of length eleven (8 S-boxes); </li>
+     <li> 8 clauses of length 64 (8 S-boxes). </li>
+    </ul>
+   </li>
    <li> Most solvers solve without any conflicts/backtracks (cryptominisat,
    precosat236, precosat-570.1, minisat-2.2.0, minisat2, glucose, satz215,
    sat-grasp). </li>
-   <li> Some solvers do take some conflicts/nodes (picosat:9).
-   </li>
+   <li> Some solvers do take some conflicts/nodes (picosat:9). 
+  </li>
    <li> march_pl yields:
    \verbatim
-shell> march_pl des_argocomp_r1.cnf
+shell> march_pl des_canon_r1.cnf
 c main():: nodeCount: 25
 c main():: dead ends in main: 0
    \endverbatim
@@ -74,6 +146,7 @@ c main():: dead ends in main: 0
    </li>
    <li> OKsolver_2002 also solves without any decisions:
    \verbatim
+shell> OKsolver_2002-O3-DNDEBUG des_canon_r1.cnf
 c number_of_initial_unit-eliminations   608
 c running_time(sec)                     0.0
 c number_of_nodes                       1
@@ -86,8 +159,10 @@ c number_of_autarkies                   8
   </ul>
 
 
-  \todo Using the 1-base translation
+  \todo Using the 1-base translation for the S-boxes (6-to-4)
   <ul>
+   <li> Translating the one round DES key discovery problem using the
+   1-bases to translate the DES Sboxes, as 6-to-4 bit boolean functions. </li>
    <li> Generating the 1-bases:
    \verbatim
 maxima> for i : 1 thru 8 do output_dessbox_fullcnf_stdname(i)$
@@ -117,12 +192,47 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  sconcat("DES over ",rounds," rounds; translated using the 1-base translation for the S-boxes (6-to-4)."),
   F_std[1],
-  sconcat("des_argocomp_r",rounds,".cnf"),
+  sconcat("des_1base_r",rounds,".cnf"),
   F_std[2])$
 print("DONE!");
    \endverbatim
+   </li>
+   <li> Statistics:
+   \verbatim
+shell> cat des_1base_r1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+240 1512 6865 0 6865 241 1
+ length count
+1 128
+3 320
+5 608
+6 455
+7 1
+   \endverbatim
+   </li>
+   <li> S-box statistics (1-base translation):
+   \verbatim
+for F in sbox_fcl_l do print(ncl_list_fcl(F));
+[[5,84],[6,39],[7,1]]
+[[5,75],[6,54]]
+[[5,76],[6,62]]
+[[5,69],[6,59]]
+[[5,78],[6,56]]
+[[5,83],[6,53]]
+[[5,75],[6,48]]
+[[5,68],[6,84]]
+  \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 128 unit-clauses (setting plaintext + ciphertext); </li>
+     <li> 320 ternary clauses (80 binary additions); </li>
+     <li> 608 clauses of length five (8 S-boxes); </li>
+     <li> 455 clauses of length six (8 S-boxes); </li>
+     <li> 1 clauses of length seven (1 S-box). </li>
+    </ul>
    </li>
    <li> Most solvers solve without any conflicts/backtracks (cryptominisat,
    precosat236, precosat-570.1, minisat-2.2.0, minisat2, satz215, sat-grasp).
@@ -131,7 +241,7 @@ print("DONE!");
    </li>
    <li> march_pl yields:
    \verbatim
-shell> march_pl des_argocomp_r1.cnf
+shell> march_pl des_1base_r1.cnf
 c main():: nodeCount: 17
 c main():: dead ends in main: 0
    \endverbatim
@@ -139,7 +249,7 @@ c main():: dead ends in main: 0
    </li>
    <li> OKsolver_2002 now needs some decisions to solve:
    \verbatim
-shell> OKsolver_2002-O3-DNDEBUG des_argocomp_r1.cnf
+shell> OKsolver_2002-O3-DNDEBUG des_1base_r1.cnf
 c running_time(sec)                     0.0
 c number_of_nodes                       7
 c number_of_quasi_single_nodes          1
@@ -153,8 +263,11 @@ c number_of_1-autarkies                 24
   </ul>
 
 
-  \todo Using the canonical+ translation
+  \todo Using the canonical+ translation for the S-boxes (6-to-4)
   <ul>
+   <li> Translating the one round DES key discovery problem using the
+   canonical+ translation for the DES Sboxes, as 6-to-4 bit boolean functions.
+   </li>
    <li> Generating the instance:
    \verbatim
 rounds : 1$
@@ -167,19 +280,49 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  sconcat("DES over ",rounds," rounds; translated using the canonical+ translation for the S-boxes (6-to-4)."),
   F_std[1],
-  sconcat("des_argocomp_r",rounds,".cnf"),
+  sconcat("des_canonp_r",rounds,".cnf"),
   F_std[2])$
 print("DONE!");
    \endverbatim
+   </li>
+   <li> Statistics:
+   \verbatim
+shell> cat des_canonp_r1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+752 6248 22752 0 22752 753 1
+ length count
+1 128
+2 5120
+3 320
+11 512
+33 160
+64 8
+   \endverbatim
+   </li>
+   <li> S-box statistics (canonical+ translation):
+   \verbatim
+ncl_list_fcl(dualtsplus_fcl([listify(setn(10)), des_sbox_fulldnf_cl(1)]));
+[[2,640],[11,64],[33,20],[64,1]]
+   \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 128 unit-clauses (setting plaintext + ciphertext); </li>
+     <li> 5120 binary clauses (8 S-boxes); </li>
+     <li> 320 ternary clauses (80 binary additions); </li>
+     <li> 512 clauses of length eleven (8 S-boxes); </li>
+     <li> 160 clauses of length 33 (8 S-boxes); </li>
+     <li> 8 clauses of length 64 (8 S-boxes). </li>
+    </ul>
    </li>
    <li> Most solvers solve without any conflicts/backtracks (cryptominisat,
    precosat236, precosat-570.1, minisat-2.2.0, minisat2, glucose, satz215,
    sat-grasp, glucose, picosat). </li>
    <li> march_pl yields:
    \verbatim
-shell> march_pl des_argocomp_r1.cnf
+shell> march_pl des_canonp_r1.cnf
 c main():: nodeCount: 17
 c main():: dead ends in main: 0
    \endverbatim
@@ -187,6 +330,7 @@ c main():: dead ends in main: 0
    </li>
    <li> OKsolver_2002 also solves without any decisions:
    \verbatim
+shell> OKsolver_2002-O3-DNDEBUG des_canonp_r1.cnf
 c number_of_initial_unit-eliminations   622
 c running_time(sec)                     0.0
 c number_of_nodes                       1
@@ -197,10 +341,10 @@ c number_of_autarkies                   8
   </ul>
 
 
-  \todo Using the full clause-set translation
+  \todo Using the canonical CNF translation for the S-boxes (6-to-4)
   <ul>
-   <li> Translating the DES Sboxes using the canonical CNFs.
-   That is, each Sbox is represented with a CNF where all
+   <li> Translating the DES Sboxes, as 6-to-4 bit boolean functions, using the
+   canonical CNFs. That is, each Sbox is represented with a CNF where all
    clauses are of length 10. </li>
    <li> Generating the instance:
    \verbatim
@@ -214,12 +358,36 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+sconcat("DES over ",rounds," rounds; translated using the canonical CNF for S-boxes (6-to-4)."),
   F_std[1],
-  sconcat("des_argocomp_r",rounds,".cnf"),
+  sconcat("des_full_r",rounds,".cnf"),
   F_std[2])$
 print("DONE!");
    \endverbatim
+   </li>
+   <li> Statistics:
+   \verbatim
+shell> cat des_full_r1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+240 8128 77888 0 77888 241 1
+ length count
+1 128
+3 320
+10 7680
+   \endverbatim
+   </li>
+   <li> S-box statistics (canonical CNF translation):
+   \verbatim
+ncl_list_fcl(des_sbox_fullcnf_fcs(1));
+[[10,960]]
+  \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 128 unit-clauses (setting plaintext + ciphertext); </li>
+     <li> 320 ternary clauses (80 binary additions); </li>
+     <li> 7680 clauses of length ten (8 S-boxes); </li>
+    </ul>
    </li>
    <li> Solvers (t:time,cfs:conflicts,nds:nodes): precosat-570.1 (t:0s,cfs:0)
    precosat236 (t:0s,cfs:0), minisat-2.2.0 (t:0.18s,cfs:2), cryptominisat
@@ -228,8 +396,11 @@ print("DONE!");
   </ul>
 
 
-  \todo Using the "minimum" translation
+  \todo Using the "minimum" translation for the S-boxes (6-to-4)
   <ul>
+   <li> Translating the one round DES key discovery problem using the
+   "minimum" translations for the DES Sboxes, as 6-to-4 bit boolean functions.
+   </li>
    <li> Generating the "minimum" CNFs for the Sboxes:
    \verbatim
 maxima> for i : 1 thru 8 do output_dessbox_fullcnf_stdname(i)$
@@ -262,14 +433,50 @@ C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
 P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
 C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
-F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
-output_fcs_v(
-  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
-  F_std[1],
-  sconcat("des_argocomp_r",rounds,".cnf"),
-  F_std[2])$
+Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
+output_fcl_v(
+  sconcat("DES over ",rounds," rounds; translated using the minimum translation for the S-boxes (6-to-4)."),
+  Fs[1],
+  sconcat("des_min_r",rounds,".cnf"),
+  Fs[2])$
 print("DONE!");
    \endverbatim
+   </li>
+   <li> Statistics:
+   \verbatim
+shell> cat des_min_r1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+240 988 4108 0 4108 241 1
+ length count
+1 128
+3 320
+5 232
+6 296
+7 12
+   \endverbatim
+   </li>
+   <li> S-box statistics ("minimum" translation):
+   \verbatim
+for F in sbox_fcl_l do print(ncl_list_fcl(F));
+
+[[5,30],[6,35],[7,2]]
+[[5,33],[6,33],[7,1]]
+[[5,28],[6,38],[7,2]]
+[[5,29],[6,38],[7,2]]
+[[5,29],[6,36],[7,2]]
+[[5,28],[6,38]]
+[[5,29],[6,37],[7,1]]
+[[5,26],[6,41],[7,2]]
+  \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 128 unit-clauses (setting plaintext + ciphertext); </li>
+     <li> 320 ternary clauses (80 binary additions); </li>
+     <li> 232 clauses of length five (8 S-boxes); </li>
+     <li> 296 clauses of length six (8 S-boxes); </li>
+     <li> 12 clauses of length seven (7 S-boxes). </li>
+    </ul>
    </li>
    <li> Some solvers solve without any conflicts/backtracks (precosat236,
    precosat-570.1, minisat-2.2.0, minisat2, sat-grasp).
@@ -278,7 +485,7 @@ print("DONE!");
    </li>
    <li> march_pl yields:
    \verbatim
-shell> march_pl des_argocomp_r1.cnf
+shell> march_pl des_min_r1.cnf
 c main():: nodeCount: 17
 c main():: dead ends in main: 0
    \endverbatim
@@ -286,7 +493,7 @@ c main():: dead ends in main: 0
    </li>
    <li> OKsolver_2002 now needs some decisions to solve:
    \verbatim
-shell> OKsolver_2002-O3-DNDEBUG des_argocomp_r1.cnf
+shell> OKsolver_2002-O3-DNDEBUG des_min_r1.cnf
 c running_time(sec)                     0.0
 c number_of_nodes                       9
 c number_of_quasi_single_nodes          1

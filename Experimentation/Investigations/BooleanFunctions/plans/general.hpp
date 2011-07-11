@@ -89,6 +89,13 @@ maxima> for m : 1 while true do
   </ul>
 
 
+  \todo Boolean function representations
+  <ul>
+   <li> We need a list of all the representations we use for
+   boolean functions. </li>
+  </ul>
+
+
   \bug analyse_random_permutations does not create experiment-directories
   <ul>
    <li> Every experiment takes places in its own directory. </li>

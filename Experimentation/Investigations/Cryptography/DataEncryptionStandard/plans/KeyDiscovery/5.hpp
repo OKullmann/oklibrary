@@ -12,6 +12,45 @@ License, or any later version. */
 
   \todo Overview
   <ul>
+   <li> We consider the five round DES given by the encryption function
+   des_encryption_gen in
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac.
+   </li>
+   <li> The translation of one round DES to SAT is given at the Maxima level by
+   des_fcl_gen in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/GeneralisedConstraintTranslation.mac.
+   </li>
+   <li> The DES consists of certain rewiring of the bits, additions (XOR) and
+   the application of 8 S-boxes (substitution boxes) for each round. </li>
+   <li> We consider the DES S-boxes as 6-bit to 4-bit boolean functions,
+   given by des_sbox_bf in
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Sboxes.mac.
+   </li>
+   <li> We should also consider the DES S-boxes as 4 6-bit to 1-bit functions.
+   See "Basic translation" in
+   Investigations/Cryptography/DataEncryptionStandard/plans/general.hpp. </li>
+   <li> We translate the DES by treating the additions and S-boxes as the
+   boolean functions, which we consider our units of translation. </li>
+   <li> The additions are translated by the set of their prime implicates.
+   </li>
+   <li> The S-boxes are translated using each of the following CNF
+   representations:
+    <ul>
+     <li> canonical(+) representation, see dualts_fcl and dualtsplus_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac;
+     </li>
+     <li> 1-base translations, see
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp;
+     </li>
+     <li> minimum translations, see
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp;
+     </li>
+     <li> their prime implicates; </li>
+     <li> their canonical CNF representations. </li>
+    </ul>
+   All such translations apply to both the 6-bit to 4-bit S-box functions and
+   the 4 decomposed 6-bit to 1-bit functions.
+   </li>
    <li> For initial experiments we use the Argosat-desgen plaintext-ciphertext
    pairs. See "Transferring the Argosat-desgen example" in
    Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
@@ -19,18 +58,20 @@ License, or any later version. */
    <li> Using the:
     <ul>
      <li> 1-base translation; fastest solver solves in 553s.
-     See "Using the 1-base translation". </li>
+     See "Using the 1-base translation for the S-boxes (6-to-4)". </li>
      <li> canonical translation; fastest solver solves in 567s.
-     See "Using the canonical translation". </li>
+     See "Using the canonical translation for the S-boxes (6-to-4)". </li>
      <li> "minimum" translation; fastest solver solves in 4 hours.
-     See 'Using the "minimum"  translation'. </li>
+     See 'Using the "minimum"  translation for the S-boxes (6-to-4)'. </li>
     </ul>
    </li>
   </ul>
 
 
-  \todo Using the 1-base translation
+  \todo Using the 1-base translation for the S-boxes (6-to-4)
   <ul>
+   <li> Translating the DES Sboxes, as 6-to-4 bit boolean functions, using
+   1-bases. </li>
    <li> Generating the 1-bases:
    \verbatim
 maxima> for i : 1 thru 8 do output_dessbox_fullcnf_stdname(i)$
@@ -60,12 +101,47 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  sconcat("DES over ",rounds," rounds; translated using 1-base translations for the S-boxes (6-to-4)."),
   F_std[1],
-  sconcat("des_argocomp_r",rounds,".cnf"),
+  sconcat("des_6t4_1base_r",rounds,".cnf"),
   F_std[2])$
 print("DONE!");
    \endverbatim
+   </li>
+   <li> Statistics:
+   \verbatim
+shell> cat des_6t4_1base_r5.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+688 7048 33813 0 33813 689 1
+ length count
+1 128
+3 1600
+5 3040
+6 2275
+7 5
+   \endverbatim
+   </li>
+   <li> S-box statistics (1-base translations):
+   \verbatim
+for F in sbox_fcl_l do print(ncl_list_fcl(F));
+[[5,84],[6,39],[7,1]]
+[[5,75],[6,54]]
+[[5,76],[6,62]]
+[[5,69],[6,59]]
+[[5,78],[6,56]]
+[[5,83],[6,53]]
+[[5,75],[6,48]]
+[[5,68],[6,84]]
+  \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 128 unit-clauses (setting plaintext + ciphertext); </li>
+     <li> 1600 ternary clauses (80 * 5 = 400 binary additions); </li>
+     <li> 3040 clauses of length five (8 * 5 = 40 S-boxes); </li>
+     <li> 2275 clauses of length six (8 * 5 = 40 S-boxes); </li>
+     <li> 5 clauses of length seven (1 * 5 = 5 S-boxes). </li>
+    </ul>
    </li>
    <li> Solvers (t:time,cfs:conflicts,nds:nodes): cryptominisat
    (t:553s,cfs:3198466), minisat-2.2.0 (t:13363s,cfs:183335114),
@@ -81,8 +157,10 @@ c 298212.3 seconds, 91 MB max, 3183 MB recycled
   </ul>
 
 
-  \todo Using the "minimum" translation
+  \todo Using the "minimum" translation for the S-boxes (6-to-4)
   <ul>
+   <li> Translating the DES Sboxes, as 6-to-4 bit boolean functions, using the
+   "minimum" (inf-based) representations. </li>
    <li> Generating the "minimum" CNFs for the Sboxes:
    \verbatim
 maxima> for i : 1 thru 8 do output_dessbox_fullcnf_stdname(i)$
@@ -117,17 +195,53 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  sconcat("DES over ",rounds," rounds; translated using the minimum translation for the S-boxes (6-to-4)."),
   F_std[1],
-  sconcat("des_argocomp_r",rounds,".cnf"),
+  sconcat("des_6t4_min_r",rounds,".cnf"),
   F_std[2])$
 print("DONE!");
    \endverbatim
    </li>
+   <li> Statistics:
+   \verbatim
+shell> cat des_6t4_min_r5.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+688 4428 20028 0 20028 689 1
+ length count
+1 128
+3 1600
+5 1160
+6 1480
+7 60
+   \endverbatim
+   </li>
+   <li> S-box statistics ("minimum" translation):
+   \verbatim
+for F in sbox_fcl_l do print(ncl_list_fcl(F));
+
+[[5,30],[6,35],[7,2]]
+[[5,33],[6,33],[7,1]]
+[[5,28],[6,38],[7,2]]
+[[5,29],[6,38],[7,2]]
+[[5,29],[6,36],[7,2]]
+[[5,28],[6,38]]
+[[5,29],[6,37],[7,1]]
+[[5,26],[6,41],[7,2]]
+  \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 128 unit-clauses (setting plaintext + ciphertext); </li>
+     <li> 1600 ternary clauses (80 * 5 = 400 binary additions); </li>
+     <li> 1160 clauses of length five (8 * 5 = 40 S-boxes); </li>
+     <li> 1480 clauses of length six (8 * 5 = 40 S-boxes); </li>
+     <li> 60 clauses of length seven (7 * 5 = 35 S-boxes). </li>
+    </ul>
+   </li>
    <li> minisat-2.2.0 solves in 14,291s (~4 hours) using 258,451,462
    conflicts:
    \verbatim
-shell> minisat-2.2.0 des_argocomp_r4.cnf
+shell> minisat-2.2.0 des_6t4_min_r5.cnf
 restarts              : 294909
 conflicts             : 258451462      (3953546 /sec)
 decisions             : 308556223      (0.00 % random) (4720001 /sec)
@@ -136,7 +250,7 @@ propagations          : 20792733621    (318067586 /sec)
    </li>
    <li> cryptominisat solves in 520,000s (~6 days):
    \verbatim
-shell> cryptominisat des_argocomp_r4.cnf
+shell> cryptominisat des_6t4_min_r5.cnf
 c static restarts          : 629
 c full restarts            : 8
 c conflicts                : 247428989   (3780713.58 / sec)
@@ -145,7 +259,7 @@ c decisions                : 262651549   (0.19      % random)
    </li>
    <li> precosat236 solves in 167361s (~2 days):
    \verbatim
-shell> precosat236 des_argocomp_r4.cnf
+shell> precosat236 des_6t4_min_r5.cnf
 c 611003123 conflicts, 674624629 decisions, 1 random
 c 0 iterations, 3 restarts, 657401 skipped
 c 167361.8 seconds, 51 MB max, 3661 MB recycled
@@ -153,7 +267,7 @@ c 167361.8 seconds, 51 MB max, 3661 MB recycled
    </li>
    <li> precosat-570.1 solves in 250789s (~3 days):
    \verbatim
-shell> precosat-570.1 -v des_argocomp_r4.cnf
+shell> precosat-570.1 -v des_6t4_min_r5.cnf
 c 129305771 conflicts, 138334129 decisions, 69735 random
 c 0 iterations, 28 restarts, 1310689 skipped
 c 250789.7 seconds, 176 MB max, 3937 MB recycled
@@ -163,8 +277,13 @@ c 250789.7 seconds, 176 MB max, 3937 MB recycled
   </ul>
 
 
-  \todo Using the canonical translation
+  \todo Using the canonical translation for the S-boxes (6-to-4)
   <ul>
+   <li> Translating the DES Sboxes, as 6-to-4-bit boolean functions, using the
+   canonical representation. That is, each Sbox is represented with the
+   canonical representation given by dualts_fcl in
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+   </li>
    <li> Generating the instance:
    \verbatim
 rounds : 5$
@@ -177,12 +296,40 @@ C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
 F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
 output_fcs_v(
-  sconcat("DES ArgoSat comparison over ",rounds," rounds"),
+  sconcat("DES over ",rounds," rounds; translated using the canonical translation for the S-boxes (6-to-4)."),
   F_std[1],
-  sconcat("des_argocomp_r",rounds,".cnf"),
+  sconcat("des_6t4_canon_r",rounds,".cnf"),
   F_std[2])$
 print("DONE!");
    \endverbatim
+   </li>
+   <li> Statistics:
+   \verbatim
+shell> cat des_6t4_canon_r5.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+3248 29928 86848 0 86848 3249 1
+ length count
+1 128
+2 25600
+3 1600
+11 2560
+64 40
+   \endverbatim
+   </li>
+   <li> S-box statistics (canonical translation):
+   \verbatim
+ncl_list_fcl(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(1)]));
+[[2,640],[11,64],[64,1]]
+   \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 128 unit-clauses (setting plaintext + ciphertext); </li>
+     <li> 25600 binary clauses (8 * 5 = 40 S-boxes); </li>
+     <li> 1600 ternary clauses (80 * 5 = 400 binary additions); </li>
+     <li> 2560 clauses of length eleven (8 * 5 = 40 S-boxes); </li>
+     <li> 40 clauses of length 64 (8 * 5 = 40 S-boxes). </li>
+    </ul>
    </li>
    <li> precosat236 solves in 567s with 2,423,412 conflicts:
    \verbatim
@@ -193,7 +340,7 @@ c 567.9 seconds, 57 MB max, 1479 MB recycled
    </li>
    <li> minisat-2.2.0 solves in 17221s using 40,018,619 conflicts:
    \verbatim
-shell> minisat-2.2.0 des_argocomp_r4.cnf
+shell> minisat-2.2.0 des_6t4_canon_r5.cnf
 restarts              : 56057
 conflicts             : 40018619       (612167 /sec)
 decisions             : 82938445       (0.00 % random) (1268714 /sec)

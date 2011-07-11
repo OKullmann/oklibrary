@@ -43,6 +43,74 @@ License, or any later version. */
    randomising the order of the clause-set means that this isn't
    always the case. A study of many different randomised examples
    is necessary. </li>
+   <li> For discussions on the variable order and standardisation of variable
+   names, see "Variable ordering and standardisation" in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp.
+   </li>
+  </ul>
+
+
+  \todo Overview
+  <ul>
+   <li> We consider the full 16 round DES given by the encryption function
+   des_encryption in
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac.
+   </li>
+   <li> The DES(P,K,C) is a 192-bit boolean function where the first
+   64 bits are the plaintext bits P, the next 64 bits are the key
+   bits K and the final 64 bits are the ciphertext C. </li>
+   <li> DES(P,K,C) is true iff DES encrypts P to C using K. </li>
+   <li> The translation of DES(P,K,C) to SAT is given at the Maxima level by
+   des_fcl in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/ConstraintTranslation.mac.
+   </li>
+   <li> The DES consists of certain rewiring of the bits, additions (XOR) and
+   the application of 8 S-boxes (substitution boxes) for each round. </li>
+   <li> We consider the DES S-boxes as 6-bit to 4-bit boolean functions,
+   given by des_sbox_bf in
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Sboxes.mac.
+   </li>
+   <li> We should also consider the DES S-boxes as 4 6-bit to 1-bit functions.
+   See "Basic translation" in
+   Investigations/Cryptography/DataEncryptionStandard/plans/general.hpp. </li>
+   <li> We translate the DES by treating the additions and S-boxes as the
+   boolean functions, which we consider our units of translation. </li>
+   <li> The additions are translated by the set of their prime implicates.
+   </li>
+   <li> The S-boxes are translated using each of the following CNF
+   representations:
+    <ul>
+     <li> canonical(+) representation, see dualts_fcl and dualtsplus_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac;
+     </li>
+     <li> 1-base translations, see
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp;
+     </li>
+     <li> minimum translations, see
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp;
+     </li>
+     <li> their prime implicates; </li>
+     <li> their canonical CNF representations. </li>
+    </ul>
+   All such translations apply to both the 6-bit to 4-bit S-box functions and
+   the 4 decomposed 6-bit to 1-bit functions.
+   </li>
+   <li> Summary of results:
+    <ul>
+     <li> Determining X unknown key bits for 16-round DES(P,?,C) using
+     the following translations for the S-boxes
+     (X; best solver time; best solver):
+      <ul>
+       <li> Canonical+ (26; 1681s; precosat-570.1). </li>
+       <li> Canonical (27; 19557s; minisat-2.2.0). </li>
+      </ul>
+     </li>
+     <li> SplittingViaOKsolver finds 27 unknown key bits for the 16-round DES
+     using the canonical translation for the S-boxes in ~35m. This is far better
+     than solvers on any other translation so far. See "Applying
+     SplittingViaOKsolver". </li>
+    </ul>
+   </li>
   </ul>
 
 
@@ -109,18 +177,15 @@ shell> minisat-2.2.0 25-shuffled_test.cnf
   </ul>
 
 
-  \todo Summarise results
+  \todo Canonical+ translation for the S-box (6-to-4)
   <ul>
-   <li> We need the results from each todo summarised in a highly
-   visible todo/place. </li>
-   <li> We also need to know which are the best solvers in each instance.
+   <li> Translating the full 16 round DES key discovery problem using the
+   canonical+ translation for the DES Sboxes, as 6-to-4 bit boolean functions.
    </li>
-  </ul>
-
-
-  \todo Canonical+ translation comparison to Argosat-desgen example
-  <ul>
-   <li> Generating the instances for 16 rounds using the canonical translation:
+   <li> The canonical+ translation is implemented by dualtsplus_fcl in
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac
+   at the Maxima level. </li>
+   <li> Generating the CNF:
    \verbatim
 unknown_bits : 13$
 sbox_fcl_l : create_list(dualtsplus_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
@@ -128,9 +193,63 @@ F : des2fcl(sbox_fcl_l)$
 P : des_plain2fcl(hexstr2binv("038E596D4841D03B"))$
 C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
 K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
-F_std : standardise_fcs([F[1],append(F[2],P[2],K[2],C[2])])$
-output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std[1] , sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
+Fs : standardise_fcl([F[1],append(F[2],P[2],K[2],C[2])])$
+output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key bits undefined; translated using the canonical+ translation for the S-boxes (6-to-4)."), Fs[1], sconcat("des_6t4_canonp_b",unknown_bits,".cnf"), Fs[2]);
    \endverbatim
+   </li>
+   <li> Basic statistics are
+   \verbatim
+> UB=13
+> cat des_6t4_canonp_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+10112 98099 362163 0 362163 10113 1
+ length count
+1 179
+2 81920
+3 5120
+11 8192
+33 2560
+64 128
+> cat des_6t4_canonp_b${UB}.cnf | UnitClausePropagationW-O3-DNDEBUG > des_6t4_canonp_ucp_b${UB}.cnf
+> cat des_6t4_canonp_ucp_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+10104 77910 286532 0 286532 10118 1
+ length count
+2 66927
+3 2016
+4 59
+5 56
+6 8
+7 20
+8 63
+9 58
+10 227
+11 6272
+15 2
+16 16
+17 102
+18 10
+19 2
+32 14
+33 1960
+64 98
+   \endverbatim
+   </li>
+   <li> S-box statistics (canonical+ translation):
+   \verbatim
+ncl_list_fcl(dualtsplus_fcl([listify(setn(10)), des_sbox_fulldnf_cl(1)]));
+[[2,640],[11,64],[33,20],[64,1]]
+   \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 179 unit-clauses (setting plaintext + key + ciphertext); </li>
+     <li> 81920 binary clauses (8*16 = 128 S-boxes); </li>
+     <li> 5120 ternary clauses (80 * 16 = 1280 binary additions); </li>
+     <li> 8192 clauses of length eleven (8 * 16 = 128 S-boxes); </li>
+     <li> 2560 clauses of length 33 (8 * 16 = 128 S-boxes); </li>
+     <li> 128 clauses of length 64 (8 * 16 = 128 S-boxes). </li>
+    </ul>
    </li>
    <li> Instances with unknown key bits up to 18 all take less than a
    minute. This includes the OKsolver_2002. </li>
@@ -158,9 +277,15 @@ output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", un
   </ul>
 
 
-  \todo Canonical translation comparison to Argosat-desgen example
+  \todo Canonical translation for the S-box (6-to-4)
   <ul>
-   <li> Generating the instances for 16 rounds using the canonical translation:
+   <li> Translating the full 16 round DES key discovery problem using the
+   canonical translation for the DES Sboxes, as 6-to-4 bit boolean functions.
+   </li>
+   <li> The canonical translation is implemented by dualts_fcl in
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac
+   at the Maxima level. </li>
+   <li> Generating the CNF:
    \verbatim
 unknown_bits : 13$
 sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
@@ -168,9 +293,52 @@ F : des2fcl(sbox_fcl_l)$
 P : des_plain2fcl(hexstr2binv("038E596D4841D03B"))$
 C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
 K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
-F_std : standardise_fcs([F[1],append(F[2],P[2],K[2],C[2])])$
-output_fcs_v(sconcat("DES ArgoSat comparison over 16 rounds with the first ", unknown_bits, " key bits undefined."), F_std[1], sconcat("des_argocomp_b",unknown_bits,".cnf"), F_std[2]);
+Fs : standardise_fcl([F[1],append(F[2],P[2],K[2],C[2])])$
+output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key bits undefined; translated using the canonical translation for the S-boxes (6-to-4)."), Fs[1], sconcat("des_6t4_canon_b",unknown_bits,".cnf"), Fs[2]);
    \endverbatim
+   </li>
+   <li> Basic statistics are
+   \verbatim
+> UB=13
+> cat des_6t4_canon_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+10112 95539 277683 0 277683 10113 1
+ length count
+1 179
+2 81920
+3 5120
+11 8192
+64 128
+> cat des_6t4_canon_b${UB}.cnf | UnitClausePropagationW-O3-DNDEBUG > des_6t4_canon_ucp_b${UB}.cnf
+> cat des_6t4_canon_ucp_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+10104 81135 234596 0 234596 10118 1
+ length count
+2 71850
+3 2088
+4 5
+6 20
+7 20
+10 128
+11 6912
+32 4
+64 108
+   \endverbatim
+   These statistics need explanation. </li>
+   <li> S-box statistics (canonical translation):
+   \verbatim
+ncl_list_fcl(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(1)]));
+[[2,640],[11,64],[64,1]]
+   \endverbatim
+   </li>
+   <li> We have the following number of clauses of the following sizes:
+    <ul>
+     <li> 179 unit-clauses (setting plaintext + key + ciphertext); </li>
+     <li> 81920 binary clauses (8*16 = 128 S-boxes); </li>
+     <li> 5120 ternary clauses (80 * 16 = 1280 binary additions); </li>
+     <li> 8192 clauses of length eleven (8 * 16 = 128 S-boxes); </li>
+     <li> 128 clauses of length 64 (8 * 16 = 128 S-boxes). </li>
+    </ul>
    </li>
    <li> Instances with unknown key bits up to 13 all take less than 5s,
    except the OKsolver_2002 which takes 73.5s (203 nodes). </li>
@@ -230,13 +398,13 @@ P : des_plain2fcl(hexstr2binv("038E596D4841D03B"))$
 C : des_cipher2fcl(hexstr2binv("A2FB6032638EC79D"))$
 K : des_key2fcl(append(create_list(und,i,1,unknown_bits), rest(hexstr2binv("15FBC08D31B0D521"),unknown_bits)))$
 Fs : standardise_fcl([F[1],append(F[2],P[2],K[2],C[2])])$
-output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key bits undefined."), Fs[1], sconcat("des_b",unknown_bits,".cnf"), Fs[2]);
+output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key bits undefined; translated using the canonical translation for the S-boxes (6-to-4)."), Fs[1], sconcat("des_6t4_canon_b",unknown_bits,".cnf"), Fs[2]);
    \endverbatim
    </li>
    <li> Basic statistics are
    \verbatim
 > UB=27
-> cat des_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+> cat des_6t4_canon_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 10112 95525 277669 0 277669 10113 1
  length count
@@ -246,8 +414,8 @@ output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key b
 11 8192
 64 128
 
-> cat des_b${UB}.cnf | UnitClausePropagationW-O3-DNDEBUG > des_ucp_b${UB}.cnf
-> cat des_ucp_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+> cat des_6t4_canon_b${UB}.cnf | UnitClausePropagationW-O3-DNDEBUG > des_6t4_canon_ucp_b${UB}.cnf
+> cat des_6t4_canon_ucp_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 10112 83526 241826 0 241826 10118 1
  length count
@@ -268,50 +436,50 @@ output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key b
 37
  1
 
-> SplittingViaOKsolver -D40 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D40 des_6t4_canon_ucp_b${UB}.cnf
 233
   2
 
-> SplittingViaOKsolver -D240 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D240 des_6t4_canon_ucp_b${UB}.cnf
 ${UB}4
   4
 
-> SplittingViaOKsolver -D300 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D300 des_6t4_canon_ucp_b${UB}.cnf
 406 436
   4   8
 
-> SplittingViaOKsolver -D410 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D410 des_6t4_canon_ucp_b${UB}.cnf
 436
  16
 
-> SplittingViaOKsolver -D450 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D450 des_6t4_canon_ucp_b${UB}.cnf
 463
  32
 
-> SplittingViaOKsolver -D480 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D480 des_6t4_canon_ucp_b${UB}.cnf
 573 633
  64  64
 
-> SplittingViaOKsolver -D580 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D580 des_6t4_canon_ucp_b${UB}.cnf
 633 680 688
  64  64  64
 
-> SplittingViaOKsolver -D640 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D640 des_6t4_canon_ucp_b${UB}.cnf
 680 688
 128 128
 
-> SplittingViaOKsolver -D685 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D685 des_6t4_canon_ucp_b${UB}.cnf
 686 688
 256 128
 
-> SplittingViaOKsolver -D688 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D688 des_6t4_canon_ucp_b${UB}.cnf
 688 736 746 756
 128 128 256 128
    \endverbatim
    Clearly something systematic is going in, which needs to be explored. </li>
    <li>
    \verbatim
-> cd SplitViaOKsolver_D688des_ucp_b${UB}cnf_2011-06-05-114707/
+> cd SplitViaOKsolver_D688des_6t4_canon_ucp_b${UB}cnf_2011-06-05-114707/
 > more Statistics
 > E=read.table("Data")
 > summary(E$n)
@@ -346,8 +514,8 @@ c number_of_table_enlargements          0
 c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
-c file_name                             des_ucp_b27.cnf
-c splitting_directory                   SplitViaOKsolver_D688des_ucp_b27cnf_2011-06-05-114707/Instances
+c file_name                             des_6t4_canon_ucp_b27.cnf
+c splitting_directory                   SplitViaOKsolver_D688des_6t4_canon_ucp_b27cnf_2011-06-05-114707/Instances
 c splitting_cases                       640
 
 > cd Instances
@@ -370,7 +538,7 @@ Fs : standardise_fcl([F[1],append(F[2],P[2],K[2],C[2])])$
 output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key bits undefined."), Fs[1], sconcat("des_b",unknown_bits,".cnf"), Fs[2]);
 
 > UB=35
-> cat des_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+> cat des_6t4_canon_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 10112 95517 277661 0 277661 10113 1
  length count
@@ -379,8 +547,8 @@ output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key b
 3 5120
 11 8192
 64 128
-> cat des_b${UB}.cnf | UnitClausePropagationW-O3-DNDEBUG > des_ucp_b${UB}.cnf
-> cat des_ucp_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+> cat des_6t4_canon_b${UB}.cnf | UnitClausePropagationW-O3-DNDEBUG > des_6t4_canon_ucp_b${UB}.cnf
+> cat des_6t4_canon_ucp_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 10112 84608 245120 0 245120 10118 1
  length count
@@ -396,27 +564,27 @@ output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key b
 32 1
 64 112
 
-> SplittingViaOKsolver -D0 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D0 des_6t4_canon_ucp_b${UB}.cnf
 0
 1
 
-> SplittingViaOKsolver -D5 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D5 des_6t4_canon_ucp_b${UB}.cnf
 46 77
  1  1
-> SplittingViaOKsolver -D100 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D100 des_6t4_canon_ucp_b${UB}.cnf
 193
   4
-> SplittingViaOKsolver -D200 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D200 des_6t4_canon_ucp_b${UB}.cnf
 234
   8
-> SplittingViaOKsolver -D300 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D300 des_6t4_canon_ucp_b${UB}.cnf
 305 373
  64  64
-> SplittingViaOKsolver -D400 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D400 des_6t4_canon_ucp_b${UB}.cnf
 418 434
 128 128
-> SplittingViaOKsolver -D500 des_ucp_b${UB}.cnf
-> cd SplitViaOKsolver_D500des_ucp_b35cnf_2011-06-05-142032/
+> SplittingViaOKsolver -D500 des_6t4_canon_ucp_b${UB}.cnf
+> cd SplitViaOKsolver_D500des_6t4_canon_ucp_b35cnf_2011-06-05-142032/
 > more Md5sum
 b6448203fbb62d3c864c08e89ea5b0cd
 > more Statistics
@@ -453,8 +621,8 @@ c number_of_table_enlargements          0
 c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
-c file_name                             des_ucp_b35.cnf
-c splitting_directory                   SplitViaOKsolver_D500des_ucp_b35cnf_2011-06-05-142032/Instances
+c file_name                             des_6t4_canon_ucp_b35.cnf
+c splitting_directory                   SplitViaOKsolver_D500des_6t4_canon_ucp_b35cnf_2011-06-05-142032/Instances
 c splitting_cases                       3072
 
 > cd Instances
@@ -467,7 +635,7 @@ Instances> tail Stats
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 
-> SplittingViaOKsolver -D600 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D600 des_6t4_canon_ucp_b${UB}.cnf
 > more Md5sum
 80ea472f725f825a7fdc01ee265884f9
 > more Statistics
@@ -507,7 +675,7 @@ c splitting_cases                       6144
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 13: 4.25h, sum-cfs=1.033880e+07, mean-t=1176.161s, mean-cfs=795292
 
-> SplittingViaOKsolver -D800 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D800 des_6t4_canon_ucp_b${UB}.cnf
 > more Md5sum
 3ab10361c7312e3f8c95e374cad26a65
 > more Statistics
@@ -554,7 +722,7 @@ c splitting_cases                       17408
 [1] 27.4666
 
 
-> SplittingViaOKsolver -D900 des_ucp_b${UB}.cnf
+> SplittingViaOKsolver -D900 des_6t4_canon_ucp_b${UB}.cnf
 > more Md5sum
 0748e5b828e2bd6b33494da204085d75
 > more Statistics
@@ -586,5 +754,16 @@ c splitting_cases                       41952
 
 
   \todo DONE Add todos
+
+
+  \todo DONE Summarise results
+  <ul>
+   <li> DONE (see "Overview" and "Translations")
+   We need the results from each todo summarised in a highly
+   visible todo/place. </li>
+   <li> DONE (see "Overview" and "Translations")
+   We also need to know which are the best solvers in each instance.
+   </li>
+  </ul>
 
 */
