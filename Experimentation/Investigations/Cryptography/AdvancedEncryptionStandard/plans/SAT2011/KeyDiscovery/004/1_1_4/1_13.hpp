@@ -72,25 +72,53 @@ shell> cat ssaes_r1_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
    \endverbatim
    </li>
    <li> In this translation, we have:
-   <ul>
-    <li> One full round (Key Addition, SubBytes, and MixColumns operation).
-    </li>
-    <li> 2 Sboxes (1 from SubBytes; 1 from key schedule). </li>
-    <li> 20 additions (8 from key additions; 8 from MixColumns
-    matrix multiplications; 4 from the keyschedule). </li>
-    <li> 4 bits for the constant in the key schedule. </li>
-   </ul>
+    <ul>
+     <li> One full round (Key Addition, SubBytes, and MixColumns operation).
+     </li>
+     <li> 2 Sboxes:
+      <ul>
+       <li> 1 from SubBytes = 1 byte * 1 round; </li>
+       <li> 1 from key schedule = 1 row * 1 byte * 1 round. </li>
+      </ul>
+     </li>
+     <li> 20 additions:
+      <ul>
+       <li> 8 additions of arity 1:
+        <ul>
+         <li> 4 from forward MixColumns = 4 bits * 1 round; </li>
+         <li> 4 from inverse MixColumns = 4 bits * 1 rounds. </li>
+        </ul>
+       </li>
+       <li> 12 additions of arity 2:
+        <ul>
+         <li> 4 from key additions = 4 bits * 1 round; </li>
+         <li> 4 from final key addition = 4 bits; </li>
+         <li> 4 from the key schedule = 4 bits * 1 rounds. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li> 4 bits for the constant in the key schedule. </li>
+    </ul>
    </li>
-   <li> The number of clauses of each length in the translation are:
-   <ul>
-    <li> 4 unit-clauses (key schedule constant) </li>
-    <li> 272 binary clauses (2 Sboxes; 8 arity one "additions"). </li>
-    <li> 48 ternary clauses (12 arity two additions). </li>
-    <li> 32 clauses of length four (4 arity three additions). </li>
-    <li> 2 clauses of length sixteen, (2 Sboxes). </li>
-   </ul>
+   <li> The additions are translated by their prime implicates, containing
+   2^a clauses where a is the arity of the addition constraint. </li>
+   <li> The Sbox is translated by the canonical-translation:
+   \verbatim
+> ncl_list_fcl(dualts_fcl(ss_sbox_fulldnf_fcl(2,4,ss_polynomial_2_4)));
+[[2,128],[9,16],[16,1]]
+   \endverbatim
    </li>
-   <li> Then we can generate a random assignment with the plaintext and
+   <li> This instance has the following number of clauses of length:
+    <ul>
+     <li> 1 : 4 = key schedule constant * 1; </li>
+     <li> 2 : 272 = 2 S-boxes * 128 + 8 "additions" (arity 1) * 2; </li>
+     <li> 3 : 48 = 12 additions (arity 2) * 4; </li>
+     <li> 9 : 32 = 2 S-boxes * 16; </li>
+     <li> 16 : 2 = 2 S-boxes * 1. </li>
+    </ul>
+   </li>
+   <li> We can generate a random assignment with the plaintext and
    ciphertext, leaving the key unknown:
    \verbatim
 maxima> output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
