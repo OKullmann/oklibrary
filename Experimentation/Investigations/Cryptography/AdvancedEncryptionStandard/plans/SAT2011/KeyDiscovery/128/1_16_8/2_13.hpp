@@ -45,8 +45,8 @@ License, or any later version. */
    <li> Generating AES for 2 + 1/3 round:
    \verbatim
 num_rounds : 2$
-num_columns : 16$
 num_rows : 1$
+num_columns : 16$
 exp : 8$
 final_round_b : false$
 box_tran : aes_ts_box$

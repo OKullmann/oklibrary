@@ -46,8 +46,8 @@ License, or any later version. */
    <li> Generating small scale AES for 4 + 1/3 rounds:
    \verbatim
 num_rounds : 4$
-num_columns : 16$
 num_rows : 1$
+num_columns : 16$
 exp : 4$
 final_round_b : false$
 box_tran : aes_ts_box$
@@ -171,8 +171,8 @@ CPU time              : 18.79 s
    <li> Generating small scale AES for 4 + 1/3 rounds:
    \verbatim
 num_rounds : 4$
-num_columns : 16$
 num_rows : 1$
+num_columns : 16$
 exp : 4$
 final_round_b : false$
 box_tran : aes_rbase_box$

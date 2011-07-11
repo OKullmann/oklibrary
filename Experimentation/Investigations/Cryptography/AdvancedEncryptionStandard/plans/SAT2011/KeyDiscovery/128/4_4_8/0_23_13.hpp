@@ -1,3 +1,4 @@
+
 // Matthew Gwynne, 15.2.2011 (Swansea)
 /* Copyright 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
@@ -58,8 +59,8 @@ License, or any later version. */
    <li> Generating AES-instance for 0 + 2/3 + 1/3 round:
    \verbatim
 num_rounds : 1;
-num_columns : 4;
 num_rows : 4;
+num_columns : 4;
 exp : 8;
 final_round_b : true;
 box_tran : aes_ts_box;
