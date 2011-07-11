@@ -157,17 +157,13 @@ maxima> ncl_list_full_dualts(16,256);
    <li> The instance has the following number of clauses of the
    following size:
     <ul>
-     <li> 8 unit-clauses (key schedule constant). </li>
-     <li> 475136 binary clauses (116 boxes * 4096 = 475136). </li>
-     <li> 1504 ternary clauses (376 arity two additions * 4 clauses = 1504).
-     </li>
-     <li> 64 clauses of length four (8 arity three additions * 8 clauses = 64).
-     </li>
-     <li> 4096 clauses of length five (256 arity four additions * 16 clauses =
-     4096). </li>
-     <li> 29696 clauses of length seventeen (116 boxes * 256 clauses = 29656).
-     </li>
-     <li> 116 clauses of length 256 (116 boxes * 1 clause = 116). </li>
+     <li> 1 : 8 = key schedule constant * 1; </li>
+     <li> 2 : 475136 = 116 boxes * 4096; </li>
+     <li> 3 : 1504 = 376 additions (arity 2) * 4; </li>
+     <li> 4 : 64 = 8 additions (arity 3) * 8; </li>
+     <li> 5 : 4096 = 256 additions (arity 4) * 16; </li>
+     <li> 16 : 29696 = 116 boxes * 256 clauses; </li>
+     <li> 256 : 116 = 116 boxes * 1. </li>
     </ul>
    </li>
    <li> Then we can generate a random assignment with the plaintext and
