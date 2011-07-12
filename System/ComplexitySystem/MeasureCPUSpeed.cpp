@@ -16,6 +16,7 @@ License, or any later version. */
 
 #include <iostream>
 #include <string>
+#include <iomanip>
 
 #include <boost/lexical_cast.hpp>
 #include <boost/timer.hpp>
@@ -30,10 +31,11 @@ namespace {
   const std::string program = "MeasureCPUSpeed";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.6";
+  const std::string version = "0.0.7";
 
   typedef unsigned long uint_type;
   const uint_type N_default = 1000000000;
+  const unsigned int digits_fractional_part = 2;
 
 }
 
@@ -49,19 +51,21 @@ int main(const int argc, const char* const argv[]) {
     boost::lexical_cast<uint_type>(argv[1]) : N_default;
 
   std::cout << "# N = " << N << "\n t\n";
-  {
-   boost::timer T;
+  std::cout << std::fixed << std::showpoint << std::setprecision(digits_fractional_part);
+  {boost::timer T;
    for (uint_type i = 1; true; ++i) {
      T.restart();
-     uint_type result = 0;
-     for (uint_type j = 0; j < N; ++j) result *= i;
-     if (result != 0) {
-       std::cerr << "This can never happen.\n"
-       " But otherwise the computation is optimised away.\n";
-       return error_impossible;
+     {uint_type result = 0;
+      for (uint_type j = 0; j < N; ++j) result *= i;
+      if (result != 0) {
+        std::cerr << "This can never happen.\n"
+        " But otherwise the computation is optimised away.\n";
+        return error_impossible;
+      }
      }
-     std::cout << i << " " << T.elapsed() << std::endl;
+     const double elapsed = T.elapsed();
+     std::cout << i << " " << elapsed << std::endl;
    }
- }
+  }
 
 }
