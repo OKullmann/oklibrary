@@ -10,25 +10,30 @@ License, or any later version. */
   \brief General plans monitoring Minisat2
 
 
-  \todo Improved handling of file-names : MG, please update
-  <ul>
-   <li> Typically, filenames contain an important parameter, like
-   "VanDerWaerden_pd_2-6-7_350.cnf_OUT" containing 350, the number of
-   vertices. </li>
-   <li> There should be a stronger version of read_minisat_outputs, which
-   allows to create a mask for extracting such a parameter, storing it as
-   "param" (an integer) in the dataframe. </li>
-   <li> The order of rows then should follow increasing parameter values. </li>
-   <li> This is to be achieved with "Extraction tools" in
-   ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
-  </ul>
-
-
-  \todo Move read_minisat2_output functionality to wrapper script :
-  MG, please update
+  \todo Move read_minisat2_output functionality to wrapper script
   <ul>
    <li> This is to be achieved with "Extraction tools" in
    ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
+   <li> Once the extraction scripts are in place, the "read_minisat_output"
+   function can be replaced with function similar to read_oksolver_mon
+   which just calls read.table and specifies the column types. </li>
+   <li> An additional (optional) parameter should be a "parameter" column
+   name, which specifies which column is the key parameter being considered
+   in the experiment data:
+    <ul>
+     <li> We could consider the possibility of multiple parameters, but
+     it is best to only do this when we encounter the need. </li>
+     <li> The data.frame would then be ordered based on the selected
+     column. </li>
+     <li> Such parameters are extracted from the filenames of solver
+     output by the extraction scripts, see "Extraction tools" in
+     ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
+    </ul>
+   </li>
+   <li> We also need function for plotting standard graphs and computing
+   standard statistics from each solvers output. </li>
+   <li> Some solvers output a lot of data; functions to extract key data
+   (columns) for inclusion in the experiment plans is also necessary. </li>
   </ul>
 
 
@@ -55,6 +60,30 @@ License, or any later version. */
    if possible, with the other extraction-tools. </li>
    <li> This is to be achieved with "Extraction tools" in
    ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
+  </ul>
+
+
+  \todo DONE (covered by "Move read_minisat2_output functionality to wrapper
+  script")
+  Improved handling of file-names
+  <ul>
+   <li> Typically, filenames contain an important parameter, like
+   "VanDerWaerden_pd_2-6-7_350.cnf_OUT" containing 350, the number of
+   vertices. </li>
+   <li> DONE (covered by "Move read_minisat2_output functionality to wrapper
+   script")
+   The order of rows then should follow increasing parameter values. </li>
+   <li> DONE (covered by "Move read_minisat2_output functionality to wrapper
+   script")
+   This is to be achieved with "Extraction tools" in
+   ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
+   <li> DONE This should not be handled at the R level, but at the
+   extraction script level; text extraction is always better handled
+   with sed/awk. </li>
+   <li> DONE (better handled at the extraction script level)
+   There should be a stronger version of read_minisat_outputs, which
+   allows to create a mask for extracting such a parameter, storing it as
+   "param" (an integer) in the dataframe. </li>
   </ul>
 
 */

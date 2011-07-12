@@ -14,6 +14,8 @@ License, or any later version. */
   <ul>
    <li> See "Extraction tools" in
    ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
+   <li> See also "Move read_minisat2_output functionality to wrapper script"
+   in ExperimentSystem/SolverMonitoring/plans/Minisat2.hpp. </li>
   </ul>
 
 
