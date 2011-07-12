@@ -33,10 +33,10 @@ License, or any later version. */
     <ol>
      <li> How to handle this data-dependency? </li>
      <li> Perhaps, at least at the beginning, we just state in comments that
-     the header must be the same as used in the ask-script, but don't provide
+     the header must be the same as used in the awk-script, but don't provide
      some mechanism for avoiding the duplication. </li>
      <li> The string uses a single space for separation, and not leading or
-     trailing space(-symbolds). </li>
+     trailing space(-symbols). </li>
      <li> The header-string is provided in a data-file, e.g., "Minisat.header".
      Or one could use a directory "headers", containing e.g. "minisat" etc.
      </li>
