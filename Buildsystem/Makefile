@@ -34,7 +34,7 @@ include $(OKbuildsystem)/standardgoals.mak
 
 Directories := $(ExternalSources) $(Annotations_dir)
 
-generic_dirs := $(OKsystem)/OKlib/Concepts $(OKsystem)/OKlib/General $(OKsystem)/OKlib/TestExecutionTools $(OKsystem)/OKlib/TestSystem $(OKsystem)/OKlib/traits $(OKsystem)/OKlib/Satisfiability/Solvers/OKsolver/SAT2002 $(OKsystem)/OKlib/Experimentation/Competition $(OKsystem)/OKlib/Structures/Cryptology $(OKsystem)/OKlib/Programming/Sequences $(OKsystem)/OKlib/Satisfiability/ProofSystems/DPv $(OKsystem)/OKlib/Satisfiability/Solvers/Backtracking $(OKsystem)/OKlib/Satisfiability/Algorithms/Backtracking $(OKsystem)/OKlib/Applications/QuantumPhysics $(OKsystem)/OKlib/Satisfiability/ProblemInstances/ActiveClauses/InjectivityConstraints $(OKsystem)/OKlib/Satisfiability/Interfaces/InputOutput $(OKsystem)/OKlib/Satisfiability/ProblemInstances/Conditions/AtomicConditions $(OKsystem)/OKlib/Satisfiability/Assignments/PartialAssignments $(OKsystem)/OKlib/Satisfiability/Assignments/TotalAssignments $(OKsystem)/OKlib/Satisfiability/Algorithms/LocalSearch $(OKsystem)/OKlib/Programming/Tools/Backup $(OKsystem)/OKlib/Combinatorics/Hypergraphs/Colourings $(OKsystem)/OKlib/Programming/Parallelism $(OKsystem)/OKlib/Satisfiability/Transformers/Generators $(OKsystem)/OKlib/Satisfiability/ProblemInstances/Literals $(OKsystem)/OKlib/Satisfiability/ProblemInstances/Variables $(OKsystem)/OKlib/Combinatorics/Graphs/BoostSupport $(OKsystem)/OKlib/Combinatorics/Graphs/Isomorphisms $(OKsystem)/OKlib/Applications/LatinSquares $(OKsystem)/OKlib/Structures/LinearAlgebra/Matrices $(OKsystem)/OKlib/Programming/Refactoring $(OKsystem)/OKlib/Programming/Iterators $(OKsystem)/OKlib/Programming/Parsing $(OKsystem)/OKlib/Programming/Messages $(OKsystem)/OKlib/Combinatorics/Graphs/TreeDecompositions $(OKsystem)/OKlib/Programming/SystemSpecifics $(OKsystem)/OKlib/Structures/Sets/SetAlgorithms $(OKsystem)/OKlib/Programming/MetaProgramming $(OKsystem)/OKlib/Programming/Utilities/OrderRelations $(OKsystem)/OKlib/Programming/InputOutput $(OKsystem)/OKlib/DataStructures/Search $(OKsystem)/OKlib/Satisfiability/Algorithms/Autarkies/Search $(OKsystem)/OKlib/ComputerAlgebra $(OKsystem)/OKlib/OKsolver/Experimental/AllgKlassen200203 $(OKsystem)/OKlib/Structures/NumberTheory/PrimeNumbers $(OKsystem)/OKlib/Satisfiability/FiniteFunctions $(OKsystem)/OKlib/Combinatorics/Hypergraphs/Transversals/Bounded $(OKsystem)/OKlib/Combinatorics/Hypergraphs/Generators $(OKsystem)/OKlib/Applications/RamseyTheory $(OKsystem)/OKlib/Satisfiability/ProblemInstances/Clauses $(OKsystem)/OKlib/Satisfiability/Reductions/UnitClausePropagation $(OKsystem)/OKlib/Satisfiability/Reductions/KLevelForcedAssignments $(OKsystem)/OKlib/Satisfiability/Reductions/Bases $(OKsystem)/OKlib/Experimentation/Investigations/BooleanFunctions $(OKsystem)/OKlib/Satisfiability/Interfaces/DistributedSolving
+generic_dirs := $(OKlib)/Concepts $(OKlib)/General $(OKlib)/TestExecutionTools $(OKlib)/TestSystem $(OKlib)/traits $(OKlib)/Satisfiability/Solvers/OKsolver/SAT2002 $(OKlib)/Experimentation/Competition $(OKlib)/Structures/Cryptology $(OKlib)/Programming/Sequences $(OKlib)/Satisfiability/ProofSystems/DPv $(OKlib)/Satisfiability/Solvers/Backtracking $(OKlib)/Satisfiability/Algorithms/Backtracking $(OKlib)/Applications/QuantumPhysics $(OKlib)/Satisfiability/ProblemInstances/ActiveClauses/InjectivityConstraints $(OKlib)/Satisfiability/Interfaces/InputOutput $(OKlib)/Satisfiability/ProblemInstances/Conditions/AtomicConditions $(OKlib)/Satisfiability/Assignments/PartialAssignments $(OKlib)/Satisfiability/Assignments/TotalAssignments $(OKlib)/Satisfiability/Algorithms/LocalSearch $(OKlib)/Programming/Tools/Backup $(OKlib)/Combinatorics/Hypergraphs/Colourings $(OKlib)/Programming/Parallelism $(OKlib)/Satisfiability/Transformers/Generators $(OKlib)/Satisfiability/ProblemInstances/Literals $(OKlib)/Satisfiability/ProblemInstances/Variables $(OKlib)/Combinatorics/Graphs/BoostSupport $(OKlib)/Combinatorics/Graphs/Isomorphisms $(OKlib)/Applications/LatinSquares $(OKlib)/Structures/LinearAlgebra/Matrices $(OKlib)/Programming/Refactoring $(OKlib)/Programming/Iterators $(OKlib)/Programming/Parsing $(OKlib)/Programming/Messages $(OKlib)/Combinatorics/Graphs/TreeDecompositions $(OKlib)/Programming/SystemSpecifics $(OKlib)/Structures/Sets/SetAlgorithms $(OKlib)/Programming/MetaProgramming $(OKlib)/Programming/Utilities/OrderRelations $(OKlib)/Programming/InputOutput $(OKlib)/DataStructures/Search $(OKlib)/Satisfiability/Algorithms/Autarkies/Search $(OKlib)/ComputerAlgebra $(OKlib)/OKsolver/Experimental/AllgKlassen200203 $(OKlib)/Structures/NumberTheory/PrimeNumbers $(OKlib)/Satisfiability/FiniteFunctions $(OKlib)/Combinatorics/Hypergraphs/Transversals/Bounded $(OKlib)/Combinatorics/Hypergraphs/Generators $(OKlib)/Applications/RamseyTheory $(OKlib)/Satisfiability/ProblemInstances/Clauses $(OKlib)/Satisfiability/Reductions/UnitClausePropagation $(OKlib)/Satisfiability/Reductions/KLevelForcedAssignments $(OKlib)/Satisfiability/Reductions/Bases $(OKlib)/Experimentation/Investigations/BooleanFunctions $(OKlib)/Satisfiability/Interfaces/DistributedSolving
 
 generic_links := $(addsuffix /makefile, $(generic_dirs))
 
@@ -42,45 +42,45 @@ makefile_oksystem := $(OKsystem)/makefile
 
 makefile_Annotations := $(Annotations_dir)/makefile
 
-makefile_annotations := $(OKsystem)/OKlib/annotations/makefile
+makefile_annotations := $(OKlib)/annotations/makefile
 
-makefile_oklib := $(OKsystem)/OKlib/makefile
-makefile_satisfiability := $(OKsystem)/OKlib/Satisfiability/makefile
-makefile_assignments := $(OKsystem)/OKlib/Satisfiability/Assignments/makefile
-makefile_autarkies := $(OKsystem)/OKlib/Satisfiability/Algorithms/Autarkies/makefile
-makefile_proofsystems := $(OKsystem)/OKlib/Satisfiability/ProofSystems/makefile
-makefile_solvers := $(OKsystem)/OKlib/Satisfiability/Solvers/makefile
-makefile_oksolver := $(OKsystem)/OKlib/Satisfiability/Solvers/OKsolver/makefile
-makefile_probleminstances := $(OKsystem)/OKlib/Satisfiability/ProblemInstances/makefile
-makefile_activeclauses := $(OKsystem)/OKlib/Satisfiability/ProblemInstances/ActiveClauses/makefile
-makefile_conditions := $(OKsystem)/OKlib/Satisfiability/ProblemInstances/Conditions/makefile
-makefile_reductions := $(OKsystem)/OKlib/Satisfiability/Reductions/makefile
-makefile_experimentation := $(OKsystem)/OKlib/Experimentation/makefile
-makefile_investigations := $(OKsystem)/OKlib/Experimentation/Investigations/makefile
-makefile_booleanfunctions := $(OKsystem)/OKlib/Experimentation/Investigations/BooleanFunctions
-makefile_structures := $(OKsystem)/OKlib/Structures/makefile
-makefile_sets := $(OKsystem)/OKlib/Structures/Sets/makefile
-makefile_linearalgebra := $(OKsystem)/OKlib/Structures/LinearAlgebra/makefile
-makefile_programming := $(OKsystem)/OKlib/Programming/makefile
-makefile_tools := $(OKsystem)/OKlib/Programming/Tools/makefile
-makefile_utilities := $(OKsystem)/OKlib/Programming/Utilities/makefile
-makefile_applications := $(OKsystem)/OKlib/Applications/makefile
-makefile_algorithms := $(OKsystem)/OKlib/Satisfiability/Algorithms/makefile
-makefile_interfaces := $(OKsystem)/OKlib/Satisfiability/Interfaces/makefile
-makefile_transformers := $(OKsystem)/OKlib/Satisfiability/Transformers/makefile
-makefile_combinatorics := $(OKsystem)/OKlib/Combinatorics/makefile
-makefile_hypergraphs := $(OKsystem)/OKlib/Combinatorics/Hypergraphs/makefile
-makefile_trhypergraphs := $(OKsystem)/OKlib/Combinatorics/Hypergraphs/Transversals/makefile
-makefile_graphs := $(OKsystem)/OKlib/Combinatorics/Graphs/makefile
-makefile_datastructures := $(OKsystem)/OKlib/DataStructures/makefile
-makefile_oldoksolver := $(OKsystem)/OKlib/OKsolver/makefile
-makefile_oldoksolver_experimental := $(OKsystem)/OKlib/OKsolver/Experimental/makefile
-makefile_numbertheory := $(OKsystem)/OKlib/Structures/NumberTheory/makefile
+makefile_oklib := $(OKlib)/makefile
+makefile_satisfiability := $(OKlib)/Satisfiability/makefile
+makefile_assignments := $(OKlib)/Satisfiability/Assignments/makefile
+makefile_autarkies := $(OKlib)/Satisfiability/Algorithms/Autarkies/makefile
+makefile_proofsystems := $(OKlib)/Satisfiability/ProofSystems/makefile
+makefile_solvers := $(OKlib)/Satisfiability/Solvers/makefile
+makefile_oksolver := $(OKlib)/Satisfiability/Solvers/OKsolver/makefile
+makefile_probleminstances := $(OKlib)/Satisfiability/ProblemInstances/makefile
+makefile_activeclauses := $(OKlib)/Satisfiability/ProblemInstances/ActiveClauses/makefile
+makefile_conditions := $(OKlib)/Satisfiability/ProblemInstances/Conditions/makefile
+makefile_reductions := $(OKlib)/Satisfiability/Reductions/makefile
+makefile_experimentation := $(OKlib)/Experimentation/makefile
+makefile_investigations := $(OKlib)/Experimentation/Investigations/makefile
+makefile_booleanfunctions := $(OKlib)/Experimentation/Investigations/BooleanFunctions
+makefile_structures := $(OKlib)/Structures/makefile
+makefile_sets := $(OKlib)/Structures/Sets/makefile
+makefile_linearalgebra := $(OKlib)/Structures/LinearAlgebra/makefile
+makefile_programming := $(OKlib)/Programming/makefile
+makefile_tools := $(OKlib)/Programming/Tools/makefile
+makefile_utilities := $(OKlib)/Programming/Utilities/makefile
+makefile_applications := $(OKlib)/Applications/makefile
+makefile_algorithms := $(OKlib)/Satisfiability/Algorithms/makefile
+makefile_interfaces := $(OKlib)/Satisfiability/Interfaces/makefile
+makefile_transformers := $(OKlib)/Satisfiability/Transformers/makefile
+makefile_combinatorics := $(OKlib)/Combinatorics/makefile
+makefile_hypergraphs := $(OKlib)/Combinatorics/Hypergraphs/makefile
+makefile_trhypergraphs := $(OKlib)/Combinatorics/Hypergraphs/Transversals/makefile
+makefile_graphs := $(OKlib)/Combinatorics/Graphs/makefile
+makefile_datastructures := $(OKlib)/DataStructures/makefile
+makefile_oldoksolver := $(OKlib)/OKsolver/makefile
+makefile_oldoksolver_experimental := $(OKlib)/OKsolver/Experimental/makefile
+makefile_numbertheory := $(OKlib)/Structures/NumberTheory/makefile
 
 OKsystem_links := $(makefile_oksystem)
 Annotations_links := $(makefile_Annotations)
 annotations_links := $(makefile_annotations)
-OKlib_links := $(makefile_oklib) $(makefile_satisfiability) $(makefile_solvers) $(makefile_oksolver) $(makefile_algorithms) $(makefile_experimentation) $(makefile_investigations) $(makefile_booleanfunctions) $(makefile_structures) $(makefile_sets) $(makefile_programming) $(makefile_applications) $(makefile_proofsystems) $(makefile_assignments) $(makefile_autarkies) $(makefile_probleminstances) $(makefile_activeclauses) $(makefile_interfaces) $(makefile_conditions) $(makefile_reductions) $(makefile_tools) $(makefile_combinatorics) $(makefile_hypergraphs) $(makefile_trhypergraphs) $(makefile_transformers) $(makefile_graphs) $(makefile_linearalgebra) $(OKsystem)/OKlib/Programming/Utilities/makefile $(makefile_datastructures) $(makefile_oldoksolver) $(makefile_oldoksolver_experimental) $(makefile_numbertheory)
+OKlib_links := $(makefile_oklib) $(makefile_satisfiability) $(makefile_solvers) $(makefile_oksolver) $(makefile_algorithms) $(makefile_experimentation) $(makefile_investigations) $(makefile_booleanfunctions) $(makefile_structures) $(makefile_sets) $(makefile_programming) $(makefile_applications) $(makefile_proofsystems) $(makefile_assignments) $(makefile_autarkies) $(makefile_probleminstances) $(makefile_activeclauses) $(makefile_interfaces) $(makefile_conditions) $(makefile_reductions) $(makefile_tools) $(makefile_combinatorics) $(makefile_hypergraphs) $(makefile_trhypergraphs) $(makefile_transformers) $(makefile_graphs) $(makefile_linearalgebra) $(OKlib)/Programming/Utilities/makefile $(makefile_datastructures) $(makefile_oldoksolver) $(makefile_oldoksolver_experimental) $(makefile_numbertheory)
 
 
 ########### Rules ######################
