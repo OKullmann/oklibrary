@@ -92,12 +92,12 @@ C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
 P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
 C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
-F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
-output_fcs_v(
+Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
+output_fcl_v(
   sconcat("DES over ",rounds," rounds; translated using the canonical translation for the S-boxes (6-to-4)."),
-  F_std[1],
+  Fs[1],
   sconcat("des_6t4_canon_r",rounds,".cnf"),
-  F_std[2])$
+  Fs[2])$
 print("DONE!");
    \endverbatim
    </li>
@@ -152,12 +152,12 @@ C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
 P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
 C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
-F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
-output_fcs_v(
+Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
+output_fcl_v(
   sconcat("DES over ",rounds," rounds; translated using the canonical CNF translation for the S-boxes (6-to-4)."),
-  F_std[1],
+  Fs[1],
   sconcat("des_6t4_full_r",rounds,".cnf"),
-  F_std[2])$
+  Fs[2])$
 print("DONE!");
    \endverbatim
    </li>
@@ -223,12 +223,12 @@ C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
 P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
 C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
-F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
-output_fcs_v(
+Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
+output_fcl_v(
   sconcat("DES over ",rounds," rounds; translated using 1-base translations for the S-boxes (6-to-4)."),
-  F_std[1],
+  Fs[1],
   sconcat("des_6t4_1base_r",rounds,".cnf"),
-  F_std[2])$
+  Fs[2])$
 print("DONE!");
    \endverbatim
    </li>
@@ -310,12 +310,12 @@ C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
 P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
 C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
 F : des2fcl_gen(sbox_fcl_l,rounds)$
-F_std : standardise_fcs([F[1],append(F[2],P[2],C[2])])$
-output_fcs_v(
+Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
+output_fcl_v(
   sconcat("DES over ",rounds," rounds; translated using minimum translations for the S-boxes (6-to-4)."),
-  F_std[1],
+  Fs[1],
   sconcat("des_6t4_min_r",rounds,".cnf"),
-  F_std[2])$
+  Fs[2])$
 print("DONE!");
    \endverbatim
    </li>

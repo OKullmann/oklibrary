@@ -91,7 +91,7 @@ for seed : 1 thru 20 do block(
   C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds),
   F : des2fcl_gen(sbox_fcl_l,rounds),
   Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
-  output_fcs_v(
+  output_fcl_v(
     sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the canonical translation for the S-boxes (6-to-4)."),
     Fs[1],
     sconcat("des_6t4_canon_r",rounds,"_s",seed,".cnf"),
@@ -205,7 +205,7 @@ for seed : 1 thru 20 do block(
   C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds),
   F : des2fcl_gen(sbox_fcl_l,rounds),
   Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
-  output_fcs_v(
+  output_fcl_v(
   sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed,"; translated using the canonical CNF translation for the S-boxes (6-to-4)."),
     Fs[1],
     sconcat("des_6t4_full_r",rounds,"_s",seed,".cnf"),
@@ -304,7 +304,7 @@ for seed : 1 thru 20 do block(
   C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds),
   F : des2fcl_gen(sbox_fcl_l,rounds),
   Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
-  output_fcs_v(
+  output_fcl_v(
   sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the 1-base translation for the S-boxes (6-to-4)."),
     Fs[1],
     sconcat("des_6t4_1base_r",rounds,"_s",seed,".cnf"),
@@ -446,7 +446,7 @@ for seed : 1 thru 20 do block(
   C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds),
   F : des2fcl_gen(sbox_fcl_l,rounds),
   Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
-  output_fcs_v(
+  output_fcl_v(
   sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the minimum translation for the S-boxes (6-to-4)."),
     Fs[1],
     sconcat("des_6t4_min_r",rounds,"_s",seed,".cnf"),
