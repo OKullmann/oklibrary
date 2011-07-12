@@ -9,9 +9,15 @@ License, or any later version. */
   \file System/ComplexitySystem/MeasureCPUSpeed.cpp
   \brief Application to measure CPU speed for simple operations
 
-  One parameter is accepted, the number of loop-iterations until a time
-  measurement is printed; default value is 10^9.
-  Output in R-format: header "t".
+  <ul>
+   <li> One parameter is accepted, the number N of loop-iterations until a time
+   measurement is printed; default value is 10^9. </li>
+   <li> Runs N times through a simple arithmetic operation, outputting timing
+   data. </li>
+   <li> Runs in an endless loop. </li>
+   <li> Output in R-format: header "te tew tw". </li>
+   <li> For "elapsed time", "elapsed wall-clock time", "wall-clock time". </li>
+  </ul>
 */
 
 #include <iostream>
@@ -20,6 +26,7 @@ License, or any later version. */
 
 #include <boost/lexical_cast.hpp>
 #include <boost/timer.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 namespace {
   
@@ -31,7 +38,7 @@ namespace {
   const std::string program = "MeasureCPUSpeed";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.7";
+  const std::string version = "0.1";
 
   typedef unsigned long uint_type;
   const uint_type N_default = 1000000000;
@@ -50,9 +57,11 @@ int main(const int argc, const char* const argv[]) {
   const uint_type N = (argc == 2) ?
     boost::lexical_cast<uint_type>(argv[1]) : N_default;
 
-  std::cout << "# N = " << N << "\n t\n";
+  std::cout << "# N = " << N << "\n# time-elapsed(s) time-elapsed-wall-clock time-wall-clock\n";
+  std::cout << " te tew tw\n";
   std::cout << std::fixed << std::showpoint << std::setprecision(digits_fractional_part);
   {boost::timer T;
+   boost::posix_time::ptime old_time = boost::posix_time::microsec_clock::universal_time();
    for (uint_type i = 1; true; ++i) {
      T.restart();
      {uint_type result = 0;
@@ -64,7 +73,10 @@ int main(const int argc, const char* const argv[]) {
       }
      }
      const double elapsed = T.elapsed();
-     std::cout << i << " " << elapsed << std::endl;
+     const boost::posix_time::ptime new_time = boost::posix_time::microsec_clock::universal_time();
+     std::cout << i << " " << elapsed << " " << new_time - old_time << " "
+       << new_time.time_of_day() << std::endl;
+     old_time = new_time;
    }
   }
 
