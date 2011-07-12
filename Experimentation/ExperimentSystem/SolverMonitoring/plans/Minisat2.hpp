@@ -10,16 +10,6 @@ License, or any later version. */
   \brief General plans monitoring Minisat2
 
 
-  \todo Improving read_minisat_output : MG, please update
-  <ul>
-   <li> The simplification time is missing. </li>
-   <li> The column-names are too long; planning is needed, and standardisation,
-   if possible, with the other extraction-tools. </li>
-   <li> This is to be achieved with "Extraction tools" in
-   ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
-  </ul>
-
-
   \todo Improved handling of file-names : MG, please update
   <ul>
    <li> Typically, filenames contain an important parameter, like
@@ -50,6 +40,21 @@ License, or any later version. */
     See comments in SolverMonitoring/Minisat2.R, marked by "???".
    </li>
    <li> DONE The same also applies at other places. </li>
+  </ul>
+
+
+  \todo DONE (covered by "Move read_minisat2_output functionality to wrapper
+  script")
+  Improving read_minisat_output
+  <ul>
+   <li> DONE (handled by "stime" parameter in ExtractMinisat.awk)
+   The simplification time is missing. </li>
+   <li> DONE (see "Extraction tools" in
+   ExperimentSystem/SolverMonitoring/plans/general.hpp)
+   The column-names are too long; planning is needed, and standardisation,
+   if possible, with the other extraction-tools. </li>
+   <li> This is to be achieved with "Extraction tools" in
+   ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
   </ul>
 
 */
