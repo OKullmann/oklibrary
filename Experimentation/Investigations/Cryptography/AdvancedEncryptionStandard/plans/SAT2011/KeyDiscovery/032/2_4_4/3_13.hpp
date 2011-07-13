@@ -177,35 +177,9 @@ CPU time              : 65.3381 s
    \verbatim
 shell> cryptominisat experiment_r3_k1.cnf
 <snip>
-c num threads              : 1
 c restarts                 : 105
-c dynamic restarts         : 0
-c static restarts          : 105
-c full restarts            : 5
-c total simplify time      : 0.00
-c learnts DL2              : 0
-c learnts size 2           : 16933
-c learnts size 1           : 78          (2.67      % of vars)
-c filedLit time            : 0.34        (0.55      % time)
-c v-elim SatELite          : 95          (3.26      % vars)
-c SatELite time            : 3.01        (4.90      % time)
-c v-elim xor               : 0           (0.00      % vars)
-c xor elim time            : 0.01        (0.02      % time)
-c num binary xor trees     : 945
-c binxor trees' crown      : 1345        (1.42      leafs/tree)
-c bin xor find time        : 0.00
-c OTF clause improved      : 120638      (0.02      clauses/conflict)
-c OTF impr. size diff      : 134131      (1.11       lits/clause)
-c OTF cl watch-shrink      : 3069355     (0.57      clauses/conflict)
-c OTF cl watch-sh-lit      : 9031454     (2.94       lits/clause)
-c tried to recurMin cls    : 568500      (10.59      % of conflicts)
-c updated cache            : 11910       (0.02       lits/tried recurMin)
-c clauses over max glue    : 0           (0.00      % of all clauses)
 c conflicts                : 5370243     (87472.26  / sec)
 c decisions                : 5741789     (0.26      % random)
-c bogo-props               : 339071263620 (5522903024.23 / sec)
-c conflict literals        : 127462590   (59.36     % deleted)
-c Memory used              : 81.37       MB
 c CPU time                 : 61.39       s
    \endverbatim
    </li>
@@ -215,14 +189,9 @@ shell> glucose experiment_r3_k1.cnf
 <snip>
 c restarts              : 50
 c nb ReduceDB           : 164
-c nb learnts DL2        : 2027
-c nb learnts size 2     : 382
-c nb learnts size 1     : 0
 c conflicts             : 14316868       (219560 /sec)
 c decisions             : 15063464       (1.57 % random) (231010 /sec)
 c propagations          : 4612945014     (70743001 /sec)
-c conflict literals     : 454828366      (65.69 % deleted)
-c Memory used           : 91.69 MB
 c CPU time              : 65.2071 s
    \endverbatim
    </li>
@@ -232,23 +201,8 @@ shell> precosat236 experiment_r3_k1.cnf
 <snip>
 c 5597931 conflicts, 6207027 decisions, 1 random
 c 0 iterations, 58 restarts, 8769 skipped
-c 34 enlarged, 4189 shrunken, 54671 rescored, 1164 rebiased
 c 47 simplifications, 2 reductions
-c
-c vars: 76 fixed, 1301 equiv, 70 elim, 1301 merged
-c elim: 868961 resolutions, 18 phases, 18 rounds
-c sbst: 100% substituted, 0.0% nots, 100.0% ands, 0.0% xors, 0.0% ites
-c arty: 5.40 and 0.00 xor average arity
-c prbe: 212506 probed, 70 phases, 70 rounds
-c prbe: 0 failed, 0 lifted, 127 merged
-c sccs: 0 non trivial, 0 fixed, 0 merged
-c hash: 0 units, 1174 merged
-c mins: 135411627 learned, 55% deleted, 26 strong, 46 depth
-c subs: 4133 forward, 5880 backward, 476 doms
-c strs: 1256 forward, 87 backward
-c doms: 540 dominators, 337 high, 0 low
 c prps: 1627135948 propagations, 1.31 megaprops
-c
 c 1246.0 seconds, 22 MB max, 635 MB recycled
    \endverbatim
    </li>

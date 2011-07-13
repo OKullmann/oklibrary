@@ -126,13 +126,8 @@ c 181.9 seconds, 148 MB max, 10 MB recycled
      \verbatim
 shell> cryptominisat r14_keyfind.cnf
 c restarts                 : 168
-c dynamic restarts         : 156
-c static restarts          : 12
 c conflicts                : 43829       (239.90    / sec)
 c decisions                : 67335       (1.98      % random)
-c bogo-props               : 8698446141  (47610542.64 / sec)
-c conflict literals        : 7938218     (69.50     % deleted)
-c Memory used              : 531.25      MB
 c CPU time                 : 182.70      s
      \endverbatim
      </li>
@@ -143,8 +138,6 @@ restarts              : 253
 conflicts             : 82374          (368 /sec)
 decisions             : 324814         (0.00 % random) (1452 /sec)
 propagations          : 1071399042     (4790302 /sec)
-conflict literals     : 27500184       (41.42 % deleted)
-Memory used           : 207.00 MB
 CPU time              : 223.66 s
      \endverbatim
      </li>
@@ -161,15 +154,9 @@ c 570.7 seconds, 75 MB max, 27 MB recycled
 shell> glucose r14_keyfind.cnf
 <snip>
 c restarts              : 693
-c nb ReduceDB           : 14
-c nb learnts DL2        : 1319
-c nb learnts size 2     : 570
-c nb learnts size 1     : 5
 c conflicts             : 404866         (478 /sec)
 c decisions             : 2156003        (1.81 % random) (2545 /sec)
 c propagations          : 1254906184     (1481240 /sec)
-c conflict literals     : 165086655      (35.61 % deleted)
-c Memory used           : 189.94 MB
 c CPU time              : 847.2 s
      \endverbatim
      </li>
@@ -291,12 +278,8 @@ shell> AppendDimacs-O3-DNDEBUG ssaes_r14_c1_rw2_e4_f0.cnf ssaes_pkpair_r14_c1_rw
 shell> cryptominisat r14_keyfind.cnf
 <snip>
 c restarts                 : 9433
-c dynamic restarts         : 9403
-c static restarts          : 30
-c full restarts            : 4
 c conflicts                : 2030565     (4696.47   / sec)
 c decisions                : 4350327     (1.04      % random)
-c conflict literals        : 28915735    (12.47     % deleted)
 c CPU time                 : 432.36      s
      \endverbatim
      </li>
@@ -308,7 +291,6 @@ c restarts              : 918
 c conflicts             : 2226769        (2807 /sec)
 c decisions             : 2781657        (1.75 % random) (3507 /sec)
 c propagations          : 136974745      (172675 /sec)
-c Memory used           : 47.67 MB
 c CPU time              : 793.25 s
      \endverbatim
      </li>

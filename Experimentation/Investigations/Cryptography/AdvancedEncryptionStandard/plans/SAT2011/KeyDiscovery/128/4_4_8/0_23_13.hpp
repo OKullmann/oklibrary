@@ -149,32 +149,10 @@ shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pcpair_r1_c4_rw4_
    <li> Using the OKsolver:
    \verbatim
 shell> OKsolver_2002-O3-DNDEBUG -D15 -M ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
-s SATISFIABLE
-c sat_status                            1
-c initial_maximal_clause_length         256
-c initial_number_of_variables           5928
-c initial_number_of_clauses             88892
-c initial_number_of_literal_occurrences 261032
-c number_of_initial_unit-eliminations   264
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           264
-c reddiff_number_of_clauses             808
-c reddiff_number_of_literal_occurrences 2472
-c number_of_2-clauses_after_reduction   82432
 c running_time(sec)                     362.9
 c number_of_nodes                       646
 c number_of_single_nodes                1
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                120548
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        14
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
    \endverbatim
    </li>
    <li> Using precosat236:
@@ -187,15 +165,9 @@ shell> precosat236 ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
    \verbatim
 shell> precosat236 ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
 c restarts              : 721
-c nb ReduceDB           : 14
-c nb learnts DL2        : 5363
-c nb learnts size 2     : 4463
-c nb learnts size 1     : 55
 c conflicts             : 402591         (3060 /sec)
 c decisions             : 1562100        (1.58 % random) (11875 /sec)
 c propagations          : 57405015       (436374 /sec)
-c conflict literals     : 91153560       (39.04 % deleted)
-c Memory used           : 66.94 MB
 c CPU time              : 131.55 s
    \endverbatim
    </li>
@@ -207,19 +179,13 @@ restarts              : 382
 conflicts             : 143515         (2413 /sec)
 decisions             : 801345         (0.00 % random) (13473 /sec)
 propagations          : 25615653       (430660 /sec)
-conflict literals     : 40285635       (26.74 % deleted)
-Memory used           : 295.00 MB
 CPU time              : 59.48 s
 
 shell> minisat2 ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
-Verified 87756 original clauses.
-Verified 1128 eliminated clauses.
 restarts              : 13
 conflicts             : 33963          (346 /sec)
 decisions             : 214258         (1.39 % random) (2181 /sec)
 propagations          : 5270395        (53637 /sec)
-conflict literals     : 9386723        (16.92 % deleted)
-Memory used           : 66.55 MB
 CPU time              : 98.26 s
   \endverbatim
   </li>
@@ -231,12 +197,6 @@ c main():: dead ends in main: 0
 c main():: lookAheadCount: 133012
 c main():: unitResolveCount: 5664
 c main():: time=19.920000
-c main():: necessary_assignments: 364
-c main():: bin_sat: 0, bin_unsat 0
-c main():: doublelook: #: 410, succes #: 369
-c main():: doublelook: overall 0.313 of all possible doublelooks executed
-c main():: doublelook: succesrate: 90.000, average DL_trigger: 172.997
-c main():: SOLUTION VERIFIED :-)
    \endverbatim
    It apparently does this in only 5 nodes??!?
    </li>
@@ -245,20 +205,9 @@ c main():: SOLUTION VERIFIED :-)
 shell> picosat913 ssaes_r1_c4_rw4_e8_f1_keyfind.cnf
 c 29 iterations
 c 439 restarts
-c 0 failed literals
 c 94325 conflicts
 c 783798 decisions
-c 293 fixed variables
-c 30468079 learned literals
-c 18.6% deleted literals
 c 35170202 propagations
-c 100.0% variables used
-c 17.7 seconds in library
-c 2.0 megaprops/second
-c 13 simplifications
-c 15 reductions
-c 109.4 MB recycled
-c 18.9 MB maximally allocated
 c 17.7 seconds total run time
    \endverbatim
    </li>

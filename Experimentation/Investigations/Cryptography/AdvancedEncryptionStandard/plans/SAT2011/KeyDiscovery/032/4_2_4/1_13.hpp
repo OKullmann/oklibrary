@@ -168,32 +168,9 @@ shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c2_rw4_e4_f0.cnf ssaes_pkpair_r1_c2_rw4_
    <li> OKsolver_2002:
    \verbatim
 shell> OKsolver_2002-O3-DNDEBUG r1_keyfind.cnf
-s SATISFIABLE
-c sat_status                            1
-c initial_maximal_clause_length         16
-c initial_number_of_variables           1396
-c initial_number_of_clauses             10192
-c initial_number_of_literal_occurrences 31380
-c number_of_initial_unit-eliminations   68
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           68
-c reddiff_number_of_clauses             212
-c reddiff_number_of_literal_occurrences 660
-c number_of_2-clauses_after_reduction   7808
 c running_time(sec)                     42.8
 c number_of_nodes                       2915
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                25478
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        12
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             r1_keyfind.cnf
    \endverbatim
    </li>
    <li> minisat-2.2.0 and glucose:
@@ -203,8 +180,6 @@ restarts              : 126
 conflicts             : 38174          (11967 /sec)
 decisions             : 41318          (0.00 % random) (12952 /sec)
 propagations          : 15523483       (4866296 /sec)
-conflict literals     : 1218353        (59.04 % deleted)
-Memory used           : 19.00 MB
 CPU time              : 3.19 s
 
 shell> minisat2 r1_keyfind.cnf
@@ -213,21 +188,13 @@ restarts              : 14
 conflicts             : 43604          (1401 /sec)
 decisions             : 47364          (1.34 % random) (1522 /sec)
 propagations          : 17037471       (547477 /sec)
-conflict literals     : 1360321        (61.63 % deleted)
-Memory used           : 18.44 MB
 CPU time              : 31.12 s
 shell> glucose r1_keyfind.cnf
 <snip>
 c restarts              : 8
-c nb ReduceDB           : 2
-c nb learnts DL2        : 232
-c nb learnts size 2     : 44
-c nb learnts size 1     : 0
 c conflicts             : 16554          (13035 /sec)
 c decisions             : 21834          (1.56 % random) (17192 /sec)
 c propagations          : 3407020        (2682693 /sec)
-c conflict literals     : 705068         (42.14 % deleted)
-c Memory used           : 4.88 MB
 c CPU time              : 1.27 s
    \endverbatim
    </li>

@@ -123,23 +123,7 @@ shell> cat experiment_r20_k1.cnf_precosat236
 <snip>
 c 0 conflicts, 0 decisions, 0 random
 c 0 iterations, 0 restarts, 0 skipped
-c 0 enlarged, 0 shrunken, 0 rescored, 0 rebiased
-c 1 simplifications, 0 reductions
-c
-c vars: 11224 fixed, 0 equiv, 0 elim, 336 merged
-c elim: 0 resolutions, 1 phases, 1 rounds
-c sbst: 0% substituted, 0.0% nots, 0.0% ands, 0.0% xors, 0.0% ites
-c arty: 0.00 and 0.00 xor average arity
-c prbe: 881 probed, 1 phases, 2 rounds
-c prbe: 255 failed, 0 lifted, 0 merged
-c sccs: 0 non trivial, 0 fixed, 0 merged
-c hash: 0 units, 336 merged
-c mins: 0 learned, 0% deleted, 0 strong, 0 depth
-c subs: 0 forward, 0 backward, 16 doms
-c strs: 0 forward, 0 backward
-c doms: 4894 dominators, 0 high, 0 low
 c prps: 2928753 propagations, 5.87 megaprops
-c
 c 0.5 seconds, 15 MB max, 6 MB recycled
    \endverbatim
    </li>

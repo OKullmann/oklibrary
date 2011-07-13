@@ -132,8 +132,6 @@ restarts              : 6
 conflicts             : 647            (5882 /sec)
 decisions             : 7432           (0.00 % random) (67564 /sec)
 propagations          : 641324         (5830218 /sec)
-conflict literals     : 145083         (27.42 % deleted)
-Memory used           : 22.00 MB
 CPU time              : 0.11 s
        \endverbatim
        </li>
@@ -145,8 +143,6 @@ c restarts              : 1
 c conflicts             : 653            (5023 /sec)
 c decisions             : 4658           (1.70 % random) (35831 /sec)
 c propagations          : 380621         (2927854 /sec)
-c conflict literals     : 202983         (17.84 % deleted)
-c Memory used           : 5.82 MB
 c CPU time              : 0.13 s
        \endverbatim
        </li>
@@ -154,13 +150,8 @@ c CPU time              : 0.13 s
        \verbatim
 shell> cryptominisat r1_keyfind.cnf
 c restarts                 : 1
-c dynamic restarts         : 0
-c static restarts          : 1
 c conflicts                : 0           (0.00      / sec)
 c decisions                : 1           (0.00      % random)
-c bogo-props               : 39978329    (105206128.95 / sec)
-c conflict literals        : 0           (-nan      % deleted)
-c Memory used              : 32.11       MB
 c CPU time                 : 0.38        s
        \endverbatim
        </li>
@@ -169,7 +160,6 @@ c CPU time                 : 0.38        s
 shell> precosat236 r1_keyfind.cnf
 c 0 conflicts, 0 decisions, 0 random
 c prps: 851728 propagations, 7.74 megaprops
-c
 c 0.1 seconds, 4 MB max, 2 MB recycled
      \endverbatim
      </li>
@@ -186,15 +176,7 @@ c 0.4 seconds, 4 MB max, 0 MB recycled
 shell> OKsolver_2002-O3-DNDEBUG r1_keyfind.cnf
 c running_time(sec)                     0.7
 c number_of_nodes                       1
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                255
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
      \endverbatim
      </li>
      <li> Cryptominisat and the OKsolver solve the instance by UCP. Why
@@ -411,8 +393,6 @@ restarts              : 11
 conflicts             : 1684           (168400 /sec)
 decisions             : 1938           (0.00 % random) (193800 /sec)
 propagations          : 23607          (2360700 /sec)
-conflict literals     : 16248          (15.68 % deleted)
-Memory used           : 19.00 MB
 CPU time              : 0.01 s
        \endverbatim
        </li>
@@ -420,13 +400,8 @@ CPU time              : 0.01 s
        \verbatim
 shell> cryptominisat r1_keyfind.cnf
 c restarts                 : 6
-c dynamic restarts         : 0
-c static restarts          : 6
 c conflicts                : 1827        (60900.00  / sec)
 c decisions                : 2367        (0.00      % random)
-c bogo-props               : 3357007     (111900233.33 / sec)
-c conflict literals        : 17009       (18.35     % deleted)
-c Memory used              : 29.82       MB
 c CPU time                 : 0.03        s
        \endverbatim
        </li>
@@ -438,8 +413,6 @@ c restarts              : 1
 c conflicts             : 5583           (62033 /sec)
 c decisions             : 5897           (1.56 % random) (65522 /sec)
 c propagations          : 114998         (1277756 /sec)
-c conflict literals     : 55877          (22.00 % deleted)
-c Memory used           : 2.53 MB
 c CPU time              : 0.09 s
        \endverbatim
        </li>
@@ -449,15 +422,8 @@ shell> OKsolver_2002-O3-DNDEBUG r1_keyfind.cnf
 c running_time(sec)                     2.2
 c number_of_nodes                       21651
 c number_of_single_nodes                4
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                39101
-c number_of_pure_literals               0
-c number_of_autarkies                   0
 c number_of_missed_single_nodes         4
-c max_tree_depth                        16
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
        \endverbatim
        </li>
       </ul>

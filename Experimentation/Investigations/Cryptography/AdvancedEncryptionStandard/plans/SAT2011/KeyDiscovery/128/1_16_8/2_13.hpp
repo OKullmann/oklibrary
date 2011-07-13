@@ -139,8 +139,6 @@ restarts              : 127
 conflicts             : 40088          (1009 /sec)
 decisions             : 143275         (0.00 % random) (3606 /sec)
 propagations          : 135629939      (3413792 /sec)
-conflict literals     : 7255186        (47.08 % deleted)
-Memory used           : 77.00 MB
 CPU time              : 39.73 s
    \endverbatim
    </li>

@@ -166,22 +166,10 @@ shell> AppendDimacs-O3-DNDEBUG ssaes_r5_c4_rw2_e4_f0.cnf ssaes_pkpair_r5_c4_rw2_
    </li>
    <li> Picosat solves it in ~15 minutes:
    \verbatim
-c 0 iterations
 c 0 restarts
-c 0 failed literals
 c 4596920 conflicts
 c 4789770 decisions
-c 84 fixed variables
-c 177868241 learned literals
-c 40.4% deleted literals
 c 2809104667 propagations
-c 100.0% variables used
-c 903.5 seconds in library
-c 3.1 megaprops/second
-c 1 simplifications
-c 371 reductions
-c 761.7 MB recycled
-c 5.6 MB maximally allocated
 c 903.5 seconds total run time
    \endverbatim
    </li>

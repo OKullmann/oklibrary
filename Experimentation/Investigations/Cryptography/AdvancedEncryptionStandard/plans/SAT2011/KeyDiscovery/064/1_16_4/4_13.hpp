@@ -139,11 +139,6 @@ c main():: dead ends in main: 2
 c main():: lookAheadCount: 539606
 c main():: unitResolveCount: 48512
 c main():: time=6.010000
-c main():: necessary_assignments: 10106
-c main():: bin_sat: 0, bin_unsat 0
-c main():: doublelook: #: 12092, succes #: 6168
-c main():: doublelook: overall 2.285 of all possible doublelooks executed
-c main():: doublelook: succesrate: 51.009, average DL_trigger: 126.297
 <snip>
    \endverbatim
    </li>
@@ -155,8 +150,6 @@ restarts              : 354
 conflicts             : 130444         (6942 /sec)
 decisions             : 159038         (0.00 % random) (8464 /sec)
 propagations          : 94165695       (5011479 /sec)
-conflict literals     : 3281874        (47.79 % deleted)
-Memory used           : 25.00 MB
 CPU time              : 18.79 s
    \endverbatim
    </li>
@@ -259,8 +252,6 @@ restarts              : 325
 conflicts             : 122695         (15356 /sec)
 decisions             : 137095         (0.00 % random) (17158 /sec)
 propagations          : 42281428       (5291793 /sec)
-conflict literals     : 1862830        (38.38 % deleted)
-Memory used           : 19.00 MB
 CPU time              : 7.99 s
    \endverbatim
    </li>

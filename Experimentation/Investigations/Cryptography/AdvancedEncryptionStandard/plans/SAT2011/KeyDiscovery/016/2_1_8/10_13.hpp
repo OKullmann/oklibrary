@@ -117,14 +117,9 @@ shell> AppendDimacs-O3-DNDEBUG ssaes_r10_c1_rw2_e4_f0.cnf ssaes_pkpair_r10_c1_rw
      \verbatim
 shell> cryptominisat r10_keyfind.cnf
 c num threads              : 1
-c restarts                 : 3
-c dynamic restarts         : 0
 c static restarts          : 3
 c conflicts                : 396         (65.35     / sec)
 c decisions                : 1148        (0.00      % random)
-c bogo-props               : 196243067   (32383344.39 / sec)
-c conflict literals        : 80432       (40.10     % deleted)
-c Memory used              : 271.57      MB
 c CPU time                 : 6.06        s
      \endverbatim
      </li>
@@ -136,8 +131,6 @@ c restarts              : 21
 c conflicts             : 7735           (638 /sec)
 c decisions             : 54559          (1.81 % random) (4502 /sec)
 c propagations          : 44157958       (3643396 /sec)
-c conflict literals     : 2653345        (29.08 % deleted)
-c Memory used           : 46.44 MB
 c CPU time              : 12.12 s
      \endverbatim
      </li>
@@ -157,8 +150,6 @@ restarts              : 378
 conflicts             : 135919         (421 /sec)
 decisions             : 514750         (0.00 % random) (1593 /sec)
 propagations          : 1429917674     (4423840 /sec)
-conflict literals     : 33864226       (55.73 % deleted)
-Memory used           : 275.00 MB
 CPU time              : 323.23 s
      \endverbatim
      </li>
@@ -290,8 +281,6 @@ c restarts              : 400
 c conflicts             : 1442056        (2328 /sec)
 c decisions             : 1739229        (1.71 % random) (2808 /sec)
 c propagations          : 98283796       (158678 /sec)
-c conflict literals     : 24397210       (19.50 % deleted)
-c Memory used           : 35.31 MB
 c CPU time              : 619.39 s
      \endverbatim
      </li>
@@ -300,13 +289,9 @@ c CPU time              : 619.39 s
 shell> cryptominisat r10_keyfind.cnf
 c num threads              : 1
 c restarts                 : 8796
-c dynamic restarts         : 8766
-c static restarts          : 30
 c conflicts                : 1804584     (1843.24   / sec)
 c decisions                : 3052078     (1.15      % random)
 c bogo-props               : 79603311024 (81308347.06 / sec)
-c conflict literals        : 26658536    (18.25     % deleted)
-c Memory used              : 139.45      MB
 c CPU time                 : 979.03      s
      \endverbatim
      </li>

@@ -184,68 +184,18 @@ CPU time              : 0.03 s
    </li>
    <li> cryptominisat solves it in 0.03s:
    \verbatim
-c Verified 1017 clauses.
-c num threads              : 1
 c restarts                 : 3
-c dynamic restarts         : 0
-c static restarts          : 3
-c full restarts            : 0
-c total simplify time      : 0.00
-c learnts DL2              : 0
-c learnts size 2           : 5507
-c learnts size 1           : 68          (6.56      % of vars)
-c filedLit time            : 0.01        (33.33     % time)
-c v-elim SatELite          : 32          (3.09      % vars)
-c SatELite time            : 0.01        (33.33     % time)
-c v-elim xor               : 0           (0.00      % vars)
-c xor elim time            : 0.00        (0.00      % time)
-c num binary xor trees     : 306
-c binxor trees' crown      : 448         (1.46      leafs/tree)
-c bin xor find time        : 0.00
-c OTF clause improved      : 1           (0.00      clauses/conflict)
-c OTF impr. size diff      : 1           (1.00       lits/clause)
-c OTF cl watch-shrink      : 119         (0.33      clauses/conflict)
-c OTF cl watch-sh-lit      : 573         (4.82       lits/clause)
-c tried to recurMin cls    : 82          (22.65      % of conflicts)
-c updated cache            : 0           (0.00       lits/tried recurMin)
-c clauses over max glue    : 0           (0.00      % of all clauses)
 c conflicts                : 362         (12066.67  / sec)
 c decisions                : 581         (0.00      % random)
-c bogo-props               : 1559491     (51983033.33 / sec)
-c conflict literals        : 6178        (21.18     % deleted)
-c Memory used              : 30.70       MB
 c CPU time                 : 0.03        s
    \endverbatim
    ??? what does "Verified 1017 clauses." mean here ???
    </li>
    <li> OKsolver solves it in 0.9s:
    \verbatim
-s SATISFIABLE
-c sat_status                            1
-c initial_maximal_clause_length         16
-c initial_number_of_variables           1036
-c initial_number_of_clauses             6814
-c initial_number_of_literal_occurrences 19540
-c number_of_initial_unit-eliminations   68
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           68
-c reddiff_number_of_clauses             212
-c reddiff_number_of_literal_occurrences 660
-c number_of_2-clauses_after_reduction   5504
 c running_time(sec)                     0.9
 c number_of_nodes                       103
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
 c number_of_2-reductions                3705
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        11
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             experiment_r1_k1.cnf
    \endverbatim
    </li>
   </ul>

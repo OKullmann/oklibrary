@@ -140,8 +140,6 @@ restarts              : 404
 conflicts             : 151945         (5982 /sec)
 decisions             : 184854         (0.00 % random) (7278 /sec)
 propagations          : 147381578      (5802424 /sec)
-conflict literals     : 4313436        (57.69 % deleted)
-Memory used           : 26.00 MB
 CPU time              : 25.4 s
    \endverbatim
    </li>
@@ -244,8 +242,6 @@ restarts              : 5115
 conflicts             : 2877957        (12075 /sec)
 decisions             : 3273542        (0.00 % random) (13735 /sec)
 propagations          : 869271128      (3647189 /sec)
-conflict literals     : 59660707       (32.79 % deleted)
-Memory used           : 37.00 MB
 CPU time              : 238.34 s
    \endverbatim
    </li>
