@@ -38,7 +38,7 @@ namespace {
   const std::string program = "MeasureCPUSpeed";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.1";
+  const std::string version = "0.1.1";
 
   typedef unsigned long uint_type;
   const uint_type N_default = 1000000000;
@@ -64,9 +64,9 @@ int main(const int argc, const char* const argv[]) {
    boost::posix_time::ptime old_time = boost::posix_time::microsec_clock::universal_time();
    for (uint_type i = 1; true; ++i) {
      T.restart();
-     {uint_type result = 0;
+     {uint_type result = 2;
       for (uint_type j = 0; j < N; ++j) result *= i;
-      if (result != 0) {
+      if (result % 2 != 0) {
         std::cerr << "This can never happen.\n"
         " But otherwise the computation is optimised away.\n";
         return error_impossible;
