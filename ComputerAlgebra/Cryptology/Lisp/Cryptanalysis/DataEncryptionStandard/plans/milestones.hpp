@@ -18,8 +18,8 @@ License, or any later version. */
    the following topics are handled:
     - Improve tests
     - Add variants with reduced number of rounds
-    - Add 6-to-1 bit Sbox functions
-    - Variable ordering and standardisation
+    - Combining 6-to-1 bit Sbox functions
+    - Add 6-to-1 bit Sbox functions : DONE
 
 
   \par Version 0.0.4

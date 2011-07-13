@@ -87,13 +87,75 @@ License, or any later version. */
   </ul>
 
 
-  \todo Add 6-to-1 bit Sbox functions
+  \todo Combining 6-to-1 bit Sbox functions
   <ul>
-   <li> The 10-to-4 bit boolean functions for the DES Sboxes can be split
-   into 4 6-to-1 bit functions. </li>
-   <li> We must provide these functions at the Maxima level. </li>
-   <li> See "Analysing the S-boxes" in
-   Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp.
+   <li> Consider the 4 boolean 6 x 1 functions for each DES Sbox;
+   see des_sbox_bit_fulldnf_cl and des_sbox_bit_fullcnf_fcs in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/Sboxes.mac.
+   </li>
+   <li> We can compute many different representations of these functions
+   (minimum, canonical, r_1-base etc). </li>
+   <li> Whatever the representation, these clause-sets need to be
+   recombined to derive a new representation of each Sbox. </li>
+   <li> Therefore we need convenience functions to handle this
+   recombination. </li>
+   <li> The convenience function needs to take 4 S-box formal clause-lists,
+   one for each output bit, and return a new formal clause-list which is
+   the union of the four inputs with suitable renaming. </li>
+   <li> To make variable renaming possible, we assume that input and output
+   variables for the S-box are standardised to [1,...,6] and [7,...,10]. </li>
+   <li> The variables for the four inputs do not need renaming. </li>
+   <li> The output variables for the S-boxes must be renamed from 7 to
+   7,8,9 and 10 in the 4 cases. </li>
+   <li> Auxilliary variables used in some representations of the S-box
+   functions must then also be renamed. </li>
+   <li> We have two options regarding auxilliary variables:
+    <ol>
+     <li> standardise all variables to integers; </li>
+     <li> use an unevaluated function dessbox_aux_var which can
+     take parameters based on which output bit the auxilliary variable
+     pertains to. </li>
+    </ol>
+   </li>
+   <li> Standardising all variables to integers introduces dependencies
+   between the clause-sets for the different output-bits when renaming.
+   </li>
+   <li> What the auxilliary variables for the output-bit 2 are renamed
+   to would depend on how many auxilliary variables are used for output-bit 1.
+   </li>
+   <li> Using an unevaluated function avoids this problem, we can making the
+   sets of variables disjoint by using an index to indicate which output
+   bit the auxilliary variables come from. </li>
+   <li> So we have the renaming:
+   \verbatim
+/* Auxilliary variables used in standardising a clause-set representing
+   a boolean function for i-th output bit of a DES S-box. */
+kill(dessbox_6t1_aux)$
+declare(dessbox_6t1_aux, noun)$
+declare(dessbox_6t1_aux, posfun)$
+dessbox_6t1_aux_var(i,v) := nounify(dessbox_6t1_aux)(i,v)$
+
+dessbox_6t1_vardisj_rename_fcl(F,i) := 
+  rename_fcl(F,append([1,2,3,4,5,6,6+i],
+                      map(lambda([v], dessbox_6t1_aux_var(i,v)),rest(F[1],7))))$
+   \endverbatim
+   </li>
+   <li> We use dessbox_6t1_aux_var directly, rather than standardising
+   "v", so that we keep as much information about where the original variable
+   comes from. </li>
+   <li> Standardisation to integer variables should happen only at the last
+   moment. </li>
+   <li> The function to combine all four S-boxes then becomes:
+   \verbatim
+dessbox_6t1to6t4_fcl(F1,F2,F3,F4) := block([F1_r,F2_r,F3_r,F4_r],
+  F1_r : dessbox_6t1_vardisj_rename_fcl(F1,1),
+  F2_r : dessbox_6t1_vardisj_rename_fcl(F2,2),
+  F3_r : dessbox_6t1_vardisj_rename_fcl(F3,3),
+  F4_r : dessbox_6t1_vardisj_rename_fcl(F4,4),
+  [stable_unique(
+     append([1,2,3,4,5,6,7,8,9,10],F1_r[1],F2_r[1],F3_r[1],F4_r[1])),
+   stable_unique(append(F1_r[2],F2_r[2],F3_r[2],F4_r[2]))])$
+   \endverbatim
    </li>
   </ul>
 
@@ -201,6 +263,18 @@ License, or any later version. */
    we compute the "constraint system" corresponding to the DES-constraint.
    </li>
    <li> Now translations into SAT, CSP etc. are needed. </li>
+  </ul>
+
+
+  \todo DONE (see des_sbox_bit_fulldnf_cl)
+  Add 6-to-1 bit Sbox functions
+  <ul>
+   <li> The 10-to-4 bit boolean functions for the DES Sboxes can be split
+   into 4 6-to-1 bit functions. </li>
+   <li> We must provide these functions at the Maxima level. </li>
+   <li> See "Analysing the S-boxes" in
+   Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp.
+   </li>
   </ul>
 
 */
