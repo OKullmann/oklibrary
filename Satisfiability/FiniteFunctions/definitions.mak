@@ -7,4 +7,4 @@ programs := QuineMcCluskey-n4 QuineMcCluskey-n16 QuineMcCluskeySubsumptionHyperg
 
 source_libraries = $(boost_include_option_okl)
 
-link_libraries := ${boost_link_option_okl} -lboost_filesystem
+link_libraries :=
