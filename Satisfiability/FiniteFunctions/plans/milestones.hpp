@@ -38,6 +38,7 @@ License, or any later version. */
   \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
+    - Specify the order of the output-clauses
     - Understanding the costs of the current implementation
 
   \par

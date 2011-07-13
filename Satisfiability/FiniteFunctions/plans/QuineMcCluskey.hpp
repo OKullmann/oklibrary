@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans regarding the direct implementation of the computation of the minimal elements of the resolution closure of full boolean clause-sets
 
 
+  \todo Specify the order of the output-clauses
+  <ul>
+   <li> As usual, this needs to be synchronised with the Maxima-specification.
+   </li>
+  </ul>
+
+
   \todo Understanding the costs of the current implementation
   <ul>
    <li> What is the difference between the empty clause-set and the
