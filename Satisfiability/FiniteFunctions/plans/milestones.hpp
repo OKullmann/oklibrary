@@ -31,6 +31,11 @@ License, or any later version. */
   \par Version 0.1.2
 
   \par
+   In OKlib/Satisfiability/FiniteFunctions/plans/general.hpp the following
+   topics are handled:
+    - Rename applications
+
+  \par
    In OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp the
    following topics are handled:
     - Understanding the costs of the current implementation

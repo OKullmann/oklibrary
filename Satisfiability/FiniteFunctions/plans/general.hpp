@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.12.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -11,6 +11,16 @@ License, or any later version. */
 
   Considered are functions f: D_1 x ... X D_n -> {0,1}, where D_i
   are finite sets (in the boolean case we have F_i = {0,1}).
+
+
+  \todo Rename applications
+  <ul>
+   <li> All that "SubsumptionHypergraph", "Full", "With" etc. says nothing,
+   and is also far too long. </li>
+   <li> All these applications (perhaps also QuineMcCluskey) have to be
+   renamed. </li>
+   <li> Perhaps also reorganisation is needed. </li>
+  </ul>
 
 
   \todo Links and plans
