@@ -9,8 +9,12 @@ License, or any later version. */
   \file Satisfiability/FiniteFunctions/QuineMcCluskey.cpp
   \brief Application for computing all minimal resolvents for a full clause-set
 
-  One parameter is needed, the file containing the clause-set in DIMACS format.
-  The result is printed to standard output (again a clause-set in DIMACS format).
+  <ul>
+   <li> One parameter is needed, the file with the full clause-set in DIMACS
+   format. </li>
+   <li> The result is printed to standard output (again a clause-set in DIMACS
+   format). </li>
+  </ul>
 */
 
 #include <fstream>
@@ -37,14 +41,15 @@ namespace {
   const std::string program = "QuineMcCluskey";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2";
+  const std::string version = "0.2.1";
 
 }
 
 int main(const int argc, const char* const argv[]) {
   if (argc != 2) {
-    std::cerr << err << "Exactly one input is required, the "
-      "name of the file\n with the clause-set in DIMACS-format.\n"
+    std::cerr << err <<
+      "Exactly one parameter is required, the name of the file\n"
+      " with the (full) clause-set in DIMACS-format.\n"
       "However, the actual number of input parameters was " << argc-1 << ".\n";
     return error_parameters;
   }
