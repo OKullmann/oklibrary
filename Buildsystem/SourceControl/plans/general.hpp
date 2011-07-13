@@ -796,7 +796,8 @@ git pull -s subtree path_to_repository_B master
      OKlib-directory was cloned, and thus doesn't contain the old
      backup-files). </li>
       <li> 8.12.2010: 15.4 MB; OKlib total 35.1 MB </li>
-      <li> 27.1.2011: 16.8 MB; OKlib total 38.2 MG </li>
+      <li> 27.1.2011: 16.8 MB; OKlib total 38.2 MB </li>
+      <li> 13.7.2011: 18.6 MB; OKlib total 43.0 MB </li>
     </ol>
    </li>
   </ul>
