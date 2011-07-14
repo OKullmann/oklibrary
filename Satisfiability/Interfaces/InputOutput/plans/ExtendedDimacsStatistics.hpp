@@ -7,7 +7,16 @@ License, or any later version. */
 
 /*!
   \file Interfaces/InputOutput/plans/ExtendedDimacsStatistics.hpp
-  \brief Plans on the application extracting statistics from files in (extended) Dimacs format
+  \brief Plans on the application for extracting statistics from files in (extended) Dimacs format
+
+
+  \todo Connections
+  <ul>
+   <li> See "Comprehensive statistics" in
+   Interfaces/InputOutput/plans/general.hpp for a comprehensive tool. </li>
+   <li> Perhaps once that tool is established, we abandon
+   ExtendedDimacsStatistics. </li>
+  </ul>
 
 
   \todo Better output for InputOutput/ExtendedDimacsStatistics.cpp

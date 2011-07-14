@@ -10,6 +10,22 @@ License, or any later version. */
   \brief Plans for the module on SAT-related input/output
 
 
+  \todo Comprehensive statistics
+  <ul>
+   <li> We need urgently a tool which computes "all" statistics. </li>
+   <li> See "Comprehensive statistics" in
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Statistics.hpp
+   for the Maxima role-model. </li>
+   <li> Since at the C++-level we have larger inputs, we need some easy method
+   to specify the statistics which are computed. </li>
+   <li> Perhaps the application reads a configuration file, which contains
+   identifiers for all the statistics to be computed. </li>
+   <li> We provide standard configuration files for all statistics, and
+   statistics for medium and for large instances. </li>
+   <li> For that we must establish same convention. </li>
+  </ul>
+
+
   \todo Elementary file-surgery
   <ul>
    <li> For adapting a single Dimacs-file we have
