@@ -73,6 +73,8 @@ MiniSat -- Copyright (c) 2003-2005, Niklas Eén, Niklas Sörensson
 
   \todo (P)Lingeling
   <ul>
+   <li> (p)lingeling should be added to the ExternalSources internet page.
+   </li>
    <li> DONE (installed)
    First installatioin:
    \verbatim

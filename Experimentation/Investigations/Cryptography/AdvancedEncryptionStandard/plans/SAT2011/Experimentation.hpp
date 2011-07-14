@@ -381,15 +381,17 @@ License, or any later version. */
    <li> We need a list of the solvers we will use for all experiments. </li>
    <li> As time goes on, some solvers might not be used for later experiments
    based on earlier results, and this can be recorded here. </li>
-   <li> Solvers to be used: ??? not up-to-date ???
+   <li> Solvers to be used:
     <ul>
      <li> ArgoSAT </li>
      <li> OKsolver_2002 </li>
-     <li> minisat2 </li>
-     <li> ubcsat (1-0-0) </li>
+     <li> minisat-2.2.0 </li>
+     <li> glucose </li>
+     <li> ubcsat (1-1-0) </li>
      <li> picosat913 </li>
      <li> precosat236 </li>
      <li> precosat570 </li>
+     <li> (p)lingeling </li>
      <li> Satz215 </li>
      <li> Grasp </li>
      <li> sp </li>
