@@ -28,7 +28,7 @@
 #     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
 #     filename (string) : Name of the input-file.
 #
-# For reading many files, see read_minisat_output below.
+# For reading many files, see read_minisat_outputs below.
 
 read_minisat_output = function(stats_filename) {
   S = system(paste("cat ", stats_filename,
@@ -113,7 +113,7 @@ read_minisat_output = function(stats_filename) {
 # Takes a list of files with output of a minisat-like solver, and puts the
 # data into a dataframe.
 # Input:
-#   stats_filename_l: A list of filenames for outputs of a solver runs.
+#   stats_filename_l: A list of filenames for outputs of solver runs.
 # Output:
 #   A data.frame with a row for each file in stats_filename_l.
 #   Specification as read_minisat_output above.
