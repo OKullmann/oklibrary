@@ -241,8 +241,9 @@ License, or any later version. */
      <li> Small scale linear map (no plans file yet). </li>
      <li> Small scale linear map with field multiplications (no plans file
      yet). </li>
-     <li> AES field multiplications (255): ??? what is the meaning of "255" ???
+     <li> AES field multiplications:
       <ul>
+       <li> We consider 256 multiplications: {00,...,255}. </li>
        <li> 00, 01, 02, 03, 09, 11, 13, 14 : DONE. </li>
        <li> The other 247. </li>
       </ul>
