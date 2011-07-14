@@ -14,6 +14,11 @@ License, or any later version. */
   \par Version 0.1.2 :
 
   \par
+   In Interfaces/InputOutput/plans/general.hpp the following topics
+   are handled:
+    - Comprehensive statistics
+
+  \par
    In Interfaces/InputOutput/MinOnes2WeightedMaxSAT.cpp the following topics
    are handled:
     - Improve specification
