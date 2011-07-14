@@ -47,14 +47,6 @@ License, or any later version. */
    to functions like std::remove_if etc might in fact be better. </li>
   </ul>
 
-
-  \bug DONE (corrected)
-  False error message
-  <ul>
-   <li> "Failure opening file  << argv[i+1]" seems false (and will lead
-   to undefined behaviour). </li>
-  </ul>
-
 */
 
 #include <string>

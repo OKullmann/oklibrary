@@ -12,6 +12,10 @@ License, or any later version. */
   <ul>
    <li> Reads from standard input, and writes to standard output (and standard
    error). </li>
+   <li> Weighted partial MaxSAT CNF Dimacs files are Dimacs files where each
+   clause is prefixed with an integer weight. The solver must find an
+   assignment which maximises the sum of the weights of the satisfied clauses.
+   See http://maxsat.ia.udl.cat/requirements/. </li>
    <li> The old parameter line is updated from:
    \verbatim
 p cnf n c
@@ -23,8 +27,8 @@ p wcnf n c+n
    </li>
    <li> All clauses in the input are output directly, prefixed with the
    integer n+1 (as the weight of that clause). </li>
-   <li> After all clauses have been read from the input, a unit-clause 
-   containing the negated literal for each variable from 1 to n is output 
+   <li> After all clauses have been read from the input, a unit-clause
+   containing the negated literal for each variable from 1 to n is output,
    prefixed with weight 1. </li>
   </ul>
 
@@ -46,8 +50,6 @@ p wcnf n c+n
    the right place for this application. </li>
   </ul>
 
-
-  \todo DONE Add application tests
 
 */
 

@@ -32,8 +32,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo DONE Add application tests
-
 */
 
 #include <iostream>

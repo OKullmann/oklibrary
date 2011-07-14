@@ -34,6 +34,22 @@ namespace OKlib {
         /*!
           \class ReadPass
           \brief Reading a partial assignment from an input stream
+
+          <ul>
+           <li> The stream starts with "v ", followed by non-zero integers
+           separated by space-symbols, representing the boolean literals to be
+           set to true, and concluded by "0". </li>
+           <li> Space-symbols (also leading and trailing ones) are ignored.
+           </li>
+           <li> After construction, in data-member litset the set of literals
+           set to true is obtained, in data-member pa the corresponding
+           partial assignment, and in data-member max_var the maximal absolute
+           value of literals (i.e., the maximal variable-index). </li>
+           <li> Only integral literals are possible. </li>
+           <li> Besides syntax-errors the only error is contradictory literals.
+           </li>
+           <li> Repeated literals are ignored. </li>
+          </ul>
         */
 
         template <typename Lit, class Pass>

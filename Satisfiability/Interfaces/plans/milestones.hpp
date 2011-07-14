@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Interfaces/plans/milestones.hpp
 
-  \module_version Satisfiability/Interfaces 0.0.6.1 (9.1.2011)
+  \module_version Satisfiability/Interfaces 0.0.6.2 (14.7.2011)
 
 
   \par Version 0.0.7

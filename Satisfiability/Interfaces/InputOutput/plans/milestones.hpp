@@ -8,40 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Interfaces/InputOutput/plans/milestones.hpp
 
-  \module_version Interfaces/InputOutput 0.1.0.4 (11.5.2011)
-
-
-  \par Version 0.1.1 :
-
-  \par
-   In Interfaces/InputOutput/MinOnes2WeightedMaxSAT.cpp the following topics
-   are handled:
-    - Add application tests : DONE
-
-  \par
-   In Interfaces/InputOutput/SortByClauseLength.cpp the following topics
-   are handled:
-    - Add application tests : DONE
-
-  \par
-   In Interfaces/InputOutput/plans/PartialAssignments.hpp the following topics
-   are handled:
-    - Input of partial assignments : DONE
-
-  \par
-   In Interfaces/InputOutput/AppendDimacs.cpp the following topics are
-   handled:
-    - False error message : DONE
-
-  \par
-   In Interfaces/InputOutput/RandomShuffleDimacs.cpp the following topics
-   are handled:
-    - Add application tests : DONE
-
-  \par
-   In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
-   are handled:
-    - Add MinOnes2WCNF output clause-set adaptor : DONE
+  \module_version Interfaces/InputOutput 0.1.1 (14.7.2011)
 
 
   \par Version 0.1.2 :
@@ -296,6 +263,7 @@ License, or any later version. */
    - 0.0.8 : 26.9.2007; moved to new place in part Satisfiability, and related updates.
    - 0.0.9 : 5.2.2008; created facilities to read extended Dimacs, and to translate it to standard Dimacs, and extensions and updates of plans.
    - 0.1   : 9.1.2011; systemic updates and improvements, extended existing adaptors (especially regarding statistics and transfers), hypergraph colouring (boolean and non-boolean).
+   - 0.1.1 : 14.7.2011; many corrections, improvements, extensions, and new applications for shuffling and sorting, for MaxSAT and PB translations, for input of partial assignments, for file surgery.
 
 */
 
