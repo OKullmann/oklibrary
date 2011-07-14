@@ -9,14 +9,11 @@
 # Input #
 # #######
 
-# Reading the output of a picosat913 computation from filename and returning a
-# data.frame containing the statistics on the computation.
-# Inputs:
-#   stats_filename
-#     The filename containing the output of the solver run.
+# Reading the output of picosat913 and putting it into a dataframe.
+# Input:
+#   stats_filename: The filename containing the output of a solver run.
 # Output:
-#   Statistics corresponding to the run of the solver on filename.
-#   A data.frame with a single row with the following fields in the
+#   A dataframe containing a single row with the following fields in the
 #   following order:
 #
 #     filename (string): Name of the DIMACS file the solver was run on.
@@ -27,7 +24,7 @@
 #     failed_l (int): Number of forced assignments found using
 #       failed literal reductions.
 #     conflicts (int): Number of conflicts.
-#     decisions (int): Number of "decisions".
+#     decisions (int): Number of decisions.
 #     fixed_vars (int): Number of variables fixed during search.
 #     learned_l (int): Number of literals determined by conflict
 #       clause analysis.
@@ -37,8 +34,8 @@
 #     mem (double): Maximum amount of main memory in Megabytes used.
 #     time (double): Total time taken in seconds to solve.
 #
-# Note this function will not read the output of any of the precosat solvers.
-#  
+# For reading many files, see read_picosat_outputs below.
+#
 read_picosat_output = function(stats_filename, ...) {
   S = system(paste("cat ", stats_filename," | grep \"^c\\|s\""), intern=TRUE)
   result = list()
@@ -96,22 +93,11 @@ read_picosat_output = function(stats_filename, ...) {
   }
   data.frame(result)
 }
-# From the following picosat913 output (in sbox.result):
-# 
-# c PicoSAT SAT Solver Version 913
-# c Copyright (c) 2006 - 2009 Armin Biere JKU Linz
-# c gcc -Wall -Wextra -m32 -static -DNDEBUG -O3 -fomit-frame-pointer -finline-limit=1000000
-# c
+# EXAMPLE, using the following picosat913 output (shortened, in
+# sbox.result)
 # c parsing test1.cnf
 # c parsed header 'p cnf 8 240'
-# c initialized 8 variables
-# c found 240 non trivial clauses
-# c
-# *snip*
-# c
 # s SATISFIABLE
-# v -1 -2 -3 -4 -5 6 7 -8 0
-# c
 # c 0 iterations
 # c 0 restarts
 # c 0 failed literals
@@ -123,14 +109,12 @@ read_picosat_output = function(stats_filename, ...) {
 # c 11 propagations
 # c 100.0% variables used
 # c 0.0 seconds in library
-# c 0.0 megaprops/second
 # c 1 simplifications
 # c 0 reductions
-# c 0.0 MB recycled
 # c 0.0 MB maximally allocated
 # c 0.0 seconds total run time
 #
-# we get the following data.frame:
+# We get the following dataframe:
 #
 # R> oklib_load_all()
 # R> E = read_picosat_output("sbox.result")
@@ -141,36 +125,15 @@ read_picosat_output = function(stats_filename, ...) {
 # 1          0        13         0   11     1   0    0
 #
 
-# Reading the outputs of picosat913 computations from stats_filename_l, a list
-# of filenames. A data.frame containing the statistics on the computations
-# is returned.
-# Inputs:
-#   stats_filename_l
-#     A list of filenames each containing the output of a solver run.
+# Takes a list of files with output of picosat913, and puts the data
+# into a dataframe.
+# Input:
+#   stats_filename_l: A list of filenames for outputs of solver runs.
 # Output:
-#   A data.frame with a row for each file in stats_filename_l. Each row
-#   contains the following fields in the following order:
+#   A dataframe with a row for each file in stats_filename_l.
+#   Specification as read_minisat_output above.
+# See below for an example for reading all files in a directory.
 #
-#     filename (string): Name of the DIMACS file the solver was run on.
-#     n (int): Initial number of variables.
-#     c (int): Initial number of clauses.
-#     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
-#     restarts (int): Number of restarts.
-#     failed_l (int): Number of forced assignments found using
-#       failed literal reductions.
-#     conflicts (int): Number of conflicts.
-#     decisions (int): Number of "decisions".
-#     fixed_vars (int): Number of variables fixed during search.
-#     learned_l (int): Number of literals determined by conflict
-#       clause analysis.
-#     deleted_l (double): Percentage of literals deleted.
-#     prop (int): Total number of unit-clause propagations.
-#     simps (int): Total number of simplications performed.
-#     mem (double): Maximum amount of main memory in Megabytes used.
-#     time (double): Total time taken in seconds to solve.
-#
-# Note this function will not read the output of any of the precosat solvers.
-#  
 read_picosat_outputs = function(filenames) {
  result_df = NULL
  for(file in filenames) {
@@ -178,23 +141,12 @@ read_picosat_outputs = function(filenames) {
  }
  result_df
 }
-# From the following picosat913 outputs
-# (in testdir/test1.result and testdir/test2.result):
-# 
-# c PicoSAT SAT Solver Version 913
-# c Copyright (c) 2006 - 2009 Armin Biere JKU Linz
-# c gcc -Wall -Wextra -m32 -static -DNDEBUG -O3 -fomit-frame-pointer -finline-limit=1000000
-# c
+# EXAMPLE, using the following picosat913 outputs (shortened
+# in testdir/test1.result and testdir/test2.result):
+#
 # c parsing test1.cnf
 # c parsed header 'p cnf 8 240'
-# c initialized 8 variables
-# c found 240 non trivial clauses
-# c
-# *snip*
-# c
 # s SATISFIABLE
-# v -1 -2 -3 -4 -5 6 7 -8 0
-# c
 # c 0 iterations
 # c 0 restarts
 # c 0 failed literals
@@ -206,29 +158,15 @@ read_picosat_outputs = function(filenames) {
 # c 11 propagations
 # c 100.0% variables used
 # c 0.0 seconds in library
-# c 0.0 megaprops/second
 # c 1 simplifications
 # c 0 reductions
-# c 0.0 MB recycled
 # c 0.0 MB maximally allocated
 # c 0.0 seconds total run time
 #
 # and
 #
-# c PicoSAT SAT Solver Version 913
-# c Copyright (c) 2006 - 2009 Armin Biere JKU Linz
-# c gcc -Wall -Wextra -m32 -static -DNDEBUG -O3 -fomit-frame-pointer -finline-limit=1000000
-# c
 # c parsing test2.cnf
 # c parsed header 'p cnf 16 480'
-# c initialized 16 variables
-# c found 480 non trivial clauses
-# c
-# *snip*
-# c
-# s SATISFIABLE
-# v -1 -2 -3 -4 -5 6 7 -8 9 10 11 12 13 14 15 16 0
-# c
 # c 0 iterations
 # c 0 restarts
 # c 0 failed literals
@@ -240,14 +178,12 @@ read_picosat_outputs = function(filenames) {
 # c 22 propagations
 # c 100.0% variables used
 # c 0.0 seconds in library
-# c 0.0 megaprops/second
 # c 2 simplifications
 # c 0 reductions
-# c 0.0 MB recycled
 # c 0.0 MB maximally allocated
 # c 0.1 seconds total run time
 #
-# we get the following data.frame:
+# We get the following dataframe:
 #
 # R> oklib_load_all()
 # R> E = read_picosat_outputs(Sys.glob("testdir/*.result"))

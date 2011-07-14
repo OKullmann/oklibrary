@@ -13,7 +13,7 @@
 # Input:
 #   stats_filename: The file containing the output of a solver-run.
 # Output:
-#   A data.frame, containing in a single row the following fields in the
+#   A dataframe, containing in a single row the following fields in the
 #   following order:
 #
 #     n (int): Initial number of variables.
@@ -28,7 +28,7 @@
 #     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
 #     filename (string) : Name of the input-file.
 #
-# For reading many files, see read_minisat_output below.
+# For reading many files, see read_minisat_outputs below.
 
 read_minisat_output = function(stats_filename) {
   S = system(paste("cat ", stats_filename,
@@ -99,7 +99,7 @@ read_minisat_output = function(stats_filename) {
 #
 # SATISFIABLE
 #
-# We get the following data.frame:
+# We get the following dataframe:
 #
 # R> oklib_load_all()
 # R> E = read_minisat2_output("test1.result")
@@ -113,9 +113,9 @@ read_minisat_output = function(stats_filename) {
 # Takes a list of files with output of a minisat-like solver, and puts the
 # data into a dataframe.
 # Input:
-#   stats_filename_l: A list of filenames for outputs of a solver runs.
+#   stats_filename_l: A list of filenames for outputs of solver runs.
 # Output:
-#   A data.frame with a row for each file in stats_filename_l.
+#   A dataframe with a row for each file in stats_filename_l.
 #   Specification as read_minisat_output above.
 # See below for an example for reading all files in a directory.
 
@@ -157,7 +157,7 @@ read_minisat_outputs = function(filenames) {
 #
 # SATISFIABLE
 #
-# We get the following data.frame:
+# We get the following dataframe:
 #
 # R> oklib_load_all()
 # R> E = read_minisat_outputs(Sys.glob("testdir/*.result"))
