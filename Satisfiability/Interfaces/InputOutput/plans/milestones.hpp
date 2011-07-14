@@ -16,26 +16,12 @@ License, or any later version. */
   \par
    In Interfaces/InputOutput/MinOnes2WeightedMaxSAT.cpp the following topics
    are handled:
-    - Improve specification
     - Add application tests : DONE
-
-  \par
-   In Interfaces/InputOutput/FilterDimacs.cpp the following topics
-   are handled:
-    - Add application tests
-    - Weak implementation
-    - Move CLSAdaptorFilter
 
   \par
    In Interfaces/InputOutput/SortByClauseLength.cpp the following topics
    are handled:
-    - Move AllEqual to OrderConstructions
     - Add application tests : DONE
-
-  \par
-   In Interfaces/InputOutput/AppendDimacs.cpp the following topics
-   are handled:
-    - Move CLSAdaptorAppend
 
   \par
    In Interfaces/InputOutput/plans/PartialAssignments.hpp the following topics
@@ -50,7 +36,6 @@ License, or any later version. */
   \par
    In Interfaces/InputOutput/RandomShuffleDimacs.cpp the following topics
    are handled:
-    - Seed should be uint32_t
     - Add application tests : DONE
 
   \par
@@ -60,6 +45,36 @@ License, or any later version. */
 
 
   \par Version 0.1.2 :
+
+  \par
+   In Interfaces/InputOutput/MinOnes2WeightedMaxSAT.cpp the following topics
+   are handled:
+    - Improve specification
+
+  \par
+   In Interfaces/InputOutput/FilterDimacs.cpp the following topics
+   are handled:
+    - Add application tests
+    - Weak implementation
+    - Move CLSAdaptorFilter
+
+  \par
+   In Interfaces/InputOutput/SortByClauseLength.cpp the following topics
+   are handled:
+    - Move AllEqual to OrderConstructions
+
+  \par
+   In Interfaces/InputOutput/AppendDimacs.cpp the following topics
+   are handled:
+    - Move CLSAdaptorAppend
+
+  \par
+   In Interfaces/InputOutput/RandomShuffleDimacs.cpp the following topics
+   are handled:
+    - Seed should be uint32_t
+
+
+  \par Version 0.1.3 :
 
   \par
    In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
@@ -85,7 +100,7 @@ License, or any later version. */
     - Write unit-tests
 
 
-  \par Version 0.1.3 :
+  \par Version 0.1.4 :
 
   \par
    In Interfaces/InputOutput/MinOnes2WeightedMaxSAT.cpp the following topics
@@ -106,7 +121,7 @@ License, or any later version. */
     - Improving output
 
 
-  \par Version 0.1.4 :
+  \par Version 0.1.5 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -124,7 +139,7 @@ License, or any later version. */
     - Complete the doxygen-documentation.
 
 
-  \par Version 0.1.5 :
+  \par Version 0.1.6 :
 
   \par
    In InputOutput/plans/general.hpp the following topics are handled:
@@ -140,7 +155,7 @@ License, or any later version. */
     - Write docus
 
 
-  \par Version 0.1.6 :
+  \par Version 0.1.7 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -153,7 +168,7 @@ License, or any later version. */
     - Write demos
 
 
-  \par Version 0.1.7 :
+  \par Version 0.1.8 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -167,7 +182,7 @@ License, or any later version. */
     - Consider the code-comments regarding checking
 
 
-  \par Version 0.1.8 :
+  \par Version 0.1.9 :
 
   \par
    In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
@@ -177,7 +192,7 @@ License, or any later version. */
     - Write concept for InputOutput::Statistics class
 
 
-  \par Version 0.1.9 :
+  \par Version 0.1.10 :
 
   \par
    In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
