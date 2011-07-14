@@ -12,9 +12,31 @@ License, or any later version. */
 
   \todo Parallel SAT solvers
   <ul>
-   <li> manySAT is proprietary? </li>
+   <li> manySAT is proprietary?
+    <ul>
+     <li> See LICENSE in
+     http://www.cril.univ-artois.fr/~jabbour/manysat2.0.zip. </li>
+     <li> manySAT lists the minisat LICENSE as it's LICENSE file. </li>
+     <li> Technically, the license might only be for the minisat "portion"
+     of manysat. We should contact the authors. </li>
+    </ul>
+   </li>
    <li> NAGSAT? </li>
-   <li> PMSAT? </li>
+   <li> PMSAT
+    <ul>
+     <li> PMSAT is based on minisat, and uses the same license (MIT). </li>
+     <li> From the website:
+     \verbatim
+Both programs are under MIT License:
+
+PMSat -- Copyright (c) 2006-2007, Luís Gil
+MiniSat -- Copyright (c) 2003-2005, Niklas Eén, Niklas Sörensson
+<snip>
+     \endverbatim
+     See http://algos.inesc-id.pt/algos/software.php?soft=2.
+     </li>
+    </ul>
+   </li>
    <li> DONE
    There is a parallel version of Precosat: See Plingeling below. </li>
   </ul>
