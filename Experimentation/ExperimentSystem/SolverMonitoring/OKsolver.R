@@ -30,7 +30,7 @@ read_oksolver_mon = function(filename, ...) {
 # Input:
 #   stats_filename: The filename containing the output of a solver-run.
 # Output:
-#   A data.frame, containing a single row with the following fields in the
+#   A dataframe, containing a single row with the following fields in the
 #   following order:
 #
 #     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0), UNKNOWN (2).
@@ -174,7 +174,7 @@ read_oksolver_output = function(filename, ...) {
 # c maximal_number_of_added_2-clauses     0
 # c file_name                             test1.cnf
 #
-# We get the following data.frame:
+# We get the following dataframe:
 #
 # > oklib_load_all()
 # > E = read_oksolver_output("test.result")
@@ -194,7 +194,7 @@ read_oksolver_output = function(filename, ...) {
 # Input:
 #   stats_filename_l: A list of filenames for outputs of solver runs.
 # Output:
-#   A data.frame with a row for each file in stats_filename_l.
+#   A dataframe with a row for each file in stats_filename_l.
 #   Specification as read_oksolver_output above.
 # See below for an example for reading all files in a directory.
 
@@ -264,7 +264,7 @@ read_oksolver_outputs = function(filenames) {
 # c maximal_number_of_added_2-clauses     0
 # c file_name                             test2.cnf
 #
-# We get the following data.frame:
+# We get the following dataframe:
 #
 # > oklib_load_all()
 # > E = read_oksolver_outputs(Sys.glob("testdir/*.result"))
