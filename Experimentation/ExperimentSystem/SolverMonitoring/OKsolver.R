@@ -26,13 +26,11 @@ read_oksolver_mon = function(filename, ...) {
 # which eliminates the first 100 rows from the data frame.
 
 
-# Reading the output of an OKsolver_2002 computation from stats_filename and
-# returning a data.frame containing the statistics on the computation.
-# Inputs:
-#   stats_filename
-#     The filename containing the output of a run of the OKsolver_2002.
+# Reading the output of OKsolver_2002 solver, and putting it into a dataframe.
+# Input:
+#   stats_filename: The filename containing the output of a solver-run.
 # Output:
-#   A data.frame with a single row with the following fields in the
+#   A data.frame, containing a single row with the following fields in the
 #   following order:
 #
 #     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0), UNKNOWN (2).
@@ -63,6 +61,8 @@ read_oksolver_mon = function(filename, ...) {
 #     new_2c (int): New binary clauses learnt.
 #     max_added_2c (int): Maximum number of new binary clauses added.
 #     filename (string): Name of the DIMACS file input to OKsolver_2002.
+#
+# For reading many files, see read_oksolver_outputs below.
 #
 read_oksolver_output = function(filename, ...) {
   S = system(paste("cat ", filename," | grep \"^c\\|s\""), intern=TRUE)
@@ -144,7 +144,8 @@ read_oksolver_output = function(filename, ...) {
   }
   data.frame(result)
 }
-# For example, the following output from OKsolver_2002 (in test.result):
+# EXAMPLE, using the following OKsolver_2002 output (shortened,
+# in test.result):
 #
 # s SATISFIABLE
 # c sat_status                            1
@@ -160,7 +161,7 @@ read_oksolver_output = function(filename, ...) {
 # c number_of_2-clauses_after_reduction   6
 # c running_time(sec)                     0.0
 # c number_of_nodes                       10
-# c number_of_single_nodes                
+# c number_of_single_nodes                0
 # c number_of_quasi_single_nodes          1
 # c number_of_2-reductions                4
 # c number_of_pure_literals               0
@@ -173,7 +174,7 @@ read_oksolver_output = function(filename, ...) {
 # c maximal_number_of_added_2-clauses     0
 # c file_name                             test1.cnf
 #
-# yields the following data.frame:
+# We get the following data.frame:
 #
 # > oklib_load_all()
 # > E = read_oksolver_output("test.result")
@@ -181,52 +182,22 @@ read_oksolver_output = function(filename, ...) {
 #   sat init_max_cl  n   c    l init_unit diff_max_cl diff_n diff_c diff_l
 # 1   1          10 10 960 9600         2           1      2     13     11
 #   bin_c time nodes single_nodes quasi_single_nodes r2 pure_lits aut
-# 1     6    0    10           NA                  1  4         0   5
+# 1     6    0    10            0                  1  4         0   5
 #   missed_1nodes depth tab_enlarge aut1 new_2c max_added_2c
 # 1             7     8           0    0      0            0
 #    filename
 # 1 test1.cnf
 #
 
-# Reading outputs of OKsolver_2002 computations from files in the list
-# stats_filename_l and returning a data.frame containing the statistics on
-# the computations.
-# Inputs:
-#   stats_filename_l
-#     A list of filenames each containing the output of a run of the
-#     OKsolver_2002.
+# Takes a list of files with output of OKsolver_2002, and puts the data into
+# a dataframe.
+# Input:
+#   stats_filename_l: A list of filenames for outputs of solver runs.
 # Output:
-#   A data.frame with a row for each filename in stats_filename_l. Each row
-#   contains the following fields in following order:
-#     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0), UNKNOWN (2).
-#     init_max_cl (int): Initial maximum clause-length.
-#     n (int): Initial number of variables.
-#     c (int): Initial number of clauses.
-#     l (int): Initial number of literal occurrences.
-#     init_unit (int): Number of unit-clause propagations.
-#     diff_max_cl (int): Difference between maximum clause-length before
-#       and after preprocessing.
-#     diff_n (int): Diff. in variables before/after preprocessing.
-#     diff_c (int): Diff. in clauses before/after preprocessing.
-#     diff_l (int): Diff. in literal occurrences before/after preproc.
-#     bin_c (int): Number of 2-clauses after preproc.
-#     time (double): Total time in seconds to solve the problem.
-#     nodes (int): Number of nodes in the search tree.
-#     single_nodes (int): Number of single nodes in search tree.
-#     quasi_single_nodes (int): Number of quasi-single nodes.
-#     r2 (int): Number of r_2-reductions.
-#     pure_lits (int): Pure literals found during search.
-#     aut (int): Number of autarkies.
-#     missed_1nodes (int): Nodes which would have been found as
-#       single nodes if the the "other" branch had been chosen first.
-#     depth (int): Maximum depth of the search tree.
-#     tab_enlarge (int): Table enlargements during the search.
-#     aut1 (int): Number of 1-autarkies. A 1-autarky satisfies all clauses
-#       except one.
-#     new_2c (int): New binary clauses learnt.
-#     max_added_2c (int): Maximum number of new binary clauses added.
-#     filename (string): Name of the DIMACS file input to OKsolver_2002.
-#
+#   A data.frame with a row for each file in stats_filename_l.
+#   Specification as read_oksolver_output above.
+# See below for an example for reading all files in a directory.
+
 read_oksolver_outputs = function(filenames) {
   result_df = NULL
   for(file in filenames) {
@@ -234,8 +205,8 @@ read_oksolver_outputs = function(filenames) {
  }
  result_df
 }
-# For example, the following outputs from OKsolver_2002
-# (in testdir/test1.result and testdir/test2.result):
+# EXAMPLE, using the following OKsolver_2002 outputs (shortened, in
+# testdir/test1.result and testdir/test2.result):
 #
 # s SATISFIABLE
 # c sat_status                            1
@@ -251,7 +222,7 @@ read_oksolver_outputs = function(filenames) {
 # c number_of_2-clauses_after_reduction   6
 # c running_time(sec)                     0.0
 # c number_of_nodes                       10
-# c number_of_single_nodes                
+# c number_of_single_nodes                0
 # c number_of_quasi_single_nodes          1
 # c number_of_2-reductions                4
 # c number_of_pure_literals               0
@@ -280,7 +251,7 @@ read_oksolver_outputs = function(filenames) {
 # c number_of_2-clauses_after_reduction   64
 # c running_time(sec)                     0.1
 # c number_of_nodes                       243
-# c number_of_single_nodes                
+# c number_of_single_nodes                0
 # c number_of_quasi_single_nodes          0
 # c number_of_2-reductions                23
 # c number_of_pure_literals               1
@@ -293,7 +264,7 @@ read_oksolver_outputs = function(filenames) {
 # c maximal_number_of_added_2-clauses     0
 # c file_name                             test2.cnf
 #
-# yield the data.frame:
+# We get the following data.frame:
 #
 # > oklib_load_all()
 # > E = read_oksolver_outputs(Sys.glob("testdir/*.result"))
@@ -303,8 +274,8 @@ read_oksolver_outputs = function(filenames) {
 # 1   1          10 10  960  9600         2           1      2     13     11
 # 2   1          10 12 1060 24500         4           3      4     42    103
 #   bin_c time nodes single_nodes quasi_single_nodes r2 pure_lits aut
-# 1     6  0.0    10           NA                  1  4         0   5
-# 2    64  0.1   243           NA                  0 23         1   5
+# 1     6  0.0    10            0                  1  4         0   5
+# 2    64  0.1   243            0                  0 23         1   5
 #   missed_1nodes depth tab_enlarge aut1 new_2c max_added_2c  filename
 # 1             7     8           0    0      0            0 test1.cnf
 # 2             9    10           0    0      0            0 test2.cnf
@@ -312,7 +283,8 @@ read_oksolver_outputs = function(filenames) {
 # Note the use of "Sys.glob" to produce a list of files in a directory based
 # on a glob pattern.
 #
-  
+
+
 # ##############
 # # Evaluation #
 # ##############
