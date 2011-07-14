@@ -12,7 +12,10 @@ License, or any later version. */
 
   \bug Update
   <ul>
-   <li> Commit b47ed2bac74daaf648852bba0c61f26b3e7f7c8f added some
+   <li> The generated 1-base for the 4-bit S-box also needs to be added.
+   </li>
+   <li> DONE (see "Basic Data")
+   Commit b47ed2bac74daaf648852bba0c61f26b3e7f7c8f added some
    representation --- where does this come from, and where it is represented
    here? </li>
   </ul>
@@ -91,10 +94,13 @@ shell> hardness_cs(setify(Sbox_4_min[2]));
 
   \todo Overview
   <ul>
-   <li> We do *not* currently know the minimum CNF size for the 4-bit Sbox.
-   </li>
+   <li> The minimum size of a CNF representation for the AES 4-bit S-box
+   is 22; see "Basic data". </li>
    <li> Here we should have an overview of the current state of this
    investigation and open problems. </li>
+   <li> DONE (now we do; see "Basic data")
+   We do *not* currently know the minimum CNF size for the 4-bit Sbox.
+   </li>
   </ul>
 
 
