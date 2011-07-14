@@ -396,10 +396,16 @@ License, or any later version. */
      <li> march_pl </li>
     </ul>
    </li>
-   <li> The following solvers (from the SAT 2010 race) are not in the library,
+   <li> Is it possible in the time constraints to run ALL of these solvers
+   for every experiment? </li>
+   <li> Any solvers to be used which are not currently in the library, need
+   to be added to ExternalSources (see also "Add todos for SAT-Race 2010 SAT
+   solvers" in BuildSystem/ExternalSources/SpecialBuilds/plans/SAT.hpp).
+   </li>
+   <li> DONE (moved to Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp)
+   The following solvers (from the SAT 2010 race) are not in the library,
    but should be added to the library (see
-   BuildSystem/ExternalSources/plans/SAT.hpp): ??? this should go to the
-   build-system plans ???
+   BuildSystem/ExternalSources/plans/SAT.hpp):
    <ul>
     <li> Barcelogic </li>
     <li> borg-sat </li>
@@ -418,12 +424,6 @@ License, or any later version. */
     <li> SAT-Power </li>
     <li> SATHYS </li>
    </ul>
-   </li>
-   <li> Is it possible in the time constraints to run ALL of these solvers
-   for every experiment? </li>
-   <li> Any solvers to be used which are not currently in the library, need
-   to be added to ExternalSources (see also "Add todos for SAT-Race 2010 SAT
-   solvers" in BuildSystem/ExternalSources/SpecialBuilds/plans/SAT.hpp).
    </li>
   </ul>
 

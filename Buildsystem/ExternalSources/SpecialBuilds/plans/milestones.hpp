@@ -76,6 +76,7 @@ License, or any later version. */
    topics are handled:
     - Install Relsat
     - Parallel SAT solvers
+    - SAT solvers
     - (P)Lingeling
     - DES generator
     - Grasp uses system C++ libraries

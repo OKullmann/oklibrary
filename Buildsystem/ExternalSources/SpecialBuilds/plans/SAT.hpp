@@ -42,6 +42,35 @@ MiniSat -- Copyright (c) 2003-2005, Niklas Eén, Niklas Sörensson
   </ul>
 
 
+  \todo SAT solvers
+  <ul>
+   <li> The following solvers are currently not in the library, and
+   must be investigated, and then added to the library:
+    <ul>
+     <li> Barcelogic </li>
+     <li> borg-sat </li>
+     <li> CircleSAT </li>
+     <li> CirCUs </li>
+     <li> CryptoMiniSAT </li>
+     <li> glucose </li>
+     <li> glucoER </li>
+     <li> kw </li>
+     <li> LySAT </li>
+     <li> oprailleur </li>
+     <li> riss </li>
+     <li> rcl </li>
+     <li> SApperloT </li>
+     <li> SAT-Power </li>
+     <li> SATHYS </li>
+    </ul>
+   </li>
+   <li> Some of these solvers will be parallel solvers, in which case,
+   discussion should go to "Parallel SAT solvers". </li>
+   <li> There are all new solvers available at SAT 2011; these need to be
+   added to the list. </li>
+  </ul>
+
+
   \todo (P)Lingeling
   <ul>
    <li> DONE (installed)
