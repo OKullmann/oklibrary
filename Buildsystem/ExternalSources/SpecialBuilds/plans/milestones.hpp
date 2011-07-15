@@ -125,6 +125,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/PseudoBoolean.hpp
    the following topics are handled:
+    - minisat+ input format
     - BoolVar/PB
 
   \par
