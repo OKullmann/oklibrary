@@ -26,4 +26,14 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Estimated time needed
+  <ul>
+   <li> Instead of "A" we write for example "A1.5" to indicate, that roughly
+   1 1/2 hours should be spend. </li>
+   <li> Such effort estimation are needed to give a better idea what the
+   task should involve, and also to see the total requirement for a
+   developer. </li>
+  </ul>
+
 */
