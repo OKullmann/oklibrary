@@ -14,15 +14,46 @@ License, or any later version. */
   <ul>
    <li> We offer translations to pseudo-boolean instances
    (Satisfiability/Interfaces/InputOutput/MinOnes2PseudoBoolean.cpp)
-   but no pseudo-boolean solvers. </li>
-   <li> We should add all known pseudo-boolean solvers to the library. 
+   but only one pseudo-boolean solver (minisat+). </li>
+   <li> We should add all known pseudo-boolean solvers to the library.
    </li>
+  </ul>
+
+
+  \todo minisat+ input format
+  <ul>
+   <li> The minisat+ input format is the OPB format from
+   PB05; see http://www.cril.univ-artois.fr/PB05/solver_req.html.
+   </li>
+   <li> Since PB06, the "*" between a variable and it's weight has
+   been removed. </li>
+   <li> So instead of writing a pseudo-boolean constraint like:
+   \verbatim
++1 * x1 +2 * x2 >= 1;
+   \endverbatim
+   the format is now:
+   \verbatim
++1 x1 +2 x2 >= 1;
+   \endverbatim
+   </li>
+   <li> There are several options:
+    <ul>
+     <li> A patch for minisat+ which allows it to read the new format. </li>
+     <li> A wrapper script around minisat+ which converts the new OPB format
+     to the old. </li>
+     <li> A script or manual conversion of new OPB files to old, before using
+     minisat+. </li>
+    </ul>
+   </li>
+   <li> The best option is to patch minisat+, as the old format is no longer
+   used and we, as users of minisat+, shouldn't have to worry about such
+   things. </li>
   </ul>
 
 
   \todo borg-pb
   <ul>
-   <li> Available at 
+   <li> Available at
    http://nn.cs.utexas.edu/pages/research/borg/resources.html . </li>
    <li> Github repository at
    https://github.com/borg-project/pb-competition-borg . </li>

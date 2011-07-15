@@ -896,6 +896,9 @@ OKplatform/bin> ln -s $OKPLATFORM/ExternalSources/Installations/SAT/Minisat/mini
      </li>
      <li> What is now the input format?
       <ul>
+       <li> The input format is the (now old) OPB format.
+       See PB 2005 at http://www.cril.univ-artois.fr/PB05/solver_req.html.
+       </li>
        <li> It seems only lines of the form
        \verbatim
 +1*v1 +2*v4 -3*v11 >= 4;
@@ -905,6 +908,11 @@ OKplatform/bin> ln -s $OKPLATFORM/ExternalSources/Installations/SAT/Minisat/mini
        <li> Variable names are identifiers, and start with a letter. </li>
        <li> The "+"-symbols are not needed. </li>
        <li> Comment lines start with "*". </li>
+       <li> In more recent pseudo-boolean competitions (PB06 onwards)
+       the "*" symbol in-between a variable and it's weight was removed.
+       See "minisat+ input format" in
+       Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp.
+       </li>
       </ul>
      </li>
     </ol>
