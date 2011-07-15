@@ -87,7 +87,12 @@ phi_n(i) = phi(i) if phi(i) # n
 
   \todo Split Generators/Generators.mac
   <ul>
-   <li> Pigeonhole formulas </li>
+   <li> Pigeonhole formulas and everything related to "Pigeonhole.mac"
+    <ol>
+     <li> The spelling "pigeonhole" is to be used. </li>
+     <li> Of course, all related plans go to "Pigeonhole.hpp". </li>
+    </ol>
+   </li>
    <li> DONE %Ramsey problems </li>
    <li> Special minimally unsatisfiable clause-sets
     <ol>
