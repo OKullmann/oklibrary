@@ -239,7 +239,7 @@ phi_n(i) = phi(i) if phi(i) # n
      <li> The domain of the condition C(v,r) is {m_r,a_v} plus a_w for the
      neighbours w of v. </li>
      <li> C(v,r) is a conjunction of c implications, each having as
-     premisse that m_r = i for i in {1,...,c}, and having as conclusion
+     premiss that m_r = i for i in {1,...,c}, and having as conclusion
      that a_v has value r iff at least one of its neighbours of colour i
      (initially) has value r-1. </li>
      <li> This is not yet complete, since "reached stays reached" is not
