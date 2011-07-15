@@ -10,6 +10,42 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
+  \bug gcj doesn't compile java files
+  <ul>
+   <li> Compiling the following java file using gcj:
+   \verbatim
+class Test {
+    public static void main (String args[]) {
+        System.out.println("Test");
+    }
+}
+   \endverbatim
+   yields:
+   \verbatim
+> $OKPLATFORM/ExternalSources/Installations/Gcc/4.5.3/bin/gcj Test.java
+gcj: error trying to exec 'ecj1': execvp: No such file or directory
+   \endverbatim
+   </li>
+   <li> gcj now requires ecj to be downloaded before building;
+   see "--with-ecj-jar" at http://gcc.gnu.org/install/configure.html . </li>
+   </li>
+   <li> Apparently, ecj is the Eclipse java compiler, and is under the
+   Eclipse Public License. The difference in license is why ecj must be
+   downloaded separately. </li>
+   <li> One can run:
+   \verbatim
+> $OKPLATFORM/ExternalSources/builds/Gcc/gcc-4.5.3/contrib/download_ecj
+   \endverbatim
+   to download ecj.jar to the gcc directory. If this step is run before
+   configure, then Gcj should build correctly.
+   </li>
+   <li> MG is testing building with ecj.jar in the Gcc directory to ensure
+   Gcc builds correct. </li>
+   <li> However, the difference in licensing raises the issue of whether we
+   want to use gcj, and hence ecj, in the OKlibrary. </li>
+  </ul>
+
+
   \todo Providing gcc 4.1.2
   <ul>
    <li> Special 412-targets:
