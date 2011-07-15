@@ -10,6 +10,20 @@ License, or any later version. */
   \brief Plans regarding SAT competitions
 
 
+  \todo Update and completion of plans regarding SAT 2011
+  <ul>
+   <li> The SAT competitions are nearly finished now (except of the PB
+   evaluation, which will be repeated). </li>
+   <li> All results of the competition should be made available (in edited
+   form, of course) on our benchmark sites. </li>
+   <li> Also links to competition pages are needed there. </li>
+   <li> Plus general comments and explanations. </li>
+   <li> The successful solvers need to be installed. </li>
+   <li> All todos need to be cleaned-up; most of them removed (possible
+   with transfer to docus). </li>
+  </ul>
+
+
   \todo Benchmarks for SAT 2011
   <ul>
    <li> We should submit benchmarks for the SAT-2011-competition. </li>
