@@ -20,6 +20,33 @@ License, or any later version. */
   </ul>
 
 
+  \todo %Tools for PB -> SAT translation
+  <ul>
+   <li> We need a list of all tools for the conversion of pseudo-boolean
+   problems to SAT. </li>
+   <li> The input format for the pseudo-boolean problems should be the
+   OPB format used at the pseudo-boolean competitions; see
+   http://www.cril.univ-artois.fr/PB11/format.pdf. </li>
+   <li> %Tools:
+    <ul>
+     <li> BoolVar allows generation of SAT instances from a pseudo-boolean
+     problem modelled in Java; see "BoolVar/PB". </li>
+     <li> minisat+ allows the translation of a pseudo-boolean problem to
+     SAT using the option "-cnf=":
+      <ul>
+       <li> minisat+ also offers the ability to customise how constraints
+       are translated (adders, sorting networks, bdds, "mixed" etc) using the
+       options -ca, -cs, -cb and -cm. </li>
+       <li> However, minisat+ doesn't currently support the new OPB format;
+       see "minisat+ input format". </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li> All tools should be installed in the OKlibrary. </li>
+  </ul>
+
+
   \todo minisat+ input format
   <ul>
    <li> The minisat+ input format is the OPB format from
