@@ -75,7 +75,22 @@ phi_n(i) = phi(i) if phi(i) # n
    <li> F_S is then the union of F_n for all n in {1,...,m-1}. </li>
    <li> The clause-set union(weak_php_fcs(m+1,m),F_S) then has a polynomial
    size resolution proof. </li>
-   <li> An explanation of the resolution proof should be added here. </li>
+   <li> Construction of the resolution proof:
+    <ol>
+     <li> First a representation of resolution proofs is needed. </li>
+     <li> Labelled trees are a reasonable starting point, and are already
+     there. </li>
+     <li> Those trees which represent dag-like structures must have identical
+     subtrees where clauses are "reused". </li>
+     <li> The notions (and tools) for such presentations of resolution proofs
+     of course go to module Resolution. </li>
+     <li> A first tool is a correctness-checker. </li>
+     <li> Once this has been established, the short resolution refutations of
+     PHP have to be implemented. </li>
+     <li> This is the only way that we can check correctness of the ER clauses!
+     </li>
+    </ol>
+   </li>
    <li> See weak_php_unsat_ext_fcs in
    ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac
    for the generator of the weak pigeon-hole principle with the
