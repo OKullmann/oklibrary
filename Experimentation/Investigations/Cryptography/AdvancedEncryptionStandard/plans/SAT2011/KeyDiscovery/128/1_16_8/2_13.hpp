@@ -15,6 +15,7 @@ License, or any later version. */
    <li> In this file, we collect the investigations into translations of
    2 + 1/3 round small scale AES with one row, sixteen columns, using the
    8-bit field size. </li>
+   <li> In this file, we denote this AES instance by aes(2,1,16,8). </li>
    <li> The AES encryption scheme we model takes a 128-bit plaintext and
    128-bit key and outputs a 128-bit ciphertext. </li>
    <li> Each consequtive 8-bits (b_0,b_1,b_2,b_3,b_4,b_5,b_6,b_7) is
@@ -34,13 +35,24 @@ License, or any later version. */
    <li> The Sbox is non-linear permutation over the set of 4-bit elements,
    defined as inversion within the 4-bit field composed with an affine
    transformation. </li>
+   <li> For a full list of the possible translations, see
+   "Investigating dimensions" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   </li>
   </ul>
 
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the canonical translation.
+   <li> Translation of aes(2,1,16,4):
+    <ul>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> S-boxes are translated using the canonical translation;
+     see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+    </ul>
    </li>
    <li> Generating AES for 2 + 1/3 round:
    \verbatim

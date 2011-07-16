@@ -25,6 +25,7 @@ License, or any later version. */
    <li> In this file, we collect the investigations into translations of
    0 + 2/3 + 1/3 round small scale AES with four rows, four columns, using the
    8-bit field size. </li>
+   <li> In this file, we denote this AES instance by aes(0+2/3,4,4,8). </li>
    <li> The AES encryption scheme we model takes a 128-bit plaintext and
    128-bit key and outputs a 128-bit ciphertext. The plaintext, key and
    ciphertext are all considered, column by column, as 4x4 matrices of 8-bit
@@ -48,13 +49,27 @@ License, or any later version. */
    <li> The Sbox is non-linear permutation over the set of 8-bit elements,
    defined as inversion within the 8-bit field composed with an affine
    transformation. </li>
+   <li> For a full list of the possible translations, see
+   "Investigating dimensions" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   </li>
   </ul>
 
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the canonical translation.
+   <li> Translation of aes(0+2/3,4,4,8):
+    <ul>
+     <li> We treat S-boxes, field multiplications and additions as boxes.
+     </li>
+     <li> S-boxes and field multiplications are translated using the canonical
+     translation; see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
    </li>
    <li> Generating AES-instance for 0 + 2/3 + 1/3 round:
    \verbatim
