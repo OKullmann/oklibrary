@@ -60,55 +60,51 @@ shell> cat ssaes_r20_c1_rw1_e8_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    \endverbatim
    </li>
    <li> In this translation, we have:
-   <ul>
-    <li> Twenty full rounds (Key Addition, SubBytes, and diffusion operation).
-    </li>
-    <li> 20 Sboxes in the SubBytes operation
-    (1 rows * 1 columns * 20 rounds = 20). </li>
-    <li> 488 additions within the round and key additions, coming from:
-     <ul>
-      <li> 168 additions of arity 2 from key additions
-      (21 round keys * 8-bit additions = 168). </li>
-      <li> 320 additions of arity one from the identity matrix multiplication
-      in the diffusion operation
-      (1 rows * 1 columns * 2 directions * 8 bits * 20 rounds = 320).
-      </li>
-     </ul>
-    </li>
-    <li> 20 Sboxes in the AES key schedule
-    (1 rows * 20 rounds = 20). </li>
-    <li> 160 additions in the key schedule:
     <ul>
-     <li> 160 additions of arity two
-     (1 row * 1 column * 8 bits * 20 rounds = 160). </li>
+     <li> Twenty full rounds (Key Addition and SubBytes).
+     </li>
+     <li> 40 Sboxes:
+      <ul>
+       <li> 20 from SubBytes = 1 byte * 20 round; </li>
+       <li> 20 from key schedule = 1 row * 1 byte * 20 round. </li>
+      </ul>
+     </li>
+     <li> 648 additions:
+      <ul>
+       <li> 320 additions of arity 1:
+        <ul>
+         <li> 160 from forward MixColumns = 8 bits * 20 rounds; </li>
+         <li> 160 from inverse MixColumns = 8 bits * 20 rounds. </li>
+        </ul>
+       </li>
+       <li> 328 additions of arity 2:
+        <ul>
+         <li> 160 from key additions = 8 bits * 20 rounds; </li>
+         <li> 8 from final key addition = 8 bits; </li>
+         <li> 160 from the key schedule = 8 bits * 20 rounds. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li> 8 bits for the constant in the key schedule. </li>
     </ul>
-    </li>
-    <li> 160 bits for the constant in the key schedule
-    (8 bits * 20 rounds = 160).
-    </li>
-   </ul>
    </li>
-   <li> The number of clauses of each length in the translation, computed by:
+   <li> The number of clauses of each length in the canonical translation of
+   the S-box:
    \verbatim
-maxima> ncl_list_ss(20,1,1,4,false,aes_ts_box,aes_mc_bidirectional);
-[[1,160],[2,164480],[3,1312],[17,10240],[256,40]]
-maxima> ncl_list_ss_gen(10,1,1,4,ss_mixcolumns_matrix(2,4,1),[[2,'s2],[9,'s9],[16,'s16]],[],false,aes_mc_bidirectional);
-[[1,160],[2,40*s2+640],[3,1312],[9,40*s9],[16,40*s16]]
 maxima> ncl_list_full_dualts(8,16);
 [[2,4096],[17,256],[256,1]]
    \endverbatim
-   are comprised of:
-   <ul>
-    <li> 160 unit-clauses for the 4-bit constant in the key expansion. </li>
-    <li> 164480 binary clauses, coming from 40 Sboxes and 320 additions of
-    arity one (40 * 4096 + 320 * 2 = 164480). </li>
-    <li> 1312 ternary clauses, coming from 328 additions of arity two
-    (328 * 4 = 656). </li>
-    <li> 10240 clauses of length nine, coming from 40 Sboxes
-    (40 * 256 = 10240). </li>
-    <li> 40 clauses of length 256, coming from from 40 Sboxes
-    (40 * 1 = 40). </li>
-   </ul>
+   </li>
+   <li> This instance has the following number of clauses of length:
+    <ul>
+     <li> 1 : 160 = key schedule constant * 1; </li>
+     <li> 2 : 164480 = 40 S-boxes * 4096 + 320 "additions" (arity 1) * 2;
+     </li>
+     <li> 3 : 1312 = 328 additions (arity 2) * 4; </li>
+     <li> 17 : 10240 = 40 S-boxes * 256; </li>
+     <li> 256 : 40 = 40 S-boxes * 1. </li>
+    </ul>
    </li>
    <li> Then we run experiments for AES instances with one round, up to
    those with twenty rounds, and inspect the results for round 20.

@@ -56,14 +56,39 @@ shell> cat ssaes_r20_c2_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    \endverbatim
    </li>
    <li> In this translation, we have:
-   <ul>
-    <li> Twenty full rounds (Key Addition, SubBytes and MixColumns).
-    </li>
-    <li> 60 Sboxes (40 from SubBytes; 20 from key schedule). </li>
-    <li> 648 additions (168 from key additions; 320 from MixColumns
-    (encryption and decryption); 160 from Key Schedule). </li>
-    <li> 80 bits for the constant in the key schedule. </li>
-   </ul>
+    <ul>
+     <li> Twenty full rounds (Key Addition, SubBytes, and MixColumns
+     operation). </li>
+     <li> 60 Sboxes:
+      <ul>
+       <li> 20 from SubBytes = 1 byte * 20 round; </li>
+       <li> 40 from key schedule = 2 row * 1 byte * 20 round. </li>
+      </ul>
+     </li>
+     <li> 648 additions:
+      <ul>
+       <li> 320 additions of arity 1:
+        <ul>
+         <li> 160 from forward MixColumns = 8 bits * 20 round; </li>
+         <li> 160 from inverse MixColumns = 8 bits * 20 rounds. </li>
+        </ul>
+       </li>
+       <li> 248 additions of arity 2:
+        <ul>
+         <li> 160 from key additions = 8 bits * 20 round; </li>
+         <li> 8 from final key addition = 8 bits; </li>
+         <li> 80 from the key schedule = 4 bits * 1 column * 20 rounds. </li>
+        </ul>
+       </li>
+       <li> 80 additions of arity 3:
+        <ul>
+         <li> 80 from the key schedule = 4 bits * 1 column * 20 rounds. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li> 80 bits from the key schedule constant = 4 bits * 20 rounds. </li>
+    </ul>
    </li>
    <li> The additions are translated by their prime implicates. </li>
    <li> The S-boxes are translated by a 1-base representation. See
@@ -75,15 +100,13 @@ maxima> ncl_list_fcs(ev_hm(ss_sbox_rbase_cnfs,4));
 [[3,12],[4,15]]
    \endverbatim
    </li>
-   <li> The number of clauses of each length in the translation are:
-   <ul>
-    <li> 80 unit-clauses (key schedule constant). </li>
-    <li> 640 binary clauses (320 arity one "additions" from MixColumns). </li>
-    <li> 1712 ternary clauses (248 arity two additions: 168 key addition,
-    80 key schedule; 60 S-boxes). </li>
-    <li> 1540 clauses of length four (80 arity three additions from key
-    schedule; 60 S-boxes). </li>
-   </ul>
+   <li> This instance has the following number of clauses of length:
+    <ul>
+     <li> 1 : 80 = key schedule constant * 1; </li>
+     <li> 2 : 640 = 320 "additions" (arity 1) * 2; </li>
+     <li> 3 : 1712 = 60 S-boxes * 12 + 248 additions (arity 2) * 4; </li>
+     <li> 4 : 1540 = 60 S-boxes * 15 + 80 additions (arity 3) * 8. </li>
+    </ul>
    </li>
    <li> Generating 20 random plaintext-ciphertext pairs and running
    solvers instances instantiated with these pairs to find the key:
@@ -185,14 +208,39 @@ shell> cat ssaes_r20_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    \endverbatim
    </li>
    <li> In this translation, we have:
-   <ul>
-    <li> Twenty full rounds (Key Addition, SubBytes and MixColumns).
-    </li>
-    <li> 60 Sboxes (40 from SubBytes; 20 from key schedule). </li>
-    <li> 648 additions (168 from key additions; 320 from MixColumns
-    (encryption and decryption); 160 from Key Schedule). </li>
-    <li> 80 bits for the constant in the key schedule. </li>
-   </ul>
+    <ul>
+     <li> Twenty full rounds (Key Addition, SubBytes, and MixColumns
+     operation). </li>
+     <li> 60 Sboxes:
+      <ul>
+       <li> 20 from SubBytes = 1 byte * 20 round; </li>
+       <li> 40 from key schedule = 2 row * 1 byte * 20 round. </li>
+      </ul>
+     </li>
+     <li> 640 additions:
+      <ul>
+       <li> 320 additions of arity 1:
+        <ul>
+         <li> 160 from forward MixColumns = 8 bits * 20 round; </li>
+         <li> 160 from inverse MixColumns = 8 bits * 20 rounds. </li>
+        </ul>
+       </li>
+       <li> 248 additions of arity 2:
+        <ul>
+         <li> 160 from key additions = 8 bits * 20 round; </li>
+         <li> 8 from final key addition = 8 bits; </li>
+         <li> 80 from the key schedule = 4 bits * 1 column * 20 rounds. </li>
+        </ul>
+       </li>
+       <li> 80 additions of arity 3:
+        <ul>
+         <li> 80 from the key schedule = 4 bits * 1 column * 20 rounds. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li> 80 bits from the key schedule constant = 4 bits * 20 rounds. </li>
+    </ul>
    </li>
    <li> The additions are translated by their prime implicates. </li>
    <li> The S-boxes are translated by a minimum representation. See
@@ -204,16 +252,14 @@ maxima> ncl_list_fcs(ev_hm(ss_sbox_cnfs,4));
 [[3,8],[4,12],[5,2]]
    \endverbatim
    </li>
-   <li> The number of clauses of each length in the translation are:
-   <ul>
-    <li> 80 unit-clauses (key schedule constant). </li>
-    <li> 640 binary clauses (320 arity one "additions" from MixColumns). </li>
-    <li> 1472 ternary clauses (248 arity two additions: 168 key addition,
-    80 key schedule; 60 S-boxes). </li>
-    <li> 1360 clauses of length four (80 arity three additions from key
-    schedule; 60 S-boxes). </li>
-    <li> 120 clauses of length five (60 S-boxes). </li>
-   </ul>
+   <li> This instance has the following number of clauses of length:
+    <ul>
+     <li> 1 : 80 = key schedule constant * 1; </li>
+     <li> 2 : 640 = 320 "additions" (arity 1) * 2; </li>
+     <li> 3 : 1472 = 60 S-boxes * 8 + 248 additions (arity 2) * 4; </li>
+     <li> 4 : 1360 = 60 S-boxes * 12 + 80 additions (arity 3) * 8; </li>
+     <li> 5 : 120 = 60 S-boxes * 2. </li>
+    </ul>
    </li>
    <li> Generating 20 random plaintext-ciphertext pairs and running
    solvers instances instantiated with these pairs to find the key:
@@ -317,14 +363,39 @@ shell> cat ssaes_r20_c2_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    \endverbatim
    </li>
    <li> In this translation, we have:
-   <ul>
-    <li> Twenty full rounds (Key Addition, SubBytes and MixColumns).
-    </li>
-    <li> 60 Sboxes (40 from SubBytes; 20 from key schedule). </li>
-    <li> 648 additions (168 from key additions; 320 from MixColumns
-    (encryption and decryption); 160 from Key Schedule). </li>
-    <li> 80 bits for the constant in the key schedule. </li>
-   </ul>
+    <ul>
+     <li> Twenty full rounds (Key Addition, SubBytes, and MixColumns
+     operation). </li>
+     <li> 60 Sboxes:
+      <ul>
+       <li> 20 from SubBytes = 1 byte * 20 round; </li>
+       <li> 40 from key schedule = 2 row * 1 byte * 20 round. </li>
+      </ul>
+     </li>
+     <li> 648 additions:
+      <ul>
+       <li> 320 additions of arity 1:
+        <ul>
+         <li> 160 from forward MixColumns = 8 bits * 20 round; </li>
+         <li> 160 from inverse MixColumns = 8 bits * 20 rounds. </li>
+        </ul>
+       </li>
+       <li> 248 additions of arity 2:
+        <ul>
+         <li> 160 from key additions = 8 bits * 20 round; </li>
+         <li> 8 from final key addition = 8 bits; </li>
+         <li> 80 from the key schedule = 4 bits * 1 column * 20 rounds. </li>
+        </ul>
+       </li>
+       <li> 80 additions of arity 3:
+        <ul>
+         <li> 80 from the key schedule = 4 bits * 1 column * 20 rounds. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li> 80 bits from the key schedule constant = 4 bits * 20 rounds. </li>
+    </ul>
    </li>
    <li> The additions are translated by their prime implicates. </li>
    <li> The S-boxes are translated by the canonical translation. </li>
@@ -334,18 +405,15 @@ maxima> ncl_list_full_dualts(8,16);
 [[2,128],[9,16],[16,1]]
    \endverbatim
    </li>
-   <li> The number of clauses of each length in the translation are:
-   <ul>
-    <li> 80 unit-clauses (key schedule constant). </li>
-    <li> 8320 binary clauses (320 arity one "additions" from MixColumns;
-    60 S-boxes). </li>
-    <li> 992 ternary clauses (248 arity two additions: 168 key addition,
-    80 key schedule). </li>
-    <li> 640 clauses of length four (80 arity three additions from key
-    schedule). </li>
-    <li> 960 clauses of length nine (60 S-boxes). </li>
-    <li> 60 clauses of length sixteen (60 S-boxes). </li>
-   </ul>
+   <li> This instance has the following number of clauses of length:
+    <ul>
+     <li> 1 : 80 = key schedule constant * 1; </li>
+     <li> 2 : 8320 = 60 S-boxes * 128 +  320 "additions" (arity 1) * 2; </li>
+     <li> 3 : 992 = 248 additions (arity 2) * 4; </li>
+     <li> 4 : 640 = 80 additions (arity 3) * 8; </li>
+     <li> 9 : 960 = 60 S-boxes * 16; </li>
+     <li> 16 : 60 = 60 S-boxes * 1. </li>
+    </ul>
    </li>
    <li> Generating 20 random plaintext-ciphertext pairs and running
    solvers instances instantiated with these pairs to find the key:
@@ -447,34 +515,57 @@ shell> cat ssaes_r20_c2_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
 8 14400
    \endverbatim
    </li>
-  <li> In this translation, we have:
-   <ul>
-    <li> Twenty full rounds (Key Addition, SubBytes and MixColumns).
-    </li>
-    <li> 60 Sboxes (40 from SubBytes; 20 from key schedule). </li>
-    <li> 648 additions (168 from key additions; 320 from MixColumns
-    (encryption and decryption); 160 from Key Schedule). </li>
-    <li> 80 bits for the constant in the key schedule. </li>
-   </ul>
+   <li> In this translation, we have:
+    <ul>
+     <li> Twenty full rounds (Key Addition, SubBytes, and MixColumns
+     operation). </li>
+     <li> 60 Sboxes:
+      <ul>
+       <li> 20 from SubBytes = 1 byte * 20 round; </li>
+       <li> 40 from key schedule = 2 row * 1 byte * 20 round. </li>
+      </ul>
+     </li>
+     <li> 640 additions:
+      <ul>
+       <li> 320 additions of arity 1:
+        <ul>
+         <li> 160 from forward MixColumns = 8 bits * 20 round; </li>
+         <li> 160 from inverse MixColumns = 8 bits * 20 rounds. </li>
+        </ul>
+       </li>
+       <li> 248 additions of arity 2:
+        <ul>
+         <li> 160 from key additions = 8 bits * 20 round; </li>
+         <li> 8 from final key addition = 8 bits; </li>
+         <li> 80 from the key schedule = 4 bits * 1 column * 20 rounds. </li>
+        </ul>
+       </li>
+       <li> 80 additions of arity 3:
+        <ul>
+         <li> 80 from the key schedule = 4 bits * 1 column * 20 rounds. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li> 80 bits from the key schedule constant = 4 bits * 20 rounds. </li>
+    </ul>
    </li>
    <li> The additions are translated by their prime implicates. </li>
    <li> The S-boxes are translated by the canonical CNF. </li>
    <li> The number of clauses for the canonical representation of the S-box:
    \verbatim
-maxima> ncl_list_full_dualts(8,16);
-[[2,128],[9,16],[16,1]]
+maxima> ncl_list_fcs(ss_sbox_fullcnf_fcs(2,4,ss_polynomial_2_4));
+[[8,240]]
    \endverbatim
    </li>
-   <li> The number of clauses of each length in the translation are:
-   <ul>
-    <li> 80 unit-clauses (key schedule constant). </li>
-    <li> 640 binary clauses (320 arity one "additions" from MixColumns). </li>
-    <li> 992 ternary clauses (248 arity two additions: 168 key addition,
-    80 key schedule). </li>
-    <li> 640 clauses of length four (80 arity three additions from key
-    schedule). </li>
-    <li> 14400 clauses of length eight (60 S-boxes). </li>
-   </ul>
+   <li> This instance has the following number of clauses of length:
+    <ul>
+     <li> 1 : 80 = key schedule constant * 1; </li>
+     <li> 2 : 640 = 320 "additions" (arity 1) * 2; </li>
+     <li> 3 : 992 = 248 additions (arity 2) * 4; </li>
+     <li> 4 : 640 = 80 additions (arity 3) * 8; </li>
+     <li> 8 : 14400 = 60 S-boxes * 240. </li>
+    </ul>
    </li>
    <li> Generating 20 random plaintext-ciphertext pairs and running
    solvers instances instantiated with these pairs to find the key:
