@@ -49,6 +49,7 @@ License, or any later version. */
    <li> In this file, we collect the investigations into translations of
    10 + 1/3 round small scale AES with one row, one column, using the 4-bit
    field size. </li>
+   <li> In this file, we denote this AES instance by aes(10,1,1,4). </li>
    <li> The AES encryption scheme we model takes a 4-bit plaintext and
    4-bit key and outputs a 4-bit ciphertext.
    </li>
@@ -74,11 +75,27 @@ License, or any later version. */
    <li> The Sbox is non-linear permutation over the set of 4-bit elements,
    defined as inversion within the 4-bit field composed with an affine
    transformation. </li>
+   <li> For a full list of the possible translations, see
+   "Investigating dimensions" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   </li>
   </ul>
 
 
-  \todo Using the canonical translation
+  \todo Using the canonical box translation
   <ul>
+   <li> Translation of aes(10,1,1,4):
+    <ul>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> S-boxes are translated using the canonical translation;
+     see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
+   </li>
    <li> Generating simplest small scale AES for 10 rounds (with MixColumns):
    \verbatim
 num_rounds : 10$

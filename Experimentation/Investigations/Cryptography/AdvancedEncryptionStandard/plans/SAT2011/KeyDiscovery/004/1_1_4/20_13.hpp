@@ -17,6 +17,10 @@ License, or any later version. */
    field size. </li>
    <li> For a description of the AES instance, see
    SAT2011/KeyDiscovery/004/1_1_4/general.hpp. </li>
+   <li> For a full list of the possible translations, see
+   "Investigating dimensions" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   </li>
   </ul>
 
 
@@ -68,8 +72,17 @@ License, or any later version. */
 
   \todo Using the 1-base box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the 1-base translation.
+   <li> Translation of aes(20,1,1,4):
+    <ul>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> S-boxes are translated using 1-bases;
+     see ss_sbox_rbase_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac.
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
    </li>
    <li> Generating simplest small scale AES for 20 rounds:
    \verbatim
@@ -216,9 +229,18 @@ EM
 
   \todo Using the "minimum" box translation
   <ul>
-   <li> Translating the AES cipher treating S-boxes and field multiplications
-   as whole boxes and translating these boxes using the smallest CNF
-   translations. </li>
+   <li> Translation of aes(20,1,1,4):
+    <ul>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> S-boxes are translated using the "minimum" translation;
+     see ss_sbox_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
+   </li>
    <li> Generating simplest small scale AES for 20 rounds:
    \verbatim
 shell> mkdir aes_1_1_4/min
@@ -366,8 +388,17 @@ EM
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating S-boxes and field multiplications
-   as whole boxes and translating these boxes using the canonical translation.
+   <li> Translation of aes(20,1,1,4):
+    <ul>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> S-boxes are translated using the canonical translation;
+     see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
    </li>
    <li> Generating simplest small scale AES for 20 rounds:
    \verbatim

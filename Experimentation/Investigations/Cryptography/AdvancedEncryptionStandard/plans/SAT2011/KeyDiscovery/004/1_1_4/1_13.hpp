@@ -15,6 +15,7 @@ License, or any later version. */
    <li> In this file, we collect the investigations into translations of
    1 + 1/3 round small scale AES with one row, one column, using the 4-bit
    field size. </li>
+   <li> In this file, we denote this AES instance by aes(1,1,1,4). </li>
    <li> The AES encryption scheme we model takes a 4-bit plaintext and
    4-bit key and outputs a 4-bit ciphertext.
    </li>
@@ -29,26 +30,31 @@ License, or any later version. */
     <li> Addition of round key 1, resulting in the ciphertext. </li>
    </ol>
    </li>
-  </ul>
-
-
-  \todo Overview
-  <ul>
-   <li> Fastest solvers find the key for (t:time,cfs:conflicts,nds:nodes):
-    <ol>
-     <li> canonical translation; cryptominisat (t:0s,cfs:0). </li>
-    </ol>
-    Ordered first by time, then conflicts.
+   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
+   defined as inversion within the 4-bit field composed with an affine
+   transformation. </li>
+   <li> For a full list of the possible translations, see
+   "Investigating dimensions" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
    </li>
   </ul>
 
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the canonical translation.
+   <li> Translation of aes(1,1,1,4):
+    <ul>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> S-boxes are translated using the canonical translation;
+     see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
    </li>
-   <li> Generating simplest small scale AES for 1 round:
+   <li> Generating simplest small scale AES for 1 roundae
    \verbatim
 num_rounds : 1$
 num_rows : 1$
