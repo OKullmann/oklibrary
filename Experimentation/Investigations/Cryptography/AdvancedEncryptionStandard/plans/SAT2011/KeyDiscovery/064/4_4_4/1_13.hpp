@@ -16,6 +16,7 @@ License, or any later version. */
    <li> In this file, we collect the investigations into translations of
    1 + 1/3 round small scale AES with four rows, four columns, using the 4-bit
    field size. </li>
+   <li> In this file, we denote this AES instance by aes(1,4,4,4). </li>
    <li> The AES encryption scheme we model takes a 64-bit plaintext and
    64-bit key and outputs a 64-bit ciphertext. The plaintext, key and
    ciphertext are all considered, column by column, as 4x4 matrices of 4-bit
@@ -54,13 +55,27 @@ maxima> ss_mixcolumns_matrix(2,4,4);
      matrix. </li>
     </ol>
    </li>
+   <li> For a full list of the possible translations, see
+   "Investigating dimensions" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   </li>
   </ul>
 
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the canonical translation.
+   <li> Translation of aes(1,4,4,4):
+    <ul>
+     <li> We treat S-boxes, field multiplications and additions as boxes.
+     </li>
+     <li> S-boxes and field multiplications are translated using the canonical
+     translation; see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
    </li>
    <li> Generating small scale AES for one round:
    \verbatim
