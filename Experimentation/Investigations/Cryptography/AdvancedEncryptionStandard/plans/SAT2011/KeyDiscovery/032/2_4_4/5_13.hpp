@@ -15,6 +15,7 @@ License, or any later version. */
    <li> In this file, we collect the investigations into translations of
    5 + 1/3 round small scale AES with two rows, four columns, using the 4-bit
    field size. </li>
+   <li> In this file, we denote this AES instance by aes(5,2,4,4). </li>
    <li> The AES encryption scheme we model takes a 32-bit plaintext and
    32-bit key and outputs a 32-bit ciphertext. The plaintext, key and
    ciphertext are all considered, column by column, as 2x4 matrices of 4-bit
@@ -64,13 +65,29 @@ maxima> ss_mixcolumns_matrix(2,4,2);
     translation". </li>
    </ul>
    </li>
+   <li> For a full list of the possible translations, see
+   "Investigating dimensions" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   </li>
   </ul>
 
 
   \todo Using the 1-base box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using r_1-base translations.
+   <li> Translation of aes(5,2,4,4):
+    <ul>
+     <li> We treat S-boxes, field multiplications and additions as boxes.
+     </li>
+     <li> S-boxes and field multiplications are translated using 1-bases;
+     see ss_sbox_rbase_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
+     and ss_field_rbase_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleFieldMulCNF.mac
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
    </li>
    <li> Generating small scale AES for 5 + 1/3 round:
    \verbatim
