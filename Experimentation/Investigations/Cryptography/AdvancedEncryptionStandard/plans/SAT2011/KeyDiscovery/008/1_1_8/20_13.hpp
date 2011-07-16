@@ -15,6 +15,7 @@ License, or any later version. */
    <li> In this file, we collect the investigations into translations of
    20 + 1/3 round small scale AES with one row, one column, using the 8-bit
    field size. </li>
+   <li> In this file, we denote this AES instance by aes(20,1,1,8). </li>
    <li> The AES encryption scheme we model takes a 8-bit plaintext and
    8-bit key and outputs a 8-bit ciphertext.
    </li>
@@ -40,11 +41,27 @@ License, or any later version. */
    <li> The Sbox is non-linear permutation over the set of 8-bit elements,
    defined as inversion within the 8-bit field composed with an affine
    transformation. </li>
+   <li> For a full list of the possible translations, see
+   "Investigating dimensions" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   </li>
   </ul>
 
 
   \todo Using the canonical box translation
   <ul>
+   <li> Translation of aes(20,1,1,8):
+    <ul>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> S-boxes are translated using the canonical translation;
+     see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
+   </li>
    <li> Generating simplest small scale AES for 20+1/3 rounds:
    \verbatim
 shell> ${OKlib}/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/generate_aes_experiment 20 1 1 1 8 false aes_ts_box aes_mc_bidirectional

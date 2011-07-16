@@ -21,13 +21,29 @@ License, or any later version. */
    new variables. See "Hardness of boolean function representations"
    in
    Experimentation/Investigations/BooleanFunctions/plans/general.hpp. </li>
+   <li> For a full list of the possible translations, see
+   "Investigating dimensions" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   </li>
   </ul>
 
 
   \todo Using the 1-base box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the 1-base translation.
+   <li> Translation of aes(20,1,2,4):
+    <ul>
+     <li> We treat S-boxes, field multiplications and additions as boxes.
+     </li>
+     <li> S-boxes and field multiplications are translated using 1-bases;
+     see ss_sbox_rbase_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
+     and ss_field_rbase_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleFieldMulCNF.mac
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
    </li>
    <li> Generating simplest small scale AES for 20 rounds:
    \verbatim
@@ -175,11 +191,23 @@ EM
   </ul>
 
 
-  \todo Using the "minimum" box translation
+  \todo Using the minimum box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the smallest CNF
-   translations. </li>
+   <li> Translation of aes(20,1,2,4):
+    <ul>
+     <li> We treat S-boxes, field multiplications and additions as boxes.
+     </li>
+     <li> S-boxes and field multiplications are translated using the minimum
+     translation; see ss_sbox_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
+     and 
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleFieldMulCNF.mac
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
+   </li>
    <li> Generating simplest small scale AES for 20 rounds:
    \verbatim
 shell> mkdir aes_1_2_4/min
@@ -330,8 +358,18 @@ EM
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the canonical translation.
+   <li> Translation of aes(20,1,2,4):
+    <ul>
+     <li> We treat S-boxes, field multiplications and additions as boxes.
+     </li>
+     <li> S-boxes and field multiplications are translated using the canonical
+     translation; see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
    </li>
    <li> Generating simplest small scale AES for 20 rounds:
    \verbatim
@@ -484,8 +522,20 @@ EM
 
   \todo Using the canonical CNF box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the canonical CNF.
+   <li> Translation of aes(20,1,2,4):
+    <ul>
+     <li> We treat S-boxes, field multiplications and additions as boxes.
+     </li>
+     <li> S-boxes and field multiplications are translated using the canonical
+     CNF translation; see ss_sbox_fullcnf_fcs() in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac
+     and ssmult_fullcnf_fcs() in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac.
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
    </li>
    <li> Generating simplest small scale AES for 20 rounds:
    \verbatim
