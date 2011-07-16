@@ -15,6 +15,7 @@ License, or any later version. */
    <li> In this file, we collect the investigations into translations of
    2 + 1/3 round small scale AES with two rows, two columns, using the 4-bit
    field size. </li>
+   <li> In this file, we denote this AES instance by aes(2,2,2,4). </li>
    <li> The AES encryption scheme we model takes a 16-bit plaintext and
    16-bit key and outputs a 16-bit ciphertext. The plaintext, key and
    ciphertext are all considered, column by column, as 2x2 matrices of 4-bit
@@ -54,6 +55,19 @@ License, or any later version. */
 
   \todo Using the canonical box translation
   <ul>
+   <li> Translation of aes(2,2,2,4):
+    <ul>
+     <li> We treat S-boxes, field multiplications and additions as boxes.
+     </li>
+     <li> S-boxes and field multiplications are translated using the canonical
+     translation; see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
+   </li>
    <li> Generating small scale AES for 2 + 1/3 rounds:
    \verbatim
 shell> mkdir aes_2_2_4/canon
@@ -206,8 +220,23 @@ EM
   </ul>
 
 
-  \todo Using the 1-base translation
+  \todo Using the 1-base box translation
   <ul>
+   <li> Translation of aes(2,2,2,4):
+    <ul>
+     <li> We treat S-boxes, field multiplications and additions as boxes.
+     </li>
+     <li> S-boxes and field multiplications are translated using 1-bases;
+     see ss_sbox_rbase_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
+     and ss_field_rbase_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleFieldMulCNF.mac
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
+   </li>
    <li> Generating small scale AES for two rounds:
    \verbatim
 shell> mkdir aes_2_2_4/1base
@@ -361,6 +390,21 @@ EM
 
   \todo Using the "minimum" translation
   <ul>
+   <li> Translation of aes(2,2,2,4):
+    <ul>
+     <li> We treat S-boxes and field multiplications and additions as boxes.
+     </li>
+     <li> S-boxes and field multiplications are translated using the minimum
+     translation; see ss_sbox_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
+     and
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleFieldMulCNF.mac
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
+   </li>
    <li> Generating small scale AES for two rounds:
    \verbatim
 shell> mkdir aes_2_2_4/min

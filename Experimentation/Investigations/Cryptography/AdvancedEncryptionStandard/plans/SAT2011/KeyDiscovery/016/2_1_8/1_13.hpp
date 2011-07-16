@@ -15,6 +15,7 @@ License, or any later version. */
    <li> In this file, we collect the investigations into translations of
    1 + 1/3 round small scale AES with two rows, one column, using the 8-bit
    field size. </li>
+   <li> In this file, we denote this AES instance by aes(1,2,1,8). </li>
    <li> The AES encryption scheme we model takes a 16-bit plaintext and
    16-bit key and outputs a 16-bit ciphertext. </li>
    <li> The plaintext, key and ciphertext are all considered, column by
@@ -49,8 +50,18 @@ License, or any later version. */
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the canonical translation.
+   <li> Translation of aes(1,2,1,8):
+    <ul>
+     <li> We treat S-boxes, field multiplications and additions as boxes.
+     </li>
+     <li> S-boxes and field multiplications are translated using the canonical
+     translation; see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
    </li>
    <li> Generating small scale AES for 1 + 1/3 rounds:
    \verbatim
@@ -277,8 +288,20 @@ EM
 
   \todo Using the "minimum" box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using small CNFs.
+   <li> Translation of aes(1,2,1,8):
+    <ul>
+     <li> We treat S-boxes and field multiplications and additions as boxes.
+     </li>
+     <li> S-boxes and field multiplications are translated using the "minimum"
+     translation; see ss_sbox_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
+     and
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleFieldMulCNF.mac
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
    </li>
    <li> The CNFs for the Sbox and multiplications:
    \verbatim
@@ -538,6 +561,21 @@ EM
 
   \todo Using the 1-base box translation
   <ul>
+   <li> Translation of aes(1,2,1,8):
+    <ul>
+     <li> We treat S-boxes, field multiplications and additions as boxes.
+     </li>
+     <li> S-boxes and field multiplications are translated using 1-bases;
+     see ss_sbox_rbase_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
+     and ss_field_rbase_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleFieldMulCNF.mac
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse. </li>
+    </ul>
+   </li>
    <li> Generating a 1-base for the S-box from
    Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp. :
    \verbatim
