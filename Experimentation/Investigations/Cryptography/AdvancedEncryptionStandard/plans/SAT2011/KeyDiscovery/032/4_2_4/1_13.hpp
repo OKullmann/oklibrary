@@ -86,74 +86,74 @@ shell> cat ssaes_r1_c2_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
 16 60
    \endverbatim
    </li>
-   <li> In this translation we have:
-   <ul>
-    <li> One full round (Key Addition, SubBytes, and diffusion operation).
-    </li>
-    <li> 8 Sboxes in the SubBytes operation (4 rows * 2 columns = 8). </li>
-    <li> 128 additions within the round and key additions, coming from:
-     <ul>
-      <li> 64 additions from key additions
-      (2 round keys * 32-bit additions = 64). </li>
-      <li> 64 additions from the matrix multiplication in the diffusion
-      operation (4 rows * 2 columns * 2 directions * 4 bits = 64).
-      </li>
-     </ul>
-    </li>
-    <li> 8 multiplications by 02 from the MixColumns operation
-    (4 rows * 2 columns = 8). </li>
-    <li> 8 multiplications by 03 from the MixColumns operation
-    (4 rows * 2 columns = 8). </li>
-    <li> 8 multiplications by 09 from the inverse MixColumns operation
-    (4 rows * 2 columns = 8). </li>
-    <li> 8 multiplications by 11 from the inverse MixColumns operation
-    (4 rows * 2 columns = 8). </li>
-    <li> 8 multiplications by 13 from the inverse MixColumns operation
-    (4 rows * 2 columns = 8). </li>
-    <li> 8 multiplications by 14 from the inverse MixColumns operation
-    (4 rows * 2 columns = 8). </li>
-    <li> 4 Sboxes in the AES key schedule (4 rows). </li>
-    <li> 32 additions in the key schedule:
+   <li> In this translation, we have:
     <ul>
-     <li> 4 additions of arity 3 (1 row * 1 column * 4 bits = 4). </li>
-     <li> 28 additions of arity 2
-     ((3 rows * 1 columns + 4 rows * 1 columns) * 4 bits = 28). </li>
+     <li> One full rounds (Key Addition, SubBytes, and MixColumns operation).
+     </li>
+     <li> 12 S-boxes:
+      <ul>
+       <li> 8 from SubBytes = 8 byte * 1 rounds; </li>
+       <li> 4 from key schedule = 4 row * 1 word * 1 rounds. </li>
+      </ul>
+     </li>
+     <li> 8 multiplications by 02 = 4 rows * 1 multiplication * 2 columns
+     * 1 round * 1 direction (forward). </li>
+     <li> 8 multiplications by 03 = 4 rows * 1 multiplication * 2 columns
+     * 1 round * 1 directions (forward). </li>
+     <li> 8 multiplications by 09 = 4 rows * 1 multiplication * 2 columns
+     * 1 round * 1 directions (inverse). </li>
+     <li> 8 multiplications by 11 = 4 rows * 1 multiplication * 2 columns
+     * 1 round * 1 directions (inverse). </li>
+     <li> 8 multiplications by 13 = 4 rows * 1 multiplication * 2 columns
+     * 1 round * 1 directions (inverse). </li>
+     <li> 8 multiplications by 14 = 4 rows * 1 multiplication * 2 columns
+     * 1 round * 1 directions (inverse). </li>
+     <li> 160 additions:
+      <ul>
+       <li> 92 additions of arity 2:
+        <ul>
+         <li> 32 from key additions = 32 bits * 1 round; </li>
+         <li> 32 from final key addition = 32 bits; </li>
+         <li> 28 from the key schedule = (32 bits - 4 bits) * 1 round. </li>
+        </ul>
+       </li>
+       <li> 4 additions of arity 3:
+        <ul>
+         <li> 4 from the key schedule = 4 bits * 1 rounds. </li>
+        </ul>
+       </li>
+       <li> 64 additions of arity 4:
+        <ul>
+         <li> 32 from forward MixColumns = 4 rows * 2 column * 4 bits *
+         1 rounds; </li>
+         <li> 32 from inverse MixColumns = 4 rows * 2 column * 4 bits * 1
+         rounds. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li> 4 bits for the constant in the key schedule = 4 bits * 1 rounds.
+     </li>
     </ul>
-    </li>
-    <li> 4 bits for the constant in the key schedule. </li>
-   </ul>
    </li>
    <li> The number of clauses of each length in the translation, computed by:
    \verbatim
-maxima> ncl_list_ss(1,2,4,4,false,aes_ts_box,aes_mc_bidirectional);
-[[1,4],[2,7680],[3,368],[4,32],[5,1024],[9,960],[16,60]]
-maxima> mul_map(epoly) := block([e:poly2nat(epoly,2)],
-  [epoly,[[2,'m(e,2)],[9,'m(e,9)],[16,'m(e,16)]]])$
-maxima> ncl_list_ss_gen(1,4,2,4,ss_mixcolumns_matrix(2,4,2),[[2,'s2],[9,'s9],[16,'s16]],create_list(mul_map(p),p,[x,x+1,x^3+1,x^3+x+1,x^3+x^2+1,x^3+x^2+x]),false,aes_mc_bidirectional);
-[[1,4],
- [2,12*s2+8*'m(14,2)+8*'m(13,2)+8*'m(11,2)+8*'m(9,2)+8*'m(3,2)+8*'m(2,2)],
- [3,368],[4,32],[5,1024],
- [9,12*s9+8*'m(14,9)+8*'m(13,9)+8*'m(11,9)+8*'m(9,9)+8*'m(3,9)+8*'m(2,9)],
- [16,12*s16+8*'m(14,16)+8*'m(13,16)+8*'m(11,16)+8*'m(9,16)+8*'m(3,16)+8*'m(2,16)]]
 maxima> ncl_list_full_dualts(8,16);
 [[2,128],[9,16],[16,1]]
    \endverbatim
-   are comprised of:
-   <ul>
-    <li> 4 unit-clauses for the 4-bit constant in the Key schedule. </li>
-    <li> 7680 binary clauses, coming from 12 Sboxes and 8 of each of the six
-    multiplications (60 * 128 = 7680). </li>
-    <li> 368 ternary clauses, coming from 92 additions of arity two
-    (92 * 4 = 624). </li>
-    <li> 32 clauses of length 4, coming from 4 additions of arity three
-    (4 * 8 = 32). </li>
-    <li> 1024 clauses of length 5, coming from 64 additions of arity 4
-    from the diffusion operation (64 * 16 = 1024). </li>
-    <li> 960 clauses of length 9, coming from 12 Sboxes and 8 of each of
-    the 6 multiplications (60 * 16 = 960). </li>
-    <li> 60 clauses of length 16, coming from from 12 Sboxes and 8 of
-    each of the 6 multiplications (60 * 1 = 60). </li>
-   </ul>
+   </li>
+   <li> This instance has 60 boxes = 12 S-boxes + 48 multiplications.
+   </li>
+   <li> This instance has the following number of clauses of length:
+    <ul>
+     <li> 1 : 4 = key schedule constant * 1; </li>
+     <li> 2 : 7680 = 60 boxes * 128; </li>
+     <li> 3 : 368 = 92 additions (arity 2) * 4; </li>
+     <li> 4 : 32 = 4 additions (arity 3) * 8; </li>
+     <li> 5 : 1024 = 64 additions (arity 4) * 16; </li>
+     <li> 9 : 960 = 60 boxes * 16; </li>
+     <li> 16 : 60 = 60 boxes * 1. </li>
+    </ul>
    </li>
    <li> Then we can generate a random assignment with the plaintext and
    ciphertext, leaving the key unknown:
