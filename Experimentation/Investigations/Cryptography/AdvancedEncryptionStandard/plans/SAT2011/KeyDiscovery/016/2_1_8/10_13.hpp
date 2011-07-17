@@ -79,10 +79,10 @@ shell> cat ssaes_r10_c1_rw2_e8_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
        <li> 20 from key schedule = 2 row * 1 byte * 10 rounds. </li>
       </ul>
      </li>
-     <li> 40 multiplications by 02: 2 rows * 1 multiplication * 1 columns
-     * 10 round * 2 directions (forward + inverse). </li>
-     <li> 40 multiplications by 03: 2 rows * 1 multiplication * 1 columns
-     * 10 round * 2 directions (forward + inverse). </li>
+     <li> 40 multiplications by 02: 2 rows * 1 multiplication * 1 columns *
+     10 round * 2 directions (forward + inverse). </li>
+     <li> 40 multiplications by 03: 2 rows * 1 multiplication * 1 columns *
+     10 round * 2 directions (forward + inverse). </li>
      <li> 576 additions of arity 2:
       <ul>
        <li> 160 from key additions = 16 bits * 10 round; </li>
@@ -251,10 +251,10 @@ shell> cat ssaes_r10_c1_rw2_e8_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
        <li> 20 from key schedule = 2 row * 1 byte * 10 rounds. </li>
       </ul>
      </li>
-     <li> 40 multiplications by 02: 2 rows * 1 multiplication * 1 columns
-     * 10 round * 2 directions (forward + inverse). </li>
-     <li> 40 multiplications by 03: 2 rows * 1 multiplication * 1 columns
-     * 10 round * 2 directions (forward + inverse). </li>
+     <li> 40 multiplications by 02: 2 rows * 1 multiplication * 1 columns *
+     10 round * 2 directions (forward + inverse). </li>
+     <li> 40 multiplications by 03: 2 rows * 1 multiplication * 1 columns *
+     10 round * 2 directions (forward + inverse). </li>
      <li> 576 additions of arity 2:
       <ul>
        <li> 160 from key additions = 16 bits * 10 round; </li>

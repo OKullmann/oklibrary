@@ -89,10 +89,10 @@ shell> cat ssaes_r1_c1_rw2_e8_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
        <li> 2 from key schedule = 2 row * 1 byte * 1 round. </li>
       </ul>
      </li>
-     <li> 4 multiplications by 02: 2 rows * 1 multiplication * 1 columns
-     * 1 round * 2 directions (forward + inverse). </li>
-     <li> 4 multiplications by 03: 2 rows * 1 multiplication * 1 columns
-     * 1 round * 2 directions (forward + inverse). </li>
+     <li> 4 multiplications by 02: 2 rows * 1 multiplication * 1 columns *
+     1 round * 2 directions (forward + inverse). </li>
+     <li> 4 multiplications by 03: 2 rows * 1 multiplication * 1 columns *
+     1 round * 2 directions (forward + inverse). </li>
      <li> 72 additions:
       <ul>
        <li> 16 from key additions = 16 bits * 1 round; </li>

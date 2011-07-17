@@ -99,18 +99,18 @@ shell> cat ssaes_r2_c2_rw4_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
        <li> 8 from key schedule = 4 row * 1 word * 2 rounds. </li>
       </ul>
      </li>
-     <li> 16 multiplications by 02 = 4 rows * 1 multiplication * 2 columns
-     * 2 round * 1 direction (forward). </li>
-     <li> 16 multiplications by 03 = 4 rows * 1 multiplication * 2 columns
-     * 2 round * 1 directions (forward). </li>
-     <li> 16 multiplications by 09 = 4 rows * 1 multiplication * 2 columns
-     * 2 round * 1 directions (inverse). </li>
-     <li> 16 multiplications by 11 = 4 rows * 1 multiplication * 2 columns
-     * 2 round * 1 directions (inverse). </li>
-     <li> 16 multiplications by 13 = 4 rows * 1 multiplication * 2 columns
-     * 2 round * 1 directions (inverse). </li>
-     <li> 16 multiplications by 14 = 4 rows * 1 multiplication * 2 columns
-     * 2 round * 1 directions (inverse). </li>
+     <li> 16 multiplications by 02 = 4 rows * 1 multiplication * 2 columns *
+     2 round * 1 direction (forward). </li>
+     <li> 16 multiplications by 03 = 4 rows * 1 multiplication * 2 columns *
+     2 round * 1 directions (forward). </li>
+     <li> 16 multiplications by 09 = 4 rows * 1 multiplication * 2 columns *
+     2 round * 1 directions (inverse). </li>
+     <li> 16 multiplications by 11 = 4 rows * 1 multiplication * 2 columns *
+     2 round * 1 directions (inverse). </li>
+     <li> 16 multiplications by 13 = 4 rows * 1 multiplication * 2 columns *
+     2 round * 1 directions (inverse). </li>
+     <li> 16 multiplications by 14 = 4 rows * 1 multiplication * 2 columns *
+     2 round * 1 directions (inverse). </li>
      <li> 288 additions:
       <ul>
        <li> 152 additions of arity 2:

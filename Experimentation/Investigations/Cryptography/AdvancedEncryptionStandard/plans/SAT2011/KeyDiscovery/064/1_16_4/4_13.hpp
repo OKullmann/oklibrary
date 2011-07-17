@@ -197,7 +197,7 @@ shell> cat ssaes_r4_c16_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
       <ul>
        <li> 512 additions of arity 1:
         <ul>
-         <li> 256 from MixColumns = 1 row * 16 columns * 2 directions 
+         <li> 256 from MixColumns = 1 row * 16 columns * 2 directions
          (forward + inverse) * 4 bits * 4 rounds. </li>
         </ul>
        </li>

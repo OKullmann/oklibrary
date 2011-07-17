@@ -117,10 +117,10 @@ shell> cat ssaes_r1_c4_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
        <li> 2 from key schedule = 2 row * 1 word * 1 rounds. </li>
       </ul>
      </li>
-     <li> 16 multiplications by 02: 2 rows * 1 multiplication * 4 columns
-     * 1 round * 2 directions (forward + inverse). </li>
-     <li> 16 multiplications by 03: 2 rows * 1 multiplication * 4 columns
-     * 1 round * 2 directions (forward + inverse). </li>
+     <li> 16 multiplications by 02: 2 rows * 1 multiplication * 4 columns *
+     1 round * 2 directions (forward + inverse). </li>
+     <li> 16 multiplications by 03: 2 rows * 1 multiplication * 4 columns *
+     1 round * 2 directions (forward + inverse). </li>
      <li> 160 additions:
       <ul>
        <li> 156 additions of arity 2:
