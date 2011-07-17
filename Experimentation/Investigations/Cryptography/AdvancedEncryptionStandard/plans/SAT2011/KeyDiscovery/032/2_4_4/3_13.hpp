@@ -97,7 +97,7 @@ shell> cat ssaes_r3_c4_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
    </li>
  <li> In this translation, we have:
     <ul>
-     <li> Three full rounds (Key Addition, SubBytes, and MixColumns operation).
+     <li> 3 full rounds (Key Addition, SubBytes, and MixColumns operation).
      </li>
      <li> 30 Sboxes:
       <ul>

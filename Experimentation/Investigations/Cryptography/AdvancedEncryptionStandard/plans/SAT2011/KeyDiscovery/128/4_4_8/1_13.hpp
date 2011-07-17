@@ -108,7 +108,7 @@ shell> cat ssaes_r1_c4_rw4_e8_f0.cnf | ExtendedDimacsFullStatistics n
    </li>
    <li> In this translation, we have:
     <ul>
-     <li> One full round. </li>
+     <li> 1 full round (Key addition, SubBytes and MixColumns). </li>
      <li> 20 Sboxes:
       <ul>
        <li> 16 from SubBytes = 16 bytes * 1 round. </li>

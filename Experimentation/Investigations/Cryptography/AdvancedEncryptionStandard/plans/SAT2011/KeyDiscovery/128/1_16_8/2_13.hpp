@@ -68,7 +68,7 @@ shell> cat ssaes_r2_c16_rw1_e8_f0.cnf | ExtendedDimacsFullStatistics n
    </li>
    <li> In this translation, we have:
     <ul>
-     <li> Two full rounds (Key Addition, SubBytes, and MixColumns operation).
+     <li> 2 full rounds (Key Addition, SubBytes, and MixColumns operation).
      </li>
      <li> 34 S-boxes:
       <ul>

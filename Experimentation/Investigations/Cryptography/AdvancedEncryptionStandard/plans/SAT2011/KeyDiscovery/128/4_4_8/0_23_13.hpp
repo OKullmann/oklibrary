@@ -82,7 +82,7 @@ shell> cat ssaes_r1_c4_rw4_e8_f1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
    </li>
    <li> In this translation, we have:
    <ul>
-    <li> One special round (Key Addition, SubBytes, and ShiftRows).
+    <li> 1 special round (Key Addition, SubBytes, and ShiftRows).
     </li>
     <li> 16 Sboxes in the SubBytes operation (4 rows * 4 columns = 16). </li>
     <li> 256 additions within the round and key additions, coming from:

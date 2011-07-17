@@ -69,7 +69,7 @@ shell> cat ssaes_r5_c16_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    </li>
    <li> In this translation, we have:
     <ul>
-     <li> Five full rounds (Key Addition, SubBytes, and MixColumns operation).
+     <li> 5 full rounds (Key Addition, SubBytes, and MixColumns operation).
      </li>
      <li> 85 Sboxes:
       <ul>
@@ -172,7 +172,7 @@ shell> cat ssaes_r5_c16_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    </li>
    <li> In this translation, we have:
     <ul>
-     <li> Five full rounds (Key Addition, SubBytes, and MixColumns operation).
+     <li> 5 full rounds (Key Addition, SubBytes, and MixColumns operation).
      </li>
      <li> 85 S-boxes:
       <ul>
