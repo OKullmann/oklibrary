@@ -70,17 +70,33 @@ shell> cat ssaes_r14_c1_rw2_e8_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    \endverbatim
    </li>
    <li> In this translation, we have:
-   <ul>
-    <li> Fourteen full rounds (Key Addition, SubBytes, and MixColumn
-    operation).
-    </li>
-    <li> 56 Sboxes (28 from SubBytes; 28 from key schedule). </li>
-    <li> 800 additions (240 from key additions; 448 from MixColumns; 112 from
-    key schedule). </li>
-    <li> 56 multiplications by 02, 03 (from MixColumns).
-    </li>
-    <li> 112 bits for the constants in the key schedule. </li>
-   </ul>
+    <ul>
+     <li> Fourteen full rounds (Key Addition, SubBytes, and MixColumns
+     operation). </li>
+     <li> 56 Sboxes:
+      <ul>
+       <li> 28 from SubBytes = 2 byte * 14 rounds; </li>
+       <li> 28 from key schedule = 2 row * 1 byte * 14 rounds. </li>
+      </ul>
+     </li>
+     <li> 56 multiplications by 02: 2 rows * 1 multiplication * 1 columns
+     * 14 rounds * 2 directions (forward + inverse). </li>
+     <li> 56 multiplications by 03: 2 rows * 1 multiplication * 1 columns
+     * 14 rounds * 2 directions (forward + inverse). </li>
+     <li> 800 additions of arity 2:
+      <ul>
+       <li> 224 from key additions = 16 bits * 14 rounds; </li>
+       <li> 16 from final key addition = 16 bits; </li>
+       <li> 112 from the key schedule = 1 rows * 8 bits * 14 rounds. </li>
+       <li> 224 from forward MixColumns = 2 rows * 1 column * 8 bits *
+       14 rounds; </li>
+       <li> 224 from inverse MixColumns = 2 rows * 1 column * 8 bits * 14
+       rounds. </li>
+      </ul>
+     </li>
+     <li> 112 bits for the constant in the key schedule = 8 bits * 14 rounds.
+     </li>
+    </ul>
    </li>
    <li> Note that as this variant has only one column, the key schedule
    applies Sbox(K_i) + C rather than Sbox(K_i) + K_j + C where K_i and
@@ -91,6 +107,19 @@ shell> cat ssaes_r14_c1_rw2_e8_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
 maxima> ncl_list_full_dualts(16,256);
 [[2,4096],[17,256],[256,1]]
    \endverbatim
+   </li>
+  <li> This instances has 168 boxes = 56 S-boxes + 112 multiplications.
+   </li>
+   <li> This instance has the following number of clauses of length:
+    <ul>
+     <li> 1 : 112 = key schedule constant * 1; </li>
+     <li> 2 : 688128 = 168 boxes * 4096; </li>
+     <li> 3 : 320 = 448 additions (arity 2) * 4; </li>
+     <li> 4 : 640 = 40 multiplications by 04 * 16; </li>
+     <li> 6 : 5720 = 40 S-boxes * 143; </li>
+     <li> 7 : 5080 = 40 S-boxes * 127; </li>
+     <li> 8 : 960 = 40 S-boxes * 24. </li>
+    </ul>
    </li>
    <li> The number of clauses of each length in the translation are:
     <ul>
@@ -223,17 +252,33 @@ shell> cat ssaes_r14_c1_rw2_e8_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    \endverbatim
    </li>
    <li> In this translation, we have:
-   <ul>
-    <li> Fourteen full rounds (Key Addition, SubBytes, and MixColumn
-    operation).
-    </li>
-    <li> 56 Sboxes (28 from SubBytes; 28 from key schedule). </li>
-    <li> 800 additions (240 from key additions; 448 from MixColumns; 112 from
-    key schedule). </li>
-    <li> 56 multiplications by 02, 03 (from MixColumns).
-    </li>
-    <li> 112 bits for the constants in the key schedule. </li>
-   </ul>
+    <ul>
+     <li> Fourteen full rounds (Key Addition, SubBytes, and MixColumns
+     operation). </li>
+     <li> 56 Sboxes:
+      <ul>
+       <li> 28 from SubBytes = 2 byte * 14 rounds; </li>
+       <li> 28 from key schedule = 2 row * 1 byte * 14 rounds. </li>
+      </ul>
+     </li>
+     <li> 56 multiplications by 02: 2 rows * 1 multiplication * 1 columns
+     * 14 rounds * 2 directions (forward + inverse). </li>
+     <li> 56 multiplications by 03: 2 rows * 1 multiplication * 1 columns
+     * 14 rounds * 2 directions (forward + inverse). </li>
+     <li> 800 additions of arity 2:
+      <ul>
+       <li> 224 from key additions = 16 bits * 14 rounds; </li>
+       <li> 16 from final key addition = 16 bits; </li>
+       <li> 112 from the key schedule = 1 rows * 8 bits * 14 rounds. </li>
+       <li> 224 from forward MixColumns = 2 rows * 1 column * 8 bits *
+       14 rounds; </li>
+       <li> 224 from inverse MixColumns = 2 rows * 1 column * 8 bits * 14
+       rounds. </li>
+      </ul>
+     </li>
+     <li> 112 bits for the constant in the key schedule = 8 bits * 14 rounds.
+     </li>
+    </ul>
    </li>
    <li> Note that as this variant has only one column, the key schedule
    applies Sbox(K_i) + C rather than Sbox(K_i) + K_j + C where K_i and
@@ -249,16 +294,16 @@ maxima> ncl_list_fcs(ev_hm(ss_field_cnfs,[8,3]))
 [[3,20],[4,16]]
    \endverbatim
    </li>
-   <li> The number of clauses of each length in the translation are:
+   <li> This instance has the following number of clauses of length:
     <ul>
-     <li> 112 unit-clauses (key schedule constant). </li>
-     <li> 448 binary clauses (56 multiplications by 02). </li>
-     <li> 4992 ternary clauses (800 arity two additions; 56 multiplications *
-     2). </li>
-     <li> 896 clauses of length four (56 multiplications by 03). </li>
-     <li> 8008 clauses of length six (56 Sboxes). </li>
-     <li> 7112 clauses of length seven (56 Sboxes). </li>
-     <li> 1344 clauses of length eight (56 Sboxes). </li>
+     <li> 1 : 112 = key schedule constant * 1; </li>
+     <li> 2 : 448 = 56 multiplications by 02 * 8; </li>
+     <li> 3 : 4992 = 56 multiplications by 02 * 12 + 56 multiplications by 03
+     * 20 + 800 additions (arity 2) * 4; </li>
+     <li> 4 : 896 = 56 multiplications by 04 * 16; </li>
+     <li> 6 : 8008 = 56 S-boxes * 143; </li>
+     <li> 7 : 7112 = 56 S-boxes * 127; </li>
+     <li> 8 : 1344 = 56 S-boxes * 24. </li>
     </ul>
    </li>
    <li> Generate random assignments for the plaintext and ciphertext, leaving
