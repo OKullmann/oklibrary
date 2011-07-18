@@ -10,55 +10,22 @@ License, or any later version. */
   \brief Investigations into small scale AES key discovery for one round AES with a 4x4 plaintext matrix and 4-bit field elements (1+1/3)
 
 
-  \todo Problem specification ??? The MAIN POINT here is to see information
-  about the boolean functions involved --- but nothing is said ???
+  \todo Problem specification
   <ul>
-   <li> In this file, we collect the investigations into translations of
-   1 + 1/3 round small scale AES with four rows, four columns, using the 4-bit
-   field size. </li>
-   <li> In this file, we denote this AES instance by aes(1,4,4,4). </li>
-   <li> The AES encryption scheme we model takes a 64-bit plaintext and
-   64-bit key and outputs a 64-bit ciphertext. The plaintext, key and
-   ciphertext are all considered, column by column, as 4x4 matrices of 4-bit
-   elements. </li>
-   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc),
-   the 4-bit element at position (i,j) in the matrix is the ((i-1)*4 + j)-th
-   4-bit word of the 64-bits. </li>
-   <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
-   b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1.
+   <li> We investigate the 1 + 1/3 round small scale AES with 4 row,
+   4 column, using the 4-bit field size. </li>
+   <li> We denote this AES instance by aes(1,4,4,4). </li>
+   <li> aes(1,4,4,4) takes a 64-bit plaintext and 64-bit key and
+   outputs a 64-bit ciphertext. </li>
+   <li> For the full specification of this AES instance, see
+   "Problem specification" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/2_4_4/general.hpp.
    </li>
-   <li> The encryption scheme applies the following operations:
-    <ol>
-     <li> Addition of round key 0 (input key) to plaintext. </li>
-     <li> Application of SubBytes (Sbox to each 4-bit element) operation. </li>
-     <li> Application of linear diffusion operation. </li>
-     <li> Addition of round key 1, resulting in the ciphertext. </li>
-    </ol>
-   </li>
-   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
-   defined as inversion within the 4-bit field composed with an affine
-   transformation. </li>
-   <li> The linear diffusion operation applies a linear permutation to
-   the input matrix, consisting of:
-    <ol>
-     <li> A shift of row i by i-1 to the left for all i from 1 to the number of
-     rows. </li>
-     <li> The AES MixColumns operation, which takes the input matrix and
-     applies a matrix multiplication by the constant matrix
-     \verbatim
-maxima> ss_mixcolumns_matrix(2,4,4);
- matrix([x,x+1,1,1],[1,x,x+1,1],[1,1,x,x+1],[x+1,1,1,x])
-     \endverbatim
-     over the 4-bit field. As it is a matrix multiplication, this operation can
-     be broken down into a "MixColumn" operation on each column of the input
-     matrix. </li>
-    </ol>
-   </li>
-   <li> For a full list of the possible translations, see
-   "Investigating dimensions" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
-   </li>
+   <li> Note that we consider the canonical CNF translation, as
+   this is an example of the "hardest" representation without
+   new variables. See "Hardness of boolean function representations"
+   in
+   Experimentation/Investigations/BooleanFunctions/plans/general.hpp. </li>
   </ul>
 
 
@@ -66,15 +33,19 @@ maxima> ss_mixcolumns_matrix(2,4,4);
   <ul>
    <li> Translation of aes(1,4,4,4):
     <ul>
+     <li> The MixColumns operation is decomposed into it's field
+     multiplications (02 and 03) and addition operations. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse (it is self-inverse). </li>
      <li> We treat S-boxes, field multiplications and additions as boxes.
      </li>
-     <li> S-boxes and field multiplications are translated using the canonical
-     translation; see dualts_fcl in
+     <li> The S-box and field multiplications are considered as a 8-bit to
+     1-bit boolean functions, translated using the canonical translation;
+     see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>
-     <li> Additions are translated using their prime implicates. </li>
-     <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse. </li>
+     <li> Additions of arity k are considered bit-wise as (k+1)-bit to 1-bit
+     boolean functions; translated using their prime implicates. </li>
     </ul>
    </li>
    <li> Generating small scale AES for one round:
