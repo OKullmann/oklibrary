@@ -9,49 +9,37 @@ License, or any later version. */
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/1_16_8/2_13.hpp
   \brief Investigations into small scale AES key discovery for 2+1/3 round AES with one row and 16 columns
 
-
   \todo Problem specification
   <ul>
-   <li> In this file, we collect the investigations into translations of
-   2 + 1/3 round small scale AES with one row, sixteen columns, using the
-   8-bit field size. </li>
-   <li> In this file, we denote this AES instance by aes(2,1,16,8). </li>
-   <li> The AES encryption scheme we model takes a 128-bit plaintext and
-   128-bit key and outputs a 128-bit ciphertext. </li>
-   <li> Each consequtive 8-bits (b_0,b_1,b_2,b_3,b_4,b_5,b_6,b_7) is
-   considered as the polynomial b_0 * x^7 + b_1 * x^6 + b_2 * x^5 + b_4 * x^3
-   + b_5 * x^2 + b^6 * x + b_7. Addition and multiplication on these
-   polynomials is defined as usual, modulo the polynomial
-   x^8+x^4+x^3+x+1. </li>
-   <li> The encryption scheme applies the following operations:
-   <ol>
-    <li> Addition of round key 0 (input key) to plaintext. </li>
-    <li> Application of SubBytes (Sbox to each 8-bit element) operation. </li>
-    <li> Addition of round key 1. </li>
-    <li> Application of SubBytes (Sbox to each 8-bit element) operation. </li>
-    <li> Addition of round key 2, resulting in the ciphertext. </li>
-   </ol>
+   <li> We investigate the 2 + 1/3 round small scale AES with 1 row,
+   16 column, using the 8-bit field size. </li>
+   <li> We denote this AES instance by aes(2,1,16,8). </li>
+   <li> aes(2,1,16,8) takes a 64-bit plaintext and 64-bit key and
+   outputs a 64-bit ciphertext. </li>
+   <li> For the full specification of this AES instance, see
+   "Problem specification" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/1_16_8/general.hpp.
    </li>
-   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
-   defined as inversion within the 4-bit field composed with an affine
-   transformation. </li>
-   <li> For a full list of the possible translations, see
-   "Investigating dimensions" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
-   </li>
+   <li> Note that we consider the canonical CNF translation, as
+   this is an example of the "hardest" representation without
+   new variables. See "Hardness of boolean function representations"
+   in
+   Experimentation/Investigations/BooleanFunctions/plans/general.hpp. </li>
   </ul>
 
 
   \todo Using the canonical box translation
-  <ul>
-   <li> Translation of aes(2,1,16,4):
+  <ul
+   <li> Translation of aes(2,1,16,8):
     <ul>
-     <li> We treat S-boxes and additions as boxes. </li>
-     <li> S-boxes are translated using the canonical translation;
-     see dualts_fcl in
+     <li> We treat S-boxes and additions as boxes.
+     </li>
+     <li> The S-box is considered as a 8-bit to 1-bit boolean functions,
+     translated using the canonical translation; see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>
-     <li> Additions are translated using their prime implicates. </li>
+     <li> Additions of arity k are considered bit-wise as (k+1)-bit to 1-bit
+     boolean functions; translated using their prime implicates. </li>
     </ul>
    </li>
    <li> Generating AES for 2 + 1/3 round:
