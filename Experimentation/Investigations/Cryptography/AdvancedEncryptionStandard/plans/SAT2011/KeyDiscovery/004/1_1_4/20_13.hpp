@@ -249,13 +249,13 @@ EM
   </ul>
 
 
-  \todo Using the "minimum" box translation
+  \todo Using the minimum box translation
   <ul>
    <li> Translation of aes(20,1,1,4):
     <ul>
      <li> We treat S-boxes and additions as boxes. </li>
      <li> The S-box is considered as an 8-bit to 1-bit boolean function,
-     translated using the "minimum" translation; see ss_sbox_cnfs in
+     translated using the minimum translation; see ss_sbox_cnfs in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
      </li>
      <li> Additions of arity k are considered bit-wise as (k+1)-bit to 1-bit
@@ -329,10 +329,10 @@ shell> cat ssaes_r20_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    </li>
    <li> The additions are translated by their prime implicates, containing
    2^a clauses where a is the arity of the addition constraint. </li>
-   <li> The S-boxes are translated by a "minimum" representation. See
+   <li> The S-boxes are translated by a minimum representation. See
    Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_4.hpp.
    </li>
-   <li> The number of clauses for the "minimum" representation of the S-box:
+   <li> The number of clauses for the minimum representation of the S-box:
    \verbatim
 maxima> ncl_list_fcs(ev_hm(ss_sbox_cnfs,4));
 [[3,8],[4,12],[5,2]]
