@@ -10,46 +10,11 @@ License, or any later version. */
   \brief Investigations into simplest small scale AES key discovery for ten rounds AES with MixColumns
 
 
-  \todo Explain sizes
-  <ul>
-   <li> Here and everywhere else we need precise explanations why we have so
-   and so many variables and clauses. </li>
-   <li> This is needed in the following files:
-    <ul>
-     <li> SAT2011/KeyDiscovery/004/1_1_4/10_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/004/1_1_4/20_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/008/1_1_8/20_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/016/2_1_8/1_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/016/2_1_8/10_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/016/2_1_8/14_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/016/2_2_4/1_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/016/2_2_4/2_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/016/2_2_4/4_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/016/2_2_4/20_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/016/2_2_4/20_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/032/2_4_4/1_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/032/2_4_4/3_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/032/2_4_4/5_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/032/4_2_4/1_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/032/4_2_4/2_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/064/1_16_4/4_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/064/1_16_4/5_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/064/4_4_4/1_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/128/1_16_8/2_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/128/4_4_8/0_23_13.hpp. </li>
-     <li> SAT2011/KeyDiscovery/128/4_4_8/1_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/004/1_1_4/1_13.hpp. </li>
-    </ul>
-   </li>
-  </ul>
-
-
   \todo Problem specification
   <ul>
    <li> In this file, we collect the investigations into translations of
    10 + 1/3 round small scale AES with one row, one column, using the 4-bit
    field size. </li>
-   <li> In this file, we denote this AES instance by aes(10,1,1,4). </li>
    <li> The AES encryption scheme we model takes a 4-bit plaintext and
    4-bit key and outputs a 4-bit ciphertext.
    </li>
@@ -75,27 +40,11 @@ License, or any later version. */
    <li> The Sbox is non-linear permutation over the set of 4-bit elements,
    defined as inversion within the 4-bit field composed with an affine
    transformation. </li>
-   <li> For a full list of the possible translations, see
-   "Investigating dimensions" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
-   </li>
   </ul>
 
 
-  \todo Using the canonical box translation
+  \todo Using the canonical translation
   <ul>
-   <li> Translation of aes(10,1,1,4):
-    <ul>
-     <li> We treat S-boxes and additions as boxes. </li>
-     <li> S-boxes are translated using the canonical translation;
-     see dualts_fcl in
-     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
-     </li>
-     <li> Additions are translated using their prime implicates. </li>
-     <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse. </li>
-    </ul>
-   </li>
    <li> Generating simplest small scale AES for 10 rounds (with MixColumns):
    \verbatim
 num_rounds : 10$
@@ -216,6 +165,40 @@ c CPU time              : 0 s
 shell> OKsolver_2002-O3-DNDEBUG -O r10_keyfind.cnf | grep "^v" | $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/validate_aes_assignment 10 1 1 4 0 && echo "VALID"
 VALID
    \endverbatim
+   </li>
+  </ul>
+
+
+  \todo DONE Explain sizes
+  <ul>
+   <li> DONE Here and everywhere else we need precise explanations why we have
+   so and so many variables and clauses. </li>
+   <li> DONE This is needed in the following files:
+    <ul>
+     <li> DONE SAT2011/KeyDiscovery/004/1_1_4/10_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/004/1_1_4/20_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/008/1_1_8/20_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/016/2_1_8/1_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/016/2_1_8/10_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/016/2_1_8/14_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/016/2_2_4/1_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/016/2_2_4/2_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/016/2_2_4/4_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/016/2_2_4/20_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/016/2_2_4/20_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/032/2_4_4/1_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/032/2_4_4/3_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/032/2_4_4/5_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/032/4_2_4/1_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/032/4_2_4/2_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/064/1_16_4/4_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/064/1_16_4/5_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/064/4_4_4/1_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/128/1_16_8/2_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/128/4_4_8/0_23_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/128/4_4_8/1_13.hpp. </li>
+     <li> DONE SAT2011/KeyDiscovery/004/1_1_4/1_13.hpp. </li>
+    </ul>
    </li>
   </ul>
 
