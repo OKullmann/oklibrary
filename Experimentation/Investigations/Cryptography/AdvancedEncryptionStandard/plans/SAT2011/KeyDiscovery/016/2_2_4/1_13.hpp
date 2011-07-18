@@ -12,57 +12,20 @@ License, or any later version. */
 
   \todo Problem specification
   <ul>
-   <li> In this file, we collect the investigations into translations of
-   1 + 1/3 round small scale AES with two rows, two columns, using the 4-bit
-   field size. </li>
-   <li> In this file, we denote this AES instance by aes(1,2,2,4). </li>
-   <li> The AES encryption scheme we model takes a 16-bit plaintext and
-   16-bit key and outputs a 16-bit ciphertext. The plaintext, key and
-   ciphertext are all considered, column by column, as 2x2 matrices of 4-bit
-   elements. </li>
-   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc),
-   the 4-bit element at position (i,j) in the matrix is the ((i-1)*2 + j)-th
-   4-bit word of the 16-bits. </li>
-   <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
-   b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1.
+   <li> We investigate the 1 + 1/3 round small scale AES with 2 row,
+   2 column, using the 4-bit field size. </li>
+   <li> We denote this AES instance by aes(1,2,2,4). </li>
+   <li> aes(1,2,2,4) takes a 16-bit plaintext and 16-bit key and
+   outputs a 16-bit ciphertext. </li>
+   <li> For the full specification of this AES instance, see
+   "Problem specification" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_2_4/general.hpp.
    </li>
-   <li> The encryption scheme applies the following operations:
-   <ol>
-    <li> Addition of round key 0 (input key) to plaintext. </li>
-    <li> Application of SubBytes (Sbox to each 4-bit element) operation. </li>
-    <li> Application of linear diffusion operation. </li>
-    <li> Addition of round key 1, resulting in the ciphertext. </li>
-   </ol>
-   </li>
-   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
-   defined as inversion within the 4-bit field composed with an affine
-   transformation.
-   XXX this is irrelevant inforamtion --- such information should go to
-   general.hpp in this directory --- with links to the Maxima-specication!
-   XXX </li>
-   <li> The linear diffusion operation applies a linear permutation to
-   the input matrix, consisting of: XXX we don't speak of "linear diffusion"
-   anymore XXX irrelevant to spefify the operations --- but what is missing
-   is *structural information*, stating the main *structural* parameters XXX
-   <ol>
-    <li> A shift of row i by i-1 to the left for all i from 1 to the number of
-    rows. </li>
-    <li> The AES MixColumns operation, which takes the input matrix and
-    applies a matrix multiplication by the constant matrix
-    \verbatim
-maxima> ss_mixcolumns_matrix(2,4,2);
- matrix([x+1,x],[x,x+1])
-    \endverbatim
-    over the 4-bit field. As it is a matrix multiplication, this operation can
-    be broken down into a "MixColumn" operation on each column of the input
-    matrix. </li>
-   </ol>
-   </li>
-   <li> For a full list of the possible translations, see
-   "Investigating dimensions" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
-   </li>
+   <li> Note that we consider the canonical CNF translation, as
+   this is an example of the "hardest" representation without
+   new variables. See "Hardness of boolean function representations"
+   in
+   Experimentation/Investigations/BooleanFunctions/plans/general.hpp. </li>
   </ul>
 
 
@@ -70,15 +33,19 @@ maxima> ss_mixcolumns_matrix(2,4,2);
   <ul>
    <li> Translation of aes(1,2,2,4):
     <ul>
+     <li> The MixColumns operation is decomposed into it's field
+     multiplications (02 and 03) and addition operations. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and it's inverse (it is self-inverse). </li>
      <li> We treat S-boxes, field multiplications and additions as boxes.
      </li>
-     <li> S-boxes and field multiplications are translated using the canonical
-     translation; see dualts_fcl in
+     <li> The S-box and field multiplications are considered as a 8-bit to
+     1-bit boolean functions, translated using the canonical translation;
+     see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>
-     <li> Additions are translated using their prime implicates. </li>
-     <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse. </li>
+     <li> Additions of arity k are considered bit-wise as (k+1)-bit to 1-bit
+     boolean functions; translated using their prime implicates. </li>
     </ul>
    </li>
    <li> Generating small scale AES for 1 + 1/3 rounds:
@@ -251,17 +218,18 @@ VALID
   <ul>
    <li> Translation of aes(1,2,2,4):
     <ul>
-     <li> We treat S-boxes, field multiplications and additions as boxes.
-     </li>
-     <li> S-boxes and field multiplications are translated using 1-bases;
-     see ss_sbox_rbase_cnfs in
-     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
-     and ss_field_rbase_cnfs in
-     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleFieldMulCNF.mac
-     </li>
-     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is decomposed into it's field
+     multiplications (02 and 03) and addition operations. </li>
      <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse. </li>
+     the MixColumns operation and it's inverse (it is self-inverse). </li>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> The S-box and field multiplications are considered as a 8-bit to
+     1-bit boolean function, translated using 1-bases; see ss_sbox_rbase_cnfs
+     in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac.
+     </li>
+     <li> Additions of arity k are considered bit-wise as (k+1)-bit to 1-bit
+     boolean functions; translated using their prime implicates. </li>
     </ul>
    </li>
    <li> Generating small scale AES for 1 round:
