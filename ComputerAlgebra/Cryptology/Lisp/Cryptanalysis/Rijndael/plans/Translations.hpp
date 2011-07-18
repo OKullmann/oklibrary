@@ -223,6 +223,28 @@ set_heap_size_ecl(2**32);
    <li> At the same time, one needs to handle multiplication by 0, which
    doesn't occur in any current AES or small scale MixColumns matrices but
    will occur in later versions. </li>
+   <li> Equalivalence constraints for trivial instances:
+    <ul>
+     <li> When an AES instance has only 1 row, then the MixColumns matrix
+     is the identity matrix. </li>
+     <li> In this instance, the multiplication is replaced by an equalivalence
+     constraint which results in the variables being renamed. </li>
+     <li> However, the additions that are part of the matrix computation
+     are then arity 1 additions, i.e., equalivalence constraints, but these
+     are not currently handled specially as equalivalence-constraints in the
+     system. </li>
+     <li> Therefore, when translating AES instances with 1 row, there
+     are still some binary clauses in the translation representing
+     equivalence of variables. </li>
+     <li> These clauses need to be removed! </li>
+     <li> There should be a simple check within the MixColumns constraint
+     translation, which checks for "identity cases" and then rewrites the
+     MixColumns constraint to a large equivalence constraint. </li>
+    </ul>
+   </li>
+   <li> See also "Remove linear diffusion from translation" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/004/1_1_4/20_13.hpp.
+   </li>
   </ul>
 
 
