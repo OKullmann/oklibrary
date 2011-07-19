@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Numbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Certificates.mac")$
 oklib_include("OKlib/ComputerAlgebra/MaximaInternals/MemoryManagement.mac")$
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/data/3k.mac")$
 
 kill(f)$
 
@@ -36,7 +37,8 @@ okltest_certificates_vdw_3k(f) := block([maxk : length(f)],
         assert(integerp(first(v)) = true)
     )
   )),
-  if oklib_test_level=0 then return(true),
+  if oklib_test_level=0 then maxk : 10
+  elseif oklib_test_level=1 then maxk : 25,
   for k : 1 thru maxk do block([C : f[k]],
     if not emptyp(C) then block(
      [n : vanderwaerden3k(k)],
@@ -46,6 +48,23 @@ okltest_certificates_vdw_3k(f) := block([maxk : length(f)],
         assert(certificate_vdw_p([3,k],n,P) = true)
       ) 
     )
+  ),
+  true)$
+
+
+okltest_certificates_pdvdw_3k(f) := block([maxk : length(f)],
+  if oklib_test_level=0 then maxk : 7
+  elseif oklib_test_level=1 then maxk : 30,
+  for k : 1 thru maxk do block([C : check_certificates_pdvdw_3k(k),  A,B],
+    assert(listp(C) = true),
+    assert(length(C) = 2),
+    [A,B] : C,
+    assert(listp(A) = true),
+    assert(listp(B) = true),
+    assert(emptyp(A) = false),
+    assert(emptyp(B) = false),
+    assert(every_s(identity, A) = true),
+    assert(every_s(identity, B) = true)
   ),
   true)$
 

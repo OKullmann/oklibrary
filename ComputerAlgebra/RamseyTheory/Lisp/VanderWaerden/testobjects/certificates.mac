@@ -22,6 +22,7 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/data/3k.mac
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/tests/certificates.mac")$
 
 okltest_certificates_vdw_3k(certificates_vdw_3k);
+okltest_certificates_pdvdw_3k(certificates_pdvdw_3k);
 
 /*!
 \endhtmlonly
