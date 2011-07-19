@@ -7,43 +7,43 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/064/1_16_4/5_13.hpp
-  \brief Investigations into small scale AES key discovery for 5 + 1/3 round AES with a 1x16 plaintext matrix and 4-bit field elements
+  \brief Investigations into small-scale AES key discovery for 5 + 1/3 round AES with a 1x16 plaintext matrix and 4-bit field elements
 
 
   \todo Problem specification
   <ul>
-   <li> In this file, we collect the investigations into translations of
-   5 + 1/3 round small scale AES with one row, sixteen columns, using the 4-bit
-   field size. </li>
-   <li> The AES encryption scheme we model takes a 64-bit plaintext and
-   64-bit key and outputs a 64-bit ciphertext. </li>
-   <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
-   b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1.
+   <li> We investigate the 5 + 1/3 round small-scale AES with 1 row,
+   16 column, using the 4-bit field size. </li>
+   <li> We denote this AES instance by aes(5,1,16,4). </li>
+   <li> aes(5,1,16,4) takes a 64-bit plaintext and 64-bit key and
+   outputs a 64-bit ciphertext. </li>
+   <li> For the full specification of this AES instance, see
+   "Problem specification" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/064/1_16_4/general.hpp.
    </li>
-   <li> The encryption scheme applies the following operations:
-   <ol>
-    <li> Round (iterated five times):
-    <ol>
-     <li> Addition of round key (n-1). </li>
-     <li> Application of SubBytes (Sbox to each 4-bit element) operation. </li>
-    </ol>
-    </li>
-    <li> Addition of round key 5 yielding the ciphertext. </li>
-   </ol>
-   </li>
-   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
-   defined as inversion within the 4-bit field composed with an affine
-   transformation. </li>
+   <li> Note that we consider the canonical CNF translation, as
+   this is an example of the "hardest" representation without
+   new variables. See "Hardness of boolean function representations"
+   in
+   Experimentation/Investigations/BooleanFunctions/plans/general.hpp. </li>
   </ul>
 
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the canonical translation.
+   <li> Translation of aes(5,1,16,4):
+    <ul>
+     <li> We treat S-boxes and additions as boxes.
+     </li>
+     <li> The S-box is considered as a 8x1 boolean functions,
+     translated using the canonical translation; see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions of arity k are considered bit-wise as (k+1)-bit to 1-bit
+     boolean functions; translated using their prime implicates. </li>
+    </ul>
    </li>
-   <li> Generating small scale AES for 5 + 1/3 rounds:
+   <li> Generating small-scale AES for 5 + 1/3 rounds:
    \verbatim
 num_rounds : 5$
 num_rows : 1$
@@ -143,12 +143,20 @@ CPU time              : 25.4 s
   </ul>
 
 
-  \todo Using the rbase box translation
+  \todo Using the 1-base box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using r_1-base translations.
+   <li> Translation of aes(5,1,16,4):
+    <ul>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> The S-box is considered as a 8x1 boolean function,
+     translated using 1-bases; see ss_sbox_rbase_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac.
+     </li>
+     <li> Additions of arity k are considered bit-wise as (k+1)-bit to 1-bit
+     boolean functions; translated using their prime implicates. </li>
+    </ul>
    </li>
-   <li> Generating small scale AES for 5 + 1/3 rounds:
+   <li> Generating small-scale AES for 5 + 1/3 rounds:
    \verbatim
 num_rounds : 5$
 num_rows : 1$

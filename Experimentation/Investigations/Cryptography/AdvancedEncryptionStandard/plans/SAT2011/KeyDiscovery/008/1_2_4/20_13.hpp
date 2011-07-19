@@ -7,15 +7,24 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/008/1_2_4/20_13.hpp
-  \brief Investigations into small scale AES key discovery for 20+1/3 round AES with one row, two columns and 4-bit field size
+  \brief Investigations into small-scale AES key discovery for 20+1/3 round AES with 1 row, 2 columns and 4-bit field size
 
 
   \todo Problem specification
   <ul>
-   <li> In this file, we collect the investigations into translations of
-   20 + 1/3 round small scale AES with one row, two columns, using the 4-bit
-   field size. </li>
-   <li> A full description of this instance must be added. </li>
+   <li> We investigate the 20 + 1/3 round small-scale AES with 1 row,
+   2 column, using the 4-bit field size. </li>
+   <li> We denote this AES instance by aes(20,1,2,4). </li>
+   <li> aes(20,1,2,4) takes a 8-bit plaintext and 8-bit key and
+   outputs a 8-bit ciphertext. </li>
+   <li> For the full specification of this AES instance, see
+   "Problem specification" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/008/1_1_8/general.hpp.
+   </li>
+   <li> The decompositions and translations are listed in "Investigating
+   dimensions" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   </li>
    <li> Note that we consider the canonical CNF translation, as
    this is an example of the "hardest" representation without
    new variables. See "Hardness of boolean function representations"
@@ -26,10 +35,25 @@ License, or any later version. */
 
   \todo Using the 1-base box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the 1-base translation.
+   <li> Translation of aes(20,1,2,4):
+    <ul>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> The S-box is considered as a 8x1 boolean function,
+     translated using 1-bases; see ss_sbox_rbase_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac.
+     </li>
+     <li> Additions of arity k are considered bit-wise as (k+1)-bit to 1-bit
+     boolean functions; translated using their prime implicates. </li>
+     <li> The MixColumns operation is the identity. </li>
+     <li> Due to limitations in the translation, clauses occur in this
+     translation representing equivalence of variables in the MixColumns;
+     See "Remove hard-coding of multiplication by 01 in small-scale MixColumn"
+     in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
+     </li>
+    </ul>
    </li>
-   <li> Generating simplest small scale AES for 20 rounds:
+   <li> Generating simplest small-scale AES for 20 rounds:
    \verbatim
 shell> mkdir aes_1_2_4/1base
 shell> cd aes_1_2_4/1base
@@ -175,12 +199,27 @@ EM
   </ul>
 
 
-  \todo Using the "minimum" box translation
+  \todo Using the minimum box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the smallest CNF
-   translations. </li>
-   <li> Generating simplest small scale AES for 20 rounds:
+   <li> Translation of aes(20,1,2,4):
+    <ul>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> The S-box is considered as a 8x1 boolean function,
+     translated using the minimum translation; see ss_sbox_cnfs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
+     </li>
+     <li> Additions of arity k are considered bit-wise as (k+1)-bit to 1-bit
+     boolean functions; translated using their prime implicates. </li>
+     <li> The MixColumns operation is the identity. </li>
+     <li> Due to limitations in the translation, clauses occur in this
+     translation representing equivalence of variables in the MixColumns;
+     See "Remove hard-coding of multiplication by 01 in small-scale MixColumn"
+     in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
+     </li>
+    </ul>
+   </li>
+   <li> Generating simplest small-scale AES for 20 rounds:
    \verbatim
 shell> mkdir aes_1_2_4/min
 shell> cd aes_1_2_4/min
@@ -330,10 +369,25 @@ EM
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the canonical translation.
+   <li> Translation of aes(20,1,2,4):
+    <ul>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> The S-box is considered as a 8x1 boolean function,
+     translated using the canonical translation; see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions of arity k are considered bit-wise as (k+1)-bit to 1-bit
+     boolean functions; translated using their prime implicates. </li>
+     <li> The MixColumns operation is the identity. </li>
+     <li> Due to limitations in the translation, clauses occur in this
+     translation representing equivalence of variables in the MixColumns;
+     See "Remove hard-coding of multiplication by 01 in small-scale MixColumn"
+     in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
+     </li>
+    </ul>
    </li>
-   <li> Generating simplest small scale AES for 20 rounds:
+   <li> Generating simplest small-scale AES for 20 rounds:
    \verbatim
 shell> mkdir aes_1_2_4/canon
 shell> cd aes_1_2_4/canon
@@ -484,10 +538,19 @@ EM
 
   \todo Using the canonical CNF box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the canonical CNF.
+   <li> Translation of aes(20,1,2,4):
+    <ul>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> S-boxes are translated using the canonical CNF translation;
+     see ss_sbox_fullcnf_fcs in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac.
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and its inverse. </li>
+    </ul>
    </li>
-   <li> Generating simplest small scale AES for 20 rounds:
+   <li> Generating simplest small-scale AES for 20 rounds:
    \verbatim
 shell> mkdir aes_1_2_4/full
 shell> cd aes_1_2_4/full

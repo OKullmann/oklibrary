@@ -7,19 +7,18 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/004/1_1_4/general.hpp
-  \brief Investigations into small scale AES key discovery with one row, one column and 4-bit field elements
+  \brief Investigations into small-scale AES key discovery with 1 row, 1 column and 4-bit field elements
 
 
-  \todo Overview
+  \todo Problem specification
   <ul>
-   <li> We consider the translation of the key discovery problem into SAT,
-   for the small scale AES with one row, one column, using the 4-bit field
-   size. </li>
-   <li> We consider variants of this small scale AES cipher with 1 to 20
-   rounds. </li>
-   <li> The AES encryption scheme we model takes a 4-bit plaintext and
-   4-bit key and outputs a 4-bit ciphertext.
-   </li>
+   <li> We consider the small-scale AES with 1 row, 1 column, using the 4-bit
+   field size for rounds 1 to 20. </li>
+   <li> We denote this AES instance by aes(r,1,1,4) for r in 1,...,20. </li>
+   <li> We investigate translations of the key discovery problem for
+   aes(r,1,1,4) into SAT. </li>
+   <li> aes(r,1,1,4) takes a 4-bit plaintext and 4-bit key and outputs a
+   4-bit ciphertext. </li>
    <li> aes(r,1,1,4) applies the following operations:
     <ol>
      <li> Key schedule which takes the key and generates r+1 4-bit round
@@ -30,16 +29,37 @@ License, or any later version. */
        <li> Application of Sbox operation. </li>
       </ol>
      </li>
+     <li> Addition of round key r+1. </li>
+     <li> The result of the last round key addition is the ciphertext. </li>
     </ol>
    </li>
-   <li> The small scale AES variant is decomposed into small boolean functions
-   which are then translated to SAT. </li>
+   <li> Round key 0 is the input key. </li>
+   <li> The key schedule computes the round key i, K_i, from round key i-1,
+   K_(i-1), by:
+   \verbatim
+K_i := S-box(K_(i-1)) + C_i
+   \endverbatim
+   where C_i is the round constant for round i. </li>
+   <li> The S-box is a permutation from {0,1}^4 to {0,1}^4 which we consider
+   as either:
+    <ul>
+     <li> an 8x1 boolean function; see ss_sbox_bf in
+     ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac.
+     </li>
+     <li> 4 4x1 boolean functions. </li>
+    </ul>
+   </li>
    <li> The decompositions and translations are listed in "Investigating
    dimensions" in
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
    </li>
    <li> The plaintext and ciphertext variables are then set, and the SAT
    SAT solver is run on this instance to deduce the key variables. </li>
+  </ul>
+
+
+  \todo Overview
+  <ul>
    <li> Comparing the translations using a single plaintext-ciphertext pair:
     <ol>
      <li> "Minimum" translation:

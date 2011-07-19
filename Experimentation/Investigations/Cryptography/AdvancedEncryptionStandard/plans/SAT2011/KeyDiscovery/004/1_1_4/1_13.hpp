@@ -7,48 +7,53 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/004/1_1_4/1_13.hpp
-  \brief Investigations into simplest small scale AES key discovery for one round AES (1+1/3)
-
-
-  \todo Problem specification
-  <ul>
-   <li> In this file, we collect the investigations into translations of
-   1 + 1/3 round small scale AES with one row, one column, using the 4-bit
-   field size. </li>
-   <li> The AES encryption scheme we model takes a 4-bit plaintext and
-   4-bit key and outputs a 4-bit ciphertext.
-   </li>
-   <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
-   b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. </li>
-   <li> Addition and multiplication on these polynomials is defined as usual,
-   modulo the polynomial x^4+x+1. </li>
-   <li> The encryption scheme applies the following operations:
-   <ol>
-    <li> Addition of round key 0 (input key) to plaintext. </li>
-    <li> Application of Sbox operation. </li>
-    <li> Addition of round key 1, resulting in the ciphertext. </li>
-   </ol>
-   </li>
-  </ul>
+  \brief Investigations into small-scale AES key discovery with 1 row, 1 column and 4-bit field elements for 1 round AES (1+1/3)
 
 
   \todo Overview
   <ul>
-   <li> Fastest solvers find the key for (t:time,cfs:conflicts,nds:nodes):
-    <ol>
-     <li> canonical translation; cryptominisat (t:0s,cfs:0). </li>
-    </ol>
-    Ordered first by time, then conflicts.
+   <li> We investigate the 1 + 1/3 round small-scale AES with 1 row,
+   1 column, using the 4-bit field size. </li>
+   <li> We denote this AES instance by aes(1,1,1,4). </li>
+   <li> aes(1,1,1,4) takes a 4-bit plaintext and 4-bit key and
+   outputs a 4-bit ciphertext. </li>
+   <li> For the full specification of this AES instance, see
+   "Problem specification" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/004/1_1_4/general.hpp.
+   </li>
+   <li> For a full list of the possible translations, see
+   "Investigating dimensions" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   </li>
+   <li> In this file we consider:
+    <ul>
+     <li> "Using the canonical box translation". </li>
+    </ul>
    </li>
   </ul>
 
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the canonical translation.
+   <li> Translation of aes(1,1,1,4):
+    <ul>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> The S-box is considered as an 8x1 boolean function,
+     translated using the canonical translation; see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions of arity k are considered bit-wise as (k+1)-bit to 1-bit
+     boolean functions; translated using their prime implicates. </li>
+     <li> The MixColumns operation is the identity. </li>
+     <li> Due to limitations in the translation, clauses occur in this
+     translation representing equivalence of variables in the MixColumns;
+     See "Remove hard-coding of multiplication by 01 in small-scale MixColumn"
+     in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
+     </li>
+    </ul>
    </li>
-   <li> Generating simplest small scale AES for 1 round:
+   <li> Generating simplest small-scale AES for 1 round
    \verbatim
 num_rounds : 1$
 num_rows : 1$
@@ -165,7 +170,7 @@ c CPU time              : 0 s
    </li>
    <li> It seems OKsolver is propagating purely by r_2. Perhaps the OKsolver
    is able to take advantage of the r_1-basedness of the canonical translation
-   due to it's use of r_2 reductions? </li>
+   due to its use of r_2 reductions? </li>
    <li> We can check we get the right result with:
    \verbatim
 shell> OKsolver_2002-O3-DNDEBUG -O r1_keyfind.cnf | grep "^v" | $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/validate_aes_assignment 1 1 1 4 0 && echo "VALID"

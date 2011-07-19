@@ -7,75 +7,51 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_2_4/20_13.hpp
-  \brief Investigations into small scale AES key discovery for 20 + 1/3 round AES with a 2x2 plaintext matrix and 4-bit field elements
+  \brief Investigations into small-scale AES key discovery for 20 + 1/3 round AES with a 2x2 plaintext matrix and 4-bit field elements
+
 
   \todo Problem specification
   <ul>
-   <li> In this file, we collect the investigations into translations of
-   20 + 1/3 round small scale AES with two rows, two columns, using the 4-bit
-   field size. </li>
-   <li> The AES encryption scheme we model takes a 16-bit plaintext and
-   16-bit key and outputs a 16-bit ciphertext. The plaintext, key and
-   ciphertext are all considered, column by column, as 2x2 matrices of 4-bit
-   elements. </li>
-   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc),
-   the 4-bit element at position (i,j) in the matrix is the ((i-1)*2 + j)-th
-   4-bit word of the 16-bits. </li>
-   <li> The 4-bit element (b_0,b_1,b_2,b_3) is considered as the polynomial
-   b_0 * x^3 + b_1 * x^2 + b_2 * x + b_3. Addition and multiplication
-   on these polynomials is defined as usual, modulo the polynomial x^4+x+1.
+   <li> We investigate the 20 + 1/3 round small-scale AES with 2 row,
+   2 column, using the 4-bit field size. </li>
+   <li> We denote this AES instance by aes(20,2,2,4). </li>
+   <li> aes(20,2,2,4) takes a 16-bit plaintext and 16-bit key and
+   outputs a 16-bit ciphertext. </li>
+   <li> For the full specification of this AES instance, see
+   "Problem specification" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_2_4/general.hpp.
    </li>
-   <li> The encryption scheme applies the following operations:
-   <ol>
-    <li> Round (iterated twenty times):
-    <ol>
-     <li> Addition of round key (n-1). </li>
-     <li> Application of SubBytes (Sbox to each 4-bit element) operation. </li>
-     <li> Application of linear diffusion operation. </li>
-    </ol>
-    </li>
-    <li> Addition of round key 20 yielding the ciphertext. </li>
-   </ol>
-   </li>
-   <li> The Sbox is non-linear permutation over the set of 4-bit elements,
-   defined as inversion within the 4-bit field composed with an affine
-   transformation. </li>
-   <li> The linear diffusion operation applies a linear permutation to
-   the input matrix, consisting of:
-   <ol>
-    <li> A shift of row i by i-1 to the left for all i from 1 to the number of
-    rows. </li>
-    <li> The AES MixColumns operation, which takes the input matrix and
-    applies a matrix multiplication by the constant matrix
-    \verbatim
-maxima> ss_mixcolumns_matrix(2,4,2);
- matrix([x+1,x],[x,x+1])
-    \endverbatim
-    over the 4-bit field. As it is a matrix multiplication, this operation can
-    be broken down into a "MixColumn" operation on each column of the input
-    matrix. </li>
-   </ol>
-   </li>
+   <li> Note that we consider the canonical CNF translation, as
+   this is an example of the "hardest" representation without
+   new variables. See "Hardness of boolean function representations"
+   in
+   Experimentation/Investigations/BooleanFunctions/plans/general.hpp. </li>
   </ul>
 
 
   \todo Using the canonical core round box translation
   <ul>
-   <li> In this translation of the AES cipher, the cipher is
-   decomposed into rounds such that each round consists of
-   two "core round column operations", that is, the SubBytes and MixColumns
-   operation combined, applied to each column in the input matrix. We have:
-   <ul>
-    <li> 40 4-bit Sboxes in the AES key schedule, yielding
-    8-bit boolean functions which are translated using the
-    canonical translation. </li>
-    <li> 40 core round column operations, yielding 16-bit boolean functions
-    which are translated using the canonical translation. </li>
-    <li> 656 addition (XOR) constraints, translated using the prime
-    implicates for each constraint. </li>
-   </ul>
+   <li> Translation of aes(20,2,2,4):
+    <ul>
+     <li> The cipher is decomposed such that each round consists of two
+     "core round column operations", one to each column in the input, as well
+     as key additions. </li>
+     <li> A "core round column operation" is permutation over ({0,1}^4)^2,
+     which is a column-wise application of the SubBytes and MixColumns
+     operation combined. </li>
+     <li> The S-box is considered as an 8x1 boolean function,
+     translated using the canonical translation; see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> The core-round-column-operation is considered as a 16-bit to 1-bit
+     boolean function, translated using the canonical translation;
+     see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions are translated using their prime implicates. </li>
+    </ul>
    </li>
-   <li> Generating small scale AES for twenty rounds:
+   <li> Generating small-scale AES for twenty rounds:
    \verbatim
 rounds : 20$
 num_rows : 2$
@@ -300,10 +276,24 @@ c CPU time              : 133.51 s
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the canonical translation.
+   <li> Translation of aes(20,2,2,4):
+    <ul>
+     <li> The MixColumns operation is decomposed into its field
+     multiplications (02 and 03) and addition operations. </li>
+     <li> The MixColumns operation is translated by translating both
+     the MixColumns operation and its inverse (it is self-inverse). </li>
+     <li> We treat S-boxes, field multiplications and additions as boxes.
+     </li>
+     <li> The S-box and field multiplications are considered as a 8x1
+     boolean functions, translated using the canonical translation;
+     see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions of arity k are considered bit-wise as (k+1)-bit to 1-bit
+     boolean functions; translated using their prime implicates. </li>
+    </ul>
    </li>
-   <li> Generating small scale AES for twenty rounds (with MixColumns):
+   <li> Generating small-scale AES for twenty rounds (with MixColumns):
    \verbatim
 rounds : 20$
 num_rows : 2$

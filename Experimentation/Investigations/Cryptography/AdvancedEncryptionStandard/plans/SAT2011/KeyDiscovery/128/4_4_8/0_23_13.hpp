@@ -8,7 +8,7 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/4_4_8/0_23_13.hpp
-  \brief Investigations into AES key discovery for one round AES without MixColumns (0+2/3+1/3)
+  \brief Investigations into AES key discovery for 1 round AES without MixColumns (0+2/3+1/3)
 
 
   \todo Show and explain sizes of minimum-translations
@@ -22,39 +22,38 @@ License, or any later version. */
 
   \todo Problem specification
   <ul>
-   <li> In this file, we collect the investigations into translations of
-   0 + 2/3 + 1/3 round small scale AES with four rows, four columns, using the
-   8-bit field size. </li>
-   <li> The AES encryption scheme we model takes a 128-bit plaintext and
-   128-bit key and outputs a 128-bit ciphertext. The plaintext, key and
-   ciphertext are all considered, column by column, as 4x4 matrices of 8-bit
-   elements. </li>
-   <li> In other words, in the AES blocks (plaintext, key, ciphertext etc),
-   the 8-bit element at position (i,j) in the matrix is the ((i-1)*4 + j)-th
-   8-bit word of the 128-bits. </li>
-   <li> The 8-bit element (b_0,b_1,b_2,b_3,b_4,b_5,b_6,b_7) is considered as
-   the polynomial b_0 * x^7 + b_1 * x^6 + b_2 * x^5 + b_4 * x^3 + b_5 * x^2 +
-   b^6 * x + b_7. Addition and multiplication on these polynomials is defined
-   as usual, modulo the polynomial x^8+x^4+x^3+x+1. </li>
-   <li> The encryption scheme applies the following operations:
-   <ol>
-    <li> Addition of round key 0 (input key) to plaintext. </li>
-    <li> Application of SubBytes (Sbox to each 8-bit element) operation. </li>
-    <li> A shift of row i by i-1 to the left for all i from 1 to the number of
-    rows. </li>
-    <li> Addition of round key 1, resulting in the ciphertext. </li>
-   </ol>
+   <li> We investigate the 0 + 2/3 + 1/3 round AES with 4 row,
+   4 column, using the 8-bit field size. </li>
+   <li> We denote this AES instance by aes(0+2/3,4,4,8). </li>
+   <li> aes(0+2/3,4,4,8) takes a 128-bit plaintext and 128-bit key and
+   outputs a 128-bit ciphertext. </li>
+   <li> The MixColumns is the identity in this instance . </li>
+   <li> The final round - the only round - is "special"; we only
+   perform 2/3 of the round (key addition + SubBytes). </li>
+   <li> For the full specification of this AES instance, see
+   "Problem specification" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/4_4_8/general.hpp.
    </li>
-   <li> The Sbox is non-linear permutation over the set of 8-bit elements,
-   defined as inversion within the 8-bit field composed with an affine
-   transformation. </li>
+   <li> Note that we consider the canonical CNF translation, as
+   this is an example of the "hardest" representation without
+   new variables. See "Hardness of boolean function representations"
+   in
+   Experimentation/Investigations/BooleanFunctions/plans/general.hpp. </li>
   </ul>
 
 
   \todo Using the canonical box translation
   <ul>
-   <li> Translating the AES cipher treating Sboxes and field multiplications
-   as whole boxes and translating these boxes using the canonical translation.
+   <li> Translation of aes(0+2/3,4,4,8):
+    <ul>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> S-boxes is considerd as a 16x1 boolean function;
+     translated using the canonical translation; see dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
+     </li>
+     <li> Additions of arity k are considered bit-wise as (k+1)-bit to 1-bit
+     boolean functions; translated using their prime implicates. </li>
+    </ul>
    </li>
    <li> Generating AES-instance for 0 + 2/3 + 1/3 round:
    \verbatim
