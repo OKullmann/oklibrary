@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/064/4_4_4/1_13.hpp
-  \brief Investigations into small scale AES key discovery for 1 round AES with a 4x4 plaintext matrix and 4-bit field elements (1+1/3)
+  \brief Investigations into small-scale AES key discovery for 1 round AES with a 4x4 plaintext matrix and 4-bit field elements (1+1/3)
 
 
   \todo Problem specification
   <ul>
-   <li> We investigate the 1 + 1/3 round small scale AES with 4 row,
+   <li> We investigate the 1 + 1/3 round small-scale AES with 4 row,
    4 column, using the 4-bit field size. </li>
    <li> We denote this AES instance by aes(1,4,4,4). </li>
    <li> aes(1,4,4,4) takes a 64-bit plaintext and 64-bit key and
@@ -33,14 +33,14 @@ License, or any later version. */
   <ul>
    <li> Translation of aes(1,4,4,4):
     <ul>
-     <li> The MixColumns operation is decomposed into it's field
+     <li> The MixColumns operation is decomposed into its field
      multiplications (02 and 03) and addition operations. </li>
      <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse (it is self-inverse). </li>
+     the MixColumns operation and its inverse (it is self-inverse). </li>
      <li> We treat S-boxes, field multiplications and additions as boxes.
      </li>
-     <li> The S-box and field multiplications are considered as a 8-bit to
-     1-bit boolean functions, translated using the canonical translation;
+     <li> The S-box and field multiplications are considered as a 8x1
+     boolean functions, translated using the canonical translation;
      see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>
@@ -48,7 +48,7 @@ License, or any later version. */
      boolean functions; translated using their prime implicates. </li>
     </ul>
    </li>
-   <li> Generating small scale AES for 1 round:
+   <li> Generating small-scale AES for 1 round:
    \verbatim
 num_rounds : 1$
 num_rows : 4$

@@ -7,11 +7,11 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/4_4_8/general.hpp
-  \brief Investigations into small scale AES key discovery for AES with a 4x4 plaintext matrix and 8-bit field elements
+  \brief Investigations into AES key discovery for AES with a 4x4 plaintext matrix and 8-bit field elements
 
   \todo Problem specification
   <ul>
-  <li> We consider the small scale AES with 4 row, 4 column, using the 8-bit
+  <li> We consider AES which has 4 rows, 4 columns, using the 8-bit
    field size for rounds 1 to 20. </li>
    <li> We denote this AES instance by aes(r,4,4,8) for r in 1,...,20. </li>
    <li> We investigate translations of the key discovery problem for
@@ -51,10 +51,10 @@ K_(i,4,k) := S-box(K_(i-1,1,2)) + sum(K_(i-1,4,l),l,1,4)
    <li> The S-box is a permutation from {0,1}^8 to {0,1}^8 which we consider
    as either:
     <ul>
-     <li> an 16-bit to 1-bit boolean function; see ss_sbox_bf in
+     <li> an 16x1 boolean function; see ss_sbox_bf in
      ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac;
      </li>
-     <li> 4 8-bit to 1-bit boolean functions. </li>
+     <li> 4 8x1 boolean functions. </li>
     </ul>
    </li>
    <li> The MixColumns operation is a permutation from ({0,1}^8)^2 to

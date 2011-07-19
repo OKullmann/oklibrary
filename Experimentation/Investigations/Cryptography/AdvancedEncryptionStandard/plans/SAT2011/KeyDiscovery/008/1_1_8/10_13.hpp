@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/008/1_1_8/10_13.hpp
-  \brief Investigations into small scale AES key discovery with 1 row, 1 column and 8-bit field elements for 10 + 1/3 round AES
+  \brief Investigations into small-scale AES key discovery with 1 row, 1 column and 8-bit field elements for 10 + 1/3 round AES
 
 
   \todo Problem specification
   <ul>
-   <li> We investigate the 10 + 1/3 round small scale AES with 1 row,
+   <li> We investigate the 10 + 1/3 round small-scale AES with 1 row,
    1 column, using the 8-bit field size. </li>
    <li> We denote this AES instance by aes(10,1,1,8). </li>
    <li> aes(10,1,1,8) takes a 8-bit plaintext and 8-bit key and
@@ -38,7 +38,7 @@ License, or any later version. */
    <li> Translation of aes(10,1,1,8):
     <ul>
      <li> We treat S-boxes and additions as boxes. </li>
-     <li> The S-box is considered as a 16-bit to 1-bit boolean function,
+     <li> The S-box is considered as a 16x1 boolean function,
      translated using the canonical translation; see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>
@@ -47,13 +47,13 @@ License, or any later version. */
      <li> The MixColumns operation is the identity. </li>
      <li> Due to limitations in the translation, clauses occur in this
      translation representing equivalence of variables in the MixColumns;
-     See "Remove hard-coding of multiplication by 01 in small scale MixColumn"
+     See "Remove hard-coding of multiplication by 01 in small-scale MixColumn"
      in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
      </li>
     </ul>
    </li>
-   <li> Generating 8-bit small scale AES for 10 rounds:
+   <li> Generating 8-bit small-scale AES for 10 rounds:
    \verbatim
 shell> mkdir aes_1_1_8/canon
 shell> cd aes_1_1_8/canon
@@ -199,7 +199,7 @@ EM
    <li> Translation of aes(10,1,1,8):
     <ul>
      <li> We treat S-boxes and additions as boxes. </li>
-     <li> The S-box is considered as a 16-bit to 1-bit boolean function,
+     <li> The S-box is considered as a 16x1 boolean function,
      translated using the minimum translation; see ss_sbox_cnfs in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
      </li>
@@ -208,13 +208,13 @@ EM
      <li> The MixColumns operation is the identity. </li>
      <li> Due to limitations in the translation, clauses occur in this
      translation representing equivalence of variables in the MixColumns;
-     See "Remove hard-coding of multiplication by 01 in small scale MixColumn"
+     See "Remove hard-coding of multiplication by 01 in small-scale MixColumn"
      in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
      </li>
     </ul>
    </li>
-   <li> Generating 8-bit small scale AES for 10 rounds:
+   <li> Generating 8-bit small-scale AES for 10 rounds:
    \verbatim
 shell> mkdir aes_1_1_8/small
 shell> cd aes_1_1_8/small
@@ -360,7 +360,7 @@ EM
    <li> Translation of aes(10,1,1,8):
     <ul>
      <li> We treat S-boxes and additions as boxes. </li>
-     <li> The S-box is considered as a 16-bit to 1-bit boolean function,
+     <li> The S-box is considered as a 16x1 boolean function,
      translated using 1-bases; see ss_sbox_rbase_cnfs in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac.
      </li>
@@ -369,7 +369,7 @@ EM
      <li> The MixColumns operation is the identity. </li>
      <li> Due to limitations in the translation, clauses occur in this
      translation representing equivalence of variables in the MixColumns;
-     See "Remove hard-coding of multiplication by 01 in small scale MixColumn"
+     See "Remove hard-coding of multiplication by 01 in small-scale MixColumn"
      in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
      </li>
@@ -393,7 +393,7 @@ shell> cat AES_Sbox_base.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
 9 4
    \endverbatim
    </li>
-   <li> Generating 8-bit small scale AES for 10 rounds:
+   <li> Generating 8-bit small-scale AES for 10 rounds:
    \verbatim
 shell> mkdir aes_1_1_8/small
 shell> cd aes_1_1_8/small

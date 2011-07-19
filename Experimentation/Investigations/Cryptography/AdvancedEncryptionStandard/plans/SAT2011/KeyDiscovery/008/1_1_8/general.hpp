@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/008/1_1_8/general.hpp
-  \brief Investigations into small scale AES key discovery with 1 row, 1 column and 8-bit field elements
+  \brief Investigations into small-scale AES key discovery with 1 row, 1 column and 8-bit field elements
 
 
   \todo Problem specification
   <ul>
-  <li> We consider the small scale AES with 1 row, 1 column, using the 8-bit
+  <li> We consider the small-scale AES with 1 row, 1 column, using the 8-bit
    field size for rounds 1 to 20. </li>
    <li> We denote this AES instance by aes(r,1,1,8) for r in 1,...,20. </li>
    <li> We investigate translations of the key discovery problem for
@@ -43,10 +43,10 @@ K_i := S-box(K_(i-1)) + C_i
    <li> The S-box is a permutation from {0,1}^8 to {0,1}^8 which we consider
    as either:
     <ul>
-     <li> a 16-bit to 1-bit boolean function; see rijn_sbox_bf in
+     <li> a 16x1 boolean function; see rijn_sbox_bf in
      ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac.
      </li>
-     <li> 4 8-bit to 1-bit boolean functions. </li>
+     <li> 4 8x1 boolean functions. </li>
     </ul>
    </li>
    <li> The decompositions and translations are listed in "Investigating
@@ -85,7 +85,7 @@ K_i := S-box(K_(i-1)) + C_i
      <li> The canonical box translation:
       <ul>
        <li> We treat S-boxes and additions as boxes. </li>
-       <li> The S-box is considered as a 16-bit to 1-bit boolean function,
+       <li> The S-box is considered as a 16x1 boolean function,
        translated using the canonical translation; see dualts_fcl in
        ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
        </li>
@@ -94,7 +94,7 @@ K_i := S-box(K_(i-1)) + C_i
        <li> The MixColumns operation is the identity. </li>
        <li> Due to limitations in the translation, clauses occur in this
        translation representing equivalence of variables in the MixColumns;
-       See "Remove hard-coding of multiplication by 01 in small scale
+       See "Remove hard-coding of multiplication by 01 in small-scale
        MixColumn" in
        ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
        </li>
@@ -103,7 +103,7 @@ K_i := S-box(K_(i-1)) + C_i
      <li> The small box translation:
       <ul>
        <li> We treat S-boxes and additions as boxes. </li>
-       <li> The S-box is considered as a 16-bit to 1-bit boolean function,
+       <li> The S-box is considered as a 16x1 boolean function,
        translated using the minimum translation; see ss_sbox_cnfs in
        ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
        </li>
@@ -112,7 +112,7 @@ K_i := S-box(K_(i-1)) + C_i
        <li> The MixColumns operation is the identity. </li>
        <li> Due to limitations in the translation, clauses occur in this
        translation representing equivalence of variables in the MixColumns;
-       See "Remove hard-coding of multiplication by 01 in small scale
+       See "Remove hard-coding of multiplication by 01 in small-scale
        MixColumn" in
        ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
        </li>

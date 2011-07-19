@@ -7,11 +7,11 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/1_16_8/2_13.hpp
-  \brief Investigations into small scale AES key discovery for 2+1/3 round AES with 1 row and 16 columns
+  \brief Investigations into small-scale AES key discovery for 2+1/3 round AES with 1 row and 16 columns
 
   \todo Problem specification
   <ul>
-   <li> We investigate the 2 + 1/3 round small scale AES with 1 row,
+   <li> We investigate the 2 + 1/3 round small-scale AES with 1 row,
    16 column, using the 8-bit field size. </li>
    <li> We denote this AES instance by aes(2,1,16,8). </li>
    <li> aes(2,1,16,8) takes a 64-bit plaintext and 64-bit key and
@@ -34,7 +34,7 @@ License, or any later version. */
     <ul>
      <li> We treat S-boxes and additions as boxes.
      </li>
-     <li> The S-box is considered as a 8-bit to 1-bit boolean functions,
+     <li> The S-box is considered as a 16-bit to 1-bit boolean functions,
      translated using the canonical translation; see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>

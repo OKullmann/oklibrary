@@ -33,14 +33,14 @@ License, or any later version. */
   <ul>
    <li> Translation of aes(14,2,1,8):
     <ul>
-     <li> The MixColumns operation is decomposed into it's field
+     <li> The MixColumns operation is decomposed into its field
      multiplications (02 and 03) and addition operations. </li>
      <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse (it is self-inverse). </li>
+     the MixColumns operation and its inverse (it is self-inverse). </li>
      <li> We treat S-boxes, field multiplications and additions as boxes.
      </li>
-     <li> The S-box and field multiplications are considered as a 16-bit to
-     1-bit boolean functions, translated using the canonical translation;
+     <li> The S-box and field multiplications are considered as a 16x1
+     boolean functions, translated using the canonical translation;
      see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>
@@ -206,14 +206,14 @@ VALID
   <ul>
    <li> Translation of aes(14,2,1,8):
     <ul>
-     <li> The MixColumns operation is decomposed into it's field
+     <li> The MixColumns operation is decomposed into its field
      multiplications (02 and 03) and addition operations. </li>
      <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse (it is self-inverse). </li>
+     the MixColumns operation and its inverse (it is self-inverse). </li>
      <li> We treat S-boxes, field multiplications and additions as boxes.
      </li>
-     <li> The S-box and field multiplications are considered as a 16-bit to
-     1-bit boolean function, translated using the "minimum" translation;
+     <li> The S-box and field multiplications are considered as a 16x1
+     boolean function, translated using the "minimum" translation;
      see ss_sbox_cnfs in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
      and ss_field_cnfs in

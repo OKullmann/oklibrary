@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/general.hpp
-  \brief Investigations into small scale AES key discovery for AES with a 2x1 plaintext matrix and 8-bit field elements
+  \brief Investigations into small-scale AES key discovery for AES with a 2x1 plaintext matrix and 8-bit field elements
 
 
   \todo Problem specification
   <ul>
-  <li> We consider the small scale AES with 2 row, 1 column, using the 8-bit
+  <li> We consider the small-scale AES with 2 row, 1 column, using the 8-bit
    field size for rounds 1 to 20. </li>
    <li> We denote this AES instance by aes(r,2,1,8) for r in 1,...,20. </li>
    <li> We investigate translations of the key discovery problem for
@@ -49,10 +49,10 @@ K_(i,j) := S-box(K_(i-1,j)) + C_i
    <li> The S-box is a permutation from {0,1}^8 to {0,1}^8 which we consider
    as either:
     <ul>
-     <li> a 16-bit to 1-bit boolean function; see ss_sbox_bf in
+     <li> a 16x1 boolean function; see ss_sbox_bf in
      ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac;
      </li>
-     <li> 4 8-bit to 1-bit boolean functions. </li>
+     <li> 4 8x1 boolean functions. </li>
     </ul>
    </li>
    <li> The MixColumns operation is a permutation from ({0,1}^8)^2 to

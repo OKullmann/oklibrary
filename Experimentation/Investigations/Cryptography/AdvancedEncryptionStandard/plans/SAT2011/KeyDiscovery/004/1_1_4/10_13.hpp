@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/004/1_1_4/10_13.hpp
-  \brief Investigations into small scale AES key discovery with 1 row, 1 column and 4-bit field elements for 10 rounds AES with MixColumns
+  \brief Investigations into small-scale AES key discovery with 1 row, 1 column and 4-bit field elements for 10 rounds AES with MixColumns
 
 
   \todo Overview
   <ul>
-   <li> We investigate the 10 + 1/3 round small scale AES with
+   <li> We investigate the 10 + 1/3 round small-scale AES with
    1 row, 1 column, using the 4-bit field size. </li>
    <li> We denote this AES instance by aes(10,1,1,4). </li>
    <li> aes(10,1,1,4) takes a 4-bit plaintext and 4-bit key and
@@ -38,7 +38,7 @@ License, or any later version. */
    <li> Translation of aes(10,1,1,4):
     <ul>
      <li> We treat S-boxes and additions as boxes. </li>
-     <li> The S-box is considered as an 8-bit to 1-bit boolean function,
+     <li> The S-box is considered as an 8x1 boolean function,
      translated using the canonical translation; see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>
@@ -47,13 +47,13 @@ License, or any later version. */
      <li> The MixColumns operation is the identity. </li>
      <li> Due to limitations in the translation, clauses occur in this
      translation representing equivalence of variables in the MixColumns;
-     See "Remove hard-coding of multiplication by 01 in small scale MixColumn"
+     See "Remove hard-coding of multiplication by 01 in small-scale MixColumn"
      in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
      </li>
     </ul>
    </li>
-   <li> Generating simplest small scale AES for 10 rounds:
+   <li> Generating simplest small-scale AES for 10 rounds:
    \verbatim
 num_rounds : 10$
 num_rows : 1$

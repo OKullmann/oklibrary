@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/008/1_2_4/general.hpp
-  \brief Investigations into small scale AES key discovery with 1 row, 2 column and 4-bit field elements
+  \brief Investigations into small-scale AES key discovery with 1 row, 2 column and 4-bit field elements
 
 
   \todo Problem specification
   <ul>
-  <li> We consider the small scale AES with 1 row, 2 column, using the 4-bit
+  <li> We consider the small-scale AES with 1 row, 2 column, using the 4-bit
    field size for rounds 1 to 20. </li>
    <li> We denote this AES instance by aes(r,1,2,4) for r in 1,...,20. </li>
    <li> We investigate translations of the key discovery problem for
@@ -48,10 +48,10 @@ K_(i,j) := S-box(K_(i-1,1)) + C_i + sum(K_(i-1,k),k,1,j)
    <li> The S-box is a permutation from {0,1}^4 to {0,1}^4 which we consider
    as either:
     <ul>
-     <li> a 8-bit to 1-bit boolean function; see ss_sbox_bf in
+     <li> a 8x1 boolean function; see ss_sbox_bf in
      ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac.
      </li>
-     <li> 4 4-bit to 1-bit boolean functions. </li>
+     <li> 4 4x1 boolean functions. </li>
     </ul>
    </li>
    <li> The decompositions and translations are listed in "Investigating

@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/008/1_1_8/20_13.hpp
-  \brief Investigations into small scale AES key discovery with 1 row, 1 column and 8-bit field elements for 20 + 1/3 round AES
+  \brief Investigations into small-scale AES key discovery with 1 row, 1 column and 8-bit field elements for 20 + 1/3 round AES
 
 
   \todo Problem specification
   <ul>
-   <li> We investigate the 20 + 1/3 round small scale AES with 1 row,
+   <li> We investigate the 20 + 1/3 round small-scale AES with 1 row,
    1 column, using the 8-bit field size. </li>
    <li> We denote this AES instance by aes(20,1,1,8). </li>
    <li> aes(20,1,1,8) takes a 8-bit plaintext and 8-bit key and
@@ -38,7 +38,7 @@ License, or any later version. */
    <li> Translation of aes(20,1,1,8):
     <ul>
      <li> We treat S-boxes and additions as boxes. </li>
-     <li> The S-box is considered as a 16-bit to 1-bit boolean function,
+     <li> The S-box is considered as a 16x1 boolean function,
      translated using the canonical translation; see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>
@@ -47,7 +47,7 @@ License, or any later version. */
      <li> The MixColumns operation is the identity. </li>
      <li> Due to limitations in the translation, clauses occur in this
      translation representing equivalence of variables in the MixColumns;
-     See "Remove hard-coding of multiplication by 01 in small scale MixColumn"
+     See "Remove hard-coding of multiplication by 01 in small-scale MixColumn"
      in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
      </li>
@@ -62,10 +62,10 @@ License, or any later version. */
      </li>
      <li> Additions are translated using their prime implicates. </li>
      <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse. </li>
+     the MixColumns operation and its inverse. </li>
     </ul>
    </li>
-   <li> Generating simplest small scale AES for 20+1/3 rounds:
+   <li> Generating simplest small-scale AES for 20+1/3 rounds:
    \verbatim
 shell> ${OKlib}/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/generate_aes_experiment 20 1 1 1 8 false aes_ts_box aes_mc_bidirectional
 shell> cat ssaes_r20_c1_rw1_e8_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n

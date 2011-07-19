@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo Problem specification
   <ul>
-   <li> We investigate the 1 + 1/3 round small scale AES with 4 row,
+   <li> We investigate the 1 + 1/3 round AES with 4 row,
    4 column, using the 8-bit field size. </li>
    <li> We denote this AES instance by aes(1,4,4,8). </li>
    <li> aes(1,4,4,8) takes a 128-bit plaintext and 128-bit key and
@@ -33,14 +33,14 @@ License, or any later version. */
   <ul>
    <li> Translation of aes(1,4,4,8):
     <ul>
-     <li> The MixColumns operation is decomposed into it's field
+     <li> The MixColumns operation is decomposed into its field
      multiplications (02 and 03) and addition operations. </li>
      <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse (it is self-inverse). </li>
+     the MixColumns operation and its inverse (it is self-inverse). </li>
      <li> We treat S-boxes, field multiplications and additions as boxes.
      </li>
-     <li> The S-box and field multiplications are considered as a 16-bit to
-     1-bit boolean functions, translated using the canonical translation;
+     <li> The S-box and field multiplications are considered as a 16x1
+     boolean functions, translated using the canonical translation;
      see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>

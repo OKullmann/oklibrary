@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/004/1_1_4/1_13.hpp
-  \brief Investigations into small scale AES key discovery with 1 row, 1 column and 4-bit field elements for 1 round AES (1+1/3)
+  \brief Investigations into small-scale AES key discovery with 1 row, 1 column and 4-bit field elements for 1 round AES (1+1/3)
 
 
   \todo Overview
   <ul>
-   <li> We investigate the 1 + 1/3 round small scale AES with 1 row,
+   <li> We investigate the 1 + 1/3 round small-scale AES with 1 row,
    1 column, using the 4-bit field size. </li>
    <li> We denote this AES instance by aes(1,1,1,4). </li>
    <li> aes(1,1,1,4) takes a 4-bit plaintext and 4-bit key and
@@ -38,7 +38,7 @@ License, or any later version. */
    <li> Translation of aes(1,1,1,4):
     <ul>
      <li> We treat S-boxes and additions as boxes. </li>
-     <li> The S-box is considered as an 8-bit to 1-bit boolean function,
+     <li> The S-box is considered as an 8x1 boolean function,
      translated using the canonical translation; see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>
@@ -47,13 +47,13 @@ License, or any later version. */
      <li> The MixColumns operation is the identity. </li>
      <li> Due to limitations in the translation, clauses occur in this
      translation representing equivalence of variables in the MixColumns;
-     See "Remove hard-coding of multiplication by 01 in small scale MixColumn"
+     See "Remove hard-coding of multiplication by 01 in small-scale MixColumn"
      in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
      </li>
     </ul>
    </li>
-   <li> Generating simplest small scale AES for 1 round
+   <li> Generating simplest small-scale AES for 1 round
    \verbatim
 num_rounds : 1$
 num_rows : 1$
@@ -170,7 +170,7 @@ c CPU time              : 0 s
    </li>
    <li> It seems OKsolver is propagating purely by r_2. Perhaps the OKsolver
    is able to take advantage of the r_1-basedness of the canonical translation
-   due to it's use of r_2 reductions? </li>
+   due to its use of r_2 reductions? </li>
    <li> We can check we get the right result with:
    \verbatim
 shell> OKsolver_2002-O3-DNDEBUG -O r1_keyfind.cnf | grep "^v" | $OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/validate_aes_assignment 1 1 1 4 0 && echo "VALID"

@@ -211,9 +211,9 @@ set_heap_size_ecl(2**32);
   </ul>
 
 
-  \todo Remove hard-coding of multiplication by 01 in small scale MixColumn
+  \todo Remove hard-coding of multiplication by 01 in small-scale MixColumn
   <ul>
-   <li> In the current of the small scale MixColumn rewrite function, if the
+   <li> In the current of the small-scale MixColumn rewrite function, if the
    mixcolumns matrix contains a 1 in any position, then this is hard-coded
    in the rewrite function to be translated to an "eq_cst" constraint, which
    will then be removed by the global propagation stage later. </li>
@@ -221,7 +221,7 @@ set_heap_size_ecl(2**32);
    constraint, and then simply have the multiplication constraint rewrite
    rule convert it to the "eq_cst" constraint. </li>
    <li> At the same time, one needs to handle multiplication by 0, which
-   doesn't occur in any current AES or small scale MixColumns matrices but
+   doesn't occur in any current AES or small-scale MixColumns matrices but
    will occur in later versions. </li>
    <li> Equalivalence constraints for trivial instances:
     <ul>

@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/2_4_4/5_13.hpp
-  \brief Investigations into small scale AES key discovery for 5+1/3 round AES with a 2x4 plaintext matrix and 4-bit field elements
+  \brief Investigations into small-scale AES key discovery for 5+1/3 round AES with a 2x4 plaintext matrix and 4-bit field elements
 
 
   \todo Problem specification
   <ul>
-   <li> We investigate the 5 + 1/3 round small scale AES with 2 row,
+   <li> We investigate the 5 + 1/3 round small-scale AES with 2 row,
    4 column, using the 4-bit field size. </li>
    <li> We denote this AES instance by aes(5,2,4,4). </li>
    <li> aes(5,2,4,4) takes a 32-bit plaintext and 32-bit key and
@@ -33,13 +33,13 @@ License, or any later version. */
   <ul>
    <li> Translation of aes(5,2,4,4):
     <ul>
-     <li> The MixColumns operation is decomposed into it's field
+     <li> The MixColumns operation is decomposed into its field
      multiplications (02 and 03) and addition operations. </li>
      <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse (it is self-inverse). </li>
+     the MixColumns operation and its inverse (it is self-inverse). </li>
      <li> We treat S-boxes, field additions and additions as boxes. </li>
-     <li> The S-box and field multiplications are considered as a 8-bit to
-     1-bit boolean function, translated using 1-bases; see ss_sbox_rbase_cnfs
+     <li> The S-box and field multiplications are considered as a 8x1
+     boolean function, translated using 1-bases; see ss_sbox_rbase_cnfs
      in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac.
      </li>
@@ -47,7 +47,7 @@ License, or any later version. */
      boolean functions; translated using their prime implicates. </li>
     </ul>
    </li>
-   <li> Generating small scale AES for 5 + 1/3 round:
+   <li> Generating small-scale AES for 5 + 1/3 round:
    \verbatim
 num_rounds : 5$
 num_rows : 2$

@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/008/1_2_4/20_13.hpp
-  \brief Investigations into small scale AES key discovery for 20+1/3 round AES with 1 row, 2 columns and 4-bit field size
+  \brief Investigations into small-scale AES key discovery for 20+1/3 round AES with 1 row, 2 columns and 4-bit field size
 
 
   \todo Problem specification
   <ul>
-   <li> We investigate the 20 + 1/3 round small scale AES with 1 row,
+   <li> We investigate the 20 + 1/3 round small-scale AES with 1 row,
    2 column, using the 4-bit field size. </li>
    <li> We denote this AES instance by aes(20,1,2,4). </li>
    <li> aes(20,1,2,4) takes a 8-bit plaintext and 8-bit key and
@@ -38,7 +38,7 @@ License, or any later version. */
    <li> Translation of aes(20,1,2,4):
     <ul>
      <li> We treat S-boxes and additions as boxes. </li>
-     <li> The S-box is considered as a 8-bit to 1-bit boolean function,
+     <li> The S-box is considered as a 8x1 boolean function,
      translated using 1-bases; see ss_sbox_rbase_cnfs in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac.
      </li>
@@ -47,13 +47,13 @@ License, or any later version. */
      <li> The MixColumns operation is the identity. </li>
      <li> Due to limitations in the translation, clauses occur in this
      translation representing equivalence of variables in the MixColumns;
-     See "Remove hard-coding of multiplication by 01 in small scale MixColumn"
+     See "Remove hard-coding of multiplication by 01 in small-scale MixColumn"
      in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
      </li>
     </ul>
    </li>
-   <li> Generating simplest small scale AES for 20 rounds:
+   <li> Generating simplest small-scale AES for 20 rounds:
    \verbatim
 shell> mkdir aes_1_2_4/1base
 shell> cd aes_1_2_4/1base
@@ -204,7 +204,7 @@ EM
    <li> Translation of aes(20,1,2,4):
     <ul>
      <li> We treat S-boxes and additions as boxes. </li>
-     <li> The S-box is considered as a 8-bit to 1-bit boolean function,
+     <li> The S-box is considered as a 8x1 boolean function,
      translated using the minimum translation; see ss_sbox_cnfs in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
      </li>
@@ -213,13 +213,13 @@ EM
      <li> The MixColumns operation is the identity. </li>
      <li> Due to limitations in the translation, clauses occur in this
      translation representing equivalence of variables in the MixColumns;
-     See "Remove hard-coding of multiplication by 01 in small scale MixColumn"
+     See "Remove hard-coding of multiplication by 01 in small-scale MixColumn"
      in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
      </li>
     </ul>
    </li>
-   <li> Generating simplest small scale AES for 20 rounds:
+   <li> Generating simplest small-scale AES for 20 rounds:
    \verbatim
 shell> mkdir aes_1_2_4/min
 shell> cd aes_1_2_4/min
@@ -372,7 +372,7 @@ EM
    <li> Translation of aes(20,1,2,4):
     <ul>
      <li> We treat S-boxes and additions as boxes. </li>
-     <li> The S-box is considered as a 8-bit to 1-bit boolean function,
+     <li> The S-box is considered as a 8x1 boolean function,
      translated using the canonical translation; see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>
@@ -381,13 +381,13 @@ EM
      <li> The MixColumns operation is the identity. </li>
      <li> Due to limitations in the translation, clauses occur in this
      translation representing equivalence of variables in the MixColumns;
-     See "Remove hard-coding of multiplication by 01 in small scale MixColumn"
+     See "Remove hard-coding of multiplication by 01 in small-scale MixColumn"
      in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
      </li>
     </ul>
    </li>
-   <li> Generating simplest small scale AES for 20 rounds:
+   <li> Generating simplest small-scale AES for 20 rounds:
    \verbatim
 shell> mkdir aes_1_2_4/canon
 shell> cd aes_1_2_4/canon
@@ -547,10 +547,10 @@ EM
      </li>
      <li> Additions are translated using their prime implicates. </li>
      <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse. </li>
+     the MixColumns operation and its inverse. </li>
     </ul>
    </li>
-   <li> Generating simplest small scale AES for 20 rounds:
+   <li> Generating simplest small-scale AES for 20 rounds:
    \verbatim
 shell> mkdir aes_1_2_4/full
 shell> cd aes_1_2_4/full

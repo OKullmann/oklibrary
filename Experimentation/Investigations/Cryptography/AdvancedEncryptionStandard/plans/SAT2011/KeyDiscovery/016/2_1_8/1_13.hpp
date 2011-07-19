@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/1_13.hpp
-  \brief Investigations into small scale AES key discovery for 1 + 1/3 round AES with a 2x1 plaintext matrix and 8-bit field elements
+  \brief Investigations into small-scale AES key discovery for 1 + 1/3 round AES with a 2x1 plaintext matrix and 8-bit field elements
 
 
   \todo Problem specification
   <ul>
-   <li> We investigate the 1 + 1/3 round small scale AES with 2 row,
+   <li> We investigate the 1 + 1/3 round small-scale AES with 2 row,
    1 column, using the 8-bit field size. </li>
    <li> We denote this AES instance by aes(1,2,1,8). </li>
    <li> aes(1,2,1,8) takes a 16-bit plaintext and 16-bit key and
@@ -33,14 +33,14 @@ License, or any later version. */
   <ul>
    <li> Translation of aes(1,2,1,8):
     <ul>
-     <li> The MixColumns operation is decomposed into it's field
+     <li> The MixColumns operation is decomposed into its field
      multiplications (02 and 03) and addition operations. </li>
      <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse (it is self-inverse). </li>
+     the MixColumns operation and its inverse (it is self-inverse). </li>
      <li> We treat S-boxes, field multiplications and additions as boxes.
      </li>
-     <li> The S-box and field multiplications are considered as a 16-bit to
-     1-bit boolean functions, translated using the canonical translation;
+     <li> The S-box and field multiplications are considered as a 16x1
+     boolean functions, translated using the canonical translation;
      see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>
@@ -48,7 +48,7 @@ License, or any later version. */
      boolean functions; translated using their prime implicates. </li>
     </ul>
    </li>
-   <li> Generating small scale AES for 1 + 1/3 rounds:
+   <li> Generating small-scale AES for 1 + 1/3 rounds:
    \verbatim
 shell> mkdir aes_2_1_8/canon
 shell> cd aes_2_1_8/canon
@@ -275,14 +275,14 @@ EM
   <ul>
    <li> Translation of aes(1,2,1,8):
     <ul>
-     <li> The MixColumns operation is decomposed into it's field
+     <li> The MixColumns operation is decomposed into its field
      multiplications (02 and 03) and addition operations. </li>
      <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse (it is self-inverse). </li>
+     the MixColumns operation and its inverse (it is self-inverse). </li>
      <li> We treat S-boxes, field multiplications and additions as boxes.
      </li>
-     <li> The S-box and field multiplications are considered as a 16-bit to
-     1-bit boolean function, translated using the "minimum" translation;
+     <li> The S-box and field multiplications are considered as a 16x1
+     boolean function, translated using the "minimum" translation;
      see ss_sbox_cnfs in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
      and ss_field_cnfs in
@@ -299,7 +299,7 @@ EM
 
      <li> Additions are translated using their prime implicates. </li>
      <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse. </li>
+     the MixColumns operation and its inverse. </li>
     </ul>
    </li>
    <li> The CNFs for the Sbox and multiplications:
@@ -323,7 +323,7 @@ maxima> SboxMinCNF : read_fcl_f("AES_Sbox_s294.cnf");
 maxima> set_hm(ss_sbox_cnfs,8, SboxMinCNF));
    \endverbatim
    </li>
-   <li> Generating small scale AES for 1 + 1/3 rounds:
+   <li> Generating small-scale AES for 1 + 1/3 rounds:
    \verbatim
 shell> mkdir aes_1_1_8/canon
 shell> cd aes_1_1_8/canon
@@ -562,14 +562,14 @@ EM
   <ul>
    <li> Translation of aes(1,2,1,8):
     <ul>
-     <li> The MixColumns operation is decomposed into it's field
+     <li> The MixColumns operation is decomposed into its field
      multiplications (02 and 03) and addition operations. </li>
      <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse (it is self-inverse). </li>
+     the MixColumns operation and its inverse (it is self-inverse). </li>
      <li> We treat S-boxes, field multiplications and additions as boxes.
      </li>
-     <li> The S-box and field multiplications are considered as a 16-bit to
-     1-bit boolean function, translated using 1-bases;
+     <li> The S-box and field multiplications are considered as a 16x1
+     boolean function, translated using 1-bases;
      see ss_sbox_rbase_cnfs in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac
      and ss_field_rbase_cnfs in
@@ -629,7 +629,7 @@ shell> cat AES_byte_field_mul_3_base.cnf | ExtendedDimacsFullStatistics-O3-DNDEB
    <li> Translating the AES cipher treating Sboxes and field multiplications
    as whole boxes and translating these boxes using 1-bases.
    </li>
-   <li> Generating small scale AES for 1 + 1/3 rounds:
+   <li> Generating small-scale AES for 1 + 1/3 rounds:
    \verbatim
 shell> mkdir aes_1_1_8/canon
 shell> cd aes_1_1_8/canon

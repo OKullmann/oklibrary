@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/4_2_4/2_13.hpp
-  \brief Investigations into small scale AES key discovery for 2 + 1/3 round AES with a 4x2 plaintext matrix and 4-bit field elements
+  \brief Investigations into small-scale AES key discovery for 2 + 1/3 round AES with a 4x2 plaintext matrix and 4-bit field elements
 
 
   \todo Problem specification
   <ul>
-   <li> We investigate the 2 + 1/3 round small scale AES with 4 row,
+   <li> We investigate the 2 + 1/3 round small-scale AES with 4 row,
    2 column, using the 4-bit field size. </li>
    <li> We denote this AES instance by aes(2,4,2,4). </li>
    <li> aes(2,4,2,4) takes a 32-bit plaintext and 32-bit key and
@@ -30,17 +30,17 @@ License, or any later version. */
 
 
   \todo Using the canonical box translation
-  <ul>
+  <u>l
    <li> Translation of aes(2,4,2,4):
     <ul>
-     <li> The MixColumns operation is decomposed into it's field
+     <li> The MixColumns operation is decomposed into its field
      multiplications (02 and 03) and addition operations. </li>
      <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse. </li>
+     the MixColumns operation and its inverse. </li>
      <li> We treat S-boxes, field multiplications and additions as boxes.
      </li>
-     <li> The S-box and field multiplications are considered as a 8-bit to
-     1-bit boolean functions, translated using the canonical translation;
+     <li> The S-box and field multiplications are considered as a 8x1
+     boolean functions, translated using the canonical translation;
      see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>
@@ -48,7 +48,7 @@ License, or any later version. */
      boolean functions; translated using their prime implicates. </li>
     </ul>
    </li>
-   <li> Generating small scale AES for 2 + 1/3 round:
+   <li> Generating small-scale AES for 2 + 1/3 round:
    \verbatim
 num_rounds : 2$
 num_rows : 4$

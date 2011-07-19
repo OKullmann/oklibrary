@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/064/1_16_4/5_13.hpp
-  \brief Investigations into small scale AES key discovery for 5 + 1/3 round AES with a 1x16 plaintext matrix and 4-bit field elements
+  \brief Investigations into small-scale AES key discovery for 5 + 1/3 round AES with a 1x16 plaintext matrix and 4-bit field elements
 
 
   \todo Problem specification
   <ul>
-   <li> We investigate the 5 + 1/3 round small scale AES with 1 row,
+   <li> We investigate the 5 + 1/3 round small-scale AES with 1 row,
    16 column, using the 4-bit field size. </li>
    <li> We denote this AES instance by aes(5,1,16,4). </li>
    <li> aes(5,1,16,4) takes a 64-bit plaintext and 64-bit key and
@@ -35,7 +35,7 @@ License, or any later version. */
     <ul>
      <li> We treat S-boxes and additions as boxes.
      </li>
-     <li> The S-box is considered as a 8-bit to 1-bit boolean functions,
+     <li> The S-box is considered as a 8x1 boolean functions,
      translated using the canonical translation; see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>
@@ -43,7 +43,7 @@ License, or any later version. */
      boolean functions; translated using their prime implicates. </li>
     </ul>
    </li>
-   <li> Generating small scale AES for 5 + 1/3 rounds:
+   <li> Generating small-scale AES for 5 + 1/3 rounds:
    \verbatim
 num_rounds : 5$
 num_rows : 1$
@@ -148,7 +148,7 @@ CPU time              : 25.4 s
    <li> Translation of aes(5,1,16,4):
     <ul>
      <li> We treat S-boxes and additions as boxes. </li>
-     <li> The S-box is considered as a 8-bit to 1-bit boolean function,
+     <li> The S-box is considered as a 8x1 boolean function,
      translated using 1-bases; see ss_sbox_rbase_cnfs in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleSboxCNF.mac.
      </li>
@@ -156,7 +156,7 @@ CPU time              : 25.4 s
      boolean functions; translated using their prime implicates. </li>
     </ul>
    </li>
-   <li> Generating small scale AES for 5 + 1/3 rounds:
+   <li> Generating small-scale AES for 5 + 1/3 rounds:
    \verbatim
 num_rounds : 5$
 num_rows : 1$

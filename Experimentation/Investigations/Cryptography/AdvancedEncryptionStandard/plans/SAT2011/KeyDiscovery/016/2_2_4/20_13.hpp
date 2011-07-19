@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_2_4/20_13.hpp
-  \brief Investigations into small scale AES key discovery for 20 + 1/3 round AES with a 2x2 plaintext matrix and 4-bit field elements
+  \brief Investigations into small-scale AES key discovery for 20 + 1/3 round AES with a 2x2 plaintext matrix and 4-bit field elements
 
 
   \todo Problem specification
   <ul>
-   <li> We investigate the 20 + 1/3 round small scale AES with 2 row,
+   <li> We investigate the 20 + 1/3 round small-scale AES with 2 row,
    2 column, using the 4-bit field size. </li>
    <li> We denote this AES instance by aes(20,2,2,4). </li>
    <li> aes(20,2,2,4) takes a 16-bit plaintext and 16-bit key and
@@ -39,7 +39,7 @@ License, or any later version. */
      <li> A "core round column operation" is permutation over ({0,1}^4)^2,
      which is a column-wise application of the SubBytes and MixColumns
      operation combined. </li>
-     <li> The S-box is considered as an 8-bit to 1-bit boolean function,
+     <li> The S-box is considered as an 8x1 boolean function,
      translated using the canonical translation; see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>
@@ -51,7 +51,7 @@ License, or any later version. */
      <li> Additions are translated using their prime implicates. </li>
     </ul>
    </li>
-   <li> Generating small scale AES for twenty rounds:
+   <li> Generating small-scale AES for twenty rounds:
    \verbatim
 rounds : 20$
 num_rows : 2$
@@ -278,14 +278,14 @@ c CPU time              : 133.51 s
   <ul>
    <li> Translation of aes(20,2,2,4):
     <ul>
-     <li> The MixColumns operation is decomposed into it's field
+     <li> The MixColumns operation is decomposed into its field
      multiplications (02 and 03) and addition operations. </li>
      <li> The MixColumns operation is translated by translating both
-     the MixColumns operation and it's inverse (it is self-inverse). </li>
+     the MixColumns operation and its inverse (it is self-inverse). </li>
      <li> We treat S-boxes, field multiplications and additions as boxes.
      </li>
-     <li> The S-box and field multiplications are considered as a 8-bit to
-     1-bit boolean functions, translated using the canonical translation;
+     <li> The S-box and field multiplications are considered as a 8x1
+     boolean functions, translated using the canonical translation;
      see dualts_fcl in
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
      </li>
@@ -293,7 +293,7 @@ c CPU time              : 133.51 s
      boolean functions; translated using their prime implicates. </li>
     </ul>
    </li>
-   <li> Generating small scale AES for twenty rounds (with MixColumns):
+   <li> Generating small-scale AES for twenty rounds (with MixColumns):
    \verbatim
 rounds : 20$
 num_rows : 2$
