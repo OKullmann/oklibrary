@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/004/1_1_4/1_13.hpp
-  \brief Investigations into simplest small scale AES key discovery for one round AES (1+1/3)
+  \brief Investigations into small scale AES key discovery with 1 row, 1 column and 4-bit field elements for 1 round AES (1+1/3)
 
 
   \todo Overview

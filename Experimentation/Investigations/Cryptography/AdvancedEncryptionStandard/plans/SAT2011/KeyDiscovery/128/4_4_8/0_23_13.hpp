@@ -8,7 +8,7 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/4_4_8/0_23_13.hpp
-  \brief Investigations into AES key discovery for one round AES without MixColumns (0+2/3+1/3)
+  \brief Investigations into AES key discovery for 1 round AES without MixColumns (0+2/3+1/3)
 
 
   \todo Show and explain sizes of minimum-translations

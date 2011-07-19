@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/064/4_4_4/1_13.hpp
-  \brief Investigations into small scale AES key discovery for one round AES with a 4x4 plaintext matrix and 4-bit field elements (1+1/3)
+  \brief Investigations into small scale AES key discovery for 1 round AES with a 4x4 plaintext matrix and 4-bit field elements (1+1/3)
 
 
   \todo Problem specification
@@ -48,7 +48,7 @@ License, or any later version. */
      boolean functions; translated using their prime implicates. </li>
     </ul>
    </li>
-   <li> Generating small scale AES for one round:
+   <li> Generating small scale AES for 1 round:
    \verbatim
 num_rounds : 1$
 num_rows : 4$

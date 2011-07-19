@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/008/1_1_8/20_13.hpp
-  \brief Investigations into simplest 8-bit small scale AES key discovery for 20 + 1/3 round AES
+  \brief Investigations into small scale AES key discovery with 1 row, 1 column and 8-bit field elements for 20 + 1/3 round AES
 
 
   \todo Problem specification

@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/004/1_1_4/general.hpp
-  \brief Investigations into small scale AES key discovery with one row, one column and 4-bit field elements
+  \brief Investigations into small scale AES key discovery with 1 row, 1 column and 4-bit field elements
 
 
   \todo Problem specification

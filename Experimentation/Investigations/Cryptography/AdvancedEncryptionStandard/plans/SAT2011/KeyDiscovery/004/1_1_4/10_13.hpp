@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/004/1_1_4/10_13.hpp
-  \brief Investigations into simplest small scale AES key discovery for ten rounds AES with MixColumns
+  \brief Investigations into small scale AES key discovery with 1 row, 1 column and 4-bit field elements for 10 rounds AES with MixColumns
 
 
   \todo Overview

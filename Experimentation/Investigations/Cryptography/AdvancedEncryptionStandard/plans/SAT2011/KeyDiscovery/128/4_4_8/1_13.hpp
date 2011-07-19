@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/4_4_8/1_13.hpp
-  \brief Investigations into AES key discovery for one round AES (1+1/3)
+  \brief Investigations into AES key discovery for 1 round AES (1+1/3)
 
 
   \todo Problem specification
