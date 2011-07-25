@@ -153,12 +153,9 @@ EM
    <li> Running OKsolver_2002 on these instances:
    \verbatim
 shell> r=3;
-shell> for s in $(seq 1 5); do
-  for k in $(seq 1 20); do
-    echo "Round ${r}; Key Seed ${k}; Random Seed ${s}...";
-    cat des_6t4_canon_r${r}_s${k}.cnf | RandomShuffleDimacs-O3-DNDEBUG $s > r${r}_k${k}_s${s}.cnf;
-    OKsolver_2002-O3-DNDEBUG r${r}_k${k}_s${s}.cnf > oksolver_r${r}_k${k}_s${s}.result 2>&1;
-  done;
+shell> for k in $(seq 1 20); do
+    echo "Round ${r}; Key Seed ${k}...";
+    OKsolver_2002-O3-DNDEBUG des_6t4_canon_r${r}_s${k}.cnf > oksolver_r${r}_k${k}.result 2>&1;
 done;
 shell> echo "n  c  l  t  sat  nds  r1  r2  pls  ats h file n2cr  dmcl dn  dc  dl snds qnds mnds  tel  oats  n2cs  m2cs r k" > oksolver_results;
 for k in $(seq 1 20); do
