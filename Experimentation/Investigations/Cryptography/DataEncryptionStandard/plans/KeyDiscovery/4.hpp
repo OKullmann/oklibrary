@@ -55,23 +55,13 @@ License, or any later version. */
    pairs. See "Transferring the Argosat-desgen example" in
    Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
    </li>
-   <li> Using the:
+   <li> Solving 20 random keys (avg number of conflicts/nodes):
     <ul>
-     <li> "minimum" translation; fastest solver solves in 0.5s, all in
-     less than 1600s. See "Using the 1-base translation for the S-boxes
-     (6-to-4)". </li>
-     <li> 1-base translation; fastest solver solves in 7s, all in
-     less than 761s. See "Using the 1-base translation for the S-boxes
-     (6-to-4)". </li>
-     <li> canonical translation; fastest solver solves in 31s, all in less
-     than 330s. See "Using the canonical translation for the S-boxes
-     (6-to-4)". </li>
-     <li> canonical CNF translation; fastest solver solves in 32s.
-     See "Using the canonical CNF translation for the S-boxes (6-to-4)". </li>
+     <li> 1-base (minisat-2.2.0: 982518.8, OKsolver_2002: 4134272). </li>
+     <li> canonical (minisat-2.2.0: 1050555, OKsolver_2002: 56743). </li>
+     <li> minimum (minisat-2.2.0: 1331979, OKsolver_2002:  6566953). </li>
     </ul>
    </li>
-   <li> Note that we use the canonical CNF translation for the S-boxes to
-   compare other representations to the "hardest" representation. </li>
   </ul>
 
 
@@ -84,20 +74,27 @@ License, or any later version. */
    </li>
    <li> Generating the instance:
    \verbatim
+shell> mkdir -p des_4/canon
+shell> cd des_4/canon
+shell> oklib --maxima
+oklib_load_all()$
 rounds : 4$
 sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
-P_hex : "038E596D4841D03B"$
-K_hex : "15FBC08D31B0D521"$
-C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
-P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
-C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
-F : des2fcl_gen(sbox_fcl_l,rounds)$
-Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
-output_fcl_v(
-  sconcat("DES over ",rounds," rounds; translated using the canonical translation for the S-boxes (6-to-4)."),
-  Fs[1],
-  sconcat("des_6t4_canon_r",rounds,".cnf"),
-  Fs[2])$
+for seed : 1 thru 20 do block(
+  print(sconcat("Generating ", rounds, "-round DES with seed ", seed)),
+  set_random(make_random_state(seed)),
+  P_hex : lpad(int2hex(random(2**64)),"0",16),
+  K_hex : lpad(int2hex(random(2**64)),"0",16),
+  C_hex : des_encryption_hex_gen(rounds, P_hex,K_hex),
+  P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds),
+  C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds),
+  F : des2fcl_gen(sbox_fcl_l,rounds),
+  Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
+  output_fcl_v(
+    sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the canonical translation for the S-boxes (6-to-4)."),
+    Fs[1],
+    sconcat("des_6t4_canon_r",rounds,"_s",seed,".cnf"),
+    Fs[2]))$
 print("DONE!");
    \endverbatim
    </li>
@@ -129,66 +126,54 @@ ncl_list_fcl(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(1)]));
      <li> 32 clauses of length 64 (8 * 4 = 32 S-boxes). </li>
     </ul>
    </li>
-   <li> Solvers (t:time,cfs:conflicts,nds:nodes): glucose
-   (t:39.31s,cfs:178662), minisat-2.2.0 (t:131s,cfs:555383), cryptominisat
-   (t:195s,cfs:676495), precosat236 (t:306s,cfs:1144952),
-   OKsolver_2002 (t:327s,nds:5601). </li>
-   </li>
-  </ul>
-
-
-  \todo Using the canonical CNF translation for the S-boxes (6-to-4)
-  <ul>
-   <li> Translating the DES Sboxes using the canonical CNFs.
-   That is, each Sbox is represented with a CNF where all
-   clauses are of length 10. </li>
-   <li> Generating the instance:
+   <li> Running minisat-2.2.0 on these instances:
    \verbatim
-rounds : 4$
-sbox_fcl_l : create_list(fcs2fcl(des_sbox_fullcnf_fcs(i)), i, 1, 8)$
-P_hex : "038E596D4841D03B"$
-K_hex : "15FBC08D31B0D521"$
-C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
-P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
-C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
-F : des2fcl_gen(sbox_fcl_l,rounds)$
-Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
-output_fcl_v(
-  sconcat("DES over ",rounds," rounds; translated using the canonical CNF translation for the S-boxes (6-to-4)."),
-  Fs[1],
-  sconcat("des_6t4_full_r",rounds,".cnf"),
-  Fs[2])$
-print("DONE!");
+shell> r=4;
+shell> for k in $(seq 1 20); do
+    echo "Round ${r}; Key Seed ${k}; Random Seed ${s}...";
+    minisat-2.2.0 des_6t4_canon_r${r}_s${k}.cnf > minisat_r${r}_k${k}.result 2>&1;
+  done;
+done;
+shell> echo "rn  rc  t  sat  cfs dec rts r1 mem ptime stime cfl r k" > minisat_results;
+for k in $(seq 1 20); do
+    cat minisat_r${r}_k${k}.result | ExtractMinisat | awk " { print \$0 \"  $r  $k\" }";
+done >> minisat_results;
+   \endverbatim
+   yields:
+   \verbatim
+shell> oklib --R
+E = read.table("minisat_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+  r    rn     rc      t sat     cfs     dec     rts        r1  mem  ptime stime
+1 4 2624 23840 305.66   1 1050555 1986753 2021.65 344645057 71.6 0.0105  0.01
+        cfl r    k
+1 147441100 4 10.5
+   </li>
+   <li> Running OKsolver_2002 on these instances:
+   \verbatim
+shell> r=4;
+shell> for k in $(seq 1 20); do
+    echo "Round ${r}; Key Seed ${k}...";
+    OKsolver_2002-O3-DNDEBUG des_6t4_canon_r${r}.cnf > oksolver_r${r}_k${k}.result 2>&1;
+done;
+shell> echo "n  c  l  t  sat  nds  r1  r2  pls  ats h file n2cr  dmcl dn  dc  dl snds qnds mnds  tel  oats  n2cs  m2cs r k" > oksolver_results;
+for k in $(seq 1 20); do
+    OKP=~/Work/OKlibrary/OKplatform/; cat oksolver_r${r}_k${k}.result | awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractOKsolver.awk | awk " { print \$0 \"  $r  $k\" }";
+done >> oksolver_results;
+   \endverbatim
+   yields:
+   \verbatim
+shell> oklib --R
+E = read.table("oksolver_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+  r    n     c     l        t sat     nds  r1      r2 pls  ats    h file  n2cr
+1 4 2616 23968 69504 3200.494   1 56743.6 128 6521081   0 0.05 26.2   NA 20928
+  dmcl  dn  dc   dl snds qnds mnds tel oats n2cs m2cs r    k
+1    0 128 576 1920 0.25    0  0.3   0    0    0    0 4 10.5
    \endverbatim
    </li>
-   <li> Statistics:
-   \verbatim
-shell> cat des_6t4_full_r4.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-576 32128 311168 0 311168 577 1
- length count
-1 128
-3 1280
-10 30720
-   \endverbatim
-   </li>
-   <li> S-box statistics (canonical CNF translation):
-   \verbatim
-ncl_list_fcl(des_sbox_fullcnf_fcs(1));
-[[10,960]]
-  \endverbatim
-   </li>
-   <li> We have the following number of clauses of the following sizes:
-    <ul>
-     <li> 128 unit-clauses (setting plaintext + ciphertext); </li>
-     <li> 1280 ternary clauses (80 * 4 = 320 binary additions); </li>
-     <li> 30720 clauses of length ten (8 * 4 = 32 S-boxes); </li>
-    </ul>
-   </li>
-   <li> Solvers (t:time,cfs:conflicts,nds:nodes): minisat-2.2.0
-   (t:32s,cfs:501165), cryptominisat (t:63.87s,cfs:462089),
-   precosat-570.1 (t:171s,cfs:986636), glucose (t:487s,cfs:1835817),
-   precosat236 (t:912s,cfs:2436641). </li>
   </ul>
 
 
@@ -217,18 +202,21 @@ done
    \verbatim
 rounds : 4$
 sbox_fcl_l : create_list(read_fcl_f(sconcat("DES_Sbox_",i,"_1base.cnf")), i, 1, 8)$
-P_hex : "038E596D4841D03B"$
-K_hex : "15FBC08D31B0D521"$
-C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
-P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
-C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
-F : des2fcl_gen(sbox_fcl_l,rounds)$
-Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
-output_fcl_v(
-  sconcat("DES over ",rounds," rounds; translated using 1-base translations for the S-boxes (6-to-4)."),
-  Fs[1],
-  sconcat("des_6t4_1base_r",rounds,".cnf"),
-  Fs[2])$
+for seed : 1 thru 20 do block(
+  print(sconcat("Generating ", rounds, "-round DES with seed ", seed)),
+  set_random(make_random_state(seed)),
+  P_hex : lpad(int2hex(random(2**64)),"0",16),
+  K_hex : lpad(int2hex(random(2**64)),"0",16),
+  C_hex : des_encryption_hex_gen(rounds, P_hex,K_hex),
+  P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds),
+  C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds),
+  F : des2fcl_gen(sbox_fcl_l,rounds),
+  Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
+  output_fcl_v(
+  sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the 1-base translation for the S-boxes (6-to-4)."),
+    Fs[1],
+    sconcat("des_6t4_1base_r",rounds,"_s",seed,".cnf"),
+    Fs[2]))$
 print("DONE!");
    \endverbatim
    </li>
@@ -267,10 +255,55 @@ for F in sbox_fcl_l do print(ncl_list_fcl(F));
      <li> 4 clauses of length seven (1 * 4 = 4 S-boxes). </li>
     </ul>
    </li>
-   <li> Solvers (t:time,cfs:conflicts,nds:nodes): cryptominisat
-   (t:7.52s,cfs:124339), precosat236 (t:15s,cfs:276563), minisat-2.2.0
-   (t:18s,cfs:613128), precosat-570.1 (t:18.4s,cfs:252715), glucose
-   (t:60s,cfs:437112), OKsolver_2002 (t:761s,nds:1361497). </li>
+   <li> Running minisat-2.2.0 on these instances:
+   \verbatim
+shell> r=4;
+shell> for k in $(seq 1 20); do
+    echo "Round ${r}; Key Seed ${k}; Random Seed ${s}...";
+    minisat-2.2.0 des_6t4_1base_r${r}_s${k}.cnf > minisat_r${r}_k${k}.result 2>&1;
+  done;
+done;
+shell> echo "rn  rc  t  sat  cfs dec rts r1 mem ptime stime cfl r k" > minisat_results;
+for k in $(seq 1 20); do
+    cat minisat_r${r}_k${k}.result | ExtractMinisat data-only | awk " { print \$0 \"  $r  $k\" }";
+done >> minisat_results;
+   \endverbatim
+   yields (original results):
+   \verbatim
+shell> oklib --R
+E = read.table("minisat_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+  r   rn    rc       t sat      cfs     dec    rts       r1 mem  ptime stime
+1 4 576 5536 35.9002   1 982518.8 1116844 1927.3 71803310 8.8 0.0035  0.01
+       cfl r    k
+1 18830930 4 10.5
+   \endverbatim
+   </li>
+   <li> Running OKsolver_2002 on these instances:
+   \verbatim
+shell> r=4;
+shell> for k in $(seq 1 20); do
+    echo "Round ${r}; Key Seed ${k}...";
+    OKsolver_2002-O3-DNDEBUG des_6t4_1base_r${r}.cnf > oksolver_r${r}_k${k}.result 2>&1;
+done;
+shell> echo "n  c  l  t  sat  nds  r1  r2  pls  ats h file n2cr  dmcl dn  dc  dl snds qnds mnds  tel  oats  n2cs  m2cs r k" > oksolver_results;
+for k in $(seq 1 20); do
+    OKP=~/Work/OKlibrary/OKplatform/; cat oksolver_r${r}_k${k}.result | awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractOKsolver.awk | awk " { print \$0 \"  $r  $k\" }";
+done >> oksolver_results;
+   \endverbatim
+   yields:
+   \verbatim
+shell> oklib --R
+E = read.table("oksolver_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+  r   n    c     l        t sat     nds  r1       r2 pls ats    h file n2cr
+1 4 568 5664 27076 1974.769   1 4134272 128 10648856   0 0.1 35.7   NA  448
+  dmcl  dn  dc   dl   snds qnds   mnds tel oats n2cs m2cs r    k
+1    0 128 576 1920 1528.5    0 4259.2   0    0    0    0 4 10.5
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -304,18 +337,21 @@ done
    \verbatim
 rounds : 4$
 sbox_fcl_l : create_list(read_fcl_f(sconcat("DES_Sbox_",i,"_min.cnf")), i, 1, 8)$
-P_hex : "038E596D4841D03B"$
-K_hex : "15FBC08D31B0D521"$
-C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
-P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
-C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
-F : des2fcl_gen(sbox_fcl_l,rounds)$
-Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
-output_fcl_v(
-  sconcat("DES over ",rounds," rounds; translated using minimum translations for the S-boxes (6-to-4)."),
-  Fs[1],
-  sconcat("des_6t4_min_r",rounds,".cnf"),
-  Fs[2])$
+for seed : 1 thru 20 do block(
+  print(sconcat("Generating ", rounds, "-round DES with seed ", seed)),
+  set_random(make_random_state(seed)),
+  P_hex : lpad(int2hex(random(2**64)),"0",16),
+  K_hex : lpad(int2hex(random(2**64)),"0",16),
+  C_hex : des_encryption_hex_gen(rounds, P_hex,K_hex),
+  P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds),
+  C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds),
+  F : des2fcl_gen(sbox_fcl_l,rounds),
+  Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
+  output_fcl_v(
+  sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the minimum translation for the S-boxes (6-to-4)."),
+    Fs[1],
+    sconcat("des_6t4_min_r",rounds,"_s",seed,".cnf"),
+    Fs[2]))$
 print("DONE!");
    \endverbatim
    </li>
@@ -355,10 +391,55 @@ for F in sbox_fcl_l do print(ncl_list_fcl(F));
      <li> 48 clauses of length seven (7 * 4 = 28 S-boxes). </li>
     </ul>
    </li>
-   <li> Solvers (t:time,cfs:conflicts,nds:nodes): precosat-570.1
-   (t:0.5s,cfs:20603), minisat-2.2.0 (t:9s, cfs:479829), precosat236
-   (t:10.1s,cfs:242455), cryptominisat (t:30s,cfs:372190), OKsolver_2002
-   (t:1600s,nds:5797). </li>
+   <li> Running minisat-2.2.0 on these instances:
+   \verbatim
+shell> r=4;
+shell> for k in $(seq 1 20); do
+    echo "Round ${r}; Key Seed ${k}; Random Seed ${s}...";
+    minisat-2.2.0 des_6t4_min_r${r}_s${k}.cnf > minisat_r${r}_k${k}.result 2>&1;
+  done;
+done;
+shell> echo "rn  rc  t  sat  cfs dec rts r1 mem ptime stime cfl r k" > minisat_results;
+for k in $(seq 1 20); do
+    OKP=~/Work/OKlibrary/OKplatform/; cat minisat_r${r}_k${k}.result | ExtractMinisat data-only | awk " { print \$0 \"  $r  $k\" }";
+done >> minisat_results;
+   \endverbatim
+   yields:
+   \verbatim
+shell> oklib --R
+E = read.table("minisat_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+  r   rn    rc        t sat     cfs     dec     rts       r1 mem ptime stime
+1 4 576 3440 31.20535   1 1331979 1655787 2558.05 79038583 8.2     0 0.001
+       cfl r    k
+1 24357557 4 10.5
+   \endverbatim
+   </li>
+   <li> Running OKsolver_2002 on these instances:
+   \verbatim
+shell> r=4;
+shell> for k in $(seq 1 20); do
+    echo "Round ${r}; Key Seed ${k}...";
+    OKsolver_2002-O3-DNDEBUG des_6t4_min_r${r}.cnf > oksolver_r${r}_k${k}.result 2>&1;
+done;
+shell> echo "n  c  l  t  sat  nds  r1  r2  pls  ats h file n2cr  dmcl dn  dc  dl snds qnds mnds  tel  oats  n2cs  m2cs r k" > oksolver_results;
+for k in $(seq 1 20); do
+    OKP=~/Work/OKlibrary/OKplatform/; cat oksolver_r${r}_k${k}.result | awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractOKsolver.awk | awk " { print \$0 \"  $r  $k\" }";
+done >> oksolver_results;
+   \endverbatim
+   yields:
+   \verbatim
+shell> oklib --R
+E = read.table("oksolver_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+  r   n    c     l        t sat     nds  r1       r2 pls ats     h file n2cr
+1 4 568 3568 16048 1551.255   1 6566953 128 17938032   0 0.1 38.35   NA  448
+  dmcl  dn  dc   dl    snds qnds    mnds tel oats n2cs m2cs r    k
+1    0 128 576 1920 7552.55    0 13192.2   0  9.7    0    0 4 10.5
+   \endverbatim
+   </li>
   </ul>
 
 */
