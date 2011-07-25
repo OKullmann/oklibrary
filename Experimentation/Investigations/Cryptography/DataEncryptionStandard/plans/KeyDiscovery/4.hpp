@@ -7,12 +7,12 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/4.hpp
-  \brief On investigations into the four-round Data Encryption Standard key discovery
+  \brief On investigations into the 4-round Data Encryption Standard key discovery
 
 
   \todo Overview
   <ul>
-   <li> We consider the four round DES given by the encryption function
+   <li> We consider the 4 round DES given by the encryption function
    des_encryption_gen in
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac.
    </li>
@@ -22,11 +22,11 @@ License, or any later version. */
    </li>
    <li> The DES consists of certain rewiring of the bits, additions (XOR) and
    the application of 8 S-boxes (substitution boxes) for each round. </li>
-   <li> We consider the DES S-boxes as 6-bit to 4-bit boolean functions,
+   <li> We consider the DES S-boxes as 6x4 boolean functions,
    given by des_sbox_bf in
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Sboxes.mac.
    </li>
-   <li> We should also consider the DES S-boxes as 4 6-bit to 1-bit functions.
+   <li> We should also consider the DES S-boxes as 4 6x1 functions.
    See "Basic translation" in
    Investigations/Cryptography/DataEncryptionStandard/plans/general.hpp. </li>
    <li> We translate the DES by treating the additions and S-boxes as the
@@ -48,8 +48,8 @@ License, or any later version. */
      <li> their prime implicates; </li>
      <li> their canonical CNF representations. </li>
     </ul>
-   All such translations apply to both the 6-bit to 4-bit S-box functions and
-   the 4 decomposed 6-bit to 1-bit functions.
+   All such translations apply to both the 6x4 S-box functions and
+   the 4 decomposed 6x1 functions.
    </li>
    <li> For initial experiments we use the Argosat-desgen plaintext-ciphertext
    pairs. See "Transferring the Argosat-desgen example" in
@@ -77,7 +77,7 @@ License, or any later version. */
 
   \todo Using the canonical translation for the S-boxes (6-to-4)
   <ul>
-   <li> Translating the DES Sboxes, as 6-to-4-bit boolean functions, using the
+   <li> Translating the DES Sboxes, as 6x4 boolean functions, using the
    canonical representation. That is, each Sbox is represented with the
    canonical representation given by dualts_fcl in
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
@@ -262,8 +262,8 @@ for F in sbox_fcl_l do print(ncl_list_fcl(F));
     <ul>
      <li> 128 unit-clauses (setting plaintext + ciphertext); </li>
      <li> 1280 ternary clauses (80 * 4 = 32 binary additions); </li>
-     <li> 2432 clauses of length five (8 * 4 = 32 S-boxes); </li>
-     <li> 1820 clauses of length six (8 * 4 = 32 S-boxes); </li>
+     <li> 2432 clauses of length 5 (8 * 4 = 32 S-boxes); </li>
+     <li> 1820 clauses of length 6 (8 * 4 = 32 S-boxes); </li>
      <li> 4 clauses of length seven (1 * 4 = 4 S-boxes). </li>
     </ul>
    </li>
@@ -350,8 +350,8 @@ for F in sbox_fcl_l do print(ncl_list_fcl(F));
     <ul>
      <li> 128 unit-clauses (setting plaintext + ciphertext); </li>
      <li> 1280 ternary clauses (80 * 4 = 320 binary additions); </li>
-     <li> 928 clauses of length five (8 * 4 = 32 S-boxes); </li>
-     <li> 1184 clauses of length six (8 * 4 = 32 S-boxes); </li>
+     <li> 928 clauses of length 5 (8 * 4 = 32 S-boxes); </li>
+     <li> 1184 clauses of length 6 (8 * 4 = 32 S-boxes); </li>
      <li> 48 clauses of length seven (7 * 4 = 28 S-boxes). </li>
     </ul>
    </li>
