@@ -105,6 +105,8 @@ okltest_remove_elements(remove_elements);
 
 okltest_sublist_indicator(sublist_indicator);
 
+okltest_remove_consrep(remove_consrep);
+
 /* *********************
    * List partitioning *
    *********************
@@ -125,6 +127,24 @@ okltest_split_list_epo(split_list_epo);
 okltest_rotate(rotate);
 
 okltest_stable_unique(stable_unique);
+
+/* *************************
+   * Random parts of lists *
+   *************************
+*/
+
+/* ************************
+   * Numerical operations *
+   ************************
+*/
+
+okltest_count_l(count_l);
+
+okltest_countntconst_l(countntconst_l);
+
+okltest_Delta_l(Delta_l);
+
+okltest_count_extremals_l(count_extremals_l);
 
 okltest_m2l_r(m2l_r);
 okltest_transpose_l(transpose_l);
