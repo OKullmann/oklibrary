@@ -26,8 +26,8 @@ License, or any later version. */
 
   \todo Benchmarks for SAT 2011
   <ul>
-   <li> We should submit benchmarks for the SAT-2011-competition. </li>
-   <li> The deadline for:
+   <li> DONE We should submit benchmarks for the SAT-2011-competition. </li>
+   <li> DONE The deadline for:
     <ol>
      <li> SAT benchmark submission is Sunday 13th February 2011. </li>
      <li> PseudoBoolean registration is Wednesday 9th March 2011.
@@ -42,19 +42,19 @@ License, or any later version. */
    <li> DONE
    So for this year it should be Green-Tao and van-der-Waerden instances.
    </li>
-   <li> And also AES-related instances are of interest. </li>
+   <li> DONE And also AES-related instances are of interest. </li>
    <li> See "Prepare benchmarks for SAT 2011" in
    RamseyTheory/GreenTaoProblems/plans/general.hpp,
    RamseyTheory/VanderWaerdenProblems/plans/general.hpp,
    Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp. </li>
-   <li> Best in every series to have a mixture, from known to unknown
+   <li> DONE Best in every series to have a mixture, from known to unknown
    instances, from not-too-hard to likely-very-hard. </li>
-   <li> For the formats see below. </li>
-   <li> For the categories see below. </li>
+   <li> DONE For the formats see below. </li>
+   <li> DONE For the categories see below. </li>
   </ul>
 
 
-  \todo Categories / "tracks"
+  \todo Categories / "tracks" for SAT 2011
   <ul>
    <li> SAT competition:
     <ul>
@@ -127,7 +127,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Formats
+  \todo Formats for SAT 2011
   <ul>
    <li> The specifications of each of the formats can be found at:
    <ul>
@@ -144,7 +144,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo Supporting documents
+  \todo DONE (what we have now shall be enough)
+  Supporting documents
   <ul>
    <li> For each class of instances, we need a README and PDF document
    explaining:
