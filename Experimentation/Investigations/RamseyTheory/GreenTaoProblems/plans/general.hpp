@@ -23,9 +23,7 @@ License, or any later version. */
      Yet missing the links to the OKlibrary. </li>
     </ol>
    </li>
-   <li> Pdf file:
-
-   </li>
+   <li> DONE (README is enough) Pdf file: </li>
   </ul>
 
 
