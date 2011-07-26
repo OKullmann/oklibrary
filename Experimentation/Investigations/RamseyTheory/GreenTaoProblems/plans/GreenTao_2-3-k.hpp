@@ -70,6 +70,20 @@ s UNSATISFIABLE
   </ul>
 
 
+  \todo SAT 2011 competition
+  <ul>
+   <li> See
+   http://www.cril.univ-artois.fr/SAT11/results/globalbybench.php?idev=46&idcat=63
+   </li>
+   <li> clasp 2.0-R4092-crafted performed best on ordinary vdW-instances.
+   </li>
+   <li> Also on palindromic instances performance was sometimes best, but also
+   MPhaseSAT 2011-02-15, claspmt 2.0-R4095-patched, Coach-SAT-Portfolio
+   2011-03-18, ppfolio par, clasp 1.2.0-SAT09-32, sattime+ 2011-32-02,
+   sathys 2011-04-01, and glucose 2 need to be considered. </li>
+  </ul>
+
+
   \todo greentao_2(3,4) = 79
   <ul>
    <li> Easy for OKsolver:

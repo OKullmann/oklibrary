@@ -465,6 +465,18 @@ sys     0m16.273s
   </ul>
 
 
+  \todo SAT 2011 competition
+  <ul>
+   <li> See
+   http://www.cril.univ-artois.fr/SAT11/results/globalbybench.php?idev=46&idcat=63
+   </li>
+   <li> clasp 2.0-R4092-crafted performed best on unsatisfiable instances.
+   </li>
+   <li> On satisfiable instances MPhaseSAT 2011-02-15 and sattime 2 need to be
+   considered. </li>
+  </ul>
+
+
   \todo Local search for the satisfiable instances
   <ul>
    <li> The first impression is that ubcsat::samd is best. </li>
