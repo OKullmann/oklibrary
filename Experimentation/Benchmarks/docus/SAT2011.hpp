@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Benchmarks/docus/SAT2011.hpp
-  \brief Benchmark packages provided for SAT 2011
+  \brief Benchmarks for SAT 2011
 
 
   <h1> Van der Waerden instances </h1>
