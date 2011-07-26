@@ -13,7 +13,11 @@ License, or any later version. */
   \todo Prepare benchmarks for SAT 2011
   <ul>
    <li> See "Benchmarks for SAT 2011" in
-   Experimentation/Investigations/plans/SATCompetition.hpp. </li>
+   Experimentation/Investigations/plans/SATCompetition.hpp for the general
+   plans. </li>
+   <li> See "SAT 2011 competition" in
+   RamseyTheory/GreenTaoProblems/plans/GreenTao_2-3-k.hpp for the solver
+   performances. </li>
    <li> DONE
    For now we only do the naturally boolean problems. </li>
    <li> DONE

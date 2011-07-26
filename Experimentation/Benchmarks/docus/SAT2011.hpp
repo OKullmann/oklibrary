@@ -7,7 +7,9 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Benchmarks/docus/SAT2011.hpp
-  \brief Benchmarks for SAT 2011
+  \brief Benchmarks for the SAT 2011 competitions
+
+  See http://www.cril.univ-artois.fr/SAT11/ for the competition webpage.
 
 
   <h1> Van der Waerden instances </h1>
@@ -78,6 +80,13 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_VanDerWaerden.tar.bz2 SAT2011
    </li>
   </ul>
 
+  Competition results:
+  <ul>
+   <li> See
+    http://www.cril.univ-artois.fr/SAT11/results/globalbybench.php?idev=46&idcat=63
+    </li>
+  </ul>
+
 
   <h1> Green-Tao instances </h1>
 
@@ -145,6 +154,13 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2011_GreenTao.tar.bz2 SAT2011_Gree
      all the benchmark files. </li>
     </ol>
    </li>
+  </ul>
+
+  Competition results:
+  <ul>
+   <li> See
+    http://www.cril.univ-artois.fr/SAT11/results/globalbybench.php?idev=46&idcat=63
+    </li>
   </ul>
 
 

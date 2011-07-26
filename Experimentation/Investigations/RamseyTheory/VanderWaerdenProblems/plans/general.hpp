@@ -31,7 +31,11 @@ License, or any later version. */
   \todo Prepare benchmarks for SAT 2011
   <ul>
    <li> See "Benchmarks for SAT 2011" in
-   Experimentation/Investigations/plans/SATCompetition.hpp. </li>
+   Experimentation/Investigations/plans/SATCompetition.hpp for the general
+   plans. </li>
+   <li> See "SAT 2011 competition" in
+   RamseyTheory/VanderWaerdenProblems/plans/3-k/general.hpp for the solver
+   performances. </li>
    <li> DONE
    We should have two subclasses, related to vdw_2(3,k) and vdw_2^pd(3,k).
    </li>
