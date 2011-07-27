@@ -121,7 +121,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Discussion on Generalisation/Parameterisation
+    - Discussion on Generalisation/Parameterisation based on [Algebraic Aspects of the AES] 
 
   \par
   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the
