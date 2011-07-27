@@ -12,14 +12,15 @@ License, or any later version. */
 
   \todo Update
   <ul>
-   <li> Plans-files are needed for all sub-modules, and all todos need to be
-   moved there. </li>
-   <li> All todos need to appear in the milestones. </li>
-   <li> Milestones need to be updated, to reflect the current state. </li>
+   <li> Plans-files are needed for all sub-modules (files), and all todos need
+   to be moved there. </li>
    <li> All stale todos need to be removed (after careful inspection). </li>
    <li> All current todos need to be inspected and updated accordingly. </li>
    <li> Special care must be taken that with version 0.1 some form of
    completion is achieved. </li>
+   <li> DONE (see milestones.hpp) All todos need to appear in the milestones. </li>
+   <li> DONE (see milestones.hpp)
+   Milestones need to be updated, to reflect the current state. </li>
   </ul>
 
 
