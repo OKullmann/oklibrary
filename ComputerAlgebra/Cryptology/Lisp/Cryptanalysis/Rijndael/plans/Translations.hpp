@@ -113,6 +113,40 @@ set_heap_size_ecl(2**32);
    <li> In the AES translation system, each constraint has a constraint
    template name, and carries with it all the parameters it needs for
    evaluation (even if not actually evaluated). </li>
+   <li> Removing type information from constraints from "AES constraints":
+    <ul>
+     <li> Rather than dealing with a list of constraints, where the "type"
+     of the constraint is listed within the constraint itself, perhaps
+     it would be better to have a list of list of constraints where
+     different types of constraint are separated into different lists. </li>
+     <li> So, for example, instead of:
+     \verbatim
+[["examp1", [1,...,n],namespace],["examp2",[1,...,m],namespace2],["examp2",[1,...,o],namespace3]]
+     \endverbatim
+     you have something like:
+     \verbatim
+[["examp1",[[[1,...,n],namespace]]],["examp2",[[[1,...,m],namespace],[[1,...,o],namespace]]]]
+     \endverbatim
+     </li>
+     <li> The advantages here are that:
+      <ul>
+       <li> The system avoids pushing type information into the constraint
+       object itself, and is therefore more in line with the rest of the
+       OKlibrary. </li>
+       <li> Determining the number of any given type of constraint is much
+       easier. </li>
+      </ul>
+      The disadvantages are:
+      <ul>
+      <li> There is some lose of information, in that the order of constraints
+      in relation to each other is lost. However, this isn't actually used
+      for anything currently. </li>
+      <li> The concept is more complicated; rather than just a list/set of
+      constraints, we now partition this into lists. </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
    <li> Both notions need to be considered and somehow brought together. </li>
   </ul>
 
@@ -1077,36 +1111,6 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
       and constraints. </li>
      </ul>
      </li>
-    </ul>
-   </li>
-   <li> Rather than dealing with list of constraints, where the "type"
-   of constraint is determined within the constraint itself, perhaps
-   it would be better to have a list of list of constraints where
-   different types of constraint are separated into different lists. </li>
-   <li> So, for example, instead of:
-   \verbatim
-[["examp1", [1,...,n],namespace],["examp2",[1,...,m],namespace2],["examp2",[1,...,o],namespace3]]
-   \endverbatim
-   you have something like:
-   \verbatim
-[["examp1",[[[1,...,n],namespace]]],["examp2",[[[1,...,m],namespace],[[1,...,o],namespace]]]]
-   \endverbatim
-   </li>
-   <li> The advantages here are that:
-    <ul>
-     <li> The system avoids pushing type information into the constraint
-     object itself, and is therefore more in line with the rest of the
-     OKlibrary. </li>
-     <li> Determining the number of any given type of constraint is much
-     easier. </li>
-     <li> ??? </li>
-    </ul>
-    The disadvantages are:
-    <ul>
-    <li> There is some lose of information, in that the order of constraints
-    in relation to each other is lost. However, this isn't actually used
-    for anything currently. </li>
-    <li> ??? </li>
     </ul>
    </li>
    <li> This todo should be split up, as it is getting rather large. </li>
