@@ -676,7 +676,7 @@ set_heap_size_ecl(2**32);
    achieved?? </li>
    <li> Further questions are:
     <ul>
-     <li> What is the best way to control the rewrite process?
+     <li> What is the best way to control the rewrite process? </li>
      <li> The current system works but a more precise, systematic way of
      controlling how many rounds, or which rewrite rules are used etc is
      needed. </li>
