@@ -678,9 +678,6 @@ set_heap_size_ecl(2**32);
   <ul>
    <li> Each of the following todos must be completed on its own, with
    explanations how it was achieved. </li>
-   <li> The discussions here, and in the already removed todos (see ticket
-   MG-22), need to be fully checked for being completely transferred to
-   specifications and/or docus. </li>
    <li> Special care must be devoted to the notions of "active clauses" and
    "constraint", where some progress must be achieved in more general modules,
    learning from the experiences here. </li>
@@ -688,10 +685,19 @@ set_heap_size_ecl(2**32);
    decryption can be executed by just providing plain-text and key as a partial
    assignment and evaluating the whole active clause-set. Has this been
    achieved?? </li>
-   <li> Further questions are:
+   <li> DONE (removed todos reference the old translation; issues
+   have been addressed by this todo)
+   The discussions here, and in the already removed todos (see ticket
+   MG-22), need to be fully checked for being completely transferred to
+   specifications and/or docus. </li>
+   <li> DONE Further questions are:
     <ul>
-     <li> What is the best way to control the rewrite process? </li>
-     <li> The current system works but a more precise, systematic way of
+     <li> DONE (each constraint is now fully specified by the parameters
+     within it)
+     What is the best way to control the rewrite process? </li>
+     <li> DONE (each constraint is now fully specified by the parameters
+     within it)
+     The current system works but a more precise, systematic way of
      controlling how many rounds, or which rewrite rules are used etc is
      needed. </li>
      <li> DONE What is the best way to handle parameters controlling the translation?
