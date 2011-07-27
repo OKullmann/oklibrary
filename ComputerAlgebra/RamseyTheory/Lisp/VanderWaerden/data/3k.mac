@@ -230,7 +230,9 @@ full_certificate_vdw_3k(k) := block([lb : vanderwaerden3k(k)],
  if listp(lb) then lb : first(lb),
  map(lambda([S], create_certificate2_vdw(S,lb)), certificates_vdw_3k[k]))$
 
-/* The certificates as bit-string: */
+/* The certificates as lists resp. strings: */
+full_certificate_list_vdw_3k(k) :=
+  map(certificatevdw2list, full_certificate_vdw_3k(k))$
 full_certificate_string_vdw_3k(k) :=
   map(certificatevdw2string, full_certificate_vdw_3k(k))$
 
