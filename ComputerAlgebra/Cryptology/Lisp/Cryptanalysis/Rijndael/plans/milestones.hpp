@@ -76,6 +76,7 @@ License, or any later version. */
     - Add XOR translations for field multiplications
 
 
+
   \par Version 0.0.11
 
   \par
@@ -88,6 +89,12 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    the following topics are handled:
     - Rewrite translation functions using ss_field_op_fulldnf_gen_fcl etc
+
+  \par
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp
+   the following topics are handled:
+    - Generate good CNF hitting clause-sets for the AES Field Operations
+    - Extracting prime implicate representations from the hitting-cls-representations
 
 
   \par Version 0.1
@@ -125,6 +132,7 @@ License, or any later version. */
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp
    the following topics are handled:
     - Find the symmetries of the AES Field Operations
+    - Determine *all* prime implicates (for the purpose of analysis)
 
 
   \par Version 0.1.2

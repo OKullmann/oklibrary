@@ -246,6 +246,12 @@ true
   
 
   \todo Find the symmetries of the AES Field Operations
+  <ul>
+   <li> See "Find the symmetries of the AES Sbox DNF" in
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
+   </li>
+   <li> This todo and others like it should be moved to Experimentations. </li>
+  </ul>
 
 
   \bug DONE What's the purpose of rijnmult_cnfp 
@@ -258,6 +264,12 @@ true
 
 
   \todo Determine *all* prime implicates (for the purpose of analysis)
+  <ul>
+   <li> See "Analysing the AES prime implicates" in
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
+   </li>
+   <li> This todo and others like it should be moved to Experimentations. </li>
+  </ul>
 
   
   \bug DONE rijnmult_fulldnf_fcs only works for trivial arguments
