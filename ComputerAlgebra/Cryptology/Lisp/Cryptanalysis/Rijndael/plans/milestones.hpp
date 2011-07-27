@@ -126,6 +126,7 @@ License, or any later version. */
   \par
   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the
   following topics are handled:
+    - Other software systems offering Sbox translations
     - Representations of the Sbox using additional variables
 
   \par
