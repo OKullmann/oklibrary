@@ -44,7 +44,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Cons
 
 
 /********************************
- * Propagation functions            *
+ * Propagation functions        *
  ********************************
 */
 
