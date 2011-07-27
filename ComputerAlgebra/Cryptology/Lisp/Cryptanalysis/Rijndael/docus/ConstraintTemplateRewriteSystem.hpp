@@ -149,6 +149,15 @@ License, or any later version. */
   </ul>
 
 
+  \todo Naming conventions
+  <ul>
+   <li> Constraint - denoted by postfix "cst". </li>
+   <li> Constraint rewrite function - denoted by "cstr" in
+   function name. </li>
+   <li> Constraint list - denoted by "cstl". </li>
+  </ul>
+
+
   \todo Example
   <ul>
    <li> As an example, consider that one has the EVEN-PARITY constraint over

@@ -796,14 +796,6 @@ rewrite_all_csttl_fast(cstl,rewrite_map) := block(
        ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac). </li>
       </ul>
      </li>
-     <li> Datatypes (in an abstract sense):
-      <ul>
-       <li> Constraint - denoted by postfix "cst". </li>
-       <li> Constraint rewrite function - denoted by "cstr" in
-       function name. </li>
-       <li> Constraint list - denoted by "cstl". </li>
-      </ul>
-     </li>
      <li> Overview of system:
      <ul>
       <li> To translate AES one would call a rewrite all constraint
@@ -853,6 +845,16 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
       lists and clarify the distinction between constraint templates
       and constraints. </li>
      </ul>
+     </li>
+     <li> DONE (moved to
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/docus/ConstraintTemplateRewriteSystem.hpp)
+     Datatypes (in an abstract sense):
+      <ul>
+       <li> Constraint - denoted by postfix "cst". </li>
+       <li> Constraint rewrite function - denoted by "cstr" in
+       function name. </li>
+       <li> Constraint list - denoted by "cstl". </li>
+      </ul>
      </li>
      <li> DONE (functions now exist; todo in "Write docus" to
      list and document (some of) them)
