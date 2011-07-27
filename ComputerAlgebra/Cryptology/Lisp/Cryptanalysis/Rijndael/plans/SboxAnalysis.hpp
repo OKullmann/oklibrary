@@ -111,20 +111,20 @@ OK: What is the "direct translation"? What does this mean for our cases?
   </ul>
 
 
-  \todo Determine *all* prime implicates (for the purpose of analysis)
+  \todo DONE (There are 136253 prime implicates; analysis now discussed in
+  "Analysing the AES prime implicates" in
+  Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp)
+  Determine *all* prime implicates (for the purpose of analysis)
   <ul>
-   <li> The task here is to try to *understand* the structure of the
+   <li> DONE (moved to
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp)
+   The task here is to try to *understand* the structure of the
    prime implicates. </li>
    <li> See
    Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp
    </li>
-   <li> For a permutation of GF(2^8) we have 2 * 2^8 * 8 = 2^12 = 4096
-   potential prime implicates, given by fixing 8 bit in either the input or
-   the output, and one further bit to the wrong value. As one can see by
-   the identity, these are not necessarily prime, since the identity
-   just has 16 prime implicates (of length 2). </li>
-   <li> One should test these. </li>
-   <li> If the Maxima computation, via
+   <li> DONE (C++ version implemented; see QuineMcCluskey)
+   If the Maxima computation, via
    \verbatim
 min_2resolution_closure_cs(rijnsbox_fullcnf_fcs()[2]);
    \endverbatim
@@ -132,7 +132,8 @@ min_2resolution_closure_cs(rijnsbox_fullcnf_fcs()[2]);
    OKlib/Satisfiability/FiniteFunctions/plans/general.hpp,
    "Prime implicants and implicates". A simple implementation should
    suffice here. </li>
-   <li> Brute-force approaches:
+   <li> DONE (see QuineMcCluskey)
+   Brute-force approaches:
     <ol>
      <li> There are 3^16 = 43,046,721 clauses with 16 variables altogether,
      so with a C++ implementation it is even no problem to run through
@@ -159,7 +160,9 @@ min_2resolution_closure_cs(rijnsbox_fullcnf_fcs()[2]);
      see Algorithms/AllSolutions/plans/MinimalAssignments.hpp. </li>
     </ol>
    </li>
-   <li> However, since the S-box has a perfectly regular structure, it
+   <li> DONE (moved to
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp)
+   However, since the S-box has a perfectly regular structure, it
    should also be possible to analytically determine all prime implicates:
     <ol>
      <li> Extract from the above results prime implicates, determine
@@ -167,6 +170,16 @@ min_2resolution_closure_cs(rijnsbox_fullcnf_fcs()[2]);
      <li> See the 4096 candidates above. </li>
     </ol>
    </li>
+   <li> DONE (moved to
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp)
+   For a permutation of GF(2^8) we have 2 * 2^8 * 8 = 2^12 = 4096
+   potential prime implicates, given by fixing 8 bit in either the input or
+   the output, and one further bit to the wrong value. As one can see by
+   the identity, these are not necessarily prime, since the identity
+   just has 16 prime implicates (of length 2). </li>
+   <li> DONE (moved to
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp)
+   One should test these. </li>
   </ul>
 
 */

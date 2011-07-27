@@ -631,6 +631,38 @@ statistics_cs(rijnsbox2hittingcnf_fcs(choose_most_sat_literal_h(satprob_dll_simp
   </ul>
 
 
+  \todo Analysing the AES prime implicates
+  <ul>
+   <li> The AES S-box has 136253 prime implicates:
+   \verbatim
+> QuineMcCluskey-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_PK.cnf
+> cat AES_PK.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+16 136253 999896 0 999896 1 1
+ length count
+5 1
+6 4148
+7 82659
+8 48615
+9 830
+   \endverbatim
+   </li>
+   <li> Where do these prime implicates come from? </li>
+   <li> Can we deduce these prime implicates from first principles?
+   </li>
+   <li> For a permutation of GF(2^8) we have 2 * 2^8 * 8 = 2^12 = 4096
+   potential prime implicates, given by fixing 8 bit in either the input or
+   the output, and one further bit to the wrong value. As one can see by
+   the identity, these are not necessarily prime, since the identity
+   just has 16 prime implicates (of length 2). </li>
+   <li> How do the S-box prime implicates relate to these "potential"
+   prime implicates? </li>
+   <li> See investigations into prime implicates for general boolean functions
+   and permutations in
+   Experimentation/Investigations/BooleanFunctions/plans/general.hpp. </li>
+  </ul>
+
+
   \todo Extracting prime implicate representations from the
   hitting-cls-representations
   <ul>
