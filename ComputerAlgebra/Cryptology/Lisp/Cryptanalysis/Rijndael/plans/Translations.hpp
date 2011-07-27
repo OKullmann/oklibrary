@@ -148,6 +148,8 @@ set_heap_size_ecl(2**32);
     </ul>
    </li>
    <li> Both notions need to be considered and somehow brought together. </li>
+   <li> The notion of "constraint" rather than "constraint template" also
+   needs to be standardised. </li>
   </ul>
 
 
@@ -796,9 +798,13 @@ rewrite_all_csttl_fast(cstl,rewrite_map) := block(
        ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac). </li>
       </ul>
      </li>
-     <li> Overview of system:
+     <li> DONE (see rewrite_all_csttl; overview in 
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/docus/ConstraintTemplateRewriteSystem.hpp;
+     also see "Write docus")
+     Overview of system:
      <ul>
-      <li> To translate AES one would call a rewrite all constraint
+      <li> DONE (see rewrite_all_csttl) 
+      To translate AES one would call a rewrite all constraint
       function called "rewrite_all_csttl", which would take as an argument a
       list containing only a constraint called "aes_cst", where
       arguments for the constraint are the variables of AES
@@ -807,15 +813,18 @@ rewrite_all_csttl_fast(cstl,rewrite_map) := block(
       then additionally arguments specifying which translation is used for the
       Sbox, field multiplications, and whether one should include the
       mixcolumn inverse operation etc. </li>
-      <li> So for example:
+      <li> DONE (see rewrite_all_csttl)
+      So for example:
       \verbatim
 rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a)]]);
       \endverbatim
       </li>
-      <li> "rewrite_all_csttl" would then call constraint rewrite
+      <li> DONE (see rewrite_all_csttl)
+      "rewrite_all_csttl" would then call constraint rewrite
       function, called for instance, "aes_cstr_cstl", which would take as an
       argument, the constraint, along with a rewrite mapping. </li>
-      <li> aes_cstr_cstl would then translate this into a list of constraints,
+      <li> DONE (see rewrite_all_csttl)
+      aes_cstr_cstl would then translate this into a list of constraints,
       such as "aes_subbytes_cst", for which all newly introduced
       variables have the namespace "aes_ns", where additional arguments to
       the namespace are additional (non-namespace) arguments to "aes_cst",
@@ -823,20 +832,27 @@ rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a
       "lambda([a],aes_ns(a,arg1,arg2,...))", and additional arguments
       to sub-constraint-templates are simply those arguments relevant
       to that sub-constraint. </li>
-      <li> Such a rewrite procedure should continue until on newly
+      <li> DONE (see rewrite_all_csttl)
+      Such a rewrite procedure should continue until on newly
       produced constraints, and existing constraints
       until all constraint rewrite functions have been applied
       in the order specified by the given rewrite mapping. </li>
-      <li> The result of "rewrite_all_csttl" is then a set of constraints
+      <li> DONE (see rewrite_all_csttl)
+      The result of "rewrite_all_csttl" is then a set of constraints
       which can no longer be rewritten into smaller
       constraints. </li>
-      <li> At this point one can then call a "translate to CNF" function
+      <li> DONE (see
+      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateTranslation.mac)
+      At this point one can then call a "translate to CNF" function
       on this set of constraints to rewrite it to CNF. </li>
-      <li> Within the translate to CNF function, constraints
+      <li> DONE (see
+      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateGlobalPropagation.mac)
+      Within the translate to CNF function, constraints
       such as those representing equivalence of variables can be translated
       by replacement of variables etc, rather than adding additional clauses
       etc. </li>
-      <li> MG needs to alter the currently implemented parts of the new system
+      <li> DONE (moved to 'Notion of "constraint"')
+      MG needs to alter the currently implemented parts of the new system
       to take account of the altered specification (change from notions of
       constraint templates to simply constraints). </li>
       <li> (DONE) MG should see
