@@ -459,6 +459,12 @@ set_heap_size_ecl(2**32);
        unevaluated lambda expression to include the "parent" constraint
        as an argument. This means the namespace encodes the history of
        how the variable was created. </li>
+       <li> However, for efficiency (space) reasons, the variables are
+       removed from the constraint. Otherwise, nesting namespaces results
+       in a rapid growth in the size of variable "tokens". </li>
+       <li> Additional parameters need to be added to constraints, to ensure
+       similar constraints created by the same rewrite rule are still uniquely
+       identifiable after the removal of variables from the constraint. </li>
       </ul>
      </li>
      <li> What are the AES parameters? </li>
@@ -708,11 +714,13 @@ set_heap_size_ecl(2**32);
      </li>
     </ul>
    </li>
-   <li> Specification:
+   <li> DONE (covered by docus and other todos) Specification:
     <ul>
      <li> Concepts:
       <ul>
-       <li> Constraint - A list with at least 2 arguments, the first being
+       <li> DONE (covered in docus; see
+       ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/docus/ConstraintTemplateRewriteSystem.hpp)
+       Constraint - A list with at least 2 arguments, the first being
        the name of the constraint, the second a list of variables in a
        predefined order, and then any additional arguments which may
        be required for the computation of the constraints. For example:
@@ -725,7 +733,8 @@ set_heap_size_ecl(2**32);
        Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
        for an example of similar such constraints.
        </li>
-       <li> Namespace - An unevaluated function, where
+       <li> DONE (moved to "Write docus")
+       Namespace - An unevaluated function, where
         <ol>
          <li> The first (required) argument is a variable. </li>
 	 <li> The remaining arguments are specific to the constraint
