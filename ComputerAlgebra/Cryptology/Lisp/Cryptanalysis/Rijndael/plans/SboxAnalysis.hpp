@@ -121,7 +121,7 @@ OK: What is the "direct translation"? What does this mean for our cases?
    <li> For a permutation of GF(2^8) we have 2 * 2^8 * 8 = 2^12 = 4096
    potential prime implicates, given by fixing 8 bit in either the input or
    the output, and one further bit to the wrong value. As one can see by
-   the identity, these are not necessarily prime, since the identify
+   the identity, these are not necessarily prime, since the identity
    just has 16 prime implicates (of length 2). </li>
    <li> One should test these. </li>
    <li> If the Maxima computation, via
