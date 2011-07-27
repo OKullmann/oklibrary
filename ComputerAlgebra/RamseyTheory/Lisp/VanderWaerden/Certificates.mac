@@ -71,16 +71,22 @@ create_certificate2_vdw(S,n) := block([s : setify(S)],
   [s, setdifference(setn(n),s)])$
 
 /* Translates a vdw-certificate P (as a block-partitioning of {1,...,n})
+   into a sequence of i elements of 0,...,length(P)-1 representing
+   the colour:
+*/
+certificatevdw2seq(P) := block([N : lunion(P)],
+ if emptyp(N) then return([]),
+ create_list(
+  block([j:0], for b in P do if elementp(i,b) then return(j) else j:j+1),
+  i,1,lmax(N)))$
+
+/* Translates a vdw-certificate P (as a block-partitioning of {1,...,n})
    into a sequence "i^k", where i = 0,...,length(P)-1 is the colour,
    and k is the occurrence numbers, representing "i^k" as [i,k] for the
    list-form, while using "i" for "i^1" in the string-form:
 */
-certificatevdw2list(P) := block([N : lunion(P), n, seq],
- if emptyp(N) then return([]),
- n : lmax(N),
- seq : create_list(
-        block([j:0], for b in P do if elementp(i,b) then return(j) else j:j+1),
-        i,1,n),
+certificatevdw2list(P) := block([seq : certificatevdw2seq(P)],
+ if emptyp(seq) then return(seq),
  block([current:first(seq), compressed:[], count:1],
    for x in rest(seq) do
      if x=current then count:count+1
