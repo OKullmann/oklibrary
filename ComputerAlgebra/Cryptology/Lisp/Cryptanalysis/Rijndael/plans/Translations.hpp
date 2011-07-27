@@ -453,6 +453,14 @@ set_heap_size_ecl(2**32);
       </ul>
      </li>
      <li> List naming conventions. </li>
+     <li> Explain namespace creation conventions:
+      <ul>
+       <li> For new constraints new namespaces are constructed by using an
+       unevaluated lambda expression to include the "parent" constraint
+       as an argument. This means the namespace encodes the history of
+       how the variable was created. </li>
+      </ul>
+     </li>
      <li> What are the AES parameters? </li>
      <li> What are the key papers? </li>
      <li> Where is the AES implementation at the Maxima level? </li>
@@ -790,7 +798,10 @@ rewrite_all_csttl_fast(cstl,rewrite_map) := block(
 	 namespace, specific to an individual constraint. </li>
         </ol>
        </li>
-       <li> Variable - A positive noun, defined in the usual way
+       <li> DONE (see
+       ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/docus/ConstraintTemplateRewriteSystem.hpp
+       and "Write docus")
+       Variable - A positive noun, defined in the usual way
        (see ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac) for
        each constraint template, where the arguments are used to indicate
        which instance of a particular type of variable are being used (that
