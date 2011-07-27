@@ -16,12 +16,10 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
     - Update
-    - Determine *all* prime implicates (for the purpose of analysis)
 
   \par
-   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
    the following topics are handled:
-    - output_ss_fcl_std runs out of memory generating one round AES
     - Fix translation system : DONE
 
   \par
@@ -38,19 +36,14 @@ License, or any later version. */
     - Functions should not cache return values
 
   \par
-   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
    the following topics are handled:
+    - output_ss_fcl_std runs out of memory generating one round AES
     - Notion of "constraint"
     - Evaluating AES "constraints"
     - Order of small scale matrix dimensions
-    - Handling external data
     - Update specifications
     - Move AES box translations into separate file
-
-  \par
-   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
-   the following topics are handled:
-    - Add decomposed Sbox operations
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
@@ -81,13 +74,14 @@ License, or any later version. */
    the following topics are handled:
     - Move experimental todos to investigations
     - Add XOR translations for field multiplications
-  
+
 
   \par Version 0.0.11
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the
    following topics are handled:
+    - Handling external data
     - How to represent elements of arbitrary fields as boolean variables?
 
   \par
@@ -97,7 +91,7 @@ License, or any later version. */
 
 
   \par Version 0.1
-  
+
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the
    following topics are handled:
@@ -134,15 +128,15 @@ License, or any later version. */
 
 
   \par Version 0.1.2
-  
+
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the
    following topics are handled:
-    - Provide additional translation into CSP-solver format 
+    - Provide additional translation into CSP-solver format
     - Active clauses for field operations
     - Partitioning into active clauses
     - Algebraic aspects : DONE (Moved to CryptoSystems/Rijndael)
-  
+ 
   \par
    Create milestones.
 
