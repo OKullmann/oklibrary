@@ -804,7 +804,59 @@ rewrite_all_csttl_fast(cstl,rewrite_map) := block(
        <li> Constraint list - denoted by "cstl". </li>
       </ul>
      </li>
-     <li> Necessary functions and structures:
+     <li> Overview of system:
+     <ul>
+      <li> To translate AES one would call a rewrite all constraint
+      function called "rewrite_all_csttl", which would take as an argument a
+      list containing only a constraint called "aes_cst", where
+      arguments for the constraint are the variables of AES
+      (plaintext, key and ciphertext), along with a list of arguments, which
+      would include the identity as the namespace (i.e., "lambda([a],a)"), and
+      then additionally arguments specifying which translation is used for the
+      Sbox, field multiplications, and whether one should include the
+      mixcolumn inverse operation etc. </li>
+      <li> So for example:
+      \verbatim
+rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a)]]);
+      \endverbatim
+      </li>
+      <li> "rewrite_all_csttl" would then call constraint rewrite
+      function, called for instance, "aes_cstr_cstl", which would take as an
+      argument, the constraint, along with a rewrite mapping. </li>
+      <li> aes_cstr_cstl would then translate this into a list of constraints,
+      such as "aes_subbytes_cst", for which all newly introduced
+      variables have the namespace "aes_ns", where additional arguments to
+      the namespace are additional (non-namespace) arguments to "aes_cst",
+      and the namespace argument of (for instance) "aes_subbytes_cst" is
+      "lambda([a],aes_ns(a,arg1,arg2,...))", and additional arguments
+      to sub-constraint-templates are simply those arguments relevant
+      to that sub-constraint. </li>
+      <li> Such a rewrite procedure should continue until on newly
+      produced constraints, and existing constraints
+      until all constraint rewrite functions have been applied
+      in the order specified by the given rewrite mapping. </li>
+      <li> The result of "rewrite_all_csttl" is then a set of constraints
+      which can no longer be rewritten into smaller
+      constraints. </li>
+      <li> At this point one can then call a "translate to CNF" function
+      on this set of constraints to rewrite it to CNF. </li>
+      <li> Within the translate to CNF function, constraints
+      such as those representing equivalence of variables can be translated
+      by replacement of variables etc, rather than adding additional clauses
+      etc. </li>
+      <li> MG needs to alter the currently implemented parts of the new system
+      to take account of the altered specification (change from notions of
+      constraint templates to simply constraints). </li>
+      <li> (DONE) MG should see
+      Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
+      and replace the functional notation used in the new system with
+      lists and clarify the distinction between constraint templates
+      and constraints. </li>
+     </ul>
+     </li>
+     <li> DONE (functions now exist; todo in "Write docus" to
+     list and document (some of) them)
+     Necessary functions and structures:
       <ul>
        <li> Constraint rewrite bundle:
         <ul>
@@ -961,56 +1013,6 @@ rewrite_all_csttl_fast(cstl,rewrite_map) := block(
        Integer to variable mapping function - simply the inverse of the
        "Variable to integer mapping function". </li>
       </ul>
-     </li>
-     <li> Overview of system:
-     <ul>
-      <li> To translate AES one would call a rewrite all constraint
-      function called "rewrite_all_csttl", which would take as an argument a
-      list containing only a constraint called "aes_cst", where
-      arguments for the constraint are the variables of AES
-      (plaintext, key and ciphertext), along with a list of arguments, which
-      would include the identity as the namespace (i.e., "lambda([a],a)"), and
-      then additionally arguments specifying which translation is used for the
-      Sbox, field multiplications, and whether one should include the
-      mixcolumn inverse operation etc. </li>
-      <li> So for example:
-      \verbatim
-rewrite_all_csttl([["aes_cst",[p1,...,p128,k1,...,k128,c1,...,c128],lambda([a],a)]]);
-      \endverbatim
-      </li>
-      <li> "rewrite_all_csttl" would then call constraint rewrite
-      function, called for instance, "aes_cstr_cstl", which would take as an
-      argument, the constraint, along with a rewrite mapping. </li>
-      <li> aes_cstr_cstl would then translate this into a list of constraints,
-      such as "aes_subbytes_cst", for which all newly introduced
-      variables have the namespace "aes_ns", where additional arguments to
-      the namespace are additional (non-namespace) arguments to "aes_cst",
-      and the namespace argument of (for instance) "aes_subbytes_cst" is
-      "lambda([a],aes_ns(a,arg1,arg2,...))", and additional arguments
-      to sub-constraint-templates are simply those arguments relevant
-      to that sub-constraint. </li>
-      <li> Such a rewrite procedure should continue until on newly
-      produced constraints, and existing constraints
-      until all constraint rewrite functions have been applied
-      in the order specified by the given rewrite mapping. </li>
-      <li> The result of "rewrite_all_csttl" is then a set of constraints
-      which can no longer be rewritten into smaller
-      constraints. </li>
-      <li> At this point one can then call a "translate to CNF" function
-      on this set of constraints to rewrite it to CNF. </li>
-      <li> Within the translate to CNF function, constraints
-      such as those representing equivalence of variables can be translated
-      by replacement of variables etc, rather than adding additional clauses
-      etc. </li>
-      <li> MG needs to alter the currently implemented parts of the new system
-      to take account of the altered specification (change from notions of
-      constraint templates to simply constraints). </li>
-      <li> (DONE) MG should see
-      Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
-      and replace the functional notation used in the new system with
-      lists and clarify the distinction between constraint templates
-      and constraints. </li>
-     </ul>
      </li>
     </ul>
    </li>
