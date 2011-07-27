@@ -153,6 +153,21 @@ set_heap_size_ecl(2**32);
   </ul>
 
 
+  \todo Evaluating AES "constraints"
+  <ul>
+   <li> We consider the AES constraints in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac.
+   </li>
+   <li> As these are called "constraints", we should be able to evaluate the
+   constraints given an assignment to the variables. </li>
+   <li> Functions are needed to perform this evaluation. </li>
+   <li> See also "Create constraint evaluation system" in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp.
+   </li>
+   <li> See also 'Notion of "constraint"'. </li>
+  </ul>
+
+
   \todo Handling external data
   <ul>
    <li> We need to offer translations of the AES which use
@@ -674,14 +689,17 @@ set_heap_size_ecl(2**32);
   </ul>
 
 
-  \todo Fix translation system
+  \todo DONE (new system implemented; remaining issues moved to other todos)
+  Fix translation system
   <ul>
-   <li> Each of the following todos must be completed on its own, with
+   <li> DONE Each of the following todos must be completed on its own, with
    explanations how it was achieved. </li>
-   <li> Special care must be devoted to the notions of "active clauses" and
+   <li> DONE (moved to 'Evaluating AES "constraints"')
+   Special care must be devoted to the notions of "active clauses" and
    "constraint", where some progress must be achieved in more general modules,
    learning from the experiences here. </li>
-   <li> The notion of "active clause" implies that for example AES encryption/
+   <li> DONE (moved to 'Evaluating AES "constraints"')
+   The notion of "active clause" implies that for example AES encryption/
    decryption can be executed by just providing plain-text and key as a partial
    assignment and evaluating the whole active clause-set. Has this been
    achieved?? </li>

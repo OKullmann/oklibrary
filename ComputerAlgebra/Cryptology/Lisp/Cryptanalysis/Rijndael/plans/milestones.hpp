@@ -22,7 +22,7 @@ License, or any later version. */
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
    the following topics are handled:
     - output_ss_fcl_std runs out of memory generating one round AES
-    - Fix translation system
+    - Fix translation system : DONE
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
@@ -41,6 +41,7 @@ License, or any later version. */
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
    the following topics are handled:
     - Notion of "constraint"
+    - Evaluating AES "constraints"
     - Order of small scale matrix dimensions
     - Handling external data
     - Update specifications
