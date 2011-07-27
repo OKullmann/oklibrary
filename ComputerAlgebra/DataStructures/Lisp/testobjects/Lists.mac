@@ -143,6 +143,8 @@ okltest_countpred_l(countpred_l);
 
 okltest_countntconst_l(countntconst_l);
 
+okltest_size_constintervals_l(size_constintervals_l);
+
 okltest_Delta_l(Delta_l);
 
 okltest_count_extremals_l(count_extremals_l);

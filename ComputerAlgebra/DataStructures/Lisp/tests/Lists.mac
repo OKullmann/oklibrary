@@ -541,6 +541,13 @@ okltest_countntconst_l(f) := (
   assert(f(0,[0,0,0,1,0,0,1,2,2,1,1,0]) = 2),
   true)$
 
+okltest_size_constintervals_l(f) := (
+  assert(f([]) = []),
+  assert(f([0]) = [1]),
+  assert(f([0,0]) = [2]),
+  assert(f([0,1,1,0,0,2,2,1,0]) = [1,2,2,2,1,1]),
+  true)$
+
 okltest_Delta_l(f) := (
   assert(f([]) = []),
   assert(f([7]) = []),

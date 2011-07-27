@@ -374,6 +374,14 @@ countntconst_l(x,L) := if length(L) <= 1 then 0
    if i=inf then 1
    else 1 + countntconst_l(x,rest(L, i)))$
 
+/* The list of sizes of (maximal) constant intervals: */
+size_constintervals_l(L) := if emptyp(L) then []
+ elseif length(L) = 1 then [1]
+ else block([r : size_constintervals_l(rest(L))],
+   if first(L) = second(L) then (r[1] : r[1] + 1, r)
+   else cons(1,r))$
+
+
 /* Applies the Delta-operator to list L, that is, take the difference
    of successive elements L[i+1] - L[i]:
 */
