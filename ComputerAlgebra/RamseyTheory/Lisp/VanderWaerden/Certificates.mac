@@ -29,11 +29,19 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    *****************
 */
 
-/* Tests whether P is a palindromic vdW-certificate for parameter tuple L
-   and n vertices. It is assumed that L is an extended vdW-parameter-tuple,
-   n a natural number, and P a list of sets. A valid certificate can have
-   empty parts, but overlaps between the parts and additional elements are
-   not allowed.
+/*
+   A "certificate" P for a pair [L,n], where L is a parameter tuple of
+   length m and n is a natural number, corresponds to a solution of
+   vanderwaerden_nbfclud(L,n), that is, certifies that vanderwaerden(L) > n.
+
+   P is a block partition P of {1,...,n} in m blocks, that is, a list of
+   m disjoint subsets of {1,...,n} whose union is the whole set.
+*/
+
+/* Tests whether P is a vdW-certificate for parameter tuple L and n vertices.
+   It is assumed that L is an extended vdW-parameter-tuple, n a natural
+   number, and P a list of sets. A valid certificate can have empty parts, but
+   overlaps between the parts and additional elements are not allowed.
 */
 certificate_vdw_p(L,n,P) := block([N : setn(n)],
   length(L) = length(P) and lunion(P) = N and
@@ -70,7 +78,18 @@ certificate_pdvdw_p(L,n,P) := palindromic_subsets_p(n,P) and
 create_certificate2_vdw(S,n) := block([s : setify(S)],
   [s, setdifference(setn(n),s)])$
 
-/* Translates a vdw-certificate P (as a block-partitioning of {1,...,n})
+
+/* Certificates as partitions versus certificates as lists */
+
+/* The "list-presentation" of a certificate represents the partition
+   as a list of pairs [i,p], where 0 <= i < m represents the block,
+   and p >= 1 says how many consecutive elements are there;
+   The whole list-representation has to be read from left to right.
+   Accordingly we have "list-certificates".
+*/
+
+/* First the "uncompressed list", here denoted as "sequence":
+   Translates a vdw-certificate P (as a block-partitioning of {1,...,n})
    into a sequence of i elements of 0,...,length(P)-1 representing
    the colour:
 */
@@ -80,7 +99,8 @@ certificatevdw2seq(P) := block([N : lunion(P)],
   block([j:0], for b in P do if elementp(i,b) then return(j) else j:j+1),
   i,1,lmax(N)))$
 
-/* Translates a vdw-certificate P (as a block-partitioning of {1,...,n})
+/* Now the "compressed list":
+   Translates a vdw-certificate P (as a block-partitioning of {1,...,n})
    into a sequence "i^k", where i = 0,...,length(P)-1 is the colour,
    and k is the occurrence numbers, representing "i^k" as [i,k] for the
    list-form, while using "i" for "i^1" in the string-form:
@@ -98,6 +118,21 @@ certificatevdw2string(P) := block([distribute_over:false, x,y],
     map(lambda([p], block([a,b], [a,b]:p, if a=0 then a:x elseif a=1 then a:y, 
                           if b=1 then a else a^{b})),
         certificatevdw2list(P))))))$
+
+/* The reserce direction, translates a list-representation of a partition
+   into a partition:
+*/
+list2certificatevdw(L) := if emptyp(L) then [] else
+ block([m : lmax(map(first,L))+1, i : 1, res],
+  res : create_list({},i,1,m),
+  for p in L do (
+    res[first(p)+1] : union(res[first(p)+1], setmn(i, i+second(p)-1)),
+    i : i + second(p)
+  ),
+  res)$
+
+
+/* Palindromic certificates */
 
 /* The compression of a palindromic partition of {1,...,n}, restricting to
    the elements <= (n+1)/2:
@@ -119,6 +154,36 @@ uncompresss_palindromic_subsets(n,P) := block([m : lambda([v], {v,n+1-v})],
 create_certificate2c_pdvdw(S,n) := block([m : ceiling(n/2), P],
   P : create_certificate2_vdw(S,m),
   uncompresss_palindromic_subsets(n,P))$
+
+
+/* **************************
+   * Analysing certificates *
+   **************************
+*/
+
+/* For a block partition P of {1,...,n} compute:
+ - the size of each part
+ - the count of (maximal) intervals within a block of the partition
+ - the count of (maxima) non-trivial (more than one element) intervals within
+   a block of a partition
+ - for each block of the partition the number of extremal plateaus for the
+   interval counts.
+Returned is a 4-tuple of tuples of natural numbers.
+*/
+analyse_certificate(P) := block(
+ [m : length(P), L : certificatevdw2list(P), N, ci, cnti, ce],
+  N : map(length, P),
+  ci : create_list(
+        countpred_l(lambda([p], is(first(p)=i)), L),
+        i,0,m-1),
+  cnti : create_list(
+          countpred_l(lambda([p], is(first(p)=i and second(p)#1)), L),
+          i,0,m-1),
+  ce : create_list(
+        count_extremals_l(map(second, sublist(L, lambda([p], is(first(p)=i))))),
+        i,0,m-1),
+  [N,ci,cnti,ce])$
+
 
 /*!
 \endhtmlonly

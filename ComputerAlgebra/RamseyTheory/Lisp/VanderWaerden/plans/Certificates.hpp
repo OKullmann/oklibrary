@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding van der Waerden certificates
 
 
-  \todo The notion of a "certificate"
+  \todo DONE The notion of a "certificate"
   <ul>
    <li> A "certificate" for a pair [L,n], where L is a parameter tuple of
    length m and n is a natural number, corresponds to a solution of
