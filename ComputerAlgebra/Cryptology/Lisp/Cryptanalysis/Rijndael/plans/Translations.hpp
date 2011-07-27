@@ -97,6 +97,26 @@ set_heap_size_ecl(2**32);
   </ul>
 
 
+  \todo Notion of "constraint"
+  <ul>
+   <li> Currently in the AES translation system we use the notion of
+   "constraint" and "constraint template"; see
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/docus/Translations.hpp. 
+   </li>
+   <li> This is not the same as the notion of a constraint used for "linear
+   constraints in 'The notion of a "linear constraint"' in
+   ComputerAlgebra/Satisfiability/Lisp/LinearConditions/plans/general.hpp.
+   </li>
+   <li> For linear constraints, a constraint is very specific and one
+   always knows implicitly what it is; there is no name embedded in the object.
+   </li>
+   <li> In the AES translation system, each constraint has a constraint
+   template name, and carries with it all the parameters it needs for
+   evaluation (even if not actually evaluated). </li>
+   <li> Both notions need to be considered and somehow brought together. </li>
+  </ul>
+
+
   \todo Handling external data
   <ul>
    <li> We need to offer translations of the AES which use
@@ -161,6 +181,10 @@ set_heap_size_ecl(2**32);
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateRewriteRules.mac
    are stale. </li>
    <li> The specifications need to be updated urgently. </li>
+   <li> The notion of "constraint template" needs to be removed, as the
+   objects we handle are constraints (in some sense). </li>
+   <li> The notion of constraint needs to be discussed, and reconsidered
+   based on discussions from XXX in XXX; see XXX. </li>
   </ul>
 
 

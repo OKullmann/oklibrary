@@ -38,6 +38,10 @@ License, or any later version. */
    (if b is a literal, then it can be moved to the left-hand side). </li>
    <li> This can be represented as a list [x, b], where x is a list of
    literals, and b in {0,1}. </li>
+   <li> For discussions on the notion of constraint, see
+   'Notion of "constraint"' in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
+   </li>
   </ul>
 
 */

@@ -40,6 +40,7 @@ License, or any later version. */
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp 
    the following topics are handled:
+    - Notion of "constraint"
     - Order of small scale matrix dimensions
     - Handling external data
     - Update specifications
