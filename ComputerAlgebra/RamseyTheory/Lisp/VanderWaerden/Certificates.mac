@@ -161,17 +161,16 @@ create_certificate2c_pdvdw(S,n) := block([m : ceiling(n/2), P],
    **************************
 */
 
-/* For a block partition P of {1,...,n} compute:
- - the size of each part
- - the count of (maximal) intervals within a block of the partition
- - the count of (maxima) non-trivial (more than one element) intervals within
-   a block of a partition
- - for each block of the partition the number of extremal plateaus for the
-   interval counts.
-Returned is a 4-tuple of tuples of natural numbers.
+/* For a block partition P of {1,...,n} with m blocks compute for each block:
+ - the size
+ - the count of (maximal) intervals
+ - the count of (maxima) non-trivial (more than one element) intervals
+ - the number of extremal plateaus for the list representation
+ - the maximal number of equal consecutive elements in the list representation.
+   Returned is a 5-tuple of tuples of natural numbers (of size m).
 */
 analyse_certificate(P) := block(
- [m : length(P), L : certificatevdw2list(P), N, ci, cnti, ce],
+ [m : length(P), L : certificatevdw2list(P), N, ci, cnti, ce, mi],
   N : map(length, P),
   ci : create_list(
         countpred_l(lambda([p], is(first(p)=i)), L),
@@ -182,7 +181,10 @@ analyse_certificate(P) := block(
   ce : create_list(
         count_extremals_l(map(second, sublist(L, lambda([p], is(first(p)=i))))),
         i,0,m-1),
-  [N,ci,cnti,ce])$
+  mi : create_list(
+        lmax(size_constintervals_l(map(second, sublist(L, lambda([p], is(first(p)=i)))))),
+        i,0,m-1),
+  [N,ci,cnti,ce,mi])$
 
 
 /*!
