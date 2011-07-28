@@ -15,12 +15,15 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
-    - Update
+    - Discussion on Generalisation/Parameterisation based on [Algebraic Aspects of the AES] 
+    - Update : DONE
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
    the following topics are handled:
     - Fix translation system : DONE
+    - Constraint Rewrite System : DONE
+    - Encoding AES (top down) : DONE
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
@@ -33,8 +36,9 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    the following topics are handled:
+    - Rewrite translation functions using ss_field_op_fulldnf_gen_fcl etc
     - Functions should not cache return values
-    - Evaluating AES "constraints"
+
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
@@ -48,24 +52,11 @@ License, or any later version. */
     - Move AES box translations into separate file
     - Update specifications
 
-  \par
-   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
-   the following topics are handled:
-    - Add decomposed Sbox operations
-
-
   \par Version 0.0.10
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
-   the following topics are handled:
-    - Generating defaults constant for small scale
-    - Generating polynomial representations of field operations
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the
    following topics are handled:
-    - Rewrite ncl_list_ss correctly
     - Remove AES-specific translation
     - Complete small scale helper functions
     - Standardise output files names
@@ -79,13 +70,11 @@ License, or any later version. */
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/ConstraintTemplateSmallScaleRewriteRules.hpp
    the following topics are handled:
     - Remove hard-coding of multiplication by 01 in small scale MixColumn
-    - Rearranging linear components of Sbox and MixColumns
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp
    the following topics are handled:
     - Move experimental todos to investigations
-    - Add XOR translations for field multiplications
 
 
 
@@ -95,19 +84,17 @@ License, or any later version. */
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the
    following topics are handled:
     - Handling external data
-    - How to represent elements of arbitrary fields as boolean variables?
+    - Rewrite ncl_list_ss correctly
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Rewrite translation functions using ss_field_op_fulldnf_gen_fcl etc
+    - Evaluating AES "constraints"
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp
    the following topics are handled:
-    - Generate good CNF hitting clause-sets for the AES Field Operations
-    - Extracting prime implicate representations from the hitting-cls-representations
-
+    - Add XOR translations for field multiplications
 
   \par Version 0.1
 
@@ -116,9 +103,11 @@ License, or any later version. */
    following topics are handled:
     - Rewrite tests based on rewritten translation system
     - Write Docus
-    - Generate translation that allows multiple plaintext/ciphertext pairs
-    - Constraint Rewrite System : DONE
-    - Encoding AES (top down) : DONE
+
+  \par
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/ConstraintTemplateSmallScaleRewriteRules.hpp
+   the following topics are handled:
+    - Rearranging linear components of Sbox and MixColumns
 
   \par
    The aim is to have a first translation, so that amongst others SAT-solvers
@@ -133,13 +122,15 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Discussion on Generalisation/Parameterisation based on [Algebraic Aspects of the AES] 
+    - Generating defaults constant for small scale
+    - Generating polynomial representations of field operations
 
   \par
   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the
   following topics are handled:
     - Other software systems offering Sbox translations
     - Representations of the Sbox using additional variables
+    - Add decomposed Sbox operations
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp
@@ -151,10 +142,18 @@ License, or any later version. */
   \par Version 0.1.2
 
   \par
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp
+   the following topics are handled:
+    - Generate good CNF hitting clause-sets for the AES Field Operations
+    - Extracting prime implicate representations from the hitting-cls-representations
+
+  \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the
    following topics are handled:
+    - How to represent elements of arbitrary fields as boolean variables?
     - Provide additional translation into CSP-solver format
     - Algebraic aspects : DONE (Moved to CryptoSystems/Rijndael)
+    - Generate translation that allows multiple plaintext/ciphertext pairs
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/ActiveClauses.hpp the
