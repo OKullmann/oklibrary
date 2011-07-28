@@ -364,7 +364,44 @@ set_heap_size_ecl(2**32);
    system works, as well as pointing out the standard functions to use. </li>
    <li> Much of this information can be moved from "Fix translation system".
    </li>
-   <li> This has been started but needs to be extended significantly. </li>
+   <li> Documentation should be split into the general constraint rewriting
+   tools, and the AES specific documentation. </li>
+   <li> For docus on the general constraint rewriting, see
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/docus/ConstraintTemplateRewriteSystem.hpp.
+   </li>
+   <li> For docus on the AES specific translation functions, see
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/docus/Translations.hpp.
+   </li>
+   <li> For the general constraint rewriting, the following needs to be done:
+    <ul>
+     <li> Extend the example with a translation to SAT. </li>
+     <li> Explain the naming conventions. </li>
+     <li> Discuss or link to discussions on the design criteria. </li>
+    </ul>
+   </li>
+   <li> For the AES translation, the following needs to be done:
+    <ul>
+     <li> List key functions with explanations:
+      <ul>
+       <li> What are the convenience functions? </li>
+       <li> What are the output functions? </li>
+       <li> What are the constraints? </li>
+       <li> What are the variables? </li>
+       <li> What are the translation functions? </li>
+      </ul>
+     </li>
+     <li> List naming conventions. </li>
+     <li> What are the AES parameters? </li>
+     <li> What are the key papers? </li>
+     <li> Where is the AES implementation at the Maxima level? </li>
+     <li> How to handle different parameter settings? </li>
+     <li> What is the parameter space? Move discussion from
+     "Investigating dimensions" in
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp
+     into the docus. </li>
+     <li> Add example AES translation with statistics. </li>
+    </ul>
+   </li>
    <li> The following information on the different possible translations
    should also be included and linked to
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp:
@@ -428,6 +465,7 @@ set_heap_size_ecl(2**32);
     </li>
    </ul>
    </li>
+   <li> DONE This has been started but needs to be extended significantly. </li>
   </ul>
 
 
