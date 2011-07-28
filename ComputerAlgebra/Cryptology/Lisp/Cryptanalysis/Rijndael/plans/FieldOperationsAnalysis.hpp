@@ -265,30 +265,4 @@ true
    <li> This todo and others like it should be moved to Experimentations. </li>
   </ul>
 
-
-  \bug DONE What's the purpose of rijnmult_cnfp 
-  <ul>
-   <li> There is exactly one "full" CNF clause-set for a field multiplication,
-   so what is the point of this function? </li>
-   <li> rijnmult_cnfp tests whether any CNF (not necessarily full) represents
-   multiplication by the given AES field element. </li>
-  </ul>
-
-  
-  \bug DONE rijnmult_fulldnf_fcs only works for trivial arguments
-  <ul>
-   <li> "rijnmult_fulldnf_fcs(n)" for n >= 10 produces
-   various errors. </li>
-   <li> This occurred as "aes_field_mul_data", which is an
-   lookup array for the field operations which are actually
-   considered in the AES, was used to lookup the values
-   for translation, and for any field elements not considered
-   in the AES, the array was not defined, leading to errors.
-   This has been fixed by using a simple if statements which
-   uses the gf-package multiplication routines if the data
-   is not available from the array. </li>
-  </ul>
-
-
-
 */

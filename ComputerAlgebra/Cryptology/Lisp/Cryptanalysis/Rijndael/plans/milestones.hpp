@@ -8,27 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/milestones.hpp
 
-  \module_version Lisp/Cryptanalysis/Rijndael 0.0.7 (19.3.2011)
-
-
-  \par Version 0.0.8
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
-    - Discussion on Generalisation/Parameterisation based on [Algebraic Aspects of the AES] 
-    - Update : DONE
-
-  \par
-   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
-   the following topics are handled:
-    - Fix translation system : DONE
-    - Constraint Rewrite System : DONE
-    - Encoding AES (top down) : DONE
-
-  \par
-   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
-   the following topics are handled:
-    - Determine *all* prime implicates (for the purpose of analysis) : DONE
+  \module_version Lisp/Cryptanalysis/Rijndael 0.0.8 (28.7.2011)
 
 
   \par Version 0.0.9
@@ -152,7 +132,6 @@ License, or any later version. */
    following topics are handled:
     - How to represent elements of arbitrary fields as boolean variables?
     - Provide additional translation into CSP-solver format
-    - Algebraic aspects : DONE (Moved to CryptoSystems/Rijndael)
     - Generate translation that allows multiple plaintext/ciphertext pairs
 
   \par
@@ -173,5 +152,6 @@ License, or any later version. */
    - 0.0.5 : 3.6.2009; added tests for all most Sbox analysis functions and tidied the implementation.
    - 0.0.6 : 4.6.2009; added tests and finalised the initial translation system ready for rewriting using new notions.
    - 0.0.7 : 19.3.2011; improved the translation system by introducing meaningful variable-names and separate handling of clauses, and various extensions.
+   - 0.0.8 : 28.7.2011; started adding documentation for AES translation, addressed old and stale todos and investigated prime implicates for AES boxes.
 
 */
