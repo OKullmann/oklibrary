@@ -154,10 +154,14 @@ License, or any later version. */
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the
    following topics are handled:
     - Provide additional translation into CSP-solver format
+    - Algebraic aspects : DONE (Moved to CryptoSystems/Rijndael)
+
+  \par
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/ActiveClauses.hpp the
+   following topics are handled:
     - Active clauses for field operations
     - Partitioning into active clauses
-    - Algebraic aspects : DONE (Moved to CryptoSystems/Rijndael)
- 
+
   \par
    Create milestones.
 
