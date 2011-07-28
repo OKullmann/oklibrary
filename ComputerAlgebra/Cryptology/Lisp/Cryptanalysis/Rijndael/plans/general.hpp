@@ -117,6 +117,21 @@ License, or any later version. */
   </ul>
 
 
+  \todo Evaluating AES "constraints"
+  <ul>
+   <li> We consider the AES constraints in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac.
+   </li>
+   <li> As these are called "constraints", we should be able to evaluate the
+   constraints given an assignment to the variables. </li>
+   <li> Functions are needed to perform this evaluation. </li>
+   <li> See also "Create constraint evaluation system" in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp.
+   </li>
+   <li> See also 'Notion of "constraint"'. </li>
+  </ul>
+
+
   \todo Rewrite translation functions using ss_field_op_fulldnf_gen_fcl etc
   <ul>
    <li> Functions such as ss_sbox_fulldnf_gen_fcl should be rewritten using

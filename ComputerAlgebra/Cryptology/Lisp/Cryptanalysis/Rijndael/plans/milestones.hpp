@@ -34,16 +34,19 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    the following topics are handled:
     - Functions should not cache return values
+    - Evaluating AES "constraints"
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
    the following topics are handled:
     - output_ss_fcl_std runs out of memory generating one round AES
-    - Notion of "constraint"
-    - Evaluating AES "constraints"
     - Order of small scale matrix dimensions
-    - Update specifications
+
+  \par
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/ConstraintTemplateSmallScaleRewriteRules.hpp
+   the following topics are handled:
     - Move AES box translations into separate file
+    - Update specifications
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
@@ -65,8 +68,17 @@ License, or any later version. */
     - Rewrite ncl_list_ss correctly
     - Remove AES-specific translation
     - Complete small scale helper functions
-    - Remove hard-coding of multiplication by 01 in small scale MixColumn
     - Standardise output files names
+
+  \par
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/ConstraintTemplateRewriteSystem.hpp
+   the following topics are handled:
+    - Notion of "constraint"
+
+  \par
+   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/ConstraintTemplateSmallScaleRewriteRules.hpp
+   the following topics are handled:
+    - Remove hard-coding of multiplication by 01 in small scale MixColumn
     - Rearranging linear components of Sbox and MixColumns
 
   \par
