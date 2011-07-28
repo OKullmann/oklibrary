@@ -129,7 +129,10 @@ License, or any later version. */
   </ul>
 
   
-  \todo Discussion on Generalisation/Parameterisation based on [Algebraic
+  \todo DONE (implemented; see todo on documenting "What are the AES
+  parameters?" in "Write docus" in
+  ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp)
+  Discussion on Generalisation/Parameterisation based on [Algebraic
   Aspects of the AES]
   <ul>
    <li> [Algebraic Aspects of the AES] discusses several generalisations of
