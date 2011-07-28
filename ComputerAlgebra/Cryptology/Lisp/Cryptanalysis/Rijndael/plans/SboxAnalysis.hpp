@@ -51,10 +51,12 @@ License, or any later version. */
   <ul>
    <li> Compare with "Investigating conditions and their representations"
    in 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp. 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp. 
    </li>
    <li> When using (only) CNF, likely the use of additional variables is
    crucial. </li>
+   <li> This todo is stale and needs to be updated with links to the
+   the canonical translations and investigations. </li>
    <li> One should also consider the various arithmetical representations
    of the Sbox. </li>
    <li> DONE Most natural is to consider the Tseitin translation of the

@@ -23,6 +23,9 @@ License, or any later version. */
    components of the AES (see "Rearranging linear components of Sbox and 
    MixColumns" in 
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp) . </li>
+   <li> See ss_mixcolumn_boolm_cstr_cstl in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac
+   for an "XOR" translation of the whole MixColumns. </li>
   </ul>
 
   
@@ -254,21 +257,21 @@ true
   </ul>
 
 
-  \bug DONE What's the purpose of rijnmult_cnfp 
-  <ul>
-   <li> There is exactly one "full" CNF clause-set for a field multiplication,
-   so what is the point of this function? </li>
-   <li> rijnmult_cnfp tests whether any CNF (not necessarily full) represents
-   multiplication by the given AES field element. </li>
-  </ul>
-
-
   \todo Determine *all* prime implicates (for the purpose of analysis)
   <ul>
    <li> See "Analysing the AES prime implicates" in
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
    </li>
    <li> This todo and others like it should be moved to Experimentations. </li>
+  </ul>
+
+
+  \bug DONE What's the purpose of rijnmult_cnfp 
+  <ul>
+   <li> There is exactly one "full" CNF clause-set for a field multiplication,
+   so what is the point of this function? </li>
+   <li> rijnmult_cnfp tests whether any CNF (not necessarily full) represents
+   multiplication by the given AES field element. </li>
   </ul>
 
   
