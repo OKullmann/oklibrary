@@ -17,7 +17,15 @@ License, or any later version. */
   byte-function components of the AES (see 
   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac) and
   the translations of AES using these component translations into CNF.
-  
+
+
+  \todo Merge SAT2011 plans with module one level higher
+  <ul>
+   <li> The experiments in the SAT2011 module are not SAT2011 specific. </li>
+   <li> The SAT2011 module should be removed and/or how to present or link to
+   paper/presentation specific experiments reconsidered. </li>
+  </ul>
+
 
   \todo Links
   <ul>

@@ -63,6 +63,7 @@ License, or any later version. */
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the
    following topics are handled:
     - Using SBSAT
+    - Merge SAT2011 plans with module one level higher
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp
