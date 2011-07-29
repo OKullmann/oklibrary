@@ -20,12 +20,6 @@ License, or any later version. */
     - Replace "merge_cnf.sh" with "AppendDimacs" : DONE
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the
-   following topics are handled:
-    - Explain how to replace various AES boxes with identity or random boxes
-    - Summary of previous experimental results
-
-  \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Benchmarks.hpp the
    following topics are handled:
     - Prepare benchmarks for SAT 2011

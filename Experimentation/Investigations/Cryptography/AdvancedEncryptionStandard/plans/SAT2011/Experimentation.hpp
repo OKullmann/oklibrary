@@ -209,6 +209,8 @@ License, or any later version. */
      </li>
     </ul>
    </li>
+   <li> This todo needs to be moved to docus in
+   Cryptology/Lisp/Cryptanalysis/Rijndael/docus/. </li>
    <li> Note that addition constraints are always represented using their
    prime implicates. </li>
    <li> In each case, the first option is considered the default. </li>
@@ -412,6 +414,7 @@ License, or any later version. */
    to be added to ExternalSources (see also "Add todos for SAT-Race 2010 SAT
    solvers" in BuildSystem/ExternalSources/SpecialBuilds/plans/SAT.hpp).
    </li>
+   <li> This data needs to be moved to docus. </li>
    <li> DONE (moved to Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp)
    The following solvers (from the SAT 2010 race) are not in the library,
    but should be added to the library (see
