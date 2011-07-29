@@ -10,6 +10,27 @@ License, or any later version. */
   \brief Investigations into AES field multiplication by arbitary elements (e) in the 8-bit field
 
 
+  \todo Links
+  <ul>
+   <li> See
+    <ul>
+     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp.
+     </li>
+     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp.
+     </li>
+     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_9_8.hpp.
+     </li>
+     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_11_8.hpp.
+     </li>
+     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_13_8.hpp.
+     </li>
+     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_14_8.hpp.
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Basic data
   <ul>
    <li> The CNF-files "AES_byte_field_mul_full_${e}.cnf" are created by the 

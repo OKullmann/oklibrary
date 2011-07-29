@@ -235,8 +235,12 @@ License, or any later version. */
    <li> We need basic data on the prime implicates and subsumption
    hypergraphs for the following:
     <ul>
-     <li> Small scale Sbox (no plans file yet). </li>
-     <li> Small scale field multiplications (no plans file yet). </li>
+     <li> Small scale S-box (see
+     AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_4.hpp).
+     </li>
+     <li> Small scale field multiplications (see
+     AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_e_4.hpp).
+     </li>
      <li> Small scale field inversion (no plans file yet). </li>
      <li> Small scale linear map (no plans file yet). </li>
      <li> Small scale linear map with field multiplications (no plans file
@@ -275,8 +279,6 @@ License, or any later version. */
      </li>
      <li> AES Sbox linear map with field multiplications (no plans file yet).
      </li>
-     <li> Small scale Sbox (no plans file yet). </li>
-     <li> Small scale field multiplications (no plans file yet). </li>
      <li> Small scale field inversion (no plans file yet). </li>
      <li> Small scale linear map (no plans file yet). </li>
      <li> Small scale linear map with field multiplications (no plans file
@@ -293,6 +295,12 @@ License, or any later version. */
        <li> 00, 01 : DONE (trivial) </li>
       </ul>
      </li>
+     <li> Small scale field multiplications (see
+     AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_e_4.hpp) :
+     DONE. </li>
+     <li> Small scale Sbox; minimum 22 (see
+     AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp) 
+     : DONE. </li>
     </ul>
    </li>
    <li> Investigations into the prime implicates, subsumption hypergraphs
