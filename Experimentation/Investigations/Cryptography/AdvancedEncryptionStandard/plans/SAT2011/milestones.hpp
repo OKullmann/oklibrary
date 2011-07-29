@@ -56,6 +56,11 @@ License, or any later version. */
     - Notions for AES operation
     - Investigating conditions and their representations
 
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp
+   the following topics are handled:
+    - Update experiment script
+
 
   \par Version 0.1.8 :
 

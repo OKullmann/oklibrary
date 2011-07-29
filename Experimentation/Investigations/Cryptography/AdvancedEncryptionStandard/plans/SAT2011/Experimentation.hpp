@@ -323,29 +323,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo Prepare experiments for the SAT 2011 paper ??? what is the status of
-  this ???
+  \todo Update experiment script
   <ul>
-   <li> Milestones are needed. </li>
-   <li> A full update of the existing investigations-reports is needed. </li>
-   <li> Systematic variations on the various boxes:
-    <ol>
-     <li> In order to find out about the effects of box-translations, a good
-     method should be to "turn off" all other boxes, i.e., making them the
-     identity. </li>
-     <li> This could perhaps distinguish between the various occurrences of the
-     box under consideration. </li>
-     <li> For this to be well-tested, we should have reasonable possibilities
-     to create also the corresponding crypto-system, so that we can check
-     encryption/decryption. </li>
-     <li> The translation system shouldn't have any variables regarding the
-     identities created by those identity-boxes. </li>
-     <li> Perhaps for version 1.0 of the Maxima module Cryptology we plan to
-     have a fully integrated system, which from a very general specification
-     creates the cryptosystems as well as the various SAT or CSP translations.
-     </li>
-    </ol>
-   </li>
    <li> First experiment-running script:
     <ol>
      <li> Using three steps: experiment-creation, experiment-running,
@@ -383,6 +362,141 @@ License, or any later version. */
      are executed. </li>
     </ol>
    </li>
+   <li> Experiment creation:
+    <ul>
+     <li> See Investigations/Cryptography/AdvancedEncryptionStandard/generate_aes_experiment.
+     </li>
+     <li> The current experiment creation script allows one to specify the
+     number of rounds, number of random plaintext-ciphertext pairs to generate
+     and the parameters specifying the AES instance and translation (see
+     output_ss_fcl_std in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac).
+     </li>
+     <li> This generator generates several AES instances (one for each round)
+     at once. </li>
+     <li> The generator should be split up into two scripts, one generating
+     a single AES instance, another generating random plaintext-ciphertext
+     pairs. </li>
+     <li> The script should output the parameters for the computation to
+     a file "instance_parameters" in the experiment directory; the directory
+     might be renamed. </li>
+     <li> The script badly needs documentation. </li>
+    </ul>
+   </li>
+   <li> Experiment running:
+    <ul>
+     <li> See Investigations/Cryptography/AdvancedEncryptionStandard/run_aes_experiment.
+     </li>
+     <li> The AES experiment script should be split up into per-solver scripts:
+      <ul>
+       <li> We need a "run_aes_experiment_oksolver",
+       "run_aes_experiment_minisat-2.2.0" and so on. </li>
+       <li> Each solver-specific experiment script can then handle outputting
+       solver output to the correct directory. </li>
+       <li> Each script should examine "instance_parameters" to determine how
+       many AES rounds and number of plaintext-ciphertext pairs to run the
+       experiment on. </li>
+       <li> The script should then create the AES key discovery
+       instances from the AES instances and plaintext-ciphertext pairs. </li>
+       <li> Finally it should run the selected solver on the instance
+       and record the output into a file "r${r}_s${i}.cnf" where
+        <ul>
+         <li> r is the number of rounds for the AES key discovery instance
+         the solver is being run on; </li>
+         <li> s is the seed for the plaintext-ciphertext pair used to
+         instantiate the AES key discovery instance. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li> Documentation is badly needed for the script. </li>
+    </ul>
+   </li>
+   <li> Experiment monitoring:
+    <ul>
+     <li> See "Extraction tools" in
+     ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
+     <li> Scripts should be made to extract key data from each solver. </li>
+    </ul>
+   </li>
+   <li> All directories created should have the datetime included in the
+   name. </li>
+   <li> Each script should have the option to continue generating, running or
+   monitoring from where it left off. This should be a case of rerunning the
+   last experiment, and perhaps outputting a special file to indicate the
+   experiment has been finished. </li>
+   <li> This todo should be split into todos for scripts for generating,
+   running and monitoring. </li>
+   <li> See "Update scripts" and "Just an unstructured morass of scripts" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp.
+   </li>
+  </ul>
+
+
+  \todo Prepare experiments for the SAT 2011 paper ??? what is the status of
+  this ???
+  <ul>
+   <li> A full update of the existing investigations-reports is needed. </li>
+   <li> DONE (moved to "Update experiment script")
+   First experiment-running script:
+    <ol>
+     <li> Using three steps: experiment-creation, experiment-running,
+     experiment-evaluation. </li>
+     <li> An experiment is representing via a directory with a good descriptive
+     name, where inside all information is found for reproduction and
+     restarting. </li>
+     <li> The problems are created by computing the key by the Maxima
+     random-number generator, encrypting the all-0 plaintext, and then
+     taking the problem of guessing the key from given plain- and ciphertext.
+     </li>
+     <li> The major problem here is running Maxima in parallel:
+      <ol>
+       <li> See "Improve locality" in
+       Buildsystem/MasterScript/SpecialProcessing/plans/Call_Maxima.hpp,
+       especially point "No interference of different invocations". </li>
+       <li> Until now it was not a major issue, however now running, say, 30
+       experiments in parallel won't work out without a solution. </li>
+       <li> For what is Maxima needed?
+        <ol>
+         <li> Creation of the template-SAT-problems should be possible in
+         advance. </li>
+         <li> If a key is computed, we should check whether this key is
+         correct. </li>
+         <li> At least for the small-scale system the could be done using Sage;
+         hopefully Sage is more amenable to script-usage. </li>
+        </ol>
+       </li>
+      </ol>
+     </li>
+     <li> DONE It seems best to have first a script which takes as parameters
+     the generalised AES-parameters plus optionally a seed (default=1),
+     so that these parameters fully specify a sequence of generalised
+     AES problems, and then all combinations of SAT solvers and translations
+     are executed. </li>
+    </ol>
+   </li>
+   <li> DONE (moved to "Explain how to replace various AES boxes with identity
+   or random boxes" in
+   /AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp)
+   Systematic variations on the various boxes:
+    <ol>
+     <li> In order to find out about the effects of box-translations, a good
+     method should be to "turn off" all other boxes, i.e., making them the
+     identity. </li>
+     <li> This could perhaps distinguish between the various occurrences of the
+     box under consideration. </li>
+     <li> For this to be well-tested, we should have reasonable possibilities
+     to create also the corresponding crypto-system, so that we can check
+     encryption/decryption. </li>
+     <li> The translation system shouldn't have any variables regarding the
+     identities created by those identity-boxes. </li>
+     <li> Perhaps for version 1.0 of the Maxima module Cryptology we plan to
+     have a fully integrated system, which from a very general specification
+     creates the cryptosystems as well as the various SAT or CSP translations.
+     </li>
+    </ol>
+   </li>
+   <li> DONE Milestones are needed. </li>
   </ul>
 
 
