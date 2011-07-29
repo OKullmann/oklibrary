@@ -433,10 +433,78 @@ License, or any later version. */
   </ul>
 
 
-  \todo Prepare experiments for the SAT 2011 paper ??? what is the status of
-  this ???
+  \todo Move experiment data to investigation-reports
   <ul>
-   <li> A full update of the existing investigations-reports is needed. </li>
+   <li> All data, especially that generated for LCC and CP 2011 must be
+   transferred to Annotations. </li>
+   <li> For LCC and CP there must be docus page with links to the relevant
+   experiment plans, and summaries of the results. </li>
+   <li> Consolidation is needed of summary todos such as "Boundaries" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/general.hpp;
+   we must be able to *see* results. </li>
+  </ul>
+
+
+  \todo Solvers to be used for experimentation
+  <ul>
+   <li> We need a list of the solvers we will use for all experiments. </li>
+   <li> As time goes on, some solvers might not be used for later experiments
+   based on earlier results, and this can be recorded here. </li>
+   <li> Solvers to be used:
+    <ul>
+     <li> ArgoSAT </li>
+     <li> OKsolver_2002 </li>
+     <li> minisat-2.2.0 </li>
+     <li> glucose </li>
+     <li> ubcsat (1-1-0) </li>
+     <li> picosat913 </li>
+     <li> precosat236 </li>
+     <li> precosat570 </li>
+     <li> (p)lingeling </li>
+     <li> Satz215 </li>
+     <li> Grasp </li>
+     <li> sp </li>
+     <li> march_pl </li>
+    </ul>
+   </li>
+   <li> Is it possible in the time constraints to run ALL of these solvers
+   for every experiment? </li>
+   <li> Any solvers to be used which are not currently in the library, need
+   to be added to ExternalSources (see also "Add todos for SAT-Race 2010 SAT
+   solvers" in BuildSystem/ExternalSources/SpecialBuilds/plans/SAT.hpp).
+   </li>
+   <li> This data needs to be moved to docus. </li>
+   <li> DONE (moved to Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp)
+   The following solvers (from the SAT 2010 race) are not in the library,
+   but should be added to the library (see
+   BuildSystem/ExternalSources/plans/SAT.hpp):
+   <ul>
+    <li> Barcelogic </li>
+    <li> borg-sat </li>
+    <li> CircleSAT </li>
+    <li> CirCUs </li>
+    <li> CryptoMiniSAT </li>
+    <li> glucose </li>
+    <li> glucoER </li>
+    <li> kw </li>
+    <li> lingeling </li>
+    <li> LySAT </li>
+    <li> oprailleur </li>
+    <li> riss </li>
+    <li> rcl </li>
+    <li> SApperloT </li>
+    <li> SAT-Power </li>
+    <li> SATHYS </li>
+   </ul>
+   </li>
+  </ul>
+
+
+  \todo DONE (individual issues moved to separate todos)
+  Prepare experiments for the SAT 2011 paper
+  <ul>
+   <li> DONE (moved to "Move experiment data to investigation-reports")
+   A full update of the existing investigations-reports is needed. </li>
    <li> DONE (moved to "Update experiment script")
    First experiment-running script:
     <ol>
@@ -497,61 +565,6 @@ License, or any later version. */
     </ol>
    </li>
    <li> DONE Milestones are needed. </li>
-  </ul>
-
-
-  \todo Solvers to be used for experimentation
-  <ul>
-   <li> We need a list of the solvers we will use for all experiments. </li>
-   <li> As time goes on, some solvers might not be used for later experiments
-   based on earlier results, and this can be recorded here. </li>
-   <li> Solvers to be used:
-    <ul>
-     <li> ArgoSAT </li>
-     <li> OKsolver_2002 </li>
-     <li> minisat-2.2.0 </li>
-     <li> glucose </li>
-     <li> ubcsat (1-1-0) </li>
-     <li> picosat913 </li>
-     <li> precosat236 </li>
-     <li> precosat570 </li>
-     <li> (p)lingeling </li>
-     <li> Satz215 </li>
-     <li> Grasp </li>
-     <li> sp </li>
-     <li> march_pl </li>
-    </ul>
-   </li>
-   <li> Is it possible in the time constraints to run ALL of these solvers
-   for every experiment? </li>
-   <li> Any solvers to be used which are not currently in the library, need
-   to be added to ExternalSources (see also "Add todos for SAT-Race 2010 SAT
-   solvers" in BuildSystem/ExternalSources/SpecialBuilds/plans/SAT.hpp).
-   </li>
-   <li> This data needs to be moved to docus. </li>
-   <li> DONE (moved to Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp)
-   The following solvers (from the SAT 2010 race) are not in the library,
-   but should be added to the library (see
-   BuildSystem/ExternalSources/plans/SAT.hpp):
-   <ul>
-    <li> Barcelogic </li>
-    <li> borg-sat </li>
-    <li> CircleSAT </li>
-    <li> CirCUs </li>
-    <li> CryptoMiniSAT </li>
-    <li> glucose </li>
-    <li> glucoER </li>
-    <li> kw </li>
-    <li> lingeling </li>
-    <li> LySAT </li>
-    <li> oprailleur </li>
-    <li> riss </li>
-    <li> rcl </li>
-    <li> SApperloT </li>
-    <li> SAT-Power </li>
-    <li> SATHYS </li>
-   </ul>
-   </li>
   </ul>
 
 */

@@ -21,11 +21,6 @@ License, or any later version. */
     - Add milestones : DONE
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Benchmarks.hpp the
-   following topics are handled:
-    - Prepare benchmarks for SAT 2011
-
-  \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/EncryptionDecryption.hpp the
    following topics are handled:
     - Update instructions
@@ -46,6 +41,11 @@ License, or any later version. */
     - Prepare experiments for the SAT 2011 paper
     - Solvers to be used for experimentation
 
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Benchmarks.hpp the
+   following topics are handled:
+    - Prepare benchmarks for SAT 2011 : DONE
+
 
   \par Version 0.1.7 :
 
@@ -59,6 +59,7 @@ License, or any later version. */
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp
    the following topics are handled:
+    - Move experiment data to investigation-reports
     - Update experiment script
 
 
