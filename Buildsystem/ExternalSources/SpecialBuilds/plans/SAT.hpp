@@ -47,21 +47,93 @@ MiniSat -- Copyright (c) 2003-2005, Niklas Eén, Niklas Sörensson
    <li> The following solvers are currently not in the library, and
    must be investigated, and then added to the library:
     <ul>
-     <li> Barcelogic </li>
-     <li> borg-sat </li>
-     <li> CircleSAT </li>
-     <li> CirCUs </li>
-     <li> CryptoMiniSAT </li>
-     <li> glucose </li>
-     <li> glucoER </li>
-     <li> kw </li>
-     <li> LySAT </li>
-     <li> oprailleur </li>
-     <li> riss </li>
-     <li> rcl </li>
-     <li> SApperloT </li>
-     <li> SAT-Power </li>
-     <li> SATHYS </li>
+     <li> Barcelogic
+      <ul>
+       <li> See http://www.lsi.upc.edu/~oliveras/bclt-main.html . </li>
+       <li> This doesn't appear to be open-source; we should contact the
+       authors. </li>
+       <li> This is an SMT solver, although might also solve SAT instances.
+       </li>
+      </ul>
+     </li>
+     <li> borg-sat
+      <ul>
+       <li> See http://nn.cs.utexas.edu/pages/research/borg/ . </li>
+       <li> Github repository: https://github.com/borg-project/borg . </li>
+      </ul>
+     </li>
+     <li> CircleSAT
+      <ul>
+       <li> No website. </li>
+       <li> See
+       http://baldur.iti.uka.de/sat-race-2010/descriptions/solver_7.pdf .
+       </li>
+      </ul>
+     </li>
+     <li> CirCUs
+      <ul>
+       <li> See "CUSP" at http://vlsi.colorado.edu/~vis/ . </li>
+      </ul>
+     </li>
+     <li> glucoER
+      <ul>
+       <li> See http://www.lri.fr/~simon/ .</li>
+      </ul>
+     </li>
+     <li> kw
+      <ul>
+       <li> No website. </li>
+       <li> See
+       http://baldur.iti.uka.de/sat-race-2010/descriptions/solver_8+9.pdf .
+       </li>
+      </ul>
+     </li>
+     <li> LySAT
+      <ul>
+       <li> See http://www.msr-inria.inria.fr/~jabbour/ .</li>
+      </ul>
+     </li>
+     <li> oprailleur
+      <ul>
+       <li> No website. </li>
+       <li> See
+       http://baldur.iti.uka.de/sat-race-2010/descriptions/solver_20.pdf . </li>
+      </ul>
+     </li>
+     <li> riss
+      <ul>
+       <li> See http://www.wv.inf.tu-dresden.de/~norbert/html/riss.php . </li>
+      </ul>
+     </li>
+     <li> rcl
+      <ul>
+       <li> See
+       http://baldur.iti.uka.de/sat-race-2010/descriptions/solver_10.pdf .
+       </li>
+      </ul>
+     </li>
+     <li> SApperloT
+      <ul>
+       <li> See
+       http://algo.inf.uni-tuebingen.de/?site=forschung/sat/SApperloT .
+       </li>
+      </ul>
+     </li>
+     <li> SAT-Power
+      <ul>
+       <li> No website. </li>
+       <li> See
+       http://baldur.iti.uka.de/sat-race-2010/descriptions/solver_22.pdf .
+       </li>
+      </ul>
+     </li>
+     <li> SATHYS
+      <ul>
+       <li> See http://www.cril.univ-artois.fr/~lagniez/ressource.html . </li>
+      </ul>
+     </li>
+     <li> DONE glucose </li>
+     <li> DONE CryptoMiniSAT </li>
     </ul>
    </li>
    <li> Some of these solvers will be parallel solvers, in which case,
