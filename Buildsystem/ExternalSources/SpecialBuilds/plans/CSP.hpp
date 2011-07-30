@@ -19,6 +19,9 @@ License, or any later version. */
     <ul>
      <li> There was a CSP competition, http://www.cril.univ-artois.fr/CPAI09/.
      It appears to have stopped in 2009. </li>
+     <li> For finite domain problems, there is the MiniZinc challenge,
+     http://www.g12.csse.unimelb.edu.au/minizinc/challenge2011/challenge.html.
+     </li>
     </ul>
    </li>
    <li> Benchmarks:
@@ -26,6 +29,52 @@ License, or any later version. */
      <li> Available at the competition sites 
      http://www.cril.univ-artois.fr/CPAI08/ and 
      http://www.cril.univ-artois.fr/CPAI09/.
+    </ul>
+   </li>
+  </ul>
+
+
+  \todo Constraint modelling languages
+  <ul>
+   <li> We need an overview of constraint modelling languages. </li>
+   <li> Which solvers read which languages? </li>
+   <li> Are there translations between them? </li>
+   <li> See:
+    <ul>
+     <li> XCSP 2.1
+      <ul>
+       <li> See http://www.cril.univ-artois.fr/CPAI08/XCSP2_1.pdf . </li>
+      </ul>
+     </li>
+     <li> Essence
+      <ul>
+       <li> See http://www.cs.york.ac.uk/aig/constraints/AutoModel/ . </li>
+      </ul>
+     </li>
+     <li> Zinc
+      <ul>
+       <li> Subsets of the language, MiniZinc and FlatZinc exist. </li>
+       <li> See http://www.g12.csse.unimelb.edu.au/ for the specification.
+       </li>
+       <li> Used as the input format for the MiniZinc Challenge; see
+       http://www.g12.csse.unimelb.edu.au/minizinc/challenge2011/challenge.html .
+       </li>
+       <li> Gecode provides a CSP solver which takes FlatZinc files
+       as input. </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li> %Tools:
+    <ul>
+     <li> TAILOR
+      <ul>
+       <li> Translates from Essence' or XCSP 2.1 to Essence', FlatZinc,
+       Minion and Gecode. </li>
+       <li> See http://www.cs.st-andrews.ac.uk/~andrea/tailor/. </li>
+       <li> %Support discontinued in September 2010. </li>
+      </ul>
+     </li>
     </ul>
    </li>
   </ul>
@@ -45,8 +94,10 @@ License, or any later version. */
   <ul>
    <li> Gecode http://www.gecode.org/ </li>
    <li> Since this is a library, this is very interesting. </li>
-   <li> The current version (28.4.2009) is 3.0.2, and now they also have
+   <li> The current version (28.7.2011) is 3.6.0, and now they also have
    a reasonable introductory text. </li>
+   <li> Gecode provides an executable which reads "FlatZinc" files
+   and outputs the solution. </li>
   </ul>
 
 

@@ -263,6 +263,22 @@ dessbox_6t1to6t4_fcl(F1,F2,F3,F4) := block([F1_r,F2_r,F3_r,F4_r],
    we compute the "constraint system" corresponding to the DES-constraint.
    </li>
    <li> Now translations into SAT, CSP etc. are needed. </li>
+   <li> A translation into SAT is now available with the function
+   des2fcl in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/ConstraintTranslation.mac.
+   </li>
+   <li> To translate to CSP, we must pick a constraint modelling language
+   and/or solver; see "Constraint modelling languages" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp. </li>
+   <li> Firstly we need a translation to a representation of
+   a constraint system at the Maxima level; see
+   "Representing CSP problems" in
+   ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/general.hpp.
+   </li>
+   <li> This can then be translated to solver-specific formats
+   such as Minion; see "Translating systems of constraints to Minion" in
+   ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/general.hpp.
+   </li>
   </ul>
 
 
