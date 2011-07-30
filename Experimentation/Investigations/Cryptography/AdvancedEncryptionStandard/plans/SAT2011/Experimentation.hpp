@@ -456,7 +456,7 @@ License, or any later version. */
      <li> OKsolver_2002 </li>
      <li> minisat-2.2.0 </li>
      <li> glucose </li>
-     <li> ubcsat (1-1-0) </li>
+     <li> ubcsat (1-2-0) </li>
      <li> picosat913 </li>
      <li> precosat236 </li>
      <li> precosat570 </li>
