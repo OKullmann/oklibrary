@@ -180,8 +180,9 @@ c CPU time              : 0.13098 s
    See "MiniSAT2 based solvers return incorrect times using experiment script"
    in
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp.
-??? This is trivial to fix --- just apply "time" ???
    </li>
+   <li> See "Solvers reporting wrong times on some machines" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp. </li>
    <li> Other solvers such as cryptominisat take longer (but still only a few
    minutes):
    \verbatim

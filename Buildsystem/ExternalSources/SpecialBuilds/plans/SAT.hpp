@@ -20,6 +20,134 @@ License, or any later version. */
   </ul>
 
 
+  \bug Solvers reporting wrong times on some machines
+  <ul>
+   <li> On machines in the Swansea University linux lab (csoberon etc), some
+   solvers report a *much* shorter time than they actually take. </li>
+   <li> The following solvers report the wrong times:
+    <ul>
+     <li> minisat-2.2.0; </li>
+     <li> glucose; </li>
+     <li> OKsolver_2002; </li>
+     <li> cryptominisat; </li>
+    </ul>
+   </li>
+   <li> To reproduce (run on csoberon):
+    <ul>
+     <li> minisat-2.2.0
+     \verbatim
+maxima> oklib_load_all()$ output_weak_php_stdname(11,10);
+shell> time minisat-2.2.0 PHP_weak_11_10.cnf
+
+CPU time              : 4.6363 s
+<snip>
+real	1m8.176s
+user	0m4.636s
+sys	1m3.247s
+     \endverbatim
+     </li>
+     <li> OKsolver_2002-O3-DNDEBUG:
+     \verbatim
+maxima> oklib_load_all()$ output_weak_php_stdname(12,11);
+shell> time OKlibMG/OKplatform/bin/OKsolver_2002-O3-DNDEBUG PHP_weak_12_11.cnf
+
+c running_time(sec)                     27.5
+
+real	1m40.767s
+user	0m27.495s
+sys	1m13.207s
+     \endverbatim
+     </li>
+     <li> glucose:
+     \verbatim
+maxima> oklib_load_all()$ output_weak_php_stdname(11,10);
+shell> time minisat-2.2.0 PHP_weak_11_10.cnf
+time OKlibMG/OKplatform/bin/glucose PHP_weak_11_10.cnf
+
+c CPU time              : 44.0583 s
+
+s UNSATISFIABLE
+
+real	1m31.206s
+user	0m44.060s
+sys	0m47.106s
+     \endverbatim
+     </li>
+     <li> cryptominisat:
+     \verbatim
+maxima> oklib_load_all()$ output_weak_php_stdname(13,12);
+shell> time cryptominisat PHP_weak_13_12.cnf
+c CPU time                 : 65.17       s
+s UNSATISFIABLE
+
+real	3m10.527s
+user	0m53.233s
+sys	2m17.153s
+     \endverbatim
+     </li>
+    </ul>
+   </li>
+   <li> Interestingly, march_pl reports the correct time, despite time still
+   being attributed to "sys":
+   \verbatim
+maxima> oklib_load_all()$ output_weak_php_stdname(12,11);
+shell> time march_pl PHP_weak_12_11.cnf
+c main():: time=219.480000
+
+real	3m39.584s
+user	0m4.348s
+sys	3m35.149s
+   \endverbatim
+   </li>
+   <li> Using MeasureCPUSpeed on csoberon:
+   \verbatim
+shell> MeasureCPUSpeed-O3-DNDEBUG
+# N = 1000000000
+# time-elapsed(s) time-elapsed-wall-clock time-wall-clock
+ te tew tw
+1 1.00 00:00:01.006854 13:21:03.774347
+2 1.00 00:00:01.001562 13:21:04.775909
+3 1.01 00:00:01.001540 13:21:05.777449
+4 1.00 00:00:01.007656 13:21:06.785105
+5 1.00 00:00:01.002316 13:21:07.787421
+6 1.00 00:00:01.001477 13:21:08.788898
+   \endverbatim
+   </li>
+   <li> On MG's machine the solver times are within 0.05s of the "real" time.
+   The time attributed to "sys" in the time command is always less then 0.1s.
+   </li>
+   <li> Most solvers returns the "user" time; the "real" time is roughly the
+   same on all machines; on the linux lab machines, most time is attribued to
+   "sys". </li>
+   <li> csoberon:
+   \verbatim
+shell> uname -a
+Linux csoberon 2.6.34-12-desktop #1 SMP PREEMPT 2010-06-29 02:39:08 +0200 i686 i686 i386 GNU/Linux
+   \endverbatim
+   </li>
+   <li> MG's machine:
+   \verbatim
+shell> uname -a
+Linux csoberon 2.6.34-12-desktop #1 SMP PREEMPT 2010-06-29 02:39:08 +0200 i686 i686 i386 GNU/Linux
+   \endverbatim
+   </li>
+   <li> Is this a difference in the kernels? Perhaps a 64-bit vs 32-bit
+   difference? </li>
+   <li> Using the time command is a nuisance as then one must preprocess the
+   output of minisat-2.2.0 before using monitoring tools. This issue should
+   somehow be fixed so that the solvers return the correct times. </li>
+   <li> The following solvers (seem to) report the correct times:
+    <ul>
+     <li> precosat236, solving PHP_weak_11_10.cnf in ~45s; </li>
+     <li> precosat-570.1, solving PHP_weak_11_10.cnf in ~45s; </li>
+    </ul>
+   Running solvers on larger instances to test this further.
+   </li>
+   <li> MG is currently running experiments to see whether other solvers are
+   affected. </li>
+  </ul>
+
+
   \todo (P)Lingeling
   <ul>
    <li> DONE (installed)
