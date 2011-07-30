@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp
-  \brief Plans for the Cryptanalysis of the Rijndael field operations in Maxima/Lisp
+  \brief Plans for the cryptanalysis of the Rijndael field operations
 
 
   \todo Add XOR translations for field multiplications
@@ -22,9 +22,9 @@ License, or any later version. */
    <li> This should also be useful when considering rearranging linear 
    components of the AES (see "Rearranging linear components of Sbox and 
    MixColumns" in 
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp) . </li>
+   Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp) . </li>
    <li> See ss_mixcolumn_boolm_cstr_cstl in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac
+   Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac
    for an "XOR" translation of the whole MixColumns. </li>
   </ul>
 
@@ -32,7 +32,7 @@ License, or any later version. */
   \todo Move experimental todos to investigations
   <ul>
    <li> The following todos need to be split and moved to 
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/:
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/:
    <ul>
     <li> Generate good CNF hitting clause-sets for the AES Field Operations.
     </li>
@@ -85,8 +85,7 @@ statistics_cs(rijnmult2hittingcnf_fcs(intToGF2t8Poly(14),dll_heuristics_max_lit)
   </ul>
   
   
-  \todo Extracting prime implicate representations from the
-  hitting-cls-representations
+  \todo Prime implicate representations from hitting-cls-representations
   <ul>
    <li> As explained in "Hitting clause-sets" in
    Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp,
@@ -251,7 +250,7 @@ true
   \todo Find the symmetries of the AES Field Operations
   <ul>
    <li> See "Find the symmetries of the AES Sbox DNF" in
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
+   AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
    </li>
    <li> This todo and others like it should be moved to Experimentations. </li>
   </ul>
@@ -260,7 +259,7 @@ true
   \todo Determine *all* prime implicates (for the purpose of analysis)
   <ul>
    <li> See "Analysing the AES prime implicates" in
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
+   AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
    </li>
    <li> This todo and others like it should be moved to Experimentations. </li>
   </ul>

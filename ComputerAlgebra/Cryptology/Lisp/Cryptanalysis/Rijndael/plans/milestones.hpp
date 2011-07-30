@@ -27,10 +27,11 @@ License, or any later version. */
     - Order of small scale matrix dimensions
 
   \par
-   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/ConstraintTemplateSmallScaleRewriteRules.hpp
+   In Cryptanalysis/Rijndael/plans/ConstraintTemplateSmallScaleRewriteRules.hpp
    the following topics are handled:
     - Move AES box translations into separate file
     - Update specifications
+
 
   \par Version 0.0.10
 
@@ -42,7 +43,7 @@ License, or any later version. */
     - Standardise output files names
 
   \par
-   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/ConstraintTemplateRewriteSystem.hpp
+   In Cryptanalysis/Rijndael/plans/ConstraintTemplateRewriteSystem.hpp
    the following topics are handled:
     - Notion of "constraint"
 
@@ -85,7 +86,7 @@ License, or any later version. */
     - Write Docus
 
   \par
-   In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/ConstraintTemplateSmallScaleRewriteRules.hpp
+   In Cryptanalysis/Rijndael/plans/ConstraintTemplateSmallScaleRewriteRules.hpp
    the following topics are handled:
     - Rearranging linear components of Sbox and MixColumns
 
@@ -125,7 +126,7 @@ License, or any later version. */
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp
    the following topics are handled:
     - Generate good CNF hitting clause-sets for the AES Field Operations
-    - Extracting prime implicate representations from the hitting-cls-representations
+    - Prime implicate representations from hitting-cls-representations
 
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the

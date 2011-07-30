@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
-  \brief Plans for the Cryptanalysis of Rijndael in Maxima/Lisp
+  \brief Plans for the cryptanalysis of Rijndael in Maxima/Lisp
 
 
   \todo Connections
@@ -24,7 +24,7 @@ License, or any later version. */
   <ul>
    <li> Functions such as ss_mul_ts_gen and ss_sbox_ts_gen should
    not cache their result (see
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac). 
+   Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac).
    </li>
    <li> While this may save a considerable amount of time in
    some computations, it is poor practice as it causes these functions
@@ -101,7 +101,7 @@ License, or any later version. */
    <li> We need to implement linear interpolation over the field
    for arbitrary fields. </li>
    <li> This todo should be moved to
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/.
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/.
    </li>
   </ul>
 
@@ -115,7 +115,7 @@ License, or any later version. */
    constraints given an assignment to the variables. </li>
    <li> Functions are needed to perform this evaluation. </li>
    <li> See also "Create constraint evaluation system" in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp.
+   Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp.
    </li>
    <li> See also 'Notion of "constraint"'. </li>
   </ul>
