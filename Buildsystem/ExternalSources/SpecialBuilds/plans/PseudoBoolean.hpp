@@ -125,6 +125,27 @@ License, or any later version. */
    <li> To compile BoolVar with gcj, we first need a working gcj; see
    "gcj doesn't compile java files" in
    Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp. </li>
+   <li> BoolVar can be compiled to it's constituent class files
+   using gcj-4.5.2 (system-installation on MG's machine):
+   \verbatim
+ExternalSources/builds/SAT/BoolVar> jar xvf ../../../sources/SAT/BoolVar/BoolVar.0.0.jar
+ExternalSources/builds/SAT/BoolVar> find ./ -iname "*.java" -exec gcj -C {} +
+   \endverbatim
+   </li>
+   <li> BoolVar also compiles to native C++ object files:
+   \verbatim
+ExternalSources/builds/SAT/BoolVar> jar xvf ../../../sources/SAT/BoolVar/BoolVar.0.0.jar
+ExternalSources/builds/SAT/BoolVar> find ./ -iname "*.java" -exec gcj -c {} +
+ExternalSources/builds/SAT/BoolVar> ls
+AtLeastOne.o  Cardinality.o  Conjunction.o  ExactlyOne.o  Literal.o       NotEqual.o   Problem.o         Sorting.o      UnitLowerOrEq.o  Variable.o
+AtMostOne.o   Clause.o       Constraint.o   Function.o    LowerOrEqual.o  PbProblem.o  Propagate.o       Sum.o          UnitNotEqual.o
+boolvar       CnfProblem.o   Disjunction.o  Interval.o    META-INF        PBterm.o     RootConstraint.o  UnitAllDiff.o  UnitSum.o
+   \endverbatim
+   which creates a ".o" file for each ".java" file.
+   </li>
+   <li> We can then link against these functions from C++ using gcj's Compiled
+   Native Interface (CNI); see
+   http://en.wikipedia.org/wiki/GNU_Compiler_for_Java . </li>
   </ul>
 
 */
