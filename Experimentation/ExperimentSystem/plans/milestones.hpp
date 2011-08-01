@@ -18,6 +18,9 @@ License, or any later version. */
     - Organisation
     - Update namespaces
 
+  \par Experimentation/ExperimentSystem/SolverMonitoring/ version 0.1.0
+  (see Experimentation/ExperimentSystem/SolverMonitoring/plans/milestones.hpp)
+
   \par
    All submodules have milestones.
 
