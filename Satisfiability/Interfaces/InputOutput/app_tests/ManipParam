@@ -1,0 +1,88 @@
+#!/bin/bash
+# Matthew Gwynne, 1.8.2011 (Swansea)
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# set -o errexit # currently "find" creates an error due to non-existing directories, and also the match-program might fail
+set -o nounset
+
+list_programs="${bin_dir}/ManipParam ${bin_dir}/ManipParam-*"
+app_test_dir=${OKlib}/Satisfiability/Interfaces/InputOutput/app_tests
+
+echo "PROGRAMS FOUND:"
+for P in ${list_programs}; do echo ${P}; done
+
+cd ${app_test_dir}
+
+case ${test_level} in
+basic) list_test_cases="$(find test_cases/basic/ManipParam/ -name '*.params')"
+    ;;
+full) list_test_cases="$(find test_cases/basic/ManipParam/ -name '*.params') $(find test_cases/full/ManipParam/ -name '*.params')"
+    ;;
+extensive) list_test_cases="$(find test_cases/basic/ManipParam/ -name '*.params') $(find test_cases/full/ManipParam/ -name '*.params') $(find test_cases/extensive/ManipParam/ -name '*.params')"
+    ;;
+esac
+
+echo "TEST FORMULAS FOUND:" 
+for T in ${list_test_cases}; do echo ${T}; done
+
+echo "EXECUTION OF PROGRAMS:"
+
+match_tool=${bin_dir}/MatchFiles-O3-DNDEBUG
+
+# Make temporary directory to store the files we "edit"
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+temp_dir=ManipParam_app_tests_temp_${timestamp}
+mkdir ${temp_dir}
+
+for S in ${list_programs}; do
+  echo
+  for P in ${list_test_cases}; do
+    params=$(cat ${P})
+    filename=$(dirname ${P})/dimacs_input/$(echo "${params}" | cut -d ' ' -f 1)
+    temp_filename=${temp_dir}/$(echo "${params}" | cut -d ' ' -f 1)
+    n=$(echo "${params}" | cut -d ' ' -f 2)
+    c=$(echo "${params}" | cut -d ' ' -f 3)
+
+    # Copy dimacs to temporary location as we edit the file
+    cp ${filename} ${temp_filename}
+    echo ${S} ${temp_filename} ${n} ${c} "# $(basename ${P} .params)"
+    expected_result=$(cat $(dirname ${P})/$(basename ${P} .params).exit_status)
+    output="$(${S} ${temp_filename} ${n} ${c} 2>&1)"
+    result=$?
+    if [[ ${result} != ${expected_result} ]]; then
+      echo -e "ERROR: MatchFiles returned ${result}, where ${expected_result} was expected."
+      rm ${temp_filename}
+      echo ${output}; echo; exit 1
+    fi
+
+    # Check program output matches template
+    template="$(dirname ${P})/program_output/$(basename ${P} .params)"
+    echo "${output}" | ${match_tool} "${template}"
+    result=$?
+    if [[ ${result} != 0 ]]; then
+      echo -e "ERROR: PROGRAM OUTPUT is\n${output}\n, while TEMPLATE is"
+      cat ${template}; echo; exit 1
+    fi
+
+    # Check edited file matches template
+    template="$(dirname ${P})/dimacs_output/$(basename ${P} .params).cnf"
+    cat ${temp_filename} | ${match_tool} "${template}"
+    result=$?
+    if [[ ${result} != 0 ]]; then
+      echo -e "ERROR: FILE CHANGED to\n$(cat ${temp_filename})\n, while TEMPLATE is"
+      rm ${temp_filename}
+      cat ${template}; echo; exit 1
+    fi
+    rm ${temp_filename}
+  done
+done
+
+# Remove temporary directory
+rmdir ${temp_dir}
+
+exit 0
+

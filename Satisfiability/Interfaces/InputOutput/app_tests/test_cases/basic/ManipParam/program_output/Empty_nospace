@@ -1,0 +1,2 @@
+ERROR\[ManipParam\]: The length of the parameter line in file ".*Empty.cnf" is 9,
+ which is less then the length 10 of the new parameter line.

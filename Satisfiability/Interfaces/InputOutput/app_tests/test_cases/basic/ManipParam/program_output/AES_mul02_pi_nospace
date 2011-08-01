@@ -1,0 +1,2 @@
+ERROR\[ManipParam\]: The length of the parameter line in file ".*AES_mul02_pi.cnf" is 11,
+ which is less then the length 13 of the new parameter line.
