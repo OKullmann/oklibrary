@@ -74,6 +74,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
    topics are handled:
+    - Solvers report wrong times on some machines
     - Install Relsat
     - Parallel SAT solvers
     - SAT solvers

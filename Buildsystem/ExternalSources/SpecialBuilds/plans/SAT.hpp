@@ -143,6 +143,99 @@ MiniSat -- Copyright (c) 2003-2005, Niklas Eén, Niklas Sörensson
   </ul>
 
 
+  \todo Solvers report wrong times on some machines
+  <ul>
+   <li> On machines in the Swansea University linux lab (csoberon etc), some
+   solvers report a *much* shorter time than they actually take. </li>
+   <li> The following solvers report the wrong times:
+    <ul>
+     <li> minisat-2.2.0; </li>
+     <li> glucose; </li>
+     <li> OKsolver_2002; </li>
+     <li> cryptominisat; </li>
+    </ul>
+   </li>
+   <li> To reproduce (run on csoberon):
+    <ul>
+     <li> minisat-2.2.0
+     \verbatim
+maxima> oklib_load_all()$ output_weak_php_stdname(11,10);
+shell> time minisat-2.2.0 PHP_weak_11_10.cnf
+
+CPU time              : 4.6363 s
+<snip>
+real	1m8.176s
+user	0m4.636s
+sys	1m3.247s
+     \endverbatim
+     </li>
+     <li> OKsolver_2002-O3-DNDEBUG:
+     \verbatim
+maxima> oklib_load_all()$ output_weak_php_stdname(12,11);
+shell> time OKlibMG/OKplatform/bin/OKsolver_2002-O3-DNDEBUG PHP_weak_12_11.cnf
+
+c running_time(sec)                     27.5
+
+real	1m40.767s
+user	0m27.495s
+sys	1m13.207s
+     \endverbatim
+     </li>
+     <li> glucose:
+     \verbatim
+maxima> oklib_load_all()$ output_weak_php_stdname(11,10);
+shell> time minisat-2.2.0 PHP_weak_11_10.cnf
+time OKlibMG/OKplatform/bin/glucose PHP_weak_11_10.cnf
+
+c CPU time              : 44.0583 s
+
+s UNSATISFIABLE
+
+real	1m31.206s
+user	0m44.060s
+sys	0m47.106s
+     \endverbatim
+     </li>
+     <li> cryptominisat:
+     \verbatim
+maxima> oklib_load_all()$ output_weak_php_stdname(13,12);
+shell> time cryptominisat PHP_weak_13_12.cnf
+c CPU time                 : 65.17       s
+s UNSATISFIABLE
+
+real	3m10.527s
+user	0m53.233s
+sys	2m17.153s
+     \endverbatim
+     </li>
+    </ul>
+   </li>
+   <li> On MG's machine the solver times are within 0.05s of the "real" time.
+   The time attributed to "sys" in the time command is always less then 0.1s.
+   </li>
+   <li> Most solvers returns the "user" time; the "real" time is roughly the
+   same on all machines; on the linux lab machines, most time is attributed to
+   "sys". </li>
+   <li> csoberon:
+   \verbatim
+shell> uname -a
+Linux csoberon 2.6.34-12-desktop #1 SMP PREEMPT 2010-06-29 02:39:08 +0200 i686 i686 i386 GNU/Linux
+   \endverbatim
+   </li>
+   <li> MG's machine:
+   \verbatim
+shell> uname -a
+Linux cspcmg 2.6.38-10-generic #46-Ubuntu SMP Tue Jun 28 15:07:17 UTC 2011 x86_64 x86_64 x86_64 GNU/Linux
+   \endverbatim
+   </li>
+   <li> This is apparently a bug in the 32-bit linux kernels <2.6.35.6;
+   see https://bugzilla.kernel.org/show_bug.cgi?id=16559 and
+   https://bugzilla.redhat.com/show_bug.cgi?id=633037. </li>
+   <li> MG has sent an e-mail to the technicians asking them to upgrade
+   the linux lab machines to a newer kernel version. </li>
+  </ul>
+
+
   \todo (P)Lingeling
   <ul>
    <li> (p)lingeling should be added to the ExternalSources internet page.
