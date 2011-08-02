@@ -10,6 +10,36 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
+  \bug gcj doesn't compile Java files
+  <ul>
+   <li> gcj-4.5.3 requires ecj to compile:
+   \verbatim
+ExternalSources/builds/SAT/BoolVar/> jar xvf ../../../sources/SAT/BoolVar/BoolVar.0.0.jar
+ExternalSources/builds/SAT/BoolVar/> $OKPLATFORM/ExternalSources/Installations/Gcc/4.5.3/bin/gcj -c boolvar/raw/Clause.java
+gcj: error trying to exec 'ecj1': execvp: No such file or directory
+   \endverbatim
+   </li>
+   <li> The same error occurs with even the most basic HelloWorld.java file.
+   </li>
+   <li> gcj now requires ecj to be downloaded before building;
+   see "--with-ecj-jar" at http://gcc.gnu.org/install/configure.html . </li>
+   <li> ecj is the Eclipse java compiler, and is under the Eclipse Public
+   License. The difference in license is why ecj must be downloaded
+   separately. </li>
+   <li> Running:
+   \verbatim
+> $OKPLATFORM/ExternalSources/builds/Gcc/gcc-4.5.3/contrib/download_ecj
+   \endverbatim
+   downloads ecj.jar to the gcc directory. If this step is run before
+   configure, then gcj should build correctly.
+   </li>
+   <li> MG is testing building with ecj.jar in the Gcc directory to ensure
+   Gcc builds correct. </li>
+   <li> However, the difference in licensing raises the issue of whether we
+   want to use gcj, and hence ecj, in the OKlibrary. </li>
+  </ul>
+
+
   \todo Providing gcc 4.1.2
   <ul>
    <li> Special 412-targets:
