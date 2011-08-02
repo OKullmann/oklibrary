@@ -329,6 +329,9 @@ x[1] + ... + x[l] = b
      "watchsumgeq" constraints. </li>
     </ul>
    </li>
+   <li> We should also translate to one of the constraint modelling languages;
+   see "Constraint modelling languages" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp. </li>
    <li> See also "Translating the constraint-system into SAT, CSP, ..."
    in ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp.
    </li>
