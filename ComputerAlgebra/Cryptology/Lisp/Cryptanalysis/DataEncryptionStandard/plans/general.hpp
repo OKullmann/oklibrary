@@ -246,7 +246,7 @@ dessbox_6t1to6t4_fcl(F1,F2,F3,F4) := block([F1_r,F2_r,F3_r,F4_r],
    </li>
   </ul>
 
-  
+
   \todo Links
   <ul>
    <li> For the implementation of the DES see
@@ -263,6 +263,72 @@ dessbox_6t1to6t4_fcl(F1,F2,F3,F4) := block([F1_r,F2_r,F3_r,F4_r],
    we compute the "constraint system" corresponding to the DES-constraint.
    </li>
    <li> Now translations into SAT, CSP etc. are needed. </li>
+   <li> SAT translation:
+    <ul>
+     <li> A translation into SAT is now available with the function
+     des2fcl in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/ConstraintTranslation.mac.
+     </li>
+    </ul>
+   </li>
+   <li> Constraint translation:
+    <ul>
+     <li> We already translate to a system of high level constraints. </li>
+     <li> We have two types of constraints in the DES:
+      <ul>
+       <li> S-box constraints:
+        <ul>
+         <li> The constraint for the 6x4 boolean function for DES S-box i is
+         a list of the form [i,[v_1,...,v_6],[w_1,...,w_4]]. </li>
+         <li> i indicates the constraint represents DES S-box i. </li>
+         <li> [v_1,...,v_6] are the 6 input variables. </li>
+         <li> [w_1,...,w_4] are the 4 output variables. </li>
+         <li> How to represent the 6x1 S-box boolean functions? Or more
+         generally 6xm for m < 4? </li>
+         <li> For the 6x1 S-box boolean functions, we must specify the output
+         bit, so we have the constraint
+         \verbatim
+[i,[v_1,...,v_6],w_1,j]
+         \endverbatim
+         where w_1 is the j-th output variable of the i-th DES S-box. </li>
+         <li> More generally, we have 6xm S-box constraints:
+         \verbatim
+[i,[v_1,...,v_6],[w_1,...,w_m],[j_1,...,j_m]]
+         \endverbatim
+         where w_l is the j_l-th output bit of the i-th DES S-box for
+         l in {1,...,m}. </li>
+        </ul>
+       </li>
+       <li> XOR constraints:
+        <ul>
+         <li> See 'The notion of a "linear constraint"' for the details of
+         the XOR constraint. </li>
+         <li> An XOR constraint is a list [x,b] where x is a list of literals
+         and b is in {0,1}, such that the constraint is that
+         \verbatim
+x[1] + ... + x[l] = b
+         \endverbatim
+         where l is the length of x.
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li> We treat the S-box (6x4 and 6x1) and XOR constraints as the "boxes" we
+   consider, and therefore (currently) do not consider further decompositions.
+   </li>
+   <li> Translating DES constraints to Minion:
+    <ul>
+     <li> We should provide a translation for input into the Minion solver.
+     </li>
+     <li> S-box constraints should be translated to "table" constraints where
+     we specify the truth table for each S-box. </li>
+     <li> XOR constraints should be translated to "watchsumleq" and
+     "watchsumgeq" constraints. </li>
+    </ul>
+   </li>
   </ul>
 
 
