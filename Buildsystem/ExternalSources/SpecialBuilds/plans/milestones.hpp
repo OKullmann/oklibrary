@@ -130,6 +130,7 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp
    the following topics are handled:
     - Overview
+    - Constraint modelling languages
     - Sugar
     - Gecode
     - Minion
