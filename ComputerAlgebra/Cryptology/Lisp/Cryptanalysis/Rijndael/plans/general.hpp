@@ -106,6 +106,104 @@ License, or any later version. */
   </ul>
 
 
+  \todo Translating the constraint-system into SAT, CSP, ...
+  <ul>
+   <li> The SAT translation is available as output_ss_fcl_std in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac.
+   </li>
+   <li> Constraint translation:
+    <ul>
+     <li> We must provide a translation of the "constraints"
+     we generate in the AES translation to more concrete constraints.
+     </li>
+     <li> See 'Notion of "constraint"' in
+     Cryptanalysis/Rijndael/plans/ConstraintTemplateRewriteSystem.hpp. </li>
+     <li> For the DES constraint translation, see
+     "Translating the constraint-system into SAT, CSP, ..." in
+     Cryptanalysis/DataEncryptionStandard/plans/general.hpp. </li>
+     <li> S-box constraints:
+      <ul>
+       <li> For the full AES-S-box, there is one type of S-box, so we could
+       represent it as a constraint by a list [[v_1,...,v_8],[w_1,...,w_8]].
+       </li>
+       <li> For small-scale S-boxes we must specify *which* S-box is being
+       considered. </li>
+       <li> We represent a small-scale S-box as a constraint by the list
+       [b,e,p,mat,c,[v_1,...,v_(b^e)],[w_1,...,w_(b^e)]] where
+       the S-box represented is a finite function from {1,...,b^e} to
+       {1,...,b^e} given by:
+       \verbatim
+S-box(b,e,p,mat,c)(v) = mod(mat . v + c,p)
+       \endverbatim
+       where
+        <ul>
+         <li> v is a vector of elements in {1,...,b} of length e; </li>
+         <li> mat is an e x e matrix of elements in {1,...,b}; </li>
+         <li> c is a constant vector with elements in {1,...,b} of length
+         e; </li>
+         <li> p is a polynomial over {1,...,b}. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li> Multiplication constraints:
+      <ul>
+       <li> For the full AES-multiplcations, we could represent them as a
+       constraint by a list [e,[v_1,...,v_8],[w_1,...,w_8]], where e is
+       the element in {0,...,255} to be multiplied by. </li>
+       <li> For small-scale multiplications further parameters are needed to
+       specify *which* small-scale AES variant and multiplication are being
+       considered. </li>
+       <li> We represent a small-scale multiplication as a constraint by the
+       list
+       \verbatim
+       [i,b,e,p,[v_1,...,v_(b^e)],[w_1,...,w_(b^e)]]
+       \endverbatim
+       where the constraints represents the multiplication of an element in
+       {1,...,b^e} by i modulo the polynomial p resulting in an element again
+       in {1,...,b^e}. </li>
+      </ul>
+     </li>
+     <li> XOR constraints:
+      <ul>
+       <li> See 'The notion of a "linear constraint"' for the details of
+       the XOR constraint. </li>
+       <li> An XOR constraint is a list [x,b] where x is a list of literals
+       and b is in {0,1}, such that the constraint is that
+       \verbatim
+x[1] + ... + x[l] = b
+       \endverbatim
+       where l is the length of x.
+       </li>
+      </ul>
+     </li>
+     <li> We must also consider the following constraints:
+      <ul>
+       <li> S-box linear component. </li>
+       <li> Field inversion. </li>
+       <li> Combined S-box linear component and field multiplications. </li>
+       <li> MixColumn: MixColumns on a single column. </li>
+       <li> 8 x m boolean function versions of all constraints. </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li> Translating DES constraints to Minion:
+    <ul>
+     <li> We should provide a translation for input into the Minion solver.
+     </li>
+     <li> S-box constraints should be translated to "table" constraints where
+     we specify the truth table for each S-box. </li>
+     <li> XOR constraints should be translated to "watchsumleq" and
+     "watchsumgeq" constraints. </li>
+    </ul>
+   </li>
+   <li> We should also translate to one of the constraint modelling languages;
+   see "Constraint modelling languages" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp. </li>
+  </ul>
+
+
   \todo Evaluating AES "constraints"
   <ul>
    <li> We consider the AES constraints in
@@ -117,7 +215,8 @@ License, or any later version. */
    <li> See also "Create constraint evaluation system" in
    Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp.
    </li>
-   <li> See also 'Notion of "constraint"'. </li>
+   <li> See also 'Notion of "constraint"' in
+   Cryptanalysis/Rijndael/plans/ConstraintTemplateRewriteSystem.hpp. </li>
   </ul>
 
 
