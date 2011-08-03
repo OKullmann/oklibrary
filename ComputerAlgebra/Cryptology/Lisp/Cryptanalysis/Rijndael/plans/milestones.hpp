@@ -70,6 +70,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    the following topics are handled:
+    - S-box and multiplication boolean 6xm functions
     - Evaluating AES "constraints"
 
   \par

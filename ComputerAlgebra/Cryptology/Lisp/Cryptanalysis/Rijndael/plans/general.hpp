@@ -106,6 +106,18 @@ License, or any later version. */
   </ul>
 
 
+  \todo S-box and multiplication boolean 6xm functions
+  <ul>
+   <li> We wish to translate the AES where the S-box and multiplications are
+   considered as 8 8x1 boolean functions. </li>
+   <li> There is also the possibility of generalising this to 8/m boolean 8xm
+   functions, or even combinations of 1 8x4 and 2 6x2 boolean functions etc. </li>
+   <li> See also "S-box boolean 6xm functions" in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp.
+   </li>
+  </ul>
+
+
   \todo Translating the constraint-system into SAT, CSP, ...
   <ul>
    <li> The SAT translation is available as output_ss_fcl_std in
@@ -233,6 +245,11 @@ x[1] + ... + x[l] = b
      parameters as ss_fcl and uses ss_sboxc, ss_mulc etc to generate
      the constraints associated with the AES given the input parameters,
      and outputs the corresponding Minion input file. </li>
+     <li> We also need a function "output_ss_minion_6tm" which takes the
+     number of rounds, and the parameter m and generates the constraints
+     associated with the AES where the S-boxes and multiplications are
+     considered as boolean 6 x m functions. See "S-box and multiplication
+     boolean 6xm functions". </li>
     </ul>
    </li>
    <li> We should also translate to one of the constraint modelling languages;

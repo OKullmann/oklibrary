@@ -19,7 +19,7 @@ License, or any later version. */
     - Improve tests
     - Add variants with reduced number of rounds
     - Combining 6-to-1 bit Sbox functions
-    - Add 6-to-1 bit Sbox functions : DONE
+    - S-box boolean 6xm functions : DONE
 
 
   \par Version 0.0.4
