@@ -111,9 +111,10 @@ License, or any later version. */
    <li> We wish to translate the AES where the S-box and multiplications are
    considered as 8 8x1 boolean functions. </li>
    <li> There is also the possibility of generalising this to 8/m boolean 8xm
-   functions, or even combinations of 1 8x4 and 2 6x2 boolean functions etc. </li>
+   functions, or even combinations of 1 8x4 and 2 6x2 boolean functions etc.
+   </li>
    <li> See also "S-box boolean 6xm functions" in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp.
+   Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp.
    </li>
   </ul>
 
@@ -261,7 +262,7 @@ x[1] + ... + x[l] = b
   \todo Evaluating AES "constraints"
   <ul>
    <li> We consider the AES constraints in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac.
+   Lisp/Cryptanalysis/Rijndael/ConstraintTemplateSmallScaleRewriteRules.mac.
    </li>
    <li> As these are called "constraints", we should be able to evaluate the
    constraints given an assignment to the variables. </li>
