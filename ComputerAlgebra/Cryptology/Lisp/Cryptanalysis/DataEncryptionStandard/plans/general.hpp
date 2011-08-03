@@ -333,6 +333,10 @@ x[1] + ... + x[l] = b
      we specify the truth table for each S-box. </li>
      <li> XOR constraints should be translated to "watchsumleq" and
      "watchsumgeq" constraints. </li>
+     <li> We need a function "output_des_minion" which takes the number of
+     rounds and uses des_sboxc and des_xor etc to generate the constraints
+     associated with the DES given the input parameters, and outputs the
+     corresponding Minion input file. </li>
     </ul>
    </li>
    <li> We should also translate to one of the constraint modelling languages;

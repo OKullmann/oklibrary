@@ -202,16 +202,37 @@ x[1] + ... + x[l] = b
      <li> Therefore, we reserve translation of constraints to the level
      of full clause-sets, or "truth tables" until we (possibly) later
      translate directly to some CSP solver input language. </li>
+     <li> We need functions, taking the same parameters as ss_fcl:
+      <ul>
+       <li> ss_sboxc: generates the small-scale AES S-box constraints.
+       </li>
+       <li> ss_mulc: generates the small-scale AES multiplication
+       constraints. </li>
+       <li> ss_xor: generates the small-scale AES XOR constraints. </li>
+       <li> Other constraints based on the linear components, field
+       inversion and so on, which should be added to this list, as
+       they are considered. </li>
+      </ul>
+     </li>
     </ul>
    </li>
    <li> Translating AES constraints to Minion:
     <ul>
      <li> We should provide a translation for input into the Minion solver.
      </li>
+     <li> We could first provide a model of the Minion input language at
+     the Maxima level, which is then only output to file, but such a language
+     isn't likely useful for us outside of input to Minion; we already model
+     the constraints in our own way; it is best to translate as we output to
+     file. </li>
      <li> S-box and multiplication constraints should be translated to "table"
      constraints where we specify the truth table for each S-box. </li>
      <li> XOR constraints should be translated to "watchsumleq" and
      "watchsumgeq" constraints. </li>
+     <li> We need a function "output_ss_minion" which takes the same
+     parameters as ss_fcl and uses ss_sboxc, ss_mulc etc to generate
+     the constraints associated with the AES given the input parameters,
+     and outputs the corresponding Minion input file. </li>
     </ul>
    </li>
    <li> We should also translate to one of the constraint modelling languages;
