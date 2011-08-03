@@ -10,6 +10,67 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
+  \bug gcj doesn't compile Java files
+  <ul>
+   <li> Consider the following Java file (HelloWorld.java):
+   \verbatim
+class HelloWorld {
+  public static void main(final String[] argv) {
+    System.out.println("Hello world!");
+  }
+}
+   \endverbatim
+   </li>
+   <li> Compiling "HelloWorld.java":
+   \verbatim
+> $OKPLATFORM/ExternalSources/Installations/Gcc/4.5.3/bin/gcj HelloWorld.java -o HelloWorld --main=HelloWorld
+   \endverbatim
+   yields the following error message:
+   \verbatim
+gcj: error trying to exec 'ecj1': execvp: No such file or directory
+   \endverbatim
+   </li>
+   <li> The result should be to compile HelloWorld.java to a standalone executable:
+   \verbatim
+# Using system Gcj
+> gcj HelloWorld.java -o HelloWorld --main=HelloWorld
+> ./HelloWorld
+Hello world!
+   \endverbatim
+   </li>
+   <li> gcj, as of gcc-3.4, requires ecj to be downloaded before building;
+   see "--with-ecj-jar" at http://gcc.gnu.org/install/configure.html . </li>
+   <li> Note that gcj can compile ".class" files to linux executable files:
+   \verbatim
+> javac HelloWorld.java # Using system javac
+> $OKPLATFORM/ExternalSources/Installations/Gcc/4.5.3/bin/gcj HelloWorld.class -o HelloWorld --main=HelloWorld
+> ./HelloWorld
+Hello world!
+   \endverbatim
+   This is (likely) the reason gcc doesn't give an error when compiling
+   gcj, despite ecj being missing. </li>
+   <li> ecj is the Eclipse Java compiler, and is under the Eclipse Public
+   License. The difference in license is why ecj must be downloaded
+   separately. </li>
+   <li> We do not currently download or include ecj as part of the OKlibrary
+   build process, and hence the error. </li>
+   <li> Therefore, we are not building gcj correctly, assuming we want the
+   ability to compile Java files. </li>
+   <li> This makes gcj unusable at present. </li>
+   <li> Running:
+   \verbatim
+ExternalSources/builds/Gcc/gcc-4.5.3/> ./contrib/download_ecj
+   \endverbatim
+   downloads ecj.jar to the gcc directory. If this step is run before
+   configure, then gcj should build correctly.
+   </li>
+   <li> MG is testing building with ecj.jar in the Gcc directory to ensure
+   Gcc builds correct. </li>
+   <li> However, the difference in licensing raises the issue of whether we
+   want to use gcj, and hence ecj, in the OKlibrary. </li>
+  </ul>
+
+
   \todo Providing gcc 4.1.2
   <ul>
    <li> Special 412-targets:
