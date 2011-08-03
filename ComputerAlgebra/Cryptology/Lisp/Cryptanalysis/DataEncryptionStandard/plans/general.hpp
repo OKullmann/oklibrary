@@ -319,6 +319,12 @@ x[1] + ... + x[l] = b
    <li> We treat the S-box (6x4 and 6x1) and XOR constraints as the "boxes" we
    consider, and therefore (currently) do not consider further decompositions.
    </li>
+   <li> As with the AES, we do not translate these constraints to boolean
+   constraints as given in
+   ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Conditions.mac.
+   See "Translating the constraint-system into SAT, CSP, ..." in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp.
+   </li>
    <li> Translating DES constraints to Minion:
     <ul>
      <li> We should provide a translation for input into the Minion solver.

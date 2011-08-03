@@ -188,6 +188,22 @@ x[1] + ... + x[l] = b
      </li>
     </ul>
    </li>
+   <li> Translating high level constraints into positive boolean constraints:
+    <ul>
+     <li> This might be a good idea, especially for the S-box and
+     multiplications, given their canonical DNF representations. </li>
+     <li> We could translate a list of S-box and multiplication constraints
+     directly to a positive boolean constraints; see
+     ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/Conditions.mac.
+     </li>
+     <li> However, this would yield a much larger representation which
+     would repeat the definition of the boxes for each instance of the box
+     (modulo variable renaming), and hide the underlying constraints. </li>
+     <li> Therefore, we reserve translation of constraints to the level
+     of full clause-sets, or "truth tables" until we (possibly) later
+     translate directly to some CSP solver input language. </li>
+    </ul>
+   </li>
    <li> Translating AES constraints to Minion:
     <ul>
      <li> We should provide a translation for input into the Minion solver.
