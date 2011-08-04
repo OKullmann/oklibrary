@@ -130,6 +130,50 @@ patch -p1 < patchfile
   </ul>
 
 
+  \todo Supporting Java
+  <ul>
+   <li> The following SAT and CSP libraries use Java:
+    <ul>
+     <li> SAT4J, see "SAT4J" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp. </li>
+     <li> BoolVar, see "BoolVar/PB" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp. </li>
+     <li> Sugar, see "Sugar" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp. </li>
+     <li> Choco, see "Choco" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp. </li>
+     <li> TAILOR, see "TAILOR" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp. </li>
+     <li> See also "Sudoku" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp. </li>
+    </ul>
+   </li>
+   <li> In the OKlibrary, we always compile from source. </li>
+   <li> We should support the compilation of Java files to
+   allow the inclusion of the above projects in the OKlibrary. </li>
+   <li> Should we allow compilation of Java files within %OKlib?
+    <ul>
+     <li> As with .cpp files, .java files could be supported by
+     the build system, making Java a first class language in the
+     OKlibrary. </li>
+     <li> One advantage to including Java, is that interfacing with
+     the libraries above would be easier. </li>
+     <li> However, what use is being able to interface if we can't
+     then combine this with already existing C++ code? </li>
+     <li> Also we already have C++; Java and the thinking
+     behind it don't fit with the theme of the OKlibrary. </li>
+     <li> It seems best to restrict the use of Java to compilation
+     of ExternalSources. </li>
+     <li> We can likely interface by compiling Java files to binary
+     libraries, and linking via the Compiled Native Interface in tools
+     such as gcj. See
+     http://en.wikipedia.org/wiki/GNU_Compiler_for_Java#CNI_.28Compiled_Native_Interface.29
+     and http://gcc.gnu.org/java/papers/cni/t1.html . </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Combinatorics
   <ul>
    <li> http://people.scs.fsu.edu/~burkardt/cpp_src/cpp_src.html </li>

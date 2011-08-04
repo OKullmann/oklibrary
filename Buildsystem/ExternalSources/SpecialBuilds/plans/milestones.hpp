@@ -22,6 +22,7 @@ License, or any later version. */
   \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:
+    - Supporting Java
     - Complete documentation
     - Patches
 

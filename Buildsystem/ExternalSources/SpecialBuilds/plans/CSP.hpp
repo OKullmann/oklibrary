@@ -26,8 +26,8 @@ License, or any later version. */
    </li>
    <li> Benchmarks:
     <ul>
-     <li> Available at the competition sites 
-     http://www.cril.univ-artois.fr/CPAI08/ and 
+     <li> Available at the competition sites
+     http://www.cril.univ-artois.fr/CPAI08/ and
      http://www.cril.univ-artois.fr/CPAI09/.
     </ul>
    </li>
@@ -211,7 +211,8 @@ minion-0.12/bin> CC="$(gcc_call_okl)" CXX="$(gcc_call_okl)" cmake -DBOOST_ROOT:P
    <li> http://www.cs.st-andrews.ac.uk/~andrea/tailor/ </li>
    <li> A tool for translating general CSP modelling languages
    to specific CSP solver input formats. </li>
-   <li> It can translate Essence and XCSP to Minion input. 
+   <li> TAILOR is written in Java. </li>
+   <li> It can translate Essence and XCSP to Minion input.
    XCSP is the language used for the CSP08 and CSP09 competitions.
    XCSP is an XML format. </li>
    <li> We should install this and consider using one of these general
