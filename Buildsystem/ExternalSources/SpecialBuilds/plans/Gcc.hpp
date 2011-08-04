@@ -10,6 +10,74 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
+  \todo Gcj
+  <ul>
+   <li> gcj is the GNU %Compiler for Java, see http://gcc.gnu.org/java/ . </li>
+   <li> It supports:
+    <ul>
+     <li> Compilation of .java to bytecode (.class files). </li>
+     <li> Compilation of .java to linux executables and libraries. </li>
+     <li> Compilation of .class to linux executables and libraries. </li>
+    </ul>
+   </li>
+   <li> See also "Supporting Java" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp. </li>
+   <li> gcj is part of the gcc package, and is built when calling "oklib gcc".
+   </li>
+   <li> gcj, as built by "oklib gcc", doesn't compile .java files:
+    <ul>
+     <li> Consider the following Java file (HelloWorld.java):
+     \verbatim
+class HelloWorld {
+  public static void main(final String[] argv) {
+    System.out.println("Hello world!");
+  }
+}
+     \endverbatim
+     </li>
+     <li> Compiling "HelloWorld.java":
+     \verbatim
+> $OKPLATFORM/ExternalSources/Installations/Gcc/4.5.3/bin/gcj HelloWorld.java -o HelloWorld --main=HelloWorld
+     \endverbatim
+     yields the following error message:
+     \verbatim
+gcj: error trying to exec 'ecj1': execvp: No such file or directory
+     \endverbatim
+     </li>
+     <li> The result should be to compile HelloWorld.java to a standalone executable:
+     \verbatim
+# Using system Gcj
+> gcj HelloWorld.java -o HelloWorld --main=HelloWorld
+> ./HelloWorld
+Hello world!
+     \endverbatim
+     </li>
+     <li> gcj, as of gcc-3.4, requires ecj to be downloaded before building;
+     see "--with-ecj-jar" at http://gcc.gnu.org/install/configure.html and also
+     in ExternalSources/builds/Gcc/gcc-4.5.3/INSTALL/configure.html:
+     \verbatim
+--with-ecj-jar=filename
+    This option can be used to specify the location of an external jar file containing the Eclipse Java compiler. A specially modified version of this compiler is used by gcj to parse .java source files. If this option is given, the 'libjava' build will create and install an ecj1 executable which uses this jar file at runtime.
+
+    If this option is not given, but an ecj.jar file is found in the topmost source tree at configure time, then the 'libgcj' build will create and install ecj1, and will also install the discovered ecj.jar into a suitable place in the install tree.
+
+    If ecj1 is not installed, then the user will have to supply one on his path in order for gcj to properly parse .java source files. A suitable jar is available from ftp://sourceware.org/pub/java/. 
+     \endverbatim
+     </li>
+     <li> The GCC source package includes a script "contrib/download_ecj" to
+     download ecj. This could be called before calling ./configure in the GCC
+     build process, which would result in GCJ being built with support for
+     .java files. </li>
+     <li> ecj is the Eclipse Java compiler, and is under the Eclipse Public
+     License. The difference in license is why ecj must be downloaded
+     separately. </li>
+     <li> The difference in licensing raises the issue of whether we want to
+     compile gcj with support for .java files. </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Providing gcc 4.1.2
   <ul>
    <li> Special 412-targets:
