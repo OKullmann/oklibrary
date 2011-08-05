@@ -23,10 +23,6 @@ License, or any later version. */
    the following topics are handled:
     - Generating test vectors
     - Test failure with level "full" : DONE
-
-  \par 
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
-   the following topics are handled:
     - Add decomposed Sbox boxes : DONE
     - Datatypes and naming conventions : DONE
 
@@ -44,6 +40,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
+    - Improving tests
     - Docus and Demos
 
   \par
