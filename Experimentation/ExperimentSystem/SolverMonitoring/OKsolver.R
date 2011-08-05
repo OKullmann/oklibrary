@@ -46,17 +46,17 @@ read_oksolver_mon = function(filename, ...) {
 #     diff_l (int): Diff. in literal occurrences before/after preproc.
 #     bin_c (int): Number of 2-clauses after preproc.
 #     time (double): Total time in seconds to solve the problem.
-#     nodes (int): Number of nodes in the search tree.
-#     single_nodes (int): Number of single nodes in search tree.
-#     quasi_single_nodes (int): Number of quasi-single nodes.
-#     r2 (int): Number of r_2-reductions.
-#     pure_lits (int): Pure literals found during search.
-#     aut (int): Number of autarkies.
-#     missed_1nodes (int): Nodes which would have been found as
+#     nodes (double): Number of nodes in the search tree.
+#     single_nodes (double): Number of single nodes in search tree.
+#     quasi_single_nodes (double): Number of quasi-single nodes.
+#     r2 (double): Number of r_2-reductions.
+#     pure_lits (double): Pure literals found during search.
+#     aut (double): Number of autarkies.
+#     missed_1nodes (double): Nodes which would have been found as
 #       single nodes if the the "other" branch had been chosen first.
 #     depth (int): Maximum depth of the search tree.
 #     tab_enlarge (int): Table enlargements during the search.
-#     aut1 (int): Number of 1-autarkies. A 1-autarky satisfies all clauses
+#     aut1 (double): Number of 1-autarkies. A 1-autarky satisfies all clauses
 #       except one.
 #     new_2c (int): New binary clauses learnt.
 #     max_added_2c (int): Maximum number of new binary clauses added.
@@ -103,25 +103,25 @@ read_oksolver_output = function(filename, ...) {
         list(time = as.double(gsub("[^0-9\\.]","",line))))
     } else if (length(grep("number_of_nodes",line)) > 0) {
       result = c(result,
-        list(nodes = as.integer(gsub("([^0-9]|_[0-9]+)","",line))))
+        list(nodes = as.double(gsub("([^0-9]|_[0-9]+)","",line))))
     } else if (length(grep("number_of_single_nodes",line)) > 0) {
       result = c(result,
-        list(single_nodes = as.integer(gsub("([^0-9]|_[0-9]+)","",line))))
+        list(single_nodes = as.double(gsub("([^0-9]|_[0-9]+)","",line))))
     } else if (length(grep("number_of_quasi_single_nodes",line)) > 0) {
       result = c(result,
-        list(quasi_single_nodes = as.integer(gsub("([^0-9]|_[0-9]+)","",line))))
+        list(quasi_single_nodes = as.double(gsub("([^0-9]|_[0-9]+)","",line))))
     }  else if (length(grep("number_of_2-reductions",line)) > 0) {
       result = c(result,
-        list(r2 = as.integer(gsub("([^0-9]|_[0-9]+)","",line))))
+        list(r2 = as.double(gsub("([^0-9]|_[0-9]+)","",line))))
     } else if (length(grep("number_of_pure_literals",line)) > 0) {
       result = c(result,
-        list(pure_lits = as.integer(gsub("([^0-9]|_[0-9]+)","",line))))
+        list(pure_lits = as.double(gsub("([^0-9]|_[0-9]+)","",line))))
     } else if (length(grep("number_of_autarkies",line)) > 0) {
       result = c(result,
-        list(aut = as.integer(gsub("([^0-9]|_[0-9]+)","",line))))
+        list(aut = as.double(gsub("([^0-9]|_[0-9]+)","",line))))
     } else if (length(grep("number_of_missed",line)) > 0) {
       result = c(result,
-        list(missed_1nodes = as.integer(gsub("([^0-9]|_[0-9]+)","",line))))
+        list(missed_1nodes = as.double(gsub("([^0-9]|_[0-9]+)","",line))))
     } else if (length(grep("max_tree_depth",line)) > 0) {
       result = c(result,
         list(depth = as.integer(gsub("([^0-9]|_[0-9]+)","",line))))
@@ -130,7 +130,7 @@ read_oksolver_output = function(filename, ...) {
         list(tab_enlarge = as.integer(gsub("([^0-9]|_[0-9]+)","",line))))
     } else if (length(grep("number_of_1-autarkies",line)) > 0) {
       result = c(result,
-        list(aut1 = as.integer(gsub("([^0-9]|_[0-9]+)","",line))))
+        list(aut1 = as.double(gsub("([^0-9]|_[0-9]+)","",line))))
     } else if (length(grep("number_of_new_2-clauses",line)) > 0) {
       result = c(result,
         list(new_2c = as.integer(gsub("([^0-9]|_[0-9]+)","",line))))

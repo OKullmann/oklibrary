@@ -20,17 +20,18 @@
 #     n (int): Initial number of variables.
 #     c (int): Initial number of clauses.
 #     sat ({0,1,2}): SATISFIABLE (1), UNSATISFIABLE (0) or UNKNOWN (2).
-#     restarts (int): Number of restarts.
-#     failed_l (int): Number of forced assignments found using
+#     iter (double): Number of iterations.
+#     restarts (double): Number of restarts.
+#     failed_l (double): Number of forced assignments found using
 #       failed literal reductions.
-#     conflicts (int): Number of conflicts.
-#     decisions (int): Number of decisions.
-#     fixed_vars (int): Number of variables fixed during search.
+#     conflicts (double): Number of conflicts.
+#     decisions (double): Number of decisions.
+#     fixed_vars (double): Number of variables fixed during search.
 #     learned_l (int): Number of literals determined by conflict
 #       clause analysis.
 #     deleted_l (double): Percentage of literals deleted.
-#     prop (int): Total number of unit-clause propagations.
-#     simps (int): Total number of simplications performed.
+#     prop (double): Total number of unit-clause propagations.
+#     simps (double): Total number of simplications performed.
 #     mem (double): Maximum amount of main memory in Megabytes used.
 #     time (double): Total time taken in seconds to solve.
 #
@@ -51,28 +52,28 @@ read_picosat_output = function(stats_filename, ...) {
         list(c = as.integer(gsub("[^0-9]","",line))))
     } else if (length(grep("decisions",line)) > 0) {
       result = c(result,
-        list(decisions = as.integer(gsub("[^0-9]","",line))))
+        list(decisions = as.double(gsub("[^0-9]","",line))))
     } else if (length(grep("conflicts *$",line)) > 0) {
       result = c(result,
-        list(conflicts = as.integer(gsub("[^0-9]","",line))))
+        list(conflicts = as.double(gsub("[^0-9]","",line))))
     } else if (length(grep("fixed variables",line)) > 0) {
       result = c(result,
-        list(fixed_vars = as.integer(gsub("[^0-9]","",line))))
+        list(fixed_vars = as.double(gsub("[^0-9]","",line))))
     } else if (length(grep("learned literals",line)) > 0) {
       result = c(result,
         list(learned_l = as.integer(gsub("[^0-9]","",line))))
     } else if (length(grep("failed literals",line)) > 0) {
       result = c(result,
-        list(failed_l = as.integer(gsub("[^0-9]","",line))))
+        list(failed_l = as.double(gsub("[^0-9]","",line))))
     } else if (length(grep("deleted literals",line)) > 0) {
       result = c(result,
         list(deleted_l = as.double(gsub("[^0-9\\.]","",line))))
     } else if (length(grep("propagations",line)) > 0) {
       result = c(result,
-        list(prop = as.integer(gsub("[^0-9]","",line))))
+        list(prop = as.double(gsub("[^0-9]","",line))))
     } else if (length(grep("simplifications",line)) > 0) {
       result = c(result,
-        list(simps = as.integer(gsub("[^0-9]","",line))))
+        list(simps = as.double(gsub("[^0-9]","",line))))
     } else if (length(grep("iterations",line)) > 0) {
       result = c(result,
         list(iter = as.integer(gsub("[^0-9]","",line))))
@@ -84,7 +85,7 @@ read_picosat_output = function(stats_filename, ...) {
         list(mem = as.double(gsub("[^0-9\\.]","",line))))
     } else if (length(grep("restarts",line)) > 0) {
       result = c(result,
-        list(restarts = as.integer(gsub("[^0-9\\.]","",line))))
+        list(restarts = as.double(gsub("[^0-9\\.]","",line))))
     } else if (length(grep("SATISFIABLE",line)) > 0) {
       result = c(result, list(sat = 1))
     } else if (length(grep("UNSATISFIABLE",line)) > 0) {
