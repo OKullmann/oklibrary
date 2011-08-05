@@ -34,6 +34,10 @@ License, or any later version. */
    the following topics are handled:
     - Docus
 
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
+   the following topics are handled:
+    - natl vs nat_l
 
   \par Version 0.0.13
 
