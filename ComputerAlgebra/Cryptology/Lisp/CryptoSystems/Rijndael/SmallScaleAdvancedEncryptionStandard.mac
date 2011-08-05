@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac");
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac");
 
 */
 
@@ -771,7 +771,7 @@ ss_decrypt(pl, kl, num_rounds, b,e) :=
     buildq([b,e],lambda([a], ss_inv_sbox(a,b,e))),
     ss_inv_mixcolumns_matrix(b,e,length(pl)))$
 /* Default small scale AES decryption WITH final round (_wf): */
-ss_decrypt_wf(pl, kl, num_rounds, b,e) := 
+ss_decrypt_wf(pl, kl, num_rounds, b,e) :=
   ss_decrypt_wf_gen(pl,kl,num_rounds,b,e,ss_polynomial(b,e),
     lambda([a], ss_sbox(a,b,e)), lambda([a], ss_inv_sbox(a,b,e)),
     ss_inv_mixcolumns_matrix(b,e,length(pl)))$
@@ -781,6 +781,59 @@ ss_encrypt_ibc(plaintext,key,num_rounds,b,e) :=
   ss_encrypt_ibc_gen(plaintext,key,num_rounds,b,e,ss_polynomial(b,e),
     buildq([b,e],lambda([p],ss_sbox(p,b,e))),
     ss_mixcolumns_matrix(b,e,length(plaintext)))$
+
+
+/* Input and output as lists of natural numbers from 0 to b^e-1: */
+ss_encrypt_natl(pl, kl, num_rounds, b, e, n_R) :=
+  ss_m2natl(
+    ss_encrypt(ss_natl2m(pl,b,n_R),ss_natl2m(kl,b,n_R),num_rounds,b,e),b)$
+ss_decrypt_natl(pl, kl, num_rounds, b, e, n_R) :=
+  ss_m2natl(
+    ss_decrypt(ss_natl2m(pl,b,n_R),ss_natl2m(kl,b,n_R),num_rounds,b,e),b)$
+
+/* Input and output as lists of binary numbers of size e*n_C*n_R: */
+ss_encrypt_bin(pl, kl, num_rounds,b,e,n_R) :=
+  lappend(
+    map(lambda([m],int2polyadic_padd(m,b,e)),
+      ss_encrypt_natl(
+        map(binv2int, partition_elements(pl,e)),
+        map(binv2int, partition_elements(kl,e)),
+        num_rounds, b, e, n_R)))$
+ss_decrypt_bin(pl, kl, num_rounds,b,e,n_R) :=
+  lappend(
+    map(lambda([m],int2polyadic_padd(m,b,e)),
+      ss_decrypt_natl(
+        map(binv2int, partition_elements(pl,e)),
+        map(binv2int, partition_elements(kl,e)),
+        num_rounds, b, e, n_R)))$
+
+/* Input and output as hexadecimal values (the input does not need
+   leading zeros, but the output is always padded to 32 hexadecimal
+   digits): */
+ss_encrypt_hex(p,k,num_rounds,b,e,n_R,n_C) := block([num_hex_digits,num_bits],
+  num_bits : e*n_R*n_C,
+  num_hex_digits : ceiling(num_bits/4),
+  binv2hexstr(
+    ss_encrypt_bin(
+      rest(
+        hexstr2binv(lpad(p,"0",num_hex_digits)),
+        (num_hex_digits * 4) - num_bits),
+      rest(
+        hexstr2binv(lpad(k,"0",num_hex_digits)),
+        (num_hex_digits * 4) - num_bits),
+      num_rounds, b, e, n_R)))$
+ss_decrypt_hex(p,k,num_rounds,b,e,n_R,n_C) := block([num_hex_digits,num_bits],
+  num_bits : e*n_R*n_C,
+  num_hex_digits : ceiling(num_bits/4),
+  binv2hexstr(
+    ss_decrypt_bin(
+      rest(
+        hexstr2binv(lpad(p,"0",num_hex_digits)),
+        (num_hex_digits * 4) - num_bits),
+      rest(
+        hexstr2binv(lpad(k,"0",num_hex_digits)),
+        (num_hex_digits * 4) - num_bits),
+      num_rounds, b, e, n_R)))$
 
 
 /*!
