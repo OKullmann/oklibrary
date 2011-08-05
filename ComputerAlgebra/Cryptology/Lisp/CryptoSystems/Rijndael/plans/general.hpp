@@ -22,6 +22,29 @@ License, or any later version. */
   </ul>
 
 
+  \todo Improving tests
+  <ul>
+   <li> We need a list of test vectors for AES and small-scale AES.
+   </li>
+   <li> For test vectors, see:
+    <li> [The Design of Rijndael; Daemen and Rijmen]. </li>
+    <li> [Algebraic Aspects of the Advanced Encryption Standard; Cid, Murphy
+    and Robshaw]. </li>
+    <li> NIST AES known answer test:
+    http://csrc.nist.gov/groups/STM/cavp/documents/aes/KAT_AES.zip . </li>
+    <li> Comparing to the Sage system; see "Generating test vectors" in
+    CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp.
+    </li>
+    <li> This list should be expanded, as we find more sources. </li>
+   </li>
+   <li> These vectors should be used through-out the AES test system.
+   </li>
+   <li> These vectors and those already used must be cited! </li>
+   <li> We must also consider, for each test, how well we cover
+   the space of possible inputs for our tests. </li>
+  </ul>
+
+
   \todo Notions and notations
   <ul>
    <li> Introduce systematic notations and abbreviations for basic
