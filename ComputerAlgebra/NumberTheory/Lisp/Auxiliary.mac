@@ -90,6 +90,7 @@ polyadicstr2int(str,b) := if charat(str,1) = "-" then
   -polyadic2int(map(digit2int,str2chrl(substring(str,2))),b)
 else 
   polyadic2int(map(digit2int,str2chrl(str)),b)$
+binv2int(l) := polyadic2int(l,2)$
 bin2int(str) := polyadicstr2int(str,2)$
 oct2int(str) := polyadicstr2int(str,8)$
 dec2int(str) := polyadicstr2int(str,10)$

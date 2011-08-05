@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 15.2.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -350,6 +350,24 @@ okltest_aes_decrypt_nat_generic(f) := block([V1],
   assert(f(V1, pad_block_16([]),10) = pad_block_16([])),
   true)$
 
+okltest_aes_encrypt_bin(f) := (
+  assert(f(create_list(0,i,1,128),create_list(0,i,1,128),10) =
+    hexstr2binv("66E94BD4EF8A2C3B884CFA59CA342B2E")),
+  assert(
+    f(hexstr2binv("3243F6A8885A308D313198A2E0370734"),
+      hexstr2binv("2B7E151628AED2A6ABF7158809CF4F3C"),2) =
+      hexstr2binv("AA8F5F0361DDE3EF82D24AD26832469A")),
+  true)$
+
+okltest_aes_decrypt_bin(f) := (
+  assert(
+    f(hexstr2binv("66E94BD4EF8A2C3B884CFA59CA342B2E"),
+      create_list(0,i,1,128),10) = create_list(0,i,1,128)),
+  assert(
+    f(hexstr2binv("AA8F5F0361DDE3EF82D24AD26832469A"),
+      hexstr2binv("2B7E151628AED2A6ABF7158809CF4F3C"),2) =
+    hexstr2binv("3243F6A8885A308D313198A2E0370734")),
+  true)$
 
 okltest_aes_encrypt_hex(f) := (
   assert(f("0","0",10) = "66E94BD4EF8A2C3B884CFA59CA342B2E"),
