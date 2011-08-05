@@ -165,23 +165,6 @@ CPU time              : 20.7818 s
    \endverbatim
    This has been verified by hand.
    </li>
-   <li> glucose (apparently) solves this in a fraction of a second:
-   \verbatim
-shell> glucose experiment_r1_k1.cnf
-c restarts              : 566
-c conflicts             : 12127207       (92588235 /sec)
-c decisions             : 12923545       (1.40 % random) (98668079 /sec)
-c propagations          : 5248749924     (40072911315 /sec)
-c CPU time              : 0.13098 s
-   \endverbatim
-   however, re-running glucose does not yield the same behaviour, and there
-   are a very large number of restarts in just 0.13s. Does glucose have a bug
-   in it's timing code? Perhaps there is a bug in the experiment run script?
-   See "MiniSAT2 based solvers return incorrect times using experiment script"
-   in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp.
-??? This is trivial to fix --- just apply "time" ???
-   </li>
    <li> Other solvers such as cryptominisat take longer (but still only a few
    minutes):
    \verbatim
@@ -201,6 +184,34 @@ c 95 simplifications, 10 reductions
 c prps: 3155560431 propagations, 0.70 megaprops
 c 4505.6 seconds, 56 MB max, 1732 MB recycled
    \endverbatim
+   </li>
+   <li> glucose takes over 3 hours:
+   \verbatim
+shell> time glucose experiment_r1_k1.cnf
+c restarts              : 566
+c conflicts             : 12127207       (1021 /sec)
+c decisions             : 12923545       (1.40 % random) (1088 /sec)
+c propagations          : 5248749924     (441984 /sec)
+c CPU time              : 11875.4 s
+
+real	198m9.532s
+user	197m55.440s
+sys	0m1.020s
+   \endverbatim
+   </li>
+   <li> DONE (reran experiment; see above)
+   glucose (apparently) solves this in a fraction of a second:
+   \verbatim
+shell> glucose experiment_r1_k1.cnf
+c restarts              : 566
+c conflicts             : 12127207       (92588235 /sec)
+c decisions             : 12923545       (1.40 % random) (98668079 /sec)
+c propagations          : 5248749924     (40072911315 /sec)
+c CPU time              : 0.13098 s
+   \endverbatim
+   however, re-running glucose does not yield the same behaviour, and there
+   are a very large number of restarts in just 0.13s. Does glucose have a bug
+   in it's timing code? Perhaps there is a bug in the experiment run script?
    </li>
 ??? where are 2 rounds etc.? where is the general plans-file ???
   </ul>
