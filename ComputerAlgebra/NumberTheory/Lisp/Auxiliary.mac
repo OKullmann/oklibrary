@@ -37,20 +37,20 @@ log10(x) := radcan(log(x) / log(10))$
 /* This is just floor(ld(n)) (for n <> 0), however our computation is
    actually faster (except for very big n, say, with over 5000 decimal digits).
 */
-fld(n) := if n = 0 then minf else 
+fld(n) := if n = 0 then minf else
  block([l : 0, b : 1], while b < n do (l : l + 1, b : b * 2),
   if b > n then return(l-1) else return(l))$
 /* Now ceiling(ld(n)), again with faster computation: */
-cld(n) := if n = 0 then minf else 
+cld(n) := if n = 0 then minf else
  block([l : 0, b : 1], while b < n do (l : l + 1, b : b * 2), l)$
 
 /* Returns the floor of the logarithm of n base b, correcting
    for issues in precision causing round off. Cannot handle large
    numbers. */
-floorlog(n,b) := block([l : floor(float(log(n)/log(b)))], 
+floorlog(n,b) := block([l : floor(float(log(n)/log(b)))],
   if b^(l+1) <= n then (l+1) else
   if b^(l) > n then (l-1) else l)$ /* handles issues with precision */
-/* We have 
+/* We have
    floorlog(n,b) = floor(log(n)/log(b)),
    however for n for which floorlog(n,b) is defined it is much faster.
 */
@@ -66,7 +66,7 @@ str2chrl(str) := create_list(charat(str, i), i,1,slength(str))$
 
 /* Converts a digit of the form "0", "1", ..., "9", "A", ..., "Z" to an
    integer from 0 to 35: */
-digit2int(d) := 
+digit2int(d) :=
   if cgreaterp("A",d) then cint(d) - cint("0")
   else 10 + (cint(d) - cint("A"))$
 /* The inverse, converting an integer from 0 to 35 to a digit: */
@@ -76,19 +76,19 @@ int2digit(m) :=
 
 /* Transforming a list N representing a natural number n to base b (big endian,
    that is leading coefficients first) into n. */
-/* More generally, N can interpreted as the list of coefficients of a 
+/* More generally, N can interpreted as the list of coefficients of a
    polynomial in an unknown x, but with leading coefficient first, and
    this polynomial then is evaluating (via Horner scheme) at argument value b.
 */
-polyadic2int(N,b) := 
+polyadic2int(N,b) :=
   lreduce(lambda([x,y], x * b + y), N, 0)$
 /* Converts an non-empty string representing an integer in base b to an
    integer. */
 /* Prerequisite: b a natural number, 1 <= b <= 36; "digits" might be equal to b
    or even be greater (but must be characters from 0-9 and A-Z). */
-polyadicstr2int(str,b) := if charat(str,1) = "-" then 
+polyadicstr2int(str,b) := if charat(str,1) = "-" then
   -polyadic2int(map(digit2int,str2chrl(substring(str,2))),b)
-else 
+else
   polyadic2int(map(digit2int,str2chrl(str)),b)$
 binv2int(l) := polyadic2int(l,2)$
 bin2int(str) := polyadicstr2int(str,2)$
@@ -96,7 +96,7 @@ oct2int(str) := polyadicstr2int(str,8)$
 dec2int(str) := polyadicstr2int(str,10)$
 hex2int(str) := polyadicstr2int(str,16)$
 
-/* Computing the representation of a number m to base b 
+/* Computing the representation of a number m to base by
    (as a list, big endian). */
 /* Prerequisites: m a natural number >= 0, b a natural number >= 2
    (where in case m=0 also b in {0,1} is possible). */
