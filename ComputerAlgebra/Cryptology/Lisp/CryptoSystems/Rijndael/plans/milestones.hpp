@@ -18,7 +18,7 @@ License, or any later version. */
    the following topics are handled:
     - Sbox vector calculation yields wrong size : DONE
 
-  \par 
+  \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
    the following topics are handled:
     - Generating test vectors
@@ -29,7 +29,7 @@ License, or any later version. */
 
   \par Version 0.0.12
 
-  \par 
+  \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
    the following topics are handled:
     - Docus
@@ -63,7 +63,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Notions and notations 
+    - Notions and notations
     - Requirements
     - Coding Standards
 
