@@ -405,26 +405,38 @@ aes_decrypt_nat_l_std(c,k) := aes_decrypt_nat_l_std(c,k,10)$
 
 /* Various representations of input/output */
 
+
+/* Input and output as lists of binary numbers of size 128: */
+aes_encrypt_bin(p,k,num_rounds) :=
+  lappend(
+    map(lambda([m],int2polyadic_padd(m,2,8)),
+      aes_encrypt_nat_l(
+        map(binv2int, partition_elements(p,8)),
+        map(binv2int, partition_elements(k,8)),
+        num_rounds)))$
+aes_encrypt_bin_std(p,k) := aes_encrypt_bin(p,k,10)$
+aes_decrypt_bin(p,k,num_rounds) :=
+  lappend(
+    map(lambda([m],int2polyadic_padd(m,2,8)),
+      aes_decrypt_nat_l(
+        map(binv2int, partition_elements(p,8)),
+        map(binv2int, partition_elements(k,8)),
+        num_rounds)))$
+aes_decrypt_bin_std(p,k) := aes_decrypt_bin(p,k,10)$
+
+
 /* Input and output as hexadecimal values (the input does not need
    leading zeros, but the output is always padded to 32 hexadecimal
    digits): */
 aes_encrypt_hex(p,k,num_rounds) := 
-  lpad(int2hex(polyadic2int(
-    aes_encrypt_nat_l(
-      pad_block_16(pad_block_16(int2polyadic(hex2int(p),256))),
-      pad_block_16(pad_block_16(int2polyadic(hex2int(k),256))),
-      num_rounds
-    ),
-    256)), "0", 32)$
+  binv2hexstr(
+    aes_encrypt_bin(
+      hexstr2binv(lpad(p,"0",32)), hexstr2binv(lpad(k,"0",32)), num_rounds))$
 aes_encrypt_hex_std(p,k) := aes_encrypt_hex(p,k,10)$
-aes_decrypt_hex(p,k,num_rounds) := 
-  lpad(int2hex(polyadic2int(
-    aes_decrypt_nat_l(
-      pad_block_16(pad_block_16(int2polyadic(hex2int(p),256))),
-      pad_block_16(pad_block_16(int2polyadic(hex2int(k),256))),
-      num_rounds
-    ),
-    256)), "0", 32)$
+aes_decrypt_hex(p,k,num_rounds) :=
+  binv2hexstr(
+    aes_decrypt_bin(
+      hexstr2binv(lpad(p,"0",32)), hexstr2binv(lpad(k,"0",32)), num_rounds))$
 aes_decrypt_hex_std(p,k) := aes_decrypt_hex(p,k,10)$
 
 /* The AES-chiffre as number-theoretical function: */
