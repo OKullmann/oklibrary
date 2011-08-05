@@ -10,6 +10,55 @@ License, or any later version. */
   \brief Plans regarding helper functions with number-theoretical character
 
 
+  \bug binv2hexstr mishandles vectors with non-multiple-of-4 lengths
+  <ul>
+   <li> We have:
+   \verbatim
+maxima> binv2hexstr([0,0,0,1,1]);
+"11"
+   \endverbatim
+   </li>
+   <li> The expected result is:
+   \verbatim
+maxima> binv2hexstr([0,0,0,1,1]);
+"03"
+   \endverbatim
+   </li>
+   <li> Either that or the documentation for binv2hexstr should specify it's
+   behaviour in such instances. </li>
+   <li> To fix this, there are several options:
+    <ul>
+     <li> In binv2hexstr: pad the input list out to a multiple of 4, from the
+     left before applying other operations. </li>
+     <li> Create two functions for partition_elements:
+      <ul>
+       <li> lpartition_elements(L,n): "leftover" elements are to
+       the left of the list:
+       \verbatim
+maxima> lpartition_elements([0,0,0],2);
+[[0],[0,0]]
+       \endverbatim
+       </li>
+       <li> rpartition_elements(L,n): "leftover" elements are to the left of
+       the list:
+       \verbatim
+maximma> rpartition_elements([0,0,0],2);
+[[0,0],[0]]
+       \endverbatim
+       </li>
+      </ul>
+      then lpartition_elements instead of partition_elements in
+      binv2hexstr.
+     </li>
+    </ul>
+   </li>
+   <li> It is better to just pad binv2hexstr, as the underlying assumption
+   one would like to make when converting a binary vector to a hexidecimal
+   string is that the vector length is a multiple of 4.  We should validate
+   this assumption as soon as possible. </li>
+  </ul>
+
+
   \todo Floors of logarithms
   <ul>
    <li> Currently we have fld, which is a special case of floorlog, can
