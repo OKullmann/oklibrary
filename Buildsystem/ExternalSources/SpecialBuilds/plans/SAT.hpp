@@ -12,6 +12,7 @@ License, or any later version. */
 
   \todo Parallel SAT solvers
   <ul>
+   <li> See "ParaSatz" below. </li>
    <li> manySAT is proprietary?
     <ul>
      <li> See LICENSE in
