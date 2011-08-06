@@ -169,7 +169,7 @@ shell> BoundedTransversals_bv < ss_byte2_4_field_mul_shg_2.cnf > ss_byte2_4_fiel
    <li> We can generate all minimum CNF representations using a provided 
    script:
    \verbatim
-shell> ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/all_minimum_cnf ss_byte2_4_field_mul_full_2.cnf
+shell> ${OKPLATFORM}/OKsystem/OKlib/Satisfiability/Optimisation/all_minimum_cnf ss_byte2_4_field_mul_full_2.cnf
 shell> echo ss_byte2_4_field_mul_full_2.cnf.trans_* | wc -w
 2
    \endverbatim
@@ -196,7 +196,7 @@ maxima> output_ss_sbox_fullcnf_stdname(2);
    \endverbatim
    and then 
    \verbatim
-shell> ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_oksolver ss_byte2_4_field_mul_full_2.cnf
+shell> ${OKPLATFORM}/OKsystem/OKlib/Satisfiability/Optimisation/minimise_cnf_oksolver ss_byte2_4_field_mul_full_2.cnf
 c Starting level  14
 c Starting level  13
 c Starting level  12

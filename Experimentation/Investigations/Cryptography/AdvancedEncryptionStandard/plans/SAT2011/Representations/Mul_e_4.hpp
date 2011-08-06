@@ -120,7 +120,7 @@ shell> for i in $(seq 1 15); do QuineMcCluskey-n16-O3-DNDEBUG ss_byte2_4_field_m
    <li> Computing minimum representations:
     <ul>
      <li> Computed using
-     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_cryptominisat. </li>
+     Satisfiability/Optimisation/minimise_cnf_cryptominisat. </li>
      <li> Statistics:
      \verbatim
 maxima> for i : 2 thru 15 do print(statistics_fcs(ev_hm(ss_field_cnfs,[4,i])));

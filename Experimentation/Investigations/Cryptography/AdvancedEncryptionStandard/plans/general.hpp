@@ -89,10 +89,10 @@ License, or any later version. */
   <ul>
    <li> The following scripts:
     <ul>
-     <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_oksolver. </li>
-     <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/cardinality_bounded_cnf. </li>
-     <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/extend_strict_dimacs_with_extended. </li>
-     <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/all_minimum_cnf. </li>
+     <li> Satisfiability/Optimisation/minimise_cnf_oksolver. </li>
+     <li> Satisfiability/Optimisation/cardinality_bounded_cnf. </li>
+     <li> Satisfiability/Optimisation/extend_strict_dimacs_with_extended. </li>
+     <li> Satisfiability/Optimisation/all_minimum_cnf. </li>
     </ul>
     need the following changes:
     <ul>

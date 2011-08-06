@@ -67,7 +67,7 @@ License, or any later version. */
      \verbatim
 maxima> oklib_load_all()$
 maxima> output_ss_sbox_fullcnf_stdname(2,4,ss_polynomial_2_4);
-shell> OKP=~/Work/OKlibrary/OKplatform/ ${OKP}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_cryptominisat AES_sbox_2_4_full.cnf | tee Sbox_4_min.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+shell> OKP=~/Work/OKlibrary/OKplatform/ ${OKP}/OKsystem/OKlib/Satisfiability/Optimisation/minimise_cnf_cryptominisat AES_sbox_2_4_full.cnf | tee Sbox_4_min.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 8 22 82 0 82 1 1
  length count

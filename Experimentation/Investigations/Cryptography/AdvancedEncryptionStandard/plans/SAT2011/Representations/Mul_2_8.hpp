@@ -50,7 +50,7 @@ maxima> output_rijnmult_fullcnf_stdname(2);
    \endverbatim
    then
    \verbatim
-shell> ${OKPLATFORM}/OKsystem/OKlib/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/all_minimum_cnf AES_byte_field_mul_full_2.cnf
+shell> ${OKPLATFORM}/OKsystem/OKlib/Satisfiability/Optimisation/all_minimum_cnf AES_byte_field_mul_full_2.cnf
    \endverbatim
    yields
    \verbatim

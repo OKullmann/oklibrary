@@ -253,8 +253,8 @@ true
      \verbatim
 maxima> for i : 1 thru 8 do for j : 1 thru 4 do output_dessbox_bit_fulldnf_stdname(i,j)$
 maxima> for i : 1 thru 8 do for j : 1 thru 4 do output_dessbox_bit_fullcnf_stdname(i,j)$
-shell> for i in $(seq 1 8); do for j in $(seq 1 4); do $OKLIB/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_cryptominisat DES_Sbox_${i}_${j}_fullDNF.cnf > ${i}_${j}_min_dnf; done; done
-shell> for i in $(seq 1 8); do for j in $(seq 1 4); do $OKLIB/Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/minimise_cnf_cryptominisat DES_Sbox_${i}_${j}_fullCNF.cnf > ${i}_${j}_min_cnf; done; done
+shell> for i in $(seq 1 8); do for j in $(seq 1 4); do $OKLIB/Satisfiability/Optimisation/minimise_cnf_cryptominisat DES_Sbox_${i}_${j}_fullDNF.cnf > ${i}_${j}_min_dnf; done; done
+shell> for i in $(seq 1 8); do for j in $(seq 1 4); do $OKLIB/Satisfiability/Optimisation/minimise_cnf_cryptominisat DES_Sbox_${i}_${j}_fullCNF.cnf > ${i}_${j}_min_cnf; done; done
      \endverbatim
      </li>
      <li> The minimum DNF representations have between 30 and 46 clauses. </li>
