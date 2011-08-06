@@ -19,6 +19,7 @@ License, or any later version. */
    In Experimentation/Investigations/BooleanFunctions/plans/general.hpp the
    following topics are handled:
     - Add milestones
+    - Rerun time-sensitive experiments
     - Plans for investigating random boolean functions : DONE
 
   \par

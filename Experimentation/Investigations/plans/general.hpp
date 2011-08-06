@@ -9,8 +9,8 @@ License, or any later version. */
   \file Experimentation/Investigations/plans/general.hpp
   \brief Plans for the super-module for collecting data (not tools, but
   actual data)
-  
-  
+
+
   \todo Structure
   <ul>
    <li> Is the name "Investigations" right? </li>
@@ -20,6 +20,35 @@ License, or any later version. */
 
 
   \todo Create milestones.
+
+
+  \todo Rerun time-sensitive experiments
+  <ul>
+   <li> On older versions of the 32-bit linux-kernel, <= 2.6.35.6, there is
+   bug which causes "user time" to be misreported as "system time" for CPU
+   intensive processes which take more than ~40s. See
+   https://bugzilla.kernel.org/show_bug.cgi?id=16559 and
+   https://bugzilla.redhat.com/show_bug.cgi?id=633037 . </li>
+   <li> As most SAT solvers report the "user time" from the "getrusage"
+   function in the GNU C libraries, this results in solvers reporting
+   the wrong time duration for solving. </li>
+   <li> This bug was evident and caused wrong solver times to be
+   reported with some AES experiments; see commit
+   dec0020519c4053f1b421e059d6bcb94ab753a67. </li>
+   <li> Non-trivial experiments, where time is an important consideration
+   should be rerun:
+    <ul>
+     <li> All in Cryptography/AdvancedEncryptionStandard/plans/SAT2011/. </li>
+     <li> All in Cryptography/DataEncryptionStandard/plans/. </li>
+     <li> This list must be expanded. </li>
+    </ul>
+   </li>
+   <li> Time sensitive experiments should always be run with the
+   "time" shell command to ensure that the solver reports the correct
+   time. </li>
+   <li> We also need documentation on issues such as this, and "best practices"
+   for experimentation. </li>
+  </ul>
 
 
   \todo Sat-probability-approximations
