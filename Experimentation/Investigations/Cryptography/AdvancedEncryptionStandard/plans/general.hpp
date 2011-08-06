@@ -12,12 +12,14 @@ License, or any later version. */
 
   \todo Just an unstructured morass of scripts
   <ul>
-   <li> Regarding the computation of minimum CNF representations, the scripts
-   here are misplaced. </li>
    <li> They do not link to the rest of the library. </li>
    <li> They are just random attempts. Obviously a systematic approach is
    needed, collecting all methods currently in use in the *whole* library.
    </li>
+   <li> DONE (see "Improve minimisation scripts" in
+   Satisfiability/Optimisation/plans/general.hpp)
+   Regarding the computation of minimum CNF representations, the scripts
+   here are misplaced. </li>
   </ul>
 
 
@@ -85,7 +87,9 @@ License, or any later version. */
   </ul>
 
 
-  \todo Update scripts
+  \todo DONE (moved to "Improve minimisation scripts" in
+  Satisfiability/Optimisation/plans/general.hpp)
+  Update scripts
   <ul>
    <li> The following scripts:
     <ul>

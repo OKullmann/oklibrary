@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In Satisfiability/Optimisation/plans/general.hpp the
    following topics are handled:
+    - Improve minimisation scripts
     - Update namespaces
     - Create module MinOnes
     - Create module MinSAT
