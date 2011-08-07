@@ -160,6 +160,51 @@ okltest_int2polyadicstr(f) := block(
   true)$
 
 
+okltest_hexstr2binv(f) := block(
+  assert(f("") = []),
+  assert(f("0") = [0,0,0,0]),
+  assert(f("0") = [0,0,0,0]),
+  assert(f("1") = [0,0,0,1]),
+  assert(f("2") = [0,0,1,0]),
+  assert(f("3") = [0,0,1,1]),
+  assert(f("7") = [0,1,1,1]),
+  assert(f("E") = [1,1,1,0]),
+  for i : 2 thru 10 do
+    assert(
+      f(apply(sconcat, create_list("0",j,1,i))) =
+      lappend(create_list([0,0,0,0],j,1,i))),
+  for i : 2 thru 10 do
+    assert(
+      f(apply(sconcat, create_list("F",j,1,i))) =
+      lappend(create_list([1,1,1,1],j,1,i))),
+  assert(f("F3A21001A012B3ABB2") =
+    [1,1,1,1,0,0,1,1,1,0,1,0,0,0,1,0,0,0,0,1,0,0,
+     0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,1,
+     0,0,1,0,1,0,1,1,0,0,1,1,1,0,1,0,1,0,1,1,1,0,
+     1,1,0,0,1,0]),
+  true)$
+
+okltest_binv2hexstr(f) := block(
+  assert(f([]) = ""),
+  assert(f([0]) = "0"),
+  assert(f([1]) = "1"),
+  assert(f([1,0]) = "2"),
+  assert(f([0,1,0]) = "2"),
+  assert(f([0,0,1,0]) = "2"),
+  assert(f([0,0,1,1]) = "3"),
+  assert(f([1,1,1]) = "7"),
+  assert(f([1,1,1,1]) = "F"),
+  for i : 2 thru 10 do
+    assert(
+      f(lappend(create_list([1,1,1,1],k,1,i))) =
+      apply(sconcat, create_list("F",k,1,i))),
+  for i : 2 thru 10 do
+      assert(
+        f(lappend(create_list([0,0,0,0],k,1,i))) =
+        apply(sconcat, create_list("0",k,1,i))),
+  true)$
+
+
 /* ************
    * Rounding *
    ************
