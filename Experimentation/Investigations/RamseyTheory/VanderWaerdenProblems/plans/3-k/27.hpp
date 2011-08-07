@@ -144,10 +144,10 @@ OKplatform> RunVdW3k 27 726 rots 1000 5000000 Solution_n725
   </ul>
 
 
-  \todo vdw_2^pd(3,27) =(conj) (664, 699)
+  \todo vdw_2^pd(3,27) = (664, 699)
   <ul>
-   <li> 698 < pdvanderwaerden([3,27])[2] =(conj) 699 =(conj)
-   vanderwaerden([3,27]) - 71. </li>
+   <li> pdvanderwaerden([3,27])[2] = 699 =(conj) vanderwaerden([3,27]) - 71.
+   </li>
    <li> pdvanderwaerden([3,27])[1] = 664. </li>
    <li> Certificates:
     <ol>
@@ -229,6 +229,10 @@ c splitting_cases                       467683
 
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+467683: 876.68h, sum-cfs=2.437269e+10, mean-t=6.748s, mean-cfs=52114
+> summary(E$cfs)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     28   12610   26620   52110   56690 5451000
      \endverbatim
      </li>
      <li> n=665:
