@@ -38,7 +38,7 @@ namespace {
   const std::string program = "MeasureCPUSpeed";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.1.1";
+  const std::string version = "0.1.2";
 
   typedef unsigned long uint_type;
   const uint_type N_default = 1000000000;
@@ -57,8 +57,9 @@ int main(const int argc, const char* const argv[]) {
   const uint_type N = (argc == 2) ?
     boost::lexical_cast<uint_type>(argv[1]) : N_default;
 
-  std::cout << "# N = " << N << "\n# time-elapsed(s) time-elapsed-wall-clock time-wall-clock\n";
-  std::cout << " te tew tw\n";
+  std::cout << "# Program: " << program << "\n# N = " << N <<
+    "\n# time-elapsed(s) time-elapsed-wall-clock time-wall-clock\n" <<
+    " te tew tw\n";
   std::cout << std::fixed << std::showpoint << std::setprecision(digits_fractional_part);
   {boost::timer T;
    boost::posix_time::ptime old_time = boost::posix_time::microsec_clock::universal_time();
