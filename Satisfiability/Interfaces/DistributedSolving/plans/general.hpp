@@ -54,7 +54,7 @@ License, or any later version. */
      <li> There is exactly one parameter, the directory produced by
      SplittingViaOKsolver. </li>
      <li> An experiment-directory is created. </li>
-     <li> One files contains all the set-up data. </li>
+     <li> One file contains all the set-up data. </li>
     </ol>
    </li>
    <li> Stop and re-start:

@@ -35,14 +35,14 @@ License, or any later version. */
      <li> Perhaps, at least at the beginning, we just state in comments that
      the header must be the same as used in the awk-script, but don't provide
      some mechanism for avoiding the duplication. </li>
-     <li> The string uses a single space for separation, and not leading or
+     <li> The string uses a single space for separation, and no leading or
      trailing space(-symbols). </li>
      <li> The header-string is provided in a data-file, e.g., "Minisat.header".
      Or one could use a directory "headers", containing e.g. "minisat" etc.
      </li>
      <li> In case something else than "header" is provided to the script, and
      which can not be interpreted, an error occurs. </li>
-     <li> Perhaps we should have possible parameter-values "header-only"
+     <li> Best we have possible parameter-values "header-only"
      and "data-only" (while without anything both header and data are
      printed). </li>
     </ol>
