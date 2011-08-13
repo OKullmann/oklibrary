@@ -106,8 +106,8 @@ License, or any later version. */
       </ul>
      </li>
      <li> SplittingViaOKsolver finds 27 unknown key bits for the 16-round DES
-     using the canonical translation for the S-boxes in ~35m. This is far better
-     than solvers on any other translation so far. See "Applying
+     using the canonical translation for the S-boxes in ~35m. This is far
+     better than solvers on any other translation so far. See "Applying
      SplittingViaOKsolver". </li>
     </ul>
    </li>
