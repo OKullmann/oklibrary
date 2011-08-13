@@ -50,14 +50,14 @@ License, or any later version. */
    </li>
    <li> This must now be transferred into a proper script:
     <ol>
-     <li> Called "ProcessSplitViaOKsolver". </li>
-     <li> There is exactly one parameter, the directory produced by
+     <li> DONE Called "ProcessSplitViaOKsolver". </li>
+     <li> DONE There is exactly one parameter, the directory produced by
      SplittingViaOKsolver. </li>
-     <li> An experiment-directory is created. </li>
-     <li> One file contains all the set-up data. </li>
+     <li> DONE An experiment-directory is created. </li>
+     <li> DONE One file contains all the set-up data. </li>
     </ol>
    </li>
-   <li> Stop and re-start:
+   <li> DONE Stop and re-start:
     <ol>
      <li> We need the possibility to stop (sending the signal from Ctrl-C)
      and to restart (just with the experiment-directory as parameter). </li>
@@ -70,7 +70,7 @@ License, or any later version. */
      <li> The user can adjust this file. </li>
     </ol>
    </li>
-   <li> If a satisfying assignment is found, the script will continue, but
+   <li> DONE If a satisfying assignment is found, the script will continue, but
    there must be clear indications about that. </li>
    <li> Of course, with extraction of all statistical data:
     <ol>
@@ -80,7 +80,7 @@ License, or any later version. */
      ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
     </ol>
    </li>
-   <li> Output:
+   <li> DONE Output:
     <ol>
      <li> To the file "SubinstanceStatistics", which is the R-readable output,
      the output-lines are appended. </li>

@@ -10,17 +10,68 @@ set -o errexit
 set -o nounset
 
 script_name="ProcessSplitViaOKsolver"
-version_number=0.0.3
+version_number=0.0.7
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
-if [[ $# -ne 1 ]]; then
-  echo "ERROR[${script_name}]: Exactly one parameter is needed, the directory to be processed."
+if [[ $# -eq 0 ]]; then
+  echo "ERROR[${script_name}]: At least one parameter is needed, the directory to be processed."
+  exit 1
+fi
+if [[ $# -ge 3 ]]; then
+  echo -e "ERROR[${script_name}]: At most two parameters are allowed:\n - the directory to be processed\n - the already existing processing-directory."
   exit 1
 fi
 
-directory=$1
+solver=minisat-2.2.0
 
-directory=ProcessSplitViaOKsolver_${directory}_${timestamp}
+directory1=$1
+
+if [[ $# -eq 2 ]]; then
+  directory2=$2
+  echo "Using existing processing-directory ${directory2}."
+  start=$(cat ${directory2}/current_subinstance)
+else
+  directory2=ProcessSplitViaOKsolver_${directory1}_${timestamp}
+  mkdir ${directory2}
+  echo "Created new processing-directory ${directory2}."
+  echo "${script_name} version ${version_number}" > ${directory2}/Parameter
+  echo ${directory1} >> ${directory2}/Parameter
+  echo ${directory2} >> ${directory2}/Parameter
+  start=1
+  echo "${start}" >> ${directory2}/current_subinstance
+  echo " i npa n t sat cfs dec rts r1 mem ptime stime cfl" > ${directory2}/SubinstanceStatistics
+fi
+
+instance_path="${directory1}/$(cat ${directory1}/F)"
+
+tail -n +$((start+1)) ${directory1}/Data | while read count F npa; do
+
+  echo -n "$count "
+  cat ${instance_path} | ApplyPass-O3-DNDEBUG ${directory1}/Instances/$F ${directory2}/Temp.cnf
+  set +e
+  ${solver} ${directory2}/Temp.cnf >${directory2}/Temp.out 2>&1
+  estatus=$?
+  set -e
+  if [[ $estatus == 10 ]]; then
+    echo -e "\nFound a SATISFYING ASSIGNMENT."
+    echo "${count} ${F}" >> ${directory2}/SatisfyingAssignments
+  elif [[ $estatus != 20 ]]; then
+    echo -e "\nUNEXPECTED RETURN VALUE ${estatus}."
+    exit 1
+  fi
+
+  echo -n "${count} ${npa} " >> ${directory2}/SubinstanceStatistics
+  # extract statistics XXX
+  echo >> ${directory2}/SubinstanceStatistics
+  echo $((count+1)) > ${directory2}/current_subinstance
+
+done
+
+if [[ -e ${directory2}/SatisfyingAssignments ]]; then
+  echo -e "\nCOMPLETED: instance SATISFIABLE; found $(cat ${directory2}/SatisfyingAssignments | wc -l) satisfiable sub-instances."
+else
+  echo -e "\nCOMPLETED: instance UNSATISFIABLE."
+fi
 
 exit 0
