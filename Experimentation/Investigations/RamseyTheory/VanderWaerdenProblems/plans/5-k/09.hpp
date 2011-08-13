@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo Best complete solver for palindromic problems
   <ul>
-   <li> t seems that from the conflict-driven solvers minisat-2.2.0 is best,
+   <li> It seems that from the conflict-driven solvers minisat-2.2.0 is best,
    from the look-ahead solvers march_pl (followed by OKsolver_2002, then
    satz215), and that overall minisat-2.2.0 is best. </li>
   </ul>
