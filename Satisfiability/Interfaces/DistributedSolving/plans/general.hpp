@@ -31,6 +31,13 @@ License, or any later version. */
 
   \todo Simple tool for running through all sub-instances
   <ul>
+   <li> Evaluation of the sub-instances as computed by SplittingViaOKsolver.
+   </li>
+   <li> The script just runs through the instances in the order given in the
+   Data-file, and stores the statistics in an R-readable file. </li>
+   <li> This is for investigations into the effectiveness of the splitting.
+   And also harder instances can be attacked in this way, since we can easily
+   stop and continue. </li>
    <li> Simple sequences of Bash-commands, plus corresponding R-commands to
    evaluate the data:
    \verbatim
@@ -41,23 +48,56 @@ License, or any later version. */
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
    \endverbatim
    </li>
-   <li> Looks alright, and must now be transferred into a proper script
-   (creating an experiment-directory etc.). </li>
-   <li> This just runs through the instances in the order given in the
-   Data-file, and stores the statistics in an R-readable file. </li>
-   <li> This is for investigations into the effectiveness of the splitting.
-   </li>
-   <li> And also harder instances can be attacked in this way, since we can
-   easily stop and continue. For that we need also the ability to re-start.
-   </li>
-   <li> We need thus the possibility to stop (sending the signal from Ctrl-C)
-   and to restart (just with the experiment-directory as parameter). </li>
-   <li> If a satisfying assignment is found, likely it should just stop. </li>
-   <li> Of course, with extraction of all statistical data (not just the time,
-   as in that prototype).
+   <li> This must now be transferred into a proper script:
     <ol>
+     <li> Called "ProcessSplitViaOKsolver". </li>
+     <li> There is exactly one parameter, the directory produced by
+     SplittingViaOKsolver. </li>
+     <li> An experiment-directory is created. </li>
+     <li> One files contains all the set-up data. </li>
+    </ol>
+   </li>
+   <li> Stop and re-start:
+    <ol>
+     <li> We need the possibility to stop (sending the signal from Ctrl-C)
+     and to restart (just with the experiment-directory as parameter). </li>
+     <li> We have a file "current_subinstance", which contains the row in
+     Data of the next instance. </li>
+     <li> Initialised with "1" by SplittingViaOKsolver. </li>
+     <li> Incremented after completition of the sub-instance. </li>
+     <li> After completion it contains "Finished." (this needs to be checked).
+     </li>
+     <li> The user can adjust this file. </li>
+    </ol>
+   </li>
+   <li> If a satisfying assignment is found, the script will continue, but
+   there must be clear indications about that. </li>
+   <li> Of course, with extraction of all statistical data:
+    <ol>
+     <li> Containing also the size of the partial assignment, where the
+     column is called "npa" ("n" of "partial assignment"). </li>
      <li> See "Extraction tools" in
      ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
+    </ol>
+   </li>
+   <li> Output:
+    <ol>
+     <li> To the file "SubinstanceStatistics", which is the R-readable output,
+     the output-lines are appended. </li>
+     <li> Console output: the indices of the current sub-instance (as above).
+     </li>
+     <li> If a satisfying sub-instance was found:
+      <ol>
+       <li> A file "SatisfyingAssignments" is created, which contains all
+       information about these assignments (cumulated). </li>
+       <li> This file is not created by default; so its existence shows
+       that a satisfying assignment was found. </li>
+       <li> And the concole output should strongly highlight this event.
+       </li>
+       <li> The process just continues otherwise; if the user wants to stop
+       then, this needs to be done manually. </li>
+       <li> At completion, it is output (to console and to a special file
+       "result"), whether all instances were unsatisfiable or not. </li>
     </ol>
    </li>
   </ul>
