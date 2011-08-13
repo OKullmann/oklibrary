@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following
    topics are handled:
+    - Splitting-output in iCNF format
     - Taking the length of the partial assignments into account : DONE
     - Script for applying partial assignments
 

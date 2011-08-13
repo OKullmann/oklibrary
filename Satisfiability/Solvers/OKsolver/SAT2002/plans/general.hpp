@@ -10,6 +10,17 @@ License, or any later version. */
   \brief Plans on the maintenance of the code for the old OKsolver
 
 
+  \todo Splitting-output in iCNF format
+  <ul>
+   <li> See http://users.ics.tkk.fi/swiering/icnf/ . </li>
+   <li> Simplest is just to put the partial assignments into one single
+   file, each line starting with "a " (and concluding with " 0"). </li>
+   <li> Then a small tool is needed which takes a CNF file F and a file
+   containing the partial assignments, and concatenates them, replacing the
+   "p cnf"-line in F with (just) "p inccnf". </li>
+  </ul>
+
+
   \bug False counting of initial unit-clause eliminations
   <ul>
    <li> Counting of initial unit-clause propagations is not correct. </li>
