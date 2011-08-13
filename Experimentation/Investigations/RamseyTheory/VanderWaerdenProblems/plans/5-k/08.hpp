@@ -229,22 +229,16 @@ c file_name                             VanDerWaerden_pd_2-5-8_324.cnf
 c splitting_directory                   SplitViaOKsolver_D12VanDerWaerden_pd_258_324cnf_2011-05-15-101121/Instances
 c splitting_cases                       4096
 
-> cd Instances
-> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf 2>&1 | cat - > Temp.out; T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; done; rm Temp.cnf Temp.out
-
-# Monitoring in R via
-#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
-# Overview via
-#> plot(E); summary(E)
+# Processing all instances via shell-loop
      \endverbatim
-     Aborted after 3200nm where 2500 sub-instances were solved. This is much
+     Aborted after 3200m where 2500 sub-instances were solved. This is much
      worse than depth 16 (see below). </li>
-     <li> Now with depth 16 (from the above time, we get an "average" of 70.4s
-     per sub-instance):
+     <li> Now with depth 16, again using the depth-interpretation (from the
+     above time, we get an "average" of 70.4s per sub-instance):
      \verbatim
-> SplittingViaOKsolver -D16 VanDerWaerden_pd_2-5-8_324.cnf
-> cd SplitViaOKsolver_D16VanDerWaerden_pd_258_324cnf_2011-05-09-224526
-> > more Md5sum
+> SplittingViaOKsolver -D16 -SD VanDerWaerden_pd_2-5-8_324.cnf
+> cd SplitViaOKsolver_D16SDVanDerWaerden_pd_258_324cnf_2011-08-13-092457/
+> more Md5sum
 df571321afc590fa67f5cec11a8499a0
 > more Statistics
 > E=read.table("Data")
@@ -271,7 +265,7 @@ c reddiff_number_of_variables           0
 c reddiff_number_of_clauses             0
 c reddiff_number_of_literal_occurrences 0
 c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     546.8
+c running_time(sec)                     556.5
 c number_of_nodes                       131045
 c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
@@ -285,23 +279,16 @@ c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_pd_2-5-8_324.cnf
-c splitting_directory                   SplitViaOKsolver_D16VanDerWaerden_pd_258_324cnf_2011-05-09-224526/Instances
+c splitting_directory                   SplitViaOKsolver_D16SDVanDerWaerden_pd_258_324cnf_2011-08-13-092457/Instances
 c splitting_cases                       65435
 
-> cd Instances
-> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf 2>&1 | cat - > Temp.out; T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; done; rm Temp.cnf Temp.out
-
-# Monitoring in R via
-#> E=read.table("Stats",header=TRUE,colClasses=c("integer","integer","integer","numeric","numeric")); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
-# Overview via
-#> plot(E); summary(E)
-
+# Processing all instances via shell-loop:
 # Completed (cs-oksvr):
 real    3051m16.442s
 user    3041m24.429s
 sys     38m48.998s
      \endverbatim
-     Needs to be completed with complete data collection. But this is a speed
+     Needs to be re-done with complete data collection. But this is a speed
      up by one order of magnitude! </li>
      <li> So we see that via splitting we can be much faster! Perhaps one
      could roughly say that conflict-driven solvers are most effective on
