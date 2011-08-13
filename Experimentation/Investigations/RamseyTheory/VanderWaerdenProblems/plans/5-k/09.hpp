@@ -306,6 +306,10 @@ c splitting_cases                       1570975
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 
+# interim results:
+647756: 1551.97h, sum-cfs=1.084401e+11, mean-t=8.625s, mean-cfs=167409
+# the plot shows clear epochs, likely coming from the different sizes
+# of the partial assignments
      \endverbatim
      </li>
     </ol>
