@@ -294,6 +294,43 @@ sys     38m48.998s
      could roughly say that conflict-driven solvers are most effective on
      easy instances. Once they "learned too much" they are becoming very
      ineffective. </li>
+     <li> Now using the n-interpretation for the splitting (cs-oksvr):
+     \verbatim
+> SplittingViaOKsolver -D20 VanDerWaerden_pd_2-5-8_324.cnf
+> cd SplitViaOKsolver_D20VanDerWaerden_pd_258_324cnf_2011-08-13-100405/
+> cat Md5sum
+eddf332aaa434cc2b1368a6142294914
+> cat Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  20.00   20.00   20.00   20.78   21.00   45.00
+> table(E$n)
+   20    21    22    23    24    25    26    27    28    29    30    31    32
+51422 18774  9798  4237  1894   807   339   180    88    53    33    16     9
+   33    34    35    36    38    45
+    4     2     4     4     2     1
+> cat Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           162
+c initial_number_of_clauses             9973
+c initial_number_of_literal_occurrences 60446
+c running_time(sec)                     1411.1
+c number_of_nodes                       175357
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1831
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        20
+c file_name                             VanDerWaerden_pd_2-5-8_324.cnf
+c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_pd_258_324cnf_2011-08-13-100405/Instances
+c splitting_cases                       87667
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> Certificates:
