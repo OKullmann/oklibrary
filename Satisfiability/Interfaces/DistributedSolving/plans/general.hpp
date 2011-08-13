@@ -31,9 +31,16 @@ License, or any later version. */
 
   \todo Simple tool for running through all sub-instances
   <ul>
-   <li> In Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/08.hpp
-   we have a simple sequence of Bash-commands. </li>
-   <li> Also in RamseyTheory/VanderWaerdenProblems/plans/3-k/25.hpp. </li>
+   <li> Simple sequences of Bash-commands, plus corresponding R-commands to
+   evaluate the data:
+   \verbatim
+> cd Instances
+> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+
+# Monitoring in R via
+#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+   \endverbatim
+   </li>
    <li> Looks alright, and must now be transferred into a proper script
    (creating an experiment-directory etc.). </li>
    <li> This just runs through the instances in the order given in the
