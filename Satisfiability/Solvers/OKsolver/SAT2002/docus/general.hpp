@@ -463,11 +463,13 @@ CFLAGS="-UMACHINE_BITS_OKL"
    at depth d. </li>
    <li> The parameters of <code>SplittingViaOKsolver</code> are passed over to
    the OKsolver, adding the parameter "-S=dir" with appropriate value for dir,
-   the experiment-directory. </li>
-   <li> The script creates the experiment-directory, calls the OKsolver, and
+   the splitting-directory. </li>
+   <li> The script creates the splitting-directory, calls the OKsolver, and
    stores all data related to this computation in files in this directory.
    </li>
    <li> See the documentation of <code>SplittingViaOKsolver</code>. </li>
+   <li> To process the created splitting-directory, use
+   <code>ProcessSplitViaOKsolver</code> (see the documentation). </li>
   </ul>
 
 */
