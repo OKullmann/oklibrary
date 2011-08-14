@@ -388,6 +388,8 @@ ncl_list_fcl(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(1)]));
 
   \todo Applying SplittingViaOKsolver
   <ul>
+   <li> The following processing of the SplittingViaOKsolver-result can now
+   be done much more convenient by using ProcessSplitViaOKsolver. </li>
    <li> First what apparently should be the canonical translation for the
    boxes as 10-bit functions, corrected in the most obvious places:
    \verbatim
@@ -401,7 +403,7 @@ Fs : standardise_fcl([F[1],append(F[2],P[2],K[2],C[2])])$
 output_fcl_v(sconcat("DES over 16 rounds with the first ", unknown_bits, " key bits undefined; translated using the canonical translation for the S-boxes (6-to-4)."), Fs[1], sconcat("des_6t4_canon_b",unknown_bits,".cnf"), Fs[2]);
    \endverbatim
    </li>
-   <li> Basic statistics are
+   <li> Basic statistics are (27 unknown bits):
    \verbatim
 > UB=27
 > cat des_6t4_canon_b${UB}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
@@ -742,14 +744,22 @@ c splitting_cases                       41952
 
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+26128: 1069.27h, sum-cfs=1.711826e+09, mean-t=147.327s, mean-cfs=65517
 
+SplitViaOKsolver_D900des_ucp_b35cnf_2011-06-10-185340> grep "26129" Data
+9975 26129 960
+26129 14817 929
+> cat des_ucp_b35.cnf | ApplyPass-O3-DNDEBUG Instances/14817 > inst_26129.cnf
+> minisat-2.2.0 inst_26129.cnf
+CPU time              : 34.4662 s
+SATISFIABLE
    \endverbatim
    Interesting that the 13 sub-instances for D=600 are so much harder than the
    instances for 27 unknown bits. And the instances for D=800 are still much
    harder. </li>
    <li> It seems the SAT solvers "don't understand the instance anymore" (35
    unknown bits is 8 bits more than 27 bits, and 20m multiplied with 2^8=256
-   would mean 4 days, not 27). </li>
+   would mean 4 days, not 44.6 days). </li>
   </ul>
 
 
