@@ -15,19 +15,19 @@ License, or any later version. */
    <li> Solving the key discovery problem for:
     <ul>
      <li> 1-round DES, see
-     Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/1.hpp.
+     Cryptography/DataEncryptionStandard/plans/KeyDiscovery/1.hpp.
      </li>
      <li> 3-round DES, see
-     Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/3.hpp.
+     Cryptography/DataEncryptionStandard/plans/KeyDiscovery/3.hpp.
      </li>
      <li> 4-round DES, see
-     Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/4.hpp.
+     Cryptography/DataEncryptionStandard/plans/KeyDiscovery/4.hpp.
      </li>
      <li> 5-round DES, see
-     Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/5.hpp.
+     Cryptography/DataEncryptionStandard/plans/KeyDiscovery/5.hpp.
      </li>
      <li> 16-round DES with some known key bits, see
-     Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
+     Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
      </li>
     </ul>
    </li>
