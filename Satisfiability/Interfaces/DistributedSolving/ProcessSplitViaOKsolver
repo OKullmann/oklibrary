@@ -13,15 +13,18 @@
 
 # creates the experiment-directory "Process_splitviaoksolver-dirname_timestamp"
 # containing the files
-#  - current_subinstance: starting with 1, the index of the next sub-instance
-#    to be solved
 #  - Parameter: the version of this script, the splitviaoksolver-directory,
 #     and the created experiment-directory
+#  - current_subinstance: starting with 1, the index of the next sub-instance
+#    to be solved
 #  - SubinstanceStatistics: in R-format the collected data
-# If a satisfiable sub-instance was found, then in SatisfyingAssignments
-# for each satisfiable sub-instance one has a line "index original-index"
-# with the index for this processing and the index w.r.t. the original
-# creation by OKsolver.
+#  - If a satisfiable sub-instance was found, then in file
+#    SatisfyingAssignments for each satisfiable sub-instance one has a line
+#    "index original-index" with the index for this processing and the index
+#    w.r.t. the original creation by OKsolver.
+#  - Upon completion, the file Result is created which contains whether
+#    the instance was determined satisfiable or unsatisfiable, and the total
+#    running time (the sum of process times for all processes involved).
 # Furthermore Temp.cnf contains the instance (after application of the
 # partial assignment) currently solved, and Temp.out contains the solver
 # output of the last solved instance.
@@ -31,7 +34,8 @@
 # uses the already created Process_dir (created by a previous invocation
 # of that script) to continue an interrupted processing.
 # (Currently no un-interruptible parts are declared, but it seems practically
-# save to interrupt and restart a process.)
+# save to interrupt and restart a process. For the final running time, as
+# stored in Result, currently only the last run is used.)
 
 # Currently usage of minisat-2.2.0 is hardcoded.
 # Evaluation of the file SubinstanceStatistics (in R) via
@@ -42,7 +46,7 @@ set -o errexit
 set -o nounset
 
 script_name="ProcessSplitViaOKsolver"
-version_number=0.0.9
+version_number=0.0.10
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -103,9 +107,11 @@ tail -n +$((start+1)) ${directory1}/Data | while read count F npa; do
 done
 
 if [[ -e ${directory2}/SatisfyingAssignments ]]; then
-  echo -e "\nCOMPLETED: instance SATISFIABLE; found $(cat ${directory2}/SatisfyingAssignments | wc -l) satisfiable sub-instances."
+  echo -e "\nCOMPLETED: instance SATISFIABLE; found $(cat ${directory2}/SatisfyingAssignments | wc -l) satisfiable sub-instances." > ${directory2}/Result
 else
-  echo -e "\nCOMPLETED: instance UNSATISFIABLE."
+  echo -e "\nCOMPLETED: instance UNSATISFIABLE." > ${directory2}/Result
 fi
+
+ps p $$ k time S >> ${directory2}/Result
 
 exit 0
