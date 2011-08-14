@@ -29,7 +29,8 @@ License, or any later version. */
     <li> ExtractMarchpl : DONE </li>
    </ul>
    </li>
-   <li> This is without parameters; with parameter "header" (as string) it
+   <li> DONE (see ExtractMinisat for the role model)
+   This is without parameters; with parameter "header" (as string) it
    just prints the header (which is also at the top of the R-output).
     <ol>
      <li> How to handle this data-dependency? </li>
