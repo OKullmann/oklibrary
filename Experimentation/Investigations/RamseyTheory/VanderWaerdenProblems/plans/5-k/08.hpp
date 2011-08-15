@@ -179,16 +179,63 @@ decisions             : 2356337872     (0.00 % random) (7798 /sec)
 propagations          : 41736971474    (138117 /sec)
 conflict literals     : 50113566661    (23.17 % deleted)
 Memory used           : 91.68 MB
-CPU time              : 302186 s
+CPU time              : 302186 s (5036m)
 UNSATISFIABLE
      \endverbatim
      </li>
+     <li> Splitting the problem for n=313
+     \verbatim
+> SplittingViaOKsolver -D20 VanDerWaerden_pd_2-5-8_313.cnf
+> cd SplitViaOKsolver_D20VanDerWaerden_pd_258_313cnf_2011-08-14-215226/
+> more Md5sum
+0bce68a7593709239363cf3623bccf7f
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   20.0    20.0    20.0    20.9    21.0    48.0
+> table(E$n)
+   20    21    22    23    24    25    26    27    28    29    30    31    32
+11451  5955  2928  1195   536   213   103    43    20    10    13     3     2
+   33    34    36    37    38    39    48
+    3     1     1     1     1     2     1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           157
+c initial_number_of_clauses             9121
+c initial_number_of_literal_occurrences 54905
+c running_time(sec)                     407.5
+c number_of_nodes                       44965
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                637
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        20
+c file_name                             VanDerWaerden_pd_2-5-8_313.cnf
+c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_pd_258_313cnf_2011-08-14-215226/Instances
+c splitting_cases                       22482
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D20VanDerWaerden_pd_258_313cnf_2011-08-14-215226
+> cd Process_SplitViaOKsolver_D20VanDerWaerden_pd_258_313cnf_2011-08-14-215226_2011-08-14-220708
+
+290m24s
+
+> E=read_processsplit_minisat()
+22482: 4.34h, sum-cfs=4.668112e+08, mean-t=0.695s, mean-cfs=20764
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     35    5183   10950   20760   23110  740900
+     \endverbatim
+     That is a speed-up by a factor of 17. </li>
      <li> Splitting the problem for n=324, first with depth 12 (from the above
      time, we get an "average" of 1125.273s per sub-instance; recall that the
      instance is created by "PdVanderWaerdenCNF-O3-DNDEBUG 5 8 324"):
      \verbatim
-> SplittingViaOKsolver -D12 VanDerWaerden_pd_2-5-8_324.cnf
-> cd SplitViaOKsolver_D12VanDerWaerden_pd_258_324cnf_2011-05-15-101121
+> SplittingViaOKsolver -D12 -SD VanDerWaerden_pd_2-5-8_324.cnf
+> cd SplitViaOKsolver_D12SDVanDerWaerden_pd_258_324cnf_2011-05-15-101121
 > more Md5sum
 64d71cced212d7377c121092fa7476ce
 > more Statistics
@@ -226,7 +273,7 @@ c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_pd_2-5-8_324.cnf
-c splitting_directory                   SplitViaOKsolver_D12VanDerWaerden_pd_258_324cnf_2011-05-15-101121/Instances
+c splitting_directory                   SplitViaOKsolver_D12SDVanDerWaerden_pd_258_324cnf_2011-05-15-101121/Instances
 c splitting_cases                       4096
 
 # Processing all instances via shell-loop
@@ -329,6 +376,8 @@ c max_tree_depth                        20
 c file_name                             VanDerWaerden_pd_2-5-8_324.cnf
 c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_pd_258_324cnf_2011-08-13-100405/Instances
 c splitting_cases                       87667
+
+> 
      \endverbatim
      </li>
     </ol>
