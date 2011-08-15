@@ -19,7 +19,9 @@ License, or any later version. */
    <li> This is for investigations into the effectiveness of the splitting.
    And also harder instances can be attacked in this way, since we can easily
    stop and continue. </li>
-   <li> Simple sequences of Bash-commands, plus corresponding R-commands to
+   <li> See the todos in the source-code. </li>
+   <li> DONE (all transferred)
+   Simple sequences of Bash-commands, plus corresponding R-commands to
    evaluate the data:
    \verbatim
 > cd Instances
@@ -29,7 +31,8 @@ License, or any later version. */
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",5),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
    \endverbatim
    </li>
-   <li> This must now be transferred into a proper script:
+   <li> DONE
+   This must now be transferred into a proper script:
     <ol>
      <li> DONE Called "ProcessSplitViaOKsolver". </li>
      <li> DONE There is exactly one parameter, the directory produced by
@@ -53,7 +56,8 @@ License, or any later version. */
    </li>
    <li> DONE If a satisfying assignment is found, the script will continue, but
    there must be clear indications about that. </li>
-   <li> Of course, with extraction of all statistical data:
+   <li> DONE
+   Of course, with extraction of all statistical data:
     <ol>
      <li> Containing also the size of the partial assignment, where the
      column is called "npa" ("n" of "partial assignment"). </li>
@@ -79,6 +83,8 @@ License, or any later version. */
        then, this needs to be done manually. </li>
        <li> At completion, it is output (to console and to a special file
        "result"), whether all instances were unsatisfiable or not. </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>
