@@ -46,7 +46,7 @@ set -o errexit
 set -o nounset
 
 script_name="ProcessSplitViaOKsolver"
-version_number=0.0.10
+version_number=0.0.11
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -106,12 +106,16 @@ tail -n +$((start+1)) ${directory1}/Data | while read count F npa; do
 
 done
 
-if [[ -e ${directory2}/SatisfyingAssignments ]]; then
-  echo -e "\nCOMPLETED: instance SATISFIABLE; found $(cat ${directory2}/SatisfyingAssignments | wc -l) satisfiable sub-instances." > ${directory2}/Result
-else
-  echo -e "\nCOMPLETED: instance UNSATISFIABLE." > ${directory2}/Result
-fi
+echo -e "\nCOMPLETED; see\n ${directory2}/Result\n ${directory2}/SubinstanceStatistics"
 
+if [[ -e ${directory2}/SatisfyingAssignments ]]; then
+  echo "Instance SATISFIABLE."
+  echo "SATISFIABLE" > ${directory2}/Result
+  echo "Found $(cat ${directory2}/SatisfyingAssignments | wc -l) satisfiable sub-instances." >> ${directory2}/Result
+else
+  echo "Instance UNSATISFIABLE."
+  echo "UNSATISFIABLE" > ${directory2}/Result
+fi
 ps p $$ k time S >> ${directory2}/Result
 
 exit 0
