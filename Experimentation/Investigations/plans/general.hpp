@@ -43,9 +43,20 @@ License, or any later version. */
      <li> This list must be expanded. </li>
     </ul>
    </li>
-   <li> Time sensitive experiments should always be run with the
-   "time" shell command to ensure that the solver reports the correct
-   time. </li>
+   <li> Safey measures:
+    <ol>
+     <li> Time sensitive experiments could always be run with the
+     "time" shell command to ensure that the solver reports the correct
+     time. </li>
+     <li> However "time" itself is an arcane tool, which disturbs the programs
+     it shall observe. </li>
+     <li> See
+     http://stackoverflow.com/questions/7056700/what-is-an-elegant-way-that-a-shell-script-times-itself-really/
+     for some discussion and an alternative proposed by OK. </li>
+     <li> So it seems best to only make probes, for new systems and new
+     solvers, and also sporadically for all experiment series. </li>
+    </ol>
+   </li>
    <li> We also need documentation on issues such as this, and "best practices"
    for experimentation. </li>
   </ul>
