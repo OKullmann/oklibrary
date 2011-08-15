@@ -13,6 +13,9 @@ License, or any later version. */
   \todo Splitting-output in iCNF format
   <ul>
    <li> See http://users.ics.tkk.fi/swiering/icnf/ . </li>
+   <li> For a directory created by SplittingViaOKsolver, the script
+   ExtractiCNF computes the desired .CNF-file. However here we want to
+   compute it directly (which is much faster). </li>
    <li> Simplest is just to put the partial assignments into one single
    file, each line starting with "a " (and concluding with " 0"). </li>
    <li> Then a small tool is needed which takes a CNF file F and a file

@@ -1,0 +1,41 @@
+#!/bin/bash
+# Oliver Kullmann, 15.8.2011 (Swansea)
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# For directory dir created by SplittingViaOKsolver, extract the complete
+# splitting information into an .icnf-file (containing first the instance,
+# and then the splittings). The new file is placed into dir.
+# Usage:
+
+# ExtractiCNF dir
+
+
+set -o errexit
+set -o nounset
+
+script_name="ExtractiCNF"
+version_number=0.0.7
+
+if [[ $# -ne 1 ]]; then
+  echo "ERROR[${script_name}]: Exactly one parameter is needed, the directory to be processed."
+  exit 1
+fi
+
+cd $1
+
+F="$(cat F)"
+nF=${F/%.cnf/.icnf}
+
+cat $F | sed -e 's/^p cnf .*/p inccnf/' > $nF
+
+tail -n +2 Data | while read count phi npa; do
+  cat Instances/$phi >> $nF
+done
+
+sed -i 's/v/a/' $nF
+
+exit 0
