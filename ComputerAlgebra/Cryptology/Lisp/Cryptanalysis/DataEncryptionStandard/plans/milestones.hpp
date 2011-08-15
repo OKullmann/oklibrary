@@ -27,6 +27,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp
    the following topics are handled:
+    - Triple-DES
     - Create constraint evaluation system
     - Translating the constraint-system into SAT, CSP, ...
 
