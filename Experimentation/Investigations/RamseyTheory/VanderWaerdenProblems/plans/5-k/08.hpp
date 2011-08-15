@@ -227,6 +227,8 @@ c splitting_cases                       22482
 > E=read_processsplit_minisat()
 22482: 4.34h, sum-cfs=4.668112e+08, mean-t=0.695s, mean-cfs=20764
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 0.0120  0.1720  0.3480  0.6953  0.7400 29.4000
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
      35    5183   10950   20760   23110  740900
      \endverbatim
      That is a speed-up by a factor of 17. </li>
