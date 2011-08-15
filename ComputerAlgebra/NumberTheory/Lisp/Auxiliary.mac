@@ -122,12 +122,27 @@ int2boct(m) := int2polyadicstr(m,8)$
 int2dec(m) := int2polyadicstr(m,10)$
 int2hex(m) := int2polyadicstr(m,16)$
 
-/* Converting an hexadecimal string str into a binary vector, where str
-   can use upper- or lower-case letters (also mixed): */
+/* Converting a hexadecimal string str into a binary vector, where str can use
+   upper- or lower-case letters (also mixed): */
 hexstr2binv(str) := lappend(map(lambda([x],int2polyadic_padd(x,2,4)),map(digit2int,str2chrl(supcase(str)))))$
+/* For all indices i <= length(v), the 4 bits at positions (i-1)*4+1 to i*4
+   (1-indexed) in the output vector are the binary representation of the
+   hexadecimal digit at position i in the input string. If str has length n,
+   then hexstr2binv(str) has length 4*n.
+*/
+
 /* Converting a binary vector v into a hexadecimal string (using upper-case):
 */
 binv2hexstr(v) := simplode(map(int2digit,map(lambda([x],polyadic2int(x,2)),partition_elements(v,4))))$
+/* For all indices i <= length(v), the hexadecimal digit at index i in the
+   output string is the hexadecimal representation of the (at most) 4 bits at
+   positions (i-1)*4+1 to min(i*4,length(v)) (1-indexed). If v has length n,
+   then binv2hexstr(v) has length ceiling(4/n).
+
+   Example:
+     binv2hexstr([1,1,1,1,0,1]) = "F1"
+     binv2hexstr([1,1,1,1,0,0,0,1]) = "F1"
+*/
 
 
 /* ************
