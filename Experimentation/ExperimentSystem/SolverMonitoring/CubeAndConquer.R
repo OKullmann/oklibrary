@@ -33,6 +33,7 @@ read_processsplit_minisat = function(dirname, file, ...)  {
         colClasses = c(rep("integer",5),"numeric","integer",rep("numeric",8)),
         ...)
   cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+  print(summary(E$t))
   print(summary(E$cfs))
   E
 }
