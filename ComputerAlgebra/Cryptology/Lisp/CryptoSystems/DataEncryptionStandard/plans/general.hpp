@@ -136,5 +136,47 @@ des_encryption_reduced(plaintext, key, r) :=
    </li>
   </ul>
 
+
+  \todo Triple-DES
+  <ul>
+   <li> We should provide functions and tests for the Triple-DES encryption
+   scheme. </li>
+   <li> Triple-DES is also called "3DES". </li>
+   <li> Triple-DES is defined in
+   http://csrc.nist.gov/publications/nistpubs/800-67/SP800-67.pdf . </li>
+   <li> Triple-DES was apparently first defined in ANS X9.52-1998.
+   Is this available somewhere? </li>
+   <li> Triple-DES is defined as:
+   \verbatim
+triple_des_hex(P,K1,K2,K3) := des_encryption_hex(des_decryption_hex(des_encryption_hex(P,K1),K2),K3);
+   \endverbatim
+   where K1, K2 and K3 are 64-bit keys with 56-bit of actual key data and
+   8 parity bits. </li>
+   <li> K1, K2 and K3 can be used in 3 ways, as defined by the Triple-DES
+   standard:
+    <ol>
+     <li> All keys are independent (164 independent key-bits). </li>
+     <li> K1 and K2 are independent but K1=K3 (112 independent key-bits). </li>
+     <li> K1 = K2 = K3 (56 independent key-bits; this is exactly DES). </li>
+    </ol>
+   </li>
+   <li> Do we consider 3 different keys, or take a single key which we then
+   split into the 3 keys?
+    <ul>
+     <li> Taking a single key fits more with our notion of a cipher, as
+     something that takes a plaintext and key and outputs a ciphertextt.
+     </li>
+     <li> Taking 3 keys fits more naturally with the definition of
+     Triple-DES and ensures we always know which key is which. </li>
+    </ul>
+   </li>
+   <li> Test vectors are available at
+   http://csrc.nist.gov/groups/STM/cavp/index.html in
+   http://csrc.nist.gov/publications/nistpubs/800-20/800-20.pdf . </li>
+   <li> Triple-DES is used in the various payment card systems world-wide.
+   See http://www.eftpos.co.nz/cms_display.php?sn=55&st=1&pg=4261 . </li>
+   <li> 112-bit Triple-DES should be compared to 128-bit AES. </li>
+  </ul>
+
 */
 

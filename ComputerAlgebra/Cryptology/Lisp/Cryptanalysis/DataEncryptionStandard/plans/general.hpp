@@ -217,6 +217,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo Triple-DES
+  <ul>
+   <li> We should provide a translation of the Triple-DES into SAT. </li>
+   <li> This translation should make use of the current DES translation. </li>
+   <li> See also "Triple-DES" in
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/plans/general.hpp.
+   </li>
+  </ul>
+
+
   \todo Links
   <ul>
    <li> For the implementation of the DES see

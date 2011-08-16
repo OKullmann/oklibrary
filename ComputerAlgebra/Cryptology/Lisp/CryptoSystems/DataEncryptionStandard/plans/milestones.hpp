@@ -23,6 +23,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/plans/general.hpp
    the following topics are handled:
+    - Triple-DES
     - Specification
     - Improve key schedule tests
     - Find more test vectors
