@@ -1,3 +1,4 @@
+
 // Oliver Kullmann, 22.9.2007 (Swansea)
 /* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
@@ -20,12 +21,12 @@ License, or any later version. */
      <li> all_minimum_cnf:
       <ul>
        <li> An experiment directory must be created. </li>
-       <li> The computed CNFs should have the ".cnf" extension. </li>
        <li> Statistics on each of transversals should be computed and
        output to a "statistics" file, and also to standard output. </li>
        <li> The dependency of FilterDimacs on the order and variable naming
        scheme in QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG must be
        fully documented, or even better, removed. </li>
+       <li> DONE The computed CNFs should have the ".cnf" extension. </li>
       </ul>
      </li>
      <li> minimise_cnf_cryptominisat. </li>
