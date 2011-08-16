@@ -160,7 +160,6 @@ okltest_int2polyadicstr(f) := block(
   assert(f(-63631769456211,36) = "-MK014LZDF"),
   true)$
 
-
 okltest_hexstr2binv(f) := block(
   assert(f("") = []),
   assert(f("0") = [0,0,0,0]),
@@ -170,6 +169,7 @@ okltest_hexstr2binv(f) := block(
   assert(f("3") = [0,0,1,1]),
   assert(f("7") = [0,1,1,1]),
   assert(f("E") = [1,1,1,0]),
+  assert(f("a12") = [1,0,1,0,0,0,0,1,0,0,1,0]),
   for i : 2 thru 10 do
     assert(
       f(apply(sconcat, create_list("0",j,1,i))) =
@@ -179,6 +179,11 @@ okltest_hexstr2binv(f) := block(
       f(apply(sconcat, create_list("F",j,1,i))) =
       lappend(create_list([1,1,1,1],j,1,i))),
   assert(f("F3A21001A012B3ABB2") =
+    [1,1,1,1,0,0,1,1,1,0,1,0,0,0,1,0,0,0,0,1,0,0,
+     0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,1,
+     0,0,1,0,1,0,1,1,0,0,1,1,1,0,1,0,1,0,1,1,1,0,
+     1,1,0,0,1,0]),
+  assert(f("f3A21001a012b3ABb2") =
     [1,1,1,1,0,0,1,1,1,0,1,0,0,0,1,0,0,0,0,1,0,0,
      0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,1,
      0,0,1,0,1,0,1,1,0,0,1,1,1,0,1,0,1,0,1,1,1,0,
