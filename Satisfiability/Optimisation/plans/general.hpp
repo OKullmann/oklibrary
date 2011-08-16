@@ -22,9 +22,9 @@ License, or any later version. */
       <ul>
        <li> Statistics on each of transversals should be computed and
        output to a "statistics" file, and also to standard output. </li>
-       <li> The dependency of FilterDimacs on the order and variable naming
-       scheme in QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG must be
-       fully documented, or even better, removed. </li>
+       <li> DONE The dependency of FilterDimacs on the order and variable
+       naming scheme in QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG
+       must be fully documented, or even better, removed. </li>
        <li> DONE An experiment directory must be created. </li>
        <li> DONE The computed CNFs should have the ".cnf" extension. </li>
       </ul>
