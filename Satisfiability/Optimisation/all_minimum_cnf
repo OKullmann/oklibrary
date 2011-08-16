@@ -8,10 +8,15 @@
 
 # Script which given the path to a full Dimacs CNF file "file"
 # computes all minimum CNF representations of the input CNF,
-# outputting them to $(basename file .cnf)_trans$i.cnf for 1 <= i <= N where
-# n is the number of minimum representations.
+# outputting them to AllMinimumCNFs_basefile_date/MinCNFs/$i.cnf for
+# 1 <= i <= n where n is the number of minimum representations.
 # The user may optionally provide a second argument specifying a lower bound on the
 # size of the minimum CNFs.
+#
+# The input file is copied to AllMinimumCNFs_basefile_date/file, and the prime
+# implicates and subsumption hypergraph for file are output to
+# AllMinimumCNFs_basefile_date/primes.cnf and
+# AllMinimumCNFs_basefile_date/shg.cnf.
 
 # The algorithm used is
 # Combinatorics/Hypergraphs/Transversals/Bounded/BoundedTransversals_bv.cpp
@@ -23,7 +28,7 @@ set -o errexit
 set -o nounset
 
 script_name="all_minimum_cnf"
-version="0.2.5"
+version="0.2.6"
 
 # Error checking
 err="ERROR[${script_name}]"
@@ -40,6 +45,19 @@ else
   lower_bound=0
 fi
 
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+
+ExpDir="AllMinimumCNFs_$(basename ${input_file} .cnf)_${timestamp}"
+MinCNFDir=MinCNFs
+echo -e "Running \"${script_name}\" in version ${version}."
+echo -e "Creating directory ${ExpDir}.\n"
+mkdir ${ExpDir}
+cp ${input_file} ${ExpDir}/.
+input_file=$(basename ${input_file})
+cd ${ExpDir}
+mkdir ${MinCNFDir}
+
+
 # Script for generating the subsumption hypergraph and then for 
 # computing the minimum transversals of the subsumption hypergraph.
 subsumption_hypergraph_computation=QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG
@@ -51,14 +69,15 @@ echo "Starting with lower bound of ${lower_bound} ..."
 
 # Compute subsumption hypergraph and prime implicates
 echo "Computing subsumption hypergraph ..."
-subsumption_hypergraph_file=$(mktemp)
-prime_implicates_file=${input_file}_primes # Automatically created
+subsumption_hypergraph_file=shg.cnf
+prime_implicates_file=primes.cnf
 ${subsumption_hypergraph_computation} ${input_file} > ${subsumption_hypergraph_file}
+mv ${input_file}_primes primes.cnf
 
 # Compute transversals and then extract the CNFs from the prime clauses using the result.
 echo "Computing bounded transversals ..."
-transversal_file=$(mktemp)
-transversals_file=$(mktemp)
+transversal_file=current_transversal.pa
+transversals_file=transversals
 ${transversal_computation} ">=${lower_bound}" < ${subsumption_hypergraph_file}  | grep -v "^[pc]" > ${transversals_file}
 num_transversals=$(wc -l ${transversals_file})
 count=0; current_transversal=1
@@ -66,7 +85,7 @@ cat ${transversals_file} |  while read transversal; do
       echo "Translating assignment for transversal [${current_transversal}/${num_transversals}] ..."
       count=$(expr ${count} + 1)
       echo ${transversal} > ${transversal_file}
-      cat ${prime_implicates_file} | FilterDimacs-O3-DNDEBUG ${transversal_file} > "$(basename ${input_file} .cnf)_trans${count}.cnf"
+      cat ${prime_implicates_file} | FilterDimacs-O3-DNDEBUG ${transversal_file} > ${MinCNFDir}/"${count}.cnf"
   done
-temporary_files="${subsumption_hypergraph_file} ${prime_implicates_file} ${transversal_file} ${transversals_file}"
+temporary_files="${transversal_file} ${transversals_file}"
 rm ${temporary_files}
