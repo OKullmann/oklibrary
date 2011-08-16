@@ -163,7 +163,6 @@ okltest_int2polyadicstr(f) := block(
 okltest_hexstr2binv(f) := block(
   assert(f("") = []),
   assert(f("0") = [0,0,0,0]),
-  assert(f("0") = [0,0,0,0]),
   assert(f("1") = [0,0,0,1]),
   assert(f("2") = [0,0,1,0]),
   assert(f("3") = [0,0,1,1]),
