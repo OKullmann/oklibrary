@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/Auxiliary.mac");
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 kill(f)$
 
