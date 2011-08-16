@@ -128,17 +128,13 @@ int2hex(m) := int2polyadicstr(m,16)$
 hexstr2binv(str) := lappend(map(lambda([x],int2polyadic_padd(x,2,4)),map(digit2int,str2chrl(supcase(str)))))$
 /* Example: hexstr2binv("A12") = [1,0,1,0,0,0,0,1,0,0,1,0]. */
 
-/* Converting a binary vector v into a hexadecimal string (using upper-case):
+/* Converting a binary vector v into a hexadecimal string (using upper-case);
+   v is partitioned into segments of length 4, where in each segment the bits
+   are to be read from right to left, and where a trailing segment of length
+   1, 2 or 3 is left-padded with 0:
 */
 binv2hexstr(v) := simplode(map(int2digit,map(lambda([x],polyadic2int(x,2)),partition_elements(v,4))))$
-/* For all indices i <= length(v), the hexadecimal digit at index i in the
-   output string is the hexadecimal representation of the (at most) 4 bits at
-   positions (i-1)*4+1 to min(i*4,length(v)) (1-indexed). If v has length n,
-   then binv2hexstr(v) has length ceiling(4/n).
-
-   Example:
-     binv2hexstr([1,1,1,1,0,1]) = "F1"
-     binv2hexstr([1,1,1,1,0,0,0,1]) = "F1"
+/* Example: binv2hexstr([1,1,1,1,1]) = "F1" = binv2hexstr([1,1,1,1,0,0,0,1]).
 */
 
 
