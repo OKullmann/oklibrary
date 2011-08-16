@@ -10,19 +10,6 @@ License, or any later version. */
   \brief On investigations into the Advanced Encryption Standard
 
 
-  \todo Just an unstructured morass of scripts
-  <ul>
-   <li> They do not link to the rest of the library. </li>
-   <li> They are just random attempts. Obviously a systematic approach is
-   needed, collecting all methods currently in use in the *whole* library.
-   </li>
-   <li> DONE (see "Improve minimisation scripts" in
-   Satisfiability/Optimisation/plans/general.hpp)
-   Regarding the computation of minimum CNF representations, the scripts
-   here are misplaced. </li>
-  </ul>
-
-
   \todo Connections
   <ul>
    <li> See
@@ -84,6 +71,26 @@ License, or any later version. */
     of falsified clauses as much as possible. </li>
    </ul>
    </li>
+  </ul>
+
+
+  \todo DONE (misplaced scripts moved; todos added for improvement of others)
+  Just an unstructured morass of scripts
+  <ul>
+   <li> DONE (See "Update experiment script" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp
+   and "Experiment scripts" in
+   Experimentation/Investigations/plans/general.hpp)
+   They do not link to the rest of the library. </li>
+   <li> DONE (See "Update experiment script" in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp)
+   They are just random attempts. Obviously a systematic approach is
+   needed, collecting all methods currently in use in the *whole* library.
+   </li>
+   <li> DONE (see "Improve minimisation scripts" in
+   Satisfiability/Optimisation/plans/general.hpp)
+   Regarding the computation of minimum CNF representations, the scripts
+   here are misplaced. </li>
   </ul>
 
 

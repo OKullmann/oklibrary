@@ -59,6 +59,52 @@ License, or any later version. */
    </li>
    <li> We also need documentation on issues such as this, and "best practices"
    for experimentation. </li>
+   <li> See also "Experiment scripts". </li>
+  </ul>
+
+
+  \todo Experiment scripts
+  <ul>
+   <li> We should provide docus containing a list of all experiment scripts
+   used in the library. </li>
+   <li> In this way, when creating new experiment scripts one knows where to
+   look for examples. </li>
+   <li> If the list is presented chronologically, one can also see the
+   more recent examples of experiment scripts for more "up-to-date" practices.
+   </li>
+   <li> In such docus, there is also scope for discussion of best practices
+   and requirements for experiment scripts (experiment directories, uniqueness
+   of directory name via "date", reproducability etc) and how to achieve
+   these. </li>
+   <li> For now we have:
+   \verbatim
+find ./ -iname "*" -exec file \{} \; | grep Bourne-Again
+./Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/ExtractCertificate_vdW2: Bourne-Again shell script text executable
+./Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/RunPdVdWk1k2: Bourne-Again shell script text executable
+./Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/RunVdW3k: Bourne-Again shell script text executable
+./Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/CRunPdVdWk1k2: Bourne-Again shell script text executable
+./Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/RunVdWk1k2: Bourne-Again shell script text executable
+./Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/run_all_solvers_2by2: Bourne-Again shell script text executable
+./Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/run_aes_experiment: Bourne-Again shell script text executable
+./Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/validate_aes_assignment: Bourne-Again shell script text executable
+./Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/run_all_solvers: Bourne-Again shell script text executable
+./Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/generate_aes_experiment: Bourne-Again shell script text executable
+./Experimentation/Investigations/BooleanFunctions/analyse_random_inv_linear_maps: Bourne-Again shell script text executable
+./Experimentation/Investigations/BooleanFunctions/app_tests/analyse_random_permutations: Bourne-Again shell script text executable
+./Experimentation/Investigations/BooleanFunctions/analyse_random_boolean_functions: Bourne-Again shell script text executable
+./Experimentation/Investigations/BooleanFunctions/analyse_random_permutations: Bourne-Again shell script text executable
+./Satisfiability/Transformers/Generators/VdWTransversals: Bourne-Again shell script text executable
+./Satisfiability/Transformers/Generators/VdWTransversalsInc: Bourne-Again shell script text executable
+./Satisfiability/Transformers/Generators/VdWTransversalsPB: Bourne-Again shell script text executable
+./Satisfiability/Transformers/Generators/GTdSat: Bourne-Again shell script text executable
+./Satisfiability/Transformers/Generators/GTSat: Bourne-Again shell script text executable
+./Satisfiability/Transformers/Generators/VdWTransversalsIncPB: Bourne-Again shell script text executable
+./Satisfiability/Transformers/Generators/GTTransversals: Bourne-Again shell script text executable
+./Satisfiability/Transformers/Generators/GTTransversalsInc: Bourne-Again shell script text executable
+./Satisfiability/Reductions/Bases/RUcpBase: Bourne-Again shell script text executable
+./Satisfiability/Reductions/Bases/RandomRUcpBases: Bourne-Again shell script text executable
+   \endverbatim
+   </li>
   </ul>
 
 

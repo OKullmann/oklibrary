@@ -427,6 +427,8 @@ License, or any later version. */
    experiment has been finished. </li>
    <li> This todo should be split into todos for scripts for generating,
    running and monitoring. </li>
+   <li> For a list of other experiment scripts see
+   "Experiment scripts" in Experimentation/Investigations/plans/general.hpp. </li>
    <li> See "Update scripts" and "Just an unstructured morass of scripts" in
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp.
    </li>
