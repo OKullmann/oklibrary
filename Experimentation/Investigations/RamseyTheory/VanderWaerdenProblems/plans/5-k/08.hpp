@@ -379,9 +379,18 @@ c file_name                             VanDerWaerden_pd_2-5-8_324.cnf
 c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_pd_258_324cnf_2011-08-13-100405/Instances
 c splitting_cases                       87667
 
-> 
+> ProcessSplitViaOKsolver SplitViaOKsolver_D20VanDerWaerden_pd_258_324cnf_2011-08-13-100405
+# total process time not available due to earlier version
+> E=read_processsplit_minisat()
+87667: 36.88h, sum-cfs=4.394574e+09, mean-t=1.515s, mean-cfs=50128
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.016   0.224   0.504   1.515   1.252 244.200
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+      7    8158   18650   50130   45420 5684000
      \endverbatim
-     </li>
+     Say 40h~1.7d total process time, makes a speed-up of 53.3/1.7 ~ 30,
+     where an optimal parallelisation can be achieved with up to
+     40h~144000s/245 ~ 580 processors. </li>
     </ol>
    </li>
    <li> Certificates:
