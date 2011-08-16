@@ -8,30 +8,32 @@
 
 # Script which given the path to a full Dimacs CNF file "file"
 # computes all minimum CNF representations of the input CNF,
-# outputting them to file.trans_$i for 1 <= i <= N where
+# outputting them to $(basename file .cnf)_trans$i.cnf for 1 <= i <= N where
 # n is the number of minimum representations.
+# The user may optionally provide a second argument specifying a lower bound on the
+# size of the minimum CNFs.
 
 # The algorithm used is
 # Combinatorics/Hypergraphs/Transversals/Bounded/BoundedTransversals_bv.cpp
 # searching for transversals of size 0, 1, ... .
-# This script should only be used for smaller examples.
+# This script should only be used for smaller examples, due to the potentially
+# large number of minimum representations, and intermediate transversals generated.
 
 set -o errexit
 set -o nounset
 
 script_name="all_minimum_cnf"
-version="0.2.4"
+version="0.2.5"
 
+# Error checking
 err="ERROR[${script_name}]"
 if [[ $# > 2 || $# < 1 ]]; then
   echo "${err}: Takes two arguments, the path to the full Dimacs CNF file of which the minimum CNF representations should be generated and optionally a lower bound on the size of the minimum CNF representations."
   exit 1;
 fi
 
+# Argument handling
 input_file=$1
-transversals_file=$(mktemp)
-transversal_file=$(mktemp)
-temporary_files="${subsumption_hypergraph_file} ${prime_implicates_file} ${transversal_file} ${transversals_file}"
 if [[ $# > 1 ]]; then
   lower_bound=$2
 else
@@ -55,14 +57,16 @@ ${subsumption_hypergraph_computation} ${input_file} > ${subsumption_hypergraph_f
 
 # Compute transversals and then extract the CNFs from the prime clauses using the result.
 echo "Computing bounded transversals ..."
-count=0
-current_transversal=1
+transversal_file=$(mktemp)
+transversals_file=$(mktemp)
 ${transversal_computation} ">=${lower_bound}" < ${subsumption_hypergraph_file}  | grep -v "^[pc]" > ${transversals_file}
 num_transversals=$(wc -l ${transversals_file})
+count=0; current_transversal=1
 cat ${transversals_file} |  while read transversal; do
       echo "Translating assignment for transversal [${current_transversal}/${num_transversals}] ..."
       count=$(expr ${count} + 1)
       echo ${transversal} > ${transversal_file}
-      cat ${prime_implicates_file} | FilterDimacs-O3-DNDEBUG ${transversal_file} > "${input_file}.trans_${count}"
+      cat ${prime_implicates_file} | FilterDimacs-O3-DNDEBUG ${transversal_file} > "$(basename ${input_file} .cnf)_trans${count}.cnf"
   done
+temporary_files="${subsumption_hypergraph_file} ${prime_implicates_file} ${transversal_file} ${transversals_file}"
 rm ${temporary_files}
