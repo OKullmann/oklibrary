@@ -18,12 +18,12 @@ BEGIN { N=0 }
 /^[0-9]+ +[0-9]+ *$/ { for (; N < $1; N++) print N " " 0; N++ }
 /^ *$/ { next }
 { print }
-END { for (; N < max; N++) print N " " 0 }
+END { for (; N <= max; N++) print N " " 0 }
 # For example:
 #
 # > echo -e "p cnf 2 2\n1 0\n 1 0\n" | 
 # >    ExtendedDimacsFullStatistics-O3-DNDEBUG "n" | 
-# >    awk -v max=2 -f partial_statistics2full_statistics.awk
+# >    awk -v max=3 -f statistics_add_missing_clause_lengths.awk
 #  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 # 2 2 2 0 2 0 1
 #  length count
