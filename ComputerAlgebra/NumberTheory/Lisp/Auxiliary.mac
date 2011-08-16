@@ -123,13 +123,10 @@ int2dec(m) := int2polyadicstr(m,10)$
 int2hex(m) := int2polyadicstr(m,16)$
 
 /* Converting a hexadecimal string str into a binary vector, where str can use
-   upper- or lower-case letters (also mixed): */
+   upper- or lower-case letters (also mixed); each hex-digit yields 4 bits,
+   where the bits in the 4-bit segment are to be read from right to left: */
 hexstr2binv(str) := lappend(map(lambda([x],int2polyadic_padd(x,2,4)),map(digit2int,str2chrl(supcase(str)))))$
-/* For all indices i <= length(v), the 4 bits at positions (i-1)*4+1 to i*4
-   (1-indexed) in the output vector are the binary representation of the
-   hexadecimal digit at position i in the input string. If str has length n,
-   then hexstr2binv(str) has length 4*n.
-*/
+/* Example: hexstr2binv("A12") = [1,0,1,0,0,0,0,1,0,0,1,0]. */
 
 /* Converting a binary vector v into a hexadecimal string (using upper-case):
 */
