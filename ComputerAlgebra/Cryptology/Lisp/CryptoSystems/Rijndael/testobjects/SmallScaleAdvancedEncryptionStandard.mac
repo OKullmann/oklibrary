@@ -112,6 +112,13 @@ okltest_ss_encrypt_wf(ss_encrypt_wf);
 okltest_ss_decrypt(ss_decrypt);
 okltest_ss_decrypt_wf(ss_decrypt_wf);
 
+okltest_ss_encrypt_natl(ss_encrypt_natl);
+okltest_ss_decrypt_natl(ss_decrypt_natl);
+okltest_ss_encrypt_bin(ss_encrypt_bin);
+okltest_ss_decrypt_bin(ss_decrypt_bin);
+okltest_ss_encrypt_hex(ss_encrypt_hex);
+okltest_ss_decrypt_hex(ss_decrypt_hex);
+
 /*!
 \endhtmlonly
 */

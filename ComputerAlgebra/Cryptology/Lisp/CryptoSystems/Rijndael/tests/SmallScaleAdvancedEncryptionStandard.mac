@@ -443,6 +443,46 @@ okltest_ss_decrypt(f) := block(
         2,4),diagmatrix(4,0),10,2,8) = diagmatrix(4,0)),
     true)$
 
+okltest_ss_encrypt_natl(f) := block(
+    assert(f([0],[0],10,2,4,1) = [7]),
+    assert(f(create_list(0,i,1,16),create_list(0,i,1,16),10,2,8,4) =
+      [14,30,142,142,75,16,210,251,167,99,179,16,123,178,155,169]),
+    true)$
+
+okltest_ss_decrypt_natl(f) := block(
+    assert(f([7],[0],10,2,4,1) = [0]),
+    assert(
+      f(
+        [14,30,142,142,75,16,210,251,167,99,179,16,123,178,155,169],
+        create_list(0,i,1,16),10,2,8,4) = create_list(0,i,1,16)),
+    true)$
+
+okltest_ss_encrypt_bin(f) := block(
+    assert(f([0,0,0,0],[0,0,0,0],10,2,4,1) = [0,1,1,1]),
+    assert(f(create_list(0,i,1,128),create_list(0,i,1,128),10,2,8,4) =
+      hexstr2binv("0E1E8E8E4B10D2FBA763B3107BB29BA9")),
+    true)$
+
+okltest_ss_decrypt_bin(f) := block(
+    assert(f([0,1,1,1],[0,0,0,0],10,2,4,1) = [0,0,0,0]),
+    assert(
+      f(hexstr2binv("0E1E8E8E4B10D2FBA763B3107BB29BA9"),
+        create_list(0,i,1,128),10,2,8,4) = create_list(0,i,1,128)),
+    true)$
+
+okltest_ss_encrypt_hex(f) := block(
+    assert(f("0","0",10,2,4,1,1) = "7"),
+    assert(f("0","0",10,2,8,4,4) =
+      "0E1E8E8E4B10D2FBA763B3107BB29BA9"),
+    true)$
+
+okltest_ss_decrypt_hex(f) := block(
+    assert(f("7","0",10,2,4,1,1) = "0"),
+    assert(
+      f("0E1E8E8E4B10D2FBA763B3107BB29BA9",
+        "0",10,2,8,4,4) = "00000000000000000000000000000000"),
+    true)$
+
 /*!
 \endhtmlonly
 */

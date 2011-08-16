@@ -18,32 +18,33 @@ License, or any later version. */
    the following topics are handled:
     - Sbox vector calculation yields wrong size : DONE
 
-  \par 
+  \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
    the following topics are handled:
     - Generating test vectors
     - Test failure with level "full" : DONE
-
-  \par 
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
-   the following topics are handled:
     - Add decomposed Sbox boxes : DONE
     - Datatypes and naming conventions : DONE
 
 
   \par Version 0.0.12
 
-  \par 
+  \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp
    the following topics are handled:
     - Docus
 
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
+   the following topics are handled:
+    - natl vs nat_l
 
   \par Version 0.0.13
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
+    - Improving tests
     - Docus and Demos
 
   \par
@@ -66,7 +67,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Notions and notations 
+    - Notions and notations
     - Requirements
     - Coding Standards
 

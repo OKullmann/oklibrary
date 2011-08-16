@@ -22,6 +22,59 @@ License, or any later version. */
   </ul>
 
 
+  \todo Improving tests
+  <ul>
+   <li> We need a list of test vectors for AES and small-scale AES.
+   </li>
+   <li> For test vectors, see:
+    <li> [The Design of Rijndael; Daemen and Rijmen]. </li>
+    <li> [Algebraic Aspects of the Advanced Encryption Standard; Cid, Murphy
+    and Robshaw]. </li>
+    <li> NIST AES known answer test:
+    http://csrc.nist.gov/groups/STM/cavp/documents/aes/KAT_AES.zip . </li>
+    <li> Comparing to the Sage system; see "Generating test vectors" in
+    CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp.
+    </li>
+    <li> This list should be expanded, as we find more sources. </li>
+   </li>
+   <li> These vectors should be used through-out the AES test system.
+   </li>
+   <li> These vectors and those already used must be cited! </li>
+   <li> We must also consider, for each test, how well we cover
+   the space of possible inputs for our tests. </li>
+  </ul>
+
+
+  \todo natl vs nat_l
+  <ul>
+   <li> For the AES, we offer the possibility of using lists of natural
+   numbers from 0 to 255 as input to the AES encryption and decryption.
+   </li>
+   <li> These functions are:
+    <ul>
+     <li> rijn_natl2m; </li>
+     <li> rijn_m2natl; </li>
+     <li> ss_natl2m; </li>
+     <li> ss_m2natl; </li>
+     <li> ss_encrypt_natl; </li>
+     <li> ss_decrypt_natl; </li>
+     <li> aes_encrypt_nat_l; </li>
+     <li> aes_decrypt_nat_l; </li>
+     <li> ss_encrypt_natl; </li>
+     <li> ss_decrypt_natl. </li>
+    </ul>
+   </li>
+   <li> Some functions use the suffix "natl", some "nat_l". </li>
+   <li> The use of either "natl" or "nat_l" should be standardised. </li>
+   <li> Should we use "int" instead of "nat", as we also have "aes2int"? </li>
+   <li> It seems best to use "intl" as we use "int" elsewhere in the library;
+   "intl" is a type as a whole, and the "_" just makes the name unnecessarily
+   longer. </li>
+   <li> At the same time, other datatypes should be documented, and
+   standardised if necessary. </li>
+  </ul>
+
+
   \todo Notions and notations
   <ul>
    <li> Introduce systematic notations and abbreviations for basic
