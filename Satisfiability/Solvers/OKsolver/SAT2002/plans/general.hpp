@@ -16,11 +16,14 @@ License, or any later version. */
    <li> For a directory created by SplittingViaOKsolver, the script
    ExtractiCNF computes the desired .CNF-file. However here we want to
    compute it directly (which is much faster). </li>
-   <li> Simplest is just to put the partial assignments into one single
+   <li> This yields the script "iSplittingViaOKsolver". </li>
+   <li> DONE (we collect the usual partial assignments)
+   Simplest is just to put the partial assignments into one single
    file, each line starting with "a " (and concluding with " 0"). </li>
    <li> Then a small tool is needed which takes a CNF file F and a file
-   containing the partial assignments, and concatenates them, replacing the
-   "p cnf"-line in F with (just) "p inccnf". </li>
+   containing the partial assignments, replacing the "v"s by "a"s, and
+   concatenates the two files, replacing the "p cnf"-line in F with (just)
+   "p inccnf". </li>
   </ul>
 
 

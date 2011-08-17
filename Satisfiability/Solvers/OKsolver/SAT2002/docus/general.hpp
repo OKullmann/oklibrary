@@ -341,19 +341,28 @@ CFLAGS="-UMACHINE_BITS_OKL"
      <li> <code>-O</code> for output of a satisfying assignment (if found;
      default is OFF, however if macro ASSIGNMENT is set (see above) then the
      default is ON). </li>
+     <li> <code>-SF</code> for saving the partial assignments for the splitting
+     instances created by "-S" (see below) in a (single) file; default is OFF,
+     storing the partial assignments each in its own file.
+     </li>
     </ul>
    </li>
-   <li> <code>-S=directory</code>:
+   <li> <code>-S=directory</code> resp. <code>-S=file</code>:
     <ol>
+     <li> Whether the directory- or the file-form is active depends on "-SF"
+     (see above). </li>
      <li> The directory must already exist and must be writable. </li>
+     <li> The file will be created if needed. </li>
      <li> Uses the depth-parameter "-D=d" as above for monitoring. </li>
-     <li> Stores in <code>directory</code> the partial assignments leading to
+     <li> Stores the partial assignments leading to
      the (reduced) nodes with at least d assignments (decisions and enforced)
      of the splitting tree, from left to right. </li>
      <li> The main usage is for splitting a hard problem into (at most) 2^d
-     many subproblems; see below for a helper script. </li>
-     <li> The partial assignments yielding the sub-problems are stored in files
-     1, ... in <code>directory</code>. </li>
+     many subproblems; see below for helper scripts. </li>
+     <li> The partial assignments yielding the sub-problems are stored either
+     in files 1, ... in <code>directory</code>, or line by line in the
+     specified file. </li>
+     <li> The DIMACS format for partial assignments is used (see above). </li>
      <li> Via the switch "-SD" the interpretation of d is changed:
       <ol>
        <li> The criterion for aborting the development of the splitting tree
@@ -370,9 +379,10 @@ CFLAGS="-UMACHINE_BITS_OKL"
       </ol>
      </li>
      <li> A special case is "-D0": Here now in file <code>directory/1</code>
-     one finds the partial assignment for the fully reduced input --- not just
-     cleaning-up and unit-clause-propagation (as "-P" above), but also
-     r_2-reduction and the associated autarky-reduction. </li>
+     (or in the single line of the output-file) one finds the partial
+     assignment for the fully reduced input --- not just cleaning-up and
+     unit-clause-propagation (as "-P" above), but also r_2-reduction and the
+     associated autarky-reduction. </li>
     </ol>
    </li>
    <li> To be completed. </li>

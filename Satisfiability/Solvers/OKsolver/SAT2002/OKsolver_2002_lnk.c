@@ -134,6 +134,10 @@ bool randomisiert = false;
 bool splitting_only = false;
 //! for the splitting-only mode, whether n is to be used instead of depth
 bool splitting_n = true;
+//! whether the splittings are stored in a directory or a single file
+bool splitting_file = false;
+//! the file for storing the splittings (if splitting_file == true)
+static FILE* fpsplit = NULL;
 
 // Setzen des voreingestellen Ausgabeformates
 
@@ -694,17 +698,15 @@ alleReduktionen:
       ((! splitting_n && Rekursionstiefe == Beobachtungsniveau) ||
        (splitting_n && N - aktN >= Beobachtungsniveau))) {
     ++splitting_cases;
-    {
+    if (splitting_file) AusgabeBelegung(fpsplit);
+    else {
       assert(splitting_cases <= 1073741824U);
       char buf[10+1];
       snprintf(buf,10+1,"%u",splitting_cases);
       char* name_sc = (char*) xmalloc(strlen(splitting_store)+1+strlen(buf)+1);
       strcpy(name_sc,splitting_store); strcat(name_sc,"/"), strcat(name_sc,buf);
       FILE* const file_sc = fopen(name_sc, "w");
-      if (file_sc == NULL) {
-        fprintf(stderr, "%s\n", Meldung(59));
-        exit(1);
-      }
+      if (file_sc == NULL) { fprintf(stderr, "%s\n", Meldung(59)); exit(1); }
       AusgabeBelegung(file_sc);
       fclose(file_sc);
     }
@@ -1212,6 +1214,8 @@ int main(const int argc, const char* const argv[]) {
       randomisiert = ! randomisiert;
     else if (strcmp("-SD", argv[Argument]) == 0)
       splitting_n = ! splitting_n;
+    else if (strcmp("-SF", argv[Argument]) == 0)
+      splitting_file = ! splitting_file;
     else if (strcmp("-DO", argv[Argument]) == 0) {
       Format = Dimacs_Format;
       spezRueckgabe = true;
@@ -1359,9 +1363,14 @@ int main(const int argc, const char* const argv[]) {
       return 1;
     }
     else {
-      if (splitting_only && ! Belegung) {
-        fprintf(stderr, "%s\n", Meldung(58));
-        return 1;
+      if (splitting_only) {
+        if (! Belegung) { fprintf(stderr, "%s\n", Meldung(58)); return 1; }
+        if (splitting_file) {
+          if ((fpsplit = fopen(splitting_store, "w")) == NULL) {
+            fprintf(stderr, "%s %s\n", Meldung(60), splitting_store);
+            return 1;
+          }
+        }
       }
       aktName = argv[Argument];
       s = Unbestimmt;
