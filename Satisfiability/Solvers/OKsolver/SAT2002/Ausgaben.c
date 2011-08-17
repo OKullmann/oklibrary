@@ -28,7 +28,7 @@ License, or any later version. */
 
 
 
-const char *Meldungen[ANZSPRACHEN][61] =
+const char* Meldungen[ANZSPRACHEN][61] =
 {
   {"Fehler in der Definition der Konstanten! Abbruch.", /* 0 */
    "Kombination von BAUMRES mit LOKALLERNEN zur Zeit noch nicht moeglich.", /* 1 */
@@ -157,36 +157,27 @@ const char *Meldungen[ANZSPRACHEN][61] =
   },
 };
 
-const char *Meldung(unsigned int i)
-{
-  return Meldungen[Sprache][i];
-}
 
+//! helper function for the messsage depending on the current language
+const char* Meldung(const unsigned int i) { return Meldungen[Sprache][i]; }
 
-char Konstantenfehler ( void )
-{
+//! checking the text messages
+char Konstantenfehler() {
 #ifdef BAUMRES
-#ifdef LOKALLERNEN
-  fprintf(stderr, "%s\n", Meldung(1));
-  return 1;
-#endif
+# ifdef LOKALLERNEN
+  fprintf(stderr, "%s\n", Meldung(1)); return 1;
+# endif
 #endif
 #ifdef FASTAUTARKIE
-#ifndef LOKALLERNEN
-  fprintf(stderr, "%s\n", Meldung(49));
-  return 1;
+# ifndef LOKALLERNEN
+  fprintf(stderr, "%s\n", Meldung(49)); return 1;
+# endif
 #endif
-#endif
-  if ((Sprache < 0) || (Sprache >= ANZSPRACHEN))
-    {
-      fprintf(stderr, "%s %2d\n", Meldung(19), ANZSPRACHEN - 1);
-      return 1;
-    }
-  if ((Standard < 0) || (Sprache > ANZSTANDARDS))
-    {
-      fprintf(stderr, "%s %2d\n", Meldung(21), ANZSTANDARDS);
-      return 1;
-    }
-
+  if ((Sprache < 0) || (Sprache >= ANZSPRACHEN)) {
+    fprintf(stderr, "%s %2d\n", Meldung(19), ANZSPRACHEN - 1); return 1;
+  }
+  if ((Standard < 0) || (Sprache > ANZSTANDARDS)) {
+    fprintf(stderr, "%s %2d\n", Meldung(21), ANZSTANDARDS); return 1;
+  }
   return 0;
 }
