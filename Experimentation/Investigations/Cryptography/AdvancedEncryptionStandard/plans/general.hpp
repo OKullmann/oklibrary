@@ -10,19 +10,6 @@ License, or any later version. */
   \brief On investigations into the Advanced Encryption Standard
 
 
-  \todo Just an unstructured morass of scripts
-  <ul>
-   <li> They do not link to the rest of the library. </li>
-   <li> They are just random attempts. Obviously a systematic approach is
-   needed, collecting all methods currently in use in the *whole* library.
-   </li>
-   <li> DONE (see "Improve minimisation scripts" in
-   Satisfiability/Optimisation/plans/general.hpp)
-   Regarding the computation of minimum CNF representations, the scripts
-   here are misplaced. </li>
-  </ul>
-
-
   \todo Connections
   <ul>
    <li> See
@@ -43,13 +30,13 @@ License, or any later version. */
   \todo SAT 2011
   <ul>
    <li> We intend to submit a paper investigating the various translations of
-   the AES and small scale AES given in [Algebraic Aspects of the Advanced 
+   the AES and small scale AES given in [Algebraic Aspects of the Advanced
    Encryption Standard;Cid,Murphy Robshaw] to the SAT 2011 conference (see
    http://www.lri.fr/SAT2011/). </li>
    <li> For investigations and open problems in this area see
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp.
    </li>
-   <li> This should also link in with 
+   <li> This should also link in with
    Experimentation/Investigations/plans/CurrentExperiments.hpp. </li>
   </ul>
 
@@ -57,10 +44,10 @@ License, or any later version. */
   \bug MiniSAT2 based solvers return incorrect times using experiment script
   <ul>
    <li> minisat2 based solvers (glucose and minisat2) return run times of
-   a fraction of a second using when run using "run_all_solvers_2by2" 
+   a fraction of a second using when run using "run_all_solvers_2by2"
    while they clearly take much much longer when run separately. </li>
    <li> See "Using the canonical translation" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/4_2_4/1_13.hpp.
+   AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/4_2_4/1_13.hpp.
    </li>
    <li> Just use "time"! </li>
   </ul>
@@ -69,12 +56,12 @@ License, or any later version. */
   \todo Determining a "good" local search algorithm to use on AES instances
   <ul>
    <li> Question: what is a good algorithm to use, considering the algorithms
-   tested by "run_ubcsat" (see 
+   tested by "run_ubcsat" (see
    Experimentation/ExperimentSystem/ControllingLocalSearch/Evaluation.R) </li>
-   <li> Presumably local search will not do well on AES instances compared to 
+   <li> Presumably local search will not do well on AES instances compared to
    DPLL/CDCL solvers, as often local search solvers perform
    poorly on industrial and crafted instances, which the AES translations
-   are likely similar to, considering the large number of new variables 
+   are likely similar to, considering the large number of new variables
    involved. </li>
    <li> What sort of metrics to use to determine a good algorithm once the
    experiment has been run?
@@ -84,6 +71,26 @@ License, or any later version. */
     of falsified clauses as much as possible. </li>
    </ul>
    </li>
+  </ul>
+
+
+  \todo DONE (misplaced scripts moved; todos added for improvement of others)
+  Just an unstructured morass of scripts
+  <ul>
+   <li> DONE (See "Update experiment script" in
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp
+   and "Experiment scripts" in
+   Experimentation/Investigations/plans/general.hpp)
+   They do not link to the rest of the library. </li>
+   <li> DONE (See "Update experiment script" in
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp)
+   They are just random attempts. Obviously a systematic approach is
+   needed, collecting all methods currently in use in the *whole* library.
+   </li>
+   <li> DONE (see "Improve minimisation scripts" in
+   Satisfiability/Optimisation/plans/general.hpp)
+   Regarding the computation of minimum CNF representations, the scripts
+   here are misplaced. </li>
   </ul>
 
 

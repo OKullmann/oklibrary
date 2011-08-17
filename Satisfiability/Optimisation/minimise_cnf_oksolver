@@ -11,9 +11,8 @@
 # outputting this minimum size clause-set on STDOUT in Dimacs 
 # format.
 #
-# As an optional second assignment, one may provide an upper bound
-# on the size of the minimum size clause-set representation of
-# the first argument.
+# As an optional second argument, one may provide an upper bound
+# on the size of the minimum size clause-set.
 #
 # This script uses the OKsolver and iteratively computes the minimum
 # representation using subsumption hypergraphs and cardinality constraints.
@@ -23,7 +22,7 @@ set -o nounset
 
 script_name="minimise_cnf_oksolver"
 err="ERROR[${script_name}]:"
-version="0.1.1"
+version="0.1.2"
 
 # Programs
 shg_program=QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG

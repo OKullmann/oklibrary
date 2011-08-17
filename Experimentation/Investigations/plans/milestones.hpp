@@ -20,6 +20,7 @@ License, or any later version. */
    following topics are handled:
     - Add milestones
     - Rerun time-sensitive experiments
+    - Experiment scripts
     - Plans for investigating random boolean functions : DONE
 
   \par
