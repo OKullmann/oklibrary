@@ -27,6 +27,17 @@ License, or any later version. */
   </ul>
 
 
+  \todo Spliting-output of only the decision variables
+  <ul>
+   <li> Another switch is needed, off by default, which when activated yields
+   also output of only the decisions in the partial assignments. </li>
+   <li> For the directory-form this yields another sub-directory, calling
+   it "Instances_only_decisions". </li>
+   <li> For the file-form this yields another file, named as the file already
+   used, but with prefix "DecisionsOnly_". </li>
+  </ul>
+
+
   \bug False counting of initial unit-clause eliminations
   <ul>
    <li> Counting of initial unit-clause propagations is not correct. </li>
