@@ -272,8 +272,8 @@ static unsigned int Gesamtlast;
 
 //! in case of splitting_only the number of sub-problems yet encountered
 static unsigned int splitting_cases;
-//! directory with splitting cases
-const char* splitting_dir;
+//! directory resp. file with splitting cases
+const char* splitting_store;
 
 /*!
   \brief Helper array with Beobachtungsniveau many elements
@@ -698,8 +698,8 @@ alleReduktionen:
       assert(splitting_cases <= 1073741824U);
       char buf[10+1];
       snprintf(buf,10+1,"%u",splitting_cases);
-      char* name_sc = (char*) xmalloc(strlen(splitting_dir)+1+strlen(buf)+1);
-      strcpy(name_sc,splitting_dir); strcat(name_sc,"/"), strcat(name_sc,buf);
+      char* name_sc = (char*) xmalloc(strlen(splitting_store)+1+strlen(buf)+1);
+      strcpy(name_sc,splitting_store); strcat(name_sc,"/"), strcat(name_sc,buf);
       FILE* const file_sc = fopen(name_sc, "w");
       if (file_sc == NULL) {
         fprintf(stderr, "%s\n", Meldung(59));
@@ -989,7 +989,7 @@ void Statistikzeile(FILE* const fp) {
             fprintf(fp,
             "c splitting_directory                   %s\n"
             "c splitting_cases                       %u\n",
-            splitting_dir, splitting_cases);
+            splitting_store, splitting_cases);
   }
   else {
     fprintf(fp, "<SAT-solver.output timestamp = \"%ld\" >\n", time(0));
@@ -1032,7 +1032,7 @@ void Statistikzeile(FILE* const fp) {
     if (! splitting_only)
     fprintf(fp, "  <instance_specs system-name = \"%s\" >\n", aktName);
     else
-    fprintf(fp, "  <instance_specs system-name = \"%s\" splitting-dir = \"%s\" >\n", aktName, splitting_dir);
+    fprintf(fp, "  <instance_specs system-name = \"%s\" splitting-dir = \"%s\" >\n", aktName, splitting_store);
 
     fprintf(fp, "    <measures>\n");
     fprintf(fp, "      <reduction> <none/> </reduction>\n");
@@ -1348,8 +1348,8 @@ int main(const int argc, const char* const argv[]) {
     else if (strncmp("-S=", argv[Argument], 3) == 0) {
       splitting_only = true;
       Belegung = true;
-      splitting_dir = argv[Argument]+3;
-      if (strlen(splitting_dir) == 0) {
+      splitting_store = argv[Argument]+3;
+      if (strlen(splitting_store) == 0) {
         fprintf(stderr, "%s\n", Meldung(57));
         return 1;
       }
