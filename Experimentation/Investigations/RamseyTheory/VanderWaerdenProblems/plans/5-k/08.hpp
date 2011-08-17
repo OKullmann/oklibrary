@@ -183,7 +183,7 @@ CPU time              : 302186 s (5036m)
 UNSATISFIABLE
      \endverbatim
      </li>
-     <li> Splitting the problem for n=313
+     <li> Splitting the problem for n=313:
      \verbatim
 > SplittingViaOKsolver -D20 VanDerWaerden_pd_2-5-8_313.cnf
 > cd SplitViaOKsolver_D20VanDerWaerden_pd_258_313cnf_2011-08-14-215226/
