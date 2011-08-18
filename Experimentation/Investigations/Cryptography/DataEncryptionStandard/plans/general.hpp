@@ -25,7 +25,7 @@ License, or any later version. */
    <li> We also need to think about different organisations of the round.
    Perhaps the key-involvement could happen at the beginning or end of a round,
    instead of in the middle. </li>
-   <li> See 
+   <li> See
    Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp
    for investigations into the DES Sboxes. </li>
   </ul>
@@ -57,7 +57,7 @@ nvar_full_dualts(10,64) - 10;
    <li> Using the canonical box translation and treating the Sboxes as 6-to-4
    bit functions, the full 16 round DES will contain:
    <ul>
-    <li> 64+56+9984=10104 variables: 
+    <li> 64+56+9984=10104 variables:
      <ol>
       <li> 64 variables for the input plaintext. </li>
       <li> 56 variables for the key. </li>
@@ -76,7 +76,7 @@ nvar_full_dualts(10,64) - 10;
      <li> 16*8*640=81920 clauses of size 2
      (16 rounds * 8 Sboxes * 640 clauses = 81,920). </li>
      <li> 16*(48+32)*4=5120 clauses of size 4
-     (16 rounds * (48-bit addition + 32-bit addition) * 4 clauses = 5120). 
+     (16 rounds * (48-bit addition + 32-bit addition) * 4 clauses = 5120).
      </li>
      <li> 16*8*64=8192 clauses of size 11
      (16 rounds * 8 Sboxes * 64 clauses = 8,192). </li>
