@@ -54,4 +54,73 @@ ub  n c t sat cfs dec rts r1 mem ptime stime cfl
    </li>
   </ul>
 
+
+  \todo Applying SplittingViaOKsolver
+  <ul>
+   <li> See also "Applying SplittingViaOKsolver" in
+   Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp. </li>
+   <li> Considering unknown bits in 19,...,28,31,...,34,
+   with instances gss-${unknown_bits}-s100.cnf. </li>
+   <li> For unknown_bits = 17,..., 19, minisat-2.2.0 solves them within a few
+   seconds, so there is no utility there. </li>
+   <li> Make an experiment directory:
+   \verbatim
+shell> dir=des-argosat-sat09-keydiscovery_splitting_$(date +"%Y-%m-%d-%H%M%S"); mkdir ${dir};
+shell> cd $dir;
+shell> cp ExternalSources/Installations/SAT/SAT09/APPLICATIONS/crypto/desgen/* .
+   \endverbatim
+   </li>
+   <li> unknown_bits = 19:
+    <ul>
+     <li> See "minisat-2.2.0" which takes 323.576s on this instance. </li>
+     <li> Basic data:
+     \verbatim
+shell> cat gss-19-s100.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+31435 94548 222806 0 222806 16 1
+ length count
+1 64
+2 60710
+3 33774
+     \endverbatim
+     </li>
+     <li> Determining a reasonable splitting-depth:
+     \verbatim
+> time SplittingViaOKsolver -D3400 gss-19-s100.cnf
+real	2m55.280s
+user	2m54.530s
+sys	0m0.050s
+
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D3400gss19s100cnf_2011-08-18-205406
+Created new processing-directory Process_SplitViaOKsolver_D3400gss19s100cnf_2011-08-18-205406_2011-08-18-211550.
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114
+Found a SATISFYING ASSIGNMENT.
+115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171
+COMPLETED; see
+ Process_SplitViaOKsolver_D3400gss19s100cnf_2011-08-18-205406_2011-08-18-211550/Result
+ Process_SplitViaOKsolver_D3400gss19s100cnf_2011-08-18-205406_2011-08-18-211550/SubinstanceStatistics
+Instance SATISFIABLE.
+
+> cd Process_SplitViaOKsolver_D3400gss19s100cnf_2011-08-18-205406_2011-08-18-211550/
+
+> E=read_processsplit_minisat()
+171: 0.29h, sum-cfs=3.174528e+06, mean-t=6.066s, mean-cfs=18564
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  3.780   4.330   5.400   6.066   6.660  13.820
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  15280   16800   17670   18560   19450   28590
+     \endverbatim
+     This is a slow down by a factor of 6.
+     </li>
+     <li> Trying with "-D3600". </li>
+    </ul>
+   </li>
+   <li> unknown_bits = 20:
+    <ul>
+     <li> See "minisat-2.2.0" which takes 1378.86s on this instance. </li>
+    </ul>
+   </li>
+  </ul>
+
 */
