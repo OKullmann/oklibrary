@@ -49,6 +49,49 @@ License, or any later version. */
      \endverbatim
     </ol>
    </li>
+   <li> Splitting the problem for n=520:
+   \verbatim
+> SplittingViaOKsolver -D36 VanDerWaerden_pd_2-4-13_520.cnf
+> cd SplitViaOKsolver_D36VanDerWaerden_pd_2413_520cnf_2011-08-16-014738
+kullmann-0:SplitViaOKsolver_D36VanDerWaerden_pd_2413_520cnf_2011-08-16-014738> cat Md5sum
+d7d5e27d64ecbc33f704eb5ea4dcdd17
+> cat Statistics
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   36.0    36.0    38.0    38.1    39.0    74.0
+> table(E$n)
+    36     37     38     39     40     41     42     43     44     45     46
+456354 206435 200482 177376 133722  86738  49517  25284  12916   6934   3842
+    47     48     49     50     51     52     53     54     55     56     57
+  2255   1379    777    480    288    187    133     90     68     32     33
+    58     59     60     61     62     63     64     65     67     70     71
+    19     19     10     14     12      2      6      5      5      1      1
+    72     74
+     1      1
+> cat Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         13
+c initial_number_of_variables           260
+c initial_number_of_clauses             27605
+c initial_number_of_literal_occurrences 158420
+c number_of_2-clauses_after_reduction   87
+c running_time(sec)                     96449.7
+c number_of_nodes                       2730839
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                70732
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        32
+c file_name                             VanDerWaerden_pd_2-4-13_520.cnf
+c splitting_directory                   SplitViaOKsolver_D36VanDerWaerden_pd_2413_520cnf_2011-08-16-014738/Instances
+c splitting_cases                       1365418
+
+# on cs-oksvr:
+> nohup ProcessSplitViaOKsolver SplitViaOKsolver_D36VanDerWaerden_pd_2413_520cnf_2011-08-16-014738 &
+   \endverbatim
+   </li>
    <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
    <li> For now we consider adaptg2wsat as best (it was determined as best
    for vdw_2^pd(5,8) in VanderWaerdenProblems/plans/5-k/general.hpp. </li>
