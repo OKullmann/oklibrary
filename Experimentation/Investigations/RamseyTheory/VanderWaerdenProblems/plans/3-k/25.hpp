@@ -200,7 +200,7 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
   </ul>
 
 
-  \todo Palindromic numbers
+  \todo vdw_2^pd(3,25) = (586,607)
   <ul>
    <li> pdvanderwaerden([3,25])[2] = 607 =(conj)
    vanderwaerden([3,25])-49. </li>
