@@ -32,6 +32,20 @@ License, or any later version. */
   </ul>
 
 
+  <h2> Data Encryption Standard </h2>
+
+  <ul>
+   <li> Key Discovery:
+   <ul>
+    <li> "minisat-2.2.0" in
+    Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/Argo.hpp.
+    </li>
+    <li> "Applying SplittingViaOKsolver" in
+    Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/Argo.hpp.
+    </li>
+   </ul>
+   </li>
+
 
   <h1> Ramsey theory </h1>
 
