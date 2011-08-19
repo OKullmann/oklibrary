@@ -260,6 +260,17 @@ Instance SATISFIABLE.
      the splitting time. </li>
     </ul>
    </li>
+   <li> unknown_bits = 22:
+    <ul>
+     <li> See "minisat-2.2.0" which takes 17361.05s on this instance. </li>
+     <li> "-D 3400":
+     \verbatim
+> SplittingViaOKsolver -D3600 gss-20-s100.cnf
+...
+     \endverbatim
+     </li>
+    </ul>
+   </li>
   </ul>
 
 */
