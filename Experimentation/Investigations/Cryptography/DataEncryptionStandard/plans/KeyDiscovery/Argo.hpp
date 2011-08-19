@@ -227,8 +227,8 @@ Instance SATISFIABLE.
      <li> See "minisat-2.2.0" which takes 6230.85s on this instance. </li>
      <li> "-D 3400":
      \verbatim
-> SplittingViaOKsolver -D3600 gss-20-s100.cnf
-> cat SplitViaOKsolver_D3600gss20s100cnf_2011-08-19-093412/Result
+> SplittingViaOKsolver -D3400 gss-20-s100.cnf
+> cat SplitViaOKsolver_D3400gss20s100cnf_2011-08-19-093412/Result
 c running_time(sec)                     663.6
 c number_of_nodes                       1691
 c number_of_2-reductions                20845
@@ -258,6 +258,12 @@ Instance SATISFIABLE.
      \endverbatim
      This is a speed up by a factor of ~1.5x and roughly 1.25x if you include
      the splitting time. </li>
+     <li> "-D 3600":
+     \verbatim
+> SplittingViaOKsolver -D3400 gss-20-s100.cnf
+...
+     \endverbatim
+     </li>
     </ul>
    </li>
    <li> unknown_bits = 22:
@@ -265,7 +271,29 @@ Instance SATISFIABLE.
      <li> See "minisat-2.2.0" which takes 17361.05s on this instance. </li>
      <li> "-D 3400":
      \verbatim
-> SplittingViaOKsolver -D3600 gss-20-s100.cnf
+> SplittingViaOKsolver -D3400 gss-22-s100.cnf
+...
+     \endverbatim
+     </li>
+    </ul>
+   </li>
+   <li> unknown_bits = 23:
+    <ul>
+     <li> See "minisat-2.2.0" which takes 2167.9 on this instance. </li>
+     <li> "-D 3400":
+     \verbatim
+> SplittingViaOKsolver -D3400 gss-23-s100.cnf
+...
+     \endverbatim
+     </li>
+    </ul>
+   </li>
+   <li> unknown_bits = 24:
+    <ul>
+     <li> See "minisat-2.2.0" which takes 39073.5 on this instance. </li>
+     <li> "-D 3400":
+     \verbatim
+> SplittingViaOKsolver -D3400 gss-24-s100.cnf
 ...
      \endverbatim
      </li>
