@@ -21,8 +21,10 @@ License, or any later version. */
   <ul>
    <li> See Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp for the
    currently only splitting tool (SplittingViaOKsolver). </li>
-   <li> See ExperimentSystem/plans/DistributedSolving.hpp for other plans
+   <li> See ExperimentSystem/plans/DistributedSolving.hpp for general plans
    on distributed solving. </li>
+   <li> See "Launching and monitoring" in ExperimentSystem/plans/general.hpp
+   for general plans on experimentation on remote machines. </li>
    <li> See
    Investigations/RamseyTheory/VanderWaerdenProblems/plans/Parallelisation/general.hpp
    for solving hard van-der-Waerden problems, as an application. </li>

@@ -37,6 +37,7 @@ License, or any later version. */
    for first plans. </li>
    <li> See "Adding distribution power to SplittingViaOKsolver" in
    ExperimentSystem/plans/DistributedSolving.hpp for a concrete project. </li>
+   <li> See "Launching and monitoring" for more specific requirements. </li>
    <li> Such a script perhaps visits every hour each process, restarts it if
    necessary, and performs also some output-action, stored to some file
    dedicated to the experiment. </li>
@@ -134,10 +135,9 @@ License, or any later version. */
    copy-and-paste to transfer data from one step to another. </li>
    <li> See "Simply script for monitoring remote processes" above for
    a simple but flexible tool which just monitors (arbitrary) processes. </li>
-   <li> Perhaps using a tool such as "autoson" by McKay (see
-   http://cs.anu.edu.au/~bdm/autoson/ ) would be easiest.
+   <li> "autoson" by McKay http://cs.anu.edu.au/~bdm/autoson/ :
     <ol>
-     <li> However, the licence situation is unclear: We can only use software
+     <li> The licence situation is unclear: We can only use software
      which can be freely redistributed; if it is enough just to keep the
      package, then this should be alright. </li>
      <li> A serious restrictions seems to be the common filesystem: So
@@ -150,9 +150,8 @@ License, or any later version. */
      further complexity. </li>
     </ol>
    </li>
-   <li> There are also other tools such as BOINC
+   <li> BOINC http://boinc.berkeley.edu/ :
     <ul>
-     <li> See http://boinc.berkeley.edu/ . </li>
      <li> Documentation available at 
      http://boinc.berkeley.edu/trac/wiki/ProjectMain . </li>
      <li> BOINC is intended for grid computing and could be useful for small 
@@ -164,6 +163,13 @@ License, or any later version. */
      applications (although applications that communicate directly
      with the BOINC system may be able to store more information).
      </li>
+    </ul>
+   </li>
+   <li> Condor http://www.cs.wisc.edu/condor/ :
+    <ul>
+     <li> This might be the right tool, with the needed flexibility. </li>
+     <li> OK has contacted condor-admin@cs.wisc.edu to explore whether it
+     can handle our standard approach (lanch/start+restart/submit). </li>
     </ul>
    </li>
   </ul>
