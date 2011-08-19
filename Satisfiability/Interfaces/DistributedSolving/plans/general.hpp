@@ -49,6 +49,7 @@ License, or any later version. */
    ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac)
    for the hard input clause-set F, such that T has no [true] or [false]
    leaves. </li>
+   <li> This generalises SplittingViaOKsolver. </li>
    <li> The leaves of F are enumerated by indices 1, ..., L, and the
    distributed solving of F just distributes problem instances F_i for i in
    {1,...,L} to available machines (using appropriate solvers S_i). </li>
@@ -62,7 +63,8 @@ License, or any later version. */
    small. </li>
    <li> And given F, T and i, computing F_i is a rather simple task (assuming
    that F_i will take at least, say, hours). </li>
-   <li> T could be computed by the OKsolver_2002 (see "Simple parallelisation"
+   <li> DONE (realised by SplittingViaOKsolver)
+   T could be computed by the OKsolver_2002 (see "Simple parallelisation"
    in Solvers/OKsolver/SAT2002/plans/general.hpp), but also stronger reduction
    means could be used. </li>
    <li> First we implement all this at the Maxima/Lisp level. </li>
