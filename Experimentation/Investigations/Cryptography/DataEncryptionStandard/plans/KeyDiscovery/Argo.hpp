@@ -260,7 +260,15 @@ Instance SATISFIABLE.
      the splitting time. </li>
      <li> "-D 3600":
      \verbatim
-> SplittingViaOKsolver -D3400 gss-20-s100.cnf
+> SplittingViaOKsolver -D3400 gss-21-s100.cnf
+> cat SplitViaOKsolver_D3600gss21s100cnf_2011-08-19-134936/Result 
+c running_time(sec)                     1843.1
+c number_of_nodes                       4909
+c number_of_2-reductions                34178
+c max_tree_depth                        15
+c number_of_1-autarkies                 770949
+c splitting_cases                       2455
+
 ...
      \endverbatim
      </li>
@@ -294,6 +302,37 @@ Instance SATISFIABLE.
      <li> "-D 3400":
      \verbatim
 > SplittingViaOKsolver -D3400 gss-24-s100.cnf
+...
+     \endverbatim
+     </li>
+    </ul>
+   </li>
+   <li> unknown_bits = 25:
+    <ul>
+     <li> See "minisat-2.2.0" which takes 215.137 on this instance. </li>
+     <li> "-D 2500":
+     \verbatim
+> SplittingViaOKsolver -D2500 gss-25-s100.cnf
+> cat SplitViaOKsolver_D2500gss25s100cnf_2011-08-19-141610/Result
+c running_time(sec)                     54.4
+c number_of_nodes                       135
+c number_of_2-reductions                1882
+c max_tree_depth                        7
+c number_of_1-autarkies                 12115
+c splitting_cases                       68
+...
+     \endverbatim
+     </li>
+     <li> "-D 2750":
+     \verbatim
+> SplittingViaOKsolver -D2750 gss-25-s100.cnf
+> cat SplitViaOKsolver_D2750gss25s100cnf_2011-08-19-142520/Result
+c running_time(sec)                     182.1
+c number_of_nodes                       461
+c number_of_2-reductions                5698
+c max_tree_depth                        9
+c number_of_1-autarkies                 52512
+c splitting_cases                       231
 ...
      \endverbatim
      </li>
