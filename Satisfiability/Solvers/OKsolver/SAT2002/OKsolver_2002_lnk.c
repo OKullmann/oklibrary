@@ -138,6 +138,8 @@ bool splitting_n = true;
 bool splitting_file = false;
 //! the file for storing the splittings (if splitting_file == true)
 static FILE* fpsplit = NULL;
+//! true iff a splitting-only computation is aborted
+bool splitting_abortion = false;
 
 // Setzen des voreingestellen Ausgabeformates
 
@@ -1095,7 +1097,7 @@ const char* BasisName(const char* const name) {
 
 static FILE* fpaus = NULL; /* fuer die Ausgabe der Ergebnisse */
 
-static void Zustandsanzeige (int signum) {
+static void Zustandsanzeige (const int sig) {
 #ifndef SYSTIME
   Verbrauch = clock() - akkVerbrauch;
 #else
@@ -1103,18 +1105,17 @@ static void Zustandsanzeige (int signum) {
   Verbrauch = SysZeit.tms_utime - akkVerbrauch;
 #endif
   Statistikzeile(stdout);
-  if (Dateiausgabe) {
-    Statistikzeile(fpaus);
-    fflush(NULL);
-  }
+  if (Dateiausgabe) Statistikzeile(fpaus);
+  fflush(NULL);
   signal(SIGUSR1, Zustandsanzeige);
 }
 
 jmp_buf Ausgabepunkt;
 
-static void Abbruch (int signum) {
+static void Abbruch (const int sig) {
   signal(SIGINT, Abbruch);
   signal(SIGALRM, Abbruch);
+  if (splitting_only) splitting_abortion = true;
   longjmp(Ausgabepunkt, 1);
 }
 
@@ -1468,7 +1469,8 @@ int main(const int argc, const char* const argv[]) {
       }
       
     Ausgabe :
-      
+
+      if (splitting_abortion) fprintf(stderr, "\n%s\n", Meldung(61));
 #ifndef SYSTIME
       Verbrauch = clock() - akkVerbrauch;
 #else
@@ -1517,7 +1519,8 @@ int main(const int argc, const char* const argv[]) {
       if (fppa != NULL) { fclose(fppa); fppa = NULL; }
     }
   }
-  
+
+  if (splitting_abortion) return 1;
   if (spezRueckgabe)
     switch (s) {
     case SAT : return 10;
