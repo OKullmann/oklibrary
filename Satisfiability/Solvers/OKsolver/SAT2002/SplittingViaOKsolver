@@ -15,8 +15,10 @@
 
 # Creates a directory "SplitViaOKsolver_parameters_timestamp", containing
 # the following files:
+# - Log : some general logging information
 # - Parameters : the parameters passed over to the OKsolver
-# - Version : information on the OKsolver
+# - Version : information on this script and the OKsolver
+# - Environment : information on the computer environment
 # - File : a copy of the instance
 # - F : containing the value of File (note that File is a string-variable)
 # - Result : output of the OKsolver, after creating the instances
