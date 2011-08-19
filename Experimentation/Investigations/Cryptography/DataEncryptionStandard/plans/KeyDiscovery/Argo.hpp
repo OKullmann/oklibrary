@@ -322,6 +322,7 @@ c number_of_1-autarkies                 12115
 c splitting_cases                       68
 ...
      \endverbatim
+     Here each instance takes minisat-2.2.0 ~45 seconds. </li>
      </li>
      <li> "-D 2750":
      \verbatim
@@ -335,7 +336,20 @@ c number_of_1-autarkies                 52512
 c splitting_cases                       231
 ...
      \endverbatim
-     </li>
+     Here each instance takes minisat-2.2.0 ~40 seconds. </li>
+     <li> "-D 2800":
+     \verbatim
+> cat SplitViaOKsolver_D2800gss25s100cnf_2011-08-19-144628/Result
+c running_time(sec)                     246.4
+c number_of_nodes                       625
+c number_of_2-reductions                7908
+c max_tree_depth                        9
+c number_of_1-autarkies                 74286
+c splitting_cases                       313
+     \endverbatim
+     Here each instance takes minisat-2.2.0 ~30 seconds. </li>
+     <li> It seems that on this instance, SplittingViaOKsolver is unlikely to
+     yield any speed up! </li>
     </ul>
    </li>
   </ul>
