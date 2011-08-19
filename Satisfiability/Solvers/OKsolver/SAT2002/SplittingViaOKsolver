@@ -34,7 +34,7 @@ set -o errexit
 set -o nounset
 
 script_name="SplittingViaOKsolver"
-version_number=0.1.5
+version_number=0.1.6
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -44,10 +44,21 @@ solver=OKsolver_2002_NTP-O3-DNDEBUG
 data_preprocessing=PreprocessSplitting-O3-DNDEBUG
 
 mkdir ${directory}
+echo "Created directory ${directory}."
 cd ${directory}
-mkdir Instances
 
-${solver} --version > Version
+echo -n "Begin: " > Log
+date >> Log
+
+echo "${script_name} ${version_number}" > Version
+echo >> Version
+${solver} --version >> Version
+
+uname -a > Environment
+echo >> Environment
+cat /proc/cpuinfo >> Environment
+echo >> Environment
+free -m >> Environment
 
 parameters="$*"
 filename="${!#}"
@@ -59,10 +70,15 @@ echo ${new_param} > Parameters
 cp ../${filename} .
 echo $(basename ${filename}) > F
 
+mkdir Instances
+
+
 cd ..
 ${solver} ${new_param} > ${directory}/Result
-
 cd ${directory}
+
+echo -n "Splitting completed: " >> Log
+date >> Log
 
 N=$(awk '/splitting_cases/ {print $3}' Result)
 echo $N > N
@@ -82,3 +98,7 @@ cd ..
 
 echo -e "E=read.table(\"Data\")\nsummary(E\$n)\ntable(E\$n)" | oklib --R --quiet --vanilla | tail -n +3 > Statistics
 
+echo -n "Completed: " >> Log
+date >> Log
+
+exit 0
