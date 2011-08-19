@@ -13,8 +13,10 @@
 
 # creates the experiment-directory "Process_splitviaoksolver-dirname_timestamp"
 # containing the files
+#  - Log: general logging information
 #  - Parameter: the version of this script, the splitviaoksolver-directory,
-#     and the created experiment-directory
+#     the created experiment-directory, and the solver used
+#  - Environment: information on the computer environment
 #  - current_subinstance: starting with 1, the index of the next sub-instance
 #    to be solved
 #  - SubinstanceStatistics: in R-format the collected data
@@ -46,7 +48,7 @@ set -o errexit
 set -o nounset
 
 script_name="ProcessSplitViaOKsolver"
-version_number=0.0.11
+version_number=0.0.12
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -67,14 +69,24 @@ directory1=$1
 if [[ $# -eq 2 ]]; then
   directory2=$2
   echo "Using existing processing-directory ${directory2}."
+  echo -n "Continuation: " >> ${directory2}/Log
+  date >> ${directory2}/Log
   start=$(cat ${directory2}/current_subinstance)
 else
   directory2="Process_$(basename ${directory1})_${timestamp}"
   mkdir ${directory2}
   echo "Created new processing-directory ${directory2}."
+  echo -n "Begin: " > ${directory2}/Log
+  date >> ${directory2}/Log
   echo "${script_name} version ${version_number}" > ${directory2}/Parameter
   echo ${directory1} >> ${directory2}/Parameter
   echo ${directory2} >> ${directory2}/Parameter
+  echo "Solver: ${solver}" >> ${directory2}/Parameter
+  uname -a > ${directory2}/Environment
+  echo >> ${directory2}/Environment
+  cat /proc/cpuinfo >> ${directory2}/Environment
+  echo >> ${directory2}/Environment
+  free -m >> ${directory2}/Environment
   start=1
   echo "${start}" >> ${directory2}/current_subinstance
   echo -n " i npa " > ${directory2}/SubinstanceStatistics
@@ -92,7 +104,10 @@ tail -n +$((start+1)) ${directory1}/Data | while read count F npa; do
   estatus=$?
   set -e
   if [[ $estatus != 10 && $estatus != 20 ]]; then
-    echo -e "\nUNEXPECTED RETURN VALUE ${estatus}."
+    echo -n "ERROR: " >> ${directory2}/Log
+    date >> ${directory2}/Log
+    echo
+    echo -e "UNEXPECTED RETURN VALUE ${estatus}.\n" | tee -a ${directory2}/Log
     exit 1
   fi
 
@@ -117,5 +132,8 @@ else
   echo "UNSATISFIABLE" > ${directory2}/Result
 fi
 ps p $$ k time S >> ${directory2}/Result
+
+echo -n "Completed: " >> ${directory2}/Log
+date >> ${directory2}/Log
 
 exit 0
