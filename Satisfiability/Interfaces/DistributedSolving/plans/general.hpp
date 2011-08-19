@@ -43,34 +43,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Distribution via splitting trees
-  <ul>
-   <li> The basic idea is to have a possibly amended r_k-splitting tree T (see
-   ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac)
-   for the hard input clause-set F, such that T has no [true] or [false]
-   leaves. </li>
-   <li> This generalises SplittingViaOKsolver. </li>
-   <li> The leaves of F are enumerated by indices 1, ..., L, and the
-   distributed solving of F just distributes problem instances F_i for i in
-   {1,...,L} to available machines (using appropriate solvers S_i). </li>
-   <li> The problem instance F_i is just the instance at the corresponding
-   node of T, which is created by adding the assignments on the path to leaf i
-   to F (as unit-clauses; so the reduction of S_i must be strong enough
-   to recover all forced assignments (possibly helped by the amendments)).
-   </li>
-   <li> The main task is to find a suitable T; but even if we split the
-   instance into, say,  2^16 subinstances F_i, the tree T is still relatively
-   small. </li>
-   <li> And given F, T and i, computing F_i is a rather simple task (assuming
-   that F_i will take at least, say, hours). </li>
-   <li> DONE (realised by SplittingViaOKsolver)
-   T could be computed by the OKsolver_2002 (see "Simple parallelisation"
-   in Solvers/OKsolver/SAT2002/plans/general.hpp), but also stronger reduction
-   means could be used. </li>
-   <li> First we implement all this at the Maxima/Lisp level. </li>
-  </ul>
-
-
   \todo Organising distributed solving
   <ul>
    <li> This is about larger tasks, involving separated groups, attacked by
@@ -140,6 +112,34 @@ License, or any later version. */
      the name, and then it should be provided. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Distribution via splitting trees
+  <ul>
+   <li> The basic idea is to have a possibly amended r_k-splitting tree T (see
+   ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac)
+   for the hard input clause-set F, such that T has no [true] or [false]
+   leaves. </li>
+   <li> This generalises SplittingViaOKsolver. </li>
+   <li> The leaves of F are enumerated by indices 1, ..., L, and the
+   distributed solving of F just distributes problem instances F_i for i in
+   {1,...,L} to available machines (using appropriate solvers S_i). </li>
+   <li> The problem instance F_i is just the instance at the corresponding
+   node of T, which is created by adding the assignments on the path to leaf i
+   to F (as unit-clauses; so the reduction of S_i must be strong enough
+   to recover all forced assignments (possibly helped by the amendments)).
+   </li>
+   <li> The main task is to find a suitable T; but even if we split the
+   instance into, say,  2^16 subinstances F_i, the tree T is still relatively
+   small. </li>
+   <li> And given F, T and i, computing F_i is a rather simple task (assuming
+   that F_i will take at least, say, hours). </li>
+   <li> DONE (realised by SplittingViaOKsolver)
+   T could be computed by the OKsolver_2002 (see "Simple parallelisation"
+   in Solvers/OKsolver/SAT2002/plans/general.hpp), but also stronger reduction
+   means could be used. </li>
+   <li> First we implement all this at the Maxima/Lisp level. </li>
   </ul>
 
 */
