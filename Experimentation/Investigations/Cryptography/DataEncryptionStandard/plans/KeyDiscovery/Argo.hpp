@@ -94,9 +94,9 @@ sys	0m0.050s
 
 > ProcessSplitViaOKsolver SplitViaOKsolver_D3400gss19s100cnf_2011-08-18-205406
 Created new processing-directory Process_SplitViaOKsolver_D3400gss19s100cnf_2011-08-18-205406_2011-08-18-211550.
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114
+1 ... 114
 Found a SATISFYING ASSIGNMENT.
-115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171
+115 ... 171
 COMPLETED; see
  Process_SplitViaOKsolver_D3400gss19s100cnf_2011-08-18-205406_2011-08-18-211550/Result
  Process_SplitViaOKsolver_D3400gss19s100cnf_2011-08-18-205406_2011-08-18-211550/SubinstanceStatistics
@@ -113,7 +113,38 @@ Instance SATISFIABLE.
      \endverbatim
      This is a slow down by a factor of 6.
      </li>
-     <li> Trying with "-D3600". </li>
+     <li> "-D 3800":
+     \verbatim
+> SplittingViaOKsolver -D3600 gss-19-s100.cnf
+> cat SplitViaOKsolver_D3800gss19s100cnf_2011-08-18-234435/Result
+c running_time(sec)                     848.5
+c number_of_nodes                       1751
+c number_of_2-reductions                17929
+c max_tree_depth                        12
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D3800gss19s100cnf_2011-08-18-234435
+Created new processing-directory Process_SplitViaOKsolver_D3800gss19s100cnf_2011-08-18-234435_2011-08-18-235848.
+1 ... 243
+Found a SATISFYING ASSIGNMENT.
+244 ... 876
+COMPLETED; see
+ Process_SplitViaOKsolver_D3800gss19s100cnf_2011-08-18-234435_2011-08-18-235848/Result
+ Process_SplitViaOKsolver_D3800gss19s100cnf_2011-08-18-234435_2011-08-18-235848/SubinstanceStatistics
+Instance SATISFIABLE.
+
+> E=read_processsplit_minisat()
+  876: 0.46h, sum-cfs=7.395593e+06, mean-t=1.903s, mean-cfs=8442
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.290   1.170   1.270   1.903   2.372   6.210
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    716    5538    6492    8442   10340   21740
+
+> sum(subset(E, i <=243)["t"]) # Sum of times instances 1 to 243 (first satisfiable instance).
+420.78
+     \endverbatim
+     So at this splitting depth, minisat-2.2.0 solves the instances in less
+     time. However, the total time, 848.5 + 420.78 = 1269.28, is a factor
+     of ~4x slower. </li>
     </ul>
    </li>
    <li> unknown_bits = 20:
