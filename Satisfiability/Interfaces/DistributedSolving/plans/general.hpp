@@ -31,6 +31,18 @@ License, or any later version. */
   </ul>
 
 
+  \todo Adding distribution power to SplittingViaOKsolver
+  <ul>
+   <li> Basically a script which has given a list of machines where it
+   launches and monitors solving of the sub-instances computed by
+   SplittingViaOKsolver. </li>
+   <li> See "Simple script for monitoring remote processes" and
+   "Launching and monitoring" in ExperimentSystem/plans/general.hpp. </li>
+   <li> The "database" perhaps is just as described below in "Organising
+   distributed solving". </li>
+  </ul>
+
+
   \todo Sampling tool
   <ul>
    <li> A tool "SamplingSplitting" is to be written, for sampling N
