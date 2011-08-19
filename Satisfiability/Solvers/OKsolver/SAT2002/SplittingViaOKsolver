@@ -36,7 +36,7 @@ set -o errexit
 set -o nounset
 
 script_name="SplittingViaOKsolver"
-version_number=0.1.6
+version_number=0.1.7
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -76,9 +76,20 @@ mkdir Instances
 
 
 cd ..
-${solver} ${new_param} > ${directory}/Result
-cd ${directory}
+set +e
+${solver} ${new_param} >${directory}/Result 2>&1
+estatus=$?
+set -e
 
+cd ${directory}
+if [[ $estatus != 0 && $estatus != 10 && $estatus != 20 ]]; then
+  echo -n "ERROR: " >> Log
+  date >> Log
+  echo -e "UNEXPECTED RETURN VALUE ${estatus}.\n" | tee -a Log
+  exit 1
+else
+  echo "Return value of OKsolver: ${estatus}" >> Log
+fi
 echo -n "Splitting completed: " >> Log
 date >> Log
 
