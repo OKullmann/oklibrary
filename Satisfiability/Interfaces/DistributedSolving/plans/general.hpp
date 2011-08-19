@@ -36,10 +36,12 @@ License, or any later version. */
    <li> Basically a script which has given a list of machines where it
    launches and monitors solving of the sub-instances computed by
    SplittingViaOKsolver. </li>
+   <li> Better actually, just to split the SplitViaOKsolver-data into chunks,
+   which can be processed simply by processSplitViaOKsolver. </li>
    <li> See "Simple script for monitoring remote processes" and
    "Launching and monitoring" in ExperimentSystem/plans/general.hpp. </li>
-   <li> The "database" perhaps is just as described below in "Organising
-   distributed solving". </li>
+   <li> For very large tasks, a "database" as described below in "Organising
+   distributed solving" might be involved. </li>
   </ul>
 
 
