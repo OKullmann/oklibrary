@@ -9,6 +9,9 @@
 # For directory dir created by SplittingViaOKsolver, extract the complete
 # splitting information into an .icnf-file (containing first the instance,
 # and then the splittings). The new file is placed into dir.
+
+# The order of the partial assignments is as given by the file dir/Data.
+
 # Usage:
 
 # ExtractiCNF dir
@@ -18,7 +21,7 @@ set -o errexit
 set -o nounset
 
 script_name="ExtractiCNF"
-version_number=0.0.7
+version_number=0.0.8
 
 if [[ $# -ne 1 ]]; then
   echo "ERROR[${script_name}]: Exactly one parameter is needed, the directory to be processed."
@@ -36,6 +39,6 @@ tail -n +2 Data | while read count phi npa; do
   cat Instances/$phi >> $nF
 done
 
-sed -i 's/v/a/' $nF
+sed -i 's/^v/a/' $nF
 
 exit 0
