@@ -18,7 +18,10 @@ License, or any later version. */
    <li> We need the statistics for the instances here. </li>
    <li> See
     <ul>
-     <li> "minisat-2.2.0". </li>
+     <li> "minisat-2.2.0", solving up to unknown_bits=25 in maximum time ~11h.
+     </li>
+     <li> "Applying SplittingViaOKsolver" yields a speed up of 1.5 - 2x on
+     larger instances over "minisat-2.2.0". </li>
     </ul>
    </li>
   </ul>
@@ -150,6 +153,111 @@ Instance SATISFIABLE.
    <li> unknown_bits = 20:
     <ul>
      <li> See "minisat-2.2.0" which takes 1378.86s on this instance. </li>
+     <li> "-D 3400":
+     \verbatim
+> SplittingViaOKsolver -D3400 gss-20-s100.cnf
+> cat SplitViaOKsolver_D3400gss20s100cnf_2011-08-19-085137/Result 
+c running_time(sec)                     456.5
+c number_of_nodes                       995
+c number_of_2-reductions                11452
+c max_tree_depth                        11
+c splitting_cases                       498
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D3400gss20s100cnf_2011-08-19-085137
+Created new processing-directory Process_SplitViaOKsolver_D3400gss20s100cnf_2011-08-19-085137_2011-08-19-085916
+1 ... 106
+Found a SATISFYING ASSIGNMENT.
+107 ... 402
+Found a SATISFYING ASSIGNMENT.
+403 ... 498
+COMPLETED; see
+ Process_SplitViaOKsolver_D3400gss20s100cnf_2011-08-19-085137_2011-08-19-085916/Result
+ Process_SplitViaOKsolver_D3400gss20s100cnf_2011-08-19-085137_2011-08-19-085916/SubinstanceStatistics
+Instance SATISFIABLE.
+
+> E=read_processsplit_minisat()
+498: 0.55h, sum-cfs=7.028355e+06, mean-t=3.983s, mean-cfs=14113
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.460   2.370   3.810   3.983   4.650  14.560
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   2090    9788   13350   14110   16340   38220
+
+> sum(subset(E, i <=243)["t"]) # Sum of times instances 1 to 243 (first satisfiable instance).
+[1] 600.33
+     \endverbatim
+     So in this case we have a speed up of ~2x, or ~1.3x if we include the
+     OKsolver splitting time. </li>
+     <li> "-D 3600":
+     \verbatim
+> SplittingViaOKsolver -D3600 gss-20-s100.cnf
+> cat SplitViaOKsolver_D3600gss20s100cnf_2011-08-19-093412/Result
+c running_time(sec)                     1102.6
+c number_of_nodes                       2423
+c number_of_2-reductions                26301
+c splitting_cases                       1212
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D3600gss20s100cnf_2011-08-19-093412
+Created new processing-directory Process_SplitViaOKsolver_D3600gss20s100cnf_2011-08-19-093412_2011-08-19-095240
+1 ... 636
+Found a SATISFYING ASSIGNMENT.
+637 ... 970
+Found a SATISFYING ASSIGNMENT.
+971 ... 1212
+COMPLETED; see
+ Process_SplitViaOKsolver_D3600gss20s100cnf_2011-08-19-093412_2011-08-19-095240/Result
+ Process_SplitViaOKsolver_D3600gss20s100cnf_2011-08-19-093412_2011-08-19-095240/SubinstanceStatistics
+Instance SATISFIABLE.
+
+> E=read_processsplit_minisat()
+1212: 0.71h, sum-cfs=1.122742e+07, mean-t=2.097s, mean-cfs=9264
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.640   1.370   1.910   2.097   2.750   4.390
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   3378    6192    9018    9264   12130   18660
+
+> sum(subset(E, i <=636)["t"]) # Sum of times instances 1 to 636 (first satisfiable instance).
+[1] 1488.02
+     \endverbatim
+     So in this case we have a slow down of ~1.1x, or ~2x if we include the
+     OKsolver splitting time. So, apparently we can split too much?? </li>
+    </ul>
+   </li>
+   <li> unknown_bits = 21:
+    <ul>
+     <li> See "minisat-2.2.0" which takes 6230.85s on this instance. </li>
+     <li> "-D 3400":
+     \verbatim
+> SplittingViaOKsolver -D3600 gss-20-s100.cnf
+> cat SplitViaOKsolver_D3600gss20s100cnf_2011-08-19-093412/Result
+c running_time(sec)                     663.6
+c number_of_nodes                       1691
+c number_of_2-reductions                20845
+c splitting_cases                       846
+
+
+ ProcessSplitViaOKsolver SplitViaOKsolver_D3400gss21s100cnf_2011-08-19-114411/
+Created new processing-directory Process_SplitViaOKsolver_D3400gss21s100cnf_2011-08-19-114411_2011-08-19-121149.
+1 ...  773
+Found a SATISFYING ASSIGNMENT.
+774 ... 846
+COMPLETED; see
+ Process_SplitViaOKsolver_D3400gss21s100cnf_2011-08-19-114411_2011-08-19-121149/Result
+ Process_SplitViaOKsolver_D3400gss21s100cnf_2011-08-19-114411_2011-08-19-121149/SubinstanceStatistics
+Instance SATISFIABLE.
+>
+
+> E=read_processsplit_minisat()
+ 846: 1.26h, sum-cfs=1.430335e+07, mean-t=5.341s, mean-cfs=16907
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  2.818   4.401   4.984   5.341   5.752  14.560
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   7311   14640   17000   16910   18280   33240
+
+> sum(subset(E, i <= 773)["t"]) # Sum of times instances 1 to 773 (first satisfiable instance).
+[1] 4223.808
+     \endverbatim
+     This is a speed up by a factor of ~1.5x and roughly 1.25x if you include
+     the splitting time. </li>
     </ul>
    </li>
   </ul>
