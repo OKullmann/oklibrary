@@ -21,7 +21,7 @@ set -o errexit
 set -o nounset
 
 script_name="ExtractiCNF"
-version_number=0.0.8
+version_number=0.0.9
 
 if [[ $# -ne 1 ]]; then
   echo "ERROR[${script_name}]: Exactly one parameter is needed, the directory to be processed."
@@ -35,9 +35,7 @@ nF=${F/%.cnf/.icnf}
 
 cat $F | sed -e 's/^p cnf .*/p inccnf/' > $nF
 
-tail -n +2 Data | while read count phi npa; do
-  cat Instances/$phi >> $nF
-done
+tail -n +2 Data | cut -d' ' -f 2 | xargs -I{} cat Instances/{} >> $nF
 
 sed -i 's/^v/a/' $nF
 
