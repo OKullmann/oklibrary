@@ -59,17 +59,13 @@ c file_name                             VanDerWaerden_2-4-9_309.cnf
    </li>
    <li> Parallelisation:
     <ol>
-     <li> A simple parallelisation would be to use the OKsolver_2002 to split
-     the problem into subproblems (see "Simple parallelisation" in
-     Solvers/OKsolver/SAT2002/plans/general.hpp), and to use picosat913 to
-     solve the subproblems. </li>
-     <li> The main problem here would be to determine the splitting depth D.
+     <li> SplittingViaOKsolver, first with minisat-2.2.0:
+     \verbatim
+> SplittingViaOKsolver -D20 VanDerWaerden_2-4-9_309.cnf
+
+     \endverbatim
      </li>
-     <li> That is, we have (up to) 2^D subproblems (it seems that we would
-     have exactly 2^D subproblems here). </li>
-     <li> One needs to sample for various D the solving times of the
-     subproblems, to estimate the running time of picosat913. </li>
-     <li> Starting with D=30, and then lowering D. </li>
+     <li> Now with Picosat913. </li>
     </ol>
    </li>
   </ul>
