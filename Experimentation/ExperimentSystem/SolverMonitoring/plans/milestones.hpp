@@ -11,13 +11,11 @@ License, or any later version. */
   \module_version Experimentation/ExperimentSystem/SolverMonitoring 0.0.9 (1.8.2011)
 
 
-  \par Version 0.1.0 :
+  \par Version 0.0.10 :
 
   \par
    In ExperimentSystem/SolverMonitoring/plans/general.hpp the following topics
    are handled:
-    - Extraction tools
-    - Add monitoring for all other solvers
     - Create milestones : DONE
     - Inappropriate column names : DONE
     - False treatment of "decisions" : DONE
@@ -25,10 +23,23 @@ License, or any later version. */
   \par
    In ExperimentSystem/SolverMonitoring/plans/Minisat2.hpp the following
    topics are handled:
-    - Move read_minisat2_output functionality to wrapper script
     - Bad specifications and documentation : DONE
     - Improving read_minisat_output : DONE
     - Improved handling of file-names : DONE
+
+
+  \par Version 0.1 :
+
+  \par
+   In ExperimentSystem/SolverMonitoring/plans/general.hpp the following topics
+   are handled:
+    - Extraction tools
+    - Add monitoring for all other solvers
+
+  \par
+   In ExperimentSystem/SolverMonitoring/plans/Minisat2.hpp the following
+   topics are handled:
+    - Move read_minisat2_output functionality to wrapper script
 
   \par
    In ExperimentSystem/SolverMonitoring/plans/OKsolver.hpp the following
