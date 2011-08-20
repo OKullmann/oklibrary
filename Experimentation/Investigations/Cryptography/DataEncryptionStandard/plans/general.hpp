@@ -31,6 +31,31 @@ License, or any later version. */
   </ul>
 
 
+  \todo DES benchmarks
+  <ul>
+   <li> For our translation, see
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/ConstraintTranslation.mac.
+   </li>
+   <li> There exist the following (external) translations of DES into SAT:
+    <ul>
+     <li> Massaci and Marraro's translation from [Logical Cryptanalysis of the
+     Data Encryption Standard; Marraro and Massacci]. Available at
+     http://disi.unitn.it/~massacci/CryptoSAT/. </li>
+     <li> ArgoSAT DES benchmarks, see SAT09/APPLICATIONS/crypto/desgen/ in
+     http://www.cril.univ-artois.fr/SAT09/bench/appli.7z. </li>
+     <li> From [Algrebraic Attacks using SAT-solvers; Jovanovic and Kreuzer]
+     using the computer algebra system ApCoCoA. No website available. </li>
+    </ul>
+   </li>
+   <li> We should e-mail Martin Kreuzer to ask for the generator/benchmarks.
+   </li>
+   <li> We should install all external translations in the OKlibrary; see
+   "DES generators", "Argo DES instances" and "Kreuzer DES instances" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Cryptography.hpp. </li>
+   <li> See also "Understanding the Massacci-Marraro translation". </li>
+  </ul>
+
+
   \todo Basic translation
   <ul>
    <li> Just following the definitions, of course "ignoring" the permutations,
