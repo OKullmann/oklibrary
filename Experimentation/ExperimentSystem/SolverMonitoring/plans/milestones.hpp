@@ -79,6 +79,6 @@ License, or any later version. */
 
   \par Version history
 
-   - 0.0.9 : 1.8.2011; initial version number (some minor changes are needed for a working system).
+   - 0.0.9 : 1.8.2011; initial version number (various R-functions and scripts for evaluating experiments, started standardisation and systematisation).
 
 */
