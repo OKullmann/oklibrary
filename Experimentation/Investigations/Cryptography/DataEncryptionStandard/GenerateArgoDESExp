@@ -28,9 +28,15 @@ set -o errexit
 set -o nounset
 
 script_name="SplittingViaOKsolver"
-version_number=0.0.5
+version_number=0.0.6
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
+
+if [[ $# -eq 0 ]]; then
+  echo "ERROR[${script_name}]: At least one parameter is needed, a Argo DES instance (more than one can be provided)."
+  exit 1
+fi
+
 
 directory=ArgoDESExp_${timestamp}
 

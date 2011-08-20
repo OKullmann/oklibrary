@@ -1,0 +1,93 @@
+#!/bin/bash
+# Matthew Gwynne, 20.8.2011 (Swansea)
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# Processing of a directory produced by GenerateArgoDESExp using minisat-2.2.0.
+# Two modes of usage:
+
+# ProcessArgoDES_minisat GenerateArgoDESExp_dir
+
+# creates the experiment-directory "Process-dirname_timestamp"
+# containing the files
+#  - Parameter: the version of this script, the GenerateArgoDESExp_dir-directory,
+#     and the created experiment-directory
+#  - current_instance: starting with 1, the index of the next instance
+#     to be solved.
+#  - Statistics: in R-format the results of minisat-2.2.0 on each instance.
+# Furthermore Temp.out contains the solver output of the last solved instance.
+
+# ProcessArgoDES_minisat GenerateArgoDESExp_dir Process_dir
+
+# uses the already created Process_dir (created by a previous invocation
+# of that script) to continue an interrupted processing.
+
+
+set -o errexit
+set -o nounset
+
+script_name="ProcessArgoDESExp_minisat"
+version_number=0.0.5
+
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+
+if [[ $# -eq 0 ]]; then
+  echo "ERROR[${script_name}]: At least one parameter is needed, the directory to be processed."
+  exit 1
+fi
+if [[ $# -ge 3 ]]; then
+  echo -e "ERROR[${script_name}]: At most two parameters are allowed:\n - the directory to be processed\n - the already existing processing-directory."
+  exit 1
+fi
+
+solver=minisat-2.2.0
+extraction_tool=ExtractMinisat
+
+directory1=$1
+
+if [[ $# -eq 2 ]]; then
+  directory2=$2
+  echo "Using existing processing-directory ${directory2}."
+  start=$(cat ${directory2}/current_instance)
+  echo -n " ub "
+  ${extraction_tool} header-only
+else
+  directory2="Process_$(basename ${directory1})_${timestamp}"
+  mkdir ${directory2}
+  echo "Created new processing-directory ${directory2}."
+  echo "${script_name} version ${version_number}" > ${directory2}/Parameter
+  echo ${directory1} >> ${directory2}/Parameter
+  echo ${directory2} >> ${directory2}/Parameter
+  start=1
+  echo "${start}" >> ${directory2}/current_instance
+  echo -n " ub " | tee ${directory2}/Statistics
+  ${extraction_tool} header-only | tee ${directory2}/Statistics
+fi
+
+
+tail -n +$((start+1)) ${directory1}/Data | while read I N C; do
+
+  set +e
+  ${solver} ${directory1}/Instances/${I} >${directory2}/Temp.out 2>&1
+  estatus=$?
+  set -e
+  if [[ $estatus != 10 && $estatus != 20 ]]; then
+    echo -e "\nUNEXPECTED RETURN VALUE ${estatus}."
+    exit 1
+  fi
+
+  echo -n "${I} " >> ${directory2}/Statistics
+  cat ${directory2}/Temp.out | ${extraction_tool} data-only >> ${directory2}/Statistics
+  tail -n1 ${directory2}/Statistics
+  let start=${start}+1
+  echo ${start} > ${directory2}/current_instance
+
+
+done
+
+echo -e "\nCOMPLETED; see\n ${directory2}/Statistics"
+
+exit 0

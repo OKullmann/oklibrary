@@ -35,7 +35,15 @@ License, or any later version. */
      remaining columns. </li>
     </ul>
    </li>
-   <li> Running experiments:
+   <li> We need ProcessArgoDES_solver for all other solvers; currently
+   we have minisat. </li>
+   <li> We need a script which can take a list of CNF files, and produce
+   an R-formatted statistics file with columns for the number of variables and
+   clauses and then columns for the number of clause of each size from the
+   minimum to maximum clause-length across the files. This should allow
+   better output to the Data file in ProcessArgoDES_solver. </li>
+   <li> DONE (see Cryptography/DataEncryptionStandard/GenerateArgoDESExp)
+   Running experiments:
     <ul>
      <li> We need an example script ProcessArgoDES_solver where solver
      is the name of the solver to run on the instances. </li>
@@ -53,10 +61,6 @@ License, or any later version. */
      ProcessArgoDES_solver_date/Statistics. </li>
     </ul>
    </li>
-   <li> We need a script which can take a list of CNF files, and produce
-   an R-formatted statistics file with columns for the number of variables and
-   clauses and then columns for the number of clause of each size from the
-   minimum to maximum clause-length across the files. </li>
    <li> DONE (see Cryptography/DataEncryptionStandard/GenerateArgoDESExp) We
    need a script "GenerateArgoDESExp" which takes a list of Argo
    DES instances of the form gss-i-s100.cnf and generates an Argo DES
