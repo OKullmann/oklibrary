@@ -158,7 +158,7 @@ c splitting_cases                       104797
   </ul>
 
 
-  \todo Palindromic numbers
+  \todo vdw_2^pd(3,16) = (232,237)
   <ul>
    <li> pdvanderwaerden([3,16])[2] = 237 = vanderwaerden([3,16])-1 . </li>
    <li> pdvanderwaerden([3,16])[1] = 232. </li>

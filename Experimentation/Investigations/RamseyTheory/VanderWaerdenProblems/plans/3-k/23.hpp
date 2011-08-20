@@ -138,7 +138,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Palindromic numbers
+  \todo vdw_2^pd(3,23) = (506,507)
   <ul>
    <li> pdvanderwaerden([3,23])[2] = 507 =(conj) vanderwaerden([3,23])-9. </li>
    <li> pdvanderwaerden([3,23])[1] = 506. </li>
