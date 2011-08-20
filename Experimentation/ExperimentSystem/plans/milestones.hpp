@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ExperimentSystem/plans/milestones.hpp
 
-  \module_version Experimentation/ExperimentSystem 0.1.2 (22.11.2010)
+  \module_version Experimentation/ExperimentSystem 0.1.2.1 (20.8.2011)
 
 
   \par Version 0.1.3 :

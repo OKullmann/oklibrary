@@ -8,24 +8,7 @@ License, or any later version. */
 /*!
   \file Experimentation/ExperimentSystem/SolverMonitoring/plans/milestones.hpp
 
-  \module_version Experimentation/ExperimentSystem/SolverMonitoring 0.0.9 (1.8.2011)
-
-
-  \par Version 0.0.10 :
-
-  \par
-   In ExperimentSystem/SolverMonitoring/plans/general.hpp the following topics
-   are handled:
-    - Create milestones : DONE
-    - Inappropriate column names : DONE
-    - False treatment of "decisions" : DONE
-
-  \par
-   In ExperimentSystem/SolverMonitoring/plans/Minisat2.hpp the following
-   topics are handled:
-    - Bad specifications and documentation : DONE
-    - Improving read_minisat_output : DONE
-    - Improved handling of file-names : DONE
+  \module_version Experimentation/ExperimentSystem/SolverMonitoring 0.0.10 (20.8.2011)
 
 
   \par Version 0.1 :
@@ -80,5 +63,6 @@ License, or any later version. */
   \par Version history
 
    - 0.0.9 : 1.8.2011; initial version number (various R-functions and scripts for evaluating experiments, started standardisation and systematisation).
+   - 0.0.10: 20.8.2011; various code improvements, introduced standardised variable-names, provided first extraction-script and first experimentation-script, and tools regarding cube-and-conquer.
 
 */
