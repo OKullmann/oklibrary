@@ -1,0 +1,103 @@
+#!/bin/bash
+# Oliver Kullmann, 20.8.2011 (Swansea)
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version.
+
+# Running minisat on a single instance, collecting the data.
+
+# Usage:
+
+# RunMinisat instance
+
+# creates the experiment-directory "ExperimentMinisat_instance_timestamp"
+# (in the current directory) containing the files
+#  - Log: general logging information
+#  - Parameter: the version of this script, the instance, and the solver used
+#  - Environment: information on the computer environment
+#  - a copy of the instance-file
+#  - F: contains the name of the (local) instance-file
+#  - Result: the minisat output
+#  - Statistics: the extracted statistics, in R-readable format.
+
+# Remark: It seems best to use
+#   RunMinisat instance &
+# or, on a remote machine,
+#   nohup RunMinisat instance &
+# and then to switch into the experiment-directory, watching the progress via
+#   tail Result
+
+
+set -o errexit
+set -o nounset
+
+script_name="RunMinisat"
+version_number=0.0.7
+
+if ([ $# -ne 1 ]) then
+  echo -e "ERROR[${script_name}]: Exactly one parameter is needed, the instance.\n"
+  exit 1
+fi
+
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+solver=minisat-2.2.0
+extraction_tool=ExtractMinisat
+
+instance=$1
+exp_dir=ExperimentMinisat_$(echo ${instance} | tr -d " -./")_${timestamp}
+mkdir ${exp_dir}
+echo "Created experiment directory ${exp_dir}."
+cp ${instance} ${exp_dir}
+
+cd ${exp_dir}
+
+echo -n "Begin: " > Log
+date >> Log
+
+instance_local="$(basename ${instance})"
+echo ${instance_local} > F
+
+echo "${script_name} version ${version_number}" > Parameter
+echo ${instance} >> Parameter
+echo "Solver: ${solver}" >> Parameter
+
+uname -a > Environment
+echo >> Environment
+cat /proc/cpuinfo >> Environment
+echo >> Environment
+free -m >> Environment
+
+set +e
+${solver} ${instance_local} >Result 2>&1
+estatus=$?
+set -e
+if [[ $estatus != 10 && $estatus != 20 ]]; then
+  if [[ $estatus -eq 0 ]]; then
+    echo -n "INTERRUPT: " >> Log
+  else
+    echo -n "ERROR: " >> Log
+  fi
+  date >> Log
+  ps p $$ k time S >> Log
+  echo
+  echo -e "UNEXPECTED RETURN VALUE ${estatus}.\n" | tee -a Log
+  exit 1
+fi
+
+echo -e "\nCOMPLETED; see\n ${exp_dir}/Result"
+
+if [[ $estatus == 10 ]]; then
+  echo "INSTANCE SATISFIABLE"
+else
+  echo "INSTANCE UNSATISFIABLE"
+fi
+
+cat Result | ${extraction_tool} > Statistics
+
+ps p $$ k time S >> Log
+echo -n "Completed: " >> Log
+date >> Log
+
+exit 0
