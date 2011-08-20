@@ -27,6 +27,13 @@ License, or any later version. */
     - Patches
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Cryptography.hpp the
+   following topics are handled:
+    - DES generator
+    - Argo DES instances
+    - Kreuzer DES instances
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
     - Defect boost-installation for fixed gcc-4.1.2 : DONE
@@ -80,7 +87,6 @@ License, or any later version. */
     - Parallel SAT solvers
     - SAT solvers
     - (P)Lingeling
-    - DES generator
     - Grasp uses system C++ libraries
     - Improvements of CryptoMiniSat
     - Glucose

@@ -25,9 +25,34 @@ License, or any later version. */
    <li> We also need to think about different organisations of the round.
    Perhaps the key-involvement could happen at the beginning or end of a round,
    instead of in the middle. </li>
-   <li> See 
+   <li> See
    Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp
    for investigations into the DES Sboxes. </li>
+  </ul>
+
+
+  \todo DES benchmarks
+  <ul>
+   <li> For our translation, see
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/ConstraintTranslation.mac.
+   </li>
+   <li> There exist the following (external) translations of DES into SAT:
+    <ul>
+     <li> Massaci and Marraro's translation from [Logical Cryptanalysis of the
+     Data Encryption Standard; Marraro and Massacci]. Available at
+     http://disi.unitn.it/~massacci/CryptoSAT/. </li>
+     <li> ArgoSAT DES benchmarks, see SAT09/APPLICATIONS/crypto/desgen/ in
+     http://www.cril.univ-artois.fr/SAT09/bench/appli.7z. </li>
+     <li> From [Algrebraic Attacks using SAT-solvers; Jovanovic and Kreuzer]
+     using the computer algebra system ApCoCoA. No website available. </li>
+    </ul>
+   </li>
+   <li> We should e-mail Martin Kreuzer to ask for the generator/benchmarks.
+   </li>
+   <li> We should install all external translations in the OKlibrary; see
+   "DES generators", "Argo DES instances" and "Kreuzer DES instances" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Cryptography.hpp. </li>
+   <li> See also "Understanding the Massacci-Marraro translation". </li>
   </ul>
 
 
@@ -57,7 +82,7 @@ nvar_full_dualts(10,64) - 10;
    <li> Using the canonical box translation and treating the Sboxes as 6-to-4
    bit functions, the full 16 round DES will contain:
    <ul>
-    <li> 64+56+9984=10104 variables: 
+    <li> 64+56+9984=10104 variables:
      <ol>
       <li> 64 variables for the input plaintext. </li>
       <li> 56 variables for the key. </li>
@@ -76,7 +101,7 @@ nvar_full_dualts(10,64) - 10;
      <li> 16*8*640=81920 clauses of size 2
      (16 rounds * 8 Sboxes * 640 clauses = 81,920). </li>
      <li> 16*(48+32)*4=5120 clauses of size 4
-     (16 rounds * (48-bit addition + 32-bit addition) * 4 clauses = 5120). 
+     (16 rounds * (48-bit addition + 32-bit addition) * 4 clauses = 5120).
      </li>
      <li> 16*8*64=8192 clauses of size 11
      (16 rounds * 8 Sboxes * 64 clauses = 8,192). </li>
