@@ -24,10 +24,8 @@ License, or any later version. */
   \todo Experiment scripts
   <ul>
    <li> We need scripts to generate, and process experiments.  </li>
-   <li> We need a script "GenerateArgoDESExp" which takes a list of Argo
-   DES instances of the form gss-i-s100.cnf and generates an Argo DES
-   experiment directory. </li>
-   <li> An Argo experiment directory should have sub-directories and files:
+   <li> An Argo experiment directory ArgoDESExp_date should have
+   sub-directories and files:
     <ul>
      <li> Instances: directory with files i.cnf for i in
      {13,...,17,19,...,28,31,34} corresponding to the files gss-i-s100.cnf;
@@ -59,6 +57,10 @@ License, or any later version. */
    an R-formatted statistics file with columns for the number of variables and
    clauses and then columns for the number of clause of each size from the
    minimum to maximum clause-length across the files. </li>
+   <li> DONE (see Cryptography/DataEncryptionStandard/GenerateArgoDESExp) We
+   need a script "GenerateArgoDESExp" which takes a list of Argo
+   DES instances of the form gss-i-s100.cnf and generates an Argo DES
+   experiment directory. </li>
   </ul>
 
 

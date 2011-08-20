@@ -1,0 +1,66 @@
+#!/bin/bash
+# Matthew Gwynne, 20.8.2011 (Swansea)
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# Generate an experiment directory for the Argo DES instances.
+# See SAT09/APPLICATIONS/crypto/desgen/ in
+# http://www.cril.univ-artois.fr/SAT09/bench/appli.7z .
+
+# Usage:
+#   GenerateArgoDESExp instance_1 instance_2 instance_3 ... instance_N
+# where instance_i has the form "gss-i-s100.cnf" and is
+# the Argo DES instance with i key bits unknown.
+
+# Creates a directory "ArgoDESExp_date", containing
+# the following files:
+# - Parameters : the parameters passed over to the script
+# - Data : for indices 1 <= i <= N, i, followed by the number
+#          of variables, then clauses in instance_i.
+# - Md5sum : a combined md5sum-hash-value of all files in Instances
+# And in the directory Instances we have files with names i
+# for each file of the form gss-i-s100.cnf given as argument.
+
+set -o errexit
+set -o nounset
+
+script_name="SplittingViaOKsolver"
+version_number=0.0.5
+
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+
+directory=ArgoDESExp_${timestamp}
+
+mkdir ${directory}
+cd ${directory}
+mkdir Instances
+
+echo ${version_number} > Version
+
+parameters="$*"
+echo ${parameters} > Parameters
+
+cd Instances
+
+for F in $*; do
+  I=$(echo $(basename ${F}) | sed -e 's/gss-\([0-9]\+\)-s100\.cnf/\1/')
+  if [[ ${F:1:1} == '/' ]]; then
+     cp $F $I
+  else
+     cp ../../$F $I
+  fi
+done
+
+current_md5sum=0
+for F in *; do
+  current_md5sum=$(echo ${current_md5sum} | cat ${F} - | md5sum | awk '{print $1}')
+done
+echo ${current_md5sum} > ../Md5sum
+
+echo "i n c" > ../Data
+for F in *; do
+  cat ${F} | ExtendedDimacsFullStatistics-O3-DNDEBUG n | tail -n+2 | head -n+1 | awk " { print \"${F} \" \$1 \" \" \$2 }" >> ../Data
+done
