@@ -86,7 +86,7 @@ NB_MONO= 2544, NB_UNIT= 1879235364, NB_BRANCHE= 66642611, NB_BACK= 33796681
 Program terminated in 99407.850 seconds.
 satz215 VanDerWaerden_2-3-15_218.cnf 99407.850 66642611 33796681 10812633494 373672422 0 218 13362 0 305553394 82352337
    \endverbatim
-   </li>
+   (that is 27 h) </li>
   </ul>
 
 
@@ -94,6 +94,7 @@ satz215 VanDerWaerden_2-3-15_218.cnf 99407.850 66642611 33796681 10812633494 373
   <ul>
    <li> Starting with n=26:
    \verbatim
+# csltok:
 > SplittingViaOKsolver -D26 VanDerWaerden_2-3-15_218.cnf
   26   27   28   29   30   31   32   33   34   35   36   37   38   39   40   41
 1202  505  641  612  621  535  472  388  268  186   76   23   19   14   17   12
@@ -119,12 +120,6 @@ c initial_maximal_clause_length         15
 c initial_number_of_variables           218
 c initial_number_of_clauses             13362
 c initial_number_of_literal_occurrences 59166
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   0
 c running_time(sec)                     294.1
 c number_of_nodes                       25843
 c number_of_single_nodes                0
@@ -134,41 +129,76 @@ c number_of_pure_literals               0
 c number_of_autarkies                   0
 c number_of_missed_single_nodes         0
 c max_tree_depth                        26
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-3-15_218.cnf
-c splitting_directory                   SplitViaOKsolver_D30SNVanDerWaerden_2315_218cnf_2011-05-29-010530/Instances
+c splitting_directory                   SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2011-05-29-010530/Instances
 c splitting_cases                       12922
 
-> cd Instances
-> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+# running times (simple loop)
 real    251m42.474s
 user    217m52.028s
 sys     2m21.823s
+# Monitoring in R
+12922: 3.40h, sum-cfs=3.806417e+08, mean-t=0.947s, mean-cfs=29457
+# Times partially false (reduced clock-frequence), but perhaps not too badly.
 
-# Monitoring in R via
-#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
-12922: 3.40h, sum-cfs=3.806417e+08, mean-t=0.947s, mean-cfs=29457 
+# csltok:
+> SplittingViaOKsolver -D35 VanDerWaerden_2-3-15_218.cnf
+> more Md5sum
+e1f1dde53f84a27d52d77e1860507fda
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  35.00   36.00   39.00   39.14   41.00   83.00
+> table(E$n)
+  35   36   37   38   39   40   41   42   43   44   45   46   47   48   49   50
+6468 2883 2981 3209 3278 3136 2764 2221 1763 1318  869  556  236  104   72   69
+  51   52   53   54   55   56   57   58   59   60   61   63   66   69   83
+ 102   97   78   59   27   25    1    5    3    2    1    1    1    1    1
+>
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         15
+c initial_number_of_variables           218
+c initial_number_of_clauses             13362
+c initial_number_of_literal_occurrences 59166
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     1109.0
+c number_of_nodes                       64663
+c number_of_2-reductions                4170
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        29
+c file_name                             VanDerWaerden_2-3-15_218.cnf
+c splitting_directory                   SplitViaOKsolver_D35VanDerWaerden_2315_218cnf_2011-08-20-014927/
+Instances
+c splitting_cases                       32331
+
+> E=read_processsplit_minisat()
+32331: 2.83h, sum-cfs=3.615115e+08, mean-t=0.315s, mean-cfs=11182
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+0.009998 0.136000 0.237000 0.315200 0.405900 5.435000
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     41    4755    8441   11180   14400  180100
    \endverbatim
-   Times on csltok partially false (reduced clock-frequence), but perhaps not
-   too badly. </li>
+    </li>
    <li> Now we need to test how satz215 as sub-solver does.
    \verbatim
 SplitViaOKsolver_D30SNVanDerWaerden_2315_218cnf_2011-05-29-010530> tail Data
 12913 12893 30
 > cat VanDerWaerden_2-3-15_218.cnf | ApplyPass-O3-DNDEBUG Instances/12893 I12893.cnf
 > satz215 I12893.cnf
-Aborted after 14m. </li>
+Aborted after 14m.
    \endverbatim
-   So it seems that the combination of OKsolver for splitting and
-   conflict-driven solver for solving is the winning combination. </li>
    </li>
+   <li> So it seems that the combination of OKsolver for splitting and
+   conflict-driven solver for solving is the winning combination. </li>
   </ul>
 
 
-  \todo Palindromic numbers
+  \todo vdw_2^pd(3,15) = (200,205)
   <ul>
    <li> pdvanderwaerden([3,15])[2] = 205 = vanderwaerden([3,15])-13 . </li>
    <li> pdvanderwaerden([3,15])[1] = 200. </li>
