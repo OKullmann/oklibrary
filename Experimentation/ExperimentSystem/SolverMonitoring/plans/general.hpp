@@ -187,5 +187,9 @@ shell> minisat-2.2.0 test.cnf
 
 
   \todo Add monitoring for all other solvers
+  <ul>
+   <li> This is about analysing the "verbose" output. </li>
+   <li> For OKsolver_2002 we have some functions in OKsolver.R. </li>
+  </ul>
 
 */

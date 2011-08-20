@@ -19,7 +19,6 @@ License, or any later version. */
     - Running experiments
     - Better summary statistics
     - Extraction tools
-    - Add monitoring for all other solvers
 
   \par
    In ExperimentSystem/SolverMonitoring/plans/Minisat2.hpp the following
@@ -38,6 +37,11 @@ License, or any later version. */
 
 
   \par Version 0.1.1 :
+
+  \par
+   In ExperimentSystem/SolverMonitoring/plans/general.hpp the following topics
+   are handled:
+    - Add monitoring for all other solvers
 
   \par
    In ExperimentSystem/SolverMonitoring/plans/OKsolver.hpp the following
