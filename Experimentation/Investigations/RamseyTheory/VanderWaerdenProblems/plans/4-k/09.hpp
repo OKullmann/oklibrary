@@ -57,17 +57,110 @@ c file_name                             VanDerWaerden_2-4-9_309.cnf
      picosat913 for the subproblems (which hopefully is faster). </li>
     </ul>
    </li>
-   <li> Parallelisation:
-    <ol>
-     <li> SplittingViaOKsolver, first with minisat-2.2.0:
-     \verbatim
-> SplittingViaOKsolver -D20 VanDerWaerden_2-4-9_309.cnf
+  </ul>
 
-     \endverbatim
-     </li>
-     <li> Now with Picosat913. </li>
-    </ol>
-   </li>
+
+  \todo Parallelisation via SplittingViaOKsolver
+  <ul>
+   <li> First with minisat-2.2.0:
+   \verbatim
+> SplittingViaOKsolver -D20 VanDerWaerden_2-4-9_309.cnf
+> cd SplitViaOKsolver_D20VanDerWaerden_249_309cnf_2011-08-20-182145/
+> more Md5sum
+7d81fafac5886de3ecfc7565713faf17
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     20      20      20      21      22      36
+> table(E$n)
+   20    21    22    23    24    25    26    27    28    29    30    31    32
+64695 23014 17608  8883  4567  1960   838   313   151    60    18     7     1
+   33    34    36
+    3     2     2
+> more Result
+c sat_status                            2
+c initial_maximal_clause_length         9
+c initial_number_of_variables           309
+c initial_number_of_clauses             21573
+c initial_number_of_literal_occurrences 115362
+c running_time(sec)                     4825.9
+c number_of_nodes                       244243
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                856
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        20
+c file_name                             VanDerWaerden_2-4-9_309.cnf
+c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_249_309cnf_2011-08-20-182145/Instances
+c splitting_cases                       122122
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D20VanDerWaerden_249_309cnf_2011-08-20-182145/
+Aborted at instance 35 after 900s for that instance (14741618 conflicts).
+
+> SplittingViaOKsolver -D22 VanDerWaerden_2-4-9_309.cnf
+    22     23     24     25     26     27     28     29     30     31     32
+140248  53742  41713  23555  12663   5728   2669   1135    526    216    104
+    33     34     35     36     37     38     39     40
+    39     14      3      4      3      2      2      1
+c running_time(sec)                     14774.3
+c number_of_nodes                       564733
+c number_of_2-reductions                2788
+c max_tree_depth                        22
+c splitting_cases                       282367
+
+> SplittingViaOKsolver -D24 VanDerWaerden_2-4-9_309.cnf
+    24     25     26     27     28     29     30     31     32     33     34
+292434 118411  95187  57045  33102  15873   7689   3450   1685    697    328
+    35     36     37     38     39     40     41     43     44     46
+   119     82     44     14     10      4      6      1      1      1
+c running_time(sec)                     52115.9
+c number_of_nodes                       1252365
+c number_of_2-reductions                8358
+c max_tree_depth                        24
+c splitting_cases                       626183
+
+# Run aborted:
+952: 1.43h, sum-cfs=1.176527e+08, mean-t=5.395s, mean-cfs=123585
+> summary(E$t)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+  0.05299   0.39290   1.17600   5.39500   3.04700 689.50000
+> summary(E$cfs)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+     523    11860    34930   123600    86760 11490000
+
+> SplittingViaOKsolver -D26 VanDerWaerden_2-4-9_309.cnf
+> more Md5sum
+ca544b13e9f145a4d83166237daa160a
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  26.00   26.00   27.00   27.38   28.00   52.00
+> table(E$n)
+    26     27     28     29     30     31     32     33     34     35     36
+589561 250702 205602 132160  78760  39668  20052   9586   4820   2246   1091
+    37     38     39     40     41     42     43     44     45     46     47
+   521    247    124     81     52     20     19     13      5      4      3
+    48     49     50     51     52
+     1      1      1      3      2
+c running_time(sec)                     48066.5
+c number_of_nodes                       2670689
+c number_of_2-reductions                23499
+c max_tree_depth                        26
+c splitting_cases                       1335345
+
+# Run aborted:
+5008: 10.21h, sum-cfs=3.668411e+08, mean-t=7.337s, mean-cfs=73251
+> summary(E$cfs)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    277    7916   19190   73250   52720 8366000
+> summary(E$t)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+4.499e-02 5.007e-01 1.376e+00 7.337e+00 3.927e+00 1.443e+03
+   \endverbatim
+   One needed to go say for D=30. </li>
+   <li> Now with Picosat913. </li>
   </ul>
 
 
