@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In ExperimentSystem/SolverMonitoring/plans/general.hpp the following topics
    are handled:
+    - Better summary statistics
     - Extraction tools
     - Add monitoring for all other solvers
 

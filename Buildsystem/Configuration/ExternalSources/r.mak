@@ -1,5 +1,5 @@
 # Oliver Kullmann, 26.7.2007 (Swansea)
-# Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -50,4 +50,8 @@ R_docu_page_okl ?= $(doc_dir)/doxygen_html/da/d4d/docus_2R_8hpp.html
 R_homepage_url_okl := http://www.r-project.org/
 R_documentation_url_okl := http://www.r-project.org/
 
-R_packages_okl := lpSolve_5.6.4.tar.gz QCA_0.6-3.tar.gz QCA3_0.0-2.tar.gz # gsl_1.9-3.tar.gz Rcmdr_1.5-4.tar.gz
+R_packages_okl := lpSolve_5.6.4.tar.gz QCA_0.6-3.tar.gz QCA3_0.0-2.tar.gz # Hmisc_3.8-3.tar.gz pastecs_1.3-11.tar.gz gsl_1.9-3.tar.gz Rcmdr_1.5-4.tar.gz
+# selected packages can be installed by e.g.
+# ExternalSources> oklib R_packages R_packages_okl="pastecs_1.3-11.tar.gz"
+# and loaded into R via
+# > library("pastecs")

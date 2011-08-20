@@ -10,6 +10,23 @@ License, or any later version. */
   \brief General plans regarding monitoring solvers
 
 
+  \todo Better summary statistics
+  <ul>
+   <li> It it important that functions like read_processsplit_minisat (in
+   CubeAndConquer.R) automatically output good summary statistics (since
+   typically only these numbers will be used). </li>
+   <li> Currently we use "summary". </li>
+   <li> We should also use "sd", possibly also "mean" (already provided in
+   summary, but now with a different formatting, better suited for sd). </li>
+   <li> Library "pastecs" offers "stat.desc", which has more on the side of
+   variance. </li>
+   <li> Library "Hmisc" offers "describe", which has more quantiles, and a
+   bit of other data. </li>
+   <li> We need to provide our own summary-functions, tailored for the special
+   situations. </li>
+  </ul>
+
+
   \todo Extraction tools
   <ul>
    <li> The most fundamental tool for a solver is a script, which takes the
