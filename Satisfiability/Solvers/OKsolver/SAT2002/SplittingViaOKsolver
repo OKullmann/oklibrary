@@ -13,8 +13,8 @@
 # where File is the CNF in DIMACS format, and parameters are for
 # the OKsolver-2002.
 
-# Creates a directory "SplitViaOKsolver_parameters_timestamp", containing
-# the following files:
+# Creates a directory "SplitViaOKsolver_parameters_timestamp" (in the current
+# directory), containing the following files:
 # - Log : some general logging information
 # - Parameters : the parameters passed over to the OKsolver
 # - Version : information on this script and the OKsolver

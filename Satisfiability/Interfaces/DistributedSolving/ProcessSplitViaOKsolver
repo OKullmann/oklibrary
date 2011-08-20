@@ -12,7 +12,7 @@
 # ProcessSplitViaOKsolver SplitViaOKsolver_dir
 
 # creates the experiment-directory "Process_splitviaoksolver-dirname_timestamp"
-# containing the files
+# (in the current directory) containing the files
 #  - Log: general logging information
 #  - Parameter: the version of this script, the splitviaoksolver-directory,
 #     the created experiment-directory, and the solver used
