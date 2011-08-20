@@ -10,6 +10,13 @@ License, or any later version. */
   \brief General plans regarding monitoring solvers
 
 
+  \todo Running experiments
+  <ul>
+   <li> Currently we have RunMinisat. </li>
+   <li> We need scripts like that for all solvers. </li>
+  </ul>
+
+
   \todo Better summary statistics
   <ul>
    <li> It it important that functions like read_processsplit_minisat (in
