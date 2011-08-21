@@ -8,6 +8,30 @@
 # Tools for evaluating the results of ProcessSplitViaOKsolver, and other
 # tools following the "Cube and Conquer" approach.
 
+# Helper functions for statistics
+
+# Prints basic statistics of vector x:
+basic_stats = function(x, qpoints = seq(0.95, 1, 0.01)) {
+  print(summary(x))
+  cat("sd=", sd(x), "\n")
+  print(quantile(x,probs = qpoints))
+  cat("sum=", sum(x), "\n")
+}
+
+# Converts x (in seconds) into a string using seconds, minutes, hours, days
+# or years appropriately:
+display_seconds = function(x) {
+  if (x <= 60) return(paste(round(x,2),"s",sep=""))
+  x = x / 60
+  if (x <= 60) return(paste(round(x,2),"m",sep=""))
+  x = x / 60
+  if (x <= 24) return(paste(round(x,3),"h",sep=""))
+  x = x / 24
+  if (x <= 365) return(paste(round(x,3),"d",sep=""))
+  x = x / 365
+  paste(round(x,4),"y")
+}
+
 
 
 # Reads the statistics-file when minisat (in some version) was used, prints
@@ -32,8 +56,12 @@ read_processsplit_minisat = function(dirname, file, ...)  {
         header = T,
         colClasses = c(rep("integer",5),"numeric","integer",rep("numeric",8)),
         ...)
-  cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
-  print(summary(E$t))
-  print(summary(E$cfs))
+  cat(sprintf("%d: %s, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),display_seconds(sum(E$t)),sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+  cat("$t:\n")
+  basic_stats(E$t)
+  cat("$cfs:\n")
+  basic_stats(E$cfs)
+  L = lm(E$t ~ E$cfs)
+  print(summary.lm(L))
   E
 }

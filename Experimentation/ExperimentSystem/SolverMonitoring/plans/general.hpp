@@ -31,6 +31,12 @@ License, or any later version. */
    bit of other data. </li>
    <li> We need to provide our own summary-functions, tailored for the special
    situations. </li>
+   <li> For a start, see the approach in CubeAndConquer.R:
+    <ol>
+     <li> The general functions there, once approved, need to move to more
+     general places. </li>
+    </ol>
+   </li>
   </ul>
 
 
