@@ -32,6 +32,16 @@ display_seconds = function(x) {
   paste(round(x,4),"y")
 }
 
+# For the object obtained by lm, print a shorter summary:
+short_summary_lm = function(L) {
+  S = summary(L)
+  printCoefmat(S$coefficients, signif.legend=FALSE)
+  digits = max(3,getOption("digits")-3)
+  cat("R-squared:", formatC(S$r.squared, digits = digits), "\n")
+}
+# Remark: Obtained by inspecting the code of summary.lm by
+# "getAnywhere(print.summary.lm)".
+
 
 
 # Reads the statistics-file when minisat (in some version) was used, prints
@@ -62,6 +72,7 @@ read_processsplit_minisat = function(dirname, file, ...)  {
   cat("$cfs:\n")
   basic_stats(E$cfs)
   L = lm(E$t ~ E$cfs)
-  print(summary.lm(L))
+  cat("$t ~ $cfs:\n")
+  short_summary_lm(L)
   E
 }
