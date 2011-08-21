@@ -45,8 +45,11 @@ License, or any later version. */
    <li> The most fundamental tool for a solver is a script, which takes the
    solver output from standard input, and puts it into a single line (just
    data) on standard output, usable for R. </li>
-   <li> DONE First we implement this as an awk script:
+   <li> First we implement this as an awk script:
    <ul>
+    <li> ExtractGrasp.awk </li>
+    <li> ExtractPicosat.awk </li>
+    <li> ExtractArgosat.awk </li>
     <li> ExtractMinisat.awk : DONE </li>
     <li> ExtractOKsolver.awk : DONE </li>
     <li> ExtractGlucose.awk : DONE </li>
