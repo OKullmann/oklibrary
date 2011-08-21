@@ -28,8 +28,8 @@ License, or any later version. */
    <li> Our conjecture is that it's polynomially bounded, </li>
    <li> The known values:
    \verbatim
-create_list(vanderwaerden5k(k),k,1,1);
- [unknown]
+create_list(vanderwaerden5k(k),k,1,7);
+ [5,10,22,55,178,206,[260,inf-1]]
    \endverbatim
    </li>
   </ul>
