@@ -106,9 +106,75 @@ sys     1m13.086s
    <li> k=8
    \verbatim
 400142616 conflicts
-29146.6 s
+29146.6 s (8.1h)
    \endverbatim
    Perhaps the fastest solver here. </li>
+  </ul>
+
+
+  \todo SplittingViaOKsolver
+  <ul>
+   <li> First with minisat-2.2.0:
+   \verbatim
+> SplittingViaOKsolver -D20 VanDerWaerden_2-4-8_146.cnf
+> cd SplitViaOKsolver_D20VanDerWaerden_248_146cnf_2011-08-20-205807/
+> more Md5sum
+20e99e1199d616ec681739e350d240c0
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  20.00   20.00   21.00   21.32   22.00   48.00
+> table(E$n)
+   20    21    22    23    24    25    26    27    28    29    30    31    32
+28679 13186 10275  6304  3538  1668   875   387   185    74    51    20    11
+   33    34    35    36    37    43    48
+    6     1     3     2     1     3     1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         8
+c initial_number_of_variables           146
+c initial_number_of_clauses             4930
+c initial_number_of_literal_occurrences 25520
+c running_time(sec)                     144.9
+c number_of_nodes                       130549
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                2837
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        20
+c file_name                             VanDerWaerden_2-4-8_146.cnf
+c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_248_146cnf_2011-08-20-205807/Instances
+c splitting_cases                       65270
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D20VanDerWaerden_248_146cnf_2011-08-20-205807
+265m01s
+> E=read_processsplit_minisat()
+65270: 3.747h, sum-cfs=8.831606e+08, mean-t=0.207s, mean-cfs=13531
+$t:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+ 0.001999  0.047990  0.097980  0.206700  0.209000 21.760000
+sd= 0.4514638
+      95%       96%       97%       98%       99%      100%
+ 0.687895  0.785880  0.943856  1.212434  1.793040 21.758700
+sum= 13488.18
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     49    3264    6714   13530   14140 1151000
+sd= 26889.61
+       95%        96%        97%        98%        99%       100%
+  45313.30   51243.24   61021.88   77150.64  112392.61 1151425.00
+sum= 883160594
+lm(formula = E$t ~ E$cfs)
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -1.994e-02  1.419e-04  -140.5   <2e-16 ***
+E$cfs        1.675e-05  4.714e-09  3552.7   <2e-16 ***
+Multiple R-squared: 0.9949,     Adjusted R-squared: 0.9949
+   \endverbatim
+   </li>
   </ul>
 
 
