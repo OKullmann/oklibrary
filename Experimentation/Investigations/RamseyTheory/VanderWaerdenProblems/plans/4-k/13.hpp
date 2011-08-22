@@ -90,8 +90,30 @@ c splitting_cases                       1365418
 
 # on cs-oksvr:
 > nohup ProcessSplitViaOKsolver SplitViaOKsolver_D36VanDerWaerden_pd_2413_520cnf_2011-08-16-014738 &
+# intermediate result:
+> E=read_processsplit_minisat()
+16474: 16.479h, sum-cfs=1.005552e+09, mean-t=3.601s, mean-cfs=61039
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.056   0.508   1.204   3.601   3.035 610.200
+sd= 11.42147
+      95%       96%       97%       98%       99%      100%
+ 12.66100  15.30628  19.05492  25.35824  40.18330 610.16200
+sum= 59325.6
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     33    9899   23690   61040   57470 7620000
+sd= 157447.3
+      95%       96%       97%       98%       99%      100%
+ 217752.9  256392.7  312282.4  402164.9  608723.5 7619780.0
+sum= 1005552013
+$t ~ $cfs:
+               Estimate  Std. Error  t value  Pr(>|t|)
+(Intercept) -7.9971e-01  1.0517e-02  -76.039 < 2.2e-16 ***
+E$cfs        7.2100e-05  6.2283e-08 1157.614 < 2.2e-16 ***
+R-squared: 0.9879
    \endverbatim
-   </li>
+   One should try D=40. </li>
    <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
    <li> For now we consider adaptg2wsat as best (it was determined as best
    for vdw_2^pd(5,8) in VanderWaerdenProblems/plans/5-k/general.hpp. </li>

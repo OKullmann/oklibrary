@@ -303,13 +303,40 @@ c splitting_cases                       1570975
 > cd Instances
 > OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C "; fi; done
 
-# Monitoring in R via
-#> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
-
 # interim results:
 647756: 1551.97h, sum-cfs=1.084401e+11, mean-t=8.625s, mean-cfs=167409
 # the plot shows clear epochs, likely coming from the different sizes
 # of the partial assignments
+# aborted:
+>  E = read.table(file="Instances/Stats", header = T, colClasses = c(rep("integer",3),"numeric","integer",rep("numeric",8)))
+> cat(sprintf("%d: %s, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),display_seconds(sum(E$t)),sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+688712: 70.612d, sum-cfs=1.182415e+11, mean-t=8.858s, mean-cfs=171685
+>   basic_stats(E$t)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   0.012    0.776    2.096    8.858    6.296 3490.000
+sd= 30.40892
+       95%        96%        97%        98%        99%       100%
+  34.16610   41.80660   54.71808   70.86440  124.12180 3489.79000
+sum= 6100855
+>   basic_stats(E$t)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   0.012    0.776    2.096    8.858    6.296 3490.000
+sd= 30.40892
+       95%        96%        97%        98%        99%       100%
+  34.16610   41.80660   54.71808   70.86440  124.12180 3489.79000
+sum= 6100855
+>   basic_stats(E$cfs)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+      12    19140    50830   171700   142300 41050000
+sd= 475336.7
+       95%        96%        97%        98%        99%       100%
+  669208.9   799272.7  1028591.7  1287994.8  2106368.9 41050365.0
+sum= 118241474871
+     \endverbatim
+     That seems feasible. </li>
+     <li> Finally D=32 should do the job:
+     \verbatim
+> SplittingViaOKsolver -D32 VanDerWaerden_pd_2-5-9_447.cnf
      \endverbatim
      </li>
     </ol>
