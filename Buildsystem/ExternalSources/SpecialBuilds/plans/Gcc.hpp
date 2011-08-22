@@ -287,6 +287,8 @@ ExternalSources> oklib gcc gcc_user_options_okl="--with-system-zlib"
 
   \todo Latest texi2dvi fails to build gcc.texi on some systems
   <ul>
+   <li> Request to specify which version of texi2dvi this was about; and also,
+   for such issues dates need to be stated. </li>
    <li> The latest texinfo package has a bug due to poor formatting of
    strings passed to egrep, which results in an error from texi2dvi during
    the gcc (4.5.2) build process complaining about precisely this. </li>
