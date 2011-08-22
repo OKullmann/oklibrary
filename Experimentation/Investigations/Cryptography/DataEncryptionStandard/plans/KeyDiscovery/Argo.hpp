@@ -25,28 +25,25 @@ License, or any later version. */
   <ul>
    <li> Running minisat-2.2.0 on the gss-*-s100.cnf instances:
    \verbatim
-Experiments/DES/Argo> mkdir Instances/
-Experiments/DES/Argo> for F in ExternalSources/Installations/SAT/SAT09/APPLICATIONS/crypto/desgen/*; do cp ${F} Instances/$(echo $(basename ${F}) | cut -d "-" -f "2"); done
+> mkdir Instances/
+> for F in ExternalSources/Installations/SAT/SAT09/APPLICATIONS/crypto/desgen/*; do cp ${F} Instances/$(echo $(basename ${F}) | cut -d "-" -f "2"); done
 Experiments/DES/Argo> ls Instances/
 13  14  15  16  17  19  20  21  22  23  24  25  26  27  28  31  32  33  34
-Experiments/DES/Argo> for F in Instances/*; do RunMinisat ${F}; done
-Experiments/DES/Argo> cat ExperimentMinisat_Instances13_2011-08-22-111827/Environment
+> for F in Instances/*; do RunMinisat ${F}; done
+> cat ExperimentMinisat_Instances13_2011-08-22-111827/Environment
 Linux csenceladus 2.6.37.1-1.2-desktop #1 SMP PREEMPT 2011-02-21 10:34:10 +0100 i686 i686 i386 GNU/Linux
-
 processor       : 0
 model name      : Intel(R) Core(TM)2 Duo CPU     E8400  @ 3.00GHz
 cpu MHz         : 2003.000
 cache size      : 6144 KB
 bogomips        : 5999.41
-
 processor       : 1
 <same as processor 0>
-
              total       used       free     shared    buffers     cached
 Mem:          3947       1113       2833          0        183        839
 Swap:         2053          0       2053
 
-Experiments/DES/Argo> echo -n "ub "; ExtractMinisat header-only; for F in Instances/*; do echo -n "$(basename ${F}) "; tail -n1 ExperimentMinisat_Instances$(basename ${F})_*/Statistics; done
+> echo -n "ub "; ExtractMinisat header-only; for F in Instances/*; do echo -n "$(basename ${F}) "; tail -n1 ExperimentMinisat_Instances$(basename ${F})_*/Statistics; done
 ub n c t sat cfs dec rts r1 mem ptime stime cfl
 13 30867 92535 4.27935 1 4163 4782 22 32241454 20.00 0.05 0.17 53421
 14 31229 93655 13.6159 1 13103 14368 59 105018641 20.00 0.05 0.18 162452
