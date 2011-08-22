@@ -95,6 +95,29 @@ c file_name                             VanDerWaerden_2-5-6_206.cnf
 c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_256_206cnf_2011-08-21-175644/Instances
 c splitting_cases                       91001
 
+> ProcessSplitViaOKsolver SplitViaOKsolver_D20VanDerWaerden_256_206cnf_2011-08-21-175644
+1570m16s
+> E=read_processsplit_minisat()
+91001: 1.031d, sum-cfs=3.830842e+09, mean-t=0.979s, mean-cfs=42097
+$t:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+9.998e-03 2.270e-01 4.389e-01 9.791e-01 8.959e-01 1.401e+02
+sd= 2.612534
+      95%       96%       97%       98%       99%      100%
+  3.07253   3.57046   4.41033   5.77412   9.32458 140.12100
+sum= 89095.36
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     54   10970   20940   42100   41460 4095000
+sd= 93360.84
+    95%     96%     97%     98%     99%    100%
+ 131987  150850  183536  239454  367993 4095191
+sum= 3830842317
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -1.9242e-01  9.9857e-04 -192.69 < 2.2e-16 ***
+E$cfs        2.7828e-05  9.7505e-09 2854.02 < 2.2e-16 ***
+R-squared: 0.989
    \endverbatim
    </li>
   </ul>
