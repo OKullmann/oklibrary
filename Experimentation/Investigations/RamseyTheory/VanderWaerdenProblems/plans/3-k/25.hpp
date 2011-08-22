@@ -106,9 +106,9 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
      </li>
      <li> 500 runs with rots and cutoff=10^7 don't find a solution:
      \verbatim
-  1   2   3   4   5   6   7   8  10  11 
-191 183  62  35   5   5   6  10   2   1 
-500 
+  1   2   3   4   5   6   7   8  10  11
+191 183  62  35   5   5   6  10   2   1
+500
      \endverbatim
      </li>
      <li> So n=655 seems to be quite difficult, and so unsatisfiability for
@@ -187,9 +187,9 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
      </li>
      <li> Cutoff=2*10^7, rots:
      \verbatim
-  1   2   3   4 
-333 146  20   1 
-500 
+  1   2   3   4
+333 146  20   1
+500
   1   2   3   4
 329 147  22   2
 500
@@ -243,7 +243,65 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
      <li> n=608: unsat, 30days (on csltok, with unstable clock frequency;
      6708604472 conflicts, 8254745835 decisions, 256909484007 propagations,
      234914164662 conflict literals). </li>
-     <li> W.r.t. SplittingViaOKsolver, let's go for n=30:
+     <li> SplittingViaOKsolver, n=587:
+     \verbatim
+> SplittingViaOKsolver -D45 VanDerWaerden_pd_2-3-25_587.cnf
+> cd SplitViaOKsolver_D45VanDerWaerden_pd_2325_587cnf_2011-08-22-004743/
+> more Md5sum
+c7179b1f96b332f932ff01b1aad485bc
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  45.00   47.00   52.00   52.37   57.00  101.00
+> table(E$n)
+  45   46   47   48   49   50   51   52   53   54   55   56   57   58   59   60
+1456  529  452  426  430  482  531  591  582  475  440  422  340  338  325  344
+  61   62   63   64   65   66   67   68   69   70   73   86   89   97  101
+ 305  259  165  109   67   27   13    4    1    1    2    1    1    1    1
+> more Result
+c initial_maximal_clause_length         25
+c initial_number_of_variables           294
+c initial_number_of_clauses             45779
+c initial_number_of_literal_occurrences 204903
+c number_of_2-clauses_after_reduction   390
+c running_time(sec)                     3925.0
+c number_of_nodes                       18239
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                2202
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        29
+c file_name                             VanDerWaerden_pd_2-3-25_587.cnf
+c splitting_directory                   SplitViaOKsolver_D45VanDerWaerden_pd_2325_587cnf_2011-08-22-004743/Instances
+c splitting_cases                       9120
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D45VanDerWaerden_pd_2325_587cnf_2011-08-22-004743
+323m06s
+> E=read_processsplit_minisat()
+9120: 4.982h, sum-cfs=2.625604e+08, mean-t=1.966s, mean-cfs=28790
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+ 0.09298  0.64790  1.16400  1.96600  2.24700 73.85000
+sd= 2.608615
+      95%       96%       97%       98%       99%      100%
+ 6.127070  6.811328  8.254036 10.132820 13.283080 73.854800
+sum= 17933.74
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    231    9408   17680   28790   33540  950400
+sd= 37014.56
+      95%       96%       97%       98%       99%      100%
+ 89649.95  99894.72 120153.79 145636.56 189240.46 950354.00
+sum= 262560423
+$t ~ $cfs:
+               Estimate  Std. Error  t value  Pr(>|t|)
+(Intercept) -5.8116e-02  2.2823e-03  -25.464 < 2.2e-16 ***
+E$cfs        7.0322e-05  4.8672e-08 1444.824 < 2.2e-16 ***
+R-squared: 0.9957
+     \endverbatim
+     </li>
+     <li> For SplittingViaOKsolver, n=608, let's go first for D=30:
      \verbatim
 > SplittingViaOKsolver -D30 VanDerWaerden_pd_2-3-25_608.cnf
 > cd SplitViaOKsolver_D30SNVanDerWaerden_pd_2325_608cnf_2011-05-19-182858/
