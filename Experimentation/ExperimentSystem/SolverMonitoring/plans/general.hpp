@@ -13,15 +13,18 @@ License, or any later version. */
   \todo Running experiments
   <ul>
    <li> Currently we have RunMinisat. </li>
-   <li> Running experiments from a directory:
+   <li> Running experiments from a directory by "ExpRunMinisat":
     <ul>
      <li> Often we have a directory full of instances which we wish
      to run a solver on in a specific order. </li>
      <li> The order we wish to run the solver in is usually dependent on a
      parameter, present in the filename of the instance. </li>
+     <li> However, a better solution, which by itself documents which instances
+     were considered in each order, and which is also simpler, just uses a file
+     with one instance per line. </li>
      <li> We should provide a mechanism for running the solver on instances
-     given in a directory, and collecting the statistics. </li>
-     <li> We have two options:
+     given in by such a file, and collecting the statistics. </li>
+     <li> We have several possibilities:
       <ul>
        <li> Manually running the solvers on each instance, and providing
        a script which collects Statistics from a number of Experiment
@@ -30,9 +33,18 @@ License, or any later version. */
        a directory of instances, and creates a directory with all of
        the RunMinisat directories inside it, plus an overall Statistics
        file. </li>
+       <li> Best is to provide a dedicated script, ExpRunMinisat, which
+       creates, as usual, an experiment directory, copies and documents its
+       arguments, which are typically configuration-files, and then runs the
+       computations. </li>
+       <li> Important that this script can be (just) restarted. </li>
+       <li> One needs to see whether the script itself collects the statistics
+       from the various experiment-directories, or whether that is done by
+       an external tool. </li>
       </ul>
      </li>
-     <li> In each case we need standard tools to extract parameters
+     <li> DONE (this this a bad hack)
+     In each case we need standard tools to extract parameters
      from filenames; see also "Extraction tools". </li>
     </ul>
    </li>
