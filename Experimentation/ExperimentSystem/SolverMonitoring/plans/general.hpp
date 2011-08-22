@@ -75,6 +75,51 @@ License, or any later version. */
   </ul>
 
 
+  \todo Understanding solver output
+  <ul>
+   <li> Most solvers output a lot of data; what this output means
+   is often not documented. </li>
+   <li> We want to document all data we extract, see "Extraction tools"
+   and "Column naming conventions" in SolverMonitoring/docus/general.hpp. </li>
+   </li>
+   <li> For solver output which is unclear, we should contact the authors
+   and confirm the meaning. </li>
+   <li> The following data items in solver output need to be explained:
+    <ul>
+     <li> satz215 output:
+     \verbatim
+**** The instance is unsatisfiable. *****
+NB_MONO= 75, NB_UNIT= 476, NB_BRANCHE= 79, NB_BACK= 40
+Program terminated in 0.000 seconds.
+satz215 PHP_weak_6_5.cnf 0.000 79 40 1916 80 0 30 81 0 0 0
+
+> cat ExternalSources/builds/SAT/Satz/satz215/satz215.2.c
+<snip>
+  printf("satz215 %s %5.3f %ld %ld %ld %ld %d %d %d %d %ld %ld\n",
+          saved_input_file, ((double)(endtime-begintime)/CLOCKS_PER_SEC),
+          NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED,
+          satisfiable(), NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
+          NB_SECOND_SEARCH, NB_SECOND_FIXED);
+     \endverbatim
+     What is:
+      <ul>
+       <li> NB_MONO (single nodes??)? </li>
+       <li> NB_BRANCHE (nodes + unit props??)? </li>
+       <li> NB_BACK (nodes??)? </li>
+       <li> NB_SEARCH? </li>
+       <li> NB_FIXED? </li>
+       <li> NB_VAR? </li>
+       <li> NB_SECOND_SEARCH? </li>
+       <li> NB_SECOND_FIXED? </li>
+      </ul>
+     </li>
+     <li> Other solver output needs to be considered and added to this todo.
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Extraction tools
   <ul>
    <li> The most fundamental tool for a solver is a script, which takes the
@@ -86,12 +131,12 @@ License, or any later version. */
     <li> ExtractGrasp.awk </li>
     <li> ExtractPicosat.awk </li>
     <li> ExtractArgosat.awk </li>
-    <li> ExtractMinisat.awk : DONE </li>
-    <li> ExtractOKsolver.awk </li>
     <li> ExtractGlucose.awk </li>
     <li> ExtractPrecosat236.awk </li>
     <li> ExtractPrecosat570.awk </li>
     <li> ExtractSatz </li>
+    <li> ExtractMinisat.awk : DONE </li>
+    <li> ExtractOKsolver.awk : DONE </li>
     <li> ExtractMarchpl : DONE </li>
    </ul>
    </li>

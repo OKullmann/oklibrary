@@ -19,6 +19,7 @@ License, or any later version. */
     - Running experiments
     - Better summary statistics
     - Extraction tools
+    - Understanding solver output
 
   \par
    In ExperimentSystem/SolverMonitoring/plans/Minisat2.hpp the following
