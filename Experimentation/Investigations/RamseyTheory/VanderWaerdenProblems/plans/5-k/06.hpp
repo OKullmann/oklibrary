@@ -56,4 +56,47 @@ c file_name                             VanDerWaerden_2-5-6_206.cnf
    than normal). </li>
   </ul>
 
+
+  \todo SplittingViaOKsolver
+  <ul>
+   <li> First with minisat-2.2.0:
+   \verbatim
+> SplittingViaOKsolver -D20 VanDerWaerden_2-5-6_206.cnf
+> cd SplitViaOKsolver_D20VanDerWaerden_256_206cnf_2011-08-21-175644/
+> more Md5sum
+917bf02abe81e276a67853fcd57d10a8
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  20.00   20.00   20.00   20.82   21.00   45.00
+> table(E$n)
+   20    21    22    23    24    25    26    27    28    29    30    31    32
+49910 20063 13450  4505  1984   639   266   100    40    19    12     3     4
+   34    35    36    40    45
+    1     1     2     1     1
+> more Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         6
+c initial_number_of_variables           206
+c initial_number_of_clauses             9343
+c initial_number_of_literal_occurrences 50856
+c running_time(sec)                     364.9
+c number_of_nodes                       182003
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                488
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        20
+c file_name                             VanDerWaerden_2-5-6_206.cnf
+c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_256_206cnf_2011-08-21-175644/Instances
+c splitting_cases                       91001
+
+   \endverbatim
+   </li>
+  </ul>
+
 */
