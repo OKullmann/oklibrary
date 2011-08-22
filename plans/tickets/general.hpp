@@ -29,7 +29,7 @@ License, or any later version. */
 
   \todo Estimated time needed
   <ul>
-   <li> Instead of "A" we write for example "A1.5" to indicate, that roughly
+   <li> Instead of "A" we write for example "A1.5h" to indicate, that roughly
    1 1/2 hours should be spend. </li>
    <li> Such effort estimation are needed to give a better idea what the
    task should involve, and also to see the total requirement for a
