@@ -15,7 +15,7 @@ License, or any later version. */
    <li> Currently we have RunMinisat. </li>
    <li> Running experiments from a directory:
     <ul>
-     <li> Often we have a directory full of experiment instances which we wish
+     <li> Often we have a directory full of instances which we wish
      to run a solver on in a specific order. </li>
      <li> The order we wish to run the solver in is usually dependent on a
      parameter, present in the filename of the instance. </li>
@@ -26,9 +26,9 @@ License, or any later version. */
        <li> Manually running the solvers on each instance, and providing
        a script which collects Statistics from a number of Experiment
        directories into a single Statistics file. </li>
-       <li> Adding a "--dir" option to RunMinisat etc which processes
+       <li> Adding a "--dir" option to RunMinisat etc. which processes
        a directory of instances, and creates a directory with all of
-       the RunMinisat directories inside it, plus a overall Statistics
+       the RunMinisat directories inside it, plus an overall Statistics
        file. </li>
       </ul>
      </li>
