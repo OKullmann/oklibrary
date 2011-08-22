@@ -56,11 +56,11 @@ short_summary_lm = function(L) {
 read_processsplit_minisat = function(dirname, file, ...)  {
   if (missing(file)) {
     if (missing(dirname)) filename = "SubinstanceStatistics"
-    else filename = paste(dirname, "/SubinstanceStatistics", sep="")
+    else filename = paste(dirname, "SubinstanceStatistics", sep="/")
   }
   else {
     if (missing(dirname)) filename = file
-    else filename = paste(dirname, file, sep="")
+    else filename = paste(dirname, file, sep="/")
   }
   E = read.table(file = filename,
         header = T,
