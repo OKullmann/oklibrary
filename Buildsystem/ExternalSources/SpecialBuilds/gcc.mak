@@ -19,7 +19,7 @@ $(gcc_directories_okl) : % :
 # The main targets for making gcc
 # ####################################
 
-.PHONY : gcc gcc412 cleangcc cleanallgcc
+.PHONY : gcc texi2dvi gcc412 cleangcc cleanallgcc
 
 gcc412 : $(gcc_base_installation_dir_okl) $(gcc412_build_dir_okl) $(gcc412_doc_dir_okl)
 	$(call unarchive,$(gcc412_source_okl),$(gcc_base_build_dir_okl))
@@ -35,7 +35,7 @@ gcc412 : $(gcc_base_installation_dir_okl) $(gcc412_build_dir_okl) $(gcc412_doc_d
 	cp -r gcc/HTML/gcc-4.1.2 $(gcc412_doc_dir_okl)/html; $(postcondition)
 
 
-gcc : $(gcc_directories_okl)
+gcc : $(gcc_directories_okl) texi2dvi
 	$(call unarchive,$(gcc_source_okl),$(gcc_base_build_dir_okl))
 	$(call unarchive,$(gmp_source_okl),$(gcc_unarchived_source_okl))
 	mv $(gcc_unarchived_source_okl)/$(gmp_recommended_okl) $(gcc_unarchived_source_okl)/gmp
@@ -51,6 +51,10 @@ gcc : $(gcc_directories_okl)
 	cp -fr $(gcc_installation_dir_okl)/share/doc $(gcc_doc_dir_okl); $(postcondition) \
 	mv -f $(gcc_doc_dir_okl)/doc $(gcc_doc_dir_okl)/html; $(postcondition) \
 	cp -fr gcc/doc $(gcc_doc_dir_okl); $(postcondition)
+
+# Until texinfo contains the corrected texi2dvi
+texi2dvi :
+	ln -s --force $(gcc_source_base_okl)/texi2dvi $(public_bin_dir_okl)
 
 
 # ####################################

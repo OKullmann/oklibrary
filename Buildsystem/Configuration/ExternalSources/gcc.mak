@@ -52,7 +52,8 @@ gcc_docu_page_okl ?= $(doc_dir)/doxygen_html/d4/dfb/docus_2Gcc_8hpp.html
 gcc_homepage_url_okl := http://gcc.gnu.org/
 gcc_documentation_url_okl := http://gcc.gnu.org/onlinedocs/
 
-gcc_source_okl := $(ExternalSources)/sources/Gcc/$(gcc_recommended_package_name_okl)
+gcc_source_base_okl := $(ExternalSources)/sources/Gcc
+gcc_source_okl := $(gcc_source_base_okl)/$(gcc_recommended_package_name_okl)
 
 gcc_enable_languages_okl ?= c,c++,fortran,java
 gcc_threads_okl ?= posix
