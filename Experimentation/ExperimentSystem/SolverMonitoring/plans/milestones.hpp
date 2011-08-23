@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In ExperimentSystem/SolverMonitoring/plans/general.hpp the following topics
    are handled:
+    - ExtractMinisat returns number of clauses after preprocessing as "c"
     - Running experiments
     - Better summary statistics
     - Extraction tools
