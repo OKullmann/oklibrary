@@ -10,6 +10,29 @@ License, or any later version. */
   \brief General plans regarding monitoring solvers
 
 
+  \bug ExtractMinisat returns number of clauses after preprocessing as "c"
+  <ul>
+   <li> minisat-2.2.0 outputs the number of clauses *after* preprocessing
+   under the title "Number of clauses:". </li>
+   <li> ExtractMinisat outputs this number of clauses under the column
+   name "c". </li>
+   <li> However, in "Extraction tools", we state that "c" should be
+   the number of clauses *before* preprocessing. </li>
+   <li> For example:
+   \verbatim
+> cat unit.cnf
+p cnf 1 1
+1 0
+> minisat-2.2.0 unit.cnf | grep clauses
+|  Number of clauses:               0                                         |
+> minisat-2.2.0 unit.cnf | ExtractMinisat
+n c t sat cfs dec rts r1 mem ptime stime cfl
+1 0 0 1 0 1 1 1 18.00 0.00 0.00 0
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Running experiments
   <ul>
    <li> Currently we have RunMinisat. </li>
