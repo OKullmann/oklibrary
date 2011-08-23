@@ -18,6 +18,7 @@ License, or any later version. */
 
 
   \todo vdw_2(5,8) > 330
+  <ul>
    <li> Certificate for n=330:
    \verbatim
 3,4,5,6,9,12,13,14,21,22,

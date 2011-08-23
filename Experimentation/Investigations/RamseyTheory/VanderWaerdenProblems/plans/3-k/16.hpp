@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/15.hpp
+  \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/16.hpp
   \brief On investigations into vdw_2(3,16) = 238
 
 
