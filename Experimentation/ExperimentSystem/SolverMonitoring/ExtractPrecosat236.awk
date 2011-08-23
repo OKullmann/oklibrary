@@ -9,13 +9,13 @@
 # Extracts the numerical data from output of precosat236, in a single line.
 
 BEGIN {
-  n=0; c=0; t=0; sat=2; cfs=0; dec=0; rts=0; r1=0; mem=0; rnd=0; skip=0; enl=0;
+  rn=0; rc=0; t=0; sat=2; cfs=0; dec=0; rts=0; r1=0; mem=0; rnd=0; skip=0; enl=0;
   shk=0; resc=0; rebi=0; simp=0;red=0; nfix=0; neq=0; nel=0; nmg=0; elres=0;
   elph=0; elr=0; sb=0; sbn=0.0; sba=0.0; sbx=0.0; sbi=0.0; ar=0; arx=0; pb=0;
   pbph=0; pbr=0; pbf=0; pblf=0; pbmg=0; sccnt=0; sccf=0; sccm=0; hshu=0; hshm=0;
   minln=0; mindel=0; minst=0; mind=0; subf=0; subb=0; subdm=0; strf=0; strb=0;
   dom=0; domh=0; domlow=0; mpr=0; memr=0; }
-/^c +found header 'p cnf/ { n=$6; c=$7; sub(/'/,"",c); }
+/^c +found header 'p cnf/ { rn=$6; rc=$7; sub(/'/,"",rc); }
 /^c [0-9]+.[0-9]+ seconds, [0-9]+ MB max, [0-9]+ MB/ { t=$2; mem=$4; memr=$7; }
 /^s +UNSATISFIABLE *$/ { sat=0; }
 /^s +SATISFIABLE *$/ { sat=1; }
@@ -41,7 +41,7 @@ BEGIN {
 /^c +doms: [0-9]+ dominators, [0-9]+ high,/ { dom=$3; domh=$5; domlow=$7; }
 /^c +prps: [0-9]+ propagations, [0-9]+.[0-9]+ megaprops/ { r1=$3; mpr=$5; }
 END {
-  print n " " c " " t " " sat " " cfs " " dec " " rts " " r1 " " mem " " \
+  print rn " " rc " " t " " sat " " cfs " " dec " " rts " " r1 " " mem " " \
     rnd " " its " " skip " " enl " " shk " " resc " " rebi " " simp " " \
     red " " nfix " " neq " " nel " " nmg " " sb " " sbn " " sba " " sbx " " \
     sbi " " ar " " arx " " pb " " pbph " " pbr " " pbf " " pblf " " pbmg " " \
