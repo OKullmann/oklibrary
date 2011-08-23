@@ -8,16 +8,11 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.3.4 (17.3.2011)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.3.5 (23.8.2011)
 
 
   \par Version 0.2.4 (updating especially Gcc and the existing SAT solvers,
   and installing CSP-software)
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
-   topics are handled:
-    - Update to newer Sage
 
   \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
@@ -148,6 +143,11 @@ License, or any later version. */
     - Choco
     - Mozart
     - TAILOR
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
+   topics are handled:
+    - Update to newer Sage : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following

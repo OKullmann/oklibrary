@@ -60,6 +60,8 @@ The following software needs to be installed:
    (check: run "gcc --version")
  - g++
    (check: run "g++ --version")
+ - gfortran (only for Sage)
+   (check: run "gfortran --version")
  - GNU texinfo 
    (check: run "makeinfo --version")
  - zip

@@ -7,8 +7,8 @@
 
 # Settings for building and using Sage
 
-sage_recommended_version_number_okl ?= 4.6.1
-sage_other_versions_okl ?= 4.6
+sage_recommended_version_number_okl ?= 4.7.1
+sage_other_versions_okl ?= 4.6.1
 
 sage_prefix_okl ?= sage
 

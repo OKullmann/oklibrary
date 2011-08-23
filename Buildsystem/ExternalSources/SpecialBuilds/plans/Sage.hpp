@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding installation of Sage
 
 
-  \todo Update to newer Sage
+  \todo DONE (now using 4.7.1)
+  Update to newer Sage
   <ul>
    <li> Version 4.6:
     <ol>
