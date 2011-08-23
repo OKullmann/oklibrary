@@ -48,6 +48,12 @@ License, or any later version. */
      from filenames; see also "Extraction tools". </li>
     </ul>
    </li>
+   <li> These scripts should also (at least) collect full data on the true
+   number of variables, clauses and literals present in the instance, adding
+   this data to the Statistics file as the n, c and l columns. </li>
+   <li> We likely also want to collect more statistics on
+   these instances, for example, min/max/avg clause-length, deficiency and so
+   on. </li>
    <li> We need scripts like that for all solvers. </li>
   </ul>
 
@@ -148,10 +154,14 @@ License, or any later version. */
    <li> Standardised column names:
     <ol>
      <li> n : integer, number of variables. </li>
+     <li> rn : integer, number of variables as reported by the solver. </li>
      <li> c : integer, number of clauses. </li>
+     <li> rc : integer, number of clauses, as reported by the solver. </li>
      <li> l : integer, number of literal occurrences. </li>
-     <li> Such general measures always refer to the original input (not
-     after preprocessing). </li>
+     <li> rl : integer, number of literal occurrences, as reported by the
+     solver. </li>
+     <li> Such general measures (n, c and l) always refer to the original
+     input (not after preprocessing). </li>
      <li> t : double, solution time (in seconds). </li>
      <li> sat : in {0,1,2} for UNSAT, SAT, UNKNOWN. </li>
      <li> nds : double, number of nodes for look-ahead solvers. </li>

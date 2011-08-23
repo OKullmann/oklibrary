@@ -44,7 +44,7 @@ Mem:          3947       1113       2833          0        183        839
 Swap:         2053          0       2053
 
 > echo -n "ub "; ExtractMinisat header-only; for F in Instances/*; do echo -n "$(basename ${F}) "; tail -n1 ExperimentMinisat_Instances$(basename ${F})_*/Statistics; done
-ub n c t sat cfs dec rts r1 mem ptime stime cfl
+ub rn rc t sat cfs dec rts r1 mem ptime stime cfl
 13 30867 92535 4.27935 1 4163 4782 22 32241454 20.00 0.05 0.17 53421
 14 31229 93655 13.6159 1 13103 14368 59 105018641 20.00 0.05 0.18 162452
 15 31238 93678 5.72913 1 5452 6451 29 43914380 20.00 0.05 0.18 78501

@@ -8,7 +8,7 @@
 # Converts the output of "precosat-570.1 -v to a single line.
 
 BEGIN {
-  n=0; c=0; t=0; sat=0; cfs=0; dec=0; rts=0; r1=0; pls=0; ats=0; mem=0; ptime=0;
+  rn=0; rc=0; t=0; sat=0; cfs=0; dec=0; rts=0; r1=0; pls=0; ats=0; mem=0; ptime=0;
   file=""; rnd=0; its=0; skip=0; enl=0; shk=0; resc=0; rebi=0; simp=0; red=0;
   ar=0; arx=0; atssz=0; bck=0; bckct=0; bckj=0; bckjln=0; blkres=0; blkph=0;
   blkr=0; blk=0; blkimp=0; blkexp=0; clsrec=0; clspur=0; clsaut=0; dom=0;
@@ -20,7 +20,7 @@ BEGIN {
   strorg=0; strasy=0; subf=0; subb=0; subdyn=0; suborg=0; subdm=0; subgc=0;
   srtime=0; otime=0; nfix=0; neq=0; nel=0; npur=0; nzmb=0; naut=0; zmb=0;
   zmbexp=0; zmbel=0; zmbblk=0; memr=0; }
-/^c +found header 'p cnf/ { n=$6; c=$7; sub(/'/,"",c); }
+/^c +found header 'p cnf/ { rn=$6; rc=$7; sub(/'/,"",rc); }
 /^c +[0-9]+.[0-9]+ seconds, [0-9]+ MB max,/ { t=$2; mem=$4; memr=$7; }
 /^s +UNSATISFIABLE *$/ { sat=0; }
 /^s +SATISFIABLE *$/ { sat=1; }
@@ -60,7 +60,7 @@ BEGIN {
   nfix=$3; neq=$5; nel=$7; npur=$9; nzmb=$11; naut=$13; }
 /^c zmbs: 0 = 0 explicit + 0 elim + 0 blkd + 0 autark/ { zmb=$3; zmbexp=$5; zmbel=$8; zmbblk=$11; }
 END {
-  print n " " c " " t " " sat " " cfs " " dec " " rts " " r1 " " pls " " \
+  print rn " " rc " " t " " sat " " cfs " " dec " " rts " " r1 " " pls " " \
     ats " " mem " " ptime " \"" file "\" " rnd " " its " " skip " " enl " " \
     shk " " resc " " rebi " " simp " " red " "  ar " " arx " " atssz " " \
     bck " " bckct " " bckj " " bckjln " " blkres " " blkph " " blkr " " \

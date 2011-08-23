@@ -9,10 +9,10 @@
 # Extracts the numerical data from output of the glucose solver, in a single line.
 
 BEGIN { 
-  n=0; c=0; t=0; sat=2; cfs=0; dec=0; rts=0; r1=0; mem=0; ptime=0; cfl=0;
+  rn=0; rc=0; t=0; sat=2; cfs=0; dec=0; rts=0; r1=0; mem=0; ptime=0; cfl=0;
   rdb=0; ldlc=0; l2c=0;l1c=0; }
-/^c +\|  *Number of variables:/ { n=$6; }
-/^c +\|  *Number of clauses:/ { c=$6; }
+/^c +\|  *Number of variables:/ { rn=$6; }
+/^c +\|  *Number of clauses:/ { rc=$6; }
 /^c +CPU time +: ([0-9]+|[0-9]+.[0-9]+) s/ { t=$5; }
 /^s +UNSATISFIABLE *$/ { sat=0; }
 /^s +SATISFIABLE *$/ { sat=1; }
@@ -29,5 +29,5 @@ BEGIN {
 /^c +nb learnts size 1 +:/ { l1c=$7 }
 /^c +\|  *Pars(e|ing) time:/ { ptime=$5; }
 END {
-  print n " " c " " t " " sat " " cfs " " dec " " rts " " r1 " " mem " " ptime " "
+  print rn " " rc " " t " " sat " " cfs " " dec " " rts " " r1 " " mem " " ptime " "
     cfl " " rdb " " ldlc " " l2c " " l1c; }
