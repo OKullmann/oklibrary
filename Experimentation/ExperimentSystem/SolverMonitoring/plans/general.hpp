@@ -43,17 +43,25 @@ License, or any later version. */
        an external tool. </li>
       </ul>
      </li>
-     <li> DONE (this this a bad hack)
+     <li> DONE (this is a bad hack)
      In each case we need standard tools to extract parameters
      from filenames; see also "Extraction tools". </li>
     </ul>
    </li>
-   <li> These scripts should also (at least) collect full data on the true
-   number of variables, clauses and literals present in the instance, adding
-   this data to the Statistics file as the n, c and l columns. </li>
-   <li> We likely also want to collect more statistics on
-   these instances, for example, min/max/avg clause-length, deficiency and so
-   on. </li>
+   <li> Statistics:
+    <ul>
+     <li> These scripts should also (at least) collect full data on the true
+     number of variables, clauses and literals present in the instance, adding
+     this data to the Statistics file as the n, c and l columns. </li>
+     <li> Computation as with the OKsolver_2002, that is, tautological clauses
+     and repeated literals are removed, and then c is the number of remaining
+     clauses, l the number of remaining literal occurrences, and n the number
+     of remaining variables. </li>
+     <li> We likely also want to collect more statistics on
+     these instances, for example, min/max/avg clause-length, deficiency and so
+     on. </li>
+    </ul>
+   </li>
    <li> We need scripts like that for all solvers. </li>
   </ul>
 
