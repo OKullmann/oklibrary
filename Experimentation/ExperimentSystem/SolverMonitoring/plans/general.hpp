@@ -10,6 +10,19 @@ License, or any later version. */
   \brief General plans regarding monitoring solvers
 
 
+  \todo Improve docus
+  <ul>
+   <li> The docus at ExperimentSystem/SolverMonitoring/docus/general.hpp
+   must be improved. </li>
+   <li> Examples of how to use the experiment scripts and their outputs are
+   needed. </li>
+   <li> Full information on all solver data is needed. </li>
+   <li> Information on the methodology and best practice when using these
+   tools is needed, or at least links to other docus which provide this
+   information. </li>
+  </ul>
+
+
   \todo Running experiments
   <ul>
    <li> Currently we have RunMinisat. </li>
@@ -89,6 +102,118 @@ License, or any later version. */
   </ul>
 
 
+  \todo Understanding solver output
+  <ul>
+   <li> Most solvers output a lot of data; what this output means
+   is often not documented. </li>
+   <li> We want to document all data we extract, see "Extraction tools"
+   and "Column naming conventions" in SolverMonitoring/docus/general.hpp. </li>
+   </li>
+   <li> For solver output which is unclear, we should contact the authors
+   and confirm the meaning. </li>
+   <li> The following data items in solver output need to be explained:
+    <ul>
+     <li> satz215 output:
+     \verbatim
+**** The instance is unsatisfiable. *****
+NB_MONO= 75, NB_UNIT= 476, NB_BRANCHE= 79, NB_BACK= 40
+Program terminated in 0.000 seconds.
+satz215 PHP_weak_6_5.cnf 0.000 79 40 1916 80 0 30 81 0 0 0
+
+> cat ExternalSources/builds/SAT/Satz/satz215/satz215.2.c
+<snip>
+  printf("satz215 %s %5.3f %ld %ld %ld %ld %d %d %d %d %ld %ld\n",
+          saved_input_file, ((double)(endtime-begintime)/CLOCKS_PER_SEC),
+          NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED,
+          satisfiable(), NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
+          NB_SECOND_SEARCH, NB_SECOND_FIXED);
+     \endverbatim
+     What is:
+      <ul>
+       <li> NB_MONO (single nodes??)? </li>
+       <li> NB_BRANCHE (nodes + unit props??)? </li>
+       <li> NB_BACK (nodes??)? </li>
+       <li> NB_SEARCH? </li>
+       <li> NB_FIXED? </li>
+       <li> NB_VAR? </li>
+       <li> NB_SECOND_SEARCH? </li>
+       <li> NB_SECOND_FIXED? </li>
+      </ul>
+     </li>
+     <li> Other solver output needs to be considered and added to this todo.
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+
+  \todo Names and order of solver data columns
+  <ul>
+   <li> We need a global order on the columns of solver data
+   extracted using the tools in "Extraction tools". </li>
+   <li> Standardised column names:
+    <ol>
+     <li> n : integer, number of variables. </li>
+     <li> rn : integer, number of variables as reported by the solver. </li>
+     <li> c : integer, number of clauses. </li>
+     <li> rc : integer, number of clauses, as reported by the solver. </li>
+     <li> l : integer, number of literal occurrences. </li>
+     <li> rl : integer, number of literal occurrences, as reported by the
+     solver. </li>
+     <li> Such general measures (n, c and l) always refer to the original
+     input (not after preprocessing). </li>
+     <li> t : double, solution time (in seconds). </li>
+     <li> sat : in {0,1,2} for UNSAT, SAT, UNKNOWN. </li>
+     <li> nds : double, number of nodes for look-ahead solvers. </li>
+     <li> cfs : double, number of conflicts for conflict-driven solvers. </li>
+     <li> dec : double, number of decisions for conflict-driven solvers. </li>
+     <li> rts : double, number of restarts. </li>
+     <li> r1 : double, number of unit-clause propagations. </li>
+     <li> r2 : double, number of failed-literal reductions. </li>
+     <li> pls : double, number of pure literals. </li>
+     <li> ats : double, number of autarkies (not pure literals). </li>
+     <li> h : integer, height of search-tree for look-ahead solvers. </li>
+     <li> mem : double, in MB. </li>
+     <li> ptime : double, parse time (in seconds). </li>
+     <li> file : string. </li>
+     <li> There can be more attributes; the above ones always occur in that
+     order. </li>
+     <li> DONE (no need to make incomparable data comparable)
+     For handling parameters that aren't produced by certain solvers,
+     for example nds by minisat-2.2.0, there are two options:
+     <ol>
+      <li> Output "NA" for that column. </li>
+      <li> Don't output an nds column. This has the disadvantage that
+      outputs from different solvers are harder to compare. </li>
+     </ol>
+     For now the awk scripts (see above) don't output the column.
+     </li>
+    </ol>
+   </li>
+   <li> This list should be kept up to date with the list under
+   "Column naming conventions" in SolverMonitoring/docus/general.hpp. </li>
+   <li> The following columns need standardised names and a standardised
+   order:
+    <ul>
+     <li> n2cr : number of 2-clauses after reduction. </li>
+     <li> n2cs : number of new 2-clauses. </li>
+     <li> m2cs : maximal number of added 2-clauses. </li>
+     <li> dmcl : difference in maximal clause-length after preprocessing. </li>
+     <li> dn : difference in number of variables after preprocessing. </li>
+     <li> dc : difference in number of clauses after preprocessing. </li>
+     <li> dc : difference in number of literal after preprocessing. </li>
+     <li> snds : number of single nodes. </li>
+     <li> qnds : number of quasi-single nodes. </li>
+     <li> mnds : number of missed single modes. </li>
+     <li> tel : number of table-enlargements. </li>
+     <li> oats : number of 1-autarkies. </li>
+     <li> All solver data must be added to this list a full global order
+     on the solver data determined. </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Extraction tools
   <ul>
    <li> The most fundamental tool for a solver is a script, which takes the
@@ -100,12 +225,12 @@ License, or any later version. */
     <li> ExtractGrasp.awk </li>
     <li> ExtractPicosat.awk </li>
     <li> ExtractArgosat.awk </li>
-    <li> ExtractMinisat.awk : DONE </li>
-    <li> ExtractOKsolver.awk </li>
     <li> ExtractGlucose.awk </li>
     <li> ExtractPrecosat236.awk </li>
     <li> ExtractPrecosat570.awk </li>
     <li> ExtractSatz </li>
+    <li> ExtractMinisat.awk : DONE </li>
+    <li> ExtractOKsolver.awk : DONE </li>
     <li> ExtractMarchpl : DONE </li>
    </ul>
    </li>
@@ -159,45 +284,8 @@ License, or any later version. */
      <li> To be completed </li>
     </ol>
    </li>
-   <li> Standardised column names:
-    <ol>
-     <li> n : integer, number of variables. </li>
-     <li> rn : integer, number of variables as reported by the solver. </li>
-     <li> c : integer, number of clauses. </li>
-     <li> rc : integer, number of clauses, as reported by the solver. </li>
-     <li> l : integer, number of literal occurrences. </li>
-     <li> rl : integer, number of literal occurrences, as reported by the
-     solver. </li>
-     <li> Such general measures (n, c and l) always refer to the original
-     input (not after preprocessing). </li>
-     <li> t : double, solution time (in seconds). </li>
-     <li> sat : in {0,1,2} for UNSAT, SAT, UNKNOWN. </li>
-     <li> nds : double, number of nodes for look-ahead solvers. </li>
-     <li> cfs : double, number of conflicts for conflict-driven solvers. </li>
-     <li> dec : double, number of decisions for conflict-driven solvers. </li>
-     <li> rts : double, number of restarts. </li>
-     <li> r1 : double, number of unit-clause propagations. </li>
-     <li> r2 : double, number of failed-literal reductions. </li>
-     <li> pls : double, number of pure literals. </li>
-     <li> ats : double, number of autarkies (not pure literals). </li>
-     <li> h : integer, height of search-tree for look-ahead solvers. </li>
-     <li> mem : double, in MB. </li>
-     <li> ptime : double, parse time (in seconds). </li>
-     <li> file : string. </li>
-     <li> There can be more attributes; the above ones always occur in that
-     order. </li>
-     <li> DONE (no need to make incomparable data comparable)
-     For handling parameters that aren't produced by certain solvers,
-     for example nds by minisat-2.2.0, there are two options:
-     <ol>
-      <li> Output "NA" for that column. </li>
-      <li> Don't output an nds column. This has the disadvantage that
-      outputs from different solvers are harder to compare. </li>
-     </ol>
-     For now the awk scripts (see above) don't output the column.
-     </li>
-    </ol>
-   </li>
+   <li> We consider the names and order of the extracted columns in
+   "Global order of solver data columns". </li>
    <li> Some solvers do not always output their full statistics. In such
    cases, appropriate 0-values have to be entered. </li>
    <li> DONE (solver-outputs in general are not comparable, only similar
