@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In ExperimentSystem/SolverMonitoring/plans/general.hpp the following topics
    are handled:
+    - minisat-2.2.0 doesn't output initial number of clauses
     - Running experiments
     - Better summary statistics
     - Extraction tools

@@ -10,6 +10,29 @@ License, or any later version. */
   \brief General plans regarding monitoring solvers
 
 
+  \todo minisat-2.2.0 doesn't output initial number of clauses
+  <ul>
+   <li> minisat-2.2.0 prints out the number of clauses *after*
+   preprocessing, but doesn't list the initial number of clauses. </li>
+   <li> All other solvers (OKsolver_2002, precosat236, precosat-570.1,
+   satz215, sat-grasp, cryptominisat, glucose, march_pl) do provide
+   the initial number of clauses. </li>
+   <li> The initial number of variables and clauses are important pieces
+   of data about the CNF being investigated. </li>
+   <li> We should provide a way to ensure that this data is included
+   when minisat-2.2.0 is run. We could:
+    <ul>
+     <li> update RunMinisat to output the number of initial clauses
+     to its Statistics file; </li>
+     <li> add a wrapper script for minisat-2.2.0 which outputs the
+     initial number of clauses; </li>
+     <li> contact the minisat-2.2.0 authors and ask that the initial
+     number of clauses be included somehow in the output. </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Running experiments
   <ul>
    <li> Currently we have RunMinisat. </li>
@@ -149,6 +172,7 @@ License, or any later version. */
     <ol>
      <li> n : integer, number of variables. </li>
      <li> c : integer, number of clauses. </li>
+     <li> apc : integer, number of clauses after preprocessing. </li>
      <li> l : integer, number of literal occurrences. </li>
      <li> Such general measures always refer to the original input (not
      after preprocessing). </li>
