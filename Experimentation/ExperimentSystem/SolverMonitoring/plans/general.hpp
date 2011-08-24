@@ -102,6 +102,77 @@ License, or any later version. */
   </ul>
 
 
+  \todo Standardising names and order of solver data columns
+  <ul>
+   <li> We need a global order on the columns of solver data
+   extracted using the tools in "Extraction tools". </li>
+   <li> Standardised column names:
+    <ol>
+     <li> n : integer, initial number of variables. </li>
+     <li> rn : integer, number of variables as reported by the solver. </li>
+     <li> c : integer, number of clauses after the removal of tautological
+     clauses. </li>
+     <li> rc : integer, number of clauses, as reported by the solver. </li>
+     <li> l : integer, number of literal occurrences after the removal
+     of tautological clauses and repeated literals. </li>
+     <li> rl : integer, number of literal occurrences, as reported by the
+     solver. </li>
+     <li> Such general measures (n, c and l) always refer to the original
+     input after removal of tautological clauses and repeated literals (not
+     after preprocessing). </li>
+     <li> t : double, solution time (in seconds). </li>
+     <li> sat : in {0,1,2} for UNSAT, SAT, UNKNOWN. </li>
+     <li> nds : double, number of nodes for look-ahead solvers. </li>
+     <li> cfs : double, number of conflicts for conflict-driven solvers. </li>
+     <li> dec : double, number of decisions for conflict-driven solvers. </li>
+     <li> rts : double, number of restarts. </li>
+     <li> r1 : double, number of unit-clause propagations. </li>
+     <li> r2 : double, number of failed-literal reductions. </li>
+     <li> pls : double, number of pure literals. </li>
+     <li> ats : double, number of autarkies (not pure literals). </li>
+     <li> h : integer, height of search-tree for look-ahead solvers. </li>
+     <li> mem : double, in MB. </li>
+     <li> ptime : double, parse time (in seconds). </li>
+     <li> file : string. </li>
+     <li> There can be more attributes; the above ones always occur in that
+     order. </li>
+     <li> DONE (no need to make incomparable data comparable)
+     For handling parameters that aren't produced by certain solvers,
+     for example nds by minisat-2.2.0, there are two options:
+     <ol>
+      <li> Output "NA" for that column. </li>
+      <li> Don't output an nds column. This has the disadvantage that
+      outputs from different solvers are harder to compare. </li>
+     </ol>
+     For now the awk scripts (see above) don't output the column.
+     </li>
+    </ol>
+   </li>
+   <li> Columns listed in this todo should be kept up to date with those
+   documented under "Column naming conventions" in
+   SolverMonitoring/docus/general.hpp. </li>
+   <li> The following columns need standardised names and a standardised
+   order:
+    <ul>
+     <li> n2cr : number of 2-clauses after reduction. </li>
+     <li> n2cs : number of new 2-clauses. </li>
+     <li> m2cs : maximal number of added 2-clauses. </li>
+     <li> dmcl : difference in maximal clause-length after preprocessing. </li>
+     <li> dn : difference in number of variables after preprocessing. </li>
+     <li> dc : difference in number of clauses after preprocessing. </li>
+     <li> dc : difference in number of literal after preprocessing. </li>
+     <li> snds : number of single nodes. </li>
+     <li> qnds : number of quasi-single nodes. </li>
+     <li> mnds : number of missed single modes. </li>
+     <li> tel : number of table-enlargements. </li>
+     <li> oats : number of 1-autarkies. </li>
+     <li> All solver data must be added to this list a full global order
+     on the solver data determined. </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Understanding solver output
   <ul>
    <li> Most solvers output a lot of data; what this output means

@@ -61,15 +61,18 @@ rn rc t sat cfs dec rts r1 mem ptime stime cfl
    <li> The extraction tools use the following abbreviations
    for column names:
     <ul>
-     <li> n : integer, number of variables. </li>
+     <li> n : integer, initial number of variables. </li>
      <li> rn : integer, number of variables as reported by the solver. </li>
-     <li> c : integer, number of clauses. </li>
+     <li> c : integer, number of clauses after the removal of tautological
+     clauses. </li>
      <li> rc : integer, number of clauses, as reported by the solver. </li>
-     <li> l : integer, number of literal occurrences. </li>
+     <li> l : integer, number of literal occurrences after the removal
+     of tautological clauses and repeated literals. </li>
      <li> rl : integer, number of literal occurrences, as reported by the
      solver. </li>
-     <li> Such general measures (n, c, l) always refer to the original input
-     (not after preprocessing). </li>
+     <li> Such general measures (n, c and l) always refer to the original
+     input after removal of tautological clauses and repeated literals (not
+     after preprocessing). </li>
      <li> t : double, solution time (in seconds). </li>
      <li> sat : in {0,1,2} for UNSAT, SAT, UNKNOWN. </li>
      <li> nds : double, number of nodes for look-ahead solvers. </li>
