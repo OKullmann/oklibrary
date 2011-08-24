@@ -176,7 +176,7 @@ __inline__ static StapeleintragFZ La_belegeFil(LIT x, StapeleintragFZ sp) {
 		if (RundeL(klz = Komp(lz)) != Runde) {  /* 1-Kl-Elim. nicht schon vorgemerkt? */
 		  setzenRundeL(klz);
 #ifndef BAUMRES
-		  *(sp++) = klz;	    
+		  *(sp++) = klz;
 #else
 		  sp -> l = klz;
 		  (sp++) -> k = kn;
@@ -347,7 +347,7 @@ void *FilterV(void *Z)
 #ifdef FASTAUTARKIE
   neueFA2Klauseln0 = (LIT *) Z; Z = (void *) (neueFA2Klauseln0 + (P - 1));
 #endif
-  
+
   return Z;
 }
 
@@ -467,7 +467,7 @@ __inline__ void Filter(VAR v)
 	  Zweig = Eps;      /* zur Rekonstruktion */
 	  Autarkien++;      /* jede erfuellende Belegung ist Autarkie */
           return;
-	  
+
         case 2 :
 
           Autarkien++;  /* eine (echte) Autarkie wurde gefunden */
