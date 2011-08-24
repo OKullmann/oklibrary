@@ -138,7 +138,6 @@ __inline__ static StapeleintragFZ La_belegeFil(const LIT x, StapeleintragFZ sp) 
 /* Vor.: Es entsteht nicht die leere Klausel. */
 /* Im Falle von BAUMRES wird auch EK aktualisiert. */
 /* Rueckgabewert ist der neue Wert von sp. */
-  LIT lz;
   KLN kn; KLL p;
 
   /* Durchlaufe alle x-Vorkommen und kuerze die aktiven Klauseln: */
@@ -171,18 +170,18 @@ __inline__ static StapeleintragFZ La_belegeFil(const LIT x, StapeleintragFZ sp) 
     else {  /* Klausel schon angefasst */
       if ((p = LaLaenge(kn)) != 0) { /* Klausel noch nicht erfuellt? */
         if (p == 2) {  /* 2-Klausel? */
-          for (LITV z = naechstesVorkK(y); ; z = naechstesVorkK(z))  /* Suche zweites Literal */
-            if (RundeL(lz = LitVk(z)) != Runde) break;  /* z nicht auf 0 gesetzt? */
-            const LIT klz = Komp(lz);
-            if (RundeL(klz) != Runde) {  /* 1-Kl-Elim. nicht schon vorgemerkt? */
-              setzenRundeL(klz);
+          LIT lz; // the second literal
+          for (LITV z = naechstesVorkK(y); RundeL(lz=LitVk(z)) == Runde; z = naechstesVorkK(z));
+          const LIT klz = Komp(lz);
+          if (RundeL(klz) != Runde) {  /* 1-Kl-Elim. nicht schon vorgemerkt? */
+            setzenRundeL(klz);
 #ifndef BAUMRES
-              *(sp++) = klz;
+            *(sp++) = klz;
 #else
-              sp -> l = klz;
-              (sp++) -> k = kn;
+            sp -> l = klz;
+            (sp++) -> k = kn;
 #endif
-		}
+	    }
 	  }
         else { /*  >= 3-Klausel */
           DKF[ M1LaLaenge(kn) ]--;
