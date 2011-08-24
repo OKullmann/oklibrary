@@ -138,12 +138,13 @@ __inline__ static StapeleintragFZ La_belegeFil(const LIT x, StapeleintragFZ sp) 
 /* Vor.: Es entsteht nicht die leere Klausel. */
 /* Im Falle von BAUMRES wird auch EK aktualisiert. */
 /* Rueckgabewert ist der neue Wert von sp. */
-  KLN kn; KLL p;
+  KLL p;
 
   /* Durchlaufe alle x-Vorkommen und kuerze die aktiven Klauseln: */
 
   for (LITV y = erstesVork(x); echtesVork(y, x); y = naechstesVork(y)) {
-    if (RundeK( kn = KlnVk(y) ) != Runde) {
+    const KLN kn = KlnVk(y);
+    if (RundeK(kn) != Runde) {
     /* Klausel von y noch nicht angefasst? */
       if (Laenge(kn) == 2) {  /* 2-Klausel? */
         const LIT klz = Komp(LitVk(naechstesVorkK(y)));
@@ -195,8 +196,9 @@ __inline__ static StapeleintragFZ La_belegeFil(const LIT x, StapeleintragFZ sp) 
 
   /* Durchlaufen der Komp(x)-Vorkommen und eliminiere alle noch aktiven Klauseln */
   const LIT kx = Komp(x);
-  for (LITV y = erstesVork(kx); echtesVork(y, kx); y = naechstesVork(y))
-    if (RundeK( kn = KlnVk(y) ) != Runde) { /* Klausel nicht schon angefasst? */
+  for (LITV y = erstesVork(kx); echtesVork(y, kx); y = naechstesVork(y)) {
+    const KLN kn = KlnVk(y);
+    if (RundeK(kn) != Runde) { /* Klausel nicht schon angefasst? */
       setzenRundeK(kn);
       DKF[Laenge(kn)]++;
       ZuwLaLaenge(kn, 0);
@@ -208,6 +210,7 @@ __inline__ static StapeleintragFZ La_belegeFil(const LIT x, StapeleintragFZ sp) 
         ZuwLaLaenge(kn, 0);
       }
     }
+  }
   return sp;
 }
 
