@@ -288,8 +288,8 @@ ExternalSources> oklib gcc gcc_user_options_okl="--with-system-zlib"
   \todo DONE (gcc-building provides now a corrected version)
   texi2dvi (texinfo 1.13a) fails to build gcc.texi on some systems
   <ul>
-   <li> Texinfo versions 1.13a and below have a bug due to the formatting of
-   strings passed to egrep. </li>
+   <li> Texinfo version 1.13a has a bug due to the formatting of strings
+   passed to egrep. </li>
    <li> This bug results in an error from texi2dvi during the gcc
    build process on systems using the en_GB.UTF-8 locale and
    versions of (e)grep >= 2.7. </li>
