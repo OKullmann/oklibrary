@@ -397,6 +397,22 @@ __inline__ static void Verzweigungsliteralausgabe(const LIT x, const unsigned in
   fflush(NULL);
 }
 
+/*!
+  \brief Output of decision levels
+
+  Output first the number of decision on the current path, and then
+  the indices (starting with 0) of the decision variables on the
+  current partial assignment.
+*/
+__inline__ static void output_decision_levels(FILE* const fp) {
+  assert(fp);
+  fprintf(fp, "%d ", Rekursionstiefe);
+  for (const struct Sammlung* i = SatVar0; i != NULL; i=i->danach)
+    fprintf(fp, "%d ", i->altTiefe - Pfad);
+  fprintf(fp, "\n");
+}
+
+
 /* ------------------------------------------------------------- */
 
 typedef enum { gleich = 0, groesser = 1, kleiner = 2} VERGL;
@@ -694,8 +710,9 @@ alleReduktionen:
     }
   }
   
-  /* Nun ist die beste Variable gefunden, und es wird verzweigt: */
+  /* Now the branching variable has been determined. */
 
+  // handling of splitting-only:
   if (splitting_only &&
       ((! splitting_n && Rekursionstiefe == Beobachtungsniveau) ||
        (splitting_n && N - aktN >= Beobachtungsniveau))) {
@@ -738,17 +755,18 @@ alleReduktionen:
   }
   assert(! splitting_only || Rekursionstiefe < Beobachtungsniveau);
 
+  /* Now branching. */
+
 #ifdef OUTPUTTREEDATAXML
   BeginTreeElement();
 #endif
-
 #ifndef LOKALLERNEN
   SatVar -> altTiefe = Tiefe;
 #else
   SatVar -> Marke = Markierung();
 #endif
 
-  /* zuerst optZweig: */
+  /* First optZweig: */
 
   const unsigned int DN = DeltaN[optZweig][! Schalter];
   const unsigned int DN2 = DeltaN[! optZweig][! Schalter];
