@@ -150,44 +150,44 @@ __inline__ static StapeleintragFZ La_belegeFil(const LIT x, StapeleintragFZ sp) 
       if (Laenge(kn) == 2) {  /* 2-Klausel? */
 	  if (RundeL(klz = Komp(LitVk(naechstesVorkK(y)))) != Runde) {
 	  /* 1-Kl-Elim. nicht schon vorgemerkt? */
-	    setzenRundeL(klz);
+          setzenRundeL(klz);
 #ifndef BAUMRES	
-	    *(sp++) = klz;
+          *(sp++) = klz;
 #else
-	    sp -> l = klz;
-	    (sp++) -> k = kn;
+          sp -> l = klz;
+          (sp++) -> k = kn;
 #endif
 	  }
 	}
-	else { /* >= 3-Klausel */
-	  setzenRundeK(kn);
-	  p = Laenge(kn);
-	  ZuwLaLaenge(kn, p-1);
-	  DKF[p-1]--;
-	  DKF[p]++;
-	  NK[p-1]++;
+      else { /* >= 3-Klausel */
+        setzenRundeK(kn);
+        p = Laenge(kn);
+        ZuwLaLaenge(kn, p-1);
+        DKF[p-1]--;
+        DKF[p]++;
+        NK[p-1]++;
 	}
     }
     else {  /* Klausel schon angefasst */
       if ((p = LaLaenge(kn)) != 0) { /* Klausel noch nicht erfuellt? */
-	  if (p == 2) {  /* 2-Klausel? */
+        if (p == 2) {  /* 2-Klausel? */
           for (z = naechstesVorkK(y); ; z = naechstesVorkK(z))  /* Suche zweites Literal */
-	      if (RundeL(lz = LitVk(z)) != Runde) break;  /* z nicht auf 0 gesetzt? */
-		if (RundeL(klz = Komp(lz)) != Runde) {  /* 1-Kl-Elim. nicht schon vorgemerkt? */
-		  setzenRundeL(klz);
+            if (RundeL(lz = LitVk(z)) != Runde) break;  /* z nicht auf 0 gesetzt? */
+            if (RundeL(klz = Komp(lz)) != Runde) {  /* 1-Kl-Elim. nicht schon vorgemerkt? */
+              setzenRundeL(klz);
 #ifndef BAUMRES
-		  *(sp++) = klz;
+              *(sp++) = klz;
 #else
-		  sp -> l = klz;
-		  (sp++) -> k = kn;
+              sp -> l = klz;
+              (sp++) -> k = kn;
 #endif
 		}
 	  }
-	  else { /*  >= 3-Klausel */
+        else { /*  >= 3-Klausel */
           DKF[ M1LaLaenge(kn) ]--;
-	    DKF[p]++;
-	    NK[p-1]++;
-	    NK[p]--;
+          DKF[p]++;
+          NK[p-1]++;
+          NK[p]--;
 	  }
 	}
     }
