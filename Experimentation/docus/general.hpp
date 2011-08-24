@@ -24,6 +24,15 @@ License, or any later version. */
   See Experimentation/Benchmarks/docus/general.hpp for the central docus-file.
 
 
+  <h2> Monitoring </h2>
+
+  In submodule <code>Experimentation/ExperimentSystem/SolverMonitoring</code>
+  tools are provided for running solvers and monitoring their results.
+
+  See Experimentation/ExperimentSystem/SolverMonitoring/docus/general.hpp for
+  the central docus-file.
+
+
   <h2> Investigations </h2>
 
   In submodule <code>Experimentation/Investigations</code> concrete
