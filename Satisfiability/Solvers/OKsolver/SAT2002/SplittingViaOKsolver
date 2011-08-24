@@ -36,7 +36,7 @@ set -o errexit
 set -o nounset
 
 script_name="SplittingViaOKsolver"
-version_number=0.1.7
+version_number=0.1.8
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -74,14 +74,16 @@ echo $(basename ${filename}) > F
 
 mkdir Instances
 
-
+echo -e "$(date): Running ${solver}, creating partial assignments\n in subdirectory \"Instances\"."
+echo -e "$(date): Started ${solver}." >> Log
 cd ..
 set +e
 ${solver} ${new_param} >${directory}/Result 2>&1
 estatus=$?
 set -e
-
 cd ${directory}
+echo "$(date): Completed run of ${solver}." | tee -a Log
+
 if [[ $estatus != 0 && $estatus != 10 && $estatus != 20 ]]; then
   echo -n "ERROR: " >> Log
   date >> Log
@@ -90,25 +92,28 @@ if [[ $estatus != 0 && $estatus != 10 && $estatus != 20 ]]; then
 else
   echo "Return value of OKsolver: ${estatus}" >> Log
 fi
-echo -n "Splitting completed: " >> Log
-date >> Log
+echo "Splitting successfully completed. " >> Log
 
 N=$(awk '/splitting_cases/ {print $3}' Result)
 echo $N > N
 
 cd Instances
 
+echo "$(date): Started computing md5sum." >> ../Log
 current_md5sum=0
 for F in *; do
   current_md5sum=$(echo ${current_md5sum} | cat ${F} - | md5sum | awk '{print $1}')
 done
 echo ${current_md5sum} > ../Md5sum
+echo "$(date): Completed computation of md5sum." >> ../Log
 
+echo "Extracting data from partial assignments."
 echo " i n" > ../Data
 ${data_preprocessing} $N >> ../Data
 
 cd ..
 
+echo "Extracting statistics."
 echo -e "E=read.table(\"Data\")\nsummary(E\$n)\ntable(E\$n)" | oklib --R --quiet --vanilla | tail -n +3 > Statistics
 
 echo -n "Completed: " >> Log
