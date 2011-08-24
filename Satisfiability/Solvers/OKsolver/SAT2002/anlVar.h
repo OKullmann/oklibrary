@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.2.2001 (Toronto)
-/* Copyright 2001 - 2007 Oliver Kullmann
+/* Copyright 2001 - 2007, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,22 +26,22 @@ License, or any later version. */
 #include "VarLitKlm.h"
 /* #include "Klauselmenge.h" */
 
-extern void InitParameter( void );
+extern void InitParameter();
 
-extern size_t BedarfVarLitKlmV ( void );
-extern size_t BedarfBelegungV ( void );
-extern size_t BedarfRekursionV ( void );
-extern size_t BedarfFilterV ( void );
-extern size_t BedarfReduktionsV ( void );
-extern size_t BedarfAbstandsV ( void );
-extern size_t BedarfBaumResV ( void );
+extern size_t BedarfVarLitKlmV();
+extern size_t BedarfBelegungV();
+extern size_t BedarfRekursionV();
+extern size_t BedarfFilterV();
+extern size_t BedarfReduktionsV();
+extern size_t BedarfAbstandsV();
+extern size_t BedarfBaumResV();
 
-extern void *VarLitKlmV(void *Z);
-extern void *BelegungV(void *);
-extern void *RekursionV (void *);
-extern void *FilterV (void *);
-extern void *ReduktionsV (void *);
-extern void *AbstandsV (void *);
-extern void *BaumResV (void *);
+extern void* VarLitKlmV(void* Z);
+extern void* BelegungV(void*);
+extern void* RekursionV(void*);
+extern void* FilterV(void*);
+extern void* ReduktionsV(void*);
+extern void* AbstandsV(void*);
+extern void* BaumResV(void*);
 
 #endif
