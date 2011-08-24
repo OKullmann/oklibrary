@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.2.2001 (Toronto)
-/* Copyright 2001 - 2007 Oliver Kullmann
+/* Copyright 2001 - 2007, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -39,10 +39,10 @@ typedef struct {
 } Pfadinfo;
 #endif
 
-extern Pfadinfo *Tiefe;
+extern Pfadinfo* Tiefe;
 
-extern Pfadinfo *Pfad;
-/* extern LIT Pfad [ MAXN ]; */
+extern Pfadinfo* Pfad;
+/* extern LIT Pfad[MAXN]; */
 /* F_{aktuell} = < Pfad[i] -> 0 >_{0 <= i < Tiefe - Pfad} * F_{Eingabe} */
 
 
@@ -54,13 +54,13 @@ extern void LiteinPfad(LIT x);
 /* -------------------------------------------------------------------------------- */
 
 
-extern void belege( LIT );
+extern void belege(LIT);
 #ifdef BAUMRES
-extern void belege_VK( LIT , KLN );
+extern void belege_VK(LIT, KLN);
 #endif
-extern void rebelege( LIT );
+extern void rebelege(LIT);
 #ifdef BAUMRES
-extern bool rebelege_Verz( LIT );
+extern bool rebelege_Verz(LIT);
 #endif
 
 #endif
