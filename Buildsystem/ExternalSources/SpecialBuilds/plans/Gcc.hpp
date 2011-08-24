@@ -61,7 +61,7 @@ Hello world!
 
     If this option is not given, but an ecj.jar file is found in the topmost source tree at configure time, then the 'libgcj' build will create and install ecj1, and will also install the discovered ecj.jar into a suitable place in the install tree.
 
-    If ecj1 is not installed, then the user will have to supply one on his path in order for gcj to properly parse .java source files. A suitable jar is available from ftp://sourceware.org/pub/java/. 
+    If ecj1 is not installed, then the user will have to supply one on his path in order for gcj to properly parse .java source files. A suitable jar is available from ftp://sourceware.org/pub/java/.
      \endverbatim
      </li>
      <li> The GCC source package includes a script "contrib/download_ecj" to
@@ -115,7 +115,7 @@ Hello world!
      \endverbatim
      What is the meaning of these changes? </li>
      <li> From a certain version of texinfo (makeinfo etc) onwards, the precise
-     format of the version number altered, and even though I had a 
+     format of the version number altered, and even though I had a
      new enough version of texinfo, without this patch, GCC will error during
      it's configuration step, complaining that I did not have a new enough
      version of texinfo. Applying the patch fixes this issue. See
@@ -177,31 +177,31 @@ CRTSTUFF_T_CFLAGS = -fno-omit-frame-pointer -fno-asynchronous-unwind-tables
      which has the following diff with the original
      \verbatim
 6a7,14
-> 
+>
 > # On Debian, Ubuntu and other derivitive distributions, the 32bit libraries
 > # are found in /lib32 and /usr/lib32, /lib64 and /usr/lib64 are symlinks to
 > # /lib and /usr/lib, while other distributions install libraries into /lib64
 > # and /usr/lib64.  The LSB does not enforce the use of /lib64 and /usr/lib64,
 > # it doesn't tell anything about the 32bit libraries on those systems.  Set
 > # MULTILIB_OSDIRNAMES according to what is found on the target.
-> 
+>
 8,9c16,18
-< MULTILIB_DIRNAMES = 64 32 
+< MULTILIB_DIRNAMES = 64 32
 < MULTILIB_OSDIRNAMES = ../lib64 ../lib
 ---
 > MULTILIB_DIRNAMES = 64 32
 > MULTILIB_OSDIRNAMES = ../lib64 $(if $(wildcard $(shell echo $(SYSTEM_HEADER_DIR))/../../usr/lib32),../lib32,../lib)
-> 
+>
      \endverbatim
      One can see that the change allows the GCC build system to detect
      whether /lib is used for 64 bit libraries or 32 bit libraries
      </li>
-     <li> Therefore, assuming that the above file (t-linux64-new - md5sum = 
-     0aae4a50588d97920b7f8ee96789550d ) is in the 
-     ExternalSources/sources/Gcc directory, and the original (pre-MG 
+     <li> Therefore, assuming that the above file (t-linux64-new - md5sum =
+     0aae4a50588d97920b7f8ee96789550d ) is in the
+     ExternalSources/sources/Gcc directory, and the original (pre-MG
      changes) gcc-4.1.2 tarball is called "gcc-4.1.2.tar.bz2" (md5sum
      a4a3eb15c96030906d8494959eeda23c) in the same
-     directory, then we have the following procedure for generating the new 
+     directory, then we have the following procedure for generating the new
      gcc tarball:
      \verbatim
 sources> mv gcc-4.1.2.tar.bz2 gcc-4.1.2.tar.bz2_ALT
@@ -283,7 +283,7 @@ ExternalSources> oklib gcc gcc_user_options_okl="--with-system-zlib"
    <li> We should also install these additional libraries "PPL" ("Parma
    Polyhedra Library") and "CLooG" for loop-optimisation. </li>
   </ul>
-  
+
 
   \todo Latest texi2dvi fails to build gcc.texi on some systems
   <ul>
@@ -397,13 +397,13 @@ make[2]: *** [all-target-libgfortran] Error 2
    where apparently the value of largest_ctype is the empty string. </li>
    <li> When compiling
    \verbatim
-libgfortran> more tmp17093.f90 
+libgfortran> more tmp17093.f90
   real (kind=16) :: x
   end
    \endverbatim
    one gets apparently an error (where there shouldn't be one):
    \verbatim
-libgfortran> /home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.1.2_build/./gcc/gfortran -c tmp17093.f90 
+libgfortran> /home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.1.2_build/./gcc/gfortran -c tmp17093.f90
 gfortran: error trying to exec 'f951': execvp: No such file or directory
    \endverbatim
    and thus largest_ctype is not re-set. </li>
@@ -483,7 +483,7 @@ gfortran: error trying to exec 'f951': execvp: No such file or directory
   <ul>
    <li> DONE (we built gmp and mpfr locally, and compile Fortran then; needs
    to be checked though)
-   GCC 4.1.2 fails to build on some machines (notably the Swansea 
+   GCC 4.1.2 fails to build on some machines (notably the Swansea
    University Computer Science Linux lab machines), with the following error:
    \verbatim
 checking whether the C compiler (gcc  ) is a cross-compiler... no
@@ -507,18 +507,18 @@ make: Leaving directory `/tmp/OKlib/OKplatform/ExternalSources'
    version of GCC and we run the risk of there being incompatibilities
    with the version we are building when we start to compile anything in
    the library which might somehow link to standard libraries. </li>
-   <li> The GCC website (http://gcc.gnu.org/install/prerequisites.html) 
+   <li> The GCC website (http://gcc.gnu.org/install/prerequisites.html)
    suggests it should be possible to simply drop GMP and MPFR source
    directories in the GCC source directory and build as normal :
    \verbatim
 GNU Multiple Precision Library (GMP) version 4.3.2 (or later)
     Necessary to build GCC. If you do not have it installed in your library search path, you will have to configure with the --with-gmp configure option. See also --with-gmp-lib and --with-gmp-include. Alternatively, if a GMP source distribution is found in a subdirectory of your GCC sources named gmp, it will be built together with GCC.
 MPFR Library version 2.4.2 (or later)
-    Necessary to build GCC. It can be downloaded from http://www.mpfr.org/. The --with-mpfr configure option should be used if your MPFR Library is not installed in your default library search path. See also --with-mpfr-lib and --with-mpfr-include. Alternatively, if a MPFR source distribution is found in a subdirectory of your GCC sources named mpfr, it will be built together with GCC. 
+    Necessary to build GCC. It can be downloaded from http://www.mpfr.org/. The --with-mpfr configure option should be used if your MPFR Library is not installed in your default library search path. See also --with-mpfr-lib and --with-mpfr-include. Alternatively, if a MPFR source distribution is found in a subdirectory of your GCC sources named mpfr, it will be built together with GCC.
    \endverbatim
    </li>
    <li> However, building GCC with GMP and MPFR source directories "in-tree"
-   (as such a method is called) with GCC 4.1.2 doesn't work yielding the same 
+   (as such a method is called) with GCC 4.1.2 doesn't work yielding the same
    error. </li>
    <li> Either additional configure options are needed, or GCC 4.1.2 doesn't
    support this. Perhaps such functionality has only been introduced in later
@@ -629,7 +629,7 @@ make[3]: *** [configure-stage2-target-libgcc] Error 1
    <li> texti2pdf is a script, which can be put into ~/bin for example,
    and is needed for building the gcc-documentation --- how to provide it?
    Such small utilities could be put under version control (OKlibrary) ? </li>
-   <li> Installation of R requires a Fortran compiler. Therefore the 
+   <li> Installation of R requires a Fortran compiler. Therefore the
     system-installation of Gcc should allow for enabling of Fortran
     language support. </li>
    <li> DONE (yes, GMP and MPFR are installed locally)
@@ -653,7 +653,7 @@ make[3]: *** [configure-stage2-target-libgcc] Error 1
    necessary to remove the build-directory from the prerequisite-list,
    however then it seems impossible to create the build-directory, if actually
    gcc *is* to be build, via the target-mechanism. </li>
-   <li> DONE (now just "oklib gcc", and potentially setting 
+   <li> DONE (now just "oklib gcc", and potentially setting
   gcc_recommended_version_number_okl)
    Instead of, %e.g., "make gcc-4.1.2", wouldn't it be more consistent with
    building Boost to also have "make gcc gcc-version=4.1.2" ? </li>
