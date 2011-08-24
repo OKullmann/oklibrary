@@ -420,25 +420,21 @@ bool BehFastautarkie() { /* Behandlung einer Fast-Autarkie */
 
 __inline__ void Filter(const VAR v) {
   Eps = Pos;
-
-/*   Belegungen werden immer durch Literale angegeben, die auf 0 gesetzt werden. */
-/*   Somit ist der erste Zweig v -> 0. */
+/* Belegungen werden durch Literale angegeben, die auf 0 gesetzt werden. */
+/* Somit ist der erste Zweig v -> 0. */
 
   La_HuelleFil(Literal(v, Eps));
 
-  switch (auswerten())  /* Auswertung des ersten Zweiges */
-    {
-    case 1 :
+  switch (auswerten()) {  /* Auswertung des ersten Zweiges */
 
+    case 1 :
       erfuellt = true;  /* aktuelle Klm ist erfuellbar */
       Zweig = Eps;      /* zur Rekonstruktion */
-      Autarkien++;      /* jede erfuellende Belegung ist Autarkie */
+      ++Autarkien;      /* jede erfuellende Belegung ist Autarkie */
       return;
 
     case 2 :
-
-      Autarkien++;  /* eine (echte) Autarkie wurde gefunden */
-
+      ++Autarkien;  /* eine (echte) Autarkie wurde gefunden */
       erfuellt = false;
       reduziert = false;
       Wahl = true;
@@ -447,44 +443,38 @@ __inline__ void Filter(const VAR v) {
       return;
 
     case 3 :  /* nur noch 2-Klauseln? */
-
       Eps = Neg;
-
       La_HuelleFil(Literal(v, Eps));
-
-      switch (auswerten())  /* Auswerten des zweiten Zweiges im Falle, dass der erste Zweig */
-        {                   /*  nur 2-Kl. zurueckliess */
+      switch (auswerten()) {
+      /* Auswerten des zweiten Zweiges im Falle, dass der erste Zweig */
+      /*  nur 2-Kl. zurueckliess */
         case 1 :
-
           erfuellt = true;  /* aktuelle Klm ist erfuellbar */
-	  Zweig = Eps;      /* zur Rekonstruktion */
-	  Autarkien++;      /* jede erfuellende Belegung ist Autarkie */
+	    Zweig = Eps;      /* zur Rekonstruktion */
+	    ++Autarkien;      /* jede erfuellende Belegung ist Autarkie */
           return;
 
         case 2 :
-
-          Autarkien++;  /* eine (echte) Autarkie wurde gefunden */
-
+          ++Autarkien;  /* eine (echte) Autarkie wurde gefunden */
           erfuellt = false;
-	  reduziert = false;
+          reduziert = false;
           Wahl = true;
           Single = true;
           Zweig = Eps;
           return;
 
-        case 3 :  /* ein Quasi-Single-Knoten (mit 2-CNF in beiden(!) Zweigen) */
-
+        case 3 :
+        /* ein Quasi-Single-Knoten (mit 2-CNF in beiden(!) Zweigen) */
           erfuellt = false;
-	  reduziert = false;
+          reduziert = false;
           Wahl = true;
           Single = false;
           Zweig = Pos;  /* willkuerlich (da unerheblich) */
           return;
 
         default :  /* ein Quasi-Single-Knoten */
-
           erfuellt = false;
-	  reduziert = false;
+          reduziert = false;
           Wahl = true;
           Single = false;
           Zweig = (VZ) ! Eps;
@@ -493,44 +483,36 @@ __inline__ void Filter(const VAR v) {
 
     case 4 :
 #ifndef FASTAUTARKIE
-      FastAutarkien++; /* geht ueber in den Sonst-Fall */
+      ++FastAutarkien; /* geht ueber in den Sonst-Fall */
 #else
-      if ((reduziert = BehFastautarkie()))
-	{
+      if ((reduziert = BehFastautarkie())) {
 	  erfuellt = false;
 	  return;
 	}
 #endif
     default :  /* erster Zweig hat nichts erbracht */
-
       Eps = Neg;
-
       La_HuelleFil(Literal(v, Eps));
+      switch (auswerten()) { /* Auswertung des zweiten Zweiges */
 
-      switch (auswerten())  /* Auswertung des zweiten Zweiges */
-        {
         case 1 :
-
           erfuellt = true;  /* aktuelle Klm ist erfuellbar */
-	  Zweig = Eps;      /* zur Rekonstruktion */
-	  Autarkien++;      /* jede erfuellende Belegung ist Autarkie */
+          Zweig = Eps;      /* zur Rekonstruktion */
+          ++Autarkien;      /* jede erfuellende Belegung ist Autarkie */
           return;
 
         case 2 :
-
-          Autarkien++;  /* eine (echte) Autarkie wurde gefunden */
-
+          ++Autarkien;  /* eine (echte) Autarkie wurde gefunden */
           erfuellt = false;
-	  reduziert = false;
+          reduziert = false;
           Wahl = true;
           Single = true;
           Zweig = Eps;
           return;
 
         case 3 :  /* ein Quasi-Single-Knoten */
-
           erfuellt = false;
-	  reduziert = false;
+          reduziert = false;
           Wahl = true;
           Single = false;
           Zweig = Eps;
@@ -538,18 +520,16 @@ __inline__ void Filter(const VAR v) {
 
 	case 4 :
 #ifndef FASTAUTARKIE
-	  FastAutarkien++; /* geht ueber in den Sonst-Fall */
+	  ++FastAutarkien; /* geht ueber in den Sonst-Fall */
 #else
-	  if ((reduziert = BehFastautarkie()))
-	    {
-	      erfuellt = false;
-	      return;
-	    }
+	  if ((reduziert = BehFastautarkie())) {
+          erfuellt = false;
+	    return;
+	  }
 #endif
         default :  /* normale binaere Verzweigung */
-
           erfuellt = false;
-	  reduziert = false;
+          reduziert = false;
           Wahl = false;
           return;
         }
