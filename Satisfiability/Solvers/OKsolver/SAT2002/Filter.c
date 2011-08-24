@@ -162,9 +162,9 @@ __inline__ static StapeleintragFZ La_belegeFil(const LIT x, StapeleintragFZ sp) 
         setzenRundeK(kn);
         const KLL p = Laenge(kn);
         ZuwLaLaenge(kn, p-1);
-        DKF[p-1]--;
-        DKF[p]++;
-        NK[p-1]++;
+        --DKF[p-1];
+        ++DKF[p];
+        ++NK[p-1];
 	}
     }
     else {  /* Klausel schon angefasst */
@@ -185,10 +185,10 @@ __inline__ static StapeleintragFZ La_belegeFil(const LIT x, StapeleintragFZ sp) 
 	    }
 	  }
         else { /*  >= 3-Klausel */
-          DKF[ M1LaLaenge(kn) ]--;
-          DKF[p]++;
-          NK[p-1]++;
-          NK[p]--;
+          --DKF[ M1LaLaenge(kn) ];
+          ++DKF[p];
+          ++NK[p-1];
+          --NK[p];
 	  }
 	}
     }
@@ -200,14 +200,14 @@ __inline__ static StapeleintragFZ La_belegeFil(const LIT x, StapeleintragFZ sp) 
     const KLN kn = KlnVk(y);
     if (RundeK(kn) != Runde) { /* Klausel nicht schon angefasst? */
       setzenRundeK(kn);
-      DKF[Laenge(kn)]++;
+      ++DKF[Laenge(kn)];
       ZuwLaLaenge(kn, 0);
     }
     else {  /* Klausel schon angefasst */
       const KLL p = LaLaenge(kn);
       if (p != 0) { /* Klausel noch nicht erfuellt? */
-        DKF[p]++;
-        NK[p]--;
+        ++DKF[p];
+        --NK[p];
         ZuwLaLaenge(kn, 0);
       }
     }
