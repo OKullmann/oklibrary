@@ -50,7 +50,7 @@ License, or any later version. */
     - Gcj
     - Providing gcc 4.1.2
     - Install GCC 4.5.3 : DONE
-    - Latest texi2dvi fails to build gcc.texi on some systems
+    - texi2dvi (texinfo 1.13a) fails to build gcc.texi on some systems
     - Local Gmp/Mpfr are not used (appropriately) : DONE
     - How to use local Gmp + Mpfr? : DONE
     - Local build of Fortran fails (for 4.1.2) : DONE
