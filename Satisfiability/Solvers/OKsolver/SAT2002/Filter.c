@@ -131,7 +131,7 @@ static int* DKF;
 static unsigned int* NK;
 
 
-__inline__ static StapeleintragFZ La_belegeFil(LIT x, StapeleintragFZ sp) {
+__inline__ static StapeleintragFZ La_belegeFil(const LIT x, StapeleintragFZ sp) {
 /* Fuehrt x -> 0 durch (bzgl. letzteRK, letzteRL und LaLaenK), */
 /* schreibt neu entstehende 1-Klauseln nach HF (mit Eintrag in letzteRL), */
 /* wobei sp erhoeht wird, und aktualisiert DKF und NK. */
@@ -212,12 +212,9 @@ __inline__ static StapeleintragFZ La_belegeFil(LIT x, StapeleintragFZ sp) {
 }
 
 
-static void La_HuelleFil(LIT x)
-
+static void La_HuelleFil(LIT x) {
 /* Berechnet Huelle, DeltaN, DeltaK und NeuK. */
 /* (Im Falle von BAUMRES auch EinerKl.) */
-
-{
   StapeleintragFZ sp; /* Stapelzeiger auf das naechste freie Element in HF */
   StapeleintragFZ p;
 
@@ -270,8 +267,7 @@ static void La_HuelleFil(LIT x)
 
 /* ---------------------------------------------------------------------------------- */
 
-__inline__ static unsigned char auswerten( void )
-
+__inline__ static unsigned char auswerten() {
 /* Es werden die Daten von DKF und NK ausgewertet (bzgl. Autarkien und  */
 /* 2-CLS), und LaAnzK, LaP berechnet. */
 /* "auswerten" wird nur aufgerufen, wenn die leere Klausel nicht erzeugt  */
@@ -286,7 +282,6 @@ __inline__ static unsigned char auswerten( void )
 /*     erzeugt wurde, */
 /*   0 sonst. */
 
-{
   unsigned int i, j; unsigned int GAnzNK;
   unsigned int *AK; unsigned int *LP;
 
@@ -321,8 +316,7 @@ __inline__ static unsigned char auswerten( void )
 
 /* ---------------------------------------------------------------------------------- */
 
-size_t BedarfFilterV( void )
-{
+size_t BedarfFilterV() {
   return 4 * N * sizeof(StapeleintragF) +
     4 * (P+1) * sizeof(int) +
     2 * 4 * (P+1) * sizeof(unsigned int)
@@ -332,8 +326,7 @@ size_t BedarfFilterV( void )
     ;
 }
 
-void *FilterV(void *Z)
-{
+void* FilterV(void* Z) {
   unsigned char i, j;
   for (i = 0; i <= 1; i++)
     for (j = 0; j <= 1; j++)
@@ -351,8 +344,7 @@ void *FilterV(void *Z)
   return Z;
 }
 
-void InitFilter(void)
-{
+void InitFilter() {
 #ifdef FASTAUTARKIE
   RundeFA = 0;
 #endif
@@ -363,8 +355,7 @@ void InitFilter(void)
 
 #ifdef FASTAUTARKIE
 
-bool BehFastautarkie() /* Behandlung einer Fast-Autarkie */
-{
+bool BehFastautarkie() { /* Behandlung einer Fast-Autarkie */
   LIT l, kl, a;
   unsigned int i;
   LITV x, nx;
@@ -423,9 +414,7 @@ bool BehFastautarkie() /* Behandlung einer Fast-Autarkie */
 
 
 
-__inline__ void Filter(VAR v)
-
-{
+__inline__ void Filter(const VAR v) {
   Eps = Pos;
 
 /*   Belegungen werden immer durch Literale angegeben, die auf 0 gesetzt werden. */
@@ -562,6 +551,3 @@ __inline__ void Filter(VAR v)
         }
     }
 }
-
-
-/* --------------------------------------------------------------------------------- */
