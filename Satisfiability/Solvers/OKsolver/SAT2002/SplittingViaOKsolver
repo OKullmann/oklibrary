@@ -36,7 +36,7 @@ set -o errexit
 set -o nounset
 
 script_name="SplittingViaOKsolver"
-version_number=0.1.9
+version_number=0.1.10
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -44,6 +44,8 @@ directory=SplitViaOKsolver_$(echo $* | tr -d " -./")_${timestamp}
 
 solver=OKsolver_2002_NTP-O3-DNDEBUG
 data_preprocessing=PreprocessSplitting-O3-DNDEBUG
+
+echo "${script_name} in version ${version_number} started."
 
 mkdir ${directory}
 echo "Created directory ${directory}."
