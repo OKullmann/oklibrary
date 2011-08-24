@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.2.2001 (Toronto)
-/* Copyright 2001 - 2007 Oliver Kullmann
+/* Copyright 2001 - 2007, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -82,36 +82,23 @@ __inline__ void LiteinPfad(LIT x)
 
 /* Funktion zur Belegung einer Variablen */
 
-__inline__ void belege(LIT x)
-
-/* Fuehrt x -> 0 durch */
-/* (mit Aktualisierung von "LaenK" und Eintrag in "Pfad" und "belegt"); */
-
+//! processing x -> 0
+__inline__ void belege(const LIT x) {
+/* Mit Aktualisierung von "LaenK" und Eintrag in "Pfad" und "belegt". */
 /* Vorbedingungen:  Es entsteht nicht die leere Klausel. */
-
-
-{
-  LITV y, z;
-  LIT kx;
-  VAR v;
-
-  /* entferne alle x-Vorkommen aus ihren Klauseln */
-
-  for (y = erstesVork(x); echtesVork(y, x); y = naechstesVork(y))
-    {
-      loeseLK(y);
-      LaengeM1(KlnVk(y));
-    }
-
-  /* fuer Klauseln C mit (non x) in C entferne alle anderen y in C aus */
-  /* ihren Vorkommenslisten */
-
-  for (y = erstesVork(kx = Komp(x)); echtesVork(y, kx); y = naechstesVork(y))
-    for (z = naechstesVorkK(y); z != y; z = naechstesVorkK(z))
+  /* entferne alle x-Vorkommen aus ihren Klauseln: */
+  for (LITV y = erstesVork(x); echtesVork(y, x); y = naechstesVork(y)) {
+    loeseLK(y);
+    LaengeM1(KlnVk(y));
+  }
+  /* fuer Klauseln C mit (non x) entferne alle anderen y in C aus ihren Vorkommenslisten: */
+  const LIT kx = Komp(x);
+  for (LITV y = erstesVork(kx); echtesVork(y, kx); y = naechstesVork(y))
+    for (LITV z = naechstesVorkK(y); z != y; z = naechstesVorkK(z))
       loeseLv(z);
-
-  LiteinPfad(x); Tiefe++;
-  loeseV(v = Var(x));
+  LiteinPfad(x); ++Tiefe;
+  const VAR v = Var(x);
+  loeseV(v);
   setzenbelegt(v, true);
 }
 
