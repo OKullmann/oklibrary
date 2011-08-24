@@ -28,30 +28,24 @@ License, or any later version. */
 
 /* -------------------------------------------------------------------------------- */
 
-Pfadinfo *Tiefe;
+Pfadinfo* Tiefe;
 
-Pfadinfo *Pfad = NULL; 
+Pfadinfo* Pfad = NULL;
 /* "= NULL" ist zur Information fuer BaumRes, dass Pfad noch nicht angelegt */
 /* wurde; */
 
 
 /* -------------------------------------------------------------------------------- */
 
-size_t BedarfBelegungV( void )
-{
+size_t BedarfBelegungV() {
   return N * sizeof(Pfadinfo);
 }
 
-void *BelegungV(void *Z)
-{
-  Pfad = (Pfadinfo *) Z; Z = (void *) (Pfad + N);
+void* BelegungV(void* Z) {
+  Pfad = (Pfadinfo*) Z; Z = (void*) (Pfad + N);
   Tiefe = Pfad;
 #ifdef BAUMRES
-  {
-    Pfadinfo *z; unsigned int i;
-    for (i = 0, z = Pfad; i < N; i++, z++)
-      z -> M = NULL;
-  }
+  for (struct {unsigned int i; Pfadinfo* z;} l = {0, Pfad}; l.i < N; ++l.i, ++l.z) l.z -> M = NULL;
 #endif
   return Z;
 }
@@ -59,8 +53,7 @@ void *BelegungV(void *Z)
   
 /* -------------------------------------------------------------------------------- */
 
-__inline__ LIT PfadLit(void)
-{
+__inline__ LIT PfadLit() {
 #ifndef BAUMRES
   return *Tiefe;
 #else
@@ -68,8 +61,7 @@ __inline__ LIT PfadLit(void)
 #endif
 }
 
-__inline__ void LiteinPfad(LIT x)
-{
+__inline__ void LiteinPfad(const LIT x) {
 #ifndef BAUMRES
   *Tiefe = x;
 #else
@@ -105,38 +97,28 @@ __inline__ void belege(const LIT x) {
 
 #ifdef BAUMRES
 
-__inline__ void belege_VK(LIT x, KLN K)
-
+__inline__ void belege_VK(const LIT x, const KLN K) {
 /* Hier wird noch die fuer die 1-Klauseln-Erzeugung relevante Klausel */
 /* in relVar eingetragen. */
 /* "belege_VK" wird nicht fuer die Verzweigungsvariable verwendet. */
-
-{
   LITV y, z;
   LIT kx;
   VAR v;
-
-  /* entferne alle x-Vorkommen aus ihren Klauseln */
-
-  for (y = erstesVork(x); echtesVork(y, x); y = naechstesVork(y))
-    {
-      loeseLK(y);
-      LaengeM1(KlnVk(y));
-    }
-
+  /* entferne alle x-Vorkommen aus ihren Klauseln: */
+  for (y = erstesVork(x); echtesVork(y, x); y = naechstesVork(y)) {
+    loeseLK(y);
+    LaengeM1(KlnVk(y));
+  }
   /* fuer Klauseln C mit (non x) in C entferne alle anderen y in C aus */
-  /* ihren Vorkommenslisten */
-
+  /* ihren Vorkommenslisten: */
   for (y = erstesVork(kx = Komp(x)); echtesVork(y, kx); y = naechstesVork(y))
     for (z = naechstesVorkK(y); z != y; z = naechstesVorkK(z))
       loeseLv(z);
-
   LiteinPfad(x);
   loeseV(v = Var(x));
   setzenbelegt(v, true);
-
   Kln_eintragen_relV(K);
-  Tiefe++;
+  ++Tiefe;
 }
 
 #endif
