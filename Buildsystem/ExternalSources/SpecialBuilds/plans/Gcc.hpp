@@ -293,8 +293,8 @@ ExternalSources> oklib gcc gcc_user_options_okl="--with-system-zlib"
    <li> This bug results in an error from texi2dvi during the gcc
    build process on systems using the en_GB.UTF-8 locale and
    versions of (e)grep >= 2.7. </li>
-   <li> This bug was first found to affect the OKlibrary in Dec 2010, and a corrected
-   version of texi2dvi was made available on 22.8.2011. </li>
+   <li> This bug was first found to affect the OKlibrary in Dec 2010, and a
+   corrected version of texi2dvi was made available on 22.8.2011. </li>
    <li> DONE (correction applied in gcc-building) According to
    http://www.mail-archive.com/bug-texinfo@gnu.org/msg04519.html
    and the corresponding bug report, there is now a fix, and presumably
