@@ -285,24 +285,26 @@ ExternalSources> oklib gcc gcc_user_options_okl="--with-system-zlib"
   </ul>
 
 
-  \todo Latest texi2dvi fails to build gcc.texi on some systems
+  \todo DONE (gcc-building provides now a corrected version)
+  texi2dvi (texinfo 1.13a) fails to build gcc.texi on some systems
   <ul>
-   <li> Request to specify which version of texi2dvi this was about; and also,
-   for such issues dates need to be stated. </li>
-   <li> The latest texinfo package has a bug due to the formatting of
-   strings passed to egrep, which results in an error from texi2dvi during
-   the gcc (4.5.2) build process complaining about precisely this. </li>
-   <li> The error arises as texi2dvi uses egrep with using "[A-z]" rather
-   than "[A-Za-z]", and the first isn't a valid pattern when using certain
-   unicode (UTF-8 type) character sets. </li>
-   <li> DONE (we should avoid such hacks if possible, and here it is)
-   One can run "LC_ALL=C oklib gcc" and the build completes without a
-   problem. </li>
-   <li> According to
+   <li> Texinfo versions 1.13a and below have a bug due to the formatting of
+   strings passed to egrep. </li>
+   <li> This bug results in an error from texi2dvi during the gcc
+   build process on systems using the en_GB.UTF-8 locale and
+   versions of (e)grep >= 2.7. </li>
+   <li> This bug was first found to affect the OKlibrary in Dec 2010, and a corrected
+   version of texi2dvi was made available on 22.8.2011. </li>
+   <li> DONE (correction applied in gcc-building) According to
    http://www.mail-archive.com/bug-texinfo@gnu.org/msg04519.html
    and the corresponding bug report, there is now a fix, and presumably
    this should be available in a new texinfo package soon on most systems.
    </li>
+   <li> DONE (we should avoid such hacks if possible, and here it is)
+   One can run "LC_ALL=C oklib gcc" and the build completes without a
+   problem. </li>
+   <li> DONE Request to specify which version of texi2dvi this was about; and
+   also, for such issues dates need to be stated. </li>
    <li> DONE (gcc-building provides now a corrected version)
    This is not a bug in the OKlibrary, but users should be aware of the
    issue. </li>
