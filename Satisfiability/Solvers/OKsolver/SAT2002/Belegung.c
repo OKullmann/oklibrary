@@ -101,21 +101,20 @@ __inline__ void belege_VK(const LIT x, const KLN K) {
 /* Hier wird noch die fuer die 1-Klauseln-Erzeugung relevante Klausel */
 /* in relVar eingetragen. */
 /* "belege_VK" wird nicht fuer die Verzweigungsvariable verwendet. */
-  LITV y, z;
-  LIT kx;
-  VAR v;
   /* entferne alle x-Vorkommen aus ihren Klauseln: */
-  for (y = erstesVork(x); echtesVork(y, x); y = naechstesVork(y)) {
+  for (LITV y = erstesVork(x); echtesVork(y, x); y = naechstesVork(y)) {
     loeseLK(y);
     LaengeM1(KlnVk(y));
   }
   /* fuer Klauseln C mit (non x) in C entferne alle anderen y in C aus */
   /* ihren Vorkommenslisten: */
-  for (y = erstesVork(kx = Komp(x)); echtesVork(y, kx); y = naechstesVork(y))
-    for (z = naechstesVorkK(y); z != y; z = naechstesVorkK(z))
+  const LIT kx = Komp(x);
+  for (LITV y = erstesVork(kx); echtesVork(y, kx); y = naechstesVork(y))
+    for (LITV z = naechstesVorkK(y); z != y; z = naechstesVorkK(z))
       loeseLv(z);
   LiteinPfad(x);
-  loeseV(v = Var(x));
+  const VAR v = Var(x);
+  loeseV(v);
   setzenbelegt(v, true);
   Kln_eintragen_relV(K);
   ++Tiefe;
