@@ -138,7 +138,7 @@ __inline__ static StapeleintragFZ La_belegeFil(const LIT x, StapeleintragFZ sp) 
 /* Vor.: Es entsteht nicht die leere Klausel. */
 /* Im Falle von BAUMRES wird auch EK aktualisiert. */
 /* Rueckgabewert ist der neue Wert von sp. */
-  LIT kx, lz;
+  LIT lz;
   KLN kn; KLL p;
 
   /* Durchlaufe alle x-Vorkommen und kuerze die aktiven Klauseln: */
@@ -195,8 +195,8 @@ __inline__ static StapeleintragFZ La_belegeFil(const LIT x, StapeleintragFZ sp) 
   }
 
   /* Durchlaufen der Komp(x)-Vorkommen und eliminiere alle noch aktiven Klauseln */
-
-  for (LITV y = erstesVork(kx = Komp(x)); echtesVork(y, kx); y = naechstesVork(y))
+  const LIT kx = Komp(x);
+  for (LITV y = erstesVork(kx); echtesVork(y, kx); y = naechstesVork(y))
     if (RundeK( kn = KlnVk(y) ) != Runde) { /* Klausel nicht schon angefasst? */
       setzenRundeK(kn);
       DKF[Laenge(kn)]++;
