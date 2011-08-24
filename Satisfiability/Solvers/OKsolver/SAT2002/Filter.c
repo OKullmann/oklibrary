@@ -35,21 +35,20 @@ License, or any later version. */
 #include "lokalesLernen.h"
 #endif
 
-
+//! true iff a satisfying assignment was found
 bool erfuellt;
-/* wurde eine erfuellende Belegung gefunden? */
 
+//! true iff no further reduction needs to be attempted
 bool reduziert;
-/* muss wieder neu reduziert werden? */
 
+//! check first branch v -> Zweig (because of autarky or 2-SAT)
 VZ Zweig;
-/* Teste zuerst v -> Zweig (wg. Autarkie oder 2-SAT). */
 
+//! if Wahl==true, so choose v as branching variable
 bool Wahl;
-/* Ist Wahl == true, so ist v als Verzweigungsvariable zu waehlen. */
 
+//! if Wahl==true, so Single==true if branch v -> Zweig alone is sufficient
 bool Single;
-/* Gibt an, ob im Falle von "Wahl" nur "v -> Zweig" zu betrachten ist. */
 
 /* Im Falle von "! erfuellt" und "! reduziert" werden von "Filter" die  */
 /* folgenden Daten berechnet (evtl. nur fuer einen Zweig), wobei die  */
@@ -65,19 +64,20 @@ unsigned int Schalter; /* Werte: 0, 1 */
 /* besten Variablen (durch "Umschalten" werden Speicheroperationen  */
 /* gespart).  */
 
-unsigned int DeltaN [ 2 ] [ 2 ];
-/* DeltaN ist die Anzahl (formal) eliminierter Variablen */
+//! the number of (formal) eliminated variables
+unsigned int DeltaN[2][2];
 
-unsigned int LaP [ 2 ] [ 2 ]; /* die "vorausgesehene" neue maximale Klauselnlaenge */
+//! the new maximal clause-length (after look-ahead_
+unsigned int LaP[2][2];
 
 
-StapeleintragFZ Huelle [ 2 ] [ 2 ];
+StapeleintragFZ Huelle[2][2];
 /* LIT Huelle [ 2 ] [ 2 ] [ MAXN ]; */
 /* Huelle [Eps, Schalter, 0 .. (DeltaN[Eps, Schalter] - 1)] ist die 1-Klauseln-Huelle */
 /* der Belegung v -> Eps */
 
 
-int* DeltaK [ 2 ] [ 2 ];
+int* DeltaK[2][2];
 /* int DeltaK [ 2 ] [ 2 ] [ MAXP + 1 ]; */
 
 /* DeltaK [Eps, Schalter, i] ist die Differenz der Anzahlen "alter" und "neuer" Klauseln */
@@ -85,15 +85,15 @@ int* DeltaK [ 2 ] [ 2 ];
 /* (DeltaK ist negativ, falls sich diese Anzahl erhoeht hat). */
 
 
-unsigned int* NeuK [ 2 ] [ 2 ];
-/* unsigned int NeuK [ 2 ] [ 2 ] [ MAXP + 1 ]; */
+unsigned int* NeuK [2][2];
+/* unsigned int NeuK [2][2][MAXP + 1]; */
 
 /* NeuK [E, Schalter, i] ist die Anzahl der neuen Klauseln */
 /* der Laenge i. */
 
 
-unsigned int* LaAnzK [ 2 ] [ 2 ];
-/* unsigned int LaAnzK [ 2 ] [ 2 ] [ MAXP + 1 ]; */
+unsigned int* LaAnzK [2][2];
+/* unsigned int LaAnzK [2][2][MAXP + 1]; */
 /* die "vorausgesehenen" neuen Klauselnzahlen */
 
 
