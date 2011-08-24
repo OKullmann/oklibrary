@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.1998 (Frankfurt)
-/* Copyright 1998 - 2007 Oliver Kullmann
+/* Copyright 1998 - 2007, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,22 +15,13 @@ License, or any later version. */
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
 /* ab Februar 1999: University of Toronto, Computer Science Department */
 
-
 /* Der "Filter" */
-
 /* Einheit: Filter */
-
-
-/* 21.8.1998: Austausch von "ErfK" durc "NeuK" (neue Klauseln) */
-
+/* 21.8.1998: Austausch von "ErfK" durch "NeuK" (neue Klauseln) */
 /* 31.10.1998: Elimination des Feldes "ausgefuehrt" */
-
 /* 13.11.1998: Resolutions-Baum-Verwaltung */
-
 /* 14.8.2001: DK in DKF umbenannt, um den Namenskonflikt mit dem */
 /* Reduktions-Modul zu loesen */
-
-
 
 /* --------------------------------------------------------- */
 
@@ -86,7 +77,7 @@ StapeleintragFZ Huelle [ 2 ] [ 2 ];
 /* der Belegung v -> Eps */
 
 
-int *DeltaK [ 2 ] [ 2 ];
+int* DeltaK [ 2 ] [ 2 ];
 /* int DeltaK [ 2 ] [ 2 ] [ MAXP + 1 ]; */
 
 /* DeltaK [Eps, Schalter, i] ist die Differenz der Anzahlen "alter" und "neuer" Klauseln */
@@ -94,14 +85,14 @@ int *DeltaK [ 2 ] [ 2 ];
 /* (DeltaK ist negativ, falls sich diese Anzahl erhoeht hat). */
 
 
-unsigned int *NeuK [ 2 ] [ 2 ];
+unsigned int* NeuK [ 2 ] [ 2 ];
 /* unsigned int NeuK [ 2 ] [ 2 ] [ MAXP + 1 ]; */
 
 /* NeuK [E, Schalter, i] ist die Anzahl der neuen Klauseln */
 /* der Laenge i. */
 
 
-unsigned int *LaAnzK [ 2 ] [ 2 ];
+unsigned int* LaAnzK [ 2 ] [ 2 ];
 /* unsigned int LaAnzK [ 2 ] [ 2 ] [ MAXP + 1 ]; */
 /* die "vorausgesehenen" neuen Klauselnzahlen */
 
@@ -112,13 +103,12 @@ extern unsigned int Runde;
 
 #ifdef FASTAUTARKIE
 
-static LIT *neueFA2Klauseln0;
-static LIT *neueFA2Klausel;
+static LIT* neueFA2Klauseln0;
+static LIT* neueFA2Klausel;
 
 unsigned int RundeFA;
 
 #endif
-
 
 /* --------------------------------------------------------------------------- */
 
@@ -130,117 +120,94 @@ static VZ Eps;
 /* wobei Eps und Schalter eingesetzt wurden. */
 /* Im Falle von BAUMRES wird noch EinerKl verwendet. */
 
-static unsigned int *DN;
+static unsigned int* DN;
 
 static StapeleintragFZ HF;
 /* "F" in "HF" wie "Filter" zur Unterscheidung von (nur) "H" in "Reduktion" */
 
-static int *DKF;
+static int* DKF;
 /* ebenfalls das "F" in "DKF" zur Unterscheidung von "DK" in "Reduktion" */
 
-static unsigned int *NK;
+static unsigned int* NK;
 
 
-__inline__ static StapeleintragFZ La_belegeFil(LIT x, StapeleintragFZ sp)
-
+__inline__ static StapeleintragFZ La_belegeFil(LIT x, StapeleintragFZ sp) {
 /* Fuehrt x -> 0 durch (bzgl. letzteRK, letzteRL und LaLaenK), */
 /* schreibt neu entstehende 1-Klauseln nach HF (mit Eintrag in letzteRL), */
 /* wobei sp erhoeht wird, und aktualisiert DKF und NK. */
 /* Vor.: Es entsteht nicht die leere Klausel. */
 /* Im Falle von BAUMRES wird auch EK aktualisiert. */
 /* Rueckgabewert ist der neue Wert von sp. */
-
-{
   LITV y, z;
   LIT kx, lz, klz;
   KLN kn; KLL p;
 
-  /* Durchlaufe alle x-Vorkommen und kuerze die aktiven Klauseln */
+  /* Durchlaufe alle x-Vorkommen und kuerze die aktiven Klauseln: */
 
-  for (y = erstesVork(x); echtesVork(y, x); y = naechstesVork(y))
-    {
-      if (RundeK( kn = KlnVk(y) ) != Runde)  /* Klausel von y noch nicht angefasst? */
-	{
-	  if (Laenge(kn) == 2)  /* 2-Klausel? */
-	    {
-	      if (RundeL(klz = Komp(LitVk(naechstesVorkK(y)))) != Runde)
-		/* 1-Kl-Elim. nicht schon * vorgemerkt? */
-		{
-		  setzenRundeL(klz);	  
+  for (y = erstesVork(x); echtesVork(y, x); y = naechstesVork(y)) {
+    if (RundeK( kn = KlnVk(y) ) != Runde) {
+    /* Klausel von y noch nicht angefasst? */
+      if (Laenge(kn) == 2) {  /* 2-Klausel? */
+	  if (RundeL(klz = Komp(LitVk(naechstesVorkK(y)))) != Runde) {
+	  /* 1-Kl-Elim. nicht schon vorgemerkt? */
+	    setzenRundeL(klz);
 #ifndef BAUMRES	
-		  *(sp++) = klz;	
+	    *(sp++) = klz;
+#else
+	    sp -> l = klz;
+	    (sp++) -> k = kn;
+#endif
+	  }
+	}
+	else { /* >= 3-Klausel */
+	  setzenRundeK(kn);
+	  p = Laenge(kn);
+	  ZuwLaLaenge(kn, p-1);
+	  DKF[p-1]--;
+	  DKF[p]++;
+	  NK[p-1]++;
+	}
+    }
+    else {  /* Klausel schon angefasst */
+      if ((p = LaLaenge(kn)) != 0) { /* Klausel noch nicht erfuellt? */
+	  if (p == 2) {  /* 2-Klausel? */
+          for (z = naechstesVorkK(y); ; z = naechstesVorkK(z))  /* Suche zweites Literal */
+	      if (RundeL(lz = LitVk(z)) != Runde) break;  /* z nicht auf 0 gesetzt? */
+		if (RundeL(klz = Komp(lz)) != Runde) {  /* 1-Kl-Elim. nicht schon vorgemerkt? */
+		  setzenRundeL(klz);
+#ifndef BAUMRES
+		  *(sp++) = klz;	    
 #else
 		  sp -> l = klz;
 		  (sp++) -> k = kn;
 #endif
 		}
-	    }
-	  else  /* >= 3-Klausel */
-	    {
-	      setzenRundeK(kn);
-	      p = Laenge(kn);
-	      ZuwLaLaenge(kn, p-1);
-	      DKF[p-1]--;
-	      DKF[p]++;
-	      NK[p-1]++;
-	    }
-	}
-      else  /* Klausel schon angefasst */
-	{
-	  if ((p = LaLaenge(kn)) != 0)  /* Klausel noch nicht erfuellt? */
-	    {    
-	      if (p == 2)  /* 2-Klausel? */
-		{
-		  for (z = naechstesVorkK(y); ; z = naechstesVorkK(z))  /* Suche zweites Literal */
-		    if (RundeL(lz = LitVk(z)) != Runde)  /* z nicht auf 0 gesetzt? */
-		      break;
-	      
-		  if (RundeL(klz = Komp(lz)) != Runde)  /* 1-Kl-Elim. nicht schon vorgemerkt? */
-		    {
-		      setzenRundeL(klz);
-#ifndef BAUMRES
-		    
-		      *(sp++) = klz;
-		    
-#else
-
-		      sp -> l = klz;
-		      (sp++) -> k = kn;
-
-#endif
-
-		    }
-		}
-	      else /*  >= 3-Klausel */
-		{
-		  DKF[ M1LaLaenge(kn) ]--;
-		  DKF[p]++;
-		  NK[p-1]++;
-		  NK[p]--;
-		}
-	    }
+	  }
+	  else { /*  >= 3-Klausel */
+          DKF[ M1LaLaenge(kn) ]--;
+	    DKF[p]++;
+	    NK[p-1]++;
+	    NK[p]--;
+	  }
 	}
     }
+  }
 
   /* Durchlaufen der Komp(x)-Vorkommen und eliminiere alle noch aktiven Klauseln */
 
   for (y = erstesVork(kx = Komp(x)); echtesVork(y, kx); y = naechstesVork(y))
-
-      if (RundeK( kn = KlnVk(y) ) != Runde)  /* Klausel nicht schon angefasst? */
-        {
-          setzenRundeK(kn);
-          DKF[Laenge(kn)]++;
-          ZuwLaLaenge(kn, 0);
-        }
-      else  /* Klausel schon angefasst */
-        {
-          if ( (p = LaLaenge(kn)) != 0)  /* Klausel noch nicht erfuellt? */
-            {
-              DKF[p]++;
-              NK[p]--;
-              ZuwLaLaenge(kn, 0);
-            }
-        }
+    if (RundeK( kn = KlnVk(y) ) != Runde) { /* Klausel nicht schon angefasst? */
+      setzenRundeK(kn);
+      DKF[Laenge(kn)]++;
+      ZuwLaLaenge(kn, 0);
+    }
+    else {  /* Klausel schon angefasst */
+      if ( (p = LaLaenge(kn)) != 0) { /* Klausel noch nicht erfuellt? */
+        DKF[p]++;
+        NK[p]--;
+        ZuwLaLaenge(kn, 0);
+      }
+    }
   return sp;
 }
 
