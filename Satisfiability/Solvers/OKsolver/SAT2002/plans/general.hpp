@@ -29,12 +29,17 @@ License, or any later version. */
 
   \todo Spliting-output of only the decision variables
   <ul>
-   <li> Another switch is needed, off by default, which when activated yields
+   <li> DONE (it is always stored)
+   Another switch is needed, off by default, which when activated yields
    also output of only the decisions in the partial assignments. </li>
-   <li> For the directory-form this yields another sub-directory, calling
+   <li> DONE (we store it in the file Instances/decisions)
+   For the directory-form this yields another sub-directory, calling
    it "Instances_only_decisions". </li>
-   <li> For the file-form this yields another file, named as the file already
+   <li> DONE (using the suffix "_decisions")
+   For the file-form this yields another file, named as the file already
    used, but with prefix "DecisionsOnly_". </li>
+   <li> Now SplittingViaOKsolver and ProcessSplitViaOKsolver need to be
+   updated. </li>
   </ul>
 
 

@@ -28,7 +28,7 @@ License, or any later version. */
 
 
 
-const char* Meldungen[ANZSPRACHEN][62] =
+const char* Meldungen[ANZSPRACHEN][63] =
 {
   {"Fehler in der Definition der Konstanten! Abbruch.", /* 0 */
    "Kombination von BAUMRES mit LOKALLERNEN zur Zeit noch nicht moeglich.", /* 1 */
@@ -92,6 +92,7 @@ const char* Meldungen[ANZSPRACHEN][62] =
    "Die Datei fuer eine Aufspaltungsinstanz konnte nicht erzeugt werden.", /* 59 */
    "Die Datei fuer die Aufspaltungsinstanzen konnte nicht erzeugt werden:", /* 60 */
    "Vorzeitiger Abbruch des Aufspaltungsmodus.", /* 61 */
+   "Die Datei fuer die Entscheidungen der Aufspaltungsinstanzen konnte nicht erzeugt werden:", /* 62 */
   },
 
   {"Error in the definition of the constants! Abbort.", /* 0 */
@@ -156,6 +157,7 @@ const char* Meldungen[ANZSPRACHEN][62] =
    "Could not create file with splitting-instance.", /* 59 */
    "Could not create the file for the splitting-instance:", /* 60 */
    "Abortion of splitting computation.", /* 61 */
+   "Could not create the file for the deicisions of the splitting-instance:", /* 62 */
   },
 };
 

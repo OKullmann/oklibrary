@@ -14,19 +14,19 @@ License, or any later version. */
   \par Version 0.9.9
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following
-   topics are handled:
-    - Splitting-output in iCNF format
-    - Taking the length of the partial assignments into account : DONE
-    - Script for applying partial assignments
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
+   are handled:
+    - Spliting-output of only the decision variables
 
 
   \par Version 0.9.10
 
   \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
-   are handled:
-    - Spliting-output of only the decision variables
+   In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following
+   topics are handled:
+    - Splitting-output in iCNF format
+    - Taking the length of the partial assignments into account : DONE
+    - Script for applying partial assignments
 
 
   \par Version 0.9.11

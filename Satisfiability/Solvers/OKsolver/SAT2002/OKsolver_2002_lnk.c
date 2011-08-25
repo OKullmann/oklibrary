@@ -84,6 +84,7 @@ License, or any later version. */
 #include <signal.h>
 #include <setjmp.h>
 #include <assert.h>
+#include <stddef.h>
 
 #include <sys/stat.h>
 #include <unistd.h>
@@ -136,8 +137,6 @@ bool splitting_only = false;
 bool splitting_n = true;
 //! whether the splittings are stored in a directory or a single file
 bool splitting_file = false;
-//! the file for storing the splittings (if splitting_file == true)
-static FILE* fpsplit = NULL;
 //! true iff a splitting-only computation is aborted
 bool splitting_abortion = false;
 
@@ -278,8 +277,14 @@ static unsigned int Gesamtlast;
 
 //! in case of splitting_only the number of sub-problems yet encountered
 static unsigned int splitting_cases;
-//! directory resp. file with splitting cases
-const char* splitting_store;
+//! name of directory resp. file with splitting cases
+static const char* splitting_store;
+//! the file for storing the splittings (if splitting_file == true)
+static FILE* fpsplit = NULL;
+//! file-name for splitting-decisions
+static char* splitting_decisions;
+//! the file for the splitting-decisions
+static FILE* fpsplitdec = NULL;
 
 /*!
   \brief Helper array with Beobachtungsniveau many elements
@@ -401,14 +406,14 @@ __inline__ static void Verzweigungsliteralausgabe(const LIT x, const unsigned in
   \brief Output of decision levels
 
   Output first the number of decision on the current path, and then
-  the indices (starting with 0) of the decision variables on the
+  the indices (starting with 0) of the decision variables in the
   current partial assignment.
 */
 __inline__ static void output_decision_levels(FILE* const fp) {
   assert(fp);
   fprintf(fp, "%d ", Rekursionstiefe);
-  for (const struct Sammlung* i = SatVar0; i != NULL; i=i->danach)
-    fprintf(fp, "%d ", i->altTiefe - Pfad);
+  for (struct {const struct Sammlung* i; ptrdiff_t c;} l = {SatVar0, 0}; l.c !=  (ptrdiff_t) Rekursionstiefe; l.i=l.i->danach, ++l.c)
+    fprintf(fp, "%d ", l.i->altTiefe - Pfad);
   fprintf(fp, "\n");
 }
 
@@ -717,12 +722,13 @@ alleReduktionen:
       ((! splitting_n && Rekursionstiefe == Beobachtungsniveau) ||
        (splitting_n && N - aktN >= Beobachtungsniveau))) {
     ++splitting_cases;
+    output_decision_levels(fpsplitdec);
     if (splitting_file) AusgabeBelegung(fpsplit);
     else {
       assert(splitting_cases <= 1073741824U);
       char buf[10+1];
       snprintf(buf,10+1,"%u",splitting_cases);
-      char* name_sc = (char*) xmalloc(strlen(splitting_store)+1+strlen(buf)+1);
+      char* const name_sc = (char*) xmalloc(strlen(splitting_store)+1+strlen(buf)+1);
       strcpy(name_sc,splitting_store); strcat(name_sc,"/"), strcat(name_sc,buf);
       FILE* const file_sc = fopen(name_sc, "w");
       if (file_sc == NULL) { fprintf(stderr, "%s\n", Meldung(59)); exit(1); }
@@ -1389,6 +1395,15 @@ int main(const int argc, const char* const argv[]) {
             fprintf(stderr, "%s %s\n", Meldung(60), splitting_store);
             return 1;
           }
+        }
+        splitting_decisions = (char*) xmalloc(strlen(splitting_store)+10+1);
+        strcpy(splitting_decisions,splitting_store);
+        if (splitting_file) strcat(splitting_decisions, "_");
+        else strcat(splitting_decisions, "/");
+        strcat(splitting_decisions, "decisions");
+        if ((fpsplitdec = fopen(splitting_decisions, "w")) == NULL) {
+          fprintf(stderr, "%s %s\n", Meldung(62), splitting_decisions);
+          return 1;
         }
       }
       aktName = argv[Argument];

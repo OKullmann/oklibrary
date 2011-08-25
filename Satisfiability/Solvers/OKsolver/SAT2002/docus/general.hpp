@@ -362,6 +362,15 @@ CFLAGS="-UMACHINE_BITS_OKL"
      <li> The partial assignments yielding the sub-problems are stored either
      in files 1, ... in <code>directory</code>, or line by line in the
      specified file. </li>
+     <li> Additionally the decisions variables for each splitting are output:
+      <ol>
+       <li> Always in a (single) file, either in file <code>decisions</code>
+       in the directory, or in the file <code>filename_decisions</code>. </li>
+       <li> The format is one line per splitting, first the number of
+       decisions, and then the 0-based indices of the decisions in the
+       corresponding partial assignment. </li>
+      </ol>
+     </li>
      <li> The DIMACS format for partial assignments is used (see above). </li>
      <li> Via the switch "-SD" the interpretation of d is changed:
       <ol>
