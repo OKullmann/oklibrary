@@ -9,12 +9,12 @@
 # Extracts the numerical data from output of OKsolver_2002, in a single line.
 
 BEGIN {
-  n=0; c=0; l=0; t=0; sat=2; nds=0; r1=0; r2=0; pls=0; ats=0; h=0; file=""; 
+  rn=0; rc=0; rl=0; t=0; sat=2; nds=0; r1=0; r2=0; pls=0; ats=0; h=0; file=""; 
   dmcl=""; dn=0; n2cr=0; snds=0; qnds=0; mnds=0; tel=0; oats=0; n2cs=0;
   m2cs=0; }
-/^c initial_number_of_variables/ { n=$3; }
-/^c initial_number_of_clauses/ { c=$3; }
-/^c initial_number_of_literal_occurrences/ { l=$3; }
+/^c initial_number_of_variables/ { rn=$3; }
+/^c initial_number_of_clauses/ { rc=$3; }
+/^c initial_number_of_literal_occurrences/ { rl=$3; }
 /^c running_time\(sec\)/ { t=$3; }
 /^c sat_status/ { sat=$3; }
 /^c number_of_nodes +/ { nds=$3 }
@@ -37,6 +37,6 @@ BEGIN {
 /^c number_of_new_2-clauses/ { n2cs=$3; }
 /^c maximal_number_of_added_2-clauses/ { m2cs=$3; }
 END { 
-  print n " " c " " l " " t " " sat " " nds " " r1 " " r2 " " pls " " ats " " \
+  print rn " " rc " " rl " " t " " sat " " nds " " r1 " " r2 " " pls " " ats " " \
     h " \"" file "\" " n2cr " " dmcl " " dn " " dc " " dl " " snds " " \
     qnds " " mnds " " tel " " oats " " n2cs " " m2cs; }
