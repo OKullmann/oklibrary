@@ -44,8 +44,8 @@ short_summary_lm = function(L) {
 
 
 
-# Reads the statistics-file when minisat (in some version) was used, prints
-# some basic statistics, and returns the data-frame.
+# Reads the statistics-file when minisat (in compatible versions) was used,
+# prints some basic statistics, and returns the data-frame.
 # Usages:
 # - E=read_processsplit_minisat() reads SubinstanceStatistics in current dir
 # - E=read_processspliy_minisat(dir) reads dir/SubinstanceStatistics
@@ -64,7 +64,7 @@ read_processsplit_minisat = function(dirname, file, ...)  {
   }
   E = read.table(file = filename,
         header = T,
-        colClasses = c(rep("integer",5),"numeric","integer",rep("numeric",8)),
+        colClasses = c(rep("integer",6),"numeric","integer",rep("numeric",8)),
         ...)
   cat(sprintf("%d: %s, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),display_seconds(sum(E$t)),sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
   cat("$t:\n")

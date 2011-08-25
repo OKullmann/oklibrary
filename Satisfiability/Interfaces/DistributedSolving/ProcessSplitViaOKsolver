@@ -48,7 +48,7 @@ set -o errexit
 set -o nounset
 
 script_name="ProcessSplitViaOKsolver"
-version_number=0.0.12
+version_number=0.0.13
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -89,13 +89,13 @@ else
   free -m >> ${directory2}/Environment
   start=1
   echo "${start}" >> ${directory2}/current_subinstance
-  echo -n " i npa " > ${directory2}/SubinstanceStatistics
+  echo -n " i npa d " > ${directory2}/SubinstanceStatistics
   ${extraction_tool} header-only >> ${directory2}/SubinstanceStatistics
 fi
 
 instance_path="${directory1}/$(cat ${directory1}/F)"
 
-tail -n +$((start+1)) ${directory1}/Data | while read count F npa; do
+tail -n +$((start+1)) ${directory1}/Data | while read count F npa ndec; do
 
   echo -n "$count "
   cat ${instance_path} | ApplyPass-O3-DNDEBUG ${directory1}/Instances/$F ${directory2}/Temp.cnf
@@ -111,7 +111,7 @@ tail -n +$((start+1)) ${directory1}/Data | while read count F npa; do
     exit 1
   fi
 
-  echo -n "${count} ${F} ${npa} " >> ${directory2}/SubinstanceStatistics
+  echo -n "${count} ${F} ${npa} ${ndec} " >> ${directory2}/SubinstanceStatistics
   cat ${directory2}/Temp.out | ${extraction_tool} data-only >> ${directory2}/SubinstanceStatistics
   if [[ $estatus == 10 ]]; then
     echo -e "\nFound a SATISFYING ASSIGNMENT."

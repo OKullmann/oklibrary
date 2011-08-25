@@ -15,10 +15,15 @@ License, or any later version. */
    </li>
    <li> These files are assumed to be partial assignments, in correct
    Dimacs format (without any other content). </li>
-   <li> Determines the pairs (i,n(i)), i=1,...,N, where n(i) is the number of
-   variables of the partial assignment given by file "i". </li>
-   <li> Stably sorts the pairs (i,n(i)) according to decreasing n(i). </li>
-   <li> Prints "c i n(i)", one i per row, in this order, to standard output,
+   <li> Additionally also a file "decisions" in the current directory is
+   used. </li>
+   <li> Determines the triples (i,n_i,d_i), i=1,...,N, where n_i is the
+   number of variables of the partial assignment given by file "i", while
+   d_i is the number of decision variables given by line i of file decisions.
+   </li>
+   <li> Stably sorts the triples (i,n_i,d_i) according to decreasing n_i.
+   </li>
+   <li> Prints "c i n_i d_i", one i per row, in this order, to standard output,
    where c is a counter (starting with 1). </li>
   </ul>
 
@@ -45,18 +50,33 @@ License, or any later version. */
 
 namespace {
 
-  enum { errcode_parameter = 1, errcode_value = 2, errcode_file = 3 };
+  enum {
+    errcode_parameter = 1,
+    errcode_value = 2,
+    errcode_decfile = 3,
+    errcode_file = 4,
+    errcode_reading = 5
+  };
 
   const std::string program = "PreprocessSplitting";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.5";
+  const std::string version = "0.0.6";
 
   typedef unsigned int uint_type;
-  typedef std::pair<uint_type, uint_type> pair_t;
+
+  struct Description {
+    uint_type index, n, d;
+    Description(const uint_type index, const uint_type n, const uint_type d) : index(index), n(n), d(d) {}
+    friend std::ostream& operator <<(std::ostream& out, const Description& d) {
+      out << d.index << " " << d.n << " " << d.d;
+      return out;
+    }
+  };
+
   struct Comp {
-    bool operator()(const pair_t& lhs, const pair_t& rhs) const {
-      return lhs.second > rhs.second;
+    bool operator()(const Description& lhs, const Description& rhs) const {
+      return lhs.n > rhs.n;
     }
   };
 
@@ -73,7 +93,14 @@ int main(const int argc, const char* const argv[]) {
   
     const uint_type N = boost::lexical_cast<uint_type>(argv[1]);
 
-    typedef std::vector<pair_t> vector_t;
+    const std::string dec_filename = "decisions";
+    std::ifstream Decisions(dec_filename.c_str());
+    if (not Decisions) {
+      std::cerr << err << "Can not open file \"" << dec_filename << "\".\n";
+      return errcode_decfile;
+    }
+
+    typedef std::vector<Description> vector_t;
     vector_t statistics;
     statistics.reserve(N);
     for (uint_type i = 1; i <= N; ++i) {
@@ -86,13 +113,20 @@ int main(const int argc, const char* const argv[]) {
       uint_type count = 0;
       for (std::string x; file >> x; ++count);
       assert(count >= 2);
-      statistics.push_back(pair_t(i,count-2));
+      uint_type number_decisions;
+      Decisions >> number_decisions;
+      Decisions.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+      if (not Decisions) {
+        std::cerr << err << "Reading error with \"" << dec_filename << "\".\n";
+        return errcode_reading;
+      }
+      statistics.push_back(Description(i,count-2,number_decisions));
     }
     std::stable_sort(statistics.begin(), statistics.end(), Comp());
     typedef vector_t::const_iterator iterator;
     const iterator send = statistics.end();
     for (struct {iterator i; uint_type c;} l = {statistics.begin(), 0}; l.i != send; ++l.i)
-      std::cout << ++l.c << " " << l.i->first << " " << l.i->second << "\n";
+      std::cout << ++l.c << " " << *l.i << "\n";
   }
   catch(const boost::bad_lexical_cast&) {
     std::cerr << err << "Parameter \"" << argv[1] << "\" does not represent"

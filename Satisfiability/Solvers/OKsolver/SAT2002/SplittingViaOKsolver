@@ -36,7 +36,7 @@ set -o errexit
 set -o nounset
 
 script_name="SplittingViaOKsolver"
-version_number=0.1.10
+version_number=0.1.11
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -101,12 +101,12 @@ echo $N > N
 
 cd Instances
 echo "Extracting data from partial assignments."
-echo " i n" > ../Data
+echo " i n d" > ../Data
 ${data_preprocessing} $N >> ../Data
 cd ..
 
 echo "Extracting statistics."
-echo -e "E=read.table(\"Data\")\nsummary(E\$n)\ntable(E\$n)" | oklib --R --quiet --vanilla | tail -n +3 > Statistics
+echo -e "E=read.table(\"Data\")\nsummary(E\$n)\ntable(E\$n)\nsummary(E\$d)\ntable(E\$d)" | oklib --R --quiet --vanilla | tail -n +3 > Statistics
 
 echo "$(date): Started computing md5sum." | tee -a Log
 cd Instances
