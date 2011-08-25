@@ -12,7 +12,8 @@ License, or any later version. */
 
   \todo Option for using only the decision variables
   <ul>
-   <li> First extracting the partial assignments, via some tool. </li>
+   <li> First extracting the partial assignments (from file
+   Instances/decisions), via some tool. </li>
    <li> And then just running through this file. </li>
   </ul>
 
