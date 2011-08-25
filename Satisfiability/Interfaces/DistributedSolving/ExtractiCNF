@@ -21,19 +21,22 @@ set -o errexit
 set -o nounset
 
 script_name="ExtractiCNF"
-version_number=0.1.2
+version_number=0.1.3
 
 if [[ $# -ne 1 ]]; then
   echo "ERROR[${script_name}]: Exactly one parameter is needed, the directory to be processed."
   exit 1
 fi
 
-cd $1
+dirname="$1"
+cd ${dirname}
+
 
 F="$(cat F)"
 nF=${F/%.cnf/.icnf}
+canonical_dirname="$(readlink --canonicalize ${dirname})"
 
-cat $F | sed -e "s/^p cnf .*/c ${script_name}: version ${version_number}, $(date)\nc Old: &\np inccnf/" > $nF
+cat $F | sed -e "s!^p cnf .*!c ${script_name}: version ${version_number}, $(date)\nc Applied to: ${canonical_dirname}\nc Old: &\np inccnf!" > $nF
 CollectingPartialAssignments-O3-DNDEBUG Data Instances | sed 's/^v/a/' >> $nF
 
 exit 0

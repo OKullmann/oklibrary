@@ -22,20 +22,22 @@ set -o errexit
 set -o nounset
 
 script_name="ExtractDecisionsiCNF"
-version_number=0.1.1
+version_number=0.1.2
 
 if [[ $# -ne 1 ]]; then
   echo "ERROR[${script_name}]: Exactly one parameter is needed, the directory to be processed."
   exit 1
 fi
 
-cd $1
+dirname="$1"
+cd ${dirname}
 
 F="$(cat F)"
 nF=${F/%.cnf/_decisions.icnf}
 N=$(cat N)
+canonical_dirname="$(readlink --canonicalize ${dirname})"
 
-cat $F | sed -e "s/^p cnf .*/c ${script_name}: version ${version_number}, $(date)\nc Old: &\np inccnf/" > $nF
+cat $F | sed -e "s!^p cnf .*!c ${script_name}: version ${version_number}, $(date)\nc Applied to: ${canonical_dirname}\nc Added $N partial assignments (only decisions).\nc Old: &\np inccnf!" > $nF
 CollectingDecisions-O3-DNDEBUG Data Instances $N | sed 's/^/a /' >> $nF
 
 exit 0
