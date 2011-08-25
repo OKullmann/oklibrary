@@ -100,6 +100,9 @@ License, or any later version. */
    experiment running scripts, discussed in "Running experiments"
    in ExperimentSystem/SolverMonitoring/plans/general.hpp. </ul>
    </li>
+   <li> All DES experiments need to be rerun using the new experiment scripts
+   discussed in "Running experiments"
+   in ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
    <li> See also "Update experiment script" in
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
    </li>
