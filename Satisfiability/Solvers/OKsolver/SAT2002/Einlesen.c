@@ -63,7 +63,7 @@ static char *Eingabesymbole0 = NULL;
 
 /* Zeiger auf dynamisch erzeugten Speicherplatz muesse NULL sein, */
 /* wenn sie nicht auf solchen zeigen. */
-  
+
 static unsigned int *Hashtabelle = NULL;
 
 static int *LitTab = NULL;
@@ -189,7 +189,7 @@ __inline__ bool uebernehmenLiteral(const int l) {
 
   L0++; aktp0++;
   if (Tautologie) return true;
-  for (Lauf = aktKlauselAnfang; Lauf != aktfreies; Lauf++) 
+  for (Lauf = aktKlauselAnfang; Lauf != aktfreies; Lauf++)
     if (*Lauf == -l) {
 	Tautologie = globalTautologie = true;
 	break;
@@ -292,11 +292,11 @@ void Fehlerumgebung(FILE* const fp, char c) {
 
 
 
-TEIN Einlesen(FILE* const fp, const unsigned int G) {  
+TEIN Einlesen(FILE* const fp, const unsigned int G) {
   char c; unsigned int v; VZ e;
 
   P = P0 = N = N0 = K = K0 = L = L0 = 0;
-  
+
   if (G == 0) return Sat;
   {unsigned int trivSchranke;
    trivSchranke = (unsigned int) ceil(G / 2.0); /* laesst Spiel von +1 zu */
@@ -331,7 +331,7 @@ TEIN Einlesen(FILE* const fp, const unsigned int G) {
    maxlk = maxl + maxk;
   }
 
-  Hashtabelle = (unsigned int *) xmalloc(M * sizeof(unsigned int));     
+  Hashtabelle = (unsigned int *) xmalloc(M * sizeof(unsigned int));
   aktKlauselAnfang = aktfreies = LitTab = (int *) xmalloc(maxlk * sizeof(int));
   freiSymbole = Eingabesymbole = Eingabesymbole0 = (char *) xmalloc(G * sizeof(char));
   VarTab = (VarSym *) xmalloc((maxn + 1) * sizeof(VarSym));
@@ -381,7 +381,7 @@ S1:
       Fehlerumgebung(fp, c);
 	return Fehler;
     }
- 
+
   ZustandS12 :
 
     if (c == EOF) {
@@ -390,7 +390,7 @@ S1:
    }
    else if (c == '\n') { c = getc(fp); goto ZustandS11; }
    else { c = getc(fp); goto ZustandS12; }
- 
+
   ZustandS14 :
 
     if (isspace(c)) { c = getc(fp); goto ZustandS14; }
@@ -434,9 +434,9 @@ S1:
 	}
       return Fehler;
     }
- 
+
   ZustandS16 :
-   
+
     if (c == '0') {
       if (! uebernehmenKlausel()) {
 	  fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
@@ -469,7 +469,7 @@ S1:
     else if (isspace(c)) {
       c = getc(fp); goto ZustandS11;
     }
-    else { 
+    else {
       fprintf(stderr, "%s\n", Meldung(51));
       Fehlerumgebung(fp, c);
       return Fehler;
@@ -490,16 +490,16 @@ S2:
       Fehlerumgebung(fp, c);
       return Fehler;
     }
- 
+
   ZustandS22 :
-   
+
     if (c == EOF) {
       fprintf(stderr, "%s\n", Meldung (9));
       return Fehler;
     }
     else if (c == '\n') { c = getc(fp); goto ZustandS21; }
     else { c = getc(fp); goto ZustandS22; }
- 
+
   ZustandS23 :
 
     if (Klauselende(c)) {
@@ -542,9 +542,9 @@ S2:
 	}
       return Fehler;
     }
- 
+
   ZustandS25 :
- 
+
     if (Klauselende(c)) {
       *(freiSymbole++) = '\0';
       v = eintragen();
@@ -559,7 +559,7 @@ S2:
       if (! uebernehmenKlausel()) {
 	  fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
 	  return Fehler;
-	}	  
+	}
       c = getc(fp); goto ZustandS21;
     }
     else if (Sepzeichen(c)) {
@@ -600,9 +600,9 @@ S2:
 	}
       return Fehler;
     }
- 
+
   ZustandS26 :
-   
+
     if (Klauselende(c)) {
       if (! uebernehmenKlausel()) {
 	  fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
@@ -620,9 +620,9 @@ S2:
 	}
       return Fehler;
     }
- 
+
   ZustandS27 :
-   
+
     if (isspace(c)) { c = getc(fp); goto ZustandS27; }
     else if (isalnum(c)) {
       *(freiSymbole++) = c;
@@ -668,9 +668,9 @@ S3:
        Fehlerumgebung(fp, c);
        return Fehler;
      }
- 
+
  ZustandS32 :
-   
+
    if (c == EOF)
      {
        fprintf(stderr, "%s\n", Meldung (9));
@@ -684,9 +684,9 @@ S3:
      {
        c = getc(fp); goto ZustandS32;
      }
- 
+
  ZustandS33 :
-   
+
    if (Klauselende(c))
      {
        leereKlausel = true; K0++; K++;
@@ -720,9 +720,9 @@ S3:
 	 }
        return Fehler;
      }
- 
+
  ZustandS34 :
-   
+
    if (isspace(c))
      {
        c = getc(fp); goto ZustandS34;
@@ -743,9 +743,9 @@ S3:
 	 }
        return Fehler;
      }
- 
+
  ZustandS35 :
-   
+
    if (Klauselende(c))
      {
        *(freiSymbole++) = '\0';
@@ -764,7 +764,7 @@ S3:
 	 {
 	   fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
 	   return Fehler;
-	 }	  
+	 }
        c = getc(fp); goto ZustandS31;
      }
    else if (isspace(c))
@@ -799,9 +799,9 @@ S3:
 	 }
        return Fehler;
      }
- 
+
  ZustandS36 :
-   
+
    if (Klauselende(c))
      {
        if (! uebernehmenKlausel())
@@ -837,10 +837,10 @@ S3:
 	 }
        return Fehler;
      }
- 
- 
+
+
 /* ---------------------- */
- 
+
 
 
 S4:
@@ -881,7 +881,7 @@ S4:
        Fehlerumgebung(fp, c);
        return Fehler;
      }
- 
+
  ZustandS42 :
 
    if (c == EOF)
@@ -897,9 +897,9 @@ S4:
      {
        c = getc(fp); goto ZustandS42;
      }
- 
+
  ZustandS44 :
-   
+
    if (isspace(c))
      {
        c = getc(fp); goto ZustandS44;
@@ -920,9 +920,9 @@ S4:
 	 }
        return Fehler;
      }
- 
+
  ZustandS45 :
-   
+
    if (c == '\n')
      {
        *(freiSymbole++) = '\0';
@@ -941,7 +941,7 @@ S4:
 	 {
 	   fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
 	   return Fehler;
-	 }	  
+	 }
        c = getc(fp); goto ZustandS41;
      }
    else if (isspace(c))
@@ -976,9 +976,9 @@ S4:
 	 }
        return Fehler;
      }
- 
+
  ZustandS46 :
-   
+
    if (c == '\n')
      {
        if (! uebernehmenKlausel())
@@ -1014,7 +1014,7 @@ S4:
 	 }
        return Fehler;
      }
- 
+
 
 /* ------------------------------------ */
 
@@ -1038,7 +1038,7 @@ Phase2:
    }
 
  N = N0;
- if (globalTautologie)  
+ if (globalTautologie)
    /* es muss N neu berechnet werden */
    /* und die neuen Variablennummern neu bestimmt werden */
    {
@@ -1134,7 +1134,7 @@ Phase2:
      i = LitTab;
      for (k = 0; k < K; ++k) {
        const int erstesLit = *i; int letztesLit;
-	 
+
        int* const i0 = i;
        do
          ++i;
@@ -1172,7 +1172,7 @@ Phase2:
          Pfad0[InitEinerRed++] = l;
        else
          InitEinerRed++;
-	 
+
        for (x = Anfangsvorkommen[l].naechstes; x != NULL; x = xn) {
          xn = x -> naechstes;
          Klausel = x -> Klausel;
@@ -1214,7 +1214,7 @@ Phase2:
            Klausel -> Anfang = i0;
          }
        }
-       
+
        for (x = Endvorkommen[l].naechstes; x != NULL; x = xn) {
          xn = x -> naechstes;
          Klausel = x -> Klausel;
@@ -1303,7 +1303,7 @@ Phase2:
      }
      free(Hashtabelle); Hashtabelle = NULL;
      free(Z0); Z0 = NULL;
-     
+
      if (K == 0)
        return Sat;
    }
@@ -1325,7 +1325,7 @@ Phase2:
 #endif
 			    );
 #ifdef BAUMRES
-   Basis = BaumResV(Basis); 
+   Basis = BaumResV(Basis);
 /* vor VarLitKlm, da Adresse von aktrelV benoetigt wird */
 #endif
    Basis = VarLitKlmV(Basis);
@@ -1342,7 +1342,7 @@ Phase2:
 
   /* Durchlaufen der Literalvorkommen in LitTab */
   /* Belegen der Literalvorkommen und von LaenK, aktAnzK */
- 
+
  {
    unsigned int k;
    int *j;
@@ -1381,7 +1381,7 @@ Phase2:
      free(VarTab1); VarTab1 = NULL;
      free(VarTab); VarTab = NULL;
    }
- 
+
  aktP = P; /* Initialisieren von aktP */
  aktN = N; /* Initialisieren von aktN */
 
