@@ -27,7 +27,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Spliting-output of only the decision variables
+  \todo Splitting-output of only the decision variables
   <ul>
    <li> DONE (it is always stored)
    Another switch is needed, off by default, which when activated yields
