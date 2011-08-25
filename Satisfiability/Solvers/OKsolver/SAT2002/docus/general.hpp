@@ -420,8 +420,13 @@ CFLAGS="-UMACHINE_BITS_OKL"
      number of variables actually occurring in the clause-set. </li>
      <li> And also the number of clauses is the precise count (before and
      after reduction). </li>
-     <li> "reduction" refers to elimination of tautological clauses,
-     repeated literal occurrences and unit-clause-propagation. </li>
+     <li> "Reduction" refers to
+      <ol>
+       <li> elimination of tautological clauses and repeated literal
+       occurrences </li>
+       <li> unit-clause-propagation. </li>
+      </ol>
+     </li>
      <li> So <code>initial_number_of_variables</code> is the precise number
      of variables in the input (taking also tautological clauses into
      account), while <code>initial_number_of_clauses</code> is the precise
