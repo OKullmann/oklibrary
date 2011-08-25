@@ -1,0 +1,41 @@
+#!/bin/bash
+# Oliver Kullmann, 25.8.2011 (Swansea)
+# Copyright 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# For directory dir created by SplittingViaOKsolver, extract the splitting
+# information regarding (only) decision-assignments into an .icnf-file
+# (containing first the instance, and then the splittings).
+# The new file F_decisions.icnf (where F.cnf is the original CNF instance)
+# is placed into dir.
+
+# The order of the partial assignments is as given by the file dir/Data.
+
+# Usage:
+
+# ExtractDecisionsiCNF dir
+
+set -o errexit
+set -o nounset
+
+script_name="ExtractDecisionsiCNF"
+version_number=0.1
+
+if [[ $# -ne 1 ]]; then
+  echo "ERROR[${script_name}]: Exactly one parameter is needed, the directory to be processed."
+  exit 1
+fi
+
+cd $1
+
+F="$(cat F)"
+nF=${F/%.cnf/_decisions.icnf}
+N=$(cat N)
+
+cat $F | sed -e '/^p cnf/cp inccnf' > $nF
+CollectingDecisions-O3-DNDEBUG Data Instances $N | sed 's/^/a /' >> $nF
+
+exit 0
