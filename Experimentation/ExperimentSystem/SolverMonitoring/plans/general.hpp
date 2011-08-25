@@ -10,6 +10,19 @@ License, or any later version. */
   \brief General plans regarding monitoring solvers
 
 
+  \todo Improve docus
+  <ul>
+   <li> The docus at ExperimentSystem/SolverMonitoring/docus/general.hpp
+   must be improved. </li>
+   <li> Examples of how to use the experiment scripts and their outputs are
+   needed. </li>
+   <li> Full information on all solver data is needed. </li>
+   <li> Information on the methodology and best practice when using these
+   tools is needed, or at least links to other docus which provide this
+   information. </li>
+  </ul>
+
+
   \todo Running experiments
   <ul>
    <li> Currently we have RunMinisat. </li>
@@ -100,12 +113,12 @@ License, or any later version. */
     <li> ExtractGrasp.awk </li>
     <li> ExtractPicosat.awk </li>
     <li> ExtractArgosat.awk </li>
-    <li> ExtractMinisat.awk : DONE </li>
     <li> ExtractOKsolver.awk </li>
     <li> ExtractGlucose.awk </li>
     <li> ExtractPrecosat236.awk </li>
     <li> ExtractPrecosat570.awk </li>
     <li> ExtractSatz </li>
+    <li> ExtractMinisat.awk : DONE </li>
     <li> ExtractMarchpl : DONE </li>
    </ul>
    </li>
