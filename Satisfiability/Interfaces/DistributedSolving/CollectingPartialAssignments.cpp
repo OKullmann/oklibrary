@@ -5,6 +5,22 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*!
+  \file Interfaces/DistributedSolving/CollectingPartialAssignments.cpp
+  \brief Application for collecting partial assignments into one file
+
+  <ul>
+   <li> Takes exactly two arguments, "Data" and "Dir". </li>
+   <li> This is the data-file and the instance-directory (as produced by
+   SplittingViaOKsolver). </li>
+   <li> The data-files contains one header-line, and then lines whose second
+   entry (space-separated from the first entry) is an index i. </li>
+   <li> The content of file Dir/i is output to standard output (in the order
+   of the lines from file Data). </li>
+  </ul>
+
+*/
+
 #include <iostream>
 #include <fstream>
 #include <limits>
@@ -21,7 +37,7 @@ namespace {
   const std::string program = "CollectingPartialAssignments";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.5";
+  const std::string version = "0.0.6";
 
 }
 
