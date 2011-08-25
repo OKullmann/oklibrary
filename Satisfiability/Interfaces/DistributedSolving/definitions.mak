@@ -3,7 +3,7 @@
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
 
-programs := PreprocessSplitting CollectingPartialAssignments
+programs := PreprocessSplitting CollectingPartialAssignments CollectingDecisions
 
 source_libraries = $(boost_include_option_okl)
 
