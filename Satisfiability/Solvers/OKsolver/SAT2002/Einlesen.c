@@ -121,8 +121,7 @@ bool Trenner[CHAR_MAX];
 bool Negator[CHAR_MAX];
 bool Kommentar[CHAR_MAX];
 
-void setzenStandard(void)
-{
+void setzenStandard() {
   assert(Standard >= 1);
   assert(Standard <= 4);
   switch (Standard) {
@@ -159,98 +158,73 @@ void setzenStandard(void)
 }
 
 
-__inline__ bool Kommzeichen(char c)
-{
+__inline__ bool Kommzeichen(const char c) {
   return Kommentar[(int) c];
 }
-
-
-__inline__ bool Sepzeichen(char c)
-{
+__inline__ bool Sepzeichen(const char c) {
   return Trenner[(int) c];
 }
-
-
-__inline__ bool Negzeichen(char c)
-{
+__inline__ bool Negzeichen(const char c) {
   return Negator[(int) c];
 }
-
-
-__inline__ bool Variablenanfang(char c)
-{
+__inline__ bool Variablenanfang(const char c) {
   if (Standard == 1)
     return (isalnum(c) && (! Kommentar[(int) c]) && (c != '0'));
   else
     return isalnum(c);
 }
-
-
-__inline__ bool Klauselbeginn(char c)
-{
+__inline__ bool Klauselbeginn(const char c) {
   return Beginn[(int) c];
 }
-
-
-__inline__ bool Klauselende(char c)
-{
+__inline__ bool Klauselende(const char c) {
   return Ende[(int) c];
 }
 
 /* --------------------------------------------------- */
 
 
-__inline__ bool uebernehmenLiteral(int l)
+__inline__ bool uebernehmenLiteral(const int l) {
 /* gibt false zurueck im Fehlerfalle */
-{
   int *Lauf;
 
   L0++; aktp0++;
-  if (Tautologie)
-    return true;
-  for (Lauf = aktKlauselAnfang; Lauf != aktfreies; Lauf++)
-    if (*Lauf == -l)
-      {
+  if (Tautologie) return true;
+  for (Lauf = aktKlauselAnfang; Lauf != aktfreies; Lauf++) 
+    if (*Lauf == -l) {
 	Tautologie = globalTautologie = true;
 	break;
-      }
-    else if (*Lauf == l)
-      break;
-
-  if (Tautologie)
-    {
-      aktfreies = aktKlauselAnfang;
-      L -= aktp;
-      return true;
     }
-  else if (Lauf == aktfreies)
-    {
-      if (unsichermaxl && L >= maxl)
-	return false;
-      aktp++;
-      L++;
-      *(aktfreies++) = l;
-    }
+    else if (*Lauf == l) break;
+  if (Tautologie) {
+    aktfreies = aktKlauselAnfang;
+    L -= aktp;
+    return true;
+  }
+  else if (Lauf == aktfreies) {
+    if (unsichermaxl && L >= maxl)
+    return false;
+    aktp++;
+    L++;
+    *(aktfreies++) = l;
+  }
   return true;
 }
 
-__inline__ bool uebernehmenKlausel(void)
-{
+__inline__ bool uebernehmenKlausel() {
   K0++;
   if (aktp0 > P0)
     P0 = aktp0;
-  if (! Tautologie)
-    {
-      if (unsichermaxk && K >= maxk)
-	return false;
-      K++;
-      if (aktp > P)
-	P = aktp;
-      if (aktp == 1)
-	EinerKlausel = true;
-      *(aktfreies++) = 0;
-      aktKlauselAnfang = aktfreies;
-    }
+  if (! Tautologie) {
+    if (unsichermaxk && K >= maxk)
+    return false;
+    K++;
+    if (aktp > P)
+    P = aktp;
+    if (aktp == 1)
+    EinerKlausel = true;
+    *(aktfreies++) = 0;
+    aktKlauselAnfang = aktfreies;
+  }
   return true;
 }
 
@@ -259,35 +233,29 @@ __inline__ bool uebernehmenKlausel(void)
 
 /* Hashverwaltung */
 
-unsigned int Hash(char *Name)
-{
+unsigned int Hash(const char* Name) {
   unsigned int h = 0, a = 127;
-  for (; *Name != '\0'; Name++)
-    h = (a * h + (unsigned int) *Name) % M;
+  for (; *Name != '\0'; Name++) h = (a * h + (unsigned int) *Name) % M;
   return h;
 }
 
-unsigned int eintragen(void)
+unsigned int eintragen() {
 /* Berechnet die Variablennummer 1, ... zum in Eingabesymbole */
 /* abgespeicherten Symbol. */
 /* Gibt 0 zurueck, falls Eintragen in die Hashtabelle */
 /* nicht moeglich war. */
-{
   unsigned int i; unsigned int v;
 
   i = Hash(Eingabesymbole);
-  while ((v = *(Hashtabelle + i)) != 0)
-    {
-      if (strcmp(Eingabesymbole, *(VarTab + v)) == 0)
-	{
-	  freiSymbole = Eingabesymbole;
-	  return v;
-	}
-      else
+  while ((v = *(Hashtabelle + i)) != 0) {
+    if (strcmp(Eingabesymbole, *(VarTab + v)) == 0) {
+      freiSymbole = Eingabesymbole;
+	return v;
+    }
+    else
 	i = (i + 1) % M;
     }
-  if (unsichermaxn && (N0 >= maxn))
-    return 0;
+  if (unsichermaxn && (N0 >= maxn)) return 0;
   N0++;
   *(VarTab + N0) = Eingabesymbole;
   *(Hashtabelle + i) = N0;
@@ -298,30 +266,23 @@ unsigned int eintragen(void)
 
 /* --------------------------------------------------- */
 
-void Fehlerumgebung(FILE *fp, char c)
-{
+void Fehlerumgebung(FILE* const fp, char c) {
   long Position;
   long Zeile, p, letzteZeile;
 
   Position = ftell(fp);
   fprintf(stderr, "%s %2ld, ", Meldung(11), Position);
-  if (isgraph(c))
-    {
-      fprintf(stderr, "%c\n", c);
-    }
-  else
-    fprintf(stderr, "\\%03d\n", c);
+  if (isgraph(c)) fprintf(stderr, "%c\n", c);
+  else fprintf(stderr, "\\%03d\n", c);
   rewind(fp);
   Zeile = 1; letzteZeile = 0;
-  for (p = 1; p < Position; p++)
-    {
-      c = fgetc(fp);
-      if (c == '\n')
-	{
-	  Zeile++;
-	  letzteZeile = p;
-	}
+  for (p = 1; p < Position; p++) {
+    c = fgetc(fp);
+    if (c == '\n') {
+	Zeile++;
+	letzteZeile = p;
     }
+  }
   fprintf(stderr, "%s %2ld; %s %2ld\n", Meldung(12), Zeile, Meldung(23), Position - letzteZeile);
   return;
 }
@@ -331,65 +292,49 @@ void Fehlerumgebung(FILE *fp, char c)
 
 
 
-TEIN Einlesen(FILE *fp, unsigned int G)
-
-{  
+TEIN Einlesen(FILE* const fp, const unsigned int G) {  
   char c; unsigned int v; VZ e;
 
   P = P0 = N = N0 = K = K0 = L = L0 = 0;
   
-  if (G == 0)
-    return Sat;
-
-  {
-    unsigned int trivSchranke;
-    trivSchranke = (unsigned int) ceil(G / 2.0); /* laesst Spiel von +1 zu */
-    if (Schranken && (MAXN < trivSchranke))
-      {
-	maxn = MAXN;
-	M = Lastfaktor * maxn; /* Groesse der Hashtabelle */
-	unsichermaxn = true;
-      }
-    else
-      {
-	maxn = trivSchranke;
-	unsichermaxn = false;
-	M = trivSchranke;
-	if (M % 127 == 0)
-	  M++;
-      }
-    if (Schranken && (MAXL < trivSchranke))
-      {
-	maxl = MAXL;
-	unsichermaxl = true;
-      }
-    else
-      {
-	maxl = trivSchranke;
-	unsichermaxl = false;
-      }
-    if (Schranken && (MAXK < trivSchranke))
-      {
-	maxk = MAXK;
-	unsichermaxk = true;
-      }
-    else
-      {
-	maxk = trivSchranke;
-	unsichermaxk = false;
-      }
-	
-    maxlk = maxl + maxk;
+  if (G == 0) return Sat;
+  {unsigned int trivSchranke;
+   trivSchranke = (unsigned int) ceil(G / 2.0); /* laesst Spiel von +1 zu */
+   if (Schranken && (MAXN < trivSchranke)) {
+     maxn = MAXN;
+     M = Lastfaktor * maxn; /* Groesse der Hashtabelle */
+     unsichermaxn = true;
+   }
+   else {
+     maxn = trivSchranke;
+     unsichermaxn = false;
+     M = trivSchranke;
+     if (M % 127 == 0)
+     M++;
+   }
+   if (Schranken && (MAXL < trivSchranke)) {
+     maxl = MAXL;
+     unsichermaxl = true;
+   }
+   else {
+     maxl = trivSchranke;
+     unsichermaxl = false;
+    }
+   if (Schranken && (MAXK < trivSchranke)) {
+     maxk = MAXK;
+     unsichermaxk = true;
+   }
+   else {
+     maxk = trivSchranke;
+     unsichermaxk = false;
+   }
+   maxlk = maxl + maxk;
   }
 
-  Hashtabelle = (unsigned int *) xmalloc(M * sizeof(unsigned int));
-       
+  Hashtabelle = (unsigned int *) xmalloc(M * sizeof(unsigned int));     
   aktKlauselAnfang = aktfreies = LitTab = (int *) xmalloc(maxlk * sizeof(int));
-
   freiSymbole = Eingabesymbole = Eingabesymbole0 = (char *) xmalloc(G * sizeof(char));
-
   VarTab = (VarSym *) xmalloc((maxn + 1) * sizeof(VarSym));
-
   memset((void *) Hashtabelle, 0, M * sizeof(unsigned int));
 
 /*  1. Phase: Berechnung von LitTab und VarTab sowie von */
@@ -414,407 +359,290 @@ TEIN Einlesen(FILE *fp, unsigned int G)
 
 S1:
 
- ZustandS11 :
+  ZustandS11 :
 
-    if (c == EOF)
-      goto Phase2;
-    else if (isspace(c))
-      {
-	c = getc(fp); goto ZustandS11;
-      }
-    else if (Kommzeichen(c))
-      {
-	c = getc(fp); goto ZustandS12;
-      }
-    else if (Variablenanfang(c))
-      {
-	*(freiSymbole++) = c;
-	e = Pos; Tautologie = false;
-	aktp0 = aktp = 0;
-	c = getc(fp); goto ZustandS15;
-      }
-    else if (Negzeichen(c))
-      {
-	e = Neg; Tautologie = false;
+    if (c == EOF) goto Phase2;
+    else if (isspace(c)) { c = getc(fp); goto ZustandS11; }
+    else if (Kommzeichen(c)) { c = getc(fp); goto ZustandS12; }
+    else if (Variablenanfang(c)) {
+      *(freiSymbole++) = c;
+      e = Pos; Tautologie = false;
+      aktp0 = aktp = 0;
+      c = getc(fp); goto ZustandS15;
+    }
+    else if (Negzeichen(c)) {
+      e = Neg; Tautologie = false;
 	aktp0 = aktp = 0;
 	c = getc(fp); goto ZustandS14;
-      }
-    else
-      {
-	if (c == '0')
-	  fprintf(stderr, "%s\n", Meldung(50));
-	else
-	  fprintf(stderr, "%s\n", Meldung(8));
-	Fehlerumgebung(fp, c);
+    }
+    else {
+	if (c == '0') fprintf(stderr, "%s\n", Meldung(50));
+	else fprintf(stderr, "%s\n", Meldung(8));
+      Fehlerumgebung(fp, c);
 	return Fehler;
-      }
+    }
  
- ZustandS12 :
+  ZustandS12 :
 
-   if (c == EOF)
-     {
-       fprintf(stderr, "%s\n", Meldung (9));
-       return Fehler;
-     }
-   else if (c == '\n')
-     {
-       c = getc(fp); goto ZustandS11;
-     }
-   else
-     {
-       c = getc(fp); goto ZustandS12;
-     }
+    if (c == EOF) {
+      fprintf(stderr, "%s\n", Meldung (9));
+      return Fehler;
+   }
+   else if (c == '\n') { c = getc(fp); goto ZustandS11; }
+   else { c = getc(fp); goto ZustandS12; }
  
- ZustandS14 :
+  ZustandS14 :
 
-   if (isspace(c))
-     {
-       c = getc(fp); goto ZustandS14;
+    if (isspace(c)) { c = getc(fp); goto ZustandS14; }
+   else if (Variablenanfang(c)) {
+     *(freiSymbole++) = c;
+     c = getc(fp); goto ZustandS15;
+   }
+   else {
+     if (c == EOF) fprintf(stderr, "%s\n", Meldung(14));
+     else {
+       fprintf(stderr, "%s\n", Meldung(13));
+	 Fehlerumgebung(fp, c);
      }
-   else if (Variablenanfang(c))
-     {
-       *(freiSymbole++) = c;
-       c = getc(fp); goto ZustandS15;
-     }
-   else
-     {
-       if (c == EOF)
-	 fprintf(stderr, "%s\n", Meldung(14));
-       else
-	 {
-	   fprintf(stderr, "%s\n", Meldung(13));
-	   Fehlerumgebung(fp, c);
-	 }
-       return Fehler;
-     }
+     return Fehler;
+   }
 
- ZustandS15 :
+  ZustandS15 :
 
-   if (isspace(c))
-     {
-       *(freiSymbole++) = '\0';
-       v = eintragen();
-       if (v == 0)
-	 {
-	   fprintf(stderr, "%s %6d\n", Meldung(35), maxn);
-	   return Fehler;
-	 }
-       if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v))
-	 {
-	   fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
-	   return Fehler;
+    if (isspace(c)) {
+      *(freiSymbole++) = '\0';
+      v = eintragen();
+      if (v == 0) {
+	  fprintf(stderr, "%s %6d\n", Meldung(35), maxn);
+	  return Fehler;
+	}
+      if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v)) {
+	  fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
+	  return Fehler;
 	 }
        c = getc(fp); goto ZustandS16;
-     }
-   else if (isalnum(c))
-     {
-       *(freiSymbole++) = c;
-       c = getc(fp); goto ZustandS15;
-     }
-   else
-     {
-       if (c == EOF)
-	 fprintf(stderr, "%s\n", Meldung(14));
-       else
-	 {
-	   fprintf(stderr, "%s\n", Meldung(8));
-	   Fehlerumgebung(fp, c);
-	 }
-       return Fehler;
-     }
+    }
+    else if (isalnum(c)) {
+      *(freiSymbole++) = c;
+      c = getc(fp); goto ZustandS15;
+    }
+    else {
+      if (c == EOF) fprintf(stderr, "%s\n", Meldung(14));
+      else {
+	  fprintf(stderr, "%s\n", Meldung(8));
+	  Fehlerumgebung(fp, c);
+	}
+      return Fehler;
+    }
  
- ZustandS16 :
+  ZustandS16 :
    
-   if (c == '0')
-     {
-       if (! uebernehmenKlausel())
-	 {
-	   fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
-	   return Fehler;
-	 }
-       c = getc(fp); goto ZustandS17;
-     }
-   else if (isspace(c))
-     {
-       c = getc(fp); goto ZustandS16;
-     }
-   else if (Variablenanfang(c))
-     {
-       *(freiSymbole++) = c;
-       e = Pos;
-       c = getc(fp); goto ZustandS15;
-     }
-   else if (Negzeichen(c))
-     {
-       e = Neg;
-       c = getc(fp); goto ZustandS14;
-     }
-   else
-     {
-       if (c == EOF)
-	 fprintf(stderr, "%s\n", Meldung(14));
-       else
-	 {
-	   fprintf(stderr, "%s\n", Meldung(8));
-	   Fehlerumgebung(fp, c);
-	 }
-       return Fehler;
-     }
+    if (c == '0') {
+      if (! uebernehmenKlausel()) {
+	  fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
+	  return Fehler;
+	}
+      c = getc(fp); goto ZustandS17;
+    }
+    else if (isspace(c)) { c = getc(fp); goto ZustandS16; }
+    else if (Variablenanfang(c)) {
+      *(freiSymbole++) = c;
+      e = Pos;
+      c = getc(fp); goto ZustandS15;
+    }
+    else if (Negzeichen(c)) {
+      e = Neg;
+      c = getc(fp); goto ZustandS14;
+    }
+    else {
+      if (c == EOF) fprintf(stderr, "%s\n", Meldung(14));
+      else {
+	  fprintf(stderr, "%s\n", Meldung(8));
+	  Fehlerumgebung(fp, c);
+	}
+      return Fehler;
+    }
 
- ZustandS17 :
-   
-   if (c == EOF)
-     goto Phase2;
-   else if (isspace(c))
-     {
-       c = getc(fp); goto ZustandS11;
-     }
-   else
-     { 
-       fprintf(stderr, "%s\n", Meldung(51));
-       Fehlerumgebung(fp, c);
-       return Fehler;
-     }
+  ZustandS17 :
 
+    if (c == EOF) goto Phase2;
+    else if (isspace(c)) {
+      c = getc(fp); goto ZustandS11;
+    }
+    else { 
+      fprintf(stderr, "%s\n", Meldung(51));
+      Fehlerumgebung(fp, c);
+      return Fehler;
+    }
 
 /* ---------------------- */
-
 
 S2:
 
- ZustandS21 :
+  ZustandS21 :
 
-   if (c == EOF)
-     goto Phase2;
-   else if (isspace(c))
-     {
-       c = getc(fp); goto ZustandS21;
-     }
-   else if (Kommzeichen(c))
-     {
-       c = getc(fp); goto ZustandS22;
-     }
-   else if (Klauselbeginn(c))
-     {
-       c = getc(fp); goto ZustandS23;
-     }
-   else
-     {
-       fprintf(stderr, "%s\n", Meldung(8));
-       Fehlerumgebung(fp, c);
-       return Fehler;
-     }
+    if (c == EOF) goto Phase2;
+    else if (isspace(c)) { c = getc(fp); goto ZustandS21; }
+    else if (Kommzeichen(c)) { c = getc(fp); goto ZustandS22; }
+    else if (Klauselbeginn(c)) { c = getc(fp); goto ZustandS23; }
+    else {
+      fprintf(stderr, "%s\n", Meldung(8));
+      Fehlerumgebung(fp, c);
+      return Fehler;
+    }
  
- ZustandS22 :
+  ZustandS22 :
    
-   if (c == EOF)
-     {
-       fprintf(stderr, "%s\n", Meldung (9));
-       return Fehler;
-     }
-   else if (c == '\n')
-     {
-       c = getc(fp); goto ZustandS21;
-     }
-   else
-     {
-       c = getc(fp); goto ZustandS22;
-     }
+    if (c == EOF) {
+      fprintf(stderr, "%s\n", Meldung (9));
+      return Fehler;
+    }
+    else if (c == '\n') { c = getc(fp); goto ZustandS21; }
+    else { c = getc(fp); goto ZustandS22; }
  
- ZustandS23 :
+  ZustandS23 :
 
-   if (Klauselende(c))
-     {
-       leereKlausel = true; K0++; K++;
-       c = getc(fp); goto ZustandS21;
-     }
-   else if (isspace(c))
-     {
-       c = getc(fp); goto ZustandS23;
-     }
-   else if (isalnum(c))
-     {
-       *(freiSymbole++) = c;
-       e = Pos; Tautologie = false;
-       aktp0 = aktp = 0;
-       c = getc(fp); goto ZustandS25;
-     }
-   else if (Negzeichen(c))
-     {
-       e = Neg; Tautologie = false;
-       aktp0 = aktp = 0;
-       c = getc(fp); goto ZustandS24;
-     }
-   else
-     {
-       if (c == EOF)
-	 fprintf(stderr, "%s\n", Meldung(10));
-       else
-	 {
-	   fprintf(stderr, "%s\n", Meldung(8));
-	   Fehlerumgebung(fp, c);
-	 }
-       return Fehler;
-     }
+    if (Klauselende(c)) {
+      leereKlausel = true; K0++; K++;
+      c = getc(fp); goto ZustandS21;
+    }
+    else if (isspace(c)) { c = getc(fp); goto ZustandS23; }
+    else if (isalnum(c)) {
+      *(freiSymbole++) = c;
+      e = Pos; Tautologie = false;
+      aktp0 = aktp = 0;
+      c = getc(fp); goto ZustandS25;
+    }
+    else if (Negzeichen(c)) {
+      e = Neg; Tautologie = false;
+      aktp0 = aktp = 0;
+      c = getc(fp); goto ZustandS24;
+    }
+    else {
+      if (c == EOF) fprintf(stderr, "%s\n", Meldung(10));
+      else {
+	  fprintf(stderr, "%s\n", Meldung(8));
+	  Fehlerumgebung(fp, c);
+	}
+      return Fehler;
+    }
 
- ZustandS24 :
+  ZustandS24 :
 
-   if (isspace(c))
-     {
-       c = getc(fp); goto ZustandS24;
-     }
-   else if (isalnum(c))
-     {
-       *(freiSymbole++) = c;
-       c = getc(fp); goto ZustandS25;
-     }
-   else
-     {
-       if (c == EOF)
-	 fprintf(stderr, "%s\n", Meldung(14));
-       else
-	 {
-	   fprintf(stderr, "%s\n", Meldung(13));
-	   Fehlerumgebung(fp, c);
-	 }
-       return Fehler;
-     }
+    if (isspace(c)) { c = getc(fp); goto ZustandS24; }
+    else if (isalnum(c)) {
+      *(freiSymbole++) = c;
+      c = getc(fp); goto ZustandS25;
+    }
+    else {
+      if (c == EOF) fprintf(stderr, "%s\n", Meldung(14));
+      else {
+	  fprintf(stderr, "%s\n", Meldung(13));
+	  Fehlerumgebung(fp, c);
+	}
+      return Fehler;
+    }
  
- ZustandS25 :
+  ZustandS25 :
+ 
+    if (Klauselende(c)) {
+      *(freiSymbole++) = '\0';
+      v = eintragen();
+      if (v == 0) {
+	  fprintf(stderr, "%s %6d\n", Meldung(35), maxn);
+	  return Fehler;
+	}
+      if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v)) {
+	  fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
+	  return Fehler;
+	}
+      if (! uebernehmenKlausel()) {
+	  fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
+	  return Fehler;
+	}	  
+      c = getc(fp); goto ZustandS21;
+    }
+    else if (Sepzeichen(c)) {
+      *(freiSymbole++) = '\0';
+      v = eintragen();
+      if (v == 0) {
+	  fprintf(stderr, "%s %6d\n", Meldung(35), maxn);
+	  return Fehler;
+	}
+      if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v)) {
+	  fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
+	  return Fehler;
+	}
+      c = getc(fp); goto ZustandS27;
+    }
+    else if (isspace(c)) {
+      *(freiSymbole++) = '\0';
+      v = eintragen();
+      if (v == 0) {
+	  fprintf(stderr, "%s %6d\n", Meldung(35), maxn);
+	  return Fehler;
+	}
+      if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v)) {
+	  fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
+	  return Fehler;
+	}
+      c = getc(fp); goto ZustandS26;
+    }
+    else if (isalnum(c)) {
+      *(freiSymbole++) = c;
+      c = getc(fp); goto ZustandS25;
+    }
+    else {
+      if (c == EOF) fprintf(stderr, "%s\n", Meldung(14));
+      else {
+	  fprintf(stderr, "%s\n", Meldung(8));
+	  Fehlerumgebung(fp, c);
+	}
+      return Fehler;
+    }
+ 
+  ZustandS26 :
    
-   if (Klauselende(c))
-     {
-       *(freiSymbole++) = '\0';
-       v = eintragen();
-       if (v == 0)
-	 {
-	   fprintf(stderr, "%s %6d\n", Meldung(35), maxn);
-	   return Fehler;
-	 }
-       if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v))
-	 {
-	   fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
-	   return Fehler;
-	 }
-       if (! uebernehmenKlausel())
-	 {
-	   fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
-	   return Fehler;
-	 }	  
-       c = getc(fp); goto ZustandS21;
-     }
-   else if (Sepzeichen(c))
-     {
-       *(freiSymbole++) = '\0';
-       v = eintragen();
-       if (v == 0)
-	 {
-	   fprintf(stderr, "%s %6d\n", Meldung(35), maxn);
-	   return Fehler;
-	 }
-       if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v))
-	 {
-	   fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
-	   return Fehler;
-	 }
-       c = getc(fp); goto ZustandS27;
-     }
-   else if (isspace(c))
-     {
-       *(freiSymbole++) = '\0';
-       v = eintragen();
-       if (v == 0)
-	 {
-	   fprintf(stderr, "%s %6d\n", Meldung(35), maxn);
-	   return Fehler;
-	 }
-       if (! uebernehmenLiteral((e == Pos) ? (int) v : - (int) v))
-	 {
-	   fprintf(stderr, "%s %7d\n", Meldung(38), maxl);
-	   return Fehler;
-	 }
-       c = getc(fp); goto ZustandS26;
-     }
-   else if (isalnum(c))
-     {
-       *(freiSymbole++) = c;
-       c = getc(fp); goto ZustandS25;
-     }
-   else
-     {
-       if (c == EOF)
-	 fprintf(stderr, "%s\n", Meldung(14));
-       else
-	 {
-	   fprintf(stderr, "%s\n", Meldung(8));
-	   Fehlerumgebung(fp, c);
-	 }
-       return Fehler;
-     }
+    if (Klauselende(c)) {
+      if (! uebernehmenKlausel()) {
+	  fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
+	  return Fehler;
+	}
+      c = getc(fp); goto ZustandS21;
+    }
+    else if (isspace(c)) { c = getc(fp); goto ZustandS26; }
+    else if (Sepzeichen(c)) { c = getc(fp); goto ZustandS27; }
+    else {
+      if (c == EOF) fprintf(stderr, "%s\n", Meldung(14));
+      else {
+	  fprintf(stderr, "%s\n", Meldung(8));
+	  Fehlerumgebung(fp, c);
+	}
+      return Fehler;
+    }
  
- ZustandS26 :
+  ZustandS27 :
    
-   if (Klauselende(c))
-     {
-       if (! uebernehmenKlausel())
-	 {
-	   fprintf(stderr, "%s %6d\n", Meldung(41), maxk);
-	   return Fehler;
-	 }
-       c = getc(fp); goto ZustandS21;
-     }
-   else if (isspace(c))
-     {
-       c = getc(fp); goto ZustandS26;
-     }
-   else if (Sepzeichen(c))
-     {
-       c = getc(fp); goto ZustandS27;
-     }
-   else
-     {
-       if (c == EOF)
-	 fprintf(stderr, "%s\n", Meldung(14));
-       else
-	 {
-	   fprintf(stderr, "%s\n", Meldung(8));
-	   Fehlerumgebung(fp, c);
-	 }
-       return Fehler;
-     }
- 
- ZustandS27 :
-   
-   if (isspace(c))
-     {
-       c = getc(fp); goto ZustandS27;
-     }
-   else if (isalnum(c))
-     {
-       *(freiSymbole++) = c;
-       e = Pos;
-       c = getc(fp); goto ZustandS25;
-     }
-   else if (Negzeichen(c))
-     {
-       e = Neg;
-       c = getc(fp); goto ZustandS24;
-     }
-   else
-     {
-       if (c == EOF)
-	 fprintf(stderr, "%s\n", Meldung(15));
-       else
-	 {
-	   fprintf(stderr, "%s\n", Meldung(16));
-	   Fehlerumgebung(fp, c);
-	 }
-       return Fehler;
-     }
- 
+    if (isspace(c)) { c = getc(fp); goto ZustandS27; }
+    else if (isalnum(c)) {
+      *(freiSymbole++) = c;
+      e = Pos;
+      c = getc(fp); goto ZustandS25;
+    }
+    else if (Negzeichen(c)) {
+      e = Neg;
+      c = getc(fp); goto ZustandS24;
+    }
+    else {
+      if (c == EOF) fprintf(stderr, "%s\n", Meldung(15));
+      else {
+	  fprintf(stderr, "%s\n", Meldung(16));
+	  Fehlerumgebung(fp, c);
+	}
+      return Fehler;
+    }
 
 /* ---------------------- */
-
 
 S3:
 
@@ -1572,8 +1400,7 @@ Phase2:
 /* ------------------------------------------------------------- */
 
 
-void AufraeumenEinlesen(void)
-{
+void AufraeumenEinlesen() {
   free(Hashtabelle); Hashtabelle = NULL;
   free(LitTab); LitTab = NULL;
   free(Eingabesymbole0); Eingabesymbole0 = NULL;
@@ -1644,4 +1471,3 @@ void AusgabeBelegung(FILE* const fp) {
     if (! Dateiausgabe) fprintf(fp, "</SAT-Solver.output>\n");
   }
 }
-
