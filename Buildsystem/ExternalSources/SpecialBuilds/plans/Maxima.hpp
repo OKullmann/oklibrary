@@ -10,6 +10,19 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
+  \todo External documentation
+  <ul>
+   <li> At the documentation page for Maxima we should make available more
+   additional documentation. </li>
+   <li> The book by Ted Woollett seems out-of-date. </li>
+   <li> Foreign-language documentation:
+    <ol>
+     <li> http://maxima.sourceforge.net/docs/manual/de/maxima.html </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Installation of version 5.23.2 : DONE
   <ul>
    <li> DONE (we need to update cs-wsok)
