@@ -18,6 +18,11 @@ License, or any later version. */
    are handled:
     - Spliting-output of only the decision variables
 
+  \par
+   In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following
+   topics are handled:
+    - Handling the information about the decision variables
+
 
   \par Version 0.9.10
 

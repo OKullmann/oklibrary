@@ -39,7 +39,10 @@ License, or any later version. */
    For the file-form this yields another file, named as the file already
    used, but with prefix "DecisionsOnly_". </li>
    <li> Now SplittingViaOKsolver and ProcessSplitViaOKsolver need to be
-   updated. </li>
+   updated; see "Handling the information about the decision variables" in
+   Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp and
+   "Option for using only the decision variables" in
+   Interfaces/DistributedSolving/plans/ProcessSplitViaOKsolver.hpp. </li>
   </ul>
 
 

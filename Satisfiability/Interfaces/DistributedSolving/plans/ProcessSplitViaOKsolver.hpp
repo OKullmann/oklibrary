@@ -10,13 +10,23 @@ License, or any later version. */
   \brief Plans regarding distributed SAT solving via SplittingViaOKsolver
 
 
+  \todo Option for using only the decision variables
+  <ul>
+   <li> First extracting the partial assignments, via some tool. </li>
+   <li> And then just running through this file. </li>
+  </ul>
+
+
   \todo Simple tool for running through all sub-instances
   <ul>
-   <li> Evaluation of the sub-instances as computed by SplittingViaOKsolver.
+   <li> DONE (we have ProcessSplitViaOKsolve)
+   Evaluation of the sub-instances as computed by SplittingViaOKsolver.
    </li>
-   <li> The script just runs through the instances in the order given in the
+   <li> DONE (we have ProcessSplitViaOKsolve)
+   The script just runs through the instances in the order given in the
    Data-file, and stores the statistics in an R-readable file. </li>
-   <li> This is for investigations into the effectiveness of the splitting.
+   <li> DONE (we have ProcessSplitViaOKsolve)
+   This is for investigations into the effectiveness of the splitting.
    And also harder instances can be attacked in this way, since we can easily
    stop and continue. </li>
    <li> See the todos in the source-code. </li>

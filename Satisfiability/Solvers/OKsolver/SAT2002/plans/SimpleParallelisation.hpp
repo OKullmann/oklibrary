@@ -16,8 +16,18 @@ License, or any later version. */
   <ul>
    <li> See module Satisfiability/Interfaces/DistributedSolving for general
    tools for distributed solving; especially see
-   Interfaces/DistributedSolving/plans/general.hpp for the general plans.
-   </li>
+   Interfaces/DistributedSolving/plans/general.hpp for the general plans. </li>
+  </ul>
+
+
+  \todo Handling the information about the decision variables
+  <ul>
+   <li> The information on the number of decision variables needs to be added
+   to the data file. </li>
+   <li> And we need a tool for extracting the CNF corresponding to the
+   collection of partial assignments as DNF; the dual or the negation
+   (the difference is just whether we negate all literals or not; on its
+   own not a big issue, but one should create a natural connection). </li>
   </ul>
 
 
