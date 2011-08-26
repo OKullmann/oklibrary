@@ -20,7 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/DLL_sol
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Pigeonhole.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac")$
 
 

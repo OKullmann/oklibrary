@@ -32,7 +32,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Trees.m
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/OKsolver2002.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Pigeonhole.mac")$
 oklib_include("OKlib/ComputerAlgebra/Numerical/Lisp/Minimisation.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/RandomClauseSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/Conflicts.mac")$
