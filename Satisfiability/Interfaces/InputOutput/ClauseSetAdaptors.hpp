@@ -18,6 +18,7 @@ License, or any later version. */
   Main CLS-adaptors delivered here are:
   <ul>
    <li> InputOutput::CLSAdaptorStatistics (computing statistics) </li>
+   <li> InputOutput::CLSAdaptorPreciseStatistics </li>
    <li> InputOutput::CLSAdaptorDIMACSOutput (output in DIMACs format) </li>
    <li> InputOutput::CLSAdaptorDIMACSFileOutput (output in DIMACs format to
    files) </li>
@@ -65,7 +66,7 @@ template <class ForwardRange> CLSAdaptor::clause(const ForwardRange& clause,
 #include <boost/lexical_cast.hpp>
 #include <boost/range/distance.hpp>
 #include <boost/range/value_type.hpp>
-#include <boost/range/const_iterator.hpp>
+#include <boost/range/iterator.hpp>
 #include <boost/range/begin.hpp>
 #include <boost/range/end.hpp>
 #include <boost/algorithm/string.hpp>
@@ -99,24 +100,33 @@ namespace OKlib {
        <li> finished : clause-set has been completely read. </li>
       </ul>
 
-
       \todo For the output better a message-class is provided.
 
-
-      \todo Create a concept:
-      - at least
-      Concepts::FullyConstructibleEq and Concepts::EqualitySubstitutable
-      - default constructed: null-initialised
-      - equality holds iff all members are equal
-      - output-streamable (?)
-
+      \todo Create a concept
+      <ul>
+       <li> At least
+        <ol>
+         <li> Concepts::FullyConstructibleEq </li>
+         <li> Concepts::EqualitySubstitutable </li>
+         <li> default constructed: null-initialised </li>
+         <li> equality holds iff all members are equal </li>
+         <li> output-streamable (?) </li>
+        </ol>
+       </li>
     */
 
     template <typename Int = int>
     struct Statistics {
 
       typedef Int int_type;
-      int_type comment_count, parameter_n, parameter_c, tautological_clauses_count, non_tautological_clauses_count, total_number_literals, reduced_number_literals;
+      int_type
+        comment_count,
+        parameter_n,
+        parameter_c,
+        tautological_clauses_count,
+        non_tautological_clauses_count,
+        total_number_literals,
+        reduced_number_literals;
       bool finished;
 
       Statistics() : comment_count(0), parameter_n(0), parameter_c(0), tautological_clauses_count(0), non_tautological_clauses_count(0), total_number_literals(0), reduced_number_literals(0), finished(false) {}
@@ -151,7 +161,6 @@ namespace OKlib {
       output_options option;
       static const output_options default_option = full_output;
 
-
       FullStatistics() : option(default_option) {}
       FullStatistics(int_type cc, int_type pn, int_type pc, int_type tc, int_type ntc, int_type nl, int_type rnl, output_options opt = default_option) : stat(cc,pn,pc,tc,ntc,nl,rnl), option(opt) {}
 
@@ -183,17 +192,20 @@ namespace OKlib {
       \brief Adaptor for clause-sets which only gathers (basic) statistics
 
       The data member stat contains the statistical information.
+
+      \todo CLSAdaptorPreciseStatistics
+      <ul>
+       <li> Perhaps CLSAdaptorStatistics should be abandoned? </li>
+       <li> But keeping it can't hurt? </li>
+      </ul>
     */
 
     template <typename Int = int, class String = std::string>
     struct CLSAdaptorStatistics {
-
       typedef Int int_type;
       typedef String string_type;
       typedef Statistics<int_type> statistics_type;
-
       statistics_type stat;
-
       void comment(const string_type&) { ++stat.comment_count; }
       void n(const int_type pn) { stat.parameter_n = pn; }
       void c(const int_type pc) { stat.parameter_c = pc; }
@@ -208,7 +220,56 @@ namespace OKlib {
         stat.total_number_literals += t;
         stat.reduced_number_literals += boost::distance(r);
       }
-      
+    };
+
+    /*!
+      \class CLSAdaptorPreciseStatistics
+      \brief Adaptor for clause-sets gathering (basic) statistics in all forms
+
+      The data member stat contains the statistical information.
+
+      \todo Correction
+      <ul>
+       <li> Yet the n-count is tranferred to stat.parameter_n, while this
+       is for the parameter-line value. </li>
+       <li> So class Statistics needs to be extended, and the new parameter
+       needs to be used in finish(). </li>
+      </ul>
+
+      \todo Extensions
+      <ul>
+       <li> Also the maximal variable-index is needed. </li>
+      </ul>
+    */
+
+    template <typename Int = int, class String = std::string>
+    struct CLSAdaptorPreciseStatistics {
+      typedef Int int_type;
+      typedef String string_type;
+      typedef Statistics<int_type> statistics_type;
+      statistics_type stat;
+      void comment(const string_type&) { ++stat.comment_count; }
+      void n(const int_type pn) { stat.parameter_n = pn; }
+      void c(const int_type pc) { stat.parameter_c = pc; }
+      void finish() {
+        stat.parameter_n = var.size();
+        stat.finished = true;
+      }
+      void tautological_clause(const int_type t) {
+        ++stat.tautological_clauses_count;
+        stat.total_number_literals += t;
+      }
+      std::set<int_type> var;
+      template <class ForwardRange>
+      void clause(const ForwardRange& r, const int_type t) {
+        ++stat.non_tautological_clauses_count;
+        stat.total_number_literals += t;
+        stat.reduced_number_literals += boost::distance(r);
+        typedef typename boost::range_iterator<const ForwardRange>::type iterator;
+        const iterator end = boost::const_end(r);
+        for (iterator i = boost::const_begin(r); i != end; ++i)
+          var.insert(std::abs(*i));
+      }
     };
 
     /*!
