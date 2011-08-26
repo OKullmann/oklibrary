@@ -55,7 +55,7 @@ nlitocc_cl(F) := sum_l(map(length,listify(F)))$
 nlitocc_cs(F) := nlitocc_cl(F)$
 nlitocc_fcl(FF) := nlitocc_cl(FF[2])$
 nlitocc_fcs(FF) := nlitocc_cl(FF[2])$
- 
+
 /* The list of pairs
    [occurring clause-lengths, number of clauses of this length],
    sorted by ascending clause-length.
@@ -117,30 +117,30 @@ all_literal_degrees_fcs(FF) := block(
   return(h))$
 literal_degrees_fcs(FF) := all_literal_degrees_fcs(FF)$
 
-/* Returns the pairs of literal and literal degree of a clause-set F in 
+/* Returns the pairs of literal and literal degree of a clause-set F in
    descending order of the literal degree using the given order
    on literals  for equal counts. */
 /* This assumes that the Maxima "sort" is a stable sort (which actually is
    not specified?). */
-ordered_literal_degrees_cs(F) := 
+ordered_literal_degrees_cs(F) :=
    sort(listify(hm2sm(literal_degrees_cs(F))),
         lambda([P1,P2], is(second(P1) > second(P2))))$
-ordered_literal_degrees_fcs(F) := 
+ordered_literal_degrees_fcs(F) :=
    sort(listify(hm2sm(literal_degrees_fcs(F))),
         lambda([P1,P2], is(second(P1) > second(P2))))$
 
 /* Minimal literal-degree of a clause-set. */
-min_literal_degree_cs(F) := 
+min_literal_degree_cs(F) :=
   lmin(map(second,hm2sm(literal_degrees_cs(F))))$
 min_literal_degree_fcs(FF) := min_literal_degree_cs(FF[2])$
 /* maximal literal-degree of a clause-set */
-max_literal_degree_cs(F) := 
+max_literal_degree_cs(F) :=
   lmax(map(second,hm2sm(literal_degrees_cs(F))))$
 max_literal_degree_fcs(FF) := max_literal_degree_cs(FF[2])$
 /* Also returns a literal of minimal degree (if there is a literal);
    in case of ties, the return value is implementation-defined. */
 min_literal_degree_l_cs(F) := if F = {} or F = {{}} then [inf,0] else block(
-  [D : hm2sm(literal_degrees_cs(F)),  
+  [D : hm2sm(literal_degrees_cs(F)),
    optl : 0, mind : inf],
   for m in D do block([d : m[2]],
     if d < mind then (mind : d, optl : m[1])),
@@ -148,14 +148,14 @@ min_literal_degree_l_cs(F) := if F = {} or F = {{}} then [inf,0] else block(
 /* Also returns a literal of maximal degree (if there is a literal);
    in case of ties, the return value is implementation-defined. */
 max_literal_degree_l_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
-  [D : hm2sm(literal_degrees_cs(F)),  
+  [D : hm2sm(literal_degrees_cs(F)),
    optl : 0, maxd : minf],
   for m in D do block([d : m[2]],
     if d > maxd then (maxd : d, optl : m[1])),
   return([maxd, optl]))$
-max_literal_degree_l_cl(F) := 
+max_literal_degree_l_cl(F) :=
  if emptyp(F) or F = [{}] then [minf,0] else block(
-  [D : hm2sm(literal_degrees_cl(F)),  
+  [D : hm2sm(literal_degrees_cl(F)),
    optl : 0, maxd : minf],
   for m in D do block([d : m[2]],
     if d > maxd then (maxd : d, optl : m[1])),
@@ -190,7 +190,7 @@ max_literal_degree_tb(FF,l,d,n) := block([max_ld1, max_ld2, max_l1, max_l2],
       [if max_ld1 > max_ld2 then max_l1 else max_l2, max_ld1 + max_ld2])$
 /* Returns the pair of literal and literal degree for the literal
    with the maximum degree in the given clause set, where look-aheads are made
-   when a tie occurs for the maximum degree, looking up to d levels deeper 
+   when a tie occurs for the maximum degree, looking up to d levels deeper
    and considering up to n tied literals. */
 /* OK: "look-ahead" ??? a definition is needed. */
 /* Would also need renaming: "_fcs". */
@@ -199,8 +199,8 @@ max_literal_degree_tb_l_cs(FF,d,n) := block(
   if emptyp(old) then [0,0]
   else if d < 1 then old[1]
   else
-    xreduce(lambda([a,b], if second(a) > second(b) then a else b), 
-      map(lambda([c], max_literal_degree_tb(FF, first(c),d-1,n)), 
+    xreduce(lambda([a,b], if second(a) > second(b) then a else b),
+      map(lambda([c], max_literal_degree_tb(FF, first(c),d-1,n)),
         block([ml : sublist(rest(old),lambda([a],is(second(a)=second(first(old)))))],
           take_elements(min(n,length(ml)),ml))),
     first(old)))$
@@ -221,7 +221,7 @@ variable_degrees_cs(F) := block([h : sm2hm({})],
  return(h))$
 
 /* The minimal variable-degree of a clause-set: */
-min_variable_degree_cs(F) := 
+min_variable_degree_cs(F) :=
   lmin(map(second,hm2sm(variable_degrees_cs(F))))$
 min_variable_degree_fcs(FF) := min_variable_degree_cs(FF[2])$
 /* The maximal min-var-degree of a set (or list) of clause-sets. */
@@ -229,11 +229,11 @@ max_min_var_deg_cs(SF) := lmax(map(min_variable_degree_cs,SF))$
 max_variable_degree_fcs(FF) := max_variable_degree_cs(FF[2])$
 
 /* The maximal variable-degree of a clause-set: */
-max_variable_degree_cs(F) := 
+max_variable_degree_cs(F) :=
   lmax(map(second,hm2sm(variable_degrees_cs(F))))$
 /* Also returns a variable of maximal degree (if there is a variable). */
 max_variable_degree_v_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
-  [D : hm2sm(variable_degrees_cs(F)),  
+  [D : hm2sm(variable_degrees_cs(F)),
    optv : 0, maxd : minf],
   for m in D do block([d : m[2]],
     if d > maxd then (maxd : d, optv : m[1])),
@@ -268,14 +268,14 @@ full_variables_cs(F) := lintersection(map(var_c,F))$
 full_variables_fcs(FF) := if emptyp(FF[2]) then FF[1] else
  full_variables_cs(FF[2])$
 /* Predicate for deciding whether a clause-set contains a full variable: */
-full_var_csp(F) := if emptyp(F) then false else 
+full_var_csp(F) := if emptyp(F) then false else
   not emptyp(full_variables_cs(F))$
 full_var_fcsp(FF) := not emptyp(full_variables_fcs(FF))$
 
 /* The set of singular or pure variables of a clause-set: */
 singularpure_variables_cs(F) :=
-  setify(map(var_l, 
-      map(first, 
+  setify(map(var_l,
+      map(first,
           sublist(ordered_literal_degrees_fcs(cs2fcs(F)), lambda([P], is(P[2]<=1))))))$
 /* Now without pure variables: */
 singular_variables_cs(F) := block([FF : cs2fcs(F), h],
@@ -330,11 +330,11 @@ statistics_fcs(FF) := block([nl : 0, maxr : -1, minr : inf],
 
 extended_statistics_fcs(FF) := block(
  [nl : 0, minr : inf, maxr : -1, n : nvar_cs(FF[2]),
-  cl_count, cl_list : [], 
+  cl_count, cl_list : [],
   v_count : sm2hm({}), l_count : sm2hm({})],
   cl_count : make_array(fixnum, n+1),
   for C in FF[2] do block([l : length(C)],
-    nl : nl + l, 
+    nl : nl + l,
     if l > maxr then maxr : l, if l < minr then minr : l,
     cl_count[l] : cl_count[l] + 1,
     for x in C do (

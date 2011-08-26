@@ -54,7 +54,7 @@ nhyp_complete_hg(n,r) := binomial(n,r)$
 /* The hypergraph with vertex set {1, ..., n} and hyperedges {x,y,z}
    with x+y=z (note that x=y is possible, while z notin {x,y}).
 */
-schurtriples_ohg(n) := 
+schurtriples_ohg(n) :=
  [create_list(i,i,1,n), create_list({x,y,x+y}, x,1,floor(n/2), y,x,n-x)]$
 schurtriples_hg(n) := ohg2hg(schurtriples_ohg(n))$
 
@@ -129,18 +129,18 @@ nver_ramsey_hg(q,r,n) := binomial(n,r)$
 nver_ramsey_ohg(q,r,n) := binomial(n,r)$
 nver_ramsey_stdohg(q,r,n) := binomial(n,r)$
 
-nhyp_ramsey_hg(q,r,n) := 
+nhyp_ramsey_hg(q,r,n) :=
   if q > n then 0
   elseif r > n then 0
   else if r > q then 0
   elseif r = 0 then 1
-  else binomial(n,q)$ 
-nhyp_ramsey_ohg(q,r,n) := 
+  else binomial(n,q)$
+nhyp_ramsey_ohg(q,r,n) :=
   if q > n then 0
   elseif r > n then 0
   else if r > q then 0
   elseif r = 0 then 1
-  else binomial(n,q)$ 
+  else binomial(n,q)$
 
 /*!
 \endhtmlonly

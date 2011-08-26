@@ -80,7 +80,7 @@ var_php(m,n) := setify(create_list(php_var(i,j), i,1,m, j,1,n))$
 /* In the following m denotes the number of pigeons, n the number of holes */
 
 /* No two pigeon in the same hole: */
-pigeons_different_holes(m,n) := setify(create_list({- php_var(i,k), - php_var(j,k)}, 
+pigeons_different_holes(m,n) := setify(create_list({- php_var(i,k), - php_var(j,k)},
   i,1,m-1, j,i+1,m, k,1,n))$
 
 /* Every pigeon in one hole: */
@@ -89,13 +89,13 @@ pigeons_in_holes(m,n) := setify(
 
 /* The weak pigeon formula as formal clause-set: */
 /* RENAME: weak_php_fcs */
-weak_php(m,n) := [var_php(m,n), 
+weak_php(m,n) := [var_php(m,n),
  union(pigeons_different_holes(m,n), pigeons_in_holes(m,n))]$
 weak_php_fcs(m,n) := weak_php(m,n)$
 
 output_weak_php(m,n,filename) := block([FF : standardise_fcs(weak_php(m,n))],
   output_fcs_v(
-    sconcat("The pigeonhole principle (weak form): ", m, " pigeons, ", n, " holes."), 
+    sconcat("The pigeonhole principle (weak form): ", m, " pigeons, ", n, " holes."),
     FF[1], filename, FF[2]))$
 output_weak_php_stdname(m,n) := output_weak_php(m,n,
   sconcat("PHP_weak_",m,"_",n,".cnf"))$
@@ -117,7 +117,7 @@ strong_php_fcs(m,n) := strong_php(m,n)$
 
 output_strong_php(m,n,filename) := block([FF : standardise_fcs(strong_php(m,n))],
   output_fcs_v(
-    sconcat("The pigeonhole principle (strong form): ", m, " pigeons, ", n, " holes."), 
+    sconcat("The pigeonhole principle (strong form): ", m, " pigeons, ", n, " holes."),
     FF[1], filename, FF[2]))$
 output_strong_php_stdname(m,n) := output_strong_php(m,n,
   sconcat("PHP_weak_",m,"_",n,".cnf"))$
@@ -207,7 +207,7 @@ even_parity_cl(n) :=
    map(lambda([D], map("-",bv2c_wv(D,create_list(i,i,1,n)))),
      sublist(
        listify(apply(cartesian_product, create_list({0,1},i,1,n))),
-       lambda([C], is(mod(sum_l(C),2) # 0))))$   
+       lambda([C], is(mod(sum_l(C),2) # 0))))$
 even_parity_fcl(n) :=
   [create_list(i,i,1,n),even_parity_cl(n)]$
 

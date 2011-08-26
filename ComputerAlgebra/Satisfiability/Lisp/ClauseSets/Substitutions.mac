@@ -42,13 +42,13 @@ substitute_l(x,h) := if x > 0 then ev_hm(h,x) else -ev_hm(h,-x)$
 
 /* Substitute literals in clause C via hash table h;
    possibly a pseudo-clause with clashing literals is created. */
-substitute_c(C,h) := 
+substitute_c(C,h) :=
  map(
-  lambda([x],block([y:substitute_l(x,h)], 
+  lambda([x],block([y:substitute_l(x,h)],
     if elementp(y,{false,-false}) then x else y)),
   C)$
 /* Here it is required that h covers all variables in C: */
-substitutetotal_c(C,h) := 
+substitutetotal_c(C,h) :=
  map(lambda([x],substitute_l(x,h)), C)$
 
 
@@ -67,7 +67,7 @@ substitutetotal_cl(F,h) := map(lambda([C],substitutetotal_c(C,h)), F)$
 /* Given a list of literals of the same size as the set
    of variables of a formal clause-set, rename the formal
    clause-set, using the natural correspondence given by
-   the given order on the set of variables. 
+   the given order on the set of variables.
 */
 rename_fcs(FF,L) := block(
  [V : listify(FF[1]), h],
@@ -79,7 +79,7 @@ rename_fcl(FF,L) := block(
   h : osm2hm(map("[",V,L)),
   [abs(L), substitutetotal_cl(FF[2],h)])$
 
-/* The set of all renamings without flipping signs or introducing new 
+/* The set of all renamings without flipping signs or introducing new
    variables of a formal clause-set FF:
 */
 all_var_renamings_fcs(FF) :=
