@@ -55,13 +55,23 @@ License, or any later version. */
    pairs. See "Transferring the Argosat-desgen example" in
    Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
    </li>
-   <li> Using the:
+   <li> Over one plaintext-ciphertext pair, using the:
     <ul>
      <li> 1-base translation; fastest solver solves in 553s.
      See "Using the 1-base translation for the S-boxes (6-to-4)". </li>
      <li> canonical translation; fastest solver solves in 567s.
      See "Using the canonical translation for the S-boxes (6-to-4)". </li>
      <li> "minimum" translation; fastest solver solves in 4 hours.
+     See 'Using the "minimum"  translation for the S-boxes (6-to-4)'. </li>
+    </ul>
+   </li>
+   <li> Over 20 plaintext-ciphertext pair, using the:
+    <ul>
+     <li> 1-base translation; minisat-2.2.0 solves in ~10.4 hours (avg),
+     using ~ 427 million conflicts (avg).
+     See "Using the 1-base translation for the S-boxes (6-to-4)". </li>
+     <li> "minimum" translation; minisat-2.2.0 solves in ~5.1 hours (avg),
+     using ~ 331 million conflicts (avg).
      See 'Using the "minimum"  translation for the S-boxes (6-to-4)'. </li>
     </ul>
    </li>
@@ -89,26 +99,7 @@ done
    136, 123, 152 respectively. </li>
    <li> All the 1-bases used have clauses of sizes 5 and 6, except Sbox 4
    which has clauses of size 5 and 6 as well as 2 of size 7. </li>
-   <li> Generating the instance:
-   \verbatim
-rounds : 5$
-sbox_fcl_l : create_list(read_fcl_f(sconcat("DES_Sbox_",i,"_1base.cnf")), i, 1, 8)$
-P_hex : "038E596D4841D03B"$
-K_hex : "15FBC08D31B0D521"$
-C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
-P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
-C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
-F : des2fcl_gen(sbox_fcl_l,rounds)$
-Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
-output_fc_v(
-  sconcat("DES over ",rounds," rounds; translated using 1-base translations for the S-boxes (6-to-4)."),
-  Fs[1],
-  sconcat("des_6t4_1base_r",rounds,".cnf"),
-  Fs[2])$
-print("DONE!");
-   \endverbatim
-   </li>
-   <li> Statistics:
+   <li> Statistics for all instances (see below):
    \verbatim
 shell> cat des_6t4_1base_r5.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
@@ -132,7 +123,7 @@ for F in sbox_fcl_l do print(ncl_list_fcl(F));
 [[5,83],[6,53]]
 [[5,75],[6,48]]
 [[5,68],[6,84]]
-  \endverbatim
+   \endverbatim
    </li>
    <li> We have the following number of clauses of the following sizes:
     <ul>
@@ -143,17 +134,92 @@ for F in sbox_fcl_l do print(ncl_list_fcl(F));
      <li> 5 clauses of length seven (1 * 5 = 5 S-boxes). </li>
     </ul>
    </li>
-   <li> Solvers (t:time,cfs:conflicts,nds:nodes): cryptominisat
-   (t:553s,cfs:3198466), minisat-2.2.0 (t:13363s,cfs:183335114),
-   OKsolver_2002 (t:36760s,nds:70636225). </li>
-   <li> precosat236 solves in 298212s:
-   \verbatim
+   <li> On a single plaintext-ciphertext pair:
+    <ul>
+     <li> Generating the instance:
+     \verbatim
+rounds : 5$
+sbox_fcl_l : create_list(read_fcl_f(sconcat("DES_Sbox_",i,"_1base.cnf")), i, 1, 8)$
+P_hex : "038E596D4841D03B"$
+K_hex : "15FBC08D31B0D521"$
+C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
+P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
+C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
+F : des2fcl_gen(sbox_fcl_l,rounds)$
+Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
+output_fc_v(
+  sconcat("DES over ",rounds," rounds; translated using 1-base translations for the S-boxes (6-to-4)."),
+  Fs[1],
+  sconcat("des_6t4_1base_r",rounds,".cnf"),
+  Fs[2])$
+print("DONE!");
+     \endverbatim
+     </li>
+     <li> Solvers (t:time,cfs:conflicts,nds:nodes): cryptominisat
+     (t:553s,cfs:3198466), minisat-2.2.0 (t:13363s,cfs:183335114),
+     OKsolver_2002 (t:36760s,nds:70636225). </li>
+     <li> precosat236 solves in 298212s:
+     \verbatim
 c 692463380 conflicts, 762268518 decisions, 1 random
 c 0 iterations, 2 restarts, 762102 skipped
 c 298212.3 seconds, 91 MB max, 3183 MB recycled
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> precosat-570.1 is still running after 13 hours. </li>
+    </ul>
    </li>
-   <li> precosat-570.1 is still running after 13 hours. </li>
+   </li>
+   <li> Looking at 20 random plaintext-ciphertext pairs:
+    <ul>
+     <li> Generating the instance:
+     \verbatim
+rounds : 5$
+sbox_fcl_l : create_list(read_fcl_f(sconcat("DES_Sbox_",i,"_1base.cnf")), i, 1, 8)$
+for seed : 1 thru 20 do block(
+  print(sconcat("Generating ", rounds, "-round DES with seed ", seed)),
+  set_random(make_random_state(seed)),
+  P_hex : lpad(int2hex(random(2**64)),"0",16),
+  K_hex : lpad(int2hex(random(2**64)),"0",16),
+  C_hex : des_encryption_hex_gen(rounds, P_hex,K_hex),
+  P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds),
+  C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds),
+  F : des2fcl_gen(sbox_fcl_l,rounds),
+  Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
+  output_fcl_v(
+  sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the 1-base translation for the S-boxes (6-to-4)."),
+    Fs[1],
+    sconcat("des_6t4_1base_r",rounds,"_s",seed,".cnf"),
+    Fs[2]))$
+print("DONE!");
+     \endverbatim
+     </li>
+     <li> Running minisat-2.2.0 on these instances:
+     \verbatim
+shell> r=5;
+shell> for k in $(seq 1 20); do
+    echo "Round ${r}; Key Seed ${k}";
+    minisat-2.2.0 des_6t4_1base_r${r}_s${k}.cnf > minisat_r${r}_k${k}.result 2>&1;
+  done;
+
+shell> echo "rn  rc  t  sat  cfs dec rts r1 mem ptime stime cfl r k" > minisat_results;
+for k in $(seq 1 10); do
+    cat minisat_r${r}_k${k}.result | ExtractMinisat data-only | awk " { print \$0 \"  $r  $k\" }";
+done >> minisat_results;
+     \endverbatim
+     yields:
+     \verbatim
+shell> oklib --R
+E = read.table("minisat_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+  r   rn    rc        t sat       cfs       dec      rts          r1  mem  ptime
+1 5 688 6920 37454.02   1 427013617 495917628 462141.3 36457618986 64.2 0.0065
+  stime         cfl r    k
+1  0.01 11897817864 5 10.5
+     \endverbatim
+     </li>
+    </ul>
+   </li>
   </ul>
 
 
@@ -183,25 +249,6 @@ done
    </li>
    <li> The numbers of clauses in the CNFs are 67, 67, 68, 69, 67, 66, 67, and
    69 respectively. </li>
-   <li> Generating the instance:
-   \verbatim
-rounds : 5$
-sbox_fcl_l : create_list(read_fcl_f(sconcat("DES_Sbox_",i,"_min.cnf")), i, 1, 8)$
-P_hex : "038E596D4841D03B"$
-K_hex : "15FBC08D31B0D521"$
-C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
-P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
-C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
-F : des2fcl_gen(sbox_fcl_l,rounds)$
-Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
-output_fcl_v(
-  sconcat("DES over ",rounds," rounds; translated using the minimum translation for the S-boxes (6-to-4)."),
-  Fs[1],
-  sconcat("des_6t4_min_r",rounds,".cnf"),
-  Fs[2])$
-print("DONE!");
-   \endverbatim
-   </li>
    <li> Statistics:
    \verbatim
 shell> cat des_6t4_min_r5.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
@@ -238,42 +285,115 @@ for F in sbox_fcl_l do print(ncl_list_fcl(F));
      <li> 60 clauses of length seven (7 * 5 = 35 S-boxes). </li>
     </ul>
    </li>
-   <li> minisat-2.2.0 solves in 14,291s (~4 hours) using 258,451,462
-   conflicts:
-   \verbatim
+   <li> On a single plaintext-ciphertext pair:
+    <ul>
+     <li> Generating the instance:
+     \verbatim
+rounds : 5$
+sbox_fcl_l : create_list(read_fcl_f(sconcat("DES_Sbox_",i,"_min.cnf")), i, 1, 8)$
+P_hex : "038E596D4841D03B"$
+K_hex : "15FBC08D31B0D521"$
+C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
+P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
+C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
+F : des2fcl_gen(sbox_fcl_l,rounds)$
+Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
+output_fcl_v(
+  sconcat("DES over ",rounds," rounds; translated using the minimum translation for the S-boxes (6-to-4)."),
+  Fs[1],
+  sconcat("des_6t4_min_r",rounds,".cnf"),
+  Fs[2])$
+print("DONE!");
+     \endverbatim
+     </li>
+     <li> minisat-2.2.0 solves in 14,291s (~4 hours) using 258,451,462
+     conflicts:
+     \verbatim
 shell> minisat-2.2.0 des_6t4_min_r5.cnf
 restarts              : 294909
 conflicts             : 258451462      (3953546 /sec)
 decisions             : 308556223      (0.00 % random) (4720001 /sec)
 propagations          : 20792733621    (318067586 /sec)
-   \endverbatim
-   </li>
-   <li> cryptominisat solves in 520,000s (~6 days):
-   \verbatim
+     \endverbatim
+     </li>
+     <li> cryptominisat solves in 520,000s (~6 days):
+     \verbatim
 shell> cryptominisat des_6t4_min_r5.cnf
 c static restarts          : 629
 c full restarts            : 8
 c conflicts                : 247428989   (3780713.58 / sec)
 c decisions                : 262651549   (0.19      % random)
-   \endverbatim
-   </li>
-   <li> precosat236 solves in 167361s (~2 days):
-   \verbatim
+     \endverbatim
+     </li>
+     <li> precosat236 solves in 167361s (~2 days):
+     \verbatim
 shell> precosat236 des_6t4_min_r5.cnf
 c 611003123 conflicts, 674624629 decisions, 1 random
 c 0 iterations, 3 restarts, 657401 skipped
 c 167361.8 seconds, 51 MB max, 3661 MB recycled
-   \endverbatim
-   </li>
-   <li> precosat-570.1 solves in 250789s (~3 days):
-   \verbatim
+     \endverbatim
+     </li>
+     <li> precosat-570.1 solves in 250789s (~3 days):
+     \verbatim
 shell> precosat-570.1 -v des_6t4_min_r5.cnf
 c 129305771 conflicts, 138334129 decisions, 69735 random
 c 0 iterations, 28 restarts, 1310689 skipped
 c 250789.7 seconds, 176 MB max, 3937 MB recycled
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> OKsolver doesn't solve in 550,000s (> 6 days). </li>
+    </ul>
    </li>
-   <li> OKsolver doesn't solve in 550,000s (> 6 days). </li>
+   <li> Looking at 20 random plaintext-ciphertext pairs:
+    <ul>
+     <li> Generating the instance:
+     \verbatim
+rounds : 5$
+sbox_fcl_l : create_list(read_fcl_f(sconcat("DES_Sbox_",i,"_min.cnf")), i, 1, 8)$
+for seed : 1 thru 20 do block(
+  print(sconcat("Generating ", rounds, "-round DES with seed ", seed)),
+  set_random(make_random_state(seed)),
+  P_hex : lpad(int2hex(random(2**64)),"0",16),
+  K_hex : lpad(int2hex(random(2**64)),"0",16),
+  C_hex : des_encryption_hex_gen(rounds, P_hex,K_hex),
+  P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds),
+  C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds),
+  F : des2fcl_gen(sbox_fcl_l,rounds),
+  Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
+  output_fcl_v(
+  sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the 1-base translation for the S-boxes (6-to-4)."),
+    Fs[1],
+    sconcat("des_6t4_min_r",rounds,"_s",seed,".cnf"),
+    Fs[2]))$
+print("DONE!");
+     \endverbatim
+     </li>
+     <li> Running minisat-2.2.0 on these instances:
+     \verbatim
+shell> r=5;
+shell> for k in $(seq 1 20); do
+    echo "Round ${r}; Key Seed ${k}";
+    minisat-2.2.0 des_6t4_min_r${r}_s${k}.cnf > minisat_r${r}_k${k}.result 2>&1;
+  done;
+shell> echo "rn  rc  t  sat  cfs dec rts r1 mem ptime stime cfl r k" > minisat_results;
+for k in $(seq 1 18) 20; do
+    cat minisat_r${r}_k${k}.result | ExtractMinisat data-only | awk " { print \$0 \"  $r  $k\" }";
+done >> minisat_results;
+     \endverbatim
+     yields (excluding seed=19, which is being rerun):
+     \verbatim
+shell> oklib --R
+E = read.table("minisat_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+  r   n    c        t sat       cfs       dec      rts          r1      mem
+1 5 688 4300 19386.51   1 348652824 413615499 394408.6 28356034481 45.84211
+  ptime       stime        cfl r        k
+1     0 0.003684211 9557061007 5 10.05263
+     \endverbatim
+     </li>
+    </ul>
+   </li>
   </ul>
 
 
@@ -283,25 +403,6 @@ c 250789.7 seconds, 176 MB max, 3937 MB recycled
    canonical representation. That is, each Sbox is represented with the
    canonical representation given by dualts_fcl in
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
-   </li>
-   <li> Generating the instance:
-   \verbatim
-rounds : 5$
-sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
-P_hex : "038E596D4841D03B"$
-K_hex : "15FBC08D31B0D521"$
-C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
-P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
-C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
-F : des2fcl_gen(sbox_fcl_l,rounds)$
-Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
-output_fcl_v(
-  sconcat("DES over ",rounds," rounds; translated using the canonical translation for the S-boxes (6-to-4)."),
-  Fs[1],
-  sconcat("des_6t4_canon_r",rounds,".cnf"),
-  Fs[2])$
-print("DONE!");
-   \endverbatim
    </li>
    <li> Statistics:
    \verbatim
@@ -331,25 +432,94 @@ ncl_list_fcl(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(1)]));
      <li> 40 clauses of length 64 (8 * 5 = 40 S-boxes). </li>
     </ul>
    </li>
-   <li> precosat236 solves in 567s with 2,423,412 conflicts:
-   \verbatim
+   <li> Using a single plaintext-ciphertext pair:
+    <ul>
+     <li> Generating the instance:
+     \verbatim
+rounds : 5$
+sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
+P_hex : "038E596D4841D03B"$
+K_hex : "15FBC08D31B0D521"$
+C_hex : des_encryption_hex_gen(rounds, "038E596D4841D03B","15FBC08D31B0D521")$
+P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds)$
+C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds)$
+F : des2fcl_gen(sbox_fcl_l,rounds)$
+Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])])$
+output_fcl_v(
+  sconcat("DES over ",rounds," rounds; translated using the canonical translation for the S-boxes (6-to-4)."),
+  Fs[1],
+  sconcat("des_6t4_canon_r",rounds,".cnf"),
+  Fs[2])$
+print("DONE!");
+     \endverbatim
+     </li>
+     <li> precosat236 solves in 567s with 2,423,412 conflicts:
+     \verbatim
 c 2423412 conflicts, 4652299 decisions, 2044 random
 c 0 iterations, 4094 restarts, 0 skipped
 c 567.9 seconds, 57 MB max, 1479 MB recycled
-   \endverbatim
-   </li>
-   <li> minisat-2.2.0 solves in 17221s using 40,018,619 conflicts:
-   \verbatim
+     \endverbatim
+     </li>
+     <li> minisat-2.2.0 solves in 17221s using 40,018,619 conflicts:
+     \verbatim
 shell> minisat-2.2.0 des_6t4_canon_r5.cnf
 restarts              : 56057
 conflicts             : 40018619       (612167 /sec)
 decisions             : 82938445       (0.00 % random) (1268714 /sec)
 propagations          : 13510152814    (206665548 /sec)
 conflict literals     : 7079980812     (48.30 % deleted)
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> cryptominisat is still running after 13 hours. </li>
+     <li> OKsolver_2002 and precosat-570.1 still running after ~3.5 days.
+     </li>
+    </ul>
    </li>
-   <li> cryptominisat is still running after 13 hours. </li>
-   <li> OKsolver_2002 and precosat-570.1 still running after ~3.5 days.
+   <li> Looking at 20 random plaintext-ciphertext pairs:
+    <ul>
+     <li> Generating the instance:
+     \verbatim
+rounds : 5$
+sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
+for seed : 1 thru 20 do block(
+  print(sconcat("Generating ", rounds, "-round DES with seed ", seed)),
+  set_random(make_random_state(seed)),
+  P_hex : lpad(int2hex(random(2**64)),"0",16),
+  K_hex : lpad(int2hex(random(2**64)),"0",16),
+  C_hex : des_encryption_hex_gen(rounds, P_hex,K_hex),
+  P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds),
+  C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds),
+  F : des2fcl_gen(sbox_fcl_l,rounds),
+  Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
+  output_fcl_v(
+  sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the 1-base translation for the S-boxes (6-to-4)."),
+    Fs[1],
+    sconcat("des_6t4_canon_r",rounds,"_s",seed,".cnf"),
+    Fs[2]))$
+print("DONE!");
+     \endverbatim
+     </li>
+     <li> Running minisat-2.2.0 on these instances:
+     \verbatim
+shell> r=5;
+shell> for k in $(seq 1 20); do
+    echo "Round ${r}; Key Seed ${k}";
+    minisat-2.2.0 des_6t4_canon_r${r}_s${k}.cnf > minisat_r${r}_k${k}.result 2>&1;
+  done;
+     \endverbatim
+     yields, for the first random plaintext-ciphertext pair:
+     \verbatim
+restarts              : 301052
+conflicts             : 264442847      (9446074192 /sec)
+decisions             : 510119607      (0.00 % random) (18221811288 /sec)
+propagations          : 94246752051    (3366556601215 /sec)
+CPU time              : 154031.16 s
+     \endverbatim
+     taking ~1.8 days.
+     </li>
+     <li> For the second random plaintext-ciphtext pair (seed = 2),
+     minisat-2.2.0 takes > 1 week. </li>
+    </ul>
    </li>
   </ul>
 
