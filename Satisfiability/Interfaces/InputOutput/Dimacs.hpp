@@ -35,6 +35,7 @@ License, or any later version. */
 #include <vector>
 #include <utility>
 #include <ostream>
+#include <limits>
 
 #include <boost/iostreams/filtering_stream.hpp>
 #include <boost/ref.hpp>
@@ -184,6 +185,9 @@ namespace OKlib {
        <li> LiteralReadingStrict : reads a literal-representation in the file,
        and transfers it into a integer-literal. </li>
        <li> Int : the integer type for representing literals. </li>
+       <li> In case of check_par = false, the parameter-line in the input
+       stream is just skipped (it is assumed that a line exists), and for its
+       values the maximal values of CLSAdaptor::int_type is taken. </li>
       </ul>
 
     */
@@ -203,8 +207,9 @@ namespace OKlib {
       typedef CLSAdaptor cls_adaptor_type;
       typedef Int int_type;
       typedef typename cls_adaptor_type::int_type int_type_target;
+      const bool check_par;
 
-      StandardDIMACSInput(std::istream& in_stream, cls_adaptor_type& out) : out(out) {
+      StandardDIMACSInput(std::istream& in_stream, cls_adaptor_type& out, const bool check_par = true) : out(out), check_par(check_par) {
         if (not in_stream)
           throw IStreamError("OKlib::InputOutput::StandardDIMACSInput::StandardDIMACSInput(std::istream&, cls_adaptor_type&):\n  cannot open the input stream in_stream");
         in.push(boost::ref(counter));
@@ -223,7 +228,13 @@ namespace OKlib {
 
       void parse() {
         read_comments();
-        read_parameter_line();
+        if (check_par) read_parameter_line();
+        else {
+          in.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+          n = c = std::numeric_limits<int_type_target>::max();
+          out.n(n);
+          out.c(c);
+        }
         read_clauses();
       }
 
