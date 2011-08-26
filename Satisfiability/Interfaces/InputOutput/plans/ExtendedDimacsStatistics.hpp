@@ -14,8 +14,34 @@ License, or any later version. */
   <ul>
    <li> See "Comprehensive statistics" in
    Interfaces/InputOutput/plans/general.hpp for a comprehensive tool. </li>
-   <li> Perhaps once that tool is established, we abandon
+   <li> DONE (no, we need this basic "ncl-tool")
+   Perhaps once that tool is established, we abandon
    ExtendedDimacsStatistics. </li>
+  </ul>
+
+
+  \todo Update and extension
+  <ul>
+   <li> This includes
+   "Better output for InputOutput/ExtendedDimacsStatistics.cpp" and
+   "Improving output" below. </li>
+   <li> There are three basic forms of n-values:
+    <ol>
+     <li> The value nr reported in the parameter-line. </li>
+     <li> The maximal variable index nm. </li>
+     <li> The number n of different variables. </li>
+    </ol>
+    We have nr >= nm >= n.
+   </li>
+   <li> Though n is somewhat more expensive to compute, it likely should always
+   be provided (the cost should still be negligible). </li>
+   <li> However for some applications there is no parameter-line, and thus
+   no error should arise. </li>
+   <li> The number of clauses and literal-occurrences shall be provided in two
+   versions, before and after the basic reduction (elimination of tautological
+   clauses and repeated literal-occurrences), for information. </li>
+   <li> Called "c0, c" and "l0, l" in the output. </li>
+   <li> But for variables we provide data only after the basic reduction. </li>
   </ul>
 
 

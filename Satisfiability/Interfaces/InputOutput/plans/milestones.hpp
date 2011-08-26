@@ -14,6 +14,11 @@ License, or any later version. */
   \par Version 0.1.2 :
 
   \par
+   In Interfaces/InputOutput/plans/ExtendedDimacsStatistics.hpp the following
+   topics are handled:
+    - Update and extension
+
+  \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
    are handled:
     - Comprehensive statistics
@@ -85,12 +90,6 @@ License, or any later version. */
     - Elementary file-surgery
     - Update
     - See OKlib/Satisfiability/ProofSystems/DPv/Input_output.hpp
-
-  \par
-   In Interfaces/InputOutput/plans/ExtendedDimacsStatistics.hpp the following
-   topics are handled:
-    - Better output for InputOutput/ExtendedDimacsStatistics.cpp
-    - Improving output
 
 
   \par Version 0.1.5 :
