@@ -17,6 +17,7 @@ License, or any later version. */
    In ExperimentSystem/SolverMonitoring/plans/general.hpp the following topics
    are handled:
     - Improve docus
+    - OKsolver_2002 statistics
     - Running experiments
     - Better summary statistics
     - Standardising names and order of solver data columns

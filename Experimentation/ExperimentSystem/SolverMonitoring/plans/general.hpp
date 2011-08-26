@@ -23,6 +23,24 @@ License, or any later version. */
   </ul>
 
 
+  \todo OKsolver_2002 statistics
+  <ul>
+   <li> At present the OKsolver_2002 awk extraction script
+   ExperimentSystem/SolverMonitoring/ExtractOKsolver.awk outputs the
+   "initial_number_of_variables", "initial_number_of_clauses",
+   "initial_number_of_literals" from OKsolver output as data columns n, c and
+   l. </li>
+   <li> In "Running experiments", we say that n, c and l should be the values
+   after removal of tautological clauses, and repeated literals but not
+   after UCP. </li>
+   <li> However, the "initial_X" outputs from OKsolver_2002 are the initial
+   values without any adjustment (no clauses or literals are removed). </li>
+   <li> Statistics such as "reddiff_number_of_variables" list the number of
+   variables removed by removing tautological clauses, repeated literals
+   *and* UCP, but not without UCP. </li>
+  </ul>
+
+
   \todo Running experiments
   <ul>
    <li> Currently we have RunMinisat. </li>
