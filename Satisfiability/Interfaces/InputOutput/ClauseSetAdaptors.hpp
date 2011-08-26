@@ -137,7 +137,7 @@ namespace OKlib {
       }
 
       friend std::ostream& operator <<(std::ostream& out, const Statistics& s) {
-        return out << " pn pc l c0 l0 comment_count finished_bool\n"
+        return out << " pn pc l c0 l0 comments finished\n"
           << s.parameter_n << " " << s.non_tautological_clauses_count << " " << s.reduced_number_literals << " " << s.tautological_clauses_count+s.non_tautological_clauses_count << " " << s.total_number_literals << " " << s.comment_count << " " << s.finished;
       }
 
