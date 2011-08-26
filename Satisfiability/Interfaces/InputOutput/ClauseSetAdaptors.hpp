@@ -123,22 +123,24 @@ namespace OKlib {
         comment_count,
         parameter_n,
         parameter_c,
+        n,
+        n0,
         tautological_clauses_count,
         non_tautological_clauses_count,
         total_number_literals,
         reduced_number_literals;
       bool finished;
 
-      Statistics() : comment_count(0), parameter_n(0), parameter_c(0), tautological_clauses_count(0), non_tautological_clauses_count(0), total_number_literals(0), reduced_number_literals(0), finished(false) {}
-      Statistics(int_type cc, int_type pn, int_type pc, int_type tc, int_type ntc, int_type nl, int_type rnl) : comment_count(cc), parameter_n(pn), parameter_c(pc), tautological_clauses_count(tc), non_tautological_clauses_count(ntc), total_number_literals(nl), reduced_number_literals(rnl), finished(true) {}
+      Statistics() : comment_count(0), parameter_n(0), parameter_c(0), n(0), n0(0), tautological_clauses_count(0), non_tautological_clauses_count(0), total_number_literals(0), reduced_number_literals(0), finished(false) {}
+      Statistics(int_type cc, int_type pn, int_type pc, int_type n, int_type n0, int_type tc, int_type ntc, int_type nl, int_type rnl) : comment_count(cc), parameter_n(pn), parameter_c(pc), n(n), n0(n0), tautological_clauses_count(tc), non_tautological_clauses_count(ntc), total_number_literals(nl), reduced_number_literals(rnl), finished(true) {}
 
       friend bool operator ==(const Statistics& lhs, const Statistics& rhs) {
-        return lhs.comment_count == rhs.comment_count and lhs.parameter_n == rhs.parameter_n and lhs.parameter_c == rhs.parameter_c and lhs.tautological_clauses_count == rhs.tautological_clauses_count and lhs.non_tautological_clauses_count == rhs.non_tautological_clauses_count and lhs.total_number_literals == rhs.total_number_literals and lhs.reduced_number_literals == rhs.reduced_number_literals and lhs.finished == rhs.finished;
+        return lhs.comment_count == rhs.comment_count and lhs.parameter_n == rhs.parameter_n and lhs.parameter_c == rhs.parameter_c and lhs.n == rhs.n and lhs.n0 == rhs.n0 and lhs.tautological_clauses_count == rhs.tautological_clauses_count and lhs.non_tautological_clauses_count == rhs.non_tautological_clauses_count and lhs.total_number_literals == rhs.total_number_literals and lhs.reduced_number_literals == rhs.reduced_number_literals and lhs.finished == rhs.finished;
       }
 
       friend std::ostream& operator <<(std::ostream& out, const Statistics& s) {
-        return out << " pn pc c l c0 l0 comments finished\n"
-          << s.parameter_n << " " << s.parameter_c << " " << s.non_tautological_clauses_count << " " << s.reduced_number_literals << " " << s.tautological_clauses_count+s.non_tautological_clauses_count << " " << s.total_number_literals << " " << s.comment_count << " " << s.finished;
+        return out << " pn pc n c l n0 c0 l0 comments finished\n"
+          << s.parameter_n << " " << s.parameter_c << " " << s.n << " " << s.non_tautological_clauses_count << " " << s.reduced_number_literals << " " << s.n0 << " " << s.tautological_clauses_count+s.non_tautological_clauses_count << " " << s.total_number_literals << " " << s.comment_count << " " << s.finished;
       }
 
     };
@@ -163,7 +165,7 @@ namespace OKlib {
       static const output_options default_option = full_output;
 
       FullStatistics() : option(default_option) {}
-      FullStatistics(int_type cc, int_type pn, int_type pc, int_type tc, int_type ntc, int_type nl, int_type rnl, output_options opt = default_option) : stat(cc,pn,pc,tc,ntc,nl,rnl), option(opt) {}
+      FullStatistics(int_type cc, int_type pn, int_type pc, int_type n, int_type n0, int_type tc, int_type ntc, int_type nl, int_type rnl, output_options opt = default_option) : stat(cc,pn,pc,n,n0,tc,ntc,nl,rnl), option(opt) {}
 
       friend bool operator ==(const FullStatistics& lhs, const FullStatistics& rhs) {
         return lhs.stat == rhs.stat and lhs.clause_lengths == rhs.clause_lengths;
@@ -231,7 +233,8 @@ namespace OKlib {
 
       \todo Correction
       <ul>
-       <li> Yet the n-count is tranferred to stat.parameter_n, while this
+       <li> DONE
+       Yet the n-count is tranferred to stat.parameter_n, while this
        is for the parameter-line value. </li>
        <li> So class Statistics needs to be extended, and the new parameter
        needs to be used in finish(). </li>
@@ -253,7 +256,7 @@ namespace OKlib {
       void n(const int_type pn) { stat.parameter_n = pn; }
       void c(const int_type pc) { stat.parameter_c = pc; }
       void finish() {
-        stat.parameter_n = var.size();
+        stat.n = var.size();
         stat.finished = true;
       }
       void tautological_clause(const int_type t) {
