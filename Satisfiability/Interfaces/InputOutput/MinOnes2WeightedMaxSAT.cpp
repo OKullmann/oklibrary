@@ -70,7 +70,7 @@ namespace {
   const std::string program = "MinOnes2WeightedMaxSAT";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.10";
+  const std::string version = "0.0.11";
 
   /*!
     \class CLSAdaptorMinOnes2WeightedMaxSATOutput
