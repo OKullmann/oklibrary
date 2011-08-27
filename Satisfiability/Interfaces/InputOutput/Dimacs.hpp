@@ -209,7 +209,7 @@ namespace OKlib {
       typedef typename cls_adaptor_type::int_type int_type_target;
       const bool check_par;
 
-      StandardDIMACSInput(std::istream& in_stream, cls_adaptor_type& out, const bool check_par = true) : out(out), check_par(check_par) {
+      StandardDIMACSInput(std::istream& in_stream, cls_adaptor_type& out, const bool check_par = true) : out(out), n(0), c(0), check_par(check_par) {
         if (not in_stream)
           throw IStreamError("OKlib::InputOutput::StandardDIMACSInput::StandardDIMACSInput(std::istream&, cls_adaptor_type&):\n  cannot open the input stream in_stream");
         in.push(boost::ref(counter));
@@ -229,12 +229,7 @@ namespace OKlib {
       void parse() {
         read_comments();
         if (check_par) read_parameter_line();
-        else {
-          in.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-          n = c = std::numeric_limits<int_type_target>::max();
-          out.n(n);
-          out.c(c);
-        }
+        else in.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
         read_clauses();
       }
 
@@ -267,12 +262,12 @@ namespace OKlib {
         if (label != "cnf")
           throw ParameterInputError("OKlib::InputOutput::StandardDIMACSInput::read_parameter_line:\n  instead of the label \"cnf\" the string \"" + label + "\" was found\n" + error_location());
         {
-          int_type_target n_target;
           in >> n; // needs to be checked ########################
           if (not in)
             throw ParameterInputError("OKlib::InputOutput::StandardDIMACSInput::read_parameter_line:\n  syntax error when reading the maximal index used for variables from the parameter line\n" + error_location());
           if (n < 0)
             throw ParameterInputError("OKlib::InputOutput::StandardDIMACSInput::read_parameter_line:\n  the maximal index for variables has the negative value " + boost::lexical_cast<std::string>(n) + "\n" + error_location());
+          int_type_target n_target;
           try {
             n_target = boost::numeric_cast<int_type_target>(n);
           }
@@ -282,12 +277,12 @@ namespace OKlib {
           out.n(n_target);
         }
         {
-          int_type_target c_target;
           in >> c; // needs to be checked ########################
           if (not in)
             throw ParameterInputError("OKlib::InputOutput::StandardDIMACSInput::read_parameter_line:\n  syntax error when reading the number of clauses from the parameter line\n" + error_location());
           if (c < 0)
             throw ParameterInputError("OKlib::InputOutput::StandardDIMACSInput::read_parameter_line:\n  the number of clauses has the negative value " + boost::lexical_cast<std::string>(c) + "\n" + error_location());
+          int_type_target c_target;
           try {
             c_target = boost::numeric_cast<int_type_target>(c);
           }
@@ -328,7 +323,8 @@ namespace OKlib {
               throw ClauseInputError("OKlib::InputOutput::StandardDIMACSInput::read_clauses:\n  file end before clause finished\n" + error_location());
           }
           if (literal == 0) { // end of clause
-            if (++clauses_found > c)
+            ++clauses_found;
+            if (check_par and clauses_found > c)
               throw ClauseInputError("OKlib::InputOutput::StandardDIMACSInput::read_clauses:\n  more clauses found than the specified upper bound " + boost::lexical_cast<std::string>(c) + "\n" + error_location());
             int_type_target total_clause_size_target;
             try {
@@ -348,7 +344,7 @@ namespace OKlib {
           }
           else { // literal added to clause
             ++total_clause_size;
-            if (std::abs(literal) > n)
+            if (check_par and std::abs(literal) > n)
               throw ClauseInputError("OKlib::InputOutput::StandardDIMACSInput::read_clauses:\n  literal " + boost::lexical_cast<std::string>(literal) + " has variable index larger than the specified upper bound " + boost::lexical_cast<std::string>(n) + "\n" + error_location());
             if (not tautological) {
               const iterator& find_neg = clause.find(-literal);
