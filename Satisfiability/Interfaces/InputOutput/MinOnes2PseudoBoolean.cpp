@@ -64,7 +64,15 @@ min: +1 x1 ... +1 xn ;
 
 */
 
+#include <string>
 #include <iostream>
+
+#include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/range/iterator.hpp>
+#include <boost/range/begin.hpp>
+#include <boost/range/end.hpp>
+#include <boost/range/value_type.hpp>
 
 #include <OKlib/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>

@@ -32,7 +32,6 @@ p wcnf n c+n
    prefixed with weight 1. </li>
   </ul>
 
-
   \todo Improve specification
   <ul>
    <li> A full specification of what the "minimum ones" problem is,
@@ -43,20 +42,28 @@ p wcnf n c+n
    given. </li>
   </ul>
 
-
   \todo Move to correct place
   <ul>
    <li> Satisfiability/Interfaces/InputOutput/ is likely not
    the right place for this application. </li>
   </ul>
 
-
 */
 
+#include <string>
 #include <iostream>
+
+#include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/range/iterator.hpp>
+#include <boost/range/begin.hpp>
+#include <boost/range/end.hpp>
+#include <boost/range/value_type.hpp>
 
 #include <OKlib/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
+
+
 
 namespace OKlib {
   namespace InputOutput {
@@ -161,7 +168,7 @@ namespace {
   const std::string program = "MinOnes2WeightedMaxSAT";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.9";
+  const std::string version = "0.0.10";
 
 }
 
