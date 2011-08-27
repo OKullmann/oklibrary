@@ -22,14 +22,14 @@ License, or any later version. */
 
 
   <ul>
-   <li> Takes an arbitrary number of Dimacs file paths as arguments and
+   <li> Takes an arbitrary number of Dimacs file paths as arguments, and
    outputs on standard output a Dimacs file containing the clauses from all
-   of the given clause-lists in the order the arguments given and in their
+   of the given clause-lists, in the order the arguments given and in their
    original order in their respective inputs. </li>
    <li> The number of variables given on the p-line of the output is
-   the maximum number of variables across the given clause-lists. In 
-   particular, the assumption is that the variable set of every argument
-   clause-list is a subset of the variable set of the clause-list with
+   the maximum number of variables across the given clause-lists. </li>
+   <li> In particular, the assumption is that the variable-set of every
+   argument clause-list is a subset of the variable-set of the clause-list with
    the most variables. </li>
    <li> The number of clauses given on the p-line of the output is the
    sum of the number of clauses for each clause-list given as an argument.
