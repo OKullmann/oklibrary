@@ -202,7 +202,7 @@ namespace OKlib {
       }
 
       friend std::ostream& operator <<(std::ostream& out, const Statistics& s) {
-        out << " pn pc n nmi c l n0 n0mi c0 l0 comments finished\n";
+        out << " pn pc n nmi c l n0 n0mi c0 l0 comments\n";
         if (s.pne) out << s.parameter_n; else out << "NA"; out << " ";
         if (s.pce) out << s.parameter_c; else out << "NA"; out << " ";
         if (s.ne) out << s.variables; else out << "NA"; out << " ";
