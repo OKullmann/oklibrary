@@ -10,15 +10,19 @@ License, or any later version. */
   \brief Adaptors to transfer clause-sets into some data structure
 
   A "CLSAdaptor" is a class (according to the concept below) for
-  the input of a clause-set via transmission of clauses and meta-data,
-  and which delivers some component (according to the purpose of the
-  adaptor) filled with this data (e.g., some data-structure, or the data
-  might be directly output).
+  <ol>
+   <li> the input of a clause-set via transmission of clauses and meta-data,
+   </li>
+   <li> which delivers some component (according to the purpose of the
+   adaptor) filled with this data (e.g., some data-structure, or the data
+   might be directly output). </li>
+  </ol>
 
   Main CLS-adaptors delivered here are:
   <ul>
-   <li> InputOutput::CLSAdaptorStatistics (computing statistics) </li>
-   <li> InputOutput::CLSAdaptorPreciseStatistics </li>
+   <li> InputOutput::CLSAdaptorStatistics (computing "ncl"-statistics) </li>
+   <li> InputOutput::CLSAdaptorPreciseStatistics (extended ncl-statistics)
+   </li>
    <li> InputOutput::CLSAdaptorDIMACSOutput (output in DIMACs format) </li>
    <li> InputOutput::CLSAdaptorDIMACSFileOutput (output in DIMACs format to
    files) </li>
@@ -87,22 +91,34 @@ namespace OKlib {
 
       Meaning of data members:
       <ul>
-       <li> comment_count : number of comment-lines </li>
-       <li> parameter_n : value of the first parameter in the parameter line
-       </li>
-       <li> parameter_c : value of the second parameter in the parameter line
-       </li>
-       <li> tautological_clauses_count : number of tautological clauses </li>
-       <li> non_tautological_clauses_count : number of non-tautological
+       <li> comment_count ("cmts"): number of comment-lines </li>
+       <li> parameter_n ("pn"): value of the first parameter in the parameter
+       line </li>
+       <li> parameter_c ("pc") : value of the second parameter in the
+       parameter line </li>
+       <li> variables ("n"): the number of actually occurring clauses after
+       elementary reductions </li>
+       <li> variables_orig ("n0"): the number of actually occurring clauses in
+       the original input (taking tautological clauses into account) </li>
+       <li> variables_maxindex ("nmi"): the maximal index of (occurring)
+       variables after elementary reductions </li>
+       <li> variables_maxindex_orig ("n0mi"): the maximal index of (occurring)
+       variables in the original input (taking tautological clauses into
+       account) </li>
+       <li> tautological_clauses_count : number of tautological clauses (in the
+       original input); this number is c0 - c </li>
+       <li> non_tautological_clauses_count ("c") : number of non-tautological
        clauses </li>
-       <li> total_number_literals : number of literal occurrences in
+       <li> total_number_literals ("l0") : number of literal occurrences in
        tautological and non-tautological clauses together </li>
-       <li> reduced_number_literals : number of literal occurrences after
-       removal of tautological clauses and after contraction of multiple
-       literal occurrences </li>
-       <li> finished : clause-set has been completely read. </li>
-       <li> XXX </li>
+       <li> reduced_number_literals ("l") : number of literal occurrences after
+       elementary reductions </li>
+       <li> finished : clause-set has been completely read </li>
+       <li> pne, pce, ne, n0e, nmie, n0mie: whether pn, pc, n, n0, nmi or
+       n0mi has been entered or not. </li>
       </ul>
+      "Elementary reductions" here is the elimination of tautological clauses
+      and elimination of repeated literals in clauses.
 
       \todo For the output better a message-class is provided.
 
@@ -114,7 +130,7 @@ namespace OKlib {
          <li> Concepts::EqualitySubstitutable </li>
          <li> default constructed: null-initialised </li>
          <li> equality holds iff all members are equal </li>
-         <li> output-streamable (?) </li>
+         <li> output-streamable </li>
         </ol>
        </li>
     */
@@ -234,6 +250,9 @@ namespace OKlib {
     /*!
       \class FullStatistics
       \brief Class for gathering "all" statistics about input/output (especially in DIMACS format).
+
+      Contains a Statistics object plus for the occurring clause-lengths the
+      occurrence counts (after elementary reductions).
     */
 
     template <typename Int = int>
@@ -277,9 +296,15 @@ namespace OKlib {
 
     /*!
       \class CLSAdaptorStatistics
-      \brief Adaptor for clause-sets which only gathers (basic) statistics
+      \brief Adaptor for clause-sets which only gathers the basic ncl-statistics
 
-      The data member stat contains the statistical information.
+      <ul>
+       <li> The data member stat contains the statistical information. </li>
+       <li> Neither actual occurring variables nor their maximal index is
+       determined. </li>
+       <li> For a more complete computation of ncl-statistics see
+       CLSAdaptorPreciseStatistics. </li>
+      </ul>
 
       \todo CLSAdaptorPreciseStatistics
       <ul>
@@ -317,7 +342,11 @@ namespace OKlib {
       \class CLSAdaptorPreciseStatistics
       \brief Adaptor for clause-sets gathering (basic) statistics in all forms
 
-      The data member stat contains the statistical information.
+      <ul>
+       <li> The data member stat contains the statistical information. </li>
+       <li> The data member var is the set of all occurring variables. </li>
+       <li> All members of Statistics are filled except of n0 and n0mi. </li>
+      </ul>
 
       \todo Correction : DONE
       <ul>
