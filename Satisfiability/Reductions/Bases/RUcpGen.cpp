@@ -53,12 +53,11 @@ namespace {
   const std::string program = "RUcpGen";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.8";
+  const std::string version = "0.0.9";
 
 }
 
 int main(const int argc, const char* const argv[]) {
-
   if (argc == 1) {
     std::cerr << err << "At least one arguments is needed, the filename for F.\n";
     return errcode_parameter1;
@@ -77,8 +76,7 @@ int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::RawDimacsCLSAdaptor<literal_type, clause_set_type> InputClsadaptor;
 
   InputClsadaptor F_input;
-  {
-   std::ifstream F_inputfile(filename_F.c_str());
+  {std::ifstream F_inputfile(filename_F.c_str());
    if (not F_inputfile) {
      std::cerr << err << "Reading error with file \"" << filename_F << "\".\n";
      return errcode_file1;
@@ -86,14 +84,14 @@ int main(const int argc, const char* const argv[]) {
    OKlib::InputOutput::StandardDIMACSInput<InputClsadaptor>(F_inputfile, F_input);
   }
   const clause_set_type& F = F_input.clause_set;
-  const InputClsadaptor::int_type n = F_input.stat.parameter_n;
+  const InputClsadaptor::int_type n = F_input.stat.pn();
 
   InputClsadaptor F0_input;
   if (not filename_F0.empty()) {
-   std::ifstream F0_inputfile(filename_F0.c_str());
-   if (not F0_inputfile) {
-     std::cerr << err << "Reading error with file \"" << filename_F0 << "\".\n";
-     return errcode_file2;
+    std::ifstream F0_inputfile(filename_F0.c_str());
+    if (not F0_inputfile) {
+      std::cerr << err << "Reading error with file \"" << filename_F0 << "\".\n";
+      return errcode_file2;
    }
    OKlib::InputOutput::StandardDIMACSInput<InputClsadaptor>(F0_inputfile, F0_input);
   }

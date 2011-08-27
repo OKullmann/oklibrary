@@ -35,7 +35,7 @@ namespace {
 
   const std::string program = "RUcpBase";
 
-  const std::string version = "0.1.2";
+  const std::string version = "0.1.3";
 
 }
 
@@ -47,7 +47,7 @@ int main() {
   typedef OKlib::InputOutput::RawDimacsCLSAdaptor<literal_type, clause_set1_type> InputClsadaptor;
   InputClsadaptor F1;
   OKlib::InputOutput::StandardDIMACSInput<InputClsadaptor>(std::cin, F1);
-  const InputClsadaptor::int_type n = F1.stat.parameter_n;
+  const InputClsadaptor::int_type n = F1.stat.pn();
 
   typedef std::list<clause_type> clause_set2_type;
   clause_set2_type F2(F1.clause_set.begin(), F1.clause_set.end());
