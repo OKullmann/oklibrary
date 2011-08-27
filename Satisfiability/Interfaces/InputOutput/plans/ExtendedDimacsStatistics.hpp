@@ -30,21 +30,26 @@ License, or any later version. */
    "Improving output" below. </li>
    <li> There are three basic forms of n-values:
     <ol>
-     <li> The value nr reported in the parameter-line. </li>
-     <li> The maximal variable index nm. </li>
+     <li> The value pn reported in the parameter-line. </li>
+     <li> The maximal variable index nmi. </li>
      <li> The number n of different variables. </li>
     </ol>
-    We have nr >= nm >= n.
+    We have pn >= nmi >= n.
    </li>
-   <li> Though n is somewhat more expensive to compute, it likely should always
+   <li> DONE
+   Though n is somewhat more expensive to compute, it likely should always
    be provided (the cost should still be negligible). </li>
-   <li> However for some applications there is no parameter-line, and thus
+   <li> DONE (we can ignore the parameter-line)
+   However for some applications there is no parameter-line, and thus
    no error should arise. </li>
-   <li> The number of clauses and literal-occurrences shall be provided in two
+   <li> DONE
+   The number of clauses and literal-occurrences shall be provided in two
    versions, before and after the basic reduction (elimination of tautological
    clauses and repeated literal-occurrences), for information. </li>
-   <li> Called "c0, c" and "l0, l" in the output. </li>
-   <li> But for variables we provide data only after the basic reduction. </li>
+   <li> DONE
+   Called "c0, c" and "l0, l" in the output. </li>
+   <li> DONE
+   But for variables we provide data only after the basic reduction. </li>
   </ul>
 
 
@@ -52,7 +57,8 @@ License, or any later version. */
   <ul>
    <li> DONE
    The output description should be more descriptive. </li>
-   <li> Also the maximal index and the real number of variables is needed.
+   <li> DONE
+   Also the maximal index and the real number of variables is needed.
    </li>
    <li> DONE
    The output should be in a R-table-like form. </li>
@@ -96,7 +102,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Improving output
+  \todo Improving output : DONE
   <ul>
    <li> See "Better output for InputOutput/ExtendedDimacsStatistics.cpp"
    above. </li>
@@ -110,7 +116,8 @@ License, or any later version. */
    <li> DONE
    Likely in general our output shot be easily R-readable, at least by
    some option. </li>
-   <li> We should standardise this option: perhaps "--R-friendly". </li>
+   <li> DONE (all output for such applications should be in "R-format")
+   We should standardise this option: perhaps "--R-friendly". </li>
   </ul>
 
 */
