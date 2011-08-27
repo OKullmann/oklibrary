@@ -119,7 +119,7 @@ namespace {
   const std::string program = "AppendDimacs";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.3";
+  const std::string version = "0.0.4";
 
 }
 
@@ -135,9 +135,7 @@ int main(const int argc, const char* const argv[]) {
       std::cerr << err << "Failure opening file " << argv[i] << ".\n";
       return error_openfile;
     }
-    OKlib::InputOutput::StandardDIMACSInput<CLSAdaptorAppend>(f_in, 
-                                                             append_cls);
-    f_in.close();
+    OKlib::InputOutput::StandardDIMACSInput<CLSAdaptorAppend>(f_in, append_cls);
   }
   append_cls.flush();
 }
