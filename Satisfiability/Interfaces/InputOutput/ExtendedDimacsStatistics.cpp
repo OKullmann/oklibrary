@@ -43,7 +43,7 @@ namespace {
   const std::string program = "ExtendedDimacsStatistics";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2";
+  const std::string version = "0.2.1";
 
   const std::string pvt = "up"; // use parameter
   const std::string pvf = "ip"; // ignore parameter
