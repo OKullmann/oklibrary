@@ -32,7 +32,7 @@ namespace {
   const std::string program = "ExtendedDimacsFullStatistics";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.1.4";
+  const std::string version = "0.1.6";
 
   using namespace OKlib::InputOutput;
 
@@ -42,7 +42,7 @@ namespace {
     if (opt == "f") return full_output;
     return (output_options) 0;
   }
-  const output_options default_option = no_initfinal_zeros;
+  const output_options default_option = no_zeros;
 }
 
 int main(const int argc, const char* const argv[]) {
