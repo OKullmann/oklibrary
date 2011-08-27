@@ -58,58 +58,6 @@ License, or any later version. */
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
 
 
-namespace OKlib {
-  namespace InputOutput {
-
-    template <typename Int = int, class String = std::string, 
-              class OutputCLSAdaptor = OKlib::InputOutput::CLSAdaptorDIMACSOutput<> >
-    class CLSAdaptorAppend {
-      
-    public :
-      
-      typedef Int int_type;
-      typedef String string_type;
-      typedef OutputCLSAdaptor output_cls_adaptor_type;
-
-    private :
-
-      typedef RawDimacsCLSAdaptor<> stored_cls_adaptor_type;
-      typedef stored_cls_adaptor_type::clause_type stored_clause_type;
-
-      output_cls_adaptor_type output_cls_adaptor;
-      stored_cls_adaptor_type stored_cls_adaptor;
-
-    public :
-
-      CLSAdaptorAppend(output_cls_adaptor_type& cls_adaptor) : 
-        output_cls_adaptor(cls_adaptor) { }
-
-      void comment(const string_type& s) { output_cls_adaptor.comment(s); }
-      void n(const int_type pn) {
-        stored_cls_adaptor.n(
-          std::max(pn, stored_cls_adaptor.stat.parameter_n));
-      }
-      void c(const int_type pc) {
-        stored_cls_adaptor.c(pc + stored_cls_adaptor.stat.parameter_c);
-      }
-      void finish() { /* Do nothing as finish will be called many times. */ }
-      void flush() { 
-        ListTransfer<output_cls_adaptor_type>(stored_cls_adaptor.clause_set,
-                                              output_cls_adaptor, 
-                                              "Result of 'append' operation.");
-      }
-      void tautological_clause(const int_type t) {
-          stored_cls_adaptor.tautological_clause(t);
-      }
-      template <class ForwardRange>
-      void clause(const ForwardRange& r, const int_type t) {
-        stored_cls_adaptor.clause(r,t);
-      }
-    };
-  }
-}
-
-
 namespace {
 
   enum {
@@ -119,14 +67,60 @@ namespace {
   const std::string program = "AppendDimacs";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.4";
+  const std::string version = "0.0.5";
+
+  template <typename Int = int, class String = std::string,
+            class OutputCLSAdaptor = OKlib::InputOutput::CLSAdaptorDIMACSOutput<> >
+  class CLSAdaptorAppend {
+
+  public :
+
+    typedef Int int_type;
+    typedef String string_type;
+    typedef OutputCLSAdaptor output_cls_adaptor_type;
+
+  private :
+
+    typedef RawDimacsCLSAdaptor<> stored_cls_adaptor_type;
+    typedef stored_cls_adaptor_type::clause_type stored_clause_type;
+
+    output_cls_adaptor_type output_cls_adaptor;
+    stored_cls_adaptor_type stored_cls_adaptor;
+
+  public :
+
+    CLSAdaptorAppend(output_cls_adaptor_type& cls_adaptor) :
+      output_cls_adaptor(cls_adaptor) { }
+
+    void comment(const string_type& s) { output_cls_adaptor.comment(s); }
+    void n(const int_type pn) {
+      stored_cls_adaptor.n(
+        std::max(pn, stored_cls_adaptor.stat.parameter_n));
+    }
+    void c(const int_type pc) {
+      stored_cls_adaptor.c(pc + stored_cls_adaptor.stat.parameter_c);
+    }
+    void finish() { /* Do nothing as finish will be called many times. */ }
+    void flush() {
+      ListTransfer<output_cls_adaptor_type>(stored_cls_adaptor.clause_set,
+                                            output_cls_adaptor,
+                                            "Result of 'append' operation.");
+    }
+    void tautological_clause(const int_type t) {
+        stored_cls_adaptor.tautological_clause(t);
+    }
+    template <class ForwardRange>
+    void clause(const ForwardRange& r, const int_type t) {
+      stored_cls_adaptor.clause(r,t);
+    }
+  };
 
 }
 
 int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::CLSAdaptorDIMACSOutput<> OutputCLSAdaptor;
   OutputCLSAdaptor output(std::cout);
-  typedef OKlib::InputOutput::CLSAdaptorAppend<> CLSAdaptorAppend;
+  typedef CLSAdaptorAppend<> CLSAdaptorAppend;
   CLSAdaptorAppend append_cls(output);
 
   for (int i = 1; i < argc; ++i) {
