@@ -238,7 +238,6 @@ namespace OKlib {
 
     template <typename Int = int>
     struct FullStatistics {
-
       typedef Statistics<Int> stat_type;
       typedef typename stat_type::int_type int_type;
       stat_type stat;
@@ -254,7 +253,10 @@ namespace OKlib {
       }
 
       friend std::ostream& operator <<(std::ostream& out, const FullStatistics& s) {
-        out << s.stat << "\n length count\n";
+        out << s.stat << "\n";
+        using std::setw;
+        const std::streamsize wn = 7, wc = 8;
+        out << setw(wn) << "length" << setw(wc) << "count" << "\n";
         typedef typename map_type::const_iterator iterator;
         iterator begin = s.clause_lengths.begin();
         iterator end = s.clause_lengths.end();
@@ -264,7 +266,8 @@ namespace OKlib {
         }
         for (iterator i = begin; i != end; ++i)
           if (s.option != no_zeros or *i != 0)
-            out << i-s.clause_lengths.begin() << " " << *i << "\n";
+            out << setw(wn) << i-s.clause_lengths.begin() <<
+              setw(wc) << *i << "\n";
         return out;
       }
     };
