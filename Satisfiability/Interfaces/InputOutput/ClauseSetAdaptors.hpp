@@ -141,42 +141,49 @@ namespace OKlib {
       Statistics() :
         comment_count(0), tautological_clauses_count(0), non_tautological_clauses_count(0), total_number_literals(0), reduced_number_literals(0), finished_reading(false),
         pne(false), pce(false), ne(false), n0e(false), nmie(false), n0mie(false) {}
-      Statistics(int_type cc, int_type pn, int_type pc, int_type n, int_type n0, int_type nmi, int_type n0mi, int_type tc, int_type c, int_type nl, int_type rnl) :
-        comment_count(cc), parameter_n(pn), parameter_c(pc), variables(n), variables_orig(n0), variables_maxindex(nmi), variables_maxindex_orig(n0mi), tautological_clauses_count(tc), non_tautological_clauses_count(c), total_number_literals(nl), reduced_number_literals(rnl), finished_reading(true),
-        pne(true), pce(true), ne(true), n0e(true), nmie(true), n0mie(true) {}
 
-      void pn(const int_type v) { parameter_n = v; pne = true; }
+      Statistics& pn(const int_type v) { parameter_n = v; pne = true; return *this;}
       int_type pn() const { return parameter_n; }
       bool pn_entered() const { return pne; }
-      void pc(const int_type v) { parameter_c = v; pce = true; }
+
+      Statistics& pc(const int_type v) { parameter_c = v; pce = true; return *this;}
       int_type pc() const { return parameter_c; }
       bool pc_entered() const { return pce; }
-      void n(const int_type v) { variables = v; ne = true; }
+
+      Statistics& n(const int_type v) { variables = v; ne = true; return *this;}
       int_type n() const { return variables; }
       bool n_entered() const { return ne; }
-      void n0(const int_type v) { variables_orig = v; n0e = true; }
+
+      Statistics& n0(const int_type v) { variables_orig = v; n0e = true; return *this;}
       int_type n0() const { return variables_orig; }
       bool n0_entered() const { return n0e; }
-      void nmi(const int_type v) { variables_maxindex = v; nmie = true; }
+
+      Statistics& nmi(const int_type v) { variables_maxindex = v; nmie = true; return *this;}
       int_type nmi() const { return variables_maxindex; }
       bool nmi_entered() const { return nmie; }
-      void n0mi(const int_type v) {variables_maxindex_orig = v; n0mie = true;}
+
+      Statistics& n0mi(const int_type v) { variables_maxindex_orig = v; n0mie = true; return *this;}
       int_type n0mi() const { return variables_maxindex_orig; }
       bool n0mi_entered() const { return n0mie; }
 
-      void tc_add(const int_type v) { tautological_clauses_count += v; }
+      Statistics& tcadd(const int_type v) { tautological_clauses_count += v; return *this;}
       int_type tc() const { return tautological_clauses_count; }
-      void c_add(const int_type v) { non_tautological_clauses_count += v; }
+
+      Statistics& cadd(const int_type v) { non_tautological_clauses_count += v; return *this;}
       int_type c() const { return non_tautological_clauses_count; }
-      void l_add(const int_type v) { reduced_number_literals += v; }
+
+      Statistics& ladd(const int_type v) { reduced_number_literals += v; return *this; }
       int_type l() const { return reduced_number_literals; }
-      void l0_add(const int_type v) { total_number_literals += v; }
+
+      Statistics& l0add(const int_type v) { total_number_literals += v; return *this; }
       int_type l0() const { return total_number_literals; }
-      void comments_add(const int_type v) { comment_count += v; }
+
+      Statistics& commentsadd(const int_type v) { comment_count += v; return *this; }
       int_type comments() const { return comment_count; }
 
-      void finished(const bool v) { finished_reading = v; }
+      Statistics& finished(const bool v) { finished_reading = v; return *this; }
       bool finished() const { return finished_reading; }
+
 
       friend bool operator ==(const Statistics& lhs, const Statistics& rhs) {
         return
@@ -229,7 +236,6 @@ namespace OKlib {
       static const output_options default_option = full_output;
 
       FullStatistics() : option(default_option) {}
-      FullStatistics(int_type cc, int_type pn, int_type pc, int_type n, int_type n0, int_type nmi, int_type n0mi, int_type tc, int_type c, int_type nl, int_type rnl, output_options opt = default_option) : stat(cc,pn,pc,n,n0,nmi,n0mi,tc,c,nl,rnl), option(opt) {}
 
       friend bool operator ==(const FullStatistics& lhs, const FullStatistics& rhs) {
         return lhs.stat == rhs.stat and lhs.clause_lengths == rhs.clause_lengths;
@@ -273,22 +279,22 @@ namespace OKlib {
       typedef String string_type;
       typedef Statistics<int_type> statistics_type;
       statistics_type stat;
-      void comment(const string_type&) { stat.comments_add(1); }
+      void comment(const string_type&) { stat.commentsadd(1); }
       void n(const int_type pn) { stat.pn(pn); }
       void c(const int_type pc) { stat.pc(pc); }
       void finish() { stat.finished(true); }
       void tautological_clause(const int_type t) {
         assert(t >= 2);
-        stat.tc_add(1);
-        stat.l0_add(t);
+        stat.tcadd(1);
+        stat.l0add(t);
       }
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type t) {
-        stat.c_add(1);
+        stat.cadd(1);
         const int_type width = boost::distance(r);
         assert(width <= t);
-        stat.l_add(width);
-        stat.l0_add(t);
+        stat.ladd(width);
+        stat.l0add(t);
       }
     };
 
@@ -321,7 +327,7 @@ namespace OKlib {
       int_type max_var_index;
       std::set<int_type> var;
       CLSAdaptorPreciseStatistics() : max_var_index(-1) {}
-      void comment(const string_type&) { stat.comments_add(1); }
+      void comment(const string_type&) { stat.commentsadd(1); }
       void n(const int_type pn) { stat.pn(pn); }
       void c(const int_type pc) { stat.pc(pc); }
       void finish() {
@@ -331,16 +337,16 @@ namespace OKlib {
       }
       void tautological_clause(const int_type t) {
         assert(t >= 2);
-        stat.tc_add(1);
-        stat.l0_add(t);
+        stat.tcadd(1);
+        stat.l0add(t);
       }
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type t) {
-        stat.c_add(1);
+        stat.cadd(1);
         const int_type width = boost::distance(r);
         assert(width <= t);
-        stat.l_add(width);
-        stat.l0_add(t);
+        stat.ladd(width);
+        stat.l0add(t);
         typedef typename boost::range_iterator<const ForwardRange>::type iterator;
         const iterator end = boost::const_end(r);
         for (iterator i = boost::const_begin(r); i != end; ++i) {
@@ -369,7 +375,7 @@ namespace OKlib {
 
       statistics_type stat;
 
-      void comment(const string_type&) { stat.stat.comments_add(1); }
+      void comment(const string_type&) { stat.stat.commentsadd(1); }
       void n(const int_type pn) {
         stat.stat.pn(pn);
         stat.clause_lengths.assign((size_type)pn+1,0);
@@ -378,16 +384,16 @@ namespace OKlib {
       void finish() { stat.stat.finished(true); }
       void tautological_clause(const int_type t) {
         assert(t >= 2);
-        stat.stat.tc_add(1);
-        stat.stat.l0_add(t);
+        stat.stat.tcadd(1);
+        stat.stat.l0add(t);
       }
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type t) {
-        stat.stat.c_add(1);
+        stat.stat.cadd(1);
         const int_type width = boost::distance(r);
         assert(width <= t);
-        stat.stat.l_add(width);
-        stat.stat.l0_add(t);
+        stat.stat.ladd(width);
+        stat.stat.l0add(t);
         ++stat.clause_lengths[width];
       }
 
@@ -571,24 +577,24 @@ namespace OKlib {
 
       RawDimacsCLSAdaptor() {}
 
-      void comment(const string_type&) { stat.comments_add(1); }
+      void comment(const string_type&) { stat.commentsadd(1); }
       void n(const int_type pn) { stat.pn(pn); }
       void c(const int_type pc) { stat.pc(pc); }
       void finish() { stat.finished(true); }
       void tautological_clause(const int_type t) {
         assert(t >= 2);
-        stat.tc_add(1);
-        stat.l0_add(t);
+        stat.tcadd(1);
+        stat.l0add(t);
       }
 
       //! all literal occurrences are copied as is
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type t) {
-        stat.c_add(1);
+        stat.cadd(1);
         const int_type width = boost::distance(r);
         assert(width <= t);
-        stat.l_add(width);
-        stat.l0_add(t);
+        stat.ladd(width);
+        stat.l0add(t);
         clause_set.push_back(clause_type(boost::begin(r), boost::end(r)));
       }
 
