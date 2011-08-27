@@ -52,6 +52,7 @@ p wcnf n c+n
 
 #include <string>
 #include <iostream>
+#include <cstdlib>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>

@@ -66,6 +66,7 @@ min: +1 x1 ... +1 xn ;
 
 #include <string>
 #include <iostream>
+#include <cstdlib>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
