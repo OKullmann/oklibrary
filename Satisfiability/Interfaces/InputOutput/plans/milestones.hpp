@@ -17,7 +17,7 @@ License, or any later version. */
    In Interfaces/InputOutput/plans/ExtendedDimacsStatistics.hpp the following
    topics are handled:
     - Write application tests
-    - Update and extension
+    - Update and extension : DONE
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -81,6 +81,10 @@ License, or any later version. */
     - Exceptions
     - Improvements of InputOutput::ReadPass
     - Write unit-tests
+  \par
+   In Interfaces/InputOutput/plans/ExtendedDimacsStatistics.hpp the following
+   topics are handled:
+    - Write docus
 
 
   \par Version 0.1.4 :
@@ -260,6 +264,11 @@ License, or any later version. */
    are handled:
     - Input and output of propositional formulas
     - Circuits
+
+  \par
+   In Interfaces/InputOutput/plans/ExtendedDimacsStatistics.hpp the following
+   topics are handled:
+    - Using Messages
 
 
 

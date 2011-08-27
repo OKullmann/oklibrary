@@ -13,6 +13,13 @@ License, or any later version. */
   \todo Write application tests
 
 
+  \todo Write docus
+  <ul>
+   <li> This needs to tie in with the experimentation system and with a general
+   overview on statistics. </li>
+  </ul>
+
+
   \todo Connections
   <ul>
    <li> See "Comprehensive statistics" in
@@ -23,7 +30,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Update and extension
+  \todo Update and extension : DONE
   <ul>
    <li> This includes
    "Better output for InputOutput/ExtendedDimacsStatistics.cpp" and
@@ -53,7 +60,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Better output for InputOutput/ExtendedDimacsStatistics.cpp
+  \todo Better output for InputOutput/ExtendedDimacsStatistics.cpp : DONE
   <ul>
    <li> DONE
    The output description should be more descriptive. </li>
@@ -65,8 +72,8 @@ License, or any later version. */
    <li> DONE (not needed; if needed, just remove the first line)
    And via a command-line parameter "raw output" (just the numbers,
    separated by spaces) are output. </li>
-   <li> Compare with InputOutput/ExtendedDimacsFullStatistics.cpp. </li>
-   <li> Likely Messages should be used. </li>
+   <li> DONE
+   Compare with InputOutput/ExtendedDimacsFullStatistics.cpp. </li>
   </ul>
 
 
@@ -100,6 +107,9 @@ License, or any later version. */
    <li> Somehow code duplication should be minimised. </li>
    <li> At least the components should be kept close together. </li>
   </ul>
+
+
+  \todo Using Messages
 
 
   \todo Improving output : DONE
