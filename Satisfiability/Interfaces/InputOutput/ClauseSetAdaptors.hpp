@@ -64,6 +64,7 @@ template <class ForwardRange> CLSAdaptor::clause(const ForwardRange& clause,
 #include <cassert>
 #include <vector>
 #include <set>
+#include <iomanip>
 
 #include <boost/lexical_cast.hpp>
 #include <boost/range/distance.hpp>
@@ -202,15 +203,26 @@ namespace OKlib {
       }
 
       friend std::ostream& operator <<(std::ostream& out, const Statistics& s) {
-        out << " pn pc n nmi c l n0 n0mi c0 l0 comments\n";
-        if (s.pne) out << s.parameter_n; else out << "NA"; out << " ";
-        if (s.pce) out << s.parameter_c; else out << "NA"; out << " ";
-        if (s.ne) out << s.variables; else out << "NA"; out << " ";
-        if (s.nmie) out << s.variables_maxindex; else out << "NA"; out << " ";
-        out << s.non_tautological_clauses_count << " " << s.reduced_number_literals << " ";
-        if (s.n0e) out << s.variables_orig; else out << "NA"; out << " ";
-        if (s.n0mie) out << s.variables_maxindex_orig; else out << "NA"; out << " ";
-        out << s.tautological_clauses_count+s.non_tautological_clauses_count << " " << s.total_number_literals << " " << s.comment_count;
+        using std::setw;
+        const std::streamsize wn = 7, wc = 8, wl = 9, wcmts = 6;
+        out << setw(wn) << "pn" << setw(wc) << "pc" << setw(wn) << "n"
+          << setw(wn) << "nmi" << setw(wc) << "c" << setw(wl) << "l"
+          << setw(wn) << "n0" << setw(wn) << "n0mi" << setw(wc) << "c0"
+          << setw(wl) << "l0" << setw(wcmts) << "cmts" << "\n";
+        out.width(wn);
+        if (s.pne) out << s.parameter_n; else out << "NA";
+        out.width(wc);
+        if (s.pce) out << s.parameter_c; else out << "NA";
+        out.width(wn);
+        if (s.ne) out << s.variables; else out << "NA";
+        out.width(wn);
+        if (s.nmie) out << s.variables_maxindex; else out << "NA";
+        out << setw(wc) << s.non_tautological_clauses_count << setw(wl) << s.reduced_number_literals;
+        out << setw(wn);
+        if (s.n0e) out << s.variables_orig; else out << "NA";
+        out << setw(wn);
+        if (s.n0mie) out << s.variables_maxindex_orig; else out << "NA";
+        out << setw(wc) << s.tautological_clauses_count+s.non_tautological_clauses_count << setw(wl) << s.total_number_literals << setw(wcmts) << s.comment_count;
         return out;
       }
 
