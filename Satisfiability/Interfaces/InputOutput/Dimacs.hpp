@@ -262,7 +262,7 @@ namespace OKlib {
         if (label != "cnf")
           throw ParameterInputError("OKlib::InputOutput::StandardDIMACSInput::read_parameter_line:\n  instead of the label \"cnf\" the string \"" + label + "\" was found\n" + error_location());
         {
-          in >> n; // needs to be checked ########################
+          in >> n;
           if (not in)
             throw ParameterInputError("OKlib::InputOutput::StandardDIMACSInput::read_parameter_line:\n  syntax error when reading the maximal index used for variables from the parameter line\n" + error_location());
           if (n < 0)
@@ -277,7 +277,7 @@ namespace OKlib {
           out.n(n_target);
         }
         {
-          in >> c; // needs to be checked ########################
+          in >> c;
           if (not in)
             throw ParameterInputError("OKlib::InputOutput::StandardDIMACSInput::read_parameter_line:\n  syntax error when reading the number of clauses from the parameter line\n" + error_location());
           if (c < 0)
@@ -312,7 +312,7 @@ namespace OKlib {
 
         LiteralReadingPolicy<int_type> lit_handling;
         for (int_type literal;;) {
-          lit_handling.read(in, literal); // needs to be checked #########################
+          lit_handling.read(in, literal);
           if (not in) {
             if (not in.eof())
               throw ClauseInputError("OKlib::InputOutput::StandardDIMACSInput::read_clauses:\n  syntax error before clause finished\n" + error_location());

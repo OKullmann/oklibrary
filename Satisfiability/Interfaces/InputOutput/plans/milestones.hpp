@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Interfaces/InputOutput/plans/milestones.hpp
 
-  \module_version Interfaces/InputOutput 0.1.1 (14.7.2011)
+  \module_version Interfaces/InputOutput 0.1.1.1 (27.8.2011)
 
 
   \par Version 0.1.2 :
@@ -50,6 +50,10 @@ License, or any later version. */
    In Interfaces/InputOutput/RandomShuffleDimacs.cpp the following topics
    are handled:
     - Seed should be uint32_t
+
+  \par
+   In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:
+    - What happens if the integers from the file are too big? : DONE
 
 
   \par Version 0.1.3 :
@@ -150,9 +154,7 @@ License, or any later version. */
 
   \par
    In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:
-    - What happens if the integers from the file are too big?
-    - It must also be tested, whether the integers can be safely negated
-    - Consider the code-comments regarding checking
+    - It must be tested, whether the integers can be safely negated
 
 
   \par Version 0.1.9 :
