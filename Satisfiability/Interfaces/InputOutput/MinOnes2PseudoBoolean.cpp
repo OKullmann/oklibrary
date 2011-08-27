@@ -95,21 +95,17 @@ namespace {
 
   template <typename Int = int, class String = std::string, class AdaptorStatistics = OKlib::InputOutput::CLSAdaptorStatistics<Int, String> >
   class CLSAdaptorMinOnes2PseudoBooleanOutput {
-
   public:
     typedef String string_type;
 
   private:
-
     typedef AdaptorStatistics adaptor_statistics_type;
-
     std::ostream& out;
     adaptor_statistics_type adaptor_statistics;
     string_type comments;
     bool p_line_read;
 
   public :
-
     typedef Int int_type;
     typedef typename adaptor_statistics_type::statistics_type statistics_type;
 
@@ -121,15 +117,12 @@ namespace {
 
     void comment(const string_type& s) {
       adaptor_statistics.comment(s);
-      if (s.empty())
-        comments = comments + "*\n";
+      if (s.empty()) comments = comments + "*\n";
       else
         if (boost::algorithm::is_space()(s[0]))
           comments = comments + "*" + s + "\n";
-        else
-          comments = comments + "* " + s + "\n";
-      if (p_line_read)
-        out << comments;
+        else comments = comments + "* " + s + "\n";
+      if (p_line_read) out << comments;
     }
     void n(const int_type pn) {
       adaptor_statistics.n(pn);
@@ -144,15 +137,11 @@ namespace {
       out << comments;
       out << "min: ";
       const int_type n = adaptor_statistics.stat.parameter_n;
-      for (int_type i = 1; i <= n; ++i) {
-        out << "+1 x" << i << " ";
-      }
+      for (int_type i = 1; i <= n; ++i) out << "+1 x" << i << " ";
       out << ";\n";
       p_line_read = true;
     }
-    void finish() {
-      adaptor_statistics.finish();
-    }
+    void finish() { adaptor_statistics.finish(); }
     void tautological_clause(const int_type t) {
       adaptor_statistics.tautological_clause(t);
     }
@@ -169,10 +158,8 @@ namespace {
         if (std::abs(literal) > adaptor_statistics.stat.parameter_n)
           throw OKlib::InputOutput::ClauseOutputError("OKlib::InputOutput::CLSAdaptorMinOnes2PseudoBooleanOutput::clause:\n  variable index of literal = " + boost::lexical_cast<std::string>(literal) + " exceeds specified maximal index = " + boost::lexical_cast<std::string>(adaptor_statistics.stat.parameter_n));
 
-        if (literal > 0)
-          out << " +1 x" << literal << " ";
-        else
-          out << " +1 ~x" << literal << " ";
+        if (literal > 0) out << " +1 x" << literal << " ";
+        else out << " +1 ~x" << literal << " ";
       }
       out << " >= 1;\n";
     }
