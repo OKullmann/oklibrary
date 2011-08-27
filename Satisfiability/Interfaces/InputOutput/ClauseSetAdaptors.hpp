@@ -210,7 +210,7 @@ namespace OKlib {
         out << s.non_tautological_clauses_count << " " << s.reduced_number_literals << " ";
         if (s.n0e) out << s.variables_orig; else out << "NA"; out << " ";
         if (s.n0mie) out << s.variables_maxindex_orig; else out << "NA"; out << " ";
-        out << s.tautological_clauses_count+s.non_tautological_clauses_count << " " << s.total_number_literals << " " << s.comment_count << " " << s.finished_reading;
+        out << s.tautological_clauses_count+s.non_tautological_clauses_count << " " << s.total_number_literals << " " << s.comment_count;
         return out;
       }
 
