@@ -67,7 +67,7 @@ namespace {
   const std::string program = "AppendDimacs";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.5";
+  const std::string version = "0.0.6";
 
   template <typename Int = int, class String = std::string,
             class OutputCLSAdaptor = OKlib::InputOutput::CLSAdaptorDIMACSOutput<> >
@@ -78,7 +78,7 @@ namespace {
     typedef OutputCLSAdaptor output_cls_adaptor_type;
 
   private :
-    typedef RawDimacsCLSAdaptor<> stored_cls_adaptor_type;
+    typedef OKlib::InputOutput::RawDimacsCLSAdaptor<> stored_cls_adaptor_type;
     typedef stored_cls_adaptor_type::clause_type stored_clause_type;
     output_cls_adaptor_type output_cls_adaptor;
     stored_cls_adaptor_type stored_cls_adaptor;
@@ -89,24 +89,22 @@ namespace {
 
     void comment(const string_type& s) { output_cls_adaptor.comment(s); }
     void n(const int_type pn) {
-      stored_cls_adaptor.n(
-        std::max(pn, stored_cls_adaptor.stat.parameter_n));
+      stored_cls_adaptor.n(std::max(pn, stored_cls_adaptor.stat.pn()));
     }
     void c(const int_type pc) {
-      stored_cls_adaptor.c(pc + stored_cls_adaptor.stat.parameter_c);
+      stored_cls_adaptor.c(pc + stored_cls_adaptor.stat.pc());
     }
     void finish() {}
-    void flush() {
-      ListTransfer<output_cls_adaptor_type>(stored_cls_adaptor.clause_set,
-                                            output_cls_adaptor,
-                                            "Result of 'append' operation.");
-    }
     void tautological_clause(const int_type t) {
         stored_cls_adaptor.tautological_clause(t);
     }
     template <class ForwardRange>
     void clause(const ForwardRange& r, const int_type t) {
       stored_cls_adaptor.clause(r,t);
+    }
+    void flush() {
+      OKlib::InputOutput::ListTransfer<output_cls_adaptor_type>(
+        stored_cls_adaptor.clause_set,output_cls_adaptor,"Result of append-operation.");
     }
   };
 
