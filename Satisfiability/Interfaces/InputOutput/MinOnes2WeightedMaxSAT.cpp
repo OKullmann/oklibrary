@@ -64,105 +64,6 @@ p wcnf n c+n
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
 
 
-
-namespace OKlib {
-  namespace InputOutput {
-
-    // #####################################################
-
-    /*!
-      \class CLSAdaptorMinOnes2WeightedMaxSATOutput
-      \brief Adaptor for translating a CNF into a weighted MaxSAT encoding of the "minimum ones" problem for that CNF.
-
-      Parameter n is considered as maximal possible variable index,
-      while parameter c is considered as upper bound on the number of clauses.
-
-      The role of the template parameters are as follows:
-      <ol>
-       <li> Int is the integral type for the Dimacs literals. </li>
-       <li> String is the string type for comments. </li>
-       <li> AdaptorStatistics is a CLSAdaptor which handles statistics. </li>
-      </ol>
-
-    */
-
-    template <typename Int = int, class String = std::string, class AdaptorStatistics = CLSAdaptorStatistics<Int, String> >
-    class CLSAdaptorMinOnes2WeightedMaxSATOutput {
-
-      typedef AdaptorStatistics adaptor_statistics_type;
-
-      std::ostream& out;
-      adaptor_statistics_type adaptor_statistics;
-
-    public :
-
-      typedef Int int_type;
-      typedef String string_type;
-      typedef typename adaptor_statistics_type::statistics_type statistics_type;
-
-      CLSAdaptorMinOnes2WeightedMaxSATOutput(std::ostream& out) : out(out) {
-        if (not out)
-          throw OKlib::InputOutput::OStreamError("OKlib::InputOutput::CLSAdaptorMinOnes2WeightedMaxSATOutput::CLSAdaptorMinOnes2WeightedMaxSATOutput(std::ostream&):\n  cannot open the output stream");
-      }
-
-      void comment(const string_type& s) {
-        adaptor_statistics.comment(s);
-        if (s.empty())
-          out << "c";
-        else
-          if (boost::algorithm::is_space()(s[0]))
-            out << "c" << s;
-          else
-            out << "c " << s;
-        out << "\n";
-      }
-      void n(const int_type pn) {
-        adaptor_statistics.n(pn);
-        if (pn < 0)
-          throw OKlib::InputOutput::ParameterOutputError("OKlib::InputOutput::CLSAdaptorMinOnes2WeightedMaxSATOutput::n:\n  maximal variable index is a negative quantity = " + boost::lexical_cast<std::string>(pn));
-      }
-      void c(const int_type pc) {
-        adaptor_statistics.c(pc);
-        if (pc < 0)
-          throw OKlib::InputOutput::ParameterOutputError("OKlib::InputOutput::CLSAdaptorMinOnes2WeightedMaxSATOutput::n:\n  number of clauses is a negative quantity = " + boost::lexical_cast<std::string>(pc));
-        out << "p wcnf " << adaptor_statistics.stat.parameter_n << " " << adaptor_statistics.stat.parameter_c + adaptor_statistics.stat.parameter_n << "\n";
-      }
-      void finish() {
-        const int_type n = adaptor_statistics.stat.parameter_n;
-        for (int_type i = 1; i <= n; ++i) {
-          out << "1 " << -i << " 0\n";
-        }
-        adaptor_statistics.finish();
-      }
-      void tautological_clause(const int_type t) {
-        adaptor_statistics.tautological_clause(t);
-      }
-      template <class ForwardRange>
-      void clause(const ForwardRange& r, const int_type t) {
-        adaptor_statistics.clause(r, t);
-        out << adaptor_statistics.stat.parameter_n + 1 << " ";
-        if (adaptor_statistics.stat.non_tautological_clauses_count > adaptor_statistics.stat.parameter_c)
-          throw OKlib::InputOutput::ClauseOutputError("OKlib::InputOutput::CLSAdaptorMinOnes2WeightedMaxSATOutput::clause:\n  number of non-tautological clauses exceeds specified total number of clauses = " + boost::lexical_cast<std::string>(adaptor_statistics.stat.parameter_c));
-        typedef typename boost::range_const_iterator<ForwardRange>::type const_iterator;
-        const const_iterator& end(boost::end(r));
-        for (const_iterator i = boost::begin(r); i != end; ++i) {
-          typedef typename boost::range_value<ForwardRange>::type value_type;
-          const value_type& literal = *i;
-          if (std::abs(literal) > adaptor_statistics.stat.parameter_n)
-            throw OKlib::InputOutput::ClauseOutputError("OKlib::InputOutput::CLSAdaptorMinOnes2WeightedMaxSATOutput::clause:\n  variable index of literal = " + boost::lexical_cast<std::string>(literal) + " exceeds specified maximal index = " + boost::lexical_cast<std::string>(adaptor_statistics.stat.parameter_n));
-          out << literal << " ";
-        }
-        out << 0 << "\n";
-      }
-
-      const adaptor_statistics_type& stat() const {
-        return adaptor_statistics.stat;
-      }
-
-    };
-  }
-}
-
 namespace {
 
   const std::string program = "MinOnes2WeightedMaxSAT";
@@ -170,10 +71,101 @@ namespace {
 
   const std::string version = "0.0.10";
 
+  /*!
+    \class CLSAdaptorMinOnes2WeightedMaxSATOutput
+    \brief Adaptor for translating a CNF into a weighted MaxSAT encoding of the "minimum ones" problem for that CNF.
+
+    Parameter n is considered as maximal possible variable index,
+    while parameter c is considered as upper bound on the number of clauses.
+
+    The role of the template parameters are as follows:
+    <ol>
+     <li> Int is the integral type for the Dimacs literals. </li>
+     <li> String is the string type for comments. </li>
+     <li> AdaptorStatistics is a CLSAdaptor which handles statistics. </li>
+    </ol>
+
+  */
+
+  template <typename Int = int, class String = std::string, class AdaptorStatistics = OKlib::InputOutput::CLSAdaptorStatistics<Int, String> >
+  class CLSAdaptorMinOnes2WeightedMaxSATOutput {
+
+    typedef AdaptorStatistics adaptor_statistics_type;
+
+    std::ostream& out;
+    adaptor_statistics_type adaptor_statistics;
+
+  public :
+
+    typedef Int int_type;
+    typedef String string_type;
+    typedef typename adaptor_statistics_type::statistics_type statistics_type;
+
+    CLSAdaptorMinOnes2WeightedMaxSATOutput(std::ostream& out) : out(out) {
+      if (not out)
+        throw OKlib::InputOutput::OStreamError("OKlib::InputOutput::CLSAdaptorMinOnes2WeightedMaxSATOutput::CLSAdaptorMinOnes2WeightedMaxSATOutput(std::ostream&):\n  cannot open the output stream");
+    }
+
+    void comment(const string_type& s) {
+      adaptor_statistics.comment(s);
+      if (s.empty())
+        out << "c";
+      else
+        if (boost::algorithm::is_space()(s[0]))
+          out << "c" << s;
+        else
+          out << "c " << s;
+      out << "\n";
+    }
+    void n(const int_type pn) {
+      adaptor_statistics.n(pn);
+      if (pn < 0)
+        throw OKlib::InputOutput::ParameterOutputError("OKlib::InputOutput::CLSAdaptorMinOnes2WeightedMaxSATOutput::n:\n  maximal variable index is a negative quantity = " + boost::lexical_cast<std::string>(pn));
+    }
+    void c(const int_type pc) {
+      adaptor_statistics.c(pc);
+      if (pc < 0)
+        throw OKlib::InputOutput::ParameterOutputError("OKlib::InputOutput::CLSAdaptorMinOnes2WeightedMaxSATOutput::n:\n  number of clauses is a negative quantity = " + boost::lexical_cast<std::string>(pc));
+      out << "p wcnf " << adaptor_statistics.stat.parameter_n << " " << adaptor_statistics.stat.parameter_c + adaptor_statistics.stat.parameter_n << "\n";
+    }
+    void finish() {
+      const int_type n = adaptor_statistics.stat.parameter_n;
+      for (int_type i = 1; i <= n; ++i) {
+        out << "1 " << -i << " 0\n";
+      }
+      adaptor_statistics.finish();
+    }
+    void tautological_clause(const int_type t) {
+      adaptor_statistics.tautological_clause(t);
+    }
+    template <class ForwardRange>
+    void clause(const ForwardRange& r, const int_type t) {
+      adaptor_statistics.clause(r, t);
+      out << adaptor_statistics.stat.parameter_n + 1 << " ";
+      if (adaptor_statistics.stat.non_tautological_clauses_count > adaptor_statistics.stat.parameter_c)
+        throw OKlib::InputOutput::ClauseOutputError("OKlib::InputOutput::CLSAdaptorMinOnes2WeightedMaxSATOutput::clause:\n  number of non-tautological clauses exceeds specified total number of clauses = " + boost::lexical_cast<std::string>(adaptor_statistics.stat.parameter_c));
+      typedef typename boost::range_const_iterator<ForwardRange>::type const_iterator;
+      const const_iterator& end(boost::end(r));
+      for (const_iterator i = boost::begin(r); i != end; ++i) {
+        typedef typename boost::range_value<ForwardRange>::type value_type;
+        const value_type& literal = *i;
+        if (std::abs(literal) > adaptor_statistics.stat.parameter_n)
+          throw OKlib::InputOutput::ClauseOutputError("OKlib::InputOutput::CLSAdaptorMinOnes2WeightedMaxSATOutput::clause:\n  variable index of literal = " + boost::lexical_cast<std::string>(literal) + " exceeds specified maximal index = " + boost::lexical_cast<std::string>(adaptor_statistics.stat.parameter_n));
+        out << literal << " ";
+      }
+      out << 0 << "\n";
+    }
+
+    const adaptor_statistics_type& stat() const {
+      return adaptor_statistics.stat;
+    }
+
+  };
+
 }
 
 int main() {
-  typedef OKlib::InputOutput::CLSAdaptorMinOnes2WeightedMaxSATOutput<> CLSAdaptor;
+  typedef CLSAdaptorMinOnes2WeightedMaxSATOutput<> CLSAdaptor;
   CLSAdaptor output(std::cout);
   OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor >(std::cin, output);
 }
