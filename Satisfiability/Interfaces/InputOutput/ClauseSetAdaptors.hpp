@@ -40,15 +40,17 @@ License, or any later version. */
    <li> <code> adaptor.tautological_clause(int_type number_literal_occurrences)
    </code>
    (state that a tautological clause with that-many literal occurrences
-   (without contractions) has been found) </li>
+   (without contractions, i.e., counting multiple occurrences) has been found)
+   </li>
    <li>
-   \code 
+   \code
 template <class ForwardRange> CLSAdaptor::clause(const ForwardRange& clause,
-                   int_type total_original_number_literal_occurrences) 
+                   int_type total_original_number_literal_occurrences)
    \endcode
    (input a non-tautological clause as a range over the literals, where
    multiple occurrences have been removed already, together with the total
-   number of original literal occurrences). </li>
+   number of original literal occurrences (counting multiple occurrences).
+   </li>
   </ul>
 
 */
@@ -98,6 +100,7 @@ namespace OKlib {
        removal of tautological clauses and after contraction of multiple
        literal occurrences </li>
        <li> finished : clause-set has been completely read. </li>
+       <li> XXX </li>
       </ul>
 
       \todo For the output better a message-class is provided.
@@ -116,31 +119,92 @@ namespace OKlib {
     */
 
     template <typename Int = int>
-    struct Statistics {
-
+    class Statistics {
+    public :
       typedef Int int_type;
+    private :
       int_type
         comment_count,
         parameter_n,
         parameter_c,
-        n,
-        n0,
+        variables,
+        variables_orig,
+        variables_maxindex,
+        variables_maxindex_orig,
         tautological_clauses_count,
         non_tautological_clauses_count,
         total_number_literals,
         reduced_number_literals;
-      bool finished;
+      bool finished_reading;
+      bool pne, pce, ne, n0e, nmie, n0mie; // "e" for "entered"
+    public :
+      Statistics() :
+        comment_count(0), tautological_clauses_count(0), non_tautological_clauses_count(0), total_number_literals(0), reduced_number_literals(0), finished_reading(false),
+        pne(false), pce(false), ne(false), n0e(false), nmie(false), n0mie(false) {}
+      Statistics(int_type cc, int_type pn, int_type pc, int_type n, int_type n0, int_type nmi, int_type n0mi, int_type tc, int_type c, int_type nl, int_type rnl) :
+        comment_count(cc), parameter_n(pn), parameter_c(pc), variables(n), variables_orig(n0), variables_maxindex(nmi), variables_maxindex_orig(n0mi), tautological_clauses_count(tc), non_tautological_clauses_count(c), total_number_literals(nl), reduced_number_literals(rnl), finished_reading(true),
+        pne(true), pce(true), ne(true), n0e(true), nmie(true), n0mie(true) {}
 
-      Statistics() : comment_count(0), parameter_n(0), parameter_c(0), n(0), n0(0), tautological_clauses_count(0), non_tautological_clauses_count(0), total_number_literals(0), reduced_number_literals(0), finished(false) {}
-      Statistics(int_type cc, int_type pn, int_type pc, int_type n, int_type n0, int_type tc, int_type ntc, int_type nl, int_type rnl) : comment_count(cc), parameter_n(pn), parameter_c(pc), n(n), n0(n0), tautological_clauses_count(tc), non_tautological_clauses_count(ntc), total_number_literals(nl), reduced_number_literals(rnl), finished(true) {}
+      void pn(const int_type v) { parameter_n = v; pne = true; }
+      int_type pn() const { return parameter_n; }
+      bool pn_entered() const { return pne; }
+      void pc(const int_type v) { parameter_c = v; pce = true; }
+      int_type pc() const { return parameter_c; }
+      bool pc_entered() const { return pce; }
+      void n(const int_type v) { variables = v; ne = true; }
+      int_type n() const { return variables; }
+      bool n_entered() const { return ne; }
+      void n0(const int_type v) { variables_orig = v; n0e = true; }
+      int_type n0() const { return variables_orig; }
+      bool n0_entered() const { return n0e; }
+      void nmi(const int_type v) { variables_maxindex = v; nmie = true; }
+      int_type nmi() const { return variables_maxindex; }
+      bool nmi_entered() const { return nmie; }
+      void n0mi(const int_type v) {variables_maxindex_orig = v; n0mie = true;}
+      int_type n0mi() const { return variables_maxindex_orig; }
+      bool n0mi_entered() const { return n0mie; }
+
+      void tc_add(const int_type v) { tautological_clauses_count += v; }
+      int_type tc() const { return tautological_clauses_count; }
+      void c_add(const int_type v) { non_tautological_clauses_count += v; }
+      int_type c() const { return non_tautological_clauses_count; }
+      void l_add(const int_type v) { reduced_number_literals += v; }
+      int_type l() const { return reduced_number_literals; }
+      void l0_add(const int_type v) { total_number_literals += v; }
+      int_type l0() const { return total_number_literals; }
+      void comments_add(const int_type v) { comment_count += v; }
+      int_type comments() const { return comment_count; }
+
+      void finished(const bool v) { finished_reading = v; }
+      bool finished() const { return finished_reading; }
 
       friend bool operator ==(const Statistics& lhs, const Statistics& rhs) {
-        return lhs.comment_count == rhs.comment_count and lhs.parameter_n == rhs.parameter_n and lhs.parameter_c == rhs.parameter_c and lhs.n == rhs.n and lhs.n0 == rhs.n0 and lhs.tautological_clauses_count == rhs.tautological_clauses_count and lhs.non_tautological_clauses_count == rhs.non_tautological_clauses_count and lhs.total_number_literals == rhs.total_number_literals and lhs.reduced_number_literals == rhs.reduced_number_literals and lhs.finished == rhs.finished;
+        return
+          lhs.comment_count == rhs.comment_count and
+          (lhs.pne == rhs.pne and (not lhs.pne or lhs.parameter_n == rhs.parameter_n)) and
+          (lhs.pce == rhs.pce and (not lhs.pce or lhs.parameter_c == rhs.parameter_c)) and
+          (lhs.ne == rhs.ne and (not lhs.ne or lhs.variables == rhs.variables)) and
+          (lhs.n0e == rhs.n0e and (not lhs.n0e or lhs.variables_orig == rhs.variables_orig)) and
+          (lhs.nmie == rhs.nmie and (not lhs.nmie or lhs.variables_maxindex == rhs.variables_maxindex)) and
+          (lhs.n0mie == rhs.n0mie and (not lhs.n0mie or lhs.variables_maxindex_orig == rhs.variables_maxindex_orig)) and
+          lhs.tautological_clauses_count == rhs.tautological_clauses_count and
+          lhs.non_tautological_clauses_count == rhs.non_tautological_clauses_count and
+          lhs.total_number_literals == rhs.total_number_literals and
+          lhs.reduced_number_literals == rhs.reduced_number_literals and
+          lhs.finished_reading == rhs.finished_reading;
       }
 
       friend std::ostream& operator <<(std::ostream& out, const Statistics& s) {
-        return out << " pn pc n c l n0 c0 l0 comments finished\n"
-          << s.parameter_n << " " << s.parameter_c << " " << s.n << " " << s.non_tautological_clauses_count << " " << s.reduced_number_literals << " " << s.n0 << " " << s.tautological_clauses_count+s.non_tautological_clauses_count << " " << s.total_number_literals << " " << s.comment_count << " " << s.finished;
+        out << " pn pc n nmi c l n0 n0mi c0 l0 comments finished\n";
+        if (s.pne) out << s.parameter_n; else out << "NA"; out << " ";
+        if (s.pce) out << s.parameter_c; else out << "NA"; out << " ";
+        if (s.ne) out << s.variables; else out << "NA"; out << " ";
+        if (s.nmie) out << s.variables_maxindex; else out << "NA"; out << " ";
+        out << s.non_tautological_clauses_count << " " << s.reduced_number_literals << " ";
+        if (s.n0e) out << s.variables_orig; else out << "NA"; out << " ";
+        if (s.n0mie) out << s.variables_maxindex_orig; else out << "NA"; out << " ";
+        out << s.tautological_clauses_count+s.non_tautological_clauses_count << " " << s.total_number_literals << " " << s.comment_count << " " << s.finished_reading;
+        return out;
       }
 
     };
@@ -165,7 +229,7 @@ namespace OKlib {
       static const output_options default_option = full_output;
 
       FullStatistics() : option(default_option) {}
-      FullStatistics(int_type cc, int_type pn, int_type pc, int_type n, int_type n0, int_type tc, int_type ntc, int_type nl, int_type rnl, output_options opt = default_option) : stat(cc,pn,pc,n,n0,tc,ntc,nl,rnl), option(opt) {}
+      FullStatistics(int_type cc, int_type pn, int_type pc, int_type n, int_type n0, int_type nmi, int_type n0mi, int_type tc, int_type c, int_type nl, int_type rnl, output_options opt = default_option) : stat(cc,pn,pc,n,n0,nmi,n0mi,tc,c,nl,rnl), option(opt) {}
 
       friend bool operator ==(const FullStatistics& lhs, const FullStatistics& rhs) {
         return lhs.stat == rhs.stat and lhs.clause_lengths == rhs.clause_lengths;
@@ -209,19 +273,22 @@ namespace OKlib {
       typedef String string_type;
       typedef Statistics<int_type> statistics_type;
       statistics_type stat;
-      void comment(const string_type&) { ++stat.comment_count; }
-      void n(const int_type pn) { stat.parameter_n = pn; }
-      void c(const int_type pc) { stat.parameter_c = pc; }
-      void finish() { stat.finished = true; }
+      void comment(const string_type&) { stat.comments_add(1); }
+      void n(const int_type pn) { stat.pn(pn); }
+      void c(const int_type pc) { stat.pc(pc); }
+      void finish() { stat.finished(true); }
       void tautological_clause(const int_type t) {
-        ++stat.tautological_clauses_count;
-        stat.total_number_literals += t;
+        assert(t >= 2);
+        stat.tc_add(1);
+        stat.l0_add(t);
       }
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type t) {
-        ++stat.non_tautological_clauses_count;
-        stat.total_number_literals += t;
-        stat.reduced_number_literals += boost::distance(r);
+        stat.c_add(1);
+        const int_type width = boost::distance(r);
+        assert(width <= t);
+        stat.l_add(width);
+        stat.l0_add(t);
       }
     };
 
@@ -231,16 +298,15 @@ namespace OKlib {
 
       The data member stat contains the statistical information.
 
-      \todo Correction
+      \todo Correction : DONE
       <ul>
-       <li> DONE
-       Yet the n-count is tranferred to stat.parameter_n, while this
+       <li> Yet the n-count is tranferred to stat.parameter_n, while this
        is for the parameter-line value. </li>
        <li> So class Statistics needs to be extended, and the new parameter
        needs to be used in finish(). </li>
       </ul>
 
-      \todo Extensions
+      \todo Extensions : DONE
       <ul>
        <li> Also the maximal variable-index is needed. </li>
       </ul>
@@ -252,27 +318,36 @@ namespace OKlib {
       typedef String string_type;
       typedef Statistics<int_type> statistics_type;
       statistics_type stat;
-      void comment(const string_type&) { ++stat.comment_count; }
-      void n(const int_type pn) { stat.parameter_n = pn; }
-      void c(const int_type pc) { stat.parameter_c = pc; }
+      int_type max_var_index;
+      std::set<int_type> var;
+      CLSAdaptorPreciseStatistics() : max_var_index(-1) {}
+      void comment(const string_type&) { stat.comments_add(1); }
+      void n(const int_type pn) { stat.pn(pn); }
+      void c(const int_type pc) { stat.pc(pc); }
       void finish() {
-        stat.n = var.size();
-        stat.finished = true;
+        stat.nmi(max_var_index);
+        stat.n(var.size());
+        stat.finished(true);
       }
       void tautological_clause(const int_type t) {
-        ++stat.tautological_clauses_count;
-        stat.total_number_literals += t;
+        assert(t >= 2);
+        stat.tc_add(1);
+        stat.l0_add(t);
       }
-      std::set<int_type> var;
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type t) {
-        ++stat.non_tautological_clauses_count;
-        stat.total_number_literals += t;
-        stat.reduced_number_literals += boost::distance(r);
+        stat.c_add(1);
+        const int_type width = boost::distance(r);
+        assert(width <= t);
+        stat.l_add(width);
+        stat.l0_add(t);
         typedef typename boost::range_iterator<const ForwardRange>::type iterator;
         const iterator end = boost::const_end(r);
-        for (iterator i = boost::const_begin(r); i != end; ++i)
-          var.insert(std::abs(*i));
+        for (iterator i = boost::const_begin(r); i != end; ++i) {
+          const int_type underlying_var = std::abs(*i);
+          if (underlying_var > max_var_index) max_var_index = underlying_var;
+          var.insert(underlying_var);
+        }
       }
     };
 
@@ -294,26 +369,28 @@ namespace OKlib {
 
       statistics_type stat;
 
-      void comment(const string_type&) { ++stat.stat.comment_count; }
+      void comment(const string_type&) { stat.stat.comments_add(1); }
       void n(const int_type pn) {
-        stat.stat.parameter_n = pn;
+        stat.stat.pn(pn);
         stat.clause_lengths.assign((size_type)pn+1,0);
       }
-      void c(const int_type pc) { stat.stat.parameter_c = pc; }
-      void finish() { stat.stat.finished = true; }
+      void c(const int_type pc) { stat.stat.pc(pc); }
+      void finish() { stat.stat.finished(true); }
       void tautological_clause(const int_type t) {
-        ++stat.stat.tautological_clauses_count;
-        stat.stat.total_number_literals += t;
+        assert(t >= 2);
+        stat.stat.tc_add(1);
+        stat.stat.l0_add(t);
       }
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type t) {
-        ++stat.stat.non_tautological_clauses_count;
-        stat.stat.total_number_literals += t;
-        const size_type clause_length = boost::distance(r);
-        stat.stat.reduced_number_literals += clause_length;
-        ++stat.clause_lengths[clause_length];
+        stat.stat.c_add(1);
+        const int_type width = boost::distance(r);
+        assert(width <= t);
+        stat.stat.l_add(width);
+        stat.stat.l0_add(t);
+        ++stat.clause_lengths[width];
       }
-      
+
     };
 
     // #####################################################
@@ -332,9 +409,7 @@ namespace OKlib {
        <li> AdaptorStatistics is a CLSAdaptor which handles statistics. </li>
       </ol>
 
-
       \todo For the output-jobs message-classes should be employed.
-
 
       \todo Handling of extended Dimacs-format (with real variable-names)
       is needed:
@@ -381,7 +456,7 @@ namespace OKlib {
         adaptor_statistics.c(pc);
         if (pc < 0)
           throw OKlib::InputOutput::ParameterOutputError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::n:\n  number of clauses is a negative quantity = " + boost::lexical_cast<std::string>(pc));
-        out << "p cnf " << adaptor_statistics.stat.parameter_n << " " << adaptor_statistics.stat.parameter_c << "\n";
+        out << "p cnf " << adaptor_statistics.stat.pn() << " " << adaptor_statistics.stat.pc() << "\n";
       }
       void finish() { adaptor_statistics.finish(); }
       void tautological_clause(const int_type t) {
@@ -390,15 +465,15 @@ namespace OKlib {
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type t) {
         adaptor_statistics.clause(r, t);
-        if (adaptor_statistics.stat.non_tautological_clauses_count > adaptor_statistics.stat.parameter_c)
-          throw OKlib::InputOutput::ClauseOutputError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::clause:\n  number of non-tautological clauses exceeds specified total number of clauses = " + boost::lexical_cast<std::string>(adaptor_statistics.stat.parameter_c));
+        if (adaptor_statistics.stat.c() > adaptor_statistics.stat.pc())
+          throw OKlib::InputOutput::ClauseOutputError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::clause:\n  number of non-tautological clauses exceeds specified total number of clauses = " + boost::lexical_cast<std::string>(adaptor_statistics.stat.pc()));
         typedef typename boost::range_const_iterator<ForwardRange>::type const_iterator;
         const const_iterator& end(boost::end(r));
         for (const_iterator i = boost::begin(r); i != end; ++i) {
           typedef typename boost::range_value<ForwardRange>::type value_type;
           const value_type& literal = *i;
-          if (std::abs(literal) > adaptor_statistics.stat.parameter_n)
-            throw OKlib::InputOutput::ClauseOutputError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::clause:\n  variable index of literal = " + boost::lexical_cast<std::string>(literal) + " exceeds specified maximal index = " + boost::lexical_cast<std::string>(adaptor_statistics.stat.parameter_n));
+          if (std::abs(literal) > adaptor_statistics.stat.pn())
+            throw OKlib::InputOutput::ClauseOutputError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::clause:\n  variable index of literal = " + boost::lexical_cast<std::string>(literal) + " exceeds specified maximal index = " + boost::lexical_cast<std::string>(adaptor_statistics.stat.pn()));
           out << literal << " ";
         }
         out << 0 << "\n";
@@ -496,21 +571,24 @@ namespace OKlib {
 
       RawDimacsCLSAdaptor() {}
 
-      void comment(const string_type&) { ++stat.comment_count; }
-      void n(const int_type pn) { stat.parameter_n = pn; } 
-      void c(const int_type pc) { stat.parameter_c = pc; }
-      void finish() { stat.finished = true; }
+      void comment(const string_type&) { stat.comments_add(1); }
+      void n(const int_type pn) { stat.pn(pn); }
+      void c(const int_type pc) { stat.pc(pc); }
+      void finish() { stat.finished(true); }
       void tautological_clause(const int_type t) {
-        ++stat.tautological_clauses_count;
-        stat.total_number_literals += t;
+        assert(t >= 2);
+        stat.tc_add(1);
+        stat.l0_add(t);
       }
 
       //! all literal occurrences are copied as is
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type t) {
-        ++stat.non_tautological_clauses_count;
-        stat.total_number_literals += t;
-        stat.reduced_number_literals += boost::distance(r);
+        stat.c_add(1);
+        const int_type width = boost::distance(r);
+        assert(width <= t);
+        stat.l_add(width);
+        stat.l0_add(t);
         clause_set.push_back(clause_type(boost::begin(r), boost::end(r)));
       }
 
@@ -555,7 +633,7 @@ namespace OKlib {
 
       RawDimacsCLSAdaptorSets() {}
       void comment(const string_type&) const {}
-      void n(const int_type) const {} 
+      void n(const int_type) const {}
       void c(const int_type) const {}
       void finish() const {}
       void tautological_clause(const int_type) const {}
@@ -566,7 +644,7 @@ namespace OKlib {
       }
 
     };
-      
+
   }
 
 }
