@@ -56,6 +56,7 @@ License, or any later version. */
   \par
    In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
    are handled:
+    - Is usage of boost::distance effective?
     - Need "ReverseDimacs" application and clause-set adaptor
 
   \par

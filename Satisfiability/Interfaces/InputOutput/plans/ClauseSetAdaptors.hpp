@@ -10,6 +10,19 @@ License, or any later version. */
   \brief Plans for adaptors (transferring clause-sets in streams to data structures)
 
 
+  \todo Is usage of boost::distance effective?
+  <ul>
+   <li> We need to make sure that in case the range is a container, then
+   the container's size-function is used, which is a constant-time operation.
+   </li>
+   <li> MG had somewhere also already some discussion on this; links (and
+   perhaps updates are needed). </li>
+   <li> In case boost::distance is not effective, one has to see whether
+   it can be made effective. </li>
+   <li> Otherwise perhaps we should abandon usage of the range-library. </li>
+  </ul>
+
+
   \todo Need "ReverseDimacs" application and clause-set adaptor
   <ul>
    <li> When dealing with clause-sets which have some ordering,
