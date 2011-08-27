@@ -30,7 +30,7 @@ namespace {
   const std::string program = "ExtendedDimacsStatistics";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.1.4";
+  const std::string version = "0.1.5";
 
   const std::string pv1 = "use-p";
   const std::string pv2 = "ignore-p";
