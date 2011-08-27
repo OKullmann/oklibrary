@@ -26,7 +26,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo What happens if the integers from the file are too big?
+  \todo DONE (at least from a practical point of view the problem doesn't exist)
+  What happens if the integers from the file are too big?
   <ul>
    <li> We cannot use the stream extractors, since they yield undefined
    behaviour, so it seems necessary to write special
@@ -36,14 +37,12 @@ License, or any later version. */
    istreams (setting the stream state accordingly). Or, perhaps better from
    a general design point of view, we should use a BigInteger class here for
    reading. </li>
-   <li> Apparently all compilers actually catch the errors? </li>
+   <li> DONE (seems to be the case)
+   Apparently all compilers actually catch the errors? </li>
   </ul>
 
 
-  \todo It must also be tested, whether the integers can be safely negated.
-
-
-  \todo Consider the code-comments regarding checking.
+  \todo It must be tested, whether the integers can be safely negated
 
 
   \todo Improve class InputOutput::StandardDIMACSInput
