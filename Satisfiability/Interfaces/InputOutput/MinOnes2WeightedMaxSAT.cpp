@@ -75,9 +75,6 @@ namespace {
     \class CLSAdaptorMinOnes2WeightedMaxSATOutput
     \brief Adaptor for translating a CNF into a weighted MaxSAT encoding of the "minimum ones" problem for that CNF.
 
-    Parameter n is considered as maximal possible variable index,
-    while parameter c is considered as upper bound on the number of clauses.
-
     The role of the template parameters are as follows:
     <ol>
      <li> Int is the integral type for the Dimacs literals. </li>
