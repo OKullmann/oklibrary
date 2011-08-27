@@ -151,15 +151,15 @@ namespace OKlib {
 
             test_vector_type test_vector;
             using namespace boost::assign;
-            test_vector +=
-              el_t("p cnf 0 0\n", st_t(0,0,0,0,0,0,0,0,0), "p cnf 0 0\n"),
-              el_t("p cnf 0 0\n\n\n", st_t(0,0,0,0,0,0,0,0,0), "p cnf 0 0\n"),
-              el_t("p cnf 0 2\n\n\n0 0", st_t(0,0,2,0,0,0,2,0,0), "p cnf 0 2\n0\n0\n"),
-              el_t("p cnf 3 4\n", st_t(0,3,4,0,0,0,0,0,0), "p cnf 3 4\n"),
-              el_t("c\nc\np cnf 3 4\n", st_t(2,3,4,0,0,0,0,0,0), "c\nc\np cnf 3 4\n"),
-              el_t("p cnf 4 5\n 1 -2 0 -3 -4 0", st_t(0,4,5,0,0,0,2,4,4), "p cnf 4 5\n-2 1 0\n-4 -3 0\n"),
-              el_t("cx\nc y\np cnf 11 +6\n -1 1 -2 0 -3 -4 -4 0 7 -8 -9 3 4 3 0", st_t(2,11,6,0,0,1,2,12,7), "c x\nc y\np cnf 11 6\n-4 -3 0\n-9 -8 3 4 7 0\n"),
-              el_t("p cnf 1 3\n+1 1 0 -1 -1 -1 0\n -1 +1 -1 +1 0", st_t(0,1,3,0,0,1,2,9,2), "p cnf 1 3\n1 0\n-1 0\n");
+            test_vector += // input, statistics-object, output
+              el_t("p cnf 0 0\n", st_t().pn(0).pc(0).finished(true), "p cnf 0 0\n"),
+              el_t("p cnf 0 0\n\n\n", st_t().pn(0).pc(0).finished(true), "p cnf 0 0\n"),
+              el_t("p cnf 0 2\n\n\n0 0", st_t().pn(0).pc(2).cadd(2).finished(true), "p cnf 0 2\n0\n0\n"),
+              el_t("p cnf 3 4\n", st_t().pn(3).pc(4).finished(true), "p cnf 3 4\n"),
+              el_t("c\nc\np cnf 3 4\n", st_t().pn(3).pc(4).commentsadd(2).finished(true), "c\nc\np cnf 3 4\n"),
+              el_t("p cnf 4 5\n 1 -2 0 -3 -4 0", st_t().pn(4).pc(5).cadd(2).ladd(4).l0add(4).finished(true), "p cnf 4 5\n-2 1 0\n-4 -3 0\n"),
+              el_t("cx\nc y\np cnf 11 +6\n -1 1 -2 0 -3 -4 -4 0 7 -8 -9 3 4 3 0", st_t().pn(11).pc(6).commentsadd(2).tcadd(1).cadd(2).l0add(12).ladd(7).finished(true), "c x\nc y\np cnf 11 6\n-4 -3 0\n-9 -8 3 4 7 0\n"),
+              el_t("p cnf 1 3\n+1 1 0 -1 -1 -1 0\n -1 +1 -1 +1 0", st_t().pn(1).pc(3).tcadd(1).cadd(2).ladd(2).l0add(9).finished(true), "p cnf 1 3\n1 0\n-1 0\n");
             const iterator& end(test_vector.end());
             for (iterator i = test_vector.begin(); i != end; ++i) {
               {
