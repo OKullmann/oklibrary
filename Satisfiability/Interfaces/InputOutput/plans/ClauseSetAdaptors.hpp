@@ -31,6 +31,8 @@ License, or any later version. */
    inverse order that we truly want). </li>
    <li> Therefore we need a simple application and clause-set 
    adaptor which reverses the given clause-set. </li>
+   <li> MG should give/link to an example for the usefulness of this; OK doubts
+   that we need it. </li>
   </ul>
 
 
