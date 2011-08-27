@@ -89,14 +89,11 @@ namespace {
 
   template <typename Int = int, class String = std::string, class AdaptorStatistics = OKlib::InputOutput::CLSAdaptorStatistics<Int, String> >
   class CLSAdaptorMinOnes2WeightedMaxSATOutput {
-
     typedef AdaptorStatistics adaptor_statistics_type;
-
     std::ostream& out;
     adaptor_statistics_type adaptor_statistics;
 
   public :
-
     typedef Int int_type;
     typedef String string_type;
     typedef typename adaptor_statistics_type::statistics_type statistics_type;
@@ -108,13 +105,10 @@ namespace {
 
     void comment(const string_type& s) {
       adaptor_statistics.comment(s);
-      if (s.empty())
-        out << "c";
+      if (s.empty()) out << "c";
       else
-        if (boost::algorithm::is_space()(s[0]))
-          out << "c" << s;
-        else
-          out << "c " << s;
+        if (boost::algorithm::is_space()(s[0])) out << "c" << s;
+        else out << "c " << s;
       out << "\n";
     }
     void n(const int_type pn) {
@@ -130,9 +124,7 @@ namespace {
     }
     void finish() {
       const int_type n = adaptor_statistics.stat.parameter_n;
-      for (int_type i = 1; i <= n; ++i) {
-        out << "1 " << -i << " 0\n";
-      }
+      for (int_type i = 1; i <= n; ++i) out << "1 " << -i << " 0\n";
       adaptor_statistics.finish();
     }
     void tautological_clause(const int_type t) {
@@ -154,10 +146,6 @@ namespace {
         out << literal << " ";
       }
       out << 0 << "\n";
-    }
-
-    const adaptor_statistics_type& stat() const {
-      return adaptor_statistics.stat;
     }
 
   };
