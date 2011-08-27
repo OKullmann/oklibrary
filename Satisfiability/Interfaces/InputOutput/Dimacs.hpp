@@ -268,9 +268,7 @@ namespace OKlib {
           if (n < 0)
             throw ParameterInputError("OKlib::InputOutput::StandardDIMACSInput::read_parameter_line:\n  the maximal index for variables has the negative value " + boost::lexical_cast<std::string>(n) + "\n" + error_location());
           int_type_target n_target;
-          try {
-            n_target = boost::numeric_cast<int_type_target>(n);
-          }
+          try { n_target = boost::numeric_cast<int_type_target>(n); }
           catch (const boost::bad_numeric_cast& e) {
             throw ParameterInputError(std::string("OKlib::InputOutput::StandardDIMACSInput::read_parameter_line:\n  conversion of maximal variable index to target integer type ") + typeid(int_type_target).name() + " failed with error message\n" + e.what() + "\n" + error_location());
           }
@@ -283,9 +281,7 @@ namespace OKlib {
           if (c < 0)
             throw ParameterInputError("OKlib::InputOutput::StandardDIMACSInput::read_parameter_line:\n  the number of clauses has the negative value " + boost::lexical_cast<std::string>(c) + "\n" + error_location());
           int_type_target c_target;
-          try {
-            c_target = boost::numeric_cast<int_type_target>(c);
-          }
+          try { c_target = boost::numeric_cast<int_type_target>(c); }
           catch (const boost::bad_numeric_cast& e) {
             throw ParameterInputError(std::string("OKlib::InputOutput::StandardDIMACSInput::read_parameter_line:\n  conversion of number of clauses to target integer type ") + typeid(int_type_target).name() + " failed with error message\n" + e.what() + "\n" + error_location());
           }
@@ -337,8 +333,7 @@ namespace OKlib {
               out.tautological_clause(total_clause_size_target);
               tautological = false;
             }
-            else
-              out.clause(clause, total_clause_size_target);
+            else out.clause(clause, total_clause_size_target);
             clause.clear();
             total_clause_size = 0;
           }
@@ -348,10 +343,8 @@ namespace OKlib {
               throw ClauseInputError("OKlib::InputOutput::StandardDIMACSInput::read_clauses:\n  literal " + boost::lexical_cast<std::string>(literal) + " has variable index larger than the specified upper bound " + boost::lexical_cast<std::string>(n) + "\n" + error_location());
             if (not tautological) {
               const iterator& find_neg = clause.find(-literal);
-              if (find_neg == clause.end())
-                clause.insert(literal);
-              else
-                tautological = true;
+              if (find_neg == clause.end()) clause.insert(literal);
+              else tautological = true;
             }
           }
         }
