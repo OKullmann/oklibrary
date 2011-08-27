@@ -20,6 +20,13 @@ License, or any later version. */
     - Update and extension : DONE
 
   \par
+   In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:
+    - What happens if the integers from the file are too big? : DONE
+
+
+  \par Version 0.1.3 :
+
+  \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
    are handled:
     - Comprehensive statistics
@@ -51,12 +58,8 @@ License, or any later version. */
    are handled:
     - Seed should be uint32_t
 
-  \par
-   In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:
-    - What happens if the integers from the file are too big? : DONE
 
-
-  \par Version 0.1.3 :
+  \par Version 0.1.4 :
 
   \par
    In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
@@ -87,7 +90,7 @@ License, or any later version. */
     - Write docus
 
 
-  \par Version 0.1.4 :
+  \par Version 0.1.5 :
 
   \par
    In Interfaces/InputOutput/MinOnes2WeightedMaxSAT.cpp the following topics
@@ -102,7 +105,7 @@ License, or any later version. */
     - See OKlib/Satisfiability/ProofSystems/DPv/Input_output.hpp
 
 
-  \par Version 0.1.5 :
+  \par Version 0.1.6 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -120,7 +123,7 @@ License, or any later version. */
     - Complete the doxygen-documentation.
 
 
-  \par Version 0.1.6 :
+  \par Version 0.1.7 :
 
   \par
    In InputOutput/plans/general.hpp the following topics are handled:
@@ -136,7 +139,7 @@ License, or any later version. */
     - Write docus
 
 
-  \par Version 0.1.7 :
+  \par Version 0.1.8 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -149,7 +152,7 @@ License, or any later version. */
     - Write demos
 
 
-  \par Version 0.1.8 :
+  \par Version 0.1.9 :
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics
@@ -161,7 +164,7 @@ License, or any later version. */
     - It must be tested, whether the integers can be safely negated
 
 
-  \par Version 0.1.9 :
+  \par Version 0.1.10 :
 
   \par
    In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
@@ -171,7 +174,7 @@ License, or any later version. */
     - Write concept for InputOutput::Statistics class
 
 
-  \par Version 0.1.10 :
+  \par Version 0.1.12 :
 
   \par
    In Interfaces/InputOutput/plans/ClauseSetAdaptors.hpp the following topics
