@@ -21,13 +21,14 @@ p cnf n c
 * #variable= n #constraint= c
    \endverbatim
    </li>
-   <li> Any comments occurring before the p-line are output as comments
-   prefixed with "* " *after* the pseudo-boolean parameter line. </li>
-   <li> All clauses in the input are translated from CNF clauses of the form
+   <li> Any comments occurring before the p-line are output as comments (i.e.,
+   prefixed with "* ") after the pseudo-boolean parameter line. </li>
+   <li> All clauses in the input are translated from CNF clauses of the form,
+   e.g.,
    \verbatim
 1 2 3 4 -5 0
    \endverbatim
-   to non-linear pseudo-boolean constraints of the form
+   to non-linear pseudo-boolean constraints of the form, e.g.,
    \verbatim
 +1 x1 +1 x2 +1 x3 +1 x4 +1 ~x5 >= 1;
    \endverbatim
