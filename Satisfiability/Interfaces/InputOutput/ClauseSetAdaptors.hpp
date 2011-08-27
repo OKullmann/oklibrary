@@ -343,17 +343,17 @@ namespace OKlib {
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type t) {
         stat.cadd(1);
-        const int_type width = boost::distance(r);
-        assert(width <= t);
-        stat.ladd(width);
         stat.l0add(t);
         typedef typename boost::range_iterator<const ForwardRange>::type iterator;
         const iterator end = boost::const_end(r);
-        for (iterator i = boost::const_begin(r); i != end; ++i) {
+        int_type width = 0;
+        for (iterator i = boost::const_begin(r); i != end; ++i, ++width) {
           const int_type underlying_var = std::abs(*i);
           if (underlying_var > max_var_index) max_var_index = underlying_var;
           var.insert(underlying_var);
         }
+        assert(width <= t);
+        stat.ladd(width);
       }
     };
 
