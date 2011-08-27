@@ -50,15 +50,13 @@ int main(const int argc, const char* const argv[]) {
   CLSAdaptor output;
   if (argc > 1) {
     const output_options opt = translate_option(argv[1]);
-    if (opt != (output_options) 0)
-      output.stat.option = opt;
+    if (opt != (output_options) 0) output.stat.option = opt;
     else {
       std::cerr << err << "If an option is given, it must be one of \"n\", \"ni\" or \"f\".\n";
       return(errcode_parameter_values);
     }
   }
-  else
-    output.stat.option = default_option;
+  else output.stat.option = default_option;
   StandardDIMACSInput<CLSAdaptor, LiteralReadingExtended>(std::cin, output);
   std::cout << output.stat;
 }
