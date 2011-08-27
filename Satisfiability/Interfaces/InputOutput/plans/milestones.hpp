@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In Interfaces/InputOutput/plans/ExtendedDimacsStatistics.hpp the following
    topics are handled:
+    - Write application tests
     - Update and extension
 
   \par

@@ -10,6 +10,9 @@ License, or any later version. */
   \brief Plans on the application for extracting statistics from files in (extended) Dimacs format
 
 
+  \todo Write application tests
+
+
   \todo Connections
   <ul>
    <li> See "Comprehensive statistics" in
