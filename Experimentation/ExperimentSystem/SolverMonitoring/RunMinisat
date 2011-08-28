@@ -19,6 +19,7 @@
 #  - Environment: information on the computer environment
 #  - a copy of the instance-file
 #  - F: contains the name of the (local) instance-file
+#  - InputStatistics: statistics on the instance(-file)
 #  - Result: the minisat output
 #  - Statistics: the extracted statistics, in R-readable format.
 
@@ -34,7 +35,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunMinisat"
-version_number=0.0.7
+version_number=0.0.8
 
 if ([ $# -ne 1 ]) then
   echo -e "ERROR[${script_name}]: Exactly one parameter is needed, the instance.\n"
@@ -43,6 +44,7 @@ fi
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 solver=minisat-2.2.0
+statistics_tool=ExtendedDimacsFullStatistics-O3-DNDEBUG
 extraction_tool=ExtractMinisat
 
 instance=$1
@@ -68,6 +70,8 @@ echo >> Environment
 cat /proc/cpuinfo >> Environment
 echo >> Environment
 free -m >> Environment
+
+cat ${instance_local} | ${statistics_tool} > InputStatistics
 
 set +e
 ${solver} ${instance_local} >Result 2>&1
