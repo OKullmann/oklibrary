@@ -10,6 +10,17 @@ License, or any later version. */
   \brief Plans for the module on SAT-related input/output
 
 
+  \bug Can not update applications tests for AppendDimacs
+  <ul>
+   <li> The output can not be easily inspected to see what is the case, and
+   what has to be changed. </li>
+   <li> Test-output, also in the error case, should not be that large. </li>
+   <li> After improving the test (just removing this irrelevant case, and
+   replacing it with various cases which test the various error conditions!),
+   the tests need to be updated. </li>
+  </ul>
+
+
   \todo Comprehensive statistics
   <ul>
    <li> We need urgently a tool which computes "all" statistics. </li>
