@@ -36,7 +36,7 @@ set -o errexit
 set -o nounset
 
 script_name="SplittingViaOKsolver"
-version_number=0.1.11
+version_number=0.1.12
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -48,7 +48,7 @@ data_preprocessing=PreprocessSplitting-O3-DNDEBUG
 echo "${script_name} in version ${version_number} started."
 
 mkdir ${directory}
-echo "Created directory ${directory}."
+echo -e "Created directory\n  ${directory}."
 cd ${directory}
 
 echo -n "Begin: " > Log
@@ -76,7 +76,7 @@ echo $(basename ${filename}) > F
 
 mkdir Instances
 
-echo -e "$(date): Running ${solver}, creating partial assignments\n in subdirectory \"Instances\"."
+echo -e "$(date): Running ${solver},\n  creating partial assignments in subdirectory \"Instances\"."
 echo "$(date): Started ${solver}." >> Log
 cd ..
 set +e
