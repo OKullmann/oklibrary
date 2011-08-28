@@ -34,18 +34,18 @@
 # output of the last solved instance, and Temp.pass contains the partial
 # assignment yielding Temp.cnf.
 
-# ProcessiCNF iCNF-file Process_dir
+# ProcessiCNF Process_dir
 
 # uses the already created Process_dir (created by a previous invocation
 # of that script) to continue an interrupted processing.
 # For the final running time, as stored in Result, currently only the last run
-# is used.)
+# is used.
 
+# Some general remarks:
 # Currently usage of minisat-2.2.0 is hardcoded.
 # Evaluation of the file SubinstanceStatistics (in R) via
 # read_processsplit_minisat.
-
-# Remarks: From a directory D obtained via SplittingViaOKsolver we obtain the
+# From a directory D obtained via SplittingViaOKsolver we obtain the
 # two related iCNF-files via "ExtractiCNF D" (for the complete partial
 # assignments) and "ExtractDecisionsiCNF D" (now the partial assignments
 # contain only the decision assignments).
@@ -59,32 +59,27 @@ version_number=0.1
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
-if [[ $# -eq 0 ]]; then
-  echo "ERROR[${script_name}]: At least one parameter is needed, the file to be processed."
-  exit 1
-fi
-if [[ $# -ge 3 ]]; then
-  echo -e "ERROR[${script_name}]: At most two parameters are allowed:\n - the file to be processed\n - the already existing processing-directory."
+if [[ $# -ne 1 ]]; then
+  echo -e "ERROR[${script_name}]: Exactly one parameter is needed, which is:\n - either the file to be processed\n - or the already existing processing-directory."
   exit 1
 fi
 
 solver=minisat-2.2.0
 extraction_tool=ExtractMinisat
 
-icnf="$1"
-
 trap '' INT
 
-if [[ $# -eq 2 ]]; then
-  directory=$2
+if [ -d $1 ]; then
+  directory=$1
   echo "Using existing processing-directory ${directory}."
   cd ${directory}
   echo -n "Continuation: " >> Log
   date >> Log
   start=$(cat current_subinstance)
 else
+  icnf="$1"
   if [ ! -f ${icnf} ]; then
-    echo "ERROR[${script_name}]: the first argument must be a file."
+    echo "ERROR[${script_name}]: the first argument must be a file (or a directory)."
     exit 1
   fi
   directory="Process_$(basename ${icnf})_${timestamp}"
