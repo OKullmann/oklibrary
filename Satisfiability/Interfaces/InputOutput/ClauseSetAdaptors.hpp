@@ -405,7 +405,7 @@ namespace OKlib {
       \class CLSAdaptorFullStatistics
       \brief Adaptor for clause-sets which gathers "all" statistics
 
-      Additional to CLSAdaptorStatistics, now the clause-lengths of
+      Additional to CLSAdaptorPreciseStatistics, now the clause-lengths of
       non-tautological clauses are determined in the data member stat.
     */
 
@@ -418,6 +418,9 @@ namespace OKlib {
       typedef typename statistics_type::map_type::size_type size_type;
 
       statistics_type stat;
+      int_type max_var_index;
+      std::set<int_type> var;
+      CLSAdaptorFullStatistics() : max_var_index(-1) {}
 
       void comment(const string_type&) { stat.stat.commentsadd(1); }
       void n(const int_type pn) {
@@ -425,7 +428,11 @@ namespace OKlib {
         stat.clause_lengths.assign((size_type)pn+1,0);
       }
       void c(const int_type pc) { stat.stat.pc(pc); }
-      void finish() { stat.stat.finished(true); }
+      void finish() {
+        stat.stat.nmi(max_var_index);
+        stat.stat.n(var.size());
+        stat.stat.finished(true);
+      }
       void tautological_clause(const int_type t) {
         assert(t >= 2);
         stat.stat.tcadd(1);
@@ -434,10 +441,17 @@ namespace OKlib {
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type t) {
         stat.stat.cadd(1);
-        const int_type width = boost::distance(r);
+        stat.stat.l0add(t);
+        typedef typename boost::range_iterator<const ForwardRange>::type iterator;
+        const iterator end = boost::const_end(r);
+        int_type width = 0;
+        for (iterator i = boost::const_begin(r); i != end; ++i, ++width) {
+          const int_type underlying_var = std::abs(*i);
+          if (underlying_var > max_var_index) max_var_index = underlying_var;
+          var.insert(underlying_var);
+        }
         assert(width <= t);
         stat.stat.ladd(width);
-        stat.stat.l0add(t);
         ++stat.clause_lengths[width];
       }
 
