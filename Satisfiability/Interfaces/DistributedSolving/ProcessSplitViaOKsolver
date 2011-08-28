@@ -35,9 +35,8 @@
 
 # uses the already created Process_dir (created by a previous invocation
 # of that script) to continue an interrupted processing.
-# (Currently no un-interruptible parts are declared, but it seems practically
-# save to interrupt and restart a process. For the final running time, as
-# stored in Result, currently only the last run is used.)
+# For the final running time, as stored in Result, currently only the last
+# run is used.
 
 # Currently usage of minisat-2.2.0 is hardcoded.
 # Evaluation of the file SubinstanceStatistics (in R) via
@@ -48,7 +47,7 @@ set -o errexit
 set -o nounset
 
 script_name="ProcessSplitViaOKsolver"
-version_number=0.0.14
+version_number=0.1
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -65,6 +64,8 @@ solver=minisat-2.2.0
 extraction_tool=ExtractMinisat
 
 directory1=$1
+
+trap '' INT
 
 if [[ $# -eq 2 ]]; then
   directory2=$2
@@ -100,12 +101,15 @@ tail -n +$((start+1)) ${directory1}/Data | while read count F npa ndec; do
   echo -n "$count "
   cat ${instance_path} | ApplyPass-O3-DNDEBUG ${directory1}/Instances/$F ${directory2}/Temp.cnf
   set +e
+  trap - INT
   ${solver} ${directory2}/Temp.cnf >${directory2}/Temp.out 2>&1
   estatus=$?
+  trap '' INT
   set -e
   if [[ $estatus != 10 && $estatus != 20 ]]; then
     echo -n "ERROR: " >> ${directory2}/Log
     date >> ${directory2}/Log
+    echo "Count=${count}" >> ${directory2}/Log
     echo
     echo -e "UNEXPECTED RETURN VALUE ${estatus}.\n" | tee -a ${directory2}/Log
     exit 1
