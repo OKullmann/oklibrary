@@ -13,10 +13,9 @@ License, or any later version. */
   error). Extended Dimacs format allows identifiers as variable names.
 
   Optional option option:
-   - "f" for full output (showing all clause-lengths from 0 to n)
-   - "n" for no zeros (showing only the non-zero clause-lengths)
-   - "ni" for no_initfinal_zeros (skipping initial and final zeros;
-     the default).
+   - "az" for full output ("all zeros", showing all clause-lengths from 0 to n)
+   - "nz" for no zeros (showing only the non-zero clause-lengths; the default)
+   - "nifz" for no_initfinal_zeros (skipping initial and final zeros).
 
 */
 
@@ -32,14 +31,14 @@ namespace {
   const std::string program = "ExtendedDimacsFullStatistics";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2";
+  const std::string version = "0.2.1";
 
   using namespace OKlib::InputOutput;
 
   inline output_options translate_option(const std::string& opt) {
-    if (opt == "n") return no_zeros;
-    if (opt == "ni") return no_initfinal_zeros;
-    if (opt == "f") return full_output;
+    if (opt == "nz") return no_zeros;
+    if (opt == "nifz") return no_initfinal_zeros;
+    if (opt == "az") return full_output;
     return (output_options) 0;
   }
   const output_options default_option = no_zeros;
