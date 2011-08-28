@@ -28,7 +28,7 @@ License, or any later version. */
      <li> nz for no zeros (showing only the non-zero clause-lengths) </li>
      <li> nifz for no_initfinal_zeros (skipping initial and final zeros). </li>
     </ul
-   <li> The default is ed+nz. </li>
+   <li> The default is sd+nz. </li>
    <li> As usual, each parameter triggers an action, namely the corresponding
    setting of its flag. </li>
   </ul>
@@ -57,7 +57,7 @@ namespace {
   const std::string program = "ExtendedDimacsFullStatistics";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2.2";
+  const std::string version = "0.2.3";
 
   const std::string pnz = "nz"; // no_zeros
   const std::string pnifz = "nifz"; //no_initfinal_zeros
@@ -68,7 +68,7 @@ namespace {
   // Interfaces/InputOutput/ExtendedDimacsStatistics.cpp
   const std::string dime = "ed"; // extended Dimacs
   const std::string dims = "sd"; // strict Dimacs
-  bool extended_dimacs = true;
+  bool extended_dimacs = false;
 
 }
 
