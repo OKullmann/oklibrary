@@ -50,12 +50,12 @@ and_cs([L]) := apply(union,L)$
 
 /* All non-clashing unions of the clauses of two given clause-sets, which
    represents the "or" of the clause-sets as cnf's. */
-or_cs2(F1,F2) := 
+or_cs2(F1,F2) :=
  map(lunion,
   subset(cartesian_product(F1,F2), lambda([P],not clashp(P[1],P[2]))))$
 /* As n-ary operation: */
 or_cs([L]) := block([l : length(L)],
- if l = 0 then {{}} elseif l = 1 then L[1] 
+ if l = 0 then {{}} elseif l = 1 then L[1]
  else apply(or_cs, cons(or_cs2(L[1],L[2]), rest(L,2))))$
 
 
@@ -71,7 +71,7 @@ comp_cs(F) := map(comp_sl, F)$
 comp_cl(F) := map(comp_sl, F)$
 comp_fcs(FF) := [FF[1], comp_cs(FF[2])]$
 /* Remark: comp_cs(F) is the negation of F via de Morgan, that is,
-   if F is regarded as CNF, then comp_cs(F) as DNF is equivalent to the 
+   if F is regarded as CNF, then comp_cs(F) as DNF is equivalent to the
    negation of F (and vice versa).
 */
 
@@ -100,7 +100,7 @@ vardisjoint_sum_fcs([LFF]) := block([VD : make_vardisjoint_fcs(LFF)],
 vardisjoint_full_gluing(FF1,FF2) := block(
  [vd : make_vardisjoint_fcs([FF1, FF2]), GG1,GG2, n],
   [GG1,GG2] : vd[1], n : vd[2],
-  return([if FF1[2] = {} and FF2[2] = {} then {} else setn(n+1), 
+  return([if FF1[2] = {} and FF2[2] = {} then {} else setn(n+1),
           union(add_element(n+1,GG1[2]), add_element(-(n+1),GG2[2]))]))$
 
 /* Full gluing, keeping the old variables, but standardising them: */

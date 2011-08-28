@@ -116,7 +116,7 @@ create_hash_map(S) := block([h : hash_table_okl()],
 
 /* Given a hash-map, create the corresponding set-theoretical map
    (as a set of pairs). */
-create_set_map(h) := 
+create_set_map(h) :=
  setify(map(args,hash_table_data_okl(h)))$
 
 /* The IMPROVED hash-map facilities */
@@ -172,7 +172,7 @@ lambda_hm(h) := buildq([h],lambda([x],ev_hm(h,x)))$
 
 /* The equivalents of the built-in functions: */
 
-okl_make_array(type,dim) := block([a : make_array(type,dim+1)], 
+okl_make_array(type,dim) := block([a : make_array(type,dim+1)],
   a[0] : dim, a)$
 /* Remark: the possibilities for "type" are
   fixnum, flonum, any.
@@ -279,7 +279,7 @@ multi_list_distribution2list_distribution(L) := block([h : sm2hm({})],
   get_distribution(h))$
 /* As an example we have:
      multi_list_distribution2list_distribution(
-       [[1,5],[2,3],[1,6],[2,1]]) = [[1,11],[2,4]] 
+       [[1,5],[2,3],[1,6],[2,1]]) = [[1,11],[2,4]]
 */
 
 /* In the special case, where the x are numerical, we could do as

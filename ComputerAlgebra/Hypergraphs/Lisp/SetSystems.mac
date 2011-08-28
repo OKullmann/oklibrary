@@ -160,7 +160,7 @@ all_ord_tuples_l(X,k) := listify(setify(map(sort, all_tuples_l(X,k))))$
    The order is first by range (lexicographically),
    then lexicographically.
 */
-kpermutations(S,k) := 
+kpermutations(S,k) :=
  lappend(create_list(listify(permutations(s)),s,listify(powerset(S,k))))$
 /* Remark: permutations(S) = setify(kpermutations(S,length(S))). */
 
@@ -176,8 +176,8 @@ elseif length(L) <= 200 then block([R : rest(L), res : []],
  for x in L unless emptyp(R) do (
    res : append(res,create_list([x,y],y,R)), R : rest(R)),
  res)
-else block([A : l2ary(L)], 
-  create_list([A[first(p)],A[second(p)]], 
+else block([A : l2ary(L)],
+  create_list([A[first(p)],A[second(p)]],
               p,listify(powerset(setn(length(L)),2))))$
 
 
@@ -192,16 +192,16 @@ else block([A : l2ary(L)],
 has_empty_element(S) := some_s(emptyp, S)$
 empty_element_p(S) := some_s(emptyp, S)$
 
-/* Given a list of sets, computes the first pair of indices of non-disjoint 
+/* Given a list of sets, computes the first pair of indices of non-disjoint
    elements (and the empty list if there is no such pair): */
 non_disjoint_pair(L) := block([a : l2array(L), l : length(L), found : false, res : []],
-  for i : 1 thru l-1 unless found do block([A : a[i]], 
+  for i : 1 thru l-1 unless found do block([A : a[i]],
     for j : i+1 thru l unless found do
       if not disjointp(A, a[j]) then (res : [i,j], found : true)),
   return(res))$
 /* Now returning the list of all pairs (in lecicographical order): */
 non_disjoint_pairs(L) := block([a : l2array(L), l : length(L), res : []],
-  for i : 1 thru l-1 do block([A : a[i]], 
+  for i : 1 thru l-1 do block([A : a[i]],
     for j : i+1 thru l do
       if not disjointp(A, a[j]) then res : cons([i,j],res)),
   return(reverse(res)))$
@@ -236,7 +236,7 @@ antichain_p(S) := is_antichain(S)$
    *****************************************
 */
 
-/* remove_with_element(S,a) is the subset of S of all sets not containing 
+/* remove_with_element(S,a) is the subset of S of all sets not containing
    element a: */
 remove_with_element(S,a) := subset(S, lambda([s], not elementp(a,s)))$
 /* The same, but for a list L of sets: */

@@ -40,7 +40,7 @@ License, or any later version. */
      <li> sat_musat(FF) for satisfiable FF </li>
     </ol>
    </li>
-   <li> In ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac
+   <li> In ComputerAlgebra/Satisfiability/Lisp/Generators/Pigeonhole.mac
    we have, besides the hitting clause-sets:
     <ol>
      <li> weak_php_fcs(n+1,n) </li>

@@ -18,6 +18,11 @@ License, or any later version. */
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
    the following topics are handled:
     - Update milestones
+    - Split Generators/Generators.mac : DONE
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/Pigeonhole.hpp
+   the following topics are handled:
     - Extended Resolution clauses for the Pigeon Hole Principle
     - Add tests for weak_php_ext_fcs : DONE
 
