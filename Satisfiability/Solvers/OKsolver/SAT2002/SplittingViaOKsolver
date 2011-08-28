@@ -117,6 +117,7 @@ done
 cd ..
 echo ${current_md5sum} > Md5sum
 echo "$(date): Completed computation of md5sum." | tee -a Log
+# Remark: the file Instances/decisions is last in the order.
 
 echo -n "Completed: " >> Log
 date >> Log
