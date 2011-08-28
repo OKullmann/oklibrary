@@ -78,3 +78,5 @@ while [[ ${seed} -le ${maximum_seed} ]]; do
   fi
   seed=$(expr ${seed} + 1)
 done
+
+exit 0
