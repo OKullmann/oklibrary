@@ -21,6 +21,18 @@ License, or any later version. */
   </ul>
 
 
+  \todo Strange tool statistics_add_missing_clause_lengths.awk
+  <ul>
+   <li> First, it needs at least the usual safety-settings. </li>
+   <li> And even for such tiny programs, the usual coding standards must be
+   adhered to. </li>
+   <li> Then, what is the motivation for this? </li>
+   <li> Likely, it should be removed. </li>
+   <li> Cluttering the OKlibrary with such strange hacks should be avoided.
+   </li>
+  </ul>
+
+
   \todo Comprehensive statistics
   <ul>
    <li> We need urgently a tool which computes "all" statistics. </li>
