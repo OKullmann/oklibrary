@@ -13,14 +13,14 @@ License, or any later version. */
   error). Extended Dimacs format allows identifiers as variable names.
 
   <ul>
-   <li> An arbitrary number of parameters is allowed, each must be one of the
-   strings up, ip, ed, sd. </li>
+   <li> An arbitrary number of parameters is allowed. </li>
+   <li> Each must be one of the strings up, ip, ed, sd. </li>
    <li> up means use the parameter of the p-line (also for checking). </li>
    <li> ip means to ignore these parameters: the line is skipped (thus there
    must be a line), and no checks are performed. </li>
    <li> ed means extended Dimacs format which allows identifiers as variable
-   names. This means that variables are considered just as names, and are
-   implicitly numbered (consecutively), and so automatically n=nmi holds. </li>
+   names. That is, variables are considered just as names, and are implicitly
+   numbered (consecutively), and so automatically n=nmi holds. </li>
    <li> sd means to use strict Dimacs format, where variables now must be
    natural numbers (and here we have only n <= nmi). </li>
    <li> The default is up+ed. </li>
