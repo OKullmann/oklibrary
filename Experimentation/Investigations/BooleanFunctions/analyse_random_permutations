@@ -28,10 +28,10 @@ set -o errexit
 set -o nounset
 
 script_name="analyse_random_permutations"
-version_number="0.1.5"
+version_number="0.1.6"
 err="ERROR[${script_name}]:"
 
-qmc_scriptname="QuineMcCluskeySubsumptionHypergraphFullStatistics-n"
+qmc_program="QuineMcCluskeySubsumptionHypergraphFullStatistics-n"
 cnf_filename=Permutation_full.cnf
 maxima_log_filename=maxima_log
 
@@ -53,8 +53,8 @@ else
   maximum_seed=4294967296 # 2^32
 fi
 
-if ! type -P ${qmc_scriptname}${num_vars}-O3-DNDEBUG > /dev/null; then
-    echo "${err} ${qmc_scriptname}${num_vars}-O3-DNDEBUG doesn't exist."
+if ! type -P ${qmc_program}${num_vars}-O3-DNDEBUG > /dev/null; then
+    echo "${err} ${qmc_program}${num_vars}-O3-DNDEBUG doesn't exist."
     echo "Compile this executable and rerun the script."
     exit 1
 fi
@@ -72,7 +72,7 @@ while [[ ${seed} -le ${maximum_seed} ]]; do
     oklib --maxima --batch-string='"oklib_load(\"OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Permutations.mac\"); set_random('${seed}'); P : random_permutation(create_list(i,i,1,2^'${exp_power}')); output_perm_fullcnf_stdname(P);"' > ${maxima_log_filename}
 
     # Compute *full* statistics with all leading zeroes.
-    ${qmc_scriptname}${num_vars}-O3-DNDEBUG ${cnf_filename} f
+    ${qmc_program}${num_vars}-O3-DNDEBUG ${cnf_filename} f
 
     cd ../
   fi
