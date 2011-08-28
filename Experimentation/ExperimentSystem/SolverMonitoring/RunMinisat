@@ -35,7 +35,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunMinisat"
-version_number=0.0.8
+version_number=0.0.9
 
 if ([ $# -ne 1 ]) then
   echo -e "ERROR[${script_name}]: Exactly one parameter is needed, the instance.\n"
@@ -80,6 +80,7 @@ set -e
 if [[ $estatus != 10 && $estatus != 20 ]]; then
   if [[ $estatus -eq 0 ]]; then
     echo -n "INTERRUPT: " >> Log
+    cat Result | ${extraction_tool} > Statistics
   else
     echo -n "ERROR: " >> Log
   fi
