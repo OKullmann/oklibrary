@@ -32,6 +32,15 @@ display_seconds = function(x) {
   paste(round(x,4),"y")
 }
 
+# Removes leading and trailing whitespaces from string x:
+trim = function(x) gsub("^\\s+|\\s+$", "", x)
+
+# The number of strings in the first line in the file with name f:
+lengthfirstline = function(f) {
+  length(unlist(strsplit(trim(readLines(f,1)), " ")))
+}
+
+
 # For the object obtained by lm, print a shorter summary:
 short_summary_lm = function(L) {
   S = summary(L)
@@ -53,6 +62,10 @@ short_summary_lm = function(L) {
 # dirname and file can also be specified explicitly.
 # Via summary(E) one obtains a reasonable summary, and via plot(E) one
 # can view it.
+# Can be used for the directory obtained when processing the complete
+# partial assignments (ProcessSplitViaOKsolver, or ExtractiCNF followed by
+# ProcessiCNF) as well as for the directory obtained when processing only the
+# decisions (ExtractDecisionsiCNF followed by ProcessiCNF).
 read_processsplit_minisat = function(dirname, file, ...)  {
   if (missing(file)) {
     if (missing(dirname)) filename = "SubinstanceStatistics"
@@ -64,7 +77,7 @@ read_processsplit_minisat = function(dirname, file, ...)  {
   }
   E = read.table(file = filename,
         header = T,
-        colClasses = c(rep("integer",6),"numeric","integer",rep("numeric",8)),
+        colClasses = c(rep("integer",lengthfirstline(filename)-8-1),"numeric","integer",rep("numeric",8)),
         ...)
   cat(sprintf("%d: %s, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),display_seconds(sum(E$t)),sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
   cat("$t:\n")
