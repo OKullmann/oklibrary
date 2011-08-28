@@ -55,7 +55,7 @@ fi
 
 if ! type -P ${qmc_scriptname}${num_vars}-O3-DNDEBUG > /dev/null; then
     echo "${err} ${qmc_scriptname}${num_vars}-O3-DNDEBUG doesn't exist."
-    echo "Please compile this executable and rerun the script."
+    echo "Compile this executable and rerun the script."
     exit 1
 fi
 
@@ -63,7 +63,7 @@ while [[ ${seed} -le ${maximum_seed} ]]; do
   exp_dir=${exp_dir_prefix}${exp_power}_${seed}
   if [[ -e ${exp_dir} ]]; then 
     echo "Skipping seed=" ${seed} ". It already exists!"
-    echo "If this is not the case, please delete '${exp_dir}'."
+    echo "If this is not the case, delete '${exp_dir}'."
   else
     echo "Computing statistics for random permutation with seed ${seed} ..."
     mkdir ${exp_dir} && cd ${exp_dir}
