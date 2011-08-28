@@ -9,7 +9,7 @@
 # Processing of a directory produced by SplitViaOKsolver.
 # Two modes of usage:
 
-# ProcessiSplitViaOKsolver iCNF-file
+# ProcessiCNF iCNF-file
 
 # creates the experiment-directory "Process_filename_timestamp"
 # (in the current directory) containing the files
@@ -19,6 +19,8 @@
 #  - Environment: information on the computer environment
 #  - current_subinstance: starting with 1, the index of the next sub-instance
 #    to be solved
+#  - F.cnf: the cnf-file for the base instance
+#  - F.splitting: per line the partial assignments, in Dimacs format
 #  - SubinstanceStatistics: in R-format the collected data
 #  - If a satisfiable sub-instance was found, then in file
 #    SatisfyingAssignments for each satisfiable sub-instance one has a line
@@ -28,25 +30,30 @@
 #    the instance was determined satisfiable or unsatisfiable, and the total
 #    running time (the sum of process times for all processes involved).
 # Furthermore Temp.cnf contains the instance (after application of the
-# partial assignment) currently solved, and Temp.out contains the solver
-# output of the last solved instance.
+# partial assignment) currently solved, Temp.out contains the solver
+# output of the last solved instance, and Temp.pass contains the partial
+# assignment yielding Temp.cnf.
 
-# ProcessiSplitViaOKsolver iCNF-file Process_dir
+# ProcessiCNF iCNF-file Process_dir
 
 # uses the already created Process_dir (created by a previous invocation
 # of that script) to continue an interrupted processing.
-# (Currently no un-interruptible parts are declared, but it seems practically
-# save to interrupt and restart a process. For the final running time, as
-# stored in Result, currently only the last run is used.)
+# For the final running time, as stored in Result, currently only the last run
+# is used.)
 
 # Currently usage of minisat-2.2.0 is hardcoded.
+
+# Remarks: From a directory D obtained via SplittingViaOKsolver we obtain the
+# two related iCNF-files via "ExtractiCNF D" (for the complete partial
+# assignments) and "ExtractDecisionsiCNF D" (now the partial assignments
+# contain only the decision assignments).
 
 
 set -o errexit
 set -o nounset
 
 script_name="ProcessiCNF"
-version_number=0.0.5
+version_number=0.1
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -64,9 +71,11 @@ extraction_tool=ExtractMinisat
 
 icnf="$1"
 
+trap '' INT
+
 if [[ $# -eq 2 ]]; then
   directory=$2
-  echo "Using existing processing-directory ${directory2}."
+  echo "Using existing processing-directory ${directory}."
   cd ${directory}
   echo -n "Continuation: " >> Log
   date >> Log
@@ -92,7 +101,7 @@ else
   free -m >> Environment
   start=1
   echo "${start}" >> current_subinstance
-  echo -n " i npa " > SubinstanceStatistics
+  echo -n " npa " > SubinstanceStatistics
   ${extraction_tool} header-only >> SubinstanceStatistics
 
   csplit --quiet ../${icnf} "/^a/"
@@ -102,52 +111,57 @@ else
   c=$(echo ${tempout} | cut -d " " -f 5)
   sed -e "/^p inccnf/cc ${script_name}: version ${version_number}; $(date)\\np cnf ${nmi} ${c}" -i F.cnf
   mv xx01 F.splitting
-  sed -e 's/^a/v/' -i F.splitting
+  sed -e 's/^a \(.*\)/v \1 0/' -i F.splitting
 fi
 
-exit 1
+count=${start}
 
-
-
-tail -n +$((start+1)) ${directory1}/Data | while read count F npa ndec; do
-
+tail -n +${start} F.splitting | while read line; do
   echo -n "$count "
-  cat ${instance_path} | ApplyPass-O3-DNDEBUG ${directory1}/Instances/$F ${directory2}/Temp.cnf
+  nvar=$(echo ${line} | wc -w)
+  let nvar-=2
+  echo ${line} > Temp.pass
+  cat F.cnf | ApplyPass-O3-DNDEBUG Temp.pass Temp.cnf
+
   set +e
-  ${solver} ${directory2}/Temp.cnf >${directory2}/Temp.out 2>&1
+  trap - INT
+  ${solver} Temp.cnf >Temp.out 2>&1
   estatus=$?
+  trap '' INT
   set -e
   if [[ $estatus != 10 && $estatus != 20 ]]; then
-    echo -n "ERROR: " >> ${directory2}/Log
-    date >> ${directory2}/Log
+    echo -n "ERROR: " >> Log
+    date >> Log
+    echo "Count=${count}" >> Log
     echo
-    echo -e "UNEXPECTED RETURN VALUE ${estatus}.\n" | tee -a ${directory2}/Log
+    echo -e "UNEXPECTED RETURN VALUE ${estatus}.\n" | tee -a Log
     exit 1
   fi
 
-  echo -n "${count} ${F} ${npa} ${ndec} " >> ${directory2}/SubinstanceStatistics
-  cat ${directory2}/Temp.out | ${extraction_tool} data-only >> ${directory2}/SubinstanceStatistics
+  echo -n "${count} ${nvar} " >> SubinstanceStatistics
+  cat Temp.out | ${extraction_tool} data-only >> SubinstanceStatistics
   if [[ $estatus == 10 ]]; then
     echo -e "\nFound a SATISFYING ASSIGNMENT."
-    echo "${count} ${F}" >> ${directory2}/SatisfyingAssignments
+    echo "${count} ${F}" >> SatisfyingAssignments
   fi
-  echo $((count+1)) > ${directory2}/current_subinstance
+  let ++count
+  echo ${count} > current_subinstance
 
 done
 
-echo -e "\nCOMPLETED; see\n ${directory2}/Result\n ${directory2}/SubinstanceStatistics"
+echo -e "\nCOMPLETED; see\n ${directory}/Result\n ${directory}/SubinstanceStatistics"
 
-if [[ -e ${directory2}/SatisfyingAssignments ]]; then
+if [[ -e SatisfyingAssignments ]]; then
   echo "Instance SATISFIABLE."
-  echo "SATISFIABLE" > ${directory2}/Result
-  echo "Found $(cat ${directory2}/SatisfyingAssignments | wc -l) satisfiable sub-instances." >> ${directory2}/Result
+  echo "SATISFIABLE" > Result
+  echo "Found $(cat SatisfyingAssignments | wc -l) satisfiable sub-instances." >> Result
 else
   echo "Instance UNSATISFIABLE."
-  echo "UNSATISFIABLE" > ${directory2}/Result
+  echo "UNSATISFIABLE" > Result
 fi
-ps p $$ k time S >> ${directory2}/Result
+ps p $$ k time S >> Result
 
-echo -n "Completed: " >> ${directory2}/Log
-date >> ${directory2}/Log
+echo -n "Completed: " >> Log
+date >> Log
 
 exit 0
