@@ -42,6 +42,8 @@
 # is used.)
 
 # Currently usage of minisat-2.2.0 is hardcoded.
+# Evaluation of the file SubinstanceStatistics (in R) via
+# read_processsplit_minisat.
 
 # Remarks: From a directory D obtained via SplittingViaOKsolver we obtain the
 # two related iCNF-files via "ExtractiCNF D" (for the complete partial
