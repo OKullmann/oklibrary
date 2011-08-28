@@ -46,7 +46,7 @@ set -o errexit
 set -o nounset
 
 script_name="ProcessiCNF"
-version_number=0.0.4
+version_number=0.0.5
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -62,7 +62,7 @@ fi
 solver=minisat-2.2.0
 extraction_tool=ExtractMinisat
 
-icnf=$1
+icnf="$1"
 
 if [[ $# -eq 2 ]]; then
   directory=$2
@@ -72,6 +72,10 @@ if [[ $# -eq 2 ]]; then
   date >> Log
   start=$(cat current_subinstance)
 else
+  if [ ! -f ${icnf} ]; then
+    echo "ERROR[${script_name}]: the first argument must be a file."
+    exit 1
+  fi
   directory="Process_$(basename ${icnf})_${timestamp}"
   mkdir ${directory}
   echo "Created new processing-directory ${directory}."
@@ -90,8 +94,13 @@ else
   echo "${start}" >> current_subinstance
   echo -n " i npa " > SubinstanceStatistics
   ${extraction_tool} header-only >> SubinstanceStatistics
+
   csplit --quiet ../${icnf} "/^a/"
   mv xx00 F.cnf
+  tempout="$(cat F.cnf | ExtendedDimacsStatistics-O3-DNDEBUG ip | tail -n +2)"
+  nmi=$(echo ${tempout} | cut -d " " -f 4)
+  c=$(echo ${tempout} | cut -d " " -f 5)
+  sed -e "/^p inccnf/cc ${script_name}: version ${version_number}; $(date)\\np cnf ${nmi} ${c}" -i F.cnf
   mv xx01 F.splitting
   sed -e 's/^a/v/' -i F.splitting
 fi
