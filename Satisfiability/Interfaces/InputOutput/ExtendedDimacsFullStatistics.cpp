@@ -12,10 +12,36 @@ License, or any later version. */
   Reads from standard input, and writes to standard output (and standard
   error). Extended Dimacs format allows identifiers as variable names.
 
-  Optional option option:
-   - "az" for full output ("all zeros", showing all clause-lengths from 0 to n)
-   - "nz" for no zeros (showing only the non-zero clause-lengths; the default)
-   - "nifz" for no_initfinal_zeros (skipping initial and final zeros).
+  <ul>
+   <li> An arbitrary number of parameters is allowed. </li>
+   <li> Each must be one of the strings ed, sd, az, nz, nifz. </li>
+   <li> ed means extended Dimacs format which allows identifiers as variable
+   names. That is, variables are considered just as names, and are implicitly
+   numbered (consecutively), and so automatically n=nmi holds. </li>
+   <li> sd means to use strict Dimacs format, where variables now must be
+   natural numbers (and here we have only n <= nmi). </li>
+   <li> The parameters az, nz, nifz affect the handling of clause-lengths with
+   zero occurence counts:
+    <ul>
+     <li> az for full output ("all zeros", showing all clause-lengths from 0
+     to n) </li>
+     <li> nz for no zeros (showing only the non-zero clause-lengths) </li>
+     <li> nifz for no_initfinal_zeros (skipping initial and final zeros). </li>
+    </ul
+   <li> The default is ed+nz. </li>
+   <li> As usual, each parameter triggers an action, namely the corresponding
+   setting of its flag. </li>
+  </ul>
+
+
+  \todo Sharing with InputOutput/ExtendedDimacsStatistics.cpp
+  <ul>
+   <li> The basic input options are shared with
+   Interfaces/InputOutput/ExtendedDimacsStatistics.cpp. </li>
+   <li> Once we have (re-)established a system for handling command-line
+   parameters, this sharing should be made explicit, via some commonly used
+   components. </li>
+  </ul>
 
 */
 
@@ -27,35 +53,46 @@ License, or any later version. */
 
 namespace {
 
-  enum { errcode_parameter_values = 1 };
+  enum { errcode_parameter = 1 };
   const std::string program = "ExtendedDimacsFullStatistics";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2.1";
+  const std::string version = "0.2.2";
 
-  using namespace OKlib::InputOutput;
+  const std::string pnz = "nz"; // no_zeros
+  const std::string pnifz = "nifz"; //no_initfinal_zeros
+  const std::string paz = "az"; // full_output
+  OKlib::InputOutput::output_options zeros_option = OKlib::InputOutput::no_zeros;
 
-  inline output_options translate_option(const std::string& opt) {
-    if (opt == "nz") return no_zeros;
-    if (opt == "nifz") return no_initfinal_zeros;
-    if (opt == "az") return full_output;
-    return (output_options) 0;
-  }
-  const output_options default_option = no_zeros;
+  // the following should coincide with
+  // Interfaces/InputOutput/ExtendedDimacsStatistics.cpp
+  const std::string dime = "ed"; // extended Dimacs
+  const std::string dims = "sd"; // strict Dimacs
+  bool extended_dimacs = true;
+
 }
 
 int main(const int argc, const char* const argv[]) {
-  typedef CLSAdaptorFullStatistics<> CLSAdaptor;
+  typedef OKlib::InputOutput::CLSAdaptorFullStatistics<> CLSAdaptor;
   CLSAdaptor output;
-  if (argc > 1) {
-    const output_options opt = translate_option(argv[1]);
-    if (opt != (output_options) 0) output.stat.option = opt;
+  for (int i = 1; i < argc; ++i)
+    if (argv[i] == dime) extended_dimacs = true;
+    else if (argv[i] == dims) extended_dimacs = false;
+    else if (argv[i] == pnz) zeros_option = OKlib::InputOutput::no_zeros;
+    else if (argv[i] == pnifz) zeros_option = OKlib::InputOutput::no_initfinal_zeros;
+    else if (argv[i] == paz) zeros_option = OKlib::InputOutput::full_output;
     else {
-      std::cerr << err << "If an option is given, it must be one of \"n\", \"ni\" or \"f\".\n";
-      return(errcode_parameter_values);
-    }
+      std::cerr << err << "Parameters must be one of\n \"" <<
+        dime << "\", \"" << dims << "\", \"" <<
+        pnz << "\", \"" << pnifz << "\", \"" << paz <<
+        "\", but we have \"" << argv[i] << "\" at position " << i << ".\n";
+    return errcode_parameter;
   }
-  else output.stat.option = default_option;
-  StandardDIMACSInput<CLSAdaptor, LiteralReadingExtended>(std::cin, output);
+
+  output.stat.option = zeros_option;
+  if (extended_dimacs)
+    OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor, OKlib::InputOutput::LiteralReadingExtended>(std::cin, output);
+  else
+    OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor, OKlib::InputOutput::LiteralReadingStrict>(std::cin, output);
   std::cout << output.stat;
 }
