@@ -43,7 +43,7 @@ namespace {
   const std::string program = "ExtendedDimacsStatistics";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2.1";
+  const std::string version = "0.2.2";
 
   const std::string pvt = "up"; // use parameter
   const std::string pvf = "ip"; // ignore parameter
@@ -69,7 +69,7 @@ int main(const int argc, const char* const argv[]) {
   CLSAdaptor output;
   if (extended_dimacs)
     OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor, OKlib::InputOutput::LiteralReadingExtended>(std::cin, output, use_parameter);
-  else if (not extended_dimacs)
+  else
     OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor, OKlib::InputOutput::LiteralReadingStrict>(std::cin, output, use_parameter);
   std::cout << output.stat << "\n";
 }
