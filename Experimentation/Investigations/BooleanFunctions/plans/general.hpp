@@ -104,6 +104,8 @@ maxima> for m : 1 while true do
    <li> Also the weak Bash-usage has to be corrected. </li>
    <li> And the other scripts in this directory need also to be corrected.
    </li>
+   <li> Every program and so on carries a proper name, and thus scripts use
+   capital letters. </li>
   </ul>
 
 
