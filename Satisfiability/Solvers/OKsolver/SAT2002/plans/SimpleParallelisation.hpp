@@ -20,12 +20,13 @@ License, or any later version. */
   </ul>
 
 
-  \todo Handling the information about the decision variables
+  \todo Handling the information about the decision variables : DONE
   <ul>
    <li> DONE
    The information on the number of decision variables needs to be added
    to the data file. </li>
-   <li> And we need a tool for extracting the CNF corresponding to the
+   <li> DONE (we have CollectingDecisions.cpp, which is sufficient for now)
+   And we need a tool for extracting the CNF corresponding to the
    collection of partial assignments as DNF; the dual or the negation
    (the difference is just whether we negate all literals or not; on its
    own not a big issue, but one should create a natural connection). </li>

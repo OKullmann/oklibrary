@@ -21,7 +21,7 @@ License, or any later version. */
   \par
    In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following
    topics are handled:
-    - Handling the information about the decision variables
+    - Handling the information about the decision variables : DONE
 
 
   \par Version 0.9.10
