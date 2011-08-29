@@ -27,27 +27,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo DONE
-  Splitting-output of only the decision variables
-  <ul>
-   <li> DONE (it is always stored)
-   Another switch is needed, off by default, which when activated yields
-   also output of only the decisions in the partial assignments. </li>
-   <li> DONE (we store it in the file Instances/decisions)
-   For the directory-form this yields another sub-directory, calling
-   it "Instances_only_decisions". </li>
-   <li> DONE (using the suffix "_decisions")
-   For the file-form this yields another file, named as the file already
-   used, but with prefix "DecisionsOnly_". </li>
-   <li> DONE
-   Now SplittingViaOKsolver and ProcessSplitViaOKsolver need to be
-   updated; see "Handling the information about the decision variables" in
-   Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp and
-   "Option for using only the decision variables" in
-   Interfaces/DistributedSolving/plans/ProcessSplitViaOKsolver.hpp. </li>
-  </ul>
-
-
   \bug False counting of initial unit-clause eliminations
   <ul>
    <li> Counting of initial unit-clause propagations is not correct. </li>

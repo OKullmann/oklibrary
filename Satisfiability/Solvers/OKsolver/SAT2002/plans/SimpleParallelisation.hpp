@@ -20,19 +20,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Handling the information about the decision variables : DONE
-  <ul>
-   <li> DONE
-   The information on the number of decision variables needs to be added
-   to the data file. </li>
-   <li> DONE (we have CollectingDecisions.cpp, which is sufficient for now)
-   And we need a tool for extracting the CNF corresponding to the
-   collection of partial assignments as DNF; the dual or the negation
-   (the difference is just whether we negate all literals or not; on its
-   own not a big issue, but one should create a natural connection). </li>
-  </ul>
-
-
   \todo The order of the md5sum-computation (SplittingViaOKsolver)
   <ul>
    <li> The files are not processed in numerical order (unlike with
@@ -97,21 +84,6 @@ License, or any later version. */
    <li> DONE (also sorting the lines now)
    The computation of file Data is very slow: we need a little C++
    application for it. </li>
-  </ul>
-
-
-  \todo DONE
-  Taking the length of the partial assignments into account
-  <ul>
-   <li> An alternative interpretation of the depth-parameter for the OKsolver
-   is needed:
-    <ol>
-     <li> Not the depth of the tree, but the size of the partial assignment.
-     </li>
-     <li> As soon as the size is reached, splitting occurs. </li>
-     <li> This should make more balanced splitting possible. </li>
-    </ol>
-   </li>
   </ul>
 
 

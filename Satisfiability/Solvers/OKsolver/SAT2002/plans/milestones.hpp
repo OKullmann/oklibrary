@@ -8,20 +8,7 @@ License, or any later version. */
 /*!
   \file Solvers/OKsolver/SAT2002/plans/milestones.hpp
   
-  \module_version OKsolver/SAT2002 0.9.8.2 (29.8.2011)
-
-
-  \par Version 0.9.9
-
-  \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
-   are handled:
-    - Spliting-output of only the decision variables : DONE
-
-  \par
-   In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following
-   topics are handled:
-    - Handling the information about the decision variables : DONE
+  \module_version OKsolver/SAT2002 0.9.9 (29.8.2011)
 
 
   \par Version 0.9.10
@@ -30,7 +17,6 @@ License, or any later version. */
    In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following
    topics are handled:
     - Splitting-output in iCNF format
-    - Taking the length of the partial assignments into account : DONE
     - Script for applying partial assignments
 
 
@@ -387,6 +373,7 @@ License, or any later version. */
    - 0.9.6 : 15.8.2009; improved monitoring output, improved documentation, some local code improvements, more plans on extensions.
    - 0.9.7 : 23.4.2011; provided simple parallelisation by splitting, improved coding-style, improved output, improved time measurement, clean-up of code, various plans developed.
    - 0.9.8 : 19.5.2011; implemented tool SplittingViaOKsolver for managing the splitting option, and started experimentation.
+   - 0.9.9 : 29.8.2011; improvements on the splitting productions and tools to handle it, established a complete toolset, plus editorial improvements of the OKsolver.
 
 */
 

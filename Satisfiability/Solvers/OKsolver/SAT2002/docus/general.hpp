@@ -494,6 +494,16 @@ CFLAGS="-UMACHINE_BITS_OKL"
    <li> See the documentation of <code>SplittingViaOKsolver</code>. </li>
    <li> To process the created splitting-directory, use
    <code>ProcessSplitViaOKsolver</code> (see the documentation). </li>
+   <li> To extract the spliting-information as an iCNF-file, use
+   <code>ExtractiCNF</code> (see the documentation). </li>
+   <li> If for splitting only the decision-assignments shall be used, use
+   <code>ExtractDecisionsiCNF</code> (see the documentation). </li>
+   <li> For processing an iCNF-file, we have <code>ProcessiCNF</code> (see the
+   documentation). Note that compared to <code>ProcessSplitViaOKsolver</code>
+   this has less information available. </li>
+   <li> In order to extract the decision-assignments into a DNF (which yields
+   an unsatisfiable tree-hitting clause-set) we have the application
+   <code>CollectingDecisions</code> (see the documentation). </li>
   </ul>
 
 */
