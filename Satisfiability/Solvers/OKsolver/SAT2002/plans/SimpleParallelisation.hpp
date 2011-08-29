@@ -20,6 +20,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo More information on the splittings
+  <ul>
+   <li> The information on the length of the partial assignments should
+   be directly computed and output by the OKsolver. </li>
+   <li> See "More information on the current path" in
+   Solvers/OKsolver/SAT2002/plans/general.hpp. </li>
+   <li> The sorting of Data should then be made optional. </li>
+  </ul>
+
+
   \todo The order of the md5sum-computation (SplittingViaOKsolver)
   <ul>
    <li> The files are not processed in numerical order (unlike with
@@ -58,7 +68,7 @@ License, or any later version. */
    InputOutput/ExtendedToStrictDimacs.cpp. See "Parameter handling" and
    "Extended Dimacs format" in
    Interfaces/InputOutput/plans/ExtendedToStrictDimacs.hpp. </li>
-   <li> Also the renaming should be shown in the comments, Or perhaps
+   <li> Also the renaming should be shown in the comments. Or perhaps
    better in an additional file? </li>
    <li> DONE
    After applying the partial assignment we have the correct number

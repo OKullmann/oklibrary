@@ -10,6 +10,34 @@ License, or any later version. */
   \brief Plans on the maintenance of the code for the old OKsolver
 
 
+  \todo More information on the current path
+  <ul>
+   <li> Currently we know the total number npa of assignments on the path and
+   the number d of decisions (the depth of the tree + 1). </li>
+   <li> It should not be too complicated to also provide the following
+   information for the current partial assignment (leading to the current
+   node):
+    <ol>
+     <li> the number npl of pure literals </li>
+     <li> the number naut of variable set by (non-trivial) autarkies </li>
+     <li> the number nr1 of variables set by r_1-reduction </li>
+     <li> the number nr2 of variables set by r_2-reduction. </li>
+    </ol>
+    We have then npa = d + npl + naut + nr1 + nr2. </li>
+    <li> This information should be output to a data-file with the splitting
+    option:
+     <ol>
+      <li> How to call the file? </li>
+      <li> One could add a new option, which contains the filename and which
+      triggers the output of the information. </li>
+      <li> But better we should always output the information. </li>
+      <li> How not another file in the Instances-directory. </li>
+      <li> So perhaps a file "Data" in the current directory. </li>
+     </ol>
+    </li>
+  </ul>
+
+
   \todo Splitting-output in iCNF format
   <ul>
    <li> See http://users.ics.tkk.fi/swiering/icnf/ . </li>
@@ -147,7 +175,7 @@ License, or any later version. */
    </li>
    <li> What to do with the generated .xml-files (for the tests)?
     <ol>
-     <li> 
+     <li>
      <li> DONE
      Likely best that the test-system removes them. </li>
      <li> DONE
@@ -443,7 +471,7 @@ License, or any later version. */
     <ol>
      <li> Typedefs are needed for the two classes of statistics variables:
      \verbatim
-extern long unsigned int Knoten, SingleKnoten, VerSingleKnoten, 
+extern long unsigned int Knoten, SingleKnoten, VerSingleKnoten,
   QuasiSingleKnoten, PureL, Autarkien, V1KlRed, FastAutarkien, InitEinerRed,
   neue2Klauseln, maxneue2K;
 extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
