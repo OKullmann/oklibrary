@@ -10,6 +10,19 @@ License, or any later version. */
   \brief General plans regarding monitoring solvers
 
 
+  \todo Improve docus
+  <ul>
+   <li> The docus at ExperimentSystem/SolverMonitoring/docus/general.hpp
+   must be improved. </li>
+   <li> Examples of how to use the experiment scripts and their outputs are
+   needed. </li>
+   <li> Full information on all solver data is needed. </li>
+   <li> Information on the methodology and best practice when using these
+   tools is needed, or at least links to other docus which provide this
+   information. </li>
+  </ul>
+
+
   \todo Running experiments
   <ul>
    <li> Currently we have RunMinisat. </li>
@@ -100,12 +113,12 @@ License, or any later version. */
     <li> ExtractGrasp.awk </li>
     <li> ExtractPicosat.awk </li>
     <li> ExtractArgosat.awk </li>
-    <li> ExtractMinisat.awk : DONE </li>
     <li> ExtractOKsolver.awk </li>
     <li> ExtractGlucose.awk </li>
     <li> ExtractPrecosat236.awk </li>
     <li> ExtractPrecosat570.awk </li>
     <li> ExtractSatz </li>
+    <li> ExtractMinisat.awk : DONE </li>
     <li> ExtractMarchpl : DONE </li>
    </ul>
    </li>
@@ -162,14 +175,12 @@ License, or any later version. */
    <li> Standardised column names:
     <ol>
      <li> n : integer, number of variables. </li>
-     <li> rn : integer, number of variables as reported by the solver. </li>
      <li> c : integer, number of clauses. </li>
-     <li> rc : integer, number of clauses, as reported by the solver. </li>
      <li> l : integer, number of literal occurrences. </li>
-     <li> rl : integer, number of literal occurrences, as reported by the
-     solver. </li>
-     <li> Such general measures (n, c and l) always refer to the original
-     input (not after preprocessing). </li>
+     <li> Some solver extraction scripts currently incorrectly use rn, rc and
+     rl to indicate "reported" values. However, scripts such as RunMinisat now
+     compute instance statistics, and so we just should just use n, c and l
+     as there are two distinct contexts. </li>
      <li> t : double, solution time (in seconds). </li>
      <li> sat : in {0,1,2} for UNSAT, SAT, UNKNOWN. </li>
      <li> nds : double, number of nodes for look-ahead solvers. </li>

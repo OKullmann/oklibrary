@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In ExperimentSystem/SolverMonitoring/plans/general.hpp the following topics
    are handled:
+    - Improve docus
     - Running experiments
     - Better summary statistics
     - Extraction tools
