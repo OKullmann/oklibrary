@@ -19,6 +19,7 @@ License, or any later version. */
     - Improve docus
     - Running experiments
     - Better summary statistics
+    - Standardising names and order of solver data columns
     - Understanding solver output
     - Extraction tools
 
