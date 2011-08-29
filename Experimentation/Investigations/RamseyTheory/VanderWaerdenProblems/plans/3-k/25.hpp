@@ -205,6 +205,28 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
    <li> pdvanderwaerden([3,25])[2] = 607 =(conj)
    vanderwaerden([3,25])-49. </li>
    <li> pdvanderwaerden([3,25])[1] = 586. </li>
+   <li> Statistics:
+   n=587:
+   \verbatim
+  n        c        l
+294    45779   204903
+ length   count
+      2     390
+      3   42281
+     13      35
+     25    3073
+   \endverbatim
+   n=608:
+   \verbatim
+  n        c        l
+304    49427   225828
+ length   count
+      2     101
+      3   45790
+     13      12
+     25    3524
+   \endverbatim
+   </li>
    <li> Certificates:
     <ol>
      <li> n=585:
@@ -246,9 +268,9 @@ OKplatform> RunVdW3k 25 623 rots 1000 5000000 Solution_n622
      <li> SplittingViaOKsolver, n=587:
      \verbatim
 > SplittingViaOKsolver -D45 VanDerWaerden_pd_2-3-25_587.cnf
-> cd SplitViaOKsolver_D45VanDerWaerden_pd_2325_587cnf_2011-08-22-004743/
+> cd SplitViaOKsolver_D45VanDerWaerden_pd_2325_587cnf_2011-08-28-183800
 > more Md5sum
-c7179b1f96b332f932ff01b1aad485bc
+84626bb6d8b4681f0c455c4209b82281
 > more Statistics
 > E=read.table("Data")
 > summary(E$n)
@@ -259,13 +281,16 @@ c7179b1f96b332f932ff01b1aad485bc
 1456  529  452  426  430  482  531  591  582  475  440  422  340  338  325  344
   61   62   63   64   65   66   67   68   69   70   73   86   89   97  101
  305  259  165  109   67   27   13    4    1    1    2    1    1    1    1
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   5.00   15.00   17.00   17.22   20.00   29.00
+> table(E$d)
+   5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20
+   1    5   17   34   68  136  235  366  505  674  799  886 1024  977  954  813
+  21   22   23   24   25   26   27   28   29
+ 631  447  286  152   63   25   15    5    2
 > more Result
-c initial_maximal_clause_length         25
-c initial_number_of_variables           294
-c initial_number_of_clauses             45779
-c initial_number_of_literal_occurrences 204903
-c number_of_2-clauses_after_reduction   390
-c running_time(sec)                     3925.0
+c running_time(sec)                     3624.9 (csltok)
 c number_of_nodes                       18239
 c number_of_quasi_single_nodes          0
 c number_of_2-reductions                2202
@@ -273,9 +298,10 @@ c number_of_pure_literals               0
 c number_of_autarkies                   0
 c max_tree_depth                        29
 c file_name                             VanDerWaerden_pd_2-3-25_587.cnf
-c splitting_directory                   SplitViaOKsolver_D45VanDerWaerden_pd_2325_587cnf_2011-08-22-004743/Instances
+c splitting_directory                   SplitViaOKsolver_D45VanDerWaerden_pd_2325_587cnf_2011-08-28-183800/Instances
 c splitting_cases                       9120
 
+# with older form of SplittingViaOKsolver:
 > ProcessSplitViaOKsolver SplitViaOKsolver_D45VanDerWaerden_pd_2325_587cnf_2011-08-22-004743
 323m06s
 > E=read_processsplit_minisat()
@@ -299,8 +325,77 @@ $t ~ $cfs:
 (Intercept) -5.8116e-02  2.2823e-03  -25.464 < 2.2e-16 ***
 E$cfs        7.0322e-05  4.8672e-08 1444.824 < 2.2e-16 ***
 R-squared: 0.9957
+
+# running again, with the newer version, and using the iCNF form now
+# (this is only for checking of the newly established tool:
+# ProcessSplitViaOKsolver is more powerful, since it records more statistics)
+> ExtractiCNF SplitViaOKsolver_D45VanDerWaerden_pd_2325_587cnf_2011-08-28-183800
+> ProcessiCNF SplitViaOKsolver_D45VanDerWaerden_pd_2325_587cnf_2011-08-28-183800/VanDerWaerden_pd_2-3-25_587.icnf
+353m47s (csltok; partially lower frequency)
+> E=read_processsplit_minisat()
+9120: 5.466h, sum-cfs=2.625604e+08, mean-t=2.157s, mean-cfs=28790
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+ 0.09298  0.63870  1.17300  2.15700  2.37100 70.98000
+sd= 3.127154
+     95%      96%      97%      98%      99%     100%
+ 7.01183  7.93559  9.45001 11.85030 15.64135 70.97920
+sum= 19676
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    231    9408   17680   28790   33540  950400
+sd= 37014.56
+      95%       96%       97%       98%       99%      100%
+ 89649.95  99894.72 120153.79 145636.56 189240.46 950354.00
+sum= 262560423
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -1.7895e-01  1.1533e-02 -15.517 < 2.2e-16 ***
+E$cfs        8.1155e-05  2.4594e-07 329.971 < 2.2e-16 ***
+R-squared: 0.9227
+
+# now with decisions only:
+> ExtractDecisionsiCNF SplitViaOKsolver_D45VanDerWaerden_pd_2325_587cnf_2011-08-28-183800/
+> ProcessiCNF SplitViaOKsolver_D45VanDerWaerden_pd_2325_587cnf_2011-08-28-183800/VanDerWaerden_pd_2-3-25_587_decisions.icnf
+321m:00s (csltok; likely stable frequency of 2.4GHz throughout)
+> E=read_processsplit_minisat()
+9120: 4.934h, sum-cfs=2.622482e+08, mean-t=1.948s, mean-cfs=28755
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 0.2610  0.7049  1.1850  1.9480  2.2110 58.3800
+sd= 2.432164
+      95%       96%       97%       98%       99%      100%
+ 5.830160  6.625230  7.841906  9.698344 12.513770 58.376100
+sum= 17761.73
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    256    9400   17660   28760   33580  793700
+sd= 36453.76
+      95%       96%       97%       98%       99%      100%
+ 89109.15 100048.60 119830.64 145343.84 186240.10 793735.00
+sum= 262248222
+$t ~ $cfs:
+              Estimate Std. Error  t value  Pr(>|t|)
+(Intercept) 3.3275e-02 2.1572e-03   15.425 < 2.2e-16 ***
+E$cfs       6.6571e-05 4.6462e-08 1432.810 < 2.2e-16 ***
+R-squared: 0.9956
      \endverbatim
-     </li>
+     So with just the decision-variables given, the problems appear to be
+     slightly easier? Or perhaps they are for minisat just the same, but also
+     that is somewhat surprising. </li>
+     <li> One needs to evaluate this data together with the data for the full
+     partial assignments. </li>
+     <li> Remark: The application of partial assignments does not update pn,
+     pc, and minisat warns about this, but using ExtendedToStrictDimacs
+     together with ManipParam shows that on the updated files (where variables
+     are numbered consecutively, and the parameter-values are precise) minisat
+     behaves identical. </li>
+     <li> Perhaps it is just the case that most of the inferred assignments are
+     obtained by unit-clause propagation. So a more complete analysis should
+     show per splitting three values: number of decision variables, number of
+     additional r_1-reductions, number of additional r_2-reductions. </li>
+     <li> It's likely easiest to just process the decision-only-assignments by
+     UCP, to get the number of additional r_1-reductions. </li>
      <li> For SplittingViaOKsolver, n=608, let's go first for D=30:
      \verbatim
 > SplittingViaOKsolver -D30 VanDerWaerden_pd_2-3-25_608.cnf
@@ -358,9 +453,9 @@ c max_tree_depth                        33
 c splitting_cases                       8347
 
 > SplittingViaOKsolver -D45 VanDerWaerden_pd_2-3-25_608.cnf
-> cd SplitViaOKsolver_D45SNVanDerWaerden_pd_2325_608cnf_2011-05-20-183549
+> cd SplitViaOKsolver_D45VanDerWaerden_pd_2325_608cnf_2011-08-28-185308
 > more Md5sum
-28f54b573829547370bc370a5a4e2809
+26c2f81d53b5348005ec7e0d41c6b341
 > more Statistics
 > E=read.table("Data")
 > summary(E$n)
@@ -371,22 +466,36 @@ c splitting_cases                       8347
 1915  628  723  773  830  834  794  825  780  700  724  674  635  541  518  441
   61   62   63   64   65   66
  434  318  217  110   41    7
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   5.00   16.00   19.00   19.44   23.00   36.00
+> table(E$d)
+   5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20
+   1    5   14   37   75  131  239  375  495  662  756  906 1025 1147 1173 1104
+  21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   36
+ 989  865  794  705  567  412  305  244  150   95   83   57   35   13    1    2
 > more Result
-c running_time(sec)                     10351.5
+c running_time(sec)                     11495.7 (cs-wsok)
 c number_of_nodes                       26923
 c number_of_2-reductions                1271
 c max_tree_depth                        36
 c splitting_cases                       13462
 
+# old run:
 > cd Instances
 > OKP=~/SAT-Algorithmen/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
 real    2987m55.420s
 user    2972m38.595s
 sys     11m37.584s
-
 # Monitoring in R via
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 13462: 48.77h, sum-cfs=1.428662e+09, mean-t=13.043s, mean-cfs=106126
+
+# running it again:
+# (this is only for checking of the newly established tool:
+# ProcessSplitViaOKsolver is more powerful, since it records more statistics)
+> ExtractiCNF SplitViaOKsolver_D45VanDerWaerden_pd_2325_608cnf_2011-08-28-185308/
+> ProcessiCNF SplitViaOKsolver_D45VanDerWaerden_pd_2325_608cnf_2011-08-28-185308/VanDerWaerden_pd_2-3-25_608.icnf
      \endverbatim
      Likely one should go higher (say, n=50 or n=55); but already here a big
      saving. </li>
