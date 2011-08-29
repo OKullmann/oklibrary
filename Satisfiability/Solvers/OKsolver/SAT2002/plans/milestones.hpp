@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Solvers/OKsolver/SAT2002/plans/milestones.hpp
   
-  \module_version OKsolver/SAT2002 0.9.8.1 (19.5.2011)
+  \module_version OKsolver/SAT2002 0.9.8.2 (29.8.2011)
 
 
   \par Version 0.9.9
@@ -16,7 +16,7 @@ License, or any later version. */
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics
    are handled:
-    - Spliting-output of only the decision variables
+    - Spliting-output of only the decision variables : DONE
 
   \par
    In Solvers/OKsolver/SAT2002/plans/SimpleParallelisation.hpp the following
