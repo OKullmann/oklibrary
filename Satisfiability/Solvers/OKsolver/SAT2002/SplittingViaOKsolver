@@ -23,8 +23,11 @@
 # - F : containing the value of File (note that File is a string-variable)
 # - Result : output of the OKsolver, after creating the instances
 # - N : the number of sub-instances
-# - Data : for indices 1 <= i <= N the number n of variables in the partial
-#          assignment for the i-th sub-instance, sorted by descending n
+# - Data : a header-line " i n d" (for "index", "variables", "depth"),
+#   followed per line, for indices 1 <= i <= N, by the number n of variables
+#   in the partial assignment for the i-th sub-instance and the number d of
+#   decision assignments, sorted by descending n (otherwise by increasing i);
+#   at the beginning of the line a running counter is added.
 # - Statistics : basic evaluation of Data
 # - Md5sum : a combined md5sum-hash-value of all files in Instances
 # And in the directory Instances we have files with names 1, ..., N,

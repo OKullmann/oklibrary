@@ -19,7 +19,10 @@
 #  - Environment: information on the computer environment
 #  - current_subinstance: starting with 1, the index of the next sub-instance
 #    to be solved
-#  - SubinstanceStatistics: in R-format the collected data
+#  - SubinstanceStatistics: in R-format the collected data, as produced by
+#    ExtractMinisat, with a running number and i, npa and d added at the
+#    front, the index of the sub-problem, the (total) number of variables in
+#    the partial assignment, and the number of decisions in it.
 #  - If a satisfiable sub-instance was found, then in file
 #    SatisfyingAssignments for each satisfiable sub-instance one has a line
 #    "index original-index" with the index for this processing and the index

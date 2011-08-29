@@ -15,13 +15,15 @@
 # (in the current directory) containing the files
 #  - Log: general logging information
 #  - Parameter: the version of this script, the splitviaoksolver-directory,
-#     the created experiment-directory, and the solver used
+#    the created experiment-directory, and the solver used
 #  - Environment: information on the computer environment
 #  - current_subinstance: starting with 1, the index of the next sub-instance
 #    to be solved
 #  - F.cnf: the cnf-file for the base instance
 #  - F.splitting: per line the partial assignments, in Dimacs format
-#  - SubinstanceStatistics: in R-format the collected data
+#  - SubinstanceStatistics: in R-format the collected data, as produced by
+#    ExtractMinisat, with a running number and npa added at the
+#    front, the number of variables in the partial assignment.
 #  - If a satisfiable sub-instance was found, then in file
 #    SatisfyingAssignments for each satisfiable sub-instance one has a line
 #    "index original-index" with the index for this processing and the index
