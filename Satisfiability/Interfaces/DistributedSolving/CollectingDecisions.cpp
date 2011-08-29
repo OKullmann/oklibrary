@@ -10,18 +10,24 @@ License, or any later version. */
   \brief Application for collecting decision assignments into one file
 
   <ul>
-   <li> For processing the decision-assignments as stored in a directory
+   <li> For processing the decision-assignments, as stored in a directory
    produced by SplittingViaOKsolver. </li>
-   <li> Takes exactly three arguments, "Data", "Dir" and N. </li>
-   <li> This is the data-file and the instance-directory (as produced by
-   SplittingViaOKsolver), and the number of instances. </li>
-   <li> The data-files contains one header-line, and then lines whose second
-   entry (space-separated from the first entry) is an index i. </li>
-   <li> The directory contains the file "decisions", whose i'th line consists
-   of natural numbers j_1,...,j_k, k >= 0, j_l >= 0. </li>
-   <li> File Dir/i contains space-separated integers, which fills an array A,
-   with zero-based indices, and A[j_1], ..., A[j_k] are output to standard
-   output (in the order of the lines from file Data). </li>
+   <li> Takes exactly three arguments, "Data", "Dir" and N.
+    <ol>
+     <li> This is the data-file and the instance-directory (as produced by
+     SplittingViaOKsolver), and the number of instances. </li>
+     <li> The data-files contains one header-line, and then lines whose second
+     entry (space-separated from the first entry) is an index i. </li>
+     <li> For i then we need to collect two pieces of information as follows.
+     </li>
+     <li> The directory contains the file "decisions", whose i'th line consists
+     of natural numbers j_1,...,j_k, k >= 0, j_l >= 0. </li>
+     <li> File Dir/i contains space-separated integers, which yields an
+     array A, with zero-based indices. </li>
+    </ol>
+   </li>
+   <li> Per line obtained from Data, A[j_1], ..., A[j_k] is output to standard
+   output (on one line, space-separated). </li>
   </ul>
 
 */
@@ -54,7 +60,7 @@ namespace {
   const std::string program = "CollectingDecisions";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.6";
+  const std::string version = "0.0.7";
 
   typedef int literal_type;
   typedef std::vector<literal_type> literalvector_type;
