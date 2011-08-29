@@ -47,7 +47,7 @@ set -o errexit
 set -o nounset
 
 script_name="ProcessSplitViaOKsolver"
-version_number=0.1
+version_number=0.1.1
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -72,6 +72,7 @@ if [[ $# -eq 2 ]]; then
   echo "Using existing processing-directory ${directory2}."
   echo -n "Continuation: " >> ${directory2}/Log
   date >> ${directory2}/Log
+  echo "Process id = $$" >> ${directory2}/Log
   start=$(cat ${directory2}/current_subinstance)
 else
   directory2="Process_$(basename ${directory1})_${timestamp}"
@@ -79,6 +80,7 @@ else
   echo "Created new processing-directory ${directory2}."
   echo -n "Begin: " > ${directory2}/Log
   date >> ${directory2}/Log
+  echo "Process id = $$" >> ${directory2}/Log
   echo "${script_name} version ${version_number}" > ${directory2}/Parameter
   echo ${directory1} >> ${directory2}/Parameter
   echo ${directory2} >> ${directory2}/Parameter

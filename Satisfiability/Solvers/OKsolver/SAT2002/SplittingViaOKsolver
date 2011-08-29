@@ -36,7 +36,7 @@ set -o errexit
 set -o nounset
 
 script_name="SplittingViaOKsolver"
-version_number=0.1.12
+version_number=0.1.13
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -53,6 +53,7 @@ cd ${directory}
 
 echo -n "Begin: " > Log
 date >> Log
+echo "Process id = $$" >> Log
 
 echo "${script_name} ${version_number}" > Version
 echo >> Version
@@ -121,5 +122,6 @@ echo "$(date): Completed computation of md5sum." | tee -a Log
 
 echo -n "Completed: " >> Log
 date >> Log
+ps p $$ k time S >> Log
 
 exit 0

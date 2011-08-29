@@ -55,7 +55,7 @@ set -o errexit
 set -o nounset
 
 script_name="ProcessiCNF"
-version_number=0.1
+version_number=0.1.1
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -75,6 +75,7 @@ if [ -d $1 ]; then
   cd ${directory}
   echo -n "Continuation: " >> Log
   date >> Log
+  echo "Process id = $$" >> Log
   start=$(cat current_subinstance)
 else
   icnf="$1"
@@ -88,6 +89,7 @@ else
   cd ${directory}
   echo -n "Begin: " > Log
   date >> Log
+  echo "Process id = $$" >> Log
   echo "${script_name} version ${version_number}" > Parameter
   echo ${icnf} >> Parameter
   echo "Solver: ${solver}" >> Parameter
