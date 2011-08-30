@@ -33,6 +33,41 @@ License, or any later version. */
 
 
 
+  <h2> Data Encryption Standard </h2>
+
+  <ul>
+   <li> Key Discovery:
+    <ul>
+     <li> 5-round DES :
+      <ul>
+       <li> See "Using the 1-base translation for the S-boxes (6-to-4)" in
+       Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/5.hpp.
+       </li>
+       <li> See "Using the canonical translation for the S-boxes (6-to-4)" in
+       Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/5.hpp.
+       </li>
+       <li> See 'Using the minimum translation for the S-boxes (6-to-4)' in
+       Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/5.hpp.
+      </ul>
+     </li>
+    </ul>
+     <li> 6-round DES :
+      <ul>
+       <li> See "Using the 1-base translation for the S-boxes (6-to-4)" in
+       Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/6.hpp.
+       </li>
+       <li> See "Using the canonical translation for the S-boxes (6-to-4)" in
+       Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/6.hpp.
+       </li>
+       <li> See 'Using the minimum translation for the S-boxes (6-to-4)' in
+       Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/6.hpp.
+      </ul>
+     </li>
+   </li>
+  </ul>
+
+
+
   <h1> Ramsey theory </h1>
 
   <h2> Green-Tao problems </h2>
