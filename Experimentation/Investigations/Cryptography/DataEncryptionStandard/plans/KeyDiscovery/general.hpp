@@ -36,6 +36,21 @@ License, or any later version. */
 
   \todo Experiment scripts
   <ul>
+   <li> The argumentation below seems dubious to OK:
+    <ol>
+     <li> It seems to fit into the unfortunate pattern of just writing tools
+     for themselves, without interest in the experiments. </li>
+     <li> Special scripts for such special purposes will only be
+     understandable, will only be used by the person running the scripts. </li>
+     <li> Then it follows also that they will be of weak quality. </li>
+     <li> We should only use general tools; except, of course, it is a real
+     method, like for computing van der Waerden numbers the various scripts,
+     which implement certain algorithms. </li>
+     <li> No tiny ("dirty") scripts for this and that, as a private hobby of
+     a single person --- but everything must connect to the whole library.
+     </li>
+    </ol>
+   </li>
    <li> The presentation of experimental data for DES in
    Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/
    is excessively verbose, and hides the underlying data. </li>
@@ -102,7 +117,10 @@ License, or any later version. */
    </li>
    <li> All DES experiments need to be rerun using the new experiment scripts
    discussed in "Running experiments"
-   in ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
+   in ExperimentSystem/SolverMonitoring/plans/general.hpp. OK: ???
+   Why this waste of time ??? We already suffer from a serious lack of data.
+   This again seems to fit into the pattern of running the experiments as end
+   in itself. </li>
    <li> See also "Update experiment script" in
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
    </li>
