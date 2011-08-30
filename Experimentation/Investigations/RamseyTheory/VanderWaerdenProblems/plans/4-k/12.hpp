@@ -13,18 +13,43 @@ License, or any later version. */
   \todo Best ubcsat-solver
   <ul>
    <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
+   <li> For now we use adaptg2wsat. </li>
   </ul>
 
 
-  \todo vanderwaerden_2(4,12) > 393
+  \todo vanderwaerden_2(4,12) > 400
   <ul>
-   <li> Start with the palindromic solution for n=393. </li>
+   <li> Start with the palindromic solution for n=393:
+   \verbatim
+> k1=4 k2=12 n=393 cutoff=1000000 alg="adaptg2wsat" N=100 expdate="2011-08-29-174820"; export k1 k2 n; cat Exp_PdVanderWaerden_2-${k1}-${k2}_${alg}-${N}-${cutoff}_${expdate}/VanDerWaerden_pd_2-${k1}-${k2}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution-${k1}-${k2}-${n}
+
+> RunVdWk1k2 ${k1} ${k2} ${n} adaptg2wsat 100 100000000 solution-${k1}-${k2}-${n}
+   \endverbatim
+   </li>
+   <li> n=400 found satisfiable (above run found a solution for n=394 in run
+   14) with certificate
+   \verbatim
+6,7,8,10,19,21,29,34,40,41,
+50,53,55,57,62,72,75,78,79,80,
+83,92,98,101,106,111,115,121,125,126,
+129,130,132,136,138,140,141,147,154,163,
+164,173,177,186,187,189,191,195,197,198,
+201,206,208,216,218,221,222,226,227,229,
+233,235,237,238,244,247,251,260,261,270,
+277,283,284,286,288,292,294,298,299,300,
+303,305,309,318,319,323,324,326,330,334,
+335,344,352,357,358,367,371,374,375,380,
+388,391,392,397
+   \endverbatim
+   </li>
   </ul>
 
 
   \todo vdw_2^pd(4,12) = (387,394)
   <ul>
-   <li> n=388, 395 determined as unsatisfiable; see below. </li>
+   <li> pdvanderwaerden([4,12])[2] = 394 =(conj)
+   vanderwaerden([4,12])-???. </li>
+   <li> pdvanderwaerden([4,12])[1] = 387. </li>
    <li> minisat-2.2.0:
     <ol>
      <li> n=388: aborted:
