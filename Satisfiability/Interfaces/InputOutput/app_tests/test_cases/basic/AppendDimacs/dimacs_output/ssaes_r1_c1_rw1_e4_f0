@@ -68,7 +68,7 @@ c 65 : 445
 c 66 : 446 
 c 67 : 447 
 c 68 : 448 
-c Result of 'append' operation.
+c Result of append-operation.
 p cnf 68 366
 -11 0
 -3 0
