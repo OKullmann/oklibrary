@@ -9,25 +9,34 @@
 # set -o errexit # currently "find" creates an error due to non-existing directories, and also the match-program might fail
 set -o nounset
 
-list_programs="${bin_dir}/QuineMcCluskeySubsumptionHypergraphFullStatistics-n4*"
+program_name="QuineMcCluskeySubsumptionHypergraphFullStatistics"
+list_programs="${bin_dir}/${program_name}-n4*"
 
 
 case ${test_level} in
-basic) list_test_cases="$(find app_tests/test_cases/basic/QuineMcCluskeySubsumptionHypergraphFullStatistics/ -name '*.cnf')"
+basic) list_test_cases="$(find app_tests/test_cases/basic/${program_name}/ -name '*.cnf')"
     ;;
-full) list_test_cases="$(find app_tests/test_cases/basic/QuineMcCluskeySubsumptionHypergraphFullStatistics/ -name '*.cnf') $(find app_tests/test_cases/full/QuineMcCluskeySubsumptionHypergraphFullStatistics/ -name '*.cnf')"
-      list_programs="${list_programs} ${bin_dir}/QuineMcCluskeySubsumptionHypergraphFullStatistics-n16*"
+full) list_test_cases="$(find app_tests/test_cases/basic/${program_name}/ -name '*.cnf') $(find app_tests/test_cases/full/${program_name}/ -name '*.cnf')"
+      list_programs="${list_programs} ${bin_dir}/${program_name}-n16*"
     ;;
-extensive) list_test_cases="$(find app_tests/test_cases/basic/QuineMcCluskeySubsumptionHypergraphFullStatistics/ -name '*.cnf') $(find app_tests/test_cases/full/QuineMcCluskeySubsumptionHypergraphFullStatistics/ -name '*.cnf') $(find app_tests/test_cases/extensive/QuineMcCluskeySubsumptionHypergraphFullStatistics/ -name '*.cnf')"
-	   list_programs="${list_programs} ${bin_dir}/QuineMcCluskeySubsumptionHypergraphFullStatistics-n16*"
+extensive) list_test_cases="$(find app_tests/test_cases/basic/${program_name}/ -name '*.cnf') $(find app_tests/test_cases/full/${program_name}/ -name '*.cnf') $(find app_tests/test_cases/extensive/${program_name}/ -name '*.cnf')"
+	   list_programs="${list_programs} ${bin_dir}/${program_name}-n16*"
     ;;
 esac
 
+echo
+echo
+echo "TEST SCRIPT: $0"
+
 echo "PROGRAMS FOUND:"
-for P in ${list_programs}; do echo ${P}; done
+for P in ${list_programs}; do echo ${P}; done;
 
 echo "TEST FORMULAS FOUND:" 
-for T in ${list_test_cases}; do echo ${T}; done
+for T in ${list_test_cases}; do echo ${T}; done;
+
+echo "MATCHING: PROGRAM OUTPUT against app_tests/test_cases/TEST_LEVEL/QuineMcCluskey/FORMULA_BASENAME."
+echo "MATCHING: FORMULA_BASENAME_prime_stats against app_tests/test_cases/TEST_LEVEL/QuineMcCluskey/FORMULA_BASENAME_prime_stats."
+echo "MATCHING: FORMULA_BASENAME_shg_stats against app_tests/test_cases/TEST_LEVEL/QuineMcCluskey/FORMULA_BASENAME_shg_stats."
 
 echo "EXECUTION OF PROGRAMS:"
 
@@ -36,7 +45,7 @@ match_tool=${bin_dir}/MatchFiles-O3-DNDEBUG
 for S in ${list_programs}; do
   echo
   for P in ${list_test_cases}; do
-    echo ${S} ${P}
+    echo "  $(basename ${S}) ${P}"
     output="$(${S} ${P})"
     template="$(dirname ${P})/dimacs_output/$(basename ${P} .cnf)"
     template_primes="$(dirname ${P})/dimacs_output/$(basename ${P})_primes"
@@ -46,15 +55,25 @@ for S in ${list_programs}; do
     cat $(basename ${P})_primes_stats | ${match_tool} "${template_primes_stats}"
     result=$?
     if [[ ${result} != 0 ]]; then
-      echo -e "ERROR: AUXILLIARY OUTPUT of solver is\n$(cat $(basename ${P})_primes_stats)\n, while TEMPLATE is"
-      cat ${template_primes_stats}; echo; exit 1
+      echo -e "ERROR: PRIME STATS OUTPUT of solver is\n$(cat $(basename ${P})_primes_stats)\n, while TEMPLATE is"
+      cat ${template_primes_stats}; echo
+      echo -n "${program_name} must output the "
+      echo -n "statistics for the prime implicates of the input clause-set to "
+      echo "basename(input_file_path)_primes_stats."
+      echo "The prime implicate statistics should match the template: "
+      echo "${template_primes_stats}"; exit 1
     fi
     rm -f $(basename ${P})_primes_stats
     cat $(basename ${P})_shg_stats | ${match_tool} "${template_shg_stats}"
     result=$?
     if [[ ${result} != 0 ]]; then
-      echo -e "ERROR: AUXILLIARY OUTPUT of solver is\n$(cat $(basename ${P})_shg_stats)\n, while TEMPLATE is"
-      cat ${template_shg_stats}; echo; exit 1
+      echo -e "ERROR: SHG STATS OUTPUT of solver is\n$(cat $(basename ${P})_shg_stats)\n, while TEMPLATE is"
+      cat ${template_shg_stats}; echo
+      echo -n "${program_name} must output the "
+      echo -n "statistics for the subsumption hypergraph of the input clause-set to "
+      echo "basename(input_file_path)_shg_stats."
+      echo "The prime implicate statistics should match the template: "
+      echo "${template_shg_stats}"; exit 1
     fi
     rm -f $(basename ${P})_shg_stats
   done

@@ -1,4 +1,4 @@
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-0 0 0 0 0 0 1
- length count
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      0       0      0     -1       0        0     NA     NA       0        0     0
+ length   count
 
