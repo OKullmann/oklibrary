@@ -10,17 +10,6 @@ License, or any later version. */
   \brief Plans regarding the direct implementation of the computation of the subsumption hypergraph for computing minimal representations of full boolean clause-sets
 
 
-  \bug Broken application tests
-  <ul>
-   <li> The tests do not output what is tested, by which script, and using
-   which files. </li>
-   <li> One also finds "AUXILLIARY OUTPUT", which is nonsense, since it is
-   not the solver-output, neither it is "auxilliary"; and finally, not
-   context is given. </li>
-   <li> Thus the tests cannot be updated. </li>
-  </ul>
-
-
   \todo Specification
   <ul>
    <li> A precise specification of QuineMcCluskeySubsumptionHypergraph.cpp is
@@ -75,6 +64,17 @@ License, or any later version. */
    <li> Another aspect is memory usage: it seems that short before the end
    of the computation an unnecessary duplication of the data structure takes
    place. </li>
+  </ul>
+
+
+  \bug DONE (tidied and specified output) Broken application tests
+  <ul>
+   <li> The tests do not output what is tested, by which script, and using
+   which files. </li>
+   <li> One also finds "AUXILLIARY OUTPUT", which is nonsense, since it is
+   not the solver-output, neither it is "auxilliary"; and finally, not
+   context is given. </li>
+   <li> Thus the tests cannot be updated. </li>
   </ul>
 
 
