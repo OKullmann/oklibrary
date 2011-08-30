@@ -34,9 +34,9 @@ for P in ${list_programs}; do echo ${P}; done;
 echo "TEST FORMULAS FOUND:" 
 for T in ${list_test_cases}; do echo ${T}; done;
 
-echo "MATCHING: PROGRAM OUTPUT against app_tests/test_cases/TEST_LEVEL/QuineMcCluskey/FORMULA_BASENAME."
-echo "MATCHING: FORMULA_BASENAME_prime_stats against app_tests/test_cases/TEST_LEVEL/QuineMcCluskey/FORMULA_BASENAME_prime_stats."
-echo "MATCHING: FORMULA_BASENAME_shg_stats against app_tests/test_cases/TEST_LEVEL/QuineMcCluskey/FORMULA_BASENAME_shg_stats."
+echo "MATCHING: PROGRAM OUTPUT against app_tests/test_cases/TEST_LEVEL/QuineMcCluskey/dimacs_output/FORMULA_BASENAME."
+echo "MATCHING: FORMULA_BASENAME_prime_stats against app_tests/test_cases/TEST_LEVEL/QuineMcCluskey/dimacs_output/FORMULA_BASENAME_prime_stats."
+echo "MATCHING: FORMULA_BASENAME_shg_stats against app_tests/test_cases/TEST_LEVEL/QuineMcCluskey/dimacs_output/FORMULA_BASENAME_shg_stats."
 
 echo "EXECUTION OF PROGRAMS:"
 
