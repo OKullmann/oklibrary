@@ -10,17 +10,6 @@ License, or any later version. */
   \brief Application to select clauses from a clause-set
 
 
-  \bug Incomplete specification : DONE
-  <ul>
-   <li> What does "maximum number of variables" mean?? </li>
-   <li> It should be the maximal variable-*index*. </li>
-   <li> What is the strange requirement "that the variable set of every
-   argument clause-list is a subset of the variable set of the clause-list
-   with the most variables" ?? </li>
-   <li> This is very likely not meant. </li>
-  </ul>
-
-
   <ul>
    <li> Takes an arbitrary number (0 ... ARG_MAX) of Dimacs files as arguments,
    and outputs on standard output a Dimacs CNF containing the clauses from all
@@ -53,6 +42,19 @@ License, or any later version. */
    <li> On the other hand, a general filter which takes a predicate, similar
    to functions like std::remove_if etc might in fact be better. </li>
   </ul>
+
+
+  \bug Incomplete specification : DONE
+  <ul>
+   <li> What does "maximum number of variables" mean?? </li>
+   <li> It should be the maximal variable-*index*. </li>
+   <li> What is the strange requirement "that the variable set of every
+   argument clause-list is a subset of the variable set of the clause-list
+   with the most variables" ?? </li>
+   <li> This is very likely not meant. </li>
+  </ul>
+
+
 
 */
 
