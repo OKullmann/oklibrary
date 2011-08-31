@@ -39,6 +39,10 @@ License, or any later version. */
      the number of clauses result of appending the argument
      clause-lists, and removing tautological clauses and
      repeated literals. </li>
+     <li> DONE (See app_tests/test_cases/basic/AppendDimacs/input/EmptyN and
+     app_tests/test_cases/basic/AppendDimacs/input/EmptyClause1)
+     Testing extreme cases, empty clause-set and presense of the
+     empty-clause. </li>
     </ul>
    </li>
   </ul>

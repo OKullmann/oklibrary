@@ -9,6 +9,8 @@
 # set -o errexit # currently "find" creates an error due to non-existing directories, and also the match-program might fail
 set -o nounset
 
+shopt -s nullglob # dir/* on an empty directory should return "".
+
 list_programs="${bin_dir}/AppendDimacs*"
 app_test_dir=${OKlib}/Satisfiability/Interfaces/InputOutput/app_tests
 
