@@ -14,6 +14,11 @@ License, or any later version. */
   \par Version 0.1.2 :
 
   \par
+   In Interfaces/InputOutput/plans/general.hpp the following
+   topics are handled:
+    - Can not update applications tests for AppendDimacs : DONE
+
+  \par
    In Interfaces/InputOutput/plans/ExtendedDimacsStatistics.hpp the following
    topics are handled:
     - Write application tests

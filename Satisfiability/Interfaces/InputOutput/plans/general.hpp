@@ -10,57 +10,29 @@ License, or any later version. */
   \brief Plans for the module on SAT-related input/output
 
 
-  \bug Can not update applications tests for AppendDimacs
+  \todo Tests for error cases in scripts
   <ul>
-   <li> The output can not be easily inspected to see what is the case, and
-   what has to be changed. </li>
-   <li> Test-output, also in the error case, should not be that large. </li>
-   <li> After improving the test (just removing this irrelevant case, and
-   replacing it with various cases which test the various error conditions!),
-   the tests need to be updated. </li>
-   <li> DONE We need small, easily readable application test data which covers
-   the following specified criteria for AppendDimacs:
-    <ul>
-     <li> DONE (see all application tests; only testing up to 3)
-     AppendDimacs takes from 0 arguments up to ARG_MAX. </li>
-     <li> DONE (see
-     app_tests/test_cases/basic/AppendDimacs/input/FormattingAndReductions)
-     The clauses from the input clause-sets are output in
-     the order they are given (as arguments, and in the clause-lists). </li>
-     <li> DONE (see
-     app_tests/test_cases/basic/AppendDimacs/input/FormattingAndReductions)
-     The comments from the input clause-sets are output in
-     the order they are given. </li>
-     <li> DONE (see
-     app_tests/test_cases/basic/AppendDimacs/input/FormattingAndReductions)
-     All formatting is lost. </li>
-     <li> DONE (see
-     app_tests/test_cases/basic/AppendDimacs/input/FormattingAndReductions)
-     Tautological clauses are removed. </li>
-     <li> DONE (see
-     app_tests/test_cases/basic/AppendDimacs/input/FormattingAndReductions)
-     Clauses are output in numerical order of the literals. </li>
-     <li> DONE (see
-     app_tests/test_cases/basic/AppendDimacs/input/FormattingAndReductions)
-     Repeated literals are removed. </li>
-     <li> DONE (see
-     app_tests/test_cases/basic/AppendDimacs/input/IncorrectVarClauseNumbersN)
-     The number of variables in the new p-line is the
-     maximum of all variable-indices across the input
-     clause-sets after removal of tautological clauses
-     and repeated literals. </li>
-     <li> DONE (see
-     app_tests/test_cases/basic/AppendDimacs/input/IncorrectVarClauseNumbersN)
-     The number of clauses in the new p-line is
-     the number of clauses result of appending the argument
-     clause-lists, and removing tautological clauses and
-     repeated literals. </li>
-     <li> DONE (See app_tests/test_cases/basic/AppendDimacs/input/EmptyN and
-     app_tests/test_cases/basic/AppendDimacs/input/EmptyClause1)
-     Testing extreme cases, empty clause-set and presense of the
-     empty-clause. </li>
-    </ul>
+   <li> For each of the scripts in this directory, we should
+   test that the scripts error under the conditions we expect them
+   to. </li>
+   <li> For instance, if we provide AppendDimacs with a clause-set
+   which lists the number of variables of the p-line as less than
+   the actual number of variables in the clause-set, then we should
+   get an error such as:
+   \verbatim
+terminate called after throwing an instance of 'OKlib::InputOutput::ClauseInputError'
+  what():  OKlib::InputOutput::StandardDIMACSInput::read_clauses:
+  literal 2 has variable index larger than the specified upper bound 1
+line 1, column 4, total characters read 14
+Aborted
+   \endverbatim
    </li>
+   <li> To test the errors, we should extend the application tests with
+   a "error_output" directory, which stores templates to match against
+   the error output for each test. </li>
+   <li> Then standard output from each program is checked against
+   templates in dimacs_output, and error output is checked against
+   error_output. </li>
   </ul>
 
 
@@ -250,6 +222,63 @@ InputOutput::List2DIMACSOutput(F, out, comment)
    forms)? </li>
    <li> Likely they are similar to "Straight-line programs" as discussed in
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/general.hpp. </li>
+  </ul>
+
+
+  \bug DONE (updated tests; added todo for error cases)
+  Can not update applications tests for AppendDimacs
+  <ul>
+   <li> DONE (see "Tests for error cases in scripts")
+   Test-output, also in the error case, should not be that large. </li>
+   <li> DONE (updated formatting on AppendDimacs application test output)
+   The output can not be easily inspected to see what is the case, and
+   what has to be changed. </li>
+   <li> DONE After improving the test (just removing this irrelevant case, and
+   replacing it with various cases which test the various error conditions!),
+   the tests need to be updated. </li>
+   <li> DONE We need small, easily readable application test data which covers
+   the following specified criteria for AppendDimacs:
+    <ul>
+     <li> DONE (see all application tests; only testing up to 3)
+     AppendDimacs takes from 0 arguments up to ARG_MAX. </li>
+     <li> DONE (see
+     app_tests/test_cases/basic/AppendDimacs/input/FormattingAndReductions)
+     The clauses from the input clause-sets are output in
+     the order they are given (as arguments, and in the clause-lists). </li>
+     <li> DONE (see
+     app_tests/test_cases/basic/AppendDimacs/input/FormattingAndReductions)
+     The comments from the input clause-sets are output in
+     the order they are given. </li>
+     <li> DONE (see
+     app_tests/test_cases/basic/AppendDimacs/input/FormattingAndReductions)
+     All formatting is lost. </li>
+     <li> DONE (see
+     app_tests/test_cases/basic/AppendDimacs/input/FormattingAndReductions)
+     Tautological clauses are removed. </li>
+     <li> DONE (see
+     app_tests/test_cases/basic/AppendDimacs/input/FormattingAndReductions)
+     Clauses are output in numerical order of the literals. </li>
+     <li> DONE (see
+     app_tests/test_cases/basic/AppendDimacs/input/FormattingAndReductions)
+     Repeated literals are removed. </li>
+     <li> DONE (see
+     app_tests/test_cases/basic/AppendDimacs/input/IncorrectVarClauseNumbersN)
+     The number of variables in the new p-line is the
+     maximum of all variable-indices across the input
+     clause-sets after removal of tautological clauses
+     and repeated literals. </li>
+     <li> DONE (see
+     app_tests/test_cases/basic/AppendDimacs/input/IncorrectVarClauseNumbersN)
+     The number of clauses in the new p-line is
+     the number of clauses result of appending the argument
+     clause-lists, and removing tautological clauses and
+     repeated literals. </li>
+     <li> DONE (See app_tests/test_cases/basic/AppendDimacs/input/EmptyN and
+     app_tests/test_cases/basic/AppendDimacs/input/EmptyClause1)
+     Testing extreme cases, empty clause-set and presense of the
+     empty-clause. </li>
+    </ul>
+   </li>
   </ul>
 
 */
