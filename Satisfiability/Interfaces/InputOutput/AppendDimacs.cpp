@@ -69,14 +69,12 @@ License, or any later version. */
 
 namespace {
 
-  enum {
-    error_openfile = 1
-  };
+  enum { error_openfile = 1 };
 
   const std::string program = "AppendDimacs";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.7";
+  const std::string version = "0.0.8";
 
   template <typename Int = int, class String = std::string,
             class OutputCLSAdaptor = OKlib::InputOutput::CLSAdaptorDIMACSOutput<> >
@@ -97,20 +95,17 @@ namespace {
       output_cls_adaptor(cls_adaptor) {}
 
     void comment(const string_type& s) { output_cls_adaptor.comment(s); }
-    void n(const int_type pn) {
-      stored_cls_adaptor.n(std::max(pn, stored_cls_adaptor.stat.pn()));
-    }
-    void c(const int_type pc) {
-      stored_cls_adaptor.c(pc + stored_cls_adaptor.stat.pc());
-    }
+
+    void n(const int_type pn) {}
+    void c(const int_type pc) {}
     void finish() {}
-    void tautological_clause(const int_type t) {
-        stored_cls_adaptor.tautological_clause(t);
-    }
+    void tautological_clause(const int_type t) {}
+
     template <class ForwardRange>
     void clause(const ForwardRange& r, const int_type t) {
       stored_cls_adaptor.clause(r,t);
     }
+
     void flush() {
       OKlib::InputOutput::ListTransfer<output_cls_adaptor_type>(
         stored_cls_adaptor.clause_set,output_cls_adaptor,"Result of append-operation.");
