@@ -11,10 +11,10 @@ License, or any later version. */
 
 
   <ul>
-   <li> Takes an arbitrary number (0 ... ARG_MAX) of Dimacs files as arguments,
-   and outputs on standard output a Dimacs CNF containing the clauses from all
-   of the given clause-lists, in the order the arguments are given and in
-   their original order in their respective inputs. </li>
+   <li> Takes an arbitrary number of Dimacs files as arguments, and outputs on
+   standard output a Dimacs CNF containing the clauses from all of the given
+   clause-lists, in the order the arguments are given and in their original
+   order in their respective inputs. </li>
    <li> First all comments are output, from each input clause-set in the
    order they are given as arguments, then the p-line, and then the
    clauses. </li>
