@@ -61,7 +61,6 @@ License, or any later version. */
 #include <string>
 #include <fstream>
 #include <iostream>
-#include <algorithm>
 
 #include <OKlib/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
 #include <OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
