@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Interfaces/InputOutput/plans/milestones.hpp
 
-  \module_version Interfaces/InputOutput 0.1.1.1 (27.8.2011)
+  \module_version Interfaces/InputOutput 0.1.1.2 (31.8.2011)
 
 
   \par Version 0.1.2 :
@@ -18,6 +18,11 @@ License, or any later version. */
    topics are handled:
     - Update output for application tests
     - Can not update applications tests for AppendDimacs : DONE
+
+  \par
+   In Interfaces/InputOutput/AppendDimacs.cpp the following topics
+   are handled:
+    - Incomplete specification : DONE
 
   \par
    In Interfaces/InputOutput/plans/ExtendedDimacsStatistics.hpp the following

@@ -54,8 +54,6 @@ License, or any later version. */
    <li> This is very likely not meant. </li>
   </ul>
 
-
-
 */
 
 #include <string>
