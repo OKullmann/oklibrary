@@ -32,7 +32,7 @@ License, or any later version. */
    <li> All formatting (spacing, indentation etc) from input files is lost.
    </li>
    <li> The maximal variable-index given on the p-line of the output is
-   the maximum of maximal variable-indices across the given clause-lists. </li>
+   the maximum of all variable-indices across the given clause-lists. </li>
    <li> The number of clauses given on the p-line of the output is the
    sum of the number of clauses for each clause-list given as an argument.
    </li>
