@@ -357,9 +357,14 @@ namespace OKlib {
       \class ListTransfer
       \brief Transfers a sequence of sequences of literals to a CLSAdaptor
 
-      It is assumed that the clauses do not contain clashing or repeated
-      literals. The literals are assumed to be integral, and are transferred
-      unchanged.
+      <ul>
+       <li> It is assumed that the clauses do not contain clashing or repeated
+       literals. </li>
+       <li> The literals are assumed to be integral, and are transferred
+       unchanged. </li>
+       <li> The p-values for the output are computed as maximal variable-index
+       and as the clause-count. </li>
+      </ol>
     */
 
     template <class CLSAdaptor>

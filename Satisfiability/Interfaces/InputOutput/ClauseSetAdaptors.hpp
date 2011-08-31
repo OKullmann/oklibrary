@@ -602,12 +602,16 @@ namespace OKlib {
       \brief Adaptor which turns Dimacs input into a
       <code> std::vector<std::vector<int> > </code>.
 
-      Comments, the two parameters and tautological clauses are
-      ignored (have no effect). Multiple literal occurrences
-      are not contracted, but show up in the clauses.
+      <ul>
+       <li> Comments, the two parameters and tautological clauses are
+       ignored (have no effect) for the output. </li>
+       <li> Multiple literal occurrences are not contracted, but show up in
+       the clauses. </li>
+       <li> The data-member stats contains the (simple) collected statistics
+       (no determination of n or nmi). </li>
+      </ul>
 
-      More generally, any container for clauses can be used
-      which supports "push_back".
+      Any container for clauses can be used which supports "push_back".
 
     */
 
