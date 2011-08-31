@@ -41,6 +41,14 @@ License, or any later version. */
 335,344,352,357,358,367,371,374,375,380,
 388,391,392,397
    \endverbatim
+   though 100 runs with adaptg2wsat and cutoff=100000000 don't find a solution
+   for n=400:
+   \verbatim
+> E=read_ubcsat("VanDerWaerden_2-4-12_400.cnf_OUT",nrows=100)
+ 1  2  4  5  6  7
+ 1  3  4 40 50  2
+100
+   \endverbatim
    </li>
   </ul>
 
