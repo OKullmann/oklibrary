@@ -76,7 +76,7 @@ namespace {
   const std::string program = "AppendDimacs";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.0.6";
+  const std::string version = "0.0.7";
 
   template <typename Int = int, class String = std::string,
             class OutputCLSAdaptor = OKlib::InputOutput::CLSAdaptorDIMACSOutput<> >
@@ -94,7 +94,7 @@ namespace {
 
   public :
     CLSAdaptorAppend(output_cls_adaptor_type& cls_adaptor) :
-      output_cls_adaptor(cls_adaptor) { }
+      output_cls_adaptor(cls_adaptor) {}
 
     void comment(const string_type& s) { output_cls_adaptor.comment(s); }
     void n(const int_type pn) {
@@ -120,10 +120,10 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  typedef OKlib::InputOutput::CLSAdaptorDIMACSOutput<> OutputCLSAdaptor;
-  OutputCLSAdaptor output(std::cout);
-  typedef CLSAdaptorAppend<> CLSAdaptorAppend;
-  CLSAdaptorAppend append_cls(output);
+  typedef CLSAdaptorAppend<> AdaptorAppend;
+  typedef AdaptorAppend::output_cls_adaptor_type OutputAdaptor;
+  OutputAdaptor output(std::cout);
+  AdaptorAppend append_cls(output);
 
   for (int i = 1; i < argc; ++i) {
     std::ifstream f_in(argv[i]);
@@ -131,7 +131,7 @@ int main(const int argc, const char* const argv[]) {
       std::cerr << err << "Failure opening file " << argv[i] << ".\n";
       return error_openfile;
     }
-    OKlib::InputOutput::StandardDIMACSInput<CLSAdaptorAppend>(f_in, append_cls);
+    OKlib::InputOutput::StandardDIMACSInput<AdaptorAppend>(f_in, append_cls);
   }
   append_cls.flush();
 }
