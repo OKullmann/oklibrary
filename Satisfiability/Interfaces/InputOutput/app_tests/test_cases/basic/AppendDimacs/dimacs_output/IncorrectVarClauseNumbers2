@@ -1,0 +1,5 @@
+c Result of append-operation.
+p cnf 4 3
+-3 1 2 0
+-4 0
+1 0
