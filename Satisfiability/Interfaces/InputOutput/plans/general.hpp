@@ -36,6 +36,31 @@ Aborted
   </ul>
 
 
+  \todo Update output for application tests
+  <ul>
+   <li> Application tests should print:
+    <ul>
+     <li> which script is currently running;
+     <li> what is matched against what by the experiment script (templates);
+     </li>
+    </ul>
+   </li>
+   <li> The indentation and spacing of the application tests should also
+   make it easy to discern which block of text refers to which application
+   test, and to which portion of that test's output. </li>
+   <li> The following application tests need to be updated:
+    <ul>
+     <li> ManipParam. </li>
+     <li> MinOnes2PseudoBoolean. </li>
+     <li> MinOnes2WeightedMaxSAT. </li>
+     <li> RandomShuffleDimacs. </li>
+     <li> SortByClauseLength. </li>
+    </ul>
+   </li>
+   <li> See application tests for AppendDimacs. </li>
+  </ul>
+
+
   \todo Strange tool statistics_add_missing_clause_lengths.awk
   <ul>
    <li> First, it needs at least the usual safety-settings. </li>

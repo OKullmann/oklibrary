@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In Interfaces/InputOutput/plans/general.hpp the following
    topics are handled:
+    - Update output for application tests
     - Can not update applications tests for AppendDimacs : DONE
 
   \par
