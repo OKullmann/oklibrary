@@ -1,0 +1,6 @@
+c Two: Testing multiple clauses + multiple variables
+c Two: Testing order of clauses and comments
+p cnf 3 3
+1 -3
+ 2 0
+-1 3       0
