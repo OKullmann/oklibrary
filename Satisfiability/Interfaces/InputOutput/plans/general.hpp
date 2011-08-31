@@ -18,6 +18,29 @@ License, or any later version. */
    <li> After improving the test (just removing this irrelevant case, and
    replacing it with various cases which test the various error conditions!),
    the tests need to be updated. </li>
+   <li> We need small, easily readable application test data which covers
+   the following specified criteria for AppendDimacs:
+    <ul>
+     <li> AppendDimacs takes from 0 arguments up to ARG_MAX. </li>
+     <li> The clauses from the input clause-sets are output in
+     the order they are given (as arguments, and in the clause-lists).
+     </li>
+     <li> The comments from the input clause-sets are output in
+     the order they are given. </li>
+     <li> The number of variables in the new p-line is the
+     maximum of all variable-indices across the input
+     clause-sets after removal of tautological clauses
+     and repeated literals. </li>
+     <li> All formatting is lost. </li>
+     <li> Tautological clauses are removed. </li>
+     <li> Clauses are output in numerical order of the literals. </li>
+     <li> Repeated literals are removed. </li>
+     <li> The number of clauses  in the new p-line is
+     the number of clauses result of appending the argument
+     clause-lists, and removing tautological clauses and
+     repeated literals. </li>
+    </ul>
+   </li>
   </ul>
 
 
