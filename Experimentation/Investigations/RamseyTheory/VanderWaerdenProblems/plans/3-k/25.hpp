@@ -491,11 +491,33 @@ sys     11m37.584s
 #> E=read.table("Stats",header=TRUE,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8))); plot(E$t); cat(sprintf("%d: %.2fh, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),sum(E$t)/60/60,sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
 13462: 48.77h, sum-cfs=1.428662e+09, mean-t=13.043s, mean-cfs=106126
 
-# running it again:
+# running it again (on cs-wsok):
 # (this is only for checking of the newly established tool:
 # ProcessSplitViaOKsolver is more powerful, since it records more statistics)
 > ExtractiCNF SplitViaOKsolver_D45VanDerWaerden_pd_2325_608cnf_2011-08-28-185308/
 > ProcessiCNF SplitViaOKsolver_D45VanDerWaerden_pd_2325_608cnf_2011-08-28-185308/VanDerWaerden_pd_2-3-25_608.icnf
+2652m:59s
+> E=read_processsplit_minisat()
+13462: 1.8d, sum-cfs=1.428662e+09, mean-t=11.553s, mean-cfs=106126
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   0.325    2.573    6.025   11.550   13.300 1673.000
+sd= 29.15414
+       95%        96%        97%        98%        99%       100%
+  36.58810   41.32830   47.37997   57.32012   83.40890 1672.72000
+sum= 155526.7
+$cfs:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+     251    26330    59210   106100   125300 11470000
+sd= 220711.3
+       95%        96%        97%        98%        99%       100%
+  329836.3   369242.1   415118.7   514569.9   721279.6 11467455.0
+sum= 1428662285
+$t ~ $cfs:
+               Estimate  Std. Error  t value  Pr(>|t|)
+(Intercept) -2.3875e+00  2.9328e-02  -81.408 < 2.2e-16 ***
+E$cfs        1.3136e-04  1.1976e-07 1096.872 < 2.2e-16 ***
+R-squared: 0.9889
      \endverbatim
      Likely one should go higher (say, n=50 or n=55); but already here a big
      saving. </li>
