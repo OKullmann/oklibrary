@@ -24,18 +24,23 @@ License, or any later version. */
   <ul>
    <li> Takes an arbitrary number (0 ... ARG_MAX) of Dimacs files as arguments,
    and outputs on standard output a Dimacs CNF containing the clauses from all
-   of the given clause-lists, in the order the arguments given and in their
-   original order in their respective inputs. </li>
+   of the given clause-lists, in the order the arguments are given and in
+   their original order in their respective inputs. </li>
    <li> First all comments are output, from each input clause-set in the
    order they are given as arguments, then the p-line, and then the
    clauses. </li>
    <li> All formatting (spacing, indentation etc) from input files is lost.
    </li>
+   <li> The literals in each clause are output in numerical order, not in the
+   order they are input (i.e., "4 1 -3 2 0" becomes "-3 1 2 4 0"). </li>
+   <li> Tautological clauses and repeated literals are removed. </li>
    <li> The maximal variable-index given on the p-line of the output is
    the maximum of all variable-indices across the given clause-lists. </li>
    <li> The number of clauses given on the p-line of the output is the
    sum of the number of clauses for each clause-list given as an argument.
    </li>
+   <li> Both (output) p-line values are computed after the removal of
+   tautological clauses and repeated literals. </li>
   </ul>
 
 
