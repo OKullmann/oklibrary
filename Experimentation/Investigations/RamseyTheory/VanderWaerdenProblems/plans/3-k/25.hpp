@@ -518,9 +518,43 @@ $t ~ $cfs:
 (Intercept) -2.3875e+00  2.9328e-02  -81.408 < 2.2e-16 ***
 E$cfs        1.3136e-04  1.1976e-07 1096.872 < 2.2e-16 ***
 R-squared: 0.9889
+
+# now decisions only:
+> ExtractDecisionsiCNF SplitViaOKsolver_D45VanDerWaerden_pd_2325_608cnf_2011-08-28-185308/
+> ProcessICNF SplitViaOKsolver_D45VanDerWaerden_pd_2325_608cnf_2011-08-28-185308/VanDerWaerden_pd_2-3-25_608_decisions.icnf
+2646m28s
+13462: 1.794d, sum-cfs=1.419040e+09, mean-t=11.511s, mean-cfs=105411
+$t:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+   0.5219    2.6970    6.0990   11.5100   13.2000 1400.0000
+sd= 24.74269
+       95%        96%        97%        98%        99%       100%
+  36.89415   40.88368   46.61349   57.31364   82.35891 1399.73000
+sum= 154960.7
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    251   26300   59200  105400  124800 9858000
+sd= 196146.8
+      95%       96%       97%       98%       99%      100%
+ 333137.6  364875.6  413895.5  511745.3  715237.6 9858492.0
+sum= 1419040180
+$t ~ $cfs:
+               Estimate  Std. Error  t value  Pr(>|t|)
+(Intercept) -1.7235e+00  2.3437e-02  -73.538 < 2.2e-16 ***
+E$cfs        1.2555e-04  1.0525e-07 1192.853 < 2.2e-16 ***
+R-squared: 0.9906
      \endverbatim
      Likely one should go higher (say, n=50 or n=55); but already here a big
      saving. </li>
+     <li> Again we see that with decisions-only it performs a tiny bit better
+     (and again apparently on worst-case sub-instances); one needs to see the
+     structure of the partial assignments for the sub-instances. </li>
+     <li> Now using n=55:
+     \verbatim
+> SplittingViaOKsolver -D55 VanDerWaerden_pd_2-3-25_608.cnf
+
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> "RunPdVdW3k 25 26 618 gsat-tabu 100 8000000" (old version): all
