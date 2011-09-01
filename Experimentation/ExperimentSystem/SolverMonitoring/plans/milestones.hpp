@@ -18,6 +18,7 @@ License, or any later version. */
    are handled:
     - Running experiments
     - Better summary statistics
+    - Understanding solver output
     - Extraction tools
 
   \par
