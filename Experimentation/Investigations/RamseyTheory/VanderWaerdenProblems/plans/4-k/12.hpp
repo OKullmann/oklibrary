@@ -14,6 +14,46 @@ License, or any later version. */
   <ul>
    <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
    <li> For now we use adaptg2wsat. </li>
+   <li> n=400 is a hard satisfiable problem:
+   \verbatim
+> E=run_ubcsat("VanDerWaerden_2-4-12_400.cnf",runs=100,cutoff=1000000)
+WARNING[run_ubcsat]: There have been 3 errors with the following algorithms:
+ saps, rsaps, sapsnr .
+plot(E$alg,E$min) # useless because one can't identify the algorithms, and
+# the bad algorithms spoil the visibility
+> eval_ubcsat_dataframe(E)
+rnov :
+ 5  6  7  8  9 10 11 12
+ 2  4 18 22 24 21  6  3
+FlipsPerSecond = 109158
+dano :
+ 5  6  7  8  9 10
+ 1  2 24 46 23  4
+FlipsPerSecond = 107817
+ddfw :
+ 5  6  7  8  9 10
+ 1  2 13 42 38  4
+FlipsPerSecond = 42414
+rnovp :
+ 5  6  7  8  9 10 11
+ 1  1 13 24 34 22  5
+FlipsPerSecond = 108898
+anovpp :
+ 6  7  8  9 10
+ 8 18 37 36  1
+FlipsPerSecond = 108140
+anovp :
+ 6  7  8  9 10
+ 3 13 45 34  5
+FlipsPerSecond = 108566
+ag2wsat :
+ 6  7  8  9 10 11
+ 1 10 29 34 21  5
+FlipsPerSecond = 143691
+
+E2=run_ubcsat("VanDerWaerden_2-4-12_400.cnf",runs=100,cutoff=10000000,include_algs=list("rnov","dano","ddfw","rnopv","anovpp","anopv","ag2wsat"))
+   \endverbatim
+   </li>
   </ul>
 
 
