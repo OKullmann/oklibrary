@@ -32,6 +32,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Bad documentation of run_ubcsat
+  <ul>
+   <li> Every documentation must be concise and to the point. </li>
+   <li> Instead here we find pages of irrelevant data. </li>
+  </ul>
+
+
   \todo Better output of run_ubcsat
   <ul>
    <li> A paramater-file is needed, so that the experiment can be reproduced.
@@ -113,6 +120,8 @@ License, or any later version. */
    in such dataframes. </li>
    <li> For the data which is independent of the algorithm, a second dataframe
    should be returned. </li>
+   <li> These names are also inappropriate (see the general standards in the
+   library). </li>
    <li> Actually, three dataframes are needed:
     <ol>
      <li> One with data regarding only the instance. </li>

@@ -22,14 +22,20 @@ License, or any later version. */
      serious of plots, showing the data from different angles. </li>
     </ol>
    </li>
-   <li> Given the dataframe in E, the best algorithms seems best graphed
-   by
-   \verbatim
+   <li> Plotting an overview:
+    <ol>
+     <li> Given the dataframe in E, the best algorithms seems best graphed
+     by
+     \verbatim
 plot(E$alg,E$min)
-   \endverbatim
-   which plots per algorithm the boxplots of the min-distribution. </li>
-   <li> One only needs to make sure that on the x-axis all algorithms are
-   listed. </li>
+     \endverbatim
+     which plots per algorithm the boxplots of the min-distribution. </li>
+     <li> However it is useless of on the x-axis not all algorithms are
+     listed. </li>
+     <li> And an option for cutoff_min is needed, which removes algorithms
+     whose best min-value is at least the cutoff-value. </li>
+    </ol>
+   </li>
    <li> Sorting the algorithms
     <ol>
      <li> Considering single algorithms by e.g.
@@ -44,9 +50,9 @@ plot(E$alg,E$min)
      <li> A function should be written which prints out the
      sorted tables in a nice way. </li>
      <li> As a first attempt we have eval_ubcsat_dataframe, which just shows
-     all results in table form. </li>
+     all results in table form (sorting needs to be added). </li>
      <li> Perhaps then the (first) evaluation tool just uses
-     plot(E$alg,E$min), followed by printing those sorted tables. </li>
+     plot(E$alg,E$min), followed by printing those *sorted* tables. </li>
     </ol>
    </li>
    <li> Also the average number of steps to the optimum is relevant:
