@@ -129,8 +129,121 @@ ExternalSources/Installations/R> oklib --R
    <li> At the ExternalSources page we need an index-page for the various
    pieces of documentation we have. </li>
    <li> We need to investigate what is in espresso-book-examples.tar.gz. </li>
-   <li> The "PLA format" is a UC Berkeley format, used initially by Espresso,
-   is at ExternalSources/sources/Boolean/Espresso/espresso.5.html. </li>
+   <li> The PLA format:
+    <ul>
+     <li> The "PLA format" is a UC Berkeley format, used initially by Espresso,
+     is at ExternalSources/sources/Boolean/Espresso/espresso.5.html. </li>
+     <li> Finite functions with boolean variables:
+      <ul>
+       <li> A PLAs represents a partial finite function f : {0,1}^n -> {0,1}^m
+       using the relational point of view. </li>
+       <li> The number of input variables and output variables are
+       specified first with lines of the form:
+       \verbatim
+.i n
+.o m
+       \endverbatim
+       where n and m are the positive integer number of input and output
+       variables. </li>
+       <li> The input variables in the problem are {1,...,n}. </li>
+       <li> The input variables in the problem are {n+1,...,m}. </li>
+       <li> Each line after the .i and .o lines is:
+        <ol>
+         <li> a sequence of characters I in {1,0,-} of size n; followed by </li>
+         <li> a space; followed by </li>
+         <li> a sequence of characters O in {1,0,-} of size m. </li>
+        </ol>
+       where:
+        <ul>
+         <li> The line encodes that f(I) = O, where I' and O' are the boolean
+         vectors corresponding to the strings I and O. </li>
+         <li> A "-" in I indicates that f(I') = O' for both values of the
+         corresponding variable. </li>
+         <li> A "-" in O indicates that f(I') = O' but the output value is
+         undefined for the corresponding output variable.  </li>
+        </ul>
+       </li>
+       <li> Examples:
+        <ul>
+         <li> The CNF {{1,2,3},{-1,4,-5}} becomes
+         \verbatim
+.i 5
+.o 1
+111-- 0
+0--10 0
+         \endverbatim
+         </li>
+         <li> The two bit adder (from the espresso documentation):
+         \verbatim
+# 2-bit by 2-bit binary adder (with no carry input)
+.i 4
+.o 3
+0000  000
+0001  001
+0010  010
+0011  011
+0100  001
+0101  010
+0110  011
+0111  100
+1000  010
+1001  011
+1010  100
+1011  101
+1100  011
+1101  100
+1110  101
+1111  110
+         \endverbatim
+         </li>
+         <li> Note that depending on the ".type" and ".phase", espresso itself
+         may ignore or minimise based on the true-points or false-points. This
+         is discussed in the documentation. </li>
+        </ul>
+       </li>
+       <li> At the maxima level:
+        <ul>
+         <li> We should provide functions to take a formal clause-list F
+         and output a PLA file. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li> Finite functions with multi-valued variables:
+      <ul>
+       <li> The PLA format allows one to specify that certain boolean
+       variables should be considered together as a single multi-valued
+       variable. </li>
+       <li> Rather than using ".i" and ".o" to specify the number of input
+       and output variables, one specifies:
+       \verbatim
+.mi n nb d1 ... dm
+       \endverbatim
+       where n is the total number of variables, nb is the number of boolean
+       variables (always given first in the variable ordering), and di
+       is the number of bits used to represent the i'th multi-valued variable.
+       </li>
+       <li> The function is then specified as before, but the bits in
+       multi-valued variables are separated by "|" and the last multi-valued
+       variable is the output value (no separate space-separation). </li>
+       <li> For example (from the manual):
+       \verbatim
+.mv 8 5 2 3 4
+0-010|10|100|0000
+10-10|10|010|1000
+       \endverbatim
+       </li>
+       <li> We need to better understand multi-valued PLAs and relate it
+       to our own considerations of non-boolean clause-sets etc. </li>
+      </ul>
+     </li>
+     <li> The PLA standard also allows one to provide names for variables,
+     as well as other options which give Espresso information on how
+     to minimise the finite function provided. </li>
+     <li> All remaining options allowed in a PLA file should be documented
+     here and then this later moved to docus. </li>
+    </ul>
+   </li>
    <li> We need to fully specify (in our system, using our language) what
    "PLAs" are, and create documentation for that. Perhaps we also need that
    at Maxima-level. </li>
