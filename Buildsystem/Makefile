@@ -61,7 +61,6 @@ makefile_conditions := $(OKlib)/Satisfiability/ProblemInstances/Conditions/makef
 makefile_reductions := $(OKlib)/Satisfiability/Reductions/makefile
 makefile_experimentation := $(OKlib)/Experimentation/makefile
 makefile_investigations := $(OKlib)/Experimentation/Investigations/makefile
-makefile_booleanfunctions := $(OKlib)/Experimentation/Investigations/BooleanFunctions
 makefile_structures := $(OKlib)/Structures/makefile
 makefile_sets := $(OKlib)/Structures/Sets/makefile
 makefile_linearalgebra := $(OKlib)/Structures/LinearAlgebra/makefile
