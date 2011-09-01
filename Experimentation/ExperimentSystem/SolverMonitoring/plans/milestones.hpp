@@ -18,6 +18,7 @@ License, or any later version. */
    are handled:
     - Running experiments
     - Better summary statistics
+    - Standardising names and order of solver data columns
     - Understanding solver output
     - Extraction tools
 

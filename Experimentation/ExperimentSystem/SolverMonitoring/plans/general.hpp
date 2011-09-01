@@ -89,6 +89,142 @@ License, or any later version. */
   </ul>
 
 
+  \todo Names and order of solver data columns in extracted output
+  <ul>
+   <li> We need a global order on the columns of solver data
+   extracted using the tools in "Extraction tools":
+    <ul>
+     <li> Standardised column names (so far):
+      <ol>
+       <li> n : integer, number of variables. </li>
+       <li> c : integer, number of clauses. </li>
+       <li> l : integer, number of literal occurrences. </li>
+       <li> Some solver extraction scripts currently incorrectly use rn, rc and
+       rl to indicate "reported" values. However, scripts such as RunMinisat now
+       compute instance statistics, and so we just should just use n, c and l
+       as there are two distinct contexts. </li>
+       <li> t : double, solution time (in seconds). </li>
+       <li> sat : in {0,1,2} for UNSAT, SAT, UNKNOWN. </li>
+       <li> nds : double, number of nodes for look-ahead solvers. </li>
+       <li> cfs : double, number of conflicts for conflict-driven solvers. </li>
+       <li> dec : double, number of decisions for conflict-driven solvers. </li>
+       <li> rts : double, number of restarts. </li>
+       <li> r1 : double, number of unit-clause propagations. </li>
+       <li> r2 : double, number of failed-literal reductions. </li>
+       <li> pls : double, number of pure literals. </li>
+       <li> ats : double, number of autarkies (not pure literals). </li>
+       <li> h : integer, height of search-tree for look-ahead solvers. </li>
+       <li> mem : double, in MB. </li>
+       <li> ptime : double, parse time (in seconds). </li>
+       <li> file : string. </li>
+       <li> There can be more attributes; the above ones always occur in that
+       order. </li>
+       <li> The above attributes are always as reported by the solver. </li>
+       <li> DONE (no need to make incomparable data comparable)
+       For handling parameters that aren't produced by certain solvers,
+       for example nds by minisat-2.2.0, there are two options:
+       <ol>
+        <li> Output "NA" for that column. </li>
+        <li> Don't output an nds column. This has the disadvantage that
+        outputs from different solvers are harder to compare. </li>
+       </ol>
+       For now the awk scripts (see above) don't output the column.
+       </li>
+      </ol>
+     </li>
+     <li> The following columns need standardised names and a standardised
+     order (as they occur now in extraction scripts):
+      <ul>
+       <li> n2cr : number of 2-clauses after reduction. </li>
+       <li> n2cs : number of new 2-clauses. </li>
+       <li> m2cs : maximal number of added 2-clauses. </li>
+       <li> dmcl : difference in maximal clause-length after preprocessing. </li>
+       <li> dn : difference in number of variables after preprocessing. </li>
+       <li> dc : difference in number of clauses after preprocessing. </li>
+       <li> dc : difference in number of literal after preprocessing. </li>
+       <li> snds : number of single nodes. </li>
+       <li> qnds : number of quasi-single nodes. </li>
+       <li> mnds : number of missed single modes. </li>
+       <li> tel : number of table-enlargements. </li>
+       <li> oats : number of 1-autarkies. </li>
+       <li> All solver data must be added to this list and a full global order
+       on the solver data determined. </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li> Comparison to statistics output:
+    <ul>
+     <li> There are also statistics as output by ExtendDimacsFullStatistics,
+     discussed in "Meaning of data members" under the Statistics class in
+     OKlib/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp. </li>
+     <li> The values for n, c and l output by extraction scripts are simply
+     whatever the solver reports. </li>
+     <li> n, c and l values will vary from solver to solver;
+     they do not correspond to the statistics n, c and l as produced
+     by ExtendedDimacsFullStatistics. </li>
+     <li> The contexts are entirely different:
+      <ul>
+       <li> The extracted solver data corresponds to "reported" data:
+       data provided by an external entity which is not measured or
+       computed directly by "us". </li>
+       <li> The statistics data from ExtendedDimacsFullStatistics is
+       "computed"/"measured" data: data measured by "us" and guaranteed to
+       have a specific meaning. </li>
+       <li> We stress this difference by extracting and outputting this data
+       to separate files in our experiment scripts (e.g., RunMinisat), and
+       allowing the reuse of abbreviations for data, such as n, c and l,
+       despite the different meanings. </li>
+       <li> In general, we should likely try to avoid over-specifying the
+       nature of the solver output in the statistics we report; we don't
+       want to overstate our understanding of what the solver actually
+       outputs. </li>
+      </ul>
+     </li>
+     <li> In the statistics output, we always state exactly what the value
+     *is*, not it's difference from some other value. Statistics from
+     the OKsolver_2002 such as "dn" (above) should be reconsidered. </li>
+     <li> Also, in the statistics output, we use naming conventions such as
+     "n0" etc to indicate that a value is an "initial" value; we should
+     mimic this at this level if the solver states that a value is somehow
+     "initial", or before reductions (for example in the case of
+     the OKsolver_2002). </li>
+    </ul>
+   </li>
+   <li> When to use the same name for statistics for different solvers?
+    <ul>
+     <li> We do not (in general) compare data from different solvers,
+     so using the same name for two slightly different measures across solvers
+     (for instance, different measures for n) is perfectly reasonable. </li>
+     <li> This is especially true when the measures are called the same
+     thing by the solvers themselves (number of variables, conflicts
+     etc). </li>
+     <li> However, what to do when solvers call identical, or very similar
+     statistics by different names? </li>
+     <li> For example, satz outputs the number of branches and number of
+     backtracks but doesn't mention nodes: should these measures have
+     new names, or should one of them be considered as "nds"? </li>
+     <li> Likely, unless there is precise documentation or evidence that
+     a measurement coincides with some specific concept (e.g. nodes),
+     we always use new names to avoid confusion. </li>
+     <li> That is, we use abbreviations for what the solver actually *says*
+     it outputs, not what we think it outputs. </li>
+     <li> We should, however, ensure that the abbreviations match up with the
+     concepts that they suggest. </li>
+     <li> For instance, if a solver says that it outputs "nodes" but it is
+     a conflict-driven solver, and actually "conflicts" is meant, then we
+     should use "cfs", not "nds". </li>
+     <li> In such cases, the name "nds" would mislead the reader about the
+     general concept that is meant, and the difference is not simply a
+     minor difference in how the valued is measured, as with n. </li>
+     <li> This highlights the need to better understand (to a certain
+     degreee) the solver output, as discussed in "Understanding solver
+     output". </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Understanding solver output
   <ul>
    <li> Most solvers output a lot of data; what this output means
@@ -201,45 +337,6 @@ satz215 PHP_weak_6_5.cnf 0.000 79 40 1916 80 0 30 81 0 0 0
      <li> ExtractSatz </li>
      <li> ExtractMarchpl </li>
      <li> To be completed </li>
-    </ol>
-   </li>
-   <li> Standardised column names:
-    <ol>
-     <li> n : integer, number of variables. </li>
-     <li> rn : integer, number of variables as reported by the solver. </li>
-     <li> c : integer, number of clauses. </li>
-     <li> rc : integer, number of clauses, as reported by the solver. </li>
-     <li> l : integer, number of literal occurrences. </li>
-     <li> rl : integer, number of literal occurrences, as reported by the
-     solver. </li>
-     <li> Such general measures (n, c and l) always refer to the original
-     input (not after preprocessing). </li>
-     <li> t : double, solution time (in seconds). </li>
-     <li> sat : in {0,1,2} for UNSAT, SAT, UNKNOWN. </li>
-     <li> nds : double, number of nodes for look-ahead solvers. </li>
-     <li> cfs : double, number of conflicts for conflict-driven solvers. </li>
-     <li> dec : double, number of decisions for conflict-driven solvers. </li>
-     <li> rts : double, number of restarts. </li>
-     <li> r1 : double, number of unit-clause propagations. </li>
-     <li> r2 : double, number of failed-literal reductions. </li>
-     <li> pls : double, number of pure literals. </li>
-     <li> ats : double, number of autarkies (not pure literals). </li>
-     <li> h : integer, height of search-tree for look-ahead solvers. </li>
-     <li> mem : double, in MB. </li>
-     <li> ptime : double, parse time (in seconds). </li>
-     <li> file : string. </li>
-     <li> There can be more attributes; the above ones always occur in that
-     order. </li>
-     <li> DONE (no need to make incomparable data comparable)
-     For handling parameters that aren't produced by certain solvers,
-     for example nds by minisat-2.2.0, there are two options:
-     <ol>
-      <li> Output "NA" for that column. </li>
-      <li> Don't output an nds column. This has the disadvantage that
-      outputs from different solvers are harder to compare. </li>
-     </ol>
-     For now the awk scripts (see above) don't output the column.
-     </li>
     </ol>
    </li>
    <li> Some solvers do not always output their full statistics. In such
