@@ -238,7 +238,7 @@ true
   \todo Minimum using exact espresso algorithms
   <ul>
    <li> See
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/Espresso/Ss_sbox_8.hpp .
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp.
    </li>
    <li> Computing the minimum CNF:
    \verbatim
@@ -276,7 +276,7 @@ shell> espresso2.3 Sbox.pla
   \todo Using R QCA package
   <ul>
    <li> See
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Minimisation/RQCA/general.hpp .
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp.
    </li>
    <li> Computing a minimum CNF:
    \verbatim
