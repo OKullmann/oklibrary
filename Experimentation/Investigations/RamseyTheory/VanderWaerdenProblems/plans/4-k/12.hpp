@@ -51,8 +51,30 @@ ag2wsat :
  1 10 29 34 21  5
 FlipsPerSecond = 143691
 
-E2=run_ubcsat("VanDerWaerden_2-4-12_400.cnf",runs=100,cutoff=10000000,include_algs=list("rnov","dano","ddfw","rnopv","anovpp","anopv","ag2wsat"))
+E2=run_ubcsat("VanDerWaerden_2-4-12_400.cnf",runs=100,cutoff=10000000,include_algs=list("rnov","dano","ddfw","rnovp","anovpp","anovp","ag2wsat"))
+anovpp
+ 1  4  5  6  7  8
+ 1  2 10 39 41  7
+ag2wsat
+ 2  5  6  7  8  9
+ 1  7 23 43 25  1
+ddfw
+ 3  5  6  7  8
+ 1  9 30 47 13
+anovp
+ 4  5  6  7  8
+ 2 12 28 56  2
+dano
+ 4  5  6  7  8
+ 1 11 38 45  5
+rnovp
+ 4  5  6  7  8  9
+ 1  2 30 48 17  2
+rnov
+ 5  6  7  8  9
+ 3 22 53 21  1
    \endverbatim
+   Could be just chance, but "adaptnovelty+ -v params" seems best.
    </li>
   </ul>
 
