@@ -12,6 +12,48 @@ License, or any later version. */
   Especially we consider running Ubcsat, while tools are often written in R.
 
 
+  \todo run_ubcsat as shell script
+  <ul>
+   <li> run_ubcsat should not be an R-function, but a bash script. </li>
+   <li> R is for statistical evaluation, bash for running programs. </li>
+   <li> It might nevertheless be sensible, since we have run_ubcsat, to
+   finish it first, and only then to replace it, in order to have a completed
+   tool which can act as reference. </li>
+   <li> On the other hand, writing the bash script should be straightforward,
+   using our experience with writing such scripts. So run_ubcsat should not
+   be further developed, but replaced by the bash script. </li>
+   <li> There is somewhere a todo for this; we need to connect/update this.
+   </li>
+   <li> Of course, all todos below must be updated and applied to this new
+   situation. </li>
+   <li> The bash-script must have all (good) features currently run_ubcsat
+   has; this includes the form of monitoring. </li>
+   <li> The name could be "ExpRunUbcsat"; compare "Running experiments" in
+   ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
+   <li> Different from there however here we run many solvers on one instance;
+   perhaps this should be reflected in the name. </li>
+  </ul>
+
+
+  \todo Input checking
+  <ul>
+   <li> Before running, run_ubcsat needs to check all parameter. </li>
+   <li> For example the algorithm list needs to be checked, whether all
+   names are correct. </li>
+  </ul>
+
+
+  \todo Bad output should not be incorporated into the dataframe
+  <ul>
+   <li> If some algorithm could not be evaluated, then no data should be
+   collected into the dataframe. </li>
+   <li> So that eval_ubcsat_dataframe runs correctly, just on the algorithms
+   where it worked. </li>
+   <li> This is currently not the case, when false algorithm-names were used.
+   </li>
+  </ul>
+
+
   \bug Incomplete data collection
   <ul>
    <li> run_ubcsat, as every such tool, must collect *all* the data available

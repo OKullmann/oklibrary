@@ -12,6 +12,9 @@ License, or any later version. */
 
   \todo Running experiments
   <ul>
+   <li> Compare "run_ubcsat as shell script" in
+   ControllingLocalSearch/plans/DataCollection.hpp for a similar system;
+   one should create a general naming scheme. </li>
    <li> Currently we have RunMinisat. </li>
    <li> Running experiments from a directory by "ExpRunMinisat":
     <ul>
@@ -23,7 +26,7 @@ License, or any later version. */
      were considered in each order, and which is also simpler, just uses a file
      with one instance per line. </li>
      <li> We should provide a mechanism for running the solver on instances
-     given in by such a file, and collecting the statistics. </li>
+     given by such a file, and collecting the statistics. </li>
      <li> We have several possibilities:
       <ul>
        <li> Manually running the solvers on each instance, and providing
