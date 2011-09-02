@@ -131,8 +131,8 @@ ExternalSources/Installations/R> oklib --R
    <li> We need to investigate what is in espresso-book-examples.tar.gz. </li>
    <li> The PLA format:
     <ul>
-     <li> The "PLA format" is a UC Berkeley format, used initially by Espresso,
-     is at ExternalSources/sources/Boolean/Espresso/espresso.5.html. </li>
+     <li> The "PLA format" is at
+     ExternalSources/sources/Boolean/Espresso/espresso.5.html. </li>
      <li> Finite functions with boolean variables:
       <ul>
        <li> A PLAs represents a partial finite function f : {0,1}^n -> {0,1}^m
