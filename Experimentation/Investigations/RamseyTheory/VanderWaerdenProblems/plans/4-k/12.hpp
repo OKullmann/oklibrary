@@ -112,6 +112,11 @@ rnov
 100
    \endverbatim
    </li>
+   <li> Now with "adaptnovelty+ -v params":
+   \verbatim
+> k1=4 k2=12 n0=400 alg="adaptnovelty+ -v params" runs=100 cutoff=100000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} AltExp/Exp_VanderWaerden_2-4-12_393_adaptg2wsat-100-100000000_2011-08-29-180242/VanDerWaerden_2-4-12_400.cnf_sol
+   \endverbatim
+   </li>
   </ul>
 
 
