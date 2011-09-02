@@ -34,7 +34,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunVdWk1k2"
-version_number="0.3.1"
+version_number="0.3.2"
 
 if [[ $# != 6 && $# != 7 ]]; then
   echo "ERROR[${script_name}]: Six parameters k1, k2, n0, alg, runs, cutoff
@@ -42,6 +42,7 @@ if [[ $# != 6 && $# != 7 ]]; then
   vertices, the ubcsat-algorithm, the number of runs, and the cutoff.
   An optional seventh parameter is a path for the file containing an
   initial assignment for the first ubcsat-run."
+  echo "However, $# parameters were used."
   exit 1
 fi
 
