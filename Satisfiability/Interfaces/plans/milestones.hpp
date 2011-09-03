@@ -30,6 +30,7 @@ License, or any later version. */
   \par
    In Interfaces/DistributedSolving/plans/general.hpp the following topics
    are handled:
+    - Create milestones
     - Sampling tool
 
 
