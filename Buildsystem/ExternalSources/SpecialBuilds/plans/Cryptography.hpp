@@ -10,6 +10,19 @@ License, or any later version. */
   \brief Plans regarding building and making available of cryptography software and benchmarks
 
 
+  \todo Connections
+  <ul>
+   <li> Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp is about
+   the old external library for cryptographic algorithms. </li>
+  </ul>
+
+
+  \todo New library (replacing Mhash)
+  <ul>
+   <li> Crypto++ http://www.cryptopp.com/ seems like a strong library. </li>
+  </ul>
+
+
   \todo Create documentation
   <ul>
    <li> See "DES benchmarks" in

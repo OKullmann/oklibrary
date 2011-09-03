@@ -196,12 +196,6 @@ patch -p1 < patchfile
   </ul>
 
 
-  \todo Cryptology
-  <ul>
-   <li> What about Crypto++ http://www.cryptopp.com/ ? </li>
-  </ul>
-
-
   \todo Logic programming
   <ul>
    <li> http://www.mpprogramming.com/cpp/ provides Prolog-functionality for

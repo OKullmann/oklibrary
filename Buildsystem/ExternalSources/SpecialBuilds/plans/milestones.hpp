@@ -24,6 +24,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Cryptography.hpp the
    following topics are handled:
+    - New library (replacing Mhash)
     - DES generator
     - Argo DES instances
     - Kreuzer DES instances
@@ -299,8 +300,8 @@ License, or any later version. */
   \par Version 0.2.9
 
   \par
-   In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following
-   topics are handled:
+   In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the
+   following topics are handled:
     - Optimisation
 
   \par
