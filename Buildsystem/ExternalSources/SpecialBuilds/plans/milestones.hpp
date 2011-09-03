@@ -24,6 +24,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Cryptography.hpp the
    following topics are handled:
+    - Terminology
     - New library (replacing Mhash)
     - DES generator
     - Argo DES instances

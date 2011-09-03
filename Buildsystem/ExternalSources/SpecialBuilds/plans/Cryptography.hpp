@@ -7,13 +7,30 @@ License, or any later version. */
 
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Cryptography.hpp
-  \brief Plans regarding building and making available of cryptography software and benchmarks
+  \brief Plans regarding building and making available of cryptology software and benchmarks
 
 
   \todo Connections
   <ul>
    <li> Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp is about
    the old external library for cryptographic algorithms. </li>
+  </ul>
+
+
+  \todo Terminology
+  <ul>
+   <li> The general term for both design and analysis of systems is
+   "cryptology". </li>
+   <li> This is used throughout in the OKlibrary. </li>
+   <li> "Cryptography" is concerned with the design, "cryptanalysis" with
+   the analysis. </li>
+   <li> However "cryptography" is used by some people (for example the English
+   Wikipedia) to stand for the whole field. This is unfortunate (historically
+   false), but just means we should not use the term "cryptography", but
+   "crytological system" (or so). </li>
+   <li> "Cryptology" is unambigous, standing always for the whole field. </li>
+   <li> At the build-system level, we should have just one file for everything,
+   and thus this file should become "Cryptology.hpp". </li>
   </ul>
 
 
