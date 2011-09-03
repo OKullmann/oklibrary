@@ -27,6 +27,24 @@ License, or any later version. */
    <li> See "More information on the current path" in
    Solvers/OKsolver/SAT2002/plans/general.hpp. </li>
    <li> The sorting of Data should then be made optional. </li>
+   <li> Also useful is, given the decision-assignments, how many assignments
+   are then created by unit-clause propagation (UCP):
+    <ol>
+     <li> This is different to what the OKsolver reports: on the one hand,
+     the OKsolver uses the r_2-assignments for its UCP, on the other hand here
+     now we have all decisions available. </li>
+     <li> This will yield a subset of the assignments made by the OKsolver, and
+     it is relevant to see, since it is what the sub-solvers like minisat will
+     see. </li>
+     <li> We should write a C++ application, which reads once the main
+     clause-set, and then uses our UCP component, outputting the sizes of
+     the partial assignments computed for each decision-partial-assignment
+     to standard output. </li>
+     <li> This should be reasonably fast, since it doesn't need resetting.
+     </li>
+     <li> This should be done just before the md5sum-computation. </li>
+    </ol>
+   </li>
   </ul>
 
 
