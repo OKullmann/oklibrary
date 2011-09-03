@@ -8,15 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Interfaces/plans/milestones.hpp
 
-  \module_version Satisfiability/Interfaces 0.0.6.2 (14.7.2011)
-
-
-  \par Version 0.0.7
-
-  \par
-   In Interfaces/DistributedSolving/plans/ProcessSplitViaOKsolver.hpp the
-   following topics are handled:
-    - Simple tool for running through all sub-instances
+  \module_version Satisfiability/Interfaces 0.0.7 (3.9.2011)
 
 
   \par Version 0.0.8
@@ -92,6 +84,7 @@ License, or any later version. */
 
    - 0.0.5 : 10.11.2007; initial version number: basic input/output facilities for DIMACS-SAT exist.
    - 0.0.6 : 5.2.2008; extended DIMACS handling, and renewal of plans.
+   - 0.0.7 : 3.9.2011; structural updates, many small tools for input and output, also SAT translations of colouring problems and other forms of SAT problems, established first tools for distributed SAT solving.
 
 */
 

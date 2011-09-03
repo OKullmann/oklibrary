@@ -43,11 +43,11 @@ License, or any later version. */
   \par Satisfiability/Variations version 0.0.3
   (see Satisfiability/Variations/plans/general.hpp)
 
-  \par Satisfiability/Interfaces version 0.0.7
-  (see Satisfiability/Interfaces/plans/milestones.hpp)
-
   \par Satisfiability/Enumeration 0.0.4
   (see Satisfiability/Enumeration/plans/milestones.hpp)
+
+  \par Satisfiability/Interfaces version 0.0.7 : DONE
+  (see Satisfiability/Interfaces/plans/milestones.hpp)
 
   \par Satisfiability/Assignments version 0.0.6 (OK) : DONE
   (see Satisfiability/Assignments/plans/milestones.hpp)
