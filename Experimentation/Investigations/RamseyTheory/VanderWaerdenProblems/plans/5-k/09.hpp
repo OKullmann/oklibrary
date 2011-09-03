@@ -337,6 +337,43 @@ sum= 118241474871
      <li> Finally D=32 should do the job:
      \verbatim
 > SplittingViaOKsolver -D32 VanDerWaerden_pd_2-5-9_447.cnf
+> cd SplitViaOKsolver_D32VanDerWaerden_pd_259_447cnf_2011-08-25-125535/
+> more Md5sum
+9c4a963031d9171746f1557891cd382d
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  32.00   32.00   33.00   33.33   34.00   86.00
+> table(E$n)
+     32      33      34      35      36      37      38      39      40      41
+1331324  792944  500247  279063  143368   73074   37656   19971   11130    6707
+     42      43      44      45      46      47      48      49      50      51
+   4266    2765    1860    1269     928     683     486     335     292     223
+     52      53      54      55      56      57      58      59      60      61
+    182     135     113      89      67      50      48      39      23      27
+     62      63      64      65      66      67      68      69      70      71
+     25      13      22      21       9       8       8       6      11       7
+     72      73      74      75      76      77      78      79      80      84
+      7       5       5       4       5       2       3       5       1       1
+     85      86
+      2       1
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  12.00   23.00   24.00   23.74   25.00   31.00
+> table(E$d)
+    12     13     14     15     16     17     18     19     20     21     22
+    17    131    816   3287   8143  14733  24639  43255  93290 209747 396597
+    23     24     25     26     27     28     29     30     31
+585401 660314 562783 361275 171665  58524  13047   1789     82
+> more Result
+c running_time(sec)                     116641.1 (cs-oksvr)
+c number_of_nodes                       6419715
+c number_of_2-reductions                188048
+c splitting_cases                       3209535
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D32VanDerWaerden_pd_259_447cnf_2011-08-25-125535
+
      \endverbatim
      </li>
     </ol>
