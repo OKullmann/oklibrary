@@ -13,22 +13,73 @@ License, or any later version. */
 
   \par Version 0.0.7
 
+  \par
+   In Interfaces/DistributedSolving/plans/ProcessSplitViaOKsolver.hpp the
+   following topics are handled:
+    - Simple tool for running through all sub-instances
+
+
+  \par Version 0.0.8
+
   \par Interfaces/InputOutput version 0.1.2
   (see Interfaces/InputOutput/plans/milestones.hpp)
 
+  \par
+   In Interfaces/DistributedSolving/plans/ProcessSplitViaOKsolver.hpp the
+   following topics are handled:
+    - Option for using only the decision variables
+
+
+  \par Version 0.0.9
+
+  \par Interfaces/InputOutput version 0.1.3
+  (see Interfaces/InputOutput/plans/milestones.hpp)
+
+  \par
+   In Interfaces/DistributedSolving/plans/general.hpp the following topics
+   are handled:
+    - Sampling tool
+
+
+  \par Version 0.0.10
+
+  \par Interfaces/InputOutput version 0.1.4
+  (see Interfaces/InputOutput/plans/milestones.hpp)
+
+  \par
+   In Interfaces/DistributedSolving/plans/general.hpp the following topics
+   are handled:
+    - Adding distribution power to SplittingViaOKsolver
+
+
+  \par Version 0.0.11
+
+  \par Interfaces/InputOutput version 0.1.5
+  (see Interfaces/InputOutput/plans/milestones.hpp)
+
+  \par
+   In Interfaces/DistributedSolving/plans/general.hpp the following topics
+   are handled:
+    - Organising distributed solving
+
+  \par
+   Update milestones.
+
+
+  \par Version 0.1
+
+  \par Interfaces/InputOutput version 0.2
+
+  (see Interfaces/InputOutput/plans/milestones.hpp)
   \par
    In Satisfiability/Interfaces/plans/general.hpp the following topics are
    handled:
     - Ladder logic
 
   \par
-   Create further milestones.
-
-
-  \par Version 0.0.8
-
-  \par Interfaces/InputOutput version 0.1.4
-  (see Interfaces/InputOutput/plans/milestones.hpp)
+   In Interfaces/DistributedSolving/plans/general.hpp the following topics
+   are handled:
+    - Distribution via splitting trees
 
   \par
    Create further milestones.
