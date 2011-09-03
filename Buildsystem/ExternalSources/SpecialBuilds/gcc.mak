@@ -44,6 +44,7 @@ gcc : $(gcc_directories_okl) texi2dvi
 	$(call unarchive,$(mpc_source_okl),$(gcc_unarchived_source_okl))
 	mv $(gcc_unarchived_source_okl)/$(mpc_recommended_okl) $(gcc_unarchived_source_okl)/mpc
 	cd $(gcc_build_dir_okl); $(postcondition) \
+	export PATH=$(public_bin_dir_okl):${PATH}; $(postcondition) \
 	$(gcc_unarchived_source_okl)/configure --prefix=$(gcc_installation_dir_okl) --enable-languages=$(gcc_enable_languages_okl) --enable-threads=$(gcc_threads_okl) --with-system-zlib $(gcc_other_options_okl) $(gcc_user_options_okl); $(postcondition) \
 	make; $(postcondition) \
 	make html dvi pdf; $(postcondition) \
@@ -52,9 +53,11 @@ gcc : $(gcc_directories_okl) texi2dvi
 	mv -f $(gcc_doc_dir_okl)/doc $(gcc_doc_dir_okl)/html; $(postcondition) \
 	cp -fr gcc/doc $(gcc_doc_dir_okl); $(postcondition)
 
-# Until texinfo contains the corrected texi2dvi
+# Until texinfo contains the corrected texi2dvi:
 texi2dvi :
 	ln -s --force $(gcc_source_base_okl)/texi2dvi $(public_bin_dir_okl)
+# Remark: also the addition of OKplatform/bin above to the path is due to
+# the need to replace texi2dvi.
 
 
 # ####################################
