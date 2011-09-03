@@ -89,8 +89,17 @@ License, or any later version. */
   \todo Improving SplittingViaOKsolver
   <ul>
    <li> The computation of the md5sum-value of the directory Instances is very
-   slow, and we need a dedicated application of it. See "Computing the
-   md5sum-value of a directory" in Structures/Cryptology/plans/MHash.hpp. </li>
+   slow, and we need a dedicated application of it.
+    <ol>
+     <li> On cs-oksvr the computation for a directory with 3209535+1 elements
+     took from Fri Aug 26 21:56:11 BST 2011 to Fri Sep  2 10:58:57 BST 2011.
+     That is 6 1/2 days, where a day has ~ 90000s, so roughly only 6 md5sum-
+     computations per second. </li>
+     <li> See "Computing the
+     md5sum-value of a directory" in Structures/Cryptology/plans/MHash.hpp.
+     </li>
+    </ol>
+   </li>
    <li> DONE (also sorting the lines now)
    The computation of file Data is very slow: we need a little C++
    application for it. </li>
