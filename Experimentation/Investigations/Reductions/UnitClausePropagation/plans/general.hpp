@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.11.2010 (Swansea)
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,15 +27,16 @@ License, or any later version. */
 
   \todo Experimentation tools
   <ul>
-   <li> Experiments on 32-bit machines as well as on 64-bit machines. </li>
+   <li> DONE (no need to consider 32-bit machines)
+   Experiments on 32-bit machines as well as on 64-bit machines. </li>
    <li> We need some tools for time-measurement, recording and evaluation
    (the last of course by R) of applications. </li>
    <li> Perhaps in this context we concentrate on "one-off" applications of
    UCP, that is, just reading a file, computing the simplification, and
    outputting it (as in UnitClausePropagation.cpp). </li>
    <li> Then we don't need to worry about reversing information stored in
-   clauses (since pure UCP itself does not involve any form of backtracking).
-   </li>
+   clause-objects (since pure UCP itself does not involve any form of
+   backtracking). </li>
   </ul>
 
 
@@ -48,16 +49,20 @@ k=5000; Smusat_Horn-O3-DNDEBUG ${k} > Smusat_Horn_${k}.cnf
    </li>
    <li> For k=20000 the file is 1229 MB. </li>
    <li> Also of relevance is to reverse the clause-order:
-   \verbatim
+    <ol>
+     <li>
+     \verbatim
 tac Smusat_Horn_20000.cnf > Smusat_Horn_R_20000.cnf
-   \endverbatim
-   </li>
-   <li> However this simple file reversal puts the comment- and parameter-
-   section at the end of the file. The following repairs this (assuming
-   that the comment- and parameter section spans 2 lines):
-   \verbatim
+     \endverbatim
+     </li>
+     <li> However this simple file reversal puts the comment- and parameter-
+     section at the end of the file. The following repairs this (assuming
+     that the comment- and parameter section spans 2 lines):
+     \verbatim
 k=1000; head -n 2 Smusat_Horn_${k}.cnf > Smusat_Horn_R_${k}.cnf; tail -n +3 Smusat_Horn_${k}.cnf | tac >> Smusat_Horn_R_${k}.cnf
-   \endverbatim
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> Sets versus vectors in UnitClausePropagation.cpp:
     <ol>
