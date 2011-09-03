@@ -19,7 +19,20 @@ License, or any later version. */
 
   \todo New library (replacing Mhash)
   <ul>
-   <li> Crypto++ http://www.cryptopp.com/ seems like a strong library. </li>
+   <li> Crypto++ http://www.cryptopp.com/ seems like a strong library.
+    <ol>
+     <li> Building via "PREFIX=XXX make all test install" yields an error (it
+     uses "GNUmakefile"; version 5.6.1):
+     \verbatim
+cp: cannot stat `*.so': No such file or directory
+make: *** [install] Error 1
+     \endverbatim
+     So the dynamic link-library is not created. </li>
+     <li> We could ignore it, using only the .a-library. </li>
+     <li> But better to contact the developers (also for testing how strong
+     the community is; the build-process looks a bit ad-hoc). </li>
+    </ol>
+   </li>
   </ul>
 
 
