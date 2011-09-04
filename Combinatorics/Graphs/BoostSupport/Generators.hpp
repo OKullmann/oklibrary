@@ -40,8 +40,8 @@ namespace Generators {
     const std::pair<vertex_iterator, vertex_iterator> pi = vertices(g);
     for (vertex_iterator i = pi.first; i != pi.second; ++i)
       for (vertex_iterator j = ++vertex_iterator(i); j != pi.second; ++j) {
-	add_edge(*i, *j, g);
-	add_edge(*j, *i, g);
+        add_edge(*i, *j, g);
+        add_edge(*j, *i, g);
       }
   }
   template<typename Graph>
@@ -50,7 +50,7 @@ namespace Generators {
     const std::pair<vertex_iterator, vertex_iterator> pi = vertices(g);
     for (vertex_iterator i = pi.first; i != pi.second; ++i)
       for (vertex_iterator j = ++vertex_iterator(i); j != pi.second; ++j)
-	add_edge(*i, *j, g);
+        add_edge(*i, *j, g);
   }
 
 }
