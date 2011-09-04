@@ -117,6 +117,23 @@ rnov
 > k1=4 k2=12 n0=400 alg="adaptnovelty+ -v params" runs=100 cutoff=100000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} AltExp/Exp_VanderWaerden_2-4-12_393_adaptg2wsat-100-100000000_2011-08-29-180242/VanDerWaerden_2-4-12_400.cnf_sol
    \endverbatim
    </li>
+   <li> n=401:
+    <ol>
+     <li> The above run of "adaptnovelty+ -v params" yielded:
+     \verbatim
+> E=read_ubcsat("VanDerWaerden_2-4-12_401.cnf_OUT",nrows=100)
+ 2  3  4  5  6
+ 2  1  5 35 57
+100
+     \endverbatim
+     (where using the previous solution min=1 is obtained). </li>
+     <li> Trying the above second-best algorithm:
+     \verbatim
+> k1=4 k2=12 n0=400 alg="adaptg2wsat" runs=100 cutoff=100000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} AltExp/Exp_VanderWaerden_2-4-12_393_adaptg2wsat-100-100000000_2011-08-29-180242/VanDerWaerden_2-4-12_400.cnf_sol
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
