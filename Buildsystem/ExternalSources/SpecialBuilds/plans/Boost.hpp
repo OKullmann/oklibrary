@@ -58,6 +58,26 @@ OKplatform> ldd system_directories/bin/tests/BoostSupport
      </li>
     </ol>
    </li>
+   <li> On cspcmg it links to the OKlibrary boost:
+   \verbatim
+> ldd system_directories/bin/tests/BoostSupport
+     linux-vdso.so.1 =>   (0x00007fff547ff000)
+     libboost_graph.so.1.44.0 =>  /home/csmg/Work/OKlibrary/NewOKlib/OKplatform/ExternalSources/Installations/Boost/4.1.2/1_44_0/lib/libboost_graph.so.1.44.0
+(0x00007fa2415f5000)
+     libstdc++.so.6 =>  /home/csmg/Work/OKlibrary/NewOKlib/OKplatform/ExternalSources/Installations/Gcc/4.1.2/lib64/libstdc++.so.6
+(0x00007fa2412e8000)
+     libm.so.6 =>  /lib/x86_64-linux-gnu/libm.so.6 (0x00007fa24103d000)
+     libgcc_s.so.1 =>  /home/csmg/Work/OKlibrary/NewOKlib/OKplatform/ExternalSources/Installations/Gcc/4.1.2/lib64/libgcc_s.so.1
+(0x00007fa240e30000)
+     libc.so.6 =>  /lib/x86_64-linux-gnu/libc.so.6 (0x00007fa240a9b000)
+     libboost_regex.so.1.44.0 =>  /home/csmg/Work/OKlibrary/NewOKlib/OKplatform/ExternalSources/Installations/Boost/4.1.2/1_44_0/lib/libboost_regex.so.1.44.0
+(0x00007fa2407a9000)
+     librt.so.1 =>  /lib/x86_64-linux-gnu/librt.so.1 (0x00007fa2405a1000)
+     libpthread.so.0 =>  /lib/x86_64-linux-gnu/libpthread.so.0
+(0x00007fa240382000)
+     /lib64/ld-linux-x86-64.so.2 (0x00007fa241864000)
+   \endverbatim
+   </li>
    <li> System information:
     <ol>
      <li> csoberon/csnereid:
@@ -82,6 +102,14 @@ GNU ld (GNU Binutils; openSUSE 11.4) 2.21
 Linux csltok 2.6.39.3-0.5-desktop #1 SMP PREEMPT Sun Jul 31 02:04:11 BST 2011 x86_64 x86_64 x86_64 GNU/Linux
 > ld --version
 GNU ld (GNU Binutils; openSUSE 11.4) 2.21
+     \endverbatim
+     </li>
+     <li> On cspcmg:
+     \verbatim
+> uname -a
+Linux cspcmg 2.6.38-11-generic #48-Ubuntu SMP Fri Jul 29 19:02:55 UTC 2011 x86_64 x86_64 x86_64 GNU/Linux
+> ld --version
+GNU ld (GNU Binutils for Ubuntu) 2.21.0.20110327
      \endverbatim
      </li>
     </ol>
