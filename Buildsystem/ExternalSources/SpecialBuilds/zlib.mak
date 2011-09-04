@@ -30,7 +30,6 @@ zlib_core : $(zlib_directories_okl)
 	make test; $(postcondition) \
 	make install; $(postcondition)
 
-ifneq ($(machine_bits_okl),32)
 zlib32 : $(zlib_directories_okl)
 	$(call unarchive,$(zlib_source_package_okl),$(zlib32_gccbuild_dir_okl))
 	cd $(zlib32_build_dir_okl); $(postcondition) \
@@ -38,10 +37,6 @@ zlib32 : $(zlib_directories_okl)
 	make; $(postcondition) \
 	make test; $(postcondition) \
 	make install; $(postcondition)
-else
-zlib32 :
-       : # No op
-endif
 
 
 # ####################################
