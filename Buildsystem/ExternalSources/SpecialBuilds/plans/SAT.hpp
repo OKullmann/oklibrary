@@ -644,7 +644,25 @@ builds/CryptoMiniSat> make
   \todo Glucose
   <ul>
    <li> http://www.lri.fr/~simon/glucose/ </li>
-   <li> Install by:
+   <li> We need to install version 2.
+    <ol>
+     <li>
+     \verbatim
+3ea28a75b7a079a4415ea594931b26fb  glucose-2-compet.tgz
+     \endverbatim
+     </li>
+     <li> We should check whether the defincencies of the build process are
+     still there (then likely we can just use the old build) or not (then
+     we should use some standard form of build). </li>
+     <li> First we keep the old version and see how the new behaves. </li>
+     <li> But likely, since in none of our applications, glucose version 1
+     was best, it replaces version 1. </li>
+     <li> Of course, we keep the old version (including the md5sum in
+     Buildsystem/ExternalSources/sources). </li>
+    </ol>
+   </li>
+   <li> DONE (version 1 installed)
+   Install by:
    \verbatim
 builds/Glucose> tar xvf ../../sources/SAT/Glucose/glucose_1.0.tar.bz2
 builds/Glucose> cd glucose_1.0
