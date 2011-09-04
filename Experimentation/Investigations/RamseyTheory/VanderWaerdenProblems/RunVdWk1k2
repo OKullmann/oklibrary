@@ -34,7 +34,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunVdWk1k2"
-version_number="0.3.2"
+version_number="0.3.3"
 
 if [[ $# != 6 && $# != 7 ]]; then
   echo "ERROR[${script_name}]: Six parameters k1, k2, n0, alg, runs, cutoff
@@ -78,7 +78,8 @@ fi
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
-ExpDir="Exp_VanderWaerden_2-${k1}-${k2}_${n0}_${alg}-${runs}-${cutoff}_${timestamp}"
+algabbrev=$(echo ${alg} | tr -d " ")
+ExpDir="Exp_VanderWaerden_2-${k1}-${k2}_${n0}_${algabbrev}-${runs}-${cutoff}_${timestamp}"
 echo -e "Running \"${script_name}\" in version ${version_number}."
 echo -e "Creating directory ${ExpDir}.\n"
 mkdir ${ExpDir}
