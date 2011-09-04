@@ -58,6 +58,34 @@ OKplatform> ldd system_directories/bin/tests/BoostSupport
      </li>
     </ol>
    </li>
+   <li> System information:
+    <ol>
+     <li> csoberon/csnereid:
+     \verbatim
+> uname -a
+Linux csnereid 2.6.37.1-1.2-desktop #1 SMP PREEMPT 2011-02-21 10:34:10 +0100 i686 i686 i386 GNU/Linux
+> ld --version
+GNU ld (GNU Binutils; openSUSE 11.3) 2.20.0.20100122-6
+     \endverbatim
+     </li>
+     <li> On cs-wsok:
+     \verbatim
+> uname -a
+Linux cs-wsok 2.6.37.6-0.7-desktop #1 SMP PREEMPT 2011-07-21 02:17:24 +0200 x86_64 x86_64 x86_64 GNU/Linux
+> ld --version
+GNU ld (GNU Binutils; openSUSE 11.4) 2.21
+     \endverbatim
+     </li>
+     <li> On csltok:
+     \verbatim
+> uname -a
+Linux csltok 2.6.39.3-0.5-desktop #1 SMP PREEMPT Sun Jul 31 02:04:11 BST 2011 x86_64 x86_64 x86_64 GNU/Linux
+> ld --version
+GNU ld (GNU Binutils; openSUSE 11.4) 2.21
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> Why does it want to link to libboost_regex at all?
     <ol>
      <li> OK has sent an e-mail to boost-users@lists.boost.org, under heading
