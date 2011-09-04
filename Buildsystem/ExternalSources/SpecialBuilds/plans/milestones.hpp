@@ -33,7 +33,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
-    - Linking error (on csoberon)
+    - Linking error (on csoberon) : DONE
     - Defect boost-installation for fixed gcc-4.1.2 : DONE
     - Missing documentation for Boost
     - Update Boost installation

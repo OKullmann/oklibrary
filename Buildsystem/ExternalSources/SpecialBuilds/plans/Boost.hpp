@@ -10,7 +10,9 @@ License, or any later version. */
   \brief Plans regarding installation of the Boost library
 
 
-  \bug Linking error (on csoberon)
+  \bug DONE (explicite linking to libboost_regex required, when using the
+  Graphviz components of the Graph library)
+  Linking error (on csoberon)
   <ul>
    <li> We get for "oklib new_check"
    \verbatim
@@ -119,6 +121,10 @@ GNU ld (GNU Binutils for Ubuntu) 2.21.0.20110327
      <li> OK has sent an e-mail to boost-users@lists.boost.org, under heading
      "linking with libboost_graph not enough, but libboost_regex required for
      simple graph application?". </li>
+     <li> According to the Boost mailing-list, if Graphviz is involved, then
+     explicit linking with libboost_regex is needed. </li>
+     <li> So apparently the behaviour on cspcmg is not guaranteed (or
+     possibly even wrong). </li>
     </ol>
    </li>
   </ul>

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.8.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,6 +24,7 @@ License, or any later version. */
   <ul>
    <li> The %boost header files and the corresponding link libraries XXX </li>
    <li> Documentation XXX </li>
+   <li> A specific version to be used with gcc-4.1.2 XXX </li>
    <li> The bzip2-library is needed to build Boost; we provide a (patched)
    local installation by using <code>oklib bzip2</code>. This is installed by
    default when installing the full package, while otherwise it needs to
@@ -40,6 +41,9 @@ License, or any later version. */
    \endcode
    together with "${boost_include_option_okl}" XXX XXX). </li>
    <li> To link with %Boost, use "${boost_link_option_okl}" XXX for each sub-library separately XXX. </li>
+   <li> When linking to the Boost Graph-library via <code>-lboost_graph</code>,
+   where Graphviz is involved (reading or writing of this specific
+   graph-format), then also <code>-lboost_regex</code> is to be used. </li>
   </ul>
 
 

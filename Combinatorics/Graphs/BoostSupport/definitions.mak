@@ -7,5 +7,5 @@ programs := Test demo_read_graph
 
 source_libraries = $(boost_include_option_okl)
 
-link_libraries := ${boost_link_option_okl} -lboost_graph
+link_libraries := ${boost_link_option_okl} -lboost_graph -lboost_regex
 
