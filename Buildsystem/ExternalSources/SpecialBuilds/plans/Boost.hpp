@@ -19,20 +19,22 @@ time -p /compsci/saturn/staff/csoliver/OKplatform/system_directories/bin/tests/B
 
 OKplatform> ldd system_directories/bin/tests/BoostSupport
         linux-gate.so.1 =>  (0xffffe000)
-        libboost_graph.so.1.44.0 => /compsci/saturn/staff/csoliver/OKplatform/ExternalSources/Installations/Boost/4.1.2/1_44_0/lib/libboost_graph.so.1.44.0 (0xb7724000)
-        libstdc++.so.6 => /compsci/saturn/staff/csoliver/OKplatform/ExternalSources/Installations/Gcc/4.1.2/lib/libstdc++.so.6 (0xb7631000)
-        libm.so.6 => /lib/libm.so.6 (0xb75ec000)
-        libgcc_s.so.1 => /compsci/saturn/staff/csoliver/OKplatform/ExternalSources/Installations/Gcc/4.1.2/lib/libgcc_s.so.1 (0xb75e0000)
-        libc.so.6 => /lib/libc.so.6 (0xb7475000)
+        libboost_graph.so.1.44.0 => /compsci/saturn/staff/csoliver/OKplatform/ExternalSources/Installations/Boost/4.1.2/1_44_0/lib/libboost_graph.so.1.44.0 (0xb7774000)
+        libstdc++.so.6 => /compsci/saturn/staff/csoliver/OKplatform/ExternalSources/Installations/Gcc/4.1.2/lib/libstdc++.so.6 (0xb7681000)
+        libm.so.6 => /lib/libm.so.6 (0xb763c000)
+        libgcc_s.so.1 => /compsci/saturn/staff/csoliver/OKplatform/ExternalSources/Installations/Gcc/4.1.2/lib/libgcc_s.so.1 (0xb7630000)
+        libc.so.6 => /lib/libc.so.6 (0xb74c5000)
         libboost_regex.so.1.44.0 => not found
-        librt.so.1 => /lib/librt.so.1 (0xb746b000)
-        libpthread.so.0 => /lib/libpthread.so.0 (0xb744f000)
-        /lib/ld-linux.so.2 (0xb778e000)
+        librt.so.1 => /lib/librt.so.1 (0xb74bb000)
+        libpthread.so.0 => /lib/libpthread.so.0 (0xb749f000)
+        /lib/ld-linux.so.2 (0xb77de000)
    \endverbatim
    </li>
-   <li> We don't get this error on other machines, e.g. on cs-wsok:
-   \verbatim
-ldd system_directories/bin/tests/BoostSupport
+   <li> On other machines it links to the the system boost:
+    <ol>
+     <li> On the old cs-wsok (Suse 10.0) we had
+     \verbatim
+> ldd system_directories/bin/tests/BoostSupport
         libboost_graph.so.1.44.0 => /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Boost/4.1.2/1_44_0/lib/libboost_graph.so.1.44.0 (0x00002aaaaabc2000)
         libstdc++.so.6 => /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Gcc/4.1.2/lib64/libstdc++.so.6 (0x00002aaaaae2f000)
         libm.so.6 => /lib64/tls/libm.so.6 (0x00002aaaab165000)
@@ -42,9 +44,27 @@ ldd system_directories/bin/tests/BoostSupport
         librt.so.1 => /lib64/tls/librt.so.1 (0x00002aaaab9e4000)
         libpthread.so.0 => /lib64/tls/libpthread.so.0 (0x00002aaaabaed000)
         /lib64/ld-linux-x86-64.so.2 (0x00002aaaaaaab000)
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> However with newer installation (Suse 11.4, cs-wsok and csltok) it
+     links to the system-boost (and thus only works if there is a compatible
+     system-boost):
+     \verbatim
+        libboost_graph.so.1.44.0 => /home/csoliver/OKplatform/ExternalSources/Installations/Boost/4.1.2/1_44_0/lib/libboost_graph.so.1.44.0 (0x00007f8170fbe000)
+        libboost_regex.so.1.44.0 => /usr/lib64/libboost_regex.so.1.44.0 (0x00007f81701c1000)
+
+        libboost_regex.so.1.44.0 => /usr/lib64/libboost_regex.so.1.44.0 (0x00007f8d63e00000)
+     \endverbatim
+     </li>
+    </ol>
    </li>
-   <li> Why does it want to link to libboost_regex at all? </li>
+   <li> Why does it want to link to libboost_regex at all?
+    <ol>
+     <li> OK has sent an e-mail to boost-users@lists.boost.org, under heading
+     "linking with libboost_graph not enough, but libboost_regex required for
+     simple graph application?". </li>
+    </ol>
+   </li>
   </ul>
 
 
