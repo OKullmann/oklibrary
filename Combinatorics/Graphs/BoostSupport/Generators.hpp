@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.6.2003 (Swansea)
-/* Copyright 2003 - 2007 Oliver Kullmann
+/* Copyright 2003 - 2007, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -54,26 +54,6 @@ namespace Generators {
       for (vertex_iterator j = ++vertex_iterator(i); j != pi.second; ++j)
 	add_edge(*i, *j, g);
   }
-
-
-//   simple_undirected_graph complete_bipartite_graph(unsigned int n, unsigned int m)
-// //where n == no of vertices in 1st set and m == no of vertices in 2nd set
-//   {
-//     typedef boost::graph_traits<simple_undirected_graph>::vertices_size_type vertices_size_type;
-//     vertices_size_type nVertices = n + m;
-
-//     simple_undirected_graph g(nVertices);	//creates a graph with n +m vertices
-        
-//     for(int j=0; j< n  ; j++)	//for node j in set 1...
-// 	{
-// 	    for(int i= n ; i < nVertices; i++)	//add an edge from j to i (where i = n to nVertices -1) 
-// 		{
-// 		{boost::add_edge(j, i, g);}
-// 		}
-// 	}
-
-//     return g;
-//   }
 
 }
 
