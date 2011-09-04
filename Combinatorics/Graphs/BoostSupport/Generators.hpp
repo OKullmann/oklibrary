@@ -14,8 +14,6 @@ License, or any later version. */
 #ifndef GENERATORSWAECHTER_jhg4erC
 #define GENERATORSWAECHTER_jhg4erC
 
-#include <iostream>
-#include <vector>
 #include <utility>
 
 #include <boost/graph/graph_traits.hpp>
