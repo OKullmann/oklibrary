@@ -84,11 +84,23 @@ echo -e "Creating directory ${ExpDir}.\n"
 mkdir ${ExpDir}
 cd ${ExpDir}
 
+log_file=Log
 parameter_file=Parameters
 result_file=Results
 statistics_file=Statistics
 
-echo -e "${script_name}:\n k1=${k1}\n k2=${k2}\n n0=${n0}\n alg=${alg}\n runs=${runs}\n cutoff=${cutoff}\n initial assignment=${initial_assignment}" > ${parameter_file}
+echo -n "Begin: " > ${log_file}
+date >> ${log_file}
+echo "Process id = $$" >> ${log_file}
+
+echo "${script_name}, version ${version_number}." > ${parameter_file}
+echo -e "Parameters:\n k1=${k1}\n k2=${k2}\n n0=${n0}\n alg=${alg}\n runs=${runs}\n cutoff=${cutoff}\n initial assignment=${initial_assignment}\n" >> ${parameter_file}
+echo "Call:" >> ${parameter_file}
+echo -n " ${script_name} ${k1} ${k2} ${n0} \"${alg}\" ${runs} ${cutoff}" >> ${parameter_file}
+if [[ ${initial_assignment} != 0 ]]; then
+  echo -n " \"$7\"" >> ${parameter_file}
+fi
+echo >> ${parameter_file}
 
 printf "%7s %5s %10s %10s %2s\n" n run osteps seed type > ${statistics_file}
 
@@ -129,6 +141,9 @@ for ((n=n0; 1; ++n)); do
     if [[ ${success} == 0 ]]; then
       echo "Break point: ${n}" >> ${result_file}
       echo "UNSAT for n=${n}"
+      ps p $$ k time S >> ${log_file}
+      echo -n "Completed: " >> ${log_file}
+      date >> ${log_file}
       exit 20
     fi
   fi
@@ -154,4 +169,3 @@ for ((n=n0; 1; ++n)); do
 done
 
 exit 1
-
