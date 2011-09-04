@@ -38,7 +38,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunPdVdWk1k2"
-version_number="0.2.3"
+version_number="0.2.4"
 
 if [[ $# != 5 ]]; then
   echo "ERROR[${script_name}]: Five parameters k1, k2, alg, runs, cutoff
@@ -68,11 +68,19 @@ echo -e "Creating directory ${ExpDir}.\n"
 mkdir ${ExpDir}
 cd ${ExpDir}
 
+log_file=Log
 parameter_file=Parameters
 result_file=Results
 statistics_file=Statistics
 
-echo -e "${script_name}:\n k1=${k1}\n k2=${k2}\n alg=${alg}\n runs=${runs}\n cutoff=${cutoff}\n" > ${parameter_file}
+echo -n "Begin: " > ${log_file}
+date >> ${log_file}
+echo "Process id = $$" >> ${log_file}
+
+echo "${script_name}, version ${version_number}." > ${parameter_file}
+echo -e "Parameters:\n k1=${k1}\n k2=${k2}\n alg=${alg}\n runs=${runs}\n cutoff=${cutoff}\n" >> ${parameter_file}
+echo "Call:" >> ${parameter_file}
+echo " ${script_name} ${k1} ${k2} \"${alg}\" ${runs} ${cutoff}" >> ${parameter_file}
 
 printf "%7s %5s %10s %10s %2s\n" n run osteps seed type > ${statistics_file}
 
@@ -162,5 +170,8 @@ done
 echo "Final result:"
 cat ${result_file}
 
-exit 0
+ps p $$ k time S >> ${log_file}
+echo -n "Completed: " >> ${log_file}
+date >> ${log_file}
 
+exit 0
