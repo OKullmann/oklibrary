@@ -12,9 +12,7 @@ License, or any later version. */
 
 #include <boost/graph/adjacency_list.hpp>
 
-#include "Generators.hpp"
 #include "Tests_Generators.hpp"
-#include "Graphs.hpp"
 
 namespace {
 
