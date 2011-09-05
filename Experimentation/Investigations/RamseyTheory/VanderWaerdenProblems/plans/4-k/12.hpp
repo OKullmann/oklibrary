@@ -116,10 +116,23 @@ rnov
    \verbatim
 > k1=4 k2=12 n0=400 alg="adaptnovelty+ -v params" runs=100 cutoff=100000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} AltExp/Exp_VanderWaerden_2-4-12_393_adaptg2wsat-100-100000000_2011-08-29-180242/VanDerWaerden_2-4-12_400.cnf_sol
    \endverbatim
+   See below (no solution found for n=401). </li>
+   </li>
+   <li> Starting from scratch (csnereid):
+   \verbatim
+> k1=4 k2=12 n0=12 alg="adaptnovelty+ -v params" runs=100 cutoff=100000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff}
+   \endverbatim
+   Depends of course on chance: for n=368 6 runs (random-mode) were needed.
+   </li>
+   <li> Starting from scratch (csoberon) and with adaptg2wsat:
+   \verbatim
+> k1=4 k2=12 n0=12 alg="adaptg2wsat" runs=100 cutoff=100000000; nohup RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} &
+   \endverbatim
    </li>
    <li> n=401:
     <ol>
-     <li> The above run of "adaptnovelty+ -v params" yielded:
+     <li> The above run of "adaptnovelty+ -v params" (starting from n=400)
+     yielded:
      \verbatim
 > E=read_ubcsat("VanDerWaerden_2-4-12_401.cnf_OUT",nrows=100)
  2  3  4  5  6
@@ -130,8 +143,18 @@ rnov
      <li> Trying the above second-best algorithm:
      \verbatim
 > k1=4 k2=12 n0=400 alg="adaptg2wsat" runs=100 cutoff=100000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} AltExp/Exp_VanderWaerden_2-4-12_393_adaptg2wsat-100-100000000_2011-08-29-180242/VanDerWaerden_2-4-12_400.cnf_sol
+> E=read_ubcsat("VanDerWaerden_2-4-12_401.cnf_OUT",nrows=100)
+ 1  2  3  4  5  6  7
+ 2  3  1  5 21 62  6
+100
+     \endverbatim
+     Looks better (but could be luck). </li>
+     <li> Trying the above third-best algorithm:
+     \verbatim
+> k1=4 k2=12 n0=400 alg="ddfw" runs=100 cutoff=100000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} AltExp/Exp_VanderWaerden_2-4-12_393_adaptg2wsat-100-100000000_2011-08-29-180242/VanDerWaerden_2-4-12_400.cnf_sol
      \endverbatim
      </li>
+
     </ol>
    </li>
   </ul>
