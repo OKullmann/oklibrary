@@ -29,12 +29,14 @@
 # - osteps of final (successful) run
 # - seed
 # - "p" for previous or "r" for random initial assignment.
+# Logging information is provided in file "Log", and in "Environment"
+# information about the computational environment can be found.
 
 set -o errexit
 set -o nounset
 
 script_name="RunVdWk1k2"
-version_number="0.3.3"
+version_number="0.3.4"
 
 if [[ $# != 6 && $# != 7 ]]; then
   echo "ERROR[${script_name}]: Six parameters k1, k2, n0, alg, runs, cutoff
@@ -86,6 +88,7 @@ mkdir ${ExpDir}
 cd ${ExpDir}
 
 log_file=Log
+environment_file=Environment
 parameter_file=Parameters
 result_file=Results
 statistics_file=Statistics
@@ -93,6 +96,12 @@ statistics_file=Statistics
 echo -n "Begin: " > ${log_file}
 date >> ${log_file}
 echo "Process id = $$" >> ${log_file}
+
+uname -a > ${environment_file}
+echo >> ${environment_file}
+cat /proc/cpuinfo >> ${environment_file}
+echo >> ${environment_file}
+free -m >> ${environment_file}
 
 echo "${script_name}, version ${version_number}." > ${parameter_file}
 echo -e "Parameters:\n k1=${k1}\n k2=${k2}\n n0=${n0}\n alg=${alg}\n runs=${runs}\n cutoff=${cutoff}\n initial assignment=${initial_assignment}\n" >> ${parameter_file}
