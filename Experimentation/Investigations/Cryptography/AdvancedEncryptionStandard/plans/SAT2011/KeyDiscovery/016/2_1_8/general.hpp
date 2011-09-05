@@ -104,7 +104,21 @@ K_(i,j) := S-box(K_(i-1,j)) + C_i
      <li> 8 8x1 boolean functions. </li>
     </ul>
    </li>
-   <li> The MixColumns operation is a permutation from ({0,1}^8)^2 to
+   <li> ??? EXACTLY ONE INFORMATION IS CRUCIAL: what type of boolean
+        functions do we have ??? here we have a 32-bit boolean function,
+        representing a 16-bit permutation.
+        "({0,1}^8)^2" is misleading.
+        *** REFERENCES *** to the boolean functions involved are needed. ***
+        "permutation over {0,1}^8" is misleading: we have a 16-bit boolean
+        function, representing an 8-bit permutation!
+        all "{0,1}^8 to {0,1}^8" need to be removed etc., replaced by
+        "16-bit boolean function, representing an 8-bit permutation".
+        The crucial information must stand out! We have *boolean functions*
+        here, and then one should not mention "{0,1}^8" etc. --- what else?
+        Mentioning it means that it should be *different*.
+        And "({0,1}^8)^2" doesn't exist for a boolean function!
+
+   The MixColumns operation is a permutation from ({0,1}^8)^2 to
    ({0,1}^8)^2, which we consider to be defined as:
    \verbatim
 MixColumns(I_1) := Mul02(I_1) + Mul03(I_2)
