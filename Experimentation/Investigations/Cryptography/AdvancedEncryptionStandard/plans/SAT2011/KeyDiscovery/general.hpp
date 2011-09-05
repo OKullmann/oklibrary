@@ -107,6 +107,10 @@ License, or any later version. */
 
   \todo Boundaries
   <ul>
+   <li> This todo is out of date and must be updated. </li>
+   <li> At the same time, the order should be changed to
+   "N rows, N columns"; rows come first in a matrix specification.
+   </li>
    <li> We need to have a good understanding of the boundaries of the
    parameters and sizes of AES key discovery instances that we can
    solve in a reasonable time (in less than a day or two). </li>
@@ -142,8 +146,8 @@ License, or any later version. */
     </li>
     <li> 16 bit key:
      <ul>
-      <li> 1 column, 2 row, 8 bits up to <em>14 + 1/3</em> rounds in
-      <em> 182s </em> seconds with precosat236 in 016/2_1_8/14_13.hpp. </li>
+      <li> 1 column, 2 row, 8 bits up to <em>20 + 1/3</em> rounds in
+      <em> 268s </em> seconds with minisat-2.2.0 in 016/2_1_8/general.hpp. </li>
       <li> 2 column, 2 row, 4 bits up to <em>20 + 1/3</em> rounds in
       <em> 40s </em> seconds with minisat-2.2.0 in 016/2_2_4/20_13.hpp. </li>
      </ul>
