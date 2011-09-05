@@ -20,7 +20,7 @@ License, or any later version. */
    how the performance of each solver changes as we increase the number of
    rounds. </li>
    <li> Descriptions and statistics for each of the translations are provided
-   in AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp.
+   in plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp.
    </li>
    <li> Comparing the translations by solving key-discovery instances over 20
    rounds (averaged over 20 distinct keys):
@@ -99,9 +99,9 @@ K_(i,j) := S-box(K_(i-1,j)) + C_i
    as either:
     <ul>
      <li> a 16x1 boolean function; see ss_sbox_bf in
-     ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac;
+     Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac;
      </li>
-     <li> 4 8x1 boolean functions. </li>
+     <li> 8 8x1 boolean functions. </li>
     </ul>
    </li>
    <li> The MixColumns operation is a permutation from ({0,1}^8)^2 to
@@ -121,7 +121,7 @@ MixColumns(I_2) := Mul03(I_1) + Mul02(I_2)
    </li>
    <li> The decompositions and translations are listed in "Investigating
    dimensions" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
    </li>
    <li> The plaintext and ciphertext variables are then set, and the SAT
    SAT solver is run on this instance to deduce the key variables. </li>
@@ -133,7 +133,7 @@ MixColumns(I_2) := Mul03(I_1) + Mul02(I_2)
    <li> The Sboxes and multiplications boxes are translated using the
    canonical translation, discussed in "The canonical box translation"
    in
-   AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp
+   plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp
    where statistics are also provided. </li>
    <li> Over 20 rounds, with 20 random plaintext-ciphertext pairs per round:
     <ul>
@@ -144,8 +144,8 @@ for rounds : 1 thru 20 do
   output_ss_fcl_std(rounds, num_columns : 1, num_rows : 2, exp : 8, final_round_b : false, box_tran : aes_ts_box, mc_tran : aes_mc_bidirectional)$
      \endverbatim
      </li>
-     <li> Generating 20 random assignments for the plaintext and ciphertext, leaving
-     the key unknown:
+     <li> Generating 20 random assignments for the plaintext and ciphertext,
+     leaving the key unknown:
      \verbatim
 maxima> for seed : 1 thru 20 do output_ss_random_pc_pair(seed,rounds,num_columns,num_rows,exp,final_round_b);
      \endverbatim
@@ -214,16 +214,16 @@ R> plot(EM$t)
    <li> The Sboxes and multiplications boxes are translated using the
    1-base translation, discussed in "The 1-base box translation"
    in
-   AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp
+   plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp
    where statistics are also provided. </li>
    <li> There are currently active investigations attempting to find the
    minimum-size 1-base representations for each of the boxes, discussed in
     <ul>
-     <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
      </li>
-     <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp.
      </li>
-     <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp.
      </li>
     </ul>
    </li>
@@ -243,8 +243,8 @@ for rounds : 1 thru 20 do
   output_ss_fcl_std(rounds, num_columns : 1, num_rows : 2, exp : 8, final_round_b : false, box_tran : aes_rbase_box, mc_tran : aes_mc_bidirectional)$
      \endverbatim
      </li>
-     <li> Generating 20 random assignments for the plaintext and ciphertext, leaving
-     the key unknown:
+     <li> Generating 20 random assignments for the plaintext and ciphertext,
+     leaving the key unknown:
      \verbatim
 maxima> for seed : 1 thru 20 do output_ss_random_pc_pair(seed,rounds,num_columns,num_rows,exp,final_round_b);
      \endverbatim
@@ -313,16 +313,16 @@ R> plot(E$t)
    <li> The Sboxes and multiplications boxes are translated using the
    "minimum" translations, discussed in 'The "minimum" box translation'
    in
-   AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp
+   plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp
    where statistics are also provided. </li>
    <li> There are currently active investigations attempting to find the
    minimum representations for each of the boxes, discussed in
     <ul>
-     <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
      </li>
-     <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp.
      </li>
-     <li> Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp.
      </li>
     </ul>
    </li>
@@ -330,7 +330,7 @@ R> plot(E$t)
     <ul>
      <li> For instructions on generating the 1-bases, see
      'The "minimum" box translation' in
-     AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp.
+     plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp.
      </li>
      <li> Generating the instances (in Maxima):
      \verbatim
@@ -339,8 +339,8 @@ for rounds : 1 thru 20 do
   output_ss_fcl_std(rounds, num_columns : 1, num_rows : 2, exp : 8, final_round_b : false, box_tran : aes_small_box, mc_tran : aes_mc_bidirectional)$
      \endverbatim
      </li>
-     <li> Generating 20 random assignments for the plaintext and ciphertext, leaving
-     the key unknown:
+     <li> Generating 20 random assignments for the plaintext and ciphertext,
+     leaving the key unknown:
      \verbatim
 maxima> for seed : 1 thru 20 do output_ss_random_pc_pair(seed,rounds,num_columns,num_rows,exp,final_round_b);
      \endverbatim
