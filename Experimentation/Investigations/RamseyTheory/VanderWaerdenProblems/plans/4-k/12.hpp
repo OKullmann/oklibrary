@@ -76,6 +76,7 @@ rnov
    \endverbatim
    Could be just chance, but "adaptnovelty+ -v params" seems best.
    </li>
+   <li> However below we find indications that adaptg2wsat is better. </li>
   </ul>
 
 
@@ -120,13 +121,24 @@ rnov
    </li>
    <li> Starting from scratch (csnereid):
    \verbatim
-> k1=4 k2=12 n0=12 alg="adaptnovelty+ -v params" runs=100 cutoff=100000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff}
+> k1=4 k2=12 n0=12 alg="adaptnovelty+ -v params" runs=100 cutoff=100000000; nohup RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} &
    \endverbatim
    Depends of course on chance: for n=368 6 runs (random-mode) were needed.
+   With another run on n=386 was reached:
+   \verbatim
+ 1  2  3  4
+ 1 13 65 21
+100
+   \endverbatim
    </li>
    <li> Starting from scratch (csoberon) and with adaptg2wsat:
    \verbatim
 > k1=4 k2=12 n0=12 alg="adaptg2wsat" runs=100 cutoff=100000000; nohup RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} &
+   \endverbatim
+   </li>
+   <li> Starting from scratch (csnereid) and with adaptnovelty+:
+   \verbatim
+> k1=4 k2=12 n0=12 alg="adaptnovelty+" runs=100 cutoff=100000000; nohup RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} &
    \endverbatim
    </li>
    <li> n=401:
