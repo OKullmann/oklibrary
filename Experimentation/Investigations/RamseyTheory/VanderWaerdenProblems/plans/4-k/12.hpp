@@ -135,6 +135,17 @@ rnov
    \verbatim
 > k1=4 k2=12 n0=12 alg="adaptg2wsat" runs=100 cutoff=100000000; nohup RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} &
    \endverbatim
+   n=395 was reached:
+   \verbatim
+> E=read_ubcsat("VanDerWaerden_2-4-12_395.cnf_OUT",nrows=100)
+ 1  2  3  4  5  6
+ 2  2  6 29 60  1
+100
+   \endverbatim
+   So adaptg2wsat seems best. How far it gets depends on chance.
+   \verbatim
+> k1=4 k2=12 n0=12 alg="adaptg2wsat" runs=200 cutoff=200000000; nohup RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} &
+   \endverbatim
    </li>
    <li> Starting from scratch (csnereid) and with adaptnovelty+:
    \verbatim

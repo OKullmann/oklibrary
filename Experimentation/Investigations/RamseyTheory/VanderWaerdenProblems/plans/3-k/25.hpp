@@ -552,9 +552,65 @@ R-squared: 0.9906
      <li> Now using n=55:
      \verbatim
 > SplittingViaOKsolver -D55 VanDerWaerden_pd_2-3-25_608.cnf
+> cd SplitViaOKsolver_D55VanDerWaerden_pd_2325_608cnf_2011-09-01-191805/
+> more Md5sum
+cd133631538358e3b52b58e9c5c58ac1
+> more Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   55.0    61.0    65.0    64.3    68.0   109.0
+> table(E$n)
+  55   56   57   58   59   60   61   62   63   64   65   66   67   68   69   70
+6052 1487 1318 1356 1583 1984 2450 2998 3404 3847 4187 4241 4604 4362 3986 3273
+  71   72   73   74   75   76   77   78   79   80   81   82   83   84   85   86
+2545 1649  981  434  214   84   48   14   14   10    8    5    6    1    2    2
+  87   88   89   94   95   98  107  109
+   6    5    3    2    2    1    1    1
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   6.00   20.00   23.00   22.81   26.00   43.00
+> table(E$d)
+   6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21
+   5   10   30   74  142  244  397  588  873 1222 1655 2057 2574 3149 3838 4422
+  22   23   24   25   26   27   28   29   30   31   32   33   34   35   36   37
+5045 5392 5148 4901 4094 3374 2573 1843 1163  674  408  252  181  158  143  143
+  38   39   40   41   42   43
+ 145  114   94   29   12    4
+csoliver@cs-wsok:~/OKplatform/SplitViaOKsolver_D55VanDerWaerden_pd_2325_608cnf_2011-09-01-191805> more Result
+s UNKNOWN
+c running_time(sec)                     47985.8
+c number_of_nodes                       114343
+c number_of_2-reductions                7803
+c max_tree_depth                        43
+c splitting_cases                       57170
 
+> ProcessSplitViaOKsolver SplitViaOKsolver_D55VanDerWaerden_pd_2325_608cnf_2011-09-01-191805/
+2236m14s (cs-wsok)
+> E=read_processsplit_minisat()
+57170: 1.39d, sum-cfs=1.321148e+09, mean-t=2.101s, mean-cfs=23109
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+  0.1180   0.7509   1.3580   2.1010   2.4910 155.7000
+sd= 2.557088
+      95%       96%       97%       98%       99%      100%
+  6.21105   6.92519   7.85680   9.17247  12.21127 155.67900
+sum= 120120.6
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     77    8460   15750   23110   28110 1367000
+sd= 26448.91
+       95%        96%        97%        98%        99%       100%
+  66826.55   73865.80   83562.31   97617.40  127958.44 1367254.00
+sum= 1321148162
+$t ~ $cfs:
+               Estimate  Std. Error  t value  Pr(>|t|)
+(Intercept) -1.2146e-01  1.4470e-03  -83.938 < 2.2e-16 ***
+E$cfs        9.6177e-05  4.1199e-08 2334.475 < 2.2e-16 ***
+R-squared: 0.9896
      \endverbatim
-     </li>
+     If using the total runtime (including the splitting-time), then it is
+     roughly the same as above for D=45. </li>
     </ol>
    </li>
    <li> "RunPdVdW3k 25 26 618 gsat-tabu 100 8000000" (old version): all

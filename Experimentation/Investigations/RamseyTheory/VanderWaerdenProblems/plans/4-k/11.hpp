@@ -13,12 +13,24 @@ License, or any later version. */
   \todo Best ubcsat-solver
   <ul>
    <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
+   <li> For vdw_2(4,12) it seems adaptg2wsat is best, so we take this as the
+   starting poin (see
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/4-k/12.hpp). </li>
   </ul>
 
 
   \todo vanderwaerden_2(4,11) > 347
   <ul>
-   <li> Start with the palindromic solution for n=347. </li>
+   <li> Start with the palindromic solution for n=347.
+    <ol>
+     <li> First we need to extract the solution. </li>
+    </ol>
+   </li>
+   <li> Starting from scratch (cstriton):
+   \verbatim
+> k1=4 k2=11 n0=12 alg="adaptg2wsat" runs=100 cutoff=100000000; nohup RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} &
+   \endverbatim
+   </li>
   </ul>
 
 
