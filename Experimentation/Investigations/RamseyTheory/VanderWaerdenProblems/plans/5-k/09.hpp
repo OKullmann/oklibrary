@@ -21,6 +21,16 @@ License, or any later version. */
   \todo Best local-search solver for palindromic problems
 
 
+  \todo vdw_2(5,9) > 472
+  <ul>
+   <li> Starting from scratch:
+   \verbatim
+> k1=5 k2=9 n0=10 alg="adaptg2wsat" runs=1000 cutoff=400000000; nohup RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} &
+   \endverbatim
+
+  </ul>
+
+
   \todo vdw_2^pd(5,9) >= (446,473)
   <ul>
    <li> Certificates:

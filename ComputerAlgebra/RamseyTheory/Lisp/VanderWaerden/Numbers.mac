@@ -94,8 +94,8 @@ vanderwaerden4k_a(L) := if length(L)#2 then [] else
 */
 
 vanderwaerden5k(k) := 
- if k <= 8 then [
-  5,10,22,55,178,206,[260,inf-1],[330+1,inf-1]
+ if k <= 9 then [
+  5,10,22,55,178,206,[260,inf-1],[330+1,inf-1],[472+1,inf-1]
  ][k]
  else unknown$
 vanderwaerden5k_a(L) := if length(L)#2 then [] else
