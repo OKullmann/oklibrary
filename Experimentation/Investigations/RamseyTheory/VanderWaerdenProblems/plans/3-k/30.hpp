@@ -202,7 +202,7 @@ OKplatform> RunVdW3k 30 852 rots 1000 5000000
   </ul>
 
 
-  \todo Palindromic version
+  \todo vdw_2^pd(3,30) >= (844,855)
   <ul>
    <li> 854 < pdvanderwaerden([3,30])[2] =(conj) 855 =(conj)
    vanderwaerden([3,30])-48. </li>

@@ -155,7 +155,7 @@ Certificate (the vertices for k=3) for n = 930 :
   </ul>
 
 
-  \todo Palindromic version
+  \todo vdw_2^pd(3,31) >= (916,931)
   <ul>
    <li> 930 < pdvanderwaerden([3,31])[2] =(conj) 931 =(conj)
    vanderwaerden([3,31]) - 0. </li>
