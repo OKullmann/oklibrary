@@ -151,6 +151,12 @@ rnov
    \verbatim
 > k1=4 k2=12 n0=12 alg="adaptnovelty+" runs=100 cutoff=100000000; nohup RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} &
    \endverbatim
+   Only n=387 was reached:
+   \verbatim
+ 1  2  3  4
+ 3  8 62 27
+100
+   \endverbatim
    </li>
    <li> n=401:
     <ol>
@@ -175,9 +181,17 @@ rnov
      <li> Trying the above third-best algorithm:
      \verbatim
 > k1=4 k2=12 n0=400 alg="ddfw" runs=100 cutoff=100000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} AltExp/Exp_VanderWaerden_2-4-12_393_adaptg2wsat-100-100000000_2011-08-29-180242/VanDerWaerden_2-4-12_400.cnf_sol
+ 4  5  6  7
+ 7 41 51  1
+100
+     \endverbatim
+     This is clearly worse, and ddfw is also much slower. </li>
+     <li> Trying the above fourth-best algorithm:
+     \verbatim
+> k1=4 k2=12 n0=400 alg="adaptnovelty+" runs=100 cutoff=100000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} AltExp/Exp_VanderWaerden_2-4-12_393_adaptg2wsat-100-100000000_2011-08-29-180242/VanDerWaerden_2-4-12_400.cnf_sol
+
      \endverbatim
      </li>
-
     </ol>
    </li>
   </ul>

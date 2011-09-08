@@ -292,6 +292,12 @@ UNSAT for n=329
      </li>
     </ol>
    </li>
+   <li> Starting from scratch, with adaptg2wsat:
+   \verbatim
+> k1=4 k2=10 n0=11 alg="adaptg2wsat" runs=1000 cutoff=400000000; nohup RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} &
+
+   \endverbatim
+   </li>
   </ul>
 
 
