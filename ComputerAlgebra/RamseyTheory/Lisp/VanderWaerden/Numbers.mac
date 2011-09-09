@@ -39,6 +39,7 @@ vanderwaerden(L) := if emptyp(L) then 1
  elseif vanderwaerden3k_a(L)#[] then apply(vanderwaerden3k,vanderwaerden3k_a(L))
  elseif vanderwaerden4k_a(L)#[] then apply(vanderwaerden4k,vanderwaerden4k_a(L))
  elseif vanderwaerden5k_a(L)#[] then apply(vanderwaerden5k,vanderwaerden5k_a(L))
+ elseif vanderwaerden6k_a(L)#[] then apply(vanderwaerden6k,vanderwaerden6k_a(L))
  elseif vanderwaerdents_a(L)#[] then apply(vanderwaerdents,vanderwaerdents_a(L))
  elseif vanderwaerden33k_a(L)#[] then apply(vanderwaerden33k,vanderwaerden33k_a(L))
  elseif vanderwaerden34k_a(L)#[] then apply(vanderwaerden34k,vanderwaerden34k_a(L))
@@ -104,6 +105,11 @@ vanderwaerden5k_a(L) := if length(L)#2 then [] else
     if length(S)=1 then [5] else [first(listify(disjoin(5,S)))]
   else [])$
 
+vanderwaerden6k(k) :=
+ if k <= 9 then [
+ 6,11,32,73,206,1132,[1155+1,inf-1],[1167+1,inf-1],[1381+1,inf-1]
+ ][k]
+ else unknown$
 vanderwaerden6k_a(L) := if length(L)#2 then [] else
  block([S : setify(L)],
   if elementp(6,S) then
