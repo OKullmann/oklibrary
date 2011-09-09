@@ -10,6 +10,23 @@ License, or any later version. */
   \brief On investigations into tools helping with solving van-der-Waerden problems
 
 
+  \todo Improving CRunPdVdWk1k2
+  <ul>
+   <li> DONE First we need to update logging. </li>
+   <li> DONE (for minisat-solvers we have now rather complete information)
+   Then we need to update statistics-creation; see
+   "vdw_2^pd(4,10) = (320,329)" in
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/4-k/10.hpp. </li>
+   <li> Generalise statistics-extraction:
+    <ol>
+     <li> Currently we only extract correctly minisat-statistics. </li>
+     <li> Compare "Extraction tools" in
+     ExperimentSystem/SolverMonitoring/plans/general.hpp. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Script for searching for a vdW-number
   <ul>
    <li> Input is the vdW-parameter-tuple, and the start value for n. </li>
