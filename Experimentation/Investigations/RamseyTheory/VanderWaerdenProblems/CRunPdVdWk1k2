@@ -24,7 +24,7 @@ set -o errexit
 set -o nounset
 
 script_name="CRunPdVdWk1k2"
-version_number="0.1.1"
+version_number="0.1.2"
 
 if [[ $# != 3 ]]; then
   echo "ERROR[${script_name}]: Three parameters k1, k2, solver, are needed:
@@ -50,9 +50,25 @@ echo -e "Creating directory ${ExpDir}.\n"
 mkdir ${ExpDir}
 cd ${ExpDir}
 
+log_file=Log
+environment_file=Environment
+parameter_file=Parameters
 result_file=Results
 
-echo -e "${script_name}:\n k1=${k1}\n k2=${k2}\n solver=${solver}\n" > Parameters
+echo -n "Begin: " > ${log_file}
+date >> ${log_file}
+echo "Process id = $$" >> ${log_file}
+
+uname -a > ${environment_file}
+echo >> ${environment_file}
+cat /proc/cpuinfo >> ${environment_file}
+echo >> ${environment_file}
+free -m >> ${environment_file}
+
+echo "${script_name}, version ${version_number}." > ${parameter_file}
+echo -e "Parameters:\n k1=${k1}\n k2=${k2}\n solver=${solver}\n" >> ${parameter_file}
+echo "Call:" >> ${parameter_file}
+echo -n " ${script_name} ${k1} ${k2} \"${solver}\"" >> ${parameter_file}
 
 generator="PdVanderWaerdenCNF-O3-DNDEBUG"
 
@@ -89,5 +105,9 @@ done
 
 echo -e "\nFinal result:"
 cat ${result_file}
+
+ps p $$ k time S >> Log
+echo -n "Completed: " >> Log
+date >> Log
 
 exit 0
