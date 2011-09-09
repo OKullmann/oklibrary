@@ -306,7 +306,8 @@ UNSAT for n=329
    <li> Established by minisat-2.2.0. </li>
    <li> Do we have an easy-hard pattern based on parity?
     <ol>
-     <li> Getting the data from
+     <li> DONE (CRunPdVdWk1k2 now provides proper statistics)
+     Getting the data from
      Exp_PdVanderWaerdenC_2-4-10_minisat-2.2.0_2011-03-01-225805:
      \verbatim
 > E = read_minisat_outputs(Sys.glob("Exp_PdVanderWaerdenC_2-4-10_minisat-2.2.0_2011-03-01-225805/VanDerWaerden_pd_2-4-10_*.cnf_OUT"))
@@ -315,15 +316,20 @@ UNSAT for n=329
 > lines(E$n[E$n>=130], E$decisions[E$n>=130])
      \endverbatim
      </li>
-     <li> We have the problem that the original number of vertices is not in
+     <li> DONE (see above)
+     We have the problem that the original number of vertices is not in
      the table, and so we always have two identical n-values for the even and
      the corresponding odd number of vertices. </li>
-     <li> Thus the pattern is not as visible as it should be. The number of
+     <li> DONE (see above)
+     Thus the pattern is not as visible as it should be. The number of
      vertices must be extracted from the file name. </li>
-     <li> Due to the ordering according to filename, in most cases (but see
+     <li> DONE (no longer needed)
+     Due to the ordering according to filename, in most cases (but see
      "Improved handling of file-names" in
      ExperimentSystem/SolverMonitoring/plans/Minisat2.hpp) odd comes before
      even. </li>
+     <li> The experiment needs to be repeated, running CRunPdVdWk1k2 again,
+     and performing a proper evaluation. </li>
      <li> It seems odd is easier than even. </li>
     </ol>
    </li>
