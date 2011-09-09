@@ -11,6 +11,7 @@
 # VanDerWaerden_pd_2-k1-k2_n.cnf for n = k2, k2+1, ... are created
 # and solver is executed on these instances, storing the output in 
 # VanDerWaerden_pd_2-k1-k2_n.cnf_OUT.
+# "solver" might be a string including options.
 
 # The results are two n-values n1, n2: n1 is maximal such that for all n <= n1
 # the instances are satisfiable, while n2 is minimal such that for all n >= n2
@@ -23,7 +24,7 @@ set -o errexit
 set -o nounset
 
 script_name="CRunPdVdWk1k2"
-version_number="0.1"
+version_number="0.1.1"
 
 if [[ $# != 3 ]]; then
   echo "ERROR[${script_name}]: Three parameters k1, k2, solver, are needed:
@@ -33,7 +34,7 @@ fi
 
 k1=$1
 k2=$2
-solver=$3
+solver="$3"
 
 if [[ ${k1} -gt ${k2} ]]; then
   echo "ERROR[${script_name}]: k1 <= k2 must hold."
@@ -42,7 +43,8 @@ fi
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
-ExpDir="Exp_PdVanderWaerdenC_2-${k1}-${k2}_${solver}_${timestamp}"
+solverabbrev=$(echo ${solver} | tr -d " ")
+ExpDir="Exp_PdVanderWaerdenC_2-${k1}-${k2}_${solverabbrev}_${timestamp}"
 echo -e "Running \"${script_name}\" in version ${version_number}."
 echo -e "Creating directory ${ExpDir}.\n"
 mkdir ${ExpDir}
