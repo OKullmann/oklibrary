@@ -189,9 +189,12 @@ rnov
      <li> Trying the above fourth-best algorithm:
      \verbatim
 > k1=4 k2=12 n0=400 alg="adaptnovelty+" runs=100 cutoff=100000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} AltExp/Exp_VanderWaerden_2-4-12_393_adaptg2wsat-100-100000000_2011-08-29-180242/VanDerWaerden_2-4-12_400.cnf_sol
-
+ 2  3  4  5  6  7
+ 4  1  7 37 40  1
+90
      \endverbatim
-     </li>
+     Better than ddfw; appears better than "adaptnovelty+ -v params" but that
+     could be chance; likely worse than adaptg2wsat. </li>
     </ol>
    </li>
   </ul>
