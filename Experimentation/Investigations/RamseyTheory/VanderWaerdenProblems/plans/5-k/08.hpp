@@ -19,6 +19,7 @@ License, or any later version. */
 
   \todo vdw_2(5,8) > 330
   <ul>
+   <li> The conjecture is vdw_2(5,8) = 331. </li>
    <li> Certificate for n=330:
    \verbatim
 3,4,5,6,9,12,13,14,21,22,
@@ -80,11 +81,42 @@ UNSAT for n=331
  1  2  3  4  5
  2  3 19 60 16
 100
-
-> RunVdWk1k2 ${k1} ${k2} ${n} ddfw 100 20000000 AltExp/Exp_VanderWaerden_2-5-8_322_ddfw-100-10000000_2011-04-13-185202/VanDerWaerden_2-${k1}-${k2}_${n}.cnf_sol
+     \endverbatim
+     </li>
      \endverbatim
      </li>
     </ol>
+   </li>
+   <li> n=331
+   \verbatim
+adaptg2wsat:
+ cutoff=40000000
+ 1  2  3  4  5
+ 3  3 33 59  2
+100
+ cutoff=80000000
+ 1  2  3  4
+ 5  4 39 34
+82
+
+ddfw:
+ cutoff=20000000
+ 1  2  3  4  5
+ 4  2 27 58  9
+100
+ cutoff=40000000
+ 1  2  3  4
+ 7  5 43 45
+100
+ cutoff=80000000
+ 1  2  3  4
+13 18 46 23
+100
+ cutoff=160000000
+ 1  2  3  4
+24 14 46  8
+92
+   \endverbatim
    </li>
   </ul>
 
