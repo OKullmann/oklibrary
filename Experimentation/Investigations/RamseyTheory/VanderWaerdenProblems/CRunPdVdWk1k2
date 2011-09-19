@@ -24,13 +24,15 @@
 
 # Currently the extraction of statistics information only works for
 # minisat-solvers.
+# The number of vertices in the original vdW-problem is the first column,
+# called "v".
 
 
 set -o errexit
 set -o nounset
 
 script_name="CRunPdVdWk1k2"
-version_number="0.1.3"
+version_number="0.1.4"
 
 if [[ $# != 3 ]]; then
   echo "ERROR[${script_name}]: Three parameters k1, k2, solver, are needed:
@@ -78,7 +80,7 @@ echo -e "Parameters:\n k1=${k1}\n k2=${k2}\n solver=${solver}\n" >> ${parameter_
 echo "Call:" >> ${parameter_file}
 echo -n " ${script_name} ${k1} ${k2} \"${solver}\"" >> ${parameter_file}
 
-echo -n " n " > ${statistics_file}
+echo -n " v " > ${statistics_file}
 ${extraction_tool} header-only >> ${statistics_file}
 
 generator="PdVanderWaerdenCNF-O3-DNDEBUG"
