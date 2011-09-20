@@ -91,9 +91,9 @@ make: *** [install] Error 1
    <li> Installing the DES generator:
    \verbatim
 ExternalSources/builds/SAT/> mkdir Des && cd Des
-ExternalSources/builds/SAT/Des/> tar zxvf ../../sources/SAT/Des/des2fml-0.9.tgz
+ExternalSources/builds/SAT/Des/> tar zxvf ../../../sources/SAT/Des/des2fml-0.9.tgz
 ExternalSources/builds/SAT/Des/> cd des2fml-0.9
-ExternalSources/builds/SAT/Des/des2fml-0.9/> zcat ../../../sources/SAT/Des/des2fml-0.9-newgcc.diff.gz | patch -p1
+ExternalSources/builds/SAT/Des/des2fml-0.9/> zcat ../../../../sources/SAT/Des/des2fml-0.9-newgcc.diff.gz | patch -p1
 ExternalSources/builds/SAT/Des/des2fml-0.9> make
    \endverbatim
    </li>
