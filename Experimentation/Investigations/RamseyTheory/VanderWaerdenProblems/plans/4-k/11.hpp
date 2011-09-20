@@ -65,8 +65,34 @@ License, or any later version. */
 
   \todo vdw_2^pd(4,11) = (343,348)
   <ul>
-   <li> Established by minisat-2.2.0. </li>
-   <li> Do we have an easy-hard pattern based on parity? </li>
+   <li> Established by "CRunPdVdWk1k2 4 11 minisat-2.2.0". </li>
+   <li> Evaluation:
+   \verbatim
+> E=read_crunpdvdw_minisat()
+$t:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.000e+00 1.999e-03 7.998e-03 1.994e+02 9.798e-02 4.997e+04
+sd= 2740.204
+       95%        96%        97%        98%        99%       100%
+  133.8438   204.2265   430.8473   599.1797  1389.0116 49973.5000
+sum= 67213.92
+$cfs:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+        0         0         3   2989000      4071 660500000
+sd= 36422253
+      95%       96%       97%       98%       99%      100%
+  3210628   4874701   9388303  12944174  27372790 660465016
+sum= 1007135497
+$t ~ $cfs:
+               Estimate  Std. Error  t value  Pr(>|t|)
+(Intercept) -2.5174e+01  6.6100e+00  -3.8085 0.0001663 ***
+E$cfs        7.5161e-05  1.8114e-07 414.9318 < 2.2e-16 ***
+R-squared: 0.9981
+   \endverbatim
+   The log-plot shows that even problems (i.e., even v) are harder for v > 300,
+   where the hardest problems are, while for 200 < v < 300 (problems with
+   intermediate hardness) odd problems seem harder.
+   </li>
   </ul>
 
 */

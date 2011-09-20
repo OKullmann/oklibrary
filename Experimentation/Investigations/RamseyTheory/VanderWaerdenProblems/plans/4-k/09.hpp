@@ -799,8 +799,31 @@ UNSAT for n=309
 
   \todo vdw_2^pd(4,9) = (300,309)
   <ul>
-   <li> Established by minisat-2.2.0. </li>
-   <li> Do we have an easy-hard pattern based on parity? </li>
+   <li> Established by "CRunPdVdWk1k2 4 9 minisat-2.2.0". </li>
+   <li> Evaluation:
+   \verbatim
+> E=read_crunpdvdw_minisat()
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+0.000000 0.000999 0.008498 0.231400 0.124200 5.856000
+sd= 0.7062452
+     95%      96%      97%      98%      99%     100%
+1.101478 1.266448 1.661629 2.120617 4.457689 5.856110
+sum= 68.94835
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+      0       0     214    9179    5923  182500
+sd= 24788.01
+      95%       96%       97%       98%       99%      100%
+ 50482.15  55384.28  68722.79  75854.44 153223.31 182527.00
+sum= 2735354
+$t ~ $cfs:
+               Estimate  Std. Error  t value  Pr(>|t|)
+(Intercept) -2.7222e-02  6.5258e-03  -4.1714 3.981e-05 ***
+E$cfs        2.8172e-05  2.4725e-07 113.9424 < 2.2e-16 ***
+R-squared: 0.9777
+   \endverbatim
+   The plot shows clearly that even problems (i.e., even v) are harder. </li>
    <li> Certificates:
     <ol>
      <li> n=299:

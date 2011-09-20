@@ -19,7 +19,7 @@ License, or any later version. */
   \todo vanderwaerden_2(4,10) > 328
   <ul>
    <li> The (weak) conjecture is vanderwaerden_2(4,10) = 329. </li>
-   <li> We don't have a nice prediction, except of that it's greater (or 
+   <li> We don't have a nice prediction, except of that it's greater (or
    equal) than 309. </li>
    <li> Evaluating
    \verbatim
@@ -30,7 +30,7 @@ License, or any later version. */
    perhaps rots is best. </li>
    <li> Using cutoff=10^6: the two best min-values are reached by rnovelty
    (twice min=8) and rots (twice min=9), while otherwise the best min=34.
-   Considering the success of rnovelty as just luck, rots would again be best 
+   Considering the success of rnovelty as just luck, rots would again be best
    here. </li>
    <li> Evaluating
    \verbatim
@@ -38,10 +38,10 @@ E = run_ubcsat("VanDerWaerden_2-4-10_330.cnf", runs=100,cutoff=100000,monitor=TR
    \endverbatim
    again rots seems best (reaching min=26). </li>
    <li> The same, but with cutoff=10^6: three algorithms, each with one run,
-   reached min=3, namely rots, rsaps and sapsnr, while otherwise the best min 
+   reached min=3, namely rots, rsaps and sapsnr, while otherwise the best min
    is 26. Again rots seems best. </li>
    <li> The same, but with cutoff=4*10^6: the three best algorithms seem now
-   adaptnovelty+, rnovelty+ and saps (the best is min=2; perhaps adapnovelty+ 
+   adaptnovelty+, rnovelty+ and saps (the best is min=2; perhaps adapnovelty+
    is best):
    \verbatim
 > table(E$best[E$alg=="adaptnoveltyp"])
@@ -174,7 +174,7 @@ E = run_ubcsat("VanDerWaerden_2-4-10_330.cnf", runs=100,cutoff=100000,monitor=TR
 162
    \endverbatim
    So we should use cutoff=2*10^8 now. </li>
-   <li> n=327, cutoff=2*10^8: In 81 runs one solution was found 
+   <li> n=327, cutoff=2*10^8: In 81 runs one solution was found
    (seed=403939055, osteps=23019617):
    \verbatim
 > E = read_ubcsat("VanDerWaerden_2-4-10_327.cnf_OUT")
@@ -206,7 +206,7 @@ E = run_ubcsat("VanDerWaerden_2-4-10_330.cnf", runs=100,cutoff=100000,monitor=TR
      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
    599500  40370000  84970000  92870000 141000000 198300000
      \endverbatim
-     </li> 
+     </li>
      <li> cutoff=4*10^8:
      \verbatim
 > nohup ubcsat-okl -alg adaptnovelty+ -runs 200 -cutoff 400000000 -i VanDerWaerden_2-4-10_328.cnf > VanDerWaerden_2-4-10_328.cnf_OUT &
@@ -255,7 +255,7 @@ E = run_ubcsat("VanDerWaerden_2-4-10_330.cnf", runs=100,cutoff=100000,monitor=TR
    </li>
    <li> n=330 with adaptnovelty+
     <ol>
-     <li> cutoff=10^7 
+     <li> cutoff=10^7
      \verbatim
  2  4 23 26 28 29 30 31 32 33 34
  5  3  2  3 11 17 24 19  9  5  2
@@ -303,36 +303,31 @@ UNSAT for n=329
 
   \todo vdw_2^pd(4,10) = (320,329)
   <ul>
-   <li> Established by minisat-2.2.0. </li>
-   <li> Do we have an easy-hard pattern based on parity?
-    <ol>
-     <li> DONE (CRunPdVdWk1k2 now provides proper statistics)
-     Getting the data from
-     Exp_PdVanderWaerdenC_2-4-10_minisat-2.2.0_2011-03-01-225805:
-     \verbatim
-> E = read_minisat_outputs(Sys.glob("Exp_PdVanderWaerdenC_2-4-10_minisat-2.2.0_2011-03-01-225805/VanDerWaerden_pd_2-4-10_*.cnf_OUT"))
-> plot(E$n, E$decisions)
-> plot(E$n[E$n>=130], E$decisions[E$n>=130])
-> lines(E$n[E$n>=130], E$decisions[E$n>=130])
-     \endverbatim
-     </li>
-     <li> DONE (see above)
-     We have the problem that the original number of vertices is not in
-     the table, and so we always have two identical n-values for the even and
-     the corresponding odd number of vertices. </li>
-     <li> DONE (see above)
-     Thus the pattern is not as visible as it should be. The number of
-     vertices must be extracted from the file name. </li>
-     <li> DONE (no longer needed)
-     Due to the ordering according to filename, in most cases (but see
-     "Improved handling of file-names" in
-     ExperimentSystem/SolverMonitoring/plans/Minisat2.hpp) odd comes before
-     even. </li>
-     <li> The experiment needs to be repeated, running CRunPdVdWk1k2 again,
-     and performing a proper evaluation. </li>
-     <li> It seems odd is easier than even. </li>
-    </ol>
-   </li>
+   <li> Established by "CRunPdVdWk1k2 4 10 minisat-2.2.0". </li>
+   <li> Evaluation:
+   \verbatim
+> E=read_crunpdvdw_minisat()
+$t:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.000e+00 1.999e-03 6.998e-03 4.578e+00 9.289e-01 3.405e+02
+sd= 23.05140
+      95%       96%       97%       98%       99%      100%
+ 15.73858  22.72751  35.82062  47.20643  77.42341 340.51000
+sum= 1451.081
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+      0       0      33  129100   41710 7534000
+sd= 541492.6
+      95%       96%       97%       98%       99%      100%
+ 536310.8  779823.2 1081312.6 1446754.1 2001610.9 7533850.0
+sum= 40918332
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -8.8299e-01  1.4898e-01  -5.927 8.092e-09 ***
+E$cfs        4.2303e-05  2.6802e-07 157.835 < 2.2e-16 ***
+R-squared: 0.9875
+   \endverbatim
+   The plot shows clearly that even problems (i.e., even v) are harder. </li>
    <li> Certificates:
     <ol>
      <li> n=319:

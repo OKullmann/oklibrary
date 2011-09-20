@@ -527,14 +527,21 @@ aborted after 2505016 conflicts, 905.6 seconds (csltok)
 
   \todo Palindromic numbers for k <= 8
   <ul>
-   <li> All these numbers have been easily established with minisat-2.2.0.
+   <li> All these numbers have been easily established with minisat-2.2.0 via
+   \verbatim
+> CRunPdVdWk1k2 4 k minisat-2.2.0
+   \endverbatim
    </li>
+   <li> Evaluation via
+   \verbatim
+E=read_crunpdvdw_minisat()
+   \endverbatim
+   in the experiment-directory. </li>
    <li> vdw_2^pd(4,4) = (24,25). </li>
-   <li> vdw_2^pd(4,5) = (34,55). </li>
-   <li> vdw_2^pd(4,6) = (62,65). </li>
-   <li> vdw_2^pd(4,7) = (101,106). </li>
-   <li> vdw_2^pd(4,8) = (126,129). </li>
-   <li> Are there easy-hard patterns based on parity? </li>
+   <li> vdw_2^pd(4,5) = (34,55). Odd might be harder than even. </li>
+   <li> vdw_2^pd(4,6) = (62,65). Odd might be harder than even. </li>
+   <li> vdw_2^pd(4,7) = (101,106). Odd might be harder than even. </li>
+   <li> vdw_2^pd(4,8) = (126,129). Odd might be harder than even. </li>
   </ul>
 
 */
