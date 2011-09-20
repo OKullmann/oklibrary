@@ -13,8 +13,8 @@
 # prints some basic statistics, and returns the data-frame.
 # Usages:
 # - E=read_processsplit_minisat() reads SubinstanceStatistics in current dir
-# - E=read_processspliy_minisat(dir) reads dir/SubinstanceStatistics
-# - E=read_processspliy_minisat(dir,file) reads dir/file
+# - E=read_processsplit_minisat(dir) reads dir/SubinstanceStatistics
+# - E=read_processsplit_minisat(dir,file) reads dir/file
 # dirname and file can also be specified explicitly.
 # Via summary(E) one obtains a reasonable summary, and via plot(E) one
 # can view it.
