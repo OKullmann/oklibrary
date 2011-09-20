@@ -22,6 +22,9 @@ License, or any later version. */
    In ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/BasicFunctions.hpp the following topics are handled:
     - Random boolean function : DONE
 
+  \par ComputerAlgebra/Satisfiability/Lisp/Resolution version 0.0.9
+  (see ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/milestones.hpp)
+
   \par ComputerAlgebra/Satisfiability/Lisp/Generators version 0.0.8 : DONE
   (see ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp)
 

@@ -10,9 +10,6 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding the resolution calculus
 
 
-  \todo Create milestones
-
-
   \todo Write tests
 
 
@@ -153,6 +150,9 @@ License, or any later version. */
    <li> Write a checker whether a resolution proof is read-once. </li>
    <li> Implement the translation of "has read-once refutation" into SAT. </li>
   </ul>
+
+
+  \todo Create milestones : DONE
 
 */
 
