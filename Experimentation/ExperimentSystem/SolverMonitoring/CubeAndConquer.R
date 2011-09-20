@@ -8,50 +8,6 @@
 # Tools for evaluating the results of ProcessSplitViaOKsolver, and other
 # tools following the "Cube and Conquer" approach.
 
-# Helper functions for statistics
-
-# Prints basic statistics of vector x:
-basic_stats = function(x, qpoints = seq(0.95, 1, 0.01)) {
-  print(summary(x))
-  cat("sd=", sd(x), "\n")
-  print(quantile(x,probs = qpoints))
-  cat("sum=", sum(x), "\n")
-}
-
-# Converts x (in seconds) into a string using seconds, minutes, hours, days
-# or years appropriately:
-display_seconds = function(x) {
-  if (x <= 60) return(paste(round(x,2),"s",sep=""))
-  x = x / 60
-  if (x <= 60) return(paste(round(x,2),"m",sep=""))
-  x = x / 60
-  if (x <= 24) return(paste(round(x,3),"h",sep=""))
-  x = x / 24
-  if (x <= 365) return(paste(round(x,3),"d",sep=""))
-  x = x / 365
-  paste(round(x,4),"y")
-}
-
-# Removes leading and trailing whitespaces from string x:
-trim = function(x) gsub("^\\s+|\\s+$", "", x)
-
-# The number of strings in the first line in the file with name f:
-lengthfirstline = function(f) {
-  length(unlist(strsplit(trim(readLines(f,1)), " ")))
-}
-
-
-# For the object obtained by lm, print a shorter summary:
-short_summary_lm = function(L) {
-  S = summary(L)
-  printCoefmat(S$coefficients, signif.legend=FALSE)
-  digits = max(3,getOption("digits")-3)
-  cat("R-squared:", formatC(S$r.squared, digits = digits), "\n")
-}
-# Remark: Obtained by inspecting the code of summary.lm by
-# "getAnywhere(print.summary.lm)".
-
-
 
 # Reads the statistics-file when minisat (in compatible versions) was used,
 # prints some basic statistics, and returns the data-frame.

@@ -1,16 +1,10 @@
 # Oliver Kullmann, 11.8.2002 (Swansea)
-# Copyright 2002-2009 Oliver Kullmann
+# Copyright 2002-2009, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-
-# range difference for vector x
-ranged <- function(x) {
-  r <- range(x);
-  return(r[2]-r[1])
-}
 
 # find element in vector
 find.e <- function(e, vec) {
@@ -22,17 +16,6 @@ select.v <- function(vec, val) {
   vec[vec %in% val]
 }
 
-orderedset <- function(x) {
-  l = length(x);
-  if (l <= 1) { return(x) }
-  x = sort(x, method="quick");
-  sel = vector("logical", l);
-  sel[1] = TRUE;
-  for (i in 2:l) {
-    sel[i] = x[i] > x[i-1]
-  }
-  return(x[sel])
-}
 
 # replace substrings
 replace.substrings <- function(x, a, b) {
