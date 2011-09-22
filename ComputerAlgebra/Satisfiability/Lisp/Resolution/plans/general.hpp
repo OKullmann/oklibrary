@@ -45,7 +45,6 @@ License, or any later version. */
    where each entry is either a clause (an "axiom") or a pair consisting
    of a clause (the "resolvent") and a pair of (smaller) indices (the
    indices of the "parent clauses"). </li>
-   <li> We need a correctness-checker. </li>
    <li> Resolution proofs as digraphs:
     <ul>
      <li> The graph notions are defined in
@@ -93,6 +92,24 @@ License, or any later version. */
      the integers {1,...,n}. </li>
     </ul>
    </li>
+   <li> We need a correctness-checker for each different representation. </li>
+   <li> We need functions to translate between each of the different
+   representations of a resolution proof (list; digraph; labelled digraph;
+   rooted tree). </li>
+   <li> We also need functions to check various properties of the proof
+   structures. For example:
+    <ul>
+     <li> Is a proof tree-like? </li>
+     <li> Is a proof regular? </li>
+     <li> Is the proof repetition-free? </li>
+    </ul>
+   </li>
+   <li> Some or all of the relevant properties of resolution proofs will be
+   implementable directly using existing functions on the underlying
+   representations. </li>
+   <li> Likely at first, we implement just the functions for lists
+   and digraphs, as the notions for the underlying datastructures
+   are already developed in the library. </li>
    <li> Naming conventions:
     <ul>
      <li> We need abbreviations for the following notions:
