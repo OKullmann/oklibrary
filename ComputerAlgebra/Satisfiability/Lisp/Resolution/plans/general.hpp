@@ -93,6 +93,26 @@ License, or any later version. */
      the integers {1,...,n}. </li>
     </ul>
    </li>
+   <li> Naming conventions:
+    <ul>
+     <li> We need abbreviations for the following notions:
+      <ul>
+       <li> resolution proof as a list; </li>
+       <li> resolution proof as a digraph; </li>
+       <li> resolution proof as a labelled digraph; </li>
+       <li> (tree-)resolution proof as a rooted tree (discussed
+       in "Resolution trees"). </li>
+      </ul>
+     </li>
+     <li> In "Resolution trees", the abbreviation "rt" is suggested for
+     resolution tree. </li>
+     <li> However "rt" seems to refer to both "resolution tree" and also
+     "rooted tree" from ComputerAlgebra/Trees/Lisp/Basics.mac. </li>
+     <li> Perhaps instead we use "resl","rest", "resg", "resgl"? </li>
+     <li> It *is* unfortunate that "rest" is a word, as this might
+     create confusion. </li>
+    </ul>
+   </li>
    <li> We should also investigate the existing file-formats for resolution
    proofs, and we should provide input- and output-facilities. </li>
    <li> The above can easily be generalised to non-boolean clause-sets.
