@@ -33,6 +33,9 @@ License, or any later version. */
    <li> A "resolution tree" ("rt"; for the boolean case) is a rooted binary
    tree labelled with clauses such that each inner node-label is the resolvent
    of the labels of the two children. </li>
+   <li> We can represent such a labelled rooted binary-tree in Maxima using
+   our notion of a labelled rooted-tree, given in
+   ComputerAlgebra/Trees/Lisp/Basics.mac. </li>
   </ul>
 
 
