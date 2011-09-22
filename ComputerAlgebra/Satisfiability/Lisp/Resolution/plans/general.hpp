@@ -43,13 +43,61 @@ License, or any later version. */
    of a clause (the "resolvent") and a pair of (smaller) indices (the
    indices of the "parent clauses"). </li>
    <li> We need a correctness-checker. </li>
+   <li> Resolution proofs as digraphs:
+    <ul>
+     <li> The graph notions are defined in
+     ComputerAlgebra/Graphs/Lisp/Basic.mac. </li>
+     <li> We introduce the following representations of a resolution
+     proof by digraphs and "labelled" digraphs. </li>
+     <li> A digraph [V,E] represents a resolution proof R if:
+      <ul>
+       <li> V is a set of clauses and resolvents in R. </li>
+       <li> For every edge [C,D] in E, there is another edge [C,D']
+       such that D and D' resolve to C. </li>
+      </ul>
+      We have that:
+      <ul>
+       <li> every resolvent points to it's two parent clauses,
+       in the resolution; </li>
+       <li> every sink node in the graph is an axiom in the resolution
+       proof; </li>
+       <li> all vertices have out-degree 0 or >= 2 (not 1). </li>
+      </ul>
+     </li>
+     <li> A "(vertex-)labelled" digraph [[V,E],f] represents a resolution
+     proof R if:
+      <ul>
+       <li> V is an arbitrary set of the same size as the number of axioms
+       and *resolutions* in R. </li>
+       <li> f maps V to axioms and resolvents (i.e., clauses) in R. </li>
+       <li> For every edge [u,v] in E, there is another edge [u,v']
+       such that f(v) and f(v') resolve to f(u), and u has out-degree 2. </li>
+      </ul>
+      We have that:
+      <ul>
+       <li> every vertex v labelled with a resolvent C points to two vertices
+       labelled with parent clauses of C in the resolution proof; </li>
+       <li> every sink node in the graph is labelled with an axiom of the
+       resolution proof; </li>
+       <li> all vertices have out-degree 0 or 2. </li>
+      </ul>
+     </li>
+     <li> The notion of "(vertex-)labelled graph" needs to be made explicit
+     and implemented at the Maxima level, as discussed in "Representing edge
+     and vertex labellings" in ComputerAlgebra/Graphs/Lisp/plans/Basic.hpp.
+     </li>
+     <li> In reality, we will likely standardise the vertex set V to
+     the integers {1,...,n}. </li>
+    </ul>
+   </li>
    <li> We should also investigate the existing file-formats for resolution
    proofs, and we should provide input- and output-facilities. </li>
-   <li> This linear format is in 1-1 correspondence to the representation
-   via labelled dag's; we need a representation of labelled graphs,
-   digraphs and labelled digraphs. </li>
    <li> The above can easily be generalised to non-boolean clause-sets.
    </li>
+   <li> DONE (discussed separately w.r.t labelled digraphs)
+   This linear format is in 1-1 correspondence to the representation
+   via labelled dag's; we need a representation of labelled graphs,
+   digraphs and labelled digraphs. </li>
   </ul>
 
 
