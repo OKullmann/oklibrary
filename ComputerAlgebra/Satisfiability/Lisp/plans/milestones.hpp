@@ -59,6 +59,9 @@ License, or any later version. */
   \par ComputerAlgebra/Satisfiability/Lisp/Generators version 0.0.12
   (see ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp)
 
+  \par ComputerAlgebra/Satisfiability/Lisp/Resolution version 0.0.10
+  (see ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/milestones.hpp)
+
 
   \par Version 0.0.9
 
@@ -70,6 +73,9 @@ License, or any later version. */
     - Total assignments
     - Domain association and allowed total assignments
     - The notion of "condition"
+
+  \par ComputerAlgebra/Satisfiability/Lisp/Resolution version 0.0.11
+  (see ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/milestones.hpp)
 
   \par ComputerAlgebra/Satisfiability/Lisp/Generators version 0.0.13
   (see ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp)
