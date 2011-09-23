@@ -122,7 +122,7 @@ License, or any later version. */
      resolution tree. </li>
      <li> However "rt" refers to both "resolution tree" and also
      "rooted tree" from ComputerAlgebra/Trees/Lisp/Basics.mac. </li>
-     <li> Perhaps instead we use "resl","rest", "resg", "resgl"? </li>
+     <li> Perhaps instead we use "resl","rest", "resdg", "resldg"? </li>
      <li> It *is* unfortunate that "rest" is a word, as this might
      create confusion. </li>
     </ul>
