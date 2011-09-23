@@ -14,12 +14,14 @@ License, or any later version. */
   \par Version 0.0.6
 
   \par
-   In ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp the following topics are handled:
+   In ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp the following
+   topics are handled:
     - Relations to other modules
     - Update plans
 
   \par
-   In ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/BasicFunctions.hpp the following topics are handled:
+   In Satisfiability/Lisp/FiniteFunctions/plans/BasicFunctions.hpp the
+   following topics are handled:
     - Random boolean function : DONE
 
   \par ComputerAlgebra/Satisfiability/Lisp/Resolution version 0.0.9
@@ -29,7 +31,7 @@ License, or any later version. */
   (see ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp)
 
   \par ComputerAlgebra/Satisfiability/Lisp/BranchingTuples version 0.0.5 : DONE
-  (see ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)
+  (see Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)
 
 
   \par Version 0.0.7
@@ -38,7 +40,7 @@ License, or any later version. */
   (see ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp)
 
   \par ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic version 0.1.1
-  (see ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/milestones.hpp)
+  (see Satisfiability/Lisp/PropositionalLogic/plans/milestones.hpp)
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp the following
@@ -52,7 +54,7 @@ License, or any later version. */
   \par Version 0.0.8
 
   \par ComputerAlgebra/Satisfiability/Lisp/BranchingTuples version 0.0.6
-  (see ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)
+  (see Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)
 
   \par ComputerAlgebra/Satisfiability/Lisp/Generators version 0.0.12
   (see ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp)
@@ -76,7 +78,7 @@ License, or any later version. */
   \par Version 0.0.10
 
   \par ComputerAlgebra/Satisfiability/Lisp/BranchingTuples version 0.0.6
-  (see ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)
+  (see Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)
 
   \par ComputerAlgebra/Satisfiability/Lisp/Generators version 0.0.14
   (see ComputerAlgebra/Satisfiability/Lisp/Generators/plans/milestones.hpp)
