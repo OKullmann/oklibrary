@@ -19,15 +19,29 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Proofs.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
+
+
 /* ******************
    * Basic concepts *
    ******************
 */
 
 /*
-  A "resolution tree" ("reslrt") XXX
+  A "resolution tree" ("reslrt") is a labelled rooted tree (lrt) T where T is
+  a binary tree such that each inner node is the resolvent of its two children.
+  The notion of an lrt is defined in ComputerAlgebra/Trees/Lisp/Basics.mac.
 
 */
+
+/* Checking that T is a resolution tree: */
+reslrt_p(T) := listp(T) and
+  if length(T) = 1 then c_p(T[1]) /* Leaves must be clauses */
+  else is(length(T) = 3) and c_p(T[1]) and
+       reslrt_p(T[2]) and reslrt_p(T[3]) and
+       resolvable(T[2][1],T[3][1]) and is(resolvent(T[2][1],T[3][1]) = T[1])$
 
 /*!
 \endhtmlonly
