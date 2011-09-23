@@ -21,6 +21,7 @@ License, or any later version. */
     - Resolution proofs
     - Create milestones : DONE
 
+
   \par Version 0.0.10
 
   \par
@@ -51,16 +52,15 @@ License, or any later version. */
     - DP
     - resolution_closure_cs
 
-
   \par
    In Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp the
    following topics are handled:
     - Hitting clause-sets
     - contained_prime_implicate
 
-
   \par
-   Update the following milestones.
+   Update the milestones.
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
