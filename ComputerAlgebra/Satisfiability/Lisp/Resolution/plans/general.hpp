@@ -115,12 +115,12 @@ License, or any later version. */
        <li> resolution proof as a digraph; </li>
        <li> resolution proof as a labelled digraph; </li>
        <li> (tree-)resolution proof as a rooted tree (discussed
-       in "Resolution trees"). </li>
+       in "Resolution trees" above). </li>
       </ul>
      </li>
-     <li> In "Resolution trees", the abbreviation "rt" is suggested for
+     <li> In "Resolution trees" above, the abbreviation "rt" is suggested for
      resolution tree. </li>
-     <li> However "rt" seems to refer to both "resolution tree" and also
+     <li> However "rt" refers to both "resolution tree" and also
      "rooted tree" from ComputerAlgebra/Trees/Lisp/Basics.mac. </li>
      <li> Perhaps instead we use "resl","rest", "resg", "resgl"? </li>
      <li> It *is* unfortunate that "rest" is a word, as this might
