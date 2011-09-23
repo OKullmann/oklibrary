@@ -53,53 +53,38 @@ License, or any later version. */
     <ul>
      <li> The graph notions are defined in
      ComputerAlgebra/Graphs/Lisp/Basic.mac. </li>
-     <li> We introduce the following representations of a resolution
-     proof by digraphs and "labelled" digraphs. </li>
-     <li> A digraph [V,E] represents a resolution proof R if:
+     <li> A "resolution proof as directed graph" ("resdg") is a dg [V,E]
+     such that
       <ul>
-       <li> V is a set of clauses and resolvents in R. </li>
+       <li> V is a set of clauses </li>
        <li> For every edge [C,D] in E, there is another edge [C,D']
        such that D and D' resolve to C. </li>
       </ul>
       We have that:
       <ul>
-       <li> every resolvent points to it's two parent clauses,
-       in the resolution; </li>
-       <li> every sink node in the graph is an axiom in the resolution
-       proof; </li>
+       <li> every resolvent points to its two parent clauses; </li>
+       <li> every sink node in the graph is an axiom; </li>
        <li> all vertices have out-degree 0 or >= 2 (not 1). </li>
       </ul>
      </li>
-     <li> A "(vertex-)labelled" digraph [[V,E],f] represents a resolution
-     proof R if:
+     <li> A ""resolution proof as labelled directed graph" ("resldg") is a
+     labelled dg [[V,E],f] such that:
       <ul>
-       <li> V is an arbitrary set of the same size as the number of axioms
-       and *resolutions* in R. </li>
-       <li> f maps V to axioms and resolvents (i.e., clauses) in R. </li>
-       <li> For every edge [u,v] in E, there is another edge [u,v']
-       such that f(v) and f(v') resolve to f(u), and u has out-degree 2. </li>
-      </ul>
-      We have that:
-      <ul>
-       <li> every vertex v labelled with a resolvent C points to two vertices
-       labelled with parent clauses of C in the resolution proof; </li>
-       <li> every sink node in the graph is labelled with an axiom of the
-       resolution proof; </li>
-       <li> all vertices have out-degree 0 or 2. </li>
+       <li> f maps V to clauses </li>
+       <li> for every edge [u,v] in E, there is another edge [u,v'] such that
+       f(v) and f(v') resolve to f(u) </li>
+       <li> every node has out-degree 0 or 2. </li>
       </ul>
      </li>
      <li> The notion of "(vertex-)labelled graph" needs to be made explicit
      and implemented at the Maxima level, as discussed in "Representing edge
      and vertex labellings" in ComputerAlgebra/Graphs/Lisp/plans/Basic.hpp.
      </li>
-     <li> In reality, we will likely standardise the vertex set V to
-     the integers {1,...,n}. </li>
     </ul>
    </li>
-   <li> We need a correctness-checker for each different representation. </li>
+   <li> We need a correctness-checker for each different form. </li>
    <li> We need functions to translate between each of the different
-   representations of a resolution proof (list; digraph; labelled digraph;
-   rooted tree). </li>
+   forms of resolution proofs. </li>
    <li> We also need functions to check various properties of the proof
    structures. For example:
     <ul>
