@@ -30,9 +30,16 @@ License, or any later version. */
    <li> A "resolution tree" ("reslrt"; for the boolean case) is a rooted binary
    tree labelled with clauses such that each inner node-label is the resolvent
    of the labels of the two children. </li>
-   <li> We can represent such a labelled rooted binary-tree in Maxima using
+   <li> We can represent such a labelled rooted binary tree in Maxima using
    our notion of a labelled rooted tree, given in
    ComputerAlgebra/Trees/Lisp/Basics.mac. </li>
+   <li> When translating a resldg (see below) into a reslrt, then we loose
+   the vertex labels. In order to represent them, one needed rooted trees
+   where the labels are pairs, the clause and the original label. </li>
+   <li> Such "labelled resolution trees" ("resllrt", for 2 labels) should also
+   be useful. </li>
+   <li> We will also have collections (at least sets) of resolution trees; one
+   might introduce the notion of a "resolution forest". </li>
   </ul>
 
 
