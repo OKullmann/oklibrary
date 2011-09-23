@@ -82,6 +82,8 @@ License, or any later version. */
    problems. </li>
    <li> See also "Representing edge and vertex labellings" in 
    ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp . </li>
+   <li> See also "Resolution proofs" in
+   Satisfiability/Lisp/Resolution/plans/general.hpp. </li>
   </ul>
 
 

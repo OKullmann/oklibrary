@@ -77,7 +77,9 @@ phi_n(i) = phi(i) if phi(i) # n
    size resolution proof. </li>
    <li> Construction of the resolution proof:
     <ol>
-     <li> First a representation of resolution proofs is needed. </li>
+     <li> First a representation of resolution proofs is needed. This is
+     discussed in "Resolution proofs" in
+     ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/general.hpp. </li>
      <li> Labelled trees are a reasonable starting point, and are already
      there. </li>
      <li> Those trees which represent dag-like structures must have identical
