@@ -16,7 +16,7 @@ License, or any later version. */
 
   \todo Basic statistics for n=1132
   <ul>
-   <li> Density = 225.6 </li>
+   <li> n=1132, c=255154, l=1530924, all clauses of length 6. </li>
   </ul>
 
 
@@ -29,7 +29,12 @@ License, or any later version. */
      clauses seems to require billions of steps --- the difference between
      100,000 and 10,000,000 steps is very small. </li>
      <li> We need to look into the Heule-et-al article. </li>
-     <li> We need to try it again with the new ubcsat-algorithms. </li>
+     <li> Finding the best ubcsat-algorithm for new version:
+     \verbatim
+> E=run_ubcsat("VanDerWaerden_2-6-6_1131.cnf",runs=100,cutoff=1000000)
+
+     \endverbatim
+     </li>
     </ul>
    </li>
   </ul>
