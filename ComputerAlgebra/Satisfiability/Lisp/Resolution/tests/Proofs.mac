@@ -20,15 +20,36 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Proofs.ma
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Pigeonhole.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 
 kill(f)$
 
-/* ******************
-   * Basic concepts *
-   ******************
+/* ************************************
+   * Checking the defining properties *
+   ************************************
 */
+
+okltest_resl_p(f) := block(
+  assert(not(f(1))),
+  assert(not(f([]))),
+  assert(not(f([1]))),
+  assert(not(f([{1},1]))),
+  assert(f([{}])),
+  assert(f([{1}])),
+  assert(f([{1},{2},{-3}])),
+  assert(f([{-1},{1},[{},[1,2]]])),
+  assert(not(f([{-1},{1},[{},[1,3]]]))),
+  assert(not(f([{-1},{1},[{},["s",3]]]))),
+  assert(not(f([{-1},{1},[{},[-1,2]]]))),
+  assert(f([{-1},{1},{1,2},{1,4},[{},[1,2]]])),
+  assert(f([{-1},{1},{1,2},{1,4},[{},[1,2]],{3}])),
+  assert(f([{-1},{1},{1,2},{1,4},[{},[1,2]],{3}])),
+  assert(f([{-1},{1},{1,2},{1,4},[{},[1,2]],[{},[1,2]]])),
+  assert(not(f([{-1},{1},{1,2},{1,4},[{},[1,2]],[{},[3,4]]]))),
+  true)$
+
 
 okltest_reslrt_p(f) := block(
   assert(f([{}])),
