@@ -27,11 +27,11 @@ License, or any later version. */
    <li> There is also a function for outputting resolution trees; this
    function should move here. </li>
    <li> We need to make this concept explicit. </li>
-   <li> A "resolution tree" ("rt"; for the boolean case) is a rooted binary
+   <li> A "resolution tree" ("reslrt"; for the boolean case) is a rooted binary
    tree labelled with clauses such that each inner node-label is the resolvent
    of the labels of the two children. </li>
    <li> We can represent such a labelled rooted binary-tree in Maxima using
-   our notion of a labelled rooted-tree, given in
+   our notion of a labelled rooted tree, given in
    ComputerAlgebra/Trees/Lisp/Basics.mac. </li>
   </ul>
 
@@ -118,12 +118,10 @@ License, or any later version. */
        in "Resolution trees" above). </li>
       </ul>
      </li>
-     <li> In "Resolution trees" above, the abbreviation "rt" is suggested for
-     resolution tree. </li>
-     <li> However "rt" refers to both "resolution tree" and also
-     "rooted tree" from ComputerAlgebra/Trees/Lisp/Basics.mac. </li>
-     <li> Perhaps instead we use "resl","rest", "resdg", "resldg"? </li>
-     <li> It *is* unfortunate that "rest" is a word, as this might
+     <li> We use "resl","reslrt", "resdg", "resldg". </li>
+     <li> DONE (irrelevant: if one would read it as this word, it wouldn't
+     make sense)
+     It *is* unfortunate that "rest" is a word, as this might
      create confusion. </li>
     </ul>
    </li>
