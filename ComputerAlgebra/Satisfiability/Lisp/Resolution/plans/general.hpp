@@ -67,7 +67,7 @@ License, or any later version. */
        <li> all vertices have out-degree 0 or >= 2 (not 1). </li>
       </ul>
      </li>
-     <li> A ""resolution proof as labelled directed graph" ("resldg") is a
+     <li> A "resolution proof as labelled directed graph" ("resldg") is a
      labelled dg [[V,E],f] such that:
       <ul>
        <li> f maps V to clauses </li>
