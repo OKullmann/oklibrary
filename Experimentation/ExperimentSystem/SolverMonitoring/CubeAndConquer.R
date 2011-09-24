@@ -9,6 +9,9 @@
 # tools following the "Cube and Conquer" approach.
 
 
+oklib_load("OKlib/Statistics/R/Utilities.R")
+
+
 # Reads the statistics-file when minisat (in compatible versions) was used,
 # prints some basic statistics, and returns the data-frame.
 # Usages:

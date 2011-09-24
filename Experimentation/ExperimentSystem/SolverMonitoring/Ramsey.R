@@ -1,4 +1,4 @@
-# Oliver Kullmann, 290.9.2011 (Swansea)
+# Oliver Kullmann, 20.9.2011 (Swansea)
 # Copyright 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
@@ -8,6 +8,7 @@
 # Tools for evaluating the results of experiments in Ramsey theory
 # (using complete solvers).
 
+oklib_load("OKlib/Statistics/R/Utilities.R")
 
 # Reads the statistics-file produced by CRunPdVdWk1k2 when minisat (in
 # compatible versions) was used, prints some basic statistics, plots the
