@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Trees/Lisp/tests/Basics.mac
-  \brief Tests related to extraction of the largest autarky
+  \brief Tests related to rooted trees
 
 Use by
 
