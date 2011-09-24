@@ -31,12 +31,20 @@ plot(E$alg,E$min)
      \endverbatim
      which plots per algorithm the boxplots of the min-distribution. </li>
      <li> However it is useless if on the x-axis not all algorithms are
-     listed. </li>
+     listed.
+      <ol>
+       <li> So the algorithms-names needed to be printed vertically. </li>
+       <li> See https://stat.ethz.ch/pipermail/r-help/2003-May/033400.html .
+       </li>
+       <li> And all names need to be shown. </li>
+      </ol>
+     </li>
      <li> And an option for cutoff_min is needed, which removes algorithms
-     whose best min-value is at least the cutoff-value. </li>
+     whose best min-value is greater than the cutoff-value. </li>
     </ol>
    </li>
-   <li> Sorting the algorithms
+   <li> DONE (eval_ubcsat_dataframe now prints the sorted table-data)
+   Sorting the algorithms:
     <ol>
      <li> Considering single algorithms by e.g.
      \verbatim
