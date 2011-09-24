@@ -209,12 +209,13 @@ vanderwaerdend2_a(L) := if length(L)=2 and lconstant_p(L) then first(L)
 /* The diagonal cases with three parts: */
 vanderwaerdend3(k) :=
  if k <= 8 then [
-  1,4,27,[292+1,inf-1],[1209+1,inf-1],[8886+1,inf-1],[48811+1,inf-1],[238400+1,inf-1]
+  1,4,27,[292+1,inf-1],[2173+1,inf-1],[11191+1,inf-1],[48811+1,inf-1],[238400+1,inf-1]
  ][k]
  else unknown$
 /* Remark: The precise numbers have been verified/computed by SAT solving
-   methods. The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2005],
+   methods. The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2007],
    except for k=7, which is in [Heule, Walsh, 2010].
+   See also http://www.st.ewi.tudelft.nl/sat/waerden.php.
 */
 vanderwaerdend3_a(L) := if length(L)=3 and lconstant_p(L) then first(L)
  else []$
@@ -228,6 +229,7 @@ vanderwaerdend4(k) :=
 /* Remark: The precise numbers have been verified/computed by SAT solving
    methods. The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2005],
    except for k=7, which is in [Heule, Walsh, 2010].
+   See also http://www.st.ewi.tudelft.nl/sat/waerden.php.
 */
 vanderwaerdend4_a(L) := if length(L)=4 and lconstant_p(L) then first(L)
  else []$
@@ -235,10 +237,11 @@ vanderwaerdend4_a(L) := if length(L)=4 and lconstant_p(L) then first(L)
 /* The diagonal cases with five parts: */
 vanderwaerdend5(k) :=
  if k <= 6 then [
-  1,6,[125+1,inf-1],[2254+1,inf-1],[24045+1,inf-1],[246956+1,inf-1]
+  1,6,[170+1,inf-1],[2254+1,inf-1],[98740+1,inf-1],[540025+1,inf-1]
  ][k]
  else unknown$
-/* Remark: The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2005].
+/* Remark: The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2007].
+   See also http://www.st.ewi.tudelft.nl/sat/waerden.php.
 */
 vanderwaerdend5_a(L) := if length(L)=5 and lconstant_p(L) then first(L)
  else []$
@@ -246,10 +249,11 @@ vanderwaerdend5_a(L) := if length(L)=5 and lconstant_p(L) then first(L)
 /* The diagonal cases with six parts: */
 vanderwaerdend6(k) :=
  if k <= 6 then [
-  1,7,[207+1,inf-1],[9778+1,inf-1],[63473+1,inf-1],[633981+1,inf-1]
+  1,7,[223+1,inf-1],[9778+1,inf-1],[98748+1,inf-1],[816981+1,inf-1]
  ][k]
  else unknown$
-/* Remark: The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2005].
+/* Remark: The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2007].
+   See also http://www.st.ewi.tudelft.nl/sat/waerden.php.
 */
 vanderwaerdend6_a(L) := if length(L)=6 and lconstant_p(L) then first(L)
  else []$
