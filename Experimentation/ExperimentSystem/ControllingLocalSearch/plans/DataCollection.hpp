@@ -168,7 +168,7 @@ License, or any later version. */
     <ol>
      <li> One with data regarding only the instance. </li>
      <li> One with statistics regarding the algorithms (not the runs), e.g.,
-     flips-per-second. </li>
+     fps (flips per second). </li>
      <li> One containing all run-information. </li>
     </ol>
    </li>
