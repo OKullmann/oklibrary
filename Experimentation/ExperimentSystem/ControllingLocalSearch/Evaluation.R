@@ -1,12 +1,12 @@
 # Oliver Kullmann, 4.6.2009 (Swansea)
-# Copyright 2009, 2010 Oliver Kullmann
+# Copyright 2009, 2010, 2011 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Required for run_ubcsat_cnf_algs in eval_ubcsat_dataframe
-oklib_load("OKlib/Experimentation/ExperimentSystem/ControllingLocalSearch/DataCollection.R")
+oklib_load("OKlib/Statistics/R/Utilities.R")
+
 
 # ################
 # # Reading data #
@@ -33,16 +33,25 @@ read_ubcsat = function(filename, ...) {
 # "skip=m". If trailing lines are to be ignored, use "nrows=n" for the
 # number of rows to be selected.
 
+
 # #######################################
 # # Evaluation functions for run_ubcsat #
 # #######################################
 
-# See DataCollection.R.
+# See DataCollection.R for run_ubcsat.
 
-# First attempt, just showing all results in table form:
+# Sorting the table form of the results in decreasing
+# lexicographical order, that is, sorting first according to min-value
+# reached (the lower the better), and second by count obtained (the higher the
+# better).
+# Showing also a plot of table-data, and the flips-per-second.
 eval_ubcsat_dataframe = function(E) {
-  for (A in names(run_ubcsat_cnf_algs)) {
-    cat(A,": ")
+  plot(E$alg,E$min)
+  i=1
+  for (A in dimnames(lexico_col_dec(table(E$min,E$alg)))[[2]]) {
+    cat(i,". ", A,": ", sep="")
     print(table(E$min[E$alg==A]))
+    cat("fps:", max(E$FlipsPerSecond[E$alg==A]), "\n")
+    i = i + 1
   }
 }
