@@ -39,9 +39,9 @@ short_summary_lm = function(L) {
 # "getAnywhere(print.summary.lm)".
 
 
-# ################################
-# # Helper functions for vectors #
-# ################################
+# #############################
+# # Sorting and related tasks #
+# #############################
 
 # Sort the elements of vector x in ascending order, removing duplicates:
 orderedset <- function(x) {
@@ -52,6 +52,14 @@ orderedset <- function(x) {
   sel[1] = TRUE
   for (i in 2:l) sel[i] = x[i] > x[i-1]
   return(x[sel])
+}
+
+# Inefficient but easy implementention of lexicographical ordering
+# of a matrix / 2-dimensional array according to its columns,
+# in decreasing order:
+lexico_col_dec = function(X) {
+  for (i in nrow(X):1) X <- X[, order(X[i,],decreasing=TRUE)]
+  X
 }
 
 
