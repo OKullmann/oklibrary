@@ -29,7 +29,7 @@ License, or any later version. */
      clauses seems to require billions of steps --- the difference between
      100,000 and 10,000,000 steps is very small. </li>
      <li> We need to look into the Heule-et-al article. </li>
-     <li> Finding the best ubcsat-algorithm for new version:
+     <li> Finding the best ubcsat-algorithm for new ubcsat-version:
      \verbatim
 > E=run_ubcsat("VanDerWaerden_2-6-6_1131.cnf",runs=100,cutoff=10000)
 > eval_ubcsat_dataframe(E)
@@ -149,9 +149,84 @@ fps: 10988
 fps: 16158
 
 > E=run_ubcsat("VanDerWaerden_2-6-6_1131.cnf",runs=100,cutoff=1000000)
-
+> eval_ubcsat_dataframe(E)
+1. irots:
+1397 1932 1942 1944 1951 1957 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967
+   1    1    1    1    1    1    3    1    1    2    1    2    2    3    2    1
+1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1979 1980 1981 1982 1983 1984
+   1    5    2    1    5    6    2    1    1    3    3    1    5    7    3    5
+1985 1986 1987 1988 1989 1990 1993 1997 2000
+   6    6    1    4    2    1    2    2    1
+fps: 25393
+2. rots:
+1919 1929 1933 1935 1936 1939 1942 1943 1944 1946 1949 1950 1951 1952 1953 1954
+   1    1    1    1    1    1    1    2    1    1    1    2    1    1    1    2
+1955 1957 1958 1959 1960 1961 1962 1963 1965 1966 1967 1968 1970 1971 1972 1973
+   1    2    1    1    2    3    2    1    2    2    2    3    3    1    1    2
+1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1986 1987 1988 1989 1990
+   1    3    1    3    4    1    1    2    2    1    2    2    1    4    1    1
+1991 1992 1993 1994 1995 1997 1998 2002 2004 2005 2019 2028
+   2    2    2    4    3    3    1    1    1    1    1    1
+fps: 36751
+3. ag2wsat:
+1920 1934 1939 1940 1941 1942 1943 1945 1946 1947 1950 1951 1952 1954 1955 1956
+   1    1    1    1    2    2    1    1    1    1    1    4    4    1    3    4
+1957 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972
+   3    5    2    5    3    6    5    4    1    1    4    4    7    2    2    3
+1973 1974 1976 1977 1978 1982 1984
+   3    3    2    2    1    2    1
+fps: 19958
+4. gwsat:
+1928 1929 1930 1932 1933 1934 1935 1936 1937 1938 1939 1940 1942 1943 1945 1946
+   1    1    1    1    1    1    1    3    1    1    3    1    1    3    1    4
+1947 1948 1949 1950 1951 1952 1953 1954 1955 1956 1957 1958 1959 1960 1961 1962
+   3    2    1    2    3    3    2    2    4    2    1    4    3    2    5    1
+1963 1964 1965 1966 1968 1969 1970 1971 1974 1975 1976 1977 1979 1981 1984 1986
+   3    5    2    2    3    1    2    3    2    1    3    2    1    1    1    1
+1987 1988
+   1    1
+fps: 22336
+5. gsatt:
+1944 1945 1947 1952 1955 1957 1958 1962 1963 1966 1970 1972 1974 1975 1976 1977
+   1    1    2    1    1    1    1    2    1    1    1    2    1    1    2    1
+1980 1981 1982 1984 1986 1987 1989 1990 1992 1993 1994 1995 1996 1997 1998 2002
+   1    2    4    4    2    1    3    1    2    1    2    2    5    3    3    6
+2003 2004 2005 2006 2007 2008 2010 2011 2012 2013 2015 2016 2018 2019 2020 2021
+   1    3    1    2    3    1    1    1    4    1    1    4    1    2    1    1
+2022 2023 2024 2025 2026 2029 2033 2036 2040
+   2    1    1    1    1    1    1    1    1
+fps: 54361
+6. samd:
+1944 1952 1955 1960 1961 1970 1971 1972 1973 1974 1975 1978 1979 1981 1982 1983
+   1    1    1    2    1    1    1    3    1    1    2    4    2    1    2    1
+1984 1985 1987 1988 1989 1990 1991 1992 1993 1995 1996 1997 1998 2000 2001 2002
+   1    2    1    1    4    1    4    5    1    1    3    1    4    3    3    2
+2003 2005 2006 2008 2009 2010 2011 2012 2013 2014 2017 2019 2020 2021 2023 2024
+   3    1    2    2    1    3    2    2    1    1    2    1    3    1    2    1
+2027 2028 2031 2034 2036 2041 2050 2054
+   2    1    1    1    2    1    1    1
+fps: 54355
+7. g2wsat:
+1992 1994 1995 1999 2002 2003 2004 2007 2008 2009 2010 2011 2012 2013 2014 2015
+   2    2    2    1    2    1    2    2    1    2    2    2    3    3    3    6
+2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026 2027 2029 2030 2031 2032
+   3    5    9    2    6    3    6    9    4    3    3    4    2    1    2    1
+2034
+   1
+fps: 20351
+8. ddfw:
+1996 1997 2000 2002 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015
+   1    1    1    1    1    1    2    4    1    3    2    7    3    3    6    5
+2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 2027 2029 2030
+   7    4    3    5   10    6    3    9    5    2    2    1    1
+fps: 2440
      \endverbatim
-     </li>
+     We see that all algorithms show only small improvements, except of the one
+     outlier for irots, reaching min=1397. </li>
+     <li> So the new ubcsat-algorithms don't improve anything here, and local
+     search performs poorly. While the palindromic problems seem (modulo
+     segmentation-fault problems) to perform much better, and the palindromic
+     gap is also zero here! </li>
     </ul>
    </li>
   </ul>
@@ -282,6 +357,35 @@ anovp :
      </li>
      <li> n=1131:
      \verbatim
+2,7,8,10,11,12,13,14,16,21,
+25,26,32,35,39,41,42,43,47,49,
+50,52,54,55,58,59,62,64,67,69,
+70,71,75,77,78,79,81,82,84,85,
+86,87,88,91,92,93,95,96,97,98,
+100,106,109,110,111,112,114,116,117,118,
+119,122,128,130,131,132,133,135,136,137,
+140,141,142,143,144,146,147,149,150,151,
+153,157,158,159,161,164,166,169,170,173,
+174,176,178,179,181,185,186,187,189,193,
+196,202,203,207,212,214,215,216,217,218,
+220,221,226,228,233,234,236,237,238,239,
+240,242,247,251,252,258,261,265,267,268,
+269,273,275,276,278,280,281,284,285,288,
+290,293,295,296,297,301,303,304,305,307,
+308,310,311,312,313,314,317,318,319,321,
+322,323,324,326,332,335,336,337,338,340,
+342,343,344,345,348,354,356,357,358,359,
+361,362,363,366,367,368,369,370,372,373,
+375,376,377,379,383,384,385,387,390,392,
+395,396,399,400,402,404,405,407,411,412,
+413,415,419,422,428,429,433,438,440,441,
+442,443,444,446,447,452,453,454,459,460,
+462,463,464,465,466,468,473,477,478,484,
+487,491,493,494,495,499,501,502,504,506,
+507,510,511,514,516,519,521,522,523,527,
+529,530,531,533,534,536,537,538,539,540,
+543,544,545,547,548,549,550,552,558,561,
+562,563,564
      \endverbatim
      </li>
     </ol>
@@ -299,10 +403,10 @@ sd= 2467837
 sum= 851449200
    \endverbatim
    Not showing times, since apparently the processor switched frequencies
-   (csltok). </li>
+   (csltok); should be rerun. </li>
    <li> The even problems look harder (as usual, before the second phase where
    only one parity is considered). </li>
-   <li> Interesting the large palindromic gap, and that the palindromic gap
+   <li> Interesting the large palindromic span, and that the palindromic gap
    is zero here. </li>
    <li> So here using palindromic problems to get solutions for the ordinary
    problems is very successful. </li>
@@ -325,13 +429,34 @@ Break point 2: 567
    are easy. n=567 is actually satisfiable, while n=568 is unsatisfiable.
    </li>
    <li> "RunPdVdWk1k2 6 6 rsaps 100 10000000" yields --- unfortunately we get
-   segmentation faults. We need to see whether there are news from the
+   segmentation faults (csltok). We need to see whether there are news from the
    Ubcsat-group:
    \verbatim
 Break point 1: 567
 Break point 2: 788
 # both breakpoints due to segmentation faults (also on the runs without
 # initial solutions, and also with ubcsat version beta-10)
+   \endverbatim
+   </li>
+   <li> Using a 32-bit machine (cstriton):
+   \verbatim
+RunPdVdWk1k2 6 6 rsaps 100 10000000
+Break point 1: 567
+Break point 2: 1132
+   \endverbatim
+   All satisfying assignments found in the first run with the old solution,
+   max osteps = 351989. The two unsatisfiable instances:
+   \verbatim
+> E=read_ubcsat("VanDerWaerden_pd_2-6-6_568.cnf_OUT",nrows=100)
+  1 108 109 110 111 112 113 114 116 117 118 119
+ 75   1   2   3   2   3   2   3   3   4   1   1
+100
+> E=read_ubcsat("VanDerWaerden_pd_2-6-6_1133.cnf_OUT",nrows=100)
+   1  492 1021 1023 1025 1027 1028 1030 1031 1032 1033 1034 1035 1036 1037 1038
+  55    1    2    1    2    1    2    2    7    2    7    3    3    3    4    3
+1041 1044
+   1    1
+100
    \endverbatim
    </li>
   </ul>
