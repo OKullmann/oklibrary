@@ -59,10 +59,78 @@ License, or any later version. */
     <ul>
      <li> 1-base (minisat-2.2.0: 982518.8, OKsolver_2002: 4134272). </li>
      <li> canonical (minisat-2.2.0: 1050555, OKsolver_2002: 56743). </li>
+     <li> Massacci DES translator (minisat-2.2.0: 1118152). </li>
      <li> minimum (minisat-2.2.0: 1331979, OKsolver_2002:  6566953). </li>
     </ul>
    </li>
   </ul>
+
+
+  \todo Using the Massacci DES translator
+  <ul>
+   <li> Generating plaintext and ciphertext pairs and instances:
+   \verbatim
+> oklib --maxima
+maxima> oklib_load_all()$
+
+  format_massacci(hex) :=
+    apply(sconcat,map(lambda([s],sconcat("0x",apply(sconcat,s),"_")),partition_elements(charlist(hex),2)))$
+
+  rounds : 4$ with_stdout(sconcat("des_r",rounds,"_pkc_triples"),
+    for seed : 1 thru 20 do block(
+      set_random(make_random_state(seed)),
+      P_hex : lpad(int2hex(random(2**64)),"0",16),
+      K_hex : lpad(int2hex(random(2**64)),"0",16),
+      C_hex : des_encryption_hex_gen(rounds, P_hex,K_hex),
+      print(sconcat(
+        format_massacci(P_hex), " ",
+        format_massacci(K_hex)," ",
+        format_massacci(C_hex)))))$
+   \endverbatim
+   </li>
+   <li> Generating the instances:
+   \verbatim
+ExternalSources/builds/SAT/Des/des2fml-0.9> mkdir experiments && cd experiments
+experiments> rounds=4; s=1;
+cat des_r${rounds}_pkc_triples | while read p k c; do
+  echo ${p} | sed -e 's/_/ /g' > plaintxt; echo ${k} | sed -e 's/_/ /g' > key_des; rm ciph_txt
+  ./des -r${rounds} && ./des2fml -r${rounds} -p -c -f1 && ./clausify formulae des_massacci_r${rounds}_s${s}.cnf
+  let s=$s+1
+done
+   \endverbatim
+   </li>
+   <li> Running the solver:
+   \verbatim
+experiments> rounds=4;
+for s in $(seq 1 20); do
+  minisat-2.2.0 des_massacci_r${rounds}_s${s}.cnf > minisat_r${rounds}_s${s}.result;
+done;
+   \endverbatim
+   </li>
+   <li> Results:
+   \verbatim
+> rounds=4; results_file=r${rounds}_minisat.results; ExtractMinisat header-only | awk ' { print $0 " s" } ' > ${results_file};
+for s in $(seq 1 20); do cat minisat_r${rounds}_s${s}.result | ExtractMinisat data-only | awk " { print  \$0 \" ${s}\" }" >> ${results_file}; done
+
+> oklib --R
+> E = read.table("r4_minisat.results", header=TRUE)
+> summary(E)
+      rc              t               cfs               dec               rts             r1                ptime            stime            cfl
+Min.   :14812   Min.   :  8.97   Min.   : 169646   Min.   : 200392   Min.   : 460   Min.   : 41489684   Min.   :0.0000   Min.   :0.020   Min.   : 3487867
+1st Qu.:14812   1st Qu.: 49.07   1st Qu.: 792121   1st Qu.: 889442   1st Qu.:1686   1st Qu.:211985394   1st Qu.:0.0000   1st Qu.:0.030   1st Qu.:15039986
+Median :14812   Median : 66.81   Median :1046956   Median :1170468   Median :2046   Median :283783523   Median :0.0000   Median :0.030   Median :19814716
+Mean   :14812   Mean   : 74.42   Mean   :1118152   Mean   :1253541   Mean   :2210   Mean   :310448339   Mean   :0.0015   Mean   :0.031   Mean   :21568194
+3rd Qu.:14812   3rd Qu.: 97.62   3rd Qu.:1489823   3rd Qu.:1649706   3rd Qu.:2901   3rd Qu.:408642168   3rd Qu.:0.0000   3rd Qu.:0.030   3rd Qu.:27999495
+Max.   :14812   Max.   :198.64   Max.   :2647135   Max.   :3118703   Max.   :4604   Max.   :777567318   Max.   :0.0100   Max.   :0.040   Max.   :54642660
+
+
+>  sd(E)
+           t          cfs          dec          rts           r1        ptime        stime          cfl 
+4.299050e+01 5.766169e+05 6.606163e+05 1.002503e+03 1.674194e+08 3.663475e-03 5.525063e-03 1.141013e+07
+   \endverbatim
+   </li>
+  </ul>
+
 
 
   \todo Using the canonical translation for the S-boxes (6-to-4)
