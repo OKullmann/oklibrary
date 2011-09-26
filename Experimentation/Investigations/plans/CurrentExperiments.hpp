@@ -40,6 +40,9 @@ License, or any later version. */
     <ul>
      <li> 5-round DES :
       <ul>
+       <li> See "Using the Massacci DES translator" in
+       Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/5.hpp.
+       </li>
        <li> See "Using the 1-base translation for the S-boxes (6-to-4)" in
        Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/5.hpp.
        </li>

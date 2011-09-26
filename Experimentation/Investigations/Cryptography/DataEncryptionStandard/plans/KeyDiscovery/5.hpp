@@ -78,6 +78,52 @@ License, or any later version. */
   </ul>
 
 
+  \todo Using the Massacci DES translator
+  <ul>
+   <li> Generating plaintext and ciphertext pairs and instances:
+   \verbatim
+> oklib --maxima
+maxima> oklib_load_all()$
+
+  format_massacci(hex) :=
+    apply(sconcat,map(lambda([s],sconcat("0x",apply(sconcat,s),"_")),partition_elements(charlist(hex),2)))$
+
+  rounds : 5$ with_stdout(sconcat("des_r",rounds,"_pkc_triples"),
+    for seed : 1 thru 20 do block(
+      set_random(make_random_state(seed)),
+      P_hex : lpad(int2hex(random(2**64)),"0",16),
+      K_hex : lpad(int2hex(random(2**64)),"0",16),
+      C_hex : des_encryption_hex_gen(rounds, P_hex,K_hex),
+      print(sconcat(
+        format_massacci(P_hex), " ",
+        format_massacci(K_hex)," ",
+        format_massacci(C_hex)))))$
+   \endverbatim
+   </li>
+   <li> Generating the instances:
+   \verbatim
+ExternalSources/builds/SAT/Des/des2fml-0.9> mkdir experiments && cd experiments
+experiments> rounds=5; s=1;
+cat des_r${rounds}_pkc_triples | while read p k c; do
+  echo ${p} | sed -e 's/_/ /g' > plaintxt; echo ${k} | sed -e 's/_/ /g' > key_des; rm ciph_txt
+  ./des -r${rounds} && ./des2fml -r${rounds} -p -c -f1 && ./clausify formulae des_massacci_r${rounds}_s${s}.cnf
+  let s=$s+1
+done
+   \endverbatim
+   </li>
+   <li> Running the solver:
+   \verbatim
+experiments> rounds=5;
+for s in $(seq 1 20); do
+  minisat-2.2.0 des_massacci_r${rounds}_s${s}.cnf > minisat_r${rounds}_s${s}.result;
+done;
+   \endverbatim
+   </li>
+   <li> Experiment running. </li>
+  </ul>
+
+
+
   \todo Using the 1-base translation for the S-boxes (6-to-4)
   <ul>
    <li> Translating the DES Sboxes, as 6-to-4 bit boolean functions, using
