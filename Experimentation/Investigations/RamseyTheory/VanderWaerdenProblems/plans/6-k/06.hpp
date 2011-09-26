@@ -391,9 +391,16 @@ anovp :
     </ol>
    </li>
    <li> Established by "CRunPdVdWk1k2 6 6 minisat-2.2.0". </li>
-   <li> Evaluation:
+   <li> Evaluation (on csnereid, 32-bit):
    \verbatim
 > E=read_crunpdvdw_minisat()
+$t:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+   0.0000    0.2247   17.5800   62.8100   65.7000 4285.0000
+sd= 192.7377
+      95%       96%       97%       98%       99%      100%
+ 231.5165  265.3446  309.7339  438.6695  719.7937 4284.9600
+sum= 53138.59
 $cfs:
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
        0    13620   390600  1006000  1089000 51400000
@@ -401,11 +408,39 @@ sd= 2467837
      95%      96%      97%      98%      99%     100%
  3771146  4689686  5342741  7541277  9834239 51398334
 sum= 851449200
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -1.1553e+01  2.3198e+00  -4.980 7.713e-07 ***
+E$cfs        7.3888e-05  8.7087e-07  84.845 < 2.2e-16 ***
+R-squared: 0.8951
    \endverbatim
-   Not showing times, since apparently the processor switched frequencies
-   (csltok); should be rerun. </li>
+   </li>
    <li> The even problems look harder (as usual, before the second phase where
-   only one parity is considered). </li>
+   only one parity is considered), with one exception, the second-hardest
+   problem overall (for n=547), while the hardest problem was the
+   unsat-problem for n=568 (the second unsat-problem was relatively easy):
+   \verbatim
+> H=sort(E$cfs,decreasing=TRUE)[1:3]
+> HE=E[E$cfs %in% H,]
+> HE[order(HE$cfs,decreasing=TRUE),]
+      v  rn    rc        t sat      cfs      dec   rts        r1 mem ptime
+563 568 284 31670 4284.960   0 51398334 57219465 65535 890725284  76  0.02
+542 547 274 29024 1061.770   1 16574134 18544610 24574 281510274  58  0.01
+501 506 253 25080  978.204   1 16120952 18067873 24572 280686049  46  0.01
+    stime        cfl
+563  0.18 1017702957
+542  0.15  335521210
+501  0.12  328000253
+
+> E[E$sat==0,]
+       v  rn     rc       t sat      cfs      dec   rts        r1 mem ptime
+563  568 284  31670 4284.96   0 51398334 57219465 65535 890725284  76  0.02
+846 1133 567 126506 1118.72   0  6346090  7025178 10237 107601400 129  0.06
+    stime        cfl
+563  0.18 1017702957
+846  1.55  115965873
+   \endverbatim
+   </li>
    <li> Interesting the large palindromic span, and that the palindromic gap
    is zero here. </li>
    <li> So here using palindromic problems to get solutions for the ordinary
