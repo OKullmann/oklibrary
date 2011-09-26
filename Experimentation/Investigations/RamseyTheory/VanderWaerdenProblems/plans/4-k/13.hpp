@@ -19,6 +19,15 @@ License, or any later version. */
   \todo vanderwaerden_2(4,13) > 537
   <ul>
    <li> Start with the palindromic solution for n=537. </li>
+   <li> Finding best ubcsat-algorithm:
+   \verbatim
+   \verbatim
+> VanderWaerdenCNF-O3-DNDEBUG 4 13 537
+
+> E=run_ubcsat("VanDerWaerden_2-4-13_537.cnf",runs=100,cutoff=1000000)
+XXX
+   \endverbatim
+   </li>
   </ul>
 
 

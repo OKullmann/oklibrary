@@ -54,6 +54,23 @@ gsatt
 
    \endverbatim
    </li>
+   <li> For vdw_2^pd(6,6) (see
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/6-k/06.hpp) clearly
+   rsaps was best: perhaps here we didn't consider it due to segmentation
+   faults? </li>
+   <li> Considering n=1546 (on 32-bit machine (csoberon)):
+   \verbatim
+> PdVanderWaerdenCNF-O3-DNDEBUG 7 7 1546
+> cat VanDerWaerden_pd_2-7-7_1546.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG nz
+n=773 c=197580 l=1382400
+ length   count
+      4     220
+      7  197360
+
+E=run_ubcsat("VanDerWaerden_pd_2-7-7_1546.cnf",runs=100,cutoff=1000000)
+XXX
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -188,7 +205,6 @@ Break point 2: 1547
  15  11   9   5   1   1
 400
 > E=read_ubcsat("VanDerWaerden_pd_2-7-7_1548.cnf_OUT",nrows=400)
-
  83  85  87 157 168 169 171 172 173 275 282 284 286 287 294 359 361 363 364 365
   2   1   2   1   1   1   1   1   1   1   1   1   2   1   1   1   2   1   1   1
 366 367 368 369 370 371 372 373 374 375 376 377 378 379 380 381 382 383 384 385
@@ -199,6 +215,22 @@ Break point 2: 1547
     \endverbatim
    </li>
    <li> These instances look very hard. </li>
+   <li> Using rsaps on a 32-bit machine (csnereid):
+   \verbatim
+RunPdVdWk1k2 7 7 rsaps 100 10000000
+Break point 1: 616
+Break point 2: 627
+> E=read_ubcsat("VanDerWaerden_pd_2-7-7_617.cnf_OUT",nrows=100)
+ 2  3  4  5  6  7
+ 2  8 28 37 19  6
+100
+> E=read_ubcsat("VanDerWaerden_pd_2-7-7_628.cnf_OUT",nrows=100)
+ 1  2  3  4
+ 7 28 46 19
+100
+   \endverbatim
+   This doesn't look promising, and thus apparently rsaps is not efficient
+   here. </li>
   </ul>
 
 */

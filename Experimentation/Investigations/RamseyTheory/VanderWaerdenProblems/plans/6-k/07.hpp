@@ -101,40 +101,42 @@ g2wsat
   <ul>
    <li> minisat-2.2.0:
     <ol>
-     <li> Last solved problem for n=374. </li>
-     <li> Do we have an easy-hard pattern based on parity?
-     <li> Getting the data from
-     Exp_PdVanderWaerdenC_2-6-7_minisat-2.2.0_2011-03-07-194459:
+     <li>
      \verbatim
-> E = read_minisat_outputs(Sys.glob("Exp_PdVanderWaerdenC_2-6-7_minisat-2.2.0_2011-03-07-194459/VanDerWaerden_pd_2-6-7_*.cnf_OUT"))
-> plot(E$n[E$n>=175], E$decisions[E$n>=175])
-> lines(E$n[E$n>=175], E$decisions[E$n>=175])
+CRunPdVdWk1k2 6 7 minisat-2.2.0
+
+> E=read_crunpdvdw_minisat()
+$t:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.000e+00 1.999e-03 9.998e-03 9.900e+01 2.600e-02 8.558e+03
+sd= 655.9847
+       95%        96%        97%        98%        99%       100%
+  33.20532  125.83874  596.18256  978.36942 3393.56790 8558.04000
+sum= 35836.84
+$cfs:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+0.000e+00 0.000e+00 2.000e+00 2.039e+06 2.875e+01 1.586e+08
+sd= 12829676
+      95%       96%       97%       98%       99%      100%
+  1056456   3543016  14246239  22715025  70358654 158598561
+sum= 738155209
+$t ~ $cfs:
+               Estimate  Std. Error  t value Pr(>|t|)
+(Intercept) -5.0736e+00  2.1064e+00  -2.4087  0.01651 *
+E$cfs        5.1037e-05  1.6237e-07 314.3353  < 2e-16 ***
+R-squared: 0.9964
+
+> max(E$v)
+[1] 368
+> E[E$v==368,]
+      v  rn    rc       t sat       cfs       dec    rts         r1 mem ptime
+362 368 184 12034 8558.04   1 158598561 185340735 196604 3492420991  79  0.01
+    stime        cfl
+362  0.04 5613364596
      \endverbatim
      </li>
-     <li> That that with that table, n is the number of variables in the SAT
-     problem, not the original number of vertices. </li>
-     <li> We have the problem that the original number of vertices is not in
-     the table, and so we always have two identical n-values for the even and
-     the corresponding odd number of vertices. </li>
-     <li> Thus the pattern is not as visible as it should be. The number of
-     vertices must be extracted from the file name. </li>
-     <li> Due to the ordering according to filename, in most cases (but see
-     "Improved handling of file-names" in
-     ExperimentSystem/SolverMonitoring/plans/Minisat2.hpp) odd comes before
-     even. Unclear whether there is a pattern (if so, then it is unstable).
-     </li>
-     <li> There are slightly more cases with odd harder than cases with even
-     harder, with the biggest difference for n=185:
-     \verbatim
-> E[E$n==185,]
-      n     c restarts  decisions propagations    mem       time sat
-296 185 11887  1086969 1242578530  23942560994 123.66 179851.000   1
-298 185 12166     8191    6237556    116377530  29.83    418.978   1
-                                                                                         filename
-296 Exp_PdVanderWaerdenC_2-6-7_minisat-2.2.0_2011-03-07-194459/VanDerWaerden_pd_2-6-7_369.cnf_OUT
-298 Exp_PdVanderWaerdenC_2-6-7_minisat-2.2.0_2011-03-07-194459/VanDerWaerden_pd_2-6-7_370.cnf_OUT
-     \endverbatim
-     </li>
+     <li> One sees a steep increase at the end of running time. And over the
+     range considered the problems with odd v appear to be harder. </li>
     </ol>
    </li>
    <li> Certificates:
@@ -209,6 +211,81 @@ Break point 1: 591
 Break point 2: 1156
    \endverbatim
    where all solutions were found within the first 5 rounds. </li>
+   <li> Using SplittingViaOKsolver:
+    <ol>
+     <li> Finding good D-values for n=592:
+     \verbatim
+# Statistics:
+n=284 c=31224 l=186632
+ length   count
+      3     112
+      4     188
+      6   30924
+
+> SplittingViaOKsolver -D20 VanDerWaerden_pd_2-6-7_592.cnf
+> cat Md5sum
+436243f5b098b0323d70b01934b9b6fa
+> cat Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  20.00   20.00   20.00   20.61   21.00   30.00
+> table(E$n)
+   20    21    22    23    24    25    26    27    28    29    30
+51905 19998  8762  2949   857   258    86    28    20     7     4
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  10.00   16.00   17.00   17.16   18.00   20.00
+> table(E$d)
+   10    11    12    13    14    15    16    17    18    19    20
+    1    16   126   686  2464  6929 15086 22869 22409 11620  2668
+> cat Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         7
+c initial_number_of_variables           296
+c initial_number_of_clauses             31512
+c initial_number_of_literal_occurrences 203065
+c running_time(sec)                     5899.5
+c number_of_nodes                       169747
+c number_of_2-reductions                349
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        20
+c file_name                             VanDerWaerden_pd_2-6-7_592.cnf
+c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_pd_267_592cnf_2011-09-25-215748/Instances
+c splitting_cases                       84874
+
+> E=read_processsplit_minisat()
+72: 8.828h, sum-cfs=3.680676e+08, mean-t=441.407s, mean-cfs=5112050
+$t:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+    0.318    10.230    71.540   441.400   320.300 11440.000
+sd= 1420.393
+      95%       96%       97%       98%       99%      100%
+ 1729.138  1973.672  2048.499  2590.174  5427.553 11438.200
+sum= 31781.31
+$cfs:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+     6960    185800   1217000   5112000   4292000 107200000
+sd= 13678960
+      95%       96%       97%       98%       99%      100%
+ 19932510  21892704  22955287  29222378  54946867 107161581
+sum= 368067618
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -8.7440e+01  1.5530e+01 -5.6304 3.472e-07 ***
+E$cfs        1.0345e-04  1.0700e-06 96.6808 < 2.2e-16 ***
+R-squared: 0.9926
+
+# So it's a very hard problem. D must be set higher, say D=30.
+# On cs-oksvr:
+> nohup SplittingViaOKsolver -D30 VanDerWaerden_pd_2-6-7_592.cnf &
+XXX
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 */

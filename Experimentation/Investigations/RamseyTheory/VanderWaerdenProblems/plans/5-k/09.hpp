@@ -10,6 +10,34 @@ License, or any later version. */
   \brief On investigations into vdw_2(5,9)
 
 
+  \todo vdw_2(5,9) > 472
+  <ul>
+   <li> Starting from scratch:
+   \verbatim
+> k1=5 k2=9 n0=10 alg="adaptg2wsat" runs=1000 cutoff=400000000; nohup RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} &
+
+# Found a solution for n=446 (derived from n=442, where 93 runs were needed).
+> E=read_ubcsat("VanDerWaerden_2-5-9_447.cnf_OUT")
+  1   2   3
+ 16 130  34
+180
+   \endverbatim
+   This looks inefficient. </li>
+   <li> Best ubcsat-algorithm:
+   \verbatim
+> VanderWaerdenCNF-O3-DNDEBUG 5 9 472
+n=472 c=41300 l=261252
+ length   count
+      5   27612
+      9   13688
+
+> E=run_ubcsat("VanDerWaerden_2-5-9_472.cnf",runs=100,cutoff=1000000)
+XXX
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Best complete solver for palindromic problems
   <ul>
    <li> It seems that from the conflict-driven solvers minisat-2.2.0 is best,
@@ -19,16 +47,6 @@ License, or any later version. */
 
 
   \todo Best local-search solver for palindromic problems
-
-
-  \todo vdw_2(5,9) > 472
-  <ul>
-   <li> Starting from scratch:
-   \verbatim
-> k1=5 k2=9 n0=10 alg="adaptg2wsat" runs=1000 cutoff=400000000; nohup RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} &
-   \endverbatim
-
-  </ul>
 
 
   \todo vdw_2^pd(5,9) >= (446,473)
@@ -383,7 +401,13 @@ c number_of_2-reductions                188048
 c splitting_cases                       3209535
 
 > ProcessSplitViaOKsolver SplitViaOKsolver_D32VanDerWaerden_pd_259_447cnf_2011-08-25-125535
-
+> E=read_processsplit_minisat()
+863092: 20.865d, sum-cfs=3.982016e+10, mean-t=2.089s, mean-cfs=46137
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.020   0.312   0.724   2.089   1.712 773.400
+sd= 6.944693
+XXX
      \endverbatim
      </li>
     </ol>
