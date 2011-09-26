@@ -57,10 +57,18 @@ License, or any later version. */
    </li>
    <li> Solving 20 random keys (avg number of conflicts/nodes):
     <ul>
-     <li> 1-base (minisat-2.2.0: 982518.8, OKsolver_2002: 4134272). </li>
-     <li> canonical (minisat-2.2.0: 1050555, OKsolver_2002: 56743). </li>
-     <li> Massacci DES translator (minisat-2.2.0: 1118152). </li>
-     <li> minimum (minisat-2.2.0: 1331979, OKsolver_2002:  6566953). </li>
+     <li> 1-base (minisat-2.2.0: 982,518.8, OKsolver_2002: 4,134,272). </li>
+     <li> canonical (minisat-2.2.0: 1,050,555, OKsolver_2002: 56,743). </li>
+     <li> Massacci DES translator (minisat-2.2.0: 1,118,152). </li>
+     <li> minimum (minisat-2.2.0: 1,331,979, OKsolver_2002:  6,566,953). </li>
+    </ul>
+   </li>
+   <li> Solving 20 random keys (time in seconds):
+    <ul>
+     <li> minimum (minisat-2.2.0: 31.2, OKsolver_2002:  1551.3). </li>
+     <li> 1-base (minisat-2.2.0: 35.9, OKsolver_2002: 1,974.8). </li>
+     <li> Massacci DES translator (minisat-2.2.0: 74.42). </li>
+     <li> canonical (minisat-2.2.0: 305.66, OKsolver_2002: 3,200.5). </li>
     </ul>
    </li>
   </ul>

@@ -53,11 +53,20 @@ License, or any later version. */
    </li>
    <li> Solving 20 random keys (avg number of conflicts):
     <ul>
-     <li> 1-base (minisat-2.2.0: 1146.9, OKsolver_2002: 13186.7). </li>
-     <li> canonical CNF (minisat-2.2.0: 1687.8, OKsolver_2002: ??). </li>
-     <li> Massacci DES translator (minisat-2.2.0: 3090). </li>
-     <li> minimum (minisat-2.2.0: 3714.85, OKsolver_2002: 395749.8). </li>
-     <li> canonical (minisat-2.2.0: 3717.85, OKsolver_2002: 72.75). </li>
+     <li> 1-base (minisat-2.2.0: 1,146.9, OKsolver_2002: 13,186.7). </li>
+     <li> canonical CNF (minisat-2.2.0: 1,687.8, OKsolver_2002: ??). </li>
+     <li> Massacci DES translator (minisat-2.2.0: 3,090). </li>
+     <li> minimum (minisat-2.2.0: 3,714.85, OKsolver_2002: 395,749.8). </li>
+     <li> canonical (minisat-2.2.0: 3,717.85, OKsolver_2002: 72.75). </li>
+    </ul>
+   </li>
+   <li> Solving 20 random keys (time in seconds):
+    <ul>
+     <li> 1-base (minisat-2.2.0: 0.0135, OKsolver_2002: 7.54). </li>
+     <li> minimum (minisat-2.2.0: 0.027, OKsolver_2002: 129.04). </li>
+     <li> Massacci DES translator (minisat-2.2.0: 0.08). </li>
+     <li> canonical (minisat-2.2.0: 0.1975, OKsolver_2002: 4.22). </li>
+     <li> canonical CNF (minisat-2.2.0: 0.6, OKsolver_2002: ??). </li>
     </ul>
    </li>
    <li> Note that we use the canonical CNF translation for the S-boxes to
