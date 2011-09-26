@@ -120,6 +120,29 @@ done;
    \endverbatim
    </li>
    <li> Experiment running. </li>
+   <li> Results (first 3 seeds):
+   \verbatim
+> rounds=5; results_file=r${rounds}_minisat.results; ExtractMinisat header-only | awk ' { print $0 " s" } ' > ${results_file};
+for s in $(seq 1 3); do cat minisat_r${rounds}_s${s}.result | ExtractMinisat data-only | awk " { print  \$0 \" ${s}\" }" >> ${results_file}; done
+
+> oklib --R
+> E = read.table("r5_minisat.results", header=TRUE)
+> summary(E)
+      t              cfs                 dec                 rts               r1                ptime           stime           cfl
+Min.   :43625   Min.   :299645316   Min.   :341323943   Min.   :344061   Min.   :9.754e+10   Min.   :0.000   Min.   :0.04   Min.   :8.804e+09
+1st Qu.:44594   1st Qu.:301412592   1st Qu.:343384331   1st Qu.:346810   1st Qu.:9.821e+10   1st Qu.:0.005   1st Qu.:0.04   1st Qu.:8.847e+09
+Median :45563   Median :303179868   Median :345444719   Median :349560   Median :9.889e+10   Median :0.010   Median :0.04   Median :8.891e+09
+Mean   :50863   Mean   :332472341   Mean   :379011561   Mean   :384123   Mean   :1.082e+11   Mean   :0.010   Mean   :0.04   Mean   :9.757e+09
+3rd Qu.:54482   3rd Qu.:348885854   3rd Qu.:397855370   3rd Qu.:404154   3rd Qu.:1.135e+11   3rd Qu.:0.015   3rd Qu.:0.04   3rd Qu.:1.023e+10
+Max.   :63401   Max.   :394591840   Max.   :450266022   Max.   :458747   Max.   :1.281e+11   Max.   :0.020   Max.   :0.04   Max.   :1.158e+10
+
+
+>  sd(E)
+           t          cfs          dec          rts           r1        ptime        stime          cfl
+1.090159e+04 5.382608e+07 6.174256e+07 6.468503e+04 1.729533e+10 1.000000e-02 0.000000e+00 1.576850e+09
+   \endverbatim
+   </li>
+   <li> Seed 4 takes >73000s and > 460,042,881 conflicts. </li>
   </ul>
 
 
