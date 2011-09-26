@@ -32,6 +32,41 @@ n=472 c=41300 l=261252
       9   13688
 
 > E=run_ubcsat("VanDerWaerden_2-5-9_472.cnf",runs=100,cutoff=1000000)
+> eval_ubcsat_dataframe(E)
+1. ddfw:
+ 6  7  8  9 10 11 12
+ 1  1  7 16 32 32 11
+fps: 40002
+2. dano:
+ 6  8  9 10 11 12 13
+ 1  3  9 24 34 26  3
+fps: 124881
+3. rnovp:
+ 7  8  9 10 11 12 13
+ 5  5 20 31 24 13  2
+fps: 126714
+4. rnov:
+ 7  8  9 10 11 12 13
+ 4 13 16 34 20 10  3
+fps: 126621
+5. ag2wsat:
+ 8  9 10 11 12 13
+10 24 28 23 12  3
+fps: 180183
+6. anovp:
+ 8  9 10 11 12 13 14
+ 3 12 26 39  9 10  1
+fps: 125041
+7. anovpp:
+ 8  9 10 11 12 13
+ 2 10 22 34 25  7
+fps: 124513
+8. rots:
+10 11 12 13 14 15 16 17
+ 2  4 12 22 23 25 11  1
+fps: 184468
+
+> E=run_ubcsat("VanDerWaerden_2-5-9_472.cnf",runs=100,cutoff=10000000,include_algs=list("ddfw","dano","rnovp","rnov","ag2wsat","anovp","anovpp"))
 XXX
    \endverbatim
    </li>
