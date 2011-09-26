@@ -45,8 +45,8 @@ read_ubcsat = function(filename, ...) {
 # reached (the lower the better), and second by count obtained (the higher the
 # better).
 # Showing also a plot of table-data, and the flips-per-second.
-eval_ubcsat_dataframe = function(E) {
-  plot(E$alg,E$min)
+eval_ubcsat_dataframe = function(E, plotting=TRUE) {
+  if (plotting) plot(E$alg,E$min)
   i=1
   for (A in dimnames(lexico_col_dec(table(E$min,E$alg)))[[2]]) {
     cat(i,". ", A,": ", sep="")

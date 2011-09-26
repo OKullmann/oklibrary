@@ -24,7 +24,7 @@ oklib_load("OKlib/Statistics/R/Utilities.R")
 # In the plot, (empty) circles are used for even vertex-numbers, (empty)
 # triangles for odd vertex-numbers, and unsatisfiable problems are shown
 # by added full points in red.
-read_crunpdvdw_minisat = function(dirname, file, ...)  {
+read_crunpdvdw_minisat = function(dirname, file, plotting=TRUE, ...)  {
   if (missing(file)) {
     if (missing(dirname)) filename = "Statistics"
     else filename = paste(dirname, "Statistics", sep="/")
@@ -44,11 +44,13 @@ read_crunpdvdw_minisat = function(dirname, file, ...)  {
   L = lm(E$t ~ E$cfs)
   cat("$t ~ $cfs:\n")
   short_summary_lm(L)
-  plot(E$v, E$cfs,type="n")
-  m = E$v %% 2
-  points(E$v[m==0],E$cfs[m==0],pch=1)
-  points(E$v[m==1],E$cfs[m==1],pch=2)
-  lines(E$v, E$cfs)
-  points(E$v[E$sat==0],E$cfs[E$sat==0],pch=20,col="red")
+  if (plotting) {
+    plot(E$v, E$cfs,type="n")
+    m = E$v %% 2
+    points(E$v[m==0],E$cfs[m==0],pch=1)
+    points(E$v[m==1],E$cfs[m==1],pch=2)
+    lines(E$v, E$cfs)
+    points(E$v[E$sat==0],E$cfs[E$sat==0],pch=20,col="red")
+  }
   E
 }
