@@ -12,6 +12,27 @@ License, or any later version. */
 
   \todo vdw_2(5,9) > 472
   <ul>
+   <li> Certificates for n=472:
+   \verbatim
+4,6,8,9,13,17,19,24,27,28,
+34,39,41,43,44,45,48,52,53,56,
+57,59,63,65,70,72,77,78,80,82,
+85,94,95,97,98,100,101,102,106,108,
+112,114,116,117,123,126,130,139,140,144,
+149,153,156,162,163,165,167,171,173,174,
+177,178,179,182,184,188,192,194,197,198,
+199,202,203,205,209,211,213,214,220,223,
+227,236,237,246,250,253,259,260,262,264,
+268,270,271,274,275,276,279,281,285,289,
+291,294,295,296,299,300,302,306,308,310,
+311,317,320,324,329,333,334,343,347,350,
+356,357,359,361,365,367,371,372,373,375,
+376,378,379,388,391,393,395,396,401,403,
+408,410,414,416,417,420,421,425,428,429,
+430,432,434,439,445,446,449,454,456,460,
+464,465,467,469
+   \endverbatim
+   </li>
    <li> Starting from scratch:
    \verbatim
 > k1=5 k2=9 n0=10 alg="adaptg2wsat" runs=1000 cutoff=400000000; nohup RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} &
@@ -67,6 +88,41 @@ fps: 124513
 fps: 184468
 
 > E=run_ubcsat("VanDerWaerden_2-5-9_472.cnf",runs=100,cutoff=10000000,include_algs=list("ddfw","dano","rnovp","rnov","ag2wsat","anovp","anovpp"))
+> eval_ubcsat_dataframe(E)
+1. rnov:
+ 5  6  7  8  9 10
+ 1  7 28 40 23  1
+fps: 126922
+2. rnovp:
+ 5  6  7  8  9 10
+ 1  5 21 41 29  3
+fps: 126519
+3. ag2wsat:
+ 6  7  8  9 10
+ 5 10 37 45  3
+fps: 182104
+4. anovpp:
+ 6  7  8  9 10 11
+ 4  5 26 39 24  2
+fps: 124440
+5. ddfw:
+ 6  7  8  9 10
+ 3 18 33 39  7
+fps: 38850
+6. anovp:
+ 6  7  8  9 10 11
+ 3  8 26 44 17  2
+fps: 125147
+7. dano:
+ 6  7  8  9 10
+ 1 13 21 45 20
+fps: 124954
+   \endverbatim
+   Looks like rnovelty is the relatively clear winner. </li>
+   <li> Using the palindromic solution:
+   \verbatim
+> cat VanDerWaerden_pd_2-5-9_472.cnf_sol | PdExtend-O3-DNDEBUG 472 > VanDerWaerden_2-5-9_472.cnf_sol
+> k1=5 k2=9 n0=472 alg="rnovelty" runs=1000 cutoff=400000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} VanDerWaerden_2-${k1}-${k2}_${n0}.cnf_sol
 XXX
    \endverbatim
    </li>

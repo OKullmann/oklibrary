@@ -18,14 +18,73 @@ License, or any later version. */
 
   \todo vanderwaerden_2(4,13) > 537
   <ul>
-   <li> Start with the palindromic solution for n=537. </li>
+   <li> Start with the palindromic solution for n=537. XXX </li>
    <li> Finding best ubcsat-algorithm:
-   \verbatim
    \verbatim
 > VanderWaerdenCNF-O3-DNDEBUG 4 13 537
 
 > E=run_ubcsat("VanDerWaerden_2-4-13_537.cnf",runs=100,cutoff=1000000)
+> eval_ubcsat_dataframe(E,FALSE)
+1. anovp:
+16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+ 2  3  4  4  8  8 13 10 12 15 10  4  4  2  1
+fps: 93405
+2. dano:
+16 18 19 20 21 22 23 24 25 26 27 28 29 31 33
+ 2  1  4  3  7 15 12 14 11 11  7  9  2  1  1
+fps: 93264
+3. anovpp:
+18 19 20 21 22 23 24 25 26 27 28 31
+ 2  9  4  6 13 16 18 10  8  9  3  2
+fps: 93366
+4. ddfw:
+18 19 20 21 22 23 24 25 26
+ 1  1  4  9 16 25 22 18  4
+fps: 27533
+5. ag2wsat:
+21 22 23 24 25 26 27 28 29
+ 2  5 11  7 18 26 20  8  3
+fps: 146774
+6. rots:
+21 22 23 24 25 26 27 28
+ 2  3 13 18 27 20 14  3
+fps: 154040
+7. rnovp:
+21 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39
+ 1  4  3  3  3  5 10  8  9 11 14  7 14  4  1  3
+fps: 93723
+8. gsatt:
+22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 39 40 42 60
+ 1  2 12  9 10  7  6  7 14  9  8  2  5  2  1  1  1  1  1  1
+fps: 224972
+9. rnov:
+22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39
+ 1  1  3  2  2  5  4  5 10  9  9 11  3 11 10  7  5  2
+fps: 93557
+10. samd:
+23 24 25 26 27 28 29 30 31 32 33 34 35 36 40
+ 3  3 12  6 13 11 11 11  6 10  6  4  1  2  1
+fps: 225124
+11. gwsat:
+23 26 27 28 29 30 31 32 33 34 35
+ 1  3  3  4 10 16 28 17 10  7  1
+fps: 156250
+
+E2=run_ubcsat("VanDerWaerden_2-4-13_537.cnf",runs=100,cutoff=10000000, include_algs=list("anovp","dano","anovpp","ddfw","ag2wsat","rots"))
 XXX
+anovp
+16 17 18 19 20 21 22
+ 1  4 27 24 27 15  2
+FlipsPerSecond = 93285
+dano
+15 16 17 18 19 20 21 22 23
+ 1  5  8 13 20 25 19  7  2
+FlipsPerSecond = 93319
+anovpp
+14 15 16 17 18 19 20 21 22
+ 1  1  2  7 19 24 32 13  1
+FlipsPerSecond = 93276
+
    \endverbatim
    </li>
   </ul>
