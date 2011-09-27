@@ -132,9 +132,13 @@ License, or any later version. */
      printed). </li>
     </ol>
    </li>
-   <li> And with parameter "dir=Directory" it reads all the files in Directory,
+   <li> DONE (actually, we don't need such a script since it is the task of the
+   experiment-processing script to collect all data into statistics-files, at the
+   time when the data is created)
+   And with parameter "dir=Directory" it reads all the files in Directory,
    and prints to standard output the header followed by the data-lines. </li>
-   <li> Then an additional column with the filename is added:
+   <li> DONE (no need anymore, see above)
+   Then an additional column with the filename is added:
     <ol>
      <li> No path information, just the basename. </li>
      <li> Having the possibility for extracting information from the filename
