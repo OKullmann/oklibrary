@@ -139,9 +139,12 @@ License, or any later version. */
      <li> No path information, just the basename. </li>
      <li> Having the possibility for extracting information from the filename
      is also needed. </li>
-     <li> This information can be given as a string which specifies an
-     sed-script (for transforming a script). </li>
+     <li> This information can be given as a string which specifies a
+     sed-script (for transforming the R-output). </li>
      <li> Parameter "extraction=sed-string". </li>
+     <li> If "header" is provided to the script, then the user must also
+     provide the header for the additional parameter. </li>
+     <li> Parameter "extraction_header=string". </li>
     </ol>
    </li>
    <li> Then we do not need wrappers. This is better since it avoids possible
