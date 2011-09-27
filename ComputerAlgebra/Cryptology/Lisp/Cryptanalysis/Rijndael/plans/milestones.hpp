@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    the following topics are handled:
+    - Simplify AES translation
     - Rewrite translation functions using ss_field_op_fulldnf_gen_fcl etc
     - Functions should not cache return values
 
