@@ -53,14 +53,93 @@ License, or any later version. */
    </li>
    <li> Solving 20 random keys (avg number of conflicts):
     <ul>
-     <li> 1-base (minisat-2.2.0: 1146.9, OKsolver_2002: 13186.7). </li>
-     <li> canonical CNF (minisat-2.2.0: 1687.8, OKsolver_2002: ??). </li>
-     <li> minimum (minisat-2.2.0: 3714.85, OKsolver_2002: 395749.8). </li>
-     <li> canonical (minisat-2.2.0: 3717.85, OKsolver_2002: 72.75). </li>
+     <li> 1-base (minisat-2.2.0: 1,146.9, OKsolver_2002: 13,186.7). </li>
+     <li> canonical CNF (minisat-2.2.0: 1,687.8, OKsolver_2002: ??). </li>
+     <li> Massacci DES translator (minisat-2.2.0: 3,090). </li>
+     <li> minimum (minisat-2.2.0: 3,714.85, OKsolver_2002: 395,749.8). </li>
+     <li> canonical (minisat-2.2.0: 3,717.85, OKsolver_2002: 72.75). </li>
+    </ul>
+   </li>
+   <li> Solving 20 random keys (time in seconds):
+    <ul>
+     <li> 1-base (minisat-2.2.0: 0.0135, OKsolver_2002: 7.54). </li>
+     <li> minimum (minisat-2.2.0: 0.027, OKsolver_2002: 129.04). </li>
+     <li> Massacci DES translator (minisat-2.2.0: 0.08). </li>
+     <li> canonical (minisat-2.2.0: 0.1975, OKsolver_2002: 4.22). </li>
+     <li> canonical CNF (minisat-2.2.0: 0.6, OKsolver_2002: ??). </li>
     </ul>
    </li>
    <li> Note that we use the canonical CNF translation for the S-boxes to
    compare other representations to the "hardest" representation. </li>
+  </ul>
+
+
+  \todo Using the Massacci DES translator
+  <ul>
+   <li> Generating plaintext and ciphertext pairs and instances:
+   \verbatim
+> oklib --maxima
+maxima> oklib_load_all()$
+
+  format_massacci(hex) :=
+    apply(sconcat,map(lambda([s],sconcat("0x",apply(sconcat,s),"_")),partition_elements(charlist(hex),2)))$
+
+  rounds : 3$ with_stdout(sconcat("des_r",rounds,"_pkc_triples"),
+    for seed : 1 thru 20 do block(
+      set_random(make_random_state(seed)),
+      P_hex : lpad(int2hex(random(2**64)),"0",16),
+      K_hex : lpad(int2hex(random(2**64)),"0",16),
+      C_hex : des_encryption_hex_gen(rounds, P_hex,K_hex),
+      print(sconcat(
+        format_massacci(P_hex), " ",
+        format_massacci(K_hex)," ",
+        format_massacci(C_hex)))))$
+   \endverbatim
+   </li>
+   <li> First one must install the DES generator, as discussed in
+   "DES generator" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Cryptography.hpp.
+   </li>
+   <li> Generating the instances:
+   \verbatim
+ExternalSources/builds/SAT/Des/des2fml-0.9> mkdir experiments && cd experiments
+experiments> rounds=3; s=1;
+  cat des_r${rounds}_pkc_triples | while read p k c; do
+    echo ${p} | sed -e 's/_/ /g' > plaintxt; echo ${k} | sed -e 's/_/ /g' > key_des; rm ciph_txt
+    ./des -r${rounds} && ./des2fml -r${rounds} -p -c -f1 && ./clausify formulae des_massacci_r${rounds}_s${s}.cnf
+    let s=$s+1
+  done
+   \endverbatim
+   </li>
+   <li> Running the solver:
+   \verbatim
+experiments> rounds=3;
+for s in $(seq 1 20); do
+  minisat-2.2.0 des_massacci_r${rounds}_s${s}.cnf > minisat_r${rounds}_s${s}.result;
+done;
+   \endverbatim
+   </li>
+   <li> Results:
+   \verbatim
+> rounds=3; results_file=r${rounds}_minisat.results; ExtractMinisat header-only | awk ' { print $0 " s" } ' > ${results_file};
+for s in $(seq 1 20); do cat minisat_r${rounds}_s${s}.result | ExtractMinisat data-only | awk " { print  \$0 \" ${s}\" }" >> ${results_file}; done
+
+> oklib --R
+> E = read.table("r3_minisat.results", header=TRUE)
+> summary(E)
+      rc             t               cfs            dec            rts              r1             ptime           stime            cfl
+Min.   :8708   Min.   :0.0200   Min.   : 843   Min.   :1325   Min.   : 7.00   Min.   : 69722   Min.   :0e+00   Min.   :0.010   Min.   :11962
+1st Qu.:8858   1st Qu.:0.0475   1st Qu.:1392   1st Qu.:2142   1st Qu.: 9.00   1st Qu.:144488   1st Qu.:0e+00   1st Qu.:0.020   1st Qu.:18470
+Median :8970   Median :0.0800   Median :3142   Median :4321   Median :15.50   Median :357064   Median :0e+00   Median :0.020   Median :41752
+Mean   :9029   Mean   :0.0835   Mean   :3090   Mean   :4154   Mean   :16.95   Mean   :382005   Mean   :5e-04   Mean   :0.018   Mean   :40534
+3rd Qu.:9214   3rd Qu.:0.1200   3rd Qu.:4600   3rd Qu.:5892   3rd Qu.:24.25   3rd Qu.:601176   3rd Qu.:0e+00   3rd Qu.:0.020   3rd Qu.:55890
+Max.   :9385   Max.   :0.1800   Max.   :6278   Max.   :8033   Max.   :30.00   Max.   :929014   Max.   :1e-02   Max.   :0.020   Max.   :83226
+
+>  sd(E)
+          rc            t          cfs          dec          rts           r1        ptime        stime          cfl
+2.136156e+02 4.158378e-02 1.657879e+03 2.058674e+03 7.870498e+00 2.446831e+05 2.236068e-03 4.103913e-03 2.131516e+04
+   \endverbatim
+   </li>
   </ul>
 
 
