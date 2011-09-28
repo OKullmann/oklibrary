@@ -33,7 +33,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 /* Checks */
 
 /* Checks whether two clauses are resolvable: */
-resolvable(C,D) := is(length(intersection(C, comp_sl(D))) = 1)$
+resolvable(C,D) := singletonp(intersection(C, comp_sl(D)))$
 
 /* Checks whether two clauses are resolvable and that the resolvent subsumes 
    the two parents: */
@@ -43,7 +43,7 @@ two_subsumption_resolvable(C,D) := resolvable(C,D) and is(length(symmdifference(
 /* Basic resolution operations */
 
 /* The resolution literal of two resolvable clauses: */
-resolution_literal(C,D) := listify(intersection(C, comp_sl(D)))[1]$
+resolution_literal(C,D) := single_element(intersection(C, comp_sl(D)))$
 
 /* The resolvent of two resolvable clauses: */
 resolvent(C,D) := block([x : resolution_literal(C,D)], union(disjoin(x, C), disjoin(-x, D)))$
@@ -54,7 +54,7 @@ resolvent(C,D) := block([x : resolution_literal(C,D)], union(disjoin(x, C), disj
 /* If two clauses are resolvable with resolution literal x, then return [x],
    else return []: */
 resolvable_p(C,D) :=  block([clashs : intersection(C, comp_sl(D))],
- if length(clashs) = 1 then [listify(clashs)[1]] else [])$
+ if length(clashs) = 1 then [single_element(clashs)] else [])$
 
 two_subsumption_resolvent_p(C,D) := block([x : resolvable_p(C,D)],
  if not emptyp(x) then 
