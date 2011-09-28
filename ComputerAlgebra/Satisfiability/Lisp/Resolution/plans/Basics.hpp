@@ -10,11 +10,25 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding the basic functions for the resolution calculus
 
 
-  \todo resolvable vs resolvable_p
+  \todo resolvable versus resolvable_p
   <ul>
    <li> We should reconsider the naming scheme used in
    Satisfiability/Lisp/Resolution/Basics.mac. </li>
-   <li> Currently
+   <li> The only issue here is that in "resolvable_p" and
+   "two_subsumption_resolvent_p" the "_p" is misleading:
+    <ol>
+     <li> It stands for "partial". </li>
+     <li> This is rather irrelevant --- we often have that. </li>
+     <li> Furthermore in "resolvable_p" the adjective is false. </li>
+     <li> However "resolution_literal" is already used. </li>
+     <li> So we emphasise that we have a list as result. </li>
+     <li> I.e., "resolvable_p" -> "resolution_literal_l". </li>
+     <li> And "two_subsumption_resolvent_p" -> "two_subsumption_resolvent_l".
+     </li>
+    </ol>
+   </li>
+   <li> DONE (false understanding of the issue, and of the Maxima-level)
+   Currently
     <ul>
      <li> resolvable(C,D) is a predicate which returns whether C and D are
      resolvable, and </li>
@@ -22,15 +36,19 @@ License, or any later version. */
      resolvable or a list containing the resolvent if they are. </li>
     </ul>
    </li>
-   <li> This also occurs with two_subsumption_resolvable (predicate) and
+   <li> DONE (false understanding)
+   This also occurs with two_subsumption_resolvable (predicate) and
    two_subsumption_resolvent_p (returns list). </li>
    <li> Typically, in the Maxima system, the "p" suffix denotes a predicate.
    </li>
-   <li> resolvable_p should be a predicate, returning a boolean for
+   <li> DONE ("p" stands not for "predicate", but for "partial")
+   resolvable_p should be a predicate, returning a boolean for
    consistency. </li>
-   <li> Making resolvable_p a predicate ensures we obey the principle of
+   <li> DONE (false understanding)
+   Making resolvable_p a predicate ensures we obey the principle of
    "least surprise" for the user of the library. </li>
-   <li> Possible solutions:
+   <li> DONE (false understanding)
+   Possible solutions:
     <ul>
      <li> Switch the definitions of resolvable and resolvable_p.
       <ul>
@@ -38,7 +56,8 @@ License, or any later version. */
        name what resolvable (previously resolvable_p) returns. </li>
       </ul>
      </li>
-     <li> Add a notion of "safe" functions which compute the result of
+     <li> DONE (we never use such hacks)
+     Add a notion of "safe" functions which compute the result of
      a computation and return the empty list otherwise.
       <ul>
        <li> We could use "safe" or the abbreviation "_sfe". </li>
