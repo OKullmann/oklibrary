@@ -80,9 +80,9 @@ vanderwaerden3k_a(L) := if length(L)#2 then [] else
 */
 
 vanderwaerden4k(k) := 
- if k <= 12 then [
+ if k <= 13 then [
   4,7,18,35,55,73,109,146,[309,inf-1],[328+1,inf-1],
-  [358+1,inf-1],[400+1,inf-1]
+  [358+1,inf-1],[400+1,inf-1],[562+1,inf-1]
  ][k]
  else unknown$
 vanderwaerden4k_a(L) := if length(L)#2 then [] else

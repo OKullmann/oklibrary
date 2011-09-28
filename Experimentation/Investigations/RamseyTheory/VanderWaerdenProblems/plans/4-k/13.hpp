@@ -16,8 +16,26 @@ License, or any later version. */
   </ul>
 
 
-  \todo vanderwaerden_2(4,13) > 537
+  \todo vanderwaerden_2(4,13) > 562
   <ul>
+   <li> Certificate for n=562:
+   \verbatim
+8,21,22,30,35,38,44,45,53,55,
+56,60,61,64,74,76,79,80,81,85,
+87,91,93,95,96,102,109,118,119,132,
+141,144,150,153,156,157,158,163,167,173,
+177,178,181,182,188,190,199,202,206,216,
+225,229,232,238,239,241,243,249,250,255,
+258,260,268,273,274,275,278,279,281,285,
+287,289,290,299,303,312,322,329,336,338,
+340,344,346,350,351,355,361,365,367,370,
+375,378,386,387,393,396,409,410,419,423,
+432,437,441,444,447,448,449,452,454,458,
+462,464,467,468,469,475,479,483,484,490,
+497,498,506,507,520,523,529,530,532,540,
+541,544,545,546,551,561
+   \endverbatim
+   (found by ddfw, adapted from n=537). </li>
    <li> Start with the palindromic solution for n=537. XXX </li>
    <li> Finding best ubcsat-algorithm:
    \verbatim
@@ -71,21 +89,39 @@ fps: 225124
 fps: 156250
 
 E2=run_ubcsat("VanDerWaerden_2-4-13_537.cnf",runs=100,cutoff=10000000, include_algs=list("anovp","dano","anovpp","ddfw","ag2wsat","rots"))
-XXX
-anovp
-16 17 18 19 20 21 22
- 1  4 27 24 27 15  2
-FlipsPerSecond = 93285
-dano
-15 16 17 18 19 20 21 22 23
- 1  5  8 13 20 25 19  7  2
-FlipsPerSecond = 93319
+ddfw
+ 0 16 18 19 20 21 22 23
+ 1  1  5 16 27 34 15  1
+FlipsPerSecond = 27539
 anovpp
 14 15 16 17 18 19 20 21 22
  1  1  2  7 19 24 32 13  1
 FlipsPerSecond = 93276
+dano
+15 16 17 18 19 20 21 22 23
+ 1  5  8 13 20 25 19  7  2
+FlipsPerSecond = 93319
+anovp
+16 17 18 19 20 21 22
+ 1  4 27 24 27 15  2
+FlipsPerSecond = 93285
+rots
+16 20 21 22 23 24 25
+ 1  3 26 31 28 10  1
+FlipsPerSecond = 154644
+ag2wsat
+18 19 20 21 22 23 24 25
+ 1  5 14 20 23 26  9  2
+FlipsPerSecond = 147198
 
+> cat ubcsat_tmp_VanDerWaerden_2-4-13_537.cnf_2011-09-27-142225/ddfw.run_ubcsat_result
+     23 1     0              1173076              1173076 1620845361
+> ubcsat-okl -alg ddfw -seed 1620845361 -cutoff 1173076 -i VanDerWaerden_2-4-13_537.cnf -solve > VanDerWaerden_2-4-13_537_OUT
+> cat VanDerWaerden_2-4-13_537_OUT | extract_solution_ubcsat > VanDerWaerden_2-4-13_537.sol
    \endverbatim
+   Might be pure chance, that ddfw is best. But so well, let's try it. </li>
+   <li> "RunVdWk1k2 4 13 537 ddfw 1000 10000000 VanDerWaerden_2-4-13_537.sol"
+   XXX
    </li>
   </ul>
 
@@ -181,8 +217,13 @@ $t ~ $cfs:
 E$cfs        7.2100e-05  6.2283e-08 1157.614 < 2.2e-16 ***
 R-squared: 0.9879
    \endverbatim
-   One should try D=40. </li>
-   <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
+   One should try D=40. XXX </li>
+   <li> We need to find the best algorithm from the ubcsat-1-2-0 suite.
+   \verbatim
+> E=run_ubcsat("VanDerWaerden_pd_2-4-13_537.cnf",runs=100,cutoff=1000000)
+   XXX
+   \endverbatim
+   </li>
    <li> For now we consider adaptg2wsat as best (it was determined as best
    for vdw_2^pd(5,8) in VanderWaerdenProblems/plans/5-k/general.hpp. </li>
    <li> "RunPdVdWk1k2 4 13 adaptg2wsat 100 1000000" yields
