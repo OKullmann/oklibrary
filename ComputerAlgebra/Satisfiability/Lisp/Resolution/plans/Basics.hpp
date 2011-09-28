@@ -10,6 +10,48 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding the basic functions for the resolution calculus
 
 
+  \todo resolvable vs resolvable_p
+  <ul>
+   <li> We should reconsider the naming scheme used in
+   Satisfiability/Lisp/Resolution/Basics.mac. </li>
+   <li> Currently
+    <ul>
+     <li> resolvable(C,D) is a predicate which returns whether C and D are
+     resolvable, and </li>
+     <li> resolvable_p(C,D) returns either the empty list if C and D are not
+     resolvable or a list containing the resolvent if they are. </li>
+    </ul>
+   </li>
+   <li> This also occurs with two_subsumption_resolvable (predicate) and
+   two_subsumption_resolvent_p (returns list). </li>
+   <li> Typically, in the Maxima system, the "p" suffix denotes a predicate.
+   </li>
+   <li> resolvable_p should be a predicate, returning a boolean for
+   consistency. </li>
+   <li> Making resolvable_p a predicate ensures we obey the principle of
+   "least surprise" for the user of the library. </li>
+   <li> Possible solutions:
+    <ul>
+     <li> Switch the definitions of resolvable and resolvable_p.
+      <ul>
+       <li> This has the disadvantage that it is still not clear from the
+       name what resolvable (previously resolvable_p) returns. </li>
+      </ul>
+     </li>
+     <li> Add a notion of "safe" functions which compute the result of
+     a computation and return the empty list otherwise.
+      <ul>
+       <li> We could use "safe" or the abbreviation "_sfe". </li>
+       <li> resolvable would be renamed to resolvable_p. </li>
+       <li> resolvable_p would be renamed to resolvable_safe. </li>
+       <li> This would then be applied to the rest of the library. </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Renewal
   <ul>
    <li> Iterated resolution and DP should go into its own files. </li>

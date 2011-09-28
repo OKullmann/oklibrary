@@ -171,6 +171,46 @@ hd(F_mul15) = 2
        </li>
       </ul>
      </li>
+    </ul>
+   </li>
+  </ul>
+
+
+  \todo Generating all minimum representations via hypergraph transversals
+  <ul>
+   <li> Computing all minimum CNFs:
+    <ul>
+     <li> Generate full CNFs:
+     \verbatim
+maxima> for i : 1 thru 16 do output_ssmult_fullcnf_stdname(i,2,4,ss_polynomial_2_4);
+     \endverbatim
+     </li>
+     <li> Minimum representations for multiplication by 02:
+     \verbatim
+shell> ${OKPLATFORM}/OKsystem/OKlib/Satisfiability/Optimisation/all_minimum_cnf AES_byte_field_mul_full_2.cnf
+shell> ls -1  AllMinimumCNFs_ss_byte2_4_field_mul_full_2_2011-09-28-115851/MinCNFs/ | wc -l
+2
+maxima> oklib_load_all()$
+maxima> F : read_fcl_f("AllMinimumCNFs_ss_byte2_4_field_mul_full_2_2011-09-28-115851/MinCNFs/1.cnf");
+
+   [[1,2,3,4,5,6,7,8],
+    [{-5,2},{-2,5},{-6,3},{-3,6},{-7,-4,-1},{-1,4,7},{-8,1},{-7,4,8},{-4,7,8}]]
+
+maxima> F2 : read_fcl_f("AllMinimumCNFs_ss_byte2_4_field_mul_full_2_2011-09-28-115851/MinCNFs/2.cnf");
+
+   [[1,2,3,4,5,6,7,8],
+    [{-5,2},{-2,5},{-6,3},{-3,6},{-7,1,4},{-4,1,7},{-8,-7,-4},{-8,4,7},{-1,8}]]
+
+maxima> map(hardness_cs, [setify(F[2]),setify(F2[2])]);
+ [2,2]
+     \endverbatim
+     </li>
+     <li> We need this data for all multiplications. </li>
+     <li> There are also todos on improving the minimisation scripts,
+     discussed in "Improve minimisation scripts" in
+     Satisfiability/Optimisation/plans/general.hpp. </li>
+    </ul>
+   </li>
   </ul>
 
 */

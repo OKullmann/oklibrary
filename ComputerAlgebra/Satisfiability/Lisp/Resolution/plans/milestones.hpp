@@ -21,6 +21,11 @@ License, or any later version. */
     - Resolution proofs
     - Create milestones : DONE
 
+  \par
+   In Satisfiability/Lisp/Resolution/plans/Basics.hpp the following topics
+   are handled:
+    - resolvable vs resolvable_p
+
 
   \par Version 0.0.10
 

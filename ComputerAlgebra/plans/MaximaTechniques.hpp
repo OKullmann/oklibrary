@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.6.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -99,6 +99,7 @@ number,fixnum,rational,boolean,float,list,any
      <li> cons is considerably faster than endcons. </li>
      <li> So, if needed, it is much faster building up a list using
      cons and reverse at the end than by using endcons. </li>
+    </ol>
    </li>
    <li> Adding an element:
     <ol>
