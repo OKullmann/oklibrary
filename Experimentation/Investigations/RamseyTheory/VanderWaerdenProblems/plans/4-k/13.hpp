@@ -128,6 +128,7 @@ FlipsPerSecond = 147198
 
   \todo vdw_2^pd(4,13) >= (519,538)
   <ul>
+   <li> The conjecture is vdw_2^pd(4,13) = (519,538). </li>
    <li> Certificates:
     <ol>
      <li> n=518:
@@ -221,11 +222,61 @@ R-squared: 0.9879
    <li> We need to find the best algorithm from the ubcsat-1-2-0 suite.
    \verbatim
 > E=run_ubcsat("VanDerWaerden_pd_2-4-13_537.cnf",runs=100,cutoff=1000000)
-   XXX
+1. ddfw:
+ 0  1 11 12 13 14
+35 25  3 11 21  5
+fps: 41288
+2. ag2wsat:
+ 0  1 11 12 13 14 15 16
+24 11  4  4 20 22 10  5
+fps: 162346
+3. dano:
+ 0  1  9 10 11 12 13 14 15 16 17
+13  8  1  2  6  6 10 31 21  1  1
+fps: 115064
+4. anovpp:
+ 0  1 10 11 12 13 14 15 16
+ 8  7  1  9  7 25 25 15  3
+fps: 115129
+5. anovp:
+ 0  1 10 11 12 13 14 15 16
+ 8  5  2  3  6 26 26 16  8
+fps: 115063
+6. g2wsat:
+ 0  1 14 15 16 17 18 19 20
+ 8  5  2  1  6 13 23 30 12
+fps: 167276
+7. paws:
+ 0  1  2  3  4  6  9 14 15 16 17 18 19
+ 6 11  2  1  1  4  1  3  7 18 27 18  1
+fps: 154535
+8. rots:
+ 0  1 10 11 12 13 14 15 16
+ 5  3  1  2  6 20 30 30  3
+fps: 201676
+9. rsaps:
+ 0  1  2  3  4  5  6  7  8 10 14 15 16 17 18 19
+ 3 17  7  5  6  3  1  1  1  1  1 12 12 15 14  1
+fps: 155015
+10. sapsnr:
+ 0  1  2  3  4  5  6  7  8 13 14 15 16 17 18 19
+ 2 14  7  3  4  2  2  1  1  2  2  8 13 22 16  1
+fps: 140922
+11. rnovp:
+ 0  1  2  9 12 13 14 15 16 17 18 19
+ 2  9  3  1  2 11 11 21 27  7  5  1
+fps: 115518
+12. wsatt:
+ 0 24 28 29 30 31 32 33 34 35 36 37
+ 2  1  1  2  3  6  6 17 22 22 15  3
+fps: 175738
+13. samd:
+ 0  1 10 11 12 13 14 15
+ 1  3  3 13 23 27 24  6
    \endverbatim
    </li>
-   <li> For now we consider adaptg2wsat as best (it was determined as best
-   for vdw_2^pd(5,8) in VanderWaerdenProblems/plans/5-k/general.hpp. </li>
+   <li> So ddfw is best, followed by adaptg2wsat (which was determined as best
+   for vdw_2^pd(5,8) in VanderWaerdenProblems/plans/5-k/general.hpp). </li>
    <li> "RunPdVdWk1k2 4 13 adaptg2wsat 100 1000000" yields
    \verbatim
 Break point 1: 519
@@ -240,6 +291,7 @@ Break point 2: 538
    All solutions found in the first round using the previous solution (using
    at most 2609468 steps).
    </li>
+   <li> "RunPdVdWk1k2 4 13 ddfw 100 20000000" yields XXX </li>
   </ul>
 
 */

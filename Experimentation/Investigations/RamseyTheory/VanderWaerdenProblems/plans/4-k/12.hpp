@@ -73,6 +73,10 @@ rnovp
 rnov
  5  6  7  8  9
  3 22 53 21  1
+
+# csnereid:
+> E=run_ubcsat("VanDerWaerden_2-4-12_400.cnf",runs=100,cutoff=10000000)
+XXX
    \endverbatim
    Could be just chance, but "adaptnovelty+ -v params" seems best.
    </li>
