@@ -10,6 +10,13 @@ License, or any later version. */
   \brief On investigations into vdw_2(5,10)
 
 
+  \todo vanderwaerden_2(5,10) > 611
+  <ul>
+   <li> Find best ubcsat-solver. </li>
+   <li> Start with the palindromic solution. </li>
+  </ul>
+
+
   \todo Best complete solver for palindromic problems
   <ul>
    <li> It seems that from the conflict-driven solvers minisat-2.2.0 is best,

@@ -10,6 +10,13 @@ License, or any later version. */
   \brief On investigations into vdw_2(7,7)
 
 
+  \todo vanderwaerden_2(7,7) > 3703
+  <ul>
+   <li> We need to get the known certificate into our system. </li>
+   <li> Find best ubcsat-solver. </li>
+  </ul>
+
+
   \todo Best complete solver for palindromic problems
 
 
@@ -122,6 +129,8 @@ fps: 105665
 
   \todo vdw_2^pd(7,7) >= (1544,1547)
   <ul>
+   <li> Investigate whether the known ordinary vdW-solution is palindromic.
+   </li>
    <li> Certificates:
     <ol>
      <li> n=1543:

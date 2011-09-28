@@ -10,14 +10,9 @@ License, or any later version. */
   \brief On investigations into vdw_2(4,14)
 
 
-  \todo Best ubcsat-solver
-  <ul>
-   <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
-  </ul>
-
-
   \todo vanderwaerden_2(4,14) > 681
   <ul>
+   <li> Find best ubcsat-solver. </li>
    <li> Start with the palindromic solution for n=681. </li>
   </ul>
 

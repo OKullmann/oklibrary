@@ -10,6 +10,13 @@ License, or any later version. */
   \brief On investigations into vdw_2(5,11)
 
 
+  \todo vanderwaerden_2(5,11) > 756
+  <ul>
+   <li> Find best ubcsat-solver. </li>
+   <li> Start with the palindromic solution. </li>
+  </ul>
+
+
   \todo Best complete solver for palindromic problems
 
 
