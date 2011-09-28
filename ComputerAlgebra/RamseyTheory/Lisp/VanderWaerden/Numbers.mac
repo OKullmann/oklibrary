@@ -44,7 +44,15 @@ vanderwaerden(L) := if emptyp(L) then 1
  elseif vanderwaerden33k_a(L)#[] then apply(vanderwaerden33k,vanderwaerden33k_a(L))
  elseif vanderwaerden34k_a(L)#[] then apply(vanderwaerden34k,vanderwaerden34k_a(L))
  elseif vanderwaerden44k_a(L)#[] then apply(vanderwaerden44k,vanderwaerden44k_a(L))
- else unknown$
+/* For the above special solutions the palindromic solutions must have been taken into account. */
+ else block([palsol : pdvanderwaerden(L)],
+ if palsol#unknown then (
+   palsol : second(palsol),
+   if listp(palsol) then palsol : first(palsol),
+   palsol : [palsol, inf-1]
+ ),
+ return(palsol))$
+
 /* Remark: If L is not sorted, use vanderwaerden(sort(L)). */
 
 /* Checking whether L is a valid input: */
