@@ -51,11 +51,12 @@ resolvent(C,D) := block([x : resolution_literal(C,D)], union(disjoin(x, C), disj
 
 /* Resolution operations as partial operations, returning either [R]  or []. */
 
-/* If two clauses are resolvable with resolution literal x, then return [x],
+/* If clauses C,D are resolvable with resolution literal x, then return [x],
    else return []: */
 resolvable_p(C,D) :=  block([clashs : intersection(C, comp_sl(D))],
  if length(clashs) = 1 then [single_element(clashs)] else [])$
 
+/* If C,D are 2-subsumption-resolvable, return [R], else []: */
 two_subsumption_resolvent_p(C,D) := block([x : resolvable_p(C,D)],
  if not emptyp(x) then 
   block([x : x[1], R],
