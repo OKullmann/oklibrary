@@ -103,7 +103,7 @@ License, or any later version. */
    </li>
   </ul>
 
-  
+
   \todo Scripts for generating statistics on random boxes
   <ul>
    <li> We currently wish to investigate various types of random 
@@ -133,10 +133,10 @@ License, or any later version. */
   \todo Find "best" solver(s) and local search algorithms for minimisation
   <ul>
    <li> There are currently a considerable number of problems in our
-   investigation which require the solving of minimisation problems 
-   and finding transversals of subsumption hypergraphs when looking for 
+   investigation which require the solving of minimisation problems
+   and finding transversals of subsumption hypergraphs when looking for
    minimum CNF representations
-   (see 
+   (see
    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp)
    </li>
    <li> We need a survey of the various solvers and local search algorithms

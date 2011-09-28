@@ -1,6 +1,5 @@
-
 // Oliver Kullmann, 22.9.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+/* Copyright 2007, 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -67,6 +66,28 @@ License, or any later version. */
    Investigations/BooleanFunctions/MinimumRepresentations/plans/general.hpp and
    "Overview" in
    Experimentation/Investigations/Transversals/Bounded/plans/general.hpp. </li>
+  </ul>
+
+
+  \todo Computing all minimum transversals one by one
+  <ul>
+   <li> We have a existing program (BoundedTransversals_bv) which computes all
+   minimum transversals. </li>
+   <li> However, these scripts do not give minimum transversals as they come,
+   meaning the computation is "all-or-nothing". </i>
+   <li> We should extend these programs to allow the output of
+   minimum-transversals and bounds on the size of the minimum transverals to
+   be output as the computation continues. </li>
+   <li> We should also write additional scripts which use SAT solvers to
+    <ul>
+     <li> iteratively compute a minimum-transversal, and then </li>
+     <li> computing ALLSAT with the appropriate bound. </li>
+    </ul>
+   </li>
+   <li> This would allow us to iteratively improve bounds on various measures
+   for the set of minimum CNFs for a particular boolean function. For example,
+   see AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_e_4.hpp
+   "Generating all minimum representations via hypergraph transversals". </li>
   </ul>
 
 
