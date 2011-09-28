@@ -26,6 +26,12 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Basics
    ***************************
 */
 
+okltest_resolvable(resolvable);
+
+okltest_resolution_literal(resolution_literal);
+
+okltest_resolvable_p(resolvable_p);
+
 okltest_two_subsumption_resolvent_p(two_subsumption_resolvent_p);
 
 /* *************************

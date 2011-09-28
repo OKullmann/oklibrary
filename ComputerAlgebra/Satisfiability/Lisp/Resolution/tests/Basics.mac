@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.3.2008 (Swansea) */
-/* Copyright 2008, 2010 Oliver Kullmann
+/* Copyright 2008, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,6 +30,29 @@ kill(f)$
    * Single resolution steps *
    ***************************
 */
+
+okltest_resolvable(f) := (
+  assert(f({},{}) = false),
+  assert(f({1},{}) = false),
+  assert(f({},{1}) = false),
+  assert(f({1},{-1}) = true),
+  assert(f({1,-2,3},{1,2,4}) = true),
+  assert(f({1,2},{2,3,4}) = false),
+  true)$
+
+okltest_resolution_literal(f) := (
+  assert(f({1},{-1}) = 1),
+  assert(f({1,2,-3},{2,3,-4}) = -3),
+  true)$
+
+okltest_resolvable_p(f) := (
+  assert(f({},{}) = []),
+  assert(f({1},{}) = []),
+  assert(f({},{1}) = []),
+  assert(f({1},{-1}) = [1]),
+  assert(f({1,-2,3},{1,2,4}) = [-2]),
+  assert(f({1,2},{2,3,4}) = []),
+  true)$
 
 okltest_two_subsumption_resolvent_p(f) := (
   assert(f({},{}) = []),
