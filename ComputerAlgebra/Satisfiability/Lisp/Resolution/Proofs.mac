@@ -32,8 +32,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")
 
 /*
 
-  A "resolution proof as a list" ("resl") is a non-empty list, where each
-  entry is either a clause (an "axiom") or a pair consisting of a clause
+  A "resolution proof as a list" ("resl") is a list, where each entry is
+  either a clause (an "axiom") or a pair consisting of a clause
   (the "resolvent") and a pair of (smaller) indices (the indices of the
   "parent clauses").
 
@@ -49,8 +49,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")
    ************************************
 */
 
-
-resl_p(L) := listp(L) and is(length(L) > 0) and block([is_resl : true, L_i],
+/* Is list L a resolution proof as a list: */
+resl_p(L) := listp(L) and block([is_resl : true, L_i],
   for i : 1 thru length(L) while is_resl do (
     L_i : L[i],
     is_resl : c_p(L_i) or
@@ -61,6 +61,8 @@ resl_p(L) := listp(L) and is(length(L) > 0) and block([is_resl : true, L_i],
           is(ind_l[2] < i) and resolvable(L[ind_l[1]],L[ind_l[2]]) and
           is(resolvent(L[ind_l[1]],L[ind_l[2]]) = L_i[1])))),
     return(is_resl))$
+
+/* Is T a "resolution tree: */
 reslrt_p(T) := listp(T) and
   if length(T) = 1 then c_p(T[1]) /* Leaves must be clauses */
   else is(length(T) = 3) and c_p(T[1]) and

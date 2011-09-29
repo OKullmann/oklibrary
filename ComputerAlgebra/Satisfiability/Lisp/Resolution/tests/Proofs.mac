@@ -33,7 +33,7 @@ kill(f)$
 
 okltest_resl_p(f) := block(
   assert(f(1) = false),
-  assert(f([]) = false),
+  assert(f([]) = true),
   assert(f([1]) = false),
   assert(f([{1},1]) = false),
   assert(f([{}]) = true),
