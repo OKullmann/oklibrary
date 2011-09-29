@@ -128,7 +128,9 @@ FlipsPerSecond = 147198
 
   \todo vdw_2^pd(4,13) >= (519,538)
   <ul>
-   <li> The conjecture is vdw_2^pd(4,13) = (519,538). </li>
+   <li> The conjecture is vdw_2^pd(4,13) = (519,538) (due to a very clear
+   separation between satisfiable und supposedly unsatisfiable instances).
+   </li>
    <li> Certificates:
     <ol>
      <li> n=518:
@@ -291,7 +293,9 @@ Break point 2: 538
    All solutions found in the first round using the previous solution (using
    at most 2609468 steps).
    </li>
-   <li> "RunPdVdWk1k2 4 13 ddfw 100 20000000" yields XXX </li>
+   <li> "RunPdVdWk1k2 4 13 ddfw 100 20000000" yields also the breakpoints
+   (519,538), where for n=520,539 we have 100 x min=1, and where all
+   solutions were found in the first run with the old solution. </li>
   </ul>
 
 */
