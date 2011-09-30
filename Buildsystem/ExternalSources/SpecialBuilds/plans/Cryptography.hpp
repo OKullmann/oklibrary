@@ -91,49 +91,51 @@ make: *** [install] Error 1
    <li> Installing the DES generator:
    \verbatim
 ExternalSources/builds/SAT/> mkdir Des && cd Des
-ExternalSources/builds/SAT/Des/> tar zxvf ../../sources/SAT/Des/des2fml-0.9.tgz
+ExternalSources/builds/SAT/Des/> tar zxvf ../../../sources/SAT/Des/des2fml-0.9.tgz
 ExternalSources/builds/SAT/Des/> cd des2fml-0.9
-ExternalSources/builds/SAT/Des/des2fml-0.9/> zcat ../../../sources/SAT/Des/des2fml-0.9-newgcc.diff.gz | patch -p1
+ExternalSources/builds/SAT/Des/des2fml-0.9/> zcat ../../../../sources/SAT/Des/des2fml-0.9-newgcc.diff.gz | patch -p1
 ExternalSources/builds/SAT/Des/des2fml-0.9> make
    \endverbatim
    </li>
-   <li> The plaintext, key are available in the files plaintxt and key_des.
-   </li>
-   <li> By default many plaintexts are provided. All but one must be removed
-   if one wants to generate an instance with a single plaintext-ciphertext
-   pair. </li>
-   <li> Run
-   \verbatim
+   <li> Using the tool:
+    <ul>
+     <li> The plaintext, key are available in the files plaintxt and key_des.
+     </li>
+     <li> By default many plaintexts are provided. All but one must be removed
+     if one wants to generate an instance with a single plaintext-ciphertext
+     pair. </li>
+     <li> Run
+     \verbatim
 ExternalSources/builds/Des/des2fml-0.9> rounds=1
 ExternalSources/builds/Des/des2fml-0.9> ./des -r${rounds}
-   \endverbatim
-   to generate the ciphertext in ciph_text from plaintxt and key_des for
-   ${rounds} rounds.
-   </li>
-   <li> Then run
-   \verbatim
+     \endverbatim
+     to generate the ciphertext in ciph_text from plaintxt and key_des for
+     ${rounds} rounds.
+     </li>
+     <li> Then run
+     \verbatim
 ExternalSources/builds/Des/des2fml-0.9> ./des2fml -r${rounds} -p -c -f1
-   \endverbatim
-   to generate the file formulae. This contains a CNF but in Dimacs format.
-   </li>
-   <li> Converting formulae to Dimacs:
-   \verbatim
+     \endverbatim
+     to generate the file formulae. This contains a CNF but in Dimacs format.
+     </li>
+     <li> Converting formulae to Dimacs:
+     \verbatim
 ./clausify formulae test.cnf
-   \endverbatim
-   </li>
-   <li> So for example with
-   \verbatim
+     \endverbatim
+     </li>
+     <li> So for example with
+     \verbatim
 0xe9 0xa6 0x52 0x90 0x90 0x62 0x60 0xf7
-   \endverbatim
-   in plaintext, and
-   \verbatim
+     \endverbatim
+     in plaintext, and
+     \verbatim
 0x1b 0x6c 0x26 0xa7 0x20 0x03 0x3d 0xa2
-   \endverbatim
-   in key_des, we get the following:
-   \verbatim
+     \endverbatim
+     in key_des, we get the following:
+     \verbatim
 ExternalSources/builds/Des/des2fml-0.9> round=3 && ./des -r${round} && ./des2fml -r${round} -p -c -f1 && ./clausify formulae test.cnf
 ############# DES with 3 round/rounds #############
-
+     
 Key: 1b6c26a720033da2
 Plaintext: e9a65290906260f7
 Ciphertext (after 3 round/rounds): 72fe6cf9cfcebb57
@@ -165,7 +167,44 @@ c number_of_1-autarkies                 4
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             test.cnf
-   \endverbatim
+     \endverbatim
+     </li>
+    </ul>
+   </li>
+   <li> What to call the tool?
+    <ul>
+     <li> When installing the tool in ExternalSources we must have
+     a name to use for configuration and build files. </li>
+     <li> "Des" is likely too general. </li>
+     <li> Something like "DesMassacci" places a lot of emphasis on the author
+     which we don't do for other packages. </li>
+     <li> "des2fml" is the name of the package as provided by Massacci,
+     however, the question is whether we will remember this. </li>
+    </ul>
+   </li>
+   <li> How to use the tool outside of its directory?
+    <ul>
+     <li> The executable "des2fml" expects various files to be in
+     the directory it executes in. </li>
+     <li> For example:
+     \verbatim
+OKlib> ../../ExternalSources/builds/SAT/Des/des2fml-0.9/des2fml -b1 -f1 -r1
+
+####### Block number 1 #######
+Error: file ./S-fml/S11 doesn't exist
+     \endverbatim
+     </li>
+     <li> des2fml requires that the files containing the S-box representations
+     (S-fml/SXX) are available, as well as the files containing the plaintext
+     and ciphertext (plaintxt and ciphtxt) in the current directory. </li>
+     <li> We wish to install this script and make it runnable in the
+     setting of the global library, so we should write a simple wrapper
+     script to allow this, running the script from the context of its
+     directory. </li>
+     <li> We should also investigate further (todos are needed) the
+     representations that are actually used for the S-boxes by des2fml and
+     try using our own. </li>
+    </ul>
    </li>
   </ul>
 
