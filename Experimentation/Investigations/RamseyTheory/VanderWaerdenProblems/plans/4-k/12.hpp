@@ -76,9 +76,32 @@ rnov
 
 # csnereid:
 > E=run_ubcsat("VanDerWaerden_2-4-12_400.cnf",runs=100,cutoff=10000000)
+rnov
+ 4  5  6  7  8
+ 1  7 34 36 22
+FlipsPerSecond = 137565
+anovp
+ 5  6  7  8
+ 9 35 47  9
+FlipsPerSecond = 137183
+gsatt
+ 6  7  8  9 10 11 12 13 14 16 17 18 25 28
+ 2  4  7 13 28 19 10  8  2  2  2  1  1  1
+FlipsPerSecond = 299316
+hwsat
+ 7  8  9 10 11 12 13
+ 2  6 18 27 32 10  5
+FlipsPerSecond = 260877
+gwsat
+ 7  9 10 11 12 13 14 15
+ 1  1  5 16 29 29 17  2
+FlipsPerSecond = 204051
+# Aborted after processing 12 algorithms
+>  E=run_ubcsat("VanDerWaerden_2-4-12_400.cnf",runs=100,cutoff=10000000,names(tail(run_ubcsat_cnf_algs,-12)))
 XXX
    \endverbatim
-   Could be just chance, but "adaptnovelty+ -v params" seems best.
+   Could be just chance, but "adaptnovelty+ -v params" seems best (first
+   evalutation).
    </li>
    <li> However below we find indications that adaptg2wsat is better. </li>
   </ul>
