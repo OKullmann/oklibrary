@@ -123,6 +123,10 @@ fps: 124954
    \verbatim
 > cat VanDerWaerden_pd_2-5-9_472.cnf_sol | PdExtend-O3-DNDEBUG 472 > VanDerWaerden_2-5-9_472.cnf_sol
 > k1=5 k2=9 n0=472 alg="rnovelty" runs=1000 cutoff=400000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} VanDerWaerden_2-${k1}-${k2}_${n0}.cnf_sol
+> E=read_ubcsat("VanDerWaerden_2-5-9_473.cnf_OUT")
+ 3  4  5  6  7
+ 1  1  5 26 10
+43
 XXX
    \endverbatim
    </li>
