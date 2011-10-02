@@ -1,8 +1,8 @@
 # Oliver Kullmann, 15.4.2005 (Swansea)
 # Copyright 2005-2007, 2008, 2009, 2010, 2011 Oliver Kullmann
-# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
-# the Free Software Foundation and included in this library; either version 3 of the 
+# the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
 README OKlibrary
@@ -15,10 +15,10 @@ Licence text: See OKplatform/OKsystem/OKlib/System/LegalIssues/GPLv3.txt
 ----------------------------------------------
 
 ****************************************
-* Please read the following rather     
-* carefully: Since the OKlibrary is an 
-* "active library", you need to become 
-* familiar with the innards of it.     
+* Please read the following rather
+* carefully: Since the OKlibrary is an
+* "active library", you need to become
+* familiar with the innards of it.
 ****************************************
 
 *****************************************
@@ -62,7 +62,7 @@ The following software needs to be installed:
    (check: run "g++ --version")
  - gfortran (only for Sage)
    (check: run "gfortran --version")
- - GNU texinfo 
+ - GNU texinfo
    (check: run "makeinfo --version")
  - zip
    (check: run "zip -h")
@@ -78,13 +78,15 @@ The following software needs to be installed:
   (check: run "tcsh --version")
  - ssh
   (check: run "ssh --version")
+ - binutils package, version 2.19.1 or higher
+  (check: "ld --version"; also the library is needed, see below)
 
- - readline (development library).
- - glibc (development library).
+ - binutils development library ("binutils-devel").
+ - glibc development library.
+ - readline development library.
  - X libraries ("X11" development libraries; needed by gnuplot).
  - postgresql development library ("postgresql-devel").
- - binutils development library ("binutils-devel"),
-   version 2.19.1 or higher (check: "ld --version")
+
  - zlib (development library, needed by gcc-4.5.3 (due to defective build)).
 
 If the build-machine is a 64-bit machine, then additionally
@@ -101,7 +103,7 @@ For creation of documentation we also need:
    (check: "asciidoc --version")
  - xmlto
    (check: "xmlto --version")
- - Flex 
+ - Flex
    (check: "flex --version")
  - Bison
    (check: "bison --version").
@@ -153,11 +155,11 @@ This creates links and directories.
 2) For using the package, we need "oklib" on your path (or otherwise you
    have to call it always with its full path):
  - One symbolic link is already planted in the base directory OKplatform
-   (you have used that in Step 1), but this is only for the purpose of 
+   (you have used that in Step 1), but this is only for the purpose of
    setting up the OKlibrary, and otherwise its use is inconvenient
    (though possible, and sufficient for all tasks).
  - The public bin-directory "OKplatform/bin" (in this directory) contains
-   links to the main executables supplied by the OKlibrary, 
+   links to the main executables supplied by the OKlibrary,
    including "oklib".
  - So you can put this bin-directory on your path via adding
 export PATH=OKPLATFORM/bin:${PATH}
@@ -174,7 +176,7 @@ by just calling "oklib --version" somewhere.)
 3) Except for the minimal package, precomputed documentation is included
 in the documentation (see "local home page" below).
 Regarding the information on the installed external sources, this precomputed
-information is not fully relevant for your system (since several test actions 
+information is not fully relevant for your system (since several test actions
 have to be performed on *your* system). To (partially) update it, use
 
 oklib documentation_index
@@ -195,8 +197,8 @@ All necessary installations can be carried out through the OKlibrary; see
 information on external sources below and on the local home page.
 
 4) "oklib documentation_index" cannot update for examples the links in the
-html-documentation to documentation of external sources. To get the 
-documentation fully updated, run "oklib html" (in directory OKsystem or 
+html-documentation to documentation of external sources. To get the
+documentation fully updated, run "oklib html" (in directory OKsystem or
 below).
 
 For this, doxygen is needed. See how to install "external sources"
@@ -243,7 +245,7 @@ Removing of build-data happens via "oklib clean", removal also of the
 installed external sources via "oklib cleanall" (both in ExternalSources).
 
 Some specific installations are as follows (all included with "oklib all",
-so if this has been (successfully) executed then there is no need for further 
+so if this has been (successfully) executed then there is no need for further
 actions):
 
 1) A local gcc is installed (providing a C and a C++ compiler).
@@ -257,7 +259,7 @@ which installs further software needed).
 
 5) Further computer algebra systems installed are Gap, R and Sage.
 
-6) The SAT solver installed by default are Ubcsat, minisat2, minisat-2.2.0, 
+6) The SAT solver installed by default are Ubcsat, minisat2, minisat-2.2.0,
  minisat+, march_pl, satz215, survey_propagation, sat-grasp. picosat913,
  precosat236, precosat-570, the argosat solver (and library), cryptominisat,
  glucose, and lingeling/plingeling276.
@@ -265,7 +267,7 @@ which installs further software needed).
 
 7) The only tool installed yet for handling boolean functions is Espresso.
 
-8) The OKlibrary provides a local installation of doxygen. 
+8) The OKlibrary provides a local installation of doxygen.
 After this installation is finished, "oklib html" should then run successfully
 (recall, this call to "oklib" must happen in OKplatform/OKsystem (or below)).
 
@@ -273,7 +275,7 @@ A link to the (locally installed) doxygen is planted in the
 public bin-directory OKplatform/bin, so that you can use doxygen yourself
 (by just calling "doxygen" somewhere; try "doxygen --version").
 
-Again, after installation a link is planted in the public bin-directory 
+Again, after installation a link is planted in the public bin-directory
 OKplatform/bin.
 
 
