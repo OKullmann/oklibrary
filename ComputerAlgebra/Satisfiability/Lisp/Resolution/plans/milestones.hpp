@@ -17,14 +17,23 @@ License, or any later version. */
    In Satisfiability/Lisp/Resolution/plans/general.hpp the following topics
    are handled:
     - Write tests
+    - Create milestones : DONE
+
+   \par
+   In Satisfiability/Lisp/Resolution/plans/Proofs.hpp the following topics
+   are handled:
     - Resolution trees
     - Resolution proofs
-    - Create milestones : DONE
 
   \par
    In Satisfiability/Lisp/Resolution/plans/Basics.hpp the following topics
    are handled:
     - resolvable vs resolvable_p
+
+  \par
+   In Satisfiability/Lisp/Resolution/plans/Search.hpp the following topics
+   are handled:
+    - Finding short resolution proofs via SAT
 
 
   \par Version 0.0.10
@@ -45,8 +54,8 @@ License, or any later version. */
 
   \par Version 0.0.11
 
-  \par
-   In Satisfiability/Lisp/Resolution/plans/general.hpp the following topics
+   \par
+   In Satisfiability/Lisp/Resolution/plans/Proofs.hpp the following topics
    are handled:
     - Read-once resolution proofs
 
@@ -62,6 +71,15 @@ License, or any later version. */
    following topics are handled:
     - Hitting clause-sets
     - contained_prime_implicate
+
+  \par
+   In Satisfiability/Lisp/Resolution/plans/Search.hpp the following topics
+   are handled:
+    - Finding short tree-resolution proofs
+    - Regular-resolution complexity
+    - How to compute the minimal DP-resolution complexity?
+    - Resolution complexity
+    - 2-CNF
 
   \par
    Update the milestones.

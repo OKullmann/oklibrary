@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.2.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,13 @@ License, or any later version. */
 /*!
   \file ProofSystems/Resolution/plans/general.hpp
   \brief Plans for the modules providing components for resolution handling
+
+
+  \todo Connections
+  <ul>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/general.hpp
+   for the Maxima-level. </li>
+  </ul>
 
 
   \todo Update namespaces.
@@ -29,7 +36,8 @@ License, or any later version. */
 
   \todo The basic problems
   <ul>
-   <li> Overview on the different forms of resolutions (for non-boolean variables). </li>
+   <li> Overview on the different forms of resolutions (for non-boolean
+   variables). </li>
    <li> Overview on datastructures and ADT's. </li>
   </ul>
 
