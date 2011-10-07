@@ -84,8 +84,8 @@ monitorcheck_osl_v(name) := if oklib_monitor then (
 
    Monitoring shows the statistics of the input-clause-sets for the recursive
    calls of the procedure up to the depth given by oklib_monitor_level,
-   and some basic information on the current best tree once a branch was
-   finished for depths one less.
+   and some basic information on the current best tree (for the recursive
+   calls) once a branch was finished for depths up to oklib_monitor_level-1.
 */
 /* RENAME: optimal_st_cs */
 optimal_splitting_tree(F) := 
