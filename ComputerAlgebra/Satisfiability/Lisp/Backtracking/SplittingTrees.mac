@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.11.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -81,6 +81,11 @@ monitorcheck_osl_v(name) := if oklib_monitor then (
 /* For input F (a clause-set) returns a pair consisting of a splitting
    tree of minimum size, and its size (the number of nodes).
    The labels of inner nodes are variables.
+
+   Monitoring shows the statistics of the input-clause-sets for the recursive
+   calls of the procedure up to the depth given by oklib_monitor_level,
+   and some basic information on the current best tree once a branch was
+   finished for depths one less.
 */
 /* RENAME: optimal_st_cs */
 optimal_splitting_tree(F) := 
