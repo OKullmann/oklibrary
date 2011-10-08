@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.5.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,27 +15,44 @@ License, or any later version. */
    <li> ComputerAlgebra/Satisfiability/Lisp/Backtracking/plans/OKsolver2002.hpp
    </li>
   </ul>
-  
-  
+
+
   \todo Conflict-independence number
-  <ol>
-   <li> weak_php(1,0) -> 1 </li>
-   <li> weak_php(2,1) -> 2 </li>
-   <li> weak_php(3,2) -> 6 </li>
-   <li> weak_php(4,3) -> 18 </li>
-   <li> weak_php(5,4) -> 40 </li>
-   <li> weak_php(6,5) -> 75 </li>
-   <li> weak_php(7,6) -> 126 </li>
-  </ol>
-  We should be able to figure this out; see below.
+  <ul>
+   <li> Computed via
+   \verbatim
+for n : 0 thru 6 do print(n,independence_number_m_cs(weak_php_cs(n+1,n)));
+0 1
+1 2
+2 6
+3 18
+4 40
+5 75
+6 126
+   \endverbatim
+   </li>
+   <li> We should be able to figure this out; see below. </li>
+  </ul>
+
 
 
   \todo Conflict-partition_number
   <ul>
    <li> The conflict-partition_number as upper-bounded by the length of
    hitting_decomposition_m_cs(weak_php(n+1,n)[2]) seems to be the
-   same as the conflict-independence number. Perhaps the conflict-graph
-   is even perfect?! </li>
+   same as the conflict-independence number:
+   \verbatim
+for n : 0 thru 6 do print(n,partition_number_m_cs(weak_php_cs(n+1,n)));
+0 1
+1 2
+2 6
+3 18
+4 40
+5 75
+6 126
+   \endverbatim
+   </li>
+   <li> Perhaps the conflict-graph is even perfect?! </li>
    <li> In general: Is the hermitian deficiency actually an upper bound
    on the conflict-partition-number ?!? </li>
   </ul>
@@ -44,14 +61,16 @@ License, or any later version. */
   \todo Hermitian rank
   <ul>
    <li> Data on hermitian rank and deficiency:
-    <ol>
-     <li> weak_php(1,0) -> [0,1] </li>
-     <li> weak_php(2,1) -> [1,2] </li>
-     <li> weak_php(3,2) -> [3,6] </li>
-     <li> weak_php(4,3) -> [4,18] </li>
-     <li> weak_php(5,4) -> [5,40] </li>
-     <li> weak_php(6,5) -> [6,75] </li>
-    </ol>
+   \verbatim
+for n : 0 thru 6 do block([F:weak_php_cs(n+1,n),h],h:hermitian_rank_cs(F),print(n,h,ncl_cs(F)-h));
+0 0 1
+1 1 2
+2 3 6
+3 4 18
+4 5 40
+5 6 75
+6 7 126
+   \endverbatim
    </li>
    <li> We should be able to figure this out:
     <ol>
@@ -70,7 +89,7 @@ License, or any later version. */
   <ul>
    <li> Data:
    \verbatim
-for n : 0 thru 6 do print(n, ":",charpoly_cs(weak_php(n+1,n)[2]));
+for n : 0 thru 6 do print(n, ":",charpoly_cs(weak_php_cs(n+1,n)));
 0 : -x
 1 : -x^3 + 2*x
 2 : -x^9 + 12*x^7 - 36*x^5 + 32*x^3
@@ -84,7 +103,7 @@ for n : 0 thru 6 do print(n, ":",charpoly_cs(weak_php(n+1,n)[2]));
    an arithmetic progression with distance 2, and coefficients alternating
    in sign. </li>
    <li> These clause-sets seem to have non-zero eigenvalues of the form
-   +- a, +- b, so that we altogether 4 different values here? </li>
+   +- a, +- b, so that we altogether get 4 different values here? </li>
   </ul>
 
 
