@@ -59,6 +59,7 @@ pigeons_in_holes(m,n) := setify(
 weak_php(m,n) := [var_php(m,n),
  union(pigeons_different_holes(m,n), pigeons_in_holes(m,n))]$
 weak_php_fcs(m,n) := weak_php(m,n)$
+weak_php_cs(m,n) := fcs2cs(weak_php_fcs(m,n))$
 
 output_weak_php(m,n,filename) := block([FF : standardise_fcs(weak_php(m,n))],
   output_fcs_v(
@@ -76,11 +77,12 @@ pigeon_unique_hole(m,n) := setify(create_list({-php_var(i,k1), -php_var(i,k2)},
 holes_occupied(m,n) := if m < n then {} else
   setify(create_list(setify(create_list(php_var(i,j), i, 1, m)), j,1,n))$
 
-/* The strong pigeon formula as formal clause-set: */
+/* The strong pigeonhole formula as formal clause-set: */
 /* RENAME: strong_php_fcs */
 strong_php(m,n) := block([FF : weak_php(m,n)],
   [FF[1], union(FF[2], pigeon_unique_hole(m,n), holes_occupied(m,n))])$
 strong_php_fcs(m,n) := strong_php(m,n)$
+strong_php_cs(m,n) := fcs2cs(strong_php_fcs(m,n))$
 
 output_strong_php(m,n,filename) := block([FF : standardise_fcs(strong_php(m,n))],
   output_fcs_v(
