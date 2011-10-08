@@ -17,6 +17,27 @@ License, or any later version. */
   </ul>
 
 
+  \todo Basic statistics
+  <ul>
+   <li> Implemented formulas:
+   \verbatim
+for n : 0 thru 10 do block([m:n+1], print(n,nvar_php(m,n),ncl_list_weak_php(m,n),ncl_weak_php(m,n),deficiency_weak_php(m,n)));
+0 0 [[0,1]] 1 1
+1 2 [[1,2],[2,1]] 3 1
+2 6 [[2,9]] 9 3
+3 12 [[2,18],[3,4]] 22 10
+4 20 [[2,40],[4,5]] 45 25
+5 30 [[2,75],[5,6]] 81 51
+6 42 [[2,126],[6,7]] 133 91
+7 56 [[2,196],[7,8]] 204 148
+8 72 [[2,288],[8,9]] 297 225
+9 90 [[2,405],[9,10]] 415 325
+10 110 [[2,550],[10,11]] 561 451
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Conflict-independence number
   <ul>
    <li> Computed via
@@ -176,5 +197,61 @@ experiment(7,5);
    </li>
   </ul>
 
-*/
 
+  \todo Tree-resolution complexity
+  <ul>
+   <li> The standard cases:
+   \verbatim
+for n : 0 thru 3 do print(n,treecomp_refutation_cs(weak_php_cs(n+1,n)));
+
+0 1
+1 5
+2 21
+XXX
+   \endverbatim
+   </li>
+   <li> Known bounds for the tree-resolution complexity trc(n) for
+   PHP^{n+1}_n (counting the number of nodes in the tree):
+    <ol>
+     <li> From [Kullmann 1999] one gets hardness = n, and thus
+     2^(n+1)-1 <= trc(n) <= 2*(n^2+n+1)^n-1. </li>
+     <li> For PHP^m_n (m > n) we get
+     2^(n+1)-1 <= trc(n,m) <= 2*(m*n+1)^n-1. </li>
+     <li> [Iwama, Miyazaki, 1999] show the stronger bounds
+     (n/4)^(n/4) <= trc(n) <= O(n^2 * n!). </li>
+     <li> [Dantrchev, Riis, 2001] show more generally
+     n^(Omega(n)) <= trc(n,m) <= m^(O(n)), where the upper bounds holds for
+     *every* regular tree-resolution refutation. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Resolution complexity
+  <ul>
+   <li> Now we consider the minimum complexity rc(n) for PHP^{n+1}_n (counting
+   the number of different clauses). </li>
+   <li> It is known rc(n) >= 2^(Omega(n)). </li>
+   <li> In [Iwama, Miyazaki, 1999] it is shown rc(n) <= O(n^2 * 2^n). </li>
+   <li> In [Cook, 1976] one finds the claim
+   rc(n) <= 1/2 n^3 + 1/2 n^2 + n + 1 + (n^2 + 3 n) * 2^(n-2).
+   (In the paper one has (n^2 + 3 n) * 2^(n-2), which stands for the number of
+   steps, and thus the number of clauses of PHP has to be added.) </li>
+   <li> Alaisdair Urquhart conjectures this to be exact. </li>
+   <li> Numerically:
+   \verbatim
+f(n) := 1/2*n^3 + 1/2*n^2 + n + 1 + (n^2 + 3*n) * 2^(n-2);
+for n : 0 thru 6 do print(n,f(n));
+
+0 1
+1 5
+2 19
+3 58
+4 157
+5 401
+6 997
+   \endverbatim
+   </li>
+  </ul>
+
+*/
