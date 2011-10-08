@@ -112,7 +112,7 @@ boolm_mul2cnf_wv_fcl(m,V) := rename_fcl(boolm_mul2cnf_fcl(m),V)$
    ********************
 */
 
-/* Variables are "gt(i,j)", meaning that there is an edge from i to j */
+/* Variables are "gt(i,j)", meaning that there is an edge from i to j: */
 kill(gt)$
 declare(gt, noun)$
 declare(gt, posfun)$
@@ -138,6 +138,20 @@ gt_nosource_ocs(m) := block([M : setn(m)],
   create_list(map(lambda([x], gt_var(x,j)), disjoin(j,M)) , j,1,m))$
 
 gt_ofcs(m) := [var_gt(m), append(gt_transitivity_ocs(m),gt_nocycles_ocs(m),gt_nosource_ocs(m))]$
+
+output_gt(m,filename) := block(
+ [FF : standardise_fcl(gt_ofcs(m))],
+  output_fcl_v(
+    sconcat("GT problem,
+c created by the OKlibrary at ", timedate(),":
+c with ", m, " vertices.
+c Variables and associated edges:"),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "OrderGT-m.cnf": */
+output_gt_stdname(m) := output_gt(m,
+  sconcat("OrderGT-",m,".cnf"))$
 
 
 /*!
