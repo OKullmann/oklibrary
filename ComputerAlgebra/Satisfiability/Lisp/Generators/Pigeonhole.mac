@@ -35,13 +35,15 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitution
    (putting pigeon i in {1,...,m} into hole in {1,...,n}).
 */
 
-/* Variables are "php(i,j)", meaning that pigeon i is in hole j */
+/* Variables are "php(i,j)", meaning that pigeon i is in hole j: */
 kill(php)$
 declare(php, noun)$
 declare(php, posfun)$
 php_var(i,j) := nounify(php)(i,j)$
 
-/* The set of variables for the pigeonhole formulas with m pigeons and n holes */
+/* The set of variables for the pigeonhole formulas with m pigeons and
+   n holes:
+*/
 var_php(m,n) := setify(create_list(php_var(i,j), i,1,m, j,1,n))$
 
 /* In the following m denotes the number of pigeons, n the number of holes */
