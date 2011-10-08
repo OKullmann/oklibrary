@@ -25,7 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Proofs.mac")
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/PrimeImplicatesImplicants.mac")$
-
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Proofs.mac")$
 
 /*!
 \endhtmlonly
