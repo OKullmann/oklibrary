@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
 
 
 
@@ -104,6 +105,39 @@ boolm_mul2cnf_fcl(m) := block(
           fcl2cl(rename_fcl(even_parity_fcl(length(R)+1),
               endcons(nc + count : count + 1, IV)))),args(m)))]))$
 boolm_mul2cnf_wv_fcl(m,V) := rename_fcl(boolm_mul2cnf_fcl(m),V)$
+
+
+/* ********************
+   * Order principles *
+   ********************
+*/
+
+/* Variables are "gt(i,j)", meaning that there is an edge from i to j */
+kill(gt)$
+declare(gt, noun)$
+declare(gt, posfun)$
+gt_var(i,j) := nounify(gt)(i,j)$
+
+/* The list of variables: */
+var_gt(m) := lappend(map(
+  lambda([p], map(lambda([po], apply(gt_var, po)), listify(permutations(p)))),
+  colex_ksubsets_l(setn(m), 2)))$
+
+gt_transitivity_ocs(m) :=
+  lappend(map(
+    lambda([S], map(
+      lambda([p], {-gt_var(p[1],p[2]),-gt_var(p[2],p[3]),gt_var(p[1],p[3])}),
+      listify(permutations(S)))),
+    colex_ksubsets_l(setn(m), 3)))$
+
+gt_nocycles_ocs(m) := map(
+  lambda([p], comp_sl(map(lambda([po], apply(gt_var, po)), permutations(p)))),
+  colex_ksubsets_l(setn(m), 2))$
+
+gt_nosource_ocs(m) := block([M : setn(m)],
+  create_list(map(lambda([x], gt_var(x,j)), disjoin(j,M)) , j,1,m))$
+
+gt_ofcs(m) := [var_gt(m), append(gt_transitivity_ocs(m),gt_nocycles_ocs(m),gt_nosource_ocs(m))]$
 
 
 /*!
