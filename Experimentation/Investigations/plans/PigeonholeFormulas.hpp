@@ -208,6 +208,9 @@ for n : 0 thru 3 do print(n,treecomp_refutation_cs(weak_php_cs(n+1,n)));
 1 5
 2 21
 XXX
+
+T3 : optimal_splitting_tree(weak_php_cs(4,3))$
+XXX
    \endverbatim
    </li>
    <li> Known bounds for the tree-resolution complexity trc(n) for
