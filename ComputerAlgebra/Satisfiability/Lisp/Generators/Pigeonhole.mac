@@ -163,7 +163,10 @@ php_induction_cl(m) :=
 /* union(weak_php(m,m-1), setify(weak_php_induction_cl(m)) has a polynomial
    size resolution proof. */
 
-/* For m > 0, yields weak_php_fcs(m,m-1) with Extended Resolution clauses: */
+/* For m > 0, yields weak_php_fcs(m,m-1) with Extended Resolution clauses
+   as given in
+   [A short proof of the pigeon hole principle using extended resolution";
+   Stephen Cook]: */
 weak_php_unsat_ext_fcs(m) := block([F : weak_php_fcs(m,m-1)],
   [union(
     F[1],
