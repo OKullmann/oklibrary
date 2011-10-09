@@ -221,7 +221,7 @@ okltest_boolm_mul2cnf_fcl(f) := block(
          {-4,-3,-1,2},{-4,-2,-1,3},{-3,-2,-1,4}]]),
   true)$
 
-okltest_boolm_mul2cnf_fcl_wv(f) := block(
+okltest_boolm_mul2cnf_wv_fcl(f) := block(
   assert(okltest_boolm_mul2cnf_fcl(
       buildq([f], lambda([m],
           f(m, create_list(i,i,1,length(matrixcolumns(m))+length(m))))))),
@@ -229,6 +229,7 @@ okltest_boolm_mul2cnf_fcl_wv(f) := block(
       [[5,6,7,8],[{-7,5,6},{-6,5,7},{-5,6,7},{-7,-6,-5},{-8,5,6},{-6,5,8},
        {-5,6,8},{-8,-6,-5}]]),
   true)$
+
 
 /*!
 \endhtmlonly

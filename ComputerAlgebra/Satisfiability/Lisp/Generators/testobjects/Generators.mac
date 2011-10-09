@@ -58,9 +58,9 @@ okltest_deficiency_weak_php(deficiency_weak_php);
 
 /* Extended Resolution */
 
-okltest_php_induction_step_cl(php_induction_step_cl)$
-okltest_php_induction_cl(php_induction_cl)$
-okltest_weak_php_unsat_ext_fcs(weak_php_unsat_ext_fcs)$
+okltest_php_induction_step_cl(php_induction_step_cl);
+okltest_php_induction_cl(php_induction_cl);
+okltest_weak_php_unsat_ext_fcs(weak_php_unsat_ext_fcs);
 
 
 /* ************************
@@ -72,6 +72,7 @@ okltest_even_parity_cl(even_parity_cl);
 okltest_odd_parity_cl(odd_parity_cl);
 okltest_boolm_mul2cnf_fcl(boolm_mul2cnf_fcl);
 okltest_boolm_mul2cnf_wv_fcl(boolm_mul2cnf_wv_fcl);
+
 
 /*!
 \endhtmlonly
