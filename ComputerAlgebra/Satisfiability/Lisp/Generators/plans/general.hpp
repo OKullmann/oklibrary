@@ -164,7 +164,15 @@ License, or any later version. */
   <ul>
    <li> Tseitin's formulas </li>
    <li> IMP and IMP' [Buresh-Oppenheim, Pitassi; 2007] </li>
-   <li> GT and GT' [Buresh-Oppenheim, Pitassi; 2007] </li>
+   <li> GT and GT' [Buresh-Oppenheim, Pitassi; 2007]
+    <ol>
+     <li> We have ordergt_ofcs for the GT-formulas as used in [Kullmann,
+     ECCC, 1999]. </li>
+     <li> We need to compare it with the "order principle" as used by
+     Jan Johannsen. </li>
+     <li> And we need to look into [Buresh-Oppenheim, Pitassi; 2007]. </li>
+    </ol>
+   </li>
    <li> SP and SP' [Buresh-Oppenheim, Pitassi; 2007] </li>
   </ul>
 
