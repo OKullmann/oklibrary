@@ -73,6 +73,19 @@ okltest_odd_parity_cl(odd_parity_cl);
 okltest_boolm_mul2cnf_fcl(boolm_mul2cnf_fcl);
 okltest_boolm_mul2cnf_wv_fcl(boolm_mul2cnf_wv_fcl);
 
+/* ********************
+   * Order principles *
+   ********************
+*/
+
+okltest_gt_var(gt_var);
+okltest_var_ordergt(var_ordergt);
+
+okltest_ordergt_transitivity_ocs(ordergt_transitivity_ocs);
+okltest_ordergt_nocycles_ocs(ordergt_nocycles_ocs);
+okltest_ordergt_nosource_ocs(ordergt_nosource_ocs);
+
+okltest_ordergt_ofcs(ordergt_ofcs);
 
 /*!
 \endhtmlonly

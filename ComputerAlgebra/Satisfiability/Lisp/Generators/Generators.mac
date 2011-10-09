@@ -119,28 +119,29 @@ declare(gt, posfun)$
 gt_var(i,j) := nounify(gt)(i,j)$
 
 /* The list of variables: */
-var_gt(m) := lappend(map(
+var_ordergt(m) := lappend(map(
   lambda([p], map(lambda([po], apply(gt_var, po)), listify(permutations(p)))),
   colex_ksubsets_l(setn(m), 2)))$
 
-gt_transitivity_ocs(m) :=
+/* The clauses expressing transitivity: */
+ordergt_transitivity_ocs(m) :=
   lappend(map(
     lambda([S], map(
       lambda([p], {-gt_var(p[1],p[2]),-gt_var(p[2],p[3]),gt_var(p[1],p[3])}),
       listify(permutations(S)))),
     colex_ksubsets_l(setn(m), 3)))$
 
-gt_nocycles_ocs(m) := map(
+ordergt_nocycles_ocs(m) := map(
   lambda([p], comp_sl(map(lambda([po], apply(gt_var, po)), permutations(p)))),
   colex_ksubsets_l(setn(m), 2))$
 
-gt_nosource_ocs(m) := block([M : setn(m)],
+ordergt_nosource_ocs(m) := block([M : setn(m)],
   create_list(map(lambda([x], gt_var(x,j)), disjoin(j,M)) , j,1,m))$
 
-gt_ofcs(m) := [var_gt(m), append(gt_transitivity_ocs(m),gt_nocycles_ocs(m),gt_nosource_ocs(m))]$
+ordergt_ofcs(m) := [var_ordergt(m), append(ordergt_transitivity_ocs(m),ordergt_nocycles_ocs(m),ordergt_nosource_ocs(m))]$
 
-output_gt(m,filename) := block(
- [FF : standardise_fcl(gt_ofcs(m))],
+output_ordergt(m,filename) := block(
+ [FF : standardise_fcl(ordergt_ofcs(m))],
   output_fcl_v(
     sconcat("GT problem,
 c created by the OKlibrary at ", timedate(),":
@@ -150,7 +151,7 @@ c Variables and associated edges:"),
     filename,
     FF[2]))$
 /* Providing a standard name: "OrderGT-m.cnf": */
-output_gt_stdname(m) := output_gt(m,
+output_ordergt_stdname(m) := output_ordergt(m,
   sconcat("OrderGT-",m,".cnf"))$
 
 
