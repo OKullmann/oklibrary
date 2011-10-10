@@ -132,6 +132,16 @@ for n : 0 thru 6 do print(n, ":",charpoly_cs(weak_php_cs(n+1,n)));
   <ul>
    <li> The number and the structure of prime implicates for satisfiable php
    is needed. </li>
+   <li> Simple computation:
+   \verbatim
+for n : 0 thru 4 do print(n, length(min_resolution_closure_cs(weak_php_cs(n,n))[1]));
+0 0
+1 1
+2 12
+3 87
+XXX
+   \endverbatim
+   </li>
   </ul>
 
 
