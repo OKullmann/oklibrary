@@ -6,8 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/plans/PigeonholeFormulas.hpp
-  \brief Data regarding pigeonhole clause-sets
+  \file Experimentation/Investigations/PigeonholeFormulas/plans/general.hpp
+  \brief Investigations regarding pigeonhole clause-sets
 
 
   \todo Collect the known data.
@@ -130,8 +130,8 @@ for n : 0 thru 6 do print(n, ":",charpoly_cs(weak_php_cs(n+1,n)));
 
   \todo Prime implicates
   <ul>
-   <li> The number of prime implicates for satisfiable php would be
-   interesting. </li>
+   <li> The number and the structure of prime implicates for satisfiable php
+   is needed. </li>
   </ul>
 
 
@@ -202,12 +202,26 @@ experiment(7,5);
   <ul>
    <li> The standard cases:
    \verbatim
+> ssh -t csoliver@cs-wsok.swansea.ac.uk /usr/bin/screen -xRR
+> oklib --maxima
+oklib_load_all();
+
 for n : 0 thru 3 do print(n,treecomp_refutation_cs(weak_php_cs(n+1,n)));
 
 0 1
 1 5
 2 21
 XXX
+
+> screen
+> oklib --maxima
+oklib_load_all();
+oklib_monitor:true;
+oklib_monitor_level:1;
+
+T2 : optimal_splitting_tree(weak_php_cs(3,2))$
+T2[2];
+  21
 
 T3 : optimal_splitting_tree(weak_php_cs(4,3))$
 XXX
