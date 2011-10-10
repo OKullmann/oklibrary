@@ -29,7 +29,9 @@ true
      <li> A full specification, including:
       <ul>
        <li> the order resolvents are generated in the proof; </li>
-       <li> the precise number of resolvents the proof for all n. </li>
+       <li> the precise number of resolvents the proof for all n; </li>
+       <li> the proof given in full detail in the docus (transferred from
+       Annotations). </li>
       </ul>
      </li>
      <li> Tests. </li>
