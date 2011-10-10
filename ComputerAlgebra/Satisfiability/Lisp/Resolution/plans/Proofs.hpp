@@ -16,6 +16,14 @@ License, or any later version. */
    the pigeon-hole formulas as discussed by Cook in
    [A short proof of the pigeon hole principle using extended resolution";
    Stephen Cook]. </li>
+   <li> We have:
+   \verbatim
+maxima> is(setify(axioms_resl2cl(php_ext_resl(4))) = weak_php_unsat_ext_fcs(5)[2]);
+true
+maxima> resl_ref_p(php_ext_resl(4));
+true
+   \endverbatim
+   </li>
    <li> We need the following for this function:
     <ul>
      <li> A full specification, including:
