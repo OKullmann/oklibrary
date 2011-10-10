@@ -22,7 +22,6 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Proofs.mac");
 oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
 
 
 /* ******************
