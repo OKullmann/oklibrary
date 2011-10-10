@@ -28,7 +28,18 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Proofs
 */
 
 okltest_resl_p(resl_p);
+okltest_resl_ref_p(resl_ref_p);
 okltest_reslrt_p(reslrt_p);
+
+/* ************************************
+   * Extraction                       *
+   ************************************
+*/
+
+
+okltest_axioms_resl2cl(axioms_resl2cl);
+okltest_resolvents_resl2cl(resolvents_resl2cl);
+
 
 /*!
 \endhtmlonly
