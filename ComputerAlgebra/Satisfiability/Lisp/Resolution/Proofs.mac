@@ -73,12 +73,28 @@ resl_p(L) := listp(L) and block([is_resl : true, L_i],
              is(resolvent(L[ind_l[1]][1],L[ind_l[2]][1]) = L_i[1])) ))),
     return(is_resl))$
 
+/* Is list L a resolution refutation as a list: */
+resl_ref_p(L) :=
+  resl_p(L) and (member({},L) or member({}, resolvents_resl2cl(L)))$
+
 /* Is T a "resolution tree": */
 reslrt_p(T) := listp(T) and
   if length(T) = 1 then c_p(T[1]) /* Leaves must be clauses */
   else is(length(T) = 3) and c_p(T[1]) and
        reslrt_p(T[2]) and reslrt_p(T[3]) and
        resolvable(T[2][1],T[3][1]) and is(resolvent(T[2][1],T[3][1]) = T[1])$
+
+
+/* ************************************
+   * Extraction                       *
+   ************************************
+*/
+
+/* Axioms of a resolution list as a clause-list: */
+axioms_resl2cl(L) := sublist(L,c_p)$
+
+/* Resolvents of a resolution list as a clause-list: */
+resolvents_resl2cl(L) := map(lambda([a],a[1]), sublist(L,listp))$
 
 
 /* ************************************
