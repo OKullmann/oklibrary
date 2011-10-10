@@ -22,6 +22,7 @@ License, or any later version. */
    \par
    In Satisfiability/Lisp/Resolution/plans/Proofs.hpp the following topics
    are handled:
+    - php_ext_resl
     - Resolution trees
     - Resolution proofs
 
