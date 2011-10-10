@@ -132,7 +132,7 @@ for n : 0 thru 6 do print(n, ":",charpoly_cs(weak_php_cs(n+1,n)));
   <ul>
    <li> The number and the structure of prime implicates for satisfiable php
    is needed. </li>
-   <li> Simple computation:
+   <li> Simple computation via resolution closure:
    \verbatim
 for n : 0 thru 4 do print(n, length(min_resolution_closure_cs(weak_php_cs(n,n))[1]));
 0 0
@@ -142,6 +142,60 @@ for n : 0 thru 4 do print(n, length(min_resolution_closure_cs(weak_php_cs(n,n))[
 XXX
    \endverbatim
    </li>
+   <li> Alternative method: Expanding to canonical CNF and use Quine/McCluskey:
+   \verbatim
+# First the size of the canonical CNFs (and the total number of full clauses):
+for m : 0 thru 4 do print(m,ncl_fcs(expand_fcs(weak_php_fcs(m,m))),2^(m*m));
+0 0 1
+1 1 2
+2 14 16
+3 506 512
+4 65512 65536
+
+# Note that the number of full clauses of PHP^m_m is 2^(m*m) - m!.
+
+for m : 0 thru 4 do block([FF:standardise_fcs(expand_fcs(weak_php_fcs(m,m)))],
+  output_fcs_v(
+    sconcat("Canonical CNF for the pigeonhole principle (weak form) with ", m, " pigeons."),
+    FF[1], sconcat("PHP_CNF_",m,".cnf"), FF[2]))$
+
+for ((n=1;n<=4;++n)); do echo ${n}; QuineMcCluskey-n16-O3-DNDEBUG PHP_CNF_${n}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG sd nz; done
+0
+     n    c     l
+     0    0     0
+1
+     n    c        l
+     1    1        1
+ length   count
+      1       1
+2
+     n    c        l
+     4    12       24
+ length   count
+      2      12
+3
+     n     c        l
+     9    87      252
+ length   count
+      2      18
+      3      60
+      4       9
+4
+      n      c        l
+     16    728     3056
+ length   count
+      2      48
+      4     488
+      5     144
+      6      48
+   \endverbatim
+   </li>
+   <li> We remark that PHP^m_m has exactly one DNF representation (without
+   new variables), since the total satisfying assignments correspond 1-1 to
+   the m! permutations of the m pigeons, and we have only these total
+   satisfying assignments (a boolean function f has exactly one DNF
+   representation without new variables iff f has only total satisfying
+   assignments). </li>
   </ul>
 
 
