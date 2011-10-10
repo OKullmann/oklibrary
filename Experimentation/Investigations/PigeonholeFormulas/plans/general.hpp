@@ -35,6 +35,16 @@ for n : 0 thru 10 do block([m:n+1], print(n,nvar_php(m,n),ncl_list_weak_php(m,n)
 10 110 [[2,550],[10,11]] 561 451
    \endverbatim
    </li>
+   <li> The numbers of satisfying assignments for satisfiable instances:
+   \verbatim
+for m : 0 thru 4 do print(m,satprob_weak_php(m,m)*2^(m*m));
+0 1
+1 1
+2 2
+3 6
+4 24
+   \endverbatim
+   </li>
   </ul>
 
 
