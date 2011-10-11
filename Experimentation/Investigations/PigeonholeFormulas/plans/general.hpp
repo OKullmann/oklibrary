@@ -274,7 +274,7 @@ experiment(7,5);
 
   \todo Tree-resolution complexity
   <ul>
-   <li> The standard cases:
+   <li> The standard cases (n+1,n):
    \verbatim
 > ssh -t csoliver@cs-wsok.swansea.ac.uk /usr/bin/screen -xRR
 > oklib --maxima
@@ -298,6 +298,18 @@ T2[2];
   21
 
 T3 : optimal_splitting_tree(weak_php_cs(4,3))$
+M[optimal_splitting_tree]: depth: 0 , new best variable: php(1,1) , new min size: 85
+# This is the optimal tree-resolution complexity, since all variables behave
+# equally.
+   \endverbatim
+   </li>
+   <li> The cases (n+2,n):
+   \verbatim
+for k : 0 thru 2 do print(k, optimal_splitting_tree(weak_php_cs(k+2,k))[2]);
+0 1
+1 5
+2 21
+T53 : optimal_splitting_tree_rec(weak_php_cs(5,3),0,85)$
 XXX
    \endverbatim
    </li>
@@ -313,6 +325,19 @@ XXX
      <li> [Dantrchev, Riis, 2001] show more generally
      n^(Omega(n)) <= trc(n,m) <= m^(O(n)), where the upper bounds holds for
      *every* regular tree-resolution refutation. </li>
+    </ol>
+   </li>
+   <li> A formula for comp_R^*(PHP^{n+1}_n):
+    <ol>
+     <li> Yet we have the sequence 1,5,21,85 (for 0<=n<=3). </li>
+     <li> There are four sequences in OEIS, extending it with 341,341,342,421.
+     </li>
+     <li> The sequence A002450 is (4^n - 1)/3, which would violate the lower
+     bound (n/4)^(n/4). </li>
+     <li> We should be able to compute comp_R^*(PHP^{4+1}_4) by a C++ version
+     of optimal_splitting_tree_rec. </li>
+     <li> But perhaps by improving the Maxima-version and using sharper bounds
+     we can still do it at Maxima level. </li>
     </ol>
    </li>
   </ul>
