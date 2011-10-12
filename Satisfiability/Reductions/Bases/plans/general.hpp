@@ -111,6 +111,45 @@ all_rbases_bydef_cs(F1,ucp_0_cs);
   </ul>
 
 
+  \todo Computing 1-bases with k clauses using SAT
+  <ul>
+   <li> The problem of whether there is a 1-base of size k, for a full CNF F,
+   can be encoded into SAT as follows:
+    <ul>
+     <li> Compute the prime implicates prc_0(F) for F. </li>
+     <li> Compute the subsumption hypergraph shg(F) for prc_0(F), as done by
+     QuineMcCluskeySubsumptionHypergraph. Consider shg(F) as a CNF clause-set.
+     </li>
+     <li> An assignment to the variables of shg(F) defines a clause-set F'
+     which is a representation of F without new variables. </li>
+     <li> To shg(F), add the following:
+      <ul>
+       <li> A new variable v_phi for each falsifying partial assignment
+       phi of F. This variable will indicate whether the clause-set F'
+       contains the empty-clause or a unit-clause under phi. </li>
+       <li> The clauses prc_0(v_phi <-> or(v_1,...,v_m)) for every
+       falsifying partial assignment phi of F, where v_1,...,v_m are the
+       variables in shg(F) representing the prime implicates in prc_0(F) which
+       produce a unit-clause or the empty-clause under phi. </li>
+       <li> The clause {v_phi | phi is a falsifying partial assignments of F}.
+       </li>
+       <li> Cardinality constraint clauses forcing that exactly
+       k of the variables in shg(F) must be set to true. </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li> By iteratively decreasing k until the clause-set becomes unsatisfiable,
+   we can compute a minimum-sized 1-base. </li>
+   <li> We should implement this translation and begin experiments
+   on the AES and DES instances discussed in
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
+   and
+   Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp.
+   </li>
+  </ul>
+
+
   \bug DONE RandomRUcpBases sorts clauses in ascending order of clause-length
   <ul>
    <li> DONE The documentation for RandomRUcpBases states that it sorts the
