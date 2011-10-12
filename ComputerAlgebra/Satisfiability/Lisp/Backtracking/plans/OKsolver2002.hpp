@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.1.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -85,7 +85,7 @@ okcat_php_54 : collapse_inf_branches(okat_php_54, 0);
      that the first differences are 4,5,6, ... </li>
      <li> For the number of nodes we have 17, 79, 479. One would expect
      these numbers to be somewhat "random". </li>
-     <li> The optimal numbers of nodes for r_2-splitting trees are ?
+     <li> The optimal numbers of nodes for r_2-splitting trees are:
       <ol>
        <li> weak_php(3,2) : 1 node (height 0) </li>
        <li> weak_php(4,3) : 3 nodes (height 1) </li>
