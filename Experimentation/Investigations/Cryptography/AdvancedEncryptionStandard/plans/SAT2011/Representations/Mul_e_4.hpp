@@ -214,9 +214,15 @@ maxima> setify(create_list(hardness_cs(setify(ev_hm(ss_field_cnfs,[4,i])[2])),i,
 {2,3}
        \endverbatim
        </li>
-       <li> In all cases we consider so far (2 and 3), the hardness of the
-       minimum translation is 2 for the 4-bit AES field multiplications.
-       </li>
+       <li> The minimum representations that we have so far considered, for
+       the 4-bit multiplications by constants in {2,...,15} have hardness in
+       {2,3}. </li>
+       <li> We must investigate *all* minimum representations of the 4-bit
+       multiplications by constants in {2,...,15}. </li>
+       <li> The hardness for all minimum representations is known for the
+       4-bit multiplication by 02, discussed in
+       "Generating all minimum representations via hypergraph transversals"
+       below. </li>
       </ul>
      </li>
     </ul>
