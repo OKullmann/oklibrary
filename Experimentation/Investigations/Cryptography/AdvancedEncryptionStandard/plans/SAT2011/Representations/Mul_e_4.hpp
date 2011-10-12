@@ -26,135 +26,105 @@ maxima> for e : 1 thru 15 do output_ssmult_fullcnf_stdname(e,2,4,ss_polynomial_2
    <li> Computing the prime implicates statistics:
    \verbatim
 maxima> for i : 1 thru 15 do output_ssmult_fullcnf_stdname(i, 2, 4, ss_polynomial_2_4);
-shell> for i in $(seq 1 15); do echo "# Multiplication by ${i}"; echo; QuineMcCluskey-n16-O3-DNDEBUG ss_byte2_4_field_mul_full_${i}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG; echo; done
-
+shell> for i in $(seq 1 15); do echo "# Multiplication by ${i}"; QuineMcCluskey-n16-O3-DNDEBUG ss_byte2_4_field_mul_full_${i}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG; done
 # Multiplication by 1
-
-     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-      8       8      8      8       8       16     NA     NA       8       16     1
+     n       c        l
+     8       8       16
  length   count
       2       8
-
 # Multiplication by 2
-
-     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-      8      14      8      8      14       36     NA     NA      14       36     1
+     n       c        l
+     8      14       36
  length   count
       2       6
       3       8
-
 # Multiplication by 3
-
-     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-      8     120      8      8     120      528     NA     NA     120      528     1
+     n       c        l
+     8     120      528
  length   count
       3      16
       4      40
       5      64
-
 # Multiplication by 4
-
-     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-      8      32      8      8      32      108     NA     NA      32      108     1
+     n       c        l
+     8      32      108
  length   count
       2       4
       3      12
       4      16
-
 # Multiplication by 5
-
-     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-      8     120      8      8     120      528     NA     NA     120      528     1
+     n       c        l
+     8     120      528
  length   count
       3      16
       4      40
       5      64
-
 # Multiplication by 6
-
-     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-      8     132      8      8     132      580     NA     NA     132      580     1
+     n       c        l
+     8     132      580
  length   count
       3      12
       4      56
       5      64
-
 # Multiplication by 7
-
-     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-      8     132      8      8     132      580     NA     NA     132      580     1
+     n       c        l
+     8     132      580
  length   count
       3      12
       4      56
       5      64
-
 # Multiplication by 8
-
-     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-      8      74      8      8      74      308     NA     NA      74      308     1
+     n       c        l
+     8      74      308
  length   count
       2       2
       3      16
       4      24
       5      32
-
 # Multiplication by 9
-
-     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-      8      14      8      8      14       36     NA     NA      14       36     1
+     n       c        l
+     8      14       36
  length   count
       2       6
       3       8
-
 # Multiplication by 10
-
-     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-      8     120      8      8     120      528     NA     NA     120      528     1
+     n       c        l
+     8     120      528
  length   count
       3      16
       4      40
       5      64
-
 # Multiplication by 11
-
-     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-      8     120      8      8     120      528     NA     NA     120      528     1
+     n       c        l
+     8     120      528
  length   count
       3      16
       4      40
       5      64
-
 # Multiplication by 12
-
-     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-      8     120      8      8     120      528     NA     NA     120      528     1
+     n       c        l
+     8     120      528
  length   count
       3      16
       4      40
       5      64
-
 # Multiplication by 13
-
-     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-      8      32      8      8      32      108     NA     NA      32      108     1
+     n       c        l
+     8      32      108
  length   count
       2       4
       3      12
       4      16
-
 # Multiplication by 14
-
-     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-      8     120      8      8     120      528     NA     NA     120      528     1
+     n       c        l
+     8     120      528
  length   count
       3      16
       4      40
       5      64
-
 # Multiplication by 15
-
-     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-      8      74      8      8      74      308     NA     NA      74      308     1
+     n       c        l
+     8      74      308
  length   count
       2       2
       3      16
