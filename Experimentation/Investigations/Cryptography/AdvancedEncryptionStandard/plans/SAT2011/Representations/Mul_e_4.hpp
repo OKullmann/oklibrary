@@ -26,95 +26,110 @@ maxima> for e : 1 thru 15 do output_ssmult_fullcnf_stdname(e,2,4,ss_polynomial_2
    <li> Computing the prime implicates statistics:
    \verbatim
 maxima> for i : 1 thru 15 do output_ssmult_fullcnf_stdname(i, 2, 4, ss_polynomial_2_4);
-shell> for i in $(seq 1 15); do QuineMcCluskey-n16-O3-DNDEBUG ss_byte2_4_field_mul_full_${i}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG; done
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 8 16 0 16 1 1
- length count
-2 8
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 14 36 0 36 1 1
- length count
-2 6
-3 8
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 120 528 0 528 1 1
- length count
-3 16
-4 40
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 32 108 0 108 1 1
- length count
-2 4
-3 12
-4 16
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 120 528 0 528 1 1
- length count
-3 16
-4 40
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 132 580 0 580 1 1
- length count
-3 12
-4 56
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 132 580 0 580 1 1
- length count
-3 12
-4 56
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 74 308 0 308 1 1
- length count
-2 2
-3 16
-4 24
-5 32
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 14 36 0 36 1 1
- length count
-2 6
-3 8
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 120 528 0 528 1 1
- length count
-3 16
-4 40
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 120 528 0 528 1 1
- length count
-3 16
-4 40
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 120 528 0 528 1 1
- length count
-3 16
-4 40
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 32 108 0 108 1 1
- length count
-2 4
-3 12
-4 16
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 120 528 0 528 1 1
- length count
-3 16
-4 40
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 74 308 0 308 1 1
- length count
-2 2
-3 16
-4 24
-5 32
+shell> for i in $(seq 1 15); do echo "# Multiplication by ${i}"; QuineMcCluskey-n16-O3-DNDEBUG ss_byte2_4_field_mul_full_${i}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG; done
+# Multiplication by 1
+     n       c        l
+     8       8       16
+ length   count
+      2       8
+# Multiplication by 2
+     n       c        l
+     8      14       36
+ length   count
+      2       6
+      3       8
+# Multiplication by 3
+     n       c        l
+     8     120      528
+ length   count
+      3      16
+      4      40
+      5      64
+# Multiplication by 4
+     n       c        l
+     8      32      108
+ length   count
+      2       4
+      3      12
+      4      16
+# Multiplication by 5
+     n       c        l
+     8     120      528
+ length   count
+      3      16
+      4      40
+      5      64
+# Multiplication by 6
+     n       c        l
+     8     132      580
+ length   count
+      3      12
+      4      56
+      5      64
+# Multiplication by 7
+     n       c        l
+     8     132      580
+ length   count
+      3      12
+      4      56
+      5      64
+# Multiplication by 8
+     n       c        l
+     8      74      308
+ length   count
+      2       2
+      3      16
+      4      24
+      5      32
+# Multiplication by 9
+     n       c        l
+     8      14       36
+ length   count
+      2       6
+      3       8
+# Multiplication by 10
+     n       c        l
+     8     120      528
+ length   count
+      3      16
+      4      40
+      5      64
+# Multiplication by 11
+     n       c        l
+     8     120      528
+ length   count
+      3      16
+      4      40
+      5      64
+# Multiplication by 12
+     n       c        l
+     8     120      528
+ length   count
+      3      16
+      4      40
+      5      64
+# Multiplication by 13
+     n       c        l
+     8      32      108
+ length   count
+      2       4
+      3      12
+      4      16
+# Multiplication by 14
+     n       c        l
+     8     120      528
+ length   count
+      3      16
+      4      40
+      5      64
+# Multiplication by 15
+     n       c        l
+     8      74      308
+ length   count
+      2       2
+      3      16
+      4      24
+      5      32
    \endverbatim
    </li>
    <li> Computing minimum representations:
@@ -123,21 +138,22 @@ shell> for i in $(seq 1 15); do QuineMcCluskey-n16-O3-DNDEBUG ss_byte2_4_field_m
      Satisfiability/Optimisation/minimise_cnf_cryptominisat. </li>
      <li> Statistics:
      \verbatim
-maxima> for i : 2 thru 15 do print(statistics_fcs(ev_hm(ss_field_cnfs,[4,i])));
-[8,9,22,3,2]
-[8,16,52,4,3]
-[8,11,30,3,2]
-[8,16,56,4,3]
-[8,16,60,4,3]
-[8,16,60,4,3]
-[8,13,42,4,2]
-[8,9,22,3,2]
-[8,16,52,4,3]
-[8,16,52,4,3]
-[8,16,52,4,3]
-[8,11,30,3,2]
-[8,16,52,4,3]
-[8,13,42,4,2]
+maxima> for i : 2 thru 15 do print(i, ":", statistics_fcs(ev_hm(ss_field_cnfs,[4,i])));
+
+2 : [8,9,22,3,2]
+3 : [8,16,52,4,3]
+4 : [8,11,30,3,2]
+5 : [8,16,56,4,3]
+6 : [8,16,60,4,3]
+7 : [8,16,60,4,3]
+8 : [8,13,42,4,2]
+9 : [8,9,22,3,2]
+10 : [8,16,52,4,3]
+11 : [8,16,52,4,3]
+12 : [8,16,52,4,3]
+13 : [8,11,30,3,2]
+14 : [8,16,52,4,3]
+15 : [8,13,42,4,2]
      \endverbatim
      </li>
      <li> The hardness of all minimum representations of the AES 4-bit field
@@ -149,26 +165,34 @@ maxima> for i : 2 thru 15 do print(statistics_fcs(ev_hm(ss_field_cnfs,[4,i])));
        </li>
        <li> Computing the hardness:
        \verbatim
-for i : 2 thru 15 do print(sconcat("hd(F_mul",i, ") = ", hardness_cs(setify(ev_hm(ss_field_cnfs,[4,i])[2]))));
-hd(F_mul2) = 2
-hd(F_mul3) = 2
-hd(F_mul4) = 2
-hd(F_mul5) = 2
-hd(F_mul6) = 3
-hd(F_mul7) = 3
-hd(F_mul8) = 2
-hd(F_mul9) = 2
-hd(F_mul10) = 2
-hd(F_mul11) = 2
-hd(F_mul12) = 2
-hd(F_mul13) = 2
-hd(F_mul14) = 2
-hd(F_mul15) = 2
+maxima> for i : 2 thru 15 do print(i, hardness_cs(setify(ev_hm(ss_field_cnfs,[4,i])[2])));
+2 2
+3 2
+4 2
+5 2
+6 3
+7 3
+8 2
+9 2
+10 2
+11 2
+12 2
+13 2
+14 2
+15 2
+maxima> setify(create_list(hardness_cs(setify(ev_hm(ss_field_cnfs,[4,i])[2])),i,2,15));
+{2,3}
        \endverbatim
        </li>
-       <li> In all cases we consider so far (2 and 3), the hardness of the
-       minimum translation is 2 for the 4-bit AES field multiplications.
-       </li>
+       <li> The minimum representations that we have so far considered, for
+       the 4-bit multiplications by constants in {2,...,15} have hardness in
+       {2,3}. </li>
+       <li> We must investigate *all* minimum representations of the 4-bit
+       multiplications by constants in {2,...,15}. </li>
+       <li> The hardness for all minimum representations is known for the
+       4-bit multiplication by 02, discussed in
+       "Generating all minimum representations via hypergraph transversals"
+       below. </li>
       </ul>
      </li>
     </ul>
@@ -201,8 +225,19 @@ maxima> F2 : read_fcl_f("AllMinimumCNFs_ss_byte2_4_field_mul_full_2_2011-09-28-1
    [[1,2,3,4,5,6,7,8],
     [{-5,2},{-2,5},{-6,3},{-3,6},{-7,1,4},{-4,1,7},{-8,-7,-4},{-8,4,7},{-1,8}]]
 
-maxima> map(hardness_cs, [setify(F[2]),setify(F2[2])]);
- [2,2]
+maxima> setify(map(hardness_cs, [setify(F[2]),setify(F2[2])]));
+{2}
+     \endverbatim
+     </li>
+     <li> Minimum representations for multiplication by 03:
+     \verbatim
+shell> ${OKPLATFORM}/OKsystem/OKlib/Satisfiability/Optimisation/all_minimum_cnf AES_byte_field_mul_full_3.cnf
+shell> ls -1  AllMinimumCNFs_ss_byte2_4_field_mul_full_3_2011-09-28-161343/MinCNFs/ | wc -l
+33
+maxima> oklib_load_all()$
+maxima> F_min_3_l : create_list(read_fcl_f(sconcat("AllMinimumCNFs_ss_byte2_4_field_mul_full_3_2011-09-28-161343/MinCNFs/",i,".cnf")),i,1,33);
+maxima> setify(map(lambda([FF], hardness_cs(setify(FF[2]))), F_min_3_l));
+{2}
      \endverbatim
      </li>
      <li> We need this data for all multiplications. </li>
