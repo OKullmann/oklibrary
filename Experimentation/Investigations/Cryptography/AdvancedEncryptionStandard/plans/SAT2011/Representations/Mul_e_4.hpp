@@ -195,21 +195,21 @@ maxima> for i : 2 thru 15 do print(i, ":", statistics_fcs(ev_hm(ss_field_cnfs,[4
        </li>
        <li> Computing the hardness:
        \verbatim
-maxima> for i : 2 thru 15 do print(sconcat("hd(",i, ") = ", hardness_cs(setify(ev_hm(ss_field_cnfs,[4,i])[2]))));
-hd(2) = 2
-hd(3) = 2
-hd(4) = 2
-hd(5) = 2
-hd(6) = 3
-hd(7) = 3
-hd(8) = 2
-hd(9) = 2
-hd(10) = 2
-hd(11) = 2
-hd(12) = 2
-hd(13) = 2
-hd(14) = 2
-hd(15) = 2
+maxima> for i : 2 thru 15 do print(i, hardness_cs(setify(ev_hm(ss_field_cnfs,[4,i])[2])));
+2 2
+3 2
+4 2
+5 2
+6 3
+7 3
+8 2
+9 2
+10 2
+11 2
+12 2
+13 2
+14 2
+15 2
 maxima> setify(create_list(hardness_cs(setify(ev_hm(ss_field_cnfs,[4,i])[2])),i,2,15));
 {2,3}
        \endverbatim
