@@ -10,10 +10,35 @@ License, or any later version. */
   \brief Investigations regarding pigeonhole clause-sets
 
 
-  \todo Collect the known data.
+  \todo Statistics on the performance of SAT solvers
   <ul>
-   <li> ComputerAlgebra/Satisfiability/Lisp/Backtracking/plans/OKsolver2002.hpp
+   <li> We should at least consider PHP^{2m}_m, PHP^{m+1}_m amd PHP^m_m. </li>
+   <li> Statistics for all our solvers, for m = 0, ... until it takes several
+   hours, with curve fittings. </li>
+   <li> Also SplittingViaOKsolver+minisat is to be considered.
+    <ol>
+     <li> For PHP^16_15 apparenty D >= 100 for the splitting should be
+     considered. </li>
+     <li> However also for D=100 it doesn't seem successful; so perhaps
+     higher D needs to be used. </li>
+     <li> Perhaps these are examples where this approach is not efficient.
+     Perhaps since even for D=100 no r_2-reductions were found? </li>
+     <li> For D=120 360360 sub-instances were created (again 0 2-reductions).
+     And regarding the full assignments, all assignments achieved *exactly*
+     130 variables. While the number of decision-variables in them range
+     from 5 to 60 (without gaps). This seems all to be very systematic. </li>
+     <li> Still minisat-2.2.0 takes a long time just on the first instance.
+     This perhaps is much worse than minisat-2.2.0 alone on the instance. </li>
+     <li> Perhaps here the application of the partial assignments doesn't make
+     the instances much easier. </li>
+    </ol>
    </li>
+   <li> We also consider the performance of E_1(m) and E_2(m), where E_1 is
+   the original Cook-extension of PHP^{m+1}_m, and E_2 is the extension of E_1
+   obtained by using the resolution-refutation. </li>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/Backtracking/plans/OKsolver2002.hpp
+   for some investigations into the trees computed by the OKsolver-2002. </li>
   </ul>
 
 
