@@ -12,9 +12,9 @@ License, or any later version. */
 
   \todo Basic data
   <ul>
-   <li> The CNF-files " ss_byte2_4_field_mul_full_${e}.cnf" are created by the
+   <li> The CNF-files "ss_byte2_4_field_mul_full_${e}.cnf" are created by the
    Maxima-function output_rijnmult_fullcnf_stdname(e); in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac,
+   Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac,
    which are full clause-sets with 16 variables and 2^8 - 2^4 = 240
    clauses:
    \verbatim
