@@ -255,8 +255,19 @@ maxima> F2 : read_fcl_f("AllMinimumCNFs_ss_byte2_4_field_mul_full_2_2011-09-28-1
    [[1,2,3,4,5,6,7,8],
     [{-5,2},{-2,5},{-6,3},{-3,6},{-7,1,4},{-4,1,7},{-8,-7,-4},{-8,4,7},{-1,8}]]
 
-maxima> map(hardness_cs, [setify(F[2]),setify(F2[2])]);
- [2,2]
+maxima> setify(map(hardness_cs, [setify(F[2]),setify(F2[2])]));
+{2}
+     \endverbatim
+     </li>
+     <li> Minimum representations for multiplication by 03:
+     \verbatim
+shell> ${OKPLATFORM}/OKsystem/OKlib/Satisfiability/Optimisation/all_minimum_cnf AES_byte_field_mul_full_3.cnf
+shell> ls -1  AllMinimumCNFs_ss_byte2_4_field_mul_full_3_2011-09-28-161343/MinCNFs/ | wc -l
+33
+maxima> oklib_load_all()$
+maxima> F_min_3_l : create_list(read_fcl_f(sconcat("AllMinimumCNFs_ss_byte2_4_field_mul_full_3_2011-09-28-161343/MinCNFs/",i,".cnf")),i,1,33);
+maxima> setify(map(lambda([FF], hardness_cs(setify(FF[2]))), F_min_3_l));
+{2}
      \endverbatim
      </li>
      <li> We need this data for all multiplications. </li>
