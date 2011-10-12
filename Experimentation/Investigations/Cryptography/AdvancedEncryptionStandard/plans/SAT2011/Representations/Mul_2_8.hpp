@@ -69,10 +69,8 @@ shell> echo AES_byte_field_mul_full_2.cnf.trans_* | wc -w
      \verbatim
 maxima> Mul2_min_F_l : create_list(read_fcl_f(sconcat("AES_byte_field_mul_full_2.cnf.trans_",i)),i,1,102)$
 maxima> Mul2_pi_F : min_resolution_closure_cs(setify(Mul2_min_F_l[1][2]))$
-maxima> Mul2_min_F_hd_l : create_list(hardness_wpi_cs(setify(Mul2_min_F_l[i][2]),Mul2_pi_F[1]),i,1,102);
-[2,2,2,2,2,2,2,2,3,2,2,2,2,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,
- 2,2,2,2,2,2,3,2,2,2,2,3,3,2,2,2,2,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
- 2,2,3,2,2,2,2,3,3,3,2,2,2,2,2,2,2,2,2,2,2,3,2,2,2,2]
+maxima> Mul2_min_F_hd_l : setify(create_list(hardness_wpi_cs(setify(Mul2_min_F_l[i][2]),Mul2_pi_F[1]),i,1,102));
+{2,3}
      \endverbatim
      </li>
      <li> For the definition and computation of hardness in general, see
