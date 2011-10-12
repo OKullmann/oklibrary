@@ -26,95 +26,140 @@ maxima> for e : 1 thru 15 do output_ssmult_fullcnf_stdname(e,2,4,ss_polynomial_2
    <li> Computing the prime implicates statistics:
    \verbatim
 maxima> for i : 1 thru 15 do output_ssmult_fullcnf_stdname(i, 2, 4, ss_polynomial_2_4);
-shell> for i in $(seq 1 15); do QuineMcCluskey-n16-O3-DNDEBUG ss_byte2_4_field_mul_full_${i}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG; done
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 8 16 0 16 1 1
- length count
-2 8
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 14 36 0 36 1 1
- length count
-2 6
-3 8
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 120 528 0 528 1 1
- length count
-3 16
-4 40
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 32 108 0 108 1 1
- length count
-2 4
-3 12
-4 16
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 120 528 0 528 1 1
- length count
-3 16
-4 40
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 132 580 0 580 1 1
- length count
-3 12
-4 56
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 132 580 0 580 1 1
- length count
-3 12
-4 56
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 74 308 0 308 1 1
- length count
-2 2
-3 16
-4 24
-5 32
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 14 36 0 36 1 1
- length count
-2 6
-3 8
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 120 528 0 528 1 1
- length count
-3 16
-4 40
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 120 528 0 528 1 1
- length count
-3 16
-4 40
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 120 528 0 528 1 1
- length count
-3 16
-4 40
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 32 108 0 108 1 1
- length count
-2 4
-3 12
-4 16
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 120 528 0 528 1 1
- length count
-3 16
-4 40
-5 64
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-8 74 308 0 308 1 1
- length count
-2 2
-3 16
-4 24
-5 32
+shell> for i in $(seq 1 15); do echo "# Multiplication by ${i}"; echo; QuineMcCluskey-n16-O3-DNDEBUG ss_byte2_4_field_mul_full_${i}.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG; echo; done
+
+# Multiplication by 1
+
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      8       8      8      8       8       16     NA     NA       8       16     1
+ length   count
+      2       8
+
+# Multiplication by 2
+
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      8      14      8      8      14       36     NA     NA      14       36     1
+ length   count
+      2       6
+      3       8
+
+# Multiplication by 3
+
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      8     120      8      8     120      528     NA     NA     120      528     1
+ length   count
+      3      16
+      4      40
+      5      64
+
+# Multiplication by 4
+
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      8      32      8      8      32      108     NA     NA      32      108     1
+ length   count
+      2       4
+      3      12
+      4      16
+
+# Multiplication by 5
+
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      8     120      8      8     120      528     NA     NA     120      528     1
+ length   count
+      3      16
+      4      40
+      5      64
+
+# Multiplication by 6
+
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      8     132      8      8     132      580     NA     NA     132      580     1
+ length   count
+      3      12
+      4      56
+      5      64
+
+# Multiplication by 7
+
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      8     132      8      8     132      580     NA     NA     132      580     1
+ length   count
+      3      12
+      4      56
+      5      64
+
+# Multiplication by 8
+
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      8      74      8      8      74      308     NA     NA      74      308     1
+ length   count
+      2       2
+      3      16
+      4      24
+      5      32
+
+# Multiplication by 9
+
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      8      14      8      8      14       36     NA     NA      14       36     1
+ length   count
+      2       6
+      3       8
+
+# Multiplication by 10
+
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      8     120      8      8     120      528     NA     NA     120      528     1
+ length   count
+      3      16
+      4      40
+      5      64
+
+# Multiplication by 11
+
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      8     120      8      8     120      528     NA     NA     120      528     1
+ length   count
+      3      16
+      4      40
+      5      64
+
+# Multiplication by 12
+
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      8     120      8      8     120      528     NA     NA     120      528     1
+ length   count
+      3      16
+      4      40
+      5      64
+
+# Multiplication by 13
+
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      8      32      8      8      32      108     NA     NA      32      108     1
+ length   count
+      2       4
+      3      12
+      4      16
+
+# Multiplication by 14
+
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      8     120      8      8     120      528     NA     NA     120      528     1
+ length   count
+      3      16
+      4      40
+      5      64
+
+# Multiplication by 15
+
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      8      74      8      8      74      308     NA     NA      74      308     1
+ length   count
+      2       2
+      3      16
+      4      24
+      5      32
    \endverbatim
    </li>
    <li> Computing minimum representations:
@@ -123,21 +168,22 @@ shell> for i in $(seq 1 15); do QuineMcCluskey-n16-O3-DNDEBUG ss_byte2_4_field_m
      Satisfiability/Optimisation/minimise_cnf_cryptominisat. </li>
      <li> Statistics:
      \verbatim
-maxima> for i : 2 thru 15 do print(statistics_fcs(ev_hm(ss_field_cnfs,[4,i])));
-[8,9,22,3,2]
-[8,16,52,4,3]
-[8,11,30,3,2]
-[8,16,56,4,3]
-[8,16,60,4,3]
-[8,16,60,4,3]
-[8,13,42,4,2]
-[8,9,22,3,2]
-[8,16,52,4,3]
-[8,16,52,4,3]
-[8,16,52,4,3]
-[8,11,30,3,2]
-[8,16,52,4,3]
-[8,13,42,4,2]
+maxima> for i : 2 thru 15 do print(i, ":", statistics_fcs(ev_hm(ss_field_cnfs,[4,i])));
+
+2 : [8,9,22,3,2]
+3 : [8,16,52,4,3]
+4 : [8,11,30,3,2]
+5 : [8,16,56,4,3]
+6 : [8,16,60,4,3]
+7 : [8,16,60,4,3]
+8 : [8,13,42,4,2]
+9 : [8,9,22,3,2]
+10 : [8,16,52,4,3]
+11 : [8,16,52,4,3]
+12 : [8,16,52,4,3]
+13 : [8,11,30,3,2]
+14 : [8,16,52,4,3]
+15 : [8,13,42,4,2]
      \endverbatim
      </li>
      <li> The hardness of all minimum representations of the AES 4-bit field
