@@ -13,14 +13,15 @@ License, or any later version. */
   \todo Best ubcsat-solver
   <ul>
    <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
+   <li>
+   \verbatim
+ E=run_ubcsat("VanDerWaerden_2-4-10_328.cnf",runs=100,cutoff=10000000)
   </ul>
 
 
   \todo vanderwaerden_2(4,10) > 328
   <ul>
-   <li> The (weak) conjecture is vanderwaerden_2(4,10) = 329. </li>
-   <li> We don't have a nice prediction, except of that it's greater (or
-   equal) than 309. </li>
+   <li> The conjecture is vanderwaerden_2(4,10) = 329. </li>
    <li> Evaluating
    \verbatim
 > E = run_ubcsat("VanDerWaerden_2-4-10_350.cnf", runs=100,cutoff=100000,monitor=TRUE)
@@ -295,7 +296,13 @@ UNSAT for n=329
    <li> Starting from scratch, with adaptg2wsat:
    \verbatim
 > k1=4 k2=10 n0=11 alg="adaptg2wsat" runs=1000 cutoff=400000000; nohup RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} &
-
+# Finds all solutions in the first round with the old solution, except for
+# n=326, which needed 52 round, and n=327, which needed 3 rounds with the old
+# solution.
+> E=read_ubcsat("VanDerWaerden_2-4-10_329.cnf_OUT")
+  1   2   3   4   5  22  23  24  25  26
+ 22 330 189  73  13   1   1   3   4   1
+637
    \endverbatim
    </li>
   </ul>

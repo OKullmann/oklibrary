@@ -53,8 +53,26 @@ License, or any later version. */
 490,497,498,506,507,520,523,529,530,532,
 540,541,544,545,546,551,555,561
    \endverbatim
+   or, another run under the same
+   conditions:
+   \verbatim
+8,17,21,22,30,31,38,44,45,53,
+55,56,60,61,64,74,76,79,80,81,
+85,87,91,93,95,96,102,109,118,119,
+132,141,144,150,153,156,157,158,163,167,
+173,177,178,181,182,188,190,199,202,206,
+216,225,229,232,238,239,241,243,249,250,
+255,258,260,268,273,274,275,278,279,281,
+285,287,289,290,299,303,312,322,329,336,
+338,340,344,346,350,351,355,365,367,370,
+375,378,386,387,393,396,409,410,419,423,
+432,437,441,444,447,448,449,452,454,458,
+462,464,467,468,469,475,479,483,484,490,
+497,498,506,507,520,523,529,530,532,540,
+541,544,545,546,551,555,561
+   \endverbatim
    </li>
-   <li> Start with the palindromic solution for n=537. XXX </li>
+   <li> Start with the palindromic solution for n=537: XXX </li>
    <li> Finding best ubcsat-algorithm:
    \verbatim
 > VanderWaerdenCNF-O3-DNDEBUG 4 13 537
@@ -147,7 +165,14 @@ FlipsPerSecond = 147198
  1  2  9 14 19 54 85 45 26  2
 257
    \endverbatim
-   Running the same command again: XXX
+   Running the same command again: again finding all solutions in the first
+   run with the old solution, and then
+   \verbatim
+> E=read_ubcsat("VanDerWaerden_2-4-13_563.cnf_OUT")
+ 1 25 26 27 28 29 30 31 32
+ 1  3  3 16 23 36 25  7  1
+115
+   \endverbatim
    </li>
   </ul>
 

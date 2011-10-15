@@ -256,6 +256,12 @@ gwsat
  1  1  4  4 11 17 14 20 20  6  2
    \endverbatim
    So for now let's consider irots as best. </li>
+   <li> Doubling the cutoff (and on 32-bit machine, so saps etc. work):
+   \verbatim
+E=run_ubcsat("VanDerWaerden_2-4-9_308.cnf",runs=100,cutoff=4000000)
+XXX
+   \endverbatim
+   </li>
   </ul>
 
 

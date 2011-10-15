@@ -16,6 +16,12 @@ License, or any later version. */
    <li> For vdw_2(4,12) it seems adaptg2wsat is best, so we take this as the
    starting poin (see
    Investigations/RamseyTheory/VanderWaerdenProblems/plans/4-k/12.hpp). </li>
+   <li>
+   \verbatim
+E=run_ubcsat("VanDerWaerden_2-4-11_358.cnf",runs=100,cutoff=10000000)
+XXX
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -52,10 +58,12 @@ License, or any later version. */
    </li>
    <li> n=359:
     <ol>
-     <li> Starting with the solution for n=359:
+     <li> Starting with the solution for n=358:
      \verbatim
 > k1=4 k2=11 n0=358 alg="adaptg2wsat" runs=400 cutoff=400000000 oldsol="VanDerWaerden_2-4-11_358.cnf_sol"; nohup RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} ${oldsol} &
-
+  1   2   3   4   8   9  10  11
+134 148  38  16   2   6  31  25
+400
      \endverbatim
      </li>
     </ol>

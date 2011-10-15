@@ -127,9 +127,13 @@ fps: 124954
  3  4  5  6  7
  1  1  5 26 10
 43
-XXX
    \endverbatim
    </li>
+   <li> Starting again from scratch:
+   \verbatim
+k1=5 k2=9 n0=10 alg="rnovelty" runs=1000 cutoff=400000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff}
+XXX
+   \endverbatim
   </ul>
 
 

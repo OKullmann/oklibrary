@@ -12,7 +12,12 @@ License, or any later version. */
 
   \todo vanderwaerden_2(5,10) > 611
   <ul>
-   <li> Find best ubcsat-solver. </li>
+   <li> Find best ubcsat-solver:
+   \verbatim
+> E=run_ubcsat("VanDerWaerden_2-5-10_611.cnf",runs=100,cutoff=10000000)
+XXX
+   \endverbatim
+   </li>
    <li> Start with the palindromic solution. </li>
   </ul>
 
