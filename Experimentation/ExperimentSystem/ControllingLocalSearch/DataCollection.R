@@ -590,6 +590,8 @@ run_ubcsat_stats_path = function(tmp_directory, alg_safe_name) {
                sep=""))
 }
 
+# ??? THE FOLLOWING IS APPARENTLY FALSE, AND IT IS MUCH TOO LONG AND MUCH
+# TOO IMRPECISE ???
 # Takes the following parameters for which "run_ubcsat" must already
 # been run and then returns the result of the corresponding
 # "run_ubcsat" command, reading the results from the previously
