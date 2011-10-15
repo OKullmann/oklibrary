@@ -97,7 +97,22 @@ gwsat
  1  1  5 16 29 29 17  2
 FlipsPerSecond = 204051
 # Aborted after processing 12 algorithms
->  E=run_ubcsat("VanDerWaerden_2-4-12_400.cnf",runs=100,cutoff=10000000,names(tail(run_ubcsat_cnf_algs,-12)))
+>  E=run_ubcsat("VanDerWaerden_2-4-12_400.cnf",runs=100,cutoff=10000000,include_algs=names(tail(run_ubcsat_cnf_algs,-12)))
+1. rnovp:
+ 5  6  7  8  9
+ 4 21 50 24  1
+fps: 137936
+2. rots:
+ 5  7  8  9 10 11
+ 1  6 23 32 36  2
+fps: 204549
+3. samd:
+ 5  7  8  9 10 11 12 13 14 15 17 18 20 21
+ 1  3 14 25 18 18  9  4  2  2  1  1  1  1
+fps: 296353
+# INCOMPLETE
+
+>  E=run_ubcsat("VanDerWaerden_2-4-12_400.cnf",runs=100,cutoff=10000000)
 XXX
    \endverbatim
    Could be just chance, but "adaptnovelty+ -v params" seems best (first
@@ -107,30 +122,30 @@ XXX
   </ul>
 
 
-  \todo vanderwaerden_2(4,12) > 400
+  \todo vanderwaerden_2(4,12) > 401
   <ul>
+   <li> Certificate for n=401:
+   \verbatim
+4,10,13,21,26,27,30,34,43,44,
+49,57,66,67,71,75,77,78,81,82,
+83,86,92,96,98,101,102,103,107,109,
+113,115,117,118,124,131,140,141,150,154,
+157,163,164,166,168,172,174,175,179,180,
+183,185,193,195,200,203,204,206,210,212,
+214,215,224,228,237,238,247,254,260,261,
+263,265,269,271,272,275,276,280,286,290,
+295,300,303,309,318,321,322,323,326,329,
+339,344,346,348,351,360,361,367,372,380,
+382,391,393,394,395,399,401
+   \endverbatim
+   </li>
    <li> Start with the palindromic solution for n=393:
    \verbatim
 > k1=4 k2=12 n=393 cutoff=1000000 alg="adaptg2wsat" N=100 expdate="2011-08-29-174820"; export k1 k2 n; cat Exp_PdVanderWaerden_2-${k1}-${k2}_${alg}-${N}-${cutoff}_${expdate}/VanDerWaerden_pd_2-${k1}-${k2}_${n}.cnf_sol | PdExtend-O3-DNDEBUG ${n} > solution-${k1}-${k2}-${n}
 
 > RunVdWk1k2 ${k1} ${k2} ${n} adaptg2wsat 100 100000000 solution-${k1}-${k2}-${n}
    \endverbatim
-   </li>
-   <li> n=400 found satisfiable (above run found a solution for n=394 in run
-   14) with certificate
-   \verbatim
-6,7,8,10,19,21,29,34,40,41,
-50,53,55,57,62,72,75,78,79,80,
-83,92,98,101,106,111,115,121,125,126,
-129,130,132,136,138,140,141,147,154,163,
-164,173,177,186,187,189,191,195,197,198,
-201,206,208,216,218,221,222,226,227,229,
-233,235,237,238,244,247,251,260,261,270,
-277,283,284,286,288,292,294,298,299,300,
-303,305,309,318,319,323,324,326,330,334,
-335,344,352,357,358,367,371,374,375,380,
-388,391,392,397
-   \endverbatim
+    n=400 found satisfiable.
    though 100 runs with adaptg2wsat and cutoff=100000000 don't find a solution
    for n=400:
    \verbatim
@@ -223,6 +238,28 @@ XXX
      Better than ddfw; appears better than "adaptnovelty+ -v params" but that
      could be chance; likely worse than adaptg2wsat. </li>
     </ol>
+   </li>
+   <li> Starting from scratch with
+   "RunVdWk1k2 4 12 12 adaptg2wsat 200 200000000" finds a solution for n=401,
+   where for the following n-values a solution was not found using the previous
+   solution:
+   \verbatim
+Exp_VanderWaerden_2-4-12_12_adaptg2wsat-200-200000000_2011-09-07-054150> cat Statistics
+    368     2   93604057 1690129001  r
+    372    10  173104383  862966825  r
+    375    14  156911897 1374830150  r
+    390     2  107902833 1147100240  r
+    393     2   44450618 1573666775  r
+    394   125  155875353  978652971  r
+    397   136   64030169 2773919598  r
+   \endverbatim
+   and where
+   \verbatim
+> E=read_ubcsat("VanDerWaerden_2-4-12_402.cnf_OUT",nrows=200)
+  1   2   3   4   5   6   7
+  3  13   1   6  71 104   2
+200
+   \endverbatim
    </li>
   </ul>
 
