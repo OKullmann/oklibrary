@@ -201,7 +201,7 @@ nbfcl_p(FF) :=
  listp(FF) and is(length(FF)=2) and listnorep_p(FF[1]) and nbcl_p(FF[2]) and
   subsetp(var_nbcl(FF[2]),setify(FF[1]))$
 
-var_nbfcl(FF) := setify(FF[1])$
+var_nbfcl(FF) := FF[1]$
 val_nbfcl(FF) := val_nbcl(FF[2])$
 
 lit_nbfcl(FF) := lit_nbcl(FF[2])$
@@ -287,25 +287,26 @@ snbfcsfd_p(FF) := block(
 /*
  A "non-boolean formal clause-list with function domain" ("nbfclfd") is
  a triple [V,F,D] such that [V,F] is a non-boolean formal clause-list and
- D is a map defined for all v in V such that D(v) is a set of values and
- for all literals x in F with var(x)=v we have val(x) in D(v).
+ D is a map defined for all v in V such that D(v) is a repetition-free list
+ of values and for all literals x in F with var(x)=v we have val(x) in D(v).
 */
 nbfclfd_p(FF) := block(
  [e : errcatch(
    listp(FF) and is(length(FF)=3) and nbfcl_p(rest(FF,-1)) and
-   every_s(lambda([x], block([d:FF[3](var_nbl(x))], setp(d) and elementp(val_nbl(x),d))), lit_nbfcl(FF)))],
+   every_s(lambda([x], block([d:FF[3](var_nbl(x))], listnorep_p(d) and member(val_nbl(x),d))), lit_nbfcl(FF)))],
   not emptyp(e) and e[1])$
 
 /*
  A "signed non-boolean formal clause-list with function domain" ("snbfclfd") is
  a triple [V,F,D] such that [V,F] is a signed non-boolean formal clause-list
- and D is a map defined for all v in V such that D(v) is a set of values and
- for all literals x in F with var(x)=v we have val(x) in D(v).
+ and D is a map defined for all v in V such that D(v) is a repetition-free
+ list of values and for all literals x in F with var(x)=v we have val(x) in
+ D(v).
 */
 snbfclfd_p(FF) := block(
  [e : errcatch(
    listp(FF) and is(length(FF)=3) and snbfcl_p(rest(FF,-1)) and
-   every_s(lambda([x], block([d:FF[3](var_snbl(x))], setp(d) and elementp(val_snbl(x),d))), lit_snbfcl(FF)))],
+   every_s(lambda([x], block([d:FF[3](var_snbl(x))], listnorep_p(d) and member(val_snbl(x),d))), lit_snbfcl(FF)))],
   not emptyp(e) and e[1])$
 
 
@@ -348,11 +349,11 @@ nbcl2nbfcl(F) := [listify(var_nbcs(F)),F]$
 snbcl2snbfcl(F) := [listify(var_snbcs(F)),F]$
 
 nbfcs2nbfcsud(FF) := endcons(val_nbfcs(FF), FF)$
-nbfcl2nbfclud(FF) := endcons(val_nbfcl(FF), FF)$
+nbfcl2nbfclud(FF) := endcons(listify(val_nbfcl(FF)), FF)$
 
-nbfcsud2nbfcsfd(FF) := endcons(buildq([D:FF[3]], lambda([v],D)), rest(FF,-1))$
+nbfcsud2nbfcsfd(FF) := endcons(buildq([D:FF[3]], lambda([v],listify(D))), rest(FF,-1))$
 snbfcsud2snbfcsfd(FF) := nbfcsud2nbfcsfd(FF)$
-nbfclud2nbfclfd(FF) := endcons(buildq([D:FF[3]], lambda([v],D)), rest(FF,-1))$
+nbfclud2nbfclfd(FF) := endcons(buildq([D:FF[3]], lambda([v],listify(D))), rest(FF,-1))$
 snbfclud2snbfclfd(FF) := nbfclud2nbfclfd(FF)$
 
 /*!

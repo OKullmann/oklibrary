@@ -127,7 +127,9 @@ okltest_nbcs2nbcl(nbcs2nbcl);
 okltest_nbcl2nbcs(nbcl2nbcs);
 
 okltest_nbfcs2nbfcl(nbfcs2nbfcl);
+okltest_snbfcs2snbfcl(snbfcs2snbfcl);
 okltest_nbfcl2nbfcs(nbfcl2nbfcs);
+okltest_snbfcl2snbfcs(snbfcl2snbfcs);
 
 okltest_nbfcs2nbcs(nbfcs2nbcs);
 okltest_nbfcl2nbcl(nbfcl2nbcl);
@@ -136,13 +138,22 @@ okltest_nbfcsud2nbfclud(nbfcsud2nbfclud);
 okltest_nbfclud2nbfcsud(nbfclud2nbfcsud);
 
 okltest_nbfcsfd2nbfclfd(nbfcsfd2nbfclfd);
+okltest_snbfcsfd2snbfclfd(snbfcsfd2snbfclfd);
 okltest_nbfclfd2nbfcsfd(nbfclfd2nbfcsfd);
+okltest_snbfclfd2snbfcsfd(snbfclfd2snbfcsfd);
 
 okltest_nbcs2nbfcs(nbcs2nbfcs);
+okltest_snbcs2snbfcs(snbcs2snbfcs);
 okltest_nbcl2nbfcl(nbcl2nbfcl);
+okltest_snbcl2snbfcl(snbcl2snbfcl);
+
+okltest_nbfcs2nbfcsud(nbfcs2nbfcsud);
+okltest_nbfcl2nbfclud(nbfcl2nbfclud);
 
 okltest_nbfcsud2nbfcsfd(nbfcsud2nbfcsfd);
-
+okltest_snbfcsud2snbfcsfd(snbfcsud2snbfcsfd);
+okltest_nbfclud2nbfclfd(nbfclud2nbfclfd);
+okltest_snbfclud2snbfclfd(snbfclud2snbfclfd);
 
 /*!
 \endhtmlonly
