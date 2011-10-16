@@ -22,6 +22,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Search.mac");
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 
 /* *******************
@@ -63,6 +65,147 @@ resolution_closure_treecomp_cs(F,target) := block(
    from clause-set F:
 */
 treecomp_refutation_cs(F) := ev_hm(resolution_closure_treecomp_cs(F,{}),{})$
+
+
+/* ***********************************
+   * Short resolution proofs via SAT *
+   ***********************************
+*/
+
+/*
+  Consider an ordered formal clause-set F. Let n := n(F), c := c(F).
+  It is to be decided whether F has a resolution refutation using at most
+  k resolution steps, for k >= 1.
+
+  The signed formal non-boolean clause-list
+    shortresref_fcl2snbfclfd(F,k)
+  has its satisfying assignments correspond to such resolution refutations.
+*/
+
+/* Variables */
+
+kill(sres_cl)$
+declare(sres_cl, noun)$
+sres_cl_var(p,i) := nounify(sres_cl)(p,i)$
+/* sres_cl(p,i) in {-1,0,+1} with meaning that position p in clause i in
+   the resolution refutation is negative, not occurring, or positive;
+   p in {1,...,n(F)}, i in {1,...,c(F)+k}.
+*/
+
+kill(sres_rp1, sres_rp2)$
+declare(sres_rp1, noun, sres_rp2, noun)$
+sres_rp1_var(i) := nounify(sres_rp1)(i)$
+sres_rp2_var(i) := nounify(sres_rp2)(i)$
+/* sres_rp1_var(i), sres_rp2_var(i) in {1,...,i-1}
+   mean the indices of the two parent clauses.
+*/
+
+kill(sres_rv)$
+declare(sres_rv, noun)$
+sres_rv_var(i) := nounify(sres_rv)(i)$
+/* sres_rv(i) in {1,...,n} for i in {c(F)+1,...,c(F)+k} means the
+   resolution variable for clause i in the resolution proof.
+*/
+
+var_shortres(n,c,k) := append(
+ create_list(sres_cl_var(p,i), p,1,n, i,1,c+k),
+ create_list(sres_rp1_var(i), i,c+1,c+k),
+ create_list(sres_rp2_var(i), i,c+1,c+k),
+ create_list(sres_rv_var(i), i,c+1,c+k)
+)$
+
+domain_shortres(n) := buildq([N:setn(n)],
+  lambda([v],
+    if op(v)=sres_cl then {-1,0,+1}
+    elseif op(v)=sres_rp1 or op(v)=sres_rp2 then setn(first(args(v))-1)
+    else N
+  )
+)$
+
+
+/* Clauses */
+
+/* Resolution variables not in resolvent (c+1 <= i <= c+k): */
+sres_resvnresol_snbcl(i,n) :=
+  create_list({[sres_rv_var(i),v,-1], [sres_cl_var(v,i),0,+1]}, v,1,n)$
+
+/* Resolution variables in parent clauses (c+1 <= i <= c+k): */
+sres_resvparent1_snbcl(i,n) :=
+  create_list({[sres_rv_var(i),v,-1], [sres_rp1_var(i),p1,-1], [sres_cl_var(v,p1),1,+1]},
+    v,1,n, p1,1,i-1)$
+sres_resvparent2_snbcl(i,n) :=
+  create_list({[sres_rv_var(i),v,-1], [sres_rp2_var(i),p1,-1], [sres_cl_var(v,p1),-1,+1]},
+    v,1,n, p1,1,i-1)$
+
+/* No further conflicts in parent clauses (c+1 <= i <= c+k): */
+sres_noconflicts_snbcl(i,n) :=
+  lappend(create_list(
+    [{[sres_rv_var(i),v,1], [sres_rp1_var(i),p1,-1], [sres_rp2_var(i),p2,-1], [sres_cl_var(v,p1),1,-1], [sres_cl_var(v,p2),-1,-1]},
+     {[sres_rv_var(i),v,1], [sres_rp1_var(i),p1,-1], [sres_rp2_var(i),p2,-1], [sres_cl_var(v,p1),-1,-1], [sres_cl_var(v,p2),1,-1]}],
+    v,1,n, p1,1,i-1, p2,append(create_list(j,j,1,p1-1),create_list(j,j,p1+1,i-1))))$
+
+/* Literals tranferred from parent clauses to resolvent (c+1 <= i <= c+k): */
+sres_resolvent_snbcl(i,n) :=
+  lappend(create_list(
+    [{[sres_rv_var(i),v,1], [sres_rp1_var(i),p1,-1], [sres_rp2_var(i),p2,-1], [sres_cl_var(v,p1),1,-1], [sres_cl_var(v,i),1,+1]},
+     {[sres_rv_var(i),v,1], [sres_rp1_var(i),p1,-1], [sres_rp2_var(i),p2,-1], [sres_cl_var(v,p2),1,-1], [sres_cl_var(v,i),1,+1]},
+     {[sres_rv_var(i),v,1], [sres_rp1_var(i),p1,-1], [sres_rp2_var(i),p2,-1], [sres_cl_var(v,p1),-1,-1], [sres_cl_var(v,i),-1,+1]},
+     {[sres_rv_var(i),v,1], [sres_rp1_var(i),p1,-1], [sres_rp2_var(i),p2,-1], [sres_cl_var(v,p2),-1,-1], [sres_cl_var(v,i),-1,+1]},
+     {[sres_rv_var(i),v,1], [sres_rp1_var(i),p1,-1], [sres_rp2_var(i),p2,-1], [sres_cl_var(v,p1),0,-1], [sres_cl_var(v,p2),0,-1], [sres_cl_var(v,i),0,+1]}],
+  v,1,n, p1,1,i-1, p2,append(create_list(j,j,1,p1-1),create_list(j,j,p1+1,i-1))))$
+
+
+/* Clause-sets */
+
+shortres_gen_snbfclfd(n,c,k) := [
+  var_shortres(n,c,k),
+  append(lappend(create_list(sres_resvnresol_snbcl(i,n),i,c+1,c+k)),
+         lappend(create_list(sres_resvparent1_snbcl(i,n),i,c+1,c+k)),
+         lappend(create_list(sres_resvparent1_snbcl(i,n),i,c+1,c+k)),
+         lappend(create_list(sres_noconflicts_snbcl(i,n),i,c+1,c+k)),
+         lappend(create_list(sres_resolvent_snbcl(i,n),i,c+1,c+k))),
+  domain_shortres(n)]$
+
+/* Encoding a formal list of (boolean) clauses: */
+shortres_fcl2snbcl(FF) := block(
+ [n : nvar_fcl(FF), c : ncl_fcl(FF), Avar : l2ary(first(FF)), Acl : l2ary(fcl2cl(FF))],
+  create_list(
+    {[sres_cl_var(p,i), if elementp(Avar[p],Acl[i]) then 1 else if elementp(-Avar[p],Acl[i]) then -1 else 0, 1]}, i,1,c, p,1,n))$
+
+/* Encoding the empty clause as target of the proof: */
+shortres_emptycl_snbcl(n,c,k) := create_list(
+  {[sres_cl_var(p,c+k),0,1]}, p,1,n)$
+
+/* Translation of the condition that the formal clause-list FF has a resolution
+   refutation using k resolution steps:
+*/
+
+shortresref_fcl2snbfclfd(FF,k) := block([n : nvar_fcl(FF), c : ncl_fcl(FF), T],
+  T : shortres_gen_snbfclfd(n,c,k),
+  [first(T),
+   append(shortres_fcl2snbcl(FF), second(T), shortres_emptycl_snbcl(n,c,k)),
+   third(T)])$
+
+
+/* Measures for the translated formulas */
+
+nvar_shortres_snbfclfd(n,c,k) := n*(c+k) + 3*k$
+
+ncl_shortres_gen_snbfclfd(n,c,k) :=
+  n* k + /* sres_resvnresol_snbcl */
+  n* (k^2/2+c*k-k/2) * 2 + /* sres_resvparent1_snbcl, sres_resvparent2_snbcl */
+  n* (k^3/3+c*k^2-k^2+c^2*k-2*c*k+2*k/3) * 2 + /* sres_noconflicts_snbcl */
+  n* (k^3/3+c*k^2-k^2+c^2*k-2*c*k+2*k/3) * 5$ /* sres_resolvent_snbcl */
+/* Remarks:
+   sum(i-1,i,c+1,c+k) = k^2/2+c*k-k/2
+   sum((i-1)*(i-2),i,c+1,c+k) = k^3/3+c*k^2-k^2+c^2*k-2*c*k+2*k/3
+*/
+
+ncl_shortresref_snbfclfd(n,c,k) := ncl_shortres_gen_snbfclfd(n,c,k) +
+  (c+1) * n$
+
+nvar_shortres_fcl2snbfclfd(FF,k) := nvar_shortres_snbfclfd(nvar_fcl(FF), ncl_fcl(FF),k)$
+ncl_shortresref_fcl2snbfclfd(FF,k) := ncl_shortresref_snbfclfd(nvar_fcl(FF), ncl_fcl(FF),k)$
 
 /*!
 \endhtmlonly

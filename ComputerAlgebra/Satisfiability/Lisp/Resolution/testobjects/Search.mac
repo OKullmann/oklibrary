@@ -29,6 +29,13 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Search
 okltest_resolution_closure_treecomp_cs(resolution_closure_treecomp_cs);
 okltest_treecomp_refutation_cs(treecomp_refutation_cs);
 
+/* ***********************************
+   * Short resolution proofs via SAT *
+   ***********************************
+*/
+
+okltest_shortresref_fcl2snbfclfd(shortresref_fcl2snbfclfd);
+
 /*!
 \endhtmlonly
 */
