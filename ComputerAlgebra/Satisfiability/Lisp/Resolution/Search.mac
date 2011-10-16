@@ -137,8 +137,8 @@ sres_resvparent1_snbcl(i,n) :=
   create_list({[sres_rv_var(i),v,-1], [sres_rp1_var(i),p1,-1], [sres_cl_var(v,p1),1,+1]},
     v,1,n, p1,1,i-1)$
 sres_resvparent2_snbcl(i,n) :=
-  create_list({[sres_rv_var(i),v,-1], [sres_rp2_var(i),p1,-1], [sres_cl_var(v,p1),-1,+1]},
-    v,1,n, p1,1,i-1)$
+  create_list({[sres_rv_var(i),v,-1], [sres_rp2_var(i),p2,-1], [sres_cl_var(v,p2),-1,+1]},
+    v,1,n, p2,1,i-1)$
 
 /* No further conflicts in parent clauses (c+1 <= i <= c+k): */
 sres_noconflicts_snbcl(i,n) :=
@@ -164,7 +164,7 @@ shortres_gen_snbfclfd(n,c,k) := [
   var_shortres(n,c,k),
   append(lappend(create_list(sres_resvnresol_snbcl(i,n),i,c+1,c+k)),
          lappend(create_list(sres_resvparent1_snbcl(i,n),i,c+1,c+k)),
-         lappend(create_list(sres_resvparent1_snbcl(i,n),i,c+1,c+k)),
+         lappend(create_list(sres_resvparent2_snbcl(i,n),i,c+1,c+k)),
          lappend(create_list(sres_noconflicts_snbcl(i,n),i,c+1,c+k)),
          lappend(create_list(sres_resolvent_snbcl(i,n),i,c+1,c+k))),
   domain_shortres(n)]$
