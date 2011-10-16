@@ -83,11 +83,12 @@ snbfcsfd2fcs_core(FF) := fcl2fcs(snbfclfd2fcl_core(snbfcsfd2snbfclfd(FF)))$
 
 /* Here we need to use both alo- and amo-clauses: */
 snbfclfd2fcl_aloamo(FF) := block([GG : snbfclfd2fcl_core(FF)],
- [GG[1], append(GG[2],
+ [GG[1],
+  append(GG[2],
     create_list(setify(create_list(nbv_var(v,p), p,FF[3](v))), v,FF[1]),
     create_list({-nbv_var(v,first(p)), -nbv_var(v,second(p))},
-                v,FF[1], p,powerset_l(FF[3](v),2))
-  )])$
+                v,FF[1], p,powerset_l(FF[3](v),2)))
+ ])$
 snbfclud2fcl_aloamo(FF) := snbfclfd2fcl_aloamo(snbfclud2snbfclfd(FF))$
 snbfcsfd2fcs_aloamo(FF) := fcl2fcs(snbfclfd2fcl_aloamo(snbfcsfd2snbfclfd(FF)))$
 
