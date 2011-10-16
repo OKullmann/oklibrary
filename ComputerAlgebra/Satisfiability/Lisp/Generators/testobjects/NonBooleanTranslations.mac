@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 27.5.2009 (Swansea) */
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,6 +26,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/NonBoo
    ******************************
 */
 
+okltest_nbfclfd2fcl_core(nbfclfd2fcl_core);
 okltest_nbfclud2fcl_core(nbfclud2fcl_core);
 okltest_nbfcsfd2fcs_core(nbfcsfd2fcs_core);
 
@@ -34,6 +35,14 @@ okltest_nbfcsfd2fcs_alo(nbfcsfd2fcs_alo);
 
 okltest_nbfclud2fcl_aloamo(nbfclud2fcl_aloamo);
 okltest_nbfcsfd2fcs_aloamo(nbfcsfd2fcs_aloamo);
+
+okltest_snbfclfd2fcl_core(snbfclfd2fcl_core);
+okltest_snbfclud2fcl_core(snbfclud2fcl_core);
+okltest_snbfcsfd2fcs_core(snbfcsfd2fcs_core);
+
+okltest_snbfclfd2fcl_aloamo(snbfclfd2fcl_aloamo);
+okltest_snbfclud2fcl_aloamo(snbfclud2fcl_aloamo);
+okltest_snbfcsfd2fcs_aloamo(snbfcsfd2fcs_aloamo);
 
 /* **************************************
    * The generalised nested translation *

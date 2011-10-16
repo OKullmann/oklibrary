@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.4.2009 (Swansea) */
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -40,10 +40,12 @@ declare(nbv, noun)$
 declare(nbv, posfun)$
 nbv_var(v,e) := nounify(nbv)(v,e)$
 
+/* First for non-boolean clause-sets. */
+
 /* Just translating the clauses: */
 /* Variables are returned in lexicographical order when considering first the
-   original variables and then the elements in an ordered pair. */
-nbfclfd2fcl_core(FF) := 
+   original variables and then the values. */
+nbfclfd2fcl_core(FF) :=
  [create_list(nbv_var(v,x), v,FF[1], x,FF[3](v)),
   map(lambda([C],map(lambda([x],-apply(nbv_var,x)),C)),FF[2])]$
 nbfclud2fcl_core(FF) := nbfclfd2fcl_core(nbfclud2nbfclfd(FF))$
@@ -51,7 +53,7 @@ nbfcsfd2fcs_core(FF) := fcl2fcs(nbfclfd2fcl_core(nbfcsfd2nbfclfd(FF)))$
 
 /* The "weak" translation, allowing that a variable gets multiple values: */
 nbfclfd2fcl_alo(FF) := block([GG : nbfclfd2fcl_core(FF)],
- [GG[1], append(GG[2], 
+ [GG[1], append(GG[2],
     create_list(setify(create_list(nbv_var(v,p), p,FF[3](v))), v,FF[1]))])$
 nbfclud2fcl_alo(FF) := nbfclfd2fcl_alo(nbfclud2nbfclfd(FF))$
 nbfcsfd2fcs_alo(FF) := fcl2fcs(nbfclfd2fcl_alo(nbfcsfd2nbfclfd(FF)))$
@@ -65,6 +67,29 @@ nbfclfd2fcl_aloamo(FF) := block([GG : nbfclfd2fcl_alo(FF)],
                 v,FF[1], p,powerset_l(FF[3](v),2)))])$
 nbfclud2fcl_aloamo(FF) := nbfclfd2fcl_aloamo(nbfclud2nbfclfd(FF))$
 nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
+
+
+/* Now for signed non-boolean clause-sets. */
+
+/* Just translating the clauses: */
+/* Variables are returned in lexicographical order when considering first the
+   original variables and then the values. */
+snbfclfd2fcl_core(FF) :=
+ [create_list(nbv_var(v,x), v,FF[1], x,FF[3](v)),
+  map(lambda([C],map(lambda([x],third(x)*apply(nbv_var,rest(x,-1))),C)),
+      FF[2])]$
+snbfclud2fcl_core(FF) := snbfclfd2fcl_core(snbfclud2snbfclfd(FF))$
+snbfcsfd2fcs_core(FF) := fcl2fcs(snbfclfd2fcl_core(snbfcsfd2snbfclfd(FF)))$
+
+/* Here we need to use both alo- and amo-clauses: */
+snbfclfd2fcl_aloamo(FF) := block([GG : snbfclfd2fcl_core(FF)],
+ [GG[1], append(GG[2],
+    create_list(setify(create_list(nbv_var(v,p), p,FF[3](v))), v,FF[1]),
+    create_list({-nbv_var(v,first(p)), -nbv_var(v,second(p))},
+                v,FF[1], p,powerset_l(FF[3](v),2))
+  )])$
+snbfclud2fcl_aloamo(FF) := snbfclfd2fcl_aloamo(snbfclud2snbfclfd(FF))$
+snbfcsfd2fcs_aloamo(FF) := fcl2fcs(snbfclfd2fcl_aloamo(snbfcsfd2snbfclfd(FF)))$
 
 
 /* **************************************
@@ -81,7 +106,7 @@ nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
    form nbv(x,y). And we assume that all domains are non-empty.
    We consider FF as CNF (so we use "SAT-terminology").
 
-   We assume further that T(v) is an (arbitrary) labelled ordered boolean 
+   We assume further that T(v) is an (arbitrary) labelled ordered boolean
    unsatisfiable clause-set where the label set contains D(v),
    while all variables are of the form nbv(v,i) for in principal arbitrary i.
    The clauses of T(v) associated to values e in D(v) are denoted by
@@ -102,7 +127,7 @@ nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
    Let D(v) = {e_1, ..., e_k} (k >= 1).
 
    We obtain the above weak standard translation by letting
-     T(v) = { {-nbv(v,e_1)}, ..., {-nbv(v,e_k)} } + 
+     T(v) = { {-nbv(v,e_1)}, ..., {-nbv(v,e_k)} } +
             { {nbv(v,e_1), ..., nbv(v,e_k)} }
    where T(v,e_i) = {-nbv(v,e_i)}.
    For the strong standard translation we just add the binary clauses
@@ -116,7 +141,7 @@ nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
 */
 
 /* For a map T(v,e), depending on variables and their values and computing
-   a clause-set, translate a non-boolean clause C into a new clause which is 
+   a clause-set, translate a non-boolean clause C into a new clause which is
    the union of the results of applying T to the elements of C:
 */
 gennest_clause_trans(C,T) := lunion(map(lambda([x],apply(T,x)), C))$
@@ -178,7 +203,7 @@ nbfclud2fcl_standnest_strong(FF) := gennest_nbfcl2fcl(rest(FF,-1), standnest_T(F
 /* For non-empty D only. */
 logarithmic_T(D) := block([k : length(D), h : osm2hm(l2osm_inv(D)), A],
  A : l2ary(take_l(k,full_cl(ceiling(ld(k))))),
- buildq([A,h], lambda([v,e], 
+ buildq([A,h], lambda([v,e],
    map(lambda([x], if x>0 then nbv_var(v,x) else -nbv_var(v,-x)), A[ev_hm(h,e)]))))$
 logarithmic_TR(D) := block([k : length(D), L],
  L : rest(full_cl(ceiling(ld(k))),k),
@@ -225,7 +250,7 @@ gennest_nbfcl2fcl_p(V,D_,S_, T_,TR_,TV_) := block([counterexample : false],
    [Fv : map(lambda([e],T_(v,e)),D_(e)), Fr : TR_(v), F,Vv],
     if not cl_p(Fv) or not cl_p(Fr) then (counterexample : true, return()),
     F : setify(append(Fv, Fr)), Vv : var_cs(F),
-    if not subsetp(Vv, setify(TV_(v))) or 
+    if not subsetp(Vv, setify(TV_(v))) or
         S_([Vv,F]) # false or
         some_s(lambda([E], impliesp_cs(disjoin(E,F),E,S_)), Fv)
     then counterexample : true
@@ -234,7 +259,7 @@ gennest_nbfcl2fcl_p(V,D_,S_, T_,TR_,TV_) := block([counterexample : false],
   for P in powerset(setify(V),2) unless counterexample do
     if not apply(disjointp, map(setify,map(TV_, listify(P)))) then counterexample : true,
   return(not counterexample))$
-    
+
 
 /* Find a maximal set of binary clauses (without new variables) which
    can be added to the union of F1, F2 while maintaining that all clauses

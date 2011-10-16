@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 27.5.2009 (Swansea) */
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,6 +30,10 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTr
    * The "standard" translation *
    ******************************
 */
+
+okltest_nbfclfd2fcl_core(f) := (
+  /* XXX */
+  true)$
 
 okltest_nbfclud2fcl_core(f) := block([FF],
   assert(f([[],[],[]]) = [[],[]]),
@@ -63,6 +67,48 @@ okltest_nbfclud2fcl_aloamo(f) := block(
   true)$
 
 okltest_nbfcsfd2fcs_aloamo(f) := block([FF,D],
+  assert(f([{},{},D]) = [{},{}]),
+  /* XXX */
+  true)$
+
+okltest_snbfclfd2fcl_core(f) := (
+  /* XXX */
+  true)$
+
+okltest_snbfclud2fcl_core(f) := block([FF],
+  assert(f([[],[],[]]) = [[],[]]),
+  assert(f([[1],[],[]]) = [[],[]]),
+  assert(f([[1],[],[2]]) = [[nbv(1,2)],[]]),
+  assert(f([[3,1],[],[4,2]]) = [[nbv(3,4),nbv(3,2),nbv(1,4),nbv(1,2)],[]]),
+  assert(f([[],[{}],[]]) = [[],[{}]]),
+  assert(f([[],[{},{}],[]]) = [[],[{},{}]]),
+  assert(f([[1],[{},{[1,1,1]},{[1,1,-1]}],[1]]) = [[nbv(1,1)], [{},{nbv(1,1)},{-nbv(1,1)}]]),
+  /* XXX */
+  true)$
+
+okltest_snbfcsfd2fcs_core(f) := (
+  assert(f([{},{},{}]) = [{},{}]),
+  assert(f([{1},{},lambda([x],{})]) = [{},{}]),
+  /* XXX */
+  true)$
+
+okltest_snbfclfd2fcl_aloamo(f) := block([D],
+  assert(f([[],[],D]) = [[],[]]),
+  /* XXX */
+  true)$
+
+okltest_snbfclud2fcl_aloamo(f) := (
+  assert(f([[],[],[]]) = [[],[]]),
+  assert(f([[1],[],[]]) = [[],[{}]]),
+  assert(f([[1],[],[2]]) = [[nbv(1,2)],[{nbv(1,2)}]]),
+  assert(f([[3,1],[],[4,2]]) = [[nbv(3,4),nbv(3,2),nbv(1,4),nbv(1,2)],[{nbv(3,4),nbv(3,2)},{nbv(1,4),nbv(1,2)},{-nbv(3,4),-nbv(3,2)},{-nbv(1,4),-nbv(1,2)}]]),
+  assert(f([[],[{}],[]]) = [[],[{}]]),
+  assert(f([[],[{},{}],[]]) = [[],[{},{}]]),
+  assert(f([[1],[{},{[1,1,1]},{[1,1,-1]}],[1]]) = [[nbv(1,1)], [{},{nbv(1,1)},{-nbv(1,1)},{nbv(1,1)}]]),
+  /* XXX */
+  true)$
+
+okltest_snbfcsfd2fcs_aloamo(f) := block([D],
   assert(f([{},{},D]) = [{},{}]),
   /* XXX */
   true)$
