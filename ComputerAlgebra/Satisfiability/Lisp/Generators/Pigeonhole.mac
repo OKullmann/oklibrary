@@ -31,6 +31,11 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitution
    ************************
 */
 
+/* TODO: The following needs to be updated, so that the list-forms
+   are the basic forms, and the set-forms are derived. See todo
+   "Update the php-functions" in the plans-file.
+*/
+
 /* Encoding all injective maps from {1,...,m} to {1,...,n}
    (putting pigeon i in {1,...,m} into hole in {1,...,n}).
 */

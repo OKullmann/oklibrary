@@ -1,4 +1,3 @@
-
 // Oliver Kullmann, 30.11.2008 (Swansea)
 /* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
@@ -23,6 +22,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/Pigeonhole.hpp
    the following topics are handled:
+    - Update the php-functions
     - Extended Resolution clauses for the Pigeon Hole Principle
     - Add tests for weak_php_ext_fcs : DONE
 

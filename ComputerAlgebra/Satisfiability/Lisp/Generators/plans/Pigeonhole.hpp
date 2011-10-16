@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans for Maxima-generators of pigeonhole formulas
 
 
+  \todo Update the php-functions
+  <ul>
+   <li> All functions need to be based on the list-forms ("fcl" etc.), not
+   on the set-form (this is then derived). </li>
+  </ul>
+
+
   \todo Extended Resolution clauses for the Pigeon Hole Principle
   <ul>
    <li> See [A short proof of the pigeon hole principle using
