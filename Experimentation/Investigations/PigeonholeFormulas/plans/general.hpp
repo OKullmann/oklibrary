@@ -14,7 +14,19 @@ License, or any later version. */
   <ul>
    <li> We should at least consider PHP^{2m}_m, PHP^{m+1}_m amd PHP^m_m. </li>
    <li> Statistics for all our solvers, for m = 0, ... until it takes several
-   hours, with curve fittings. </li>
+   hours, with curve fittings.
+    <ol>
+     <li> minisat-2.2.0:
+      <ol>
+       <li> PHP^16_15: After 2650m (nearly 2 days) and more than 3,317,199,477
+       conflicts no visible progress. </li>
+       <li> PHP^15_14: After 137328s (38h) and 3,348,376,683 conflicts no
+       visible progress. </li>
+       <li> PHP^14_13: XXX </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
    <li> Also SplittingViaOKsolver+minisat is to be considered.
     <ol>
      <li> For PHP^16_15 apparenty D >= 100 for the splitting should be
@@ -382,16 +394,60 @@ XXX
    <li> Numerically:
    \verbatim
 f(n) := 1/2*n^3 + 1/2*n^2 + n + 1 + (n^2 + 3*n) * 2^(n-2);
-for n : 0 thru 6 do print(n,f(n));
+for n : 0 thru 20 do print(n,f(n),(n^2 + 3*n) * 2^(n-2));
 
-0 1
-1 5
-2 19
-3 58
-4 157
-5 401
-6 997
+0 1 0
+1 5 2
+2 19 10
+3 58 36
+4 157 112
+5 401 320
+6 997 864
+7 2444 2240
+8 5929 5632
+9 14239 13824
+10 33841 33280
+11 79586 78848
+12 185269 184320
+13 427181 425984
+14 976333 974848
+15 2213656 2211840
+16 4982929 4980736
+17 11143739 11141120
+18 24775705 24772608
+19 54791726 54788096
+20 120590461 120586240
    \endverbatim
+   </li>
+   <li> Experimentally:
+   \verbatim
+output_res_php(n,k) := outputext_fcl(sconcat("PHP with n=",n," and k=",k,"."), shortresref_aloamo_fcl(fcs2fcl(weak_php_fcs(n+1,n)),k),sconcat("PHP_RES_",n,"_",k,".cnf"));
+
+output_res_php(1,1);
+> n=1 k=1; cat PHP_RES_${n}_${k}.cnf | ExtendedToStrictDimacs-O3-DNDEBUG > Php_res_${n}_${k}.cnf
+UNSATISFIABLE
+
+output_res_php(1,2);
+> n=1 k=2; cat PHP_RES_${n}_${k}.cnf | ExtendedToStrictDimacs-O3-DNDEBUG > Php_res_${n}_${k}.cnf
+SATISFIABLE
+
+output_res_php(2,9);
+> n=2 k=9; cat PHP_RES_${n}_${k}.cnf | ExtendedToStrictDimacs-O3-DNDEBUG > Php_res_${n}_${k}.cnf
+UNSATISFIABLE (minisat-2.2.0: 22714981 conflicts, 1303.62 s)
+output_res_php(2,10);
+n=2 k=10; cat PHP_RES_${n}_${k}.cnf | ExtendedToStrictDimacs-O3-DNDEBUG > Php_res_${n}_${k}.cnf
+SATISFIABLE
+
+output_res_php(3,35);
+# (likely) needs too much memory for a 4GB machine
+   \endverbatim
+   </li>
+   <li> Established values for rc(n):
+    <ol>
+     <li> rc(0) = 1 (= 1+0) </li>
+     <li> rc(1) = 5 (= 3+2) </li>
+     <li> rc(2) = 19 (= 9+10) </li>
+    </ol>
    </li>
   </ul>
 
