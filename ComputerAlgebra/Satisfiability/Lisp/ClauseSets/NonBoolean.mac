@@ -338,7 +338,9 @@ nbfcsud2nbfclud(FF) := map(listify,FF)$
 nbfclud2nbfcsud(FF) := map(setify,FF)$
 
 nbfcsfd2nbfclfd(FF) := [listify(FF[1]),listify(FF[2]),buildq([D:FF[3]],lambda([v],listify(D(v))))]$
+snbfcsfd2snbfclfd(FF) := nbfcsfd2nbfclfd(FF)$
 nbfclfd2nbfcsfd(FF) := [setify(FF[1]),setify(FF[2]),buildq([D:FF[3]],lambda([v],setify(D(v))))]$
+snbfclfd2snbfcsfd(FF) := nbfclfd2nbfcsfd(FF)$
 
 nbcs2nbfcs(F) := [var_nbcs(F),F]$
 snbcs2snbfcs(F) := [var_snbcs(F),F]$
@@ -349,7 +351,9 @@ nbfcs2nbfcsud(FF) := endcons(val_nbfcs(FF), FF)$
 nbfcl2nbfclud(FF) := endcons(val_nbfcl(FF), FF)$
 
 nbfcsud2nbfcsfd(FF) := endcons(buildq([D:FF[3]], lambda([v],D)), rest(FF,-1))$
+snbfcsud2snbfcsfd(FF) := nbfcsud2nbfcsfd(FF)$
 nbfclud2nbfclfd(FF) := endcons(buildq([D:FF[3]], lambda([v],D)), rest(FF,-1))$
+snbfclud2snbfclfd(FF) := nbfclud2nbfclfd(FF)$
 
 /*!
 \endhtmlonly
