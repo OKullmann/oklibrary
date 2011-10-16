@@ -36,6 +36,8 @@ okltest_treecomp_refutation_cs(treecomp_refutation_cs);
 
 okltest_shortresref_fcl2snbfclfd(shortresref_fcl2snbfclfd);
 
+okltest_shortresref_aloamo_fcl(shortresref_aloamo_fcl);
+
 /*!
 \endhtmlonly
 */

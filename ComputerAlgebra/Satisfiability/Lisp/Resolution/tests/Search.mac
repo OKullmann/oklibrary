@@ -78,6 +78,33 @@ okltest_shortresref_fcl2snbfclfd(f) := block([F,n,c,k],
   assert(nvar_fcl(F) = nvar_shortres_snbfclfd(n,c,k)),
   assert(ncl_fcl(F) = ncl_shortresref_snbfclfd(n,c,k)),
   assert(snbfclfd_p(F) = true),
+  /* XXX */
+  true)$
+
+okltest_shortresref_aloamo_fcl(f) := block([F,FF,n,c,k],
+  [F,n,c,k] : [[[],[]],0,0,1],
+  FF : f(F,k),
+  assert(FF = [[],[{},{},{}]]),
+  assert(nvar_fcl(FF) = nvar_shortres_aloamo(n,c,k)),
+  assert(ncl_fcl(FF) = ncl_shortresref_aloamo(n,c,k)),
+  [F,n,c,k] : [[[1],[{1},{-1}]],1,2,1],
+  FF : f(F,k),
+  assert(nvar_fcl(FF) = nvar_shortres_aloamo(n,c,k)),
+  assert(ncl_fcl(FF) = ncl_shortresref_aloamo(n,c,k)),
+  [F,n,c,k] : [[[1,2],[{1,2},{-1,2},{1,-2},{-1,-2}]],2,4,1],
+  FF : f(F,k),
+  assert(nvar_fcl(FF) = nvar_shortres_aloamo(n,c,k)),
+  assert(ncl_fcl(FF) = ncl_shortresref_aloamo(n,c,k)),
+  [F,n,c,k] : [[[1,2],[{1,2},{-1,2},{1,-2},{-1,-2}]],2,4,2],
+  FF : f(F,k),
+  assert(nvar_fcl(FF) = nvar_shortres_aloamo(n,c,k)),
+  assert(ncl_fcl(FF) = ncl_shortresref_aloamo(n,c,k)),
+  assert(ncl_fcl(FF) = ncl_shortresref_aloamo(n,c,k)),
+  [F,n,c,k] : [[[1,2],[{1,2},{-1,2},{1,-2},{-1,-2},{1}]],2,5,3],
+  FF : f(F,k),
+  assert(nvar_fcl(FF) = nvar_shortres_aloamo(n,c,k)),
+  assert(ncl_fcl(FF) = ncl_shortresref_aloamo(n,c,k)),
+  /* XXX */
   true)$
 
 

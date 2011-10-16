@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
 
 
 /* *******************
@@ -107,6 +108,7 @@ sres_rv_var(i) := nounify(sres_rv)(i)$
    resolution variable for clause i in the resolution proof.
 */
 
+/* The list of non-boolean variables for parameters n,c,k: */
 var_shortres(n,c,k) := append(
  create_list(sres_cl_var(p,i), p,1,n, i,1,c+k),
  create_list(sres_rp1_var(i), i,c+1,c+k),
@@ -114,10 +116,11 @@ var_shortres(n,c,k) := append(
  create_list(sres_rv_var(i), i,c+1,c+k)
 )$
 
-domain_shortres(n) := buildq([N:setn(n)],
+/* The ordered domains: */
+domain_shortres(n) := buildq([N:create_list(i,i,1,n)],
   lambda([v],
-    if op(v)=sres_cl then {-1,0,+1}
-    elseif op(v)=sres_rp1 or op(v)=sres_rp2 then setn(first(args(v))-1)
+    if op(v)=sres_cl then [-1,0,+1]
+    elseif op(v)=sres_rp1 or op(v)=sres_rp2 then create_list(i,i,1,first(args(v))-1)
     else N
   )
 )$
@@ -176,21 +179,34 @@ shortres_fcl2snbcl(FF) := block(
 shortres_emptycl_snbcl(n,c,k) := create_list(
   {[sres_cl_var(p,c+k),0,1]}, p,1,n)$
 
-/* Translation of the condition that the formal clause-list FF has a resolution
-   refutation using k resolution steps:
+/* Translation of the condition, that the formal clause-list FF has a
+   resolution refutation using k resolution steps, into a signed non-boolean
+   formal clause-list:
 */
-
 shortresref_fcl2snbfclfd(FF,k) := block([n : nvar_fcl(FF), c : ncl_fcl(FF), T],
   T : shortres_gen_snbfclfd(n,c,k),
   [first(T),
    append(shortres_fcl2snbcl(FF), second(T), shortres_emptycl_snbcl(n,c,k)),
    third(T)])$
 
+/* Translation into a boolean clause-list: */
+shortresref_aloamo_fcl(FF,k) :=
+  snbfclfd2fcl_aloamo(shortresref_fcl2snbfclfd(FF,k))$
+
 
 /* Measures for the translated formulas */
 
+/* The number of variables in the signed non-boolean clause-set: */
 nvar_shortres_snbfclfd(n,c,k) := n*(c+k) + 3*k$
 
+/* The number of variables in the boolean translation: */
+nvar_shortres_aloamo(n,c,k) := n*(c+k)*3 + 2*(k^2/2+c*k-k/2) + k*n$
+/* Remark:
+   sum(i-1,i,c+1,c+k) = k^2/2+c*k-k/2
+*/
+
+/* The number of clauses in the generic basis of the signed non-boolean
+   clause-list: */
 ncl_shortres_gen_snbfclfd(n,c,k) :=
   n* k + /* sres_resvnresol_snbcl */
   n* (k^2/2+c*k-k/2) * 2 + /* sres_resvparent1_snbcl, sres_resvparent2_snbcl */
@@ -201,11 +217,26 @@ ncl_shortres_gen_snbfclfd(n,c,k) :=
    sum((i-1)*(i-2),i,c+1,c+k) = k^3/3+c*k^2-k^2+c^2*k-2*c*k+2*k/3
 */
 
+/* The number of clauses in the completed signed non-boolean clause-list: */
 ncl_shortresref_snbfclfd(n,c,k) := ncl_shortres_gen_snbfclfd(n,c,k) +
   (c+1) * n$
 
+/* The number of clauses in the boolean translation: */
+ncl_shortresref_aloamo(n,c,k) := ncl_shortresref_snbfclfd(n,c,k) +
+  n*(c+k)*(1+3) +
+  2*(k + k^3/6+c*k^2/2-k^2/2+c^2*k/2-c*k+k/3) +
+  k*(1+n*(n-1)/2)$
+/* Remark:
+   sum(binomial(i-1,2),i,c+1,c+k) = k^3/6+c*k^2/2-k^2/2+c^2*k/2-c*k+k/3
+*/
+
+/* Convenience versions, using the input FF instead of its parameters n, c: */
+
 nvar_shortres_fcl2snbfclfd(FF,k) := nvar_shortres_snbfclfd(nvar_fcl(FF), ncl_fcl(FF),k)$
 ncl_shortresref_fcl2snbfclfd(FF,k) := ncl_shortresref_snbfclfd(nvar_fcl(FF), ncl_fcl(FF),k)$
+
+nvar_shortres_aloamo_fcl(FF,k) := nvar_shortres_aloamo(nvar_fcl(FF), ncl_fcl(FF),k)$
+ncl_shortresref_aloamo_fcl(FF,k) := ncl_shortresref_aloamo(nvar_fcl(FF), ncl_fcl(FF),k)$
 
 /*!
 \endhtmlonly
