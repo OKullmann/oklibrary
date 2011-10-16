@@ -259,9 +259,77 @@ gwsat
    <li> Doubling the cutoff (and on 32-bit machine, so saps etc. work):
    \verbatim
 E=run_ubcsat("VanDerWaerden_2-4-9_308.cnf",runs=100,cutoff=4000000)
-XXX
+1. ddfw:
+ 0  1  2  3  4  5  6 43 44 46 47 48 49 50 51 52 53
+ 1  1  8 18 11  8  2  2  1  2  2  3  3  9 15 13  1
+fps: 44466
+2. ag2wsat:
+ 2  3  4  5  6  8 44 45 47 48 49 50 51 52 53 54 55 56
+ 4  8  4  3  1  1  1  1  1  3  1  2  7  7 23 15 16  2
+fps: 197780
+3. sapsnr:
+ 2  3  5  6 52 54 55 56 57 58 59 60 61
+ 2  6  1  1  1  1  5  3 11 22 22 18  7
+fps: 170415
+4. saps:
+ 2  3  5  6  8 55 56 57 58 59 60 61 62
+ 1  6  2  1  1  3  4  8 15 24 24 10  1
+fps: 186745
+5. dano:
+ 2  3  4 52 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69
+ 1  5  1  1  1  1  2  2  3  6  7 12  7 10  9 16  6  7  2  1
+fps: 195057
+6. rots:
+ 2  3  4  5 43 45 46 48 49 50 51 52
+ 1  2  2  1  3  1  2 10 20 32 22  4
+fps: 224016
+7. anovpp:
+ 2  3  4  5  6 52 55 56 57 58 59 60 61 62 63 64 65 66
+ 1  1  1  2  2  1  5  5  5  5 10 11 11 15 15  4  4  2
+fps: 195436
+8. samd:
+ 2 48 49 50 51 52 53 54 55 56 57
+ 1  3 10 11 24 20 18  7  3  2  1
+fps: 308594
+9. gwsat:
+ 2 50 51 52 53 54 55 56 57 58
+ 1  3  2 14  8 15 27 23  6  1
+fps: 237713
+10. wsatt:
+  2  87  88  89  90  91  92  93  94  95  96  97  98  99 100
+  1   1   4   2   1   3   4   8   8  15  18  14  10   9   2
+fps: 309619
+11. rsaps:
+ 3  4  5  6 55 56 57 58 59 60 61 62
+ 6  2  1  2  1  4 13 15 18 23 12  3
+fps: 176890
+12. irots:
+ 3  4  5  6 48 50 51 52 53 54 55 56 57 58
+ 4  3  1  2  3  1  2  7  5 19 21 16 12  4
+fps: 212509
+13. anovp:
+ 3  4  5 51 52 53 55 56 57 58 59 60 61 62 63 64 65 66 67
+ 4  2  2  1  2  2  1  2  8  4  3 11  8 20 13 12  3  1  1
+fps: 193651
+14. g2wsat:
+ 3  5 55 56 57 58 59 60 61 62
+ 3  2  1  3  5 15 18 28 21  4
+fps: 218596
+15. rnovp:
+ 3  5 58 59 62 63 64 65 66 67 68 69 70 71
+ 2  2  2  2  7  4 15 10 16  8 16 10  5  1
+fps: 198756
+16. rnov:
+ 3  4  5 58 59 60 61 62 63 64 65 66 67 68 69 70
+ 1  2  1  2  2  1  2  3  7 11 13 15 14 15  7  4
+fps: 194758
+17. paws:
+ 3  4  5 56 57 58 59 60 61 62 63
+ 1  1  1  1  6  8 15 18 24 17  8
+fps: 172960
    \endverbatim
-   </li>
+   There is a lot of variation; however counting the number of runs with low
+   min's reached, it seems that ddfw is best. </li>
   </ul>
 
 
@@ -281,7 +349,8 @@ XXX
 251,252,261,265,268,274,275,277,279,283,
 285,286,289,290,291,294,296,300
    \endverbatim
-   (palindromic). </li>
+   (palindromic). Exactly this certificate was also found with a run of
+   RunVdWk1k2 with ddfw. </li>
    <li> [Ahmed 2009] states vanderwaerden4k(9) > 254. </li>
    <li> n=254 found satisfiable by adaptnovelty+ (first run with cutoff=10^6;
    seed=719877201, osteps=677160):
@@ -779,12 +848,13 @@ BestSolution_Max = 59.000000
      where the maximal number of runs (with success) was 56 (for n=186). </li>
      <li> "RunVdWk1k2 4 9 10 irots 100 10000000" yields "UNSAT for n=307",
      where the maximal number of runs (with success) was 51 (for n=306). </li>
+     <li> "RunVdWk1k2 4 9 10 ddfw 200 10000000" yields XXX </li>
     </ol>
    </li>
    <li> Using the palindromic solution for n=308:
     <ol>
      <li> Different from k=3, here now the standard problems seem rather
-     intractable for local search, while the palindromic instances are
+     hard for local search, while the palindromic instances are
      very easy. </li>
      <li> Starting search with the best palindromic solution:
      \verbatim
