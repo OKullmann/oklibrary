@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 17.4.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -53,6 +53,11 @@ okltest_nbc_p(nbc_p);
 okltest_var_nbc(var_nbc);
 okltest_val_nbc(val_nbc);
 
+okltest_snbc_p(snbc_p);
+okltest_var_snbc(var_snbc);
+okltest_val_snbc(val_snbc);
+okltest_sgn_snbc(sgn_snbc);
+
 /* ***************
    * Clause-sets *
    ***************
@@ -63,25 +68,53 @@ okltest_var_nbcs(var_nbcs);
 okltest_val_nbcs(val_nbcs);
 okltest_lit_nbcs(lit_nbcs);
 
+okltest_snbcs_p(snbcs_p);
+okltest_var_snbcs(var_snbcs);
+okltest_val_snbcs(val_snbcs);
+okltest_sgn_snbcs(sgn_snbcs);
+okltest_lit_snbcs(lit_snbcs);
+
 okltest_nbcl_p(nbcl_p);
 okltest_var_nbcl(var_nbcl);
 okltest_val_nbcl(val_nbcl);
 okltest_lit_nbcl(lit_nbcl);
+
+okltest_snbcl_p(snbcl_p);
+okltest_var_snbcl(var_snbcl);
+okltest_val_snbcl(val_snbcl);
+okltest_sgn_snbcl(sgn_snbcl);
+okltest_lit_snbcl(lit_snbcl);
 
 okltest_nbfcs_p(nbfcs_p);
 okltest_var_nbfcs(var_nbfcs);
 okltest_val_nbfcs(val_nbfcs);
 okltest_lit_nbfcs(lit_nbfcs);
 
+okltest_snbfcs_p(snbfcs_p);
+okltest_var_snbfcs(var_snbfcs);
+okltest_val_snbfcs(val_snbfcs);
+okltest_sgn_snbfcs(sgn_snbfcs);
+okltest_lit_snbfcs(lit_snbfcs);
+
 okltest_nbfcl_p(nbfcl_p);
 okltest_var_nbfcl(var_nbfcl);
 okltest_val_nbfcl(val_nbfcl);
 okltest_lit_nbfcl(lit_nbfcl);
 
+okltest_snbfcl_p(snbfcl_p);
+okltest_var_snbfcl(var_snbfcl);
+okltest_val_snbfcl(val_snbfcl);
+okltest_lit_snbfcl(lit_snbfcl);
+
 okltest_nbfcsud_p(nbfcsud_p);
+okltest_snbfcsud_p(snbfcsud_p);
 okltest_nbfclud_p(nbfclud_p);
+okltest_snbfclud_p(snbfclud_p);
+
 okltest_nbfcsfd_p(nbfcsfd_p);
+okltest_snbfcsfd_p(snbfcsfd_p);
 okltest_nbfclfd_p(nbfclfd_p);
+okltest_snbfclfd_p(snbfclfd_p);
 
 okltest_nbfcsfd_equalp(nbfcsfd_equalp);
 

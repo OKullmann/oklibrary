@@ -33,7 +33,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 */
 
 
-/* 
+/*
  A "non-boolean literals" ("nbl") is a pair [v,e], where v
  is a variable and e a value.
  In a CNF the meaning is "v # e", while in a DNF the meaning is "v = e".
@@ -50,8 +50,8 @@ val_nbl(x) := second(x)$
  The meaning is that if s = +1, then we have the DNF context, while
  if s = -1, then we have the CNF context.
 */
-snbl_p(x) := 
- listp(x) and is(length(x)=3) and nbl_p(rest(x)) and elementp(x[3],{-1,+1})$
+snbl_p(x) :=
+ listp(x) and is(length(x)=3) and nbl_p(rest(x,-1)) and elementp(x[3],{-1,+1})$
 
 var_snbl(x) := first(x)$
 val_snbl(x) := second(x)$
@@ -63,18 +63,18 @@ sgn_snbl(x) := third(x)$
  a set of values.
 */
 
-pl_p(x) := listp(x) and is(length(x)=2) and setp(second(V))$
+pl_p(x) := listp(x) and is(length(x)=2) and setp(second(x))$
 
 var_pl(x) := first(x)$
 val_pl(x) := second(x)$
 
 
-/* 
+/*
  A "signed power literal" ("spl") is a triple [v,V,s] such
  that [v,V] is a power literal and s in {-1,+1}.
 */
-spl_p(x) := 
- listp(x) and is(length(x)=3) and pl_p(rest(x)) and elementp(x[3],{-1,+1})$
+spl_p(x) :=
+ listp(x) and is(length(x)=3) and pl_p(rest(x,-1)) and elementp(x[3],{-1,+1})$
 
 var_spl(x) := first(x)$
 val_spl(x) := second(x)$
@@ -90,11 +90,23 @@ sgn_spl(x) := third(x)$
  A "non-boolean clause" ("nbc") is a set of non-boolean literals
  such that different literals have different values.
 */
-nbc_p(C) := 
+nbc_p(C) :=
  setp(C) and every_s(nbl_p,C) and is(length(map(var_nbl,C))=length(C))$
 
 var_nbc(C) := map(var_nbl,C)$
 val_nbc(C) := map(val_nbl,C)$
+
+
+/*
+ A "signed non-boolean clause" ("snbc") is a set of signed non-boolean literals
+ such that different literals have different values.
+*/
+snbc_p(C) :=
+ setp(C) and every_s(snbl_p,C) and is(length(map(var_snbl,C))=length(C))$
+
+var_snbc(C) := map(var_snbl,C)$
+val_snbc(C) := map(val_snbl,C)$
+sgn_snbc(C) := map(sgn_snbl,C)$
 
 
 /* ***************
@@ -107,29 +119,56 @@ val_nbc(C) := map(val_nbl,C)$
 */
 nbcs_p(F) := setp(F) and every_s(nbc_p,F)$
 
-var_nbcs(F) := apply(union,map(var_nbc,listify(F)))$
-val_nbcs(F) := apply(union,map(val_nbc,listify(F)))$
+var_nbcs(F) := lunion(map(var_nbc,listify(F)))$
+val_nbcs(F) := lunion(map(val_nbc,listify(F)))$
 
-lit_nbcs(F) := apply(union,listify(F))$
+lit_nbcs(F) := lunion(F)$
+
+/*
+ A "signed non-boolean clause-set" ("snbcs") is a set of signed
+ non-boolean clauses.
+*/
+snbcs_p(F) := setp(F) and every_s(snbc_p,F)$
+
+var_snbcs(F) := lunion(map(var_snbc,listify(F)))$
+val_snbcs(F) := lunion(map(val_snbc,listify(F)))$
+sgn_snbcs(F) := lunion(map(sgn_snbc,listify(F)))$
+
+lit_snbcs(F) := lunion(F)$
+
+
 
 /*
  A "non-boolean clause-list" ("nbcl") is a list of non-boolean clauses.
 */
 nbcl_p(F) := listp(F) and every_s(nbc_p,F)$
 
-var_nbcl(F) := apply(union,map(var_nbc,F))$
-val_nbcl(F) := apply(union,map(val_nbc,F))$
+var_nbcl(F) := lunion(map(var_nbc,F))$
+val_nbcl(F) := lunion(map(val_nbc,F))$
 
-lit_nbcl(F) := apply(union,F)$
+lit_nbcl(F) := lunion(F)$
+
+/*
+ A "signed non-boolean clause-list" ("nbcl") is a list of signed
+ non-boolean clauses.
+*/
+snbcl_p(F) := listp(F) and every_s(snbc_p,F)$
+
+var_snbcl(F) := lunion(map(var_snbc,F))$
+val_snbcl(F) := lunion(map(val_snbc,F))$
+sgn_snbcl(F) := lunion(map(sgn_snbc,F))$
+
+lit_snbcl(F) := lunion(F)$
+
 
 
 /*
  A "non-boolean formal clause-set" ("nbfcs") is a pair [V,F] such that
- V is a set of variables and F is a non-boolean clause-set with 
+ V is a set of variables and F is a non-boolean clause-set with
  var(F) <= V.
 */
-nbfcs_p(FF) := 
- listp(FF) and is(length(FF)=2) and setp(FF[1]) and nbcs_p(FF[2]) and 
+nbfcs_p(FF) :=
+ listp(FF) and is(length(FF)=2) and setp(FF[1]) and nbcs_p(FF[2]) and
   subsetp(var_nbcs(FF[2]),FF[1])$
 
 var_nbfcs(FF) := FF[1]$
@@ -138,18 +177,49 @@ val_nbfcs(FF) := val_nbcs(nbfcs2nbcs(FF))$
 lit_nbfcs(FF) := lit_nbcs(nbfcs2nbcs(FF))$
 
 /*
+ A "signed non-boolean formal clause-set" ("snbfcs") is a pair [V,F] such that
+ V is a set of variables and F is a signed non-boolean clause-set with
+ var(F) <= V.
+*/
+snbfcs_p(FF) :=
+ listp(FF) and is(length(FF)=2) and setp(FF[1]) and snbcs_p(FF[2]) and
+  subsetp(var_nbcs(FF[2]),FF[1])$
+
+var_snbfcs(FF) := FF[1]$
+val_snbfcs(FF) := val_snbcs(FF[2])$
+sgn_snbfcs(FF) := sgn_snbcs(FF[2])$
+
+lit_snbfcs(FF) := lit_snbcs(FF[2])$
+
+
+/*
  A "non-boolean formal clause-list" ("nbfcl") is a pair [V,F] such that
  V is a repetition-free list of variables and F is a non-boolean clause-list
  with var(F) <= V.
 */
-nbfcl_p(FF) := 
- listp(FF) and is(length(FF)=2) and listnorep_p(FF[1]) and nbcl_p(FF[2]) and 
+nbfcl_p(FF) :=
+ listp(FF) and is(length(FF)=2) and listnorep_p(FF[1]) and nbcl_p(FF[2]) and
   subsetp(var_nbcl(FF[2]),setify(FF[1]))$
 
 var_nbfcl(FF) := setify(FF[1])$
-val_nbfcl(FF) := val_nbcl(nbfcl2nbcl(FF))$
+val_nbfcl(FF) := val_nbcl(FF[2])$
 
-lit_nbfcl(FF) := lit_nbcl(nbfcl2nbcl(FF))$
+lit_nbfcl(FF) := lit_nbcl(FF[2])$
+
+/*
+ A "signed non-boolean formal clause-list" ("snbfcl") is a pair [V,F] such that
+ V is a repetition-free list of variables and F is a signed
+ non-boolean clause-list with var(F) <= V.
+*/
+snbfcl_p(FF) :=
+ listp(FF) and is(length(FF)=2) and listnorep_p(FF[1]) and snbcl_p(FF[2]) and
+  subsetp(var_snbcl(FF[2]),setify(FF[1]))$
+
+var_snbfcl(FF) := setify(FF[1])$
+val_snbfcl(FF) := val_snbcl(FF[2])$
+sgn_snbfcl(FF) := sgn_snbcl(FF[2])$
+
+lit_snbfcl(FF) := lit_snbcl(FF[2])$
 
 
 /*
@@ -157,18 +227,36 @@ lit_nbfcl(FF) := lit_nbcl(nbfcl2nbcl(FF))$
  a triple [V,F,D] such that [V,F] is a non-boolean formal clause-set and
  D is a set with val(FF) <= D.
 */
-nbfcsud_p(FF) := 
+nbfcsud_p(FF) :=
  listp(FF) and is(length(FF)=3) and nbfcs_p(rest(FF,-1)) and
   subsetp(val_nbcs(FF[2]),FF[3])$
+
+/*
+ A "signed non-boolean formal clause-set with uniform domain" ("snbfcsud") is
+ a triple [V,F,D] such that [V,F] is a signed non-boolean formal clause-set and
+ D is a set with val(FF) <= D.
+*/
+snbfcsud_p(FF) :=
+ listp(FF) and is(length(FF)=3) and snbfcs_p(rest(FF,-1)) and
+  subsetp(val_snbcs(FF[2]),FF[3])$
 
 /*
  A "non-boolean formal clause-list with uniform domain" ("nbfclud") is
  a triple [V,F,D] such that [V,F] is a non-boolean formal clause-list and
  D is a repetition-free list with val(FF) <= D.
 */
-nbfclud_p(FF) := 
- listp(FF) and is(length(FF)=3) and nbfcl_p(rest(FF,-1)) and 
+nbfclud_p(FF) :=
+ listp(FF) and is(length(FF)=3) and nbfcl_p(rest(FF,-1)) and
   listnorep_p(FF[3]) and subsetp(val_nbcl(FF[2]),setify(FF[3]))$
+
+/*
+ A "signed non-boolean formal clause-list with uniform domain" ("snbfclud") is
+ a triple [V,F,D] such that [V,F] is a signed non-boolean formal clause-list
+ and D is a repetition-free list with val(FF) <= D.
+*/
+snbfclud_p(FF) :=
+ listp(FF) and is(length(FF)=3) and snbfcl_p(rest(FF,-1)) and
+  listnorep_p(FF[3]) and subsetp(val_snbcl(FF[2]),setify(FF[3]))$
 
 
 /*
@@ -184,6 +272,19 @@ nbfcsfd_p(FF) := block(
   not emptyp(e) and e[1])$
 
 /*
+ A "signed non-boolean formal clause-set with function domain" ("snbfcsfd") is
+ a triple [V,F,D] such that [V,F] is a signed non-boolean formal clause-set and
+ D is a map defined for all v in V such that D(v) is a set of values and
+ for all literals x in F with var(x)=v we have val(x) in D(v).
+*/
+snbfcsfd_p(FF) := block(
+ [e : errcatch(
+   listp(FF) and is(length(FF)=3) and snbfcs_p(rest(FF,-1)) and
+   every_s(lambda([x], block([d: FF[3](var_snbl(x))], setp(d) and elementp(val_snbl(x),d))), lit_snbfcs(FF)))],
+  not emptyp(e) and e[1])$
+
+
+/*
  A "non-boolean formal clause-list with function domain" ("nbfclfd") is
  a triple [V,F,D] such that [V,F] is a non-boolean formal clause-list and
  D is a map defined for all v in V such that D(v) is a set of values and
@@ -194,6 +295,20 @@ nbfclfd_p(FF) := block(
    listp(FF) and is(length(FF)=3) and nbfcl_p(rest(FF,-1)) and
    every_s(lambda([x], block([d:FF[3](var_nbl(x))], setp(d) and elementp(val_nbl(x),d))), lit_nbfcl(FF)))],
   not emptyp(e) and e[1])$
+
+/*
+ A "signed non-boolean formal clause-list with function domain" ("snbfclfd") is
+ a triple [V,F,D] such that [V,F] is a signed non-boolean formal clause-list
+ and D is a map defined for all v in V such that D(v) is a set of values and
+ for all literals x in F with var(x)=v we have val(x) in D(v).
+*/
+snbfclfd_p(FF) := block(
+ [e : errcatch(
+   listp(FF) and is(length(FF)=3) and snbfcl_p(rest(FF,-1)) and
+   every_s(lambda([x], block([d:FF[3](var_snbl(x))], setp(d) and elementp(val_snbl(x),d))), lit_snbfcl(FF)))],
+  not emptyp(e) and e[1])$
+
+
 
 
 /* Checking equality */
@@ -212,7 +327,9 @@ nbcs2nbcl(F) := listify(F)$
 nbcl2nbcs(F) := setify(F)$
 
 nbfcs2nbfcl(FF) := map(listify,FF)$
+snbfcs2snbfcl(FF) := map(listify,FF)$
 nbfcl2nbfcs(FF) := map(setify,FF)$
+snbfcl2snbfcs(FF) := map(setify,FF)$
 
 nbfcs2nbcs(FF) := second(FF)$
 nbfcl2nbcl(FF) := second(FF)$
@@ -224,7 +341,9 @@ nbfcsfd2nbfclfd(FF) := [listify(FF[1]),listify(FF[2]),buildq([D:FF[3]],lambda([v
 nbfclfd2nbfcsfd(FF) := [setify(FF[1]),setify(FF[2]),buildq([D:FF[3]],lambda([v],setify(D(v))))]$
 
 nbcs2nbfcs(F) := [var_nbcs(F),F]$
+snbcs2snbfcs(F) := [var_snbcs(F),F]$
 nbcl2nbfcl(F) := [listify(var_nbcs(F)),F]$
+snbcl2snbfcl(F) := [listify(var_snbcs(F)),F]$
 
 nbfcs2nbfcsud(FF) := endcons(val_nbfcs(FF), FF)$
 nbfcl2nbfclud(FF) := endcons(val_nbfcl(FF), FF)$
