@@ -99,6 +99,7 @@ g2wsat
 
   \todo vdw_2^pd(6,7) >= (591,1156)
   <ul>
+   <li> The conjecture is that vdw_2^pd(6,7)_1 = 591. </li>
    <li> minisat-2.2.0:
     <ol>
      <li>

@@ -848,7 +848,22 @@ BestSolution_Max = 59.000000
      where the maximal number of runs (with success) was 56 (for n=186). </li>
      <li> "RunVdWk1k2 4 9 10 irots 100 10000000" yields "UNSAT for n=307",
      where the maximal number of runs (with success) was 51 (for n=306). </li>
-     <li> "RunVdWk1k2 4 9 10 ddfw 200 10000000" yields XXX </li>
+     <li> "RunVdWk1k2 4 9 10 ddfw 200 10000000" yields "UNSAT FOR n=309",
+     where the harder instances were
+     \verbatim
+    296     3    7405989 2400587166  r
+    299     1    7556083 1033610534  r
+    300    18    7066921 1596812769  r
+    306     5    7627658 3048467014  r
+     \endverbatim
+     (all other instances solved in first run with old solution), and where
+     \verbatim
+> E=read_ubcsat("VanDerWaerden_2-4-9_309.cnf_OUT",nrows=200)
+ 1  2  3  4  5  6  7  8 44 45 46 47 48 49 50 51 52
+ 6 24 65 32 19  5  3  1  3  1  2  6  3  6 11 10  3
+200
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> Using the palindromic solution for n=308:
