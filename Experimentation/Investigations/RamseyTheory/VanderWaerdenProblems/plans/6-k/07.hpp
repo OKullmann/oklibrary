@@ -212,7 +212,8 @@ Break point 1: 591
 Break point 2: 1156
    \endverbatim
    where all solutions were found within the first 5 rounds. </li>
-   <li> "RunPdVdWk1k2 6 7 rsaps 200 100000000" yields XXX
+   <li> "RunPdVdWk1k2 6 7 rsaps 200 100000000" yields: the solution found for
+   n=1155 is identical to the above solution(!) XXX
    </li>
    <li> Using SplittingViaOKsolver:
     <ol>

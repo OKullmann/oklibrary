@@ -113,10 +113,45 @@ fps: 296353
 # INCOMPLETE
 
 >  E=run_ubcsat("VanDerWaerden_2-4-12_400.cnf",runs=100,cutoff=10000000)
-XXX
+> eval_ubcsat_dataframe(E,FALSE)
+1. ddfw:
+ 2  5  6  7  8
+ 1  8 31 55  5
+fps: 45363
+2. anovp:
+ 2  5  6  7  8
+ 1  6 42 46  5
+fps: 129942
+3. rnov:
+ 3  5  6  7  8
+ 1  8 27 48 16
+fps: 130624
+4. dano:
+ 4  5  6  7  8
+ 2  9 36 49  4
+fps: 126793
+5. ag2wsat:
+ 4  5  6  7  8
+ 1  3 29 42 25
+fps: 174350
+6. samd:
+ 4  7  8  9 10 11 12 13 14 15 16 17 20
+ 1  6  5 21 28  9 11  8  3  2  1  2  3
+fps: 292844
+7. rnovp:
+ 5  6  7  8  9
+ 6 30 40 23  1
+fps: 130526
+8. anovpp:
+ 5  6  7  8
+ 4 42 48  6
+fps: 129962
+9. hwsat:
+ 6  7  8  9 10 11 12 13
+ 1  3  8 26 30 18  9  5
+fps: 253737
    \endverbatim
-   Could be just chance, but "adaptnovelty+ -v params" seems best (first
-   evalutation).
+   Unclear; adaptnovelty+ and "adaptnovelty+ -v params" are good candidates.
    </li>
    <li> However below we find indications that adaptg2wsat is better. </li>
   </ul>

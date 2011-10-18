@@ -46,19 +46,15 @@ E = run_ubcsat("VanDerWaerden_2-4-10_330.cnf", runs=100,cutoff=100000,monitor=TR
    is best):
    \verbatim
 > table(E$best[E$alg=="adaptnoveltyp"])
-
  3  4  5 28 29 30 31 32 33 34 35
  1  1  1  5  5 11 14 22 20 14  6
 > table(E$best[E$alg=="rnoveltyp"])
-
  2  4 28 30 31 32 33 34 35 36 37 38 39 40 41 42
  1  2  1  2  1  1  7  3 11 15 15 17 13  8  2  1
 > table(E$best[E$alg=="saps"])
-
  2 28 31 33 34 35 36 37 38
  1  1  2  8 14 19 36 18  1
 > table(E$best[E$alg=="irots"])
-
  5 30 31 32 33 34 35 36 37
  1  2  7 10 18 23 25 11  3
    \endverbatim
@@ -99,6 +95,68 @@ E = run_ubcsat("VanDerWaerden_2-4-10_330.cnf", runs=100,cutoff=100000,monitor=TR
    \endverbatim
    where the above order seems to be appropriate for their ranking.
    So perhaps for now we should assume that adaptnovelty+ is best. </li>
+   <li> New evaluation:
+   \verbatim
+> E=run_ubcsat("VanDerWaerden_2-4-10_328.cnf",runs=100,cutoff=10000000)
+> eval_ubcsat_dataframe(E,FALSE)
+1. sapsnr:
+ 1  5 29 30 31 32 33 34 35 36
+ 1  1  1  1  6 15 27 31 15  2
+fps: 185796
+2. g2wsat:
+ 1 31 32 33 34 35 36 37
+ 1  3  1  9 29 25 28  4
+fps: 216183
+3. ddfw:
+ 2  3  4 22 24 25 26 27 28
+ 7  3  5  1  5 17 29 28  5
+fps: 44886
+4. ag2wsat:
+ 2  3  4  5 25 26 27 28 29 30
+ 3  2  1  1  6 11 20 21 24 11
+fps: 196592
+5. anovp:
+ 2  3  4 25 26 27 28 29 30 31 32 33
+ 2  1  2  3  3 10 13 26 21 15  3  1
+fps: 175065
+6. anovpp:
+ 2  3  4  5 21 22 25 26 27 28 29 30 31 32
+ 1  1  1  2  1  1  2  8 17 13 17 24  9  3
+fps: 170560
+7. rnov:
+ 2  4 27 28 29 30 31 32 33 34 35 36 37 38
+ 1  1  2  2  2  3  5  7 13 15 20 17  9  3
+fps: 172362
+8. irots:
+ 3  4  7 24 28 29 30 31 32 33 34
+ 2  1  1  1  2  3 12 12 31 29  6
+fps: 208831
+9. rnovp:
+ 3 28 29 30 31 32 33 34 35 36 37 38
+ 2  1  1  3  6 11 15 20 18 11  9  3
+fps: 172842
+10. rsaps:
+ 3 30 31 32 33 34 35 36
+ 2  2  6  9 28 36 12  5
+fps: 188428
+11. paws:
+ 3  4 28 31 32 33 34 35 36 37
+ 1  2  1  4  8  5 29 30 19  1
+fps: 174601
+12. wsattn:
+ 3  4 50 52 54 55 56 57 58 59 60 61 62
+ 1  1  1  2  6  8 12 13 22 14 13  4  3
+fps: 273443
+13. dano:
+ 3 24 25 26 27 28 29 30 31 32 33
+ 1  3  1  4  6 13 13 23 19 14  3
+fps: 175831
+14. saps:
+ 3 27 30 31 32 33 34 35 36
+ 1  1  1  7 15 23 35 14  3
+fps: 187893
+   \endverbatim
+   Regarding the "mass" in the good range, ddfw is best. </li>
    <li> n=321 with adaptnovelty+
     <ol>
      <li> cutoff=10^7:

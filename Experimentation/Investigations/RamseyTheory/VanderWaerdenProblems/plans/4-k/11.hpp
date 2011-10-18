@@ -14,14 +14,46 @@ License, or any later version. */
   <ul>
    <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
    <li> For vdw_2(4,12) it seems adaptg2wsat is best, so we take this as the
-   starting poin (see
+   starting point (see
    Investigations/RamseyTheory/VanderWaerdenProblems/plans/4-k/12.hpp). </li>
    <li>
    \verbatim
 E=run_ubcsat("VanDerWaerden_2-4-11_358.cnf",runs=100,cutoff=10000000)
-XXX
+> eval_ubcsat_dataframe(E,FALSE)
+1. ag2wsat:
+ 1  2 10 11 12 13 14 15
+ 2  3  6 14 22 38 14  1
+fps: 192249
+2. ddfw:
+ 1  2  3 10 11 12 13 14
+ 1  1  1  7 33 43 13  1
+fps: 47823
+3. anovp:
+ 1  8  9 10 11 12 13
+ 1  1  1  6 35 43 13
+fps: 149054
+4. novp_p:
+ 1 21 22 24 25 26 27 28 29 30 31 32 33
+ 1  1  1  1  1  5  4 11 27 22 19  5  2
+fps: 104163
+5. dano:
+ 2  3  4  9 10 11 12 13 14
+ 2  1  1  3  6 29 39 17  2
+fps: 154413
+6. anovpp:
+ 2  3  9 10 11 12 13
+ 2  1  1  6 34 39 17
+fps: 151746
+7. rnov:
+ 2  3 10 11 12 13 14 15 16
+ 1  1  2 10 16 38 23  7  2
+fps: 148764
+8. paws:
+ 2 14 15 16 17 18 19 20
+ 1  1  1  5 11 27 47  7
+fps: 174008
    \endverbatim
-   </li>
+   seems to confirm that adaptg2wsat is best here. </li>
   </ul>
 
 
