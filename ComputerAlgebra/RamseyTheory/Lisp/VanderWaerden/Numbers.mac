@@ -178,7 +178,9 @@ vanderwaerden44k_a(L) := if length(L)#3 then [] else
    *********************
 */
 
-/* The "diagonal case", i.e., m parts, arithmetic progressions of length k: */
+/* The "diagonal case", i.e., m parts, arithmetic progressions of length k
+   (as usual, k >= 1):
+*/
 vanderwaerdend(m,k) := if m=0 then 1 
  elseif m=1 then k
  elseif k=1 then 1
@@ -188,8 +190,9 @@ vanderwaerdend(m,k) := if m=0 then 1
  elseif m=4 then vanderwaerdend4(k)
  elseif m=5 then vanderwaerdend5(k)
  elseif m=6 then vanderwaerdend6(k)
- else unknown$
+ else [ceiling(m^(k-1)/(4*k)),inf-1]$
 /* vanderwaerdend(m,k) = vanderwaerden(create_list(k,i,1,m)) */
+/* Remarks: The general lower bound is from [Rabung, 1979]. */
 
 /* The corresponding argument check for a vdW parameter-list L, 
    checking whether a parameter tuple applies, returning [m,k] 
@@ -207,10 +210,11 @@ vanderwaerdend2(k) :=
  if k <= 9 then [
   1,3,9,35,178,1132,[3703+1,inf-1],[11495+1,inf-1],[41265+1,inf-1]
  ][k]
- else unknown$
+ else [max(41265+1,(k-1)*2^(k-1)+1),inf-1]$
 /* Remark: The precise numbers have been verified/computed by SAT solving
    methods; especially k=6 is from [Kouril, Paul, 2008]. The bounds are in
    [Herwig, Heule, Lambalgen, Maaren, 2005].
+   The general lower bound is in [Berlekamp, 1968].
 */
 vanderwaerdend2_a(L) := if length(L)=2 and lconstant_p(L) then first(L)
  else []$
@@ -220,11 +224,12 @@ vanderwaerdend3(k) :=
  if k <= 8 then [
   1,4,27,[292+1,inf-1],[2173+1,inf-1],[11191+1,inf-1],[48811+1,inf-1],[238400+1,inf-1]
  ][k]
- else unknown$
+ else [max(238400+1,ceiling(3^(k-1)/(4*k))),inf-1]$
 /* Remark: The precise numbers have been verified/computed by SAT solving
    methods. The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2007],
    except for k=7, which is in [Heule, Walsh, 2010].
    See also http://www.st.ewi.tudelft.nl/sat/waerden.php.
+   The general lower bound is from [Rabung, 1979].
 */
 vanderwaerdend3_a(L) := if length(L)=3 and lconstant_p(L) then first(L)
  else []$
@@ -234,11 +239,12 @@ vanderwaerdend4(k) :=
  if k <= 7 then [
   1,5,76,[1048+1,inf-1],[17705+1,inf-1],[91331+1,inf-1],[420217+1,inf-1]
  ][k]
- else unknown$
+ else [max(420217,ceiling(4^(k-1)/(4*k))),inf-1]$
 /* Remark: The precise numbers have been verified/computed by SAT solving
    methods. The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2005],
    except for k=7, which is in [Heule, Walsh, 2010].
    See also http://www.st.ewi.tudelft.nl/sat/waerden.php.
+   The general lower bound is from [Rabung, 1979].
 */
 vanderwaerdend4_a(L) := if length(L)=4 and lconstant_p(L) then first(L)
  else []$
@@ -248,9 +254,10 @@ vanderwaerdend5(k) :=
  if k <= 6 then [
   1,6,[170+1,inf-1],[2254+1,inf-1],[98740+1,inf-1],[540025+1,inf-1]
  ][k]
- else unknown$
+ else [max(540025+1,ceiling(5^(k-1)/(4*k))),inf-1]$
 /* Remark: The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2007].
    See also http://www.st.ewi.tudelft.nl/sat/waerden.php.
+   The general lower bound is from [Rabung, 1979].
 */
 vanderwaerdend5_a(L) := if length(L)=5 and lconstant_p(L) then first(L)
  else []$
@@ -260,7 +267,7 @@ vanderwaerdend6(k) :=
  if k <= 6 then [
   1,7,[223+1,inf-1],[9778+1,inf-1],[98748+1,inf-1],[816981+1,inf-1]
  ][k]
- else unknown$
+ else [max(816981+1,ceiling(6^(k-1)/(4*k))),inf-1]$
 /* Remark: The bounds are in [Herwig, Heule, Lambalgen, Maaren, 2007].
    See also http://www.st.ewi.tudelft.nl/sat/waerden.php.
 */
