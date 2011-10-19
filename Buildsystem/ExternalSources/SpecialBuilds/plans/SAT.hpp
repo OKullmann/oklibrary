@@ -679,7 +679,42 @@ builds/Glucose> ./build.sh
    http://forge.ow2.org/project/showfiles.php?group_id=228 and
    http://download.forge.objectweb.org/sat4j/getting-started-sat4j-0.3.pdf .
    </li>
-   <li> Sat4j builds with gcj, however, a library from Eclipse is
+   <li> Sat4j builds with gcj-4.5.2 (system gcj on cspcmg):
+   \verbatim
+builds/SAT/Sat4J> svn checkout svn://svn.forge.objectweb.org/svnroot/sat4j/maven/trunk
+builds/SAT/Sat4J> cd trunk
+builds/SAT/Sat4J/trunk> ant
+builds/SAT/Sat4J/trunk> echo "p cnf 1 2
+1 -2 0
+-1 2 0
+" > test.cnf
+builds/SAT/Sat4J/trunk> java -jar dist/CUSTOM/org.sat4j.sat.jar test.cnf
+c SAT4J: a SATisfiability library for Java (c) 2004-2010 Daniel Le Berre
+c This is free software under the dual EPL/GNU LGPL licenses.
+c See www.sat4j.org for details.
+c This software uses some libraries from the Jakarta Commons project. See jakarta.apache.org for details.
+c version CUSTOM.v20111019
+c java.runtime.name	null
+c java.vm.name		GNU libgcj
+c java.vm.version	4.5.2
+c java.vm.vendor	Free Software Foundation, Inc.
+c sun.arch.data.model	null
+c java.version		1.5.0
+c os.name		Linux
+c os.version		2.6.38-11-generic
+c os.arch		x86_64
+<snip>
+s SATISFIABLE
+v -1 -2 0
+c Total wall clock time (in seconds) : 0.006
+   \endverbatim
+   </li>
+   <li> The SAT4J build system uses "ant". Likely we need to build and install
+   ant as well as gcj in ExternalSources. </li>
+   <li> Once we have ant, how to tell tell it to build using a specific gcj
+   executable? </li>
+   <li> DONE (edit the build.xml file)
+   Sat4j builds with gcj, however, a library from Eclipse is
    apparently needed during the build, as otherwise we get
    \verbatim
 builds/SAT/Sat4J> svn checkout svn://svn.forge.objectweb.org/svnroot/sat4j/maven/trunk
@@ -699,7 +734,8 @@ builds/SAT/Sat4J> wget "http://www.eclipse.org/downloads/download.php?file=/ecli
 builds/SAT/Sat4J> ant -lib ecj-3.6.1.jar
    \endverbatim
    </li>
-   <li> However, we then need to build ecj. The sources are available on the
+   <li> DONE (edit the build.xml file)
+   However, we then need to build ecj. The sources are available on the
    site, but Java 1.6 is required to build it and gcj only supports up to
    Java 1.5 -
    \verbatim
@@ -715,7 +751,8 @@ BUILD FAILED
 
    \endverbatim
    </li>
-   <li> Older versions of ecj are available, so we should try one of these.
+   <li> DONE (edit the build.xml file)
+   Older versions of ecj are available, so we should try one of these.
    </li>
   </ul>
 
