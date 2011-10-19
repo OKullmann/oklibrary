@@ -12,6 +12,8 @@ License, or any later version. */
 
   \todo Statistics on the performance of SAT solvers
   <ul>
+   <li> SAT instances created at Maxima level by
+   output_weak_php_stdname(m,k) (m pigeons into k holes). </li>
    <li> We should at least consider PHP^{2m}_m, PHP^{m+1}_m amd PHP^m_m. </li>
    <li> Statistics for all our solvers, for m = 0, ... until it takes several
    hours, with curve fittings.
@@ -22,7 +24,18 @@ License, or any later version. */
        conflicts no visible progress. </li>
        <li> PHP^15_14: After 137328s (38h) and 3,348,376,683 conflicts no
        visible progress. </li>
+       <li> PHP^14_13: After 112273s and 3,349,660,843 conflicts no
+       visible progress. </li>
+       <li> PHP^13_12: After 156595s and 5,596,327,305 conflicts no
+       visible progress. </li>
+       <li> PHP^12_11: solved in 7091.04s and 214,027,827 conflicts. </li>
+      </ol>
+     </li>
+     <li> OKsolver-2002:
+      <ol>
        <li> PHP^14_13: XXX </li>
+       <li> PHP^13_12: solved in 1145.5s, with 359,251,199 nodes. </li>
+       <li> PHP^12_11: solved in 91.5s, with 29,937,599 nodes. </li>
       </ol>
      </li>
     </ol>
@@ -43,6 +56,8 @@ License, or any later version. */
      This perhaps is much worse than minisat-2.2.0 alone on the instance. </li>
      <li> Perhaps here the application of the partial assignments doesn't make
      the instances much easier. </li>
+     <li> On the other hand, the problem seems very hard for minisat-2.2.0,
+     as seen above. </li>
     </ol>
    </li>
    <li> We also consider the performance of E_1(m) and E_2(m), where E_1 is
