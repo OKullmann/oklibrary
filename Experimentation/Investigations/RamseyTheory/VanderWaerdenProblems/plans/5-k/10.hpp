@@ -15,10 +15,42 @@ License, or any later version. */
    <li> Find best ubcsat-solver:
    \verbatim
 > E=run_ubcsat("VanDerWaerden_2-5-10_611.cnf",runs=100,cutoff=10000000)
-XXX
+1. rnov:
+ 7  8  9 10 11 12
+ 4 22 33 32  8  1
+fps: 84624
+2. rnovp:
+ 7  8  9 10 11 12
+ 3 14 31 38 13  1
+fps: 82701
+3. ag2wsat:
+ 7  8  9 10 11
+ 2 11 26 38 23
+fps: 149477
+4. dano:
+ 7  8  9 10 11 12
+ 2  5 14 45 29  5
+fps: 88952
+5. ddfw:
+ 7  8  9 10 11 12
+ 1  7 16 29 30 17
+fps: 27229
+6. anovpp:
+ 7  8  9 10 11 12 13
+ 1  3 20 32 32  9  3
+fps: 86652
+7. anovp:
+ 8  9 10 11 12
+ 3 19 37 27 14
+fps: 84418
+8. rots:
+11 12 13 14 15 16 17
+ 1 14 14 34 29  7  1
+fps: 145583
    \endverbatim
-   </li>
+   Looks like as rnovelty would be the clear winner. </li>
    <li> Start with the palindromic solution. </li>
+   <li> Starting from scratch: XXX </li>
   </ul>
 
 
