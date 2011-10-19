@@ -269,7 +269,7 @@ usage: plingeling [-t <threads>][-h][-n][-p][-v][<dimacs>[.gz]]
   <ul>
    <li> sat-grasp uses the system C++ libraries (libstdc++):
    \verbatim
-bin> ldd sat-grasp 
+bin> ldd sat-grasp
         linux-vdso.so.1 =>  (0x00007fffaf9d6000)
         libstdc++.so.6 => /usr/lib/libstdc++.so.6 (0x00007f56e7a76000)
         libm.so.6 => /lib/libm.so.6 (0x00007f56e77f3000)
@@ -330,7 +330,7 @@ bin> ldd sat-grasp
 
   \todo Add todos for SAT-Race 2010 SAT solvers
   <ul>
-   <li> See "Solvers to be used for experimentation" in 
+   <li> See "Solvers to be used for experimentation" in
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp
    for a list of solvers from SAT-Race 2010. </li>
   </ul>
@@ -550,7 +550,7 @@ Cannot allocate enough memory!
 ==23882==    by 0x412C93: Solver::search(int, int, bool) (Solver.cpp:1844)
 ==23882==    by 0x413B89: Solver::solve(vec<Lit> const&) (Solver.cpp:2403)
 ==23882==    by 0x4067D4: main (Solver.h:683)
-==23882== 
+==23882==
 ==23882== Conditional jump or move depends on uninitialised value(s)
 ==23882==    at 0x43569F: ClauseAllocator::consolidate(Solver*) (ClauseAllocator.cpp:430)
 ==23882==    by 0x4129CA: Solver::new_decision(int const&, int const&, int&) (Solver.cpp:1915)
@@ -618,7 +618,7 @@ builds/CryptoMiniSat> make
   \todo Documentation for CryptoMiniSat
   <ul>
    <li> Available at http://www.msoos.org/cryptominisat2 and the winner
-   of the SAT-Race 2010 (see http://baldur.iti.uka.de/sat-race-2010/). 
+   of the SAT-Race 2010 (see http://baldur.iti.uka.de/sat-race-2010/).
    </li>
    <li> The Git-repository is
    http://gitorious.org/cryptominisat/cryptominisat/. </li>
@@ -671,15 +671,50 @@ builds/Glucose> ./build.sh
    </li>
   </ul>
 
-  
+
   \todo SAT4J
   <ul>
    <li> http://www.sat4j.org/ </li>
-   <li> For documentation on building Sat4J from source, see 
+   <li> For documentation on building Sat4J from source, see
    http://forge.ow2.org/project/showfiles.php?group_id=228 and
    http://download.forge.objectweb.org/sat4j/getting-started-sat4j-0.3.pdf .
    </li>
-   <li> Sat4j builds with gcj, however, a library from Eclipse is 
+   <li> Sat4j builds with gcj-4.5.2 (system gcj on cspcmg):
+   \verbatim
+builds/SAT/Sat4J> svn checkout svn://svn.forge.objectweb.org/svnroot/sat4j/maven/trunk
+builds/SAT/Sat4J> cd trunk
+builds/SAT/Sat4J/trunk> ant
+builds/SAT/Sat4J/trunk> echo "p cnf 1 2
+1 -2 0
+-1 2 0
+" > test.cnf
+builds/SAT/Sat4J/trunk> java -jar dist/CUSTOM/org.sat4j.sat.jar test.cnf
+c SAT4J: a SATisfiability library for Java (c) 2004-2010 Daniel Le Berre
+c This is free software under the dual EPL/GNU LGPL licenses.
+c See www.sat4j.org for details.
+c This software uses some libraries from the Jakarta Commons project. See jakarta.apache.org for details.
+c version CUSTOM.v20111019
+c java.runtime.name	null
+c java.vm.name		GNU libgcj
+c java.vm.version	4.5.2
+c java.vm.vendor	Free Software Foundation, Inc.
+c sun.arch.data.model	null
+c java.version		1.5.0
+c os.name		Linux
+c os.version		2.6.38-11-generic
+c os.arch		x86_64
+<snip>
+s SATISFIABLE
+v -1 -2 0
+c Total wall clock time (in seconds) : 0.006
+   \endverbatim
+   </li>
+   <li> The SAT4J build system uses "ant". Likely we need to build and install
+   ant as well as gcj in ExternalSources. </li>
+   <li> Once we have ant, how to tell tell it to build using a specific gcj
+   executable? </li>
+   <li> DONE (edit the build.xml file)
+   Sat4j builds with gcj, however, a library from Eclipse is
    apparently needed during the build, as otherwise we get
    \verbatim
 builds/SAT/Sat4J> svn checkout svn://svn.forge.objectweb.org/svnroot/sat4j/maven/trunk
@@ -690,18 +725,19 @@ BUILD FAILED
 
 Total time: 1 second
    \endverbatim
-   However, using the "ecj-3.6.1.jar" (the Eclipse compiler library - 
-   http://download.eclipse.org/eclipse/downloads/drops/R-3.6.1-201009090800/index.php), 
-   we can then compile this like so - 
+   However, using the "ecj-3.6.1.jar" (the Eclipse compiler library -
+   http://download.eclipse.org/eclipse/downloads/drops/R-3.6.1-201009090800/index.php),
+   we can then compile this like so -
    \verbatim
 builds/SAT/Sat4J> svn checkout svn://svn.forge.objectweb.org/svnroot/sat4j/maven/trunk
 builds/SAT/Sat4J> wget "http://www.eclipse.org/downloads/download.php?file=/eclipse/downloads/drops/R-3.6.1-201009090800/ecj-3.6.1.jar&url=http://www.mirrorservice.org/sites/download.eclipse.org/eclipseMirror/eclipse/downloads/drops/R-3.6.1-201009090800/ecj-3.6.1.jar&mirror_id=96" -O ecj-3.6.1.jar
 builds/SAT/Sat4J> ant -lib ecj-3.6.1.jar
    \endverbatim
    </li>
-   <li> However, we then need to build ecj. The sources are available on the 
+   <li> DONE (edit the build.xml file)
+   However, we then need to build ecj. The sources are available on the
    site, but Java 1.6 is required to build it and gcj only supports up to
-   Java 1.5 - 
+   Java 1.5 -
    \verbatim
 builds/SAT/Sat4J> mkdir ecj; cd ecj
 builds/SAT/Sat4J/ecj> wget "http://www.eclipse.org/downloads/download.php?file=/eclipse/downloads/drops/R-3.6.1-201009090800/ecjsrc-3.6.1.zip&url=http://www.mirrorservice.org/sites/download.eclipse.org/eclipseMirror/eclipse/downloads/drops/R-3.6.1-201009090800/ecjsrc-3.6.1.zip&mirror_id=96" -O ecjsrc-3.6.1.zip
@@ -713,9 +749,10 @@ builds/SAT/Sat4J/ecj> ant
 BUILD FAILED
 /home/csmg/Apps/trunk/ecj/build.xml:35: Compile failed; see the compiler error output for details.
 
-   \endverbatim 
+   \endverbatim
    </li>
-   <li> Older versions of ecj are available, so we should try one of these. 
+   <li> DONE (edit the build.xml file)
+   Older versions of ecj are available, so we should try one of these.
    </li>
   </ul>
 
@@ -1019,7 +1056,7 @@ ExternalSources/Installations/SAT/march_ks> ./march_ks $OKPLATFORM/OKsystem/OKli
 ExternalSources/Installations/SAT> unzip $OKPLATFORM/ExternalSources/sources/SAT/March/march_pl.zip
 ExternalSources/Installations/SAT> cd march_pl/
 ExternalSources/Installations/SAT/march_pl> make
-ExternalSources/Installations/SAT/march_pl> ./march_pl $OKPLATFORM/OKsystem/OKlib/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/full/uuf250-011.cnf 
+ExternalSources/Installations/SAT/march_pl> ./march_pl $OKPLATFORM/OKsystem/OKlib/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/full/uuf250-011.cnf
    \endverbatim
    seems to work.
    </li>
@@ -1028,7 +1065,7 @@ ExternalSources/Installations/SAT/march_pl> ./march_pl $OKPLATFORM/OKsystem/OKli
 ExternalSources/Installations/SAT> unzip $OKPLATFORM/ExternalSources/sources/SAT/March/UnitMarch.zip
 ExternalSources/Installations/SAT> cd UnitMarch64/
 ExternalSources/Installations/SAT/UnitMarch64> make
-ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/OKsystem/OKlib/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/full/uuf250-011.cnf 
+ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/OKsystem/OKlib/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/full/uuf250-011.cnf
    \endverbatim
    ??? Only a 32-bits version?
    </li>
@@ -1040,7 +1077,7 @@ ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/O
    <li> When running SAT solvers on a non-trivial instance, one often wishes
    to place a time limit on the computation, after which we try another solver
    or try to solve some other instance. </li>
-   <li> It is also useful, given the use of shared machines (such as in a 
+   <li> It is also useful, given the use of shared machines (such as in a
    university lab) to place constraints on the memory usage of the solver to
    avoid the solver taking over the machine. </li>
    <li> Therefore it makes sense to consider tools for running SAT solvers
@@ -1134,7 +1171,7 @@ shell> cat experiment_r3_k1.cnf_cryptominisat
 [run] samples:		201
       \endverbatim
       </li>
-     </ul> 
+     </ul>
     </li>
    </ul>
    </li>
@@ -1306,7 +1343,7 @@ Satz> gcc -O3 -o satz215 satz215.2.c
   \todo MiniMaxSAT
   <ul>
    <li> http://www.lsi.upc.edu/~fheras/p6.html </li>
-   <li> The source does not seem to be available on the site for this solver. 
+   <li> The source does not seem to be available on the site for this solver.
    </li>
    <li> We should send an e-mail to the developers. </li>
   </ul>
@@ -1331,7 +1368,7 @@ SAT/Walksat/Walksat_v46> make
    \endverbatim
    seems to work, and creates executables "makewff" (random formula generator),
    "makequeens", and "walksat"."walksat --help" also works. </li>
-   <li> 
+   <li>
    <li> Sources under sources/SAT/Walksat. </li>
    <li> There is also "Clone" http://reasoning.cs.ucla.edu/clone/. </li>
   </ul>
@@ -1619,10 +1656,10 @@ collect2: ld returned 1 exit status
 collect2: ld returned 1 exit status
    \endverbatim
    </li>
-   <li> We apparently have the latest version of zlib. Do we need a 
+   <li> We apparently have the latest version of zlib. Do we need a
    "multilib"-version (there doesn't seem to be one)? </li>
    <li> Compiling zlib with CFLAGS="-m32" makes this error go away, and so it
-   seems a multilib issue, but then if we use this then we will likely get 
+   seems a multilib issue, but then if we use this then we will likely get
    other errors in other packages that use zlib. </li>
    <li> DONE Perhaps we should offer a 64-bit and 32-bit zlib? </li>
   </ul>
