@@ -33,9 +33,22 @@ License, or any later version. */
      </li>
      <li> OKsolver-2002:
       <ol>
-       <li> PHP^14_13: XXX </li>
+       <li> PHP^14_13: solved in 14326.7s, with 4,670,265,599 nodes. </li>
        <li> PHP^13_12: solved in 1145.5s, with 359,251,199 nodes. </li>
        <li> PHP^12_11: solved in 91.5s, with 29,937,599 nodes. </li>
+      </ol>
+     </li>
+     <li> Picosat913:
+      <ol>
+       <li> PHP^12_11: solved in 9365.7s, with 457,292,071 conflicts. </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
+     <li> Picosat570:
+      <ol>
+       <li> PHP^13_12: solved in XXXs, with XXX conflicts. </li>
+       <li> PHP^12_11: solved in 251.2s, with 1,213,305 conflicts. </li>
       </ol>
      </li>
     </ol>
