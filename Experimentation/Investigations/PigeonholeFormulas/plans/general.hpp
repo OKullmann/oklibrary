@@ -45,9 +45,10 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-     <li> Picosat570:
+     <li> Precosat570:
       <ol>
-       <li> PHP^13_12: solved in XXXs, with XXX conflicts. </li>
+       <li> PHP^14_13: solved in XXXs, with XXX conflicts. </li>
+       <li> PHP^13_12: solved in 4174.1s, with 7,068,716 conflicts. </li>
        <li> PHP^12_11: solved in 251.2s, with 1,213,305 conflicts. </li>
       </ol>
      </li>
