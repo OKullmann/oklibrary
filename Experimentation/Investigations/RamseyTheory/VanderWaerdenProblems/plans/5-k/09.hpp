@@ -132,8 +132,25 @@ fps: 124954
    <li> Starting again from scratch:
    \verbatim
 k1=5 k2=9 n0=10 alg="rnovelty" runs=1000 cutoff=400000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff}
-XXX
+> cat Statistics
+    366     1      51141  401604352  r
+    373    11     101058  786032789  r
+    384     3      32655  748060317  r
+    385     3      12432    4616253  p
+    386     1    4632660  782230910  r
+    389     7      19126 1430709396  r
+    399    22     439014  726353541  r
+    400    18    3566932 3762276579  r
+    401     7     738911  951558784  r
+    406    11    4750638 2212607612  r
+    409    27    2349099 2744047507  r
+    425     3  162520020  237227410  r
+> E=read_ubcsat("VanDerWaerden_2-5-9_431.cnf_OUT")
+ 1  2
+18 17
+35
    \endverbatim
+   This seems rather inefficient. </li>
   </ul>
 
 
