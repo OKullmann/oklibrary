@@ -1,0 +1,54 @@
+/* Oliver Kullmann, 21.10.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/NumberTheory/Lisp/ModularArithmetic.mac
+  \brief Functions for number theory functions related to modular arithmetic
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/ModularArithmetic.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* The integer m is a primitive root modulo the natural number n >= 1
+   iff m generates the group of invertible elements of the ring ZZ_n:
+*/
+primitive_modular_root_p(m,n) := gcd(m,n)=1 and
+ block([phi : totient(n), exponents],
+  exponents : phi / map(first,ifactors(phi)),
+  primitive_modular_root_p_inherited(m))$
+/* Inherits variables n, exponents (= phi / map(first,ifactors(phi)) for
+   phi=totient(n)):
+*/
+primitive_modular_root_p_inherited(m) := gcd(m,n)=1 and
+  every_s(lambda([e], is(power_mod(m,e,n) # 1)), exponents)$
+
+/* Testing whether for the natural number n >= 1 a primitive root modulo n
+   exists:
+*/
+has_primite_modular_root_p(n) := elementp(n,{1,2,4}) or
+ block([f : ifactors(n)],
+  (length(f) = 1 and first(first(f)) # 2) or 
+  (length(f) = 2 and first(f)=[2,1]))$
+
+/* Smallest primitive root modulo n, assuming it exists (otherwise an infinite
+   loop is entered):
+*/
+smallest_primitive_modular_root(n) := block([phi : totient(n), exponents],
+ exponents : phi / map(first,ifactors(phi)),
+ for r : 0 do if primitive_modular_root_p_inherited(r) then return(r))$
+
+
+/*!
+\endhtmlonly
+*/
+

@@ -1,0 +1,32 @@
+/* Oliver Kullmann, 22.10.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/NumberTheory/Lisp/testobjects/ModularArithmetic.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/testobjects/ModularArithmetic.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/ModularArithmetic.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/ModularArithmetic.mac")$
+
+okltest_primitive_modular_root_p(primitive_modular_root_p);
+
+okltest_has_primite_modular_root_p(has_primite_modular_root_p);
+
+okltest_smallest_primitive_modular_root(smallest_primitive_modular_root);
+
+/*!
+\endhtmlonly
+*/

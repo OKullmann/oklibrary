@@ -20,11 +20,13 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/include.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/ModularArithmetic.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Quadratics.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/SurrealNumbers.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/ModularArithmetic.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/PrimeNumbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/Quadratics.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/SurrealNumbers.mac")$
