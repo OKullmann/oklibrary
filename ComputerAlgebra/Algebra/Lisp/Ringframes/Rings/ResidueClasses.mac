@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.7.2008 (Swansea) */
-/* Copyright 2008, 2010 Oliver Kullmann
+/* Copyright 2008, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -42,6 +42,18 @@ mod_mul_inv(n) := buildq([n],lambda([x],inv_mod(x,n)))$
 /* These functions can also be used "modulo n", i.e., their inputs
 can be arbitrary integers. */
 
+
+/* Remarks:
+
+ - The additive part of residues_rng(n) is used in
+   Algebra/Lisp/Groupoids/Groups/CyclicGroups.mac by cyclic_ugrp(n) as the
+   standard model of a cyclic group of order n.
+ - The multiplicative group of invertible elements of residues_rng(n) is
+   a cyclic group iff has_primite_modular_root_p(n) is true (see
+   NumberTheory/Lisp/ModularArithmetic.mac), and a generator is then given by
+   smallest_primitive_modular_root(n).
+
+*/
 
 /*!
 \endhtmlonly
