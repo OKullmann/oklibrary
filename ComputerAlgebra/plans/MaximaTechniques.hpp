@@ -454,27 +454,6 @@ B : map(lambda([x],x+1),B)$
     iteration. </li>
     </ol>
    </li>
-   <li> Randomisation:
-    <ol>
-     <li> Given a seed 0 <= n < 2^32, the state of all randomised functions
-     is set by set_random_state(make_random_state(n)). </li>
-     <li> This is achieved by the OKlibrary-function "set_random"
-     (in ComputerAlgebra/DataStructures/Lisp/Lists.mac). </li>
-     <li> Randomised functions are "random", "random_permutation". </li>
-     <li> A copy of the current random state is obtained by
-     make_random_state(false). </li>
-     <li> So for example to compute a random_permutation from seed n, without
-     disturbing the global random state, use
-     \verbatim
-block([s : make_random_state(false)],
-  set_random(n),
-  ... use random_permutation ...
-  set_random_state(s)
-)
-     \endverbatim
-     </li>
-    </ol>
-   </li>
    <li> Shallow copy of list arguments for functions:
     <ol>
      <li> Give examples for this behaviour. </li>
@@ -592,6 +571,62 @@ plot2d(exp(x)*x,[x,-7,1],[ylabel,"x * exp(x)"],
      is created in the home-directory of the user. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Randomisation
+  <ul>
+   <li> Given a seed 0 <= n < 2^32, the state of all randomised functions
+   is set by set_random_state(make_random_state(n)). </li>
+   <li> This is achieved by the OKlibrary-function "set_random"
+   (in ComputerAlgebra/DataStructures/Lisp/Lists.mac). </li>
+   <li> Randomised functions are "random", "random_permutation". </li>
+   <li> A copy of the current random state is obtained by
+   make_random_state(false). </li>
+   <li> So for example to compute a random_permutation from seed n, without
+   disturbing the global random state, use
+   \verbatim
+block([s : make_random_state(false)],
+  set_random(n),
+  ... use random_permutation ...
+  set_random_state(s)
+)
+   \endverbatim
+   </li>
+   <li> Making runs using the Lisp-random-function reproducible (for example
+   ifactors using randomisation driven by this function):
+   \verbatim
+:lisp (defvar s (make-random-state))
+(%i27) ifactors(1000000000000000000000000000000000000000000000000000000000007-1)$
+Evaluation took 91.8810 seconds (92.0770 elapsed)
+(%i28) :lisp (setq *random-state* (make-random-state s))
+#<random-state 0000000015815000>
+(%i28) ifactors(1000000000000000000000000000000000000000000000000000000000007-1)$
+Evaluation took 90.3660 seconds (90.5580 elapsed)
+(%i29) :lisp (setq *random-state* (make-random-state s))
+#<random-state 0000000016e87000>
+(%i29) ifactors(1000000000000000000000000000000000000000000000000000000000007-1)$
+Evaluation took 90.9720 seconds (91.1640 elapsed)
+(%i30) :lisp (defvar s2 (make-random-state))
+S2
+(%i30) ifactors(1000000000000000000000000000000000000000000000000000000000007-1)$
+Evaluation took 46.4100 seconds (46.5370 elapsed)
+(%i31) :lisp (setq *random-state* (make-random-state s2))
+#<random-state 0000000016f92000>
+(%i31) ifactors(1000000000000000000000000000000000000000000000000000000000007-1)$
+Evaluation took 46.8380 seconds (46.9590 elapsed)
+(%i32) :lisp (setq *random-state* (make-random-state s2))
+#<random-state 0000000016dcf000>
+(%i32) ifactors(1000000000000000000000000000000000000000000000000000000000007-1)$
+Evaluation took 46.5850 seconds (46.6750 elapsed)
+   \endverbatim
+   </li>
+   <li> Via "(make-random-state)" a copy of the current state is created. </li>
+   <li> This copy is stored in s (note: Lisp is *reference-based*). </li>
+   <li> And via "(make-random-state s)" a copy of this state is created (only
+   in this way the state s can be re-used, i.e., is not overwritten). </li>
+   <li> This is the outcome of a discussion on the Maxima mailing list
+   22/23.10.2011. </li>
   </ul>
 
 
