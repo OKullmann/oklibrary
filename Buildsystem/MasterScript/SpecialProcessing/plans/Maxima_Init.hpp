@@ -27,6 +27,8 @@ License, or any later version. */
    negative effect on others due to increased memory-consumption; MG should
    explore this. </li>
    <li> Is frame_stack_ecl_okl too large? </li>
+   <li> Somewhere there must be another todo regarding using 32-bit machines
+   (where we have now the special setting for heap_size_ecl_okl)? </li>
   </ul>
 
 */

@@ -27,6 +27,10 @@ define_variable(
     elseif maxima_lisp_name_okl = "clisp" then 2^12 - 1
     else unknown,
   any); /* may take value inf or unknown */
+define_variable(
+  environment_machine_bits,
+  m4_SHELL(machine_bits_okl),
+  fixnum);
 
 define_variable(
   eis_directory_okl,
@@ -161,7 +165,7 @@ oklib_save([L]) := if oklib_store then block(
  else false$
 
 
-/* Constants for  asserts handling floating-point numbers */
+/* Constants for asserts handling floating-point numbers */
 
 define_variable(
   oklib_float_comparison_factor,
@@ -195,3 +199,6 @@ define_variable(
   lisp_stack_ecl,
   m4_SHELL(lisp_stack_ecl_okl),
   fixnum);
+
+if environment_machine_bits=32 then
+  heap_size_ecl_okl : heap_size_ecl_okl/2;
