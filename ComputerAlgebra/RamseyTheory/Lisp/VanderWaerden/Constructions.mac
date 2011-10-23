@@ -78,7 +78,8 @@ rabung_next_candidates(m,k,p) := block([pn : max(k,next_prime(p))],
  [pn,pn*(k-1)+1])$
 
 /* Searching for parameter values p,n with n <= N: */
-rabung_search(m,k,N) := block([p:0,n:0,res:[],r],
+rabung_search(m,k,N) := rabung_search_(m,k,N,0,0)$
+rabung_search_(m,k,N,p,n) := block([res:[],r],
  if oklib_monitor then print(sconcat("vdw_",m,"(",k,") : ", vanderwaerdend(m,k))),
  while n < N do (
    r : rabung_search_next(m,k,p,N),
