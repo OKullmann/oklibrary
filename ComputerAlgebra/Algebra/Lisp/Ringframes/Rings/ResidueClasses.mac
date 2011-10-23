@@ -20,9 +20,13 @@ oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueClasses.m
 */
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
-/* The basic operations for modular arithmetic: */
+/* ***********************************************
+   * The basic operations for modular arithmetic *
+   ***********************************************
+*/
 
 /* Prerequisite: n >= 1. */
 mod_add(n) := buildq([n],lambda([x,y],mod(x+y,n)))$
@@ -30,17 +34,20 @@ mod_mul(n) := buildq([n],lambda([x,y],mod(x*y,n)))$
 /* These functions can also be used "modulo n", i.e., their inputs
 can be arbitrary integers. */
 
-/* The ring of residue classes modulo n, using the standard representation
+/* The ring Z_n of residue classes modulo n, using the standard representation
    of the elements by 0, ..., n-1: */
 residues_rng(n) := [setmn(0,n-1), mod_add(n), mod_mul(n), [0], [mod(1,n)]]$
 
 /* The additive inverse: */
 mod_add_inv(n) := buildq([n],lambda([x],mod(-x,n)))$
 /* The multiplicative inverse (returns false for non-invertible
-   elements: */
+   elements): */
 mod_mul_inv(n) := buildq([n],lambda([x],inv_mod(x,n)))$
-/* These functions can also be used "modulo n", i.e., their inputs
-can be arbitrary integers. */
+
+/*
+   These functions can also be used "modulo n", i.e., their inputs
+   can be arbitrary integers.
+*/
 
 
 /* Remarks:
@@ -54,6 +61,49 @@ can be arbitrary integers. */
    smallest_primitive_modular_root(n).
 
 */
+
+
+/* ***********************
+   * Invertible elements *
+   ***********************
+*/
+
+/* The set of invertible elements of Z_n: */
+inv_residues(n) := subset(setmn(0,n-1), lambda([x], is(gcd(x,n)=1)))$
+/* The (multiplicative) group Z_n^* of invertible elements of Z_n: */
+inv_residues_ugrp(n) := [inv_residues(n),mod_mul(n),mod(1,n)]$
+
+
+/* The isomorphism of Z_n^* to Z_phi(n) (phi(n) = totient(n)) for n
+   where Z_n^* is cyclic (see has_primite_modular_root_p(n)), given
+   by the primitive root r modulo n, which yields for every element x in Z_n^*
+   its index relative to r.
+*/
+/* Computing the result each time from scratch: */
+discrete_log_bydef(n,r) := buildq([n,r], lambda([x], x : mod(x,n),
+ for i:0 do if power_mod(r,i,n)=x then return(i)))$
+/* Precomputing all results, and storing internally in a hash-table: */
+discrete_log_bydef_hash(n,r) := block(
+ [h:sm2hm({}), x : 1, i : 0, phi : totient(n)],
+  while i < phi do (set_hm(h,x,i), i:i+1, x:mod(x*r,n)),
+  buildq([h,n], lambda([x], ev_hm(h,mod(x,n)))))$
+
+/* For prime numbers n=p, where before gf_set(p) has been called (does not
+   work reliably, due to the general problems with package gf): */
+oklib_plain_include(gf)$
+discrete_log_bygf(r) := buildq([r],lambda([x],gf_log(x,r)))$
+
+
+/* *****************
+   * Homomorphisms *
+   *****************
+*/
+
+/* The canonical ring-homomorphisms from Z_n onto Z_m for m | n, given
+   by 1 -> 1:
+*/
+canhom_residues(m) := buildq([m],lambda([x], mod(x,m)))$
+
 
 /*!
 \endhtmlonly
