@@ -201,4 +201,4 @@ define_variable(
   fixnum);
 
 if environment_machine_bits=32 then
-  heap_size_ecl_okl : heap_size_ecl_okl/2;
+  heap_size_ecl : heap_size_ecl/2;
