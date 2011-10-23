@@ -18,6 +18,50 @@ License, or any later version. */
    <li> Statistics for all our solvers, for m = 0, ... until it takes several
    hours, with curve fittings.
     <ol>
+     <li> Cryptominisat 2.9.0:
+      <ol>
+       <li> PHP^16_15: solved in 75905.41s, with 43,150,728 conflicts (so here
+       the "point of competence" seems to have been exceeded). </li>
+       <li> PHP^15_14: solved in 3423.40s, with 6,488,768 conflicts. </li>
+       <li> PHP^14_13: solved in 1032.63s, with 2,886,433 conflicts. </li>
+       <li> PHP^13_12: solved in 286.78s and 1,215,119 conflicts. </li>
+       <li> PHP^12_11: solved in 35.15s and 230,963 conflicts. </li>
+      </ol>
+     </li>
+     <li> OKsolver-2002:
+      <ol>
+       <li> PHP^14_13: solved in 14326.7s, with 4,670,265,599 nodes. </li>
+       <li> PHP^13_12: solved in 1145.5s, with 359,251,199 nodes. </li>
+       <li> PHP^12_11: solved in 91.5s, with 29,937,599 nodes. </li>
+      </ol>
+     </li>
+     <li> satz215
+      <ol>
+       <li> PHP^14_13: solved in 24468.120s. </li>
+       <li> PHP^13_12: solved in 1814.540s. </li>
+       <li> PHP^12_11: solved in 146.810s. </li>
+      </ol>
+     </li>
+     <li> march_pl
+      <ol>
+       <li> PHP^14_13: solved in time=38014.687500s with 1,076,150,280 nodes.
+       </li>
+       <li> PHP^13_12: solved in time=2845.439941s and 83,735,568 nodes. </li>
+       <li> PHP^12_11: solved in time=219.839996s and 6,874,774 nodes. </li>
+      </ol>
+     </li>
+     <li> Precosat570:
+      <ol>
+       <li> PHP^14_13: solved in 70872.4s, with 43,974,359 conflicts. </li>
+       <li> PHP^13_12: solved in 4174.1s, with 7,068,716 conflicts. </li>
+       <li> PHP^12_11: solved in 251.2s, with 1,213,305 conflicts. </li>
+      </ol>
+     </li>
+     <li> Glucose 1.0:
+      <ol>
+       <li> PHP^12_11: solved in time=1529.39s and 4,938,313 conflicts. </li>
+      </ol>
+     </li>
      <li> minisat-2.2.0:
       <ol>
        <li> PHP^16_15: After 2650m (nearly 2 days) and more than 3,317,199,477
@@ -31,25 +75,16 @@ License, or any later version. */
        <li> PHP^12_11: solved in 7091.04s and 214,027,827 conflicts. </li>
       </ol>
      </li>
-     <li> OKsolver-2002:
-      <ol>
-       <li> PHP^14_13: solved in 14326.7s, with 4,670,265,599 nodes. </li>
-       <li> PHP^13_12: solved in 1145.5s, with 359,251,199 nodes. </li>
-       <li> PHP^12_11: solved in 91.5s, with 29,937,599 nodes. </li>
-      </ol>
-     </li>
      <li> Picosat913:
       <ol>
        <li> PHP^12_11: solved in 9365.7s, with 457,292,071 conflicts. </li>
       </ol>
      </li>
-    </ol>
-   </li>
-     <li> Precosat570:
+     <li> Grasp:
       <ol>
-       <li> PHP^14_13: solved in XXXs, with XXX conflicts. </li>
-       <li> PHP^13_12: solved in 4174.1s, with 7,068,716 conflicts. </li>
-       <li> PHP^12_11: solved in 251.2s, with 1,213,305 conflicts. </li>
+       <li> PHP^12_11: self-abortion after 4.282s and 1595 conflicts. It says
+       "Terminating NSAT" ? Likely "RESOURCES EXCEEDED" in the output is
+       to be taken seriously. We need to ask Joao Marques-Silva. </li>
       </ol>
      </li>
     </ol>
