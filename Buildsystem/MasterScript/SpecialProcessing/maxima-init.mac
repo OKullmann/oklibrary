@@ -199,6 +199,3 @@ define_variable(
   lisp_stack_ecl,
   m4_SHELL(lisp_stack_ecl_okl),
   fixnum);
-
-if environment_machine_bits=32 then
-  heap_size_ecl : heap_size_ecl/2;
