@@ -1,0 +1,104 @@
+/* Oliver Kullmann, 22.10.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Constructions.mac
+  \brief Constructions of vdW-certificates
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Constructions.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueClasses.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/ModularArithmetic.mac")$
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Certificates.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
+
+/* *******************
+   * Rabung's method *
+   *******************
+*/
+
+/* m colours, arithmetic progressions of length k, and n vertices: */
+rabung_valid_param(m,k,n) := integerp(m) and integerp(k) and integerp(n) and
+ m >= 2 and k >= 3 and mod(n-1,k-1)=0 and block([p : (n-1)/(k-1)],
+  primep(p) and p >= k and mod(p,m) = 1)$
+
+rabung_derived_parameters(m,k,n) := block([p : (n-1)/(k-1)],
+ [p,smallest_primitive_modular_root(p)])$
+
+/* The colouring map, defined for inputs in ZZ_n, returning an element
+   in ZZ_m:
+*/
+rabung_colouring_map(m,k,n) := block([p, r],
+ [p,r] : rabung_derived_parameters(m,k,n),
+ buildq([m,p, d : discrete_log_bydef_hash(p,r)], lambda([x],
+   if mod(x,p)=0 then if x=0 then 0 else 1
+   else canhom_residues(m)(d(x)))))$
+
+/* The colouring as list ("uncompressed form"): */
+rabung_attempted_certificate(m,k,n) := block([c : rabung_colouring_map(m,k,n)],
+ seq2certificatevdw(create_list(c(i),i,0,n-1)))$
+
+rabung_checkdirect_certificate(m,k,n) :=
+ certificate_vdw_p(create_list(k,i,1,m),n,rabung_attempted_certificate(m,k,n))$
+
+rabung_checkcriterion(m,k,n) := block(
+ [p : (n-1)/(k-1), c : rabung_colouring_map(m,k,n), crit : true, A],
+  A : okl_make_array(fixnum,p-1),
+  for i : 1 thru p-1 do A[i] : c(i),
+  for a : 1 thru (p-1)-(k-1) while crit do
+    if length(setify(create_list(A[i],i,a,a+k-1)))=1 then crit:false,
+  crit and
+    if c(-1)=0 then length(map(c,setn(ceiling((k-1)/2)))) > 1
+    elseif evenp(m) and c(-1)=m/2 then length(map(c,setn(k-1))) > 1
+    else true)$
+
+/* We have rabung_checkdirect_certificate(m,k,n) iff 
+   rabung_checkcriterion(m,k,n).
+*/
+
+
+/* Searching for successful parameter values */
+
+rabung_next_candidates(m,k,p) := block([pn : max(k,next_prime(p))],
+ while mod(pn,m)#1 do pn : next_prime(pn),
+ [pn,pn*(k-1)+1])$
+
+/* Searching for parameter values p,n with n <= N: */
+rabung_search(m,k,N) := block([p:0,n:0,res:[],r],
+ if oklib_monitor then print(sconcat("vdw_",m,"(",k,") : ", vanderwaerdend(m,k))),
+ while n < N do (
+   r : rabung_search_next(m,k,p,N),
+   if r#false then (
+     res : cons(r,res), [p,n] : r, if oklib_monitor then print(p,n)
+   )
+   else return()
+ ),
+ reverse(res))$
+/* Remark: For every n-value returned we have vdw_m(k) > n. */
+
+rabung_search_next(m,k,p,N) := block([n,res:false],
+ while res=false do (
+   [p,n] : rabung_next_candidates(m,k,p),
+   if n > N then return(),
+   if rabung_checkcriterion(m,k,n) then res : [p,n]
+ ),
+ res)$
+
+
+/*!
+\endhtmlonly
+*/

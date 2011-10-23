@@ -1,0 +1,79 @@
+/* Oliver Kullmann, 23.10.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/tests/Constructions.mac
+  \brief Tests for functions related to vdW-constructions
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/tests/Constructions.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+
+kill(f)$
+
+/* *******************
+   * Rabung's method *
+   *******************
+*/
+
+okltest_rabung_valid_param(f) := (
+
+  true)$
+
+okltest_rabung_derived_parameters(f) := (
+
+  true)$
+
+okltest_rabung_colouring_map(f) := (
+
+  true)$
+
+okltest_rabung_attempted_certificate(f) := (
+
+  true)$
+
+okltest_rabung_checkdirect_certificate(f) := (
+
+  true)$
+
+okltest_rabung_checkcriterion(f) := (
+
+  true)$
+
+okltest_rabung_next_candidates(f) := (
+
+  true)$
+
+okltest_rabung_search(f) := (
+  assert(f(2,3,6) = []),
+  assert(f(2,3,7) = [[3,7]]),
+  assert(f(2,4,15) = []),
+  assert(f(2,4,34) = [[5,16],[7,22],[11,34]]),
+  assert(f(3,3,100) = []),
+  assert(f(3,4,292) = [[4,13],[7,22],[13,40],[19,58],[37,112],[97,292]]),
+  assert(f(4,3,75) = [[5,11],[13,27],[37,75]]),
+  assert(f(5,3,100) = []),
+  assert(f(6,3,207) = [[7,15],[19,39],[67,135],[79,159],[103,207]]),
+  true)$
+
+okltest_rabung_search_next(f) := (
+
+  true)$
+
+
+/*!
+\endhtmlonly
+*/
