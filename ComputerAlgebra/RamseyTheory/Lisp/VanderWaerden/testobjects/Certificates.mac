@@ -43,6 +43,7 @@ okltest_certificatevdw2seq(certificatevdw2seq);
 okltest_certificatevdw2list(certificatevdw2list);
 okltest_certificatevdw2string(certificatevdw2string);
 okltest_list2certificatevdw(list2certificatevdw);
+okltest_seq2certificatevdw(seq2certificatevdw);
 
 okltest_compress_palindromic_subsets(compress_palindromic_subsets);
 okltest_uncompress_palindromic_subsets(uncompress_palindromic_subsets);

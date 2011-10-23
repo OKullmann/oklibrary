@@ -149,6 +149,13 @@ okltest_list2certificatevdw(f) := (
   assert(f([[1,1],[0,3],[2,1],[1,2]]) = [{2,3,4},{1,6,7},{5}]),
   true)$
 
+okltest_seq2certificatevdw(f) := (
+  assert(f([]) = []),
+  assert(f([1]) = [{},{1}]),
+  assert(f([2]) = [{},{},{1}]),
+  assert(f([0,0,1,1,2,0,1]) = [{1,2,6},{3,4,7},{5}]),
+  true)$
+
 okltest_compress_palindromic_subsets(f) := (
   /* XXX */
   true)$

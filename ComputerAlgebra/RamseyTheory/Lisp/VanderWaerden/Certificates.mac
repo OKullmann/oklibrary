@@ -119,8 +119,8 @@ certificatevdw2string(P) := block([distribute_over:false, x,y],
                           if b=1 then a else a^{b})),
         certificatevdw2list(P))))))$
 
-/* The reserce direction, translates a list-representation of a partition
-   into a partition:
+/* The reverse direction, translates a (compressed) list-representation of a
+   partition into a partition:
 */
 list2certificatevdw(L) := if emptyp(L) then [] else
  block([m : lmax(map(first,L))+1, i : 1, res],
@@ -130,6 +130,16 @@ list2certificatevdw(L) := if emptyp(L) then [] else
     i : i + second(p)
   ),
   res)$
+/* And translating an "uncompressed list-representation" into a partition: */
+seq2certificatevdw(L) := if emptyp(L) then [] else
+ block([m : lmax(L)+1, i : 1, res],
+  res : create_list({},i,1,m),
+  for p in L do (
+    res[p+1] : adjoin(i,res[p+1]),
+    i : i + 1
+  ),
+  res)$
+
 
 
 /* Palindromic certificates */
