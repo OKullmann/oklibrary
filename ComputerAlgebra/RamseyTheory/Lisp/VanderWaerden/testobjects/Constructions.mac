@@ -40,6 +40,8 @@ okltest_rabung_checkcriterion(rabung_checkcriterion);
 
 okltest_rabung_next_candidates(rabung_next_candidates);
 
+okltest_rabung_final_prime(rabung_final_prime);
+
 okltest_rabung_search(rabung_search);
 
 okltest_rabung_search_next(rabung_search_next);

@@ -57,6 +57,10 @@ okltest_rabung_next_candidates(f) := (
 
   true)$
 
+okltest_rabung_final_prime(f) := (
+
+  true)$
+
 okltest_rabung_search(f) := (
   assert(f(2,3,6) = []),
   assert(f(2,3,7) = [[3,7]]),
