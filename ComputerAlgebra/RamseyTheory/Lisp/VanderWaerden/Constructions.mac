@@ -63,8 +63,7 @@ rabung_checkcriterion(m,k,n) := block(
     if length(setify(create_list(A[i],i,a,a+k-1)))=1 then crit:false,
   crit and
     if c(-1)=0 then length(map(c,setn(ceiling((k-1)/2)))) > 1
-    elseif evenp(m) and c(-1)=m/2 then length(map(c,setn(k-1))) > 1
-    else true)$
+    else length(map(c,setn(k-1))) > 1)$
 
 /* We have rabung_checkdirect_certificate(m,k,n) iff 
    rabung_checkcriterion(m,k,n).
