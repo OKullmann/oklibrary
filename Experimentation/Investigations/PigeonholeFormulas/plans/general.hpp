@@ -379,14 +379,11 @@ experiment(7,5);
    \verbatim
 > ssh -t csoliver@cs-wsok.swansea.ac.uk /usr/bin/screen -xRR
 > oklib --maxima
-oklib_load_all();
-
 for n : 0 thru 3 do print(n,treecomp_refutation_cs(weak_php_cs(n+1,n)));
-
 0 1
 1 5
 2 21
-XXX
+# aborted after 2 weeks
 
 > screen
 > oklib --maxima
