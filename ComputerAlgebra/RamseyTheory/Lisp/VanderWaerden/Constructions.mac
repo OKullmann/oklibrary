@@ -57,13 +57,14 @@ rabung_checkdirect_certificate(m,k,n) :=
 
 rabung_checkcriterion(m,k,n) := block(
  [p : (n-1)/(k-1), c : rabung_colouring_map(m,k,n), crit : true, A],
+  if c(-1)=0 then
+    (if length(map(c,setn(ceiling((k-1)/2)))) = 1 then return(false))
+  else if length(map(c,setn(k-1))) = 1 then return(false),
   A : okl_make_array(fixnum,p-1),
   for i : 1 thru p-1 do A[i] : c(i),
   for a : 1 thru (p-1)-(k-1) while crit do
     if length(setify(create_list(A[i],i,a,a+k-1)))=1 then crit:false,
-  crit and
-    if c(-1)=0 then length(map(c,setn(ceiling((k-1)/2)))) > 1
-    else length(map(c,setn(k-1))) > 1)$
+  crit)$
 
 /* We have rabung_checkdirect_certificate(m,k,n) iff 
    rabung_checkcriterion(m,k,n).
