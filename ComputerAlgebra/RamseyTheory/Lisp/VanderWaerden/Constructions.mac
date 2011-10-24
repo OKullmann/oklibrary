@@ -73,13 +73,21 @@ rabung_checkcriterion(m,k,n) := block(
 
 /* Searching for successful parameter values */
 
+/* Computing the next possible prime > p: */
 rabung_next_candidates(m,k,p) := block([pn : max(k,next_prime(p))],
  while mod(pn,m)#1 do pn : next_prime(pn),
  [pn,pn*(k-1)+1])$
+/* Computes the last p with n < N: */
+rabung_final_prime(m,k,p,N) := block([n : p*(k-1)+1, pn],
+ if n >= N then return([]),
+ [pn,n] : rabung_next_candidates(m,k,p),
+ while n < N do (p:pn, [pn,n] : rabung_next_candidates(m,k,p)),
+ return(p))$
 
 /* Searching for parameter values p,n with n <= N: */
-rabung_search(m,k,N) := rabung_search_(m,k,N,0,0)$
-rabung_search_(m,k,N,p,n) := block([res:[],r],
+rabung_search(m,k,N) := rabung_search_(m,k,N,0)$
+/* Now providing the last p-value (the next is to be considered): */
+rabung_search_(m,k,N,p) := block([res:[],r,n:p*(k-1)+1],
  if oklib_monitor then print(sconcat("vdw_",m,"(",k,") : ", vanderwaerdend(m,k))),
  while n < N do (
    r : rabung_search_next(m,k,p,N),
