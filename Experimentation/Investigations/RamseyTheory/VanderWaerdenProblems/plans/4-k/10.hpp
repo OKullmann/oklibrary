@@ -10,18 +10,24 @@ License, or any later version. */
   \brief On investigations into vdw_2(4,10) > 328
 
 
-  \todo Best ubcsat-solver
-  <ul>
-   <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
-   <li>
-   \verbatim
- E=run_ubcsat("VanDerWaerden_2-4-10_328.cnf",runs=100,cutoff=10000000)
-  </ul>
-
-
   \todo vanderwaerden_2(4,10) > 328
   <ul>
    <li> The conjecture is vanderwaerden_2(4,10) = 329. </li>
+   <li> Certificate for n=328:
+   \verbatim
+10,19,23,25,29,30,33,34,36,40,
+42,44,45,51,54,58,67,68,77,81,
+84,90,91,93,95,99,101,102,105,106,
+107,110,112,120,122,125,126,127,130,131,
+133,137,139,141,142,148,151,155,164,165,
+174,178,181,187,188,190,192,196,198,199,
+202,203,204,207,209,213,217,219,222,223,
+224,227,228,230,234,236,238,239,245,248,
+252,261,262,271,275,278,284,285,287,289,
+293,295,296,299,300,304,306,310,319
+   \endverbatim
+   (obtained by the first successful run of ddfw below). Looks palindromic?
+   </li>
    <li> Evaluating
    \verbatim
 > E = run_ubcsat("VanDerWaerden_2-4-10_350.cnf", runs=100,cutoff=100000,monitor=TRUE)
@@ -279,6 +285,32 @@ fps: 187893
      \endverbatim
      So cutoff=4*10^8 seems needed now.
      </li>
+     <li> ddfw: cutoff=10^7
+     \verbatim
+ 1  2  3  4  5  6 23 24 25 26 27 28
+ 1  7  2  4  8  1  1  4  8 25 31  8
+100
+     \endverbatim
+     cutoff=2*10^7:
+     \verbatim
+ 2  3  4  5  6 22 24 25 26 27
+13  7 15  5  2  2  4 14 28 10
+100
+     \endverbatim
+     cutoff=4*10^7:
+     \verbatim
+ 2  3  4  5  6 21 23 24 25 26 27
+24 16 11  5  1  2  2  7 11 17  4
+100
+     \endverbatim
+     cutoff=8*10^7:
+     \verbatim
+      4 1     0             63918863             63918863  826885685
+     98 1     0             69022414             69022414  292766181
+ 0  1  2  3  4  5  6 21 22 23 24 25 26
+ 2  2 28 32 13  4  1  1  1  6  4  4  2
+100
+     </li>
     </ol>
    </li>
    <li> n=329
@@ -361,6 +393,12 @@ UNSAT for n=329
   1   2   3   4   5  22  23  24  25  26
  22 330 189  73  13   1   1   3   4   1
 637
+   \endverbatim
+   </li>
+   <li> Starting with the solution of n=328, with ddfw:
+   \verbatim
+> k1=4 k2=10 n0=328 alg="ddfw" runs=1000 cutoff=100000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} VanDerWaerden_2-${k1}-${k2}_${n0}.sol
+XXX
    \endverbatim
    </li>
   </ul>

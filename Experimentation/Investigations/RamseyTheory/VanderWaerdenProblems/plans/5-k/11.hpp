@@ -21,6 +21,23 @@ License, or any later version. */
 
 
   \todo Best local-search solver for palindromic problems
+  <ul>
+   <li>
+   \verbatim
+> E=run_ubcsat("VanDerWaerden_pd_2-5-11_756.cnf",runs=100,cutoff=10000000)
+# considering the first 25 algorithms, rnovp and anovpp are best:
+rnovp
+ 1  2  3  4
+ 8 53 37  2
+FlipsPerSecond = 74277
+anovpp
+ 1  2  3
+ 5 58 37
+FlipsPerSecond = 73679
+XXX
+   \endverbatim
+   </li>
+  </ul>
 
 
   \todo vdw_2^pd(5,11) >= (742,757)

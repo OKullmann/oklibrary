@@ -63,6 +63,37 @@ fps: 145583
 
 
   \todo Best local-search solver for palindromic problems
+  <ul>
+   <li>
+   \verbatim
+> E=run_ubcsat("VanDerWaerden_pd_2-5-10_611.cnf",runs=100,cutoff=10000000)
+1. ag2wsat:
+ 0  1  4  5  6  7  8
+ 2  3  5 17 52 20  1
+fps: 162126
+2. ddfw:
+ 0  1  4  5  6  7
+ 1  1  3 19 59 17
+fps: 32896
+3. dano:
+ 0  4  5  6  7
+ 1  4 13 58 24
+fps: 102956
+4. rnovp:
+ 1  4  5  6  7  8
+ 1  4 22 52 20  1
+fps: 104940
+5. gwsat:
+ 1  8  9 10 11 12 13 14
+ 1  1  6  9 22 37 22  2
+fps: 175953
+6. irots:
+ 2  9 10 11 12 13
+ 2  7  8 33 38 12
+fps: 184859
+   \endverbatim
+   adaptg2wsat seems the clear winner. </li>
+  </ul>
 
 
   \todo vdw_2^pd(5,10) >= (595,612)

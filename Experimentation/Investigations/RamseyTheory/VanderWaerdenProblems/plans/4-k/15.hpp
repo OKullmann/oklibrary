@@ -53,7 +53,42 @@ License, or any later version. */
      \endverbatim
     </ol>
    </li>
-   <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
+   <li> We need to find the best algorithm from the ubcsat-1-2-0 suite.
+   \verbatim
+> E=run_ubcsat("VanDerWaerden_pd_2-4-15_726.cnf",runs=100,cutoff=10000000)
+1. ag2wsat:
+ 1  8  9 10 11 12 13
+ 1  4 14 28 40 12  1
+fps: 128240
+2. wsattn:
+ 4 24 26 27 28 29 30 31 32 33 34
+ 1  4  3  5  4 14 19 20 21  7  2
+fps: 110109
+3. samd:
+ 6  8  9 10 11 12 13 15
+ 2  4 21 24 35  7  6  1
+fps: 204175
+4. anovpp:
+ 7  8  9 10 11 12
+ 4  6 24 40 24  2
+fps: 69213
+5. anovp:
+ 7  8  9 10 11 12
+ 2  7 20 37 33  1
+fps: 69307
+6. dano:
+ 7  8  9 10 11 12
+ 1  5 26 43 20  5
+fps: 71201
+7. ddfw:
+ 7  8  9 10 11 12
+ 1  5 18 44 29  3
+fps: 22199
+8. gsatt:
+ 8  9 10 11 12 13 15
+ 5 14 40 28  9  2  2
+   \endverbatim
+   So well, we can continue to use adaptg2wsat as best. </li>
    <li> For now we consider adaptg2wsat as best (it was determined as best
    for vdw_2^pd(5,8) in VanderWaerdenProblems/plans/5-k/general.hpp. </li>
    <li>  "RunPdVdWk1k2 4 15 adaptg2wsat 100 1000000" yields

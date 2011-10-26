@@ -64,6 +64,25 @@ fps: 113590
    \endverbatim
    Doesn't look too promising. </li>
    <li> Start with the palindromic solution for n=681. </li>
+   <li> Starting from scratch: "RunVdWk1k2 4 14 15 rots 200 20000000" yields
+   "UNSAT for n=503" with
+   \verbatim
+  1   2   3   4
+ 12  75 108   5
+200
+   \endverbatim
+   </li>
+   <li> "RunVdWk1k2 4 14 15 rots 200 100000000" yields "UNSAT for n=509" with
+   \verbatim
+> cat Statistics
+    501    52   93053449 1937044990  r
+    505   100   13795555 3938887868  r
+> E=read_ubcsat("VanDerWaerden_2-4-14_509.cnf_OUT",nrows=200)
+ 1  2  3
+17 91 92
+200
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -96,7 +115,35 @@ fps: 113590
      \endverbatim
     </ol>
    </li>
-   <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
+   <li> We need to find the best algorithm from the ubcsat-1-2-0 suite.
+   \verbatim
+> E=run_ubcsat("VanDerWaerden_pd_2-4-14_681.cnf",runs=100,cutoff=1000000)
+1. ddfw:
+ 0  2 18 19 20 21 22 23 24 25
+ 2  1  1  2 12  7 26 28 19  2
+fps: 22116
+2. ag2wsat:
+ 0 20 21 22 23 24 25 26 27 28
+ 1  1  1  6 15 17 22 27  8  2
+fps: 129109
+3. anovp:
+ 0 20 23 24 25 26 27 28 29 30 31 32 33
+ 1  1  1  5 10 10 17 15 16 11  6  5  2
+fps: 78761
+4. wsatt:
+ 0 44 45 48 49 50 51 52 53 54 55 56 57 58 59
+ 1  1  1  4  5  7 11 13 14 21 10  5  4  2  1
+fps: 124022
+5. anovpp:
+ 2 18 20 21 22 23 24 25 26 27 28 29 30 31 32 33
+ 1  1  1  1  1  4  8 10  5 12 20 17  9  5  4  1
+fps: 78678
+6. saps:
+ 4 25 26 27 28 29 30 31
+ 1  1  7  7 21 34 19 10
+fps: 121402
+   \endverbatim
+   As often, ddfw yields best results, however it is very slow. </li>
    <li> For now we consider adaptg2wsat as best (it was determined as best
    for vdw_2^pd(5,8) in VanderWaerdenProblems/plans/5-k/general.hpp. </li>
    <li> "RunPdVdWk1k2 4 14 adaptg2wsat 100 1000000" yields
@@ -111,6 +158,34 @@ Break point 1: 617
 Break point 2: 682
    \endverbatim
    finding all solutions within the first 31 runs. </li>
+   <li> "RunPdVdWk1k2 4 14 ddfw 100 10000000" yields the same breakpoints,
+   with
+   \verbatim
+> cat Statistics
+    520     1    9308596  985190826  r
+    612    15    6123479 2910917089  r
+    625    18    2066647 1008711277  r
+> E=read_ubcsat("VanDerWaerden_pd_2-4-14_683.cnf_OUT",nrows=100)
+ 1  2 18 19 20 21 22 23
+ 7 24  2  4  8 31 20  4
+100
+   \endverbatim
+   </li>
+   <li> n=682:
+    <ol>
+     <li> ddfw, cutoff=4*10^7:
+     \verbatim
+ 2  3  4 15 16 17 18 19
+13 44  9  1  4  6 10  1
+88
+ 2  3  4 14 15 16 17 18 19
+24 47 12  1  1  6 14  9  5
+119
+     \endverbatim
+     </li>
+     <li> adaptg2wsat, cutoff=10^8: XXX </li>
+    </ol>
+   </li>
   </ul>
 
 */

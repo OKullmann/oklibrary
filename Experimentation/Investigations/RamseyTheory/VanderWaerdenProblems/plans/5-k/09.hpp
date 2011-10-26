@@ -32,6 +32,27 @@ License, or any later version. */
 430,432,434,439,445,446,449,454,456,460,
 464,465,467,469
    \endverbatim
+   or
+   \verbatim
+5,7,8,9,11,14,19,28,29,34,
+36,37,39,40,43,44,50,53,59,60,
+62,64,68,70,72,75,81,82,83,85,
+86,88,94,98,102,103,108,110,117,121,
+126,127,128,129,132,133,134,136,137,138,
+141,142,149,153,155,156,157,159,162,168,
+177,182,184,185,188,189,191,193,195,198,
+200,203,206,207,210,211,212,215,217,218,
+220,223,227,233,234,236,241,242,250,258,
+259,261,262,263,269,272,274,275,276,277,
+280,282,285,286,289,290,291,292,294,297,
+301,303,304,305,308,315,316,325,330,333,
+335,336,337,339,343,346,348,349,350,354,
+355,356,358,363,364,365,366,368,375,378,
+379,381,382,384,389,398,399,403,404,406,
+407,409,410,413,420,423,424,425,429,431,
+432,433,434,438,440,445,451,453,455,458,
+463,464,468,472
+   \endverbatim
    </li>
    <li> Starting from scratch:
    \verbatim
@@ -151,6 +172,18 @@ k1=5 k2=9 n0=10 alg="rnovelty" runs=1000 cutoff=400000000; RunVdWk1k2 ${k1} ${k2
 35
    \endverbatim
    This seems rather inefficient. </li>
+   <li> Trying ddfw:
+   \verbatim
+k1=5 k2=9 n0=10 alg="ddfw" runs=1000 cutoff=400000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff}
+> cat Statistics
+    459     2      15697 1485178578  p
+# (otherwise solution found always in first run with previous solution)
+> E=read_ubcsat("VanDerWaerden_2-5-9_473.cnf_OUT")
+ 4  5  6  7
+ 1  4 11  2
+18
+   \endverbatim
+   This seems much better than rnovelty. </li>
   </ul>
 
 
@@ -163,6 +196,49 @@ k1=5 k2=9 n0=10 alg="rnovelty" runs=1000 cutoff=400000000; RunVdWk1k2 ${k1} ${k2
 
 
   \todo Best local-search solver for palindromic problems
+  <ul>
+   <li>
+   \verbatim
+> E=run_ubcsat("VanDerWaerden_pd_2-5-9_472.cnf",runs=100,cutoff=10000000)
+1. anovpp:
+ 0  3  4  5
+ 4 26 60 10
+fps: 142293
+2. rnovp:
+ 0  2  3  4  5
+ 3  3 46 46  2
+fps: 145952
+3. rnov:
+ 0  1  2  3  4
+ 2  1  1 31 65
+fps: 146113
+4. anovp:
+ 0  2  3  4  5
+ 2  3 25 58 12
+fps: 144194
+5. ddfw:
+ 0  2  3  4  5
+ 1  3 32 62  2
+fps: 47545
+6. rots:
+ 0  3  4  5  6  7
+ 1  2 16 51 29  1
+fps: 242837
+7. ag2wsat:
+ 2  3  4  5
+ 6 37 54  3
+fps: 194255
+8. dano:
+ 2  3  4  5
+ 4 22 65  9
+fps: 142674
+9. nov:
+ 2  4  5  6  7  8  9 10
+ 1  1  4  9 19 21 30 15
+fps: 142178
+   \endverbatim
+   Looks as if "adaptnovelty+ -v params" is the clear winner. </li>
+  </ul>
 
 
   \todo vdw_2^pd(5,9) >= (446,473)
@@ -542,6 +618,7 @@ Break point 2: 473
    \endverbatim
    finding all solutions in at most 21 runs.
    </li>
+   <li> 'RunPdVdWk1k2 5 9 "adaptnovelty+ -v params" 100 10000000" XXX </li>
   </ul>
 
 */
