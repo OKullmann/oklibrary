@@ -47,7 +47,10 @@ rabung_search_(2,12,600000,44753);
   [[51197,563168]]
 rabung_search_(2,12,700000,51197);
   [[55333,608664],[58013,638144]]
-
+rabung_final_prime(2,12,58013,700000);
+  63629
+rabung_search_(2,12,900000,63629);
+  []
 
 rabung_search(3,4,1000);
   ... [97,292]] SAME
@@ -59,6 +62,10 @@ rabung_search(3,7,60000);
   ... [7309,43855]] SAME
 rabung_search(3,8,200000);
   ... [23053,161372]] IMPROVED
+rabung_final_prime(3,8,23053,200000);
+  28549
+rabung_search_(3,8,400000,28549);
+  [[28927,202490],[30757,215300],[31477,220340],[34057,238400]]
 rabung_search(3,9,250000);
   ... [31249,249993]] IMPROVED
 rabung_search_(3,9,350000,31249);
@@ -73,8 +80,12 @@ rabung_search_(3,9,900000,85513);
   [[93169,745353],[103237,825897]]
 rabung_final_prime(3,9,103237,900000);
   112459
-rabung_search_(3,9,1000000,112459); cstriton
-XXX
+rabung_search_(3,9,1000000,112459);
+  [[115807,926457],[116593,932745]]
+rabung_final_prime(3,9,116593,1000000);
+  124987
+rabung_search_(3,9,1100000,124987);
+  []
 
 rabung_search(4,3,200);
   ... [37,75]] SAME
@@ -102,21 +113,45 @@ rabung_search(5,6,200000);
   ... [35591,177956]] IMPROVED
 rabung_search_(5,6,300000,35591);
   [[49391,246956]]
+rabung_final_prime(5,6,49391,300000);
+  59981
+rabung_search_(5,6,400000,59981);
+  []
 rabung_search(5,7,400000);
   ... [66301,397807]] IMPROVED
 rabung_final_prime(5,7,66301,400000);
   66601
-rabung_search_(5,7,600000,66601); csltok
-XXX
+rabung_search_(5,7,600000,66601);
+  ... [99761,598567]]
+rabung_final_prime(5,7,66601,600000);
+  99991
+rabung_search_(5,7,800000,99991);
+  ... [130841,785047]]
+rabung_final_prime(5,7,130841,800000);
+  133321
+rabung_search_(5,7,1100000,133321);
+  ... [173291,1039747]]
+rabung_final_prime(5,7,173291,1100000);
+  183301
+rabung_search_(5,7,1300000,183301);
+  ... [215801,1294807]]
+rabung_final_prime(5,7,215801,1300000);
+  216661
+rabung_search_(5,7,1600000,216661); cs-wsok
+  [[230281,1381687]]
 
 rabung_search(6,3,1000);
   ... [103,207]] SAME
 rabung_search(6,4,30000);
   ... [3259,9778]] SAME
-rabung_search(6,5,150000); cs-wsok
+rabung_search(6,5,150000);
   ... [14173,56693]] IMPROVED
-rabung_search(6,6,400000); cs-wsok
-XXX
+rabung_search(6,6,400000);
+  ... [79549,397746]] IMPROVED
+rabung_final_prime(6,6,79549,400000);
+  79999
+rabung_search_(6,6,700000,79999);
+  ... [120097,600486]]
    \endverbatim
    </li>
   </ul>
