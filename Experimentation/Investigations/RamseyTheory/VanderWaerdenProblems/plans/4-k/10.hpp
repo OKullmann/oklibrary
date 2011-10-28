@@ -398,7 +398,10 @@ UNSAT for n=329
    <li> Starting with the solution of n=328, with ddfw:
    \verbatim
 > k1=4 k2=10 n0=328 alg="ddfw" runs=1000 cutoff=100000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} VanDerWaerden_2-${k1}-${k2}_${n0}.sol
-XXX
+> E=read_ubcsat("VanDerWaerden_2-4-10_329.cnf_OUT")
+ 2  3  4  5  6 25
+19 14 11  2  1  1
+48
    \endverbatim
    </li>
   </ul>
