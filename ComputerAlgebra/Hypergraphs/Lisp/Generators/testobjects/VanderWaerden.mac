@@ -73,6 +73,8 @@ okltest_has_arithprog(has_arithprog);
    ************
 */
 
+okltest_mirrorfold_vdw(mirrorfold_vdw);
+
 okltest_palindromise_vdw_ohg(palindromise_vdw_ohg);
 okltest_palindromise_vdw_hg(palindromise_vdw_hg);
 

@@ -176,7 +176,8 @@ has_arithprog(S,k) :=
 
 /* First the function which creates that choice function which w.r.t. the
    equivalence relation created by a~b iff m_n(a) = b chooses as representative
-   of {a,b} the smaller element:
+   of {a,b} the smaller element. mirrorfold_vdw(n) is a function from {1,...,n}
+   to {1,...,ceiling(n/2)} for natural numbers n >= 0.
 */
 mirrorfold_vdw(n) := buildq([n,div:ceiling(n/2)],
   lambda([v], if v >= div+1 then n-v+1 else v))$

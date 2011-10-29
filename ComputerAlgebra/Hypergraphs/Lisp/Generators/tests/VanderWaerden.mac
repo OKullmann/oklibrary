@@ -192,6 +192,19 @@ okltest_has_arithprog(f) := block([S,x],
    ************
 */
 
+okltest_mirrorfold_vdw(f) := block([m],
+  m : f(0),
+  m : f(1),
+  assert(m(1) = 1),
+  m : f(2),
+  assert(m(1) = 1),
+  assert(m(2) = 1),
+  m : f(3),
+  assert(m(1) = 1),
+  assert(m(2) = 2),
+  assert(m(3) = 1),
+  true)$
+
 okltest_palindromise_vdw_ohg(f) := block([x],
   assert(f([[],[x]]) = [[],[x]]),
   assert(f([[1],[]]) = [[1],[]]),
