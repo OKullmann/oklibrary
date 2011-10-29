@@ -48,7 +48,7 @@ rabung_colouring_map(m,k,n) := block([p, r],
    if mod(x,p)=0 then if x=0 then 0 else 1
    else canhom_residues(m)(d(x)))))$
 
-/* The colouring as list ("uncompressed form"): */
+/* The partition (attempted vdW-certificate) corresponding to the colouring: */
 rabung_attempted_certificate(m,k,n) := block([c : rabung_colouring_map(m,k,n)],
  seq2certificatevdw(create_list(c(i),i,0,n-1)))$
 
