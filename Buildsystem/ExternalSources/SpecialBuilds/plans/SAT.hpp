@@ -262,6 +262,89 @@ usage: plingeling [-t <threads>][-h][-n][-p][-v][<dimacs>[.gz]]
    <li> We need this solver for historical reasons, for its performance
    on the original DES instances. </li>
    <li> The sources are in sources/SAT/Relsat. </li>
+   <li> Installing RelSAT:
+   \verbatim
+ExternalSources/builds/SAT> mkdir Relsat && cd Relsat
+builds/SAT/Relsat> mkdir relsat-2.2.0 && cd relsat-2.2.0
+SAT/Relsat/relsat-2.2.0> tar xvf ../../../../sources/SAT/Relsat/relsat_2.02.tar
+SAT/Relsat/relsat-2.2.0> mv Makefile.linux Makefile
+SAT/Relsat/relsat-2.2.0> make
+SAT/Relsat/relsat-2.2.0>  ./relsat
+==== relsat, version 2.20 (alpha1) ====
+Usage: relsat [options] {filename}
+Options include:
+ -l<int>          Learn order
+ -#{<int>|a|c}    {# of solutions | all | count}
+ -s<int>          Random # seed (> 0)
+ -r{<int>|n}      Restart interval {seconds | no restarts}
+ -a{<int>}        Restart interval increment {seconds}
+ -f<float>        Fudge factor, in the range [0.0-1.0]
+ -t{<int>|n}      Timeout interval {seconds | no timeout}
+ -o{<filename>|n} Output instance {filename | no output instance}
+ -u{<int>|n}      Status update interval {seconds | no updates}
+ -p{0|1|2|3}      Pre-processing level
+ -c{0|1|2|3}      Post-processing level
+ -i{<int>|n}      Pre & post-processing iteration bound {bound | no bound}
+ -v{<filename>}   Filename containing primary variable list.
+
+Default options:
+    -p1 -l3 -#1 -s1 -rn -a0 -f.9 -t43200 -u10 -o timeout.cnf -c3 -in
+   \endverbatim
+   </li>
+   <li> Note that relsat doesn't package its contents in a directory;
+   the archive extracts its contents in the current directory.
+   We should repackage it. </li>
+   <li> Linking to GMP:
+    <ul>
+     <li> According to the "HOW_TO_BUILD" file distributed with Relsat, it
+     supports linking to GMP for certain functionality. </li>
+     <li> If we do not do this, then asking Relsat to count the number of
+     solutions may not work properly:
+     \verbatim
+>  echo -e "p cnf 2 1\n 1 2 0\n" > test.cnf
+> ./relsat -#c test.cnf
+<snip>
+c WARNING: Not using a bignum package. Solution counts may overflow.
+<snip>
+Number of solutions: 3
+     \endverbatim
+     </li>
+     <li> We can force Relsat to link against our version of GMP by updating
+     the Makefile to have the following at the top:
+     \verbatim
+GMPDIR ?= /home/bayardo/gmp-3.1
+
+#CFLAGS= -DNDEBUG -O3 -DNO_GMP
+CFLAGS= -DNDEBUG -O3 -I$(GMPDIR)
+#CFLAGS= -g -I$(GMPDIR)
+
+CC = g++
+
+.SUFFIXES: .o .cpp
+
+LIBS = -lgmp
+#LIBS =
+
+LINKFLAGS = -L$(GMPDIR)/.libs
+#LINKFLAGS =
+<snip>
+     \endverbatim
+     and then running (for example)
+     \verbatim
+> GMPDIR="../../../Gmp/4.5.3/gmp-5.0.1/" make
+     \endverbatim
+     </li>
+     <li> Running:
+     \verbatim
+>  echo -e "p cnf 2 1\n 1 2 0\n" > test.cnf
+> ./relsat -#a test.cnf
+<snip>
+Number of solutions: 3
+     \endverbatim
+     then yields the model count with no error.
+     </li>
+    </ul>
+   </li>
   </ul>
 
 
