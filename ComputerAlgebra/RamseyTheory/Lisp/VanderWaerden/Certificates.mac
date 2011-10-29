@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Certificates.m
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 
 /* *****************
@@ -164,6 +165,16 @@ uncompresss_palindromic_subsets(n,P) := block([m : lambda([v], {v,n+1-v})],
 create_certificate2c_pdvdw(S,n) := block([m : ceiling(n/2), P],
   P : create_certificate2_vdw(S,m),
   uncompresss_palindromic_subsets(n,P))$
+
+
+/* Output */
+
+/* Output a certificate with two blocks in simple partial-assignment-format,
+   i.e., first the elements of the first block, then negated the element
+   of the second block, space-separated:
+*/
+output_certificate2_vdw(C,filename) := with_stdout(filename,
+ print_nlb(apply(sconcat, map(dimacs_c_string,[C[1],comp_sl(C[2])]))))$
 
 
 /* **************************
