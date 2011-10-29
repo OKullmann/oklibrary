@@ -12,12 +12,29 @@ License, or any later version. */
 
   \todo vanderwaerden_2(7,7) > 3703
   <ul>
-   <li> We need to get the known certificate into our system. </li>
+   <li> We need to get the known certificate into our system.
+    <ol>
+     <li>
+     \verbatim
+rabung_valid_param(2,7,3703);
+  true
+rabung_derived_parameters(2,7,3703);
+  [617,3]
+rabung_checkcriterion(2,7,3703);
+  true
+C : rabung_attempted_certificate(2,7,3703);
+output_certificate2_vdw(C,"VanDerWaerden_2-7-7_3703.sol");
+
+palindromic_subsets_p(3703,C);
+  false
+    </ol>
+   </li>
+   <li> Assuming adaptg2wsat as best ubcsat-solver, starting with this
+   solution:
+   "RunVdWk1k2 7 7 3703 adaptg2wsat 100 100000000 VanDerWaerden_2-7-7_3703.sol"
+   XXX </li>
    <li> Find best ubcsat-solver. </li>
   </ul>
-
-
-  \todo Best complete solver for palindromic problems
 
 
   \todo Best local-search solver for palindromic problems
@@ -27,7 +44,6 @@ License, or any later version. */
 > PdVanderWaerdenCNF-O3-DNDEBUG 7 7 1548
 
 > E=run_ubcsat("VanDerWaerden_pd_2-7-7_1548.cnf",runs=100,cutoff=10000000)
-
 gwsat
 359 365 366 367 368 369 370 371 372 373 374 375 376 377 378 379 380 381 382 383
   1   2   1   2   2   2   7   3   4   8   3   3   9   7   6  11   6   5   3   3
@@ -129,8 +145,8 @@ fps: 105665
 
   \todo vdw_2^pd(7,7) >= (1544,1547)
   <ul>
-   <li> Investigate whether the known ordinary vdW-solution is palindromic.
-   </li>
+   <li> Investigate whether the known ordinary vdW-solution is palindromic:
+   No (see above). </li>
    <li> Certificates:
     <ol>
      <li> n=1543:

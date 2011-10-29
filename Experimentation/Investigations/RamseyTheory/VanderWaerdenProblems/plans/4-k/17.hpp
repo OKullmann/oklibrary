@@ -73,7 +73,12 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> We need to find the best algorithm from the ubcsat-1-2-0 suite. </li>
+   <li> We need to find the best algorithm from the ubcsat-1-2-0 suite.
+   \verbatim
+> E=run_ubcsat("VanDerWaerden_pd_2-4-17_1075.cnf",runs=100,cutoff=20000000)
+XXX
+   \endverbatim
+   </li>
    <li> For now we consider adaptg2wsat as best (it was determined as best
    for vdw_2^pd(5,8) in VanderWaerdenProblems/plans/5-k/general.hpp. </li>
    <li>  "RunPdVdWk1k2 4 17 adaptg2wsat 10 20000000" yields

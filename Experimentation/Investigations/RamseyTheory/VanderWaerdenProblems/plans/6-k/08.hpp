@@ -10,10 +10,15 @@ License, or any later version. */
   \brief On investigations into vdw_2(6,8)
 
 
-  \todo Best complete solver for palindromic problems
-
-
   \todo Best local-search solver for palindromic problems
+  <ul>
+   <li>
+   \verbatim
+> E=run_ubcsat("VanDerWaerden_pd_2-6-8_1167.cnf",runs=100,cutoff=2000000)
+XXX
+   \endverbatim
+   </li>
+  </ul>
 
 
   \todo vdw_2^pd(6,8) >= (655,1168)

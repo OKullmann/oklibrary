@@ -17,10 +17,15 @@ License, or any later version. */
   </ul>
 
 
-  \todo Best complete solver for palindromic problems
-
-
   \todo Best local-search solver for palindromic problems
+  <ul>
+   <li>
+   \verbatim
+E=run_ubcsat("VanDerWaerden_pd_2-5-12_949.cnf",runs=100,cutoff=20000000)
+XXX
+   \endverbatim
+   </li>
+  </ul>
 
 
   \todo vdw_2^pd(5,12) >= (949,950)

@@ -243,6 +243,7 @@ fps: 142178
 
   \todo vdw_2^pd(5,9) >= (446,473)
   <ul>
+   <li> The conjecture is vdw_2^pd(5,9) = (446,473). </li>
    <li> Certificates:
     <ol>
      <li> n=445:
@@ -267,6 +268,17 @@ fps: 142178
 169,170,179,180,182,183,185,186,187,192,
 194,199,207,210,216,218,220,221,223
      \endverbatim
+     or (small variation)
+     \verbatim
+1,2,11,12,18,20,26,28,29,31,
+34,36,42,45,48,49,51,53,58,59,
+60,62,65,66,67,69,70,72,73,82,
+83,85,86,88,89,90,95,97,98,102,
+110,113,119,121,123,124,128,129,131,133,
+139,142,150,155,157,162,163,164,166,167,
+169,170,179,180,182,183,185,186,187,192,
+194,199,207,210,216,218,220,221,223
+     \endverbatim
      </li>
      <li> n=472:
      \verbatim
@@ -280,6 +292,19 @@ fps: 142178
 199,202,203,205,209,211,213,214,220,223,
 227,236
      \endverbatim
+     or (a small variation)
+     \verbatim
+4,8,9,17,19,24,27,28,32,34,
+35,36,39,41,43,45,48,52,53,56,
+57,59,63,65,70,72,77,78,80,82,
+85,94,95,97,98,100,101,102,106,108,
+112,114,116,117,123,126,130,139,140,144,
+149,153,156,162,163,165,167,171,173,174,
+177,178,179,182,184,188,192,194,197,198,
+199,202,203,205,209,211,213,214,220,223,
+227,236
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> Using SplittingViaOKsolver together with minisat-2.2.0:
@@ -599,6 +624,12 @@ $t:
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
   0.020   0.312   0.724   2.089   1.712 773.400
 sd= 6.944693
+>  E=read_processsplit_minisat()
+1244098: 41.791d, sum-cfs=7.670663e+10, mean-t=2.902s, mean-cfs=61656
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+  0.0200   0.3640   0.8521   2.9020   2.1600 884.4000
+sd= 10.68556
 XXX
      \endverbatim
      </li>
@@ -618,7 +649,27 @@ Break point 2: 473
    \endverbatim
    finding all solutions in at most 21 runs.
    </li>
-   <li> 'RunPdVdWk1k2 5 9 "adaptnovelty+ -v params" 100 10000000" XXX </li>
+   <li> 'RunPdVdWk1k2 5 9 "adaptnovelty+ -v params" 100 10000000' yields
+   \verbatim
+Break point 1: 446
+Break point 2: 473
+> cat Statistics
+    413     2    6755882  202453850  r
+    415     2     330481 1796733610  p
+    424     3    3692452 3165830392  p
+    438    11    3375651 3972140164  r
+    440     4    7596062 2641815976  r
+    450     1    4844501  848323593  r
+> E=read_ubcsat("VanDerWaerden_pd_2-5-9_447.cnf_OUT",nrows=100)
+ 1  2  3  4
+36 13 28 23
+100
+> E=read_ubcsat("VanDerWaerden_pd_2-5-9_474.cnf_OUT",nrows=100)
+ 1  3  4  5
+ 2 14 58 26
+100
+   \endverbatim
+   </li>
   </ul>
 
 */

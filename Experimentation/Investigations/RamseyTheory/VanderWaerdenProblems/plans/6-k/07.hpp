@@ -10,9 +10,6 @@ License, or any later version. */
   \brief On investigations into vdw_2(6,7)
 
 
-  \todo Best complete solver for palindromic problems
-
-
   \todo Best local-search solver for palindromic problems
   <ul>
    <li> Best ubcsat-algorithm:
@@ -20,7 +17,6 @@ License, or any later version. */
 > PdVanderWaerdenCNF-O3-DNDEBUG 6 7 1155
 
 > E=run_ubcsat("VanDerWaerden_pd_2-6-7_1155.cnf",runs=100,cutoff=1000000)
-
 saps
   2 498 499 504 505 506 507 508 509 510 511 512 513 514 515 516 517 518 519 520
   1   1   1   2   2   1   3   3   6   6   4   3  11   4   4   7  14   9   7   2
@@ -243,7 +239,6 @@ Break point 2: 1156
 37  1  1  2  1  4  7  7 11  9 15 11 14  7 14  9  9 13  6 10  4  4  2  1  1
 200
 > E=read_ubcsat("VanDerWaerden_pd_2-6-7_1157.cnf_OUT")
-
   1   2  97 106 476 486 488 489 490 491 493 494 495 496 497 498 499 500 501 502
  23   5   2   1   2   1   2   2   1   4   2   6   5   7  16  12   9  17  11   8
 503 504 505
@@ -251,6 +246,17 @@ Break point 2: 1156
 163
    \endverbatim
    confirming the values already found. </li>
+   <li> "RunPdVdWk1k2 6 7 adaptg2wsat 200 100000000" yields
+   \verbatim
+# everything simple before n=588
+> E=read_ubcsat("VanDerWaerden_pd_2-6-7_588.cnf_OUT")
+22 23
+36  3
+39
+# aborted
+   \endverbatim
+   Again "RunPdVdWk1k2 6 7 adaptg2wsat 200 100000000" XXX
+   </li>
    <li> Using SplittingViaOKsolver:
     <ol>
      <li> Finding good D-values for n=592:
@@ -319,8 +325,58 @@ E$cfs        1.0345e-04  1.0700e-06 96.6808 < 2.2e-16 ***
 R-squared: 0.9926
 
 # So it's a very hard problem. D must be set higher, say D=30.
+# no Md5sum yet
+> cat Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  30.00   30.00   31.00   31.01   32.00   97.00
+> table(E$n)
+     30      31      32      33      34      35      36      37      38      39
+3254465 1761113  967178  433615  182497   80807   39094   20706   11666    7024
+     40      41      42      43      44      45      46      47      48      49
+   4276    2777    1840    1327     946     688     504     345     323     208
+     50      51      52      53      54      55      56      57      58      59
+    192     163     130     104      73      68      54      35      35      24
+     60      61      62      63      64      65      66      67      68      69
+     31      23      27      15      15      10       4      12       9       8
+     70      71      72      73      74      76      77      78      79      80
+      4       4       6       5       3       1       2       2       6       2
+     82      83      84      88      92      97
+      4       2       1       1       2       1
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   13.0    23.0    24.0    24.2    26.0    30.0
+> table(E$d)
+     13      14      15      16      17      18      19      20      21      22
+      8      24     159     998    4748   18302   59566  160831  366832  691613
+     23      24      25      26      27      28      29      30
+1067232 1328220 1298405  975683  539076  206317   48834    5629
+> cat Result
+c running_time(sec)                     573228.0
+c number_of_nodes                       13546479
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                212301
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        30
+c file_name                             VanDerWaerden_pd_2-6-7_592.cnf
+c splitting_directory                   SplitViaOKsolver_D30VanDerWaerden_pd_267_592cnf_2011-09-26-095153/Instances
+c splitting_cases                       6772477
+
 # On cs-oksvr:
 > nohup SplittingViaOKsolver -D30 VanDerWaerden_pd_2-6-7_592.cnf &
+> E=read_processsplit_minisat()
+68973: 11.89d, sum-cfs=1.073684e+10, mean-t=14.894s, mean-cfs=155667
+$t:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+    0.060     0.168     0.268    14.890     2.104 16680.000
+sd= 149.1323
+        95%         96%         97%         98%         99%        100%
+   35.44700    46.56690    65.62698   105.38108   236.93676 16679.40000
+sum= 1027293
+
 XXX
      \endverbatim
      </li>

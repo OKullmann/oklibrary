@@ -22,6 +22,12 @@ License, or any later version. */
   And running a complete solver by "CRunPdVdWk1k2 3 k solver".
 
 
+  \todo Connections
+  <ul>
+   <li> This is sequence A007783 at OEIS https://oeis.org/A007783 . </li>
+  </ul>
+
+
   \todo Predictions of vdw_2(3,k)
   <ul>
    <li> A conjecture is vdw_2(3,k) <= k^2 for k >= 3.

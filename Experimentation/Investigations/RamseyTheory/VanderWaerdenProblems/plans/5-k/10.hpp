@@ -50,7 +50,34 @@ fps: 145583
    \endverbatim
    Looks like as rnovelty would be the clear winner. </li>
    <li> Start with the palindromic solution. </li>
-   <li> Starting from scratch: XXX </li>
+   <li> Starting from scratch:
+   "RunVdWk1k2 5 10 11 rnovelty 100 20000000" yields:
+   \verbatim
+> cat Statistics
+    412     1      15430 1371379553  r
+    447     4       2910 2478051207  r
+    456     2     292762 3624378650  p
+    459     3       2365 3003854103  r
+    460     2       2851  502656841  r
+    473     2       2923 1207096606  p
+    502    10     113202 4106118786  r
+    503     6    3723902 3880124301  r
+    506     1      31107  727895215  r
+    508    22   12821902 3285317607  r
+    509     3     133656 2269694929  r
+    515    21     408404 2173735794  r
+    517    39     129305  356707910  r
+    525     1    1386520  399401812  r
+    526    10    1189357 4126592357  r
+    529    22    3300702  483612490  r
+    536    98    4002213 3140412308  r
+> E=read_ubcsat("VanDerWaerden_2-5-10_541.cnf_OUT")
+1 2 3 4
+8 4 1 1
+14
+   \endverbatim
+   "RunVdWk1k2 5 10 11 rnovelty 100 100000000" yields: XXX
+   </li>
   </ul>
 
 
@@ -98,6 +125,7 @@ fps: 184859
 
   \todo vdw_2^pd(5,10) >= (595,612)
   <ul>
+   <li> The conjecture is vdw_2^pd(5,10) = (595,612). </li>
    <li> Certificates:
     <ol>
      <li> n=594:
@@ -137,6 +165,25 @@ Break point 2: 612
    \endverbatim
    finding all solutions in the 7th run.
    </li>
+   <li> "RunPdVdWk1k2 5 10 adaptg2wsat 100 40000000" yields
+   \verbatim
+> cat Statistics
+    551     1    8333889 1210023291  r
+    559     2   29769873 3024236198  p
+    560     5   36409063 2089433844  r
+    566     3      25606 3998212559  p
+    567    17   18239786 2571998178  r
+    568     2    9425578 1971828075  r
+    570    21   15465888 3052336236  r
+    582    26   31969997 1426516201  r
+> E=read_ubcsat("VanDerWaerden_pd_2-5-10_588.cnf_OUT")
+ 1  2  3
+ 5 36 10
+51
+# interrupted
+   \endverbatim
+   </li>
+   <li> "RunPdVdWk1k2 5 10 adaptg2wsat 100 60000000" yields XXX </li>
   </ul>
 
 */

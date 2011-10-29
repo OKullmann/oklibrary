@@ -34,6 +34,8 @@ anovpp
  1  2  3
  5 58 37
 FlipsPerSecond = 73679
+# continuing (csoberon):
+>  E=run_ubcsat("VanDerWaerden_pd_2-5-11_756.cnf",runs=100,cutoff=10000000,include_algs=names(tail(run_ubcsat_cnf_algs,-25)))
 XXX
    \endverbatim
    </li>
