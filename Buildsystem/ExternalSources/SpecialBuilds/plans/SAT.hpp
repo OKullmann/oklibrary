@@ -17,7 +17,7 @@ License, or any later version. */
     <ul>
      <li> See LICENSE in
      http://www.cril.univ-artois.fr/~jabbour/manysat2.0.zip. </li>
-     <li> manySAT lists the minisat LICENSE as it's LICENSE file. </li>
+     <li> manySAT lists the minisat LICENSE as its LICENSE file. </li>
      <li> Technically, the license might only be for the minisat "portion"
      of manysat. We should contact the authors. </li>
     </ul>
@@ -960,7 +960,7 @@ OKplatform/bin> ln -s $OKPLATFORM/ExternalSources/Installations/SAT/Minisat/mini
        <li> The "+"-symbols are not needed. </li>
        <li> Comment lines start with "*". </li>
        <li> In more recent pseudo-boolean competitions (PB06 onwards)
-       the "*" symbol in-between a variable and it's weight was removed.
+       the "*" symbol in-between a variable and its weight was removed.
        See "minisat+ input format" in
        Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp.
        </li>
@@ -1752,7 +1752,7 @@ collect2: ld returned 1 exit status
   False Glucose build
   <ul>
    <li> The directory naming-conventions do not follow our standards. </li>
-   <li> In particular glucose uses "_1.0" in it's version number, rather than
+   <li> In particular glucose uses "_1.0" in its version number, rather than
    "_1.0". </li>
   </ul>
 
