@@ -1,0 +1,45 @@
+/* Oliver Kullmann, 30.10.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/DataStructures/Lisp/tests/Strings.mac
+  \brief Tests for list-processing functions
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/DataStructures/Lisp/tests/Strings.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+kill(f)$
+
+
+okltest_sconcatnl(f) := (
+  assert(sequal(f(),"") = true),
+  assert(sequal(f(""),newline) = true),
+  assert(sequal(f("x"),sconcat("x",newline)) = true),
+  assert(sequal(f("x","bb"),sconcat("x",newline,"bb",newline)) = true),
+  true)$
+
+okltest_print2string(f) := (
+  assert(sequal(f(0), "")),
+  assert(sequal(f(print()), "")),
+  assert(sequal(f(print("")), sconcat(" ",newline))),
+  assert(sequal(f(print("x")), sconcat("x ",newline))),
+  assert(sequal(f((print("x"),print(5))), sconcat("x ",newline,"5 ", newline))),
+  true)$
+
+
+/*!
+\endhtmlonly
+*/

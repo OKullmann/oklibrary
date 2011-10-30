@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.1.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,10 +21,11 @@ oklib_load("OKlib/ComputerAlgebra/DataStructures/Lisp/include.mac");
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Strings.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/tests/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac")$
-
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/tests/Strings.mac")$
 
 /*!
 \endhtmlonly
