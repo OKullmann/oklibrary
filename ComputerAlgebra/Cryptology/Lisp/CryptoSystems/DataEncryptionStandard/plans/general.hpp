@@ -22,6 +22,17 @@ ASSERT: Evaluation of expression "expr" yields an error.
   </ul>
 
 
+  \bug Test failure with okltest_des_round_keys_template
+  <ul>
+   <li>
+   \verbatim
+okltest_des_round_keys_template(des_round_keys_template)
+"Too many" arguments supplied to assert(expr); found: errexp1
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Improve key schedule tests
   <ul>
    <li> We should look for tests vectors for the DES key schedule.

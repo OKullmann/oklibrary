@@ -17,6 +17,7 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/plans/general.hpp
    the following topics are handled:
     - Test failure with okltest_des_round
+    - Test failure with okltest_des_round_keys_template
 
 
   \par Version 0.0.3
