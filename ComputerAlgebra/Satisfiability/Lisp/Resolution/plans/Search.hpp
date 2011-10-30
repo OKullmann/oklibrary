@@ -139,5 +139,23 @@ License, or any later version. */
   
 
   \todo Finding short resolution proofs via SAT
+  <ul>
+   <li> The basic functionality has been established with
+   shortresref_aloamo_fcl. </li>
+   <li> We need standardisation (of the variables). </li>
+   <li> And we need additional conditions (to narrow the search):
+    <ol>
+     <li> One could impose a linear order on the resolution variables for
+     the cases where both parent-clauses are axioms. </li>
+     <li> For F in MU, every axiom must be used at least once. </li>
+     <li> For arbitrary F we can demand that every resolvent is used at least
+     once. </li>
+     <li> For F in MU we can also demand that every variable is used at least
+     once as resolution-variable. Are there stronger conditions, taking the
+     variable-occurrences into account? Seems not so easy, due to possible
+     contractions of literal-occurrences. </li>
+    </ol>
+   </li>
+  </ul>
 
 */
