@@ -38,27 +38,27 @@ kill(f)$
 okltest_nvar_php(f) := block(
  for m : 0 thru 6 do
   for n : 0 thru 6 do
-   assert(f(m,n) = nvar_f(weak_php(m,n))),
+   assert(f(m,n) = nvar_fcs(weak_php_fcs(m,n))),
  true)$
 
 okltest_ncl_list_weak_php(f) := block(
  for m : 0 thru 6 do
   for n : 0 thru 6 do
-   assert(f(m,n) = ncl_list_fcs(weak_php(m,n))),
+   assert(f(m,n) = ncl_list_fcs(weak_php_fcs(m,n))),
  true
 )$
 
 okltest_ncl_weak_php(f) := block(
  for m : 0 thru 6 do
   for n : 0 thru 6 do
-   assert(f(m,n) = ncl_fcs(weak_php(m,n))),
+   assert(f(m,n) = ncl_fcs(weak_php_fcs(m,n))),
  true
 )$
 
 okltest_deficiency_weak_php(f) := block(
  for m : 0 thru 6 do
   for n : 0 thru 6 do
-   assert(f(m,n) = deficiency_fcs(weak_php(m,n))),
+   assert(f(m,n) = deficiency_fcs(weak_php_fcs(m,n))),
  true
 )$
 
