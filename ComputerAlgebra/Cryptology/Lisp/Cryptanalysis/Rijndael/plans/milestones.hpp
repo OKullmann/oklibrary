@@ -30,6 +30,7 @@ License, or any later version. */
   \par
    In Cryptanalysis/Rijndael/plans/ConstraintTemplateSmallScaleRewriteRules.hpp
    the following topics are handled:
+    - Test failure with okltest_ss_sbox_pi_cst_cl
     - Move AES box translations into separate file
     - Update specifications
 

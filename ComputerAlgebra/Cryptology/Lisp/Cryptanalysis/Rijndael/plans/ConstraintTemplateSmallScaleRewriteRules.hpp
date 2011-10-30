@@ -10,6 +10,17 @@ License, or any later version. */
   \brief Plans for the small-scale AES constraint rewrite rules
 
 
+  \bug Test failure with okltest_ss_sbox_pi_cst_cl
+  <ul>
+   <li>
+   \verbatim
+okltest_ss_sbox_pi_cst_cl(ss_sbox_pi_cst_cl)
+ASSERT: Expression " {-10,-9,-7,-6,-5,3,4} = {-16,-15,-14,-13,4,11,12} " does not evaluate to true.
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Move AES box translations into separate file
   <ul>
    <li> Currently we have functions such as "aes_mul_ts_gen", and
