@@ -757,20 +757,29 @@ maxima_testobject_files_okl := $(shell find $(srcdir)/* -path "/*/testobjects/*.
 
 maxima_test : $(maxima_testobject_files_okl)
 
+
+ifeq ($(maxima_lisp_name_okl),ecl)
 $(maxima_testobject_files_okl) : $(OKsystem)/%.mac :
 	$(preprocessing_call) $(OKbuildsystem)/MasterScript/SpecialProcessing/maxima-init.mac > $(maxima_init_okl)
 	export OKL_MAXIMA_TEST_FILENAME=$*;\
 	export OKL_MAXIMA_TEST_OUTPUT=$(maxima_test_aux_dir_okl)/$*;\
 	mkdir -p $$(dirname $${OKL_MAXIMA_TEST_OUTPUT}); $(postcondition)\
 	rm -f $${OKL_MAXIMA_TEST_OUTPUT}; $(postcondition)\
-	$(preprocessing_call) $(OKbuildsystem)/OKlibBuilding/Targets/new_check/maxima_init_tests.mac >> $(maxima_init_okl); $(postcondition)
-ifeq ($(maxima_lisp_name_okl),ecl)
+	$(preprocessing_call) $(OKbuildsystem)/OKlibBuilding/Targets/new_check/maxima_init_tests.mac >> $(maxima_init_okl); $(postcondition)\
 	$(preprocessing_call) $(OKbuildsystem)/MasterScript/SpecialProcessing/preload.lisp > $(maxima_preload_okl); $(postcondition)\
-	HOME=$(maxima_homedir_okl) $(maxima_call_okl) --preload="$(maxima_preload_okl)" --batch-string="" --very-quiet; $(postcondition)
-else
-	HOME=$(maxima_homedir_okl) $(maxima_call_okl) --batch-string="" --very-quiet; $(postcondition)
-endif
+	HOME=$(maxima_homedir_okl) $(maxima_call_okl) --preload="$(maxima_preload_okl)" --batch-string="" --very-quiet; $(postcondition)\
 	if [[ -f $${OKL_MAXIMA_TEST_OUTPUT} ]]; then echo "ERROR: $${OKL_MAXIMA_TEST_OUTPUT}"; exit 1; fi
+else
+$(maxima_testobject_files_okl) : $(OKsystem)/%.mac :
+	$(preprocessing_call) $(OKbuildsystem)/MasterScript/SpecialProcessing/maxima-init.mac > $(maxima_init_okl)
+	export OKL_MAXIMA_TEST_FILENAME=$*;\
+	export OKL_MAXIMA_TEST_OUTPUT=$(maxima_test_aux_dir_okl)/$*;\
+	mkdir -p $$(dirname $${OKL_MAXIMA_TEST_OUTPUT}); $(postcondition)\
+	rm -f $${OKL_MAXIMA_TEST_OUTPUT}; $(postcondition)\
+	$(preprocessing_call) $(OKbuildsystem)/OKlibBuilding/Targets/new_check/maxima_init_tests.mac >> $(maxima_init_okl); $(postcondition)\
+	HOME=$(maxima_homedir_okl) $(maxima_call_okl) --batch-string="" --very-quiet; $(postcondition)\
+	if [[ -f $${OKL_MAXIMA_TEST_OUTPUT} ]]; then echo "ERROR: $${OKL_MAXIMA_TEST_OUTPUT}"; exit 1; fi
+endif
 
 # ----------------------------------------------------------
 # force
