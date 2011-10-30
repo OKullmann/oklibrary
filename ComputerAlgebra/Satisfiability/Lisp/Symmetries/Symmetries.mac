@@ -152,7 +152,7 @@ is_isomorphic_prep_fcs(FF2, storage_var) := block(
 */
 
 is_varisomorphic_com_fcs_p(FF1,FF2) :=
-  is_isomorphic_rowperm2_com_p(cl_var_com_fcs(FF1), cl_var_com_fcs(FF2))$
+  is_isomorphic_rowpermall_com_p(cl_var_com_fcs(FF1), cl_var_com_fcs(FF2))$
 
 
 /* **********************************
