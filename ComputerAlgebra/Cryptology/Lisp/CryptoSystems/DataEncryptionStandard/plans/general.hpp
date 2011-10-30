@@ -10,9 +10,6 @@ License, or any later version. */
   \brief Plans for the Data Encryption Standard crypto-system in Maxima/Lisp
 
 
-  \todo Add todos
-
-
   \todo Improve key schedule tests
   <ul>
    <li> We should look for tests vectors for the DES key schedule.
