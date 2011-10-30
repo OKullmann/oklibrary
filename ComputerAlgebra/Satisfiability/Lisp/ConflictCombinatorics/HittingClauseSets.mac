@@ -37,7 +37,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Construction
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/InverseSingularDP.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac")$
+/* Below there are further includes (delayed). */
 
 
 /* ***************************************
@@ -608,6 +608,9 @@ all_unsinghitting_mvd(n, _hash_repo) := block([count],
    * Maximal min-var-degrees *
    ***************************
 */
+
+/* Late inclusion, since functions above are used by data/uhit_def.mac: */
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac")$
 
 /* For the uhit-catalogue check for the existence of examples where the
    bound minvardegree_dmu(k) is sharp (these have value 0 in the last

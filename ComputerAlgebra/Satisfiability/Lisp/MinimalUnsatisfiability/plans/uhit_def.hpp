@@ -61,6 +61,10 @@ License, or any later version. */
 (%o7) true
    \endverbatim
    </li>
+   <li> Another problem is that some functions used to define members of
+   uhit_def are only partially given; see for example
+   Lisp/MinimalUnsatisfiability/Deficiency2.mac and
+   Lisp/ConflictCombinatorics/HittingClauseSets.mac. </li>
   </ul>
 
 

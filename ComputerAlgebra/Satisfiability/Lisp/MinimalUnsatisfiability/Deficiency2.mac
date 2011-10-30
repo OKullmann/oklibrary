@@ -22,8 +22,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/De
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac")$
+/* Below further files are included (delayed, due to circularity-problems). */
 
 
 /* *********************************************************************
@@ -54,6 +54,11 @@ nlitocc_musatd2(n) := n*4$
    *****************************************************
 */
 
+/* These includes need to be delayed, since data/uhit_def.mac uses musatd2_fcs:
+*/
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac")$
+
 /* Every unsatisfiable hitting clause-set F of deficiency 2 is either of
    type 2 or type 3, depending on whether elimination of singular variables
    yields a clause-set isomorphic to musatd2_fcs(2) or musatd2_fcs(3).
@@ -62,7 +67,6 @@ nlitocc_musatd2(n) := n*4$
 /* Returns 2, 3 or false, where false results iff F is not an unsatisfiable 
    hitting clause-set of deficiency 2, while otherwise its type is returned:
 */
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac")$
 hittingtype_d2_cs(F) := block([F : singular_dp_reduction(F), T],
  T : classify_candidates_uhit_def([F])[1],
  if T=false or T[2]="new" or T[1][1]#2 then false
