@@ -10,6 +10,14 @@ License, or any later version. */
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
 
+  \bug Bug not in the milestones
+  <ul>
+   <li> A bug must never be hidden in a testobject-file! </li>
+   <li> Then likely no further actions are taken to remove the source of
+   the failure. </li>
+  </ul>
+
+
   \todo Simplify AES translation
   <ul>
    <li> The current AES translation tries to provide a "general" translation
