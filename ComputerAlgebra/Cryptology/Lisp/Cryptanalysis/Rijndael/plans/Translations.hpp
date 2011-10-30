@@ -10,6 +10,17 @@ License, or any later version. */
   \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
 
+  \bug Test failure with okltest_ncl_ss
+  <ul>
+   <li>
+   \verbatim
+okltest_ncl_ss(ncl_ss)
+ASSERT: Expression " 96448 = 153048 " does not evaluate to true.
+   \endverbatim
+   </li>
+  </ul>
+
+
   \bug Bug not in the milestones
   <ul>
    <li> A bug must never be hidden in a testobject-file! </li>
