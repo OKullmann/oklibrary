@@ -45,6 +45,14 @@ ASSERT: Expression " [binv2hexstr([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
   </ul>
 
 
+  \bug Bad state of milestones
+  <ul>
+   <li> A milestone 0.0.1 means that nothing is there --- however the whole
+   system was there! </li>
+   <li> There are plenty of editorial errors. </li>
+  </ul>
+
+
   \todo Improve key schedule tests
   <ul>
    <li> We should look for tests vectors for the DES key schedule.

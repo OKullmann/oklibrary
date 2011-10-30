@@ -19,6 +19,7 @@ License, or any later version. */
     - Test failure with okltest_des_round
     - Test failure with okltest_des_round_keys_template
     - Test failure with okltest_des_round_keys
+    - Bad state of milestones
 
 
   \par Version 0.0.3
