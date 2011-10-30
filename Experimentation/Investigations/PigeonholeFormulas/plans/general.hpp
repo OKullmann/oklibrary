@@ -408,7 +408,8 @@ for k : 0 thru 2 do print(k, optimal_splitting_tree(weak_php_cs(k+2,k))[2]);
 1 5
 2 21
 T53 : optimal_splitting_tree_rec(weak_php_cs(5,3),0,85)$
-XXX
+# aborted after over a week (could be the ineffective garbage-collection; need
+# to run it after a fresh start)
    \endverbatim
    </li>
    <li> Known bounds for the tree-resolution complexity trc(n) for
