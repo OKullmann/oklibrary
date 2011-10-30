@@ -39,6 +39,7 @@ License, or any later version. */
    In Cryptanalysis/Rijndael/plans/ConstraintTemplateRewriteSystem.hpp
    the following topics are handled:
     - Test failure with okltest_aes_sbox_pi_cst_cl
+    - Test failure with okltest_aes_mul3_pi_cst_cl
 
 
   \par Version 0.0.10

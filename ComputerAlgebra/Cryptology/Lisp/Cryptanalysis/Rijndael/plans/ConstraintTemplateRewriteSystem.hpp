@@ -21,6 +21,13 @@ ASSERT: Expression " {-10,-9,-7,-6,-5,3,4} = {-16,-15,-14,-13,4,11,12} " does no
   </ul>
 
 
+  \bug Test failure with okltest_aes_mul3_pi_cst_cl
+  <ul>
+   <li> What is the point of these hardcoded values, which apparently do not
+   have a mathematical meaning? </li>
+  </ul>
+
+
   \todo Notion of "constraint"
   <ul>
    <li> Currently in the AES translation system we use the notion of
