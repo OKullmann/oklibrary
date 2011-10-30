@@ -10,6 +10,18 @@ License, or any later version. */
   \brief Plans for the Data Encryption Standard crypto-system in Maxima/Lisp
 
 
+  \bug Test failure with okltest_des_round
+  <ul>
+   <li>
+   \verbatim
+okltest_des_round(des_round)
+length: argument cannot be a symbol; found des_validation_plain
+ASSERT: Evaluation of expression "expr" yields an error.
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Improve key schedule tests
   <ul>
    <li> We should look for tests vectors for the DES key schedule.
