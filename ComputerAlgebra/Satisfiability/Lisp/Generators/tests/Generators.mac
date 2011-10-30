@@ -28,6 +28,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 kill(f)$
 
+
 /* ********************
    * Full clause-sets *
    ********************
@@ -105,80 +106,6 @@ okltest_deficiency_full_fcs(f) := block(
    assert(f(n) = deficiency_fcs(full_fcs(n))),
  true
 )$
-
-
-/* ***********************
-   * Pigeonhole formulas *
-   ***********************
-*/
-
-/* Measures */
-
-okltest_nvar_php(f) := block(
- for m : 0 thru 6 do
-  for n : 0 thru 6 do
-   assert(f(m,n) = nvar_f(weak_php(m,n))),
- true)$
-
-okltest_ncl_list_weak_php(f) := block(
- for m : 0 thru 6 do
-  for n : 0 thru 6 do
-   assert(f(m,n) = ncl_list_fcs(weak_php(m,n))),
- true
-)$
-
-okltest_ncl_weak_php(f) := block(
- for m : 0 thru 6 do
-  for n : 0 thru 6 do
-   assert(f(m,n) = ncl_fcs(weak_php(m,n))),
- true
-)$
-
-okltest_deficiency_weak_php(f) := block(
- for m : 0 thru 6 do
-  for n : 0 thru 6 do
-   assert(f(m,n) = deficiency_fcs(weak_php(m,n))),
- true
-)$
-
-/* Extended Resolution */
-
-okltest_php_induction_step_cl(f) := block(
-  for i in [0,1] do
-      assert(f(i) = []),
-  assert(f(2) =
-    [{php_ext(2,1,1),-php_ext(3,1,1)},{php_ext(2,1,1),-php_ext(3,1,2),
-     -php_ext(3,3,1)},{-php_ext(2,1,1),php_ext(3,1,1),php_ext(3,1,2)},
-     {-php_ext(2,1,1),php_ext(3,1,1),php_ext(3,3,1)},{php_ext(2,2,1),
-     -php_ext(3,2,1)},{php_ext(2,2,1),-php_ext(3,2,2),-php_ext(3,3,1)},
-     {-php_ext(2,2,1),php_ext(3,2,1),php_ext(3,2,2)},{-php_ext(2,2,1),
-     php_ext(3,2,1),php_ext(3,3,1)}]),
-  true)$
-
-okltest_php_induction_cl(f) := block(
-  for i in [0,1,2] do
-    assert(f(i) = []),
-  assert(f(3) =
-    [{php_ext(2,1,1),-php(1,1)},{php_ext(2,1,1),-php(1,2),-php(3,1)},
-     {-php_ext(2,1,1),php(1,1),php(1,2)},{-php_ext(2,1,1),php(1,1),php(3,1)},
-     {php_ext(2,2,1),-php(2,1)},{php_ext(2,2,1),-php(2,2),-php(3,1)},
-     {-php_ext(2,2,1),php(2,1),php(2,2)},{-php_ext(2,2,1),php(2,1),php(3,1)}]),
-  true)$
-
-okltest_weak_php_unsat_ext_fcs(f) := block(
-  for i in [1,2] do
-    assert(f(i) = weak_php_fcs(i,i-1)),
-  assert(f(3) =
-    [{php(1,1),php(1,2),php(2,1),php_ext(2,1,1),php(2,2),php_ext(2,2,1),
-      php(3,1),php(3,2)},
-     {{-php(1,1),-php(2,1)},{-php(1,1),php_ext(2,1,1)},{-php(1,1),-php(3,1)},
-      {php(1,1),php(1,2)},{php(1,1),php(1,2),-php_ext(2,1,1)},
-      {php(1,1),-php_ext(2,1,1),php(3,1)},{-php(1,2),php_ext(2,1,1),-php(3,1)},
-      {-php(1,2),-php(2,2)},{-php(1,2),-php(3,2)},{-php(2,1),php_ext(2,2,1)},
-      {-php(2,1),-php(3,1)},{php(2,1),php(2,2)},{php(2,1),php(2,2),
-       -php_ext(2,2,1)}, {php(2,1),-php_ext(2,2,1),php(3,1)},{-php(2,2),
-       php_ext(2,2,1),-php(3,1)},{-php(2,2),-php(3,2)},{php(3,1),php(3,2)}}]),
-  true)$
 
 
 /* ************************
