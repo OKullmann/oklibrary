@@ -10,6 +10,17 @@ License, or any later version. */
   \brief Plans for the constraint rewrite system
 
 
+  \bug Test failure with okltest_aes_sbox_pi_cst_cl
+  <ul>
+   <li>
+   \verbatim
+okltest_aes_sbox_pi_cst_cl(aes_sbox_pi_cst_cl)
+ASSERT: Expression " {-10,-9,-7,-6,-5,3,4} = {-16,-15,-14,-13,4,11,12} " does not evaluate to true.
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Notion of "constraint"
   <ul>
    <li> Currently in the AES translation system we use the notion of

@@ -20,7 +20,6 @@ License, or any later version. */
     - Rewrite translation functions using ss_field_op_fulldnf_gen_fcl etc
     - Functions should not cache return values
 
-
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
    the following topics are handled:
@@ -35,6 +34,11 @@ License, or any later version. */
     - Test failure with okltest_ss_sbox_pi_cst_cl
     - Move AES box translations into separate file
     - Update specifications
+
+  \par
+   In Cryptanalysis/Rijndael/plans/ConstraintTemplateRewriteSystem.hpp
+   the following topics are handled:
+    - Test failure with okltest_aes_sbox_pi_cst_cl
 
 
   \par Version 0.0.10
