@@ -124,6 +124,7 @@ okltest_dimacs_c_string(dimacs_c_string);
 okltest_dimacs_c_stringext(dimacs_c_stringext);
 
 okltest_print_fcs_v(print_fcs_v);
+okltest_print_fcl_v(print_fcl_v);
 
 okltest_standard_statistics_fcs(standard_statistics_fcs);
 

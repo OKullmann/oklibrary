@@ -330,19 +330,23 @@ outputextf_fcl(comment,FF,n,f) := with_stdout(n, printextf_fcl(comment,FF,f))$
    which explains the meaning of variables (this is useful for example
    if variables have been standardised): */
 /* RENAME: print_fcs_v */
-print_cs_f_v(comment,FF,varlist) := (
+print_cs_f_v(comment,FF,varlist) := block(
+ [n : lmax(FF[1]), c : ncl_fcs(FF)],
+  if n=minf then n:0,
   print_nlb(sconcat("c ", comment)),
   for i from 1 thru length(varlist) do print_nlb(sconcat("c ", i, " : ", varlist[i])),
-  print_nlb(sconcat("p cnf ", lmax(FF[1]), " ", length(clauses_f(FF)))),
+  print_nlb(sconcat("p cnf ", n, " ", c)),
   for C in clauses_f(FF) do print_nlb(sconcat(dimacs_c_string(C), "0"))
 )$
 print_fcs_v(comment,FF,varlist) := print_cs_f_v(comment,FF,varlist)$
-print_fcl_v(comment,FF,varlist) := (
+print_fcl_v(comment,FF,varlist) := block(
+ [n : lmax(FF[1]), c : ncl_fcs(FF)],
+  if n=minf then n:0,
   print_nlb(sconcat("c ", comment)),
   block([i:1], for v in varlist do (
     print_nlb(sconcat("c ", i, " : ", v)), i : i + 1
   )),
-  print_nlb(sconcat("p cnf ", lmax(FF[1]), " ", length(FF[2]))),
+  print_nlb(sconcat("p cnf ", n, " ", c)),
   for C in FF[2] do print_nlb(sconcat(dimacs_c_string(C), "0"))
 )$
 
