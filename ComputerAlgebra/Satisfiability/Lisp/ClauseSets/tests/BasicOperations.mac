@@ -23,6 +23,8 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Pigeonhole.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Strings.mac")$
+
 
 kill(f)$
 
@@ -472,6 +474,12 @@ okltest_dimacs_c_string(f) := (
 okltest_dimacs_c_stringext(f) := (
   assert(okltest_dimacs_c_string(
       buildq([f:f],lambda([a],f(a,dimacs_l_string))))),
+  true)$
+
+okltest_print_fcs_v(f) := (
+  assert(sequal(print2string(f("XXX",[{},{}],[])), sconcatnl("c XXX ","p cnf minf 0 ")) = true),
+  assert(sequal(print2string(f("XXX",[{},{{}}],[])), sconcatnl("c XXX ","p cnf minf 1 ","0 ")) = true),
+  /* XXX */
   true)$
 
 okltest_standard_statistics_fcs(f) := (
