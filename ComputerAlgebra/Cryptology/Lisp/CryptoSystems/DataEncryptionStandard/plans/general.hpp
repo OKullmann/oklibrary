@@ -33,6 +33,18 @@ okltest_des_round_keys_template(des_round_keys_template)
   </ul>
 
 
+  \bug Test failure with okltest_des_round_keys
+  <ul>
+   <li>
+   \verbatim
+okltest_des_round_keys(des_round_keys)
+ASSERT: Expression " [binv2hexstr([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+...
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Improve key schedule tests
   <ul>
    <li> We should look for tests vectors for the DES key schedule.

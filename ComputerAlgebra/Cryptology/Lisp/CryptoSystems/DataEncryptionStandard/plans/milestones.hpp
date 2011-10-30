@@ -18,6 +18,7 @@ License, or any later version. */
    the following topics are handled:
     - Test failure with okltest_des_round
     - Test failure with okltest_des_round_keys_template
+    - Test failure with okltest_des_round_keys
 
 
   \par Version 0.0.3
