@@ -50,6 +50,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
    topics are handled:
+    - Failure building gcc412/gcc due to internal compiler error
     - Gcj
     - Providing gcc 4.1.2
     - Install GCC 4.5.3 : DONE

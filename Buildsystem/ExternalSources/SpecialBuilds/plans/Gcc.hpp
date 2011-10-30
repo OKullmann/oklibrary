@@ -10,6 +10,48 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
+  \todo Failure building gcc412/gcc due to internal compiler error
+  <ul>
+   <li> These problems arise on csltok when trying to install the new package
+   00140. </li>
+   <li> Building gcc412 fails:
+   \verbatim
+/home/kullmann/OKplatform/OKplatform/ExternalSources/builds/Gcc/gcc-4.1.2/gcc/config/i386/i386.md: In function ‘bypass_p’:
+/home/kullmann/OKplatform/OKplatform/ExternalSources/builds/Gcc/gcc-4.1.2/gcc/config/i386/i386.md:189:14: warning: comparison between ‘enum processor_type’ and ‘enum attr_cpu’
+/home/kullmann/OKplatform/OKplatform/ExternalSources/builds/Gcc/gcc-4.1.2/gcc/config/i386/i386.md:189:14: warning: comparison between ‘enum processor_type’ and ‘enum attr_cpu’
+... repeated more than 8000 times
+gcc: Internal error: Killed (program cc1)
+Please submit a full bug report.
+See <http://bugs.opensuse.org/> for instructions.
+make[3]: *** [insn-attrtab.o] Error 1
+   \endverbatim
+   </li>
+   <li> Environment (csltok):
+   \verbatim
+kullmann-0:OKplatform> gcc --version
+gcc (SUSE Linux) 4.5.1 20101208 [gcc-4_5-branch revision 167585]
+Copyright (C) 2010 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+kullmann-0:OKplatform> uname -a
+Linux csltok.swansea.ac.uk 2.6.39.3-0.5-desktop #1 SMP PREEMPT Sun Jul 31 02:04:11 BST 2011 x86_64 x86_64 x86_64 GNU/Linux
+   \endverbatim
+   </li>
+   <li> One should install gcc version 4.5.3 on that machine. </li>
+   <li> Another possibility would be to first install the local 4.5.3,
+   and then using this compiler to install gcc412 --- this might actually
+   be better, since it should be more likely that the newer build succeeds.
+   </li>
+   <li> Building gcc on csltok however also fails! We get
+   \verbatim
+gcc -c  -g -fkeep-inline-functions -DIN_GCC   -W -Wall -Wwrite-strings -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes -Wmissing-format-attribute -pedantic -Wno-long-long -Wno-variadic-macros -Wno-overlength-strings -Wold-style-definition -Wc++-compat -fno-common  -DHAVE_CONFIG_H -I. -I. -I/home/kullmann/OKplatform/OKplatform/ExternalSources/builds/Gcc/gcc-4.5.3/gcc -I/home/kullmann/OKplatform/OKplatform/ExternalSources/builds/Gcc/gcc-4.5.3/gcc/. -I/home/kullmann/OKplatform/OKplatform/ExternalSources/builds/Gcc/gcc-4.5.3/gcc/../include -I/home/kullmann/OKplatform/OKplatform/ExternalSources/builds/Gcc/gcc-4.5.3/gcc/../libcpp/include -I/home/kullmann/OKplatform/OKplatform/ExternalSources/builds/Gcc/gcc-4.5.3_build/./gmp -I/home/kullmann/OKplatform/OKplatform/ExternalSources/builds/Gcc/gcc-4.5.3/gmp -I/home/kullmann/OKplatform/OKplatform/ExternalSources/builds/Gcc/gcc-4.5.3_build/./mpfr -I/home/kullmann/OKplatform/OKplatform/ExternalSources/builds/Gcc/gcc-4.5.3/mpfr -I/home/kullmann/OKplatform/OKplatform/ExternalSources/builds/Gcc/gcc-4.5.3/mpc/src  -I/home/kullmann/OKplatform/OKplatform/ExternalSources/builds/Gcc/gcc-4.5.3/gcc/../libdecnumber -I/home/kullmann/OKplatform/OKplatform/ExternalSources/builds/Gcc/gcc-4.5.3/gcc/../libdecnumber/bid -I../libdecnumber     insn-attrtab.c -o insn-attrtab.o
+gcc: Internal error: Killed (program cc1)
+   \endverbatim
+   ???
+   </li>
+  </ul>
+
+
   \todo Gcj
   <ul>
    <li> gcj is the GNU %Compiler for Java, see http://gcc.gnu.org/java/ . </li>
