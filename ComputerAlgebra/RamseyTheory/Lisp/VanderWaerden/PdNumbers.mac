@@ -79,7 +79,7 @@ pdvanderwaerden4k_a(L) := vanderwaerden4k_a(L)$
 pdvanderwaerden5k(k) := 
  if k <= 13 then [
   [4,5],[5,10],[16,21],[34,55],[150,177],[195,206],[227,236],[312,323],[[446,inf-1],[473,inf-1]],[[595,inf-1],[612,inf-1]],
-  [[742,inf-1],[757,inf-1]],[[949,inf-1],[950,inf-1]],[[1176,inf-1],[1205,inf-1]]
+  [[742,inf-1],[763,inf-1]],[[949,inf-1],[950,inf-1]],[[1176,inf-1],[1205,inf-1]]
  ][k]
  else unknown$
 pdvanderwaerden5k_a(L) := vanderwaerden5k_a(L)$
