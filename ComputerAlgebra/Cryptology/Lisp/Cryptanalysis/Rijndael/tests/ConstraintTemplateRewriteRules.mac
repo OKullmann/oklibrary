@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/C
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac")$
 
 kill(f)$
 
@@ -408,6 +409,8 @@ okltest_aes_sbox_pi_cst_cl(f) := block([cl],
   assert(first(cl) = {-10,-9,-7,-6,-5,3,4}),
   assert(last(cl) = {-4,5,7,11,13,14,15,16}),
   assert(length(cl) = 294),
+  if oklib_test_level = 0 then return(true),
+  assert(rijnsbox_cnfp(fcl2fcs(cl2fcl(cl)))),
   true)$
 
 okltest_aes_sbox_ts_var_l(f) := block([cst],
