@@ -10,7 +10,9 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
-  \todo Failure building gcc412/gcc due to internal compiler error
+  \todo DONE (not reproducible, taken as caused by some strange state of
+  the computer)
+  Failure building gcc412/gcc due to internal compiler error
   <ul>
    <li> These problems arise on csltok when trying to install the new package
    00140. </li>
