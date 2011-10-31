@@ -704,9 +704,9 @@ okltest_ss_sbox_pi_cst_cl(f) := block([cl],
   assert(last(cl) = {3,7,8}),
   assert(length(cl) = 22),
   cl : f(["ss_sbox_cst", create_list(i,i,1,16),2,8,ss_polynomial_2_8]),
-  assert(first(cl) = {-16,-15,-14,-13,4,11,12}),
-  assert(last(cl) = {5,7,10,11,13,14,15,16}),
-  assert(length(cl) = 559),
+  assert(first(cl) = {-10,-9,-7,-6,-5,3,4}),
+  assert(last(cl) = {-4,5,7,11,13,14,15,16}),
+  assert(length(cl) = 294),
   true)$
 
 okltest_ss_sbox_ts_var_l(f) := block([cst],
