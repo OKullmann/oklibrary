@@ -758,11 +758,14 @@ builds/Glucose> ./build.sh
   \todo SAT4J
   <ul>
    <li> http://www.sat4j.org/ </li>
+   <li> The current version is 2.3.1. </li>
    <li> For documentation on building Sat4J from source, see
    http://forge.ow2.org/project/showfiles.php?group_id=228 and
    http://download.forge.objectweb.org/sat4j/getting-started-sat4j-0.3.pdf .
    </li>
-   <li> Sat4j builds with gcj-4.5.2 (system gcj on cspcmg):
+   <li> ??? This should use *our* resource for SAT4J (as usual)!
+   And we never build from some repository, except for special cases. ???
+   Sat4j builds with gcj-4.5.2 (system gcj on cspcmg):
    \verbatim
 builds/SAT/Sat4J> svn checkout svn://svn.forge.objectweb.org/svnroot/sat4j/maven/trunk
 builds/SAT/Sat4J> cd trunk
@@ -792,7 +795,9 @@ v -1 -2 0
 c Total wall clock time (in seconds) : 0.006
    \endverbatim
    </li>
-   <li> The SAT4J build system uses "ant". Likely we need to build and install
+   <li> DONE (ant is like make, and just to be added to the system-software
+   requirements)
+   The SAT4J build system uses "ant". Likely we need to build and install
    ant as well as gcj in ExternalSources. </li>
    <li> Once we have ant, how to tell tell it to build using a specific gcj
    executable? </li>
