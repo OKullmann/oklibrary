@@ -36,9 +36,24 @@ anovpp
 FlipsPerSecond = 73679
 # continuing (csoberon):
 >  E=run_ubcsat("VanDerWaerden_pd_2-5-11_756.cnf",runs=100,cutoff=10000000,include_algs=names(tail(run_ubcsat_cnf_algs,-25)))
-XXX
+1. dano:
+ 0  1  2  3
+ 1 13 48 38
+fps: 71931
+2. ddfw:
+ 1  2  3
+36 58  6
+fps: 28557
+3. ag2wsat:
+ 1  2  3
+23 70  7
+fps: 130829
+4. g2wsat:
+ 4  5  6  7  8  9
+ 2  3 12 25 43 15
+fps: 121603
    \endverbatim
-   </li>
+   Thus altogether the order is: dano, ddfw, ag2wsat, rnovp, anovpp. </li>
   </ul>
 
 
@@ -100,6 +115,7 @@ Break point 2: 725
    \endverbatim
    using at most one run in random-mode. So adaptg2wsat seems superior here.
    </li>
+   <li> "RunPdVdWk1k2 5 11 danov+ 100 20000000" yields XXX </li>
   </ul>
 
 */

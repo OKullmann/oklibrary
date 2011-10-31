@@ -31,9 +31,25 @@ palindromic_subsets_p(3703,C);
    </li>
    <li> Assuming adaptg2wsat as best ubcsat-solver, starting with this
    solution:
-   "RunVdWk1k2 7 7 3703 adaptg2wsat 100 100000000 VanDerWaerden_2-7-7_3703.sol"
-   XXX </li>
-   <li> Find best ubcsat-solver. </li>
+   \verbatim
+RunVdWk1k2 7 7 3703 adaptg2wsat 100 100000000 VanDerWaerden_2-7-7_3703.sol
+# n=3704, using old solution:
+       sat  min               osteps               msteps       seed
+      1 0     1                    1            100000000  320607479
+      2 0     1                    2            100000000 1776827388
+      3 0     1                    1            100000000  491764141
+# not using old solution:
+       sat  min               osteps               msteps       seed
+      1 0  7983             71120271            100000000 1998265512
+      2 0  7904             88949079            100000000 1003699438
+      3 0  7662             27713153            100000000  949163916
+      4 0  7633             27095150            100000000  589164093
+      5 0  6725             66565094            100000000 2629805450
+      6 0  6729             46639862            100000000  793773908
+      7 0  7669              9566515            100000000 2130772394
+   \endverbatim
+   That looks bleak; still, perhaps the algorithm is weak here. </li>
+   <li> Find best ubcsat-solver XXX </li>
   </ul>
 
 

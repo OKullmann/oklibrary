@@ -15,9 +15,46 @@ License, or any later version. */
    <li>
    \verbatim
 > E=run_ubcsat("VanDerWaerden_pd_2-6-8_1167.cnf",runs=100,cutoff=2000000)
-XXX
+1. rots:
+202 204 206 207 208 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224
+  2   1   3   1   5   3   7   4   7  11   4   7   5  12   6   4   7   2   4   2
+225 226
+  2   1
+fps: 93982
+2. gwsat:
+202 203 204 205 206 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222
+  1   1   2   2   2   2   2   3   5   5   5   6   6   9  10   9   4   3   6   7
+223 224 225 226 227 229
+  3   1   2   1   2   1
+fps: 83140
+3. ag2wsat:
+209 210 212 213 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230
+  1   2   1   1   1   3   2   1   9   4   5   9  11   6   9   8   7   9   8   3
+fps: 76144
+4. samd:
+211 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 235
+  1   2   2   3   2   3   2   3   4   2   4   3   5   4   4   7   6   4   7   5
+236 237 238 239 240 241 243 244 245 248
+  3   4   5   4   5   1   1   1   1   2
+fps: 131991
+5. ddfw:
+215 217 218 219 220 221 222 223 224 225 226 227 228 229
+  2   3   3   4   5   5   7  14   9  17  11   5   9   6
+fps: 7236
+6. gsatt:
+218 219 220 221 222 223 225 226 227 228 229 230 231 232 233 234 235 236 237 238
+  1   1   2   3   1   4   7   9   8   9   3   4   8   4   8   2   3   3   4   4
+239 240 241 243 244 245 248
+  4   1   2   2   1   1   1
+fps: 130950
+7. irots:
+221 222 223 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 239
+  1   1   2   1   1   1   3   4   6   9   6  11  10  11   8   8   8   8   1
+fps: 82555
    \endverbatim
-   </li>
+   So let's consider rots and gwsat here; and we see that for such high n the
+   algorithms are too weak to be of use (except when making small
+   modifications to previous solutions). </li>
   </ul>
 
 
@@ -92,6 +129,7 @@ Break point 2: 1168
    <li> Hardest problems apparently at around 500 < n < 670. Before *and*
    after always solving it in the first run with previous solution, just a few
    changes needing. </li>
+   <li> Needs to be rerun with rots and gwsat XXX. </li>
   </ul>
 
 */

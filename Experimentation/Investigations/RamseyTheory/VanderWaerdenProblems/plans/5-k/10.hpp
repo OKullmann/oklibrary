@@ -156,6 +156,7 @@ fps: 184859
 266,268,270,271,275,276,278,280,287,289,
 290,291,293,296,301
      \endverbatim
+     (Another run found exactly the same solution.) </li>
     </ol>
    </li>
    <li> "RunPdVdWk1k2 5 10 adaptg2wsat 100 20000000" yields
@@ -183,7 +184,28 @@ Break point 2: 612
 # interrupted
    \endverbatim
    </li>
-   <li> "RunPdVdWk1k2 5 10 adaptg2wsat 100 60000000" yields XXX </li>
+   <li> "RunPdVdWk1k2 5 10 adaptg2wsat 100 60000000" yields
+   \verbatim
+Break point 1: 585
+Break point 2: 612
+> cat Statistics
+    553     1    2543103  178950496  r
+    559     2   48329211 3424240417  p
+    566     3   19112214 1225851492  p
+    580    61   23026442 2879204021  r
+    581     2      25607 3107016596  p
+    597    12   52843138 2453468376  r
+> E=read_ubcsat("VanDerWaerden_pd_2-5-10_586.cnf_OUT",nrows=100)
+ 1  2  3
+20 74  6
+100
+> E=read_ubcsat("VanDerWaerden_pd_2-5-10_613.cnf_OUT",nrows=100)
+ 1  4  5  6
+16  7 46 31
+100
+   \endverbatim
+   </li>
+   <li> One should probe further for n=596 and n=613 XXX </li>
   </ul>
 
 */
