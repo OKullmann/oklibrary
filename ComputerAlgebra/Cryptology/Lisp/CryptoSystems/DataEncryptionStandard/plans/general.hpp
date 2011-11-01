@@ -10,17 +10,6 @@ License, or any later version. */
   \brief Plans for the Data Encryption Standard crypto-system in Maxima/Lisp
 
 
-  \bug Test failure with okltest_des_round_keys_template
-  <ul>
-   <li>
-   \verbatim
-okltest_des_round_keys_template(des_round_keys_template)
-"Too many" arguments supplied to assert(expr); found: errexp1
-   \endverbatim
-   </li>
-  </ul>
-
-
   \bug Bad state of milestones
   <ul>
    <li> A milestone 0.0.1 means that nothing is there --- however the whole
@@ -216,6 +205,18 @@ ASSERT: Evaluation of expression "expr" yields an error.
 okltest_des_round_keys(des_round_keys)
 ASSERT: Expression " [binv2hexstr([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 ...
+   \endverbatim
+   </li>
+  </ul>
+
+
+  \bug DONE (added missing braces in test code)
+  Test failure with okltest_des_round_keys_template
+  <ul>
+   <li>
+   \verbatim
+okltest_des_round_keys_template(des_round_keys_template)
+"Too many" arguments supplied to assert(expr); found: errexp1
    \endverbatim
    </li>
   </ul>
