@@ -35,6 +35,7 @@ rel_tenchallenges_tenchallenges_doxygen_directory := $(shell $(rel_path_tool) $(
 # From the Ramsey-Theory-page:
 rel_greenTao_pcv2010_talk_location := $(shell $(rel_path_tool) $(greentao_pcv2010_talk_location) $(ramseytheory_page_output))
 rel_greenTao_sat2010_talk_location := $(shell $(rel_path_tool) $(greentao_sat2010_talk_location) $(ramseytheory_page_output))
+rel_sat2011competition_okl := $(shell $(rel_path_tool) $(sat2011competition_okl) $(externalsources_page_output))
 
 
 # From the external sources page: ("les" for local external sources)
