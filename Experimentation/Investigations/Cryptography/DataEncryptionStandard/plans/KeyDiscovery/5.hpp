@@ -73,6 +73,10 @@ License, or any later version. */
      <li> "minimum" translation; minisat-2.2.0 solves in ~5.1 hours (avg),
      using ~ 331 million conflicts (avg).
      See 'Using the "minimum"  translation for the S-boxes (6-to-4)'. </li>
+     <li> "massacci" translation; minisat-2.2.0 solves in >=27.6 hours (avg),
+     using >=510 million conflicts (avg).
+     See 'Using the Massacci DES translator'. </li>
+    </ul>
     </ul>
    </li>
   </ul>
@@ -120,29 +124,42 @@ done;
    \endverbatim
    </li>
    <li> Experiment running. </li>
-   <li> Results (first 3 seeds):
+   <li> Results (for finished instances):
    \verbatim
 > rounds=5; results_file=r${rounds}_minisat.results; ExtractMinisat header-only | awk ' { print $0 " s" } ' > ${results_file};
-for s in $(seq 1 3); do cat minisat_r${rounds}_s${s}.result | ExtractMinisat data-only | awk " { print  \$0 \" ${s}\" }" >> ${results_file}; done
+echo -n "Unfinished = "; for s in $(seq 1 20); do
+  if [[ $(cat minisat_r${rounds}_s${s}.result | grep "SATISFIABLE") ]]; then
+    cat minisat_r${rounds}_s${s}.result | ExtractMinisat data-only | awk " { print  \$0 \" ${s}\" }" >> ${results_file};
+  else
+    echo -n "${s} "
+  fi;
+done; echo
+
+Unfinished = 4 8 16 19
 
 > oklib --R
 > E = read.table("r5_minisat.results", header=TRUE)
 > summary(E)
-      t              cfs                 dec                 rts               r1                ptime           stime           cfl
-Min.   :43625   Min.   :299645316   Min.   :341323943   Min.   :344061   Min.   :9.754e+10   Min.   :0.000   Min.   :0.04   Min.   :8.804e+09
-1st Qu.:44594   1st Qu.:301412592   1st Qu.:343384331   1st Qu.:346810   1st Qu.:9.821e+10   1st Qu.:0.005   1st Qu.:0.04   1st Qu.:8.847e+09
-Median :45563   Median :303179868   Median :345444719   Median :349560   Median :9.889e+10   Median :0.010   Median :0.04   Median :8.891e+09
-Mean   :50863   Mean   :332472341   Mean   :379011561   Mean   :384123   Mean   :1.082e+11   Mean   :0.010   Mean   :0.04   Mean   :9.757e+09
-3rd Qu.:54482   3rd Qu.:348885854   3rd Qu.:397855370   3rd Qu.:404154   3rd Qu.:1.135e+11   3rd Qu.:0.015   3rd Qu.:0.04   3rd Qu.:1.023e+10
-Max.   :63401   Max.   :394591840   Max.   :450266022   Max.   :458747   Max.   :1.281e+11   Max.   :0.020   Max.   :0.04   Max.   :1.158e+10
+      t                  cfs                 dec                 rts                r1                ptime             stime              cfl
+Min.   :    61.08   Min.   :   733337   Min.   :8.973e+05   Min.   :   1534   Min.   :2.156e+08   Min.   :0.00000   Min.   :0.04000   Min.   :2.194e+07
+1st Qu.: 45078.20   1st Qu.:297618006   1st Qu.:3.391e+08   1st Qu.: 341245   1st Qu.:9.672e+10   1st Qu.:0.01000   1st Qu.:0.05000   1st Qu.:8.736e+09
+Median : 62725.45   Median :383431250   Median :4.389e+08   Median : 442454   Median :1.248e+11   Median :0.01000   Median :0.05000   Median :1.124e+10
+Mean   : 67594.92   Mean   :391755166   Mean   :4.457e+08   Mean   : 438663   Mean   :1.282e+11   Mean   :0.01063   Mean   :0.04813   Mean   :1.146e+10
+3rd Qu.: 87302.98   3rd Qu.:495753835   3rd Qu.:5.624e+08   3rd Qu.: 525742   3rd Qu.:1.636e+11   3rd Qu.:0.01000   3rd Qu.:0.05000   3rd Qu.:1.447e+10
+Max.   :174881.00   Max.   :915498812   Max.   :1.039e+09   Max.   :1008044   Max.   :2.985e+11   Max.   :0.02000   Max.   :0.05000   Max.   :2.661e+10
 
 
 >  sd(E)
            t          cfs          dec          rts           r1        ptime        stime          cfl
-1.090159e+04 5.382608e+07 6.174256e+07 6.468503e+04 1.729533e+10 1.000000e-02 0.000000e+00 1.576850e+09
+4.399069e+04 2.254921e+08 2.554675e+08 2.439571e+05 7.398080e+10 4.425306e-03 4.031129e-03 6.556406e+09
    \endverbatim
    </li>
-   <li> Seed 4 takes >73000s and > 460,042,881 conflicts. </li>
+   <li> minisat-2.2.0 on instances with seeds 4,8,16 and 19 is still running
+   after >226,472s (2.6 days) and > 982,873,765 conflicts. </li>
+   <li> Over seeds 1-20, minisat-2.2.0 takes an average time of
+   >= 99370.4 = (67595*16+(226472*4))/20 and an average number
+   of conflicts >= 509,978,885.8 = (391755166*16+(982873765*4))/20.
+   </li>
   </ul>
 
 
