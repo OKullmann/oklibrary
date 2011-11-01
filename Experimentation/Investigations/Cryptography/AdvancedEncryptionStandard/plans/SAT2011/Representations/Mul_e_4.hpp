@@ -251,6 +251,18 @@ maxima> setify(map(lambda([FF], hardness_cs(setify(FF[2]))), F_min_9_l));
 {2}
      \endverbatim
      </li>
+     <li> Minimum representations for multiplication by 11:
+     \verbatim
+shell> ${OKPLATFORM}/OKsystem/OKlib/Satisfiability/Optimisation/all_minimum_cnf AES_byte_field_mul_full_11.cnf
+shell> ls -1 AllMinimumCNFs_ss_byte2_4_field_mul_full_11_2011-10-30-132620/ | wc -l
+33
+maxima> oklib_load_all()$
+maxima> F_min_11_l : create_list(read_fcl_f(sconcat("AllMinimumCNFs_ss_byte2_4_field_mul_full_11_2011-10-30-132620/MinCNFs/",i,".cnf")),i,1,33);
+maxima> F_11_PI : read_fcl_f(sconcat("AllMinimumCNFs_ss_byte2_4_field_mul_full_11_2011-10-30-132620/primes.cnf"));
+maxima> setify(map(lambda([FF], hardness_wpi_cs(setify(FF[2]),F_11_PI[2])), F_min_11_l));
+{2}
+     \endverbatim
+     </li>
      <li> We need this data for all multiplications. </li>
      <li> There are also todos on improving the minimisation scripts,
      discussed in "Improve minimisation scripts" in
