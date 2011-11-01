@@ -22,7 +22,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptio
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/tests/RoundFunction.mac")$
 
 
-/* okltest_des_round(des_round); TEST FAILURE */
+okltest_des_round(des_round);
 
 /*!
 \endhtmlonly
