@@ -23,7 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptio
 
 
 /* okltest_des_round_keys_template(des_round_keys_template); TEST FAILURE */
-/* okltest_des_round_keys(des_round_keys); TEST FAILURE */
+okltest_des_round_keys(des_round_keys);
 
 /*!
 \endhtmlonly
