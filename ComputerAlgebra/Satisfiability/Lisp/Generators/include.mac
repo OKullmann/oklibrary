@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/LatinSquares.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Pigeonhole.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/PlantedSolutions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Sudoku.mac")$
@@ -31,6 +32,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Sudoku.mac")
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/LatinSquares.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/NonBooleanTranslations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Pigeonhole.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/PlantedSolutions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RandomClauseSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Sudoku.mac")$

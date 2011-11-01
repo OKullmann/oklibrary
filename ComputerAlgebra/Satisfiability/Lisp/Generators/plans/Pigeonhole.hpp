@@ -14,6 +14,8 @@ License, or any later version. */
   <ul>
    <li> All functions need to be based on the list-forms ("fcl" etc.), not
    on the set-form (this is then derived). </li>
+   <li> At the same time, we should add tests for all these functions
+   (we don't have tests for weak_php_fcs etc). </li>
   </ul>
 
 
