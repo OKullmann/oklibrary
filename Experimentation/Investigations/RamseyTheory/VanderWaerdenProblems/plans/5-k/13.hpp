@@ -22,6 +22,15 @@ License, or any later version. */
    <li>
    \verbatim
 E=run_ubcsat("VanDerWaerden_pd_2-5-13_1204.cnf",runs=100,cutoff=20000000)
+# considering only then first 10 algorithm (aborted after that):
+hwsat
+ 4  6  7  8  9 10 11 12 13 14 15 17 18
+ 2  2  3  7  7 15 16 14 11 15  4  2  2
+FlipsPerSecond = 113746
+gwsat
+ 5  9 10 11 12 13 14 15 16
+ 1  2  2  1 17 25 30 17  5
+FlipsPerSecond = 84911
 XXX
    \endverbatim
    </li>

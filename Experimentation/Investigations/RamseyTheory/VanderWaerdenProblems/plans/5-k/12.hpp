@@ -22,6 +22,11 @@ License, or any later version. */
    <li>
    \verbatim
 E=run_ubcsat("VanDerWaerden_pd_2-5-12_949.cnf",runs=100,cutoff=20000000)
+# considering only the first 11 algorithm (aborted then):
+anovp
+ 2  3  4  5  6
+ 2  8 36 49  5
+FlipsPerSecond = 54760
 XXX
    \endverbatim
    </li>
