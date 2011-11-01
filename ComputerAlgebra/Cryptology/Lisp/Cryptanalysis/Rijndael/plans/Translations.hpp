@@ -21,14 +21,6 @@ ASSERT: Expression " 96448 = 153048 " does not evaluate to true.
   </ul>
 
 
-  \bug Bug not in the milestones
-  <ul>
-   <li> A bug must never be hidden in a testobject-file! </li>
-   <li> Then likely no further actions are taken to remove the source of
-   the failure. </li>
-  </ul>
-
-
   \todo Simplify AES translation
   <ul>
    <li> The current AES translation tries to provide a "general" translation
@@ -426,6 +418,27 @@ set_heap_size_ecl(2**32);
    introducing distinct variables for each pair of plaintext/ciphertext, but
    using the same key variables in each translation. The union of all such
    translations is then the required result. </li>
+  </ul>
+
+
+  \bug DONE Bug not in the milestones
+  <ul>
+   <li> A bug must never be hidden in a testobject-file! </li>
+   <li> Then likely no further actions are taken to remove the source of
+   the failure. </li>
+  </ul>
+
+
+  \bug DONE (corrected statistics after updating minimum representations)
+  Test failure
+  <ul>
+   <li>
+   \verbatim
+okltest_ncl_ss(ncl_ss)
+ASSERT: Expression " 2652 = 6236 " does not evaluate to true.
+ERROR: /home/csoliver/OKplatform/system_directories/aux/tests/maxima/OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobjects/Translations
+   \endverbatim
+   </li>
   </ul>
 
 */
