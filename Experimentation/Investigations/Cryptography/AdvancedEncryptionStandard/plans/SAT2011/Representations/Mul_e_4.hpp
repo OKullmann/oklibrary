@@ -240,6 +240,17 @@ maxima> setify(map(lambda([FF], hardness_cs(setify(FF[2]))), F_min_3_l));
 {2}
      \endverbatim
      </li>
+     <li> Minimum representations for multiplication by 09:
+     \verbatim
+shell> ${OKPLATFORM}/OKsystem/OKlib/Satisfiability/Optimisation/all_minimum_cnf AES_byte_field_mul_full_9.cnf
+shell> ls -1 AllMinimumCNFs_ss_byte2_4_field_mul_full_9_2011-10-30-132618/MinCNFs/ | wc -l
+2
+maxima> oklib_load_all()$
+maxima> F_min_9_l : create_list(read_fcl_f(sconcat("AllMinimumCNFs_ss_byte2_4_field_mul_full_9_2011-10-30-132618/MinCNFs/",i,".cnf")),i,1,2);
+maxima> setify(map(lambda([FF], hardness_cs(setify(FF[2]))), F_min_9_l));
+{2}
+     \endverbatim
+     </li>
      <li> We need this data for all multiplications. </li>
      <li> There are also todos on improving the minimisation scripts,
      discussed in "Improve minimisation scripts" in
