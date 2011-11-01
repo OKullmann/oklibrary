@@ -74,7 +74,7 @@ okltest_aes_add_cst_cl(aes_add_cst_cl);
 okltest_aes_eq_cst_cl(aes_eq_cst_cl);
 okltest_aes_const_cst_cl(aes_const_cst_cl);
 
-/* okltest_aes_sbox_pi_cst_cl(aes_sbox_pi_cst_cl); TEST FAILURE */
+okltest_aes_sbox_pi_cst_cl(aes_sbox_pi_cst_cl);
 okltest_aes_sbox_ts_var_l(aes_sbox_ts_var_l);
 okltest_aes_sbox_ts_cst_cl(aes_sbox_ts_cst_cl);
 
