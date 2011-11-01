@@ -10,18 +10,6 @@ License, or any later version. */
   \brief Plans for the Data Encryption Standard crypto-system in Maxima/Lisp
 
 
-  \bug Test failure with okltest_des_round
-  <ul>
-   <li>
-   \verbatim
-okltest_des_round(des_round)
-length: argument cannot be a symbol; found des_validation_plain
-ASSERT: Evaluation of expression "expr" yields an error.
-   \endverbatim
-   </li>
-  </ul>
-
-
   \bug Test failure with okltest_des_round_keys_template
   <ul>
    <li>
@@ -216,6 +204,19 @@ triple_des_hex(P,K1,K2,K3) := des_encryption_hex(des_decryption_hex(des_encrypti
    <li> Triple-DES is used in the various payment card systems world-wide.
    See http://www.eftpos.co.nz/cms_display.php?sn=55&st=1&pg=4261 . </li>
    <li> 112-bit Triple-DES should be compared to 128-bit AES. </li>
+  </ul>
+
+
+  \bug DONE (added missing include)
+  Test failure with okltest_des_round
+  <ul>
+   <li>
+   \verbatim
+okltest_des_round(des_round)
+length: argument cannot be a symbol; found des_validation_plain
+ASSERT: Evaluation of expression "expr" yields an error.
+   \endverbatim
+   </li>
   </ul>
 
 */
