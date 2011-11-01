@@ -12,19 +12,6 @@ Use by
 
 oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobjects/Translations.mac");
 
-
-  \bug DONE (corrected statistics after updating minimum representations)
-  Test failure
-  <ul>
-   <li>
-   \verbatim
-okltest_ncl_ss(ncl_ss)
-ASSERT: Expression " 2652 = 6236 " does not evaluate to true.
-ERROR: /home/csoliver/OKplatform/system_directories/aux/tests/maxima/OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobjects/Translations
-   \endverbatim
-   </li>
-  </ul>
-
 */
 
 

@@ -24,9 +24,10 @@ License, or any later version. */
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
    the following topics are handled:
     - Test failure with okltest_ncl_ss
-    - Bug not in the milestones
     - output_ss_fcl_std runs out of memory generating one round AES
     - Order of small scale matrix dimensions
+    - Bug not in the milestones : DONE
+    - Test failure : DONE
 
   \par
    In Cryptanalysis/Rijndael/plans/ConstraintTemplateSmallScaleRewriteRules.hpp
