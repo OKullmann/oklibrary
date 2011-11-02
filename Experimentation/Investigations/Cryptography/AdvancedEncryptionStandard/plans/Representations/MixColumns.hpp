@@ -45,7 +45,7 @@ matrix([0,1,0,0,1,1,0,0,1,0,0,0,1,0,0,0],
        [1,0,0,1,0,0,0,1,0,0,0,1,1,0,0,0])
    \endverbatim
    </li>
-   <li> The default matrix for the four by four 4-bit AES has no more than 7 
+   <li> The default matrix for the four by four 4-bit AES has no more than 7
    ones, out of 16, in any row in it's matrix:
    \verbatim
 maxima> num_ones_in_list(L) := length(sublist(L,lambda([e],is(e=1))))$
@@ -91,7 +91,7 @@ matrix([0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
        [1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0])
    \endverbatim
    </li>
-   <li> The default matrix for the four by four 8-bit AES seems 
+   <li> The default matrix for the four by four 8-bit AES seems
    sparse, having no more than 7 ones, out of 32, in any row in it's
    matrix:
    \verbatim
@@ -115,10 +115,10 @@ maxima> map(num_ones_in_list,args(ss_mixcolumn_boolm(2,8,4)));
   \todo 16-bit MixColumn operation (2x2 matrix)
   <ul>
    <li> Consider the small scale MixColumns matrix with
-   two columns and two rows, acting on a single 8-bit column 
+   two columns and two rows, acting on a single 8-bit column
    (two rows of 4-bits). </li>
    <li> The function takes an 8-bit column and returns
-   the result of left multiplying the default small scale 2 by 2 MixColumns 
+   the result of left multiplying the default small scale 2 by 2 MixColumns
    matrix by the column. This function is given by "ss_mixcolumn_bf" in
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac
    and is a 16-bit boolean function. </li>
@@ -161,7 +161,7 @@ CURRENT MINIMUM RBASE: *2208* with gs=1,bs=1
    <li> All r_1-bases we generated for the multiplication by 03 were also the
    same. Is the inclusion of the 03 in the MixColumns matrix the reason we
    seem to have a unique r_1-base? </li>
-   <li> Not all linear maps have unique r_1-bases, as can be seen by 
+   <li> Not all linear maps have unique r_1-bases, as can be seen by
    considering the multiplication by 02 in "r_1-bases" in
    Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_2_8.hpp .
    </li>

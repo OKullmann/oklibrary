@@ -301,7 +301,7 @@ License, or any later version. */
      AdvancedEncryptionStandard/plans/Representations/Mul_e_4.hpp) :
      DONE. </li>
      <li> Small scale Sbox; minimum 22 (see
-     AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp) 
+     AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp)
      : DONE. </li>
     </ul>
    </li>

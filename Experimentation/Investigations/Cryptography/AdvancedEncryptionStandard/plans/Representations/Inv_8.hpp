@@ -41,7 +41,7 @@ order_element_pmtf(rijn_inv_pmtf,256);
    </li>
    <li> Prime implicates:
     <ol>
-     <li> There are 136647 prime implicates, with 1004920 literals in total, 
+     <li> There are 136647 prime implicates, with 1004920 literals in total,
      and with clause-length-distribution as follows:
      \verbatim
 > cat ss_byte2_8_field_inv_full.cnf_primes_stats
@@ -84,7 +84,7 @@ order_element_pmtf(rijn_inv_pmtf,256);
      \endverbatim
      All of which are 3 input variables and 2 output, or vice versa.
      </li>
-     <li> Also, what are these 2 clauses of size 10? 
+     <li> Also, what are these 2 clauses of size 10?
      \verbatim
 -15 -12 -11 -9 -8 -6 -3 -2 1 10 0
 -16 -14 -11 -10 -7 -4 -3 -1 2 9 0
@@ -99,7 +99,7 @@ order_element_pmtf(rijn_inv_pmtf,256);
 > QuineMcCluskeySubsumptionHypergraphFullStatistics-n16-O3-DNDEBUG ss_byte2_8_field_inv_full.cnf
 > cat AES_S.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n > AES_S_stat
 
-> head -n 2 ss_byte2_8_field_mul_full.cnf_shg_stats 
+> head -n 2 ss_byte2_8_field_mul_full.cnf_shg_stats
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 136647 65280 58753920 0 58753920 0 1
      \endverbatim
@@ -114,12 +114,12 @@ order_element_pmtf(rijn_inv_pmtf,256);
      \verbatim
 R> E=read.table("ss_byte2_8_field_mul_full.cnf_shg_stats",skip=2,header=TRUE)
 R> summary(E[E["count"]!=0,])
-     length           count       
- Min.   : 172.0   Min.   :  1.00  
- 1st Qu.: 563.8   1st Qu.: 12.00  
- Median : 837.5   Median : 41.00  
- Mean   : 837.4   Mean   : 59.56  
- 3rd Qu.:1111.2   3rd Qu.:107.25  
+     length           count
+ Min.   : 172.0   Min.   :  1.00
+ 1st Qu.: 563.8   1st Qu.: 12.00
+ Median : 837.5   Median : 41.00
+ Mean   : 837.4   Mean   : 59.56
+ 3rd Qu.:1111.2   3rd Qu.:107.25
  Max.   :1466.0   Max.   :194.00
 > plot(E)
      \endverbatim
@@ -169,7 +169,7 @@ CURRENT MINIMUM RBASE: *4200* with gs=54,bs=2
 ------------------------------------------------------------------------------------
    \endverbatim
    Experiment run up to gs=97, bs=1 so far. </li>
-   <li> Note that this is smaller (in terms of number of clauses) than the 
+   <li> Note that this is smaller (in terms of number of clauses) than the
    canonical translation:
    \verbatim
 maxima> FF_sbox_ts : dualts_fcl(ssinv_fulldnf_fcl(2,8,ss_polynomial_2_8))$
@@ -188,7 +188,7 @@ maxima> ncl_list_full_dualts(16,256);
    \verbatim
 maxima> output_ssinv_fullcnf_stdname(2,8);
    \endverbatim
-   and then 
+   and then
    \verbatim
 shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG ss_byte2_8_field_inv_full.cnf > ss_byte2_8_field_inv_shg.cnf
 shell> cat ss_byte2_8_field_inv_full.cnf_shg | MinOnes2WeightedMaxSAT-O3-DNDEBUG > ss_byte2_8_field_inv_shg.wcnf
@@ -202,22 +202,22 @@ shell> ubcsat-okl -alg gsat -w -runs 100 -cutoff 1000000 -i ss_byte2_8_field_inv
    \verbatim
 R> E = read.table("ubcsat_agsat_r100_c1000000.runs", header=TRUE)
 R> summary(E)
-      sat         min            osteps           msteps     
- Min.   :0   Min.   :359.0   Min.   :884154   Min.   :1e+06  
- 1st Qu.:0   1st Qu.:368.8   1st Qu.:957724   1st Qu.:1e+06  
- Median :0   Median :372.5   Median :975228   Median :1e+06  
- Mean   :0   Mean   :372.0   Mean   :970125   Mean   :1e+06  
- 3rd Qu.:0   3rd Qu.:375.0   3rd Qu.:989484   3rd Qu.:1e+06  
- Max.   :0   Max.   :383.0   Max.   :999082   Max.   :1e+06  
-      seed          
- Min.   :5.025e+07  
- 1st Qu.:1.371e+09  
- Median :2.106e+09  
- Mean   :2.169e+09  
- 3rd Qu.:2.975e+09  
+      sat         min            osteps           msteps
+ Min.   :0   Min.   :359.0   Min.   :884154   Min.   :1e+06
+ 1st Qu.:0   1st Qu.:368.8   1st Qu.:957724   1st Qu.:1e+06
+ Median :0   Median :372.5   Median :975228   Median :1e+06
+ Mean   :0   Mean   :372.0   Mean   :970125   Mean   :1e+06
+ 3rd Qu.:0   3rd Qu.:375.0   3rd Qu.:989484   3rd Qu.:1e+06
+ Max.   :0   Max.   :383.0   Max.   :999082   Max.   :1e+06
+      seed
+ Min.   :5.025e+07
+ 1st Qu.:1.371e+09
+ Median :2.106e+09
+ Mean   :2.169e+09
+ 3rd Qu.:2.975e+09
  Max.   :4.280e+09
    \endverbatim
-   which seems similar in size to the currently known minimum size for the 
+   which seems similar in size to the currently known minimum size for the
    Sbox.
    </li>
    <li> Running:
@@ -241,7 +241,7 @@ R> summary(E)
    minimum size as the minimum Sbox. </li>
   </ul>
 
-  
+
   \todo Find the symmetries of the AES inversion DNF
   <ul>
    <li> See

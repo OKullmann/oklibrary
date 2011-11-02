@@ -47,7 +47,7 @@ License, or any later version. */
    <ul>
     <li> the prime implicates.
     <li> minimum CNF representations. </li>
-    <li> small (minimal) CNF representations 
+    <li> small (minimal) CNF representations
     (in cases where minimum representations are infeasible). </li>
    </ul>
    These are described in
@@ -105,20 +105,20 @@ License, or any later version. */
    </li>
    <li> A description of how to generate such translation is needed. </li>
    <li> See also "Rearranging linear components of Sbox and MixColumns" in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp. 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
    </li>
   </ul>
 
 
   \todo Scripts for generating statistics on random boxes
   <ul>
-   <li> We currently wish to investigate various types of random 
+   <li> We currently wish to investigate various types of random
    boxes to see how they compare with the standard AES components. </li>
    <li> Therefore, we need scripts to generate and almalgamate this data.
    </li>
    <li> We can generate the various random boxes using:
    <ul>
-    <li> Random boolean function - random_full_fcs in 
+    <li> Random boolean function - random_full_fcs in
     ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac .
     </li>
     <li> Random linear maps - ss_sbox_linmap_gen_cnfp in
@@ -166,7 +166,7 @@ License, or any later version. */
      <li> random permutations for the Sbox. </li>
      <li> random linear maps inside and outside the Sbox. </li>
     </ul>
-    At the simplest level we vary the exponent (as in the 
+    At the simplest level we vary the exponent (as in the
     [Small Scale Variants of the AES; Cid, Murphy, Robshaw]) and
     keep the rest as defaults.
     </li>
@@ -236,7 +236,7 @@ output_fcs(
    <li> Prime clauses:
    \verbatim
 > QuineMcCluskey-n16-O3-DNDEBUG AES_Sbox2_full.cnf > AES_PK2.cnf
-> cat AES_PK2.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
+> cat AES_PK2.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 137185 1007214 0 1007214 1 1
  length count
@@ -254,29 +254,29 @@ output_fcs(
 
   \todo Understanding prime implicates after any partial assignment
   <ul>
-   <li> To consider the AES boxes as an "active clause", we want to first be 
+   <li> To consider the AES boxes as an "active clause", we want to first be
    able, given a partial assignment, to infer as many forced assignments
    as possible. This can be done simply with the DNF representation. </li>
    <li> However, secondly one needs, given a partial assignment, to be able to
    determine various measures for heuristics. </li>
    <li> Therefore, investigating several statistics (most notably the number of
-   clauses for a given variable) of the prime implicates of the clause-set, 
-   formed after taking the Sbox and applying each partial assignment, is 
+   clauses for a given variable) of the prime implicates of the clause-set,
+   formed after taking the Sbox and applying each partial assignment, is
    necessary to try and discern a pattern. </li>
    <li> If such patterns can be deduced for particular clause-set measures,
-   then the active clause can use this pattern, given a partial assignment, 
-   to return reasonable values for these measures which can be used for 
+   then the active clause can use this pattern, given a partial assignment,
+   to return reasonable values for these measures which can be used for
    statistics. </li>
-   <li> A C++ implementation of such a system whereby the set of prime 
+   <li> A C++ implementation of such a system whereby the set of prime
    implicates is taken as input, and each partial assignment along with
    the relevant statistics is returned is necessary. </li>
    <li> Such a C++ implementation would need to be able to apply a partial
-   assignment to a clause-set and then compute various statistics on the 
+   assignment to a clause-set and then compute various statistics on the
    result. This would need to be done for every partial assignment. </li>
    <li> After applying the partial assignment, to gain the prime implicates
    of the new boolean function, one must simply apply subsumption elimination
    to the new clause-set (which is just result of applying a partial assignment
-   to the prime implicates of the original function). This can be done using 
+   to the prime implicates of the original function). This can be done using
    functionality already in the library (MG: Where?). </li>
   </ul>
 

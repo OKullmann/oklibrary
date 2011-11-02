@@ -48,7 +48,7 @@ shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pkpair_r1_c4_rw4_
    </li>
    <li> Testing encryption using minisat:
    \verbatim
-shell> minisat ssaes_r1_c4_rw4_e8_f1_encrypt.cnf 
+shell> minisat ssaes_r1_c4_rw4_e8_f1_encrypt.cnf
 ==================================[MINISAT]===================================
 | Conflicts |     ORIGINAL     |              LEARNT              | Progress |
 |           | Clauses Literals |   Limit Clauses Literals  Lit/Cl |          |
@@ -69,7 +69,7 @@ SATISFIABLE
    </li>
   </ul>
 
-  
+
   \todo Decryption
   <ul>
    <li> We generate the AES CNF translation as in "Encryption", except
@@ -86,7 +86,7 @@ shell> AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f1.cnf ssaes_kcpair_r1_c4_rw4_
    </li>
    <li> Testing decryption using minisat:
    \verbatim
-shell> minisat ssaes_r1_c4_rw4_e8_f1_decrypt.cnf 
+shell> minisat ssaes_r1_c4_rw4_e8_f1_decrypt.cnf
 ==================================[MINISAT]===================================
 | Conflicts |     ORIGINAL     |              LEARNT              | Progress |
 |           | Clauses Literals |   Limit Clauses Literals  Lit/Cl |          |
@@ -111,12 +111,12 @@ SATISFIABLE
   \todo Update instructions
   <ul>
    <li> DONE We need instructions here on how to generate the various
-   CNFs which represent AES encryption and decryption with all the 
+   CNFs which represent AES encryption and decryption with all the
    various parameters. </li>
    <li> The instructions also need to be improved to explain more fully
    how everything works. </li>
-   <li> See 
-   ComputerAlgebra/Cryptography/Lisp/Cryptanalysis/Rijndael/Translations.mac. 
+   <li> See
+   ComputerAlgebra/Cryptography/Lisp/Cryptanalysis/Rijndael/Translations.mac.
    </li>
   </ul>
 

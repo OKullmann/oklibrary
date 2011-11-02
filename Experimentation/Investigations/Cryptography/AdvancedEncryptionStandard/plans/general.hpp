@@ -32,11 +32,11 @@ License, or any later version. */
    Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp .
    This includes a overview on the scope of the experiments in "Dimensions".
    </li>
-   <li> For investigations into the various component/box (Sbox, 
+   <li> For investigations into the various component/box (Sbox,
    field multiplication etc) representations (CNF and otherwise) see
    Cryptography/AdvancedEncryptionStandard/plans/Representations/general.hpp .
    </li>
-   <li> For investigations on using the AES translations for key discovery, 
+   <li> For investigations on using the AES translations for key discovery,
    see
    Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/general.hpp .
    </li>
@@ -89,14 +89,14 @@ License, or any later version. */
     brings attention to the following relevant facts:
     <ul>
      <li> The reason for the inclusion of MixColumns and ShiftRows in the AES
-     is for their "diffusion" properties and linearity, and both operations 
-     share these properties while the SubBytes is non-linear. 
+     is for their "diffusion" properties and linearity, and both operations
+     share these properties while the SubBytes is non-linear.
      </li>
-     <li> In [Algebraic Aspects of the Advanced Encryption Standard;Cid, 
+     <li> In [Algebraic Aspects of the Advanced Encryption Standard;Cid,
      Murphy and Robshaw], they call these operations, together, the "diffusion
      layer". </li>
      <li> The two operations in the core of the AES round (i.e., excluding the
-     key addition) are made up of a non-linear component and a linear 
+     key addition) are made up of a non-linear component and a linear
      component. </li>
     </ul>
     </li>

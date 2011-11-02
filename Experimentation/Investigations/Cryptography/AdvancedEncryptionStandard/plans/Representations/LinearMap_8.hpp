@@ -12,12 +12,12 @@ License, or any later version. */
 
   \todo Basic data
   <ul>
-   <li> The CNF file 
-   "AES_sbox_lin_2_8_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_full.cnf" 
-   is created by the Maxima-function 
+   <li> The CNF file
+   "AES_sbox_lin_2_8_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_full.cnf"
+   is created by the Maxima-function
    output_ss_sbox_linmap_fullcnf_stdname(2,8), in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac 
-   which is a full clause-set with 16 variables and 2^16 - 2^8 = 65280 
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac
+   which is a full clause-set with 16 variables and 2^16 - 2^8 = 65280
    clauses:
    \verbatim
 > cat AES_sbox_lin_2_8_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_full.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
@@ -29,10 +29,10 @@ License, or any later version. */
    </li>
    <li> Prime implicates:
     <ol>
-     <li> There are 12672 prime implicates, with 97792 literals in total, 
+     <li> There are 12672 prime implicates, with 97792 literals in total,
      and with clause-length-distribution as follows:
      \verbatim
-> cat AES_sbox_lin_2_8_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_full.cnf_primes_stats 
+> cat AES_sbox_lin_2_8_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_full.cnf_primes_stats
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 16 12672 97792 0 97792 0 1
  length count
@@ -50,7 +50,7 @@ License, or any later version. */
     <ol>
      <li> Full statistics:
      \verbatim
-> cat AES_sbox_lin_2_8_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_full.cnf_shg_stats 
+> cat AES_sbox_lin_2_8_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_full.cnf_shg_stats
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 12672 65280 4915200 0 4915200 0 1
  length count
@@ -102,7 +102,7 @@ R> subset(E, min==48)[1:5,]
    \verbatim
 maxima> output_ss_sbox_linmap_fullcnf_stdname(2,8);
    \endverbatim
-   and then 
+   and then
    \verbatim
 shell> QuineMcCluskeySubsumptionHypergraphWithFullStatistics-n16-O3-DNDEBUG AES_sbox_lin_2_8_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_0_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_1_1_1_1_1_0_0_0_1_full.cnf > shg.cnf
 shell> cat shg.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > shg.wcnf
@@ -116,20 +116,20 @@ shell> ubcsat-okl -alg gsat -w -runs 100 -cutoff 1000000 -i shg.wcnf > ubcsat_ag
    \verbatim
 R> E = read.table("ubcsat_agsat_r100_c1000000.runs",header=TRUE)
 R> summary(E)
-     sat         min            osteps           msteps     
- Min.   :0   Min.   :48.00   Min.   :104441   Min.   :1e+06  
- 1st Qu.:0   1st Qu.:48.00   1st Qu.:148122   1st Qu.:1e+06  
- Median :0   Median :48.00   Median :176470   Median :1e+06  
- Mean   :0   Mean   :48.44   Mean   :201289   Mean   :1e+06  
- 3rd Qu.:0   3rd Qu.:48.00   3rd Qu.:220279   3rd Qu.:1e+06  
- Max.   :0   Max.   :52.00   Max.   :483843   Max.   :1e+06  
-      seed          
- Min.   :2.721e+07  
- 1st Qu.:1.430e+09  
- Median :2.226e+09  
- Mean   :2.355e+09  
- 3rd Qu.:3.435e+09  
- Max.   :4.282e+09 
+     sat         min            osteps           msteps
+ Min.   :0   Min.   :48.00   Min.   :104441   Min.   :1e+06
+ 1st Qu.:0   1st Qu.:48.00   1st Qu.:148122   1st Qu.:1e+06
+ Median :0   Median :48.00   Median :176470   Median :1e+06
+ Mean   :0   Mean   :48.44   Mean   :201289   Mean   :1e+06
+ 3rd Qu.:0   3rd Qu.:48.00   3rd Qu.:220279   3rd Qu.:1e+06
+ Max.   :0   Max.   :52.00   Max.   :483843   Max.   :1e+06
+      seed
+ Min.   :2.721e+07
+ 1st Qu.:1.430e+09
+ Median :2.226e+09
+ Mean   :2.355e+09
+ 3rd Qu.:3.435e+09
+ Max.   :4.282e+09
    \endverbatim
    </li>
    <li> Is 48 the minimum? </li>

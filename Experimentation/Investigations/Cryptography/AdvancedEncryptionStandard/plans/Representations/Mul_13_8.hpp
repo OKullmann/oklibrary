@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo Basic data
   <ul>
-   <li> The CNF-file "AES_byte_field_mul_full_13.cnf" is created by the 
+   <li> The CNF-file "AES_byte_field_mul_full_13.cnf" is created by the
    Maxima-function output_rijnmult_fullcnf_stdname(13); in
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac,
    which is a full clause-set with 16
@@ -57,7 +57,7 @@ c's = 1, n = 16, c = 15312, tc = 0, ntc = 15312, tl = 122816, l = 122816, finish
    \verbatim
 shell> QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_13.cnf > AES_byte_field_mul_pi_13.cnf
 shell> RandomShuffleDimacs-O3-DNDEBUG 1 < AES_byte_field_mul_pi_13.cnf | SortByClauseLength-O3-DNDEBUG > AES_byte_field_mul_13_sortedpi.cnf
-shell> RUcpGen-O3-DNDEBUG AES_byte_field_mul_13_sortedpi.cnf > AES_byte_field_mul_13_gen.cnf 
+shell> RUcpGen-O3-DNDEBUG AES_byte_field_mul_13_sortedpi.cnf > AES_byte_field_mul_13_gen.cnf
 shell> RandomShuffleDimacs-O3-DNDEBUG 1 < AES_byte_field_mul_13_gen.cnf | SortByClauseLengthDescending-O3-DNDEBUG | RUcpBase-O3-DNDEBUG > AES_byte_field_mul_13_base.cnf
 shell> cat AES_byte_field_mul_13_base.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool

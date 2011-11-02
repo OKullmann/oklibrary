@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo Basic data
   <ul>
-   <li> The CNF-file "AES_byte_field_mul_full_9.cnf" is created by the 
+   <li> The CNF-file "AES_byte_field_mul_full_9.cnf" is created by the
    Maxima-function output_rijnmult_fullcnf_stdname(9); in
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/FieldOperationsAnalysis.mac,
    which is a full clause-set with 16
@@ -35,7 +35,7 @@ shell> QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_9.cnf > AES_byte_fi
    \endverbatim
    yields a CNF with:
    \verbatim
-shell> ExtendedDimacsFullStatistics-O3-DNDEBUG < AES_byte_field_mul_pi_9.cnf 
+shell> ExtendedDimacsFullStatistics-O3-DNDEBUG < AES_byte_field_mul_pi_9.cnf
 c's = 1, n = 16, c = 7840, tc = 0, ntc = 7840, tl = 60352, l = 60352, finished = 1
 3 : 16
 4 : 64
@@ -58,7 +58,7 @@ c's = 1, n = 16, c = 7840, tc = 0, ntc = 7840, tl = 60352, l = 60352, finished =
    \verbatim
 shell> QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_9.cnf > AES_byte_field_mul_pi_9.cnf
 shell> RandomShuffleDimacs-O3-DNDEBUG 1 < AES_byte_field_mul_pi_9.cnf | SortByClauseLength-O3-DNDEBUG > AES_byte_field_mul_9_sortedpi.cnf
-shell> RUcpGen-O3-DNDEBUG AES_byte_field_mul_9_sortedpi.cnf > AES_byte_field_mul_9_gen.cnf 
+shell> RUcpGen-O3-DNDEBUG AES_byte_field_mul_9_sortedpi.cnf > AES_byte_field_mul_9_gen.cnf
 shell> RandomShuffleDimacs-O3-DNDEBUG 1 < AES_byte_field_mul_9_gen.cnf | SortByClauseLengthDescending-O3-DNDEBUG | RUcpBase-O3-DNDEBUG > AES_byte_field_mul_9_base.cnf
 shell> cat AES_byte_field_mul_9_base.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
@@ -88,7 +88,7 @@ shell> ubcsat-okl -alg gsat -w -cutoff 1000000 -runs 100 -i AES_byte_field_mul_9
    \endverbatim
    yields:
    \verbatim
-       sat  min     osteps     msteps       seed   
+       sat  min     osteps     msteps       seed
       1 0    44                80289              1000000  626575130
       2 0    46               143131              1000000 3777510035
       3 0    44               130040              1000000 3438911282
