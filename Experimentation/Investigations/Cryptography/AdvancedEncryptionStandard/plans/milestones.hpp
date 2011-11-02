@@ -16,7 +16,6 @@ License, or any later version. */
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
    following topics are handled:
-    - Explain how to replace various AES boxes with identity or random boxes
     - Summary of previous experimental results
     - Merge SAT2011 plans with module one level higher : DONE
     - MiniSAT2 based solvers return incorrect times using experiment script : DONE
@@ -44,8 +43,8 @@ License, or any later version. */
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp
    the following topics are handled:
-    - Prepare experiments for the SAT 2012 paper
     - Solvers to be used for experimentation
+    - Prepare experiments for the SAT 2012 paper : DONE
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/general.hpp
@@ -67,6 +66,9 @@ License, or any later version. */
     - Separate key-schedule and block-cipher
     - Notions for AES operation
     - Investigating conditions and their representations
+    - Structure
+    - Explain how to replace various AES boxes with identity or random boxes
+    - Determining a "good" local search algorithm to use on AES instances
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp
@@ -100,10 +102,22 @@ License, or any later version. */
     - Using SBSAT
     - Merge SAT2011 plans with module one level higher
 
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp the
+   following topics are handled:
+    - Encryption
+    - Decryption
+
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp
    the following topics are handled:
     - Investigating dimensions
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/AESKeyDiscovery.hpp
+   the following topics are handled:
+    - Breaking AES
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/CryptographicProperties.hpp
