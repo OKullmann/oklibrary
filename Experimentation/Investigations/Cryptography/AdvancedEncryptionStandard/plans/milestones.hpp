@@ -26,7 +26,7 @@ License, or any later version. */
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/Benchmarks.hpp the
    following topics are handled:
-    - Prepare benchmarks for SAT 2011 : DONE
+    - Prepare benchmarks for SAT 2011
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp the
