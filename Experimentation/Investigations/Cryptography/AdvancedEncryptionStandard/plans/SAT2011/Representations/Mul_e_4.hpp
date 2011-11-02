@@ -275,7 +275,8 @@ maxima> setify(map(lambda([FF], hardness_wpi_cs(setify(FF[2]),F_13_PI[2])), F_mi
 {2}
      \endverbatim
      </li>
-     <li> We need this data for all multiplications. </li>
+     <li> We need this data for all multiplications (14,05,06,07,08,09,10,12,
+     15). XXX </li>
      <li> There are also todos on improving the minimisation scripts,
      discussed in "Improve minimisation scripts" in
      Satisfiability/Optimisation/plans/general.hpp. </li>

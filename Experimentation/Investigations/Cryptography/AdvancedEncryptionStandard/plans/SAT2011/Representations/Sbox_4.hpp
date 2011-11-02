@@ -156,7 +156,7 @@ shell> ${OKPLATFORM}/OKsystem/OKlib/Satisfiability/Optimisation/all_minimum_cnf 
 ...
    \endverbatim
    </li>
-   <li> The computation is still running after 5 days. </li>
+   <li> The computation is still running after 5 days. XXX </li>
   </ul>
 
 */
