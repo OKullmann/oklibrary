@@ -62,6 +62,16 @@ License, or any later version. */
    the AES and small scale AES given in [Algebraic Aspects of the Advanced
    Encryption Standard;Cid,Murphy Robshaw] to the SAT 2012 conference (see
    http://sat2012.fbk.eu/). </li>
+   <li> The deadlines are:
+    <ul>
+     <li> Abstract: 5th Feb 2012. </li>
+     <li> Paper: 12 Feb 2012. </li>
+     <li> Rebuttal: 28-30 Feb 2012. </li>
+     <li> Final notification: 12 April 2012. </li>
+     <li> Final version due: 4 May 2012. </li>
+     <li> Conference: 17-20 June 2012. </li>
+    </ul>
+   </li>
    <li> For investigations and open problems in this area see
    Cryptography/AdvancedEncryptionStandard/plans/general.hpp.
    </li>
