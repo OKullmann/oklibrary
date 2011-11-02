@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.1.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/include.mac")
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Homomorphisms.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Statistics.mac")$
@@ -31,6 +32,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Stratification.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Basics.mac")$
 oklib_inlucde("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Colouring.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Homomorphisms.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/IndependentSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Stratification.mac")$
