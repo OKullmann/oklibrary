@@ -20,6 +20,8 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionSt
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 kill(f)$
 
@@ -99,7 +101,7 @@ okltest_des_round_keys(f) := block(
      example" in
      Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery.hpp):
   */
-  assert(map(binv2hexstr, f("15FBC08D31B0D521")) =
+  assert(map(binv2hexstr, f(hexstr2binv("15FBC08D31B0D521"))) =
     ["8C45AB151088","5FA3C2082654","3ADCAB79C080","F9214E00440B",
      "20CE9D8E3004","553936A043E0","A6ACF1108A03","DF6626D60410",
      "258F6F819086","E370A34406A1","B98FF01A084D","D4729B02D190",
