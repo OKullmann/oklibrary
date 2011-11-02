@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/1_13.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/016/2_1_8/1_13.hpp
   \brief Investigations into small-scale AES key discovery for 1 + 1/3 round AES with a 2x1 plaintext matrix and 8-bit field elements
 
 
@@ -19,7 +19,7 @@ License, or any later version. */
    outputs a 16-bit ciphertext. </li>
    <li> For the full specification of this AES instance, see
    "Problem specification" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/general.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/016/2_1_8/general.hpp.
    </li>
    <li> Note that we consider the canonical CNF translation, as
    this is an example of the "hardest" representation without
@@ -580,7 +580,7 @@ EM
     </ul>
    </li>
    <li> Generating a 1-base for the S-box from
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp. :
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp. :
    \verbatim
 maxima> output_rijnsbox_fullcnf_stdname();
 shell> QuineMcCluskey-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_Sbox_pi.cnf
@@ -599,7 +599,7 @@ shell> cat AES_Sbox_base.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
    \endverbatim
    </li>
    <li> Generating a 1-base for the multiplication by 02 and 03 from
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp. :
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp. :
    \verbatim
 maxima> output_rijn_mult_fullcnf_stdname(2);
 shell> QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_2.cnf > AES_byte_field_mul_2_pi.cnf

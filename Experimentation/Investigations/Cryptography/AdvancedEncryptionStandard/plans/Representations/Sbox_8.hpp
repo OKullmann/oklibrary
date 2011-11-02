@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp
   \brief Investigations into the AES S-box
 
 
@@ -116,7 +116,7 @@ order_element_pmtf(rijn_sbox_pmtf,256);
     </ol>
    </li>
    <li> See "Basic data" in
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Inv_8.hpp.
    </li>
    <li> See "First considerations of random permutation" in
    Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp for
@@ -238,7 +238,7 @@ true
   \todo Minimum using exact espresso algorithms
   <ul>
    <li> See
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Methods.hpp.
    </li>
    <li> Computing the minimum CNF:
    \verbatim
@@ -276,7 +276,7 @@ shell> espresso2.3 Sbox.pla
   \todo Using R QCA package
   <ul>
    <li> See
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Methods.hpp.
    </li>
    <li> Computing a minimum CNF:
    \verbatim

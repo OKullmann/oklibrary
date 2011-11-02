@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/004/1_1_4/10_13.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/004/1_1_4/10_13.hpp
   \brief Investigations into small-scale AES key discovery with 1 row, 1 column and 4-bit field elements for 10 rounds AES with MixColumns
 
 
@@ -19,11 +19,11 @@ License, or any later version. */
    outputs a 4-bit ciphertext. </li>
    <li> For the full specification of this AES instance, see
    "Problem specification" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/004/1_1_4/general.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/004/1_1_4/general.hpp.
    </li>
    <li> For a full list of the possible translations, see
    "Investigating dimensions" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
    </li>
    <li> In this file we consider:
     <ul>
@@ -183,29 +183,29 @@ VALID
    so and so many variables and clauses. </li>
    <li> DONE This is needed in the following files:
     <ul>
-     <li> DONE SAT2011/KeyDiscovery/004/1_1_4/10_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/004/1_1_4/20_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/008/1_1_8/20_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/016/2_1_8/1_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/016/2_1_8/10_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/016/2_1_8/14_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/016/2_2_4/1_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/016/2_2_4/2_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/016/2_2_4/4_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/016/2_2_4/20_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/016/2_2_4/20_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/032/2_4_4/1_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/032/2_4_4/3_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/032/2_4_4/5_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/032/4_2_4/1_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/032/4_2_4/2_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/064/1_16_4/4_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/064/1_16_4/5_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/064/4_4_4/1_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/128/1_16_8/2_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/128/4_4_8/0_23_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/128/4_4_8/1_13.hpp. </li>
-     <li> DONE SAT2011/KeyDiscovery/004/1_1_4/1_13.hpp. </li>
+     <li> DONE KeyDiscovery/004/1_1_4/10_13.hpp. </li>
+     <li> DONE KeyDiscovery/004/1_1_4/20_13.hpp. </li>
+     <li> DONE KeyDiscovery/008/1_1_8/20_13.hpp. </li>
+     <li> DONE KeyDiscovery/016/2_1_8/1_13.hpp. </li>
+     <li> DONE KeyDiscovery/016/2_1_8/10_13.hpp. </li>
+     <li> DONE KeyDiscovery/016/2_1_8/14_13.hpp. </li>
+     <li> DONE KeyDiscovery/016/2_2_4/1_13.hpp. </li>
+     <li> DONE KeyDiscovery/016/2_2_4/2_13.hpp. </li>
+     <li> DONE KeyDiscovery/016/2_2_4/4_13.hpp. </li>
+     <li> DONE KeyDiscovery/016/2_2_4/20_13.hpp. </li>
+     <li> DONE KeyDiscovery/016/2_2_4/20_13.hpp. </li>
+     <li> DONE KeyDiscovery/032/2_4_4/1_13.hpp. </li>
+     <li> DONE KeyDiscovery/032/2_4_4/3_13.hpp. </li>
+     <li> DONE KeyDiscovery/032/2_4_4/5_13.hpp. </li>
+     <li> DONE KeyDiscovery/032/4_2_4/1_13.hpp. </li>
+     <li> DONE KeyDiscovery/032/4_2_4/2_13.hpp. </li>
+     <li> DONE KeyDiscovery/064/1_16_4/4_13.hpp. </li>
+     <li> DONE KeyDiscovery/064/1_16_4/5_13.hpp. </li>
+     <li> DONE KeyDiscovery/064/4_4_4/1_13.hpp. </li>
+     <li> DONE KeyDiscovery/128/1_16_8/2_13.hpp. </li>
+     <li> DONE KeyDiscovery/128/4_4_8/0_23_13.hpp. </li>
+     <li> DONE KeyDiscovery/128/4_4_8/1_13.hpp. </li>
+     <li> DONE KeyDiscovery/004/1_1_4/1_13.hpp. </li>
     </ul>
    </li>
   </ul>

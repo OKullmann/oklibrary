@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/RoundColumn_2_4.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/RoundColumn_2_4.hpp
   \brief Studying good representations of the combination of the AES SubBytes and MixColumns operations
 
 
@@ -32,9 +32,9 @@ License, or any later version. */
    move the Sbox operation through the "ShiftRows". </li>
    <li> The round column operation is an 8-bit permutation, and intuitively
    should mimic a random permutation and so see also
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp
    and
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Inv_8.hpp
    for comparison. </li>
   </ul>
 

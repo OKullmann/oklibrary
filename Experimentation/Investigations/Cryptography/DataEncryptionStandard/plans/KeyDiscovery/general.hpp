@@ -122,7 +122,7 @@ License, or any later version. */
    This again seems to fit into the pattern of running the experiments as end
    in itself. </li>
    <li> See also "Update experiment script" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
    </li>
   </ul>
 

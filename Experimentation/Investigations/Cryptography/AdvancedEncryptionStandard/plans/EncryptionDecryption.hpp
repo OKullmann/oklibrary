@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/EncryptionDecryption.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp
   \brief On investigating encryption and decryption using AES SAT-translation
 
 

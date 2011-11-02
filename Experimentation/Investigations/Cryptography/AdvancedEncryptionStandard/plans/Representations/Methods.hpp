@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Methods.hpp
   \brief Methods for finding various representations of the AES boxes.
 
 
@@ -47,7 +47,7 @@ License, or any later version. */
    "Extracting prime implicate representations from the
    hitting-cls-representations" need to be tidied and the
    method extracted and placed here, leaving the results in
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp .
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp .
    </li>
   </ul>
 
@@ -221,7 +221,7 @@ p cnf 8 9
    <li> Note the above uses the OKsolver to check for satisfiability of each
    clause-set. Further scripts should be written to check using other solvers.
    See "Solvers to be used for experimentation" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp . </li>
+   Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp. </li>
   </ul>
 
 

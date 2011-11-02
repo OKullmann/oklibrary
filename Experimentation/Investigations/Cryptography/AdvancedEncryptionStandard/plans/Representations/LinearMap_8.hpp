@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/LinearMap_8.hpp
+  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/LinearMap_8.hpp
   \brief Investigations into the AES Sbox linear map (8-bit)
 
 
@@ -87,8 +87,8 @@ R> subset(E, min==48)[1:5,]
 5   0  48 417957 1000000  324341182
    \endverbatim
    </li>
-   <li> See "Basic data" in 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
+   <li> See "Basic data" in
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp.
    </li>
    <li> See "First considerations of random permutation" in
    Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp for

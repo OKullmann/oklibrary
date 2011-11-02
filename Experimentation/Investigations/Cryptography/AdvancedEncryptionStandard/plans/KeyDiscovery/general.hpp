@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/general.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/general.hpp
   \brief Investigations into AES key discovery
 
   The aim of these experiments is, using translations of the AES and small
@@ -66,10 +66,10 @@ License, or any later version. */
    we have a todo. </li>
    <li> One must someone specify in the title and content of the todo which
    translation is meant. See "Investigating dimensions" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
    </li>
    <li> For example "Using the canonical box translation" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/4_2_4/2_13.hpp
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/032/4_2_4/2_13.hpp
    doesn't provide enough information on it's own to understand which
    translation is meant. </li>
    <li> The first thought is for the title of the todo to fully specify the
@@ -96,10 +96,10 @@ License, or any later version. */
   <ul>
    <li> For investigations into the various component/box representations
    (CNF and otherwise) of the AES boxes (Sbox, field multiplications etc) see
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp .
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/general.hpp .
    </li>
    <li> See
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp
    for the more general investigations.
    </li>
   </ul>
@@ -307,7 +307,7 @@ maxima> output_ss_fcl_std(1,4,4,8,0,aes_ts_box, aes_mc_bidirectional);
 
 
   \todo DONE (see brief of
-  Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/general.hpp
+  Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/general.hpp
   and other plans headers)
   Improve explanations of what a round is
   <ul>

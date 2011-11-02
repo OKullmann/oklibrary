@@ -223,7 +223,7 @@ set_heap_size_ecl(2**32);
    <li> For example, can we integrate "Rearranging linear components of Sbox
    and MixColumns". </li>
    <li> See also "Dimensions" in
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp .
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp .
    </li>
   </ul>
 
@@ -334,14 +334,14 @@ set_heap_size_ecl(2**32);
      <li> How to handle different parameter settings? </li>
      <li> What is the parameter space? Move discussion from
      "Investigating dimensions" in
-     Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp
      into the docus. </li>
      <li> Add example AES translation with statistics. </li>
     </ul>
    </li>
    <li> The following information on the different possible translations
    should also be included and linked to
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp:
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp:
    <ul>
     <li> We model a generalised AES system (see
     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac)

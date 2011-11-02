@@ -101,7 +101,7 @@ License, or any later version. */
    <li> We need to implement linear interpolation over the field
    for arbitrary fields. </li>
    <li> This todo should be moved to
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/.
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/.
    </li>
   </ul>
 

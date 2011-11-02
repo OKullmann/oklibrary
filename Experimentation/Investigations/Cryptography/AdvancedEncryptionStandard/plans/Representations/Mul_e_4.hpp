@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_e_4.hpp
+  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_e_4.hpp
   \brief Investigations into AES field multiplication by arbitary elements (e) in the 4-bit field
 
 

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/004/1_1_4/general.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/004/1_1_4/general.hpp
   \brief Investigations into small-scale AES key discovery with 1 row, 1 column and 4-bit field elements
 
 
@@ -51,7 +51,7 @@ K_i := S-box(K_(i-1)) + C_i
    </li>
    <li> The decompositions and translations are listed in "Investigating
    dimensions" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
    </li>
    <li> The plaintext and ciphertext variables are then set, and the SAT
    SAT solver is run on this instance to deduce the key variables. </li>
@@ -107,7 +107,7 @@ K_i := S-box(K_(i-1)) + C_i
    </li>
    <li> For a full list of the possible translations, see
    "Investigating dimensions" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
    </li>
    <li> Generating instances for rounds 1-20 for a single random key with each
    of the translations:

@@ -120,7 +120,7 @@ License, or any later version. */
    <li> DONE (new version is now the default)
    As we need weighted algorithms, for example in the case of
    minimising CNF representations (see 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/BoxMinimisation.hpp)
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/BoxMinimisation.hpp)
    we need an option to specify that we wish to use "new-ubcsat-okl"
    instead of "ubcsat-okl". </li>
    <li> We also need to ensure that all the weighted

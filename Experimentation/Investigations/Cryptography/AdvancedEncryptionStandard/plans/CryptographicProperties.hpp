@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/CryptographicProperties.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/CryptographicProperties.hpp
   \brief On investigating the cryptographic properties of AES and small scale variations.
 
 

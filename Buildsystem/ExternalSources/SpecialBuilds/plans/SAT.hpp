@@ -414,7 +414,7 @@ bin> ldd sat-grasp
   \todo Add todos for SAT-Race 2010 SAT solvers
   <ul>
    <li> See "Solvers to be used for experimentation" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp
    for a list of solvers from SAT-Race 2010. </li>
   </ul>
 

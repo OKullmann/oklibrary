@@ -7,7 +7,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/4_4_8/0_23_13.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/128/4_4_8/0_23_13.hpp
   \brief Investigations into AES key discovery for 1 round AES without MixColumns (0+2/3+1/3)
 
 
@@ -32,7 +32,7 @@ License, or any later version. */
    perform 2/3 of the round (key addition + SubBytes). </li>
    <li> For the full specification of this AES instance, see
    "Problem specification" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/4_4_8/general.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/128/4_4_8/general.hpp.
    </li>
    <li> Note that we consider the canonical CNF translation, as
    this is an example of the "hardest" representation without

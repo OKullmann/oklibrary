@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/008/1_2_4/20_13.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/008/1_2_4/20_13.hpp
   \brief Investigations into small-scale AES key discovery for 20+1/3 round AES with 1 row, 2 columns and 4-bit field size
 
 
@@ -19,11 +19,11 @@ License, or any later version. */
    outputs a 8-bit ciphertext. </li>
    <li> For the full specification of this AES instance, see
    "Problem specification" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/008/1_1_8/general.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/008/1_1_8/general.hpp.
    </li>
    <li> The decompositions and translations are listed in "Investigating
    dimensions" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
    </li>
    <li> Note that we consider the canonical CNF translation, as
    this is an example of the "hardest" representation without
@@ -116,7 +116,7 @@ shell> cat ssaes_r20_c2_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    </li>
    <li> The additions are translated by their prime implicates. </li>
    <li> The S-boxes are translated by a 1-base representation. See
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_4.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_4.hpp.
    </li>
    <li> The number of clauses for the 1-base representation of the S-box:
    \verbatim
@@ -283,7 +283,7 @@ shell> cat ssaes_r20_c1_rw1_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG 
    </li>
    <li> The additions are translated by their prime implicates. </li>
    <li> The S-boxes are translated by a minimum representation. See
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_4.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_4.hpp.
    </li>
    <li> The number of clauses for the "minimum" representation of the S-box:
    \verbatim

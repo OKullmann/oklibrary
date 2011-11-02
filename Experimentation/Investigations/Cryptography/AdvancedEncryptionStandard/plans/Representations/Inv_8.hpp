@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp
+  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Inv_8.hpp
   \brief Investigations into the AES field-inversion (8-bit)
 
 
@@ -56,8 +56,8 @@ order_element_pmtf(rijn_inv_pmtf,256);
 10 2
      \endverbatim
      </li>
-     <li> As with 
-     Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp 
+     <li> As with
+     Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp
      what are these small number of clauses of length 5? </li>
      <li> We have the following clauses of size 5:
      \verbatim
@@ -137,8 +137,8 @@ R> subset(E, min == 359)
 80   0 359 970714 1000000 3833417812
    \endverbatim
    </li>
-   <li> See "Basic data" in 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
+   <li> See "Basic data" in
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp.
    </li>
    <li> See "First considerations of random permutation" in
    Experimentation/Investigations/BooleanFunctions/plans/Permutations.hpp for
@@ -246,8 +246,8 @@ R> summary(E)
   <ul>
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/Symmetries/plans/general.hpp. </li>
-   <li> See "Find the symmetries of the AES Sbox DNF" in 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp .
+   <li> See "Find the symmetries of the AES Sbox DNF" in
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp .
    </li>
    <li> We have at least the symmetry exchanging input and output variables
    (since x^(-1) in the field is self-inverse). </li>

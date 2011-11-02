@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Connections
   <ul>
    <li> See
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations
+   Cryptography/AdvancedEncryptionStandard/plans/Representations
    for several interesting examples in the context of AES. </li>
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/LinearConditions/plans/general.hpp for

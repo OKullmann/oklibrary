@@ -22,7 +22,7 @@ License, or any later version. */
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/docus/ConstraintTemplateRewriteSystem.hpp.
    </li>
    <li> For experimental results for the AES translations, see
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp.
    </li>
   </ul>
 

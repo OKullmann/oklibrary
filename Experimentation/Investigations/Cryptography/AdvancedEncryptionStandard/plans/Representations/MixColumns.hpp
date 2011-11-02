@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/MixColumns.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/MixColumns.hpp
   \brief Studying good representations of the AES (small-scale) MixColumns operations
 
 
@@ -163,10 +163,10 @@ CURRENT MINIMUM RBASE: *2208* with gs=1,bs=1
    seem to have a unique r_1-base? </li>
    <li> Not all linear maps have unique r_1-bases, as can be seen by 
    considering the multiplication by 02 in "r_1-bases" in
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp .
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_2_8.hpp .
    </li>
    <li> See also "r_1-bases" in
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_3_8.hpp.
    </li>
   </ul>
 

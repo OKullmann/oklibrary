@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_4.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_4.hpp
   \brief Investigations into the 4-bit AES S-box
 
 

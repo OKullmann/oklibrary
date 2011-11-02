@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Benchmarks.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/Benchmarks.hpp
   \brief Benchmarks for submission to the 2011 SAT competition.
 
 

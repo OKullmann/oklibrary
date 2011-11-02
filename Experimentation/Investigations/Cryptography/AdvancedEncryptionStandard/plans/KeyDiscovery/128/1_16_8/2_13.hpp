@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/1_16_8/2_13.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/128/1_16_8/2_13.hpp
   \brief Investigations into small-scale AES key discovery for 2+1/3 round AES with 1 row and 16 columns
 
   \todo Problem specification
@@ -18,7 +18,7 @@ License, or any later version. */
    outputs a 64-bit ciphertext. </li>
    <li> For the full specification of this AES instance, see
    "Problem specification" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/1_16_8/general.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/128/1_16_8/general.hpp.
    </li>
    <li> Note that we consider the canonical CNF translation, as
    this is an example of the "hardest" representation without

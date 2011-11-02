@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_2_4/general.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/016/2_2_4/general.hpp
   \brief Investigations into small-scale AES key discovery for AES with a 2x2 plaintext matrix and 4-bit field elements
 
 
@@ -75,7 +75,7 @@ MixColumns(I_4) := Mul03(I_3) + Mul02(I_4)
    </li>
    <li> The decompositions and translations are listed in "Investigating
    dimensions" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
    </li>
    <li> The plaintext and ciphertext variables are then set, and the SAT
    SAT solver is run on this instance to deduce the key variables. </li>

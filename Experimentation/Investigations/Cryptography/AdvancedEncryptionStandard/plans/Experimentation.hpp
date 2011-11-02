@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp
   \brief AES experiments related to the SAT 2011 paper
 
   We consider experiments investigating the AES and small-scale translations
@@ -25,11 +25,11 @@ License, or any later version. */
    for experiments regarding breaking AES (i.e. finding the key given the
    plaintext and ciphertext). </li>
    <li> See
-   AdvancedEncryptionStandard/plans/SAT2011/EncryptionDecryption.hpp
+   AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp
    for experiments regarding computing encryption and decryption using the
    AES SAT translation. </li>
    <li> See
-   AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
+   AdvancedEncryptionStandard/plans/Representations/general.hpp
    for experiments regarding representations of the AES and small scale boxes.
    </li>
   </ul>
@@ -77,7 +77,7 @@ License, or any later version. */
        <li> Random permutations are used. </li>
        <li> The identity is used. </li>
        <li> See "Explain how to replace various AES boxes with identity or
-       random" in AdvancedEncryptionStandard/plans/SAT2011/general.hpp; this
+       random" in AdvancedEncryptionStandard/plans/general.hpp; this
        aspects needs better explanations. </li>
       </ol>
      </li>
@@ -217,7 +217,7 @@ License, or any later version. */
    <li> We need instructions on how to generate each translation. These
    should occur here (in this plans file). </li>
    <li> See "Separate key-schedule and block-cipher" in
-   AdvancedEncryptionStandard/plans/SAT2011/general.hpp; this aspects needs
+   AdvancedEncryptionStandard/plans/general.hpp; this aspects needs
    better explanations. </li>
    <li> For more information, see
    Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp. </li>
@@ -227,21 +227,21 @@ License, or any later version. */
   \todo Open problems
   <ul>
    <li> For a description of the investigation, please see
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp. </li>
+   Cryptography/AdvancedEncryptionStandard/plans/general.hpp. </li>
    <li> Here is a list of experiments which still need to be run, or
    questions for which we still do not know the answer. </li>
    <li> We need to find out which solvers and local search algorithms
    perform best on different minimisation problems, see
-   AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp.
+   AdvancedEncryptionStandard/plans/Representations/general.hpp.
    </li>
    <li> We need basic data on the prime implicates and subsumption
    hypergraphs for the following:
     <ul>
      <li> Small scale S-box (see
-     AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_4.hpp).
+     AdvancedEncryptionStandard/plans/Representations/Sbox_4.hpp).
      </li>
      <li> Small scale field multiplications (see
-     AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_e_4.hpp).
+     AdvancedEncryptionStandard/plans/Representations/Mul_e_4.hpp).
      </li>
      <li> Small scale field inversion (no plans file yet). </li>
      <li> Small scale linear map (no plans file yet). </li>
@@ -257,13 +257,13 @@ License, or any later version. */
      <li> AES Sbox linear map with field multiplications (no plans file yet).
      </li>
      <li> AES Sbox (see
-     AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp)
+     AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp)
      : DONE. </li>
      <li> AES field inversion (see
-     AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp)
+     AdvancedEncryptionStandard/plans/Representations/Inv_8.hpp)
      : DONE. </li>
      <li> AES Sbox linear map (see
-     AdvancedEncryptionStandard/plans/SAT2011/Representations/LinearMap_8.hpp)
+     AdvancedEncryptionStandard/plans/Representations/LinearMap_8.hpp)
      : DONE. </li>
     </ul>
    </li>
@@ -271,13 +271,13 @@ License, or any later version. */
    functions:
     <ul>
      <li> AES Sbox; no minimum yet, smallest 294 (see
-     AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp).
+     AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp).
      </li>
      <li> AES field inversion (see
-     AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp).
+     AdvancedEncryptionStandard/plans/Representations/Inv_8.hpp).
      </li>
      <li> AES Sbox linear map (see
-     AdvancedEncryptionStandard/plans/SAT2011/Representations/LinearMap_8.hpp).
+     AdvancedEncryptionStandard/plans/Representations/LinearMap_8.hpp).
      </li>
      <li> AES Sbox linear map with field multiplications (no plans file yet).
      </li>
@@ -289,19 +289,19 @@ License, or any later version. */
       <ul>
        <li> The remaining 251. </li>
        <li> 03, see
-       AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp.
+       AdvancedEncryptionStandard/plans/Representations/Mul_3_8.hpp.
        </li>
        <li> 02, minimum size 20 (see
-       AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp) :
+       AdvancedEncryptionStandard/plans/Representations/Mul_2_8.hpp) :
        DONE. </li>
        <li> 00, 01 : DONE (trivial) </li>
       </ul>
      </li>
      <li> Small scale field multiplications (see
-     AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_e_4.hpp) :
+     AdvancedEncryptionStandard/plans/Representations/Mul_e_4.hpp) :
      DONE. </li>
      <li> Small scale Sbox; minimum 22 (see
-     AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp) 
+     AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp) 
      : DONE. </li>
     </ul>
    </li>
@@ -385,7 +385,7 @@ License, or any later version. */
    </li>
    <li> Experiment running:
     <ul>
-     <li> See Investigations/Cryptography/AdvancedEncryptionStandard/run_aes_experiment.
+     <li> See Cryptography/AdvancedEncryptionStandard/run_aes_experiment.
      </li>
      <li> The AES experiment script should be split up into per-solver scripts:
       <ul>
@@ -442,7 +442,7 @@ License, or any later version. */
    <li> For LCC and CP there must be docus page with links to the relevant
    experiment plans, and summaries of the results. </li>
    <li> Consolidation is needed of summary todos such as "Boundaries" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/general.hpp;
+   Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/general.hpp;
    we must be able to *see* results. </li>
   </ul>
 
@@ -547,7 +547,7 @@ License, or any later version. */
    </li>
    <li> DONE (moved to "Explain how to replace various AES boxes with identity
    or random boxes" in
-   /AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp)
+   /AdvancedEncryptionStandard/plans/Experimentation.hpp)
    Systematic variations on the various boxes:
     <ol>
      <li> In order to find out about the effects of box-translations, a good

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/016/2_1_8/Translations.hpp
   \brief Listing the translations for the small-scale AES key discovery for AES with a 2x1 plaintext matrix and 8-bit field elements
 
 
@@ -14,7 +14,7 @@ License, or any later version. */
   <ul>
    <li> We consider the default decomposition into small boolean
    functions for aes(r,2,1,8) discussed in "Problem specification"
-   AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/general.hpp.
+   AdvancedEncryptionStandard/plans/KeyDiscovery/016/2_1_8/general.hpp.
    </li>
    <li> Splitting aes(r,2,1,8) into boolean functions ("boxes") in the
    "standard"/"default" way:
@@ -112,17 +112,17 @@ maxima> ncl_list_full_dualts(16,256);
    <li> There are currently active investigations attempting to find the
    minimum-size 1-base representations for each of the boxes, discussed in
     <ul>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp.
      </li>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_2_8.hpp.
      </li>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_3_8.hpp.
      </li>
     </ul>
    </li>
    <li> Generating the smallest (so far) 1-base for the S-box (as of
    05/08/2011) from
-   AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp:
+   AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp:
    \verbatim
 maxima> output_rijnsbox_fullcnf_stdname();
 shell> QuineMcCluskey-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_Sbox_pi.cnf
@@ -142,9 +142,9 @@ shell> cat AES_Sbox_base.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
    </li>
    <li> Generating the smallest (so far) 1-base for the multiplication by 02
    and 03 the  (as of 05/08/2011) from
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_2_8.hpp
    and
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp:
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_3_8.hpp:
    \verbatim
 maxima> output_rijn_mult_fullcnf_stdname(2);
 shell> QuineMcCluskey-n16-O3-DNDEBUG AES_byte_field_mul_full_2.cnf > AES_byte_field_mul_2_pi.cnf
@@ -204,20 +204,20 @@ maxima> ncl_list_fcs(ev_hm(ss_field_rbase_cnfs,[8,3]))
    <li> There are currently active investigations attempting to find the
    minimum representations for each of the boxes, discussed in
     <ul>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp.
      </li>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_2_8.hpp.
      </li>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_3_8.hpp.
      </li>
     </ul>
    </li>
    <li> The smallest "minimum" representations for the S-box (as of 05/09/2011)
    and multiplications by 02 and 03 from
-   AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp,
-   AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp
+   AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp,
+   AdvancedEncryptionStandard/plans/Representations/Mul_2_8.hpp
    and
-   AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp :
+   AdvancedEncryptionStandard/plans/Representations/Mul_3_8.hpp :
    \verbatim
 /* Multiplication by 02: */
 maxima> FieldMul2CNF : [{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16},{{-9,2},{-2,9},{-10,3},{-3,10},{-11,4},{-4,11},{-12,-5,-1},{-12,1,5},{-5,1,12},{-1,5,12},{-13,-6,-1},{-1,6,13},{-14,7},{-7,14},{-15,1,8},{-8,1,15},{-16,-15,-8},{-16,8,15},{-13,6,16},{-6,13,16}}]$

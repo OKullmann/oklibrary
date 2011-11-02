@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
+  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/general.hpp
   \brief Investigations into representations for components of the AES related to the SAT 2011 paper
 
 
@@ -50,23 +50,29 @@ License, or any later version. */
     <li> small (minimal) CNF representations 
     (in cases where minimum representations are infeasible). </li>
    </ul>
-   These are described in 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp .
+   These are described in
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Methods.hpp .
    </li>
    <li> There are currently open investigations in the following files:
    <ul>
     <li> 8-bit Sbox:
-    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp </li>
+    Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp
+    </li>
     <li> 8-bit Multiplication by 3:
-    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp </li>
+    Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_3_8.hpp
+    </li>
     <li> 8-bit Multiplication by 9:
-    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_9_8.hpp </li>
+    Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_9_8.hpp
+    </li>
     <li> 8-bit Multiplication by 11:
-    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_11_8.hpp </li>
+    Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_11_8.hpp
+    </li>
     <li> 8-bit Multiplication by 13:
-    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_13_8.hpp </li>
+    Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_13_8.hpp
+    </li>
     <li> 8-bit Multiplication by 14:
-    Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_14_8.hpp </li>
+    Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_14_8.hpp
+    </li>
    </ul>
    </li>
    <li> For R-based representations see "R-based representations". </li>
@@ -137,7 +143,7 @@ License, or any later version. */
    and finding transversals of subsumption hypergraphs when looking for
    minimum CNF representations
    (see
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp)
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Methods.hpp)
    </li>
    <li> We need a survey of the various solvers and local search algorithms
    that we can use with these problems, along with their performance on

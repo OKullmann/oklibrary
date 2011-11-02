@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/general.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/016/2_1_8/general.hpp
   \brief Investigations into small-scale AES key discovery for AES with a 2x1 plaintext matrix and 8-bit field elements
 
 
@@ -20,7 +20,7 @@ License, or any later version. */
    how the performance of each solver changes as we increase the number of
    rounds. </li>
    <li> Descriptions and statistics for each of the translations are provided
-   in plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp.
+   in plans/KeyDiscovery/016/2_1_8/Translations.hpp.
    </li>
    <li> Comparing the translations by solving key-discovery instances over 20
    rounds (averaged over 20 distinct keys):
@@ -135,7 +135,7 @@ MixColumns(I_2) := Mul03(I_1) + Mul02(I_2)
    </li>
    <li> The decompositions and translations are listed in "Investigating
    dimensions" in
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
    </li>
    <li> The plaintext and ciphertext variables are then set, and the SAT
    SAT solver is run on this instance to deduce the key variables. </li>
@@ -147,7 +147,7 @@ MixColumns(I_2) := Mul03(I_1) + Mul02(I_2)
    <li> The Sboxes and multiplications boxes are translated using the
    canonical translation, discussed in "The canonical box translation"
    in
-   plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp
+   plans/KeyDiscovery/016/2_1_8/Translations.hpp
    where statistics are also provided. </li>
    <li> Over 20 rounds, with 20 random plaintext-ciphertext pairs per round:
     <ul>
@@ -228,16 +228,16 @@ R> plot(EM$t)
    <li> The Sboxes and multiplications boxes are translated using the
    1-base translation, discussed in "The 1-base box translation"
    in
-   plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp
+   plans/KeyDiscovery/016/2_1_8/Translations.hpp
    where statistics are also provided. </li>
    <li> There are currently active investigations attempting to find the
    minimum-size 1-base representations for each of the boxes, discussed in
     <ul>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp.
      </li>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_2_8.hpp.
      </li>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_3_8.hpp.
      </li>
     </ul>
    </li>
@@ -245,7 +245,7 @@ R> plot(EM$t)
     <ul>
      <li> For instructions on generating the 1-bases, see
      "The 1-base box translation" in
-     AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp.
+     AdvancedEncryptionStandard/plans/KeyDiscovery/016/2_1_8/Translations.hpp.
      </li>
      <li> Generating the instances (in Maxima):
      \verbatim
@@ -327,16 +327,16 @@ R> plot(E$t)
    <li> The Sboxes and multiplications boxes are translated using the
    "minimum" translations, discussed in 'The "minimum" box translation'
    in
-   plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp
+   plans/KeyDiscovery/016/2_1_8/Translations.hpp
    where statistics are also provided. </li>
    <li> There are currently active investigations attempting to find the
    minimum representations for each of the boxes, discussed in
     <ul>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp.
      </li>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_2_8.hpp.
      </li>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_3_8.hpp.
      </li>
     </ul>
    </li>
@@ -344,7 +344,7 @@ R> plot(E$t)
     <ul>
      <li> For instructions on generating the 1-bases, see
      'The "minimum" box translation' in
-     plans/SAT2011/KeyDiscovery/016/2_1_8/Translations.hpp.
+     plans/KeyDiscovery/016/2_1_8/Translations.hpp.
      </li>
      <li> Generating the instances (in Maxima):
      \verbatim

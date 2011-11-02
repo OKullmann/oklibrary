@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_e_8.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_e_8.hpp
   \brief Investigations into AES field multiplication by arbitary elements (e) in the 8-bit field
 
 
@@ -14,17 +14,17 @@ License, or any later version. */
   <ul>
    <li> See
     <ul>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_2_8.hpp.
      </li>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_3_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_3_8.hpp.
      </li>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_9_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_9_8.hpp.
      </li>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_11_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_11_8.hpp.
      </li>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_13_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_13_8.hpp.
      </li>
-     <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_14_8.hpp.
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_14_8.hpp.
      </li>
     </ul>
    </li>

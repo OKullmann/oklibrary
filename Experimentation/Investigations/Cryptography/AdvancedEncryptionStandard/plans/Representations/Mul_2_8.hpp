@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_2_8.hpp
+  \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_2_8.hpp
   \brief Investigations into AES field multiplication by 02 for the 8-bit field
 
 
@@ -103,7 +103,7 @@ maxima> Mul2_min_F_hd_l : setify(create_list(hardness_wpi_cs(setify(Mul2_min_F_l
    \endverbatim
    </li>
    <li> Again, as in "r_1-bases" in
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp,
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp,
    using any of the minimal transversals from "Minimising using hypergraph
    transversal tools" using "RUcpGen" yields larger (> size 26) r_1 bases.
    </li>

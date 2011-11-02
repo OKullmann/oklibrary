@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/064/4_4_4/1_13.hpp
+  \file AdvancedEncryptionStandard/plans/KeyDiscovery/064/4_4_4/1_13.hpp
   \brief Investigations into small-scale AES key discovery for 1 round AES with a 4x4 plaintext matrix and 4-bit field elements (1+1/3)
 
 
@@ -19,7 +19,7 @@ License, or any later version. */
    outputs a 64-bit ciphertext. </li>
    <li> For the full specification of this AES instance, see
    "Problem specification" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/032/2_4_4/general.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/032/2_4_4/general.hpp.
    </li>
    <li> Note that we consider the canonical CNF translation, as
    this is an example of the "hardest" representation without
