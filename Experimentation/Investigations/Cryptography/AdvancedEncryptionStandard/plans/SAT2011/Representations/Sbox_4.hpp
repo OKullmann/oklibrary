@@ -142,4 +142,21 @@ maxima> output_fcs("SboxPlusKey4.cnf", FF, "SboxPlusKey4.cnf")$
    </li>
   </ul>
 
+
+  \todo Generating all minimum representations via hypergraph transversals
+  <ul>
+   <li> Generate full CNFs:
+   \verbatim
+maxima> output_ss_sbox_fullcnf_stdname(2,4,ss_polynomial_2_4);
+   \endverbatim
+   </li>
+   <li> Computing minimum representations for the 4-bit S-box:
+   \verbatim
+shell> ${OKPLATFORM}/OKsystem/OKlib/Satisfiability/Optimisation/all_minimum_cnf AES_sbox_2_4_full.cnf
+...
+   \endverbatim
+   </li>
+   <li> The computation is still running after 5 days. XXX </li>
+  </ul>
+
 */
