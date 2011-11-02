@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp
-  \brief AES experiments related to the SAT 2011 paper
+  \brief AES experiments related to the SAT 2012 paper
 
   We consider experiments investigating the AES and small-scale translations
   to CNF, as well as the translations of the associated AES boxes such as the
@@ -503,7 +503,7 @@ License, or any later version. */
 
 
   \todo DONE (individual issues moved to separate todos)
-  Prepare experiments for the SAT 2011 paper
+  Prepare experiments for the SAT 2012 paper
   <ul>
    <li> DONE (moved to "Move experiment data to investigation-reports")
    A full update of the existing investigations-reports is needed. </li>

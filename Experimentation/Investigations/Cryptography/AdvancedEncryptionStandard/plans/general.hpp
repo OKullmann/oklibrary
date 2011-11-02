@@ -14,16 +14,15 @@ License, or any later version. */
   <ul>
    <li> See
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
-   for the Maxima-level. </li>
-   <li> See
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
-   for an AES translation into SAT. </li>
+   for a AES translation into SAT at the Maxima level. </li>
    <li> See Applications/Cryptanalysis/plans/Rijndael.hpp for the C++ level.
    </li>
    <li> See Experimentation/Investigations/plans/CurrentExperiments.hpp for
-   current experiments (todo "Add section on AES experiments to be run" in
-   Experimentation/Investigations/plans/general.hpp needs urgent update). </li>
-   <li> See "SAT 2011". </li>
+   current experiments. </li>
+   <li> "Add section on AES experiments to be run" in
+   Experimentation/Investigations/plans/general.hpp needs urgent update.
+   </li>
+   <li> See "SAT 2012". </li>
   </ul>
 
 
@@ -48,7 +47,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo Merge SAT2011 plans with module one level higher
+  \todo DONE (removed directory and integrated milestones with higher level)
+  Merge SAT2011 plans with module one level higher
   <ul>
    <li> The experiments in the SAT2011 module are not SAT2011 specific. </li>
    <li> The SAT2011 module should be removed and/or how to present or link to
@@ -56,12 +56,12 @@ License, or any later version. */
   </ul>
 
 
-  \todo SAT 2011
+  \todo SAT 2012
   <ul>
    <li> We intend to submit a paper investigating the various translations of
    the AES and small scale AES given in [Algebraic Aspects of the Advanced
-   Encryption Standard;Cid,Murphy Robshaw] to the SAT 2011 conference (see
-   http://www.lri.fr/). </li>
+   Encryption Standard;Cid,Murphy Robshaw] to the SAT 2012 conference (see
+   http://sat2012.fbk.eu/). </li>
    <li> For investigations and open problems in this area see
    Cryptography/AdvancedEncryptionStandard/plans/general.hpp.
    </li>

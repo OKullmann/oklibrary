@@ -18,6 +18,7 @@ License, or any later version. */
    following topics are handled:
     - Explain how to replace various AES boxes with identity or random boxes
     - Summary of previous experimental results
+    - Merge SAT2011 plans with module one level higher : DONE
     - Add milestones : DONE
     - Replace "merge_cnf.sh" with "AppendDimacs" : DONE
     - Update scripts : DONE
@@ -42,7 +43,7 @@ License, or any later version. */
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp
    the following topics are handled:
-    - Prepare experiments for the SAT 2011 paper
+    - Prepare experiments for the SAT 2012 paper
     - Solvers to be used for experimentation
 
   \par
@@ -123,12 +124,12 @@ License, or any later version. */
     - Open problems
 
 
-  \par Version 0.2 : PLANNING SAT2011 COMPLETED
+  \par Version 0.2 : PLANNING SAT2012 COMPLETED
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
    following topics are handled:
-    - SAT 2011
+    - SAT 2012
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp
