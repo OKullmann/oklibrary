@@ -56,7 +56,43 @@ License, or any later version. */
    <li> We need to find the best algorithm from the ubcsat-1-2-0 suite.
    \verbatim
 > E=run_ubcsat("VanDerWaerden_pd_2-4-16_812.cnf",runs=100,cutoff=10000000)
-XXX
+> eval_ubcsat_dataframe(E,FALSE)
+1. ddfw:
+ 0  6  7  8  9 10
+ 1  1  6 14 41 37
+fps: 20432
+2. dano:
+ 5  6  7  8  9 10 11
+ 1  2  7 24 52 13  1
+fps: 61096
+3. anovpp:
+ 6  7  8  9 10 11
+ 3 10 22 48 15  2
+fps: 61088
+4. rnovp:
+ 6  7  8  9 10 11 12 13 14
+ 3  2  7  9 25 32 16  5  1
+fps: 54588
+5. anovp:
+ 6  7  8  9 10
+ 2  9 26 41 22
+fps: 54456
+6. gsatt:
+ 7  8  9 10 11 12 13 14 15
+ 5 15 29 23 15  7  3  1  2
+fps: 189268
+7. samd:
+ 7  8  9 10 11 12 13 14 17 19
+ 4 14 31 24 14  5  5  1  1  1
+fps: 190657
+8. ag2wsat:
+ 7  8  9 10 11 12
+ 4 12 24 40 19  1
+fps: 118855
+9. rnov:
+ 7  8  9 10 11 12 13
+ 2  7 11 26 32 16  6
+fps: 54459
    \endverbatim
    </li>
    <li> For now we consider adaptg2wsat as best (it was determined as best
@@ -79,6 +115,7 @@ Break point 2: 813
    </li>
    <li> Interesting that apparently here the hard problems have n around 700.
    </li>
+   <li> "RunPdVdWk1k2 4 16 ddfw 100 20000000" XXX </li>
   </ul>
 
 */
