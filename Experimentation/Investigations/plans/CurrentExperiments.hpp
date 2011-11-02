@@ -25,6 +25,12 @@ License, or any later version. */
     </li>
    </ul>
    </li>
+   <li> "Generating all minimum representations via hypergraph transversals" in
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_e_4.hpp.
+   </li>
+   <li> "Generating all minimum representations via hypergraph transversals" in
+   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_4.hpp.
+   </li>
    <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
    </li>
    <li> AdvancedEncryptionStandard/plans/SAT2011/Representations/Inv_8.hpp.

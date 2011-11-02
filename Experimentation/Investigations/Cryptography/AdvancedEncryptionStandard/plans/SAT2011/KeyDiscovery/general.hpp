@@ -122,7 +122,7 @@ License, or any later version. */
       <li> Can break standard AES for 2/3 + 1/3 rounds in 18s with picosat913.
       </li>
       <li> So far can't break standard AES for 1 + 1/3 round after two days
-      computation with all solvers. </li>
+      computation with all solvers XXX. </li>
       <li> 16 column, 1 row, 8 bits, up to <em> 2 + 1/3 </em> rounds in
       <em>40s</em> with minisat-2.2.0 in 128/1_16_8/2_13.hpp. </li>
      </ul>

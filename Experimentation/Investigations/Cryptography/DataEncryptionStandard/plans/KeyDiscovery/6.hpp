@@ -138,7 +138,7 @@ for F in sbox_fcl_l do print(ncl_list_fcl(F));
 shell> r=6;
 shell> RunMinisat des_6t4_1base_r${r}_s1.cnf;
    \endverbatim
-   This is still running after 8 days. </li>
+   This is still running after 8 days XXX. </li>
   </ul>
 
 
@@ -231,7 +231,7 @@ for F in sbox_fcl_l do print(ncl_list_fcl(F));
 shell> r=6;
 shell> RunMinisat des_6t4_min_r${r}_s1.cnf;
    \endverbatim
-   This is still running after 8 days. </li>
+   This is still running after 8 days XXX. </li>
   </ul>
 
 
@@ -297,7 +297,7 @@ ncl_list_fcl(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(1)]));
 shell> r=6;
 shell> RunMinisat des_6t4_canon_r${r}_s1.cnf;
    \endverbatim
-   This is still running after 8 days. </li>
+   This is still running after 8 days XXX. </li>
   </ul>
 
 */
