@@ -279,12 +279,11 @@ sort_length_desc(L) := sort(L, lambda([A,B], length(A) >= length(B)))$
   otherwise the given order is kept.
 */
 min_elements_l(S) := block(
- [remains : sort_length(S), result : [], A, not_subsumed],
+ [remains : sort_length(S), result : [], A],
  while not emptyp(remains) do (
-  A : first(remains), remains : rest(remains),
-  result : cons(A,result),
-  not_subsumed : sublist_indices(remains, lambda([B], not subsetp(A, B))),
-  remains : create_list(remains[j], j, not_subsumed)),
+  A : first(remains), result : cons(A,result),
+  remains : sublist(remains, lambda([B], not subsetp(A, B)))
+ ),
  reverse(result))$
 min_elements(S) := setify(min_elements_l(listify(S)))$
 
@@ -292,12 +291,11 @@ min_elements(S) := setify(min_elements_l(listify(S)))$
    the list the elements are ordered in decreasing length, and otherwise
    the given order is maintained): */
 max_elements_l(S) := block(
- [remains : sort_length_desc(S), result : [], A, not_contained],
+ [remains : sort_length_desc(S), result : [], A],
  while not emptyp(remains) do (
-  A : first(remains), remains : rest(remains),
-  result : cons(A,result),
-  not_contained : sublist_indices(remains, lambda([B], not subsetp(B, A))),
-  remains : create_list(remains[j], j, not_contained)),
+  A : first(remains), result : cons(A,result),
+  remains : sublist(remains, lambda([B], not subsetp(B, A)))
+ ),
  reverse(result)
 )$
 max_elements(S) := setify(max_elements_l(listify(S)))$
