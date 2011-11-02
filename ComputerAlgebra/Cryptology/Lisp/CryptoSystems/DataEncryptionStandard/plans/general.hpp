@@ -10,17 +10,6 @@ License, or any later version. */
   \brief Plans for the Data Encryption Standard crypto-system in Maxima/Lisp
 
 
-  \bug Test failure with okltest_des_round_keys_template
-  <ul>
-   <li>
-   \verbatim
-okltest_des_round_keys_template(des_round_keys_template)
-"Too many" arguments supplied to assert(expr); found: errexp1
-   \endverbatim
-   </li>
-  </ul>
-
-
   \bug Test failure with okltest_des_round_keys
   <ul>
    <li>
@@ -215,6 +204,18 @@ triple_des_hex(P,K1,K2,K3) := des_encryption_hex(des_decryption_hex(des_encrypti
 okltest_des_round(des_round)
 length: argument cannot be a symbol; found des_validation_plain
 ASSERT: Evaluation of expression "expr" yields an error.
+   \endverbatim
+   </li>
+  </ul>
+
+
+  \bug DONE (added missing braces in test code)
+  Test failure with okltest_des_round_keys_template
+  <ul>
+   <li>
+   \verbatim
+okltest_des_round_keys_template(des_round_keys_template)
+"Too many" arguments supplied to assert(expr); found: errexp1
    \endverbatim
    </li>
   </ul>

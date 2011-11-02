@@ -16,10 +16,10 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/plans/general.hpp
    the following topics are handled:
-    - Test failure with okltest_des_round_keys_template
     - Test failure with okltest_des_round_keys
     - Bad state of milestones
     - Test failure with okltest_des_round : DONE
+    - Test failure with okltest_des_round_keys_template : DONE
 
 
   \par Version 0.0.3
