@@ -19,6 +19,7 @@ License, or any later version. */
     - Explain how to replace various AES boxes with identity or random boxes
     - Summary of previous experimental results
     - Merge SAT2011 plans with module one level higher : DONE
+    - MiniSAT2 based solvers return incorrect times using experiment script : DONE
     - Add milestones : DONE
     - Replace "merge_cnf.sh" with "AppendDimacs" : DONE
     - Update scripts : DONE

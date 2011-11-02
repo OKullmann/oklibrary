@@ -115,18 +115,6 @@ License, or any later version. */
   </ul>
 
 
-  \bug MiniSAT2 based solvers return incorrect times using experiment script
-  <ul>
-   <li> minisat2 based solvers (glucose and minisat2) return run times of
-   a fraction of a second using when run using "run_all_solvers_2by2"
-   while they clearly take much much longer when run separately. </li>
-   <li> See "Using the canonical translation" in
-   AdvancedEncryptionStandard/plans/KeyDiscovery/032/4_2_4/1_13.hpp.
-   </li>
-   <li> Just use "time"! </li>
-  </ul>
-
-
   \todo Determining a "good" local search algorithm to use on AES instances
   <ul>
    <li> Question: what is a good algorithm to use, considering the algorithms
@@ -252,6 +240,21 @@ License, or any later version. */
    and on the various boxes. </li>
    <li> A basic summary (even if not reproducible due to the new state of the
    system), should be made available here. </li>
+  </ul>
+
+
+  \bug DONE (corrected kernel bug described in
+  "Rerun time-sensitive experiments" of
+  Experimentation/Investigations/plans/general.hpp)
+  MiniSAT2 based solvers return incorrect times using experiment script
+  <ul>
+   <li> minisat2 based solvers (glucose and minisat2) return run times of
+   a fraction of a second using when run using "run_all_solvers_2by2"
+   while they clearly take much much longer when run separately. </li>
+   <li> See "Using the canonical translation" in
+   AdvancedEncryptionStandard/plans/KeyDiscovery/032/4_2_4/1_13.hpp.
+   </li>
+   <li> Just use "time"! </li>
   </ul>
 
 
