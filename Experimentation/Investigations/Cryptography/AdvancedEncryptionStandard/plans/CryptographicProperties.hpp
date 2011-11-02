@@ -56,7 +56,7 @@ License, or any later version. */
     following way: "AES(P1,K1,C1) and AES(C1,K2,P1) and ... and
     AES(Pk,K(k-1),Ck) and AES(Ck,Kk,Pk) and NEQ(P1,P2,...,Pk)" . </li>
     <li> There is obviously then the question of whether there is key which
-    acts as it's own inverse for at least "k" plaintext blocks, where
+    acts as its own inverse for at least "k" plaintext blocks, where
     K1=K2 etc. </li>
     <li> Again we should consider using QBF solvers here to translate
     this property for all plaintext ciphertext pairs. </li>

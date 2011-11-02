@@ -70,7 +70,7 @@ License, or any later version. */
    </li>
    <li> For example "Using the canonical box translation" in
    Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/032/4_2_4/2_13.hpp
-   doesn't provide enough information on it's own to understand which
+   doesn't provide enough information on its own to understand which
    translation is meant. </li>
    <li> The first thought is for the title of the todo to fully specify the
    translation. So for example, one would have "Using the whole Sbox and

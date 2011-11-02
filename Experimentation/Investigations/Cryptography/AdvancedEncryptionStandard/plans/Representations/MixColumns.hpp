@@ -46,7 +46,7 @@ matrix([0,1,0,0,1,1,0,0,1,0,0,0,1,0,0,0],
    \endverbatim
    </li>
    <li> The default matrix for the four by four 4-bit AES has no more than 7
-   ones, out of 16, in any row in it's matrix:
+   ones, out of 16, in any row in its matrix:
    \verbatim
 maxima> num_ones_in_list(L) := length(sublist(L,lambda([e],is(e=1))))$
 maxima> map(num_ones_in_list,args(ss_mixcolumn_boolm(2,4,4)));
@@ -92,7 +92,7 @@ matrix([0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
    \endverbatim
    </li>
    <li> The default matrix for the four by four 8-bit AES seems
-   sparse, having no more than 7 ones, out of 32, in any row in it's
+   sparse, having no more than 7 ones, out of 32, in any row in its
    matrix:
    \verbatim
 maxima> num_ones_in_list(L) := length(sublist(L,lambda([e],is(e=1))))$
@@ -123,7 +123,7 @@ maxima> map(num_ones_in_list,args(ss_mixcolumn_boolm(2,8,4)));
    ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/SmallScaleAdvancedEncryptionStandard.mac
    and is a 16-bit boolean function. </li>
    <li> The boolean function has the following statistics for
-   it's prime implicates:
+   its prime implicates:
    \verbatim
 maxima> output_fcs("32-bit MixColumns",bf2relation_fullcnf_fcs(lambda([V],ss_mixcolumn_bf(V,2,4)), 8),"mixcolumn_32.cnf");
 shell> QuineMcCluskey-n16-O3-DNDEBUG mixcolumn_32.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n

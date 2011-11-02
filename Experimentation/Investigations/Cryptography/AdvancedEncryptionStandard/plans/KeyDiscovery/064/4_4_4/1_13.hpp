@@ -211,7 +211,7 @@ c CPU time              : 0.13098 s
    \endverbatim
    however, re-running glucose does not yield the same behaviour, and there
    are a very large number of restarts in just 0.13s. Does glucose have a bug
-   in it's timing code? Perhaps there is a bug in the experiment run script?
+   in its timing code? Perhaps there is a bug in the experiment run script?
    </li>
 ??? where are 2 rounds etc.? where is the general plans-file ???
   </ul>

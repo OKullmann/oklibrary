@@ -155,7 +155,7 @@ shell> espresso2.3 -Dexact Sbox.pla
    \verbatim
 maxima> output_ssmult_fullcnf_stdname(2,2,4,ss_polynomial_2_4);
    \endverbatim
-   we can generate the subsumption hypergraph for this clause-set and it's
+   we can generate the subsumption hypergraph for this clause-set and its
    prime implicates, and then use tools within the OKlibrary to compute
    all minimum transversals of the generated hypergraph, and hence all
    minimum CNF representations.
@@ -181,7 +181,7 @@ shell> echo ss_byte2_4_field_mul_full_2.cnf.trans_* | wc -w
   <ul>
    <li> Optimising the size of CNF representations for a given clause-set
    using standard SAT solvers can be approached by generating the
-   subsumption hypergraph for the original (full) CNF and it's prime
+   subsumption hypergraph for the original (full) CNF and its prime
    implicates and then adding additional cardinality clauses to the
    subsumption hypergraph restricting the number of variables set to true
    and hence the number of clauses in our representation. </li>
@@ -308,7 +308,7 @@ Error: Impossible to solve the PI chart (too many possible combinations).
    \verbatim
 maxima> output_rijnmult_fullcnf_stdname(2);
    \endverbatim
-   we can generate the subsumption hypergraph for this clause-set and it's
+   we can generate the subsumption hypergraph for this clause-set and its
    prime implicates, and then convert this to a weighted MaxSAT problem, which
    encodes that we wish to find an assignment setting the minimum number of
    variables to true:
