@@ -51,7 +51,7 @@ License, or any later version. */
   <ul>
    <li> Compare with "Investigating conditions and their representations"
    in 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp. 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp. 
    </li>
    <li> When using (only) CNF, likely the use of additional variables is
    crucial. </li>

@@ -32,7 +32,7 @@ License, or any later version. */
   \todo Move experimental todos to investigations
   <ul>
    <li> The following todos need to be split and moved to 
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/:
+   Cryptography/AdvancedEncryptionStandard/plans/Representations/:
    <ul>
     <li> Generate good CNF hitting clause-sets for the AES Field Operations.
     </li>
@@ -250,7 +250,7 @@ true
   \todo Find the symmetries of the AES Field Operations
   <ul>
    <li> See "Find the symmetries of the AES Sbox DNF" in
-   AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
+   AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp.
    </li>
    <li> This todo and others like it should be moved to Experimentations. </li>
   </ul>
@@ -259,7 +259,7 @@ true
   \todo Determine *all* prime implicates (for the purpose of analysis)
   <ul>
    <li> See "Analysing the AES prime implicates" in
-   AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp.
+   AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp.
    </li>
    <li> This todo and others like it should be moved to Experimentations. </li>
   </ul>

@@ -49,16 +49,16 @@ License, or any later version. */
      <li> See Combinatorics/Hypergraphs/Transversals/Minimal/plans/general.hpp.
      </li>
      <li> See "Espresso" in
-     Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp.
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Methods.hpp.
      </li>
      <li> See "R QCA package" in
-     Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp.
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Methods.hpp.
      </li>
      <li> See "Maxima functions" in
-     Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp.
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Methods.hpp.
      </li>
      <li> See "Minimisation using Weighted MaxSAT" in
-     Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp.
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Methods.hpp.
      </li>
     </ul>
    </li>
@@ -86,7 +86,7 @@ License, or any later version. */
    </li>
    <li> This would allow us to iteratively improve bounds on various measures
    for the set of minimum CNFs for a particular boolean function. For example,
-   see AdvancedEncryptionStandard/plans/SAT2011/Representations/Mul_e_4.hpp
+   see AdvancedEncryptionStandard/plans/Representations/Mul_e_4.hpp
    "Generating all minimum representations via hypergraph transversals". </li>
   </ul>
 
