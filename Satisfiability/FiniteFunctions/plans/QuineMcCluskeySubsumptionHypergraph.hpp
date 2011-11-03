@@ -83,7 +83,7 @@ License, or any later version. */
   Add option to generate statistics files
   <ul>
    <li> A popular use case (see 
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp) 
+   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Methods.hpp) 
    for this program is to examine the statistics for the prime implicates and 
    subsumption hypergraph. </li>
    <li> Currently one must output the various clause-sets and then

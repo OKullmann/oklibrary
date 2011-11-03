@@ -279,9 +279,9 @@ evalpermasbf(P);
   \todo The case n=8
   <ul>
    <li> This case is especially interesting because of AES; see
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/FieldMulInvestigations.hpp
+   Cryptography/AdvancedEncryptionStandard/plans/FieldMulInvestigations.hpp
    and
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/SboxInvestigations.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/SboxInvestigations.hpp.
    </li>
    <li> Here we have (2^8)! ~ 8.578*10^506 permutations altogether (while
    there are ~ 2.003*10^19728 boolean functions (in 16 variables). </li>
@@ -375,7 +375,7 @@ output_perm_fullcnf_stdname(P)$
    \endverbatim
    </li>
    <li> Looks similar to the AES Sbox (see "Basic data" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp).
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp).
    </li>
    <li> 1557 experiments for n=8:
    \verbatim

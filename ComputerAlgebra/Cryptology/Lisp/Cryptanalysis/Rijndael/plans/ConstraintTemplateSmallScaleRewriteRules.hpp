@@ -71,7 +71,7 @@ License, or any later version. */
     </ul>
    </li>
    <li> See also "Remove linear diffusion from translation" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/004/1_1_4/20_13.hpp.
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/004/1_1_4/20_13.hpp.
    </li>
   </ul>
 

@@ -8,55 +8,72 @@ License, or any later version. */
 /*!
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp
 
-  \module_version Investigations/Cryptography/AdvancedEncryptionStandard 0.1.5.1 (8.2.2011)
+  \module_version Investigations/Cryptography/AdvancedEncryptionStandard 0.1.5.2 (3.11.2011)
 
 
   \par Version 0.1.6 :
 
+  \par Cryptography/AdvancedEncryptionStandard/Representations version 0.1.6
+  (see AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
+
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
    following topics are handled:
+    - Summary of previous experimental results
+    - Merge SAT2011 plans with module one level higher : DONE
+    - MiniSAT2 based solvers return incorrect times using experiment script : DONE
+    - Add milestones : DONE
     - Replace "merge_cnf.sh" with "AppendDimacs" : DONE
     - Update scripts : DONE
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Benchmarks.hpp the
+   In Cryptography/AdvancedEncryptionStandard/plans/Benchmarks.hpp the
    following topics are handled:
     - Prepare benchmarks for SAT 2011
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/EncryptionDecryption.hpp the
+   In Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp the
    following topics are handled:
     - Update instructions
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
+   In Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp
    the following topics are handled:
-    - Standard naming scheme for experiment files
-    - Scripts for generating statistics on random boxes
+    - Solvers to be used for experimentation
+    - Prepare experiments for the SAT 2012 paper : DONE
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/general.hpp
+   In Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/general.hpp
    the following topics are handled:
+    - Add milestones
     - Explanations
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/KeyDiscovery/128/4_4_8/0_23_13.hpp
+   In AdvancedEncryptionStandard/plans/KeyDiscovery/128/4_4_8/0_23_13.hpp
    the following topics are handled:
     - Problems sizes : DONE
 
+
   \par Version 0.1.7 :
 
-  \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp
-   the following topics are handled:
-    - Find "best" solver(s) and local search algorithms for minimisation
+  \par Cryptography/AdvancedEncryptionStandard/Representations version 0.1.7
+  (see AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Methods.hpp the
+   In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
    following topics are handled:
-    - Tidy hitting-clause-set todos and move method here
-    - Add instructions for using Pseudo-boolean SAT solvers for minimisation
+    - Separate key-schedule and block-cipher
+    - Notions for AES operation
+    - Investigating conditions and their representations
+    - Structure
+    - Explain how to replace various AES boxes with identity or random boxes
+    - Determining a "good" local search algorithm to use on AES instances
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp
+   the following topics are handled:
+    - Move experiment data to investigation-reports
+    - Update experiment script
 
   \par
    Create further milestones.
@@ -67,8 +84,34 @@ License, or any later version. */
 
   \par Version 0.1.8 :
 
+  \par Cryptography/AdvancedEncryptionStandard/Representations version 0.1.8
+  (see AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
+
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/CryptographicProperties.hpp
+   In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
+   following topics are handled:
+    - Using SBSAT
+    - Merge SAT2011 plans with module one level higher
+
+
+  \par
+   In AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp the
+   following topics are handled:
+    - Encryption
+    - Decryption
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp
+   the following topics are handled:
+    - Investigating dimensions
+
+  \par
+   In Cryptography/AdvancedEncryptionStandard/plans/AESKeyDiscovery.hpp
+   the following topics are handled:
+    - Breaking AES
+
+  \par
+   In AdvancedEncryptionStandard/plans/CryptographicProperties.hpp
    the following topics are handled:
     - Cryptographic properties of AES
     - Keys for which AES encrypts P to P
@@ -79,20 +122,23 @@ License, or any later version. */
    on AES is updated.
 
 
-  \par Version 0.2 : PLANNING SAT2011 COMPLETED
+  \par Version 0.1.9 :
+
+  \par Cryptography/AdvancedEncryptionStandard/Representations version 0.1.9
+  (see AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp the
+   In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
    following topics are handled:
-    - SAT 2011
+    - Open problems
+
+
+  \par Version 0.2 : PLANNING SAT2012 COMPLETED
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/Sbox_8.hpp
-   the following topics are handled:
-    - Generate good CNF hitting clause-sets
-    - Extracting prime implicate representations from the hitting-cls-representations
-    - Find the symmetries of the AES Sbox DNF
-    - Find the symmetries of the AES inversion DNF
+   In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
+   following topics are handled:
+    - SAT 2012
 
 
 

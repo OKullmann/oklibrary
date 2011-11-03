@@ -46,7 +46,7 @@ License, or any later version. */
    <li> See "Prepare benchmarks for SAT 2011" in
    RamseyTheory/GreenTaoProblems/plans/general.hpp,
    RamseyTheory/VanderWaerdenProblems/plans/general.hpp,
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/general.hpp. </li>
+   Cryptography/AdvancedEncryptionStandard/plans/general.hpp. </li>
    <li> DONE Best in every series to have a mixture, from known to unknown
    instances, from not-too-hard to likely-very-hard. </li>
    <li> DONE For the formats see below. </li>

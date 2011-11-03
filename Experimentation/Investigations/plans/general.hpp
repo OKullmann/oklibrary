@@ -38,7 +38,7 @@ License, or any later version. */
    <li> Non-trivial experiments, where time is an important consideration
    should be rerun:
     <ul>
-     <li> All in Cryptography/AdvancedEncryptionStandard/plans/SAT2011/. </li>
+     <li> All in Cryptography/AdvancedEncryptionStandard/plans/. </li>
      <li> All in Cryptography/DataEncryptionStandard/plans/. </li>
      <li> This list must be expanded. </li>
     </ul>

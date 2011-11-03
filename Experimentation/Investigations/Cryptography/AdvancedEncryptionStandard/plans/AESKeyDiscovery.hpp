@@ -14,24 +14,24 @@ License, or any later version. */
   <ul>
    <li> What do we mean by "Breaking AES"?
    <ul>
-    <li> We take the standard notion of "breaking" a symmetric block cipher, 
-    namely that if given a set of plaintext/ciphertext pairs, encrypted using 
-    the same key, can we then deduce the key faster than a brute force search? 
+    <li> We take the standard notion of "breaking" a symmetric block cipher,
+    namely that if given a set of plaintext/ciphertext pairs, encrypted using
+    the same key, can we then deduce the key faster than a brute force search?
     </li>
     <li> The size of the set of plaintext/ciphertext pairs needed, and how
-    much faster than brute force one can find the key are then matters of 
+    much faster than brute force one can find the key are then matters of
     practicality. </li>
     <li> Given a single plaintext/ciphertext pair, there may be multiple keys
     for which the AES algorithm maps that plaintext block to that ciphertext
     block given that key. Therefore, for the purposes of "breaking" AES in
-    earnest, one may require providing multiple AES translations, each 
+    earnest, one may require providing multiple AES translations, each
     considering different plaintext/ciphertext pairs, but using the same key
-    variables (see "Generate translation that allows multiple 
-    plaintext/ciphertext pairs" in 
-    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp). 
+    variables (see "Generate translation that allows multiple
+    plaintext/ciphertext pairs" in
+    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp).
     </li>
     <li> Therefore, experiments detailed within this plans file consider taking
-    various AES SAT translations, setting all plaintext variables, all 
+    various AES SAT translations, setting all plaintext variables, all
     ciphertext variables (to the appropriate values given the plaintext and the
     AES algorithm) and then setting "n" key bits where "n" ranges from 1 to the
     total number of key bits (128 in most cases). </li>

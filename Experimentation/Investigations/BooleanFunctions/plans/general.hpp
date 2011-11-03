@@ -79,7 +79,7 @@ maxima> for m : 1 while true do
      boolean functions. </li>
      <li> For example, we should measure the hardness of the minimum
      representations of the DES and AES boxes. See
-     AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp.
+     AdvancedEncryptionStandard/plans/Representations/general.hpp.
      </li>
      <li> See "Computing the hardness of a clause-set representation"
      in Satisfiability/Lisp/Reductions/plans/general.hpp. </li>
@@ -143,7 +143,7 @@ maxima> for m : 1 while true do
   <ul>
    <li> We need to investigate random boolean functions to
    compare with the AES investigations (see 
-   Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Experimentation.hpp).
+   Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp).
    </li>
    <li> Likely, we should create a new plans file for arbitrary boolean
    functions which may not fit into other categories? </li>

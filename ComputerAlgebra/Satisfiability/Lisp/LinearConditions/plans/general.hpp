@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Connections
   <ul>
    <li> AES involves several linear maps; see
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/SAT2011/Representations/general.hpp. </li>
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/general.hpp. </li>
    <li> See Investigations/BooleanFunctions/plans/Permutations/Linear.hpp
    for investigations into linear maps as boolean functions. </li>
   </ul>
