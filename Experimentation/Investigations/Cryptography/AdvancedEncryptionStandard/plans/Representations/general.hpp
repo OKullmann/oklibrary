@@ -75,7 +75,7 @@ License, or any later version. */
     </li>
    </ul>
    </li>
-   <li> For R-based representations see "R-based representations". </li>
+   <li> For k-based representations see "k-based representations". </li>
   </ul>
 
 
@@ -190,9 +190,9 @@ License, or any later version. */
   </ul>
 
 
-  \todo R-based representations
+  \todo k-based representations
   <ul>
-   <li> r-bases for r in {r_1,r_2}? (see rand_rbase_cs(F,r) in
+   <li> We consider k-bases for k in {1,2,...}? (see rand_rbase_cs(F,r) in
    ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac.) </li>
    <li> One could consider certain prime implicates more important than others;
    for example ensuring that at least given a full input and/or a full output
@@ -208,6 +208,11 @@ License, or any later version. */
    </li>
    <li> When investigations begin fully in this area, this todo should be
    moved to a new file, and most likely a new sub-module. </li>
+   <li> We need to bring together here all information on currently known
+   on 1-bases for the AES boxes. </li>
+   <li> We also need to synchronise the notions in Annotations, here in
+   this todo and in
+   ComputerAlgebra/Satisfiability/Lisp/Reductions/plans/RBases.hpp. </li>
   </ul>
 
 
