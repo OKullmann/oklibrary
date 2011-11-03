@@ -305,7 +305,25 @@ Break point 2: 1156
 39
 # aborted
    \endverbatim
-   Again "RunPdVdWk1k2 6 7 adaptg2wsat 200 100000000" XXX
+   Again "RunPdVdWk1k2 6 7 adaptg2wsat 200 100000000":
+   \verbatim
+Break point 1: 591
+# interrupted
+> cat Statistics
+   1153    28   50717653 3070154568  r
+> E=read_ubcsat("VanDerWaerden_pd_2-6-7_592.cnf_OUT",nrows=200)
+  1   6  12  23  24
+  1   1   1   7 190
+200
+> E=read_ubcsat("VanDerWaerden_pd_2-6-7_1157.cnf_OUT",nrows=200)
+  1  89 289 291 337 341 357 363 365 366 367 368 369 370 371 372 373 374 375 376
+  5   4   1   1   1   1   1   1   2   6   2   4  12   6   5   6   5   3   1   2
+377 378 379 380 381 382 383 431 433 434 435 437 440 441 442 443 444 445 446 447
+  1   1   2   4   2   2   1   1   1   1   1   2   2   6   5   8  12  11  12  10
+448 449 450 451 452 453 454
+  8   5   9   5   1   1   1
+184
+   \endverbatim
    </li>
    <li> Using SplittingViaOKsolver:
     <ol>

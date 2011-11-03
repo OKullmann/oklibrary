@@ -140,7 +140,25 @@ Break point 2: 763
  5 50 44  1
 100
    \endverbatim
-   Run "RunPdVdWk1k2 5 11 danov+ 100 60000000" XXX </li>
+   Run "RunPdVdWk1k2 5 11 danov+ 100 60000000":
+   \verbatim
+Break point 1: 734
+# interrupted
+> cat Statistics
+    728     2   30171162 2645228588  p
+    734     2   30326304 1137542626  p
+    748    13   34426618 3159649799  r
+    754     3   14762804 3149427122  r
+> E=read_ubcsat("VanDerWaerden_pd_2-5-11_735.cnf_OUT",nrows=100)
+ 1  2  3
+12 71 17
+100
+> E=read_ubcsat("VanDerWaerden_pd_2-5-11_756.cnf_OUT",nrows=100)
+ 1  2
+52 47
+99
+   \endverbatim
+   Run "RunPdVdWk1k2 5 11 danov+ 200 100000000": XXX
    </li>
   </ul>
 
