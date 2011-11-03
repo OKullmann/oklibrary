@@ -8,10 +8,13 @@ License, or any later version. */
 /*!
   \file Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp
 
-  \module_version Investigations/Cryptography/AdvancedEncryptionStandard 0.1.5.1 (8.2.2011)
+  \module_version Investigations/Cryptography/AdvancedEncryptionStandard 0.1.5.2 (3.11.2011)
 
 
   \par Version 0.1.6 :
+
+  \par Cryptography/AdvancedEncryptionStandard/Representations version 0.1.6
+  (see Cryptography/AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
@@ -34,13 +37,6 @@ License, or any later version. */
     - Update instructions
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/Representations/general.hpp
-   the following topics are handled:
-    - Add milestones
-    - Standard naming scheme for experiment files
-    - Scripts for generating statistics on random boxes
-
-  \par
    In Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp
    the following topics are handled:
     - Solvers to be used for experimentation
@@ -60,6 +56,9 @@ License, or any later version. */
 
   \par Version 0.1.7 :
 
+  \par Cryptography/AdvancedEncryptionStandard/Representations version 0.1.7
+  (see Cryptography/AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
+
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
    following topics are handled:
@@ -77,17 +76,6 @@ License, or any later version. */
     - Update experiment script
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/Representations/general.hpp
-   the following topics are handled:
-    - Find "best" solver(s) and local search algorithms for minimisation
-
-  \par
-   In Cryptography/AdvancedEncryptionStandard/plans/Representations/Methods.hpp the
-   following topics are handled:
-    - Tidy hitting-clause-set todos and move method here
-    - Add instructions for using Pseudo-boolean SAT solvers for minimisation
-
-  \par
    Create further milestones.
 
   \par
@@ -95,6 +83,9 @@ License, or any later version. */
 
 
   \par Version 0.1.8 :
+
+  \par Cryptography/AdvancedEncryptionStandard/Representations version 0.1.8
+  (see Cryptography/AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
@@ -133,6 +124,9 @@ License, or any later version. */
 
   \par Version 0.1.9 :
 
+  \par Cryptography/AdvancedEncryptionStandard/Representations version 0.1.9
+  (see Cryptography/AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
+
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
    following topics are handled:
@@ -145,14 +139,6 @@ License, or any later version. */
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
    following topics are handled:
     - SAT 2012
-
-  \par
-   In Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp
-   the following topics are handled:
-    - Generate good CNF hitting clause-sets
-    - Extracting prime implicate representations from the hitting-cls-representations
-    - Find the symmetries of the AES Sbox DNF
-    - Find the symmetries of the AES inversion DNF
 
 
 
