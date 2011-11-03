@@ -19,11 +19,11 @@ License, or any later version. */
    outputs a 4-bit ciphertext. </li>
    <li> For the full specification of this AES instance, see
    "Problem specification" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/004/1_1_4/general.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/004/1_1_4/general.hpp.
    </li>
    <li> For a full list of the possible translations, see
    "Investigating dimensions" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
    </li>
    <li> In this file we consider:
     <ul>

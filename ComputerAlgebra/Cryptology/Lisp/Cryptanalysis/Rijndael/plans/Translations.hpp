@@ -223,7 +223,7 @@ set_heap_size_ecl(2**32);
    <li> For example, can we integrate "Rearranging linear components of Sbox
    and MixColumns". </li>
    <li> See also "Dimensions" in
-   Experimentation/Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp .
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp .
    </li>
   </ul>
 

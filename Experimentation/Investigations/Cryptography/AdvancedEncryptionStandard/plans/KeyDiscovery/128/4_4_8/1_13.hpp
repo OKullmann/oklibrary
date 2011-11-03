@@ -19,7 +19,7 @@ License, or any later version. */
    outputs a 128-bit ciphertext. </li>
    <li> For the full specification of this AES instance, see
    "Problem specification" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/128/4_4_8/general.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/128/4_4_8/general.hpp.
    </li>
    <li> Note that we consider the canonical CNF translation, as
    this is an example of the "hardest" representation without

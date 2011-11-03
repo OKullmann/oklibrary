@@ -364,7 +364,7 @@ License, or any later version. */
    </li>
    <li> Experiment creation:
     <ul>
-     <li> See Investigations/Cryptography/AdvancedEncryptionStandard/generate_aes_experiment.
+     <li> See Cryptography/AdvancedEncryptionStandard/generate_aes_experiment.
      </li>
      <li> The current experiment creation script allows one to specify the
      number of rounds, number of random plaintext-ciphertext pairs to generate
@@ -430,7 +430,7 @@ License, or any later version. */
    <li> For a list of other experiment scripts see
    "Experiment scripts" in Experimentation/Investigations/plans/general.hpp. </li>
    <li> See "Update scripts" and "Just an unstructured morass of scripts" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/general.hpp.
    </li>
   </ul>
 

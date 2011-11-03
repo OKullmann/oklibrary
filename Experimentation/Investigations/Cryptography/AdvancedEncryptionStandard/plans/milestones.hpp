@@ -14,7 +14,7 @@ License, or any later version. */
   \par Version 0.1.6 :
 
   \par Cryptography/AdvancedEncryptionStandard/Representations version 0.1.6
-  (see Cryptography/AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
+  (see AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
@@ -49,7 +49,7 @@ License, or any later version. */
     - Explanations
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/128/4_4_8/0_23_13.hpp
+   In AdvancedEncryptionStandard/plans/KeyDiscovery/128/4_4_8/0_23_13.hpp
    the following topics are handled:
     - Problems sizes : DONE
 
@@ -57,7 +57,7 @@ License, or any later version. */
   \par Version 0.1.7 :
 
   \par Cryptography/AdvancedEncryptionStandard/Representations version 0.1.7
-  (see Cryptography/AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
+  (see AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
@@ -85,7 +85,7 @@ License, or any later version. */
   \par Version 0.1.8 :
 
   \par Cryptography/AdvancedEncryptionStandard/Representations version 0.1.8
-  (see Cryptography/AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
+  (see AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
@@ -95,7 +95,7 @@ License, or any later version. */
 
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp the
+   In AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp the
    following topics are handled:
     - Encryption
     - Decryption
@@ -111,7 +111,7 @@ License, or any later version. */
     - Breaking AES
 
   \par
-   In Cryptography/AdvancedEncryptionStandard/plans/CryptographicProperties.hpp
+   In AdvancedEncryptionStandard/plans/CryptographicProperties.hpp
    the following topics are handled:
     - Cryptographic properties of AES
     - Keys for which AES encrypts P to P
@@ -125,7 +125,7 @@ License, or any later version. */
   \par Version 0.1.9 :
 
   \par Cryptography/AdvancedEncryptionStandard/Representations version 0.1.9
-  (see Cryptography/AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
+  (see AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
 
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the

@@ -56,7 +56,7 @@ K_(i,1,k) := S-box(K_(i-1,1,16)) + C_i + sum(K_(i-1,j,l),l,1,j)
    </li>
    <li> The decompositions and translations are listed in "Investigating
    dimensions" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
    </li>
    <li> The plaintext and ciphertext variables are then set, and the SAT
    SAT solver is run on this instance to deduce the key variables. </li>

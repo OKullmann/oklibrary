@@ -101,7 +101,7 @@ InvMixColumns(I_8) := Mul11(I_5) + Mul13(I_6) + Mul9(I_7) + Mul14(I_8)
    </li>
    <li> The decompositions and translations are listed in "Investigating
    dimensions" in
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
+   Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
    </li>
    <li> The plaintext and ciphertext variables are then set, and the SAT
    SAT solver is run on this instance to deduce the key variables. </li>
