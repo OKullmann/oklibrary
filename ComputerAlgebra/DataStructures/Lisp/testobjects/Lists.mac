@@ -154,6 +154,18 @@ okltest_transpose_l(transpose_l);
 okltest_matrixcolumns(matrixcolumns);
 okltest_columns2matrix(columns2matrix);
 
+
+/* ***********
+   * Sorting *
+   ***********
+*/
+
+okltest_sort_length(sort_length);
+okltest_sort_length_desc(sort_length_desc);
+okltest_sort_length_part(sort_length_part);
+okltest_sort_length_desc_part(sort_length_desc_part);
+
+
 /*!
 \endhtmlonly
 */

@@ -408,6 +408,36 @@ matrixcolumns(m) := partition_elements(m2l_r(transpose(m)),length(m))$
 columns2matrix(mc) := transpose(uaapply(matrix, mc))$
 
 
+/* ***********
+   * Sorting *
+   ***********
+*/
+
+/* Sorts a list according to the element's length (ascending and stable): */
+sort_length(L) := lappend(sort_length_part(L))$
+/* Now sorting by descending length (stable): */
+sort_length_desc(L) := lappend(sort_length_desc_part(L))$
+
+/* Distributing the elements of L into a list of list, collecting elements of
+   equal length, and sorting the meta-lists by ascending element-length:
+*/
+sort_length_part(L) := block([S : listify(setify(map(length,L))), n, h, A, m],
+  n : length(S),
+  h : osm2hm(l2osm_inv(S)),
+  A : okl_make_array(any, n),
+  for i : 1 thru n do A[i] : [],
+  for x in L do (m : ev_hm(h,length(x)), A[m] : cons(x,A[m])),
+  create_list(reverse(A[i]), i,1,n))$
+/* Now sorting by descending element-length: */
+sort_length_desc_part(L) := block([S : listify(setify(map(length,L))), n, h, A, m],
+  n : length(S),
+  h : osm2hm(l2osm_inv(S)),
+  A : okl_make_array(any, n),
+  for i : 1 thru n do A[i] : [],
+  for x in L do (m : ev_hm(h,length(x)), A[m] : cons(x,A[m])),
+  create_list(reverse(A[n-i+1]), i,1,n))$
+
+
 /*!
 \endhtmlonly
 */

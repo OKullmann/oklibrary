@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.4.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -100,6 +100,17 @@ create_list(i,i,1,n);
      which provides in-place modification of the main operand. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Improving sort_length
+  <ul>
+   <li> Functionality should be merged with partition_list_eq and
+   partition_list (where the notion of "partitioning" is not appropriate).
+   </li>
+   <li> Is using the array A improving efficiency? </li>
+   <li> In case we have many different lengths, then likely just applying a
+   a *stable* sorting w.r.t. length should be more efficient. </li>
   </ul>
 
 */

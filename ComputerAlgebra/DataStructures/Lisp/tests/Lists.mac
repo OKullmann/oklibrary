@@ -605,6 +605,42 @@ okltest_columns2matrix(f) := (
   assert(f([[1,4,7],[2,5,8],[3,6,9]]) = matrix([1,2,3],[4,5,6],[7,8,9])),
   true)$
 
+
+/* ***********
+   * Sorting *
+   ***********
+*/
+
+okltest_sort_length(f) := (
+  assert(f([]) = []),
+  for n : 0 thru 5 do block([L : create_list(setn(i),i,1,n)],
+    assert(f(reverse(L)) = L)
+  ),
+  assert(f([{1,2},{2,3}]) = [{1,2},{2,3}]),
+  true)$
+
+okltest_sort_length_desc(f) := (
+  /* XXX */
+  true)$
+
+okltest_sort_length_part(f) := block([x,y],
+  assert(f([]) = []),
+  assert(f([{}]) = [[{}]]),
+  assert(f([[x],[y],[x,y]]) = [[[x],[y]],[[x,y]]]),
+  assert(f([[x,y],[x],[y]]) = [[[x],[y]],[[x,y]]]),
+  assert(f([{1,2,3},{1,2},{4,5,6},{2,3},{1},{}]) = [[{}],[{1}],[{1,2},{2,3}],[{1,2,3},{4,5,6}]]),
+  true)$
+
+okltest_sort_length_desc_part(f) := block([x,y],
+  assert(f([]) = []),
+  assert(f([{}]) = [[{}]]),
+  assert(f([[x],[y],[x,y]]) = [[[x,y]],[[x],[y]]]),
+  assert(f([[x,y],[x],[y]]) = [[[x,y]],[[x],[y]]]),
+  assert(f([{1,2,3},{1,2},{4,5,6},{2,3},{1},{}]) = [[{1,2,3},{4,5,6}],[{1,2},{2,3}],[{1}],[{}]]),
+  true)$
+
+
+
 /*!
 \endhtmlonly
 */
