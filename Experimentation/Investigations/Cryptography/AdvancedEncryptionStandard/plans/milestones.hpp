@@ -93,7 +93,6 @@ License, or any later version. */
     - Using SBSAT
     - Merge SAT2011 plans with module one level higher
 
-
   \par
    In AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp the
    following topics are handled:

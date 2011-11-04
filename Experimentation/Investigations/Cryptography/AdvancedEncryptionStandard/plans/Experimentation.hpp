@@ -35,7 +35,6 @@ License, or any later version. */
   </ul>
 
 
-
   \todo Investigating dimensions
   <ul>
    <li> The translation is available at

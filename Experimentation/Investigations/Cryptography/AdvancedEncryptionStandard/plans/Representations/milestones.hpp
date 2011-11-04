@@ -41,7 +41,6 @@ License, or any later version. */
     - Add instructions for using Pseudo-boolean SAT solvers for minimisation
     - Add todos
 
-
   \par
    Create an outline of the experiments.
 
@@ -54,7 +53,6 @@ License, or any later version. */
     - Considering output bits on their own
     - Scripts for generating statistics on random boxes
     - Find "best" solver(s) and local search algorithms for minimisation
-
 
   \par
    In AdvancedEncryptionStandard/plans/Representations/Mul_e_4.hpp
