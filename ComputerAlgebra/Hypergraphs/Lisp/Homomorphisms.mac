@@ -68,7 +68,8 @@ random_colouring(n,m) :=
 */
 random_projection_hg(G,m) := block(
  [cm : colouring_blocks(l2ary(random_permutation(listify(first(G)))), m)],
-  transportmin_hg(cm,G))$
+  transport_hg(cm,G))$
+random_projection_min_hg(G,m) := min_hg(random_projection_hg(G,m))$
 
 
 /*!
