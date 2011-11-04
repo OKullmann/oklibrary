@@ -1,5 +1,5 @@
 // Oliver Kullmann, 31.1.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,12 +15,13 @@ License, or any later version. */
 
   \todo Computing the hardness of a clause-set representation
   <ul>
+   <li> NEEDS UPDATE. </li>
    <li> See "Hardness of boolean function representations" in
    Experimentation/Investigations/BooleanFunctions/plans/general.hpp.
    </li>
    <li> To compute the hardness of a clause-set F we can do the following:
    \verbatim
-/* Computing the hardness of a clause-set F with it's prime implicates F_PI
+/* Computing the hardness of a clause-set F with its prime implicates F_PI
    as input. */
 hardness_wpi_cs(F,F_PI) := block([max_k : 0, count : 0, maxcount : length(F_PI)],
   maxcount : length(F_PI),
