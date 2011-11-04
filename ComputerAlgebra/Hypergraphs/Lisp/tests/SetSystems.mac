@@ -401,18 +401,6 @@ okltest_partitionp(f) := block(
    ********************************
 */
 
-okltest_sort_length(f) := (
-  assert(f([]) = []),
-  for n : 0 thru 5 do block([L : create_list(setn(i),i,1,n)],
-    assert(f(reverse(L)) = L)
-  ),
-  assert(elementp(f([{1,2},{2,3}]), {[{1,2},{2,3}],[{2,3},{1,2}]}) = true),
-  true)$
-
-okltest_sort_length_desc(f) := (
-  /* XXX */
-  true)$
-
 okltest_antichain_p(f) := (
   assert(f({}) = true),
   assert(f({{}}) = true),

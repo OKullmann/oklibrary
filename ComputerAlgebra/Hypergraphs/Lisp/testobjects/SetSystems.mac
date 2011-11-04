@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.3.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -115,9 +115,6 @@ okltest_partitionp(partitionp);
    * Tests related to subsumption *
    ********************************
 */
-
-okltest_sort_length(sort_length);
-okltest_sort_length_desc(sort_length_desc);
 
 okltest_antichain_p(antichain_p);
 

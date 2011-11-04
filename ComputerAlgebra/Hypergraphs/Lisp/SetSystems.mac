@@ -263,15 +263,6 @@ unify_nondisjoint_elements(S) := block([L : listify(S), p, A, B],
 subset_closure(S) := family_sets_union(S, lambda([M],powerset(M)))$
 
 
-/* Sorts the elements of a list according to their length (ascending): */
-sort_length(L) := sort(L, lambda([A,B], length(A) <= length(B)))$
-/* Sorts the elements of a list according to their length (descending): */
-sort_length_desc(L) := sort(L, lambda([A,B], length(A) >= length(B)))$
-/* Remark: The Maxima function "sort" is not necessarily stable (??).
-   Thus elements of equal lengths may get reordered.
-*/
-
-
 /* Eliminates all subsumed elements from a list of sets or set system
   (that is,  computes the list/set of all minimal elements w.r.t. the
   subset-relation).
@@ -285,7 +276,18 @@ min_elements_l(S) := block(
   remains : sublist(remains, lambda([B], not subsetp(A, B)))
  ),
  reverse(result))$
-min_elements(S) := setify(min_elements_l(listify(S)))$
+/* Now the list S does not contain repeated elements: */
+min_elements_unique_l(S) := block(
+ [remains : sort_length(S), result : [], A,s],
+ while not emptyp(remains) do (
+print(length(result),length(remains)),
+  A : first(remains), remains : rest(remains), result : cons(A,result),
+  s : length(A),
+  remains : sublist(remains,
+                    lambda([B], s = length(B) or not subsetp(A, B)))
+ ),
+ reverse(result))$
+min_elements(S) := setify(min_elements_unique_l(listify(S)))$
 
 /* Eliminates all contained elements from a list / set system (where for
    the list the elements are ordered in decreasing length, and otherwise
