@@ -278,15 +278,15 @@ min_elements_l(S) := block(
  reverse(result))$
 /* Now the list S does not contain repeated elements: */
 min_elements_unique_l(S) := block(
- [remains : sort_length(S), result : [], A,s],
- while not emptyp(remains) do (
-print(length(result),length(remains)),
-  A : first(remains), remains : rest(remains), result : cons(A,result),
-  s : length(A),
-  remains : sublist(remains,
-                    lambda([B], s = length(B) or not subsetp(A, B)))
- ),
- reverse(result))$
+ [A : sort_length_part_ary(S), result : [], n],
+  n : A[0],
+  for i : 1 thru n do (
+    result : cons(A[i], result),
+    for x in A[i] do
+      for j : i+1 thru n do
+        A[j] : sublist(A[j], lambda([y], not subsetp(x, y)))
+  ),
+  lappend(reverse(result)))$
 min_elements(S) := setify(min_elements_unique_l(listify(S)))$
 
 /* Eliminates all contained elements from a list / set system (where for
@@ -300,7 +300,18 @@ max_elements_l(S) := block(
  ),
  reverse(result)
 )$
-max_elements(S) := setify(max_elements_l(listify(S)))$
+/* Now the list S does not contain repeated elements: */
+max_elements_unique_l(S) := block(
+ [A : sort_length_part_ary(S), result : [], n],
+  n : A[0],
+  for i : n thru 1 step -1 do (
+    result : cons(A[i], result),
+    for x in A[i] do
+      for j : i-1 thru 1 step -1 do
+        A[j] : sublist(A[j], lambda([y], not subsetp(y, x)))
+  ),
+  lappend(reverse(result)))$
+max_elements(S) := setify(max_elements_unique_l(listify(S)))$
 
 
 /*!
