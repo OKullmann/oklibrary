@@ -419,23 +419,21 @@ sort_length(L) := lappend(sort_length_part(L))$
 sort_length_desc(L) := lappend(sort_length_desc_part(L))$
 
 /* Distributing the elements of L into a list of list, collecting elements of
-   equal length, and sorting the meta-lists by ascending element-length:
+   equal length, and sorting the meta-lists by ascending element-length.
+   First returning the result as okl-array:
 */
-sort_length_part(L) := block([S : listify(setify(map(length,L))), n, h, A, m],
+sort_length_part_ary(L) := block([S : listify(setify(map(length,L))), n, h, A, m],
   n : length(S),
   h : osm2hm(l2osm_inv(S)),
   A : okl_make_array(any, n),
   for i : 1 thru n do A[i] : [],
   for x in L do (m : ev_hm(h,length(x)), A[m] : cons(x,A[m])),
-  create_list(reverse(A[i]), i,1,n))$
+  for i : 1 thru n do A[i] : reverse(A[i]),
+  A)$
+/* Now returning a list (of lists): */
+sort_length_part(L) := ary2l(sort_length_part_ary(L))$
 /* Now sorting by descending element-length: */
-sort_length_desc_part(L) := block([S : listify(setify(map(length,L))), n, h, A, m],
-  n : length(S),
-  h : osm2hm(l2osm_inv(S)),
-  A : okl_make_array(any, n),
-  for i : 1 thru n do A[i] : [],
-  for x in L do (m : ev_hm(h,length(x)), A[m] : cons(x,A[m])),
-  create_list(reverse(A[n-i+1]), i,1,n))$
+sort_length_desc_part(L) := reverse(sort_length_part(L))$
 
 
 /*!
