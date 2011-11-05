@@ -154,13 +154,15 @@ block([n : lmax(map(lmax,P)), H],
   H : setn(ceiling(n/2)),
   map(lambda([p], intersection(p,H)), P))$
 
-/* Unfolding a compressed palindromic partition: */
+/* Unfolding a compressed palindromic partition (creating an ordinary
+   (palindromic) vdW-certificate):
+*/
 uncompresss_palindromic_subsets(n,P) := block([m : lambda([v], {v,n+1-v})],
   map(lambda([p], lunion(map(m,listify(p)))), P))$
 
 /* For a "half compressed palindromic certificate" S, that is, a sublist of
    {1,...,m} with m = ceiling(n/2), which specifies the elements of the
-   first part of the partition, create a full palindromic certificate:
+   first part of the partition, create a (full, palindromic) certificate:
 */
 create_certificate2c_pdvdw(S,n) := block([m : ceiling(n/2), P],
   P : create_certificate2_vdw(S,m),
