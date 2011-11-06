@@ -76,7 +76,7 @@ License, or any later version. */
    In OKlib/plans/general.hpp the following topics are handled:
     - Access to version numbers
     - Demos
-    - Promoting the OKlibrary
+    - Upgrade the C++ code to gcc-4.5.3
   \par
    In OKlib/plans/Annotations.hpp the following topics are handled:
     - Bibtex-problem
@@ -132,7 +132,6 @@ License, or any later version. */
   (see Experimentation/plans/milestones.hpp)
   \par
    In OKlib/plans/general.hpp the following topics are handled:
-    - Upgrade to gcc-4.2.2
     - Backups and archives
   \par Update
   Update the subsequent milestones.
@@ -164,8 +163,10 @@ License, or any later version. */
   \par Messages version 1.0
   (see Messages/plans/milestones.hpp)
   \par General goals:
-   - Transition to new test system complete (all old tests transferred to the new test system).
-   - Except of warnings coming from Boost, no compiler warnings from our library.
+   - Transition to new test system complete (all old tests transferred to the
+     new test system).
+   - Except of warnings coming from Boost, no compiler warnings from our
+     library.
 
 
   \section VersionOKlib040 0.4.0 Complexity system ready

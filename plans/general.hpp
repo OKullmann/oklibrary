@@ -506,7 +506,7 @@ namespace SatAlg = Satisfiability::Algorithms;
   </ul>
 
 
-  \todo Upgrade to gcc-4.2.4
+  \todo Upgrade the C++ code to gcc-4.5.3
   <ul>
    <li> Correct the template-errors:
     <ol>
@@ -515,6 +515,9 @@ namespace SatAlg = Satisfiability::Algorithms;
      <li> Files affected: XXX </li>
     </ol>
    </li>
+   <li> After having moved to 4.5.3, we should then incorporate C++11 as
+   soon as possible; see http://en.wikipedia.org/wiki/C++11 for a good
+   overview. </li>
   </ul>
 
 
