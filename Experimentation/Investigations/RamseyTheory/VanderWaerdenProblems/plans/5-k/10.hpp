@@ -10,8 +10,37 @@ License, or any later version. */
   \brief On investigations into vdw_2(5,10)
 
 
-  \todo vanderwaerden_2(5,10) > 611
+  \todo vanderwaerden_2(5,10) > 668
   <ul>
+   <li> Certificate for n=668:
+   \verbatim
+1,5,6,10,20,22,23,25,26,28,
+29,31,36,39,44,46,48,53,54,56,
+58,61,65,67,68,69,71,72,79,80,
+89,94,96,97,100,101,110,112,114,115,
+118,119,120,122,123,128,129,130,132,139,
+141,142,143,145,146,148,153,154,162,163,
+168,173,175,177,181,184,193,196,197,198,
+201,202,203,204,206,209,213,215,219,220,
+222,228,237,242,244,245,247,248,249,251,
+255,258,260,261,262,263,267,268,269,271,
+272,275,277,283,287,290,291,293,296,301,
+310,311,318,319,322,325,329,334,335,336,
+337,340,341,342,344,345,346,349,350,351,
+352,354,357,363,364,368,375,376,384,390,
+393,395,396,397,406,408,409,410,411,414,
+416,418,423,424,426,428,431,435,437,438,
+439,441,442,444,449,450,459,464,466,467,
+469,470,471,473,477,480,484,488,489,490,
+492,493,494,498,502,509,511,513,515,518,
+523,532,533,538,540,545,547,554,556,557,
+559,562,563,566,567,568,571,572,573,574,
+576,579,583,585,586,587,589,592,598,607,
+614,615,618,619,625,628,630,631,633,637,
+638,639,641,642,645,647,653,657,660,661,
+663,664,666,668
+   \endverbatim
+   </li>
    <li> Find best ubcsat-solver:
    \verbatim
 > E=run_ubcsat("VanDerWaerden_2-5-10_611.cnf",runs=100,cutoff=10000000)
@@ -49,7 +78,33 @@ fps: 84418
 fps: 145583
    \endverbatim
    Looks like as rnovelty would be the clear winner. </li>
-   <li> Start with the palindromic solution. </li>
+   <li> Start with the palindromic solution for n=611:
+   \verbatim
+C : create_certificate2c_pdvdw([
+10,14,15,18,24,27,28,33,40,41,
+45,47,48,49,50,53,54,55,58,65,
+69,71,72,80,88,89,94,96,97,99,
+100,101,103,107,110,113,114,119,121,123,
+124,127,129,130,135,139,141,142,143,145,
+148,153,162,163,168,170,171,173,177,181,
+186,187,188,189,192,193,194,196,197,198,
+201,202,206,209,215,216,217,220,227,228,
+236,242,244,245,248,249,251,258,260,261,
+266,268,270,271,275,276,278,280,287,289,
+290,291,293,296,301], 611);
+output_certificate2_vdw(reverse(C), "VanDerWaerden_2-5-10_611.cnf_sol");
+
+> RunVdWk1k2 5 10 611 adaptg2wsat 100 100000000 VanDerWaerden_2-5-10_611.cnf_sol
+Break point: 669
+# found all solutions in first run with old solution
+> E=read_ubcsat("VanDerWaerden_2-5-10_669.cnf_OUT",nrows=100)
+
+19 20 21 22 23 24 
+ 3 10 22 35 24  6 
+100 
+   \endverbatim
+   It seems that only a given solution can help, while finding a really new
+   solution is too hard. </li>
    <li> Starting from scratch:
    "RunVdWk1k2 5 10 11 rnovelty 100 20000000" yields:
    \verbatim
@@ -101,6 +156,21 @@ fps: 145583
 XXX
    \endverbatim
    </li>
+   <li> "RunVdWk1k2 5 10 11 adaptg2wsat 100 100000000" yields:
+   \verbatim
+UNSAT for n=568
+> cat Statistics
+    555     5   46638920  390535645  r
+    562     1   83706188 1939998381  r
+    563     4   31999879 2107000211  r
+    564    13   12138499 1468013701  r
+> E=read_ubcsat("VanDerWaerden_2-5-10_568.cnf_OUT",nrows=100)
+ 1  2  3 
+24 66 10 
+100 
+   \endverbatim
+   So adaptg2wsat seems definitely better than rnovelty, however it still looks
+   bleak. </li>
   </ul>
 
 

@@ -104,7 +104,7 @@ vanderwaerden4k_a(L) := if length(L)#2 then [] else
 
 vanderwaerden5k(k) := 
  if k <= 13 then [
-  5,10,22,55,178,206,[260,inf-1],[331,inf-1],[472+1,inf-1],[611+1,inf-1],
+  5,10,22,55,178,206,[260,inf-1],[331,inf-1],[472+1,inf-1],[668+1,inf-1],
   [756+1,inf-1],[949+1,inf-1],[1204+1,inf-1]
  ][k]
  else unknown$
