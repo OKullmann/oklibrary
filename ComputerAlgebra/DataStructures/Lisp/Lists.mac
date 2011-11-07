@@ -312,14 +312,13 @@ transpose_l(l,len_row) :=
   m2l_r(transpose(apply(matrix,partition_elements(l,len_row))))$
 
 /* Removes duplicated elements in the order they appear (i.e., the second
-   occurrence and later ones are removed). */
-/* Returns copies of each first occurrence. */
-stable_unique(L) := block([h : sm2hm({}), res : []],
- for x in L do
-   if not ev_hm(h,x) then (
-     set_hm(h,x,true),
-     res : cons(x,res)),
- return(reverse(res)))$
+   occurrence and later ones are removed).
+   Returns copies of each first occurrence.
+*/
+stable_unique(L) := block([S:{}, res:[]],
+ for x in L do if not elementp(x,S) then (S : adjoin(x,S), res : cons(x,res)),
+ reverse(res))$
+/* Remark: The Maxima-function unique(L) is not stable (but faster). */
 
 
 /* *************************
