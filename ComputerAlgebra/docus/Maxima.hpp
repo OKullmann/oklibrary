@@ -182,14 +182,6 @@ oklib --maxima --batch=FILE
      must update the redefining functions. </li>
     </ol>
    </li>
-   <li> Problems with insufficient memory:
-    <ol>
-     <li> For our current standard lisp, ECL, via
-     <code>show_memory_ecl()</code> the current memory settings are displayed,
-     while by <code>default_memory_ecl()</code> they are set to higher default
-     values. </li>
-    </ol>
-   </li>
   </ul>
 
 
