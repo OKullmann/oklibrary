@@ -15,6 +15,11 @@ License, or any later version. */
   and installing CSP-software)
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
+   topics are handled:
+    - Update to 11.1.1.2
+
+  \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:
     - Supporting Java

@@ -10,6 +10,31 @@ License, or any later version. */
   \brief Plans regarding installation of the Common-Lisp Ecl
 
 
+  \todo Update to 11.1.1.2
+    <ul>
+   <li> DONE (that repository is not to be used anymore)
+   Version 11.1.1.2 is an update by
+   \verbatim
+> ADDRESS=anonymous@ecls.cvs.sourceforge.net:/cvsroot/ecls
+> cvs -z3 -d:pserver:$ADDRESS checkout ecl
+   \endverbatim
+   </li>
+   <li> The cvs-repository is actually outdated, and the git-repository
+   has to be used:
+   \verbatim
+Ecl> git clone git://ecls.git.sourceforge.net/gitroot/ecls/ecl
+ea0fdff00734051a1c775c2740ddb2a92122e93c
+> mv ecl ecl-11.1.1.2
+> tar -cjf ecl-11.1.1.2.tar.bz2 ecl-11.1.1.2
+   \endverbatim
+   </li>
+   <li> The above change of repository needs to be entered into our
+   docus (where we still mention the cvs-repository). </li>
+   <li> DONE (provided oklib_log)
+   Needed to get writefile to work. </li>
+  </ul>
+
+
   \todo Update to 11.1.1 : DONE
   <ul>
    <li> Version 11.1.1.1 is an update by
