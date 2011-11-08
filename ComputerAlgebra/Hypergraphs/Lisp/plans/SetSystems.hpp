@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.9.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -111,6 +111,20 @@ create_set([A]) := setify(apply(create_list,A))$
    worth the effort? </li>
    <li> Ask on the Maxima mailing list. </li>
    <li> This should belong to ComputerAlgebra/Sets. </li>
+  </ul>
+
+
+  \todo Function min_elements
+  <ul>
+   <li> Currently just choose_element_ = first. A random choice should be
+   better. </li>
+   <li> Perhaps for small lists the simpler algorithms are faster. </li>
+  </ul>
+
+
+  \todo Function max_elements
+  <ul>
+   <li> Can we transfer the idea of min_elements_unique_fast_l_ ? </li>
   </ul>
 
 */
