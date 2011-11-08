@@ -26,9 +26,8 @@ License, or any later version. */
   \par Version 0.3.4 :
 
   \par
-  \par
-   In Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp the
-   following items are handled:
+   In Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp the following
+   items are handled:
     - Improve code quality
     - Organisation
 
@@ -50,10 +49,13 @@ License, or any later version. */
 
 
   \par Version 0.4 :
-  In Structures/Sets/SetAlgorithms/plans/general.hpp the following items are handled:
-   - New test system
-   - Write docus
-   - Write demos
+
+  \par
+   In Structures/Sets/SetAlgorithms/plans/general.hpp the following items
+   are handled:
+    - New test system
+    - Write docus
+    - Write demos
 
   \par
    In Structures/Sets/SetAlgorithms/plans/SubsumptionHypergraph.hpp the
