@@ -31,6 +31,11 @@ License, or any later version. */
     - Improve code quality
     - Organisation
 
+  \par
+   in Structures/Sets/SetAlgorithms/plans/Subsumption.hpp the following
+   items are handled:
+    - Move todos
+
 
   \par Version 0.3.5 :
 
@@ -38,6 +43,11 @@ License, or any later version. */
    In Structures/Sets/SetAlgorithms/plans/SubsumptionHypergraph.hpp the
    following items are handled:
     - Test performance of Subsumption_Hypergraph generator
+
+  \par
+   in Structures/Sets/SetAlgorithms/plans/Subsumption.hpp the following
+   items are handled:
+    - Better algorithms
 
   \par
    In Structures/Sets/SetAlgorithms/SubsumptionHypergraph.hpp the
