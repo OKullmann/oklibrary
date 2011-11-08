@@ -71,6 +71,13 @@ random_projection_hg(G,m) := block(
   transport_hg(cm,G))$
 random_projection_min_hg(G,m) := min_hg(random_projection_hg(G,m))$
 
+/* Projecting vertex i to (i-1 mod m) + 1 for m >= 1 (especially for
+   standardised hypergraphs, and hypergraphs of integers, based on {1,...,m},
+   not on {0,...,m-1}):
+*/
+modulo_projection_hg(G,m) :=
+  transport_hg(lambda([x], mod(x-1,m)+1), G)$
+
 
 /*!
 \endhtmlonly

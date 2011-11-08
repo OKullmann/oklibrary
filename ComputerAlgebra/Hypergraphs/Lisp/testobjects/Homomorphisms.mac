@@ -42,6 +42,8 @@ okltest_random_colouring(random_colouring);
 
 okltest_random_projection_hg(random_projection_hg);
 
+okltest_modulo_projection_hg(modulo_projection_hg);
+
 /*!
 \endhtmlonly
 */
