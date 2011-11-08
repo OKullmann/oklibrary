@@ -145,6 +145,17 @@ oklib --maxima --batch=FILE
      Maxima-session. </li>
     </ol>
    </li>
+   <li> Logging of Maxima-output:
+    <ol>
+     <li> Calling <code>oklib_log(string)</code> starts logging into file
+     "oklib_session_name_string" (name as above for saving results, plus
+     underscore and additional specification via string; if this file already
+     exists, then it is emptied). </li>
+     <li> Computation of term t is then best done via
+     <code>display(t)$</code>, so that also the input is shown. </li>
+     <li> Closing the logging_process by <code>oklib_log_close()</code>. </li>
+    </ol>
+   </li>
    <li> Variable <code>oklib_test_level</code> controls the test levels,
    similar to the C++ higher-order unit test system:
     <ol>

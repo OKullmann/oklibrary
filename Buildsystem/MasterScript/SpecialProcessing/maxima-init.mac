@@ -165,6 +165,15 @@ oklib_save([L]) := if oklib_store then block(
  else false$
 
 
+/* Logging of output to file "Maxima_session_timestampe_string": */
+
+oklib_log(string) := writefile(sconcat(oklib_session_name,"_",string));
+oklib_log_close() := closefile();
+/* Remark: If a term t is to be computed in logging-mode, best is to use
+     display(t)$
+   which will also show t itself.
+*/
+
 /* Constants for asserts handling floating-point numbers */
 
 define_variable(
