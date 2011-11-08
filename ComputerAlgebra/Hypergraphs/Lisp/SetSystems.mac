@@ -263,20 +263,28 @@ unify_nondisjoint_elements(S) := block([L : listify(S), p, A, B],
 subset_closure(S) := family_sets_union(S, lambda([M],powerset(M)))$
 
 
-/* Eliminates all subsumed elements from a list of sets or set system
+/* Eliminating all subsumed elements from a list of sets or set system
   (that is,  computes the list/set of all minimal elements w.r.t. the
   subset-relation).
-  Regarding the list, the sets are ordered in increasing length, while
-  otherwise the given order is kept.
+  Regarding the list-input, in the list-output all the sets are ordered by
+  increasing length, while otherwise the given order is kept.
 */
-min_elements_l(S) := block(
+
+/* The simplest algorithm: */
+min_elements_l_0(S) := block(
  [remains : sort_length(S), result : [], A],
  while not emptyp(remains) do (
   A : first(remains), result : cons(A,result),
   remains : sublist(remains, lambda([B], not subsetp(A, B)))
  ),
  reverse(result))$
-/* Now the list S does not contain repeated elements: */
+
+/* The best algorithm: */
+min_elements_l(S) := min_elements_unique_fast_l_(stable_unique(S),first)$
+
+/* Assuming the list S does not contain repeated elements; first a simple
+   algorithm:
+*/
 min_elements_unique_l(S) := block(
  [A : sort_length_part_ary(S), result : [], n],
   n : A[0],
@@ -287,7 +295,54 @@ min_elements_unique_l(S) := block(
         A[j] : sublist(A[j], lambda([y], not subsetp(x, y)))
   ),
   lappend(reverse(result)))$
-min_elements(S) := setify(min_elements_unique_l(listify(S)))$
+
+/* Now a more intelligent algorithm (while above we remove for a given set
+   A all subsets B with A <= B, now for a given B we test for A <= B,
+   considering only relevant A).
+   choose_element_(x) for a non-emtpy set x chooses some element.
+*/
+min_elements_unique_fast_l_(S, choose_element_) := block(
+ [l : length(S),
+  A, number_blocks, current_block : 1,
+  result, index : 1, old_index,
+  h],
+  if l <= 1 then return(S),
+  A : sort_length_part_ary(S),
+  if emptyp(first(A[1])) then return([{}]),
+  h : sm2hm({}),
+  number_blocks : A[0],
+  result : okl_make_array(any,l),
+  old_index : index,
+  for x in A[current_block] do (result[index] : x, index : index + 1),
+  while current_block < number_blocks do block([s, L, subsumption],
+    for i : old_index thru index-1 do (
+      s : choose_element_(result[i]),
+      L : ev_hm(h,s),
+      if L=false then set_hm(h,s,[i])
+      else set_hm(h,s, cons(i,L))
+    ),
+    current_block : current_block + 1,
+    old_index : index,
+    for x in A[current_block] do (
+      subsumption : false,
+      for s in x unless subsumption do (
+        L : ev_hm(h,s),
+        if L#false then
+          for i in L unless subsumption do
+            subsumption : subsetp(result[i], x)
+      ),
+      if not subsumption then (result[index] : x, index : index+1)
+    )
+  ),
+  create_list(result[i],i,1,index-1))$
+
+/* Subsumption elimination for a set-system, using the basic algorithm: */
+min_elements_0(S) := setify(min_elements_unique_l(listify(S)))$
+
+/* Using the fastest algorithm: */
+min_elements(S) :=
+  setify(min_elements_unique_fast_l_(listify(S), first))$
+
 
 /* Eliminates all contained elements from a list / set system (where for
    the list the elements are ordered in decreasing length, and otherwise
@@ -300,6 +355,7 @@ max_elements_l(S) := block(
  ),
  reverse(result)
 )$
+
 /* Now the list S does not contain repeated elements: */
 max_elements_unique_l(S) := block(
  [A : sort_length_part_ary(S), result : [], n],
@@ -311,6 +367,8 @@ max_elements_unique_l(S) := block(
         A[j] : sublist(A[j], lambda([y], not subsetp(y, x)))
   ),
   lappend(reverse(result)))$
+
+/* Computing all maximal elements for a set-system: */
 max_elements(S) := setify(max_elements_unique_l(listify(S)))$
 
 
