@@ -44,6 +44,8 @@ License, or any later version. */
 
   \todo Introduce subsumption hypergraph generator
   <ul>
+   <li> This todo needs update; how is it related to
+   Structures/Sets/SetAlgorithms/plans/SubsumptionHypergraph.hpp? </li>
    <li> There are several instances where we have hypergraphs
    with a large number of nodes. For instance, we have
    <ul>
