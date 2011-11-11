@@ -213,8 +213,11 @@ restarts              : 131070
 conflicts             : 103554002      (1407 /sec)
 CPU time              : 73592.2 s
 > cryptominisat VanDerWaerden_m5_1132.cnf
+# aborted after apparently making no progress:
 c conflicts                : 39040336    (565.34    / sec)
 c CPU time                 : 69056.95    s
+> march_pl VanDerWaerden_m5_1132.cnf
+# aborted after 2232m, apparently making no progress.
    \endverbatim
    Seems much harder than the palindromic problem. </li>
    <li> Can one create a certificate for n=1132 by Rabung's method or
