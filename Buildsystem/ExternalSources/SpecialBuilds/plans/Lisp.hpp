@@ -49,15 +49,53 @@ cpu time               (seconds, -t) unlimited
 max user processes              (-u) 30378
 virtual memory          (kbytes, -v) 4821120
 file locks                      (-x) unlimited
+
+Sbcl> md5sum sbcl-1.0.53-source.tar.bz2
+28bdb8d65b240bcc45370f19b781f9b8  sbcl-1.0.53-source.tar.bz2
+> tar -xjf sbcl-1.0.53-source.tar.bz2
+> cd sbcl-1.0.53/
+> sh make.sh "clisp"
+...
+Bye.
+//testing for consistency of first and second GENESIS passes
+//header files match between first and second GENESIS -- good
+
+real    32m36.069s
+user    31m49.528s
+sys     0m41.529s
+//entering make-target-2.sh
+//doing warm init - compilation phase
+mmap: Cannot allocate memory
+ensure_space: failed to validate 8589869056 bytes at 0x1000000000
+(hint: Try "ulimit -a"; maybe you should increase memory limits.)
    \endverbatim
-   That error doesn't make sense. </li>
-   <li> Anyway, since it uses CLisp, and they compare themselves with CLisp,
+   That error doesn't make sense. Contacted sbcl-bugs@lists.sourceforge.net.
+   </li>
+   <li> DONE (according to Raymond Toy from the Maxima mailing list Sbcl could
+   be faster, and so we should try it out)
+   Anyway, since it uses CLisp, and they compare themselves with CLisp,
    it seems not faster than Ecl, and then we don't need to try it anyway.
    </li>
   </ul>
 
 
-  \todo DONE (work now (but CLisp is very slow))
+  \todo DONE (not possible, since binary is needed)
+  Installing and using Cmucl
+  <ul>
+   <li> http://www.cons.org/cmucl/ </li>
+   <li>
+   \verbatim
+Cmucl> tar -xjf cmucl-src-20c.tar.bz2
+> BUILDING
+says
+In order to build CMU CL, you will need:
+a) A working CMU CL binary.  There is no way around this requirement!
+   \endverbatim
+   and thus we can't use Cmucl. </li>
+  </ul>
+
+
+  \todo DONE (works now (but CLisp is very slow))
   Update to CLisp version 2.49
   <ul>
    <li> Installation works on cs-wsok and cs-oksvr. </li>
@@ -87,9 +125,12 @@ make[1]: Leaving directory `/home/kullmann/OKplatform/ExternalSources/builds/CLi
 
   \todo Installing other Lisp's
   <ul>
-   <li> CMUCL http://www.cons.org/cmucl/ looks reasonable. But apparently
+   <li> DONE (can't be installed, since it needs a binary, which is not
+   available with Linux distributions)
+   CMUCL http://www.cons.org/cmucl/ looks reasonable. But apparently
    there are Maxima-problems with it? </li>
-   <li> SBCL http://www.sbcl.org/ looks alright (and maintained).
+   <li> DONE (see above)
+   SBCL http://www.sbcl.org/ looks alright (and maintained).
     <ol>
      <li> However, it needs another Lisp to be compiled! And none of the
      Lisps we provide is supported. </li>
@@ -103,6 +144,9 @@ make[1]: Leaving directory `/home/kullmann/OKplatform/ExternalSources/builds/CLi
      not usable. </li>
     </ol>
    </li>
+   <li> DONE
+   CCL http://ccl.clozure.com/ also requires a binary, and thus we
+   can't use it. </li>
   </ul>
 
 */
