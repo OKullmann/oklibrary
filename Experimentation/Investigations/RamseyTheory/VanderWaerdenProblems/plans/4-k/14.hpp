@@ -12,6 +12,26 @@ License, or any later version. */
 
   \todo vanderwaerden_2(4,14) > 681
   <ul>
+   <li> Certificate for n=681 (palindromic):
+   \verbatim
+1,11,24,27,33,40,41,43,44,54,
+61,65,71,75,82,88,89,93,98,112,
+115,121,122,124,126,132,133,138,143,147,
+157,158,161,162,168,170,172,173,179,182,
+186,196,205,212,219,223,227,229,230,233,
+238,240,250,253,254,261,267,270,279,292,
+293,302,306,309,315,316,318,320,324,326,
+327,330,331,332,335,337,341,345,347,350,
+351,352,355,356,358,362,364,366,367,373,
+376,380,389,390,403,412,415,421,428,429,
+432,442,444,449,452,453,455,459,463,470,
+477,486,496,500,503,509,510,512,514,520,
+521,524,525,535,539,544,549,550,556,558,
+560,561,567,570,584,589,593,594,600,607,
+611,617,621,628,638,639,641,642,649,655,
+658,671,681
+   \endverbatim
+   </li>
    <li> Find best ubcsat-solver:
    \verbatim
 > E=run_ubcsat("VanDerWaerden_2-4-14_681.cnf",runs=100,cutoff=10000000)
@@ -63,7 +83,24 @@ fps: 118352
 fps: 113590
    \endverbatim
    Doesn't look too promising. </li>
-   <li> Start with the palindromic solution for n=681. </li>
+   <li> Start with the palindromic solution for n=681.
+   \verbatim
+# In Maxima:
+C : create_certificate2c_pdvdw([
+1,11,24,27,33,40,41,43,44,54,
+61,65,71,75,82,88,89,93,98,112,
+115,121,122,124,126,132,133,138,143,147,
+157,158,161,162,168,170,172,173,179,182,
+186,196,205,212,219,223,227,229,230,233,
+238,240,250,253,254,261,267,270,279,292,
+293,302,306,309,315,316,318,320,324,326,
+327,330,331,332,335,337,341], 681);
+certificate_pdvdw_p([4,14],681,C);
+  true;
+output_certificate2_vdw(reverse(C), "VanDerWaerden_2-4-14_681.cnf_sol");
+
+# see below for run with n=682
+   </li>
    <li> Starting from scratch: "RunVdWk1k2 4 14 15 rots 200 20000000" yields
    "UNSAT for n=503" with
    \verbatim
@@ -80,6 +117,15 @@ fps: 113590
 > E=read_ubcsat("VanDerWaerden_2-4-14_509.cnf_OUT",nrows=200)
  1  2  3
 17 91 92
+200
+   \endverbatim
+   </li>
+   <li> n=682, rots, cutoff=10^8:
+   \verbatim
+RunVdWk1k2 4 14 681 rots 200 100000000 VanDerWaerden_2-4-14_681.cnf_sol
+> E=read_ubcsat("VanDerWaerden_2-4-14_682.cnf_OUT",nrows=200)
+32 33 34 35 36 37 38 39
+ 7  7 16 38 42 53 27 10
 200
    \endverbatim
    </li>

@@ -55,6 +55,7 @@ fps: 82555
    So let's consider rots and gwsat here; and we see that for such high n the
    algorithms are too weak to be of use (except when making small
    modifications to previous solutions). </li>
+   <li> Results below indicate that adaptg2wsat is best. </li>
   </ul>
 
 
@@ -129,7 +130,45 @@ Break point 2: 1168
    <li> Hardest problems apparently at around 500 < n < 670. Before *and*
    after always solving it in the first run with previous solution, just a few
    changes needing. </li>
-   <li> Needs to be rerun with rots and gwsat XXX. </li>
+   <li> Needs to be rerun with rots: "RunPdVdWk1k2 6 8 rots 100 80000000"
+   \verbatim
+Break point 1: 518
+Break point 2: 549
+> cat Statistics
+    510     2    1818008 1911142987  p
+    517     3   46791584 2913176585  p
+> E=read_ubcsat("VanDerWaerden_pd_2-6-8_519.cnf_OUT",nrows=100)
+ 1  2
+48 52
+100
+> E=read_ubcsat("VanDerWaerden_pd_2-6-8_550.cnf_OUT",nrows=100)
+ 1  2  3  4
+ 3 32 63  2
+100
+   \endverbatim
+   This looks worse than adaptg2wsat. </li>
+   <li> "RunPdVdWk1k2 6 8 gwsat 100 80000000":
+   \verbatim
+Break point 1: 520
+Break point 2: 653
+> cat Statistics
+    473     2   23820976 1541446643  p
+    490     2    1400857 4082286545  p
+    493     1   43139705 1952861992  r
+    495     2   32709355 3344361841  p
+    501     9   76122182  454895984  r
+    503    32   53065585 4213011956  r
+    505    22   41873554 3801976046  r
+> E=read_ubcsat("VanDerWaerden_pd_2-6-8_521.cnf_OUT",nrows=100)
+ 1  2  3  4
+ 3 21 57 19
+100
+> E=read_ubcsat("VanDerWaerden_pd_2-6-8_654.cnf_OUT",nrows=100)
+ 1  8 11 12 13 15 16 17 18 19
+ 1  3  2  1  1 13 21 40 17  1
+100
+   \endverbatim
+   Likely worse than adaptg2wsat. </li>
   </ul>
 
 */

@@ -27,7 +27,17 @@ anovp
  2  3  4  5  6
  2  8 36 49  5
 FlipsPerSecond = 54760
-XXX
+# continuing:
+E=run_ubcsat("VanDerWaerden_pd_2-5-12_949.cnf",runs=100,cutoff=20000000,include_algs=names(tail(run_ubcsat_cnf_algs,-11)))
+rnov
+ 2  3  4  5
+ 4 21 58 17
+rnovp
+ 2  3  4  5  6
+ 4 18 65 12  1
+# interrupted (next ddfw)
+E=run_ubcsat("VanDerWaerden_pd_2-5-12_949.cnf",runs=100,cutoff=20000000,include_algs=names(tail(run_ubcsat_cnf_algs,-25)))
+XXX cstriton
    \endverbatim
    </li>
   </ul>

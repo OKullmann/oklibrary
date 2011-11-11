@@ -182,6 +182,7 @@ k1=5 k2=9 n0=10 alg="ddfw" runs=1000 cutoff=400000000; RunVdWk1k2 ${k1} ${k2} ${
  4  5  6  7
  1  4 11  2
 18
+XXX # cscharon
    \endverbatim
    This seems much better than rnovelty. </li>
   </ul>
@@ -630,7 +631,34 @@ $t:
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
   0.0200   0.3640   0.8521   2.9020   2.1600 884.4000
 sd= 10.68556
-XXX
+>  E=read_processsplit_minisat()
+1306748: 45.971d, sum-cfs=8.401642e+10, mean-t=3.040s, mean-cfs=64294
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+  0.0200   0.3760   0.8881   3.0400   2.2800 884.4000
+sd= 10.99676
+      95%       96%       97%       98%       99%      100%
+ 10.96870  13.21680  16.49936  22.65740  36.28042 884.37500
+sum= 3971922
+$cfs:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+       8     8767    21480    64290    55390 11900000
+sd= 183590.3
+       95%        96%        97%        98%        99%       100%
+  241839.5   283773.1   345727.1   462661.2   700841.9 11904325.0
+sum= 84016416562
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -7.7383e-01  1.4235e-03 -543.61 < 2.2e-16 ***
+E$cfs        5.9311e-05  7.3180e-09 8104.90 < 2.2e-16 ***
+R-squared: 0.9805
+> cat Log
+Begin: Sat Sep  3 13:38:15 BST 2011
+Process id = 17609
+> date
+Sun Nov  6 08:49:19 GMT 2011
+# We needed more computational power, but otherwise it should be feasible.
+# Aborted.
      \endverbatim
      </li>
     </ol>

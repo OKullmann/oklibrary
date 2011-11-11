@@ -137,16 +137,24 @@ FlipsPerSecond = 147198
 > cat Statistics
     563    35    4214113  284464927  r
 > E=read_ubcsat("VanDerWaerden_2-4-13_563.cnf_OUT",nrows=35)
- 0 25 26 27 28 29 30 31 
- 1  1  2  3 12  7  7  2 
-35 
+ 0 25 26 27 28 29 30 31
+ 1  1  2  3 12  7  7  2
+35
 > E=read_ubcsat("VanDerWaerden_2-4-13_570.cnf_OUT",nrows=1000)
-  1  26  27  28  29  30  31  32  33  34 
-  3  10  14  21  88 152 257 269 169  17 
-1000 
+  1  26  27  28  29  30  31  32  33  34
+  3  10  14  21  88 152 257 269 169  17
+1000
    \endverbatim
    </li>
-   <li> Rerun, starting with solution for n=569, and using cutoff=4*10^7 XXX
+   <li> Rerun, starting with solution for n=569, and using cutoff=4*10^7:
+   "RunVdWk1k2 4 13 569 ddfw 1000 40000000 VanDerWaerden_2-4-13_569.cnf_sol":
+   \verbatim
+# aborted:
+> E=read_ubcsat("VanDerWaerden_2-4-13_570.cnf_OUT")
+ 1 26 27 28 29 30 31 32
+ 2  1  4 20 36 49 36  9
+157
+   \endverbatim
    </li>
   </ul>
 

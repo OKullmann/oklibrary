@@ -14,6 +14,47 @@ License, or any later version. */
   <ul>
    <li> For k=7 adaptg2wsat and ddfw are best (see
    VanderWaerdenProblems/plans/5-k/07.hpp). </li>
+   <li>
+   \verbatim
+E = run_ubcsat("VanDerWaerden_2-5-8_330.cnf", runs=100,cutoff=2000000)
+1. ddfw:
+ 1  3  4  5  6
+ 1  4 28 54 13
+fps: 68776
+2. ag2wsat:
+ 2  3  4  5  6  7
+ 2  2 22 43 29  2
+fps: 238277
+3. rnovp:
+ 3  4  5  6  7
+ 6 15 48 30  1
+fps: 203370
+4. rnov:
+ 3  4  5  6  7
+ 2 18 59 20  1
+fps: 203044
+5. anovp:
+ 3  4  5  6  7
+ 1 16 34 45  4
+fps: 200393
+6. anovpp:
+ 3  4  5  6  7
+ 1 11 42 40  6
+fps: 200172
+7. dano:
+ 3  4  5  6  7
+ 1  8 40 45  6
+fps: 200256
+8. rots:
+ 5  6  7  8  9
+ 5 14 35 39  7
+fps: 251737
+9. gwsat:
+ 5  7  8  9 10 11 12
+ 2  7 13 22 32 18  6
+fps: 248558
+   \endverbatim
+   So ddfw and adaptg2wsat seem best. </li>
   </ul>
 
 

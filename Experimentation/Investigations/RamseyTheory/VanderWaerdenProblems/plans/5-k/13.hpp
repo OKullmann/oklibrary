@@ -31,7 +31,20 @@ gwsat
  5  9 10 11 12 13 14 15 16
  1  2  2  1 17 25 30 17  5
 FlipsPerSecond = 84911
-XXX
+# continuing:
+E=run_ubcsat("VanDerWaerden_pd_2-5-13_1204.cnf",runs=100,cutoff=20000000,include_algs=names(tail(run_ubcsat_cnf_algs,-10)))
+anovp
+ 1  2  3  4  5
+ 1  4 15 50 30
+rnov
+ 2  3  4  5  6
+ 6 29 52 10  3
+rnovp
+ 1  2  3  4  5  6
+ 1 11 35 37 13  3
+# aborted; next novpc
+E=run_ubcsat("VanDerWaerden_pd_2-5-13_1204.cnf",runs=100,cutoff=20000000,include_algs=names(tail(run_ubcsat_cnf_algs,-20)))
+XXX csnereid
    \endverbatim
    </li>
   </ul>

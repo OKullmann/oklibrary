@@ -393,7 +393,8 @@ E$cfs        1.0345e-04  1.0700e-06 96.6808 < 2.2e-16 ***
 R-squared: 0.9926
 
 # So it's a very hard problem. D must be set higher, say D=30.
-# no Md5sum yet
+> cat Md5sum
+9847c8426b30516610af36564ab76530
 > cat Statistics
 > E=read.table("Data")
 > summary(E$n)
@@ -444,10 +445,37 @@ sd= 149.1323
         95%         96%         97%         98%         99%        100%
    35.44700    46.56690    65.62698   105.38108   236.93676 16679.40000
 sum= 1027293
-
-XXX
+> E=read_processsplit_minisat()
+90979: 16.071d, sum-cfs=1.439163e+10, mean-t=15.262s, mean-cfs=158186
+$t:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+    0.060     0.176     0.288    15.260     1.932 17260.000
+sd= 160.2063
+        95%         96%         97%         98%         99%        100%
+   36.97430    49.51270    70.12832   113.29452   244.43596 17256.60000
+sum= 1388508
+$cfs:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+        4      1224      4494    158200     34080 109300000
+sd= 1226530
+        95%         96%         97%         98%         99%        100%
+   494100.0    632399.7    853919.5   1329056.1   2652684.9 109260587.0
+sum= 14391625434
+$t ~ $cfs:
+               Estimate  Std. Error  t value  Pr(>|t|)
+(Intercept) -5.1706e+00  7.9582e-02  -64.973 < 2.2e-16 ***
+E$cfs        1.2917e-04  6.4351e-08 2007.232 < 2.2e-16 ***
+R-squared: 0.9779
+> cat Log
+Begin: Fri Oct  7 00:48:42 BST 2011
+Process id = 5544
+> date
+Sun Nov  6 08:33:30 GMT 2011
+# so apparently nearly half of the time is overhead
+# aborted.
      \endverbatim
-     </li>
+     Definitely many machines are needed here (not just one); and
+     apparently even higher splitting (with a more efficient machinery). </li>
     </ol>
    </li>
   </ul>
