@@ -20,6 +20,11 @@ License, or any later version. */
     - Update to 11.1.1.2
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
+   topics are handled:
+    - Installing and using Sbcl
+
+  \par
    In OKlib/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
    the following topics are handled:
     - Supporting Java
