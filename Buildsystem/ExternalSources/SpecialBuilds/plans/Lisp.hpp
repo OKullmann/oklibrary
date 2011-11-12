@@ -123,8 +123,29 @@ make[1]: Leaving directory `/home/kullmann/OKplatform/ExternalSources/builds/CLi
   </ul>
 
 
+  \todo DONE (no longer in active development, and thus not considered anymore)
+  Installing and using GCL
+  <ul>
+   <li> http://savannah.gnu.org/projects/gcl </li>
+   <li>
+   \verbatim
+> tar -xzf gcl-2.6.7.tar.gz
+> cd gcl-2.6.7
+> ./configure
+> make
+/usr/lib64/libbfd.a(compress.o): In function `bfd_compress_section_contents':
+/usr/src/packages/BUILD/binutils-2.21/build-dir/bfd/../../bfd/compress.c:100: undefined reference to `compressBound'
+collect2: ld returned 1 exit status
+make[1]: *** [raw_pre_gcl_map] Error 1
+   \endverbatim
+   </li>
+   <li> One needed to get newer versions from their cvs-repository. </li>
+  </ul>
+
+
   \todo Installing other Lisp's
   <ul>
+   <li> We should summarise our experiences in the docus. </li>
    <li> DONE (can't be installed, since it needs a binary, which is not
    available with Linux distributions)
    CMUCL http://www.cons.org/cmucl/ looks reasonable. But apparently
@@ -137,7 +158,8 @@ make[1]: Leaving directory `/home/kullmann/OKplatform/ExternalSources/builds/CLi
      <li> So let's try the other's first. </li>
     </ol>
    </li>
-   <li> GCL http://savannah.gnu.org/projects/gcl seems a bit outdated, but
+   <li> DONE (see above)
+   GCL http://savannah.gnu.org/projects/gcl seems a bit outdated, but
    we should try.
     <ol>
      <li> However, if the argument-length is really only 64, then it's

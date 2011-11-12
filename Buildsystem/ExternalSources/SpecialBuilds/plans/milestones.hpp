@@ -23,6 +23,8 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
    topics are handled:
     - Installing and using Sbcl
+    - Installing other Lisp's
+    - Installing and using GCL : DONE
     - Installing and using Cmucl : DONE
 
   \par
