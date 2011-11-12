@@ -83,10 +83,13 @@ Evaluation took 3.3100 seconds (3.6900 elapsed)
 
   \todo Stable sorting
   <ul>
-   <li> The documentation of "sort" doesn't say anything about the behaviour
+   <li> DONE (we assume < is meant)
+   The documentation of "sort" doesn't say anything about the behaviour
    in case of equal items. </li>
-   <li> So it could even not work at all in case of equal items! </li>
-   <li> The documentation is also faulty w.r.t. whether the supplied predicate
+   <li> DONE
+   So it could even not work at all in case of equal items! </li>
+   <li> DONE
+   The documentation is also faulty w.r.t. whether the supplied predicate
    should be reflexive or irreflexive.
     <ol>
      <li> Actually from the documentation it should follow that equal elements
@@ -100,7 +103,7 @@ Evaluation took 3.3100 seconds (3.6900 elapsed)
    order of equal elements is changed, without being able to rely on faster
    sorting. </li>
    <li> See "Simplifications" in
-   ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
+   Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
    for an example of this problem. </li>
    <li> Also min_elements_l and max_elements_l in
    ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac rely on sort being stable.

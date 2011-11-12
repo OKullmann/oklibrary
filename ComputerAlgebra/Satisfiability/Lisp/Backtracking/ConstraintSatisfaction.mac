@@ -144,7 +144,7 @@ variable_heuristics_tau(dom,prop) := block(
   )
  ),
  block([L : create_list(i,i,1,length(opt_dom)),
-        comp : lambda([i,j], is(opt_dist[i] <= opt_dist[j]))],
+        comp : lambda([i,j], is(opt_dist[i] < opt_dist[j]))],
    L : sort(L, comp),
    return([opt_v, create_list((listify(opt_dom))[i], i, L)])))$
 
