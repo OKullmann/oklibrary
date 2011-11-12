@@ -281,7 +281,8 @@ is_sconnected(empty_digraph(0));
     </ol>
    </li>
    <li> ext_integer_partitions </li>
-   <li> corr_cartesian_product </li>
+   <li> DONE (corrected in Maxima itself)
+   corr_cartesian_product </li>
    <li> "symmetricp(M)" from ctensor does not work as announced:
     <ol>
      <li> We have "symmetric_m_p" instead (in

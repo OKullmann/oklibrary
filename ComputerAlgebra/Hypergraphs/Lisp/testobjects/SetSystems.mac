@@ -76,7 +76,6 @@ okltest_setdifference2e(setdifference2e);
    **************************************************
 */
 
-okltest_corr_cartesian_product(corr_cartesian_product);
 okltest_cartesian_product_l(cartesian_product_l);
 
 okltest_all_transformations_l(all_transformations_l);

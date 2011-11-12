@@ -121,10 +121,7 @@ setdifference2e(S,b) := map(lambda([s], disjoin(b,s)), S)$
    **************************************************
 */
 
-/* Correcting a bug in Maxima: */
-corr_cartesian_product([S]) := if emptyp(S) then {[]}
- else uaapply(cartesian_product,S)$
-/* Now the input is a list of lists, and we obtain the "cartesian
+/* The input is a list of lists, and we obtain the "cartesian
    product" as a list (in the natural order): */
 cartesian_product_l(S) := if emptyp(S) then [[]]
  else block([P : cartesian_product_l(rest(S))],
@@ -133,14 +130,14 @@ cartesian_product_l(S) := if emptyp(S) then [[]]
      x,first(S))))$
 
 /* For a set X the set of all tuples of length |X| over X: */
-all_transformations_l(X) := uaapply(corr_cartesian_product,
+all_transformations_l(X) := uaapply(cartesian_product,
   create_list(X,i,1,length(X)))$
 /* Now input and output are lists (the output is ordered): */
 all_transformations_l_l(X) := cartesian_product_l(
   create_list(X,i,1,length(X)))$
 
 /* More generally, the set of all tuples of length k over set X: */
-all_tuples(X,k) := uaapply(corr_cartesian_product,
+all_tuples(X,k) := uaapply(cartesian_product,
   create_list(X,i,1,k))$
 /* Now input and output are lists, and the output is ordered (lexicographically): */
 all_tuples_l(X,k) := cartesian_product_l(create_list(X,i,1,k))$

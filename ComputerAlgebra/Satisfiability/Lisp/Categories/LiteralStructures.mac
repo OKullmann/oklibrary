@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 19.8.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -95,7 +95,7 @@ cofree_blitstr(X) := [cartesian_product(X,X), lambda([x], reverse(x))]$
 
 /* The product-blitstr of the list LL of blitstr's: */
 product_blitstr(LL) := 
-  [apply(corr_cartesian_product,map('first,LL)),
+  [uaapply(cartesian_product,map('first,LL)),
    buildq([I : map('second,LL)], lambda([x], map('apply, I, map("[",x))))]$
 /* The projections belonging to component i: */
 projection_product_blitstr(i) :=

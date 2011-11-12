@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 19.8.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -78,11 +78,11 @@ cofree_flcls(L) := [L,powerset(first(L))]$
 /* The product-flcls of the list FL of flcls's: */
 product_flcls(FL) := block([
  L : product_blitstr(map(first,FL)),
- P : apply(corr_cartesian_product, map(second,FL))],
+ P : uaapply(cartesian_product, map(second,FL))],
   [L, 
    lunion(map(
            lambda([CL],
-             subset(powerset(apply(corr_cartesian_product,CL)),
+             subset(powerset(uaapply(cartesian_product,CL)),
                     lambda([C], 
                       every_s(
                        lambda([i],

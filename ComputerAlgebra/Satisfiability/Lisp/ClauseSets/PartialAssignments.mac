@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -44,7 +44,7 @@ pa_p(phi) := c_p(phi)$
 all_pass(V) := if emptyp(V) then {{}} else
  block([e : choose_element(V), S],
   S : all_pass(disjoin(e,V)),
-  return(union(S, 
+  return(union(S,
            map(lambda([phi],adjoin(e,phi)),S),
            map(lambda([phi],adjoin(-e,phi)),S))))$
 /* Now V is a list, and returned is a list (in lexicographical
@@ -65,12 +65,12 @@ all_pass_n(V,n) := if n < 0 then {}
    V : disjoin(e,V),
    S0 : all_pass_n(V,n-1),
    S1 : all_pass_n(V,n),
-   return(union(S1, 
+   return(union(S1,
             map(lambda([phi],adjoin(e,phi)),S0),
             map(lambda([phi],adjoin(-e,phi)),S0))))$
 
 /* The set of all total assignments over a set or list V of variables: */
-all_tass(V) := map(setify,apply(corr_cartesian_product, 
+all_tass(V) := map(setify,uaapply(cartesian_product,
  map(lambda([v],{-v,v}),listify(V))))$
 /* Given V as a list, return a list, using lexicographical order: */
 all_tass_l(V) := map(setify, cartesian_product_l(map(lambda([v],[-v,v]),V)))$
@@ -183,7 +183,7 @@ analyse_pa(phi,F) := block([V : var_c(phi), s : {}, f : {}, u : {}, c : {}],
  for C in F do block([r : apply_pa_cs(phi,{C})],
   if r = {} then s : adjoin(C,s)
   elseif r = {{}} then f : adjoin(C,f)
-  elseif disjointp(var_c(C), V) then u : adjoin(C,u) 
+  elseif disjointp(var_c(C), V) then u : adjoin(C,u)
   else c : adjoin(C,c)),
  return([s,f,u,c]))$
 analyse_pa_cs(phi,F) := analyse_pa(phi,F)$
@@ -216,7 +216,7 @@ all_sat_ofcs(FF) := all_sattass_ocs(FF[2],FF[1])$
 */
 
 /* The set of all autarkies of a clause-set F: */
-all_aut_cs(F) := subset(all_pass(var_cs(F)), lambda([phi],aut_pacs_p(phi,F)))$/* As a repetition-free list, where for the order of partial assignments the 
+all_aut_cs(F) := subset(all_pass(var_cs(F)), lambda([phi],aut_pacs_p(phi,F)))$/* As a repetition-free list, where for the order of partial assignments the
   order as the variables occur in the clauses is determinative: */
 all_aut_ocs(F) := sublist(all_pass_l(ovar_ocs(F)), lambda([phi],aut_paocs_p(phi,F)))$
 all_aut_ofcs(FF) := sublist(all_pass_l(FF[1]), lambda([phi],aut_paofcs_p(phi,FF)))$

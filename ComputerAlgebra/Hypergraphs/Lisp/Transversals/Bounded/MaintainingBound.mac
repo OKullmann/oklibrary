@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.6.2009 (Swansea) */
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -117,7 +117,7 @@ stat_minimum_transversals_bvsdecomp_hg(G) := block(
    length(T)])$
 /* Extracting the set of minimum transversals from the decomposed list: */
 extract_minimum_transversals_decomp(L) :=
- map(lunion,apply(corr_cartesian_product, map(second,L)))$
+ map(lunion,uaapply(cartesian_product, map(second,L)))$
 /* Computing the set of all minimum transversals, using decomposition: */
 minimum_transversals_bvsdecomp_hg(G) :=
  extract_minimum_transversals_decomp(decomp_minimum_transversals_bvs_hg(G))$
