@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 1.12.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -40,7 +40,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 */
 trivial_propagator(dom) := false;
 
-/* A new propagator which iterates the given one until a fixed point is 
+/* A new propagator which iterates the given one until a fixed point is
    reached:
 */
 prop_fixedpoint(prop) := buildq([prop], lambda([dom], block([p : false],
@@ -68,7 +68,7 @@ look_ahead(prop) := buildq([prop], lambda([dom],
 
 /* For a constraint satisfaction problem given by domain association and
    a propagator, return [sol,size], where size is the number of nodes
-   in the search tree, while sol is a solution as a list of values or false 
+   in the search tree, while sol is a solution as a list of values or false
    iff no solution exists.
    The heuristics heur(dom,prop) computes a pair [variable, [list of values]]
    for given domain assocation and propagator. dom does not contain empty
@@ -94,7 +94,7 @@ constraint_backtracking(dom,prop,heur) := block([size : 1],
      if loopbreak then return([res[1],size]) else return([false,size])))
 )$
 
-/* Variation for counting solutions; outputs the number of solutions and the 
+/* Variation for counting solutions; outputs the number of solutions and the
    size of the search tree. */
 constraint_backtracking_counting(dom,prop,heur) := (
    (prop_fixedpoint(look_ahead(prop)))(dom),
@@ -133,7 +133,7 @@ variable_heuristics_tau(dom,prop) := block(
   for dom_v in dom do block([dist : []],
     if length(dom_v) > 1 then (
       for e in dom_v do block([new_dom : copylist(dom), tau_value],
-        new_dom[v] : {e}, prop(new_dom), 
+        new_dom[v] : {e}, prop(new_dom),
         dist : cons(mu - log_prod_dom_size(new_dom), dist)
       ),
       tau_value : tau(dist),
@@ -144,7 +144,7 @@ variable_heuristics_tau(dom,prop) := block(
   )
  ),
  block([L : create_list(i,i,1,length(opt_dom)),
-        comp : lambda([i,j], is(opt_dist[i] <= opt_dist[j]))], 
+        comp : lambda([i,j], is(opt_dist[i] <= opt_dist[j]))],
    L : sort(L, comp),
    return([opt_v, create_list((listify(opt_dom))[i], i, L)])))$
 
