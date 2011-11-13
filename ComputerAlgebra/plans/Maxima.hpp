@@ -101,7 +101,7 @@ Evaluation took 3.3100 seconds (3.6900 elapsed)
    <li> Supposing that it works (it absolutely should!), without the
    specification one is in the worst situation: one has to assume that the
    order of equal elements is changed, without being able to rely on faster
-   sorting. </li>
+   sorting. The Maxima mailing list has been contacted (12.11.2011). </li>
    <li> See "Simplifications" in
    Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
    for an example of this problem. </li>
@@ -189,13 +189,21 @@ is(fib_mem(6100) = fib(6100));
 
   \todo Argument-length restriction
   <ul>
-   <li> In CLisp we have the very restrictive maximal argument-lenght of
+   <li> In CLisp we have the very restrictive maximal argument-length of
    4095 (at least on 32-bit machines), which is better in ECL (2^16),
    however in CLisp "union" can be applied to arbitrarily many arguments,
-   while in ECL it is restricted by the maximal argumenent-length. </li>
+   while in ECL it is restricted by the maximal argument-length. </li>
    <li> We need to find out about these restrictions, and its variations.
+    <ol>
+     <li> One test is
+     \verbatim
+apply(union,create_list({},i,1,2^17));
+     \endverbatim
+     </li>
+    </ol>
    </li>
-   <li> Perhaps the cmucl is the only usable Lisp, since apparently it does
+   <li> DONE (we have now uaapply)
+   Perhaps the cmucl is the only usable Lisp, since apparently it does
    not pose any restriction on the argument-length? </li>
   </ul>
 
