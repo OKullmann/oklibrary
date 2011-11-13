@@ -25,6 +25,7 @@ define_variable(
   maximal_argument_length,
   if maxima_lisp_name_okl = "ecl" then 2^16 
     elseif maxima_lisp_name_okl = "clisp" then 2^12 - 1
+    elseif maxima_lisp_name_okl = "sbcl" then 2^17
     else unknown,
   any); /* may take value inf or unknown */
 define_variable(

@@ -70,6 +70,74 @@ ensure_space: failed to validate 8589869056 bytes at 0x1000000000
 (hint: Try "ulimit -a"; maybe you should increase memory limits.)
    \endverbatim
    That error doesn't make sense. Contacted sbcl-bugs@lists.sourceforge.net.
+   According to the Maxima mailing-list this is a Suse-specific problem,
+   which can be suppressed as follows, and then the build succeeds:
+   \verbatim
+> ulimit -v unlimited
+> sh make.sh "clisp"
+> cd tests/
+> sh ./run-tests.sh
+> cd ..
+
+# INSTALLING:
+> chmod u+x install.sh
+> INSTALL_ROOT=/home/kullmann/OKplatform/ExternalSources/builds/Sbcl/Install ./install.sh
+
+# BUILDING MAXIMA:
+ExternalSources> ulimit -v unlimited
+ExternalSources> export SBCL_HOME=/home/kullmann/OKplatform/ExternalSources/builds/Sbcl/Install/lib/sbcl; sbcl_call_okl="/home/kullmann/OKplatform/ExternalSources/builds/Sbcl/Install/bin/sbcl" maxima_lisp_name_okl=sbcl oklib maxima
+
+# USING MAXIMA:
+OKsystem> ulimit -v unlimited; maxima_lisp_name_okl=sbcl time oklib maxima_test
+   \endverbatim
+   </li>
+   <li> logxor does not work under Sbcl; the Maxima mailing list has been
+   contacted (12.11.2011). </li>
+   <li> Speed comparison with Ecl:
+    <ol>
+     <li> Loading files under Sbcl is considerably slower (say 50%). </li>
+     <li> arithprog_hg(5,1000)$ takes from 9.4s to 10.1s under Ecl, and 6.9s
+     under Sbcl. </li>
+     <li>
+     \verbatim
+(%i5) G66 : arithprog_hg(6,1132)$
+Evaluation took 11.7490 seconds (11.8160 elapsed)
+(%i6) f2 : mirrorfold(2,1132)$
+Evaluation took 0.0010 seconds (0.0000 elapsed)
+(%i7) G66f2 : transport_hg(f2,G66)$
+Evaluation took 108.8940 seconds (109.2330 elapsed)
+(%i8) ncl_list_fcs(G66f2);
+Evaluation took 1.4190 seconds (1.4210 elapsed)
+(%i9) G66f2m : min_hg(G66f2)$
+Evaluation took 28.0670 seconds (28.1400 elapsed)
+(%i10) ncl_list_fcs(G66f2m);
+Evaluation took 1.3740 seconds (1.3780 elapsed)
+(%i11) F66f2 : tcol2sat_stdhg2stdfcs(G66f2m)$
+Evaluation took 3.7610 seconds (3.7690 elapsed)
+(%i12) outputext_fcs("transport_hg(mirrorfold(2,1132),arithprog_hg(6,1132))",F66f2,"VanDerWaerden_f2_1132.cnf");
+Evaluation took 37.5540 seconds (38.3150 elapsed)
+
+G66 : arithprog_hg(6,1132)$
+Evaluation took 8.0400 seconds (8.0580 elapsed) using 363.612 MB.
+(%i3) f2 : mirrorfold(2,1132)$
+Evaluation took 0.0000 seconds (0.0000 elapsed) using 32.000 KB.
+(%i4) G66f2 : transport_hg(f2,G66)$
+Evaluation took 72.7520 seconds (72.8920 elapsed) using 2145.035 MB.
+(%i5) ncl_list_fcs(G66f2);
+Evaluation took 1.2870 seconds (1.2900 elapsed) using 31.595 MB.
+(%o5) [[3,170],[4,175],[5,157],[6,47342]]
+(%i6) G66f2m : min_hg(G66f2)$
+Evaluation took 16.5330 seconds (16.5650 elapsed) using 639.423 MB.
+(%i7) ncl_list_fcs(G66f2m);
+Evaluation took 1.2540 seconds (1.2560 elapsed) using 31.001 MB.
+(%o7) [[3,170],[4,37],[6,46722]]
+(%i8) F66f2 : tcol2sat_stdhg2stdfcs(G66f2m)$
+Evaluation took 2.9250 seconds (2.9300 elapsed) using 58.645 MB.
+(%i9) outputext_fcs("transport_hg(mirrorfold(2,1132),arithprog_hg(6,1132))",F66f2,"VanDerWaerden_f2_1132.cnf");
+Evaluation took 27.6420 seconds (27.6960 elapsed) using 1211.097 MB.
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> DONE (according to Raymond Toy from the Maxima mailing list Sbcl could
    be faster, and so we should try it out)
