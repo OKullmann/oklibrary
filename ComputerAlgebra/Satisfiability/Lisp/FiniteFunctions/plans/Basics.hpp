@@ -69,7 +69,8 @@ License, or any later version. */
    <li> Given such an encoding, the composition of boolean functions can
    be achieved by bitwise operations:
     <ol>
-     <li> By package functs we have logor, lorand and logxor. </li>
+     <li> By package functs we have logor, logand and logxor; we have
+     implemented these functions ourselves as and_ibo, or_ibo, xor_ibo. </li>
      <li> We should also provide the other 13 basic functions (see
      ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/BasicFunctions.hpp).
      </li>

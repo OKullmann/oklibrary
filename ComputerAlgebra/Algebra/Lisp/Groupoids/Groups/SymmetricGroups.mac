@@ -98,7 +98,7 @@ cycletype_perl(p) := cycletype_pmtf(trfl2trff(p), length(p))$
    ********************
 */
 
-oklib_plain_include(functs)$
+oklib_plain_include(functs)$ /* for lcm */
 
 /* Computing the order of a permutation as function/list: */
 order_element_pmtf(p,n) :=

@@ -116,6 +116,16 @@ xor_bf : lambda([x], [mod(apply("+", x),2)])$
 id_bf : identity$
 neg_bf : lambda([x], 1-x)$
 
+/* Integer representations: */
+
+and_ibo(x,y):=?boole(?boole\-and,x,y)$
+or_ibo(x,y):=?boole(?boole\-ior,x,y)$
+xor_ibo(x,y):=?boole(?boole\-xor,x,y)$
+/* These functions are also in the Maxima-package "functs" (however with
+   defective definitions), with names "logand, logor, logxor".
+   "ibo" for "integer boolean operation".
+*/
+
 
 /* ***************
    * Conversions *

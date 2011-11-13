@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 4.2.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -127,7 +127,6 @@ ss_einv(p,b,mod_poly) :=
 
 ss_natadd(m,n,b,mod_poly) := 
   poly2nat(ss_add(nat2poly(m,b), nat2poly(n,b),b,mod_poly),b)$
-oklib_plain_include(functs)$
 
 ss_natmul(m,n,b,mod_poly) := 
   poly2nat(ss_mul(nat2poly(m,b), nat2poly(n,b),b,mod_poly),b)$

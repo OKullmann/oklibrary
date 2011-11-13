@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 23.12.2009 (Swansea) */
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,7 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/ByteFie
 
 oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
-
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac")$
 
 
 /* ******************
@@ -119,10 +119,9 @@ rijn_einv(a) := if rijn_stand(a)=0 then 0 else rijn_inv(a)$
 
 rijn_natadd(a,b) := 
   polybin2nat(rijn_add(nat2polybin(a), nat2polybin(b)))$
-oklib_plain_include(functs)$
-/* The same operation as rijn_natadd, but now using the built-in
-   logical operator (for xor on numbers): */
-rijn_nataddl(a,b) := logxor(a,b)$
+/* The same operation as rijn_natadd, but now using the tge logical operator
+   on numbers: */
+rijn_nataddl(a,b) := xor_ibo(a,b)$
 
 rijn_natmul(a,b) := 
   polybin2nat(rijn_mul(nat2polybin(a), nat2polybin(b)))$
