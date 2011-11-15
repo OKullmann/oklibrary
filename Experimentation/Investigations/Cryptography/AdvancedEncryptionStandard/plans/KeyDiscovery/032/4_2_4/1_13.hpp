@@ -193,20 +193,4 @@ VALID
    </li>
   </ul>
 
-
-  \bug DONE (Corrected dimensions and specification for each file; added
-  todo on updating translation functions)
-  False specification of sizes
-  <ul>
-   <li> The directory is "2_4_4", and a "2x4 block" is mentioned, while
-   below it says "two columns, four rows". </li>
-   <li> What is a "block"? This likely should be a matrix. </li>
-   <li> The dimensions of a matrix is specified as first the number of rows,
-   then the number of columns. So we have an inconsistency. </li>
-   <li> See "Order of small scale matrix dimensions" in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
-   for a todo on updating the translation function parameter order to
-   correctly reflect the standard ordering for matrix dimensions.</li>
-  </ul>
-
 */
