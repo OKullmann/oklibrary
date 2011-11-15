@@ -7,12 +7,12 @@
 # library; either version 3 of the License, or any later version.
 
 # NAME
-#      cnf_puzzle
+#      SudokuTranslator
 # SYNOPSIS
-#      cnf_puzzle empty
+#      SudokuTranslator empty
 # DESCRIPTION
-#      cnf_puzzle outputs a Sudoku puzzle in Dimacs-cnf-format according to
-#      the direct encoding. The file "empty" is a cnf-file in Dimacs format
+#      SudokuTranslator outputs a Sudoku puzzle in Dimacs-cnf-format according
+#      to the direct encoding. The file "empty" is a cnf-file in Dimacs format
 #      representing an empty Sudoku puzzle. The puzzle-string, read from
 #      standard input, contains <=81 digits with values from 0 to 9.
 #      0 or a missing trailing value represents an empty cell.
@@ -24,11 +24,11 @@
 #      If "sudoku17" is a file containing lines of 81 digits, with each line
 #      representing a different Sudoku puzzle according to the input format
 #      given above, then:
-#       head -n 1 sudoku17 | ./cnf_puzzle WeakPb_Sudoku_Box_dim_3.cnf > p1.cnf
+#       head -n 1 sudoku17 | ./SudokuTranslator WeakPb_Sudoku_Box_dim_3.cnf > p1.cnf
 #      creates a Dimacs-cnf-format file "p1.cnf" representing the first
 #      puzzle from "sudoku17".
 #      While
-#       echo "005" | ./cnf_puzzle WeakPb_Sudoku_Box_dim_3.cnf > p2.cnf
+#       echo "005" | ./SudokuTranslator WeakPb_Sudoku_Box_dim_3.cnf > p2.cnf
 #      represents the Sudoku puzzle where field (1,3) is set to 5, and all
 #      other fields are empty.
 
