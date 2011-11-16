@@ -72,6 +72,56 @@ License, or any later version. */
      as seen in "Boundaries". </li>
      <li> Therefore the version number should be far from 1.0, and likely
      less than 0.5. </li>
+     <li> The following seems reasonable (adding todos and associated
+     milestones for each):
+      <ul>
+       <li> Initial version 0.2. </li>
+       <li> Version 0.3:
+        <ul>
+         <li> All current todos are handled. </li>
+         <li> All currently defined experiments are up to date,
+         correctly linked and tidy etc. </li>
+         <li> Experiment plans are up to date with all known
+         experimental results, and this is synced with any
+         documentation. </li>
+        </ul>
+       </li>
+       <li> Version 0.4:
+        <ul>
+         <li> All (small) parameters (4-bit, and smaller 8-bit) have
+         been experimented on for AES with some solver (likely minisat).
+         </li>
+         <li> This includes experimentation using local search solvers.
+         </li>
+        </ul>
+       </li>
+       <li> Version 0.5:
+        <ul>
+         <li> All parameters have been experimented on for AES with some
+         solver (likely minisat), with 10 hour timeouts (in general). </li>
+         <li> A considerable number of instances have been experimented on
+         with all (or multiple) solvers. </li>
+        </ul>
+       </li>
+       <li> Version 0.6:
+        <ul>
+         <li> All parameters for the AES have been experimented on, with
+         week-long timeouts ("strengthening the boundary"). </li>
+         <li> All instances have been experimented with all solvers. </li>
+        </ul>
+       </li>
+       <li> Version 0.7:
+        <ul>
+         <li> Investigations are continued into improving translations
+         based on existing results. </li>
+        </ul>
+       </li>
+       <li> Version 1.0:
+        <ul>
+         <li> Experimentation for SAT 2012 is complete. </li>
+        </ul>
+       </li>
+      </ul>
     </ul>
    </li>
   </ul>
