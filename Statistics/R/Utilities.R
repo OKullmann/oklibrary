@@ -42,7 +42,7 @@ aggregate_statistics = function(D, by, ...) {
   by_ind_list = lapply(by,FUN=function(x) E[,x])
   names(by_ind_list) = unlist(by)
   D_mean = aggregate(D, by=by_ind_list, FUN=mean, ...)
-  D_sd = aggregate(D, by=by_ind_list, FUN=max, ...)
+  D_sd = aggregate(D, by=by_ind_list, FUN=sd, ...)
   D_min = aggregate(D, by=by_ind_list,  FUN=min, ...)
   D_max = aggregate(D, by=by_ind_list, FUN=max, ...)
 
