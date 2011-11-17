@@ -56,7 +56,7 @@ ramseytheory_page_template ?= $(OKbuildsystem)/Html/Local/RamseyTheory.html
 ramseytheory_page_output ?= $(local_html_dir)/RamseyTheory.html
 
 
-tenchallenges_doxygen_directory ?= $(doc_dir)/doxygen_html/dir_b55738ceb3ad8c72f043b1e52bad8405.html
+tenchallenges_doxygen_directory ?= $(doc_dir)/doxygen_html/dir_1ea18a24b3992f33b9d5066b2a2464fc.html
 
 
 current_date ?= $(shell date '+%a, %d %b %Y, %H:%M:%S %z')
