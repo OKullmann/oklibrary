@@ -33,10 +33,16 @@ certificate_pdvdw_p([5,11],762,C);
   true;
 output_certificate2_vdw(reverse(C), "VanDerWaerden_2-5-11_762.cnf_sol");
    \endverbatim
-   "RunVdWk1k2 5 11 762 adaptg2wsat 200 200000000 VanDerWaerden_2-5-11_762.cnf_sol"
-   XXX (cscarme)
+   "RunVdWk1k2 5 11 762 adaptg2wsat 200 200000000 VanDerWaerden_2-5-11_762.cnf_sol" yields "UNSAT for n=763"
+   \verbatim
+> E=read_ubcsat("VanDerWaerden_2-5-11_763.cnf_OUT",nrows=200)
+
+ 1  2  3  4  5
+ 1 12 92 92  3
+200
    \endverbatim
-   </li>
+   Perhaps all we can hope for here is to start with a good palindromic
+   solution. </li>
    <li> Start with the palindromic solution for n=767: XXX </li>
   </ul>
 
