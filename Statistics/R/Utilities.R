@@ -61,6 +61,14 @@ aggregate_statistics = function(D, by, ...) {
 # Example:
 #
 # > E = data.frame(aggr=c(1,2,1,2), a=c(1,2,3,4), b=c(5,100,200,1000))
+# > E
+#
+#   aggr a    b
+# 1    1 1    5
+# 2    2 2  100
+# 3    1 3  200
+# 4    2 4 1000
+#
 # > aggregate_statistics(E, by=list("aggr"))
 #
 #   evens a.mean a.sd a.min a.max b.mean b.sd b.min b.max
