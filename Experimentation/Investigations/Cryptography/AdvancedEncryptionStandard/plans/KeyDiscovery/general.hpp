@@ -54,6 +54,54 @@ License, or any later version. */
   with a final key addition), are in 128/4_4_8/1_13.hpp.
 
 
+  \todo Explanations
+  <ul>
+   <li> For every set of AES parameters (rows, columns and field size), we
+   need the following:
+    <ul>
+     <li> Problem specification:
+      <ul>
+       <li> We need explanations what a "round" etc. is, in elementary terms,
+       using terms "addition, sub-bytes, shift-rows, mix-columns, round-key".
+       </li>
+       <li> This should go to the general.hpp file in the appropriate
+       directory (e.g., KeyDiscovery/016/2_1_8/general.hpp). </li>
+      </ul>
+     </li>
+     <li> Translations:
+      <ul>
+       <li> We need explanation of how to generate each instance, including
+       which boxes are being used in each case. </li>
+       <li> This can go to Translations.hpp (e.g.,
+       KeyDiscovery/016/2_1_8/Translations.hpp). </li>
+      </ul>
+     </li>
+     <li> Statistics:
+      <ul>
+       <li> We need statistics and explanations of them, for all
+       instances. </li>
+       <li> This can go to Statistics.hpp (e.g.,
+       KeyDiscovery/016/2_1_8/Statistics.hpp). </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li> The reason for splitting each of these are that it means that:
+    <ul>
+     <li> each file doesn't become too large and hard to navigate; </li>
+     <li> statistics and so on can be provided for all rounds in one file,
+     allowing easy comparison; </li>
+     <li> information is not needlessly replicated. </li>
+    </ul>
+   </li>
+   <li> In general, all discussions should be based on the general notions
+   as introduced in
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac.
+   </li>
+   <li> Also the file-name needs to be explained (in each file). </li>
+  </ul>
+
+
   \todo Naming of translations
   <ul>
    <li> For each experiment on some AES variant with some specific translation
@@ -161,19 +209,6 @@ License, or any later version. */
     </li>
    </ul>
    </li>
-  </ul>
-
-
-  \todo Explanations
-  <ul>
-   <li> For every such file, we need explanations what a "round" etc. is,
-   in elementary terms, using terms "addition, sub-bytes, shift-rows,
-   mix-columns, round-key". </li>
-   <li> In general, all discussions should be based on the general notions
-   as introduced in
-   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/IteratedBlockCipher.mac.
-   </li>
-   <li> Also the file-name needs to be explained (in each file). </li>
   </ul>
 
 
