@@ -191,7 +191,26 @@ Break point 2: 839
 100
    \endverbatim
    </li>
-   <li> "RunPdVdWk1k2 4 16 ddfw 200 40000000" XXX (csnereid) </li>
+   <li> "RunPdVdWk1k2 4 16 ddfw 200 40000000"
+   \verbatim
+> cat Statistics
+    697    13    3156363 2759124776  r
+    708     2    7505221 1843749526  p
+    716     2   27644117 4137870873  p
+    718     3   32667413 1398040519  p
+    721    31   20500884 3374729475  r
+    722     3   10116813 3607758988  r
+    724     4   37111035 1039589875  r
+    734    37    2257768  153689757  r
+    736     8   20703370 3396395856  r
+    740    50    6177124  442151357  r
+> E=read_ubcsat("VanDerWaerden_pd_2-4-16_812.cnf_OUT")
+ 5  6  7  8  9
+ 1  1  2 13  6
+23
+   \endverbatim
+   Was aborted; doesn't look too promising. </li>
+   <li> "RunPdVdWk1k2 4 16 adaptg2wsat 200 80000000" XXX (cstriton) </li>
   </ul>
 
 */

@@ -79,7 +79,7 @@ output_certificate2_vdw(reverse(C), "VanDerWaerden_2-4-17_1075.cnf_sol");
     <ol>
      <li>
      RunVdWk1k2 4 17 1112 adaptg2wsat 200 800000000 VanDerWaerden_2-4-17_1112.cnf_sol
-     XXX
+     XXX csoberon
      </li>
     </ol>
    </li>
@@ -150,7 +150,18 @@ FlipsPerSecond = 138195
 # anovp, rnovp, rnov, rsaps, sapns, saps are worse than gsatt
 # continuing (next rots)
 > E=run_ubcsat("VanDerWaerden_pd_2-4-17_1075.cnf",runs=100,cutoff=20000000,include_algs=names(tail(run_ubcsat_cnf_algs,-16)))
-XXX csoberon
+ddfw
+ 0 27 28 29 30 31 32 33 34
+ 1  2  6  9 15 18 27 14  3
+wsattn
+ 2 63 64 66 67 68 69 70 71 72 73 74 75 76
+ 1  1  1  2  5  7  9 10  8 13 13 14 13  3
+samd
+24 25 26 27 28 29 30 31 32 33 34 35 36
+ 1  1  4  9 15 12 15 19 11  6  4  1  2
+# continuing with g2wsat
+> E=run_ubcsat("VanDerWaerden_pd_2-4-17_1075.cnf",runs=100,cutoff=20000000,include_algs=names(tail(run_ubcsat_cnf_algs,-26)))
+XXX csnereid
    \endverbatim
    </li>
    <li> For now we consider adaptg2wsat as best (it was determined as best
