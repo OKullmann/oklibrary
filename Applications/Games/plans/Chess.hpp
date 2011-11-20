@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.6.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -33,7 +33,8 @@ License, or any later version. */
    <li> The chess-rules are enforced by clauses like
     <ol>
      <li> If w is to move, then a black move is forbidden. </li>
-     <li> If some party has no king anymore, then the only move is the no-move. </li>
+     <li> If some party has no king anymore, then the only move is the
+     no-move. </li>
      <li> The move "w, e1-f1" is not possible if no white
      figure is at e1, or a white figure is on f1, or the white
      figure on e1 is a bishop or a knight.
@@ -46,8 +47,8 @@ License, or any later version. */
      </li>
     </ol>
    <li> A move changes all position variables accordingly (for the next stage):
-   "If w, e2-e4" then all fields excepts of e2 and e4 are invariant, while e2 is
-   now empty, and e4 contains the figure from e2." </li>
+   "If w, e2-e4" then all fields excepts of e2 and e4 are invariant, while e2
+   is now empty, and e4 contains the figure from e2." </li>
    <li> Better one has a hierarchy of abstractions for the moves (using active
    clause-sets). For example from one position to the next; as usual, the main
    challenge is to provide good inference for partial assignments. </li>
@@ -80,8 +81,8 @@ License, or any later version. */
    can also ask if both sides help, what is the fastest win? For example,
    what is the shortest game (from the initial position)? One problem in
    the formulation is that either we have an for-all quantifier for the
-   last move of black, or we formulate as a rule that a check must be eliminated
-   if possible. </li>
+   last move of black, or we formulate as a rule that a check must be
+   eliminated if possible. </li>
    <li> Or we count solutions. </li>
    <li> Optimising the heuristics could also be very interesting. </li>
    <li> Likely the whole problem is very hard, and a great challenge should be
@@ -123,7 +124,8 @@ License, or any later version. */
 
   \todo Is there some C/C++ library for chess-programming?
   <ul>
-   <li> What about crafty? http://www.cis.uab.edu/info/faculty/hyatt/hyatt.html ?
+   <li> What about crafty?
+   http://www.cis.uab.edu/info/faculty/hyatt/hyatt.html ?
    </li>
    <li gnu-chess? </li>
    <li> JoseChess http://jose-chess.sourceforge.net ? </li>
@@ -147,9 +149,10 @@ License, or any later version. */
    <li> While it is EXPTIME-complete, given that the number is moves is not
    bounded? </li>
    <li> Given the PSPACE-completeness, one could then express for example QBF
-   (or what is "closest") via such a generalised chess problem! Worth a try. </li>
-   <li> Which problems could be translated into standard chess? And how would the
-   problems look like? </li>
+   (or what is "closest") via such a generalised chess problem! Worth a try.
+   </li>
+   <li> Which problems could be translated into standard chess? And how would
+   the problems look like? </li>
   </ul>
   
 */

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.6.2007 (Swansea)
-/* Copyright 2007, 2009 Oliver Kullmann
+/* Copyright 2007, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,12 @@ License, or any later version. */
 /*!
   \file Applications/Games/plans/general.hpp
   \brief Module for game playing via SAT (and beyond)
+
+
+  \todo Connections
+  <ul>
+   <li> See ComputerAlgebra/Games/Lisp/plans/general.hpp. </li>
+  </ul>
 
 
   \todo Update namespaces.
@@ -24,7 +30,10 @@ License, or any later version. */
    <li> Checkers should also be solved(?), and could pose
    some problems (interesting) due to the jump sequences. </li>
    <li> Backgammon perhaps involves too much special knowledge. </li>
-   <li> "Tic, Tac, Toe" and generalisations could be a nice exercise. </li>
+   <li> "Tic, Tac, Toe" and generalisations could be a nice exercise;
+   see "Generalising positional games to SAT" in
+   ComputerAlgebra/Games/Lisp/plans/general.hpp and "Positional games" in
+   ComputerAlgebra/Hypergraphs/Lisp/plans/Colouring.hpp. </li>
    <li> For Sudoku see module LatinSquares. </li>
   </ul>
 
