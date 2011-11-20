@@ -133,6 +133,67 @@ CPU time              : 55.0556 s
 UNSATISFIABLE
    \endverbatim
    Looks highly unsatisfiable. </li>
+   <li> The above for n=1131 (so that we have a chance to get a satisfiable
+   instance):
+   \verbatim
+G1131:arithprog_hg(6,1131)$
+set_random(1);
+G1131p5 : random_projection_hg(G1131,5)$
+ncl_list_fcs(G1131p5);
+  [[4,80],[5,6455],[6,120415]]
+G1131p5m : min_hg(G1131p5)$
+ncl_list_fcs(G1131p5m);
+  [[4,80],[5,6373],[6,116899]]
+
+block([n:1131],outputext_fcs(sconcat("set_random(1),random_projection_hg(arithprog_hg(6,",n,"),5)"),tcol2sat_stdhg2stdfcs(G1131p5m),sconcat("VanDerWaerden_p5_",n,".cnf")));
+
+> minisat-2.2.0 VanDerWaerden_p5_1131.cnf
+restarts              : 59609
+conflicts             : 42612232       (674 /sec)
+UNSATISFIABLE
+(time unreliable due the frequency change)
+
+for s : 1 thru 20 do block([G], set_random(s), G : random_projection_hg(G1131,5), print(s, ncl_list_fcs(G), ncl_list_fcs(min_hg(G))));
+1 [[4,80],[5,6455],[6,120415]] [[4,80],[5,6373],[6,116899]]
+2 [[3,3],[4,96],[5,6480],[6,120353]] [[3,3],[4,91],[5,6389],[6,116810]]
+3 [[4,85],[5,6558],[6,120315]] [[4,85],[5,6464],[6,116793]]
+4 [[4,91],[5,6457],[6,120392]] [[4,91],[5,6354],[6,116822]]
+5 [[4,97],[5,6646],[6,120215]] [[4,97],[5,6544],[6,116529]]
+6 [[3,1],[4,107],[5,6555],[6,120300]] [[3,1],[4,105],[5,6449],[6,116689]]
+7 [[4,103],[5,6496],[6,120348]] [[4,103],[5,6392],[6,116725]]
+8 [[4,107],[5,6107],[6,120772]] [[4,107],[5,6014],[6,117336]]
+9 [[4,89],[5,6487],[6,120356]] [[4,89],[5,6403],[6,116854]]
+10 [[4,87],[5,6364],[6,120501]] [[4,87],[5,6264],[6,117015]]
+11 [[4,86],[5,6474],[6,120381]] [[4,86],[5,6378],[6,116831]]
+12 [[4,78],[5,6391],[6,120497]] [[4,78],[5,6311],[6,117046]]
+13 [[4,87],[5,6619],[6,120246]] [[4,87],[5,6538],[6,116661]]
+14 [[4,72],[5,6568],[6,120271]] [[4,72],[5,6480],[6,116667]]
+15 [[4,81],[5,6141],[6,120721]] [[4,81],[5,6061],[6,117387]]
+16 [[4,76],[5,6540],[6,120322]] [[4,76],[5,6456],[6,116704]]
+17 [[4,101],[5,6378],[6,120479]] [[4,101],[5,6267],[6,116952]]
+18 [[4,101],[5,6437],[6,120437]] [[4,101],[5,6324],[6,116921]]
+19 [[3,2],[4,91],[5,6478],[6,120360]] [[3,2],[4,90],[5,6394],[6,116804]]
+20 [[4,117],[5,6536],[6,120303]] [[4,117],[5,6407],[6,116734]]
+
+block([n:1131,s:2],set_random(s),outputext_fcs(sconcat("set_random(",s,"),random_projection_min_hg(arithprog_hg(6,",n,"),5)"),tcol2sat_stdhg2stdfcs(random_projection_min_hg(arithprog_hg(6,n),5)),sconcat("VanDerWaerden_p5",s,"_",n,".cnf")));
+
+> minisat-2.2.0 VanDerWaerden_p52_1131.cnf
+restarts              : 43005
+conflicts             : 31011213       (688 /sec)
+UNSATISFIABLE
+(time unreliable due the frequency change)
+
+> minisat-2.2.0 VanDerWaerden_p53_1131.cnf
+restarts              : 69630
+conflicts             : 54816243       (583 /sec)
+CPU time              : 94557.6 s
+UNSATISFIABLE
+> precosat-570.1 -v VanDerWaerden_p53_1131.cnf
+UNSATISFIABLE
+15594970 conflicts
+21855.9 seconds
+   \endverbatim
+   So perhaps randomisation doesn't work (at least here!)? Why? </li>
    <li> One should write a variation, which multicolours the hyperedges, that
    is, chooses the equivalence classes to avoid intersecting any hyperedge
    in more than one element (doing it greedily, possibly failing). </li>
@@ -202,9 +263,74 @@ fps: 180326
 100
    \endverbatim
    Very little achieved (and rots might be a bit "better"; these instances are
-   very hard for the ubcsat-algorithms (or they are unsatisfiable --- what is
+   very hard for the ubcsat-algorithms (they are unsatisfiable --- what is
    the real min? Is there a meaning to 358?) </li>
-   <li> Using a complete solver seems hopeless:
+   <li> Now for n=1131:
+   \verbatim
+m : ceiling(1131/5);
+  227
+G66m1m5 : modulo_projection_hg(G66m1, m)$
+ncl_list_fcs(G66m1m5);
+  [[6,25651]]
+is(G66m1m5 = G66m5);
+  true
+# thus still unsatisfiable
+   \endverbatim
+   </li>
+   <li> One needs to investigate when changes happen:
+   \verbatim
+for n : 1132 thru 1100 step -1 do block([m:ceiling(n/5)],print(n,m,ncl_list_fcs(modulo_projection_hg(arithprog_hg(6,n),m))));
+1132 227 [[6,25651]]
+1131 227 [[6,25651]]
+1130 226 [[2,113],[6,25312]]
+1129 226 [[2,113],[6,25312]]
+1128 226 [[2,113],[6,25312]]
+1127 226 [[2,113],[6,25312]]
+1126 226 [[2,113],[6,25312]]
+1125 225 [[3,75],[5,45],[6,24525]]
+1124 225 [[3,75],[5,45],[6,24525]]
+1123 225 [[3,75],[5,45],[6,24525]]
+1122 225 [[3,75],[5,45],[6,24525]]
+1121 225 [[3,75],[5,45],[6,24525]]
+1120 224 [[2,112],[4,56],[6,24192]]
+1119 224 [[2,112],[4,56],[6,24192]]
+1118 224 [[2,112],[4,56],[6,24192]]
+1117 224 [[2,112],[4,56],[6,24192]]
+1116 224 [[2,112],[4,56],[6,24192]]
+1115 223 [[6,24753]]
+1114 223 [[6,24753]]
+1113 223 [[6,24753]]
+1112 223 [[6,24753]]
+1111 223 [[6,24753]]
+1110 222 [[2,111],[3,74],[6,24013]]
+1109 222 [[2,111],[3,74],[6,24013]]
+1108 222 [[2,111],[3,74],[6,24013]]
+1107 222 [[2,111],[3,74],[6,24013]]
+1106 222 [[2,111],[3,74],[6,24013]]
+1105 221 [[6,24310]]
+1104 221 [[6,24310]]
+1103 221 [[6,24310]]
+1102 221 [[6,24310]]
+1101 221 [[6,24310]]
+1100 220 [[2,110],[4,55],[5,44],[6,23320]]
+
+block([n:1130,m],m:ceiling(n/5),outputext_fcs(sconcat("modulo_projection_hg(arithprog_hg(6,",n,"),",m,")"),tcol2sat_stdhg2stdfcs(modulo_projection_hg(arithprog_hg(6,n),m)),sconcat("VanDerWaerden_m5_",n,".cnf")));
+> minisat-2.2.0 VanDerWaerden_m5_1130.cnf
+restarts              : 803
+conflicts             : 342082         (3457 /sec)
+CPU time              : 98.957 s
+SATISFIABLE
+G1130 : min_hg(modulo_projection_hg(arithprog_hg(6,1130),226))$
+ncl_list_fcs(G1130);
+  [[2,113],[6,25312]]
+# no subsumption here.
+ubcsat-okl -runs 100 -alg adaptg2wsat -cutoff 1000000 -i VanDerWaerden_m5_1130.cnf
+  0 112 334 337 340 350
+ 24  62   9   2   2   1
+100
+   \endverbatim
+   </li>
+   <li> Using a complete solver seems hopeless for n=1132:
    \verbatim
 > minisat-2.2.0 VanDerWaerden_m5_1132.cnf
 # aborted after apparently making no progress:
@@ -252,6 +378,104 @@ XXX
    \endverbatim
    </li>
    <li> Perhaps these parameter values are difficult for these methods. </li>
+   <li> Using two-times nested mirror-fold:
+   \verbatim
+G66 : arithprog_hg(6,1132)$
+f2 : mirrorfold(2,1132)$
+G66f2 : transport_hg(f2,G66)$
+ncl_list_fcs(G66f2);
+  [[3,170],[4,175],[5,157],[6,47342]]
+G66f2m : min_hg(G66f2)$
+ncl_list_fcs(G66f2m);
+  [[3,170],[4,37],[6,46722]]
+
+F66f2 : tcol2sat_stdhg2stdfcs(G66f2m)$
+outputext_fcs("transportmin_hg(mirrorfold(2,1132),arithprog_hg(6,1132))",F66f2,"VanDerWaerden_f2_1132.cnf");
+
+> minisat-2.2.0 VanDerWaerden_f2_1132.cnf
+restarts              : 58513
+conflicts             : 41977994       (3104 /sec)
+CPU time              : 13523.7 s
+UNSATISFIABLE
+
+G66m1 : arithprog_hg(6,1131)$
+f2m1 : mirrorfold(2,1131)$
+G66m1f2 : transport_hg(f2m1,G66m1)$
+ncl_list_fcs(G66m1f2);
+  [[3,169],[4,360],[5,351],[6,46695]]
+G66m1f2m : min_hg(G66m1f2)$
+ncl_list_fcs(G66m1f2m);
+  [[3,169],[4,224],[5,56],[6,45910]]
+
+F66m1f2 : tcol2sat_stdhg2stdfcs(G66m1f2m)$
+outputext_fcs("transportmin_hg(mirrorfold(2,1131),arithprog_hg(6,1131))",F66m1f2,"VanDerWaerden_f2_1131.cnf");
+
+> minisat-2.2.0 VanDerWaerden_f2_1131.cnf
+restarts              : 2523
+conflicts             : 1302293        (5564 /sec)
+CPU time              : 234.046 s
+UNSATISFIABLE
+
+block([n:1130],outputext_fcs(sconcat("transportmin_hg(mirrorfold(2,",n,"),arithprog_hg(6,",n,"))"), tcol2sat_stdhg2stdfcs(transportmin_hg(mirrorfold(2,n),arithprog_hg(6,n))),sconcat("VanDerWaerden_f2_",n,".cnf")));
+> minisat-2.2.0 VanDerWaerden_f2_1130.cnf
+restarts              : 12285
+conflicts             : 7557377        (4218 /sec)
+CPU time              : 1791.51 s
+UNSATISFIABLE
+   \endverbatim
+   </li>
+  </ul>
+
+
+  \todo vdw_2(7,7) > 3703
+  <ul>
+   <li>
+   \verbatim
+G3704:arithprog_hg(7,3704)$
+ncl_list_fcs(G3704);
+  [[7,1141450]]
+m : ceiling(3704/6);
+  618
+G3704m6 : modulo_projection_hg(G3704, m)$
+ncl_list_fcs(G3704m6);
+  [[2,309],[3,206],[6,103],[7,189108]]
+G3704m6m : min_hg(G3704m6)$
+ncl_list_fcs(G3704m6m);
+  [[2,309],[3,206],[7,189108]]
+block([n:3704,m],m:ceiling(n/6),outputext_fcs(sconcat("min_hg(modulo_projection_hg(arithprog_hg(7,",n,"),",m,"))"),tcol2sat_stdhg2stdfcs(G3704m6m),sconcat("VanDerWaerden_m6_",n,".cnf")));
+
+# cs-oksvr:
+> minisat-2.2.0 VanDerWaerden_m6_3704.cnf
+restarts              : 131071
+conflicts             : 109417211      (228 /sec)
+CPU time              : 480418 s
+INDETERMINATE
+# looks hopeless
+
+G3704f2 : mirrorfold_projection_hg(G3704,2)$
+ncl_list_fcs(G3704f2);
+  [[2,1],[4,680],[5,514],[6,420],[7,426203]]
+G3704f2m : min_hg(G3704f2)$
+ncl_list_fcs(G3704f2m);
+  [[2,1],[4,680],[5,123],[7,425015]]
+block([n:3704,k:2],outputext_fcs(sconcat("min_hg(mirrorfold_projection_hg(arithprog_hg(7,",n,"),",k,"))"),tcol2sat_stdhg2stdfcs(G3704f2m),sconcat("VanDerWaerden_f",k,"_",n,".cnf")));
+
+> minisat-2.2.0 VanDerWaerden_f2_3704.cnf
+restarts              : 3044
+conflicts             : 1535295        (1171 /sec)
+CPU time              : 1311.52 s
+INDETERMINATE
+# looks hopeless
+# on cs-oksvr:
+>  E=run_ubcsat("VanDerWaerden_f2_3704.cnf", runs=100, cutoff=1000000)
+XXX
+
+G3704f3 : mirrorfold_projection_hg(G3704,3)$
+ncl_list_fcs(G3704f3);
+  [[1,1],[2,231],[4,462],[5,462],[6,462],[7,211827]]
+# thus unsatisfiable.
+   \endverbatim
+   </li>
   </ul>
 
 */
