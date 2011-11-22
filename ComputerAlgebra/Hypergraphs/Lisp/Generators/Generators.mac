@@ -152,16 +152,19 @@ nhyp_ramsey_ohg(q,r,n) :=
   Let m >= 1 be the numbers of rows and n >= 1 the number of columns.
 */
 
-/* Diagonals from left-top to right-bottom, computing the matrix
-   indices (1-based):
+/* Diagonals from top-left to bottom-right (the "principal diagonal"
+   and its parallels), computing the matrix indices (1-based) of the endpoints:
 */
-gttt_ltrb(m,n) := create_list(
+gttt_tlbr(m,n) := create_list(
  [[max(m-i+1,1),max(i-m+1,1)],[m-max(i-n,0), min(i,n)]],
  i,1,m+n-1)$
 
-gttt_lbrt(m,n) :=
+/* Diagonals from bottom-left to top-right (the "antidiagonal" and its
+   parallels), computing the matrix indices (1-based) of the endpoints:
+*/
+gttt_bltr(m,n) :=
  map(lambda([L], map(lambda([p],[m-p[1]+1,p[2]]), L)),
-     gttt_ltrb(m,n))$
+     gttt_tlbr(m,n))$
 
 /*!
 \endhtmlonly
