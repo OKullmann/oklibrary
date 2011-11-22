@@ -161,9 +161,16 @@ samd
  1  1  4  9 15 12 15 19 11  6  4  1  2
 # continuing with g2wsat
 > E=run_ubcsat("VanDerWaerden_pd_2-4-17_1075.cnf",runs=100,cutoff=20000000,include_algs=names(tail(run_ubcsat_cnf_algs,-26)))
-XXX csnereid
+1. dano:
+23 28 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49
+ 1  1  1  1  2  2  2  5  6  2  7  8 12  8 12 15  6  3  4  2
+fps: 39890
+2. ag2wsat:
+26 28 29 30 31 32 33 34 35 36
+ 1  2  2  1  5 17 23 22 15 12
+fps: 68957
    \endverbatim
-   </li>
+   So the ranking is: ddfw, wsattn, gsatt, dano, samd, ag2wsat. </li>
    <li> For now we consider adaptg2wsat as best (it was determined as best
    for vdw_2^pd(5,8) in VanderWaerdenProblems/plans/5-k/general.hpp. </li>
    <li>  "RunPdVdWk1k2 4 17 adaptg2wsat 10 20000000" yields
