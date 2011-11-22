@@ -142,6 +142,23 @@ nhyp_ramsey_ohg(q,r,n) :=
   elseif r = 0 then 1
   else binomial(n,q)$
 
+
+/* ***************************
+   * Generalised Tic-tac-toe *
+   ***************************
+*/
+
+/*
+  Let m >= 1 be the numbers of rows and n >= 1 the number of columns.
+*/
+
+/* Diagonals from left-top to right-bottom, computing the matrix
+   indices (1-based):
+*/
+ltrb(m,n) := create_list(
+ [[max(m-i,1),max(i-m+2,1)],[m-max(i-n+1,0), min(i+1,n)]],
+ i,0,m+n-2)$
+
 /*!
 \endhtmlonly
 */
