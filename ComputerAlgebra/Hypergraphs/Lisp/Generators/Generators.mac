@@ -159,6 +159,10 @@ gttt_ltrb(m,n) := create_list(
  [[max(m-i+1,1),max(i-m+1,1)],[m-max(i-n,0), min(i,n)]],
  i,1,m+n-1)$
 
+gttt_lbrt(m,n) :=
+ map(lambda([L], map(lambda([p],[m-p[1]+1,p[2]]), L)),
+     gttt_ltrb(m,n))$
+
 /*!
 \endhtmlonly
 */

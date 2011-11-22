@@ -65,6 +65,7 @@ okltest_nhyp_ramsey_ohg(nhyp_ramsey_ohg);
 */
 
 okltest_gttt_ltrb(gttt_ltrb);
+okltest_gttt_lbrt(gttt_lbrt);
 
 /*!
 \endhtmlonly
