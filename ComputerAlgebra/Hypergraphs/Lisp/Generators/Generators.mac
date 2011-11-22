@@ -156,8 +156,8 @@ nhyp_ramsey_ohg(q,r,n) :=
    indices (1-based):
 */
 gttt_ltrb(m,n) := create_list(
- [[max(m-i,1),max(i-m+2,1)],[m-max(i-n+1,0), min(i+1,n)]],
- i,0,m+n-2)$
+ [[max(m-i+1,1),max(i-m+1,1)],[m-max(i-n,0), min(i,n)]],
+ i,1,m+n-1)$
 
 /*!
 \endhtmlonly
