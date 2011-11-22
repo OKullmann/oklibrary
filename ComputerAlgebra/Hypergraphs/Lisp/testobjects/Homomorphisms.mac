@@ -41,8 +41,13 @@ okltest_colouring_blocks(colouring_blocks);
 okltest_random_colouring(random_colouring);
 
 okltest_random_projection_hg(random_projection_hg);
+okltest_random_projection_min_hg(random_projection_min_hg);
 
+okltest_modulo_colouring(modulo_colouring);
 okltest_modulo_projection_hg(modulo_projection_hg);
+
+okltest_mirrorfold(mirrorfold);
+okltest_mirrorexpand(mirrorexpand);
 
 /*!
 \endhtmlonly

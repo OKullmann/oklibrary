@@ -47,24 +47,27 @@ transportmin_hg(f,G) := min_hg(transport_hg(f,G))$
    **************************
 */
 
-/* Let n := A[0] (the length of A).
-   Producing a map f from {1,...,n} to {1,...,ceiling(n/m)} defined as follows:
-    - 1,...,m is mapped to 1
-    - m+1,...,2m is mapped to 2
+/* Consider an okl-array A, and let n := A[0] (the length of A).
+   It is assumed that A represents a permutation of {1,...,n}.
+   Now a map f from {1,...,n} to {1,...,ceiling(n/m)} is computed as follows:
+    - A[1], ..., A[m] is mapped to 1
+    - A[m+1],...,A[2m] is mapped to 2
     - and so on.
    Additionally we have f(0) = n.
 */
 colouring_blocks(A,m) := block([M:okl_make_array(fixnum,A[0])],
  for i : 1 thru A[0] do M[A[i]] : ceiling(i/m),
  buildq([M], lambda([x], M[x])))$
-/* Producing a map which based on a random permutation of [1,...,n],
-   mapping the first m elements to 1, the next m elements to 2, and so on:
+
+/* Producing a map from {1,...,n} to {1,...,ceiling(n/m)} which based on a
+   random permutation of [1,...,n], mapping the first m elements to 1, the
+   next m elements to 2, and so on:
 */
 random_colouring(n,m) :=
  colouring_blocks(l2ary(random_permutation(create_list(i,i,1,n))),m)$
 
-/* Randomly projecting G such that m vertices in G get collapsed to one new
-   vertex (the projection is standardised):
+/* Randomly projecting a standardised hypergraph G such that m vertices in G
+   get collapsed to one new vertex (the projection is also standardised):
 */
 random_projection_hg(G,m) := block(
  [cm : colouring_blocks(l2ary(random_permutation(listify(first(G)))), m)],
@@ -75,9 +78,49 @@ random_projection_min_hg(G,m) := min_hg(random_projection_hg(G,m))$
    standardised hypergraphs, and hypergraphs of integers, based on {1,...,m},
    not on {0,...,m-1}):
 */
-modulo_projection_hg(G,m) :=
-  transport_hg(lambda([x], mod(x-1,m)+1), G)$
+modulo_colouring(m) := buildq([m], lambda([x], mod(x-1,m)+1))$
+modulo_projection_hg(G,m) := transport_hg(modulo_colouring(m), G)$
 
+/* For k, n natural numbers >= 0, where k is the "folding-depth", and n is
+   the size of the base vertex-set, computes function f(x) defined for natural
+   numbers x by k-fold iteration of mirrorfold_vdw (initially used with n).
+   f(x) is a map from NN to {1,...,ceiling(n/2^k)}, and is periodic with
+   period n.
+*/
+mirrorfold(k,n) := if k=0 then buildq([n],lambda([x], mod(x-1,n)+1))
+ elseif k=1 then
+  if evenp(n) then
+   buildq([n, d:n/2], lambda([x], x : x-1,
+     if evenp(floor(x/d)) then mod(x,d)+1
+     else d - mod(x,d)))
+  else
+   buildq([n, d:(n+1)/2], lambda([x], x : mod(x-1,n),
+     if evenp(floor(x/d)) then mod(x,d)+1
+     else d - mod(x,d)-1))
+ else buildq([fp_ : mirrorfold(k-1,ceiling(n/2)), f1_ : mirrorfold(1,n)],
+   lambda([x], fp_(f1_(x))))$
+/* Remarks:
+ - mirrorfold(1,n) is the same map as mirrorfold_vdw(n) when only considering
+   arguments 1 <= x <= n.
+*/
+
+mirrorfold_projection_hg(G,k) :=
+  transport_hg(mirrorfold(k,length(first(G))), G)$
+
+/* Given a colouring of the folded problem, reconstruct a solution of the
+   original problem, by computing a function which takes argument x, which
+   is a list of length ceiling(n/2^k):
+*/
+mirrorexpand(k,n) := block([leven : []],
+  thru k do (leven : cons(evenp(n),leven), n : ceiling(n/2)),
+  buildq([leven], lambda([x],
+    for b in leven do
+      if b then x : append(x,reverse(x))
+      else x : append(x,rest(reverse(x))),
+    x)))$
+/* We have
+   create_list(mirrorfold(k,n)(i),i,1,n) = mirrorexpand(k,n)(create_list(i,i,1,ceiling(n/2^k))).
+*/
 
 /*!
 \endhtmlonly

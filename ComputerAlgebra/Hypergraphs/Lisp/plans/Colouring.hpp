@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.7.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,10 +12,11 @@ License, or any later version. */
 
   \todo Relations to other modules
   <ul>
+   <li> See ComputerAlgebra/Games/Lisp/plans/general.hpp. </li>
    <li> See ComputerAlgebra/Graphs/Lisp/plans/Colouring.hpp. </li>
    <li> See Combinatorics/Hypergraphs/Colourings/plans/general.hpp. </li>
    <li> See
-   ComputerAlgebra/Satisfiability/Lisp/LocalSearch/plans/HypergraphColouring.hpp
+   Satisfiability/Lisp/LocalSearch/plans/HypergraphColouring.hpp
    for local search algorithms. </li>
    </li>
   </ul>
@@ -97,6 +98,9 @@ License, or any later version. */
 
   \todo Positional games
   <ul>
+   <li> See "Generalising positional games to SAT" in
+   ComputerAlgebra/Games/Lisp/plans/general.hpp for the SAT-generalisation.
+   </li>
    <li> The translation yields quantified satisfiability problems; see
    ComputerAlgebra/Satisfiability/Lisp/Quantification/plans/general.hpp. </li>
    <li> Should this be a submodule of Hypergraphs/Colouring? Or perhaps

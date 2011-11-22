@@ -44,7 +44,15 @@ rnovp
  1 11 35 37 13  3
 # aborted; next novpc
 E=run_ubcsat("VanDerWaerden_pd_2-5-13_1204.cnf",runs=100,cutoff=20000000,include_algs=names(tail(run_ubcsat_cnf_algs,-20)))
-XXX csnereid
+ddfw
+ 2  3  4  5  6
+ 8 21 40 20  1
+anovpp
+ 2  3  4  5  6
+ 4 19 56 20  1
+# continuing with g2wsat
+E=run_ubcsat("VanDerWaerden_pd_2-5-13_1204.cnf",runs=100,cutoff=20000000,include_algs=names(tail(run_ubcsat_cnf_algs,-26)))
+XXX cscarme
    \endverbatim
    </li>
   </ul>

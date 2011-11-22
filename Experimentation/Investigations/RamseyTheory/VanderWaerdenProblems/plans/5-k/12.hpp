@@ -37,7 +37,18 @@ rnovp
  4 18 65 12  1
 # interrupted (next ddfw)
 E=run_ubcsat("VanDerWaerden_pd_2-5-12_949.cnf",runs=100,cutoff=20000000,include_algs=names(tail(run_ubcsat_cnf_algs,-25)))
-XXX cstriton
+1. ddfw:
+ 2  3  4  5  6
+ 3 16 54 26  1
+fps: 18963
+2. ag2wsat:
+ 2  3  4  5  6
+ 2 10 46 41  1
+fps: 104883
+3. dano:
+ 3  4  5  6
+11 39 46  4
+fps: 60472
    \endverbatim
    </li>
   </ul>

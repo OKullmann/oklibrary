@@ -203,6 +203,10 @@ okltest_mirrorfold_vdw(f) := block([m],
   assert(m(1) = 1),
   assert(m(2) = 2),
   assert(m(3) = 1),
+  m : f(4),
+  assert(create_list(m(i),i,1,4) = [1,2,2,1]),
+  assert(create_list(f(5)(i),i,1,5) = [1,2,3,2,1]),
+  assert(create_list(f(6)(i),i,1,6) = [1,2,3,3,2,1]),
   true)$
 
 okltest_palindromise_vdw_ohg(f) := block([x],

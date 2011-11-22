@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Homomorphisms.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 kill(f)$
@@ -53,16 +54,87 @@ okltest_transport_hg(f) := (
    **************************
 */
 
-okltest_colouring_blocks(f) := (
-  /* XXX */
+okltest_colouring_blocks(f) := block([A,c],
+  A : il2ary([]),
+  c : f(A,1),
+  assert(c(0) = 0),
+  A : il2ary([1]),
+  c : f(A,1),
+  assert(create_list(c(i),i,0,1) = [1,1]),
+  c : f(A,2),
+  assert(create_list(c(i),i,0,1) = [1,1]),
+  A : il2ary([1,2]),
+  c : f(A,1),
+  assert(create_list(c(i),i,0,2) = [2,1,2]),
+  c : f(A,2),
+  assert(create_list(c(i),i,0,2) = [2,1,1]),
+  c : f(A,3),
+  assert(create_list(c(i),i,0,2) = [2,1,1]),
+  A : il2ary([3,2,1]),
+  c : f(A,1),
+  assert(create_list(c(i),i,0,3) = [3,3,2,1]),
+  c : f(A,2),
+  assert(create_list(c(i),i,0,3) = [3,2,1,1]),
+  c : f(A,3),
+  assert(create_list(c(i),i,0,3) = [3,1,1,1]),
+  A : il2ary([1,2,3]),
+  c : f(A,1),
+  assert(create_list(c(i),i,0,3) = [3,1,2,3]),
+  c : f(A,2),
+  assert(create_list(c(i),i,0,3) = [3,1,1,2]),
+  c : f(A,3),
+  assert(create_list(c(i),i,0,3) = [3,1,1,1]),
+  A : il2ary([3,2,1,4]),
+  c : f(A,1),
+  assert(create_list(c(i),i,0,4) = [4,3,2,1,4]),
+  c : f(A,2),
+  assert(create_list(c(i),i,0,4) = [4,2,1,1,2]),
+  c : f(A,3),
+  assert(create_list(c(i),i,0,4) = [4,1,1,1,2]),
+  c : f(A,4),
+  assert(create_list(c(i),i,0,4) = [4,1,1,1,1]),
   true)$
 
-okltest_random_colouring(f) := (
-  /* XXX */
+okltest_random_colouring(f) := block([c],
+  for n : 1 thru 5 do (
+    c : f(n,n),
+    for i : 1 thru n do
+      assert(c(i) = 1)
+  ),
+  set_random(1),
+  c : f(5,1),
+  assert(create_list(c(i),i,1,5) = [1,5,3,4,2]),
+  c : f(5,2),
+  assert(create_list(c(i),i,1,5) = [3,2,1,1,2]),
   true)$
 
 okltest_random_projection_hg(f) := (
-  /* XXX */
+  assert(f([{},{}],1) = [{},{}]),
+  assert(f([{},{{}}],1) = [{},{{}}]),
+  assert(f([{1},{}],1) = [{1},{}]),
+  assert(f([{1},{{}}],1) = [{1},{{}}]),
+  set_random(1),
+  assert(f([{1,2,3,4,5},{{1,2},{2,3},{3,4},{4,5}}],1) = [{1,2,3,4,5},{{1,5},{5,3},{3,4},{4,2}}]),
+  assert(f([{1,2,3,4,5},{{1,2},{2,3},{3,4},{4,5}}],2) = [{1,2,3},{{3,2},{2,1},{1},{1,2}}]),
+  true)$
+
+okltest_random_projection_min_hg(f) := (
+  assert(f([{},{}],1) = [{},{}]),
+  assert(f([{},{{}}],1) = [{},{{}}]),
+  assert(f([{1},{}],1) = [{1},{}]),
+  assert(f([{1},{{}}],1) = [{1},{{}}]),
+  set_random(1),
+  assert(f([{1,2,3,4,5},{{1,2},{2,3},{3,4},{4,5}}],1) = [{1,2,3,4,5},{{1,5},{5,3},{3,4},{4,2}}]),
+  assert(f([{1,2,3,4,5},{{1,2},{2,3},{3,4},{4,5}}],2) = [{1,2,3},{{3,2},{1}}]),
+  true)$
+
+okltest_modulo_colouring(f) := block([mc],
+  mc : f(1),
+  assert(create_list(mc(i),i,1,5) = create_list(1,i,1,5)),
+  mc : f(2),
+  assert(create_list(mc(i),i,1,5) = [1,2,1,2,1]),
+  mc : f(3),
+  assert(create_list(mc(i),i,1,10) = [1,2,3,1,2,3,1,2,3,1]),
   true)$
 
 okltest_modulo_projection_hg(f) := (
@@ -70,6 +142,49 @@ okltest_modulo_projection_hg(f) := (
   assert(f([{1,3,5,6},{{1,3},{3,6},{1,6}}],2) = [{1,2},{{1},{1,2}}]),
   assert(f([{1,2,3,4},{{1,2},{1,3},{2,4},{1,3,4}}],3) = [{1,2,3},{{1,2},{1,3}}]),
   /* XXX */
+  true)$
+
+okltest_mirrorfold(f) := block([mf,L,l],
+  for n : 0 thru 5 do block([L : create_list(i,i,1,n)],
+    mf : f(0,n),
+    assert(create_list(mf(i),i,1,3*n) = append(L,L,L))
+  ),
+  assert(okltest_modulo_colouring(buildq([f],lambda([m],f(0,m)))) = true),
+  for k : 0 thru 5 do (
+    mf : f(k,1),
+    assert(create_list(mf(i),i,1,5) = create_list(1,i,1,5))
+  ),
+  for k : 1 thru 5 do (
+    mf : f(k,2),
+    assert(create_list(mf(i),i,1,5) = create_list(1,i,1,5))
+  ),
+  l : 9,
+  mf : f(2,l),
+  L : [1,2,3,2,1,2,3,2,1],
+  assert(create_list(mf(i),i,1,3*l) = append(L,L,L)),
+  l : 10,
+  mf : f(2,l),
+  L : [1,2,3,2,1,1,2,3,2,1],
+  assert(create_list(mf(i),i,1,3*l) = append(L,L,L)),
+  l : 11,
+  mf : f(2,l),
+  L : [1,2,3,3,2,1,2,3,3,2,1],
+  assert(create_list(mf(i),i,1,3*l) = append(L,L,L)),
+  l : 12,
+  mf : f(2,l),
+  L : [1,2,3,3,2,1,1,2,3,3,2,1],
+  assert(create_list(mf(i),i,1,3*l) = append(L,L,L)),
+  for n : 1 thru 8 do (
+    mf : f(3,n),
+    assert(create_list(mf(i),i,1,24) = create_list(1,i,1,24))
+  ),
+  /* XXX */
+  true)$
+
+okltest_mirrorexpand(f) := (
+  for k : 0 thru if oklib_test_level=0 then 4 else 6 do
+    for n : 0 thru if oklib_test_level=0 then 32 else 128 do
+      assert(f(k,n)(create_list(i,i,1,ceiling(n/2^k))) = create_list(mirrorfold(k,n)(i),i,1,n)),
   true)$
 
 /*!

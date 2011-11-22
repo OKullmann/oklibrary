@@ -59,10 +59,42 @@ fps: 174008
 
   \todo vanderwaerden_2(4,11) > 358
   <ul>
-   <li> Start with the palindromic solution for n=347.
-    <ol>
-     <li> First we need to extract the solution. </li>
-    </ol>
+   <li> Certificate for n=358:
+   \verbatim
+7,15,20,23,32,34,38,41,45,46,
+55,59,61,66,69,70,72,76,78,80,
+81,87,90,94,103,104,113,117,120,126,
+127,129,131,135,137,138,141,143,146,148,
+152,156,158,161,162,163,167,169,173,175,
+177,178,184,187,191,200,201,210,214,223,
+224,226,228,232,234,235,238,240,243,245,
+253,259,260,263,264,266,270,272,274,275,
+281,284,288,297,307,310,314,320,321,331,
+333,335,336,342,352,355,356
+   \endverbatim
+   </li>
+   <li> Start with the palindromic solution for n=347:
+   \verbatim
+C : create_certificate2c_pdvdw([
+8,13,14,20,30,31,32,35,43,47,
+50,55,57,58,59,69,76,77,78,85,
+89,95,96,97,99,104,105,107,110,119,
+122,123,124,127,128,129,132,140,141,144,
+146,147,152,154,155,156,162,166,173], 347);
+certificate_pdvdw_p([4,11],347,C);
+  true
+output_certificate2_vdw(reverse(C), "VanDerWaerden_2-4-11_347.cnf_sol");
+
+RunVdWk1k2 4 11 347 adaptg2wsat 200 20000000 VanDerWaerden_2-4-11_347.cnf_sol
+UNSAT for n=359
+> E=read_ubcsat("VanDerWaerden_2-4-11_359.cnf_OUT",nrows=200)
+ 1  2  3  4 10 11 12 13 14
+ 2  9  5  1  7 29 60 72 15
+200
+ 1  2  3  4  9 10 11 12 13 14
+ 7  8  3  3  1  5 27 71 69  6
+200
+   \endverbatim
    </li>
    <li> Starting from scratch (cstriton):
    \verbatim
@@ -105,6 +137,28 @@ fps: 174008
 
   \todo vdw_2^pd(4,11) = (343,348)
   <ul>
+   <li> Certificates:
+    <ol>
+     <li> n=342:
+     \verbatim
+11,12,17,22,32,35,36,37,40,41,
+43,47,49,51,52,58,61,65,74,75,
+84,88,97,98,100,102,106,108,109,112,
+113,114,117,119,127,129,133,134,140,144,
+146,148,149,155,158,162,171
+     \endverbatim
+     </li>
+     <li> n=347:
+     \verbatim
+8,13,14,20,30,31,32,35,43,47,
+50,55,57,58,59,69,76,77,78,85,
+89,95,96,97,99,104,105,107,110,119,
+122,123,124,127,128,129,132,140,141,144,
+146,147,152,154,155,156,162,166,173
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> Established by "CRunPdVdWk1k2 4 11 minisat-2.2.0". </li>
    <li> Evaluation:
    \verbatim
@@ -131,8 +185,9 @@ R-squared: 0.9981
    \endverbatim
    The log-plot shows that even problems (i.e., even v) are harder for v > 300,
    where the hardest problems are, while for 200 < v < 300 (problems with
-   intermediate hardness) odd problems seem harder.
-   </li>
+   intermediate hardness) odd problems seem harder. </li>
+   <li> "RunPdVdWk1k2 4 11 adaptg2wsat 100 1000000" determines satisfiability
+   very easily. </li>
   </ul>
 
 */
