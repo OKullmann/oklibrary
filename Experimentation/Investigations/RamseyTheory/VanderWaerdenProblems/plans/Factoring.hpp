@@ -478,5 +478,102 @@ ncl_list_fcs(G3704f3);
    </li>
   </ul>
 
+
+  \todo vanderwaerden_2(5,13) > 1204, vdw_2^pd(5,13) >= (1176,1205)
+  <ul>
+   <li> See
+   Investigations/RamseyTheory/VanderWaerdenProblems/plans/5-k/13.hpp.
+   </li>
+   <li> First looking at the palindromic solution for n=1204:
+   \verbatim
+G1204a : arithprog_hg(5,1204)$
+G1204b : arithprog_hg(13,1204)$
+ncl_list_fcs(G1204a);
+  [[5,180600]]
+ncl_list_fcs(G1204b);
+  [[13,59800]]
+
+f2 : mirrorfold(2,1204)$
+
+G1204af2 : transport_hg(f2,G1204a)$
+G1204bf2 : transport_hg(f2,G1204b)$
+ncl_list_fcs(G1204af2);
+  [[3,220],[4,215],[5,67132]]
+ncl_list_fcs(G1204bf2);
+  [[7,114],[8,71],[9,76],[10,78],[11,70],[12,63],[13,21942]]
+G1204af2m : min_hg(G1204af2)$
+G1204bf2m : min_hg(G1204bf2)$
+ncl_list_fcs(G1204af2m);
+  [[3,220],[4,29],[5,66411]]
+ncl_list_fcs(G1204bf2m);
+  [[7,114],[8,6],[9,10],[10,5],[13,21343]]
+
+F1204f2 : gtcol2sat_stdohg2stdfcl(hg2ohg(G1204af2m),hg2ohg(G1204bf2m))$
+outputext_fcl("transportmin_hg(mirrorfold(2,1204),arithprog_hg(5|13,1204))",F1204f2,"VanDerWaerden_pd2_2-5-13_1204.cnf");
+
+> minisat-2.2.0 VanDerWaerden_pd2_2-5-13_1204.cnf
+restarts              : 25512
+conflicts             : 17201140       (2461 /sec)
+CPU time              : 6990.89 s
+INDETERMINATE
+
+> SplittingViaOKsolver -D10 VanDerWaerden_pd2_2-5-13_1204.cnf
+> cat Md5sum
+01bb784146360f684fd7c32e85d49cc0
+> cat Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         13
+c initial_number_of_variables           301
+c initial_number_of_clauses             88138
+c initial_number_of_literal_occurrences 611276
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     275.1
+c number_of_nodes                       1649
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                0
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        10
+c file_name                             VanDerWaerden_pd2_2-5-13_1204.cnf
+c splitting_cases                       825
+> cat Statistics
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  10.00   10.00   10.00   10.07   10.00   12.00
+> table(E$n)
+ 10  11  12
+771  51   3
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  8.000  10.000  10.000   9.771  10.000  10.000
+> table(E$d)
+  8   9  10
+ 10 169 646
+> ProcessSplitViaOKsolver SplitViaOKsolver_D10VanDerWaerden_pd2_2513_1204cnf_2011-11-20-123007/
+# Aborted on the first splitting-instance:
+restarts              : 36862
+conflicts             : 27062591       (2556 /sec)
+CPU time              : 10587.5 s
+INDETERMINATE
+
+> ubcsat-okl -alg adaptg2wsat -runs 100 -cutoff 10000000 -i VanDerWaerden_pd2_2-5-13_1204.cnf | tee VanDerWaerden_pd2_2-5-13_1204.cnf_OUT
+> E=read_ubcsat("VanDerWaerden_pd2_2-5-13_1204.cnf_OUT",nrows=100)
+20 21 22 23 24 25 26 27 28 29 30 31 32 33
+ 1  3  3  2  3  7  7  9 11 16 13 13 10  2
+100
+> ubcsat-okl -alg ddfw -runs 100 -cutoff 10000000 -i VanDerWaerden_pd2_2-5-13_1204.cnf | tee VanDerWaerden_pd2_2-5-13_1204.cnf_OUT
+19 21 22 23 24 25 26 27 28 29 30
+ 1  2  4 11  9 12 23 14 13  7  4
+100
+   \endverbatim
+   </li>
+  </ul>
+
 */
 
