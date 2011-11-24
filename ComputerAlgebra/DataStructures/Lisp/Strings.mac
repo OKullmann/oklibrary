@@ -24,6 +24,8 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 /* Concatening the string-arguments, separating them with new-lines: */
 sconcatnl([L]) := uaapply(sconcat, lappend(map(lambda([x],[x,newline]),L)))$
+/* Separating them with spaces: */
+sconcats([L]) := uaapply(sconcat, lappend(map(lambda([x],[x,space]),L)))$
 
 /* Evaluate term t, and concatenate all print-output into one string: */
 print2string('t) := block([S : make_string_output_stream()],

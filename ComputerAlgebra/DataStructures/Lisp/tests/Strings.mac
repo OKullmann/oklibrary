@@ -31,6 +31,13 @@ okltest_sconcatnl(f) := (
   assert(sequal(f("x","bb"),sconcat("x",newline,"bb",newline)) = true),
   true)$
 
+okltest_sconcats(f) := (
+  assert(sequal(f(),"") = true),
+  assert(sequal(f(""),space) = true),
+  assert(sequal(f("x"),sconcat("x",space)) = true),
+  assert(sequal(f("x","bb"),sconcat("x",space,"bb",space)) = true),
+  true)$
+
 okltest_print2string(f) := (
   assert(sequal(f(0), "")),
   assert(sequal(f(print()), "")),
