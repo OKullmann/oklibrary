@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.8.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -53,6 +53,27 @@ okltest_int_seq_bt(f) := block([s],
    * Power means *
    ***************
 */
+
+okltest_meann(f) := block([x,y,z],
+  assert(f(x) = x),
+  assert(f(x,y) = (x+y)/2),
+  assert(f(x,y,z) = (x+y+z)/3),
+  true)$
+
+okltest_gmean(f) := block([x,y,z],
+  assert(f([x]) = x),
+  assert(f([x,y]) = sqrt(x*y)),
+  assert(f([x,y,z]) = (x*y*z)^(1/3)),
+  assert(f([0,x,y,z]) = 0),
+  true)$
+
+okltest_gmeann(f) := block([x,y,z],
+  assert(f(x) = x),
+  assert(f(x,y) = sqrt(x*y)),
+  assert(f(x,y,z) = (x*y*z)^(1/3)),
+  assert(f(0,x,y,z) = 0),
+  true)$
+
 
 /* ***********************************************
    * Lower and upper bounds for the tau-function *

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.8.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -34,6 +34,11 @@ okltest_int_seq_bt(int_seq_bt);
    * Power means *
    ***************
 */
+
+okltest_meann(meann);
+
+okltest_gmean(gmean);
+okltest_gmeann(gmeann);
 
 /* ***********************************************
    * Lower and upper bounds for the tau-function *
