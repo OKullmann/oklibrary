@@ -74,6 +74,18 @@ okltest_gmeann(f) := block([x,y,z],
   assert(f(0,x,y,z) = 0),
   true)$
 
+okltest_hmean(f) := block([x,y,z],
+  assert(f([x]) = x),
+  assert(f([x,y]) = 2/(1/x+1/y)),
+  assert(f([x,y,z]) = 3/(1/x+1/y+1/z)),
+  true)$
+
+okltest_hmeann(f) := block([x,y,z],
+  assert(f(x) = x),
+  assert(f(x,y) = 2/(1/x+1/y)),
+  assert(f(x,y,z) = 3/(1/x+1/y+1/z)),
+  true)$
+
 
 /* ***********************************************
    * Lower and upper bounds for the tau-function *

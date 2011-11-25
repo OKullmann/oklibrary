@@ -40,6 +40,9 @@ okltest_meann(meann);
 okltest_gmean(gmean);
 okltest_gmeann(gmeann);
 
+okltest_hmean(hmean);
+okltest_hmeann(hmeann);
+
 /* ***********************************************
    * Lower and upper bounds for the tau-function *
    ***********************************************
