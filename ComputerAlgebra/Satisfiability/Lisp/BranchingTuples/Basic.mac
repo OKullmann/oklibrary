@@ -106,7 +106,8 @@ int_seq_bt(t) := block([m : bt_max(t), l : length(t)],
 meann([t]) := mean(t)$
 
 /* Geometric mean: */
-gmean(t) := apply("*", t)^(1/length(t))$
+oklib_plain_load(descriptive)$
+gmean(t) := geometric_mean(t)$
 /* n-ary geometric mean: */
 gmeann([t]) := gmean(t)$
 
