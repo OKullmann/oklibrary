@@ -302,7 +302,7 @@ split_list_epo(L,pred_) := block([R:[],CL : []],
 /* Rotates a list n elements to the right. Negative n rotates to the left. */
 rotate(l,n) := 
   if n = 0 or l = [] then l
-  else if sign(n) = pos then  rotate(append([last(l)],rest(l,-1)), n-1)
+  else if sign(n) = pos then rotate(append([last(l)],rest(l,-1)), n-1)
   else rotate(append(rest(l), [first(l)]), n+1)$
 
 /* Converts a list "l" to a matrix with rows of length "len_row", 
