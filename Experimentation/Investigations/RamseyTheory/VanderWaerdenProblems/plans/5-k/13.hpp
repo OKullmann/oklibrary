@@ -13,7 +13,39 @@ License, or any later version. */
   \todo vanderwaerden_2(5,13) > 1204
   <ul>
    <li> Find best ubcsat-solver. </li>
-   <li> Start with the palindromic solution. </li>
+   <li> Start with the palindromic solution for n=1204:
+   \verbatim
+C : create_certificate2c_pdvdw([
+2,4,7,10,11,14,19,23,24,26,
+33,41,47,52,59,60,62,64,75,77,
+78,81,83,84,93,94,96,97,104,105,
+108,109,113,114,119,120,127,128,133,137,
+138,140,141,144,147,156,158,165,170,172,
+175,176,181,185,189,191,195,198,199,202,
+211,218,222,226,228,231,233,234,239,241,
+243,244,245,246,251,256,262,267,272,280,
+283,284,286,292,293,294,302,305,307,309,
+320,322,324,328,331,332,335,347,348,349,
+352,356,357,360,362,363,368,369,376,377,
+378,379,390,396,400,402,403,405,409,415,
+416,420,422,423,428,432,433,434,437,441,
+443,449,451,452,455,458,462,469,470,473,
+476,477,478,482,486,489,493,496,504,507,
+509,510,517,522,530,531,532,535,543,545,
+549,550,551,554,555,558,565,568,569,571,
+574,579,586,594,595,597], 1204);
+certificate_pdvdw_p([5,13],1204,C);
+  true
+output_certificate2_vdw(reverse(C), "VanDerWaerden_2-5-13_1204.cnf_sol");
+
+RunVdWk1k2 5 13 1204 adaptg2wsat 200 200000000 VanDerWaerden_2-5-13_1204.cnf_sol
+UNSAT for n=1205
+> E=read_ubcsat("VanDerWaerden_2-5-13_1205.cnf_OUT",nrows=200)
+ 3  4  5  6  7  8
+ 2 13 65 73 45  2
+200
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -22,7 +54,7 @@ License, or any later version. */
    <li>
    \verbatim
 E=run_ubcsat("VanDerWaerden_pd_2-5-13_1204.cnf",runs=100,cutoff=20000000)
-# considering only then first 10 algorithm (aborted after that):
+# considering only the first 10 algorithm (aborted after that):
 hwsat
  4  6  7  8  9 10 11 12 13 14 15 17 18
  2  2  3  7  7 15 16 14 11 15  4  2  2
@@ -33,15 +65,15 @@ gwsat
 FlipsPerSecond = 84911
 # continuing:
 E=run_ubcsat("VanDerWaerden_pd_2-5-13_1204.cnf",runs=100,cutoff=20000000,include_algs=names(tail(run_ubcsat_cnf_algs,-10)))
+rnovp
+ 1  2  3  4  5  6
+ 1 11 35 37 13  3
 anovp
  1  2  3  4  5
  1  4 15 50 30
 rnov
  2  3  4  5  6
  6 29 52 10  3
-rnovp
- 1  2  3  4  5  6
- 1 11 35 37 13  3
 # aborted; next novpc
 E=run_ubcsat("VanDerWaerden_pd_2-5-13_1204.cnf",runs=100,cutoff=20000000,include_algs=names(tail(run_ubcsat_cnf_algs,-20)))
 ddfw
@@ -52,9 +84,16 @@ anovpp
  4 19 56 20  1
 # continuing with g2wsat
 E=run_ubcsat("VanDerWaerden_pd_2-5-13_1204.cnf",runs=100,cutoff=20000000,include_algs=names(tail(run_ubcsat_cnf_algs,-26)))
-XXX cscarme
+1. ag2wsat:
+ 2  3  4  5
+ 9 41 40 10
+fps: 78069
+2. dano:
+ 2  3  4  5  6
+ 6 20 53 20  1
+fps: 39174
    \endverbatim
-   </li>
+   So the ranking is: rnovp, anovp, ag2wsat, ddfw, rnov, dano. </li>
   </ul>
 
 
