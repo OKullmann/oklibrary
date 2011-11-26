@@ -1,0 +1,71 @@
+/* Oliver Kullmann, 26.11.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/GeneralisedTicTacToe.mac
+  \brief %Generators for clause-sets related to generalisations of Tic-Tac-Toe
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/GeneralisedTicTacToe.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
+
+
+/* *********************************
+   * k in a line on an m x n board *
+   *********************************
+*/
+
+/* Boolean clause-sets, using variables colv([i,j]) */
+
+/* For k >= 3, these clause-sets are all satisfiable:
+   First two rows:             010101...
+                               010101...
+   next two rows:              101010...
+                               101010...
+   and then repeat that scheme:
+    - clearly the row-hyperedges are not monocoloured;
+    - every column-hyperedge must contain rows from different
+      types of blocks, and thus is not monocoloured;
+    - finally ever diagonal must contain two consecutive rows
+      from the same block, and thus is not monocoloured.
+*/
+
+gttt_ofcs(k,m,n) := tcol2sat_ohg2fcl(gttt_ohg(k,m,n))$
+
+/* Standardisation */
+
+standardise_gttt(n) := buildq([n],
+ lambda([t], ev(t, colv(p):=second(p)+(first(p)-1)*n, colv)))$
+
+invstandardise_gttt(n) := buildq([n],
+ lambda([i], block([d:divide(i-1,n)+1], colv_var([first(d),second(d)]))))$
+
+gttt_stdofcs(k,m,n) := standardise_gttt(n)(gttt_ofcs(k,m,n))$
+
+/* Output */
+
+output_gttt(k,m,n,filename) := outputext_fcl(
+ sconcat(k, " in a row on a ", m, " times ", n, " board."),
+ gttt_stdofcs(k,m,n),
+ filename)$
+
+output_gttt_stdname(k,m,n) := output_gttt(k,m,n,
+ sconcat("TicTacToc_",k,"-",m,"-",n,".cnf"))$
+
+
+/*!
+\endhtmlonly
+*/
