@@ -573,6 +573,41 @@ INDETERMINATE
 100
    \endverbatim
    </li>
+   <li> For n=1202:
+   \verbatim
+G1202a : arithprog_hg(5,1202)$
+G1202b : arithprog_hg(13,1202)$
+ncl_list_fcs(G1202a);
+  [[5,180000]]
+ncl_list_fcs(G1202b);
+  [[13,59600]]
+
+f2 : mirrorfold(2,1202)$
+
+G1202af2 : transport_hg(f2,G1202a)$
+G1202bf2 : transport_hg(f2,G1202b)$
+ncl_list_fcs(G1202af2);
+  [[3,370],[4,514],[5,66609]]
+ncl_list_fcs(G1202bf2);
+  [[7,123],[8,133],[9,152],[10,179],[11,161],[12,146],[13,21519]]
+G1202af2m : min_hg(G1202af2)$
+G1202bf2m : min_hg(G1202bf2)$
+ncl_list_fcs(G1202af2m);
+  [[3,370],[4,178],[5,65720]]
+ncl_list_fcs(G1202bf2m);
+  [[7,123],[8,16],[9,24],[10,30],[13,21109]]
+
+F1202f2 : gtcol2sat_stdohg2stdfcl(hg2ohg(G1202af2m),hg2ohg(G1202bf2m))$
+outputext_fcl("transportmin_hg(mirrorfold(2,1202),arithprog_hg(5|13,1202))",F1202f2,"VanDerWaerden_pd2_2-5-13_1202.cnf");
+
+> minisat-2.2.0 VanDerWaerden_pd2_2-5-13_1202.cnf
+restarts              : 441975
+conflicts             : 381956261      (1515 /sec)
+CPU time              : 252197 s
+INDETERMINATE
+# apparently no progress
+   \endverbatim
+   </li>
   </ul>
 
 */
