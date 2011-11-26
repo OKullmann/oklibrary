@@ -112,7 +112,7 @@ gmean(t) := geometric_mean(t)$
 gmeann([t]) := gmean(t)$
 
 /* Harmonic mean: */
-hmean(t) := length(t) / apply("+", t^(-1))$
+hmean(t) := harmonic_mean(t)$
 /* n-ary harmonic mean: */
 hmeann([t]) := hmean(t)$
 
