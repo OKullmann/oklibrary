@@ -247,26 +247,4 @@ line 94566, column 2, total characters read 21231687
    </li>
   </ul>
 
-
-  \bug DONE (merging now handled by AppendDimacs)
-  Merging deficient
-  <ul>
-   <li> See below for error-report. </li>
-   <li> This merging-tool shouldn't exist in this form; see
-   "Elementary file-surgery" in
-   Interfaces/InputOutput/plans/general.hpp. </li>
-   <li> There is now a specific C++ application for this with
-   tests. See "AppendDimacs". </li>
-   <li> The plans files must be updated to use "AppendDimacs"
-   instead of this merge script. </li>
-  </ul>
-
-
-  \todo DONE Problems sizes
-  <ul>
-   <li> For each such file, we need the complete information about the instance
-   sizes. </li>
-   <li> Both measured, and as a result of general formulas. </li>
-  </ul>
-
 */

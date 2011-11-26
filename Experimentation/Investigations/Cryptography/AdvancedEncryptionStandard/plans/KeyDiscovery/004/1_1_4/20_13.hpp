@@ -36,21 +36,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Remove linear diffusion from translation
-  <ul>
-   <li> Currently the AES linear diffusion operation creates equality
-   clauses in the translation of this AES instance, as the translation
-   does not check if the MixColumns matrix is the identity matrix. </li>
-   <li> These equivalences clauses can only get in the way for the solvers
-   and skew results, and therefore the translation should be updated to
-   check for the identity matrix and rename variables instead. </li>
-   <li> See also "Remove hard-coding of multiplication by 01 in small-scale
-   MixColumn" in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp.
-   </li>
-  </ul>
-
-
   \todo Comparison of box translations
   <ul>
    <li> All translations are solved by all solvers in less than 0.5s and so
