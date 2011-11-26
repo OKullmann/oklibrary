@@ -67,6 +67,14 @@ okltest_nhyp_ramsey_ohg(nhyp_ramsey_ohg);
 okltest_gttt_tlbr(gttt_tlbr);
 okltest_gttt_bltr(gttt_bltr);
 
+okltest_gttt_lines(gttt_lines);
+okltest_gttt_length(gttt_length);
+okltest_gttt_slope(gttt_slope);
+okltest_gttt_startpoints(gttt_startpoints);
+okltest_gttt_lines_k(gttt_lines_k);
+
+okltest_gttt_ohg(gttt_ohg);
+
 /*!
 \endhtmlonly
 */

@@ -24,6 +24,8 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac")$
+oklib_include("OKlib/ComputerAlgebra/Numerical/Lisp/Norms.mac")$
 
 
 /* ************************
@@ -152,19 +154,90 @@ nhyp_ramsey_ohg(q,r,n) :=
   Let m >= 1 be the numbers of rows and n >= 1 the number of columns.
 */
 
+/*
+  Computing the horizontal, vertical and diagonal lines:
+  - each of the four collection of lines represents a partitioning
+    of the m*n fields of the rectangle;
+  - direction of "scanning" is from left to right, and top to bottom.
+*/
+
+/* First the representations of the complete lines (of maximal length) by
+   their two endpoints, via the matrix-indices (1-based).
+*/
+
+/* Horizontal lines (slope [0,1]): */
+gttt_horiz(m,n) := create_list([[i,1],[i,n]], i,1,m)$
+/* Vertical lines (slope [1,0]): */
+gttt_vert(m,n) := create_list([[1,i],[m,i]], i,1,n)$
+
 /* Diagonals from top-left to bottom-right (the "principal diagonal"
-   and its parallels), computing the matrix indices (1-based) of the endpoints:
+   and its parallels; slope [1,1]):
 */
 gttt_tlbr(m,n) := create_list(
  [[max(m-i+1,1),max(i-m+1,1)],[m-max(i-n,0), min(i,n)]],
  i,1,m+n-1)$
 
 /* Diagonals from bottom-left to top-right (the "antidiagonal" and its
-   parallels), computing the matrix indices (1-based) of the endpoints:
+   parallels; slope [1,-1]):
 */
 gttt_bltr(m,n) :=
  map(lambda([L], map(lambda([p],[m-p[1]+1,p[2]]), L)),
      gttt_tlbr(m,n))$
+
+/*
+  All maximal lines, in the order horizontal, vertical, top-left to
+  bottom-right, bottom-left to top-right, with repetition (only the first
+  occurrence of a line remains), represented by the two end-points:
+*/
+gttt_lines(m,n) :=
+ if m=1 and n=1 then [[[1,1],[1,1]]]
+ else if m=1 or n=1 then append(gttt_horiz(m,n), gttt_vert(m,n))
+ else append(gttt_horiz(m,n), gttt_vert(m,n), gttt_tlbr(m,n), gttt_bltr(m,n))$
+
+/* A line as a sequence of points, of length k with start-point p and
+   slope [dx,dy], is created by
+     arpr(k,p,[dx,dy]).
+   The possible [dx,dy] here are (given that we standardise movement by only
+   going from left to right or top to bottom):
+   - [0,1] (horizontal),
+   - [1,0] (vertical),
+   - [1,1] (top-left to bottom-right),
+   - [-1,1] (bottom-left to top-right).
+   Trivial lines (length 1) shall have slope [0,0].
+*/
+
+/* The length of a line (as the number of vertices in it) given by the two
+   endpoints:
+*/
+gttt_length(a,b) := dist_vec(a,b,inf)+1$
+
+/* For two endpoints a,b the slope [dx,dy]: */
+gttt_slope(a,b) := [signum(first(b)-first(a)), signum(second(b)-second(a))]$
+
+/* For a line represented by two endpoints a,b, the list of the pairs
+   [start-point, slope] for lines of length at least k >= 1:
+*/
+gttt_startpoints(a,b,k) := block([l : gttt_length(a,b), s : gttt_slope(a,b)],
+ create_list([a+i*s,s], i,0,l-k))$
+
+/* All (different) lines of length (exactly) k >= 1, represented by pairs
+   [start-point, slope]:
+*/
+gttt_lines_k(k,m,n) :=
+ if k=1 then create_list([[i,j],[0,0]], i,1,m, j,1,n)
+ else lappend(
+   map(lambda([p], gttt_startpoints(p[1],p[2],k)),
+       sublist(gttt_lines(m,n), lambda([p], apply(gttt_length,p)>=k))))$
+
+/* The ordered hypergraph underlying generalised tic-tac-toe (k in a row
+   on an mxn board), with vertices the pairs [i,j] and hyperedges the lines
+   (horizontal, vertical, diagonal, anti-diagonal) of length k:
+*/
+gttt_ohg(k,m,n) := [
+ create_list([i,j], i,1,m, j,1,n),
+ map(setify, map(lambda([p], arpr(k, p[1], p[2])), gttt_lines_k(k,m,n)))
+]$
+
 
 /*!
 \endhtmlonly
