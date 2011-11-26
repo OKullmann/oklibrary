@@ -1,0 +1,36 @@
+/* Oliver Kullmann, 26.11.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Numerical/Lisp/Norms.mac
+  \brief Vector and matrix norms
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Numerical/Lisp/Norms.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
+norm_vec(L,p) :=
+ if p=1 then sum_l(map(abs,L))
+ elseif p=2 then sqrt(sum_l(map(lambda([x],x^2),L)))
+ elseif p=inf then lmax(map(abs,L))
+ else sum_l(map(lambda([x],abs(x)^p),L))^(1/p)$
+
+dist_vec(A,B,p) := norm_vec(A-B,p)$
+
+/*!
+\endhtmlonly
+*/
+

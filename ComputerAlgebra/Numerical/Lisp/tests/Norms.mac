@@ -1,0 +1,56 @@
+/* Oliver Kullmann, 26.11.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Numerical/Lisp/tests/Norms.mac
+  \brief Tests for vector/matrix norms
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Numerical/Lisp/tests/Norms.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+
+kill(f)$
+
+
+okltest_norm_vec(f) := block([x,y,z,p],
+  assert(f([],p) = 0),
+  assert(f([x],1) = abs(x)),
+  assert(f([x,y],1) = abs(x) + abs(y)),
+  assert(f([x,y,z],1) = abs(x) + abs(y) + abs(z)),
+  assert(f([x],inf) = abs(x)),
+  assert(f([x,y],inf) = max(abs(x), abs(y))),
+  assert(f([x,y,z],inf) = max(abs(x), abs(y), abs(z))),
+  assert(f([x],2) = abs(x)),
+  assert(f([x,y],2) = sqrt(abs(x)^2 + abs(y)^2)),
+  assert(f([x,y,z],2) = sqrt(abs(x)^2 + abs(y)^2 + abs(z)^2)),
+  true)$
+
+okltest_dist_vec(f) := block([x1,x2,x3,y1,y2,y3,p],
+  assert(f([],[],p) = 0),
+  assert(f([x1],[x2],1) = abs(x1-x2)),
+  assert(f([x1,y1],[x2,y2],1) = abs(x1-x2) + abs(y1-y2)),
+  assert(f([x1,y1,z1],[x2,y2,z2],1) = abs(x1-x2) + abs(y1-y2) + abs(z1-z2)),
+  assert(f([x1],[x2],inf) = abs(x1-x2)),
+  assert(f([x1,y1],[x2,y2],inf) = max(abs(x1-x2), abs(y1-y2))),
+  assert(f([x1,y1,z1],[x2,y2,z2],inf) = max(abs(x1-x2), abs(y1-y2), abs(z1-z2))),
+  assert(f([x1],[x2],2) = abs(x1-x2)),
+  assert(expand(f([x1,y1],[x2,y2],2) = sqrt(abs(x1-x2)^2 + abs(y1-y2)^2))),
+  assert(expand(f([x1,y1,z1],[x2,y2,z2],2) = sqrt(abs(x1-x2)^2 + abs(y1-y2)^2 + abs(z1-z2)^2))),
+  true)$
+
+/*!
+\endhtmlonly
+*/
