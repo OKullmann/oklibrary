@@ -471,6 +471,47 @@ okltest_max_elements(f) := (
     assert(f(powerset(setn(n))) = {setn(n)}),
   true)$
 
+okltest_check_subsumption(f) := block([ss,x],
+  ss : f({}),
+  assert(ss(x) = false),
+  ss : f({{}}),
+  assert(ss(x) = true),
+  ss : f({{},{1,2,3}}),
+  assert(ss(x) = true),
+  ss : f({{1}}),
+  assert(ss({1}) = true),
+  assert(ss({1,2}) = true),
+  assert(ss({2}) = false),
+  ss : f({{1},{2}}),
+  assert(ss({1}) = true),
+  assert(ss({1,2}) = true),
+  assert(ss({2}) = true),
+  assert(ss({3}) = false),
+  ss : f({{1,2},{2,3},{3,4},{5}}),
+  assert(ss({}) = false),
+  for i : 1 thru 4 do
+    assert(ss({i}) = false),
+  assert(ss({1,2}) = true),
+  assert(ss({2,3}) = true),
+  assert(ss({3,4}) = true),
+  assert(ss({1,3}) = false),
+  assert(ss({2,4}) = false),
+  assert(ss({1,2,3}) = true),
+  assert(ss({2,3,4}) = true),
+  assert(ss({5}) = true),
+  assert(ss({1,5}) = true),
+  assert(ss({6}) = false),
+  ss : f({{1},{2,3},{3,4,5},{6,7,8,9}}),
+  assert(ss({1}) = true),
+  assert(ss({2}) = false),
+  assert(ss({2,3}) = true),
+  assert(ss({3,4}) = false),
+  assert(ss({3,4,5}) = true),
+  assert(ss({6,7,8}) = false),
+  assert(ss({6,7,8,9}) = true),
+  assert(ss({1,2,3,4,5,6,7,8,9}) = true),
+  true)$
+
 /*!
 \endhtmlonly
 */

@@ -338,7 +338,7 @@ min_elements_0(S) := setify(min_elements_unique_l(listify(S)))$
 
 /* Using the fastest algorithm: */
 min_elements(S) :=
-  setify(min_elements_unique_fast_l_(listify(S), first))$
+  setify(min_elements_unique_fast_l_(listify(S), 'first))$
 
 
 /* Eliminates all contained elements from a list / set system (where for
@@ -368,6 +368,49 @@ max_elements_unique_l(S) := block(
 /* Computing all maximal elements for a set-system: */
 max_elements(S) := setify(max_elements_unique_l(listify(S)))$
 
+
+/* Computes a predicate-function ss such that for a set X the value ss(X)
+   is true iff X is subsumed by some element of S (i.e., there is Y in S
+   with subsetp(Y,X)=true); S is a set (of sets).
+   If S may have subsumed elements, then better use min_elements(S) instead
+   of S (the resulting function ss will be more efficient).
+*/
+check_subsumption_(S, choose_element_) := block(
+ [l : length(S),
+  A, B, b, L, H],
+  if l = 0 then return(lambda([X],false)),
+  if l = 1 then return(block([Y:single_element(S)],
+    if emptyp(Y) then lambda([X],true)
+    else buildq([Y], lambda([X], subsetp(Y,X)))
+  )),
+  A : sort_length_part_ary(listify(S)),
+  if emptyp(first(A[1])) then return(lambda([X],true)),
+  b : A[0],
+  B : okl_make_array(any,b), for i : 1 thru b do B[i] : l2ary(A[i]),
+  L : okl_make_array(fixnum,b), for i : 1 thru b do L[i] : length(B[i][1]),
+  H : okl_make_array(any,b),
+  for i : 1 thru b do block([h : sm2hm({}), sl : B[i][0], s,x,T],
+    for j : 1 thru sl do (
+      s : B[i][j],
+      x : choose_element_(s),
+      T : ev_hm(h,x),
+      if T=false then set_hm(h,x,[j])
+      else set_hm(h,x, cons(j,T))
+    ),
+    H[i] : h
+  ),
+  buildq([B,L,H], lambda([X], block([l : length(X), h, subs : false, T],
+    if l=0 then return(false),
+    for i : 1 thru L[0] while L[i] <= l and not subs do (
+      h : H[i],
+      for x in X unless subs do (
+        T : ev_hm(h,x),
+        if T#false then for y in T unless subs do subs : subsetp(B[i][y], X)
+      )
+    ),
+    return(subs)))))$
+/* Convenience instantiation: */
+check_subsumption(S) := check_subsumption_(S, 'first)$
 
 /*!
 \endhtmlonly

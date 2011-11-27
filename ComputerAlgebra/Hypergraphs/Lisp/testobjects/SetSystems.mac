@@ -142,6 +142,8 @@ okltest_min_elements(min_elements);
 okltest_max_elements_l(max_elements_l);
 okltest_max_elements(max_elements);
 
+okltest_check_subsumption(check_subsumption);
+
 /*!
 \endhtmlonly
 */
