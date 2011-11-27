@@ -54,12 +54,6 @@ License, or any later version. */
   with a final key addition), are in 128/4_4_8/1_13.hpp.
 
 
-  \todo Add milestones
-  <ul>
-   <li> We urgently need milestones at this level. </li>
-  </ul>
-
-
   \todo Naming of translations
   <ul>
    <li> For each experiment on some AES variant with some specific translation
@@ -259,68 +253,6 @@ generate_ss_constraint_vars(n,m,namespace, id) :=
           i,n,m)$
 maxima> output_ss_fcl_std(1,4,4,8,0,aes_ts_box, aes_mc_bidirectional);
    \endverbatim
-   </li>
-  </ul>
-
-
-  \todo Add todos
-
-
-  \todo DONE Better organisation
-  <ul>
-   <li> The number of rounds is clearly sub-ordinated, and thus we should have
-   directories, where within we have files just for the various numbers of
-   rounds considered. </li>
-   <li> The directory names are then the names of the various investigations-
-   files (with the round-component of the name removed). </li>
-   <li> There should be no "aes" in the name, since it does not serve as
-   distinction. </li>
-   <li> The "f0" etc. are also to be removed from the name, since it is just
-   a variation on the (fractional) number of rounds (and thus to be placed
-   inside the directories). </li>
-   <li> No need for the letters "c" etc. </li>
-   <li> So for example "AES_r1_c1_rw4_e8_f1" becomes "1_4_8". </li>
-   <li> Should one treat "1_4_8" the same as "2_2_8", since it results in
-   the same overall sizes? </li>
-   <li> We always have the same number of bits for plain/cipher text and for
-   keys. Perhaps this number is most important? </li>
-   <li> So the directory name should perhaps be just one number, the number
-   of bits in the key (plain/cipher text)? </li>
-   <li> So currently we would have directories "4, 32, 64, 128" (for the
-   number of key-bits, which is the relevant aspect here). </li>
-   <li> Inside these directories we then have directories like "1_4_8" as
-   above. </li>
-  </ul>
-
-
-  \todo DONE Better directory names (regarding their order)
-  <ul>
-   <li> Directory names should be "004", "008", "032" etc., so that a file
-   browser lists them automatically in the right order. </li>
-   <li> Just to mention: moving files should always be done in *two* steps:
-    <ol>
-     <li> First move the files with "git mv", without change of content. </li>
-     <li> Then update content to reflect new filenames. </li>
-    </ol>
-   </li>
-  </ul>
-
-
-  \todo DONE (see brief of
-  Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/general.hpp
-  and other plans headers)
-  Improve explanations of what a round is
-  <ul>
-   <li> Round always contain MixColumns. </li>
-   <li> So this shouldn't be mentioned. </li>
-   <li> Only the special cases *without* MixColumns need to be mentioned. </li>
-   <li> A full round has always key-addition, SubBytes and MixColumns. </li>
-   <li> We need nice notions when either key-addition or key-addition and
-   SubBytes are added. </li>
-   <li> Perhaps 1/3 rounds or 2/3 rounds. </li>
-   <li> So we would speak, e.g., of 1+2/3 or 4+1/3 rounds. </li>
-   <li> The last round could be notated by "2/3+1/3". </li>
-   <li> AES then had 9+2/3+1/3 rounds (MixColumns replaced by key-addition).
    </li>
   </ul>
 
