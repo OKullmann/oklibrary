@@ -1,0 +1,44 @@
+/* Oliver Kullmann, 27.11.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Resolution/Graphs.mac
+  \brief Functions for resolution operations on clause-sets
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Graphs.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Connectedness.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+
+/* The resolution-graph of a clause-set: */
+resolutiongraph_cs2g(F) := [F, resolvable_cs(F)]$
+
+/* The connected components (as clause-sets) of the resolution-graph of
+   a clause-set:
+*/
+cc_resolutiongraph_cs(F) := concom_g(resolutiongraph_cs2g(F))$
+
+/* The subsumption-resolution-graph of a clause-set: */
+subresolutiongraph_cs2g(F) := [F,
+ block([S : check_subsumption(min_elements(F))],
+   subset(resolvable_cs(F), lambda([e], not S(resolvent_s(e)))))]$
+
+cc_subresolutiongraph_cs(F) := concom_g(subresolutiongraph_cs2g(F))$
+
+/*!
+\endhtmlonly
+*/
