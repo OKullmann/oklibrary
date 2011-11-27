@@ -13,6 +13,8 @@ Use by
 
 oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac");
 
+  For other graphs see Satisfiability/Lisp/Resolution/Graphs.mac.
+
 */
 
 /*!
