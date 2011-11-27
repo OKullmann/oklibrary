@@ -13,6 +13,9 @@ License, or any later version. */
 
   \par Version 0.1.6 :
 
+  \par Cryptography/AdvancedEncryptionStandard/KeyDiscovery version 0.1.3
+  (see AdvancedEncryptionStandard/plans/KeyDiscovery/milestones.hpp)
+
   \par Cryptography/AdvancedEncryptionStandard/Representations version 0.1.6
   (see AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
 
@@ -42,19 +45,11 @@ License, or any later version. */
     - Solvers to be used for experimentation
     - Prepare experiments for the SAT 2012 paper : DONE
 
-  \par
-   In Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/general.hpp
-   the following topics are handled:
-    - Add milestones
-    - Explanations
-
-  \par
-   In AdvancedEncryptionStandard/plans/KeyDiscovery/128/4_4_8/0_23_13.hpp
-   the following topics are handled:
-    - Problems sizes : DONE
-
 
   \par Version 0.1.7 :
+
+  \par Cryptography/AdvancedEncryptionStandard/KeyDiscovery version 0.2
+  (see AdvancedEncryptionStandard/plans/KeyDiscovery/milestones.hpp)
 
   \par Cryptography/AdvancedEncryptionStandard/Representations version 0.1.7
   (see AdvancedEncryptionStandard/plans/Representations/milestones.hpp)
