@@ -417,9 +417,9 @@ sort_length(L) := lappend(sort_length_part(L))$
 /* Now sorting by descending length (stable): */
 sort_length_desc(L) := lappend(sort_length_desc_part(L))$
 
-/* Distributing the elements of L into a list of list, collecting elements of
-   equal length, and sorting the meta-lists by ascending element-length.
-   First returning the result as okl-array:
+/* Distributing the elements of list L into a list of list, collecting
+   elements of equal length, and sorting the meta-lists by ascending
+   element-length. First returning the result as okl-array:
 */
 sort_length_part_ary(L) := block([S : listify(setify(map(length,L))), n, h, A, m],
   n : length(S),
