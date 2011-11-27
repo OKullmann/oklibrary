@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.1.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,6 +26,7 @@ oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Trees/include.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Colouring.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Connectedness.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/IndependentSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/InputOutput.mac")$
@@ -33,6 +34,7 @@ oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Statistics.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/tests/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/tests/Colouring.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/tests/Connectedness.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/tests/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/tests/IndependentSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/tests/Statistics.mac")$

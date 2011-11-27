@@ -1,0 +1,28 @@
+/* Oliver Kullmann, 27.11.2011 (Swansea) */
+/* Copyright 2011 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Graphs/Lisp/testobjects/Connectedness.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Graphs/Lisp/testobjects/Connectedness.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Connectedness.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/tests/Connectedness.mac")$
+
+okltest_concom_g(concom_g);
+
+/*!
+\endhtmlonly
+*/
