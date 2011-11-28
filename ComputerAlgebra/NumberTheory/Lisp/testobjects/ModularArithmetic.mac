@@ -21,6 +21,13 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/testobjects/ModularArithmeti
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/ModularArithmetic.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/ModularArithmetic.mac")$
 
+/* ******************************
+   * Order and related concepts *
+   ******************************
+*/
+
+okltest_modular_ipo(modular_ipo);
+
 /* ***********************
    * Discrete logarithms *
    ***********************

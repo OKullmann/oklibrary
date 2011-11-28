@@ -20,10 +20,26 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/ModularArithmetic.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/Order.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueClasses.mac")$
 
 
 /* The Maxima-function power_mod handles m=1 not always correctly: */
 power_mod_corr(a,n,m) := if m=1 then 0 else power_mod(a,n,m)$
+
+/*
+  See ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueClasses.mac
+  for the ring ZZ_n.
+*/
+
+
+/* ******************************
+   * Order and related concepts *
+   ******************************
+*/
+
+/* Index, period, and order w.r.t. multiplication modulo m: */
+modular_ipo(a,m) := ipo_element_sgr(mod_mul(m),mod(a,m))$
 
 
 /* ***********************
