@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Investigations/Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/milestones.hpp
 
-  \module_version Cryptography/AdvancedEncryptionStandard/KeyDiscovery 0.1 (26.11.2011)
+  \module_version Cryptography/AdvancedEncryptionStandard/KeyDiscovery 0.1 (27.11.2011)
 
 
   \par Version 0.1.1 :
@@ -55,7 +55,7 @@ License, or any later version. */
 
   \par Version history
 
-   - 0.1 : 26.11.2011; ran initial experiments on AES instances with 4- and 8-bit boxes with some solvers (mostly minisat-2.2.0); created directory structure and fully documented experiment instances.
+   - 0.1   : 27.11.2011; ran initial experiments on AES instances with 4- and 8-bit boxes with some solvers (mostly minisat-2.2.0); created directory structure and fully documented experiment instances.
 
 */
 
