@@ -57,6 +57,73 @@ License, or any later version. */
   \todo Add milestones
   <ul>
    <li> We urgently need milestones at this level. </li>
+   <li> What should the initial version number be?
+    <ul>
+     <li> For 1.0, we want the boundaries for all parameters discussed
+     in "Investigating dimensions" in
+     Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp
+     to have been found, as discussed in "Boundaries" below. </li>
+     <li> There have been investigations into several instances so far,
+     and a non-trivial amount of work has been done. </li>
+     <li> Therefore, the version number should likely be greater than
+     0.1 to indicate that there has been some work already completed.
+     </li>
+     <li> However, there are still a great many experiments to be done,
+     as seen in "Boundaries". </li>
+     <li> Therefore the version number should be far from 1.0, and likely
+     less than 0.5. </li>
+     <li> The following seems reasonable (adding todos and associated
+     milestones for each):
+      <ul>
+       <li> Initial version 0.2. </li>
+       <li> Version 0.3:
+        <ul>
+         <li> All current todos are handled. </li>
+         <li> All currently defined experiments are up to date,
+         correctly linked and tidy etc. </li>
+         <li> Experiment plans are up to date with all known
+         experimental results, and this is synced with any
+         documentation. </li>
+        </ul>
+       </li>
+       <li> Version 0.4:
+        <ul>
+         <li> All (small) parameters (4-bit, and smaller 8-bit) have
+         been experimented on for AES with some solver (likely minisat).
+         </li>
+         <li> This includes experimentation using local search solvers.
+         </li>
+        </ul>
+       </li>
+       <li> Version 0.5:
+        <ul>
+         <li> All parameters have been experimented on for AES with some
+         solver (likely minisat), with 10 hour timeouts (in general). </li>
+         <li> A considerable number of instances have been experimented on
+         with all (or multiple) solvers. </li>
+        </ul>
+       </li>
+       <li> Version 0.6:
+        <ul>
+         <li> All parameters for the AES have been experimented on, with
+         week-long timeouts ("strengthening the boundary"). </li>
+         <li> All instances have been experimented with all solvers. </li>
+        </ul>
+       </li>
+       <li> Version 0.7:
+        <ul>
+         <li> Investigations are continued into improving translations
+         based on existing results. </li>
+        </ul>
+       </li>
+       <li> Version 1.0:
+        <ul>
+         <li> Experimentation for SAT 2012 is complete. </li>
+        </ul>
+       </li>
+      </ul>
+    </ul>
+   </li>
   </ul>
 
 
@@ -166,6 +233,49 @@ License, or any later version. */
      </ul>
     </li>
    </ul>
+   </li>
+   <li> We need to investigate the boundaries for:
+    <ul>
+     <li> 1 row, 3 columns, 4-bits, </li>
+     <li> 1 row, 4 columns, 4-bits, </li>
+     <li> 1 row, 5 columns, 4-bits, </li>
+     <li> 1 row, 6 columns, 4-bits, </li>
+     <li> 1 row, 7 columns, 4-bits, </li>
+     <li> 1 row, 8 columns, 4-bits, </li>
+     <li> 2 row, 1 column, 4-bits, </li>
+     <li> 2 row, 3 columns, 4-bits, </li>
+     <li> 2 row, 5 columns, 4-bits, </li>
+     <li> 2 row, 6 columns, 4-bits, </li>
+     <li> 2 row, 7 columns, 4-bits, </li>
+     <li> 2 row, 8 columns, 4-bits, </li>
+     <li> 4 row, 1 column, 4-bits, </li>
+     <li> 4 row, 3 columns, 4-bits, </li>
+     <li> 4 row, 5 columns, 4-bits, </li>
+     <li> 4 row, 6 columns, 4-bits, </li>
+     <li> 4 row, 7 columns, 4-bits, </li>
+     <li> 4 row, 8 columns, 4-bits, </li>
+     <li> 1 row, 2 columns, 8-bits, </li>
+     <li> 1 row, 3 columns, 8-bits, </li>
+     <li> 1 row, 4 columns, 8-bits, </li>
+     <li> 1 row, 5 columns, 8-bits, </li>
+     <li> 1 row, 6 columns, 8-bits, </li>
+     <li> 1 row, 7 columns, 8-bits, </li>
+     <li> 1 row, 8 columns, 8-bits, </li>
+     <li> 2 row, 2 columns, 8-bits, </li>
+     <li> 2 row, 3 columns, 8-bits, </li>
+     <li> 2 row, 4 columns, 8-bits, </li>
+     <li> 2 row, 5 columns, 8-bits, </li>
+     <li> 2 row, 6 columns, 8-bits, </li>
+     <li> 2 row, 7 columns, 8-bits, </li>
+     <li> 2 row, 8 columns, 8-bits, </li>
+     <li> 4 row, 1 column, 8-bits, </li>
+     <li> 4 row, 2 columns, 8-bits, </li>
+     <li> 4 row, 3 columns, 8-bits, </li>
+     <li> 4 row, 5 columns, 8-bits, </li>
+     <li> 4 row, 6 columns, 8-bits, </li>
+     <li> 4 row, 7 columns, 8-bits, </li>
+     <li> 4 row, 8 columns, 8-bits. </li>
+    </ul>
    </li>
   </ul>
 
