@@ -63,6 +63,29 @@ K_(i,j) := S-box(K_(i-1,1)) + C_i + sum(K_(i-1,k),k,1,j)
   </ul>
 
 
+  \todo Overview
+  <ul>
+   <li> Comparison of translations:
+    <ul>
+     <li> minisat-2.2.0:
+      <ul>
+       <li> The number of conflicts and time for all *1-soft* translations
+       seems polynomial (linear or quadratic) in the number of rounds,
+       however, there is a large variance and so more data is needed.
+       </li>
+       <li> The number of conflicts and time for the *minimum* translation
+       seems *exponential*. </li>
+       <li> In particular, for 20 rounds, the average time to solve for
+       the canonical and 1-base translations was < 2 minutes, whereas
+       the minimum translation took > 3.8 hours, for just 17 rounds
+       (18 round experiment is still running after 5 hours). </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Translations
   <ul>
    <li> The following translations are considered in this %plans %file:

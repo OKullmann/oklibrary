@@ -59,7 +59,7 @@ License, or any later version. */
    <li> We list here any patterns noticed in the behaviour of solvers on
    key discovery instances, and suggest further avenues of investigation.
    </li>
-   <li> 4-bit instances:
+   <li> 4-bit (field size) instances:
     <ul>
      <li> For instances of the form AES(r,1,c,4) for c in 1 to 8, the
      time and number of conflicts taken to solve seem polynomial (linear
@@ -72,6 +72,23 @@ License, or any later version. */
      the 1-base translation performs best, but only by a small margin. </li>
     </ul>
    </li>
+   <li> 8-bit (field size) instances:
+    <ul>
+     <li> For all instances so far with 8-bit field elements, the
+     1-soft translations perform better by a considerable margin.
+     </li>
+     <li> In particular, the minimum translations seems to take
+     time (and conflicts) exponential in the number of rounds,
+     compared to linear or quadratic for the 1-soft translations.
+     </li>
+     <li> We have experiments on instances of the form
+     AES(r,1,1,8), AES(r,2,1,8) and AES(r,1,2,8). We should
+     consider AES(r,1,3,8), AES(4,1,8) and AES(2,2,8) next
+     to see if this pattern persists. </li>
+    </ul>
+   </li>
+   <li> Most experiments so far have been with minisat-2.2.0.
+   We should run other solvers and see if these patterns persist. </li>
   </ul>
 
 
