@@ -63,6 +63,35 @@ K_(i,j) := S-box(K_(i-1,1)) + C_i + sum(K_(i-1,k),k,1,j)
   </ul>
 
 
+  \todo Overview
+  <ul>
+   <li> Comparison of translations:
+    <ul>
+     <li> minisat-2.2.0:
+      <ul>
+       <li> The number of conflicts and time for all translations
+       seems polynomial (linear or quadratic) in the number of rounds,
+       however, there is a large variance and so more data is needed.
+       </li>
+       <li> All translations are comparable in terms of time taken to
+       solve and the number of conflicts needed. </li>
+       <li> Time: the 1-base translation is often fastest, sometimes
+       by a factor of 2, but sometimes also the minimum is (slightly)
+       faster; the canonical translation is consistantly the slowest. </li>
+       <li> Conflicts: fewer conflicts (by a factor of at most 2
+       cases in later rounds) are used for the canonical and 1-base
+       translations compared to the minimum translation. </li>
+       <li> We should apply linear regression to find a model for
+       the time and number of conflicts to solve an instance of
+       this type for "r" rounds, then predict the results for
+       a larger number of rounds and consider the result. </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Translations
   <ul>
    <li> The following translations are considered in this %plans %file:
