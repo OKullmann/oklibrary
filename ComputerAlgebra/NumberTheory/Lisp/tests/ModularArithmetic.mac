@@ -20,9 +20,40 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/ModularArithmetic.mac"
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/ModularArithmetic.mac")$
 
 
 kill(f)$
+
+
+/* ***********************
+   * Discrete logarithms *
+   ***********************
+*/
+
+okltest_modular_log(f) := block(
+  assert(f(0,0,1) = 0),
+  assert(f(0,0,2) = 1),
+  assert(f(1,2,2) = 0),
+  assert(f(0,2,2) = 1),
+  assert(f(5,2,7) = inf),
+  assert(f(5,3,7) = 5),
+  assert(f(2,3,5) = 3),
+  for a : 0 thru if oklib_test_level=0 then 5 else 8 do
+    for b : 0 thru if oklib_test_level=0 then 5 else 8 do
+      for m : 0 thru if oklib_test_level=0 then 5 else 10 do
+       block([l : f(a,b,m)],
+        for e : 0 thru m-1 while e < l do
+          assert(power_mod(b,e,m) # mod(a,m)),
+        if l#inf then
+          assert(power_mod_corr(b,l,m) = mod(a,m))
+      ),
+  assert(f(383814208, 2, 777777777) = 3690),
+  if oklib_test_level = 0 then return(true),
+  assert(f(3,2,777777777) = inf),
+  assert(f(3, 10,1111111181) = 898664729),
+
+  true)$
 
 
 /* *******************

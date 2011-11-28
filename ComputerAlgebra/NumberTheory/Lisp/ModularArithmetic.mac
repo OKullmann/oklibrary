@@ -21,6 +21,30 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/ModularArithmetic.mac");
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
+
+/* The Maxima-function power_mod handles m=1 not always correctly: */
+power_mod_corr(a,n,m) := if m=1 then 0 else power_mod(a,n,m)$
+
+
+/* ***********************
+   * Discrete logarithms *
+   ***********************
+*/
+
+/* m >= 1, a, b integers */
+modular_log(a,b,m) := if m=1 then 0 else block([found : inf, p : 1],
+ a : mod(a,m), b : mod(b,m),
+ for e : 0 thru m-1 do
+   if p=a then (found : e, return()) else p:mod(p*b,m),
+ return(found))$
+/* Specification:
+   If modular_log(a,b,m)#inf then
+     power_mod_corr(b,modular_log(a,b,m),m)=mod(a,m).
+   Always holds for all integers 0 <= e < modular_log(a,b,m):
+     power_mod_corr(b,e,m) # mod(a,m).
+*/
+
+
 /* *******************
    * Primitive roots *
    *******************

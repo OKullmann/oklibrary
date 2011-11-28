@@ -21,6 +21,13 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/testobjects/ModularArithmeti
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/ModularArithmetic.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/ModularArithmetic.mac")$
 
+/* ***********************
+   * Discrete logarithms *
+   ***********************
+*/
+
+okltest_modular_log(modular_log);
+
 /* *******************
    * Primitive roots *
    *******************
