@@ -57,9 +57,9 @@ License, or any later version. */
        </li>
        <li> See 'Using the minimum translation for the S-boxes (6-to-4)' in
        Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/5.hpp.
+       </li>
       </ul>
      </li>
-    </ul>
      <li> 6-round DES :
       <ul>
        <li> See "Using the 1-base translation for the S-boxes (6-to-4)" in
@@ -70,8 +70,10 @@ License, or any later version. */
        </li>
        <li> See 'Using the minimum translation for the S-boxes (6-to-4)' in
        Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/6.hpp.
+       </li>
       </ul>
      </li>
+    </ul>
    </li>
   </ul>
 
