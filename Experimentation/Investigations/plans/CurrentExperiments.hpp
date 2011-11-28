@@ -16,12 +16,10 @@ License, or any later version. */
 
   <h2> Advanced Encryption Standard </h2>
 
-  NEEDS URGEND UPDATE --- one needs to see what's going on!!!
-
   <ul>
    <li> Key Discovery:
    <ul>
-    <li> AdvancedEncryptionStandard/plans/KeyDiscovery/016/2_2_4/1_1.hpp.
+    <li> AdvancedEncryptionStandard/plans/KeyDiscovery/024/1_3_8/general.hpp.
     </li>
    </ul>
    </li>
