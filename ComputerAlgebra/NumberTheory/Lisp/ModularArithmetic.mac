@@ -21,6 +21,10 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/ModularArithmetic.mac");
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
+/* *******************
+   * Primitive roots *
+   *******************
+*/
 
 /* The integer m is a primitive root modulo the natural number n >= 1
    iff m generates the group of invertible elements of the ring ZZ_n:

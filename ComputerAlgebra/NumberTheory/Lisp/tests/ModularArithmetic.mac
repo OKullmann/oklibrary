@@ -25,6 +25,11 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 kill(f)$
 
 
+/* *******************
+   * Primitive roots *
+   *******************
+*/
+
 okltest_primitive_modular_root_p(f) := (
   assert(f(0,1) = true),
   assert(f(1,1) = true),

@@ -21,6 +21,11 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/testobjects/ModularArithmeti
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/ModularArithmetic.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/ModularArithmetic.mac")$
 
+/* *******************
+   * Primitive roots *
+   *******************
+*/
+
 okltest_primitive_modular_root_p(primitive_modular_root_p);
 
 okltest_has_primite_modular_root_p(has_primite_modular_root_p);
