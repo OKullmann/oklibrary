@@ -125,7 +125,7 @@ License, or any later version. */
    - 0.1.4 : 8.2.2007; steps towards a specified and testable buildsystem. Further documentation of generic.mak; corrections to makefile plans files suffixes; corrections to system-wide variable definitions.
    - 0.1.5 : 31.3.2007; further steps towards a specified and testable buildsystem; started documenting generic.mak in the doxygen-system. Further improvements in the general structure of the documentation-pages.
    - 0.1.6 : 24.6.2007; transition from CVS to Git and investigations into usage of Git, building and using Boost version 1_34_0, building gcc-4.2.0, building CMake and started planning a transition, investigations into mailing lists and the upcoming proto-release in general, overhaul of Buildsystem/plans, planning on configuration, planning on the web pages, doxygen-usage improvements, improvements of generic.mak, started creating user-documentation for the build-system, improved build of Ubcsat and Mhash, streamlining of building of external sources.
-   - 0.2  : 23.9.2007; established basic html services, locally and on the Internet, established basic package-building, improved information on external sources (with improved and extended builds), restructured make-files and improved overall documentation, introduced the new masterscript "oklib", and used and extended the configuration system throughout.
+   - 0.2   : 23.9.2007; established basic html services, locally and on the Internet, established basic package-building, improved information on external sources (with improved and extended builds), restructured make-files and improved overall documentation, introduced the new masterscript "oklib", and used and extended the configuration system throughout.
 
 */
 
