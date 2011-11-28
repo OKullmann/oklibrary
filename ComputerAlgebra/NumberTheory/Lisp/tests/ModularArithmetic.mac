@@ -41,7 +41,7 @@ okltest_modular_log(f) := block(
   assert(f(2,3,5) = 3),
   for a : 0 thru if oklib_test_level=0 then 5 else 8 do
     for b : 0 thru if oklib_test_level=0 then 5 else 8 do
-      for m : 0 thru if oklib_test_level=0 then 5 else 10 do
+      for m : 1 thru if oklib_test_level=0 then 5 else 10 do
        block([l : f(a,b,m)],
         for e : 0 thru m-1 while e < l do
           assert(power_mod(b,e,m) # mod(a,m)),
@@ -49,7 +49,7 @@ okltest_modular_log(f) := block(
           assert(power_mod_corr(b,l,m) = mod(a,m))
       ),
   assert(f(383814208, 2, 777777777) = 3690),
-  if oklib_test_level = 0 then return(true),
+  if oklib_test_level <= 2 then return(true),
   assert(f(3,2,777777777) = inf),
   assert(f(3, 10,1111111181) = 898664729),
 
