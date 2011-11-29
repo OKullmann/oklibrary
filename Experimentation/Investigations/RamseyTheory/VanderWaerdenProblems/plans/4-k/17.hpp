@@ -180,12 +180,17 @@ Break point 2: 1076
    \endverbatim
    finding all solutions within the first 9 rounds.
    </li>
-   <li>  "RunPdVdWk1k2 4 17 adaptg2wsat 10 20000000" yields
+   <li>  "RunPdVdWk1k2 4 17 adaptg2wsat 100 20000000" yields
    \verbatim
 Break point 1: 845
 Break point 2: 1076
    \endverbatim
    finding all solutions within the first 37 rounds.
+   </li>
+   <li> "RunPdVdWk1k2 4 17 ddfw 100 20000000" yields
+   \verbatim
+XXX (cscarme)
+   \endverbatim
    </li>
   </ul>
 

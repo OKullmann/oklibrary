@@ -153,7 +153,6 @@ Break point: 669
 18  9
 27
 # aborted
-XXX
    \endverbatim
    </li>
    <li> "RunVdWk1k2 5 10 11 adaptg2wsat 100 100000000" yields:
@@ -298,6 +297,7 @@ Break point 2: 612
 100
    \endverbatim
    </li>
+   <li> "RunPdVdWk1k2 5 10 ddfw 100 60000000" yields XXX cscharon </li>
    <li> One should probe further for n=596 and n=613 XXX </li>
   </ul>
 

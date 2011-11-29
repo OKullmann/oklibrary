@@ -64,8 +64,18 @@ tcol2sat_stdohg2stdofcs(G) := [G[1], append(G[2], comp_cl(G[2]))]$
    actually a (formal) ordered clause-list. */
 tcol2sat_ohg2fcl(G) := [map(colv_var,G[1]),
   block([Fpos : map(lambda([H], map(colv_var,H)), G[2])],
-    append(Fpos, comp_cs(Fpos)))]$
-tcol2sat_stdohg2stdfcl(G) := [G[1], append(G[2], comp_cs(G[2]))]$
+    append(Fpos, comp_cl(Fpos)))]$
+tcol2sat_stdohg2stdfcl(G) := [G[1], append(G[2], comp_cl(G[2]))]$
+
+gtcol2sat_ohg2fcl(G1,G2) :=
+ [map(colv_var,stable_unique(append(G1[1],G2[1]))),
+  append(map(lambda([H], map(colv_var,H)), G1[2]),
+         comp_cl(map(lambda([H], map(colv_var,H)), G2[2])))
+ ]$
+gtcol2sat_stdohg2stdfcl(G1,G2) := [
+ create_list(i,i,1,max(length(G1[1]),length(G2[1]))),
+ append(G1[2], comp_cl(G2[2]))
+]$
 
 
 /* ***********************************

@@ -197,6 +197,7 @@ Break point 2: 1205
 200
    \endverbatim
    </li>
+   <li> "RunPdVdWk1k2 5 13 rnovelty+ 200 160000000" yields XXX cstriton </li>
   </ul>
 
 */

@@ -10,10 +10,15 @@ License, or any later version. */
   \brief On investigations into vdw_2(6,9)
 
 
-  \todo Best complete solver for palindromic problems
-
-
   \todo Best local-search solver for palindromic problems
+  <ul>
+   <li>
+   \verbatim
+> E=run_ubcsat("VanDerWaerden_pd_2-6-9_1381.cnf",runs=100,cutoff=10000000)
+XXX cscarme
+   \endverbatim
+   </li>
+  </ul>
 
 
   \todo vdw_2^pd(6,9) >= (943,1382)
@@ -98,7 +103,7 @@ Break point 2: 1382
 100
    \endverbatim
    and thus perhaps the true value of vdw_2^pd(6,9)_2 is much larger, but
-   these instances are very hard. After the first break point all solutions
+   these instances are very hard. After the first break-point all solutions
    were found as modifications of the ones obtained before the first break
    point, with a maximum number of steps of 286466. </li>
    <li> "RunPdVdWk1k2 6 9 adaptg2wsat 200 320000000" yields

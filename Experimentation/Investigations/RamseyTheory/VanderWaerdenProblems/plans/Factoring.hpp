@@ -608,6 +608,41 @@ INDETERMINATE
 # apparently no progress
    \endverbatim
    </li>
+   <li> Now modular reduction:
+   \verbatim
+n : 1204$
+m : ceiling(n/4);
+  301
+k1:5$
+k2:13$
+G1204a : arithprog_hg(k1,n)$
+G1204b : arithprog_hg(k2,n)$
+G1204am4 : modulo_projection_hg(G1204a, m)$
+ncl_list_fcs(G1204am4);
+  [[5,45150]]
+G1204bm4 : modulo_projection_hg(G1204b, m)$
+ncl_list_fcs(G1204bm4);
+  [[7,43],[13,25802]]
+G1204bm4m : min_hg(G1204bm4)$
+ncl_list_fcs(G1204bm4m);
+  [[7,43],[13,25802]]
+
+F1204m4 : gtcol2sat_stdohg2stdfcl(hg2ohg(G1204am4),hg2ohg(G1204bm4))$
+outputext_fcl("modulo_projection_hg(arithprog_hg(5|13,1204),301)",F1204m4,"VanDerWaerden_m4_2-5-13_1204.cnf");
+
+> ubcsat-okl -alg adaptg2wsat -runs 100 -cutoff 1000000 -i VanDerWaerden_m4_2-5-13_1204.cnf | tee VanDerWaerden_m4_2-5-13_1204.cnf_OUT
+> E=read_ubcsat("VanDerWaerden_m4_2-5-13_1204.cnf_OUT",nrows=100)
+16 17 18 19 20 21 
+ 8 18 30 25 17  2 
+100 
+# cutoff=10^7:
+13 14 15 16 17 18 
+ 4 10 22 35 26  3 
+100 
+# cutoff=10^8:
+XXX (cs-oksvr)
+   \endverbattim
+   </li>
   </ul>
 
 */

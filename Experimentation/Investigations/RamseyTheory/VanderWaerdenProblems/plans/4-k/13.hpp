@@ -31,7 +31,24 @@ License, or any later version. */
 551,562
    \endverbatim
    </li>
-   <li> Start with the palindromic solution for n=537: XXX </li>
+   <li> Start with the palindromic solution for n=537:
+   \verbatim
+C : create_certificate2c_pdvdw([
+2,15,19,21,22,26,34,35,38,39,
+44,46,59,68,70,72,73,75,77,78,
+80,82,91,99,104,106,111,112,115,116,
+128,129,131,134,135,136,148,156,159,165,
+167,170,175,185,196,201,203,209,210,212,
+213,215,216,225,226,229,231,233,238,240,
+253,256,262,264,266,267,269], 537);
+certificate_pdvdw_p([4,13],537,C);
+  true
+output_certificate2_vdw(reverse(C), "VanDerWaerden_2-4-13_537.cnf_sol");
+
+RunVdWk1k2 4 13 537 ddfw 200 40000000 VanDerWaerden_2-4-13_537.cnf_sol
+XXX csoberon
+   \endverbatim
+   </li>
    <li> Finding best ubcsat-algorithm:
    \verbatim
 > VanderWaerdenCNF-O3-DNDEBUG 4 13 537

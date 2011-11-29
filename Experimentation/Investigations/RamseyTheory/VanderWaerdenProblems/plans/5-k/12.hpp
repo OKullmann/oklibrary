@@ -204,7 +204,7 @@ Break point 2: 963
 15 55 29  1
 100
    \endverbatim
-   "RunPdVdWk1k2 5 12 rnovelty+ 200 160000000" yields XXX
+   "RunPdVdWk1k2 5 12 rnovelty+ 200 160000000" yields XXX cstriton
    </li>
   </ul>
 

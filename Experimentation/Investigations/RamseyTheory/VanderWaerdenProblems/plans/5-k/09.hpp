@@ -32,7 +32,7 @@ License, or any later version. */
 430,432,434,439,445,446,449,454,456,460,
 464,465,467,469
    \endverbatim
-   or
+   (this is palindromic) or
    \verbatim
 5,7,8,9,11,14,19,28,29,34,
 36,37,39,40,43,44,50,53,59,60,
@@ -139,7 +139,8 @@ fps: 125147
  1 13 21 45 20
 fps: 124954
    \endverbatim
-   Looks like rnovelty is the relatively clear winner. </li>
+   Looks like rnovelty is the relatively clear winner; however below it seems
+   that ddfw is clearly better. </li>
    <li> Using the palindromic solution:
    \verbatim
 > cat VanDerWaerden_pd_2-5-9_472.cnf_sol | PdExtend-O3-DNDEBUG 472 > VanDerWaerden_2-5-9_472.cnf_sol
@@ -148,6 +149,10 @@ fps: 124954
  3  4  5  6  7
  1  1  5 26 10
 43
+
+# now with the better ubcsat-algorithm:
+> k1=5 k2=9 n0=472 alg="ddfw" runs=1000 cutoff=400000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} VanDerWaerden_2-${k1}-${k2}_${n0}.cnf_sol
+XXX cscharon
    \endverbatim
    </li>
    <li> Starting again from scratch:
@@ -182,7 +187,15 @@ k1=5 k2=9 n0=10 alg="ddfw" runs=1000 cutoff=400000000; RunVdWk1k2 ${k1} ${k2} ${
  4  5  6  7
  1  4 11  2
 18
-XXX # cscharon
+# restarted
+    436     1   92349487  974369667  r
+    443     2  136438883 1213398302  r
+    448    44  128466334 3848578335  r
+> E=read_ubcsat("VanDerWaerden_2-5-9_471.cnf_OUT")
+ 5  6  7 
+10 27  6 
+43 
+
    \endverbatim
    This seems much better than rnovelty. </li>
   </ul>
