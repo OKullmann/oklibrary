@@ -229,7 +229,14 @@ Break point 2: 682
 119
      \endverbatim
      </li>
-     <li> adaptg2wsat, cutoff=10^8: XXX </li>
+     <li> adaptg2wsat, cutoff=10^8:
+     \verbatim
+> E=read_ubcsat("VanDerWaerden_pd_2-4-14_682.cnf_OUT",nrows=200)
+  2   3   4  14  15  16  17  18
+ 64 103  13   1   1   1  10   7
+200
+     \endverbatim
+     </li>
     </ol>
    </li>
   </ul>
