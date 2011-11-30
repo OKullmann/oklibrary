@@ -54,6 +54,44 @@ License, or any later version. */
   with a final key addition), are in 128/4_4_8/1_13.hpp.
 
 
+  \todo Patterns
+  <ul>
+   <li> We list here any patterns noticed in the behaviour of solvers on
+   key discovery instances, and suggest further avenues of investigation.
+   </li>
+   <li> 4-bit (field size) instances (so far):
+    <ul>
+     <li> All translations perform comparably; there is no clear "best"
+     translation. </li>
+    </ul>
+   </li>
+   <li> 8-bit (field size) instances (so far):
+    <ul>
+     <li> The 1-soft translations perform better by a considerable
+     margin (e.g., 35 times faster; 1000 times less conflicts). </li>
+     <li> Comparing "time to solve" (or "conflicts") vs
+     "number of rounds":
+      <ul>
+       <li> 1-soft translations: (best) fit (equally well) by either a
+       quadratic function, or exponential t ~ e^(0.2*r). </li>
+       <li> minimum translations: (best) fit (equally well) by either a
+       quintic function, or exponential t ~ e^(0.6*r). </li>
+      </ul>
+     That is, the minimum translation gets "harder, faster" as the
+     number of rounds increases. </li>
+     <li> We have experiments on instances of the form
+     AES(r,1,1,8), AES(r,2,1,8) and AES(r,1,2,8). </li>
+     <li> We should consider AES(r,1,3,8), AES(4,1,8) and AES(2,2,8) next
+     to see if this pattern persists. </li>
+     <li> We also need to almalgamate the data from all other
+     experiments into this todo. </li>
+    </ul>
+   </li>
+   <li> Most experiments so far have been with minisat-2.2.0.
+   We should run other solvers and see if these patterns persist. </li>
+  </ul>
+
+
   \todo Explanations
   <ul>
    <li> For every set of AES parameters (rows, columns and field size), we
