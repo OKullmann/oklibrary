@@ -22,8 +22,11 @@ License, or any later version. */
   \par
    In Experimentation/Investigations/plans/general.hpp the following topics
    are handled:
+    - Structure
+    - Create milestones
     - Rerun time-sensitive experiments
     - Experiment scripts
+    - Add section on AES experiments to be run
 
   \par
    In Experimentation/Investigations/BooleanFunctions/plans/general.hpp the
@@ -36,6 +39,14 @@ License, or any later version. */
 
 
   \par Version 0.3.2 :
+
+  \par
+   In Experimentation/Investigations/plans/general.hpp the following topics
+   are handled:
+    - Sat-probability-approximations
+    - Experimental investigations on heuristics
+    - Translations from CSP to SAT
+    - SplittingViaOKsolver for random clause-sets
 
   \par
    All submodules have milestones.

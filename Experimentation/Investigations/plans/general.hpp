@@ -21,7 +21,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Create milestones.
+  \todo Create milestones
 
 
   \todo Rerun time-sensitive experiments
