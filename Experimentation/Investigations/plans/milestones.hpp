@@ -20,11 +20,15 @@ License, or any later version. */
   (see Cryptography/DataEncryptionStandard/plans/milestones.hpp)
 
   \par
+   In Experimentation/Investigations/plans/general.hpp the following topics
+   are handled:
+    - Rerun time-sensitive experiments
+    - Experiment scripts
+
+  \par
    In Experimentation/Investigations/BooleanFunctions/plans/general.hpp the
    following topics are handled:
     - Add milestones
-    - Rerun time-sensitive experiments
-    - Experiment scripts
     - Plans for investigating random boolean functions : DONE
 
   \par
