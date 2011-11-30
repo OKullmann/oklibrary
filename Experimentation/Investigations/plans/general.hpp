@@ -140,7 +140,8 @@ find ./ -iname "*" -exec file \{} \; | grep Bourne-Again
   </ul>
 
 
-  \todo Add section on AES experiments to be run NEEDS UPDATE
+  \todo Add section on AES experiments to be run WHAT IS THE STATUS OF THIS?
+  SHOULD BE COMPLETED BY NOW!
   <ul>
    <li> Experiments need to be run on AES instances with different types
    of SAT algorithm (local search, dpll etc) to see how things stand
