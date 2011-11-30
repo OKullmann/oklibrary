@@ -13,8 +13,10 @@ License, or any later version. */
 
   \todo Structure
   <ul>
-   <li> Is the name "Investigations" right? </li>
-   <li> Is the part Experimentation the right part? </li>
+   <li> DONE (well-established now)
+   Is the name "Investigations" right? </li>
+   <li> DONE (well-established now)
+   Is the part Experimentation the right part? </li>
    <li> How shall we present the data? </li>
   </ul>
 
@@ -43,7 +45,7 @@ License, or any later version. */
      <li> This list must be expanded. </li>
     </ul>
    </li>
-   <li> Safey measures:
+   <li> Safety measures:
     <ol>
      <li> Time sensitive experiments could always be run with the
      "time" shell command to ensure that the solver reports the correct
