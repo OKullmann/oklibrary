@@ -46,7 +46,14 @@ certificate_pdvdw_p([4,13],537,C);
 output_certificate2_vdw(reverse(C), "VanDerWaerden_2-4-13_537.cnf_sol");
 
 RunVdWk1k2 4 13 537 ddfw 200 40000000 VanDerWaerden_2-4-13_537.cnf_sol
-XXX csoberon
+Break point: 558
+> cat Statistics
+    553    86   25345049 2530818975  r
+> E=read_ubcsat("VanDerWaerden_2-4-13_558.cnf_OUT",nrows=200)
+
+ 1 21 22 23 24 25 26 27 28
+ 4  1  5 13 29 41 67 35  5
+200
    \endverbatim
    </li>
    <li> Finding best ubcsat-algorithm:

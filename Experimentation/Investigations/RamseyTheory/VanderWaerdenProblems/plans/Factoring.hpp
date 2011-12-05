@@ -632,14 +632,19 @@ outputext_fcl("modulo_projection_hg(arithprog_hg(5|13,1204),301)",F1204m4,"VanDe
 
 > ubcsat-okl -alg adaptg2wsat -runs 100 -cutoff 1000000 -i VanDerWaerden_m4_2-5-13_1204.cnf | tee VanDerWaerden_m4_2-5-13_1204.cnf_OUT
 > E=read_ubcsat("VanDerWaerden_m4_2-5-13_1204.cnf_OUT",nrows=100)
-16 17 18 19 20 21 
- 8 18 30 25 17  2 
-100 
+16 17 18 19 20 21
+ 8 18 30 25 17  2
+100
 # cutoff=10^7:
-13 14 15 16 17 18 
- 4 10 22 35 26  3 
-100 
+13 14 15 16 17 18
+ 4 10 22 35 26  3
+100
 # cutoff=10^8:
+> E=read_ubcsat("VanDerWaerden_m4_2-5-13_1204.cnf_OUT",nrows=100)
+11 12 13 14 15 16
+ 1  5 21 43 29  1
+100
+# cutoff=10^9:
 XXX (cs-oksvr)
    \endverbattim
    </li>
