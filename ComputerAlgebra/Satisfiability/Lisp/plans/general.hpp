@@ -38,16 +38,16 @@ License, or any later version. */
    <li> We have the following definitions:
     <ul>
      <li> A MaxSAT problem, given a clause-set, is the problem of
-     finding a total assignment that maximises the number of satisfied
+     finding an assignment that maximises the number of satisfied
      clauses. </li>
      <li> A weighted MaxSAT problem, given a clause-set and a mapping from
-     the clauses to positive-integer weights, is the problem of finding a
-     total assignment which maximises the sum of the weights of the
-     satisfied clauses. </li>
+     the clauses to positive-integer weights, is the problem of finding an
+     assignment which maximises the sum of the weights of the satisfied
+     clauses. </li>
      <li> A partial MaxSAT problem, given a clause-set and a partitioning of
      the clause-set into "hard" and "soft" clauses, is the problem of finding
-     a total assignment which satisfies all of the "hard" clauses, and
-     maximises the number of satisfied "soft" clauses. </li>
+     an assignment which satisfies all of the "hard" clauses, and maximises
+     the number of satisfied "soft" clauses. </li>
      <li> A weighted partial MaxSAT problem, given a clause-set, a
      partitioning of the clause-set into "hard" and "soft" clauses, and map
      from "soft" clauses to positive-integer weights, is the problem of
