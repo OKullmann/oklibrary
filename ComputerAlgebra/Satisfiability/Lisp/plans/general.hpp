@@ -56,7 +56,8 @@ License, or any later version. */
      <li> Such definitions are also provided in [The First and Second Max-SAT
      Evaluations; Josep Argerlich, Chu-Min Li, Felip Manyá and Jordi Planes].
      </li>
-     <li> MaxSAT competitions are available at http://maxsat.ia.udl.cat/ . </li>
+     <li> MaxSAT competitions are available at http://maxsat.ia.udl.cat/ .
+     </li>
     </ul>
    </li>
    <li> Note that in all cases where we "maximise the X of the
