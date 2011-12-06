@@ -45,6 +45,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp the following
    topics are handled:
+    - MaxSAT, weighted MaxSAT, and partial MaxSAT
     - Redesign
 
   \par

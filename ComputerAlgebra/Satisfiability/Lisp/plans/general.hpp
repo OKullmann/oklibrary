@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.6.2007 (Swansea)
-/* Copyright 2007, 2008, 2009 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,6 +30,82 @@ License, or any later version. */
   <ul>
    <li> See "Clause-lists instead of clause-sets" below. </li>
    <li> See "Better general naming conventions" below. </li>
+  </ul>
+
+
+  \todo MaxSAT, weighted MaxSAT, and partial MaxSAT
+  <ul>
+   <li> We have the following definitions:
+    <ul>
+     <li> A MaxSAT problem, given a clause-set, is the problem of
+     finding a total assignment that maximises the number of satisfied
+     clauses. </li>
+     <li> A weighted MaxSAT problem, given a clause-set and a mapping from
+     the clauses to positive-integer weights, is the problem of finding a
+     total assignment which maximises the sum of the weights of the
+     satisfied clauses. </li>
+     <li> A partial MaxSAT problem, given a clause-set and a partitioning of
+     the clause-set into "hard" and "soft" clauses, is the problem of finding
+     a total assignment which satisfies all of the "hard" clauses, and
+     maximises the number of satisfied "soft" clauses. </li>
+     <li> A weighted partial MaxSAT problem, given a clause-set, a
+     partitioning of the clause-set into "hard" and "soft" clauses, and map
+     from "soft" clauses to positive-integer weights, is the problem of
+     finding a total assignment which satisfies all "hard" clauses, and
+     maximises the sum of the weights of the satisfied "soft" clauses. </li>
+     <li> Such definitions are also provided in [The First and Second Max-SAT
+     Evaluations; Josep Argerlich, Chu-Min Li, Felip Manyá and Jordi Planes].
+     </li>
+     <li> MaxSAT competitions are available at http://maxsat.ia.udl.cat/ . </li>
+    </ul>
+   </li>
+   <li> Note that in all cases where we "maximise the X of the
+   satisfied clauses", we could also consider that we
+   "minimise the X of the falsified clauses". </li>
+   <li> The following tools currently utilise translations
+   to (Weighted, Partial or standard) MaxSAT:
+    <ul>
+     <li> MinOnes2WeightedMaxSAT in
+     Satisfiability/Interfaces/InputOutput/MinOnes2WeightedMaxSAT.cpp. </li>
+     <li> The AES MaxSAT benchmarks in
+     Experimentation/Benchmarks/docus/SAT2011.hpp. </li>
+    </ul>
+   </li>
+   <li> For MaxSAT solvers, see
+    <ul>
+     <li> maxsatz under "Satz", </li>
+     <li> "MiniMaxSAT", and </li>
+     <li> "Maxsat" </li>
+    </ul>
+    in Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp.
+   </li>
+   <li> We need data-structures at the lisp level to handle
+   these concepts:
+    <ul>
+     <li> For MaxSAT, the standard clause-lists and so on
+     are sufficient, as the input is the same as for
+     standard satisfiability. </li>
+     <li> For weighted MaxSAT, we could represent this as
+     a pair [F,w] where F is the (formal) clause-set and w is
+     the map from clauses to weights. </li>
+     <li> For partial MaxSAT:
+      <ul>
+       <li> We could represent the input as a pair [F_H, F_S] of the
+       "hard" clause-set and "soft" clause-set. </li>
+       <li> For a "formal" partial MaxSAT instance, it seems best
+       to have a triple [V,F_H,F_S], rather than a pair of formal
+       clause-sets; we (likely) never consider the total assignments over
+       just the variables of the "soft" clauses. </li>
+      </ul>
+     </li>
+     <li> For weighted partial MaxSAT, it then seems natural to have a
+     triple [F_H,F_S,w_s] where F_H and F_S are the "hard" and "soft"
+     clauses, and w_s is the map from the soft clauses to their weights.
+     </li>
+    </ul>
+   </li>
+   <li> We should also a basic (weighted) (partial) MaxSAT solver
+   at the Maxima level. </li>
   </ul>
 
 
