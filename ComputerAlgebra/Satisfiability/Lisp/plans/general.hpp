@@ -62,9 +62,10 @@ License, or any later version. */
    </li>
    <li> Note that in all cases where we "maximise the X of the
    satisfied clauses", we could also consider that we
-   "minimise the X of the falsified clauses". </li>
-   <li> The following tools currently utilise translations
-   to (Weighted, Partial or standard) MaxSAT:
+   "minimise the X of the falsified clauses". This is likely better since
+   falsified clauses are more appropriate for CNF (the standard). </li>
+   <li> The following tools currently utilise translations to
+   (weighted, partial or standard) MaxSAT:
     <ul>
      <li> MinOnes2WeightedMaxSAT in
      Satisfiability/Interfaces/InputOutput/MinOnes2WeightedMaxSAT.cpp. </li>
@@ -80,15 +81,22 @@ License, or any later version. */
     </ul>
     in Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp.
    </li>
-   <li> We need data-structures at the lisp level to handle
-   these concepts:
+   <li> We need data-structures at the Lisp-level to handle these concepts:
     <ul>
-     <li> For MaxSAT, the standard clause-lists and so on
-     are sufficient, as the input is the same as for
-     standard satisfiability. </li>
-     <li> For weighted MaxSAT, we could represent this as
-     a pair [F,w] where F is the (formal) clause-set and w is
-     the map from clauses to weights. </li>
+     <li> For MaxSAT, the standard clause-lists and so on are sufficient, as
+     the input is the same as for standard satisfiability. </li>
+     <li> Weighted MaxSAT:
+      <ol>
+       <li> We could represent this as a pair [F,w] where F is the (formal)
+       clause-set and w is the map from clauses to weights. </li>
+       <li> However using just pairs [C,w] of clauses of weights is more
+       natural, since only the given clauses of weights, and the notion of
+       a map is less natural here. </li>
+       <li> Actually this replacement of clauses by pairs (C,w) replaces the
+       set (or variations) of clauses by a map (in the set-theoretical sense).
+       </li>
+      </ol>
+     </li>
      <li> For partial MaxSAT:
       <ul>
        <li> We could represent the input as a pair [F_H, F_S] of the
@@ -97,14 +105,26 @@ License, or any later version. */
        to have a triple [V,F_H,F_S], rather than a pair of formal
        clause-sets; we (likely) never consider the total assignments over
        just the variables of the "soft" clauses. </li>
+       <li> But see below for a better possibility. </li>
       </ul>
      </li>
      <li> For weighted partial MaxSAT, it then seems natural to have a
-     triple [F_H,F_S,w_s] where F_H and F_S are the "hard" and "soft"
-     clauses, and w_s is the map from the soft clauses to their weights.
+     triple [F_H,F_S] where F_H and F_S are the "hard" and "soft"
+     clauses, F_S is a weighted MaxSAT problem as above (pairs of clauses
+     and weights). But see below. </li>
      </li>
     </ul>
    </li>
+   <li> Considering minimising the falsified clauses (for CNF; for DNF we
+   should consider minimising the satisfied clauses), we can unify partial
+   and weighted MaxSAT by considering pairs [C,w], where the weight can be
+   inf --- this indicates that the clause shall be satisfied (this is
+   achievable iff the minimum weight is strictly less than inf). </li>
+   <li> We consider thus just "wcl", i.e., weighted clauses, in all the
+   usual variations ("wcs", "wcl", "fwcs", "fwcl"). </li>
+   <li> The differentiation between partial and non-partial forms is just
+   whether inf occurs or not; and for ordinary MaxSAT just all w=1. </li>
+   <li> In principle we could allow arbitrary w. </li>
    <li> We should also a basic (weighted) (partial) MaxSAT solver
    at the Maxima level. </li>
   </ul>
