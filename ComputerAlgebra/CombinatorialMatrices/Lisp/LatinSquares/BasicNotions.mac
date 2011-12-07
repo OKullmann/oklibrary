@@ -165,6 +165,18 @@ ssls_p(A) := block([n : matrix_size(A)[1]],
           all_tuples(setn(n), 2)))$
 
 
+/* ****************
+   * Combinations *
+   ****************
+*/
+
+sodls_p(A) := dls_p(A) and sols_p(A)$
+
+sssodls_p(A) := ssls_p(A) and sodls_p(A)$
+
+psssodls_p(A) := pls_p(A) and sssodls_p(A)$
+
+
 /* ************
    * Examples *
    ************

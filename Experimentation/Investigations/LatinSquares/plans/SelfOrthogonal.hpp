@@ -40,9 +40,7 @@ License, or any later version. */
    </li>
    <li> Since our indices are 1-based, we use the standard matrix-indices,
    starting with 1, and also the values of latin squares are 1-based. </li>
-   <li> See okltest_psssodls_8_ls in
-   ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/tests/BasicNotions.mac
-   for how to check the defining properties. </li>
+   <li> Via psssodls_p(A) we can check whether matrix A is a PSSSODLS. </li>
    <li> In [Discrete Mathematics using Latin Squares, Laywine, Mullen] the
    term "pandiagonal" is a strengthening of "diagonal", that is, for all
    pandiagonals all values must be different. This is stronger than the

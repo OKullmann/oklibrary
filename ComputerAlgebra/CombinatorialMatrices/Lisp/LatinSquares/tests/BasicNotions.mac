@@ -221,6 +221,27 @@ okltest_ssls_p(f) := (
   true)$
 
 
+/* ****************
+   * Combinations *
+   ****************
+*/
+
+okltest_sodls_p(f) := (
+  assert(f(psssodls_8_ls) = true),
+  /* XXX */
+  true)$
+
+okltest_sssodls_p(f) := (
+  assert(f(psssodls_8_ls) = true),
+  /* XXX */
+  true)$
+
+okltest_psssodls_p(f) := (
+  assert(f(psssodls_8_ls) = true),
+  /* XXX */
+  true)$
+
+
 /* ************
    * Examples *
    ************
@@ -264,12 +285,8 @@ okltest_dk10_o_hrls(f) := (
 
 okltest_psssodls_8_ls(f) := (
   assert(matrix_size(f) = [8,8]),
-  assert(ls_p(f) = true),
-  assert(dls_p(f) = true),
-  assert(socomls_p(m2scom(f)) = true),
-  assert(ssls_p(f) = true),
+  assert(psssodls_p(f) = true),
   assert(spls_p(f) = false),
-  assert(pls_p(f) = true),
   true)$
 
 
