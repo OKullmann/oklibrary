@@ -174,9 +174,8 @@ minion-0.12/bin> CC="$(gcc_call_okl)" CXX="$(gcc_call_okl)" cmake -DBOOST_ROOT:P
 
   \todo Eclipse
   <ul>
-   <li> Eclipse http://eclipse-clp.org/ </li>
-   <li> Apparently no longer available? The web-page seems unrelated to
-   CSP. </li>
+   <li> Eclipse http://eclipseclp.org/index.html </li>
+   <li> Looks like another powerful system. </li>
   </ul>
 
 
