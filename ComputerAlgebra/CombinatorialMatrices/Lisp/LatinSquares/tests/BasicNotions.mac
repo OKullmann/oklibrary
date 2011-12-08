@@ -228,16 +228,19 @@ okltest_ssls_p(f) := (
 
 okltest_sodls_p(f) := (
   assert(f(psssodls_8_ls) = true),
+  assert(f(psssodls_9_ls) = true),
   /* XXX */
   true)$
 
 okltest_sssodls_p(f) := (
   assert(f(psssodls_8_ls) = true),
+  assert(f(psssodls_9_ls) = true),
   /* XXX */
   true)$
 
 okltest_psssodls_p(f) := (
   assert(f(psssodls_8_ls) = true),
+  assert(f(psssodls_9_ls) = true),
   /* XXX */
   true)$
 
@@ -289,6 +292,11 @@ okltest_psssodls_8_ls(f) := (
   assert(spls_p(f) = false),
   true)$
 
+okltest_psssodls_9_ls(f) := (
+  assert(matrix_size(f) = [9,9]),
+  assert(psssodls_p(f) = true),
+  assert(spls_p(f) = false),
+  true)$
 
 /* **************
    * Generators *
