@@ -52,4 +52,44 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo SAT translations
+  <ul>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/LatinSquares.mac
+   for the framework. </li>
+   <li> We want to construct formulas Fpsssodls_n, which are satisfiable iff
+   PSSSODLS(n) is not empty, and where from a solution an element is
+   constructible. </li>
+   <li> Handling the non-boolean variables:
+    <ol>
+     <li> Given the current availability of tools and methods, it seems easiest
+     for now to jump directly to the boolean level, specifying some reasonable
+     encodings. </li>
+     <li> That is, we consider some t_i(n) <= VA, which are sets of boolean
+     variables, together with a map ip_i ("interpretation"), which maps
+     total assignments over V_n to elements of PSSSODLS(n). </li>
+     <li> The "formulas" (clause-sets with possible extensions, like
+     pseudo-boolean conditions) F_i(n) have var(F_i(n)) <= t_i(n), where
+     F_i(n) is satisfiable iff PSSSODLS(n) is non-empty, and where for a total
+     satisfying assignment via ip_i we get a solution. </li>
+     <li> I (OK) see three possible t_i (t_1,t_2,t_3):
+      <ol>
+       <li> t_1 just uses the so-called direct encoding, i.e., the variables
+       ls(i,j,k), already used in
+       ComputerAlgebra/Satisfiability/Lisp/Generators/LatinSquares.mac. </li>
+       <li> t_2 uses the unary encoding, that is, variables uls(i,j,k) for
+       field (i,j) and 1 <= k <= n-1, where value 1 <= p <= n is encoded by
+       uls(i,j,k) being true for exactly k < p. This is unary when considering
+       the actual value as p-1, i.e., 0-based. And we have the property
+       that if uls(i,j,k) is true, then also for all k' < k, and if it's
+       false, then also for all k' > k. </li>
+       <li> t_3 uses both variable-types at the same time, with the linking
+         ls(i,j,k) <-> (not uls(i,j,k) and uls(i,j,k-1))
+       (where for k=1 the undefined term "uls(i,j,k-1)" is not there). </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
+  </ul>
+
 */
