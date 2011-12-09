@@ -296,6 +296,7 @@ okltest_psssodls_9_ls(f) := (
   assert(matrix_size(f) = [9,9]),
   assert(psssodls_p(f) = true),
   assert(spls_p(f) = false),
+  assert(sdk_p(f) = true),
   true)$
 
 /* **************

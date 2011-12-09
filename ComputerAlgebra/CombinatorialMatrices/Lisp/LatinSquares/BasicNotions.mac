@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Sudoku.mac")$
 
 
 /* *****************************
@@ -43,7 +44,7 @@ comlso_p(A,H) := sqscom_p(A,H) and block([n : length(H)],
 
 /* Accordingly, isomorphism of latin squares would be isomorphisms of
    combinatorial matrices, and thus treat columns and rows independently.
-   However this inherited standard notion of isomorphism is not general 
+   However this inherited standard notion of isomorphism is not general
    enough, since also value permutations must be considered; see below for the
    various notions considered.
    "comlso" stands for "combinatorial latin square over" (the value set).
@@ -52,29 +53,29 @@ comlso_p(A,H) := sqscom_p(A,H) and block([n : length(H)],
 
 /* A "combinatorial latin square" is a quasigroup: */
 comls_p(A) := qgrp_p(A)$
-/* 
+/*
   So here row index set, column index set and value set coincide. We have
     comls_p(A) = scom_p(A) and block([B : scom2com(A)], comlso_p(B,B[1])).
 
-  The notion of "isomorphic quasigroups" is not of (high) relevance for latin 
-  squares, but the three more general notions used for quasigroups are 
+  The notion of "isomorphic quasigroups" is not of (high) relevance for latin
+  squares, but the three more general notions used for quasigroups are
   to be used: Isotopism, parastrophism and paratopism (their combination) .
 */
 
 
-/* A "latin square" is a square Maxima matrix A such that m2scom(A) is a 
+/* A "latin square" is a square Maxima matrix A such that m2scom(A) is a
    combinatorial latin square:
 */
 ls_p(A) := matrixp(A) and block([s : matrix_size(A)],
   is(s[1] = s[2]) and comls_p(m2scom(A)))$
-/* Standardised combinatorial latin squares fully correspond to 
+/* Standardised combinatorial latin squares fully correspond to
    latin squares (as Maxima matrices). */
 
-/* A "half-reduced latin square" is a latin square which has i as the 
+/* A "half-reduced latin square" is a latin square which has i as the
    first entry in row i (for all i): */
 hrls_p(A) := ls_p(A) and block([s : matrix_size(A)],
   is(s[1] = 0) or is(transpose(A)[1] = create_list(i,i,1,s[1])))$
-/* A "reduced latin square" is a half-reduced latin square which has i as the 
+/* A "reduced latin square" is a half-reduced latin square which has i as the
    first entry in column i (for all i): */
 rls_p(A) := hrls_p(A) and block([s : matrix_size(A)],
   is(s[1] = 0) or is(A[1] = create_list(i,i,1,s[1])))$
@@ -148,7 +149,7 @@ mocomls_p(L) := listp(L) and block([n : length(L), is_mols : true],
 mols_p(L) := mocomls_p(map(m2scom,L))$
 
 /* Whether a combinatorial latin square is "self-orthogonal", i.e., orthogonal
-   to its complement:
+   to its transposed:
 */
 socomls_p(A) := ocomls_p(A,trans_scom(A))$
 /* The same for latin squares: */
@@ -160,15 +161,37 @@ sols_p(A) := socomls_p(m2scom(A))$
    ************
 */
 
+/* Whether a latin square has "strong symmetry": */
 ssls_p(A) := block([n : matrix_size(A)[1]],
   every_s(lambda([p], is(A[p[1],p[2]]+A[n+1-p[1],n+1-p[2]]=n+1)),
           all_tuples(setn(n), 2)))$
+
+
+/* ***************************
+   * Sudoku-like constraints *
+   ***************************
+*/
+
+/* Whether a square Maxima-matrix fulfils the Sudoku box-constraints (i.e.,
+   in all boxes of dimension p, where p^2 = n for the dimension n, all
+   entries are different):
+*/
+sdkbox_p(A) := block([n : matrix_size(A)[1], p],
+ p : ceiling(sqrt(n)),
+ if p^2#n then return(false),
+ every_s(lambda([P], alldifferent_m_p(A, sdk_positions_box(P[1],P[2],p))),
+         all_tuples(setn(p), 2)))$
 
 
 /* ****************
    * Combinations *
    ****************
 */
+
+/* Whether Maxima-matrix A is a (generalised) Sudoku (arbitrary box-dimension
+   p >= 1):
+*/
+sdk_p(A) := ls_p(A) and sdkbox_p(A)$
 
 sodls_p(A) := dls_p(A) and sols_p(A)$
 
@@ -208,7 +231,7 @@ nassoc_rls : matrix(
  [5,3,4,2,1]
 )$
 
-/* The (reduced) latin square of order 10 from 
+/* The (reduced) latin square of order 10 from
    [Knuth, Volume 4, Fascicle 0]: */
 dk10_rls : matrix(
  [1,2,3,4,5,6,7,8,9,10],
@@ -266,6 +289,7 @@ psssodls_9_ls : 1+matrix(
  [7,8,6,4,5,3,1,2,0],
  [3,4,5,0,1,2,6,7,8]
 )$
+
 
 /* **************
    * Generators *
