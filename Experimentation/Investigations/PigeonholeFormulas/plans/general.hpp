@@ -408,9 +408,12 @@ for k : 0 thru 2 do print(k, optimal_splitting_tree(weak_php_cs(k+2,k))[2]);
 1 5
 2 21
 T53 : optimal_splitting_tree_rec(weak_php_cs(5,3),0,85)$
-# aborted after over a week (could be the ineffective garbage-collection; need
-# to run it after a fresh start)
+M[optimal_splitting_tree]: depth: 0 , new best variable: php(1,1) , new min size: 85
+# This is the optimal tree-resolution complexity, since all variables behave
+# equally.
+# Computation took about 40 days (using Ecl)
    \endverbatim
+   Perhaps (n+2,n) is always the same as (n+1,n) ?
    </li>
    <li> Known bounds for the tree-resolution complexity trc(n) for
    PHP^{n+1}_n (counting the number of nodes in the tree):
