@@ -53,7 +53,7 @@ namespace {
   const std::string program = "QuineMcCluskeySubsumptionHypergraphWithFullStatistics";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2.1";
+  const std::string version = "0.2.2";
 
   using namespace OKlib::InputOutput;
 
@@ -107,7 +107,7 @@ int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::CLSAdaptorFullStatistics<> StatsCLSAdaptor;
   typedef OKlib::InputOutput::ListTransfer<StatsCLSAdaptor > List2Statistics;
   
-  // Do we want full output or to remove leading and trailing zeroes.
+  // Do we want full output or to remove leading and trailing zeroes:
   StatsCLSAdaptor shg_stats;
   StatsCLSAdaptor prime_stats;
   if (argc > 2) {
@@ -139,10 +139,10 @@ int main(const int argc, const char* const argv[]) {
   std::ofstream primes_stats_outputfile(primes_stats_filename.c_str());
   primes_stats_outputfile << prime_stats.stat << "\n";
 
-  // Output subsumption hypergraph to STDOUT.
+  // Output subsumption hypergraph to STDOUT:
   const std::string shg_comment("Subsumption hypergraph for the minimisation problem for " + shg_input_filepath);
   OKlib::InputOutput::List2DIMACSOutput(subsumption_hg,std::cout,shg_comment.c_str());
-  // Output of prime clauses if needed to the correct file.
+  // Output of prime clauses if needed to the correct file:
   const std::string primes_output_filepath = shg_input_filename + "_primes";
   std::ofstream primes_outputfile(primes_output_filepath.c_str());
   if (not primes_outputfile) {

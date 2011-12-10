@@ -48,7 +48,7 @@ namespace {
   const std::string program = "QuineMcCluskeySubsumptionHypergraph";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2.0";
+  const std::string version = "0.2.1";
 
 }
 

@@ -59,7 +59,7 @@ namespace {
   const std::string program = "QuineMcCluskeySubsumptionHypergraphFullStatistics";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2.0";
+  const std::string version = "0.2.1";
 
   using namespace OKlib::InputOutput;
 
@@ -114,7 +114,7 @@ int main(const int argc, const char* const argv[]) {
   typedef OKlib::InputOutput::CLSAdaptorFullStatistics<> StatsCLSAdaptor;
   typedef OKlib::InputOutput::ListTransfer<StatsCLSAdaptor > List2Statistics;
 
-  // Do we want full output or to remove leading and trailing zeroes.
+  // Do we want full output or to remove leading and trailing zeroes:
   StatsCLSAdaptor shg_stats;
   StatsCLSAdaptor prime_stats;
   if (argc > 2) {
