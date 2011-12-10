@@ -485,8 +485,10 @@ namespace SatAlg = Satisfiability::Algorithms;
    <li> Backup tools:
     <ol>
      <li> We should have some discussion on backup tools and their usage. </li>
-     <li> This was the original purpose of the Programming/Tools/Backup module
-     (see Backup/plans/Backup.hpp); however this module seems obsolete now. </li>
+     <li> DONE (removed module Programming/Tools/Backup)
+     This was the original purpose of the Programming/Tools/Backup module
+     (see Backup/plans/Backup.hpp); however this module seems obsolete now.
+     </li>
     </ol>
    </li>
    <li> DONE (github should do the job)
