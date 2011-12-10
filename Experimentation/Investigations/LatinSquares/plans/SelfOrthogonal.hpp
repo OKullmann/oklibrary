@@ -34,9 +34,41 @@ License, or any later version. */
    </li>
    <li> Problem 4.2 in the paper asks whether PSSSODLS(n) is non-empty
    for n=12,24 or n congruent 3 (mod 6) (where n >= 9). </li>
-   <li> The example from the paper for an element of PSSSODLS(8) is available
-   as psssodls_8_ls (in
-   ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/BasicNotions.mac).
+   <li> Results mentioned in the paper:
+    <ol>
+     <li> SOLS(n) as well as SODLS(n) is non-empty iff n notin {2,3,6}. </li>
+     <li> SSSODLS(n) is non-empty iff n cong 0,1,3 mod 4 and n#3. </li>
+     <li> For n cong 1,5 mod 6, n >= 5, PSSSODLS(n) is not empty. </li>
+    </ol>
+    All these constructions should be implemented at the Maxima-level (see
+    below). </li>
+   </li>
+   <li> Regarding the non-emptiness of PSSSODLS(n) the following is known:
+    <ol>
+     <li> n=1 is non-empty. </li>
+     <li> There are no SOLS for n in {2,3} and thus PSSSODLS(n) is empty here.
+     </li>
+     <li> PSSSODLS(4) is empty ("easy to see"). </li>
+     <li> PSSSODLS(5) non-empty by above general result. </li>
+     <li> PSSSODLS(6) empty, since SOLS(6) empty. </li>
+     <li> PSSSODLS(7) non-empty by above general result. </li>
+     <li> PSSSODLS(8) non-empty; the example from the paper for an element
+     is available as psssodls_8_ls (in
+     ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/BasicNotions.mac).
+     </li>
+     <li> PSSSODLS(n) non-empty for n cong 0 mod 4, n >= 8, n notin {12,24},
+     as shown in Theorem 1.5 the paper. </li>
+    </ol>
+   </li>
+   <li> Constructions in the paper (apparently m,n > 1):
+    <ol>
+     <li> Given A in PSSSODLS(m) and B in PSSSODLS(n), there is C in
+     PSSSODLS(m*n) (Construction 2.2). </li>
+     <li> Given A in SSSODLS(n), there is B in PSSSODLS(8*n)
+     (Construction 2.3). </li>
+     <li> Given A in SSSODLS(n), there is B in PSSSODLS(4*n)
+     (Construction 2.5). </li>
+    </ol>
    </li>
    <li> Since our indices are 1-based, we use the standard matrix-indices,
    starting with 1, and also the values of latin squares are 1-based. </li>
@@ -93,6 +125,50 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> According to our general approach for "good translations", the target
+   is to achieve a hardness as low as possible (not using "too many" clauses).
+   </li>
+   <li> This is applied (currently) to the components of the translation, where
+   the components should be as "big as possible". </li>
+   <li> Bijectivity-constraints:
+    <ol>
+     <li> The latin-square conditions as well as the diagonality-condition
+     are bijectivity-conditions (in the affected lines all values are used
+     precisely once). </li>
+     <li> We need special tools for handling such conditions. </li>
+     <li> How strong is the dependency on the encoding (direct versus unary)?
+     </li>
+     <li> "Orthogonal" bijectivity-conditions interfere -- what can be said
+     w.r.t. the prime implicates? </li>
+    </ol>
+   </li>
+   <li> Strong symmetry:
+    <ol>
+     <li> For appropriate pair of values x, y we have x+y=n-1 (using 0-based
+     values). </li>
+     <li> For both encodings this can be expressed directly (without using some
+     form of addition). </li>
+    </ol>
+   </li>
+   <li> Self-orthogonality:
+    <ol>
+     <li> This can be expressed in general as the conditions that for
+     different cells (i,j), (i',j') with equal values the transposed cells
+     (j,i), (j',i') must have different values. </li>
+     <li> For arbitrary square matrices we have here just (i,j)#(i',j'). </li>
+     <li> However for latin squares this can be strengthened to i#i' *and*
+     j#j'. </li>
+    </ol>
+   </li>
+   <li> Pan-diagonality:
+    <ol>
+     <li> This can be expressed by cardinality-conditions using the unary
+     encoding. </li>
+    </ol>
+   </li>
+   <li> We have thus four blocks of conditions (bijectivity, strong symmetry,
+   self-orthogonality, pan-diagonality): Are there interesting combinations
+   of these components (where we have good representations)? </li>
   </ul>
 
 
