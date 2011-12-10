@@ -57,6 +57,9 @@ License, or any later version. */
   <ul>
    <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/LatinSquares.mac
    for the framework. </li>
+   <li> And see "Different encodings" and "Further conditions" in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LatinSquares.hpp
+   for the implementation of SAT translations. </li>
    <li> We want to construct formulas Fpsssodls_n, which are satisfiable iff
    PSSSODLS(n) is not empty, and where from a solution an element is
    constructible. </li>

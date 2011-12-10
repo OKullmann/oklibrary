@@ -10,14 +10,6 @@ License, or any later version. */
   \brief Plans for Maxima-generators (of SAT-problems) related to latin squares problems
 
 
-  \todo Organisation
-  <ul>
-   <li> Perhaps we need a new sub-module "LatinSquares". </li>
-   <li> This file would then be called "general". </li>
-   <li> And also Lisp/Generators/Sudoku would be moved there. </li>
-  </ul>
-
-
   \todo Relations to other modules
   <ul>
    <li> See
@@ -27,6 +19,37 @@ License, or any later version. */
    ComputerAlgebra/Satisfiability/Lisp/Generators/plans/Sudoku.hpp. </li>
    <li> See the investigations in
    Experimentation/Investigations/LatinSquares/plans/general.hpp. </li>
+  </ul>
+
+
+  \todo Organisation
+  <ul>
+   <li> Perhaps we need a new sub-module "LatinSquares". </li>
+   <li> This file would then be called "general". </li>
+   <li> And also Lisp/Generators/Sudoku would be moved there. </li>
+  </ul>
+
+
+  \todo Different encodings
+  <ul>
+   <li> In "SAT translations" in
+   Experimentation/Investigations/LatinSquares/plans/SelfOrthogonal.hpp
+   the unary encoding of fields is mentioned (used to easily translate
+   sum-conditions). </li>
+   <li> This encoding should also be made available (in general) in this
+   module. </li>
+  </ul>
+
+
+  \todo Further conditions
+  <ul>
+   <li> In "SAT translations" in
+   Experimentation/Investigations/LatinSquares/plans/SelfOrthogonal.hpp further
+   conditions for latin squares are mentioned. </li>
+   <li> See
+   ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/BasicNotions.mac
+   for the precise formulation of these conditions. </li>
+   <li> These conditions need SAT-translations. </li>
   </ul>
 
 

@@ -52,6 +52,12 @@ License, or any later version. */
    the following topics are handled:
     - Accompanying statistics
 
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LatinSquares.hpp
+   the following topics are handled:
+    - Different encodings
+    - Further conditions
+
 
   \par Version 0.0.12
 
