@@ -35,6 +35,11 @@ License, or any later version. */
   \par Version 0.0.10
 
   \par
+   In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/LatinSquares.hpp
+   the following topics are handled:
+    - Organisation
+
+  \par
    In ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
    the following topics are handled:
     - Split Generators/Generators.mac

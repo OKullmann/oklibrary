@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.12.2008 (Swansea)
-/* Copyright 2008, 2010 Oliver Kullmann
+/* Copyright 2008, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,11 +10,21 @@ License, or any later version. */
   \brief Plans for Maxima-generators (of SAT-problems) related to latin squares problems
 
 
+  \todo Organisation
+  <ul>
+   <li> Perhaps we need a new sub-module "LatinSquares". </li>
+   <li> This file would then be called "general". </li>
+   <li> And also Lisp/Generators/Sudoku would be moved there. </li>
+  </ul>
+
+
   \todo Relations to other modules
   <ul>
    <li> See
    ComputerAlgebra/CombinatorialMatrices/Lisp/LatinSquares/plans/general.hpp.
    </li>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/Sudoku.hpp. </li>
    <li> See the investigations in
    Experimentation/Investigations/LatinSquares/plans/general.hpp. </li>
   </ul>
@@ -62,6 +72,6 @@ License, or any later version. */
   <ul>
    <li> Compare Applications/LatinSquares/plans/general.hpp. </li>
   </ul>
-   
+
 */
 
