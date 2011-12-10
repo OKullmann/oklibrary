@@ -1,2 +1,1 @@
-echo ${boost_link_option_okl} -lboost_system -static
-
+echo ${boost_link_option_okl} -lboost_system -lboost_filesystem -static

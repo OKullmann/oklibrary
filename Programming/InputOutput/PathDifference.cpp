@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.9.2007 (Swansea)
-/* Copyright 2007, 2009 Oliver Kullmann
+/* Copyright 2007, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -114,7 +114,7 @@ int main(const int argc, const char* const argv[]) {
   for (size_type i = 0; i < numbers_up; ++i)
     r += one_level_up + sep;
   for (iterator i = ca; i != pa.end(); ++i)
-    r += *i + sep;
+    r += i->string() + sep;
   assert(r.size() > 0);
   std::cout << r.substr(0, r.size()-1) << "\n";
 }

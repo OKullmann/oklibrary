@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.6.2005 (Swansea)
-/* Copyright 2005 - 2007, 2009 Oliver Kullmann
+/* Copyright 2005 - 2007, 2009, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -92,7 +92,7 @@ namespace OKlib {
       typedef ParserResult<Result_, char_type, ParseIterator, ParserExtension<char_type, ParseIterator> > Parser;
 
       parse_info_f operator() (const boost::filesystem::path& filename, OutputIterator begin_out) const {
-        const std::string native_filename(filename.native_file_string());
+        const std::string native_filename(filename.string());
         file_iterator file_begin(native_filename.c_str());
         if (not file_begin)
           throw ParserError("Error when opening " + native_filename);
