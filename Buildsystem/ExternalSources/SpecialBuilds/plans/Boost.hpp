@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.6.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,16 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp
   \brief Plans regarding installation of the Boost library
+
+
+  \todo DONE (updated bath to bjam-sources)
+  Update to version 1_48_0
+  <ul>
+   <li> The build-process changed, now lo longer directly based on bjam, but
+   on "b2". </li>
+   <li> So we need to update our build-process. OK sent an e-mail to the
+   Boost e-mail list. </li>
+  </ul>
 
 
   \bug DONE (explicite linking to libboost_regex required, when using the
