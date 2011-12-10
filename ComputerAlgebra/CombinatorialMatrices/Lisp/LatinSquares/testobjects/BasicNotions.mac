@@ -94,7 +94,10 @@ okltest_cyc3_o_hrls(cyc3_o_hrls);
 okltest_nassoc_rls(nassoc_rls);
 okltest_dk10_rls(dk10_rls);
 okltest_dk10_o_hrls(dk10_o_hrls);
+okltest_sssodls_4_ls(sssodls_4_ls);
 okltest_psssodls_8_ls(psssodls_8_ls);
+okltest_psssodls_9_ls(psssodls_9_ls);
+okltest_psssodls_20_ls(psssodls_20_ls);
 
 /* **************
    * Generators *
