@@ -92,4 +92,22 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Further properties
+  <ul>
+   <li> The example psssodls_9_ls is also a Sudoku (as realised by MH). </li>
+   <li> Are there other psssodls of this dimension which are also Sudoku?
+    <ol>
+     <li> What are the symmetries of the problem (being a psssodls and a
+     Sudoku)? </li>
+     <li> We can replace numbers i by 10-i. </li>
+     <li> And we can transpose the matrix. </li>
+     <li> Is that it? </li>
+     <li> By these operations we get altogether 4 variations of psssodls_9_ls.
+     </li>
+    </ol>
+   </li>
+   <li> And what about different dimensions? </li>
+  </ul>
+
 */
