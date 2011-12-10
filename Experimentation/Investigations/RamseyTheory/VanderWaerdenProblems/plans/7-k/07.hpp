@@ -49,7 +49,12 @@ RunVdWk1k2 7 7 3703 adaptg2wsat 100 100000000 VanDerWaerden_2-7-7_3703.sol
       7 0  7669              9566515            100000000 2130772394
    \endverbatim
    That looks bleak; still, perhaps the algorithm is weak here. </li>
-   <li> Find best ubcsat-solver XXX </li>
+   <li> Find best ubcsat-solver:
+   \verbatim
+> E = run_ubcsat("VanDerWaerden_2-7-7_3703.cnf",runs=100,cutoff=10000000)
+XXX cscarme
+   \endverbatim
+   </li>
   </ul>
 
 

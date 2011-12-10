@@ -99,9 +99,9 @@ Break point: 669
 # found all solutions in first run with old solution
 > E=read_ubcsat("VanDerWaerden_2-5-10_669.cnf_OUT",nrows=100)
 
-19 20 21 22 23 24 
- 3 10 22 35 24  6 
-100 
+19 20 21 22 23 24
+ 3 10 22 35 24  6
+100
    \endverbatim
    It seems that only a given solution can help, while finding a really new
    solution is too hard. </li>
@@ -164,9 +164,9 @@ UNSAT for n=568
     563     4   31999879 2107000211  r
     564    13   12138499 1468013701  r
 > E=read_ubcsat("VanDerWaerden_2-5-10_568.cnf_OUT",nrows=100)
- 1  2  3 
-24 66 10 
-100 
+ 1  2  3
+24 66 10
+100
    \endverbatim
    So adaptg2wsat seems definitely better than rnovelty, however it still looks
    bleak. </li>
@@ -297,7 +297,22 @@ Break point 2: 612
 100
    \endverbatim
    </li>
-   <li> "RunPdVdWk1k2 5 10 ddfw 100 60000000" yields XXX cscharon </li>
+   <li> "RunPdVdWk1k2 5 10 ddfw 100 60000000" yields
+   \verbatim
+> cat Statistics
+    557     4   44821641 1764975742  r
+    558     2    5282371  219086376  p
+    564     2   20431452  650694085  p
+    569     2   38187593 2401735288  p
+    588     8   37434343  614962446  r
+> E=read_ubcsat("VanDerWaerden_pd_2-5-10_590.cnf_OUT")
+ 1  2  3
+ 5 69  8
+82
+# aborted
+XXX cstriton
+   \endverbatim
+   </li>
    <li> One should probe further for n=596 and n=613 XXX </li>
   </ul>
 

@@ -152,7 +152,12 @@ fps: 124954
 
 # now with the better ubcsat-algorithm:
 > k1=5 k2=9 n0=472 alg="ddfw" runs=1000 cutoff=400000000; RunVdWk1k2 ${k1} ${k2} ${n0} "${alg}" ${runs} ${cutoff} VanDerWaerden_2-${k1}-${k2}_${n0}.cnf_sol
-XXX cscharon
+> E=read_ubcsat("VanDerWaerden_2-5-9_473.cnf_OUT")
+3 6 7
+1 6 7
+14
+# aborted
+XXX csoberon
    \endverbatim
    </li>
    <li> Starting again from scratch:
@@ -192,10 +197,9 @@ k1=5 k2=9 n0=10 alg="ddfw" runs=1000 cutoff=400000000; RunVdWk1k2 ${k1} ${k2} ${
     443     2  136438883 1213398302  r
     448    44  128466334 3848578335  r
 > E=read_ubcsat("VanDerWaerden_2-5-9_471.cnf_OUT")
- 5  6  7 
-10 27  6 
-43 
-
+ 5  6  7
+10 27  6
+43
    \endverbatim
    This seems much better than rnovelty. </li>
   </ul>

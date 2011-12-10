@@ -204,7 +204,16 @@ Break point 2: 963
 15 55 29  1
 100
    \endverbatim
-   "RunPdVdWk1k2 5 12 rnovelty+ 200 160000000" yields XXX cstriton
+   "RunPdVdWk1k2 5 12 rnovelty+ 200 160000000" yields
+   \verbatim
+Break point 1: 926
+> E=read_ubcsat("VanDerWaerden_pd_2-5-12_927.cnf_OUT",nrows=200)
+  1   2   3   4
+ 42 137  20   1
+200
+# aborted
+XXX cscarme
+   \endverbatim
    </li>
   </ul>
 
