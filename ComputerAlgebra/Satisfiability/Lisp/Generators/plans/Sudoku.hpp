@@ -202,7 +202,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Sudoku generator for the Minion constraint solver.
+  \todo Sudoku generator for the Minion constraint solver
   <ul>
    <li> This should be placed into a module for constraint satisfaction. </li>
    <li> What is the meaning of "generator" here? Is this just a file-format,
