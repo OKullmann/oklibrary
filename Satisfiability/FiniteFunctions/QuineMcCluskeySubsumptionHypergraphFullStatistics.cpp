@@ -86,8 +86,6 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const std::string shg_input_filepath = argv[1];
-  typedef boost::filesystem::basic_path<std::string, boost::filesystem::path_traits> Path;
-  const std::string shg_input_filename = Path(shg_input_filepath).filename();
   std::ifstream shg_inputfile(shg_input_filepath.c_str());
   if (not shg_inputfile) {
     std::cerr << err << "Failure opening input file " << shg_input_filepath << ".\n";
@@ -137,15 +135,14 @@ int main(const int argc, const char* const argv[]) {
   
 
   List2Statistics(subsumption_hg, shg_stats, "");
+  const std::string shg_input_filename = boost::filesystem::path(shg_input_filepath).filename().string();
   const std::string shg_stats_filename = shg_input_filename + "_shg_stats";
   std::ofstream shg_stats_outputfile(shg_stats_filename.c_str());
   shg_stats_outputfile << shg_stats.stat << "\n";   
-    
 
   List2Statistics(prime_imp_F, prime_stats, "");
   
-  const std::string primes_stats_filename = 
-    shg_input_filename + "_primes_stats";
+  const std::string primes_stats_filename = shg_input_filename + "_primes_stats";
   std::ofstream primes_stats_outputfile(primes_stats_filename.c_str());
   primes_stats_outputfile << prime_stats.stat << "\n";
 

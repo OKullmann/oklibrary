@@ -79,9 +79,6 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const std::string shg_input_filepath = argv[1];
-  typedef boost::filesystem::basic_path<std::string, boost::filesystem::path_traits> Path;
-  const std::string shg_input_filename = Path(shg_input_filepath).filename();
-  const std::string primes_output_filepath = Path(argv[1]).filename() + "_primes";
   std::ifstream shg_inputfile(shg_input_filepath.c_str());
   if (not shg_inputfile) {
     std::cerr << err << "Failure opening input file " << shg_input_filepath << ".\n";
@@ -130,6 +127,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   List2Statistics(subsumption_hg, shg_stats, "");
+  const std::string shg_input_filename = boost::filesystem::path(shg_input_filepath).filename().string();
   const std::string shg_stats_filename = shg_input_filename + "_shg_stats";
   std::ofstream shg_stats_outputfile(shg_stats_filename.c_str());
   shg_stats_outputfile << shg_stats.stat << "\n";   
@@ -145,6 +143,7 @@ int main(const int argc, const char* const argv[]) {
   const std::string shg_comment("Subsumption hypergraph for the minimisation problem for " + shg_input_filepath);
   OKlib::InputOutput::List2DIMACSOutput(subsumption_hg,std::cout,shg_comment.c_str());
   // Output of prime clauses if needed to the correct file.
+  const std::string primes_output_filepath = shg_input_filename + "_primes";
   std::ofstream primes_outputfile(primes_output_filepath.c_str());
   if (not primes_outputfile) {
     std::cerr << err << "Failure opening output file " << 

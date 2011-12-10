@@ -61,12 +61,10 @@ int main(const int argc, const char* const argv[]) {
     return error_parameters;
   }
 
-  typedef boost::filesystem::basic_path<std::string, boost::filesystem::path_traits> Path;
-  const std::string shg_input_filename = argv[1];
-  const std::string primes_output_filepath = Path(argv[1]).filename() + "_primes";
-  std::ifstream shg_inputfile(shg_input_filename.c_str());
+  const std::string shg_input_filepath = argv[1];
+  std::ifstream shg_inputfile(shg_input_filepath.c_str());
   if (not shg_inputfile) {
-    std::cerr << err << "Failure opening input file " << shg_input_filename << ".\n";
+    std::cerr << err << "Failure opening input file " << shg_input_filepath << ".\n";
     return error_openfile;
   }
 
@@ -88,14 +86,15 @@ int main(const int argc, const char* const argv[]) {
   subsumption_hg.erase(std::unique(subsumption_hg.begin(), subsumption_hg.end()), subsumption_hg.end());
 
   // Output:
-  const std::string comment1("Subsumption hypergraph for the minimisation problem for " + shg_input_filename);
+  const std::string comment1("Subsumption hypergraph for the minimisation problem for " + shg_input_filepath);
   OKlib::InputOutput::List2DIMACSOutput(subsumption_hg,std::cout,comment1.c_str());
   // Output of prime clauses if needed:
+  const std::string primes_output_filepath = boost::filesystem::path(shg_input_filepath).filename().string() + "_primes";
   std::ofstream outputfile(primes_output_filepath.c_str());
   if (not outputfile) {
     std::cerr << err << "Failure opening output file " << primes_output_filepath << ".\n";
     return error_openfile;
   }
-  const std::string comment2("All prime implicates for " + shg_input_filename);
+  const std::string comment2("All prime implicates for " + shg_input_filepath);
   OKlib::InputOutput::List2DIMACSOutput(prime_imp_F,outputfile,comment2.c_str());
 }
