@@ -107,6 +107,7 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> Are there also psssodls of dimension 9 which are not Sudoku? </li>
    <li> And what about different dimensions? </li>
   </ul>
 
