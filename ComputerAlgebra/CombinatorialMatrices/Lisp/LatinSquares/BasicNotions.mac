@@ -86,6 +86,13 @@ rls_p(A) := hrls_p(A) and block([s : matrix_size(A)],
    left-unital quasigroups (with element 1 as the unit).
 */
 
+/*
+   General remark:
+   In the tests below the latin-square property is not tested, but only
+   the special ("additional") properties, with the exception of the
+   combined tests.
+*/
+
 
 /* *********************
    * Various diagonals *
@@ -101,19 +108,21 @@ main_pandiagonal(n,d) := 1+mod(create_list([i+d,i],i,0,n-1),n)$
 /* For a natural number n >= 1 and a "sum" 0 <= s < n: */
 side_pandiagonal(n,s) := 1+mod(create_list([i,s-i],i,0,n-1),n)$
 
-/* Whether a latin square is diagonal: */
+/* Whether a square Maxima-matrix is diagonal (all elements on the main
+   diagonal and on the side diagonal are different):
+*/
 dls_p(A) := block([n:matrix_size(A)[1]],
   alldifferent_m_p(A, main_diagonal(n)) and
   alldifferent_m_p(A, side_diagonal(n)))$
 
-/* Whether a non-empty latin square is strictly pandiagonal: */
+/* Whether a non-empty square Maxima-matrix is strictly pandiagonal: */
 spls_p(A) := block([n:matrix_size(A)[1]],
   every_s(lambda([L], alldifferent_m_p(A,L)),
           create_list(main_pandiagonal(n,d), d,0,n-1)) and
   every_s(lambda([L], alldifferent_m_p(A,L)),
           create_list(side_pandiagonal(n,d), d,0,n-1)))$
 
-/* Whether a non-empty latin square is pandiagonal: */
+/* Whether a non-empty square Maxima-matrix is pandiagonal: */
 pls_p(A) := block([n:matrix_size(A)[1], s],
   s : n*(n+1)/2,
   every_s(lambda([L], is(sum_m(A,L)=s)),
@@ -161,7 +170,7 @@ sols_p(A) := socomls_p(m2scom(A))$
    ************
 */
 
-/* Whether a latin square has "strong symmetry": */
+/* Whether a square Maxima-matrix has "strong symmetry": */
 ssls_p(A) := block([n : matrix_size(A)[1]],
   every_s(lambda([p], is(A[p[1],p[2]]+A[n+1-p[1],n+1-p[2]]=n+1)),
           all_tuples(setn(n), 2)))$
@@ -178,7 +187,7 @@ ssls_p(A) := block([n : matrix_size(A)[1]],
 */
 sdkbox_p(A) := block([n : matrix_size(A)[1], p],
  p : ceiling(sqrt(n)),
- if p^2#n then return(false),
+ if p^2 # n then return(false),
  every_s(lambda([P], alldifferent_m_p(A, sdk_positions_box(P[1],P[2],p))),
          all_tuples(setn(p), 2)))$
 
@@ -189,11 +198,12 @@ sdkbox_p(A) := block([n : matrix_size(A)[1], p],
 */
 
 /* Whether Maxima-matrix A is a (generalised) Sudoku (arbitrary box-dimension
-   p >= 1):
+   p >= 0):
 */
 sdk_p(A) := ls_p(A) and sdkbox_p(A)$
 
-sodls_p(A) := dls_p(A) and sols_p(A)$
+/* Whether Maxima-matrix A is a self-orthogonal diagonal latin square: */
+sodls_p(A) := ls_p(A) and dls_p(A) and sols_p(A)$
 
 sssodls_p(A) := ssls_p(A) and sodls_p(A)$
 

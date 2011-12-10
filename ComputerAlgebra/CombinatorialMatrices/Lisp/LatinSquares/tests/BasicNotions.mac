@@ -221,12 +221,40 @@ okltest_ssls_p(f) := (
   true)$
 
 
+/* ***************************
+   * Sudoku-like constraints *
+   ***************************
+*/
+
+okltest_sdkbox_p(f) := block([x],
+  assert(f(matrix()) = true),
+  assert(f(matrix([x])) = true),
+  assert(f(matrix([1,2],[2,1])) = false),
+  assert(f(matrix([1,2,1,2],[3,4,3,4],[1,2,1,2],[3,4,3,4])) = true),
+  /* XXX */
+  true)$
+
+
 /* ****************
    * Combinations *
    ****************
 */
 
-okltest_sodls_p(f) := (
+okltest_sdk_p(f) := (
+  assert(f(0) = false),
+  assert(f(matrix()) = true),
+  assert(f(matrix([])) = false),
+  assert(f(matrix([0])) = false),
+  assert(f(matrix([1])) = true),
+  assert(f(matrix([1,2],[2,1])) = false),
+  /* XXX */
+  true)$
+
+okltest_sodls_p(f) := block([x],
+  assert(f(0) = false),
+  assert(f(matrix()) = true),
+  assert(f(matrix([x])) = false),
+  assert(f(matrix([1])) = true),
   assert(f(psssodls_8_ls) = true),
   assert(f(psssodls_9_ls) = true),
   /* XXX */

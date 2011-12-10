@@ -66,10 +66,19 @@ okltest_sols_p(sols_p);
 
 okltest_ssls_p(ssls_p);
 
+/* ***************************
+   * Sudoku-like constraints *
+   ***************************
+*/
+
+okltest_sdkbox_p(sdkbox_p);
+
 /* ****************
    * Combinations *
    ****************
 */
+
+okltest_sdk_p(sdk_p);
 
 okltest_sodls_p(sodls_p);
 okltest_sssodls_p(sssodls_p);
