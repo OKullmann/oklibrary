@@ -60,7 +60,7 @@ License, or any later version. */
 namespace {
   const std::string program = "PathDifference";
   const std::string err = "ERROR[" + program + "]: ";
-  const std::string version = "0.1";
+  const std::string version = "0.1.1";
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -98,13 +98,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   assert(not pb.empty());
-  if (pb.has_parent_path())
-    if (*--pb.end() == ".")
-      pb.remove_filename();
-    else {
-      pb.remove_filename();
-      pb.remove_filename();
-    }
+  if (pb.has_parent_path()) pb.remove_filename();
   assert(not pb.empty());
 
   typedef boost::filesystem::path::iterator iterator;
