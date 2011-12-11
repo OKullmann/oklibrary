@@ -9,8 +9,8 @@
 
 # NEEDS UPDATE
 
-valgrind_recommended_version_number_okl ?= 3.6.0
-valgrind_other_versions_okl ?= 3.5.0
+valgrind_recommended_version_number_okl ?= 3.7.0
+valgrind_other_versions_okl ?= 3.6.0
 
 valgrind_prefix_okl ?= valgrind
 
