@@ -16,14 +16,18 @@ License, or any later version. */
   Further details:
   <ul>
    <li> For B only the directory part is of relevance, so that for example
-   B = /a/f.txt and B = /a/ are equivalent. </li>
+   B = /a/f.txt and B = /a/ are equivalent (a closing name (without
+   trailing "/") is always interpreted as filename, and thus removed). </li>
    <li> On the other side, for A the reached leaf is determinative, and
-   so A = /x/ and A = /x are equivalent. </li>
+   so A = /x/ and A = /x are equivalent (a closing name is always interpreted
+   as directory-name). </li>
+   <li> The result R is the relative path which goes from the directory of B
+   to the directory A. </li>
   </ul>
 
   Errors are:
   <ul>
-   <li> A == B </li>
+   <li> Not precisely two arguments. </li>
    <li> A or B are not absolute paths. </li>
   </ul>
 
@@ -60,7 +64,7 @@ License, or any later version. */
 namespace {
   const std::string program = "PathDifference";
   const std::string err = "ERROR[" + program + "]: ";
-  const std::string version = "0.1.1";
+  const std::string version = "0.1.2";
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -79,11 +83,6 @@ int main(const int argc, const char* const argv[]) {
 
   const std::string a(argv[1]);
   const std::string b(argv[2]);
-
-  if (a == b) {
-    std::cerr << err << "The two input paths are identical, namely = \"" << a << "\".\n";
-    return EXIT_FAILURE;
-  }
 
   const boost::filesystem::path pa(a);
   boost::filesystem::path pb(b);
@@ -116,7 +115,8 @@ int main(const int argc, const char* const argv[]) {
   {const iterator aend = pa.end();
    for (iterator i = ca; i != aend; ++i) r += i->string() + sep;
   }
-  assert(r.size() > 0);
-  std::cout << r.substr(0, r.size()-1) << "\n";
+  if (r.size() == 0) std::cout << ".";
+  else std::cout << r.substr(0, r.size()-1);
+  std::cout << "\n";
 }
 
