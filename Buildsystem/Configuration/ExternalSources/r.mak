@@ -7,8 +7,8 @@
 
 # Settings for building and using R
 
-R_recommended_version_number_okl ?= 2.11.0
-R_other_versions_okl ?= 2.9.2
+R_recommended_version_number_okl ?= 2.14.0
+R_other_versions_okl ?= 2.11.0
 
 R_prefix_okl ?= R
 
@@ -50,7 +50,7 @@ R_docu_page_okl ?= $(doc_dir)/doxygen_html/da/d4d/docus_2R_8hpp.html
 R_homepage_url_okl := http://www.r-project.org/
 R_documentation_url_okl := http://www.r-project.org/
 
-R_packages_okl := lpSolve_5.6.4.tar.gz QCA_0.6-3.tar.gz QCA3_0.0-2.tar.gz # Hmisc_3.8-3.tar.gz pastecs_1.3-11.tar.gz gsl_1.9-3.tar.gz Rcmdr_1.5-4.tar.gz
+R_packages_okl := gtools_2.6.2.tar.gz lpSolve_5.6.6.tar.gz QCA_0.6-5.tar.gz QCA3_0.0-4.tar.gz # Hmisc_3.8-3.tar.gz pastecs_1.3-11.tar.gz gsl_1.9-3.tar.gz Rcmdr_1.5-4.tar.gz
 # selected packages can be installed by e.g.
 # ExternalSources> oklib R_packages R_packages_okl="pastecs_1.3-11.tar.gz"
 # and loaded into R via
