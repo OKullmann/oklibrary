@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding installation of R
 
 
-  \todo Installing 2.12.1
+  \todo DONE (installed 2.14.0)
+  Installing 2.12.1
 
 
   \todo DONE (building now with current gcc, that is, version 4.5.2, which

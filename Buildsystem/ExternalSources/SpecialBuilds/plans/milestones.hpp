@@ -81,7 +81,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
    topics are handled:
-    - Installing 2.12.1
+    - Installing 2.12.1 : DONE
     - Local installation of gfortran : DONE
     - Can't output graphics : DONE
     - Improving the docus-page
