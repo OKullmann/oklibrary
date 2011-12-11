@@ -92,14 +92,13 @@ int main(const int argc, const char* const argv[]) {
   }
 
   assert(not pb.empty());
-  if (pb.has_branch_path()) {
+  if (pb.has_parent_path())
     if (*--pb.end() == ".")
-      pb.remove_leaf();
+      pb.remove_filename();
     else {
-      pb.remove_leaf();
-      pb.remove_leaf();
+      pb.remove_filename();
+      pb.remove_filename();
     }
-  }
   assert(not pb.empty());
 
   typedef boost::filesystem::path::iterator iterator;
