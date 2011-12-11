@@ -57,9 +57,15 @@ License, or any later version. */
 #include <OKlib/Programming/Refactoring/BoostPathCorrected.hpp>
 #include <OKlib/Programming/Sequences/Comparisons.hpp>
 
+namespace {
+  const std::string program = "PathDifference";
+  const std::string err = "ERROR[" + program + "]: ";
+  const std::string version = "0.1";
+}
+
 int main(const int argc, const char* const argv[]) {
   if (argc != 3) {
-    std::cerr << "ERROR[PathDifference]: Two input parameters are required, the target path "
+    std::cerr << err << "Two input parameters are required, the target path "
       "and the source path (both as absolute paths).\n"
       "However the number of actual arguments was " << argc-1 << ".";
     if (argc > 1) {
@@ -75,7 +81,7 @@ int main(const int argc, const char* const argv[]) {
   const std::string b(argv[2]);
 
   if (a == b) {
-    std::cerr << "ERROR[PathDifference]: The two input paths are identical, namely = \"" << a << "\".\n";
+    std::cerr << err << "The two input paths are identical, namely = \"" << a << "\".\n";
     return EXIT_FAILURE;
   }
 
@@ -83,11 +89,11 @@ int main(const int argc, const char* const argv[]) {
   boost::filesystem::path pb(b);
 
   if (not pa.has_root_directory()) {
-    std::cerr << "ERROR[PathDifference]: The first path = \"" << a << "\" is not an absolute path.\n";
+    std::cerr << err << "The first path = \"" << a << "\" is not an absolute path.\n";
     return EXIT_FAILURE;
   }
   if (not pb.has_root_directory()) {
-    std::cerr << "ERROR[PathDifference]: The second path = \"" << b << "\" is not an absolute path.\n";
+    std::cerr << err << "The second path = \"" << b << "\" is not an absolute path.\n";
     return EXIT_FAILURE;
   }
 
@@ -103,17 +109,19 @@ int main(const int argc, const char* const argv[]) {
 
   typedef boost::filesystem::path::iterator iterator;
   typedef boost::range_size<boost::filesystem::path>::type size_type;
-  iterator ca, cb; size_type cs;
-  std::tr1::tie(ca, cb, cs) = OKlib::Programming::Sequences::common_part(pa, pb);
+  iterator ca, cb;
+  {size_type cs;
+   std::tr1::tie(ca, cb, cs) = OKlib::Programming::Sequences::common_part(pa, pb);
+  }
 
   const std::string one_level_up("..");
   const std::string sep("/");
   const size_type numbers_up = std::distance(cb, pb.end());
   std::string r;
-  for (size_type i = 0; i < numbers_up; ++i)
-    r += one_level_up + sep;
-  for (iterator i = ca; i != pa.end(); ++i)
-    r += i->string() + sep;
+  for (size_type i = 0; i < numbers_up; ++i) r += one_level_up + sep;
+  {const iterator aend = pa.end();
+   for (iterator i = ca; i != aend; ++i) r += i->string() + sep;
+  }
   assert(r.size() > 0);
   std::cout << r.substr(0, r.size()-1) << "\n";
 }
