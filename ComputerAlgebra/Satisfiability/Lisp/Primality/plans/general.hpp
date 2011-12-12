@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 9.8.2009 (Swansea) */
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2011 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -93,7 +93,7 @@ License, or any later version. */
    everything). </li>
    <li> Some function for computing the list of shortest DNF-representations is
    dual_all_minequiv_bvs_cs in
-   ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac.
+   Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac.
    </li>
    <li> If all shortest representations are needed, then the algorithm for
    computing all shortest minimum transversals of a hypergraph needs to be
@@ -105,7 +105,7 @@ License, or any later version. */
    are needed, but it seems indispensable, even for just finding one shortest
    DNF-representation, to compute all dual prime clauses? </li>
    <li> Generalising transversal_hg_rs in
-   ComputerAlgebra/Hypergraphs/Lisp/Transversals/Minimal/RecursiveSplitting.mac,
+   Hypergraphs/Lisp/Transversals/Minimal/RecursiveSplitting.mac,
    implement the basic recursive splitting algorithm as discussed in
    "The basic algorithm" in
    Algorithms/AllSolutions/plans/MinimalAssignments.hpp. </li>
