@@ -798,6 +798,7 @@ git pull -s subtree path_to_repository_B master
       <li> 8.12.2010: 15.4 MB; OKlib total 35.1 MB </li>
       <li> 27.1.2011: 16.8 MB; OKlib total 38.2 MB </li>
       <li> 13.7.2011: 18.6 MB; OKlib total 43.0 MB </li>
+      <li> 12.12.2011: 20.0 MB; OKlib total 46.2 MB </li>
     </ol>
    </li>
   </ul>
