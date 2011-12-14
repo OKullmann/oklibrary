@@ -23,6 +23,59 @@ basic_stats = function(x, qpoints = seq(0.95, 1, 0.01)) {
   cat("sum=", sum(x), "\n")
 }
 
+# Aggregate a data.frame D by the fields in "by", using basic statistics
+# functions (sd, mean, min, max) returning the aggregated result of each
+# statistic over those fields for each column col, as a column col.stat_name.
+#
+# The parameters are the same as aggregate function, except that FUN should
+# not be passed as an argument, and "by" should be a list of column names
+# as strings of the fields to be aggregated.
+#
+# The result is a data.frame with columns col.mean, col.sd, col.min, col.max
+# for each column col in D, excluding those in "by", which are included
+# directly in the result from D.
+# There is a row in the result for every unique setting of the columns in "by"
+# in D. Each element in the result data.frame is the mean (sd, min, max etc)
+# of all cells in the corresponding column in D, which have the same values
+# for the columns in "by" as this row.
+aggregate_statistics = function(D, by, ...) {
+  by_ind_list = lapply(by,FUN=function(x) D[,x])
+  names(by_ind_list) = unlist(by)
+  D_mean = aggregate(D, by=by_ind_list, FUN=mean, ...)
+  D_sd = aggregate(D, by=by_ind_list, FUN=sd, ...)
+  D_min = aggregate(D, by=by_ind_list,  FUN=min, ...)
+  D_max = aggregate(D, by=by_ind_list, FUN=max, ...)
+
+  D_res = data.frame(D_mean[unlist(by)])
+  for (col in colnames(D)) {
+    if (!(col %in% by)) {
+      D_res[paste(col, ".", "mean",sep="")] = D_mean[col]
+      D_res[paste(col, ".", "sd",sep="")] = D_sd[col]
+      D_res[paste(col, ".", "min",sep="")] = D_min[col]
+      D_res[paste(col, ".", "max",sep="")] = D_max[col]
+    }
+  }
+
+  D_res
+}
+# Example:
+#
+# > E = data.frame(aggr=c(1,2,1,2), a=c(1,2,3,4), b=c(5,100,200,1000))
+# > E
+#
+#   aggr a    b
+# 1    1 1    5
+# 2    2 2  100
+# 3    1 3  200
+# 4    2 4 1000
+#
+# > aggregate_statistics(E, by=list("aggr"))
+#
+#   evens a.mean a.sd a.min a.max b.mean b.sd b.min b.max
+# 1     1      2    3     1     3  102.5  200     5   200
+# 2     2      3    4     2     4  550.0 1000   100  1000
+#
+
 
 # ####################################
 # # Helper functions for regressions #
