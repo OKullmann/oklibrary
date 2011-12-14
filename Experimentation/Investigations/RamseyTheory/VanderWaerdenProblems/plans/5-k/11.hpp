@@ -65,7 +65,6 @@ output_certificate2_vdw(reverse(C), "VanDerWaerden_2-5-11_762.cnf_sol");
    "RunVdWk1k2 5 11 762 adaptg2wsat 200 200000000 VanDerWaerden_2-5-11_762.cnf_sol" yields "UNSAT for n=763"
    \verbatim
 > E=read_ubcsat("VanDerWaerden_2-5-11_763.cnf_OUT",nrows=200)
-
  1  2  3  4  5
  1 12 92 92  3
 200
@@ -93,6 +92,15 @@ certificate_pdvdw_p([5,11],766,C);
 output_certificate2_vdw(reverse(C), "VanDerWaerden_2-5-11_766.cnf_sol");
    \endverbatim
    "RunVdWk1k2 5 11 766 adaptg2wsat 200 200000000 VanDerWaerden_2-5-11_766.cnf_sol"
+   yields
+   \verbatim
+UNSAT for n=767
+> E=read_ubcsat("VanDerWaerden_2-5-11_767.cnf_OUT",nrows=200)
+  1   2   3   4   5
+  1  10  52 118  19
+200
+   \endverbatim
+   "RunVdWk1k2 5 11 766 adaptg2wsat 200 800000000 VanDerWaerden_2-5-11_766.cnf_sol"
    yields XXX cstriton
    </li>
   </ul>
