@@ -81,6 +81,22 @@ License, or any later version. */
      <li> So one could conjecture that the total number of clauses which
      follow from a full clause-set F (over the same variables, of course)
      is at most c(F)^(log_2(3)). </li>
+     <li> In "Computations of all prime clauses for full clause-sets"
+     in Satisfiability/Lisp/Primality/plans/general.hpp it is shown that
+     that number is at most 1/2 c(F)^2 + 1/2 c(F). </li>
+    </ol>
+   </li>
+   <li> Hashing:
+    <ol>
+     <li> Efficient implementations of min_2resolution_closure_cs rely on
+     efficient hashing schemes for clauses. </li>
+     <li> In Satisfiability/FiniteFunctions/QuineMcCluskey.hpp a "total"
+     hashing scheme is used, that is, simply a boolean array of length 3^n
+     is used, with the bijection from clauses with n variables to {0,...,3^n-1}
+     as indexing (hashing) scheme. </li>
+     <li> This should be efficient for dense clause-sets, but it is very
+     inefficient for sparse clause-sets (and somewhat larger n). </li>
+     <li> Alternative hashing schemes need to be developed. </li>
     </ol>
    </li>
   </ul>

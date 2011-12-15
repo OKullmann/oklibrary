@@ -12,16 +12,20 @@ License, or any later version. */
 
   \todo Computing all prime clauses for a full clause-set
   <ul>
-   <li> This is a basic task, which one needed to fully understand. </li>
+   <li> This is a basic task, which one needed to "fully" understand. </li>
    <li> As one result of MGs PhD thesis we should get a "best and optimal"
-   implementation. </li>
+   implementation (choosing appropriately, depending on the input, from the
+   various algorithms). </li>
    <li> See OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp
    for the C++ level. </li>
    <li> And see "min_2resolution_closure_cs" in
-   ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp
-   for the Maxima-level (discussing the open problem regarding the complexity,
-   where one considers complexity in the input-clause-set).
+   Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp
+   for the Maxima-level (discussing the problem regarding the precise
+   complexity, where one considers complexity in the input-clause-set).
    </li>
+   <li> The new (dedicated) module for prime-clause-related computations at
+   Maxima-level is Satisfiability/Lisp/Primality/plans/general.hpp; see
+   "Computations of all prime clauses for full clause-sets" there. </li>
    <li> Testcases:
     <ol>
      <li> Two extreme cases are considered in "Understanding the costs of the
@@ -31,8 +35,9 @@ License, or any later version. */
      <li> Perhaps generalised AES Sboxes are good examples. </li>
     </ol>
    </li>
-   <li> See there also "Hitting clause-sets" for possible generalisation to
-   hitting clause-sets. </li>
+   <li> See also "Hitting clause-sets" in
+   Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp for
+   possible generalisation to hitting clause-sets. </li>
   </ul>
 
 */

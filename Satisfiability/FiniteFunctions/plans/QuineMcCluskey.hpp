@@ -10,6 +10,17 @@ License, or any later version. */
   \brief Plans regarding the direct implementation of the computation of the minimal elements of the resolution closure of full boolean clause-sets
 
 
+  \todo Connections
+  <ul>
+   <li> "Computations of all prime clauses for full clause-sets" in
+   ComputerAlgebra/Satisfiability/Lisp/Primality/plans/general.hpp is the
+   current general hub. </li>
+   <li> "min_2resolution_closure_cs" in
+   Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp
+   discusses the (current) Maxima functionality. </li>
+  </ul>
+
+
   \todo Specify the order of the output-clauses
   <ul>
    <li> As usual, this needs to be synchronised with the Maxima-specification.
@@ -188,14 +199,14 @@ License, or any later version. */
     <ol>
      <li> The algorithm currently available at Maxima/Lisp level,
      min_2resolution_closure_cs (see
-     ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac)
-     has the potential advantage that it could run asymptotically faster
+     Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac)
+     has the potential advantage that it runs asymptotically faster
      if the input is has few clauses (relative to the number of variables).
      </li>
      <li> See "min_2resolution_closure_cs" in
-     ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp
-     for the underlying open (at least for us) question about the complexity
-     of QuineMcCluskey (in principal). </li>
+     Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp
+     for the question about the (precise) complexity of QuineMcCluskey
+     (in principal). </li>
     </ol>
    </li>
    <li> Can the Quine/McCluskey-algorithm be generalised from boolean

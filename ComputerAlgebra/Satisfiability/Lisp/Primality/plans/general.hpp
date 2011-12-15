@@ -115,5 +115,61 @@ License, or any later version. */
    <li> See Satisfiability/Algorithms/AllSolutions/plans/general.hpp. </li>
   </ul>
 
+
+  \todo Computations of all prime clauses for full clause-sets
+  <ul>
+   <li> Connections:
+    <ol>
+     <li> See "min_2resolution_closure_cs" in
+     Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp
+     for a Maxima function. </li>
+     <li> See Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp for a
+     C++ function. </li>
+     <li> And see Investigations/BooleanFunctions/plans/QuineMcCluskey.hpp
+     for investigations. </li>
+    </ol>
+   </li>
+   <li> Consider a full clause-set F with c=c(F) clauses: Then at most
+   c*(c+1)/2 = 1/2 c^2 + 1/2 c many clauses C with var(C) <= var(F) follow from
+   F:
+    <ol>
+     <li> Consider C with var(C) <= var(F). </li>
+     <li> C follows from F iff all full clauses D >= C are elements of F.
+     </li>
+     <li> Let C_- be the full clause obtained from C by adding all missing
+     negative literals, and lit C_+ be the full clause obtained from C by
+     adding all missing positive literals. </li>
+     <li> Consider - < +, and using lexicographical order, where the variables
+     of C form the initial segment, we thus have that C follows from F iff the
+     interval [C_-, C_+] is subset of F. </li>
+     <li> The map {C clause over var(F)} -> [C_-,C_+] is injective (since we
+     have C = C_- intersect C_+). </li>
+     <li> It follows that the number of clauses which follow from F is at
+     most the number of 1- or 2-element subsets of F, that is,
+     binom(c,1) + binom(c,2). </li>
+    </ol>
+   </li>
+   <li> Is that upper bound sharp?
+    <ol>
+     <li> It is not sharp if F contains all clauses. </li>
+    </ol>
+   </li>
+   <li> Computing all prime-clauses according to the above upper bound:
+    <ol>
+     <li> All clauses C which follow can be found by running through all
+     <=2-element-subsets {D,E} of F, determining C := D intersect E,
+     and determining whether all supsets of C are in F. </li>
+     <li> The supset-test can be simply done by running through all elements
+     of F and counting those which contain C; this can be done in time
+     c * n. </li>
+     <li> Alternatively one can sort F lexicographically, and search for each
+     superset of C using binary search; for very small C the first method
+     should be more efficient, for the rest the second method. </li>
+     <li> Let F' be the set of all clauses which follow from F. </li>
+     <li> The prime-clauses are the subsumption-minimal elements of F. </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 
