@@ -716,17 +716,45 @@ Evaluation took 0.0000 seconds (0.0010 elapsed)
 
   \todo Document simplification of expressions
   <ul>
-   <li> Apparently "is(a = b)" only applies very basic simplification
-   rules, for example "is(4+5=9)" is true, while for "equivalence" one
-   needs to use "is(equal(a,b))":
-   \verbatim
+   <li> DONE (use simplify_t)
+   What is needed is "simplify(t)" for arbitrary terms t. </li>
+   <li> General functions for simplifying terms:
+    <ol>
+     <li> radcan </li>
+     <li> ratsimp </li>
+     <li> factor </li>
+     <li> expand </li>
+     <li> ratexpand </li>
+     <li> trigreduce </li>
+     <li> trigsimp </li>
+    </ol>
+   </li>
+   <li> DONE (use simplify_t)
+   Simplifying equalities:
+    <ol>
+     <li> "is(a = b)" only applies very basic simplification
+     rules, for example "is(4+5=9)" is true, while for "equivalence" one
+     needs to use "is(equal(a,b))":
+     \verbatim
 is(equal(log(4)/log(2),2));
 true
 is(log(4)/log(2) = 2);
 false
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> Another example:
+     \verbatim
+is( (y1-y2)^2+(x1-x2)^2 = (y2-y1)^2+(x2-x1)^2 );
+  false
+is(equal((y1-y2)^2+(x1-x2)^2, (y2-y1)^2+(x2-x1)^2));
+  true
+     <li> DONE (implemented in simplify_t)
+     According to Stavros Macrakis (Maxima mailing-list, 28.11.2011) we
+     have that is(equal(a,b)) is equivalent to is(ratsimp(a-b)=0). </li>
+    </ol>
    </li>
-   <li> To get for example "sum(i,i,1,n)" simplified, append ", simpsum". </li>
+   <li> DONE (use simplify_t)
+   To get for example "sum(i,i,1,n)" simplified, append ", simpsum". </li>
    <li> See 'What is "equalp" ?' in ComputerAlgebra/plans/Maxima.hpp. </li>
   </ul>
 
