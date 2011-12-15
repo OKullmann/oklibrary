@@ -12,21 +12,21 @@ License, or any later version. */
 
   \todo Problem specification
   <ul>
-  <li> We consider the small-scale AES with 1 row, 3 column, using the 4-bit
+  <li> We consider the small-scale AES with 1 row, 3 columns, using the 4-bit
    field size for rounds 1 to 20. </li>
    <li> We denote this AES instance by aes(r,1,3,4) for r in 1,...,20. </li>
-   <li> We investigate translations of the key discovery problem for
-   aes(r,1,3,4) into SAT. </li>
-   <li> aes(r,1,3,4) takes a 12-bit plaintext and 12-bit key and outputs a
-   12-bit ciphertext. </li>
-   <li> aes(r,1,3,4) applies the following operations:
+   <li> Thus aes(r,1,3,4) has 1*3*4=12-bit plaintext/key/ciphertext. </li>
+   <li> As a reminder, aes(r,1,3,4) applies the following operations (up to
+   variable-permutations):
     <ol>
      <li> Key schedule which takes the key and generates r+1 12-bit round
      keys. </li>
      <li> Application of the following operation (the "round") r times:
       <ol>
-       <li> Addition of round key n-1. </li>
-       <li> Application of Sbox operation. </li>
+       <li> Addition of 12-bit round key. </li>
+       <li> Application of 3 4x4-bit Sbox operations. </li>
+       <li> Application of 3 (1*4)x(1*4)=4x4-bit Mixcolumn operations, given by
+       the 1x1 matrix (1) over the half-byte field. </li>
       </ol>
      </li>
      <li> Addition of round key r+1. </li>
@@ -34,7 +34,8 @@ License, or any later version. */
     </ol>
    </li>
    <li> Round key 0 is the input key. </li>
-   <li> The key schedule computes the round key i, K_(i,j), from round key
+   <li> XXX we want to see the essential boolean functions XXX
+   The key schedule computes the round key i, K_(i,j), from round key
    i-1, K_(i-1), by:
    \verbatim
 K_(i,j) := S-box(K_(i-1,1)) + C_i + sum(K_(i-1,k),k,1,j)
@@ -49,9 +50,9 @@ K_(i,j) := S-box(K_(i-1,1)) + C_i + sum(K_(i-1,k),k,1,j)
    as either:
     <ul>
      <li> a 8x1 boolean function; see ss_sbox_bf in
-     ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac.
+     Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac.
      </li>
-     <li> 4 4x1 boolean functions. </li>
+     <li> 4 4x1 boolean functions (not implemented yet). </li>
     </ul>
    </li>
    <li> The decompositions and translations are listed in "Investigating
@@ -86,17 +87,17 @@ E_min = read.table("MinisatStatistics",header=TRUE)
          <li> Overall, all translations are comparable in terms of time taken
          to solve and the number of conflicts needed. </li>
          <li> Ratios of average solver times (fastest to slowest):
-         1base -> x1.1 -> min -> x1.7 -> canonical. </li>
-         <li> Ratios of average number of conflicts (low to hight):
-         canonical -> x1 -> 1base -> x1.5 -> min. </li>
-         <li> Calculations:
-         \verbatim
+         1base -> x1.1 -> min -> x1.7 -> canonical
+	 \verbatim
 > sum(E_min$t) / sum(E_1base$t)
 [1] 1.127595
 > sum(E_canon$t) / sum(E_min$t)
 [1] 1.723102
-
-> sum(E_1base$cfs) / sum(E_canon$cfs)
+         \endverbatim
+	 </li>
+         <li> Ratios of average number of conflicts (low to hight):
+         canonical -> x1 -> 1base -> x1.5 -> min
+	 \verbatim
 > sum(E_1base$cfs) / sum(E_canon$cfs)
 [1] 1.024516
 > sum(E_min$cfs) / sum(E_1base$cfs)
@@ -107,12 +108,6 @@ E_min = read.table("MinisatStatistics",header=TRUE)
        </li>
        <li> Fitting the data:
         <ul>
-        <li> For all translations, the hypothesis that there is a polynomial
-         relationship between rounds and time taken seems possible, but
-         it is equally likely that there is an exponential relationship
-         (see below). </li>
-         <li> The same holds for the relationship between rounds and
-         conflicts. </li>
          <li> For each of the translations, the following models seem the
          most plausible best fits:
           <ul>
@@ -149,11 +144,11 @@ E_min = read.table("MinisatStatistics",header=TRUE)
          <li> The above statements can be seen in the following way in R:
          \verbatim
 ########## Time taken vs rounds (canonical) ###########
-x = E_canon$r;
-y = E_canon$t;
+x = E_canon$r
+y = E_canon$t
+plot(x,y)
 m_poly = lm(log(y) ~ log(x))
 m_exp = lm(log(y) ~ x)
-plot(x,y)
 lines(x, exp(predict(m_exp)), col="red")
 lines(x, exp(predict(m_poly)), col="blue")
 
