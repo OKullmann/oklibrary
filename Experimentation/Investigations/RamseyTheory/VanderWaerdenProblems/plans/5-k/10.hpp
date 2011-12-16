@@ -309,8 +309,23 @@ Break point 2: 612
  1  2  3
  5 69  8
 82
-# aborted
-XXX cstriton
+# aborted; new:
+Break point 1: 591
+Break point 2: 612
+> cat Statistics
+    570     2   10702570 3143549314  p
+    576     4   52385233 1313933752  r
+    578     7   53972276 4223462621  r
+    590    14   59735176 1467501410  r
+    597    29    6799102 2502842136  r
+> E=read_ubcsat("VanDerWaerden_pd_2-5-10_592.cnf_OUT",nrows=100)
+ 1  2  3
+ 1 82 17
+100
+> E=read_ubcsat("VanDerWaerden_pd_2-5-10_613.cnf_OUT",nrows=100)
+ 1  4  5  6
+ 9  8 50 33
+100
    \endverbatim
    </li>
    <li> One should probe further for n=596 and n=613 XXX </li>
