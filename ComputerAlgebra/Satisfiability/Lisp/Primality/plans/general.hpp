@@ -167,6 +167,14 @@ License, or any later version. */
      should be more efficient, for the rest the second method. </li>
      <li> Let F' be the set of all clauses which follow from F. </li>
      <li> The prime-clauses are the subsumption-minimal elements of F. </li>
+     <li> F' is "convex" (contains with C <= D also all clauses inbetween),
+     and thus we can apply the special algorithm for computing minimal elements
+     described in "Minimal elements for convex set-systems" in
+     ComputerAlgebra/Hypergraphs/Lisp/plans/SetSystems.hpp. </li>
+     <li> Alternatively to first compute F' and then to extract the minimal
+     elements (as above), one could, when computing an new implicant C, already
+     check whether also some C-{x} exists --- only if not, then the clause
+     is included (it's then a prime clause). </li>
     </ol>
    </li>
   </ul>
