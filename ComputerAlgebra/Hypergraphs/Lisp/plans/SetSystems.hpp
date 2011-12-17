@@ -116,15 +116,63 @@ create_set([A]) := setify(apply(create_list,A))$
 
   \todo Function min_elements
   <ul>
+   <li> Variation:
+    <ol>
+     <li> A similar idea is in [Lintao Zhang, On Subsumption Removal and
+     On-the-Fly {CNF} Simplification, SAT 2005], under "forward subsumption
+     checking". </li>
+     <li> The task is to check for a given C whether there is D <= C. </li>
+     <li> There however one runs through all the literals in C and all the
+     clauses in their watched-lists. Thus the algorithms there is rather
+     different. </li>
+     <li> It is done there this way to avoid the subsumption check. This is
+     achieved by moving the clauses which yet do not subsume C to the next
+     watched-list. This works similar to setting all literals in C to false,
+     and checking whether we obtain the empty clause. </li>
+     <li> We need to implement this, and compare it with our implementation.
+     It seems to me (OK), that our implementation should be faster in most
+     cases. </li>
+    </ol>
+   </li>
    <li> Currently just choose_element_ = first. A random choice should be
    better. </li>
    <li> Perhaps for small lists the simpler algorithms are faster. </li>
+   <li> Upper bound on the time-complexity:
+    <ol>
+     <li> Let m be the number of sets, and let k be the maximal size of
+     a set. </li>
+     <li> The trivial algorithm runs in time O(m^2*k). </li>
+     <li> Can we prove a better bound for the improved algorithm? </li>
+    </ol>
+   </li>
   </ul>
 
 
   \todo Function max_elements
   <ul>
    <li> Can we transfer the idea of min_elements_unique_fast_l_ ? </li>
+  </ul>
+
+
+  \todo Minimal elements for convex set-systems
+  <ul>
+   <li> Consider a set-system S with the property, that for A, B in S with
+   A <= B also for all A <= C <= B we have C in S. </li>
+   <li> Then subsumption-elimination can be done by sorting and binary
+   search as follows:
+    <ol>
+     <li> Let m := |S| and let n := union(S) (the size of the base-set). </li>
+     <li> Copy S into an array A and sort A according to any linear ordering
+     on sets. </li>
+     <li> Now s in S is minimal iff for all x in s the set s-{x} is not
+     in A, where (non-)elementship can be determined in time log_2(m)*n by
+     binary search. </li>
+     <li> Thus computation of the minimal elements of S can be done in time
+     O(m*log_2(m)*n^2) (assuming comparison of two sets can be done in time
+     O(n), and thus sorting of A can be done in time O(m*log_2(m)*n)). </li>
+     <li> Similarly the maximal elements of S can be computed. </li>
+    </ol>
+   </li>
   </ul>
 
 */
