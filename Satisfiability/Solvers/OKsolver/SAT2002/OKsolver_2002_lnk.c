@@ -201,6 +201,12 @@ StatisticsCount Knoten, SingleKnoten, VerSingleKnoten, QuasiSingleKnoten, PureL,
 
 StatisticsCount_short Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
 
+typedef long double Probability;
+//! the proportion of the search space of 2^N assignments where unsatisfiability has been established, and that by visiting the branches
+static Probability proportion_searched;
+//! the additional proportion due to single nodes
+static Probability proportion_single;
+
 static clock_t Verbrauch;
 
 static const char* aktName;
@@ -424,6 +430,7 @@ typedef enum { gleich = 0, groesser = 1, kleiner = 2} VERGL;
 
 /* Zur Bestimmung, ob einer Gleitpunktzahl "wirklich" groesser ist als eine andere: */
 
+//! determines whether a > b, a == b, a < b, up to rounding errors
 static VERGL Vergleich(const float a, const float b) {
   const float h = b * 4 * FLT_EPSILON;
   if (a > b + h) return groesser;
@@ -473,6 +480,8 @@ void InitSat() {
   
   Runde = 0; Zeiger2 = 0;
   Rekursionstiefe = 0;
+  proportion_searched = 0;
+  proportion_single = 0;
   if (splitting_only) splitting_cases = 0;
 
   if (Monitor && (! nurVorreduktion)) {
@@ -492,6 +501,7 @@ static void AufraeumenSat() {
   struct Sammlung* Z; struct Sammlung* Z0;
   
   Knoten = SingleKnoten = VerSingleKnoten = QuasiSingleKnoten = PureL = Autarkien = V1KlRed = Suchbaumtiefe = Ueberschreitung2 = FastAutarkien = InitEinerRed = neue2Klauseln = maxneue2K = init2Klauseln = 0;
+  proportion_searched = proportion_single = 0;
   Tiefe = NULL;
 
   free(zweiteBel); zweiteBel = NULL;
@@ -572,6 +582,9 @@ alleReduktionen:
     return SAT;
 
   case 2:
+    assert(proportion_searched >= 0);
+    assert(Vergleich(proportion_searched+proportion_single,1) != groesser);
+    proportion_searched += exp2l(- (int) Rekursionstiefe);
 #ifdef OUTPUTTREEDATAXML
     BeginTreeElement();
 #endif
@@ -583,6 +596,7 @@ alleReduktionen:
 #endif
        return UNSAT;
      }
+     assert(Rekursionstiefe >= 1);
      --Rekursionstiefe;
      switch (r) {
      case SAT1 : goto nachSAT1;
@@ -616,6 +630,9 @@ alleReduktionen:
     return SAT;
 
   case 2:
+    assert(proportion_searched >= 0);
+    assert(Vergleich(proportion_searched+proportion_single,1) != groesser);
+    proportion_searched += exp2l(- (int) Rekursionstiefe);
 #ifdef OUTPUTTREEDATAXML
     BeginTreeElement();
 #endif
@@ -745,6 +762,7 @@ alleReduktionen:
       assert(splitting_cases > 0);
       return Unbestimmt;
     }
+    assert(Rekursionstiefe >= 1);
     --Rekursionstiefe;
 #ifdef BAUMRES
     printf("NOT IMPLEMENTED: combination of -S with BAUMRES!\n");
@@ -821,12 +839,14 @@ alleReduktionen:
   if (Monitor)
     if (Rekursionstiefe < Beobachtungsniveau) {
       beobachtet[Rekursionstiefe] = beobachtet[Rekursionstiefe-1];
-      if (Dateiausgabe)
+      if (Dateiausgabe) {
+        assert(Rekursionstiefe >= 1);
 #ifndef BAUMRES
 	  Verzweigungsliteralausgabe(*Huelle[optZweig][! Schalter], Rekursionstiefe - 1);
 #else
         Verzweigungsliteralausgabe(Huelle[optZweig][! Schalter] -> l, Rekursionstiefe - 1);
 #endif
+      }
     }
   goto Anfang; // Branching (recursion simulated)
 
@@ -861,6 +881,9 @@ alleReduktionen:
   else {
     Zeiger2 = SatVar -> altZeiger2;
     ++SingleKnoten;
+    assert(proportion_single >= 0);
+    assert(Vergleich(proportion_searched+proportion_single,1) != groesser);
+    proportion_single += exp2l(- (int) (Rekursionstiefe) - 1);
     {const enum Spruenge r = SatVar -> Ruecksprung;
      SatVar = SatVar -> davor;
      if (SatVar == NULL) {
@@ -869,6 +892,7 @@ alleReduktionen:
 #  endif
        return UNSAT;
      }
+     assert(Rekursionstiefe >= 1);
      --Rekursionstiefe;
      switch (r) {
      case SAT1 : goto nachSAT1;
@@ -949,6 +973,7 @@ alleReduktionen:
 #endif
      return UNSAT;
    }
+   assert(Rekursionstiefe >= 1);
    --Rekursionstiefe;
    switch (r) {
    case SAT1 : goto nachSAT1;
@@ -1000,6 +1025,9 @@ void Statistikzeile(FILE* const fp) {
             "c number_of_autarkies                   %lu\n"
             "c number_of_missed_single_nodes         %lu\n"
             "c max_tree_depth                        %u\n"
+            "c proportion_searched                   %1.6e\n"
+            "c proportion_single                     %1.6e\n"
+            "c total_proportion                      %1.16g\n"
             "c number_of_table_enlargements          %u\n"
             "c number_of_1-autarkies                 %lu\n"
             "c number_of_new_2-clauses               %lu\n"
@@ -1010,6 +1038,7 @@ void Statistikzeile(FILE* const fp) {
             (double) Verbrauch / EPS,
 	    Knoten, SingleKnoten, QuasiSingleKnoten, V1KlRed, PureL,
 	    Autarkien, VerSingleKnoten, Suchbaumtiefe,
+          (double) proportion_searched, (double) proportion_single, (double)(proportion_searched+proportion_single),
 	    Ueberschreitung2, 
 	    FastAutarkien, neue2Klauseln, maxneue2K,
 	    aktName);

@@ -123,10 +123,10 @@ License, or any later version. */
 #include <stdbool.h>
 
 #define VERSIONSNUMMER1 "1"
-#define VERSIONSNUMMER2 "50"
+#define VERSIONSNUMMER2 "51"
 /* Version = VERSIONSNUMMER1 "." VERSIONSNUMMER2 */
 
-#define DATUM "25.8.2011"
+#define DATUM "18.12.2011"
 
 extern const bool internal;
 

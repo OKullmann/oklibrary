@@ -445,6 +445,17 @@ CFLAGS="-UMACHINE_BITS_OKL"
        literal occurrences were eliminated by the reduction. </li>
       </ol>
      </li>
+     <li> The "proportion"-information refers to the proportion of the
+     2^n (total) assignments which has been covered by the splitting-tree:
+      <ol>
+       <li> <code>proportion_searched</code> refers to the proportion without
+       the contribution of tree-pruning. </li>
+       <li> <code>proportion_single</code> refers to the proportion due to
+       the contribution of tree-pruning alone. </li>
+       <li> <code>total_proportion</code> finally is the sum (equal to 1
+       for unsatisfiable inputs). </li>
+      </ol>
+     </li>
     </ol>
    </li>
    </li> The return values for the DIMACS output:

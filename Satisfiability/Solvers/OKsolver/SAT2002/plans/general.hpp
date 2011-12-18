@@ -12,8 +12,8 @@ License, or any later version. */
 
   \todo More information on the current path
   <ul>
-   <li> Currently we know the total number npa of assignments on the path and
-   the number d of decisions (the depth of the tree + 1). </li>
+   <li> Currently we know the total number npa of assignments on the path
+   ("Tiefe") and the number d of decisions ("Rekursionstiefe"). </li>
    <li> It should not be too complicated to also provide the following
    information for the current partial assignment (leading to the current
    node):
@@ -600,6 +600,9 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
    </li>
    <li> More information on the tree:
     <ol>
+     <li> DONE
+     The proportion of the tree solved (in terms of total assignments
+     covered). </li>
      <li> The levelled height would be interesting. </li>
      <li> Quasi-single nodes should perhaps be ignored here. </li>
      <li> On the other hand, they are also taken into account for the
