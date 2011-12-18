@@ -59,6 +59,19 @@ ncl_full_fcs(n) := 2^n$
 deficiency_full_fcs(n) := ncl_full_fcs(n) - nvar_full_fcs(n)$
 
 
+/* Output */
+
+output_fullcs(n,filename) :=
+ outputext_fcl(
+   sconcat("Canonical unsatisfiable clause-set with ", n, " variables.
+c Created by the OKlibrary at ", timedate(), "."),
+   full_fcl(n),
+   filename)$
+
+output_fullcs_stdname(n) := output_fullcs(n,
+ sconcat("FullCls-",n,".cnf"))$
+
+
 /* ************************
    * Parity formulas      *
    ************************
