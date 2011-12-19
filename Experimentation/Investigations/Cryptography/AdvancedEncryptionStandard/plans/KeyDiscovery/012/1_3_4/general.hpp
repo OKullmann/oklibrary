@@ -73,7 +73,7 @@ K_(i,j) := S-box(K_(i-1,1)) + C_i + sum(K_(i-1,k),k,1,j)
        <li> Reading in experimental data:
        \verbatim
 > git clone git://github.com/MGwynne/Experimental-data.git
-> cd AES/1_3_4/
+> cd Experimental-data/AES/1_3_4/
 
 > E_canon = read.table("ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_canon_box_aes_mc_bidirectional/MinisatStatistics",header=TRUE)
 > E_1base = read.table("ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional/MinisatStatistics",header=TRUE)
