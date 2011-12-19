@@ -19,8 +19,13 @@ License, or any later version. */
    <li> As a reminder, aes(r,1,3,4) applies the following operations (up to
    variable-permutations):
     <ol>
-     <li> Key schedule which takes the key and generates r+1 12-bit round
-     keys. </li>
+     <li> Key schedule applies the following operations r+1 times:
+      <ul>
+       <li> r * 1 = r S-boxes (first column).
+       <li> r * 1 * 4 * 2 = 8*r additions of arity 2 (last two columns). </li>
+       <li> r * 1 * 4 = 4*r additions of arity 3 (first column). </li>
+      </ul>
+     generating r+1 12-bit round keys. </li>
      <li> Application of the following operation (the "round") r times:
       <ol>
        <li> Addition of 12-bit round key. </li>
@@ -34,18 +39,6 @@ License, or any later version. */
     </ol>
    </li>
    <li> Round key 0 is the input key. </li>
-   <li> XXX we want to see the essential boolean functions XXX
-   The key schedule computes the round key i, K_(i,j), from round key
-   i-1, K_(i-1), by:
-   \verbatim
-K_(i,j) := S-box(K_(i-1,1)) + C_i + sum(K_(i-1,k),k,1,j)
-   \endverbatim
-   where
-    <ul>
-     <li> C_i is the round constant for round i; </li>
-     <li> K_(i,j) is the j-th 4-bit word of the i-th round-key. </li>
-    </ul>
-   </li>
    <li> The S-box is a permutation from {0,1}^4 to {0,1}^4 which we consider
    as either:
     <ul>
