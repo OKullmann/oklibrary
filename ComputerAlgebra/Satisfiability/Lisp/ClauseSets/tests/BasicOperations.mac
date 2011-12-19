@@ -477,16 +477,16 @@ okltest_dimacs_c_stringext(f) := (
   true)$
 
 okltest_print_fcs_v(f) := block([a,b],
-  assert(sequal(print2string(f("XXX",[{},{}],[])), sconcatnl("c XXX ","p cnf 0 0 ")) = true),
-  assert(sequal(print2string(f("XXX",[{},{{}}],[])), sconcatnl("c XXX ","p cnf 0 1 ","0 ")) = true),
-  assert(sequal(print2string(f("",[{1,2},{{1,-2},{1,2}}],[a,b])), sconcatnl("c  ", "c 1 : a ", "c 2 : b ", "p cnf 2 2 ", "-2 1 0 ", "1 2 0 ")) = true),
+  assert(sequal(print2string(f("XXX",[{},{}],[])), sconcatnl("c XXX","p cnf 0 0")) = true),
+  assert(sequal(print2string(f("XXX",[{},{{}}],[])), sconcatnl("c XXX","p cnf 0 1","0")) = true),
+  assert(sequal(print2string(f("",[{1,2},{{1,-2},{1,2}}],[a,b])), sconcatnl("c ", "c 1 : a", "c 2 : b", "p cnf 2 2", "-2 1 0", "1 2 0")) = true),
   /* XXX */
   true)$
 
 okltest_print_fcl_v(f) := block([a,b],
-  assert(sequal(print2string(f("XXX",[[],[]],[])), sconcatnl("c XXX ","p cnf 0 0 ")) = true),
-  assert(sequal(print2string(f("XXX",[[],[{}]],[])), sconcatnl("c XXX ","p cnf 0 1 ","0 ")) = true),
-  assert(sequal(print2string(f("",[[2,1],[{2},{1,-2},{1,2}]],[a,b])), sconcatnl("c  ", "c 1 : a ", "c 2 : b ", "p cnf 2 3 ","2 0 ", "-2 1 0 ", "1 2 0 ")) = true),
+  assert(sequal(print2string(f("XXX",[[],[]],[])), sconcatnl("c XXX","p cnf 0 0")) = true),
+  assert(sequal(print2string(f("XXX",[[],[{}]],[])), sconcatnl("c XXX","p cnf 0 1","0")) = true),
+  assert(sequal(print2string(f("",[[2,1],[{2},{1,-2},{1,2}]],[a,b])), sconcatnl("c ", "c 1 : a", "c 2 : b", "p cnf 2 3","2 0", "-2 1 0", "1 2 0")) = true),
   /* XXX */
   true)$
 

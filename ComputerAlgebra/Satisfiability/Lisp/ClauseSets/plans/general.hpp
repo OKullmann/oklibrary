@@ -219,7 +219,8 @@ assignment: cannot assign 10001 to linel
    <li> Functions currently in
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac
    should move to their own file "InputOutput.mac". </li>
-   <li> The usage of "print" likely should be replaced by "printf" from
+   <li> DONE
+   The usage of "print" likely should be replaced by "printf" from
    package "stringproc".
     <ol>
      <li> Then the trailing space on every printed line should be removed.
