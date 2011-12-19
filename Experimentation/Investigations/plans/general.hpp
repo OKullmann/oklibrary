@@ -299,5 +299,186 @@ c splitting_cases                       57637
    </li>
   </ul>
 
+
+  \todo Order principles
+  <ul>
+   <li> output_ordergt_stdname(m) produces OrderGT-m.cnf. </li>
+   <li> These clause-sets are all unsatisfiable, have short resolution
+   refutations, but no short tree-resolution refutations. </li>
+   <li> OKsolver-2002:
+    <ol>
+     <li> m=10:
+     \verbatim
+c initial_maximal_clause_length         9
+c initial_number_of_variables           90
+c initial_number_of_clauses             775
+c initial_number_of_literal_occurrences 2340
+c number_of_2-clauses_after_reduction   45
+c running_time(sec)                     2.3
+c number_of_nodes                       46142
+c number_of_single_nodes                1477
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                119320
+c number_of_pure_literals               8343
+c number_of_autarkies                   772
+c number_of_missed_single_nodes         1910
+c max_tree_depth                        31
+c proportion_searched                   9.200725e-01
+c proportion_single                     7.992752e-02
+     \endverbatim
+     </li>
+     <li> m=11:
+     \verbatim
+c initial_maximal_clause_length         10
+c initial_number_of_variables           110
+c initial_number_of_clauses             1056
+c initial_number_of_literal_occurrences 3190
+c number_of_2-clauses_after_reduction   55
+c running_time(sec)                     29.2
+c number_of_nodes                       461306
+c number_of_single_nodes                20523
+c number_of_quasi_single_nodes          1
+c number_of_2-reductions                1235944
+c number_of_pure_literals               139858
+c number_of_autarkies                   13347
+c number_of_missed_single_nodes         24245
+c max_tree_depth                        44
+c proportion_searched                   8.692898e-01
+c proportion_single                     1.307102e-01
+     \endverbatim
+     </li>
+     <li> m=12:
+     \verbatim
+c initial_maximal_clause_length         11
+c initial_number_of_variables           132
+c initial_number_of_clauses             1398
+c initial_number_of_literal_occurrences 4224
+c number_of_2-clauses_after_reduction   66
+c running_time(sec)                     396.6
+c number_of_nodes                       5555817
+c number_of_single_nodes                302746
+c number_of_quasi_single_nodes          8
+c number_of_2-reductions                15253349
+c number_of_pure_literals               2205452
+c number_of_autarkies                   215859
+c number_of_missed_single_nodes         342274
+c max_tree_depth                        56
+c proportion_searched                   7.947487e-01
+c proportion_single                     2.052513e-01
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> march_pl:
+   \verbatim
+> march_pl OrderGT-10.cnf
+c resolvent_look() :: found 810 resolvents
+c main():: nodeCount: 13324
+c main():: time=0.990000
+
+> march_pl OrderGT-11.cnf
+c resolvent_look() :: found 1100 resolvents
+c main():: nodeCount: 170088
+c main():: time=14.700000
+
+> march_pl OrderGT-12.cnf
+c main():: nodeCount: 2945927
+c main():: time=284.359985
+   \endverbatim
+   </li>
+   <li> satz-215:
+   \verbatim
+satz215 OrderGT-10.cnf 1.290 36170 18326 1602857 66965 0 90 775 0 255285 18491
+satz215 OrderGT-11.cnf 19.480 523764 264805 23945248 763461 0 110 1056 0 2437085 144139
+satz215 OrderGT-12.cnf 337.310 8520254 4299339 413603484 10534914 0 132 1398 0 23077013 1179014
+   \endverbatim
+   </li>
+   <li> Minisat-2.2.0:
+   \verbatim
+> minisat-2.2.0 OrderGT-12.cnf
+conflicts             : 3899           (169551 /sec)
+CPU time              : 0.022996 s
+
+> minisat-2.2.0 OrderGT-15.cnf
+conflicts             : 35953          (123146 /sec)
+CPU time              : 0.291955 s
+
+> minisat-2.2.0 OrderGT-20.cnf
+conflicts             : 1408470        (73061 /sec)
+CPU time              : 19.2781 s
+   \endverbatim
+   </li>
+   <li> picosat-913:
+   \verbatim
+> picosat913 OrderGT-20.cnf
+c 700598 conflicts
+c 13.0 seconds total run time
+
+> picosat913 OrderGT-30.cnf
+c 323798892 conflicts
+c 26060.5 seconds total run time
+   \endverbatim
+   </li>
+   <li> precosat-570.1:
+   \verbatim
+> precosat-570.1 -v OrderGT-20.cnf
+c 558 conflicts, 2354 decisions, 0 random
+c 0.0 seconds, 1 MB max, 0 MB recycled
+
+> precosat-570.1 -v OrderGT-25.cnf
+c 1096 conflicts, 4978 decisions, 0 random
+c 0.1 seconds, 1 MB max, 0 MB recycled
+
+> precosat-570.1 -v OrderGT-30.cnf
+c 1375 conflicts, 8945 decisions, 2 random
+c 0.1 seconds, 2 MB max, 0 MB recycled
+
+> precosat-570.1 -v OrderGT-40.cnf
+c 2616 conflicts, 23538 decisions, 8 random
+c 0.3 seconds, 6 MB max, 0 MB recycled
+
+> precosat-570.1 -v OrderGT-50.cnf
+c 4053 conflicts, 50671 decisions, 16 random
+c 0.6 seconds, 10 MB max, 0 MB recycled
+
+> precosat-570.1 -v OrderGT-60.cnf
+c 5581 conflicts, 100137 decisions, 43 random
+c 1.2 seconds, 16 MB max, 0 MB recycled
+
+> precosat-570.1 -v OrderGT-70.cnf
+c 8425 conflicts, 199397 decisions, 90 random
+c 2.2 seconds, 32 MB max, 1 MB recycled
+
+> precosat-570.1 -v OrderGT-80.cnf
+c 10884 conflicts, 311653 decisions, 156 random
+c 3.5 seconds, 45 MB max, 1 MB recycled
+
+> precosat-570.1 -v OrderGT-90.cnf
+c 12785 conflicts, 504797 decisions, 245 random
+c 5.7 seconds, 60 MB max, 2 MB recycled
+
+> precosat-570.1 -v OrderGT-100.cnf
+c 18507 conflicts, 941534 decisions, 455 random
+c 8.7 seconds, 79 MB max, 3 MB recycled
+
+> precosat-570.1 -v OrderGT-110.cnf
+c 28004 conflicts, 2770028 decisions, 1371 random
+c 15.2 seconds, 101 MB max, 5 MB recycled
+
+# m=120 not possible with 4GB.
+   \endverbatim
+   What is the essential difference between picosat and precosat here?!
+   </li>
+   <li> For bigger problems a C++ generator is needed (and the details of
+   the translations, i.e., the variable-numbering and the order of clauses,
+   need to be fixed). </li>
+   <li> For order m in [Kullmann, ECCC, 1999]
+   http://eccc.hpi-web.de/report/1999/041/ (Lemma 8.13) it is shown that
+   the hardness equals m-1 (while the (improved) width is m-2). </li>
+   <li> So perhaps precosat uses longer clauses than the other conflict-driven
+   solvers (which still use full resolution, and have an advantage over the
+   look-ahead solvers)? </li>
+  </ul>
+
 */
 
