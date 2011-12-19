@@ -59,7 +59,7 @@ K_(i,j) := S-box(K_(i-1,1)) + C_i + sum(K_(i-1,k),k,1,j)
    dimensions" in
    Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
    </li>
-   <li> The plaintext and ciphertext variables are then set, and the SAT
+   <li> The plaintext and ciphertext variables are then set, and the
    SAT solver is run on this instance to deduce the key variables. </li>
   </ul>
 
