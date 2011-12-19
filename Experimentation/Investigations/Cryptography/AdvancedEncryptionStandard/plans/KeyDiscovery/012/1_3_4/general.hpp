@@ -19,8 +19,13 @@ License, or any later version. */
    <li> As a reminder, aes(r,1,3,4) applies the following operations (up to
    variable-permutations):
     <ol>
-     <li> Key schedule which takes the key and generates r+1 12-bit round
-     keys. </li>
+     <li> Key schedule applies the following operations r+1 times:
+      <ul>
+       <li> r * 1 = r S-boxes (first column).
+       <li> r * 1 * 4 * 2 = 8*r additions of arity 2 (last two columns). </li>
+       <li> r * 1 * 4 = 4*r additions of arity 3 (first column). </li>
+      </ul>
+     generating r+1 12-bit round keys. </li>
      <li> Application of the following operation (the "round") r times:
       <ol>
        <li> Addition of 12-bit round key. </li>
@@ -34,18 +39,6 @@ License, or any later version. */
     </ol>
    </li>
    <li> Round key 0 is the input key. </li>
-   <li> XXX we want to see the essential boolean functions XXX
-   The key schedule computes the round key i, K_(i,j), from round key
-   i-1, K_(i-1), by:
-   \verbatim
-K_(i,j) := S-box(K_(i-1,1)) + C_i + sum(K_(i-1,k),k,1,j)
-   \endverbatim
-   where
-    <ul>
-     <li> C_i is the round constant for round i; </li>
-     <li> K_(i,j) is the j-th 4-bit word of the i-th round-key. </li>
-    </ul>
-   </li>
    <li> The S-box is a permutation from {0,1}^4 to {0,1}^4 which we consider
    as either:
     <ul>
@@ -59,7 +52,7 @@ K_(i,j) := S-box(K_(i-1,1)) + C_i + sum(K_(i-1,k),k,1,j)
    dimensions" in
    Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
    </li>
-   <li> The plaintext and ciphertext variables are then set, and the SAT
+   <li> The plaintext and ciphertext variables are then set, and the
    SAT solver is run on this instance to deduce the key variables. </li>
   </ul>
 
@@ -73,7 +66,7 @@ K_(i,j) := S-box(K_(i-1,1)) + C_i + sum(K_(i-1,k),k,1,j)
        <li> Reading in experimental data:
        \verbatim
 > git clone git://github.com/MGwynne/Experimental-data.git
-> cd AES/1_3_4/
+> cd Experimental-data/AES/1_3_4/
 
 > E_canon = read.table("ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_canon_box_aes_mc_bidirectional/MinisatStatistics",header=TRUE)
 > E_1base = read.table("ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional/MinisatStatistics",header=TRUE)
