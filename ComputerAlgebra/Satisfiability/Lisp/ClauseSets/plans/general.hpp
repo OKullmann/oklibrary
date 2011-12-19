@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding clause-sets
 
 
-  \bug print_nlb doesn't allow lines more than 10000 characters long
+  \bug DONE (new implementation of print_nlb doesn't have this problem)
+  print_nlb doesn't allow lines more than 10000 characters long
   <ul>
    <li> We get the following error:
    \verbatim
