@@ -19,6 +19,9 @@ c number_of_pure_literals               0
 c number_of_autarkies                   0
 c number_of_missed_single_nodes         0
 c max_tree_depth                        1
+c proportion_searched                   1\.000000e\+00
+c proportion_single                     0\.000000e\+00
+c total_proportion                      1
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 24
 c number_of_new_2-clauses               0
