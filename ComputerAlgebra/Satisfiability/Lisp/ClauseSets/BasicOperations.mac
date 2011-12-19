@@ -282,10 +282,7 @@ dimacs_c_string(C) := dimacs_c_stringext(C,dimacs_l_string)$
 dimacs_c_stringext(C,f) := xreduce(sconcat, map(f,listify(C)), "")$
 
 /* Print a string without line-breaks: */
-print_nlb(s) := block([old_linel : linel],
-  linel : slength(s) + 1,
-  print(s),
-  linel : old_linel)$
+print_nlb(s) := block([linel : slength(s) + 1], print(s))$
 
 /* Print a formal clause-set in ("extended") Dimacs format where literals
    are translated to the strings printed using the function f, which takes
