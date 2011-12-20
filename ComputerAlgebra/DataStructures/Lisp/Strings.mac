@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/DataStructures/Lisp/Strings.mac
-  \brief Functions for string handling
+  \brief Functions for string handling and printing
 
 Use by
 
@@ -21,11 +21,15 @@ oklib_load("OKlib/ComputerAlgebra/DataStructures/Lisp/Strings.mac");
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
+/* Print a string on one line, with exactly one line-break: */
+print_nlb(s) := printf(true,"~a~a",s,newline)$
+
 
 /* Concatening the string-arguments, separating them with new-lines: */
 sconcatnl([L]) := uaapply(sconcat, lappend(map(lambda([x],[x,newline]),L)))$
 /* Separating them with spaces: */
 sconcats([L]) := uaapply(sconcat, lappend(map(lambda([x],[x,space]),L)))$
+
 
 /* Evaluate term t, and concatenate all print-output into one string: */
 print2string('t) := block([S : make_string_output_stream()],

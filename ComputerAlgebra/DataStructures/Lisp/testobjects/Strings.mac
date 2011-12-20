@@ -21,6 +21,8 @@ oklib_load("OKlib/ComputerAlgebra/DataStructures/Lisp/testobjects/Strings.mac");
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Strings.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/tests/Strings.mac")$
 
+okltest_print_nlb(print_nlb);
+
 okltest_sconcatnl(sconcatnl);
 okltest_sconcats(sconcats);
 

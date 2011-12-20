@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Strings.mac")$
 
 /* Guaranteed to be included: */
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
@@ -280,9 +281,6 @@ dimacs_c_string(C) := dimacs_c_stringext(C,dimacs_l_string)$
 /* Allows the literal translation to be passed in as function f which
    takes a literal and returns a string. */
 dimacs_c_stringext(C,f) := xreduce(sconcat, map(f,listify(C)), "")$
-
-/* Print a string without line-breaks: */
-print_nlb(s) := printf(true,"~a~a",s,newline)$
 
 /* Print a formal clause-set in ("extended") Dimacs format where literals
    are translated to the strings printed using the function f, which takes

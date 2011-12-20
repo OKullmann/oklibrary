@@ -20,9 +20,17 @@ oklib_load("OKlib/ComputerAlgebra/DataStructures/Lisp/tests/Strings.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Strings.mac");
 
 kill(f)$
 
+
+okltest_print_nlb(f) := block([s],
+  assert(sequal(print2string(f("")),newline) = true),
+  assert(sequal(print2string(f("X X")),sconcat("X X",newline)) = true),
+  s : apply(sconcats, create_list("X",i,1,200)),
+  assert(sequal(print2string(f(s)),sconcat(s,newline)) = true),
+  true)$
 
 okltest_sconcatnl(f) := (
   assert(sequal(f(),"") = true),
