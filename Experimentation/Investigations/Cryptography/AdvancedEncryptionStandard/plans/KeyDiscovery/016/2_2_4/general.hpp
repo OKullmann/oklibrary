@@ -77,8 +77,103 @@ MixColumns(I_4) := Mul03(I_3) + Mul02(I_4)
    dimensions" in
    Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
    </li>
-   <li> The plaintext and ciphertext variables are then set, and the SAT
+   <li> The plaintext and ciphertext variables are then set, and the
    SAT solver is run on this instance to deduce the key variables. </li>
+  </ul>
+
+
+  \todo Translations
+  <ul>
+   <li> The following translations are considered in this %plans %file:
+    <ul>
+     <li> The canonical box translation. </li>
+     <li> The small box translation. </li>
+    </ul>
+   </li>
+   <li> For a full list of the possible translations, see
+   "Investigating dimensions" in
+   Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
+   </li>
+   <li> Generating instances for rounds 1-20 for a single random key with each
+   of the translations:
+    <ul>
+     <li> The canonical box translation:
+     \verbatim
+shell> mkdir ssaes_r1-20_c2_rw2_e4_f0_k1-20_aes_canon_box_aes_mc_bidirectional
+shell> cd ssaes_r1-20_c2_rw2_e4_f0_k1-20_aes_canon_box_aes_mc_bidirectional
+shell> oklib --maxima
+num_rows : 2$
+num_columns : 2$
+exp : 4$
+final_round_b : false$
+box_tran : aes_ts_box$
+mc_tran : aes_mc_bidirectional$
+for num_rounds : 1 thru 20 do (
+  output_ss_fcl_std(
+    num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
+exit();
+shell> for r in $(seq 1 20); do
+  for k in $(seq 1 20); do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c2_rw2_e4_f0.cnf ssaes_pcpair_r${r}_c2_rw2_e4_f0_s${k}.cnf > r${r}_keyfind.cnf;
+  done;
+done
+     \endverbatim
+     </li>
+     <li> The 1-base box translation:
+     \verbatim
+shell> mkdir ssaes_r1-20_c2_rw2_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional
+shell> cd ssaes_r1-20_c2_rw2_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional
+shell> oklib --maxima
+num_rows : 2$
+num_columns : 2$
+exp : 4$
+final_round_b : false$
+box_tran : aes_rbase_box$
+mc_tran : aes_mc_bidirectional$
+for num_rounds : 1 thru 20 do (
+  output_ss_fcl_std(
+    num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
+exit();
+shell> for r in $(seq 1 20); do
+  for k in $(seq 1 20); do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c2_rw2_e4_f0.cnf ssaes_pcpair_r${r}_c2_rw2_e4_f0_s${k}.cnf > r${r}_keyfind.cnf;
+  done;
+done
+     \endverbatim
+     </li>
+     <li> The "minimum" box translation:
+     \verbatim
+shell> mkdir ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional
+shell> cd ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional
+shell> oklib --maxima
+num_rows : 2$
+num_columns : 2$
+exp : 4$
+final_round_b : false$
+box_tran : aes_small_box$
+mc_tran : aes_mc_bidirectional$
+for num_rounds : 1 thru 20 do (
+  output_ss_fcl_std(
+    num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
+exit();
+shell> for r in $(seq 1 20); do
+  for k in $(seq 1 20); do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c2_rw2_e4_f0.cnf ssaes_pcpair_r${r}_c2_rw2_e4_f0_s${k}.cnf > r${r}_keyfind.cnf;
+  done;
+done
+     \endverbatim
+     </li>
+    </ul>
+   </li>
   </ul>
 
 */
