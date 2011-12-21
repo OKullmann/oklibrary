@@ -149,7 +149,7 @@ for num_rounds : 1 thru 20 do (
 exit();
 shell> for r in $(seq 1 20); do
   for s in $(seq 1 20) do
-    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c2_rw1_e8_f0.cnf ssaes_pcpair_r${r}_c2_rw1_e4_f0_s${s}.cnf > r${r}_k${s}.cnf;
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c2_rw1_e8_f0.cnf ssaes_pcpair_r${r}_c2_rw1_e8_f0_s${s}.cnf > r${r}_k${s}.cnf;
   done
 done
      \endverbatim
@@ -192,7 +192,7 @@ for num_rounds : 1 thru 20 do (
 exit();
 shell> for r in $(seq 1 20); do
   for s in $(seq 1 20) do
-    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c2_rw1_e8_f0.cnf ssaes_pcpair_r${r}_c2_rw1_e4_f0_s${s}.cnf > r${r}_k${s}.cnf;
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c2_rw1_e8_f0.cnf ssaes_pcpair_r${r}_c2_rw1_e8_f0_s${s}.cnf > r${r}_k${s}.cnf;
   done
 done
        \endverbatim
@@ -246,7 +246,7 @@ for num_rounds : 1 thru 20 do (
 exit();
 shell> for r in $(seq 1 20); do
   for s in $(seq 1 20) do
-    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c2_rw1_e8_f0.cnf ssaes_pcpair_r${r}_c2_rw1_e4_f0_s${s}.cnf > r${r}_k${s}.cnf;
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c2_rw1_e8_f0.cnf ssaes_pcpair_r${r}_c2_rw1_e8_f0_s${s}.cnf > r${r}_k${s}.cnf;
   done
 done
        \endverbatim
