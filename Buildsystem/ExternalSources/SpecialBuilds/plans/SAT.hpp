@@ -748,6 +748,21 @@ builds/CryptoMiniSat> make
      Buildsystem/ExternalSources/sources). </li>
     </ol>
    </li>
+   <li> Correct compilation: Does the static glucose-executable link to the
+   *local* libstdc++ and libgcc ? </li>
+   <li> Handling satelite:
+    <ol>
+     <li> The glucose-build also provides the preprocessor satelite. </li>
+     <li> We want to have this. </li>
+     <li> For its compilation still "-m32" is used. </li>
+     <li> So 32-bit versions of libstdc++ and libgcc are needed. </li>
+     <li> However we do not provide them. </li>
+     <li> So building of gcc needs to be enhanced, so that also those
+     additional libraries are provided. </li>
+     <li> And we need to make sure (in a systematic way) that these libraries
+     are always used (and not the system-libraries). </li>
+    </ol>
+   </li>
    <li> DONE (version 1 installed)
    Install by:
    \verbatim
