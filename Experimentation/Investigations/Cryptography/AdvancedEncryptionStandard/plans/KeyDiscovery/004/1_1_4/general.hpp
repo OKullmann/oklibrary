@@ -122,16 +122,44 @@ num_columns : 1$
 exp : 4$
 final_round_b : false$
 box_tran : aes_ts_box$
+mc_tran : aes_mc_bidirectional$
+for num_rounds : 1 thru 20 do (
+  output_ss_fcl_std(
+    num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
+exit();
+shell> for r in $(seq 1 20); do
+  for k in $(seq 1 20); do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c1_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c1_rw1_e4_f0_s${k}.cnf > r${r}_keyfind.cnf;
+  done;
+done
+     \endverbatim
+     </li>
+     <li> The 1-base box translation:
+     \verbatim
+shell> mkdir ssaes_r1-20_c1_rw1_e4_f0_k1-1_aes_1base_box_aes_mc_bidirectional
+shell> cd ssaes_r1-20_c1_rw1_e4_f0_k1-1_aes_1base_box_aes_mc_bidirectional
+shell> oklib --maxima
+num_rows : 1$
+num_columns : 1$
+exp : 4$
+final_round_b : false$
+box_tran : aes_rbase_box$
 seed : 1$
 mc_tran : aes_mc_bidirectional$
 for num_rounds : 1 thru 20 do (
   output_ss_fcl_std(
     num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
-  output_ss_random_pc_pair(
-    seed,num_rounds,num_columns,num_rows,exp,final_round_b))$
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
 exit();
 shell> for r in $(seq 1 20); do
-  AppendDimacs-O3-DNDEBUG ssaes_r${r}_c1_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c1_rw1_e4_f0_s1.cnf > r${r}_keyfind.cnf;
+  for k in $(seq 1 20); do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c1_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c1_rw1_e4_f0_s${k}.cnf > r${r}_keyfind.cnf;
+  done;
 done
      \endverbatim
      </li>
@@ -150,11 +178,14 @@ mc_tran : aes_mc_bidirectional$
 for num_rounds : 1 thru 20 do (
   output_ss_fcl_std(
     num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
-  output_ss_random_pc_pair(
-    seed,num_rounds,num_columns,num_rows,exp,final_round_b))$
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
 exit();
 shell> for r in $(seq 1 20); do
-  AppendDimacs-O3-DNDEBUG ssaes_r${r}_c1_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c1_rw1_e4_f0_s1.cnf > r${r}_keyfind.cnf;
+  for k in $(seq 1 20); do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c1_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c1_rw1_e4_f0_s${k}.cnf > r${r}_keyfind.cnf;
+  done;
 done
      \endverbatim
      </li>
