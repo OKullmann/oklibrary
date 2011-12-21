@@ -5,8 +5,8 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-glucose_recommended_version_number_okl ?= 1.0
-glucose_other_versions_okl ?=
+glucose_recommended_version_number_okl ?= 2.0
+glucose_other_versions_okl ?= 1.0
 
 glucose_base_name_okl := glucose
 glucose_recommended_okl := $(glucose_base_name_okl)-$(glucose_recommended_version_number_okl)
