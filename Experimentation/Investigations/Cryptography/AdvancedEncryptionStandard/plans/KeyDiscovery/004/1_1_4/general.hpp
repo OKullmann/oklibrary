@@ -219,7 +219,7 @@ Mem:          3947       3363        583          0        165       3077
       <ul>
        <li> The data:
        \verbatim
-> cd ssaes_r1-20_c1_rw1_e4_f0_k1-1_aes_ts_box_aes_mc_bidirectional
+> cd ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_ts_box_aes_mc_bidirectional
 > for r in $(seq 1 20); do for s in $(seq 1 20); do RunMinisat r${r}_k${s}.cnf; done; done
 > (ExtractMinisat header-only |  awk " { print \$0 \" r s\"}"; for r in $(seq 1 20); do for s in $(seq 1 20); do
     cat ExperimentMinisat_r${r}_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${r} ${s}\"}";
@@ -279,7 +279,7 @@ R> aggregate_statistics(E[c("r","t","cfs","r1")], by=list("r"))
       <ul>
        <li> The data:
        \verbatim
-> cd ssaes_r1-20_c1_rw1_e4_f0_k1-1_aes_1base_box_aes_mc_bidirectional
+> cd ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional
 > for r in $(seq 1 20); do for s in $(seq 1 20); do RunMinisat r${r}_k${s}.cnf; done; done
 > (ExtractMinisat header-only |  awk " { print \$0 \" r s\"}"; for r in $(seq 1 20); do for s in $(seq 1 20); do
     cat ExperimentMinisat_r${r}_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${r} ${s}\"}";
@@ -339,7 +339,7 @@ R> aggregate_statistics(E[c("r","t","cfs","r1")], by=list("r"))
       <ul>
        <li> The data:
        \verbatim
-> cd ssaes_r1-20_c1_rw1_e4_f0_k1-1_aes_min_box_aes_mc_bidirectional
+> cd ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional
 > for r in $(seq 1 20); do for s in $(seq 1 20); do RunMinisat r${r}_k${s}.cnf; done; done
 > (ExtractMinisat header-only |  awk " { print \$0 \" r s\"}"; for r in $(seq 1 20); do for s in $(seq 1 20); do
     cat ExperimentMinisat_r${r}_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${r} ${s}\"}";
