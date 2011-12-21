@@ -137,16 +137,62 @@ num_columns : 1$
 exp : 8$
 final_round_b : false$
 box_tran : aes_ts_box$
-seed : 1$
 mc_tran : aes_mc_bidirectional$
 for num_rounds : 1 thru 20 do (
   output_ss_fcl_std(
     num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
-  output_ss_random_pc_pair(
-    seed,num_rounds,num_columns,num_rows,exp,final_round_b))$
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
 exit();
 shell> for r in $(seq 1 20); do
-  AppendDimacs-O3-DNDEBUG ssaes_r${r}_c1_rw1_e8_f0.cnf ssaes_pcpair_r${r}_c1_rw1_e8_f0_s1.cnf > r${r}_keyfind.cnf;
+  for k in $(seq 1 20); do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c1_rw1_e8_f0.cnf ssaes_pcpair_r${r}_c1_rw1_e8_f0_s${k}.cnf > r${r}_keyfind.cnf;
+  done;
+done
+     \endverbatim
+     </li>
+     <li> The 1-base box translation:
+     \verbatim
+shell> mkdir ssaes_r1-20_c1_rw1_e8_f0_k1-1_aes_1base_box_aes_mc_bidirectional
+shell> cd ssaes_r1-20_c1_rw1_e8_f0_k1-1_aes_1base_box_aes_mc_bidirectional
+
+# Generating a 1-base for the S-box
+maxima> output_rijnsbox_fullcnf_stdname();
+shell> QuineMcCluskey-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_Sbox_pi.cnf
+shell> RandomShuffleDimacs-O3-DNDEBUG 103 < AES_Sbox_pi.cnf | SortByClauseLength-O3-DNDEBUG > AES_Sbox_sortedpi.cnf
+shell> RUcpGen-O3-DNDEBUG AES_Sbox_sortedpi.cnf > AES_Sbox_gen.cnf
+shell> RandomShuffleDimacs-O3-DNDEBUG 1 < AES_Sbox_gen.cnf | SortByClauseLengthDescending-O3-DNDEBUG | RUcpBase-O3-DNDEBUG > AES_Sbox_base.cnf
+shell> cat AES_Sbox_base.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG nz
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+     16    4398     16     16    4398    30108     NA     NA    4398    30108     0
+ length   count
+      5       1
+      6    1187
+      7    2703
+      8     503
+      9       4
+
+shell> oklib --maxima
+Sbox1baseCNF : read_fcl_f("AES_Sbox_base.cnf")$
+set_hm(ss_sbox_rbase_cnfs,8, Sbox1baseCNF)$
+num_rows : 1$
+num_columns : 1$
+exp : 8$
+final_round_b : false$
+box_tran : aes_rbase_box$
+mc_tran : aes_mc_bidirectional$
+for num_rounds : 1 thru 20 do (
+  output_ss_fcl_std(
+    num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
+exit();
+shell> for r in $(seq 1 20); do
+  for k in $(seq 1 20); do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c1_rw1_e8_f0.cnf ssaes_pcpair_r${r}_c1_rw1_e8_f0_s${k}.cnf > r${r}_keyfind.cnf;
+  done;
 done
      \endverbatim
      </li>
@@ -160,16 +206,18 @@ num_columns : 1$
 exp : 8$
 final_round_b : false$
 box_tran : aes_small_box$
-seed : 1$
 mc_tran : aes_mc_bidirectional$
 for num_rounds : 1 thru 20 do (
   output_ss_fcl_std(
     num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
-  output_ss_random_pc_pair(
-    seed,num_rounds,num_columns,num_rows,exp,final_round_b))$
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
 exit();
 shell> for r in $(seq 1 20); do
-  AppendDimacs-O3-DNDEBUG ssaes_r${r}_c1_rw1_e8_f0.cnf ssaes_pcpair_r${r}_c1_rw1_e8_f0_s1.cnf > r${r}_keyfind.cnf;
+  for k in $(seq 1 20); do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c1_rw1_e8_f0.cnf ssaes_pcpair_r${r}_c1_rw1_e8_f0_s${k}.cnf > r${r}_keyfind.cnf;
+  done;
 done
      \endverbatim
      </li>
