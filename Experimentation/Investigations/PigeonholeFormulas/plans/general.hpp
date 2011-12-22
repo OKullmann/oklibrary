@@ -57,6 +57,11 @@ License, or any later version. */
        <li> PHP^12_11: solved in 251.2s, with 1,213,305 conflicts. </li>
       </ol>
      </li>
+     <li> Glucose 2.0:
+      <ol>
+       <li> PHP^12_11: solved in time=769.392s and 2480875 conflicts. </li>
+      </ol>
+     </li>
      <li> Glucose 1.0:
       <ol>
        <li> PHP^12_11: solved in time=1529.39s and 4,938,313 conflicts. </li>
