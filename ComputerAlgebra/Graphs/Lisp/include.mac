@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Trees/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Colouring.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Connectedness.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Drawing.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/IndependentSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/InputOutput.mac")$
