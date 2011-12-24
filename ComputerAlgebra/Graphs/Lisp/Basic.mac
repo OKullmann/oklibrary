@@ -24,6 +24,8 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Statistics.mac")$
 
+oklib_plain_include(graphs)$
+
 
 /* ***********************
    * Fundamental notions *
@@ -365,8 +367,6 @@ transposed_odgl(G) := [G[1], map(reverse,G[2])]$
    * Tests  *
    **********
 */
-
-oklib_plain_include(graphs)$
 
 /* Tests whether a general or multi-graph has parallel edges: */
 parallel_edges_gg_p(G) := is(length(map(G[3],G[2])) < length(G[2]))$
