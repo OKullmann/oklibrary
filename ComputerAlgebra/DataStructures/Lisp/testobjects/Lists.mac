@@ -91,6 +91,8 @@ okltest_largest_f_l(largest_f_l);
 okltest_find_first_l(find_first_l);
 okltest_find_last_l(find_last_l);
 
+okltest_elementp_l(elementp_l);
+
 /* **************************
    * Sublist constructions *
    **************************
