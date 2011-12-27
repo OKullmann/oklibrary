@@ -54,6 +54,11 @@ License, or any later version. */
   \par Investigations/Cryptography/DataEncryptionStandard version 0.1.5
   (see Cryptography/DataEncryptionStandard/plans/milestones.hpp)
 
+  \par
+   In Experimentation/Cryptography/plans/general.hpp the
+   following topics are handled:
+    - SAT 2012
+
 
   \par Version 0.3.1
 
