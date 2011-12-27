@@ -13,11 +13,8 @@ License, or any later version. */
 
   \par Version 0.3.1 :
 
-  \par Cryptography/AdvancedEncryptionStandard version 0.2
-  (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
-
-  \par Cryptography/DataEncryptionStandard version 0.1.3
-  (see Cryptography/DataEncryptionStandard/plans/milestones.hpp)
+  \par Investigations/Cryptography/ version 0.3
+  (see Investigations/Cryptography/plans/milestones.hpp)
 
   \par
    In Experimentation/Investigations/plans/general.hpp the following topics

@@ -61,6 +61,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Create milestones.
+  \todo Add todos : DONE
 
 */
