@@ -729,19 +729,38 @@ builds/CryptoMiniSat> make
    <li> http://www.lri.fr/~simon/glucose/ </li>
    <li> We need to install version 2.
     <ol>
-     <li>
+     <li> DONE (created archive following our naming conventions out of this
+     archive)
      \verbatim
 3ea28a75b7a079a4415ea594931b26fb  glucose-2-compet.tgz
      \endverbatim
      </li>
-     <li> We should check whether the defincencies of the build process are
+     <li> DONE (same build, but now 64-bit)
+     We should check whether the defincencies of the build process are
      still there (then likely we can just use the old build) or not (then
      we should use some standard form of build). </li>
-     <li> First we keep the old version and see how the new behaves. </li>
+     <li> DONE (compile the old version by using
+     "glucose_recommended_version_number_okl=1.0")
+     First we also provide the old version and see how the new behaves. </li>
      <li> But likely, since in none of our applications, glucose version 1
      was best, it replaces version 1. </li>
-     <li> Of course, we keep the old version (including the md5sum in
+     <li> Of course, we keep the old sources (including the md5sum in
      Buildsystem/ExternalSources/sources). </li>
+    </ol>
+   </li>
+   <li> Correct compilation: Does the static glucose-executable link to the
+   *local* libstdc++ and libgcc ? </li>
+   <li> Handling satelite:
+    <ol>
+     <li> The glucose-build also provides the preprocessor satelite. </li>
+     <li> We want to have this. </li>
+     <li> For its compilation still "-m32" is used. </li>
+     <li> So 32-bit versions of libstdc++ and libgcc are needed. </li>
+     <li> However we do not provide them. </li>
+     <li> So building of gcc needs to be enhanced, so that also those
+     additional libraries are provided. </li>
+     <li> And we need to make sure (in a systematic way) that these libraries
+     are always used (and not the system-libraries). </li>
     </ol>
    </li>
    <li> DONE (version 1 installed)
@@ -752,6 +771,7 @@ builds/Glucose> cd glucose_1.0
 builds/Glucose> ./build.sh
    \endverbatim
    </li>
+   <li> We need to create a docus-file. </li>
   </ul>
 
 

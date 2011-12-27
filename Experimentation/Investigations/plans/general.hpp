@@ -408,6 +408,28 @@ conflicts             : 1408470        (73061 /sec)
 CPU time              : 19.2781 s
    \endverbatim
    </li>
+   <li> glucose-1.0:
+   \verbatim
+> glucose-1.0 OrderGT-20.cnf
+c conflicts             : 680760         (25776 /sec)
+c CPU time              : 26.411 s
+
+> time glucose-1.0 OrderGT-25.cnf
+c conflicts             : 16226367       (8925 /sec)
+c CPU time              : 1817.99 s
+   \endverbatim
+   </li>
+   <li> glucose-2.0:
+   \verbatim
+> glucose-2.0 OrderGT-20.cnf
+c conflicts             : 719578         (43031 /sec)
+c CPU time              : 16.7225 s
+
+> time glucose-2.0 OrderGT-25.cnf
+c conflicts             : 20579648       (15815 /sec)
+c CPU time              : 1301.24 s
+   \endverbatim
+   </li>
    <li> picosat-913:
    \verbatim
 > picosat913 OrderGT-20.cnf

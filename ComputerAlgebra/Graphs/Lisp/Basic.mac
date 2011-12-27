@@ -24,6 +24,8 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Statistics.mac")$
 
+oklib_plain_include(graphs)$
+
 
 /* ***********************
    * Fundamental notions *
@@ -366,8 +368,6 @@ transposed_odgl(G) := [G[1], map(reverse,G[2])]$
    **********
 */
 
-oklib_plain_include(graphs)$
-
 /* Tests whether a general or multi-graph has parallel edges: */
 parallel_edges_gg_p(G) := is(length(map(G[3],G[2])) < length(G[2]))$
 parallel_edges_mug_p(G) := some_s(lambda([e],is(G[3](e)>1)),G[2])$
@@ -497,21 +497,21 @@ completebipartite_gg_p(G) := completebipartite_gl_p(gg2gl(G))$
 
 /* Graphs to Maxima-graphs (vertex names yield vertex labels).
    The vertices in the Maxima-graph are numbered starting with 1.
-   Edges in the Maxima-graph, which are ordered, are ordered according
-   to orderlessp (this is the order imposed on the vertex set).
+   Edges in the Maxima-graph are ordered in an implementation-defined way,
+   while the vertex-order is preserved.
 */
 og2mg(G) := block(
- [V : G[1], E : G[2], h : sm2hm({}), n : length(G[1])],
- for i : 1 thru n do set_hm(h, V[i], i),
- create_graph(create_list([i,V[i]],i,1,n), 
-   create_list([ev_hm(h,listify(e)[1]), ev_hm(h,listify(e)[2])], e, E)
- )
+ [V : G[1], E : G[2], h],
+  h : osm2hm(l2osm_inv(V)),
+  create_graph(l2osm(V),
+    create_list([ev_hm(h,listify(e)[1]), ev_hm(h,listify(e)[2])], e, E)
+  )
 )$
 g2mg(G) := og2mg(gl2ogl(G))$
 /* Without the vertex-labels: */
 og2mg_nl(G) := block(
- [V : G[1], E : G[2], h : sm2hm({}), n : length(G[1])],
- for i : 1 thru n do set_hm(h, V[i], i),
+ [V : G[1], E : G[2], h, n : length(G[1])],
+ h : osm2hm(l2osm_inv(V)),
  create_graph(create_list(i,i,1,n), 
    create_list([ev_hm(h,listify(e)[1]), ev_hm(h,listify(e)[2])], e, E)
  )
@@ -521,12 +521,7 @@ g2mg_nl(G) := og2mg_nl(gl2ogl(G))$
 /* Maxima-graphs to ordered graphs, moving 0-based indices to 1-based
    (ignoring the vertex labels). */
 mg2og(g) := block([V : vertices(g), E : edges(g)],
-  if not emptyp(V) and last(V)=0 then (
-    for i :1 thru length(V) do
-      V[i] : V[i] + 1,
-    for i : 1 thru length(E) do block([e : E[i]],
-      E[i] : [e[1]+1,e[2]+1])
-  ),
+  if elementp_l(0,V) then (V:V+1, E:E+1),
   return([V,map(setify,E)]))$
 /* Maxima-graphs to graphs (ignoring the vertex labels): */
 mg2g(g) := block([G : mg2og(g)], [setify(G[1]), setify(G[2])])$

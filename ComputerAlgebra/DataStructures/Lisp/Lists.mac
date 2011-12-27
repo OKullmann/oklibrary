@@ -210,10 +210,14 @@ find_last_l(_pred,L) := if emptyp(L) then minf else
     else i : i - 1,
   if found then return(i) else return(minf))$
 
+elementp_l(x,L) := block([found : false],
+  for y in L do if x=y then (found:true, return()),
+  return(found))$
 
-/* **************************
+
+/* *************************
    * Sublist constructions *
-   **************************
+   *************************
 */
 
 /* The first n elements of L for 0 <= n <= length(L), while for 

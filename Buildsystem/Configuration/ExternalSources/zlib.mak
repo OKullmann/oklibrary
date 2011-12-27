@@ -5,7 +5,7 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-# The zlib library (needed by Minisat)
+# The zlib library (needed by Minisat and derived solvers)
 
 zlib_recommended_version_number_okl ?= 1.2.5
 zlib_other_versions_okl ?= 
@@ -23,7 +23,7 @@ zlib32_gccbuild_dir_okl ?= $(zlib32_base_build_dir_okl)/$(gcc_recommended_versio
 zlib32_build_dir_okl ?= $(zlib32_gccbuild_dir_okl)/$(zlib_recommended_okl)
 
 zlib_base_installation_dir_okl ?= $(ExternalSources_installations)/Zlib
-zlib_installation_dir_okl ?= $(zlib_base_installation_dir_okl)/$(gcc_recommended_version_number_okl)/
+zlib_installation_dir_okl ?= $(zlib_base_installation_dir_okl)/$(gcc_recommended_version_number_okl)
 
 zlib32_installation_dir_okl ?= $(zlib_base_installation_dir_okl)/$(gcc_recommended_version_number_okl)/32
 
