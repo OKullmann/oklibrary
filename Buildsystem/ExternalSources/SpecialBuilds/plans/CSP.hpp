@@ -154,6 +154,7 @@ minion-0.12/bin> CC="$(gcc_call_okl)" CXX="$(gcc_call_okl)" cmake -DBOOST_ROOT:P
 
   \todo Mistral
   <ul>
+   <li> Website at http://homepages.laas.fr/ehebrard/Software.html . </li>
    <li> Seems to be a library. </li>
    <li> Open-source? </li>
   </ul>
@@ -161,6 +162,7 @@ minion-0.12/bin> CC="$(gcc_call_okl)" CXX="$(gcc_call_okl)" cmake -DBOOST_ROOT:P
 
   \todo Choco
   <ul>
+   <li> Website at http://www.emn.fr/z-info/choco-solver/ . </li>
    <li> An open-source Java library. </li>
   </ul>
 
