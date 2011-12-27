@@ -65,6 +65,11 @@ License, or any later version. */
 
   \par Create further milestones.
 
+  \par
+   In Experimentation/Cryptography/plans/general.hpp the
+   following topics are handled:
+    - SAT 2012
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
