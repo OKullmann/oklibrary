@@ -1237,6 +1237,22 @@ ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/O
    \endverbatim
    ??? Only a 32-bits version?
    </li>
+   <li> Installing march_rw:
+   \verbatim
+ExternalSources/Installations/SAT> tar zxvf ../../sources/SAT/March/march_rw.tar.gz
+ExternalSources/Installations/SAT> mv home/marijn/march_rw/ march_rw
+ExternalSources/Installations/SAT> rmdir home/marijn/
+ExternalSources/Installations/SAT> rmdir home
+ExternalSources/Installations/SAT> cd march_rw
+march_rw> make
+march_rw> ./march_rw
+c main():: ***                                   [ march satisfiability solver ]                                   ***
+c main()::  **                Copyright (C) 2001-2009 M.J.H. Heule, J.E. van Zwieten, and M. Dufour                 **
+c main()::   *  This program may be redistributed and/or modified under the terms of the GNU Gereral Public License  *
+c main()::
+c main():: input file missing, usage: ./solve < DIMACS-file.cnf >
+   \endverbatim
+   </li>
   </ul>
 
 
