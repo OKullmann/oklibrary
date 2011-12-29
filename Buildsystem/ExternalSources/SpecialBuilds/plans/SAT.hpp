@@ -171,6 +171,39 @@ c USAGE: ./EagleUP BENCHNAME RANDOMSEED [TIMEOUTINSECONDS]
   </ul>
 
 
+  \todo Potassco
+  <ul>
+   <li> Website at http://www.cs.uni-potsdam.de/clasp/. </li>
+   <li> Building clasp-1.1.2 (SAT2011 competition version):
+   \verbatim
+ExternalSources/builds/SAT> mkdir Clasp
+ExternalSources/builds/SAT> cd Clasp
+Clasp> tar zxvf ../../../sources/SAT/Potassco/clasp-1.1.2-source.tar.gz
+Clasp> cd clasp-1.1.2/clasp
+clasp> make
+clasp> ./bin/clasp --help
+clasp 1.1.2
+
+usage: clasp [number] [options]
+<snip>
+   \endverbatim
+   </li>
+   <li> Building clasp-2.0.0 (SAT2011 competition version):
+   \verbatim
+ExternalSources/builds/SAT> mkdir Clasp
+ExternalSources/builds/SAT> cd Clasp
+Clasp> tar zxvf ../../../sources/SAT/Potassco/clasp-2.0.0-source.tar.gz
+Clasp> cd clasp-2.0.0
+clasp-2.0.0> ./configure.sh
+clasp-2.0.0> cd build/release
+clasp-2.0.0/build/release> make
+clasp-2.0.0/build/release> ./bin/clasp --help
+*** clasp ERROR: '1': invalid default value for Option 'verbose'
+   \endverbatim
+   We should contact the authors and see if they are aware of this. </li>
+  </ul>
+
+
   \todo (P)Lingeling
   <ul>
    <li> (p)lingeling should be added to the ExternalSources internet page.
@@ -1696,6 +1729,7 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
     <ol>
      <li> See http://potassco.sourceforge.net/. </li>
      <li> Sources in ExternalSources/sources/SAT/Potassco. </li>
+     <li> Installation details in "Potassco". </li>
     </ol>
    </li>
   </ul>
