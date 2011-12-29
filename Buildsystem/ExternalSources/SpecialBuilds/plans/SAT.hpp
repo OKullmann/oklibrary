@@ -171,6 +171,38 @@ c USAGE: ./EagleUP BENCHNAME RANDOMSEED [TIMEOUTINSECONDS]
   </ul>
 
 
+  \todo Ppfolio
+  <ul>
+   <li> Website at http://www.cril.univ-artois.fr/~roussel/ppfolio/. </li>
+   <li> The license is unclear (not stated). MG should contact the authors.
+   </li>
+   <li> Building:
+   \verbatim
+ExternalSources/builds/SAT> mkdir Ppfolio
+ExternalSources/builds/SAT> cd Ppfolio
+Ppfolio> tar xvf ../../../sources/SAT/Ppfolio/ppfolio-src.tar
+Ppfolio> cd ppfolio
+ppfolio> make
+g++ -O3  -o ppfolio  ppfolio.cc -lboost_program_options
+
+ppfolio.cc:18:37: fatal error: boost/program_options.hpp: No such file or directory
+compilation terminated.
+make: *** [ppfolio] Error 1
+   \endverbatim
+   So we need to link this to Boost (our version). </li>
+   <li> The Makefile uses "OPTS" and "CXXFLAGS" environment variables, and
+   so we should use "OPTS" to specify the boost library path options:
+   \verbatim
+ppfolio> cat Makefile
+<snip>
+ppfolio: ppfolio.cc
+    g++ $(OPT) $(CXXFLAGS) -o ppfolio  ppfolio.cc -lboost_program_options
+<snip>
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Potassco
   <ul>
    <li> Website at http://www.cs.uni-potsdam.de/clasp/. </li>
