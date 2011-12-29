@@ -144,6 +144,33 @@ MiniSat -- Copyright (c) 2003-2005, Niklas Eén, Niklas Sörensson
   </ul>
 
 
+  \todo EagleUp
+  <ul>
+   <li> Website at http://www.uni-ulm.de/in/theo/m/olivergableske.html. </li>
+   <li> Installation:
+   \verbatim
+ExternalSources/builds/SAT> mkdir EagleUp
+ExternalSources/builds/SAT> cd EagleUp
+EagleUp> tar zxvf ../../../sources/SAT/EagleUP/eagleup.1.565.350.tar.gz
+EagleUp> make
+EagleUp> ./EagleUp
+c EagleUP SAT solver
+c	AUTHOR:		Oliver Gableske	<oliver.gableske at uni-ulm.de>	(Implemented most of the solver.)
+c	CONTRIBUTORS:	Julian Rueth	<julian.rueth at gmail.com>	(Implemented the Luby-series calculation.)
+c			Marijn Heule	<marijn at heule.nl>		(Provided various ideas.)
+c	VERSION:	1.565.350
+c	INFO:		Re-compile without the flag COMPETITION and the following flags in global.h enabled to see further
+c			output: LONGHEADER,VERBOSE_SLS,VERBOSE_CDCL,VERBOSE_PREPROC,COLLINF_SLS,COLLINF_CDCL,COLLINF_PREP.
+c
+c INITIALIZING...
+c
+c Too few parameters. Exiting.
+c USAGE: ./EagleUP BENCHNAME RANDOMSEED [TIMEOUTINSECONDS]
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo (P)Lingeling
   <ul>
    <li> (p)lingeling should be added to the ExternalSources internet page.
