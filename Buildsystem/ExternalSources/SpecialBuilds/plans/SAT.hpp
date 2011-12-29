@@ -203,6 +203,40 @@ ppfolio: ppfolio.cc
   </ul>
 
 
+  \todo Glueminisat
+  <ul>
+   <li> Website at  http://glueminisat.nabelab.org/. </li>
+   <li> Building:
+   \verbatim
+ExternalSources/builds/SAT> mkdir Glueminisat
+ExternalSources/builds/SAT> cd Glueminisat
+ExternalSources/builds/SAT> tar zxvf ../../../sources/SAT/Glueminisat/glueminisat-2.2.5.tar.gz
+ExternalSources/builds/SAT> cd glueminisat-2.2.5/
+glueminisat-2.2.5> ./build.sh
+glueminisat-2.2.5> ./glueminisat --help
+WARNING: for repeatability, setting FPU to use double precision
+USAGE: ./glueminisat [options] <input-file> <result-output-file>
+
+  where input may be either in plain or gzipped DIMACS.
+<snip>
+   \endverbatim
+   </li>
+   <li> Libstdc++ is used by glueminisat and so we will need to ensure
+   it uses our version of libstdc++:
+   \verbatim
+glueminisat-2.2.5> ldd glueminisat 
+	linux-vdso.so.1 =>  (0x00007fff2d73b000)
+	libz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x00007fbccc915000)
+	libstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007fbccc60e000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007fbccc389000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007fbccc173000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fbccbdd4000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007fbcccb48000)
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Potassco
   <ul>
    <li> Website at http://www.cs.uni-potsdam.de/clasp/. </li>
