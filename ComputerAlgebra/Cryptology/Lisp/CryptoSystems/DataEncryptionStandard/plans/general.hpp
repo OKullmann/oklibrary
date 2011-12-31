@@ -10,14 +10,6 @@ License, or any later version. */
   \brief Plans for the Data Encryption Standard crypto-system in Maxima/Lisp
 
 
-  \bug Bad state of milestones
-  <ul>
-   <li> A milestone 0.0.1 means that nothing is there --- however the whole
-   system was there! </li>
-   <li> There are plenty of editorial errors. </li>
-  </ul>
-
-
   \todo Improve key schedule tests
   <ul>
    <li> We should look for tests vectors for the DES key schedule.
@@ -181,6 +173,17 @@ triple_des_hex(P,K1,K2,K3) := des_encryption_hex(des_decryption_hex(des_encrypti
    <li> Triple-DES is used in the various payment card systems world-wide.
    See http://www.eftpos.co.nz/cms_display.php?sn=55&st=1&pg=4261 . </li>
    <li> 112-bit Triple-DES should be compared to 128-bit AES. </li>
+  </ul>
+
+
+  \bug DONE Bad state of milestones
+  <ul>
+   <li> A milestone 0.0.1 means that nothing is there --- however the whole
+   system was there! </li>
+   <li> There are plenty of editorial errors. </li>
+   <li> All todos are in the milestones, and once this milestone is
+   DONE, the version number will be 0.0.2, and will quickly move to 0.0.3.
+   </li>
   </ul>
 
 
