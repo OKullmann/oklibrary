@@ -16,7 +16,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/plans/general.hpp
    the following topics are handled:
-    - Bad state of milestones
+    - Bad state of milestones : DONE
     - Test failure with okltest_des_round : DONE
     - Test failure with okltest_des_round_keys : DONE
     - Test failure with okltest_des_round_keys_template : DONE
