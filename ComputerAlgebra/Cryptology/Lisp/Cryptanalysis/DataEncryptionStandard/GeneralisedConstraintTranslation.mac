@@ -80,26 +80,29 @@ des_key2fcl_gen(key,r) := des_key2fcl(key)$
    ***********************
 */
 
-/* CNF for Sbox i given in sbox_l[i] for i in {1,...,8}.
-   sbox_l[i] is a formal clause-list. The variables of Sbox i
-   are [sbox_l[i][1],...,sbox_l[i][10]]. All other variables in
-   sbox_l[1] are auxilliary.
-   Xor constraints are translated using prime implicates. */
+/* Generates a CNF formal clause-list representing the r-round DES.
+
+   Sbox i is translated using the formal clause-list sbox_l[i] for i in
+   {1,...,8}. The input and output variables of Sbox i are
+   [sbox_l[i][1],...,sbox_l[i][10]]. All other variables in sbox_l[i] are
+   auxilliary variables used by the representation.
+   Xor constraints are translated using their prime implicates. */
 des2fcl_gen(sbox_l, r) := block(
-  [xor_cl_l, sbox_cl_l : [], num_sbox_var_l, new_var_i : 1],
+  [xor_cl_l, sbox_cl_l : [], num_sbox_aux_var_l,
+   new_var_ind : 1, rename_aux_vars],
   xor_cl_l : create_list(
-    boolm_mul2cnf_wv_fcl(matrix([1,1]),C[1])[2],
-    C, des_xor_gen(r)),
-  num_sbox_var_l : create_list(length(sbox_l[i][1])-10, i, 1, 8),
-  sbox_cl_l : create_list(
+    boolm_mul2cnf_wv_fcl(matrix([1,1]),C[1])[2], C, des_xor_gen(r)),
+  num_sbox_aux_var_l : create_list(length(sbox_l[i][1])-10, i, 1, 8),
+  rename_aux_vars : lambda([sbox_cst],
     block([aux_vars],
-      aux_vars : create_list(
-        desaux_var(i),
-        i, new_var_i, new_var_i + num_sbox_var_l[C[1]]-1),
-      new_var_i : new_var_i + num_sbox_var_l[C[1]],
-      rename_fcl(sbox_l[C[1]], append(C[2],C[3],aux_vars))[2]),
-    C, des_sboxc_gen(r)),
-  return([append(des_var_gen(r),create_list(desaux_var(i),i,1,new_var_i-1)),
+      aux_vars :
+        create_list(desaux_var(i),
+          i, new_var_ind, new_var_ind + num_sbox_aux_var_l[sbox_cst[1]]-1),
+      new_var_ind : new_var_ind + num_sbox_aux_var_l[sbox_cst[1]],
+      rename_fcl(sbox_l[sbox_cst[1]],
+        append(sbox_cst[2],sbox_cst[3],aux_vars))[2])),
+  sbox_cl_l : map(rename_aux_vars, des_sboxc_gen(r)),
+  return([append(des_var_gen(r),create_list(desaux_var(i),i,1,new_var_ind-1)),
           lappend(append(xor_cl_l,reverse(sbox_cl_l)))]))$
 
 /*!
