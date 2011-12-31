@@ -175,54 +175,5 @@ triple_des_hex(P,K1,K2,K3) := des_encryption_hex(des_decryption_hex(des_encrypti
    <li> 112-bit Triple-DES should be compared to 128-bit AES. </li>
   </ul>
 
-
-  \bug DONE Bad state of milestones
-  <ul>
-   <li> A milestone 0.0.1 means that nothing is there --- however the whole
-   system was there! </li>
-   <li> There are plenty of editorial errors. </li>
-   <li> All todos are in the milestones, and once this milestone is
-   DONE, the version number will be 0.0.2, and will quickly move to 0.0.3.
-   </li>
-  </ul>
-
-
-  \bug DONE (added missing include)
-  Test failure with okltest_des_round
-  <ul>
-   <li>
-   \verbatim
-okltest_des_round(des_round)
-length: argument cannot be a symbol; found des_validation_plain
-ASSERT: Evaluation of expression "expr" yields an error.
-   \endverbatim
-   </li>
-  </ul>
-
-
-  \bug DONE (added missing includes and used hexstr2binv)
-  Test failure with okltest_des_round_keys
-  <ul>
-   <li>
-   \verbatim
-okltest_des_round_keys(des_round_keys)
-ASSERT: Expression " [binv2hexstr([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-...
-   \endverbatim
-   </li>
-  </ul>
-
-
-  \bug DONE (added missing braces in test code)
-  Test failure with okltest_des_round_keys_template
-  <ul>
-   <li>
-   \verbatim
-okltest_des_round_keys_template(des_round_keys_template)
-"Too many" arguments supplied to assert(expr); found: errexp1
-   \endverbatim
-   </li>
-  </ul>
-
 */
 
