@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.3.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -214,7 +214,6 @@ Break point 2: 1205
    1158    15   48433189 2897658593  r
    1158    15   48433189 2897658593  r
 > E=read_ubcsat("VanDerWaerden_pd_2-5-13_1167.cnf_OUT")
-
  1  2  3  4
  3 20 16  2
 41
