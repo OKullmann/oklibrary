@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.3.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -211,10 +211,35 @@ Break point 1: 926
   1   2   3   4
  42 137  20   1
 200
-# aborted
-XXX cscarme
+# aborted; new:
+Break point 1: 934
+Break point 2: 955
+    865     3   96622038 3010090764  p
+    874     1    2975785 1617541791  r
+    876     3   38196227 3352983321  p
+    887     8   17532962 2384873228  r
+    889     2  102731575 2752221167  p
+    891    10   59181254   58624121  r
+    908     2   90433396 2063352169  r
+    910    16  134828899 1290390872  r
+    918     2    8364877 1299041736  p
+    919   118   51912123 4071970533  r
+    922     2   48697129 1468213001  p
+    926     2   49446662  973022998  p
+    929     2   48879315  949234963  p
+    940    38   17287133 2869615146  r
+> E=read_ubcsat("VanDerWaerden_pd_2-5-12_935.cnf_OUT",nrows=200)
+  1   2   3   4
+  8 105  84   3
+200
+> E=read_ubcsat("VanDerWaerden_pd_2-5-12_956.cnf_OUT",nrows=200)
+ 1  2  3  4
+16 89 90  5
+200
    \endverbatim
-   </li>
+   Success seems to strongly rely on the choice of a solution for easier
+   instances --- with luck they can be extended over a longer distance, while
+   otherwise the problems are too hard to find a solution. </li>
   </ul>
 
 */

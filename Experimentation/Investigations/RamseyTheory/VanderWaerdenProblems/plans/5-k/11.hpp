@@ -1,5 +1,5 @@
 // Oliver Kullmann, 14.3.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -101,7 +101,13 @@ UNSAT for n=767
 200
    \endverbatim
    "RunVdWk1k2 5 11 766 adaptg2wsat 200 800000000 VanDerWaerden_2-5-11_766.cnf_sol"
-   yields XXX cstriton
+   yields
+   \verbatim
+> E=read_ubcsat("VanDerWaerden_2-5-11_767.cnf_OUT",nrows=200)
+  1   2   3   4
+  4  21 118  57
+200
+   \endverbatim
    </li>
   </ul>
 
