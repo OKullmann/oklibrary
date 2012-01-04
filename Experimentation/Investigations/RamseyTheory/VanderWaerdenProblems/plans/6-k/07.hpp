@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.3.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -119,7 +119,14 @@ output_certificate2_vdw(reverse(C), "VanDerWaerden_2-6-7_1155.cnf_sol");
 180
 # aborted
 > RunVdWk1k2 6 7 1155 adaptg2wsat 200 400000000 VanDerWaerden_2-6-7_1155.cnf_sol
-XXX cscharon
+> E=read_ubcsat("VanDerWaerden_2-6-7_1156.cnf_OUT",nrows=200)
+660 661 662 664 665 669 672 674 679 682 683 686 888 889 893 894 898 899 901 903
+  1   1   1   1   1   2   1   2   1   2   1   1   1   1   1   2   1   1   3   6
+904 905 906 907 908 909 910 911 912 913 914 915 916 917 918 919 920 921 922 923
+  5   4  10   8   9   9   6   9  11  10   6  18  17  13   9  16   2   3   1   2
+924
+  1
+200
    \endverbatim
    </li>
   </ul>

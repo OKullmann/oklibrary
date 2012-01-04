@@ -79,7 +79,12 @@ output_certificate2_vdw(reverse(C), "VanDerWaerden_2-4-17_1075.cnf_sol");
     <ol>
      <li>
      RunVdWk1k2 4 17 1112 adaptg2wsat 200 800000000 VanDerWaerden_2-4-17_1112.cnf_sol
-     XXX csoberon
+     \verbatim
+> E=read_ubcsat("VanDerWaerden_2-4-17_1113.cnf_OUT",nrows=200)
+64 69 70 71 72 73 74 75 76 77 78 79 80 81
+ 1  2  3  6 15 13 13 31 27 42 37  7  2  1
+200
+     \endverbatim
      </li>
     </ol>
    </li>
