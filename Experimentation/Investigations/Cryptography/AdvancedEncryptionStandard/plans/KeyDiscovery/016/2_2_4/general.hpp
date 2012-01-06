@@ -175,6 +175,81 @@ shell> for r in $(seq 1 20); do
 done
      \endverbatim
      </li>
+     <li> The canonical box translation (forward directional MixColumns):
+     \verbatim
+shell> mkdir ssaes_r1-20_c2_rw2_e4_f0_k1-20_aes_canon_box_aes_mc_bidirectional
+shell> cd ssaes_r1-20_c2_rw2_e4_f0_k1-20_aes_canon_box_aes_mc_bidirectional
+shell> oklib --maxima
+num_rows : 2$
+num_columns : 2$
+exp : 4$
+final_round_b : false$
+box_tran : aes_ts_box$
+mc_tran : aes_mc_forward$
+for num_rounds : 1 thru 20 do (
+  output_ss_fcl_std(
+    num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
+exit();
+shell> for r in $(seq 1 20); do
+  for k in $(seq 1 20); do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c2_rw2_e4_f0.cnf ssaes_pcpair_r${r}_c2_rw2_e4_f0_s${k}.cnf > r${r}_keyfind.cnf;
+  done;
+done
+     \endverbatim
+     </li>
+     <li> The 1-base box translation (forward directional MixColumns):
+     \verbatim
+shell> mkdir ssaes_r1-20_c2_rw2_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional
+shell> cd ssaes_r1-20_c2_rw2_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional
+shell> oklib --maxima
+num_rows : 2$
+num_columns : 2$
+exp : 4$
+final_round_b : false$
+box_tran : aes_rbase_box$
+mc_tran : aes_mc_forward$
+for num_rounds : 1 thru 20 do (
+  output_ss_fcl_std(
+    num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
+exit();
+shell> for r in $(seq 1 20); do
+  for k in $(seq 1 20); do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c2_rw2_e4_f0.cnf ssaes_pcpair_r${r}_c2_rw2_e4_f0_s${k}.cnf > r${r}_keyfind.cnf;
+  done;
+done
+     \endverbatim
+     </li>
+     <li> The "minimum" box translation (forward directional MixColumns):
+     \verbatim
+shell> mkdir ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional
+shell> cd ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional
+shell> oklib --maxima
+num_rows : 2$
+num_columns : 2$
+exp : 4$
+final_round_b : false$
+box_tran : aes_small_box$
+mc_tran : aes_mc_forward$
+for num_rounds : 1 thru 20 do (
+  output_ss_fcl_std(
+    num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
+exit();
+shell> for r in $(seq 1 20); do
+  for k in $(seq 1 20); do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c2_rw2_e4_f0.cnf ssaes_pcpair_r${r}_c2_rw2_e4_f0_s${k}.cnf > r${r}_keyfind.cnf;
+  done;
+done
+     \endverbatim
+     </li>
      <li> The canonical box core round translation:
      \verbatim
 shell> mkdir ssaes_r1-20_c2_rw2_e4_f0_k1-20_aes_ts_box_aes_core_round_box
@@ -455,6 +530,118 @@ R> aggregate_statistics(E[c("r","t","cfs","r1")], by=list("r"))
 18 14.24123650 12.596970963 1.109830 44.925200 62073.15 48825.3462   10048  174863 70225773.3 61984801.953  5165453 222570361
 19 11.50096080  8.812440420 0.744886 32.414100 48416.60 32724.7134   10936  128072 57770304.3 44683566.568  3240968 162990175
 20 13.72051850 10.702400699 2.915560 36.349500 53076.90 35819.9058   18573  128249 69327930.4 54970747.001 13689144 185784444
+         \endverbatim
+         </li>
+         <li> The canonical box translation (forward directional MixColumns):
+          <ul>
+           <li> The data:
+           \verbatim
+> cd ssaes_r1-20_c2_rw2_e4_f0_k1-20_aes_ts_box_aes_mc_forward
+> for r in $(seq 1 20); do for s in $(seq 1 20); do RunMinisat r${r}_k${s}.cnf; done; done
+> (ExtractMinisat header-only |  awk " { print \$0 \" r s\"}"; for r in $(seq 1 20); do for s in $(seq 1 20); do
+    cat ExperimentMinisat_r${r}_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${r} ${s}\"}";
+  done;
+done) > MinisatStatistics
+> oklib --R
+R> E = read.table("MinisatStatistics", header=TRUE)
+R> aggregate(E, by=list(r=E$r), FUN=mean)
+    r   rn    rc          t sat      cfs      dec    rts           r1   mem  ptime  stime       cfl  r    s
+1   1  380  2286  0.0092981   1   228.95   340.15   2.60     17554.55  8.00 0.0000 0.0000    4312.3  1 10.5
+2   2  712  4508  0.2794070   1  7969.20 10043.05  33.75   1088819.15  8.00 0.0000 0.0025  187364.0  2 10.5
+3   3 1044  6730  3.8534594   1 49178.00 57672.40 143.65  17943795.50  8.65 0.0020 0.0100 1326427.4  3 10.5
+4   4 1376  8952  4.6529401   1 47495.90 56525.85 138.90  23489338.30  9.00 0.0030 0.0100 1207678.6  4 10.5
+5   5 1708 11174  8.0313296   1 53355.20 59713.05 160.85  44763062.55  9.10 0.0055 0.0100 1139402.6  5 10.5
+6   6 2040 13396  6.5609030   1 31747.95 34043.05 105.15  41458871.75  9.00 0.0085 0.0150  456987.5  6 10.5
+7   7 2372 15618  7.6048417   1 30586.85 32665.75 102.50  48919489.70  9.05 0.0085 0.0200  416239.3  7 10.5
+8   8 2704 17840  8.7335194   1 29811.70 31570.50  99.30  57994516.80 10.00 0.0100 0.0200  350034.9  8 10.5
+9   9 3036 20062  7.8488613   1 23752.55 25342.80  83.55  52480995.10 10.00 0.0100 0.0200  283849.0  9 10.5
+10 10 3368 22284  7.9720381   1 21506.85 23014.85  75.60  53473458.30 10.05 0.0105 0.0265  256527.2 10 10.5
+11 11 3700 24506 13.6251819   1 33083.80 35169.45 108.85  91407340.50 10.50 0.0100 0.0300  387371.8 11 10.5
+12 12 4032 26728 14.4830910   1 32006.15 34031.95 104.40  96760698.35 10.65 0.0115 0.0300  379026.1 12 10.5
+13 13 4364 28950 11.3472780   1 23638.70 25406.25  83.00  74391645.70 10.45 0.0115 0.0300  295670.7 13 10.5
+14 14 4696 31172 16.0557603   1 30051.80 31723.15  98.80 108842312.45 11.45 0.0140 0.0380  347368.8 14 10.5
+15 15 5028 33394 16.9988170   1 30971.30 33121.25 104.60 110522684.60 11.60 0.0155 0.0400  385447.4 15 10.5
+16 16 5360 35616 17.2213320   1 30105.35 32515.45 100.50 110628578.60 11.95 0.0165 0.0400  383600.5 16 10.5
+17 17 5692 37838 15.7411005   1 24941.90 26846.70  87.55 104247264.80 12.30 0.0185 0.0400  317847.6 17 10.5
+18 18 6024 40060 21.9853069   1 33684.00 36265.80 108.75 142969008.75 12.90 0.0185 0.0485  434341.0 18 10.5
+19 19 6356 42282 19.3864000   1 28219.85 30595.15  95.35 126462114.65 12.60 0.0200 0.0500  359165.0 19 10.5
+20 20 6688 44504 21.0597084   1 28553.95 30716.70  95.05 138119136.95 12.85 0.0200 0.0500  351637.5 20 10.5
+         \endverbatim
+         </li>
+        </ul>
+       </li>
+       <li> The 1-base box translation  (forward directional MixColumns):
+        <ul>
+         <li> The data:
+         \verbatim
+> cd ssaes_r1-20_c2_rw2_e4_f0_k1-20_aes_1base_box_aes_mc_forward
+> for r in $(seq 1 20); do for s in $(seq 1 20); do RunMinisat r${r}_k${s}.cnf; done; done
+> (ExtractMinisat header-only |  awk " { print \$0 \" r s\"}"; for r in $(seq 1 20); do for s in $(seq 1 20); do
+    cat ExperimentMinisat_r${r}_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${r} ${s}\"}";
+  done;
+done) > MinisatStatistics
+> oklib --R
+R> E = read.table("MinisatStatistics", header=TRUE)
+R> aggregate(E, by=list(r=E$r), FUN=mean)
+    r   rn   rc          t sat      cfs      dec    rts         r1 mem  ptime  stime       cfl  r    s
+1   1  156  554 0.00324895   1   200.30   228.30   2.35     5113.6   8 0.0000 0.0000    1449.1  1 10.5
+2   2  264 1044 0.16842390   1 13365.10 14424.65  50.75   664523.6   8 0.0000 0.0000  162438.8  2 10.5
+3   3  372 1534 1.09448335   1 45381.90 50532.55 136.65  4226637.3   8 0.0000 0.0000  802966.1  3 10.5
+4   4  480 2024 2.20406465   1 70909.65 80150.95 199.10  8604571.7   8 0.0000 0.0000 1202218.1  4 10.5
+5   5  588 2514 2.46492420   1 60073.65 68051.80 170.85 10060853.1   8 0.0000 0.0005 1003174.2  5 10.5
+6   6  696 3004 4.18656745   1 80621.60 90719.60 218.85 17316692.6   8 0.0000 0.0045 1302213.4  6 10.5
+7   7  804 3494 4.15092015   1 63270.15 70527.25 181.30 17519616.2   8 0.0000 0.0015 1023470.0  7 10.5
+8   8  912 3984 3.02129045   1 36797.55 40270.95 112.10 13530365.8   8 0.0000 0.0070  557536.9  8 10.5
+9   9 1020 4474 2.83752005   1 27481.35 29494.25  91.35 13533895.4   8 0.0000 0.0075  367796.2  9 10.5
+10 10 1128 4964 5.87715310   1 50111.25 53142.20 148.55 28468014.6   8 0.0000 0.0060  629794.0 10 10.5
+11 11 1236 5454 3.54571350   1 26476.15 28205.60  88.55 17649358.6   9 0.0010 0.0100  316967.3 11 10.5
+12 12 1344 5944 4.93014800   1 32934.55 34875.10 109.30 24924266.3   9 0.0020 0.0100  376871.2 12 10.5
+13 13 1452 6434 5.36238825   1 32753.30 34491.75 104.10 27397533.6   9 0.0015 0.0100  364729.8 13 10.5
+14 14 1560 6924 4.89585255   1 27867.55 29438.50  97.00 25430465.8   9 0.0025 0.0100  319360.3 14 10.5
+15 15 1668 7414 7.41972480   1 39482.00 41573.85 123.65 37921117.1   9 0.0035 0.0100  446113.8 15 10.5
+16 16 1776 7904 7.95934675   1 44933.75 48518.00 135.40 39291875.6   9 0.0050 0.0100  587084.4 16 10.5
+17 17 1884 8394 5.65869050   1 26330.95 27901.60  91.45 29344639.9   9 0.0090 0.0100  302157.5 17 10.5
+18 18 1992 8884 8.96828960   1 39799.55 42073.25 127.90 45992723.9   9 0.0060 0.0100  447073.3 18 10.5
+19 19 2100 9374 6.26964700   1 26452.50 28211.85  88.45 32182672.4   9 0.0075 0.0100  302180.2 19 10.5
+20 20 2208 9864 7.93763830   1 31675.15 33459.20 101.95 41408154.9   9 0.0075 0.0100  352688.5 20 10.5
+         \endverbatim
+         </li>
+        </ul>
+       </li>
+       <li> The minimum box translation (forward directional MixColumns):
+        <ul>
+         <li> The data:
+         \verbatim
+> cd ssaes_r1-20_c2_rw2_e4_f0_k1-20_aes_min_box_aes_mc_forward
+> for r in $(seq 1 20); do for s in $(seq 1 20); do RunMinisat r${r}_k${s}.cnf; done; done
+> (ExtractMinisat header-only |  awk " { print \$0 \" r s\"}"; for r in $(seq 1 20); do for s in $(seq 1 20); do
+    cat ExperimentMinisat_r${r}_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${r} ${s}\"}";
+  done;
+done) > MinisatStatistics
+> oklib --R
+R> E = read.table("MinisatStatistics", header=TRUE)
+R> aggregate(E, by=list(r=E$r), FUN=mean)
+    r   rn   rc          t sat        cfs        dec     rts           r1   mem  ptime  stime         cfl  r    s
+1   1  156  488  0.0039489   1     235.20     275.55    2.70      6633.75  8.00 0.0000 0.0000     1808.15  1 10.5
+2   2  264  912  0.1360789   1   11531.00   12728.45   45.65    580282.75  8.00 0.0000 0.0000   141793.20  2 10.5
+3   3  372 1336  1.3900885   1   62364.40   69124.05  180.50   5879966.65  8.00 0.0000 0.0000  1029253.00  3 10.5
+4   4  480 1760  2.1767687   1   69840.00   79339.10  208.70   9155641.70  8.00 0.0000 0.0000  1181436.70  4 10.5
+5   5  588 2184  2.7028886   1   66915.80   76594.35  190.00  11511994.50  8.00 0.0000 0.0000  1117890.20  5 10.5
+6   6  696 2608  3.3925827   1   68286.15   78482.45  194.00  14583667.55  8.00 0.0000 0.0010  1144257.65  6 10.5
+7   7  804 3032  6.9664348   1  113079.15  128935.35  304.50  29862000.75  8.00 0.0000 0.0005  1901669.95  7 10.5
+8   8  912 3456  4.0499788   1   59948.20   70366.25  171.55  17662378.20  8.00 0.0000 0.0010  1027623.15  8 10.5
+9   9 1020 3880  3.7727732   1   52083.00   62862.55  157.75  16720895.10  8.00 0.0000 0.0055   947847.05  9 10.5
+10 10 1128 4304  7.8122147   1  108640.95  131874.10  293.20  32451447.15  8.00 0.0000 0.0060  2166319.40 10 10.5
+11 11 1236 4728  8.4633636   1  111472.45  137186.50  304.70  35444653.90  8.00 0.0000 0.0075  2335677.85 11 10.5
+12 12 1344 5152 11.3586135   1  158892.40  199793.05  412.05  45162727.50  8.15 0.0000 0.0095  3795119.50 12 10.5
+13 13 1452 5576 10.8882925   1  166039.40  212856.95  427.40  41781765.35  9.00 0.0010 0.0100  4295960.60 13 10.5
+14 14 1560 6000 14.9887125   1  231897.35  297024.80  568.05  55144179.70  9.05 0.0010 0.0100  6152835.70 14 10.5
+15 15 1668 6424 24.4547300   1  348896.20  442507.15  814.95  86045518.10  9.95 0.0030 0.0100  9610170.55 15 10.5
+16 16 1776 6848 24.1164870   1  360840.60  460758.10  828.00  81475191.80 10.65 0.0040 0.0100 10209225.90 16 10.5
+17 17 1884 7272 52.4160035   1  733047.45  916762.80 1481.00 163263176.50 13.50 0.0050 0.0100 21433528.40 17 10.5
+18 18 1992 7696 45.7999325   1  625816.15  788618.00 1295.80 143197008.80 13.00 0.0040 0.0100 18304852.60 18 10.5
+19 19 2100 8120 60.1304885   1  833884.65 1051830.75 1706.30 176895388.05 15.35 0.0055 0.0100 25233506.20 19 10.5
+20 20 2208 8544 94.1981145   1 1186513.95 1486910.85 2363.85 265792310.00 17.95 0.0070 0.0100 35996778.70 20 10.5
        \endverbatim
        </li>
        <li> The canonical box core-round translation:
