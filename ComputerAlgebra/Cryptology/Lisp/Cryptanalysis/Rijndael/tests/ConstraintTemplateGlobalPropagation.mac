@@ -60,6 +60,28 @@ okltest_prop_eq_csttl(f) := block(
      [veq(veq(1,3),5),veq(veq(2,4),6)]]),
   true)$
 
+okltest_prop_eq_lift_renaming_var(f) := block(
+  for v in [1,2,3,4,5,6,7] do
+   for fp in [lambda([a],a), lambda([a], a+1)] do
+     assert(f(v,fp) = fp(v)),
+  assert(f(veq(1,2), lambda([a],a)) = veq(1,2)),
+  assert(f(veq(1,veq(2,3)), lambda([a],a)) = veq(1,veq(2,3))),
+  assert(f(veq(1,2), lambda([a],a+1)) = veq(2,3)),
+  assert(f(veq(1,veq(2,3)), lambda([a],a+1)) = veq(2,veq(3,4))),
+  true)$
+
+okltest_prop_eq_lift_renaming(f) := block(
+  for fp in [lambda([a],a), lambda([a], a+1)] do
+    assert(f([], fp) = []),
+  assert(
+    okltest_prop_eq_lift_renaming_var(
+      buildq([f],lambda([v,fp], f([v],fp)[1])))),
+  assert(f([1,2,3], lambda([a], a)) = [1,2,3]),
+  assert(f([1,veq(2,3)], lambda([a], a)) = [1,veq(2,3)]),
+  assert(f([1,2,3], lambda([a], a +1)) = [2,3,4]),
+  assert(f([1,veq(2,3)], lambda([a], a +1)) = [2,veq(3,4)]),
+  true)$
+
 /*!
 \endhtmlonly
 */

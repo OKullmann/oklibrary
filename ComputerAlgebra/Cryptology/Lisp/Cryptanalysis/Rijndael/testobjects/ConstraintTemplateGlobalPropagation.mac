@@ -38,6 +38,9 @@ okltest_prop_all_csttl(prop_all_csttl);
 okltest_prop_eq_vars_l(prop_eq_vars_l);
 okltest_prop_eq_csttl(prop_eq_csttl);
 
+okltest_prop_eq_lift_renaming_var(prop_eq_lift_renaming_var);
+okltest_prop_eq_lift_renaming(prop_eq_lift_renaming);
+
 /*!
 \endhtmlonly
 */
