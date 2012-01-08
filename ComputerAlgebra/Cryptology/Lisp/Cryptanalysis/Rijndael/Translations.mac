@@ -311,12 +311,12 @@ output_fast_ss_fcl(name,r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, b
 output_ss_fcl_std(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran) :=
   output_ss_fcl(
     sconcat("ssaes_r", r, "_c",ss_num_columns, "_rw",ss_num_rows,"_e",ss_exp,
-      "_f",if final_round_b then 1 else 0, ".cnf"),
+      "_f",if final_round_b then 1 else 0, "_", box_tran, "_", mc_tran, ".cnf"),
     r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran)$
 output_fast_ss_fcl_std(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran) :=
   output_fast_ss_fcl(
     sconcat("ssaes_r", r, "_c",ss_num_columns, "_rw",ss_num_rows,"_e",ss_exp,
-      "_f",if final_round_b then 1 else 0, ".cnf"),
+      "_f",if final_round_b then 1 else 0,"_",box_tran, "_", mc_tran,".cnf"),
     r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran)$
     
 
@@ -958,7 +958,8 @@ output_ss_random_pc_pair(seed, num_rounds, num_cols, num_rows,ss_exp, final_roun
       "A : ", [b,ss_exp,mod_poly,num_rows,num_cols, num_rounds]),
     filename : sconcat(
       "ssaes_pcpair_r", num_rounds , "_c", num_cols, "_rw", num_rows, "_e",
-      ss_exp,"_f", if final_round_b then 1 else 0,"_s", seed, ".cnf"),
+      ss_exp,"_f", if final_round_b then 1 else 0,"_",box_tran, "_", mc_tran,
+      "_s", seed, ".cnf"),
     plaintext_vars : create_list(i,i,1, ss_exp * num_rows * num_cols),
     ciphertext_vars : create_list(i,i,
       2*ss_exp * num_rows * num_cols+1, 3*ss_exp * num_rows * num_cols),
