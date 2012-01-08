@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 26.2.2008 (Swansea) */
-/* Copyright 2008, 2010 Oliver Kullmann
+/* Copyright 2008, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -53,6 +53,35 @@ greedy_colouring_og(G) := block([h : sm2hm({}), C : []],
   ),
   return([if emptyp(C) then 0 else lmax(C),reverse(C)])
 )$
+
+
+/* *******************************************
+   * Searching for interesting planar graphs *
+   *******************************************
+*/
+
+/* Searching for small 3-colourable planar graphs where the colouring is hard
+   to find.
+*/
+/* Searching for d-regular 3-colourable planar graphs with n vertices;
+   if unsuccessful, then a 4-tupel [N,count,numpl,num3] is returned, where
+   N is the total number of graphs envisaged, count the actual number
+   considered (=N here), numpl the number of planar graphs among them,
+   and num3 the number of 3-colourable graphs among them; and if successful,
+   then a 5-tupel is returned, containing additionally also the graph found: */
+search_planar3col(n,d,N) := block(
+ [found : false, g, count : 0, numpl : 0, num3 : 0, ispl, is3],
+  while not found and count < N do (
+    g : random_regular_graph(n,d),
+    count : count+1,
+    ispl : is_planar(g),
+    if ispl then numpl : numpl + 1,
+    is3 : is(chromatic_number(g) = 3),
+    if is3 then num3 : num3 + 1,
+    if ispl and is3 then found : true
+  ),
+  if found then return([N,count,numpl, num3, mg2og(g)])
+  else return([N,count,numpl,num3]))$
 
 /*!
 \endhtmlonly
