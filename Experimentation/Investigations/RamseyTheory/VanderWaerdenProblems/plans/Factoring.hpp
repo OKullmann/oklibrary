@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.11.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -695,7 +695,10 @@ outputext_fcl("modulo_projection_hg(arithprog_hg(5|13,1204),301)",F1204m4,"VanDe
  1  5 21 43 29  1
 100
 # cutoff=10^9:
-XXX (cs-oksvr)
+> E=read_ubcsat("VanDerWaerden_m4_2-5-13_1204.cnf_OUT",nrows=100)
+10 11 12 13 14
+ 2  8 44 41  5
+100
    \endverbattim
    </li>
   </ul>
