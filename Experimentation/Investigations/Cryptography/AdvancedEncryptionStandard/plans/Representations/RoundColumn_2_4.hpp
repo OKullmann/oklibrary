@@ -111,6 +111,44 @@ R> plot(E)
   </ul>
 
 
+  \todo Minimum representations using weighted MaxSAT : mincl_rinf <= 396
+  <ul>
+   <li> Computing the weight MaxSAT instance:
+   \verbatim
+> oklib --maxima
+maxima> output_fcs("16-bit AES Round",bf2relation_fullcnf_fcs(lambda([V],ss_round_column_bf(V,2,4)), 8),"round_column_16_full.cnf")$
+> QuineMcCluskeySubsumptionHypergraphWithFullStatistics-n16-O3-DNDEBUG round_column_16_full.cnf > round_column_16_shg.cnf
+> MinOnes2WeightedMaxSAT-O3-DNDEBUG < round_column_16_shg.cnf > round_column_16_shg.wcnf
+   \endverbatim
+   </li>
+   <li> Running ubcsat-okl:
+   \verbatim
+> ubcsat-okl -alg gsat -w -i round_column_16_shg.wcnf -wtarget 396 -seed 57642020 -r model round_column_min396.model
+# -rclean -r out stdout run,found,best,beststep,steps,seed -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median] -runs 10 -cutoff 100000 -rflush -alg gsat -w -i round_column_16_shg.wcnf -wtarget 396 -seed 57642020 -r model round_column_min396.model
+       sat  min     osteps     msteps       seed
+      1 0   396                99656                99656   57642020
+
+> ubcsat-okl -alg gsat -w -i round_column_16_shg.wcnf -wtarget 396 -seed 57642020 -r model round_column_min396.model -solve
+   \endverbatim
+   </li>
+   <li> Generating the instance:
+   \verbatim
+> cat round_column_16_full.cnf_primes | FilterDimacs-O3-DNDEBUG round_column_min396.model > round_column_min396.cnf
+> ExtendedDimacsFullStatistics-O3-DNDEBUG < round_column_min396.cnf
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+     16     396     16     16     396     2744     NA     NA     396     2744     1
+ length   count
+      4       1
+      5      12
+      6      74
+      7     237
+      8      71
+      9       1
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo r_1-bases : mincl_r1 <= 2712
   <ul>
    <li> We can compute r_1-base statistics by:

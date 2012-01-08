@@ -99,12 +99,6 @@ K_i := S-box(K_(i-1)) + C_i
 
   \todo Translations
   <ul>
-   <li> The following translations are considered in this %plans %file:
-    <ul>
-     <li> The canonical box translation. </li>
-     <li> The small box translation. </li>
-    </ul>
-   </li>
    <li> For a full list of the possible translations, see
    "Investigating dimensions" in
    Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
@@ -114,47 +108,76 @@ K_i := S-box(K_(i-1)) + C_i
     <ul>
      <li> The canonical box translation:
      \verbatim
-shell> mkdir ssaes_r1-20_c1_rw1_e4_f0_k1-1_aes_canon_box_aes_mc_bidirectional
-shell> cd ssaes_r1-20_c1_rw1_e4_f0_k1-1_aes_canon_box_aes_mc_bidirectional
+shell> mkdir ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_canon_box_aes_mc_bidirectional
+shell> cd ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_canon_box_aes_mc_bidirectional
 shell> oklib --maxima
 num_rows : 1$
 num_columns : 1$
 exp : 4$
 final_round_b : false$
 box_tran : aes_ts_box$
-seed : 1$
 mc_tran : aes_mc_bidirectional$
 for num_rounds : 1 thru 20 do (
   output_ss_fcl_std(
     num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
-  output_ss_random_pc_pair(
-    seed,num_rounds,num_columns,num_rows,exp,final_round_b))$
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
 exit();
 shell> for r in $(seq 1 20); do
-  AppendDimacs-O3-DNDEBUG ssaes_r${r}_c1_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c1_rw1_e4_f0_s1.cnf > r${r}_keyfind.cnf;
+  for k in $(seq 1 20); do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c1_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c1_rw1_e4_f0_s${k}.cnf > r${r}_keyfind.cnf;
+  done;
+done
+     \endverbatim
+     </li>
+     <li> The 1-base box translation:
+     \verbatim
+shell> mkdir ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional
+shell> cd ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional
+shell> oklib --maxima
+num_rows : 1$
+num_columns : 1$
+exp : 4$
+final_round_b : false$
+box_tran : aes_rbase_box$
+mc_tran : aes_mc_bidirectional$
+for num_rounds : 1 thru 20 do (
+  output_ss_fcl_std(
+    num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
+exit();
+shell> for r in $(seq 1 20); do
+  for k in $(seq 1 20); do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c1_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c1_rw1_e4_f0_s${k}.cnf > r${r}_keyfind.cnf;
+  done;
 done
      \endverbatim
      </li>
      <li> The "minimum" box translation:
      \verbatim
-shell> mkdir ssaes_r1-20_c1_rw1_e4_f0_k1-1_aes_min_box_aes_mc_bidirectional
-shell> cd ssaes_r1-20_c1_rw1_e4_f0_k1-1_aes_min_box_aes_mc_bidirectional
+shell> mkdir ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional
+shell> cd ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional
 shell> oklib --maxima
 num_rows : 1$
 num_columns : 1$
 exp : 4$
 final_round_b : false$
 box_tran : aes_small_box$
-seed : 1$
 mc_tran : aes_mc_bidirectional$
 for num_rounds : 1 thru 20 do (
   output_ss_fcl_std(
     num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
-  output_ss_random_pc_pair(
-    seed,num_rounds,num_columns,num_rows,exp,final_round_b))$
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
 exit();
 shell> for r in $(seq 1 20); do
-  AppendDimacs-O3-DNDEBUG ssaes_r${r}_c1_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c1_rw1_e4_f0_s1.cnf > r${r}_keyfind.cnf;
+  for k in $(seq 1 20); do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c1_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c1_rw1_e4_f0_s${k}.cnf > r${r}_keyfind.cnf;
+  done;
 done
      \endverbatim
      </li>
@@ -166,10 +189,220 @@ done
   \todo Minisat-2.2.0
   <ul>
    <li> Solving the key discovery problem over rounds 1 to 20. </li>
-   <li> The canonical box translation:
+   <li> The environment for all of these experiments is:
+   \verbatim
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 23
+model name	: Intel(R) Core(TM)2 Duo CPU     E8400  @ 3.00GHz
+cpu MHz		: 2003.000
+cache size	: 6144 KB
+bogomips	: 5999.94
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 23
+model name	: Intel(R) Core(TM)2 Duo CPU     E8400  @ 3.00GHz
+cpu MHz		: 2003.000
+cache size	: 6144 KB
+bogomips	: 5999.64
+address sizes	: 36 bits physical, 48 bits virtual
+             total       used       free     shared    buffers     cached
+Mem:          3947       3363        583          0        165       3077
+   \endverbatim
+   </li>
+   <li> Solving for twenty random plaintext/key/ciphertext combinations:
     <ul>
-     <li> The data:
-     \verbatim
+     <li> The canonical box translation:
+      <ul>
+       <li> The data:
+       \verbatim
+> cd ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_ts_box_aes_mc_bidirectional
+> for r in $(seq 1 20); do for s in $(seq 1 20); do RunMinisat r${r}_k${s}.cnf; done; done
+> (ExtractMinisat header-only |  awk " { print \$0 \" r s\"}"; for r in $(seq 1 20); do for s in $(seq 1 20); do
+    cat ExperimentMinisat_r${r}_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${r} ${s}\"}";
+  done;
+done) > MinisatStatistics
+> oklib --R
+R> E = read.table("MinisatStatistics", header=TRUE)
+R> aggregate(E, by=list(r=E$r), FUN=mean)
+ r          t    cfs    dec  rts       r1    cfl
+ 1 0.00139915   2.00   9.40 1.00    85.45  23.35
+ 2 0.00139910  13.65  32.80 1.00   592.80 224.25
+ 3 0.00254900  16.35  38.85 1.00  1141.55 270.45
+ 4 0.00304900  17.70  42.40 1.00  1658.35 231.90
+ 5 0.00419900  14.60  39.55 1.00  1915.75 176.45
+ 6 0.00499895  25.45  55.80 1.00  3418.75 314.65
+ 7 0.00554875  25.90  64.70 1.05  3744.60 436.05
+ 8 0.00644845  17.45  46.65 1.00  3591.95 235.95
+ 9 0.00639845  16.30  44.30 1.00  3793.45 246.70
+10 0.00849805  29.40  65.40 1.00  5976.85 461.25
+11 0.00859800  16.90  42.05 1.00  4384.45 263.40
+12 0.00854810  26.55  62.05 1.00  6940.10 352.50
+13 0.00959810  19.15  47.60 1.00  5383.60 240.25
+14 0.00994800  26.50  62.65 1.00  8180.60 370.50
+15 0.01029805  29.25  73.55 1.00  8643.40 444.00
+16 0.01189780  22.90  57.50 1.00  8888.50 273.10
+17 0.01209775  29.40  69.05 1.05  8875.55 379.55
+18 0.01279770  44.05 103.55 1.10 13016.45 673.70
+19 0.01204780  33.05  79.40 1.05 11473.15 515.40
+20 0.01349740  43.25 110.95 1.10 13489.55 675.20
+R> aggregate_statistics(E[c("r","t","cfs","r1")], by=list("r"))
+ r     t.mean         t.sd    t.min    t.max cfs.mean    cfs.sd cfs.min cfs.max  r1.mean       r1.sd r1.min r1.max
+ 1 0.00139915 0.0007536439 0.000000 0.001999     2.00  2.554665       0      10    85.45    41.89269     58    203
+ 2 0.00139910 0.0008824130 0.000000 0.002999    13.65 10.771673       0      30   592.80   373.59979    108   1248
+ 3 0.00254900 0.0010990426 0.000999 0.003999    16.35 14.302282       0      37  1141.55   784.95092    158   2235
+ 4 0.00304900 0.0013945382 0.000999 0.005999    17.70 16.569153       0      53  1658.35  1235.52884    208   4159
+ 5 0.00419900 0.0011050125 0.000999 0.005999    14.60 10.903404       0      38  1915.75  1143.62226    258   3816
+ 6 0.00499895 0.0011238093 0.002999 0.006998    25.45 13.080620       3      48  3418.75  1294.36450    957   5622
+ 7 0.00554875 0.0012340243 0.003999 0.007998    25.90 27.308954       3     112  3744.60  2575.99032    894  10041
+ 8 0.00644845 0.0013941212 0.003999 0.008998    17.45 23.250297       1      93  3591.95  2699.90028    667  10078
+ 9 0.00639845 0.0014285953 0.002999 0.007998    16.30 17.441934       1      56  3793.45  2502.66878    824   9074
+10 0.00849805 0.0017012534 0.003999 0.010998    29.40 19.564737       1      74  5976.85  2993.03997    921  13030
+11 0.00859800 0.0012732057 0.006998 0.010998    16.90 18.002631       0      62  4384.45  3376.73890    558  11317
+12 0.00854810 0.0015379378 0.005999 0.010998    26.55 24.630907       1      72  6940.10  5008.89847   1061  15165
+13 0.00959810 0.0021616953 0.005999 0.012998    19.15 16.092741       0      50  5383.60  3651.30999    658  12845
+14 0.00994800 0.0019594575 0.006998 0.012998    26.50 26.196625       3      92  8180.60  6004.25055   2487  24713
+15 0.01029805 0.0017197215 0.005999 0.012998    29.25 25.231298       3      92  8643.40  4627.01421   2349  20262
+16 0.01189780 0.0017134638 0.007998 0.013997    22.90 20.624207       0      66  8888.50  5986.94277    808  22646
+17 0.01209775 0.0019970110 0.008998 0.015997    29.40 31.563470       1     130  8875.55  5218.04050   1604  21671
+18 0.01279770 0.0018802520 0.009998 0.015997    44.05 38.778012       0     119 13016.45  9651.29912    908  30909
+19 0.01204780 0.0019591674 0.006998 0.015997    33.05 32.637523       0     101 11473.15  6664.88046    958  22175
+20 0.01349740 0.0023726512 0.007998 0.016997    43.25 34.459549       0     128 13489.55 10065.74442   1008  33816
+       \endverbatim
+       </li>
+      </ul>
+     </li>
+     <li> The 1-base box translation:
+      <ul>
+       <li> The data:
+       \verbatim
+> cd ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional
+> for r in $(seq 1 20); do for s in $(seq 1 20); do RunMinisat r${r}_k${s}.cnf; done; done
+> (ExtractMinisat header-only |  awk " { print \$0 \" r s\"}"; for r in $(seq 1 20); do for s in $(seq 1 20); do
+    cat ExperimentMinisat_r${r}_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${r} ${s}\"}";
+  done;
+done) > MinisatStatistics
+> oklib --R
+R> E = read.table("MinisatStatistics", header=TRUE)
+R> aggregate(E, by=list(r=E$r), FUN=mean)
+ r  rn   rc          t sat    cfs    dec  rts      r1    cfl
+ 1  36  110 0.00054950   1   1.20   4.65 1.00   36.50   3.10
+ 2  60  204 0.00079945   1  10.25  13.90 1.00  204.05  31.65
+ 3  84  298 0.00114925   1  18.10  22.00 1.00  422.50  69.10
+ 4 108  392 0.00099930   1  21.30  26.65 1.00  651.80  91.20
+ 5 132  486 0.00154910   1  28.75  36.00 1.00  888.80 106.30
+ 6 156  580 0.00179905   1  33.50  42.40 1.00 1180.05 132.10
+ 7 180  674 0.00154915   1  36.45  45.15 1.00 1570.60 161.05
+ 8 204  768 0.00199910   1  41.95  53.95 1.00 1594.95 186.70
+ 9 228  862 0.00224900   1  52.35  65.50 1.00 2301.70 226.55
+10 252  956 0.00299900   1  72.90  91.15 1.35 3123.95 336.70
+11 276 1050 0.00334900   1  72.20  86.65 1.10 3860.20 343.30
+12 300 1144 0.00284900   1  78.70  96.70 1.25 3551.40 361.50
+13 324 1238 0.00329900   1  62.65  81.00 1.25 3456.75 310.05
+14 348 1332 0.00334900   1  56.70  68.10 1.00 4734.90 251.15
+15 372 1426 0.00359900   1  90.35 116.90 1.35 5526.35 470.15
+16 396 1520 0.00384900   1  42.20  50.20 1.00 5193.80 197.35
+17 420 1614 0.00459900   1 105.45 138.35 1.65 6045.25 550.15
+18 444 1708 0.00499895   1 103.75 132.45 1.70 7041.95 498.40
+19 468 1802 0.00439885   1 126.50 161.65 1.85 5982.30 652.65
+20 492 1896 0.00504885   1 108.45 123.60 1.85 7353.25 530.95
+R> aggregate_statistics(E[c("r","t","cfs","r1")], by=list("r"))
+ r     t.mean         t.sd    t.min    t.max cfs.mean    cfs.sd cfs.min cfs.max r1.mean      r1.sd r1.min r1.max
+ 1 0.00054950 0.0006043267 0.000000 0.001999     1.20  1.935812       0       7   36.50   13.61307     28     75
+ 2 0.00079945 0.0008330541 0.000000 0.001999    10.25  6.129094       0      20  204.05   95.67680     48    363
+ 3 0.00114925 0.0008123554 0.000000 0.001999    18.10  6.624516       6      30  422.50  162.80453    170    697
+ 4 0.00099930 0.0007943221 0.000000 0.001999    21.30 13.286717       3      42  651.80  376.36385    172   1252
+ 5 0.00154910 0.0007589398 0.000000 0.002999    28.75 11.396560      11      49  888.80  395.49205    336   1637
+ 6 0.00179905 0.0009513536 0.000000 0.002999    33.50 19.967078       1      59 1180.05  706.79599    130   2177
+ 7 0.00154915 0.0009442542 0.000000 0.002999    36.45 21.050003       6      75 1570.60  888.03440    279   3026
+ 8 0.00199910 0.0010257732 0.000000 0.002999    41.95 29.459115       1      93 1594.95 1072.86181    171   3074
+ 9 0.00224900 0.0009665457 0.000999 0.003999    52.35 31.152046       2      98 2301.70 1356.67074    207   4368
+10 0.00299900 0.0009733285 0.001999 0.004999    72.90 38.793515       1     123 3123.95 1670.99909    211   5223
+11 0.00334900 0.0014244112 0.000999 0.004999    72.20 20.190149      48     106 3860.20 1283.52223   2176   6077
+12 0.00284900 0.0012680279 0.000999 0.004999    78.70 29.554766       1     119 3551.40 1510.86192    251   5939
+13 0.00329900 0.0012182818 0.000999 0.005999    62.65 42.835395       1     150 3456.75 2320.30392    271   7536
+14 0.00334900 0.0008127277 0.001999 0.004999    56.70 19.894723      20      81 4734.90 2087.50329   1341   7242
+15 0.00359900 0.0014290225 0.000999 0.004999    90.35 37.932454       1     158 5526.35 2153.69219    311   7723
+16 0.00384900 0.0013088766 0.000999 0.005999    42.20 29.727889       3      85 5193.80 3684.36215    335  10258
+17 0.00459900 0.0011424811 0.001999 0.005999   105.45 22.600594      60     145 6045.25 1685.92276   2679   9278
+18 0.00499895 0.0011238093 0.002999 0.006998   103.75 40.750686       2     209 7041.95 2515.93476    373  11432
+19 0.00439885 0.0018465103 0.001999 0.007998   126.50 56.854847      20     211 5982.30 3329.01519    837  11721
+20 0.00504885 0.0014315671 0.001999 0.006998   108.45 30.007850      34     155 7353.25 2532.04388   1584  11182
+       \endverbatim
+       </li>
+      </ul>
+     </li>
+     <li> The minimum box translation:
+      <ul>
+       <li> The data:
+       \verbatim
+> cd ssaes_r1-20_c1_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional
+> for r in $(seq 1 20); do for s in $(seq 1 20); do RunMinisat r${r}_k${s}.cnf; done; done
+> (ExtractMinisat header-only |  awk " { print \$0 \" r s\"}"; for r in $(seq 1 20); do for s in $(seq 1 20); do
+    cat ExperimentMinisat_r${r}_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${r} ${s}\"}";
+  done;
+done) > MinisatStatistics
+> oklib --R
+R> E = read.table("MinisatStatistics", header=TRUE)
+R> aggregate(E, by=list(r=E$r), FUN=mean)
+ r  rn   rc          t    cfs    dec  rts       r1     cfl
+ 1  36  100 0.00059945   1.65   5.10 1.00    38.30    4.90
+ 2  60  184 0.00089950  15.30  19.45 1.00   244.35   60.40
+ 3  84  268 0.00099920  24.60  30.55 1.00   483.00  106.65
+ 4 108  352 0.00139910  33.40  39.50 1.00   660.30  154.20
+ 5 132  436 0.00149910  48.85  62.65 1.00  1066.60  231.55
+ 6 156  520 0.00174905  62.45  78.80 1.10  1512.10  299.35
+ 7 180  604 0.00199910  76.60 110.45 1.35  1896.55  399.05
+ 8 204  688 0.00224900  84.75 117.30 1.45  2140.65  454.55
+ 9 228  772 0.00284900 108.55 155.40 1.60  2888.10  609.95
+10 252  856 0.00329900 145.00 217.25 1.95  3974.85  831.60
+11 276  940 0.00324900 160.80 232.05 1.95  4538.30  936.05
+12 300 1024 0.00349890 190.15 296.15 2.35  5507.05 1102.85
+13 324 1108 0.00429885 220.10 356.30 2.40  6735.20 1364.75
+14 348 1192 0.00519875 274.30 441.60 2.80  8561.40 1675.80
+15 372 1276 0.00554865 313.90 529.45 3.15 10506.60 1978.30
+16 396 1360 0.00539870 259.60 443.70 2.80  8825.55 1649.35
+17 420 1444 0.00724840 391.20 691.70 3.65 13275.80 2524.25
+18 444 1528 0.00779835 465.95 814.15 4.15 16011.65 3040.05
+19 468 1612 0.00749835 418.25 748.80 3.90 14339.75 2670.10
+20 492 1696 0.00749845 427.90 734.40 3.90 14451.85 2748.60
+R> aggregate_statistics(E[c("r","t","cfs","r1")], by=list("r"))
+ r     t.mean         t.sd    t.min    t.max cfs.mean     cfs.sd cfs.min cfs.max  r1.mean       r1.sd r1.min r1.max
+ 1 0.00059945 0.0005977680 0.000000 0.001999     1.65   2.601113       0      10    38.30    16.79317     28     86
+ 2 0.00089950 0.0009674167 0.000000 0.001999    15.30   8.423651       1      30   244.35   109.85219     60    424
+ 3 0.00099920 0.0006485613 0.000000 0.001999    24.60  11.052030       5      43   483.00   203.41583    160    844
+ 4 0.00139910 0.0006803405 0.000000 0.001999    33.40  22.010524       7      75   660.30   408.49752    169   1429
+ 5 0.00149910 0.0008883456 0.000000 0.002999    48.85  24.000603      15      96  1066.60   513.09427    370   1994
+ 6 0.00174905 0.0009103643 0.000000 0.002999    62.45  36.514561       2     111  1512.10   891.40279    131   2636
+ 7 0.00199910 0.0012976092 0.000000 0.003999    76.60  43.123324      21     160  1896.55  1111.24877    640   4126
+ 8 0.00224900 0.0009665457 0.000999 0.003999    84.75  52.103010       3     164  2140.65  1392.79825    176   4254
+ 9 0.00284900 0.0011367081 0.000999 0.004999   108.55  67.228186       3     231  2888.10  1765.50708    195   6163
+10 0.00329900 0.0013018206 0.000999 0.005999   145.00  84.922255       7     275  3974.85  2397.51181    221   7904
+11 0.00324900 0.0015517393 0.000999 0.005999   160.80  77.814625      75     319  4538.30  2363.46971   2075   8908
+12 0.00349890 0.0017915886 0.000999 0.006998   190.15  99.454446      11     402  5507.05  3143.44810    294  10779
+13 0.00429885 0.0018943379 0.000999 0.007998   220.10 150.195276      11     500  6735.20  4963.04300    314  17641
+14 0.00519875 0.0019354858 0.000999 0.007998   274.30 148.164596      83     536  8561.40  4865.49468   2207  16395
+15 0.00554865 0.0028552418 0.001999 0.013997   313.90 195.461909      11     835 10506.60  7512.85316    425  32455
+16 0.00539870 0.0026234249 0.000999 0.009998   259.60 217.150784       5     713  8825.55  7538.68738    339  23830
+17 0.00724840 0.0029172987 0.000999 0.010998   391.20 194.413450      64     775 13275.80  7337.47536   2139  26301
+18 0.00779835 0.0036065205 0.001999 0.014997   465.95 265.837995      28    1056 16011.65  9690.73133    910  34851
+19 0.00749835 0.0022120127 0.003999 0.010998   418.25 213.728769      52     721 14339.75  8325.98908   1330  28395
+20 0.00749845 0.0034406778 0.002999 0.015997   427.90 280.021973      94     928 14451.85 10575.73993   2299  35741
+       \endverbatim
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li> Solving for one random plaintext/key/ciphertext combination:
+    <ul>
+     <li> The canonical box translation:
+      <ul>
+       <li> The data:
+       \verbatim
 shell> for r in $(seq 1 20); do minisat-2.2.0 r${r}_keyfind.cnf > minisat_r${r}.result 2>&1; done
 shell> echo "n  c  t  sat  cfs dec rts r1 mem ptime stime cfl" > minisat_results
 shell> for r in $(seq 1 20); do cat minisat_r${r}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk; done >> minisat_results
@@ -197,16 +430,16 @@ R> E
 0.00   85 166   1 21253  19   0.00 1423
 0.01   10  25   1  8445  19   0.01  158
 0.01  107 252   2 33586  19   0.00 1149
-     \endverbatim
+       \endverbatim
+       </li>
+       <li> The number of conflicts and decisions is sporadic. This experiment
+       should be considered over several keys. </li>
+      </ul>
      </li>
-     <li> The number of conflicts and decisions is sporadic. This experiment
-     should be considered over several keys. </li>
-    </ul>
-   </li>
-   <li> The "minimum" box translation:
-    <ul>
-     <li> The data:
-     \verbatim
+     <li> The "minimum" box translation:
+      <ul>
+       <li> The data:
+       \verbatim
 shell> for r in $(seq 1 20); do minisat-2.2.0 r${r}_keyfind.cnf > minisat_r${r}.result 2>&1; done
 shell> echo "n  c  t  sat  cfs dec rts r1 mem ptime stime cfl" > minisat_results
 shell> for r in $(seq 1 20); do cat minisat_r${r}.result | awk -f $OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk; done >> minisat_results
@@ -234,12 +467,14 @@ cfs  dec rts    r1 mem  cfl
 535  917   5 19596  19 3376
 297  523   3  9970  19 2149
 680 1225   6 24639  19 4691
-     \endverbatim
+       \endverbatim
+       </li>
+       <li> The time is "0" for all rounds. </li>
+       <li> The number of conflicts and decisions seems quadratic in
+       the number of rounds, although experiments should be done over
+       more rounds with more keys to better gauge this. </li>
+      </ul>
      </li>
-     <li> The time is "0" for all rounds. </li>
-     <li> The number of conflicts and decisions seems quadratic in
-     the number of rounds, although experiments should be done over
-     more rounds with more keys to better gauge this. </li>
     </ul>
    </li>
   </ul>
