@@ -10,18 +10,18 @@ License, or any later version. */
   \brief Application to select clauses from a clause-set
 
   <ul>
-   <li> Reads a Dimacs clause-set from standard input, and writes to standard 
+   <li> Reads a Dimacs clause-set from standard input, and writes to standard
    output (and standard error). </li>
-   <li> The only argument is a path to the file containing integer clause 
+   <li> The only argument is a path to the file containing integer clause
    indices in the clause-set. </li>
    <li> These indices are positive integers; if they are too big then they
    are ignored. </li>
-   <li> The result, given on standard output, is a Dimacs file containing 
+   <li> The result, given on standard output, is a Dimacs file containing
    the i-th clauses for all i occurring in the clause-positions-file. </li>
    <li> Any non-integer characters (including "-") in the
    clause-positions-file will be ignored. </li>
-   <li> Negative integers are also ignored. This allows v-lines from SAT 
-   solvers put to a file and used directly without removing any characters. 
+   <li> Negative integers are also ignored. This allows v-lines from SAT
+   solvers put to a file and used directly without removing any characters.
    </li>
   </ul>
 
@@ -41,7 +41,7 @@ License, or any later version. */
 
   \todo Move CLSAdaptorFilter
   <ul>
-   <li> CLSAdaptorFilter should likely go to 
+   <li> CLSAdaptorFilter should likely go to
    Interfaces/InputOutput/ClauseSetAdaptors.hpp. </li>
    <li> Additionally, one should consider renaming it, as it is not a general
    filter, but a very specific one. </li>
@@ -72,12 +72,12 @@ License, or any later version. */
 namespace OKlib {
   namespace InputOutput {
 
-    template <typename Int = int, class String = std::string, 
+    template <typename Int = int, class String = std::string,
               class CLSAdaptor = OKlib::InputOutput::CLSAdaptorDIMACSOutput<> >
     class CLSAdaptorFilter {
-      
+
     public :
-      
+
       typedef Int int_type;
       typedef String string_type;
       typedef CLSAdaptor cls_adaptor_type;
@@ -94,11 +94,11 @@ namespace OKlib {
 
       template <typename Range>
       CLSAdaptorFilter(const Range& clause_index_arg, cls_adaptor_type& cls_adaptor_arg) : cls_adaptor(cls_adaptor_arg), current_clause(0) {
-        boost::copy(clause_index_arg, 
-                    std::inserter(clause_index, 
+        boost::copy(clause_index_arg,
+                    std::inserter(clause_index,
                                   boost::begin(clause_index)));
       }
- 
+
       void comment(const string_type& s) { cls_adaptor.comment(s); }
       void n(const int_type pn) { cls_adaptor.n(pn); }
       void c(const int_type pc) {
@@ -106,16 +106,16 @@ namespace OKlib {
         clause_index_container_type temp_clause_index;
         std::remove_copy_if(boost::begin(clause_index),
                             boost::end(clause_index),
-                            std::inserter(temp_clause_index, 
+                            std::inserter(temp_clause_index,
                                           boost::begin(temp_clause_index)),
                             std::bind2nd(std::greater<int_type>(), pc));
         clause_index.clear();
         std::remove_copy_if(boost::begin(temp_clause_index),
                             boost::end(temp_clause_index),
-                            std::inserter(clause_index, 
+                            std::inserter(clause_index,
                                           boost::begin(clause_index)),
                             std::bind2nd(std::less<int_type>(), 1));
-        
+
         cls_adaptor.c(clause_index.size());
       }
       void finish() { cls_adaptor.finish(); }
@@ -168,14 +168,14 @@ int main(const int argc, const char* const argv[]) {
 
   CLSAdaptorFilter::clause_index_container_type clause_index;
   while (not f_in.eof()) {
-    while ( (((char)f_in.peek() > '9') or 
+    while ( (((char)f_in.peek() > '9') or
             ((char)f_in.peek() < '0')) and
-            ((char)f_in.peek() != '-') and 
+            ((char)f_in.peek() != '-') and
             not f_in.eof()) {
       f_in.seekg(1,f_in.cur);
     }
-    CLSAdaptorFilter::int_type i; 
-    f_in >> i; 
+    CLSAdaptorFilter::int_type i;
+    f_in >> i;
     if (not f_in.fail() and (i > 0)) clause_index.insert(i);
   }
   f_in.close();
