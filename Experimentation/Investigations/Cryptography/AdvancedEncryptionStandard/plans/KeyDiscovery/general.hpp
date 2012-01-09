@@ -92,6 +92,33 @@ License, or any later version. */
   </ul>
 
 
+
+  \todo Using multiple plaintext-ciphertext pairs
+  <ul>
+   <li> Investigating where providing multiple plaintext
+   ciphertext pairs, for the *same* key, for AES key discovery
+   instances improves solver performance on these instances. </li>
+   <li> A key question here is also whether performance is improved
+   more drastically for 1-soft translations compared to harder
+   (i.e. minimum) translations. </li>
+   <li> To compute an AES instance which uses k random plaintext-ciphertext
+   pairs encrypted using key with seed s, we can:
+    <ol>
+     <li> Compute k instances of the AES instance in question; </li>
+     <li> Instantiate each instance with the corresponding
+     plaintext-ciphertext assignment; </li>
+     <li> Apply renamings to all instances such that the only shared
+     variables are the key variables; </li>
+     <li> Append all renamed instances together, yielding the final
+     instance. </li>
+    </ol>
+   </li>
+   <li> We must now implement this idea and begin testing whether
+   using multiple plaintext-ciphertext pairs improves solver
+   performance. </li>
+  </ul>
+
+
   \todo Explanations
   <ul>
    <li> For every set of AES parameters (rows, columns and field size), we
