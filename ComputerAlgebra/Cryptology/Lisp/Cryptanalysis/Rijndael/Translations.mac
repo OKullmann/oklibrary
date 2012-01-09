@@ -397,7 +397,8 @@ block([block_size],
   C : ss_pa2matrix(pa, create_list(i,i,2*block_size+1,3*block_size),
     2, ss_exp, ss_polynomial(2,ss_exp), ss_num_rows),
   return(
-    is(ss_encrypt(P,K,r,2,ss_exp) = C))
+    if final_round_b then is(ss_encrypt_wf(P,K,r,2,ss_exp) = C)
+    else is(ss_encrypt(P,K,r,2,ss_exp) = C))
 )$
 
 
