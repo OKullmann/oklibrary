@@ -914,6 +914,40 @@ output_ss_random_pc_pair(seed, num_rounds, num_cols, num_rows,ss_exp, final_roun
     pc_unit_fcs : [setify(create_list(i,i,1, 3*ss_exp * num_rows * num_cols)),
                    setify(map(set, pc_phi))],
     output_fcs(comment, pc_unit_fcs, filename))$
+output_ss_random_pc_pairs(seed, k, num_rounds, num_cols, num_rows,ss_exp, final_round_b) :=
+    block(
+    [s, plaintext, key, ciphertext, comment, filename, plaintext_vars,
+     ciphertext_vars, pc_phi, pc_unit_fcs, b : 2,
+     mod_poly : ss_polynomial(2,ss_exp)],
+    s : make_random_state(seed),
+    set_random_state(s),
+    /* Ensure the first plaintext-ciphertext pair agrees with output_ss_random_pc_pair */
+    plaintext : ss_random_matrix(b,ss_exp,mod_poly,num_rows,num_cols),
+    key : ss_random_matrix(b,ss_exp,mod_poly,num_rows, num_cols),
+    for i : 1 thru k do (
+      if final_round_b then
+        ciphertext : ss_encrypt_wf(plaintext, key, num_rounds, b,ss_exp)
+      else
+        ciphertext : ss_encrypt(plaintext, key, num_rounds, b,ss_exp),
+        comment : sconcat(
+          "S : ", seed, " ",
+          "P : ", ss_matrix2hex(plaintext, b,ss_exp,mod_poly), " ",
+          "K : ", ss_matrix2hex(key, b,ss_exp,mod_poly)," ",
+          "C : ", ss_matrix2hex(ciphertext, b,ss_exp,mod_poly), " ",
+          "A : ", [b,ss_exp,mod_poly,num_rows,num_cols, num_rounds]),
+        filename : sconcat(
+          "ssaes_pcpair_r", num_rounds , "_c", num_cols, "_rw", num_rows, "_e",
+          ss_exp,"_f", if final_round_b then 1 else 0,"_s", seed,"_k",i, ".cnf"),
+        plaintext_vars : create_list(i,i,1, ss_exp * num_rows * num_cols),
+        ciphertext_vars : create_list(i,i,
+          2*ss_exp * num_rows * num_cols+1, 3*ss_exp * num_rows * num_cols),
+        pc_phi : append(
+          ss_matrix2pa(plaintext, plaintext_vars, b, ss_exp, mod_poly),
+          ss_matrix2pa(ciphertext, ciphertext_vars, b, ss_exp, mod_poly)),
+        pc_unit_fcs : [setify(create_list(i,i,1, 3*ss_exp * num_rows * num_cols)),
+        setify(map(set, pc_phi))],
+        output_fcs(comment, pc_unit_fcs, filename),
+      plaintext : ss_random_matrix(b,ss_exp,mod_poly,num_rows,num_cols)))$
 output_ss_random_pk_pair(seed, num_rounds, num_cols, num_rows,ss_exp, final_round_b) :=
   block(
     [s, plaintext, key, ciphertext, comment, filename, plaintext_vars,
