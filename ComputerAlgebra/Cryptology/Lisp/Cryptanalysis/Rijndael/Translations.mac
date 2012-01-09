@@ -46,22 +46,22 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Cons
 
 
 /* Generates (and caches) the canonical CNF representation as a formal clause
-   set of AES Field muliplication (within the Rijndael GF(2^8) field) by p 
-   (given as an integer) with new variables. 
-   
-   New variables are introduced for each clause in the canonical DNF 
+   set of AES Field muliplication (within the Rijndael GF(2^8) field) by p
+   (given as an integer) with new variables.
+
+   New variables are introduced for each clause in the canonical DNF
    representation (see dualts_fcl), where the variables are of the form dts(i)
    and i is the rank in the lexiographical ordering of the clauses.
 
    Caching here simply means that upon the first call to the function with
-   argument "p", the result of the computation for that argument is stored 
-   in a global variable "aes_mul_ts_CNF[p]" which will then be returned 
-   immediately on subsequent calls to "aes_mul_ts_gen" with the same argument 
-   to allow for reuse of "aes_mul_ts_gen" without the overhead of 
+   argument "p", the result of the computation for that argument is stored
+   in a global variable "aes_mul_ts_CNF[p]" which will then be returned
+   immediately on subsequent calls to "aes_mul_ts_gen" with the same argument
+   to allow for reuse of "aes_mul_ts_gen" without the overhead of
    recomputation.
  */
 aes_mul_ts_CNF : create_list(false,i,1,256)$
-aes_mul_ts_gen(p) := 
+aes_mul_ts_gen(p) :=
   if aes_mul_ts_CNF[p+1] = false then block([plus16 : lambda([x],x+16)],
       [mul_dnf : rijnmult_fulldnf_fcs(p)],
     aes_mul_ts_CNF[p+1] : dualts_fcl(
@@ -69,7 +69,7 @@ aes_mul_ts_gen(p) :=
        sort(
          listify(mul_dnf[2]),
          lambda([a,b], is(
-           rank_lex_ksubsets(map(plus16,a),32) < 
+           rank_lex_ksubsets(map(plus16,a),32) <
              rank_lex_ksubsets(map(plus16,b),32)))
         )]
      ),
@@ -77,9 +77,9 @@ aes_mul_ts_gen(p) :=
   ) else aes_mul_ts_CNF[p+1]$
 
 /* Generates (and caches) the canonical CNF representation as a formal clause
-   set of AES Sbox operator with new variables. New variables are 
+   set of AES Sbox operator with new variables. New variables are
    introduced for each clause in the canonical DNF representation (see
-   dualts_fcl), where the new variables are of the form dts(i) and i is the 
+   dualts_fcl), where the new variables are of the form dts(i) and i is the
    rank in the lexiographical ordering of the clauses.
 
    Caching here simply means that upon the first call to the function, the
@@ -258,13 +258,13 @@ output_ss_fcl(name,r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tr
                    ",box_tran=",box_tran,",mc_tran=",mc_tran),
                  FF_std[1],name,
       FF_std[2]))$
-  
+
 output_ss_fcl_std(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran) :=
   output_ss_fcl(
     sconcat("ssaes_r", r, "_c",ss_num_columns, "_rw",ss_num_rows,"_e",ss_exp,
       "_f",if final_round_b then 1 else 0, ".cnf"),
     r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran)$
-    
+
 
 ss_trans_fcl(cst, box_tran, mc_tran) := block(
   [ss_csttl,ss_vars_l, prop_csttl,rm],
@@ -429,7 +429,7 @@ output_ss_fcl_id_p(name,r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, b
                    ",e=",ss_exp,",final=",final_round_b,
                    ",box_tran=",box_tran,",mc_tran=",mc_tran),
                  FF_std[1],name,
-      FF_std[2]))$  
+      FF_std[2]))$
 output_ss_fcl_id_p_std(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran) :=
   output_ss_fcl_id_p(
     sconcat("ssaes_id_p_r", r, "_c",ss_num_columns, "_rw",ss_num_rows,"_e",
@@ -851,8 +851,8 @@ output_aes_random_pc_pair(seed, num_rounds) :=
 aes_hex2pa(hexStr, variableList) := block(
   setify(map(
     lambda([a,b], if b = 0 then -a else a),
-        variableList, 
-        lappend(map(lambda([a], 
+        variableList,
+        lappend(map(lambda([a],
           egf_coeffs(rijn_bit_field,a,7)),hex2gf2t8l(hexStr)))
   ))
 )$
