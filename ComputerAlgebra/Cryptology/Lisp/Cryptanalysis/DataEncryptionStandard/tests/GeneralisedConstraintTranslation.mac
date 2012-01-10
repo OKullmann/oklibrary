@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 22.5.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,7 +30,52 @@ kill(f)$
    ***********************
 */
 
-okltest_des_plain2fcl_gen(f) := block(
+okltest_des_sbox_output2inputs(f) := block(
+  assert(f(1) = [1,2,3,4,5,6]),
+  assert(f(2) = [1,2,3,4,5,6]),
+  assert(f(3) = [1,2,3,4,5,6]),
+  assert(f(4) = [1,2,3,4,5,6]),
+  assert(f(5) = [7,8,9,10,11,12]),
+  assert(f(6) = [7,8,9,10,11,12]),
+  assert(f(7) = [7,8,9,10,11,12]),
+  assert(f(8) = [7,8,9,10,11,12]),
+  assert(f(9) = [13,14,15,16,17,18]),
+  assert(f(10) = [13,14,15,16,17,18]),
+  assert(f(11) = [13,14,15,16,17,18]),
+  assert(f(12) = [13,14,15,16,17,18]),
+  assert(f(13) = [19,20,21,22,23,24]),
+  assert(f(14) = [19,20,21,22,23,24]),
+  assert(f(15) = [19,20,21,22,23,24]),
+  assert(f(16) = [19,20,21,22,23,24]),
+  assert(f(17) = [25,26,27,28,29,30]),
+  assert(f(18) = [25,26,27,28,29,30]),
+  assert(f(19) = [25,26,27,28,29,30]),
+  assert(f(20) = [25,26,27,28,29,30]),
+  assert(f(21) = [31,32,33,34,35,36]),
+  assert(f(22) = [31,32,33,34,35,36]),
+  assert(f(23) = [31,32,33,34,35,36]),
+  assert(f(24) = [31,32,33,34,35,36]),
+  assert(f(25) = [37,38,39,40,41,42]),
+  assert(f(26) = [37,38,39,40,41,42]),
+  assert(f(27) = [37,38,39,40,41,42]),
+  assert(f(28) = [37,38,39,40,41,42]),
+  assert(f(29) = [43,44,45,46,47,48]),
+  assert(f(30) = [43,44,45,46,47,48]),
+  assert(f(31) = [43,44,45,46,47,48]),
+  assert(f(32) = [43,44,45,46,47,48]),
+  true)$
+
+okltest_des_sbox_outputs2inputs(f) := block(
+  assert(f([]) = []),
+  assert(
+    okltest_des_sbox_output2inputs(buildq([f], lambda([i], f([i]))))),
+  assert(f([1,5]) = [1,2,3,4,5,6,7,8,9,10,11,12]),
+  assert(f([1,5,6]) = [1,2,3,4,5,6,7,8,9,10,11,12]),
+  assert(f([1,5,6,9]) = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]),
+  assert(f([1,9]) = [1,2,3,4,5,6,13,14,15,16,17,18]),
+  true)$
+
+okltest_sbox_des_plain2fcl_gen(f) := block(
   assert(
     okltest_des_plain2fcl(
       buildq([f],lambda([a],f(a,16))))),
