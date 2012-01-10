@@ -104,7 +104,7 @@ maxima> oklib_load_all()$
    \verbatim
 ExternalSources/builds/SAT/Des/des2fml-0.9> mkdir experiments && cd experiments
 experiments> rounds=3; s=1;
-  cat des_r${rounds}_pkc_triples | while read p k c; do
+  cat des_r${rounds}_pkc_triples | grep -v '^ *$' | while read p k c; do
     echo ${p} | sed -e 's/_/ /g' > plaintxt; echo ${k} | sed -e 's/_/ /g' > key_des; rm ciph_txt
     ./des -r${rounds} && ./des2fml -r${rounds} -p -c -f1 && ./clausify formulae des_massacci_r${rounds}_s${s}.cnf
     let s=$s+1
