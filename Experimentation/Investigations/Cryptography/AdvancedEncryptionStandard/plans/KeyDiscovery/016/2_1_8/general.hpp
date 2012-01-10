@@ -1,5 +1,5 @@
 // Matthew Gwynne, 20.5.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -142,7 +142,7 @@ MixColumns(I_2) := Mul03(I_1) + Mul02(I_2)
   </ul>
 
 
-  \todo The canonical box translation
+  \todo The canonical box translation (bidirectional MixColumns)
   <ul>
    <li> The Sboxes and multiplications boxes are translated using the
    canonical translation, discussed in "The canonical box translation"
@@ -223,7 +223,79 @@ R> plot(EM$t)
   </ul>
 
 
-  \todo The 1-base box translation
+  \todo The canonical box translation (forward MixColumns)
+  <ul>
+   <li> The Sboxes and multiplications boxes are translated using the
+   canonical translation, discussed in "The canonical box translation"
+   in
+   plans/KeyDiscovery/016/2_1_8/Translations.hpp
+   where statistics are also provided. </li>
+   <li> Over 20 rounds, with 20 random plaintext-ciphertext pairs per round:
+    <ul>
+     <li> Generating the instances:
+     \verbatim
+oklib_monitor : true$
+for rounds : 1 thru 20 do
+  output_ss_fcl_std(rounds, num_columns : 1, num_rows : 2, exp : 8, final_round_b : false, box_tran : aes_ts_box, mc_tran : aes_mc_forward)$
+     \endverbatim
+     </li>
+     <li> Generating 20 random assignments for the plaintext and ciphertext,
+     leaving the key unknown:
+     \verbatim
+maxima> for seed : 1 thru 20 do output_ss_random_pc_pair(seed,rounds,num_columns,num_rows,exp,final_round_b);
+     \endverbatim
+     </li>
+     <li> Running minisat-2.2.0:
+     \verbatim
+shell> col=1; row=2; e=8;
+for r in $(seq 1 20); do
+  for k in $(seq 1 20); do
+      echo "Key ${k} Round ${r}";
+      AppendDimacs-O3-DNDEBUG ssaes_r${r}_c${col}_rw${row}_e${e}_f0.cnf ssaes_pcpair_r${r}_c${col}_rw${row}_e${e}_f0_s${k}.cnf > r${r}_k${k}.cnf;
+      RunMinisat r${r}_k${k}.cnf > minisat_r${r}_k${k}.result;
+  done;
+done;
+shell> (ExtractMinisat header-only |  awk " { print \$0 \" r s\"}"; for r in $(seq 1 20); do for s in $(seq 1 20); do
+    cat ExperimentMinisat_r${r}_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${r} ${s}\"}";
+  done;
+done) > MinisatStatistics
+     \endverbatim
+     yields:
+     \verbatim
+shell> oklib --R
+E = read.table("MinisatStatistics", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+options(width=1000)
+EM
+    r    rn     rc           t sat       cfs       dec    rts           r1    mem  ptime  stime        cfl  r    s
+1   1  2208  35032   0.1255304   1    644.65   9691.15   4.95     235999.5  10.20 0.0100 0.0300   253616.5  1 10.5
+2   2  4368  70000  64.0761374   1  86527.00 358122.40 232.90   82250162.0 146.60 0.0265 0.0700 27228151.5  2 10.5
+3   3  6528 104968  73.9325735   1  88100.35 391819.80 241.75  135857271.9 172.30 0.0370 0.1000 26539443.9  3 10.5
+4   4  8688 139936  69.7975275   1  76521.80 352603.30 214.65  165313324.8 148.70 0.0505 0.1400 22521359.4  4 10.5
+5   5 10848 174904 111.6020595   1  94419.95 430595.80 258.60  256887896.2 195.65 0.0615 0.1800 29326373.7  5 10.5
+6   6 13008 209872  74.4716495   1  69564.10 322544.65 204.10  246501658.7 144.85 0.0755 0.2165 19653209.9  6 10.5
+7   7 15168 244840  86.8148835   1  77963.80 355796.45 218.90  307490488.7 144.65 0.0885 0.2515 20624755.8  7 10.5
+8   8 17328 279808  85.5460900   1  68567.25 310390.85 196.45  357318016.1 136.40 0.1040 0.2900 19237972.4  8 10.5
+9   9 19488 314776  77.5300305   1  56471.85 290625.55 163.40  304380006.9 120.85 0.1145 0.3300 16053735.8  9 10.5
+10 10 21648 349744 162.2898200   1  88746.25 383298.85 247.80  614681215.0 175.95 0.1280 0.3695 24495250.8 10 10.5
+11 11 23808 384712 109.8185080   1  66805.35 295058.50 189.30  503117849.8 123.65 0.1420 0.4085 16640849.0 11 10.5
+12 12 25968 419680 109.7141555   1  65693.95 322263.30 192.65  469419385.0 141.95 0.1540 0.4465 18375349.1 12 10.5
+13 13 28128 454648 140.8818745   1  74352.10 343013.50 208.05  640736722.1 154.05 0.1660 0.4820 19538114.8 13 10.5
+14 14 30288 489616 206.5174700   1  96008.70 475130.45 268.45  814417288.8 221.90 0.1810 0.5215 30333239.5 14 10.5
+15 15 32448 524584 231.8048250   1 104810.30 524007.50 283.30  906787661.5 220.10 0.1945 0.5600 31768033.0 15 10.5
+16 16 34608 559552  96.1146805   1  44588.15 216541.40 135.20  500882406.6 109.35 0.2055 0.5995 11904817.9 16 10.5
+17 17 36768 594520 164.6938600   1  63736.70 275718.50 188.05  850615926.1 142.20 0.2180 0.6385 15086412.6 17 10.5
+18 18 38928 629488 210.0075000   1  83165.30 367437.35 233.00  996504673.4 188.20 0.2310 0.6760 23392940.8 18 10.5
+19 19 41088 664456 231.9556625   1  82912.30 426112.30 231.20 1038048860.1 193.05 0.2440 0.7130 23248806.1 19 10.5
+20 20 43248 699424 178.1621050   1  60341.95 287746.10 177.75  856706437.9 145.75 0.2575 0.7515 15743186.0 20 10.5
+     \endverbatim
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+
+  \todo The 1-base box translation (bi-directional Mixcolumns)
   <ul>
    <li> The Sboxes and multiplications boxes are translated using the
    1-base translation, discussed in "The 1-base box translation"
@@ -322,7 +394,91 @@ R> plot(E$t)
   </ul>
 
 
-  \todo The "minimum" box translation
+  \todo The 1-base box translation (forward Mixcolumns)
+  <ul>
+   <li> The Sboxes and multiplications boxes are translated using the
+   1-base translation, discussed in "The 1-base box translation"
+   in
+   plans/KeyDiscovery/016/2_1_8/Translations.hpp
+   where statistics are also provided. </li>
+   <li> There are currently active investigations attempting to find the
+   minimum-size 1-base representations for each of the boxes, discussed in
+    <ul>
+     <li> AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp.
+     </li>
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_2_8.hpp.
+     </li>
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_3_8.hpp.
+     </li>
+    </ul>
+   </li>
+   <li> Over 20 rounds, with 20 random plaintext-ciphertext pairs per round:
+    <ul>
+     <li> For instructions on generating the 1-bases, see
+     "The 1-base box translation" in
+     AdvancedEncryptionStandard/plans/KeyDiscovery/016/2_1_8/Translations.hpp.
+     </li>
+     <li> Generating the instances (in Maxima):
+     \verbatim
+oklib_monitor : true$
+set_hm(ss_sbox_rbase_cnfs,8,read_fcl_f("AES_Sbox_base.cnf"))$
+set_hm(ss_field_rbase_cnfs,[8,2],read_fcl_f("AES_byte_field_mul_2_base.cnf"))$
+set_hm(ss_field_rbase_cnfs,[8,3],read_fcl_f("AES_byte_field_mul_3_base.cnf"))$
+for rounds : 1 thru 20 do
+  output_ss_fcl_std(rounds, num_columns : 1, num_rows : 2, exp : 8, final_round_b : false, box_tran : aes_rbase_box, mc_tran : aes_mc_forward)$
+     \endverbatim
+     </li>
+     <li> Generating 20 random assignments for the plaintext and ciphertext,
+     leaving the key unknown:
+     \verbatim
+maxima> for seed : 1 thru 20 do output_ss_random_pc_pair(seed,rounds,num_columns,num_rows,exp,final_round_b);
+     \endverbatim
+     </li>
+     <li> Running minisat-2.2.0:
+     \verbatim
+shell> col=1; row=2; e=8;
+for r in $(seq 1 20); do
+  for k in $(seq 1 20); do
+      echo "Key ${k} Round ${r}";
+      AppendDimacs-O3-DNDEBUG ssaes_r${r}_c${col}_rw${row}_e${e}_f0.cnf ssaes_pcpair_r${r}_c${col}_rw${row}_e${e}_f0_s${k}.cnf > r${r}_k${k}.cnf;
+      RunMinisat r${r}_k${k}.cnf > minisat_r${r}_k${k}.result;
+  done;
+done
+shell> (ExtractMinisat header-only |  awk " { print \$0 \" r s\"}"; for r in $(seq 1 14); do for s in $(seq 1 20); do
+    cat ExperimentMinisat_r${r}_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${r} ${s}\"}";
+  done;
+done) > MinisatStatistics
+     \endverbatim
+     yields:
+     \verbatim
+shell> oklib --R
+E = read.table("MinisatStatistics", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+options(width=1000)
+EM
+    r   rn     rc           t sat       cfs       dec    rts          r1    mem  ptime  stime        cfl  r    s
+1   1  160  18004   0.6104567   1    278.60    305.30   3.00     9502.55  10.00 0.0100 0.5715     2015.8  1 10.5
+2   2  272  35944   8.9246420   1  37719.35  40382.70 123.15  2395809.40  13.10 0.0200 1.0800   573597.6  2 10.5
+3   3  384  53884  20.3741645   1  49536.50  53650.70 151.00  4138695.80  18.20 0.0305 1.6505   893056.8  3 10.5
+4   4  496  71824  26.8702695   1  49324.45  54105.20 155.00  6267386.90  19.10 0.0420 2.2700   779387.8  4 10.5
+5   5  608  89764  48.4103280   1  66860.00  75028.60 200.15 10155973.95  24.25 0.0515 2.8300  1082937.0  5 10.5
+6   6  720 107704  54.6627350   1  72134.60  83645.05 211.75  9333295.85  28.45 0.0600 3.4280  1474549.5  6 10.5
+7   7  832 125644  95.2220900   1  97380.15 113763.75 273.70 13989496.15  36.35 0.0700 4.0065  2128524.5  7 10.5
+8   8  944 143584 169.6973800   1 137002.75 159436.75 370.60 21666151.85  46.00 0.0835 4.6245  3171608.2  8 10.5
+9   9 1056 161524 184.8194600   1 158382.95 186715.00 424.10 22857452.65  53.45 0.0935 5.1810  4099751.6  9 10.5
+10 10 1168 179464 278.7595500   1 191001.85 224453.70 491.90 32373182.55  60.80 0.1045 5.7885  4913826.3 10 10.5
+11 11 1280 197404 304.0785450   1 220656.75 260736.75 544.35 34632592.30  69.65 0.1155 6.3510  6007968.4 11 10.5
+12 12 1392 215344 532.7778000   1 305831.90 359501.80 726.90 51302185.20  91.25 0.1235 6.9750  8549126.3 12 10.5
+13 13 1504 233284 610.2921000   1 331344.35 390579.65 794.00 57882032.30 103.25 0.1340 7.5305  9413721.1 13 10.5
+14 14 1616 251224 827.0625000   1 391152.20 461206.55 925.45 73394383.65 123.95 0.1355 8.1310 11263617.3 14 10.5
+     \endverbatim
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+
+  \todo The "minimum" box translation (bidirectional MixColumns)
   <ul>
    <li> The Sboxes and multiplications boxes are translated using the
    "minimum" translations, discussed in 'The "minimum" box translation'
@@ -401,6 +557,79 @@ R> plot(E$t)
      The minisat-2.2.0 times and number of conflicts grow much more quickly in
      the number of rounds than the 1-base and canonical translations. Is this
      exponential growth? </li>
+     <li> We need data for more rounds. </li>
+    </ul>
+   </li>
+  </ul>
+
+
+  \todo The "minimum" box translation (forward MixColumns)
+  <ul>
+   <li> The Sboxes and multiplications boxes are translated using the
+   "minimum" translations, discussed in 'The "minimum" box translation'
+   in
+   plans/KeyDiscovery/016/2_1_8/Translations.hpp
+   where statistics are also provided. </li>
+   <li> There are currently active investigations attempting to find the
+   minimum representations for each of the boxes, discussed in
+    <ul>
+     <li> AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp.
+     </li>
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_2_8.hpp.
+     </li>
+     <li> AdvancedEncryptionStandard/plans/Representations/Mul_3_8.hpp.
+     </li>
+    </ul>
+   </li>
+   <li> Over 20 rounds, with 20 random plaintext-ciphertext pairs per round:
+    <ul>
+     <li> For instructions on generating the 1-bases, see
+     'The "minimum" box translation' in
+     plans/KeyDiscovery/016/2_1_8/Translations.hpp.
+     </li>
+     <li> Generating the instances (in Maxima):
+     \verbatim
+oklib_monitor : true$
+for rounds : 1 thru 20 do
+  output_ss_fcl_std(rounds, num_columns : 1, num_rows : 2, exp : 8, final_round_b : false, box_tran : aes_small_box, mc_tran : aes_mc_forward)$
+     \endverbatim
+     </li>
+     <li> Generating 20 random assignments for the plaintext and ciphertext,
+     leaving the key unknown:
+     \verbatim
+maxima> for seed : 1 thru 20 do output_ss_random_pc_pair(seed,rounds,num_columns,num_rows,exp,final_round_b);
+     \endverbatim
+     </li>
+     <li> Running minisat-2.2.0:
+     \verbatim
+shell> col=1; row=2; e=8;
+for r in $(seq 1 20); do
+  for k in $(seq 1 20); do
+      echo "Key ${k} Round ${r}";
+      AppendDimacs-O3-DNDEBUG ssaes_r${r}_c${col}_rw${row}_e${e}_f0.cnf ssaes_pcpair_r${r}_c${col}_rw${row}_e${e}_f0_s${k}.cnf > r${r}_k${k}.cnf;
+      RunMinisat r${r}_k${k}.cnf > minisat_r${r}_k${k}.result;
+  done;
+done
+shell> (ExtractMinisat header-only |  awk " { print \$0 \" r s\"}"; for r in $(seq 1 5); do for s in $(seq 1 20); do
+    cat ExperimentMinisat_r${r}_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${r} ${s}\"}";
+  done;
+done) > MinisatStatistics
+     \endverbatim
+     yields:
+     \verbatim
+shell> oklib --R
+E = read.table("MinisatStatistics", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+options(width=1000)
+EM
+  r  rn   rc            t sat         cfs        dec      rts          r1   mem ptime  stime         cfl r    s
+1 1 160 1496    0.0168469   1     1671.55     1955.4    10.55     17546.3  8.00 0.000 0.0015     16260.5 1 10.5
+2 2 272 2928    3.3017000   1   276785.50   355639.2   646.90   4699452.3  8.00 0.000 0.0100   4027811.0 2 10.5
+3 3 384 4360   55.2569310   1  3187885.95  4332512.0  5499.50  61522320.7 11.00 0.000 0.0100  50931502.5 3 10.5
+4 4 496 5792  400.6832950   1 17425518.15 23077513.3 25184.75 374642468.1 25.35 0.000 0.0200 299792639.6 4 10.5
+5 5 608 7224 1215.0958650   1 40428074.70 53320878.9 54069.10 995483497.0 45.35 0.002 0.0200 752860909.4 5 10.5
+     \endverbatim
+     </li>
      <li> We need data for more rounds. </li>
     </ul>
    </li>
