@@ -143,6 +143,164 @@ Max.   :63401   Max.   :394591840   Max.   :450266022   Max.   :458747   Max.   
    \endverbatim
    </li>
    <li> Seed 4 takes >73000s and > 460,042,881 conflicts. </li>
+   <li> Trying cube and conquer using SplittingViaOKsolver:
+    <ul>
+     <li> D = 10:
+     \verbatim
+> SplittingViaOKsolver -D10 des_6t4_canon_r5_s1.cnf
+> cd SplitViaOKsolver_D10des_6t4_canon_r5_s1cnf_*/
+> cat Md5sum
+cd517ee6c8cefaa13e625a8a7deed7e0
+> cat Statistics
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    195     195     195     195     195     195
+> table(E$n)
+
+195
+  2
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+      1       1       1       1       1       1
+     \endverbatim
+     </li>
+     <li> D = 50:
+     \verbatim
+> SplittingViaOKsolver -D50 des_6t4_canon_r5_s1.cnf
+> cd cd SplitViaOKsolver_D50des_6t4_canon_r5_s1cnf_*/
+> cat Statistics
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    195     195     195     195     195     195
+> table(E$n)
+
+195
+  2
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+      1       1       1       1       1       1
+     \endverbatim
+     </li>
+     <li> D = 50:
+     \verbatim
+> SplittingViaOKsolver -D50 des_6t4_canon_r5_s1.cnf
+> cd cd SplitViaOKsolver_D50des_6t4_canon_r5_s1cnf_*/
+> cat Statistics
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    195     195     195     195     195     195
+> table(E$n)
+
+195
+  2
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+      1       1       1       1       1       1
+     \endverbatim
+     </li>
+     <li> D = 100:
+     \verbatim
+> SplittingViaOKsolver -D100 des_6t4_canon_r5_s1.cnf
+> cd cd SplitViaOKsolver_D100des_6t4_canon_r5_s1cnf_*/
+> cat Statistics
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    246     246     246     246     246     246
+> table(E$n)
+
+246
+  4
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+      2       2       2       2       2       2
+     \endverbatim
+     </li>
+     <li> D = 500:
+     \verbatim
+> SplittingViaOKsolver -D500 des_6t4_canon_r5_s1.cnf
+> cd cd SplitViaOKsolver_D500des_6t4_canon_r5_s1cnf_*/
+> cat Statistics
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  629.0   633.0   641.0   644.4   647.0   712.0
+> table(E$n)
+
+629 630 633 637 641 643 647 657 661 665 669 673 701 702 705 706 708 709 712
+484   2 486 368 126 472 480   4  36 136  72  96  16  16  32  16  14  16  14
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   8.00   11.00   12.00   12.29   13.00   17.00
+> table(E$d)
+
+  8   9  10  11  12  13  14  15  16  17
+  7  74 266 588 747 579 345 196  68  16
+
+> cat Result
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           128
+c reddiff_number_of_clauses             576
+c reddiff_number_of_literal_occurrences 1920
+c number_of_2-clauses_after_reduction   26048
+c running_time(sec)                     833.0
+c number_of_nodes                       5771
+c number_of_2-reductions                120201
+c max_tree_depth                        17
+c splitting_cases                       2886
+     \endverbatim
+     First assignment wasn't solved after an hour.
+     </li>
+     <li> D = 600:
+     \verbatim
+> SplittingViaOKsolver -D600 des_6t4_canon_r5_s1.cnf
+> cd cd SplitViaOKsolver_D600des_6t4_canon_r5_s1cnf_*/
+> cat Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  728.0   742.0   779.0   828.4   915.0  1139.0
+> table(E$n)
+ <snip - too large>
+
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  10.00   16.00   17.00   16.75   18.00   22.00
+> table(E$d)
+
+   10    11    12    13    14    15    16    17    18    19    20    21    22
+    7    51   250   867  2924  7560 13710 16474 12146  5084  1209   286    32
+
+> cat Result
+s UNKNOWN
+c sat_status                            2
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           128
+c reddiff_number_of_clauses             576
+c reddiff_number_of_literal_occurrences 1920
+c number_of_2-clauses_after_reduction   26048
+c running_time(sec)                     17756.8
+c number_of_nodes                       121199
+c number_of_2-reductions                2285546
+c max_tree_depth                        22
+c splitting_cases                       60600
+
+> cd Instances
+> OKP=~/OKplatform; I="../$(cat ../F)"; echo " i n t sat cfs dec rts r1 mem ptime stime cfl" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else echo -n "$C " >> Stats; awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractMinisat.awk Temp.out >> Stats; echo -n "$C "; fi; done
+
+# Still running
+> oklib --R
+
+> E = read.table("Stats", header=TRUE)
+> sum(E$t)
+[1] 118767.6
+> length(E$t)
+[1] 22954
+> (118767.6 / 22954) * 60600;
+[1] 313553.9
+     \endverbatim
+     So, we can assume that this will likely take ~87 hours.
+     </li>
+    </ul>
+   </li>
   </ul>
 
 
