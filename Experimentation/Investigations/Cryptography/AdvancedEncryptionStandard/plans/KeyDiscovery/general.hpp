@@ -1,5 +1,5 @@
 // Matthew Gwynne, 23.1.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -113,9 +113,38 @@ License, or any later version. */
      instance. </li>
     </ol>
    </li>
+   <li> This is a very naive implementation, and in fact we could
+   do more, by combining the whole key schedule for the AES across
+   instances. However, this is more complicated. </li>
    <li> We must now implement this idea and begin testing whether
    using multiple plaintext-ciphertext pairs improves solver
    performance. </li>
+   <li> Generating 16 plaintext-ciphertext pairs for AES(20,2,2,4)
+   using the canonical translation and key seeds 1 to 20:
+   \verbatim
+oklib_monitor : true$ num_pairs : 4$ rounds : 20$ num_columns : 2$ num_rows : 2$ exp : 4$ final_round_b : false$ box_tran : aes_ts_box$ mc_tran: aes_mc_bidirectional$
+/* Generate the AES instances */
+output_ss_fcl_std(rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran)$
+/* Generate the plaintext-ciphertext pairs */
+for seed : 1 thru 20 do
+  output_ss_random_pc_pairs(seed, num_pairs, rounds, num_columns, num_rows,exp, final_round_b)$
+# Compute combined instances using ${num_pairs} plaintext-ciphertext pairs
+k=4; s=1; r=20; rw=2; col=2; e=4; final_round=0;
+AppendDimacs-O3-DNDEBUG ssaes_r${r}_c${col}_rw${rw}_e${e}_f${final_round}.cnf ssaes_pcpair_r${r}_c${col}_rw${rw}_e${e}_f${final_round}_s${s}_k1.cnf  > r${r}_s${s}.cnf
+let block_size=${rw}*${col}*${e}; max_index=$(cat r${r}_s${s}.cnf | awk ' /^p/ { print $3 }'); cur_index=${max_index};
+cp r${r}_s${s}.cnf r${r}_s${s}_k1_cumul.cnf;
+for i in $(seq 2 ${k}); do
+  (seq $(expr ${cur_index} + 1) $(expr ${cur_index} + ${block_size});
+   seq $(expr ${block_size} + 1) $(expr 2 '*' ${block_size});
+   seq $(expr ${cur_index} + ${block_size} + 1) $(expr ${cur_index} + ${max_index})) > renaming_k${i};
+   AppendDimacs-O3-DNDEBUG ssaes_r${r}_c${col}_rw${rw}_e${e}_f${final_round}.cnf ssaes_pcpair_r${r}_c${col}_rw${rw}_e${e}_f${final_round}_s${s}_k${i}.cnf | RenameDimacs-O3-DNDEBUG renaming_k${i} > renamed_r${r}_s${s}_k${i}.cnf;
+   AppendDimacs-O3-DNDEBUG r${r}_s${s}_k$(expr ${i} - 1)_cumul.cnf renamed_r${r}_s${s}_k${i}.cnf > r${r}_s${s}_k${i}_cumul.cnf;
+   cur_index=$(expr ${cur_index} + ${cur_index});
+done
+   \endverbatim
+   This should be moved to a script with application tests. </li>
+   <li> We should now investigate the effect of increasing the number of
+   pairs on how solvers perform on these instances. </li>
   </ul>
 
 
