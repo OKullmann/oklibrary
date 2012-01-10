@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/general.hpp
    the following topics are handled:
+    - Using multiple plaintext-ciphertext pairs
     - Explanations
     - Fast generation of AES translations
 

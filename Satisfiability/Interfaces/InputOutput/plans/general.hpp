@@ -36,6 +36,12 @@ Aborted
   </ul>
 
 
+  \todo Tests for RenameDimacs
+  <ul>
+   <li> We need unit-tests and application tests for RenameDimacs. </li>
+  </ul>
+
+
   \todo Update output for application tests
   <ul>
    <li> Application tests should print:

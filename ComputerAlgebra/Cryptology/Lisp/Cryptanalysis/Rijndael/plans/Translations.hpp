@@ -21,6 +21,21 @@ ASSERT: Expression " 96448 = 153048 " does not evaluate to true.
   </ul>
 
 
+  \todo Tidy AES translation
+  <ul>
+   <li> The implementation of the AES in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/ is very ad-hoc.
+   </li>
+   <li> We need an overview of what functions we have, what they do,
+   things we assumed about them, whether they have tests and so on. </li>
+   <li> We should then decide which functions can be removed, improved,
+   moved and so on. </li>
+   <li> Documentation and demos are also needed. </li>
+   <li> The todos in this module also need improvement. </li>
+   <li> This todo should be tied in to other todos within this module. </li>
+  </ul>
+
+
   \todo Simplify AES translation
   <ul>
    <li> The current AES translation tries to provide a "general" translation

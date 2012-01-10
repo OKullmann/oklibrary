@@ -10,9 +10,9 @@ License, or any later version. */
   \brief Application to sort clause-lists by clause length.
 
   <ul>
-   <li> Reads a Dimacs clause-list from standard input, and writes to standard 
+   <li> Reads a Dimacs clause-list from standard input, and writes to standard
    output (and standard error). </li>
-   <li> The result, given on standard output, is a Dimacs file containing 
+   <li> The result, given on standard output, is a Dimacs file containing
    containing the input clause-list after applying a stable sort on the
    lengths of the clauses (in ascending order). </li>
   </ul>
@@ -23,10 +23,10 @@ License, or any later version. */
    <li> This should likely go to into ClauseSetAdaptors.hpp. </li>
   </ul>
 
-  
+
   \todo Move AllEqual to OrderConstructions
   <ul>
-    <li> The AllEqual functor should likely go to 
+    <li> The AllEqual functor should likely go to
     Programming/Utilities/OrderRelations/OrderConstructions.hpp .
     </li>
   </ul>
@@ -56,7 +56,7 @@ namespace OKlib {
 
         This is useful as a comparison functor where you wish all objects
         to be considered equal.
-               
+
       */
       template <class Object>
       struct AllEqual : std::binary_function<
@@ -70,17 +70,17 @@ namespace OKlib {
        \class CLSAdaptorSortByClauseLength
        \brief Adaptor which sorts the clause-list given to it.
 
-       Sorts the given clause-list in ascending order of the size of clauses, 
-       maintaining the order within each size group (i.e., stable sort), 
+       Sorts the given clause-list in ascending order of the size of clauses,
+       maintaining the order within each size group (i.e., stable sort),
        outputting to the given output.
 
     */
-    template <typename Int = int, class String = std::string, 
+    template <typename Int = int, class String = std::string,
               class OutputCLSAdaptor = OKlib::InputOutput::CLSAdaptorDIMACSOutput<>,
               class OrderComparator = OKlib::Programming::Utilities::OrderRelations::SizeLessThan<AllEqual<RawDimacsCLSAdaptor<>::clause_type > > >
     class CLSAdaptorSortByClauseLength {
     public :
-      
+
       typedef Int int_type;
       typedef String string_type;
       typedef OutputCLSAdaptor output_cls_adaptor_type;
@@ -88,9 +88,9 @@ namespace OKlib {
       typedef stored_cls_adaptor_type::clause_type stored_clause_type;
       typedef OrderComparator order_comparator_type;
 
-      CLSAdaptorSortByClauseLength(output_cls_adaptor_type& cls_adaptor_arg) : 
+      CLSAdaptorSortByClauseLength(output_cls_adaptor_type& cls_adaptor_arg) :
         output_cls_adaptor(cls_adaptor_arg), stored_cls_adaptor() {}
- 
+
       void comment(const string_type& s) { output_cls_adaptor.comment(s); }
       void n(const int_type pn) { stored_cls_adaptor.n(pn); }
       void c(const int_type pc) { stored_cls_adaptor.c(pc); }
@@ -98,11 +98,11 @@ namespace OKlib {
       void finish() {
         stored_cls_adaptor.finish();
         typedef stored_cls_adaptor_type::clause_set_type cls_type;
-        std::stable_sort(stored_cls_adaptor.clause_set.begin(), 
-                         stored_cls_adaptor.clause_set.end(), 
+        std::stable_sort(stored_cls_adaptor.clause_set.begin(),
+                         stored_cls_adaptor.clause_set.end(),
                          order_comparator_type());
         ListTransfer<output_cls_adaptor_type>(stored_cls_adaptor.clause_set,
-                                              output_cls_adaptor, 
+                                              output_cls_adaptor,
                                               "Sorted by length of clauses.");
       }
 
