@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 26.3.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -121,6 +121,29 @@ okltest_des_sbox_bf(f) := block(
      [1,1,1,1],[0,1,1,0],[1,1,0,0],[1,0,1,0],[1,0,0,1],[1,1,0,1],[0,0,0,0],
      [1,1,1,1],[0,0,1,1],[0,0,1,1],[0,1,0,1],[0,1,0,1],[0,1,1,0],[1,0,0,0],
      [1,0,1,1]]),
+  true)$
+
+okltest_des_6t1_sbox_bf(f) := block(
+  assert(
+    okltest_des_sbox_bf(
+      buildq([f], lambda([i],
+          buildq([i], lambda([x],
+              append(f(i,1)(x), f(i,2)(x), f(i,3)(x), f(i,4)(x)))))))),
+  true)$
+
+okltest_des_comb_sbox_bf(f) := block(
+  assert(f([])([]) = []),
+  assert(
+    okltest_des_sbox_bf(
+      buildq([f], lambda([i], f(create_list((i-1)*4+j, j, 1,4)))))),
+  assert(
+    f([1,2])([0,0,0,0,0,0]) = [1,1]),
+  assert(
+    f([1,2])([0,1,0,0,1,0,0]) = [1,0]),
+  if oklib_test_level = 0 then return(true),
+  assert(
+    create_list(f([1,2,3,4,9,10,11,12])(I),I,lex_bv_l(8)) =
+    create_list(append(des_sbox_bf(1)(I),des_sbox_bf(3)(I)),I,lex_bv_l(8))),
   true)$
 
 /*!
