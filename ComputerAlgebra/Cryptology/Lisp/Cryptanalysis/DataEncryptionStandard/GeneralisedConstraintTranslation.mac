@@ -50,7 +50,7 @@ des_sboxc_gen(r) := lappend(create_list(des_sbox_deso(r_t),r_t,1,r))$
 
 /* Inputs bits (indices) necessary to compute the given output bit: */
 des_sbox_output2inputs(i) := create_list(floor((i-1)/4)*6 + j, j, 1, 6)$
-des_sbox_outputs2inputs(L) := stable_unique(lappend(map(des_output2inputs,L)))$
+des_sbox_outputs2inputs(L) := stable_unique(lappend(map(des_sbox_output2inputs,L)))$
 /* Computing the S-boxes constraints for r in {1,...,16}, where out_l is a
    list of lists of indices in 1,..,32
    (one list for each "arbitrary"/"combined" S-box): */
