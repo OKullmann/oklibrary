@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 22.5.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -41,6 +41,31 @@ des_xor_gen(r) := lappend(create_list(des_round_xor(r_t),r_t,1,r))$
 /* All sbox-constraints: */
 des_sboxc_gen(r) := lappend(create_list(des_sbox_deso(r_t),r_t,1,r))$
 
+
+/*
+   Allowing arbitrary DES S-box constraints built from 6x1-bit S-box functions,
+   where the boxes are specified by lists of the indices of the output-bits
+   they output (1,...,32).
+*/
+
+/* Inputs bits (indices) necessary to compute the given output bit: */
+des_sbox_output2inputs(i) := create_list(floor((i-1)/4)*6 + j, j, 1, 6)$
+des_sbox_outputs2inputs(L) := stable_unique(lappend(map(des_sbox_output2inputs,L)))$
+/* Computing the S-boxes constraints for r in {1,...,16}, where out_l is a
+   list of lists of indices in 1,..,32
+   (one list for each "arbitrary"/"combined" S-box): */
+des_sbox_deso_l(out_l,r) := block(
+ [I : create_list(create_list(desi_var(i,r),i,des_sbox_outputs2inputs(C)),C,out_l),
+  O : create_list(create_list(deso_var(i,r),i,C),C,out_l)],
+  create_list([i,I[i],O[i]], i,1,length(out_l)))$
+/* Specifying the output bits each S-box outputs; allowing arbitary
+   (possibly smaller or larger) S-boxes to be used: */
+des_sboxc_gen_l(output_bits_l, r) :=
+  lappend(create_list(des_sbox_deso_l(output_bits_l, r_t),r_t,1,r))$
+
+
+
+
 /* All (constraint-)variables: */
 des_var_gen(r) := append(
  /* Key variables first as they don't change */
@@ -80,26 +105,50 @@ des_key2fcl_gen(key,r) := des_key2fcl(key)$
    ***********************
 */
 
-/* CNF for Sbox i given in sbox_l[i] for i in {1,...,8}.
-   sbox_l[i] is a formal clause-list. The variables of Sbox i
-   are [sbox_l[i][1],...,sbox_l[i][10]]. All other variables in
-   sbox_l[1] are auxilliary.
-   Xor constraints are translated using prime implicates. */
+/* Generates a CNF formal clause-list representing the r-round DES.
+
+   Sbox i is translated using the formal clause-list sbox_l[i] for i in
+   {1,...,8}. The input and output variables of Sbox i are
+   [sbox_l[i][1],...,sbox_l[i][10]]. All other variables in sbox_l[i] are
+   auxilliary variables used by the representation.
+   Xor constraints are translated using their prime implicates. */
 des2fcl_gen(sbox_l, r) := block(
-  [xor_cl_l, sbox_cl_l : [], num_sbox_var_l, new_var_i : 1],
+  [xor_cl_l, sbox_cl_l : [], num_sbox_aux_var_l,
+   new_var_ind : 1, rename_aux_vars],
   xor_cl_l : create_list(
-    boolm_mul2cnf_wv_fcl(matrix([1,1]),C[1])[2],
-    C, des_xor_gen(r)),
-  num_sbox_var_l : create_list(length(sbox_l[i][1])-10, i, 1, 8),
-  sbox_cl_l : create_list(
+    boolm_mul2cnf_wv_fcl(matrix([1,1]),C[1])[2], C, des_xor_gen(r)),
+  num_sbox_aux_var_l : create_list(length(sbox_l[i][1])-10, i, 1, 8),
+  rename_aux_vars : lambda([sbox_cst],
     block([aux_vars],
-      aux_vars : create_list(
-        desaux_var(i),
-        i, new_var_i, new_var_i + num_sbox_var_l[C[1]]-1),
-      new_var_i : new_var_i + num_sbox_var_l[C[1]],
-      rename_fcl(sbox_l[C[1]], append(C[2],C[3],aux_vars))[2]),
-    C, des_sboxc_gen(r)),
-  return([append(des_var_gen(r),create_list(desaux_var(i),i,1,new_var_i-1)),
+      aux_vars :
+        create_list(desaux_var(i),
+          i, new_var_ind, new_var_ind + num_sbox_aux_var_l[sbox_cst[1]]-1),
+      new_var_ind : new_var_ind + num_sbox_aux_var_l[sbox_cst[1]],
+      rename_fcl(sbox_l[sbox_cst[1]],
+        append(sbox_cst[2],sbox_cst[3],aux_vars))[2])),
+  sbox_cl_l : map(rename_aux_vars, des_sboxc_gen(r)),
+  return([append(des_var_gen(r),create_list(desaux_var(i),i,1,new_var_ind-1)),
+          lappend(append(xor_cl_l,reverse(sbox_cl_l)))]))$
+/* Allowing arbitrary S-boxes specified by a list of lists of the output
+   bits they produce (the inputs bits are determined from these): */
+des2fcl_gen_l(sbox_l,sbox_outputs_l, r) := block(
+  [xor_cl_l, sbox_cl_l : [], num_sbox_aux_var_l,
+   new_var_ind : 1, rename_aux_vars],
+  xor_cl_l : create_list(
+    boolm_mul2cnf_wv_fcl(matrix([1,1]),C[1])[2], C, des_xor_gen(r)),
+  rename_aux_vars : lambda([sbox_cst],
+    block([aux_vars,
+       num_aux_vars :
+         length(sbox_l[sbox_cst[1]][1]) -
+           (length(sbox_cst[2]) + length(sbox_cst[3]))],
+      aux_vars :
+        create_list(desaux_var(i),
+          i, new_var_ind, new_var_ind + num_aux_vars-1),
+      new_var_ind : new_var_ind + num_aux_vars,
+      rename_fcl(sbox_l[sbox_cst[1]],
+        append(sbox_cst[2],sbox_cst[3],aux_vars))[2])),
+  sbox_cl_l : map(rename_aux_vars, des_sboxc_gen_l(sbox_outputs_l,r)),
+  return([append(des_var_gen(r),create_list(desaux_var(i),i,1,new_var_ind-1)),
           lappend(append(xor_cl_l,reverse(sbox_cl_l)))]))$
 
 /*!

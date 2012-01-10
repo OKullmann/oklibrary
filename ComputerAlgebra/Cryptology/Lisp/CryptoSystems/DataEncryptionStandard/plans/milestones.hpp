@@ -8,18 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/plans/milestones.hpp
 
-  \module_version Cryptology/Lisp/Cryptanalysis 0.0.1 (10.3.2011)
-
-
-  \par Version 0.0.2
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/plans/general.hpp
-   the following topics are handled:
-    - Bad state of milestones
-    - Test failure with okltest_des_round : DONE
-    - Test failure with okltest_des_round_keys : DONE
-    - Test failure with okltest_des_round_keys_template : DONE
+  \module_version Cryptology/Lisp/Cryptanalysis 0.0.2 (31.12.2011)
 
 
   \par Version 0.0.3
@@ -50,5 +39,6 @@ License, or any later version. */
 
   \par Version history
    - 0.0.1 : 10.3.2011; initial version number (first todos).
+   - 0.0.2 : 31.1.2011; improvement of tests and milestones.
 
 */
