@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 26.3.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,6 +23,8 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptio
 
 okltest_desmatrix2bf(desmatrix2bf);
 okltest_des_sbox_bf(des_sbox_bf);
+okltest_des_6t1_sbox_bf(des_6t1_sbox_bf);
+okltest_des_comb_sbox_bf(des_comb_sbox_bf);
 
 
 /*!

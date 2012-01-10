@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 19.3.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -83,6 +83,49 @@ desmatrix2bf(M) := buildq([M], lambda([x],
 
 /* The i-th DES S-box as 6 x 4 boolean function: */
 des_sbox_bf(i) := desmatrix2bf(des_sbox_matrices[i])$
+/* The j-th output bit of the i-th DES S-box as a 6x1 boolean function: */
+des_6t1_sbox_bf(i,j) := buildq([i,j], lambda([v], [des_sbox_bf(i)(v)[j]]))$
+
+/* The combined DES "box" made by taking the conjunction of the i-th
+   6x1-bit DES S-boxes for i in L, as an mxn boolean function.
+   L is non-repeating, and in ascending numeric order, and has elements
+   in {1,...,32} (indices for the 32 6x1-bit S-boxes).
+
+   We have that:
+     - m is the number of unique input variables across
+       all i-th 6x1 DES S-boxes for i in L;
+     - n is the number of elements in L;
+     - The input to des_sbox_bf(L) should be the inputs to the DES S-boxes
+       specified in L, in the order given by L, where "variables" shared by
+       multiple S-boxes are not repeated in the input (they occur at their
+       earliest index).
+     - The output of des_sbox_bf(L) has the same size as L, one output-bit
+       for each 6x1-bit S-box in indexed in L.
+
+*/
+des_comb_sbox_bf(L) := buildq([L], lambda([x], block(
+    [V_res : [], curr_index : 1, last_output_bit : 0],
+  sbox6t1_to_6t4sbox_ind_ : lambda([i], floor((i-1)/4)+1),
+  sbox6t1_to_6t4sbox_out_ind_ : lambda([i], mod(i-1,4)+1),
+  in_same_6t4_sbox : lambda([i,j],
+    is(sbox6t1_to_6t4sbox_ind_(i) = sbox6t1_to_6t4sbox_ind_(j))),
+  for i : 1 thru length(L) do block([sbox6t1_inputs],
+    sbox6t1_inputs : create_list(x[j],j, curr_index, curr_index + 5),
+    if i < length(L) and not(in_same_6t4_sbox(L[i],L[i+1])) then
+      curr_index : curr_index + 6,
+    V_res : cons(
+      des_6t1_sbox_bf(sbox6t1_to_6t4sbox_ind_(L[i]),
+                      sbox6t1_to_6t4sbox_out_ind_(L[i]))(x)[1], V_res)),
+  return(reverse(V_res)))))$
+/* For example, we have that:
+     - des_comb_sbox_bf([1,2,3,4]) = des_sbox_bf(1)
+     - des_comb_sbox_bf([5,6,7,8]) = des_sbox_bf(2)
+     - des_comb_sbox_bf([9,10,11,12]) = des_sbox_bf(3)
+     - des_comb_sbox_bf([1,2,3,4,5,6,7,8]) is the combination of
+       des_sbox_bf(1) and des_sbox_bf(2).
+     - des_comb_sbox_bf([1,2,3,4,5,6]) is the combination of
+       des_sbox_bf(1) and half of des_sbox_bf(2).
+*/
 
 
 
