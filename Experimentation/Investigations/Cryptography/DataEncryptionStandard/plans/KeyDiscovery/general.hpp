@@ -1,5 +1,5 @@
 // Matthew Gwynne, 25.5.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,6 +30,148 @@ License, or any later version. */
      Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
      </li>
     </ul>
+   </li>
+  </ul>
+
+
+  \todo Number of solutions for DES key discovery
+  <ul>
+   <li> When analysing the performance of solvers on the DES
+   key discovery instances, it is interesting to consider how
+   many satisfying assignments each instance has. </li>
+   <li> For instance, roughly speaking, if the instance has multiple
+   satisfying assignments, then perhaps the solver is less "guided"
+   to one single solution. </li>
+   <li> Using cryptominisat to determine the number of solutions:
+    <ul>
+     <li> Generating the instances:
+     \verbatim
+shell> oklib --maxima
+oklib_load_all()$
+for rounds : 1 thru 4 do block(
+  sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8),
+  for seed : 1 thru 20 do block(
+    print(sconcat("Generating ", rounds, "-round DES with seed ", seed)),
+    set_random(make_random_state(seed)),
+    P_hex : lpad(int2hex(random(2**64)),"0",16),
+    K_hex : lpad(int2hex(random(2**64)),"0",16),
+    C_hex : des_encryption_hex_gen(rounds, P_hex,K_hex),
+    P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds),
+    C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds),
+    F : des2fcl_gen(sbox_fcl_l,rounds),
+    Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
+    output_fcl_v(
+      sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the canonical translation for the S-boxes (6-to-4)."),
+      Fs[1],
+      sconcat("des_6t4_canon_r",rounds,"_s",seed,".cnf"),
+      Fs[2])))$
+print("DONE!");
+     \endverbatim
+     </li>
+     <li> Numbers of solutions for each rounds:
+     \verbatim
+# Use cryptominisat's "maxsolutions" option to compute as many solutions as possible up to 32000
+> for instance in *.cnf; do echo ${instance}; cryptominisat --maxsolutions=32000 ${instance} > cryptominisat_multiple_solutions_${instance}_32000max.result 2>&1; done
+# Count the number of solutions output
+[1 1] 32000
+[1 2] 32000
+[1 3] 32000
+[1 4] 32000
+[1 5] 12856
+[1 6] 6869
+[1 7] 9518
+[1 8] 13326
+[1 9] 13816
+[1 10] 32000
+[1 11] 32000
+[1 12] 7388
+[1 13] 12630
+[1 14] 32000
+[1 15] 32000
+[1 16] 32000
+[1 17] 32000
+[1 18] 32000
+[1 19] 32000
+[1 20] 32000
+[2 1] 256
+[2 2] 512
+[2 3] 768
+[2 4] 512
+[2 5] 1024
+[2 6] 3072
+[2 7] 1536
+[2 8] 512
+[2 9] 512
+[2 10] 512
+[2 11] 512
+[2 12] 768
+[2 13] 256
+[2 14] 2048
+[2 15] 768
+[2 16] 512
+[2 17] 1024
+[2 18] 256
+[2 19] 512
+[2 20] 256
+[3 1] 256
+[3 2] 512
+[3 3] 256
+[3 4] 256
+[3 5] 256
+[3 6] 256
+[3 7] 256
+[3 8] 256
+[3 9] 256
+[3 10] 256
+[3 11] 256
+[3 12] 256
+[3 13] 256
+[3 14] 256
+[3 15] 256
+[3 16] 256
+[3 17] 256
+[3 18] 256
+[3 19] 256
+[3 20] 256
+[4 1] 256
+[4 2] 256
+[4 3] 256
+[4 4] 256
+[4 5] 256
+[4 6] 256
+[4 7] 256
+[4 8] 256
+[4 9] 256
+[4 10] 256
+[4 11] 256
+[4 12] 256
+[4 13] 256
+[4 14] 256
+[4 15] 256
+[4 16] 256
+[4 17] 256
+[4 18] 256
+[4 19] 256
+[4 20] 256
+     \endverbatim
+     </li>
+     <li> For the first round, we hit the 32000 limit, and so these instances
+     are being rerun. </li>
+     <li> The DES includes 8 key bits which are not used by the algorithm
+     (every 8-th bit, 8, 16, 24, 32 etc). </li>
+     <li> The unused key bits still occur in the translation, and so the
+     number of solutions should be divided by 256 to get the number of
+     "true" 56-bit keys which map the given plaintext to the given ciphertext.
+     </li>
+     <li> So it seems for 1 up to 3 rounds, we can see multiple keys
+     which map a particle plaintext to a particular ciphertext. </li>
+     <li> We should compute what keys these are, and check this is the case.
+     </li>
+     <li> We should also use include this data in our analysis of the
+     performance of solvers on these instances. </li>
+     <li> The number of solutions decreases as the number of rounds increases.
+     Can we explain precisely why this is? </li>
+    </li>
    </li>
   </ul>
 
