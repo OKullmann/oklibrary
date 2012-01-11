@@ -144,6 +144,132 @@ MiniSat -- Copyright (c) 2003-2005, Niklas Eén, Niklas Sörensson
   </ul>
 
 
+  \todo EagleUp
+  <ul>
+   <li> Website at http://www.uni-ulm.de/in/theo/m/olivergableske.html. </li>
+   <li> Installation:
+   \verbatim
+ExternalSources/builds/SAT> mkdir EagleUp
+ExternalSources/builds/SAT> cd EagleUp
+EagleUp> tar zxvf ../../../sources/SAT/EagleUP/eagleup.1.565.350.tar.gz
+EagleUp> make
+EagleUp> ./EagleUp
+c EagleUP SAT solver
+c	AUTHOR:		Oliver Gableske	<oliver.gableske at uni-ulm.de>	(Implemented most of the solver.)
+c	CONTRIBUTORS:	Julian Rueth	<julian.rueth at gmail.com>	(Implemented the Luby-series calculation.)
+c			Marijn Heule	<marijn at heule.nl>		(Provided various ideas.)
+c	VERSION:	1.565.350
+c	INFO:		Re-compile without the flag COMPETITION and the following flags in global.h enabled to see further
+c			output: LONGHEADER,VERBOSE_SLS,VERBOSE_CDCL,VERBOSE_PREPROC,COLLINF_SLS,COLLINF_CDCL,COLLINF_PREP.
+c
+c INITIALIZING...
+c
+c Too few parameters. Exiting.
+c USAGE: ./EagleUP BENCHNAME RANDOMSEED [TIMEOUTINSECONDS]
+   \endverbatim
+   </li>
+  </ul>
+
+
+  \todo Ppfolio
+  <ul>
+   <li> Website at http://www.cril.univ-artois.fr/~roussel/ppfolio/. </li>
+   <li> The license is unclear (not stated). MG should contact the authors.
+   </li>
+   <li> Building:
+   \verbatim
+ExternalSources/builds/SAT> mkdir Ppfolio
+ExternalSources/builds/SAT> cd Ppfolio
+Ppfolio> tar xvf ../../../sources/SAT/Ppfolio/ppfolio-src.tar
+Ppfolio> cd ppfolio
+ppfolio> make
+g++ -O3  -o ppfolio  ppfolio.cc -lboost_program_options
+
+ppfolio.cc:18:37: fatal error: boost/program_options.hpp: No such file or directory
+compilation terminated.
+make: *** [ppfolio] Error 1
+   \endverbatim
+   So we need to link this to Boost (our version). </li>
+   <li> The Makefile uses "OPTS" and "CXXFLAGS" environment variables, and
+   so we should use "OPTS" to specify the boost library path options:
+   \verbatim
+ppfolio> cat Makefile
+<snip>
+ppfolio: ppfolio.cc
+    g++ $(OPT) $(CXXFLAGS) -o ppfolio  ppfolio.cc -lboost_program_options
+<snip>
+   \endverbatim
+   </li>
+  </ul>
+
+
+  \todo Glueminisat
+  <ul>
+   <li> Website at  http://glueminisat.nabelab.org/. </li>
+   <li> Building:
+   \verbatim
+ExternalSources/builds/SAT> mkdir Glueminisat
+ExternalSources/builds/SAT> cd Glueminisat
+ExternalSources/builds/SAT> tar zxvf ../../../sources/SAT/Glueminisat/glueminisat-2.2.5.tar.gz
+ExternalSources/builds/SAT> cd glueminisat-2.2.5/
+glueminisat-2.2.5> ./build.sh
+glueminisat-2.2.5> ./glueminisat --help
+WARNING: for repeatability, setting FPU to use double precision
+USAGE: ./glueminisat [options] <input-file> <result-output-file>
+
+  where input may be either in plain or gzipped DIMACS.
+<snip>
+   \endverbatim
+   </li>
+   <li> Libstdc++ is used by glueminisat and so we will need to ensure
+   it uses our version of libstdc++:
+   \verbatim
+glueminisat-2.2.5> ldd glueminisat 
+	linux-vdso.so.1 =>  (0x00007fff2d73b000)
+	libz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x00007fbccc915000)
+	libstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007fbccc60e000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007fbccc389000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007fbccc173000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fbccbdd4000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007fbcccb48000)
+   \endverbatim
+   </li>
+  </ul>
+
+
+  \todo Potassco
+  <ul>
+   <li> Website at http://www.cs.uni-potsdam.de/clasp/. </li>
+   <li> Building clasp-1.1.2 (SAT2011 competition version):
+   \verbatim
+ExternalSources/builds/SAT> mkdir Clasp
+ExternalSources/builds/SAT> cd Clasp
+Clasp> tar zxvf ../../../sources/SAT/Potassco/clasp-1.1.2-source.tar.gz
+Clasp> cd clasp-1.1.2/clasp
+clasp> make
+clasp> ./bin/clasp --help
+clasp 1.1.2
+
+usage: clasp [number] [options]
+<snip>
+   \endverbatim
+   </li>
+   <li> Building clasp-2.0.0 (SAT2011 competition version):
+   \verbatim
+ExternalSources/builds/SAT> mkdir Clasp
+ExternalSources/builds/SAT> cd Clasp
+Clasp> tar zxvf ../../../sources/SAT/Potassco/clasp-2.0.0-source.tar.gz
+Clasp> cd clasp-2.0.0
+clasp-2.0.0> ./configure.sh
+clasp-2.0.0> cd build/release
+clasp-2.0.0/build/release> make
+clasp-2.0.0/build/release> ./bin/clasp --help
+*** clasp ERROR: '1': invalid default value for Option 'verbose'
+   \endverbatim
+   We should contact the authors and see if they are aware of this. </li>
+  </ul>
+
+
   \todo (P)Lingeling
   <ul>
    <li> (p)lingeling should be added to the ExternalSources internet page.
@@ -251,6 +377,9 @@ usage: plingeling [-t <threads>][-h][-n][-p][-v][<dimacs>[.gz]]
   -v         increase verbose level
   -i         ignore additional clauses
    \endverbatim
+   </li>
+   <li> The latest version of plingeling is available at
+   http://fmv.jku.at/lingeling/lingeling-587f-4882048-110513.tar.gz .
    </li>
   </ul>
 
@@ -1177,6 +1306,22 @@ ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/O
    \endverbatim
    ??? Only a 32-bits version?
    </li>
+   <li> Installing march_rw:
+   \verbatim
+ExternalSources/Installations/SAT> tar zxvf ../../sources/SAT/March/march_rw.tar.gz
+ExternalSources/Installations/SAT> mv home/marijn/march_rw/ march_rw
+ExternalSources/Installations/SAT> rmdir home/marijn/
+ExternalSources/Installations/SAT> rmdir home
+ExternalSources/Installations/SAT> cd march_rw
+march_rw> make
+march_rw> ./march_rw
+c main():: ***                                   [ march satisfiability solver ]                                   ***
+c main()::  **                Copyright (C) 2001-2009 M.J.H. Heule, J.E. van Zwieten, and M. Dufour                 **
+c main()::   *  This program may be redistributed and/or modified under the terms of the GNU Gereral Public License  *
+c main()::
+c main():: input file missing, usage: ./solve < DIMACS-file.cnf >
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -1669,6 +1814,7 @@ builds/SAT/SurveyPropagation/sp-1.4> ./sp -h
     <ol>
      <li> See http://potassco.sourceforge.net/. </li>
      <li> Sources in ExternalSources/sources/SAT/Potassco. </li>
+     <li> Installation details in "Potassco". </li>
     </ol>
    </li>
   </ul>
