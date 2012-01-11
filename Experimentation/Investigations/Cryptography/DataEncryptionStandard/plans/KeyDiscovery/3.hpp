@@ -1,5 +1,5 @@
 // Matthew Gwynne, 16.6.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -111,16 +111,13 @@ experiments> rounds=3; s=1;
   done
    \endverbatim
    </li>
-   <li> Running the solver:
+   <li> Running minisat-2.2.0:
    \verbatim
 experiments> rounds=3;
 for s in $(seq 1 20); do
   minisat-2.2.0 des_massacci_r${rounds}_s${s}.cnf > minisat_r${rounds}_s${s}.result;
 done;
-   \endverbatim
-   </li>
-   <li> Results:
-   \verbatim
+
 > rounds=3; results_file=r${rounds}_minisat.results; ExtractMinisat header-only | awk ' { print $0 " s" } ' > ${results_file};
 for s in $(seq 1 20); do cat minisat_r${rounds}_s${s}.result | ExtractMinisat data-only | awk " { print  \$0 \" ${s}\" }" >> ${results_file}; done
 
@@ -138,6 +135,29 @@ Max.   :9385   Max.   :0.1800   Max.   :6278   Max.   :8033   Max.   :30.00   Ma
 >  sd(E)
           rc            t          cfs          dec          rts           r1        ptime        stime          cfl
 2.136156e+02 4.158378e-02 1.657879e+03 2.058674e+03 7.870498e+00 2.446831e+05 2.236068e-03 4.103913e-03 2.131516e+04
+   \endverbatim
+   </li>
+   <li> Running OKsolver_2002:
+   \verbatim
+shell> r=3;
+shell> for k in $(seq 1 20); do
+    echo "Round ${r}; Key Seed ${k}...";
+    OKsolver_2002-O3-DNDEBUG des_massacci_r${r}_s${k}.cnf > oksolver_r${r}_k${k}.result 2>&1;
+done;
+shell> echo "n  c  l  t  sat  nds  r1  r2  pls  ats h file n2cr  dmcl dn  dc  dl snds qnds mnds  tel  oats  n2cs  m2cs r k" > oksolver_results;
+for k in $(seq 1 20); do
+    OKP=~/Work/OKlibrary/OKplatform/; cat oksolver_r${r}_k${k}.result | awk -f ${OKP}/OKsystem/OKlib/Experimentation/ExperimentSystem/SolverMonitoring/ExtractOKsolver.awk | awk " { print \$0 \"  $r  $k\" }";
+done >> oksolver_results;
+
+# Results
+shell> oklib --R
+E = read.table("oksolver_results", header=TRUE)
+EM = aggregate(E, by=list(r=E$r), FUN=mean)
+EM
+  r      n       c       l      t sat     nds r1       r2 pls  ats     h file
+1 3 1478.1 9028.55 24909.2 18.975   1 1052.35  0 98923.85   0 0.05 15.55   NA
+     n2cr dmcl dn dc dl snds qnds mnds tel oats n2cs m2cs r    k
+1 7166.95    0  0  0  0  0.2    0 0.75   0   33    0    0 3 10.5
    \endverbatim
    </li>
   </ul>
