@@ -122,6 +122,17 @@ prop_eq_csttl(csttl, old_var_l) := block(
       old_var_l, new_var_l),
   return([csttl, stable_unique(new_var_l)]))$
 
+/* Rename a list of variables Vi, given the renaming as a function f,
+   applying the renaming also *inside* "veq" variables introduced
+   by prop_eq_csttl.
+
+   This "lifts" the renaming function to these new variables. */
+prop_eq_lift_renaming_var(v,f) :=
+  if not(atom(v)) and op(v) = veq then
+    apply(new_veq,map(lambda([vp], prop_eq_lift_renaming_var(vp,f)), args(v)))
+  else f(v)$
+prop_eq_lift_renaming(Vi,f) :=
+  map(lambda([v], prop_eq_lift_renaming_var(v,f)), Vi)$
 
 /*!
 \endhtmlonly

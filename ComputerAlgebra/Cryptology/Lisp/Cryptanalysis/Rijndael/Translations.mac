@@ -258,11 +258,65 @@ output_ss_fcl(name,r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tr
                    ",box_tran=",box_tran,",mc_tran=",mc_tran),
                  FF_std[1],name,
       FF_std[2]))$
+
+/* Computing and outputting AES translations using caching: */
+output_fast_ss_fcl(name,r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran) :=
+  block([FF, FF_std],
+    local(gen_count, generate_ss_constraint_vars, rename_fcl, gen_h, gen_inv_h),
+    /* Defining a faster rename_fcl function, hashing using arrays: */
+    rename_fcl(FF,VL) := block([count : -1], local(h),
+      for V in map("[", FF[1], VL) do h[V[1]] : V[2],
+      return([create_list(i,i,1,length(FF[1])),
+        map(
+          lambda([C], (
+              if oklib_monitor then
+              (count : count + 1,
+                if mod(count,1000) = 0 then
+                print("Renaming ", count, "/",length(FF[2]))),
+              map(lambda([L], if L > 0 then h[L] else -h[-L]), C))), FF[2])])),
+    /* Defining a faster variable naming scheme, using integer variables
+       and storing the mapping in hash (as an array): */
+    gen_count : 1,
+    generate_ss_constraint_vars(n,m,namespace, id) :=
+      create_list(
+        if integerp(gen_h[namespace(ss_var(i,id))]) then gen_h[namespace(ss_var(i,id))]
+        else (
+          gen_h[namespace(ss_var(i,id))] : (gen_count : gen_count +1),
+          gen_inv_h[gen_count] : namespace(ss_var(i,id)),
+          gen_count),
+        i,n,m),
+    if oklib_monitor then print("Starting translation..."),
+    FF : ss_fcl(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran),
+    if oklib_monitor then print("Starting standardisation..."),
+    FF_std : standardise_fcl(FF),
+    if oklib_monitor then print("Computing correct variable names..."),
+    FF_std : [FF_std[1],
+      prop_eq_lift_renaming(FF_std[2],
+        buildq([gen_inv_h], lambda([a], if atom(a) then gen_inv_h[a] else a)))],
+    if oklib_monitor then print("Starting output..."),
+    output_fcl_v(sconcat("Small Scale AES with ",
+                   "r=",r,",c=",ss_num_columns,",rw=",ss_num_rows,
+                   ",e=",ss_exp,",final=",final_round_b,
+                   ",box_tran=",box_tran,",mc_tran=",mc_tran),
+                 FF_std[1],name,
+      FF_std[2]))$
+/* This function makes the following assumptions:
+    - The order of the variable list returned in ss_fcl doesn't
+      depend on the variable names it uses for its auxilliary variables.
+    - The function ss_fcl uses the function generate_ss_constraint_vars
+      to generate new auxilliary variables.
+    - When a clause-set is renamed by ss_fcl, rename_fcl is used.
+*/
   
 output_ss_fcl_std(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran) :=
   output_ss_fcl(
     sconcat("ssaes_r", r, "_c",ss_num_columns, "_rw",ss_num_rows,"_e",ss_exp,
-      "_f",if final_round_b then 1 else 0, ".cnf"),
+      "_f",if final_round_b then 1 else 0, "_", box_tran, "_", mc_tran, ".cnf"),
+    r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran)$
+output_fast_ss_fcl_std(r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran) :=
+  output_fast_ss_fcl(
+    sconcat("ssaes_r", r, "_c",ss_num_columns, "_rw",ss_num_rows,"_e",ss_exp,
+      "_f",if final_round_b then 1 else 0,"_",box_tran, "_", mc_tran,".cnf"),
     r, ss_num_columns, ss_num_rows, ss_exp, final_round_b, box_tran, mc_tran)$
     
 
@@ -904,7 +958,8 @@ output_ss_random_pc_pair(seed, num_rounds, num_cols, num_rows,ss_exp, final_roun
       "A : ", [b,ss_exp,mod_poly,num_rows,num_cols, num_rounds]),
     filename : sconcat(
       "ssaes_pcpair_r", num_rounds , "_c", num_cols, "_rw", num_rows, "_e",
-      ss_exp,"_f", if final_round_b then 1 else 0,"_s", seed, ".cnf"),
+      ss_exp,"_f", if final_round_b then 1 else 0,"_",box_tran, "_", mc_tran,
+      "_s", seed, ".cnf"),
     plaintext_vars : create_list(i,i,1, ss_exp * num_rows * num_cols),
     ciphertext_vars : create_list(i,i,
       2*ss_exp * num_rows * num_cols+1, 3*ss_exp * num_rows * num_cols),

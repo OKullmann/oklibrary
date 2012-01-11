@@ -23,6 +23,7 @@ License, or any later version. */
   \par
    In Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
    the following topics are handled:
+    - Document and test output_fast_ss_fcl_std
     - Test failure with okltest_ncl_ss
     - output_ss_fcl_std runs out of memory generating one round AES
     - Order of small scale matrix dimensions

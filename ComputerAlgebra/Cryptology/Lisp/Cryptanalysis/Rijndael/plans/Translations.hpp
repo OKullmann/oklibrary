@@ -21,6 +21,27 @@ ASSERT: Expression " 96448 = 153048 " does not evaluate to true.
   </ul>
 
 
+  \todo Document and test output_fast_ss_fcl_std
+  <ul>
+   <li> output_fast_ss_fcl and output_fast_ss_fcl_std use
+   Maxima arrays to cache (very large) variable names
+   during the AES translation, and use integer variable
+   names in the intermediate steps instead. </li>
+   <li> This results in a considerable speed up, yet produces
+   precisely the same CNF as the original translation. </li>
+   <li> Note also that output_fast_ss_fcl (internally, using
+   local) redefines rename_fcl to use a Maxima array for hashing
+   as well. We should consider whether to use this new improved
+   version of rename_fcl at the global level. </li>
+   <li> We need exact measures of how much of a speed up
+   this function and the functions it redefines gives. </li>
+   <li> We need documentation on exactly what it does. </li>
+   <li> We need applications tests that can check for certain
+   AES instances that it continues to yield the same translations.
+   </li>
+  </ul>
+
+
   \todo Simplify AES translation
   <ul>
    <li> The current AES translation tries to provide a "general" translation
