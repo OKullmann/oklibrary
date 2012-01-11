@@ -37,6 +37,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Cryptography.hpp the
    following topics are handled:
+    - Grain of salt
     - Terminology
     - New library (replacing Mhash)
     - DES generator

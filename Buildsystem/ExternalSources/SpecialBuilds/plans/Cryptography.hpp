@@ -1,5 +1,5 @@
 // Matthew Gwynne, 19.8.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -50,6 +50,31 @@ make: *** [install] Error 1
      the community is; the build-process looks a bit ad-hoc). </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Grain of salt
+  <ul>
+   <li> Available at http://www.msoos.org/grain-of-salt . </li>
+   <li> Grain of salt is a general system for translating
+   shift register-based stream ciphers. </li>
+   <li> The ciphers already available for translation in
+   grain of salt are:
+    <ul>
+     <li> Grain, </li>
+     <li> Trivium, </li>
+     <li> Bivium-B, </li>
+     <li> HiTag2, and </li>
+     <li> Crypto1. </li>
+    </ul>
+   </li>
+   <li> This system is written in C++ and allows parts of
+   the cipher to be "optimised" using espresso. </li>
+   <li> This system should be installed and investigated. </li>
+   <li> It should be possible to extend this system to also use
+   our own methods of translating "boxes", as
+   discussed in "Translating stream ciphers using our translations" in
+   Experimentation/Investigations/Cryptography/plans/general.hpp. </li>
   </ul>
 
 
