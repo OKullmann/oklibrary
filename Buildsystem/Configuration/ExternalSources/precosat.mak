@@ -34,8 +34,8 @@ precosat_documentation_url_okl := http://fmv.jku.at/precosat/preicosat-sc09.pdf
 
 # Settings for building and using Lingeling and Plingeling
 
-lingeling_recommended_version_number_okl ?= 276-6264d55-100731
-lingeling_other_versions_okl ?= 
+lingeling_recommended_version_number_okl ?= 587f-4882048-110513
+lingeling_other_versions_okl ?= 276-6264d55-100731
 
 lingeling_recommended_okl := lingeling-$(lingeling_recommended_version_number_okl)
 lingeling_base_source_okl := $(ExternalSources)/sources/SAT/Precosat

@@ -378,6 +378,9 @@ usage: plingeling [-t <threads>][-h][-n][-p][-v][<dimacs>[.gz]]
   -i         ignore additional clauses
    \endverbatim
    </li>
+   <li> The latest version of plingeling is available at
+   http://fmv.jku.at/lingeling/lingeling-587f-4882048-110513.tar.gz .
+   </li>
   </ul>
 
 
