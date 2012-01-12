@@ -82,8 +82,6 @@ License, or any later version. */
        </li>
        <li> Overall:
         <ul>
-         <li> Overall, all translations are comparable in terms of time taken
-         to solve and the number of conflicts needed. </li>
          <li> Ratios of average solver times (fastest to slowest):
          1base -> x1.1 -> min -> x1.7 -> canonical
 	 \verbatim
