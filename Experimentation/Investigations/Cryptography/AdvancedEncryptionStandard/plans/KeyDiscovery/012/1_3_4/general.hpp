@@ -58,7 +58,10 @@ License, or any later version. */
   </ul>
 
 
-  \todo Overview
+  \todo Instance characteristics XXX
+
+
+  \todo Overview of solver performance
   <ul>
    <li> Comparison of translations:
     <ul>
