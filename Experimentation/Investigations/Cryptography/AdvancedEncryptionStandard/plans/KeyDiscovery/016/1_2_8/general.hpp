@@ -1,5 +1,5 @@
 // Matthew Gwynne, 17.11.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -101,6 +101,111 @@ K_(i,j) := S-box(K_(i-1,1)) + C_i + sum(K_(i-1,k),k,1,j)
 > sum(as.numeric(E_min$cfs)) / sum(E_1base$cfs)
 [1] 1035.704
          \endverbatim
+         </li>
+        </ul>
+       </li>
+       <li> Canonical translation:
+        <ul>
+         <li> Consider:
+         \verbatim
+> plot(E_canon)
+         \endverbatim
+         </li>
+         <li> We see (at least) the following interesting
+         relationships/distributions:
+          <ul>
+           <li> rounds vs r1: bounded in the bottom right by a  linear
+           relationship.
+           \verbatim
+> E_canon_max = aggregate(E_canon, by=list(r=E_canon$r), FUN=max)
+> m = lm(E_canon_max$r1 ~ E_canon_max$r)
+> summary(m)
+               Estimate Std. Error t value Pr(>|t|)
+(Intercept)   -55836556   29469313  -1.895   0.0743 .
+E_canon_max$r  47492747    2460051  19.306 1.77e-13 ***
+Residual standard error: 63440000 on 18 degrees of freedom
+Multiple R-squared: 0.9539,     Adjusted R-squared: 0.9514
+F-statistic: 372.7 on 1 and 18 DF,  p-value: 1.771e-13
+
+# Removing a lot of the variance due to the difference between keys
+# yields a reasonable linear relationship on the average time per round
+> E_canon_mean = aggregate(E_canon, by=list(r=E_canon$r), FUN=mean)
+> m = lm(E_canon_mean$r1 ~ E_canon_mean$r)
+                Estimate Std. Error t value Pr(>|t|)
+(Intercept)    -21371894   15529152  -1.376    0.186
+E_canon_mean$r  19174249    1296348  14.791 1.63e-11 ***
+Residual standard error: 33430000 on 18 degrees of freedom
+Multiple R-squared: 0.924,	Adjusted R-squared: 0.9198
+F-statistic: 218.8 on 1 and 18 DF,  p-value: 1.63e-11
+           \endverbatim
+           </li>
+           <li> r1 vs time: linear relationship:
+           \verbatim
+> m = lm(E_canon$t ~ E_canon$r1)
+> summary(m)
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 1.761e+00  5.670e-01   3.106  0.00203 **
+E_canon$r1  1.357e-07  2.207e-09  61.498  < 2e-16 ***
+Residual standard error: 8.093 on 398 degrees of freedom
+Multiple R-squared: 0.9048,     Adjusted R-squared: 0.9045
+F-statistic:  3782 on 1 and 398 DF,  p-value: < 2.2e-16
+           \endverbatim
+           </li>
+           <li> r1 vs conflicts has a wide "cone-like" distribution.
+           </li>
+           <li> r vs time: positive correlation but no real relation
+           for full data, but a linear relationship averaging over keys:
+           \verbatim
+> E_canon_mean = aggregate(E_canon, by=list(r=E_canon$r), FUN=mean)
+> m = lm(E_canon_mean$t ~ E_canon_mean$r)
+> summary(m)
+               Estimate Std. Error t value Pr(>|t|)
+(Intercept)      3.3966     3.2091   1.058    0.304
+E_canon_mean$r   2.1704     0.2679   8.102 2.05e-07 ***
+Residual standard error: 6.908 on 18 degrees of freedom
+Multiple R-squared: 0.7848,     Adjusted R-squared: 0.7728
+F-statistic: 65.64 on 1 and 18 DF,  p-value: 2.046e-07
+           \endverbatim
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li> minimum translation:
+        <ul>
+         <li> Consider:
+         \verbatim
+> plot(E_min)
+         \endverbatim
+         </li>
+         <li> We see (at least) the following interesting
+         relationships/distributions:
+          <ul>
+           <li> rounds vs r1: looks like a higher order polynomial
+           \verbatim
+> m = lm(log(E_min$r1) ~ log(E_min$r))
+> summary(m)
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept)  10.07133    0.20155   49.97   <2e-16 ***
+log(E_min$r)  4.47814    0.09522   47.03   <2e-16 ***
+Residual standard error: 1.355 on 338 degrees of freedom
+Multiple R-squared: 0.8674,     Adjusted R-squared: 0.8671
+F-statistic:  2212 on 1 and 338 DF,  p-value: < 2.2e-16
+           \endverbatim
+           </li>
+           <li> r1 vs time: linear relationship:
+           \verbatim
+> m = lm(E_min$t ~ E_min$r1)
+> summary(m)
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -7.288e+02  9.600e+01  -7.592  3.1e-13 ***
+E_min$r1     2.276e-06  2.291e-08  99.351  < 2e-16 ***
+Residual standard error: 1541 on 338 degrees of freedom
+Multiple R-squared: 0.9669,     Adjusted R-squared: 0.9668
+F-statistic:  9871 on 1 and 338 DF,  p-value: < 2.2e-16
+           \endverbatim
+           </li>
+          </ul>
          </li>
         </ul>
        </li>
