@@ -80,25 +80,9 @@ License, or any later version. */
 > plot(E_min)
        \endverbatim
        </li>
-       <li> Overall:
+       <li> Comparing the (individual) run-times for the three translations:
         <ul>
-         <li> Ratios of average solver times (fastest to slowest):
-         1base -> x1.1 -> min -> x1.7 -> canonical
-	 \verbatim
-> sum(E_min$t) / sum(E_1base$t)
-[1] 1.127595
-> sum(E_canon$t) / sum(E_min$t)
-[1] 1.723102
-         \endverbatim
-	 </li>
-         <li> Ratios of average number of conflicts (low to high):
-         canonical -> x1 -> 1base -> x1.5 -> min
-	 \verbatim
-> sum(E_1base$cfs) / sum(E_canon$cfs)
-[1] 1.024516
-> sum(E_min$cfs) / sum(E_1base$cfs)
-[1] 1.468404
-         \endverbatim
+         <li> XXX
          </li>
         </ul>
        </li>
