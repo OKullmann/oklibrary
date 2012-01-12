@@ -30,8 +30,9 @@ License, or any later version. */
       <ol>
        <li> Addition of 12-bit round key. </li>
        <li> Application of 3 4x4-bit Sbox operations. </li>
-       <li> Application of 3 (1*4)x(1*4)=4x4-bit Mixcolumn operations, given by
-       the 1x1 matrix (1) over the half-byte field. </li>
+       <li> Mixcolumn is just the identity, namely application of
+       3 (1*4)x(1*4)=4x4-bit Mixcolumn operations, given by the 1x1 matrix (1)
+       over the half-byte field. </li>
       </ol>
      </li>
      <li> Addition of round key r+1. </li>
