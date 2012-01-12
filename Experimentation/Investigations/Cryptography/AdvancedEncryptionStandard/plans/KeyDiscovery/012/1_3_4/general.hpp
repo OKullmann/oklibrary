@@ -1,5 +1,5 @@
 // Matthew Gwynne, 17.11.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -90,7 +90,7 @@ License, or any later version. */
 [1] 1.723102
          \endverbatim
 	 </li>
-         <li> Ratios of average number of conflicts (low to hight):
+         <li> Ratios of average number of conflicts (low to high):
          canonical -> x1 -> 1base -> x1.5 -> min
 	 \verbatim
 > sum(E_1base$cfs) / sum(E_canon$cfs)
