@@ -93,8 +93,7 @@ License, or any later version. */
 > plot(E_canon)
          \endverbatim
          </li>
-         <li> We see (at least) the following interesting
-         relationships/distributions:
+         <li> We see the following relationships/distributions:
           <ul>
            <li> rounds vs r1: upper-bounded by a linear function, filling a
            triangle in the bottom left.
@@ -159,8 +158,7 @@ F-statistic:  1075 on 1 and 398 DF,  p-value: < 2.2e-16
 > plot(E_1base)
          \endverbatim
          </li>
-         <li> We see (at least) the following interesting
-         relationships/distributions:
+         <li> We see the following relationships/distributions:
           <ul>
            <li> rounds vs r1: upper-bounded by a linear relationship forming a
            triangle in the bottom left.
@@ -226,8 +224,7 @@ F-statistic:  1287 on 1 and 398 DF,  p-value: < 2.2e-16
 > plot(E_min)
          \endverbatim
          </li>
-         <li> We see (at least) the following interesting
-         relationships/distributions:
+         <li> We see (atthe following relationships/distributions:
           <ul>
            <li> rounds vs r1: (very weak) linear relationship forming a
            triangle in the bottom left.
