@@ -1,5 +1,5 @@
 // Matthew Gwynne, 17.11.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,8 +30,9 @@ License, or any later version. */
       <ol>
        <li> Addition of 12-bit round key. </li>
        <li> Application of 3 4x4-bit Sbox operations. </li>
-       <li> Application of 3 (1*4)x(1*4)=4x4-bit Mixcolumn operations, given by
-       the 1x1 matrix (1) over the half-byte field. </li>
+       <li> Mixcolumn is just the identity, namely application of
+       3 (1*4)x(1*4)=4x4-bit Mixcolumn operations, given by the 1x1 matrix (1)
+       over the half-byte field. </li>
       </ol>
      </li>
      <li> Addition of round key r+1. </li>
@@ -57,8 +58,103 @@ License, or any later version. */
   </ul>
 
 
-  \todo Overview
+  \todo Instance characteristics
   <ul>
+   <li> In this translation, we have:
+    <ul>
+     <li> r full rounds (Key Addition, SubBytes; MixColumns is the identity).
+     </li>
+     <li> 4*r Sboxes:
+      <ul>
+       <li> 3*r from SubBytes = 3 columns * r rounds; </li>
+       <li> r from key schedule = 1 column * r round. </li>
+      </ul>
+     </li>
+     <li> 52*r + 12 additions:
+      <ul>
+       <li> 24*r additions of arity 1 (equivalence clauses):
+        <ul>
+         <li> 12*r from forward MixColumns = 12 bits * r rounds; </li>
+         <li> 12*r from inverse MixColumns = 12 bits * r rounds. </li>
+        </ul>
+       </li>
+       <li> 20*r + 12 additions of arity 2:
+        <ul>
+         <li> 12*r from key additions = 12 bits * r round; </li>
+         <li> 12 from final key addition = 12 bits; </li>
+         <li> 8*r from the key schedule = 4 bits * 2 column * r rounds. </li>
+        </ul>
+       </li>
+       <li> 4*r additions of arity 3:
+        <ul>
+         <li> 4*r from the key schedule = 4 bits * 1 column * r rounds. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li> 4*r bits from the key schedule constant = 4 bits * r rounds. </li>
+    </ul>
+   </li>
+   <li> Therefore, each clause-set has:
+   \verbatim
+3*r*s + 24*r*2 + (20*r+12)*4 + 4*r*8 + 4*r
+   \endverbatim
+   clauses.
+   </li>
+   <li> Checking this matches up for the canonical translation:
+   \verbatim
+> ExtendedDimacsFullStatistics-O3-DNDEBUG < ssaes_r20_c3_rw1_e4_f0.cnf
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+2436 14928 42784 0 42784 2437 1
+
+> ncl_full_dualts(8,16);
+  145
+
+> r : 20; s : 145; 3*r*s + 24*r*2 + (20*r+12)*4 + 4*r*8 + 4*r;
+  14928
+   \endverbatim
+   </li>
+   <li> XXX Box sizes. </li>
+  </ul>
+
+
+  \todo Overview of solver performance
+  <ul>
+   <li> Summary:
+    <ul>
+     <li> Comparing solvers (point-wise/per-instance) in terms of:
+      <ul>
+       <li> Time ( ~ canonical > minimum >= 1base ) :
+        <ul>
+         <li> minimum and 1-base translations take less time than the
+         canonical in 77% and 75% of cases respectively. </li>
+         <li> 1-base uses less time than the minimum in 54% of cases, rising
+         to 63% of cases for rounds 16 to 20. </li>
+        </ul>
+       </li>
+       <li> r1 ( ~ canonical > 1base >= minimum ) :
+        <ul>
+         <li> minimum and 1-base translations use less propagations than the
+         canonical in 76% and 79% of cases respectively. </li>
+         <li> 1-base uses less propagations than the minimum translation in
+         50% of cases, rising to 55% for rounds 16 to 20, and 65% over rounds
+         19 and 20. </li>
+        </ul>
+       </li>
+       <li> Conflicts ( ~ minimum > canonical = 1-base ) :
+        <ul>
+         <li> canonical and 1-base translations use less conflicts than the
+         minimum translation in 62% and 66% of instances respectively; in
+         81% and 84% for rounds 16 to round 20. </li>
+         <li> canonical and 1-base translations use the same amount of
+         conflicts on different instances, and this doesn't appear (visually
+         or counting) to change as the number of rounds increases. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
    <li> Comparison of translations:
     <ul>
      <li> minisat-2.2.0:
@@ -66,38 +162,466 @@ License, or any later version. */
        <li> Reading in experimental data:
        \verbatim
 > git clone git://github.com/MGwynne/Experimental-data.git
-> cd Experimental-data/AES/1_3_4/
 
-> E_canon = read.table("ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_canon_box_aes_mc_bidirectional/MinisatStatistics",header=TRUE)
-> E_1base = read.table("ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional/MinisatStatistics",header=TRUE)
-> E_min = read.table("ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional/MinisatStatistics",header=TRUE)
+> E_canon = read.table("Experimental-data/AES/1_3_4/ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_canon_box_aes_mc_bidirectional/MinisatStatistics",header=TRUE)
+> E_1base = read.table("Experimental-data/AES/1_3_4/ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional/MinisatStatistics",header=TRUE)
+> E_min = read.table("Experimental-data/AES/1_3_4/ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional/MinisatStatistics",header=TRUE)
 
 > plot(E_canon)
 > plot(E_1base)
 > plot(E_min)
        \endverbatim
        </li>
-       <li> Overall:
+       <li> Comparing the (individual) run-times for the three translations:
         <ul>
-         <li> Overall, all translations are comparable in terms of time taken
-         to solve and the number of conflicts needed. </li>
-         <li> Ratios of average solver times (fastest to slowest):
-         1base -> x1.1 -> min -> x1.7 -> canonical
-	 \verbatim
-> sum(E_min$t) / sum(E_1base$t)
-[1] 1.127595
-> sum(E_canon$t) / sum(E_min$t)
-[1] 1.723102
+         <li> Comparing the canonical and minimum (in terms of time, r1 and
+         cfs):
+         \verbatim
+> plot(E_canon$r, E_canon$t - E_min$t)
+> plot(E_canon$r, E_canon$r1 - E_min$r1)
+> plot(E_canon$r, E_canon$cfs - E_min$cfs)
+
+> m = lm(E_canon$t - E_min$t ~ E_canon$r)
+> lines(E_canon$r, predict(m))
+> summary(m)
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.0002482  0.0202706  -0.012     0.99
+E_canon$r    0.0085169  0.0016922   5.033 7.32e-07 ***
+Residual standard error: 0.1951 on 398 degrees of freedom
+Multiple R-squared: 0.05984,    Adjusted R-squared: 0.05748
+F-statistic: 25.33 on 1 and 398 DF,  p-value: 7.323e-07
+> m = lm(E_canon$r1 - E_min$r1 ~ E_canon$r)
+> lines(E_canon$r, predict(m))
+> summary(m)
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  -177602     131064  -1.355    0.176
+E_canon$r      92916      10941   8.492 4.07e-16 ***
+Residual standard error: 1262000 on 398 degrees of freedom
+Multiple R-squared: 0.1534,     Adjusted R-squared: 0.1513
+F-statistic: 72.12 on 1 and 398 DF,  p-value: 4.073e-16
+> m = lm(E_canon$cfs - E_min$cfs ~ E_canon$r)
+> lines(E_canon$r, predict(m))
+> summary(m)
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)   567.49     286.36   1.982   0.0482 *
+E_canon$r    -165.61      23.91  -6.928 1.73e-11 ***
+Residual standard error: 2757 on 398 degrees of freedom
+Multiple R-squared: 0.1076,     Adjusted R-squared: 0.1054
+F-statistic:    48 on 1 and 398 DF,  p-value: 1.727e-11
+
+# Calculating which does better across rounds
+> A_t = aggregate((E_canon$t - E_min$t) < 0, by=list(r=E_canon$r), FUN=sum)$x
+> B_t = aggregate((E_canon$t - E_min$t) >= 0, by=list(r=E_canon$r), FUN=sum)$x
+> counts_t = t(matrix(c(A_t,B_t), ncol=2))
+> barplot(counts_t, col=c("red", "blue"), legend=c("Canon is best", "Min is best"))
+> A_r1 = aggregate((E_canon$r1 - E_min$r1) < 0, by=list(r=E_canon$r), FUN=sum)$x
+> B_r1 = aggregate((E_canon$r1 - E_min$r1) >= 0, by=list(r=E_canon$r), FUN=sum)$x
+> counts_r1 = t(matrix(c(A_r1,B_r1), ncol=2))
+> barplot(counts_r1, col=c("red", "blue"), legend=c("Canon is best", "Min is best"))
+> A_cfs = aggregate((E_canon$cfs - E_min$cfs) < 0, by=list(r=E_canon$r), FUN=sum)$x
+> B_cfs = aggregate((E_canon$cfs - E_min$cfs) >= 0, by=list(r=E_canon$r), FUN=sum)$x
+> counts_cfs = t(matrix(c(A_cfs,B_cfs), ncol=2))
+> barplot(counts_cfs, col=c("red", "blue"), legend=c("Canon is best", "Min is best"))
+
+> B_t
+ [1] 17 19 12 15 12 14 16 18 14 14 17 13 13 13 13 14 10 16 12 15
+> sum(B_t) / 400
+[1] 0.7175
+> sum(B_t[11:20]) / 200
+[1] 0.68
+> sum(B_t[16:20]) / 100
+[1] 0.67
+> B_r1
+ [1] 17 17 14 14 11 14 17 18 15 15 17 17 13 16 14 16 12 17 14 19
+> sum(B_r1) / 400
+[1] 0.7675
+> sum(B_r1[11:20]) / 200
+[1] 0.775
+> sum(B_r1[16:20]) / 100
+[1] 0.78
+> A_cfs
+ [1] 13  7 11  6 10 12 13 10 11 13 10 15 12 13 12 15 13 18 16 19
+> sum(A_cfs)/400
+[1] 0.6225
+> sum(A_cfs[11:20])/200
+[1] 0.715
+> sum(A_cfs[16:20])/100
+[1] 0.81
          \endverbatim
-	 </li>
-         <li> Ratios of average number of conflicts (low to hight):
-         canonical -> x1 -> 1base -> x1.5 -> min
-	 \verbatim
-> sum(E_1base$cfs) / sum(E_canon$cfs)
-[1] 1.024516
-> sum(E_min$cfs) / sum(E_1base$cfs)
-[1] 1.468404
+         We see that:
+          <ul>
+           <li> time: the minimum translation is better than the canonical
+           translation in 72% of cases in terms of time. </li>
+           <li> r1: similar relationship as with time (they are strongly
+           linearly related for all translation as discussed below). </li>
+           <li> cfs: the canonical translation performs better than the
+           minimum translation in 62% of cases, and this happens more
+           as the number of rounds increases (81% for rounds 16 to 20). </li>
+          </ul>
+         </li>
+         <li> Comparing the 1-base and minimum:
+         \verbatim
+> plot(E_1base$r, E_1base$t - E_min$t, ylim=c(-max(abs(E_1base$t - E_min$t)), max(abs(E_1base$t - E_min$t))))
+> m = lm(E_1base$t - E_min$t ~ E_1base$r)
+> lines(E_1base$r, predict(m))
+> summary(m)
+(Intercept)  0.019724   0.012769   1.545  0.12324
+E_1base$r   -0.003208   0.001066  -3.009  0.00279 **
+Residual standard error: 0.1229 on 398 degrees of freedom
+Multiple R-squared: 0.02224,    Adjusted R-squared: 0.01979
+F-statistic: 9.054 on 1 and 398 DF,  p-value: 0.002787
+
+> plot(E_1base$r, E_1base$r1 - E_min$r1, ylim=c(-max(abs(E_1base$r1 - E_min$r1)), max(abs(E_1base$r1 - E_min$r1))))
+> m = lm(E_1base$r1 - E_min$r1 ~ E_1base$r)
+> lines(E_1base$r, predict(m))
+> summary(m)
+(Intercept)    44300      65963   0.672    0.502
+E_1base$r      -4236       5506  -0.769    0.442
+Residual standard error: 635000 on 398 degrees of freedom
+Multiple R-squared: 0.001485,   Adjusted R-squared: -0.001024
+F-statistic: 0.5918 on 1 and 398 DF,  p-value: 0.4422
+
+> plot(E_1base$r, E_1base$cfs - E_min$cfs, ylim=c(-max(abs(E_1base$cfs - E_min$cfs)), max(abs(E_1base$cfs - E_min$cfs))))
+> m = lm(E_1base$cfs - E_min$cfs ~ E_1base$r)
+> lines(E_1base$r, predict(m))
+> summary(m)
+(Intercept)   558.57     285.90   1.954   0.0514
+E_1base$r    -159.34      23.87  -6.676 8.25e-11 ***
+Residual standard error: 2752 on 398 degrees of freedom
+Multiple R-squared: 0.1007,     Adjusted R-squared: 0.09845
+F-statistic: 44.57 on 1 and 398 DF,  p-value: 8.254e-11
+
+# Calculating which does better across rounds
+> A_t = aggregate((E_1base$t - E_min$t) < 0, by=list(r=E_1base$r), FUN=sum)$x
+> B_t = aggregate((E_1base$t - E_min$t) >= 0, by=list(r=E_1base$r), FUN=sum)$x
+> counts_t = t(matrix(c(A_t,B_t), ncol=2))
+> barplot(counts_t, col=c("red", "blue"), legend=c("1base is best", "Min is best"))
+> A_r1 = aggregate((E_1base$r1 - E_min$r1) < 0, by=list(r=E_1base$r), FUN=sum)$x
+> B_r1 = aggregate((E_1base$r1 - E_min$r1) >= 0, by=list(r=E_1base$r), FUN=sum)$x
+> counts_r1 = t(matrix(c(A_r1,B_r1), ncol=2))
+> barplot(counts_r1, col=c("red", "blue"), legend=c("1base is best", "Min is best"))
+> A_cfs = aggregate((E_1base$cfs - E_min$cfs) < 0, by=list(r=E_1base$r), FUN=sum)$x
+> B_cfs = aggregate((E_1base$cfs - E_min$cfs) >= 0, by=list(r=E_1base$r), FUN=sum)$x
+> counts_cfs = t(matrix(c(A_cfs,B_cfs), ncol=2))
+> barplot(counts_cfs, col=c("red", "blue"), legend=c("1base is best", "Min is best"))
+
+> A_t
+ [1]  9 11 12 10  8 12 12  8  9 11 14 10  9 10  6 13  9 13 12 16
+> sum(A_t) / 400
+[1] 0.535
+> sum(A_t[11:20])/200
+[1] 0.56
+>  sum(A_t[16:20])/100
+[1] 0.63
+> A_r1
+ [1] 11 10 13 10 10 12 12  8  8 11 14  8  8  7  6 12  6 11 12 14
+> sum(A_r1) / 400
+[1] 0.5075
+> sum(A_r1[11:20])/200
+[1] 0.49
+> sum(A_r1[16:20])/100
+[1] 0.55
+> sum(A_r1[19:20])/40
+[1] 0.65
+> A_cfs
+ [1] 12 13 15  9 11 14 13  9 10 13 16 12 12 11 10 16 14 19 17 18
+> sum(A_cfs)/400
+[1] 0.66
+> sum(A_cfs[11:20])/200
+[1] 0.725
+> sum(A_cfs[16:20])/100
+[1] 0.84
          \endverbatim
+         We see that:
+          <ul>
+           <li> time: the 1-base translation is better than the minimum
+           translation in 54% of cases in terms of time, and this improves
+           with the number of rounds (84% for rounds 16 to 20). </li>
+           <li> r1: the 1-base and minimum translation perform each perform
+           well on different "halves" of the keys. </li>
+           <li> cfs: the 1-base translation performs better than the
+           minimum translation in 66% of cases, and this happens more
+           as the number of rounds increases (84% for rounds 16 to 20). </li>
+          </ul>
+         </li>
+         <li> Comparing the 1-base and minimum:
+         \verbatim
+> plot(E_1base$r, E_1base$t - E_canon$t, ylim=c(-max(abs(E_1base$t - E_canon$t)), max(abs(E_1base$t - E_canon$t))))
+> m = lm(E_1base$t - E_canon$t ~ E_1base$r)
+> lines(E_1base$r, predict(m))
+> summary(m)
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept)  0.019972   0.019726   1.012    0.312
+E_1base$r   -0.011724   0.001647  -7.120 5.08e-12 ***
+Residual standard error: 0.1899 on 398 degrees of freedom
+Multiple R-squared: 0.113,      Adjusted R-squared: 0.1108
+F-statistic: 50.69 on 1 and 398 DF,  p-value: 5.08e-12
+
+> plot(E_1base$r, E_1base$r1 - E_canon$r1, ylim=c(-max(abs(E_1base$r1 - E_canon$r1)), max(abs(E_1base$r1 - E_canon$r1))))
+> m = lm(E_1base$r1 - E_canon$r1 ~ E_1base$r)
+> lines(E_1base$r, predict(m))
+> summary(m)
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)   221902     130185   1.705   0.0891 .
+E_1base$r     -97152      10868  -8.940   <2e-16 ***
+Residual standard error: 1253000 on 398 degrees of freedom
+Multiple R-squared: 0.1672,     Adjusted R-squared: 0.1651
+F-statistic: 79.92 on 1 and 398 DF,  p-value: < 2.2e-16
+
+> plot(E_1base$r, E_1base$cfs - E_canon$cfs, ylim=c(-max(abs(E_1base$cfs - E_canon$cfs)), max(abs(E_1base$cfs - E_canon$cfs))))
+> m = lm(E_1base$cfs - E_canon$cfs ~ E_1base$r)
+> lines(E_1base$r, predict(m))
+> summary(m)
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)   -8.912    251.938  -0.035    0.972
+E_1base$r      6.271     21.031   0.298    0.766
+Residual standard error: 2425 on 398 degrees of freedom
+Multiple R-squared: 0.0002234,  Adjusted R-squared: -0.002289
+F-statistic: 0.08892 on 1 and 398 DF,  p-value: 0.7657
+
+# Calculating which does better across rounds
+> A_t = aggregate((E_1base$t - E_canon$t) < 0, by=list(r=E_1base$r), FUN=sum)$x
+> B_t = aggregate((E_1base$t - E_canon$t) >= 0, by=list(r=E_1base$r), FUN=sum)$x
+> counts_t = t(matrix(c(A_t,B_t), ncol=2))
+> barplot(counts_t, col=c("red", "blue"), legend=c("1base is best", "Canon is best"))
+> A_r1 = aggregate((E_1base$r1 - E_canon$r1) < 0, by=list(r=E_1base$r), FUN=sum)$x
+> B_r1 = aggregate((E_1base$r1 - E_canon$r1) >= 0, by=list(r=E_1base$r), FUN=sum)$x
+> counts_r1 = t(matrix(c(A_r1,B_r1), ncol=2))
+> barplot(counts_r1, col=c("red", "blue"), legend=c("1base is best", "Canon is best"))
+> A_cfs = aggregate((E_1base$cfs - E_canon$cfs) < 0, by=list(r=E_1base$r), FUN=sum)$x
+> B_cfs = aggregate((E_1base$cfs - E_canon$cfs) >= 0, by=list(r=E_1base$r), FUN=sum)$x
+> counts_cfs = t(matrix(c(A_cfs,B_cfs), ncol=2))
+> barplot(counts_cfs, col=c("red", "blue"), legend=c("1base is best", "Canon is best"))
+
+> A_t
+ [1] 14 18 16 17 17 15 17 17  9 15 17 13 15 12 13 16 12 17 11 17
+> sum(A_t) / 400
+[1] 0.745
+> sum(A_t[11:20])/200
+[1] 0.715
+> sum(A_t[16:20])/100
+[1] 0.73
+> A_r1
+ [1] 17 16 17 17 17 15 17 18 13 15 17 16 15 14 14 16 12 18 13 18
+> sum(A_r1) / 400
+[1] 0.7875
+> sum(A_r1[11:20])/200
+[1] 0.765
+> sum(A_r1[16:20])/100
+[1] 0.77
+> A_cfs
+ [1]  8 13 10 15 11 12 11  9  5 13 13  8 13 10  6 13  6 12  7 14
+> sum(A_cfs)/400
+[1] 0.5225
+> sum(A_cfs[11:20])/200
+[1] 0.51
+> sum(A_cfs[16:20])/100
+[1] 0.52
+         \endverbatim
+         We see that:
+          <ul>
+           <li> time: the 1-base translation is better than the canonical
+           translation in 75% of cases in terms of time. </li>
+           <li> r1: the 1-base translation performs better than the
+           canonical translation in 79% of cases. </li>
+           <li> cfs: the 1-base and canonical translation perform each perform
+           well on different "halves" of the keys. </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li> Canonical translation:
+        <ul>
+         <li> Consider:
+         \verbatim
+> plot(E_canon)
+         \endverbatim
+         </li>
+         <li> We see the following relationships/distributions:
+          <ul>
+           <li> rounds vs r1: upper-bounded by a linear function, filling a
+           triangle in the bottom left.
+           \verbatim
+# Upper bounding linear function
+> E_canon_max = aggregate(E_canon, by=list(r=E_canon$r), FUN=max)
+> m = lm(E_canon_max$r1 ~ E_canon_max$r)
+> summary(m)
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept)    -739835     196324  -3.768  0.00141 **
+E_canon_max$r   400094      16389  24.413 3.01e-15 ***
+Residual standard error: 422600 on 18 degrees of freedom
+Multiple R-squared: 0.9707,	Adjusted R-squared: 0.9691
+
+# Removing a lot of the variance due to the difference between keys
+# yields a good linear relationship on the average time per round
+> E_canon_mean = aggregate(E_canon, by=list(r=E_canon$r), FUN=mean)
+> m = lm(E_canon_mean$r1 ~ E_canon_mean$r)
+               Estimate Std. Error t value Pr(>|t|)
+(Intercept)     -292840     127568  -2.296   0.0339 *
+E_canon_mean$r   158358      10649  14.870 1.49e-11 ***
+Residual standard error: 274600 on 18 degrees of freedom
+Multiple R-squared: 0.9247,	Adjusted R-squared: 0.9205
+F-statistic: 221.1 on 1 and 18 DF,  p-value: 1.49e-11
+           \endverbatim
+           </li>
+           <li> r1 vs time: (strong) linear relationship:
+           \verbatim
+> m = lm(E_canon$t ~ E_canon$r1)
+> summary(m)
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 1.169e-02  8.894e-04   13.15   <2e-16 ***
+E_canon$r1  1.466e-07  4.314e-10  339.76   <2e-16 ***
+
+Residual standard error: 0.01329 on 398 degrees of freedom
+Multiple R-squared: 0.9966,	Adjusted R-squared: 0.9966
+F-statistic: 1.154e+05 on 1 and 398 DF,  p-value: < 2.2e-16
+           \endverbatim
+           </li>
+           <li> r1 vs conflicts (weak) linear relationship ("cone-like"
+           distribution):
+           \verbatim
+> m = lm(E_canon$cfs ~ E_canon$r1)
+> summary(m)
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 7.995e+02  6.990e+01   11.44   <2e-16 ***
+E_canon$r1  1.112e-03  3.391e-05   32.79   <2e-16 ***
+
+Residual standard error: 1045 on 398 degrees of freedom
+Multiple R-squared: 0.7298,	Adjusted R-squared: 0.7291
+F-statistic:  1075 on 1 and 398 DF,  p-value: < 2.2e-16
+           \endverbatim
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li> 1-base translation:
+        <ul>
+         <li> Consider:
+         \verbatim
+> plot(E_1base)
+         \endverbatim
+         </li>
+         <li> We see the following relationships/distributions:
+          <ul>
+           <li> rounds vs r1: upper-bounded by a linear relationship forming a
+           triangle in the bottom left.
+           \verbatim
+# Upper bounding linear function
+> E_1base_max = aggregate(E_1base, by=list(r=E_1base$r), FUN=max)
+> m = lm(E_1base_max$r1 ~ E_1base_max$r)
+> summary(m)
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept)    -103382     140933  -0.734    0.473
+E_1base_max$r   147126      11765  12.506 2.59e-10 ***
+Residual standard error: 303400 on 18 degrees of freedom
+Multiple R-squared: 0.8968,	Adjusted R-squared: 0.891
+F-statistic: 156.4 on 1 and 18 DF,  p-value: 2.59e-10
+
+# Removing a lot of the variance due to the difference between keys
+# yields a reasonable linear relationship on the average time per round
+> E_1base_mean = aggregate(E_1base, by=list(r=E_1base$r), FUN=mean)
+> m = lm(E_1base_mean$r1 ~ E_1base_mean$r)
+               Estimate Std. Error t value Pr(>|t|)
+(Intercept)      -70937      69837  -1.016    0.323
+E_1base_mean$r    61206       5830  10.499  4.2e-09 ***
+Residual standard error: 150300 on 18 degrees of freedom
+Multiple R-squared: 0.8596,	Adjusted R-squared: 0.8518
+F-statistic: 110.2 on 1 and 18 DF,  p-value: 4.201e-09
+           \endverbatim
+           </li>
+           <li> r1 vs time: (strong) linear relationship:
+           \verbatim
+> m = lm(E_1base$t ~ E_1base$r1)
+> summary(m)
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 4.814e-03  2.958e-04   16.27   <2e-16 ***
+E_1base$r1  1.829e-07  3.520e-10  519.61   <2e-16 ***
+
+Residual standard error: 0.004337 on 398 degrees of freedom
+Multiple R-squared: 0.9985,	Adjusted R-squared: 0.9985
+F-statistic: 2.7e+05 on 1 and 398 DF,  p-value: < 2.2e-16
+           \endverbatim
+           </li>
+           <li> r1 vs conflicts (weak) linear relationship ("cone-like"
+           distribution):
+           \verbatim
+> m = lm(E_1base$cfs ~ E_1base$r1)
+> summary(m)
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 6.181e+02  7.219e+01   8.562 2.46e-16 ***
+E_1base$r1  3.081e-03  8.589e-05  35.869  < 2e-16 ***
+
+Residual standard error: 1058 on 398 degrees of freedom
+Multiple R-squared: 0.7637,	Adjusted R-squared: 0.7631
+F-statistic:  1287 on 1 and 398 DF,  p-value: < 2.2e-16
+           \endverbatim
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li> minimum translation:
+        <ul>
+         <li> Consider:
+         \verbatim
+> plot(E_min)
+         \endverbatim
+         </li>
+         <li> We see (atthe following relationships/distributions:
+          <ul>
+           <li> rounds vs r1: (very weak) linear relationship forming a
+           triangle in the bottom left.
+           \verbatim
+# Upper bounding linear function
+> E_min_max = aggregate(E_min, by=list(r=E_min$r), FUN=max)
+> m = lm(E_min_max$r1 ~ E_min_max$r)
+> summary(m)
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  -120616     143265  -0.842    0.411
+E_min_max$r   161304      11960  13.487 7.53e-11 ***
+Residual standard error: 308400 on 18 degrees of freedom
+Multiple R-squared:  0.91,	Adjusted R-squared: 0.905
+F-statistic: 181.9 on 1 and 18 DF,  p-value: 7.526e-11
+
+# Removing a lot of the variance due to the difference between keys
+# yields a reasonable linear relationship on the average time per round
+> E_min_mean = aggregate(E_min, by=list(r=E_min$r), FUN=mean)
+> m = lm(E_min_mean$r1 ~ E_min_mean$r)
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept)   -115238      68114  -1.692    0.108
+E_min_mean$r    65442       5686  11.509 9.85e-10 ***
+Residual standard error: 146600 on 18 degrees of freedom
+Multiple R-squared: 0.8804,	Adjusted R-squared: 0.8737
+F-statistic: 132.5 on 1 and 18 DF,  p-value: 9.854e-10
+           \endverbatim
+           </li>
+           <li> r1 vs time: (strong) linear relationship:
+           \verbatim
+> m = lm(E_min$t ~ E_min$r1)
+> summary(m)
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 5.009e-03  5.473e-04   9.152   <2e-16 ***
+E_min$r1    2.069e-07  6.312e-10 327.761   <2e-16 ***
+
+Residual standard error: 0.008227 on 398 degrees of freedom
+Multiple R-squared: 0.9963,	Adjusted R-squared: 0.9963
+           \endverbatim
+           </li>
+           <li> r1 vs conflicts (strong) sub-linear relationship:
+           \verbatim
+> m = lm(log(E_min$cfs+1) ~ log(E_min$r1+1))
+> summary(m)
+                   Estimate Std. Error t value Pr(>|t|)
+(Intercept)       -1.432645   0.073707  -19.44   <2e-16 ***
+log(E_min$r1 + 1)  0.736170   0.005998  122.73   <2e-16 ***
+
+Residual standard error: 0.2747 on 398 degrees of freedom
+Multiple R-squared: 0.9743,	Adjusted R-squared: 0.9742
+F-statistic: 1.506e+04 on 1 and 398 DF,  p-value: < 2.2e-16
+           \endverbatim
+           </li>
+          </ul>
          </li>
         </ul>
        </li>
@@ -407,6 +931,23 @@ R> aggregate(E, by=list(r=E$r), FUN=mean)
 18 0.13832840 0.0976646326 0.011998 0.358945  2015.25 1437.085899      96    5190  742436.80 547055.4009  23797 1988347
 19 0.24006285 0.1564269265 0.014997 0.568913  3420.05 2329.765032     125    8953 1295140.10 860937.1408  35806 3026753
 20 0.18192175 0.1541351973 0.015997 0.453930  2540.65 2169.723637     202    6135  972317.05 832396.4751  53715 2488814
+     \endverbatim
+     </li>
+     <li> Total times and conflicts over 20 rounds and keys:
+     \verbatim
+1_3_4> oklib --R
+R> E_canon = read.table(Sys.glob("ssaes_r1-20_c*_aes_canon_box*/MinisatStatistics")[1], header=TRUE)
+R> E_1base = read.table(Sys.glob("ssaes_r1-20_c*_aes_1base_box*/MinisatStatistics")[1], header=TRUE)
+R> E_min = read.table(Sys.glob("ssaes_r1-20_c*_aes_min_box*/MinisatStatistics")[1], header=TRUE)
+R> options(width=1000)
+R> sum(E_canon$t); sum(E_1base$t); sum(E_min$t)
+[1] 85.00288
+[1] 43.74914
+[1] 49.3313
+R> sum(E_canon$cfs); sum(E_1base$cfs); sum(E_min$cfs)
+[1] 928968
+[1] 951743
+[1] 1397543
      \endverbatim
      </li>
     </ul>

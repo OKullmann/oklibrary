@@ -221,17 +221,55 @@ done
      <li> The data:
      \verbatim
 shell> for r in $(seq 1 20); do for s in $(seq 1 20); do RunMinisat r${r}_k${s}.cnf; done; done
+shell> (ExtractMinisat header-only |  awk " { print \$0 \" r s\"}"; for r in $(seq 1 4); do for s in $(seq 1 20); do
+    cat ExperimentMinisat_r${r}_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${r} ${s}\"}";
+  done;
+done) > MinisatStatistics
+shell> oklib --R
+R> E = read.table("MinisatStatistics", header=TRUE)
+R> aggregate(E, by=list(r=E$r), FUN=mean)
+r   rn    rc            t  sat         cfs         dec      rts           r1    mem  ptime stime          cfl
+1 1208 17796 4.749215e-02 1.00      286.95     2730.85     3.05      60556.7   9.00 0.0095  0.02      51757.4
+2 2344 35496 1.779539e+01 1.00    69910.15   244117.35   198.00   32444019.8  58.15 0.0120  0.04   14567690.3
+3 3480 53196 4.800013e+01 1.00   148693.60   597392.90   387.55   67025301.9 114.40 0.0200  0.06   29870635.6
+4 4616 70896 1.121947e+04 1.05 15353353.90 54250682.65 22731.75 5516558000.2 924.35 0.0265  0.08 5309395310.2
+R> aggregate_statistics(E[c("r","t","cfs","r1")], by=list("r"))
+  r       t.mean         t.sd    t.min       t.max    cfs.mean       cfs.sd cfs.min  cfs.max      r1.mean        r1.sd   r1.min      r1.max
+1 1 4.749215e-02 1.464625e-02 0.027995 7.39880e-02      286.95     223.0127      14      698      60556.7 4.613163e+04     3393      142167
+2 2 1.779539e+01 1.879794e+01 0.057991 5.25750e+01    69910.15   65680.2979      23   213489   32444019.8 3.006823e+07    17318   100808694
+3 3 4.800013e+01 4.436927e+01 7.603840 1.87271e+02   148693.60  102529.6673   44744   455063   67025301.9 5.386161e+07 12725413   228186522
+4 4 1.121947e+04 8.334966e+03 0.000000 2.81446e+04 15353353.90 9778328.8799       0 35989537 5516558000.2 3.567265e+09        0 13009604735
      \endverbatim
-     Experiments are currently running. </li>
+     Note here that key with seed 4 returned and error, and hence we have
+     "1.05" for "sat". This experiment must be run again (it errored after
+     527 minutes). </li>
     </ul>
    </li>
-   <li> The "minimum" box translation (up to round 17):
+   <li> The "minimum" box translation:
     <ul>
      <li> The data:
      \verbatim
 shell> for r in $(seq 1 20); do for s in $(seq 1 20); do RunMinisat r${r}_k${s}.cnf; done; done
+shell> (ExtractMinisat header-only |  awk " { print \$0 \" r s\"}"; for r in $(seq 1 4); do for s in $(seq 1 20); do
+    cat ExperimentMinisat_r${r}_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${r} ${s}\"}";
+  done;
+done) > MinisatStatistics
+shell> oklib --R
+R> E = read.table("MinisatStatistics", header=TRUE)
+R> aggregate(E, by=list(r=E$r), FUN=mean)
+r  rn   rc            t         cfs        dec      rts           r1   mem ptime  stime          cfl
+1 184 1560 2.424565e-02     2236.85     2662.7    12.95 2.588565e+04  8.00 0.000 0.0090     21949.85
+2 296 3024 4.044634e+00   298957.00   344442.8   695.70 5.702301e+06  8.00 0.000 0.0100   4162284.00
+3 408 4488 6.966964e+01  3505260.35  4099517.2  5931.15 9.290159e+07 12.90 0.000 0.0135  60130846.75
+4 520 5952 1.281556e+03 26518153.95 30264840.0 36318.30 1.251430e+09 34.55 0.002 0.0200 545569858.95
+R> aggregate_statistics(E[c("r","t","cfs","r1")], by=list("r"))
+r       t.mean         t.sd    t.min       t.max    cfs.mean       cfs.sd cfs.min  cfs.max      r1.mean        r1.sd  r1.min     r1.max
+1 2.424565e-02 1.205448e-02 0.007998    0.048992     2236.85     1653.853     139     5744 2.588565e+04 1.920905e+04    1752      67017
+2 4.044634e+00 3.772671e+00 0.038994   13.204000   298957.00   237780.895    3059   822904 5.702301e+06 5.106003e+06   45300   17958522
+3 6.966964e+01 8.429120e+01 2.242660  403.495000  3505260.35  3446073.443  187972 16727967 9.290159e+07 1.023211e+08 3601114  492327148
+4 1.281556e+03 1.300257e+03 6.483010 4401.220000 26518153.95 23545349.385  385027 79797406 1.251430e+09 1.189224e+09 9342287 3970533106
      \endverbatim
-     Experiments are currently running. </li>
+     </li>
     </ul>
    </li>
    <li> The 1-base box translation:
@@ -239,8 +277,26 @@ shell> for r in $(seq 1 20); do for s in $(seq 1 20); do RunMinisat r${r}_k${s}.
      <li> The data:
      \verbatim
 shell> for r in $(seq 1 20); do for s in $(seq 1 20); do RunMinisat r${r}_k${s}.cnf; done; done
+shell> (ExtractMinisat header-only |  awk " { print \$0 \" r s\"}"; for r in $(seq 1 4); do for s in $(seq 1 20); do
+    cat ExperimentMinisat_r${r}_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${r} ${s}\"}";
+  done;
+done) > MinisatStatistics
+shell> oklib --R
+R> E = read.table("MinisatStatistics", header=TRUE)
+R> aggregate(E, by=list(r=E$r), FUN=mean)
+r  rn    rc            t        cfs        dec      rts           r1    mem  ptime  stime          cfl
+1 184 17976    0.5649137      189.9      209.5     2.20      5976.95  10.00 0.0110 0.5300      1329.15
+2 296 35856    6.6444390    26194.4    27582.7    92.20   1757050.00  12.35 0.0195 1.1900    392016.80
+3 408 53736   68.3752300   432840.7   484224.7   941.70  18866602.75  29.60 0.0295 1.7290   7417296.55
+4 520 71616 7500.9050500 16254372.2 17373478.6 22877.95 959566525.75 109.05 0.0395 2.3035 349172967.80
+R> aggregate_statistics(E[c("r","t","cfs","r1")], by=list("r"))
+r       t.mean         t.sd      t.min       t.max   cfs.mean       cfs.sd cfs.min  cfs.max      r1.mean        r1.sd   r1.min     r1.max
+1    0.5649137 1.314491e-02   0.544917     0.59091      189.9 1.200254e+02      12      392      5976.95 3.731548e+03      551      12763
+2    6.6444390 4.469542e+00   1.457780    18.09520    26194.4 1.985138e+04    1409    76465   1757050.00 1.357439e+06    90491    5231210
+3   68.3752300 6.246889e+01  13.360000   245.36900   432840.7 4.018269e+05   88015  1658292  18866602.75 1.755783e+07  3562554   69228347
+4 7500.9050500 1.211908e+04 188.654000 45321.30000 16254372.2 2.536459e+07  733692 97761567 959566525.75 1.507831e+09 43611219 5837203969
      \endverbatim
-     Experiments are currently running. </li>
+     </li>
     </ul>
    </li>
   </ul>

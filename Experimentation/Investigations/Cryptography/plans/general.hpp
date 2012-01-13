@@ -10,6 +10,31 @@ License, or any later version. */
   \brief General plans regarding investigations into cryptographic systems.
 
 
+  \todo Comparing translations and solvers
+  <ul>
+   <li> We consider the following translations of boolean functions
+   into SAT:
+    <ul>
+     <li> canonical translation - implemented by dualts_fcl in
+     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac .
+     </li>
+     <li> 1-base translation - discussed in
+     Satisfiability/Reductions/Bases/plans/UcpBase.hpp. </li>
+     <li> minimum translation - discussed in
+     "Minimum CNF/DNF representations" in
+     Investigations/BooleanFunctions/MinimumRepresentations/plans/general.hpp.
+     </li>
+    </ul>
+   </li>
+   <li> For all experiments in this module, we need to provide statistical
+   analyses of which translations and solvers perform better than others. </li>
+   <li> We also need to investigate the different relations that occur within
+   the data. </li>
+   <li> This todo should act as a place for linking together these
+   observations and methods for analysis. </li>
+  </ul>
+
+
   \todo Translating stream ciphers using our translations
   <ul>
    <li> We already offer translations of DES and AES into SAT
