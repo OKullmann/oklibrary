@@ -105,23 +105,26 @@ factorout(expand(simplify_t(c)), s);
    \endverbatim
    clauses.
    </li>
-   <li> Checking this matches up for the canonical translation, where now
+   <li> Instantiating for the canonical translation, where now
    s=145:
    \verbatim
 expand(ev(c, s:145));
  744*r+48
-
+   \endverbatim
+   Checking:
+   \verbatim
 > ExtendedDimacsFullStatistics-O3-DNDEBUG < ssaes_r20_c3_rw1_e4_f0.cnf
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 2436 14928 42784 0 42784 2437 1
 
 > ncl_full_dualts(8,16);
   145
-
 > ev(c, s:145,r:20);
   14928
    \endverbatim
    </li>
+   <li> Instantiating for the 1-base translation XXX </li>
+   <li> Instantiating for the minimum translation XXX </li>
    <li> XXX Box sizes. </li>
   </ul>
 
