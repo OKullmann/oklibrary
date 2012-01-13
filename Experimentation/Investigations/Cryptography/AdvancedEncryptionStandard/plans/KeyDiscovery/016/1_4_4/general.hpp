@@ -412,6 +412,23 @@ R> aggregate_statistics(E[c("r","t","cfs","r1")], by=list("r"))
 20 20 3.61225290 4.4839022658 0.040993 20.024000 36930.35 41418.89717     501  183648 18821924.6 2.254737e+07  193277 100336390
      \endverbatim
      </li>
+     <li> Total times and conflicts over 20 rounds and keys:
+     \verbatim
+1_4_4> oklib --R
+R> E_canon = read.table(Sys.glob("ssaes_r1-20_c*_aes_canon_box*/MinisatStatistics")[1], header=TRUE)
+R> E_1base = read.table(Sys.glob("ssaes_r1-20_c*_aes_1base_box*/MinisatStatistics")[1], header=TRUE)
+R> E_min = read.table(Sys.glob("ssaes_r1-20_c*_aes_min_box*/MinisatStatistics")[1], header=TRUE)
+R> options(width=1000)
+R> sum(E_canon$t); sum(E_1base$t); sum(E_min$t)
+[1] 2282.948
+[1] 1187.019
+[1] 1178.514
+R> sum(E_canon$cfs); sum(E_1base$cfs); sum(E_min$cfs)
+[1] 17488030
+[1] 19047500
+[1] 21534146
+     \endverbatim
+     </li>
     </ul>
    </li>
   </ul>
