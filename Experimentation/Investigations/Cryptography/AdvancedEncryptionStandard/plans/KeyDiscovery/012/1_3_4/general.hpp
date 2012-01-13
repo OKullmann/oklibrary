@@ -63,6 +63,41 @@ License, or any later version. */
 
   \todo Overview of solver performance
   <ul>
+   <li> Summary:
+    <ul>
+     <li> Comparing solvers (point-wise/per-instance) in terms of:
+      <ul>
+       <li> Time ( ~ canonical > minimum >= 1base ) :
+        <ul>
+         <li> minimum and 1-base translations take less time than the
+         canonical in 77% and 75% of cases respectively. </li>
+         <li> 1-base uses less time than the minimum in 54% of cases, rising
+         to 63% of cases for rounds 16 to 20. </li>
+        </ul>
+       </li>
+       <li> r1 ( ~ canonical > 1base >= minimum ) :
+        <ul>
+         <li> minimum and 1-base translations use less propagations than the
+         canonical in 76% and 79% of cases respectively. </li>
+         <li> 1-base uses less propagations than the minimum translation in
+         50% of cases, rising to 55% for rounds 16 to 20, and 65% over rounds
+         19 and 20. </li>
+        </ul>
+       </li>
+       <li> Conflicts ( ~ minimum > canonical = 1-base ) :
+        <ul>
+         <li> canonical and 1-base translations use less conflicts than the
+         minimum translation in 62% and 66% of instances respectively; in
+         81% and 84% for rounds 16 to round 20. </li>
+         <li> canonical and 1-base translations use the same amount of
+         conflicts on different instances, and this doesn't appear (visually
+         or counting) to change as the number of rounds increases. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
    <li> Comparison of translations:
     <ul>
      <li> minisat-2.2.0:
@@ -82,7 +117,259 @@ License, or any later version. */
        </li>
        <li> Comparing the (individual) run-times for the three translations:
         <ul>
-         <li> XXX
+         <li> Comparing the canonical and minimum (in terms of time, r1 and
+         cfs):
+         \verbatim
+> plot(E_canon$r, E_canon$t - E_min$t)
+> plot(E_canon$r, E_canon$r1 - E_min$r1)
+> plot(E_canon$r, E_canon$cfs - E_min$cfs)
+
+> m = lm(E_canon$t - E_min$t ~ E_canon$r)
+> lines(E_canon$r, predict(m))
+> summary(m)
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.0002482  0.0202706  -0.012     0.99
+E_canon$r    0.0085169  0.0016922   5.033 7.32e-07 ***
+Residual standard error: 0.1951 on 398 degrees of freedom
+Multiple R-squared: 0.05984,    Adjusted R-squared: 0.05748
+F-statistic: 25.33 on 1 and 398 DF,  p-value: 7.323e-07
+> m = lm(E_canon$r1 - E_min$r1 ~ E_canon$r)
+> lines(E_canon$r, predict(m))
+> summary(m)
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  -177602     131064  -1.355    0.176
+E_canon$r      92916      10941   8.492 4.07e-16 ***
+Residual standard error: 1262000 on 398 degrees of freedom
+Multiple R-squared: 0.1534,     Adjusted R-squared: 0.1513
+F-statistic: 72.12 on 1 and 398 DF,  p-value: 4.073e-16
+> m = lm(E_canon$cfs - E_min$cfs ~ E_canon$r)
+> lines(E_canon$r, predict(m))
+> summary(m)
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)   567.49     286.36   1.982   0.0482 *
+E_canon$r    -165.61      23.91  -6.928 1.73e-11 ***
+Residual standard error: 2757 on 398 degrees of freedom
+Multiple R-squared: 0.1076,     Adjusted R-squared: 0.1054
+F-statistic:    48 on 1 and 398 DF,  p-value: 1.727e-11
+
+# Calculating which does better across rounds
+> A_t = aggregate((E_canon$t - E_min$t) < 0, by=list(r=E_canon$r), FUN=sum)$x
+> B_t = aggregate((E_canon$t - E_min$t) >= 0, by=list(r=E_canon$r), FUN=sum)$x
+> counts_t = t(matrix(c(A_t,B_t), ncol=2))
+> barplot(counts_t, col=c("red", "blue"), legend=c("Canon is best", "Min is best"))
+> A_r1 = aggregate((E_canon$r1 - E_min$r1) < 0, by=list(r=E_canon$r), FUN=sum)$x
+> B_r1 = aggregate((E_canon$r1 - E_min$r1) >= 0, by=list(r=E_canon$r), FUN=sum)$x
+> counts_r1 = t(matrix(c(A_r1,B_r1), ncol=2))
+> barplot(counts_r1, col=c("red", "blue"), legend=c("Canon is best", "Min is best"))
+> A_cfs = aggregate((E_canon$cfs - E_min$cfs) < 0, by=list(r=E_canon$r), FUN=sum)$x
+> B_cfs = aggregate((E_canon$cfs - E_min$cfs) >= 0, by=list(r=E_canon$r), FUN=sum)$x
+> counts_cfs = t(matrix(c(A_cfs,B_cfs), ncol=2))
+> barplot(counts_cfs, col=c("red", "blue"), legend=c("Canon is best", "Min is best"))
+
+> B_t
+ [1] 17 19 12 15 12 14 16 18 14 14 17 13 13 13 13 14 10 16 12 15
+> sum(B_t) / 400
+[1] 0.7175
+> sum(B_t[11:20]) / 200
+[1] 0.68
+> sum(B_t[16:20]) / 100
+[1] 0.67
+> B_r1
+ [1] 17 17 14 14 11 14 17 18 15 15 17 17 13 16 14 16 12 17 14 19
+> sum(B_r1) / 400
+[1] 0.7675
+> sum(B_r1[11:20]) / 200
+[1] 0.775
+> sum(B_r1[16:20]) / 100
+[1] 0.78
+> A_cfs
+ [1] 13  7 11  6 10 12 13 10 11 13 10 15 12 13 12 15 13 18 16 19
+> sum(A_cfs)/400
+[1] 0.6225
+> sum(A_cfs[11:20])/200
+[1] 0.715
+> sum(A_cfs[16:20])/100
+[1] 0.81
+         \endverbatim
+         We see that:
+          <ul>
+           <li> time: the minimum translation is better than the canonical
+           translation in 72% of cases in terms of time. </li>
+           <li> r1: similar relationship as with time (they are strongly
+           linearly related for all translation as discussed below). </li>
+           <li> cfs: the canonical translation performs better than the
+           minimum translation in 62% of cases, and this happens more
+           as the number of rounds increases (81% for rounds 16 to 20). </li>
+          </ul>
+         </li>
+         <li> Comparing the 1-base and minimum:
+         \verbatim
+> plot(E_1base$r, E_1base$t - E_min$t, ylim=c(-max(abs(E_1base$t - E_min$t)), max(abs(E_1base$t - E_min$t))))
+> m = lm(E_1base$t - E_min$t ~ E_1base$r)
+> lines(E_1base$r, predict(m))
+> summary(m)
+(Intercept)  0.019724   0.012769   1.545  0.12324
+E_1base$r   -0.003208   0.001066  -3.009  0.00279 **
+Residual standard error: 0.1229 on 398 degrees of freedom
+Multiple R-squared: 0.02224,    Adjusted R-squared: 0.01979
+F-statistic: 9.054 on 1 and 398 DF,  p-value: 0.002787
+
+> plot(E_1base$r, E_1base$r1 - E_min$r1, ylim=c(-max(abs(E_1base$r1 - E_min$r1)), max(abs(E_1base$r1 - E_min$r1))))
+> m = lm(E_1base$r1 - E_min$r1 ~ E_1base$r)
+> lines(E_1base$r, predict(m))
+> summary(m)
+(Intercept)    44300      65963   0.672    0.502
+E_1base$r      -4236       5506  -0.769    0.442
+Residual standard error: 635000 on 398 degrees of freedom
+Multiple R-squared: 0.001485,   Adjusted R-squared: -0.001024
+F-statistic: 0.5918 on 1 and 398 DF,  p-value: 0.4422
+
+> plot(E_1base$r, E_1base$cfs - E_min$cfs, ylim=c(-max(abs(E_1base$cfs - E_min$cfs)), max(abs(E_1base$cfs - E_min$cfs))))
+> m = lm(E_1base$cfs - E_min$cfs ~ E_1base$r)
+> lines(E_1base$r, predict(m))
+> summary(m)
+(Intercept)   558.57     285.90   1.954   0.0514
+E_1base$r    -159.34      23.87  -6.676 8.25e-11 ***
+Residual standard error: 2752 on 398 degrees of freedom
+Multiple R-squared: 0.1007,     Adjusted R-squared: 0.09845
+F-statistic: 44.57 on 1 and 398 DF,  p-value: 8.254e-11
+
+# Calculating which does better across rounds
+> A_t = aggregate((E_1base$t - E_min$t) < 0, by=list(r=E_1base$r), FUN=sum)$x
+> B_t = aggregate((E_1base$t - E_min$t) >= 0, by=list(r=E_1base$r), FUN=sum)$x
+> counts_t = t(matrix(c(A_t,B_t), ncol=2))
+> barplot(counts_t, col=c("red", "blue"), legend=c("1base is best", "Min is best"))
+> A_r1 = aggregate((E_1base$r1 - E_min$r1) < 0, by=list(r=E_1base$r), FUN=sum)$x
+> B_r1 = aggregate((E_1base$r1 - E_min$r1) >= 0, by=list(r=E_1base$r), FUN=sum)$x
+> counts_r1 = t(matrix(c(A_r1,B_r1), ncol=2))
+> barplot(counts_r1, col=c("red", "blue"), legend=c("1base is best", "Min is best"))
+> A_cfs = aggregate((E_1base$cfs - E_min$cfs) < 0, by=list(r=E_1base$r), FUN=sum)$x
+> B_cfs = aggregate((E_1base$cfs - E_min$cfs) >= 0, by=list(r=E_1base$r), FUN=sum)$x
+> counts_cfs = t(matrix(c(A_cfs,B_cfs), ncol=2))
+> barplot(counts_cfs, col=c("red", "blue"), legend=c("1base is best", "Min is best"))
+
+> A_t
+ [1]  9 11 12 10  8 12 12  8  9 11 14 10  9 10  6 13  9 13 12 16
+> sum(A_t) / 400
+[1] 0.535
+> sum(A_t[11:20])/200
+[1] 0.56
+>  sum(A_t[16:20])/100
+[1] 0.63
+> A_r1
+ [1] 11 10 13 10 10 12 12  8  8 11 14  8  8  7  6 12  6 11 12 14
+> sum(A_r1) / 400
+[1] 0.5075
+> sum(A_r1[11:20])/200
+[1] 0.49
+> sum(A_r1[16:20])/100
+[1] 0.55
+> sum(A_r1[19:20])/40
+[1] 0.65
+> A_cfs
+ [1] 12 13 15  9 11 14 13  9 10 13 16 12 12 11 10 16 14 19 17 18
+> sum(A_cfs)/400
+[1] 0.66
+> sum(A_cfs[11:20])/200
+[1] 0.725
+> sum(A_cfs[16:20])/100
+[1] 0.84
+         \endverbatim
+         We see that:
+          <ul>
+           <li> time: the 1-base translation is better than the minimum
+           translation in 54% of cases in terms of time, and this improves
+           with the number of rounds (84% for rounds 16 to 20). </li>
+           <li> r1: the 1-base and minimum translation perform each perform
+           well on different "halves" of the keys. </li>
+           <li> cfs: the 1-base translation performs better than the
+           minimum translation in 66% of cases, and this happens more
+           as the number of rounds increases (84% for rounds 16 to 20). </li>
+          </ul>
+         </li>
+         <li> Comparing the 1-base and minimum:
+         \verbatim
+> plot(E_1base$r, E_1base$t - E_canon$t, ylim=c(-max(abs(E_1base$t - E_canon$t)), max(abs(E_1base$t - E_canon$t))))
+> m = lm(E_1base$t - E_canon$t ~ E_1base$r)
+> lines(E_1base$r, predict(m))
+> summary(m)
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept)  0.019972   0.019726   1.012    0.312
+E_1base$r   -0.011724   0.001647  -7.120 5.08e-12 ***
+Residual standard error: 0.1899 on 398 degrees of freedom
+Multiple R-squared: 0.113,      Adjusted R-squared: 0.1108
+F-statistic: 50.69 on 1 and 398 DF,  p-value: 5.08e-12
+
+> plot(E_1base$r, E_1base$r1 - E_canon$r1, ylim=c(-max(abs(E_1base$r1 - E_canon$r1)), max(abs(E_1base$r1 - E_canon$r1))))
+> m = lm(E_1base$r1 - E_canon$r1 ~ E_1base$r)
+> lines(E_1base$r, predict(m))
+> summary(m)
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)   221902     130185   1.705   0.0891 .
+E_1base$r     -97152      10868  -8.940   <2e-16 ***
+Residual standard error: 1253000 on 398 degrees of freedom
+Multiple R-squared: 0.1672,     Adjusted R-squared: 0.1651
+F-statistic: 79.92 on 1 and 398 DF,  p-value: < 2.2e-16
+
+> plot(E_1base$r, E_1base$cfs - E_canon$cfs, ylim=c(-max(abs(E_1base$cfs - E_canon$cfs)), max(abs(E_1base$cfs - E_canon$cfs))))
+> m = lm(E_1base$cfs - E_canon$cfs ~ E_1base$r)
+> lines(E_1base$r, predict(m))
+> summary(m)
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)   -8.912    251.938  -0.035    0.972
+E_1base$r      6.271     21.031   0.298    0.766
+Residual standard error: 2425 on 398 degrees of freedom
+Multiple R-squared: 0.0002234,  Adjusted R-squared: -0.002289
+F-statistic: 0.08892 on 1 and 398 DF,  p-value: 0.7657
+
+# Calculating which does better across rounds
+> A_t = aggregate((E_1base$t - E_canon$t) < 0, by=list(r=E_1base$r), FUN=sum)$x
+> B_t = aggregate((E_1base$t - E_canon$t) >= 0, by=list(r=E_1base$r), FUN=sum)$x
+> counts_t = t(matrix(c(A_t,B_t), ncol=2))
+> barplot(counts_t, col=c("red", "blue"), legend=c("1base is best", "Canon is best"))
+> A_r1 = aggregate((E_1base$r1 - E_canon$r1) < 0, by=list(r=E_1base$r), FUN=sum)$x
+> B_r1 = aggregate((E_1base$r1 - E_canon$r1) >= 0, by=list(r=E_1base$r), FUN=sum)$x
+> counts_r1 = t(matrix(c(A_r1,B_r1), ncol=2))
+> barplot(counts_r1, col=c("red", "blue"), legend=c("1base is best", "Canon is best"))
+> A_cfs = aggregate((E_1base$cfs - E_canon$cfs) < 0, by=list(r=E_1base$r), FUN=sum)$x
+> B_cfs = aggregate((E_1base$cfs - E_canon$cfs) >= 0, by=list(r=E_1base$r), FUN=sum)$x
+> counts_cfs = t(matrix(c(A_cfs,B_cfs), ncol=2))
+> barplot(counts_cfs, col=c("red", "blue"), legend=c("1base is best", "Canon is best"))
+
+> A_t
+ [1] 14 18 16 17 17 15 17 17  9 15 17 13 15 12 13 16 12 17 11 17
+> sum(A_t) / 400
+[1] 0.745
+> sum(A_t[11:20])/200
+[1] 0.715
+> sum(A_t[16:20])/100
+[1] 0.73
+> A_r1
+ [1] 17 16 17 17 17 15 17 18 13 15 17 16 15 14 14 16 12 18 13 18
+> sum(A_r1) / 400
+[1] 0.7875
+> sum(A_r1[11:20])/200
+[1] 0.765
+> sum(A_r1[16:20])/100
+[1] 0.77
+> A_cfs
+ [1]  8 13 10 15 11 12 11  9  5 13 13  8 13 10  6 13  6 12  7 14
+> sum(A_cfs)/400
+[1] 0.5225
+> sum(A_cfs[11:20])/200
+[1] 0.51
+> sum(A_cfs[16:20])/100
+[1] 0.52
+         \endverbatim
+         We see that:
+          <ul>
+           <li> time: the 1-base translation is better than the canonical
+           translation in 75% of cases in terms of time. </li>
+           <li> r1: the 1-base translation performs better than the
+           canonical translation in 79% of cases. </li>
+           <li> cfs: the 1-base and canonical translation perform each perform
+           well on different "halves" of the keys. </li>
+          </ul>
          </li>
         </ul>
        </li>
