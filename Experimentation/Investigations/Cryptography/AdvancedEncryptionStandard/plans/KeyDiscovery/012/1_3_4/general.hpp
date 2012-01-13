@@ -129,7 +129,8 @@ expand(ev(c, s:145));
   </ul>
 
 
-  \todo Overview of solver performance
+  \todo Overview of solver performance XXX ??? this is NOT an overview,
+  however it should be XXX
   <ul>
    <li> Summary:
     <ul>
