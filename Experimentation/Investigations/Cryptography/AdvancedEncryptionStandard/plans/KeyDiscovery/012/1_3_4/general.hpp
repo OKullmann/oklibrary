@@ -58,7 +58,64 @@ License, or any later version. */
   </ul>
 
 
-  \todo Instance characteristics XXX
+  \todo Instance characteristics
+  <ul>
+   <li> In this translation, we have:
+    <ul>
+     <li> r full rounds (Key Addition, SubBytes; MixColumns is the identity).
+     </li>
+     <li> 4*r Sboxes:
+      <ul>
+       <li> 3*r from SubBytes = 3 columns * r rounds; </li>
+       <li> r from key schedule = 1 column * r round. </li>
+      </ul>
+     </li>
+     <li> 52*r + 12 additions:
+      <ul>
+       <li> 24*r additions of arity 1 (equivalence clauses):
+        <ul>
+         <li> 12*r from forward MixColumns = 12 bits * r rounds; </li>
+         <li> 12*r from inverse MixColumns = 12 bits * r rounds. </li>
+        </ul>
+       </li>
+       <li> 20*r + 12 additions of arity 2:
+        <ul>
+         <li> 12*r from key additions = 12 bits * r round; </li>
+         <li> 12 from final key addition = 12 bits; </li>
+         <li> 8*r from the key schedule = 4 bits * 2 column * r rounds. </li>
+        </ul>
+       </li>
+       <li> 4*r additions of arity 3:
+        <ul>
+         <li> 4*r from the key schedule = 4 bits * 1 column * r rounds. </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li> 4*r bits from the key schedule constant = 4 bits * r rounds. </li>
+    </ul>
+   </li>
+   <li> Therefore, each clause-set has:
+   \verbatim
+3*r*s + 24*r*2 + (20*r+12)*4 + 4*r*8 + 4*r
+   \endverbatim
+   clauses.
+   </li>
+   <li> Checking this matches up for the canonical translation:
+   \verbatim
+> ExtendedDimacsFullStatistics-O3-DNDEBUG < ssaes_r20_c3_rw1_e4_f0.cnf
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+2436 14928 42784 0 42784 2437 1
+
+> ncl_full_dualts(8,16);
+  145
+
+> r : 20; s : 145; 3*r*s + 24*r*2 + (20*r+12)*4 + 4*r*8 + 4*r;
+  14928
+   \endverbatim
+   </li>
+   <li> XXX Box sizes. </li>
+  </ul>
 
 
   \todo Overview of solver performance
