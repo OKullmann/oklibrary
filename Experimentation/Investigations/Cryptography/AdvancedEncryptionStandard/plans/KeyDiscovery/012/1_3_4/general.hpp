@@ -203,6 +203,8 @@ XXX missing correlation for averaged values
          \endverbatim
          <li> Comparing the 1-base and minimum:
          \verbatim
+XXX needs update
+
 > plot(E_1base$r, E_1base$t - E_min$t, ylim=c(-max(abs(E_1base$t - E_min$t)), max(abs(E_1base$t - E_min$t))))
 > m = lm(E_1base$t - E_min$t ~ E_1base$r)
 > lines(E_1base$r, predict(m))
@@ -288,6 +290,8 @@ F-statistic: 44.57 on 1 and 398 DF,  p-value: 8.254e-11
          </li>
          <li> Comparing the 1-base and minimum:
          \verbatim
+XXX needs update
+
 > plot(E_1base$r, E_1base$t - E_canon$t, ylim=c(-max(abs(E_1base$t - E_canon$t)), max(abs(E_1base$t - E_canon$t))))
 > m = lm(E_1base$t - E_canon$t ~ E_1base$r)
 > lines(E_1base$r, predict(m))
