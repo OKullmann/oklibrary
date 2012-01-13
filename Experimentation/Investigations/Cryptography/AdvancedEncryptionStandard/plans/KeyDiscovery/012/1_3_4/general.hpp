@@ -199,44 +199,7 @@ Residual standard error: 2757 on 398 degrees of freedom
 Multiple R-squared: 0.1076,     Adjusted R-squared: 0.1054
 F-statistic:    48 on 1 and 398 DF,  p-value: 1.727e-11
 
-# Calculating which does better across rounds
-> A_t = aggregate((E_canon$t - E_min$t) < 0, by=list(r=E_canon$r), FUN=sum)$x
-> B_t = aggregate((E_canon$t - E_min$t) >= 0, by=list(r=E_canon$r), FUN=sum)$x
-> counts_t = t(matrix(c(A_t,B_t), ncol=2))
-> barplot(counts_t, col=c("red", "blue"), legend=c("Canon is best", "Min is best"))
-> A_r1 = aggregate((E_canon$r1 - E_min$r1) < 0, by=list(r=E_canon$r), FUN=sum)$x
-> B_r1 = aggregate((E_canon$r1 - E_min$r1) >= 0, by=list(r=E_canon$r), FUN=sum)$x
-> counts_r1 = t(matrix(c(A_r1,B_r1), ncol=2))
-> barplot(counts_r1, col=c("red", "blue"), legend=c("Canon is best", "Min is best"))
-> A_cfs = aggregate((E_canon$cfs - E_min$cfs) < 0, by=list(r=E_canon$r), FUN=sum)$x
-> B_cfs = aggregate((E_canon$cfs - E_min$cfs) >= 0, by=list(r=E_canon$r), FUN=sum)$x
-> counts_cfs = t(matrix(c(A_cfs,B_cfs), ncol=2))
-> barplot(counts_cfs, col=c("red", "blue"), legend=c("Canon is best", "Min is best"))
-
-> B_t
- [1] 17 19 12 15 12 14 16 18 14 14 17 13 13 13 13 14 10 16 12 15
-> sum(B_t) / 400
-[1] 0.7175
-> sum(B_t[11:20]) / 200
-[1] 0.68
-> sum(B_t[16:20]) / 100
-[1] 0.67
-> B_r1
- [1] 17 17 14 14 11 14 17 18 15 15 17 17 13 16 14 16 12 17 14 19
-> sum(B_r1) / 400
-[1] 0.7675
-> sum(B_r1[11:20]) / 200
-[1] 0.775
-> sum(B_r1[16:20]) / 100
-[1] 0.78
-> A_cfs
- [1] 13  7 11  6 10 12 13 10 11 13 10 15 12 13 12 15 13 18 16 19
-> sum(A_cfs)/400
-[1] 0.6225
-> sum(A_cfs[11:20])/200
-[1] 0.715
-> sum(A_cfs[16:20])/100
-[1] 0.81
+XXX missing correlation for averaged values
          \endverbatim
          We see that:
           <ul>
