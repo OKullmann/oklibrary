@@ -201,17 +201,6 @@ F-statistic:    48 on 1 and 398 DF,  p-value: 1.727e-11
 
 XXX missing correlation for averaged values
          \endverbatim
-         We see that:
-          <ul>
-           <li> time: the minimum translation is better than the canonical
-           translation in 72% of cases in terms of time. </li>
-           <li> r1: similar relationship as with time (they are strongly
-           linearly related for all translation as discussed below). </li>
-           <li> cfs: the canonical translation performs better than the
-           minimum translation in 62% of cases, and this happens more
-           as the number of rounds increases (81% for rounds 16 to 20). </li>
-          </ul>
-         </li>
          <li> Comparing the 1-base and minimum:
          \verbatim
 > plot(E_1base$r, E_1base$t - E_min$t, ylim=c(-max(abs(E_1base$t - E_min$t)), max(abs(E_1base$t - E_min$t))))
