@@ -135,32 +135,11 @@ expand(ev(c, s:145));
     <ul>
      <li> Comparing solvers (point-wise/per-instance) in terms of:
       <ul>
-       <li> Time ( ~ canonical > minimum >= 1base ) :
-        <ul>
-         <li> minimum and 1-base translations take less time than the
-         canonical in 77% and 75% of cases respectively. </li>
-         <li> 1-base uses less time than the minimum in 54% of cases, rising
-         to 63% of cases for rounds 16 to 20. </li>
-        </ul>
+       <li> Time (canonical > minimum >= 1base) : ???
        </li>
-       <li> r1 ( ~ canonical > 1base >= minimum ) :
-        <ul>
-         <li> minimum and 1-base translations use less propagations than the
-         canonical in 76% and 79% of cases respectively. </li>
-         <li> 1-base uses less propagations than the minimum translation in
-         50% of cases, rising to 55% for rounds 16 to 20, and 65% over rounds
-         19 and 20. </li>
-        </ul>
+       <li> r1 (canonical > 1base >= minimum) : ???
        </li>
-       <li> Conflicts ( ~ minimum > canonical = 1-base ) :
-        <ul>
-         <li> canonical and 1-base translations use less conflicts than the
-         minimum translation in 62% and 66% of instances respectively; in
-         81% and 84% for rounds 16 to round 20. </li>
-         <li> canonical and 1-base translations use the same amount of
-         conflicts on different instances, and this doesn't appear (visually
-         or counting) to change as the number of rounds increases. </li>
-        </ul>
+       <li> Conflicts (minimum > canonical = 1-base) : ???
        </li>
       </ul>
      </li>
