@@ -97,12 +97,20 @@ License, or any later version. */
    </li>
    <li> Therefore, each clause-set has:
    \verbatim
-3*r*s + 24*r*2 + (20*r+12)*4 + 4*r*8 + 4*r
+c : 4*r*s + 24*r*2 + (20*r+12)*4 + 4*r*8 + 4*r;
+expand(simplify_t(c));
+  4*r*s+164*r+48
+factorout(expand(simplify_t(c)), s);
+  = 4*r*(s+41)+48
    \endverbatim
    clauses.
    </li>
-   <li> Checking this matches up for the canonical translation:
+   <li> Checking this matches up for the canonical translation, where now
+   s=145:
    \verbatim
+expand(ev(c, s:145));
+ 744*r+48
+
 > ExtendedDimacsFullStatistics-O3-DNDEBUG < ssaes_r20_c3_rw1_e4_f0.cnf
  n non_taut_c red_l taut_c orig_l comment_count finished_bool
 2436 14928 42784 0 42784 2437 1
@@ -110,7 +118,7 @@ License, or any later version. */
 > ncl_full_dualts(8,16);
   145
 
-> r : 20; s : 145; 3*r*s + 24*r*2 + (20*r+12)*4 + 4*r*8 + 4*r;
+> ev(c, s:145,r:20);
   14928
    \endverbatim
    </li>
