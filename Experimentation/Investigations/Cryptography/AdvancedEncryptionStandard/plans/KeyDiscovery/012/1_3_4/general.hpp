@@ -60,7 +60,7 @@ License, or any later version. */
 
   \todo Instance characteristics
   <ul>
-   <li> In this translation, we have:
+   <li> In this instance, we have:
     <ul>
      <li> r full rounds (Key Addition, SubBytes; MixColumns is the identity).
      </li>
@@ -96,14 +96,18 @@ License, or any later version. */
     </ul>
    </li>
    <li> Therefore, each clause-set has:
-   \verbatim
+    <ul>
+     <li> 4*r*(s+41) + 48 clauses:
+     \verbatim
 c : 4*r*s + 24*r*2 + (20*r+12)*4 + 4*r*8 + 4*r;
 expand(simplify_t(c));
   4*r*s+164*r+48
 factorout(expand(simplify_t(c)), s);
   = 4*r*(s+41)+48
-   \endverbatim
-   clauses.
+     \endverbatim
+     clauses.
+     </li>
+    <ul>
    </li>
    <li> Instantiating for the canonical translation, where now
    s=145:
@@ -257,6 +261,11 @@ done
 > E_1base = read.table("Experimental-data/AES/1_3_4/ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional/MinisatStatistics",header=TRUE)
 > E_min = read.table("Experimental-data/AES/1_3_4/ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional/MinisatStatistics",header=TRUE)
 
+# Values averaged per round:
+> E_canon_mean = aggregate(E_canon, by=list(r=E_canon$r), FUN=mean)
+> E_1base_mean = aggregate(E_1base, by=list(r=E_1base$r), FUN=mean)
+> E_min_mean = aggregate(E_min, by=list(r=E_min$r), FUN=mean)
+
 > plot(E_canon)
 > plot(E_1base)
 > plot(E_min)
@@ -267,10 +276,7 @@ done
          <li> Comparing the canonical and minimum (in terms of time, r1 and
          cfs):
          \verbatim
-> plot(E_canon$r, E_canon$t - E_min$t)
-> plot(E_canon$r, E_canon$r1 - E_min$r1)
-> plot(E_canon$r, E_canon$cfs - E_min$cfs)
-
+> plot(E_canon$r, E_canon$t - E_min$t, , ylim=c(-max(abs(E_canon$t - E_min$t)), max(abs(E_canon$t - E_min$t))))
 > m = lm(E_canon$t - E_min$t ~ E_canon$r)
 > lines(E_canon$r, predict(m))
 > summary(m)
@@ -280,6 +286,11 @@ E_canon$r    0.0085169  0.0016922   5.033 7.32e-07 ***
 Residual standard error: 0.1951 on 398 degrees of freedom
 Multiple R-squared: 0.05984,    Adjusted R-squared: 0.05748
 F-statistic: 25.33 on 1 and 398 DF,  p-value: 7.323e-07
+> mm = lm(E_canon_mean$t - E_min_mean$t ~ E_canon_mean$r); summary(mm)$r.squared
+[1] 0.7233898
+
+
+> plot(E_canon$r, E_canon$r1 - E_min$r1, ylim=c(-max(abs(E_canon$r1 - E_min$r1)), max(abs(E_canon$r1 - E_min$r1))))
 > m = lm(E_canon$r1 - E_min$r1 ~ E_canon$r)
 > lines(E_canon$r, predict(m))
 > summary(m)
@@ -289,6 +300,11 @@ E_canon$r      92916      10941   8.492 4.07e-16 ***
 Residual standard error: 1262000 on 398 degrees of freedom
 Multiple R-squared: 0.1534,     Adjusted R-squared: 0.1513
 F-statistic: 72.12 on 1 and 398 DF,  p-value: 4.073e-16
+> mm = lm(E_canon_mean$r1 - E_min_mean$r1 ~ E_canon_mean$r); summary(mm)$r.square
+[1] 0.8788695
+
+
+> plot(E_canon$r, E_canon$cfs - E_min$cfs, , ylim=c(-max(abs(E_canon$cfs - E_min$cfs)), max(abs(E_canon$cfs - E_min$cfs))))
 > m = lm(E_canon$cfs - E_min$cfs ~ E_canon$r)
 > lines(E_canon$r, predict(m))
 > summary(m)
@@ -298,8 +314,8 @@ E_canon$r    -165.61      23.91  -6.928 1.73e-11 ***
 Residual standard error: 2757 on 398 degrees of freedom
 Multiple R-squared: 0.1076,     Adjusted R-squared: 0.1054
 F-statistic:    48 on 1 and 398 DF,  p-value: 1.727e-11
-
-XXX missing correlation for averaged values
+> mm = lm(E_canon_mean$cfs - E_min_mean$cfs ~ E_canon_mean$r); summary(mm)$r.squared
+[1] 0.6867762
          \endverbatim
          <li> Comparing the 1-base and minimum:
          \verbatim
@@ -314,6 +330,9 @@ E_1base$r   -0.003208   0.001066  -3.009  0.00279 **
 Residual standard error: 0.1229 on 398 degrees of freedom
 Multiple R-squared: 0.02224,    Adjusted R-squared: 0.01979
 F-statistic: 9.054 on 1 and 398 DF,  p-value: 0.002787
+> mm = lm(E_1base_mean$t - E_min_mean$t ~ E_1base_mean$r); summary(mm)$r.squared
+[1] 0.2207844
+
 
 > plot(E_1base$r, E_1base$r1 - E_min$r1, ylim=c(-max(abs(E_1base$r1 - E_min$r1)), max(abs(E_1base$r1 - E_min$r1))))
 > m = lm(E_1base$r1 - E_min$r1 ~ E_1base$r)
@@ -324,6 +343,8 @@ E_1base$r      -4236       5506  -0.769    0.442
 Residual standard error: 635000 on 398 degrees of freedom
 Multiple R-squared: 0.001485,   Adjusted R-squared: -0.001024
 F-statistic: 0.5918 on 1 and 398 DF,  p-value: 0.4422
+> mm = lm(E_1base_mean$r1 - E_min_mean$r1 ~ E_1base_mean$r); summary(mm)$r.squared
+[1] 0.02052002
 
 > plot(E_1base$r, E_1base$cfs - E_min$cfs, ylim=c(-max(abs(E_1base$cfs - E_min$cfs)), max(abs(E_1base$cfs - E_min$cfs))))
 > m = lm(E_1base$cfs - E_min$cfs ~ E_1base$r)
@@ -334,12 +355,12 @@ E_1base$r    -159.34      23.87  -6.676 8.25e-11 ***
 Residual standard error: 2752 on 398 degrees of freedom
 Multiple R-squared: 0.1007,     Adjusted R-squared: 0.09845
 F-statistic: 44.57 on 1 and 398 DF,  p-value: 8.254e-11
+> mm = lm(E_1base_mean$cfs - E_min_mean$cfs ~ E_1base_mean$r); summary(mm)$r.squared
+[1] 0.5608833
          \endverbatim
          </li>
          <li> Comparing the 1-base and minimum:
          \verbatim
-XXX needs update
-
 > plot(E_1base$r, E_1base$t - E_canon$t, ylim=c(-max(abs(E_1base$t - E_canon$t)), max(abs(E_1base$t - E_canon$t))))
 > m = lm(E_1base$t - E_canon$t ~ E_1base$r)
 > lines(E_1base$r, predict(m))
@@ -350,6 +371,8 @@ E_1base$r   -0.011724   0.001647  -7.120 5.08e-12 ***
 Residual standard error: 0.1899 on 398 degrees of freedom
 Multiple R-squared: 0.113,      Adjusted R-squared: 0.1108
 F-statistic: 50.69 on 1 and 398 DF,  p-value: 5.08e-12
+> mm = lm(E_1base_mean$t - E_canon_mean$t ~ E_canon_mean$r); summary(mm)$r.squared
+[1] 0.6872132
 
 > plot(E_1base$r, E_1base$r1 - E_canon$r1, ylim=c(-max(abs(E_1base$r1 - E_canon$r1)), max(abs(E_1base$r1 - E_canon$r1))))
 > m = lm(E_1base$r1 - E_canon$r1 ~ E_1base$r)
@@ -361,6 +384,9 @@ E_1base$r     -97152      10868  -8.940   <2e-16 ***
 Residual standard error: 1253000 on 398 degrees of freedom
 Multiple R-squared: 0.1672,     Adjusted R-squared: 0.1651
 F-statistic: 79.92 on 1 and 398 DF,  p-value: < 2.2e-16
+> mm = lm(E_1base_mean$r1 - E_canon_mean$r1 ~ E_canon_mean$r); summary(mm)$r.squared
+[1] 0.7871271
+
 
 > plot(E_1base$r, E_1base$cfs - E_canon$cfs, ylim=c(-max(abs(E_1base$cfs - E_canon$cfs)), max(abs(E_1base$cfs - E_canon$cfs))))
 > m = lm(E_1base$cfs - E_canon$cfs ~ E_1base$r)
@@ -372,6 +398,8 @@ E_1base$r      6.271     21.031   0.298    0.766
 Residual standard error: 2425 on 398 degrees of freedom
 Multiple R-squared: 0.0002234,  Adjusted R-squared: -0.002289
 F-statistic: 0.08892 on 1 and 398 DF,  p-value: 0.7657
+> mm = lm(E_1base_mean$cfs - E_canon_mean$cfs ~ E_canon_mean$r); summary(mm)$r.squared
+[1] 0.002643576
          \endverbatim
          </li>
         </ul>
