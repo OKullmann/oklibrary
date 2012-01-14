@@ -235,59 +235,7 @@ E_1base$r    -159.34      23.87  -6.676 8.25e-11 ***
 Residual standard error: 2752 on 398 degrees of freedom
 Multiple R-squared: 0.1007,     Adjusted R-squared: 0.09845
 F-statistic: 44.57 on 1 and 398 DF,  p-value: 8.254e-11
-
-# Calculating which does better across rounds
-> A_t = aggregate((E_1base$t - E_min$t) < 0, by=list(r=E_1base$r), FUN=sum)$x
-> B_t = aggregate((E_1base$t - E_min$t) >= 0, by=list(r=E_1base$r), FUN=sum)$x
-> counts_t = t(matrix(c(A_t,B_t), ncol=2))
-> barplot(counts_t, col=c("red", "blue"), legend=c("1base is best", "Min is best"))
-> A_r1 = aggregate((E_1base$r1 - E_min$r1) < 0, by=list(r=E_1base$r), FUN=sum)$x
-> B_r1 = aggregate((E_1base$r1 - E_min$r1) >= 0, by=list(r=E_1base$r), FUN=sum)$x
-> counts_r1 = t(matrix(c(A_r1,B_r1), ncol=2))
-> barplot(counts_r1, col=c("red", "blue"), legend=c("1base is best", "Min is best"))
-> A_cfs = aggregate((E_1base$cfs - E_min$cfs) < 0, by=list(r=E_1base$r), FUN=sum)$x
-> B_cfs = aggregate((E_1base$cfs - E_min$cfs) >= 0, by=list(r=E_1base$r), FUN=sum)$x
-> counts_cfs = t(matrix(c(A_cfs,B_cfs), ncol=2))
-> barplot(counts_cfs, col=c("red", "blue"), legend=c("1base is best", "Min is best"))
-
-> A_t
- [1]  9 11 12 10  8 12 12  8  9 11 14 10  9 10  6 13  9 13 12 16
-> sum(A_t) / 400
-[1] 0.535
-> sum(A_t[11:20])/200
-[1] 0.56
->  sum(A_t[16:20])/100
-[1] 0.63
-> A_r1
- [1] 11 10 13 10 10 12 12  8  8 11 14  8  8  7  6 12  6 11 12 14
-> sum(A_r1) / 400
-[1] 0.5075
-> sum(A_r1[11:20])/200
-[1] 0.49
-> sum(A_r1[16:20])/100
-[1] 0.55
-> sum(A_r1[19:20])/40
-[1] 0.65
-> A_cfs
- [1] 12 13 15  9 11 14 13  9 10 13 16 12 12 11 10 16 14 19 17 18
-> sum(A_cfs)/400
-[1] 0.66
-> sum(A_cfs[11:20])/200
-[1] 0.725
-> sum(A_cfs[16:20])/100
-[1] 0.84
          \endverbatim
-         We see that:
-          <ul>
-           <li> time: the 1-base translation is better than the minimum
-           translation in 54% of cases in terms of time, and this improves
-           with the number of rounds (84% for rounds 16 to 20). </li>
-           <li> r1: the 1-base and minimum translation perform each perform
-           well on different "halves" of the keys. </li>
-           <li> cfs: the 1-base translation performs better than the
-           minimum translation in 66% of cases, and this happens more
-           as the number of rounds increases (84% for rounds 16 to 20). </li>
-          </ul>
          </li>
          <li> Comparing the 1-base and minimum:
          \verbatim
@@ -325,55 +273,7 @@ E_1base$r      6.271     21.031   0.298    0.766
 Residual standard error: 2425 on 398 degrees of freedom
 Multiple R-squared: 0.0002234,  Adjusted R-squared: -0.002289
 F-statistic: 0.08892 on 1 and 398 DF,  p-value: 0.7657
-
-# Calculating which does better across rounds
-> A_t = aggregate((E_1base$t - E_canon$t) < 0, by=list(r=E_1base$r), FUN=sum)$x
-> B_t = aggregate((E_1base$t - E_canon$t) >= 0, by=list(r=E_1base$r), FUN=sum)$x
-> counts_t = t(matrix(c(A_t,B_t), ncol=2))
-> barplot(counts_t, col=c("red", "blue"), legend=c("1base is best", "Canon is best"))
-> A_r1 = aggregate((E_1base$r1 - E_canon$r1) < 0, by=list(r=E_1base$r), FUN=sum)$x
-> B_r1 = aggregate((E_1base$r1 - E_canon$r1) >= 0, by=list(r=E_1base$r), FUN=sum)$x
-> counts_r1 = t(matrix(c(A_r1,B_r1), ncol=2))
-> barplot(counts_r1, col=c("red", "blue"), legend=c("1base is best", "Canon is best"))
-> A_cfs = aggregate((E_1base$cfs - E_canon$cfs) < 0, by=list(r=E_1base$r), FUN=sum)$x
-> B_cfs = aggregate((E_1base$cfs - E_canon$cfs) >= 0, by=list(r=E_1base$r), FUN=sum)$x
-> counts_cfs = t(matrix(c(A_cfs,B_cfs), ncol=2))
-> barplot(counts_cfs, col=c("red", "blue"), legend=c("1base is best", "Canon is best"))
-
-> A_t
- [1] 14 18 16 17 17 15 17 17  9 15 17 13 15 12 13 16 12 17 11 17
-> sum(A_t) / 400
-[1] 0.745
-> sum(A_t[11:20])/200
-[1] 0.715
-> sum(A_t[16:20])/100
-[1] 0.73
-> A_r1
- [1] 17 16 17 17 17 15 17 18 13 15 17 16 15 14 14 16 12 18 13 18
-> sum(A_r1) / 400
-[1] 0.7875
-> sum(A_r1[11:20])/200
-[1] 0.765
-> sum(A_r1[16:20])/100
-[1] 0.77
-> A_cfs
- [1]  8 13 10 15 11 12 11  9  5 13 13  8 13 10  6 13  6 12  7 14
-> sum(A_cfs)/400
-[1] 0.5225
-> sum(A_cfs[11:20])/200
-[1] 0.51
-> sum(A_cfs[16:20])/100
-[1] 0.52
          \endverbatim
-         We see that:
-          <ul>
-           <li> time: the 1-base translation is better than the canonical
-           translation in 75% of cases in terms of time. </li>
-           <li> r1: the 1-base translation performs better than the
-           canonical translation in 79% of cases. </li>
-           <li> cfs: the 1-base and canonical translation perform each perform
-           well on different "halves" of the keys. </li>
-          </ul>
          </li>
         </ul>
        </li>
