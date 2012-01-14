@@ -129,6 +129,105 @@ expand(ev(c, s:145));
   </ul>
 
 
+  \todo Translations
+  <ul>
+   <li> The following translations are considered in this %plans %file:
+    <ul>
+     <li> The canonical box translation. </li>
+     <li> The minimum box translation. </li>
+     <li> The 1-base translation. </li>
+    </ul>
+   </li>
+   <li> For a full list of the possible translations, see
+   "Investigating dimensions" in
+   Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
+   </li>
+   <li> Generating instances for rounds 1-20 for a 20 random keys with each
+   of the translations:
+    <ul>
+     <li> The canonical box translation:
+     \verbatim
+shell> mkdir ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_canon_box_aes_mc_bidirectional
+shell> cd ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_canon_box_aes_mc_bidirectional
+shell> oklib --maxima
+num_rows : 1$
+num_columns : 3$
+exp : 4$
+final_round_b : false$
+box_tran : aes_ts_box$
+seed : 1$
+mc_tran : aes_mc_bidirectional$
+for num_rounds : 1 thru 20 do (
+  output_ss_fcl_std(
+    num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
+exit();
+shell> for r in $(seq 1 20); do
+  for s in $(seq 1 20) do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c3_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c3_rw1_e4_f0_s${s}.cnf > r${r}_k${s}.cnf;
+  done
+done
+     \endverbatim
+     </li>
+     <li> The minimum box translation:
+     \verbatim
+shell> mkdir ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional
+shell> cd ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional
+shell> oklib --maxima
+num_rows : 1$
+num_columns : 3$
+exp : 4$
+final_round_b : false$
+box_tran : aes_small_box$
+seed : 1$
+mc_tran : aes_mc_bidirectional$
+for num_rounds : 1 thru 20 do (
+  output_ss_fcl_std(
+    num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
+exit();
+shell> for r in $(seq 1 20); do
+  for s in $(seq 1 20) do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c3_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c3_rw1_e4_f0_s${s}.cnf > r${r}_k${s}.cnf;
+  done
+done
+     \endverbatim
+     </li>
+     <li> The 1-base box translation:
+     \verbatim
+shell> mkdir ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional
+shell> cd ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional
+shell> oklib --maxima
+num_rows : 1$
+num_columns : 3$
+exp : 4$
+final_round_b : false$
+box_tran : aes_rbase_box$
+seed : 1$
+mc_tran : aes_mc_bidirectional$
+for num_rounds : 1 thru 20 do (
+  output_ss_fcl_std(
+    num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
+  for seed : 1 thru 20 do (
+    output_ss_random_pc_pair(
+      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
+exit();
+shell> for r in $(seq 1 20); do
+  for s in $(seq 1 20) do
+    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c3_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c3_rw1_e4_f0_s${s}.cnf > r${r}_k${s}.cnf;
+  done
+done
+     \endverbatim
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Overview of solver performance XXX ??? this is NOT an overview,
   however it should be XXX
   <ul>
@@ -473,105 +572,6 @@ F-statistic: 1.506e+04 on 1 and 398 DF,  p-value: < 2.2e-16
         </ul>
        </li>
       </ul>
-     </li>
-    </ul>
-   </li>
-  </ul>
-
-
-  \todo Translations
-  <ul>
-   <li> The following translations are considered in this %plans %file:
-    <ul>
-     <li> The canonical box translation. </li>
-     <li> The minimum box translation. </li>
-     <li> The 1-base translation. </li>
-    </ul>
-   </li>
-   <li> For a full list of the possible translations, see
-   "Investigating dimensions" in
-   Cryptography/AdvancedEncryptionStandard/plans/Experimentation.hpp.
-   </li>
-   <li> Generating instances for rounds 1-20 for a 20 random keys with each
-   of the translations:
-    <ul>
-     <li> The canonical box translation:
-     \verbatim
-shell> mkdir ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_canon_box_aes_mc_bidirectional
-shell> cd ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_canon_box_aes_mc_bidirectional
-shell> oklib --maxima
-num_rows : 1$
-num_columns : 3$
-exp : 4$
-final_round_b : false$
-box_tran : aes_ts_box$
-seed : 1$
-mc_tran : aes_mc_bidirectional$
-for num_rounds : 1 thru 20 do (
-  output_ss_fcl_std(
-    num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
-  for seed : 1 thru 20 do (
-    output_ss_random_pc_pair(
-      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
-exit();
-shell> for r in $(seq 1 20); do
-  for s in $(seq 1 20) do
-    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c3_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c3_rw1_e4_f0_s${s}.cnf > r${r}_k${s}.cnf;
-  done
-done
-     \endverbatim
-     </li>
-     <li> The minimum box translation:
-     \verbatim
-shell> mkdir ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional
-shell> cd ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional
-shell> oklib --maxima
-num_rows : 1$
-num_columns : 3$
-exp : 4$
-final_round_b : false$
-box_tran : aes_small_box$
-seed : 1$
-mc_tran : aes_mc_bidirectional$
-for num_rounds : 1 thru 20 do (
-  output_ss_fcl_std(
-    num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
-  for seed : 1 thru 20 do (
-    output_ss_random_pc_pair(
-      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
-exit();
-shell> for r in $(seq 1 20); do
-  for s in $(seq 1 20) do
-    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c3_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c3_rw1_e4_f0_s${s}.cnf > r${r}_k${s}.cnf;
-  done
-done
-     \endverbatim
-     </li>
-     <li> The 1-base box translation:
-     \verbatim
-shell> mkdir ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional
-shell> cd ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional
-shell> oklib --maxima
-num_rows : 1$
-num_columns : 3$
-exp : 4$
-final_round_b : false$
-box_tran : aes_rbase_box$
-seed : 1$
-mc_tran : aes_mc_bidirectional$
-for num_rounds : 1 thru 20 do (
-  output_ss_fcl_std(
-    num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran),
-  for seed : 1 thru 20 do (
-    output_ss_random_pc_pair(
-      seed,num_rounds,num_columns,num_rows,exp,final_round_b)))$
-exit();
-shell> for r in $(seq 1 20); do
-  for s in $(seq 1 20) do
-    AppendDimacs-O3-DNDEBUG ssaes_r${r}_c3_rw1_e4_f0.cnf ssaes_pcpair_r${r}_c3_rw1_e4_f0_s${s}.cnf > r${r}_k${s}.cnf;
-  done
-done
-     \endverbatim
      </li>
     </ul>
    </li>
