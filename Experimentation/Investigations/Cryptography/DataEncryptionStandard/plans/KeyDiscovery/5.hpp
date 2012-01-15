@@ -1,5 +1,5 @@
 // Matthew Gwynne, 25.5.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -588,6 +588,279 @@ CPU time              : 154031.16 s
      </li>
      <li> For the second random plaintext-ciphtext pair (seed = 2),
      minisat-2.2.0 takes > 1 week. </li>
+    </ul>
+   </li>
+  </ul>
+
+
+  \todo Applying SplittingViaOKsolver
+  <ul>
+   <li> Trying cube and conquer using SplittingViaOKsolver. </li>
+   <li> Using the canonical translation:
+    <ul>
+     <li> Generating the instance:
+     \verbatim
+rounds : 5$
+seed : 1$
+sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
+set_random(make_random_state(seed)),
+P_hex : lpad(int2hex(random(2**64)),"0",16),
+K_hex : lpad(int2hex(random(2**64)),"0",16),
+C_hex : des_encryption_hex_gen(rounds, P_hex,K_hex),
+P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds),
+C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds),
+F : des2fcl_gen(sbox_fcl_l,rounds),
+Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
+output_fcl_v(
+sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the 1-base translation for the S-boxes (6-to-4)."),
+  Fs[1],
+  sconcat("des_6t4_canon_r",rounds,"_s",seed,".cnf"),
+  Fs[2]))$
+     \endverbatim
+     </li>
+     <li> Basic statistics:
+     \verbatim
+> cat des_6t4_canon_r5_s1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+3248 29928 86848 0 86848 3249 1
+ length count
+1 128
+2 25600
+3 1600
+11 2560
+64 40
+     \endverbatim
+     </li>
+     <li> Splitting:
+     \verbatim
+> SplittingViaOKsolver -D10 des_6t4_canon_r5_s1.cnf
+> more SplitViaOKsolver_D10des_6t4_canon_r5_s1cnf_2012-01-04-115430/Statistics
+> table(E$d)
+1
+2
+
+> SplittingViaOKsolver -D20 des_6t4_canon_r5_s1.cnf
+1
+2
+
+> SplittingViaOKsolver -D40 des_6t4_canon_r5_s1.cnf
+1
+2
+
+> SplittingViaOKsolver -D100 des_6t4_canon_r5_s1.cnf
+2
+4
+
+
+
+> SplittingViaOKsolver -D500 des_6t4_canon_r5_s1.cnf
+
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  629.0   633.0   641.0   644.4   647.0   712.0
+> table(E$n)
+
+629 630 633 637 641 643 647 657 661 665 669 673 701 702 705 706 708 709 712
+484   2 486 368 126 472 480   4  36 136  72  96  16  16  32  16  14  16  14
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   8.00   11.00   12.00   12.29   13.00   17.00
+> table(E$d)
+
+  8   9  10  11  12  13  14  15  16  17
+  7  74 266 588 747 579 345 196  68  1
+
+
+> cat SplitViaOKsolver_D500des_6t4_canon_r5_s1cnf_2012-01-04-115530/Md5sum
+0a28ef9978c86d76010af15008bda86a
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D500des_6t4_canon_r5_s1cnf_2012-01-04-115530/
+
+# Takes > 1 hour for first instance.
+
+
+> SplittingViaOKsolver -D600 des_6t4_canon_r5_s1.cnf
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  728.0   742.0   779.0   828.4   915.0  1139.0
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  10.00   16.00   17.00   16.75   18.00   22.00
+> table(E$d)
+
+   10    11    12    13    14    15    16    17    18    19    20    21    22
+    7    51   250   867  2924  7560 13710 16474 12146  5084  1209   286    32
+
+> cat SplitViaOKsolver_D600des_6t4_canon_r5_s1cnf_2012-01-04-144308/Md5sum
+bfbefbfe59b91532302dc81bce81357c
+
+> cat Result
+s UNKNOWN
+c sat_status                            2
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           128
+c reddiff_number_of_clauses             576
+c reddiff_number_of_literal_occurrences 1920
+c number_of_2-clauses_after_reduction   26048
+c running_time(sec)                     17756.8
+c number_of_nodes                       121199
+c number_of_2-reductions                2285546
+c max_tree_depth                        22
+c splitting_cases                       60600
+
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D600des_6t4_canon_r5_s1cnf_2012-01-04-144308
+# Still running
+
+> oklib --R
+
+> E = read_processsplit_minisat()
+23104: 6.543d, sum-cfs=1.746500e+09, mean-t=24.470s, mean-cfs=75593
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+    0.18     1.32     2.14    24.47     2.88 17780.00
+sd= 458.2902
+       95%        96%        97%        98%        99%       100%
+    4.0685     4.2600     4.5491     5.0000     6.2300 17777.2000
+sum= 565348.2
+$cfs:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+    3358    13440    18180    75590    22010 41700000
+sd= 1164417
+        95%         96%         97%         98%         99%        100%
+   28982.40    29965.76    31253.64    33208.92    40357.79 41695626.00
+sum= 1746500429
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -5.0955e+00  3.3789e-01  -15.08 < 2.2e-16 ***
+E$cfs        3.9111e-04  2.8958e-07 1350.62 < 2.2e-16 ***
+R-squared: 0.9875
+
+# Computing the predicted number of days to solve all instances
+> (24.47 * 60600) / 60 / 60 / 24
+[1] 17.16299
+     \endverbatim
+     So, we can assume with D=600 that this will likely take ~17 days, but
+     without splitting it takes ~1.8 days. </li>
+    </ul>
+   </li>
+   <li> Using the 1-base translation:
+    <ul>
+     <li> Generating the instance:
+     \verbatim
+maxima> for i : 1 thru 8 do output_dessbox_fullcnf_stdname(i)$
+shell> gen_seed[1]=7;gen_seed[2]=71;gen_seed[3]=185;gen_seed[4]=346;gen_seed[5]=67;gen_seed[6]=327;gen_seed[7]=148;gen_seed[8]=167;
+shell> base_seed[1]=1;base_seed[2]=1;base_seed[3]=2;base_seed[4]=4;base_seed[5]=2;base_seed[6]=1;base_seed[7]=2;base_seed[8]=1;
+shell> for i in $(seq 1 8); do
+  QuineMcCluskey-n16-O3-DNDEBUG DES_Sbox_${i}_fullCNF.cnf > DES_Sbox_${i}_pi.cnf;
+  RandomShuffleDimacs-O3-DNDEBUG ${gen_seed[$i]} < DES_Sbox_${i}_pi.cnf | SortByClauseLength-O3-DNDEBUG > DES_Sbox_${i}_sortedpi.cnf;
+  RUcpGen-O3-DNDEBUG DES_Sbox_${i}_sortedpi.cnf > DES_Sbox_${i}_gen.cnf;
+  RandomShuffleDimacs-O3-DNDEBUG ${base_seed[$i]}  < DES_Sbox_${i}_gen.cnf | SortByClauseLengthDescending-O3-DNDEBUG | RUcpBase-O3-DNDEBUG > DES_Sbox_${i}_1base.cnf;
+done
+     \endverbatim
+     </li>
+     <li> Basic statistics:
+     \verbatim
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+688 7048 33813 0 33813 689 1
+ length count
+1 128
+3 1600
+5 3040
+6 2275
+7 5
+     \endverbatim
+     </li>
+     <li> Splitting:
+     \verbatim
+> SplittingViaOKsolver -D10 des_6t4_1base_r5_s1.cnf
+> more SplitViaOKsolver_D10des_6t4_1base_r5_s1cnf_2012-01-04-115430/Statistics
+> table(E$d)
+ 4
+16
+
+> SplittingViaOKsolver -D20 des_6t4_1base_r5_s1.cnf
+5  6  7
+13 33 10
+
+> SplittingViaOKsolver -D40 des_6t4_1base_r5_s1.cnf
+7   8   9  10  11  12
+2  36 167 367 296  60
+
+
+
+> SplittingViaOKsolver -D50 des_6t4_1base_r5_s1.cnf
+
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  179.0   180.0   180.0   180.4   181.2   183.0
+> table(E$n)
+
+ 179  180  181  182  183
+ 896 2128   48  512  512
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  10.00   12.00   12.00   12.28   13.00   14.00
+> table(E$d)
+
+  10   11   12   13   14
+  60  760 1548 1424  304
+
+
+> cat SplitViaOKsolver_D50des_6t4_1base_r5_s1cnf_2012-01-06-140151/Md5sum
+f75fa9f264824ff74a5e72589b019246
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D50des_6t4_1base_r5_s1cnf_2012-01-06-140151
+
+> cat SplitViaOKsolver_D50des_6t4_1base_r5_s1cnf_2012-01-06-140151/Result
+s UNKNOWN
+c number_of_initial_unit-eliminations   128
+c reddiff_number_of_variables           128
+c reddiff_number_of_clauses             576
+c reddiff_number_of_literal_occurrences 1920
+c number_of_2-clauses_after_reduction   448
+c running_time(sec)                     11.4
+c number_of_nodes                       8191
+c number_of_2-reductions                492
+c max_tree_depth                        14
+c splitting_cases                       4096
+
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D600des_6t4_canon_r5_s1cnf_2012-01-04-144308
+# Still running
+
+> oklib --R
+
+> E = read_processsplit_minisat()
+23104: 6.543d, sum-cfs=1.746500e+09, mean-t=24.470s, mean-cfs=75593
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+    0.18     1.32     2.14    24.47     2.88 17780.00
+sd= 458.2902
+       95%        96%        97%        98%        99%       100%
+    4.0685     4.2600     4.5491     5.0000     6.2300 17777.2000
+sum= 565348.2
+$cfs:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+    3358    13440    18180    75590    22010 41700000
+sd= 1164417
+        95%         96%         97%         98%         99%        100%
+   28982.40    29965.76    31253.64    33208.92    40357.79 41695626.00
+sum= 1746500429
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -5.0955e+00  3.3789e-01  -15.08 < 2.2e-16 ***
+E$cfs        3.9111e-04  2.8958e-07 1350.62 < 2.2e-16 ***
+R-squared: 0.9875
+
+# Computing the predicted number of days to solve all instances
+> (24.47 * 60600) / 60 / 60 / 24
+[1] 17.16299
+     \endverbatim
+     So, we can assume with D=600 that this will likely take ~17 days, but
+     without splitting it takes ~1.8 days. </li>
     </ul>
    </li>
   </ul>
