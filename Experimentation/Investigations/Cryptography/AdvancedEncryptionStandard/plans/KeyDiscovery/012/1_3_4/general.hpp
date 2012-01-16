@@ -300,7 +300,7 @@ E_canon$r      92916      10941   8.492 4.07e-16 ***
 Residual standard error: 1262000 on 398 degrees of freedom
 Multiple R-squared: 0.1534,     Adjusted R-squared: 0.1513
 F-statistic: 72.12 on 1 and 398 DF,  p-value: 4.073e-16
-> mm = lm(E_canon_mean$r1 - E_min_mean$r1 ~ E_canon_mean$r); summary(mm)$r.square
+> mm = lm(E_canon_mean$r1 - E_min_mean$r1 ~ E_canon_mean$r); summary(mm)$r.squared
 [1] 0.8788695
 
 
