@@ -95,41 +95,108 @@ License, or any later version. */
      <li> 4*r bits from the key schedule constant = 4 bits * r rounds. </li>
     </ul>
    </li>
-   <li> Therefore, each clause-set has:
+   <li> S-box statistics:
+   \verbatim
+# Canonical
+statistics_fcs(dualts_fcl(ss_sbox_fulldnf_fcl(2,4,ss_polynomial(2,4))));
+  [24,145,416,16,2]
+# 1-base
+statistics_fcs(ev_hm(ss_sbox_rbase_cnfs,4));
+  [8,27,96,4,3]
+# minimum
+statistics_fcs(ev_hm(ss_sbox_cnfs,4));
+  [8,22,82,5,3]
+   \endverbatim
+   For details of the generation, see "Translations" below. </li>
+   <li> Calculating the statistics:
     <ul>
-     <li> 4*r*(s+41) + 48 clauses:
+     <li> The clause-set has:
      \verbatim
-c : 4*r*s + 24*r*2 + (20*r+12)*4 + 4*r*8 + 4*r;
-expand(simplify_t(c));
-  4*r*s+164*r+48
-factorout(expand(simplify_t(c)), s);
-  = 4*r*(s+41)+48
+n : nvar_ss_gen(r,3,1,4,matrix([1]),s_n - 8,[], false, aes_mc_bidirectional);
+  r*(s_n-4)+3*r*(s_n-8)+52*r+36
+expand(simplify_t(n));
+  4*r*s_n+24*r+36
+factorout(expand(simplify_t(n)), s_n);
+  4*r*(s_n+6)+36
      \endverbatim
-     clauses.
+     variables, where s_n is the number of variables in the S-box
+     representation for each S-box. </li>
+     <li> Each clause-set has:
+      <ul>
+       <li> 4*r*(s_c+41) + 48 clauses:
+       \verbatim
+c : 4*r*s_c + 24*r*2 + (20*r+12)*4 + 4*r*8 + 4*r;
+expand(simplify_t(c));
+  4*r*s_c+164*r+48
+factorout(expand(simplify_t(c)), s_c);
+  4*r*(s_c+41)+48
+       \endverbatim
+       clauses, where s_c is the number of clauses in the S-box
+       representation. </li>
+      </ul>
+     </li>
+     <li> Instantiating for the 1-base translation, where now
+     s_n=24; s_c=145:
+     \verbatim
+expand(ev(n, s_n:24));
+120*r+36
+expand(ev(c, s_c:145));
+744*r+48
+     \endverbatim
+     Checking:
+     \verbatim
+> ExtendedDimacsStatistics-O3-DNDEBUG < ssaes_r20_c3_rw1_e4_f0.cnf
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+   2436   14928   2436   2436   14928    42784     NA     NA   14928    42784  2437
+
+> ev(n, s_n:24, r:20);
+  2436
+> ev(c, s:145,r:20);
+  14928
+     \endverbatim
+     </li>
+     <li> Instantiating for the 1-base translation, where now
+     s_n=8; s_c=27:
+     \verbatim
+expand(ev(n, s_n:8));
+56*r+36
+expand(ev(c, s_c:27));
+272*r+48
+     \endverbatim
+     Checking:
+     \verbatim
+> ExtendedDimacsStatistics-O3-DNDEBUG < ssaes_r20_c3_rw1_e4_f0.cnf
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+   1156    5488   1156   1156    5488    17184     NA     NA    5488    17184  1157
+
+> ev(n, s_n:8, r:20);
+  1156
+> ev(c, s_c:27,r:20);
+  5488
+     \endverbatim
+     </li>
+     <li> Instantiating for the 1-base translation, where now
+     s_n=8; s_c=22:
+     \verbatim
+expand(ev(n, s_n:8));
+56*r+36
+expand(ev(c, s_c:22));
+252*r+48
+     \endverbatim
+     Checking:
+     \verbatim
+> ExtendedDimacsStatistics-O3-DNDEBUG < ssaes_r20_c3_rw1_e4_f0.cnf
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+   1156    5088   1156   1156    5088    16064     NA     NA    5088    16064  1157
+
+> ev(n, s_n:8, r:20);
+  1156
+> ev(c, s_c:22,r:20);
+  5048
+     \endverbatim
      </li>
     </ul>
    </li>
-   <li> Instantiating for the canonical translation, where now
-   s=145:
-   \verbatim
-expand(ev(c, s:145));
- 744*r+48
-   \endverbatim
-   Checking:
-   \verbatim
-> ExtendedDimacsFullStatistics-O3-DNDEBUG < ssaes_r20_c3_rw1_e4_f0.cnf
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-2436 14928 42784 0 42784 2437 1
-
-> ncl_full_dualts(8,16);
-  145
-> ev(c, s:145,r:20);
-  14928
-   \endverbatim
-   </li>
-   <li> Instantiating for the 1-base translation XXX </li>
-   <li> Instantiating for the minimum translation XXX </li>
-   <li> XXX Box sizes. </li>
   </ul>
 
 
