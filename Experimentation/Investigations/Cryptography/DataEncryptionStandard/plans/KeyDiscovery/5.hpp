@@ -1,5 +1,5 @@
 // Matthew Gwynne, 25.5.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -588,6 +588,103 @@ CPU time              : 154031.16 s
      </li>
      <li> For the second random plaintext-ciphtext pair (seed = 2),
      minisat-2.2.0 takes > 1 week. </li>
+    </ul>
+   </li>
+  </ul>
+
+
+  \todo Applying SplittingViaOKsolver
+  <ul>
+   <li> Trying cube and conquer using SplittingViaOKsolver. </li>
+   <li> Using the canonical translation:
+    <ul>
+     <li> Generating the instance:
+     \verbatim
+rounds : 5$
+seed : 1$
+sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
+set_random(make_random_state(seed)),
+P_hex : lpad(int2hex(random(2**64)),"0",16),
+K_hex : lpad(int2hex(random(2**64)),"0",16),
+C_hex : des_encryption_hex_gen(rounds, P_hex,K_hex),
+P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds),
+C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds),
+F : des2fcl_gen(sbox_fcl_l,rounds),
+Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
+output_fcl_v(
+sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the 1-base translation for the S-boxes (6-to-4)."),
+  Fs[1],
+  sconcat("des_6t4_canon_r",rounds,"_s",seed,".cnf"),
+  Fs[2]))$
+     \endverbatim
+     </li>
+     <li> Basic statistics:
+     \verbatim
+> cat des_6t4_canon_r5_s1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
+ n non_taut_c red_l taut_c orig_l comment_count finished_bool
+3248 29928 86848 0 86848 3249 1
+ length count
+1 128
+2 25600
+3 1600
+11 2560
+64 40
+     \endverbatim
+     </li>
+     <li> Splitting the problem for seed=1:
+     \verbatim
+> SplittingViaOKsolver -D600 des_6t4_canon_r5_s1.cnf
+> cd SplitViaOKsolver_D600des_6t4_canon_r5_s1cnf_2012-01-04-144308/
+> cat Md5sum
+bfbefbfe59b91532302dc81bce81357c
+> cat Statistics
+> E=read.table("Data")
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  728.0   742.0   779.0   828.4   915.0  1139.0
+> table(E$d)
+
+   10    11    12    13    14    15    16    17    18    19    20    21    22
+    7    51   250   867  2924  7560 13710 16474 12146  5084  1209   286    32
+> cat Result
+s UNKNOWN
+c sat_status                            2
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           128
+c reddiff_number_of_clauses             576
+c reddiff_number_of_literal_occurrences 1920
+c number_of_2-clauses_after_reduction   26048
+c running_time(sec)                     17756.8
+c number_of_nodes                       121199
+c number_of_2-reductions                2285546
+c max_tree_depth                        22
+c splitting_cases                       60600
+
+# on cspcmg:
+> nohup ProcessSplitViaOKsolver SplitViaOKsolver_D600des_6t4_canon_r5_s1cnf_2012-01-04-144308 &
+# intermediate result:
+> E = read_processsplit_minisat()
+23104: 6.543d, sum-cfs=1.746500e+09, mean-t=24.470s, mean-cfs=75593
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+    0.18     1.32     2.14    24.47     2.88 17780.00
+sd= 458.2902
+       95%        96%        97%        98%        99%       100%
+    4.0685     4.2600     4.5491     5.0000     6.2300 17777.2000
+sum= 565348.2
+$cfs:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+    3358    13440    18180    75590    22010 41700000
+sd= 1164417
+        95%         96%         97%         98%         99%        100%
+   28982.40    29965.76    31253.64    33208.92    40357.79 41695626.00
+sum= 1746500429
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -5.0955e+00  3.3789e-01  -15.08 < 2.2e-16 ***
+E$cfs        3.9111e-04  2.8958e-07 1350.62 < 2.2e-16 ***
+R-squared: 0.9875
+     \endverbatim
+     One should try D=650. XXX </li>
     </ul>
    </li>
   </ul>
