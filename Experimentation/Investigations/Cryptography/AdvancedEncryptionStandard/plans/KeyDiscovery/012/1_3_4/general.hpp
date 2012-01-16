@@ -343,10 +343,6 @@ done
 > E_canon_mean = aggregate(E_canon, by=list(r=E_canon$r), FUN=mean)
 > E_1base_mean = aggregate(E_1base, by=list(r=E_1base$r), FUN=mean)
 > E_min_mean = aggregate(E_min, by=list(r=E_min$r), FUN=mean)
-
-> plot(E_canon)
-> plot(E_1base)
-> plot(E_min)
      \endverbatim
      </li>
      <li> Comparing the (individual) run-times for the three translations:
