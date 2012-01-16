@@ -509,19 +509,13 @@ F-statistic: 0.08892 on 1 and 398 DF,  p-value: 0.7657
 > E_canon_mean = aggregate(E_canon, by=list(r=E_canon$r), FUN=mean)
 > E_1base_mean = aggregate(E_1base, by=list(r=E_1base$r), FUN=mean)
 > E_min_mean = aggregate(E_min, by=list(r=E_min$r), FUN=mean)
-
-> plot(E_canon)
-> plot(E_1base)
-> plot(E_min)
      \endverbatim
      </li>
-     <li> We see the following relationships/distributions:
+     <li> Canonical translation:
       <ul>
-       <li> Canonical translation:
-        <ul>
-         <li> rounds vs r1: linear function with increasing variance;
-         filling a triangle in the bottom left.
-         \verbatim
+       <li> rounds vs r1: linear function with increasing variance;
+       filling a triangle in the bottom left.
+       \verbatim
 > plot(E_canon$r, E_canon$r1)
 > points(E_canon_mean$r, E_canon_mean$r1, pch=3, cex=2)
 > m = lm(E_canon$r1 ~ E_canon$r)
@@ -535,11 +529,11 @@ Multiple R-squared: 0.3513,     Adjusted R-squared: 0.3497
 F-statistic: 215.6 on 1 and 398 DF,  p-value: < 2.2e-16
 > mm = lm(E_canon_mean$r1 ~ E_canon_mean$r); summary(mm)$r.squared
 [1] 0.9247276
-         \endverbatim
-         So we have r1 = 158358 * r - 292840 as predictor for r1. </li>
-         <li> rounds vs time: linear function with increasing variance;
-         filling a triangle in the bottom left.
-         \verbatim
+       \endverbatim
+       So we have r1 = 158358 * r - 292840 as predictor for r1. </li>
+       <li> rounds vs time: linear function with increasing variance;
+       filling a triangle in the bottom left.
+       \verbatim
 > plot(E_canon$r, E_canon$t)
 > points(E_canon_mean$r, E_canon_mean$t, pch=3, cex=2)
 > m = lm(E_canon$t ~ E_canon$r)
@@ -553,11 +547,11 @@ Multiple R-squared: 0.3386,     Adjusted R-squared: 0.3369
 F-statistic: 203.8 on 1 and 398 DF,  p-value: < 2.2e-16
 > mm = lm(E_canon_mean$t ~ E_canon_mean$r); summary(mm)$r.squared
 [1] 0.9197196
-         \endverbatim
-         So we have r1 = 0.022828 * r - 0.027184 as predictor for t. </li>
-         </li>
-         <li> r1 vs time: (strong) linear relationship:
-         \verbatim
+       \endverbatim
+       So we have r1 = 0.022828 * r - 0.027184 as predictor for t. </li>
+       </li>
+       <li> r1 vs time: (strong) linear relationship:
+       \verbatim
 > plot(E_canon$r1, E_canon$t)
 > points(E_canon_mean$r1, E_canon_mean$t, pch=3, cex=2)
 > m = lm(E_canon$t ~ E_canon$r1)
@@ -572,11 +566,11 @@ Multiple R-squared: 0.9966,	Adjusted R-squared: 0.9966
 F-statistic: 1.154e+05 on 1 and 398 DF,  p-value: < 2.2e-16
 > mm = lm(E_canon_mean$t ~ E_canon_mean$r1); summary(mm)$r.squared
 [1] 0.9977728
-         \endverbatim
-         So we have r1 = 1.466e-07 * r1 - 1.169e-02 as predictor for t. </li>
-         </li>
-         <li> r1 vs conflicts: looks like a "cone" from the origin
-         \verbatim
+       \endverbatim
+       So we have r1 = 1.466e-07 * r1 - 1.169e-02 as predictor for t. </li>
+       </li>
+       <li> r1 vs conflicts: looks like a "cone" from the origin
+       \verbatim
 > plot(E_canon$r1, E_canon$cfs)
 > points(E_canon_mean$r1, E_canon_mean$cfs, pch=3, cex=2)
 > m = lm(E_canon$cfs ~ E_canon$r1)
@@ -593,15 +587,15 @@ F-statistic:  1075 on 1 and 398 DF,  p-value: < 2.2e-16
 [1] 0.5396627
 
 > plot(E_canon_mean$r1, E_canon_mean$cfs)
-         \endverbatim
-         </li>
-        </ul>
+       \endverbatim
        </li>
-       <li> 1-base translation:
-        <ul>
-         <li> rounds vs r1: linear function with increasing variance;
-         filling a triangle in the bottom left.
-         \verbatim
+      </ul>
+     </li>
+     <li> 1-base translation:
+      <ul>
+       <li> rounds vs r1: linear function with increasing variance;
+       filling a triangle in the bottom left.
+       \verbatim
 > plot(E_1base$r, E_1base$r1)
 > points(E_1base_mean$r, E_1base_mean$r1, pch=3, cex=2)
 > m = lm(E_1base$r1 ~ E_1base$r)
@@ -615,11 +609,11 @@ Multiple R-squared: 0.3281,     Adjusted R-squared: 0.3264
 F-statistic: 194.3 on 1 and 398 DF,  p-value: < 2.2e-16
 > mm = lm(E_1base_mean$r1 ~ E_1base_mean$r); summary(mm)$r.squared
 [1] 0.8596205
-         \endverbatim
-         So we have r1 = 61206 * r - 70937 as predictor for r1. </li>
-         <li> rounds vs time: linear function with increasing variance;
-         filling a triangle in the bottom left.
-         \verbatim
+       \endverbatim
+       So we have r1 = 61206 * r - 70937 as predictor for r1. </li>
+       <li> rounds vs time: linear function with increasing variance;
+       filling a triangle in the bottom left.
+       \verbatim
 > plot(E_1base$r, E_1base$t)
 > points(E_1base_mean$r, E_1base_mean$t, pch=3, cex=2)
 > m = lm(E_1base$t ~ E_1base$r)
@@ -633,11 +627,11 @@ Multiple R-squared: 0.3223,     Adjusted R-squared: 0.3206
 F-statistic: 189.3 on 1 and 398 DF,  p-value: < 2.2e-16
 > mm = lm(E_1base_mean$t ~ E_1base_mean$r); summary(mm)$r.squared
 [1] 0.8502063
-         \endverbatim
-         So we have r1 = 0.011103 * r - 0.007212 as predictor for t. </li>
-         </li>
-         <li> r1 vs time: (strong) linear relationship:
-         \verbatim
+       \endverbatim
+       So we have r1 = 0.011103 * r - 0.007212 as predictor for t. </li>
+       </li>
+       <li> r1 vs time: (strong) linear relationship:
+       \verbatim
 > plot(E_1base$r1, E_1base$t)
 > points(E_1base_mean$r1, E_1base_mean$t, pch=3, cex=2)
 > m = lm(E_1base$t ~ E_1base$r1)
@@ -651,11 +645,11 @@ Multiple R-squared: 0.9985,     Adjusted R-squared: 0.9985
 F-statistic: 2.7e+05 on 1 and 398 DF,  p-value: < 2.2e-16
 > mm = lm(E_1base_mean$t ~ E_1base_mean$r1); summary(mm)$r.squared
 [1] 0.998752
-         \endverbatim
-         So we have r1 = 1.829e-07 * r1 - 4.814e-03 as predictor for t. </li>
-         </li>
-         <li> r1 vs conflicts: looks like a "cone" from the origin
-         \verbatim
+       \endverbatim
+       So we have r1 = 1.829e-07 * r1 - 4.814e-03 as predictor for t. </li>
+       </li>
+       <li> r1 vs conflicts: looks like a "cone" from the origin
+       \verbatim
 > plot(E_1base$r1, E_1base$cfs)
 > points(E_1base_mean$r1, E_1base_mean$cfs, pch=3, cex=2)
 > m = lm(E_1base$cfs ~ E_1base$r1)
@@ -671,15 +665,15 @@ F-statistic:  1287 on 1 and 398 DF,  p-value: < 2.2e-16
 [1] 0.6081624
 
 > plot(E_1base_mean$r1, E_1base_mean$cfs)
-         \endverbatim
-         </li>
-        </ul>
+       \endverbatim
        </li>
-       <li> minimum translation:
-        <ul>
-         <li> rounds vs r1: (very weak) linear relationship forming a
-         triangle in the bottom left.
-         \verbatim
+      </ul>
+     </li>
+     <li> minimum translation:
+      <ul>
+       <li> rounds vs r1: (very weak) linear relationship forming a
+       triangle in the bottom left.
+       \verbatim
 # Upper bounding linear function
 > E_min_max = aggregate(E_min, by=list(r=E_min$r), FUN=max)
 > m = lm(E_min_max$r1 ~ E_min_max$r)
@@ -701,10 +695,10 @@ E_min_mean$r    65442       5686  11.509 9.85e-10 ***
 Residual standard error: 146600 on 18 degrees of freedom
 Multiple R-squared: 0.8804,	Adjusted R-squared: 0.8737
 F-statistic: 132.5 on 1 and 18 DF,  p-value: 9.854e-10
-         \endverbatim
-         </li>
-         <li> r1 vs time: (strong) linear relationship:
-         \verbatim
+       \endverbatim
+       </li>
+       <li> r1 vs time: (strong) linear relationship:
+       \verbatim
 > m = lm(E_min$t ~ E_min$r1)
 > summary(m)
              Estimate Std. Error t value Pr(>|t|)
@@ -713,10 +707,10 @@ E_min$r1    2.069e-07  6.312e-10 327.761   <2e-16 ***
 
 Residual standard error: 0.008227 on 398 degrees of freedom
 Multiple R-squared: 0.9963,	Adjusted R-squared: 0.9963
-         \endverbatim
-         </li>
-         <li> r1 vs conflicts (strong) sub-linear relationship:
-         \verbatim
+       \endverbatim
+       </li>
+       <li> r1 vs conflicts (strong) sub-linear relationship:
+       \verbatim
 > m = lm(log(E_min$cfs+1) ~ log(E_min$r1+1))
 > summary(m)
                    Estimate Std. Error t value Pr(>|t|)
@@ -726,9 +720,7 @@ log(E_min$r1 + 1)  0.736170   0.005998  122.73   <2e-16 ***
 Residual standard error: 0.2747 on 398 degrees of freedom
 Multiple R-squared: 0.9743,	Adjusted R-squared: 0.9742
 F-statistic: 1.506e+04 on 1 and 398 DF,  p-value: < 2.2e-16
-         \endverbatim
-         </li>
-        </ul>
+       \endverbatim
        </li>
       </ul>
      </li>
