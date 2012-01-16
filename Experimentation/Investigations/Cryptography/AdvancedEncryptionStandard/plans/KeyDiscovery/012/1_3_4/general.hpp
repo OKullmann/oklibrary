@@ -107,7 +107,7 @@ factorout(expand(simplify_t(c)), s);
      \endverbatim
      clauses.
      </li>
-    <ul>
+    </ul>
    </li>
    <li> Instantiating for the canonical translation, where now
    s=145:
@@ -249,12 +249,15 @@ done
      </li>
     </ul>
    </li>
-   <li> Comparison of translations:
+  </ul>
+
+
+  \todo Comparison of translations
+  <ul>
+   <li> minisat-2.2.0:
     <ul>
-     <li> minisat-2.2.0:
-      <ul>
-       <li> Reading in experimental data:
-       \verbatim
+     <li> Reading in experimental data:
+     \verbatim
 > git clone git://github.com/MGwynne/Experimental-data.git
 
 > E_canon = read.table("Experimental-data/AES/1_3_4/ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_canon_box_aes_mc_bidirectional/MinisatStatistics",header=TRUE)
@@ -269,13 +272,13 @@ done
 > plot(E_canon)
 > plot(E_1base)
 > plot(E_min)
-       \endverbatim
-       </li>
-       <li> Comparing the (individual) run-times for the three translations:
-        <ul>
-         <li> Comparing the canonical and minimum (in terms of time, r1 and
-         cfs):
-         \verbatim
+     \endverbatim
+     </li>
+     <li> Comparing the (individual) run-times for the three translations:
+      <ul>
+       <li> Comparing the canonical and minimum (in terms of time, r1 and
+       cfs):
+       \verbatim
 > plot(E_canon$r, E_canon$t - E_min$t, , ylim=c(-max(abs(E_canon$t - E_min$t)), max(abs(E_canon$t - E_min$t))))
 > m = lm(E_canon$t - E_min$t ~ E_canon$r)
 > lines(E_canon$r, predict(m))
@@ -316,11 +319,9 @@ Multiple R-squared: 0.1076,     Adjusted R-squared: 0.1054
 F-statistic:    48 on 1 and 398 DF,  p-value: 1.727e-11
 > mm = lm(E_canon_mean$cfs - E_min_mean$cfs ~ E_canon_mean$r); summary(mm)$r.squared
 [1] 0.6867762
-         \endverbatim
-         <li> Comparing the 1-base and minimum:
-         \verbatim
-XXX needs update
-
+       \endverbatim
+       <li> Comparing the 1-base and minimum:
+       \verbatim
 > plot(E_1base$r, E_1base$t - E_min$t, ylim=c(-max(abs(E_1base$t - E_min$t)), max(abs(E_1base$t - E_min$t))))
 > m = lm(E_1base$t - E_min$t ~ E_1base$r)
 > lines(E_1base$r, predict(m))
@@ -357,10 +358,10 @@ Multiple R-squared: 0.1007,     Adjusted R-squared: 0.09845
 F-statistic: 44.57 on 1 and 398 DF,  p-value: 8.254e-11
 > mm = lm(E_1base_mean$cfs - E_min_mean$cfs ~ E_1base_mean$r); summary(mm)$r.squared
 [1] 0.5608833
-         \endverbatim
-         </li>
-         <li> Comparing the 1-base and minimum:
-         \verbatim
+       \endverbatim
+       </li>
+       <li> Comparing the 1-base and minimum:
+       \verbatim
 > plot(E_1base$r, E_1base$t - E_canon$t, ylim=c(-max(abs(E_1base$t - E_canon$t)), max(abs(E_1base$t - E_canon$t))))
 > m = lm(E_1base$t - E_canon$t ~ E_1base$r)
 > lines(E_1base$r, predict(m))
@@ -400,22 +401,31 @@ Multiple R-squared: 0.0002234,  Adjusted R-squared: -0.002289
 F-statistic: 0.08892 on 1 and 398 DF,  p-value: 0.7657
 > mm = lm(E_1base_mean$cfs - E_canon_mean$cfs ~ E_canon_mean$r); summary(mm)$r.squared
 [1] 0.002643576
-         \endverbatim
-         </li>
-        </ul>
+       \endverbatim
        </li>
-       <li> Canonical translation:
-        <ul>
-         <li> Consider:
-         \verbatim
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+
+  \todo Analysing the data
+  <ul>
+   <li> minisat-2.2.0:
+    <ul>
+     <li> Canonical translation:
+      <ul>
+       <li> Consider:
+       \verbatim
 > plot(E_canon)
-         \endverbatim
-         </li>
-         <li> We see the following relationships/distributions:
-          <ul>
-           <li> rounds vs r1: upper-bounded by a linear function, filling a
-           triangle in the bottom left.
-           \verbatim
+       \endverbatim
+       </li>
+       <li> We see the following relationships/distributions:
+        <ul>
+         <li> rounds vs r1: upper-bounded by a linear function, filling a
+         triangle in the bottom left.
+         \verbatim
 # Upper bounding linear function
 > E_canon_max = aggregate(E_canon, by=list(r=E_canon$r), FUN=max)
 > m = lm(E_canon_max$r1 ~ E_canon_max$r)
@@ -436,10 +446,10 @@ E_canon_mean$r   158358      10649  14.870 1.49e-11 ***
 Residual standard error: 274600 on 18 degrees of freedom
 Multiple R-squared: 0.9247,	Adjusted R-squared: 0.9205
 F-statistic: 221.1 on 1 and 18 DF,  p-value: 1.49e-11
-           \endverbatim
-           </li>
-           <li> r1 vs time: (strong) linear relationship:
-           \verbatim
+         \endverbatim
+         </li>
+         <li> r1 vs time: (strong) linear relationship:
+         \verbatim
 > m = lm(E_canon$t ~ E_canon$r1)
 > summary(m)
              Estimate Std. Error t value Pr(>|t|)
@@ -449,11 +459,11 @@ E_canon$r1  1.466e-07  4.314e-10  339.76   <2e-16 ***
 Residual standard error: 0.01329 on 398 degrees of freedom
 Multiple R-squared: 0.9966,	Adjusted R-squared: 0.9966
 F-statistic: 1.154e+05 on 1 and 398 DF,  p-value: < 2.2e-16
-           \endverbatim
-           </li>
-           <li> r1 vs conflicts (weak) linear relationship ("cone-like"
-           distribution):
-           \verbatim
+         \endverbatim
+         </li>
+         <li> r1 vs conflicts (weak) linear relationship ("cone-like"
+         distribution):
+         \verbatim
 > m = lm(E_canon$cfs ~ E_canon$r1)
 > summary(m)
              Estimate Std. Error t value Pr(>|t|)
@@ -463,24 +473,24 @@ E_canon$r1  1.112e-03  3.391e-05   32.79   <2e-16 ***
 Residual standard error: 1045 on 398 degrees of freedom
 Multiple R-squared: 0.7298,	Adjusted R-squared: 0.7291
 F-statistic:  1075 on 1 and 398 DF,  p-value: < 2.2e-16
-           \endverbatim
-           </li>
-          </ul>
+         \endverbatim
          </li>
         </ul>
        </li>
-       <li> 1-base translation:
-        <ul>
-         <li> Consider:
-         \verbatim
+      </ul>
+     </li>
+     <li> 1-base translation:
+      <ul>
+       <li> Consider:
+       \verbatim
 > plot(E_1base)
-         \endverbatim
-         </li>
-         <li> We see the following relationships/distributions:
-          <ul>
-           <li> rounds vs r1: upper-bounded by a linear relationship forming a
-           triangle in the bottom left.
-           \verbatim
+       \endverbatim
+       </li>
+       <li> We see the following relationships/distributions:
+        <ul>
+         <li> rounds vs r1: upper-bounded by a linear relationship forming a
+         triangle in the bottom left.
+         \verbatim
 # Upper bounding linear function
 > E_1base_max = aggregate(E_1base, by=list(r=E_1base$r), FUN=max)
 > m = lm(E_1base_max$r1 ~ E_1base_max$r)
@@ -502,10 +512,10 @@ E_1base_mean$r    61206       5830  10.499  4.2e-09 ***
 Residual standard error: 150300 on 18 degrees of freedom
 Multiple R-squared: 0.8596,	Adjusted R-squared: 0.8518
 F-statistic: 110.2 on 1 and 18 DF,  p-value: 4.201e-09
-           \endverbatim
-           </li>
-           <li> r1 vs time: (strong) linear relationship:
-           \verbatim
+         \endverbatim
+         </li>
+         <li> r1 vs time: (strong) linear relationship:
+         \verbatim
 > m = lm(E_1base$t ~ E_1base$r1)
 > summary(m)
              Estimate Std. Error t value Pr(>|t|)
@@ -515,11 +525,11 @@ E_1base$r1  1.829e-07  3.520e-10  519.61   <2e-16 ***
 Residual standard error: 0.004337 on 398 degrees of freedom
 Multiple R-squared: 0.9985,	Adjusted R-squared: 0.9985
 F-statistic: 2.7e+05 on 1 and 398 DF,  p-value: < 2.2e-16
-           \endverbatim
-           </li>
-           <li> r1 vs conflicts (weak) linear relationship ("cone-like"
-           distribution):
-           \verbatim
+         \endverbatim
+         </li>
+         <li> r1 vs conflicts (weak) linear relationship ("cone-like"
+         distribution):
+         \verbatim
 > m = lm(E_1base$cfs ~ E_1base$r1)
 > summary(m)
              Estimate Std. Error t value Pr(>|t|)
@@ -529,24 +539,24 @@ E_1base$r1  3.081e-03  8.589e-05  35.869  < 2e-16 ***
 Residual standard error: 1058 on 398 degrees of freedom
 Multiple R-squared: 0.7637,	Adjusted R-squared: 0.7631
 F-statistic:  1287 on 1 and 398 DF,  p-value: < 2.2e-16
-           \endverbatim
-           </li>
-          </ul>
+         \endverbatim
          </li>
         </ul>
        </li>
-       <li> minimum translation:
-        <ul>
-         <li> Consider:
-         \verbatim
+      </ul>
+     </li>
+     <li> minimum translation:
+      <ul>
+       <li> Consider:
+       \verbatim
 > plot(E_min)
-         \endverbatim
-         </li>
-         <li> We see (atthe following relationships/distributions:
-          <ul>
-           <li> rounds vs r1: (very weak) linear relationship forming a
-           triangle in the bottom left.
-           \verbatim
+       \endverbatim
+       </li>
+       <li> We see (atthe following relationships/distributions:
+        <ul>
+         <li> rounds vs r1: (very weak) linear relationship forming a
+         triangle in the bottom left.
+         \verbatim
 # Upper bounding linear function
 > E_min_max = aggregate(E_min, by=list(r=E_min$r), FUN=max)
 > m = lm(E_min_max$r1 ~ E_min_max$r)
@@ -568,10 +578,10 @@ E_min_mean$r    65442       5686  11.509 9.85e-10 ***
 Residual standard error: 146600 on 18 degrees of freedom
 Multiple R-squared: 0.8804,	Adjusted R-squared: 0.8737
 F-statistic: 132.5 on 1 and 18 DF,  p-value: 9.854e-10
-           \endverbatim
-           </li>
-           <li> r1 vs time: (strong) linear relationship:
-           \verbatim
+         \endverbatim
+         </li>
+         <li> r1 vs time: (strong) linear relationship:
+         \verbatim
 > m = lm(E_min$t ~ E_min$r1)
 > summary(m)
              Estimate Std. Error t value Pr(>|t|)
@@ -580,10 +590,10 @@ E_min$r1    2.069e-07  6.312e-10 327.761   <2e-16 ***
 
 Residual standard error: 0.008227 on 398 degrees of freedom
 Multiple R-squared: 0.9963,	Adjusted R-squared: 0.9963
-           \endverbatim
-           </li>
-           <li> r1 vs conflicts (strong) sub-linear relationship:
-           \verbatim
+         \endverbatim
+         </li>
+         <li> r1 vs conflicts (strong) sub-linear relationship:
+         \verbatim
 > m = lm(log(E_min$cfs+1) ~ log(E_min$r1+1))
 > summary(m)
                    Estimate Std. Error t value Pr(>|t|)
@@ -593,9 +603,7 @@ log(E_min$r1 + 1)  0.736170   0.005998  122.73   <2e-16 ***
 Residual standard error: 0.2747 on 398 degrees of freedom
 Multiple R-squared: 0.9743,	Adjusted R-squared: 0.9742
 F-statistic: 1.506e+04 on 1 and 398 DF,  p-value: < 2.2e-16
-           \endverbatim
-           </li>
-          </ul>
+         \endverbatim
          </li>
         </ul>
        </li>
