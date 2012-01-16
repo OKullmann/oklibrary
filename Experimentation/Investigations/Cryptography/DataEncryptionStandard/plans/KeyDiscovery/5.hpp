@@ -1,5 +1,5 @@
 // Matthew Gwynne, 25.5.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -588,6 +588,179 @@ CPU time              : 154031.16 s
      </li>
      <li> For the second random plaintext-ciphtext pair (seed = 2),
      minisat-2.2.0 takes > 1 week. </li>
+    </ul>
+   </li>
+  </ul>
+
+
+  \todo Applying SplittingViaOKsolver
+  <ul>
+   <li> Trying cube and conquer using SplittingViaOKsolver. </li>
+   <li> Using the canonical translation:
+    <ul>
+     <li> Generating the instance:
+     \verbatim
+rounds : 5$
+seed : 1$
+sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8)$
+set_random(make_random_state(seed)),
+P_hex : lpad(int2hex(random(2**64)),"0",16),
+K_hex : lpad(int2hex(random(2**64)),"0",16),
+C_hex : des_encryption_hex_gen(rounds, P_hex,K_hex),
+P : des_plain2fcl_gen(hexstr2binv(P_hex),rounds),
+C : des_cipher2fcl_gen(hexstr2binv(C_hex),rounds),
+F : des2fcl_gen(sbox_fcl_l,rounds),
+Fs : standardise_fcl([F[1],append(F[2],P[2],C[2])]),
+output_fcl_v(
+sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the 1-base translation for the S-boxes (6-to-4)."),
+  Fs[1],
+  sconcat("des_6t4_canon_r",rounds,"_s",seed,".cnf"),
+  Fs[2]))$
+     \endverbatim
+     </li>
+     <li> Basic statistics:
+     \verbatim
+> cat des_6t4_canon_r5_s1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG nz
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+   3248   29928   3240   3248   29928    86848     NA     NA   29928    86848  3249
+ length   count
+      1     128
+      2   25600
+      3    1600
+     11    2560
+     64      40
+> cat des_6t4_canon_r5_s1.cnf | UnitClausePropagation-O3-DNDEBUG > des_6t4_canon_s1_ucp.cnf
+> cat des_6t4_canon_s1_ucp.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG nz
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+   3248   29352   3112   3248   29352    84928     NA     NA   29352    84928  3254
+ length   count
+      2   26048
+      3     704
+     11    2560
+     64      40
+     \endverbatim
+     </li>
+     <li> Splitting the problem for seed=1:
+     \verbatim
+> SplittingViaOKsolver -D600 des_6t4_canon_r5_s1.cnf
+> cd SplitViaOKsolver_D600des_6t4_canon_r5_s1cnf_2012-01-04-144308/
+> cat Md5sum
+bfbefbfe59b91532302dc81bce81357c
+> cat Statistics
+> E=read.table("Data")
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  728.0   742.0   779.0   828.4   915.0  1139.0
+> table(E$n)
+ 728  729  730  731  732  733  734  735  736  737  738  739  740  741  742  743
+1279 1328 1640 1417 1443  996  952 1025  774 1112  775  715  581  544  621  450
+ 744  745  746  747  748  749  750  751  752  753  754  755  756  757  758  759
+ 780  489  540  578  844  399  678  710  596  117  912  912  561  142  618  730
+ 760  761  762  763  764  765  766  767  768  769  770  771  772  773  774  775
+ 474  115   74  195  307  213  109  211  319  132  355  105  313  194  762  180
+ 776  777  778  779  780  781  782  783  784  785  786  787  788  789  790  791
+ 150  206  507  129  160  225  209  106  110  203  101   35   89  103  142   47
+ 792  793  794  795  796  797  798  799  800  801  802  803  804  805  806  807
+  78   65   70   47   53   15   41   45   58   69   38   40   82  109   28   56
+ 808  809  810  811  812  813  814  815  816  817  818  819  820  821  822  823
+  76  150   69   93   40  131   67   25  141  140  133   85  137  134   93   87
+ 824  825  826  827  828  829  830  831  832  833  834  835  836  837  838  839
+  43  138  122   70  136  110  183   97  159   43  120   99   78   71   61   88
+ 840  841  842  843  844  845  846  847  848  849  850  851  852  853  854  855
+  65   71   63   68   38   69   74   91   81   72   59   89  117   52   53  171
+ 856  857  858  859  860  861  862  863  864  865  866  867  868  869  870  871
+ 157   49   55  100  119   39   41   38   54   36   26   47   30   40   48   34
+ 872  873  874  875  876  877  878  879  880  881  882  883  884  885  886  887
+  22   35   33   10   35    8    9   16   16    8    2   12   22   10   13    5
+ 888  889  890  891  892  893  894  895  896  897  898  899  900  901  902  903
+   3   11   76   80   92  122  219  174  283  354  324  333  467  422  357  498
+ 904  905  906  907  908  909  910  911  912  913  914  915  916  917  918  919
+ 402  313  389  360  271  307  239  281  230  178  195  195  153  173  155  136
+ 920  921  922  923  924  925  926  927  928  929  930  931  932  933  934  935
+ 137  168   99  101  113   73   55   59   51  164  204  215  234  365  304  346
+ 936  937  938  939  940  941  942  943  944  945  946  947  948  949  950  951
+ 412  464  369  478  454  373  454  335  331  318  280  298  240  158  170  206
+ 952  953  954  955  956  957  958  959  960  961  962  963  964  965  966  967
+ 163  158  223  145  155  146  135   93  172  101   99   67   45   42   36   54
+ 968  969  970  971  972  973  974  975  976  977  978  979  980  981  982  983
+  23   28   26   31   54   62   73   66   83   93   85   85  114  103   88  129
+ 984  985  986  987  988  989  990  991  992  993  994  995  996  997  998  999
+  87   78   78  105   66  108   67   95   68   69   68   83   40   59   63   46
+1000 1001 1002 1003 1004 1005 1006 1007 1008 1009 1010 1011 1012 1013 1014 1015
+  44   36   25    8   16    9   21    6    8    6   12    5   20    5   17   16
+1016 1017 1018 1019 1020 1021 1022 1023 1024 1025 1026 1027 1028 1029 1030 1031
+  15   23   34   30   29   38   36   54   43   28   53   34   37   58   71   54
+1032 1033 1034 1035 1036 1037 1038 1039 1040 1041 1042 1043 1044 1045 1046 1047
+  59   49   68   56   59   58   53   58   56   42   40   35   33   43   14   23
+1048 1049 1050 1051 1052 1053 1054 1055 1056 1057 1058 1059 1060 1061 1062 1063
+  14   21   17    7   13   13    3   20   19   15   22   19    8   18   23    4
+1064 1065 1066 1067 1068 1069 1070 1071 1072 1073 1074 1075 1076 1077 1078 1079
+  14   12   12   11   20    7   14    6   10    8   10   10   11    6    3   11
+1080 1081 1082 1083 1084 1085 1086 1087 1092 1093 1096 1098 1099 1100 1101 1102
+   2    2    2    5    1    2    1    3    3    3    1    1    3    7    6    6
+1103 1104 1105 1106 1107 1108 1109 1110 1111 1112 1113 1114 1115 1116 1117 1118
+   6   18   12    7   10    7    7    7   15    4    9    7    4    2    4    4
+1119 1120 1121 1122 1123 1124 1125 1126 1127 1128 1129 1130 1131 1132 1133 1134
+   5    4    3    3    4    3    1    1    6    7    5    3    5    4    1    3
+1136 1139
+   2    1
+> cat Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         64
+c initial_number_of_variables           3240
+c initial_number_of_clauses             29928
+c initial_number_of_literal_occurrences 86848
+c number_of_initial_unit-eliminations   128
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           128
+c reddiff_number_of_clauses             576
+c reddiff_number_of_literal_occurrences 1920
+c number_of_2-clauses_after_reduction   26048
+c running_time(sec)                     17756.8
+c number_of_nodes                       121199
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                2285546
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        22
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             des_6t4_canon_r5_s1.cnf
+c splitting_directory                   SplitViaOKsolver_D600des_6t4_canon_r5_s1cnf_2012-01-04-144308/Instances
+c splitting_cases                       60600
+
+# on cspcmg:
+> nohup ProcessSplitViaOKsolver SplitViaOKsolver_D600des_6t4_canon_r5_s1cnf_2012-01-04-144308 &
+# intermediate result:
+> E=read_processsplit_minisat()
+23104: 6.543d, sum-cfs=1.746500e+09, mean-t=24.470s, mean-cfs=75593
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+    0.18     1.32     2.14    24.47     2.88 17780.00
+sd= 458.2902
+       95%        96%        97%        98%        99%       100%
+    4.0685     4.2600     4.5491     5.0000     6.2300 17777.2000
+sum= 565348.2
+$cfs:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+    3358    13440    18180    75590    22010 41700000
+sd= 1164417
+        95%         96%         97%         98%         99%        100%
+   28982.40    29965.76    31253.64    33208.92    40357.79 41695626.00
+sum= 1746500429
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -5.0955e+00  3.3789e-01  -15.08 < 2.2e-16 ***
+E$cfs        3.9111e-04  2.8958e-07 1350.62 < 2.2e-16 ***
+R-squared: 0.9875
+     \endverbatim
+     One should try D=700. XXX </li>
     </ul>
    </li>
   </ul>
