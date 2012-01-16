@@ -327,7 +327,7 @@ done
   </ul>
 
 
-  \todo Comparison of translations
+  \todo Comparison of run-times for the three translations
   <ul>
    <li> minisat-2.2.0:
     <ul>
