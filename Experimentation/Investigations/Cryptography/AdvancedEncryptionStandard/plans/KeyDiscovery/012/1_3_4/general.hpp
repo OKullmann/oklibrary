@@ -347,9 +347,10 @@ done
      </li>
      <li> Comparing the (individual) run-times for the three translations:
       <ul>
-       <li> Comparing the canonical and minimum (in terms of time, r1 and
-       cfs):
-       \verbatim
+       <li> Comparing the canonical and minimum translation:
+        <ol>
+	 <li> Time:
+         \verbatim
 > plot(E_canon$r, E_canon$t - E_min$t, , ylim=c(-max(abs(E_canon$t - E_min$t)), max(abs(E_canon$t - E_min$t))))
 > m = lm(E_canon$t - E_min$t ~ E_canon$r)
 > lines(E_canon$r, predict(m))
@@ -360,10 +361,14 @@ E_canon$r    0.0085169  0.0016922   5.033 7.32e-07 ***
 Residual standard error: 0.1951 on 398 degrees of freedom
 Multiple R-squared: 0.05984,    Adjusted R-squared: 0.05748
 F-statistic: 25.33 on 1 and 398 DF,  p-value: 7.323e-07
-> mm = lm(E_canon_mean$t - E_min_mean$t ~ E_canon_mean$r); summary(mm)$r.squared
+> mm = lm(E_canon_mean$t - E_min_mean$t ~ E_canon_mean$r)
+> summary(mm)$r.squared
 [1] 0.7233898
-
-
+> points(E_canon_mean$r,E_canon_mean$t - E_min_mean$t, pch=1, cex=3)
+         \endverbatim
+	 </li>
+	 <li> r1:
+         \verbatim
 > plot(E_canon$r, E_canon$r1 - E_min$r1, ylim=c(-max(abs(E_canon$r1 - E_min$r1)), max(abs(E_canon$r1 - E_min$r1))))
 > m = lm(E_canon$r1 - E_min$r1 ~ E_canon$r)
 > lines(E_canon$r, predict(m))
@@ -374,11 +379,15 @@ E_canon$r      92916      10941   8.492 4.07e-16 ***
 Residual standard error: 1262000 on 398 degrees of freedom
 Multiple R-squared: 0.1534,     Adjusted R-squared: 0.1513
 F-statistic: 72.12 on 1 and 398 DF,  p-value: 4.073e-16
-> mm = lm(E_canon_mean$r1 - E_min_mean$r1 ~ E_canon_mean$r); summary(mm)$r.squared
+> mm = lm(E_canon_mean$r1 - E_min_mean$r1 ~ E_canon_mean$r)
+> summary(mm)$r.squared
 [1] 0.8788695
-
-
-> plot(E_canon$r, E_canon$cfs - E_min$cfs, , ylim=c(-max(abs(E_canon$cfs - E_min$cfs)), max(abs(E_canon$cfs - E_min$cfs))))
+> points(E_canon_mean$r,E_canon_mean$r1 - E_min_mean$r1, pch=1, cex=3)
+         \endverbatim
+         </li>
+         <li> cfs:
+         \verbatim
+> plot(E_canon$r, E_canon$cfs - E_min$cfs, ylim=c(-max(abs(E_canon$cfs - E_min$cfs)), max(abs(E_canon$cfs - E_min$cfs))))
 > m = lm(E_canon$cfs - E_min$cfs ~ E_canon$r)
 > lines(E_canon$r, predict(m))
 > summary(m)
@@ -390,7 +399,11 @@ Multiple R-squared: 0.1076,     Adjusted R-squared: 0.1054
 F-statistic:    48 on 1 and 398 DF,  p-value: 1.727e-11
 > mm = lm(E_canon_mean$cfs - E_min_mean$cfs ~ E_canon_mean$r); summary(mm)$r.squared
 [1] 0.6867762
-       \endverbatim
+> points(E_canon_mean$r,E_canon_mean$cfs - E_min_mean$cfs, pch=1, cex=3)
+         \endverbatim
+         </li>
+        </ol>
+       </li>
        <li> Comparing the 1-base and minimum:
        \verbatim
 > plot(E_1base$r, E_1base$t - E_min$t, ylim=c(-max(abs(E_1base$t - E_min$t)), max(abs(E_1base$t - E_min$t))))
