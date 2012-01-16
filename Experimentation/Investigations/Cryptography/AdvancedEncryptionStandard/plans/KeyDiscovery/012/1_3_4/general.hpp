@@ -496,6 +496,23 @@ F-statistic: 0.08892 on 1 and 398 DF,  p-value: 0.7657
 
   \todo Analysing the data
   <ul>
+   <li> Overview on all parameters:
+    <ol>
+     <li> n, c: strict linear dependency on r XXX. </li>
+     <li> t ~ r1 XXX </li>
+     <li> sat: constant 1. </li>
+     <li> t ~ r XXX </li>
+     <li> dec ~ cfs XXX </li>
+     <li> rts XXX </li>
+     <li> r1 ~ r XXX </li>
+     <li> mem: seems to be two-valued </li>
+     <li> ptime, stime: seems to be implementation-dependent paramters without
+     deeper meaning. </li>
+     <li> cfl ~ cfs XXX </li>
+     <li> r: the independent variable, varies from 1 to 20. </li>
+     <li> For every r-values, 1 <= s <= 20 are the data points. </li>
+    </ol>
+   </li>
    <li> minisat-2.2.0:
     <ul>
      \verbatim
