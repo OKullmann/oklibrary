@@ -299,18 +299,26 @@ done
   </ul>
 
 
-  \todo Overview of solver performance XXX ??? this is NOT an overview,
-  however it should be XXX
+  \todo Overview of solver performance
   <ul>
    <li> Summary:
     <ul>
-     <li> Comparing solvers (point-wise/per-instance) in terms of:
+     <li> minisat-2.2.0
       <ul>
-       <li> Time (canonical > minimum >= 1base) : ???
+       <li> canonical:
+        <ul>
+         <li> r1 = 0.022828 * r - 0.027184 (multiple R^2 = XXX). </li>
+        </ul>
        </li>
-       <li> r1 (canonical > 1base >= minimum) : ???
+       <li> 1-base:
+        <ul>
+         <li> r1 = r1 = 0.011103 * r - 0.007212 (multiple R^2 = XXX). </li>
+        </ul>
        </li>
-       <li> Conflicts (minimum > canonical = 1-base) : ???
+       <li> minimum:
+        <ul>
+         <li> XXX. </li>
+        </ul>
        </li>
       </ul>
      </li>
