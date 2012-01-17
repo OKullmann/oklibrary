@@ -331,7 +331,19 @@ done
   <ul>
    <li> Overview on all parameters:
     <ol>
-     <li> n, c: strict linear dependency on r XXX. </li>
+     <li> n, c, l: strict linear dependency on r:
+     \verbatim
+n = 116 * r + 12  (canonical)
+n = 52 * r + 12   (1-base)
+n = 52 * r + 12   (minimum)
+c = 724 * r       (canonical)
+c = 252 * r       (1-base)
+c = 232 * r       (minimum)
+l = 2048 * r - 48 (canonical)
+l = 768 * r - 48  (1-base)
+l = 712 * r - 48  (minimum)
+     \endverbatim
+     </li>
      <li> t ~ r1 XXX </li>
      <li> sat: constant 1. </li>
      <li> t ~ r XXX </li>
@@ -363,6 +375,31 @@ done
      </li>
      <li> Canonical translation:
       <ul>
+       <li> n, c and l vs r: strict linear relationship:
+       \verbatim
+> m = lm(E_canon$n ~ E_canon$r)
+> short_summary_lm(m)
+              Estimate Std. Error    t value  Pr(>|t|)
+(Intercept) 1.2000e+01 2.8822e-13 4.1635e+13 < 2.2e-16 ***
+E_canon$r   1.1600e+02 2.4060e-14 4.8213e+15 < 2.2e-16 ***
+R-squared:     1
+# Yielding the (exact) model: n = 116 * r + 12
+> m = lm(E_canon$c ~ E_canon$r)
+> short_summary_lm(m)
+              Estimate Std. Error    t value  Pr(>|t|)
+(Intercept) 2.9104e-12 4.1913e-13 6.9439e+00 1.561e-11 ***
+E_canon$r   7.2400e+02 3.4988e-14 2.0693e+16 < 2.2e-16 ***
+R-squared:     1
+# Yielding the (exact) model: c = 724 * r
+> m = lm(E_canon$l ~ E_canon$r)
+> short_summary_lm(m)
+               Estimate  Std. Error     t value  Pr(>|t|)
+(Intercept) -4.8000e+01  6.5367e-12 -7.3431e+12 < 2.2e-16 ***
+E_canon$r    2.0480e+03  5.4567e-13  3.7532e+15 < 2.2e-16 ***
+R-squared:     1
+# Yielding the (exact) model: l = 2048 * r - 48
+       \endverbatim
+       </li>
        <li> rounds vs r1: linear function with increasing variance;
        filling a triangle in the bottom left.
        \verbatim
@@ -443,6 +480,31 @@ F-statistic:  1075 on 1 and 398 DF,  p-value: < 2.2e-16
      </li>
      <li> 1-base translation:
       <ul>
+       <li> n, c and l vs r: strict linear relationship:
+       \verbatim
+> m = lm(E_1base$n ~ E_1base$r)
+> short_summary_lm(m)
+              Estimate Std. Error    t value  Pr(>|t|)
+(Intercept) 1.2000e+01 8.5093e-14 1.4102e+14 < 2.2e-16 ***
+E_1base$r   5.2000e+01 7.1034e-15 7.3204e+15 < 2.2e-16 ***
+R-squared:     1
+# Yielding the (exact) model: n = 52 * r + 12
+> m = lm(E_1base$c ~ E_1base$r)
+> short_summary_lm(m)
+              Estimate Std. Error    t value  Pr(>|t|)
+(Intercept) 2.1828e-12 2.3790e-13 9.1753e+00 < 2.2e-16 ***
+E_1base$r   2.5200e+02 1.9859e-14 1.2689e+16 < 2.2e-16 ***
+R-squared:     1
+# Yielding the (exact) model: c = 252 * r
+> m = lm(E_1base$l ~ E_1base$r)
+> short_summary_lm(m)
+               Estimate  Std. Error     t value  Pr(>|t|)
+(Intercept) -4.8000e+01  2.3445e-12 -2.0473e+13 < 2.2e-16 ***
+E_1base$r    7.6800e+02  1.9572e-13  3.9240e+15 < 2.2e-16 ***
+R-squared:     1
+# Yielding the (exact) model: l = 768 * r - 48
+       \endverbatim
+       </li>
        <li> rounds vs r1: linear function with increasing variance;
        filling a triangle in the bottom left.
        \verbatim
@@ -521,6 +583,31 @@ F-statistic:  1287 on 1 and 398 DF,  p-value: < 2.2e-16
      </li>
      <li> minimum translation:
       <ul>
+       <li> n, c and l vs r: strict linear relationship:
+       \verbatim
+> m = lm(E_min$n ~ E_min$r)
+> short_summary_lm(m)
+              Estimate Std. Error    t value  Pr(>|t|)
+(Intercept) 1.2000e+01 8.5093e-14 1.4102e+14 < 2.2e-16 ***
+E_min$r     5.2000e+01 7.1034e-15 7.3204e+15 < 2.2e-16 ***
+R-squared:     1
+# Yielding the (exact) model: n = 52 * r + 12
+> m = lm(E_min$c ~ E_min$r)
+> short_summary_lm(m)
+              Estimate Std. Error    t value  Pr(>|t|)
+(Intercept) 1.5280e-11 6.7494e-13 2.2638e+01 < 2.2e-16 ***
+E_min$r     2.3200e+02 5.6343e-14 4.1176e+15 < 2.2e-16 ***
+R-squared:     1
+# Yielding the (exact) model: c = 232 * r
+> m = lm(E_min$l ~ E_min$r)
+> short_summary_lm(m)
+               Estimate  Std. Error     t value  Pr(>|t|)
+(Intercept) -4.8000e+01  1.1405e-12 -4.2086e+13 < 2.2e-16 ***
+E_min$r      7.1200e+02  9.5208e-14  7.4783e+15 < 2.2e-16 ***
+R-squared:     1
+# Yielding the (exact) model: l = 712 * r - 48
+       \endverbatim
+       </li>
        <li> rounds vs r1: (very weak) linear relationship forming a
        triangle in the bottom left.
        \verbatim
