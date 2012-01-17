@@ -344,9 +344,15 @@ l = 768 * r - 48  (1-base)
 l = 712 * r - 48  (minimum)
      \endverbatim
      </li>
-     <li> t ~ r1 XXX </li>
+     <li> t ~ r: linear relationship with increasing variance:
+     \verbatim
+t = 0.0228277 * r - 0.0271841 (canonical, Mult R^2=0.3386, R^2 avg over s=0.9197)
+t = 0.0111033 * r - 0.0072123 (1-base, Mult R^2=0.3223, R^2 avg over s=0.8502)
+t = 0.0143109 * r - 0.0269359 (min, Mult R^2=0.3732, R^2 avg over s=0.8912)
+     \endverbatim
+     </li>
      <li> sat: constant 1. </li>
-     <li> t ~ r XXX </li>
+     <li> t ~ r1 XXX </li>
      <li> dec ~ cfs XXX </li>
      <li> rts XXX </li>
      <li> r1 ~ r XXX </li>
@@ -409,6 +415,28 @@ R-squared:     1
 # Yielding the (exact) model: l = 2048 * r - 48
        \endverbatim
        </li>
+       <li> rounds vs time: linear function with increasing variance;
+       filling a triangle in the bottom left.
+       \verbatim
+> plot(E_canon$r, E_canon$t)
+> points(E_canon_mean$r, E_canon_mean$t, pch=1, cex=3)
+> m = lm(E_canon$t ~ E_canon$r)
+> lines(E_canon$r, predict(m))
+> short_summary_lm(m)
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.0271841  0.0191574  -1.419   0.1567
+E_canon$r    0.0228277  0.0015992  14.274   <2e-16 ***
+R-squared: 0.3386
+> mm = lm(E_canon_mean$t ~ E_canon_mean$r)
+> short_summary_lm(mm)
+                 Estimate Std. Error t value  Pr(>|t|)
+(Intercept)    -0.0271841  0.0190428 -1.4275    0.1705
+E_canon_mean$r  0.0228277  0.0015897 14.3602 2.667e-11 ***
+R-squared: 0.9197
+       \endverbatim
+       So we have t = 0.0228277 * r - 0.0271841 as predictor for t,
+       with a high variance increasing with the number of rounds. </li>
+       </li>
        <li> rounds vs r1: linear function with increasing variance;
        filling a triangle in the bottom left.
        \verbatim
@@ -427,25 +455,6 @@ F-statistic: 215.6 on 1 and 398 DF,  p-value: < 2.2e-16
 [1] 0.9247276
        \endverbatim
        So we have r1 = 158358 * r - 292840 as predictor for r1. </li>
-       <li> rounds vs time: linear function with increasing variance;
-       filling a triangle in the bottom left.
-       \verbatim
-> plot(E_canon$r, E_canon$t)
-> points(E_canon_mean$r, E_canon_mean$t, pch=3, cex=2)
-> m = lm(E_canon$t ~ E_canon$r)
-> lines(E_canon$r, predict(m))
-> summary(m)
-             Estimate Std. Error t value Pr(>|t|)
-(Intercept) -0.027184   0.019157  -1.419    0.157
-E_canon$r    0.022828   0.001599  14.274   <2e-16 ***
-Residual standard error: 0.1844 on 398 degrees of freedom
-Multiple R-squared: 0.3386,     Adjusted R-squared: 0.3369
-F-statistic: 203.8 on 1 and 398 DF,  p-value: < 2.2e-16
-> mm = lm(E_canon_mean$t ~ E_canon_mean$r); summary(mm)$r.squared
-[1] 0.9197196
-       \endverbatim
-       So we have r1 = 0.022828 * r - 0.027184 as predictor for t. </li>
-       </li>
        <li> r1 vs time: (strong) linear relationship:
        \verbatim
 > plot(E_canon$r1, E_canon$t)
@@ -517,6 +526,27 @@ R-squared:     1
 # Yielding the (exact) model: l = 768 * r - 48
        \endverbatim
        </li>
+       <li> rounds vs time: linear function with increasing variance;
+       filling a triangle in the bottom left.
+       \verbatim
+> plot(E_1base$r, E_1base$t)
+> points(E_1base_mean$r, E_1base_mean$t, pch=1, cex=3)
+> m = lm(E_1base$t ~ E_1base$r)
+> lines(E_1base$r, predict(m))
+> short_summary_lm(m)
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.007212   0.009667  -0.746    0.456
+E_1base$r    0.011103   0.000807  13.759   <2e-16 ***
+R-squared: 0.3223
+> mm = lm(E_1base_mean$t ~ E_1base_mean$r)
+> short_summary_lm(mm)
+                 Estimate Std. Error t value  Pr(>|t|)
+(Intercept)    -0.0072123  0.0131592 -0.5481    0.5904
+E_1base_mean$r  0.0111033  0.0010985 10.1077 7.572e-09 ***
+R-squared: 0.8502
+       \endverbatim
+       So we have t = 0.0111033 * r - 0.0072123 as predictor for t,
+       with a high variance increasing with the number of rounds. </li>
        <li> rounds vs r1: linear function with increasing variance;
        filling a triangle in the bottom left.
        \verbatim
@@ -535,25 +565,6 @@ F-statistic: 194.3 on 1 and 398 DF,  p-value: < 2.2e-16
 [1] 0.8596205
        \endverbatim
        So we have r1 = 61206 * r - 70937 as predictor for r1. </li>
-       <li> rounds vs time: linear function with increasing variance;
-       filling a triangle in the bottom left.
-       \verbatim
-> plot(E_1base$r, E_1base$t)
-> points(E_1base_mean$r, E_1base_mean$t, pch=3, cex=2)
-> m = lm(E_1base$t ~ E_1base$r)
-> lines(E_1base$r, predict(m))
-> summary(m)
-             Estimate Std. Error t value Pr(>|t|)
-(Intercept) -0.007212   0.009667  -0.746    0.456
-E_1base$r    0.011103   0.000807  13.759   <2e-16 ***
-Residual standard error: 0.09306 on 398 degrees of freedom
-Multiple R-squared: 0.3223,     Adjusted R-squared: 0.3206
-F-statistic: 189.3 on 1 and 398 DF,  p-value: < 2.2e-16
-> mm = lm(E_1base_mean$t ~ E_1base_mean$r); summary(mm)$r.squared
-[1] 0.8502063
-       \endverbatim
-       So we have r1 = 0.011103 * r - 0.007212 as predictor for t. </li>
-       </li>
        <li> r1 vs time: (strong) linear relationship:
        \verbatim
 > plot(E_1base$r1, E_1base$t)
@@ -622,6 +633,28 @@ E_min$r      7.1200e+02  9.5208e-14  7.4783e+15 < 2.2e-16 ***
 R-squared:     1
 # Yielding the (exact) model: l = 712 * r - 48
        \endverbatim
+       </li>
+       <li> rounds vs time: linear function with increasing variance;
+       filling a triangle in the bottom left.
+       \verbatim
+> plot(E_min$r, E_min$t)
+> points(E_min_mean$r, E_min_mean$t, pch=1, cex=3)
+> m = lm(E_min$t ~ E_min$r)
+> lines(E_min$r, predict(m))
+> short_summary_lm(m)
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.0269359  0.0111358 -2.4188  0.01602 *
+E_min$r      0.0143109  0.0009296 15.3946  < 2e-16 ***
+R-squared: 0.3732
+> mm = lm(E_min_mean$t ~ E_min_mean$r)
+> short_summary_lm(mm)
+               Estimate Std. Error t value  Pr(>|t|)
+(Intercept)  -0.0269359  0.0141215 -1.9074   0.07255 .
+E_min_mean$r  0.0143109  0.0011788 12.1397 4.187e-10 ***
+R-squared: 0.8912
+       \endverbatim
+       So we have t = 0.0143109 * r - 0.0269359 as predictor for t,
+       with a high variance increasing with the number of rounds. </li>
        </li>
        <li> rounds vs r1: (very weak) linear relationship forming a
        triangle in the bottom left.
