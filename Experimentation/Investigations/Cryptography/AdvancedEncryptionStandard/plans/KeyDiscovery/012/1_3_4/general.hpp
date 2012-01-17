@@ -299,34 +299,6 @@ done
   </ul>
 
 
-  \todo Overview of solver performance
-  <ul>
-   <li> Summary:
-    <ul>
-     <li> minisat-2.2.0
-      <ul>
-       <li> canonical:
-        <ul>
-         <li> r1 = 0.022828 * r - 0.027184 (multiple R^2 = XXX). </li>
-        </ul>
-       </li>
-       <li> 1-base:
-        <ul>
-         <li> r1 = r1 = 0.011103 * r - 0.007212 (multiple R^2 = XXX). </li>
-        </ul>
-       </li>
-       <li> minimum:
-        <ul>
-         <li> XXX. </li>
-        </ul>
-       </li>
-      </ul>
-     </li>
-    </ul>
-   </li>
-  </ul>
-
-
   \todo Analysing the data
   <ul>
    <li> Overview on all parameters:
