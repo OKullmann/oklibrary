@@ -175,7 +175,7 @@ expand(ev(c, s_c:27));
   5488
      \endverbatim
      </li>
-     <li> Instantiating for the 1-base translation, where now
+     <li> Instantiating for the minimum translation, where now
      s_n=8; s_c=22:
      \verbatim
 expand(ev(n, s_n:8));
@@ -192,7 +192,7 @@ expand(ev(c, s_c:22));
 > ev(n, s_n:8, r:20);
   1156
 > ev(c, s_c:22,r:20);
-  5048
+  5088
      \endverbatim
      </li>
     </ul>
