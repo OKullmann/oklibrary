@@ -367,6 +367,12 @@ l = 712 * r - 48  (minimum)
 > E_1base = read.table("Experimental-data/AES/1_3_4/ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_1base_box_aes_mc_bidirectional/MinisatStatistics",header=TRUE)
 > E_min = read.table("Experimental-data/AES/1_3_4/ssaes_r1-20_c3_rw1_e4_f0_k1-20_aes_min_box_aes_mc_bidirectional/MinisatStatistics",header=TRUE)
 
+# Removing constant, and implementation dependent variables
+> excluded_columns=c("sat", "stime", "ptime", "s")
+> E_canon = E_canon[,!(names(E_canon) %in% excluded_columns)]
+> E_1base = E_1base[,!(names(E_1base) %in% excluded_columns)]
+> E_min = E_min[,!(names(E_min) %in% excluded_columns)]
+
 # Values averaged per round:
 > E_canon_mean = aggregate(E_canon, by=list(r=E_canon$r), FUN=mean)
 > E_1base_mean = aggregate(E_1base, by=list(r=E_1base$r), FUN=mean)
@@ -377,6 +383,7 @@ l = 712 * r - 48  (minimum)
       <ul>
        <li> n, c and l vs r: strict linear relationship:
        \verbatim
+> plot(E_canon$r, E_canon$n)
 > m = lm(E_canon$n ~ E_canon$r)
 > short_summary_lm(m)
               Estimate Std. Error    t value  Pr(>|t|)
@@ -384,6 +391,7 @@ l = 712 * r - 48  (minimum)
 E_canon$r   1.1600e+02 2.4060e-14 4.8213e+15 < 2.2e-16 ***
 R-squared:     1
 # Yielding the (exact) model: n = 116 * r + 12
+> plot(E_canon$r, E_canon$c)
 > m = lm(E_canon$c ~ E_canon$r)
 > short_summary_lm(m)
               Estimate Std. Error    t value  Pr(>|t|)
@@ -391,6 +399,7 @@ R-squared:     1
 E_canon$r   7.2400e+02 3.4988e-14 2.0693e+16 < 2.2e-16 ***
 R-squared:     1
 # Yielding the (exact) model: c = 724 * r
+> plot(E_canon$r, E_canon$l)
 > m = lm(E_canon$l ~ E_canon$r)
 > short_summary_lm(m)
                Estimate  Std. Error     t value  Pr(>|t|)
@@ -482,6 +491,7 @@ F-statistic:  1075 on 1 and 398 DF,  p-value: < 2.2e-16
       <ul>
        <li> n, c and l vs r: strict linear relationship:
        \verbatim
+> plot(E_1base$r, E_1base$n)
 > m = lm(E_1base$n ~ E_1base$r)
 > short_summary_lm(m)
               Estimate Std. Error    t value  Pr(>|t|)
@@ -489,6 +499,7 @@ F-statistic:  1075 on 1 and 398 DF,  p-value: < 2.2e-16
 E_1base$r   5.2000e+01 7.1034e-15 7.3204e+15 < 2.2e-16 ***
 R-squared:     1
 # Yielding the (exact) model: n = 52 * r + 12
+> plot(E_1base$r, E_1base$c)
 > m = lm(E_1base$c ~ E_1base$r)
 > short_summary_lm(m)
               Estimate Std. Error    t value  Pr(>|t|)
@@ -496,6 +507,7 @@ R-squared:     1
 E_1base$r   2.5200e+02 1.9859e-14 1.2689e+16 < 2.2e-16 ***
 R-squared:     1
 # Yielding the (exact) model: c = 252 * r
+> plot(E_1base$r, E_1base$l)
 > m = lm(E_1base$l ~ E_1base$r)
 > short_summary_lm(m)
                Estimate  Std. Error     t value  Pr(>|t|)
@@ -585,6 +597,7 @@ F-statistic:  1287 on 1 and 398 DF,  p-value: < 2.2e-16
       <ul>
        <li> n, c and l vs r: strict linear relationship:
        \verbatim
+> plot(E_min$r, E_min$n)
 > m = lm(E_min$n ~ E_min$r)
 > short_summary_lm(m)
               Estimate Std. Error    t value  Pr(>|t|)
@@ -592,6 +605,7 @@ F-statistic:  1287 on 1 and 398 DF,  p-value: < 2.2e-16
 E_min$r     5.2000e+01 7.1034e-15 7.3204e+15 < 2.2e-16 ***
 R-squared:     1
 # Yielding the (exact) model: n = 52 * r + 12
+> plot(E_min$r, E_min$c)
 > m = lm(E_min$c ~ E_min$r)
 > short_summary_lm(m)
               Estimate Std. Error    t value  Pr(>|t|)
@@ -599,6 +613,7 @@ R-squared:     1
 E_min$r     2.3200e+02 5.6343e-14 4.1176e+15 < 2.2e-16 ***
 R-squared:     1
 # Yielding the (exact) model: c = 232 * r
+> plot(E_min$r, E_min$l)
 > m = lm(E_min$l ~ E_min$r)
 > short_summary_lm(m)
                Estimate  Std. Error     t value  Pr(>|t|)
