@@ -703,8 +703,6 @@ bfbefbfe59b91532302dc81bce81357c
 1136 1139
    2    1
 > cat Result
-s UNKNOWN
-c sat_status                            2
 c initial_maximal_clause_length         64
 c initial_number_of_variables           3240
 c initial_number_of_clauses             29928
@@ -717,21 +715,15 @@ c reddiff_number_of_literal_occurrences 1920
 c number_of_2-clauses_after_reduction   26048
 c running_time(sec)                     17756.8
 c number_of_nodes                       121199
-c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
 c number_of_2-reductions                2285546
 c number_of_pure_literals               0
 c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        22
 c proportion_searched                   0.000000e+00
 c proportion_single                     0.000000e+00
 c total_proportion                      0
 c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             des_6t4_canon_r5_s1.cnf
-c splitting_directory                   SplitViaOKsolver_D600des_6t4_canon_r5_s1cnf_2012-01-04-144308/Instances
 c splitting_cases                       60600
 
 # on cspcmg:
