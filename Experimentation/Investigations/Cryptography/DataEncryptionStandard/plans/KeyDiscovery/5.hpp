@@ -639,8 +639,54 @@ sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated
      64      40
      \endverbatim
      </li>
-     <li> Splitting the problem for seed=1:
+     <li> Splitting the problem for seed=1, with D=500,600,700:
      \verbatim
+# on csltok:
+> SplittingViaOKsolver -D500 des_6t4_canon_r5_s1.cnf
+> cd SplitViaOKsolver_D500des_6t4_canon_r5_s1cnf_2012-01-08-143508
+> > cat Md5sum
+0a28ef9978c86d76010af15008bda86a
+> cat Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  629.0   633.0   641.0   644.4   647.0   712.0
+> table(E$n)
+629 630 633 637 641 643 647 657 661 665 669 673 701 702 705 706 708 709 712
+484   2 486 368 126 472 480   4  36 136  72  96  16  16  32  16  14  16  14
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   8.00   11.00   12.00   12.29   13.00   17.00
+> table(E$d)
+  8   9  10  11  12  13  14  15  16  17
+  7  74 266 588 747 579 345 196  68  16
+> cat Result
+c initial_maximal_clause_length         64
+c initial_number_of_variables           3240
+c initial_number_of_clauses             29928
+c initial_number_of_literal_occurrences 86848
+c number_of_initial_unit-eliminations   128
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           128
+c reddiff_number_of_clauses             576
+c reddiff_number_of_literal_occurrences 1920
+c number_of_2-clauses_after_reduction   26048
+c running_time(sec)                     1253.5
+c number_of_nodes                       5771
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                120201
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        17
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c splitting_cases                       2886
+
+
+# on cspcmg:
 > SplittingViaOKsolver -D600 des_6t4_canon_r5_s1.cnf
 > cd SplitViaOKsolver_D600des_6t4_canon_r5_s1cnf_2012-01-04-144308/
 > cat Md5sum
@@ -703,16 +749,6 @@ bfbefbfe59b91532302dc81bce81357c
 1136 1139
    2    1
 > cat Result
-c initial_maximal_clause_length         64
-c initial_number_of_variables           3240
-c initial_number_of_clauses             29928
-c initial_number_of_literal_occurrences 86848
-c number_of_initial_unit-eliminations   128
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           128
-c reddiff_number_of_clauses             576
-c reddiff_number_of_literal_occurrences 1920
-c number_of_2-clauses_after_reduction   26048
 c running_time(sec)                     17756.8
 c number_of_nodes                       121199
 c number_of_quasi_single_nodes          0
@@ -723,10 +759,10 @@ c max_tree_depth                        22
 c proportion_searched                   0.000000e+00
 c proportion_single                     0.000000e+00
 c total_proportion                      0
+c number_of_table_enlargements          0
 c number_of_1-autarkies                 0
 c splitting_cases                       60600
 
-# on cspcmg:
 > ProcessSplitViaOKsolver SplitViaOKsolver_D600des_6t4_canon_r5_s1cnf_2012-01-04-144308
 # intermediate result:
 > E=read_processsplit_minisat()
@@ -750,8 +786,95 @@ $t ~ $cfs:
 (Intercept) -5.0955e+00  3.3789e-01  -15.08 < 2.2e-16 ***
 E$cfs        3.9111e-04  2.8958e-07 1350.62 < 2.2e-16 ***
 R-squared: 0.9875
+
+
+# on csltok:
+> SplittingViaOKsolver -D700 des_6t4_canon_r5_s1.cnf
+> cd SplitViaOKsolver_D700des_6t4_canon_r5_s1cnf_2012-01-13-095226
+> > cat Md5sum
+4ca0db7f8b7361a498cd31321cd57dcb
+> cat Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  828.0   876.0   927.0   924.2   969.0  1634.0
+> table(E$n)
+
+ 828  829  830  831  832  833  834  835  836  837  838  839  840  841  842  843
+1187 1273 1097 1302 1872  934  780 1349 1704  841 1050 1177 1230  497  959  883
+ 844  845  846  847  848  849  850  851  852  853  854  855  856  857  858  859
+ 926  693 1159  632 1201  609 1178  807 1465  626  762  784 1139  529  485  663
+ 860  861  862  863  864  865  866  867  868  869  870  871  872  873  874  875
+ 856  489  584  651  962  547  428  694 1023  531  414  440  389  321  269  388
+ 876  877  878  879  880  881  882  883  884  885  886  887  888  889  890  891
+ 301  239  237  337  334  397  194  302  343  430  322  364  326  258  410  311
+ 892  893  894  895  896  897  898  899  900  901  902  903  904  905  906  907
+ 450  437  706  406  697  976  968  766 1220 1300 1133 1316 1358 1181 1447 1336
+ 908  909  910  911  912  913  914  915  916  917  918  919  920  921  922  923
+1197 1307 1252 1373 1124 1164 1114 1248 1027  943 1232  937  860 1102  895  753
+ 924  925  926  927  928  929  930  931  932  933  934  935  936  937  938  939
+ 910  774  549  734  622  714  763  814  694 1234 1088 1188 1328 1585 1214 1618
+ 940  941  942  943  944  945  946  947  948  949  950  951  952  953  954  955
+1533 1259 1570 1296 1343 1339 1347 1126 1114  900  914 1165  940  820 1163  903
+ 956  957  958  959  960  961  962  963  964  965  966  967  968  969  970  971
+ 860  932  758  523  827  691  494  504  619  531  535  609  968  932  973 1075
+ 972  973  974  975  976  977  978  979  980  981  982  983  984  985  986  987
+1604 1506 1635 1794 1754 1746 1800 1885 1342 1342 1182 1267  740  832  659  651
+ 988  989  990  991  992  993  994  995  996  997  998  999 1000 1001 1002 1003
+ 367  628  427  389  310  362  351  314  322  222  228  180  220  149  191  144
+1004 1005 1006 1007 1008 1009 1010 1011 1012 1013 1014 1015 1016 1017 1018 1019
+ 161  137  152  103  156  113  169  162  170  165  141  190  153  217  232  205
+1020 1021 1022 1023 1024 1025 1026 1027 1028 1029 1030 1031 1032 1033 1034 1035
+ 231  264  250  273  306  277  302  286  322  273  279  285  292  170  237  186
+1036 1037 1038 1039 1040 1041 1042 1043 1044 1045 1046 1047 1048 1049 1050 1051
+ 180  147  172  162  123  117  120  128  118  122   91  104   71  105   83   90
+1052 1053 1054 1055 1056 1057 1058 1059 1060 1061 1062 1063 1064 1065 1066 1067
+  78   94   62   82   84   79  108   73   51   69   69   33   62   55   53   20
+1068 1069 1070 1071 1072 1073 1074 1075 1076 1077 1078 1079 1080 1081 1082 1083
+  56   28   40   23   37   32   30   25   35   25   18   39   23   18   22   32
+1084 1085 1086 1087 1088 1089 1090 1091 1092 1093 1094 1095 1096 1097 1098 1099
+  22   13   18   17   11   18   14   22   12   11   25   23   16   16   41   32
+1100 1101 1102 1103 1104 1105 1106 1107 1108 1109 1110 1111 1112 1113 1114 1115
+  27   38   38   28   42   46   30   39   28   32   21   37   10   21   18   13
+1116 1117 1118 1119 1120 1121 1122 1123 1124 1125 1126 1127 1128 1129 1130 1131
+   9   15   12   19    9    7    9   11    6    9    8    8   11   11   16   18
+1132 1133 1134 1135 1136 1137 1138 1139 1140 1141 1142 1143 1144 1145 1146 1147
+  14    8   10    7   12    8    8    6    6    8    7    4    1    3    1    3
+1148 1149 1150 1151 1152 1153 1156 1158 1159 1160 1161 1163 1165 1166 1167 1168
+   3    4    2    2    2    3    1    3    1    3    4    1    2    1    1    4
+1169 1170 1171 1175 1177 1183 1184 1188 1189 1191 1200 1202 1203 1223 1225 1226
+   2    1    1    1    1    2    1    2    1    1    1    1    1    1    1    1
+1228 1232 1248 1260 1261 1262 1263 1265 1267 1271 1365 1401 1408 1416 1425 1462
+   1    1    1    1    2    1    2    1    1    1    1    1    1    1    1    1
+1465 1554 1634
+   1    1    1
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  11.00   17.00   18.00   18.34   19.00   25.00
+> table(E$d)
+   11    12    13    14    15    16    17    18    19    20    21    22    23
+    7    37   244  1494  5860 15509 28164 36759 34949 23944 11410  3861  1076
+   24    25
+  191    26
+> cat Result
+c running_time(sec)                     76720.5
+c number_of_nodes                       327063
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                8481477
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        25
+c proportion_searched                   4.768372e-07
+c proportion_single                     0.000000e+00
+c total_proportion                      4.76837158203125e-07
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c splitting_cases                       163531
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D700des_6t4_canon_r5_s1cnf_2012-01-13-095226
+XXX
      \endverbatim
-     One should try D=700. XXX </li>
+     </li>
     </ul>
    </li>
   </ul>
