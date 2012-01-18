@@ -14,7 +14,7 @@ License, or any later version. */
   <ul>
    <li> We consider the 5 round DES given by the encryption function
    des_encryption_gen in
-   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac.
+   Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac.
    </li>
    <li> The translation of one round DES to SAT is given at the Maxima level by
    des_fcl_gen in
@@ -24,7 +24,7 @@ License, or any later version. */
    the application of 8 S-boxes (substitution boxes) for each round. </li>
    <li> We consider the DES S-boxes as 6x4 boolean functions,
    given by des_sbox_bf in
-   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Sboxes.mac.
+   Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Sboxes.mac.
    </li>
    <li> We should also consider the DES S-boxes as 4 6x1 functions.
    See "Basic translation" in
@@ -37,13 +37,13 @@ License, or any later version. */
    representations:
     <ul>
      <li> canonical(+) representation, see dualts_fcl and dualtsplus_fcl in
-     ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac;
+     Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac;
      </li>
      <li> 1-base translations, see
      Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp;
      </li>
      <li> minimum translations, see
-     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp;
+     Cryptography/DataEncryptionStandard/plans/Sboxes/general.hpp;
      </li>
      <li> their prime implicates; </li>
      <li> their canonical CNF representations. </li>
@@ -53,7 +53,7 @@ License, or any later version. */
    </li>
    <li> For initial experiments we use the Argosat-desgen plaintext-ciphertext
    pairs. See "Transferring the Argosat-desgen example" in
-   Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
+   Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
    </li>
    <li> Over one plaintext-ciphertext pair, using the:
     <ul>
@@ -144,7 +144,6 @@ Max.   :63401   Max.   :394591840   Max.   :450266022   Max.   :458747   Max.   
    </li>
    <li> Seed 4 takes >73000s and > 460,042,881 conflicts. </li>
   </ul>
-
 
 
   \todo Using the 1-base translation for the S-boxes (6-to-4)
