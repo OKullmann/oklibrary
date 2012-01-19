@@ -594,7 +594,15 @@ CPU time              : 154031.16 s
 
   \todo Applying SplittingViaOKsolver
   <ul>
-   <li> Trying cube and conquer using SplittingViaOKsolver. </li>
+   <li> Trying cube and conquer using SplittingViaOKsolver:
+    <ol>
+     <li> A dedicated effort is needed here, but it should be possible to
+     make it our best weapon. </li>
+     <li> See "More powerful processing options" in
+     Interfaces/DistributedSolving/plans/ProcessSplitViaOKsolver.hpp. </li>
+     <li>
+    </ol>
+   </li>
    <li> Using the canonical translation:
     <ul>
      <li> Generating the instance:

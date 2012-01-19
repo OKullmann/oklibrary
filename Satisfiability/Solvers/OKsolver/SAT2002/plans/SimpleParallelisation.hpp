@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.4.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,6 +27,18 @@ License, or any later version. */
    <li> See "More information on the current path" in
    Solvers/OKsolver/SAT2002/plans/general.hpp. </li>
    <li> The sorting of Data should then be made optional. </li>
+   <li> Perhaps the distinction between decision variables and inferred
+   variables is shown by an additional space before the decision variable.
+   </li>
+   <li> Important is also to know for decision variables whether their
+   setting is the first or the second branch.
+    <ol>
+     <li> This information is available in the OKsolver. </li>
+     <li> The above space-encoding of decision variables could be adjusted:
+     one additional space for first branch, two additional spaces for the
+     second branch. </li>
+    </ol>
+   </li>
    <li> Also useful is, given the decision-assignments, how many assignments
    are then created by unit-clause propagation (UCP):
     <ol>
