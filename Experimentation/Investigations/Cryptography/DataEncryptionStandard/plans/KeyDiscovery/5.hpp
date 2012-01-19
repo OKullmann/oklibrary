@@ -880,8 +880,37 @@ c number_of_1-autarkies                 0
 c splitting_cases                       163531
 
 > ProcessSplitViaOKsolver SplitViaOKsolver_D700des_6t4_canon_r5_s1cnf_2012-01-13-095226
-XXX
+# aborted:
+> E=read_processsplit_minisat()
+131102: 5.043d, sum-cfs=2.456681e+09, mean-t=3.324s, mean-cfs=18739
+$t:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+    0.017     1.340     2.040     3.324     3.105 16370.000
+sd= 103.7205
+        95%         96%         97%         98%         99%        100%
+    4.78827     5.06619     5.45417     6.01209     7.01093 16369.10000
+sum= 435729.8
+$cfs:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+      76    11950    15610    18740    20540 28520000
+sd= 188466.7
+        95%         96%         97%         98%         99%        100%
+   28995.00    30168.96    31728.97    34204.88    38984.87 28515965.00
+sum= 2456681233
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -6.9665e+00  1.9018e-02 -366.32 < 2.2e-16 ***
+E$cfs        5.4914e-04  1.0041e-07 5468.80 < 2.2e-16 ***
+R-squared: 0.9956
+
+> mean(E$t[seq(130000,131102)])
+[1] 108.0599
+> mean(E$t[seq(131000,131102)])
+[1] 326.4455
      \endverbatim
+     The running times exploded at the very end, and thus the computation was
+     aborted. We need to find out which subinstance contains the satisfying
+     assignments, and what is solution-time for this subinstance. XXX
      </li>
     </ul>
    </li>
