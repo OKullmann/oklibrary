@@ -125,6 +125,24 @@ phi * F = prime_imp(y_1 <-> x_1) union prime_imp(y_2 <-> x_1) union prime_imp(xo
        <li> Note the translation of p being 2-hard does not depend on the
        representations for the boolean functions y_i <-> X and XOR in the
        standard ANF to CNF translation. </li>
+       <li> MG conjectures that for any number of variables n in NN, there
+       exists an ANF formula for which the standard CNF translation is
+       (n-2)-hard:
+        <ul>
+         <li> Consider such an n, and the formula:
+         \verbatim
+x_3 * x_1 + x_3 * x_2 + ... + x_n * x_1 + x_n * x_2
+         \endverbatim
+         which has the translation with new variables y_1, ..., y_{2(n-2)};
+         each new variable representing a product in the ANF formula.
+         </li>
+         <li> The assignment <x_1 -> 1, x_2 -> 1> falsifies this formula,
+         and leaves us with 2(n-2) = 2n -4 equalitys y_1 <-> x_3, y_2 <-> x_3,
+         ..., y_{2n-5} <-> x_n, y_{2n-4} <-> x_n in the CNF representation. </li>
+         <li> It appears that r_{n-2} is needed to "break" all of these
+         equalities (one level each). </li>
+        </ul>
+       </ul>
       </ul>
      </li>
      <li> Are there 1-soft translations of all ANF formulas into CNF? </li>
