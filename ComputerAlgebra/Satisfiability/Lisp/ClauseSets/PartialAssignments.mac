@@ -93,6 +93,7 @@ restr_c_pa(phi,V) := subset(phi, lambda([x], not elementp(var_l(x),V)))$
 /* The composition of partial assignments (first phi, then psi): */
 compo_pass(psi,phi) := union(phi, setdifference(psi,comp_sl(phi)))$
 
+
 /* **********
    * Output *
    **********
@@ -100,9 +101,10 @@ compo_pass(psi,phi) := union(phi, setdifference(psi,comp_sl(phi)))$
 
 oklib_plain_include("stringproc")$
 
-/* Outputs the given partial assignment as a partial assignment file: */
-output_pa(phi,n) :=
-  with_stdout(n, print(sconcat("v ", simplode(listify(phi), " "), " 0")))$
+/* Prints the partial assignment phi in Dimacs-format: */
+print_pa(phi) := print_nlb(sconcat("v ", dimacs_c_string(phi), "0"))$
+/* Output a partial assignment phi to a file: */
+output_pa(phi,file) := with_stdout(file, print_pa(phi))$
 
 
 /* ********************************
