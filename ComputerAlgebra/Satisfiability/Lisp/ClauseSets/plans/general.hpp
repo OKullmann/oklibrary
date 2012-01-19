@@ -18,6 +18,8 @@ License, or any later version. */
    <li> This function should be properly linked, and specified. </li>
    <li> Such specification includes the order of the literals in the
    output; currently, the order given by Maxima is used. </li>
+   <li> This function belongs to the input-output-module to be established;
+   see "Input and output" below. </li>
   </ul>
 
 
@@ -228,9 +230,11 @@ assignment: cannot assign 10001 to linel
   \todo Input and output
   <ul>
    <li> See Interfaces/InputOutput/plans/Dimacs.hpp. </li>
-   <li> Functions currently in
+   <li> Input-output-functions currently in
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac
-   should move to their own file "InputOutput.mac". </li>
+   shall move to their own file "InputOutput.mac". </li>
+   <li> See also the above "Update output_pa" for further functions to
+   include. </li>
    <li> DONE
    The usage of "print" likely should be replaced by "printf" from
    package "stringproc".
