@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.11.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -273,10 +273,10 @@ restrict_V_cl(F,V) := block([L : literals_v(V)],
    *****************************************
 */
 
-/* Output a literal: */
+/* Output a literal (with trailing space): */
 dimacs_l_string(x) := sconcat(x," ")$
 
-/* Output a clause: */
+/* Output a clause (with trailing space): */
 dimacs_c_string(C) := dimacs_c_stringext(C,dimacs_l_string)$
 /* Allows the literal translation to be passed in as function f which
    takes a literal and returns a string. */
