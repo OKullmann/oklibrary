@@ -1,5 +1,5 @@
 // Oliver Kullmann, 30.11.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,17 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/general.hpp
   \brief Plans for Maxima-components regarding clause-sets
+
+
+  \todo Update output_pa
+  <ul>
+   <li> The function "output_pa" outputs a partial assignment in the style
+   used by SplittingViaOKsolver, and
+   Satisfiability/Interfaces/InputOutput/PartialAssignments.hpp. </li>
+   <li> This function should be properly linked, and specified. </li>
+   <li> Such specification includes the order of the literals in the
+   output; currently, the order given by Maxima is used. </li>
+  </ul>
 
 
   \bug DONE (new implementation of print_nlb doesn't have this problem)

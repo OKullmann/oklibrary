@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.7.2008 (Swansea) */
-/* Copyright 2008, 2011 Oliver Kullmann
+/* Copyright 2008, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -93,6 +93,17 @@ restr_c_pa(phi,V) := subset(phi, lambda([x], not elementp(var_l(x),V)))$
 /* The composition of partial assignments (first phi, then psi): */
 compo_pass(psi,phi) := union(phi, setdifference(psi,comp_sl(phi)))$
 
+/* **********
+   * Output *
+   **********
+*/
+
+oklib_plain_include("stringproc");
+
+/* Outputs the given partial assignment as a partial assignment file: */
+output_pa(phi,n) :=
+  with_stdout(n,
+    print(sconcat("v ", simplode(listify(phi), " "), " 0")))$
 
 /* ********************************
    * Applying partial assignments *
