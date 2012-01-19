@@ -98,7 +98,7 @@ compo_pass(psi,phi) := union(phi, setdifference(psi,comp_sl(phi)))$
    **********
 */
 
-oklib_plain_include("stringproc");
+oklib_plain_include("stringproc")$
 
 /* Outputs the given partial assignment as a partial assignment file: */
 output_pa(phi,n) :=
