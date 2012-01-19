@@ -98,9 +98,7 @@ maxima> for m : 1 while true do
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/Basics.hpp. </li>
    <li> Hardness of CNF representations of ANF formulas:
     <ul>
-     <li> If an ANF formula isn't directly 0 (i.e., the sum of 0 terms)
-     then it represents the constant 0 boolean function, and otherwise it is
-     satisfiable. </li>
+     <li> An ANF formula represents the constant 0 function iff it is 0. </li>
      <li> So, given a formula in ANF, we can trivially decide if some partial
      assignment falsifies it (just evaluate and check "= 0?"). </li>
      <li> This brings up the obvious relation to hardness, as discussed in
