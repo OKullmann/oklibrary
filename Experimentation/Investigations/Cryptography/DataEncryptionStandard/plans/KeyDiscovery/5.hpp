@@ -233,7 +233,7 @@ c 0 iterations, 2 restarts, 762102 skipped
 c 298212.3 seconds, 91 MB max, 3183 MB recycled
      \endverbatim
      </li>
-     <li> precosat-570.1 is still running after 13 hours XXX. </li>
+     <li> precosat-570.1 is still running after 13 hours XXX ??? long ago ???. </li>
     </ul>
    </li>
    </li>
@@ -538,8 +538,8 @@ propagations          : 13510152814    (206665548 /sec)
 conflict literals     : 7079980812     (48.30 % deleted)
      \endverbatim
      </li>
-     <li> cryptominisat is still running after 13 hours XXX. </li>
-     <li> OKsolver_2002 and precosat-570.1 still running after ~3.5 days XXX.
+     <li> cryptominisat is still running after 13 hours XXX ??? long ago ???. </li>
+     <li> OKsolver_2002 and precosat-570.1 still running after ~3.5 days XXX ??? long ago ???.
      </li>
     </ul>
    </li>
