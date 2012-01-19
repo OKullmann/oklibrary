@@ -148,6 +148,20 @@ License, or any later version. */
    <li> Perhaps these functions go into a new file, AlgebraicNormalForm.mac.
    There will be further functions, like extracting the degree (the maximal
    size of a hyperedge). </li>
+   <li> The standard translation of a formula p in ANF into CNF has:
+    <ul>
+     <li> the variables of p; </li>
+     <li> a new variable y_i for each product X_i in p; </li>
+     <li> the primes clauses for y_i <-> X_i for each product X_i in p; </li>
+     <li> clauses representing the sum (XOR) of all y_i (this could be prime
+     clauses, or a splitting of the sum using new variables). </li>
+    </ul>
+   We should implement this translation, and provide references.
+   </li>
+   <li> Investigating algebraic normal forms and their translations
+   is discussed in "Algebraic normal form" in
+   Experimentation/Investigations/BooleanFunctions/plans/general.hpp.
+   </li>
   </ul>
 
 
