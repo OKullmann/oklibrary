@@ -412,7 +412,7 @@ c 250789.7 seconds, 176 MB max, 3937 MB recycled
      <li> OKsolver doesn't solve in 550,000s (> 6 days). </li>
     </ul>
    </li>
-   <li> Looking at 20 random plaintext-ciphertext pairs:
+   <li> Looking at 20 pseudo-random plaintext-ciphertext pairs:
     <ul>
      <li> Generating the instance:
      \verbatim
@@ -543,7 +543,7 @@ conflict literals     : 7079980812     (48.30 % deleted)
      </li>
     </ul>
    </li>
-   <li> Looking at 20 random plaintext-ciphertext pairs:
+   <li> Looking at 20 pseudo-random plaintext-ciphertext pairs:
     <ul>
      <li> Generating the instance:
      \verbatim
@@ -575,7 +575,7 @@ shell> for k in $(seq 1 20); do
     minisat-2.2.0 des_6t4_canon_r${r}_s${k}.cnf > minisat_r${r}_k${k}.result 2>&1;
   done;
      \endverbatim
-     yields, for the first random plaintext-ciphertext pair:
+     yields, for the first pseudo-random plaintext-ciphertext pair:
      \verbatim
 restarts              : 301052
 conflicts             : 264442847      (9446074192 /sec)
@@ -585,7 +585,7 @@ CPU time              : 154031.16 s
      \endverbatim
      taking ~1.8 days.
      </li>
-     <li> For the second random plaintext-ciphtext pair (seed = 2),
+     <li> For the second pseudo-random plaintext-ciphtext pair (seed = 2),
      minisat-2.2.0 takes > 1 week. </li>
     </ul>
    </li>
