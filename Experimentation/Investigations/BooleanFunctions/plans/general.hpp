@@ -89,6 +89,70 @@ maxima> for m : 1 while true do
   </ul>
 
 
+  \todo Algebraic normal form
+  <ul>
+   <li> The algebraic normal form of an n x 1 boolean function f is as a
+   sum of monomials in variables x_1, ..., x_n over the field (boolean ring)
+   ZZ_2. </li>
+   <li> Implementations of ANFs are discussed in "Algebraic normal form" in
+   ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/Basics.hpp. </li>
+   <li> Hardness of CNF representations of ANF formulas:
+    <ul>
+     <li> If an ANF formula isn't directly 0 (i.e., the sum of 0 terms)
+     then it represents the constant 0 boolean function, and otherwise it is
+     satisfiable. </li>
+     <li> So, given a formula in ANF, we can trivially decide if some partial
+     assignment falsifies it (just evaluate and check "= 0?"). </li>
+     <li> This brings up the obvious relation to hardness, as discussed in
+     "Hardness of boolean function representations" above. </li>
+     <li> In general, what is the hardness of an ANF formula translated
+     to CNF in the standard way?
+      <ul>
+       <li> Translating the ANF formula p := x_1 * x_2 + x_1 * x_3 as
+       standard:
+       \verbatim
+F := prime_imp(y_1 <-> x_1 * x_2) union prime_imp(y_2 <-> x_1*x_3) union prime_imp(xor(y_1,y_2,1))
+       \endverbatim
+       yields a 2-hard representation, because the assignment
+       phi = <x_2 -> 1, x_3 -> 1> applied to F gives
+       \verbatim
+phi * F = prime_imp(y_1 <-> x_1) union prime_imp(y_2 <-> x_1) union prime_imp(xor(y_1,y_2,1))
+       \endverbatim
+       representing the (unnormalised) "ANF" formula x_1 + x_1 which
+       normalised to ANF is 0. However, there are no unit-clauses in phi * F,
+       hence F is 2-hard.
+       </li>
+       <li> Note the translation of p being 2-hard does not depend on the
+       representations for the boolean functions y_i <-> X and XOR in the
+       standard ANF to CNF translation. </li>
+       <li> MG conjectures that for any number of variables n in NN, there
+       exists an ANF formula for which the standard CNF translation is
+       (n-2)-hard:
+        <ul>
+         <li> Consider such an n, and the formula:
+         \verbatim
+x_3 * x_1 + x_3 * x_2 + ... + x_n * x_1 + x_n * x_2
+         \endverbatim
+         which has the translation with new variables y_1, ..., y_{2(n-2)};
+         each new variable representing a product in the ANF formula.
+         </li>
+         <li> The assignment <x_1 -> 1, x_2 -> 1> falsifies this formula,
+         and leaves us with 2(n-2) = 2n -4 equalitys y_1 <-> x_3, y_2 <-> x_3,
+         ..., y_{2n-5} <-> x_n, y_{2n-4} <-> x_n in the CNF representation. </li>
+         <li> It appears that r_{n-2} is needed to "break" all of these
+         equalities (one level each). </li>
+        </ul>
+       </ul>
+      </ul>
+     </li>
+     <li> Are there 1-soft translations of all ANF formulas into CNF? </li>
+     <li> We should implement the functions needed to deal with ANF formulas
+     and their conversion to CNF and then investigate this empirically. </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Boolean function representations
   <ul>
    <li> We need a list of all the representations we use for
