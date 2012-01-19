@@ -102,8 +102,8 @@ oklib_plain_include("stringproc")$
 
 /* Outputs the given partial assignment as a partial assignment file: */
 output_pa(phi,n) :=
-  with_stdout(n,
-    print(sconcat("v ", simplode(listify(phi), " "), " 0")))$
+  with_stdout(n, print(sconcat("v ", simplode(listify(phi), " "), " 0")))$
+
 
 /* ********************************
    * Applying partial assignments *
