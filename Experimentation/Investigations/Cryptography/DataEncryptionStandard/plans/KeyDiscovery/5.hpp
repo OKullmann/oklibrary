@@ -912,6 +912,12 @@ R-squared: 0.9956
      aborted. We need to find out which subinstance contains the satisfying
      assignments, and what is solution-time for this subinstance. XXX
      </li>
+     <li> Using higher D-values likely takes too much time (for D=1000 the
+     computation was aborted after having created 614822 subinstances), and
+     makes the approach ineffective; the key is to get a good estimate how
+     much time the sub-instance corresponding to the known (total) solution
+     takes (and whether we can have a better prediction for the position of
+     this sub-instance). </li>
     </ul>
    </li>
   </ul>
