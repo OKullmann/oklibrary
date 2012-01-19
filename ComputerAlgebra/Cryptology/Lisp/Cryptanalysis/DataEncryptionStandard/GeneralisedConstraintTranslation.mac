@@ -21,6 +21,8 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionSt
 
 /* We use the same variables and round-specific functions as the full DES
    translation, so include them: */
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac");
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/ConstraintTranslation.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/RoundFunction.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/KeySchedule.mac")$
@@ -86,6 +88,7 @@ des_var_gen(r) := append(
 
 /* plain is a partial boolean vector of length 64: */
 des_plain2fcl_gen(plain,r) := des_plain2fcl(plain)$
+des_plain2pa_gen(plain,r) := des_plain2pa(plain)$
 
 /* cipher is a partial boolean vector of length 64: */
 des_cipher2fcl_gen(cipher,r) := block(
@@ -96,9 +99,78 @@ des_cipher2fcl_gen(cipher,r) := block(
            block([x:cipher[i]],
              if x=und then und else {(2*x-1)*V[des_final_permutation[i]]}),
            i,1,64))])$
+des_cipher2pa_gen(cipher,r) := lunion(des_cipher2fcl_gen(cipher,r)[2])$
 
 /* key is a partial boolean vector of length 64: */
 des_key2fcl_gen(key,r) := des_key2fcl(key)$
+des_key2pa_gen(key,r) := des_key2pa(key)$
+
+/* Outputting a random plaintext-ciphertext pair assignment as a CNF
+   consisting of unit-clauses, given a seed for the randomisation.
+   Variables are standardised based on the assumption that the
+   variables from des_var_gen are standardised to 1,...,length(des_var_gen()).
+*/
+output_des_random_pc_pa(seed,r,n) := block(
+    [P_hex,K_hex,C_hex,P,C,std_var_map, pa],
+  set_random(make_random_state(seed)),
+  P_hex : lpad(int2hex(random(2**64)),"0",16),
+  K_hex : lpad(int2hex(random(2**64)),"0",16),
+  C_hex : des_encryption_hex_gen(r, P_hex,K_hex),
+  P : des_plain2pa_gen(hexstr2binv(P_hex),r),
+  C : des_cipher2pa_gen(hexstr2binv(C_hex),r),
+  std_var_map : sm2hm(l2osm_inv(des_var_gen(r))),
+  pa : substitutetotal_c(union(P,C),std_var_map),
+  output_pa(pa,n))$
+output_des_random_pc_pa_std(seed,r) :=
+  output_des_random_pc_pa(seed, r,
+    sconcat("des_pcpair_r",r,"_s",seed,".pa"))$
+/* Outputting plaintext-key pair: */
+output_des_random_pk_pa(seed,r,n) := block(
+    [P_hex,K_hex,C_hex,P,C,std_var_map, pa],
+  set_random(make_random_state(seed)),
+  P_hex : lpad(int2hex(random(2**64)),"0",16),
+  K_hex : lpad(int2hex(random(2**64)),"0",16),
+  C_hex : des_encryption_hex_gen(r, P_hex,K_hex),
+  P : des_plain2pa_gen(hexstr2binv(P_hex),r),
+  K : des_key2pa_gen(hexstr2binv(K_hex),r),
+  std_var_map : sm2hm(l2osm_inv(des_var_gen(r))),
+  pa : substitutetotal_c(union(P,K),std_var_map),
+  output_pa(pa,n))$
+output_des_random_pk_pa_std(seed,r) :=
+  output_des_random_pk_pa(seed, r,
+    sconcat("des_pkpair_r",r,"_s",seed,".pa"))$
+/* Outputting key-ciphertext pair: */
+output_des_random_kc_pa(seed,r,n) := block(
+    [P_hex,K_hex,C_hex,P,C,std_var_map, pa],
+  set_random(make_random_state(seed)),
+  P_hex : lpad(int2hex(random(2**64)),"0",16),
+  K_hex : lpad(int2hex(random(2**64)),"0",16),
+  C_hex : des_encryption_hex_gen(r, P_hex,K_hex),
+  K : des_key2pa_gen(hexstr2binv(K_hex),r),
+  C : des_cipher2pa_gen(hexstr2binv(C_hex),r),
+  std_var_map : sm2hm(l2osm_inv(des_var_gen(r))),
+  pa : substitutetotal_c(union(K,C),std_var_map),
+  output_pa(pa,n))$
+output_des_random_kc_pa_std(seed,r) :=
+  output_des_random_kc_pa(seed, r,
+    sconcat("des_kcpair_r",r,"_s",seed,".cnf"))$
+/* Outputting the full plaintext-key-ciphertext triple: */
+output_des_random_pkc_pa(seed,r,n) := block(
+    [P_hex,K_hex,C_hex,P,C,std_var_map, pa],
+  set_random(make_random_state(seed)),
+  P_hex : lpad(int2hex(random(2**64)),"0",16),
+  K_hex : lpad(int2hex(random(2**64)),"0",16),
+  C_hex : des_encryption_hex_gen(r, P_hex,K_hex),
+  P : des_plain2pa_gen(hexstr2binv(P_hex),r),
+  K : des_key2pa_gen(hexstr2binv(K_hex),r),
+  C : des_cipher2pa_gen(hexstr2binv(C_hex),r),
+  std_var_map : sm2hm(l2osm_inv(des_var_gen(r))),
+  pa : substitutetotal_c(union(P,K,C),std_var_map),
+  output_pa(pa,n))$
+output_des_random_pkc_pa_std(seed,r) :=
+  output_des_random_pkc_pa(seed, r,
+    sconcat("des_pkctriple_r",r,"_s",seed,".pa"))$
+
 
 /* ***********************
    * CNF translation     *
@@ -129,6 +201,16 @@ des2fcl_gen(sbox_l, r) := block(
   sbox_cl_l : map(rename_aux_vars, des_sboxc_gen(r)),
   return([append(des_var_gen(r),create_list(desaux_var(i),i,1,new_var_ind-1)),
           lappend(append(xor_cl_l,reverse(sbox_cl_l)))]))$
+/* Outputting the DES translation to file, where sbox_name is an alphanumeric
+   string without spaces identifying the S-box translation: */
+output_des2fcl_gen(sbox_name, sbox_l, r, n) := block([Fs],
+  Fs : standardise_fcl(des2fcl_gen(sbox_fcl_l,r)),
+  output_fcl_v(
+    sconcat(rounds, "-round DES instantiated with plaintext and ciphertext generated from seed ", seed, "; translated using the ", sbox_name, " translation for the S-boxes (6-to-4)."),
+    Fs[1],n, Fs[2]))$
+output_des2fcl_gen_std(sbox_name, sbox_l, r) :=
+  output_des2fcl_gen(sbox_name, sbox_l, r,
+    sconcat("des_6t4_",sbox_name,"_r",r,".cnf"))$
 /* Allowing arbitrary S-boxes specified by a list of lists of the output
    bits they produce (the inputs bits are determined from these): */
 des2fcl_gen_l(sbox_l,sbox_outputs_l, r) := block(
