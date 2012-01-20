@@ -248,7 +248,7 @@ print("DONE!");
        using the canonical translation for the S-boxes. </li>
        <li> GenerateDESKeys(r,s_max): generates CNF Dimacs files
        containing unit-clauses for instantiating r-round DES with the
-       plaintext-ciphertext pairs generated using seeds 1,...,s_max. </li>
+       plaintext-ciphertext-pairs generated using seeds 1,...,s_max. </li>
       </ul>
      </li>
     </ul>
