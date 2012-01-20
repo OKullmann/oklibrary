@@ -169,6 +169,7 @@ des_var() := append(
 */
 
 /* plain is a partial boolean vector of length 64: */
+/* XXX what is the specification of this function??? XXX */
 des_plain2fcl(plain) := block(
 [V : create_list(desr_var(i,r), r,-1,0, i,1,32)],
  [V,
@@ -176,9 +177,11 @@ des_plain2fcl(plain) := block(
          create_list(block([x:plain[i]], 
              if x=und then und else {(2*x-1)*V[des_final_permutation[i]]}),
            i,1,64))])$
+/* XXX what is the specification of this function??? XXX */
 des_plain2pa(plain) := lunion(des_plain2fcl(plain)[2])$
 
 /* cipher is a partial boolean vector of length 64: */
+/* XXX what is the specification of this function??? XXX */
 des_cipher2fcl(cipher) := block(
 [V : create_list(desr_var(i,r), r,[16,15], i,1,32)],
  [V,
@@ -187,9 +190,11 @@ des_cipher2fcl(cipher) := block(
            block([x:cipher[i]],
              if x=und then und else {(2*x-1)*V[des_final_permutation[i]]}),
            i,1,64))])$
+/* XXX what is the specification of this function??? XXX */
 des_cipher2pa(cipher) := lunion(des_cipher2fcl(cipher)[2])$
 
 /* key is a partial boolean vector of length 64: */
+/* XXX what is the specification of this function??? XXX */
 des_key2fcl(key) := block(
 [V : create_list(desk_var(i), i,1,64)],
  [V,
@@ -198,7 +203,9 @@ des_key2fcl(key) := block(
            block([x:key[i]],
              if x=und then und else {(2*x-1)*V[i]}),
            i,1,64))])$
+/* XXX what is the specification of this function??? XXX */
 des_key2pa(key) := lunion(des_key2fcl(key)[2])$
+
 
 /* ***********************
    * CNF translation     *
