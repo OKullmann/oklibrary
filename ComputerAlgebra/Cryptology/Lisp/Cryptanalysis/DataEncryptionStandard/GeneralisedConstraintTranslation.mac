@@ -86,6 +86,8 @@ des_var_gen(r) := append(
   A "partial boolean vector" contains besides 0,1 also possibly "und".
 */
 
+/* XXX None of the following functions is specified. XXX */
+
 /* plain is a partial boolean vector of length 64: */
 des_plain2fcl_gen(plain,r) := des_plain2fcl(plain)$
 des_plain2pa_gen(plain,r) := des_plain2pa(plain)$
