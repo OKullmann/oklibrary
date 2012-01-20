@@ -36,9 +36,9 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
     - desr(i,-1) = plaintext[des_init_permutation[i]]
     - desr(i,0)  = plaintext[des_init_permutation[32+i]]
     - desr(i,r)  = the result of round r for 1 <= r <= 16
-   
+
    Then
-     ciphertext[i] = 
+     ciphertext[i] =
      append(create_list(desr(i,16),i,1,32),create_list(desr(i,15),i,1,32))[des_final_permutation[i]].
 
 */
@@ -94,7 +94,7 @@ desaux_var(i) := nounify(desaux)(i)$
 /*
   For i in {1,...,48} and r in {1,...,16}:
 
-  desi(i,r) = 
+  desi(i,r) =
     desr(des_expansion[i],r-1) + desk(des_round_keys_template()[r][i])
 
 */
@@ -174,7 +174,7 @@ des_plain2fcl(plain) := block(
 [V : create_list(desr_var(i,r), r,-1,0, i,1,32)],
  [V,
   delete(und,
-         create_list(block([x:plain[i]], 
+         create_list(block([x:plain[i]],
              if x=und then und else {(2*x-1)*V[des_final_permutation[i]]}),
            i,1,64))])$
 /* XXX what is the specification of this function??? XXX */
