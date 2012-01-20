@@ -600,7 +600,11 @@ CPU time              : 154031.16 s
      make it our best weapon. </li>
      <li> See "More powerful processing options" in
      Interfaces/DistributedSolving/plans/ProcessSplitViaOKsolver.hpp. </li>
-     <li>
+     <li> One important aspect is to locate the subinstance of the
+     splitting containing the known (total) solution XXX ??? how to do this ???
+     </li>
+     <li> Then we run all solvers on these satisfiable subinstances and see
+     which perform best. </li>
     </ol>
    </li>
    <li> Using the canonical translation:
