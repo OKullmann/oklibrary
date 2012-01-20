@@ -149,7 +149,7 @@ MixColumns(I_2) := Mul03(I_1) + Mul02(I_2)
    in
    plans/KeyDiscovery/016/2_1_8/Translations.hpp
    where statistics are also provided. </li>
-   <li> Over 20 rounds, with 20 random plaintext-ciphertext pairs per round:
+   <li> Over 20 rounds, with 20 random plaintext-ciphertext-pairs per round:
     <ul>
      <li> Generating the instances:
      \verbatim
@@ -230,7 +230,7 @@ R> plot(EM$t)
    in
    plans/KeyDiscovery/016/2_1_8/Translations.hpp
    where statistics are also provided. </li>
-   <li> Over 20 rounds, with 20 random plaintext-ciphertext pairs per round:
+   <li> Over 20 rounds, with 20 random plaintext-ciphertext-pairs per round:
     <ul>
      <li> Generating the instances:
      \verbatim
@@ -313,7 +313,7 @@ EM
      </li>
     </ul>
    </li>
-   <li> Over 20 rounds, with 20 random plaintext-ciphertext pairs per round:
+   <li> Over 20 rounds, with 20 random plaintext-ciphertext-pairs per round:
     <ul>
      <li> For instructions on generating the 1-bases, see
      "The 1-base box translation" in
@@ -412,7 +412,7 @@ R> plot(E$t)
      </li>
     </ul>
    </li>
-   <li> Over 20 rounds, with 20 random plaintext-ciphertext pairs per round:
+   <li> Over 20 rounds, with 20 random plaintext-ciphertext-pairs per round:
     <ul>
      <li> For instructions on generating the 1-bases, see
      "The 1-base box translation" in
@@ -496,7 +496,7 @@ EM
      </li>
     </ul>
    </li>
-   <li> Over 20 rounds, with 20 random plaintext-ciphertext pairs per round:
+   <li> Over 20 rounds, with 20 random plaintext-ciphertext-pairs per round:
     <ul>
      <li> For instructions on generating the 1-bases, see
      'The "minimum" box translation' in
@@ -581,7 +581,7 @@ R> plot(E$t)
      </li>
     </ul>
    </li>
-   <li> Over 20 rounds, with 20 random plaintext-ciphertext pairs per round:
+   <li> Over 20 rounds, with 20 random plaintext-ciphertext-pairs per round:
     <ul>
      <li> For instructions on generating the 1-bases, see
      'The "minimum" box translation' in

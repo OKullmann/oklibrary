@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.2.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -53,7 +53,7 @@ cipher_24022011 : int2polyadic(cipher_24022011_int,2);
  0,0,1,0,1,1,1,0,1,1,0,0,0,1,0]
    \endverbatim
     </li>
-    <li> Generating the plaintext-ciphertext unit-clauses:
+    <li> Generating the plaintext-ciphertext-pair unit-clauses:
     \verbatim
 plaintext_lits : ss_matrix2pa(ss_hex2matrix(int2hex(275930429712199798024509060124983156862), 2,8,ss_polynomial_2_8,4), create_list(i,i,1,128),2,8,ss_polynomial_2_8)$
 ciphertext_lits : ss_matrix2pa(ss_hex2matrix(int2hex(82288044290978544244364916044704454498), 2,8,ss_polynomial_2_8,4), create_list(i,i,257,384),2,8,ss_polynomial_2_8)$

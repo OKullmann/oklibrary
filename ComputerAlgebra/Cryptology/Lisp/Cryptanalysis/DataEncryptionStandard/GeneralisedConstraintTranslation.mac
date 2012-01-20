@@ -107,7 +107,7 @@ des_cipher2pa_gen(cipher,r) := lunion(des_cipher2fcl_gen(cipher,r)[2])$
 des_key2fcl_gen(key,r) := des_key2fcl(key)$
 des_key2pa_gen(key,r) := des_key2pa(key)$
 
-/* Outputting a random plaintext-ciphertext pair assignment as a CNF
+/* Outputting a random plaintext-ciphertext-pair assignment as a CNF
    consisting of unit-clauses, given a seed for the randomisation.
    Variables are standardised based on the assumption that the
    variables from des_var_gen are standardised to 1,...,length(des_var_gen()).

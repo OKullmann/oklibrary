@@ -1,5 +1,5 @@
 // Matthew Gwynne, 20.5.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -125,7 +125,7 @@ maxima> ncl_list_full_dualts(16,256);
     </ul>
    </li>
    <li> Generate random assignments for the plaintext and ciphertext, leaving
-   the key unknown with a single plaintext-ciphertext pair:
+   the key unknown with a single plaintext-ciphertext-pair:
     <ul>
      <li> Generating the key:
      \verbatim
@@ -204,10 +204,10 @@ VALID
      </li>
     </ul>
    </li>
-   <li> Generating 20 random plaintext-ciphertext pairs and running
+   <li> Generating 20 random plaintext-ciphertext-pairs and running
    solvers instances instantiated with these pairs to find the key:
     <ul>
-     <li> Computing the random plaintext-ciphertext pairs:
+     <li> Computing the random plaintext-ciphertext-pairs:
      \verbatim
 for seed : 1 thru 20 do output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
      \endverbatim
@@ -410,7 +410,7 @@ maxima> ncl_list_fcs(ev_hm(ss_field_cnfs,[8,3]))
     </ul>
    </li>
    <li> Generate random assignments for the plaintext and ciphertext, leaving
-   the key unknown with a single plaintext-ciphertext pair:
+   the key unknown with a single plaintext-ciphertext-pair:
     <ul>
      <li> Generate random assignments for the plaintext and ciphertext, leaving
      the key unknown:
@@ -491,10 +491,10 @@ VALID
      </li>
     </ul>
    </li>
-   <li> Generating 20 random plaintext-ciphertext pairs and running
+   <li> Generating 20 random plaintext-ciphertext-pairs and running
    solvers instances instantiated with these pairs to find the key:
     <ul>
-     <li> Computing the random plaintext-ciphertext pairs:
+     <li> Computing the random plaintext-ciphertext-pairs:
      \verbatim
 for seed : 1 thru 20 do output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
      \endverbatim
@@ -727,10 +727,10 @@ maxima> ncl_list_fcs(ev_hm(ss_field_rbase_cnfs,[8,3]))
      <li> 9 : 16 = 4 S-boxes * 4. </li>
     </ul>
    </li>
-   <li> Generating 20 random plaintext-ciphertext pairs and running
+   <li> Generating 20 random plaintext-ciphertext-pairs and running
    solvers instances instantiated with these pairs to find the key:
     <ul>
-     <li> Computing the random plaintext-ciphertext pairs:
+     <li> Computing the random plaintext-ciphertext-pairs:
      \verbatim
 for seed : 1 thru 20 do output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
      \endverbatim

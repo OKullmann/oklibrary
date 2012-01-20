@@ -55,7 +55,7 @@ License, or any later version. */
    plaintext-ciphertext-pairs. See "Transferring the Argosat-desgen example" in
    Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
    </li>
-   <li> Over one plaintext-ciphertext pair, using the:
+   <li> Over one plaintext-ciphertext-pair, using the:
     <ul>
      <li> 1-base translation; fastest solver solves in 553s.
      See "Using the 1-base translation for the S-boxes (6-to-4)". </li>
@@ -65,7 +65,7 @@ License, or any later version. */
      See 'Using the "minimum"  translation for the S-boxes (6-to-4)'. </li>
     </ul>
    </li>
-   <li> Over 20 plaintext-ciphertext pair, using the:
+   <li> Over 20 plaintext-ciphertext-pair, using the:
     <ul>
      <li> 1-base translation; minisat-2.2.0 solves in ~10.4 hours (avg),
      using ~ 427 million conflicts (avg).
@@ -202,7 +202,7 @@ for F in sbox_fcl_l do print(ncl_list_fcl(F));
      <li> 5 clauses of length seven (1 * 5 = 5 S-boxes). </li>
     </ul>
    </li>
-   <li> On a single plaintext-ciphertext pair:
+   <li> On a single plaintext-ciphertext-pair:
     <ul>
      <li> Generating the instance:
      \verbatim
@@ -353,7 +353,7 @@ for F in sbox_fcl_l do print(ncl_list_fcl(F));
      <li> 60 clauses of length seven (7 * 5 = 35 S-boxes). </li>
     </ul>
    </li>
-   <li> On a single plaintext-ciphertext pair:
+   <li> On a single plaintext-ciphertext-pair:
     <ul>
      <li> Generating the instance:
      \verbatim
@@ -500,7 +500,7 @@ ncl_list_fcl(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(1)]));
      <li> 40 clauses of length 64 (8 * 5 = 40 S-boxes). </li>
     </ul>
    </li>
-   <li> Using a single plaintext-ciphertext pair:
+   <li> Using a single plaintext-ciphertext-pair:
     <ul>
      <li> Generating the instance:
      \verbatim
@@ -575,7 +575,7 @@ shell> for k in $(seq 1 20); do
     minisat-2.2.0 des_6t4_canon_r${r}_s${k}.cnf > minisat_r${r}_k${k}.result 2>&1;
   done;
      \endverbatim
-     yields, for the first pseudo-random plaintext-ciphertext pair:
+     yields, for the first pseudo-random plaintext-ciphertext-pair:
      \verbatim
 restarts              : 301052
 conflicts             : 264442847      (9446074192 /sec)
@@ -585,7 +585,7 @@ CPU time              : 154031.16 s
      \endverbatim
      taking ~1.8 days.
      </li>
-     <li> For the second pseudo-random plaintext-ciphtext pair (seed = 2),
+     <li> For the second pseudo-random plaintext-ciphertext-pair (seed = 2),
      minisat-2.2.0 takes > 1 week. </li>
     </ul>
    </li>
