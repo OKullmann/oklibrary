@@ -258,13 +258,43 @@ smallest degrees first = 4
 largest degrees first = 4
 9 8 7 6 5 4 3 2 15 14 13 12 11 10 1
 9 -> 0, 8 -> 1, 7 -> 0, 6 -> 2, 5 -> 1, 4 -> 1, 3 -> 1, 2 -> 2, 15 -> 0, 14 -> 0, 13 -> 2, 12 -> 3, 11 -> 2, 10 -> 0, 1 -> 1,
-XXX cs-oksvr
+0 : 0
+1 : 0
+2 : 0
+3 : 46889661941
+4 : 1128787440320
+5 : 131997265739
+6 : 0
+7 : 0
+8 : 0
+9 : 0
+10 : 0
+11 : 0
+12 : 0
+13 : 0
+14 : 0
+15 : 0
+
+min numbers of colours = 3
+1 10 12 13 14 15 11 3 4 5 6 7 2 8 9
+1 -> 0, 10 -> 1, 12 -> 1, 13 -> 1, 14 -> 2, 15 -> 0, 11 -> 1, 3 -> 2, 4 -> 2, 5 -> 0, 6 -> 2, 7 -> 0, 2 -> 2, 8 -> 0, 9 -> 1,
+max number of colours = 5
+1 10 11 12 14 2 3 13 4 15 5 6 7 8 9
+1 -> 0, 10 -> 1, 11 -> 0, 12 -> 1, 14 -> 2, 2 -> 0, 3 -> 1, 13 -> 3, 4 -> 2, 15 -> 4, 5 -> 0, 6 -> 2, 7 -> 3, 8 -> 1, 9 -> 3,
+
+user    15697m41.015s (cs-oksvr)
+
+float(46889661941/15!)*100;
+  3.5857292219250723
+
 
 R:search_planar3col(10,5,20000);
  [20000,20000,0,1020]
 
    \endverbatim
-   </li>
+   The assumption is that the proportion of 3-colouring-orders is an indication
+   for hardness w.r.t. human-search. One should try this out in the CS-270
+   tutorial. </li>
   </ul>
 
 */
