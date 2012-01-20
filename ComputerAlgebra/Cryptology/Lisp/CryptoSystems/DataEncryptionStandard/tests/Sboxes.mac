@@ -141,9 +141,9 @@ okltest_des_comb_sbox_bf(f) := block(
   assert(
     f([1,2])([0,1,0,0,1,0,0]) = [1,0]),
   if oklib_test_level = 0 then return(true),
-  assert(
-    create_list(f([1,2,3,4,9,10,11,12])(I),I,lex_bv_l(8)) =
-    create_list(append(des_sbox_bf(1)(I),des_sbox_bf(3)(I)),I,lex_bv_l(8))),
+  assert(block([lex_bv_l_12 : lex_bv_l(12)],
+    create_list(f([1,2,3,4,9,10,11,12])(I),I,lex_bv_l_12) =
+    create_list(append(des_sbox_bf(1)(I),des_sbox_bf(3)(I)),I,lex_bv_l_12))),
   true)$
 
 /*!
