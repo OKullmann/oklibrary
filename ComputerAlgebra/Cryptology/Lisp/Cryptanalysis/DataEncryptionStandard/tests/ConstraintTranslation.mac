@@ -200,37 +200,6 @@ okltest_des_sbox_deso(f) := block(
    ***********************
 */
 
-okltest_des_plain2fcl(f) := block(
-  assert(f(des_validation_plain) =
-    [[desr(1,-1),desr(2,-1),desr(3,-1),desr(4,-1),desr(5,-1),desr(6,-1),
-      desr(7,-1),desr(8,-1),desr(9,-1),desr(10,-1),desr(11,-1),
-      desr(12,-1),desr(13,-1),desr(14,-1),desr(15,-1),desr(16,-1),
-      desr(17,-1),desr(18,-1),desr(19,-1),desr(20,-1),desr(21,-1),
-      desr(22,-1),desr(23,-1),desr(24,-1),desr(25,-1),desr(26,-1),
-      desr(27,-1),desr(28,-1),desr(29,-1),desr(30,-1),desr(31,-1),
-      desr(32,-1),desr(1,0),desr(2,0),desr(3,0),desr(4,0),desr(5,0),
-      desr(6,0),desr(7,0),desr(8,0),desr(9,0),desr(10,0),desr(11,0),
-      desr(12,0),desr(13,0),desr(14,0),desr(15,0),desr(16,0),desr(17,0),
-      desr(18,0),desr(19,0),desr(20,0),desr(21,0),desr(22,0),desr(23,0),
-      desr(24,0),desr(25,0),desr(26,0),desr(27,0),desr(28,0),desr(29,0),
-      desr(30,0),desr(31,0),desr(32,0)],
-     [{-desr(8,0)},{-desr(8,-1)},{-desr(16,0)},{-desr(16,-1)},
-      {-desr(24,0)},{-desr(24,-1)},{-desr(32,0)},{desr(32,-1)},
-      {-desr(7,0)},{-desr(7,-1)},{desr(15,0)},{-desr(15,-1)},
-      {-desr(23,0)},{-desr(23,-1)},{desr(31,0)},{desr(31,-1)},
-      {-desr(6,0)},{desr(6,-1)},{-desr(14,0)},{-desr(14,-1)},
-      {-desr(22,0)},{desr(22,-1)},{-desr(30,0)},{desr(30,-1)},
-      {-desr(5,0)},{desr(5,-1)},{desr(13,0)},{-desr(13,-1)},
-      {-desr(21,0)},{desr(21,-1)},{desr(29,0)},{desr(29,-1)},
-      {desr(4,0)},{-desr(4,-1)},{-desr(12,0)},{-desr(12,-1)},
-      {desr(20,0)},{-desr(20,-1)},{-desr(28,0)},{desr(28,-1)},
-      {desr(3,0)},{-desr(3,-1)},{desr(11,0)},{-desr(11,-1)},
-      {desr(19,0)},{-desr(19,-1)},{desr(27,0)},{desr(27,-1)},
-      {desr(2,0)},{desr(2,-1)},{-desr(10,0)},{-desr(10,-1)},
-      {desr(18,0)},{desr(18,-1)},{-desr(26,0)},{desr(26,-1)},
-      {desr(1,0)},{desr(1,-1)},{desr(9,0)},{-desr(9,-1)},
-      {-desr(17,0)},{desr(17,-1)},{desr(25,0)},{desr(25,-1)}]]),
-  true)$
 
 okltest_des_plain2pa(f) := block(
   assert(f(des_validation_plain) =
@@ -252,37 +221,33 @@ okltest_des_plain2pa(f) := block(
       -desr(17,0),desr(17,-1),desr(25,0),desr(25,-1)}),
   true)$
 
-okltest_des_cipher2fcl(f) := block(
-  assert(f(des_validation_cipher) =
-    [[desr(1,16),desr(2,16),desr(3,16),desr(4,16),desr(5,16),desr(6,16),
-      desr(7,16),desr(8,16),desr(9,16),desr(10,16),desr(11,16),
-      desr(12,16),desr(13,16),desr(14,16),desr(15,16),desr(16,16),
-      desr(17,16),desr(18,16),desr(19,16),desr(20,16),desr(21,16),
-      desr(22,16),desr(23,16),desr(24,16),desr(25,16),desr(26,16),
-      desr(27,16),desr(28,16),desr(29,16),desr(30,16),desr(31,16),
-      desr(32,16),desr(1,15),desr(2,15),desr(3,15),desr(4,15),desr(5,15),
-      desr(6,15),desr(7,15),desr(8,15),desr(9,15),desr(10,15),desr(11,15),
-      desr(12,15),desr(13,15),desr(14,15),desr(15,15),desr(16,15),
-      desr(17,15),desr(18,15),desr(19,15),desr(20,15),desr(21,15),
-      desr(22,15),desr(23,15),desr(24,15),desr(25,15),desr(26,15),
-      desr(27,15),desr(28,15),desr(29,15),desr(30,15),desr(31,15),
-      desr(32,15)],
-     [{desr(8,15)},{desr(8,16)},{-desr(16,15)},{-desr(16,16)},
-      {desr(24,15)},{-desr(24,16)},{-desr(32,15)},{desr(32,16)},
-      {-desr(7,15)},{desr(7,16)},{-desr(15,15)},{desr(15,16)},
-      {-desr(23,15)},{desr(23,16)},{desr(31,15)},{desr(31,16)},
-      {-desr(6,15)},{desr(6,16)},{-desr(14,15)},{-desr(14,16)},
-      {-desr(22,15)},{desr(22,16)},{-desr(30,15)},{-desr(30,16)},
-      {-desr(5,15)},{-desr(5,16)},{desr(13,15)},{-desr(13,16)},
-      {-desr(21,15)},{desr(21,16)},{-desr(29,15)},{desr(29,16)},
-      {-desr(4,15)},{desr(4,16)},{desr(12,15)},{-desr(12,16)},
-      {desr(20,15)},{-desr(20,16)},{desr(28,15)},{-desr(28,16)},
-      {-desr(3,15)},{desr(3,16)},{-desr(11,15)},{desr(11,16)},
-      {desr(19,15)},{desr(19,16)},{desr(27,15)},{-desr(27,16)},
-      {desr(2,15)},{desr(2,16)},{-desr(10,15)},{desr(10,16)},
-      {-desr(18,15)},{-desr(18,16)},{desr(26,15)},{desr(26,16)},
-      {-desr(1,15)},{-desr(1,16)},{-desr(9,15)},{desr(9,16)},
-      {desr(17,15)},{desr(17,16)},{-desr(25,15)},{desr(25,16)}]]),
+okltest_des_plain2fcl(f) := block(
+  assert(f(des_validation_plain) =
+    [[desr(1,-1),desr(2,-1),desr(3,-1),desr(4,-1),desr(5,-1),desr(6,-1),
+      desr(7,-1),desr(8,-1),desr(9,-1),desr(10,-1),desr(11,-1),desr(12,-1),
+      desr(13,-1),desr(14,-1),desr(15,-1),desr(16,-1),desr(17,-1),desr(18,-1),
+      desr(19,-1),desr(20,-1),desr(21,-1),desr(22,-1),desr(23,-1),desr(24,-1),
+      desr(25,-1),desr(26,-1),desr(27,-1),desr(28,-1),desr(29,-1),desr(30,-1),
+      desr(31,-1),desr(32,-1),desr(1,0),desr(2,0),desr(3,0),desr(4,0),
+      desr(5,0),desr(6,0),desr(7,0),desr(8,0),desr(9,0),desr(10,0),desr(11,0),
+      desr(12,0),desr(13,0),desr(14,0),desr(15,0),desr(16,0),desr(17,0),
+      desr(18,0),desr(19,0),desr(20,0),desr(21,0),desr(22,0),desr(23,0),
+      desr(24,0),desr(25,0),desr(26,0),desr(27,0),desr(28,0),desr(29,0),
+      desr(30,0),desr(31,0),desr(32,0)],
+     [{desr(1,-1)},{desr(2,-1)},{-desr(3,-1)},{-desr(4,-1)},{desr(5,-1)},
+      {desr(6,-1)},{-desr(7,-1)},{-desr(8,-1)},{-desr(9,-1)},{-desr(10,-1)},
+      {-desr(11,-1)},{-desr(12,-1)},{-desr(13,-1)},{-desr(14,-1)},
+      {-desr(15,-1)},{-desr(16,-1)},{desr(17,-1)},{desr(18,-1)},
+      {-desr(19,-1)},{-desr(20,-1)},{desr(21,-1)},{desr(22,-1)},
+      {-desr(23,-1)},{-desr(24,-1)},{desr(25,-1)},{desr(26,-1)},{desr(27,-1)},
+      {desr(28,-1)},{desr(29,-1)},{desr(30,-1)},{desr(31,-1)},{desr(32,-1)},
+      {desr(1,0)},{desr(2,0)},{desr(3,0)},{desr(4,0)},{-desr(5,0)},
+      {-desr(6,0)},{-desr(7,0)},{-desr(8,0)},{desr(9,0)},{-desr(10,0)},
+      {desr(11,0)},{-desr(12,0)},{desr(13,0)},{-desr(14,0)},{desr(15,0)},
+      {-desr(16,0)},{-desr(17,0)},{desr(18,0)},{desr(19,0)},{desr(20,0)},
+      {-desr(21,0)},{-desr(22,0)},{-desr(23,0)},{-desr(24,0)},{desr(25,0)},
+      {-desr(26,0)},{desr(27,0)},{-desr(28,0)},{desr(29,0)},{-desr(30,0)},
+      {desr(31,0)},{-desr(32,0)}]]),
   true)$
 
 okltest_des_cipher2pa(f) := block(
@@ -303,6 +268,53 @@ okltest_des_cipher2pa(f) := block(
       -desr(18,15),-desr(18,16),desr(26,15),desr(26,16),
       -desr(1,15),-desr(1,16),-desr(9,15),desr(9,16),
       desr(17,15),desr(17,16),-desr(25,15),desr(25,16)}),
+  true)$
+
+okltest_des_cipher2fcl(f) := block(
+  assert(f(des_validation_cipher) =
+    [[desr(1,16),desr(2,16),desr(3,16),desr(4,16),desr(5,16),desr(6,16),
+      desr(7,16),desr(8,16),desr(9,16),desr(10,16),desr(11,16),
+      desr(12,16),desr(13,16),desr(14,16),desr(15,16),desr(16,16),
+      desr(17,16),desr(18,16),desr(19,16),desr(20,16),desr(21,16),
+      desr(22,16),desr(23,16),desr(24,16),desr(25,16),desr(26,16),
+      desr(27,16),desr(28,16),desr(29,16),desr(30,16),desr(31,16),
+      desr(32,16),desr(1,15),desr(2,15),desr(3,15),desr(4,15),desr(5,15),
+      desr(6,15),desr(7,15),desr(8,15),desr(9,15),desr(10,15),desr(11,15),
+      desr(12,15),desr(13,15),desr(14,15),desr(15,15),desr(16,15),
+      desr(17,15),desr(18,15),desr(19,15),desr(20,15),desr(21,15),
+      desr(22,15),desr(23,15),desr(24,15),desr(25,15),desr(26,15),
+      desr(27,15),desr(28,15),desr(29,15),desr(30,15),desr(31,15),
+      desr(32,15)],
+     [{-desr(1,16)},{desr(2,16)},{desr(3,16)},{desr(4,16)},{-desr(5,16)},
+      {desr(6,16)},{desr(7,16)},{desr(8,16)},{desr(9,16)},{desr(10,16)},
+      {desr(11,16)},{-desr(12,16)},{-desr(13,16)},{-desr(14,16)},
+      {desr(15,16)},{-desr(16,16)},{desr(17,16)},{-desr(18,16)},{desr(19,16)},
+      {-desr(20,16)},{desr(21,16)},{desr(22,16)},{desr(23,16)},{-desr(24,16)},
+      {desr(25,16)},{desr(26,16)},{-desr(27,16)},{-desr(28,16)},{desr(29,16)},
+      {-desr(30,16)},{desr(31,16)},{desr(32,16)},{-desr(1,15)},{desr(2,15)},
+      {-desr(3,15)},{-desr(4,15)},{-desr(5,15)},{-desr(6,15)},{-desr(7,15)},
+      {desr(8,15)},{-desr(9,15)},{-desr(10,15)},{-desr(11,15)},{desr(12,15)},
+      {desr(13,15)},{-desr(14,15)},{-desr(15,15)},{-desr(16,15)},
+      {desr(17,15)},{-desr(18,15)},{desr(19,15)},{desr(20,15)},{-desr(21,15)},
+      {-desr(22,15)},{-desr(23,15)},{desr(24,15)},{-desr(25,15)},
+      {desr(26,15)},{desr(27,15)},{desr(28,15)},{-desr(29,15)},{-desr(30,15)},
+      {desr(31,15)},{-desr(32,15)}]]),
+  true)$
+
+okltest_des_key2pa(f) := block(
+  assert(f(des_validation_key) =
+    {-desk(1),-desk(2),-desk(3),-desk(4),-desk(5),-desk(6),
+     -desk(7),desk(8),-desk(9),-desk(10),desk(11),-desk(12),
+     -desk(13),-desk(14),desk(15),desk(16),-desk(17),
+     desk(18),-desk(19),-desk(20),-desk(21),desk(22),
+     -desk(23),desk(24),-desk(25),desk(26),desk(27),
+     -desk(28),-desk(29),desk(30),desk(31),desk(32),desk(33),
+     -desk(34),-desk(35),-desk(36),desk(37),-desk(38),
+     -desk(39),desk(40),desk(41),-desk(42),desk(43),
+     -desk(44),desk(45),-desk(46),desk(47),desk(48),desk(49),
+     desk(50),-desk(51),-desk(52),desk(53),desk(54),
+     -desk(55),desk(56),desk(57),desk(58),desk(59),-desk(60),
+     desk(61),desk(62),desk(63),desk(64)}),
   true)$
 
 okltest_des_key2fcl(f) := block(
@@ -328,22 +340,6 @@ okltest_des_key2fcl(f) := block(
       {desk(50)},{-desk(51)},{-desk(52)},{desk(53)},{desk(54)},
       {-desk(55)},{desk(56)},{desk(57)},{desk(58)},{desk(59)},{-desk(60)},
       {desk(61)},{desk(62)},{desk(63)},{desk(64)}]]),
-  true)$
-
-okltest_des_key2pa(f) := block(
-  assert(f(des_validation_key) =
-    {-desk(1),-desk(2),-desk(3),-desk(4),-desk(5),-desk(6),
-     -desk(7),desk(8),-desk(9),-desk(10),desk(11),-desk(12),
-     -desk(13),-desk(14),desk(15),desk(16),-desk(17),
-     desk(18),-desk(19),-desk(20),-desk(21),desk(22),
-     -desk(23),desk(24),-desk(25),desk(26),desk(27),
-     -desk(28),-desk(29),desk(30),desk(31),desk(32),desk(33),
-     -desk(34),-desk(35),-desk(36),desk(37),-desk(38),
-     -desk(39),desk(40),desk(41),-desk(42),desk(43),
-     -desk(44),desk(45),-desk(46),desk(47),desk(48),desk(49),
-     desk(50),-desk(51),-desk(52),desk(53),desk(54),
-     -desk(55),desk(56),desk(57),desk(58),desk(59),-desk(60),
-     desk(61),desk(62),desk(63),desk(64)}),
   true)$
 
 /*!
