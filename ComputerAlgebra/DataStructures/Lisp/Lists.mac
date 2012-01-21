@@ -324,6 +324,20 @@ stable_unique(L) := block([S:{}, res:[]],
  reverse(res))$
 /* Remark: The Maxima-function unique(L) is not stable (but faster). */
 
+/* Interleaving the elements of all input lists in the order they are given
+   as arguments. All lists are assumed to be of the same size.
+
+   That is, given n lists L_1, ..., L_n, each of size m, return the list
+   L_1[1],...,L_n[1],...,L_1[n],...,L_n[n].
+*/
+interleave_l([L]) :=
+   if L = [] then []
+   else if member([], L) then []
+   else append(map(first,L), apply(interleave_l, map(rest,L)))$
+/* If the lists *are* of different lengths, then the result of interleave_l is
+   the same as if all lists were truncated to their first k elements, where
+   k is the size of the smallest list. */
+
 
 /* *************************
    * Random parts of lists *
