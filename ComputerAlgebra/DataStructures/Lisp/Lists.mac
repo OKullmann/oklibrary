@@ -406,7 +406,7 @@ m2l_r(m) := lappend(create_list(m[i],i,1,length(m)))$
 /* RENAME: m2ll_c */
 matrixcolumns(m) := partition_elements(m2l_r(transpose(m)),length(m))$
 
-/* Builds a matrix from a list of it's columns (as lists) */
+/* Builds a matrix from a list of its columns (as lists) */
 /* RENAME: m_c */
 columns2matrix(mc) := transpose(uaapply(matrix, mc))$
 
