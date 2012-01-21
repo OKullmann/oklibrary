@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.5.2008 (Swansea)
-/* Copyright 2008, 2011 Oliver Kullmann
+/* Copyright 2008, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -111,7 +111,8 @@ c max_tree_depth                        48
 c proportion_searched                   0.000000e+00
 c proportion_single                     0.000000e+00
 c total_proportion                      0
-
+       \endverbatim
+       </li>
       </ol>
      </li>
      <li> satz215
