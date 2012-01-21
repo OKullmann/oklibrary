@@ -166,6 +166,7 @@ okltest_sort_length(sort_length);
 okltest_sort_length_desc(sort_length_desc);
 okltest_sort_length_part(sort_length_part);
 okltest_sort_length_desc_part(sort_length_desc_part);
+okltest_l2order_p(l2order_p);
 
 
 /*!
