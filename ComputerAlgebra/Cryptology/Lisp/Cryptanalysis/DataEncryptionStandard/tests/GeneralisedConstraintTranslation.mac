@@ -88,6 +88,14 @@ okltest_des_cipher2fcl_gen(f) := block(
   true)$
 
 okltest_des_cipher2pa_gen(f) := block(
+  for r : 1 thru 16 do
+    assert(f(create_list(und,i,1,64),r) = {}),
+  for r : 1 thru 16 do
+    assert(f(create_list(0,i,1,64), r) =
+      setify(create_list(-desr_var(i,r_t), r_t,[r,r-1], i,1,32))),
+  for r : 1 thru 16 do
+    assert(f(create_list(1,i,1,64), r) =
+      setify(create_list(desr_var(i,r_t), r_t,[r,r-1], i,1,32))),
   assert(okltest_des_cipher2pa(buildq([f],lambda([cipher], f(cipher,16))))),
   true)$
 
