@@ -202,6 +202,7 @@ okltest_des_sbox_deso(f) := block(
 
 
 okltest_des_plain2pa(f) := block(
+  assert(f(create_list(und,i,1,64)) = {}),
   assert(f(des_validation_plain) =
     {-desr(8,0),-desr(8,-1),-desr(16,0),-desr(16,-1),
       -desr(24,0),-desr(24,-1),-desr(32,0),desr(32,-1),
@@ -222,6 +223,8 @@ okltest_des_plain2pa(f) := block(
   true)$
 
 okltest_des_plain2fcl(f) := block(
+  assert(f(create_list(und,i,1,64)) =
+    [create_list(desr_var(i,r), r,-1,0, i,1,32),[]]),
   assert(f(des_validation_plain) =
     [[desr(1,-1),desr(2,-1),desr(3,-1),desr(4,-1),desr(5,-1),desr(6,-1),
       desr(7,-1),desr(8,-1),desr(9,-1),desr(10,-1),desr(11,-1),desr(12,-1),
@@ -251,6 +254,7 @@ okltest_des_plain2fcl(f) := block(
   true)$
 
 okltest_des_cipher2pa(f) := block(
+  assert(f(create_list(und,i,1,64)) = {}),
   assert(f(des_validation_cipher) =
      {desr(8,15),desr(8,16),-desr(16,15),-desr(16,16),
       desr(24,15),-desr(24,16),-desr(32,15),desr(32,16),
@@ -271,6 +275,8 @@ okltest_des_cipher2pa(f) := block(
   true)$
 
 okltest_des_cipher2fcl(f) := block(
+  assert(f(create_list(und,i,1,64)) =
+    [create_list(desr_var(i,r), r,[16,15], i,1,32),[]]),
   assert(f(des_validation_cipher) =
     [[desr(1,16),desr(2,16),desr(3,16),desr(4,16),desr(5,16),desr(6,16),
       desr(7,16),desr(8,16),desr(9,16),desr(10,16),desr(11,16),
@@ -302,6 +308,7 @@ okltest_des_cipher2fcl(f) := block(
   true)$
 
 okltest_des_key2pa(f) := block(
+  assert(f(create_list(und,i,1,64)) = {}),
   assert(f(des_validation_key) =
     {-desk(1),-desk(2),-desk(3),-desk(4),-desk(5),-desk(6),
      -desk(7),desk(8),-desk(9),-desk(10),desk(11),-desk(12),
@@ -318,6 +325,7 @@ okltest_des_key2pa(f) := block(
   true)$
 
 okltest_des_key2fcl(f) := block(
+  assert(f(create_list(und,i,1,64)) = [create_list(desk_var(i), i,1,64),[]]),
   assert(f(des_validation_key) =
     [[desk(1),desk(2),desk(3),desk(4),desk(5),desk(6),desk(7),desk(8),
       desk(9),desk(10),desk(11),desk(12),desk(13),desk(14),desk(15),
