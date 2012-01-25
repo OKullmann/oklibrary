@@ -51,7 +51,7 @@ License, or any later version. */
      in the public bin-directory (<code>$(public_bin_dir_okl)</code>). </li>
     </ol>
    </li>
-   <li> Checking the installation: 
+   <li> Checking the installation:
     <ul>
      <li> Ready: $(espresso_call_ready_okl) </li>
      <li> location = $(location_espresso_call_okl) </li>
@@ -65,7 +65,7 @@ License, or any later version. */
   <h2> How to install </h2>
 
   <h3> Make targets </h3>
-  
+
   <table>
    <tr>
     <td> <code> espresso </code> </td>
@@ -96,7 +96,7 @@ License, or any later version. */
    <li> Use <code>$(espresso_exec_okl) filename</code>, where the file contains
    a boolean function in the (extended) PLA-format. </li>
    <li> An example is to use the following "test.pla" file (see below)
-   with espresso 
+   with espresso
    \verbatim
 .i 3
 .o 1
@@ -109,7 +109,7 @@ License, or any later version. */
 011 0
 101 0
    \endverbatim
-   by calling 
+   by calling
    \verbatim
 > espresso2.3 test.pla
 .i 3
