@@ -42,24 +42,24 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitution
 
 v_p(v) :=
  not stringp(v) and
- is(is(v>0)=true) and 
- is(is(-v<0)=true) and 
- is(is(-v#v)=true) and 
- is(is(abs(v)=v)=true) and 
- is(is(abs(-v)=v)=true) and 
+ is(is(v>0)=true) and
+ is(is(-v<0)=true) and
+ is(is(-v#v)=true) and
+ is(is(abs(v)=v)=true) and
+ is(is(abs(-v)=v)=true) and
  is(is(--v=v)=true)$
 
-/* 
+/*
  A "boolean literal" might be a boolean variable "v" or a negated boolean
  variable "-v".
 */
 
-l_p(x) := 
- is(is(--x=x)=true) and 
- if is(x>0)=true then 
-   is(is(abs(x)=x)=true) and v_p(x) 
- elseif is(x<0)=true then 
-   is(is(abs(x)=-x)=true) and v_p(-x) 
+l_p(x) :=
+ is(is(--x=x)=true) and
+ if is(x>0)=true then
+   is(is(abs(x)=x)=true) and v_p(x)
+ elseif is(x<0)=true then
+   is(is(abs(x)=-x)=true) and v_p(-x)
  else false$
 
 /* The underlying variable of a literal: */
@@ -73,7 +73,7 @@ sign_l(x) := block([s : sign(x)], if s = pos then 1 else -1)$
    a list of literals is possible): */
 literals_v(V) := block([L : listify(V)], setify(append(L,-L)))$
 
-/* A generic function for creating variables, e.g., 
+/* A generic function for creating variables, e.g.,
      gv("h"), gv(1,2,[33])
    etc. For equality-checking use (as usual in this context) just "=".
 */
@@ -106,7 +106,7 @@ var_c(C) := map(var_l, C)$
 /* The set of variables in a set of literals: */
 var_sl(C) := map(var_l, C)$
 
-/* The positive resp. negative literals in a clause (can also be applied to 
+/* The positive resp. negative literals in a clause (can also be applied to
    a set of literals): */
 pospart_c(C) := subset(C, lambda([x], is(x>0)))$
 negpart_c(C) := subset(C, lambda([x], is(x<0)))$
@@ -233,7 +233,7 @@ scs_k(F,k) := scls_k(F,k)$
 scls_l(F,l) := subset(F, lambda([C], elementp(l,C)))$
 scs_l(F,l) := scls_l(F,l)$
 
-/* All clauses of a clause-set containing a variable. 
+/* All clauses of a clause-set containing a variable.
 */
 /* RENAME: scs_v */
 scls_v(F,v) := subset(F, lambda([C], elementp(v,var_c(C))))$
@@ -348,11 +348,11 @@ print_fcl_v(comment,FF,varlist) := block(
 /* Output formal clause-set FF to file n, using a variable-list
    (based on print_fcs_v): */
 /* RENAME: output_fcs_v */
-output_cs_f_v(comment,FF,n,varlist) := 
+output_cs_f_v(comment,FF,n,varlist) :=
   with_stdout(n, print_cs_f_v(comment,FF,varlist))$
-output_fcs_v(comment,FF,n,varlist) := 
+output_fcs_v(comment,FF,n,varlist) :=
   with_stdout(n, print_cs_f_v(comment,FF,varlist))$
-output_fcl_v(comment,FF,n,varlist) := 
+output_fcl_v(comment,FF,n,varlist) :=
   with_stdout(n, print_fcl_v(comment,FF,varlist))$
 
 /* Standard statistics of a formal clause-set as a string:
@@ -360,7 +360,7 @@ output_fcl_v(comment,FF,n,varlist) :=
 standard_statistics_fcs(FF) := block([S : extended_statistics_fcs(FF)],
 sconcat(
 "c Number of variables: ", S[1], "
-c Number of clauses: ", S[2], " 
+c Number of clauses: ", S[2], "
 c Number of literal occurrences: ", S[3], "
 c Minimal clause length: ", S[4], "
 c Maximal clause length: ", S[5], "
@@ -391,6 +391,33 @@ read_fcl_f(n) := block([fh, line, ll,p_n, p_found : false],
     [listify(setn(p_n)),
      rest(map(setify, split_list(read_list(fh),0)),-1)]))$
 
+
+/* *****************************************
+   * Printing clause-sets in PLA-format    *
+   *****************************************
+*/
+
+/* Outputting the input clause-set to PLA format.
+   F is considered to be a DNF, and the i-th input
+   variable in the output PLA corresponds to the
+   i-th variable in the variable-list for F. */
+print_fcl2pla(comment, F) := block([F_std, vector],
+  if comment # "" then print_nlb(sconcat("# ",comment)),
+  print_nlb(sconcat(".i ", length(F[1]))),
+  print_nlb(".o 1"),
+  print_nlb(".type fd"),
+  F_std : standardise_fcl(F),
+  for C in F_std[1][2] do (
+    vector :
+      create_list(
+        if elementp(F_std[2][i],C) then "1"
+        else if elementp(-F_std[2][i],C) then "0"
+        else "-",
+        i, 1, length(F[1])),
+    print_nlb(rreduce(sconcat, vector, " 1"))))$
+/* Note the clause-set is considered as a DNF, as this
+is the default for the PLA format. */
+output_fcl2pla(comment,F,n) := with_stdout(n,print_fcl2pla(comment,F))$
 
 /*!
 \endhtmlonly
