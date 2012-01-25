@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.3.2008 (Swansea)
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -128,49 +128,107 @@ ExternalSources/Installations/R> oklib --R
    is recognised. </li>
    <li> At the ExternalSources page we need an index-page for the various
    pieces of documentation we have. </li>
-   <li> We need to investigate what is in espresso-book-examples.tar.gz. </li>
+   <li> We need to investigate what is in espresso-book-examples.tar.gz:
+    <ul>
+     <li> This tarball contains a variety of different PLA files, which
+     don't have any documentation along with them. </li>
+     <li> There is a book "Logic Minimization Algorithms for VLSI Synthesis"
+     by Robert Brayton (the author of Espresso). </li>
+     <li> Given the name of the tarball, "Logic Minimization Algorithms for
+     VLSI Synthesis" seems a likely candidate for the "book" the filename
+     refers to (MG has ordered a copy). </li>
+    </ul>
+   </li>
    <li> The PLA format:
     <ul>
-     <li> The "PLA format" is at
-     ExternalSources/sources/Boolean/Espresso/espresso.5.html. </li>
+     <li> The "PLA format" is documented at
+     ExternalSources/sources/Boolean/Espresso/espresso.5.html with additional
+     information in
+     ExternalSources/sources/Boolean/Espresso/man_octtools_espresso.html. </li>
      <li> Finite functions with boolean variables:
       <ul>
-       <li> A PLAs represents a partial finite function f : {0,1}^n -> {0,1}^m
-       using the relational point of view. </li>
-       <li> The number of input variables and output variables are
-       specified first with lines of the form:
-       \verbatim
+       <li> A PLA represents a partial finite function,
+       f : {0,1}^n -> {0,1}^m, by encoding the DNF of the relational
+       viewpoint of f. </li>
+       <li> By the relational viewpoint, we mean representing the boolean
+       function which takes both input and output bits and returns true iff
+       f maps the given input to the given output. More precisely,
+       representing f' : {0,1}^(n+m) -> {0,1} such that f'((I,O)) = 1 if
+       f(I) = O. </li>
+       <li> The "header" of the PLA file:
+        <ul>
+         <li> The number of input and output variables are
+         specified first with lines of the form:
+         \verbatim
 .i n
 .o m
-       \endverbatim
-       where n and m are the positive integer number of input and output
-       variables. </li>
-       <li> The input variables in the problem are {1,...,n}. </li>
-       <li> The input variables in the problem are {n+1,...,m}. </li>
-       <li> Each line after the .i and .o lines is:
-        <ol>
-         <li> a sequence of characters I in {1,0,-} of size n; followed by </li>
-         <li> a space; followed by </li>
-         <li> a sequence of characters O in {1,0,-} of size m. </li>
-        </ol>
-       where:
-        <ul>
-         <li> The line encodes that f(I) = O, where I' and O' are the boolean
-         vectors corresponding to the strings I and O. </li>
-         <li> A "-" in I indicates that f(I') = O' for both values of the
-         corresponding variable. </li>
-         <li> A "-" in O indicates that f(I') = O' but the output value is
-         undefined for the corresponding output variable.  </li>
+         \endverbatim
+         where n and m are the positive integer number of input and output
+         variables. </li>
+         <li> Additional lines such as ".type" (discussed below), and
+         others discussed in the documentation, may also be specified in
+         the "header" of the file. </li>
         </ul>
        </li>
+       <li> The "clauses":
+        <ul>
+         <li> Each line after the header is:
+          <ol>
+           <li> a sequence of characters I in {1,0,-} of size n; followed by </li>
+           <li> a space; followed by </li>
+           <li> a sequence of characters O in {1,0,-} of size m. </li>
+          </ol>
+         where:
+          <ul>
+           <li> Each line encodes a DNF clause which is part of a DNF
+           representation for the partial finite function using the
+           relational viewpoint. </li>
+           <li> That is, each line encodes that f(I') = O', where I' and O'
+           are the boolean vectors corresponding to the strings I and O for
+           that line. </li>
+           <li> A "-" in I indicates that f(I') = O' for both values of the
+           corresponding variable. </li>
+           <li> A "-" in O indicates that f(I') = O' but the output value,
+           for the variable the "-" corresponds to, is undefined.  </li>
+          </ul>
+       </li>
+       <li> Additional options:
+        <ul>
+         <li> ".type X": specifies how to interpret total assignments left
+         unspecified, where X is one of the following:
+          <ul>
+           <li> "f": unspecified and assignments with undefined ouputs are
+           assumed to be false (0). </li>
+           <li> "r": unspecified and assignments with undefined outputs are
+           assumed to be true (1). </li>
+           <li> "fd": unspecified assignments are assumed to be false
+           (the default for espresso). </li>
+           <li> "fr": unspecified assignments are considered to be
+           "don't care" values. </li>
+           <li> "fdr": there should be no unspecified values. </li>
+          </ul>
+         </li>
+         <li> The PLA standard also allows one to provide names for variables,
+         as well as other options which give Espresso information on how
+         to minimise the finite function provided. These options are discussed
+         in </li>
+        </ul>
+       </li>
+       <li> Lines in a PLA file starting with the "#" symbol are comments. </li>
+       <li> Note here that there is a difference between "undefined" and
+       "unspecified". </li>
+       <li> One can use "-" for an output bit to explicitly *specify* that
+       the partial finite function defined by the PLA is undefined for the
+       corresponding input bits. A total assignment is unspecified if there
+       is no espresso line which specifies its value. </li>
        <li> Examples:
         <ul>
-         <li> The CNF {{1,2,3},{-1,4,-5}} becomes
+         <li> The DNF {{1,2,3},{-1,4,-5}} becomes
          \verbatim
 .i 5
 .o 1
-111-- 0
-0--10 0
+111-- 1
+0--10 1
          \endverbatim
          </li>
          <li> The two bit adder (from the espresso documentation):
@@ -196,14 +254,13 @@ ExternalSources/Installations/R> oklib --R
 1111  110
          \endverbatim
          </li>
-         <li> Note that depending on the ".type" and ".phase", espresso itself
-         may ignore or minimise based on the true-points or false-points. This
-         is discussed in the documentation. </li>
         </ul>
        </li>
        <li> At the maxima level:
         <ul>
-         <li> We should provide functions to take a formal clause-list F
+         <li> DONE (see output_fcl2pla in
+         ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac)
+         We should provide functions to take a formal clause-list F
          and output a PLA file. </li>
         </ul>
        </li>
@@ -225,7 +282,7 @@ ExternalSources/Installations/R> oklib --R
        </li>
        <li> The function is then specified as before, but the bits in
        multi-valued variables are separated by "|" and the last multi-valued
-       variable is the output value (no separate space-separation). </li>
+       variable is the output value (no space-separation). </li>
        <li> For example (from the manual):
        \verbatim
 .mv 8 5 2 3 4
@@ -237,9 +294,6 @@ ExternalSources/Installations/R> oklib --R
        to our own considerations of non-boolean clause-sets etc. </li>
       </ul>
      </li>
-     <li> The PLA standard also allows one to provide names for variables,
-     as well as other options which give Espresso information on how
-     to minimise the finite function provided. </li>
      <li> All remaining options allowed in a PLA file should be documented
      here and then this later moved to docus. </li>
     </ul>
