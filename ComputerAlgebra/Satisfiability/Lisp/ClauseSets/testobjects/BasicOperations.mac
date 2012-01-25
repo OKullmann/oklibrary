@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 28.1.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -127,6 +127,13 @@ okltest_print_fcs_v(print_fcs_v);
 okltest_print_fcl_v(print_fcl_v);
 
 okltest_standard_statistics_fcs(standard_statistics_fcs);
+
+/* *****************************************
+   * Printing clause-sets in PLA-format    *
+   *****************************************
+*/
+
+okltest_print_fcl2pla(print_fcl2pla);
 
 /*!
 \endhtmlonly
