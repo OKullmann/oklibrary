@@ -17,7 +17,7 @@ License, or any later version. */
   unexpected behaviour start at error code 2.
 
   Note that this application expects *valid* partial assignments without
-  clashing literals.
+  clashing literals (within each partial assignment).
 
 */
 
