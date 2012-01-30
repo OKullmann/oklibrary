@@ -39,6 +39,14 @@ okltest_reslrt_p(reslrt_p);
 
 okltest_axioms_resl2cl(axioms_resl2cl);
 okltest_resolvents_resl2cl(resolvents_resl2cl);
+okltest_irredundant_ref_resl(irredundant_ref_resl);
+
+
+/* ************************************
+   * Generators                       *
+   ************************************
+*/
+
 okltest_ncl_php_ext_uni_resl(ncl_php_ext_uni_resl);
 
 
