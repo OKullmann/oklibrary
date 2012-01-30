@@ -172,6 +172,8 @@ weak_php_unsat_ext_fcs(m) := block([F : weak_php_fcs(m+1,m)],
     F[1],
     setify(create_list(php_ext_var(mp,i,j), mp, 1, m, i, 1, mp, j, 1, mp-1))),
   union(F[2], setify(php_induction_cl(m)))])$
+nvar_weak_php_unsat_ext(m) := (m+1) * m + sum((l+1) * l, l, 1, m-1)$
+ncl_weak_php_unsat_ext(m) := (m+1) + binomial(m+1,2) * m + sum(4*l*(l-1),l,1,m)$
 
 
 /*!
