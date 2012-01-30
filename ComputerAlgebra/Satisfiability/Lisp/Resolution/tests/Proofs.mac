@@ -138,6 +138,47 @@ okltest_irredundant_ref_resl(f) := block(
    ************************************
 */
 
+okltest_php_ext_uni_resl(f) := block(
+  assert(f(0) = [{}]),
+  assert(f(1) =
+    [{-php_ext(1,1,1),-php_ext(1,2,1)},{php_ext(1,1,1)},{php_ext(1,2,1)},
+     [{-php_ext(1,2,1)},[1,2]],[{},[3,4]]]),
+  if oklib_test_level = 0 then return(true),
+  assert(f(2) =
+    [{-php_ext(1,1,1),php_ext(2,1,1),php_ext(2,1,2)},
+     {-php_ext(1,1,1),php_ext(2,1,1),php_ext(2,3,1)},
+     {php_ext(1,1,1),-php_ext(2,1,1)},
+     {php_ext(1,1,1),-php_ext(2,1,2),-php_ext(2,3,1)},
+     {-php_ext(1,2,1),php_ext(2,2,1),php_ext(2,2,2)},
+     {-php_ext(1,2,1),php_ext(2,2,1),php_ext(2,3,1)},
+     {php_ext(1,2,1),-php_ext(2,2,1)},
+     {php_ext(1,2,1),-php_ext(2,2,2),-php_ext(2,3,1)},
+     {-php_ext(2,1,1),-php_ext(2,2,1)},{-php_ext(2,1,1),-php_ext(2,3,1)},
+     {php_ext(2,1,1),php_ext(2,1,2)},{-php_ext(2,1,2),-php_ext(2,2,2)},
+     {-php_ext(2,1,2),-php_ext(2,3,2)},{-php_ext(2,2,1),-php_ext(2,3,1)},
+     {php_ext(2,2,1),php_ext(2,2,2)},{-php_ext(2,2,2),-php_ext(2,3,2)},
+     {php_ext(2,3,1),php_ext(2,3,2)},
+     [{-php_ext(1,2,1),-php_ext(2,1,1),php_ext(2,2,1)},[6,10]],
+     [{-php_ext(1,2,1),-php_ext(2,1,1)},[18,9]],
+     [{-php_ext(1,1,1),php_ext(2,1,1),-php_ext(2,2,1)},[2,14]],
+     [{-php_ext(1,1,1),-php_ext(2,2,1)},[20,9]],
+     [{-php_ext(1,1,1),-php_ext(1,2,1),php_ext(2,1,2)},[1,19]],
+     [{-php_ext(1,1,1),-php_ext(1,2,1),php_ext(2,2,2)},[5,21]],
+     [{-php_ext(1,1,1),-php_ext(1,2,1),-php_ext(2,1,2)},[23,12]],
+     [{-php_ext(1,1,1),-php_ext(1,2,1)},[24,22]],
+     [{php_ext(1,1,1),php_ext(2,1,2)},[11,3]],
+     [{php_ext(1,2,1),php_ext(2,2,2)},[15,7]],
+     [{php_ext(1,1,1),-php_ext(2,1,2),php_ext(2,3,2)},[17,4]],
+     [{php_ext(1,2,1),-php_ext(2,2,2),php_ext(2,3,2)},[17,8]],
+     [{php_ext(1,1,1),-php_ext(2,1,2)},[28,13]],
+     [{php_ext(1,2,1),-php_ext(2,2,2)},[29,16]],[{php_ext(1,1,1)},[30,26]],
+     [{php_ext(1,2,1)},[31,27]],[{-php_ext(1,2,1)},[25,32]],[{},[33,34]]]),
+  for i : 3 thru 5 do block([F],
+    F : f(i),
+    assert(resl_ref_p(F)),
+    assert(irredundant_ref_resl(F))),
+  true)$
+
 okltest_ncl_php_ext_uni_resl(f) := block(
   assert(f(0) = 1),
   assert(f(1) = 5),
