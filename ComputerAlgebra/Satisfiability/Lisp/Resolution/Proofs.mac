@@ -102,7 +102,7 @@ resolvents_resl2cl(L) := map(lambda([a],a[1]), sublist(L,listp))$
 */
 
 
-/* A polynomial-size resolution proof for weak_php_unsat_ext_fcs(n): */
+/* A polynomial-size resolution proof for weak_php_unsat_ext_uni_fcs(n): */
 php_ext_uni_resl(n) := block([axioms, resolvents_cl : [], c2i_h : sm2hm({}), p2q_h : sm2hm({})],
   axioms : weak_php_unsat_ext_uni_fcs(n),
   /* Create all the resolutions storing explicitly the clauses, not indices;
