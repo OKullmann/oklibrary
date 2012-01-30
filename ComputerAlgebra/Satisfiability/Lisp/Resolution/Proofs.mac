@@ -159,7 +159,7 @@ php_ext_uni_resl(n) := block([axioms, resolvents_cl : [], c2i_h : sm2hm({}), p2q
              [setify(
                append(
                  create_list(php_ext_var(l,i,j_t), j_t, 1, j-1),
-                 create_list(php_ext_var(l+1,l+1,j_t), j_t, j, l+1),
+                 create_list(php_ext_var(l+1,l+2,j_t), j_t, j, l+1),
                  if j > 1 then [-php_ext_var(l+1,i,l+1)] else [])),
              {php_ext_var(l,i,j),-php_ext_var(l+1,i,l+1),-php_ext_var(l+1,l+2,j)} ]]],
           i,1,l+1,j, 1, l),
