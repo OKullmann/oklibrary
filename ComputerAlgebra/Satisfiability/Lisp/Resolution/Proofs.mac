@@ -104,7 +104,7 @@ resolvents_resl2cl(L) := map(lambda([a],a[1]), sublist(L,listp))$
 */
 
 
-/* A polynomial-size resolution proof for weak_php_unsat_ext_fcs(n): */
+/* A polynomial-size resolution proof for weak_php_unsat_ext_uni_fcs(n): */
 php_ext_uni_resl(n) := block([axioms, resolvents_cl : [], c2i_h : sm2hm({}), p2q_h : sm2hm({})],
   axioms : weak_php_unsat_ext_uni_fcs(n),
   /* Create all the resolutions storing explicitly the clauses, not indices;
@@ -113,30 +113,30 @@ php_ext_uni_resl(n) := block([axioms, resolvents_cl : [], c2i_h : sm2hm({}), p2q
   resolvents_cl : append(resolvents_cl, reverse(
     create_list(
       [[{-php_ext_var(l,i,j),php_ext_var(l+1,i,j),-php_ext_var(l+1,k,j)},
-         [{-php_ext_var(l,i,j),php_ext_var(l+1,i,j),php_ext_var(l+1,l+1,j)},
-           {-php_ext_var(l+1,l+1,j), -php_ext_var(l+1,k,j)}]],
+         [{-php_ext_var(l,i,j),php_ext_var(l+1,i,j),php_ext_var(l+1,l+2,j)},
+           {-php_ext_var(l+1,l+2,j), -php_ext_var(l+1,k,j)}]],
        [{-php_ext_var(l,i,j),-php_ext_var(l+1,k,j)},
          [{-php_ext_var(l,i,j),php_ext_var(l+1,i,j),-php_ext_var(l+1,k,j)},
            {-php_ext_var(l+1,i,j), -php_ext_var(l+1,k,j)}]],
        [{-php_ext_var(l,k,j),php_ext_var(l+1,k,j),-php_ext_var(l+1,i,j)},
-         [{-php_ext_var(l,k,j),php_ext_var(l+1,k,j),php_ext_var(l+1,l+1,j)},
-           {-php_ext_var(l+1,l+1,j), -php_ext_var(l+1,i,j)}]],
+         [{-php_ext_var(l,k,j),php_ext_var(l+1,k,j),php_ext_var(l+1,l+2,j)},
+           {-php_ext_var(l+1,l+2,j), -php_ext_var(l+1,i,j)}]],
        [{-php_ext_var(l,k,j),-php_ext_var(l+1,i,j)},
          [{-php_ext_var(l,k,j),php_ext_var(l+1,k,j),-php_ext_var(l+1,i,j)},
            {-php_ext_var(l+1,i,j), -php_ext_var(l+1,k,j)}]],
-       [{-php_ext_var(l,k,j),-php_ext_var(l,i,j),php_ext_var(l+1,k,l)},
-         [{-php_ext_var(l,k,j),php_ext_var(l+1,k,j),php_ext_var(l+1,k,l)},
+       [{-php_ext_var(l,k,j),-php_ext_var(l,i,j),php_ext_var(l+1,k,l+1)},
+         [{-php_ext_var(l,k,j),php_ext_var(l+1,k,j),php_ext_var(l+1,k,l+1)},
            {-php_ext_var(l,i,j),-php_ext_var(l+1,k,j)}]],
-       [{-php_ext_var(l,k,j),-php_ext_var(l,i,j),php_ext_var(l+1,i,l)},
-         [{-php_ext_var(l,i,j),php_ext_var(l+1,i,j),php_ext_var(l+1,i,l)},
+       [{-php_ext_var(l,k,j),-php_ext_var(l,i,j),php_ext_var(l+1,i,l+1)},
+         [{-php_ext_var(l,i,j),php_ext_var(l+1,i,j),php_ext_var(l+1,i,l+1)},
            {-php_ext_var(l,k,j),-php_ext_var(l+1,i,j)}]],
-       [{-php_ext_var(l,k,j),-php_ext_var(l,i,j),-php_ext_var(l+1,k,l)},
-         [{-php_ext_var(l,k,j),-php_ext_var(l,i,j),php_ext_var(l+1,i,l)},
-           {-php_ext_var(l+1,k,l),-php_ext_var(l+1,i,l)}]],
+       [{-php_ext_var(l,k,j),-php_ext_var(l,i,j),-php_ext_var(l+1,k,l+1)},
+         [{-php_ext_var(l,k,j),-php_ext_var(l,i,j),php_ext_var(l+1,i,l+1)},
+           {-php_ext_var(l+1,k,l+1),-php_ext_var(l+1,i,l+1)}]],
        [{-php_ext_var(l,k,j),-php_ext_var(l,i,j)},
-         [{-php_ext_var(l,k,j),-php_ext_var(l,i,j),-php_ext_var(l+1,k,l)},
-          {-php_ext_var(l,k,j),-php_ext_var(l,i,j),php_ext_var(l+1,k,l)}]]],
-       l,1,n, i,1,l, j, 1,l-1, k, 1, i-1))),
+         [{-php_ext_var(l,k,j),-php_ext_var(l,i,j),-php_ext_var(l+1,k,l+1)},
+          {-php_ext_var(l,k,j),-php_ext_var(l,i,j),php_ext_var(l+1,k,l+1)}]]],
+       l,1,n-1, i,1,l+1, j, 1,l, k, 1, i-1))),
   /* Long clauses for each level */
   resolvents_cl : append(resolvents_cl, lappend( reverse(
     create_list(
@@ -145,59 +145,59 @@ php_ext_uni_resl(n) := block([axioms, resolvents_cl : [], c2i_h : sm2hm({}), p2q
           [[ setify(
                append(
                  create_list(php_ext_var(l,i,j_t), j_t, 1, j),
-                 create_list(php_ext_var(l+1,i,j_t), j_t, j+1, l))),
+                 create_list(php_ext_var(l+1,i,j_t), j_t, j+1, l+1))),
              [setify(
                append(
                  create_list(php_ext_var(l,i,j_t), j_t, 1, j-1),
-                 create_list(php_ext_var(l+1,i,j_t), j_t, j, l))),
+                 create_list(php_ext_var(l+1,i,j_t), j_t, j, l+1))),
              {php_ext_var(l,i,j),-php_ext_var(l+1,i,j)} ]]],
-          i, 1, l, j, 1, l-1),
+          i, 1, l+1, j, 1, l),
         create_list(
           [[ setify(
                append(
                  create_list(php_ext_var(l,i,j_t), j_t, 1, j),
-                 create_list(php_ext_var(l+1,l+1,j_t), j_t, j+1, l),
-                 [-php_ext_var(l+1,i,l)])),
+                 create_list(php_ext_var(l+1,l+2,j_t), j_t, j+1, l+1),
+                 [-php_ext_var(l+1,i,l+1)])),
              [setify(
                append(
                  create_list(php_ext_var(l,i,j_t), j_t, 1, j-1),
-                 create_list(php_ext_var(l+1,l+1,j_t), j_t, j, l),
-                 if j > 1 then [-php_ext_var(l+1,i,l)] else [])),
-             {php_ext_var(l,i,j),-php_ext_var(l+1,i,l),-php_ext_var(l+1,l+1,j)} ]]],
-          i,1,l,j, 1, l-1),
+                 create_list(php_ext_var(l+1,l+2,j_t), j_t, j, l+1),
+                 if j > 1 then [-php_ext_var(l+1,i,l+1)] else [])),
+             {php_ext_var(l,i,j),-php_ext_var(l+1,i,l+1),-php_ext_var(l+1,l+2,j)} ]]],
+          i,1,l+1,j, 1, l),
         create_list(
           [[ setify(
                append(
-                 create_list(php_ext_var(l,i,j_t), j_t, 1, l-1),
-                 [-php_ext_var(l+1,i,l)])),
+                 create_list(php_ext_var(l,i,j_t), j_t, 1, l),
+                 [-php_ext_var(l+1,i,l+1)])),
              [setify(
                append(
-                 create_list(php_ext_var(l,i,j_t), j_t, 1, l-1),
-                 [php_ext_var(l+1,l+1,l),-php_ext_var(l+1,i,l)])),
-             {-php_ext_var(l+1,i,l),-php_ext_var(l+1,l+1,l)} ]]],
-          i,1,l),
+                 create_list(php_ext_var(l,i,j_t), j_t, 1, l),
+                 [php_ext_var(l+1,l+2,l+1),-php_ext_var(l+1,i,l+1)])),
+             {-php_ext_var(l+1,i,l+1),-php_ext_var(l+1,l+2,l+1)} ]]],
+          i,1,l+1),
         create_list(
           [[ setify(
-             create_list(php_ext_var(l,i,j_t), j_t, 1, l-1)),
+             create_list(php_ext_var(l,i,j_t), j_t, 1, l)),
              [setify(
                append(
-                 create_list(php_ext_var(l,i,j_t), j_t, 1, l-1),
-                 [-php_ext_var(l+1,i,l)])),
+                 create_list(php_ext_var(l,i,j_t), j_t, 1, l),
+                 [-php_ext_var(l+1,i,l+1)])),
               setify(
                append(
-                 create_list(php_ext_var(l,i,j_t), j_t, 1, l-1),
-                 [php_ext_var(l+1,i,l)])) ]]],
-          i,1,l)),
-    l,2,n)))),
+                 create_list(php_ext_var(l,i,j_t), j_t, 1, l),
+                 [php_ext_var(l+1,i,l+1)])) ]]],
+          i,1,l+1)),
+    l,1,n-1)))),
   /* Finally derive the empty clause: */
   if n > 0 then
     resolvents_cl : append(resolvents_cl,
-      [[[ {-php_ext_var(2,2,1)},
-       [{-php_ext_var(2,1,1), -php_ext_var(2,2,1)},
-       {php_ext_var(2,1,1)}]],
+      [[[ {-php_ext_var(1,2,1)},
+       [{-php_ext_var(1,1,1), -php_ext_var(1,2,1)},
+       {php_ext_var(1,1,1)}]],
        [{},
-         [{php_ext_var(2,2,1)},
-         {-php_ext_var(2,2,1)}]]]]),
+         [{php_ext_var(1,2,1)},
+         {-php_ext_var(1,2,1)}]]]]),
   /* Map clauses to indices and php_ext_var(n+1,i,j) to php_var(i,j) */
   resolvents_cl : append(listify(axioms[2]),lappend(resolvents_cl)),
   resolvents_cl : map(

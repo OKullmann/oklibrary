@@ -69,7 +69,7 @@ okltest_rename_php_var2ephp_var_cs(f) := block(
     assert(f({},m) = {}),
   for m : 1 thru 5 do
     assert(f([],m) = []),
-  assert(f([{php_var(1,1)}],1) = [{php_ext_var(2,1,1)}]),
+  assert(f([{php_var(1,1)}],1) = [{php_ext_var(1,1,1)}]),
   true)$
 
 okltest_rename_ephp_var2php_var_cs(f) := block(
@@ -77,44 +77,44 @@ okltest_rename_ephp_var2php_var_cs(f) := block(
     assert(f([{}],m) = [{}]),
   for m : 1 thru 5 do
     assert(f([],m) = []),
-  assert(f([{php_ext_var(2,1,1)}],1) = [{php_var(1,1)}]),
+  assert(f([{php_ext_var(1,1,1)}],1) = [{php_var(1,1)}]),
   true)$
 
 okltest_php_induction_step_cl(f) := block(
-  for i in [0,1] do
+  for i in [0] do
       assert(f(i) = []),
-  assert(f(2) =
-    [{php_ext(2,1,1),-php_ext(3,1,1)},{php_ext(2,1,1),-php_ext(3,1,2),
-     -php_ext(3,3,1)},{-php_ext(2,1,1),php_ext(3,1,1),php_ext(3,1,2)},
-     {-php_ext(2,1,1),php_ext(3,1,1),php_ext(3,3,1)},{php_ext(2,2,1),
-     -php_ext(3,2,1)},{php_ext(2,2,1),-php_ext(3,2,2),-php_ext(3,3,1)},
-     {-php_ext(2,2,1),php_ext(3,2,1),php_ext(3,2,2)},{-php_ext(2,2,1),
-     php_ext(3,2,1),php_ext(3,3,1)}]),
+  assert(f(1) =
+    [{php_ext(1,1,1),-php_ext(2,1,1)},{php_ext(1,1,1),-php_ext(2,1,2),
+     -php_ext(2,3,1)},{-php_ext(1,1,1),php_ext(2,1,1),php_ext(2,1,2)},
+     {-php_ext(1,1,1),php_ext(2,1,1),php_ext(2,3,1)},{php_ext(1,2,1),
+     -php_ext(2,2,1)},{php_ext(1,2,1),-php_ext(2,2,2),-php_ext(2,3,1)},
+     {-php_ext(1,2,1),php_ext(2,2,1),php_ext(2,2,2)},{-php_ext(1,2,1),
+     php_ext(2,2,1),php_ext(2,3,1)}]),
   true)$
 
 okltest_php_induction_cl(f) := block(
   for i in [0,1] do
     assert(f(i) = []),
   assert(f(2) =
-    [{php_ext(2,1,1),-php(1,1)},{php_ext(2,1,1),-php(1,2),-php(3,1)},
-     {-php_ext(2,1,1),php(1,1),php(1,2)},{-php_ext(2,1,1),php(1,1),php(3,1)},
-     {php_ext(2,2,1),-php(2,1)},{php_ext(2,2,1),-php(2,2),-php(3,1)},
-     {-php_ext(2,2,1),php(2,1),php(2,2)},{-php_ext(2,2,1),php(2,1),php(3,1)}]),
+    [{php_ext(1,1,1),-php(1,1)},{php_ext(1,1,1),-php(1,2),-php(3,1)},
+     {-php_ext(1,1,1),php(1,1),php(1,2)},{-php_ext(1,1,1),php(1,1),php(3,1)},
+     {php_ext(1,2,1),-php(2,1)},{php_ext(1,2,1),-php(2,2),-php(3,1)},
+     {-php_ext(1,2,1),php(2,1),php(2,2)},{-php_ext(1,2,1),php(2,1),php(3,1)}]),
   true)$
 
 okltest_weak_php_unsat_ext_fcs(f) := block(
   for i in [0,1] do
     assert(f(i) = weak_php_fcs(i+1,i)),
   assert(f(2) =
-    [{php(1,1),php(1,2),php(2,1),php_ext(2,1,1),php(2,2),php_ext(2,2,1),
+    [{php(1,1),php(1,2),php(2,1),php_ext(1,1,1),php(2,2),php_ext(1,2,1),
       php(3,1),php(3,2)},
-     {{-php(1,1),-php(2,1)},{-php(1,1),php_ext(2,1,1)},{-php(1,1),-php(3,1)},
-      {php(1,1),php(1,2)},{php(1,1),php(1,2),-php_ext(2,1,1)},
-      {php(1,1),-php_ext(2,1,1),php(3,1)},{-php(1,2),php_ext(2,1,1),-php(3,1)},
-      {-php(1,2),-php(2,2)},{-php(1,2),-php(3,2)},{-php(2,1),php_ext(2,2,1)},
+     {{-php(1,1),-php(2,1)},{-php(1,1),php_ext(1,1,1)},{-php(1,1),-php(3,1)},
+      {php(1,1),php(1,2)},{php(1,1),php(1,2),-php_ext(1,1,1)},
+      {php(1,1),-php_ext(1,1,1),php(3,1)},{-php(1,2),php_ext(1,1,1),-php(3,1)},
+      {-php(1,2),-php(2,2)},{-php(1,2),-php(3,2)},{-php(2,1),php_ext(1,2,1)},
       {-php(2,1),-php(3,1)},{php(2,1),php(2,2)},{php(2,1),php(2,2),
-       -php_ext(2,2,1)}, {php(2,1),-php_ext(2,2,1),php(3,1)},{-php(2,2),
-       php_ext(2,2,1),-php(3,1)},{-php(2,2),-php(3,2)},{php(3,1),php(3,2)}}]),
+       -php_ext(1,2,1)}, {php(2,1),-php_ext(1,2,1),php(3,1)},{-php(2,2),
+       php_ext(1,2,1),-php(3,1)},{-php(2,2),-php(3,2)},{php(3,1),php(3,2)}}]),
   true)$
 
 okltest_nvar_weak_php_unsat_ext(f) := block(
