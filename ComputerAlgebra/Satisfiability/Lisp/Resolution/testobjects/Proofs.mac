@@ -47,6 +47,7 @@ okltest_irredundant_ref_resl(irredundant_ref_resl);
    ************************************
 */
 
+okltest_php_ext_uni_resl(php_ext_uni_resl);
 okltest_ncl_php_ext_uni_resl(ncl_php_ext_uni_resl);
 
 
