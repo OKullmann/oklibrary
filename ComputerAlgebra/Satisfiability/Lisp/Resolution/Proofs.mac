@@ -85,6 +85,21 @@ reslrt_p(T) := listp(T) and
 
 
 /* ************************************
+   * Other properties                 *
+   ************************************
+*/
+
+/* Is L irredundant (we create any unused resolvents): */
+irredundant_ref_resl(L) := block([used_indices, unused_indices],
+  used_indices :
+    setify(lappend(
+        map(lambda([R], R[2]),
+          sublist(L, lambda([R],not(c_p(R))) )))),
+  unused_indices : setdifference(setn(length(L)-1),used_indices),
+  return(is(unused_indices = {})))$
+
+
+/* ************************************
    * Extraction                       *
    ************************************
 */
