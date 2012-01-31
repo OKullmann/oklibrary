@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 23.9.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -124,6 +124,14 @@ okltest_resolvents_resl2cl(f) := block(
   assert(f([{-1},{1},{1,2},{1,4},[{},[1,2]],{3}]) = [{}]),
   assert(f([{-1},{1},{1,2},{1,4},[{},[1,2]],{3}]) = [{}]),
   assert(f([{-1},{1},{1,2},{1,4},[{},[1,2]],[{},[1,2]]]) = [{},{}]),
+  true)$
+
+okltest_ncl_php_ext_uni_resl(f) := block(
+  assert(f(0) = 1),
+  assert(f(1) = 5),
+  assert(f(2) = 35),
+  assert(f(3) = 138),
+  assert(f(4) = 385),
   true)$
 
 /*!
