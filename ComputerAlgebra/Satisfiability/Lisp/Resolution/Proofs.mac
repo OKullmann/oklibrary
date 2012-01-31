@@ -209,6 +209,10 @@ php_ext_uni_resl(n) := block([axioms, resolvents_cl : [], c2i_h : sm2hm({}), p2q
     create_list(i,i,1,length(resolvents_cl))),
   return(resolvents_cl))$
 
+/* Statistics for php_ext_uni_resl: */
+nvar_php_ext_uni_resl(n) := nvar_weak_php_unsat_ext(n)$
+ncl_php_ext_uni_resl(n) := (6*n^4+11*n^3+3*n^2+4*n+6)/6$
+
 
 
 
