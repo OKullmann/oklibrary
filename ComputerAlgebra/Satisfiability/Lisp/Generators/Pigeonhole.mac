@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 26.8.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -150,27 +150,27 @@ php_induction_step_cl(mp) :=
 php_induction_cl(m) :=
   lappend(
     create_list(
-      if mp # m-1 then php_induction_step_cl(mp)
+      if mp # m then php_induction_step_cl(mp)
       /* php_ext_var(m,i,j) = php_var(i,j) for all i,j */
       else substitute_cl(
-        php_induction_step_cl(m-1),
+        php_induction_step_cl(m),
         sm2hm(lappend(
           create_list(
-            [[ php_ext_var(m,i,j),  php_var(i,j)],
-             [-php_ext_var(m,i,j), -php_var(i,j)]],
+            [[ php_ext_var(m+1,i,j),  php_var(i,j)],
+             [-php_ext_var(m+1,i,j), -php_var(i,j)]],
             i,1,mp+1,j,1,mp)))),
-      mp,1,m-1))$
+      mp,2,m))$
 /* union(weak_php(m,m-1), setify(weak_php_induction_cl(m)) has a polynomial
    size resolution proof. */
 
-/* For m > 0, yields weak_php_fcs(m,m-1) with Extended Resolution clauses
+/* For m >= 0, yields weak_php_fcs(m+1,m) with Extended Resolution clauses
    as given in
    [A short proof of the pigeon hole principle using extended resolution";
    Stephen Cook]: */
-weak_php_unsat_ext_fcs(m) := block([F : weak_php_fcs(m,m-1)],
+weak_php_unsat_ext_fcs(m) := block([F : weak_php_fcs(m+1,m)],
   [union(
     F[1],
-    setify(create_list(php_ext_var(mp,i,j), mp, 1, m-1, i, 1, mp, j, 1, mp-1))),
+    setify(create_list(php_ext_var(mp,i,j), mp, 1, m, i, 1, mp, j, 1, mp-1))),
   union(F[2], setify(php_induction_cl(m)))])$
 
 
