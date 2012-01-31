@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 23.9.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -39,6 +39,7 @@ okltest_reslrt_p(reslrt_p);
 
 okltest_axioms_resl2cl(axioms_resl2cl);
 okltest_resolvents_resl2cl(resolvents_resl2cl);
+okltest_ncl_php_ext_uni_resl(ncl_php_ext_uni_resl);
 
 
 /*!
