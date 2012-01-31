@@ -134,24 +134,20 @@ php_ext_var(n,i,j) := nounify(php_ext)(n,i,j)$
 
 /* Renaming the standard pigeon hole variables to their counter-parts in
    the extended-pigeon-hole clause-set weak_php_unsat_ext_uni_fcs(m): */
-rename_php_var2ephp_var_cs(F,m) :=
-  substitute_cl(
-    F,
-    sm2hm(lappend(
-        create_list(
-          if l = m then
-            [[ php_var(i,j), php_ext_var(m,i,j)  ],
-            [ -php_var(i,j), -php_ext_var(m,i,j) ]]
-          else
-            [[ php_ext(l,i,j), php_ext_var(l,i,j) ],
-            [ -php_ext(l,i,j), -php_ext_var(l,i,j) ]],
-          l, 1, m,i,1,l+1,j,1,l))))$
+renaming_php2ephp_sm(m) :=
+  setify(lappend(
+      create_list(
+        if l = m then
+          [[ php_var(i,j), php_ext_var(m,i,j)  ],
+          [ -php_var(i,j), -php_ext_var(m,i,j) ]]
+        else
+          [[ php_ext(l,i,j), php_ext_var(l,i,j) ],
+          [ -php_ext(l,i,j), -php_ext_var(l,i,j) ]],
+        l, 1, m,i,1,l+1,j,1,l)))$
 /* Renaming the extended-pigeon-hole variables to their counter-parts in
    the original pigeon-hole clause-set: */
-rename_ephp_var2php_var_cs(F,m) :=
-  substitute_cl(
-    F,
-    sm2hm(lappend(
+renaming_ephp2php_sm(m) :=
+    setify(lappend(
         create_list(
           if l = m then
             [[ php_ext_var(m,i,j), php_var(i,j)  ],
@@ -159,7 +155,7 @@ rename_ephp_var2php_var_cs(F,m) :=
           else
             [[ php_ext(l,i,j), php_ext_var(l,i,j) ],
             [ -php_ext(l,i,j), -php_ext_var(l,i,j) ]],
-          l, 1, m,i,1,l+1,j,1,l))))$
+          l, 1, m,i,1,l+1,j,1,l)))$
 
 /* Clauses enforcing that if the variables
      php_ext_var(mp+1,i,j) for i in {1,...,mp+1}, j in {1,...,mp}
@@ -180,7 +176,8 @@ php_induction_step_cl(mp) :=
 php_induction_uni_cl(m) :=
   lappend(
     create_list(php_induction_step_cl(mp), mp,1,m-1))$
-php_induction_cl(m) := rename_ephp_var2php_var_cs(php_induction_uni_cl(m),m)$
+php_induction_cl(m) :=
+  substitute_cl(php_induction_uni_cl(m),sm2hm(renaming_ephp2php_sm(m)))$
 /* union(weak_php(m,m-1), setify(weak_php_induction_cl(m)) has a polynomial
    size resolution proof. */
 
@@ -189,13 +186,13 @@ php_induction_cl(m) := rename_ephp_var2php_var_cs(php_induction_uni_cl(m),m)$
    [A short proof of the pigeon hole principle using extended resolution";
    Stephen Cook]: */
 weak_php_unsat_ext_fcs(m) := block([F : weak_php_unsat_ext_uni_fcs(m)],
-  [listify(rename_ephp_var2php_var_cs({F[1]},m))[1],
-   rename_ephp_var2php_var_cs(F[2],m)])$
+  [listify(substitute_cl({F[1]},sm2hm(renaming_ephp2php_sm(m))))[1],
+   substitute_cl(F[2],sm2hm(renaming_ephp2php_sm(m)))])$
 /* Using now php_ext_var(m+1,i,j) for php_var(i,j) for uniformity: */
 weak_php_unsat_ext_uni_fcs(m) := block([F : weak_php_fcs(m+1,m)],
   [setify(create_list(php_ext_var(mp,i,j), mp, 1, m, i, 1, mp+1, j, 1, mp)),
    union(setify(php_induction_uni_cl(m)),
-         rename_php_var2ephp_var_cs(F[2],m))])$
+         substitute_cl(F[2],sm2hm(renaming_php2ephp_sm(m))))])$
 nvar_weak_php_unsat_ext(m) := (m+1) * m + sum((l+1) * l, l, 1, m-1)$
 ncl_weak_php_unsat_ext(m) := (m+1) + binomial(m+1,2) * m + sum(4*l*(l-1),l,1,m)$
 
