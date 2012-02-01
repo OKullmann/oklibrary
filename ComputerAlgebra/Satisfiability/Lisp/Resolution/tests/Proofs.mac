@@ -135,6 +135,82 @@ okltest_irredundant_ref_resl(f) := block(
 
 
 /* ************************************
+   * Generators                       *
+   ************************************
+*/
+
+okltest_resl2lin_treeres_fcs(f) := block(
+  assert(f([]) = [{},{}]),
+  assert(f([{}]) = [{},{}]),
+  assert(f([{1}]) = [{1},{{-1,lin_treeres(i)},{1,-lin_treeres(i)}}]),
+  assert(f([{1},{-1},[{},[1,2]]]) =
+    [{1},{{-1,-lin_treeres(i)},{-1,lin_treeres(i)},
+     {1,-lin_treeres(i)},{1,lin_treeres(i)}}]),
+  if oklib_test_level = 0 then return(true),
+  assert(f(php_ext_uni_resl(2)) =
+    [{php_ext(1,1,1),php_ext(1,2,1),php_ext(2,1,1),php_ext(2,1,2),
+     php_ext(2,2,1),php_ext(2,2,2),php_ext(2,3,1),php_ext(2,3,2)},
+     {{-php_ext(1,1,1),-php_ext(1,2,1),-php_ext(2,1,2),
+       -lin_treeres(i)},
+      {-php_ext(1,1,1),-php_ext(1,2,1),php_ext(2,1,2),
+       -lin_treeres(i)},
+      {-php_ext(1,1,1),-php_ext(1,2,1),php_ext(2,2,2),
+       -lin_treeres(i)},
+      {-php_ext(1,1,1),-php_ext(1,2,1),-lin_treeres(i)},
+      {-php_ext(1,1,1),php_ext(2,1,1),php_ext(2,1,2),-lin_treeres(i)},
+      {-php_ext(1,1,1),php_ext(2,1,1),-php_ext(2,2,1),
+       -lin_treeres(i)},
+      {-php_ext(1,1,1),php_ext(2,1,1),php_ext(2,3,1),-lin_treeres(i)},
+      {-php_ext(1,1,1),-php_ext(2,2,1),-lin_treeres(i)},
+      {-php_ext(1,1,1),lin_treeres(i)},
+      {php_ext(1,1,1),-php_ext(2,1,1),-lin_treeres(i)},
+      {php_ext(1,1,1),-php_ext(2,1,2),-php_ext(2,3,1),
+       -lin_treeres(i)},
+      {php_ext(1,1,1),-php_ext(2,1,2),php_ext(2,3,2),-lin_treeres(i)},
+      {php_ext(1,1,1),-php_ext(2,1,2),-lin_treeres(i)},
+      {php_ext(1,1,1),php_ext(2,1,2),-lin_treeres(i)},
+      {php_ext(1,1,1),-lin_treeres(i)},
+      {php_ext(1,1,1),lin_treeres(i)},
+      {-php_ext(1,2,1),-php_ext(2,1,1),php_ext(2,2,1),
+       -lin_treeres(i)},
+      {-php_ext(1,2,1),-php_ext(2,1,1),-lin_treeres(i)},
+      {-php_ext(1,2,1),php_ext(2,2,1),php_ext(2,2,2),-lin_treeres(i)},
+      {-php_ext(1,2,1),php_ext(2,2,1),php_ext(2,3,1),-lin_treeres(i)},
+      {-php_ext(1,2,1),-lin_treeres(i)},
+      {-php_ext(1,2,1),lin_treeres(i)},
+      {php_ext(1,2,1),-php_ext(2,2,1),-lin_treeres(i)},
+      {php_ext(1,2,1),-php_ext(2,2,2),-php_ext(2,3,1),
+       -lin_treeres(i)},
+      {php_ext(1,2,1),-php_ext(2,2,2),php_ext(2,3,2),-lin_treeres(i)},
+      {php_ext(1,2,1),-php_ext(2,2,2),-lin_treeres(i)},
+      {php_ext(1,2,1),php_ext(2,2,2),-lin_treeres(i)},
+      {php_ext(1,2,1),-lin_treeres(i)},
+      {php_ext(1,2,1),lin_treeres(i)},
+      {-php_ext(2,1,1),-php_ext(2,2,1),-lin_treeres(i)},
+      {-php_ext(2,1,1),-php_ext(2,3,1),-lin_treeres(i)},
+      {-php_ext(2,1,1),lin_treeres(i)},
+      {php_ext(2,1,1),php_ext(2,1,2),-lin_treeres(i)},
+      {php_ext(2,1,1),lin_treeres(i)},
+      {-php_ext(2,1,2),-php_ext(2,2,2),-lin_treeres(i)},
+      {-php_ext(2,1,2),-php_ext(2,3,2),-lin_treeres(i)},
+      {-php_ext(2,1,2),lin_treeres(i)},
+      {php_ext(2,1,2),lin_treeres(i)},
+      {-php_ext(2,2,1),-php_ext(2,3,1),-lin_treeres(i)},
+      {-php_ext(2,2,1),lin_treeres(i)},
+      {php_ext(2,2,1),php_ext(2,2,2),-lin_treeres(i)},
+      {php_ext(2,2,1),lin_treeres(i)},
+      {-php_ext(2,2,2),-php_ext(2,3,2),-lin_treeres(i)},
+      {-php_ext(2,2,2),lin_treeres(i)},
+      {php_ext(2,2,2),lin_treeres(i)},
+      {-php_ext(2,3,1),lin_treeres(i)},
+      {php_ext(2,3,1),php_ext(2,3,2),-lin_treeres(i)},
+      {php_ext(2,3,1),lin_treeres(i)},
+      {-php_ext(2,3,2),lin_treeres(i)},
+      {php_ext(2,3,2),lin_treeres(i)}}]),
+  true)$
+
+
+/* ************************************
    * Modifying proofs                 *
    ************************************
 */

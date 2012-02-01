@@ -42,6 +42,14 @@ okltest_resolvents_resl2cl(resolvents_resl2cl);
 
 
 /* ************************************
+   * Generators                       *
+   ************************************
+*/
+
+okltest_resl2lin_treeres_fcs(resl2lin_treeres_fcs);
+
+
+/* ************************************
    * Other properties                 *
    ************************************
 */

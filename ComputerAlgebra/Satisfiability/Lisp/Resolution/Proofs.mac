@@ -112,6 +112,33 @@ resolvents_resl2cl(L) := map(lambda([a],a[1]), sublist(L,listp))$
 
 
 /* ************************************
+   * Generators                       *
+   ************************************
+*/
+
+/* Variables for resl2lin_treeres_fcl(L): lin_treeres(C) for each resolvent C
+   of L: */
+kill(lin_treeres)$
+declare(lin_treeres, noun)$
+declare(lin_treeres, posfun)$
+lin_treeres_var(C) := nounify(lin_treeres)(C)$
+
+
+/* Generating an extension F for the resolution list L such that
+   union(F[2],axioms_resl2cl(L)) is 2-soft and has a tree-resolution proof
+   with size linear in the size of F: */
+resl2lin_treeres_fcs(L) := block([F],
+  cl : delete({}, create_list(if c_p(R) then R else R[1], R, L)),
+  [var_cl(cl),
+   setify(lappend(
+     create_list(
+       cons(
+        adjoin(-lin_treeres_var(i), C),
+        create_list({lin_treeres_var(i), -l}, l, listify(C))),
+       C, cl)))])$
+
+
+/* ************************************
    * Modifying proofs                 *
    ************************************
 */
