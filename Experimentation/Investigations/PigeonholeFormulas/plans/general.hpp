@@ -489,10 +489,10 @@ experiment(7,5);
    <li> See "Extended Resolution clauses for the Pigeon Hole Principle" in
    ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp. </li>
    <li> As 
-   <li> The hardness of weak_php(m,m-1) vs weak_php_unsat_ext_fcs(m):
+   <li> The hardness of weak_php(m+1,m) vs weak_php_unsat_ext_fcs(m):
    \verbatim
-maxima> for m : 1 while true do
-  print([hardness_wpi_cs(weak_php_fcs(m,m-1)[2],{{}}),
+maxima> for m : 0 while true do
+  print([hardness_wpi_cs(weak_php_fcs(m+1,m)[2],{{}}),
          hardness_wpi_cs(weak_php_unsat_ext_fcs(m)[2],{{}})])$
 [0,0]
 [1,1]
