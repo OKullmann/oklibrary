@@ -323,8 +323,8 @@ for n : 0 thru 6 do block([F:weak_php_cs(n+1,n),h],h:hermitian_rank_cs(F),print(
     </ol>
    </li>
    <li> Analogously to "eigensharp", we can create a notion for clause-sets
-   where the conflict-indepence-number equals the hermitian defect, and show
-   that weak_php is an instance (while not being eigensharp). </li>
+   where the conflict-independence-number equals the hermitian defect, and
+   show that weak_php is an instance (while not being eigensharp). </li>
   </ul>
 
 
@@ -480,6 +480,29 @@ experiment(7,5);
      Again, only php(3,2) (up to isomorphism) found for seed <= 20.
      </li>
     </ol>
+   </li>
+  </ul>
+
+
+  \todo Hardness of extended-pigeon-hole formulas
+  <ul>
+   <li> See "Extended Resolution clauses for the Pigeon Hole Principle" in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp. </li>
+   <li> As 
+   <li> The hardness of weak_php(m,m-1) vs weak_php_unsat_ext_fcs(m):
+   \verbatim
+maxima> for m : 1 while true do
+  print([hardness_wpi_cs(weak_php_fcs(m,m-1)[2],{{}}),
+         hardness_wpi_cs(weak_php_unsat_ext_fcs(m)[2],{{}})])$
+[0,0]
+[1,1]
+[2,2]
+[3,3]
+[4,4]
+   \endverbatim
+   </li>
+   <li> weak_php_unsat_ext_fcs(m) has a polynomial size resolution proof.
+   However, what is the complexity of the smallest tree resolution proof?
    </li>
   </ul>
 
