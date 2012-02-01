@@ -484,11 +484,20 @@ experiment(7,5);
   </ul>
 
 
-  \todo Hardness of extended-pigeon-hole formulas
+  \todo Hardness of (extended-)pigeon-hole formulas
   <ul>
-   <li> See "Extended Resolution clauses for the Pigeon Hole Principle" in
+   <li> Discussion and generators for Cook's extended pigeon-hole formulas
+   are available in
+   "Extended Resolution clauses for the Pigeon Hole Principle" in
    ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp. </li>
-   <li> As 
+   <li> We know that:
+    <ul>
+     <li> weak_php(n+1,n) has hardness n from [Kullmann 1999]. </li>
+     <li> Cook's extension, weak_php_unsat_ext_fcs(n), has at most
+     hardness n (as weak_php(n+1,n) is a subset). </li>
+    </ul>
+   </li>
+   <li> We conjecture that Cook's extension has exactly hardness n. </li>
    <li> The hardness of weak_php(m+1,m) vs weak_php_unsat_ext_fcs(m):
    \verbatim
 maxima> for m : 0 while true do
