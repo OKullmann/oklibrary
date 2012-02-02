@@ -1,5 +1,5 @@
 # Oliver Kullmann, 6.3.2002 (Swansea)
-# Copyright 2002-2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+# Copyright 2002-2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -990,7 +990,7 @@ $(new_test_program_optimised) : $(test_bin_dir)/%$(name_addition) : $(test_objec
 # them and fail if one of them fails
 
 app_tests :
-	L=$$(find * -path "app_tests/*" -and -type f -and -perm -100 -and -not -name "*~") && \
+	L=$$(find * -maxdepth 1 -and -path "app_tests/*" -and -type f -and -perm -100 -and -not -name "*~") && \
 	for T in $${L}; do $${T}; if [ $$? != 0 ]; then exit 1; fi; done
 
 # ######################################################################
