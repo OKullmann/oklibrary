@@ -1,0 +1,90 @@
+#!/bin/bash
+# Matthew Gwynne, 23.1.2012 (Swansea)
+# Copyright 2012 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# set -o errexit # currently "find" creates an error due to non-existing directories, and also the match-program might fail
+set -o nounset
+
+list_programs="${bin_dir}/PassExtends-*"
+app_test_dir=${OKlib}/Satisfiability/Assignments/PartialAssignments/app_tests
+
+echo "PROGRAMS FOUND:"
+for P in ${list_programs}; do echo ${P}; done
+
+cd ${app_test_dir}
+
+case ${test_level} in
+basic) list_test_cases="$(find test_cases/basic/PassExtends/input/ -maxdepth 1 -mindepth 1 -type d)"
+    ;;
+full) list_test_cases="$(find test_cases/basic/PassExtends/input/ -maxdepth 1 -mindepth 1 -type d) $(find test_cases/full/PassExtends/input/ -maxdepth 1 -mindepth 1 -type d)"
+    ;;
+extensive) list_test_cases="$(find test_cases/basic/PassExtends/input/ -maxdepth 1 -mindepth 1 -type d) $(find test_cases/full/PassExtends/input/ -maxdepth 1 -mindepth 1 -type d) $(find test_cases/extensive/PassExtends/input/ -maxdepth 1 -mindepth 1 -type d)"
+    ;;
+esac
+
+echo
+echo
+echo "TEST SCRIPT: $0"
+
+echo "TEST FORMULAS FOUND:" 
+for T in ${list_test_cases}; do echo ${T}; done
+echo "MATCHING: PROGRAM OUTPUT against app_tests/test_cases/TEST_LEVEL/PassExtends/output/FORMULAS_DIRNAME."
+echo "MATCHING: ERROR OUTPUT against app_tests/test_cases/TEST_LEVEL/PassExtends/error_output/FORMULAS_DIRNAME."
+echo "MATCHING: EXIT CODE against app_tests/test_cases/TEST_LEVEL/PassExtends/exit_code/FORMULAS_DIRNAME."
+echo "EXECUTION OF PROGRAMS:"
+
+match_tool=${bin_dir}/MatchFiles-O3-DNDEBUG
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+error_file="temp_PassExtends_${timestamp}"
+
+for S in ${list_programs}; do
+  echo
+  for P in ${list_test_cases}; do
+    echo "  $(basename ${S}) ${P}/*"
+    output="$(${S} ${P}/* 2>${error_file})"
+    exit_code=$?
+    expected_code=$(cat $(dirname ${P})/../exit_code/$(basename ${P}))
+
+    # Check exit_code
+    if [[ ${exit_code} != ${expected_code} ]]; then
+      echo "ERROR: EXIT_CODE of PassExtends is ${exit_code}, but expected ${expected_code}."
+      rm ${error_file}
+      exit 1
+    fi
+
+    # Check standard output
+    output_template="$(dirname ${P})/../output/$(basename ${P})"
+    echo "${output}" | ${match_tool} "${output_template}"
+    result=$?
+    if [[ ${result} != 0 ]]; then
+      echo -e "ERROR: OUTPUT of PassExtends is\n${output}\n, while TEMPLATE is"
+      cat ${output_template}; echo;
+      rm ${error_file}
+      exit 1
+    fi
+
+    # Check error output
+    error_template="$(dirname ${P})/../error_output/$(basename ${P})"
+    # The file must have something to match
+    if [[ $(cat ${error_file} | wc -l) -eq "0" ]]; then
+      echo -e > ${error_file} # Empty line
+    fi
+    cat ${error_file} | ${match_tool} "${error_template}"
+    result=$?
+    if [[ ${result} != 0 ]]; then
+      echo -e "ERROR: ERROR_OUTPUT of PassExtends is"
+      cat ${error_file}; echo
+      echo -e "while TEMPLATE is"
+      cat ${error_template}; echo;
+      rm ${error_file}
+      exit 1
+    fi
+  done
+done
+
+rm ${error_file}
+exit 0

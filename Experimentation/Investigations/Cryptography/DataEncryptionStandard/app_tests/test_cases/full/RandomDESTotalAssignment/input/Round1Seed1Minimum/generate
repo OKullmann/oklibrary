@@ -1,0 +1,43 @@
+#!/bin/bash
+# Matthew Gwynne, 24.1.2012 (Swansea)
+# Copyright 2012 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version.
+
+set -o errexit
+set -o nounset
+
+# Generates des_6t4_min_r1.cnf
+
+r=1
+
+mkdir Sboxes
+cd Sboxes
+
+(oklib --maxima --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/Sboxes.mac\\\"); for i : 1 thru 8 do output_dessbox_fullcnf_stdname(i);\"";
+
+for i in $(seq 1 8); do
+  QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG DES_Sbox_${i}_fullCNF.cnf > DES_Sbox_${i}_shg.cnf;
+  cat DES_Sbox_${i}_shg.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > DES_Sbox_${i}_shg.wcnf;
+done;
+
+ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 67 -solve 1 -seed 2444475534 -i DES_Sbox_1_shg.wcnf -r model DES_Sbox_1.ass;
+ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 67 -solve 1 -seed 2521057446 -i DES_Sbox_2_shg.wcnf -r model DES_Sbox_2.ass;
+ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 68 -solve 1 -seed 3544367510 -i DES_Sbox_3_shg.wcnf -r model DES_Sbox_3.ass;
+ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 69 -solve 1 -seed 3808694681 -i DES_Sbox_4_shg.wcnf -r model DES_Sbox_4.ass;
+ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 67 -solve 1 -seed 1876503362 -i DES_Sbox_5_shg.wcnf -r model DES_Sbox_5.ass;
+ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 66 -solve 1 -seed 68018538 -i DES_Sbox_6_shg.wcnf -r model DES_Sbox_6.ass;
+ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 67 -solve 1 -seed 1856244582 -i DES_Sbox_7_shg.wcnf -r model DES_Sbox_7.ass;
+ubcsat-okl  -alg gsat -w -runs 100 -cutoff 400000 -wtarget 69 -solve 1 -seed 4223500633 -i DES_Sbox_8_shg.wcnf -r model DES_Sbox_8.ass;
+for i in $(seq 1 8); do
+  cat DES_Sbox_${i}_fullCNF.cnf_primes | FilterDimacs DES_Sbox_${i}.ass > DES_Sbox_${i}_min.cnf;
+done) > /dev/null
+
+cd ../
+
+oklib --maxima --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/GeneralisedConstraintTranslation.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/Sboxes.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac\\\"); sbox_fcl_l : create_list(read_fcl_f(sconcat(\\\"Sboxes/DES_Sbox_\\\",i,\\\"_min.cnf\\\")), i, 1, 8); output_des2fcl_gen_std(\"min\",sbox_fcl_l,${r});\"" > /dev/null
+
+rm -r Sboxes
+
