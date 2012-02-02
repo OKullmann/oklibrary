@@ -902,6 +902,21 @@ c number_of_table_enlargements          0
 c number_of_1-autarkies                 0
 c splitting_cases                       163531
 
+
+> RandomDESTotalAssignment des_6t4_canon_r5_s1.cnf 1 5 > des_6t4_canon_r5_s1.ta
+> for x in Instances/*; do PassExtends-O3-DNDEBUG des_6t4_canon_r5_s1.ta ${x}; if [[ $? == 0 ]]; then echo ${x}; fi; done
+Instances/86151
+> cat des_6t4_canon_r5_s1.cnf | ApplyPass-O3-DNDEBUG Instances/86151 des_6t4_canon_r5_s1_p86151_sat.cnf
+> minisat-2.2.0 des_6t4_canon_r5_s1_p86151_sat.cnf
+restarts              : 180
+conflicts             : 57180          (6696 /sec)
+decisions             : 168413         (0.00 % random) (19720 /sec)
+propagations          : 16407303       (1921230 /sec)
+conflict literals     : 7743044        (32.99 % deleted)
+CPU time              : 8.54 s
+SATISFIABLE
+
+
 > ProcessSplitViaOKsolver SplitViaOKsolver_D700des_6t4_canon_r5_s1cnf_2012-01-13-095226
 # aborted:
 > E=read_processsplit_minisat()
@@ -932,9 +947,7 @@ R-squared: 0.9956
 [1] 326.4455
      \endverbatim
      The running times exploded at the very end, and thus the computation was
-     aborted. We need to find out which subinstance contains the satisfying
-     assignments, and what is solution-time for this subinstance. XXX
-     </li>
+     aborted. The satisfying sub-instance was already hit at 86151. </li>
      <li> Using higher D-values likely takes too much time (for D=1000 the
      computation was aborted after having created 614822 subinstances), and
      makes the approach ineffective; the key is to get a good estimate how
