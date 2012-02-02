@@ -191,6 +191,8 @@ ExternalSources/Installations/R> oklib --R
            <li> A "-" in O indicates that f(I') = O' but the output value,
            for the variable the "-" corresponds to, is undefined.  </li>
           </ul>
+         </li>
+        </ul>
        </li>
        <li> Additional options:
         <ul>
