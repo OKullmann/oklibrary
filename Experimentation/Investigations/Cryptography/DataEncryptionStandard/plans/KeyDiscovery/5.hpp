@@ -601,7 +601,13 @@ CPU time              : 154031.16 s
      <li> See "More powerful processing options" in
      Interfaces/DistributedSolving/plans/ProcessSplitViaOKsolver.hpp. </li>
      <li> One important aspect is to locate the subinstance of the
-     splitting containing the known (total) solution XXX ??? how to do this ???
+     splitting containing the known (total) solution:
+     \verbatim
+# In splitting directory
+> RandomDESTotalAssignment des_6t4_canon_r5_s1.cnf 1 5 > des_6t4_canon_r5_s1.ta
+> for x in Instances/*; do PassExtends-O3-DNDEBUG des_6t4_canon_r5_s1.ta ${x}; if [[ $? == 0 ]]; then echo ${x}; fi; done
+# Prints Instances/??? where ??? is the number of the instance with the satisfying assignment
+     \endverbatim
      </li>
      <li> Then we run all solvers on these satisfiable subinstances and see
      which perform best. </li>
@@ -774,6 +780,19 @@ c total_proportion                      0
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 0
 c splitting_cases                       60600
+
+> RandomDESTotalAssignment des_6t4_canon_r5_s1.cnf 1 5 > des_6t4_canon_r5_s1.ta
+> for x in Instances/*; do PassExtends-O3-DNDEBUG des_6t4_canon_r5_s1.ta ${x}; if [[ $? == 0 ]]; then echo ${x}; fi; done
+Instances/32129
+> cat des_6t4_canon_r5_s1.cnf | ApplyPass-O3-DNDEBUG Instances/32129 des_6t4_canon_r5_s1_p32129_sat.cnf
+> minisat-2.2.0 des_6t4_canon_r5_s1_p32129_sat.cnf
+restarts              : 318
+conflicts             : 120874         (5694 /sec)
+decisions             : 379979         (0.00 % random) (17898 /sec)
+propagations          : 34967923       (1647100 /sec)
+conflict literals     : 15878718       (34.51 % deleted)
+CPU time              : 21.23 s
+SATISFIABLE
 
 > ProcessSplitViaOKsolver SplitViaOKsolver_D600des_6t4_canon_r5_s1cnf_2012-01-04-144308
 # intermediate result:
