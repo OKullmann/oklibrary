@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 23.9.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,7 +22,6 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Proofs.mac");
 oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
 
 
 /* ******************
@@ -58,16 +57,221 @@ resl_p(L) := listp(L) and block([is_resl : true, L_i],
         c_p(L_i[1]) and listp(L_i[2]) and block([ind_l : L_i[2]],
           is(length(ind_l) = 2) and integerp(ind_l[1]) and integerp(ind_l[2])
           and is(0 < ind_l[1]) and is(ind_l[1] < i) and is(0 < ind_l[2]) and
-          is(ind_l[2] < i) and resolvable(L[ind_l[1]],L[ind_l[2]]) and
-          is(resolvent(L[ind_l[1]],L[ind_l[2]]) = L_i[1])))),
+          is(ind_l[2] < i) and
+          if c_p(L[ind_l[1]]) and c_p(L[ind_l[2]]) then
+            (resolvable(L[ind_l[1]],L[ind_l[2]]) and
+             is(resolvent(L[ind_l[1]],L[ind_l[2]]) = L_i[1]))
+          else if c_p(L[ind_l[1]]) and not(c_p(L[ind_l[2]])) then
+            (resolvable(L[ind_l[1]],L[ind_l[2]][1]) and
+             is(resolvent(L[ind_l[1]],L[ind_l[2]][1]) = L_i[1]))
+          else if not(c_p(L[ind_l[1]])) and c_p(L[ind_l[2]]) then
+            (resolvable(L[ind_l[1]][1],L[ind_l[2]]) and
+             is(resolvent(L[ind_l[1]][1],L[ind_l[2]]) = L_i[1]))
+          else
+            (resolvable(L[ind_l[1]][1],L[ind_l[2]][1]) and
+             is(resolvent(L[ind_l[1]][1],L[ind_l[2]][1]) = L_i[1])) ))),
     return(is_resl))$
 
-/* Is T a "resolution tree: */
+/* Is list L a resolution refutation as a list: */
+resl_ref_p(L) :=
+  resl_p(L) and (member({},L) or member({}, resolvents_resl2cl(L)))$
+
+/* Is T a "resolution tree": */
 reslrt_p(T) := listp(T) and
   if length(T) = 1 then c_p(T[1]) /* Leaves must be clauses */
   else is(length(T) = 3) and c_p(T[1]) and
        reslrt_p(T[2]) and reslrt_p(T[3]) and
        resolvable(T[2][1],T[3][1]) and is(resolvent(T[2][1],T[3][1]) = T[1])$
+
+
+/* ************************************
+   * Other properties                 *
+   ************************************
+*/
+
+/* Is L irredundant (we create any unused resolvents): */
+irredundant_ref_resl(L) := block([used_indices, unused_indices],
+  used_indices :
+    setify(lappend(
+        map(lambda([R], R[2]),
+          sublist(L, lambda([R],not(c_p(R))) )))),
+  unused_indices : setdifference(setn(length(L)-1),used_indices),
+  return(is(unused_indices = {})))$
+
+
+/* ************************************
+   * Extraction                       *
+   ************************************
+*/
+
+/* Axioms of a resolution list as a clause-list: */
+axioms_resl2cl(L) := sublist(L,c_p)$
+
+/* Resolvents of a resolution list as a clause-list: */
+resolvents_resl2cl(L) := map(lambda([a],a[1]), sublist(L,listp))$
+
+
+/* ************************************
+   * Generators                       *
+   ************************************
+*/
+
+/* Variables for resl2lin_treeres_fcl(L): lin_treeres(C) for each resolvent C
+   of L: */
+kill(lin_treeres)$
+declare(lin_treeres, noun)$
+declare(lin_treeres, posfun)$
+lin_treeres_var(C) := nounify(lin_treeres)(C)$
+
+
+/* Generating an extension F for the resolution list L such that
+   union(F[2],axioms_resl2cl(L)) is 2-soft and has a tree-resolution proof
+   with size linear in the size of F: */
+resl2lin_treeres_fcs(L) := block([F],
+  cl : delete({}, create_list(if c_p(R) then R else R[1], R, L)),
+  [var_cl(cl),
+   setify(lappend(
+     create_list(
+       cons(
+        adjoin(-lin_treeres_var(i), C),
+        create_list({lin_treeres_var(i), -l}, l, listify(C))),
+       C, cl)))])$
+
+
+/* ************************************
+   * Modifying proofs                 *
+   ************************************
+*/
+
+
+/* Renaming variables in a resolution proof L where the renaming is given as
+   a hashmap h mapping literals to literals: */
+rename_resl(L,h) :=
+  map(lambda([R],
+        if c_p(R) then substitute_c(R,h)
+        else [substitute_c(R[1],h),R[2]]), L)$
+
+
+/* ************************************
+   * Generators                       *
+   ************************************
+*/
+
+
+/* A polynomial-size resolution proof for weak_php_unsat_ext_uni_fcs(n): */
+php_ext_uni_resl(n) := block([axioms, resolvents_cl : [], c2i_h : sm2hm({}), p2q_h : sm2hm({})],
+  axioms : weak_php_unsat_ext_uni_fcs(n),
+  /* Create all the resolutions storing explicitly the clauses, not indices;
+     we map clauses to indices later. */
+  /* Small clauses for each level */
+  resolvents_cl : append(resolvents_cl, reverse(
+    create_list(
+      [[{-php_ext_var(l,i,j),php_ext_var(l+1,i,j),-php_ext_var(l+1,k,j)},
+         [{-php_ext_var(l,i,j),php_ext_var(l+1,i,j),php_ext_var(l+1,l+2,j)},
+           {-php_ext_var(l+1,l+2,j), -php_ext_var(l+1,k,j)}]],
+       [{-php_ext_var(l,i,j),-php_ext_var(l+1,k,j)},
+         [{-php_ext_var(l,i,j),php_ext_var(l+1,i,j),-php_ext_var(l+1,k,j)},
+           {-php_ext_var(l+1,i,j), -php_ext_var(l+1,k,j)}]],
+       [{-php_ext_var(l,k,j),php_ext_var(l+1,k,j),-php_ext_var(l+1,i,j)},
+         [{-php_ext_var(l,k,j),php_ext_var(l+1,k,j),php_ext_var(l+1,l+2,j)},
+           {-php_ext_var(l+1,l+2,j), -php_ext_var(l+1,i,j)}]],
+       [{-php_ext_var(l,k,j),-php_ext_var(l+1,i,j)},
+         [{-php_ext_var(l,k,j),php_ext_var(l+1,k,j),-php_ext_var(l+1,i,j)},
+           {-php_ext_var(l+1,i,j), -php_ext_var(l+1,k,j)}]],
+       [{-php_ext_var(l,k,j),-php_ext_var(l,i,j),php_ext_var(l+1,k,l+1)},
+         [{-php_ext_var(l,k,j),php_ext_var(l+1,k,j),php_ext_var(l+1,k,l+1)},
+           {-php_ext_var(l,i,j),-php_ext_var(l+1,k,j)}]],
+       [{-php_ext_var(l,k,j),-php_ext_var(l,i,j),php_ext_var(l+1,i,l+1)},
+         [{-php_ext_var(l,i,j),php_ext_var(l+1,i,j),php_ext_var(l+1,i,l+1)},
+           {-php_ext_var(l,k,j),-php_ext_var(l+1,i,j)}]],
+       [{-php_ext_var(l,k,j),-php_ext_var(l,i,j),-php_ext_var(l+1,k,l+1)},
+         [{-php_ext_var(l,k,j),-php_ext_var(l,i,j),php_ext_var(l+1,i,l+1)},
+           {-php_ext_var(l+1,k,l+1),-php_ext_var(l+1,i,l+1)}]],
+       [{-php_ext_var(l,k,j),-php_ext_var(l,i,j)},
+         [{-php_ext_var(l,k,j),-php_ext_var(l,i,j),-php_ext_var(l+1,k,l+1)},
+          {-php_ext_var(l,k,j),-php_ext_var(l,i,j),php_ext_var(l+1,k,l+1)}]]],
+       l,1,n-1, i,1,l+1, j, 1,l, k, 1, i-1))),
+  /* Long clauses for each level */
+  resolvents_cl : append(resolvents_cl, lappend( reverse(
+    create_list(
+      append(
+        create_list(
+          [[ setify(
+               append(
+                 create_list(php_ext_var(l,i,j_t), j_t, 1, j),
+                 create_list(php_ext_var(l+1,i,j_t), j_t, j+1, l+1))),
+             [setify(
+               append(
+                 create_list(php_ext_var(l,i,j_t), j_t, 1, j-1),
+                 create_list(php_ext_var(l+1,i,j_t), j_t, j, l+1))),
+             {php_ext_var(l,i,j),-php_ext_var(l+1,i,j)} ]]],
+          i, 1, l+1, j, 1, l),
+        create_list(
+          [[ setify(
+               append(
+                 create_list(php_ext_var(l,i,j_t), j_t, 1, j),
+                 create_list(php_ext_var(l+1,l+2,j_t), j_t, j+1, l+1),
+                 [-php_ext_var(l+1,i,l+1)])),
+             [setify(
+               append(
+                 create_list(php_ext_var(l,i,j_t), j_t, 1, j-1),
+                 create_list(php_ext_var(l+1,l+2,j_t), j_t, j, l+1),
+                 if j > 1 then [-php_ext_var(l+1,i,l+1)] else [])),
+             {php_ext_var(l,i,j),-php_ext_var(l+1,i,l+1),-php_ext_var(l+1,l+2,j)} ]]],
+          i,1,l+1,j, 1, l),
+        create_list(
+          [[ setify(
+               append(
+                 create_list(php_ext_var(l,i,j_t), j_t, 1, l),
+                 [-php_ext_var(l+1,i,l+1)])),
+             [setify(
+               append(
+                 create_list(php_ext_var(l,i,j_t), j_t, 1, l),
+                 [php_ext_var(l+1,l+2,l+1),-php_ext_var(l+1,i,l+1)])),
+             {-php_ext_var(l+1,i,l+1),-php_ext_var(l+1,l+2,l+1)} ]]],
+          i,1,l+1),
+        create_list(
+          [[ setify(
+             create_list(php_ext_var(l,i,j_t), j_t, 1, l)),
+             [setify(
+               append(
+                 create_list(php_ext_var(l,i,j_t), j_t, 1, l),
+                 [-php_ext_var(l+1,i,l+1)])),
+              setify(
+               append(
+                 create_list(php_ext_var(l,i,j_t), j_t, 1, l),
+                 [php_ext_var(l+1,i,l+1)])) ]]],
+          i,1,l+1)),
+    l,1,n-1)))),
+  /* Finally derive the empty clause: */
+  if n > 0 then
+    resolvents_cl : append(resolvents_cl,
+      [[[ {-php_ext_var(1,2,1)},
+       [{-php_ext_var(1,1,1), -php_ext_var(1,2,1)},
+       {php_ext_var(1,1,1)}]],
+       [{},
+         [{php_ext_var(1,2,1)},
+         {-php_ext_var(1,2,1)}]]]]),
+  /* Map clauses to indices and php_ext_var(n+1,i,j) to php_var(i,j) */
+  resolvents_cl : append(listify(axioms[2]),lappend(resolvents_cl)),
+  resolvents_cl : map(
+    lambda([R,i],
+      if c_p(R) then (set_hm(c2i_h,R,i), R)
+      else (set_hm(c2i_h, R[1], i),
+            [R[1], map(lambda([C],ev_hm(c2i_h,C)),R[2])])),
+    resolvents_cl,
+    create_list(i,i,1,length(resolvents_cl))),
+  return(resolvents_cl))$
+/* The resolution proof of weak_php_unsat_ext_fcs(n): */
+php_ext_resl(n) := rename_resl(php_ext_uni_resl(n),sm2hm(renaming_ephp2php_sm(n)))$
+
+
+/* Statistics for php_ext_uni_resl: */
+nvar_php_ext_uni_resl(n) := nvar_weak_php_unsat_ext(n)$
+ncl_php_ext_uni_resl(n) := (6*n^4+11*n^3+3*n^2+4*n+6)/6$
+
+
+
 
 /*!
 \endhtmlonly
