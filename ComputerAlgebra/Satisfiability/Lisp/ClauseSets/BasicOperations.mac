@@ -397,6 +397,28 @@ read_fcl_f(n) := block([fh, line, ll,p_n, p_found : false],
    *****************************************
 */
 
+
+/* A file in the PLA format represents a partial finite function,
+   f : {0,1}^n -> {0,1}^m, by encoding the DNF of the relational
+   viewpoint of f (f' : {0,1}^{n+m} such that f'((I,O)) = 1 if f(I) = O).
+
+   A PLA file has a header:
+
+     .i n
+     .o m
+
+   followed by lines containing two words; strings of 1s and 0s
+   of length n and m respectively.
+
+   Each line indicates that f(I) = O where I and O are the boolean vectors
+   corresponding to the first and second word of that line.
+
+   For more information on the PLA format, see
+   "Improve documentation for Espresso" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/BooleanFunctions.hpp.
+*/
+
+
 /* Outputting the input clause-set to PLA format.
    F is considered to be a DNF, and the i-th input
    variable in the output PLA corresponds to the
