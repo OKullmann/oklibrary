@@ -1,5 +1,5 @@
 // Matthew Gwynne, 25.5.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -51,9 +51,9 @@ License, or any later version. */
    All such translations apply to both the 6x4 S-box functions and
    the 4 decomposed 6x1 functions.
    </li>
-   <li> For initial experiments we use the Argosat-desgen plaintext-ciphertext
-   pairs. See "Transferring the Argosat-desgen example" in
-   Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
+   <li> For initial experiments we use the Argosat-desgen
+   plaintext-ciphertext-pairs. See "Transferring the Argosat-desgen example"
+   in Investigations/Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
    </li>
    <li> Solving 20 random keys (avg number of conflicts/nodes):
     <ul>

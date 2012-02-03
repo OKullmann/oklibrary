@@ -1,5 +1,5 @@
 // Matthew Gwynne, 25.5.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -164,11 +164,11 @@ shell> minisat-2.2.0 25-shuffled_test.cnf
      order. </li>
     </ul>
    </li>
-   <li> We should consider other plaintext-ciphertext pairs so we
+   <li> We should consider other plaintext-ciphertext-pairs so we
    can get average runtimes. </li>
    <li> The ArgoSAT DES instances have already applied some UCP.
-   This is after applying the plaintext-ciphertext assignment.
-   This makes it difficult to apply different plaintext-ciphertext
+   This is after applying the plaintext-ciphertext-pair assignment.
+   This makes it difficult to apply different plaintext-ciphertext-pair
    assignments. </li>
    <li> The ArgoSAT DES instances all have 64 unit-clauses. What are
    these unit-clauses? </li>

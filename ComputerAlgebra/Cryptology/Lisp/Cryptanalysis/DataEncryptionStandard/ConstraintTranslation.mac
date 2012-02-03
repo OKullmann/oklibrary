@@ -36,9 +36,9 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
     - desr(i,-1) = plaintext[des_init_permutation[i]]
     - desr(i,0)  = plaintext[des_init_permutation[32+i]]
     - desr(i,r)  = the result of round r for 1 <= r <= 16
-   
+
    Then
-     ciphertext[i] = 
+     ciphertext[i] =
      append(create_list(desr(i,16),i,1,32),create_list(desr(i,15),i,1,32))[des_final_permutation[i]].
 
 */
@@ -94,7 +94,7 @@ desaux_var(i) := nounify(desaux)(i)$
 /*
   For i in {1,...,48} and r in {1,...,16}:
 
-  desi(i,r) = 
+  desi(i,r) =
     desr(des_expansion[i],r-1) + desk(des_round_keys_template()[r][i])
 
 */
@@ -164,47 +164,71 @@ des_var() := append(
 
 /*
   Translating plaintext-, ciphertext- and key-assignments into formal
-  clause-sets, using partial boolean vectors.
+  clause-sets and partial assignments, using partial boolean vectors.
   A "partial boolean vector" contains besides 0,1 also possibly "und".
 */
 
-/* plain is a partial boolean vector of length 64: */
-/* XXX what is the specification of this function??? XXX */
+/* Translating the partial boolean vector, plain, of length 64, to
+   the corresponding partial assignment on the DES plaintext variables. The
+   partial assignment sets the i-th DES plaintext variable to plain[i],
+   for all i where plain[i] is defined. */
+des_plain2pa(plain) := block(
+  [V : create_list(desr_var(i,r), r,-1,0, i,1,32)],
+  setify(
+    delete(und,
+         create_list(block([x:plain[i]],
+             if x=und then und else (2*x-1)*V[des_final_permutation[i]]),
+           i,1,64))))$
+/* Now translating plain to a formal clause-list containing exactly the
+   unit-clauses satisfied by des_plain2pa(plain). The variable list is
+   the list of all plaintext variables. The order of the variable-
+   and clause-lists is the standard one on the DES plaintext variables. */
 des_plain2fcl(plain) := block(
-[V : create_list(desr_var(i,r), r,-1,0, i,1,32)],
- [V,
-  delete(und,
-         create_list(block([x:plain[i]], 
-             if x=und then und else {(2*x-1)*V[des_final_permutation[i]]}),
-           i,1,64))])$
-/* XXX what is the specification of this function??? XXX */
-des_plain2pa(plain) := lunion(des_plain2fcl(plain)[2])$
+  [V : create_list(desr_var(i,r), r,-1,0, i,1,32), L],
+  L : sort(listify(des_plain2pa(plain)), l2order_p(interleave_l(-V,V))),
+  [V, map(set,L)])$
 
-/* cipher is a partial boolean vector of length 64: */
-/* XXX what is the specification of this function??? XXX */
+/* Translating the partial boolean vector, cipher, of length 64, to
+   the partial assignment on the DES ciphertext variables. The partial
+   assignment sets the i-th DES ciphertext variable to cipher[i],
+   for all i where cipher[i] is defined. */
+des_cipher2pa(cipher) := block(
+  [V : create_list(desr_var(i,r), r,[16,15], i,1,32)],
+  setify(
+    delete(und,
+         create_list(block([x:cipher[i]],
+             if x=und then und else (2*x-1)*V[des_final_permutation[i]]),
+           i,1,64))))$
+/* Now translating cipher to a formal clause-list containing exactly the
+   unit-clauses satisfied by des_cipher2pa(cipher). The variable list is
+   the list of all ciphertext variables. The order of the variable-
+   and clause-lists is the standard one on the DES ciphertext variables. */
 des_cipher2fcl(cipher) := block(
-[V : create_list(desr_var(i,r), r,[16,15], i,1,32)],
- [V,
-  delete(und,
-         create_list(
-           block([x:cipher[i]],
-             if x=und then und else {(2*x-1)*V[des_final_permutation[i]]}),
-           i,1,64))])$
-/* XXX what is the specification of this function??? XXX */
-des_cipher2pa(cipher) := lunion(des_cipher2fcl(cipher)[2])$
+  [V : create_list(desr_var(i,r), r,[16,15], i,1,32), L],
+  L : sort(listify(des_cipher2pa(cipher)), l2order_p(interleave_l(-V,V))),
+  [V, map(set,L)])$
 
-/* key is a partial boolean vector of length 64: */
-/* XXX what is the specification of this function??? XXX */
+/* Translating the partial boolean vector, key, of length 64, to
+   the partial assignment on the DES key variables. The partial
+   assignment sets the i-th DES key variable to key[i], for all i
+   where key[i] is defined. */
+des_key2pa(key) := block(
+  [V : create_list(desk_var(i), i,1,64)],
+  setify(
+    delete(und,
+           create_list(
+             block([x:key[i]],
+               if x=und then und else (2*x-1)*V[i]),
+             i,1,64))))$
+/* Now translating key to a formal clause-list containing exactly the
+   unit-clauses satisfied by des_key2pa(key). The variable list is
+   the list of all key variables. The order of the variable-
+   and clause-lists is the standard one on the DES key variables. */
 des_key2fcl(key) := block(
-[V : create_list(desk_var(i), i,1,64)],
- [V,
-  delete(und,
-         create_list(
-           block([x:key[i]],
-             if x=und then und else {(2*x-1)*V[i]}),
-           i,1,64))])$
-/* XXX what is the specification of this function??? XXX */
-des_key2pa(key) := lunion(des_key2fcl(key)[2])$
+  [V : create_list(desk_var(i), i,1,64), L],
+  L : sort(listify(des_key2pa(key)), l2order_p(interleave_l(-V,V))),
+  [V, map(set,L)])$
+
 
 
 /* ***********************

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Matthew Gwynne, 6.2.2011 (Swansea)
-# Copyright 2011 Oliver Kullmann
+# Copyright 2011, 2012 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -8,8 +8,9 @@
 
 
 #
-# Goes through all combinations of AES translations and plaintext-ciphertext
-# pairs and runs all solvers on the combination of these instances.
+# Goes through all combinations of AES translations and
+# plaintext-ciphertext-pairs and runs all solvers on the combination of these
+# instances.
 #
 
 # BUG: bad specification
@@ -17,7 +18,7 @@
 # Takes eight arguments:
 #
 #   - The number (r) of rounds to run the experiment over.
-#   - The number (k) of plaintext-ciphertext pairs to generate per round.
+#   - The number (k) of plaintext-ciphertext-pairs to generate per round.
 #   - The number of columns (c) in the AES block (1-4).
 #   - The number of rows (rw) in the AES block (1-4).
 #   - The size (e) of the element field (4 or 8).
@@ -39,7 +40,7 @@
 #   
 #   experiment_r${ri}_k${ki}.cnf_${solver_name}
 #
-# for each solver run, round, and plaintext-ciphertext pair where ri ranges 
+# for each solver run, round, and plaintext-ciphertext-pair where ri ranges 
 # from 1 to r, ki ranges from 1 to k and solver_name is the the name of the 
 # SAT solver run in that instance. The contents of the file are simply the 
 # full output of the corresponding solver on that parameter instance.
@@ -69,7 +70,7 @@ version="0.1.0"
 
 if [[ ! $# -eq 8 ]]; then
   echo -n "${err} Takes exactly eight arguments, the number of rounds, number ",
-  echo -n "of plaintext-ciphertext pairs per round, the number of columns, "
+  echo -n "of plaintext-ciphertext-pairs per round, the number of columns, "
   echo -n "the number of rows, the field size, whether or not to use a special "
   echo -n "final round, which box translation to use and which MixColumn "
   echo "translation to use."

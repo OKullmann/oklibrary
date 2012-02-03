@@ -127,8 +127,8 @@ ExternalSources/builds/SAT/Des/des2fml-0.9> make
      <li> The plaintext, key are available in the files plaintxt and key_des.
      </li>
      <li> By default many plaintexts are provided. All but one must be removed
-     if one wants to generate an instance with a single plaintext-ciphertext
-     pair. </li>
+     if one wants to generate an instance with a single
+     plaintext-ciphertext-pair. </li>
      <li> Run
      \verbatim
 ExternalSources/builds/Des/des2fml-0.9> rounds=1

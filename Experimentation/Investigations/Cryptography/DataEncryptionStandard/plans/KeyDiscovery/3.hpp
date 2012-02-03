@@ -170,7 +170,7 @@ EM
    canonical representation given by dualts_fcl in
    ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac.
    </li>
-   <li> Generating instances for 20 random plaintext-ciphertext pairs:
+   <li> Generating instances for 20 random plaintext-ciphertext-pairs:
    \verbatim
 shell> mkdir -p des_3/canon
 shell> cd des_3/canon
@@ -545,7 +545,7 @@ EM
    <li> Translating the DES Sboxes, as 6-to-4 bit boolean functions, using the
    canonical CNFs. That is, each Sbox is represented with a CNF where all
    clauses are of length 10. </li>
-   <li> Generating instances for 20 random plaintext-ciphertext pairs:
+   <li> Generating instances for 20 random plaintext-ciphertext-pairs:
    \verbatim
 rounds : 3$
 sbox_fcl_l : create_list(fcs2fcl(des_sbox_fullcnf_fcs(i)), i, 1, 8)$

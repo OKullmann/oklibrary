@@ -1,5 +1,5 @@
 // Matthew Gwynne, 25.8.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -76,7 +76,7 @@ done
    136, 123, 152 respectively. </li>
    <li> All the 1-bases used have clauses of sizes 5 and 6, except Sbox 4
    which has clauses of size 5 and 6 as well as 2 of size 7. </li>
-   <li> Generating the 20 instances with random plaintext-ciphertext pairs:
+   <li> Generating the 20 instances with random plaintext-ciphertext-pairs:
    \verbatim
 rounds : 6$
 sbox_fcl_l : create_list(read_fcl_f(sconcat("DES_Sbox_",i,"_1base.cnf")), i, 1, 8)$
@@ -168,7 +168,7 @@ done
    </li>
    <li> The numbers of clauses in the CNFs are 67, 67, 68, 69, 67, 66, 67, and
    69 respectively. </li>
-   <li> Generating the instance for 20 random plaintext-ciphertext pairs:
+   <li> Generating the instance for 20 random plaintext-ciphertext-pairs:
    \verbatim
 rounds : 6$
 sbox_fcl_l : create_list(read_fcl_f(sconcat("DES_Sbox_",i,"_min.cnf")), i, 1, 8)$
