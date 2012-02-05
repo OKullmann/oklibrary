@@ -1,5 +1,5 @@
 // Matthew Gwynne, 21.12.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -231,7 +231,7 @@ R> aggregate_statistics(E[c("t","cfs","r1")], by=list("r"))
      </li>
     </ul>
    </li>
-   <li> Over 20 rounds, with 20 random plaintext-ciphertext pairs per round:
+   <li> Over 20 rounds, with 20 random plaintext-ciphertext-pairs per round:
     <ul>
      <li> For instructions on generating the 1-bases, see
      "The 1-base box translation" in
@@ -330,7 +330,7 @@ R> plot(E$t)
      </li>
     </ul>
    </li>
-   <li> Over 20 rounds, with 20 random plaintext-ciphertext pairs per round:
+   <li> Over 20 rounds, with 20 random plaintext-ciphertext-pairs per round:
     <ul>
      <li> For instructions on generating the 1-bases, see
      'The "minimum" box translation' in
