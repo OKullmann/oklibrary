@@ -133,6 +133,23 @@ okltest_irredundant_ref_resl(f) := block(
   assert(not(f([{1,2},{-1,2},[{2},[1,2]],{1},{-1},[{},[4,5]]]))),
   true)$
 
+
+/* ************************************
+   * Modifying proofs                 *
+   ************************************
+*/
+
+okltest_rename_resl(f) := block(
+  assert(f([], sm2hm({})) = []),
+  assert(f([], sm2hm({[1,2],[-1,-2]})) = []),
+  assert(f([{1},{2}], sm2hm({[1,2],[-1,-2],[2,1],[-2,-1]})) = [{2},{1}]),
+  assert(f([{1},{-2}], sm2hm({[1,2],[-1,-2],[2,1],[-2,-1]})) = [{2},{-1}]),
+  assert(f([{1},{-2},{3}], sm2hm({[1,2],[-1,-2],[2,1],[-2,-1]})) = [{2},{-1},{3}]),
+  assert(
+    f([{1,-2},{1,2},[{1},[1,2]]], sm2hm({[1,3],[-1,-3],[2,4],[-2,-4]}))
+      = [{3,-4},{3,4},[{3},[1,2]]]),
+  true)$
+
 /* ************************************
    * Generators                       *
    ************************************
@@ -177,6 +194,12 @@ okltest_php_ext_uni_resl(f) := block(
     F : f(i),
     assert(resl_ref_p(F)),
     assert(irredundant_ref_resl(F))),
+  true)$
+
+okltest_php_ext_resl(f) := block(
+  assert(
+    okltest_php_ext_uni_resl(
+      buildq([f], lambda([n], rename_resl(f(n),sm2hm(renaming_php2ephp_sm(n))))))),
   true)$
 
 okltest_ncl_php_ext_uni_resl(f) := block(
