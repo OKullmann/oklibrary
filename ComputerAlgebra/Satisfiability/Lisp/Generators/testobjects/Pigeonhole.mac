@@ -36,8 +36,8 @@ okltest_deficiency_weak_php(deficiency_weak_php);
 
 /* Extended Resolution */
 
-okltest_rename_php_var2ephp_var_cs(rename_php_var2ephp_var_cs);
-okltest_rename_ephp_var2php_var_cs(rename_ephp_var2php_var_cs);
+okltest_renaming_php2ephp_sm(renaming_php2ephp_sm);
+okltest_renaming_ephp2php_sm(renaming_ephp2php_sm);
 okltest_php_induction_step_cl(php_induction_step_cl);
 okltest_php_induction_cl(php_induction_cl);
 okltest_weak_php_unsat_ext_fcs(weak_php_unsat_ext_fcs);
