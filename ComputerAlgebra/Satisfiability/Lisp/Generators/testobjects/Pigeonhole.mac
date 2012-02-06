@@ -39,6 +39,8 @@ okltest_deficiency_weak_php(deficiency_weak_php);
 okltest_php_induction_step_cl(php_induction_step_cl);
 okltest_php_induction_cl(php_induction_cl);
 okltest_weak_php_unsat_ext_fcs(weak_php_unsat_ext_fcs);
+okltest_nvar_weak_php_unsat_ext(nvar_weak_php_unsat_ext);
+okltest_ncl_weak_php_unsat_ext(ncl_weak_php_unsat_ext);
 
 
 /*!
