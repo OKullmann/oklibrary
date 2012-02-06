@@ -114,6 +114,20 @@ resolvents_resl2cl(L) := map(lambda([a],a[1]), sublist(L,listp))$
 
 
 /* ************************************
+   * Modifying proofs                 *
+   ************************************
+*/
+
+
+/* Renaming variables in a resolution proof L where the renaming is given as
+   a hashmap h mapping literals to literals: */
+rename_resl(L,h) :=
+  map(lambda([R],
+        if c_p(R) then substitute_c(R,h)
+        else [substitute_c(R[1],h),R[2]]), L)$
+
+
+/* ************************************
    * Generators                       *
    ************************************
 */
@@ -223,6 +237,9 @@ php_ext_uni_resl(n) := block([axioms, resolvents_cl : [], c2i_h : sm2hm({}), p2q
     resolvents_cl,
     create_list(i,i,1,length(resolvents_cl))),
   return(resolvents_cl))$
+/* The resolution proof of weak_php_unsat_ext_fcs(n): */
+php_ext_resl(n) := rename_resl(php_ext_uni_resl(n),sm2hm(var_ephp2php_sm(n)))$
+
 
 /* Statistics for php_ext_uni_resl: */
 nvar_php_ext_uni_resl(n) := nvar_weak_php_unsat_ext(n)$
