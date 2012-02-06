@@ -64,6 +64,22 @@ okltest_deficiency_weak_php(f) := block(
 
 /* Extended Resolution */
 
+okltest_rename_php_var2ephp_var_cs(f) := block(
+  for m : 1 thru 5 do
+    assert(f({},m) = {}),
+  for m : 1 thru 5 do
+    assert(f([],m) = []),
+  assert(f([{php_var(1,1)}],1) = [{php_ext_var(2,1,1)}]),
+  true)$
+
+okltest_rename_ephp_var2php_var_cs(f) := block(
+  for m : 1 thru 5 do
+    assert(f([{}],m) = [{}]),
+  for m : 1 thru 5 do
+    assert(f([],m) = []),
+  assert(f([{php_ext_var(2,1,1)}],1) = [{php_var(1,1)}]),
+  true)$
+
 okltest_php_induction_step_cl(f) := block(
   for i in [0,1] do
       assert(f(i) = []),
