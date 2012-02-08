@@ -19,6 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionSt
 */
 
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/GeneralisedConstraintTranslation.mac")$
+oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/tests/ConstraintTranslation.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/tests/GeneralisedConstraintTranslation.mac")$
 
 
@@ -30,9 +31,28 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptio
 okltest_des_sbox_output2inputs(des_sbox_output2inputs);
 okltest_des_sbox_outputs2inputs(des_sbox_outputs2inputs);
 
-okltest_des_plain2fcl_gen(des_plain2fcl_gen);
+
+/* **************************************************************
+   * Assignments to plaintext, key and ciphertext variables     *
+   **************************************************************
+*/
+
+okltest_des_plain2pa(des_plain2pa_gen);
+okltest_des_plain2fcl(des_plain2fcl_gen);
+okltest_des_cipher2pa_gen(des_cipher2pa_gen);
 okltest_des_cipher2fcl_gen(des_cipher2fcl_gen);
-okltest_des_key2fcl_gen(des_key2fcl_gen);
+okltest_des_key2pa(des_key2pa_gen);
+okltest_des_key2fcl(des_key2fcl_gen);
+
+okltest_des_random_pkctriple(des_random_pkctriple);
+okltest_des_random_pkctriple_pa(des_random_pkctriple_pa);
+okltest_des_random_pkctriple_pa_std(des_random_pkctriple_pa_std);
+okltest_des_random_pcpair_pa(des_random_pcpair_pa);
+okltest_des_random_pcpair_pa_std(des_random_pcpair_pa_std);
+okltest_des_random_pkpair_pa(des_random_pkpair_pa);
+okltest_des_random_pkpair_pa_std(des_random_pkpair_pa_std);
+okltest_des_random_kcpair_pa(des_random_kcpair_pa);
+okltest_des_random_kcpair_pa_std(des_random_kcpair_pa_std);
 
 /*!
 \endhtmlonly

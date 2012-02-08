@@ -1,5 +1,5 @@
 // Matthew Gwynne, 15.2.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -133,10 +133,10 @@ maxima> ncl_list_full_dualts(8,16);
      <li> 16 : 44 = 44 boxes * 1. </li>
     </ul>
    </li>
-   <li> Generating 20 random plaintext-ciphertext pairs and running
+   <li> Generating 20 random plaintext-ciphertext-pairs and running
    solvers instances instantiated with these pairs to find the key:
     <ul>
-     <li> Computing the random plaintext-ciphertext pairs:
+     <li> Computing the random plaintext-ciphertext-pairs:
      \verbatim
 for seed : 1 thru 20 do output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
      \endverbatim
@@ -302,10 +302,10 @@ maxima> ncl_list_fcs(ev_hm(ss_field_rbase_cnfs,[4,3]));
      8 additions (arity 3) * 8. </li>
     </ul>
    </li>
-   <li> Generating 20 random plaintext-ciphertext pairs and running
+   <li> Generating 20 random plaintext-ciphertext-pairs and running
    solvers instances instantiated with these pairs to find the key:
     <ul>
-     <li> Computing the random plaintext-ciphertext pairs:
+     <li> Computing the random plaintext-ciphertext-pairs:
      \verbatim
 for seed : 1 thru 20 do output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
      \endverbatim
@@ -476,10 +476,10 @@ maxima> ncl_list_fcs(ev_hm(ss_field_cnfs,[4,3]));
      <li> 5 : 24 = 12 S-boxes * 2. </li>
     </ul>
    </li>
-   <li> Generating 20 random plaintext-ciphertext pairs and running
+   <li> Generating 20 random plaintext-ciphertext-pairs and running
    solvers instances instantiated with these pairs to find the key:
     <ul>
-     <li> Computing the random plaintext-ciphertext pairs:
+     <li> Computing the random plaintext-ciphertext-pairs:
      \verbatim
 for seed : 1 thru 20 do output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
      \endverbatim
@@ -642,10 +642,10 @@ shell> cat ssaes_r2_c2_rw2_e4_f0.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
      <li> 8 : 10560 = 44 boxes * 240. </li>
     </ul>
    </li>
-   <li> Generating 20 random plaintext-ciphertext pairs and running
+   <li> Generating 20 random plaintext-ciphertext-pairs and running
    solvers instances instantiated with these pairs to find the key:
     <ul>
-     <li> Computing the random plaintext-ciphertext pairs:
+     <li> Computing the random plaintext-ciphertext-pairs:
      \verbatim
 for seed : 1 thru 20 do output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
      \endverbatim

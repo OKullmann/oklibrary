@@ -55,7 +55,7 @@ License, or any later version. */
    plaintext-ciphertext-pairs. See "Transferring the Argosat-desgen example" in
    Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
    </li>
-   <li> Over one plaintext-ciphertext pair, using the:
+   <li> Over one plaintext-ciphertext-pair, using the:
     <ul>
      <li> 1-base translation; fastest solver solves in 553s.
      See "Using the 1-base translation for the S-boxes (6-to-4)". </li>
@@ -65,7 +65,7 @@ License, or any later version. */
      See 'Using the "minimum"  translation for the S-boxes (6-to-4)'. </li>
     </ul>
    </li>
-   <li> Over 20 plaintext-ciphertext pair, using the:
+   <li> Over 20 plaintext-ciphertext-pair, using the:
     <ul>
      <li> 1-base translation; minisat-2.2.0 solves in ~10.4 hours (avg),
      using ~ 427 million conflicts (avg).
@@ -202,7 +202,7 @@ for F in sbox_fcl_l do print(ncl_list_fcl(F));
      <li> 5 clauses of length seven (1 * 5 = 5 S-boxes). </li>
     </ul>
    </li>
-   <li> On a single plaintext-ciphertext pair:
+   <li> On a single plaintext-ciphertext-pair:
     <ul>
      <li> Generating the instance:
      \verbatim
@@ -353,7 +353,7 @@ for F in sbox_fcl_l do print(ncl_list_fcl(F));
      <li> 60 clauses of length seven (7 * 5 = 35 S-boxes). </li>
     </ul>
    </li>
-   <li> On a single plaintext-ciphertext pair:
+   <li> On a single plaintext-ciphertext-pair:
     <ul>
      <li> Generating the instance:
      \verbatim
@@ -500,7 +500,7 @@ ncl_list_fcl(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(1)]));
      <li> 40 clauses of length 64 (8 * 5 = 40 S-boxes). </li>
     </ul>
    </li>
-   <li> Using a single plaintext-ciphertext pair:
+   <li> Using a single plaintext-ciphertext-pair:
     <ul>
      <li> Generating the instance:
      \verbatim
@@ -575,7 +575,7 @@ shell> for k in $(seq 1 20); do
     minisat-2.2.0 des_6t4_canon_r${r}_s${k}.cnf > minisat_r${r}_k${k}.result 2>&1;
   done;
      \endverbatim
-     yields, for the first pseudo-random plaintext-ciphertext pair:
+     yields, for the first pseudo-random plaintext-ciphertext-pair:
      \verbatim
 restarts              : 301052
 conflicts             : 264442847      (9446074192 /sec)
@@ -585,7 +585,7 @@ CPU time              : 154031.16 s
      \endverbatim
      taking ~1.8 days.
      </li>
-     <li> For the second pseudo-random plaintext-ciphtext pair (seed = 2),
+     <li> For the second pseudo-random plaintext-ciphertext-pair (seed = 2),
      minisat-2.2.0 takes > 1 week. </li>
     </ul>
    </li>
@@ -601,7 +601,13 @@ CPU time              : 154031.16 s
      <li> See "More powerful processing options" in
      Interfaces/DistributedSolving/plans/ProcessSplitViaOKsolver.hpp. </li>
      <li> One important aspect is to locate the subinstance of the
-     splitting containing the known (total) solution XXX ??? how to do this ???
+     splitting containing the known (total) solution:
+     \verbatim
+# In splitting directory
+> RandomDESTotalAssignment des_6t4_canon_r5_s1.cnf 1 5 > des_6t4_canon_r5_s1.ta
+> for x in Instances/*; do PassExtends-O3-DNDEBUG des_6t4_canon_r5_s1.ta ${x}; if [[ $? == 0 ]]; then echo ${x}; fi; done
+# Prints Instances/??? where ??? is the number of the instance with the satisfying assignment
+     \endverbatim
      </li>
      <li> Then we run all solvers on these satisfiable subinstances and see
      which perform best. </li>
@@ -775,6 +781,19 @@ c number_of_table_enlargements          0
 c number_of_1-autarkies                 0
 c splitting_cases                       60600
 
+> RandomDESTotalAssignment des_6t4_canon_r5_s1.cnf 1 5 > des_6t4_canon_r5_s1.ta
+> for x in Instances/*; do PassExtends-O3-DNDEBUG des_6t4_canon_r5_s1.ta ${x}; if [[ $? == 0 ]]; then echo ${x}; fi; done
+Instances/32129
+> cat des_6t4_canon_r5_s1.cnf | ApplyPass-O3-DNDEBUG Instances/32129 des_6t4_canon_r5_s1_p32129_sat.cnf
+> minisat-2.2.0 des_6t4_canon_r5_s1_p32129_sat.cnf
+restarts              : 318
+conflicts             : 120874         (5694 /sec)
+decisions             : 379979         (0.00 % random) (17898 /sec)
+propagations          : 34967923       (1647100 /sec)
+conflict literals     : 15878718       (34.51 % deleted)
+CPU time              : 21.23 s
+SATISFIABLE
+
 > ProcessSplitViaOKsolver SplitViaOKsolver_D600des_6t4_canon_r5_s1cnf_2012-01-04-144308
 # intermediate result:
 > E=read_processsplit_minisat()
@@ -883,6 +902,23 @@ c number_of_table_enlargements          0
 c number_of_1-autarkies                 0
 c splitting_cases                       163531
 
+
+> RandomDESTotalAssignment des_6t4_canon_r5_s1.cnf 1 5 > des_6t4_canon_r5_s1.ta
+> for x in Instances/*; do PassExtends-O3-DNDEBUG des_6t4_canon_r5_s1.ta ${x}; if [[ $? == 0 ]]; then echo ${x}; fi; done
+Instances/86151
+> cat des_6t4_canon_r5_s1.cnf | ApplyPass-O3-DNDEBUG Instances/86151 des_6t4_canon_r5_s1_p86151_sat.cnf
+> minisat-2.2.0 des_6t4_canon_r5_s1_p86151_sat.cnf
+restarts              : 180
+conflicts             : 57180          (6696 /sec)
+decisions             : 168413         (0.00 % random) (19720 /sec)
+propagations          : 16407303       (1921230 /sec)
+conflict literals     : 7743044        (32.99 % deleted)
+CPU time              : 8.54 s
+SATISFIABLE
+> cat Data | grep " 86151"
+144993 86151 844 17
+
+
 > ProcessSplitViaOKsolver SplitViaOKsolver_D700des_6t4_canon_r5_s1cnf_2012-01-13-095226
 # aborted:
 > E=read_processsplit_minisat()
@@ -913,8 +949,29 @@ R-squared: 0.9956
 [1] 326.4455
      \endverbatim
      The running times exploded at the very end, and thus the computation was
-     aborted. We need to find out which subinstance contains the satisfying
-     assignments, and what is solution-time for this subinstance. XXX
+     aborted. </li>
+     <li> The position of the satisfying assignment in different orders for
+     sub-instance i=86,151 at D=700 (out of 163,531 sub-instances):
+      <ul>
+       <li> using the default ordering, decreasing n, it is 144,993-th;
+       </li>
+       <li> sorting first in increasing d, then increasing n, it is
+       43,119-th:
+       \verbatim
+> cat Data | sort -r -s | sort -k 4,4 -n -s | grep -n " 86151"
+43119:144993 86151 844 17
+       \endverbatim
+       </li>
+       <li> sorting first in increasing d, then in decreasing n, it is
+       48,291-th:
+       \verbatim
+# Sorting by the 4-th column (d) in numerical order using a stable sort
+# Hence, by using a stable sort, we leave it sorted "second" by decreasing n.
+> cat Data | sort -k 4,4 -n -s | grep -n " 86151"
+48291:144993 86151 844 17
+       \endverbatim
+       </li>
+      </ul>
      </li>
      <li> Using higher D-values likely takes too much time (for D=1000 the
      computation was aborted after having created 614822 subinstances), and

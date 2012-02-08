@@ -1,5 +1,5 @@
 // Matthew Gwynne, 2.1.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -366,7 +366,7 @@ License, or any later version. */
      <li> See Cryptography/AdvancedEncryptionStandard/generate_aes_experiment.
      </li>
      <li> The current experiment creation script allows one to specify the
-     number of rounds, number of random plaintext-ciphertext pairs to generate
+     number of rounds, number of random plaintext-ciphertext-pairs to generate
      and the parameters specifying the AES instance and translation (see
      output_ss_fcl_std in
      ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac).
@@ -374,8 +374,8 @@ License, or any later version. */
      <li> This generator generates several AES instances (one for each round)
      at once. </li>
      <li> The generator should be split up into two scripts, one generating
-     a single AES instance, another generating random plaintext-ciphertext
-     pairs. </li>
+     a single AES instance, another generating random
+     plaintext-ciphertext-pairs. </li>
      <li> The script should output the parameters for the computation to
      a file "instance_parameters" in the experiment directory; the directory
      might be renamed. </li>
@@ -393,16 +393,16 @@ License, or any later version. */
        <li> Each solver-specific experiment script can then handle outputting
        solver output to the correct directory. </li>
        <li> Each script should examine "instance_parameters" to determine how
-       many AES rounds and number of plaintext-ciphertext pairs to run the
+       many AES rounds and number of plaintext-ciphertext-pairs to run the
        experiment on. </li>
        <li> The script should then create the AES key discovery
-       instances from the AES instances and plaintext-ciphertext pairs. </li>
+       instances from the AES instances and plaintext-ciphertext-pairs. </li>
        <li> Finally it should run the selected solver on the instance
        and record the output into a file "r${r}_s${i}.cnf" where
         <ul>
          <li> r is the number of rounds for the AES key discovery instance
          the solver is being run on; </li>
-         <li> s is the seed for the plaintext-ciphertext pair used to
+         <li> s is the seed for the plaintext-ciphertext-pair used to
          instantiate the AES key discovery instance. </li>
         </ul>
        </li>
