@@ -1,20 +1,20 @@
 #!/bin/bash
 # Matthew Gwynne, 3.2.2011 (Swansea)
-# Copyright 2011 Oliver Kullmann
+# Copyright 2011, 2012 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
 #
-# Generates AES CNF translations and plaintext-ciphertext variable assignments 
+# Generates AES CNF translations and plaintext-ciphertext-pair variable assignments
 # for experimentation.
 #
 # Takes eight arguments:
 #
 #   - The number r of rounds to run the experiment over.
 # BUG: what means "over"? "rounds" can have many meanings -- do we run the experiment several times?
-#   - The number k of plaintext-ciphertext pairs to generate per round.
+#   - The number k of plaintext-ciphertext-pairs to generate per round.
 #   - The number c of columns in the AES block (1-4).
 #   - The number rw of rows in the AES block (1-4).
 #   - The size e of the element field (4 or 8).
@@ -32,7 +32,8 @@
 # encryption scheme with the given parameters for each round size in (1-r)
 # BUG: what is "in (1-r)" ??
 # and for each round k Dimacs files are created containing the 
-# plaintext-ciphertext variable assignments for random plaintext ciphertext pair
+# plaintext-ciphertext-pair variable assignments for random
+# plaintext-ciphertext-pair
 # BUG: apparently the files are just spilled into the current directory??
 # chosen using seeds 1-k.
 #
@@ -43,8 +44,8 @@
 # readability of the variable names), set the "oklib_fast" environment variable
 # to true.
 #
-# The files names of the translation output, and plaintext-ciphertext assignment
-# files are:
+# The files names of the translation output, and plaintext-ciphertext-pair
+# assignment files are:
 #
 #  ssaes_r${ri}_c${c}_rw${rw}_e${e}_f${fin_z}.cnf
 #  ssaes_pcpair_r${r}_c${c}_rw${rw}_f${fin_z}_s${ki}
@@ -78,7 +79,7 @@ version="0.1.2"
 
 if [[ ! $# -eq 8 ]]; then
   echo -n "${err} Takes exactly eight arguments, the number of rounds, number ",
-  echo -n "of plaintext-ciphertext pairs per round, the number of columns, "
+  echo -n "of plaintext-ciphertext-pairs per round, the number of columns, "
   echo -n "the number of rows, the field size, whether or not to use a special "
   echo -n "final round, which box translation to use and which MixColumn "
   echo "translation to use."

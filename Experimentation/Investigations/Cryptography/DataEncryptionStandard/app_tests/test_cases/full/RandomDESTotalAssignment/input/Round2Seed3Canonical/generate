@@ -1,0 +1,16 @@
+#!/bin/bash
+# Matthew Gwynne, 24.1.2012 (Swansea)
+# Copyright 2012 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version.
+
+set -o errexit
+set -o nounset
+
+# Generates des_6t4_canon_r2.cnf
+
+r=2
+oklib --maxima --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/GeneralisedConstraintTranslation.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/Sboxes.mac\\\"); oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac\\\"); sbox_fcl_l : create_list(dualts_fcl([listify(setn(10)), des_sbox_fulldnf_cl(i)]), i, 1, 8); output_des2fcl_gen_std(\"canon\",sbox_fcl_l,${r});\"" > /dev/null
+

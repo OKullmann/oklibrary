@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.2.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -324,6 +324,20 @@ stable_unique(L) := block([S:{}, res:[]],
  reverse(res))$
 /* Remark: The Maxima-function unique(L) is not stable (but faster). */
 
+/* Interleaving the elements of all input lists in the order they are given
+   as arguments. All lists are assumed to be of the same size.
+
+   That is, given n lists L_1, ..., L_n, each of size m, return the list
+   L_1[1],...,L_n[1],...,L_1[n],...,L_n[n].
+*/
+interleave_l([L]) :=
+   if L = [] then []
+   else if member([], L) then []
+   else append(map(first,L), apply(interleave_l, map(rest,L)))$
+/* If the lists *are* of different lengths, then the result of interleave_l is
+   the same as if all lists were truncated to their first k elements, where
+   k is the size of the smallest list. */
+
 
 /* *************************
    * Random parts of lists *
@@ -406,7 +420,7 @@ m2l_r(m) := lappend(create_list(m[i],i,1,length(m)))$
 /* RENAME: m2ll_c */
 matrixcolumns(m) := partition_elements(m2l_r(transpose(m)),length(m))$
 
-/* Builds a matrix from a list of it's columns (as lists) */
+/* Builds a matrix from a list of its columns (as lists) */
 /* RENAME: m_c */
 columns2matrix(mc) := transpose(uaapply(matrix, mc))$
 
@@ -438,6 +452,16 @@ sort_length_part(L) := ary2l(sort_length_part_ary(L))$
 /* Now sorting by descending element-length: */
 sort_length_desc_part(L) := reverse(sort_length_part(L))$
 
+/* Returning the binary comparison which is true for two elements x and y iff
+   the index of x is less than or equal to the index of y in the
+   duplicate-free list L. If x or y is not in L, then und is returned. */
+l2order_p(L) := block([hm : sm2hm(l2osm_inv(L))],
+  buildq([L,hm],
+    lambda([x,y], block([x_i, y_i],
+        x_i : ev_hm(hm, x),
+        y_i : ev_hm(hm, y),
+        if x_i = false or y_i = false then return(und)
+        else is(x_i <= y_i)))))$
 
 /*!
 \endhtmlonly

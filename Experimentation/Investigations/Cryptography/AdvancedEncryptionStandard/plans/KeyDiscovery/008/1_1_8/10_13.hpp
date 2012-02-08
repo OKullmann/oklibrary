@@ -1,5 +1,5 @@
 // Matthew Gwynne, 16.6.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -127,10 +127,10 @@ maxima> ncl_list_full_dualts(8,16);
      <li> 256 : 20 = 20 S-boxes * 1. </li>
     </ul>
    </li>
-   <li> Generating 20 random plaintext-ciphertext pairs and running
+   <li> Generating 20 random plaintext-ciphertext-pairs and running
    solvers instances instantiated with these pairs to find the key:
     <ul>
-     <li> Computing the random plaintext-ciphertext pairs:
+     <li> Computing the random plaintext-ciphertext-pairs:
      \verbatim
 for seed : 1 thru 20 do output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
      \endverbatim
@@ -287,11 +287,11 @@ maxima> ncl_list_fcs(ev_hm(ss_sbox_cnfs,8));
      <li> 7 : 2540 = 20 S-boxes * 127; </li>
      <li> 8 : 480 = 20 S-boxes * 24. </li>
     </ul>
-   </li>
-   <li> Generating 20 random plaintext-ciphertext pairs and running
+   </li>10
+   <li> Generating 20 random plaintext-ciphertext-pairs and running
    solvers instances instantiated with these pairs to find the key:
     <ul>
-     <li> Computing the random plaintext-ciphertext pairs:
+     <li> Computing the random plaintext-ciphertext-pairs:
      \verbatim
 for seed : 1 thru 20 do output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
      \endverbatim
@@ -472,10 +472,10 @@ maxima> ncl_list_fcs(ev_hm(ss_sbox_rbase_cnfs,8));
      <li> 9 : 80 = 20 S-boxes * 4. </li>
     </ul>
    </li>
-   <li> Generating 20 random plaintext-ciphertext pairs and running
+   <li> Generating 20 random plaintext-ciphertext-pairs and running
    solvers instances instantiated with these pairs to find the key:
     <ul>
-     <li> Computing the random plaintext-ciphertext pairs:
+     <li> Computing the random plaintext-ciphertext-pairs:
      \verbatim
 for seed : 1 thru 20 do output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
      \endverbatim
