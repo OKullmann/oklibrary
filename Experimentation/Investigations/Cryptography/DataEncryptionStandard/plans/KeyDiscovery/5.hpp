@@ -902,6 +902,23 @@ c number_of_table_enlargements          0
 c number_of_1-autarkies                 0
 c splitting_cases                       163531
 
+
+> RandomDESTotalAssignment des_6t4_canon_r5_s1.cnf 1 5 > des_6t4_canon_r5_s1.ta
+> for x in Instances/*; do PassExtends-O3-DNDEBUG des_6t4_canon_r5_s1.ta ${x}; if [[ $? == 0 ]]; then echo ${x}; fi; done
+Instances/86151
+> cat des_6t4_canon_r5_s1.cnf | ApplyPass-O3-DNDEBUG Instances/86151 des_6t4_canon_r5_s1_p86151_sat.cnf
+> minisat-2.2.0 des_6t4_canon_r5_s1_p86151_sat.cnf
+restarts              : 180
+conflicts             : 57180          (6696 /sec)
+decisions             : 168413         (0.00 % random) (19720 /sec)
+propagations          : 16407303       (1921230 /sec)
+conflict literals     : 7743044        (32.99 % deleted)
+CPU time              : 8.54 s
+SATISFIABLE
+> cat Data | grep " 86151"
+144993 86151 844 17
+
+
 > ProcessSplitViaOKsolver SplitViaOKsolver_D700des_6t4_canon_r5_s1cnf_2012-01-13-095226
 # aborted:
 > E=read_processsplit_minisat()
@@ -932,8 +949,29 @@ R-squared: 0.9956
 [1] 326.4455
      \endverbatim
      The running times exploded at the very end, and thus the computation was
-     aborted. We need to find out which subinstance contains the satisfying
-     assignments, and what is solution-time for this subinstance. XXX
+     aborted. </li>
+     <li> The position of the satisfying assignment in different orders for
+     sub-instance i=86,151 at D=700 (out of 163,531 sub-instances):
+      <ul>
+       <li> using the default ordering, decreasing n, it is 144,993-th;
+       </li>
+       <li> sorting first in increasing d, then increasing n, it is
+       43,119-th:
+       \verbatim
+> cat Data | sort -r -s | sort -k 4,4 -n -s | grep -n " 86151"
+43119:144993 86151 844 17
+       \endverbatim
+       </li>
+       <li> sorting first in increasing d, then in decreasing n, it is
+       48,291-th:
+       \verbatim
+# Sorting by the 4-th column (d) in numerical order using a stable sort
+# Hence, by using a stable sort, we leave it sorted "second" by decreasing n.
+> cat Data | sort -k 4,4 -n -s | grep -n " 86151"
+48291:144993 86151 844 17
+       \endverbatim
+       </li>
+      </ul>
      </li>
      <li> Using higher D-values likely takes too much time (for D=1000 the
      computation was aborted after having created 614822 subinstances), and
