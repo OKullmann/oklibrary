@@ -407,11 +407,10 @@ read_fcl_f(n) := block([fh, line, ll,p_n, p_found : false],
      .i n
      .o m
 
-   followed by lines containing two words; strings of 1s and 0s
-   of length n and m respectively.
-
-   Each line indicates that f(I) = O where I and O are the boolean vectors
-   corresponding to the first and second word of that line.
+   followed by lines each containing two words: strings of 1s and 0s
+   of length n and m respectively, where each such line indicates that
+   f(I) = O where I and O are the boolean vectors corresponding to the first
+   and second word of that line.
 
    For more information on the PLA format, see
    "Improve documentation for Espresso" in
