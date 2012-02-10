@@ -951,19 +951,19 @@ R-squared: 0.9956
      The running times exploded at the very end, and thus the computation was
      aborted. </li>
      <li> The position of the satisfying assignment in different orders for
-     sub-instance i=86,151 at D=700 (out of 163,531 sub-instances):
+     sub-instance i=86151 at D=700 (out of 163531 sub-instances):
       <ul>
-       <li> using the default ordering, decreasing n, it is 144,993-th;
+       <li> using the default ordering, decreasing n, it is 144993-th;
        </li>
        <li> sorting first in increasing d, then increasing n, it is
-       43,119-th:
+       43119-th:
        \verbatim
 > cat Data | sort -r -s | sort -k 4,4 -n -s | grep -n " 86151"
 43119:144993 86151 844 17
        \endverbatim
        </li>
        <li> sorting first in increasing d, then in decreasing n, it is
-       48,291-th:
+       48291-th:
        \verbatim
 # Sorting by the 4-th column (d) in numerical order using a stable sort
 # Hence, by using a stable sort, we leave it sorted "second" by decreasing n.
