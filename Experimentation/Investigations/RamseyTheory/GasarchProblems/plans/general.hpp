@@ -238,6 +238,13 @@ c file_name                             Gasarch_4-16-17.cnf
 
   \todo Investigating the 17 x 17 case
   <ul>
+   <li> This was shown to be 4-colorable in "Most Complex Four-Colored
+   Rectangle-free Grids - Solution of an Open Multiple-Valued Problem" at
+   ISMVL 2012 by Christian Posthoff and Bernd Steinbach (to appear). </li>
+   <li> A 4-coloring is available at
+   http://www.cs.umd.edu/~gasarch/BLOGPAPERS/17.txt with discussion at
+   http://blog.computationalcomplexity.org/2012/02/17x17-problem-solved-also-18x18.html.
+   </li>
    <li> Problem generation by output_gasarch_stdname(4,17,17). </li>
    <li> cutoff=10^7:
    \verbatim
@@ -330,6 +337,17 @@ c file_name                             Gasarch_4-17-17.cnf_m2pp_22254
    </li>
    <li> minisat2 also looks hopeless, and aborted after 25 restarts (average
    length of clauses learned around 140). </li>
+  </ul>
+
+
+  \todo Investigating the 18 x 18 case
+  <ul>
+   <li> This was shown to be 4-colorable in "Most Complex Four-Colored
+   Rectangle-free Grids - Solution of an Open Multiple-Valued Problem" at
+   ISMVL 2012 by Christian Posthoff and Bernd Steinbach (to appear). </li>
+   <li> Discussion of this and the coloring for 17x17 is at
+   http://blog.computationalcomplexity.org/2012/02/17x17-problem-solved-also-18x18.html.
+   </li>
   </ul>
 
 
