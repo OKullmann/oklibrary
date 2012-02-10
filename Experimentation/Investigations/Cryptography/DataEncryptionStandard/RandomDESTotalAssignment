@@ -18,7 +18,7 @@ set -o errexit
 set -o nounset
 
 script_name="RandomDESTotalAssignment"
-version_number="0.0.6"
+version_number="0.0.7"
 
 if [[ $# != 3 ]]; then
   echo -e "ERROR[${script_name}]: Exactly three parameters are needed, the name\n"
@@ -33,12 +33,14 @@ r=$3
 
 oklib --maxima --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/GeneralisedConstraintTranslation.mac\\\"); output_des_random_pkctriple_pa_std(${seed},${r});\"" > /dev/null
 
+applypass="ApplyPass-O3-DNDEBUG"
+
 # Take partial assignment over the plaintext,key and ciphertext variables, and use OKsolver_2002-O3-DNDEBUG
 # to extend the assignment to all of the variables of the instance.
 pa_file=des_pkctriple_r${r}_s${seed}.pa
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 temp_file=temp_$(basename ${instance})_${timestamp}
-cat ${instance} | ApplyPass ${pa_file} ${temp_file}
+cat ${instance} | ${applypass} ${pa_file} ${temp_file}
 solver="OKsolver_2002-O3-DNDEBUG -O"
 (cat ${pa_file} | sed 's/ 0 *\( \|$\)//g';
     ${solver} ${temp_file} | grep "^v" | sed 's/v //g')
