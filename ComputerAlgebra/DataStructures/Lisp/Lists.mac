@@ -331,8 +331,9 @@ stable_unique(L) := block([S:{}, res:[]],
    L_1[1],...,L_n[1],...,L_1[k],...,L_n[k].
 */
 interleave_l([L]) := block([l : length(L)],
-  if l = 0 then []
+  if l=0 then []
   elseif l=1 then first(L)
+  elseif l=2 then join(first(L),second(L))
   elseif member([], L) then []
   else append(map(first,L), apply(interleave_l, map(rest,L))))$
 
