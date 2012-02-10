@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.9.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -243,7 +243,7 @@ c file_name                             Gasarch_4-16-17.cnf
    ISMVL 2012 by Christian Posthoff and Bernd Steinbach (to appear). </li>
    <li> A 4-coloring is available at
    http://www.cs.umd.edu/~gasarch/BLOGPAPERS/17.txt with discussion at
-   http://blog.computationalcomplexity.org/2012/02/17x17-problem-solved-also-18x18.html.
+   http://blog.computationalcomplexity.org/2012/02/17x17-problem-solved-also-18x18.html .
    </li>
    <li> Problem generation by output_gasarch_stdname(4,17,17). </li>
    <li> cutoff=10^7:
@@ -346,7 +346,7 @@ c file_name                             Gasarch_4-17-17.cnf_m2pp_22254
    Rectangle-free Grids - Solution of an Open Multiple-Valued Problem" at
    ISMVL 2012 by Christian Posthoff and Bernd Steinbach (to appear). </li>
    <li> Discussion of this and the coloring for 17x17 is at
-   http://blog.computationalcomplexity.org/2012/02/17x17-problem-solved-also-18x18.html.
+   http://blog.computationalcomplexity.org/2012/02/17x17-problem-solved-also-18x18.html .
    </li>
   </ul>
 
