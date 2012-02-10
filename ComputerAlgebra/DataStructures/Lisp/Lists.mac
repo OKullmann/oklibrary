@@ -330,10 +330,11 @@ stable_unique(L) := block([S:{}, res:[]],
    That is, given n lists L_1, ..., L_n, each of size k, return the list
    L_1[1],...,L_n[1],...,L_1[k],...,L_n[k].
 */
-interleave_l([L]) :=
-   if L = [] then []
-   else if member([], L) then []
-   else append(map(first,L), apply(interleave_l, map(rest,L)))$
+interleave_l([L]) := block([l : length(L)],
+  if l = 0 then []
+  elseif l=1 then first(L)
+  elseif member([], L) then []
+  else append(map(first,L), apply(interleave_l, map(rest,L))))$
 
 
 /* *************************
