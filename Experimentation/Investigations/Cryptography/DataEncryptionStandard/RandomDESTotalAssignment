@@ -18,6 +18,7 @@ set -o errexit
 set -o nounset
 
 script_name="RandomDESTotalAssignment"
+version_number="0.0.6"
 
 if [[ $# != 3 ]]; then
   echo -e "ERROR[${script_name}]: Exactly three parameters are needed, the name\n"
