@@ -830,7 +830,6 @@ R-squared: 0.9875
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
   828.0   876.0   927.0   924.2   969.0  1634.0
 > table(E$n)
-
  828  829  830  831  832  833  834  835  836  837  838  839  840  841  842  843
 1187 1273 1097 1302 1872  934  780 1349 1704  841 1050 1177 1230  497  959  883
  844  845  846  847  848  849  850  851  852  853  854  855  856  857  858  859
@@ -979,6 +978,70 @@ R-squared: 0.9956
      much time the sub-instance corresponding to the known (total) solution
      takes (and whether we can have a better prediction for the position of
      this sub-instance). </li>
+    </ul>
+   </li>
+   <li> Using 1-bases:
+    <ul>
+     <li> Basic statistics:
+     \verbatim
+> cat des_6t4_1base_r5_s1.cnf | UnitClausePropagation-O3-DNDEBUG > des_6t4_1base_r5_s1_ucp.cnf
+> cat des_6t4_1base_r5_s1_ucp.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG nz
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    688    6472    552    688    6472    31893     NA     NA    6472    31893   694
+ length   count
+      2     448
+      3     704
+      5    3040
+      6    2275
+      7       5
+     \endverbatim
+     </li>
+     <li> Splitting the problem for seed=1, with D=70,80,90:
+     \verbatim
+> SplittingViaOKsolver -D50 des_6t4_1base_r5_s1.cnf
+> cat Md5sum
+f75fa9f264824ff74a5e72589b019246
+> cat Result
+c initial_maximal_clause_length         7
+c initial_number_of_variables           680
+c initial_number_of_clauses             7048
+c initial_number_of_literal_occurrences 33813
+c number_of_initial_unit-eliminations   128
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           128
+c reddiff_number_of_clauses             576
+c reddiff_number_of_literal_occurrences 1920
+c number_of_2-clauses_after_reduction   448
+c running_time(sec)                     16.9
+c number_of_nodes                       8191
+c number_of_2-reductions                492
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        14
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c splitting_cases                       4096
+> cat Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  179.0   180.0   180.0   180.4   181.2   183.0 
+> table(E$n)
+ 179  180  181  182  183 
+ 896 2128   48  512  512 
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  10.00   12.00   12.00   12.28   13.00   14.00 
+> table(E$d)
+  10   11   12   13   14 
+  60  760 1548 1424  304 
+     \endverbatim
+     With this data one sees clearly that the des-instances are not right:
+     SplittingViaOKsolver does not take the initial ucp into account (which
+     is appropriate), while the statistics have to take them into account!
+     So for the above n-values one has to substract 128. </li>
     </ul>
    </li>
   </ul>
