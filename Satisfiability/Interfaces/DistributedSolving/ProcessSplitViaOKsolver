@@ -44,13 +44,23 @@
 # Currently usage of minisat-2.2.0 is hardcoded.
 # Evaluation of the file SubinstanceStatistics (in R) via
 # read_processsplit_minisat.
+# To run the solver with additional parameters, for example a time-limit,
+# use e.g. (here a time-limit of 20s is set)
+#   solver="minisat-2.2.0 -cpu-lim=20" ProcessSplitViaOKsolver XXX [YYY]
+# These environment variables need also to be set for continuation.
+# Expected return-values of the solver are 0 (return without a result),
+# 10 (sat) and 20 (unsat).
+
+# After abortion via SIGINT, for further continuation potentially files
+# SubinstanceStatistics and current_subinstance should be manipulated,
+# typically undoing the result of the last subinstance.
 
 
 set -o errexit
 set -o nounset
 
 script_name="ProcessSplitViaOKsolver"
-version_number=0.1.2
+version_number=0.1.3
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -116,7 +126,9 @@ tail -n +$((start+1)) ${directory1}/Data | while read count F npa ndec; do
   estatus=$?
   trap '' INT
   set -e
-  if [[ $estatus != 10 && $estatus != 20 ]]; then
+  if  [[ $estatus == 0 ]]; then
+    echo -n "I "
+  elif [[ $estatus != 10 && $estatus != 20 ]]; then
     echo -n "ERROR: " >> ${directory2}/Log
     date >> ${directory2}/Log
     echo "Count=${count}" >> ${directory2}/Log
