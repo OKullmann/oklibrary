@@ -40,7 +40,7 @@ enumerate_rectangle(p,q) := block([m : min(p,q), R],
  R)$
 
 /* The ordered hypergraph with vertex set the fields of a p x q rectangle,
-   ordered according to enumerate_rectangle(p,q), and with hyperedges all 
+   ordered according to enumerate_rectangle(p,q), and with hyperedges all
    subsets with (exactly) 4 vertices which are the corners of some rectangle:
 */
 gasarch_ohg(p,q) := [
@@ -51,11 +51,11 @@ gasarch_hg(p,q) := ohg2hg(gasarch_ohg(p,q))$
 /* Computing standardisation functions, which standardise the variables
    sqv(i,j) from a p x q rectangle according to the order enumerate_rectangle:
 */
-standardise_gasarch(p,q) := 
+standardise_gasarch(p,q) :=
   buildq([q], lambda([t], ev(t, sqv(i,j):= unknown, sqv)))$
 /* Computing the inversion function (which just applies to natural
    numbers, not to terms as the standardisation-function): */
-invstandardise_gasarch(p,q) := 
+invstandardise_gasarch(p,q) :=
   buildq([q], lambda([i], unknown))$
 
 /* The hypergraph isomorphic to gasarch_ohg(p,q), standardised according
