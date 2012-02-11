@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 26.10.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -39,7 +39,7 @@ enumerate_rectangle(p,q) := block([m : min(p,q), R],
  R : append(R, lappend(create_list(create_list([j,i], j,1,m), i,m+1,q))),
  R)$
 
-/* The ordered hypergraph with vertex set the fields of a p x q rectange,
+/* The ordered hypergraph with vertex set the fields of a p x q rectangle,
    ordered according to enumerate_rectangle(p,q), and with hyperedges all 
    subsets with (exactly) 4 vertices which are the corners of some rectangle:
 */
