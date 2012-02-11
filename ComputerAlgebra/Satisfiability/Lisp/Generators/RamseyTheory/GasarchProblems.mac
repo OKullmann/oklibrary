@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 26.10.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,7 +26,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Gasarch.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 
-gasarch_nbfclud(r,p,q) := 
+gasarch_nbfclud(r,p,q) :=
  col2sat_ohg2nbfclud(gasarch_ohg(p,q), create_list(i,i,1,r))$
 
 gasarch_aloamo_fcl(r,p,q) :=
@@ -38,7 +38,7 @@ gasarch_aloamo_stdfcl(r,p,q) := 0 $
 output_gasarch(r,p,q,filename) := block(
  [FF : standardise_fcl(gasarch_aloamo_fcl(r,p,q))],
   output_fcs_v(
-    sconcat("The Gasarch problem with ", r, " colours, ", p, "rows and ", q, " columns."), 
+    sconcat("The Gasarch problem with ", r, " colours, ", p, " rows and ", q, " columns."),
     FF[1],
     filename,
     FF[2]))$
