@@ -1,0 +1,78 @@
+/* Oliver Kullmann, 11.2.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/Gasarch.mac
+  \brief Tests for Gasarch hypergraph generators
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/Gasarch.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Gasarch.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Statistics.mac")$
+
+
+/* *****************************************************
+   * Hypergraphs of sub-square-vertices in a rectangle *
+   *****************************************************
+*/
+
+okltest_gasarch_hg(f) := (
+  for p : 0 thru 4 do
+    assert(f(p,0) = [{},{}]),
+  for q : 0 thru 4 do
+    assert(f(0,q) = [{},{}]),
+  for p : 1 thru 4 do
+    assert(f(p,1) = [setify(create_list(sqv(i,1),i,1,p)), {}]),
+  for q : 1 thru 4 do
+    assert(f(1,q) = [setify(create_list(sqv(1,j),j,1,q)), {}]),
+  assert(f(2,2) = [map(sqv_pair,cartesian_product({1,2},{1,2})), {map(sqv_pair,cartesian_product({1,2},{1,2}))}]),
+  /* XXX */
+  true)$
+
+
+/* **************
+   * Statistics *
+   **************
+*/
+
+okltest_nver_gasarch_ohg(f) := (
+  for p : 0 thru 5 do
+    for q : 0 thru 5 do
+      assert(f(p,q) = nver_hg(gasarch_hg(p,q))),
+  true)$
+
+okltest_nver_gasarch_hg(f) := (
+  for p : 0 thru 5 do
+    for q : 0 thru 5 do
+      assert(f(p,q) = nver_ohg(gasarch_ohg(p,q))),
+  true)$
+
+okltest_nhyp_gasarch_ohg(f) := (
+  for p : 0 thru 5 do
+    for q : 0 thru 5 do
+      assert(f(p,q) = nhyp_ohg(gasarch_ohg(p,q))),
+  true)$
+
+okltest_nhyp_gasarch_hg(f) := (
+  for p : 0 thru 5 do
+    for q : 0 thru 5 do
+      assert(f(p,q) = nhyp_hg(gasarch_hg(p,q))),
+  true)$
+
+
+/*!
+\endhtmlonly
+*/

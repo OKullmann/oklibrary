@@ -23,15 +23,24 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 
+
+/* *****************************************************
+   * Hypergraphs of sub-square-vertices in a rectangle *
+   *****************************************************
+*/
+
 /* Variables sqv(i,j) for field (i,j): */
 kill(sqv)$
 declare(sqv,noun)$
 sqv_var(i,j) := nounify(sqv)(i,j)$
 sqv_pair(P) := nounify(sqv)(first(P),second(P))$
 
-/* Enumerating the fields of a p x q rectangle in layers, where each layer
-   is a full vertical line from top to bottom followed by a horizontal line
-   from right to left:
+/* Enumerating the fields of a p x q rectangle in layers, starting left-top,
+   using matrix-indices, where each layer k is a vertical line from top to
+   bottom followed by a horizontal line from right to left (the first layer
+   has height and width 1, length 1, the second height and width 2, length 3,
+   the third height and width 3, length 5, and so on (assuming p=q here);
+   the fields [i,j] on layer k are characterised by max(i,j) = k):
 */
 enumerate_rectangle(p,q) := block([m : min(p,q), R],
  R : lappend(create_list(append(create_list([j,i], j,1,i), create_list([i,i-j], j,1,i-1)), i,1,m)),
@@ -41,7 +50,8 @@ enumerate_rectangle(p,q) := block([m : min(p,q), R],
 
 /* The ordered hypergraph with vertex set the fields of a p x q rectangle,
    ordered according to enumerate_rectangle(p,q), and with hyperedges all
-   subsets with (exactly) 4 vertices which are the corners of some rectangle:
+   subsets with (exactly) 4 vertices which are the corners of some rectangle;
+   p, q are natural numbers >= 0:
 */
 gasarch_ohg(p,q) := [
  map(sqv_pair,enumerate_rectangle(p,q)),
@@ -49,7 +59,8 @@ gasarch_ohg(p,q) := [
 gasarch_hg(p,q) := ohg2hg(gasarch_ohg(p,q))$
 
 /* Computing standardisation functions, which standardise the variables
-   sqv(i,j) from a p x q rectangle according to the order enumerate_rectangle:
+   sqv(i,j) from a p x q rectangle according to the order given by
+   enumerate_rectangle:
 */
 standardise_gasarch(p,q) :=
   buildq([q], lambda([t], ev(t, sqv(i,j):= unknown, sqv)))$
@@ -65,6 +76,18 @@ gasarch_stdohg(p,q) := block([s : standardise_gasarch(p,q)],
  s(gasarch_ohg(p,q)))$
 gasarch_stdhg(p,q) := ohg2hg(gasarch_stdohg(p,q))$
 
+
+/* **************
+   * Statistics *
+   **************
+*/
+
+nver_gasarch_ohg(p,q) := p*q$
+nver_gasarch_hg(p,q) := nver_gasarch_ohg(p,q)$
+
+nhyp_gasarch_ohg(p,q) := if p<=1 or q <=1 then 0
+ else (binomial(p*q,2) - p*binomial(q,2) - q*binomial(p,2))/2$
+nhyp_gasarch_hg(p,q) := nhyp_gasarch_ohg(p,q)$
 
 /*!
 \endhtmlonly
