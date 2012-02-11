@@ -337,6 +337,91 @@ c file_name                             Gasarch_4-17-17.cnf_m2pp_22254
    </li>
    <li> minisat2 also looks hopeless, and aborted after 25 restarts (average
    length of clauses learned around 140). </li>
+   <li> SplittingViaOKsolver:
+    <ol>
+     <li> D=20:
+     \verbatim
+> SplittingViaOKsolver -D20 Gasarch_4-17-17.cnf
+> cat Md5sum
+43170ff1da700a279752e92676e850c4
+> cat Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  20.00   20.00   20.00   20.04   20.00   21.00
+> table(E$n)
+ 20  21
+988  36
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   5.00   10.00   11.00   11.25   13.00   15.00
+> table(E$d)
+  5   6   7   8   9  10  11  12  13  14  15
+  1   5  20  50 105 161 210 200 160  80  32
+> cat Result
+c initial_maximal_clause_length         4
+c initial_number_of_variables           1156
+c initial_number_of_clauses             76007
+c initial_number_of_literal_occurrences 300560
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1734
+c running_time(sec)                     230.5
+c number_of_nodes                       2047
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                0
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        15
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 2329087
+c file_name                             Gasarch_4-17-17.cnf
+c splitting_cases                       1024
+
+> SplittingViaOKsolver -D30 Gasarch_4-17-17.cnf
+> cat Md5sum
+94da248dd6e7706144efaa752bb6e684
+> cat Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  30.00   30.00   32.00   31.37   32.00   34.00
+> table(E$n)
+   30    32    33    34
+16120 29376  2144    48
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   8.00   16.00   17.00   17.39   19.00   23.00
+> table(E$d)
+   8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23
+   1    9   50  192  574 1406 2803 4671 6602 7906 7960 6842 4760 2632 1024  256
+> cat Result
+c running_time(sec)                     10632.3
+c number_of_nodes                       95375
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                0
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        23
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 107432983
+c splitting_cases                       47688
+
+solver="minisat-2.2.0 -cpu-lim=20" ProcessSplitViaOKsolver SplitViaOKsolver_D30Gasarch_41717cnf_2012-02-10-212452
+XXX csltok
+     \endverbatim
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -375,7 +460,7 @@ fGh(4)$
 4 [16,36,144,4,4] [16,1240,10320,9,7] [[7,96],[8,648],[9,496]]
    \endverbatim
    </li>
-   <li> Now just the sizes and the numbers of minimum hyperedges; first at 
+   <li> Now just the sizes and the numbers of minimum hyperedges; first at
    Maxima/Lisp level, then at C++ level. The generator here needs to be
    written so that only one vertex is added at a time.
    \verbatim
@@ -462,11 +547,10 @@ Gh_64 : minimum_transversals_mongen(64,gasarch_sqatomic_stdhg,[{}])$
 24 12 4056
     25 13 7800
 26 13 20
-
    \endverbatim
-   so d in [1,2,3,4,5,6] -> tau(d) = 0, 1, 3, 7, 13, 20 yielding densities 
-   0, 0.25, 0.33, 0.4375, 0.52, 0.5{period}, where the numbers of minimum 
-   transversals are 1, 4, 6, 96, 7800, 64800, with 4=2^2, 6=2 * 3, 96=2^5 * 3, 
+   so d in [1,2,3,4,5,6] -> tau(d) = 0, 1, 3, 7, 13, 20 yielding densities
+   0, 0.25, 0.33, 0.4375, 0.52, 0.5{period}, where the numbers of minimum
+   transversals are 1, 4, 6, 96, 7800, 64800, with 4=2^2, 6=2 * 3, 96=2^5 * 3,
    7800=2^3 * 3 * 5^2 * 13, 64800=2^6 * 3^4 * 5^3.
    </li>
   </ul>
