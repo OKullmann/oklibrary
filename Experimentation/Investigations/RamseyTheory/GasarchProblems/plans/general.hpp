@@ -242,11 +242,45 @@ c file_name                             Gasarch_4-16-17.cnf
    Rectangle-free Grids - Solution of an Open Multiple-Valued Problem" at
    ISMVL 2012 by Christian Posthoff and Bernd Steinbach (to appear). </li>
    <li> A 4-coloring is available at
-   http://www.cs.umd.edu/~gasarch/BLOGPAPERS/17.txt with discussion at
+   http://www.cs.umd.edu/~gasarch/BLOGPAPERS/17.txt
+   \verbatim
+S17 : [
+[2,2,1,3,3,4,2,1,4,1,3,2,2,3,4,4,3],
+[2,4,2,1,1,2,3,3,4,4,3,4,1,1,3,2,2],
+[3,1,3,4,4,4,1,1,1,4,3,2,4,1,2,3,2],
+[4,1,2,3,1,3,2,3,4,1,2,1,4,4,1,3,4],
+[3,1,1,1,2,3,2,4,2,3,4,4,4,3,2,2,1],
+[1,3,3,2,4,3,1,4,4,1,2,2,1,2,3,2,3],
+[3,1,4,2,4,2,2,3,3,2,1,4,1,4,4,1,3],
+[4,3,1,2,1,1,1,3,2,4,4,3,2,3,4,1,2],
+[4,4,3,3,4,2,4,2,3,1,2,3,2,1,2,1,1],
+[1,2,2,2,1,3,4,4,1,4,3,3,3,4,2,4,1],
+[4,2,3,4,3,2,1,3,2,3,1,4,3,2,1,4,1],
+[4,2,4,1,2,4,1,4,3,2,2,1,3,3,3,3,2],
+[1,3,2,1,2,4,4,1,3,3,3,4,2,2,1,1,4],
+[1,4,1,4,3,3,3,4,3,2,1,1,2,1,4,2,4],
+[2,4,1,2,2,4,3,2,1,3,4,3,1,4,1,3,3],
+[3,3,2,3,4,1,3,2,2,2,4,2,3,1,1,4,4],
+[2,3,4,4,3,1,4,1,4,2,4,1,1,2,2,3,1]
+];
+   \endverbatim
+   with discussion at
    http://blog.computationalcomplexity.org/2012/02/17x17-problem-solved-also-18x18.html .
    </li>
-   <li> Problem generation by output_gasarch_stdname(4,17,17). </li>
-   <li> cutoff=10^7:
+   <li> Corresponding partial assignment:
+   \verbatim
+phi17 : setify(standardise_gasarch(17,17)(create_list(4*(sqv(i,j)-1)+S17[i][j], i,1,17, j,1,17)));
+output_pa(phi17,"Solution_Gasarch_17x17.pa");
+
+# Checking the created CNF:
+> cat Gasarch_4-17-17.cnf | ApplyPass-O3-DNDEBUG Solution_Gasarch_17x17.pa | UnitClausePropagation-O3-DNDEBUG
+c UCP determines satisfiability after processing 867 assignments.
+p cnf 0 0
+   \endverbatim
+   </li>
+   <li> Problem generation by output_gasarch_stdname(4,17,17) (as
+   "Gasarch_4-17-17.cnf"). </li>
+   <li> adaptnovelty+ with cutoff=10^7:
    \verbatim
 > ubcsat-okl -alg adaptnovelty+ -cutoff 10000000 -runs 100 -i Gasarch_4-17-17.cnf -solve
 Clauses = 76007
