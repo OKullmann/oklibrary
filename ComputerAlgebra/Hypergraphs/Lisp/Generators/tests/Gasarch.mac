@@ -42,6 +42,17 @@ okltest_gasarch_hg(f) := (
   /* XXX */
   true)$
 
+okltest_standardise_gasarch(f) := block([s,b],
+  s : f(1,1),
+  assert(s(sqv(1,1)) = 1),
+  b : if oklib_test_level=0 then 4 else 8,
+  for p : 0 thru b do
+    for q : 0 thru b do (
+      s : f(p,q),
+      assert(s(gasarch_ohg(p,q)[1]) = create_list(i,i,1,p*q))
+  ),
+  true)$
+
 
 /* **************
    * Statistics *

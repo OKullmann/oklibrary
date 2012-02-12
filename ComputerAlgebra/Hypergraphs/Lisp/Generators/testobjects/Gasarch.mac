@@ -28,6 +28,8 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/Gasarch.m
 
 okltest_gasarch_hg(gasarch_hg);
 
+okltest_standardise_gasarch(standardise_gasarch);
+
 /* **************
    * Statistics *
    **************
