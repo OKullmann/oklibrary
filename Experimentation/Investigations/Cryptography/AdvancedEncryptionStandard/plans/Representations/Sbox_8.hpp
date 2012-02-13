@@ -542,6 +542,37 @@ statistics_cs(rijnsbox2hittingcnf_fcs(dll_heuristics_max_lit_tb(4,4)));
 [16, 1438, 18536, 16, 6]
    \endverbatim
    Would be interesting to understand this. See below. </li>
+   <li> Comparing to the ID3 algorithm, as described in
+   http://www.cs.princeton.edu/courses/archive/spr07/cos424/papers/mitchell-dectrees.pdf:
+   \verbatim
+id3_entropy_fcs_full(FF) := block([p_0, p_1],
+  p_0 : length(FF[2])/(2^length(FF[1])),
+  p_1 : 1 - p_0,
+  if p_0 = 0 or p_1 = 0 then return(0)
+  else return(- (p_0 * log(p_0) + p_1 * log(p_1)) / log(2)))$
+
+id3_gain_fcs_full(FF,v) := block([FF_v0, FF_v1, total_space],
+  FF_v0 : apply_pa_fcs({-v}, FF),
+  FF_v1 : apply_pa_fcs({v}, FF),
+  total_space : 2^length(FF[1]),
+  id3_entropy_full(FF) -
+  ((length(FF_v0[2])/total_space) * id3_entropy_full(FF_v0) +
+  (length(FF_v1[2])/total_space) * id3_entropy_full(FF_v1)))$
+
+
+id3_heuristic_fcs_full(FF) := block([max_v, max_gain : minf],
+  for v in FF[1] do block([cur_gain],
+  cur_gain : id3_gain_full(FF,v),
+  if cur_gain > max_gain then (max_v : v, max_gain : cur_gain)),
+  return(max_v))$
+
+F : rijnsbox2hittingcnf_fcs(id3_heuristic_full)$
+
+statistics_cs(F);
+ [16,2048,25600,16,9]
+   \endverbatim
+   We should move this into a separate investigation into the ID3 algorithm.
+   </li>
    <li> DONE (explained below: there are no forced assignments, so no
    false-condensation can take place, while true-condensations can't happen
    with clause-sets) Also interesting that all the hitting trees
