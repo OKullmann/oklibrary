@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.8.2009 (Swansea)
-/* Copyright 2009, 2011 Oliver Kullmann
+/* Copyright 2009, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,46 @@ License, or any later version. */
 /*!
   \file ExperimentSystem/SolverMonitoring/plans/general.hpp
   \brief General plans regarding monitoring solvers
+
+
+  \todo Testing solver extraction scripts
+  <ul>
+   <li> We need tests to ensure that the extraction scripts collect the
+   statistics correctly. </li>
+   <li> Testing solvers behave as we expect:
+    <ul>
+     <li> Solvers change from version to version, and depending on this update,
+     there are three possible scenarios:
+      <ul>
+       <li> The solver has changed very little, and works and outputs basically
+       the same thing, and so the extraction scripts and aspects of the library
+       don't need to change. </li>
+       <li> The solver has changed its output format slightly, or some minor
+       aspect of its inner workings, and so we wish to update extraction
+       scripts to reflect this. </li>
+       <li> The solver is very different, and should be considered a different
+       solver entirely, with new extraction scripts. </li>
+      </ul>
+     </li>
+     <li> We should provide a method of testing that a solver outputs exactly
+     the format that we expect:
+      <ul>
+       <li> What data is output? </li>
+       <li> Is this data as we expect, given our knowledge of the current
+       behaviour of the solver? </li>
+       <li> Is the data still output in the same format? </li>
+      </ul>
+     </li>
+     <li> Such a test allows us to then detect small changes in a solver
+     which might break extraction scripts and other tools, but are small
+     enough to go unnoticed; perhaps an attribute we rarely look at changes. </li>
+     <li> This test would also make it easier to write extraction tools for
+     new versions of solvers with large differences, as it acts as a form
+     of documentation of the features and output format we expect of the
+     previous version. </li>
+    </ul>
+   </li>
+  </ul>
 
 
   \todo Running experiments
@@ -112,6 +152,8 @@ License, or any later version. */
     <li> ExtractMarchpl : DONE </li>
    </ul>
    </li>
+   <li> We should provide tests for all of these scripts, as discussed
+   in "Testing solver extraction scripts" above. </li>
    <li> DONE (see ExtractMinisat for the role model)
    This is without parameters; with parameter "header" (as string) it
    just prints the header (which is also at the top of the R-output).
@@ -164,6 +206,8 @@ License, or any later version. */
      ExperimentSystem/SolverMonitoring/plans/Picosat.hpp). </li>
      <li> ExtractOKsolver (see
      ExperimentSystem/SolverMonitoring/plans/OKsolver.hpp). </li>
+     <li> ExtractGlucose (see
+     ExperimentSystem/SolverMonitoring/plans/Glucose.hpp). </li>
      <li> ExtractSatz </li>
      <li> ExtractMarchpl </li>
      <li> To be completed </li>

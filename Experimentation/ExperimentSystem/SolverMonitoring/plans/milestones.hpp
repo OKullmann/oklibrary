@@ -1,5 +1,5 @@
 // Matthew Gwynne, 1.8.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,11 +19,17 @@ License, or any later version. */
     - Running experiments
     - Better summary statistics
     - Extraction tools
+    - Testing solver extraction scripts
 
   \par
    In ExperimentSystem/SolverMonitoring/plans/Minisat2.hpp the following
    topics are handled:
     - Move read_minisat2_output functionality to wrapper script
+
+  \par
+   In ExperimentSystem/SolverMonitoring/plans/Minisat2.hpp the following
+   topics are handled:
+    - Extracted data attribute names
 
   \par
    In ExperimentSystem/SolverMonitoring/plans/OKsolver.hpp the following
