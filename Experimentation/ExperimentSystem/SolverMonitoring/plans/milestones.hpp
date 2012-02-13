@@ -27,6 +27,11 @@ License, or any later version. */
     - Move read_minisat2_output functionality to wrapper script
 
   \par
+   In ExperimentSystem/SolverMonitoring/plans/Minisat2.hpp the following
+   topics are handled:
+    - Extracted data attribute names
+
+  \par
    In ExperimentSystem/SolverMonitoring/plans/OKsolver.hpp the following
    topics are handled:
     - Write extraction tool
