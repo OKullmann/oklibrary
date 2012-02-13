@@ -407,12 +407,12 @@ read_fcl_f(n) := block([fh, line, ll,p_n, p_found : false],
      .i n
      .o m
 
-   followed by lines each containing two words: strings of 1s and 0s
-   of length n and m respectively, where each such line indicates that
-   f(I) = O where I and O are the boolean vectors corresponding to the first
-   and second word of that line.
-
-??? This explanations only make sense if "the DNF" is the canonical DNF ???
+   followed by lines each containing two words I_S and O_S: strings of 1s, 0s,
+   and "-" characters of length n and m respectively. Each such line
+   indicates that f(I) = O for all I in I* and O in O*. I* and O* are
+   the sets of all boolean vectors matching I_S and O_S on the 1 and 0
+   characters, but where all "-" characters have been replaced
+   (independently) by 0 or 1.
 
    For more information on the PLA format, see
    "Improve documentation for Espresso" in
@@ -420,11 +420,12 @@ read_fcl_f(n) := block([fh, line, ll,p_n, p_found : false],
 */
 
 
-/* Outputting the input clause-set to PLA format.
-   F is considered to be a DNF, and the i-th input
-   variable in the output PLA corresponds to the
-   i-th variable in the variable-list for F:
-??? This makes no sense ???
+/* Outputting a formal clause-list F to PLA format.
+
+   F is considered to be a DNF. The i-th clause in F corresponds to the i-th
+   non-header line in the PLA. The i-th variable in F corresponds to the
+   i-th input variable in the PLA, and the output variable of the PLA
+   corresponds to the output of F w.r.t the corresponding DNF clause.
  */
 print_fcl2pla(comment, F) := block([F_std, vector],
   if comment # "" then print_nlb(sconcat("# ",comment)),
