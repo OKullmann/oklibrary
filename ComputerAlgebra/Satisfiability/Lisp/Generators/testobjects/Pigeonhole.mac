@@ -41,6 +41,8 @@ okltest_var_ephp2php_sm(var_ephp2php_sm);
 okltest_php_induction_step_cl(php_induction_step_cl);
 okltest_php_induction_cl(php_induction_cl);
 okltest_weak_php_unsat_ext_fcs(weak_php_unsat_ext_fcs);
+okltest_weak_php_unsat_ext_uni_fcs(weak_php_unsat_ext_uni_fcs);
+okltest_weak_php_unsat_ext_stdfcs(weak_php_unsat_ext_stdfcs);
 okltest_nvar_weak_php_unsat_ext(nvar_weak_php_unsat_ext);
 okltest_ncl_weak_php_unsat_ext(ncl_weak_php_unsat_ext);
 
