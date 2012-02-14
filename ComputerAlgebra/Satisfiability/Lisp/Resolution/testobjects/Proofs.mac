@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 23.9.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,7 +28,43 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Proofs
 */
 
 okltest_resl_p(resl_p);
+okltest_resl_ref_p(resl_ref_p);
 okltest_reslrt_p(reslrt_p);
+
+/* ************************************
+   * Extraction                       *
+   ************************************
+*/
+
+
+okltest_axioms_resl2cl(axioms_resl2cl);
+okltest_resolvents_resl2cl(resolvents_resl2cl);
+
+
+/* ************************************
+   * Other properties                 *
+   ************************************
+*/
+
+okltest_irredundant_ref_resl(irredundant_ref_resl);
+
+/* ************************************
+   * Modifying proofs                 *
+   ************************************
+*/
+
+okltest_rename_resl(rename_resl);
+
+
+/* ************************************
+   * Generators                       *
+   ************************************
+*/
+
+okltest_php_ext_uni_resl(php_ext_uni_resl);
+okltest_ncl_php_ext_uni_resl(ncl_php_ext_uni_resl);
+okltest_php_ext_resl(php_ext_resl);
+
 
 /*!
 \endhtmlonly
