@@ -1,5 +1,5 @@
 // Matthew Gwynne, 6.1.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -543,7 +543,7 @@ statistics_cs(rijnsbox2hittingcnf_fcs(dll_heuristics_max_lit_tb(4,4)));
    \endverbatim
    Would be interesting to understand this. See below. </li>
    <li> Comparing to the ID3 algorithm, as described in
-   http://www.cs.princeton.edu/courses/archive/spr07/cos424/papers/mitchell-dectrees.pdf:
+   http://www.cs.princeton.edu/courses/archive/spr07/cos424/papers/mitchell-dectrees.pdf :
    \verbatim
 id3_entropy_fcs_full(FF) := block([p_0, p_1],
   p_0 : length(FF[2])/(2^length(FF[1])),
@@ -559,7 +559,6 @@ id3_gain_fcs_full(FF,v) := block([FF_v0, FF_v1, total_space],
   ((length(FF_v0[2])/total_space) * id3_entropy_full(FF_v0) +
   (length(FF_v1[2])/total_space) * id3_entropy_full(FF_v1)))$
 
-
 id3_heuristic_fcs_full(FF) := block([max_v, max_gain : minf],
   for v in FF[1] do block([cur_gain],
   cur_gain : id3_gain_full(FF,v),
@@ -571,7 +570,7 @@ F : rijnsbox2hittingcnf_fcs(id3_heuristic_full)$
 statistics_cs(F);
  [16,2048,25600,16,9]
    \endverbatim
-   We should move this into a separate investigation into the ID3 algorithm.
+   We should move this into a separate investigation about the ID3 algorithm.
    </li>
    <li> DONE (explained below: there are no forced assignments, so no
    false-condensation can take place, while true-condensations can't happen
