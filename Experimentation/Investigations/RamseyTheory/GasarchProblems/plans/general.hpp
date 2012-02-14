@@ -30,6 +30,55 @@ E = run_ubcsat("Gasarch_4-17-17.cnf")
    \endverbatim
    by plot(E$alg,E$best) shows that adaptnovelty+ is clearly strongest
    (default values, that is, cutoff=10^5). </li>
+   <li> More thorough evaluation of satisfiable sub-instance
+   Gasarch_4_17_17_39310.cnf (see below):
+   \verbatim
+> E = run_ubcsat("Gasarch_4_17_17_39310.cnf",runs=100,cutoff=1000000)
+> eval_ubcsat_dataframe(E)
+1. anovpp:
+ 5  6  7  8  9
+ 1  2 28 66  3
+fps: 309665
+2. anovp:
+ 6  7  8  9
+ 6 36 50  8
+fps: 312120
+3. dano:
+ 6  7  8  9 10
+ 3 38 49  9  1
+fps: 313067
+
+> E = run_ubcsat("Gasarch_4_17_17_39310.cnf",runs=100,cutoff=10000000, include_algs=list("anovpp","anovp","dano"))
+> eval_ubcsat_dataframe(E)
+1. dano:
+ 5  6  7  8
+ 1 31 66  2
+fps: 305142
+2. anovpp:
+ 6  7  8
+23 76  1
+fps: 308147
+3. anovp:
+ 6  7  8
+23 76  1
+fps: 307063
+
+> E = run_ubcsat("Gasarch_4_17_17_39310.cnf",runs=100,cutoff=100000000, include_algs=list("anovpp","anovp","dano"))
+1. anovp:
+ 5  6  7
+10 89  1
+fps: 309343
+2. dano:
+ 5  6  7
+ 9 90  1
+fps: 308107
+3. anovpp:
+ 5  6  7
+ 8 86  6
+fps: 310298
+   \endverbatim
+   So between anovp, dano, anovpp there appear not to exist substantial
+   differences. </li>
   </ul>
 
 
@@ -450,12 +499,78 @@ c number_of_table_enlargements          0
 c number_of_1-autarkies                 107432983
 c splitting_cases                       47688
 
-solver="minisat-2.2.0 -cpu-lim=20" ProcessSplitViaOKsolver SplitViaOKsolver_D30Gasarch_41717cnf_2012-02-10-212452
-XXX csltok
+> solver="minisat-2.2.0 -cpu-lim=20" ProcessSplitViaOKsolver SplitViaOKsolver_D30Gasarch_41717cnf_2012-02-10-212452
+# csltok, aborted:
+> E=read_processsplit_minisat()
+4225: 23.238h, sum-cfs=1.753738e+09, mean-t=19.800s, mean-cfs=415086
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  19.59   19.79   19.80   19.80   19.82   19.90
+sd= 0.0249258
+   95%    96%    97%    98%    99%   100%
+19.831 19.833 19.835 19.838 19.847 19.896
+sum= 83656.92
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 189900  397200  417900  415100  432400  501400
+sd= 23391.93
+     95%      96%      97%      98%      99%     100%
+448530.4 450512.0 453157.8 456775.6 465139.9 501414.0
+sum= 1753737822
+$t ~ $cfs:
+               Estimate  Std. Error   t value  Pr(>|t|)
+(Intercept)  1.9822e+01  6.8087e-03 2911.3501 < 2.2e-16 ***
+E$cfs       -5.2934e-08  1.6377e-08   -3.2322  0.001238 **
+R-squared: 0.002468
+> range(E$sat)
+[1] 2 2
+
+> for x in Instances/*; do PassClashes-O3-DNDEBUG Solution_Gasarch_17x17.pa ${x}; if [[ $? != 0 ]]; then echo ${x}; fi; done
+Instances/39310
+> cat Gasarch_4-17-17.cnf | ApplyPass-O3-DNDEBUG Instances/39310 > Gasarch_4_17_17_39310.cnf
+> cat Gasarch_4_17_17_39310.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+   1156   76007   1126   1156   70615   277699     NA     NA   70615   277699  1159
+ length   count
+      2    1719
+      3    1323
+      4   67573
+> ManipParam-O3-DNDEBUG Gasarch_4_17_17_39310.cnf "1156" "70615"
+
+> ubcsat-okl -alg adaptnovelty+ -cutoff 10000000 -runs 100 -i Gasarch_4_17_17_39310.cnf
+Clauses = 70615
+Variables = 1156
+TotalLiterals = 277699
+FlipsPerSecond = 352116
+BestStep_Mean = 3357811.22
+Steps_Mean = 10000000
+Steps_Max = 10000000
+PercentSuccess = 0.00
+BestSolution_Mean = 6.75
+BestSolution_Median = 7
+BestSolution_Min = 6
+BestSolution_Max = 7
+> ubcsat-okl -alg adaptnovelty+ -cutoff 100000000 -runs 100 -i Gasarch_4_17_17_39310.cnf
+Clauses = 70615
+Variables = 1156
+TotalLiterals = 277699
+FlipsPerSecond = 360058
+BestStep_Mean = 29853791.68
+Steps_Mean = 100000000
+Steps_Max = 100000000
+PercentSuccess = 0.00
+BestSolution_Mean = 5.97
+BestSolution_Median = 6
+BestSolution_Min = 5
+BestSolution_Max = 7
      \endverbatim
+     Looks as if SplittingViaOKsolver doesn't make a big difference.
      </li>
     </ol>
    </li>
+   <li> The "direct encoding" seems useless, and the other encodings must be
+   tried out. See "Implement other translations" in
+   Satisfiability/Lisp/Generators/RamseyTheory/plans/GasarchProblems.hpp. </li>
   </ul>
 
 

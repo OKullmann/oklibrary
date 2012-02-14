@@ -1,5 +1,5 @@
 // Matthew Gwynne, 22.8.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2012 Oliver Kullmann
    This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/milestones.hpp
 
-  \module_version Lisp/Generators/RamseyTheory/ 0.0.8 (22.8.2008)
+  \module_version Lisp/Generators/RamseyTheory 0.0.8 (22.8.2008)
 
 
   \par Version 0.0.9
@@ -55,6 +55,12 @@ License, or any later version. */
    In Lisp/Generators/RamseyTheory/plans/VanderWaerdenProblems.hpp
    the following topics are handled:
     - Arithmetic progressions for prime numbers
+
+  \par
+   In /Lisp/Generators/RamseyTheory/plans/GasarchProblems.hpp the following
+   topics are handled:
+    - Completion of basic functionality
+    - Implement other translations
 
 
   \par Version 0.0.11
