@@ -197,11 +197,24 @@ weak_php_unsat_ext_stdfcs(m) :=
   fcl2fcs(standardise_fcl(
       [create_list(php_ext_var(mp,i,j), mp, 1, m, i, 1, mp+1, j, 1, mp),
        listify(weak_php_unsat_ext_uni_fcs(m)[2])])[1])$
+output_weak_php_unsat_ext(m, filename) := block(
+  [FF : weak_php_unsat_ext_stdfcs(m)],
+  output_fcs_v(
+    sconcat("The extended pigeonhole formulas: ", m+1, " pigeons, ", m, " holes."),
+    FF, filename,
+    create_list(php_ext_var(mp,i,j), mp, 1, m, i, 1, mp+1, j, 1, mp)))$
+output_weak_php_unsat_ext_stdname(m) :=
+  output_weak_php_unsat_ext(m, sconcat("EPHP_",m,".cnf"))$
+
+
 nvar_weak_php_unsat_ext(m) := m^3/3+m^2+2*m/3$
 /* This is: (m+1) * m + sum((l+1) * l, l, 1, m-1), simpsum, expand, simp; */
 ncl_weak_php_unsat_ext(m) := 11*m^3/6+m^2/2-m/3+1$
 /* This is: (m+1) + binomial(m+1,2) * m + sum(4*l*(l-1),l,1,m),
             simpsum, expand,simp; */
+
+
+
 
 
 /*!
