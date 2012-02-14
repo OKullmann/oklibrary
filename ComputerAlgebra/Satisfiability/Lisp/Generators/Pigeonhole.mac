@@ -186,13 +186,13 @@ php_induction_cl(m) :=
    [A short proof of the pigeon hole principle using extended resolution";
    Stephen Cook]: */
 weak_php_unsat_ext_fcs(m) := block([F : weak_php_unsat_ext_uni_fcs(m)],
-  [listify(substitute_cl({F[1]},sm2hm(var_ephp2php_sm(m))))[1],
-   substitute_cl(F[2],sm2hm(var_ephp2php_sm(m)))])$
+  [listify(substitute_cs({F[1]},sm2hm(var_ephp2php_sm(m))))[1],
+   substitute_cs(F[2],sm2hm(var_ephp2php_sm(m)))])$
 /* Using now php_ext_var(m+1,i,j) for php_var(i,j) for uniformity: */
 weak_php_unsat_ext_uni_fcs(m) := block([F : weak_php_fcs(m+1,m)],
   [setify(create_list(php_ext_var(mp,i,j), mp, 1, m, i, 1, mp+1, j, 1, mp)),
    union(setify(php_induction_uni_cl(m)),
-     substitute_cl(F[2],sm2hm(var_php2ephp_sm(m))))])$
+     substitute_cs(F[2],sm2hm(var_php2ephp_sm(m))))])$
 weak_php_unsat_ext_stdfcs(m) :=
   fcl2fcs(standardise_fcl(
       [create_list(php_ext_var(mp,i,j), mp, 1, m, i, 1, mp+1, j, 1, mp),
