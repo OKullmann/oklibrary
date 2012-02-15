@@ -1001,6 +1001,20 @@ R-squared: 0.9956
 > SplittingViaOKsolver -D50 des_6t4_1base_r5_s1.cnf
 > cat Md5sum
 f75fa9f264824ff74a5e72589b019246
+> cat Statistics
+> E=read.table("Data")
+> summary(E$n)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  179.0   180.0   180.0   180.4   181.2   183.0
+> table(E$n)
+ 179  180  181  182  183
+ 896 2128   48  512  512
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  10.00   12.00   12.00   12.28   13.00   14.00
+> table(E$d)
+  10   11   12   13   14
+  60  760 1548 1424  304
 > cat Result
 c initial_maximal_clause_length         7
 c initial_number_of_variables           680
@@ -1023,25 +1037,91 @@ c proportion_single                     0.000000e+00
 c total_proportion                      0
 c number_of_table_enlargements          0
 c splitting_cases                       4096
+
+> SplittingViaOKsolver -D90 des_6t4_1base_r5_s1.cnf
+> cat Md5sum
+e200c408e751b64d2d4775b5cd58dd25
 > cat Statistics
 > E=read.table("Data")
 > summary(E$n)
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  179.0   180.0   180.0   180.4   181.2   183.0 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  218.0   220.0   223.0   223.7   226.0   246.0
 > table(E$n)
- 179  180  181  182  183 
- 896 2128   48  512  512 
+  218   219   220   221   222   223   224   225   226   227   228   229   230
+ 9681 11745 17033 10698 12669 21747 14554  6294  5045  7121  6846  2839  1519
+  231   232   233   234   235   236   237   238   239   240   241   242   243
+ 1732  2232  2413  1865  1020   859  1298  1020   216    44   173   147     1
+  244   246
+    6     4
 > summary(E$d)
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  10.00   12.00   12.00   12.28   13.00   14.00 
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  12.00   17.00   18.00   17.78   19.00   23.00
 > table(E$d)
-  10   11   12   13   14 
-  60  760 1548 1424  304 
+   12    13    14    15    16    17    18    19    20    21    22    23
+    2    58  1002  5741 18441 34049 39796 26273 11986  3074   393     6
+> cat Result
+c running_time(sec)                     563.4
+c number_of_nodes                       281641
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                75804
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        23
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c splitting_cases                       140821
      \endverbatim
      With this data one sees clearly that the des-instances are not right:
      SplittingViaOKsolver does not take the initial ucp into account (which
      is appropriate), while the statistics have to take them into account!
      So for the above n-values one has to substract 128. </li>
+     <li> Simple processing:
+     \verbatim
+> ProcessSplitViaOKsolver SplitViaOKsolver_D90des_6t4_1base_r5_s1cnf_2012-01-20-020203
+> E=read_processsplit_minisat()
+49798: 3.166d, sum-cfs=6.438756e+09, mean-t=5.492s, mean-cfs=129297, sat: 0
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.026   0.175   0.262   5.492   1.227 184.500
+sd= 14.40578
+      95%       96%       97%       98%       99%      100%
+ 39.85055  46.09436  48.96923  51.95310  67.64488 184.54300
+sum= 273499.5
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    922    6906   10020  129300   37860 3724000
+sd= 316459.7
+      95%       96%       97%       98%       99%      100%
+ 902391.8 1034263.1 1093248.0 1154811.0 1484272.2 3724230.0
+sum= 6438756348
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -3.8557e-01  3.6566e-03 -105.44 < 2.2e-16 ***
+E$cfs        4.5459e-05  1.0696e-08 4249.94 < 2.2e-16 ***
+R-squared: 0.9973
+     \endverbatim
+     The pattern is a sequence of, say, 10 very easy sub-instances, followed
+     by one rather hard subinstances. </li>
+     <li> Locating the satisfiable sub-instances:
+     \verbatim
+# D=90
+> RandomDESTotalAssignment des_6t4_1base_r5_s1.cnf 1 5 > Solution_1.pa
+> for x in Instances/*; do PassClashes-O3-DNDEBUG Solution_1.pa ${x}; if [[ $? != 0 ]]; then echo ${x}; fi; done
+Instances/102708
+> cat des_6t4_1base_r5_s1.cnf | ApplyPass-O3-DNDEBUG Instances/102708 des_6t4_1base_r5_s1_102708.cnf
+> minisat-2.2.0 des_6t4_1base_r5_s1_102708.cnf
+conflicts             : 4243           (40804 /sec)
+CPU time              : 0.103984 s
+
+> solver="minisat-2.2.0 -cpu-lim=1" ProcessSplitViaOKsolver SplitViaOKsolver_D90des_6t4_1base_r5_s1cnf_2012-01-20-020203
+XXX csltok
+     \endverbatim
+     The solution time is rather quick! The bottleneck is that the satisfiable
+     subinstance is located rather late (102708 from 140821 in OKsolver-order,
+     127716 from 140821 in current SplittingViaOKsolver-order). </li>
     </ul>
    </li>
   </ul>
