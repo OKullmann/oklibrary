@@ -1,5 +1,5 @@
 # Oliver Kullmann, 15.8.2011 (Swansea)
-# Copyright 2011 Oliver Kullmann
+# Copyright 2011, 2012 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -25,6 +25,7 @@ oklib_load("OKlib/Statistics/R/Utilities.R")
 # partial assignments (ProcessSplitViaOKsolver, or ExtractiCNF followed by
 # ProcessiCNF) as well as for the directory obtained when processing only the
 # decisions (ExtractDecisionsiCNF followed by ProcessiCNF).
+
 read_processsplit_minisat = function(dirname, file, ...)  {
   if (missing(file)) {
     if (missing(dirname)) filename = "SubinstanceStatistics"
@@ -38,7 +39,7 @@ read_processsplit_minisat = function(dirname, file, ...)  {
         header = T,
         colClasses = c(rep("integer",lengthfirstline(filename)-8-1),"numeric","integer",rep("numeric",8)),
         ...)
-  cat(sprintf("%d: %s, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f",length(E$t),display_seconds(sum(E$t)),sum(E$cfs),mean(E$t),mean(E$cfs)),"\n")
+  cat(sprintf("%d: %s, sum-cfs=%e, mean-t=%.3fs, mean-cfs=%.0f, sat:",length(E$t),display_seconds(sum(E$t)),sum(E$cfs),mean(E$t),mean(E$cfs)),orderedset(E$sat),"\n")
   cat("$t:\n")
   basic_stats(E$t)
   cat("$cfs:\n")
