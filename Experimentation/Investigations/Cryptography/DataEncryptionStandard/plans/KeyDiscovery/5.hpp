@@ -1119,10 +1119,32 @@ CPU time              : 0.103984 s
 > solver="minisat-2.2.0 -cpu-lim=1" ProcessSplitViaOKsolver SplitViaOKsolver_D90des_6t4_1base_r5_s1cnf_2012-01-20-020203
 XXX csltok
      \endverbatim
-     The solution time is rather quick! The bottleneck is that the satisfiable
+     The solution time is rather quick! The subinstance is actually easy for
+     all our complete solvers; fastest seem precosat-570.1 and minisat-2.2.0.
+     </li>
+     <li> The bottleneck is that the satisfiable
      subinstance is located rather late (102708 from 140821 in OKsolver-order,
      127716 from 140821 in current SplittingViaOKsolver-order). </li>
     </ul>
+   </li>
+  </ul>
+
+
+  \todo Systematic investigation of SplittingViaOKsolver for 1-base-instances
+  <ul>
+   <li> The instances for the first investigations:
+   \verbatim
+> ls des_6t4_1base_r5_s*
+des_6t4_1base_r5_s01.cnf  des_6t4_1base_r5_s05.cnf
+des_6t4_1base_r5_s02.cnf  des_6t4_1base_r5_s06.cnf
+des_6t4_1base_r5_s03.cnf  des_6t4_1base_r5_s07.cnf
+des_6t4_1base_r5_s04.cnf  des_6t4_1base_r5_s08.cnf
+
+des_6t4_1base_r5_s09.cnf  des_6t4_1base_r5_s13.cnf  des_6t4_1base_r5_s17.cnf
+des_6t4_1base_r5_s10.cnf  des_6t4_1base_r5_s14.cnf  des_6t4_1base_r5_s18.cnf
+des_6t4_1base_r5_s11.cnf  des_6t4_1base_r5_s15.cnf  des_6t4_1base_r5_s19.cnf
+des_6t4_1base_r5_s12.cnf  des_6t4_1base_r5_s16.cnf  des_6t4_1base_r5_s20.cnf
+   \endverbatim
    </li>
   </ul>
 
