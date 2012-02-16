@@ -1146,6 +1146,11 @@ des_6t4_1base_r5_s11.cnf  des_6t4_1base_r5_s15.cnf  des_6t4_1base_r5_s19.cnf
 des_6t4_1base_r5_s12.cnf  des_6t4_1base_r5_s16.cnf  des_6t4_1base_r5_s20.cnf
    \endverbatim
    </li>
+   <li> Performing ucp (this is needed to get statistics right):
+   \verbatim
+for F in des_6t4_1base_r5_s*.cnf; do B=${F%.cnf}; cat ${F} | UnitClausePropagation-O3-DNDEBUG > ${B}_ucp.cnf; done
+   \endverbatim
+   </li>
   </ul>
 
 */
