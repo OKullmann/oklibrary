@@ -1117,9 +1117,41 @@ conflicts             : 4243           (40804 /sec)
 CPU time              : 0.103984 s
 
 > solver="minisat-2.2.0 -cpu-lim=1" ProcessSplitViaOKsolver SplitViaOKsolver_D90des_6t4_1base_r5_s1cnf_2012-01-20-020203
-XXX csltok
+> cat Process_SplitViaOKsolver_D90des_6t4_1base_r5_s1cnf_2012-01-20-020203_2012-02-15-123008/Result
+SATISFIABLE
+Found 1 satisfiable sub-instances.
+  PID TTY      STAT   TIME COMMAND
+ 4591 pts/56   S+   1024:53 /bin/bash /home/kullmann/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D90des_6t4_1base_r5_s1cnf_2012-01-20-020203 Process_SplitViaOKsolver_D90des_6t4_1base_r5_s1cnf_2012-01-20-020203_2012-02-15-123008
+> E=read_processsplit_minisat()
+140821: 16.751h, sum-cfs=2.019379e+09, mean-t=0.428s, mean-cfs=14340, sat: 0 1 2
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 0.0240  0.1570  0.2640  0.4282  0.7779  0.9988
+sd= 0.3461342
+     95%      96%      97%      98%      99%     100%
+0.995848 0.995848 0.995848 0.996848 0.996848 0.998848
+sum= 60305.21
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    922    6140   10080   14340   26150   35890
+sd= 10066.55
+    95%     96%     97%     98%     99%    100%
+30747.0 30870.0 31036.0 31269.0 31703.6 35892.0
+sum= 2019379195
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -6.2630e-02  1.5171e-04 -412.83 < 2.2e-16 ***
+E$cfs        3.4231e-05  8.6588e-09 3953.28 < 2.2e-16 ***
+R-squared: 0.9911
+> E[127716,]
+            i npa  d  rn   rc        t sat  cfs  dec rts     r1 mem ptime stime
+127716 102708 219 16 688 5209 0.102984   1 4243 5596  22 246336  19     0  0.01
+         cfl
+127716 55985
+> display_seconds(sum(E$t[1:127716]))
+[1] "14.484h"
      \endverbatim
-     The solution time is rather quick! The subinstance is actually easy for
+     The (single) solution time is rather quick! The subinstance is actually easy for
      all our complete solvers; fastest seem precosat-570.1 and minisat-2.2.0.
      </li>
      <li> The bottleneck is that the satisfiable
