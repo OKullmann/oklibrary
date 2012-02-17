@@ -24,33 +24,28 @@ License, or any later version. */
   </ul>
 
 
-  \todo Benchmarks for SAT 2011
+  \todo Benchmarks for SAT 2012
   <ul>
-   <li> DONE We should submit benchmarks for the SAT-2011-competition. </li>
-   <li> DONE The deadline for:
+   <li> We should submit benchmarks for the SAT-2012-competition. </li>
+   <li> The deadline for:
     <ol>
-     <li> SAT benchmark submission is Sunday 13th February 2011. </li>
-     <li> PseudoBoolean registration is Wednesday 9th March 2011.
+     <li> SAT Challenge benchmark submission is Monday 26th March 2012. </li>
+     <li> PseudoBoolean registration is Monday 19th March 2012.
      </li>
-     <li> PseudoBoolean benchmark submission is Sunday 20th March 2011. </li>
-     <li> MaxSAT evaluation doesn't currently have any date specified. </li>
+     <li> PseudoBoolean benchmark submission is Sunday 26th March 2012. </li>
+     <li> MaxSAT evaluation submission is Friday 23rd March 2012. </li>
+     <li> QBF evaluation registration is Wednesday 29th February 2012. </li>
+     <li> QBF benchmark submission is Thursday 15th March 2012. </li>
     </ol>
    </li>
-   <li> DONE
-   Likely only things where we have published something (to be cited).
-   </li>
-   <li> DONE
-   So for this year it should be Green-Tao and van-der-Waerden instances.
-   </li>
-   <li> DONE And also AES-related instances are of interest. </li>
-   <li> See "Prepare benchmarks for SAT 2011" in
-   RamseyTheory/GreenTaoProblems/plans/general.hpp,
-   RamseyTheory/VanderWaerdenProblems/plans/general.hpp,
-   Cryptography/AdvancedEncryptionStandard/plans/general.hpp. </li>
-   <li> DONE Best in every series to have a mixture, from known to unknown
+   <li> Best in every series to have a mixture, from known to unknown
    instances, from not-too-hard to likely-very-hard. </li>
-   <li> DONE For the formats see below. </li>
-   <li> DONE For the categories see below. </li>
+   <li> We should consider the format, and what instances we can provide
+   for the QBF evaluation. </li>
+   <li> For the formats see below; it should be checked that these haven't
+   changed from 2011. </li>
+   <li> For the categories see below;  it should be checked that these haven't
+   changed from 2011. </li>
   </ul>
 
 
@@ -157,6 +152,38 @@ License, or any later version. */
    </li>
    <li> The PDF documents are best done in OKlib/annotations/, using the 
    prefix "SAT_2011_Benchmark_". </li>
+  </ul>
+
+
+  \todo DONE (finished; remaining issues handled by
+  "Update and completion of plans regarding SAT 2011)
+  Benchmarks for SAT 2011
+  <ul>
+   <li> DONE We should submit benchmarks for the SAT-2011-competition. </li>
+   <li> DONE The deadline for:
+    <ol>
+     <li> SAT benchmark submission is Sunday 13th February 2011. </li>
+     <li> PseudoBoolean registration is Wednesday 9th March 2011.
+     </li>
+     <li> PseudoBoolean benchmark submission is Sunday 20th March 2011. </li>
+     <li> MaxSAT evaluation doesn't currently have any date specified. </li>
+    </ol>
+   </li>
+   <li> DONE
+   Likely only things where we have published something (to be cited).
+   </li>
+   <li> DONE
+   So for this year it should be Green-Tao and van-der-Waerden instances.
+   </li>
+   <li> DONE And also AES-related instances are of interest. </li>
+   <li> See "Prepare benchmarks for SAT 2011" in
+   RamseyTheory/GreenTaoProblems/plans/general.hpp,
+   RamseyTheory/VanderWaerdenProblems/plans/general.hpp,
+   Cryptography/AdvancedEncryptionStandard/plans/general.hpp. </li>
+   <li> DONE Best in every series to have a mixture, from known to unknown
+   instances, from not-too-hard to likely-very-hard. </li>
+   <li> DONE For the formats see below. </li>
+   <li> DONE For the categories see below. </li>
   </ul>
 
 */
