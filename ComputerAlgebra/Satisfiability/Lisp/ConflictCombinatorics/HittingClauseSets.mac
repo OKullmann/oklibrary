@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 12.2.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -47,20 +47,20 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
 
 /* Given a splitting tree (a tree whose inner nodes are labelled by boolean
    literals), extract the hitting clause-set given by the false-leaves
-   (which is unsatisfiable iff the tree is complete; the "clause-set" 
-   contains a tautological clause (this for the CNF interpretation) iff a 
+   (which is unsatisfiable iff the tree is complete; the "clause-set"
+   contains a tautological clause (this for the CNF interpretation) iff a
    variable occurs twice on some  path). */
 /* The unsatisfiable hitting clause-sets generated in this way are the
    "tree hitting clause-sets", and with tautological clauses removed these
-   are exactly those hitting clause-sets which have a read-once resolution 
+   are exactly those hitting clause-sets which have a read-once resolution
    refutation.
-   The other hitting clause-sets created are subsets of tree hitting 
+   The other hitting clause-sets created are subsets of tree hitting
    clause-sets. */
 treehittingcls_st(T) := setify(usat_clauses_st(T))$
 /* The dual hitting clause-set, representing the unterlying CNF as DNF */
 dualtreehittingcls_st(T) := setify(sat_pass_st(T))$
 /* The full representation, consisting of a hitting clause-set representing
-   the falsifying assignments (as CNF), and of a hitting clause-set 
+   the falsifying assignments (as CNF), and of a hitting clause-set
    representing the satisfying assignments (as DNF, i.e. as sets of
    partial assignments). */
 hitting_cls_rep_st(T) := [treehittingcls_st(T), dualtreehittingcls_st(T)]$
@@ -87,20 +87,20 @@ hitting_cls_rep_condensed_fcs(FF,h) := hitting_cls_rep_st(condense_st(dll_simple
    2^k clauses, and the minimum is attained exactly for the uniform hitting
    clause-sets with clause-length k and 2^k clauses. */
 /* The two extreme cases are given by full_fcs(n) (with maximal deficiency)
-   and by the following special SMUSAT(1) clause-sets (with minimal 
+   and by the following special SMUSAT(1) clause-sets (with minimal
    deficiency), which are (up to renaming) exactly the uniform elements of
    SMUSAT(1) with clause-length k. */
 uniform_usat_hitting_min(k) := treehittingcls_st(complete_st_alldifferent(k))$
 uniform_usat_hitting_max(k) := full_fcs(k)[2]$
 
-/* The up to isomorphism unique unsatisfiable hitting clause-set 
+/* The up to isomorphism unique unsatisfiable hitting clause-set
    with n variables and of deficiency 2^n - n - 1;
    non-singular iff n >= 3. */
 /* Prerequisite: n >= 1. */
 nearly_full_hitting_fcs(n) := block([FF : full_fcs(n)],
   return([FF[1], adjoin(setn(n-1), setdifference(FF[2], {setn(n), adjoin(-n,setn(n-1))}))]))$
 
-/* An unsatisfiable non-singular hitting clause-set with m+1 variables and 
+/* An unsatisfiable non-singular hitting clause-set with m+1 variables and
    deficiency 2^m - m + 1, while the minimum var-degree is 2^m.
    Prerequisite: m >= 2.
 */
@@ -111,7 +111,7 @@ over_full_hitting_fcs(m) := block(
 /* Remarks: over_full_hitting_fcs(m) realises the maximum min-var-degree for
    clause-sets of deficiency 2^m-m+1.
 */
- 
+
 
 /* Saturated minimally unsatisfiable Horn clause-sets with k variables: */
 smusat_horn_cs(k) := treehittingcls_st(horn_st(k))$
@@ -161,14 +161,14 @@ max_var_hitting_def(k) := if k=2 then musatd2_fcs(3) else
 nvar_max_var_hitting_def(k) := 3 + (k-2) * 4$
 
 
-/* Given a set S of formal hitting clause-sets, compute the set of all 
+/* Given a set S of formal hitting clause-sets, compute the set of all
   singular hitting extensions by (exactly) k steps (where k is an integer):
 */
 all_hitting_extensions_k_fcs(S,k) := if k < 0 then {}
  elseif k=0 then S else
   all_hitting_extensions_k_fcs(lunion(map(all_pre_hitting_extensions_fcs,S)),k-1)$
 /* Now returning a set of non-isomorphic representatives: */
-all_reps_hitting_extensions_k_fcs(S,k) := 
+all_reps_hitting_extensions_k_fcs(S,k) :=
  if k < 0 then {} else block([S : representatives_fcs(S)],
    if k=0 then return(S) else
     all_reps_hitting_extensions_k_fcs(lunion(map(all_pre_hitting_extensions_fcs,S)),k-1))$
@@ -207,19 +207,19 @@ treehittingcsp(F) := block([G : var_hyp(cs_to_fcs(F))],
         treehittingcsp(apply_pa({v},F)) and treehittingcsp(apply_pa({-v},F))))))$
 
 /* Tests whether a clause-set is a uniform unsatisfiable hitting clause-set: */
-uuhittingcsp(F) := 
+uuhittingcsp(F) :=
  hittingcsp(F) and uniformcsp(F) and not emptyp(F) and is(ncl_cs(F) = 2^(length(listify(F)[1])))$
 
 /* Returns false if F is not an ABD, and otherwise returns (n,k): */
-abd_parameters(F) := 
+abd_parameters(F) :=
  if not uuhittingcsp(F) or not variableregularcsp(F) then false
  else [nvar_cs(F), length(listify(F)[1])]$
 
-/* Checks whether input F is unsatisfiable hitting and reduced w.r.t. 
+/* Checks whether input F is unsatisfiable hitting and reduced w.r.t.
    singular DP-reduction: In the negative case returns the empty list,
    and otherwise the unit-list containing the deficiency. */
-check_hitting_nsing_def(F) := if hittingcsp(F) and redsingdpp(F) 
-   and not sat_decision_hitting_cs(F) then [deficiency_cs(F)] 
+check_hitting_nsing_def(F) := if hittingcsp(F) and nonsingular_csp(F)
+   and not sat_decision_hitting_cs(F) then [deficiency_cs(F)]
  else [];
 
 
@@ -238,7 +238,7 @@ check_hitting_nsing_def(F) := if hittingcsp(F) and redsingdpp(F)
 /* If the output is empty, then no unsatisfiable hiting clause-set F with
    deficiency_cs(F) = def, nvar_cs(F) = n and nlitocc_cs(F) = (n+def)*n - m
    is possible. */
-/* The idea is that the partitions of m = m_1 + ... + m_r are considered, 
+/* The idea is that the partitions of m = m_1 + ... + m_r are considered,
    each entry m_i relating to a different clause from which exactly m_i
    literals are removed. */
 /* Prerequisite: def,n,m are non-negative integers, def >= 1. */
@@ -301,7 +301,7 @@ hitting_decomposition_m_cs(F) := block([G : g2mg(cg_cs(F)), G2, R : []],
 
 /* Find all hitting clause-sets of a given deficiency obtained from
    a given hitting clause-set by applying partial assignments: */
-all_hittinginstances_def(F,k) := 
+all_hittinginstances_def(F,k) :=
   subset(map(lambda([phi],apply_pa(phi,F)),all_pass(var_cs(F))),
          lambda([F],is(deficiency_cs(F)=k)))$
 
@@ -408,11 +408,11 @@ derived_hitting_cs_pred_forb(F,k,forb_pairs) :=
 monitor_check_dhcpi() := if oklib_monitor then (
   print("M[derived_hitting_cs_pred_isoelim]: ENTRY;"),
   print("number of steps:", k, "; input clause-set statistics:", statistics_cs(F)))$
-monitor_check_dhcpfi_entry() := 
+monitor_check_dhcpfi_entry() :=
  if oklib_monitor and oklib_monitor_level >= 2 then (
    print("M[derived_hitting_cs_pred_forb_isoelim]: ENTRY;"),
    print("number of steps:", k, "; input clause-set statistics:", statistics_cs(F), "; number of forbidden pairs:", length(forb_pairs)))$
-monitor_check_dhcpfi_found() := 
+monitor_check_dhcpfi_found() :=
  if oklib_monitor and oklib_monitor_level >= 1 then (
    print("M[derived_hitting_cs_pred_forb_isoelim]: Found"), print(F))$
 
@@ -430,11 +430,11 @@ derived_hitting_cs_pred_forb_isoelim(F,k,forb_pairs) := (
  if k < 0 then {}
  elseif k = 0 then (
    monitor_check_dhcpfi_found(),
-   results_derived_hitting_cs :: adjoin(F, ev(results_derived_hitting_cs)), 
+   results_derived_hitting_cs :: adjoin(F, ev(results_derived_hitting_cs)),
    {F})
  else
  block(
-  [FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), 
+  [FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs),
    R,G, found : false, V : var_cs(F)],
    for P in FP unless found do (
      G : adjoin(resolvent_s(P),setdifference(F,P)),
@@ -443,7 +443,7 @@ derived_hitting_cs_pred_forb_isoelim(F,k,forb_pairs) := (
      else (FP : disjoin(P,FP), found : true, R : P)),
    if not found then return({}),
    block(
-    [first_branch : derived_hitting_cs_pred_forb_isoelim(G,k-1,forb_pairs), 
+    [first_branch : derived_hitting_cs_pred_forb_isoelim(G,k-1,forb_pairs),
      removable : {}],
      for P in FP do block([G2 : adjoin(resolvent_s(P),setdifference(F,P))],
        if is_isomorphic_btr_fcs([V,G],cs_to_fcs(G2)) then
@@ -454,8 +454,8 @@ derived_hitting_cs_pred_forb_isoelim(F,k,forb_pairs) := (
 /* The instance of the previous function where no singular variable is
    created. */
 /* Prerequisite: F does not have singular variables. */
-derived_hitting_cs_nsing(F,k,results_derived_hitting_cs) := derived_hitting_cs_pred(F,k,results_derived_hitting_cs,redsingdpp)$
-derived_hitting_cs_nsing_isoelim(F,k,results_derived_hitting_cs) := derived_hitting_cs_pred_isoelim(F,k,results_derived_hitting_cs,redsingdpp)$
+derived_hitting_cs_nsing(F,k,results_derived_hitting_cs) := derived_hitting_cs_pred(F,k,results_derived_hitting_cs,nonsingular_csp)$
+derived_hitting_cs_nsing_isoelim(F,k,results_derived_hitting_cs) := derived_hitting_cs_pred_isoelim(F,k,results_derived_hitting_cs,nonsingular_csp)$
 
 
 /* Now computing *all* non-isomorphic cases. repository is a hash table,
@@ -478,7 +478,7 @@ all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
       return(count)
     else count : count + 1,
   block(
-   [FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), 
+   [FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs),
     R,G, found : false],
     for P in random_permutation(FP) unless found do (
       G : adjoin(resolvent_s(P),setdifference(F,P)),
@@ -546,16 +546,16 @@ all_derived_hitting_cs_pred_forb_isoelim_mvd(F,forb_pairs,check) := block(
 
 /* The instance where no singular variable is created. */
 /* Prerequisite: F does not have singular variables. */
-all_derived_hitting_cs_nsing_isoelim(F,repository) := all_derived_hitting_cs_pred_isoelim(F,repository,redsingdpp)$
-all_derived_hitting_cs_nsing_isoelim_mvd(F,repository) := all_derived_hitting_cs_pred_isoelim_mvd(F,repository,redsingdpp)$
+all_derived_hitting_cs_nsing_isoelim(F,repository) := all_derived_hitting_cs_pred_isoelim(F,repository,nonsingular_csp)$
+all_derived_hitting_cs_nsing_isoelim_mvd(F,repository) := all_derived_hitting_cs_pred_isoelim_mvd(F,repository,nonsingular_csp)$
 /* The instance where only resolutions with full parent clauses
    are considered. */
 all_derived_hitting_cs_fullpc_isoelim(F,repository) := all_derived_hitting_cs_pred_isoelim(F,repository,
- lambda([G], redsingdpp(G) and is(length(choose_element(P)) = nvar_cs(F))))$
+ lambda([G], nonsingular_csp(G) and is(length(choose_element(P)) = nvar_cs(F))))$
 /* The instance without restriction on the 2-subsumption-resolution
    steps. */
-/* ERROR: Does not work fully correctly, since 
-   all_derived_hitting_cs_pred_isoelim assumes that no variables are 
+/* ERROR: Does not work fully correctly, since
+   all_derived_hitting_cs_pred_isoelim assumes that no variables are
    eliminated. */
 all_derived_hitting_cs_isoelim(F,repository) := all_derived_hitting_cs_pred_isoelim(F,repository,lambda([G],true))$
 
@@ -567,7 +567,7 @@ all_derived_hitting_cs_isoelim(F,repository) := all_derived_hitting_cs_pred_isoe
    found (if it has some value, then this will be overwritten). */
 all_unsinghitting_def(def,n,results_all_hitting) := (
  results_all_hitting :: {},
- if def < 1 then {} 
+ if def < 1 then {}
  elseif def = 1 then if n=0 then results_all_hitting :: {{{}}} else {}
  elseif def = 2 and n <= 2 then if n<2 then {} else  results_all_hitting :: {full_fcs(2)[2]}
  elseif n <= 2 then {}
@@ -576,14 +576,14 @@ all_unsinghitting_def(def,n,results_all_hitting) := (
    block([C : setn(n), D : union(setn(n-1),{-n})],
      F : adjoin(setn(n-1), setdifference(F,{C,D}))),
    representatives_cs(
-     derived_hitting_cs_nsing_isoelim(F, 
-                              2^n-n-def - 1, 
+     derived_hitting_cs_nsing_isoelim(F,
+                              2^n-n-def - 1,
                               results_all_hitting))))$
 
 /* Variation: for a given deficiency and number of 2-subsumption steps,
    find all hitting clause-set types s.t. no singular variables occur.
 */
-all_unsinghitting_steps(steps,n,results_all_hitting) := 
+all_unsinghitting_steps(steps,n,results_all_hitting) :=
   all_unsinghitting_def(2^n-n - steps, n, results_all_hitting)$
 
 /* For a given number of variables, find all hitting clause-set types
@@ -617,7 +617,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
    component). */
 check_uhit_catalogue_maxminvardeg() :=
   apply_uhit(lambda([k,n,i,F], [k, n, i, seconde(minvardegree_dmu(k)) - min_variable_degree_cs(F)]))$
-/* Extract the [k,n,i]-tuples where the bound is sharp, sorted 
+/* Extract the [k,n,i]-tuples where the bound is sharp, sorted
    lexicographically. */
 sharp_uhit_catalogue_maxminvardeg() :=
   sort(

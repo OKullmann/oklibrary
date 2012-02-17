@@ -1,5 +1,5 @@
 // Oliver Kullmann, 15.6.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,7 +14,7 @@ License, or any later version. */
   <ul>
    <li> Transfer SingDPuncontracted, ISingDPuncontracted from
    Mupad/Orthogonal.mup. </li>
-   <li> This should be just the randomised version of singular_dp_reduction
+   <li> This should be just the randomised version of sdp_reduction_cs
    (easily achieved by randomly choosing a singular variable). </li>
    <li> Perhaps the input should better be a formal clause-set, and the
    reduction happens in-place.
@@ -25,7 +25,7 @@ License, or any later version. */
      intact? </li>
     </ol>
    </li>
-   <li> The current implementation of redsingdpp could be used for
+   <li> The current implementation of nonsingular_csp could be used for
    testing purposes, and otherwise replaced by the obvious check for
    the existence of a singular variable. </li>
    <li> We need more fine-grained versions which check for the various

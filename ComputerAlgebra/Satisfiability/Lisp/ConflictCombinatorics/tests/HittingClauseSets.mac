@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 12.2.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -137,7 +137,7 @@ okltest_max_var_hitting_def(f) := (
   for k : 2 thru 5 do ([FF : f(k)],
     assert(hittingcsp(FF[2]) = true),
     assert(sat_decision_hitting_cs(FF[2]) = false),
-    assert(redsingdpp(FF[2]) = true),
+    assert(nonsingular_csp(FF[2]) = true),
     assert(deficiency_fcs(FF) = k),
     assert(nvar_f(FF) = 3 + (k-2) * 4)
   ),

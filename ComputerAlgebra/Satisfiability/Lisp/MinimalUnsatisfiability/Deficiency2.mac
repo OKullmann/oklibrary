@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 31.5.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -67,7 +67,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
 /* Returns 2, 3 or false, where false results iff F is not an unsatisfiable 
    hitting clause-set of deficiency 2, while otherwise its type is returned:
 */
-hittingtype_d2_cs(F) := block([F : singular_dp_reduction(F), T],
+hittingtype_d2_cs(F) := block([F : sdp_reduction_cs(F), T],
  T : classify_candidates_uhit_def([F])[1],
  if T=false or T[2]="new" or T[1][1]#2 then false
  else T[1][2])$

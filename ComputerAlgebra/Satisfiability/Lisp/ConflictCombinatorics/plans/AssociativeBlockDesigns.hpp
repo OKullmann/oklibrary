@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.5.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -187,7 +187,7 @@ rbrouwer1999 : redtsr(brouwer1999[2]);
  {{-8,-7,-6,-4,3},{-8,-7,-3},{-8,-7,-2,3,4},{-8,-4,-3,6,7},{-8,-4,-2,3,6},{-8,-3,2,4,7},
  {-8,-2,4,6,7},{-7,-6,-4,2,8},{-7,-6,-2,5,8},{-7,-5,-2,8},{-6,-4,7},{-6,-3,2,4,8},
  {-6,-2,4,7},{-5,-3,2,6,8},{-5,-2,6,7,8},{-4,2,3,6},{-3,5,6,8},{-2,3,5,6,8},{2,3,4}}
-redsingdpp(rbrouwer1999);
+nonsingular_csp(rbrouwer1999);
  true
 redtsrp(rbrouwer1999);
  true

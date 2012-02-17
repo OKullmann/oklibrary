@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 25.4.2008 (Guangzhou) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -34,7 +34,7 @@ kill(f)$
    *************************
 */
 
-okltest_singular_dp_reduction(f) := (
+okltest_sdp_reduction_cs(f) := (
   assert(f({}) = {}),
   assert(f({{}}) = {{}}),
   for n : 0 thru 3 do block([F : full_fcs(n)[2]],
@@ -48,7 +48,7 @@ okltest_singular_dp_reduction(f) := (
   assert(nvar_cs(f(weak_php(3,2)[2])) = 3),
   true)$
 
-okltest_redsingdpp(f) := (
+okltest_nonsingular_csp(f) := (
   assert(f({}) = true),
   assert(f({{}}) = true),
   assert(f({{1}}) = false),

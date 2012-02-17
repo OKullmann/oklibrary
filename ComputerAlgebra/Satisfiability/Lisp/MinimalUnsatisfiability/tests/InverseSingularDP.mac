@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 14.6.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -63,7 +63,7 @@ okltest_basic_inverse_singulardp_fcs(f) := block([FF],
   assert(f(FF,{{5,-4},{-5,-4,3}},0.5,0.5) = true),
   FF : full_fcs(3),
   assert(f(FF,{{1,2,3},{1,2,-3}},0.5,0.5) = true),
-  assert(cs_to_fcs(singular_dp_reduction(FF[2])) = full_fcs(3)),
+  assert(cs_to_fcs(sdp_reduction_cs(FF[2])) = full_fcs(3)),
   true)$
 
 okltest_pre_hitting_extension_fcs_p(f) := (

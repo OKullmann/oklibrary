@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.4.2008 (Guangzhou) */
-/* Copyright 2008, 2009, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -583,10 +583,10 @@ analyse_isorepo_defset_imprmvd(repository) := block(
       variables n and index i.
 */
 /* According to [Kullmann, Zhao, 2008] for unsatisfiable hitting
-   clause-sets F the result of singular_dp_reduction(F) is unique
+   clause-sets F the result of sdp_reduction_cs(F) is unique
    up to isomorphism. */
 redisotype_uhit_def(F) := classify_candidates_uhit_def(
-  [singular_dp_reduction(F)])[1]$
+  [sdp_reduction_cs(F)])[1]$
 
 /* For all clause-sets in the catalogue with number of variables at most
    n_bound, apply all partial assignments, followed by iterated elimination
@@ -605,7 +605,7 @@ closure_uhit_def_pass(n_bound, _hash_repo) := block(
     for F in uhit_n(n,false) do
       for npass : 1 thru n - min_n_unknown do block([P : all_pass_n(setn(n),npass)],
         for phi in P do block(
-         [G : singular_dp_reduction(apply_pa(phi,F)), V],
+         [G : sdp_reduction_cs(apply_pa(phi,F)), V],
           V : var_cs(G),
           if 
             length(V) >= min_n_unknown and

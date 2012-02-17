@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 25.4.2008 (Guangzhou) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,16 +30,13 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.m
 
 /* Applying elimination of pure literals and singular literals as long as
    possible: */
-/* RENAME: singular_dp_reduction_cs */
-singular_dp_reduction(F) := block([d : min_literal_degree_l_cs(F)],
+sdp_reduction_cs(F) := block([d : min_literal_degree_l_cs(F)],
   if d[1] >= 2 then return(F) else
-    return(singular_dp_reduction(dp_operator(F,d[2]))))$
+    return(sdp_reduction_cs(dp_operator(F,d[2]))))$
 
 /* Predicate for testing whether clause-set F is reduced w.r.t.
    singular DP-reduction: */
-/* RENAME: redsingdp_csp */
-redsingdpp(F) := emptyp(singularpure_variables_cs(F))$
-redsingdp_csp(F) := redsingdpp(F)$
+nonsingular_csp(F) := emptyp(singularpure_variables_cs(F))$
 
 
 /*!

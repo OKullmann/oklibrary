@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.3.2008 (Swansea)
-/* Copyright 2008, 2010 Oliver Kullmann
+/* Copyright 2008, 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,7 +16,7 @@ License, or any later version. */
    or by finding accumulation variables. need to be implemented. </li>
    <li> Using DP-reduction:
     <ol>
-     <li> Via singular_dp_reduction(F) we can reduce the clause-set
+     <li> Via sdp_reduction_cs(F) we can reduce the clause-set
      w.r.t. singular DP-reduction --- however also the degenerated
      cases are handled there. </li>
      <li> Perhaps it is actually enough to only test whether at the beginning

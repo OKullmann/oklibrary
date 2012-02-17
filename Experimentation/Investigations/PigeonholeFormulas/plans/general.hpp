@@ -452,7 +452,7 @@ experiment(m,n) := block(
     print("seed:", seed, map(deficiency_cs,L)),
     S : sublist(L,lambda([F],is(deficiency_cs(F) = 3))),
     if not emptyp(S) then (
-      S : map(singular_dp_reduction, S),
+      S : map(sdp_reduction_cs, S),
       def3cls : append(def3cls,S),
       for i : 1 thru length(S) do print(count + 1, ":", S[i]),
       count : count + length(S)
