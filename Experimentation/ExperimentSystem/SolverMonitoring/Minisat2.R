@@ -1,5 +1,5 @@
 # Matthew Gwynne, 18.9.2009 (Swansea)
-# Copyright 2009, 2010, 2011 Oliver Kullmann
+# Copyright 2009, 2010, 2011, 2012 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,11 @@
 # #######
 # Input #
 # #######
+
+# XXX this has to updated: what is needed is a function for reading a file
+# created by ExtractMinisat ! XXX the current functionality should be
+# removed XXX The script CubeAndConquer.R should then use this R-function
+# for reading the minisat-data. XXX
 
 # Reading the output of a minisat-like solver, and putting it into a dataframe.
 # Input:
