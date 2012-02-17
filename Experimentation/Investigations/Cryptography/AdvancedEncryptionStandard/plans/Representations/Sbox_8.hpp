@@ -565,7 +565,7 @@ id3_heuristic_fcs_full(FF) := block([max_v, max_gain : minf],
   if cur_gain > max_gain then (max_v : v, max_gain : cur_gain)),
   return(max_v))$
 
-F : rijnsbox2hittingcnf_fcs(id3_heuristic_full)$
+F : rijnsbox2hittingcnf_fcs(id3_heuristic_fcs_full)$
 
 statistics_cs(F);
  [16,2048,25600,16,9]
