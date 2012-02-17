@@ -1183,6 +1183,140 @@ des_6t4_1base_r5_s12.cnf  des_6t4_1base_r5_s16.cnf  des_6t4_1base_r5_s20.cnf
 for F in des_6t4_1base_r5_s*.cnf; do B=${F%.cnf}; cat ${F} | UnitClausePropagation-O3-DNDEBUG > ${B}_ucp.cnf; done
    \endverbatim
    </li>
+   <li> Performing splitting with D=90:
+   \verbatim
+for F in des_6t4_1base_r5_s*_ucp.cnf; do SplittingViaOKsolver -D90 ${F}; done
+
+for S in SplitViaOKsolver*_ucpcnf*; do cat ${S}/Md5sum; done
+fe018c32981599cdac7dbb736203faca
+6f706ba226106b63f8fff5932eada905
+59b5f3732d31fc481a90cb47c1a88174
+dda19423fcc786e0e097475b5d42976e
+ef877544615de751d3675355ae193fd7
+3c854440e625e7f0fd2cda7ad52ef8d7
+301dfefd999e40fcd64cb8f725c206c7
+00c02d49fe4f5b2a6c35d7b210eef710
+31cd098dde44d90b1767c60ac72cc372
+f949f3c3952546fc919b6d70bf02f4e9
+3455c20e7787555fa5a01d1db38978b3
+23c62171fb654c10fa3cf952aeec9b94
+7e15486ac1d10090bcd2cff64c25aa55
+9d0f42f4d388a42a224539980d8cb988
+39deb1ee9080b9e21fdd39af04372395
+618c91cdac20c4edacee8f04c730bf5b
+656dbb1f59fcb97fd018c62fec94f9a5
+e8325fbfec06c2601f4199fcedbe7e38
+a9ae1ac9a139bb4ea4389ee8a9ae0f60
+5d3a7cad31f3df7df0d694d8738a6bab
+   \endverbatim
+   </li>
+   <li> Data:
+   \verbatim
+for S in SplitViaOKsolver*_ucpcnf*; do cat ${S}/Result | grep "splitting_cases" | awk '{print $3}'; done
+140821
+140048
+113911
+112220
+111514
+112036
+141124
+112448
+112538
+139926
+139078
+116807
+112851
+140046
+117644
+111707
+117064
+116392
+117498
+115681
+   \endverbatim
+   </li>
+   <li> Computing satisfying assignments and locating satisfying sub-instances:
+   \verbatim
+for S in SplitViaOKsolver*_ucpcnf*; do cd ${S}; D="${S#SplitViaOKsolver_D90}"; D="${D%cnf*}"; D="${D}.cnf"; seed="${D#des_6t4_1base_r5_s}"; seed="${seed%_ucp.cnf}"; seed="${seed#0}"; RandomDESTotalAssignment ${D} ${seed} 5 > Solution.pa; cd ..; done;
+
+for S in SplitViaOKsolver*_ucpcnf*; do cd ${S}/Instances; for x in $(ls); do PassClashes-O3-DNDEBUG ../Solution.pa ${x}; if [[ $? != 0 ]]; then echo ${x} > ../Satisfiable; echo ${x}; break; fi; done;  cd ../..; done
+102708
+121508
+97055
+5616
+44739
+59012
+51275
+8479
+36738
+37489
+133067
+19472
+24548
+136419
+30838
+83093
+28252
+102774
+47261
+63295
+   \endverbatim
+   The task here is to identify some order under which these sub-instances always appear
+   relatively early. </li>
+   <li> Running minisat-2.2.0 on the satisfiable subinstances (on csltok, with 2GHz):
+   \verbatim
+for S in SplitViaOKsolver*_ucpcnf*; do cd ${S}; D="${S#SplitViaOKsolver_D90}"; D="${D%cnf*}"; Dold="${D}.cnf"; I="$(cat Satisfiable)"; Dnew="${D}_sat_${I}.cnf"; cat ${Dold} | ApplyPass-O3-DNDEBUG Instances/${I} ${Dnew}; cd ..; done
+
+ExtractMinisat header-only > Statistics_SAT_m; count=0; for S in SplitViaOKsolver*_ucpcnf*; do let ++count; echo -n "${count} " >> Statistics_SAT_m; cd ${S}; I="$(ls des_*_sat_*)"; minisat-2.2.0 ${I} | ExtractMinisat x >> ../Statistics_SAT_m; cd ..; done
+
+> E=read.table("Statistics_SAT_m",header=T,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8)))
+> basic_stats(E$t)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+ 0.06299  0.16070  0.30000  4.87600  0.76360 70.50000
+sd= 15.66013
+     95%      96%      97%      98%      99%     100%
+10.68132 22.64552 34.60971 46.57391 58.53810 70.50230
+sum= 97.52618
+> E$t
+ [1]  0.122981  0.226965  0.271958  0.159975  7.532850  0.117982  6.971940
+ [8]  0.415936  0.072988 70.502300  7.494860  0.564914  0.235964  0.196970
+[15]  0.327950  0.369943  1.359790  0.160975  0.355945  0.062990
+
+ExtractGlucose header-only > Statistics_SAT_g; count=0; for S in SplitViaOKsolver*_ucpcnf*; do let ++count; echo -n "${count} " >> Statistics_SAT_g; cd ${S}; I="$(ls des_*_sat_*)"; glucose-2.0 ${I} | ExtractGlucose x >> ../Statistics_SAT_g; cd ..; done
+
+> E=read.table("Statistics_SAT_g",header=T,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8)))
+> basic_stats(E$t)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+  0.1410   0.2575   0.7349   6.4360   1.6300 108.3000
+sd= 23.98882
+       95%        96%        97%        98%        99%       100%
+  8.665406  28.584725  48.504044  68.423362  88.342681 108.262000
+sum= 128.7139
+> E$t
+ [1]   0.233964   1.005850   0.799878   2.933550   0.455930   3.423480
+ [7]   0.264959   1.064840   0.184971   0.447931   0.552915   0.669898
+[13]   1.551760   1.401790   1.863720   0.201969 108.262000   0.140978
+[19]   3.018540   0.234964
+
+ExtractOKsolver header-only > Statistics_SAT_o; count=0; for S in SplitViaOKsolver*_ucpcnf*; do let ++count; echo -n "${count} " >> Statistics_SAT_o; cd ${S}; I="$(ls des_*_sat_*)"; OKsolver_2002-O3-DNDEBUG ${I} | ExtractOKsolver x >> ../Statistics_SAT_o; cd ..; done
+
+> E=read.table("Statistics_SAT_o",header=T,colClasses=c(rep("integer",4),"numeric","integer",rep("numeric",6),"character",rep("integer",12)))
+> basic_stats(E$t)
+> basic_stats(E$t)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.100   0.850   1.950   2.290   3.675   6.500
+sd= 1.695784
+ 95%  96%  97%  98%  99% 100%
+4.60 4.98 5.36 5.74 6.12 6.50
+sum= 45.8
+> E$t
+ [1] 0.5 2.0 1.7 6.5 0.7 4.5 1.9 2.1 2.6 0.7 0.1 4.1 3.9 3.6 1.5 3.1 0.9 0.5 3.9
+[20] 1.0
+
+XXX all other solvers need to be considered
+
+   \endverbatim
+   Interesting that OKsolver performs *on the average* rather well here. </li>
   </ul>
 
 */
