@@ -428,7 +428,7 @@ uhit_def[59,7] : [over_full_hitting_fcs(6)[2]]$
 */
 
 /* For given number of variables n, the maximal deficiency k
-  such that an unsatisfiable hitting clause-set with these parameters 
+  such that an unsatisfiable hitting clause-set with these parameters
   exists. This unique clause-set is full_fcs(n)[2], which is non-singular
   for n <> 1. */
 max_def_uhit_n(n) := 2^n - n$
@@ -493,7 +493,7 @@ collect_uhit_n(n,k0,k1) :=
     create_list(uhit_def[k,n],k,k0,k1),
     lambda([L], is(op(L) # uhit_def)))))$
 
-/* The set of all known non-singular unsatisfiable hitting 
+/* The set of all known non-singular unsatisfiable hitting
    clause-sets for a given number of variables. */
 /* uhit_n(-1,true/false) yields the list of available n-values. */
 /* The info-entry uhit_n(n,true) states whether the
@@ -502,8 +502,8 @@ collect_uhit_n(n,k0,k1) :=
 /* BUG: yet only the catalogue data given by info_data
    and def_data is accessible. */
 uhit_n(n,info) := block(
- [info_data : [[0,1,2,3,4,5,6,8],true,true,true,true,true,false,false,false],
-  def_data : [ [1,1],[],[2,2],[2,5],[3,12],[3,27],[3,58],[24,24] ] 
+ [info_data : [[0,1,2,3,4,5,6,7,8],true,true,true,true,true,false,false,false,false],
+  def_data : [ [1,1],[],[2,2],[2,5],[3,12],[3,27],[3,58],[3,59],[24,24] ]
  ],
  if n = -1 then return(info_data[1])
  elseif not elementp(n,setify(info_data[1])) then
@@ -574,12 +574,12 @@ analyse_isorepo_defset_imprmvd(repository) := block(
   sort(listify(hm2sm(h)),lambda([P1,P2], is(P1[1] < P2[1]))))$
 
 
-/* Compute the reduced isomorphism type of a clause-set F w.r.t. 
+/* Compute the reduced isomorphism type of a clause-set F w.r.t.
    non-singular unsatisfiable hitting clause-sets:
     - [false] iff F is not unsatisfiable or not a hitting clause-set
       after singular DP-reduction
     - [[k,n],"new"] iff not in the catalogue
-    - [[k,n],i] iff in the catalogue, with deficiency k, number of 
+    - [[k,n],i] iff in the catalogue, with deficiency k, number of
       variables n and index i.
 */
 /* According to [Kullmann, Zhao, 2008] for unsatisfiable hitting
@@ -590,7 +590,7 @@ redisotype_uhit_def(F) := classify_candidates_uhit_def(
 
 /* For all clause-sets in the catalogue with number of variables at most
    n_bound, apply all partial assignments, followed by iterated elimination
-   of singular variables, and compute the non-isomorphic cases found not to 
+   of singular variables, and compute the non-isomorphic cases found not to
    be in the catalogue, in the form of a repository of isomorphism types,
    whose name is passed by name. Returned is the number of new clause-sets
    found in this way. */
@@ -607,7 +607,7 @@ closure_uhit_def_pass(n_bound, _hash_repo) := block(
         for phi in P do block(
          [G : sdp_reduction_cs(apply_pa(phi,F)), V],
           V : var_cs(G),
-          if 
+          if
             length(V) >= min_n_unknown and
             classify_candidates_uhit_def([G])[1][2] = ["new"] and
             manage_repository_isomorphism_types([V,G],ev(_hash_repo)) then
@@ -615,7 +615,7 @@ closure_uhit_def_pass(n_bound, _hash_repo) := block(
         )
       ),
   return(count))$
-        
+
 
 /*!
 \endhtmlonly
