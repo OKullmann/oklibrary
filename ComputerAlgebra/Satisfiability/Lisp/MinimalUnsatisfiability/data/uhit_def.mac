@@ -586,12 +586,18 @@ analyse_isorepo_defset_imprmvd(repository) := block(
     - [[k,n],"new"] iff not in the catalogue
     - [[k,n],i] iff in the catalogue, with deficiency k, number of
       variables n and index i.
-*/
-/* According to [Kullmann, Zhao, 2008] for unsatisfiable hitting
+   According to [Kullmann, Zhao, 2008] for unsatisfiable hitting
    clause-sets F the result of sdp_reduction_cs(F) is unique
-   up to isomorphism. */
+   up to isomorphism.
+*/
 redisotype_uhit_def(F) := classify_candidates_uhit_def(
   [sdp_reduction_cs(F)])[1]$
+
+
+/* ****************************
+   * Completing the catalogue *
+   ****************************
+*/
 
 /* For all clause-sets in the catalogue with number of variables at most
    n_bound, apply all partial assignments, followed by iterated elimination
@@ -620,6 +626,26 @@ closure_uhit_def_pass(n_bound, _hash_repo) := block(
         )
       ),
   return(count))$
+/* Recall that via hm2osm(_hasp_repo) one gets the hash-map as list. */
+
+/* For a nonsingular unsatisfiable hitting clause-set F consider all
+   "nonsingular splittings", that is splitting on one variable followed
+   with elimination of singular variables. The result is, as above, a
+   repository of isomorphism types (those not already in uhit_def),
+   which is passed by name, and the number of new clause-sets found (however,
+   here _hash_repo is not reset : start an empty repository with
+   _hash_repo:sm2hm({})):
+*/
+nonsingular_splitting_uhit_def_cs(F, _hash_repo) := block(
+ [V : var_cs(F), count : 0, G],
+  for v in V do
+   for x in [-v,+v] do (
+     G : sdp_reduction_cs(apply_pa_cs({x},F)),
+     if classify_candidates_uhit_def([G])[1][2] = "new" and
+     manage_repository_isomorphism_types(cs2fcs(G),ev(_hash_repo)) then
+     count : count + 1
+   ),
+  count)$
 
 
 /*!
