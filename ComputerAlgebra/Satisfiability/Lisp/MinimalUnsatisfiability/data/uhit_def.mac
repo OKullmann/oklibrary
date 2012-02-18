@@ -645,7 +645,7 @@ redisotype_uhit_def(F) := classify_candidates_uhit_def(
    n_bound, apply all partial assignments, followed by iterated elimination
    of singular variables, and compute the non-isomorphic cases found not to
    be in the catalogue, in the form of a repository of isomorphism types,
-   whose name is passed by name. Returned is the number of new clause-sets
+   which is passed by name. Returned is the number of new clause-sets
    found in this way. */
 closure_uhit_def_pass(n_bound, _hash_repo) := block(
  [min_n_unknown, /* the smallest n for which we don't have a
