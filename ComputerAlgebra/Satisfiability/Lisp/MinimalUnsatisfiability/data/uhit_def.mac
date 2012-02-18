@@ -609,7 +609,7 @@ closure_uhit_def_pass(n_bound, _hash_repo) := block(
           V : var_cs(G),
           if
             length(V) >= min_n_unknown and
-            classify_candidates_uhit_def([G])[1][2] = ["new"] and
+            classify_candidates_uhit_def([G])[1][2] = "new" and
             manage_repository_isomorphism_types([V,G],ev(_hash_repo)) then
             count : count + 1
         )
