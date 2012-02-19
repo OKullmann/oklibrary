@@ -29,6 +29,7 @@ License, or any later version. */
    In Experimentation/Investigations/BooleanFunctions/plans/general.hpp the
    following topics are handled:
     - Plans for investigating random boolean functions : DONE
+    - Application tests not run : DONE
 
 
   \par Version 0.3.2 :
