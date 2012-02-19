@@ -144,8 +144,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo DONE (SAT2011 is over; formats for 2012 discussed in
-  "Benchmarks for SAT 2012" above)
+  \todo DONE (SAT2011 is over; formats for 2011 are now linked to
+  in Experimentation/Benchmarks/docus/SAT2011.hpp)
   Formats for SAT 2011
   <ul>
    <li> The specifications of each of the formats can be found at:
