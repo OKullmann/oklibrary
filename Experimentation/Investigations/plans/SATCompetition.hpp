@@ -46,6 +46,18 @@ License, or any later version. */
      <li> QBF benchmark submission is Thursday 15th March 2012. </li>
     </ol>
    </li>
+   <li> The specifications of each of the formats can be found at:
+    <ul>
+     <li> SAT benchmarks (for 2011; the 2012 details aren't available yet) -
+     http://www.satcompetition.org/2011/format-benchmarks2011.html . </li>
+     <li> PseudoBoolean benchmarks -
+     http://www.cril.univ-artois.fr/PB12/format.pdf . </li>
+     <li> MaxSAT benchmarks - http://maxsat.ia.udl.cat/rules/ and
+     http://maxsat.ia.udl.cat/requirements/ . </li>
+     <li> QBFeval benchmarks - http://www.qbflib.org/qdimacs.html.
+     </li>
+    </ul>
+   </li>
    <li> Best in every series to have a mixture, from known to unknown
    instances, from not-too-hard to likely-very-hard. </li>
    <li> We should consider the format, and what instances we can provide
@@ -59,6 +71,8 @@ License, or any later version. */
 
   \todo Categories / "tracks" for SAT 2011
   <ul>
+   <li> This todo should be reviewed and moved into the docus, with
+   up to date links for SAT2012. </li>
    <li> SAT competition:
     <ul>
      <li> <em>Random uniform k-SAT</em> instances where only generators are
@@ -130,19 +144,22 @@ License, or any later version. */
   </ul>
 
 
-  \todo Formats for SAT 2011
+  \todo DONE (SAT2011 is over; formats for 2011 are now linked to
+  in Experimentation/Benchmarks/docus/SAT2011.hpp)
+  Formats for SAT 2011
   <ul>
    <li> The specifications of each of the formats can be found at:
-   <ul>
-    <li> SAT benchmarks -
-    http://www.satcompetition.org/2011/format-benchmarks2011.html . </li>
-    <li> PseudoBoolean benchmarks -
-    http://www.cril.univ-artois.fr/PB11/format.pdf . </li>
-    <li> MaxSAT benchmarks - http://maxsat.ia.udl.cat/rules/ and
-    http://maxsat.ia.udl.cat/requirements/ . </li>
-   </ul>
+    <ul>
+     <li> SAT benchmarks -
+     http://www.satcompetition.org/2011/format-benchmarks2011.html . </li>
+     <li> PseudoBoolean benchmarks -
+     http://www.cril.univ-artois.fr/PB11/format.pdf . </li>
+     <li> MaxSAT benchmarks - http://maxsat.ia.udl.cat/rules/ and
+     http://maxsat.ia.udl.cat/requirements/ . </li>
+    </ul>
    </li>
-   <li> Further specific details about each format should be added to
+   <li> DONE (We now have MinOnes2PseudoBoolean and MinOnes2WeightedMaxSAT)
+   Further specific details about each format should be added to
    this todo. </li>
   </ul>
 
