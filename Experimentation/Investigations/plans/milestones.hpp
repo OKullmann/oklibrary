@@ -13,11 +13,38 @@ License, or any later version. */
 
   \par Version 0.3.2 :
 
+  \par
+   In Experimentation/Investigations/BooleanFunctions/plans/general.hpp the
+   following topics are handled:
+    - Add milestones
+
+  \par
+   Existing milestones at all sub-levels are up-to-date.
+
+  \par
+   Further milestones are created.
+
+
+  \par Version 0.3.3 :
+
   \par Cryptography/AdvancedEncryptionStandard version 0.1.6
   (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
 
   \par Cryptography/DataEncryptionStandard version 0.1.3
   (see Cryptography/DataEncryptionStandard/plans/milestones.hpp)
+
+  \par
+   In Experimentation/Investigations/plans/general.hpp the following topics
+   are handled:
+    - Add section on AES experiments to be run
+
+  \par
+   In Experimentation/Investigations/plans/general.hpp the following topics
+   are handled:
+    - Rerun time-sensitive experiments
+
+
+  \par Version 0.3.4 :
 
   \par
    In Experimentation/Investigations/plans/SATCompetition.hpp the following
@@ -26,25 +53,8 @@ License, or any later version. */
     - Update and completion of plans regarding SAT 2011
     - Categories / "tracks" for SAT 2011
 
-  \par
-   In Experimentation/Investigations/plans/general.hpp the following topics
-   are handled:
-    - Rerun time-sensitive experiments
-    - Add section on AES experiments to be run
 
-  \par
-   In Experimentation/Investigations/BooleanFunctions/plans/general.hpp the
-   following topics are handled:
-    - Add milestones
-
-  \par
-   Further milestones are created.
-
-  \par
-   Existing milestones at all sub-levels are up-to-date.
-
-
-  \par Version 0.3.3 :
+  \par Version 0.3.5 :
 
   \par Cryptography/AdvancedEncryptionStandard version 0.1.7
   (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
@@ -61,8 +71,11 @@ License, or any later version. */
   \par
    All submodules have milestones.
 
+  \par
+   The following milestones are updated.
 
-  \par Version 0.3.4 :
+
+  \par Version 0.3.6 :
 
   \par Cryptography/AdvancedEncryptionStandard version 0.1.8
   (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
