@@ -111,7 +111,7 @@ last(min_nssplittree_def(4));
      \verbatim
 search_gluing(F1,F2,k)
      \endverbatim
-     which has to uhit-clause-sets F1, F2 as inputs and a natural number k,
+     which has two uhit-clause-sets F1, F2 as inputs and a natural number k,
      and searches through all possibilities for gluing F1,F2 (using renaming)
      to obtain a uhit-clause-set of deficiency k: the result is a list of such
      gluings, containing each possible isomorphism-type exactly once.
