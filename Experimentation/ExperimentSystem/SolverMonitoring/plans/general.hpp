@@ -10,6 +10,58 @@ License, or any later version. */
   \brief General plans regarding monitoring solvers
 
 
+  \todo Handling changing solver output
+  <ul>
+   <li> A solver's output can be different depending on the options
+   given to it. </li>
+   <li> For instance, the OKsolver_2002 will output the additional attributes,
+   "splitting directory" and "splitting cases", if one passes in the
+   "-S" option, but not otherwise. This is discussed in
+   "Handling splitting output" in
+   ExperimentSystem/SolverMonitoring/plans/OKsolver.hpp. </li>
+   <li> The question is how extraction scripts, as described in
+   "Extraction tools" below, should handle different outputs from
+   the same solver. </li>
+   <li> The two most natural options are:
+    <ul>
+     <li> Extraction scripts take solver arguments:
+      <ul>
+       <li> Extraction scripts take the solver options as arguments and
+       extract different attributes depending on these arguments. </li>
+       <li> The advantage with this method is that the output of
+       the extraction script never has any missing data. </li>
+       <li> The disadvantage is that the system becomes more
+       complicated, and one must remember what options were
+       passed to the solver. </li>
+      </ul>
+     </li>
+     <li> Default values for missing data:
+      <ul>
+       <li> Extraction scripts always output a column for all possible
+       data that the solver outputs. When the solver doesn't output certain
+       data, the extraction script outputs a default value. </li>
+       <li> For the default value, we have two choices: use a default value
+       which could be output by the solver (e.g., 0, or whatever is sensible
+       for the attribute in question), or use special NA values (from R). </li>
+       <li> Using "zero" values has the advantage that a table with these
+       values can have statistics calculated, without additional measures
+       taken. </li>
+       <li> Using NA values has the advantage that it is always clear that a
+       value is missing, and it isn't mistaken for "real" data. </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li> In general, it seems best to some form of default values for missing
+   data, avoiding the additional complexity of script arguments. </li>
+   <li> The use of "zero" or NA values should be a matter decided on an
+   attribute by attribute basis. </li>
+   <li> The use of additional options for the extraction scripts should
+   be reserved for special cases, where the additional complexity seems
+   warranted. </li>
+  </ul>
+
+
   \todo Testing solver extraction scripts
   <ul>
    <li> We need tests to ensure that the extraction scripts collect the
@@ -222,6 +274,9 @@ License, or any later version. */
      <li> l : integer, number of literal occurrences. </li>
      <li> rl : integer, number of literal occurrences, as reported by the
      solver. </li>
+     <li> mcl : integer, maximal clause length. </li>
+     <li> rmcl : integer, maximal clause length, as reported by the
+     solver. </li>
      <li> Such general measures (n, c and l) always refer to the original
      input (not after preprocessing). </li>
      <li> t : double, solution time (in seconds). </li>
@@ -253,7 +308,8 @@ License, or any later version. */
     </ol>
    </li>
    <li> Some solvers do not always output their full statistics. In such
-   cases, appropriate 0-values have to be entered. </li>
+   cases, appropriate 0-values have to be entered. This is discussed in
+   "Handling changing solver output". </li>
    <li> DONE (solver-outputs in general are not comparable, only similar
    families of solvers should be treated similarly)
    Not all solver outputs are comparable.
