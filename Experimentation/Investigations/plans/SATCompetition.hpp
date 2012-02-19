@@ -61,38 +61,38 @@ License, or any later version. */
   <ul>
    <li> SAT competition:
     <ul>
-     <li> <em>Random uniform k-SAT</em> instances where only generators are 
+     <li> <em>Random uniform k-SAT</em> instances where only generators are
      allowed. </li>
-     <li> <em>Applications</em> where instances of industrial and practical 
-     interest are required. 
+     <li> <em>Applications</em> where instances of industrial and practical
+     interest are required.
      </li>
      <li> <em>Crafted</em> where instances designed to be hard for SAT solvers,
-     representing difficult puzzles, mathematical problems etc are required. 
+     representing difficult puzzles, mathematical problems etc are required.
      One should specify whether these instances are SAT or UNSAT. </li>
     </ul>
    </li>
    <li> PseudoBoolean competition:
     <ul>
-     <li> Pseudo Boolean Satisfaction, <em>PBS</em>, which involves deciding 
+     <li> Pseudo Boolean Satisfaction, <em>PBS</em>, which involves deciding
      satisfiability for a set of PB constraints. </li>
-     <li> Pseudo Boolean Optimisation, <em>PBO</em>, which involves finding a 
+     <li> Pseudo Boolean Optimisation, <em>PBO</em>, which involves finding a
      model which optimises a given objective function. </li>
-     <li> Weighted boolean optimisation, <em>WBO</em> where pseudo boolean 
+     <li> Weighted boolean optimisation, <em>WBO</em> where pseudo boolean
      constraints have weights and then a solution must be
      found which minimises the sum of the weight of the falsified
      constraints. </li>
      <li> For PBS and PBO, there are the following categories:
       <ul>
        <li> DEC - pure decision problems, where the solver must only
-       find a solution but there is no objective function, and no weights. 
+       find a solution but there is no objective function, and no weights.
        </li>
-       <li> OPT - an objective function is present which must be 
+       <li> OPT - an objective function is present which must be
        optimised but no weights are given to constraints. </li>
        <li> SOFT - all weights in the weighted boolean optimisation
        problem are "soft", i.e., one doesn't use the notion of a
        "hard" constraint which must be satisfied. </li>
        <li> PARTIAL - there is at least one "hard" weighted constraint
-       in the weighted boolean optimisation problem, which must be 
+       in the weighted boolean optimisation problem, which must be
        satisfied. </li>
       </ul>
       For each of these, there are the following sub-categories:
@@ -113,12 +113,12 @@ License, or any later version. */
      a standard Dimacs CNF and the solver tries to find an assignment
      which minimises the number of falsified clauses. </li>
      <li> <em>Partial MaxSAT</em> where the benchmark is a standard
-     CNF file augmented with "hard" and "soft" indicators which are 
+     CNF file augmented with "hard" and "soft" indicators which are
      added as prefixes to each clause, such that the solver must
      find an assignment which minimises the number of falsified
      clauses but satisifies all "hard" clauses. </li>
      <li> <em>Weighted MaxSAT</em> where each clause in the Dimacs
-     file is prefixed with a positive integer weight and then the 
+     file is prefixed with a positive integer weight and then the
      solver must find an assignment which minimises the sum of the
      weights of the clauses falsified by the assignment. </li>
      <li> <em>Partial Weighted MaxSAT</em> where clauses are
@@ -134,9 +134,9 @@ License, or any later version. */
   <ul>
    <li> The specifications of each of the formats can be found at:
    <ul>
-    <li> SAT benchmarks - 
+    <li> SAT benchmarks -
     http://www.satcompetition.org/2011/format-benchmarks2011.html . </li>
-    <li> PseudoBoolean benchmarks - 
+    <li> PseudoBoolean benchmarks -
     http://www.cril.univ-artois.fr/PB11/format.pdf . </li>
     <li> MaxSAT benchmarks - http://maxsat.ia.udl.cat/rules/ and
     http://maxsat.ia.udl.cat/requirements/ . </li>
@@ -158,7 +158,7 @@ License, or any later version. */
     <li> calculations for the various statistics for the clause-sets. </li>
    </ol>
    </li>
-   <li> The PDF documents are best done in OKlib/annotations/, using the 
+   <li> The PDF documents are best done in OKlib/annotations/, using the
    prefix "SAT_2011_Benchmark_". </li>
   </ul>
 
@@ -195,5 +195,4 @@ License, or any later version. */
   </ul>
 
 */
-  
-  
+

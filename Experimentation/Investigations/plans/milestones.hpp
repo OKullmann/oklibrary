@@ -19,7 +19,6 @@ License, or any later version. */
   \par Cryptography/DataEncryptionStandard version 0.1.3
   (see Cryptography/DataEncryptionStandard/plans/milestones.hpp)
 
-
   \par
    In Experimentation/Investigations/plans/SATCompetition.hpp the following
    topics are handled:
@@ -50,7 +49,6 @@ License, or any later version. */
 
 
   \par Version 0.3.2 :
-
 
   \par
    In Experimentation/Investigations/plans/general.hpp the following topics
