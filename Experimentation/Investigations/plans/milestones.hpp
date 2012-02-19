@@ -13,18 +13,9 @@ License, or any later version. */
 
   \par Version 0.3.1 :
 
-  \par Cryptography/AdvancedEncryptionStandard version 0.2
-  (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
-
-  \par Cryptography/DataEncryptionStandard version 0.1.3
-  (see Cryptography/DataEncryptionStandard/plans/milestones.hpp)
-
   \par
    In Experimentation/Investigations/plans/SATCompetition.hpp the following
    topics are handled:
-    - Benchmarks for SAT 2012
-    - Update and completion of plans regarding SAT 2011
-    - Categories / "tracks" for SAT 2011
     - Formats for SAT 2011 : DONE
     - Benchmarks for SAT 2011 : DONE
     - Supporting documents : DONE
@@ -32,23 +23,86 @@ License, or any later version. */
   \par
    In Experimentation/Investigations/plans/general.hpp the following topics
    are handled:
-    - Structure
-    - Create milestones
-    - Rerun time-sensitive experiments
-    - Experiment scripts
-    - Add section on AES experiments to be run
+    - Create milestones : DONE
+
+  \par
+   In Experimentation/Investigations/BooleanFunctions/plans/general.hpp the
+   following topics are handled:
+    - Plans for investigating random boolean functions : DONE
+    - Application tests not run : DONE
+
+
+  \par Version 0.3.2 :
 
   \par
    In Experimentation/Investigations/BooleanFunctions/plans/general.hpp the
    following topics are handled:
     - Add milestones
-    - Plans for investigating random boolean functions : DONE
+
+  \par
+   Existing milestones at all sub-levels are up-to-date.
 
   \par
    Further milestones are created.
 
 
-  \par Version 0.3.2 :
+  \par Version 0.3.3 :
+
+  \par Cryptography/AdvancedEncryptionStandard version 0.1.6
+  (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
+
+  \par Cryptography/DataEncryptionStandard version 0.1.3
+  (see Cryptography/DataEncryptionStandard/plans/milestones.hpp)
+
+  \par
+   In Experimentation/Investigations/plans/general.hpp the following topics
+   are handled:
+    - Add section on AES experiments to be run
+
+  \par
+   In Experimentation/Investigations/plans/general.hpp the following topics
+   are handled:
+    - Rerun time-sensitive experiments
+
+
+  \par Version 0.3.4 :
+
+  \par
+   In Experimentation/Investigations/plans/SATCompetition.hpp the following
+   topics are handled:
+    - Benchmarks for SAT 2012
+    - Update and completion of plans regarding SAT 2011
+    - Categories / "tracks" for SAT 2011
+
+
+  \par Version 0.3.5 :
+
+  \par Cryptography/AdvancedEncryptionStandard version 0.1.7
+  (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
+
+  \par Cryptography/DataEncryptionStandard version 0.1.4
+  (see Cryptography/DataEncryptionStandard/plans/milestones.hpp)
+
+  \par
+   In Experimentation/Investigations/plans/general.hpp the following topics
+   are handled:
+    - Structure
+    - Experiment scripts
+
+  \par
+   All submodules have milestones.
+
+  \par
+   The following milestones are updated.
+
+
+  \par Version 0.3.6 :
+
+  \par Cryptography/AdvancedEncryptionStandard version 0.1.8
+  (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
+
+  \par Cryptography/DataEncryptionStandard version 0.1.5
+  (see Cryptography/DataEncryptionStandard/plans/milestones.hpp)
 
   \par
    In Experimentation/Investigations/plans/general.hpp the following topics
@@ -57,9 +111,6 @@ License, or any later version. */
     - Experimental investigations on heuristics
     - Translations from CSP to SAT
     - SplittingViaOKsolver for random clause-sets
-
-  \par
-   All submodules have milestones.
 
 
 
