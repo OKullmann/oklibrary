@@ -18,13 +18,15 @@ License, or any later version. */
    "splitting directory" and "splitting cases", if one passes in the
    "-S" option, but not otherwise. This is discussed in
    "Handling splitting output" in
-   ExperimentSystem/SolverMonitoring/plans/OKsolver.hpp. </li>
+   ExperimentSystem/SolverMonitoring/plans/OKsolver.hpp.
+   OK: as discussed there, no such case distinctions should be performed. </li>
    <li> The question is how extraction scripts, as described in
    "Extraction tools" below, should handle different outputs from
-   the same solver. </li>
+   the same solver. OK: use NA-values. </li>
    <li> The two most natural options are:
     <ul>
-     <li> Extraction scripts take solver arguments:
+     <li> Extraction scripts take solver arguments: OK: as explained above,
+     this should not be done.
       <ul>
        <li> Extraction scripts take the solver options as arguments and
        extract different attributes depending on these arguments. </li>
@@ -48,15 +50,23 @@ License, or any later version. */
        taken. </li>
        <li> Using NA values has the advantage that it is always clear that a
        value is missing, and it isn't mistaken for "real" data. </li>
+       <li> Obviously the NA-value is the *only* possibility, since the data
+       is statistical data, and we obviously follow the practice of statistics
+       in their own field. And values 0 would just be false in general. </li>
       </ul>
      </li>
     </ul>
    </li>
    <li> In general, it seems best to some form of default values for missing
    data, avoiding the additional complexity of script arguments. </li>
-   <li> The use of "zero" or NA values should be a matter decided on an
+   <li> DONE (if the field is not output by the solver, then obviously it
+   gets the NA-value --- never 0; all initialisations must always use NA,
+   and in this way automatically we get NA in case the solver didn't give
+   data)
+   The use of "zero" or NA values should be a matter decided on an
    attribute by attribute basis. </li>
-   <li> The use of additional options for the extraction scripts should
+   <li> DONE (there should be no such cases)
+   The use of additional options for the extraction scripts should
    be reserved for special cases, where the additional complexity seems
    warranted. </li>
   </ul>

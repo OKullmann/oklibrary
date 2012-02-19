@@ -20,7 +20,8 @@ c splitting_cases                       345185
    when given the option "-S" but not otherwise.
    </li>
    <li> We must decide how to handle this "dynamic" output for
-   OKsolver_2002. </li>
+   OKsolver_2002: Making case-distinctions introduces dependencies and
+   combinatorial complications, and thus is best avoided. </li>
    <li> The question of how to handle dynamic output in general is
    discussed in "Handling changing solver output" in
    ExperimentSystem/SolverMonitoring/plans/general.hpp . </li>
@@ -33,10 +34,14 @@ c splitting_cases                       345185
    mean that, in this case, the additional complexity of having
    ExtractOKsolver take additional parameters is best. These
    additional parameters then determine which attributes OKsolver
-   extracts. </li>
+   extracts. OK: Having the value NA, it is always easy to determine which
+   case occurs, easier than to ask for the existence/non-existence of
+   certain fields. Thus we always should have just *one* table-format
+   for a solver, not many.</li>
    <li> The ExtractOKsolver script should be extended to take a
    "-S" option to indicate that the OKsolver_2002 output it is reading
-   includes splitting data. </li>
+   includes splitting data. OK: As discussed above, this should not be done.
+   </li>
   </ul>
 
 
