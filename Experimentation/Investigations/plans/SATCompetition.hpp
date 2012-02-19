@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.11.2010 (Swansea)
-/* Copyright 2010, 2011 Oliver Kullmann
+/* Copyright 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,6 +14,14 @@ License, or any later version. */
   <ul>
    <li> The SAT competitions are nearly finished now (except of the PB
    evaluation, which will be repeated). </li>
+   <li> The benchmarks were created, submitted, and are documented in
+   Experimentation/Benchmarks/docus/SAT2011.hpp. </li>
+   <li> We need the results of the competition on our instances available in
+   the library. </li>
+   <li> We should also provide full documentation of the AES instances
+   as a LaTeX document with a description of the cipher. This should fit in
+   with the generation of instances for SAT2012, discussed in "Benchmarks for
+   SAT 2012". </li>
    <li> All results of the competition should be made available (in edited
    form, of course) on our benchmark sites. </li>
    <li> Also links to competition pages are needed there. </li>
