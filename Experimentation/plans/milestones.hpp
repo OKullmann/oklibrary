@@ -19,7 +19,7 @@ License, or any later version. */
   \par Experimentation/Database version 0.3.2
   (see Experimentation/Database/plans/milestones.hpp)
 
-  \par Experimentation/Investigations version 0.3.1
+  \par Experimentation/Investigations version 0.3.2
   (see  Experimentation/Investigations/plans/milestones.hpp)
 
   \par Experimentation/ExperimentSystem version 0.1.4
@@ -40,7 +40,7 @@ License, or any later version. */
   \par Experimentation/Database version 0.3.3
   (see Experimentation/Database/plans/milestones.hpp)
 
-  \par Experimentation/Investigations version 0.3.2
+  \par Experimentation/Investigations version 0.3.3
   (see  Experimentation/Investigations/plans/milestones.hpp)
 
   \par Experimentation/ExperimentSystem version 0.2
