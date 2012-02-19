@@ -475,7 +475,7 @@ CFLAGS="-UMACHINE_BITS_OKL"
     </ol>
     For non-DIMACS output the return value is <code>0</code> for all cases of
     proper exit. </li>
-   </li> 
+   </li>
   </ul>
 
 
