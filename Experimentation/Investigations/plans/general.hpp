@@ -21,9 +21,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Create milestones
-
-
   \todo Rerun time-sensitive experiments WHAT IS THE STATUS OF THIS?
   <ul>
    <li> On older versions of the 32-bit linux-kernel, <= 2.6.35.6, there is
@@ -501,6 +498,9 @@ c 15.2 seconds, 101 MB max, 5 MB recycled
    solvers (which still use full resolution, and have an advantage over the
    look-ahead solvers)? </li>
   </ul>
+
+
+  \todo Create milestones : DONE
 
 */
 
