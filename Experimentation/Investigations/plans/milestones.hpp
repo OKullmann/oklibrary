@@ -22,6 +22,7 @@ License, or any later version. */
   \par
    In Experimentation/Investigations/plans/SATCompetition.hpp the following
    topics are handled:
+    - Benchmarks for SAT 2012
     - Update and completion of plans regarding SAT 2011
     - Categories / "tracks" for SAT 2011
     - Formats for SAT 2011 : DONE
@@ -48,11 +49,6 @@ License, or any later version. */
 
 
   \par Version 0.3.2 :
-
-  \par
-   In Experimentation/Investigations/plans/SATCompetition.hpp the following
-   topics are handled:
-    - Benchmarks for SAT 2012
 
   \par
    In Experimentation/Investigations/plans/general.hpp the following topics
