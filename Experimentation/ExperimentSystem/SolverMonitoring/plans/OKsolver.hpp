@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.8.2009 (Swansea)
-/* Copyright 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,36 @@ License, or any later version. */
 /*!
   \file ExperimentSystem/SolverMonitoring/plans/OKsolver.hpp
   \brief General plans monitoring OKsolver_2002
+
+
+  \todo Handling splitting output
+  <ul>
+   <li> OKsolver_2002 outputs the fields
+   \verbatim
+c splitting_directory                   SplitViaOKsolver_D100des_6t4_1base_r5_s1cnf_2012-01-15-231326/Instances
+c splitting_cases                       345185
+   \endverbatim
+   when given the option "-S" but not otherwise.
+   </li>
+   <li> We must decide how to handle this "dynamic" output for
+   OKsolver_2002. </li>
+   <li> The question of how to handle dynamic output in general is
+   discussed in "Handling changing solver output" in
+   ExperimentSystem/SolverMonitoring/plans/general.hpp . </li>
+   <li> The facts that:
+    <ul>
+     <li> for general OKsolver_2002 output, splitting doesn't occur, and </li>
+     <li> splitting is handled by the special script "SplittingViaOKsolver",
+     </li>
+    </ul>
+   mean that, in this case, the additional complexity of having
+   ExtractOKsolver take additional parameters is best. These
+   additional parameters then determine which attributes OKsolver
+   extracts. </li>
+   <li> The ExtractOKsolver script should be extended to take a
+   "-S" option to indicate that the OKsolver_2002 output it is reading
+   includes splitting data. </li>
+  </ul>
 
 
   \todo Write extraction tool

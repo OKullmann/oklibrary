@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In ExperimentSystem/SolverMonitoring/plans/general.hpp the following topics
    are handled:
+    - Handling changing solver output
     - Running experiments
     - Better summary statistics
     - Extraction tools
@@ -34,6 +35,7 @@ License, or any later version. */
   \par
    In ExperimentSystem/SolverMonitoring/plans/OKsolver.hpp the following
    topics are handled:
+    - Handling splitting output
     - Write extraction tool
 
   \par
