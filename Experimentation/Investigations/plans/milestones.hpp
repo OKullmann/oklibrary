@@ -24,8 +24,8 @@ License, or any later version. */
    In Experimentation/Investigations/plans/SATCompetition.hpp the following
    topics are handled:
     - Update and completion of plans regarding SAT 2011
-    - Formats for SAT 2011
     - Categories / "tracks" for SAT 2011
+    - Formats for SAT 2011 : DONE
     - Benchmarks for SAT 2011 : DONE
     - Supporting documents : DONE
 
