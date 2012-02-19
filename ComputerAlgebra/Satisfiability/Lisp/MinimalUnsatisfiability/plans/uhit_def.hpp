@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.5.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -31,6 +31,9 @@ License, or any later version. */
    <li> Potentially this behaviour could be useful, since one could leave
    terms in the uhit_def-catalogue unevaluated, and evaluation only happens
    when needed. </li>
+   <li> However it seems hard to control: for example in
+   Satisfiability/Lisp/ConflictCombinatorics/testobjects/HittingClauseSets.mac
+   an extra load-command had to be inserted to make the test run! </li>
    <li> An example session:
    \verbatim
 (%i1) a[0]:f(0);

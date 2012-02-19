@@ -633,6 +633,55 @@ max_min_var_deg_uhit_def_mem[k] := max_min_var_deg_cs(ev(all_uhit_def(k),eval))$
    of uhit_def occurred. */
 
 
+/* *************************
+   * Resolution complexity *
+   *************************
+*/
+
+/* A "nonsingular splitting tree" for a nonsingular unsatisfiable
+   hitting clause-set F is like an ordinary splitting tree, only
+   that at each non-root node after the assignment (of a single
+   variable) singular DP-reduction is applied, until again a
+   nonsingular (unsatisfiable hitting) clause-set is obtained.
+   The size of such a tree is, as usual in this context, the
+   number of leaves; let min_nssplittree_cs(F) be the minimal
+   possible size.
+   So the elements of UHIT_{delta=1} have min_nssplittree_cs(F) = 1,
+   while all other elements have size > 1.
+*/
+
+/* For a (valid) isomorphism-type t=[[k,n],i] occurring in uhit_def compute the
+   minimal size of a nonsingular splitting tree; if a tuple not in the
+   uhit_def-catalogue is uncountered, the tuple together with its type
+   is printed, and "und" is returned.
+*/
+min_nssplittree_isot[t] := block([k,n,i,F,res:inf,G,tn,sum],
+ [k,n] : t[1], i : t[2],
+ if k=1 then return(1),
+ F : uhit_def[k,n][i],
+ for v : 1 thru n do (
+   G : apply_pa_cs({v},F),
+   tn : redisotype_uhit_def(G),
+   if tn[2]="new" then (print(G,tn), return(und)),
+   sum : min_nssplittree_isot[tn],
+   G : apply_pa_cs({-v},F),
+   tn : redisotype_uhit_def(G),
+   if tn[2]="new" then (print(G,tn), return(und)),
+   sum : sum + min_nssplittree_isot[tn],
+   res : min(res, sum)
+ ),
+ res)$
+/* Compute the minimal size of a nonsingular splitting tree for all clause-sets
+   in uhit_def with deficiency k:
+*/
+min_nssplittree_def(k) := block(
+ [L : map(first,uhit_def[k,"info"][4]), res : []],
+  for n in L do block([l : length(uhit_def[k,n])],
+   for i : 1 thru l do
+    res : cons(min_nssplittree_isot[[[k,n],i]], res)
+  ),
+  reverse(res))$
+
 
 /*!
 \endhtmlonly
