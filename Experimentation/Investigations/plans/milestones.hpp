@@ -13,6 +13,26 @@ License, or any later version. */
 
   \par Version 0.3.1 :
 
+  \par
+   In Experimentation/Investigations/plans/SATCompetition.hpp the following
+   topics are handled:
+    - Formats for SAT 2011 : DONE
+    - Benchmarks for SAT 2011 : DONE
+    - Supporting documents : DONE
+
+  \par
+   In Experimentation/Investigations/plans/general.hpp the following topics
+   are handled:
+    - Create milestones : DONE
+
+  \par
+   In Experimentation/Investigations/BooleanFunctions/plans/general.hpp the
+   following topics are handled:
+    - Plans for investigating random boolean functions : DONE
+
+
+  \par Version 0.3.2 :
+
   \par Cryptography/AdvancedEncryptionStandard version 0.1.6
   (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
 
@@ -25,22 +45,17 @@ License, or any later version. */
     - Benchmarks for SAT 2012
     - Update and completion of plans regarding SAT 2011
     - Categories / "tracks" for SAT 2011
-    - Formats for SAT 2011 : DONE
-    - Benchmarks for SAT 2011 : DONE
-    - Supporting documents : DONE
 
   \par
    In Experimentation/Investigations/plans/general.hpp the following topics
    are handled:
     - Rerun time-sensitive experiments
     - Add section on AES experiments to be run
-    - Create milestones : DONE
 
   \par
    In Experimentation/Investigations/BooleanFunctions/plans/general.hpp the
    following topics are handled:
     - Add milestones
-    - Plans for investigating random boolean functions : DONE
 
   \par
    Further milestones are created.
@@ -49,7 +64,7 @@ License, or any later version. */
    Existing milestones at all sub-levels are up-to-date.
 
 
-  \par Version 0.3.2 :
+  \par Version 0.3.3 :
 
   \par Cryptography/AdvancedEncryptionStandard version 0.1.7
   (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
@@ -67,7 +82,7 @@ License, or any later version. */
    All submodules have milestones.
 
 
-  \par Version 0.3.3 :
+  \par Version 0.3.4 :
 
   \par Cryptography/AdvancedEncryptionStandard version 0.1.8
   (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
