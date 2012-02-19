@@ -199,7 +199,7 @@ okltest_php_ext_uni_resl(f) := block(
 okltest_php_ext_resl(f) := block(
   assert(
     okltest_php_ext_uni_resl(
-      buildq([f], lambda([n], rename_resl(f(n),sm2hm(renaming_php2ephp_sm(n))))))),
+      buildq([f], lambda([n], rename_resl(f(n),sm2hm(var_php2ephp_sm(n))))))),
   true)$
 
 okltest_ncl_php_ext_uni_resl(f) := block(
