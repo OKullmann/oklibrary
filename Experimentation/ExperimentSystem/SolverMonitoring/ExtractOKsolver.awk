@@ -11,7 +11,7 @@
 BEGIN {
   mcl=0; n=0; c=0; l=0; t=0; sat=2; nds=0; r1=0; r2=0; pls=0; ats=0; h=0; file="";
   dmcl=0; dn=0; n2cr=0; snds=0; qnds=0; mnds=0; tel=0; oats=0; n2cs=0;
-  m2cs=0; psrc=0; psng=0; tp=0; }
+  m2cs=0; pa=0; ps=0; tp=0; }
 /^c sat_status/ { sat=$3; }
 /^c initial_maximal_clause_length/ { mcl=$3; }
 /^c initial_number_of_variables/ { n=$3; }
@@ -32,8 +32,8 @@ BEGIN {
 /^c number_of_autarkies/ { ats=$3; }
 /^c number_of_missed_single_nodes/ { mnds=$3; }
 /^c max_tree_depth/ { h=$3; }
-/^c proportion_searched/ { psrc=$3; }
-/^c proportion_single/ { psng=$3; }
+/^c proportion_searched/ { pa=$3; }
+/^c proportion_single/ { ps=$3; }
 /^c total_proportion/ { tp=$3; }
 /^c number_of_table_enlargements/ { tel=$3; }
 /^c number_of_1-autarkies/ { oats=$3; }
@@ -44,4 +44,4 @@ BEGIN {
 END { 
   print n " " c " " l " " mcl " " t " " sat " " nds " " r1 " " r2 " " pls " " ats " " \
     h " \"" file "\" " n2cr " " dmcl " " dn " " dc " " dl " " snds " " \
-    qnds " " mnds " " psrc " " psng " " tp " " tel " " oats " " n2cs " " m2cs; }
+    qnds " " mnds " " pa " " ps " " tp " " tel " " oats " " n2cs " " m2cs; }
