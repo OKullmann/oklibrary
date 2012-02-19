@@ -499,8 +499,5 @@ c 15.2 seconds, 101 MB max, 5 MB recycled
    look-ahead solvers)? </li>
   </ul>
 
-
-  \todo Create milestones : DONE
-
 */
 
