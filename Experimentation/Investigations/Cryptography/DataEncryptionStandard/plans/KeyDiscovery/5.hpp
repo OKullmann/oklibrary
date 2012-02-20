@@ -1159,6 +1159,79 @@ R-squared: 0.9911
      127716 from 140821 in current SplittingViaOKsolver-order). </li>
     </ul>
    </li>
+   <li> Using minimum-translation:
+    <ol>
+     <li> A systematic investigation is to be started by MG, so here only a
+     first impression. </li>
+     <li> Using D=90 for seed=1:
+     \verbatim
+> SplittingViaOKsolver -D90 des_6t4_min_r5_s01.cnf
+> cat Result
+c initial_maximal_clause_length         7
+c initial_number_of_variables           680
+c initial_number_of_clauses             4428
+c initial_number_of_literal_occurrences 20028
+c number_of_initial_unit-eliminations   128
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           128
+c reddiff_number_of_clauses             576
+c reddiff_number_of_literal_occurrences 1920
+c number_of_2-clauses_after_reduction   448
+c running_time(sec)                     659.3
+c number_of_nodes                       650647
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                174629
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        25
+c proportion_searched                   3.196883e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.03196883201599121
+c number_of_table_enlargements          0
+c file_name                             des_6t4_min_r5_s01.cnf
+c splitting_directory                   SplitViaOKsolver_D90des_6t4_min_r5_s01cnf_2012-02-19-003244/Instances
+c splitting_cases                       325079
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D90des_6t4_min_r5_s01cnf_2012-02-19-003244/
+> cat Process_SplitViaOKsolver_D90des_6t4_min_r5_s01cnf_2012-02-19-003244_2012-02-19-115119/Result
+SATISFIABLE
+Found 1 satisfiable sub-instances.
+  PID TTY      STAT   TIME COMMAND
+30224 pts/55   S+   1254:47 /bin/bash /home/kullmann/OKplatform/bin/ProcessSplitViaOKsolver SplitViaOKsolver_D90des_6t4_min_r5_s01cnf_2012-02-19-003244/
+> E=read_processsplit_minisat()
+325079: 17h, sum-cfs=2.962530e+09, mean-t=0.188s, mean-cfs=9113, sat: 0 1
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+  0.0070   0.1020   0.1540   0.1883   0.2220 327.8000
+sd= 0.9132655
+       95%        96%        97%        98%        99%       100%
+  0.413937   0.441932   0.482586   0.551916   0.696894 327.805000
+sum= 61199.94
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     37    5308    7815    9113   10720 8178000
+sd= 23712.76
+       95%        96%        97%        98%        99%       100%
+  19215.10   20355.00   22028.66   25005.88   31040.00 8177563.00
+sum= 2962530393
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -1.6061e-01  1.8823e-04 -853.24 < 2.2e-16 ***
+E$cfs        3.8281e-05  7.4096e-09 5166.44 < 2.2e-16 ***
+R-squared: 0.988
+> E[E$sat==1,]
+            i npa  d  rn   rc        t sat  cfs  dec rts     r1 mem ptime stime
+270158 267576 220 18 688 2989 0.067989   1 3684 5191  19 184502  18     0     0
+         cfl
+270158 46245
+> display_seconds(sum(E$t[1:270158]))
+[1] "12.963h"
+     \endverbatim
+     </li>
+     <li> The computation has a large overhead, but it could be that here the
+     minimum-translation performs best. </li>
+    </ol>
+   </li>
   </ul>
 
 
