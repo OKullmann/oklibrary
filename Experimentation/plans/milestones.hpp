@@ -19,7 +19,7 @@ License, or any later version. */
   \par Experimentation/Database version 0.3.2
   (see Experimentation/Database/plans/milestones.hpp)
 
-  \par Experimentation/Investigations version 0.3.2
+  \par Experimentation/Investigations version 0.3.3
   (see  Experimentation/Investigations/plans/milestones.hpp)
 
   \par Experimentation/ExperimentSystem version 0.1.4
@@ -40,7 +40,7 @@ License, or any later version. */
   \par Experimentation/Database version 0.3.3
   (see Experimentation/Database/plans/milestones.hpp)
 
-  \par Experimentation/Investigations version 0.3.3
+  \par Experimentation/Investigations version 0.3.4
   (see  Experimentation/Investigations/plans/milestones.hpp)
 
   \par Experimentation/ExperimentSystem version 0.2
@@ -48,6 +48,24 @@ License, or any later version. */
 
   \par Experimentation/RandomGenerator version 0.6
   (see RandomGenerator/plans/milestones.hpp)
+
+
+  \par Version 0.4.4 : UP TO DATE
+
+  \par Experimentation/Competition version 0.7
+  (see Experimentation/Competition/plans/milestones.hpp)
+
+  \par Experimentation/Investigations version 0.3.6
+  (see  Experimentation/Investigations/plans/milestones.hpp)
+
+  \par Experimentation/ExperimentSystem version 0.3
+  (see ExperimentSystem/plans/milestones.hpp)
+
+  \par Experimentation/RandomGenerator version 0.7
+  (see RandomGenerator/plans/milestones.hpp)
+
+  \par
+   Further milestones are created.
 
 
 
