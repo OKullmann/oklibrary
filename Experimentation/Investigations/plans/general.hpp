@@ -21,9 +21,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Create milestones
-
-
   \todo Rerun time-sensitive experiments WHAT IS THE STATUS OF THIS?
   <ul>
    <li> On older versions of the 32-bit linux-kernel, <= 2.6.35.6, there is
