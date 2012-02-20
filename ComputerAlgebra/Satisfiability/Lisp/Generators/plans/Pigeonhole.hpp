@@ -66,7 +66,7 @@ ev(float(floor((sqrt(243*t^2-486*t+239)/(2*3^(3/2))+(3*t-3)/2)^(1/3)
      Float is needed here to force the simplification of the term.
      </li>
      <li> The current solution, in invstandardise_weak_php_unsat_ext_uni, is
-     to iteratively search for l from l = 1. This is then linearly
+     to iteratively search for l from l = 1. This is then linear
      complexity in l. </li>
      <li> The current solution should be reconsidered, and a better method
      found. </li>
