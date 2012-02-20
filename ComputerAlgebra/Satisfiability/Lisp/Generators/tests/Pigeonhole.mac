@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Pigeonhole.m
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac");
 
 kill(f)$
 
@@ -89,6 +90,11 @@ okltest_php_induction_cl(f) := block(
      {-php_ext(1,1,1),php(1,1),php(1,2)},{-php_ext(1,1,1),php(1,1),php(3,1)},
      {php_ext(1,2,1),-php(2,1)},{php_ext(1,2,1),-php(2,2),-php(3,1)},
      {-php_ext(1,2,1),php(2,1),php(2,2)},{-php_ext(1,2,1),php(2,1),php(3,1)}]),
+  for i : 1 thru 3 do
+    blocked_extension_cs_p(setify(f(i+1)),setify(f(i))),
+  if oklib_test_level = 0 then return(true),
+  for i : 4 thru 5 do
+    blocked_extension_cs_p(setify(f(i+1)),setify(f(i))),
   true)$
 
 okltest_weak_php_unsat_ext_uni_fcs(f) := block(
@@ -112,6 +118,11 @@ okltest_weak_php_unsat_ext_fcs(f) := block(
       {-php(2,1),-php(3,1)},{php(2,1),php(2,2)},{php(2,1),php(2,2),
        -php_ext(1,2,1)}, {php(2,1),-php_ext(1,2,1),php(3,1)},{-php(2,2),
        php_ext(1,2,1),-php(3,1)},{-php(2,2),-php(3,2)},{php(3,1),php(3,2)}}]),
+  for m : 1 thru 3 do
+    assert(blocked_extension_cs_p(f(m)[2], weak_php_cs(m+1,m))),
+  if oklib_test_level = 0 then return(true),
+  for m : 4 thru 5 do
+    assert(blocked_extension_cs_p(f(m)[2], weak_php_cs(m+1,m))),
   true)$
 
 okltest_standardise_weak_php_unsat_ext_uni(f) := block(
