@@ -34,10 +34,12 @@ okltest_ncl_list_weak_php(ncl_list_weak_php);
 okltest_ncl_weak_php(ncl_weak_php);
 okltest_deficiency_weak_php(deficiency_weak_php);
 
-/* Extended Resolution */
 
-okltest_var_php2ephp_sm(var_php2ephp_sm);
-okltest_var_ephp2php_sm(var_ephp2php_sm);
+/* *********************************
+   * Extended pigeon-hole formulas *
+   *********************************
+*/
+
 okltest_php_induction_step_cl(php_induction_step_cl);
 okltest_php_induction_cl(php_induction_cl);
 okltest_weak_php_unsat_ext_fcs(weak_php_unsat_ext_fcs);
@@ -45,6 +47,8 @@ okltest_weak_php_unsat_ext_uni_fcs(weak_php_unsat_ext_uni_fcs);
 okltest_standardise_weak_php_unsat_ext_uni(standardise_weak_php_unsat_ext_uni);
 okltest_invstandardise_weak_php_unsat_ext_uni(invstandardise_weak_php_unsat_ext_uni);
 okltest_weak_php_unsat_ext_stdfcs(weak_php_unsat_ext_stdfcs);
+okltest_var_php2ephp_sm(var_php2ephp_sm);
+okltest_var_ephp2php_sm(var_ephp2php_sm);
 okltest_nvar_weak_php_unsat_ext(nvar_weak_php_unsat_ext);
 okltest_ncl_weak_php_unsat_ext(ncl_weak_php_unsat_ext);
 

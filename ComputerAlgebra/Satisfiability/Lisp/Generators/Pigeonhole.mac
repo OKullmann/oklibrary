@@ -120,7 +120,15 @@ deficiency_weak_php(m,n) := ncl_weak_php(m,n) - nvar_php(m,n)$
 satprob_weak_php(m,n) := sum(binomial(n,i) * stirling2(i,m) * m! ,i,m,n) / 2^nvar_php(m,n)$
 
 
-/* Extended Resolution refutation
+/* *********************************
+   * Extended pigeon-hole formulas *
+   *********************************
+*/
+
+/* PHP formulas with additional clauses from the Extended Resolution
+   refutation given in [A short proof of the pigeon hole principle using
+   extended resolution"; Stephen Cook].
+
    Additional clauses, using new variables, allow polynomial size
    resolution proofs.
 */
@@ -131,31 +139,6 @@ kill(php_ext)$
 declare(php_ext, noun)$
 declare(php_ext, posfun)$
 php_ext_var(n,i,j) := nounify(php_ext)(n,i,j)$
-
-/* Mapping the standard pigeon hole variables to their counter-parts in
-   the extended-pigeon-hole clause-set weak_php_unsat_ext_uni_fcs(m): */
-var_php2ephp_sm(m) :=
-  setify(lappend(
-      create_list(
-        if l = m then
-          [[ php_var(i,j), php_ext_var(m,i,j)  ],
-          [ -php_var(i,j), -php_ext_var(m,i,j) ]]
-        else
-          [[ php_ext(l,i,j), php_ext_var(l,i,j) ],
-          [ -php_ext(l,i,j), -php_ext_var(l,i,j) ]],
-        l, 1, m,i,1,l+1,j,1,l)))$
-/* Renaming the extended-pigeon-hole variables to their counter-parts in
-   the original pigeon-hole clause-set: */
-var_ephp2php_sm(m) :=
-    setify(lappend(
-        create_list(
-          if l = m then
-            [[ php_ext_var(m,i,j), php_var(i,j)  ],
-            [ -php_ext_var(m,i,j), -php_var(i,j) ]]
-          else
-            [[ php_ext(l,i,j), php_ext_var(l,i,j) ],
-            [ -php_ext(l,i,j), -php_ext_var(l,i,j) ]],
-          l, 1, m,i,1,l+1,j,1,l)))$
 
 /* Clauses enforcing that if the variables
      php_ext_var(mp+1,i,j) for i in {1,...,mp+1}, j in {1,...,mp}
@@ -219,6 +202,31 @@ invstandardise_weak_php_unsat_ext_uni(m) :=
 weak_php_unsat_ext_stdfcs(m) :=
   standardise_weak_php_unsat_ext_uni(m)(weak_php_unsat_ext_uni_fcs(m))$
 
+/* Mapping the standard pigeon hole variables to their counter-parts in
+   the extended-pigeon-hole clause-set weak_php_unsat_ext_uni_fcs(m): */
+var_php2ephp_sm(m) :=
+  setify(lappend(
+      create_list(
+        if l = m then
+          [[ php_var(i,j), php_ext_var(m,i,j)  ],
+          [ -php_var(i,j), -php_ext_var(m,i,j) ]]
+        else
+          [[ php_ext(l,i,j), php_ext_var(l,i,j) ],
+          [ -php_ext(l,i,j), -php_ext_var(l,i,j) ]],
+        l, 1, m,i,1,l+1,j,1,l)))$
+/* Renaming the extended-pigeon-hole variables to their counter-parts in
+   the original pigeon-hole clause-set: */
+var_ephp2php_sm(m) :=
+    setify(lappend(
+        create_list(
+          if l = m then
+            [[ php_ext_var(m,i,j), php_var(i,j)  ],
+            [ -php_ext_var(m,i,j), -php_var(i,j) ]]
+          else
+            [[ php_ext(l,i,j), php_ext_var(l,i,j) ],
+            [ -php_ext(l,i,j), -php_ext_var(l,i,j) ]],
+          l, 1, m,i,1,l+1,j,1,l)))$
+
 /* Output */
 
 output_weak_php_unsat_ext(m, filename) := block(
@@ -230,6 +238,7 @@ output_weak_php_unsat_ext(m, filename) := block(
 output_weak_php_unsat_ext_stdname(m) :=
   output_weak_php_unsat_ext(m, sconcat("EPHP_",m,".cnf"))$
 
+/* Measures */
 
 nvar_weak_php_unsat_ext(m) := m^3/3+m^2+2*m/3$
 /* This is: (m+1) * m + sum((l+1) * l, l, 1, m-1), simpsum, expand, simp; */
