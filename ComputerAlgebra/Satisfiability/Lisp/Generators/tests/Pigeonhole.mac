@@ -117,6 +117,33 @@ okltest_weak_php_unsat_ext_fcs(f) := block(
        php_ext(1,2,1),-php(3,1)},{-php(2,2),-php(3,2)},{php(3,1),php(3,2)}}]),
   true)$
 
+okltest_standardise_weak_php_unsat_ext_uni(f) := block(
+  for m : 1 thru 10 do
+    assert(
+      create_list(f(m)(php_ext_var(l,i,j)), l, 1, m, i, 1, l+1, j, 1,l) =
+      create_list(i, i, 1, f(m)(php_ext_var(m,m+1,m)))),
+  true)$
+
+okltest_invstandardise_weak_php_unsat_ext_uni(f) := block(
+  for m : 1 thru 4 do (
+    assert(
+      create_list(f(m)(i),
+        i, 1, standardise_weak_php_unsat_ext_uni(m)(php_ext_var(m,m+1,m))) =
+      create_list(php_ext_var(l,i,j), l, 1, m, i, 1, l+1, j, 1,l))),
+  if oklib_test_level = 0 then return(true),
+  for m : 5 thru 20 do (
+    assert(
+      create_list(f(m)(i),
+        i, 1, standardise_weak_php_unsat_ext_uni(m)(php_ext_var(m,m+1,m))) =
+      create_list(php_ext_var(l,i,j), l, 1, m, i, 1, l+1, j, 1,l))),
+  if oklib_test_level = 1 then return(true),
+  for m : 21 thru 40 do (
+    assert(
+      create_list(f(m)(i),
+        i, 1, standardise_weak_php_unsat_ext_uni(m)(php_ext_var(m,m+1,m))) =
+      create_list(php_ext_var(l,i,j), l, 1, m, i, 1, l+1, j, 1,l))),
+  true)$
+
 okltest_weak_php_unsat_ext_stdfcs(f) := block(
   for i in [0,1] do
     assert(f(i) = standardise_fcs(weak_php_fcs(i+1,i))[1]),

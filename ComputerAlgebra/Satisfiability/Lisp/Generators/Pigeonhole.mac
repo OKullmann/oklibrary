@@ -193,10 +193,34 @@ weak_php_unsat_ext_uni_fcs(m) := block([F : weak_php_fcs(m+1,m)],
   [setify(create_list(php_ext_var(mp,i,j), mp, 1, m, i, 1, mp+1, j, 1, mp)),
    union(setify(php_induction_uni_cl(m)),
      substitute_cs(F[2],sm2hm(var_php2ephp_sm(m))))])$
+
+/* Standardisation */
+
+standardise_weak_php_unsat_ext_uni(m) :=
+ lambda([t], ev(t, php_ext(l,i,j):=l^3/3+i*l-4*l/3+j, php_ext))$
+/* We have that:
+     1) php_ext(l,i,j) := sum((lp+1) * lp, lp, 1, l-1) + (i-1) * l + j,
+        that is: php_ext(1,1,1) -> 1, php_ext(1,2,1) -> 2,
+                 php_ext(2,1,1) -> 3, php_ext(2,1,2) -> 4,
+                 php_ext(2,2,1) -> 5, etc;
+     2) the standardisation is independent of m, and m is only taken
+     for consistency with other standardisation functions.
+*/
+
+invstandardise_weak_php_unsat_ext_uni(m) :=
+ lambda([t], block([l: 1,i,j],
+     while l^3 - l + 3 <= 3 * t do l : l +1,
+     l : l -1,
+     t : t - ((l^3 - 4*l)/3),
+     i : ceiling(t / l) - 1,
+     t : t - i * l,
+     php_ext_var(l,i,t)))$
+
 weak_php_unsat_ext_stdfcs(m) :=
-  fcl2fcs(standardise_fcl(
-      [create_list(php_ext_var(mp,i,j), mp, 1, m, i, 1, mp+1, j, 1, mp),
-       listify(weak_php_unsat_ext_uni_fcs(m)[2])])[1])$
+  standardise_weak_php_unsat_ext_uni(m)(weak_php_unsat_ext_uni_fcs(m))$
+
+/* Output */
+
 output_weak_php_unsat_ext(m, filename) := block(
   [FF : weak_php_unsat_ext_stdfcs(m)],
   output_fcs_v(
