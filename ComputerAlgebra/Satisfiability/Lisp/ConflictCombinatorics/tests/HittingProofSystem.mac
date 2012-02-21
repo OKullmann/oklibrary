@@ -1,0 +1,48 @@
+/* Oliver Kullmann, 21.2.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/tests/HittingProofSystem.mac
+  \brief Tests regarding hitting proof systems
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/tests/HittingProofSystem.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+kill(f)$
+
+
+/* ****************************************
+   * The notion of a "hitting refutation" *
+   ****************************************
+*/
+
+okltest_hitting_refutation_csp(f) := (
+  assert(f({},{}) = false),
+  assert(f({{}},{}) = false),
+  assert(f({},{{}}) = false),
+  assert(f({{}},{{}}) = true),
+  assert(f({{}},0) = false),
+  assert(f({{1},{-1}},{{1},{-1}}) = true),
+  assert(f({{1},{-1}},{{1,2},{-1,2},{1,-2},{-1,-2}}) = true),
+  assert(f({{1,2},{-1},{-2}},{{-1},{1,2},{1,-2}}) = true),
+  assert(f({{-1,2},{-2,3},{-3,1},{1,2,3},{-1,-2,-3}},{{-1,2},{-2,3},{-3,1},{1,2,3},{-1,-2,-3}}) = true),
+
+  true)$
+
+
+/*!
+\endhtmlonly
+*/

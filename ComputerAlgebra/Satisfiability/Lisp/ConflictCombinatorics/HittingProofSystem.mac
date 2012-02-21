@@ -1,0 +1,39 @@
+/* Oliver Kullmann, 21.2.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingProofSystem.mac
+  \brief Functions related to hitting proof systems
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingProofSystem.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+
+/* ****************************************
+   * The notion of a "hitting refutation" *
+   ****************************************
+*/
+
+/* Checking that G is a hitting refutation of clause-set F: */
+hitting_refutation_csp(F,G) := cs_p(G) and hittingcsp(G) and
+ sat_decision_hitting_cs(G)=false and rl_subsetp(F,G)$
+
+
+/*!
+\endhtmlonly
+*/
