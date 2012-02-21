@@ -30,8 +30,43 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 */
 
 /* Checking that G is a hitting refutation of clause-set F: */
-hitting_refutation_csp(F,G) := cs_p(G) and hittingcsp(G) and
+hitref_csp(F,G) := cs_p(G) and hittingcsp(G) and
  sat_decision_hitting_cs(G)=false and rl_subsetp(F,G)$
+
+
+/* ********************************************
+   * Hitting refutations from splitting trees *
+   ********************************************
+*/
+
+/* For an unsatisfiable (boolean) clause-set F and a splitting tree T for F,
+   compute a hitting refutation of F (see
+   Satisfiability/Lisp/ConflictCombinatorics/testobjects/HittingProofSystem.mac
+   ), using the heuristics _heu:
+   _heu(C,F) is applied in case {C,C+{x},C+{-x}} <= F, and if true, then
+   C is chosen, if false, then C+{x},C+{-x} are chosen.
+   sp_p(T,F) must hold true.
+*/
+stcs2hitref(F,T,_heu) := if T=[false] then {{}}
+else block([x,T0,T1,F0,F1,I,Ic,Ir],
+ [x,T0,T1] : T,
+ F0 : stcs2hitref(apply_pa_cs({-x},F), T0, _heu),
+ F1 : stcs2hitref(apply_pa_cs({x},F), T1, _heu),
+ I : intersection(F0,F1,F),
+ Ic : subset(I, lambda([C], subsetp({adjoin(x,C),adjoin(-x,C)}, F))),
+ Ir : subset(Ic, lambda([C], not _heu(C,F))),
+ I : setdifference(I,Ir),
+ union(I,
+       add_element(x,Ir), add_element(-x,Ir),
+       add_element(x,setdifference(F0,I)), add_element(-x,setdifference(F1,I))
+ ))$
+/*
+ Remark: we have hitref_csp(F,stcs2hitref(F,T,_heu)) = true.
+*/
+/* Chosing always the smaller clauses: */
+stcs2hitref0(F,T) := stcs2hitref(F,T,lambda([C,F],true))$
+/* Chosing always the larger clauses: */
+stcs2hitref1(F,T) := stcs2hitref(F,T,lambda([C,F],false))$
 
 
 /*!

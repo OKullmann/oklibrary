@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.10.2010 (Swansea)
-/* Copyright 2010, 2011 Oliver Kullmann
+/* Copyright 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,6 +16,25 @@ License, or any later version. */
    Experimentation/Investigations/UHittingCatalogue/plans/general.hpp. </li>
    <li> For the Maxima functions see
    Satisfiability/Lisp/MinimalUnsatisfiability/MinVarDegrees.mac
+   </li>
+  </ul>
+
+
+  \todo Hitting proof systems
+  <ul>
+   <li> See Satisfiability/Lisp/ConflictCombinatorics/HittingProofSystem.mac
+   for first implementations. </li>
+   <li> Likely we should introduce a new submodule; perhaps at base level
+   (i.e., one level up). </li>
+   <li> Regarding stcs2hitref:
+    <ol>
+     <li> Can we extend it, so that it works with extended splitting trees?
+     </li>
+     <li> Can we characterise when tree hitting clause-sets are being
+     produced? </li>
+     <li> And can we always find, for appropriate splitting tree, the best
+     hitting refutation? </li>
+    </ol>
    </li>
   </ul>
 

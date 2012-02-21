@@ -29,7 +29,7 @@ kill(f)$
    ****************************************
 */
 
-okltest_hitting_refutation_csp(f) := (
+okltest_hitref_csp(f) := (
   assert(f({},{}) = false),
   assert(f({{}},{}) = false),
   assert(f({},{{}}) = false),
@@ -41,6 +41,35 @@ okltest_hitting_refutation_csp(f) := (
   assert(f({{-1,2},{-2,3},{-3,1},{1,2,3},{-1,-2,-3}},{{-1,2},{-2,3},{-3,1},{1,2,3},{-1,-2,-3}}) = true),
 
   true)$
+
+
+/* ********************************************
+   * Hitting refutations from splitting trees *
+   ********************************************
+*/
+
+okltest_stcs2hitref0(f) := block([C],
+  assert(f({{}},[false]) = {{}}),
+  assert(f({{},C},[false]) = {{}}),
+  assert(f({{1},{-1}},[1,[false],[false]]) = {{1},{-1}}),
+  assert(f({{1},{-1},{2},{-2}},[1,[false],[false]]) = {{1},{-1}}),
+  assert(f({{1},{-1},{2},{-2}},[2,[false],[false]]) = {{2},{-2}}),
+  assert(f({{1},{1,2},{1,-2},{-1}},[2,[1,[false],[false]],[1,[false],[false]]]) = {{1},{-1}}),
+  assert(f({{1,2},{-1},{-2}},[1,[2,[false],[false]],[false]]) = {{1,2},{-1},{1,-2}}),
+  assert(f({{-1,2},{-2,3},{-3,1},{1,2,3},{-1,-2,-3}},[1,[3,[2,[false],[false]],[false]],[2,[false],[3,[false],[false]]]]) = {{-1,2},{-2,3},{-3,1},{1,2,3},{-1,-2,-3}}),
+  true)$
+
+okltest_stcs2hitref1(f) := block([C],
+  assert(f({{}},[false]) = {{}}),
+  assert(f({{},C},[false]) = {{}}),
+  assert(f({{1},{-1}},[1,[false],[false]]) = {{1},{-1}}),
+  assert(f({{1},{-1},{2},{-2}},[1,[false],[false]]) = {{1},{-1}}),
+  assert(f({{1},{-1},{2},{-2}},[2,[false],[false]]) = {{2},{-2}}),
+  assert(f({{1},{1,2},{1,-2},{-1}},[2,[1,[false],[false]],[1,[false],[false]]]) = {{1,2},{1,-2},{-1}}),
+  assert(f({{1,2},{-1},{-2}},[1,[2,[false],[false]],[false]]) = {{1,2},{-1},{1,-2}}),
+  assert(f({{-1,2},{-2,3},{-3,1},{1,2,3},{-1,-2,-3}},[1,[3,[2,[false],[false]],[false]],[2,[false],[3,[false],[false]]]]) = {{-1,2},{-2,3},{-3,1},{1,2,3},{-1,-2,-3}}),
+  true)$
+
 
 
 /*!

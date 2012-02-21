@@ -26,7 +26,16 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/t
    ****************************************
 */
 
-okltest_hitting_refutation_csp(hitting_refutation_csp);
+okltest_hitref_csp(hitref_csp);
+
+/* ********************************************
+   * Hitting refutations from splitting trees *
+   ********************************************
+*/
+
+okltest_stcs2hitref0(stcs2hitref0);
+okltest_stcs2hitref1(stcs2hitref1);
+
 
 /*!
 \endhtmlonly
