@@ -180,6 +180,12 @@ ovar_cl(F) := block([L : [], V : {}],
   return(L))$
 ovar_ocs(F) := ovar_cl(F)$
 
+/* The set of occurring literals in clause-set F: */
+olit_cs(F) := lunion(F)$
+/* The "formal" literals in F: */
+flit_cs(F) := block([L : olit_cs(F)], union(L,comp_sl(L)))$
+
+
 /* Promotions: */
 
 /* RENAME: cs2fcs */

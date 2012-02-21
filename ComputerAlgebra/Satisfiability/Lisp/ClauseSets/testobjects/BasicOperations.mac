@@ -74,6 +74,9 @@ okltest_var_ofcs(var_ofcs);
 
 okltest_ovar_cl(ovar_cl);
 
+okltest_olit_cs(olit_cs);
+okltest_flit_cs(flit_cs);
+
 okltest_cs2fcs(cs2fcs);
 okltest_cl2fcl(cl2fcl);
 okltest_ocs2ofcs(ocs2ofcs);
