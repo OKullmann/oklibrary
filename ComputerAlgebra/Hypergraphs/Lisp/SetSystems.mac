@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.11.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -226,6 +226,24 @@ is_antichain(S) := block([S : sort_length(listify(S)), l : length(S), i, j, subs
   return(not subsumption)
 )$
 antichain_p(S) := is_antichain(S)$
+
+/* Subset-relations at the "second level": */
+
+/* Whether for all A in S1 there is B in S2 with subsetp(A,B): */
+lr_subsetp(S1,S2) := (
+ if (
+   for A in S1 do
+     if (for B in S2 do if subsetp(A,B) then return(true))
+     = done then return(false)
+  ) = done then true else false)$
+
+/* Whether for all B in S2 there is A in S1 with subsetp(A,B): */
+rl_subsetp(S1,S2) := (
+ if (
+   for B in S2 do
+     if (for A in S1 do if subsetp(A,B) then return(true))
+     = done then return(false)
+  ) = done then true else false)$
 
 
 /* *****************************************
