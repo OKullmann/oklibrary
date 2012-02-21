@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 31.1.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -25,6 +25,88 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Pigeonhole.m
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 
 kill(f)$
+
+
+/* ***************************"""""""""
+   * The notion of a "splitting tree" *
+   ************************************
+*/
+
+okltest_fst_p(f) := (
+  assert(f(0) = false),
+  assert(f([]) = false),
+  assert(f([[]]) = true),
+  assert(f([true]) = true),
+  assert(f([false]) = true),
+  assert(f([0]) = false),
+  assert(f([0,[[]]]) = false),
+  assert(f([0,[[]],[[]]]) = true),
+  assert(f([0,[1],[[]]]) = false),
+  assert(f([0,[1,[[]],[[]]],[[]]]) = true),
+  assert(f([0,[1,[false],[true]],[false]]) = true),
+  assert(f([0,[1,[false],[true]],[false],[[]]]) = false),
+  true)$
+
+okltest_st_p(f) := (
+  assert(f([[]],{}) = true),
+  assert(f([true],{}) = true),
+  assert(f([false],{}) = false),
+  assert(f([[]],{{}}) = true),
+  assert(f([true],{{}}) = false),
+  assert(f([false],{{}}) = true),
+  assert(f([[]],{{1}}) = true),
+  assert(f([false],{{1}}) = false),
+  assert(f([true],{{1}}) = false),
+  assert(f([2,[[]],[[]]],{{1}}) = false),
+  assert(f([1,[[]],[[]]],{{1}}) = true),
+  assert(f([1,[true],[[]]],{{1}}) = false),
+  assert(f([1,[false],[[]]],{{1}}) = true),
+  assert(f([1,[false],[false]],{{1}}) = false),
+  assert(f([1,[false],[true]],{{1}}) = true),
+  assert(f([1,[false],[false]],{{1},{}}) = false),
+  assert(f([1,[2,[[]],[[]]],[2,[[]],[[]]]], {{1,2},{1,-2}}) = false),
+  assert(f([1,[2,[[]],[[]]],[[]]], {{1,2},{1,-2}}) = true),
+  assert(f([1,[2,[[]],[[]]],[false]], {{1,2},{1,-2}}) = false),
+  assert(f([1,[2,[[]],[[]]],[true]], {{1,2},{1,-2}}) = true),
+  true)$
+
+okltest_est_p(f) := (
+    assert(f([[]],{}) = true),
+  assert(f([true],{}) = true),
+  assert(f([false],{}) = false),
+  assert(f([[]],{{}}) = true),
+  assert(f([true],{{}}) = false),
+  assert(f([false],{{}}) = true),
+  assert(f([[]],{{1}}) = true),
+  assert(f([false],{{1}}) = false),
+  assert(f([true],{{1}}) = false),
+  assert(f([2,[[]],[[]]],{{1}}) = true),
+  assert(f([2,[true],[[]]],{{1}}) = false),
+  assert(f([2,[[]],[false]],{{1}}) = false),
+  assert(f([1,[[]],[[]]],{{1}}) = true),
+  assert(f([1,[true],[[]]],{{1}}) = false),
+  assert(f([1,[false],[[]]],{{1}}) = true),
+  assert(f([1,[false],[false]],{{1}}) = false),
+  assert(f([1,[false],[true]],{{1}}) = true),
+  assert(f([1,[false],[false]],{{1},{}}) = true),
+  assert(f([1,[2,[[]],[[]]],[2,[[]],[[]]]], {{1,2},{1,-2}}) = true),
+  assert(f([1,[2,[[]],[[]]],[[]]], {{1,2},{1,-2}}) = true),
+  assert(f([1,[2,[[]],[[]]],[false]], {{1,2},{1,-2}}) = false),
+  assert(f([1,[2,[[]],[[]]],[true]], {{1,2},{1,-2}}) = true),
+  assert(f([1,[2,[false],[false]],[true]], {{1,2},{1,-2}}) = true),
+  assert(f([1,[2,[3,[[]],[false]],[false]],[true]], {{1,2},{1,-2}}) = true),
+  assert(f([1,[2,[3,[true],[false]],[false]],[true]], {{1,2},{1,-2}}) = false),
+  assert(f([1,[2,[3,[false],[false]],[false]],[true]], {{1,2},{1,-2}}) = true),
+  true)$
+
+okltest_complete_stp(f) := (
+  assert(f([[]]) = false),
+  assert(f([false]) = true),
+  assert(f([true]) = true),
+  assert(f([1,[[]],[false]]) = false),
+  assert(f([1,[true],[false]]) = true),
+  true)$
+
 
 /* ********************************
    * Manipulating splitting trees *

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.11.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -25,23 +25,71 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedU
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
 
 
+/* ***************************"""""""""
+   * The notion of a "splitting tree" *
+   ************************************
+*/
+
 /*
- A "boolean splitting tree" for a clause-set F is either 
+
+ A "boolean splitting tree" ("st") for a clause-set F is either
   - [[]] for "nothing done",
   - or [false] in case F contains the empty clause,
   - or [true] in case F is empty,
   - or [x, T0, T1], where x is a boolean literal and
     T0/1 is a splitting tree of <x -> 0/1> * F.
 
- Thus boolean splitting trees are labelled binary rooted trees, where inner 
+ Thus boolean splitting trees are labelled binary rooted trees, where inner
  nodes are labelled by literals, and leaves are labelled by true, false or [].
+ Splitting trees can be seen as exactly boolean decision trees.
+
+ A boolean splitting tree is complete iff no leaf labelled by [].
+
+ More precisely we speak of
+  - "formal splitting trees" (no relation to a clause-set)
+  - "splitting trees"
+  - "extended splitting trees" (splitting can always continue).
+ We can refer to them all via "st", if however a distinction is needed, then
+ "fst" resp. "est" is used. See below for precise definitions.
+
 */
 
-/* So splitting tree can be seen as exactly boolean decision trees. */
+/* Whether T is a formal splitting tree: */
+fst_p(T) := lrt_p(T) and rt2_p(lrt2rt(T)) and
+ subsetp(ll_lrt(T), {true, false,[]})$
 
-/*
- A boolean splitting tree is complete iff no leaf is [[]].
+/* Whether T is a splitting tree for clause-set F: */
+st_p(T,F) := fst_p(T) and subsetp(il_lrt(T), flit_cs(F)) and st0_p(T,F)$
+/* Whether rooted tree T, which fulfills the formal requirements for being
+   a splitting tree for F, fulfills the splitting requirements, that is,
+   a leaf is exactly reached when either we have [] or when the clause-set
+   has been decided (by creating the empty clause-set resp. the empty clause):
 */
+st0_p(T,F) := if length(T)=1 then
+   if T=[true] then is(F={})
+   elseif T=[false] then elementp({},F)
+   else true
+ elseif F={} or elementp({},F) then false
+ else block([x,T1,T2],
+   [x,T0,T1] : T,
+   st0_p(T0,apply_pa_cs({-x},F)) and st0_p(T1,apply_pa_cs({x},F)))$
+
+/* Testing for "extended splitting tree for clause-set F", where now there are
+   no requirements on the splitting literals (they don't need to be literals
+   of F), and also further splitting is possible in case one arrived already
+   at the empty clause(-set):
+*/
+est_p(T,F) := fst_p(T) and est0_p(T,F)$
+est0_p(T,F) := if length(T)=1 then
+   if T=[true] then is(F={})
+   elseif T=[false] then elementp({},F)
+   else true
+ else block([x,T1,T2],
+   [x,T0,T1] : T,
+   est0_p(T0,apply_pa_cs({-x},F)) and est0_p(T1,apply_pa_cs({x},F)))$
+
+/* Whether the formal splitting tree T is complete: */
+complete_stp(T) := not elementp([], ll_lrt(T))$
 
 
 /* ********************************
@@ -75,7 +123,7 @@ monitorcheck_osl(name) := if oklib_monitor then (
     print("F: ", statistics_cs(F))))$
 monitorcheck_osl_v(name) := if oklib_monitor then (
   if depth + 1 <= oklib_monitor_level then (
-    print(sconcat("M[",name,"]:"), "depth:", depth,  
+    print(sconcat("M[",name,"]:"), "depth:", depth,
           ", new best variable:", v, ", new min size:", min_size)))$
 
 /* For input F (a clause-set) returns a pair consisting of a splitting
@@ -88,28 +136,28 @@ monitorcheck_osl_v(name) := if oklib_monitor then (
    calls) once a branch was finished for depths up to oklib_monitor_level-1.
 */
 /* RENAME: optimal_st_cs */
-optimal_splitting_tree(F) := 
+optimal_splitting_tree(F) :=
   optimal_splitting_tree_rec(F,0,2^(nvar_cs(F)+1)-1)$
 /* The recursive procedure, which also supplies an upper bound (an
    integer) which has to be improved, and if this is not possible
    then the empty list is returned. */
-optimal_splitting_tree_rec(F,depth,upperb) := 
+optimal_splitting_tree_rec(F,depth,upperb) :=
  if upperb <= 0 then return([])
  elseif emptyp(F) then [[true],1]
  elseif has_empty_element(F) then [[false],1] else
-  block([best_tree : [[]], min_size : inf, V : var_cs(F), break : false], 
+  block([best_tree : [[]], min_size : inf, V : var_cs(F), break : false],
    monitorcheck_osl("optimal_splitting_tree"),
-    for v in V unless break do 
+    for v in V unless break do
      block([osp0, osp1],
       if upperb <= 2 then (break : true, return()),
       osp0 : optimal_splitting_tree_rec(apply_pa({-v},F), depth+1, upperb-2),
       if osp0 = [] then return(),
-      osp1 : optimal_splitting_tree_rec(apply_pa({v}, F), depth+1, 
+      osp1 : optimal_splitting_tree_rec(apply_pa({v}, F), depth+1,
                                         upperb - osp0[2] - 1),
       if osp1 = [] then return(),
       block([new_size : osp0[2] + osp1[2] + 1],
        if new_size < min_size then (
-         best_tree : [v, osp0[1], osp1[1]], 
+         best_tree : [v, osp0[1], osp1[1]],
          min_size : new_size, upperb : min(upperb, min_size-1),
          monitorcheck_osl_v("optimal_splitting_tree")))),
     if best_tree = [[]] then return([]) else
@@ -124,7 +172,7 @@ optimal_splitting_tree_rec(F,depth,upperb) :=
 /* Counting the satisfying assignments in a splitting tree (relative to the set
    V of variables):
 */
-count_sat_st(st,V) := if st = [true] then 2^(length(V)) 
+count_sat_st(st,V) := if st = [true] then 2^(length(V))
   elseif st = [false] then 0 else
   block([nV : disjoin(var_l(st[1]), V)],
     return(count_sat_st(st[2],nV) + count_sat_st(st[3],nV)))$
@@ -132,11 +180,11 @@ count_sat_st(st,V) := if st = [true] then 2^(length(V))
 /* Compute the satisfying (*partial*) assignments in a splitting tree.
    Returns a list which scans the true-leaves from left to right.
    If T is a splitting tree for clause-set F (as CNF), then the returned
-   clause-set G (the setification of the returned list) is a hitting 
+   clause-set G (the setification of the returned list) is a hitting
    clause-set which as DNF is equivalent to F.
 */
 sat_pass_st(st) := sat_pass_st_a(st,{})$
-sat_pass_st_a(st,phi) := if st = [true] then [phi] 
+sat_pass_st_a(st,phi) := if st = [true] then [phi]
   elseif st = [false] then [] else
   append(sat_pass_st_a(st[2], adjoin(-st[1],phi)), sat_pass_st_a(st[3], adjoin(st[1],phi)))$
 /* Dually, compute the hitting clause-set (as a clause-list, scanning the
@@ -144,7 +192,7 @@ sat_pass_st_a(st,phi) := if st = [true] then [phi]
    assignments.
 */
 usat_clauses_st(st) := usat_clauses_st_a(st,{})$
-usat_clauses_st_a(st,C) := if st = [false] then [C] 
+usat_clauses_st_a(st,C) := if st = [false] then [C]
   elseif st = [true] then [] else
   append(usat_clauses_st_a(st[2], adjoin(st[1],C)), usat_clauses_st_a(st[3], adjoin(-st[1],C)))$
 
@@ -153,7 +201,7 @@ usat_clauses_st_a(st,C) := if st = [false] then [C]
    tree:
 */
 splitting2resolution_tree(st,F) := splitting2resolution_tree_rel(st,{},F)$
-splitting2resolution_tree_rel(st,phi,F) := 
+splitting2resolution_tree_rel(st,phi,F) :=
   if length(st) = 1 then
     block([falsified : analyse_pa(phi,F)[2]], return([listify(falsified)[1]]))
   else block([left_t : splitting2resolution_tree_rel(st[2],adjoin(-st[1],phi),F),
@@ -184,7 +232,7 @@ trv_var(v) := nounify(trv)(v)$
 */
 complete_st_alldifferent(k) := complete_st_alldifferent_pref(k,[])$
 complete_st_alldifferent_pref(k,prefix) := if k = 0 then [false] else
-  [trv_var(prefix), 
+  [trv_var(prefix),
      complete_st_alldifferent_pref(k-1, cons(1,prefix)),
      complete_st_alldifferent_pref(k-1, cons(2,prefix))]$
 
@@ -203,7 +251,7 @@ horn_st_pref(k,prefix) := if k = 0 then [false] else
 */
 
 /*
- A "boolean r_k-splitting tree" for a clause-set F is either 
+ A "boolean r_k-splitting tree" for a clause-set F is either
   - [[]] for "nothing done",
   - or [false] in case r_k(F) = {{}},
   - or [true] in case r_k(F) = {},
@@ -211,7 +259,7 @@ horn_st_pref(k,prefix) := if k = 0 then [false] else
     T0/1 is a r_k-splitting tree of <x -> 0/1> * r_k(F).
 */
 /*
- So splitting trees are exactly the r_0-splitting trees. 
+ So splitting trees are exactly the r_0-splitting trees.
 */
 
 /*
@@ -219,23 +267,23 @@ horn_st_pref(k,prefix) := if k = 0 then [false] else
 */
 
 /* For input F (a clause-set) returns a pair consisting of a r_k-splitting
-   tree of minimum size, and its size. 
+   tree of minimum size, and its size.
    Splitting literals are always splitting variables.
 */
 optimal_r_splitting_tree(F,k) := block(
  [name : sconcat("optimal_r_splitting_tree(",k,")")],
  optimal_r_splitting_tree_rec(F,k,0,2^(nvar_cs(F)+1)-1))$
-optimal_r_splitting_tree_rec(F,k,depth,upperb) := 
+optimal_r_splitting_tree_rec(F,k,depth,upperb) :=
  if upperb <= 0 then return([]) else
  block([Fr : generalised_ucp(F,k)],
   if Fr = {} then return([[true],1])
   elseif Fr = {{}} then return([[false],1]) else
    block([best_tree : [[]], min_size : inf, V : var_cs(Fr), break : false],
-    monitorcheck_osl(name),  
-     for v in V unless break do 
+    monitorcheck_osl(name),
+     for v in V unless break do
       block([osp0, osp1],
        if upperb <= 2 then (break : true, return()),
-       osp0 : optimal_r_splitting_tree_rec(apply_pa({-v}, Fr),k, depth+1, 
+       osp0 : optimal_r_splitting_tree_rec(apply_pa({-v}, Fr),k, depth+1,
                                            upperb-2),
        if osp0 = [] then return(),
        osp1 : optimal_r_splitting_tree_rec(apply_pa({v}, Fr),k,depth+1,
@@ -243,7 +291,7 @@ optimal_r_splitting_tree_rec(F,k,depth,upperb) :=
        if osp1 = [] then return(),
        block([new_size : osp0[2] + osp1[2] + 1],
         if new_size < min_size then (
-          best_tree : [v, osp0[1], osp1[1]], 
+          best_tree : [v, osp0[1], osp1[1]],
           min_size : new_size, upperb : min(upperb, min_size-1),
           monitorcheck_osl_v(name)))),
     if best_tree = [[]] then return([]) else
@@ -252,7 +300,7 @@ optimal_r_splitting_tree_rec(F,k,depth,upperb) :=
 /*
  An "amended r_k-splitting tree" has as labels for the non-leaf-nodes
  pairs [x,phi], where phi is the partial assignment yielding the
- reduced clause-set associated to the node, that is, phi applied to the 
+ reduced clause-set associated to the node, that is, phi applied to the
  unreduced clause-set associated with the node yields
  the reduced clause-set.
  The unreduced clause-set associated with the root is the input,
@@ -267,7 +315,7 @@ optimal_r_splitting_tree_rec(F,k,depth,upperb) :=
 */
 amend_r_splitting_tree(F,T,k) := block(
   [x : T[1], Fr : generalised_ucp_pa(F,k)],
-  if length(T) = 1 then 
+  if length(T) = 1 then
     return([[x,Fr[2]]])
   else block([
     T0 : amend_r_splitting_tree(apply_pa({-x},Fr[1]), T[2], k),
@@ -292,7 +340,7 @@ tex_st(s,st) := if st = [true] then printf(s, "~a", "\\TC")
 
 /* Output a splitting tree st as latex-ps-tree to a file with name n: */
 tex_st_f(n, st) := (block[s : openw(n)], tex_st(s, st), close(s))$
- 
+
 /* Output a resolution tree rt as latex-ps-tree to stream s: */
 tex_rt(s,rt) := if length(rt) = 1 then printf(s, "~a~a~a", "\\TR{$\\set", rt[1], "$}")
   else (

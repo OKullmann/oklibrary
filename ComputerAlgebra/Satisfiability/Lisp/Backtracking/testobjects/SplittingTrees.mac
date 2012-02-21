@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 31.1.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,8 +21,29 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/testobjects/S
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/SplittingTrees.mac")$
 
+/* ***************************"""""""""
+   * The notion of a "splitting tree" *
+   ************************************
+*/
+
+okltest_fst_p(fst_p);
+okltest_st_p(st_p);
+okltest_est_p(est_p);
+
+okltest_complete_stp(complete_stp);
+
+/* ********************************
+   * Manipulating splitting trees *
+   ********************************
+*/
+
 okltest_negate_st(negate_st);
 okltest_condense_st(condense_st);
+
+/* ***************************
+   * Finding splitting trees *
+   ***************************
+*/
 
 okltest_optimal_splitting_tree(optimal_splitting_tree);
 okltest_optimal_r_splitting_tree(optimal_r_splitting_tree);
