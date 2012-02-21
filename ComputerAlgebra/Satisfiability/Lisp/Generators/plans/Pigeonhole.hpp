@@ -1,5 +1,5 @@
 // Matthew Gwynne, 26.8.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,71 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Generators/plans/Pigeonhole.hpp
   \brief Plans for Maxima-generators of pigeonhole formulas
+
+
+  \todo Standard variable ordering for extended-pigeon-hole formulas
+  <ul>
+   <li> For the extended pigeon-hole formulas with m holes, we have variables
+   of the form php_ext(l,i,j) for 1 <= l <= m, 1 <= i <= l+1, 1 <= j <= l. </li>
+   <li> The natural ordering is the lexicographical order on
+   NN x {1,...,l+1} x {1,...,l}. This has the nice property that
+   the ordering doesn't depend on m. </li>
+   <li> The standardisation then simply maps php_ext(l,i,j) to
+   sum((lp+1) * lp, lp, 1, l-1) + (i-1) * l + j. </li>
+   <li> Computing the inverse of
+   \verbatim
+m = (l^3 - 4*l)/3 + i*l + j
+   \endverbatim
+   where 1 <= l, 1 <= i <= l+1, 1 <= j <= l.
+    <ul>
+     <li> We first compute l, by computing the maximum integer l such that
+     \verbatim
+l^3/3+1*l-4*l/3+1 <= m,
+     \endverbatim
+     that is, substituting i <- 1 and j <- 1. </li>
+     <li> So we solve for l' in (l')^3/3+(l')-4*(l')/3+1 = m
+     and take the floor to get such a maximum l. </li>
+     <li> The closed-form equation
+     \verbatim
+(sqrt(243*t^2-486*t+239)/(2*3^(3/2))+(3*t-3)/2)^(1/3)
+  +1/(3*(sqrt(243*t^2-486*t+239)/(2*3^(3/2))+(3*t-3)/2)^(1/3)))
+     \endverbatim
+     is then the real-valued solution from
+     \verbatim
+solve(l^3/3+l-4*l/3+1 = t, l).
+     \endverbatim
+     </li>
+    </ul>
+   </li>
+   <li> A problem with the inversion is that:
+    <ol>
+     <li> solve(l^3/3+l-4*l/3+1 = t, l) computes the correct value for l if
+     we substitute a particular value for t. However, it also computes
+     imaginary solutions, and it isn't clear from the Maxima documentation
+     how to reliably extract only the real solution. </li>
+     <li> The closed-form expression
+     \verbatim
+(sqrt(243*t^2-486*t+239)/(2*3^(3/2))+(3*t-3)/2)^(1/3)
+  +1/(3*(sqrt(243*t^2-486*t+239)/(2*3^(3/2))+(3*t-3)/2)^(1/3)))
+     \endverbatim
+     is the real-valued solution to solve(l^3/3+l-4*l/3+1 = t, l),
+     but when t = 71, rounding errors mean we get l = 5 instead
+     of l = 6:
+     \verbatim
+ev(float(floor((sqrt(243*t^2-486*t+239)/(2*3^(3/2))+(3*t-3)/2)^(1/3)
+  +1/(3*(sqrt(243*t^2-486*t+239)/(2*3^(3/2))+(3*t-3)/2)^(1/3)))), t: 71);
+ 5
+     \endverbatim
+     Float is needed here to force the simplification of the term.
+     </li>
+     <li> The current solution, in invstandardise_weak_php_unsat_ext_uni, is
+     to iteratively search for l from l = 1. This is then linear
+     complexity in l. </li>
+     <li> The current solution should be reconsidered, and a better method
+     found. </li>
+    </ol>
+   </li>
+  </ul>
 
 
   \todo Update the php-functions
