@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 12.1.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -42,6 +42,11 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 /* Checking whether T is an unlabelled rooted tree: */
 rt_p(T) := listp(T) and every_s(rt_p,T)$
+
+/* Checking whether for unlabelled rooted tree T every inner node
+   has precisely 2 children:
+*/
+rt2_p(T) := emptyp(T) or (length(T)=2 and every_s(rt2_p,T))$
 
 /* A "node representation" for an unlabelled rooted tree is a list
    of natural numbers (>= 1) representing the path from the root
@@ -107,6 +112,14 @@ rt2lrt_il(T,L,l) := if emptyp(T) then [l] else
       L : rest(L,n)
     ),
     reverse(res))$
+
+/* The set of leaf-labels: */
+ll_lrt(T) := if length(T) = 1 then {first(T)}
+else lunion(map(ll_lrt,rest(T)))$
+
+/* The set of non-leaf-node-labels: */
+il_lrt(T) := if length(T) = 1 then {}
+else adjoin(first(T), lunion(map(il_lrt,rest(T))))$
 
 
 /* ************

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.6.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/tests/Basics.mac")$
 */
 
 okltest_rt_p(rt_p);
+okltest_rt2_p(rt2_p);
 
 okltest_lvs(lvs);
 okltest_nds(nds);
@@ -45,6 +46,9 @@ okltest_lrt_p(lrt_p);
 okltest_l2ult(l2ult);
 
 okltest_rt2lrt_il(rt2lrt_il);
+
+okltest_ll_lrt(ll_lrt);
+okltest_il_lrt(il_lrt);
 
 /* ************
    * Measures *

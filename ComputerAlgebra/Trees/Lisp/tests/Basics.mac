@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.6.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -39,6 +39,19 @@ okltest_rt_p(f) := block([x],
   assert(f([[[]]]) = true),
   assert(f([[],[[]],[[],[]],[]]) = true),
   assert(f([[],[[]],[[],[]],[1,[]]]) = false),
+  true)$
+
+okltest_rt2_p(f) := (
+  assert(f([]) = true),
+  assert(f([[]]) = false),
+  assert(f([[],[]]) = true),
+  assert(f([[],[],[]]) = false),
+  assert(f([[[]],[]]) = false),
+  assert(f([[[],[]],[]]) = true),
+  assert(f([[[],[]],[[]]]) = false),
+  assert(f([[[],[]],[[],[]]]) = true),
+  assert(f([[[],[],[]],[[],[]]]) = false),
+  assert(f([[[],[]],[[],[],[]]]) = false),
   true)$
 
 okltest_lvs(f) := (
@@ -107,6 +120,20 @@ okltest_rt2lrt_il(f) := block([x,y],
   assert(f([[[]]], [1,2], x) = [1, [2, [x]]]),
   assert(f([[[]]], [1,2,y], x) = [1, [2, [x]]]),
   assert(f([[[]],[[]]], [1,2,3], x) = [1, [2,[x]], [3,[x]]]),
+  true)$
+
+okltest_ll_lrt(f) := (
+  assert(f([1]) = {1}),
+  assert(f([1,[2]]) = {2}),
+  assert(f([1,[2],[3]]) = {2,3}),
+  assert(f([1,[2,[4],[5]],[3]]) = {4,5,3}),
+  true)$
+
+okltest_il_lrt(f) := (
+  assert(f([1]) = {}),
+  assert(f([1,[2]]) = {1}),
+  assert(f([1,[2],[3]]) = {1}),
+  assert(f([1,[2,[4],[5]],[3]]) = {1,2}),
   true)$
 
 
