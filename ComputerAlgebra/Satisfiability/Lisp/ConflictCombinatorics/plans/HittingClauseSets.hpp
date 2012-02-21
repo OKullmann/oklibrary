@@ -119,7 +119,7 @@ License, or any later version. */
   \todo %Generators for unsatisfiable hitting clause-sets
   <ul>
    <li> Topic "Generators" in
-   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/AssociativeBlockDesigns.hpp
+   Satisfiability/Lisp/ConflictCombinatorics/plans/AssociativeBlockDesigns.hpp
    is concerned with unsatisfiable hitting clause-sets which
    are uniform and variable-regular (and thus literal-regular). </li>
    <li> If on the other hand we drop (variable-)regularity (so we are only
@@ -142,7 +142,7 @@ License, or any later version. */
    </li>
    <li> Questions regarding the minimal possible variable degree of uniform
    unsatisfiable clause-sets in general are handled in
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/SmallVariableDegrees.hpp
+   Satisfiability/Lisp/MinimalUnsatisfiability/plans/SmallVariableDegrees.hpp
    </li>
   </ul>
 
@@ -167,7 +167,7 @@ License, or any later version. */
     <ol>
      <li> One can maximise the min-var-degree, especially if one is searching
      for such examples (see "Maximal min-var-degrees" in
-     ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/general.hpp.
+     Satisfiability/Lisp/MinimalUnsatisfiability/plans/general.hpp.
      </li>
      <li> This seems reasonably, and should also give a better chance of
      reaching a low deficiency. </li>
@@ -232,7 +232,7 @@ License, or any later version. */
      So the conjecture states that maxN(k) < inf for all k. </li>
      <li> Now we conjecture that maxN(k) = 3 + (k-2)*4; see
      max_var_hitting_def in
-     ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac
+     Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac
      for the (simple) realising construction. </li>
      <li> Furthermore we believe that
       <ul>
@@ -246,7 +246,7 @@ License, or any later version. */
     </ol>
    </li>
    <li> In
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac
+   Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac
    one finds a catalogue of claw-free unsatisfiable hitting clause-sets for
    given deficiency.
     <ol>
@@ -271,7 +271,7 @@ map(nvar_cs,R3);
 length(R3);
   12
 classify_candidates_uhit_def(listify(R3));
-       \endverbatim (see 
+       \endverbatim (see
        (see ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac
        for tools for isomorphism testing).
        It seems that brouwer1999 is rather rich w.r.t. creating various
@@ -351,11 +351,11 @@ dp_inst_brr : all_hitting_DP_reductions_def(brouwer1999[2],3,'dp_inst_br)$
      <li> These problems are easier since we only need to handle
      the hitting condition (not the unsatisfiability condition). </li>
      <li> Compare with "Searching for ABD(n,k) (via SAT)" in
-     ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/AssociativeBlockDesigns.hpp
+     Lisp/ConflictCombinatorics/plans/AssociativeBlockDesigns.hpp
      </li>
      <li> First we create propagators; this is straight-forward, see
      "Hitting clause-sets" in
-     ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/Generators.hpp
+     Satisfiability/Lisp/ConstraintProblems/plans/Generators.hpp
      </li>
     </ol>
    </li>
