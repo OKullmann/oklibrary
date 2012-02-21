@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
 
 
 /* ***************************"""""""""
