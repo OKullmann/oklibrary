@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 14.12.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -222,6 +222,44 @@ distribution_min_dp(FF) := block(
       counts : adjoin(s, counts), hash[s] : 1)
   ),
   return(create_list([s, hash[s]], s, listify(counts))))$
+
+
+/* *******************
+   * Blocked clauses *
+   *******************
+*/
+
+/* A clause C is blocked for a clause-set F if there exists a literal l in C,
+   called the blocking literal, such that every candidate clause for
+   resolution on l with C results via resolution in a tautological clause.
+
+   A blocked extension F' of a clause-set F is a clause-set such that
+   the (confluent) result of removing blocked clauses from union(F',F)
+   and F yields the same result. This is equivalent to checking whether
+   F is a subset of the result of removing blocked clauses from union(F',F).
+*/
+
+/* Checking whether l is a blocking literal in a clause C for clause-set F: */
+blocking_literal_p(F,C,l) :=
+  elementp(C,F) and elementp(l,C) and
+    every_s(lambda([D], not(elementp(-l,D)) or not(resolvable(C,D))), F)$
+
+/* Checking whether the clause C is blocked for F: */
+blocked_cs_p(F,C) := some_s(lambda([l], blocking_literal_p(F,C,l)), C)$
+
+/* Eliminating blocked clauses from F: */
+elim_blocked_cs(F) := block([tF : F, had_blocked : true],
+  while had_blocked do block([F_blocked],
+    F_blocked : subset(tF, lambda([C], blocked_cs_p(tF,C))),
+    if emptyp(F_blocked) then
+      had_blocked : false
+    else
+      tF : setdifference(tF, F_blocked)),
+  return(tF))$
+
+/* Checking whether eF is a blocked extension of F: */
+blocked_extension_cs_p(eF,F) :=
+  subsetp(elim_blocked_cs(union(eF,F)), F)$
 
 /*!
 \endhtmlonly
