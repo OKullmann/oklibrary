@@ -627,4 +627,27 @@ output_res_php(3,35);
    </li>
   </ul>
 
+
+  \todo Extended PHP clause-sets
+  <ul>
+   <li> Computed by output_weak_php_unsat_ext_stdname(n). </li>
+   <li> Performance of SAT solvers (n is the number of holes):
+    <ol>
+     <li> cryptominisat (csltok with 2.4 GHz):
+     \verbatim
+n=10
+18.65s
+n=11
+38.64s
+n=12
+249.72s
+# somewhat better than PHP itself
+     \endverbatim
+     </li>
+     <li> The other solvers seem to perform worse (and also not better than
+     their PHP-performance). Though one needs to see complete data. </li>
+    </ol>
+   </li>
+  </ul>
+
 */
