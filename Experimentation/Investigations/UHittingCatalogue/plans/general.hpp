@@ -107,16 +107,60 @@ last(min_nssplittree_def(4));
   6
      \endverbatim
      </li>
+     <li> Using the general construction below, with delta(F0)=delta(F1)=3
+     and k=4, where then thus c(G')-n(i)=1 has to be realised:
+      <ol>
+       <li> Let the above instances be F0,F1,F2. </li>
+       <li> Gluing of F1 with F1:
+       \verbatim
+F1 : {{-6,-5,-4,-3},{-6,-5,3},{-6,-4,5},{-6,-3,4},{-6,3,4,5},{-2,-1,6},
+    {-2,1,6},{-1,2,6},{1,2,6}}
+# n(i)=3, c(G')=4: waehle 1,2,6 as identifications, and take all four
+# common clauses {-2,-1,6}, {-2,1,6}, {-1,2,6}, {1,2,6}}
+# so rename in the second instance: 3 -> 7, 4 -> 8, 5 -> 9, v -> 10
+# obtain:
+F : {
+{10,-6,-5,-4,-3},{10,-6,-5,3},{10,-6,-4,5},{10,-6,-3,4},{10,-6,3,4,5},
+{-2,-1,6},{-2,1,6},{-1,2,6},{1,2,6},
+{-10,-6,-9,-8,-7},{-10,-6,-9,7},{-10,-6,-8,9},{-10,-6,-7,8},{-10,-6,7,8,9}
+};
+hittingcsp(F);
+  true
+sat_decision_hitting_cs(F);
+  false
+classify_candidates_uhit_def([F]);
+  [[[4,10],"new"]]
+# entered into uhit-catalogue
+last(min_nssplittree_def(4));
+  6
+XXX
+     \endverbatim
+     </li>
+    </ol>
+     </li>
      <li> In general, we need a function
      \verbatim
 search_gluing(F1,F2,k)
      \endverbatim
-     which has two uhit-clause-sets F1, F2 as inputs and a natural number k,
-     and searches through all possibilities for gluing F1,F2 (using renaming)
+     which has two uhit-clause-sets F0, F1 as inputs and a natural number k,
+     and searches through all possibilities for gluing F0,F1 (using renaming)
      to obtain a uhit-clause-set of deficiency k: the result is a list of such
-     gluings, containing each possible isomorphism-type exactly once.
+     gluings F, containing each possible isomorphism-type exactly once.
      </li>
-     <li> Let v be the gluing-variable. XXX </li>
+     <li> Let v be the gluing-variable. </li>
+     <li> Assume var(F0) disjoint var(F1). </li>
+     <li> W.l.o.g.: n(F0) <= n(F1). </li>
+     <li> To run through all possibilities, run through all
+      <ol>
+       <li> injections i: var(F0) -> var(F1) </li>
+       <li> using F1' := result of renaming i(v) to v, and G := F0 intersection
+       F1', choose a subset G' <= G; the meaning is that those clauses in G'
+       will occur only once, while the clauses in G-G' are realised via two
+       clauses (with v, -v). </li>
+      </ol>
+     </li>
+     <li> The resulting F has deficiency delta(F0)+delta(F1)-1-c(G')+n(i).
+     </li>
     </ol>
    </li>
   </ul>

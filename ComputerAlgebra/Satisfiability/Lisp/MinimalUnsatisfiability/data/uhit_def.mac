@@ -110,7 +110,7 @@ uhit_def[3,7] : [
 
 /* Deficiency 4 */
 
-uhit_def[4,"info"] : [false,3,inf,[[3,true],[4,true],[5,unknown],[6,unknown],[7,unknown],[8,unknown],[11,unknown]]]$
+uhit_def[4,"info"] : [false,3,inf,[[3,true],[4,true],[5,unknown],[6,unknown],[7,unknown],[8,unknown],[10,unknown],[11,unknown]]]$
 uhit_def[4,3] : [
  nearly_full_hitting_fcs(3)[2]
 ]$
