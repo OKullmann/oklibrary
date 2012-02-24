@@ -29,14 +29,9 @@ License, or any later version. */
 
   \todo Analysing the KeeLoq round function
   <ul>
-   <li> The KeeLoq round function as a boolean function:
-   \verbatim
-/* The 5-bit (input) non-linear feedback function */
-keeloq_nlf(a,b,c,d,e) := mod(d + e + a * c + a * e + b * c + b * e + c *d + d * e + a * d * e + a * c * e + a*b*d + a * b * c, 2)$
-
-/* The 9x1-bit boolean function for the KeeLoq round: */
-keeloq_round_bf(V) := [mod(V[1] + V[2] + V[3] + keeloq_nlf(V[4],V[5],V[6],V[7],V[8]) + V[9] + 1,2)]$
-   \endverbatim
+   <li> The KeeLoq round function is given as a boolean function
+   by the Maxima function keeloq_round_bf in
+   Cryptology/Lisp/CryptoSystems/DataEncryptionStandard/Cipher.mac.
    </li>
    <li> Computing statistics:
    \verbatim

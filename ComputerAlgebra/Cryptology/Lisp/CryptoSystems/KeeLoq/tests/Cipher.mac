@@ -66,6 +66,21 @@ okltest_keeloq_nlf(f) := block(
   assert(f(1,1,1,1,1) = 0),
   true)$
 
+okltest_keeloq_round(f) := block(
+  assert(
+    okltest_keeloq_round_bf(
+      buildq([f], lambda([V], if f(rest(V,-1)) = V[9] then [1] else [0])))),
+  true)$
+
+okltest_keeloq_round_bf(f) := block(
+  assert(f([0,0,0,0,0,0,0,0,0]) = [1]),
+  assert(f([0,0,0,0,0,0,0,0,1]) = [0]),
+  assert(f([0,0,0,0,1,1,0,0,1]) = [1]),
+  assert(f([0,0,0,0,1,1,0,0,0]) = [0]),
+  assert(f([0,1,0,1,0,1,0,1,1]) = [1]),
+  assert(f([0,1,0,1,0,1,0,1,0]) = [0]),
+  true)$
+
 okltest_keeloq_encryption_gen(f) := block(
   for r : 1 thru 528 step 33 do
     assert(f(r,create_list(0,i,1,32),create_list(0,i,1,64)) =
