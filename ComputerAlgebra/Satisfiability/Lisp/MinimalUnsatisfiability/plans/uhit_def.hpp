@@ -101,6 +101,7 @@ License, or any later version. */
    <li> Write tests for all functions.
     <ol>
      <li> uhit_def : DONE </li>
+     <li> uhit_n_data : started </li>
      <li> uhit_n : started </li>
      <li> apply_uhit </li>
      <li> collect_uhit_n </li>
@@ -130,13 +131,15 @@ License, or any later version. */
   </ul>
 
 
-  \todo uhit_n
+  \todo uhit_n : DONE
   <ul>
-   <li> info_data should be computed. </li>
-   <li> def_data should be computed. </li>
-   <li> Run through all deficiencies in uhit_def and check whether
+   <li> DONE info_data should be computed. </li>
+   <li> DONE def_data should be computed. </li>
+   <li> DONE
+   Run through all deficiencies in uhit_def and check whether
    the given n is contained. </li>
-   <li> To determine whether the classification is complete, use
+   <li> DONE
+   To determine whether the classification is complete, use
    two functions which compute lower and upper bounds on possible
    deficiencies for a given n, and then check whether for all these
    deficiencies the corresponding entries are complete. </li>

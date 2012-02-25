@@ -40,7 +40,7 @@ okltest_min_n_uhit_def(min_n_uhit_def_l);
 okltest_all_uhit_def(all_uhit_def);
 
 okltest_collect_uhit_n(collect_uhit_n);
-
+okltest_uhit_n_data(uhit_n_data);
 okltest_uhit_n(uhit_n);
 
 /* ****************************

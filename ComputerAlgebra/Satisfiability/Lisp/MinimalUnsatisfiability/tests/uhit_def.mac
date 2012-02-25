@@ -122,6 +122,13 @@ okltest_collect_uhit_n(f) := (
   assert(f(3,2,2) = { {{1,2,3},{-1,-2,-3},{-1,2},{-2,3},{-3,1}} }),
   true)$
 
+okltest_uhit_n_data(f) := block([L : f()],
+  assert(length(L[1]) = length(L[2])),
+  assert(length(L[2]) = length(L[3])),
+  assert(take_l(12,L[1]) = create_list(i,i,0,11)),
+  /* XXX */
+  true)$
+
 okltest_uhit_n(f) := (
   assert(take_elements(6,f(-1,true)) = create_list(k,k,0,5)),
   assert(take_elements(6,f(-1,false)) = create_list(k,k,0,5)),

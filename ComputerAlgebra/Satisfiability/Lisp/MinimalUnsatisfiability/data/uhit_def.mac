@@ -540,24 +540,39 @@ collect_uhit_n(n,k0,k1) :=
     create_list(uhit_def[k,n],k,k0,k1),
     lambda([L], is(op(L) # uhit_def)))))$
 
+/* Extracting the triple [n_data, c_data, def_data] from the uhit-catalogue:
+    - n_data is the sorted list of occurring numbers of variables
+    - c_data is a list of the same length, with entries true/false stating
+      whether it is guaranteed that the collection is complete for the
+      corresponding n-value
+    - def_data: a list of pairs, showing for each n-value the min- and max-
+      deficiencies.
+*/
+uhit_n_data() := block([D : uhit_def[0,"info"], h : sm2hm({}), res],
+ for k in D do
+  for p in uhit_def[k,"info"][4] do
+    set_hm(h,first(p),cons([k,second(p)],ev_hm_d(h,first(p),[]))),
+ set_hm(h,1,[]),
+ res : listify(hm2sm(h)),
+ [map(first,res),
+  map(lambda([L], every(lambda([p],is(p[2]=true)),L)), map(second,res)),
+  map(lambda([L], [lmin(map(first,L)),lmax(map(first,L))]), map(second,res))])$
+
 /* The set of all known non-singular unsatisfiable hitting
-   clause-sets for a given number of variables. */
-/* uhit_n(-1,true/false) yields the list of available n-values. */
-/* The info-entry uhit_n(n,true) states whether the
-   list is complete or not (similar to above). */
-/* uhit_n(n,false) is the set of available clause-sets. */
-/* BUG: yet only the catalogue data given by info_data
-   and def_data is accessible. */
-uhit_n(n,info) := block(
- [info_data : [[0,1,2,3,4,5,6,7,8],true,true,true,true,true,false,false,false,false],
-  def_data : [ [1,1],[],[2,2],[2,5],[3,12],[3,27],[3,58],[3,59],[24,24] ]
- ],
- if n = -1 then return(info_data[1])
- elseif not elementp(n,setify(info_data[1])) then
+   clause-sets for a given number of variables:
+    - uhit_n(-1,something) yields the list of available n-values
+    - uhit_n(n,true) = true/false, depending on wether the list is complete or
+      not (as c_data above)
+    - uhit_n(n,false) is the set of available clause-sets.
+*/
+uhit_n(n,info) := block([n_data, c_data, def_data],
+ [n_data, c_data, def_data] : uhit_n_data(),
+ if n = -1 then return(n_data)
+ elseif not elementp(n,setify(n_data)) then
    if info then return(false) else return({})
- elseif info then return(info_data[n+2])
+ elseif info then return(c_data[n+1])
  else block([K : def_data[n+1]],
-   if emptyp(K) then return({})
+   if K=[inf,minf] then return({})
    else return(collect_uhit_n(n,K[1],K[2]))))$
 
 
