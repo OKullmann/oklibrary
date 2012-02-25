@@ -132,9 +132,60 @@ classify_candidates_uhit_def([F]);
   [[[4,10],"new"]]
 # entered into uhit-catalogue
 last(min_nssplittree_def(4));
-  6
-XXX
-     \endverbatim
+6
+
+# that seems to be all regarding glueing F1 with F1
+       \endverbatim
+       </li>
+       <li> Gluing of F2 with F2:
+       \verbatim
+F2 :  {{-7,-6,-5,-4},{-7,-6,4},{-7,-5,6},{-7,-4,5},{-7,4,5,6},{-3,-2,-1,7},
+  {-3,1,7},{-2,3,7},{-1,2,7},{1,2,3,7}}
+# n(i)=4, c(G')=5: waehle 1,2,3,7 as identifications, and take all 5
+# common clauses containing these variables
+# so rename in the second instance: 4 -> 8, 5 -> 9, 6 -> 10, v -> 11
+# obtain:
+F : {
+{11,-7,-6,-5,-4},{11,-7,-6,4},{11,-7,-5,6},{11,-7,-4,5},{11,-7,4,5,6},
+{-3,-2,-1,7},{-3,1,7},{-2,3,7},{-1,2,7},{1,2,3,7},
+{-11,-7,-10,-9,-8},{-11,-7,-10,8},{-11,-7,-9,10},{-11,-7,-8,9},{-11,-7,8,9,10}
+};
+hittingcsp(F);
+  true
+sat_decision_hitting_cs(F);
+  false
+classify_candidates_uhit_def([F]);
+  [[[4,11],1]]
+# for another i choose 4,5,6,7 as identifications; should be the same XXX
+
+# that seems to be all regarding glueing F2 with F2
+       \endverbatim
+       </li>
+       <li> Gluing of F0 with F1:
+       \verbatim
+F0 : {{-5,-4,-3},{-5,-4,3},{-5,-3,4},{-5,3,4},{-2,-1,5},{-2,1,5},{-1,2,5},
+    {1,2,5}}
+F1 : {{-6,-5,-4,-3},{-6,-5,3},{-6,-4,5},{-6,-3,4},{-6,3,4,5},{-2,-1,6},
+    {-2,1,6},{-1,2,6},{1,2,6}}
+# identify 1 -> 1, 2 -> 2, 5 -> 6
+# so rename in the second instance: 3 -> 6, 4 -> 7, 5 -> 8, 6 -> 5, v -> 9
+F : {
+{9,-5,-4,-3},{9,-5,-4,3},{9,-5,-3,4},{9,-5,3,4},
+{-2,-1,5},{-2,1,5},{-1,2,5},{1,2,5},
+{-9,-5,-8,-7,-6},{-9,-5,-8,6},{-9,-5,-7,8},{-9,-5,-6,7},{-9,-5,6,7,8}
+};
+hittingcsp(F);
+  true
+sat_decision_hitting_cs(F);
+  false
+classify_candidates_uhit_def([F]);
+  [[[4,9],"new"]]
+# entered into uhit-catalogue
+last(min_nssplittree_def(4));
+6
+       \endverbatim
+       </li>
+      </ol>
      </li>
     </ol>
      </li>
