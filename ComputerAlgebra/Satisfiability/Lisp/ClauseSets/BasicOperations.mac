@@ -377,11 +377,11 @@ c Maximal literal degree: ", S[8], "
 c Minimal variable degree: ", S[9], "
 c Maximal variable degree: ", S[10]))$
 
+
 /* *****************************************
    * Reading clause-sets in Dimacs-format  *
    *****************************************
 */
-
 
 oklib_plain_include("stringproc")$
 
@@ -402,7 +402,6 @@ read_fcl_f(n) := block([fh, line, ll,p_n, p_found : false],
    * Printing clause-sets in PLA-format    *
    *****************************************
 */
-
 
 /* A file in the PLA format represents a partial finite function,
    f : {0,1}^n -> {0,1}^m, by encoding the DNF of the relational
@@ -450,6 +449,7 @@ print_fcl2pla(comment, F) := block([F_std, vector],
 /* Note the clause-set is considered as a DNF, as this
 is the default for the PLA format. */
 output_fcl2pla(comment,F,n) := with_stdout(n,print_fcl2pla(comment,F))$
+
 
 /*!
 \endhtmlonly
