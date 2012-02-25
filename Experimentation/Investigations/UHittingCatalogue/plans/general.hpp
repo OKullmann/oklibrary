@@ -183,10 +183,49 @@ classify_candidates_uhit_def([F]);
 # entered into uhit-catalogue
 last(min_nssplittree_def(4));
 6
+# that seems to be all regarding glueing F0 with F1
+       \endverbatim
+       </li>
+       <li> Gluing of F0 with F2:
+       \verbatim
+F0 : {{-5,-4,-3},{-5,-4,3},{-5,-3,4},{-5,3,4},{-2,-1,5},{-2,1,5},{-1,2,5},
+    {1,2,5}}
+F2 : {{-7,-6,-5,-4},{-7,-6,4},{-7,-5,6},{-7,-4,5},{-7,4,5,6},{-3,-2,-1,7},
+  {-3,1,7},{-2,3,7},{-1,2,7},{1,2,3,7}}
+       \endverbatim
+       It doesn't seem possible.
+       </li>
+       <li> Gluing of F1 with F2:
+       \verbatim
+F1 : {{-6,-5,-4,-3},{-6,-5,3},{-6,-4,5},{-6,-3,4},{-6,3,4,5},{-2,-1,6},
+    {-2,1,6},{-1,2,6},{1,2,6}}
+F2 : {{-7,-6,-5,-4},{-7,-6,4},{-7,-5,6},{-7,-4,5},{-7,4,5,6},{-3,-2,-1,7},
+  {-3,1,7},{-2,3,7},{-1,2,7},{1,2,3,7}}
+
+# identify 3 -> 4, 4 -> 5, 5 -> 6, 6 -> 7
+# so rename in the second instance: 1 -> 7, 2 -> 8, 3 -> 9, 4 -> 3, 5 -> 4
+# 6 -> 5, 7 -> 6; v -> 10
+F : {
+{10,-2,-1,6},{10,-2,1,6},{10,-1,2,6},{10,1,2,6},
+{-6,-5,-4,-3},{-6,-5,3},{-6,-4,5},{-6,-3,4},{-6,3,4,5},
+{-10,-9,-8,-7,6},{-10,-9,7,6},{-10,-8,9,6},{-10,-7,8,6},{-10,7,8,9,6}
+};
+hittingcsp(F);
+  true
+sat_decision_hitting_cs(F);
+  false
+classify_candidates_uhit_def([F]);
+  [[[4,10],"new"]]
+# entered into uhit-catalogue
+last(min_nssplittree_def(4));
+6
+# that seems to be all regarding glueing F1 with F2
        \endverbatim
        </li>
       </ol>
      </li>
+     <li> Splitting can create also singular clause-sets; not clear how to
+     systematically handle them. </li>
     </ol>
      </li>
      <li> In general, we need a function
