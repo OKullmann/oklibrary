@@ -403,6 +403,8 @@ read_fcl_f(n) := block([fh, line, ll,p_n, p_found : false],
    *****************************************
 */
 
+/* This has no place here, but should be under boolean functions. */
+
 /* A file in the PLA format represents a partial nxm boolean function f,
    that is, a function with domain a subset of {0,1}^n, and as codomain
    {0,1}^m. The file encodes a DNF of the relational form f' of f, that is,
