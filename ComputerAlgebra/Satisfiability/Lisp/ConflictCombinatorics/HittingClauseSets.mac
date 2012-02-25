@@ -586,6 +586,12 @@ all_unsinghitting_def(def,n,results_all_hitting) := (
 all_unsinghitting_steps(steps,n,results_all_hitting) :=
   all_unsinghitting_def(2^n-n - steps, n, results_all_hitting)$
 
+
+/* ***********************************************************
+   * Finding hitting clause-sets with given n systematically *
+   ***********************************************************
+*/
+
 /* For a given number of variables, find all hitting clause-set types
    (without singular variables). */
 /* Returned is the total number, while parameter hash_repo

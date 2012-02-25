@@ -100,16 +100,22 @@ okltest_derived_hitting_cs_pred(derived_hitting_cs_pred);
 okltest_derived_hitting_cs_nsing(derived_hitting_cs_nsing);
 okltest_all_derived_hitting_cs_nsing_isoelim(all_derived_hitting_cs_nsing_isoelim);
 
-okltest_all_unsinghitting_def(all_unsinghitting_def);
-okltest_all_unsinghitting(all_unsinghitting);
-okltest_all_unsinghitting(all_unsinghitting_mvd);
-
 /* no specific testing of derived_hitting_cs_pred_isoelim yet,
    since the general test is not applicable, since it assumes that all
    derived clause-sets are computed, while with isoelim some
    isomorphic copies will be removed: */
 /* okltest_derived_hitting_cs_pred(derived_hitting_cs_pred_isoelim); */
 /* okltest_derived_hitting_cs_nsing(derived_hitting_cs_nsing_isoelim); */
+
+okltest_all_unsinghitting_def(all_unsinghitting_def);
+
+/* ***********************************************************
+   * Finding hitting clause-sets with given n systematically *
+   ***********************************************************
+*/
+
+okltest_all_unsinghitting(all_unsinghitting);
+okltest_all_unsinghitting(all_unsinghitting_mvd);
 
 /* ***************************
    * Maximal min-var-degrees *
