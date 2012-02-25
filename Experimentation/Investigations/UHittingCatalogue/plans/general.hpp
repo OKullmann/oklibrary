@@ -46,8 +46,8 @@ all_unsinghitting_def(3,5,'Result_3_5);
   \todo Finding hard unsatisfiable hitting clause-sets
   <ul>
    <li> What is lmax(min_nssplittree_def(k)) ? </li>
-   <li> In the OK+XSZ report we have the conjecture 2^(k-1): The upper bound
-   is 2^(k-1) --- can this bound be attained? </li>
+   <li> In the OK+XSZ report we have the conjecture 2^(k-1), i.e., the upper
+   bound is 2^(k-1) --- can this bound be attained? </li>
    <li> For k=3 the bound is attained thrice:
    \verbatim
 L : min_nssplittree_def(3);
@@ -74,12 +74,16 @@ map(treehittingcsp,A);
 # both have a full variable).
    \endverbatim
    </li>
+   <li> Let the above instances be F0,F1,F2. </li>
+   <li> F0 is full variable-disjoint gluing of musatd2_cs(2) with itself,
+   F1 the full variable-disjoint gluing of musatd2_s(2) with musatd2_cs(3),
+   and F2 full variable-disjoint gluing of musatd2_cs(3) with itself. </li>
    <li> The first open case is for k=4:
     <ol>
      <li> Currently we just have lmax(min_nssplittree_def(k))=6 < 8. </li>
      <li> The task is to glue the 3 instances with deficiency 3 and complexity
      4 to obtain an instance of complexity 8. </li>
-     <li> Ad-hoc construction, two times the first instance:
+     <li> Ad-hoc construction, two times F0:
      \verbatim
 {-5,-4,-3},{-5,-4,3},{-5,-3,4},{-5,3,4},
 v: {-2,-1,5},{-2,1,5},{-1,2,5},{1,2,5}
@@ -110,7 +114,6 @@ last(min_nssplittree_def(4));
      <li> Using the general construction below, with delta(F0)=delta(F1)=3
      and k=4, where then thus c(G')-n(i)=1 has to be realised:
       <ol>
-       <li> Let the above instances be F0,F1,F2. </li>
        <li> Gluing of F1 with F1:
        \verbatim
 F1 : {{-6,-5,-4,-3},{-6,-5,3},{-6,-4,5},{-6,-3,4},{-6,3,4,5},{-2,-1,6},
