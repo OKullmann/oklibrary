@@ -38,8 +38,10 @@ imp_c(i,n) := if i < n then {-i,i+1} else {-n,1}$
 
 /* The standard MUSAT(def=2) non-singular formal clause-sets (where every
    literal occurs at least twice) for n >= 2: */
+musatd2_cl(n) := append([pos_c(n),neg_c(n)], create_list(imp_c(i,n),i,1,n))$
+musatd2_cs(n) := cl2cs(musatd2_cl(n))$
+musatd2_fcl(n) := [create_list(i,i,1,n), musatd2_cl(n)]$
 musatd2_fcs(n) := fcl2fcs(musatd2_fcl(n))$
-musatd2_fcl(n) := [create_list(i,i,1,n), append([pos_c(n),neg_c(n)], create_list(imp_c(i,n),i,1,n))]$
 /* Statistics: */
 nvar_musatd2(n) := n$
 ncl_musatd2(n) := n+2$
