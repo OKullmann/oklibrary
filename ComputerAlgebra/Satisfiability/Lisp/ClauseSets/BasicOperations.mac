@@ -403,9 +403,10 @@ read_fcl_f(n) := block([fh, line, ll,p_n, p_found : false],
    *****************************************
 */
 
-/* A file in the PLA format represents a partial finite function,
-   f : {0,1}^n -> {0,1}^m, by encoding the DNF of the relational
-   viewpoint of f (f' : {0,1}^{n+m} such that f'((I,O)) = 1 if f(I) = O).
+/* A file in the PLA format represents a partial boolean function
+   f : {0,1}^n -> {0,1}^m by encoding the DNF of the relational
+   form f' of f, that is, f' : {0,1}^{n+m} -> {0,1} such that
+   f'((I,O)) = 1 iff f(I) = O.
 
    A PLA file has a header:
 
