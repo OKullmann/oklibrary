@@ -65,7 +65,7 @@ License, or any later version. */
   \todo CP 2012
   <ul>
    <li> We intend to submit a paper to the CP 2012 conference. </li>
-   <li> The website for CP2012 is at http://www.cp2012.org/. </li>
+   <li> The website for CP 2012 is at http://www.cp2012.org/ . </li>
    <li> In this paper we will investigate translations of the DES, AES
    and small scale AES, given in [Algebraic Aspects of the Advanced
    Encryption Standard;Cid,Murphy Robshaw], using our notion of
@@ -85,6 +85,28 @@ License, or any later version. */
    Cryptography/AdvancedEncryptionStandard/plans/general.hpp.
    </li>
    <li> This should also link in with
+   Experimentation/Investigations/plans/CurrentExperiments.hpp. </li>
+  </ul>
+
+
+  \todo SCC 2012
+  <ul>
+   <li> We should submit a paper to the SCC 2012 conference,
+   on our work with DES and AES. </li>
+   <li> The SCC conference allows submission of work in progress papers
+   and so this is something that can be done in conjunction with the
+   CP 2012 paper, as discussed above. </li>
+   <li> The website for SCC 2012 is at http://scc2012.unican.es/ . </li>
+   <li> The deadlines are:
+    <ul>
+     <li> Paper: 28th March 2012. </li>
+     <li> Notification of Acceptance: 18th May 2012. </li>
+     <li> Final version due: 30th May 2012. </li>
+     <li> Deadline for registration: 12th June 2012. </li>
+     <li> Conference: 11-13th July 2012. </li>
+    </ul>
+   </li>
+   <li> This should link in with
    Experimentation/Investigations/plans/CurrentExperiments.hpp. </li>
   </ul>
 
