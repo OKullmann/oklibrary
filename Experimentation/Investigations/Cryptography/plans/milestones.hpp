@@ -69,6 +69,7 @@ License, or any later version. */
   \par
    In Experimentation/Cryptography/plans/general.hpp the
    following topics are handled:
+    - SCC 2012
     - CP 2012
 
 
