@@ -70,6 +70,9 @@ License, or any later version. */
    and small scale AES, given in [Algebraic Aspects of the Advanced
    Encryption Standard;Cid,Murphy Robshaw], using our notion of
    hardness to compare translations. </li>
+   <li> The notion of hardness is discussed in
+   "Hardness of boolean function representations" in
+   Experimentation/Investigations/BooleanFunctions/plans/general.hpp. </li>
    <li> The deadlines are:
     <ul>
      <li> Abstract: 19th April 2012. </li>
@@ -86,6 +89,32 @@ License, or any later version. */
    </li>
    <li> This should also link in with
    Experimentation/Investigations/plans/CurrentExperiments.hpp. </li>
+   <li> List of things that need to be done:
+    <ul>
+     <li> An overview on current investigations on using the Cube and
+     Conquer method for DES and AES is needed. </li>
+     <li> An overview on the experiments which need to be run is needed.
+     </li>
+     <li> Install SAT solvers from SAT2011, as discussed in
+     "SAT solvers" in Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp.
+     </li>
+     <li> Install Constraint solvers, as discussed in
+     "Constraint solvers" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/CSP.hpp. </li>
+     </li>
+     <li> Implement and document AES translation, removing
+     the Key Schedule, MixColumns, and S-boxes, as discussed in
+     "Removing parts of the AES" in
+     CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp.
+     </li>
+     <li> Investigate AES using the combined MixColumn box, as discussed in
+     "Using the canonical core round box translation" in
+     AdvancedEncryptionStandard/plans/KeyDiscovery/016/2_2_4/20_13.hpp. </li>
+     <li> Constraint translation for AES and DES, as discussed in
+     "Translating the constraint-system into SAT, CSP, ..." in
+     Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp, and in
+     Cryptanalysis/DataEncryptionStandard/plans/general.hpp. </li>
+   </li>
   </ul>
 
 
