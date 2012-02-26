@@ -1,5 +1,5 @@
 // Matthew Gwynne, 19.2.2008 (Swansea)
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -89,6 +89,23 @@ License, or any later version. */
    <li> We would also like to be able to calculate all the various 
    measurements considered in the AES literature on these components,
    so as to compare any that we introduce against such metrics. </li>
+  </ul>
+
+
+  \todo Removing parts of the AES
+  <ul>
+   <li> We need the ability to make each of the following
+   components the identity (i.e, essentially remove them):
+    <ul>
+     <li> Key Schedule. </li>
+     <li> MixColumns. </li>
+     <li> S-boxes. </li>
+    </ul>
+   </li>
+   <li> We must also implement this at the implementation
+   level, as discussed in "Removing parts of the AES" in
+   CryptoSystems/Rijndael/plans/SmallScaleAdvancedEncryptionStandard.hpp.
+   </li>
   </ul>
 
 
