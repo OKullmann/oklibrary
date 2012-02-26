@@ -687,7 +687,7 @@ closure_uhit_def_pass(n_bound, _hash_repo) := block(
 
 /* For a nonsingular unsatisfiable hitting clause-set F consider all
    "nonsingular splittings", that is splitting on one variable followed
-   with elimination of singular variables. The result is, as above, a
+   by elimination of singular variables. The result is, as above, a
    repository of isomorphism types (those not already in uhit_def),
    which is passed by name, and the number of new clause-sets found (however,
    here _hash_repo is not reset : start an empty repository with
