@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.3.2008 (Swansea)
-/* Copyright 2008, 2009, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -29,6 +29,23 @@ License, or any later version. */
      <li> Available at the competition sites
      http://www.cril.univ-artois.fr/CPAI08/ and
      http://www.cril.univ-artois.fr/CPAI09/.
+    </ul>
+   </li>
+  </ul>
+
+
+  \todo Constraint solvers
+  <ul>
+   <li> We currently have no CSP solvers available in the OKlibrary. </li>
+   <li> We should at least install the following:
+    <ul>
+     <li> Mistral, at http://homepages.laas.fr/ehebrard/Software.html .
+     </li>
+     <li> Sugar, at http://bach.istc.kobe-u.ac.jp/sugar/ . </li>
+     <li> Minion, at http://minion.sourceforge.net/ . </li>
+     <li> Choco, at http://www.emn.fr/z-info/choco-solver/ . </li>
+     <li> All of these solvers are discussed individually in
+     todos of the same name below. </li>
     </ul>
    </li>
   </ul>
