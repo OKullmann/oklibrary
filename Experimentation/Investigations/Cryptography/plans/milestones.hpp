@@ -1,5 +1,5 @@
 // Matthew Gwynne, 27.12.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In Investigations/Cryptography/plans/general.hpp the
    following topics are handled:
+    - SAT 2012 : DONE
     - Add todos : DONE
 
   \par Investigations/Cryptography/AdvancedEncryptionStandard version 0.1.6
@@ -68,7 +69,7 @@ License, or any later version. */
   \par
    In Experimentation/Cryptography/plans/general.hpp the
    following topics are handled:
-    - SAT 2012
+    - CP 2012
 
 
 
