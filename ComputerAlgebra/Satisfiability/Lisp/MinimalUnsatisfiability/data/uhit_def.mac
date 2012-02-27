@@ -677,9 +677,9 @@ closure_uhit_def_pass(n_bound, _hash_repo) := block(
           V : var_cs(G),
           if
             length(V) >= min_n_unknown and
-            classify_candidates_uhit_def([G])[1][2] = "new" and
-            manage_repository_isomorphism_types([V,G],ev(_hash_repo)) then
-            count : count + 1
+             classify_candidates_uhit_def([G])[1][2] = "new" and
+             manage_repository_isomorphism_types([V,G],ev(_hash_repo)) then
+              count : count + 1
         )
       ),
   return(count))$
@@ -699,11 +699,29 @@ nonsingular_splitting_uhit_def_cs(F, _hash_repo) := block(
    for x in [-v,+v] do (
      G : sdp_reduction_cs(apply_pa_cs({x},F)),
      if classify_candidates_uhit_def([G])[1][2] = "new" and
-     manage_repository_isomorphism_types(cs2fcs(G),ev(_hash_repo)) then
-     count : count + 1
+      manage_repository_isomorphism_types(cs2fcs(G),ev(_hash_repo)) then
+       count : count + 1
    ),
   count)$
 
+/* Computing the repository of isomorphism types not already in the
+   uhit-cataloge for deficiency k, obtained by variable-disjoint full glueing
+   of elements in the uhit-catalogue:
+*/
+vardisjoint_glueing_uhit_def(k) := block([h:sm2hm({}), L1,k2,L2,FF],
+ for k1 : 2 thru k-1 do (
+   L1 : all_uhit_def(k1),
+   k2 : k+1-k1,
+   if k2 < k1 then return(done),
+   L2 : all_uhit_def(k2),
+   for F1 in L1 do
+    for F2 in L2 do (
+      FF : vardisjoint_full_gluing(cs2fcs(F1),cs2fcs(F2)),
+      if classify_candidates_uhit_def([fcs2cs(FF)])[1][2] = "new" then
+        manage_repository_isomorphism_types(FF,h)
+    )
+ ),
+ h)$
 
 /*!
 \endhtmlonly
