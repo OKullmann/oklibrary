@@ -690,7 +690,7 @@ closure_uhit_def_pass(n_bound, _hash_repo) := block(
    by elimination of singular variables. The result is, as above, a
    repository of isomorphism types (those not already in uhit_def),
    which is passed by name, and the number of new clause-sets found (however,
-   here _hash_repo is not reset : start an empty repository with
+   here _hash_repo is not reset: start an empty repository with
    _hash_repo:sm2hm({})):
 */
 nonsingular_splitting_uhit_def_cs(F, _hash_repo) := block(
