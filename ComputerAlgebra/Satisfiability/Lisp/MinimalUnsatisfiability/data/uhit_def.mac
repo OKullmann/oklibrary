@@ -656,6 +656,11 @@ redisotype_uhit_def(F) := classify_candidates_uhit_def(
    ****************************
 */
 
+/* Closures under partial assignments
+
+   First under all partial assigments:
+*/
+
 /* For all clause-sets in the catalogue with number of variables at most
    n_bound, apply all partial assignments, followed by iterated elimination
    of singular variables, and compute the non-isomorphic cases found not to
@@ -685,6 +690,8 @@ closure_uhit_def_pass(n_bound, _hash_repo) := block(
   return(count))$
 /* Recall that via hm2osm(_hasp_repo) one gets the hash-map as list. */
 
+/* Now considering only elementary partial assignments: */
+
 /* For a nonsingular unsatisfiable hitting clause-set F consider all
    "nonsingular splittings", that is splitting on one variable followed
    by elimination of singular variables. The result is, as above, a
@@ -703,6 +710,19 @@ nonsingular_splitting_uhit_def_cs(F, _hash_repo) := block(
        count : count + 1
    ),
   count)$
+
+/* Applying this elementary splitting for all elements in uhit_def up to
+   deficiency k, now resetting the hash-repository:
+*/
+closure_nonsingular_splitting_uhit(k, _hash_repo) := block([count : 0],
+ _hash_repo :: sm2hm({}),
+ for d : 2 thru k do
+  for F in all_uhit_def(d) do
+    count : count + nonsingular_splitting_uhit_def_cs(F, _hash_repo),
+ count)$
+
+
+/* Closure under glueing */
 
 /* Computing the repository of isomorphism types not already in the
    uhit-cataloge for deficiency k, obtained by variable-disjoint full glueing
