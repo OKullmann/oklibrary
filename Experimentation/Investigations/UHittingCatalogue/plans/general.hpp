@@ -157,7 +157,9 @@ sat_decision_hitting_cs(F);
 classify_candidates_uhit_def([F]);
   [[[4,8],"new"]]
 # entered into uhit-catalogue
-last(min_nssplittree_def(4));
+classify_candidates_uhit_def([F]);
+  [[[4,8],1]]
+min_nssplittree_isot[[[4,8],1]];
   6
      \endverbatim
      </li>
@@ -184,8 +186,10 @@ sat_decision_hitting_cs(F);
 classify_candidates_uhit_def([F]);
   [[[4,10],"new"]]
 # entered into uhit-catalogue
-last(min_nssplittree_def(4));
-6
+classify_candidates_uhit_def([F]);
+  [[[4,10],1]]
+min_nssplittree_isot[[[4,10],1]];
+  6
 
 # The second possibility:
 # n(i) = 4, c(G') = 5: choose 3,4,5,6 as identifications, and take all five
@@ -204,7 +208,9 @@ sat_decision_hitting_cs(F);
 classify_candidates_uhit_def([F]);
   [[[4,9],"new"]]
 # entered into uhit-catalogue
-last(min_nssplittree_def(4));
+classify_candidates_uhit_def([F]);
+  [[[4,9],2]]
+min_nssplittree_isot[[[4,9],2]];
   6
        \endverbatim
        </li>
@@ -252,8 +258,10 @@ sat_decision_hitting_cs(F);
 classify_candidates_uhit_def([F]);
   [[[4,9],"new"]]
 # entered into uhit-catalogue
-last(min_nssplittree_def(4));
-6
+classify_candidates_uhit_def([F]);
+  [[[4,9],1]]
+
+  6
 # that seems to be all regarding glueing F0 with F1
        \endverbatim
        </li>
@@ -288,8 +296,10 @@ sat_decision_hitting_cs(F);
 classify_candidates_uhit_def([F]);
   [[[4,10],"new"]]
 # entered into uhit-catalogue
-last(min_nssplittree_def(4));
-6
+classify_candidates_uhit_def([F]);
+  [[[4,10],2]]
+min_nssplittree_isot[[[4,10],2]];
+  6
 # that seems to be all regarding glueing F1 with F2
        \endverbatim
        </li>
