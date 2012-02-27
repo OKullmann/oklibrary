@@ -20,7 +20,9 @@ License, or any later version. */
      all isomorphism types (count 25). </li>
      <li> For k=4 we should collect everything, in order to build up also here
      a complete collection. </li>
-     <li> This is the most important goal; currently there are 229 elements.
+     <li> This is the most important goal; currently there are 274 elements.
+     <li> We have closure under full variable-disjoint glueing for k <= 4,
+     i.e., length(hm2sm(vardisjoint_glueing_uhit_def(4))) = 0. </li>
      </li>
     </ol>
    </li>
