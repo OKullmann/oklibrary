@@ -658,7 +658,7 @@ max_min_var_deg_uhit_def_mem[k] := max_min_var_deg_cs(ev(all_uhit_def(k),eval))$
 
 /* For a (valid) isomorphism-type t=[[k,n],i] occurring in uhit_def compute the
    minimal size of a nonsingular splitting tree; if a tuple not in the
-   uhit_def-catalogue is uncountered, the tuple together with its type
+   uhit_def-catalogue is encountered, the tuple together with its type
    is printed, and "und" is returned.
 */
 min_nssplittree_isot[t] := block([k,n,i,F,res:inf,G,tn,sum],
