@@ -168,9 +168,9 @@ last(min_nssplittree_def(4));
        \verbatim
 F1 : {{-6,-5,-4,-3},{-6,-5,3},{-6,-4,5},{-6,-3,4},{-6,3,4,5},{-2,-1,6},
     {-2,1,6},{-1,2,6},{1,2,6}}
-# n(i)=3, c(G')=4: waehle 1,2,6 as identifications, and take all four
+# n(i)=3, c(G')=4: choose 1,2,6 as identifications, and take all four
 # common clauses {-2,-1,6}, {-2,1,6}, {-1,2,6}, {1,2,6}}
-# so rename in the second instance: 3 -> 7, 4 -> 8, 5 -> 9, v -> 10
+# so rename in the second instance: 3 -> 7, 4 -> 8, 5 -> 9; v -> 10
 # obtain:
 F : {
 {10,-6,-5,-4,-3},{10,-6,-5,3},{10,-6,-4,5},{10,-6,-3,4},{10,-6,3,4,5},
@@ -187,14 +187,32 @@ classify_candidates_uhit_def([F]);
 last(min_nssplittree_def(4));
 6
 
-# that seems to be all regarding glueing F1 with F1
+# The second possibility:
+# n(i) = 4, c(G') = 5: choose 3,4,5,6 as identifications, and take all five
+# common clauses {-6,-5,-4,-3},{-6,-5,3},{-6,-4,5},{-6,-3,4},{-6,3,4,5}
+# so rename in the second instance: 1 -> 7, 2 -> 8; v -> 9
+# obtain:
+F : {
+{9,-2,-1,6},{9,-2,1,6},{9,-1,2,6},{9,1,2,6},
+{-6,-5,-4,-3},{-6,-5,3},{-6,-4,5},{-6,-3,4},{-6,3,4,5},
+{-9,-8,-7,6},{-9,-8,7,6},{-9,-7,8,6},{-9,7,8,6}
+};
+hittingcsp(F);
+  true
+sat_decision_hitting_cs(F);
+  false
+classify_candidates_uhit_def([F]);
+  [[[4,9],"new"]]
+# entered into uhit-catalogue
+last(min_nssplittree_def(4));
+  6
        \endverbatim
        </li>
        <li> Gluing of F2 with F2:
        \verbatim
 F2 :  {{-7,-6,-5,-4},{-7,-6,4},{-7,-5,6},{-7,-4,5},{-7,4,5,6},{-3,-2,-1,7},
   {-3,1,7},{-2,3,7},{-1,2,7},{1,2,3,7}}
-# n(i)=4, c(G')=5: waehle 1,2,3,7 as identifications, and take all 5
+# n(i)=4, c(G')=5: choose 1,2,3,7 as identifications, and take all 5
 # common clauses containing these variables
 # so rename in the second instance: 4 -> 8, 5 -> 9, 6 -> 10, v -> 11
 # obtain:
