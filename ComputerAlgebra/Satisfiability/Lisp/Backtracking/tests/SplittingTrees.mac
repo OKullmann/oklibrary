@@ -162,6 +162,11 @@ okltest_optimal_r_splitting_tree(f) := block(
   true)$
 
 
+/* ******************************
+   * Evaluating splitting trees *
+   ******************************
+*/
+
 okltest_sat_pass_st(f) := block(
   assert(f([true]) = [{}]),
   assert(f([false]) = []),
@@ -186,6 +191,21 @@ okltest_usat_clauses_st(f) := block(
   ),
   true)$
 
+
+/* ***********************************
+   * Generators for splitting trees  *
+   ***********************************
+*/
+
+/* ***********************
+   * r_k splitting trees *
+   ***********************
+*/
+
+/* **********
+   * Output *
+   **********
+*/
 
 /*!
 \endhtmlonly

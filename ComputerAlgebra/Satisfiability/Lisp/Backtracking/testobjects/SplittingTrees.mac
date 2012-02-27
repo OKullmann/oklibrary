@@ -48,8 +48,28 @@ okltest_condense_st(condense_st);
 okltest_optimal_splitting_tree(optimal_splitting_tree);
 okltest_optimal_r_splitting_tree(optimal_r_splitting_tree);
 
+/* ******************************
+   * Evaluating splitting trees *
+   ******************************
+*/
+
 okltest_sat_pass_st(sat_pass_st);
 okltest_usat_clauses_st(usat_clauses_st);
+
+/* ***********************************
+   * Generators for splitting trees  *
+   ***********************************
+*/
+
+/* ***********************
+   * r_k splitting trees *
+   ***********************
+*/
+
+/* **********
+   * Output *
+   **********
+*/
 
 /*!
 \endhtmlonly
