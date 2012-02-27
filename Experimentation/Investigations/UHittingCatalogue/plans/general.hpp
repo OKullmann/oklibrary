@@ -10,11 +10,61 @@ License, or any later version. */
   \brief Plans regarding building the catalogue of unsatisfiable non-singular hitting clause-sets of low deficiency
 
 
+  \todo Scope of the catalogue
+  <ul>
+   <li> Regarding the deficiency:
+    <ol>
+     <li> For deficiencies k=1,2 we definitely have all isomorphism types
+     (counts 1 and 2). </li>
+     <li> According to unpublished results of XSZ and me, also for k=3 we have
+     all isomorphism types (count 25). </li>
+     <li> For k=4 we should collect everything, in order to build up also here
+     a complete collection. </li>
+     <li> This is the most important goal; currently there are 229 elements.
+     </li>
+    </ol>
+   </li>
+   <li> Regarding n:
+    <ol>
+     <li> For n <= 4 the catalogue is complete (determined computationally).
+     </li>
+     <li> Perhaps we should aim at getting everything for n <= 5. </li>
+     <li> Counts: n=0 -> 1, n=1 -> 0, n=2 -> 1, n=3 -> 6, n=4 -> 368. </li>
+     <li> So let's just run all_unsinghitting(5, H5) (cs-oksvr XXX). </li>
+    </ol>
+   </li>
+   <li> Regarding closure under partial assignments:
+    <ol>
+     <li> We have closure under the operation of partial assignments for
+     n <= 9 (determined by closure_uhit_def_pass(9, H)). </li>
+    </ol>
+   </li>
+  </ul
+
+
   \todo Connections
   <ul>
    <li> W.r.t. general investigations into minimal unsatisfiability see
    Experimentation/Investigations/MinimalUnsatisfiability/plans/general.hpp.
    </li>
+  </ul>
+
+
+  \todo Integer sequences of interest
+  <ul>
+   <li> Once the finiteness-conjecture has been established, the sequence
+   k >= 1 -> number of isomorphism types of nonsingular unsatisfiable hitting
+   clause-sets of deficiency k
+   is of great interest. Its first three terms are 1,2,25. </li>
+   <li> An easier sequence is
+   n >= 0 -> number of isomorphism types of nonsingular unsatisfiable hitting
+   clause-sets with n variables.
+   Its first 5 terms are 1,0,1,6,368. </li>
+   <li> We should submit these sequences to OEIS, once we have something
+   published on them. </li>
+   <li> For a given deficiency k, the maximal min-variable-degree is also of
+   interest; once we get the journal version of the SAT2011 paper published,
+   such sequences should be submitted to OEIS. </li>
   </ul>
 
 
