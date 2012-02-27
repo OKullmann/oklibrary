@@ -1,0 +1,105 @@
+/* Matthew Gwynne, 27.2.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/KeeLoq/tests/Cipher.mac
+  \brief Tests regarding the KeeLoq cipher.
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/KeeLoq/tests/Cipher.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+kill(f)$
+
+
+/* *****************
+   * KeeLoq cipher *
+   *****************
+*/
+
+okltest_keeloq_nlf(f) := block(
+  assert(f(0,0,0,0,0) = 0),
+  assert(f(0,0,0,0,1) = 1),
+  assert(f(0,0,0,0,0) = 0),
+  assert(f(0,0,0,0,1) = 1),
+  assert(f(0,0,0,1,0) = 1),
+  assert(f(0,0,0,1,1) = 1),
+  assert(f(0,0,1,0,0) = 0),
+  assert(f(0,0,1,0,1) = 1),
+  assert(f(0,0,1,1,0) = 0),
+  assert(f(0,0,1,1,1) = 0),
+  assert(f(0,1,0,0,0) = 0),
+  assert(f(0,1,0,0,1) = 0),
+  assert(f(0,1,0,1,0) = 1),
+  assert(f(0,1,0,1,1) = 0),
+  assert(f(0,1,1,0,0) = 1),
+  assert(f(0,1,1,0,1) = 1),
+  assert(f(0,1,1,1,0) = 1),
+  assert(f(0,1,1,1,1) = 0),
+  assert(f(1,0,0,0,0) = 0),
+  assert(f(1,0,0,0,1) = 0),
+  assert(f(1,0,0,1,0) = 1),
+  assert(f(1,0,0,1,1) = 1),
+  assert(f(1,0,1,0,0) = 1),
+  assert(f(1,0,1,0,1) = 0),
+  assert(f(1,0,1,1,0) = 1),
+  assert(f(1,0,1,1,1) = 0),
+  assert(f(1,1,0,0,0) = 0),
+  assert(f(1,1,0,0,1) = 1),
+  assert(f(1,1,0,1,0) = 0),
+  assert(f(1,1,0,1,1) = 1),
+  assert(f(1,1,1,0,0) = 1),
+  assert(f(1,1,1,0,1) = 1),
+  assert(f(1,1,1,1,0) = 0),
+  assert(f(1,1,1,1,1) = 0),
+  true)$
+
+okltest_keeloq_round(f) := block(
+  assert(
+    okltest_keeloq_round_bf(
+      buildq([f], lambda([V], if f(rest(V,-1)) = V[9] then [1] else [0])))),
+  true)$
+
+okltest_keeloq_round_bf(f) := block(
+  assert(f([0,0,0,0,0,0,0,0,0]) = [1]),
+  assert(f([0,0,0,0,0,0,0,0,1]) = [0]),
+  assert(f([0,0,0,0,1,1,0,0,1]) = [1]),
+  assert(f([0,0,0,0,1,1,0,0,0]) = [0]),
+  assert(f([0,1,0,1,0,1,0,1,1]) = [1]),
+  assert(f([0,1,0,1,0,1,0,1,0]) = [0]),
+  true)$
+
+okltest_keeloq_encryption_gen(f) := block(
+  for r : 1 thru 528 step 33 do
+    assert(f(r,create_list(0,i,1,32),create_list(0,i,1,64)) =
+      create_list(0,i,1,32)),
+  assert(
+    okltest_keeloq_encryption(
+      buildq([f], lambda([P,K], f(528,P,K))))),
+  true)$
+
+okltest_keeloq_encryption(f) := block(
+  assert(f(create_list(0,i,1,32),create_list(0,i,1,64)) =
+    create_list(0,i,1,32)),
+  assert(f(
+      [1,0,0,1,1,1,1,0,0,0,1,0,1,0,1,0,1,0,0,1,0,0,0,0,0,1,0,0,1,1,0,0],
+      [0,0,0,0,1,1,1,0,1,1,1,0,1,0,0,0,0,1,1,0,0,1,0,1,0,1,1,0,0,1,1,0,
+      0,1,0,0,1,1,0,1,0,0,1,0,1,1,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,1,1,1]) =
+    [1,0,1,1,1,0,1,0,0,0,1,1,0,1,0,1,0,1,1,1,0,1,1,0,0,1,1,1,0,1,0,1]),
+  true)$
+
+/*!
+\endhtmlonly
+*/
