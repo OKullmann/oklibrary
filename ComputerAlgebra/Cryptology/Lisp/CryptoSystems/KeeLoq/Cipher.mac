@@ -1,0 +1,73 @@
+/* Matthew Gwynne, 27.2.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/KeeLoq/Cipher.mac
+  \brief The KeeLoq cipher
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/KeeLoq/Cipher.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac")$
+
+
+
+/* *****************
+   * KeeLoq cipher *
+   *****************
+*/
+
+
+
+/* Keeloq is a 32-bit shift-register block cipher with 32-bit plaintext and
+   ciphertext, a 64-bit key, and 528 rounds.
+
+  The fundamental algorithm for KeeLoq, as described in [Algebraic and Slide
+  attacks on KeeLoq; Gregory Bard, Nicholas Courtois and David Wagner], is:
+    1) Plaintext is P_31,...,P_0.
+    2) Key is K_63,...,K_0.
+    3) Initiialise L_31, ..., L_0 = P_31, ..., P_0.
+    4) For i in 0 to 527 do
+           L_{i+32} = K_{i mod 64} + L_i + L_{i+16} + NLF(L_{i+31}, L_{i+26},L_{i+20},L_{i+9},L_{i+1})
+    5) The ciphertext is C_31, ..., C_0 = L_559,...,L_528
+
+    The non-linear feedback function is defined as an ANF as follows
+
+        NLF(a,b,c,d,e) := d + e + ac + ae + bc + be + cd + de + ade + ace + abd + abc.
+
+    All additions and multiplications are in ZZ_2.
+
+*/
+
+/* The KeeLoq non-linear feedback function: */
+keeloq_nlf(a,b,c,d,e) := mod(d + e + a * c + a * e + b * c + b * e + c *d + d * e + a * d * e + a * c * e + a*b*d + a * b * c, 2)$
+
+
+/* Encrypting plaintext P, a boolean list of length 32, with key K, a boolean
+   list of length 64 for r-round KeeLoq: */
+keeloq_encryption_gen(r, P,K) := block([P_c : reverse(P), K_rev : reverse(K)],
+  for i : 0 thru r-1 do
+    P_c : endcons(
+               mod(K_rev[mod(i,64)+1] + P_c[i+1] + P_c[i+16+1] +
+                   keeloq_nlf(P_c[i+31+1],P_c[i+26+1],P_c[i+20+1],P_c[i+9+1],P_c[i+1+1]),2),
+               P_c),
+  return(reverse(rest(P_c, length(P_c) - 32))))$
+keeloq_encryption(P,K) := keeloq_encryption_gen(528,P,K)$
+
+
+
+/*!
+\endhtmlonly
+*/
