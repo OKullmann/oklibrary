@@ -28,7 +28,6 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/KeeLoq/tests/
    *****************
 */
 
-
 okltest_keeloq_nlf(keeloq_nlf);
 okltest_keeloq_round(keeloq_round);
 okltest_keeloq_round_bf(keeloq_round_bf);

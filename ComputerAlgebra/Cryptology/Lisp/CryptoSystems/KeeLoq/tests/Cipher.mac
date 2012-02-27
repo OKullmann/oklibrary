@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/KeeLoq/tests/Cipher.mac
-  \brief Tests regarding the KeeLoq cipher.
+  \brief Tests regarding the KeeLoq cipher
 
 Use by
 
