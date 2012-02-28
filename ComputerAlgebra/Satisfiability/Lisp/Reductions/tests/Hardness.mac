@@ -21,7 +21,6 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/Hardness.
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleFieldMulCNF.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/RBases.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac")$
 
 kill(f)$
