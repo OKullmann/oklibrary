@@ -133,6 +133,55 @@ maxima> ncl_list_full_dualts(16,256);
      </li>
     </ul>
    </li>
+   <li> Solving for key seeds 1 to 20:
+    <ul>
+     <li> minisat-2.2.0 (all solve in < 6m, with <1million conflicts):
+     \verbatim
+> for s in $(seq 1 20); do RunMinisat r${r}_k${s}.cnf; done
+> (ExtractMinisat header-only |  awk " { print \$0 \" s\"}"; for s in $(seq 1 20); do
+    cat ExperimentMinisat_r1_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${s}\"}";
+done) > MinisatStatistics
+> oklib --R
+R> E = read.table("MinisatStatistics", header=TRUE)
+> aggregate(E, by=list(sat=E$sat), FUN=mean)
+  sat   rn    rc       t sat      cfs     dec    rts       r1   mem  ptime  stime      cfl    s
+1   1 5928 88596 135.153   1 316141.5 1531617 727.05 54225724 260.8 0.0325 0.0895 75805240 10.5
+R> summary(E)
+       rn             rc              t               cfs              dec
+ Min.   :5928   Min.   :88596   Min.   :  8.50   Min.   : 44778   Min.   : 475724
+ 1st Qu.:5928   1st Qu.:88596   1st Qu.: 49.25   1st Qu.:132036   1st Qu.: 841614
+ Median :5928   Median :88596   Median :100.01   Median :253761   Median :1441747
+ Mean   :5928   Mean   :88596   Mean   :135.15   Mean   :316141   Mean   :1531617
+ 3rd Qu.:5928   3rd Qu.:88596   3rd Qu.:209.46   3rd Qu.:414705   3rd Qu.:2078778
+ Max.   :5928   Max.   :88596   Max.   :378.08   Max.   :850817   Max.   :3212359
+      rts               r1                cfl
+ Min.   : 127.0   Min.   :  7364895  Min.   : 11421272
+ 1st Qu.: 359.8   1st Qu.: 22478942  1st Qu.: 35039243
+ Median : 589.5   Median : 42611416  Median : 61835458
+ Mean   : 727.0   Mean   : 54225724  Mean   : 75805240
+ 3rd Qu.: 954.5   3rd Qu.: 70383331  3rd Qu.:104802310
+ Max.   :1797.0   Max.   :155575015  Max.   :190427737
+     \endverbatim
+     </li>
+     <li> oksolver_2002:
+     \verbatim
+> mkdir oksolver
+> for s in $(seq 1 20); do OKsolver_2002-O3-DNDEBUG r1_k${k}.cnf > oksolver/r1_k${s}.result 2>&1; done
+> (ExtractOKsolver header-only | awk " { print \$0 \" s\"}"; for s in $(seq 1 20); do
+  cat oksolver/r1_k${s}.result | ExtractOKsolver | tail -n 1 | awk " { print \$0 \" ${s}\"}";
+done) > OKsolverStatistics
+R> E = read.table("OKsolverStatistics", header=TRUE)
+R> aggregate(E, by=list(sat=E$sat), FUN=mean)
+   n     c      l mcl       t    nds  r1       r2 pls ats     h
+5928 88892 261032 256 1092.69 2269.3 264 388286.1   0   0 15.25
+ n2cr dmcl  dn  dc   dl snds qnds mnds        pa         ps        tp tel
+82432    0 264 808 2472 2.85    0  0.1 0.3913483 0.01715088 0.4084991   0
+oats n2cs m2cs
+   0    0    0
+     \endverbatim
+     </li>
+    </ul>
+   </li>
    <li> Solving for key seed = 1:
     <ul>
      <li> Most solvers solve the problem in < 6m. </li>
