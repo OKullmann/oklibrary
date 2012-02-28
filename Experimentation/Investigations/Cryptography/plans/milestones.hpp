@@ -56,7 +56,7 @@ License, or any later version. */
   (see Cryptography/DataEncryptionStandard/plans/milestones.hpp)
 
   \par
-   In Experimentation/Cryptography/plans/general.hpp the
+   In Experimentation/Investigations/Cryptography/plans/general.hpp the
    following topics are handled:
     - CP 2012
     - SCC 2012
