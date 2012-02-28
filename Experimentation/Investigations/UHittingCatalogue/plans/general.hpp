@@ -43,7 +43,10 @@ License, or any later version. */
      infeasible. </li>
      <li> closure_nonsingular_splitting_uhit(10,H) (which only consider
      elementary partial assignments) returns 0. </li>
-     <li> Running closure_nonsingular_splitting_uhit(59,H) (cs-wsok XXX).
+     <li> Running closure_nonsingular_splitting_uhit(59,H) yields no new
+     clause-sets (i.e., we have closure of the current catalogue under
+     elementary partial assignments followed by complete
+     singularity-reduction).
      </li>
     </ol>
    </li>
