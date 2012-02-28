@@ -44,11 +44,14 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplica
    F, hardness_wpi_cs returns und.
 */
 hardness_wpi_cs(F,F_PI) := block([max_k : 0, count : 0, maxcount, n],
-  maxcount : length(F_PI), n : nvar_cs(F),
+  n : nvar_cs(F),
+  if oklib_monitor then maxcount : length(F_PI),
   for C in F_PI do block([F_phi : apply_pa(comp_sl(C),F)],
-    count : count + 1,
-    if oklib_monitor and mod(count, 50) = 0 then
-      print(sconcat("[",count,"/",maxcount,"] Hardness(F) >= ", max_k," ...")),
+    if oklib_monitor then (
+      count : count + 1,
+      if mod(count, 50) = 0 then
+        print(sconcat("[",count,"/",maxcount,"] hd(F) >= ", max_k," ..."))
+    ),
     for k : 0 while generalised_ucp(F_phi,k) # {{}} and k <= n do
       max_k : max(max_k, k + 1)),
   if max_k > n then return(und) else return(max_k))$
