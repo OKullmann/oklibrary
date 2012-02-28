@@ -42,15 +42,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplica
 /* Computing the hardness of a clause-set F with its prime-implicates F_PI
    as input:
 */
-hardness_wpi_cs(F,F_PI) := block([k : 0, count : 0, maxcount, n],
+hardness_wpi_cs(F,F_PI) := block([k : 0, n],
   n : nvar_cs(F),
-  if oklib_monitor then maxcount : length(F_PI),
   for C in F_PI do block([F_phi : apply_pa(comp_sl(C),F)],
-    if oklib_monitor then (
-      count : count + 1,
-      if mod(count, 50) = 0 then
-        print(sconcat("[",count,"/",maxcount,"] hd(F) >= ", k," ..."))
-    ),
     while generalised_ucp(F_phi,k) # {{}} do k : k+1
   ),
   k)$
