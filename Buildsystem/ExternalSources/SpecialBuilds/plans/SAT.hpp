@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.10.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -48,6 +48,32 @@ MiniSat -- Copyright (c) 2003-2005, Niklas Eén, Niklas Sörensson
    <li> The following solvers are currently not in the library, and
    must be investigated, and then added to the library:
     <ul>
+     <li> Solvers from SAT 2011:
+      <ul>
+       <li> eagleup, available at
+       http://www.uni-ulm.de/in/theo/m/olivergableske.html.
+       </li>
+       <li> mphasesat64, available in SAT2011-sources. </li>
+       <li> TNM, available at
+       http://home.mis.u-picardie.fr/~cli/EnglishPage.html . </li>
+       <li> sattime, available in SAT2011-sources
+       (license unclear, by Chu Min Li). </li>
+       <li> sparrow, available in SAT2011-sources (implemented
+       as a ubcsat-hack). </li>
+       <li> march_rw, available in SAT2011-sources. </li>
+       <li> qutersat, available in SAT2011-sources. </li>
+       <li> clasp, at http://www.cs.uni-potsdam.de/clasp/. </li>
+       <li> ppfolio, at http://www.cril.univ-artois.fr/~roussel/ppfolio/
+       (license unclear, MG should e-mail the authors). </li>
+       <li> 3S, at http://www.cs.cornell.edu/~sabhar/#software
+       (apparently not open-source, uses IBM license). </li>
+       <li> glueminisat, at http://glueminisat.nabelab.org/ . </li>
+       <li> lingeling, update to latest version, at
+       http://fmv.jku.at/lingeling/. </li>
+       <li> glucose-2.0 (DONE by OK, BUT missing satelite support),
+       at http://www.lri.fr/~simon/?page=glucose . </li>
+      </ul>
+     </li>
      <li> Barcelogic
       <ul>
        <li> See http://www.lsi.upc.edu/~oliveras/bclt-main.html . </li>

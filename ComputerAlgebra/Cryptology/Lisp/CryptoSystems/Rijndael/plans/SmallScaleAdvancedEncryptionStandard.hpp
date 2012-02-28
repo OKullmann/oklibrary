@@ -1,5 +1,5 @@
 // Matthew Gwynne, 28.1.2010 (Swansea)
-/* Copyright 2010, 2011 Oliver Kullmann
+/* Copyright 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -72,6 +72,22 @@ sr.hex_str(AES_e, typ="vector")
    tests so far. This needs to be further considered, or the authors should
    be e-mailed. </li>
    <li> This information should be moved to the docus. </li>
+  </ul>
+
+
+  \todo Removing parts of the AES
+  <ul>
+   <li> We need the ability to make each of the following
+   components the identity (i.e, essentially remove them):
+    <ul>
+     <li> Key Schedule. </li>
+     <li> MixColumns. </li>
+     <li> S-boxes. </li>
+    </ul>
+   </li>
+   <li> We must also implement this at the translation
+   level, as discussed in "Removing parts of the AES" in
+   Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp. </li>
   </ul>
 
 
