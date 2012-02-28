@@ -33,6 +33,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/DeficiencyOne.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/Hardness.mac")$
 
 kill(f)$
 
@@ -55,6 +57,14 @@ okltest_hitting_cls_rep_st(f) := block(
    * Generators *
    **************
 */
+
+okltest_uniform_usat_hitting_min(f) := (
+  assert(f(0) = {{}}),
+  assert(f(1) = {{trv([])},{-trv([])}}),
+  assert(f(2) = {{trv([]),trv([1])},{trv([]),-trv([1])},{-trv([]),trv([2])},{-trv([]),-trv([2])}}),
+  assert(f(3) = {{trv([]),trv([1]),trv([1,1])},{trv([]),trv([1]),-trv([1,1])},{trv([]),-trv([1]),trv([1,2])},{trv([]),-trv([1]),-trv([1,2])},{-trv([]),trv([2]),trv([2,1])},{-trv([]),trv([2]),-trv([2,1])},{-trv([]),-trv([2]),trv([2,2])},{-trv([]),-trv([2]),-trv([2,2])}}),
+
+  true)$
 
 okltest_over_full_hitting_fcs(f) := (
   for m : 2 thru 5 do block([FF : f(m)],
@@ -112,6 +122,30 @@ okltest_nlitocc_smusat_horn(f) := (
   for k : 0 thru 5 do block([l : f(k)],
     assert(l = nlitocc_cs(smusat_horn_cs(k))),
     assert(l = nlitocc_fcl(smusat_horn_stdfcl(k)))
+  ),
+  true)$
+
+okltest_smusat_genhorn_cs(f) := block([x],
+  assert(f(0,x) = {{}}),
+  assert(f(x,0) = {{}}),
+  assert(f(1,1) = {{trv([])},{-trv([])}}),
+  assert(okltest_smusat_horn_cs(buildq([f], lambda([k], f(k,1)))) = true),
+  assert(f(1,2) = {{trv([])},{-trv([])}}),
+  assert(okltest_uniform_usat_hitting_min(buildq([f], lambda([k], f(k,k)))) = true),
+  true)$
+
+okltest_sat_genhorn_cs(f) := (
+  for k : 0 thru 3 do
+   for l : 0 thru 3 do block([F : f(k,l), c, P],
+     c : ncl_cs(F),
+     assert(c = ncl_cs(smusat_genhorn_cs(k,l))),
+     assert(deficiency_cs(F) = 1 - c),
+     assert(hitting1rcsp(F) = true),
+     if oklib_test_level > 0 then (
+       P : min_resolution_closure_cs(F)[1],
+       assert(ncl_cs(P) = 2^c-1),
+       assert(hardness_wpi_cs(F,P) = min(k,l))
+     )
   ),
   true)$
 

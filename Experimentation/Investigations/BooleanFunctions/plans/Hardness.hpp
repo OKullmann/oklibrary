@@ -88,4 +88,35 @@ maxima> for m : 1 while true do
    </li>
   </ul>
 
+
+  \todo Hardness of prime-extremal satisfiable general Horn clause-sets
+  <ul>
+   <li> The clause-sets sat_genhorn_cs(k,l) are candidates to separate
+   representations without new variables of softness l+1 from softness l:
+    <ol>
+     <li> sat_genhorn_cs(k,l) itself has hardness min(k,l). </li>
+     <li> So for l >= 0 the sequence S = (sat_genhorn_cs(k,l+1))_{k >= l+1} has
+     a linear-size representation without new variables of hardness precisely
+     l+1, namely itself. </li>
+     <li> Now the conjecture is that S has no polysize representations without
+     new variables of softness l. </li>
+     <li> This is true for l=0, as it follows from the results of the article
+     [Sloan, Soereny, Turan, On k-term DNF with the largest number of prime
+     implicants, 2007]. </li>
+    </ol>
+   </li>
+   <li> A systematic study of the boolean functions of sat_genhorn_cs(k,l) is
+   needed:
+    <ol>
+     <li> A good representation (in the general sense) of the underlying
+     boolean function is needed. Perhaps this should go to investigations on
+     boolean functions in general. </li>
+     <li> What is the precise number of variables, clauses, literal occurrences
+     ? </li>
+     <li> What are precisely the prime implicates and prime implicants? </li>
+     <li> What are the m-bases for 0 <= m <= l ? </li>
+    </ol>
+   </li>
+  </ul>
+
 */

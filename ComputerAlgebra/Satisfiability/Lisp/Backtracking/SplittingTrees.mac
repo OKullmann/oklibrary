@@ -233,7 +233,7 @@ trv_var(v) := nounify(trv)(v)$
 */
 complete_st_alldifferent(k) := complete_st_alldifferent_pref(k,[])$
 complete_st_alldifferent_pref(k,prefix) := if k = 0 then [false] else
-  [trv_var(prefix),
+  [trv_var(reverse(prefix)),
      complete_st_alldifferent_pref(k-1, cons(1,prefix)),
      complete_st_alldifferent_pref(k-1, cons(2,prefix))]$
 
@@ -243,7 +243,7 @@ complete_st_alldifferent_pref(k,prefix) := if k = 0 then [false] else
 */
 horn_st(k) := horn_st_pref(k,[])$
 horn_st_pref(k,prefix) := if k = 0 then [false] else
-  [trv_var(prefix), [false], horn_st_pref(k-1, cons(2,prefix))]$
+  [trv_var(reverse(prefix)), [false], horn_st_pref(k-1, cons(2,prefix))]$
 
 /* More generally, the complete splitting tree of height k >= 0 and levelled
    height l >= 0 (if l=0 then k=0, else k is arbitrary), using different
@@ -252,12 +252,21 @@ horn_st_pref(k,prefix) := if k = 0 then [false] else
 genhorn_st(k,l) := genhorn_st_pref(k,l,[])$
 genhorn_st_pref(k,l,prefix) := if l=0 or k=0 then [false]
  elseif l=1 then horn_st_pref(k,prefix)
- else [trv_var(prefix),
+ else [trv_var(reverse(prefix)),
        genhorn_st_pref(k-1,l-1,cons(1,prefix)),
        genhorn_st_pref(k-1, l, cons(2,prefix))]$
 /* Remark: For the corresponding tree-hitting clause-sets see smusat_genhorn_cs
    in Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac.
 */
+/* The satisfiable extensions, extending each leaf of genhorn_st(k,l) by
+   one sat-branch:
+*/
+genhornsat_st(k,l) := genhornsat_st_pref(k,l,[])$
+genhornsat_st_pref(k,l,prefix) :=
+ if l=0 or k=0 then [trv_var(reverse(prefix)),[false],[true]]
+ else [trv_var(reverse(prefix)),
+       genhornsat_st_pref(k-1,l-1,cons(1,prefix)),
+       genhornsat_st_pref(k-1, l, cons(2,prefix))]$
 
 
 /* ***********************

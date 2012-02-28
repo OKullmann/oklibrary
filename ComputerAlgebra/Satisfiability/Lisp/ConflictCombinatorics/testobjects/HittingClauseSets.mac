@@ -33,6 +33,8 @@ okltest_hitting_cls_rep_st(hitting_cls_rep_st);
    **************
 */
 
+okltest_uniform_usat_hitting_min(uniform_usat_hitting_min);
+
 okltest_over_full_hitting_fcs(over_full_hitting_fcs);
 
 okltest_smusat_horn_cs(smusat_horn_cs);
@@ -42,6 +44,8 @@ okltest_nvar_smusat_horn(nvar_smusat_horn);
 okltest_ncl_smusat_horn(ncl_smusat_horn);
 okltest_ncl_list_smusat_horn(ncl_list_smusat_horn);
 okltest_nlitocc_smusat_horn(nlitocc_smusat_horn);
+okltest_smusat_genhorn_cs(smusat_genhorn_cs);
+okltest_sat_genhorn_cs(sat_genhorn_cs);
 
 okltest_sasg2000(sasg2000);
 okltest_brouwer1999(brouwer1999);

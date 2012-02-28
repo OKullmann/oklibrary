@@ -144,6 +144,16 @@ License, or any later version. */
    unsatisfiable clause-sets in general are handled in
    Satisfiability/Lisp/MinimalUnsatisfiability/plans/SmallVariableDegrees.hpp
    </li>
+   <li> smusat_genhorn_cs: We need statistics-functions, i.e., the three
+   functions nvar_smusat_genhorn, ncl_smusat_genhorn, ncl_list_smusat_genhorn.
+   </li>
+  </ul>
+
+
+  \todo %Generators for satisfiable hitting clause-sets
+  <ul>
+   <li> sat_genhorn_cs: We need statistics-functions, i.e., the three
+   functions nvar_sat_genhorn, ncl_sat_genhorn, ncl_list_sat_genhorn. </li>
   </ul>
 
 

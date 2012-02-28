@@ -197,6 +197,13 @@ okltest_usat_clauses_st(f) := block(
    ***********************************
 */
 
+okltest_complete_st_alldifferent(f) := (
+  assert(f(0) = [false]),
+  assert(f(1) = [trv([]),[false],[false]]),
+  assert(f(2) = [trv([]),[trv([1]),[false],[false]],[trv([2]),[false],[false]]]),
+  assert(f(3) = [trv([]),[trv([1]),[trv([1,1]),[false],[false]],[trv([1,2]),[false],[false]]],[trv([2]),[trv([2,1]),[false],[false]],[trv([2,2]),[false],[false]]]]),
+  true)$
+
 okltest_horn_st(f) := (
   assert(f(0) = [false]),
   assert(f(1) = [trv([]), [false], [false]]),
@@ -212,7 +219,14 @@ okltest_genhorn_st(f) := block([x],
   assert(f(2,2) = [trv([]), [trv([1]),[false],[false]], [trv([2]),[false],[false]]]),
   for k : 0 thru 8 do
     assert(f(k,k) = complete_st_alldifferent(k)),
+  true)$
 
+okltest_genhornsat_st(f) := (
+  assert(f(0,x) = [trv([]),[false],[true]]),
+  assert(f(x,0) = [trv([]),[false],[true]]),
+  assert(f(0,2) = [trv([]),[false],[true]]),
+  assert(f(1,2) = [trv([]),[trv([1]),[false],[true]],[trv([2]),[false],[true]]]),
+  assert(f(2,2) = [trv([]), [trv([1]),[trv([1,1]),[false],[true]],[trv([1,2]),[false],[true]]], [trv([2]),[trv([2,1]),[false],[true]],[trv([2,2]),[false],[true]]]]),
   true)$
 
 

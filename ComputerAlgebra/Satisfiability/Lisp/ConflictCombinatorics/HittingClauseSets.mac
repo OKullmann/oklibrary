@@ -85,13 +85,15 @@ hitting_cls_rep_condensed_fcs(FF,h) := hitting_cls_rep_st(condense_st(dll_simple
 
 /* An unsatisfiable uniform clause-set F with clause-length k has at least
    2^k clauses, and the minimum is attained exactly for the uniform hitting
-   clause-sets with clause-length k and 2^k clauses. */
-/* The two extreme cases are given by full_fcs(n) (with maximal deficiency)
+   clause-sets with clause-length k and 2^k clauses.
+
+   The two extreme cases are given by full_fcs(n) (with maximal deficiency)
    and by the following special SMUSAT(1) clause-sets (with minimal
    deficiency), which are (up to renaming) exactly the uniform elements of
-   SMUSAT(1) with clause-length k. */
+   SMUSAT(1) with clause-length k.
+*/
 uniform_usat_hitting_min(k) := treehittingcls_st(complete_st_alldifferent(k))$
-uniform_usat_hitting_max(k) := full_fcs(k)[2]$
+uniform_usat_hitting_max(k) := full_cs(k)$
 
 /* The up to isomorphism unique unsatisfiable hitting clause-set
    with n variables and of deficiency 2^n - n - 1;
@@ -132,7 +134,21 @@ smusat_genhorn_cs(k,l) := treehittingcls_st(genhorn_st(k,l))$
 /* Remark: These tree-hitting clause-sets are saturated MU's of deficiency 1
    and of hardness min(k,l).
 */
-
+/* The satisfiable variations, adding one new variable to each clause: */
+sat_genhorn_cs(k,l) := dualtreehittingcls_st(genhornsat_st(k,l))$
+/* Remark: These clause-sets F(k,l) have the following properties:
+    - let c := c(F(k,l)) be the number of clauses (note that c is also the
+      number of clauses of smusat_genhorn_cs(k,l))
+    - deficiency 1-c
+    - 1-regular hitting clause-sets
+    - satisfiable
+    - exactly 2^c-1 many prime implicates (as shown in [Sloan, Soereny, Turan,
+      On k-term DNF with the largest number of prime implicants, 2007]; also
+      shown there is that extremality w.r.t. the number of prime implicates
+      is actually characteristic for the clause-sets obtained from SMU(1) by
+      adding disjoint non-empty variable-sets to all the clauses)
+    - exactly hardness min(k,l).
+*/
 
 /* Example from [Savicky, Sgall, 2000, DNF tautologies with a limited number
    of occurrences of every variable]: */
