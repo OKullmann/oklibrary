@@ -43,18 +43,18 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplica
    as input. In case there is a clause C in F_PI which does not follow from
    F, hardness_wpi_cs returns und.
 */
-hardness_wpi_cs(F,F_PI) := block([max_k : 0, count : 0, maxcount, n],
+hardness_wpi_cs(F,F_PI) := block([k : 0, count : 0, maxcount, n],
   n : nvar_cs(F),
   if oklib_monitor then maxcount : length(F_PI),
   for C in F_PI do block([F_phi : apply_pa(comp_sl(C),F)],
     if oklib_monitor then (
       count : count + 1,
       if mod(count, 50) = 0 then
-        print(sconcat("[",count,"/",maxcount,"] hd(F) >= ", max_k," ..."))
+        print(sconcat("[",count,"/",maxcount,"] hd(F) >= ", k," ..."))
     ),
-    for k : 0 while generalised_ucp(F_phi,k) # {{}} and k <= n do
-      max_k : max(max_k, k + 1)),
-  if max_k > n then return(und) else return(max_k))$
+    while generalised_ucp(F_phi,k) # {{}} and k <= n do k : k+1
+  ),
+  if k > n then und else k)$
 /* Taking just the clause-set F: */
 hardness_cs(F) := hardness_wpi_cs(F,min_resolution_closure_cs(F)[1])$
 
