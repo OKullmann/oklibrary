@@ -36,8 +36,6 @@ okltest_hardness_wpi_cs(f) := block([F],
   assert(
     okltest_hardness_cs(
       buildq([f],lambda([F],f(F,min_resolution_closure_cs(F)[1]))))),
-  assert(f({},{{}}) = und),
-  assert(f({{1,2}},{{1}}) = und),
   true)$
 
 okltest_hardness_cs(f) := block(
