@@ -62,7 +62,7 @@ License, or any later version. */
   (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
 
 
-  \par Version 0.3
+  \par Version 0.3 :
 
   \par Investigations/Cryptography/AdvancedEncryptionStandard version 0.2
   (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
@@ -77,7 +77,7 @@ License, or any later version. */
     - SCC 2012
 
 
-  \par Version 0.3.1
+  \par Version 0.3.1 :
 
   \par
    In Investigations/Cryptography/plans/general.hpp the
