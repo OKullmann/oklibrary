@@ -128,7 +128,7 @@ License, or any later version. */
   (see Combinatorics/plans/milestones.hpp)
   \par General version 0.6
   (see General/plans/milestones.hpp)
-  \par Experimentation version 0.4.3
+  \par Experimentation version 0.4.4
   (see Experimentation/plans/milestones.hpp)
   \par
    In OKlib/plans/general.hpp the following topics are handled:
