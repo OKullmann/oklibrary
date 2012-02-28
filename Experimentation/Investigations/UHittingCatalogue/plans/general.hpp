@@ -41,9 +41,10 @@ License, or any later version. */
      n <= 9 (determined by closure_uhit_def_pass(9, H)). </li>
      <li> closure_uhit_def_pass(10, H) runs on cs-oksvr XXX; n=11 seems
      infeasible. </li>
-     <li> So we need to use closure_nonsingular_splitting_uhit(11,H), which
-     only consider elementary partial assignments. </li>
-     <li> It should be possible to consider all existing deficiencies. </li>
+     <li> closure_nonsingular_splitting_uhit(10,H) (which only consider
+     elementary partial assignments) returns 0. </li>
+     <li> Running closure_nonsingular_splitting_uhit(59,H) (cs-wsok XXX).
+     </li>
     </ol>
    </li>
   </ul
