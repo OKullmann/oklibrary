@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SmallScaleFieldMulCNF.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 
 kill(f)$
 
@@ -43,6 +44,15 @@ okltest_hardness_cs(f) := block(
   if oklib_test_level = 0 then return(true),
   assert(f(setify(ev_hm(ss_field_rbase_cnfs,[4,3])[2])) = 1),
   true)$
+
+okltest_hardness_u_cs(f) := block(
+  assert(f({{}}) = 0),
+  for k : 0 thru if oklib_test_level=0 then 5 else 7 do (
+   for l : 0 thru if oklib_test_level=0 then 3 else 5 do (
+     assert(f(smusat_genhorn_cs(k,l)) = min(k,l)) )),
+  true)$
+
+
 
 /*!
 \endhtmlonly

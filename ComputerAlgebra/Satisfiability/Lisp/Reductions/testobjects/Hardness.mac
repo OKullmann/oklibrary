@@ -28,6 +28,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/Hardne
 */
 
 okltest_hardness_cs(hardness_cs);
+okltest_hardness_u_cs(hardness_u_cs);
 
 /*!
 \endhtmlonly

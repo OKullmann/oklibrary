@@ -50,6 +50,8 @@ hardness_wpi_cs(F,F_PI) := block([k : 0, n : nvar_cs(F), F_phi],
   k)$
 /* Taking just the clause-set F: */
 hardness_cs(F) := hardness_wpi_cs(F,min_resolution_closure_cs(F)[1])$
+/* Only considering unsatisfiable F: */
+hardness_u_cs(F) := hardness_wpi_cs(F,{{}})$
 
 /*!
 \endhtmlonly
