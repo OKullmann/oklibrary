@@ -126,6 +126,13 @@ ncl_list_smusat_horn(k) := if k=0 then [[0,1]] else
  endcons([k,2], create_list([i,1],i,1,k-1))$
  nlitocc_smusat_horn(k) := k*(k+1)/2 + k$
 
+/* More generally, saturated minimally unsatisfiable level-l Horn clause-sets
+   with k variables: */
+smusat_genhorn_cs(k,l) := treehittingcls_st(genhorn_st(k,l))$
+/* Remark: These tree-hitting clause-sets are saturated MU's of deficiency 1
+   and of hardness min(k,l).
+*/
+
 
 /* Example from [Savicky, Sgall, 2000, DNF tautologies with a limited number
    of occurrences of every variable]: */

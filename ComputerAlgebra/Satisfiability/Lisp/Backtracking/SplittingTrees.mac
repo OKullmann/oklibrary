@@ -245,6 +245,20 @@ horn_st(k) := horn_st_pref(k,[])$
 horn_st_pref(k,prefix) := if k = 0 then [false] else
   [trv_var(prefix), [false], horn_st_pref(k-1, cons(2,prefix))]$
 
+/* More generally, the complete splitting tree of height k >= 0 and levelled
+   height l >= 0 (if l=0 then k=0, else k is arbitrary), using different
+   variables for all (inner) nodes:
+*/
+genhorn_st(k,l) := genhorn_st_pref(k,l,[])$
+genhorn_st_pref(k,l,prefix) := if l=0 or k=0 then [false]
+ elseif l=1 then horn_st_pref(k,prefix)
+ else [trv_var(prefix),
+       genhorn_st_pref(k-1,l-1,cons(1,prefix)),
+       genhorn_st_pref(k-1, l, cons(2,prefix))]$
+/* Remark: For the corresponding tree-hitting clause-sets see smusat_genhorn_cs
+   in Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac.
+*/
+
 
 /* ***********************
    * r_k splitting trees *

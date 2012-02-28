@@ -197,6 +197,25 @@ okltest_usat_clauses_st(f) := block(
    ***********************************
 */
 
+okltest_horn_st(f) := (
+  assert(f(0) = [false]),
+  assert(f(1) = [trv([]), [false], [false]]),
+  assert(f(2) = [trv([]), [false], [trv([2]),[false],[false]]]),
+  assert(f(3) = [trv([]), [false], [trv([2]),[false],[trv([2,2]),[false],[false]]]]),
+  true)$
+
+okltest_genhorn_st(f) := block([x],
+  assert(f(0,x) = [false]),
+  assert(f(x,0) = [false]),
+  assert(f(0,2) = [false]),
+  assert(f(1,2) = [trv([]),[false],[false]]),
+  assert(f(2,2) = [trv([]), [trv([1]),[false],[false]], [trv([2]),[false],[false]]]),
+  for k : 0 thru 8 do
+    assert(f(k,k) = complete_st_alldifferent(k)),
+
+  true)$
+
+
 /* ***********************
    * r_k splitting trees *
    ***********************
