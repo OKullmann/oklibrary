@@ -19,6 +19,11 @@ License, or any later version. */
     - SAT 2012 : DONE
     - Add todos : DONE
 
+  \par
+   In Investigations/Cryptography/KeeLoq/plans/general.hpp the
+   following topics are handled:
+    - Create milestones
+
   \par Investigations/Cryptography/AdvancedEncryptionStandard version 0.1.6
   (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
 
@@ -44,6 +49,11 @@ License, or any later version. */
 
   \par Investigations/Cryptography/AdvancedEncryptionStandard version 0.1.8
   (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
+
+  \par
+   In Investigations/Cryptography/KeeLoq/plans/general.hpp the
+   following topics are handled:
+    - Analysing the KeeLoq round function
 
 
   \par Version 0.2.4 :
