@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 21.6.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,10 +9,10 @@ License, or any later version. */
   \file ComputerAlgebra/Satisfiability/Lisp/Reductions/Hardness.mac
   \brief Functions related to the hardness of clause-sets
 
-  The hardness of a clause-set F is the minimum k in N such that
+  The hardness of a clause-set F is the minimum k >= 0 such that
   all clauses C which follow from F can be detected via r_k.
 
-  That is, the minimum k in N for which for all clauses C with
+  That is, the minimum k >= 0 for which for all clauses C with
   F |= C we have generalised_ucp(apply_pa(comp_sl(C),F),k) = {{}}.
 
   See "Hardness of boolean function representations" in
