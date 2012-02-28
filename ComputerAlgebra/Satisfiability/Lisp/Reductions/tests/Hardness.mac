@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 21.6.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -31,12 +31,6 @@ kill(f)$
    * Computing the hardness  *
    ***************************
 */
-
-okltest_hardness_wpi_cs(f) := block([F],
-  assert(
-    okltest_hardness_cs(
-      buildq([f],lambda([F],f(F,min_resolution_closure_cs(F)[1]))))),
-  true)$
 
 okltest_hardness_cs(f) := block(
   assert(f({}) = 0),
