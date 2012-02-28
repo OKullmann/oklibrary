@@ -28,6 +28,11 @@ License, or any later version. */
 
   \par Version 0.2.2 :
 
+  \par
+   In Investigations/Cryptography/plans/general.hpp the
+   following topics are handled:
+    - Comparing translations and solvers
+
   \par Investigations/Cryptography/AdvancedEncryptionStandard version 0.1.7
   (see Cryptography/AdvancedEncryptionStandard/plans/milestones.hpp)
 
