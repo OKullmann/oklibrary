@@ -107,7 +107,25 @@ shell> cat ssaes_r1_c4_rw4_e8_f1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
      17    5120    # 20 S-boxes (20 * 256 = 5120).
     256      20    # 20 S-boxes.
 
+# S-boxes make up 87060 of the clauses (98.2%).
+
 shell> for seed in $(seq 1 20); do AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pcpair_r1_c4_rw4_e8_f1_s${seed}.cnf > r1_k${seed}.cnf; done
+
+# This holds for all k in 1 to 20.
+shell> k=1; cat r1_k${k}.cnf | UnitClausePropagation-O3-DNDEBUG | ExtendedDimacsFullStatistics-O3-DNDEBUG nz
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+   5928   88084   5664   5928   88084   258560     NA     NA   88084   258560  5936
+ length   count
+      2   82432    # 20 S-boxes and 256 equivalence clauses (20 * 4096 + 256 *2 = 82432).
+      3     512    # 128 additions of arity 2 from Key Schedule (128 * 4 = 512).
+     17    5120    # 20 S-boxes (20 * 256 = 5120).
+    256      20    # 20 S-boxes (unchanged).
+
+# Due to containing an assigned variable:
+#  - 256 additions of arity 2 became 256 equivalence clauses.
+#    So 256 * 4 = 1024 clauses of size 3 became 256 * 2 = 512 clauses of size 2.
+#  - 8 additions of arity 3 became 8 additions of size 2.
+#    So 8 * 8 = 64 clauses of size 4 became 8 * 4 = 32 clauses of size 3.
      \endverbatim
      </li>
     </ul>
@@ -330,6 +348,25 @@ shell> cat ssaes_r1_c4_rw4_e8_f1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
 # S-boxes make up 87960 of the clauses (98.2%).
 
 shell> for seed in $(seq 1 20); do AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pcpair_r1_c4_rw4_e8_f1_s${seed}.cnf > r1_k${seed}.cnf; done
+
+# This holds for all k in 1 to 20.
+shell> k=1; cat r1_k${k}.cnf | UnitClausePropagation-O3-DNDEBUG | ExtendedDimacsFullStatistics-O3-DNDEBUG nz
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    808   88984    544    808   88984   604720     NA     NA   88984   604720   816
+ length   count
+      2     512     # 256 equivalence clauses (256 *2 = 512).
+      3     512     # 128 additions of arity 2 from Key Schedule (128 * 4 = 512).
+      5      20     # 20 S-boxes.
+      6   23740     # 20 S-boxes (20 * 1187 = 23740).
+      7   54060     # 20 S-boxes (20 * 2703 = 54060).
+      8   10060     # 20 S-boxes (20 * 503  = 10060).
+      9      80     # 20 S-boxes (20 * 4    = 80).
+
+# Due to containing an assigned variable:
+#  - 256 additions of arity 2 became 256 equivalence clauses.
+#    So 256 * 4 = 1024 clauses of size 3 became 256 * 2 = 512 clauses of size 2.
+#  - 8 additions of arity 3 became 8 additions of size 2.
+#    So 8 * 8 = 64 clauses of size 4 became 8 * 4 = 32 clauses of size 3.
      \endverbatim
      </li>
     </ul>
@@ -425,6 +462,23 @@ shell> cat ssaes_r1_c4_rw4_e8_f1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
 # S-boxes make up 5880 of the clauses (78.9%).
 
 shell> for seed in $(seq 1 20); do AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pcpair_r1_c4_rw4_e8_f1_s${seed}.cnf > r1_k${seed}.cnf; done
+
+# This holds for all k in 1 to 20.
+shell> k=1; cat r1_k${k}.cnf | UnitClausePropagation-O3-DNDEBUG | ExtendedDimacsFullStatistics-O3-DNDEBUG nz
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    808    6904    544    808    6904    41340     NA     NA    6904    41340   816
+ length   count
+      2     512     # 256 equivalence clauses (256 *2 = 512).
+      3     512     # 128 additions of arity 2 from Key Schedule (128 * 4 = 512).
+      6    2860     # 20 S-boxes (20 * 143 = 2860).
+      7    2540     # 20 S-boxes (20 * 127 = 2540).
+      8     480     # 20 S-boxes (20 * 24  = 480).
+
+# Due to containing an assigned variable:
+#  - 256 additions of arity 2 became 256 equivalence clauses.
+#    So 256 * 4 = 1024 clauses of size 3 became 256 * 2 = 512 clauses of size 2.
+#  - 8 additions of arity 3 became 8 additions of size 2.
+#    So 8 * 8 = 64 clauses of size 4 became 8 * 4 = 32 clauses of size 3.
      \endverbatim
      </li>
     </ul>
