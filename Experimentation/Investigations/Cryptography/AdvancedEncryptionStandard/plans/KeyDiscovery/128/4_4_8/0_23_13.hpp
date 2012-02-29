@@ -92,44 +92,23 @@ output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tra
 for seed : 1 thru 20 do
   output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
 
-shell> cat ssaes_r1_c4_rw4_e8_f1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG n
- n non_taut_c red_l taut_c orig_l comment_count finished_bool
-5928 88636 260776 0 260776 5929 1
- length count
-1 8
-2 81920
-3 1504
-4 64
-17 5120
-256 20
+# Clause lengths for canonical translation for S-box
+maxima> ncl_list_full_dualts(16,256);
+[[2,4096],[17,256],[256,1]]
+
+shell> cat ssaes_r1_c4_rw4_e8_f1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG nz
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+   5928   88636   5928   5928   88636   260776     NA     NA   88636   260776  5929
+ length   count
+      1       8    # 8-bit round constant
+      2   81920    # 20 S-boxes (20 * 4096 = 81290).
+      3    1504    # 376 additions of arity 2 (376 * 4 = 1504).
+      4      64    # 8 additions of arity 3 (8 * 8 = 64).
+     17    5120    # 20 S-boxes (20 * 256 = 5120).
+    256      20    # 20 S-boxes.
 
 shell> for seed in $(seq 1 20); do AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pcpair_r1_c4_rw4_e8_f1_s${seed}.cnf > r1_k${seed}.cnf; done
      \endverbatim
-     </li>
-     <li> The number of clauses of each length in the uninstantiated
-     translation before UCP (ssaes_r1_c4_rw4_e8_f1.cnf):
-     \verbatim
-maxima> ncl_list_ss(1,4,4,8,true,aes_ts_box,aes_mc_bidirectional);
-[[1,8],[2,81920],[3,1504],[4,64],[17,5120],[256,20]]
-maxima> ncl_list_ss_gen(1,4,4,8,ss_mixcolumns_matrix(2,8,4),[[2,'s2],[9,'s9],[16,'s16]],[],true,aes_mc_bidirectional);
-[[1,8],[2,20*s2],[3,1504],[4,64],[9,20*s9],[16,20*s16]]
-maxima> ncl_list_full_dualts(16,256);
-[[2,4096],[17,256],[256,1]]
-     \endverbatim
-     comprised of:
-      <ul>
-       <li> 8 unit-clauses for the 8-bit constant in the key expansion. </li>
-       <li> 81920 binary clauses, coming from 20 Sboxes
-       (20 * 4096 = 81920). </li>
-       <li> 1504 ternary clauses, coming from 376 additions of arity two
-       (376 * 4 = 1504). </li>
-       <li> 64 clauses of length four, coming from 8 additions of arity three
-       (8 * 8 = 64). </li>
-       <li> 5120 clauses of length seventeen, coming from 20 Sboxes
-       (20 * 256 = 5120). </li>
-       <li> 20 clauses of length 256, coming from from 20 Sboxes
-       (20 * 1 = 20). </li>
-      </ul>
      </li>
     </ul>
    </li>
