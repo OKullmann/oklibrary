@@ -53,27 +53,30 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.
                       + abd + abc.
 */
 
-/* The KeeLoq non-linear feedback function: */
-/* ??? what are a,b,c,d,e ??? */
+/* The 5x1-bit KeeLoq non-linear feedback function taking 5 bits as
+   input and returning the output bit: */
 keeloq_nlf(a,b,c,d,e) :=
   mod(d+e+a*c+a*e+b*c+b*e+c*d+d*e+a*d*e+a*c*e+a*b*d+a*b*c, 2)$
 
-/* The Keeloq round taking an 8-bit vector as input: */
-/* ??? what is V w.r.t. our system (see below) ??? what is the output ??? */
-keeloq_round(V) :=
-  mod(V[1] + V[2] + V[3] + keeloq_nlf(V[4],V[5],V[6],V[7],V[8]),2)$
-/* (8+1)-bit boolean function for the KeeLoq round: */
-keeloq_round_bf(V) := [mod(keeloq_round(rest(V,-1))+V[9]+1, 2)]$
+/* The Keeloq round as an 8x1-bit boolean function, with
+   the output of the boolean function being the output of the
+   round: */
+keeloq_round_8t1_bf(V) :=
+  [mod(V[1] + V[2] + V[3] + keeloq_nlf(V[4],V[5],V[6],V[7],V[8]),2)]$
+/* (8+1)-bit boolean function for the KeeLoq round where the output of
+   the round is now an input to the boolean function: */
+keeloq_round_9t1_bf(V) := [mod(keeloq_round(rest(V,-1))+V[9]+1, 2)]$
 
 
-/* Encrypting plaintext P, a boolean list of length 32, with key K, a boolean
-   list of length 64 for r-round KeeLoq: */
-/* ??? what is a "boolean list" ??? what is the output ??? */
+/* Encrypting plaintext P, a boolean vector of length 32,
+   with key K, a boolean vector of length 64 for r-round KeeLoq
+   resulting in a boolean vector of length 32, the ciphertext: */
 keeloq_encryption_gen(r, P,K) := block([P_c : reverse(P), K_rev : reverse(K)],
   for i : 0 thru r-1 do
     P_c : endcons(
-      keeloq_round([K_rev[mod(i,64)+1],P_c[i+1],P_c[i+16+1],P_c[i+31+1],
-        P_c[i+26+1],P_c[i+20+1],P_c[i+9+1],P_c[i+1+1]]), P_c),
+      keeloq_round_8t1_bf(
+        [K_rev[mod(i,64)+1],P_c[i+1],P_c[i+16+1],P_c[i+31+1],
+         P_c[i+26+1],P_c[i+20+1],P_c[i+9+1],P_c[i+1+1]])[1], P_c),
   return(reverse(rest(P_c, length(P_c) - 32))))$
 keeloq_encryption(P,K) := keeloq_encryption_gen(528,P,K)$
 

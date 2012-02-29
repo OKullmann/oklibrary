@@ -66,13 +66,13 @@ okltest_keeloq_nlf(f) := block(
   assert(f(1,1,1,1,1) = 0),
   true)$
 
-okltest_keeloq_round(f) := block(
+okltest_keeloq_round_8t1_bf(f) := block(
   assert(
     okltest_keeloq_round_bf(
       buildq([f], lambda([V], if f(rest(V,-1)) = V[9] then [1] else [0])))),
   true)$
 
-okltest_keeloq_round_bf(f) := block(
+okltest_keeloq_round_9t1_bf(f) := block(
   assert(f([0,0,0,0,0,0,0,0,0]) = [1]),
   assert(f([0,0,0,0,0,0,0,0,1]) = [0]),
   assert(f([0,0,0,0,1,1,0,0,1]) = [1]),

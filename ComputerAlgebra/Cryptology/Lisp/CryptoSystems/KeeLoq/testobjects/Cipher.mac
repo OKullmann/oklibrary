@@ -29,8 +29,8 @@ oklib_include("OKlib/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/KeeLoq/tests/
 */
 
 okltest_keeloq_nlf(keeloq_nlf);
-okltest_keeloq_round(keeloq_round);
-okltest_keeloq_round_bf(keeloq_round_bf);
+okltest_keeloq_round(keeloq_round_8t1_bf);
+okltest_keeloq_round_bf(keeloq_round_9t1_bf);
 okltest_keeloq_encryption_gen(keeloq_encryption_gen);
 okltest_keeloq_encryption(keeloq_encryption);
 
