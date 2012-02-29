@@ -1,5 +1,5 @@
 // Oliver Kullmann, 1.1.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,6 +22,7 @@ License, or any later version. */
   \par
    In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
    following topics are handled:
+    - SplittingViaOKsolver
     - Summary of previous experimental results
     - Merge SAT2011 plans with module one level higher : DONE
     - MiniSAT2 based solvers return incorrect times using experiment script : DONE

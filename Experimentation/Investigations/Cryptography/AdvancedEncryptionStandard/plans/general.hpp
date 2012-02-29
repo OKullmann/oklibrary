@@ -1,5 +1,5 @@
 // Matthew Gwynne, 27.3.2009 (Swansea)
-/* Copyright 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -44,6 +44,21 @@ License, or any later version. */
    scheme, see
    Cryptography/AdvancedEncryptionStandard/plans/EncryptionDecryption.hpp .
    </li>
+  </ul>
+
+
+  \todo SplittingViaOKsolver
+  <ul>
+   <li> We want to investigate the benefits on using the "Cube and Conquer"
+   technique as described in
+   [Cube and Conquer: Guiding CDCL SAT Solvers by Lookaheads;
+    Heule, Kullmann, Wieringa, and Biere], on hard cryptographic instances. </li>
+   <li> Here we use SplittingViaOKsolver. </li>
+   <li> An overview on SplittingViaOKsolver for cryptographic problems in
+   general is given in "SplittingViaOKsolver" in
+   Experimentation/Investigations/Cryptography/plans/general.hpp. </li>
+   <li> We should start investigations on using SplittingViaOKsolver on
+   hard AES instances. </li>
   </ul>
 
 

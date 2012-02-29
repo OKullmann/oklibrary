@@ -24,6 +24,7 @@ License, or any later version. */
   \par
    In Cryptography/DataEncryptionStandard/plans/general.hpp the
    following topics are handled:
+    - SplittingViaOKsolver
     - Generating satisfying DES assignments
     - Understanding the Massacci-Marraro translation
 

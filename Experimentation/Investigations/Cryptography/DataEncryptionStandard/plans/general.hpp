@@ -10,6 +10,31 @@ License, or any later version. */
   \brief On investigations into the Data Encryption Standard
 
 
+  \todo SplittingViaOKsolver
+  <ul>
+   <li> We want to investigate the benefits on using the "Cube and Conquer"
+   technique as described in
+   [Cube and Conquer: Guiding CDCL SAT Solvers by Lookaheads;
+    Heule, Kullmann, Wieringa, and Biere], on hard cryptographic instances. </li>
+   <li> Here we use SplittingViaOKsolver. </li>
+   <li> An overview on SplittingViaOKsolver for cryptographic problems in
+   general is given in "SplittingViaOKsolver" in
+   Experimentation/Investigations/Cryptography/plans/general.hpp. </li>
+   <li> Using SplittingViaOKsolver on
+    <ul>
+     <li> 5-round DES is investigated in "Applying SplittingViaOKsolver" in
+     Cryptography/DataEncryptionStandard/plans/KeyDiscovery/5.hpp.
+     </li>
+     <li> 16-round DES with (some) key-bits set in
+     "Applying SplittingViaOKsolver" in
+     Cryptography/DataEncryptionStandard/plans/KeyDiscovery/KnownKeyBits.hpp.
+     </li>
+    </ul>
+   </li>
+   <li> We need an overview on all such investigations at this level. </li>
+  </ul>
+
+
   \todo Understanding DES
   <ul>
    <li> First implementations of encryption/decryption at the Maxima-level

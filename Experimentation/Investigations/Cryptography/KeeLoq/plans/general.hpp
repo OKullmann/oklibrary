@@ -27,6 +27,22 @@ License, or any later version. */
   </ul>
 
 
+  \todo SplittingViaOKsolver
+  <ul>
+   <li> We want to investigate the benefits on using the "Cube and Conquer"
+   technique as described in
+   [Cube and Conquer: Guiding CDCL SAT Solvers by Lookaheads;
+    Heule, Kullmann, Wieringa, and Biere], on hard cryptographic instances. </li>
+   <li> Here we use SplittingViaOKsolver. </li>
+   <li> An overview on SplittingViaOKsolver for cryptographic problems in
+   general is given in "SplittingViaOKsolver" in
+   Experimentation/Investigations/Cryptography/plans/general.hpp. </li>
+   <li> We should implement a SAT translation of KeeLoq and then start
+   investigations on using SplittingViaOKsolver on hard KeeLoq instances.
+   </li>
+  </ul>
+
+
   \todo Analysing the KeeLoq round function
   <ul>
    <li> The KeeLoq round function is given as a boolean function
