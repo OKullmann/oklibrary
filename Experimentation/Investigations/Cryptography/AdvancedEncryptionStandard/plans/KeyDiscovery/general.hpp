@@ -1,5 +1,5 @@
 // Matthew Gwynne, 23.1.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -52,6 +52,15 @@ License, or any later version. */
 
   As an example, experiments on the standard one round AES (no final round,
   with a final key addition), are in 128/4_4_8/1_13.hpp.
+
+
+  \todo Show and explain sizes of minimum-translations
+  <ul>
+   <li> To show the "minimum-size" translation, its sizes need to be discussed
+   everywhere. </li>
+   <li> This must include explanations of the numbers of different boxes and
+   their contributions to the overall size (explained, in each case). </li>
+  </ul>
 
 
   \todo Patterns
