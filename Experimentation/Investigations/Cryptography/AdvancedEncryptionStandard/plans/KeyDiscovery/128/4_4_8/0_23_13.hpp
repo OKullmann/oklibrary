@@ -389,4 +389,99 @@ Max.   :0.0400   Max.   :2.800   Max.   :2792138   Max.   :20.00
     </ul>
    </li>
 
+
+  \todo Using the "minimum" box translation
+  <ul>
+   <li> Translation of aes(0+2/3,4,4,8):
+    <ul>
+     <li> We treat S-boxes and additions as boxes. </li>
+     <li> The S-box is considered as a 16x1-bit boolean function. </li>
+     <li> Generating the smallest S-box CNF (as of 29/02/2012) from
+     AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp:
+     \verbatim
+maxima> output_rijnsbox_fullcnf_stdname();
+shell> QuineMcCluskeySubsumptionHypergraph-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_Sbox_shg.cnf
+shell> cat AES_Sbox_shg.cnf | MinOnes2WeightedMaxSAT-O3-DNDEBUG > AES_Sbox_shg.wcnf
+shell> ubcsat-okl  -alg gsat -w -runs 100 -cutoff 40000000 -wtarget 294 -solve 1 -seed 3213901809 -i AES_Sbox_shg.wcnf -r model AES_Sbox_s294.ass;
+shell> cat  AES_Sbox_full.cnf_primes | FilterDimacs AES_Sbox_s294.ass > AES_Sbox_s294.cnf
+shell> cat AES_Sbox_s294.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG nz
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+     16     294     16     16     294     1939     NA     NA     294     1939     1
+ length   count
+      6     143
+      7     127
+      8      24
+     \endverbatim
+     </li>
+     <li> Additions (XORs) of arity k are considered bit-wise as (k+1)-bit
+     boolean functions; translated using their 2^k prime implicates. </li>
+    </ul>
+   </li>
+   <li> Generating instantiated key-discovery instances for key seeds 1 to 20:
+    <ul>
+    \verbatim
+set_hm(ss_sbox_cnfs, 8, read_fcl_f("AES_Sbox_s294.cnf"));
+num_rounds : 1;
+num_rows : 4;
+num_columns : 4;
+exp : 8;
+final_round_b : true;
+box_tran : aes_small_box;
+mc_tran : aes_mc_bidirectional;
+output_ss_fcl_std(num_rounds, num_columns, num_rows, exp, final_round_b, box_tran, mc_tran);
+for seed : 1 thru 20 do
+  output_ss_random_pc_pair(seed,num_rounds,num_columns,num_rows,exp,final_round_b);
+
+shell> cat ssaes_r1_c4_rw4_e8_f1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG nz
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    808    7456    808    808    7456    43556     NA     NA    7456    43556   809
+ length   count
+      1       8     # 8-bit round constant.
+      3    1504     # 356 additions of arity 2 (376 * 4 = 1504).
+      4      64     # 8 additions of arity 3 (8 * 8 = 64).
+      6    2860     # 20 S-boxes (20 * 143 = 2860).
+      7    2540     # 20 S-boxes (20 * 127 = 2540).
+      8     480     # 20 S-boxes (20 * 24  = 480).
+
+# S-boxes make up 5880 of the clauses (78.9%).
+
+shell> for seed in $(seq 1 20); do AppendDimacs-O3-DNDEBUG ssaes_r1_c4_rw4_e8_f1.cnf ssaes_pcpair_r1_c4_rw4_e8_f1_s${seed}.cnf > r1_k${seed}.cnf; done
+     \endverbatim
+     </li>
+    </ul>
+   </li>
+   <li> Solving for key seeds 1 to 20:
+    <ul>
+     <li> minisat-2.2.0 (all solve in < 2m, with < 5 million conflicts):
+     \verbatim
+> mkdir minisat22
+> for s in $(seq 1 20); do RunMinisat r${r}_k${s}.cnf; done
+> (ExtractMinisat header-only |  awk " { print \$0 \" s\"}"; for s in $(seq 1 20); do
+    cat ExperimentMinisat_r1_k${s}cnf_*/Statistics | tail -n 1 | awk " { print \$0 \" ${s}\"}";
+done) > MinisatStatistics
+> oklib --R
+R> E = read.table("MinisatStatistics", header=TRUE)
+> aggregate(E, by=list(sat=E$sat), FUN=mean)
+ rn   rc      t     cfs     dec     rts       r1  mem ptime  stime        cfl
+808 7416 16.425 1180878 1362256 2262.45 20572165 22.5     0 0.0185 1 15619589
+R> summary(E)
+      t               sat         cfs             dec               rts               r1
+Min.   : 0.030   Min.   :1   Min.   :   1171 Min.   :   2035   Min.   :   7.0   Min.   :   17687
+1st Qu.: 4.043   1st Qu.:1   1st Qu.: 367447 1st Qu.: 430745   1st Qu.: 866.5   1st Qu.: 5790918
+Median :10.450   Median :1   Median : 865446 Median :1009142   Median :1859.5   Median :13935462
+Mean   :16.425   Mean   :1   Mean   :1180878 Mean   :1362256   Mean   :2262.4   Mean   :20572165
+3rd Qu.:20.517   3rd Qu.:1   3rd Qu.:1543638 3rd Qu.:1777449   3rd Qu.:3005.8   3rd Qu.:26393793
+Max.   :84.270   Max.   :1   Max.   :5113383 Max.   :5820085   Max.   :8191.0   Max.   :97606508
+    ptime       stime             cfl
+Min.   :0   Min.   :0.0100   Min.   :   13866
+1st Qu.:0   1st Qu.:0.0200   1st Qu.: 4841715
+Median :0   Median :0.0200   Median :11288819
+Mean   :0   Mean   :0.0185   Mean   :15619589
+3rd Qu.:0   3rd Qu.:0.0200   3rd Qu.:20415258
+Max.   :0   Max.   :0.0200   Max.   :68075622
+     \endverbatim
+     </li>
+    </ul>
+   </li>
+
 */
