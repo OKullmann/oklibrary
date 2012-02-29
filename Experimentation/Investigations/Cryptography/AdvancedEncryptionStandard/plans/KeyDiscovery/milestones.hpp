@@ -31,7 +31,7 @@ License, or any later version. */
   \par Version 0.1.3 :
 
   \par
-   In AdvancedEncryptionStandard/plans/KeyDiscovery/128/4_4_8/0_23_13.hpp
+   In Cryptography/AdvancedEncryptionStandard/plans/KeyDiscovery/general.hpp
    the following topics are handled:
     - Show and explain sizes of minimum-translations
 
