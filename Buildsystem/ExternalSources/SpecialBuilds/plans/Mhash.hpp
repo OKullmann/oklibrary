@@ -47,7 +47,7 @@ b7860fed495cd6145a67870630b4975a  mhash-0.9.9.9-force64bit-tiger.patch
      </li>
      <li> Likely we just want the patch files, and so there is no need
      to install the rpm2cpio tool. </li>
-     <li> The same patch files are available from a Fedora git respository
+     <li> The same patch files are available from a Fedora git repository
      at http://pkgs.fedoraproject.org/gitweb/?p=mhash.git :
      \verbatim
 ExternalSources/sources/Mhash> git clone git://pkgs.fedoraproject.org/mhash.git
