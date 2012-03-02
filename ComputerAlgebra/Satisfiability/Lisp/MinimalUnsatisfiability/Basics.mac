@@ -41,16 +41,16 @@ impliesp_cs(F,C,S) := impliesp(F,C,S)$
 
 /* Returns true iff input FF (formal clause-set) is minimally unsatisfiable.
    The second input, the "solver", shall just return true or false. */
-min_unsat_bydef(FF, solver) := not solver(FF) and 
+min_unsat_bydef(FF, solver) := not solver(FF) and
  block([all_sat : true],
-  for C in FF[2] unless not all_sat do 
+  for C in FF[2] unless not all_sat do
    all_sat : solver([FF[1], disjoin(C, FF[2])]),
   return(all_sat))$
 min_unsat_bydef_fcs(FF) := min_unsat_bydef(FF, current_satsolver)$
 min_unsat_bydef_cs(F) := min_unsat_bydef_fcs(cs2fcs(F))$
-/* More generally, returns true iff input FF (formal clause-set) is 
+/* More generally, returns true iff input FF (formal clause-set) is
    irredundant. */
-irredundant_bydef(FF, solver) := 
+irredundant_bydef(FF, solver) :=
  block([V : FF[1], F : FF[2], redundancy : false],
   for C in F unless redundancy do
    redundancy : impliesp_f([V,disjoin(C,F)],C,solver),
@@ -67,7 +67,7 @@ irredundant_bydef_cs(F) := irredundant_bydef_fcs(cs2fcs(F))$
 /* Returns the set of all irredundant clauses (for unsatisfiable
    clause-sets also called necessary clauses) for input FF: */
 all_irrcl_bydef(FF,S) := block([V : FF[1], F : FF[2], I : {}],
-  for C in F do 
+  for C in F do
     if not impliesp_f([V,disjoin(C,F)],C,S) then I : adjoin(C,I),
   return(I))$
 all_irrcl_bydef_fcs(FF) := all_irrcl_bydef(FF,current_satsolver)$
@@ -81,7 +81,7 @@ all_irrcl_bydef_cs(F) := all_irrcl_bydef_fcs(cs2fcs(F))$
 
 /* Returns true iff input FF is saturated minimally unsatisfiable: */
 saturated_min_unsat_bydef(FF, solver) := min_unsat_bydef(FF,solver) and
- every_s(lambda([x],min_unsat_bydef(apply_pa_f({x},FF),solver)), 
+ every_s(lambda([x],min_unsat_bydef(apply_pa_f({x},FF),solver)),
          literals_v(FF[1]))$
 saturated_min_unsat_bydef_fcs(FF) :=
   saturated_min_unsat_bydef(FF, current_satsolver)$
@@ -94,11 +94,30 @@ non_saturating_pas_bydef(FF,solver) := block(
  [assignments : union({{}}, map(set,literals_v(FF[1]))),
   result : {}],
   for phi in assignments do
-    if not min_unsat_bydef(apply_pa_f(phi,FF),solver) then
+    if not min_unsat_bydef(apply_pa_fcs(phi,FF),solver) then
       result : adjoin(phi,result),
   return(result))$
 non_saturating_pas_bydef_fcs(FF) :=
   non_saturating_pas_bydef(FF, current_satsolver)$
+
+
+/* *************************************
+   * Marginal minimal unsatisfiability *
+   *************************************
+*/
+
+/* Returns true iff input FF is marginal minimally unsatisfiable: */
+marginal_min_unsat_bydef(FF, solver) := min_unsat_bydef(FF,solver) and
+ every_s(lambda([C],
+            every_s(lambda([x],
+              not irredundant_bydef([FF[1], adjoin(disjoin(x,C),disjoin(C,FF[2]))],
+                              solver)),
+            C)),
+         FF[2])$
+marginal_min_unsat_bydef_fcs(FF) :=
+  marginal_min_unsat_bydef(FF, current_satsolver)$
+
+
 
 /*!
 \endhtmlonly
