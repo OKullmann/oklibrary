@@ -146,8 +146,9 @@ ExternalSources/Installations/R> oklib --R
      information in
      ExternalSources/sources/Boolean/Espresso/man_octtools_espresso.html. </li>
      <li> A PLA file represents m partial boolean functions,
-     f_i : {0,1}^n -> {0,1} for i in {1,...,m}, by encoding a table of
-     rows of n+m values in {0,1,-}. </li>
+     f_i : A_i -> {0,1} for i in {1,...,m} and A_i a subset of {0,1}^n. </li>
+     <li> It does this by encoding a table of rows of n+m values in {0,1,-}.
+     </li>
      <li> The PLA file starts with a header and other commands followed
      by a (possibly empty) list of data-lines. </li>
      <li> Lines starting with # are comments, and can appear at any place in
@@ -191,6 +192,27 @@ ExternalSources/Installations/R> oklib --R
      <li> For all i in {1,...,m}, f_i is considered to be 0
      for inputs which were not specified in the PLA, although this
      interpretation can be changed using the ".type" option.
+     </li>
+     <li> Data-lines should not specify conflicting values for any
+     of the partial boolean functions. </li>
+     <li> So, by default, for all i in {1,...,m}, we have that
+     f_i : A_i -> {0,1} is defined such that
+      <ul>
+       <li> A_i is the subset of {0,1}^n; </li>
+       <li> Vector V is in A_i if there is *no* data-line in the PLA file
+       such that V = I modulo substition of "-" characters, and O[i] = "-";
+       </li>
+       <li> f_i(V) = 1 if there exists a data-line in the PLA file where
+       V = I modulo substitution of "-" characters and O[i] = 1; </li>
+       <li> f_i(V) = 0 if either
+        <ul>
+         <li> there exists a data-line in the PLA file where
+         V = I modulo substitution of "-" characters and O[i] = 0, or </li>
+         <li> there doesn't exist a data-line in the PLA file such that
+         V = I modulo substitution of "-" characters at all. </li>
+        </ul>
+       </li>
+      </ul>
      </li>
      <li> The type option,
      \verbatim

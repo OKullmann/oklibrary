@@ -406,8 +406,8 @@ read_fcl_f(n) := block([fh, line, ll,p_n, p_found : false],
 /* This has no place here, but should be under boolean functions. */
 
 /* A file in the PLA format represents m partial nx1 boolean functions,
-   f_i : {0,1}^n -> {0,1} for i in {1,...,m} by encoding a table of
-   {0,1,-} values.
+   f_i : A_i -> {0,1} for i in {1,...,m} and A_i a subset of {0,1}^n.
+   This is done by encoding a table of {0,1,-} values.
 
    A PLA file starts with a header of the form:
 
@@ -432,7 +432,9 @@ read_fcl_f(n) := block([fh, line, ll,p_n, p_found : false],
           f_i(I') is undefined    otherwise.
 
    By default, for all i in {1,...,m}, f_i is considered to be 0 for inputs
-   which are not specified in the PLA.
+   which are not specified in the PLA. Data-lines should not conflict with
+   each other, in the sense that f_i(I') should not be defined to be both
+   1 and 0, or 1 and "-" etc.
 
    For more information on the PLA format, see
    "Improve documentation for Espresso" in
