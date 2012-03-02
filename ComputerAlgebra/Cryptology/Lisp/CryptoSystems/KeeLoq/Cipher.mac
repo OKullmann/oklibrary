@@ -38,7 +38,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.
    attacks on KeeLoq; Gregory Bard, Nicholas Courtois and David Wagner], is:
     1) The inputs are
           - plaintext, P_s, a 32-bit binary string, and
-          - key, K_s, a 64-bit binary strings.
+          - key, K_s, a 64-bit binary string.
        A k-bit binary string here is a string over {0,1} of length k.
     2) Declare (0-indexed) {0,1}-valued arrays
           - K, of size 32, and
