@@ -108,12 +108,14 @@ non_saturating_pas_bydef_fcs(FF) :=
 
 /* Returns true iff input FF is marginal minimally unsatisfiable: */
 marginal_min_unsat_bydef(FF, solver) := min_unsat_bydef(FF,solver) and
- every_s(lambda([C],
-            every_s(lambda([x],
-              not irredundant_bydef([FF[1], adjoin(disjoin(x,C),disjoin(C,FF[2]))],
-                              solver)),
-            C)),
-         FF[2])$
+ if (
+  for C in FF[2] do
+   if (
+     for x in C do
+       if irredundant_bydef([FF[1], adjoin(disjoin(x,C),disjoin(C,FF[2]))], solver)
+       then return(false)
+   ) # done then return(false)
+ ) =  done then true else false$
 marginal_min_unsat_bydef_fcs(FF) :=
   marginal_min_unsat_bydef(FF, current_satsolver)$
 
