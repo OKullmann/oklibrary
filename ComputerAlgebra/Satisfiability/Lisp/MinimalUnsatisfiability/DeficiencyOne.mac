@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 19.2.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -116,7 +116,9 @@ remlitocc_greedy(F,k,r) := if F = {} or F = {{}} then [F, minf]
     F : setify(L), return(false))),
  return(res))$
 
-/* Marginal elements of MUSAT(1) with 2^k clauses: */
+/* Marginal elements of MUSAT(1) (as clause-sets) with 2^k clauses, obtained
+   from the balanced tree of height k:
+*/
 marginal_musat1(k) := remlitocc_greedy(uniform_usat_hitting_min(k),1,2)[1];
 
 /*!
