@@ -68,9 +68,8 @@ var_l(x) := abs(x)$
 /* The sign of a literal in {-1,+1}: */
 sign_l(x) := block([s : sign(x)], if s = pos then 1 else -1)$
 
-/* The literals for a set of variables, V can also be a set of literals,
-   and then we obtain the closure under complementation (and also
-   a list of literals is possible): */
+/* The set of literals for a set/list V of literals, that is, the closure under
+   complementation: */
 literals_v(V) := block([L : listify(V)], setify(append(L,-L)))$
 
 /* A generic function for creating variables, e.g.,
