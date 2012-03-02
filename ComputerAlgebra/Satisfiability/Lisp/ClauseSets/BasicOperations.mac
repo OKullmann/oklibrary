@@ -405,48 +405,34 @@ read_fcl_f(n) := block([fh, line, ll,p_n, p_found : false],
 
 /* This has no place here, but should be under boolean functions. */
 
-/* A file in the PLA format represents a partial nxm boolean function f,
-   that is, a function with domain a subset of {0,1}^n, and as codomain
-   {0,1}^m. The file encodes a DNF of the relational form f' of f, that is,
-   f' is the boolean function with domain a subset of {0,1}^{n+m} such that
-   f'((I,O)) = 1 iff f(I) = O.
-??? this makes no sense ??? DNF's can not specify partial boolean functions f
-in this way, since one can not recover the domain of f ???
+/* A file in the PLA format represents m partial nx1 boolean functions,
+   f_i : {0,1}^n -> {0,1} for i in {1,...,m} by encoding a table of
+   {0,1,-} values.
 
-   A PLA file has a header:
+   A PLA file starts with a header of the form:
 
      .i n
      .o m
 
-   followed by lines each containing two words I_S and O_S:
+   followed by a non-negative number of data-lines, strings of
+   {0,1,-} characters of length n+m.
 
-??? what does this mean ???
+   Lines starting with # are comments, and can appear at any place in
+   the file. Additional whitespace other than that specified as delimiters is
+   ignored, although data-lines shouldn't span multiple lines.
 
- strings of 1s, 0s,
-   and "-" characters of length n and m respectively. Each such line
-   indicates that f(I) = O for all I in I* and O in O*. I* and O* are
-   the sets of all boolean vectors matching I_S and O_S on the 1 and 0
-   characters, but where all "-" characters have been replaced
-   (independently) by 0 or 1.
+   Call the string of the first characters in a data-line I, the last m
+   characters O, and define the set I* to be set of size 2^k of all possible
+   strings of length n where "-" characters in I have either been replaced
+   by 0 or 1, and k is the number of "-" characters in I.
 
-??? What is the meaning of "-" in O_S ???
+   A data-line encodes that, for all i in {1,...,m} and I' in I*, that
 
-??? Apparently what is meant is:
-After the two header-lines there are data-lines (possibly zero).
-A data-line consists of two strings, calling them x_i, x_o, separated by a
-space (how many? and what about comments?).
-x_i is of length n, over the alphabet {0,1,-}, while x_o is of length m,
-over the alphabet {0,1}. Each position in x_i corresponds to the
-input-variable of the same index, and each position in x_o corresponds to the
-output-variable of the same index. "-" in x_i states that both values are
-possible, and so for example for n=3,m=2 the line "--- 00"
-means the constant 2-bit boolean function 0 for all 8 input vectors.
-The various data-lines must be consistent with each other, and taken all
-together they constitute the partial boolean function.
-???
-??? And what about the input-vectors where no specification applies ??? is
-this taken into account into the constructed "partial function" or not ???
-or does an implicit totalisation happen ???
+          f_i(I') = O[i]          if O[i] is in {0,1}
+          f_i(I') is undefined    otherwise.
+
+   By default, for all i in {1,...,m}, f_i is considered to be 0 for inputs
+   which are not specified in the PLA.
 
    For more information on the PLA format, see
    "Improve documentation for Espresso" in
