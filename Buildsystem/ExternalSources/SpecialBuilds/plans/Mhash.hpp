@@ -53,6 +53,9 @@ b7860fed495cd6145a67870630b4975a  mhash-0.9.9.9-force64bit-tiger.patch
 ExternalSources/sources/Mhash> git clone git://pkgs.fedoraproject.org/mhash.git
 ExternalSources/sources/Mhash> for x in *.patch; do diff $x mhash/$x; done
      \endverbatim
+??? what is the talk about patches about ??? we are not interested in whether
+we get some patches or not, but whether we can use the given repository
+or not !!! ???
      </li>
      <li> Now building Mhash, where
      Buildsystem/ExternalSources/SpecialBuilds/mhash.mak has been changed so
