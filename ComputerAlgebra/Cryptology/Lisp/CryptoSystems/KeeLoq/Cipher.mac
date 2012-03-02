@@ -34,23 +34,43 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.
 
    All additions and multiplications are in ZZ_2.
 
-   The fundamental algorithm for KeeLoq, as described in [Algebraic and Slide
+   The encryption algorithm for KeeLoq, as described in [Algebraic and Slide
    attacks on KeeLoq; Gregory Bard, Nicholas Courtois and David Wagner], is:
-    1) Plaintext is P_31,...,P_0.
-??? what is the meaning of the false ordering? ???
-    2) Key is K_63,...,K_0.
-    3) Initialise L_31, ..., L_0 = P_31, ..., P_0.
-??? what is the meaning of this ???
-    4) For i in 0 to 527 do
-           L_{i+32} = K_{i mod 64} + L_i + L_{i+16} +
-                      NLF(L_{i+31}, L_{i+26},L_{i+20},L_{i+9},L_{i+1})
-??? this is undefined ??? what is L_{i+32} etc. ??? what is L ???
-    5) The ciphertext is C_31, ..., C_0 = L_559,...,L_528
+    1) The inputs are
+          - plaintext, P_s, a 32-bit binary string, and
+          - key, K_s, a 64-bit binary strings.
+       A k-bit binary string here is a string over {0,1} of length k.
+    2) Declare (0-indexed) {0,1}-valued arrays
+          - K, of size 32, and
+          - L, of size 560,
+       both initialised to all 0.
+    3) Set K to reverse(K_s).
+       K[31] is the leftmost bit of K_s, K[0] the rightmost.
+    4) Set the first 32 values of L to reverse(P_s).
+       L[31] is the leftmost bit of P_s, L[0] the rightmost.
+    5) For i in 0 to 527 do
+           L[i+32]= K[i mod 64] + L[i] + L[i+16] +
+                      NLF(L[i+31], L[i+26],L[i+20],L[i+9],L[i+1])
+    6) The ciphertext is the 32-bit string of 0s and 1s corresponding to
+       L[559],...,L[528] where L[559] is the leftmost bit and
+       L[528] is the rightmost digit.
 
-  The non-linear feedback function is defined as an ANF as follows
+   The non-linear feedback function is defined as an ANF as follows
 
     NLF(a,b,c,d,e) := d + e + ac + ae + bc + be + cd + de + ade + ace
                       + abd + abc.
+
+   The arrays above are 0-based for simplicity, given the use of mod.
+   The binary strings P_s, K_s and the ciphertext are reversed
+   because they are indexed in reverse (e.g., the leftmost plaintext
+   bit has index 31) in [Algebraic and Slide attacks on KeeLoq; Gregory Bard,
+   Nicholas Courtois and David Wagner].
+
+   The todo "Good definition" in
+   Cryptology/Lisp/CryptoSystems/KeeLoq/plans/general.hpp discusses replacing
+   this definition with an equivalent definition which better fits into the
+   OKlibrary.
+
 */
 
 /* The KeeLoq non-linear feedback function: */
