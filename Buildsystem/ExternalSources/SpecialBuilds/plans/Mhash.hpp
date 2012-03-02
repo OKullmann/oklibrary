@@ -61,17 +61,18 @@ or not !!! ???
      Buildsystem/ExternalSources/SpecialBuilds/mhash.mak has been changed so
      that
      \verbatim
-        cd $(mhash_build_dir_okl); $(postcondition) \
-	./configure --prefix=$(mhash_installation_dir_okl) --with-CC=$(gcc412_call_okl); $(postcondition) \
+cd $(mhash_build_dir_okl); $(postcondition) \
+/configure --prefix=$(mhash_installation_dir_okl) --with-CC=$(gcc412_call_okl); $(postcondition) \
      \endverbatim
      becomes
      \verbatim
-        cd $(mhash_build_dir_okl); $(postcondition) \
-        cp $$(dirname $(mhash_source_dir_okl))/*.patch .; $(postcondition) \
-        for p in *.patch; do patch -p1 < $${p}; done; $(postcondition) \
-	./configure --prefix=$(mhash_installation_dir_okl) --with-CC=$(gcc412_call_okl); $(postcondition) \
+cd $(mhash_build_dir_okl); $(postcondition) \
+cp $$(dirname $(mhash_source_dir_okl))/*.patch .; $(postcondition) \
+for p in *.patch; do patch -p1 < $${p}; done; $(postcondition) \
+./configure --prefix=$(mhash_installation_dir_okl) --with-CC=$(gcc412_call_okl); $(postcondition) \
      \endverbatim
-     means we no longer get errors during "oklib mhash" in ExternalSources. </li>
+     means we no longer get errors during "oklib mhash" in ExternalSources.
+     </li>
      <li> After applying these patches, OKlibrary applications which were
      previously disabled now compile against Mhash and run correctly. </li>
      <li> That is, re-enabling HashMD5 in Structures/Cryptology/, HashMD5
