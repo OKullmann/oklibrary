@@ -204,14 +204,14 @@ usat_clauses_st_a(st,C) := if st = [false] then [C]
 */
 st2reslrt_cs(st,F) := st2reslrt_cs_rel(st,{},F)$
 st2reslrt_cs_rel(st,phi,F) :=
-  if length(st) = 1 then return([first_element(analyse_pa(phi,F)[2])])
+  if length(st) = 1 then [first_element(analyse_pa(phi,F)[2])]
   else block([left_t : st2reslrt_cs_rel(st[2],adjoin(-st[1],phi),F),
               right_t : st2reslrt_cs_rel(st[3],adjoin(st[1],phi),F)],
     if elementp(st[1], left_t[1]) then
       if elementp(-st[1], right_t[1]) then
-        return([resolvent_l(left_t[1], right_t[1], st[1]), left_t, right_t])
-      else return(right_t)
-    else return(left_t))$
+        [resolvent_l(left_t[1], right_t[1], st[1]), left_t, right_t]
+      else right_t
+    else left_t)$
 
 
 /* ***********************************
