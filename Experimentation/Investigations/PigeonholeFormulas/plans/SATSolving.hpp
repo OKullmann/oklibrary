@@ -10,6 +10,15 @@ License, or any later version. */
   \brief Investigations regarding SAT solvers for pigeonhole clause-sets
 
 
+  \todo Connections
+  <ul>
+   <li> Here we consider implementations of optimised SAT solvers. </li>
+   <li> For simple algorithms and the tree-resolutions they produce, see
+   "Tree-resolution refutations found by simple algorithms" in
+   Investigations/PigeonholeFormulas/plans/TreeResolution.hpp. </li>
+  </ul>
+
+
   \todo Statistics on the performance of SAT solvers
   <ul>
    <li> SAT instances created at Maxima level by

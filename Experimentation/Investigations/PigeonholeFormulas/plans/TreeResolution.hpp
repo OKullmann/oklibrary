@@ -12,6 +12,7 @@ License, or any later version. */
 
   \todo Tree-resolution complexity
   <ul>
+   <li> Here counting all nodes. </li>
    <li> The standard cases (n+1,n):
    \verbatim
 > ssh -t csoliver@cs-wsok.swansea.ac.uk /usr/bin/screen -xRR
@@ -79,6 +80,45 @@ M[optimal_splitting_tree]: depth: 0 , new best variable: php(1,1) , new min size
      we can still do it at Maxima level. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Tree-resolution refutations found by simple algorithms
+  <ul>
+   <li> Using the simple backtracking algorithms we have yet implemented:
+   \verbatim
+for n : 0 thru 4 do print(n, nnds_lrt(dll_simplest_st_trivial1(weak_php_fcs(n+1,n))));
+0 1
+1 5
+2 29
+3 197
+4 1565
+
+for n : 0 thru 4 do print(n, nnds_lrt(dll_simplest_st_trivial2(weak_php_fcs(n+1,n))));
+0 1
+1 5
+2 29
+3 197
+4 1565
+
+for n : 0 thru 4 do print(n, nnds_lrt(dll_simplest_st_first_shortest_clause(weak_php_fcs(n+1,n))));
+0 1
+1 5
+2 23
+3 123
+4 763
+
+for n : 0 thru 4 do print(n, nnds_lrt(dll_simplest_st_max_var(weak_php_fcs(n+1,n))));
+0 1
+1 5
+2 21
+3 97
+4 521
+   \endverbatim
+   </li>
+   <li> We see that none of these simple heuristics find always the optimal
+   trees. So we have the task of designing an optimal heuristic for the
+   this special case (this shouldn't be too hard). </li>
   </ul>
 
 */
