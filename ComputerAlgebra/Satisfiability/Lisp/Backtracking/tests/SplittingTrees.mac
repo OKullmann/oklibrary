@@ -200,6 +200,13 @@ okltest_st2reslrt_cs(f) := (
   /* XXX */
   true)$
 
+okltest_reslrt2st(f) := (
+  assert(f([{}]) = [false]),
+  assert(f([{},[{1}],[{-1}]]) = [1,[false],[false]]),
+  assert(f([{},[{1}],[{-1},[{-1,2}],[{-1,-2}]]]) = [1,[false],[2,[false],[false]]]),
+  /* XXX */
+  true)$
+
 
 /* ***********************************
    * Generators for splitting trees  *

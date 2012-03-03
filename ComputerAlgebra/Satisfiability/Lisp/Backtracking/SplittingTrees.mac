@@ -213,6 +213,13 @@ st2reslrt_cs_rel(st,phi,F) :=
       else right_t
     else left_t)$
 
+/* For a resolution-tree T compute the corresponding splitting-tree, using
+   the resolution-literals as splitting literals, and positing false at
+   the leaves:
+*/
+reslrt2st(T) := if length(T)=1 then [false]
+ else [resolution_literal(T[2][1],T[3][1]), reslrt2st(T[2]), reslrt2st(T[3])];
+
 
 /* ***********************************
    * Generators for splitting trees  *

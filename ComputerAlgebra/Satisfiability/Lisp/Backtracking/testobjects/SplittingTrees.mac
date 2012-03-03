@@ -57,6 +57,7 @@ okltest_sat_pass_st(sat_pass_st);
 okltest_usat_clauses_st(usat_clauses_st);
 
 okltest_st2reslrt_cs(st2reslrt_cs);
+okltest_reslrt2st(reslrt2st);
 
 /* ***********************************
    * Generators for splitting trees  *
