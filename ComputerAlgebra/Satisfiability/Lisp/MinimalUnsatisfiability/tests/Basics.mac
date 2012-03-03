@@ -26,6 +26,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/InverseSingularDP.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/DeficiencyOne.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+
 
 kill(f)$
 
@@ -104,6 +106,10 @@ okltest_saturated_min_unsat_bydef(f) := block([S : dll_simplest_trivial1],
   assert(f([{1,2},{{1,2},{-1},{-2}}],S) = false),
   assert(f([{1,2},{{1,2},{-1,2},{-2}}],S) = true),
   assert(f([{1,2},{{1,2},{-1},{-2,1}}],S) = true),
+  for n : 0 thru if oklib_test_level=0 then 3 else 5 do
+    assert(f(full_fcs(n),S) = true),
+  for k : 0 thru if oklib_test_level=0 then 3 else 4 do
+    assert(f(cs2fcs(uniform_usat_hitting_min(k)),S) = true),
   block([FF : full_fcs(2)],
     assert(basic_inverse_singulardp_fcs(FF,setdifference(FF[2],{{1,2}}),1,1) = true),
     assert(f(FF,S) = false)),
