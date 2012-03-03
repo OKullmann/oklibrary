@@ -230,13 +230,13 @@ distribution_min_dp(FF) := block(
 */
 
 /* A clause C is blocked for a clause-set F if there exists a literal l in C,
-   called the blocking literal, such that every candidate clause for
-   resolution on l with C results via resolution in a tautological clause.
+   called the blocking literal, such that no resolution in F on l with C
+   is possible.
 
-   A blocked extension F' of a clause-set F is a clause-set such that
+   A blocked extension of a clause-set F is a clause-set F' such that
    the (confluent) result of removing blocked clauses from union(F',F)
    and F yields the same result. This is equivalent to checking whether
-   F is a subset of the result of removing blocked clauses from union(F',F).
+   the result of removing blocked clauses from union(F',F) is a subset of F.
 */
 
 /* Checking whether l is a blocking literal in a clause C for clause-set F: */
@@ -251,10 +251,8 @@ blocked_cs_p(F,C) := some_s(lambda([l], blocking_literal_p(F,C,l)), C)$
 elim_blocked_cs(F) := block([tF : F, had_blocked : true],
   while had_blocked do block([F_blocked],
     F_blocked : subset(tF, lambda([C], blocked_cs_p(tF,C))),
-    if emptyp(F_blocked) then
-      had_blocked : false
-    else
-      tF : setdifference(tF, F_blocked)),
+    if emptyp(F_blocked) then had_blocked : false
+    else tF : setdifference(tF, F_blocked)),
   return(tF))$
 
 /* Checking whether eF is a blocked extension of F: */
