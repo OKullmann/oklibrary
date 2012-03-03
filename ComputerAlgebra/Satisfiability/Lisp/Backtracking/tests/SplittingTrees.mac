@@ -191,6 +191,15 @@ okltest_usat_clauses_st(f) := block(
   ),
   true)$
 
+okltest_st2reslrt_cs(f) := (
+  assert(f([false],{{}}) = [{}]),
+  assert(f([1,[false],[false]],{{1},{-1}}) = [{},[{1}],[{-1}]]),
+  assert(f([-1,[false],[false]],{{1},{-1}}) = [{},[{-1}],[{1}]]),
+  assert(f([1,[false],[2,[false],[false]]],{{1},{-1,2},{-1,-2}}) = [{},[{1}],[{-1},[{-1,2}],[{-1,-2}]]]),
+  assert(f([1,[false],[false]],{{}}) = [{}]),
+  /* XXX */
+  true)$
+
 
 /* ***********************************
    * Generators for splitting trees  *

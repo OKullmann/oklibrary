@@ -198,15 +198,15 @@ usat_clauses_st_a(st,C) := if st = [false] then [C]
   append(usat_clauses_st_a(st[2], adjoin(st[1],C)), usat_clauses_st_a(st[3], adjoin(-st[1],C)))$
 
 
-/* Given a complete splitting tree for a clause-set F, return a resolution
-   tree:
+/* Given a complete extended splitting tree for an unsatisfiable clause-set F,
+   return a resolution tree (see Satisfiability/Lisp/Resolution/Proofs.mac for
+   the definition of a resolution tree ("reslrt")):
 */
-splitting2resolution_tree(st,F) := splitting2resolution_tree_rel(st,{},F)$
-splitting2resolution_tree_rel(st,phi,F) :=
-  if length(st) = 1 then
-    block([falsified : analyse_pa(phi,F)[2]], return([listify(falsified)[1]]))
-  else block([left_t : splitting2resolution_tree_rel(st[2],adjoin(-st[1],phi),F),
-              right_t : splitting2resolution_tree_rel(st[3],adjoin(st[1],phi),F)],
+st2reslrt_cs(st,F) := st2reslrt_cs_rel(st,{},F)$
+st2reslrt_cs_rel(st,phi,F) :=
+  if length(st) = 1 then return([first_element(analyse_pa(phi,F)[2])])
+  else block([left_t : st2reslrt_cs_rel(st[2],adjoin(-st[1],phi),F),
+              right_t : st2reslrt_cs_rel(st[3],adjoin(st[1],phi),F)],
     if elementp(st[1], left_t[1]) then
       if elementp(-st[1], right_t[1]) then
         return([resolvent_l(left_t[1], right_t[1], st[1]), left_t, right_t])

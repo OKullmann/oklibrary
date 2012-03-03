@@ -51,7 +51,7 @@ License, or any later version. */
 
   \todo Resolution trees
   <ul>
-   <li> Function splitting2resolution_tree in
+   <li> Function st2reslrt_cs in
    ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac
    transforms splitting trees into resolution trees. </li>
    <li> There is also a function for outputting resolution trees; this
