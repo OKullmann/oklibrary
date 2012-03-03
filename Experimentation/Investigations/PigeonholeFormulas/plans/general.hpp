@@ -143,4 +143,61 @@ experiment(7,5);
    </li>
   </ul>
 
+
+  \todo MU structure
+  <ul>
+   <li> What about the saturation structure of PHP_n (= PHP^{n+1}_n):
+    <ol>
+     <li> First just considering whether we have saturatedness:
+     \verbatim
+for n : 0 thru 4 do print(n, saturated_min_unsat_bydef_fcs(weak_php_fcs(n+1,n)));
+0 true
+1 false
+2 false
+3 false
+4 false
+     \endverbatim
+     </li>
+     <li> The sets of partial assignments not resulting in a MU:
+     \verbatim
+# do we get all elementary partial assignments?:
+for n : 0 thru 4 do print(n, length(non_saturating_pas_bydef_fcs(weak_php_fcs(n+1,n))), 2*nvar_php(n+1,n));
+0 0 0
+1 2 4
+2 12 12
+3 12 24
+4 20 40
+     \endverbatim
+     So apparently except for n=2 we get exactly half of the elementary partial
+     assignments; these seem to be exactly the positive assignments, except
+     for n=1,2:
+     \verbatim
+for n : 0 thru 4 do block([F:weak_php_fcs(n+1,n)], print(n, is(non_saturating_pas_bydef_fcs(F) = singletons(F[1]))));
+0 true
+1 false
+2 false
+3 true
+4 true
+non_saturating_pas_bydef_fcs(weak_php_fcs(2,1));
+  {{-php(1,1)},{-php(2,1)}}
+     \endverbatim
+     </li>
+     <li> Clear that after setting a variable to true we get a non-MU, since
+     if we put pigeon i into hole j, then the 2-clauses saying that pigeon
+     pigeons k1#k2 can not go into j at the same time for i notin {k1,k2}
+     become superfluous. </li>
+    </ol>
+   </li>
+   <li> What about the marginality of PHP_n (= PHP^{n+1}_n):
+   \verbatim
+for n : 0 thru 4 do print(n, marginal_min_unsat_bydef_fcs(weak_php_fcs(n+1,n)));
+0 true
+1 true
+2 true
+3 true
+4 true
+   \endverbatim
+   Rather obviously all PHP_n are marginal. </li>
+  </ul>
+
 */
