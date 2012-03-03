@@ -85,40 +85,48 @@ M[optimal_splitting_tree]: depth: 0 , new best variable: php(1,1) , new min size
 
   \todo Tree-resolution refutations found by simple algorithms
   <ul>
-   <li> Using the simple backtracking algorithms we have yet implemented:
+   <li> Using the simple backtracking algorithms we have yet implemented,
+   printing the splitting-tree sizes (nodes and leaves) and the derived
+   (pruned) resolution-tree sizes (nodes and leaves):
    \verbatim
-for n : 0 thru 4 do block([T:dll_simplest_st_trivial1(weak_php_fcs(n+1,n))], print(n, nnds_lrt(T), nlvs_lrt(T)));
-0 1 1
-1 5 3
-2 29 15
-3 197 99
-4 1565 783
+rescompphp(_f,N) := for n : 0 thru N do block([F:weak_php_fcs(n+1,n), T, R],
+ T : _f(F),
+ R : st2reslrt_cs(T,F[2]),
+ print(n, nnds_lrt(T), nlvs_lrt(T), nnds_lrt(R), nlvs_lrt(R))
+)$
 
-for n : 0 thru 4 do block([T:dll_simplest_st_trivial2(weak_php_fcs(n+1,n))], print(n, nnds_lrt(T), nlvs_lrt(T)));
-0 1 1
-1 5 3
-2 29 15
-3 197 99
-4 1565 783
+rescompphp(dll_simplest_st_trivial1,4);
+0 1 1 1 1
+1 5 3 5 3
+2 29 15 21 11
+3 197 99 97 49
+4 1565 783 521 261
 
-for n : 0 thru 4 do block([T:dll_simplest_st_first_shortest_clause(weak_php_fcs(n+1,n))], print(n, nnds_lrt(T), nlvs_lrt(T)));
-0 1 1
-1 5 3
-2 23 12
-3 123 62
-4 763 382
+rescompphp(dll_simplest_st_trivial2,4);
+0 1 1 1 1
+1 5 3 5 3
+2 29 15 21 11
+3 197 99 97 49
+4 1565 783 521 261
 
-for n : 0 thru 4 do block([T:dll_simplest_st_max_var(weak_php_fcs(n+1,n))], print(n, nnds_lrt(T), nlvs_lrt(T)));
-0 1 1
-1 5 3
-2 21 11
-3 97 49
-4 521 261
+rescompphp(dll_simplest_st_first_shortest_clause,4);
+0 1 1 1 1
+1 5 3 5 3
+2 23 12 21 11
+3 123 62 85 43
+4 763 382 377 189
+
+rescompphp(dll_simplest_st_max_var,4);
+0 1 1 1 1
+1 5 3 5 3
+2 21 11 21 11
+3 97 49 97 49
+4 521 261 521 261
    \endverbatim
    </li>
-   <li> We see that none of these simple heuristics find always the optimal
-   trees. So we have the task of designing an optimal heuristic for the
-   this special case (this shouldn't be too hard). </li>
+   <li> We see that the heuristics "first_shortest_clause" after tree-pruning
+   finds the known best refutations (for 0 <= n <= 3; while for n=3 none of
+   the others does so). </li>
   </ul>
 
 
@@ -128,45 +136,64 @@ for n : 0 thru 4 do block([T:dll_simplest_st_max_var(weak_php_fcs(n+1,n))], prin
    for the basic notions. </li>
    <li> Extracting hitting refutations by stcs2hitref from splitting trees:
    \verbatim
-for n : 0 thru 4 do block([F:weak_php_fcs(n+1,n)[2], T], T : dll_simplest_st_trivial1(weak_php_fcs(n+1,n)), print(n, ncl_cs(stcs2hitref0(F,T))));
-0 1
-1 3
-2 12
-3 77
-4 638
+hitcompphp(_f,N) := for n : 0 thru N do
+ block([F:weak_php_fcs(n+1,n), T1, T2, H1, H2],
+  T1 : _f(F),
+  F : F[2],
+  T2 : treepruning_st(T1,F),
+  H1 : stcs2hitref0(F,T1),
+  H2 : stcs2hitref0(F,T2),
+  print(n, nlvs_lrt(T2), ncl_cs(H1), ncl_cs(H2))
+)$
 
-for n : 0 thru 4 do block([F:weak_php_fcs(n+1,n)[2], T], T : dll_simplest_st_trivial2(weak_php_fcs(n+1,n)), print(n, ncl_cs(stcs2hitref0(F,T))));
-0 1
-1 3
-2 12
-3 77
-4 638
+hitcompphp(dll_simplest_st_trivial1,4);
+0 1 1 1
+1 3 3 3
+2 11 12 11
+3 49 77 49
+4 261 638 261
 
-for n : 0 thru 4 do block([F:weak_php_fcs(n+1,n)[2], T], T : dll_simplest_st_first_shortest_clause(weak_php_fcs(n+1,n)), print(n, ncl_cs(stcs2hitref0(F,T))));
-0 1
-1 3
-2 12
-3 59
-4 366
+hitcompphp(dll_simplest_st_trivial2,4);
+0 1 1 1
+1 3 3 3
+2 11 12 11
+3 49 77 49
+4 261 638 261
 
-for n : 0 thru 4 do block([F:weak_php_fcs(n+1,n)[2], T], T : dll_simplest_st_max_var(weak_php_fcs(n+1,n)), print(n, ncl_cs(stcs2hitref0(F,T))));
-0 1
-1 3
-2 11
-3 49
-4 261
+hitcompphp(dll_simplest_st_first_shortest_clause,4);
+0 1 1 1
+1 3 3 3
+2 11 12 11
+3 43 59 43
+4 189 366 189
+
+hitcompphp(dll_simplest_st_max_var,4);
+0 1 1 1
+1 3 3 3
+2 11 11 11
+3 49 49 49
+4 261 261 261
    \endverbatim
    </li>
-   <li> For the worser trees improvements were computed, but not for the
-   currently best one. </li>
+   <li> Only the tree-hitting refutations were found. </li>
    <li> The above used the obvious heuristics of choosing smaller clauses if
    there is a choose (for constructing the hitting set); now the oppositive,
    choosing always larger clauses:
    \verbatim
-for n : 0 thru 4 do block([F:weak_php_fcs(n+1,n)[2], T], T : dll_simplest_st_trivial1(weak_php_fcs(n+1,n)), print(n, ncl_cs(stcs2hitref1(F,T))));
-for n : 0 thru 4 do block([F:weak_php_fcs(n+1,n)[2], T], T : dll_simplest_st_trivial2(weak_php_fcs(n+1,n)), print(n, ncl_cs(stcs2hitref1(F,T))));
-for n : 0 thru 4 do block([F:weak_php_fcs(n+1,n)[2], T], T : dll_simplest_st_first_shortest_clause(weak_php_fcs(n+1,n)), print(n, ncl_cs(stcs2hitref1(F,T))));
-for n : 0 thru 4 do block([F:weak_php_fcs(n+1,n)[2], T], T : dll_simplest_st_max_var(weak_php_fcs(n+1,n)), print(n, ncl_cs(stcs2hitref1(F,T))));
+hitcompphp2(_f,N) := for n : 0 thru N do
+ block([F:weak_php_fcs(n+1,n), T1, T2, H1, H2],
+  T1 : _f(F),
+  F : F[2],
+  T2 : treepruning_st(T1,F),
+  H1 : stcs2hitref1(F,T1),
+  H2 : stcs2hitref1(F,T2),
+  print(n, nlvs_lrt(T2), ncl_cs(H1), ncl_cs(H2))
+)$
+
+hitcompphp2(dll_simplest_st_trivial1,4);
+hitcompphp2(dll_simplest_st_trivial2,4);
+hitcompphp2(dll_simplest_st_first_shortest_clause,4);
+hitcompphp2(dll_simplest_st_max_var,4);
    \endverbatim
    No difference to above. </li>
   </ul>
