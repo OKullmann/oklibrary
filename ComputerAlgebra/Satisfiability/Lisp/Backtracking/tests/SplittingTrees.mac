@@ -207,6 +207,14 @@ okltest_reslrt2st(f) := (
   /* XXX */
   true)$
 
+okltest_treepruning_st(f) := (
+  assert(f([1,[false],[false]],{{}}) = [false]),
+  assert(f([false],{{},{1},{-1}}) = [false]),
+  assert(f([1,[false],[false]],{{},{1},{-1}}) = [false]),
+  assert(f([2,[false],[false]],{{},{1},{-1}}) = [false]),
+  /* XXX */
+  true)$
+
 
 /* ***********************************
    * Generators for splitting trees  *

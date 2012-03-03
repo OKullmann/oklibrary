@@ -217,8 +217,12 @@ st2reslrt_cs_rel(st,phi,F) :=
    the resolution-literals as splitting literals, and positing false at
    the leaves:
 */
-reslrt2st(T) := if length(T)=1 then [false]
- else [resolution_literal(T[2][1],T[3][1]), reslrt2st(T[2]), reslrt2st(T[3])];
+reslrt2st(R) := if length(R)=1 then [false]
+ else [resolution_literal(R[2][1],R[3][1]), reslrt2st(R[2]), reslrt2st(R[3])];
+
+/* Pruning a splitting-tree T w.r.t. a clause-set F, pruning unneccesary
+   splittings: */
+treepruning_st(T,F) := reslrt2st(st2reslrt_cs(T,F))$
 
 
 /* ***********************************
