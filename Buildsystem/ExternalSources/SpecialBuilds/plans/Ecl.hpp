@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.1.2009 (Swansea)
-/* Copyright 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,31 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp
   \brief Plans regarding installation of the Common-Lisp Ecl
+
+
+  \todo Update to 12.2.1
+  <ul>
+   <li> Building Ecl seems to work, but when building Maxima we get
+   \verbatim
+;      - Loading binary file "binary-ecl/intl.fas"
+;;; Loading "/home/kullmann/OKplatform/ExternalSources/builds/Maxima/ecl/maxima-5.26.0/src/binary-ecl/intl.fas"
+An error occurred during initialization:
+In form
+(PROGN
+ (LOAD "../lisp-utils/defsystem.lisp")
+ (FUNCALL (INTERN (SYMBOL-NAME :OPERATE-ON-SYSTEM) :MK)
+          "maxima"
+          :COMPILE
+          :VERBOSE
+          T)
+ (COMMON-LISP-USER::BUILD-MAXIMA-LIB))
+Unknown keyword :RENAME-AND-DELETE.
+make[2]: *** [binary-ecl/maxima] Error 1
+make[2]: Leaving directory `/home/kullmann/OKplatform/ExternalSources/builds/Maxima/ecl/maxima-5.26.0/src'
+   \endverbatim
+   </li>
+   <li> OK asked on the Maxima mailing-list. </li>
+  </ul>
 
 
   \todo Update to 11.1.1.2
@@ -95,13 +120,13 @@ libffi-3.0.9> make install
    <li> DONE (not relevant for the current configuration)
    Maxima test failure (5.21.1, but not 5.23.2):
    \verbatim
-Running tests in rtest8: 
+Running tests in rtest8:
 ********************** Problem 101 ***************
 Input:
 ev(e5, au = 0, omega = 2)
 Result:
             - u
-quad_qawf(%e   , u, 0, 2, sin, epsabs = 1.e-10, limit = 32, maxp1 = 100, 
+quad_qawf(%e   , u, 0, 2, sin, epsabs = 1.e-10, limit = 32, maxp1 = 100,
                                                                    limlst = 10)
 This differed from the expected result:
 [.4000000000000001, 2.216570948815925e-11, 175, 0]
