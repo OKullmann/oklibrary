@@ -32,7 +32,6 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Pigeonhole.m
 */
 
 /*
-
   A "resolution proof as a list" ("resl") is a list, where each entry is
   either a clause (an "axiom") or a pair consisting of a clause
   (the "resolvent") and a pair of (smaller) indices (the indices of the
@@ -41,7 +40,6 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Pigeonhole.m
   A "resolution tree" ("reslrt") is a labelled rooted tree (lrt) T where T is
   a binary tree such that each inner node is the resolvent of its two children.
   The notion of an lrt is defined in ComputerAlgebra/Trees/Lisp/Basics.mac.
-
 */
 
 
