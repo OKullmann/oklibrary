@@ -9,7 +9,9 @@
 # Extracts the numerical data from output of the glucose solver, in a single line.
 
 BEGIN { 
-  rn=0; rc=0; t=0; sat=2; cfs=0; dec=0; rts=0; r1=0; mem=0; ptime=0; cfl=0; rdb=0; rrc=0; ldlc=0; l2c=0;l1c=0; }
+  rn="NA"; rc="NA"; t="NA"; sat=2; cfs="NA"; dec="NA"; rts="NA"; r1="NA";
+  mem="NA"; ptime="NA"; cfl="NA"; rdb="NA"; rrc="NA"; ldlc="NA"; l2c="NA";
+  l1c="NA"; }
 /^c +\|  *Number of variables:/ { rn=$6; }
 /^c +\|  *Number of clauses:/ { rc=$6; }
 /^c +CPU time +: ([0-9]+|[0-9]+.[0-9]+) s/ { t=$5; }
