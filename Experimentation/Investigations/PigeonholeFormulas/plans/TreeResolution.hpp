@@ -109,12 +109,14 @@ rescompphp(dll_simplest_st_trivial2,4);
 3 197 99 97 49
 4 1565 783 521 261
 
-rescompphp(dll_simplest_st_first_shortest_clause,4);
+rescompphp(dll_simplest_st_first_shortest_clause,6);
 0 1 1 1 1
 1 5 3 5 3
 2 23 12 21 11
 3 123 62 85 43
 4 763 382 377 189
+5 5663 2832 1941 971
+6 49919 24960 11725 5863
 
 rescompphp(dll_simplest_st_max_var,4);
 0 1 1 1 1
@@ -127,6 +129,23 @@ rescompphp(dll_simplest_st_max_var,4);
    <li> We see that the heuristics "first_shortest_clause" after tree-pruning
    finds the known best refutations (for 0 <= n <= 3; while for n=3 none of
    the others does so). </li>
+   <li> Developping a formula:
+   \verbatim
+# strategy: first pigeon in first hole, then first pigeon in second hole,
+# and so on:
+trphp(n) := if n=0 then 1 else n*trphp(n-1) + n*n + 1;
+for n : 0 thru 6 do print(n,trphp(n));
+0 1
+1 3
+2 11
+3 43
+4 189
+5 971
+6 5863
+   \endverbatim
+   </li>
+   <li> The strategy "first pigeon in first hole, then second pigeon in first
+   hole, and so on", what does it yield? </li>
   </ul>
 
 
