@@ -39,8 +39,8 @@ License, or any later version. */
     <ol>
      <li> We have closure under the operation of partial assignments for
      n <= 9 (determined by closure_uhit_def_pass(9, H)). </li>
-     <li> closure_uhit_def_pass(10, H) runs on cs-oksvr XXX; n=11 seems
-     infeasible. </li>
+     <li> closure_uhit_def_pass(10, H) was aborted after 5 1/2 days, without
+     producing new results. </li>
      <li> closure_nonsingular_splitting_uhit(10,H) (which only consider
      elementary partial assignments) returns 0. </li>
      <li> Running closure_nonsingular_splitting_uhit(59,H) yields no new
@@ -65,8 +65,8 @@ License, or any later version. */
   <ul>
    <li> Once the finiteness-conjecture has been established, the sequence
    k >= 1 -> number of isomorphism types of nonsingular unsatisfiable hitting
-   clause-sets of deficiency k
-   is of great interest. Its first three terms are 1,2,25. </li>
+   clause-sets of deficiency k is of great interest. Its first three terms are
+   1,2,25. </li>
    <li> An easier sequence is
    n >= 0 -> number of isomorphism types of nonsingular unsatisfiable hitting
    clause-sets with n variables.
