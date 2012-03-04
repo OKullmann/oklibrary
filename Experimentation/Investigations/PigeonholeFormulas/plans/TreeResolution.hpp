@@ -72,7 +72,11 @@ M[optimal_splitting_tree]: depth: 0 , new best variable: php(1,1) , new min size
      <li> Yet we have the sequence 1,5,21,85 (for 0<=n<=3). </li>
      <li> There are four sequences in OEIS, extending it with 341,341,342,421.
      </li>
-     <li> The sequence A002450 is (4^n - 1)/3, which would violate the lower
+     <li> But the computations below indicate that 377 is the right
+     continutation; once we have figured it out, we should submit it to OEIS.
+     </li>
+     <li> DONE
+     The sequence A002450 is (4^n - 1)/3, which would violate the lower
      bound (n/4)^(n/4). </li>
      <li> We should be able to compute comp_R^*(PHP^{4+1}_4) by a C++ version
      of optimal_splitting_tree_rec. </li>
@@ -131,7 +135,8 @@ rescompphp(dll_simplest_st_max_var,4);
    the others does so). </li>
    <li> Developping a formula:
    \verbatim
-# strategy: first pigeon in first hole, then first pigeon in second hole,
+# First a recursion.
+# Strategy: first pigeon in first hole, then first pigeon in second hole,
 # and so on:
 trphp(n) := if n=0 then 1 else n*trphp(n-1) + n*n + 1;
 for n : 0 thru 6 do print(n,trphp(n));
@@ -142,10 +147,30 @@ for n : 0 thru 6 do print(n,trphp(n));
 4 189
 5 971
 6 5863
+
+# Trying to find a closed formula.
+load(solve_rec);
+solve_rec(t[n]=n*t[n-1]+n*n+1, t[n], t[0]=1);
+  t[n] = ('sum((%j^2+2*%j+2)/(%j+1)!,%j,0,n-1))*n!+n!
+
+t(n) := if n=0 then 1 else sum((j^2+2*j+2)/factorial(j+1), j,0,n-1) * n! + n!;
+for n : 0 thru 6 do print(n,t(n));
+0 1
+1 3
+2 11
+3 43
+4 189
+5 971
+6 5863
    \endverbatim
    </li>
-   <li> The strategy "first pigeon in first hole, then second pigeon in first
-   hole, and so on", what does it yield? </li>
+   <li> What can we do with the sum sum((j^2+2*j+2)/factorial(j+1), j,0,n-1):
+    <ol>
+     <li> At least we should find a good Theta-expression for it. </li>
+    </ol>
+   </li>
+   <li> The alternative strategy "first pigeon in first hole, then second
+   pigeon in first hole, and so on", what does it yield? </li>
   </ul>
 
 
