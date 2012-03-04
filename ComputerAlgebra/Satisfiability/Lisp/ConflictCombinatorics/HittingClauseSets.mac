@@ -339,7 +339,6 @@ all_hittinginstances_def(F,k) :=
    (in the order given by listify(permutations)).
 */
 all_hitting_DP_reductions_def(F,k,[mon]) := block(
-
  [V : var_cs(F),B,result,_res,permutation_count,_pc],
  if length(mon) = 0 then (
    _res : 'result, _pc : 'permutation_count)
