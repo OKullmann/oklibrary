@@ -79,6 +79,9 @@ output_res_php(3,35);
      <li> rc(2) = 19 (= 9+10) </li>
     </ol>
    </li>
+   <li> For upper bounds extracted from tree-refutations see
+   "Tree-resolution refutations found by simple algorithms" in
+   Investigations/PigeonholeFormulas/plans/TreeResolution.hpp. </li>
   </ul>
 
 */

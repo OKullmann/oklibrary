@@ -91,48 +91,60 @@ M[optimal_splitting_tree]: depth: 0 , new best variable: php(1,1) , new min size
   <ul>
    <li> Using the simple backtracking algorithms we have yet implemented,
    printing the splitting-tree sizes (nodes and leaves) and the derived
-   (pruned) resolution-tree sizes (nodes and leaves):
+   (pruned) resolution-tree sizes (nodes and leaves), plus the sizes of
+   the derived resolution-refutations (counting only different clauses):
    \verbatim
 rescompphp(_f,N) := for n : 0 thru N do block([F:weak_php_fcs(n+1,n), T, R],
  T : _f(F),
  R : st2reslrt_cs(T,F[2]),
- print(n, nnds_lrt(T), nlvs_lrt(T), nnds_lrt(R), nlvs_lrt(R))
+ printf(true, "~1d | ~5d ~5d | ~5d ~5d | ~5d~&", n, nnds_lrt(T), nlvs_lrt(T), nnds_lrt(R), nlvs_lrt(R), ncl_cs(l_lrt(R)))
 )$
 
 rescompphp(dll_simplest_st_trivial1,4);
-0 1 1 1 1
-1 5 3 5 3
-2 29 15 21 11
-3 197 99 97 49
-4 1565 783 521 261
+0 |     1     1 |     1     1 |     1
+1 |     5     3 |     5     3 |     5
+2 |    29    15 |    21    11 |    19
+3 |   197    99 |    97    49 |    65
+4 |  1565   783 |   521   261 |   248
 
 rescompphp(dll_simplest_st_trivial2,4);
-0 1 1 1 1
-1 5 3 5 3
-2 29 15 21 11
-3 197 99 97 49
-4 1565 783 521 261
+0 |     1     1 |     1     1 |     1
+1 |     5     3 |     5     3 |     5
+2 |    29    15 |    21    11 |    19
+3 |   197    99 |    97    49 |    65
+4 |  1565   783 |   521   261 |   248
 
 rescompphp(dll_simplest_st_first_shortest_clause,6);
-0 1 1 1 1
-1 5 3 5 3
-2 23 12 21 11
-3 123 62 85 43
-4 763 382 377 189
-5 5663 2832 1941 971
-6 49919 24960 11725 5863
+0 |     1     1 |     1     1 |     1
+1 |     5     3 |     5     3 |     5
+2 |    23    12 |    21    11 |    19
+3 |   123    62 |    85    43 |    62
+4 |   763   382 |   377   189 |   167
+5 |  5663  2832 |  1941   971 |   419
+6 | 49919 24960 | 11725  5863 |  1025
 
 rescompphp(dll_simplest_st_max_var,4);
-0 1 1 1 1
-1 5 3 5 3
-2 21 11 21 11
-3 97 49 97 49
-4 521 261 521 261
+0 |     1     1 |     1     1 |     1
+1 |     5     3 |     5     3 |     5
+2 |    21    11 |    21    11 |    19
+3 |    97    49 |    97    49 |    70
+4 |   521   261 |   521   261 |   285
    \endverbatim
    </li>
    <li> We see that the heuristics "first_shortest_clause" after tree-pruning
-   finds the known best refutations (for 0 <= n <= 3; while for n=3 none of
-   the others does so). </li>
+   finds the known best tree-refutations (for 0 <= n <= 3; while for n=3 none
+   of the others does so). </li>
+   <li> None find for n <= 4 optimal dag-refutation (see
+   Investigations/PigeonholeFormulas/plans/Resolution.hpp):
+    <ol>
+     <li> It seems the best extracted dag-refutations aren't for away from
+     the conjectured best dag-refutations. </li>
+     <li> Can we achieve optimal tree-refutations, which are at the same time
+     optimal dag-refutations? </li>
+     <li> Can we find a formula for the size of the derived (best)
+     dag-refutations? </li>
+    </ol>
+   </li>
    <li> Developping a formula:
    \verbatim
 # First a recursion.
