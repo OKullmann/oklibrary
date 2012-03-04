@@ -116,10 +116,11 @@ rt2lrt_il(T,L,l) := if emptyp(T) then [l] else
 /* The set of leaf-labels: */
 ll_lrt(T) := if length(T) = 1 then {first(T)}
 else lunion(map(ll_lrt,rest(T)))$
-
 /* The set of non-leaf-node-labels: */
 il_lrt(T) := if length(T) = 1 then {}
 else adjoin(first(T), lunion(map(il_lrt,rest(T))))$
+/* The set of all labels: */
+l_lrt(T) := adjoin(first(T), lunion(map(l_lrt,rest(T))))$
 
 
 /* ************

@@ -49,6 +49,7 @@ okltest_rt2lrt_il(rt2lrt_il);
 
 okltest_ll_lrt(ll_lrt);
 okltest_il_lrt(il_lrt);
+okltest_l_lrt(l_lrt);
 
 /* ************
    * Measures *
