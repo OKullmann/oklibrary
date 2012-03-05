@@ -1419,6 +1419,15 @@ for F in des_6t4_min_r5_s*.cnf; do B=${F%.cnf}; cat ${F} | UnitClausePropagation
 for F in des_6t4_min_r5_s*_ucp.cnf; do SplittingViaOKsolver -D90 ${F}; done
 
 for S in SplitViaOKsolver*_ucpcnf*; do cat ${S}/Md5sum; done
+8144c27e0a481f76360d4ebb9f534c39
+364adc31ed32ebb85ca079634959975a
+31a021f38b0b84767dc7f4496e42c49c
+b1c1a7b6e1a766696868e6998ec29f23
+7bca105853a9ebf54f65065f8ca53c73
+8fca6df1bc5c283d9389c80f99057157
+6720ccc31928eeea8012e4865196fc43
+733fc9b039ff7ec8704c051aae40379d
+3784693a0ed8d11f9fd47f438e304f7f
 361b0484a76d6e932dd8a92948a743fa
 6f19939e6bba332a608af3fdac6c5795
 0bbcfe98a4b62010e1278d50477ed625
@@ -1429,21 +1438,21 @@ b1f87bc07968cdac5cd3db8511f9a507
 219f18eccacc4111dbf7629b15b0a01d
 1bc3c71fad82dfc36ff9d56847901e0e
 c6cde81343d2316316e617469a75a627
-8144c27e0a481f76360d4ebb9f534c39
 d71ec6e55a20760a998d215e17d745fe
-364adc31ed32ebb85ca079634959975a
-31a021f38b0b84767dc7f4496e42c49c
-b1c1a7b6e1a766696868e6998ec29f23
-7bca105853a9ebf54f65065f8ca53c73
-8fca6df1bc5c283d9389c80f99057157
-6720ccc31928eeea8012e4865196fc43
-733fc9b039ff7ec8704c051aae40379d
-3784693a0ed8d11f9fd47f438e304f7f
    \endverbatim
    </li>
    <li> Data:
    \verbatim
 for S in SplitViaOKsolver*_ucpcnf*; do cat ${S}/Result | grep "splitting_cases" | awk '{print $3}'; done
+325079
+319050
+311723
+312302
+322121
+322142
+313557
+321636
+315872
 331576
 313474
 321954
@@ -1454,16 +1463,7 @@ for S in SplitViaOKsolver*_ucpcnf*; do cat ${S}/Result | grep "splitting_cases" 
 323538
 320035
 320103
-325079
 316434
-319050
-311723
-312302
-322121
-322142
-313557
-321636
-315872
    \endverbatim
    </li>
    <li> Computing satisfying assignments and locating satisfying sub-instances:
@@ -1471,6 +1471,15 @@ for S in SplitViaOKsolver*_ucpcnf*; do cat ${S}/Result | grep "splitting_cases" 
 for S in SplitViaOKsolver*_ucpcnf*; do cd ${S}; D="${S#SplitViaOKsolver_D90}"; D="${D%cnf*}"; D="${D}.cnf"; seed="${D#des_6t4_min_r5_s}"; seed="${seed%_ucp.cnf}"; seed="${seed#0}"; RandomDESTotalAssignment ${D} ${seed} 5 > Solution.pa; cd ..; done;
 
 for S in SplitViaOKsolver*_ucpcnf*; do cd ${S}/Instances; for x in $(ls); do PassClashes-O3-DNDEBUG ../Solution.pa ${x}; if [[ $? != 0 ]]; then echo ${x} > ../Satisfiable; echo ${x}; break; fi; done;  cd ../..; done
+267576
+262262
+277882
+148902
+225363
+296528
+130275
+301610
+101903
 115800
 100395
 155334
@@ -1481,16 +1490,7 @@ for S in SplitViaOKsolver*_ucpcnf*; do cd ${S}/Instances; for x in $(ls); do Pas
 57728
 226462
 319735
-267576
 227096
-262262
-277882
-148902
-225363
-296528
-130275
-301610
-101903
    \endverbatim
    </li>
    <li> Running minisat-2.2.0 on the satisfiable subinstances (on cspcmg, with 2GHz):
@@ -1502,28 +1502,28 @@ ExtractMinisat header-only > Statistics_SAT_m; count=0; for S in SplitViaOKsolve
 > E=read.table("Statistics_SAT_m",header=T,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8)))
 > basic_stats(E$t)
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-  0.010   0.020   0.045   0.075   0.095   0.300
-sd= 0.07870665
-   95%    96%    97%    98%    99%   100%r
-0.2620 0.2696 0.2772 0.2848 0.2924 0.3000
+ 0.0100  0.0275  0.0500  0.0750  0.0950  0.2900
+sd= 0.07633031
+   95%    96%    97%    98%    99%   100%
+0.2615 0.2672 0.2729 0.2786 0.2843 0.2900
 sum= 1.5
 > E$t
- [1] 0.02 0.09 0.03 0.07 0.09 0.11 0.01 0.26 0.30 0.02 0.04 0.02 0.04 0.11 0.03
-[16] 0.06 0.05 0.02 0.12 0.01
+ [1] 0.05 0.03 0.12 0.03 0.05 0.05 0.02 0.11 0.02 0.04 0.08 0.03 0.07 0.09 0.11
+[16] 0.02 0.26 0.29 0.02 0.01
 
 ExtractGlucose header-only > Statistics_SAT_g; count=0; for S in SplitViaOKsolver*_ucpcnf*; do let ++count; echo -n "${count} " >> Statistics_SAT_g; cd ${S}; I="$(ls des_*_sat_*)"; glucose-2.0 ${I} | ExtractGlucose x >> ../Statistics_SAT_g; cd ..; done
 
 > E=read.table("Statistics_SAT_g",header=T,colClasses=c(rep("integer",3),"numeric","integer",rep("numeric",8)))
 > basic_stats(E$t)
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
- 0.0000  0.0650  0.1900  0.6010  0.2725  8.6000
-sd= 1.8894
-  95%   96%   97%   98%   99%  100%
-1.095 2.596 4.097 5.598 7.099 8.600
-sum= 12.02
+ 0.0000  0.0675  0.1850  0.6015  0.2725  8.6200
+sd= 1.894125
+   95%    96%    97%    98%    99%   100%
+1.1055 2.6084 4.1113 5.6142 7.1171 8.6200
+sum= 12.03
 > E$t
- [1] 0.12 0.04 0.05 0.30 0.19 0.34 0.07 0.02 8.60 0.20 0.05 0.70 0.11 0.28 0.07
-[16] 0.22 0.27 0.20 0.19 0.00
+ [1] 0.05 0.12 0.28 0.07 0.21 0.27 0.20 0.18 0.00 0.10 0.04 0.06 0.31 0.19 0.34
+[16] 0.07 0.02 8.62 0.19 0.71
 
 XXX all other solvers need to be considered
 
