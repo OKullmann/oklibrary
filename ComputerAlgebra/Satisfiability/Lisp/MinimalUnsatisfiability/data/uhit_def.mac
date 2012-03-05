@@ -35,6 +35,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
 
 
 /* kill(uhit_def)$ */
@@ -742,6 +743,36 @@ vardisjoint_glueing_uhit_def(k) := block([h:sm2hm({}), L1,k2,L2,FF],
     )
  ),
  h)$
+
+
+/* Closure under DP-resolution */
+
+/* Performing one step of DP-reduction for unsatisfiable hitting clause-set F,
+   over all variables, followed by elimination of singular variables, and
+   collect the results not already in uhit_def in the repository _hash_repo of
+   isomorphism types (passed by name, not reset); returning the number of new
+   isomorphism-types found:
+*/
+nonsingular_DP_uhit_def_cs(F, _hash_repo) := block(
+ [V : var_cs(F), count : 0, G],
+  for v in V do (
+    G : sdp_reduction_cs(dp_operator_cs(F,v)),
+    if classify_candidates_uhit_def([G])[1][2] = "new" and
+      manage_repository_isomorphism_types(cs2fcs(G),ev(_hash_repo)) then
+      count : count + 1
+  ),
+  count)$
+
+/* Applying the "elementary" DP-reduction for all elements in uhit_def up to
+   deficiency k, now resetting the hash-repository:
+*/
+closure_nonsingular_DP_uhit(k, _hash_repo) := block([count : 0],
+ _hash_repo :: sm2hm({}),
+ for d : 2 thru k do
+  for F in all_uhit_def(d) do
+    count : count + nonsingular_DP_uhit_def_cs(F, _hash_repo),
+ count)$
+
 
 /*!
 \endhtmlonly
