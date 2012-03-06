@@ -110,10 +110,29 @@ Structures/Cryptology> md5sum definitions.mak
 2927db35dd111162c18e040673c932af  definitions.mak
      \endverbatim
      </li>
-     <li> The git repository at the official Mhash sourceforge project
-     http://sourceforge.net/projects/mhash/develop contains
-     Mhash-0.9.9.9 with additional editorial corrections:
+     <li> DONE (we don't want to apply them in the build process)
+     Now building Mhash, where
+     Buildsystem/ExternalSources/SpecialBuilds/mhash.mak has been changed so
+     that
      \verbatim
+cd $(mhash_build_dir_okl); $(postcondition) \
+/configure --prefix=$(mhash_installation_dir_okl) --with-CC=$(gcc412_call_okl); $(postcondition) \
+     \endverbatim
+     becomes
+     \verbatim
+cd $(mhash_build_dir_okl); $(postcondition) \
+cp $$(dirname $(mhash_source_dir_okl))/*.patch .; $(postcondition) \
+for p in *.patch; do patch -p1 < $${p}; done; $(postcondition) \
+./configure --prefix=$(mhash_installation_dir_okl) --with-CC=$(gcc412_call_okl); $(postcondition) \
+     \endverbatim
+     means we no longer get errors during "oklib mhash" in ExternalSources.
+     </li>
+    </ul>
+   </li>
+   <li> The git repository at the official Mhash sourceforge project
+   http://sourceforge.net/projects/mhash/develop contains
+   Mhash-0.9.9.9 with additional editorial corrections:
+   \verbatim
 # Checking that changes in Mhash repository are editorial
 ExternalSources/sources/Mhash> git clone git://mhash.git.sourceforge.net/gitroot/mhash/mhash
 ExternalSources/sources/Mhash> cd mhash
@@ -123,12 +142,12 @@ c25104c6751852c6f115577f11513b8e22faf4d6 Don't track .Plo files
 bfe19776b4d80a1c2d516daa1033480e0b02912e Refining ignore files
 ac5bc6cf99b6828bcf61a61e731e5bcbcf51aff9 Removed files resulting from configure, removed Makefile.in from ignore files, and added the Makefile.in files.
 21da4869cd2d99ae9ffae12585b6ffed7aef0ddf Imported release 0.9.9.9
-     \endverbatim
-     </li>
-     <li> Applying the patches from the Fedora repository to
-     those files from the official Mhash sourceforge repository
-     yields a working solution:
-     \verbatim
+   \endverbatim
+   </li>
+   <li> Applying the patches from the Fedora repository to
+   those files from the official Mhash sourceforce repository
+   yields a working solution:
+   \verbatim
 # Apply patches and use create new tarball
 ExternalSources/sources/Mhash> git clone git://mhash.git.sourceforge.net/gitroot/mhash/mhash mhash-0.9.9.9
 ExternalSources/sources/Mhash> git clone git://pkgs.fedoraproject.org/mhash.git mhash-fedora
@@ -160,26 +179,7 @@ Structures/Cryptology> HashMD5-O3-DNDEBUG < definitions.mak
 Hash:2927db35dd111162c18e040673c932af
 Structures/Cryptology> md5sum definitions.mak
 2927db35dd111162c18e040673c932af  definitions.mak
-     \endverbatim
-     </li>
-     <li> DONE (we don't want to apply them in the build process)
-     Now building Mhash, where
-     Buildsystem/ExternalSources/SpecialBuilds/mhash.mak has been changed so
-     that
-     \verbatim
-cd $(mhash_build_dir_okl); $(postcondition) \
-/configure --prefix=$(mhash_installation_dir_okl) --with-CC=$(gcc412_call_okl); $(postcondition) \
-     \endverbatim
-     becomes
-     \verbatim
-cd $(mhash_build_dir_okl); $(postcondition) \
-cp $$(dirname $(mhash_source_dir_okl))/*.patch .; $(postcondition) \
-for p in *.patch; do patch -p1 < $${p}; done; $(postcondition) \
-./configure --prefix=$(mhash_installation_dir_okl) --with-CC=$(gcc412_call_okl); $(postcondition) \
-     \endverbatim
-     means we no longer get errors during "oklib mhash" in ExternalSources.
-     </li>
-    </ul>
+   \endverbatim
    </li>
    <li> For now we stop installing and using it. </li>
   </ul>
