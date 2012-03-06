@@ -53,11 +53,65 @@ b7860fed495cd6145a67870630b4975a  mhash-0.9.9.9-force64bit-tiger.patch
 ExternalSources/sources/Mhash> git clone git://pkgs.fedoraproject.org/mhash.git
 ExternalSources/sources/Mhash> for x in *.patch; do diff $x mhash/$x; done
      \endverbatim
-??? what is the talk about patches about ??? we are not interested in whether
-we get some patches or not, but whether we can use the given repository
-or not !!! ???
+     This repository contains only the patch files, a "spec" file, and
+     an md5sum checksum. </li>
+     <li> After applying these patches, OKlibrary applications which were
+     previously disabled now compile against Mhash and run correctly:
+     \verbatim
+# Apply patches and create new tarball
+ExternalSources/sources/Mhash> tar jxvf mhash-0.9.9.9.tar.bz2
+ExternalSources/sources/Mhash> git clone git://pkgs.fedoraproject.org/mhash.git mhash-fedora
+# Apply latest patches; note that mutils-align.patch doesn't apply to
+# mhash-0.9.9.9
+ExternalSources/sources/Mhash> cp mhash-fedora/*.patch mhash-0.9.9.9/.
+ExternalSources/sources/Mhash> cd mhash-0.9.9.9
+ExternalSources/sources/Mhash/mhash-0.9.9.9> for p in mhash-0.9.9.9-*.patch; do patch -p1 < $p; done
+ExternalSources/sources/Mhash/mhash-0.9.9.9> cd ../
+ExternalSources/sources/Mhash> mv mhash-0.9.9.9.tar.bz2{,-orig}
+ExternalSources/sources/Mhash> tar jcvf mhash-0.9.9.9.tar.bz2 mhash-0.9.9.9
+ExternalSources/sources/Mhash> cd ../../
+ExternalSources/> oklib cleanallmhash mhash
+# No error occurs
+
+
+# Re-enable disabled Mhash-based programs
+OKlib> git log --name-status -r d423e6377697ffa332aeb5dc9b436dcad1a62c1d^..d423e6377697ffa332aeb5dc9b436dcad1a62c1d 
+commit d423e6377697ffa332aeb5dc9b436dcad1a62c1d
+Author: Oliver Kullmann <O.Kullmann@Swansea.ac.uk>
+Date:   Sat May 22 19:02:33 2010 +0100
+
+    Disabled building and using Mhash.
+
+    Due to a bug in Mhash (and since we do not really need it now).
+
+M       Buildsystem/Configuration/ExternalSources/all.mak
+M       Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp
+M       Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
+D       Structures/Cryptology/HashMD5.cpp
+A       Structures/Cryptology/HashMD5.cpp_disabled
+D       Structures/Cryptology/HashMD5lib.cpp
+A       Structures/Cryptology/HashMD5lib.cpp_disabled
+M       Structures/Cryptology/definitions.mak
+M       Structures/Cryptology/plans/general.hpp
+
+
+OKlib> mv Structures/Cryptology/HashMD5.cpp{_disabled,}
+OKlib> mv Structures/Cryptology/HashMD5lib.cpp{_disabled,}
+
+# Build programs
+OKlib> cd Structures/Cryptology
+Structures/Cryptology> oklib cleanall all
+# Builds correctly.
+
+# Test programs
+Structures/Cryptology> HashMD5-O3-DNDEBUG < definitions.mak
+Hash:2927db35dd111162c18e040673c932af
+Structures/Cryptology> md5sum definitions.mak
+2927db35dd111162c18e040673c932af  definitions.mak
+     \endverbatim
      </li>
-     <li> Now building Mhash, where
+     <li> DONE (we don't want to apply them in the build process)
+     Now building Mhash, where
      Buildsystem/ExternalSources/SpecialBuilds/mhash.mak has been changed so
      that
      \verbatim
@@ -73,18 +127,117 @@ for p in *.patch; do patch -p1 < $${p}; done; $(postcondition) \
      \endverbatim
      means we no longer get errors during "oklib mhash" in ExternalSources.
      </li>
-     <li> After applying these patches, OKlibrary applications which were
-     previously disabled now compile against Mhash and run correctly. </li>
-     <li> That is, re-enabling HashMD5 in Structures/Cryptology/, HashMD5
-     builds correctly, and runs:
-     \verbatim
+    </ul>
+   </li>
+   <li> The git repository at the official Mhash sourceforge project
+   http://sourceforge.net/projects/mhash/develop contains
+   Mhash-0.9.9.9 with additional editorial corrections:
+   \verbatim
+# Checking that changes in Mhash repository are editorial
+ExternalSources/sources/Mhash> git clone git://mhash.git.sourceforge.net/gitroot/mhash/mhash
+ExternalSources/sources/Mhash> cd mhash
+ExternalSources/sources/Mhash/mhash> git log --pretty=oneline
+42e331f294e341ef61d9e307226f5a903e04337f Update .gitignore
+c25104c6751852c6f115577f11513b8e22faf4d6 Don't track .Plo files
+bfe19776b4d80a1c2d516daa1033480e0b02912e Refining ignore files
+ac5bc6cf99b6828bcf61a61e731e5bcbcf51aff9 Removed files resulting from configure, removed Makefile.in from ignore files, and added the Makefile.in files.
+21da4869cd2d99ae9ffae12585b6ffed7aef0ddf Imported release 0.9.9.9
+   \endverbatim
+   </li>
+   <li> Applying the patches from the Fedora repository to
+   those files from the official Mhash sourceforce repository
+   yields a working solution:
+   \verbatim
+# Apply patches and use create new tarball
+ExternalSources/sources/Mhash> git clone git://mhash.git.sourceforge.net/gitroot/mhash/mhash mhash-0.9.9.9
+ExternalSources/sources/Mhash> git clone git://pkgs.fedoraproject.org/mhash.git mhash-fedora
+# Apply latest patches; note that mutils-align.patch doesn't apply to
+# mhash-0.9.9.9
+ExternalSources/sources/Mhash> cp mhash-fedora/*.patch mhash-0.9.9.9/.
+ExternalSources/sources/Mhash> cd mhash-0.9.9.9
+ExternalSources/sources/Mhash/mhash-0.9.9.9> for p in mhash-0.9.9.9-*.patch; do patch -p1 < $p; done
+ExternalSources/sources/Mhash/mhash-0.9.9.9> cd ../
+ExternalSources/sources/Mhash> mv mhash-0.9.9.9.tar.bz2{,-orig}
+ExternalSources/sources/Mhash> tar jcvf mhash-0.9.9.9.tar.bz2 mhash-0.9.9.9
+ExternalSources/sources/Mhash> cd ../../
+ExternalSources/> oklib cleanallmhash mhash
+# No error occurs
+
+
+# Re-enable disabled Mhash-based programs
+# (see above for confirmation that these are all disabled apps)
+OKlib> mv Structures/Cryptology/HashMD5.cpp{_disabled,}
+OKlib> mv Structures/Cryptology/HashMD5lib.cpp{_disabled,}
+
+# Build programs
+OKlib> cd Structures/Cryptology
 Structures/Cryptology> oklib all
-Structures/Cryptology> HashMD5-O3-DNDEBUG definitions.mak
-Hash:7d0d9cf937736417d796482bc3a00a2c
+# Builds correctly.
+
+# Test programs
+Structures/Cryptology> HashMD5-O3-DNDEBUG < definitions.mak
+Hash:2927db35dd111162c18e040673c932af
 Structures/Cryptology> md5sum definitions.mak
-7d0d9cf937736417d796482bc3a00a2c  definitions.mak
+2927db35dd111162c18e040673c932af  definitions.mak
+   \endverbatim
+   </li>
+   <li> We should create a fork of the Mhash git repository, applying
+   the patches from Fedora.
+    <ul>
+     <li> Once created, we can then make a pull request to the
+     Mhash repository. </li>
+     <li> We should ensure that the authors of the patches are somehow
+     recorded, either in the git history or in a file somewhere. </li>
+     <li> We could use "git format-patch" to create a "git patch"
+     which would include author and commit data from the Fedora repository;
+     this could be applied to the Mhash repository. </li>
+     <li> However, a "git patch" would include additional changes to files
+     such as "mhash.spec" which are Fedora specific. For example:
+     \verbatim
+ExternalSources/sources/Mhash> git clone git://pkgs.fedoraproject.org/mhash.git mhash-fedora
+ExternalSources/sources/Mhash> cd mhash-fedora
+# Examining commit which introduces the majority of the patches
+ExternalSources/sources/Mhash/mhash-fedora> git log ec3609ffa6af06faaf428b7a876d4a5b1940aa80 --name-status -r
+commit ec3609ffa6af06faaf428b7a876d4a5b1940aa80
+Author: Tom Callaway <spot@fedoraproject.org>
+Date:   Wed Jul 22 17:23:43 2009 +0000
+
+    0.9.9.9
+
+M       .cvsignore
+A       mhash-0.9.9.9-align.patch
+A       mhash-0.9.9.9-alignment.patch
+A       mhash-0.9.9.9-autotools-namespace-stomping.patch
+A       mhash-0.9.9.9-fix-mem-leak.patch
+A       mhash-0.9.9.9-fix-snefru-segfault.patch
+A       mhash-0.9.9.9-fix-whirlpool-segfault.patch
+A       mhash-0.9.9.9-force64bit-tiger.patch
+A       mhash-0.9.9.9-maxint.patch
+M       mhash.spec
+M       sources
+
+ExternalSources/sources/Mhash/mhash-fedora> git diff ec3609ffa6af06faaf428b7a876d4a5b1940aa80 mhash.spec
+<snip>
+ %changelog
++* Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.9.9-5
++- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
++
++* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.9.9-4
++- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
++
++* Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.9.9-3
++- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
++
++* Wed Jul 22 2009 Tom "spot" Callaway <tcallawa@redhat.com> - 0.9.9.9-2
++- bump rawhide, fixed the last bug
++
+ * Wed Jul 22 2009 Tom "spot" Callaway <tcallawa@redhat.com> - 0.9.9.9-1
+ - update to 0.9.9.9
+ - apply all the fixes that I could find
      \endverbatim
      </li>
+     <li> The best option seems to be to apply each patch one-by-one and
+     record each patch-authors name in the commit-message. </li>
     </ul>
    </li>
    <li> For now we stop installing and using it. </li>
