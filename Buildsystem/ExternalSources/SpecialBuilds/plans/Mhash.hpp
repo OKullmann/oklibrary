@@ -100,7 +100,7 @@ OKlib> mv Structures/Cryptology/HashMD5lib.cpp{_disabled,}
 
 # Build programs
 OKlib> cd Structures/Cryptology
-Structures/Cryptology> oklib all
+Structures/Cryptology> oklib cleanall all
 # Builds correctly.
 
 # Test programs
