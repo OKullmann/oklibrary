@@ -232,7 +232,8 @@ ExternalSources/sources/Mhash/mhash-fedora> git diff ec3609ffa6af06faaf428b7a876
  - apply all the fixes that I could find
      \endverbatim
      </li>
-     <li> The best option seems to be to apply each patch one-by-one and
+     <li> OK: this should be the way to go
+     The best option seems to be to apply each patch one-by-one and
      record each patch-authors name in the commit-message. </li>
     </ul>
    </li>
