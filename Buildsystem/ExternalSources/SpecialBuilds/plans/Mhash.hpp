@@ -60,10 +60,10 @@ ExternalSources/sources/Mhash> for x in *.patch; do diff $x mhash/$x; done
      \verbatim
 # Apply patches and create new tarball
 ExternalSources/sources/Mhash> tar jxvf mhash-0.9.9.9.tar.bz2
-ExternalSources/sources/Mhash> git clone git://pkgs.fedoraproject.org/mhash.git
+ExternalSources/sources/Mhash> git clone git://pkgs.fedoraproject.org/mhash.git mhash-fedora
 # Apply latest patches; note that mutils-align.patch doesn't apply to
 # mhash-0.9.9.9
-ExternalSources/sources/Mhash> cp mhash/*.patch mhash-0.9.9.9/.
+ExternalSources/sources/Mhash> cp mhash-fedora/*.patch mhash-0.9.9.9/.
 ExternalSources/sources/Mhash> cd mhash-0.9.9.9
 ExternalSources/sources/Mhash/mhash-0.9.9.9> for p in mhash-0.9.9.9-*.patch; do patch -p1 < $p; done
 ExternalSources/sources/Mhash/mhash-0.9.9.9> cd ../
@@ -95,6 +95,58 @@ M       Structures/Cryptology/definitions.mak
 M       Structures/Cryptology/plans/general.hpp
 
 
+OKlib> mv Structures/Cryptology/HashMD5.cpp{_disabled,}
+OKlib> mv Structures/Cryptology/HashMD5lib.cpp{_disabled,}
+
+# Build programs
+OKlib> cd Structures/Cryptology
+Structures/Cryptology> oklib all
+# Builds correctly.
+
+# Test programs
+Structures/Cryptology> HashMD5-O3-DNDEBUG < definitions.mak
+Hash:2927db35dd111162c18e040673c932af
+Structures/Cryptology> md5sum definitions.mak
+2927db35dd111162c18e040673c932af  definitions.mak
+     \endverbatim
+     </li>
+     <li> The git repository at the official Mhash sourceforge project
+     http://sourceforge.net/projects/mhash/develop contains
+     Mhash-0.9.9.9 with additional editorial corrections:
+     \verbatim
+# Checking that changes in Mhash repository are editorial
+ExternalSources/sources/Mhash> git clone git://mhash.git.sourceforge.net/gitroot/mhash/mhash
+ExternalSources/sources/Mhash> cd mhash
+ExternalSources/sources/Mhash/mhash> git log --pretty=oneline
+42e331f294e341ef61d9e307226f5a903e04337f Update .gitignore
+c25104c6751852c6f115577f11513b8e22faf4d6 Don't track .Plo files
+bfe19776b4d80a1c2d516daa1033480e0b02912e Refining ignore files
+ac5bc6cf99b6828bcf61a61e731e5bcbcf51aff9 Removed files resulting from configure, removed Makefile.in from ignore files, and added the Makefile.in files.
+21da4869cd2d99ae9ffae12585b6ffed7aef0ddf Imported release 0.9.9.9
+     \endverbatim
+     </li>
+     <li> Applying the patches from the Fedora repository to
+     those files from the official Mhash sourceforge repository
+     yields a working solution:
+     \verbatim
+# Apply patches and use create new tarball
+ExternalSources/sources/Mhash> git clone git://mhash.git.sourceforge.net/gitroot/mhash/mhash mhash-0.9.9.9
+ExternalSources/sources/Mhash> git clone git://pkgs.fedoraproject.org/mhash.git mhash-fedora
+# Apply latest patches; note that mutils-align.patch doesn't apply to
+# mhash-0.9.9.9
+ExternalSources/sources/Mhash> cp mhash-fedora/*.patch mhash-0.9.9.9/.
+ExternalSources/sources/Mhash> cd mhash-0.9.9.9
+ExternalSources/sources/Mhash/mhash-0.9.9.9> for p in mhash-0.9.9.9-*.patch; do patch -p1 < $p; done
+ExternalSources/sources/Mhash/mhash-0.9.9.9> cd ../
+ExternalSources/sources/Mhash> mv mhash-0.9.9.9.tar.bz2{,-orig}
+ExternalSources/sources/Mhash> tar jcvf mhash-0.9.9.9.tar.bz2 mhash-0.9.9.9
+ExternalSources/sources/Mhash> cd ../../
+ExternalSources/> oklib cleanallmhash mhash
+# No error occurs
+
+
+# Re-enable disabled Mhash-based programs
+# (see above for confirmation that these are all disabled apps)
 OKlib> mv Structures/Cryptology/HashMD5.cpp{_disabled,}
 OKlib> mv Structures/Cryptology/HashMD5lib.cpp{_disabled,}
 
