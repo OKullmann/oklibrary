@@ -1,5 +1,5 @@
 -// Oliver Kullmann, 26.2.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,7 +9,25 @@ License, or any later version. */
   \file Experimentation/Benchmarks/docus/SAT2011.hpp
   \brief Benchmarks for the SAT 2011 competitions
 
-  See http://www.cril.univ-artois.fr/SAT11/ for the competition webpage.
+  See
+  <ul>
+   <li> http://www.cril.univ-artois.fr/SAT11/ for the SAT competition webpage.
+   </li>
+   <li> http://maxsat.ia.udl.cat/ for the MaxSAT competition webpage (note
+   that this updates each year). </li>
+   <li> http://www.cril.univ-artois.fr/PB11/ for the pseudo-boolean
+   competition webpage. </li>
+  </ul>
+
+  The specifications of each of the competition formats can be found at:
+  <ul>
+   <li> SAT benchmarks -
+   http://www.satcompetition.org/2011/format-benchmarks2011.html . </li>
+   <li> PseudoBoolean benchmarks -
+   http://www.cril.univ-artois.fr/PB11/format.pdf . </li>
+   <li> MaxSAT benchmarks - http://maxsat.ia.udl.cat/rules/ and
+   http://maxsat.ia.udl.cat/requirements/ . </li>
+  </ul>
 
 
   <h1> Van der Waerden instances </h1>
