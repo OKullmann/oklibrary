@@ -124,11 +124,17 @@ uhit_def[4,11] : [
 
 /* Deficiency 5 */
 
-uhit_def[5,"info"] : [false,3,inf,[[3,true],[4,true],[5,false],[15,unknown]]]$
+uhit_def[5,"info"] : [false,3,inf,[[3,true],[4,true],[5,false],[14,unknown],[15,unknown]]]$
 uhit_def[5,3] : [
  full_fcs(3)[2]
 ]$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def5.mac")$
+uhit_def[5,14] : [
+ {{-14,-13,-12},{-14,-13,12},{-14,-12,13},{-14,12,13},{-11,-10,-9,-8,14},{-11,-10,8,14},
+  {-11,-9,10,14},{-11,-8,9,14},{-11,8,9,10,14},{-7,-6,-5,-4,11,14},{-7,-6,4,11,14},
+  {-7,-5,6,11,14},{-7,-4,5,11,14},{-7,4,5,6,11,14},{-3,-2,-1,7,11,14},{-3,1,7,11,14},
+  {-2,3,7,11,14},{-1,2,7,11,14},{1,2,3,7,11,14}}
+]$
 uhit_def[5,15] : [
   max_var_hitting_def(5)[2]
 ]$

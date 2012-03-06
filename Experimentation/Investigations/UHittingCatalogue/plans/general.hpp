@@ -35,6 +35,13 @@ License, or any later version. */
      <li> So let's just run all_unsinghitting(5, H5) (cs-oksvr XXX). </li>
     </ol>
    </li>
+   <li> Regarding elements with extreme n:
+    <ol>
+     <li> For a given deficiency k, also all elements with minimal n, and all
+     elements with maximal n (conjectured 3+4*(k-2)) and maximal n-1 should be
+     collected. </li>
+    </ol>
+   </li>
    <li> Regarding closure under partial assignments:
     <ol>
      <li> We have closure under the operation of partial assignments for
