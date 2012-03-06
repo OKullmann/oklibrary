@@ -73,7 +73,6 @@ ExternalSources/sources/Mhash> cd ../../
 ExternalSources/> oklib cleanallmhash mhash
 # No error occurs
 
-
 # Re-enable disabled Mhash-based programs
 OKlib> git log --name-status -r d423e6377697ffa332aeb5dc9b436dcad1a62c1d^..d423e6377697ffa332aeb5dc9b436dcad1a62c1d 
 commit d423e6377697ffa332aeb5dc9b436dcad1a62c1d
@@ -81,7 +80,6 @@ Author: Oliver Kullmann <O.Kullmann@Swansea.ac.uk>
 Date:   Sat May 22 19:02:33 2010 +0100
 
     Disabled building and using Mhash.
-
     Due to a bug in Mhash (and since we do not really need it now).
 
 M       Buildsystem/Configuration/ExternalSources/all.mak
@@ -93,7 +91,6 @@ D       Structures/Cryptology/HashMD5lib.cpp
 A       Structures/Cryptology/HashMD5lib.cpp_disabled
 M       Structures/Cryptology/definitions.mak
 M       Structures/Cryptology/plans/general.hpp
-
 
 OKlib> mv Structures/Cryptology/HashMD5.cpp{_disabled,}
 OKlib> mv Structures/Cryptology/HashMD5lib.cpp{_disabled,}
@@ -162,7 +159,6 @@ ExternalSources/sources/Mhash> tar jcvf mhash-0.9.9.9.tar.bz2 mhash-0.9.9.9
 ExternalSources/sources/Mhash> cd ../../
 ExternalSources/> oklib cleanallmhash mhash
 # No error occurs
-
 
 # Re-enable disabled Mhash-based programs
 # (see above for confirmation that these are all disabled apps)
