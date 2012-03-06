@@ -181,6 +181,65 @@ Structures/Cryptology> md5sum definitions.mak
 2927db35dd111162c18e040673c932af  definitions.mak
    \endverbatim
    </li>
+   <li> We should create a fork of the Mhash git repository, applying
+   the patches from Fedora.
+    <ul>
+     <li> Once created, we can then make a pull request to the
+     Mhash repository. </li>
+     <li> We should ensure that the authors of the patches are somehow
+     recorded, either in the git history or in a file somewhere. </li>
+     <li> We could use "git format-patch" to create a "git patch"
+     which would include author and commit data from the Fedora repository;
+     this could be applied to the Mhash repository. </li>
+     <li> However, a "git patch" would include additional changes to files
+     such as "mhash.spec" which are Fedora specific. For example:
+     \verbatim
+ExternalSources/sources/Mhash> git clone git://pkgs.fedoraproject.org/mhash.git mhash-fedora
+ExternalSources/sources/Mhash> cd mhash-fedora
+# Examining commit which introduces the majority of the patches
+ExternalSources/sources/Mhash/mhash-fedora> git log ec3609ffa6af06faaf428b7a876d4a5b1940aa80 --name-status -r
+commit ec3609ffa6af06faaf428b7a876d4a5b1940aa80
+Author: Tom Callaway <spot@fedoraproject.org>
+Date:   Wed Jul 22 17:23:43 2009 +0000
+
+    0.9.9.9
+
+M       .cvsignore
+A       mhash-0.9.9.9-align.patch
+A       mhash-0.9.9.9-alignment.patch
+A       mhash-0.9.9.9-autotools-namespace-stomping.patch
+A       mhash-0.9.9.9-fix-mem-leak.patch
+A       mhash-0.9.9.9-fix-snefru-segfault.patch
+A       mhash-0.9.9.9-fix-whirlpool-segfault.patch
+A       mhash-0.9.9.9-force64bit-tiger.patch
+A       mhash-0.9.9.9-maxint.patch
+M       mhash.spec
+M       sources
+
+ExternalSources/sources/Mhash/mhash-fedora> git diff ec3609ffa6af06faaf428b7a876d4a5b1940aa80 mhash.spec
+<snip>
+ %changelog
++* Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.9.9-5
++- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
++
++* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.9.9-4
++- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
++
++* Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.9.9-3
++- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
++
++* Wed Jul 22 2009 Tom "spot" Callaway <tcallawa@redhat.com> - 0.9.9.9-2
++- bump rawhide, fixed the last bug
++
+ * Wed Jul 22 2009 Tom "spot" Callaway <tcallawa@redhat.com> - 0.9.9.9-1
+ - update to 0.9.9.9
+ - apply all the fixes that I could find
+     \endverbatim
+     </li>
+     <li> The best option seems to be to apply each patch one-by-one and
+     record each patch-authors name in the commit-message. </li>
+    </ul>
+   </li>
    <li> For now we stop installing and using it. </li>
   </ul>
 
