@@ -55,7 +55,63 @@ ExternalSources/sources/Mhash> for x in *.patch; do diff $x mhash/$x; done
      \endverbatim
      This repository contains only the patch files, a "spec" file, and
      an md5sum checksum. </li>
-     <li> Now building Mhash, where
+     <li> After applying these patches, OKlibrary applications which were
+     previously disabled now compile against Mhash and run correctly:
+     \verbatim
+# Apply patches and create new tarball
+ExternalSources/sources/Mhash> tar jxvf mhash-0.9.9.9.tar.bz2
+ExternalSources/sources/Mhash> git clone git://pkgs.fedoraproject.org/mhash.git
+# Apply latest patches; note that mutils-align.patch doesn't apply to
+# mhash-0.9.9.9
+ExternalSources/sources/Mhash> cp mhash/*.patch mhash-0.9.9.9/.
+ExternalSources/sources/Mhash> cd mhash-0.9.9.9
+ExternalSources/sources/Mhash/mhash-0.9.9.9> for p in mhash-0.9.9.9-*.patch; do patch -p1 < $p; done
+ExternalSources/sources/Mhash/mhash-0.9.9.9> cd ../
+ExternalSources/sources/Mhash> mv mhash-0.9.9.9.tar.bz2{,-orig}
+ExternalSources/sources/Mhash> tar jcvf mhash-0.9.9.9.tar.bz2 mhash-0.9.9.9
+ExternalSources/sources/Mhash> cd ../../
+ExternalSources/> oklib cleanallmhash mhash
+# No error occurs
+
+
+# Re-enable disabled Mhash-based programs
+OKlib> git log --name-status -r d423e6377697ffa332aeb5dc9b436dcad1a62c1d^..d423e6377697ffa332aeb5dc9b436dcad1a62c1d 
+commit d423e6377697ffa332aeb5dc9b436dcad1a62c1d
+Author: Oliver Kullmann <O.Kullmann@Swansea.ac.uk>
+Date:   Sat May 22 19:02:33 2010 +0100
+
+    Disabled building and using Mhash.
+
+    Due to a bug in Mhash (and since we do not really need it now).
+
+M       Buildsystem/Configuration/ExternalSources/all.mak
+M       Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp
+M       Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
+D       Structures/Cryptology/HashMD5.cpp
+A       Structures/Cryptology/HashMD5.cpp_disabled
+D       Structures/Cryptology/HashMD5lib.cpp
+A       Structures/Cryptology/HashMD5lib.cpp_disabled
+M       Structures/Cryptology/definitions.mak
+M       Structures/Cryptology/plans/general.hpp
+
+
+OKlib> mv Structures/Cryptology/HashMD5.cpp{_disabled,}
+OKlib> mv Structures/Cryptology/HashMD5lib.cpp{_disabled,}
+
+# Build programs
+OKlib> cd Structures/Cryptology
+Structures/Cryptology> oklib all
+# Builds correctly.
+
+# Test programs
+Structures/Cryptology> HashMD5-O3-DNDEBUG < definitions.mak
+Hash:2927db35dd111162c18e040673c932af
+Structures/Cryptology> md5sum definitions.mak
+2927db35dd111162c18e040673c932af  definitions.mak
+     \endverbatim
+     </li>
+     <li> DONE (we don't want to apply them in the build process)
+     Now building Mhash, where
      Buildsystem/ExternalSources/SpecialBuilds/mhash.mak has been changed so
      that
      \verbatim
@@ -70,18 +126,6 @@ for p in *.patch; do patch -p1 < $${p}; done; $(postcondition) \
 ./configure --prefix=$(mhash_installation_dir_okl) --with-CC=$(gcc412_call_okl); $(postcondition) \
      \endverbatim
      means we no longer get errors during "oklib mhash" in ExternalSources.
-     </li>
-     <li> After applying these patches, OKlibrary applications which were
-     previously disabled now compile against Mhash and run correctly. </li>
-     <li> That is, re-enabling HashMD5 in Structures/Cryptology/, HashMD5
-     builds correctly, and runs:
-     \verbatim
-Structures/Cryptology> oklib all
-Structures/Cryptology> HashMD5-O3-DNDEBUG definitions.mak
-Hash:7d0d9cf937736417d796482bc3a00a2c
-Structures/Cryptology> md5sum definitions.mak
-7d0d9cf937736417d796482bc3a00a2c  definitions.mak
-     \endverbatim
      </li>
     </ul>
    </li>
