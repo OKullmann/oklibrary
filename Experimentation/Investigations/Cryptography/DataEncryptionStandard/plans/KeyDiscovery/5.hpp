@@ -1333,6 +1333,29 @@ for S in SplitViaOKsolver*_ucpcnf*; do cd ${S}/Instances; for x in $(ls); do Pas
 102774
 47261
 63295
+
+# Position in the order the instances are processed by ProcessSplitViaOKsolver
+for S in SplitViaOKsolver*_ucpcnf*; do x=$(cat ${S}/Satisfiable); cat ${S}/Data | awk ' { if ($2 == '${x}') { print $1 } }'; done
+127716
+138417
+62498
+17655
+47238
+48749
+82906
+76935
+57598
+82754
+79044
+20941
+22194
+80762
+85312
+32348
+110509
+57977
+25789
+37746
    \endverbatim
    The task here is to identify some order under which these sub-instances always appear
    relatively early. </li>
@@ -1491,6 +1514,29 @@ for S in SplitViaOKsolver*_ucpcnf*; do cd ${S}/Instances; for x in $(ls); do Pas
 226462
 319735
 227096
+
+# Position in the order the instances are processed by ProcessSplitViaOKsolver
+for S in SplitViaOKsolver*_ucpcnf*; do x=$(cat ${S}/Satisfiable); cat ${S}/Data | awk ' { if ($2 == '${x}') { print $1 } }'; done
+270158
+262284
+253061
+98315
+37490
+264333
+289821
+172602
+60770
+24045
+17135
+122222
+227336
+243242
+234752
+119793
+222150
+291229
+82157
+185746
    \endverbatim
    </li>
    <li> Running minisat-2.2.0 on the satisfiable subinstances (on cspcmg, with 2GHz):
