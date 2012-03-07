@@ -162,7 +162,7 @@ minion-0.12/bin> CC="$(gcc_call_okl)" CXX="$(gcc_call_okl)" cmake -DBOOST_ROOT:P
   \todo Choco
   <ul>
    <li> An open-source Java library. </li>
-  </ul?
+  </ul>
 
 
   \todo Mozart

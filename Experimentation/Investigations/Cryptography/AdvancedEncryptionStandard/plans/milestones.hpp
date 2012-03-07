@@ -129,11 +129,6 @@ License, or any later version. */
 
   \par Version 0.2 : PLANNING SAT2012 COMPLETED
 
-  \par
-   In Cryptography/AdvancedEncryptionStandard/plans/general.hpp the
-   following topics are handled:
-    - SAT 2012
-
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
