@@ -34,7 +34,6 @@ License, or any later version. */
 
   \todo Benchmarks for SAT 2012
   <ul>
-   <li> We should submit benchmarks for the SAT-2012-competition. </li>
    <li> The deadline for:
     <ol>
      <li> SAT Challenge benchmark submission is Monday 26th March 2012. </li>
