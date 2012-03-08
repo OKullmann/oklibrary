@@ -94,7 +94,7 @@ License, or any later version. */
   \par Version history
 
    - 0.3   : 1.1.2011; initial version number (investigations into Ramsey theory, minimal unsatisfiability, representations of boolean functions for SAT and other purposes, cryptography, algebra and combinatorics, categories of clause-sets, and various SAT techniques).
-   - 0.3.1 : 8.3.2012; started investigations on Cube and Conquer and furthered investigations into Cryptography (AES, DES and now KeeLoq), minimal unsatisfiability, Ramsey theory (new bounds for van der Waerden numbers and their palindromic versions) and (tree-)resolution complexity (pigeon-hole formulas and their extensions).
+   - 0.3.1 : 8.3.2012; started investigations on Cube and Conquer, pigeon-hole formulas, other hard clause-sets for resolution, latin squares, graph colouring,  and further investigations into cryptography (AES, DES), boolean functions in general, QCA, minimal unsatisfiability, and Ramsey theory (van der Waerden numbers and palindromic variation, Gasarch-numbers); provided benchmarks for SAT2011 and provided tools for special investigations.
 
 */
 
