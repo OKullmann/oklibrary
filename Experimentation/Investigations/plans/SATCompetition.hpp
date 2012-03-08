@@ -48,8 +48,10 @@ License, or any later version. */
    </li>
    <li> The specifications of each of the formats can be found at:
     <ul>
-     <li> SAT benchmarks (for 2011; the 2012 details aren't available yet) -
-     http://www.satcompetition.org/2011/format-benchmarks2011.html . </li>
+     <li> SAT benchmarks -
+     http://www.satcompetition.org/2011/format-benchmarks2011.html
+     (the 2012 rules at
+     http://baldur.iti.kit.edu/SAT-Challenge-2012/rules.html refer to 2011). </li>
      <li> PseudoBoolean benchmarks -
      http://www.cril.univ-artois.fr/PB12/format.pdf . </li>
      <li> MaxSAT benchmarks - http://maxsat.ia.udl.cat/rules/ and
