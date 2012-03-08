@@ -36,13 +36,17 @@ License, or any later version. */
   <ul>
    <li> The deadline for:
     <ol>
-     <li> SAT Challenge benchmark submission is Monday 26th March 2012. </li>
-     <li> PseudoBoolean registration is Monday 19th March 2012.
-     </li>
-     <li> PseudoBoolean benchmark submission is Sunday 26th March 2012. </li>
-     <li> MaxSAT evaluation submission is Friday 23rd March 2012. </li>
-     <li> QBF evaluation registration is Wednesday 29th February 2012. </li>
-     <li> QBF benchmark submission is Thursday 15th March 2012. </li>
+     <li> SAT Challenge benchmark submission is 2/4/2012;
+     http://baldur.iti.kit.edu/SAT-Challenge-2012/submission.html . </li>
+     <li> PseudoBoolean registration is 19/3/2012;
+     PseudoBoolean benchmark submission is 26/3/2012;
+     http://www.cril.univ-artois.fr/PB12/ . </li>
+     <li> MaxSAT evaluation submission is 23/3/2012;
+     http://maxsat.ia.udl.cat/introduction/ . </li>
+     <li> DONE (nothing to submit)
+     QBF evaluation registration is Wednesday 29th February 2012. </li>
+     <li> DONE (nothing to submit)
+     QBF benchmark submission is Thursday 15th March 2012. </li>
     </ol>
    </li>
    <li> The specifications of each of the formats can be found at:
@@ -62,7 +66,8 @@ License, or any later version. */
    </li>
    <li> Best in every series to have a mixture, from known to unknown
    instances, from not-too-hard to likely-very-hard. </li>
-   <li> We should consider the format, and what instances we can provide
+   <li> DONE
+   We should consider the format, and what instances we can provide
    for the QBF evaluation. </li>
    <li> For the formats see below; it should be checked that these haven't
    changed from 2011. </li>
