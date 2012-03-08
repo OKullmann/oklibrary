@@ -145,6 +145,18 @@ Generators> LDFLAGS="-static" oklib all
   </ul>
 
 
+  \todo Translations for non-boolean problems
+  <ul>
+   <li> We have implemented the translations from [Kullmann 2010; Green-Tao and
+   SAT]. </li>
+   <li> In [Ahmed 2011; On computation of exact van der Waerden numbers] in
+   Subsection 3.1 there is the claim of a "new encoding"; since it is based
+   on the logarithmic encoding, one needs to investigate whether it is really
+   new, or whether it is just the logarithmic translation from [Kullmann 2010].
+   </li>
+  </ul>
+
+
   \todo Palindromic diagonal problems
   <ul>
    <li> pdvanderwaerden_2(3) = (6,9). </li>
