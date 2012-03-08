@@ -8,28 +8,7 @@ License, or any later version. */
 /*!
   \file Experimentation/Investigations/plans/milestones.hpp
 
-  \module_version Experimentation/Investigations 0.3.0.6 (8.1.2011)
-
-
-  \par Version 0.3.1 :
-
-  \par
-   In Experimentation/Investigations/plans/SATCompetition.hpp the following
-   topics are handled:
-    - Formats for SAT 2011 : DONE
-    - Benchmarks for SAT 2011 : DONE
-    - Supporting documents : DONE
-
-  \par
-   In Experimentation/Investigations/plans/general.hpp the following topics
-   are handled:
-    - Create milestones : DONE
-
-  \par
-   In Experimentation/Investigations/BooleanFunctions/plans/general.hpp the
-   following topics are handled:
-    - Plans for investigating random boolean functions : DONE
-    - Application tests not run : DONE
+  \module_version Experimentation/Investigations 0.3.1 (8.3.2012)
 
 
   \par Version 0.3.2 :
@@ -115,6 +94,7 @@ License, or any later version. */
   \par Version history
 
    - 0.3   : 1.1.2011; initial version number (investigations into Ramsey theory, minimal unsatisfiability, representations of boolean functions for SAT and other purposes, cryptography, algebra and combinatorics, categories of clause-sets, and various SAT techniques).
+   - 0.3.1 : 8.3.2012; started investigations on Cube and Conquer and furthered investigations into Cryptography (AES, DES and now KeeLoq), minimal unsatisfiability, Ramsey theory (new bounds for van der Waerden numbers and their palindromic versions) and (tree-)resolution complexity (pigeon-hole formulas and their extensions).
 
 */
 
