@@ -1,5 +1,5 @@
 // Oliver Kullmann, 14.2.2008 (Swansea)
-/* Copyright 2008, 2011 Oliver Kullmann
+/* Copyright 2008, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -498,9 +498,6 @@ c 15.2 seconds, 101 MB max, 5 MB recycled
    solvers (which still use full resolution, and have an advantage over the
    look-ahead solvers)? </li>
   </ul>
-
-
-  \todo Create milestones : DONE
 
 */
 
