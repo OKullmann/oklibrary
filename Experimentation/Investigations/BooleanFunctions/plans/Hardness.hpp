@@ -10,6 +10,13 @@ License, or any later version. */
   \brief On investigations regarding the hardness of representations of boolean functions
 
 
+  \todo Connections
+  <ul>
+   <li> See "Hardness" in
+   Investigations/PigeonholeFormulas/plans/ExtendedResolution.hpp. </li>
+  </ul>
+
+
   \todo Hardness of boolean function representations
   <ul>
    <li> The hardness h(F) of a CNF F is defined to be the minimum k such that
@@ -63,28 +70,6 @@ License, or any later version. */
      hardness_u_cs for computing hardness. </li>
      </li>
     </ul>
-   </li>
-  </ul>
-
-
-  \todo The hardness of pigeon-hole formulas
-  <ul>
-   <li> See "Extended Resolution clauses for the Pigeon Hole Principle" in
-   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp. </li>
-   <li> The hardness of weak_php(m,m-1) vs weak_php_unsat_ext_fcs(m):
-   \verbatim
-maxima> for m : 1 while true do
-  print([hardness_wpi_cs(weak_php_fcs(m,m-1)[2],{{}}),
-         hardness_wpi_cs(weak_php_unsat_ext_fcs(m)[2],{{}})])$
-[0,0]
-[1,1]
-[2,2]
-[3,3]
-[4,4]
-     \endverbatim
-   </li>
-   <li> weak_php_unsat_ext_fcs(m) has a polynomial size resolution proof.
-   However, what is the complexity of the smallest tree resolution proof?
    </li>
   </ul>
 
