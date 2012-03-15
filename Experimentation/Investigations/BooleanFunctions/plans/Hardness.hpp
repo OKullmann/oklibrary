@@ -74,6 +74,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Propagation hardness of 2-CNF
+  <ul>
+   <li> F in 2-CLS should even have phardness(F) <= 2. </li>
+   <li> This should be investigated also experimentally (to strengthen our
+   system). </li>
+  </ul>
+
+
   \todo Hardness of prime-extremal satisfiable general Horn clause-sets
   <ul>
    <li> The clause-sets sat_genhorn_cs(k,l) are candidates to separate
