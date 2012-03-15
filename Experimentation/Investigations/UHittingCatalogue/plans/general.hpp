@@ -30,9 +30,29 @@ License, or any later version. */
     <ol>
      <li> For n <= 4 the catalogue is complete (determined computationally).
      </li>
-     <li> Perhaps we should aim at getting everything for n <= 5. </li>
+     <li> Perhaps we should aim at getting everything for n <= 5 --- however
+     there are might be millions of clause-sets. </li>
      <li> Counts: n=0 -> 1, n=1 -> 0, n=2 -> 1, n=3 -> 6, n=4 -> 368. </li>
-     <li> So let's just run all_unsinghitting(5, H5) (cs-oksvr XXX). </li>
+     <li> DONE
+     So let's just run all_unsinghitting(5, H5):
+      <ol>
+       <li> Aborted after, say, 2 weeks. </li>
+       <li> Found 86505 (different) instances, with deficiencies
+       \verbatim
+L5 : analyse_isorepo_defset(H5)$
+map(first,L5);
+  [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27]
+       \endverbatim
+       and with counts
+       \verbatim
+map(length,map(second,L5));
+  [1,74,523,2082,5323,9986,14504,16793,15592,11439,6466,2717,812,162,20,2,1,1,1,1,1,1,1,1,1]
+       \endverbatim
+       </li>
+       <li> Definitely up to deficiency 4 and from deficiency 18 on we enter
+       the new clause-sets into the catalogue. </li>
+      </ol>
+     </li>
     </ol>
    </li>
    <li> Regarding elements with extreme n:
