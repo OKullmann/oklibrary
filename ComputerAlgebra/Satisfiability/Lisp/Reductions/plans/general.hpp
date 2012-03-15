@@ -13,6 +13,12 @@ License, or any later version. */
   Satisfiability/Lisp/Preprocessing.
 
 
+  \todo Compute propagation-hardness
+  <ul>
+   <li> We should provide functions phardness_wpi_cs and phardness_cs. </li>
+  </ul>
+
+
   \todo DONE (function hardness_wpi_cs has been provided)
   Computing the hardness of a clause-set representation
   <ul>
