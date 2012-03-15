@@ -59,8 +59,8 @@ License, or any later version. */
      representations of the DES and AES boxes. See
      AdvancedEncryptionStandard/plans/Representations/general.hpp.
      </li>
-     <li> See "Computing the hardness of a clause-set representation"
-     in Satisfiability/Lisp/Reductions/plans/general.hpp. </li>
+     <li> We have the Maxima-functions hardness_wpi_cs, hardness_cs, and
+     hardness_u_cs for computing hardness. </li>
      </li>
     </ul>
    </li>
