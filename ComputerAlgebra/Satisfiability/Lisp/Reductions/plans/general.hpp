@@ -13,7 +13,8 @@ License, or any later version. */
   Satisfiability/Lisp/Preprocessing.
 
 
-  \todo Computing the hardness of a clause-set representation
+  \todo DONE (function hardness_wpi_cs has been provided)
+  Computing the hardness of a clause-set representation
   <ul>
    <li> NEEDS UPDATE. </li>
    <li> See "Hardness of boolean function representations" in
