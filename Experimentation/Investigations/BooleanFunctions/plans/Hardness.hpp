@@ -23,11 +23,11 @@ License, or any later version. */
      <li> If F is a full clause-set, i.e., only clauses of length n(F)),
      then h(F) = n(F) - m where m is the size of a prime implicate of
      F with the minimum clause-length. </li>
-     <li> If F is renamable horn then h(F) <= 1. </li>
-     <li> If F is a 2-SAT formula then h(F) <= 2. </li>
+     <li> If F is renamable horn, then h(F) <= 1. </li>
+     <li> If F is a 2-CNF clause-set, then h(F) <= 2. </li>
     </ul>
    </li>
-   <li> For a boolean function f, then the "hardest" representation F, without
+   <li> For a boolean function f the "hardest" representation F, without
    new variables, is the canonical CNF representation of f. This follows
    from the fact that for every partial assignment phi, applying phi to F
    yields the canonical unsatisfiable CNF on the remaining variables, which
