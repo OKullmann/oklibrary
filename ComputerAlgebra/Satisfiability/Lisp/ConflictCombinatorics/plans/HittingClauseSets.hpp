@@ -154,6 +154,10 @@ License, or any later version. */
   <ul>
    <li> sat_genhorn_cs: We need statistics-functions, i.e., the three
    functions nvar_sat_genhorn, ncl_sat_genhorn, ncl_list_sat_genhorn. </li>
+   <li> The truth table for sat_genhorn_cs is far larger than the number of
+   prime implicates and so we also need generators for the prime implicates.
+   See [Sloan, Soereny, Turan, On k-term DNF with the largest number of prime
+   implicants, 2007] for the characterisation of the prime implicates. </li>
   </ul>
 
 
