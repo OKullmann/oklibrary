@@ -36,10 +36,10 @@ License, or any later version. */
   <ul>
    <li> The deadline for:
     <ol>
-     <li> SAT Challenge benchmark submission is 2/4/2012;
+     <li> SAT Challenge benchmark submission is 11/4/2012;
      http://baldur.iti.kit.edu/SAT-Challenge-2012/submission.html . </li>
-     <li> PseudoBoolean registration is 19/3/2012;
-     PseudoBoolean benchmark submission is 26/3/2012;
+     <li> PseudoBoolean registration is 13/4/2012;
+     PseudoBoolean benchmark submission is 20/4/2012;
      http://www.cril.univ-artois.fr/PB12/ . </li>
      <li> MaxSAT evaluation submission is 23/3/2012;
      http://maxsat.ia.udl.cat/introduction/ . </li>
@@ -49,6 +49,9 @@ License, or any later version. */
      QBF benchmark submission is Thursday 15th March 2012. </li>
     </ol>
    </li>
+   <li> MG has registered for both the SAT challenge and
+   PseudoBoolean competition (so only the submission deadlines are
+   relevant). </li>
    <li> The specifications of each of the formats can be found at:
     <ul>
      <li> SAT benchmarks -
