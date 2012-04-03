@@ -24,7 +24,7 @@ License, or any later version. */
    empty clause. </li>
    <li> We have that:
     <ul>
-     <li> h(F) = 0 if F contains all it's prime implicates. </li>
+     <li> h(F) = 0 if F contains all its prime implicates. </li>
      <li> h(F) <= h(F') where F' is the canonical (full) CNF representation
      of F. </li>
      <li> If F is a full clause-set, i.e., only clauses of length n(F)),
