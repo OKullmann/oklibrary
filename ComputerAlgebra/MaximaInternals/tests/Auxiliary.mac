@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 14.12.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -46,6 +46,10 @@ okltest_simplify_t(f) := block([x,n],
   assert(f(sin(x)^2+cos(x)^2 = 1) = true),
   assert(f((y1-y2)^2+(x1-x2)^2 = (y2-y1)^2+(x2-x1)^2) = true),
   assert(f(sum(i,i,1,n)) = n*(n+1)/2),
+  assert(f(1+1) = 2),
+  assert(f(n!/(n-1)!) = n),
+  assert(f(gamma(x+1)/gamma(x)) = x),
+  assert(f(gamma(x)) = (x-1)!),
   true)$
 
 
