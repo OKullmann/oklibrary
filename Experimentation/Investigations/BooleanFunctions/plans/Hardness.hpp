@@ -24,7 +24,7 @@ License, or any later version. */
    empty clause. </li>
    <li> We have that:
     <ul>
-     <li> h(F) = 0 if F contains all it's prime implicates. </li>
+     <li> h(F) = 0 if F contains all its prime implicates. </li>
      <li> h(F) <= h(F') where F' is the canonical (full) CNF representation
      of F. </li>
      <li> If F is a full clause-set, i.e., only clauses of length n(F)),
@@ -46,6 +46,11 @@ License, or any later version. */
     <ul>
      <li> AES: Cryptography/AdvancedEncryptionStandard/plans/general.hpp. </li>
      <li> DES: Cryptography/DataEncryptionStandard/plans/general.hpp. </li>
+     <li> Prime-extremal satisfiable general Horn clause-sets:
+     "Hardness of prime-extremal satisfiable general Horn clause-sets" below.
+     </li>
+     <li> Extended pigeon-hole formulas:
+     "Hardness" in PigeonholeFormulas/plans/ExtendedResolution.hpp. </li>
     </ul>
    </li>
    <li> The hardness of the following should be investigated:
@@ -96,8 +101,54 @@ License, or any later version. */
      <li> This is true for l=0, as it follows from the results of the article
      [Sloan, Soereny, Turan, On k-term DNF with the largest number of prime
      implicants, 2007]. </li>
-     <li> One experiment:
+     <li> Computed statistics for the formulas:
      \verbatim
+# Statistics for original formulas and their prime implicates
+# Annotated with the size of the smallest 1-base found so far (see below)
+maxima> for l in [2,3,4] do for k : l thru 4 do block([F : sat_genhorn_cs(k,l)],
+          print("k =", k, "l =", l, "n(F) =", length(var_cs(F)),
+                " c(F) =", length(F), " l(F) = ", length(olit_cs(F)),
+                " c(prc0(F)) = ", 2^(length(F)) -1));
+
+k = 2 l = 2 n(F) = 7   c(F) = 4   l(F) =  10  c(prc0(F)) =  15     min_r1 <= 4
+k = 3 l = 2 n(F) = 13  c(F) = 7   l(F) =  19  c(prc0(F)) =  127    min_r1 <= 7
+k = 4 l = 2 n(F) = 21  c(F) = 11  l(F) =  31  c(prc0(F)) =  2047   min_r1 <= ?
+k = 3 l = 3 n(F) = 15  c(F) = 8   l(F) =  22  c(prc0(F)) =  255    min_r1 <= 30
+k = 4 l = 3 n(F) = 29  c(F) = 15  l(F) =  43  c(prc0(F)) =  32767  min_r1 <= ?
+k = 4 l = 4 n(F) = 31  c(F) = 16  l(F) =  46  c(prc0(F)) =  65535  min_r1 <= ?
+     \endverbatim
+     </li>
+     <li> Generating full CNFs for the formulas (ignoring how to standardise):
+     \verbatim
+# Outputting full clause-sets for sat_genhorn_cs(k,l)
+# for l in [2,3] and k in [l,...,3].
+maxima> for l in [2,3] do
+          for k : l thru 3 do (
+            print("Outputting ",l," ",k),
+            output_fcs(
+              sconcat("Satisfiable tree-clause-sets with height ",k, " and hs(F) = ",l),
+              expand_fcs(standardise_fcs(cs2fcs(sat_genhorn_cs(k,l)))[1]),
+              sconcat("genhorn_k",k,"_l",l,"_full.cnf")));
+# The full clause-sets for sat_genhorn_cs(4,3) and sat_genhorn_cs(4,4) are
+# too large, so we just output sat_genhorn_cs(4,2) for l=2.
+maxima> block([k:4;l:2],
+          output_fcs(
+            sconcat("Satisfiable tree-clause-sets with height ",k, " and hs(F) = ",l),
+            expand_fcs(standardise_fcs(cs2fcs(sat_genhorn_cs(k,l)))[1]),
+            sconcat("genhorn_k",k,"_l",l,"_full.cnf")));
+
+# Using generated full CNFs for the sat_genhorn_cs(k,l):
+shell> ls genhorn*.cnf
+genhorn_k2_l2_full.cnf  genhorn_k3_l3_full.cnf
+genhorn_k3_l2_full.cnf  genhorn_k4_l2_full.cnf
+     \endverbatim
+     "%Variable standardisation for sat_genhorn_cs" in
+     ConflictCombinatorics/plans/HittingClauseSets.hpp discusses the
+     need for a standardised version of sat_genhorn_cs. </li>
+     <li> Finding 1-bases for sat_genhorn_cs(k,l):
+      <ul>
+       <li> At the Maxima level (using rand_rbase_cs):
+       \verbatim
 F : sat_genhorn_cs(3,3)$
   8
 P : min_resolution_closure_cs(F)[1]$
@@ -115,8 +166,64 @@ set_random(3);
 B : rand_rbase_cs(P,ucp_0_cs)$
 length(B);
   38
-     \endverbatim
-     We see here a rather small 1-base. </li>
+
+
+F : sat_genhorn_cs(4,2)$
+  15
+(%i5) P : min_resolution_closure_cs(F)[1]$
+# Still running on cspcmg.
+
+
+F : sat_genhorn_cs(4,3)$
+  15
+(%i5) P : min_resolution_closure_cs(F)[1]$
+# Still running on cspcmg.
+       \endverbatim
+       We see here a rather small 1-base. </li>
+       <li> Using RandomRUcpBases:
+       \verbatim
+# Finding random 1-bases for l=2
+shell> RandomRUcpBases genhorn_k2_l2_full.cnf
+*** Currently trying gs=50,bs=5
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+      7       4      7      7       4       12     NA     NA       4       12     0
+ length   count
+      3       4
+------------------------------------------------------------------------------------
+CURRENT MINIMUM RBASE: *4* with gs=1,bs=1
+------------------------------------------------------------------------------------
+shell> RandomRUcpBases genhorn_k3_l2_full.cnf
+*** Currently trying gs=50,bs=5
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+     13      12     13     13      12       61     NA     NA      12       61     0
+ length   count
+      3       1
+      4       6
+      6       1
+      7       4
+------------------------------------------------------------------------------------
+CURRENT MINIMUM RBASE: *7* with gs=16,bs=1
+------------------------------------------------------------------------------------
+
+
+# Finding random 1-bases for l=3
+shell> RandomRUcpBases genhorn_k3_l3_full.cnf
+*** Currently trying gs=50,bs=5
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+     15      36     15     15      36      252     NA     NA      36      252     0
+ length   count
+      4       8
+      7       4
+      8      24
+------------------------------------------------------------------------------------
+CURRENT MINIMUM RBASE: *30* with gs=35,bs=2
+------------------------------------------------------------------------------------
+       \endverbatim
+       We (again) see rather small 1-bases. Especially, for instance, for l=2,
+       k=3 where we have 127 prime implicates but a 1-base of size 7.
+       </li>
+      </ul>
+     </li>
     </ol>
    </li>
    <li> A systematic study of the boolean functions of sat_genhorn_cs(k,l) is
@@ -132,6 +239,11 @@ length(B);
     </ol>
    </li>
    <li> Are the sat_genhorn_cs(k,l) actually level-l Horn clause-sets? </li>
+   <li> Auxilliary functions for generating the prime implicates of
+   sat_genhorn_cs and standardising it are needed;
+   see "%Variable standardisation for sat_genhorn_cs" and
+   "%Generators for satisfiable hitting clause-sets" in
+   ConflictCombinatorics/plans/HittingClauseSets.hpp. </li>
   </ul>
 
 */
