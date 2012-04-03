@@ -67,6 +67,9 @@ License, or any later version. */
      </li>
     </ul>
    </li>
+   <li> The categories for SAT 2012, the PseudoBoolean and MaxSAT competitions
+   are (up to trivial renaming) the same as in 2011, discussed in
+   'Categories / "tracks" for SAT 2011' below. </li>
    <li> Best in every series to have a mixture, from known to unknown
    instances, from not-too-hard to likely-very-hard. </li>
    <li> DONE
