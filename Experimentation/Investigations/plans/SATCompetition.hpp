@@ -36,10 +36,10 @@ License, or any later version. */
   <ul>
    <li> The deadline for:
     <ol>
-     <li> SAT Challenge benchmark submission is 2/4/2012;
+     <li> SAT Challenge benchmark submission is 11/4/2012;
      http://baldur.iti.kit.edu/SAT-Challenge-2012/submission.html . </li>
-     <li> PseudoBoolean registration is 19/3/2012;
-     PseudoBoolean benchmark submission is 26/3/2012;
+     <li> PseudoBoolean registration is 13/4/2012;
+     PseudoBoolean benchmark submission is 20/4/2012;
      http://www.cril.univ-artois.fr/PB12/ . </li>
      <li> MaxSAT evaluation submission is 23/3/2012;
      http://maxsat.ia.udl.cat/introduction/ . </li>
@@ -49,6 +49,9 @@ License, or any later version. */
      QBF benchmark submission is Thursday 15th March 2012. </li>
     </ol>
    </li>
+   <li> MG has registered for both the SAT challenge and
+   PseudoBoolean competition (so only the submission deadlines are
+   relevant). </li>
    <li> The specifications of each of the formats can be found at:
     <ul>
      <li> SAT benchmarks -
@@ -64,8 +67,20 @@ License, or any later version. */
      </li>
     </ul>
    </li>
+   <li> The categories for SAT 2012, the PseudoBoolean and MaxSAT competitions
+   are (up to trivial renaming) the same as in 2011, discussed in
+   'Categories / "tracks" for SAT 2011' below. </li>
    <li> Best in every series to have a mixture, from known to unknown
-   instances, from not-too-hard to likely-very-hard. </li>
+   instances, from not-too-hard to likely-very-hard. So for each series
+   we need:
+    <ul>
+     <li> an "easy" instance taking around 1 minute to solve; </li>
+     <li> several "medium-easy" instances taking 5-15 minutes to solve; </li>
+     <li> several "medium" instances taking 15-60 minutes to solve; </li>
+     <li> one or two "medium-hard" instances taking 60-180 minutes to solve; </li>
+     <li> a "hard" instance taking a day or more to solve. </li>
+    </ul>
+   </li>
    <li> DONE
    We should consider the format, and what instances we can provide
    for the QBF evaluation. </li>
