@@ -96,6 +96,27 @@ License, or any later version. */
      <li> This is true for l=0, as it follows from the results of the article
      [Sloan, Soereny, Turan, On k-term DNF with the largest number of prime
      implicants, 2007]. </li>
+     <li> One experiment:
+     \verbatim
+F : sat_genhorn_cs(3,3)$
+  8
+P : min_resolution_closure_cs(F)[1]$
+length(P);
+  255
+set_random(1);
+B : rand_rbase_cs(P,ucp_0_cs)$
+length(B);
+  42
+set_random(2);
+B : rand_rbase_cs(P,ucp_0_cs)$
+length(B);
+  39
+set_random(3);
+B : rand_rbase_cs(P,ucp_0_cs)$
+length(B);
+  38
+     \endverbatim
+     We see here a rather small 1-base. </li>
     </ol>
    </li>
    <li> A systematic study of the boolean functions of sat_genhorn_cs(k,l) is
@@ -110,6 +131,7 @@ License, or any later version. */
      <li> What are the m-bases for 0 <= m <= l ? </li>
     </ol>
    </li>
+   <li> Are the sat_genhorn_cs(k,l) actually level-l Horn clause-sets? </li>
   </ul>
 
 */
