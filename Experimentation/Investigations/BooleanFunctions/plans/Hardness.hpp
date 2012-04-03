@@ -137,7 +137,9 @@ shell> ls genhorn*.cnf
 genhorn_k2_l2_full.cnf  genhorn_k3_l3_full.cnf
 genhorn_k3_l2_full.cnf  genhorn_k4_l2_full.cnf
      \endverbatim
-     </li>
+     "%Variable standardisation for sat_genhorn_cs" in
+     ConflictCombinatorics/plans/HittingClauseSets.hpp discusses the
+     need for a standardised version of sat_genhorn_cs. </li>
      <li> Finding 1-bases for sat_genhorn_cs(k,l):
       <ul>
        <li> At the Maxima level (using rand_rbase_cs):
@@ -232,6 +234,11 @@ CURRENT MINIMUM RBASE: *30* with gs=35,bs=2
     </ol>
    </li>
    <li> Are the sat_genhorn_cs(k,l) actually level-l Horn clause-sets? </li>
+   <li> Auxilliary functions for generating the prime implicates of
+   sat_genhorn_cs and standardising it are needed;
+   see "%Variable standardisation for sat_genhorn_cs" and
+   "%Generators for satisfiable hitting clause-sets" in
+   ConflictCombinatorics/plans/HittingClauseSets.hpp. </li>
   </ul>
 
 */

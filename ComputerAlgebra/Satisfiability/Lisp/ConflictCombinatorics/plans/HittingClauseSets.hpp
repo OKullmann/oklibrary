@@ -150,6 +150,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo %Variable standardisation for sat_genhorn_cs
+  <ul>
+   <li> We need a function sat_genhorn_stdfcs which outputs
+   a standardised formal clause-list version of sat_genhorn_cs. </li>
+   <li> This should likely be done at the same time as adding other
+   auxilliary functions, discussed in "%Generators for satisfiable hitting
+   clause-sets" below. </li>
+  </ul>
+
+
   \todo %Generators for satisfiable hitting clause-sets
   <ul>
    <li> sat_genhorn_cs: We need statistics-functions, i.e., the three
@@ -158,6 +168,9 @@ License, or any later version. */
    prime implicates and so we also need generators for the prime implicates.
    See [Sloan, Soereny, Turan, On k-term DNF with the largest number of prime
    implicants, 2007] for the characterisation of the prime implicates. </li>
+   <li> Investigations into the hardness of these clause-sets is investigated
+   in "Hardness of prime-extremal satisfiable general Horn clause-sets" in
+   Experimentation/Investigations/BooleanFunctions/plans/Hardness.hpp. </li>
   </ul>
 
 
