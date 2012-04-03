@@ -71,7 +71,16 @@ License, or any later version. */
    are (up to trivial renaming) the same as in 2011, discussed in
    'Categories / "tracks" for SAT 2011' below. </li>
    <li> Best in every series to have a mixture, from known to unknown
-   instances, from not-too-hard to likely-very-hard. </li>
+   instances, from not-too-hard to likely-very-hard. So for each series
+   we need:
+    <ul>
+     <li> an "easy" instance taking around 1 minute to solve; </li>
+     <li> several "medium-easy" instances taking 5-15 minutes to solve; </li>
+     <li> several "medium" instances taking 15-60 minutes to solve; </li>
+     <li> one or two "medium-hard" instances taking 60-180 minutes to solve; </li>
+     <li> a "hard" instance taking a day or more to solve. </li>
+    </ul>
+   </li>
    <li> DONE
    We should consider the format, and what instances we can provide
    for the QBF evaluation. </li>
