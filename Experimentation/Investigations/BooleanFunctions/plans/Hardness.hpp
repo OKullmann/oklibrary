@@ -46,6 +46,11 @@ License, or any later version. */
     <ul>
      <li> AES: Cryptography/AdvancedEncryptionStandard/plans/general.hpp. </li>
      <li> DES: Cryptography/DataEncryptionStandard/plans/general.hpp. </li>
+     <li> Prime-extremal satisfiable general Horn clause-sets:
+     "Hardness of prime-extremal satisfiable general Horn clause-sets" below.
+     </li>
+     <li> Extended pigeon-hole formulas:
+     "Hardness" in PigeonholeFormulas/plans/ExtendedResolution.hpp. </li>
     </ul>
    </li>
    <li> The hardness of the following should be investigated:
