@@ -127,7 +127,34 @@ length(B);
      boolean functions in general. </li>
      <li> What is the precise number of variables, clauses, literal occurrences
      ? </li>
-     <li> What are precisely the prime implicates and prime implicants? </li>
+     <li> What are precisely the prime implicates and prime implicants?
+      <ul>
+       <li> From Lemma 8 of [Sloan, Soereny, Turan, On k-term DNF with the
+       largest number of prime implicants, 2007] we have the following
+       characterisation of the prime implicates:
+       \verbatim
+# Extracting the prime implicant from a subset F of the leaves of
+# sat_genhorn_cs(k,l):
+sat_genhorn_ul(F) := block([lit_s : olit_cs(F)],
+  subset(lit_s, lambda([l],not(elementp(-l,lit_s)))))$
+
+# Computing the prime implicates for sat_genhorn_cs(k,l):
+sat_genhorn_prime_cs(k,l) :=
+  map(sat_genhorn_ul, disjoin({},powerset(sat_genhorn_cs(k,l))))$
+
+# Checking correctness:
+F : sat_genhorn_cs(2,2)$
+is(min_resolution_closure_cs(F)[1] = sat_genhorn_prime_cs(2,2));
+ true
+F : sat_genhorn_cs(3,3)$
+is(min_resolution_closure_cs(F)[1] = sat_genhorn_prime_cs(3,3));
+ true
+       \endverbatim
+       That is, the prime implicates of sat_genhorn_cs(k,l) are precisely
+       the clauses {l in F: -l not in F} for subsets F of sat_genhorn_cs(k,l).
+       </li>
+      </ul>
+     </li>
      <li> What are the m-bases for 0 <= m <= l ? </li>
     </ol>
    </li>
