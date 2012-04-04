@@ -81,6 +81,10 @@ License, or any later version. */
      <li> a "hard" instance taking a day or more to solve. </li>
     </ul>
    </li>
+   <li> The SAT Challenge 2012 requires a 1 to 2 page (max 2) PDF document
+   in the IEEE proceeding style, available at
+   http://www.ieee.org/conferences_events/conferences/publishing/templates.html .
+   These descriptions will be posted on the website. </li>
    <li> DONE
    We should consider the format, and what instances we can provide
    for the QBF evaluation. </li>
