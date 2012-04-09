@@ -28,13 +28,12 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Construction
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
 
-/* ****************************************
-   * Prime clauses and dual prime clauses *
-   ****************************************
+/* *****************
+   * Prime clauses *
+   *****************
 */
 
-/* The set of all "prime clauses" of a clause-set F is
-   computed by 
+/* The set of all "prime clauses" of a clause-set F can be computed by
 
      prime_clauses_cs(F) = min_resolution_closure_cs(F)[1].
 
@@ -47,9 +46,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
    this is the set of all "prime implicants".
 
    That is, a prime implicate of F as CNF is a CNF-clause C which follows
-   from F, while this is not true for any strict subset of C, while
-   a prime implicant of F as a DNF is a DNF-clause C which implies F, while
-   this is not true for any strict subset of C.
+   from F, while this is not true for any strict subset of C. And a prime
+   implicant of F as a DNF is a DNF-clause C which implies F, while this is
+   not true for any strict subset of C.
 
    Note that in this library a "clause" C is a combinatorial object, and
    whether C is a "CNF-clause" or a "DNF-clause" is just a matter of an
@@ -65,6 +64,29 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
    Note that in this library partial assignments are just represented
    as DNF-clauses, taking for clause-sets the "default interpretation"
    as CNF-clause-sets.
+*/
+
+/* Remarks: The computation
+
+     prime_clauses_cs(F) = min_2resolution_closure_cs(F)
+
+   for full F is the prime-computation of the Quine/McCluskey procedure, while
+
+     prime_clauses_cs(F) = min_resolution_closure_cs(F)[1]
+
+   (now again for general F) is often called the "consensus algorithm",
+   and finally
+
+     prime_clauses_cs(F) = min_elements(dual_cs(G))
+
+   is called the "double negation procedure of Nelson".
+
+*/
+
+
+/* **********************
+   * Dual prime clauses *
+   **********************
 */
 
 /* Considering F as CNF, the "dual prime clauses" are the prime implicants
@@ -98,23 +120,6 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
 
 */
 
-/* Remarks: The computation
-   
-     prime_clauses_cs(F) = min_2resolution_closure_cs(F)
-
-   for full F is the Quine/McCluskey procedure, while
-
-     prime_clauses_cs(F) = min_resolution_closure_cs(F)[1]
-
-   (now again for general F) is often called the "consensus algorithm",
-   and finally
-
-     prime_clauses_cs(F) = min_elements(dual_cs(G))
-
-   is called the "double negation procedure of Nelson".
-
-*/
-
 
 /* *************************************
    * Prime-clauses of full clause-sets *
@@ -124,7 +129,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
 /* The special case of min_resolution_closure_cs where the input clauses
    are all full (contain all variables).
    In other words, computing all minimal resolvents, i.e., all prime clauses
-   (for CNF's these are the prime implicates, for DNF's the prime implicants) 
+   (for CNF's these are the prime implicates, for DNF's the prime implicants)
    for full clause-sets.
 */
 min_2resolution_closure_cs(F) := block(
@@ -135,7 +140,7 @@ min_2resolution_closure_cs(F) := block(
   return(prime_implicates))$
 /* With monitoring, and returns additionally the list of level sizes: */
 min_2resolution_closure_mon_cs(F) := block(
- [prime_implicates : {}, new_implicates, n : nvar_cs(F), 
+ [prime_implicates : {}, new_implicates, n : nvar_cs(F),
   counts : [length(F)]],
   for i : 0 thru n do (
     if oklib_monitor then (
@@ -165,7 +170,7 @@ min_2resolution_closure_mon_cs(F) := block(
    prime clauses of F, hyperedges are the sets of prime-clauses which
    subsume some total assignment:
 */
-subsumption_hg_full_cs(F) := 
+subsumption_hg_full_cs(F) :=
  ghg2hg(subsumption_ghg(min_2resolution_closure_cs(F), F))$
 
 /* Now computing the reduced subsumption-hypergraph (where necessary prime
@@ -180,11 +185,11 @@ rsubsumption_hg_full_fcs(FF) := rsubsumption_hg_full_cs(fcs2cs(FF))$
    Using a simple hypergraph transversal algorithm for computing all minimum
    "prime representations" (as a repetition-free list) of a full clause-set F:
 */
-all_minequiv_bvs_cs(F) := 
+all_minequiv_bvs_cs(F) :=
   minimum_transversals_bvs_hg(subsumption_hg_full_cs(F))$
 all_minequiv_bvs_fcs(FF) := all_minequiv_bvs_cs(fcs2cs(FF))$
 
-/* Computing the list of all minimum prime representations by using the 
+/* Computing the list of all minimum prime representations by using the
    output S of rsubsumption_hg_full_cs (this is somewhat more efficient):
 */
 all_minequiv_bvs_rsubhg(S) :=
@@ -205,11 +210,11 @@ all_minequiv_bvsr_sub_cs(F, G_sub) :=
    *************************************
 */
 
-/* Computing the dual prime clauses, that is, for a full CNF the set of all 
-   prime implicants (minimal satisfying assignments), and for a full DNF the 
+/* Computing the dual prime clauses, that is, for a full CNF the set of all
+   prime implicants (minimal satisfying assignments), and for a full DNF the
    set of all prime implicates (minimal clauses which follow):
 */
-dual_min_2resolution_closure_cs(F) := 
+dual_min_2resolution_closure_cs(F) :=
  comp_cs(min_2resolution_closure_cs(setdifference(full_fcs_v(var_cs(F))[2], F)))$
 /* We have
    dual_min_2resolution_closure_cs(F) = min_resolution_closure_cs(dual_cs(F))[1]
@@ -257,7 +262,7 @@ replace_by_prime_implicates(F,S) := block([G : {}],
   return(G))$
 /* The special case where F is a hitting clause-set: */
 /* RENAME: replace_by_prime_clauses_hitting_cs */
-replace_by_prime_implicates_hitting(F) := 
+replace_by_prime_implicates_hitting(F) :=
   replace_by_prime_implicates(F,sat_decision_hitting_cs)$
 
 
