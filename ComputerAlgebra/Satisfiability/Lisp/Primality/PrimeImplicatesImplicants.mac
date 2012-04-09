@@ -116,9 +116,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
 */
 
 
-/* ****************************
-   * The Quine/McCluskey case *
-   ****************************
+/* *************************************
+   * Prime-clauses of full clause-sets *
+   *************************************
 */
 
 /* The special case of min_resolution_closure_cs where the input clauses
@@ -147,6 +147,12 @@ min_2resolution_closure_mon_cs(F) := block(
   ),
   return([prime_implicates, reverse(counts)]))$
 
+
+/* ******************************************************
+   * Minimum equivalent clause-sets of full clause-sets *
+   ******************************************************
+*/
+
 /* Given a full clause-set F, the equivalent clause-sets with a minimal
    numbers of clauses and secondly minimal number of literal occurrences
    are exactly the minimum transversals of the hypergraph
@@ -162,6 +168,14 @@ min_2resolution_closure_mon_cs(F) := block(
 subsumption_hg_full_cs(F) := 
  ghg2hg(subsumption_ghg(min_2resolution_closure_cs(F), F))$
 
+/* Now computing the reduced subsumption-hypergraph (where necessary prime
+   clauses have been eliminated as well as subsumptions), together with the
+   set of necessary clauses:
+*/
+rsubsumption_hg_full_cs(F) := rsubsumption_hg(min_2resolution_closure_cs(F), F)$
+rsubsumption_hg_full_fcs(FF) := rsubsumption_hg_full_cs(fcs2cs(FF))$
+
+
 /*
    Using a simple hypergraph transversal algorithm for computing all minimum
    "prime representations" (as a repetition-free list) of a full clause-set F:
@@ -169,13 +183,6 @@ subsumption_hg_full_cs(F) :=
 all_minequiv_bvs_cs(F) := 
   minimum_transversals_bvs_hg(subsumption_hg_full_cs(F))$
 all_minequiv_bvs_fcs(FF) := all_minequiv_bvs_cs(fcs2cs(FF))$
-
-/* Now computing the reduced subsumption-hypergraph (where necessary prime
-   clauses have been eliminated as well as subsumptions), together with the
-   set of necessary clauses:
-*/
-rsubsumption_hg_full_cs(F) := rsubsumption_hg(min_2resolution_closure_cs(F), F)$
-rsubsumption_hg_full_fcs(FF) := rsubsumption_hg_full_cs(fcs2cs(FF))$
 
 /* Computing the list of all minimum prime representations by using the 
    output S of rsubsumption_hg_full_cs (this is somewhat more efficient):
@@ -193,7 +200,10 @@ all_minequiv_bvsr_sub_cs(F, G_sub) :=
     rsubsumption_hg(min_2resolution_closure_cs(F), G_sub))$
 
 
-/* Dualisation: */
+/* *************************************
+   * Dualisation for full clause-sets  *
+   *************************************
+*/
 
 /* Computing the dual prime clauses, that is, for a full CNF the set of all 
    prime implicants (minimal satisfying assignments), and for a full DNF the 

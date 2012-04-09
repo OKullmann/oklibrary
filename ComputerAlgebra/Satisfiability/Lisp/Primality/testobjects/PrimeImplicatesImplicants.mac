@@ -21,17 +21,28 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/testobjects/Prim
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/PrimeImplicatesImplicants.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/tests/PrimeImplicatesImplicants.mac")$
 
-/* ****************************
-   * The Quine/McCluskey case *
-   ****************************
+/* *************************************
+   * Prime-clauses of full clause-sets *
+   *************************************
 */
 
 okltest_min_2resolution_closure_cs(min_2resolution_closure_cs);
 
+/* ******************************************************
+   * Minimum equivalent clause-sets of full clause-sets *
+   ******************************************************
+*/
+
 okltest_subsumption_hg_full_cs(subsumption_hg_full_cs);
-okltest_minequiv_cs(lambda([F],setify(all_minequiv_bvs_cs(F))));
 okltest_rsubsumption_hg_full_cs(rsubsumption_hg_full_cs);
+
+okltest_minequiv_cs(lambda([F],setify(all_minequiv_bvs_cs(F))));
 okltest_minequiv_cs(lambda([F],setify(all_minequiv_bvsr_cs(F))));
+
+/* *************************************
+   * Dualisation for full clause-sets  *
+   *************************************
+*/
 
 okltest_dual_min_2resolution_closure_cs(dual_min_2resolution_closure_cs);
 okltest_dual_minequiv_cs(dual_all_minequiv_bvs_cs);
