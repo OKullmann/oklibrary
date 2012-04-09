@@ -697,7 +697,7 @@ statistics_cs(rijnsbox2hittingcnf_fcs(choose_most_sat_literal_h(satprob_dll_simp
   hitting-cls-representations
   <ul>
    <li> As explained in "Hitting clause-sets" in
-   ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp,
+   Satisfiability/Lisp/Primality/plans/PrimeImplicatesImplicants.hpp,
    given a hitting clause-set representation, from it we can obtain a shorter
    representation by prime implicates. This is a better representation. </li>
    <li> This is achieved by "replace_by_prime_implicates_hitting". </li>

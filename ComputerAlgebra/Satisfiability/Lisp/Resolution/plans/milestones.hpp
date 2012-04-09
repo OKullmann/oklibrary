@@ -1,5 +1,5 @@
 // Matthew Gwynne, 20.9.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -46,12 +46,6 @@ License, or any later version. */
     - See ProofSystems/Resolution/plans/Search.hpp
     - Bounded resolution
 
-  \par
-   In Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp the
-   following topics are handled:
-    - min_2resolution_closure_cs
-    - Dualisation
-
 
   \par Version 0.0.11
 
@@ -66,12 +60,6 @@ License, or any later version. */
     - Renewal
     - DP
     - resolution_closure_cs
-
-  \par
-   In Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp the
-   following topics are handled:
-    - Hitting clause-sets
-    - contained_prime_implicate
 
   \par
    In Satisfiability/Lisp/Resolution/plans/Search.hpp the following topics

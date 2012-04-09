@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.5.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -161,9 +161,9 @@ License, or any later version. */
      For really hard problems one could seek for an optimal r_k-splitting tree.
      </li>
      <li> One obtains a hitting DNF from that, and then, as discussed in
-     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
+     Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
      and in
-     ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp,
+     Satisfiability/Lisp/Primality/plans/PrimeImplicatesImplicants.hpp,
      a shortened DNF (consisting only of prime implicants) is computed.
      (Note that in these two case studies the roles of CNF/DNF are reversed;
      but it's always the problem of "dualisation" of a clause-set.)

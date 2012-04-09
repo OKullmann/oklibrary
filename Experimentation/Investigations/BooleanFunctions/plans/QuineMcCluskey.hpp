@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.1.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,11 +19,11 @@ License, or any later version. */
    <li> See OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp
    for the C++ level. </li>
    <li> And see "min_2resolution_closure_cs" in
-   Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp
+   Satisfiability/Lisp/Primality/plans/PrimeImplicatesImplicants.hpp
    for the Maxima-level (discussing the problem regarding the precise
    complexity, where one considers complexity in the input-clause-set).
    </li>
-   <li> The new (dedicated) module for prime-clause-related computations at
+   <li> The (dedicated) module for prime-clause-related computations at
    Maxima-level is Satisfiability/Lisp/Primality/plans/general.hpp; see
    "Computations of all prime clauses for full clause-sets" there. </li>
    <li> Testcases:
@@ -36,7 +36,7 @@ License, or any later version. */
     </ol>
    </li>
    <li> See also "Hitting clause-sets" in
-   Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp for
+   Satisfiability/Lisp/Primality/plans/PrimeImplicatesImplicants.hpp for
    possible generalisation to hitting clause-sets. </li>
   </ul>
 
