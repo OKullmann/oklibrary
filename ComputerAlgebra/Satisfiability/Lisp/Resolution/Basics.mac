@@ -192,10 +192,12 @@ min_resolution_closure_cs(F) := block(
 */
 
 /* The resolvable 2-sets of a clause-set on a given resolution literal: */
-resolvable_cs_l(F,x) := subset(powerset(F,2), lambda([Cs], resolvable_s_l(Cs,x)))$
+resolvable_cs_l(F,x) :=
+  subset(powerset(F,2), lambda([Cs], resolvable_s_l(Cs,x)))$
 
 /* All resolvents of a clause-set on a given resolution literal: */
-resolvents_cs_l(F,x) := map(lambda([S], resolvent_s_l(S,x)), resolvable_cs_l(F,x))$
+resolvents_cs_l(F,x) :=
+  map(lambda([S], resolvent_s_l(S,x)), resolvable_cs_l(F,x))$
 
 /* The DP-operator in one step for clause-set F and resolution literal v: */
 /* RENAME: dp_operator_cs */
@@ -206,7 +208,9 @@ dp_operator_cs(F,v) := dp_operator(F,v)$
 dp_operator_fcs(FF,v) := [disjoin(v,FF[1]), dp_operator_cs(FF[2],v)]$
 
 /* DP combined with subsumption elimination: */
+/* RENAME: min_dp_operator_cs */
 min_dp_operator(F,v) := min_elements(dp_operator(F,v))$
+min_dp_operator_cs(F,v) := min_dp_operator(F,v)$
 
 /* Returns a list of pairs [s,c], where s is the size of DP-procedure-run
    (the sum of sizes of the clause-sets) and c is the count, where the list
