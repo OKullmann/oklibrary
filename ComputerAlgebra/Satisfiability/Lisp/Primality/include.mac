@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 21.5.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -20,8 +20,10 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/include.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/PrimeImplicatesImplicants.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/tests/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/tests/PrimeImplicatesImplicants.mac")$
 
 /*!
 \endhtmlonly

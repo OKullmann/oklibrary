@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.1.2008 (Swansea) */
-/* Copyright 2008, 2011 Oliver Kullmann
+/* Copyright 2008, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,13 +21,11 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/include.mac");
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Graphs.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Proofs.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Search.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Graphs.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/PrimeImplicatesImplicants.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Proofs.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Search.mac")$
 

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.5.2009 (Swansea)
-/* Copyright 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -40,7 +40,7 @@ namespace OKlib {
         \brief Functor, computing all prime implicates of a full clause-set
 
         The Maxima input/output specification is min_2resolution_closure_cs in 
-        ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac.
+        ComputerAlgebra/Satisfiability/Lisp/Primality/PrimeImplicatesImplicants.mac.
 
         For ease of use the helper-function FiniteFunctions::quine_mccluskey
         is provided below.

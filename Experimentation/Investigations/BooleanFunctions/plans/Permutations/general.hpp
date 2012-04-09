@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.12.2009 (Swansea)
-/* Copyright 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,8 +24,8 @@ License, or any later version. */
    we have perm2cnffcs(P), which for a permutation P in list-form creates
    the full cnf-fcs. </li>
    <li> In
-   ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac
-   we have all_minequiv_bvs_fcs to compute than all minimum CNF's (that is,
+   ComputerAlgebra/Satisfiability/Lisp/Primality/PrimeImplicatesImplicants.mac
+   we have all_minequiv_bvs_fcs to compute then all minimum CNF's (that is,
    by all_minequiv_bvs_fcs(perm2cnffcs(P)). </li>
    <li> A simpler function there is rsubsumption_hg_full_fcs: By
    rsubsumption_hg_full_fcs(FF)[2] we obtain the list of necessary prime

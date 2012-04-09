@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 9.8.2009 (Swansea) */
-/* Copyright 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,7 +23,8 @@ License, or any later version. */
 
   \todo Organisation
   <ul>
-   <li> Move
+   <li> DONE
+   Move
    ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac
    here. </li>
    <li> The task of just finding *some* DNF-representation (without new
@@ -93,7 +94,7 @@ License, or any later version. */
    everything). </li>
    <li> Some function for computing the list of shortest DNF-representations is
    dual_all_minequiv_bvs_cs in
-   Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac.
+   Satisfiability/Lisp/Primality/PrimeImplicatesImplicants.mac.
    </li>
    <li> If all shortest representations are needed, then the algorithm for
    computing all shortest minimum transversals of a hypergraph needs to be
@@ -121,7 +122,7 @@ License, or any later version. */
    <li> Connections:
     <ol>
      <li> See "min_2resolution_closure_cs" in
-     Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp
+     Satisfiability/Lisp/Primality/plans/PrimeImplicatesImplicants.hpp
      for a Maxima function. </li>
      <li> See Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp for a
      C++ function. </li>

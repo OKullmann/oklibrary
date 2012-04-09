@@ -1,5 +1,5 @@
 // Matthew Gwynne, 5.10.2010 (Swansea)
-/* Copyright 2010, 2011 Oliver Kullmann
+/* Copyright 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -37,7 +37,7 @@ License, or any later version. */
    format). </li>
    <li> Also optionally, the hypergraph as computed by subsumption_ghg
    (see
-   ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac
+   ComputerAlgebra/Satisfiability/Lisp/Primality/PrimeImplicatesImplicants.mac
    ) should be created (the minimum transversals of this hypergraph yield the
    minimum representations), in strict Dimacs format, where the meaning of
    variables is explained in the comments. </li>
@@ -46,7 +46,7 @@ License, or any later version. */
    correspond to unit-hyperedges).
     <ol>
      <li> See rsubsumption_hg_full_cs(F) in
-     ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac
+     Satisfiability/Lisp/Primality/PrimeImplicatesImplicants.mac
      for the Maxima-specification. </li>
     </ol>
    </li>

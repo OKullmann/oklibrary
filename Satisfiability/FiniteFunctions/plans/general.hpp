@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.12.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -307,7 +307,7 @@ p/P is the absence/presence of X16
    full clauses, and repeats this process. This is just a special case of
    the greedy computation of "small" transversals (see below). </li>
    <li> All the above is covered by the observation, that, using
-   ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac,
+   ComputerAlgebra/Satisfiability/Lisp/Primality/PrimeImplicatesImplicants.mac,
    the miminum sets of prime-implicates representing the underlying boolean
    functions are exactly the minimum transversals of the subsumption hypergraph
    subsumption_ghg(min_2resolution_closure_cs(F), F). </li>
