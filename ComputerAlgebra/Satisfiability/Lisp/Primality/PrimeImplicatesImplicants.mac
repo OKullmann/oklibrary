@@ -33,17 +33,14 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
    *****************
 */
 
-/* The set of all "prime clauses" of a clause-set F can be computed by
-
-     prime_clauses_cs(F) = min_resolution_closure_cs(F)[1].
-
-   Alternatively one has
-     prime_clauses_cs(F) =
-        min_2resolution_closure_cs(expand_fcs(cs2fcs(F))[2]).
+/* Generic function, using the "best" method (at Maxima-level) to compute
+   the set of all prime-clauses of clause-set F:
 */
-/* Considering F as CNF, this is the set of all "prime implicates"
-   of the corresponding boolean function, while considering F as a DNF
-   this is the set of all "prime implicants".
+prime_clauses_cs(F) := min_extdp_cs(F,var_cs(F))$
+
+/* Considering F as CNF, prime_clauses_cs(F) is the set of all "prime
+   implicates" of the corresponding boolean function, while considering F as
+   a DNF this is the set of all "prime implicants".
 
    That is, a prime implicate of F as CNF is a CNF-clause C which follows
    from F, while this is not true for any strict subset of C. And a prime
@@ -53,8 +50,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
    Note that in this library a "clause" C is a combinatorial object, and
    whether C is a "CNF-clause" or a "DNF-clause" is just a matter of an
    (additional) interpretation.
-*/
-/* In other words, using the CNF interpretation, the prime clauses of F
+
+   In other words, using the CNF interpretation, the prime clauses of F
    are the comp_sl(phi) for partial assignments phi such that phi * F
    is unsatisfiable, while this is not true for any strict subset of phi.
    And using the DNF interpretation, the prime clauses of F
@@ -64,24 +61,32 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
    Note that in this library partial assignments are just represented
    as DNF-clauses, taking for clause-sets the "default interpretation"
    as CNF-clause-sets.
-*/
 
-/* Remarks: The computation
-
-     prime_clauses_cs(F) = min_2resolution_closure_cs(F)
-
-   for full F is the prime-computation of the Quine/McCluskey procedure, while
-
+   Alternative computations:
+   For general F we have
      prime_clauses_cs(F) = min_resolution_closure_cs(F)[1]
-
-   (now again for general F) is often called the "consensus algorithm",
-   and finally
-
-     prime_clauses_cs(F) = min_elements(dual_cs(G))
-
-   is called the "double negation procedure of Nelson".
+                         = min_2resolution_closure_cs(expand_fcs(cs2fcs(F))[2])
+                         = min_elements(dual_cs(G))
+     (the first method is often called the "consensus algorithm", the third
+     the "double negation procedure of Nelson").
+   For full F we have
+     prime_clauses_cs(F) = min_2resolution_closure_cs(F)
+   (the prime-computation of the Quine/McCluskey procedure).
 
 */
+
+/* Tison's method
+
+   This is just like applying DP-resolution, but keeping all clauses, except
+   when they are subsumed. So we treat it as "extended DP".
+*/
+extdp_operator_cs(F,v) := block(
+ [Fv : subset(F, lambda([C], not disjointp(C, {v,-v})))],
+  union(F, resolvents_cs_l(Fv,v)))$
+min_extdp_operator_cs(F,v) := min_elements(extdp_operator_cs(F,v))$
+
+/* Using V (from left to right): */
+min_extdp_cs(F,V) := (for v in V do F : min_extdp_operator_cs(F,v), F)$
 
 
 /* **********************

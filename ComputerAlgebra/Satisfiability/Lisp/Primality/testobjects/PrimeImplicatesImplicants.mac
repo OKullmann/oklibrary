@@ -21,6 +21,13 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/testobjects/Prim
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/PrimeImplicatesImplicants.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/tests/PrimeImplicatesImplicants.mac")$
 
+/* *****************
+   * Prime clauses *
+   *****************
+*/
+
+okltest_prime_clauses_cs(prime_clauses_cs);
+
 /* *************************************
    * Prime-clauses of full clause-sets *
    *************************************

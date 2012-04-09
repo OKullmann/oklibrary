@@ -20,6 +20,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/testobjects/Bas
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/tests/PrimeImplicatesImplicants.mac")$
+
 
 /* ***************************
    * Single resolution steps *
@@ -43,6 +45,13 @@ okltest_resolvable_cs(resolvable_cs);
 okltest_two_subsumption_resolvable_cs(two_subsumption_resolvable_cs);
 
 okltest_two_subsumption_resolvents_rem_cs(two_subsumption_resolvents_rem_cs);
+
+/* ***********************
+   * Iterated resolution *
+   ***********************
+*/
+
+okltest_prime_clauses_cs(lambda([F], min_resolution_closure_cs(F)[1]));
 
 /* *****************
    * DP resolution *
