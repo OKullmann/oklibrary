@@ -106,7 +106,7 @@ OKlib/Experimentation/Benchmarks> tar -cjf SAT2012_AES.tar.bz2 SAT2012_AES
    </li>
    <li> The package has md5sum
    \verbatim
-6b5c34493aca7582619dd23e544630dc  SAT2012_AES.tar.bz2
+2050e06bc9ae36fa848566834727f141  SAT2012_AES.tar.bz2
    \endverbatim
    and 4,884,115 bytes. </li>
    <li> Extracting this archive (by

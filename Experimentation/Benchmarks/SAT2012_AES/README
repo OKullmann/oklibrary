@@ -24,7 +24,7 @@ I Directory content:
   - this README file.
 
 
-II Advanced Encryption Standard I benchmarks
+II Advanced Encryption Standard II benchmarks
 
 We provide translations of small scale variants of the Advanced Encryption
 Standard (AES) as key discovery problems. All provided instances are 

@@ -13,6 +13,8 @@ License, or any later version. */
   <ul>
    <li> See Experimentation/Benchmarks/docus/SAT2011.hpp for the various
    benchmarks provided for SAT 2011. </li>
+   <li> See Experimentation/Benchmarks/docus/SAT2012.hpp for the various
+   benchmarks provided for SAT 2012. </li>
   </ul>
 
 */
