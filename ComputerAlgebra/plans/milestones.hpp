@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.7.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -46,6 +46,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
     - Why is Maxima file output so slow?
+    - Stable sorting : DONE
     - Maxima seg-faults when loading a file setting memory-limits : DONE
     - Restricted recursion for memoised functions : DONE
     - Strings cause errors in evaluation of expressions : DONE
@@ -153,7 +154,6 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
-    - Stable sorting
     - Memoised functions
     - Argument-length restriction
     - How to use function-parameters reliably??

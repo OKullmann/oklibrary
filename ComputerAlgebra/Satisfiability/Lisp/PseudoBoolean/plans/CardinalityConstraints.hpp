@@ -1,5 +1,5 @@
 // Matthew Gwynne, 16.7.2009 (Swansea)
-/* Copyright 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -213,7 +213,8 @@ is(Csa);
 
   \todo Simplifications
   <ul>
-   <li> For crd2scrd we have the following problems:
+   <li> DONE (yes, sort is stable, and ">" is to be used)
+   For crd2scrd we have the following problems:
     <ol>
      <li> Is sort stable?? </li>
      <li> Is ">" to be used instead of ">="?? </li>

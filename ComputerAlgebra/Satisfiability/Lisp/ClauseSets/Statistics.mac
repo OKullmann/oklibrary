@@ -120,8 +120,6 @@ literal_degrees_fcs(FF) := all_literal_degrees_fcs(FF)$
 /* Returns the pairs of literal and literal degree of a clause-set F in
    descending order of the literal degree using the given order
    on literals  for equal counts. */
-/* This assumes that the Maxima "sort" is a stable sort (which actually is
-   not specified?). */
 ordered_literal_degrees_cs(F) :=
    sort(listify(hm2sm(literal_degrees_cs(F))),
         lambda([P1,P2], is(second(P1) > second(P2))))$

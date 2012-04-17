@@ -81,7 +81,8 @@ Evaluation took 3.3100 seconds (3.6900 elapsed)
   </ul>
 
 
-  \todo Stable sorting
+  \todo DONE (this was fixed in Maxima, after communication on the mailing-list)
+  Stable sorting
   <ul>
    <li> DONE (we assume < is meant)
    The documentation of "sort" doesn't say anything about the behaviour
