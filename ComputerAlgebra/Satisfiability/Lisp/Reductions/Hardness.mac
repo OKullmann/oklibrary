@@ -34,24 +34,45 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedU
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/PrimeImplicatesImplicants.mac")$
 
 
-/* ***************************
-   * Computing the hardness  *
-   ***************************
+/* **********************
+   * Computing hardness *
+   **********************
 */
 
-/* Computing the hardness of a clause-set F with its prime-implicates F_PI
+/* Computing the hardness of a clause-set F with its prime-implicates PI
    as input:
 */
-hardness_wpi_cs(F,F_PI) := block([k : 0, n : nvar_cs(F), F_phi],
-  for C in F_PI do (
+hardness_wpi_cs(F,PI) := block([k : 0, F_phi],
+  for C in PI do (
     F_phi : apply_pa(comp_sl(C),F),
-    while generalised_ucp(F_phi,k) # {{}} do k : k+1
+    while generalised_ucp_cs(F_phi,k) # {{}} do k : k+1
   ),
   k)$
 /* Taking just the clause-set F: */
 hardness_cs(F) := hardness_wpi_cs(F,min_resolution_closure_cs(F)[1])$
 /* Only considering unsatisfiable F: */
 hardness_u_cs(F) := hardness_wpi_cs(F,{{}})$
+
+
+/* **********************************
+   * Computing propagation-hardness *
+   **********************************
+*/
+
+/* Computing the p-hardness of a clause-set F with its prime-implicates PI
+   as input:
+*/
+phardness_wpi_cs(F,PI) := if emptyp(F) or elementp({},F) then 0
+ elseif PI = {{}} then max(hardness_wpi_cs(F,PI),1) else
+ block([k : 1, F_phi],
+  for C in PI do for x in C do (
+    F_phi : apply_pa(comp_sl(disjoin(x,C)),F),
+    while not elementp(x,generalised_ucp_pa_cs(F_phi,k)[2]) do k : k+1
+  ),
+  k)$
+/* Taking just the clause-set F: */
+phardness_cs(F) := phardness_wpi_cs(F,min_resolution_closure_cs(F)[1])$
+
 
 /*!
 \endhtmlonly

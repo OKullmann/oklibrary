@@ -28,9 +28,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/H
 kill(f)$
 
 
-/* ***************************
-   * Computing the hardness  *
-   ***************************
+/* **********************
+   * Computing hardness *
+   **********************
 */
 
 okltest_hardness_cs(f) := block(
@@ -53,6 +53,21 @@ okltest_hardness_u_cs(f) := block(
   true)$
 
 
+/* **********************************
+   * Computing propagation-hardness *
+   **********************************
+*/
+
+okltest_phardness_cs(f) := (
+  assert(f({}) = 0),
+  assert(f({{}}) = 0),
+  assert(f({{1}}) = 1),
+  assert(f({{1,2},{-1}}) = 1),
+  assert(f({{1,2},{-1,2}}) = 2),
+  assert(f({{1,2,3},{-1,2,3},{1,-2,3}}) = 2),
+  assert(f({{1,2,3},{-1,2},{1,-2},{-1,-2}}) = 2),
+  assert(f({{1,2,3},{-1,2,3},{1,-2,3},{-1,-2,3}}) = 3),
+  true)$
 
 /*!
 \endhtmlonly

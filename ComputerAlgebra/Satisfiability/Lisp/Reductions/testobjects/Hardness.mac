@@ -22,13 +22,20 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/Hardness.mac
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/Hardness.mac")$
 
 
-/* ***************************
-   * Computing the hardness  *
-   ***************************
+/* **********************
+   * Computing hardness *
+   **********************
 */
 
 okltest_hardness_cs(hardness_cs);
 okltest_hardness_u_cs(hardness_u_cs);
+
+/* **********************************
+   * Computing propagation-hardness *
+   **********************************
+*/
+
+okltest_phardness_cs(phardness_cs);
 
 /*!
 \endhtmlonly
