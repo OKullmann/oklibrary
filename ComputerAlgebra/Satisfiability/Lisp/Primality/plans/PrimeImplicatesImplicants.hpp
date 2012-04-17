@@ -56,6 +56,27 @@ License, or any later version. */
    (since there are many algorithms for computing these fundamental
    functions). </li>
   </ul>
+
+
+  \todo Best method for prime_clauses_cs
+  <ul>
+   <li> hardness_cs uses min_resolution_closure_cs(F)[1], which for
+   okltest_hardness_cs is actually better than the current prime_clauses_cs(F)
+   = min_extdp_prod_cs(F). Is this coincidence, or is there a deeper reason?
+   </li>
+   <li> See "Improving min_extdp_cs" below. </li>
+   <li> See "Fast computation of prime implicates/implicants" in
+   Experimentation/Investigations/BooleanFunctions/plans/general.hpp for the
+   investigation. </li>
+  </ul>
+
+
+  \todo Improving min_extdp_cs
+  <ul>
+   <li> A first reasonable heuristics seems min_extdp_prod_cs --- is it really
+   reasonable? </li>
+   <li> Can we improve the subsumption-elimination in an elegant way? </li>
+  </ul>
   
   
   \todo min_2resolution_closure_cs
@@ -119,6 +140,8 @@ License, or any later version. */
 
   \todo Connections
   <ul>
+   <li> See "Fast computation of prime implicates/implicants" in
+   Experimentation/Investigations/BooleanFunctions/plans/general.hpp. </li>
    <li> See OKlib/Satisfiability/FiniteFunctions/plans/QuineMcCluskey.hpp
    for the C++ level. </li>
    <li> See
@@ -135,7 +158,7 @@ License, or any later version. */
     </ol>
    </li>
    <li> One application is discussed in
-   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp.
+   Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp.
    </li>
   </ul>
 

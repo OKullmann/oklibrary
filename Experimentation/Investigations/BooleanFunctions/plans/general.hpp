@@ -10,6 +10,16 @@ License, or any later version. */
   \brief On investigations regarding boolean functions
 
 
+  \todo Fast computation of prime implicates/implicants
+  <ul>
+   <li> See "Best method for prime_clauses_cs" in
+   Satisfiability/Lisp/Primality/plans/PrimeImplicatesImplicants.hpp for
+   methods computes all prime-clauses of a clause-set. </li>
+   <li> See Investigations/BooleanFunctions/plans/QuineMcCluskey.hpp for
+   computing all prime-clauses of a full clause-set. </li>
+  </ul>
+
+
   \todo Algebraic normal form
   <ul>
    <li> The algebraic normal form of an n x 1 boolean function f is as a

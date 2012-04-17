@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 4.4.2008 (Swansea) */
-/* Copyright 2008, 2009, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -282,6 +282,17 @@ singular_variables_cs(F) := block([FF : cs2fcs(F), h],
   h : literal_degrees_fcs(FF),
   subset(FF[1], lambda([v], block([D : {ev_hm(h,v), ev_hm(h,-v)}], elementp(1,D) and not elementp(0,D)))))$
 singular_variables_fcs(FF) := singular_variables_cs(fcs2cs(FF))$
+
+
+/* For a clause-set F, compute the list of variables sorted by ascending
+   products pos-occurrences*neg-occurrences (for equal products use the
+   built-in order of variables):
+*/
+sortvar_prodocc_cs(F) := block([V : var_cs(F)],
+ h : literal_degrees_fcs([V,F]),
+ map(first,
+     sort(map(lambda([v], [v,ev_hm(h,v)*ev_hm(h,-v)]), listify(V)),
+          lambda([p1,p2], is(second(p1) < second(p2))))))$
 
 
 /* **********************

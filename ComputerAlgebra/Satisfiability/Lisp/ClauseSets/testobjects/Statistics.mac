@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 4.4.2008 (Swansea) */
-/* Copyright 2008, 2009, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -125,6 +125,8 @@ okltest_full_var_fcsp(full_var_fcsp);
 okltest_singularpure_variables_cs(singularpure_variables_cs);
 okltest_singular_variables_cs(singular_variables_cs);
 okltest_singular_variables_fcs(singular_variables_fcs);
+
+okltest_sortvar_prodocc_cs(sortvar_prodocc_cs);
 
 /* **********************
    * Numbers of clauses *

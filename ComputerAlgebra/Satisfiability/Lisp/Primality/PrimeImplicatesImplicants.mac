@@ -36,7 +36,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
 /* Generic function, using the "best" method (at Maxima-level) to compute
    the set of all prime-clauses of clause-set F:
 */
-prime_clauses_cs(F) := min_extdp_cs(F,var_cs(F))$
+prime_clauses_cs(F) := min_extdp_prod_cs(F)$
 
 /* Considering F as CNF, prime_clauses_cs(F) is the set of all "prime
    implicates" of the corresponding boolean function, while considering F as
@@ -87,6 +87,9 @@ min_extdp_operator_cs(F,v) := min_elements(extdp_operator_cs(F,v))$
 
 /* Using V (from left to right): */
 min_extdp_cs(F,V) := (for v in V do F : min_extdp_operator_cs(F,v), F)$
+
+/* Heuristics: */
+min_extdp_prod_cs(F) := min_extdp_cs(F,sortvar_prodocc_cs(F))$
 
 
 /* **********************
