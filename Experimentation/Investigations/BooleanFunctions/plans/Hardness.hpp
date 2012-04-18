@@ -82,6 +82,91 @@ License, or any later version. */
   </ul>
 
 
+  \todo Hardness of amplification clause-sets
+  <ul>
+   <li> For a clause-set F, and new variable v0, the reflection clause-set
+   rf(F,v) is defined as:
+    <ul>
+     <li> If F is the empty clause-set then rf(F,v0) = {{v0}}. Otherwise
+     assume F isn't the empty clause-set. </li>
+     <li> For every variable v in F choose two new variables v_{x} and v_{-x}.
+     </li>
+     <li> The clauses of rf(F,v_0) are:
+      <ul>
+       <li> Transfer clauses: {-x, v_x} for all literals x in F. </li>
+       <li> Deduction clauses: {-v_{-y} : y in C} union {v_x} for all C in F
+       and x in C. </li>
+       <li> Result clauses: {-v_{x}, -v_{-x}, v0} for all literals x in F. </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li> For a clause-set F, and new variable v0, the level-k reflection
+   clause-set rf_k(F,v0) is defined as:
+    <ul>
+     <li> If k = 1, then rf_k(F,v0) = rf(F,v0). Now assume k >= 2. </li>
+     <li> If F is the empty clause-set then rf_k(F,v0) = {{v0}}. Otherwise
+     assume F isn't the empty clause-set. </li>
+     <li> The clauses of rf_k(F,v0) are:
+      <ul>
+       <li> Transfer clauses: {-x, v_x} for all literals x in F. </li>
+       <li> Result clauses: {-v_x, -v_{-x}, v0} for all literals x in F. </li>
+       <li> Level-(k-1) deduction clauses: F_x for all literals x in F, where
+       F_x is the clause-set rf(<x ->0> * F,v_x) such that all literals x'
+       which are also in F have been renamed to the variables v_{x'}
+       and all literals x' which are not also in F have been renamed to new
+       variables w_{x'}. </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li> For a clause-set F and k in NN, the amplification clause-set A_k(F)
+   is defined as:
+    <ul>
+     <li> For a literal x in F, let G_x = <x -> 0> * F. </li>
+     <li> F_x := rf_k(G_x,x) for all literals x in F. </li>
+     <li> Construct F'_x from each F_x by renaming its variable to ensure
+     all F'_x share only the original variables (from F). </li>
+     <li> Finally A(F) := F union F' where F' is the union of
+     all F'_x for all literals x in F. </li>
+    </ul>
+   </li>
+   <li> We should implement the generators for rf_k and A_k at the
+   Maxima level. </li>
+   <li> Investigating the hardness(A_k(F)):
+    <ul>
+     <li> If hardness(F) is bounded, is hardness(A_k(F)) bounded?
+     </li>
+     <li> For the following clause-set with hardness(F) = 0, we have
+     hardness(A_1(F)) >= 2:
+      <ul>
+       <li> A counter example is the clause-set:
+       \verbatim
+F : even_parity_cl(4);
+  [{-4,1,2,3},{-3,1,2,4},{-2,1,3,4},{-4,-3,-2,1},{-1,2,3,4},{-4,-3,-1,2},
+   {-4,-2,-1,3},{-3,-2,-1,4}]
+hardness_cs(F);
+ 0
+       \endverbatim
+       </li>
+       <li> F has hardness 0 as it is the unique representation
+       without new variables of the even parity function. </li>
+       <li> However, hardness(A_1(F)) >= 2. </li>
+       <li> That hardness(A_1(F)) >= 2 is evident under the partial
+       assignment phi which sets the variables v_{1,-2}, v_{-1,2},
+       v_{-2,-1}, and v_{2,1} to true where v_{x,x'} is v_{x} from
+       G_{x'} in rf(F,x'). </li>
+       <li> Observe that phi * A_1(F) contains only clauses of
+       size 2 or more, and so hardness(phi * A_1(F)) >= 2. </li>
+       <li> One should check experimentally that A_1(F) has
+       hardness(A_1(F)) >= 2. </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Hardness of prime-extremal satisfiable general Horn clause-sets
   <ul>
    <li> The clause-sets sat_genhorn_cs(k,l) are candidates to separate
