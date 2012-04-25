@@ -253,7 +253,6 @@ is(Csa);
      by the clauses L(n):
       <ol>
        <li> x_i -> s_i for 1 <= i <= n-1 </li>
-       <li> x_n -> -s_{n-1} </li>
        <li> s_i -> s_{i+1} for 1 <= i <= n-2 </li>
        <li> s_i -> -x_{i+1} for 1 <= i <= n-1. </li>
       </ol>
