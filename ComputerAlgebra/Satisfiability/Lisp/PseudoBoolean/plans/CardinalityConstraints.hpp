@@ -282,6 +282,9 @@ is(Csa);
      <li> And the hardness of L(n) is 1 (it is satisfiable, while not
      containing all prime implicates). </li>
      <li> Is L(n) also a 1-base? </li>
+     <li> L(n) is first introduced in [Towards an optimal CNF encoding of
+     Boolean cardinality constraints; Carsten Sinz, 2005, bottom of page 2].
+     </li>
    </li>
   </ul>
 
