@@ -281,11 +281,27 @@ is(Csa);
      assignments). </li>
      <li> And the hardness of L(n) is 1 (it is satisfiable, while not
      containing all prime implicates). </li>
-     <li> Is L(n) also a 1-base? </li>
-     <li> L(n) is first introduced in [Towards an optimal CNF encoding of
-     Boolean cardinality constraints; Carsten Sinz, 2005, bottom of page 2].
-     </li>
+     <li> Is L(n) also a 1-base, that is, is L(n) irredundant? </li>
+     <li> And is L(n) actually the shortest (2-)CNF equivalent to L(n)? </li>
+     <li> L(n) is mentioned [Towards an optimal CNF encoding of
+     Boolean cardinality constraints; Carsten Sinz, 2005, bottom of page 2],
+     but OK has seen it in a Diplom theses from the 90th in the environment of
+     Ewald Speckenmeyer. There also a general scheme for cardinality; see
+     "Implement sequential counter by [Sinz 2005]" below. </li>
+     <li> We need an implementation, under the heading "Sequential counter",
+     and named amo_sc_fcl(L) (translating the crd [0,L,1]), where L is a list
+     of literals, and at most one of the literals in L shall be true. </li>
+    </ol>
    </li>
+  </ul>
+
+
+  \todo Implement sequential counter by [Sinz 2005]
+  <ul>
+   <li> The amo-translation L(n) above (see "At-most-one as a CNF") has been
+   generalised in [Towards an optimal CNF encoding of Boolean cardinality
+   constraints; Carsten Sinz]. </li>
+   <li> This needs to be implemented and analysed. </li>
   </ul>
 
 
