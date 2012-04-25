@@ -245,14 +245,43 @@ is(Csa);
    essential). </li>
    <li> There are n+1 prime implicants, namely those full clauses having
    at most one positive literal, and all these are (again) essential. </li>
-   <li> Using new variables s_1, ..., s_{n-1}, an alternative
-   CNF-representation is given by the clauses
+   <li> CNF-representations using new variables:
     <ol>
-     <li> x_i -> s_i for 1 <= i <= n-1 </li>
-     <li> x_n -> -s_{n-1} </li>
-     <li> s_i -> s_{i+1} for 1 <= i <= n-2 </li>
-     <li> s_i -> -x_{i+1} for 1 <= i <= n-1 </li>
-    </ol>
+     <li> The canonical transformation is likely not useful here, but due to
+     general interest it should be studied. </li>
+     <li> Using new variables s_1, ..., s_{n-1}, a CNF-representation is given
+     by the clauses L(n):
+      <ol>
+       <li> x_i -> s_i for 1 <= i <= n-1 </li>
+       <li> x_n -> -s_{n-1} </li>
+       <li> s_i -> s_{i+1} for 1 <= i <= n-2 </li>
+       <li> s_i -> -x_{i+1} for 1 <= i <= n-1. </li>
+      </ol>
+     </li>
+     <li> The meaning of the equivalent boolean function
+     f(x_1,...,x_n, s_1,...,s_{n-1}) is
+      <ol>
+       <li> The s_i are defined from the x_j by: s_i is true iff some
+       x_j for j <= i is true. </li>
+       <li> f is true iff at most one of the x_i is true. </li>
+       <li> Actually, this function f is not equivalent to L(n), for
+       example L(n) allows to set all x_i to false while setting all
+       s_i to true (while one could also set all s_i to false here). </li>
+       <li> The above L(n) does not have the unique-extension-property (uep).
+       </li>
+       <li> The correct explanations of the s_i is that setting one x_i to
+       true forces all s_j for i <= j <= n-1 to be true, while otherwise they
+       are undetermined. </li>
+       <li> Making it uep, by actually implementing f, doesn't seem so cheap?
+       </li>
+      </ol>
+     </li>
+     <li> L(n) is primal. </li>
+     <li> The propagation-hardness of L(n) is 1 (there are no forced
+     assignments). </li>
+     <li> And the hardness of L(n) is 1 (it is satisfiable, while not
+     containing all prime implicates). </li>
+     <li> Is L(n) also a 1-base? </li>
    </li>
   </ul>
 
