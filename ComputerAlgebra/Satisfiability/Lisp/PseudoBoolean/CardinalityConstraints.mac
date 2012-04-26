@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 15.7.2009 (Swansea) */
-/* Copyright 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -253,6 +253,32 @@ unary_bb_comparator_fcl(S,p,q) :=
       map(set,take_elements(p,S)),
       map(set,map("-",rest(S,min(q,length(S))))))]$
 
+
+/* *****************************
+   * Using sequential counters *
+   *****************************
+*/
+
+/* The representation below is LT^{n,k}_SEQ from "Towards an optimal CNF
+   encoding of Boolean cardinality constraints" by Carsten Sinz, CP2005,
+   LNCS 3709 (Springer), 2005, pages 827-831.
+*/
+
+/* TODO: Add explanation of variables. */
+kill(scv)$
+declare(scv, noun)$
+declare(scv, posfun)$
+scv_var(i) := nounify(scv)(i)$
+
+/* Taking a cardinality constraint of the form [0,L,k] and returning
+   the LT^{length(L),1}_SEQ translation clause-set: */
+amo_sc_fcl(C) := block([L : C[2], n],
+ n : length(L),
+ [append(var_c(L), create_list(scv_var(i), i, 1, n)),
+  append(
+    create_list({-L[1],scv_var(1)}, i, 1, n-1),
+    create_list({-scv_var(i),scv_var(i+1)}, i, 1, n-2),
+    create_list({-scv_var(i),-L[i+1]}, i, 1, n-1))])$
 
 /*!
 \endhtmlonly
