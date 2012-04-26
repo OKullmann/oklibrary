@@ -276,7 +276,7 @@ amo_sc_fcl(C) := block([L : C[2], n],
  n : length(L),
  [append(var_c(L), create_list(scv_var(i), i, 1, n)),
   append(
-    create_list({-L[1],scv_var(1)}, i, 1, n-1),
+    create_list({-L[i],scv_var(i)}, i, 1, n-1),
     create_list({-scv_var(i),scv_var(i+1)}, i, 1, n-2),
     create_list({-scv_var(i),-L[i+1]}, i, 1, n-1))])$
 
