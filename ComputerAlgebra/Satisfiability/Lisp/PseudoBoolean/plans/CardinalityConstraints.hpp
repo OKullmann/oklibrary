@@ -292,6 +292,22 @@ for i : 2 thru 10 do block([L,F],
 # Returns without error
        \endverbatim
        </li>
+       <li> Checking whether L(n) is a 1-base w.r.t AMO:
+       \verbatim
+amo_primes_cs(L) := setify(create_list({-L[i],-L[j]}, i, 1, length(L), j, 1, i -1))$
+primes_on_V_cs(F,V) := subset(min_resolution_closure_cs(F)[1],lambda([C], subsetp(var_c(C),V)))$
+
+# Checking that F is a representation of the AMO constraint and that
+# it is irredundant w.r.t being a representation of AMO:
+for i : 1 thru 10 do block([L,F_amo,F_amo_sc],
+  L : create_list(j,j,1,i),
+  F_amo : amo_primes_cs(L),
+  F_amo_sc : cl2cs(amo_sc_fcl([0,L,1])[2]),
+  assert(primes_on_V_cs(F_amo_sc,setify(L)) = F_amo),
+  for C in F_amo_sc do
+    assert(not(primes_on_V_cs(disjoin(C,F_amo_sc),setify(L)) = F_amo)));
+       \endverbatim
+       </li>
       </ul>
      </li>
      <li> And is L(n) actually the shortest (2-)CNF equivalent to L(n)? </li>
