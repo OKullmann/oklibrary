@@ -284,18 +284,11 @@ is(Csa);
       <ul>
        <li> L(n) is irredundant:
        \verbatim
-prime_implicates_fcl(FF) := min_resolution_closure_cs(cl2cs(fcl2cl(FF)))[1];
-amo_primes_cs(L) := setify(create_list({-L[i],-L[j]}, i, 1, length(L), j, 1, i -1))$
-
-# Checking that (a) F is a representation of AMO, and
-# (b) that if we remove any clause, then the prime implicates don't
-# contain the prime implicates of the basic AMO clause-set
-for i : 1 thru 10 do block([L,F],
+# Checking that amo_sc_fcl(0,[1,..,i],1) is irredundant:
+for i : 2 thru 10 do block([L,F],
   L : create_list(j,j,1,i),
   F : amo_sc_fcl([0,L,1]),
-  for C in F[2] do
-    assert(not(subsetp(amo_primes_cs(L),prime_implicates_fcl([F[1],delete(C,F[2])])))),
-  assert(subsetp(amo_primes_cs(L),prime_implicates_fcl(F))));
+  irredundant_bydef_fcs(fcl2fcs(F)));
 # Returns without error
        \endverbatim
        </li>
