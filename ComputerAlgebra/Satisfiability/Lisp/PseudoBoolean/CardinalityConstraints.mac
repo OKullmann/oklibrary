@@ -259,9 +259,9 @@ unary_bb_comparator_fcl(S,p,q) :=
    *****************************
 */
 
-/* The representation below is LT^{n,k}_SEQ from "Towards an optimal CNF
-   encoding of Boolean cardinality constraints" by Carsten Sinz, CP2005,
-   LNCS 3709 (Springer), 2005, pages 827-831.
+/* The representation below is mentioned as LT^{n,1}_SEQ in "Towards an
+   optimal CNF encoding of Boolean cardinality constraints" by Carsten Sinz,
+   CP2005, LNCS 3709 (Springer), 2005, pages 827-831.
 */
 
 /* TODO: Add explanation of variables. */
@@ -270,11 +270,18 @@ declare(scv, noun)$
 declare(scv, posfun)$
 scv_var(i) := nounify(scv)(i)$
 
-/* Taking a cardinality constraint of the form [0,L,k] and returning
-   the LT^{length(L),1}_SEQ translation clause-set: */
+/* Taking a cardinality constraint of the form [0,L,1] for length(L) >= 2
+   and returning a formal clause-list with 3*length(L)-4 clauses which is
+   satisfied by an assignment phi iff the following hold
+       - at most one literal in L is set to true by phi;
+       - if L[i] is set to true then
+                all scv(j) for i <= j <= n-1 are true;
+       - if L[i] is set to true then all scv(j) for 1 <= j < i are false;
+*/
+/* TODO: Add explanation of order of clauses. */
 amo_sc_fcl(C) := block([L : C[2], n],
  n : length(L),
- [append(var_c(L), create_list(scv_var(i), i, 1, n)),
+ [append(var_c(L), create_list(scv_var(i), i, 1, n-1)),
   append(
     create_list({-L[i],scv_var(i)}, i, 1, n-1),
     create_list({-scv_var(i),scv_var(i+1)}, i, 1, n-2),
