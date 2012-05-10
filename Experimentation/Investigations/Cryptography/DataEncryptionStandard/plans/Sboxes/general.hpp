@@ -43,6 +43,18 @@ License, or any later version. */
    <li> Considering them as one 10-bit boolean function, or as 4 6-bit
    boolean functions. Likely better the first view, but we need to consider
    all possibilities. </li>
+   <li> We need to investigate: what are the defining properties of the DES
+   S-boxes?
+    <ul>
+     <li> Are there properties of the DES S-boxes such that we can define
+     each S-box without simply specifying the complete truth table? </li>
+     <li> This is useful for understanding the S-boxes and also for testing.
+     </li>
+     <li> See "Improve tests" in
+     ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp.
+     </li>
+    </ul>
+   </li>
    <li> See "Add 6-to-1 bit Sbox functions" in
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/DataEncryptionStandard/plans/general.hpp.
    </li>
