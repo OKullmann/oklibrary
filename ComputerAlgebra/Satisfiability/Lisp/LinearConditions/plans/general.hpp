@@ -44,4 +44,24 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Evaluation functions
+  <ul>
+   <li> We need functions to evaluate linear constraints. </li>
+   <li> The evaluation function should:
+   <ul>
+    <li> Take (in some form) the (partial) assignment to variables in x.
+    </li>
+    <li> Return the new constraint after the application of the assignment.
+    </li>
+   </ul>
+   </li>
+   <li> Taking assignments as a set of literals seems best. This would be the
+   same as with assignments relating to clause-sets. </li>
+   <li> The names "apply_pa_lin" and "apply_pa_xor" should be enough. </li>
+   <li> Each condition we implement is a specific notion. </li>
+   <li> Therefore, adding "_cnd" or "_cst" or similar to specify that these
+   are condition/constraint functions is unnecessary. </li>
+  </ul>
+
 */

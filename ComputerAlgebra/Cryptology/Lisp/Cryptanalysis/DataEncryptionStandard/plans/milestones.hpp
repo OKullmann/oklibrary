@@ -29,6 +29,7 @@ License, or any later version. */
    the following topics are handled:
     - Triple-DES
     - Create constraint evaluation system
+    - Improve constraint generation tests
     - Translating the constraint-system into SAT, CSP, ...
 
 

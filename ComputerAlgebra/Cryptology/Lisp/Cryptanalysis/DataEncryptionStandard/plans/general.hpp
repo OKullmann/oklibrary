@@ -194,12 +194,24 @@ License, or any later version. */
    </li>
   </ul>
 
+ 
+  \todo Improve constraint generation tests
+  <ul>
+   <li> %Generators such as des_xor_desi and des_round_xor needs their
+   defining properties tested. </li>
+   <li> The fact that the result of the generator should represent
+   the associated computation must be tested. </li>
+   <li> See "Create constraint evaluation system". </li>
+  </ul>
+
 
   \todo Create constraint evaluation system
   <ul>
    <li> We wish to provide tests for functions such as "des_round_xor".
    To do this, we must evaluate the generated constraints. </li>
    <li> We need a constraint evaluation system. </li>
+   <li> Without a constraint evaluation system, it is hard to write
+   concise tests. </li>
    <li> This system should:
     <ul>
      <li> Take a list of constraints. </li>
@@ -214,6 +226,11 @@ License, or any later version. */
      <li> Return the assignment to the variables after all propagations. </li>
     </ul>
    </li>
+   <li> See "Evaluation functions" in
+   ComputerAlgebra/Satisfiability/Lisp/LinearConditions/plans/general.hpp .
+   </li>
+   <li> The Sbox specific constraint evaluation functions should be defined in
+   this module. </li>
   </ul>
 
 
