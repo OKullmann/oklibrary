@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.4.2008 (Swansea)
-/* Copyright 2008, 2011 Oliver Kullmann
+/* Copyright 2008, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,6 +23,19 @@ create_list(i,i,1,n);
    <li> For sets, we have setn and setmn. These functions provide the 
    functionality for sets. </li>
    <li> We should provide some function like setn for lists. </li>
+   <li> There is a Maxima-function for this task:
+    <ol>
+     <li> This function is not documented and not included by default.
+     It needs to be identified. Ask Maxima mailing-list. </li>
+     <li> Then we need to check whether it is not slower than create_list.
+     </li>
+     <li> If it is slower, then we do not use it, but possibly write our own
+     wrapper. </li>
+     <li> Finally, once a replacement is in place, all occurrences of
+     create_list have to be sifted and possibly replaced (but only if a test
+     exists --- otherwise a test needs to be provided). </li>
+    </ol>
+   </li>
   </ul>
 
 
