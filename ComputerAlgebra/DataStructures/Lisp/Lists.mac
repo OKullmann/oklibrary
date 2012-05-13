@@ -267,6 +267,7 @@ partition_elements(l,n) := if emptyp(l) then [] else
   cons(take_elements(nn,l), partition_elements(rest(l,nn),n)))$
 /* We have apply(append, partition_elements(l,n)) = l. */
 
+
 /* Partition a list into yes- and no- instances */
 partition_list(L,pred_) := [sublist(L,'pred_),sublist(L,lambda([x],not pred_(x)))]$
 /* Same functionality, but now for more expensive predicates ("epo" for
@@ -275,13 +276,15 @@ partition_list_epo(L,pred_) := block([A : [], B : []],
   for x in L do if pred_(x) then A : cons(x,A) else B : cons(x,B),
   return([reverse(A),reverse(B)]))$
 
-/* Partition a list into lists of elements which have
-   the same value under the mapping eq_. */
+/* Partition a list into lists of elements which have the same value under
+   the mapping eq_, maintaining the original order of elements in the
+   sublists, while sorting the whole list according to the built-in-order
+   for the values of map eq_: */
 partition_list_eq(L,eq_) := block([H : sm2hm({}),v],
   for x in L do 
     if (v : ev_hm_d(H,eq_(x),undef)) = undef then set_hm(H,eq_(x),[x])
     else set_hm(H,eq_(x),cons(x,v)),
-  return(map(lambda([A],reverse(A[2])),listify(hm2sm(H)))))$
+  return(map(lambda([A],reverse(second(A))),listify(hm2sm(H)))))$
 
 
 /* Split a list into sublists using elements for which the given predicate

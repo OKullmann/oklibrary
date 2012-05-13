@@ -460,11 +460,15 @@ okltest_partition_list(f) := block([P],
   true)$
 
 okltest_partition_list_eq(f) := block(
-  assert(f([],lambda([x],x)) = []),
-  assert(f([1,2,3,4,5],lambda([x],x)) = [[1],[2],[3],[4],[5]]),
+  assert(f([],identity) = []),
+  assert(f([1,2,3,4,5],identity) = [[1],[2],[3],[4],[5]]),
+  assert(f([5,2,4,3,1],identity) = [[1],[2],[3],[4],[5]]),
   assert(f([1,2,3,4,5],lambda([x],0)) = [[1,2,3,4,5]]),
+  assert(f([5,2,4,3,1],lambda([x],0)) = [[5,2,4,3,1]]),
   assert(f([1,2,3,4,5],lambda([x],floor(x/2))) = [[1],[2,3],[4,5]]),
+  assert(f([5,2,4,3,1],lambda([x],floor(x/2))) = [[1],[2,3],[5,4]]),
   assert(f([1,2,3,4,5],lambda([x],ceiling(x/2))) = [[1,2],[3,4],[5]]),
+  assert(f([5,2,4,3,1],lambda([x],ceiling(x/2))) = [[2,1],[4,3],[5]]),
   true)$
 
 okltest_split_list(f) := block(
