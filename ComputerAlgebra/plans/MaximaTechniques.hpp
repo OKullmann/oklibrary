@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.6.2008 (Swansea)
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -766,6 +766,15 @@ is(equal((y1-y2)^2+(x1-x2)^2, (y2-y1)^2+(x2-x1)^2));
    compute the respective outputs. </li>
    <li> With "showtime: true " Maxima outputs the timing result
    after each computation. </li>
+  </ul>
+
+
+  \todo Printing
+  <ul>
+   <li> For any kind of investigations, printf should be used, and perhaps
+   better documentation should be made available. </li>
+   <li> Perhaps also the string-functions in
+   ComputerAlgebra/DataStructures/Lisp/Strings.mac are of relevance here. </li>
   </ul>
 
 */
