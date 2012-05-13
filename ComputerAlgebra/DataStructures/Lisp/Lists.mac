@@ -280,10 +280,10 @@ partition_list_epo(L,pred_) := block([A : [], B : []],
    the mapping eq_, maintaining the original order of elements in the
    sublists, while sorting the whole list according to the built-in-order
    for the values of map eq_: */
-partition_list_eq(L,eq_) := block([H : sm2hm({}),v],
+partition_list_eq(L,eq_) := block([H : sm2hm({}),S],
   for x in L do 
-    if (v : ev_hm_d(H,eq_(x),undef)) = undef then set_hm(H,eq_(x),[x])
-    else set_hm(H,eq_(x),cons(x,v)),
+    if (S : ev_hm_d(H,eq_(x),undef)) = undef then set_hm(H,eq_(x),[x])
+    else set_hm(H,eq_(x),cons(x,S)),
   return(map(lambda([A],reverse(second(A))),listify(hm2sm(H)))))$
 
 
