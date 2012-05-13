@@ -282,7 +282,7 @@ partition_list_epo(L,pred_) := block([A : [], B : []],
    for the values of map eq_: */
 partition_list_eq(L,eq_) := block([H : sm2hm({}),v,S],
   for x in L do (v : eq_(x),
-    if (S : ev_hm_d(H,v,undef)) = undef then set_hm(H,v,[x])
+    if (S : ev_hm(H,v)) = false then set_hm(H,v,[x])
     else set_hm(H,v,cons(x,S))),
   return(map(lambda([A],reverse(second(A))),listify(hm2sm(H)))))$
 
