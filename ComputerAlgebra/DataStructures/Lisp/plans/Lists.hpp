@@ -126,4 +126,15 @@ create_list(i,i,1,n);
    a *stable* sorting w.r.t. length should be more efficient. </li>
   </ul>
 
+
+  \todo Improve partition_list_eq
+  <ul>
+   <li> This function is very slow. </li>
+   <li> Since only internal hash-maps are needed, the use of hash-arrays needs
+   to be investigated. </li>
+   <li> If they are faster here, then they should be used. </li>
+   <li> And the use of such hash-arrays must be documents at
+   ComputerAlgebra/plans level. </li>
+  </ul>
+
 */
