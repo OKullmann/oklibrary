@@ -184,6 +184,16 @@ okltest_nvar_max_var_hitting_def(f) := (
     assert(f(k) = nvar_f(max_var_hitting_def(k)))),
   true)$
 
+okltest_max_var_hittingdef2_cs(f) := (
+  for h : 2 thru 5 do ([FF : f(h)],
+    assert(hittingcsp(FF[2]) = true),
+    assert(sat_decision_hitting_cs(FF[2]) = false),
+    assert(nonsingular_csp(FF[2]) = true),
+    assert(deficiency_fcs(FF) = def_max_var_hittingdef2_cs(h)),
+    assert(nvar_f(FF) = nvar_max_var_hittingdef2_cs(h))
+  ),
+  true)$
+
 okltest_all_hitting_extensions_k_fcs(f) := block([X],
   assert(f(X,-1) = {}),
   assert(f(X,0) = X),

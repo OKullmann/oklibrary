@@ -174,14 +174,22 @@ rbrouwer1999 : [setn(7), {
 
 
 /* Those formal hitting clause-sets which according to a conjecture by OK+XSZ
-   realise the maximal number of variables for given deficiency k
+   realise the maximal number of variables for given deficiency k >= 2
    for unsatisfiable hitting clause-sets without singular variables.
-   Furthermore the conjecture is that these clause-sets are the only
-   possibilities. */
-/* Prerequisite: k >= 2 */
+*/
 max_var_hitting_def(k) := if k=2 then musatd2_fcs(3) else
   vardisjoint_full_gluing(max_var_hitting_def(k-1), musatd2_fcs(3))$
 nvar_max_var_hitting_def(k) := 3 + (k-2) * 4$
+/* Alternatives for h >= 2, which realise for deficiencies 2,3,5,9,17,...
+   the same number of variables, and having hardness h; not isomorphic to
+   any max_var_hitting_def(k) for h >= 4, since all max_var_hitting_def(k)
+   for k >= 3 have hardness = 3:
+*/
+max_var_hittingdef2_cs(h) := if h<=3 then max_var_hitting_def(h)
+ else block([F:max_var_hittingdef2_cs(h-1)],
+  vardisjoint_full_gluing(F,F))$
+def_max_var_hittingdef2_cs(h) := 2^(h-2)+1$
+nvar_max_var_hittingdef2_cs(h) := 2^h-1$
 
 
 /* Given a set S of formal hitting clause-sets, compute the set of all

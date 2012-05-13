@@ -52,6 +52,7 @@ okltest_brouwer1999(brouwer1999);
 
 okltest_max_var_hitting_def(max_var_hitting_def);
 okltest_nvar_max_var_hitting_def(nvar_max_var_hitting_def);
+okltest_max_var_hittingdef2_cs(max_var_hittingdef2_cs);
 
 okltest_all_hitting_extensions_k_fcs(all_hitting_extensions_k_fcs);
 okltest_all_reps_hitting_extensions_k_fcs(all_reps_hitting_extensions_k_fcs);

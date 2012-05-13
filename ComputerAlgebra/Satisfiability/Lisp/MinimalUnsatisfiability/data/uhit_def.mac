@@ -136,7 +136,8 @@ uhit_def[5,14] : [
   {-2,3,7,11,14},{-1,2,7,11,14},{1,2,3,7,11,14}}
 ]$
 uhit_def[5,15] : [
-  max_var_hitting_def(5)[2]
+ max_var_hitting_def(5)[2],
+ max_var_hittingdef2_cs(4)[2]
 ]$
 
 
@@ -172,7 +173,8 @@ uhit_def[8,27] : [
 uhit_def[9,"info"] : [false,4,inf,[[4,true],[5,unknown],[6,unknown],[31,unknown]]]$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def9.mac")$
 uhit_def[9,31] : [
- max_var_hitting_def(9)[2]
+ max_var_hitting_def(9)[2],
+ max_var_hittingdef2_cs(5)[2]
 ]$
 
 
@@ -326,7 +328,8 @@ uhit_def[17,"info"] : [false,5,inf,[[5,false]]]$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def17.mac")$
 /*
 uhit_def[17,63] : [
- max_var_hitting_def(17)[2]
+ max_var_hitting_def(17)[2],
+ max_var_hittingdef2_cs(6)[2]
 ]$
 */
 
