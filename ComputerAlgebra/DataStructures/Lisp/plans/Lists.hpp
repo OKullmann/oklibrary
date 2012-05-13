@@ -137,4 +137,30 @@ create_list(i,i,1,n);
    ComputerAlgebra/plans level. </li>
   </ul>
 
+
+  \todo Correct split_list and split_list_epo
+  <ul>
+   <li> split_list has no specification at all. </li>
+   <li> The specification of split_list_epo is nonsensical.
+    <ol>
+     <li> The current sentence can not be parsed (just an unstructured
+     sequence of words). </li>
+     <li> It also does not constitute meaning. </li>
+     <li> And "epo" does not make any sense here. </li>
+    </ol>
+   </li>
+   <li> *Splitting* of a list always means that the concatenation of the
+   lists obtained yields the original list (as a special case of partitioning).
+    <ol>
+     <li> This is the true functionality which should be provided. </li>
+     <li> A new name is needed for the current functions. </li>
+     <li> Also a splitting function is needed which compares two neighbouring
+     elements. </li>
+    </ol>
+   </li>
+   <li> The implementation is very inefficient: the Maxima mailing-list should
+   be asked how to make a linear-time operation out of it (first creating a
+   copy, and then splicing this copy, without further copying). </li>
+  </ul>
+
 */
