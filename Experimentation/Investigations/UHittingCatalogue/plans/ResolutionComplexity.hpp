@@ -253,4 +253,89 @@ search_gluing(F1,F2,k)
    </li>
   </ul>
 
+
+  \todo Hardness
+  <ul>
+   <li> What is the hardness of nonsingular unsatisfiable hitting clause-sets
+   of deficiency k? </li>
+   <li> Printing the current maximal hardness in the catalogue:
+   \verbatim
+for k in uhit_def[0,"info"] do print(k, lmax(map(hardness_u_cs,all_uhit_def(k))));
+1 0
+2 2
+3 3
+4 3
+5 3
+6 3
+7 3
+8 3
+9 4
+10 4
+11 4
+12 4
+13 4
+14 3
+15 4
+16 3
+17 4
+18 4
+19 4
+20 4
+21 4
+22 4
+23 4
+24 5
+25 4
+26 4
+27 5
+28 5
+43 5
+58 6
+59 6
+   \endverbatim
+   </li>
+   <li> We need to go through all our generators:
+    <ol>
+     <li> nearly_full_hitting_fcs:
+     \verbatim
+for n : 1 thru 7 do block([F:nearly_full_hitting_fcs(n)[2]], printf(true,"~2d ~5a ~6a ~6a ~3d~%",n,check_hitting_nsing_def(F), uuhittingcsp(F), treehittingcsp(F), hardness_u_cs(F)));
+ 1 [1]   true   true     0
+ 2 []    false  true     1
+ 3 [4]   false  true     2
+ 4 [11]  false  true     3
+ 5 [26]  false  true     4
+ 6 [57]  false  true     5
+ 7 [120] false  true     6
+     \endverbatim
+     </li>
+     <li> over_full_hitting_fcs:
+     \verbatim
+for n : 1 thru 7 do block([F:over_full_hitting_fcs(n)[2]], printf(true,"~2d ~5a ~6a ~6a ~3d~%",n,check_hitting_nsing_def(F), uuhittingcsp(F), treehittingcsp(F), hardness_u_cs(F)));
+ 1 [2]   true   true     2
+ 2 [3]   false  true     2
+ 3 [6]   false  true     3
+ 4 [13]  false  true     4
+ 5 [28]  false  true     5
+ 6 [59]  false  true     6
+ 7 [122] false  true     7
+     \endverbatim
+     </li>
+     <li> max_var_hitting_def:
+     \verbatim
+for k : 2 thru 10 do block([F:max_var_hitting_def(k)[2]], printf(true,"~2d ~5a ~6a ~6a ~3d~%",k,check_hitting_nsing_def(F), uuhittingcsp(F), treehittingcsp(F), hardness_u_cs(F)));
+ 2 [2]   false  false    2
+ 3 [3]   false  false    3
+ 4 [4]   false  false    3
+ 5 [5]   false  false    3
+ 6 [6]   false  false    3
+ 7 [7]   false  false    3
+ 8 [8]   false  false    3
+ 9 [9]   false  false    3
+10 [10]  false  false    3
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+  </ul>
+
 */
