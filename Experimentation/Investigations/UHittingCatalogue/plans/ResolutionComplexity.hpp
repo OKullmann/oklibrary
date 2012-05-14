@@ -265,11 +265,11 @@ for k in uhit_def[0,"info"] do print(k, lmax(map(hardness_u_cs,all_uhit_def(k)))
 2 2
 3 3
 4 3
-5 3
+5 4
 6 3
 7 3
 8 3
-9 4
+9 5
 10 4
 11 4
 12 4
@@ -277,7 +277,7 @@ for k in uhit_def[0,"info"] do print(k, lmax(map(hardness_u_cs,all_uhit_def(k)))
 14 3
 15 4
 16 3
-17 4
+17 6
 18 4
 19 4
 20 4
@@ -294,6 +294,77 @@ for k in uhit_def[0,"info"] do print(k, lmax(map(hardness_u_cs,all_uhit_def(k)))
 59 6
    \endverbatim
    </li>
+   <li> Analysing deficiency 3 (where for have complete information) more
+   closely:
+   \verbatim
+block([L:all_uhit_def(3),F], for i : 1 thru length(L) do (F: L[i], printf(true, "~3d ~2d ~2d~%", i, nvar_cs(F), hardness_u_cs(F))));
+  1  3  2
+  2  3  2
+  3  3  2
+  4  4  2
+  5  4  2
+  6  4  2
+  7  4  2
+  8  4  2
+  9  4  2
+ 10  4  2
+ 11  4  2
+ 12  4  2
+ 13  4  2
+ 14  5  3
+ 15  5  3
+ 16  5  2
+ 17  5  2
+ 18  5  2
+ 19  5  2
+ 20  5  2
+ 21  5  2
+ 22  5  2
+ 23  6  3
+ 24  6  2
+ 25  7  3
+   \endverbatim
+   So the minimum n with hardness=4 is n=5.
+   </li>
+   <li> A conjecture is that for nonsingular unsatisfiable hitting clause-sets
+   F holds hardness(F) <= order_deficiency(deficiency(F)). Checking this
+   conjecture:
+   \verbatim
+for k in uhit_def[0,"info"] do block([m:lmax(map(hardness_u_cs,all_uhit_def(k)))], printf(true, "~3d ~2d ~2d ~2d~%", k, m, order_deficiency(k), order_deficiency(k)-m));
+  1  0  0  0
+  2  2  2  0
+  3  3  3  0
+  4  3  3  0
+  5  4  3  -1
+  6  3  4  1
+  7  3  4  1
+  8  3  4  1
+  9  5  4  -1
+ 10  4  4  0
+ 11  4  4  0
+ 12  4  4  0
+ 13  4  5  1
+ 14  3  5  2
+ 15  4  5  1
+ 16  3  5  2
+ 17  6  5  -1
+ 18  4  5  1
+ 19  4  5  1
+ 20  4  5  1
+ 21  4  5  1
+ 22  4  5  1
+ 23  4  5  1
+ 24  5  5  0
+ 25  4  5  1
+ 26  4  5  1
+ 27  5  5  0
+ 28  5  6  1
+ 43  5  6  1
+ 58  6  6  0
+ 59  6  7  1
+   \endverbatim
+   We see that it's false, due to the sequence max_var_hittingdef2_cs (see
+   below). </li>
    <li> We need to go through all our generators:
     <ol>
      <li> nearly_full_hitting_fcs:
@@ -332,6 +403,14 @@ for k : 2 thru 10 do block([F:max_var_hitting_def(k)[2]], printf(true,"~2d ~5a ~
  8 [8]   false  false    3
  9 [9]   false  false    3
 10 [10]  false  false    3
+     \endverbatim
+     </li>
+     <li> max_var_hittingdef2_cs:
+     \verbatim
+for h : 2 thru 4 do block([F:max_var_hittingdef2_cs(h)[2]], printf(true,"~2d ~5a ~6a ~6a ~3d~%",h,check_hitting_nsing_def(F), uuhittingcsp(F), treehittingcsp(F), hardness_u_cs(F)));
+ 2 [2]   false  false    2
+ 3 [3]   false  false    3
+ 4 [5]   false  false    4
      \endverbatim
      </li>
     </ol>
