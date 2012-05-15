@@ -35,15 +35,25 @@ sdp_reduction_cs(F) := block([S : singular_variables_cs(F)],
  if emptyp(S) then return(F) else
  return(sdp_reduction_cs(dp_operator_cs(F,first_element(S)))))$
 
+/* Full reduction regarding 1sDP-reduction (which is confluent): */
+onesdp_reduction_cs(F) := block([S : onesingular_variables_cs(F)],
+ if emptyp(S) then return(F) else
+ return(onesdp_reduction_cs(dp_operator_cs(F,first_element(S)))))$
+
 /* The set of all fully reduced results obtained by sDP-reduction: */
 sdp_set_cs_bydef(F) := block([S : singular_variables_cs(F)],
  if emptyp(S) then return({F}) else
  return(lunion(map(lambda([v],sdp_set_cs_bydef(dp_operator_cs(F,v))),
                    listify(S)))))$
 
-/* Predicate for testing whether clause-set F is reduced w.r.t.
-   singular DP-reduction: */
+/* Whether sDP-reduction is confluent: */
+cfsdp_csp_bydef(F) := is(length(sdp_set_cs_bydef(F)) = 1)$
+
+/* Predicate for testing whether clause-set F is reduced w.r.t. singular
+   DP-reduction: */
 nonsingular_csp(F) := emptyp(singular_variables_cs(F))$
+/* Testing whether clause-set F is reduced w.r.t. 1-singular DP-reduction: */
+nononesingular_csp(F) := emptyp(onesingular_variables_cs(F))$
 
 
 /*!

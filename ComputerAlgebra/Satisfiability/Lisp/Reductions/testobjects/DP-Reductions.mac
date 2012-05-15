@@ -27,9 +27,13 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/DP-Red
 */
 
 okltest_sdp_reduction_cs(sdp_reduction_cs);
-okltest_sdp_set_cs_bydef(sdp_set_cs_bydef);
-okltest_nonsingular_csp(nonsingular_csp);
+okltest_onesdp_reduction_cs(onesdp_reduction_cs);
 
+okltest_sdp_set_cs_bydef(sdp_set_cs_bydef);
+okltest_cfsdp_csp_bydef(cfsdp_csp_bydef);
+
+okltest_nonsingular_csp(nonsingular_csp);
+okltest_nononesingular_csp(nononesingular_csp);
 
 /*!
 \endhtmlonly
