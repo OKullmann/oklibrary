@@ -491,6 +491,29 @@ okltest_singular_variables_fcs(f) := (
   assert(okltest_singular_variables_cs(buildq([f], lambda([F],f(cs2fcs(F))))) = true),
   true)$
 
+okltest_onesingular_variables_fcs(f) := (
+  assert(f([{},{}]) = {}),
+  assert(f([{},{{}}]) = {}),
+  assert(f([{1},{}]) = {}),
+  assert(f([{1},{{}}]) = {}),
+  assert(f([{1},{{1}}]) = {}),
+  assert(f([{1},{{1},{-1}}]) = {1}),
+  assert(okltest_onesingular_variables_cs(buildq([f], lambda([F],f(cs2fcs(F))))) = true),
+  true)$
+
+okltest_onesingular_variables_cs(f) := (
+  assert(f({}) = {}),
+  assert(f({{}}) = {}),
+  assert(f({{1}}) = {}),
+  assert(f({{-1}}) = {}),
+  assert(f({{1},{-1}}) = {1}),
+  assert(f({{1,2}}) = {}),
+  assert(f({{1,2},{-1,2}}) = {1}),
+  assert(f({{1,2},{-1,2},{-2,1}}) = {}),
+  assert(f({{1,2},{-1,2},{-2,1},{-1,-2}}) = {}),
+  assert(f({{1},{-1},{2},{-2},{3,4},{-3,-4},{5,6},{-5,6},{5,-6}}) = {1,2,3,4}),
+  true)$
+
 okltest_sortvar_prodocc_cs(f) := (
   assert(f({}) = []),
   assert(f({{}}) = []),

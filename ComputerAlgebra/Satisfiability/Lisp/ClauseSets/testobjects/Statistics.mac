@@ -125,6 +125,8 @@ okltest_full_var_fcsp(full_var_fcsp);
 okltest_singularpure_variables_cs(singularpure_variables_cs);
 okltest_singular_variables_cs(singular_variables_cs);
 okltest_singular_variables_fcs(singular_variables_fcs);
+okltest_onesingular_variables_fcs(onesingular_variables_fcs);
+okltest_onesingular_variables_cs(onesingular_variables_cs);
 
 okltest_sortvar_prodocc_cs(sortvar_prodocc_cs);
 

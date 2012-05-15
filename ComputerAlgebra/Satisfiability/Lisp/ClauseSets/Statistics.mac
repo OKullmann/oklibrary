@@ -282,7 +282,10 @@ singular_variables_fcs(FF) := block([h : literal_degrees_fcs(FF)],
   subset(FF[1],
          lambda([v], block([D : {ev_hm(h,v), ev_hm(h,-v)}],
                             elementp(1,D) and not elementp(0,D)))))$
-
+/* 1-singular variables: */
+onesingular_variables_fcs(FF) := block([h : literal_degrees_fcs(FF)],
+  subset(FF[1], lambda([v], is(ev_hm(h,v)=1 and ev_hm(h,-v)=1))))$
+onesingular_variables_cs(F) := onesingular_variables_fcs(cs2fcs(F))$
 
 /* For a clause-set F, compute the list of variables sorted by ascending
    products pos-occurrences*neg-occurrences (for equal products use the
