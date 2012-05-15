@@ -30,7 +30,11 @@ okltest_sdp_reduction_cs(sdp_reduction_cs);
 okltest_onesdp_reduction_cs(onesdp_reduction_cs);
 
 okltest_sdp_set_cs_bydef(sdp_set_cs_bydef);
+
 okltest_cfsdp_csp_bydef(cfsdp_csp_bydef);
+
+okltest_cfisdp_count_cs_bydef(cfisdp_count_cs_bydef);
+okltest_cfisdp_csp_bydef(cfisdp_csp_bydef);
 
 okltest_nonsingular_csp(nonsingular_csp);
 okltest_nononesingular_csp(nononesingular_csp);
