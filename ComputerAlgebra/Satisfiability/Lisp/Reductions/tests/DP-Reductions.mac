@@ -64,6 +64,7 @@ okltest_onesdp_reduction_cs(f) := (
   for k : 0 thru 3 do block([F : smusat_horn_cs(k)],
     assert(f(F) = {{}})),
   assert(nvar_cs(f(weak_php(3,2)[2])) = 6),
+  assert(f({{1,2,8},{-1,3,9},{-2,4},{-2,5},{-3,6},{-3,7}}) = {{2,3,8,9},{-2,4},{-2,5},{-3,6},{-3,7}}),
   true)$
 
 okltest_sdp_set_cs_bydef(f) := (
@@ -92,6 +93,7 @@ okltest_cfisdp_count_cs_bydef(f) := (
   assert(f({}) = 1),
   assert(f({{}}) = 1),
   assert(f({{1,2,8},{-1,3,9},{-2,4},{-2,5},{-3,6},{-3,7}}) = 2),
+  assert(f({{2,3,8,9},{-2,4},{-2,5},{-3,6},{-3,7}}) = 1),
   assert(f({{1,2},{-1,3,5},{-1,4,6},{-2,3,5},{-2,4,6},{-3,5},{-4,6},{-5,-6}}) = 1),
   true)$
 
