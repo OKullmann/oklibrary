@@ -37,6 +37,8 @@ kill(f)$
 okltest_sdp_reduction_cs(f) := (
   assert(f({}) = {}),
   assert(f({{}}) = {{}}),
+  assert(f({{1,2},{2,3},{-2,3},{-2,-3},{2},{-3}}) = {{2,3},{-2,3},{-2,-3},{2},{-3}}),
+  assert(f({{1,2},{1,-2},{2},{-2}}) = {{1,2},{1,-2},{2},{-2}}),
   for n : 0 thru 3 do block([F : full_fcs(n)[2]],
     assert(f(F) = if n <= 1 then {{}} else F)),
   for k : 0 thru 3 do block([F : marginal_musat1(k)],
