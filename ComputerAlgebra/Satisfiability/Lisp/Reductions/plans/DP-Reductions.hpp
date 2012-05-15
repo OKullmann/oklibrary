@@ -35,6 +35,8 @@ License, or any later version. */
      <li> Clauses are as full as possible. </li>
     </ol>
    </li>
+   <li> Compare "Decision algorithms" in
+   Satisfiability/Lisp/MinimalUnsatisfiability/plans/DeficiencyOne.hpp. </li>
   </ul>
 
 */
