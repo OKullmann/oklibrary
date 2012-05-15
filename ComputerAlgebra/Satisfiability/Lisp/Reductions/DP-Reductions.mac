@@ -29,10 +29,11 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
    *************************
 */
 
-/* Applying elimination of singular literals as long as possible: */
+/* Applying elimination of singular literals as long as possible, choosing
+   always the first singular variable available (in the Maxima-order): */
 sdp_reduction_cs(F) := block([S : singular_variables_cs(F)],
   if emptyp(S) then return(F) else
-  return(sdp_reduction_cs(dp_operator(F,choose_element(S)))))$
+  return(sdp_reduction_cs(dp_operator(F,first_element(S)))))$
 
 /* Predicate for testing whether clause-set F is reduced w.r.t.
    singular DP-reduction: */
