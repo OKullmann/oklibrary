@@ -653,9 +653,8 @@ analyse_isorepo_defset_imprmvd(repository) := block(
     - [[k,n],"new"] iff not in the catalogue
     - [[k,n],i] iff in the catalogue, with deficiency k, number of
       variables n and index i.
-   According to [Kullmann, Zhao, 2008] for unsatisfiable hitting
-   clause-sets F the result of sdp_reduction_cs(F) is unique
-   up to isomorphism.
+   According to [Kullmann, Zhao, 2012], for unsatisfiable hitting
+   clause-sets F the result of sdp_reduction_cs(F) is unique.
 */
 redisotype_uhit_def(F) := classify_candidates_uhit_def(
   [sdp_reduction_cs(F)])[1]$
