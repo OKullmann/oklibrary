@@ -109,7 +109,7 @@ literal_degrees_cl(F) := block([h : sm2hm({})],
  for C in F do for x in C do enter_new_occurrence(h,x),
  return(h))$
 /* The literal-degrees of a formal clause-set, as hash-map, considering
-   all occurring literals. */
+   all literals (w.r.t. the variables given): */
 /* RENAME: literal_degrees_fcs */
 all_literal_degrees_fcs(FF) := block(
  [h : literal_degrees_cs(FF[2]), L : literals_v(FF[1])],
@@ -274,12 +274,14 @@ full_var_fcsp(FF) := not emptyp(full_variables_fcs(FF))$
 singularpure_variables_cs(F) :=
   setify(map(var_l,
       map(first,
-          sublist(ordered_literal_degrees_fcs(cs2fcs(F)), lambda([P], is(P[2]<=1))))))$
-/* Now without pure variables: */
-singular_variables_cs(F) := block([FF : cs2fcs(F), h],
-  h : literal_degrees_fcs(FF),
-  subset(FF[1], lambda([v], block([D : {ev_hm(h,v), ev_hm(h,-v)}], elementp(1,D) and not elementp(0,D)))))$
-singular_variables_fcs(FF) := singular_variables_cs(fcs2cs(FF))$
+          sublist(ordered_literal_degrees_fcs(cs2fcs(F)),
+                  lambda([P], is(P[2]<=1))))))$
+/* Now just the singular variables (without pure variables): */
+singular_variables_cs(F) := singular_variables_fcs(cs2fcs(F))$
+singular_variables_fcs(FF) := block([h : literal_degrees_fcs(FF)],
+  subset(FF[1],
+         lambda([v], block([D : {ev_hm(h,v), ev_hm(h,-v)}],
+                            elementp(1,D) and not elementp(0,D)))))$
 
 
 /* For a clause-set F, compute the list of variables sorted by ascending
