@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.m
 
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
 /* *************************
@@ -28,15 +29,14 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.m
    *************************
 */
 
-/* Applying elimination of pure literals and singular literals as long as
-   possible: */
-sdp_reduction_cs(F) := block([d : min_literal_degree_l_cs(F)],
-  if d[1] >= 2 then return(F) else
-    return(sdp_reduction_cs(dp_operator(F,d[2]))))$
+/* Applying elimination of singular literals as long as possible: */
+sdp_reduction_cs(F) := block([S : singular_variables_cs(F)],
+  if emptyp(S) then return(F) else
+  return(sdp_reduction_cs(dp_operator(F,choose_element(S)))))$
 
 /* Predicate for testing whether clause-set F is reduced w.r.t.
    singular DP-reduction: */
-nonsingular_csp(F) := emptyp(singularpure_variables_cs(F))$
+nonsingular_csp(F) := emptyp(singular_variables_cs(F))$
 
 
 /*!

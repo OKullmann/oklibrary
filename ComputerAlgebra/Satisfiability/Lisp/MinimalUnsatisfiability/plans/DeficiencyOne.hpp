@@ -13,12 +13,13 @@ License, or any later version. */
   \todo Decision algorithms
   <ul>
    <li> The two basic decision algorithms for MU(1), by singular DP-reduction
-   or by finding accumulation variables. need to be implemented. </li>
+   or by finding accumulation variables, need to be implemented. </li>
    <li> Using DP-reduction:
     <ol>
      <li> Via sdp_reduction_cs(F) we can reduce the clause-set
-     w.r.t. singular DP-reduction --- however also the degenerated
-     cases are handled there. </li>
+     w.r.t. singular DP-reduction. </li>
+     <li> The case of degeneration which can happen by sdp_reduction_cs(F) is
+     blocking (i.e., tautological clauses would be produced). </li>
      <li> Perhaps it is actually enough to only test whether at the beginning
      and the end the deficiency is 1, since a case of degeneration will
      (permanently) lower the deficiency? </li>
