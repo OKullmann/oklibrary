@@ -65,7 +65,7 @@ prime_clauses_cs(F) := min_extdp_prod_cs(F)$
    Alternative computations:
    For general F we have
      prime_clauses_cs(F) = min_resolution_closure_cs(F)[1]
-                         = min_2resolution_closure_cs(expand_fcs(cs2fcs(F))[2])
+                         = min_2resolution_closure_cs(expand_cs(F))
                          = min_elements(dual_cs(G))
      (the first method is often called the "consensus algorithm", the third
      the "double negation procedure of Nelson").
