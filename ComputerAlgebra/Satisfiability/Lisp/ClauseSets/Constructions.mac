@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 23.2.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -41,6 +41,7 @@ c2cs_expand(C,V) := setify(add_elements_l(C,all_tass_l(listify(V))))$
 /* Expanding a clause-set F into an equivalent full clause-set: */
 expand_fcs(FF) := block([V : FF[1]],
 [FF[1], lunion(create_list(c2cs_expand(C,setdifference(V,var_c(C))),C,listify(FF[2])))])$
+expand_cs(F) := fcs2cs(expand_fcs(cs2fcs(F)))$
 
 
 /* The natural representation of the "and" of two clause-sets as cnf's
