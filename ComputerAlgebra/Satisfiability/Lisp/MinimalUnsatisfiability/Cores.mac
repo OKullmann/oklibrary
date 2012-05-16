@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 8.4.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -39,7 +39,7 @@ min_size_mus_bydef(F, S) := if S([var_cs(F),F]) then inf else
    k : k+1, scls : powerset(F, k)),
  return(k))$
 
-/* Decides whether clause-set F contains a (minimally) unsatisfiable 
+/* Decides whether clause-set F contains a (minimally) unsatisfiable
    sub-clause-set of size at most k; uses sat-solver S */
 contains_us_bydef(F, k, S) :=
  not every_s(lambda([G], S([var_cs(G),G])), powerset(F,min(k,ncl_cs(F))))$
@@ -53,12 +53,12 @@ contains_us_bydef(F, k, S) :=
 /* The set of all irredundant cores of a formal clause-set, using
    solver S. */
 
-monitor_message_all_irr_cores_bydef() := 
+monitor_message_all_irr_cores_bydef() :=
   if oklib_monitor and oklib_monitor_level >= 1 then
     print("all_irr_cores_bydef: ENTRY;", statistics_fcs(FF))$
 
 all_irr_cores_bydef(FF,S) := block(
- [counter_irr : 0, potentially_unusable_clauses : false], 
+ [counter_irr : 0, potentially_unusable_clauses : false],
   monitor_message_all_irr_cores_bydef(),
   all_forced_irr_cores_bydef({}, FF[2], S))$
 all_irr_cores_bydef_fcs(FF) := all_irr_cores_bydef(FF,current_satsolver)$
@@ -68,18 +68,18 @@ all_irr_cores_bydef_cs(F) := all_irr_cores_bydef_fcs(cs2fcs(F))$
 all_min_usat_cores_bydef(F,S) := all_irr_cores_bydef(cs_to_fcs(F),S)$
 
 
-/* The set of all irredundant cores of union(Forced,Possible) which contain 
+/* The set of all irredundant cores of union(Forced,Possible) which contain
    the given "forced" clauses. Prerequisite: Forced, Possible are disjoint. */
 /* Uses inherited variables counter_irr and potentially_unusable_clauses. */
 
-monitor_message_1_all_forced_irr_cores_bydef() := 
+monitor_message_1_all_forced_irr_cores_bydef() :=
   if oklib_monitor and oklib_monitor_level >= 1 then (
     print("all_forced_irr_cores_bydef: Entry"),
     print("Forced:", statistics_cs(Forced)),
     print("Possible:", statistics_cs(Possible)))$
-monitor_message_2_all_forced_irr_cores_bydef() := 
+monitor_message_2_all_forced_irr_cores_bydef() :=
   if oklib_monitor then (
-    counter_irr : counter_irr + 1, 
+    counter_irr : counter_irr + 1,
     print("all_forced_irr_cores_bydef: found no.", counter_irr, ",", statistics_cs(Forced)),
     if oklib_monitor_level >= 2 then print(Forced))$
 
@@ -117,19 +117,27 @@ all_forced_irr_cores_bydef(Forced, Possible, S) := block(
    a formal unsatisfiable clause-set (trivial heuristics, removing
    the first possible clause). */
 /* The set of variables of the result is the original set. */
+/* RENAME: first_mus_fcsss */
 first_mus_fcs(FF, S) := block(
  [V : FF[1], F : FF[2], Core : {}],
   for C in FF[2] do (
-      if S([V, disjoin(C,F)]) then 
-        Core : adjoin(C,Core) 
+      if S([V, disjoin(C,F)]) then Core : adjoin(C,Core)
       else F : disjoin(C,F)),
   return([V,Core]))$
+/* RENAME: first_mus_csss */
+first_mus_cs(FF, S) := fcs2cs(first_mus_fcs(cs2fcs(F),S))$
+
+/* RENAME: first_mus_fcs */
+first_mus_bs_fcs(FF) := first_mus_fcs(FF, current_satsolver)$
+/* RENAME: first_mus_cs */
+first_mus_bs_cs(F) := first_mus_cs(F, current_satsolver)$
+
 /* More generally, returns some irredundant core of input FF,
    (trivial heuristics, removing the first possible clause). */
 first_irr_fcs(FF, S) := block(
  [V : FF[1], F : FF[2], Core : {}],
     for C in FF[2] do
-      if not impliesp_f([V,disjoin(C,F)],C,S) then 
+      if not impliesp_f([V,disjoin(C,F)],C,S) then
         Core : adjoin(C,Core)
       else F : disjoin(C,F),
   return([V,Core]))$
@@ -146,12 +154,12 @@ first_irr_fcs(FF, S) := block(
 sample_irr_cores(FF,Solver,Count,branch_probability,seed) := block(
  [counter_irr : 0,
   potentially_unusable_clauses : false,
-  generator_state : make_random_state(seed)], 
+  generator_state : make_random_state(seed)],
   set_random_state(generator_state),
   monitor_message_all_irr_cores_bydef(),
   sample_forced_irr_cores({}, FF[2]))$
 
-/* The set of all irredundant cores of union(Forced,Possible) which contain 
+/* The set of all irredundant cores of union(Forced,Possible) which contain
    the given "forced" clauses. Prerequisite: Forced is irredundant. */
 /* Uses inherited variable Solver, Count, branch_probability and
    counter_irr, potentially_unusable_clauses. */
@@ -197,7 +205,7 @@ sample_forced_irr_cores(Forced, Possible) := block(
 /* EQp(F) decides whether F is equivalent to this underlying F_0 or not.
    It is assumed that if EQp(G) is true for G <= F, then also EQp(G') is
    true for all G <= G' <= F. */
-all_max_noneq_scs_bydef(F,EQp) := if F = {} then 
+all_max_noneq_scs_bydef(F,EQp) := if F = {} then
  if EQp({}) then {} else {{}}
  else all_forced_max_noneq_scs_bydef({},F,{})$
 
@@ -220,11 +228,11 @@ all_forced_max_noneq_scs_bydef(Forced,Possible,Removed) := block(
      all_forced_max_noneq_scs_bydef(Forced,Possible,adjoin(C,Removed))))))$
 
 /* The special case where F is unsatisfiable: */
-all_max_sat_scs_bydef(F,S) := 
+all_max_sat_scs_bydef(F,S) :=
  all_max_noneq_scs_bydef(F,buildq([S],lambda([G],not(S(cs_to_fcs(G))))))$
 
 /* Delivers a generic equivalence-checker for sub-clause-sets: */
-equivalence_checker_scl_bydef(F,S) := 
+equivalence_checker_scl_bydef(F,S) :=
  buildq([F,S],lambda([G],every_s(lambda([C],impliesp(G,C,S)),setdifference(F,G))))$
 
 /* All maximally non-equivalent sub-clause-sets of clause-set F: */
@@ -242,7 +250,7 @@ all_max_neq_scs_bydef(F,S) := all_max_noneq_scs_bydef(F,equivalence_checker_scl_
    and vice versa. */
 
 /* Given a function for computing all irredundant cores (from formal
-   clause-sets), and a function for computing hypergraph transversals, 
+   clause-sets), and a function for computing hypergraph transversals,
    compute all maximally
    not-equivalent sub-clause-sets. */
 all_max_neq_scs_bydual(F,f_irr_cores,f_hyp_trans) :=
