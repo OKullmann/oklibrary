@@ -52,6 +52,25 @@ License, or any later version. */
   </ul>
 
 
+  \todo Quadratic functions
+  <ul>
+   <li> A boolean function is called "quadratic" if it is equivalent to
+   a 2-DNF, and "dualy quadratic" if equivalent to a 2-CNF. </li>
+   <li> We need to implement the recognition of quadratic and dual quadratic
+   functions. </li>
+   <li> We should have a dedicated file "Quadratic.mac". </li>
+  </li>
+
+
+  \todo Horn functions
+  <ul>
+   <li> A boolean function is called "Horn" if it is equivalent to a Horn CNF.
+   </li>
+   <li> We need to implement the recognition of Horn functions. </li>
+   <li> We should have a dedicated file "Horn.mac". </li>
+  </ul>
+
+
   \todo Finite functions with full application of partial assignments
   <ul>
    <li> Compare to "Smurfs" in
