@@ -283,10 +283,10 @@ is(Csa);
      containing all prime implicates). </li>
      <li> Is L(n) also a 1-base, that is, is L(n) irredundant? </li>
      <li> And is L(n) actually the shortest (2-)CNF equivalent to L(n)? </li>
-     <li> L(n) is mentioned [Towards an optimal CNF encoding of
+     <li> L(n) is mentioned in [Towards an optimal CNF encoding of
      Boolean cardinality constraints; Carsten Sinz, 2005, bottom of page 2],
      but OK has seen it in a Diplom theses from the 90th in the environment of
-     Ewald Speckenmeyer. There also a general scheme for cardinality; see
+     Ewald Speckenmeyer. There is also a general scheme for cardinality; see
      "Implement sequential counter by [Sinz 2005]" below. </li>
      <li> We need an implementation, under the heading "Sequential counter",
      and named amo_sc_fcl(L) (translating the crd [0,L,1]), where L is a list
