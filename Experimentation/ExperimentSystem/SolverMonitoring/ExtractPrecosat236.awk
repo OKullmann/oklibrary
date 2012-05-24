@@ -1,5 +1,5 @@
 # Matthew Gwynne, 2.6.2011 (Swansea)
-# Copyright 2011 Oliver Kullmann
+# Copyright 2011, 2012 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -9,12 +9,14 @@
 # Extracts the numerical data from output of precosat236, in a single line.
 
 BEGIN {
-  rn=0; rc=0; t=0; sat=2; cfs=0; dec=0; rts=0; r1=0; mem=0; rnd=0; skip=0; enl=0;
-  shk=0; resc=0; rebi=0; simp=0;red=0; nfix=0; neq=0; nel=0; nmg=0; elres=0;
-  elph=0; elr=0; sb=0; sbn=0.0; sba=0.0; sbx=0.0; sbi=0.0; ar=0; arx=0; pb=0;
-  pbph=0; pbr=0; pbf=0; pblf=0; pbmg=0; sccnt=0; sccf=0; sccm=0; hshu=0; hshm=0;
-  minln=0; mindel=0; minst=0; mind=0; subf=0; subb=0; subdm=0; strf=0; strb=0;
-  dom=0; domh=0; domlow=0; mpr=0; memr=0; }
+  rn="NA"; rc="NA"; t="NA"; sat=2; cfs="NA"; dec="NA"; rts="NA"; r1="NA";
+  mem="NA"; rnd="NA"; skip="NA"; enl="NA"; shk="NA"; resc="NA"; rebi="NA";
+  simp="NA";red="NA"; nfix="NA"; neq="NA"; nel="NA"; nmg="NA"; elres="NA";
+  elph="NA"; elr="NA"; sb="NA"; sbn="NA"; sba="NA"; sbx="NA"; sbi="NA";
+  ar="NA"; arx="NA"; pb="NA"; pbph="NA"; pbr="NA"; pbf="NA"; pblf="NA";
+  pbmg="NA"; sccnt="NA"; sccf="NA"; sccm="NA"; hshu="NA"; hshm="NA"; minln="NA";
+  mindel="NA"; minst="NA"; mind="NA"; subf="NA"; subb="NA"; subdm="NA";
+  strf="NA"; strb="NA"; dom="NA"; domh="NA"; domlow="NA"; mpr="NA"; memr="NA"; }
 /^c +found header 'p cnf/ { rn=$6; rc=$7; sub(/'/,"",rc); }
 /^c [0-9]+.[0-9]+ seconds, [0-9]+ MB max, [0-9]+ MB/ { t=$2; mem=$4; memr=$7; }
 /^s +UNSATISFIABLE *$/ { sat=0; }

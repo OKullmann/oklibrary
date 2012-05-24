@@ -1,5 +1,5 @@
 # Matthew Gwynne, 2.6.2011 (Swansea)
-# Copyright 2011 Oliver Kullmann
+# Copyright 2011, 2012 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -8,24 +8,28 @@
 # Converts the output of "precosat-570.1 -v to a single line.
 
 BEGIN {
-  rn=0; rc=0; t=0; sat=0; cfs=0; dec=0; rts=0; r1=0; pls=0; ats=0; mem=0; ptime=0;
-  file=""; rnd=0; its=0; skip=0; enl=0; shk=0; resc=0; rebi=0; simp=0; red=0;
-  ar=0; arx=0; atssz=0; bck=0; bckct=0; bckj=0; bckjln=0; blkres=0; blkph=0;
-  blkr=0; blk=0; blkimp=0; blkexp=0; clsrec=0; clspur=0; clsaut=0; dom=0;
-  domh=0; domlow=0; elres=0; elph=0; elr=0; extf=0; extass=0; extfl=0; glu=0;
-  glusl=0; minln=0; mindel=0; minst=0; mininv=0; mind=0; otfsd=0; otfsd2=0;
-  otfsd3=0; otfsdlg=0; otfss=0; otfss2=0; otfss3=0; otfsslg=0; pb=0; pbph=0;
-  pbr=0; pbf=0; pblf=0; pbmg=0; mpr=0; plexp=0; plel=0; plblk=0; plaut=0; sb=0;
-  sbn=0; sba=0; sbx=0; sbi=0; sccnt=0; sccf=0; sccm=0; strf=0; strb=0; strdyn=0;
-  strorg=0; strasy=0; subf=0; subb=0; subdyn=0; suborg=0; subdm=0; subgc=0;
-  srtime=0; otime=0; nfix=0; neq=0; nel=0; npur=0; nzmb=0; naut=0; zmb=0;
-  zmbexp=0; zmbel=0; zmbblk=0; memr=0; }
+  rn="NA"; rc="NA"; t="NA"; sat="NA"; cfs="NA"; dec="NA"; rts="NA"; r1="NA";
+  pls="NA"; ats="NA"; mem="NA"; ptime="NA"; file="NA"; rnd="NA"; its="NA";
+  skip="NA"; enl="NA"; shk="NA"; resc="NA"; rebi="NA"; simp="NA"; red="NA";
+  ar="NA"; arx="NA"; atssz="NA"; bck="NA"; bckct="NA"; bckj="NA"; bckjln="NA";
+  blkres="NA"; blkph="NA"; blkr="NA"; blk="NA"; blkimp="NA"; blkexp="NA";
+  clsrec="NA"; clspur="NA"; clsaut="NA"; dom="NA"; domh="NA"; domlow="NA";
+  elres="NA"; elph="NA"; elr="NA"; extf="NA"; extass="NA"; extfl="NA"; glu="NA";
+  glusl="NA"; minln="NA"; mindel="NA"; minst="NA"; mininv="NA"; mind="NA";
+  otfsd="NA"; otfsd2="NA"; otfsd3="NA"; otfsdlg="NA"; otfss="NA"; otfss2="NA";
+  otfss3="NA"; otfsslg="NA"; pb="NA"; pbph="NA"; pbr="NA"; pbf="NA"; pblf="NA";
+  pbmg="NA"; mpr="NA"; plexp="NA"; plel="NA"; plblk="NA"; plaut="NA"; sb="NA";
+  sbn="NA"; sba="NA"; sbx="NA"; sbi="NA"; sccnt="NA"; sccf="NA"; sccm="NA";
+  strf="NA"; strb="NA"; strdyn="NA"; strorg="NA"; strasy="NA"; subf="NA";
+  subb="NA"; subdyn="NA"; suborg="NA"; subdm="NA"; subgc="NA"; srtime="NA";
+  otime="NA"; nfix="NA"; neq="NA"; nel="NA"; npur="NA"; nzmb="NA"; naut="NA";
+  zmb="NA"; zmbexp="NA"; zmbel="NA"; zmbblk="NA"; memr="NA"; }
 /^c +found header 'p cnf/ { rn=$6; rc=$7; sub(/'/,"",rc); }
 /^c +[0-9]+.[0-9]+ seconds, [0-9]+ MB max,/ { t=$2; mem=$4; memr=$7; }
 /^s +UNSATISFIABLE *$/ { sat=0; }
 /^s +SATISFIABLE *$/ { sat=1; }
 /^\(*** CAUGHT SIGNAL +/ { sat=2; }
-/^c +reading .+/ { file=$3; }
+/^c +reading .+/ { file="\"" $3 "\""; }
 /^c +[0-9]+ conflicts, [0-9]+ decisions,/ { cfs=$2; dec=$4; rnd=$6; }
 /^c +[0-9]+ iterations, [0-9]+ restarts,/ { its=$2; rts=$4; skip=$6; }
 /^c +[0-9]+ enlarged, [0-9]+ shrunken,/ { enl=$2; shk=$4; resc=$6; rebi=$8; }
@@ -61,7 +65,7 @@ BEGIN {
 /^c zmbs: 0 = 0 explicit + 0 elim + 0 blkd + 0 autark/ { zmb=$3; zmbexp=$5; zmbel=$8; zmbblk=$11; }
 END {
   print rn " " rc " " t " " sat " " cfs " " dec " " rts " " r1 " " pls " " \
-    ats " " mem " " ptime " \"" file "\" " rnd " " its " " skip " " enl " " \
+    ats " " mem " " ptime " " file " " rnd " " its " " skip " " enl " " \
     shk " " resc " " rebi " " simp " " red " "  ar " " arx " " atssz " " \
     bck " " bckct " " bckj " " bckjln " " blkres " " blkph " " blkr " " \
     blk " " blkimp " " blkexp " " clsrec " " clspur " " clsaut " " dom " " \

@@ -1,5 +1,5 @@
 # Matthew Gwynne, 20.5.2011 (Swansea)
-# Copyright 2011 Oliver Kullmann
+# Copyright 2011, 2012 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -10,7 +10,8 @@
 
 # The fields must be exactly as given by headers/minisat.
 
-BEGIN { rn=0;rc=0;t=0;sat=2;cfs=0;dec=0;rts=0;r1=0;mem=0;ptime=0;stime=0;cfl=0; }
+BEGIN { rn="NA";rc="NA";t="NA";sat=2;cfs="NA";dec="NA";rts="NA";r1="NA";
+        mem="NA";ptime="NA";stime="NA";cfl="NA"; }
 /^\|  *Number of variables:/ { rn=$5; }
 /^\|  *Number of clauses:/ { rc=$5; }
 /^CPU time +: ([0-9]+|[0-9]+.[0-9]+) s/ { t=$4; }
