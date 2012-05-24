@@ -40,7 +40,7 @@ n=14
   </ul>
 
 
-    \todo Hardness
+  \todo Hardness
   <ul>
    <li> The hardness of weak_php(m,m-1) vs weak_php_unsat_ext_fcs(m):
    \verbatim
