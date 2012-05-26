@@ -245,7 +245,7 @@ accessible_ss_p(S) := if emptyp(S) then true else
  if not elementp({},S) then false else
  block([found : true],
   for s in disjoin({},S) unless not found do
-    for x in s unless (found : elementp(disjoin(x,s),S)) do nil,
+    for x in s unless (found : elementp(disjoin(x,s),S)) do 0,
   return(found))$
 
 
