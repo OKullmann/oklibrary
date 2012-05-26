@@ -27,13 +27,14 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
    ***************
 */
 
-/* x can either be a number, then it is returned, or a list,
+/* x can either be a non-list, then it is returned, or a list,
    and then we get the corresponding element:
 */
 firste(x) := if listp(x) then first(x) else x$
 seconde(x) := if listp(x) then second(x) else x$
 thirde(x) := if listp(x) then third(x) else x$
 fourthe(x) := if listp(x) then fourth(x) else x$
+
 
 /* ***********************
    * Apply-functionality *
