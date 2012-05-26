@@ -32,7 +32,7 @@ okltest_onesdp_reduction_cs(onesdp_reduction_cs);
 okltest_sdp_set_cs_bydef(sdp_set_cs_bydef);
 okltest_sdpss_cs_bydef(sdpss_cs_bydef);
 
-okltest_cfsdp_count_cs_bydef(cfsdp_count_cs_bydef);
+okltest_sdp_count_cs_bydef(sdp_count_cs_bydef);
 okltest_cfsdp_csp_bydef(cfsdp_csp_bydef);
 
 okltest_cfisdp_count_cs_bydef(cfisdp_count_cs_bydef);

@@ -91,10 +91,10 @@ okltest_sdpss_cs_bydef(f) := (
   assert(f({{1},{-1,2},{-1,-2}}) = {{},{1},{2},{1,2}}),
   assert(f({{1,2,8},{-1,3,9},{-2,4},{-2,5},{-3,6},{-3,7}}) = {{},{1},{2},{3},{1,2},{1,3},{2,3}}),
   assert(f({{1,2},{-1,3},{-2,4},{-2,-4},{-3,4},{-3,-4}}) = {{},{1},{2},{3},{1,2},{1,3},{2,3}}),
-  assert(okltest_cfsdp_count_cs_bydef(buildq([f], lambda([F], length(max_elements(f(F)))))) = true),
+  assert(okltest_sdp_count_cs_bydef(buildq([f], lambda([F], length(max_elements(f(F)))))) = true),
   true)$
 
-okltest_cfsdp_count_cs_bydef(f) := block(
+okltest_sdp_count_cs_bydef(f) := block(
   assert(f({}) = 1),
   assert(f({{}}) = 1),
   assert(f({{1,2,8},{-1,3,9},{-2,4},{-2,5},{-3,6},{-3,7}}) = 3),

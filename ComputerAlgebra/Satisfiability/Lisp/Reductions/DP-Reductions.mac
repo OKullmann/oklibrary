@@ -55,9 +55,9 @@ sdpss_cs_bydef(F) := block([S : singular_variables_cs(F)],
 sdphg_cs_bydef(F) := [var_cs(F),sdpss_cs_bydef(F)]$
 
 /* The number of different reduction-results via sDP: */
-cfsdp_count_cs_bydef(F) := length(sdp_set_cs_bydef(F))$
+sdp_count_cs_bydef(F) := length(sdp_set_cs_bydef(F))$
 /* Whether sDP-reduction is confluent: */
-cfsdp_csp_bydef(F) := is(cfsdp_count_cs_bydef(F) = 1)$
+cfsdp_csp_bydef(F) := is(sdp_count_cs_bydef(F) = 1)$
 
 /* The number of isomorphism-classes in sDP(F): */
 cfisdp_count_cs_bydef(F) := length(representatives_cs(sdp_set_cs_bydef(F)))$
