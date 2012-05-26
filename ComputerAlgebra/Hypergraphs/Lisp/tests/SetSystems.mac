@@ -399,6 +399,21 @@ okltest_antichain_p(f) := (
   assert(f({{1}}) = true),
   assert(f({{1,2},{2,3}}) = true),
   assert(f({{1,2},{2}}) = false),
+  assert(f([]) = true),
+  assert(f([{1,2,3},{2,3,4}]) = true),
+  true)$
+
+okltest_subsumption_closed_p(f) := (
+  assert(f({}) = true),
+  assert(f({{}}) = true),
+  assert(f({{1}}) = false),
+  assert(f({{},{1}}) = true),
+  for n : 0 thru 3 do block([U : setify(create_list(i,i,1,n)), S],
+    S : powerset(U),
+    assert(f(S) = true),
+    for x in S do
+      assert(f(disjoin(x,S)) = is(x=U))
+  ),
   true)$
 
 okltest_lr_subsetp(f) := block([S],

@@ -217,15 +217,26 @@ partitionp(P,X) := disjoint_set_system_p(P) and
    ********************************
 */
 
-/* Whether S contains no subsumed elements: */
+/* Whether S (set/list of sets) contains no subsumed elements: */
 /* RENAME: antichain_p */
-is_antichain(S) := block([S : sort_length(listify(S)), l : length(S), i, j, subsumption : false, A],
+is_antichain(S) := block(
+ [S : sort_length(listify(S)), l : length(S), subsumption : false, A],
   for i : 1 thru l-1 unless subsumption do (A : S[i],
     for j : i+1 thru l unless subsumption do
       if subsetp(A, S[j]) then subsumption : true),
   return(not subsumption)
 )$
 antichain_p(S) := is_antichain(S)$
+
+/* Whether S (set of sets) is closed under subsumption: */
+subsumption_closed_p(S) := if emptyp(S) then true else
+ if not elementp({},S) then false else
+ block([missing : false],
+  for s in S unless missing do
+    for x in s unless missing do
+      missing : not elementp(disjoin(x,s),S),
+  return(not missing))$
+
 
 /* Subset-relations at the "second level": */
 

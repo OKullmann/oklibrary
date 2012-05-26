@@ -117,6 +117,8 @@ okltest_partitionp(partitionp);
 
 okltest_antichain_p(antichain_p);
 
+okltest_subsumption_closed_p(subsumption_closed_p);
+
 okltest_lr_subsetp(lr_subsetp);
 okltest_rl_subsetp(rl_subsetp);
 
