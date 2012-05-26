@@ -1,17 +1,17 @@
-/* Oliver Kullmann, 31.7.2008 (Swansea) */
-/* Copyright 2008, 2012 Oliver Kullmann
+/* Oliver Kullmann, 26.5.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Matroids/Lisp/include.mac
-  \brief Inclusion file for Maxima functions related to matroids
+  \file ComputerAlgebra/Matroids/Lisp/testobjects/Basics.mac
+  \brief Tests for basic matroid functions
 
 Use by
 
-oklib_load("OKlib/ComputerAlgebra/Matroids/Lisp/include.mac");
+oklib_load("OKlib/ComputerAlgebra/Matroids/Lisp/testobjects/Basics.mac");
 
 */
 
@@ -19,11 +19,17 @@ oklib_load("OKlib/ComputerAlgebra/Matroids/Lisp/include.mac");
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Matroids/Lisp/OrientedMatroids/include.mac")$
-
 oklib_include("OKlib/ComputerAlgebra/Matroids/Lisp/Basics.mac")$
-
 oklib_include("OKlib/ComputerAlgebra/Matroids/Lisp/tests/Basics.mac")$
+
+/* ***********************
+   * Fundamental notions *
+   ***********************
+*/
+
+okltest_augmentation_ss_p(augmentation_ss_p);
+
+okltest_mtrins_p(mtrins_p);
 
 /*!
 \endhtmlonly

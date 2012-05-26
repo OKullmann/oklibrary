@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,9 +16,9 @@ License, or any later version. */
    <li> A problem are the those many variations, i.e., whether to specify
    a matroid by the "independent subsets", by "circuits" etc. </li>
    <li> Let "mtr" be the abbreviation for "matroid"; then perhaps we
-   have "mtr_x" for the variations:
+   have "mtrx" for the variations:
     <ol>
-     <li> "is" for independent subsets (a hypergraph [V,M] such that M is
+     <li> "ins" for independent subsets (a hypergraph [V,M] such that M is
      non-empty, hereditary (stable under subset-formation), and fulfils
      the augmentation property, i.e., for A, B in M with |A| < |B| there exists
      x in B - A with A + {x} in M; for implicitly given matroids, which
@@ -83,7 +83,7 @@ License, or any later version. */
    </li>
    <li> Cycle matroid M(G):
     <ol>
-     <li> Given a general graph G, sets of edges of cyles yield the set of
+     <li> Given a general graph G, the sets of edges of cycles yield the set of
      circuits of a matroid on E(G). </li>
      <li> Here the check is easy: Compute the induced subgraph and check
      whether it is a cycle graph; this is done by cycle_gg_p and
