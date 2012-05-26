@@ -25,6 +25,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Pigeonhole.m
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/DeficiencyOne.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
 
 kill(f)$
 
@@ -81,6 +83,17 @@ okltest_sdp_set_cs_bydef(f) := block(
   assert(f({{1,2,8},{-1,3,9},{-2,4},{-2,5},{-3,6},{-3,7}}) = { {{3,4,8,9},{3,5,8,9},{-3,6},{-3,7}}, {{2,6,8,9},{2,7,8,9},{-2,4},{-2,5}}, {{1,4,8},{1,5,8},{-1,6,9},{-1,7,9}} }),
   true)$
 
+okltest_sdpss_cs_bydef(f) := (
+  assert(f({}) = {{}}),
+  assert(f({{}}) = {{}}),
+  assert(f({{1}}) = {{}}),
+  assert(f({{1},{-1}}) = {{},{1}}),
+  assert(f({{1},{-1,2},{-1,-2}}) = {{},{1},{2},{1,2}}),
+  assert(f({{1,2,8},{-1,3,9},{-2,4},{-2,5},{-3,6},{-3,7}}) = {{},{1},{2},{3},{1,2},{1,3},{2,3}}),
+  assert(f({{1,2},{-1,3},{-2,4},{-2,-4},{-3,4},{-3,-4}}) = {{},{1},{2},{3},{1,2},{1,3},{2,3}}),
+  assert(okltest_cfsdp_count_cs_bydef(buildq([f], lambda([F], length(max_elements(f(F)))))) = true),
+  true)$
+
 okltest_cfsdp_count_cs_bydef(f) := block(
   assert(f({}) = 1),
   assert(f({{}}) = 1),
@@ -90,6 +103,7 @@ okltest_cfsdp_count_cs_bydef(f) := block(
   assert(f({{2,3},{-2,4},{-2,-4},{-3,4},{-3,-4}}) = 2),
   if oklib_test_level=0 then return(true),
   assert(f({{2,5,3,6},{-2,4},{-2,-4},{-3,4},{-3,-4},{-5,7,8},{-5,-7,8},{-5,7,-8},{-5,-7,-8},{-6,9,10},{-6,-9,10},{-6,9,-10},{-6,-9,-10}}) = 4),
+  assert(okltest_cfsdp_csp_bydef(buildq([f], lambda([F], is(f(F)=1)))) = true),
   true)$
 
 okltest_cfsdp_csp_bydef(f) := (

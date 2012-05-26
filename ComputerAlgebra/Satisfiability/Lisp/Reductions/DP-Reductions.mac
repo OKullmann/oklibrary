@@ -47,6 +47,13 @@ sdp_set_cs_bydef(F) := block([S : singular_variables_cs(F)],
  return(lunion(map(lambda([v],sdp_set_cs_bydef(dp_operator_cs(F,v))),
                    listify(S)))))$
 
+/* The set of all variable-sets of singular tuples for F: */
+sdpss_cs_bydef(F) := block([S : singular_variables_cs(F)],
+ return(adjoin({},
+   lunion(map(lambda([v],add_element(v,sdpss_cs_bydef(dp_operator_cs(F,v)))),
+          listify(singular_variables_cs(F)))))))$
+sdphg_cs_bydef(F) := [var_cs(F),sdpss_cs_bydef(F)]$
+
 /* The number of different reduction-results via sDP: */
 cfsdp_count_cs_bydef(F) := length(sdp_set_cs_bydef(F))$
 /* Whether sDP-reduction is confluent: */
