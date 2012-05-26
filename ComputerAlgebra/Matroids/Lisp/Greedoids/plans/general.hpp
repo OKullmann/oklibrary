@@ -1,5 +1,5 @@
 // Oliver Kullmann, 1.8.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,7 +24,7 @@ License, or any later version. */
    <li> Perhaps by default the greedoid languages have implicitly given set
    of words, since these are just the permutations of the underlying greedoid.
    </li>
-   <li> Let's use the abbreviations "gred" and "gredl". </li>
+   <li> Let's use the abbreviations "grd" and "grdl". </li>
   </ul>
 
 

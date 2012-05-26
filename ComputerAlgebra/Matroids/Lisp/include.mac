@@ -19,6 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/Matroids/Lisp/include.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/Matroids/Lisp/Greedoids/include.mac")$
 oklib_include("OKlib/ComputerAlgebra/Matroids/Lisp/OrientedMatroids/include.mac")$
 
 oklib_include("OKlib/ComputerAlgebra/Matroids/Lisp/Basics.mac")$

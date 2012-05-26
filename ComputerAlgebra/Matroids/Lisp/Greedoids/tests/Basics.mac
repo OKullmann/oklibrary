@@ -1,0 +1,48 @@
+/* Oliver Kullmann, 26.5.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Matroids/Lisp/Greedoids/tests/Basics.mac
+  \brief Tests for basic matroid functions
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Matroids/Lisp/Greedoids/tests/Basics.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+
+kill(f)$
+
+/* ***********************
+   * Fundamental notions *
+   ***********************
+*/
+
+okltest_grdins_p(f) := (
+  assert(f([{},{}]) = false),
+  assert(f([{},{{}}]) = true),
+  for n : 0 thru 4 do block([N : setn(n), M],
+    M : [N,adjoin({},singletons(N))],
+    assert(f(M) = true)
+  ),
+  for n : 0 thru 3 do block([N : setn(n), M],
+    M : [N,powerset(N)],
+    assert(f(M) = true)
+  ),
+  true)$
+
+/*!
+\endhtmlonly
+*/
