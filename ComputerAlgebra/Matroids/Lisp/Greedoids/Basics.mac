@@ -29,8 +29,8 @@ oklib_include("OKlib/ComputerAlgebra/Matroids/Lisp/Basics.mac")$
    ***********************
 */
 
-/* Checking whether G is a greedoid given by the independent sets: */
-grdins_p(M) := hg_p(M) and not emptyp(second(M)) and
+/* Checking whether G is a greedoid given by the feasible sets: */
+grdfs_p(M) := hg_p(M) and not emptyp(second(M)) and
  accessible_ss_p(second(M)) and augmentation_ss_p(second(M))$
 
 /*!

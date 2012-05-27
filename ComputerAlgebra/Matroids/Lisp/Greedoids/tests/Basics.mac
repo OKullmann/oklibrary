@@ -30,9 +30,14 @@ kill(f)$
    ***********************
 */
 
-okltest_grdins_p(f) := (
+okltest_grdfs_p(f) := (
   assert(f([{},{}]) = false),
   assert(f([{},{{}}]) = true),
+  assert(f([{1,2},{{},{1,2}}]) = false),
+  for n : 0 thru 5 do block([N : setn(n), M],
+    M : [N, setify(create_list(setn(i),i,0,n))],
+    assert(f(M) = true)
+  ),
   for n : 0 thru 4 do block([N : setn(n), M],
     M : [N,adjoin({},singletons(N))],
     assert(f(M) = true)
