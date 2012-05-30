@@ -64,8 +64,10 @@ all_irr_cores_bydef(FF,S) := block(
 all_irr_cores_bydef_fcs(FF) := all_irr_cores_bydef(FF,current_satsolver)$
 all_irr_cores_bydef_cs(F) := all_irr_cores_bydef_fcs(cs2fcs(F))$
 
-/* All minimally unsatisfiable cores of an unsatisfiable clause-set: */
-all_min_usat_cores_bydef(F,S) := all_irr_cores_bydef(cs_to_fcs(F),S)$
+/* All minimally unsatisfiable cores of an unsatisfiable formal clause-set: */
+all_min_usat_cores_bydef(FF,S) := all_irr_cores_bydef(FF,S)$
+all_min_usat_cores_bydef_fcs(FF) := all_min_usat_cores_bydef(FF,current_satsolver)$
+all_min_usat_cores_bydef_cs(F) := all_min_usat_cores_bydef(cs2fcs(F),current_satsolver)$
 
 
 /* The set of all irredundant cores of union(Forced,Possible) which contain

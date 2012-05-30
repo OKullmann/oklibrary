@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 8.4.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -77,16 +77,17 @@ okltest_all_irr_cores(f) := block([S : dll_simplest_trivial1],
   assert(f([{1,2,3,4},{{1,2},{-1,2},{-2},{3},{4},{-3,-4}}],S) = {{{1,2},{-1,2},{-2}}, {{3},{4},{-3,-4}}}),
   if oklib_test_level = 0 then return(true),
   block([oklib_test_level : oklib_test_level - 1],
-    okltest_all_min_usat_cores_bydef(buildq([f],lambda([F,S],f(cs_to_fcs(F),S))))),
+    okltest_all_min_usat_cores_bydef(buildq([f],lambda([F,S],f(F,S))))),
   true)$
 
 okltest_all_min_usat_cores(f) := block([S : dll_simplest_trivial1],
-  assert(f({{}},S) = {{{}}}),
-  assert(f({{1},{-1}},S) = {{{1},{-1}}}),
-  assert(f({{1},{-1},{1,2}},S) = {{{1},{-1}}}),
-  assert(f({{1},{-1},{}},S) = {{{1},{-1}},{{}}}),
-  assert(f({{1},{-1},{2},{-2}},S) = {{{1},{-1}},{{2},{-2}}}),
-  assert(f({{1},{-1},{2},{-2},{1,2}},S) = {{{1},{-1}},{{2},{-2}},{{1,2},{-1},{-2}}}),
+  assert(f([{},{{}}],S) = {{{}}}),
+  assert(f([{1},{{}}],S) = {{{}}}),
+  assert(f([{1},{{1},{-1}}],S) = {{{1},{-1}}}),
+  assert(f([{1,2},{{1},{-1},{1,2}}],S) = {{{1},{-1}}}),
+  assert(f([{1},{{1},{-1},{}}],S) = {{{1},{-1}},{{}}}),
+  assert(f([{1,2},{{1},{-1},{2},{-2}}],S) = {{{1},{-1}},{{2},{-2}}}),
+  assert(f([{1,2},{{1},{-1},{2},{-2},{1,2}}],S) = {{{1},{-1}},{{2},{-2}},{{1,2},{-1},{-2}}}),
   true);
 
 okltest_all_forced_irr_cores(f) := block(
