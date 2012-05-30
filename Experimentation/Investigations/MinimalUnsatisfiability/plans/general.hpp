@@ -145,4 +145,38 @@ for k : 2 thru 70 do print(k, analyse_nonmersenne_rec(k));
    </li>
   </ul>
 
+
+  \todo Maximal number of MUS's of a clause-set
+  <ul>
+   <li> Consider a clause-set F, and let nmus(F) be the number of minimally
+   unsatisfiable clause-sets of F, that is,
+   \verbatim
+nmus(F) := length(all_min_usat_cores_bydef_cs(F))$
+   \endverbatim
+   </li>
+   <li> Sperner's theorem yields nmus(F) <= binom(c(F),c(F)/2). Is this sharp?
+   (Question asked by Joao Marques-Silva, 29.5.2012).
+    <ol>
+     <li> For simplicity consider only even m := c(F). </li>
+     <li> What is needed is a clause-set F of size m, such that taking any
+     subset of size m/2 we get a minimally unsatisfiable clause-set. </li>
+     <li> Let's assume that the subsets F' are unsatisfiable hitting
+     clause-set. </li>
+      <ol>
+       <li> Let's further assume that F' is k-uniform. </li>
+       <li> Then m/2 * 2^(-k) = 1, that is, 2^k = m/2, i.e., k = log_2(m)-1.
+       </li>
+       <li> Consider thus integer b >= 0, and let m := 2^(b+1), and thus
+       k = b. </li>
+       <li> Thus we need an unsatisfiable clause-set of size 2^(b+1),
+       where all clauses have size b, and where every subset of size 2^b is
+       hitting. </li>
+       <li> b <= 1: impossible. </li>
+       <li> Doesn't seem to exist. </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
+  </ul>
+
 */
