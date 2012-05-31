@@ -34,10 +34,10 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 augmentation_ss_p(S) := block(
 [A : sort_length_part_ary(listify(disjoin({},S))), l, found : true],
  l : A[0],
- for i : 1 thru l-1 unless not found do
-  for a in A[i] unless not found do
-   for j : i+1 thru l unless not found do
-    for b in A[j] unless
+ for i : 1 thru l-1 while found do
+  for a in A[i] while found do
+   for j : i+1 thru l while found do
+    for b in A[j] while
      (found : some_s(lambda([x], elementp(adjoin(x,a),S)), setdifference(b,a)))
       do 0,
  found)$
