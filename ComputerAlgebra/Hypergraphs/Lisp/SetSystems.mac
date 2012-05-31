@@ -178,6 +178,20 @@ else block([A : l2ary(L)],
               p,listify(powerset(setn(length(L)),2))))$
 
 
+/* *********************************************
+   * Tests related to unions and intersections *
+   *********************************************
+*/
+
+/* Whether set-system S (a set of sets) is stable under binary union: */
+bunion_closed_p(S) := block([a : l2array(listify(S)), result : true, A],
+ for i : 1 thru a[0]-1 while result do (
+  A : a[i],
+  for j : i+1 thru a[0] while (result : elementp(union(A,a[j]),S)) do 0
+ ),
+ result)$
+
+
 /* *******************************
    * Tests related to partitions *
    *******************************

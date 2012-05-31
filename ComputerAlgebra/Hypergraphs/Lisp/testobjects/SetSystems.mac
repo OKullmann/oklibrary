@@ -97,6 +97,13 @@ okltest_kpermutations(kpermutations);
 okltest_powerset_l(powerset_l);
 okltest_powerlist2(powerlist2);
 
+/* *********************************************
+   * Tests related to unions and intersections *
+   *********************************************
+*/
+
+okltest_bunion_closed_p(bunion_closed_p);
+
 /* *******************************
    * Tests related to partitions *
    *******************************

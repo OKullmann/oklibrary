@@ -337,6 +337,27 @@ okltest_powerlist2(f) := block(
   true)$
 
 
+/* *********************************************
+   * Tests related to unions and intersections *
+   *********************************************
+*/
+
+okltest_bunion_closed_p(f) := (
+  assert(f({}) = true),
+  assert(f({{}}) = true),
+  assert(f({{1}}) = true),
+  assert(f({{1},{}}) = true),
+  assert(f({{1},{2}}) = false),
+  assert(f({{1},{2},{1,2}}) = true),
+  for n : 0 thru 4 do block([N : setn(n), P],
+    P : powerset(N),
+    assert(f(P) = true),
+    assert(f(disjoin({},P)) = true),
+    assert(f(disjoin(N,P)) = if n <= 1 then true else false)
+  ),
+  true)$
+
+
 /* *******************************
    * Tests related to partitions *
    *******************************
