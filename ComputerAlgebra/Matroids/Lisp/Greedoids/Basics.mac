@@ -29,9 +29,30 @@ oklib_include("OKlib/ComputerAlgebra/Matroids/Lisp/Basics.mac")$
    ***********************
 */
 
-/* Checking whether G is a greedoid given by the feasible sets: */
+/* Checking whether M is a greedoid given by the feasible sets: */
 grdfs_p(M) := hg_p(M) and not emptyp(second(M)) and
  accessible_ss_p(second(M)) and augmentation_ss_p(second(M))$
+
+/* Whether G is an antimatroid given by the feasible sets: */
+antimtrfs_p(G) := hg_p(G) and elementp({},second(G)) and
+ accessible_ss_p(second(G)) and bunion_closed_p(second(G))$
+
+/* A greedoid G is Gaussian iff G[2] fulfils the following Gaussian
+   property:
+*/
+gaussian_ss_p(S) := block(
+[A : sort_length_part_ary(listify(disjoin({},S))), l, j, found : true],
+ l : A[0],
+ for i : 1 thru l-1 while found do (
+  j : i+1,
+  if length(first(A[i]))+1 = length(first(A[j])) then
+   for a in A[i] while found do
+    for b in A[j] while
+     (found : some_s(lambda([x],
+                       elementp(adjoin(x,a),S) and elementp(disjoin(x,b),S)),
+                     setdifference(b,a)))
+      do 0),
+ found)$
 
 /*!
 \endhtmlonly
