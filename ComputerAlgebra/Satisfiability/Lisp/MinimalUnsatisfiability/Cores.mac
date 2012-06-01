@@ -202,11 +202,13 @@ sample_forced_irr_cores(Forced, Possible) := block(
    ********************************************
 */
 
-/* The set of sub-clause-sets of F, which are not equivalent to some given
-   boolean function F_0, and which are maximal w.r.t. this property. */
-/* EQp(F) decides whether F is equivalent to this underlying F_0 or not.
+/* The set of sub-clause-sets of clause-set F, which are not equivalent to
+   some given boolean function F_0, and which are maximal w.r.t. this
+   property.
+   EQp(F) decides whether F is equivalent to this underlying F_0 or not.
    It is assumed that if EQp(G) is true for G <= F, then also EQp(G') is
-   true for all G <= G' <= F. */
+   true for all G <= G' <= F.
+*/
 all_max_noneq_scs_bydef(F,EQp) := if F = {} then
  if EQp({}) then {} else {{}}
  else all_forced_max_noneq_scs_bydef({},F,{})$
