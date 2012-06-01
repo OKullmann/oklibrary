@@ -231,7 +231,7 @@ okltest_all_max_sat_scs(f) := block([S : dll_simplest_trivial1],
   if oklib_test_level = 0 then return(true),
   block(
    [oklib_test_level : oklib_test_level - 1,
-    muf : buildq([f],lambda([F,S],transversal_hyp_rs(ecomp_hyp([F,f(F,S)]))[2]))],
+    muf : buildq([f],lambda([FF,S],transversal_hyp_rs(ecomp_hyp([FF[2],f(FF[2],S)]))[2]))],
     okltest_all_min_usat_cores(muf)),
   true)$
 
