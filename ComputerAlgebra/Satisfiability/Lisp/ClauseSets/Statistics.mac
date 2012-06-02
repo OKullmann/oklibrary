@@ -97,11 +97,11 @@ uniformcsp(F) := is(max_rank_cs(F) <= min_rank_cs(F))$
    *******************
 */
 
-/* The degree of a literal in a clause-set. */
+/* The degree of a literal in a clause-set: */
 literal_degree_cs(F,l) := length(scls_l(F,l))$
 
 /* The literal-degrees of a clause-set, as hash-map, considering
-   only occurring literals. */
+   only occurring literals: */
 literal_degrees_cs(F) := block([h : sm2hm({})],
  for C in F do for x in C do enter_new_occurrence(h,x),
  return(h))$
