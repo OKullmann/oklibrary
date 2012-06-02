@@ -30,6 +30,10 @@ okltest_sdp_reduction_cs(sdp_reduction_cs);
 okltest_onesdp_reduction_cs(onesdp_reduction_cs);
 
 okltest_sdp_set_cs_bydef(sdp_set_cs_bydef);
+
+okltest_singulartuple_degrees_cs(singulartuple_degrees_cs);
+okltest_singulartuple_csp(singulartuple_csp);
+
 okltest_sdpss_cs_bydef(sdpss_cs_bydef);
 
 okltest_onesdpss_cs_bydef(onesdpss_cs_bydef);

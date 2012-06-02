@@ -47,7 +47,25 @@ sdp_set_cs_bydef(F) := block([S : singular_variables_cs(F)],
  return(lunion(map(lambda([v],sdp_set_cs_bydef(dp_operator_cs(F,v))),
                    listify(S)))))$
 
-/* The set of all variable-sets of singular tuples for F: */
+/* For a list [v_1,...,v_n] of variables and a clause-set F, determine the
+   maximal 0 <= m <= n such that [v_1,...,v_m] is a singular tuple, and
+   return [d_1,...,d_m] such that v_i is d_i-singular in
+   DP_{v_1,...,v_{i-1}}(F):
+*/
+singulartuple_degrees_cs(V,F) := block([result : [], a,b],
+ for v in V do (
+  a : literal_degree_cs(F,v), b : literal_degree_cs(F,-v),
+  if min(a,b)#1 then return(),
+  result : cons(max(a,b),result),
+  F : dp_operator_cs(F,v)
+ ),
+ reverse(result))$
+/* Checking whether V is a singular tuple (list) for clause-set F: */
+singulartuple_csp(V,F) := is(length(singulartuple_degrees_cs(V,F))=length(V))$
+
+/* The set of all variable-sets of singular tuples (i.e., singular sets)
+   for clause-set F:
+*/
 sdpss_cs_bydef(F) :=
  adjoin({},
   lunion(map(lambda([v],add_element(v,sdpss_cs_bydef(dp_operator_cs(F,v)))),
@@ -55,7 +73,9 @@ sdpss_cs_bydef(F) :=
 /* The hypergraph of singular sets of clause-set F: */
 sdphg_cs_bydef(F) := [var_cs(F),sdpss_cs_bydef(F)]$
 
-/* The set of all variable-sets of 1-singular tuples for F: */
+/* The set of all variable-sets of 1-singular tuples (i.e., 1-singular sets)
+   for clause-sets F:
+*/
 onesdpss_cs_bydef(F) :=
  adjoin({},
   lunion(map(lambda([v],add_element(v,onesdpss_cs_bydef(dp_operator_cs(F,v)))),
