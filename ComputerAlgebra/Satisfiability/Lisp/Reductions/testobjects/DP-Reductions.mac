@@ -33,6 +33,9 @@ okltest_sdp_set_cs_bydef(sdp_set_cs_bydef);
 
 okltest_singulartuple_degrees_cs(singulartuple_degrees_cs);
 okltest_singulartuple_csp(singulartuple_csp);
+okltest_onesingulartuple_csp(onesingulartuple_csp);
+okltest_notonesingulartuple_csp(notonesingulartuple_csp);
+okltest_totally_singulartuple_csp_bydef(totally_singulartuple_csp_bydef);
 
 okltest_sdpss_cs_bydef(sdpss_cs_bydef);
 

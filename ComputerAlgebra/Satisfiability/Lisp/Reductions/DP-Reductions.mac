@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* *************************
@@ -62,6 +63,17 @@ singulartuple_degrees_cs(V,F) := block([result : [], a,b],
  reverse(result))$
 /* Checking whether V is a singular tuple (list) for clause-set F: */
 singulartuple_csp(V,F) := is(length(singulartuple_degrees_cs(V,F))=length(V))$
+
+/* Checking properties of singular tuples: */
+/* Are all entries of the singularity-degree sequence equal to 1: */
+onesingulartuple_csp(V,F) :=
+ every_s(lambda([x], is(x=1)), singulartuple_degrees_cs(V,F))$
+/* Are all entries of the singularity-degree sequence not equal to 1: */
+notonesingulartuple_csp(V,F) :=
+ every_s(lambda([x], is(x>1)), singulartuple_degrees_cs(V,F))$
+/* Is V totally singular, that is, every permutation is singular: */
+totally_singulartuple_csp_bydef(V,F) :=
+ every_s(lambda([P],singulartuple_csp(P,F)), permutations(V))$
 
 /* The set of all variable-sets of singular tuples (i.e., singular sets)
    for clause-set F:

@@ -123,6 +123,43 @@ okltest_singulartuple_csp(f) := block([F],
     assert(f(v,F) = true),
   true)$
 
+okltest_onesingulartuple_csp(f) := block([F],
+  assert(f([],F) = true),
+  assert(f([],{}) = true),
+  assert(f([],{{}}) = true),
+  assert(f([1],{{1}}) = true),
+  assert(f([1],{{1},{-1}}) = true),
+  assert(f([1],{{1},{-1,2},{-1,-2}}) = false),
+  assert(f([2,1],{{1},{-1,2},{-1,-2}}) = true),
+  true)$
+
+okltest_notonesingulartuple_csp(f) := (
+  assert(f([],F) = true),
+  assert(f([],{}) = true),
+  assert(f([],{{}}) = true),
+  assert(f([1],{{1}}) = true),
+  assert(f([1],{{1},{-1}}) = false),
+  assert(f([1],{{1},{-1,2},{-1,-2}}) = true),
+  assert(f([2,1],{{1},{-1,2},{-1,-2}}) = false),
+  assert(f([1,2],{{1},{-1,2},{-1,-2}}) = false),
+  assert(f([1,2],{{1},{-1,2},{-1,-2},{2,3}}) = true),
+  assert(f([1,2,3],{{1},{-1,2},{-1,-2},{2,3}}) = true),
+  true)$
+
+okltest_totally_singulartuple_csp_bydef(f) := (
+  assert(f([],F) = true),
+  assert(f([],{}) = true),
+  assert(f([],{{}}) = true),
+  assert(f([1],{{1}}) = false),
+  assert(f([1],{{1},{-1}}) = true),
+  assert(f([1],{{1},{-1,2},{-1,-2}}) = true),
+  assert(f([2,1],{{1},{-1,2},{-1,-2}}) = true),
+  assert(f([1,2],{{1},{-1,2},{-1,-2}}) = true),
+  assert(f([1,2],{{1},{-1,2},{-1,-2},{2,3}}) = true),
+  assert(f([1,2,3],{{1},{-1,2},{-1,-2},{2,3}}) = false),
+  assert(f([1,2],{{2,1},{2,-1},{-2,3},{-2,-3}}) = false),
+  true)$
+
 okltest_sdpss_cs_bydef(f) := (
   assert(f({}) = {{}}),
   assert(f({{}}) = {{}}),
