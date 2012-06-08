@@ -42,6 +42,13 @@ onesdp_reduction_cs(F) := block([S : onesingular_variables_cs(F)],
  if emptyp(S) then return(F) else
  return(onesdp_reduction_cs(dp_operator_cs(F,first_element(S)))))$
 
+/* Computing a maximal non-1-singular tuple for F, choosing the first
+   available variables (in the Maxima-order): */
+nononesingulartuple_cs(F) := block([S : nononesingular_variables_cs(F), v],
+ if emptyp(S) then return([]) else (
+  v : first_element(S),
+  return(cons(v,nononesingulartuple_cs(dp_operator_cs(F,v))))))$
+
 /* The set of all fully reduced results obtained by sDP-reduction: */
 sdp_set_cs_bydef(F) := block([S : singular_variables_cs(F)],
  if emptyp(S) then return({F}) else
@@ -69,7 +76,7 @@ singulartuple_csp(V,F) := is(length(singulartuple_degrees_cs(V,F))=length(V))$
 onesingulartuple_csp(V,F) :=
  every_s(lambda([x], is(x=1)), singulartuple_degrees_cs(V,F))$
 /* Are all entries of the singularity-degree sequence not equal to 1: */
-notonesingulartuple_csp(V,F) :=
+nononesingulartuple_csp(V,F) :=
  every_s(lambda([x], is(x>1)), singulartuple_degrees_cs(V,F))$
 /* Is V totally singular, that is, every permutation is singular: */
 totally_singulartuple_csp_bydef(V,F) :=
@@ -94,6 +101,14 @@ onesdpss_cs_bydef(F) :=
          listify(onesingular_variables_cs(F)))))$
 /* The hypergraph of 1-singular sets of clause-set F: */
 onesdphg_cs_bydef(F) := [var_cs(F),onesdpss_cs_bydef(F)]$
+
+/* The set of maximal non-1-singular tuples for F: */
+maxnononesdpst_cs_bydef(F) := block([L : nononesingular_variables_cs(F)],
+ if emptyp(L) then {[]} else
+ lunion(map(lambda([v],
+               map(lambda([t],cons(v,t)),
+               maxnononesdpst_cs_bydef(dp_operator_cs(F,v)))),
+        listify(L))))$
 
 /* The number of different reduction-results via sDP: */
 sdp_count_cs_bydef(F) := length(sdp_set_cs_bydef(F))$
