@@ -1,5 +1,5 @@
 // Matthew Gwynne, 16.5.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -78,6 +78,9 @@ maxima> hardness_wpi_cs(setify(Sbox_min_F[2]), setify(Sbox_primes_F[2]));
 
   \todo 1-base : mincl_r1 <= 134
   <ul>
+   <li> The 1-bases below need to be checked to ensure they are actually
+   1-bases; see "Computing r_1-bases for a set of prime implicates" in
+   Satisfiability/Reductions/Bases/plans/UcpBase.hpp. </li>
    <li> Computing an 1-base
    \verbatim
 shell> QuineMcCluskey-n16-O3-DNDEBUG DES_Sbox_5_fullCNF.cnf > DES_Sbox_5_pi.cnf

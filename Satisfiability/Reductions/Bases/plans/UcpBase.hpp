@@ -1,5 +1,5 @@
 // Oliver Kullmann, 30.12.2010 (Swansea)
-/* Copyright 2010, 2011 Oliver Kullmann
+/* Copyright 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,6 +12,112 @@ License, or any later version. */
   r_1-bases (or "UCP-bases") of a clause-set F are those minimal F' <= F such
   that all C in F-F' can be derived from F' modulo subsumption by
   input-resolution.
+
+
+  \todo Computing r_1-bases for a set of prime implicates
+  <ul>
+   <li> In the following plans, r_1-bases of sets of prime implicates have
+   been computed by first computing an r_1 generating set using RUcpGen with
+   the set of prime implicates as input and then computing an r_1-base from
+   the generating set using RUcpBase:
+    <ul>
+     <li> "r_1-bases" in
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Sbox_8.hpp
+     </li>
+     <li> "r_1-bases" in
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_2_8.hpp
+     </li>
+     <li> "r_1-bases" in
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_3_8.hpp
+     </li>
+     <li> "r_1-bases" in
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_9_8.hpp
+     </li>
+     <li> "r_1-bases" in
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_11_8.hpp
+     </li>
+     <li> "r_1-bases" in
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_13_8.hpp
+     </li>
+     <li> "r_1-bases" in
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Mul_14_8.hpp
+     </li>
+     <li> "r_1-bases" in
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/Inv_8.hpp
+     </li>
+     <li> "r_1-bases" in
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/RoundColumn_2_4.hpp
+     </li>
+     <li> "1-base" in
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_1.hpp
+     </li>
+     <li> "1-base" in
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_2.hpp
+     </li>
+     <li> "1-base" in
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_3.hpp
+     </li>
+     <li> "1-base" in
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_4.hpp
+     </li>
+     <li> "1-base" in
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_5.hpp
+     </li>
+     <li> "1-base" in
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_6.hpp
+     </li>
+     <li> "1-base" in
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_7.hpp
+     </li>
+     <li> "1-base" in
+     Investigations/Cryptography/DataEncryptionStandard/plans/Sboxes/Sbox_8.hpp
+     </li>
+    </ul>
+   This is done as follows:
+   \verbatim
+> RUcpGen-O3-DNDEBUG F_primes.cnf > F_gen.cnf
+> cat F_gen.cnf | RUcpBase-O3-DNDEBUG > F_base.cnf
+   \endverbatim
+   with additional shuffling and sorting using RandomShuffleDimacs and
+   SortByClauseLength for pseudo-randomisation and heuristical improvements.
+   </li>
+   <li> However, in general, performing the computations above (first RUcpGen
+   then RUcpBase) will not yield an r_1-base of the set of prime implicates.
+   </li>
+   <li> An example of a case where RUcpGen then RUcpBase yields a (strict)
+   2-base of the set of prime implicates is the following:
+   \verbatim
+maxima> output_fcs(
+         "Satisfiable generalised Horn formula with leveled height 2 and height 2",
+         standardise_fcs(cs2fcs(expand_cs(sat_genhorn_cs(2,2))))[1],
+         "SatGenHorn_Full_k2_l2.cnf");
+
+# Generate a random "r_1-base" for the prime implicates for sat_genhorn_cs(2,2)
+shell> QuineMcCluskey-n16-O3-DNDEBUG SatGenHorn_Full_k2_l2.cnf > SatGenHorn_PI_k2_l2.cnf
+shell> RandomShuffleDimacs-O3-DNDEBUG 1 < SatGenHorn_PI_k2_l2.cnf | SortByClauseLengthDescending-O3-DNDEBUG > SatGenHorn_PI_k2_l2_sorted.cnf
+shell> RUcpGen-O3-DNDEBUG SatGenHorn_PI_k2_l2_sorted.cnf > SatGenHorn_PI_k2_l2_gen.cnf
+shell> cat SatGenHorn_PI_k2_l2_gen.cnf | RandomShuffleDimacs-O3-DNDEBUG 1 | SortByClauseLength-O3-DNDEBUG | RUcpBase-O3-DNDEBUG > SatGenHorn_PI_k2_l2_base.cnf
+
+# Observe that the hardness of the "1-base" is 2 (i.e., it is NOT a 1-base of
+# its set of prime implicates).
+maxima> F_base : read_fcl_f("SatGenHorn_PI_k2_l2_base.cnf");
+maxima> hardness_cs(setify(F_base[2]));
+2
+   \endverbatim
+   </li>
+   <li> The issue arises because RUcpBase only checks that all clauses removed
+   from the input clause-set follow via UCP. When the input to RUcpBase is the
+   generating set from RUcpGen, RUcpBase will not check that clauses removed
+   by RUcpGen still follow via UCP (as they are not given as input). </li>
+   <li> RUcpGen should be augmented with an additional optional parameter F0,
+   a superset of its first argument (in the example case, this would be the
+   set of prime implicates). RUcpBase would then check that all clauses in F0
+   follow upon removal of clauses. By default, F0 would simply be defined to
+   be F, yielding the current behaviour. </li>
+   <li> The "1-bases" generated by use of RUcpGen and RUcpBase (together),
+   listed above, should be checked to ensure they are actually 1-bases of
+   their prime implicates. </li>
+  </ul>
 
 
   \todo Random r_1-bases

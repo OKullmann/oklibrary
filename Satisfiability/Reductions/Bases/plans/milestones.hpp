@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.1.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,6 +23,7 @@ License, or any later version. */
    In Satisfiability/Reductions/Bases/plans/UcpBase.hpp the following topics
    are handled:
     - Testcase Intransitive2 fails : DONE
+    - Computing r_1-bases for a set of prime implicates
     - Shuffling and sorting
     - Random r_1-bases
     - Random shuffling
