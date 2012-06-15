@@ -304,6 +304,9 @@ Error: Impossible to solve the PI chart (too many possible combinations).
 
   \todo r_1-bases : mincl_r1 <= 4398
   <ul>
+   <li> The 1-bases below need to be checked to ensure they are actually
+   1-bases; see "Computing r_1-bases for a set of prime implicates" in
+   Satisfiability/Reductions/Bases/plans/UcpBase.hpp. </li>
    <li> Current minimum clause-count of an r_1-base: 4398. </li>
    <li> Starting with a generating set, created from scratch:
    \verbatim
