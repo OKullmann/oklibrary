@@ -302,12 +302,40 @@ Error: Impossible to solve the PI chart (too many possible combinations).
   </ul>
 
 
-  \todo r_1-bases : mincl_r1 <= 4398
+  \todo r_1-bases : mincl_r1 <= ????
   <ul>
    <li> The 1-bases below need to be checked to ensure they are actually
    1-bases; see "Computing r_1-bases for a set of prime implicates" in
    Satisfiability/Reductions/Bases/plans/UcpBase.hpp. </li>
-   <li> Current minimum clause-count of an r_1-base: 4398. </li>
+   <li> The current "best 1-base" with 4398 clauses is not a 1-base!
+   \verbatim
+maxima> output_rijnsbox_fullcnf_stdname();
+shell> QuineMcCluskey-n16-O3-DNDEBUG AES_Sbox_full.cnf > AES_Sbox_PI.cnf
+shell> cat AES_Sbox_PI.cnf | RandomShuffleDimacs-O3-DNDEBUG 103 | SortByClauseLength-O3-DNDEBUG > AES_Sbox_PI_randsort_103.cnf
+shell> RUcpGen-O3-DNDEBUG AES_Sbox_PI_randsort_103.cnf > AES_Sbox_gen_103.cnf
+shell> cat AES_Sbox_gen_103.cnf | RandomShuffleDimacs-O3-DNDEBUG 1 | SortByClauseLengthDescending-O3-DNDEBUG | RUcpBase-O3-DNDEBUG > AES_Sbox_base_gs103_bs1.cnf
+maxima> Sbox_1base : read_fcl_f("AES_Sbox_base_gs103_bs1.cnf")$
+maxima> Sbox_PI : read_fcl_f("AES_Sbox_PI.cnf")$
+maxima> hardness_wpi_cs(setify(Sbox_1base[2]),setify(Sbox_PI[2]));
+2
+   \endverbatim
+   However, far more prime implicates follow by UCP for the "current 1-base"
+   than for the current best minimum representation, which may help to
+   explain any differences in the performance of SAT solvers:
+   \verbatim
+ksoft_primes_cs(F,F_PI,k) :=
+   subset(map(comp_sl,F_PI),
+           lambda([C], is(hardness_wpi_cs(apply_pa_cs(C, F),{{}}) <= k)))$
+Sbox_1base_1soft_primes : ksoft_primes_cs(setify(Sbox_1base[2]),setify(Sbox_PI[2]),1)$
+print(length(Sbox_1base_1soft_primes), "/", length(Sbox_PI[2]));
+132025 / 136253
+
+Sbox_min_1soft_primes : ksoft_primes_cs(setify(ev_hm(ss_sbox_cnfs,8)[2]),setify(Sbox_PI[2]),1)$
+print(length(Sbox_min_1soft_primes),"/", length(Sbox_PI[2]));
+3474 / 136253
+   \endverbatim
+   </li>
+   <li> Current minimum clause-count of an r_1-base: ???. </li>
    <li> Starting with a generating set, created from scratch:
    \verbatim
 > RUcpGen-O3-DNDEBUG AES_PK.cnf > AES_gen.cnf
