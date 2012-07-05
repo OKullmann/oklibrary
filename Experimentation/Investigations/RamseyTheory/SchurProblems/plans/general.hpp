@@ -38,8 +38,9 @@ License, or any later version. */
    contains a triple (x,y,z) in {1,...,n}^3 with x+y=z. </li>
    <li> So schur(r) = genschur_r(3, ..., 3). </li>
    <li> And schuri(r) = genschuri_r(3, ..., 3). </li>
-   <li> Apparently only schur(1)=2, schur(2)=5, schur(3)=14 and schur(4)=45
-   are known. </li>
+   <li> Only schur(1)=2, schur(2)=5, schur(3)=14 and schur(4)=45
+   are known; this is A030126 in the OEIS. </li>
+   <li> See http://mathworld.wolfram.com/SchurNumber.html . </li>
    <li> While schur(5)=160 is conjectured (research problem 8.1 in
    [Landman, Robertson, 2003]), where 160 <= schur(5) <= 316 is known. </li>
    <li> Furthermore schur(6) >= 536 and schur(7) >= 1680. </li>
