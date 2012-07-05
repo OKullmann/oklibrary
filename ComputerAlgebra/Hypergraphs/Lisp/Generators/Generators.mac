@@ -53,12 +53,22 @@ nhyp_complete_hg(n,r) := binomial(n,r)$
    *******************
 */
 
+/* TODO: move to dedicated file */
+
 /* The hypergraph with vertex set {1, ..., n} (n >= 0) and hyperedges {x,y,z}
    with x+y=z (note that x=y is possible, while z notin {x,y}).
+*/
+/* TODO: We should use antilexicographical order, so that higher n just
+   adds new hyperedges to the end.
 */
 schurtriples_ohg(n) :=
  [create_list(i,i,1,n), create_list({x,y,x+y}, x,1,floor(n/2), y,x,n-x)]$
 schurtriples_hg(n) := ohg2hg(schurtriples_ohg(n))$
+/* TODO: We should provide a version without subsumptions:
+   Precisely the hyperedges {x,2x} with 3x <= n subsume other hyperedges,
+   namely precisely the hyperedge {x,2x,3x}.
+   Call it "schurtriples_me" (for "minimal elements").
+*/
 
 /* Statistics functions: */
 
