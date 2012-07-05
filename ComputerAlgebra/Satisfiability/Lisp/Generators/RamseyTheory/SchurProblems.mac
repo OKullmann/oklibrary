@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 17.4.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -35,6 +35,13 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.m
 */
 schur_nbfcsud(r,n) := 
  nbfclud2nbfcsud(col2sat_stdohg2stdnbfclud(schurtriples_ohg(n), create_list(i,i,1,r)))$
+
+/* Statistics: */
+nvar_schur_nbfcsud(r,n) := nver_schurtriples_hg(n)$
+nval_schur_nbfcsud(r,n) := r$
+ncl_list_schur_nbfcsud(r,n) := if r=0 then [] else
+ map(lambda([p],[p[1],r*p[2]]), nhyp_list_schurtriples_hg(n))$
+ncl_schur_nbfcsud(r,n) := r * nhyp_schurtriples_hg(n)$
 
 
 /* Adding symmetry-breaking clauses (regarding the parts (colours), forcing

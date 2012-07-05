@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.11.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -53,12 +53,23 @@ nhyp_complete_hg(n,r) := binomial(n,r)$
    *******************
 */
 
-/* The hypergraph with vertex set {1, ..., n} and hyperedges {x,y,z}
+/* The hypergraph with vertex set {1, ..., n} (n >= 0) and hyperedges {x,y,z}
    with x+y=z (note that x=y is possible, while z notin {x,y}).
 */
 schurtriples_ohg(n) :=
  [create_list(i,i,1,n), create_list({x,y,x+y}, x,1,floor(n/2), y,x,n-x)]$
 schurtriples_hg(n) := ohg2hg(schurtriples_ohg(n))$
+
+/* Statistics functions: */
+
+nver_schurtriples_hg(n) := n$
+nver_schurtriples_ohg(n) := n$
+nhyp_list_schurtriples_hg(n) := if n <= 1 then [] elseif n=2 then [[2,1]] else
+ [[2, floor(n/2)], [3, floor((n-1)/2) * ceiling((n-1)/2)]]$
+nhyp_list_schurtriples_ohg(n) := nhyp_list_schurtriples_hg(n)$
+nhyp_schurtriples_hg(n) := floor(n/2) + floor((n-1)/2) * ceiling((n-1)/2)$
+nhyp_schurtriples_ohg(n) := nhyp_schurtriples_hg(n)$
+
 
 /* k >= 3 */
 /* To be completed. */

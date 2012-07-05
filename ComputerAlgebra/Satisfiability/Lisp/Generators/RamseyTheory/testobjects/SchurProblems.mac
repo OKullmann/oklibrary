@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 19.4.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,6 +22,12 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/tests/SchurProblems.mac")$
 
 okltest_schur_nbfcsud(schur_nbfcsud);
+
+okltest_nvar_schur_nbfcsud(nvar_schur_nbfcsud);
+okltest_nval_schur_nbfcsud(nval_schur_nbfcsud);
+okltest_ncl_list_schur_nbfcsud(ncl_list_schur_nbfcsud);
+okltest_ncl_schur_nbfcsud(ncl_schur_nbfcsud);
+
 okltest_schur_sb_nbfcsud(schur_sb_nbfcsud);
 
 /*!
