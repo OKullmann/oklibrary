@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.4.2009 (Swansea)
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,7 +16,19 @@ License, or any later version. */
   for the "injective" versions.
 
   The numbers are called genschur_m(k_1, ..., k_m) resp.
-  genschuri_m(k_1, ..., k_m).
+  genschuri_m(k_1, ..., k_m). For the standard Schur-numbers we have
+  schur(r) = genschur_r(3,...,3) and
+  schuri(r) = genschuri_r(3,...,3).
+
+  SAT-translations are
+  output_schur_stdname(r,n) for the SAT-problem "schur(r) > n ?", using
+  the (strong) direct translation for the Schur-hypergraph, and
+  output_schur_sb_stdname(r,n), additionally using symmetry-breaking
+  (putting vertex 1 into the first partition (colour-class).
+
+  The underlying hypergraph is schurtriples_hg(n), e.g.
+  schurtriples_hg(5) =
+    [{1,2,3,4,5},{{1,2},{1,2,3},{1,3,4},{1,4,5},{2,3,5},{2,4}}].
 
 
   \todo What is known
