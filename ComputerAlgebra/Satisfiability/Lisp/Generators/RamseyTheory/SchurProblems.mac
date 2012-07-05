@@ -33,8 +33,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.m
    r parts and n vertices.
    Prerequisites: r, n natural numbers, n, r >= 0.
 */
+schur_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(schurtriples_ohg(n), create_list(i,i,1,r))$
 schur_nbfcsud(r,n) := 
- nbfclud2nbfcsud(col2sat_stdohg2stdnbfclud(schurtriples_ohg(n), create_list(i,i,1,r)))$
+ nbfclud2nbfcsud(schur_nbfclud(r,n))$
 
 /* Statistics: */
 nvar_schur_nbfcsud(r,n) := nver_schurtriples_hg(n)$
@@ -50,7 +51,35 @@ schur_sb_nbfcsud(r,n) := block([S : schur_nbfcsud(r,n)],
  [S[1], union(setify(create_list({[1,i]},i,2,r)), S[2]), S[3]])$
 
 
+/* Translation into boolean clause-sets: */
+
+/* Translating the general forms into boolean clause-sets via the
+   (strong) direct translation: */
+schur_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(schur_nbfclud(r,n))$
+schur_aloamo_fcs(r,n) := fcl2fcs(schur_aloamo_fcl(r,n))$
+
+/* Statistics: */
+nvar_schur_aloamo_fcl(r,n) :=
+ nvar_schur_nbfcsud(r,n) * nval_schur_nbfcsud(r,n)$
+nvar_schur_aloamo_fcs(r,n) := nvar_schur_aloamo_fcl(r,n)$
+ncl_list_schur_aloamo_fcl(r,n) := if n=0 then []
+ elseif r=0 then [[0,n]]
+ elseif r=1 then cons([1,n], ncl_list_schur_nbfcsud(r,n))
+ elseif n=1 then if r=2 then [[2,2]] else [[2,binomial(r,2)],[r,1]]
+ elseif n=2 then if r=2 then [[2,6]] else [[2,r+2*binomial(r,2)],[r,2]]
+ else block([C2,C3],  /* now n >= 3, r >= 2 */
+  [C2,C3] : map(second,ncl_list_schur_nbfcsud(r,n)),
+  if r=2 then [[2,C2+n+n], [3,C3]]
+  elseif r=3 then [[2,C2+3*n],[3,C3+n]]
+  else [[2,C2+n*binomial(r,2)],[3,C3],[r,n]])$
+ncl_list_schur_aloamo_fcs(r,n) := if n=0 then []
+ elseif r=0 then [[0,1]] else ncl_list_schur_aloamo_fcl(r,n)$
+
+
+/* Output: */
+
 /* Output the boolean clause-set (standard translation) to a file: */
+/* TODO: use schur_aloamo_fcl(r,n) plus explicit standardisation */
 output_schur(r,n,filename) := block(
  [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(schur_nbfcsud(r,n))))],
   output_fcs_v(

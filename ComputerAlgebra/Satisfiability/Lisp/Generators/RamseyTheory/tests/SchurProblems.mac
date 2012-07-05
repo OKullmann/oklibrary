@@ -76,6 +76,34 @@ okltest_schur_sb_nbfcsud(f) := (
   /* XXX */
   true)$
 
+okltest_nvar_schur_aloamo_fcl(f) := (
+  for r : 0 thru 5 do
+   for n : 0 thru 5 do block([F : schur_aloamo_fcl(r,n)],
+    assert(f(r,n) = nvar_fcl(F))
+  ),
+  true)$
+
+okltest_nvar_schur_aloamo_fcs(f) := (
+  for r : 0 thru 5 do
+   for n : 0 thru 5 do block([F : schur_aloamo_fcs(r,n)],
+    assert(f(r,n) = nvar_fcs(F))
+  ),
+  true)$
+
+okltest_ncl_list_schur_aloamo_fcl(f) := (
+  for r : 0 thru 6 do
+   for n : 0 thru 6 do block([F : schur_aloamo_fcl(r,n)],
+    assert(f(r,n) = ncl_list_fcl(F))
+  ),
+  true)$
+
+okltest_ncl_list_schur_aloamo_fcs(f) := (
+  for r : 0 thru 6 do
+   for n : 0 thru 6 do block([F : schur_aloamo_fcs(r,n)],
+    assert(f(r,n) = ncl_list_fcs(F))
+  ),
+  true)$
+
 /*!
 \endhtmlonly
 */
