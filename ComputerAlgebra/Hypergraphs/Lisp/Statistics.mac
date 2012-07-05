@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.5.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -40,6 +40,18 @@ nhyp_hg(G) := length(G[2])$
 nhyp_ohg(G) := length(G[2])$
 nhyp_ghg(G) := length(G[2])$
 nhyp_oghg(G) := length(G[2])$
+
+/* The list of pairs
+   [occurring hyperedge-lengths, number of hyperedges of this length],
+   sorted by ascending hyperedge-length:
+*/
+nhyp_list_ohg(G) := block([n : nver_ohg(G), counts, res : [], l],
+  counts : make_array(fixnum, n+1),
+  for H in G[2] do (l : length(H), counts[l] : counts[l] + 1),
+  delete(0,create_list(if counts[i]=0 then 0 else [i, counts[i]], i,0,n)))$
+nhyp_list_hg(G) := nhyp_list_ohg(G)$
+/* Remark: Computing the same function as ncl_list_fcl rsp. ncl_list_fcs.
+*/
 
 
 /* ******************
