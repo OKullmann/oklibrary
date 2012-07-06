@@ -28,7 +28,10 @@ License, or any later version. */
 
   The underlying hypergraph is schurtriples_hg(n), e.g.
   schurtriples_hg(5) =
-    [{1,2,3,4,5},{{1,2},{1,2,3},{1,3,4},{1,4,5},{2,3,5},{2,4}}].
+    [{1,2,3,4,5},{{1,2},{1,2,3},{1,3,4},{1,4,5},{2,3,5},{2,4}}],
+  while
+  schurtriples_ohg(5) =
+    [[1,2,3,4,5],[{1,2},{1,2,3},{1,3,4},{2,4},{1,4,5},{2,3,5}]].
 
 
   \todo What is known
