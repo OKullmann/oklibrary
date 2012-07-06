@@ -30,6 +30,8 @@ okltest_ncl_schur_nbfcsud(ncl_schur_nbfcsud);
 
 okltest_schur_sb_nbfcsud(schur_sb_nbfcsud);
 
+okltest_schur_aloamo_fcl(schur_aloamo_fcl);
+
 okltest_nvar_schur_aloamo_fcl(nvar_schur_aloamo_fcl);
 okltest_nvar_schur_aloamo_fcs(nvar_schur_aloamo_fcs);
 okltest_ncl_list_schur_aloamo_fcl(ncl_list_schur_aloamo_fcl);
