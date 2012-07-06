@@ -63,21 +63,32 @@ nhyp_complete_hg(n,r) := binomial(n,r)$
 schurtriples_ohg(n) :=
  [create_list(i,i,1,n), create_list({x,z-x,z}, z,2,n, x,1,floor(z/2))]$
 schurtriples_hg(n) := ohg2hg(schurtriples_ohg(n))$
-/* TODO: We should provide a version without subsumptions:
+/* Without subsumptions ("me" for "minimal elements"):
    Precisely the hyperedges {x,2x} with 3x <= n subsume other hyperedges,
    namely precisely the hyperedge {x,2x,3x}.
-   Call it "schurtriples_me" (for "minimal elements").
 */
+schurtriples_me_ohg(n) :=
+ [create_list(i,i,1,n),
+  delete(0,create_list(if x#z/3 then {x,z-x,z} else 0, z,2,n, x,1,floor(z/2)))]$
+schurtriples_me_hg(n) := ohg2hg(schurtriples_me_ohg(n))$
+
 
 /* Statistics functions: */
 
 nver_schurtriples_hg(n) := n$
 nver_schurtriples_ohg(n) := n$
+
 nhyp_list_schurtriples_hg(n) := if n <= 1 then [] elseif n=2 then [[2,1]] else
  [[2, floor(n/2)], [3, floor((n-1)/2) * ceiling((n-1)/2)]]$
 nhyp_list_schurtriples_ohg(n) := nhyp_list_schurtriples_hg(n)$
+nhyp_list_schurtriples_me_hg(n) := if n <= 1 then [] elseif n<=3 then [[2,1]]
+ else [[2, floor(n/2)], [3, floor((n-1)/2)*ceiling((n-1)/2) - floor(n/3)]]$
+nhyp_list_schurtriples_me_ohg(n) := nhyp_list_schurtriples_me_hg(n)$
+
 nhyp_schurtriples_hg(n) := floor(n/2) + floor((n-1)/2) * ceiling((n-1)/2)$
 nhyp_schurtriples_ohg(n) := nhyp_schurtriples_hg(n)$
+nhyp_schurtriples_me_hg(n) := nhyp_schurtriples_hg(n) - floor(n/3)$
+nhyp_schurtriples_me_ohg(n) := nhyp_schurtriples_me_hg(n)$
 
 
 /* k >= 3 */
