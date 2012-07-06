@@ -34,7 +34,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.m
    Prerequisites: r, n natural numbers, n, r >= 0.
 */
 schur_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(schurtriples_ohg(n), create_list(i,i,1,r))$
-schur_nbfcsud(r,n) := 
+schur_nbfcsud(r,n) :=
  nbfclud2nbfcsud(schur_nbfclud(r,n))$
 
 /* Statistics: */
@@ -75,15 +75,33 @@ ncl_list_schur_aloamo_fcl(r,n) := if n=0 then []
 ncl_list_schur_aloamo_fcs(r,n) := if n=0 then []
  elseif r=0 then [[0,1]] else ncl_list_schur_aloamo_fcl(r,n)$
 
+/* Standardisation: */
+/* Computing translation functions for standardising resp. de-standardising
+   terms resp. individual variables:
+*/
+standardise_schur_aloamo(r,n) :=
+  buildq([r], lambda([t], ev(t, nbv(v,i):=(v-1)*r+i, nbv)))$
+invstandardise_schur_aloamo(r,n) :=
+  buildq([r], lambda([i], block([d : divide(i-1,r)+1],
+    nbv_var(d[1], d[2]))))$
+
+schur_aloamo_stdfcl(r,n) := (
+  [block([s : standardise_schur_aloamo(r,n)],
+     s(schur_aloamo_fcl(r,n))),
+   block([invs : invstandardise_schur_aloamo(r,n)],
+     create_list(invs(i), i,1,n*r))])$
+/* We have schur_aloamo_stdfcl(r,n) =
+   standardise_fcl(schur_aloamo_fcl(r,n)).
+*/
 
 /* Output: */
 
 /* Output the boolean clause-set (standard translation) to a file: */
 /* TODO: use schur_aloamo_fcl(r,n) plus explicit standardisation */
 output_schur(r,n,filename) := block(
- [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(schur_nbfcsud(r,n))))],
-  output_fcs_v(
-    sconcat("Schur problem with ", r, " parts and ", n, " elements."), 
+ [FF : schur_aloamo_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation."),
     FF[1],
     filename,
     FF[2]))$
@@ -94,7 +112,7 @@ output_schur_stdname(r,n) := output_schur(r,n,
 output_schur_sb(r,n,filename) := block(
  [FF : standardise_fcs(nbfcsfd2fcs_aloamo(nbfcsud2nbfcsfd(schur_sb_nbfcsud(r,n))))],
   output_fcs_v(
-    sconcat("Schur problem with ", r, " parts and ", n, " elements; symmetry breaking by putting element 1 into part 1."), 
+    sconcat("Schur problem with ", r, " parts and ", n, " elements; symmetry breaking by putting element 1 into part 1."),
     FF[1],
     filename,
     FF[2]))$

@@ -21,6 +21,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/te
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/SchurProblems.mac")$
+
 
 kill(f)$
 
@@ -110,6 +112,18 @@ okltest_ncl_list_schur_aloamo_fcs(f) := (
   for r : 0 thru 6 do
    for n : 0 thru 6 do block([F : schur_aloamo_fcs(r,n)],
     assert(f(r,n) = ncl_list_fcs(F))
+  ),
+  true)$
+
+okltest_schur_aloamo_stdfcl(f) := (
+  assert(f(0,0) = [[[],[]],[]]),
+  for n : 0 thru if oklib_test_level = 0 then 4 else 8 do
+    assert(f(0,n) = [[[],create_list({},i,1,n)],[]]),
+  for n : 0 thru 1 do
+    assert(f(1,n) = [[create_list(i,i,1,n),create_list({i},i,1,n)],create_list(nbv(i,1),i,1,n)]),
+  for r : 0 thru if oklib_test_level=0 then 4 else 8 do
+   for n : 0 thru 6 do block([F : schur_aloamo_fcl(r,n)],
+    assert(f(r,n) = standardise_fcl(schur_aloamo_fcl(r,n)))
   ),
   true)$
 
