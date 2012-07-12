@@ -22,12 +22,12 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
-oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Strings.mac")$
 
 /* Guaranteed to be included: */
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Strings.mac")$
 
 
 /* **************************
