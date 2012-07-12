@@ -30,10 +30,10 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.m
 */
 
 /* The non-boolean formal clause-set expressing the Schur problem with
-   r parts and n vertices.
+   r parts and n vertices (note that the subsumption-free hypergraph is used).
    Prerequisites: r, n natural numbers, n, r >= 0.
 */
-schur_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(schurtriples_ohg(n), create_list(i,i,1,r))$
+schur_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(schurtriples_me_ohg(n), create_list(i,i,1,r))$
 schur_nbfcsud(r,n) :=
  nbfclud2nbfcsud(schur_nbfclud(r,n))$
 
@@ -41,8 +41,8 @@ schur_nbfcsud(r,n) :=
 nvar_schur_nbfcsud(r,n) := nver_schurtriples_hg(n)$
 nval_schur_nbfcsud(r,n) := r$
 ncl_list_schur_nbfcsud(r,n) := if r=0 then [] else
- map(lambda([p],[p[1],r*p[2]]), nhyp_list_schurtriples_hg(n))$
-ncl_schur_nbfcsud(r,n) := r * nhyp_schurtriples_hg(n)$
+ map(lambda([p],[p[1],r*p[2]]), nhyp_list_schurtriples_me_hg(n))$
+ncl_schur_nbfcsud(r,n) := r * nhyp_schurtriples_me_hg(n)$
 
 
 /* Adding symmetry-breaking clauses (regarding the parts (colours), forcing
@@ -66,8 +66,8 @@ ncl_list_schur_aloamo_fcl(r,n) := if n=0 then []
  elseif r=0 then [[0,n]]
  elseif r=1 then cons([1,n], ncl_list_schur_nbfcsud(r,n))
  elseif n=1 then if r=2 then [[2,2]] else [[2,binomial(r,2)],[r,1]]
- elseif n=2 then if r=2 then [[2,6]] else [[2,r+2*binomial(r,2)],[r,2]]
- else block([C2,C3],  /* now n >= 3, r >= 2 */
+ elseif n<=3 then if r=2 then [[2,2+2*n]] else [[2,r+n*binomial(r,2)],[r,n]]
+ else block([C2,C3],  /* now n >= 4, r >= 2 */
   [C2,C3] : map(second,ncl_list_schur_nbfcsud(r,n)),
   if r=2 then [[2,C2+n+n], [3,C3]]
   elseif r=3 then [[2,C2+3*n],[3,C3+n]]

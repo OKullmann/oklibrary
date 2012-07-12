@@ -21,10 +21,10 @@ output_schur_stdname(5,160);
    \verbatim
 > cat Schur_5_160.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
      pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-    800   33760    800    800   33760    99600     NA     NA   33760    99600   801
+    800   33495    800    800   33495    98805     NA     NA   33495    98805   803
  length   count
       2    2000
-      3   31600
+      3   31335
       5     160
    \endverbatim
    </li>
@@ -34,7 +34,9 @@ output_schur_stdname(5,160);
   \todo OKsolver_2002
   <ul>
    <li> With a cluster and a few months it looks feasible without any
-   special action:
+   special action (the following data is for the old version, using the full
+   hypergraph, not, as now, the subsumption-free form; this shouldn't make a
+   big difference):
    \verbatim
 > OKsolver_2002-O3-DNDEBUG -M -D20 Schur_5_160.cnf
 Name of file, monitoring depth and number of monitoring nodes:
@@ -128,7 +130,9 @@ c file_name                             Schur_sb_5_160.cnf
 
   \todo Local search
   <ul>
-   <li> Considering Schur_5_159.cnf. </li>
+   <li> Considering Schur_5_159.cnf; the following data is for the old
+   version, using the full hypergraph, not, as now, the subsumption-free form;
+   this shouldn't make a big difference. </li>
    <li> From the ubcsat-1.0.0 suite saps seems clearly perform best, and
    a local minimum of one falsified clause is easily reached already with
    cutoff = 10000. </li>
