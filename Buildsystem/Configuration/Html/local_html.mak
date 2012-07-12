@@ -1,5 +1,5 @@
 # Oliver Kullmann, 15.7.2007 (Swansea)
-# Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -62,19 +62,16 @@ tenchallenges_doxygen_directory ?= $(doc_dir)/doxygen_html/dir_1ea18a24b3992f33b
 current_date ?= $(shell date '+%a, %d %b %Y, %H:%M:%S %z')
 
 
-# Internet home page
+# Internet home page:
 
 internet_home_page_template ?= $(OKbuildsystem)/Html/Internet/HomePage.html
 internet_home_page_output_dir ?= $(internet_html_dir)
 internet_home_page_output ?= $(internet_home_page_output_dir)/index.html
 
-oklibrary_domain := http://www.ok-sat-library.org
-oklibrary_sourceforge := http://oklibrary.sourceforge.net/
-oklibrary_mailinglist_users := http://www.freelists.org/list/oklibrary-users
-oklibrary_mailinglist_devel := http://lists.sourceforge.net/mailman/listinfo/oklibrary-developers
+# For Internet-domains see Configuration/public_links.mak.
 
 
-# Doxygen pages of global interest
+# Doxygen pages of global interest:
 
 main_docu_page ?= $(doc_dir)/doxygen_html/d5/d70/OKlib_2docus_2general_8hpp.html
 computeralgebra_docu_page_okl ?= $(doc_dir)/doxygen_html/d4/de2/OKlib_2ComputerAlgebra_2docus_2general_8hpp.html

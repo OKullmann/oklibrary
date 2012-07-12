@@ -5,7 +5,15 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-# The list of links to be established to programs from the OKlibrary.
+# Internet domains:
+
+oklibrary_domain := http://www.ok-sat-library.org
+oklibrary_sourceforge := http://oklibrary.sourceforge.net/
+oklibrary_mailinglist_users := http://www.freelists.org/list/oklibrary-users
+oklibrary_mailinglist_devel := http://lists.sourceforge.net/mailman/listinfo/oklibrary-developers
+
+
+# The list of links to be established to programs from the OKlibrary:
 
 oksolver2002_okl ?= $(bin_dir)/OKsolver_2002-O3-DNDEBUG
 oksolver2002ntp_okl ?= $(bin_dir)/OKsolver_2002_NTP-O3-DNDEBUG
