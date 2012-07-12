@@ -100,7 +100,7 @@ schur_aloamo_stdfcl(r,n) := (
 output_schur(r,n,filename) := block(
  [FF : schur_aloamo_stdfcl(r,n)],
   output_fcl_v(
-    sconcat("Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation."),
+    sconcat("Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c ", "Created by output_schur(", r, ",", n, ",", filename, ").", newline, "c ", created_by_OKlib()),
     FF[1],
     filename,
     FF[2]))$
