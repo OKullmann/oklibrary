@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.1.2008 (Swansea) */
-/* Copyright 2008, 2010 Oliver Kullmann
+/* Copyright 2008, 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -59,6 +59,16 @@ assert_bfloat_equal(expr1,expr2,d) := ev(
   buildq([expr1,expr2], 
     assert(abs(expr1-expr2) < 2 * 10^(no_digits(max(abs(expr1), abs(expr2)))-d))),
  eval)$
+
+
+/* *********
+   * Tools *
+   *********
+*/
+
+/* Case distinction regarding oklib_test_level; for example, cokltl(4,6)
+   replaces "if oklib_test_level=0 then 4 else 6": */
+cokltl([L]) := L[min(length(L),oklib_test_level+1)]$
 
 
 /*!
