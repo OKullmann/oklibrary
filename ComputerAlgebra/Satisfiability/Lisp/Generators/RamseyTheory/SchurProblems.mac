@@ -96,8 +96,7 @@ schur_aloamo_stdfcl(r,n) := (
 
 /* Output: */
 
-/* Output the boolean clause-set (standard translation) to a file: */
-/* TODO: use schur_aloamo_fcl(r,n) plus explicit standardisation */
+/* Output the boolean clause-set (direct translation) to a file: */
 output_schur(r,n,filename) := block(
  [FF : schur_aloamo_stdfcl(r,n)],
   output_fcl_v(
