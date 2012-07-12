@@ -1,10 +1,14 @@
 /* Oliver Kullmann, 4.1.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+define_variable(
+  oklibrary_domain,
+  "m4_SHELL(oklibrary_domain)",
+  any);
 define_variable(
   OKplatform,
   "m4_SHELL(OKplatform)",
@@ -14,8 +18,16 @@ define_variable(
   "m4_SHELL(OKsystem)",
   any);
 define_variable(
+  build_identification_okl,
+  "m4_SHELL(build_identification_okl)",
+  any);
+define_variable(
   oklib_session_name,
-  sconcat("Maxima_session_","m4_SHELL(build_identification_okl)"),
+  sconcat("Maxima_session_",build_identification_okl),
+  any);
+define_variable(
+  git_id_oklib,
+  "m4_SHELL(git_id_oklib)",
   any);
 define_variable(
   maxima_lisp_name_okl,
