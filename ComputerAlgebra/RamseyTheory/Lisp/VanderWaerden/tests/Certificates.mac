@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 12.11.2010 (Swansea) */
-/* Copyright 2010, 2011 Oliver Kullmann
+/* Copyright 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/tests/Certificates.mac
-  \brief Tests for functions related to vdW-hypergraphs
+  \brief Tests for functions related to certificates for vdW-problems
 
 Use by
 
@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Certificates.mac")$
 
 kill(f)$
+
 
 /* *****************
    * Basic notions *
