@@ -13,6 +13,8 @@ License, or any later version. */
   \todo Update to version 1.2.0
   <ul>
    <li> The target "ubcsat-new" should be removed (just using "ubcsat"). </li>
+   <li> Update to beta-17 (ID 7ef9cabdc47e33e2fce4ce0e0dca04a7853b4adb is our
+   merge). </li>
    <li> DONE (meanwhile we merged beta-10 with our own changes; ID
    07d6baf978c02c2c63af6143096f085cee83179a, last change 29.10.2011)
    We created a new package "ubcsat-1-2-0-beta.tar.bz2", cloning

@@ -7,8 +7,8 @@
 
 # Settings for building and using the Ubcsat package
 
-ubcsat_recommended_version_number_okl ?= 1-2-0-beta-10
-ubcsat_other_versions_okl ?= 1-2-0-beta-9
+ubcsat_recommended_version_number_okl ?= 1-2-0-beta-17
+ubcsat_other_versions_okl ?= 1-2-0-beta-10
 
 ubcsat_prefix_okl ?= ubcsat
 
