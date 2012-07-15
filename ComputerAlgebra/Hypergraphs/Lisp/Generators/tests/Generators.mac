@@ -24,7 +24,6 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/tests/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Statistics.mac")$
 
 kill(f)$
 
@@ -80,67 +79,6 @@ okltest_nhyp_complete_hg(f) := (
       assert(f(n,r) = length(complete_stdhg(n,r)[2])),
       assert(f(n,r) = length(complete_stdohg(n,r)[2]))
   ),
-  true)$
-
-
-/* *******************
-   * Schur's theorem *
-   *******************
-*/
-
-okltest_schurtriples_ohg(f) := (
-  assert(f(0) = [[],[]]),
-  assert(f(1) = [[1],[]]),
-  assert(f(2) = [[1,2], [{1,1,2}]]),
-  assert(f(3) = [[1,2,3], [{1,2},{1,2,3}]]),
-  assert(f(4) = [[1,2,3,4], [{1,2},{1,2,3},{1,3,4},{2,2,4}]]),
-  assert(f(5) = [[1,2,3,4,5],[{1,2},{1,2,3},{1,3,4},{2,2,4},{1,4,5},{2,3,5}]]),
-  assert(f(6) = [[1,2,3,4,5,6],[{1,2},{1,2,3},{1,3,4},{2,2,4},{1,4,5},{2,3,5},{1,5,6},{2,4,6},{3,6}]]),
-  true)$
-
-okltest_schurtriples_hg(f) := (
-  assert(f(0) = [{},{}]),
-  assert(f(1) = [{1},{}]),
-  assert(f(2) = [{1,2}, {{1,1,2}}]),
-  assert(f(3) = [{1,2,3}, {{1,2},{1,2,3}}]),
-  assert(f(4) = [{1,2,3,4}, {{1,2},{1,2,3},{1,3,4},{2,2,4}}]),
-  true)$
-
-okltest_schurtriples_me_ohg(f) := (
-  assert(f(0) = [[],[]]),
-  assert(f(1) = [[1],[]]),
-  assert(f(2) = [[1,2], [{1,1,2}]]),
-  assert(f(3) = [[1,2,3], [{1,2}]]),
-  assert(f(4) = [[1,2,3,4], [{1,2},{1,3,4},{2,2,4}]]),
-  assert(f(5) = [[1,2,3,4,5],[{1,2},{1,3,4},{2,2,4},{1,4,5},{2,3,5}]]),
-  assert(f(6) = [[1,2,3,4,5,6],[{1,2},{1,3,4},{2,2,4},{1,4,5},{2,3,5},{1,5,6},{3,6}]]),
-  true)$
-
-okltest_schurtriples_me_hg(f) := (
-  for n : 0 thru if oklib_test_level=0 then 10 else 50 do
-   block([G : schurtriples_hg(n)],
-    assert(f(n) = [G[1], min_elements(G[2])])
-  ),
-  true)$
-
-okltest_nhyp_list_schurtriples_ohg(f) := (
-  for n : 0 thru 10 do
-    assert(f(n) = nhyp_list_ohg(schurtriples_ohg(n))),
-  true)$
-
-okltest_nhyp_list_schurtriples_me_ohg(f) := (
-  for n : 0 thru 20 do
-    assert(f(n) = nhyp_list_ohg(schurtriples_me_ohg(n))),
-  true)$
-
-okltest_nhyp_schurtriples_ohg(f) := (
-  for n : 0 thru 10 do
-    assert(f(n) = nhyp_ohg(schurtriples_ohg(n))),
-  true)$
-
-okltest_nhyp_schurtriples_me_ohg(f) := (
-  for n : 0 thru 10 do
-    assert(f(n) = nhyp_ohg(schurtriples_me_ohg(n))),
   true)$
 
 

@@ -1,0 +1,43 @@
+/* Oliver Kullmann, 15.7.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Hypergraphs/Lisp/Generators/testobjects/Schur.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/testobjects/Schur.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Schur.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/Schur.mac")$
+
+/* *******************
+   * Schur's theorem *
+   *******************
+*/
+
+okltest_schurtriples_ohg(schurtriples_ohg);
+okltest_schurtriples_hg(schurtriples_hg);
+
+okltest_schurtriples_me_ohg(schurtriples_me_ohg);
+okltest_schurtriples_me_hg(schurtriples_me_hg);
+
+okltest_nhyp_list_schurtriples_ohg(nhyp_list_schurtriples_ohg);
+okltest_nhyp_list_schurtriples_me_ohg(nhyp_list_schurtriples_me_ohg);
+okltest_nhyp_schurtriples_ohg(nhyp_schurtriples_ohg);
+okltest_nhyp_schurtriples_me_ohg(nhyp_schurtriples_me_ohg);
+
+
+/*!
+\endhtmlonly
+*/

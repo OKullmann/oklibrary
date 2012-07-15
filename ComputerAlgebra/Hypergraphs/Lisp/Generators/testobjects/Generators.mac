@@ -34,22 +34,6 @@ okltest_complete_stdohg(complete_stdohg);
 okltest_nver_complete_hg(nver_complete_hg);
 okltest_nhyp_complete_hg(nhyp_complete_hg);
 
-/* ******************************
-   * Schur's and Rado's theorem *
-   ******************************
-*/
-
-okltest_schurtriples_ohg(schurtriples_ohg);
-okltest_schurtriples_hg(schurtriples_hg);
-
-okltest_schurtriples_me_ohg(schurtriples_me_ohg);
-okltest_schurtriples_me_hg(schurtriples_me_hg);
-
-okltest_nhyp_list_schurtriples_ohg(nhyp_list_schurtriples_ohg);
-okltest_nhyp_list_schurtriples_me_ohg(nhyp_list_schurtriples_me_ohg);
-okltest_nhyp_schurtriples_ohg(nhyp_schurtriples_ohg);
-okltest_nhyp_schurtriples_me_ohg(nhyp_schurtriples_me_ohg);
-
 /* ********************
    * Ramsey's theorem *
    ********************
