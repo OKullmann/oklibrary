@@ -19,6 +19,8 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/Numbers.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac")$
+
 
 /* *****************
    * Schur numbers *
@@ -26,11 +28,25 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/Numbers.mac");
 */
 
 /* r is natural numbers >= 1: */
-schur(r) := if r <= 4 then [2,5,14,45][r] else [(3^r+1)/2, 3*r!-1]$
+schur(r) := if r <= 4 then [2,5,14,45][r]
+ elseif r=5 then [161,306]
+ else block([lb : (3^r+1)/2, ub : 3*r!-1,
+             rub : ramsey([2,create_list(3,i,1,r)])],
+   if rub#unknown then ub : min(ub, rub),
+   [lb, ub])$
 /* Remarks:
  - This is A030126 in the OEIS (http://oeis.org/A030126).
- - For the bounds see Theorems 8.8, 8.9 in [Ramsey Theory on the Integers;
-   Landman, Robertson].
+ - For the general bounds see Theorems 8.8, 8.9 in [Ramsey Theory on the
+   Integers; Landman, Robertson].
+ - By Corollary 8.6 there we have
+     schur(r) <= ramsey([2,create_list(3,i,1,r)]) - 1.
+ - For r = 5:
+    - For the lower bound see certificates in
+      Investigations/RamseyTheory/SchurProblems/plans/general.hpp.
+    - The upper bound comes from ramsey([2,[3,3,3,3,3]]) <= 307
+      ([Small Ramsey Numbers; Radziszowski, The Electronic Journal of
+      Combinatorics, August 22, 2011]
+      http://www.combinatorics.org/ojs/index.php/eljc/article/view/ds1/html).
 */
 
 
