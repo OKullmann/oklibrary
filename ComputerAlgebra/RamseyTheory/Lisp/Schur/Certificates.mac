@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/Certificates.mac");
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Schur.mac")$
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Certificates.mac")$
 
 
 /* *****************
@@ -39,6 +40,10 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Schur.mac")$
 certificate_schur_p(r,n,P) := is(r = length(P)) and
  blockpartitionp(P,setn(n)) and
  every_s(lambda([b], not has_schurtriple(b)), P)$
+
+/* Check whether P is a palindromic Schur-certificate for r and n: */
+certificate_pdschur_p(r,n,P) := palindromic_subsets_p(n,P) and
+ certificate_schur_p(r,n,P)$
 
 
 /*!

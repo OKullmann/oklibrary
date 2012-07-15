@@ -49,7 +49,7 @@ C : uncompresss_palindromic_subsets(160,[
 {1,6,10,18,21,23,26,30,34,38,43,45,50,54,65,74},
 {44,52,55,58,60,63,64,66,67,68,69,70,71,72,75,76,77,78,80}
 ]);
-certificate_schur_p(5,160,C);
+certificate_pdschur_p(5,160,C);
   true
    \endverbatim
    and thus schur(5) >= 161 (it seems that was overlooked in the literature!).
