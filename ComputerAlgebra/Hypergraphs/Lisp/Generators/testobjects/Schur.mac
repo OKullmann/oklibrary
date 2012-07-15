@@ -37,6 +37,7 @@ okltest_nhyp_list_schurtriples_me_ohg(nhyp_list_schurtriples_me_ohg);
 okltest_nhyp_schurtriples_ohg(nhyp_schurtriples_ohg);
 okltest_nhyp_schurtriples_me_ohg(nhyp_schurtriples_me_ohg);
 
+okltest_has_schurtriple(has_schurtriple);
 
 /*!
 \endhtmlonly

@@ -20,6 +20,8 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Schur.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* *******************
@@ -61,6 +63,20 @@ nhyp_schurtriples_hg(n) := floor(n/2) + floor((n-1)/2) * ceiling((n-1)/2)$
 nhyp_schurtriples_ohg(n) := nhyp_schurtriples_hg(n)$
 nhyp_schurtriples_me_hg(n) := nhyp_schurtriples_hg(n) - floor(n/3)$
 nhyp_schurtriples_me_ohg(n) := nhyp_schurtriples_me_hg(n)$
+
+
+/* Testing whether the set S contains a Schur triple (that is, whether there
+   are x,y in S with x+y in S).
+   Works if S is a set of integers. In general we need + and order, while
+   the precise general assumptions have to be investigated.
+*/
+has_schurtriple(S) :=
+ if emptyp(S) then false
+ else block([x : first_element(S)],
+   if subsetp({x,x+x}, S) then return(true),
+   S : disjoin(x,S),
+   some_s(lambda([y], subsetp({y,x+y}, S)), S) or has_schurtriple(S))$
+
 
 
 /* k >= 3 */
