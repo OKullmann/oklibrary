@@ -36,9 +36,9 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Schur.mac")$
    P is a block partition of {1,...,n} into r blocks, that is, a list of
    r disjoint subsets of {1,...,n} whose union is the whole set.
 */
-certificate_schur_p(r,n,P) := block([N : setn(n)],
-  r = length(P) and lunion(P) = N and sum_l(map(length,P)) = n and
-    every_s(lambda([b], not has_schurtriple(b)), P))$
+certificate_schur_p(r,n,P) := is(r = length(P)) and
+ blockpartitionp(P,setn(n)) and
+ every_s(lambda([b], not has_schurtriple(b)), P)$
 
 
 /*!

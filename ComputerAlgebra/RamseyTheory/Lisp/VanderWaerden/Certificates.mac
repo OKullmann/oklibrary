@@ -44,10 +44,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
    number, and P a list of sets. A valid certificate can have empty parts, but
    overlaps between the parts and additional elements are not allowed.
 */
-certificate_vdw_p(L,n,P) := block([N : setn(n)],
-  length(L) = length(P) and lunion(P) = N and
-    sum_l(map(length,P)) = n and
-    every(lambda([k,b], not has_arithprog(b,k)), L, P))$
+certificate_vdw_p(L,n,P) :=
+  is(length(L) = length(P)) and blockpartitionp(P,setn(n)) and
+    every(lambda([k,b], not has_arithprog(b,k)), L, P)$
 /* See "The notion of a certificate" in 
    ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/plans/Certificates.hpp.
 */
