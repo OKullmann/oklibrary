@@ -1,5 +1,5 @@
 # Oliver Kullmann, 6.9.2007 (Swansea)
-# Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -33,7 +33,7 @@ ubcsat_call_okl ?= $(ubcsat_installation_dir_okl)/bin/$(ubcsat_recommended_okl)
 
 ubcsat_docu_page_okl ?= $(doc_dir)/doxygen_html/d6/d0c/docus_2Ubcsat_8hpp.html
 
-ubcsat_homepage_url_okl := http://www.satlib.org/ubcsat/
+ubcsat_homepage_url_okl := http://ubcsat.dtompkins.com/
 ubcsat_documentation_url_okl := http://www.satlib.org/ubcsat/\#documentation
 
 old_ubcsat_wrapper_okl ?= $(OKlib)/Experimentation/ExperimentSystem/ControllingLocalSearch/old-ubcsat-okl
