@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.6.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,7 +13,9 @@ License, or any later version. */
   \todo Update to version 1.2.0
   <ul>
    <li> The target "ubcsat-new" should be removed (just using "ubcsat"). </li>
-   <li> We created a new package "ubcsat-1-2-0-beta.tar.bz2", cloning
+   <li> DONE (meanwhile we merged beta-10 with our own changes; ID
+   07d6baf978c02c2c63af6143096f085cee83179a, last change 29.10.2011)
+   We created a new package "ubcsat-1-2-0-beta.tar.bz2", cloning
    https://github.com/dtompkins/ubcsat.git, checking out branch beta. </li>
    <li> Likely we stop supporting version 1.0.0:
     <ol>
