@@ -20,6 +20,8 @@ License, or any later version. */
   schur(r) = genschur_r(3,...,3) and
   schuri(r) = genschuri_r(3,...,3).
 
+  The standard Schur-numbers are available at Maxima-level via schur(r).
+
   SAT-translations are
   output_schur_stdname(r,n) for the SAT-problem "schur(r) > n ?", using
   the (strong) direct translation for the Schur-hypergraph, and
@@ -32,6 +34,9 @@ License, or any later version. */
   while
   schurtriples_ohg(5) =
     [[1,2,3,4,5],[{1,2},{1,2,3},{1,3,4},{2,4},{1,4,5},{2,3,5}]].
+
+  Good basic information is available in Chapter 8 of [Ramsey Theory on the
+  Integers; Landman, Robertson].
 
 
   \todo What is known

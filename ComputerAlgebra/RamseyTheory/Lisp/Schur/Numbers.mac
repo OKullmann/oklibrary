@@ -1,0 +1,49 @@
+/* Oliver Kullmann, 15.7.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/Schur/Numbers.mac
+  \brief Handling of Schur numbers
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/Numbers.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+
+/* *****************
+   * Schur numbers *
+   *****************
+*/
+
+/* r is natural numbers >= 1: */
+schur(r) := if r <= 4 then [2,5,14,45][r] else [(3^r+1)/2, 3*r!-1]$
+/* Remarks:
+ - This is A030126 in the OEIS (http://oeis.org/A030126).
+ - For the bounds see Theorems 8.8, 8.9 in [Ramsey Theory on the Integers;
+   Landman, Robertson].
+*/
+
+
+/* *****************************
+   * Palindromic Schur numbers *
+   *****************************
+*/
+
+/* r is natural numbers >= 1: */
+pdschur(r) := unknown$
+
+
+
+/*!
+\endhtmlonly
+*/
