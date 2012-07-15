@@ -1,0 +1,48 @@
+/* Oliver Kullmann, 15.7.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/Schur/tests/Certificates.mac
+  \brief Tests for functions related to certificates for Schur-problems
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/tests/Certificates.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/Certificates.mac")$
+
+kill(f)$
+
+
+/* *****************
+   * Basic notions *
+   *****************
+*/
+
+okltest_certificate_schur_p(f) := (
+  assert(f(1,0,[{}]) = true),
+  assert(f(1,1,[{}]) = false),
+  assert(f(1,1,[{1,2}]) = false),
+  assert(f(1,1,[{1},{1}]) = false),
+  assert(f(1,1,[{1}]) = true),
+  assert(f(2,4,[{1,2},{3,4}]) = false),
+  assert(f(2,4,[{1,4},{2,3}]) = true),
+  assert(f(3,13,[{1,4,7,10,13},{5,6,8,9},{2,3,11,12}]) = true),
+  true)$
+
+
+
+/*!
+\endhtmlonly
+*/
