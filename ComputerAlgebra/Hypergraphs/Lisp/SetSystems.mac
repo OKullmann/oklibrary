@@ -217,13 +217,14 @@ non_disjoint_pairs(L) := block([a : l2array(L), l : length(L), res : []],
       if not disjointp(A, a[j]) then res : cons([i,j],res)),
   return(reverse(res)))$
 
-/* Whether set system S is a disjoint set system: */
+/* Whether set-system or list S is a disjoint set-system: */
 disjoint_set_system_p(S) :=
   is(length(lunion(S)) = sum_l(map(length,listify(S))))$
 
-/* Checks whether set system P is a partitioning of set X: */
-partitionp(P,X) := disjoint_set_system_p(P) and
-  is(lunion(P) = X) and not empty_element_p(P)$
+/* Checks whether list P is a block-partitioning of set X: */
+blockpartitionp(P,X) := disjoint_set_system_p(P) and is(lunion(P) = X)$
+/* Checks whether set-system P is a partitioning of set X: */
+partitionp(P,X) := blockpartitionp(P,X) and not empty_element_p(P)$
 
 
 /* ********************************

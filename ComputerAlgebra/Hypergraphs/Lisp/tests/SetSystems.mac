@@ -392,6 +392,19 @@ okltest_disjoint_set_system_p(f) := (
   assert(f({{1}}) = true),
   assert(f({{1,2},{2,3}}) = false),
   assert(f({{1},{2},{},{3},{3,4}}) = false),
+  assert(f([]) = true),
+  assert(f([{},{}]) = true),
+  assert(f([{1},{1}]) = false),
+  true)$
+
+okltest_blockpartitionp(f) := (
+  assert(f([],{}) = true),
+  assert(f([{}],{}) = true),
+  assert(f([{},{}],{}) = true),
+  assert(f([{},{}],{1}) = false),
+  assert(f([{1},{}],{}) = false),
+  assert(f([{1},{}],{1}) = true),
+  assert(f([{1},{1}],{1}) = false),
   true)$
 
 okltest_partitionp(f) := block(

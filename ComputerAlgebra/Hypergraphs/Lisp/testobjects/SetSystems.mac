@@ -115,6 +115,7 @@ okltest_non_disjoint_pair(non_disjoint_pair);
 okltest_non_disjoint_pairs(non_disjoint_pairs);
 okltest_disjoint_set_system_p(disjoint_set_system_p);
 
+okltest_blockpartitionp(blockpartitionp);
 okltest_partitionp(partitionp);
 
 /* ********************************
