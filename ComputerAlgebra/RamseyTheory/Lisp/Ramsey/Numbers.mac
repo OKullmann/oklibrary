@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.7.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -97,10 +97,11 @@ ramsey_p(L) :=
   definition of the Ramsey numbers.
 
   The "two-colour graph cases" are those which are associated with Ramsey
-  problems with tuples of the form [2,[p,q]], and their associated functions are
-  "ramseyg2_p_a" and "ramseyg2_p", where "ramseyg2_p" takes q as an argument.
+  problems with tuples of the form [2,[p,q]], and their associated functions
+  are "ramseyg2_p_a" and "ramseyg2_p", where "ramseyg2_p" takes q as an
+  argument.
 
-  The "two-colour graph cases" are those which are associated with Ramsey
+  The "multi-colour graph cases" are those which are associated with Ramsey
   problems with tuples of the form [2,[p1,...,pn], and their associated 
   functions are "ramseyg2_p1_..._p(n-1)_a" and "ramseyg2_p1_..._p(n-1)", where 
   "ramseyg2_p1_..._p(n-1)" takes "pn" as an argument.
