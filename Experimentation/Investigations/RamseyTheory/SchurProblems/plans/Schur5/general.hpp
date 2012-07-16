@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/RamseyTheory/SchurProblems/plans/general.hpp
+  \file Experimentation/Investigations/RamseyTheory/SchurProblems/plans/Schur5/general.hpp
   \brief On computing schur(5)
 
   The conjecture is schur(5) = 161.

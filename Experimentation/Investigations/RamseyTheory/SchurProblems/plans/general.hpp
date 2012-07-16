@@ -20,7 +20,10 @@ License, or any later version. */
   schur(r) = genschur_r(3,...,3) and
   schuri(r) = genschuri_r(3,...,3).
 
-  The standard Schur-numbers are available at Maxima-level via schur(r).
+  The standard Schur-numbers are available at Maxima-level via schur(r):
+  create_list(schur(r),r,1,7);
+    [2,5,14,45,[161,306],[365,2159],[1094,15119]]
+  (for r >= 6 we have not integrated yet all available information).
 
   SAT-translations are
   output_schur_stdname(r,n) for the SAT-problem "schur(r) > n ?", using
@@ -34,9 +37,25 @@ License, or any later version. */
   while
   schurtriples_ohg(5) =
     [[1,2,3,4,5],[{1,2},{1,2,3},{1,3,4},{2,4},{1,4,5},{2,3,5}]].
+  Subsumption-eliminiation removes the hyperedge {1,2,3} here:
+  schurtriples_me_hg(5) =
+    [{1,2,3,4,5},{{1,2},{1,3,4},{1,4,5},{2,3,5},{2,4}}],
+  schurtriples_me_ohg(5) =
+    [[1,2,3,4,5],[{1,2},{1,3,4},{2,4},{1,4,5},{2,3,5}]].
+  The SAT-translation uses the subsumption-eliminated hypergraph.
 
   Good basic information is available in Chapter 8 of [Ramsey Theory on the
   Integers; Landman, Robertson].
+
+
+  \todo Overview
+  <ul>
+   <li> See RamseyTheory/SchurProblems/plans/Schur5/general.hpp for
+   investigations on schur(5). </li>
+   <li> See "What is known" below for a quick overview. </li>
+   <li> See below for a naive quick overview on the performance of complete
+   SAT solvers. </li>
+  </ul>
 
 
   \todo What is known
@@ -49,8 +68,10 @@ License, or any later version. */
    <li> Only schur(1)=2, schur(2)=5, schur(3)=14 and schur(4)=45
    are known; this is A030126 in the OEIS. </li>
    <li> See http://mathworld.wolfram.com/SchurNumber.html . </li>
-   <li> While schur(5)=160 is conjectured (research problem 8.1 in
-   [Landman, Robertson, 2003]), where 160 <= schur(5) <= 316 is known. </li>
+   <li> While schur(5)=160 is conjectured as research problem 8.1 in
+   [Landman, Robertson, 2003]), where 160 <= schur(5) <= 316 is known.
+   However the conjecture must be schur(5) = 161, since since 1994 a
+   certificate showing schur(5)>160 is known. </li>
    <li> Furthermore schur(6) >= 536 and schur(7) >= 1680. </li>
    <li> At http://www.di.univaq.it/~formisano/CLPASP/node3.html one finds
    some results (mchaff, simo, relsat, zchaff) obtained by answer-set
