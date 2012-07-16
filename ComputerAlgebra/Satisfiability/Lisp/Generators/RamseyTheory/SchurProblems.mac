@@ -134,6 +134,35 @@ pd_schur_aloamo_stdfcl(r,n) := block([n2 : ceiling(n/2)],
 */
 
 
+/* Translating the general forms into boolean clause-sets via the
+   (weak) standard nested translation; now r >= 1 must hold:
+*/
+schur_standnest_fcl(r,n) := nbfclud2fcl_standnest(schur_nbfclud(r,n))$
+schur_standnest_fcs(r,n) := fcl2fcs(vanderwaerden_standnest_fcl(r,n))$
+
+/* Standardising these boolean clause-sets: */
+schur_standnest_stdfcl(r,n) :=
+  [block([s : standardise_schur_standnest(r,n)],
+     s(schur_standnest_fcl(r,n))),
+   block([invs : invstandardise_schur_standnest(r,n)],
+     create_list(invs(i), i,1,n*(r-1)))]$
+/* We have schur_standnest_stdfcl(r,n) =
+   standardise_fcl(schur_standnest_fcl(r,n)).
+*/
+schur_standnest_stdfcs(r,n) := block(
+ [FF : schur_standnest_stdfcl(r,n)],
+  [fcl2fcs(FF[1]), FF[2]])$
+
+/* Computing translation functions for standardising resp. de-standardising
+   terms resp. individual variables:
+*/
+standardise_schur_standnest(r,n) :=
+  buildq([r], lambda([t], ev(t, nbv(v,i):=(v-1)*(r-1)+i, nbv)))$
+invstandardise_schur_standnest(r,n) :=
+  buildq([r], lambda([i], block([d : divide(i-1,r-1)+1],
+    nbv_var(d[1], d[2]))))$
+
+
 /* **********
    * Output *
    **********
@@ -172,6 +201,19 @@ pd_output_schur(r,n,filename) := block(
 /* Providing a standard name: "Schur_pd_r_n.cnf": */
 pd_output_schur_stdname(r,n) := pd_output_schur(r,n,
   sconcat("Schur_pd_",r,"_",n,".cnf"))$
+
+
+/* Output the boolean clause-set (standard nested translation) to a file: */
+output_schur_standnest(r,n,filename) := block(
+ [FF : schur_standnest_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Schur problem with ", r, " parts and ", n, " elements, using the weak standard nested translation.", newline, "c ", "Created by output_schur_standnest(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "Schur_N_r_n.cnf": */
+output_schur_standnest_stdname(r,n) := output_schur_standnest(r,n,
+  sconcat("Schur_N_",r,"_",n,".cnf"))$
 
 
 /*!

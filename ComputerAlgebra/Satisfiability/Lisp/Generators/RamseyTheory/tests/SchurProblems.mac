@@ -111,30 +111,26 @@ okltest_schur_aloamo_fcl(f) := (
 
 okltest_nvar_schur_aloamo_fcl(f) := (
   for r : 0 thru 6 do
-   for n : 0 thru 6 do block([F : schur_aloamo_fcl(r,n)],
-    assert(f(r,n) = nvar_fcl(F))
-  ),
+   for n : 0 thru 6 do
+    assert(f(r,n) = nvar_fcl(schur_aloamo_fcl(r,n))),
   true)$
 
 okltest_nvar_schur_aloamo_fcs(f) := (
   for r : 0 thru 6 do
-   for n : 0 thru 6 do block([F : schur_aloamo_fcs(r,n)],
-    assert(f(r,n) = nvar_fcs(F))
-  ),
+   for n : 0 thru 6 do
+    assert(f(r,n) = nvar_fcs(schur_aloamo_fcs(r,n))),
   true)$
 
 okltest_ncl_list_schur_aloamo_fcl(f) := (
   for r : 0 thru 6 do
-   for n : 0 thru 6 do block([F : schur_aloamo_fcl(r,n)],
-    assert(f(r,n) = ncl_list_fcl(F))
-  ),
+   for n : 0 thru 6 do
+    assert(f(r,n) = ncl_list_fcl(schur_aloamo_fcl(r,n))),
   true)$
 
 okltest_ncl_list_schur_aloamo_fcs(f) := (
   for r : 0 thru 6 do
-   for n : 0 thru 6 do block([F : schur_aloamo_fcs(r,n)],
-    assert(f(r,n) = ncl_list_fcs(F))
-  ),
+   for n : 0 thru 6 do
+    assert(f(r,n) = ncl_list_fcs(schur_aloamo_fcs(r,n))),
   true)$
 
 okltest_schur_aloamo_stdfcl(f) := (
@@ -144,9 +140,8 @@ okltest_schur_aloamo_stdfcl(f) := (
   for n : 0 thru 1 do
     assert(f(1,n) = [[create_list(i,i,1,n),create_list({i},i,1,n)],create_list(nbv(i,1),i,1,n)]),
   for r : 0 thru cokltl(4,10) do
-   for n : 0 thru cokltl(4,10) do block([F : schur_aloamo_fcl(r,n)],
-    assert(f(r,n) = standardise_fcl(schur_aloamo_fcl(r,n)))
-  ),
+   for n : 0 thru cokltl(4,10) do
+    assert(f(r,n) = standardise_fcl(schur_aloamo_fcl(r,n))),
   true)$
 
 okltest_pd_schur_aloamo_stdfcl(f) := (
@@ -156,9 +151,16 @@ okltest_pd_schur_aloamo_stdfcl(f) := (
   for n : 0 thru 1 do
     assert(f(1,n) = [[create_list(i,i,1,n),create_list({i},i,1,n)],create_list(nbv(i,1),i,1,n)]),
   for r : 0 thru cokltl(4,10) do
-   for n : 0 thru cokltl(4,10) do block([F : pd_schur_aloamo_fcl(r,n)],
-    assert(f(r,n) = standardise_fcl(pd_schur_aloamo_fcl(r,n)))
-  ),
+   for n : 0 thru cokltl(4,10) do
+    assert(f(r,n) = standardise_fcl(pd_schur_aloamo_fcl(r,n))),
+  true)$
+
+okltest_schur_standnest_stdfcl(f) := (
+  for n : 0 thru 1 do
+    assert(f(1,n) = [[[],[]],[]]),
+  for r : 0 thru cokltl(4,10) do
+   for n : 0 thru cokltl(4,10) do
+    assert(f(r,n) = standardise_fcl(schur_standnest_fcl(r,n))),
   true)$
 
 /*!

@@ -50,6 +50,8 @@ okltest_schur_aloamo_stdfcl(schur_aloamo_stdfcl);
 
 okltest_pd_schur_aloamo_stdfcl(pd_schur_aloamo_stdfcl);
 
+okltest_schur_standnest_stdfcl(schur_standnest_stdfcl);
+
 /*!
 \endhtmlonly
 */
