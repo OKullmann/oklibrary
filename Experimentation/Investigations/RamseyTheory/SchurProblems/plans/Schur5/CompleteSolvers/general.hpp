@@ -10,12 +10,31 @@ License, or any later version. */
   \brief On computing lower bounds for schur(5) and variations via complete DPLL-solvers
 
 
-  \todo OKsolver_2002 for direction encoding
+  \todo Estimation of run times for direct encoding
   <ul>
-   <li> With a cluster and a few months it looks feasible without any
-   special action (the following data is for the old version, using the full
-   hypergraph, not, as now, the subsumption-free form; this shouldn't make a
-   big difference):
+   <li> For n=160 and OKsolver_2002:
+    <ol>
+     <li> n=160 and n=161 shouldn't be very different (when run to completion).
+     </li>
+     <li> Also OKsolver_2002 should be only by a factor of two slower than
+     satz and march_pl. </li>
+     <li> Looking at "SplittingViaOKsolver" below, if we optimistically
+     combine the two phases considered into, say, 200000 * 1000 = 200*10^6
+     nodes, and assume that each node can be considered in 2 days (it might
+     be much worse), then we needed 400*10^6 days. If we had 10^6 nodes
+     at our disposal, then this would take 400 days. </li>
+     <li> So if one could mobilise large Internet resources, then the job
+     might be feasible, but not with a (large) cluster. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo OKsolver_2002 for direct encoding
+  <ul>
+   <li> the following data is for the old version, using the full hypergraph,
+   not, as now, the subsumption-free form; this shouldn't make a big
+   difference:
    \verbatim
 > OKsolver_2002-O3-DNDEBUG -M -D20 Schur_5_160.cnf
 Name of file, monitoring depth and number of monitoring nodes:
@@ -104,6 +123,8 @@ c file_name                             Schur_sb_5_160.cnf
 602715.8 / 0.0005231138784438372 ~ 36.5 years
    \endverbatim
    </li>
+   <li> These estimations are likely too optimistic, as the analysis of
+   SplittingViaOKsolver above shows. </li>
   </ul>
 
 
@@ -182,13 +203,14 @@ c splitting_cases                       224100
      run with monitoring-depth 20, current status:
      \verbatim
  70127:    566     56.92  5.97E+07    14.50s     1.19s     0y  13d 12h 37m 12s     0     0   75
+ 92506:    129    101.88  1.07E+08     4.25s     2.14s     0y  23d 17h 34m 28s     0     0   75
      \endverbatim
      </li>
      <li> Running SplittingViaOKsolver with D=50: the first splitting-instance
      was rather easier for minisat-2.2.0, but not the second, so that instance
      is again considered on its own:
       <ol>
-       <li> Data on the splitting:
+       <li> Data on the (full) splitting:
        \verbatim
 > SplittingViaOKsolver -D50 D50_1.cnf
 > cat SplitViaOKsolver_D50D50_1cnf_2012-07-14-182421/Result
