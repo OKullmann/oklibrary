@@ -55,8 +55,16 @@ schur_sb_nbfcsud(r,n) := nbfclud2nbfcsud(schur_sb_nbfclud(r,n))$
    subsumption-free).
 */
 
+/* The palindromic forms: */
+pd_schur_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(schurtriples_pd_ohg(n), create_list(i,i,1,r))$
+pd_schur_nbfcsud(r,n) :=
+ nbfclud2nbfcsud(pd_schur_nbfclud(r,n))$
 
-/* Translation into boolean clause-sets: */
+
+/* ****************************************
+   * Translation into boolean clause-sets *
+   ****************************************
+*/
 
 /* Translating the general forms into boolean clause-sets via the
    (strong) direct translation: */
@@ -65,6 +73,9 @@ schur_aloamo_fcs(r,n) := fcl2fcs(schur_aloamo_fcl(r,n))$
 
 schur_sb_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(schur_sb_nbfclud(r,n))$
 schur_sb_aloamo_fcs(r,n) := fcl2fcs(schur_sb_aloamo_fcl(r,n))$
+
+pd_schur_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(pd_schur_nbfclud(r,n))$
+pd_schur_aloamo_fcs(r,n) := fcl2fcs(pd_schur_aloamo_fcl(r,n))$
 
 
 /* Statistics: */
@@ -83,6 +94,7 @@ ncl_list_schur_aloamo_fcl(r,n) := if n=0 then []
   else [[2,C2+n*binomial(r,2)],[3,C3],[r,n]])$
 ncl_list_schur_aloamo_fcs(r,n) := if n=0 then []
  elseif r=0 then [[0,1]] else ncl_list_schur_aloamo_fcl(r,n)$
+
 
 /* Standardisation: */
 /* Computing translation functions for standardising resp. de-standardising
@@ -112,8 +124,20 @@ schur_sb_aloamo_stdfcl(r,n) := (
    standardise_fcl(schur_sb_aloamo_fcl(r,n)).
 */
 
+pd_schur_aloamo_stdfcl(r,n) := block([n2 : ceiling(n/2)],
+  [block([s : standardise_schur_aloamo(r,n2)],
+     s(pd_schur_aloamo_fcl(r,n))),
+   block([invs : invstandardise_schur_aloamo(r,n2)],
+     create_list(invs(i), i,1,n2*r))])$
+/* We have pd_schur_aloamo_stdfcl(r,n) =
+   standardise_fcl(pd_schur_aloamo_fcl(r,n)).
+*/
 
-/* Output: */
+
+/* **********
+   * Output *
+   **********
+*/
 
 /* Output the boolean clause-set (direct translation) to a file: */
 output_schur(r,n,filename) := block(
@@ -137,6 +161,17 @@ output_schur_sb(r,n,filename) := block(
 /* Providing a standard name: "Schur_sb_r_n.cnf": */
 output_schur_sb_stdname(r,n) := output_schur_sb(r,n,
   sconcat("Schur_sb_",r,"_",n,".cnf"))$
+
+pd_output_schur(r,n,filename) := block(
+ [FF : pd_schur_aloamo_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Palindromic Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c ", "Created by pd_output_schur(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "Schur_pd_r_n.cnf": */
+pd_output_schur_stdname(r,n) := pd_output_schur(r,n,
+  sconcat("Schur_pd_",r,"_",n,".cnf"))$
 
 
 /*!

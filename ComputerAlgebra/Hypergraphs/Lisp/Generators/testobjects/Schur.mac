@@ -39,6 +39,13 @@ okltest_nhyp_schurtriples_me_ohg(nhyp_schurtriples_me_ohg);
 
 okltest_has_schurtriple(has_schurtriple);
 
+/* ************
+   * Symmetry *
+   ************
+*/
+
+oklib_schurtriples_pd_ohg(schurtriples_pd_ohg);
+
 /*!
 \endhtmlonly
 */
