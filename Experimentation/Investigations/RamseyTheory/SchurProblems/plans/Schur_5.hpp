@@ -170,7 +170,7 @@ c file_name                             Schur_sb_5_160.cnf
    to make the problem more difficult. </li>
    <li> Finally by
    \verbatim
-ubcsat-okl -alg saps -runs 10000 -cutoff 100000 -i Schur_5_159.cnf
+> ubcsat-okl -alg saps -runs 10000 -cutoff 100000 -i Schur_5_159.cnf
 Clauses = 33349
 Variables = 795
 TotalLiterals = 98380
@@ -184,7 +184,27 @@ BestSolution_Median = 1.000000
 BestSolution_Min = 0.000000
 BestSolution_Max = 3.000000
    \endverbatim
-   we found one solution (seed=830151296, msteps=31379). </li>
+   we found one solution (seed=830151296, msteps=31379). However finding a
+   solution seems difficult:
+   \verbatim
+> ubcsat-okl -alg rsaps -runs 1000 -cutoff 10000000 -i Schur_5_159.cnf | tee Schur_5_159.cnf_OUT
+Clauses = 33084
+Variables = 795
+TotalLiterals = 97585
+FlipsPerSecond = 205225
+BestStep_Mean = 386955.108
+Steps_Mean = 10000000
+Steps_Max = 10000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1
+BestSolution_Median = 1
+BestSolution_Min = 1
+BestSolution_Max = 1
+
+> ubcsat-okl -alg vw1 -runs 10000 -cutoff 1000000 -i Schur_5_159.cnf | tee Schur_5_159.cnf_OUT
+XXX cs-wsok
+   \endverbatim
+   </li>
    <li> On the other hand we get
    \verbatim
 > ubcsat-okl -alg saps -runs 40000 -cutoff 200000 -i Schur_5_160.cnf | tee Schur_5_160.out
@@ -218,7 +238,39 @@ BestSolution_Max = 1
    \endverbatim
    so the conjecture schur(5)=160 seems justified --- however this is false
    (see above)! </li>
-   <li> We need to determine the best Ubcsat-solver. </li>
+   <li> We need to determine the best Ubcsat-solver:
+   \verbatim
+> E = run_ubcsat("Schur_5_159.cnf", runs=100, cutoff=1000000)
+> eval_ubcsat_dataframe(E,FALSE)
+1. vw1:
+ 1  2
+97  3
+fps: 475873
+2. ddfw:
+ 1  2
+92  8
+fps: 63800
+3. rsaps:
+ 1  2
+88 12
+fps: 232423
+4. saps:
+ 1  2
+87 13
+fps: 295430
+5. paws:
+ 1  2
+76 24
+fps: 467552
+6. wsat:
+ 1  2
+74 26
+fps: 449479
+7. sapsnr:
+ 1  2
+73 27
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -305,6 +357,7 @@ c splitting_cases                       224100
       <ol>
        <li> Data on the splitting:
        \verbatim
+> SplittingViaOKsolver -D50 D50_1.cnf
 > cat SplitViaOKsolver_D50D50_1cnf_2012-07-14-182421/Result
 s UNKNOWN
 c sat_status                            2
@@ -352,9 +405,10 @@ c splitting_cases                       5645
       5     114
        \endverbatim
        </li>
-       <li> Attempt at solving it directly with OKsolver-2002: XXX
-       run with monitoring-depth 8; current status:
+       <li> Attempt at solving this second-level splitting instance directly
+       with OKsolver-2002, run with monitoring-depth 8:
        \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D8 D50_1_D50_2.cnf
    135:   1602    244.71  6.26E+04    29.72s     4.69s     0y   0d  0h  9m 28s     0     0   36
 s UNKNOWN
 c sat_status                            2
@@ -385,7 +439,40 @@ c number_of_1-autarkies                 5780791509
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             D50_1_D50_2.cnf
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         5
+c initial_number_of_variables           682
+c initial_number_of_clauses             20271
+c initial_number_of_literal_occurrences 57596
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   3470
+c running_time(sec)                     140082.8
+c number_of_nodes                       80167759
+c number_of_single_nodes                17430976
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                533138873
+c number_of_pure_literals               0
+c number_of_autarkies                   5054570
+c number_of_missed_single_nodes         9391486
+c max_tree_depth                        71
+c proportion_searched                   5.284511e-01
+c proportion_single                     6.817329e-07
+c total_proportion                      0.5284517405403815
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 14205341478
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             D50_1_D50_2.cnf
+> display_seconds(140082.8)
+[1] "1.621d"
        \endverbatim
+       So at monitor-node 136 the solver fell into a "deep hole", which might
+       take a (very) long time.
        </li>
       </ol>
      </li>
