@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 23.10.2010 (Swansea) */
-/* Copyright 2010, 2011 Oliver Kullmann
+/* Copyright 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -182,7 +182,9 @@ has_arithprog(S,k) :=
 mirrorfold_vdw(n) := buildq([n,div:ceiling(n/2)],
   lambda([v], if v >= div+1 then n-v+1 else v))$
 
-/* Now the palindromisation of vdW-hypergraphs: */
+/* Now the palindromisation of vdW-hypergraphs (colexicographical order, with
+   subsumption-elimination): */
+/* TODO: this is not related to vdW-hypergraphs, but is a general construction. */
 palindromise_vdw_ohg(G) := 
  if emptyp(first(G)) then G
  else block([n : last(first(G)), div, V],

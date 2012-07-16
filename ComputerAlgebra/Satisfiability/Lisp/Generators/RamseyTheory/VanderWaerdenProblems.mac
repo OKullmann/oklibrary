@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 20.9.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -52,6 +52,7 @@ vanderwaerden2nd_fcl(k1,k2,n) := block(
  [G1 : arithprog_ohg(k1,n), G2 : arithprog_ohg(k2,n)],
   [G1[1], append(G1[2], comp_cl(G2[2]))])$
 vanderwaerden2nd_fcs(k1,k2,n) := fcl2fcs(vanderwaerden2nd_fcl(k1,k2,n))$
+
 /* The palindromic versions: */
 pd_vanderwaerden2nd_fcl(k1,k2,n) := block(
  [G1 : palindromise_vdw_ohg(arithprog_ohg(k1,n)),
