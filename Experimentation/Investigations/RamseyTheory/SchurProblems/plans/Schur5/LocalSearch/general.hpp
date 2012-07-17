@@ -13,11 +13,22 @@ License, or any later version. */
   enables to find all known solutions (and possibly) via SAT.
 
 
-  \todo Local search for the direct encoding
+  \todo Direct encoding
   <ul>
    <li> Considering Schur_5_159.cnf; the following data is for the old
    version, using the full hypergraph, not, as now, the subsumption-free form;
-   this shouldn't make a big difference. </li>
+   this shouldn't make a big difference. The instance-statistics for the new
+   form is:
+   \verbatim
+> cat Schur_5_159.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    795   33084    795    795   33084    97585     NA     NA   33084    97585   798
+ length   count
+      2    1985
+      3   30940
+      5     159
+   \endverbatim
+   </li>
    <li> From the ubcsat-1.0.0 suite saps seems clearly perform best, and
    a local minimum of one falsified clause is easily reached already with
    cutoff = 10000. </li>
@@ -43,8 +54,8 @@ BestSolution_Median = 1.000000
 BestSolution_Min = 0.000000
 BestSolution_Max = 3.000000
    \endverbatim
-   we found one solution (seed=830151296, msteps=31379). However finding a
-   solution seems difficult:
+   we found (exactly) one solution (seed=830151296, msteps=31379). However
+   finding a solution is difficult:
    \verbatim
 > ubcsat-okl -alg rsaps -runs 1000 -cutoff 10000000 -i Schur_5_159.cnf | tee Schur_5_159.cnf_OUT
 Clauses = 33084
@@ -79,10 +90,40 @@ BestSolution_Max = 3
 10000
 
 > ubcsat-okl -alg vw1 -runs 100000 -cutoff 100000 -i Schur_5_159.cnf | tee Schur_5_159.cnf_OUT
-XXX cs-wsok
+Clauses = 33084
+Variables = 795
+TotalLiterals = 97585
+FlipsPerSecond = 462991
+BestStep_Mean = 29011.16233
+Steps_Mean = 100000
+Steps_Max = 100000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.24328
+BestSolution_Median = 1
+BestSolution_Min = 1
+BestSolution_Max = 3
+> E=read_ubcsat("Schur_5_159.cnf_OUT",nrows=100000)
+    1     2     3
+76007 23658   335
+100000
+
+> ubcsat-okl -alg saps -runs 100000 -cutoff 100000 -i Schur_5_159.cnf | tee Schur_5_159.cnf_OUT
+FlipsPerSecond = 281467
+BestStep_Mean = 15666.23514
+Steps_Mean = 100000
+Steps_Max = 100000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.42856
+BestSolution_Median = 1
+BestSolution_Min = 1
+BestSolution_Max = 3
+> E=read_ubcsat("Schur_5_159.cnf_OUT",nrows=100000)
+    1     2     3
+58736 39672  1592
+100000
    \endverbatim
    </li>
-   <li> On the other hand we get
+   <li> For n=160 we get
    \verbatim
 > ubcsat-okl -alg saps -runs 40000 -cutoff 200000 -i Schur_5_160.cnf | tee Schur_5_160.out
 Clauses = 33760
@@ -113,8 +154,8 @@ BestSolution_Median = 1
 BestSolution_Min = 1
 BestSolution_Max = 1
    \endverbatim
-   so the conjecture schur(5)=160 seems justified --- however this is false
-   (see above)! </li>
+   which is hardly a difference (recall also this instance is satisfiable).
+   </li>
    <li> We need to determine the best Ubcsat-solver:
    \verbatim
 > E = run_ubcsat("Schur_5_159.cnf", runs=100, cutoff=1000000)
@@ -146,6 +187,73 @@ fps: 449479
 7. sapsnr:
  1  2
 73 27
+   \endverbatim
+   </li>
+  </ul>
+
+
+  \todo Weak nested standard translation
+  <ul>
+   <li> Creation by output_schur_standnest_stdname(5,n). </li>
+   <li> Instance-statistics:
+   \verbatim
+> cat Schur_N_5_159.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    636   31335    636    636   31335   262108     NA     NA   31335   262108   639
+ length   count
+      2      79
+      3    6188
+      4      79
+      6    6267
+      8     158
+      9    6188
+     12   12376
+   \endverbatim
+   </li>
+   <li> Determining the best Ubcsat-solver:
+   \verbatim
+> E = run_ubcsat("Schur_N_5_159.cnf", runs=100, cutoff=1000000)
+> eval_ubcsat_dataframe(E,FALSE)
+1. gwsat:
+ 1  2  3
+93  4  3
+fps: 126576
+2. rsaps:
+ 1  2
+83 17
+fps: 102845
+3. g2wsat:
+ 1  2  3  4  5  6  7
+65 14  9  7  2  2  1
+fps: 117436
+4. hwsat:
+ 1  2  3  4  5
+62 10 19  7  2
+fps: 119872
+5. dano:
+ 1  2  3  4  5  7  8
+52 23 11  6  3  4  1
+fps: 78569
+6. saps:
+ 1  2  3  4  5  6
+52 14 13 12  7  2
+fps: 105617
+7. wsattn:
+ 1  2  3  4  5  6  7  8
+51 21 10  7  5  4  1  1
+fps: 135650
+8. paws:
+ 1  2  3  4  5  6  7  8  9 11 12
+51 15  5  5  6  4  7  3  2  1  1
+fps: 162303
+   \endverbatim
+   Doesn't look better than the direct encoding, and is slower by, say, a
+   factor of 3.
+   </li>
+   <li> Searching for a solution:
+   \verbatim
+> ubcsat-okl -alg gwsat -runs 100000 -cutoff 100000 -i Schur_N_5_159.cnf | tee Schur_N_5_159.cnf_OUT
+XXX cs-oksvr
    \endverbatim
    </li>
   </ul>
