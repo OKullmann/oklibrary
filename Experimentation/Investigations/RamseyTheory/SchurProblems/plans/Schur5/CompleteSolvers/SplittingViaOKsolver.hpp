@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/RamseyTheory/SchurProblems/plans/Schur5/SplittingViaOKsolver/general.hpp
+  \file Investigations/RamseyTheory/SchurProblems/plans/Schur5/SplittingViaOKsolver.hpp
   \brief On computing lower bounds for schur(5) and variations via Cube-and-Conquer
 
 
@@ -213,6 +213,145 @@ c file_name                             D50_1_D50_2.cnf
        </li>
       </ol>
      </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo SplittingViaOKsolver for palindromic problem (direct encoding)
+  <ul>
+   <li> Consider n=162; instance-statistics:
+   \verbatim
+> cat Schur_pd_5_162.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    405   11556    405    405   11556    33615     NA     NA   11556    33615   408
+ length   count
+      2    1215
+      3   10260
+      5      81
+   \endverbatim
+   </li>
+   <li> Splitting with D=20,30,40,50,70:
+   \verbatim
+> cat SplitViaOKsolver_D20Schur_pd_5_162cnf_2012-07-16-101722/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         5
+c initial_number_of_variables           405
+c initial_number_of_clauses             11556
+c initial_number_of_literal_occurrences 33615
+c number_of_2-clauses_after_reduction   1215
+c running_time(sec)                     9.6
+c number_of_nodes                       559
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                0
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        13
+c proportion_searched                   0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 215277
+c splitting_cases                       280
+
+> cat SplitViaOKsolver_D30Schur_pd_5_162cnf_2012-07-16-101810/Result
+c running_time(sec)                     64.9
+c number_of_nodes                       4199
+c max_tree_depth                        16
+c total_proportion                      0
+c splitting_cases                       2100
+
+> cat SplitViaOKsolver_D40Schur_pd_5_162cnf_2012-07-16-102029/Result
+c running_time(sec)                     504.2
+c number_of_nodes                       36119
+c max_tree_depth                        21
+c total_proportion                      0
+c splitting_cases                       18060
+
+> cat SplitViaOKsolver_D50Schur_pd_5_162cnf_2012-07-16-103612/Result
+c running_time(sec)                     4625.1
+c number_of_nodes                       265439
+c max_tree_depth                        26
+c splitting_cases                       132720
+   \endverbatim
+   Also here not a single node was solved, and not even a single 2-reduction
+   was found. </li>
+   <li> Solving the first sub-instance (for the above D=50):
+    <ol>
+     <li> Instance-statistics:
+     \verbatim
+> cat pd162D50_1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    400   80236    348    400    8023    22635     NA     NA    8023    22635   410
+ length   count
+      2    1566
+      3    6386
+      4      10
+      5      61
+     \endverbatim
+     (the false pc-value is a bug: the old 6 has been kept).
+     </li>
+     <li> Splitting with D=50,70:
+     \verbatim
+> cat SplitViaOKsolver_D50pd162D50_1cnf_2012-07-16-124512/Result
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         5
+c initial_number_of_variables           348
+c initial_number_of_clauses             8023
+c initial_number_of_literal_occurrences 22635
+c number_of_2-clauses_after_reduction   1566
+c running_time(sec)                     35.8
+c number_of_nodes                       7813
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                18
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        18
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 2336215
+c splitting_cases                       3907
+
+> cat SplitViaOKsolver_D70pd162D50_1cnf_2012-07-16-125115/Result
+c running_time(sec)                     330.6
+c number_of_nodes                       86315
+c number_of_2-reductions                1650
+c max_tree_depth                        23
+c total_proportion                      0
+c splitting_cases                       43158
+     \endverbatim
+     Still not a single node was solved (but now we have some 2-reductions).
+     </li>
+     <li> Solving it with ProcessSplitViaOKsolver (employing minisat-2.2.0),
+     in 701:25 m:
+     \verbatim
+> E=read_processsplit_minisat()
+43158: 10.815h, sum-cfs=1.431975e+09, mean-t=0.902s, mean-cfs=33180, sat: 0
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 0.0160  0.4320  0.7240  0.9021  1.1400 10.7500
+sd= 0.7124658
+     95%      96%      97%      98%      99%     100%
+ 2.27214  2.42015  2.61732  2.90818  3.53622 10.75270
+sum= 38933.41
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    280   15560   25810   33180   42460  366000
+sd= 26718.4
+      95%       96%       97%       98%       99%      100%
+ 85493.75  91356.80  98682.00 109313.20 132201.58 366031.00
+sum= 1431974993
+$t ~ $cfs:
+              Estimate Std. Error t value  Pr(>|t|)
+(Intercept) 3.7573e-02 1.1625e-03  32.322 < 2.2e-16 ***
+E$cfs       2.6056e-05 2.7288e-08 954.851 < 2.2e-16 ***
+R-squared: 0.9548
+     \endverbatim
+     </li>
+     <li> So solving Schur_pd_5_162.cnf could be in reach. </li>
     </ol>
    </li>
   </ul>

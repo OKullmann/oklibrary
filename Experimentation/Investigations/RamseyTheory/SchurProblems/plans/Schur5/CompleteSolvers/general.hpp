@@ -26,7 +26,7 @@ License, or any later version. */
      </li>
      <li> Also OKsolver_2002 should be only by a factor of two slower than
      satz and march_pl. </li>
-     <li> Looking at "SplittingViaOKsolver" (in
+     <li> Looking at "SplittingViaOKsolver for direct encoding" (in
      Schur5/SplittingViaOKsolver/general.hpp), if we optimistically
      combine the two phases considered into, say, 200000 * 1000 = 200*10^6
      nodes, and assume that each node can be solved in 2 days (it might
@@ -34,6 +34,16 @@ License, or any later version. */
      at our disposal, then this would take 400 days. </li>
      <li> So if one could mobilise large Internet resources, then the job
      might be feasible, but not with a (large) cluster. </li>
+    </ol>
+   </li>
+   <li> For n=162 and palindromic problem:
+    <ol>
+     <li> Looking at "SplittingViaOKsolver for palindromic problem (direct
+     encoding)" in Schur5/SplittingViaOKsolver/general.hpp), with the
+     splitting depth of 70 and 132720 splitting cases, one can hope that
+     on average a sub-instance needs 1 day, and so 130*10^3 days would be
+     needed. With 10^3 computer-nodes at our disposal, this should be
+     feasible (given that we further improve the process). </li>
     </ol>
    </li>
   </ul>
