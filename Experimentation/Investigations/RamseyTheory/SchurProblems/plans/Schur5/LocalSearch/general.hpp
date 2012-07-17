@@ -258,4 +258,100 @@ XXX cs-oksvr
    </li>
   </ul>
 
+
+  \todo Palindromic problems, direct encoding
+  <ul>
+   <li> Determining the best Ubcsat-solver:
+   \verbatim
+> E = run_ubcsat("Schur_pd_5_160.cnf", runs=100, cutoff=1000000)
+> eval_ubcsat_dataframe(E,FALSE)
+1. saps:
+ 0  1
+ 4 96
+fps: 574542
+2. gwsat:
+  1
+100
+fps: 536682
+3. gsatt:
+  1
+100
+fps: 314762
+4. wsat:
+  1
+100
+fps: 1081315
+5. rsaps:
+  1
+100
+fps: 572017
+6. sapsnr:
+  1
+100
+fps: 583601
+7. rots:
+  1
+100
+fps: 315876
+8. irots:
+  1
+100
+fps: 292894
+9. samd:
+  1
+100
+fps: 316126
+10. wsattn:
+  1
+100
+fps: 1107174
+11. novpp:
+  1
+100
+fps: 937647
+12. paws:
+  1
+100
+fps: 1040150
+13. ddfw:
+  1
+100
+fps: 203728
+14. g2wsat:
+  1
+100
+fps: 687521
+15. ag2wsat:
+  1
+100
+fps: 677048
+16. vw1:
+  1
+100
+fps: 1060895
+   \endverbatim
+   </li>
+   <li> Finding solutions:
+   \verbatim
+> ubcsat-okl -alg saps -cutoff 10000000 -runs 100 -i Schur_pd_5_160.cnf | tee Schur_pd_5_160.cnf_OUT
+Clauses = 11290
+Variables = 400
+TotalLiterals = 32830
+FlipsPerSecond = 574221
+BestStep_Mean = 757499.69
+Steps_Mean = 9256157.25
+Steps_Max = 10000000
+PercentSuccess = 15.00
+BestSolution_Mean = 0.85
+BestSolution_Median = 1
+BestSolution_Min = 0
+BestSolution_Max = 1
+> E=read_ubcsat("Schur_pd_5_160.cnf_OUT",nrows=100)
+ 0  1
+15 85
+100
+   \endverbatim
+   </li>
+  </ul>
+
 */
