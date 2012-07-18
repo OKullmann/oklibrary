@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.7.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -33,7 +33,7 @@ License, or any later version. */
      <li> Basics.mac </li>
      <li> VanderWaerden.mac : DONE</li>
      <li> GreenTao.mac : DONE </li>
-     <li> Schur.mac </li>
+     <li> Schur.mac : DONE </li>
      <li> Rado.mac DONE </li>
      <li> Folkman.mac </li>
      <li> Hindman.mac DONE </li>
