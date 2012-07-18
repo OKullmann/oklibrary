@@ -253,9 +253,24 @@ fps: 162303
    <li> Searching for a solution:
    \verbatim
 > ubcsat-okl -alg gwsat -runs 100000 -cutoff 100000 -i Schur_N_5_159.cnf | tee Schur_N_5_159.cnf_OUT
-XXX cs-oksvr
+Clauses = 31335
+Variables = 636
+TotalLiterals = 262108
+FlipsPerSecond = 125743
+BestStep_Mean = 44998.58349
+Steps_Mean = 100000
+Steps_Max = 100000
+PercentSuccess = 0.00
+BestSolution_Mean = 2.2196
+BestSolution_Median = 2
+BestSolution_Min = 1
+BestSolution_Max = 10
+> E=read_ubcsat("Schur_N_5_159.cnf_OUT",nrows=100000)
+    1     2     3     4     5     6     7     8     9    10
+33427 26502 29397  6989  3108   278   223    72     3     1
+100000
    \endverbatim
-   </li>
+   This is weaker than what we get with the direct encoding. </li>
   </ul>
 
 
@@ -331,7 +346,7 @@ fps: 677048
 fps: 1060895
    \endverbatim
    </li>
-   <li> Finding solutions:
+   <li> Finding solutions for n=160:
    \verbatim
 > ubcsat-okl -alg saps -cutoff 10000000 -runs 100 -i Schur_pd_5_160.cnf | tee Schur_pd_5_160.cnf_OUT
 Clauses = 11290
@@ -350,6 +365,13 @@ BestSolution_Max = 1
  0  1
 15 85
 100
+   \endverbatim
+   </li>
+      <li> Searching solutions for n=162:
+   \verbatim
+> ubcsat-okl -alg saps -cutoff 20000000 -runs 1000 -i Schur_pd_5_162.cnf | tee Schur_pd_5_162.cnf_OUT
+> E=read_ubcsat("Schur_pd_5_162.cnf_OUT",nrows=1000)
+cs-oksvr XXX
    \endverbatim
    </li>
   </ul>
