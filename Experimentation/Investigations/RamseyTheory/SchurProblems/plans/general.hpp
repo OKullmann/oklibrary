@@ -21,9 +21,8 @@ License, or any later version. */
   schuri(r) = genschuri_r(3,...,3).
 
   The standard Schur-numbers are available at Maxima-level via schur(r):
-  create_list(schur(r),r,1,7);
-    [2,5,14,45,[161,306],[365,2159],[1094,15119]]
-  (for r >= 6 we have not integrated yet all available information).
+  create_list(schur(r),r,1,8);
+    [2,5,14,45,[161,306],[537,1837],[1681,12860],[3281,120959]]
 
   SAT-translations are
   output_schur_stdname(r,n) for the SAT-problem "schur(r) > n ?", using
@@ -47,11 +46,15 @@ License, or any later version. */
   Good basic information is available in Chapter 8 of [Ramsey Theory on the
   Integers; Landman, Robertson].
 
+  The palindromic problems are created by pd_output_schur_stdname(r,n).
+
 
   \todo Overview
   <ul>
    <li> See RamseyTheory/SchurProblems/plans/Schur5/general.hpp for
    investigations on schur(5). </li>
+   <li> See RamseyTheory/SchurProblems/plans/Schur6/general.hpp for
+   investigations on schur(6). </li>
    <li> See "What is known" below for a quick overview. </li>
    <li> See below for a naive quick overview on the performance of complete
    SAT solvers. </li>
