@@ -39,7 +39,7 @@ License, or any later version. */
    <li> For n=162 and palindromic problem:
     <ol>
      <li> Looking at "SplittingViaOKsolver for palindromic problem (direct
-     encoding)" in Schur5/SplittingViaOKsolver/general.hpp), with the
+     encoding)" in Schur5/CompleteSolvers/SplittingViaOKsolver.hpp), with the
      splitting depth of 70 and 132720 splitting cases, one can hope that
      on average a sub-instance needs 1 day, and so 130*10^3 days would be
      needed. With 10^3 computer-nodes at our disposal, this should be
