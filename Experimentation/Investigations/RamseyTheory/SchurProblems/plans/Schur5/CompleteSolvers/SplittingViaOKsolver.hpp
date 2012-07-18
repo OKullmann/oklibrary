@@ -84,9 +84,42 @@ c splitting_cases                       224100
      <li> Running OKsolver-2002 on it XXX
      run with monitoring-depth 20, current status:
      \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D20 D50_1.cnf
  70127:    566     56.92  5.97E+07    14.50s     1.19s     0y  13d 12h 37m 12s     0     0   75
  92506:    129    101.88  1.07E+08     4.25s     2.14s     0y  23d 17h 34m 28s     0     0   75
+133128:     55    100.51  1.05E+08     1.53s     2.23s     0y  23d 14h 25m 54s     0     0   78
+^C
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         5
+c initial_number_of_variables           743
+c initial_number_of_clauses             26678
+c initial_number_of_literal_occurrences 77350
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   2974
+c running_time(sec)                     311213.4
+c number_of_nodes                       19225796
+c number_of_single_nodes                1096574
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                207941293
+c number_of_pure_literals               0
+c number_of_autarkies                   324663
+c number_of_missed_single_nodes         520692
+c max_tree_depth                        78
+c proportion_searched                   1.269612e-01
+c proportion_single                     3.111316e-07
+c total_proportion                      0.1269614993137118
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 4859177916
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             D50_1.cnf
      \endverbatim
+     With node 133129 it felt finally into a "deep hole".
      </li>
      <li> Running SplittingViaOKsolver with D=50: the first splitting-instance
      was rather easier for minisat-2.2.0, but not the second, so that instance
@@ -220,6 +253,7 @@ c file_name                             D50_1_D50_2.cnf
 
   \todo SplittingViaOKsolver for palindromic problem (direct encoding)
   <ul>
+   <li> Creation via e.g. pd_output_schur_stdname(5,162). </li>
    <li> Consider n=162; instance-statistics:
    \verbatim
 > cat Schur_pd_5_162.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
