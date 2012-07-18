@@ -66,6 +66,16 @@ okltest_schurtriples_me_hg(f) := (
   ),
   true)$
 
+okltest_wschurtriples_ohg(f) := (
+  assert(f(0) = [[],[]]),
+  assert(f(1) = [[1],[]]),
+  assert(f(2) = [[1,2],[]]),
+  assert(f(3) = [[1,2,3],[{1,2,3}]]),
+  for n : 0 thru 15 do block([G : schurtriples_ohg(n)],
+    assert(f(n) = [G[1], sublist(G[2], lambda([H], is(length(H)=3)))])
+  ),
+  true)$
+
 okltest_nhyp_list_schurtriples_ohg(f) := (
   for n : 0 thru 10 do
     assert(f(n) = nhyp_list_ohg(schurtriples_ohg(n))),
@@ -76,6 +86,11 @@ okltest_nhyp_list_schurtriples_me_ohg(f) := (
     assert(f(n) = nhyp_list_ohg(schurtriples_me_ohg(n))),
   true)$
 
+okltest_nhyp_list_wschurtriples_ohg(f) := (
+  for n : 0 thru 10 do
+    assert(f(n) = nhyp_list_ohg(wschurtriples_ohg(n))),
+  true)$
+
 okltest_nhyp_schurtriples_ohg(f) := (
   for n : 0 thru 10 do
     assert(f(n) = nhyp_ohg(schurtriples_ohg(n))),
@@ -84,6 +99,11 @@ okltest_nhyp_schurtriples_ohg(f) := (
 okltest_nhyp_schurtriples_me_ohg(f) := (
   for n : 0 thru 10 do
     assert(f(n) = nhyp_ohg(schurtriples_me_ohg(n))),
+  true)$
+
+okltest_nhyp_wschurtriples_ohg(f) := (
+  for n : 0 thru 10 do
+    assert(f(n) = nhyp_ohg(wschurtriples_ohg(n))),
   true)$
 
 okltest_has_schurtriple(f) := (

@@ -32,10 +32,14 @@ okltest_schurtriples_hg(schurtriples_hg);
 okltest_schurtriples_me_ohg(schurtriples_me_ohg);
 okltest_schurtriples_me_hg(schurtriples_me_hg);
 
+okltest_wschurtriples_ohg(wschurtriples_ohg);
+
 okltest_nhyp_list_schurtriples_ohg(nhyp_list_schurtriples_ohg);
 okltest_nhyp_list_schurtriples_me_ohg(nhyp_list_schurtriples_me_ohg);
+okltest_nhyp_list_wschurtriples_ohg(nhyp_list_wschurtriples_ohg);
 okltest_nhyp_schurtriples_ohg(nhyp_schurtriples_ohg);
 okltest_nhyp_schurtriples_me_ohg(nhyp_schurtriples_me_ohg);
+okltest_nhyp_wschurtriples_ohg(nhyp_wschurtriples_ohg);
 
 okltest_has_schurtriple(has_schurtriple);
 
