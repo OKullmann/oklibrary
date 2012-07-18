@@ -371,8 +371,20 @@ BestSolution_Max = 1
    \verbatim
 > ubcsat-okl -alg saps -cutoff 20000000 -runs 1000 -i Schur_pd_5_162.cnf | tee Schur_pd_5_162.cnf_OUT
 > E=read_ubcsat("Schur_pd_5_162.cnf_OUT",nrows=1000)
-cs-oksvr XXX
+Clauses = 11556
+Variables = 405
+TotalLiterals = 33615
+FlipsPerSecond = 551812
+BestStep_Mean = 1530.921
+Steps_Mean = 20000000
+Steps_Max = 20000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1
+BestSolution_Median = 1
+BestSolution_Min = 1
+BestSolution_Max = 1
    \endverbatim
+   Looks unsatisfiable.
    </li>
   </ul>
 

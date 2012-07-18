@@ -23,7 +23,22 @@ License, or any later version. */
    <li>
    \verbatim
 > ubcsat-okl -alg saps -runs 100 -cutoff 10000000 -i Schur_pd_6_535.cnf | tee Schur_pd_6_535.cnf_OUT
-XXX cs-wsok
+Clauses = 146344
+Variables = 1608
+TotalLiterals = 434214
+FlipsPerSecond = 70076
+BestStep_Mean = 1099320.1
+Steps_Mean = 10000000
+Steps_Max = 10000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.68
+BestSolution_Median = 2
+BestSolution_Min = 1
+BestSolution_Max = 3
+> E=read_ubcsat("Schur_pd_6_535.cnf_OUT",nrows=100)
+ 1  2  3
+36 60  4
+100
    \endverbatim
    </li>
   </ul>
