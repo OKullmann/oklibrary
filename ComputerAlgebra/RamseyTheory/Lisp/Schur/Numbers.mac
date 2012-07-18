@@ -30,6 +30,8 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac")$
 /* r is natural numbers >= 1: */
 schur(r) := if r <= 4 then [2,5,14,45][r]
  elseif r=5 then [161,306]
+ elseif r=6 then [537,1837]
+ elseif r=7 then [1681,12860]
  else block([lb : (3^r+1)/2, ub : 3*r!-1,
              rub : ramsey([2,create_list(3,i,1,r)])],
    if rub#unknown then ub : min(ub, rub),
@@ -45,8 +47,17 @@ schur(r) := if r <= 4 then [2,5,14,45][r]
       Investigations/RamseyTheory/SchurProblems/plans/general.hpp.
     - The upper bound comes from ramsey([2,[3,3,3,3,3]]) <= 307
       ([Small Ramsey Numbers; Radziszowski, The Electronic Journal of
-      Combinatorics, August 22, 2011]
+      Combinatorics, August 22, 2011], Page 34
       http://www.combinatorics.org/ojs/index.php/eljc/article/view/ds1/html).
+ - For r = 6:
+    - The upper bound comes from ramsey([2,[3,3,3,3,3,3]]) <= 1838
+      ([Small Ramsey Numbers; Radziszowski, The Electronic Journal of
+      Combinatorics, August 22, 2011].
+ - For r = 7:
+    - The upper bound comes from ramsey([2,[3,3,3,3,3,3,3]]) <= 12861
+      ([Small Ramsey Numbers; Radziszowski, The Electronic Journal of
+      Combinatorics, August 22, 2011].
+
 */
 
 
