@@ -45,7 +45,6 @@ ncl_list_schur_nbfcsud(r,n) := if r=0 then [] else
  map(lambda([p],[p[1],r*p[2]]), nhyp_list_schurtriples_me_hg(n))$
 ncl_schur_nbfcsud(r,n) := r * nhyp_schurtriples_me_hg(n)$
 
-
 /* Adding symmetry-breaking clauses (regarding the parts (colours), forcing
    vertex 1 to be in part 1); now we must have n >= 1: */
 schur_sb_nbfclud(r,n) := block([S : schur_nbfclud(r,n)],
@@ -59,6 +58,11 @@ schur_sb_nbfcsud(r,n) := nbfclud2nbfcsud(schur_sb_nbfclud(r,n))$
 pd_schur_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(schurtriples_pd_ohg(n), create_list(i,i,1,r))$
 pd_schur_nbfcsud(r,n) :=
  nbfclud2nbfcsud(pd_schur_nbfclud(r,n))$
+
+/* The weak forms: */
+wschur_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(wschurtriples_ohg(n), create_list(i,i,1,r))$
+wschur_nbfcsud(r,n) :=
+ nbfclud2nbfcsud(wschur_nbfclud(r,n))$
 
 
 /* ****************************************
@@ -76,6 +80,9 @@ schur_sb_aloamo_fcs(r,n) := fcl2fcs(schur_sb_aloamo_fcl(r,n))$
 
 pd_schur_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(pd_schur_nbfclud(r,n))$
 pd_schur_aloamo_fcs(r,n) := fcl2fcs(pd_schur_aloamo_fcl(r,n))$
+
+wschur_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(wschur_nbfclud(r,n))$
+wschur_aloamo_fcs(r,n) := fcl2fcs(wschur_aloamo_fcl(r,n))$
 
 
 /* Statistics: */
@@ -131,6 +138,15 @@ pd_schur_aloamo_stdfcl(r,n) := block([n2 : ceiling(n/2)],
      create_list(invs(i), i,1,n2*r))])$
 /* We have pd_schur_aloamo_stdfcl(r,n) =
    standardise_fcl(pd_schur_aloamo_fcl(r,n)).
+*/
+
+wschur_aloamo_stdfcl(r,n) := (
+  [block([s : standardise_schur_aloamo(r,n)],
+     s(wschur_aloamo_fcl(r,n))),
+   block([invs : invstandardise_schur_aloamo(r,n)],
+     create_list(invs(i), i,1,n*r))])$
+/* We have wschur_aloamo_stdfcl(r,n) =
+   standardise_fcl(wschur_aloamo_fcl(r,n)).
 */
 
 
@@ -201,6 +217,17 @@ pd_output_schur(r,n,filename) := block(
 /* Providing a standard name: "Schur_pd_r_n.cnf": */
 pd_output_schur_stdname(r,n) := pd_output_schur(r,n,
   sconcat("Schur_pd_",r,"_",n,".cnf"))$
+
+output_wschur(r,n,filename) := block(
+ [FF : wschur_aloamo_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Weak Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c ", "Created by output_wschur(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "WSchur_r_n.cnf": */
+output_wschur_stdname(r,n) := output_wschur(r,n,
+  sconcat("WSchur_",r,"_",n,".cnf"))$
 
 
 /* Output the boolean clause-set (standard nested translation) to a file: */
