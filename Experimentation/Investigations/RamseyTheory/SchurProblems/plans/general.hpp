@@ -13,12 +13,12 @@ License, or any later version. */
   {x_1, ..., x_{k-1}, x_k}, where x_k is the sum of x_1, ..., x_{k-1}.
   The (original) Schur problems have k=3. For the (standard) versions
   the x_1, ..., x_{k-1} don't need to be distinct, while this is required
-  for the "injective" versions.
+  for the "weak" versions.
 
   The numbers are called genschur_m(k_1, ..., k_m) resp.
-  genschuri_m(k_1, ..., k_m). For the standard Schur-numbers we have
+  wgenschur_m(k_1, ..., k_m). For the standard Schur-numbers we have
   schur(r) = genschur_r(3,...,3) and
-  schuri(r) = genschuri_r(3,...,3).
+  wschur(r) = wgenschur_r(3,...,3).
 
   The standard Schur-numbers are available at Maxima-level via schur(r):
   create_list(schur(r),r,1,8);
@@ -67,7 +67,7 @@ License, or any later version. */
    n such that for every partition {1,...,n} into r parts at least one part
    contains a triple (x,y,z) in {1,...,n}^3 with x+y=z. </li>
    <li> So schur(r) = genschur_r(3, ..., 3). </li>
-   <li> And schuri(r) = genschuri_r(3, ..., 3). </li>
+   <li> And wschur(r) = wgenschur_r(3, ..., 3). </li>
    <li> Only schur(1)=2, schur(2)=5, schur(3)=14 and schur(4)=45
    are known; this is A030126 in the OEIS. </li>
    <li> See http://mathworld.wolfram.com/SchurNumber.html . </li>
@@ -75,7 +75,7 @@ License, or any later version. */
    [Landman, Robertson, 2003]), where 160 <= schur(5) <= 316 is known.
    However the conjecture must be schur(5) = 161, since since 1994 a
    certificate showing schur(5)>160 is known. </li>
-   <li> Furthermore schur(6) >= 536 and schur(7) >= 1680. </li>
+   <li> Furthermore schur(6) >= 537 and schur(7) >= 1681. </li>
    <li> At http://www.di.univaq.it/~formisano/CLPASP/node3.html one finds
    some results (mchaff, simo, relsat, zchaff) obtained by answer-set
    translations (likely irrelevant here). </li>
@@ -83,7 +83,7 @@ License, or any later version. */
    http://www.rumathphysics.org/brandt/schur.pdf ; we could contact the
    author (once we can enumerate all solutions). </li>
    <li> Also the strict versions, where x,y are required to be different,
-   are true. Let's call the numbers schuri(r) ("i" for "injective"). </li>
+   are true. Let's call the numbers wschur(r) ("w" for "weak"). </li>
    <li> The generalised Schur-numbers genschur_m(k_1, ..., k_m) for m >= 0
    and k_i >= 2 asks for the existence of 1 <= i <= m such that part i
    contains a tuple (x_1, ..., x_{k_i}) with x_{k_i} = x_1 + ... + x_{k_i-1}.
