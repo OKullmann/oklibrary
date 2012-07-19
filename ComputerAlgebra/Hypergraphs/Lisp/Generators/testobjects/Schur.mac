@@ -48,7 +48,8 @@ okltest_has_schurtriple(has_schurtriple);
    ************
 */
 
-oklib_schurtriples_pd_ohg(schurtriples_pd_ohg);
+okltest_schurtriples_pd_ohg(schurtriples_pd_ohg);
+okltest_wschurtriples_pd_ohg(wschurtriples_pd_ohg);
 
 /*!
 \endhtmlonly
