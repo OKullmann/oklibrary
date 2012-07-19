@@ -388,4 +388,81 @@ BestSolution_Max = 1
    </li>
   </ul>
 
+
+  \todo Palindromic weak problems, direct encoding
+  <ul>
+   <li> n=189:
+   \verbatim
+> ubcsat-okl -alg saps -runs 100 -cutoff 10000000 -i WSchur_pd_5_189.cnf | tee WSchur_pd_5_189.cnf_OUT
+Clauses = 15620
+Variables = 475
+TotalLiterals = 45635
+FlipsPerSecond = 514308
+BestStep_Mean = 130070.4
+Steps_Mean = 10000000
+Steps_Max = 10000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.51
+BestSolution_Median = 2
+BestSolution_Min = 1
+BestSolution_Max = 2
+> E=read_ubcsat("WSchur_pd_5_189.cnf_OUT",nrows=100)
+ 1  2
+49 51
+100
+> ubcsat-okl -alg rsaps -runs 100 -cutoff 10000000 -i WSchur_pd_5_189.cnf | tee WSchur_pd_5_189.cnf_OUT
+Clauses = 15620
+Variables = 475
+TotalLiterals = 45635
+FlipsPerSecond = 470283
+BestStep_Mean = 50748.41
+Steps_Mean = 10000000
+Steps_Max = 10000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1
+BestSolution_Median = 1
+BestSolution_Min = 1
+BestSolution_Max = 1
+   \endverbatim
+   </li>
+   <li> Determining the best Ubcsat-solver:
+   \verbatim
+> E = run_ubcsat("WSchur_pd_5_189.cnf", runs=100, cutoff=1000000)
+> eval_ubcsat_dataframe(E,FALSE)
+1. rsaps:
+  1
+100
+fps: 464922
+2. g2wsat:
+  1
+100
+fps: 600276
+3. hwsat:
+ 1  2
+99  1
+fps: 307267
+4. vw1:
+ 1  2
+99  1
+fps: 891424
+5. rots:
+ 1  2
+97  3
+fps: 261766
+6. wsat:
+ 1  2
+91  9
+fps: 889759
+7. ddfw:
+ 1  2
+89 11
+fps: 120941
+8. ag2wsat:
+ 1  2
+89 11
+fps: 594919
+   \endverbatim
+   </li>
+  </ul>
+
 */
