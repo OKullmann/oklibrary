@@ -114,11 +114,16 @@ invstandardise_vanderwaerden_aloamo(L,n) := block([m : length(L)],
 
 
 /* Translating the general forms into boolean clause-sets via the
-   (weak) standard nested translation:
+   (weak and strong) standard nested translation:
 */
 vanderwaerden_standnest_fcl(L,n) :=
 nbfclud2fcl_standnest(vanderwaerden_nbfclud(L,n))$
 vanderwaerden_standnest_fcs(L,n) := fcl2fcs(vanderwaerden_standnest_fcl(L,n))$
+
+vanderwaerden_standnest_strong_fcl(L,n) :=
+nbfclud2fcl_standnest_strong(vanderwaerden_nbfclud(L,n))$
+vanderwaerden_standnest_strong_fcs(L,n) := fcl2fcs(vanderwaerden_standnest_strong_fcl(L,n))$
+
 
 /* Standardising these boolean clause-sets: */
 vanderwaerden_standnest_stdfcl(L,n) := block([m : length(L)],
@@ -132,6 +137,19 @@ vanderwaerden_standnest_stdfcl(L,n) := block([m : length(L)],
 vanderwaerden_standnest_stdfcs(L,n) := block(
  [FF : vanderwaerden_standnest_stdfcl(L,n)],
   [fcl2fcs(FF[1]), FF[2]])$
+
+vanderwaerden_standnest_strong_stdfcl(L,n) := block([m : length(L)],
+  [block([s : standardise_vanderwaerden_standnest(L,n)],
+     s(vanderwaerden_standnest_strong_fcl(L,n))),
+   block([invs : invstandardise_vanderwaerden_standnest(L,n)],
+     create_list(invs(i), i,1,n*(m-1)))])$
+/* We have vanderwaerden_standnest_strong_stdfcl(L,n) =
+   standardise_fcl(vanderwaerden_standnest_strong_fcl(L,n)).
+*/
+vanderwaerden_standnest_strong_stdfcs(L,n) := block(
+ [FF : vanderwaerden_standnest_strong_stdfcl(L,n)],
+  [fcl2fcs(FF[1]), FF[2]])$
+
 
 /* Computing translation functions for standardising resp. de-standardising
    terms resp. individual variables:
@@ -176,7 +194,7 @@ ncl_vanderwaerden_aloamo_cs(L,n) := block([l:length(L)],
 
 output_vanderwaerden2(k,n,filename) := 
   output_fcl_v(
-    sconcat("Van der Waerden problem: 2 parts, arithmetic progressions of size ", k, ", and ", n, " elements."), 
+    sconcat("Van der Waerden problem: 2 parts, arithmetic progressions of size ", k, ", and ", n, " elements.", newline, "C Using the direct (strong) translation.", newline, "c Created by output_vanderwaerden2(", k, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()), 
     vanderwaerden2_fcl(k,n),
     filename, [])$
 /* Providing a standard name: "VanDerWaerden_2-k-k_n.cnf": */
@@ -185,7 +203,7 @@ output_vanderwaerden2_stdname(k,n) := output_vanderwaerden2(k,n,
 
 output_vanderwaerden2nd(k1,k2,n,filename) := 
   output_fcl_v(
-    sconcat("Van der Waerden problem: 2 parts, arithmetic progressions of size ", k1, " and ", k2, ", and ", n, " elements."), 
+    sconcat("Van der Waerden problem: 2 parts, arithmetic progressions of size ", k1, " and ", k2, ", and ", n, " elements.", newline, "C Using the direct (strong) translation.", newline, "c Created by output_vanderwaerden2nd(", k1, ",", k2, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()), 
     vanderwaerden2nd_fcl(k1,k2,n),
     filename, [])$
 /* Providing a standard name: "VanDerWaerden_2-k1-k2_n.cnf": */
@@ -194,7 +212,7 @@ output_vanderwaerden2nd_stdname(k1,k2,n) := output_vanderwaerden2nd(k1,k2,n,
 
 output_pd_vanderwaerden2nd(k1,k2,n,filename) := 
   output_fcl_v(
-    sconcat("Palindromic van der Waerden problem: 2 parts, arithmetic progressions of size ", k1, " and ", k2, ", and ", n, " elements, yielding ", ceiling(n/2), " variables."), 
+    sconcat("Palindromic van der Waerden problem: 2 parts, arithmetic progressions of size ", k1, " and ", k2, ", and ", n, " elements, yielding ", ceiling(n/2), " variables.", newline, "C Using the direct (strong) translation.", newline, "c Created by output_pd_vanderwaerden2nd(", k1, ",", k2, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()), 
     pd_vanderwaerden2nd_fcl(k1,k2,n),
     filename, [])$
 /* Providing a standard name: "VanDerWaerden_pd_2-k1-k2_n.cnf": */
@@ -208,7 +226,7 @@ output_pd_vanderwaerden2nd_stdname(k1,k2,n) := output_pd_vanderwaerden2nd(k1,k2,
 output_vanderwaerden(L,n,filename) := block(
  [FF : vanderwaerden_aloamo_stdfcl(L,n)],
   output_fcl_v(
-    sconcat("Van der Waerden problem: ", length(L), " parts with arithmetic progressions of sizes ", L, ", and ", n, " elements."), 
+    sconcat("Van der Waerden problem: ", length(L), " parts with arithmetic progressions of sizes ", L, ", and ", n, " elements.", newline, "C Using the direct (strong) translation.", newline, "c Created by output_vanderwaerden(", L, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()), 
     FF[1],
     filename,
     FF[2]))$
@@ -219,12 +237,24 @@ output_vanderwaerden_standnest(L,n,filename) := block(
  [FF : vanderwaerden_standnest_stdfcl(L,n)],
   output_fcl_v(
     sconcat("Van der Waerden problem: ", length(L), " parts with arithmetic progressions of sizes ", L, ", and ", n, " elements.
-c Using the standard nested translation."), 
+c Using the weak standard nested translation.", newline, "c Created by output_vanderwaerden_standnest(", L, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()), 
     FF[1],
     filename,
     FF[2]))$
 output_vanderwaerden_standnest_stdname(L,n) := output_vanderwaerden_standnest(L,n,
   sconcat("VanDerWaerden_N_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
+
+output_vanderwaerden_standnest_strong(L,n,filename) := block(
+ [FF : vanderwaerden_standnest_strong_stdfcl(L,n)],
+  output_fcl_v(
+    sconcat("Van der Waerden problem: ", length(L), " parts with arithmetic progressions of sizes ", L, ", and ", n, " elements.
+c Using the strong standard nested translation.", newline, "c Created by output_vanderwaerden_standnest_strong(", L, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()), 
+    FF[1],
+    filename,
+    FF[2]))$
+output_vanderwaerden_standnest_strong_stdname(L,n) := output_vanderwaerden_standnest_strong(L,n,
+  sconcat("VanDerWaerden_SN_",length(L),apply(sconcat,map(sconcat,create_list("-",i,1,length(L)),L)),"_",n,".cnf"))$
+
 
 
 /*!
