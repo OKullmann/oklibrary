@@ -163,7 +163,7 @@ gennest_nbfcl2fcl(FF,T,TR,TV) := [
 /* Remark: See gennest_nbfcl2fcl_p below for checking correctness. */
 
 
-/* The standard translation */
+/* The direct translation */
 
 standtrans_T(v,e) := {-nbv_var(v,e)}$
 standtrans_fd_weak_TR(D) := buildq([D],
