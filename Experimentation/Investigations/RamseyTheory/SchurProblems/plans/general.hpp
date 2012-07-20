@@ -100,6 +100,37 @@ License, or any later version. */
   </ul>
 
 
+  \todo Automorphisms
+  <ul>
+   <li> The non-boolean clause-set schur_nbfclud(r,n) as well as
+   wschur_nbfclud(r,n) has at least the following automorphisms:
+    <ol>
+     <li> r! many permutations of the r values. </li>
+     <li> The automorphisms of the hypergraph schurtriples_hg(n):
+      <ol>
+       <li> Multiplication by such x in {1,...,n} modulo n+1 which are
+       relatively prime to n+1 would be automorphisms if the triples would
+       "wrap around", i.e., would be given by the condition x+y=z mod n+1.
+       </li>
+       <li> However for ordinary Schur-hypergraphs these seem to be never
+       automorphisms (except in the trivial case x=1). For the test-function
+       \verbatim
+test_auto_schur(n) := block([G : schurtriples_hg(n), p_ : mod_mul(n+1)],
+ subset(inv_residues(n+1), lambda([x], automorphism_bydef_hg(lambda([v], p_(x,v)),G))))$
+for n : 1 thru 10 do print(n, test_auto_schur(n));
+       \endverbatim
+       we get {1} except for n = 2 --- and this should be trivial to prove.
+       </li>
+       <li> It seems the Schur-hypergraph don't have non-trivial automorphisms
+       at all?!
+       </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo OKsolver_2002
   <ul>
    <li> Performance looks reasonable:

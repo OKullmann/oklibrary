@@ -186,8 +186,8 @@ R-squared: 0.9654
     <ol>
      <li> 24 = 4!, and so one might assume that we have one "essential"
      satisfiable node together with its 24 symmetric variations. </li>
-     <li> However there are (at least) the totient(66+1) = 66 automorphisms
-     of the hypergraph? </li>
+     <li> And then it seems that the underlying hypergraph doesn't have
+     non-trivial automorphisms. </li>
     </ol>
    </li>
   </ul>
