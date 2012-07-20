@@ -12,8 +12,73 @@ License, or any later version. */
 
   \todo Best method for determining wschur(4) = 67
   <ul>
-   <li> OKsolver-2002:
+   <li> OKsolver-2002 with direct encoding: Can't solve the problems in
+   reasonable time:
+   \verbatim
+> OKsolver_2002-O3-DNDEBUG WSchur_4_66.cnf
+UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         4
+c initial_number_of_variables           264
+c initial_number_of_clauses             4686
+c initial_number_of_literal_occurrences 13728
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   396
+c running_time(sec)                     155582.9
+c number_of_nodes                       726931883
+c number_of_single_nodes                81741642
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                4495336218
+c number_of_pure_literals               0
+c number_of_autarkies                   27680966
+c number_of_missed_single_nodes         28194741
+c max_tree_depth                        69
+c proportion_searched                   1.321801e-01
+c proportion_single                     2.146691e-05
+c total_proportion                      0.1322015809900776
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 42722583942
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             WSchur_4_66.cnf
 
+> OKsolver_2002-O3-DNDEBUG WSchur_4_67.cnf
+UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         4
+c initial_number_of_variables           268
+c initial_number_of_clauses             4825
+c initial_number_of_literal_occurrences 14140
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   402
+c running_time(sec)                     156905.2
+c number_of_nodes                       703978392
+c number_of_single_nodes                74796092
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                4395754877
+c number_of_pure_literals               0
+c number_of_autarkies                   20622889
+c number_of_missed_single_nodes         23730621
+c max_tree_depth                        68
+c proportion_searched                   1.279120e-01
+c proportion_single                     1.759440e-05
+c total_proportion                      0.1279295635676844
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 42263717955
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             WSchur_4_67.cnf
+   \endverbatim
+   Around that proportation of solved assignments the solver got stuck, and
+   made only progress in the fourth digit (so it could take a long time).
    </li>
    <li> minisat-2.2.0:
 
