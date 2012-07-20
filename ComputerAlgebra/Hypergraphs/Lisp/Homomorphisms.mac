@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 2.11.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -33,6 +33,11 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 /* Testing whether f is a homomorphism from G1 to G2: */
 homomorphism_bydef_hg(f,G1,G2) := subsetp(map(f,G1[1]),G2[1]) and
  every_s(lambda([H], elementp(map(f,H), G2[2])), G1[2])$
+
+/* Testing whether f is a automorphism of G: */
+automorphism_bydef_hg(f,G) := is(map(f,G[1]) = G[1]) and
+ every_s(lambda([H], elementp(map(f,H), G[2])), G[2])$
+
 
 /* For a map f defined on the vertices of G, transport G to its image (i.e.,
    compute the image):
