@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/Numbers.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* *****************
@@ -32,16 +33,14 @@ schur(r) := if r <= 4 then [2,5,14,45][r]
  elseif r=5 then [161,306]
  elseif r=6 then [537,1837]
  elseif r=7 then [1681,12860]
- else block([lb : (3^r+1)/2, ub : 3*r!-1,
+ else block([lb : max((3^r+1)/2,ceiling(44/89*89^(r/4))), ub : floor(r!*%e),
              rub : ramsey([2,create_list(3,i,1,r)])],
-   if rub#unknown then ub : min(ub, rub),
+   if rub#unknown then ub : min(ub, rub-1),
    [lb, ub])$
 /* Remarks:
  - This is A030126 in the OEIS (http://oeis.org/A030126).
- - For the general bounds see Theorems 8.8, 8.9 in [Ramsey Theory on the
-   Integers; Landman, Robertson].
- - By Corollary 8.6 there we have
-     schur(r) <= ramsey([2,create_list(3,i,1,r)]) - 1.
+ - For the general bounds see Theorems 8.8, 8.9 and Corollary 8.6 in
+   [Ramsey Theory on the Integers; Landman, Robertson].
  - For r = 5:
     - For the lower bound see certificates in
       Investigations/RamseyTheory/SchurProblems/plans/general.hpp.
@@ -52,13 +51,30 @@ schur(r) := if r <= 4 then [2,5,14,45][r]
  - For r = 6:
     - The upper bound comes from ramsey([2,[3,3,3,3,3,3]]) <= 1838
       ([Small Ramsey Numbers; Radziszowski, The Electronic Journal of
-      Combinatorics, August 22, 2011].
+      Combinatorics, August 22, 2011]).
  - For r = 7:
     - The upper bound comes from ramsey([2,[3,3,3,3,3,3,3]]) <= 12861
       ([Small Ramsey Numbers; Radziszowski, The Electronic Journal of
-      Combinatorics, August 22, 2011].
+      Combinatorics, August 22, 2011]).
 
 */
+
+
+/* **********************
+   * Weak Schur numbers *
+   **********************
+*/
+
+/* r is natural numbers >= 1: */
+wschur(r) := if r <= 4 then [3,9,24,67][r]
+ elseif r=5 then [190,1631]
+ elseif r=6 then [573,11743]
+ else block([lb : firste(schur(r)), ub : floor(r!*r*%e)+1,
+             rub : ramsey([2,create_list(4,i,1,r)])],
+   if rub#unknown then ub : min(ub, rub-1),
+   rub : ramsey([2,create_list(3,i,1,2*r)]),
+   if rub#unknown then ub : min(ub, rub-1),
+   [lb, ub])$
 
 
 /* *****************************
