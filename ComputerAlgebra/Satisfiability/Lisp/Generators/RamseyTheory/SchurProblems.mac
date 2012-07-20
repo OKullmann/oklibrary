@@ -64,6 +64,11 @@ wschur_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(wschurtriples_ohg(n), create_li
 wschur_nbfcsud(r,n) :=
  nbfclud2nbfcsud(wschur_nbfclud(r,n))$
 
+/* The palindromic weak forms: */
+pd_wschur_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(wschurtriples_pd_ohg(n), create_list(i,i,1,r))$
+pd_wschur_nbfcsud(r,n) :=
+ nbfclud2nbfcsud(pd_wschur_nbfclud(r,n))$
+
 
 /* ****************************************
    * Translation into boolean clause-sets *
@@ -83,6 +88,9 @@ pd_schur_aloamo_fcs(r,n) := fcl2fcs(pd_schur_aloamo_fcl(r,n))$
 
 wschur_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(wschur_nbfclud(r,n))$
 wschur_aloamo_fcs(r,n) := fcl2fcs(wschur_aloamo_fcl(r,n))$
+
+pd_wschur_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(pd_wschur_nbfclud(r,n))$
+pd_wschur_aloamo_fcs(r,n) := fcl2fcs(pd_wschur_aloamo_fcl(r,n))$
 
 
 /* Statistics: */
@@ -149,6 +157,15 @@ wschur_aloamo_stdfcl(r,n) := (
    standardise_fcl(wschur_aloamo_fcl(r,n)).
 */
 
+pd_wschur_aloamo_stdfcl(r,n) := block([n2 : ceiling(n/2)],
+  [block([s : standardise_schur_aloamo(r,n2)],
+     s(pd_wschur_aloamo_fcl(r,n))),
+   block([invs : invstandardise_schur_aloamo(r,n2)],
+     create_list(invs(i), i,1,n2*r))])$
+/* We have pd_wschur_aloamo_stdfcl(r,n) =
+   standardise_fcl(pd_wschur_aloamo_fcl(r,n)).
+*/
+
 
 /* Translating the general forms into boolean clause-sets via the
    (weak) standard nested translation; now r >= 1 must hold:
@@ -207,6 +224,7 @@ output_schur_sb(r,n,filename) := block(
 output_schur_sb_stdname(r,n) := output_schur_sb(r,n,
   sconcat("Schur_sb_",r,"_",n,".cnf"))$
 
+/* TODO: rename "pd_output_schur" -> "output_pd_schur" */
 pd_output_schur(r,n,filename) := block(
  [FF : pd_schur_aloamo_stdfcl(r,n)],
   output_fcl_v(
@@ -229,6 +247,16 @@ output_wschur(r,n,filename) := block(
 output_wschur_stdname(r,n) := output_wschur(r,n,
   sconcat("WSchur_",r,"_",n,".cnf"))$
 
+output_pd_wschur(r,n,filename) := block(
+ [FF : pd_wschur_aloamo_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Palindromic weak Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c ", "Created by output_pd_wschur(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "WSchur_pd_r_n.cnf": */
+output_pd_wschur_stdname(r,n) := output_pd_wschur(r,n,
+  sconcat("WSchur_pd_",r,"_",n,".cnf"))$
 
 /* Output the boolean clause-set (standard nested translation) to a file: */
 output_schur_standnest(r,n,filename) := block(
