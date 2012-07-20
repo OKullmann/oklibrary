@@ -22,7 +22,10 @@ License, or any later version. */
 
   The standard Schur-numbers are available at Maxima-level via schur(r):
   create_list(schur(r),r,1,8);
-    [2,5,14,45,[161,306],[537,1837],[1681,12860],[3281,120959]]
+    [2,5,14,45,[161,306],[537,1837],[1681,12860],[3916,109601]].
+  The weak Schur-numbers are available at Maxima-level via wschur(r):
+  create_list(wschur(r),r,1,8);
+    [3,9,24,67,[190,1631],[573,11743],[1681,95901],[3916,876809]].
 
   SAT-translations are
   output_schur_stdname(r,n) for the SAT-problem "schur(r) > n ?", using
@@ -51,6 +54,8 @@ License, or any later version. */
 
   \todo Overview
   <ul>
+   <li> See RamseyTheory/SchurProblems/plans/Schur4/general.hpp for
+   investigations on schur(4). </li>
    <li> See RamseyTheory/SchurProblems/plans/Schur5/general.hpp for
    investigations on schur(5). </li>
    <li> See RamseyTheory/SchurProblems/plans/Schur6/general.hpp for
@@ -70,6 +75,10 @@ License, or any later version. */
    <li> And wschur(r) = wgenschur_r(3, ..., 3). </li>
    <li> Only schur(1)=2, schur(2)=5, schur(3)=14 and schur(4)=45
    are known; this is A030126 in the OEIS. </li>
+   <li> And only wschur(1)=3, wschur(2)=9, wschur(3)=24 and wschur(4)=67
+   are known; this is A118771 in the OEIS. </li>
+   <li> The determination of (w)schur(r) for 1 <= r <= 3 is trivial for
+   any SAT solver. </li>
    <li> See http://mathworld.wolfram.com/SchurNumber.html . </li>
    <li> While schur(5)=160 is conjectured as research problem 8.1 in
    [Landman, Robertson, 2003]), where 160 <= schur(5) <= 316 is known.
@@ -95,130 +104,6 @@ License, or any later version. */
   <ul>
    <li> Performance looks reasonable:
    \verbatim
-schur(2) = 5:
-> OKsolver_2002-O3-DNDEBUG Schur_2_4.cnf
-s SATISFIABLE
-c sat_status                            1
-c initial_maximal_clause_length         3
-c initial_number_of_variables           8
-c initial_number_of_clauses             14
-c initial_number_of_literal_occurrences 30
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   12
-c running_time(sec)                     0.0
-c number_of_nodes                       1
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                0
-c number_of_pure_literals               0
-c number_of_autarkies                   1
-c number_of_missed_single_nodes         0
-c max_tree_depth                        0
-c proportion_searched                   0.000000e+00
-c proportion_single                     0.000000e+00
-c total_proportion                      0
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             Schur_2_4.cnf
-> OKsolver_2002-O3-DNDEBUG Schur_2_5.cnf
-s UNSATISFIABLE
-c sat_status                            0
-c initial_maximal_clause_length         3
-c initial_number_of_variables           10
-c initial_number_of_clauses             20
-c initial_number_of_literal_occurrences 46
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   14
-c running_time(sec)                     0.0
-c number_of_nodes                       1
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                1
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        0
-c proportion_searched                   1.000000e+00
-c proportion_single                     0.000000e+00
-c total_proportion                      1
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 0
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             Schur_2_5.cnf
-
-schur(3) = 14:
-> OKsolver_2002-O3-DNDEBUG Schur_3_13.cnf
-s SATISFIABLE
-c sat_status                            1
-c initial_maximal_clause_length         3
-c initial_number_of_variables           39
-c initial_number_of_clauses             166
-c initial_number_of_literal_occurrences 441
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   57
-c running_time(sec)                     0.0
-c number_of_nodes                       4
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                5
-c number_of_pure_literals               0
-c number_of_autarkies                   1
-c number_of_missed_single_nodes         0
-c max_tree_depth                        3
-c proportion_searched                   0.000000e+00
-c proportion_single                     0.000000e+00
-c total_proportion                      0
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 102
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             Schur_3_13.cnf
-> OKsolver_2002-O3-DNDEBUG Schur_3_14.cnf
-s UNSATISFIABLE
-c sat_status                            0
-c initial_maximal_clause_length         3
-c initial_number_of_variables           42
-c initial_number_of_clauses             191
-c initial_number_of_literal_occurrences 510
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   63
-c running_time(sec)                     0.0
-c number_of_nodes                       23
-c number_of_single_nodes                0
-c number_of_quasi_single_nodes          0
-c number_of_2-reductions                72
-c number_of_pure_literals               0
-c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
-c max_tree_depth                        4
-c proportion_searched                   1.000000e+00
-c proportion_single                     0.000000e+00
-c total_proportion                      1
-c number_of_table_enlargements          0
-c number_of_1-autarkies                 387
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             Schur_3_14.cnf
-
 schur(4) = 45:
 > OKsolver_2002-O3-DNDEBUG Schur_4_44.cnf
 s SATISFIABLE
