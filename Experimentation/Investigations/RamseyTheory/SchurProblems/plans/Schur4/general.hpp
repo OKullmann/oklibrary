@@ -12,6 +12,38 @@ License, or any later version. */
 
   \todo Best method for determining wschur(4) = 67
   <ul>
+   <li> The best (single) solve is march_pl:
+   \verbatim
+> march_pl WSchur_4_66.cnf
+c main():: nodeCount: 392890
+c main():: dead ends in main: 312397
+c main():: lookAheadCount: 21379659
+c main():: unitResolveCount: 1325480
+c main():: time=70.660004
+c main():: necessary_assignments: 12995
+c main():: bin_sat: 0, bin_unsat 0
+c main():: doublelook: #: 331181, succes #: 273112
+c main():: doublelook: overall 1.577 of all possible doublelooks executed
+c main():: doublelook: succesrate: 82.466, average DL_trigger: 80.486
+c main():: SOLUTION VERIFIED :-)
+s SATISFIABLE
+
+> march_pl WSchur_4_67.cnf
+c main():: nodeCount: 412143413
+c main():: dead ends in main: 331744670
+c main():: lookAheadCount: -1561532857
+c main():: unitResolveCount: 1429444613
+c main():: time=52775.781250
+c main():: necessary_assignments: 4381778
+c main():: bin_sat: 0, bin_unsat 0
+c main():: doublelook: #: 170379894, succes #: 114466474
+c main():: doublelook: overall 0.873 of all possible doublelooks executed
+c main():: doublelook: succesrate: 67.183, average DL_trigger: 30.507
+s UNSATISFIABLE
+   \endverbatim
+   What makes it better than the OKsolver-2002: the partial use of r_3 (hard
+   to believe), the preprocessing, or the heuristics (or a combination)?
+   </li>
    <li> OKsolver-2002 with direct encoding: Can't solve the problems in
    reasonable time:
    \verbatim
@@ -80,8 +112,17 @@ c file_name                             WSchur_4_67.cnf
    Around that proportation of solved assignments the solver got stuck, and
    made only progress in the fourth digit (so it could take a long time).
    </li>
-   <li> minisat-2.2.0:
-
+   <li> minisat-2.2.0 can't solve the problems in reasonable time:
+   \verbatim
+> minisat-2.2.0 WSchur_4_67.cnf
+restarts              : 1515514
+conflicts             : 1454227363     (13776 /sec)
+decisions             : 1749514948     (0.00 % random) (16574 /sec)
+propagations          : 38257521750    (362428 /sec)
+conflict literals     : 37443253041    (18.99 % deleted)
+Memory used           : 108.00 MB
+CPU time              : 105559 s
+   \endverbatim
    </li>
    <li> SplittingViaOKsolver (using minisat-2.2.0):
    \verbatim
