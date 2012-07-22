@@ -103,9 +103,6 @@ schur_rm_nbfcsud(r,n,k) := nbfclud2nbfcsud(schur_rm_nbfclud(r,n,k))$
 schur_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(schur_nbfclud(r,n))$
 schur_aloamo_fcs(r,n) := fcl2fcs(schur_aloamo_fcl(r,n))$
 
-schur_sb_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(schur_sb_nbfclud(r,n))$
-schur_sb_aloamo_fcs(r,n) := fcl2fcs(schur_sb_aloamo_fcl(r,n))$
-
 pd_schur_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(pd_schur_nbfclud(r,n))$
 pd_schur_aloamo_fcs(r,n) := fcl2fcs(pd_schur_aloamo_fcl(r,n))$
 
@@ -114,6 +111,10 @@ wschur_aloamo_fcs(r,n) := fcl2fcs(wschur_aloamo_fcl(r,n))$
 
 pd_wschur_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(pd_wschur_nbfclud(r,n))$
 pd_wschur_aloamo_fcs(r,n) := fcl2fcs(pd_wschur_aloamo_fcl(r,n))$
+
+
+schur_sb_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(schur_sb_nbfclud(r,n))$
+schur_sb_aloamo_fcs(r,n) := fcl2fcs(schur_sb_aloamo_fcl(r,n))$
 
 
 /* Statistics: */
@@ -153,15 +154,6 @@ schur_aloamo_stdfcl(r,n) := (
    standardise_fcl(schur_aloamo_fcl(r,n)).
 */
 
-schur_sb_aloamo_stdfcl(r,n) := (
-  [block([s : standardise_schur_aloamo(r,n)],
-     s(schur_sb_aloamo_fcl(r,n))),
-   block([invs : invstandardise_schur_aloamo(r,n)],
-     create_list(invs(i), i,1,n*r))])$
-/* We have schur_sb_aloamo_stdfcl(r,n) =
-   standardise_fcl(schur_sb_aloamo_fcl(r,n)).
-*/
-
 pd_schur_aloamo_stdfcl(r,n) := block([n2 : ceiling(n/2)],
   [block([s : standardise_schur_aloamo(r,n2)],
      s(pd_schur_aloamo_fcl(r,n))),
@@ -188,6 +180,17 @@ pd_wschur_aloamo_stdfcl(r,n) := block([n2 : ceiling(n/2)],
 /* We have pd_wschur_aloamo_stdfcl(r,n) =
    standardise_fcl(pd_wschur_aloamo_fcl(r,n)).
 */
+
+
+schur_sb_aloamo_stdfcl(r,n) := (
+  [block([s : standardise_schur_aloamo(r,n)],
+     s(schur_sb_aloamo_fcl(r,n))),
+   block([invs : invstandardise_schur_aloamo(r,n)],
+     create_list(invs(i), i,1,n*r))])$
+/* We have schur_sb_aloamo_stdfcl(r,n) =
+   standardise_fcl(schur_sb_aloamo_fcl(r,n)).
+*/
+
 
 
 /* Translating the general forms into boolean clause-sets via the
@@ -253,17 +256,6 @@ output_schur(r,n,filename) := block(
 output_schur_stdname(r,n) := output_schur(r,n,
   sconcat("Schur_",r,"_",n,".cnf"))$
 
-output_schur_sb(r,n,filename) := block(
- [FF : schur_sb_aloamo_stdfcl(r,n)],
-  output_fcl_v(
-    sconcat("Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c Symmetry breaking by putting element 1 into part 1.", newline, "c ", "Created by output_sb_schur(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
-    FF[1],
-    filename,
-    FF[2]))$
-/* Providing a standard name: "Schur_sb_r_n.cnf": */
-output_schur_sb_stdname(r,n) := output_schur_sb(r,n,
-  sconcat("Schur_sb_",r,"_",n,".cnf"))$
-
 /* TODO: rename "pd_output_schur" -> "output_pd_schur" */
 pd_output_schur(r,n,filename) := block(
  [FF : pd_schur_aloamo_stdfcl(r,n)],
@@ -297,6 +289,17 @@ output_pd_wschur(r,n,filename) := block(
 /* Providing a standard name: "WSchur_pd_r_n.cnf": */
 output_pd_wschur_stdname(r,n) := output_pd_wschur(r,n,
   sconcat("WSchur_pd_",r,"_",n,".cnf"))$
+
+output_schur_sb(r,n,filename) := block(
+ [FF : schur_sb_aloamo_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c Symmetry breaking by putting element 1 into part 1.", newline, "c ", "Created by output_sb_schur(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "Schur_sb_r_n.cnf": */
+output_schur_sb_stdname(r,n) := output_schur_sb(r,n,
+  sconcat("Schur_sb_",r,"_",n,".cnf"))$
 
 /* Output the boolean clause-set (standard nested translation) to a file: */
 output_schur_standnest(r,n,filename) := block(
