@@ -68,9 +68,11 @@ pd_wschur_nbfcsud(r,n) :=
 */
 
 /* Adding symmetry-breaking clauses (regarding the parts (colours)), forcing
-   vertex 1 to be in part 1; now we must have n >= 1: */
+   vertex 1 to be in part 1; now we must have n >= 1:
+*/
+schur_set_first_vertex_nbcl(r) := create_list({[1,i]},i,2,r);
 schur_sb_nbfclud(r,n) := block([S : schur_nbfclud(r,n)],
- [S[1], append(create_list({[1,i]},i,2,r), S[2]), S[3]])$
+ [S[1], append(schur_set_first_vertex_nbcl(r), S[2]), S[3]])$
 schur_sb_nbfcsud(r,n) := nbfclud2nbfcsud(schur_sb_nbfclud(r,n))$
 /* Note that these clause-sets contain unit-clauses (and are thus not
    subsumption-free).
