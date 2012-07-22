@@ -61,8 +61,13 @@ C : uncompresss_palindromic_subsets(160,[
 certificate_pdschur_p(5,160,C);
   true
    \endverbatim
-   and thus schur(5) >= 161 (it seems that was overlooked in the literature!).
-   </li>
+   and thus schur(5) >= 161 (it seems that was overlooked in some parts of the
+   literature). </li>
+   <li> Interesting is here to find all palindromic) solutions; [Exoo] found
+   four "different". </li>
+   <li> In general (for arbitrary partitions) [Exoo] posed the question whether
+   a partition with some part containing at least 45 elements exists. Such
+   cardinality-constraints are interesting to investigate. </li>
   </ul>
 
 */

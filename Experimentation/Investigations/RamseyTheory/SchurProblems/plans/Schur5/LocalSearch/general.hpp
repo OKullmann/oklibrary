@@ -10,7 +10,11 @@ License, or any later version. */
   \brief On computing lower bounds for schur(5) and variations via local search
 
   The main challenge is to find a combination of translation and solver which
-  enables to find all known solutions (and possibly) via SAT.
+  enables to find all known solutions (and possibly more) via SAT.
+
+  Yet we can only find palindromic solutions for n=160, while [Exoo 1994]
+  reports to have found 10000 different general solutions for n=160 (but
+  only 4 palindromic ones).
 
 
   \todo Direct encoding
