@@ -116,6 +116,10 @@ pd_wschur_aloamo_fcs(r,n) := fcl2fcs(pd_wschur_aloamo_fcl(r,n))$
 schur_sb_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(schur_sb_nbfclud(r,n))$
 schur_sb_aloamo_fcs(r,n) := fcl2fcs(schur_sb_aloamo_fcl(r,n))$
 
+schur_rm_aloamo_fcl(r,n,k) := nbfclud2fcl_aloamo(schur_rm_nbfclud(r,n,k))$
+schur_rm_aloamo_fcs(r,n,k) := fcl2fcs(schur_rm_aloamo_fcl(r,n,k))$
+
+
 
 /* Statistics: */
 nvar_schur_aloamo_fcl(r,n) :=
@@ -189,6 +193,15 @@ schur_sb_aloamo_stdfcl(r,n) := (
      create_list(invs(i), i,1,n*r))])$
 /* We have schur_sb_aloamo_stdfcl(r,n) =
    standardise_fcl(schur_sb_aloamo_fcl(r,n)).
+*/
+
+schur_rm_aloamo_stdfcl(r,n,k) := (
+  [block([s : standardise_schur_aloamo(r,n)],
+     s(schur_rm_aloamo_fcl(r,n,k))),
+   block([invs : invstandardise_schur_aloamo(r,n)],
+     create_list(invs(i), i,1,n*r))])$
+/* We have schur_rm_aloamo_stdfcl(r,n,k) =
+   standardise_fcl(schur_rm_aloamo_fcl(r,n,k)).
 */
 
 
@@ -289,6 +302,7 @@ output_pd_wschur(r,n,filename) := block(
 output_pd_wschur_stdname(r,n) := output_pd_wschur(r,n,
   sconcat("WSchur_pd_",r,"_",n,".cnf"))$
 
+
 output_schur_sb(r,n,filename) := block(
  [FF : schur_sb_aloamo_stdfcl(r,n)],
   output_fcl_v(
@@ -299,6 +313,19 @@ output_schur_sb(r,n,filename) := block(
 /* Providing a standard name: "Schur_sb_r_n.cnf": */
 output_schur_sb_stdname(r,n) := output_schur_sb(r,n,
   sconcat("Schur_sb_",r,"_",n,".cnf"))$
+
+output_schur_rm(r,n,k,filename) := block(
+ [FF : schur_rm_aloamo_stdfcl(r,n,k)],
+  output_fcl_v(
+    sconcat("Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c Forbidding the first ", k, " elements in part 1.", newline, "c ", "Created by output_rm_schur(", r, ",", n, ",", k, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "Schur_rm_r_n-k.cnf": */
+output_schur_rm_stdname(r,n,k) := output_schur_rm(r,n,k,
+  sconcat("Schur_rm_",r,"_",n,"-",k,".cnf"))$
+
+
 
 /* Output the boolean clause-set (standard nested translation) to a file: */
 output_schur_standnest(r,n,filename) := block(
