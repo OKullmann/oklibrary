@@ -253,7 +253,7 @@ c file_name                             D50_1_D50_2.cnf
 
   \todo SplittingViaOKsolver for palindromic problem (direct encoding)
   <ul>
-   <li> Creation via e.g. pd_output_schur_stdname(5,162). </li>
+   <li> Creation via e.g. output_pd_schur_stdname(5,162). </li>
    <li> Consider n=162; instance-statistics:
    \verbatim
 > cat Schur_pd_5_162.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG

@@ -49,7 +49,7 @@ License, or any later version. */
   Good basic information is available in Chapter 8 of [Ramsey Theory on the
   Integers; Landman, Robertson].
 
-  The palindromic problems are created by pd_output_schur_stdname(r,n).
+  The palindromic problems are created by output_pd_schur_stdname(r,n).
 
 
   \todo Overview

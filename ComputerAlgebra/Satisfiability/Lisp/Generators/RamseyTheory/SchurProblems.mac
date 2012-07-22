@@ -256,16 +256,15 @@ output_schur(r,n,filename) := block(
 output_schur_stdname(r,n) := output_schur(r,n,
   sconcat("Schur_",r,"_",n,".cnf"))$
 
-/* TODO: rename "pd_output_schur" -> "output_pd_schur" */
-pd_output_schur(r,n,filename) := block(
+output_pd_schur(r,n,filename) := block(
  [FF : pd_schur_aloamo_stdfcl(r,n)],
   output_fcl_v(
-    sconcat("Palindromic Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c ", "Created by pd_output_schur(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    sconcat("Palindromic Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c ", "Created by output_pd_schur(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
     FF[1],
     filename,
     FF[2]))$
 /* Providing a standard name: "Schur_pd_r_n.cnf": */
-pd_output_schur_stdname(r,n) := pd_output_schur(r,n,
+output_pd_schur_stdname(r,n) := output_pd_schur(r,n,
   sconcat("Schur_pd_",r,"_",n,".cnf"))$
 
 output_wschur(r,n,filename) := block(
