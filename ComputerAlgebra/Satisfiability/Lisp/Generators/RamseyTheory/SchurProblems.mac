@@ -45,14 +45,6 @@ ncl_list_schur_nbfcsud(r,n) := if r=0 then [] else
  map(lambda([p],[p[1],r*p[2]]), nhyp_list_schurtriples_me_hg(n))$
 ncl_schur_nbfcsud(r,n) := r * nhyp_schurtriples_me_hg(n)$
 
-/* Adding symmetry-breaking clauses (regarding the parts (colours), forcing
-   vertex 1 to be in part 1); now we must have n >= 1: */
-schur_sb_nbfclud(r,n) := block([S : schur_nbfclud(r,n)],
- [S[1], append(create_list({[1,i]},i,2,r), S[2]), S[3]])$
-schur_sb_nbfcsud(r,n) := nbfclud2nbfcsud(schur_sb_nbfclud(r,n))$
-/* Note that these clause-sets contain unit-clauses (and are thus not
-   subsumption-free).
-*/
 
 /* The palindromic forms: */
 pd_schur_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(schurtriples_pd_ohg(n), create_list(i,i,1,r))$
@@ -68,6 +60,22 @@ wschur_nbfcsud(r,n) :=
 pd_wschur_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(wschurtriples_pd_ohg(n), create_list(i,i,1,r))$
 pd_wschur_nbfcsud(r,n) :=
  nbfclud2nbfcsud(pd_wschur_nbfclud(r,n))$
+
+
+/* ****************************
+   * Heuristical restrictions *
+   ****************************
+*/
+
+/* Adding symmetry-breaking clauses (regarding the parts (colours)), forcing
+   vertex 1 to be in part 1; now we must have n >= 1: */
+schur_sb_nbfclud(r,n) := block([S : schur_nbfclud(r,n)],
+ [S[1], append(create_list({[1,i]},i,2,r), S[2]), S[3]])$
+schur_sb_nbfcsud(r,n) := nbfclud2nbfcsud(schur_sb_nbfclud(r,n))$
+/* Note that these clause-sets contain unit-clauses (and are thus not
+   subsumption-free).
+*/
+
 
 
 /* ****************************************

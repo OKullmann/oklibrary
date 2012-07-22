@@ -33,6 +33,11 @@ okltest_nval_schur_nbfcsud(nval_schur_nbfcsud);
 okltest_ncl_list_schur_nbfcsud(ncl_list_schur_nbfcsud);
 okltest_ncl_schur_nbfcsud(ncl_schur_nbfcsud);
 
+/* ****************************
+   * Heuristical restrictions *
+   ****************************
+*/
+
 okltest_schur_sb_nbfcsud(schur_sb_nbfcsud);
 
 /* ****************************************
