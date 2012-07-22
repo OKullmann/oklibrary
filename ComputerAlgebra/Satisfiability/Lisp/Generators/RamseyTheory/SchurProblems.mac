@@ -70,7 +70,8 @@ pd_wschur_nbfcsud(r,n) :=
 /* Adding symmetry-breaking clauses (regarding the parts (colours)), forcing
    vertex 1 to be in part 1; now we must have n >= 1:
 */
-schur_set_first_vertex_nbcl(r) := create_list({[1,i]},i,2,r);
+schur_set_first_vertex_nbcl(r) := create_list({[1,i]},i,2,r)$
+
 schur_sb_nbfclud(r,n) := block([S : schur_nbfclud(r,n)],
  [S[1], append(schur_set_first_vertex_nbcl(r), S[2]), S[3]])$
 schur_sb_nbfcsud(r,n) := nbfclud2nbfcsud(schur_sb_nbfclud(r,n))$
@@ -78,6 +79,18 @@ schur_sb_nbfcsud(r,n) := nbfclud2nbfcsud(schur_sb_nbfclud(r,n))$
    subsumption-free).
 */
 
+
+/* Removing the first k vertices from the first part (colour; we must
+   have r >= 1, n >= k):
+*/
+schur_remove_first_vertices_nbcl(k) := create_list({[i,1]},i,1,k)$
+
+schur_rm_nbfclud(r,n,k) := block([S : schur_nbfclud(r,n)],
+ [S[1], append(schur_remove_first_vertices_nbcl(k), S[2]), S[3]])$
+schur_rm_nbfcsud(r,n,k) := nbfclud2nbfcsud(schur_rm_nbfclud(r,n,k))$
+/* Note that these clause-sets contain unit-clauses (and are thus not
+   subsumption-free).
+*/
 
 
 /* ****************************************

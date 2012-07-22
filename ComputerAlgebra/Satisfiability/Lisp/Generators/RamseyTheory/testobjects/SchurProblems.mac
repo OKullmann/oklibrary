@@ -40,6 +40,8 @@ okltest_ncl_schur_nbfcsud(ncl_schur_nbfcsud);
 
 okltest_schur_sb_nbfcsud(schur_sb_nbfcsud);
 
+okltest_schur_rm_nbfclud(schur_rm_nbfclud);
+
 /* ****************************************
    * Translation into boolean clause-sets *
    ****************************************
