@@ -1,5 +1,5 @@
 # Matthew Gwynne, 20.10.2010 (Swansea)
-# Copyright 2010, 2011 Oliver Kullmann
+# Copyright 2010, 2011, 2012 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -476,7 +476,10 @@ run_ubcsat_cnf_algs = append(old_run_ubcsat_cnf_algs, list(
   cwalks="crwalk -v schoening",
   dwalk="dcrwalk",
   dano="danov+",
-  rgsat="rgsat"
+  rgsat="rgsat",
+  jack="jack",
+  vw25="vw2 -v 2005",
+  lllw="lllwalk"
 ))
 
 # Construct a new dataframe which is the original dataframe with
