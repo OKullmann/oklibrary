@@ -428,7 +428,6 @@ BestSolution_Max = 10
    <li> Determining the best Ubcsat-solver:
    \verbatim
 > E = run_ubcsat("Schur_pd_5_160.cnf", runs=100, cutoff=1000000)
-XXX re-run on cs-oksvr for the new 3 algorithms
 > eval_ubcsat_dataframe(E,FALSE)
 1. saps:
  0  1
@@ -494,7 +493,78 @@ fps: 677048
   1
 100
 fps: 1060895
+
+# re-run on cs-oksvr:
+1. saps:
+ 0  1
+ 2 98
+fps: 576779
+2. sapsnr:
+ 0  1
+ 1 99
+fps: 579835
+3. gwsat:
+  1
+100
+fps: 535992
+4. gsatt:
+  1
+100
+fps: 315288
+5. wsat:
+  1
+100
+fps: 1083541
+6. rsaps:
+  1
+100
+fps: 569898
+7. rots:
+  1
+100
+fps: 316196
+8. irots:
+  1
+100
+fps: 292586
+9. samd:
+  1
+100
+fps: 316536
+10. wsattn:
+  1
+100
+fps: 1106317
+11. novpp:
+  1
+100
+fps: 928333
+12. paws:
+  1
+100
+fps: 1033271
+13. ddfw:
+  1
+100
+fps: 205259
+14. g2wsat:
+  1
+100
+fps: 687521
+15. ag2wsat:
+  1
+100
+fps: 674673
+16. vw1:
+  1
+100
+fps: 1063603
+17. vw25:
+  1
+100
+fps: 971440
    \endverbatim
+   saps clearly best.
    </li>
    <li> Finding solutions for n=160:
    \verbatim
@@ -578,7 +648,6 @@ BestSolution_Max = 1
    <li> Determining the best Ubcsat-solver:
    \verbatim
 > E = run_ubcsat("WSchur_pd_5_189.cnf", runs=100, cutoff=1000000)
-XXX re-run on cs-oksvr for 3 new algorithms
 > eval_ubcsat_dataframe(E,FALSE)
 1. rsaps:
   1
@@ -612,7 +681,46 @@ fps: 120941
  1  2
 89 11
 fps: 594919
+
+# re-run on cs-oksvr:
+1. rsaps:
+  1
+100
+fps: 440180
+2. g2wsat:
+  1
+100
+fps: 598695
+3. vw25:
+  1
+100
+fps: 834168
+4. rots:
+ 1  2
+99  1
+fps: 262426
+5. vw1:
+ 1  2
+99  1
+fps: 885504
+6. hwsat:
+ 1  2
+98  2
+fps: 307409
+7. wsat:
+ 1  2
+92  8
+fps: 892140
+8. ag2wsat:
+ 1  2
+88 12
+fps: 595806
+9. ddfw:
+ 1  2
+86 14
+fps: 120998
    \endverbatim
+   Also here vw25 best.
    </li>
   </ul>
 
