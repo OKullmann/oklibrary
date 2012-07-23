@@ -98,8 +98,8 @@ schur_rm_nbfcsud(r,n,k) := nbfclud2nbfcsud(schur_rm_nbfclud(r,n,k))$
    ****************************************
 */
 
-/* Translating the general forms into boolean clause-sets via the
-   (strong) direct translation: */
+/* Strong direct translation: */
+
 schur_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(schur_nbfclud(r,n))$
 schur_aloamo_fcs(r,n) := fcl2fcs(schur_aloamo_fcl(r,n))$
 
@@ -206,9 +206,8 @@ schur_rm_aloamo_stdfcl(r,n,k) := (
 
 
 
-/* Translating the general forms into boolean clause-sets via the
-   (weak) standard nested translation; now r >= 1 must hold:
-*/
+/* Weak and strong standard nested translation; now r >= 1 must hold: */
+
 schur_standnest_fcl(r,n) := nbfclud2fcl_standnest(schur_nbfclud(r,n))$
 schur_standnest_fcs(r,n) := fcl2fcs(schur_standnest_fcl(r,n))$
 
