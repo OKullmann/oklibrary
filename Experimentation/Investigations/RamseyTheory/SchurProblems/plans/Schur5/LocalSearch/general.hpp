@@ -125,6 +125,9 @@ BestSolution_Max = 3
     1     2     3
 58736 39672  1592
 100000
+
+> ubcsat-okl -alg vw2 -v 2005 -runs 100000 -cutoff 100000 -i Schur_5_159.cnf | tee Schur_5_159.cnf_OUT
+XXX cs-wsok
    \endverbatim
    </li>
    <li> For n=160 we get
@@ -191,7 +194,103 @@ fps: 449479
 7. sapsnr:
  1  2
 73 27
+
+# re-run on cs-oksvr for new algorithms:
+1. vw25:
+ 1  2
+99  1
+fps: 530814
+2. vw1:
+ 1  2
+96  4
+fps: 522657
+3. rsaps:
+ 1  2
+95  5
+fps: 239527
+4. saps:
+ 1  2
+90 10
+fps: 326787
+5. ddfw:
+ 1  2
+90 10
+fps: 72118
+6. wsat:
+ 1  2
+82 18
+fps: 499700
+7. g2wsat:
+ 1  2
+82 18
+fps: 403714
+8. sapsnr:
+ 1  2
+76 24
+fps: 352249
+9. paws:
+ 1  2
+73 27
+fps: 513690
    \endverbatim
+   So vw25 seems overall best (for the various encodings).
+   </li>
+  </ul>
+
+
+  \todo Direct encoding with forbidden elements
+  <ul>
+   <li> Considering first n=159 and k=40 (forbidding the first 40 elements
+   from the first partition); instance-statistics:
+   \verbatim
+> cat Schur_rm_5_159-40.cnf | UnitClausePropagation-O3-DNDEBUG > Schur_rmUCP_5_159-40.cnf
+> cat Schur_rmUCP_5_159-40.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG     pn     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    795   28204    755    795   28204    83105     NA     NA   28204    83105   804
+ length   count
+      2    1785
+      3   26260
+      4      40
+      5     119
+   \endverbatim
+   </li>
+   <li> Determining the best Ubcsat-solver:
+   \verbatim
+> E = run_ubcsat("Schur_rm_5_159-40.cnf", runs=100, cutoff=1000000)
+> eval_ubcsat_dataframe(E,FALSE)
+1. vw25:
+  1
+100
+fps: 473104
+2. ddfw:
+ 1  2
+99  1
+fps: 59863
+3. rsaps:
+ 1  2
+97  3
+fps: 222435
+4. saps:
+ 1  2
+90 10
+fps: 271245
+5. vw1:
+ 1  2
+87 13
+fps: 450450
+6. wsat:
+ 1  2
+85 15
+fps: 443518
+7. sapsnr:
+ 1  2
+80 20
+fps: 278886
+8. g2wsat:
+ 1  2
+74 26
+fps: 361965
+   \endverbatim
+   Looks somewhat better than without the restriction. Again vw25 best.
    </li>
   </ul>
 
@@ -250,9 +349,55 @@ fps: 135650
  1  2  3  4  5  6  7  8  9 11 12
 51 15  5  5  6  4  7  3  2  1  1
 fps: 162303
+
+# re-run on cs-oksvr for new algorithms:
+1. vw25:
+  1
+100
+fps: 142013
+2. gwsat:
+ 1  2  3  5
+88  7  4  1
+fps: 127645
+3. rsaps:
+ 1  2
+87 13
+fps: 108494
+4. jack:
+ 1  2  3  4  5
+77  3 13  1  6
+fps: 66194
+5. g2wsat:
+ 1  2  3  4  5  7
+69 12 10  4  3  2
+fps: 115440
+6. hwsat:
+ 1  2  3  4  5  7
+67 15 12  2  3  1
+fps: 125439
+7. wsattn:
+ 1  2  3  4  5  6  7  8  9
+57 16  8  6  5  1  4  2  1
+fps: 137802
+8. ag2wsat:
+ 1  2  3  4  5  6
+55 15 14  8  6  2
+fps: 121353
+9. wsatt:
+ 1  2  3  4  5  6  7  9 10
+53 12 11 10  7  3  2  1  1
+fps: 138839
+10. dano:
+ 1  2  3  4  5  6  7
+52 24 11  3  5  4  1
+fps: 77251
+11. sapsnr:
+ 1  2  3  4  5  6  7  8  9
+51 13 11  7  8  2  2  1  5
+fps: 114519
    \endverbatim
    Doesn't look better than the direct encoding, and is slower by, say, a
-   factor of 3.
+   factor of 3. Again vw25 best.
    </li>
    <li> Searching for a solution:
    \verbatim
@@ -283,6 +428,7 @@ BestSolution_Max = 10
    <li> Determining the best Ubcsat-solver:
    \verbatim
 > E = run_ubcsat("Schur_pd_5_160.cnf", runs=100, cutoff=1000000)
+XXX re-run on cs-oksvr for the new 3 algorithms
 > eval_ubcsat_dataframe(E,FALSE)
 1. saps:
  0  1
@@ -432,6 +578,7 @@ BestSolution_Max = 1
    <li> Determining the best Ubcsat-solver:
    \verbatim
 > E = run_ubcsat("WSchur_pd_5_189.cnf", runs=100, cutoff=1000000)
+XXX re-run on cs-oksvr for 3 new algorithms
 > eval_ubcsat_dataframe(E,FALSE)
 1. rsaps:
   1
