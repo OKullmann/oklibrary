@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.12.2009 (Swansea) */
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -262,12 +262,12 @@ greentao_standnest_strong_stdfcl(L,n) :=
    n prime numbers (while [L,n] are the Green-Tao parameters):
 */
 standardise_greentao_logarithmic(L,P) := block(
- [m : ceiling(ld(length(L))),
+ [m : cld(length(L)),
   A : osm2ary_lt(l2osm_inv(P),last(P),fixnum)],
   buildq([m,A], lambda([t], ev(t, nbv(v,i):=(A[v]-1)*m+i, nbv))))$
 
 invstandardise_greentao_logarithmic(L,P) := block(
- [m : ceiling(ld(length(L))),
+ [m : cld(length(L)),
   A : osm2ary_lt(l2osm(P),length(P),fixnum)],
   buildq([m,A], lambda([i], block([d : divide(i-1,m)+1],
     nbv_var(A[d[1]], d[2])))))$
@@ -279,7 +279,7 @@ greentao_logarithmic_stdfcl(L,n) :=
  if n=0 then 
    [[[],create_list({},i,1,length(sublist(L,lambda([x],is(x=0)))))],[]] 
  else
- block([m : ceiling(ld(length(L))), FF : greentao_nbfclud(L,n)],
+ block([m : cld(length(L)), FF : greentao_nbfclud(L,n)],
   [block([s : standardise_greentao_logarithmic(L,FF[1])],
      s(nbfclud2fcl_logarithmic(FF))),
    block([invs : invstandardise_greentao_logarithmic(L,FF[1])],
