@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Schur.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 
 /* *****************
@@ -251,12 +252,41 @@ invstandardise_schur_standnest(r,n) :=
     nbv_var(d[1], d[2]))))$
 
 
+/* Logarithmic translation; now r >= 1 must hold: */
+
+schur_logarithmic_fcl(r,n) := nbfclud2fcl_logarithmic(schur_nbfclud(r,n))$
+schur_logarithmic_fcs(r,n) := fcl2fcs(schur_logarithmic_fcl(r,n))$
+
+/* Standardising these boolean clause-sets: */
+schur_logarithmic_stdfcl(r,n) :=
+  [block([s : standardise_schur_logarithmic(r,n)],
+     s(schur_logarithmic_fcl(r,n))),
+   block([invs : invstandardise_schur_logarithmic(r,n)],
+     create_list(invs(i), i,1,n*(r-1)))]$
+/* We have schur_logarithmic_stdfcl(r,n) =
+   standardise_fcl(schur_logarithmic_fcl(r,n)).
+*/
+schur_logarithmic_stdfcs(r,n) := block(
+ [FF : schur_logarithmic_stdfcl(r,n)],
+  [fcl2fcs(FF[1]), FF[2]])$
+
+/* Computing translation functions for standardising resp. de-standardising
+   terms resp. individual variables:
+*/
+standardise_schur_logarithmic(r,n) :=
+  buildq([m:cld(r)], lambda([t], ev(t, nbv(v,i):=(v-1)*m+i, nbv)))$
+
+invstandardise_schur_logarithmic(r,n) :=
+  buildq([m:cld(r)], lambda([i], block([d : divide(i-1,m)+1],
+    nbv_var(d[1], d[2]))))$
+
+
 /* **********
    * Output *
    **********
 */
 
-/* Output the boolean clause-set (direct translation) to a file: */
+/* Output the direct translation to a file: */
 output_schur(r,n,filename) := block(
  [FF : schur_aloamo_stdfcl(r,n)],
   output_fcl_v(
@@ -326,7 +356,7 @@ output_schur_rm_stdname(r,n,k) := output_schur_rm(r,n,k,
 
 
 
-/* Output the boolean clause-set (standard nested translation) to a file: */
+/* Output the standard nested translation to a file: */
 output_schur_standnest(r,n,filename) := block(
  [FF : schur_standnest_stdfcl(r,n)],
   output_fcl_v(
@@ -348,6 +378,19 @@ output_schur_standnest_strong(r,n,filename) := block(
 /* Providing a standard name: "Schur_SN_r_n.cnf": */
 output_schur_standnest_strong_stdname(r,n) := output_schur_standnest_strong(r,n,
   sconcat("Schur_SN_",r,"_",n,".cnf"))$
+
+
+/* Output the logarithmic translation to a file: */
+output_schur_logarithmic(r,n,filename) := block(
+ [FF : schur_logarithmic_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Schur problem with ", r, " parts and ", n, " elements, using the logarithmic translation.", newline, "c ", "Created by output_schur_logarithmic(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "Schur_L_r_n.cnf": */
+output_schur_logarithmic_stdname(r,n) := output_schur_logarithmic(r,n,
+  sconcat("Schur_L_",r,"_",n,".cnf"))$
 
 
 /*!
