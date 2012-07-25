@@ -121,7 +121,6 @@ schur_rm_aloamo_fcl(r,n,k) := nbfclud2fcl_aloamo(schur_rm_nbfclud(r,n,k))$
 schur_rm_aloamo_fcs(r,n,k) := fcl2fcs(schur_rm_aloamo_fcl(r,n,k))$
 
 
-
 /* Statistics: */
 nvar_schur_aloamo_fcl(r,n) :=
  nvar_schur_nbfcsud(r,n) * nval_schur_nbfcsud(r,n)$
@@ -140,15 +139,32 @@ ncl_list_schur_aloamo_fcs(r,n) := if n=0 then []
  elseif r=0 then [[0,1]] else ncl_list_schur_aloamo_fcl(r,n)$
 
 
-/* Standardisation: */
-/* Computing translation functions for standardising resp. de-standardising
-   terms resp. individual variables:
+/* Weak and strong standard nested translation
+   (now r >= 1 must hold):
 */
-standardise_schur_aloamo(r,n) :=
-  buildq([r], lambda([t], ev(t, nbv(v,i):=(v-1)*r+i, nbv)))$
-invstandardise_schur_aloamo(r,n) :=
-  buildq([r], lambda([i], block([d : divide(i-1,r)+1],
-    nbv_var(d[1], d[2]))))$
+
+schur_standnest_fcl(r,n) := nbfclud2fcl_standnest(schur_nbfclud(r,n))$
+schur_standnest_fcs(r,n) := fcl2fcs(schur_standnest_fcl(r,n))$
+
+schur_standnest_strong_fcl(r,n) := nbfclud2fcl_standnest_strong(schur_nbfclud(r,n))$
+schur_standnest_strong_fcs(r,n) := fcl2fcs(schur_standnest_strong_fcl(r,n))$
+
+
+/* Logarithmic translation
+   (now r >= 1 must hold):
+*/
+
+schur_logarithmic_fcl(r,n) := nbfclud2fcl_logarithmic(schur_nbfclud(r,n))$
+schur_logarithmic_fcs(r,n) := fcl2fcs(schur_logarithmic_fcl(r,n))$
+
+
+
+/* *******************
+   * Standardisation *
+   *******************
+*/
+
+/* Direct translation: */
 
 schur_aloamo_stdfcl(r,n) := (
   [block([s : standardise_schur_aloamo(r,n)],
@@ -186,7 +202,6 @@ pd_wschur_aloamo_stdfcl(r,n) := block([n2 : ceiling(n/2)],
    standardise_fcl(pd_wschur_aloamo_fcl(r,n)).
 */
 
-
 schur_sb_aloamo_stdfcl(r,n) := (
   [block([s : standardise_schur_aloamo(r,n)],
      s(schur_sb_aloamo_fcl(r,n))),
@@ -205,17 +220,19 @@ schur_rm_aloamo_stdfcl(r,n,k) := (
    standardise_fcl(schur_rm_aloamo_fcl(r,n,k)).
 */
 
+/* Translation functions for standardising resp. de-standardising
+   terms resp. individual variables:
+*/
+standardise_schur_aloamo(r,n) :=
+  buildq([r], lambda([t], ev(t, nbv(v,i):=(v-1)*r+i, nbv)))$
+invstandardise_schur_aloamo(r,n) :=
+  buildq([r], lambda([i], block([d : divide(i-1,r)+1],
+    nbv_var(d[1], d[2]))))$
+
 
 
 /* Weak and strong standard nested translation; now r >= 1 must hold: */
 
-schur_standnest_fcl(r,n) := nbfclud2fcl_standnest(schur_nbfclud(r,n))$
-schur_standnest_fcs(r,n) := fcl2fcs(schur_standnest_fcl(r,n))$
-
-schur_standnest_strong_fcl(r,n) := nbfclud2fcl_standnest_strong(schur_nbfclud(r,n))$
-schur_standnest_strong_fcs(r,n) := fcl2fcs(schur_standnest_strong_fcl(r,n))$
-
-/* Standardising these boolean clause-sets: */
 schur_standnest_stdfcl(r,n) :=
   [block([s : standardise_schur_standnest(r,n)],
      s(schur_standnest_fcl(r,n))),
@@ -228,7 +245,6 @@ schur_standnest_stdfcs(r,n) := block(
  [FF : schur_standnest_stdfcl(r,n)],
   [fcl2fcs(FF[1]), FF[2]])$
 
-/* Standardising these boolean clause-sets: */
 schur_standnest_strong_stdfcl(r,n) :=
   [block([s : standardise_schur_standnest(r,n)],
      s(schur_standnest_strong_fcl(r,n))),
@@ -241,8 +257,7 @@ schur_standnest_strong_stdfcs(r,n) := block(
  [FF : schur_standnest_strong_stdfcl(r,n)],
   [fcl2fcs(FF[1]), FF[2]])$
 
-
-/* Computing translation functions for standardising resp. de-standardising
+/* Translation functions for standardising resp. de-standardising
    terms resp. individual variables:
 */
 standardise_schur_standnest(r,n) :=
@@ -254,10 +269,6 @@ invstandardise_schur_standnest(r,n) :=
 
 /* Logarithmic translation; now r >= 1 must hold: */
 
-schur_logarithmic_fcl(r,n) := nbfclud2fcl_logarithmic(schur_nbfclud(r,n))$
-schur_logarithmic_fcs(r,n) := fcl2fcs(schur_logarithmic_fcl(r,n))$
-
-/* Standardising these boolean clause-sets: */
 schur_logarithmic_stdfcl(r,n) :=
   [block([s : standardise_schur_logarithmic(r,n)],
      s(schur_logarithmic_fcl(r,n))),
@@ -270,7 +281,7 @@ schur_logarithmic_stdfcs(r,n) := block(
  [FF : schur_logarithmic_stdfcl(r,n)],
   [fcl2fcs(FF[1]), FF[2]])$
 
-/* Computing translation functions for standardising resp. de-standardising
+/* Translation functions for standardising resp. de-standardising
    terms resp. individual variables:
 */
 standardise_schur_logarithmic(r,n) :=

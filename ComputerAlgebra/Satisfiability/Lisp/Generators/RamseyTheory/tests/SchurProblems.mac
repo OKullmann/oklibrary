@@ -148,6 +148,12 @@ okltest_ncl_list_schur_aloamo_fcs(f) := (
     assert(f(r,n) = ncl_list_fcs(schur_aloamo_fcs(r,n))),
   true)$
 
+
+/* *******************
+   * Standardisation *
+   *******************
+*/
+
 okltest_schur_aloamo_stdfcl(f) := (
   assert(f(0,0) = [[[],[]],[]]),
   for n : 0 thru cokltl(4,10) do
@@ -161,8 +167,8 @@ okltest_schur_aloamo_stdfcl(f) := (
 
 okltest_pd_schur_aloamo_stdfcl(f) := (
   assert(f(0,0) = [[[],[]],[]]),
-  for n : 1 thru 2 do
-    assert(f(0,n) = [[[],[{}]],[]]),
+  assert(f(0,1) = [[[],[{}]],[]]),
+  assert(f(0,2) = [[[],[{},{}]],[]]),
   for n : 0 thru 1 do
     assert(f(1,n) = [[create_list(i,i,1,n),create_list({i},i,1,n)],create_list(nbv(i,1),i,1,n)]),
   for r : 0 thru cokltl(4,10) do
