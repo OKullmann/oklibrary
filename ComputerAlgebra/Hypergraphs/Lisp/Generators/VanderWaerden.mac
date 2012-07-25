@@ -184,7 +184,6 @@ mirrorfold_vdw(n) := buildq([n,div:ceiling(n/2)],
 
 /* Now the palindromisation of vdW-hypergraphs (colexicographical order, with
    subsumption-elimination): */
-/* TODO: this is not related to vdW-hypergraphs, but is a general construction. */
 palindromise_vdw_ohg(G) := 
  if emptyp(first(G)) then G
  else block([n : last(first(G)), div, V],
