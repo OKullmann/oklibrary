@@ -163,6 +163,17 @@ okltest_wschurtriples_pd_ohg(f) := (
   assert(f(8) = [[1,2,3,4],[{1,2},{1,4},{2,4}]]),
   true)$
 
+okltest_nver_schurtriples_pd_ohg(f) := (
+  for n : 0 thru 10 do
+    assert(f(n) = nver_ohg(schurtriples_pd_ohg(n))),
+  true)$
+
+okltest_nver_wschurtriples_pd_ohg(f) := (
+  for n : 0 thru 10 do
+    assert(f(n) = nver_ohg(wschurtriples_pd_ohg(n))),
+  true)$
+
+
 /*!
 \endhtmlonly
 */

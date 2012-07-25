@@ -149,6 +149,16 @@ wschurtriples_pd_ohg(n) := block(
 */
 
 
+/* Statistics functions: */
+
+nver_schurtriples_pd_hg(n) :=
+ if mod(n+1,3)#0 then ceiling(n/2) else ceiling(n/2)+1$
+nver_schurtriples_pd_ohg(n) := nver_schurtriples_pd_hg(n)$
+
+nver_wschurtriples_pd_hg(n) := ceiling(n/2)$
+nver_wschurtriples_pd_ohg(n) := nver_wschurtriples_pd_hg(n)$
+
+
 /* ****************
    * Schur tuples *
    ****************

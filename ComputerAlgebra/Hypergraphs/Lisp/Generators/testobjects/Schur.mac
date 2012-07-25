@@ -51,6 +51,9 @@ okltest_has_schurtriple(has_schurtriple);
 okltest_schurtriples_pd_ohg(schurtriples_pd_ohg);
 okltest_wschurtriples_pd_ohg(wschurtriples_pd_ohg);
 
+okltest_nver_schurtriples_pd_ohg(nver_schurtriples_pd_ohg);
+okltest_nver_wschurtriples_pd_ohg(nver_wschurtriples_pd_ohg);
+
 /*!
 \endhtmlonly
 */
