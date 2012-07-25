@@ -53,6 +53,8 @@ okltest_nvar_schur_aloamo_fcs(nvar_schur_aloamo_fcs);
 okltest_ncl_list_schur_aloamo_fcl(ncl_list_schur_aloamo_fcl);
 okltest_ncl_list_schur_aloamo_fcs(ncl_list_schur_aloamo_fcs);
 
+okltest_nvar_pd_schur_nbfcsud(nvar_pd_schur_nbfcsud);
+
 /* *******************
    * Standardisation *
    *******************

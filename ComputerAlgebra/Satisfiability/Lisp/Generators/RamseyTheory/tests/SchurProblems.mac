@@ -78,6 +78,13 @@ okltest_ncl_schur_nbfcsud(f) := (
   ),
   true)$
 
+okltest_nvar_pd_schur_nbfcsud(f) := (
+  for r : 0 thru cokltl(6,10) do
+   for n : 0 thru cokltl(6,10) do block([F : pd_schur_nbfcsud(r,n)],
+    assert(f(r,n) = length(F[1]))
+  ),
+  true)$
+
 
 /* ****************************
    * Heuristical restrictions *
