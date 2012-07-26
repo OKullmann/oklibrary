@@ -147,4 +147,23 @@ c file_name                             Schur_sb_5_160.cnf
   </ul>
 
 
+  \todo pdschur(5)
+  <ul>
+   <li>
+   \verbatim
+> CRunPdSchur 5 161 "minisat-2.2.0 -cpu-lim=10000"
+   \endverbatim
+   yields that all n <= 154 and n=156 are SAT, while n=155 and n>=157 are
+   unknown. </li>
+   <li>
+   \verbatim
+pdschur(5);
+  [{[155]},[157,306]]
+   \endverbatim
+   means that n=155 is unknown, n<155 and n=156 is SAT, while n>= 157 is
+   unknown.
+   </li>
+  </ul>
+
+
 */

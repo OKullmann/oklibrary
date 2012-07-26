@@ -131,6 +131,31 @@ for n : 1 thru 10 do print(n, test_auto_schur(n));
   </ul>
 
 
+  \todo Palindromic problems
+  <ul>
+   <li> Via
+   \verbatim
+> CRunPdSchur 1 2 minisat-2.2.0
+> CRunPdSchur 2 5 minisat-2.2.0
+> CRunPdSchur 3 14 minisat-2.2.0
+> CRunPdSchur 4 45 minisat-2.2.0
+   \endverbatim
+   we determined pdschur(r) for 0 <= r <= 4:
+   \verbatim
+create_list(pdschur(i),i,0,4);
+  [[{},1],[{},2],[{},5],[{},14],[{},45]]
+   \endverbatim
+   </li>
+   <li> A pair [S,k], where S is a set of natural numbers and k a natural
+   number,means that k is the minimum such that for all n >= k the problems
+   are unsatisfiable, while S is the set of exceptions below that, that is,
+   where the problems are also unsatisfiable for n < k. </li>
+   <li> We see that we have no "palindromic gaps" here. </li>
+   <li> For pdschur(5) see "pdschur(5)" in
+   RamseyTheory/SchurProblems/plans/Schur5/CompleteSolvers/general.hpp. </li>
+  </ul>
+
+
   \todo OKsolver_2002
   <ul>
    <li>
