@@ -24,7 +24,9 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/NonBoolean.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
-
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/Numbers.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 /* *****************
    * Schur triples *
@@ -72,6 +74,11 @@ pd_wschur_nbfcsud(r,n) :=
    *********************
 */
 
+/* Note:
+    - These clause-sets contain unit-clauses (and are thus not
+      subsumption-free).
+*/
+
 /* Adding symmetry-breaking clauses (regarding the parts (colours)), forcing
    vertex 1 to be in part 1; now we must have n >= 1:
 */
@@ -80,9 +87,37 @@ schur_set_first_vertex_nbcl(r) := create_list({[1,i]},i,2,r)$
 schur_sb_nbfclud(r,n) := block([S : schur_nbfclud(r,n)],
  [S[1], append(schur_set_first_vertex_nbcl(r), S[2]), S[3]])$
 schur_sb_nbfcsud(r,n) := nbfclud2nbfcsud(schur_sb_nbfclud(r,n))$
-/* Note that these clause-sets contain unit-clauses (and are thus not
-   subsumption-free).
-*/
+
+wschur_sb_nbfclud(r,n) := block([S : wschur_nbfclud(r,n)],
+ [S[1], append(schur_set_first_vertex_nbcl(r), S[2]), S[3]])$
+wschur_sb_nbfcsud(r,n) := nbfclud2nbfcsud(wschur_sb_nbfclud(r,n))$
+
+
+/* Strengthening schur_set_first_vertex_nbcl(r): */
+schur_fullsb_nbcl(r,n) := block(
+ [L : sublist(create_list(seconde(schur(i)),i,0,r-1),
+              lambda([x], is(x <= n)))],
+  listify(singletons(lunion(
+    map(cartesian_product,
+        map(set, L),
+        create_list(disjoin(i,setn(r)),i,1,length(L)))))))$
+
+schur_fullsb_nbfclud(r,n) := block([S : schur_nbfclud(r,n)],
+ [S[1], append(schur_fullsb_nbcl(r,n), S[2]), S[3]])$
+schur_fullsb_nbfcsud(r,n) := nbfclud2nbfcsud(schur_fullsb_nbfclud(r,n))$
+
+wschur_fullsb_nbcl(r,n) := block(
+ [L : sublist(create_list(seconde(wschur(i)),i,0,r-1),
+              lambda([x], is(x <= n)))],
+  listify(singletons(lunion(
+    map(cartesian_product,
+        map(set, L),
+        create_list(disjoin(i,setn(r)),i,1,length(L)))))))$
+
+wschur_fullsb_nbfclud(r,n) := block([S : wschur_nbfclud(r,n)],
+ [S[1], append(wschur_fullsb_nbcl(r,n), S[2]), S[3]])$
+wschur_fullsb_nbfcsud(r,n) := nbfclud2nbfcsud(wschur_fullsb_nbfclud(r,n))$
+
 
 
 /* ****************************
@@ -125,6 +160,16 @@ pd_wschur_aloamo_fcs(r,n) := fcl2fcs(pd_wschur_aloamo_fcl(r,n))$
 
 schur_sb_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(schur_sb_nbfclud(r,n))$
 schur_sb_aloamo_fcs(r,n) := fcl2fcs(schur_sb_aloamo_fcl(r,n))$
+
+wschur_sb_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(wschur_sb_nbfclud(r,n))$
+wschur_sb_aloamo_fcs(r,n) := fcl2fcs(wschur_sb_aloamo_fcl(r,n))$
+
+schur_fullsb_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(schur_fullsb_nbfclud(r,n))$
+schur_fullsb_aloamo_fcs(r,n) := fcl2fcs(schur_fullsb_aloamo_fcl(r,n))$
+
+wschur_fullsb_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(wschur_fullsb_nbfclud(r,n))$
+wschur_fullsb_aloamo_fcs(r,n) := fcl2fcs(wschur_fullsb_aloamo_fcl(r,n))$
+
 
 schur_rm_aloamo_fcl(r,n,k) := nbfclud2fcl_aloamo(schur_rm_nbfclud(r,n,k))$
 schur_rm_aloamo_fcs(r,n,k) := fcl2fcs(schur_rm_aloamo_fcl(r,n,k))$
@@ -219,6 +264,34 @@ schur_sb_aloamo_stdfcl(r,n) := (
 /* We have schur_sb_aloamo_stdfcl(r,n) =
    standardise_fcl(schur_sb_aloamo_fcl(r,n)).
 */
+
+wschur_sb_aloamo_stdfcl(r,n) := (
+  [block([s : standardise_schur_aloamo(r,n)],
+     s(wschur_sb_aloamo_fcl(r,n))),
+   block([invs : invstandardise_schur_aloamo(r,n)],
+     create_list(invs(i), i,1,n*r))])$
+/* We have wschur_sb_aloamo_stdfcl(r,n) =
+   standardise_fcl(wschur_sb_aloamo_fcl(r,n)).
+*/
+
+schur_fullsb_aloamo_stdfcl(r,n) := (
+  [block([s : standardise_schur_aloamo(r,n)],
+     s(schur_fullsb_aloamo_fcl(r,n))),
+   block([invs : invstandardise_schur_aloamo(r,n)],
+     create_list(invs(i), i,1,n*r))])$
+/* We have schur_fullsb_aloamo_stdfcl(r,n) =
+   standardise_fcl(schur_fullsb_aloamo_fcl(r,n)).
+*/
+
+wschur_fullsb_aloamo_stdfcl(r,n) := (
+  [block([s : standardise_schur_aloamo(r,n)],
+     s(wschur_fullsb_aloamo_fcl(r,n))),
+   block([invs : invstandardise_schur_aloamo(r,n)],
+     create_list(invs(i), i,1,n*r))])$
+/* We have wschur_fullsb_aloamo_stdfcl(r,n) =
+   standardise_fcl(wschur_fullsb_aloamo_fcl(r,n)).
+*/
+
 
 schur_rm_aloamo_stdfcl(r,n,k) := (
   [block([s : standardise_schur_aloamo(r,n)],
@@ -364,13 +437,47 @@ output_pd_wschur_stdname(r,n) := output_pd_wschur(r,n,
 output_schur_sb(r,n,filename) := block(
  [FF : schur_sb_aloamo_stdfcl(r,n)],
   output_fcl_v(
-    sconcat("Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c Symmetry breaking by putting element 1 into part 1.", newline, "c ", "Created by output_sb_schur(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    sconcat("Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c Symmetry breaking by putting element 1 into part 1.", newline, "c ", "Created by output_schur_sb(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
     FF[1],
     filename,
     FF[2]))$
 /* Providing a standard name: "Schur_sb_r_n.cnf": */
 output_schur_sb_stdname(r,n) := output_schur_sb(r,n,
   sconcat("Schur_sb_",r,"_",n,".cnf"))$
+
+output_wschur_sb(r,n,filename) := block(
+ [FF : wschur_sb_aloamo_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Weak Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c Symmetry breaking by putting element 1 into part 1.", newline, "c ", "Created by output_wschur_sb(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "WSchur_sb_r_n.cnf": */
+output_wschur_sb_stdname(r,n) := output_wschur_sb(r,n,
+  sconcat("WSchur_sb_",r,"_",n,".cnf"))$
+
+output_schur_fullsb(r,n,filename) := block(
+ [FF : schur_fullsb_aloamo_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c Symmetry breaking by putting the following elements into parts 1, 2, ...: ", sublist(create_list(schur(i),i,0,r-1), lambda([x], is(x<=n))), ".", newline, "c ", "Created by output_schur_sb(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "Schur_fullsb_r_n.cnf": */
+output_schur_fullsb_stdname(r,n) := output_schur_fullsb(r,n,
+  sconcat("Schur_fullsb_",r,"_",n,".cnf"))$
+
+output_wschur_fullsb(r,n,filename) := block(
+ [FF : wschur_fullsb_aloamo_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Weak Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c Symmetry breaking by putting the following elements into parts 1, 2, ...: ", sublist(create_list(wschur(i),i,0,r-1), lambda([x], is(x<=n))), ".", newline, "c ", "Created by output_wschur_fullsb(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "WSchur_fullsb_r_n.cnf": */
+output_wschur_fullsb_stdname(r,n) := output_wschur_fullsb(r,n,
+  sconcat("WSchur_fullsb_",r,"_",n,".cnf"))$
+
 
 output_schur_rm(r,n,k,filename) := block(
  [FF : schur_rm_aloamo_stdfcl(r,n,k)],

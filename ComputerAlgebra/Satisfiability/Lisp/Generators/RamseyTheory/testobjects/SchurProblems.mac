@@ -40,6 +40,9 @@ okltest_ncl_schur_nbfcsud(ncl_schur_nbfcsud);
 
 okltest_schur_sb_nbfcsud(schur_sb_nbfcsud);
 
+okltest_schur_fullsb_nbcl(schur_fullsb_nbcl);
+okltest_wschur_fullsb_nbcl(wschur_fullsb_nbcl);
+
 /* ****************************
    * Heuristical restrictions *
    ****************************
