@@ -1,0 +1,114 @@
+#!/bin/bash
+# Oliver Kullmann, 25.7.2012 (Swansea)
+# Copyright 2012 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# "CRunPdWSchur r nmax solver" creates a directory
+# "Exp_PdWSchurC_r_solver_date", where the SAT instances
+# WSchur_pd_r_n.cnf for n = 1, ..., nmax are created
+# and solver is executed on these instances, storing the output in 
+# WSchur_pd_r_n.cnf_OUT.
+# "solver" might be a string including options.
+
+# For logging and environment information see files "Log" and "Environment".
+# The parameters of the script can be found in file "Parameters" within the
+# experiment-directory, and the results are in file "Results" (for each
+# n the result).
+# Statistics (in R format) are stored in file "Statistics".
+
+# Currently the extraction of statistics information only works for
+# minisat-solvers.
+# The number of vertices in the original Schur-problem is the first column,
+# called "v".
+
+
+set -o errexit
+set -o nounset
+
+script_name="CRunPdWSchur"
+version_number="0.0.6"
+
+if [[ $# != 3 ]]; then
+  echo "ERROR[${script_name}]: Three parameters r, nmax, solver, are needed:
+  The number r of colours, the maximal number nmax of vertices and the SAT solver."
+  exit 1
+fi
+
+r=$1
+nmax=$2
+solver="$3"
+extraction_tool=ExtractMinisat # works currently only for minisat-solvers
+
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+
+solverabbrev=$(echo ${solver} | tr -d " ")
+ExpDir="Exp_PdWSchurC_${r}_${solverabbrev}_${timestamp}"
+echo -e "Running \"${script_name}\" in version ${version_number}."
+echo -e "Creating directory ${ExpDir}.\n"
+mkdir ${ExpDir}
+cd ${ExpDir}
+
+log_file=Log
+environment_file=Environment
+parameter_file=Parameters
+result_file=Results
+statistics_file=Statistics
+
+echo -n "Begin: " > ${log_file}
+date >> ${log_file}
+echo "Process id = $$" >> ${log_file}
+
+uname -a > ${environment_file}
+echo >> ${environment_file}
+cat /proc/cpuinfo >> ${environment_file}
+echo >> ${environment_file}
+free -m >> ${environment_file}
+
+echo "${script_name}, version ${version_number}." > ${parameter_file}
+echo -e "Parameters:\n r=${r}\n nmax=${nmax}\n solver=${solver}\n" >> ${parameter_file}
+echo "Call:" >> ${parameter_file}
+echo " ${script_name} ${r} ${nmax} \"${solver}\"" >> ${parameter_file}
+
+echo -n " v " > ${statistics_file}
+${extraction_tool} header-only >> ${statistics_file}
+
+maxima_call="oklib --maxima"
+
+counter=0
+for ((n=1; n<=nmax; ++n)); do
+
+  echo -n "${n}:"
+
+  SATinstance="WSchur_pd_${r}_${n}.cnf"
+  # Creating the Dimacs-file:
+  ${maxima_call} --batch-string="\"oklib_load(\\\"OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/SchurProblems.mac\\\"); output_pd_wschur_stdname(${r},${n});\"" > /dev/null
+
+  Output="${SATinstance}_OUT"
+  result=$(${solver} ${SATinstance} >& ${Output}; echo $?)
+  let counter+=1
+  echo -n "${counter} ${n} " >> Statistics
+  cat ${Output} | ${extraction_tool} data-only >> Statistics
+  
+  if [[ ${result} == 10 ]]; then
+    echo "${n} 1" >> ${result_file}
+    echo -n "1 "
+  elif [[ ${result} == 20 ]]; then
+    echo "${n} 0" >> ${result_file}
+    echo -n "0 "
+  else
+    echo "${n} 2" >> ${result_file}
+    echo -n "2 "
+  fi
+
+done
+
+ps p $$ k time S >> Log
+echo -n "Completed: " >> Log
+date >> Log
+
+echo -e "\nCOMPLETED."
+
+exit 0
