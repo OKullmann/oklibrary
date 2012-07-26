@@ -255,7 +255,7 @@ c CPU time              : 230.846 s
 
   \todo Best method for determining wschur(4) = 67
   <ul>
-   <li> The best (single) solver is march_pl:
+   <li> A good (single) solver is march_pl:
    \verbatim
 > march_pl WSchur_4_66.cnf
 c main():: nodeCount: 392890
@@ -651,9 +651,10 @@ NB_MONO= 504297029, NB_UNIT= 5513076769, NB_BRANCHE= 827175462, NB_BACK= 4147142
 Program terminated in 80406.780 seconds. (cs-wsok)
 satz215 Schur_N_4_45.cnf 80406.780 827175462 414714292 49958325674 1801444883 0 135 1964 0 2542611148 744460464
 > satz215 Schur_SN_4_45.cnf
-XXX cs-wsok
+# aborted after 7394:55 m
    \endverbatim
-   Interesting that the nested encoding is so bad for lookahead-solvers!
+   Interesting that the nested encoding is so bad for lookahead-solvers! And
+   the strong nested is even worse!
    </li>
    <li> march_pl:
    \verbatim
