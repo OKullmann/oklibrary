@@ -127,7 +127,33 @@ BestSolution_Max = 3
 100000
 
 > ubcsat-okl -alg vw2 -v 2005 -runs 100000 -cutoff 100000 -i Schur_5_159.cnf | tee Schur_5_159.cnf_OUT
-XXX cs-wsok
+FlipsPerSecond = 468279
+BestStep_Mean = 34740.92829
+Steps_Mean = 100000
+Steps_Max = 100000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.17683
+BestSolution_Median = 1
+BestSolution_Min = 1
+BestSolution_Max = 8
+> E=read_ubcsat("Schur_5_159.cnf_OUT",nrows=100000)
+    1     2     3     4     5     6     7     8
+84100 14295  1464   118    15     4     2     2
+100000
+> ubcsat-okl -alg vw2 -v 2005 -runs 200000 -cutoff 200000 -i Schur_5_159.cnf | tee Schur_5_159.cnf_OUT
+FlipsPerSecond = 472790
+BestStep_Mean = 48188.0324
+Steps_Mean = 200000
+Steps_Max = 200000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.05146
+BestSolution_Median = 1
+BestSolution_Min = 1
+BestSolution_Max = 6
+> E=read_ubcsat("Schur_5_159.cnf_OUT",nrows=200000)
+     1      2      3      4      5      6
+190032   9699    217     50      1      1
+200000
    \endverbatim
    </li>
    <li> For n=160 we get
@@ -291,6 +317,69 @@ fps: 278886
 fps: 361965
    \endverbatim
    Looks somewhat better than without the restriction. Again vw25 best.
+   </li>
+  </ul>
+
+
+  \todo Logarithmic translation
+  <ul>
+   <li> Creation by output_schur_logarithmic_stdname(5,n). </li>
+   <li> Instance-statistics:
+   \verbatim
+> cat Schur_L_5_159.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    477   31812    477    477   31812   282261     NA     NA   31812   282261   639
+ length   count
+      3     477
+      6     395
+      9   30940
+   \endverbatim
+   </li>
+   <li> Determining the best Ubcsat-solver:
+   \verbatim
+> E = run_ubcsat("Schur_L_5_159.cnf", runs=100, cutoff=1000000)
+> eval_ubcsat_dataframe(E,FALSE)
+1. rsaps:
+  1
+100
+fps: 102642
+2. vw25:
+ 1  2  3
+79 20  1
+fps: 147039
+3. saps:
+ 1  2
+71 29
+fps: 61302
+4. sapsnr:
+ 1  2
+66 34
+fps: 118170
+   \endverbatim
+   </li>
+   <li> Searching for solutions:
+   \verbatim
+> ubcsat-okl -alg rsaps -runs 100000 -cutoff 100000 -i Schur_L_5_159.cnf | tee Schur_L_5_159.cnf_OUT
+Clauses = 31812
+Variables = 477
+TotalLiterals = 282261
+FlipsPerSecond = 102405
+BestStep_Mean = 21045.48729
+Steps_Mean = 99999.47998
+Steps_Max = 100000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.00875
+BestSolution_Median = 1
+BestSolution_Min = 0
+BestSolution_Max = 2
+> E=read_ubcsat("Schur_L_5_159.cnf_OUT",nrows=100000)
+    0     1     2
+    2 99121   877
+100000
+
+> ubcsat-okl -alg rsaps -runs 100000 -cutoff 100000 -i Schur_L_5_160.cnf | tee Schur_L_5_160.cnf_OUT
+XXX cs-oksvr
+   \endverbatim
    </li>
   </ul>
 
@@ -587,10 +676,27 @@ BestSolution_Max = 1
 100
    \endverbatim
    </li>
-      <li> Searching solutions for n=162:
+   <li> Searching solutions for n=161:
+   \verbatim
+> ubcsat-okl -alg saps -cutoff 1000000 -runs 20000 -i Schur_pd_5_161.cnf | tee Schur_pd_5_161.cnf_OUT
+Clauses = 11822
+Variables = 410
+TotalLiterals = 34405
+FlipsPerSecond = 533877
+BestStep_Mean = 7418.49065
+Steps_Mean = 1000000
+Steps_Max = 1000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1
+BestSolution_Median = 1
+BestSolution_Min = 1
+BestSolution_Max = 1
+   \endverbatim
+   Looks unsatisfiable.
+   </li>
+   <li> Searching solutions for n=162:
    \verbatim
 > ubcsat-okl -alg saps -cutoff 20000000 -runs 1000 -i Schur_pd_5_162.cnf | tee Schur_pd_5_162.cnf_OUT
-> E=read_ubcsat("Schur_pd_5_162.cnf_OUT",nrows=1000)
 Clauses = 11556
 Variables = 405
 TotalLiterals = 33615
