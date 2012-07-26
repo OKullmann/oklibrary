@@ -67,9 +67,9 @@ pd_wschur_nbfcsud(r,n) :=
  nbfclud2nbfcsud(pd_wschur_nbfclud(r,n))$
 
 
-/* ****************************
-   * Heuristical restrictions *
-   ****************************
+/* *********************
+   * Symmetry breaking *
+   *********************
 */
 
 /* Adding symmetry-breaking clauses (regarding the parts (colours)), forcing
@@ -84,6 +84,11 @@ schur_sb_nbfcsud(r,n) := nbfclud2nbfcsud(schur_sb_nbfclud(r,n))$
    subsumption-free).
 */
 
+
+/* ****************************
+   * Heuristical restrictions *
+   ****************************
+*/
 
 /* Removing the first k vertices from the first part (colour; we must
    have r >= 1, n >= k):
