@@ -250,6 +250,91 @@ c CPU time              : 230.846 s
    </li>
    <li> The best conflict-driven solver seems picosat, which still is slower
    than the worst lookahead-solver (OKsolver-2002). </li>
+   <li> Fully symmetry-breaking trivialises it (all times csltok):
+   \verbatim
+> OKsolver_2002-O3-DNDEBUG Schur_fullsb_4_44.cnf
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         4
+c initial_number_of_variables           176
+c initial_number_of_clauses             2200
+c initial_number_of_literal_occurrences 6268
+c number_of_initial_unit-eliminations   20
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           20
+c reddiff_number_of_clauses             625
+c reddiff_number_of_literal_occurrences 1933
+c number_of_2-clauses_after_reduction   426
+c running_time(sec)                     0.1
+c number_of_nodes                       745
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                4018
+c number_of_pure_literals               0
+c number_of_autarkies                   64
+c number_of_missed_single_nodes         9
+c max_tree_depth                        23
+c proportion_searched                   2.265625e-01
+c proportion_single                     0.000000e+00
+c total_proportion                      0.2265625
+
+> OKsolver_2002-O3-DNDEBUG Schur_fullsb_4_45.cnf
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         4
+c initial_number_of_variables           180
+c initial_number_of_clauses             2291
+c initial_number_of_literal_occurrences 6536
+c number_of_initial_unit-eliminations   20
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           20
+c reddiff_number_of_clauses             641
+c reddiff_number_of_literal_occurrences 1985
+c number_of_2-clauses_after_reduction   436
+c running_time(sec)                     0.5
+c number_of_nodes                       4136
+c number_of_single_nodes                3
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                22402
+c number_of_pure_literals               0
+c number_of_autarkies                   306
+c number_of_missed_single_nodes         64
+c max_tree_depth                        28
+c proportion_searched                   9.999361e-01
+c proportion_single                     6.389618e-05
+c total_proportion                      1
+
+> satz215 Schur_fullsb_4_44.cnf
+Program terminated in 0.030 seconds.
+
+> satz215 Schur_fullsb_4_45.cnf
+Program terminated in 0.270 seconds.
+
+> march_pl Schur_fullsb_4_44.cnf
+c main():: time=0.040000
+
+> march_pl Schur_fullsb_4_45.cnf
+c main():: time=0.380000
+
+> minisat-2.2.0 Schur_fullsb_4_44.cnf
+CPU time              : 0.174973 s
+
+> minisat-2.2.0 Schur_fullsb_4_45.cnf
+CPU time              : 0.32395 s
+
+> picosat913 Schur_fullsb_4_44.cnf
+c 0.1 seconds total run time
+
+> picosat913 Schur_fullsb_4_45.cnf
+c 0.3 seconds total run time
+
+> glucose-2.0 Schur_fullsb_4_44.cnf
+c CPU time              : 0.215967 s
+
+> glucose-2.0 Schur_fullsb_4_45.cnf
+c CPU time              : 1.02984 s
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -588,6 +673,67 @@ R-squared: 0.9654
      non-trivial automorphisms. </li>
     </ol>
    </li>
+   <li> Fully symmetry-breaking makes it very simple for satz215 (all
+   times csltok):
+   \verbatim
+> OKsolver_2002-O3-DNDEBUG WSchur_fullsb_4_66.cnf
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         4
+c initial_number_of_variables           264
+c initial_number_of_clauses             4698
+c initial_number_of_literal_occurrences 13740
+c number_of_initial_unit-eliminations   16
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           16
+c reddiff_number_of_clauses             733
+c reddiff_number_of_literal_occurrences 2370
+c number_of_2-clauses_after_reduction   587
+c running_time(sec)                     31.3
+c number_of_nodes                       125444
+c number_of_single_nodes                146
+c number_of_quasi_single_nodes          1
+c number_of_2-reductions                811741
+c number_of_pure_literals               0
+c number_of_autarkies                   13270
+c number_of_missed_single_nodes         5178
+c max_tree_depth                        45
+c proportion_searched                   1.142583e-01
+c proportion_single                     1.692871e-06
+c total_proportion                      0.1142600122839212
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 11404899
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             WSchur_fullsb_4_66.cnf
+
+> satz215 WSchur_fullsb_4_66.cnf
+**** The instance is satisfiable. *****
+NB_MONO= 0, NB_UNIT= 662863, NB_BRANCHE= 21391, NB_BACK= 10885
+Program terminated in 2.420 seconds.
+satz215 WSchur_fullsb_4_66.cnf 2.420 21391 10885 1881405 85328 1 264 4698 -831 57363 16855
+
+> satz215 WSchur_fullsb_4_67.cnf
+**** The instance is unsatisfiable. *****
+NB_MONO= 0, NB_UNIT= 11183277, NB_BRANCHE= 349813, NB_BACK= 177672
+Program terminated in 44.800 seconds.
+satz215 WSchur_fullsb_4_67.cnf 44.800 349813 177672 33717030 1394086 0 268 4837 -846 1416796 419705
+
+> march_pl WSchur_fullsb_4_66.cnf
+c main():: nodeCount: 72382
+c main():: dead ends in main: 34830
+c main():: lookAheadCount: 11081391
+c main():: unitResolveCount: 301097
+c main():: time=25.230000
+c main():: necessary_assignments: 4917
+c main():: bin_sat: 0, bin_unsat 0
+c main():: doublelook: #: 172240, succes #: 142398
+c main():: doublelook: overall 1.579 of all possible doublelooks executed
+c main():: doublelook: succesrate: 82.674, average DL_trigger: 111.172
+# aborted after two minutes
+
+> picosat913 WSchur_fullsb_4_66.cnf
+# aborted after a minute
   </ul>
 
 
