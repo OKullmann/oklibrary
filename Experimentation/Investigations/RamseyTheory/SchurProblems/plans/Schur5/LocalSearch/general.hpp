@@ -321,6 +321,92 @@ fps: 361965
   </ul>
 
 
+  \todo Direct encoding with full symmetry breaking
+  <ul>
+   <li> Considering Schur_fullsb_5_159.cnf; the instance-statistics is:
+   \verbatim
+> cat Schur_fullsb_5_159.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    795   33104    795    795   33104    97605     NA     NA   33104    97605   799
+ length   count
+      1      20
+      2    1985
+      3   30940
+      5     159
+> cat Schur_fullsb_5_159.cnf | UnitClausePropagation-O3-DNDEBUG > Schur_fullsbUCP_5_159.cnf
+> cat Schur_fullsbUCP_5_159.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    795   29382    765    795   29382    85858     NA     NA   29382    85858   804
+ length   count
+      2    2591
+      3   26637
+      4       5
+      5     149
+   \endverbatim
+   </li>
+   <li> Determining the best Ubcsat-solver:
+   \verbatim
+> E = run_ubcsat("Schur_fullsbUCP_5_159.cnf", runs=100, cutoff=500000)
+> eval_ubcsat_dataframe(E,FALSE)
+1. vw25:
+ 1  2  3
+78 21  1
+fps: 533333
+2. ddfw:
+ 1  2  3
+74 22  4
+fps: 66606
+3. vw1:
+ 1  2
+72 28
+fps: 542299
+4. wsat:
+ 1  2  3
+64 35  1
+fps: 531745
+5. paws:
+ 1  2
+56 44
+fps: 451916
+6. anovpp:
+ 1  2  3
+46 48  6
+fps: 434103
+7. g2wsat:
+ 1  2  3
+40 59  1
+fps: 359971
+8. rsaps:
+ 1  2  3
+39 58  3
+fps: 238265
+   \endverbatim
+   </li>
+   <li> Searching for solutions:
+   \verbatim
+> ubcsat-okl -alg vw2 -v 2005 -runs 200000 -cutoff 200000 -i Schur_fullsbUCP_5_159.cnf | tee Schur_fullsbUCP_5_159.cnf_OUT
+Clauses = 29382
+Variables = 795
+TotalLiterals = 85858
+FlipsPerSecond = 528071
+BestStep_Mean = 62653.66158
+Steps_Mean = 200000
+Steps_Max = 200000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.396075
+BestSolution_Median = 1
+BestSolution_Min = 1
+BestSolution_Max = 5
+> E=read_ubcsat("Schur_fullsbUCP_5_159.cnf_OUT",nrows=200000)
+     1      2      3      4      5
+130503  60371   8572    516     38
+200000
+   \endverbatim
+   The statistics are worse than without symmetry-breaking.
+   </li>
+  </ul>
+
+
   \todo Logarithmic translation
   <ul>
    <li> Creation by output_schur_logarithmic_stdname(5,n). </li>
@@ -378,7 +464,22 @@ BestSolution_Max = 2
 100000
 
 > ubcsat-okl -alg rsaps -runs 100000 -cutoff 100000 -i Schur_L_5_160.cnf | tee Schur_L_5_160.cnf_OUT
-XXX cs-oksvr
+Clauses = 32215
+Variables = 480
+TotalLiterals = 285855
+FlipsPerSecond = 105153
+BestStep_Mean = 21549.21393
+Steps_Mean = 100000
+Steps_Max = 100000
+PercentSuccess = 0.00
+BestSolution_Mean = 1.01042
+BestSolution_Median = 1
+BestSolution_Min = 1
+BestSolution_Max = 2
+> E=read_ubcsat("Schur_L_5_160.cnf_OUT",nrows=100000)
+    1     2
+98958  1042
+100000
    \endverbatim
    </li>
   </ul>
