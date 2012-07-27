@@ -85,6 +85,13 @@ okltest_nvar_pd_schur_nbfcsud(f) := (
   ),
   true)$
 
+okltest_nvar_pd_wschur_nbfcsud(f) := (
+  for r : 0 thru cokltl(6,10) do
+   for n : 0 thru cokltl(6,10) do block([F : pd_wschur_nbfcsud(r,n)],
+    assert(f(r,n) = length(F[1]))
+  ),
+  true)$
+
 
 /* *********************
    * Symmetry breaking *
@@ -207,6 +214,22 @@ okltest_pd_schur_aloamo_stdfcl(f) := (
   for r : 0 thru cokltl(4,10) do
    for n : 0 thru cokltl(4,10) do
     assert(f(r,n) = standardise_fcl(pd_schur_aloamo_fcl(r,n))),
+  true)$
+
+okltest_pd_schur_fullsb_aloamo_stdfcl(f) := (
+  assert(f(0,0) = [[[],[]],[]]),
+  /* XXX */
+  for r : 0 thru cokltl(4,10) do
+   for n : 0 thru cokltl(4,10) do
+    assert(f(r,n) = standardise_fcl(pd_schur_fullsb_aloamo_fcl(r,n))),
+  true)$
+
+okltest_pd_wschur_fullsb_aloamo_stdfcl(f) := (
+  assert(f(0,0) = [[[],[]],[]]),
+  /* XXX */
+  for r : 0 thru cokltl(4,10) do
+   for n : 0 thru cokltl(4,10) do
+    assert(f(r,n) = standardise_fcl(pd_wschur_fullsb_aloamo_fcl(r,n))),
   true)$
 
 okltest_schur_standnest_stdfcl(f) := (

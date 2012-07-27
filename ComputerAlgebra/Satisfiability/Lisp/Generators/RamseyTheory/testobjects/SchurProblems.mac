@@ -33,6 +33,9 @@ okltest_nval_schur_nbfcsud(nval_schur_nbfcsud);
 okltest_ncl_list_schur_nbfcsud(ncl_list_schur_nbfcsud);
 okltest_ncl_schur_nbfcsud(ncl_schur_nbfcsud);
 
+okltest_nvar_pd_schur_nbfcsud(nvar_pd_schur_nbfcsud);
+okltest_nvar_pd_wschur_nbfcsud(nvar_pd_wschur_nbfcsud);
+
 /* *********************
    * Symmetry breaking *
    *********************
@@ -61,8 +64,6 @@ okltest_nvar_schur_aloamo_fcs(nvar_schur_aloamo_fcs);
 okltest_ncl_list_schur_aloamo_fcl(ncl_list_schur_aloamo_fcl);
 okltest_ncl_list_schur_aloamo_fcs(ncl_list_schur_aloamo_fcs);
 
-okltest_nvar_pd_schur_nbfcsud(nvar_pd_schur_nbfcsud);
-
 /* *******************
    * Standardisation *
    *******************
@@ -71,6 +72,9 @@ okltest_nvar_pd_schur_nbfcsud(nvar_pd_schur_nbfcsud);
 okltest_schur_aloamo_stdfcl(schur_aloamo_stdfcl);
 
 okltest_pd_schur_aloamo_stdfcl(pd_schur_aloamo_stdfcl);
+
+okltest_pd_schur_fullsb_aloamo_stdfcl(pd_schur_fullsb_aloamo_stdfcl);
+okltest_pd_wschur_fullsb_aloamo_stdfcl(pd_wschur_fullsb_aloamo_stdfcl);
 
 okltest_schur_standnest_stdfcl(schur_standnest_stdfcl);
 
