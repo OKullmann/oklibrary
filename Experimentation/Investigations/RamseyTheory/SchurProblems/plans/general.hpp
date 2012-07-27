@@ -153,6 +153,20 @@ create_list(pdschur(i),i,0,4);
    <li> We see that we have no "palindromic gaps" here. </li>
    <li> For pdschur(5) see "pdschur(5)" in
    RamseyTheory/SchurProblems/plans/Schur5/CompleteSolvers/general.hpp. </li>
+   <li> Via
+   \verbatim
+> CRunPdWSchur 1 3 minisat-2.2.0
+> CRunPdWSchur 2 9 minisat-2.2.0
+> CRunPdWSchur 3 24 minisat-2.2.0
+> CRunPdWSchur 4 67 minisat-2.2.0
+   \endverbatim
+   we determined pdwschur(r) for 0 <= r <= 4:
+   \verbatim
+create_list(pdwschur(i),i,0,4);
+  [[{},1],[{},3],[{},6],[{},14],[{45,46},48]]
+   \endverbatim
+   </li>
+   <li> It seems that there is only little deviation from pdschur(r). </li>
   </ul>
 
 
