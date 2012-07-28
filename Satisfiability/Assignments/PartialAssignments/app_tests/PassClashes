@@ -9,7 +9,7 @@
 # set -o errexit # currently "find" creates an error due to non-existing directories, and also the match-program might fail
 set -o nounset
 
-list_programs="${bin_dir}/PassClashes-*"
+list_programs="${bin_dir}/PassClashes*"
 app_test_dir=${OKlib}/Satisfiability/Assignments/PartialAssignments/app_tests
 
 echo

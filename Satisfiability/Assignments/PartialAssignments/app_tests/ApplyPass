@@ -11,7 +11,7 @@ set -o nounset
 
 testee="ApplyPass"
 
-list_programs="${bin_dir}/${testee}-*"
+list_programs="${bin_dir}/${testee}*"
 app_test_dir=${OKlib}/Satisfiability/Assignments/PartialAssignments/app_tests
 
 echo
