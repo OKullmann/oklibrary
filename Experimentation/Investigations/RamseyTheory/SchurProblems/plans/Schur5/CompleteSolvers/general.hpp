@@ -163,7 +163,135 @@ pdschur(5);
    means that n=155 is unknown, n<155 and n=156 is SAT, while n>= 157 is
    unknown.
    </li>
+   <li> With full symmetry-breaking:
+   \verbatim
+> CRunPdSchurFsb 5 161 "minisat-2.2.0 -cpu-lim=10000"
+# aborted after it couldn't solve now n=153
+   \endverbatim
+   </li>
+   <li> At least for the satisfiable instances, with full symmetry breaking it
+   takes substantially longer! </li>
+   <li> Solver comparisons:
+   \verbatim
+output_pd_schur_fullsb_stdname(5,146);
+
+> cat Schur_pd_fullsb_5_146.cnf | ExtendedDimacsFullStatisticNDEBUG
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    370    9849    370    370    9849    28550     NA     NA    9849    28550   374
+ length   count
+      1      20
+      2    1105
+      3    8650
+      5      74
+> cat Schur_pd_fullsb_5_146.cnf | UnitClausePropagation-O3-DNDEBUG  > Schur_pd_fullsbUCP_5_146.cnf
+> cat Schur_pd_fullsbUCP_5_146.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    370    7843    337    370    7843    22373     NA     NA    7843    22373   379
+ length   count
+      2    1286
+      3    6488
+      4       8
+      5      61
+
+> satz215 Schur_pd_5_146.cnf
+NB_MONO= 0, NB_UNIT= 243993768, NB_BRANCHE= 6366100, NB_BACK= 3258290
+Program terminated in 1235.230 seconds.
+satz215 Schur_pd_5_146.cnf 1235.230 6366100 3258290 470702379 17146147 1 370 9829 0 6427545 2391110
+> satz215 Schur_pd_fullsb_5_146.cnf
+**** The instance is satisfiable. *****
+NB_MONO= 0, NB_UNIT= 900822276, NB_BRANCHE= 24092834, NB_BACK= 12290366
+Program terminated in 4229.920 seconds.
+satz215 Schur_pd_fullsb_5_146.cnf 4229.920 24092834 12290366 1627370372 66046550 1 370 9849 -2006 27195660 9524121
+
+> minisat-2.2.0 Schur_pd_5_146.cnf
+restarts              : 1596
+conflicts             : 759076         (18974 /sec)
+decisions             : 996895         (0.00 % random) (24919 /sec)
+propagations          : 30077293       (751821 /sec)
+conflict literals     : 29233772       (21.53 % deleted)
+Memory used           : 31.00 MB
+CPU time              : 40.0059 s
+> minisat-2.2.0 Schur_pd_fullsb_5_146.cnf
+restarts              : 131069
+conflicts             : 101638255      (13983 /sec)
+decisions             : 125902579      (0.00 % random) (17322 /sec)
+propagations          : 3818264189     (525316 /sec)
+conflict literals     : 2651552539     (31.67 % deleted)
+Memory used           : 95.00 MB
+CPU time              : 7268.51 s
+
+> picosat913 Schur_pd_5_146.cnf
+c 0 iterations
+c 13818 restarts
+c 0 failed literals
+c 8527198 conflicts
+c 10999787 decisions
+c 0 fixed variables
+c 263254187 learned literals
+c 31.9% deleted literals
+c 506432115 propagations
+c 100.0% variables used
+c 468.7 seconds in library
+c 1.1 megaprops/second
+c 1 simplifications
+c 333 reductions
+c 1163.4 MB recycled
+c 8.0 MB maximally allocated
+c 468.7 seconds total run time
+
+> picosat913 Schur_pd_fullsb_5_146.cnf
+c 0 iterations
+c 72366 restarts
+c 0 failed literals
+c 56355622 conflicts
+c 70326819 decisions
+c 33 fixed variables
+c 1483459769 learned literals
+c 37.2% deleted literals
+c 3342268712 propagations
+c 100.0% variables used
+c 4594.5 seconds in library
+c 0.7 megaprops/second
+c 1 simplifications
+c 1557 reductions
+c 2631.7 MB recycled
+c 9.6 MB maximally allocated
+c 4594.5 seconds total run time
+   \endverbatim
+   As with vdW-problems, the general impression is that minisat-2.2.0 is best
+   on palindromic problems, while symmetry-breaking doesn't help (and
+   actually impairs performance, which needs an explanation!). </li>
+   <li> Is symmetry-breaking also counter-productive when used within the
+   Cube&Conquer-approach? See Schur5/SplittingViaOKsolver.hpp. </li>
   </ul>
 
+
+  \todo pdwschur(5)
+  <ul>
+   <li>
+   \verbatim
+> CRunPdWSchur 5 190 "minisat-2.2.0 -cpu-lim=10000"
+   \endverbatim
+   yields that all n <= 152 and n=154,155,156 are SAT, while n=153 and n>=157
+   are unknown. </li>
+   <li>
+   \verbatim
+pdwschur(5);
+  [{[153]},[157,1631]]
+   \endverbatim
+   means that n=153 is unknown, n<153 and 153<n<157 is SAT, while n>= 157 is
+   unknown.
+   </li>
+   <li> With full symmetry-breaking:
+   \verbatim
+> CRunPdWSchurFsb 5 190 "minisat-2.2.0 -cpu-lim=10000"
+# aborted after n=152 couldn't be determined
+   \endverbatim
+   Also here we have that full symmetry-breaking makes the problems harder
+   for satisfiable cases (while we do not know about the unsatisfiable
+   cases). </li>
+   <li> n=153 via SplittingViaOKsolver: see Schur5/SplittingViaOKsolver.hpp.
+   </li>
+  </ul>
 
 */
