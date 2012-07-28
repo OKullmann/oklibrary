@@ -12,6 +12,7 @@ set -o nounset
 list_programs="${bin_dir}/PassClashes-*"
 app_test_dir=${OKlib}/Satisfiability/Assignments/PartialAssignments/app_tests
 
+echo
 echo "PROGRAMS FOUND:"
 for P in ${list_programs}; do echo ${P}; done
 

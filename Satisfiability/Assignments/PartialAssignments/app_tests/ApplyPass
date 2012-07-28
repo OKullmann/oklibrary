@@ -1,0 +1,78 @@
+#!/bin/bash
+# Oliver Kullmann, 28.7.2012 (Swansea)
+# Copyright 2012 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version.
+
+# set -o errexit # currently "find" creates an error due to non-existing directories, and also the match-program might fail
+set -o nounset
+
+testee="ApplyPass"
+
+list_programs="${bin_dir}/${testee}-*"
+app_test_dir=${OKlib}/Satisfiability/Assignments/PartialAssignments/app_tests
+
+echo
+echo "PROGRAMS FOUND:"
+for P in ${list_programs}; do echo ${P}; done
+
+cd ${app_test_dir}
+
+case ${test_level} in
+basic) list_test_cases="$(find test_cases/basic/${testee}/input/ -maxdepth 1 -mindepth 1 -type d)"
+    ;;
+full) list_test_cases="$(find test_cases/basic/${testee}/input/ -maxdepth 1 -mindepth 1 -type d) $(find test_cases/full/${testee}/input/ -maxdepth 1 -mindepth 1 -type d)"
+    ;;
+extensive) list_test_cases="$(find test_cases/basic/${testee}/input/ -maxdepth 1 -mindepth 1 -type d) $(find test_cases/full/${testee}/input/ -maxdepth 1 -mindepth 1 -type d) $(find test_cases/extensive/${testee}/input/ -maxdepth 1 -mindepth 1 -type d)"
+    ;;
+esac
+
+echo
+echo
+echo "TEST SCRIPT: $0"
+
+echo "TEST FORMULAS FOUND:"
+for T in ${list_test_cases}; do echo ${T}; done
+
+echo "EXECUTION OF PROGRAMS:"
+
+match_tool=${bin_dir}/MatchFiles-O3-DNDEBUG
+timestamp=$(date +"%Y-%m-%d-%H%M%S")
+error_file="temp_${testee}_${timestamp}"
+new_cnf="temp_${testee}_${timestamp}_CNF"
+
+for S in ${list_programs}; do
+  echo
+  for P in ${list_test_cases}; do
+    echo "  $(basename ${S}) ${P}"
+    output="$(cat ${P}/cnf | ${S} ${P}/pa ${new_cnf} 2>${error_file})"
+    exit_code=$?
+    expected_code=$(cat $(dirname ${P})/../exit_code/$(basename ${P}))
+
+    # Check exit_code
+    if [[ ${exit_code} != ${expected_code} ]]; then
+      echo "ERROR: EXIT_CODE of ${testee} is ${exit_code}, but expected ${expected_code}."
+      # rm ${error_file} ${new_cnf}
+      exit 1
+    fi
+
+    # Check file-output
+    output_template="$(dirname ${P})/../output/$(basename ${P})"
+    ${match_tool} "${output_template}" "${new_cnf}"
+    result=$?
+    if [[ ${result} != 0 ]]; then
+      echo "ERROR: OUTPUT-FILE of ${testee} is:"
+      cat -E -n ${new_cnf}; echo
+      echo -e "\n, while TEMPLATE is:"
+      cat -E -n ${output_template}; echo;
+      rm ${error_file} ${new_cnf}
+      exit 1
+    fi
+
+  done
+done
+
+rm ${error_file} ${new_cnf}
+exit 0
