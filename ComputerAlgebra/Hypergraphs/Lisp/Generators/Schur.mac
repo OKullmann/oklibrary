@@ -122,6 +122,7 @@ schurtriples_pd_ohg(n) := block(
               min_elements_l(unique(
                 map(lambda([H], map(m, H)), second(G))))),
             colex_lessp_l))])$
+schurtriples_pd_hg(n) := ohg2hg(schurtriples_pd_ohg(n))$
 
 /* Remarks:
  - If the direct construction, as for wschurtriples_pd_ohg, would be
@@ -144,6 +145,8 @@ wschurtriples_pd_ohg(n) := block(
               min_elements_l(unique(
                 map(lambda([H], map(m, H)), second(G))))),
             colex_lessp_l))])$
+wschurtriples_pd_hg(n) := ohg2hg(wschurtriples_pd_ohg(n))$
+
 /* Remarks:
  - wschurtriples_pd_ohg(n) = palindromise_vdw_ohg(wschurtriples_ohg(n)).
 */
