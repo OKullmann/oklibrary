@@ -33,7 +33,8 @@ schur(r) := if r <= 4 then [1,2,5,14,45][r+1]
  elseif r=5 then [161,306]
  elseif r=6 then [537,1837]
  elseif r=7 then [1681,12860]
- else block([lb : max((3^r+1)/2,ceiling(44/89*89^(r/4))), ub : floor(r!*%e),
+ else block([lb : max(3^(r-7)*(1681-1/2)+1/2,ceiling(44/89*89^(r/4))),
+             ub : floor(r!*%e),
              rub : ramsey([2,create_list(3,i,1,r)])],
    if rub#unknown then ub : min(ub, rub-1),
    [lb, ub])$
@@ -41,6 +42,9 @@ schur(r) := if r <= 4 then [1,2,5,14,45][r+1]
  - This is A030126 in the OEIS (http://oeis.org/A030126).
  - For the general bounds see Theorems 8.8, 8.9 and Corollary 8.6 in
    [Ramsey Theory on the Integers; Landman, Robertson].
+ - Schur showed that schur(r) >= 3*schur(r-1)-1 for r >= 1.
+   The sequence s(r) := 3*s(r-1)-1 has the law s(r) = 3^r*(s(0)-1/2)+1/2.
+   Since for r=7 we have the last concrete bound, we set s(0) = 1681.
  - For r = 5:
     - For the lower bound see certificates in
       Investigations/RamseyTheory/SchurProblems/plans/general.hpp.
