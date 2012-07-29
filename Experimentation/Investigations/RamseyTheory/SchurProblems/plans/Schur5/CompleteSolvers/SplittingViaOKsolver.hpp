@@ -630,7 +630,8 @@ c splitting_cases                       269376
   <ul>
    <li> It seems that here, different from monolithic solvers, full symmetry-
    breaking (again) is powerful. </li>
-   <li> First open case n=153:
+   <li> First open case n=153 (but actually we know it is satisfiable, since
+   the standard palindromic case is satisfiable for n=153, and 153 mod 3 # 2):
    \verbatim
 > SplittingViaOKsolver -D30 WSchur_pd_fullsb_5_153.cnf
 > cat Result

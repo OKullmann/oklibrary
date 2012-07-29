@@ -917,7 +917,8 @@ BestSolution_Min = 1
 BestSolution_Max = 1
    \endverbatim
    </li>
-   <li> Determining the best Ubcsat-solver:
+   <li> Determining the best Ubcsat-solver (done below again for satisfiable
+   case):
    \verbatim
 > E = run_ubcsat("WSchur_pd_5_189.cnf", runs=100, cutoff=1000000)
 > eval_ubcsat_dataframe(E,FALSE)
@@ -993,6 +994,14 @@ fps: 595806
 fps: 120998
    \endverbatim
    Also here vw25 best.
+   </li>
+   <li> The first open cases are n=158,161. </li>
+   <li> Determining the best Ubcsat-solver for a satisfiable case:
+   \verbatim
+> E = run_ubcsat("WSchur_pd_5_153.cnf", runs=200, cutoff=100000)
+XXX cs-oksvr
+> eval_ubcsat_dataframe(E,FALSE)
+   \endverbatim
    </li>
   </ul>
 

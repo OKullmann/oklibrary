@@ -90,12 +90,12 @@ pdschur(r) := if r <= 4 then [[{},1],[{},2],[{},5],[{},14],[{},45]][r+1]
 
 /* r is natural numbers >= 0: */
 pdwschur(r) := if r <= 4 then [[{},1],[{},3],[{},6],[{},14],[{45,46},48]][r+1]
- elseif r=5 then [{[153]},[157,1631]]
+ elseif r=5 then [{[158]},[161,1631]]
  else unknown$
-
-
-
-
+/* Note that if a palindromic (ordinary) Schur-instance is known to be
+   satisfiable for n mod 3 # 2, then also the weak palindromic Schur-instance
+   for that n is satisfiable.
+*/
 
 /*!
 \endhtmlonly

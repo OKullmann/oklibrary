@@ -280,11 +280,10 @@ c 4594.5 seconds total run time
    <li>
    \verbatim
 pdwschur(5);
-  [{[153]},[157,1631]]
+  [{[158]},[161,1631]]
    \endverbatim
-   means that n=153 is unknown, n<153 and 153<n<157 is SAT, while n>= 157 is
-   unknown.
-   </li>
+   means that n=158 is unknown, everything else with n<161 is SAT, while
+   n>= 161 is unknown. </li>
    <li> With full symmetry-breaking:
    \verbatim
 > CRunPdWSchurFsb 5 190 "minisat-2.2.0 -cpu-lim=10000"
