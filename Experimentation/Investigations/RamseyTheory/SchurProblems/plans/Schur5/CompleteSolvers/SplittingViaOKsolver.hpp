@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On computing lower bounds for schur(5) and variations via Cube-and-Conquer
 
 
-  \todo SplittingViaOKsolver for direct encoding
+  \todo Direct encoding
   <ul>
    <li> The following data uses the old version of the Schur-generator, with
    a different clause-order and not eliminating the subsumed clauses. This
@@ -32,7 +32,6 @@ c number_of_nodes                       39
 c number_of_2-reductions                0
 c number_of_pure_literals               0
 c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        7
 c proportion_searched                   0.000000e+00
 c proportion_single                     0.000000e+00
@@ -81,8 +80,7 @@ c splitting_cases                       224100
    \endverbatim
    Attempts at solving it:
     <ol>
-     <li> Running OKsolver-2002 on it XXX
-     run with monitoring-depth 20, current status:
+     <li> Running OKsolver-2002 on it, with monitoring-depth 20:
      \verbatim
 > OKsolver_2002-O3-DNDEBUG -M -D20 D50_1.cnf
  70127:    566     56.92  5.97E+07    14.50s     1.19s     0y  13d 12h 37m 12s     0     0   75
@@ -95,11 +93,6 @@ c initial_maximal_clause_length         5
 c initial_number_of_variables           743
 c initial_number_of_clauses             26678
 c initial_number_of_literal_occurrences 77350
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
 c number_of_2-clauses_after_reduction   2974
 c running_time(sec)                     311213.4
 c number_of_nodes                       19225796
@@ -115,9 +108,6 @@ c proportion_single                     3.111316e-07
 c total_proportion                      0.1269614993137118
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 4859177916
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             D50_1.cnf
      \endverbatim
      With node 133129 it felt finally into a "deep hole".
      </li>
@@ -129,35 +119,24 @@ c file_name                             D50_1.cnf
        \verbatim
 > SplittingViaOKsolver -D50 D50_1.cnf
 > cat SplitViaOKsolver_D50D50_1cnf_2012-07-14-182421/Result
-s UNKNOWN
 c sat_status                            2
 c initial_maximal_clause_length         5
 c initial_number_of_variables           743
 c initial_number_of_clauses             26678
 c initial_number_of_literal_occurrences 77350
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
 c number_of_2-clauses_after_reduction   2974
 c running_time(sec)                     639.7
 c number_of_nodes                       11289
-c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
 c number_of_2-reductions                18
 c number_of_pure_literals               0
 c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        18
 c proportion_searched                   0.000000e+00
 c proportion_single                     0.000000e+00
 c total_proportion                      0
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 7835508
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             D50_1.cnf
 c splitting_directory                   SplitViaOKsolver_D50D50_1cnf_2012-07-14-182421/Instances
 c splitting_cases                       5645
        \endverbatim
@@ -180,17 +159,11 @@ c splitting_cases                       5645
        \verbatim
 > OKsolver_2002-O3-DNDEBUG -M -D8 D50_1_D50_2.cnf
    135:   1602    244.71  6.26E+04    29.72s     4.69s     0y   0d  0h  9m 28s     0     0   36
-s UNKNOWN
 c sat_status                            2
 c initial_maximal_clause_length         5
 c initial_number_of_variables           682
 c initial_number_of_clauses             20271
 c initial_number_of_literal_occurrences 57596
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
 c number_of_2-clauses_after_reduction   3470
 c running_time(sec)                     56774.7
 c number_of_nodes                       33116810
@@ -206,21 +179,8 @@ c proportion_single                     6.748504e-07
 c total_proportion                      0.5284516993945535
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 5780791509
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             D50_1_D50_2.cnf
-s UNKNOWN
+
 c sat_status                            2
-c initial_maximal_clause_length         5
-c initial_number_of_variables           682
-c initial_number_of_clauses             20271
-c initial_number_of_literal_occurrences 57596
-c number_of_initial_unit-eliminations   0
-c reddiff_maximal_clause_length         0
-c reddiff_number_of_variables           0
-c reddiff_number_of_clauses             0
-c reddiff_number_of_literal_occurrences 0
-c number_of_2-clauses_after_reduction   3470
 c running_time(sec)                     140082.8
 c number_of_nodes                       80167759
 c number_of_single_nodes                17430976
@@ -235,9 +195,6 @@ c proportion_single                     6.817329e-07
 c total_proportion                      0.5284517405403815
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 14205341478
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             D50_1_D50_2.cnf
 > display_seconds(140082.8)
 [1] "1.621d"
        \endverbatim
@@ -251,7 +208,7 @@ c file_name                             D50_1_D50_2.cnf
   </ul>
 
 
-  \todo SplittingViaOKsolver for direct encoding and full symmetry breaking
+  \todo Direct encoding and full symmetry breaking
   <ul>
    <li> n=161 is the interesting problem. </li>
    <li> Splitting with D=10,20,30,40,50:
@@ -271,108 +228,78 @@ c reddiff_number_of_literal_occurrences 11907
 c number_of_2-clauses_after_reduction   2626
 c running_time(sec)                     2.2
 c number_of_nodes                       29
-c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
 c number_of_2-reductions                0
 c number_of_pure_literals               0
 c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        6
 c proportion_searched                   0.000000e+00
 c proportion_single                     0.000000e+00
 c total_proportion                      0
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 22193
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             Schur_fullsb_5_161.cnf
-c splitting_directory                   SplitViaOKsolver_D10Schur_fullsb_5_161cnf_2012-07-26-204134/Instances
 c splitting_cases                       15
 
 > SplittingViaOKsolver -D20 Schur_fullsb_5_161.cnf
 > cat Result
 c running_time(sec)                     16.7
 c number_of_nodes                       241
-c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
 c number_of_2-reductions                0
 c number_of_pure_literals               0
 c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        10
 c proportion_searched                   0.000000e+00
 c proportion_single                     0.000000e+00
 c total_proportion                      0
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 182109
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             Schur_fullsb_5_161.cnf
-c splitting_directory                   SplitViaOKsolver_D20Schur_fullsb_5_161cnf_2012-07-26-204212/Instances
 c splitting_cases                       121
 
 > SplittingViaOKsolver -D30 Schur_fullsb_5_161.cnf
 > cat Result
 c number_of_nodes                       1669
-c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
 c number_of_2-reductions                0
 c number_of_pure_literals               0
 c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        15
 c proportion_searched                   0.000000e+00
 c proportion_single                     0.000000e+00
 c total_proportion                      0
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 1245746
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             Schur_fullsb_5_161.cnf
-c splitting_directory                   SplitViaOKsolver_D30Schur_fullsb_5_161cnf_2012-07-26-204311/Instances
 c splitting_cases                       835
 
 > SplittingViaOKsolver -D40 Schur_fullsb_5_161.cnf
 > cat Result
 c running_time(sec)                     1237.6
 c number_of_nodes                       13221
-c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
 c number_of_2-reductions                3
 c number_of_pure_literals               0
 c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        20
 c proportion_searched                   0.000000e+00
 c proportion_single                     0.000000e+00
 c total_proportion                      0
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 9727935
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             Schur_fullsb_5_161.cnf
-c splitting_directory                   SplitViaOKsolver_D40Schur_fullsb_5_161cnf_2012-07-26-204723/Instances
 c splitting_cases                       6611
 
 > SplittingViaOKsolver -D50 Schur_fullsb_5_161.cnf
 c running_time(sec)                     4814.9
 c number_of_nodes                       74869
-c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
 c number_of_2-reductions                9
 c number_of_pure_literals               0
 c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        24
 c proportion_searched                   0.000000e+00
 c proportion_single                     0.000000e+00
 c total_proportion                      0
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 54359548
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             Schur_fullsb_5_161.cnf
-c splitting_directory                   SplitViaOKsolver_D50Schur_fullsb_5_161cnf_2012-07-26-223856/Instances
 c splitting_cases                       37435
    \endverbatim
    </li>
@@ -391,64 +318,46 @@ c splitting_cases                       37435
 > cat Result
 c running_time(sec)                     14.7
 c number_of_nodes                       281
-c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
 c number_of_2-reductions                13
 c number_of_pure_literals               0
 c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        10
 c proportion_searched                   0.000000e+00
 c proportion_single                     0.000000e+00
 c total_proportion                      0
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 192500
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             D50Schur_fullsb_5_161-1.cnf
-c splitting_directory                   SplitViaOKsolver_D30D50Schur_fullsb_5_1611cnf_2012-07-27-084636/Instances
 c splitting_cases                       141
 
 > SplittingViaOKsolver -D50 D50Schur_fullsb_5_161-1.cnf
 c running_time(sec)                     137.2
 c number_of_nodes                       2943
-c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
 c number_of_2-reductions                404
 c number_of_pure_literals               0
 c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        15
 c proportion_searched                   0.000000e+00
 c proportion_single                     0.000000e+00
 c total_proportion                      0
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 1957733
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             D50Schur_fullsb_5_161-1.cnf
-c splitting_directory                   SplitViaOKsolver_D50D50Schur_fullsb_5_1611cnf_2012-07-27-084758/Instances
 c splitting_cases                       1472
 
 > SplittingViaOKsolver -D70 D50Schur_fullsb_5_161-1.cnf
 c running_time(sec)                     1165.4
 c number_of_nodes                       27869
-c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
 c number_of_2-reductions                21667
 c number_of_pure_literals               0
 c number_of_autarkies                   0
-c number_of_missed_single_nodes         0
 c max_tree_depth                        22
 c proportion_searched                   1.906586e-02
 c proportion_single                     0.000000e+00
 c total_proportion                      0.01906585693359375
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 17821105
-c number_of_new_2-clauses               0
-c maximal_number_of_added_2-clauses     0
-c file_name                             D50Schur_fullsb_5_161-1.cnf
-c splitting_directory                   SplitViaOKsolver_D70D50Schur_fullsb_5_1611cnf_2012-07-27-085719/Instances
 c splitting_cases                       13731
 
 > ProcessSplitViaOKsolver SplitViaOKsolver_D70D50Schur_fullsb_5_1611cnf_2012-07-27-085719
@@ -488,7 +397,7 @@ satz215 D50Schur_fullsb_5_161-1.cnf 2006.810 2561833 1301223 413322450 13247541 
   </ul>
 
 
-  \todo SplittingViaOKsolver for palindromic problem (direct encoding)
+  \todo Palindromic problem (direct encoding)
   <ul>
    <li> Creation via e.g. output_pd_schur_stdname(5,162). </li>
    <li> Consider n=162; instance-statistics:
@@ -551,16 +460,19 @@ c splitting_cases                       132720
     <ol>
      <li> Instance-statistics:
      \verbatim
+> head -2 SplitViaOKsolver_D50Schur_pd_5_162cnf_2012-07-16-103612/Data
+ i n d
+1 69 57 11
+> cat SplitViaOKsolver_D50Schur_pd_5_162cnf_2012-07-16-103612/Schur_pd_5_162.cnf | ApplyPass-O3-DNDEBUG SplitViaOKsolver_D50Schur_pd_5_162cnf_2012-07-16-103612/Instances/69 pd162D50_1.cnf
 > cat pd162D50_1.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
      pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
-    400   80236    348    400    8023    22635     NA     NA    8023    22635   410
+    400    8023    348    400    8023    22635     NA     NA    8023    22635   410
  length   count
       2    1566
       3    6386
       4      10
       5      61
      \endverbatim
-     (the false pc-value is a bug: the old 6 has been kept).
      </li>
      <li> Splitting with D=50,70:
      \verbatim
@@ -624,6 +536,180 @@ R-squared: 0.9548
      </li>
      <li> So solving Schur_pd_5_162.cnf could be in reach. </li>
     </ol>
+   </li>
+  </ul>
+
+
+  \todo Palindromic problem with full symmetry-breaking (direct encoding)
+  <ul>
+   <li> It seems that here, different from monolithic solvers, full symmetry-
+   breaking (again) is powerful. </li>
+   <li> First open case n=155:
+   \verbatim
+> SplittingViaOKsolver -D30 Schur_pd_fullsb_5_155.cnf
+c sat_status                            2
+c initial_maximal_clause_length         5
+c initial_number_of_variables           395
+c initial_number_of_clauses             11034
+c initial_number_of_literal_occurrences 32040
+c number_of_initial_unit-eliminations   32
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           32
+c reddiff_number_of_clauses             2061
+c reddiff_number_of_literal_occurrences 6374
+c number_of_2-clauses_after_reduction   1394
+c running_time(sec)                     10.2
+c number_of_nodes                       1245
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                0
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        14
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 415640
+c splitting_cases                       623
+
+> SplittingViaOKsolver -D50 Schur_pd_fullsb_5_155.cnf
+> cat Result
+c running_time(sec)                     172.3
+c number_of_nodes                       29675
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                3
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        23
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 9318076
+c splitting_cases                       14838
+
+> SplittingViaOKsolver -D60 Schur_pd_fullsb_5_155.cnf
+> cat Result
+c running_time(sec)                     772.6
+c number_of_nodes                       129221
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                138
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        26
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 39307549
+c splitting_cases                       64611
+
+> SplittingViaOKsolver -D70 Schur_pd_fullsb_5_155.cnf
+> cat Result
+c running_time(sec)                     3640.9
+c number_of_nodes                       538751
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1690
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        29
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 158468083
+c splitting_cases                       269376
+
+> Process SplitViaOKsolver XXX cs-oksvr
+   \endverbatim
+   </li>
+  </ul>
+
+
+  \todo Weak palindromic problem with full symmetry-breaking (direct encoding)
+  <ul>
+   <li> It seems that here, different from monolithic solvers, full symmetry-
+   breaking (again) is powerful. </li>
+   <li> First open case n=153:
+   \verbatim
+> SplittingViaOKsolver -D30 WSchur_pd_fullsb_5_153.cnf
+> cat Result
+c sat_status                            2
+c initial_maximal_clause_length         5
+c initial_number_of_variables           385
+c initial_number_of_clauses             10377
+c initial_number_of_literal_occurrences 30095
+c number_of_initial_unit-eliminations   32
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           32
+c reddiff_number_of_clauses             1978
+c reddiff_number_of_literal_occurrences 6112
+c number_of_2-clauses_after_reduction   1351
+c running_time(sec)                     8.4
+c number_of_nodes                       1089
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                0
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        14
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 352260
+c splitting_cases                       545
+
+> SplittingViaOKsolver -D50 WSchur_pd_fullsb_5_153.cnf
+> cat Result
+c running_time(sec)                     165.1
+c number_of_nodes                       27145
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                4
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        22
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 8248546
+c splitting_cases                       13573
+
+> SplittingViaOKsolver -D60 WSchur_pd_fullsb_5_153.cnf
+c running_time(sec)                     687.5
+c number_of_nodes                       117087
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                38
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        26
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 34435065
+c splitting_cases                       58544
+
+> SplittingViaOKsolver -D70 WSchur_pd_fullsb_5_153.cnf
+> cat Result
+c running_time(sec)                     2080.8
+c number_of_nodes                       454251
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                553
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        29
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 129181374
+c splitting_directory                   SplitViaOKsolver_D70WSchur_pd_fullsb_5_153cnf_2012-07-28-094727/Instances
+c splitting_cases                       227126
+
+> ProcessSplitViaOKsolver XXX cs-wsok
+   \endverbatim
+   We need to compare this with the performance without symmetry-breaking.
    </li>
   </ul>
 
