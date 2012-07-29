@@ -143,7 +143,33 @@ for n : 1 thru 50 do print(n, test_auto_pdschur(n));
      <li> In [Fredricksen, Sweet, 2000] we find the assertion that such
      bijections preserve solutions; we now know stronger that they are
      automorphisms of the underlying hypergraph. </li>
-     <li> How to exploit these symmetries?! </li>
+     <li> How to exploit these symmetries?!
+      <ol>
+       <li> Via the colour-symmetries one can assign to the vertices
+       v_1 := schur(0), ..., v_r := schur(r-1) the colours 1, ..., r. Now
+       we can apply a hypergraph-automorphism phi to (v_1,...,v_r), obtaining
+       (phi(v_1), ..., phi(v_r)), which might be more powerful for symmetry-
+       breaking. </li>
+       <li> Considering n=161, with totient(162)=54 automorphisms of the
+       hypergraph:
+       \verbatim
+test_auto_pdschur(162);
+  true
+       \endverbatim
+       </li>
+       <li> Now the mapping:
+       \verbatim
+auto_pdschur(n,x) := buildq([n,x], lambda([v], mirrorfold_schur(n)(mod(x*v,n+1))));
+r : 5;
+n : 161;
+V : setify(create_list(schur(i),i,0,r-1));
+R : inv_residues(n+1);
+for x in R do block([m : auto_pdschur(n,x)], print(x, map(m,V)));
+# none looks better than V itself
+       \endverbatim
+       </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>
