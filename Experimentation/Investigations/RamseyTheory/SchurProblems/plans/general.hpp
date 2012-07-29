@@ -49,7 +49,8 @@ License, or any later version. */
   Good basic information is available in Chapter 8 of [Ramsey Theory on the
   Integers; Landman, Robertson].
 
-  The palindromic problems are created by output_pd_schur_stdname(r,n).
+  The palindromic problems are created by output_pd_schur_stdname(r,n),
+  with underlying hypergraph schurtriples_pd_hg(n).
 
 
   \todo Overview
@@ -126,6 +127,23 @@ for n : 1 thru 10 do print(n, test_auto_schur(n));
        </li>
       </ol>
      </li>
+    </ol>
+   </li>
+   <li> Automorphisms of schurtriples_pd_hg(n):
+    <ol>
+     <li>
+     \verbatim
+test_auto_pdschur(n) := block(
+ [G : schurtriples_pd_hg(n), p_ : mod_mul(n+1), m_ : mirrorfold_schur(n)],
+ every(lambda([x], automorphism_bydef_hg(lambda([v], m_(p_(x,v))),G)), inv_residues(n+1)))$
+for n : 1 thru 50 do print(n, test_auto_pdschur(n));
+  all true
+     \endverbatim
+     yields the same as above. </li>
+     <li> In [Fredricksen, Sweet, 2000] we find the assertion that such
+     bijections preserve solutions; we now know stronger that they are
+     automorphisms of the underlying hypergraph. </li>
+     <li> How to exploit these symmetries?! </li>
     </ol>
    </li>
   </ul>
