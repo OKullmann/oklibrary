@@ -161,10 +161,10 @@ c file_name                             Schur_sb_5_160.cnf
    <li>
    \verbatim
 pdschur(5);
-  [{[155]},[158,306]]
+  [{[155],[158]},[161,306]]
    \endverbatim
-   means that n=155 is unknown, n<155 and n=156,157 is SAT, while n>= 158 is
-   unknown.
+   means that n=155,158 are unknown, everything else with n<161 is SAT, while
+   n>= 161 is unknown.
    </li>
    <li> With full symmetry-breaking:
    \verbatim

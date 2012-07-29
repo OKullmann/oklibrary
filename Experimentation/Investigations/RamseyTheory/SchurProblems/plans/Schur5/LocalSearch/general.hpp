@@ -804,7 +804,21 @@ BestSolution_Max = 1
    154.0    631.8   1982.0   9028.0  10490.0 161100.0
 
 > ubcsat-okl -alg saps -cutoff 200000 -runs 100000 -i Schur_pd_5_159.cnf | tee Schur_pd_5_159.cnf_OUT
-XXX cs-wsok
+FlipsPerSecond = 588907
+BestStep_Mean = 9077.0986
+Steps_Mean = 199993.23584
+Steps_Max = 200000
+PercentSuccess = 0.00
+BestSolution_Mean = 0.99997
+BestSolution_Median = 1
+BestSolution_Min = 0
+BestSolution_Max = 2
+> E=read_ubcsat("Schur_pd_5_159.cnf_OUT",nrows=100000)
+    0     1     2
+    4 99995     1
+100000
+> E$seed[E$min==0]
+[1] "4159171111" "114785590"  "2258818468" "4102133400"
    \endverbatim
    </li>
    <li> Finding solutions for n=160:
