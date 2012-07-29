@@ -264,8 +264,8 @@ c 4594.5 seconds total run time
    As with vdW-problems, the general impression is that minisat-2.2.0 is best
    on palindromic problems, while symmetry-breaking doesn't help (and
    actually impairs performance, which needs an explanation!). </li>
-   <li> Is symmetry-breaking also counter-productive when used within the
-   Cube&Conquer-approach? See Schur5/SplittingViaOKsolver.hpp. </li>
+   <li> Symmetry-breaking seems not counter-productive when used within the
+   Cube&Conquer-approach; see Schur5/SplittingViaOKsolver.hpp. </li>
   </ul>
 
 
