@@ -756,6 +756,57 @@ fps: 971440
    \endverbatim
    saps clearly best.
    </li>
+   <li> Finding solutions for n=157 (apparently [Fredricksen, Sweet, 2000]
+   claim it to be satisfiable):
+   \verbatim
+> ubcsat-okl -alg saps -cutoff 10000000 -runs 100 -i Schur_pd_5_157.cnf | tee Schur_pd_5_157.cnf_OUT
+Clauses = 10879
+Variables = 395
+TotalLiterals = 31615
+FlipsPerSecond = 628792
+BestStep_Mean = 3963.34
+Steps_Mean = 10000000
+Steps_Max = 10000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1
+BestSolution_Median = 1
+BestSolution_Min = 1
+BestSolution_Max = 1
+
+> ubcsat-okl -alg saps -cutoff 1000000 -runs 10000 -i Schur_pd_5_157.cnf | tee Schur_pd_5_157.cnf_OUT
+> E=read_ubcsat("Schur_pd_5_157.cnf_OUT",nrows=10000)
+   0    1
+   3 9997
+10000
+> E$seed[E$min==0]
+[1] "302998036"  "3887686207" "15797683"
+   \endverbatim
+   </li>
+   <li> Finding solutions for n=159 (apparently [Fredricksen, Sweet, 2000]
+   claim it to be satisfiable):
+   \verbatim
+> ubcsat-okl -alg saps -cutoff 1000000 -runs 10000 -i Schur_pd_5_159.cnf | tee Schur_pd_5_159.cnf_OUT
+Clauses = 11165
+Variables = 400
+TotalLiterals = 32465
+FlipsPerSecond = 585812
+BestStep_Mean = 9027.5888
+Steps_Mean = 1000000
+Steps_Max = 1000000
+PercentSuccess = 0.00
+BestSolution_Mean = 1
+BestSolution_Median = 1
+BestSolution_Min = 1
+BestSolution_Max = 1
+> E=read_ubcsat("Schur_pd_5_159.cnf_OUT",nrows=10000)
+> summary(E$osteps)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   154.0    631.8   1982.0   9028.0  10490.0 161100.0
+
+> ubcsat-okl -alg saps -cutoff 200000 -runs 100000 -i Schur_pd_5_159.cnf | tee Schur_pd_5_159.cnf_OUT
+XXX cs-wsok
+   \endverbatim
+   </li>
    <li> Finding solutions for n=160:
    \verbatim
 > ubcsat-okl -alg saps -cutoff 10000000 -runs 100 -i Schur_pd_5_160.cnf | tee Schur_pd_5_160.cnf_OUT
