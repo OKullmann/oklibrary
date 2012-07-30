@@ -131,7 +131,8 @@ for n : 1 thru 10 do print(n, test_auto_schur(n));
    </li>
    <li> Automorphisms of schurtriples_pd_hg(n):
     <ol>
-     <li>
+     <li> Here now multiplication by invertible elements of ZZ_{n+1} yield
+     automorphisms:
      \verbatim
 test_auto_pdschur(n) := block(
  [G : schurtriples_pd_hg(n), p_ : mod_mul(n+1), m_ : mirrorfold_schur(n)],
@@ -139,10 +140,18 @@ test_auto_pdschur(n) := block(
 for n : 1 thru 50 do print(n, test_auto_pdschur(n));
   all true
      \endverbatim
-     yields the same as above. </li>
+     </li>
      <li> In [Fredricksen, Sweet, 2000] we find the assertion that such
      bijections preserve solutions; we now know stronger that they are
      automorphisms of the underlying hypergraph. </li>
+     <li> What is the kernel of the homomorphism ZZ_{n+1}^* -> automorphisms ?
+     \verbatim
+auto_pdschur(n,x) := buildq([n,x], lambda([v], mirrorfold_schur(n)(mod(x*v,n+1))));
+kernel_pdschur(n) := block([V : ver_schurtriples_pd_ohg(n)],
+ subset(inv_residues(n+1), lambda([x], block([phi : auto_pdschur(n,x)], every_s(lambda([v], is(phi(v)=v)), V)))))$
+     \endverbatim
+     shows that exactly for n+1 divisible by 3 the operation is faithful, while
+     otherwise the kernel consists exactly of 1 and -1=n. </li>
      <li> How to exploit these symmetries?!
       <ol>
        <li> Via the colour-symmetries one can assign to the vertices
@@ -159,7 +168,6 @@ test_auto_pdschur(162);
        </li>
        <li> Now the mapping:
        \verbatim
-auto_pdschur(n,x) := buildq([n,x], lambda([v], mirrorfold_schur(n)(mod(x*v,n+1))));
 r : 5;
 n : 161;
 V : setify(create_list(schur(i),i,0,r-1));
