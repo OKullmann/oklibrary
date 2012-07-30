@@ -313,12 +313,52 @@ c total_proportion                      1
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 526915
    \endverbatim
+   However this does not any conclusions for the general palindromic case.
    </li>
-   <li> Is this still feasible without full symmetry-breaking?:
+   <li> Is this still feasible without full symmetry-breaking? --- Yes:
    \verbatim
+output_pd_schur_rm_stdname(5,160,44);
+
 > OKsolver_2002-O3-DNDEBUG Schur_pd_rm_5_160-44.cnf
-XXX
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         5
+c initial_number_of_variables           400
+c initial_number_of_clauses             11334
+c initial_number_of_literal_occurrences 32874
+c number_of_initial_unit-eliminations   44
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           44
+c reddiff_number_of_clauses             2232
+c reddiff_number_of_literal_occurrences 6410
+c number_of_2-clauses_after_reduction   958
+c running_time(sec)                     5579.3
+c number_of_nodes                       10299826
+c number_of_single_nodes                128697
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                49973683
+c number_of_pure_literals               0
+c number_of_autarkies                   1984985
+c number_of_missed_single_nodes         2187503
+c max_tree_depth                        54
+c proportion_searched                   9.996524e-01
+c proportion_single                     3.476098e-04
+c total_proportion                      1
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 1029406101
    \endverbatim
+   This shows the negative part of the conjecture. </li>
+   <li>  The positive part can be checked as follows:
+    <ol>
+     <li> Adding the 5 clauses of length 43 which demand that the vertices
+     1,...,43 contain all 5 colours, and this for all totient(161) = 132 many
+     images under the automorphisms; altogether this yields 5*132 = 660
+     clauses of length 43 --- the conjecture is shown iff Schur_pd_5_160.cnf
+     plus these 660 clauses is unsatisfiable. </li>
+     <li> This can not be expressed easily at the level of the nb-clause-sets,
+     since the literals express only disequality --- however it can be
+     expressed directly using the direct (boolean) translation. </li>
+    </ol>
    </li>
    <li> While pd_schur_rm_nbfclud(5,160,43) must be satisfiable:
    \verbatim
