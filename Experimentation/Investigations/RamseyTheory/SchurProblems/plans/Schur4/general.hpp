@@ -250,7 +250,8 @@ c CPU time              : 230.846 s
    </li>
    <li> The best conflict-driven solver seems picosat, which still is slower
    than the worst lookahead-solver (OKsolver-2002). </li>
-   <li> Fully symmetry-breaking trivialises it (all times csltok):
+   <li> Fully symmetry-breaking trivialises it, and acts satisfiability-
+   equivalent here (all times csltok):
    \verbatim
 > OKsolver_2002-O3-DNDEBUG Schur_fullsb_4_44.cnf
 s SATISFIABLE
@@ -667,6 +668,7 @@ R-squared: 0.9654
    </li>
    <li> All the satisfying assignments should be determined (if possible).
     <ol>
+     <li> See "Determining all solutions" below. </li>
      <li> 24 = 4!, and so one might assume that we have one "essential"
      satisfiable node together with its 24 symmetric variations. </li>
      <li> And then it seems that the underlying hypergraph doesn't have
@@ -920,6 +922,20 @@ c CPU time                 : 390.10      s
 s UNSATISFIABLE
    \endverbatim
    </li>
+  </ul>
+
+
+  \todo Determining all solutions
+  <ul>
+   <li> We need to determine all solutions of the 4 main combinations we
+   consider (weak, palindromic), and below the respectivey Ramsey-number,
+   and we need to represent them. </li>
+   <li> For wschur-problems see above. </li>
+   <li> For schur-problems [Fredricksen, Sweet, 2000] asserts that there are
+   273 sum-free partitions (apparently the colour-symmetry has been already
+   broken?), and 24 of them are palindromic, and they are all equivalent
+   (here the automorphism group has size totient(44+1)=24), where the depth
+   of 6 of them is 13 (the maximum). </li>
   </ul>
 
 /*
