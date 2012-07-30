@@ -112,11 +112,13 @@ mirrorfold_schur(n) := block([div:ceiling(n/2)],
    simplify_st(buildq([n,div,excl:2*(n+1)/3],
      lambda([v], if v >= div+1 and v#excl then n-v+1 else v))))$
 
+ver_schurtriples_pd_ohg(n) :=
+  if mod(n+1,3)#0 then create_list(i,i,1,ceiling(n/2))
+  else endcons(2*(n+1)/3, create_list(i,i,1,ceiling(n/2)))$
 
 schurtriples_pd_ohg(n) := block(
- [G : schurtriples_ohg(n), m : mirrorfold_schur(n), div : ceiling(n/2)],
-  [if mod(n+1,3)#0 then create_list(i,i,1,div)
-     else endcons(2*(n+1)/3,create_list(i,i,1,div)),
+ [G : schurtriples_ohg(n), m : mirrorfold_schur(n)],
+  [ver_schurtriples_pd_ohg(n),
    map(setify,
        sort(map(listify,
               min_elements_l(unique(
