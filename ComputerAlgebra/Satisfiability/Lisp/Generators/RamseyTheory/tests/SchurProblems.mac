@@ -232,6 +232,33 @@ okltest_pd_wschur_fullsb_aloamo_stdfcl(f) := (
     assert(f(r,n) = standardise_fcl(pd_wschur_fullsb_aloamo_fcl(r,n))),
   true)$
 
+okltest_schur_rm_aloamo_stdfcl(f) := (
+  assert(f(0,0,0) = [[[],[]],[]]),
+  /* XXX */
+  for r : 1 thru cokltl(4,10) do
+   for n : 0 thru cokltl(4,10) do
+    for k : 0 thru n do
+     assert(f(r,n,k) = standardise_fcl(schur_rm_aloamo_fcl(r,n,k))),
+  true)$
+
+okltest_pd_schur_rm_aloamo_stdfcl(f) := (
+  assert(f(0,0,0) = [[[],[]],[]]),
+  /* XXX */
+  for r : 1 thru cokltl(4,10) do
+   for n : 0 thru cokltl(4,10) do
+    for k : 0 thru ceiling(n/2) do
+     assert(f(r,n,k) = standardise_fcl(pd_schur_rm_aloamo_fcl(r,n,k))),
+  true)$
+
+okltest_pd_schur_fullsb_rm_aloamo_stdfcl(f) := (
+  assert(f(0,0,0) = [[[],[]],[]]),
+  /* XXX */
+  for r : 1 thru cokltl(4,10) do
+   for n : 0 thru cokltl(4,10) do
+    for k : 0 thru ceiling(n/2) do
+     assert(f(r,n,k) = standardise_fcl(pd_schur_fullsb_rm_aloamo_fcl(r,n,k))),
+  true)$
+
 okltest_schur_standnest_stdfcl(f) := (
   for n : 0 thru 1 do
     assert(f(1,n) = [[[],[]],[]]),

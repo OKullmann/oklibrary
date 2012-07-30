@@ -76,6 +76,10 @@ okltest_pd_schur_aloamo_stdfcl(pd_schur_aloamo_stdfcl);
 okltest_pd_schur_fullsb_aloamo_stdfcl(pd_schur_fullsb_aloamo_stdfcl);
 okltest_pd_wschur_fullsb_aloamo_stdfcl(pd_wschur_fullsb_aloamo_stdfcl);
 
+okltest_schur_rm_aloamo_stdfcl(schur_rm_aloamo_stdfcl);
+okltest_pd_schur_rm_aloamo_stdfcl(pd_schur_rm_aloamo_stdfcl);
+okltest_pd_schur_fullsb_rm_aloamo_stdfcl(pd_schur_fullsb_rm_aloamo_stdfcl);
+
 okltest_schur_standnest_stdfcl(schur_standnest_stdfcl);
 
 /*!

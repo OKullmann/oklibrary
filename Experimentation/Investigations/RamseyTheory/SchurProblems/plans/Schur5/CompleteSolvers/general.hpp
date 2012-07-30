@@ -164,8 +164,9 @@ pdschur(5);
   [{[155],[158]},[161,306]]
    \endverbatim
    means that n=155,158 are unknown, everything else with n<161 is SAT, while
-   n>= 161 is unknown.
-   </li>
+   n>= 161 is unknown. </li>
+   <li> [Fredricksen, Sweet, 2000] conjecture that pdschur(5) = [{155,158},161]
+   holds. </li>
    <li> With full symmetry-breaking:
    \verbatim
 > CRunPdSchurFsb 5 161 "minisat-2.2.0 -cpu-lim=10000"
@@ -266,6 +267,149 @@ c 4594.5 seconds total run time
    actually impairs performance, which needs an explanation!). </li>
    <li> Symmetry-breaking seems not counter-productive when used within the
    Cube&Conquer-approach; see Schur5/SplittingViaOKsolver.hpp. </li>
+  </ul>
+
+
+  \todo Forbidden elements for palindromic problems
+  <ul>
+   <li> Compare "Direct encoding with forbidden elements" in
+   Schur5/LocalSearch/general.hpp. </li>
+   <li> In [Fredricksen, Sweet, 2000] there is the conjecture that for every
+   palindromic solution for n=160 the maximum of the minimal values of the
+   blocks over all "equivalent" solutions (obtained by an automorphism of the
+   hypergraph via multiplication) is equal to 44. </li>
+   <li> From that conjecture follows that pd_schur_rm_nbfclud(5,160,44) should
+   be unsatisfiable. </li>
+   <li> Using also full symmetry-breaking, i.e., using
+   pd_schur_fullsb_rm_nbfcsud(r,n,k), this is very simple:
+   \verbatim
+output_pd_schur_fullsb_rm_stdname(5,160,44);
+
+> OKsolver_2002-O3-DNDEBUG Schur_pd_fullsb_rm_5_160-44.cnf
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         5
+c initial_number_of_variables           400
+c initial_number_of_clauses             11354
+c initial_number_of_literal_occurrences 32894
+c number_of_initial_unit-eliminations   73
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           73
+c reddiff_number_of_clauses             3925
+c reddiff_number_of_literal_occurrences 11641
+c number_of_2-clauses_after_reduction   1136
+c running_time(sec)                     4.1
+c number_of_nodes                       4375
+c number_of_single_nodes                12
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                23858
+c number_of_pure_literals               0
+c number_of_autarkies                   16
+c number_of_missed_single_nodes         101
+c max_tree_depth                        31
+c proportion_searched                   9.999959e-01
+c proportion_single                     4.100613e-06
+c total_proportion                      1
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 526915
+   \endverbatim
+   </li>
+   <li> Is this still feasible without full symmetry-breaking?:
+   \verbatim
+> OKsolver_2002-O3-DNDEBUG Schur_pd_rm_5_160-44.cnf
+XXX
+   \endverbatim
+   </li>
+   <li> While pd_schur_rm_nbfclud(5,160,43) must be satisfiable:
+   \verbatim
+output_pd_schur_fullsb_rm_stdname(5,160,43);
+
+> cat Schur_pd_fullsb_rm_5_160-43.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    400   11353    400    400   11353    32893     NA     NA   11353    32893   405
+ length   count
+      1      63
+      2    1200
+      3   10010
+      5      80
+
+> OKsolver_2002-O3-DNDEBUG Schur_pd_fullsb_rm_5_160-43.cnf
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         5
+c initial_number_of_variables           400
+c initial_number_of_clauses             11353
+c initial_number_of_literal_occurrences 32893
+c number_of_initial_unit-eliminations   72
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           72
+c reddiff_number_of_clauses             3907
+c reddiff_number_of_literal_occurrences 11594
+c number_of_2-clauses_after_reduction   1142
+c running_time(sec)                     4.7
+c number_of_nodes                       4479
+c number_of_single_nodes                14
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                24661
+c number_of_pure_literals               0
+c number_of_autarkies                   21
+c number_of_missed_single_nodes         178
+c max_tree_depth                        31
+c proportion_searched                   9.999948e-01
+c proportion_single                     5.226582e-06
+c total_proportion                      1
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 563239
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Schur_pd_fullsb_rm_5_160-43.cnf
+   \endverbatim
+   We see that "full symmetry-breaking" is not satisfiability-preserving! </li>
+   <li> Checking without "full symmetry-breaking":
+   \verbatim
+output_pd_schur_rm_stdname(5,160,43);
+
+> cat Schur_pd_rm_5_160-43.cnf | ExtendedDimacsFullStatistics-O3-DNDEBUG
+     pn      pc      n    nmi       c        l     n0   n0mi      c0       l0  cmts
+    400   11333    400    400   11333    32873     NA     NA   11333    32873   404
+ length   count
+      1      43
+      2    1200
+      3   10010
+      5      80
+
+> OKsolver_2002-O3-DNDEBUG Schur_pd_rm_5_160-43.cnf
+s SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         5
+c initial_number_of_variables           400
+c initial_number_of_clauses             11333
+c initial_number_of_literal_occurrences 32873
+c number_of_initial_unit-eliminations   43
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           43
+c reddiff_number_of_clauses             2212
+c reddiff_number_of_literal_occurrences 6356
+c number_of_2-clauses_after_reduction   963
+c running_time(sec)                     7.9
+c number_of_nodes                       9725
+c number_of_single_nodes                26
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                79088
+c number_of_pure_literals               0
+c number_of_autarkies                   150
+c number_of_missed_single_nodes         247
+c max_tree_depth                        38
+c proportion_searched                   2.045396e-02
+c proportion_single                     4.503236e-07
+c total_proportion                      0.02045440673828125
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 1062904
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Schur_pd_rm_5_160-43.cnf
+   \endverbatim
+   </li>
   </ul>
 
 
