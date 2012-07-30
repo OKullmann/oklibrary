@@ -1060,7 +1060,19 @@ BestSolution_Max = 2
 200000
 
 > ubcsat-okl -alg saps -cutoff 100000 -runs 200000 -i WSchur_pd_5_153.cnf | tee WSchur_pd_5_153.cnf_OUT
-XXX cs-oksvr
+FlipsPerSecond = 641957
+BestStep_Mean = 2079.5598
+Steps_Mean = 99959.77667
+Steps_Max = 100000
+PercentSuccess = 0.05
+BestSolution_Mean = 0.99953
+BestSolution_Median = 1
+BestSolution_Min = 0
+BestSolution_Max = 1
+> E=read_ubcsat("WSchur_pd_5_153.cnf_OUT",nrows=200000)
+     0      1
+    94 199906
+200000
    \endverbatim
    </li>
   </ul>
