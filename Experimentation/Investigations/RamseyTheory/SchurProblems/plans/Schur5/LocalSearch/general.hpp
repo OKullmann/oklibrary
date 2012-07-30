@@ -999,8 +999,68 @@ fps: 120998
    <li> Determining the best Ubcsat-solver for a satisfiable case:
    \verbatim
 > E = run_ubcsat("WSchur_pd_5_153.cnf", runs=200, cutoff=100000)
-XXX cs-oksvr
 > eval_ubcsat_dataframe(E,FALSE)
+1. wsat:
+  1
+200
+fps: 1154068
+2. saps:
+  1
+200
+fps: 628536
+3. rsaps:
+  1
+200
+fps: 612557
+4. sapsnr:
+  1
+200
+fps: 639182
+5. rots:
+  1
+200
+fps: 319438
+6. paws:
+  1
+200
+fps: 1005025
+7. g2wsat:
+  1
+200
+fps: 726216
+8. ag2wsat:
+  1
+200
+fps: 712251
+9. vw1:
+  1
+200
+fps: 1146789
+10. vw25:
+  1
+200
+fps: 1028278
+   \endverbatim
+   Hard to differentiate. Let's use vw25. </li>
+   <li> To determine performance, investigating satisfiable case n=153:
+   \verbatim
+> ubcsat-okl -alg vw2 -v 2005 -cutoff 100000 -runs 200000 -i WSchur_pd_5_153.cnf | tee WSchur_pd_5_153.cnf_OUT
+FlipsPerSecond = 1022957
+BestStep_Mean = 7004.23837
+Steps_Mean = 99924.38374
+Steps_Max = 100000
+PercentSuccess = 0.16
+BestSolution_Mean = 0.998445
+BestSolution_Median = 1
+BestSolution_Min = 0
+BestSolution_Max = 2
+> E=read_ubcsat("WSchur_pd_5_153.cnf_OUT",nrows=200000)
+     0      1      2
+   321 199669     10
+200000
+
+> ubcsat-okl -alg saps -cutoff 100000 -runs 200000 -i WSchur_pd_5_153.cnf | tee WSchur_pd_5_153.cnf_OUT
+XXX cs-oksvr
    \endverbatim
    </li>
   </ul>
