@@ -27,7 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/tests/Certificates.
 */
 
 okltest_certificate_schur_p(certificate_schur_p);
-
+okltest_certificate_pdschur_p(certificate_pdschur_p);
 
 /*!
 \endhtmlonly

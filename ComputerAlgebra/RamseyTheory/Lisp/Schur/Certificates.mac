@@ -41,8 +41,22 @@ certificate_schur_p(r,n,P) := is(r = length(P)) and
  blockpartitionp(P,setn(n)) and
  every_s(lambda([b], not has_schurtriple(b)), P)$
 
+/* For a list of subsets of {1,...,n} check whether P is "palindromic",
+   that is, whether for every element (subset) p of P it is true that
+   v is in p iff n+1-v is in p, except that in case 3 divides n+1 the
+   elements (n+1)/3 and 2(n+1)/3 are exempted:
+*/
+schurpalindromic_subsets_p(n,P) :=
+ if mod(n+1,3)#0 then palindromic_subsets_p(n,P) else
+  block([palin : true],
+   for p in P while palin do
+     for x in setdifference(p,{(n+1)/3,2*(n+1)/3}) while palin do
+       if not elementp(n+1-x,p) then palin : false,
+   palin)$
+
+
 /* Check whether P is a palindromic Schur-certificate for r and n: */
-certificate_pdschur_p(r,n,P) := palindromic_subsets_p(n,P) and
+certificate_pdschur_p(r,n,P) := schurpalindromic_subsets_p(n,P) and
  certificate_schur_p(r,n,P)$
 
 

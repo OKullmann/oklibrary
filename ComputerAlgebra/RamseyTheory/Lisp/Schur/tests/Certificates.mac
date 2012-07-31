@@ -36,11 +36,32 @@ okltest_certificate_schur_p(f) := (
   assert(f(1,1,[{1,2}]) = false),
   assert(f(1,1,[{1},{1}]) = false),
   assert(f(1,1,[{1}]) = true),
+  assert(f(2,2,[{},{1}]) = false),
+  assert(f(2,2,[{2},{1}]) = true),
+  assert(f(2,2,[{1,2},{}]) = false),
   assert(f(2,4,[{1,2},{3,4}]) = false),
   assert(f(2,4,[{1,4},{2,3}]) = true),
   assert(f(3,13,[{1,4,7,10,13},{5,6,8,9},{2,3,11,12}]) = true),
   true)$
 
+okltest_certificate_pdschur_p(f) := (
+  assert(f(1,0,[{}]) = true),
+  assert(f(1,1,[{}]) = false),
+  assert(f(1,1,[{1,2}]) = false),
+  assert(f(1,1,[{1},{1}]) = false),
+  assert(f(1,1,[{1}]) = true),
+  assert(f(2,2,[{},{1}]) = false),
+  assert(f(2,2,[{1,2},{}]) = false),
+  assert(f(2,2,[{2},{1}]) = true),
+  assert(f(2,3,[{1,3},{2}]) = true),
+  assert(f(2,3,[{1},{2,3}]) = false),
+  assert(f(2,4,[{1,2},{3,4}]) = false),
+  assert(f(2,4,[{1,4},{2,3}]) = true),
+  assert(f(3,5,[{1,3,5},{2},{4}]) = true),
+  assert(f(3,6,[{1,6},{3,4},{2,5}]) = true),
+  assert(f(3,6,[{1},{3,4},{2,5,6}]) = false),
+  assert(f(3,13,[{1,4,7,10,13},{5,6,8,9},{2,3,11,12}]) = true),
+  true)$
 
 
 /*!
