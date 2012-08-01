@@ -377,29 +377,31 @@ c Minimal variable degree: ", S[9], "
 c Maximal variable degree: ", S[10]))$
 
 
-/* *****************************************
-   * Reading clause-sets in Dimacs-format  *
-   *****************************************
+/* ****************************************
+   * Reading clause-sets in Dimacs-format *
+   ****************************************
 */
 
 oklib_plain_include("stringproc")$
 
-read_fcl_f(n) := block([fh, line, ll,p_n, p_found : false],
-  fh : openr(n),
-  while not(p_found) and stringp(line : readline(fh))  do (
+/* Read a formal clause-list from a DIMACS-file with name "name" (ignoring
+   the clause-count from the parameter-line, while taking 1,...,n for the
+   variable-list, where n is the variable-number); returns false in case no
+   parameter-line was found:
+*/
+read_fcl_f(name) := block([fh : openr(name), line, p_n, p_found : false],
+  while not p_found and stringp(line : readline(fh))  do (
     if (slength(line) >= 1) and (charat(line,1) = "p") then (
       p_n : parse_string(tokens(line)[3]),
       p_found : true)
   ),
-  assert(p_found),
-  return(
-    [listify(setn(p_n)),
-     rest(map(setify, split_list(read_list(fh),0)),-1)]))$
+  if not p_found then false else
+  [create_list(i,i,1,p_n), rest(map(setify, split_list(read_list(fh),0)),-1)])$
 
 
-/* *****************************************
-   * Printing clause-sets in PLA-format    *
-   *****************************************
+/* **************************************
+   * Printing clause-sets in PLA-format *
+   **************************************
 */
 
 /* This has no place here, but should be under boolean functions. */
