@@ -288,18 +288,20 @@ partition_list_eq(L,eq_) := block([H : sm2hm({}),v,S],
   return(map(lambda([A],reverse(second(A))),listify(hm2sm(H)))))$
 
 
-/* Split a list into sublists using elements for which the given predicate
-   returns true as the delimiting elements: */
+/* Split a list into sublists using values e as breakpoints; the result has
+   at least one (list-)element, and the concatentation yields the original
+   list with e removed (i.e., lappend(split_list(L,e)) = delete(e,L)), where
+   for each split-point we get the list to the left and to the right: */
 split_list(L,e) := split_list_epo(L,buildq([e],lambda([a], is(a = e))))$
 
-/* Split a list into sublists using elements for which the given predicate
-   returns true as the delimiting elements: */
-split_list_epo(L,pred_) := block([R:[],CL : []],
-  for e in L do
-    if pred_(e) then (R : cons(reverse(CL),R),CL : [])
-    else CL : cons(e,CL),
-  R : cons(reverse(CL),R),
-  return(reverse(R)))$
+/* More generally, split a list into sublists using elements for which the
+   given predicate returns true as the delimiting elements: */
+split_list_epo(L,pred_) := block([res: [], part : []],
+  for x in L do
+    if pred_(x) then (res : cons(reverse(part),res), part : [])
+    else part : cons(x,part),
+  res : cons(reverse(part),res),
+  reverse(res))$
 
 
 /* **********************
