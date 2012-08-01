@@ -620,7 +620,127 @@ c number_of_table_enlargements          0
 c number_of_1-autarkies                 158468083
 c splitting_cases                       269376
 
-> Process SplitViaOKsolver XXX cs-oksvr
+> Process SplitViaOKsolver SplitViaOKsolver_D70Schur_pd_fullsb_5_155cnf_2012-07-28-112247
+> E=read_processsplit_minisat()
+18975: 2.677d, sum-cfs=7.586739e+09, mean-t=12.187s, mean-cfs=399828, sat: 0 1
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.108   5.166   8.913  12.190  15.180 207.100
+sd= 11.63747
+      95%       96%       97%       98%       99%      100%
+ 33.22690  35.32268  38.33360  44.18536  57.77011 207.05300
+sum= 231255.6
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   2765  184000  308100  399800  505500 5974000
+sd= 341112.7
+    95%     96%     97%     98%     99%    100%
+1038617 1098018 1173054 1340196 1684181 5974231
+sum= 7586738938
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -1.3879e+00  1.2720e-02 -109.11 < 2.2e-16 ***
+E$cfs        3.3953e-05  2.4203e-08 1402.85 < 2.2e-16 ***
+R-squared: 0.9905
+> E[E$sat==1,]
+           i npa  d  rn   rc         t sat    cfs    dec  rts       r1 mem
+993    33374 112 20 395 4904  0.912057   1  33455  42609  124  1275193  18
+11026 111460 110 21 395 5017 11.640700   1 430207 539968 1021 16186431  19
+      ptime stime     cfl
+993       0  0.03  561274
+11026     0  0.01 6380636
+
+> cd SplitViaOKsolver_D70Schur_pd_fullsb_5_155cnf_2012-07-28-112247
+> cat Instances/33374 > Solution_1
+> cat Schur_pd_fullsb_5_155.cnf | ApplyPass-O3-DNDEBUG Instances/33374 > Instance_1
+# minisat-2.2.0 Instance_1 Temp_1 # CAUTION: total assignment!
+> OKsolver_2002-O3-DNDEBUG -O -F Instance_1
+ SATISFIABLE
+c sat_status                            1
+c initial_maximal_clause_length         5
+c initial_number_of_variables           283
+c initial_number_of_clauses             4904
+c initial_number_of_literal_occurrences 13460
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1345
+c running_time(sec)                     11.9
+c number_of_nodes                       12593
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                157476
+c number_of_pure_literals               0
+c number_of_autarkies                   8
+c number_of_missed_single_nodes         3
+c max_tree_depth                        29
+c proportion_searched                   3.775916e-01
+c proportion_single                     0.000000e+00
+c total_proportion                      0.377591609954834
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 1235556
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             Instance_1
+
+
+# via vi in Solution_1 the trailing "0" removed
+# via vi in Instance_1.pa the initial "v" removed
+> cat Instance_1.pa >> Solution_1
+# via vi in Solution_1 the linebreak removed; this is now a satisfying assignment
+# via vi transformed Solution_1 into a CNF with a single clause ("p cnf 395 1")
+> oklib --maxima
+oklib_load_all();
+F : read_fcl_f("Solution_1")$
+pa : subset(first(F[2]), lambda([x], is(x>0)));
+I : invstandardise_pd_schur_aloamo(5,155);
+P : extract_partition(map(I,pa));
+  [{1,15,20,24,28,34,38,42,60,63,71,74,77},
+   {2,7,8,12,17,21,22,27,36,46,56,61,62,65,66,75,76,104},
+   {5,19,23,25,26,33,37,39,40,41,43,53,54,55,57},
+   {6,9,10,11,13,14,29,31,32,47,48,49,51,52,67,68,69,70},
+   {3,4,16,18,30,35,44,45,50,58,59,64,72,73,78}]
+FP : uncompresss_schurpalindromic_subsets(155,P);
+certificate_pdschur_p(5,155,FP);
+  true
+   \endverbatim
+   This is a new result (satisfiability was not known before), so the full
+   symmetry-breaking seems helpful in combination with C&C for breaking up
+   hard problems (where some systematic search is needed). </li>
+   <li> n=158:
+   \verbatim
+> SplittingViaOKsolver -D70 Schur_pd_fullsb_5_158.cnf
+> cat Result
+c sat_status                            2
+c initial_maximal_clause_length         5
+c initial_number_of_variables           400
+c initial_number_of_clauses             11435
+c initial_number_of_literal_occurrences 33230
+c number_of_initial_unit-eliminations   33
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           33
+c reddiff_number_of_clauses             2176
+c reddiff_number_of_literal_occurrences 6717
+c number_of_2-clauses_after_reduction   1406
+c running_time(sec)                     3439.7
+c number_of_nodes                       676537
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                872
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        30
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 201682920
+c splitting_directory                   SplitViaOKsolver_D70Schur_pd_fullsb_5_158cnf_2012-07-31-200509/Instances
+c splitting_cases                       338269
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D70Schur_pd_fullsb_5_158cnf_2012-07-31-200509
+XXX cs-oksvr
    \endverbatim
    </li>
   </ul>
@@ -708,9 +828,35 @@ c number_of_1-autarkies                 129181374
 c splitting_directory                   SplitViaOKsolver_D70WSchur_pd_fullsb_5_153cnf_2012-07-28-094727/Instances
 c splitting_cases                       227126
 
-> ProcessSplitViaOKsolver XXX cs-wsok
+> ProcessSplitViaOKsolver SplitViaOKsolver_D70WSchur_pd_fullsb_5_153cnf_2012-07-28-094727
+> E=read_processsplit_minisat()
+11649: 2.6d, sum-cfs=6.750158e+09, mean-t=19.283s, mean-cfs=579462, sat: 0 1
+$t: 
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+  0.3299   8.2910  14.6100  19.2800  24.1500 332.9000
+sd= 17.83307
+      95%       96%       97%       98%       99%      100%
+ 49.48850  55.23624  62.68350  74.20714  87.35518 332.91700
+sum= 224631.1
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  13190  274900  461800  579500  731200 7735000
+sd= 474178.7
+    95%     96%     97%     98%     99%    100%
+1411206 1554759 1736299 2025211 2371964 7734584
+sum= 6750157549
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -2.4275e+00  2.2583e-02 -107.49 < 2.2e-16 ***
+E$cfs        3.7467e-05  3.0162e-08 1242.19 < 2.2e-16 ***
+R-squared: 0.9925
+> E[E$sat==1,]
+         i npa  d  rn   rc        t sat   cfs   dec rts     r1 mem ptime stime
+9929 89255 110 21 380 4733 0.478927   1 18732 23241  63 738392  19     0  0.01
+        cfl
+9929 344789
    \endverbatim
-   We need to compare this with the performance without symmetry-breaking.
+   It seems that the full symmetry-breaking helps the C&C approach.
    </li>
   </ul>
 

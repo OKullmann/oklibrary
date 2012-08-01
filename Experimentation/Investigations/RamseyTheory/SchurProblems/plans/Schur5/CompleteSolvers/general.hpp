@@ -161,12 +161,12 @@ c file_name                             Schur_sb_5_160.cnf
    <li>
    \verbatim
 pdschur(5);
-  [{[155],[158]},[161,306]]
+  [{[158]},[161,306]]
    \endverbatim
-   means that n=155,158 are unknown, everything else with n<161 is SAT, while
+   means that n=158 is unknown, everything else with n<161 is SAT, while
    n>= 161 is unknown. </li>
    <li> [Fredricksen, Sweet, 2000] conjecture that pdschur(5) = [{155,158},161]
-   holds. </li>
+   holds (the case n=155 we refuted via full symmetry-breaking and C&C). </li>
    <li> With full symmetry-breaking:
    \verbatim
 > CRunPdSchurFsb 5 161 "minisat-2.2.0 -cpu-lim=10000"
