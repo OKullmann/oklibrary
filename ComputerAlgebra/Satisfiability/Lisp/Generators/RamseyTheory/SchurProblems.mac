@@ -96,6 +96,19 @@ wschur_sb_nbfclud(r,n) := block([S : wschur_nbfclud(r,n)],
 wschur_sb_nbfcsud(r,n) := nbfclud2nbfcsud(wschur_sb_nbfclud(r,n))$
 
 
+/* ****************************
+   * Heuristical restrictions *
+   ****************************
+*/
+
+/* "Full symmetry-breaking"
+
+   The idea is as follows: Consider r parts (colours), we know that
+   a valid partition of the first schur(r-1) vertices must use all r
+   parts --- the (heuristical) principle is now to place vertex schur(r-1)
+   in part r, and to do that for all 1 <= r' <= r.
+*/
+
 /* Strengthening schur_set_first_vertex_nbcl(r): */
 schur_fullsb_nbcl(r,n) := block(
  [L : sublist(create_list(seconde(schur(i)),i,0,r-1),
@@ -131,13 +144,11 @@ pd_wschur_fullsb_nbfclud(r,n) := block([S : pd_wschur_nbfclud(r,n)],
 pd_wschur_fullsb_nbfcsud(r,n) := nbfclud2nbfcsud(pd_wschur_fullsb_nbfclud(r,n))$
 
 
-/* ****************************
-   * Heuristical restrictions *
-   ****************************
-*/
-
 /* Removing the first k vertices from the last part (colour; we must
-   have r >= 1, n >= k):
+   have r >= 1, n >= k): The observation here is that apparently this
+   "often" can be done "w.l.o.g.", or at least it yields good restrictions
+   worth to study.
+
 */
 schur_remove_first_vertices_nbcl(k,r) := create_list({[i,r]},i,1,k)$
 
