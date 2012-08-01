@@ -60,6 +60,22 @@ certificate_pdschur_p(r,n,P) := schurpalindromic_subsets_p(n,P) and
  certificate_schur_p(r,n,P)$
 
 
+/* *******************
+   * Transformations *
+   *******************
+*/
+
+/* Unfolding a compressed palindromic partition (creating an ordinary
+   (palindromic) partition, where "compressed" means working on the vertices
+   of the palindromic hypergraph):
+*/
+uncompresss_schurpalindromic_subsets(n,P) :=
+ if mod(n+1,3)#0 then uncompresss_palindromic_subsets(n,P) else
+  block([excp : {(n+1)/3,2*(n+1)/3}, m],
+   m : lambda([v], if elementp(v,excp) then {v} else {v,n+1-v}),
+   map(lambda([p], lunion(map(m,listify(p)))), P))$
+
+
 /*!
 \endhtmlonly
 */
