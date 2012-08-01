@@ -120,7 +120,8 @@ create_list(pdschur(i),i,0,4);
    number,means that k is the minimum such that for all n >= k the problems
    are unsatisfiable, while S is the set of exceptions below that, that is,
    where the problems are also unsatisfiable for n < k. </li>
-   <li> We see that we have no "palindromic gaps" here. </li>
+   <li> We see that we have no "palindromic gaps" here: This is the first and
+   main open question --- is there always no palindromic gap?! </li>
    <li> For pdschur(5) see "pdschur(5)" in
    RamseyTheory/SchurProblems/plans/Schur5/CompleteSolvers/general.hpp. </li>
    <li> Via
