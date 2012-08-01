@@ -91,4 +91,40 @@ for x in R do block([m : auto_pdschur(n,x)], print(x, map(m,V)));
    </li>
   </ul>
 
+
+  \todo Full symmetry-breaking
+  <ul>
+   <li>
+   \verbatim
+> CRunPdSchurFsb 1 2 "minisat-2.2.0"
+1:1 2:0
+> CRunPdSchurFsb 2 5 "minisat-2.2.0"
+1:1 ... 4:1 5:0
+> CRunPdSchurFsb 3 14 "minisat-2.2.0"
+1:1 ... 13:1 14:0
+> CRunPdSchurFsb 4 45 "minisat-2.2.0"
+1:1 ... 44:1 45:0
+   \endverbatim
+   </li>
+   <li> So even for palindromic problems there is no evidence yet that actually
+   full symmetry-breaking is not satisfiability-equivalent (note that at least
+   for the above parameters regarding satisfiability there is no difference to
+   the ordinary problems). </li>
+   <li>
+   \verbatim
+> CRunPdWSchurFsb 1 3 "minisat-2.2.0"
+1:1 2:1 3:0
+> CRunPdWSchurFsb 2 6 "minisat-2.2.0"
+1:1 ... 5:1 6:0
+> CRunPdWSchurFsb 3 15 "minisat-2.2.0"
+1:1 ... 14:1 15:0
+> CRunPdWSchurFsb 4 48 "minisat-2.2.0"
+1:1 ... 44:1 45:0 46:0 47:1 48:0
+   \endverbatim
+   Again no deviation from the cases without full symmetry-breaking. </li>
+   <li> To summarise, for the four standard cases (pd)(w)schur(r), we do not
+   have yet any evidence that full symmetry-breaking is not satisfiability-
+   equivalent. </li>
+  </ul>
+
 */

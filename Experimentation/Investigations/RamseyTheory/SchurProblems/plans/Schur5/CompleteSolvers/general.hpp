@@ -267,6 +267,8 @@ c 4594.5 seconds total run time
    actually impairs performance, which needs an explanation!). </li>
    <li> Symmetry-breaking seems not counter-productive when used within the
    Cube&Conquer-approach; see Schur5/SplittingViaOKsolver.hpp. </li>
+   <li> See "Full symmetry-breaking" in SchurProblems/plans/Symmetry.hpp
+   for general considerations. </li>
   </ul>
 
 
