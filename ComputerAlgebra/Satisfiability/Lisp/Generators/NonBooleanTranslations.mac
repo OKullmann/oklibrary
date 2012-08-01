@@ -93,6 +93,20 @@ snbfclud2fcl_aloamo(FF) := snbfclfd2fcl_aloamo(snbfclud2snbfclfd(FF))$
 snbfcsfd2fcs_aloamo(FF) := fcl2fcs(snbfclfd2fcl_aloamo(snbfcsfd2snbfclfd(FF)))$
 
 
+/* Tools: */
+
+/* For a partial assignments with variables nbv(i,j), extract the corresponding
+   block-partition:
+*/
+extract_partition(pa) := block(
+ [number_blocks : lmax(map(second,pa)), A],
+  if number_blocks = minf then return([]),
+  A : okl_make_array(any,number_blocks),
+  for i : 1 thru number_blocks do A[i] : {},
+  for x in pa do A[second(x)] : adjoin(first(x), A[second(x)]),
+  ary2l(A))$
+
+
 /* **************************************
    * The generalised nested translation *
    **************************************
