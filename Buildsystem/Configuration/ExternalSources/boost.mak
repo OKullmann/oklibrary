@@ -5,8 +5,8 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-boost_recommended_version_number_okl ?= 1_49_0
-boost_other_versions_okl ?= 1_48_0
+boost_recommended_version_number_okl ?= 1_50_0
+boost_other_versions_okl ?= 1_49_0
 
 boost_base_build_dir_okl ?= $(ExternalSources_builds)/Boost
 boost_extracted_package_okl ?= $(boost_base_build_dir_okl)/boost_$(boost_recommended_version_number_okl)
