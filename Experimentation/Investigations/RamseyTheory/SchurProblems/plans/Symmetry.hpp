@@ -106,6 +106,15 @@ for x in R do block([m : auto_pdschur(n,x)], print(x, map(m,V)));
 1:1 ... 13:1 14:0
 > CRunPdSchurFsb 4 45 "minisat-2.2.0"
 1:1 ... 44:1 45:0
+
+create_list(schurfsb(r),r,0,4);
+  [1,2,5,14,45]
+create_list(pdschurfsb(r),r,0,4);
+  [lambda([x],is(x < 1)),
+   lambda([x],is(x < 2)),
+   lambda([x],is(x < 5)),
+   lambda([x],is(x < 14)),
+   lambda([x],is(x < 45))]
    \endverbatim
    </li>
    <li> So even for palindromic problems there is no evidence yet that actually
@@ -122,11 +131,24 @@ for x in R do block([m : auto_pdschur(n,x)], print(x, map(m,V)));
 1:1 ... 14:1 15:0
 > CRunPdWSchurFsb 4 48 "minisat-2.2.0"
 1:1 ... 44:1 45:0 46:0 47:1 48:0
+
+create_list(wschurfsb(r),r,0,4);
+  [1,3,9,24,67]
+create_list(pdwschurfsb(r),r,0,4);
+  [lambda([x],is(x < 1)),
+   lambda([x],is(x < 3)),
+   lambda([x],is(x < 6)),
+   lambda([x],is(x < 15)),
+   lambda([n],if n >= 48 or n = 45 or n = 46 then false else true)]
    \endverbatim
    Again no deviation from the cases without full symmetry-breaking. </li>
    <li> To summarise, for the four standard cases (pd)(w)schur(r), we do not
    have yet any evidence that full symmetry-breaking is not satisfiability-
    equivalent. </li>
+   <li> See "Palindromic problem with full symmetry-breaking (direct
+   encoding)" and "Weak palindromic problem with full symmetry-breaking (direct
+   encoding)" in Schur5/SplittingViaOKsolver.hpp for investigations into the
+   ordinary and weak palindromic problems with full symmetry-breaking. </li>
   </ul>
 
 
