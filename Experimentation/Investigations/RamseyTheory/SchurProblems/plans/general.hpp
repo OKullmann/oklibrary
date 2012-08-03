@@ -137,7 +137,11 @@ create_list(pdschur(i),i,0,4);
    we determined pdwschur(r) for 0 <= r <= 4:
    \verbatim
 create_list(pdwschur(i),i,0,4);
-  [[{},1],[{},3],[{},6],[{},15],[{45,46},48]]
+  [lambda([x],is(x < 1)),
+   lambda([x],is(x < 3)),
+   lambda([x],is(x < 6)),
+   lambda([x],is(x < 15)),
+   lambda([n],if n >= 48 or n = 45 or n = 46 then false else true)]
    \endverbatim
    </li>
    <li> It seems that there is only little deviation from pdschur(r). </li>

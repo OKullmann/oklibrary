@@ -464,13 +464,12 @@ c file_name                             Schur_pd_rm_5_160-43.cnf
    \endverbatim
    yields that all n <= 152 and n=154,155,156 are SAT, while n=153 and n>=157
    are unknown. </li>
-   <li>
+   <li> Current knowledge:
    \verbatim
 pdwschur(5);
-  [{[158]},[161,1631]]
+  lambda([n],if n > 1631 then false elseif n = 158 or n >= 161 then unknown else true)
    \endverbatim
-   means that n=158 is unknown, everything else with n<161 is SAT, while
-   n>= 161 is unknown. </li>
+   </li>
    <li> With full symmetry-breaking:
    \verbatim
 > CRunPdWSchurFsb 5 190 "minisat-2.2.0 -cpu-lim=10000"
@@ -479,8 +478,9 @@ pdwschur(5);
    Also here we have that full symmetry-breaking makes the problems harder
    for satisfiable cases (while we do not know about the unsatisfiable
    cases). </li>
-   <li> n=153 via SplittingViaOKsolver: see Schur5/SplittingViaOKsolver.hpp.
-   </li>
+   <li> n=153 via SplittingViaOKsolver: see Schur5/SplittingViaOKsolver.hpp
+   (but satisfiability follows also from satisfiability of the ordinary
+   palindromic problem). </li>
   </ul>
 
 */
