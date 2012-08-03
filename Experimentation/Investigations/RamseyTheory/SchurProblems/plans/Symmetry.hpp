@@ -94,6 +94,8 @@ for x in R do block([m : auto_pdschur(n,x)], print(x, map(m,V)));
 
   \todo Full symmetry-breaking
   <ul>
+   <li> This should better be called "rigid colour symmetry-breaking" (or even
+   "stiff"). </li>
    <li>
    \verbatim
 > CRunPdSchurFsb 1 2 "minisat-2.2.0"
@@ -125,6 +127,32 @@ for x in R do block([m : auto_pdschur(n,x)], print(x, map(m,V)));
    <li> To summarise, for the four standard cases (pd)(w)schur(r), we do not
    have yet any evidence that full symmetry-breaking is not satisfiability-
    equivalent. </li>
+  </ul>
+
+
+  \todo Embedding colour-symmetry-breaking into the search
+  <ul>
+   <li> The idea is simple: as soon as a new colour is used, the other
+   yet unused colours do not need to be considered. </li>
+   <li> The underlying fundamental lemma: Let F represent a Schur-problem in
+   one of its four main forms (weak or not, palindromic or not). Consider a
+   partial assignment phi. Let C be the set of colours not involved in phi.
+   Then any permutation of C (leaving everything else fixed) is an automorphism
+   of phi * F. </li>
+   <li> This can be relatively easily integrated into a look-ahead solver.
+    <ol>
+     <li> Consider OKsolver_2002. </li>
+     <li> Maintaining for the variables nbv(i,j) assigned on the current path
+     which j are involved (the rest constitute the above C), and if a new j is
+     considered for a decision variable nbv(i,j), setting for all other yet
+     untouched j' the variables nbv(i,j') to true. </li>
+     <li> This is an assignment like an autarky, with the difference that after
+     that the reduction-process has to fully restart. </li>
+    </ol>
+   </li>
+   <li> A simpler version is just to postprocess the splitting assignments of
+   the C&C approach (here SplittingViaOKsolver). This is easy, especially if
+   it is known which are the decision-variables. </li>
   </ul>
 
 */
