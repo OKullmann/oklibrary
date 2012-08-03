@@ -782,6 +782,24 @@ BestSolution_Max = 1
 [1] "302998036"  "3887686207" "15797683"
    \endverbatim
    </li>
+   <li> Searching solutions for n=158:
+   \verbatim
+> ubcsat-okl -alg saps -cutoff 200000 -runs 100000 -i Schur_pd_5_158.cnf | tee Schur_pd_5_158.cnf_OUT
+Clauses = 11415
+Variables = 400
+TotalLiterals = 33210
+FlipsPerSecond = 561815
+BestStep_Mean = 1457.60476
+Steps_Mean = 200000
+Steps_Max = 200000
+PercentSuccess = 0.00
+BestSolution_Mean = 1
+BestSolution_Median = 1
+BestSolution_Min = 1
+BestSolution_Max = 1
+   \endverbatim
+   Could be that this instance is harder to satisfy, or unsatisfiable.
+   </li>
    <li> Finding solutions for n=159 (apparently [Fredricksen, Sweet, 2000]
    claim it to be satisfiable):
    \verbatim
