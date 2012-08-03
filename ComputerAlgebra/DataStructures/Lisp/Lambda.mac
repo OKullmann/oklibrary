@@ -1,0 +1,33 @@
+/* Oliver Kullmann, 3.8.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/DataStructures/Lisp/Lambda.mac
+  \brief Functions for handling lambda-terms
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/DataStructures/Lisp/Lambda.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* "lb" for lambda-term */
+
+/* Lambda-terms for "less/greater than" resp. "less/greater equal than": */
+ltlb(a) := buildq([a], lambda([x], is(x<a)))$
+lelb(a) := buildq([a], lambda([x], is(x<=a)))$
+gtlb(a) := buildq([a], lambda([x], is(x>a)))$
+gelb(a) := buildq([a], lambda([x], is(x>=a)))$
+
+
+/*!
+\endhtmlonly
+*/
