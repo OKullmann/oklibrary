@@ -158,24 +158,25 @@ c file_name                             Schur_sb_5_160.cnf
    \endverbatim
    yields that all n <= 154 and n=156 are SAT, while n=155 and n>=157 are
    unknown. </li>
-   <li>
+   <li> The satisfiable cases for r=5:
    \verbatim
 pdschur(5);
-  [{[158]},[161,306]]
+  lambda([n],if n > 306 then false elseif n = 158 or n >= 161 then unknown else true)
    \endverbatim
-   means that n=158 is unknown, everything else with n<161 is SAT, while
-   n>= 161 is unknown. </li>
-   <li> [Fredricksen, Sweet, 2000] conjecture that pdschur(5) = [{155,158},161]
+   </li>
+   <li> [Fredricksen, Sweet, 2000] conjecture that
+     pdschur(5) = lambda([n], if n > 160 or n=155 or n=158 then false else true)
    holds (the case n=155 we refuted via full symmetry-breaking and C&C). </li>
    <li> With full symmetry-breaking:
    \verbatim
-> CRunPdSchurFsb 5 161 "minisat-2.2.0 -cpu-lim=10000"
-# aborted after it couldn't solve now n=153
+> CRunPdSchurFsb 5 161 "minisat-2.2.0 -cpu-lim=20000"
+1:1 ... 152:1 153:2 154:1 155:2 156:2 157:2
+# aborted since it seemed likely that we would get 158:2 ... 161:2.
    \endverbatim
+   (n=155 determined as satisfiable in /Schur5/SplittingViaOKsolver.hpp).
    </li>
    <li> At least for the satisfiable instances, with full symmetry breaking it
-   takes substantially longer! </li>
-   <li> Solver comparisons:
+   takes substantially longer. Solver comparisons:
    \verbatim
 output_pd_schur_fullsb_stdname(5,146);
 

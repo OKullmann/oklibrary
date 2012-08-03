@@ -113,13 +113,16 @@ License, or any later version. */
    we determined pdschur(r) for 0 <= r <= 4:
    \verbatim
 create_list(pdschur(i),i,0,4);
-  [[{},1],[{},2],[{},5],[{},14],[{},45]]
+  [lambda([x],is(x < 1)),
+   lambda([x],is(x < 2)),
+   lambda([x],is(x < 5)),
+   lambda([x],is(x < 14)),
+   lambda([x],is(x < 45))]
    \endverbatim
    </li>
-   <li> A pair [S,k], where S is a set of natural numbers and k a natural
-   number,means that k is the minimum such that for all n >= k the problems
-   are unsatisfiable, while S is the set of exceptions below that, that is,
-   where the problems are also unsatisfiable for n < k. </li>
+   <li> It seemed too complicated to use some implicit representations (via
+   numbers), and so "palindromic Schur-numbers" are in fact functionals,
+   yielding which cases are satisfiable. </li>
    <li> We see that we have no "palindromic gaps" here: This is the first and
    main open question --- is there always no palindromic gap?! </li>
    <li> For pdschur(5) see "pdschur(5)" in
