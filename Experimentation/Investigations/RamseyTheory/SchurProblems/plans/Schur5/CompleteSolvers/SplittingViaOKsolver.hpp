@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Investigations/RamseyTheory/SchurProblems/plans/Schur5/SplittingViaOKsolver.hpp
-  \brief On computing lower bounds for schur(5) and variations via Cube-and-Conquer
+  \brief On computing schur(5) and variations via Cube-and-Conquer
 
 
   \todo Direct encoding
@@ -544,7 +544,41 @@ R-squared: 0.9548
   <ul>
    <li> It seems that here, different from monolithic solvers, full symmetry-
    breaking (again) is powerful. </li>
-   <li> First open case n=155:
+   <li> First open case n=153 for full symmetry-breaking:
+   \verbatim
+> SplittingViaOKsolver -D70 Schur_pd_fullsb_5_153.cnf
+> cat Result
+c sat_status                            2
+c initial_maximal_clause_length         5
+c initial_number_of_variables           385
+c initial_number_of_clauses             10377
+c initial_number_of_literal_occurrences 30095
+c number_of_initial_unit-eliminations   32
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           32
+c reddiff_number_of_clauses             1970
+c reddiff_number_of_literal_occurrences 6080
+c number_of_2-clauses_after_reduction   1343
+c running_time(sec)                     2929.1
+c number_of_nodes                       635803
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1089
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        31
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 180654056
+c splitting_directory                   SplitViaOKsolver_D70Schur_pd_fullsb_5_153cnf_2012-08-03-025129/Instances
+c splitting_cases                       317902
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D70Schur_pd_fullsb_5_153cnf_2012-08-03-025129
+XXX cs-wsok
+   \endverbatim
+   </li>
+   <li> First open case n=155 for palindromic problems:
    \verbatim
 > SplittingViaOKsolver -D30 Schur_pd_fullsb_5_155.cnf
 c sat_status                            2
@@ -652,10 +686,9 @@ R-squared: 0.9905
 
 > cd SplitViaOKsolver_D70Schur_pd_fullsb_5_155cnf_2012-07-28-112247
 > cat Instances/33374 > Solution_1
-> cat Schur_pd_fullsb_5_155.cnf | ApplyPass-O3-DNDEBUG Instances/33374 > Instance_1
+> cat Schur_pd_fullsb_5_155.cnf | ApplyPass-O3-DNDEBUG Solution_1 > Instance_1
 # minisat-2.2.0 Instance_1 Temp_1 # CAUTION: total assignment!
 > OKsolver_2002-O3-DNDEBUG -O -F Instance_1
- SATISFIABLE
 c sat_status                            1
 c initial_maximal_clause_length         5
 c initial_number_of_variables           283
@@ -685,11 +718,10 @@ c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             Instance_1
 
-
 # via vi in Solution_1 the trailing "0" removed
 # via vi in Instance_1.pa the initial "v" removed
 > cat Instance_1.pa >> Solution_1
-# via vi in Solution_1 the linebreak removed; this is now a satisfying assignment
+# Solution_1 is now a satisfying assignment
 # via vi transformed Solution_1 into a CNF with a single clause ("p cnf 395 1")
 > oklib --maxima
 oklib_load_all();
@@ -750,8 +782,120 @@ XXX cs-oksvr
   <ul>
    <li> It seems that here, different from monolithic solvers, full symmetry-
    breaking (again) is powerful. </li>
-   <li> First open case n=153 (but actually we know it is satisfiable, since
-   the standard palindromic case is satisfiable for n=153, and 153 mod 3 # 2):
+   <li> Open case n=152:
+   \verbatim
+> SplittingViaOKsolver -D70 WSchur_pd_fullsb_5_152.cnf
+> cat Result
+c sat_status                            2
+c initial_maximal_clause_length         5
+c initial_number_of_variables           380
+c initial_number_of_clauses             10231
+c initial_number_of_literal_occurrences 29670
+c number_of_initial_unit-eliminations   35
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           35
+c reddiff_number_of_clauses             2151
+c reddiff_number_of_literal_occurrences 6600
+c number_of_2-clauses_after_reduction   1302
+c running_time(sec)                     2116.5
+c number_of_nodes                       576241
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                682
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        29
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 159048440
+c splitting_directory                   SplitViaOKsolver_D70WSchur_pd_fullsb_5_152cnf_2012-08-03-234001/Instances
+c splitting_cases                       288121
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D70WSchur_pd_fullsb_5_152cnf_2012-08-03-234001
+> E=read_processsplit_minisat()
+1645: 4.215h, sum-cfs=5.560082e+08, mean-t=9.225s, mean-cfs=337999, sat: 0 1
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.224   4.072   6.936   9.225  12.500  55.040
+sd= 7.372861
+     95%      96%      97%      98%      99%     100%
+24.53430 26.70026 28.53764 30.07758 33.23634 55.03940
+sum= 15174.69
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  10120  161300  264900  338000  456700 1756000
+sd= 246921.3
+      95%       96%       97%       98%       99%      100%
+ 833579.6  915753.7  987086.6 1045019.0 1126276.0 1756498.0
+sum= 556008154
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -8.4564e-01  2.0337e-02 -41.581 < 2.2e-16 ***
+E$cfs        2.9794e-05  4.8591e-08 613.159 < 2.2e-16 ***
+R-squared: 0.9956
+> E[E$sat==1,]
+          i npa  d  rn   rc       t sat   cfs    dec rts      r1 mem ptime
+1158 247285 115 19 375 4315 2.43215   1 98545 122123 255 3741012  18     0
+1381   5231 114 14 375 4334 0.49203   1 22598  28202  80  869316  18     0
+     stime     cfl
+1158  0.01 1720694
+1381  0.01  350170
+
+> cd SplitViaOKsolver_D70WSchur_pd_fullsb_5_152cnf_2012-08-03-234001/
+> cat Instances/247285 > Solution_1
+> cat WSchur_pd_fullsb_5_152.cnf | ApplyPass-O3-DNDEBUG Solution_1 > Instance_1
+> OKsolver_2002-O3-DNDEBUG -O -F Instance_1
+c sat_status                            1
+c initial_maximal_clause_length         5
+c initial_number_of_variables           265
+c initial_number_of_clauses             4315
+c initial_number_of_literal_occurrences 11738
+c number_of_2-clauses_after_reduction   1292
+c running_time(sec)                     8.9
+c number_of_nodes                       10112
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                121641
+c number_of_pure_literals               0
+c number_of_autarkies                   5
+c number_of_missed_single_nodes         1
+c max_tree_depth                        25
+c proportion_searched                   9.804688e-01
+c proportion_single                     0.000000e+00
+c total_proportion                      0.98046875
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 948439
+
+# via vi in Solution_1 the trailing "0" removed
+# via vi in Instance_1.pa the initial "v" removed
+> cat Instance_1.pa >> Solution_1
+
+# checking:
+> cat WSchur_pd_fullsb_5_152.cnf | ApplyPass-O3-DNDEBUG Solution_1 result_1
+> tail -1 result_1
+p cnf 0 0
+
+# via vi transformed Solution_1 into a CNF with a single clause ("p cnf 380 1")
+> oklib --maxima
+oklib_load_all();
+F : read_fcl_f("Solution_1")$
+pa : subset(first(F[2]), lambda([x], is(x>0)));
+I : invstandardise_pd_wschur_aloamo(5,152);
+P : extract_partition(map(I,pa));
+  [{1,5,15,23,25,33,35,42,44,52,54,61,71,73},
+   {3,7,12,28,29,30,38,43,47,49,64,69,70},
+   {4,9,14,16,19,21,26,50,55,56,57,58,63,68},
+   {2,10,11,17,24,31,36,37,40,45,59,66,75},
+   {6,8,13,18,20,22,27,32,34,39,41,46,48,51,53,60,62,65,67,72,74,76}]
+FP : uncompresss_wschurpalindromic_subsets(152,P);
+certificate_pdwschur_p(5,152,FP);
+  true
+certificate_pdschur_p(5,152,FP);
+  false
+   \endverbatim
+   </li>
+   <li> Open case n=153:
    \verbatim
 > SplittingViaOKsolver -D30 WSchur_pd_fullsb_5_153.cnf
 > cat Result
@@ -831,7 +975,7 @@ c splitting_cases                       227126
 > ProcessSplitViaOKsolver SplitViaOKsolver_D70WSchur_pd_fullsb_5_153cnf_2012-07-28-094727
 > E=read_processsplit_minisat()
 11649: 2.6d, sum-cfs=6.750158e+09, mean-t=19.283s, mean-cfs=579462, sat: 0 1
-$t: 
+$t:
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
   0.3299   8.2910  14.6100  19.2800  24.1500 332.9000
 sd= 17.83307
@@ -857,6 +1001,40 @@ R-squared: 0.9925
 9929 344789
    \endverbatim
    It seems that the full symmetry-breaking helps the C&C approach.
+   </li>
+   <li> Open case n=158:
+   \verbatim
+> SplittingViaOKsolver -D70 WSchur_pd_fullsb_5_158.cnf
+> cat Result
+c sat_status                            2
+c initial_maximal_clause_length         5
+c initial_number_of_variables           395
+c initial_number_of_clauses             11029
+c initial_number_of_literal_occurrences 32025
+c number_of_initial_unit-eliminations   35
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           35
+c reddiff_number_of_clauses             2233
+c reddiff_number_of_literal_occurrences 6859
+c number_of_2-clauses_after_reduction   1360
+c running_time(sec)                     3236.8
+c number_of_nodes                       620355
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                875
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        28
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 180581403
+c splitting_directory                   SplitViaOKsolver_D70WSchur_pd_fullsb_5_158cnf_2012-08-01-175931/Instances
+c splitting_cases                       310178
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D70WSchur_pd_fullsb_5_158cnf_2012-08-01-175931
+XXX cs-wsok
+   \endverbatim
    </li>
   </ul>
 

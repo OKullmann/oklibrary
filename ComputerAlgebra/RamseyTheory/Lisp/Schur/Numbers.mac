@@ -132,7 +132,7 @@ wschurfsb(r) := if r <= 4 then [1,3,9,24,67][r+1]
  else unknown$
 
 pdwschurfsb(r) := if r <= 4 then [ltlb(1),ltlb(3),ltlb(6),ltlb(15),lambda([n], if n >= 48 or n=45 or n=46 then false else true)][r+1]
- elseif r=5 then lambda([n], if n>1631 then false elseif n<152 or n=153 then true else unknown)
+ elseif r=5 then lambda([n], if n>1631 then false elseif n<=153 then true else unknown)
  else unknown$
 
 /* Note that schurfsb(r) and wschurfsb(r) do not need predicates, since these
