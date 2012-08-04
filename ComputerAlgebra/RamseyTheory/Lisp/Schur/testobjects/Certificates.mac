@@ -27,7 +27,9 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/tests/Certificates.
 */
 
 okltest_certificate_schur_p(certificate_schur_p);
+okltest_certificate_wschur_p(certificate_wschur_p);
 okltest_certificate_pdschur_p(certificate_pdschur_p);
+okltest_certificate_pdwschur_p(certificate_pdwschur_p);
 
 /* *******************
    * Transformations *
@@ -35,6 +37,7 @@ okltest_certificate_pdschur_p(certificate_pdschur_p);
 */
 
 okltest_uncompresss_schurpalindromic_subsets(uncompresss_schurpalindromic_subsets);
+okltest_uncompresss_wschurpalindromic_subsets(uncompresss_wschurpalindromic_subsets);
 
 /*!
 \endhtmlonly
