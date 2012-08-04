@@ -42,6 +42,7 @@ okltest_nhyp_schurtriples_me_ohg(nhyp_schurtriples_me_ohg);
 okltest_nhyp_wschurtriples_ohg(nhyp_wschurtriples_ohg);
 
 okltest_has_schurtriple(has_schurtriple);
+okltest_has_wschurtriple(has_wschurtriple);
 
 /* ************
    * Symmetry *

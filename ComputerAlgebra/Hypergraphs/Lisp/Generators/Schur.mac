@@ -93,6 +93,14 @@ has_schurtriple(S) :=
    S : disjoin(x,S),
    some_s(lambda([y], subsetp({y,x+y}, S)), S) or has_schurtriple(S))$
 
+/* Now not considering the cases where x=y: */
+has_wschurtriple(S) :=
+ if emptyp(S) then false
+ else block([x : first_element(S)],
+   S : disjoin(x,S),
+   some_s(lambda([y], subsetp({y,x+y}, S)), S) or has_wschurtriple(S))$
+
+
 
 /* ************
    * Symmetry *
