@@ -296,11 +296,11 @@ wschur_aloamo_stdfcl(r,n) := (
    standardise_fcl(wschur_aloamo_fcl(r,n)).
 */
 
-pd_wschur_aloamo_stdfcl(r,n) := block([n2 : ceiling(n/2)],
-  [block([s : standardise_schur_aloamo(r,n2)],
+pd_wschur_aloamo_stdfcl(r,n) := (
+  [block([s : standardise_pd_wschur_aloamo(r,n)],
      s(pd_wschur_aloamo_fcl(r,n))),
-   block([invs : invstandardise_schur_aloamo(r,n2)],
-     create_list(invs(i), i,1,n2*r))])$
+   block([invs : invstandardise_pd_wschur_aloamo(r,n)],
+     create_list(invs(i), i,1,nvar_pd_wschur_nbfcsud(r,n)*r))])$
 /* We have pd_wschur_aloamo_stdfcl(r,n) =
    standardise_fcl(pd_wschur_aloamo_fcl(r,n)).
 */
@@ -350,11 +350,11 @@ pd_schur_fullsb_aloamo_stdfcl(r,n) := (
    standardise_fcl(pd_schur_fullsb_aloamo_fcl(r,n)).
 */
 
-pd_wschur_fullsb_aloamo_stdfcl(r,n) := block([n2 : ceiling(n/2)],
-  [block([s : standardise_schur_aloamo(r,n2)],
+pd_wschur_fullsb_aloamo_stdfcl(r,n) := (
+  [block([s : standardise_pd_wschur_aloamo(r,n)],
      s(pd_wschur_fullsb_aloamo_fcl(r,n))),
-   block([invs : invstandardise_schur_aloamo(r,n2)],
-     create_list(invs(i), i,1,n2*r))])$
+   block([invs : invstandardise_pd_wschur_aloamo(r,n)],
+     create_list(invs(i), i,1,nvar_pd_wschur_nbfcsud(r,n)*r))])$
 /* We have pd_wschur_fullsb_aloamo_stdfcl(r,n) =
    standardise_fcl(pd_wschur_fullsb_aloamo_fcl(r,n)).
 */
@@ -406,6 +406,9 @@ invstandardise_pd_schur_aloamo(r,n) := if mod(n+1,3)#0 then
   buildq([r], lambda([i], block([d : divide(i-1,r)+1], nbv_var(d[1], d[2]))))
  else
   buildq([r,excp:ceiling(n/2)+1,repl:2*(n+1)/3], lambda([i], block([d : divide(i-1,r)+1], nbv_var(if d[1]#excp then d[1] else repl, d[2]))))$
+
+standardise_pd_wschur_aloamo(r,n) := standardise_schur_aloamo(r,ceiling(n/2))$
+invstandardise_pd_wschur_aloamo(r,n) := invstandardise_schur_aloamo(r,ceiling(n/2))$
 
 
 /* Weak and strong standard nested translation; now r >= 1 must hold: */
