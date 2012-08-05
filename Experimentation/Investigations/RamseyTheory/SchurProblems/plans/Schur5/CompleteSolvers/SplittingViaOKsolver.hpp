@@ -544,6 +544,12 @@ R-squared: 0.9548
   <ul>
    <li> It seems that here, different from monolithic solvers, full symmetry-
    breaking (again) is powerful. </li>
+   <li> Current values:
+   \verbatim
+pdschurfsb(5);
+  lambda([n],if n > seconde(schur(5)) then false elseif n <= 155 then true else unknown)
+   \endverbatim
+   </li>
    <li> First open case n=153 for full symmetry-breaking:
    \verbatim
 > SplittingViaOKsolver -D70 Schur_pd_fullsb_5_153.cnf
@@ -935,6 +941,13 @@ certificate_pdwschur_p(5,155,FP);
    This is a new result (satisfiability was not known before), so the full
    symmetry-breaking seems helpful in combination with C&C for breaking up
    hard problems (where some systematic search is needed). </li>
+   <li> n=156:
+   \verbatim
+> SplittingViaOKsolver -D70 Schur_pd_fullsb_5_156.cnf
+> cat Result
+XXX cs-oksvr
+   \endverbatim
+   </li>
    <li> n=158:
    \verbatim
 > SplittingViaOKsolver -D70 Schur_pd_fullsb_5_158.cnf
@@ -976,6 +989,12 @@ XXX cs-oksvr
   <ul>
    <li> It seems that here, different from monolithic solvers, full symmetry-
    breaking (again) is powerful. </li>
+   <li> Current values:
+   \verbatim
+pdwschurfsb(5);
+  lambda([n],if n > 1631 then false elseif n <= 155 then true else unknown)
+   \endverbatim
+   </li>
    <li> Open case n=152:
    \verbatim
 > SplittingViaOKsolver -D70 WSchur_pd_fullsb_5_152.cnf
