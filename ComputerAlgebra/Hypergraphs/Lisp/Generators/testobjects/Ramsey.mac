@@ -1,0 +1,43 @@
+/* Oliver Kullmann, 5.8.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Hypergraphs/Lisp/Generators/testobjects/Ramsey.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/testobjects/Ramsey.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Ramsey.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/Ramsey.mac")$
+
+/* ********************
+   * Ramsey's theorem *
+   ********************
+*/
+
+okltest_ramsey_hg(ramsey_hg);
+okltest_ramsey_ohg(ramsey_ohg);
+
+okltest_rv_var(rv_var);
+okltest_set_rv(set_rv);
+okltest_ramseyrv_ohg(ramseyrv_ohg);
+
+okltest_nver_ramsey_hg(nver_ramsey_hg);
+okltest_nver_ramsey_ohg(nver_ramsey_ohg);
+okltest_nhyp_ramsey_hg(nhyp_ramsey_hg);
+okltest_nhyp_ramsey_ohg(nhyp_ramsey_ohg);
+
+/*!
+\endhtmlonly
+*/

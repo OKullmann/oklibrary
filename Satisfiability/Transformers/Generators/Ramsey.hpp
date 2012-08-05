@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.7.2004 (Turin)
-/* Copyright 2004 - 2007, 2009, 2010 Oliver Kullmann
+/* Copyright 2004 - 2007, 2009, 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -43,13 +43,13 @@ namespace Ramsey {
     \brief Computing the hypergraphs underlying Ramsey-instances
 
     The procedural specification is given by ramsey_ohg(q,r,n) in
-    ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac.
+    ComputerAlgebra/Hypergraphs/Lisp/Generators/Ramsey.mac.
 
     That is, vertices are the r-subsets of {1, ..., n}, and for every
     q-subset T of {1, ..., n} there is the hyperedge of r-subsets of T.
     Precondition: n >= q >= r >= 0.
 
-    \todo See ComputerAlgebra/Hypergraphs/Lisp/Generators/plans/general.hpp
+    \todo See ComputerAlgebra/Hypergraphs/Lisp/Generators/plans/Ramsey.hpp
 
     \todo Update the underlying notion of "hypergraph"
   */

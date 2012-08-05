@@ -1,0 +1,103 @@
+/* Oliver Kullmann, 5.8.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Hypergraphs/Lisp/Generators/Ramsey.mac
+  \brief Maxima functions for generating Ramsey-hypergraphs
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Ramsey.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+
+/* ********************
+   * Ramsey's theorem *
+   ********************
+*/
+
+/* We now consider the underlying hypergraphs for Ramsey problems, that is,
+   for r-graphs with n vertices we consider q-cliques, and a counter-example
+   showing that ramsey_s^r(q,q,...,q) > n, where the list of q's has length s,
+   is a hypergraph colouring using s colours of the following hypergraph.
+   In other words, ramsey_hg(q,r,n) has as vertices the r-subsets
+   of {1,...,n}, while a hyperedge is given by the set of r-subsets
+   of any q-subset of {1,...,n}.
+   Prerequisites: q,r,n >= 0.
+*/
+ramsey_hg(q,r,n) := block([V0 : setn(n), V],
+ V : powerset(V0,r),
+ if q>n then [V,{}]
+ elseif r>q then [V,{}]
+ else
+  [V, map(lambda([T],powerset(T,r)),powerset(V0,q))])$
+/* The ordered version, using lexicographical ordering on the vertices
+   as well as on the hyperedges (considered as q-subsets):
+*/
+ramsey_ohg(q,r,n) := block([V0 : setn(n), V],
+ V : listify(powerset(V0,r)),
+ if q>n then [V,[]]
+ elseif r=0 then [V,[{{}}]]
+ elseif r>q then [V,[]]
+ else
+  [V, map(lambda([T],powerset(T,r)), listify(powerset(V0,q)))])$
+
+/* Now using vertices e.g. "rv(1,2,3)" instead of "{1,2,3}". */
+
+kill(rv)$
+declare(rv,noun)$
+rv_var([L]) := apply(nounify(rv),L)$
+set_rv(s) := apply(rv_var,listify(s))$
+
+ramseyrv_ohg(q,r,n) := block([V0 : setn(n), V],
+ V : map(set_rv,listify(powerset(V0,r))),
+ if q>n then [V,[]]
+ elseif r=0 then [V,[{{}}]]
+ elseif r>q then [V,[]]
+ else
+  [V, map(lambda([T],map(set_rv,powerset(T,r))), listify(powerset(V0,q)))])$
+
+/* Standardised Ramsey hypergraphs, now using colexicographical ordering of
+   the vertices (as r-subsets of {1,...,n}) to convert them into natural
+   numbers (while keeping the lexicographical order of hyperedges, as in
+   ramseyrv_ohg):
+*/
+ramsey_stdohg(q,r,n) :=
+ ev(ramseyrv_ohg(q,r,n), rv([L]):=rank_colex_ksubsets(setify(L)), rv)$
+/* Note that the vertex list is ordered in such a way to keep the
+   correspondence to the lexicographical ordering of the vertices.
+*/
+
+
+/* Statistics functions: */
+
+nver_ramsey_hg(q,r,n) := binomial(n,r)$
+nver_ramsey_ohg(q,r,n) := binomial(n,r)$
+nver_ramsey_stdohg(q,r,n) := binomial(n,r)$
+
+nhyp_ramsey_hg(q,r,n) :=
+  if q > n then 0
+  elseif r > n then 0
+  else if r > q then 0
+  elseif r = 0 then 1
+  else binomial(n,q)$
+nhyp_ramsey_ohg(q,r,n) :=
+  if q > n then 0
+  elseif r > n then 0
+  else if r > q then 0
+  elseif r = 0 then 1
+  else binomial(n,q)$
+
+
+/*!
+\endhtmlonly
+*/

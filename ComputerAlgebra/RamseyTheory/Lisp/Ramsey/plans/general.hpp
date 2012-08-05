@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.7.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,13 +12,13 @@ License, or any later version. */
 
   \todo Relations to other modules
   <ul>
-   <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp for
+   <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Ramsey.hpp for
    the function ramsey_hg(q,r,n) and its variations. </li>
-   <li> See 
-   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp
+   <li> See
+   Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp
    for the SAT translation. </li>
    <li> See
-   Experimentation/Investigations/RamseyTheory/RamseyProblems/plans/general.hpp for
+   Investigations/RamseyTheory/RamseyProblems/plans/general.hpp for
    investigations. </li>
   </ul>
 
@@ -59,10 +59,11 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> It would also be interesting here to try apply some of the symmetry 
-   breaking ideas discussed in 
-   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp 
-   and then consider the number and character of the remaining symmetries. </li>
+   <li> It would also be interesting here to try apply some of the symmetry
+   breaking ideas discussed in
+   Satisfiability/Lisp/Generators/RamseyTheory/plans/RamseyProblems.hpp
+   and then consider the number and character of the remaining symmetries.
+   </li>
   </ul>
 
 
@@ -88,13 +89,13 @@ License, or any later version. */
 
   \todo Representing counter-examples
   <ul>
-   <li> See '"Visualising" solutions' in 
+   <li> See '"Visualising" solutions' in
    Experimentation/Investigations/RamseyTheory/RamseyProblems/plans/general.hpp
    . </li>
-   <li> One should be able to translate a solution to a given Ramsey SAT 
+   <li> One should be able to translate a solution to a given Ramsey SAT
    problem (that is, "ramsey_r^s(q_1,...,q_s) > n?"), given as a set of
-   literals using the standard variable naming, to a graph labelling (see 
-   "Representing edge and vertex labellings" in 
+   literals using the standard variable naming, to a graph labelling (see
+   "Representing edge and vertex labellings" in
    ComputerAlgebra/Graphs/Lisp/plans/general.hpp). </li>
    <li> For r=2, s=2, one should also be able to translate a solution to the
    graph representing the solution (where the 2 labels represent an edge being
@@ -102,4 +103,3 @@ License, or any later version. */
   </ul>
 
 */
-

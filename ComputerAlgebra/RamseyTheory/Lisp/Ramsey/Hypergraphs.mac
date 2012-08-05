@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.7.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,10 +19,10 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Hypergraphs.mac");
 \htmlonly
 */
 
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Ramsey.mac")$
 
 /* Ramsey hypergraphs are computed by ramsey_(o)hg(q,r,n) (from
-   Hypergraphs/Lisp/Generators.mac).
+   Hypergraphs/Lisp/Generators/Ramsey.mac).
 */
 
 /* The satisfiability problems for 2 colours are created by 

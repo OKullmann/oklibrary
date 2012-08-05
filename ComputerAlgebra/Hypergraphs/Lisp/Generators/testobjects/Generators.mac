@@ -21,7 +21,6 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/testobjects/Genera
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/Generators.mac")$
 
-
 /* ************************
    * Complete hypergraphs *
    ************************
@@ -34,23 +33,6 @@ okltest_complete_stdohg(complete_stdohg);
 
 okltest_nver_complete_hg(nver_complete_hg);
 okltest_nhyp_complete_hg(nhyp_complete_hg);
-
-/* ********************
-   * Ramsey's theorem *
-   ********************
-*/
-
-okltest_ramsey_hg(ramsey_hg);
-okltest_ramsey_ohg(ramsey_ohg);
-
-okltest_rv_var(rv_var);
-okltest_set_rv(set_rv);
-okltest_ramseyrv_ohg(ramseyrv_ohg);
-
-okltest_nver_ramsey_hg(nver_ramsey_hg);
-okltest_nver_ramsey_ohg(nver_ramsey_ohg);
-okltest_nhyp_ramsey_hg(nhyp_ramsey_hg);
-okltest_nhyp_ramsey_ohg(nhyp_ramsey_ohg);
 
 /* ***************************
    * Generalised Tic-tac-toe *

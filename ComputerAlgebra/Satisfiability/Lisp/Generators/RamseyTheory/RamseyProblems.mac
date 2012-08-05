@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 4.9.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,15 +19,9 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyTheory/Ra
 \htmlonly
 */
 
-oklib_plain_include("stringproc")$
-oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Ramsey.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
-oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Ramsey/Numbers.mac")$
-oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
+
 
 /* The Ramsey-number ramsey_s^r(q_1, ..., q_s) is the smallest n >= 0 such
    that however the set of r-subsets of {1, ..., n} is divided into s
