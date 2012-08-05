@@ -596,7 +596,7 @@ $t ~ $cfs:
 (Intercept) -1.6659e+00  2.0616e-02  -80.809 < 2.2e-16 ***
 E$cfs        3.5796e-05  3.3761e-08 1060.292 < 2.2e-16 ***
 R-squared: 0.9902
->  E[E$sat==1,]
+> E[E$sat==1,]
           i npa  d  rn   rc       t sat    cfs    dec rts      r1 mem ptime
 9992 315127 111 21 380 4746 3.53546   1 118795 148855 318 4656006  19     0
      stime     cfl
@@ -648,11 +648,11 @@ F : read_fcl_f("Solution_1")$
 pa : subset(first(F[2]), lambda([x], is(x>0)));
 I : invstandardise_pd_schur_aloamo(5,153);
 P : extract_partition(map(I,pa));
-    [{1,20,23,38,41,44,48,51,54,60,63,70,73},
-     {2,7,10,13,28,31,34,39,42,50,53,71,74,75},
-     {5,6,18,19,21,22,29,32,49,52,62,65,69,72},
-     {8,9,11,12,14,27,30,33,40,43,58,59,61,64},
-     {3,4,15,16,17,24,25,26,35,36,37,45,46,47,55,56,57,66,67,68,76,77}]
+  [{1,20,23,38,41,44,48,51,54,60,63,70,73},
+   {2,7,10,13,28,31,34,39,42,50,53,71,74,75},
+   {5,6,18,19,21,22,29,32,49,52,62,65,69,72},
+   {8,9,11,12,14,27,30,33,40,43,58,59,61,64},
+   {3,4,15,16,17,24,25,26,35,36,37,45,46,47,55,56,57,66,67,68,76,77}]
 FP : uncompresss_schurpalindromic_subsets(153,P);
 certificate_pdschur_p(5,153,FP);
   true
@@ -687,7 +687,87 @@ c splitting_directory                   SplitViaOKsolver_D70Schur_pd_fullsb_5_15
 c splitting_cases                       498059
 
 > ProcessSplitViaOKsolver SplitViaOKsolver_D70Schur_pd_fullsb_5_154cnf_2012-08-05-063312
-XXX cs-oksvr
+> E=read_processsplit_minisat()
+266: 32.16m, sum-cfs=7.059976e+07, mean-t=7.255s, mean-cfs=265413, sat: 0 1
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.044   3.075   5.766   7.255  10.030  33.820
+sd= 5.503977
+     95%      96%      97%      98%      99%     100%
+17.64610 18.31150 18.62041 21.21010 26.20921 33.81810
+sum= 1929.844
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   1697  125600  222400  265400  355200 1075000
+sd= 183855.9
+      95%       96%       97%       98%       99%      100%
+ 605994.2  626466.6  647840.1  712326.4  868537.4 1075040.0
+sum= 70599757
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -6.5895e-01  5.2874e-02 -12.463 < 2.2e-16 ***
+E$cfs        2.9818e-05  1.6386e-07 181.971 < 2.2e-16 ***
+R-squared: 0.9921
+> E[E$sat==1,]
+         i npa  d  rn   rc        t sat  cfs  dec rts    r1 mem ptime stime
+149 335555 116 20 385 4437 0.044002   1 1697 2288  11 67824  18     0  0.01
+      cfl
+149 29350
+
+> cd SplitViaOKsolver_D70Schur_pd_fullsb_5_154cnf_2012-08-05-063312
+> cat Instances/335555 > Solution_1
+> cat Schur_pd_fullsb_5_154.cnf | ApplyPass-O3-DNDEBUG Solution_1 > Instance_1
+> OKsolver_2002-O3-DNDEBUG -O -F Instance_1
+c sat_status                            1
+c initial_maximal_clause_length         5
+c initial_number_of_variables           269
+c initial_number_of_clauses             4437
+c initial_number_of_literal_occurrences 11980
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1420
+c running_time(sec)                     5.4
+c number_of_nodes                       6024
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                73299
+c number_of_pure_literals               0
+c number_of_autarkies                   29
+c number_of_missed_single_nodes         12
+c max_tree_depth                        31
+c proportion_searched                   5.283203e-01
+c proportion_single                     0.000000e+00
+c total_proportion                      0.5283203125
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 564648
+
+# via vi in Solution_1 the trailing "0" removed
+# via vi in Instance_1.pa the initial "v" removed
+> cat Instance_1.pa >> Solution_1
+
+# checking:
+> cat Schur_pd_fullsb_5_154.cnf | ApplyPass-O3-DNDEBUG Solution_1 result_1
+> tail -1 result_1
+p cnf 0 0
+
+# via vi transformed Solution_1 into a CNF with a single clause ("p cnf 385 1")
+> oklib --maxima
+oklib_load_all();
+F : read_fcl_f("Solution_1")$
+pa : subset(first(F[2]), lambda([x], is(x>0)));
+I : invstandardise_pd_schur_aloamo(5,154);
+P : extract_partition(map(I,pa));
+  [{1,4,10,15,18,24,27,38,41,44,46,52,55,58,60,69,72,74},
+   {2,11,12,16,19,25,26,33,39,47,53,56,62,70,71},
+   {5,7,8,17,21,23,35,37,48,49,51,63,64,73,76},
+   {3,9,14,22,30,32,34,40,42,57,59,61,65,67,77},
+   {6,13,20,28,29,31,36,43,45,50,54,66,68,75}]
+FP : uncompresss_schurpalindromic_subsets(154,P);
+certificate_pdschur_p(5,154,FP);
+  true
    \endverbatim
    </li>
    <li> First open case n=155 for palindromic problems:
@@ -849,6 +929,8 @@ P : extract_partition(map(I,pa));
 FP : uncompresss_schurpalindromic_subsets(155,P);
 certificate_pdschur_p(5,155,FP);
   true
+certificate_pdwschur_p(5,155,FP);
+  false
    \endverbatim
    This is a new result (satisfiability was not known before), so the full
    symmetry-breaking seems helpful in combination with C&C for breaking up
