@@ -147,23 +147,4 @@ create_list(pdwschur(i),i,0,4);
    <li> It seems that there is only little deviation from pdschur(r). </li>
   </ul>
 
-
-  \todo OKsolver_2002
-  <ul>
-   <li>
-   \verbatim
-OKplatform> OKsolver_2002-O3-DNDEBUG Schur_5_119.cnf
-s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=5 initial_number_of_variables=595 initial_number_of_clauses=19009 initial_number_of_literal_occurrences=55780 running_time(s)=74.7 number_of_nodes=16042 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=282401 number_of_pure_literals=0 number_of_autarkies=13 number_of_missed_single_nodes=1 max_tree_depth=47 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=2874235 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=1485 file_name=Schur_5_119.cnf
-   \endverbatim
-   </li>
-   <li> The minisat2-preprocessor doesn't seem to help:
-   \verbatim
-OKplatform> OKsolver_2002-m2pp Schur_5_119.cnf
-s UNKNOWN
-c sat_status=2 initial_maximal_clause_length=12 initial_number_of_variables=476 initial_number_of_clauses=18219 initial_number_of_literal_occurrences=84980 running_time(s)=560.1 number_of_nodes=132039 number_of_single_nodes=269 number_of_quasi_single_nodes=0 number_of_2-reductions=1694425 number_of_pure_literals=0 number_of_autarkies=1 number_of_missed_single_nodes=449 max_tree_depth=59 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=47 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=950 file_name=Schur_5_119.cnf_m2pp_7169
-   \endverbatim
-   </li>
-  </ul>
-
 */
