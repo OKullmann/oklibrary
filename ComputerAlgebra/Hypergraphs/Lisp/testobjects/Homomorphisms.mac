@@ -29,6 +29,8 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Homomorphisms.mac")$
 okltest_homomorphism_bydef_hg(homomorphism_bydef_hg);
 okltest_automorphism_bydef_hg(automorphism_bydef_hg);
 
+okltest_suphomomorphism_bydef_hg(suphomomorphism_bydef_hg);
+
 okltest_transport_hg(transport_hg);
 
 

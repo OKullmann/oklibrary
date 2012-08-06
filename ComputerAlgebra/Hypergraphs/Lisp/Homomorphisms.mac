@@ -39,6 +39,12 @@ automorphism_bydef_hg(f,G) := is(map(f,G[1]) = G[1]) and
  every_s(lambda([H], elementp(map(f,H), G[2])), G[2])$
 
 
+/* Testing whether f is a sup-homomorphism from G1 to G2 (the images of
+   hyperedges are supersets of some hyperedge in the image): */
+suphomomorphism_bydef_hg(f,G1,G2) := subsetp(map(f,G1[1]),G2[1]) and
+ every_s(lambda([H], r1l_subsetp(G2[2], map(f,H))), G1[2])$
+
+
 /* For a map f defined on the vertices of G, transport G to its image (i.e.,
    compute the image):
 */
