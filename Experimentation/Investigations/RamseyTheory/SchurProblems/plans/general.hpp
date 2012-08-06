@@ -61,9 +61,10 @@ License, or any later version. */
    investigations on schur(5). </li>
    <li> See RamseyTheory/SchurProblems/plans/Schur6/general.hpp for
    investigations on schur(6). </li>
+   <li> See RamseyTheory/SchurProblems/plans/Symmetry.hpp for questions
+   regarding symmetries. </li>
    <li> See "What is known" below for a quick overview. </li>
-   <li> See below for a naive quick overview on the performance of complete
-   SAT solvers. </li>
+   <li> See below for the main research questions. </li>
   </ul>
 
 
@@ -101,6 +102,43 @@ License, or any later version. */
   </ul>
 
 
+  \todo Main research questions
+  <ul>
+   <li> Determine schur(5) and wschur(5).
+    <ol>
+     <li> Conjectures are schur(5) = 161 and wschur(5) = 196. </li>
+     <li> Also pdschur(5) and pdwschur(5) are relevant (and more accessible).
+     </li>
+     <li> See RamseyTheory/SchurProblems/plans/Schur5/general.hpp. </li>
+     <li> Regarding palindromic problems, there are conjectures related to
+     the shape of the partitions; see "Forbidden elements for palindromic
+     problems" in SchurProblems/plans/Schur5/CompleteSolvers/general.hpp. </li>
+    </ol>
+   </li>
+   <li> Is there are palindromic gap? That is, is pdschur(r)=schur(r) for all
+   r (taking the different representations into account)?
+    <ol>
+     <li> See "Palindromic problems" below. </li>
+     <li> For weak problems we have a (clear) gap. </li>
+    </ol>
+   </li>
+   <li> Is the restriction by "full symmetry-breaking"
+   satisfiability-equivalent?
+    <ol>
+     <li> See "Full symmetry-breaking" in
+     RamseyTheory/SchurProblems/plans/Symmetry.hpp. </li>
+    </ol>
+   </li>
+   <li> Are there relations for different n's between palindromic problems?
+    <ol>
+     <li> Open for standard and weak problems. </li>
+     <li> See "Relations between palindromic hypergraphs" in
+     RamseyTheory/SchurProblems/plans/Symmetry.hpp. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Palindromic problems
   <ul>
    <li> Via
@@ -124,7 +162,8 @@ create_list(pdschur(i),i,0,4);
    numbers), and so "palindromic Schur-numbers" are in fact functionals,
    yielding which cases are satisfiable. </li>
    <li> We see that we have no "palindromic gaps" here: This is the first and
-   main open question --- is there always no palindromic gap?! </li>
+   main open question --- is there always no palindromic gap?! See
+   "Main research questions" above. </li>
    <li> For pdschur(5) see "pdschur(5)" in
    RamseyTheory/SchurProblems/plans/Schur5/CompleteSolvers/general.hpp. </li>
    <li> Via

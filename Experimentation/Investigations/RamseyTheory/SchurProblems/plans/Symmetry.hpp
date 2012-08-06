@@ -177,4 +177,24 @@ create_list(pdwschurfsb(r),r,0,4);
    it is known which are the decision-variables. </li>
   </ul>
 
+
+  \todo Relations between palindromic hypergraphs
+  <ul>
+   <li> Are there any (sup-)homomorphisms between schurtriples_pd_hg(n)
+   for different n ? </li>
+   <li> A positive answer would yield satisfiability-relations between
+   palindromic Schur-problems for different n's (and fixed r's, the number of
+   colours). </li>
+   <li> Similarly, Are there any (sup-)homomorphisms between
+   wschurtriples_pd_hg(n) for different n ? </li>
+   <li> It is natural to pose instances of the question, between n and n', and
+   SAT-problems:
+    <ol>
+     <li> Two translations are outlined in OKs article "Constraint
+     Satisfaction Problems in Clausal Form I: Autarkies and Deficiency"
+     http://cs-svr1.swan.ac.uk/~csoliver/papers.html#ClausalFormI . </li>
+    </ol>
+   </li>
+  </ul>
+
 */
