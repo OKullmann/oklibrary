@@ -130,7 +130,9 @@ okltest_subsumption_closed_p(subsumption_closed_p);
 okltest_accessible_ss_p(accessible_ss_p);
 
 okltest_lr_subsetp(lr_subsetp);
+okltest_l1r_subsetp(l1r_subsetp);
 okltest_rl_subsetp(rl_subsetp);
+okltest_r1l_subsetp(r1l_subsetp);
 
 /* *****************************************
    * Constructions related to disjointness *

@@ -273,6 +273,10 @@ lr_subsetp(S1,S2) := (
      if (for B in S2 do if subsetp(A,B) then return(true))
      = done then return(false)
   ) = done then true else false)$
+/* The special case where S1={A}: */
+l1r_subsetp(A,S2) :=
+ if (for B in S2 do if subsetp(A,B) then return(true))
+ = done then false else true$
 
 /* Whether for all B in S2 there is A in S1 with subsetp(A,B): */
 rl_subsetp(S1,S2) := (
@@ -281,6 +285,10 @@ rl_subsetp(S1,S2) := (
      if (for A in S1 do if subsetp(A,B) then return(true))
      = done then return(false)
   ) = done then true else false)$
+/* The special case where S2={B}: */
+r1l_subsetp(S1,B) :=
+ if (for A in S1 do if subsetp(A,B) then return(true))
+ = done then false else true$
 
 
 /* *****************************************
