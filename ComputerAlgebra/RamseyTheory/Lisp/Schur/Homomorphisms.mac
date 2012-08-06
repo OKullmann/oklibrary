@@ -1,0 +1,40 @@
+/* Oliver Kullmann, 5.8.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/Schur/Homomorphisms.mac
+  \brief Homomorphisms related to Schur-hypergraphs
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/Homomorphisms.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+
+/* ***********************************
+   * Relations to Ramsey-hypergraphs *
+   ***********************************
+*/
+
+/* A homomorphism from ramsey_hg(3,2,n+1) to schurtriples_hg(n), as well as a
+   sup-homomorphism from ramsey_hg(4,2,n+1) to wschurtriples_hg(n): */
+hom_ramsey_schur(n) := lambda([e], second_element(e) - first_element(e))$
+
+/* Due to these morphisms we have
+     schur(r)  <= ramsey([2,create_list(3,i,1,r)]) - 1
+     wschur(r) <= ramsey([2,create_list(4,i,1,r)]) - 1
+*/
+/*!
+\endhtmlonly
+*/

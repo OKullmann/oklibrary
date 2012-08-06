@@ -1,0 +1,45 @@
+/* Oliver Kullmann, 6.8.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/RamseyTheory/Lisp/Schur/tests/Homomorphisms.mac
+  \brief Tests for functions related to certificates for Schur-problems
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/tests/Homomorphisms.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Homomorphisms.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Ramsey.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Schur.mac")$
+
+kill(f)$
+
+
+/* ***********************************
+   * Relations to Ramsey-hypergraphs *
+   ***********************************
+*/
+
+okltest_hom_ramsey_schur(f) := (
+  for n : 0 thru cokltl(5,12) do
+    assert(homomorphism_bydef_hg(f(n), ramsey_hg(3,2,n+1), schurtriples_hg(n)) = true),
+  for n : 0 thru cokltl(5,12) do
+    assert(suphomomorphism_bydef_hg(f(n), ramsey_hg(4,2,n+1), wschurtriples_hg(n)) = true),
+  true)$
+
+
+/*!
+\endhtmlonly
+*/
