@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Statistics.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 kill(f)$
@@ -41,6 +42,14 @@ okltest_nhyp_list_ohg(f) := (
    ******************
 */
 
+okltest_vertex_degrees_nhyplist_hg(f) := (
+  assert(hm2sm(f([{},{}])) = {}),
+  assert(hm2sm(f([{},{{}}])) = {}),
+  assert(hm2sm(f([{1},{}])) = {[1,[]]}),
+  assert(hm2sm(f([{1},{{}}])) = {[1,[]]}),
+  assert(hm2sm(f([{1},{{1}}])) = {[1,[[1,1]]]}),
+  assert(hm2sm(f([{1,2},{{1},{1,2}}])) = {[1,[[1,1],[2,1]]],[2,[[2,1]]]}),
+  true)$
 
 /*!
 \endhtmlonly

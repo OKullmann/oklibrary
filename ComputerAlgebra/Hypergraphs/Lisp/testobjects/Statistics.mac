@@ -34,6 +34,8 @@ okltest_nhyp_list_ohg(nhyp_list_ohg);
    ******************
 */
 
+okltest_vertex_degrees_nhyplist_hg(vertex_degrees_nhyplist_hg);
+
 /*!
 \endhtmlonly
 */

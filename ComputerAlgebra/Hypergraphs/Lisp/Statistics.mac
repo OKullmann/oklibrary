@@ -79,6 +79,20 @@ sorted_vertex_degrees_ohg(G) := block(
    lambda([p1,p2],is(second(p1) > second(p2) or (second(p1) = second(p2) and ev_hm(h,first(p1)) < ev_hm(h,first(p2)))))))$
 
 
+/* The extended vertex-degrees of hypergraph G as hash-map, which maps vertex v
+   to the list of pairs [occurring hyperedge-edge lengths, count], sorted
+   by ascending hyperedge-length:
+*/
+vertex_degrees_nhyplist_hg(G) := block([h : sm2hm({}), l],
+ for v in G[1] do set_hm(h,v,sm2hm({})),
+ for H in G[2] do (
+   l : length(H),
+   for v in H do enter_new_occurrence(ev_hm(h,v), l)
+ ),
+ for v in G[1] do set_hm(h,v, get_distribution(ev_hm(h,v))),
+ h)$
+/* For vertex v this is nhyp_list_hg(ses2hg(scs_l(G[2],v))). */
+
 /*!
 \endhtmlonly
 */
