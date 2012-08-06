@@ -32,7 +32,7 @@ for n : 1 thru 10 do print(n, test_auto_schur(n));
        we get {1} except for n = 2 --- and this should be trivial to prove.
        </li>
        <li> It seems the Schur-hypergraph don't have non-trivial automorphisms
-       at all?!
+       at all?! See "Vertex degrees and their distributions" below.
        </li>
       </ol>
      </li>
@@ -185,7 +185,7 @@ create_list(pdwschurfsb(r),r,0,4);
    <li> A positive answer would yield satisfiability-relations between
    palindromic Schur-problems for different n's (and fixed r's, the number of
    colours). </li>
-   <li> Similarly, Are there any (sup-)homomorphisms between
+   <li> Similarly, are there any (sup-)homomorphisms between
    wschurtriples_pd_hg(n) for different n ? </li>
    <li> It is natural to pose instances of the question, between n and n', and
    SAT-problems:
@@ -194,6 +194,49 @@ create_list(pdwschurfsb(r),r,0,4);
      Satisfaction Problems in Clausal Form I: Autarkies and Deficiency"
      http://cs-svr1.swan.ac.uk/~csoliver/papers.html#ClausalFormI . </li>
     </ol>
+   </li>
+  </ul>
+
+
+  \todo Vertex degrees and their distributions
+  <ul>
+   <li> Nearly every vertex has a different extended vertex-degree in
+   schurtriples_hg(n), and the sequence of values
+   n-(# extended vertex-degrees), for n = 0,1,..., seems to be
+   0,0,1,1,0,0,1,1, ... :
+   \verbatim
+test_hypothesis_1(m) := is(create_list(n-length(map(second,hm2sm(vertex_degrees_nhyplist_hg(schurtriples_hg(n))))), n,0,4*m-1) = lappend(create_list([0,0,1,1],i,1,m)));
+test_hypothesis_1(25);
+  true
+   \endverbatim
+   This might be possible to prove. </li>
+   <li> What are the vertices having equal extended degrees? For n=4k+2+i, i in
+   {0,1}, this seems to be the vertices 2k+1, 2k+2. Is there an automorphism
+   swapping these two vertices?
+   \verbatim
+auto_swap_schur(n) := buildq([m:floor(n/2)], lambda([v], if v=m then m+1 elseif v=m+1 then m else v))$
+test_auto(n) := automorphism_bydef_hg(auto_swap_schur(n), schurtriples_hg(n));
+   \endverbatim
+   seems exactly true for n=2,3. </li>
+   <li> So it seems that schurtriples_hg(n) have a non-trivial automorphims iff
+   n in {2,3}. </li>
+   <li> For wschurtriples_hg(n) we seem to have half as many extended degrees:
+   \verbatim
+test_hypothesis_2(n) := is(length(map(second,hm2sm(vertex_degrees_nhyplist_hg(wschurtriples_hg(n))))) = if n <= 2 then ceiling(n/2) else floor(n/2))$
+every_s(identity,create_list(test_hypothesis_2(n), n,1,100));
+  true
+   \endverbatim
+   </li>
+   <li> This leaves more room for automorphisms. </li>
+   <li> For schurtriples_pd_hg(n) the variety is drastically reduced:
+   \verbatim
+create_list(length(map(second,hm2sm(vertex_degrees_nhyplist_hg(schurtriples_pd_hg(n))))), n, 1,40);
+  [1,1,1,1,2,1,2,2,3,1,5,1,3,3,4,1,4,1,5,3,3,1,6,2,3,3,5,1,6,1,5,3,3,3,8,1,3,3,6,1]
+create_list(length(map(second,hm2sm(vertex_degrees_nhyplist_hg(wschurtriples_pd_hg(n))))), n, 1,40);
+  [1,1,1,1,2,1,2,2,3,1,4,1,3,3,4,1,4,1,5,3,3,1,4,2,3,3,5,1,5,1,5,3,3,3,6,1,3,3,6,1]
+   \endverbatim
+   Little differences between the two forms. Doesn't seem easy to extract a
+   law here. However we see that here is much more room for automorphisms.
    </li>
   </ul>
 
