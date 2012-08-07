@@ -23,6 +23,8 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Schur.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Certificates.mac")$
+oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/Numbers.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lambda.mac")$
 
 
 /* *****************
@@ -68,6 +70,39 @@ certificate_pdschur_p(r,n,P) := schurpalindromic_subsets_p(n,P) and
 certificate_pdwschur_p(r,n,P) := wschurpalindromic_subsets_p(n,P) and
  certificate_wschur_p(r,n,P)$
 
+
+/* Checking the "full symmetry-breaking" condition: */
+
+schurfsb_p(n,P) := block(
+ [L : sublist(create_list(schur(i-1),i,1,length(P)), lelb(n))],
+  if (
+    for p in map("[",L,take_l(length(L),P)) do
+      if not elementp(first(p),second(p)) then return(0)
+  ) = done then true else false)$
+wschurfsb_p(n,P) := block(
+ [L : sublist(create_list(wschur(i-1),i,1,length(P)), lelb(n))],
+  if (
+    for p in map("[",L,take_l(length(L),P)) do
+      if not elementp(first(p),second(p)) then return(0)
+  ) = done then true else false)$
+pdschurfsb_p(n,P) := block(
+ [L : sublist(create_list(schur(i-1),i,1,length(P)), lelb(ceiling(n/2)))],
+  if (
+    for p in map("[",L,take_l(length(L),P)) do
+      if not elementp(first(p),second(p)) then return(0)
+  ) = done then true else false)$
+pdwschurfsb_p(n,P) := block(
+ [L : sublist(create_list(wschur(i-1),i,1,length(P)), lelb(ceiling(n/2)))],
+  if (
+    for p in map("[",L,take_l(length(L),P)) do
+      if not elementp(first(p),second(p)) then return(0)
+  ) = done then true else false)$
+
+
+certificate_schurfsb_p(r,n,P) := schurfsb_p(n,P) and certificate_schur_p(r,n,P)$
+certificate_wschurfsb_p(r,n,P) := wschurfsb_p(n,P) and certificate_wschur_p(r,n,P)$
+certificate_pdschurfsb_p(r,n,P) := pdschurfsb_p(n,P) and certificate_pdschur_p(r,n,P)$
+certificate_pdwschurfsb_p(r,n,P) := pdwschurfsb_p(n,P) and certificate_pdwschur_p(r,n,P)$
 
 
 /* *******************

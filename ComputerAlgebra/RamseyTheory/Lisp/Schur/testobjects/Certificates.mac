@@ -31,6 +31,11 @@ okltest_certificate_wschur_p(certificate_wschur_p);
 okltest_certificate_pdschur_p(certificate_pdschur_p);
 okltest_certificate_pdwschur_p(certificate_pdwschur_p);
 
+okltest_certificate_schurfsb_p(certificate_schurfsb_p);
+okltest_certificate_wschurfsb_p(certificate_wschurfsb_p);
+okltest_certificate_pdschurfsb_p(certificate_pdschurfsb_p);
+okltest_certificate_pdwschurfsb_p(certificate_pdwschurfsb_p);
+
 /* *******************
    * Transformations *
    *******************
