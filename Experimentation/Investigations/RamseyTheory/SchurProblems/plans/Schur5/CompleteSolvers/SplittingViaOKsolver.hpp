@@ -945,6 +945,32 @@ certificate_pdwschur_p(5,155,FP);
    \verbatim
 > SplittingViaOKsolver -D70 Schur_pd_fullsb_5_156.cnf
 > cat Result
+c initial_maximal_clause_length         5
+c initial_number_of_variables           390
+c initial_number_of_clauses             10758
+c initial_number_of_literal_occurrences 31220
+c number_of_initial_unit-eliminations   33
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           33
+c reddiff_number_of_clauses             2082
+c reddiff_number_of_literal_occurrences 6418
+c number_of_2-clauses_after_reduction   1364
+c running_time(sec)                     4047.0
+c number_of_nodes                       917655
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1421
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        32
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 264213309
+c splitting_directory                   SplitViaOKsolver_D70Schur_pd_fullsb_5_156cnf_2012-08-05-223448/Instances
+c splitting_cases                       458828
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D70Schur_pd_fullsb_5_156cnf_2012-08-05-223448
 XXX cs-oksvr
    \endverbatim
    </li>
@@ -992,7 +1018,7 @@ XXX cs-oksvr
    <li> Current values:
    \verbatim
 pdwschurfsb(5);
-  lambda([n],if n > 1631 then false elseif n <= 155 then true else unknown)
+  lambda([n],if n > 1631 then false elseif n <= 155 or n = 158 then true else unknown)
    \endverbatim
    </li>
    <li> Open case n=152:
@@ -1356,7 +1382,84 @@ c splitting_directory                   SplitViaOKsolver_D70WSchur_pd_fullsb_5_1
 c splitting_cases                       310178
 
 > ProcessSplitViaOKsolver SplitViaOKsolver_D70WSchur_pd_fullsb_5_158cnf_2012-08-01-175931
-XXX cs-wsok
+> E=read_processsplit_minisat()
+15273: 4.735d, sum-cfs=1.138473e+10, mean-t=26.789s, mean-cfs=745416, sat: 0 1
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   0.15   12.26   20.12   26.79   35.53  337.60
+sd= 22.5382
+      95%       96%       97%       98%       99%      100%
+ 70.55790  76.85130  85.61704  92.01112 105.94828 337.60200
+sum= 409142
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   5671  374500  591200  745400  990200 7559000
+sd= 555896.2
+    95%     96%     97%     98%     99%    100%
+1828674 1980499 2182581 2337051 2605462 7559338
+sum= 11384734269
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -3.3095e+00  2.7606e-02 -119.88 < 2.2e-16 ***
+E$cfs        4.0378e-05  2.9689e-08 1360.03 < 2.2e-16 ***
+R-squared: 0.9918
+> E[E$sat==1,]
+           i npa  d  rn   rc        t sat  cfs  dec rts     r1 mem ptime stime
+14911 310168 113 23 395 4912 0.149977   1 5671 7545  30 226521  19     0  0.01
+         cfl
+14911 100768
+
+> cd SplitViaOKsolver_D70WSchur_pd_fullsb_5_158cnf_2012-08-01-175931
+> cat Instances/310168 > Solution_1
+> cat WSchur_pd_fullsb_5_158.cnf | ApplyPass-O3-DNDEBUG Solution_1 > Instance_1
+> OKsolver_2002-O3-DNDEBUG -O -F Instance_1
+c sat_status                            1
+c initial_maximal_clause_length         5
+c initial_number_of_variables           282
+c initial_number_of_clauses             4912
+c initial_number_of_literal_occurrences 13413
+c number_of_2-clauses_after_reduction   1416
+c running_time(sec)                     7.9
+c number_of_nodes                       10394
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          1
+c number_of_2-reductions                114162
+c number_of_pure_literals               0
+c number_of_autarkies                   106
+c number_of_missed_single_nodes         70
+c max_tree_depth                        32
+c proportion_searched                   1.538773e-01
+c proportion_single                     0.000000e+00
+c total_proportion                      0.1538772583007812
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 934088
+
+# via vi in Solution_1 the trailing "0" removed
+# via vi in Instance_1.pa the initial "v" removed
+> cat Instance_1.pa >> Solution_1
+
+# checking:
+> cat WSchur_pd_fullsb_5_158.cnf | ApplyPass-O3-DNDEBUG Solution_1 result_1
+> tail -1 result_1
+p cnf 0 0
+
+# via vi transformed Solution_1 into a CNF with a single clause ("p cnf 395 1")
+> oklib --maxima
+oklib_load_all();
+F : read_fcl_f("Solution_1")$
+pa : subset(first(F[2]), lambda([x], is(x>0)));
+I : invstandardise_pd_wschur_aloamo(5,158);
+P : extract_partition(map(I,pa));
+  [{1,6,15,20,28,33,36,41,46,50,55,57,60,62},
+   {3,8,12,13,18,35,40,44,49,54,63,64,68,69,74},
+   {9,14,19,22,26,27,37,42,43,47,71,76,77,78},
+   {4,5,11,17,23,24,25,31,32,38,39,45,51,58,59,65,66,72,73,79},
+   {2,7,10,16,21,29,30,34,48,52,53,56,61,67,70,75}]
+FP : uncompresss_wschurpalindromic_subsets(158,P);
+certificate_pdwschur_p(5,158,FP);
+  true
+certificate_pdschur_p(5,158,FP);
+  false
    \endverbatim
    </li>
   </ul>

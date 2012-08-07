@@ -467,7 +467,7 @@ c file_name                             Schur_pd_rm_5_160-43.cnf
    <li> Current knowledge:
    \verbatim
 pdwschur(5);
-  lambda([n],if n > 1631 then false elseif n = 158 or n >= 161 then unknown else true)
+  lambda([n],if n > 1631 then false elseif n >= 161 then unknown else true)
    \endverbatim
    </li>
    <li> With full symmetry-breaking:
