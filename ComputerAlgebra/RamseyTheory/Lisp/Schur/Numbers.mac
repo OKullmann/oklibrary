@@ -121,7 +121,7 @@ schurfsb(r) := if r <= 4 then [1,2,5,14,45][r+1]
  else unknown$
 
 pdschurfsb(r) := if r <= 4 then [ltlb(1),ltlb(2),ltlb(5),ltlb(14),ltlb(45)][r+1]
- elseif r=5 then lambda([n], if n>seconde(schur(5)) then false elseif n<=155 then true else unknown)
+ elseif r=5 then lambda([n], if n>seconde(schur(5)) then false elseif n<=156 then true else unknown)
  elseif r=6 then unknown
  elseif r=7 then unknown
  else unknown$
@@ -141,7 +141,8 @@ pdwschurfsb(r) := if r <= 4 then [ltlb(1),ltlb(3),ltlb(6),ltlb(15),lambda([n], i
    corresponding non-palindromic problem.
    And satisfiability of an ordinary problem means satisfiability of the
    corresponding weak problem, except for palindromic problems in case of
-   n+1 divisible by 3.
+   n+1 divisible by 3, and also not not regarding full symmetry-breaking,
+   since the weak form uses a different full symmetry-breaking.
 */
 
 /*!

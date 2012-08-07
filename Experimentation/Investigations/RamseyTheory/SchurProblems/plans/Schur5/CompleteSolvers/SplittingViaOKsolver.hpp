@@ -547,7 +547,7 @@ R-squared: 0.9548
    <li> Current values:
    \verbatim
 pdschurfsb(5);
-  lambda([n],if n > seconde(schur(5)) then false elseif n <= 155 then true else unknown)
+  lambda([n],if n > seconde(schur(5)) then false elseif n <= 156 then true else unknown)
    \endverbatim
    </li>
    <li> First open case n=153 for full symmetry-breaking:
@@ -884,7 +884,7 @@ R-squared: 0.9905
 
 > cd SplitViaOKsolver_D70Schur_pd_fullsb_5_155cnf_2012-07-28-112247
 > cat Instances/33374 > Solution_1
-> cat Schur_pd_fullsb_5_155.cnf | ApplyPass-O3-DNDEBUG Solution_1 > Instance_1
+> cat Schur_pd_fullsb_5_155.cnf | ApplyPass-O3-DNDEBUG Solution_1 Instance_1
 # minisat-2.2.0 Instance_1 Temp_1 # CAUTION: total assignment!
 > OKsolver_2002-O3-DNDEBUG -O -F Instance_1
 c sat_status                            1
@@ -971,7 +971,90 @@ c splitting_directory                   SplitViaOKsolver_D70Schur_pd_fullsb_5_15
 c splitting_cases                       458828
 
 > ProcessSplitViaOKsolver SplitViaOKsolver_D70Schur_pd_fullsb_5_156cnf_2012-08-05-223448
-XXX cs-oksvr
+> E=read_processsplit_minisat()
+4806: 1.074d, sum-cfs=2.991115e+09, mean-t=19.308s, mean-cfs=622371, sat: 0 1
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.248   9.026  14.820  19.310  24.640 199.300
+sd= 15.69064
+     95%      96%      97%      98%      99%     100%
+ 47.6690  52.4193  57.6322  67.5742  79.9350 199.3200
+sum= 92794.07
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  10960  316600  503400  622400  804100 5071000
+sd= 449787.7
+    95%     96%     97%     98%     99%    100%
+1444224 1543456 1734281 1949537 2299523 5070607
+sum= 2991114807
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -2.3160e+00  3.4585e-02 -66.966 < 2.2e-16 ***
+E$cfs        3.4745e-05  4.5041e-08 771.399 < 2.2e-16 ***
+R-squared: 0.992
+> E[E$sat==1,]
+          i npa  d  rn   rc        t sat   cfs   dec rts     r1 mem ptime stime
+4409 136459 112 19 385 4776 0.248015   1 10962 13881  46 422689  18     0  0.01
+        cfl
+4409 182234
+
+> cd SplitViaOKsolver_D70Schur_pd_fullsb_5_156cnf_2012-08-05-223448/
+> cat Instances/136459 > Solution_1
+> cat Schur_pd_fullsb_5_156.cnf | ApplyPass-O3-DNDEBUG Solution_1 Instance_1
+> OKsolver_2002-O3-DNDEBUG -O -F Instance_1
+c sat_status                            1
+c initial_maximal_clause_length         5
+c initial_number_of_variables           278
+c initial_number_of_clauses             4776
+c initial_number_of_literal_occurrences 13002
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1418
+c running_time(sec)                     11.1
+c number_of_nodes                       11098
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                135413
+c number_of_pure_literals               0
+c number_of_autarkies                   3
+c number_of_missed_single_nodes         4
+c max_tree_depth                        24
+c proportion_searched                   9.091187e-01
+c proportion_single                     0.000000e+00
+c total_proportion                      0.90911865234375
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 1088749
+
+# via vi in Solution_1 the trailing "0" removed
+# via vi in Instance_1.pa the initial "v" removed
+> cat Instance_1.pa >> Solution_1
+
+# checking:
+> cat Schur_pd_fullsb_5_156.cnf | ApplyPass-O3-DNDEBUG Solution_1 result_1
+> tail -1 result_1
+p cnf 0 0
+
+# via vi transformed Solution_1 into a CNF with a single clause ("p cnf 390 1")
+oklib_load_all();
+F : read_fcl_f("Solution_1")$
+pa : subset(first(F[2]), lambda([x], is(x>0)));
+I : invstandardise_pd_schur_aloamo(5,156);
+P : extract_partition(map(I,pa));
+  [{1,3,15,22,26,39,46,50,60,62,64,70,74},
+   {2,7,8,23,24,27,37,41,52,63,69,72,73},
+   {4,5,18,19,20,28,29,30,42,43,51,65,66,67,68,75},
+   {9,10,11,12,13,14,31,32,33,34,36,38,53,54,55,56,57,59,61,77,78},
+   {6,16,17,21,25,35,40,44,45,47,48,49,58,71,76}]
+FP : uncompresss_schurpalindromic_subsets(156,P);
+certificate_pdschurfsb_p(5,156,FP);
+  true
+certificate_pdwschur_p(5,156,FP);
+  true
+certificate_pdwschurfsb_p(5,156,FP);
+  false
    \endverbatim
    </li>
    <li> n=158:
