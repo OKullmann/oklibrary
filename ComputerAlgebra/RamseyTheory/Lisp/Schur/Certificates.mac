@@ -73,31 +73,14 @@ certificate_pdwschur_p(r,n,P) := wschurpalindromic_subsets_p(n,P) and
 
 /* Checking the "full symmetry-breaking" condition: */
 
-schurfsb_p(n,P) := block(
- [L : sublist(create_list(schur(i-1),i,1,length(P)), lelb(n))],
-  if (
-    for p in map("[",L,take_l(length(L),P)) do
-      if not elementp(first(p),second(p)) then return(0)
-  ) = done then true else false)$
-wschurfsb_p(n,P) := block(
- [L : sublist(create_list(wschur(i-1),i,1,length(P)), lelb(n))],
-  if (
-    for p in map("[",L,take_l(length(L),P)) do
-      if not elementp(first(p),second(p)) then return(0)
-  ) = done then true else false)$
-pdschurfsb_p(n,P) := block(
- [L : sublist(create_list(schur(i-1),i,1,length(P)), lelb(ceiling(n/2)))],
-  if (
-    for p in map("[",L,take_l(length(L),P)) do
-      if not elementp(first(p),second(p)) then return(0)
-  ) = done then true else false)$
-pdwschurfsb_p(n,P) := block(
- [L : sublist(create_list(wschur(i-1),i,1,length(P)), lelb(ceiling(n/2)))],
-  if (
-    for p in map("[",L,take_l(length(L),P)) do
-      if not elementp(first(p),second(p)) then return(0)
-  ) = done then true else false)$
-
+schurfsb_p(n,P) :=
+ gelementp(sublist(create_list(schur(i-1),i,1,length(P)), lelb(n)), P)$
+wschurfsb_p(n,P) :=
+ gelementp(sublist(create_list(wschur(i-1),i,1,length(P)), lelb(n)), P)$
+pdschurfsb_p(n,P) :=
+ gelementp(sublist(create_list(schur(i-1),i,1,length(P)), lelb(ceiling(n/2))), P)$
+pdwschurfsb_p(n,P) :=
+ gelementp(sublist(create_list(wschur(i-1),i,1,length(P)), lelb(ceiling(n/2))), P)$
 
 certificate_schurfsb_p(r,n,P) := schurfsb_p(n,P) and certificate_schur_p(r,n,P)$
 certificate_wschurfsb_p(r,n,P) := wschurfsb_p(n,P) and certificate_wschur_p(r,n,P)$
