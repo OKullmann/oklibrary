@@ -53,7 +53,10 @@
 
 # After abortion via SIGINT, for further continuation potentially files
 # SubinstanceStatistics and current_subinstance should be manipulated,
-# typically undoing the result of the last subinstance.
+# possibly undoing the result of the last subinstance(s) if the yielded
+# results "2" (undetermined). A more robust way of stopping the process seems
+#   pkill -TERM -P pid
+# where the process-id ("pid") can be obtained from the Log-file.
 
 
 set -o errexit

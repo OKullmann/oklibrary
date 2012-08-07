@@ -14,6 +14,18 @@ License, or any later version. */
    - ProcessiCNF
 
 
+  \todo Better stopping
+  <ul>
+   <li> Just pressing "Ctrl-C" on the command-line doesn't work very well,
+   since from the minisat-subprocess we get then "undetermined", which is fine,
+   and the process continues, until after some time the main process is hit
+   (when continuing pressing Ctrl-C). It is actually unclear why it stops
+   then (typically declaring the task as completed)? </li>
+   <li> The logic of using signal-trapping has to be reviewed. </li>
+   <li> "pkill -TERM -P pid" might be a better option? </li>
+  </ul>
+
+
   \todo More powerful processing options
   <ul>
    <li> For satisfiable instances it seems important to have the options to
