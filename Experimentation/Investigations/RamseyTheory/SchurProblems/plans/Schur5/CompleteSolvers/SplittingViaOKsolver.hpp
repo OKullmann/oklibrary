@@ -1057,6 +1057,13 @@ certificate_pdwschurfsb_p(5,156,FP);
   false
    \endverbatim
    </li>
+   <li> n=157:
+   \verbatim
+> SplittingViaOKsolver -D70 Schur_pd_fullsb_5_157.cnf
+> cat Result
+XXX cs-oksvr
+   \endverbatim
+   </li>
    <li> n=158:
    \verbatim
 > SplittingViaOKsolver -D70 Schur_pd_fullsb_5_158.cnf
@@ -1432,6 +1439,13 @@ certificate_pdwschur_p(5,155,FP);
   true
 certificate_pdschur_p(5,155,FP);
   false
+   \endverbatim
+   </li>
+   <li> n=156:
+   \verbatim
+> SplittingViaOKsolver -D70 WSchur_pd_fullsb_5_156.cnf
+> cat Result
+XXX cs-wsok
    \endverbatim
    </li>
    <li> Open case n=158:
