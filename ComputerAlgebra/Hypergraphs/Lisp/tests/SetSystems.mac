@@ -25,6 +25,26 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 kill(f)$
 
+
+/* ***************
+   * Elementship *
+   ***************
+*/
+
+okltest_gelementp(f) := block(
+  assert(f([],[]) = true),
+  assert(f([],[{}]) = true),
+  assert(f([1],[]) = false),
+  assert(f([1],[{}]) = false),
+  assert(f([1],[{1}]) = true),
+  assert(f([1],[{1},{}]) = true),
+  assert(f([1,2],[{1,2}]) = false),
+  assert(f([1,2],[{1,2},{2,3}]) = true),
+  assert(f([1,2],[{1,2},{2,3},{}]) = true),
+  assert(f([1,2],[{2},{1,2},{2,3},{}]) = false),
+  true)$
+
+
 /* **************
    * Singletons *
    **************

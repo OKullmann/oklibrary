@@ -21,6 +21,13 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/testobjects/SetSystems.mac");
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac")$
 
+/* ***************
+   * Elementship *
+   ***************
+*/
+
+okltest_gelementp(gelementp);
+
 /* **************
    * Singletons *
    **************

@@ -23,6 +23,16 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
+/* ***************
+   * Elementship *
+   ***************
+*/
+
+/* Is every element of list X element of the corresponding set in list L: */
+gelementp(X,L) := is(length(X) <= length(L)) and
+ every_s(lambda([i], elementp(X[i], L[i])), create_list(i,i,1,length(X)))$
+
+
 /* **************
    * Singletons *
    **************
