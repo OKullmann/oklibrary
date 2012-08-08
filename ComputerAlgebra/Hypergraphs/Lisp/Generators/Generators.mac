@@ -48,6 +48,16 @@ nver_complete_hg(n,r) := n$
 nhyp_complete_hg(n,r) := binomial(n,r)$
 
 
+/* The "colouring hypergraph" for colour-set V: */
+colouring_hg(V) := [V, setdifference(powerset(V), adjoin({},powerset(V,1)))]$
+colouring_stdhg(n) := colouring_hg(setn(n))$
+
+/* Statistics functions: */
+
+nver_colouring_hg(n) := n$
+nhyp_colouring_hg(n) := 2^n-n-1$
+
+
 /* ***************************
    * Generalised Tic-tac-toe *
    ***************************

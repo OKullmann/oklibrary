@@ -34,6 +34,9 @@ okltest_complete_stdohg(complete_stdohg);
 okltest_nver_complete_hg(nver_complete_hg);
 okltest_nhyp_complete_hg(nhyp_complete_hg);
 
+okltest_nver_colouring_hg(nver_colouring_hg);
+okltest_nhyp_colouring_hg(nhyp_colouring_hg);
+
 /* ***************************
    * Generalised Tic-tac-toe *
    ***************************
