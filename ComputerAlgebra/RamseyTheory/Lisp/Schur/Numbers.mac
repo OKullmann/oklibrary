@@ -115,13 +115,13 @@ pdwschur(r) := if r <= 4 then [ltlb(1),ltlb(3),ltlb(6),ltlb(15),lambda([n], if n
 /* r is natural numbers >= 0: */
 
 schurfsb(r) := if r <= 4 then [1,2,5,14,45][r+1]
- elseif r=5 then [156,seconde(schur(5))]
+ elseif r=5 then [157,seconde(schur(5))]
  elseif r=6 then unknown
  elseif r=7 then unknown
  else unknown$
 
 pdschurfsb(r) := if r <= 4 then [ltlb(1),ltlb(2),ltlb(5),ltlb(14),ltlb(45)][r+1]
- elseif r=5 then lambda([n], if n>seconde(schur(5)) then false elseif n<=156 then true else unknown)
+ elseif r=5 then lambda([n], if n>seconde(schur(5)) then false elseif n<=157 then true else unknown)
  elseif r=6 then unknown
  elseif r=7 then unknown
  else unknown$
