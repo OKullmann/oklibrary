@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 26.1.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -83,24 +83,37 @@ gtcol2sat_stdohg2stdfcl(G1,G2) := [
    ***********************************
 */
 
-/* Translating an S-colouring problem (S a set/list of colours) for 
-   hypergraph G into the SAT problem for a formal nb-clause-set (using 
+/* Translating an S-colouring problem (S a set/list of colours) for
+   hypergraph G into the SAT problem for a formal nb-clause-set (using
    non-boolean variables; with uniform domain).
 */
 
 /* For an (arbitrary) ohg G and a list S of colours, using variables colv(v)
    for vertices v of G:
 */
-col2sat_ohg2nbfclud(G,S) := [
- map(colv_var,G[1]),
- block([Fpos : map(lambda([H], map(colv_var,H)), G[2])],
-    lappend(create_list(map(lambda([C],cartesian_product(C,{c})),Fpos), c,S))), 
- S]$
+col2sat_ohg2nbfclud(G,S) :=
+ if emptyp(S) and emptyp(G[1]) then [[], G[2], []] else
+ [
+  map(colv_var,G[1]),
+  block([Fpos : map(lambda([H], map(colv_var,H)), G[2])],
+     lappend(create_list(map(lambda([C],cartesian_product(C,{c})),Fpos), c,S))),
+  S]$
 /* Now just using the vertices as variables: */
-col2sat_stdohg2stdnbfclud(G,S) := [
- G[1],
- lappend(create_list(map(lambda([C],cartesian_product(C,{c})),G[2]), c,S)), 
- S]$
+/* TODO: the function-name ("std") seems inappropriate, since arbitrary
+   vertex-names make sense here.
+*/
+col2sat_stdohg2stdnbfclud(G,S) :=
+ if emptyp(S) and emptyp(G[1]) then [[], G[2], []] else
+ [
+  G[1],
+  lappend(create_list(map(lambda([C],cartesian_product(C,{c})),G[2]), c,S)),
+  S]$
+col2sat_stdhg2stdnbfcsud(G,S) :=
+ if emptyp(S) and emptyp(G[1]) then [{}, G[2], {}] else
+ [
+  G[1],
+  lunion(map(lambda([c], map(lambda([C],cartesian_product(C,{c})),G[2])), S)),
+  S]$
 
 /* Generalised colouring, where for hypergraph GG[i] every hyperedge must
    contain a vertex not coloured by colour S[i].
@@ -129,7 +142,7 @@ gcol2sat_ohg2nbfclud_p(GG,S) :=
    ***************************************************************
 */
 
-/* k-colourings of a hypergraph G using exactly k colours can be represented 
+/* k-colourings of a hypergraph G using exactly k colours can be represented
    by k-subsets s of powerset(G[1]) such that s is a covering of G[1] by
    maximal independent subsets.
    Let us call such a representation s an "independent k-cover"; more
@@ -139,17 +152,17 @@ gcol2sat_ohg2nbfclud_p(GG,S) :=
    such that their common intersection is empty; but it seems more appropriate
    to convert such an S into an S of the first form by taking complements.
 
-   Remarks: 
+   Remarks:
     - For the empty vertex set the correspondence to colouring is broken
       in two cases:
      + An empty set as a maximal independent subset can be used here
        exactly when G = [{},{}] and k=1; this does not correspond to a
        colouring using exactly one colour.
-     + And an independent 0-cover exists exactly for  G = [{},{{}}]; again 
-       this does not correspond to a colouring (using exactly null colours 
-       --- but G is not colourable). 
-    - If in the k-cover two maximal independent sets would coincide then this 
-      actually is not possible. So for example [{1,2},{}] has no independent 
+     + And an independent 0-cover exists exactly for  G = [{},{{}}]; again
+       this does not correspond to a colouring (using exactly null colours
+       --- but G is not colourable).
+    - If in the k-cover two maximal independent sets would coincide then this
+      actually is not possible. So for example [{1,2},{}] has no independent
       2-cover (while it has 4 2-colourings).
 */
 
