@@ -1224,7 +1224,7 @@ XXX cs-oksvr
    <li> Current values:
    \verbatim
 pdwschurfsb(5);
-  lambda([n],if n > 1631 then false elseif n <= 155 or n = 158 then true else unknown)
+  lambda([n],if n > 1631 then false elseif n <= 156 or n = 158 then true else unknown)
    \endverbatim
    </li>
    <li> Open case n=152:
@@ -1587,7 +1587,91 @@ c splitting_directory                   SplitViaOKsolver_D70WSchur_pd_fullsb_5_1
 c splitting_cases                       290660
 
 > ProcessSplitViaOKsolver SplitViaOKsolver_D70WSchur_pd_fullsb_5_156cnf_2012-08-07-135407
-XXX cs-wsok
+> E=read_processsplit_minisat()
+3369: 17.204h, sum-cfs=1.861865e+09, mean-t=18.384s, mean-cfs=552646, sat: 0 1
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+  0.5089   8.3440  14.6100  18.3800  23.1500 214.4000
+sd= 16.38686
+      95%       96%       97%       98%       99%      100%
+ 44.45220  47.25181  54.08120  62.09676  86.40503 214.40000
+sum= 61934.77
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  19880  275500  459400  552600  694100 5541000
+sd= 433863.7
+    95%     96%     97%     98%     99%    100%
+1254468 1351570 1509760 1709463 2295812 5541232
+sum= 1861865139
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -2.4197e+00  3.7360e-02 -64.768 < 2.2e-16 ***
+E$cfs        3.7643e-05  5.3176e-08 707.895 < 2.2e-16 ***
+R-squared: 0.9933
+> E[E$sat==1,]
+          i npa  d  rn   rc        t sat   cfs   dec rts      r1 mem ptime
+3163 103733 114 20 390 4668 0.671897   1 26242 32763  94 1026392  19     0
+     stime    cfl
+3163  0.01 426401
+
+> cd SplitViaOKsolver_D70WSchur_pd_fullsb_5_156cnf_2012-08-07-135407
+> cat Instances/103733 > Solution_1
+> cat WSchur_pd_fullsb_5_156.cnf | ApplyPass-O3-DNDEBUG Solution_1 > Instance_1
+> OKsolver_2002-O3-DNDEBUG -O -F Instance_1
+c sat_status                            1
+c initial_maximal_clause_length         5
+c initial_number_of_variables           276
+c initial_number_of_clauses             4668
+c initial_number_of_literal_occurrences 12734
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1360
+c running_time(sec)                     0.3
+c number_of_nodes                       228
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                2982
+c number_of_pure_literals               0
+c number_of_autarkies                   4
+c number_of_missed_single_nodes         0
+c max_tree_depth                        13
+c proportion_searched                   1.162109e-01
+c proportion_single                     0.000000e+00
+c total_proportion                      0.1162109375
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 23017
+
+# via vi in Solution_1 the trailing "0" removed
+# via vi in Instance_1.pa the initial "v" removed
+> cat Instance_1.pa >> Solution_1
+
+# checking:
+> cat WSchur_pd_fullsb_5_156.cnf | ApplyPass-O3-DNDEBUG Solution_1 result_1
+> tail -1 result_1
+p cnf 0 0
+
+# via vi transformed Solution_1 into a CNF with a single clause ("p cnf 390 1")
+> oklib --maxima
+oklib_load_all();
+F : read_fcl_f("Solution_1")$
+pa : subset(first(F[2]), lambda([x], is(x>0)));
+I : invstandardise_pd_wschur_aloamo(5,156);
+P : extract_partition(map(I,pa));
+  [{1,5,14,25,32,36,42,49,52,55,58,62,65,71},
+   {3,4,12,13,18,23,29,37,38,48,57,59,68,73,78},
+   {2,8,9,15,21,27,28,33,34,39,40,45,46,50,51,63,64,69,70,75},
+   {6,10,11,19,24,26,31,44,47,56,60,61,74,76},
+   {7,16,17,20,22,30,35,41,43,53,54,66,67,72,77}]
+FP : uncompresss_wschurpalindromic_subsets(156,P);
+certificate_pdwschurfsb_p(5,156,FP);
+  true
+certificate_pdschur_p(5,156,FP);
+  true
+certificate_pdschurfsb_p(5,156,FP);
+  false
    \endverbatim
    </li>
    <li> Open case n=158:
