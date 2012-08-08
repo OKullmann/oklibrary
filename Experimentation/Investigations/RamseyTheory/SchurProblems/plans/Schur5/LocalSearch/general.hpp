@@ -404,6 +404,47 @@ BestSolution_Max = 5
    \endverbatim
    The statistics are worse than without symmetry-breaking.
    </li>
+   <li> Palindromic problems:
+   \verbatim
+> ubcsat-okl -alg vw2 -v 2005 -runs 200000 -cutoff 200000 -i Schur_pd_fullsbUCP_5_159.cnf | tee Schur_pd_fullsbUCP_5_159.cnf_OUT
+# aborted, since solutions were found:
+> E=read_ubcsat("Schur_pd_fullsbUCP_5_159.cnf_OUT")
+    0     1     2
+    2 65741   127
+65870
+> E[E$min==0,]
+      sat min osteps msteps       seed
+30506   1   0 135626 135626 1214594171
+62632   1   0 135626 135626 1214594171
+
+> ubcsat-okl -alg vw2 -v 2005 -runs 1 -cutoff 135626 -i Schur_pd_fullsbUCP_5_159.cnf -seed 1214594171 -solve > Solution_1
+> OKsolver_2002-O3-DNDEBUG -SF -S="UCP_1" -D0 Schur_pd_fullsb_5_159.cnf
+
+# editing of Solution_1, UCP_1 to transform them into CNF
+
+> oklib --maxima
+oklib_load_all();
+pa1 : first(read_fcl_f("Solution_1")[2]);
+pa2 : first(read_fcl_f("UCP_1")[2]);
+pa : compo_pass(pa1,pa2);
+pa : subset(pa, lambda([x], is(x>0)));
+I : invstandardise_pd_schur_aloamo(5,159);
+P : extract_partition(map(I,pa));
+    [{1,8,10,17,19,26,31,33,40,42,46,49,51,55},
+     {2,3,7,11,12,21,29,30,38,39,47,48,53,57,62,63,71,72,80},
+     {4,5,13,27,28,36,44,50,52,59,61,67,68,69,70,76},
+     {9,14,16,20,22,24,35,37,41,43,54,56,58,60,64,66,77,79},
+     {6,15,18,23,25,32,34,45,65,73,74,75,78}]
+FP : uncompresss_schurpalindromic_subsets(159,P);
+certificate_pdschurfsb_p(5,159,FP);
+  true
+certificate_pdwschur_p(5,159,FP);
+  true
+certificate_pdwschurfsb_p(5,159,FP);
+  false
+   \endverbatim
+   Remarkable that the same seed was used twice, but that happens.
+   </li>
   </ul>
 
 

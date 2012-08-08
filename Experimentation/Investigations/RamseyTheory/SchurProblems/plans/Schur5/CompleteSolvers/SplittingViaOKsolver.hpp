@@ -547,7 +547,7 @@ R-squared: 0.9548
    <li> Current values:
    \verbatim
 pdschurfsb(5);
-  lambda([n],if n > seconde(schur(5)) then false elseif n <= 157 then true else unknown)
+  lambda([n],if n > seconde(schur(5)) then false elseif n <= 157 or n = 159 then true else unknown)
    \endverbatim
    </li>
    <li> First open case n=153 for full symmetry-breaking:
@@ -1211,7 +1211,31 @@ XXX cs-oksvr
    \verbatim
 > SplittingViaOKsolver -D70 Schur_pd_fullsb_5_159.cnf
 > cat Result
-XXX cs-oksvr
+c initial_maximal_clause_length         5
+c initial_number_of_variables           400
+c initial_number_of_clauses             11185
+c initial_number_of_literal_occurrences 32485
+c number_of_initial_unit-eliminations   32
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           32
+c reddiff_number_of_clauses             2052
+c reddiff_number_of_literal_occurrences 6345
+c number_of_2-clauses_after_reduction   1402
+c running_time(sec)                     2949.8
+c number_of_nodes                       621713
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                1511
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        30
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 185942714
+c splitting_directory                   SplitViaOKsolver_D70Schur_pd_fullsb_5_159cnf_2012-08-08-150802/Instances
+c splitting_cases                       310857
+# not processed, since solutions were found via local search
    \endverbatim
    </li>
   </ul>
