@@ -35,6 +35,15 @@ hom_ramsey_schur(n) := lambda([e], second_element(e) - first_element(e))$
      schur(r)  <= ramsey([2,create_list(3,i,1,r)]) - 1
      wschur(r) <= ramsey([2,create_list(4,i,1,r)]) - 1
 */
+
+
+/* *****************
+   * Automorphisms *
+   *****************
+*/
+
+
+
 /*!
 \endhtmlonly
 */
