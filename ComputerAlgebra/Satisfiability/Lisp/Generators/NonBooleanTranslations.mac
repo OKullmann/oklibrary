@@ -67,6 +67,7 @@ nbfclfd2fcl_aloamo(FF) := block([GG : nbfclfd2fcl_alo(FF)],
                 v,FF[1], p,powerset_l(FF[3](v),2)))])$
 nbfclud2fcl_aloamo(FF) := nbfclfd2fcl_aloamo(nbfclud2nbfclfd(FF))$
 nbfcsfd2fcs_aloamo(FF) := fcl2fcs(nbfclfd2fcl_aloamo(nbfcsfd2nbfclfd(FF)))$
+nbfcsud2fcs_aloamo(FF) := fcl2fcs(nbfclud2fcl_aloamo(nbfcsud2nbfclud(FF)))$
 
 
 /* Now for signed non-boolean clause-sets. */
