@@ -1248,7 +1248,7 @@ c splitting_cases                       310857
    <li> Current values:
    \verbatim
 pdwschurfsb(5);
-  lambda([n],if n > 1631 then false elseif n <= 156 or n = 158 then true else unknown)
+  lambda([n],if n > 1631 then false elseif n <= 158 then true else unknown)
    \endverbatim
    </li>
    <li> Open case n=152:

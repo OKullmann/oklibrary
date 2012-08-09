@@ -1178,6 +1178,45 @@ BestSolution_Max = 1
 200000
    \endverbatim
    </li>
+   <li> n=157 with full symmetry-breaking (not clear whether saps is also best
+   here, but let's try):
+   \verbatim
+> ubcsat-okl -alg saps -cutoff 200000 -runs 200000 -i WSchur_pd_fullsbUCP_5_157.cnf | tee WSchur_pd_fullsbUCP_5_157.cnf_OUT
+# aborted due to solution found:
+> E=read_ubcsat("WSchur_pd_fullsbUCP_5_157.cnf_OUT")
+    0     1
+    1 86892
+86893
+> E[E$min==0,]
+      sat min osteps msteps       seed
+43604   1   0    702    702 4120959699
+
+> ubcsat-okl -alg saps -runs 1 -cutoff 702 -i WSchur_pd_fullsbUCP_5_157.cnf -seed 4120959699 -solve > Solution_1
+> OKsolver_2002-O3-DNDEBUG -SF -S="UCP_1" -D0 WSchur_pd_fullsb_5_157.cnf
+
+# editing of Solution_1, UCP_1 to transform them into CNF
+> oklib --maxima
+oklib_load_all();
+pa1 : first(read_fcl_f("Solution_1")[2]);
+pa2 : first(read_fcl_f("UCP_1")[2]);
+pa : compo_pass(pa1,pa2);
+pa : subset(pa, lambda([x], is(x>0)));
+I : invstandardise_pd_wschur_aloamo(5,157);
+P : extract_partition(map(I,pa));
+  [{1,8,31,37,46,48,50,59,61,63,65,70,72,76},
+   {3,4,5,11,12,13,19,34,35,41,42,43,49,51,57,71,79},
+   {2,6,9,10,14,17,36,39,40,44,47,52,55,60,68},
+   {18,21,22,23,24,25,26,27,28,29,30,32,33,38,69,73,74,75,77,78},
+   {7,15,16,20,45,53,54,56,58,62,64,66,67}]
+FP : uncompresss_wschurpalindromic_subsets(157,P);
+certificate_pdwschurfsb_p(5,157,FP);
+  true
+certificate_pdschur_p(5,157,FP);
+  true
+certificate_pdschurfsb_p(5,157,FP);
+  false
+   \endverbatim
+   </li>
   </ul>
 
 */
