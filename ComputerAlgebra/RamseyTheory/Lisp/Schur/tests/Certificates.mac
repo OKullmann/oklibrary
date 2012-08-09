@@ -240,6 +240,19 @@ okltest_uncompresss_wschurpalindromic_subsets(f) := (
   true)$
 
 
+/* **************************
+   * Analysing certificates *
+   **************************
+*/
+
+okltest_depth_partition(f) := (
+  assert(f([]) = minf),
+  assert(f([{}]) = inf),
+  assert(f([{1},{2},{3}]) = 3),
+  assert(f([{1,4},{2,3},{5,1}]) = 2),
+  true)$
+
+
 /*!
 \endhtmlonly
 */

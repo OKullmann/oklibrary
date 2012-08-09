@@ -106,6 +106,15 @@ uncompresss_schurpalindromic_subsets(n,P) :=
 uncompresss_wschurpalindromic_subsets(n,P) :=
  uncompresss_palindromic_subsets(n,P)$
 
+
+/* **************************
+   * Analysing certificates *
+   **************************
+*/
+
+depth_partition(P) := lmax(map(lmin,P))$
+
+
 /*!
 \endhtmlonly
 */

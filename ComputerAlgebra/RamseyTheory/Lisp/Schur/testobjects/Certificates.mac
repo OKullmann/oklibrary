@@ -44,6 +44,13 @@ okltest_certificate_pdwschurfsb_p(certificate_pdwschurfsb_p);
 okltest_uncompresss_schurpalindromic_subsets(uncompresss_schurpalindromic_subsets);
 okltest_uncompresss_wschurpalindromic_subsets(uncompresss_wschurpalindromic_subsets);
 
+/* **************************
+   * Analysing certificates *
+   **************************
+*/
+
+okltest_depth_partition(depth_partition);
+
 /*!
 \endhtmlonly
 */
