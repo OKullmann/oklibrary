@@ -133,6 +133,28 @@ mirrorexpand(k,n) := block([leven : []],
    create_list(mirrorfold(k,n)(i),i,1,n) = mirrorexpand(k,n)(create_list(i,i,1,ceiling(n/2^k))).
 */
 
+
+/* ***********************************
+   * Translations to non-boolean SAT *
+   ***********************************
+*/
+
+/* Given two hypergraphs G1, G2, the question is the existence of a
+   homomorphism from G1 to G2.
+*/
+
+/* The "direct, negative" translation to non-boolean clause-sets, from
+   "Constraint Satisfaction Problems in Clausal Form I: Autarkies and
+    Deficiency" http://cs.swan.ac.uk/~csoliver/papers.html#ClausalFormI .
+*/
+
+hyphom_dirneg_ohg2nbfcsud(G1,G2) :=
+ [G1[1], lunion(
+  map(lambda([H], map(lambda([u], setify(map("[",listify(H),u))),
+                      subset(all_tuples(G2[1], length(H)), lambda([t], not elementp(setify(t), G2[2]))))),
+      G1[2])),
+  G2[1]]$
+
 /*!
 \endhtmlonly
 */

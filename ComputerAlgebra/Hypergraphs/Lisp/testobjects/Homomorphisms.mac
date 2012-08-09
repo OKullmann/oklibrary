@@ -33,7 +33,6 @@ okltest_suphomomorphism_bydef_hg(suphomomorphism_bydef_hg);
 
 okltest_transport_hg(transport_hg);
 
-
 /* **************************
    * Special transport-maps *
    **************************
@@ -51,6 +50,13 @@ okltest_modulo_projection_hg(modulo_projection_hg);
 
 okltest_mirrorfold(mirrorfold);
 okltest_mirrorexpand(mirrorexpand);
+
+/* ***********************************
+   * Translations to non-boolean SAT *
+   ***********************************
+*/
+
+okltest_hyphom_dirneg_ohg2nbfcsud(hyphom_dirneg_ohg2nbfcsud);
 
 /*!
 \endhtmlonly

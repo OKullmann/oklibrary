@@ -21,6 +21,8 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Homomorphisms.mac");
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Colouring.mac")$
 
 
 kill(f)$
@@ -207,6 +209,23 @@ okltest_mirrorexpand(f) := (
     for n : 0 thru if oklib_test_level=0 then 32 else 128 do
       assert(f(k,n)(create_list(i,i,1,ceiling(n/2^k))) = create_list(mirrorfold(k,n)(i),i,1,n)),
   true)$
+
+
+/* ***********************************
+   * Translations to non-boolean SAT *
+   ***********************************
+*/
+
+okltest_hyphom_dirneg_ohg2nbfcsud(f) := (
+  assert(f([{},{}],[{},{}]) = [{},{},{}]),
+  assert(f([{},{}],[{},{{}}]) = [{},{},{}]),
+  assert(f([{},{}],[{},{}]) = [{},{},{}]),
+  assert(f([{},{{}}],[{},{}]) = [{},{{}},{}]),
+  assert(f([{},{{}}],[{},{{}}]) = [{},{},{}]),
+  assert(okltest_col2sat_stdhg2stdnbfcsud(buildq([f], lambda([G,S], f(G,colouring_hg(S))))) = true),
+  /* XXX */
+  true)$
+
 
 /*!
 \endhtmlonly
