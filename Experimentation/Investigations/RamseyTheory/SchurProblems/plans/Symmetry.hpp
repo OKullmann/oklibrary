@@ -193,6 +193,19 @@ create_list(pdwschurfsb(r),r,0,4);
      <li> Two translations are outlined in OKs article "Constraint
      Satisfaction Problems in Clausal Form I: Autarkies and Deficiency"
      http://cs-svr1.swan.ac.uk/~csoliver/papers.html#ClausalFormI . </li>
+     <li> First prototype:
+     \verbatim
+output_pdschurhom(m,n) := block(
+ [FF:standardise_fcs(nbfcsud2fcs_aloamo(hyphom_dirneg_ohg2nbfcsud(schurtriples_pd_hg(m), schurtriples_pd_hg(n))))],
+  output_fcs_v(sconcat("Schur hom ", m, " -> ", n),FF[1],sconcat("SchurHom_",m,"_",n,".cnf"),FF[2]))$
+     \endverbatim
+     </li>
+     <li> It seems that only for small m, n there are homomorphisms between
+     close m,n; there are homos for (m+1) divides (n+1) (i.e., n = k*(m+1)-1),
+     and homos also exist in other cases of n >= 2m. </li>
+     <li> A systematic computation is needed, say for all 0 <= m,n <= 40. </li>
+     <li> Would there be more homomorphisms if in the target hypergraph no
+     subsumption-eliminiation would be performed? </li>
     </ol>
    </li>
   </ul>
