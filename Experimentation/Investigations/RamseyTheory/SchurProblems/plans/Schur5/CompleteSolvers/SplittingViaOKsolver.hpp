@@ -547,7 +547,7 @@ R-squared: 0.9548
    <li> Current values:
    \verbatim
 pdschurfsb(5);
-  lambda([n],if n > seconde(schur(5)) then false elseif n <= 157 or n = 159 then true else unknown)
+  lambda([n],if n > seconde(schur(5)) then false elseif n <= 157 or n = 159 or n = 160 then true else unknown)
    \endverbatim
    </li>
    <li> First open case n=153 for full symmetry-breaking:

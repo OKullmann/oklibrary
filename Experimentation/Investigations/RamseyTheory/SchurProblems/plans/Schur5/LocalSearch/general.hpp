@@ -321,7 +321,7 @@ fps: 361965
   </ul>
 
 
-  \todo Direct encoding with full symmetry breaking
+  \todo Direct encoding with full symmetry breaking (ordinary and palindromic)
   <ul>
    <li> Considering Schur_fullsb_5_159.cnf; the instance-statistics is:
    \verbatim
@@ -445,6 +445,50 @@ certificate_pdwschurfsb_p(5,159,FP);
    \endverbatim
    Remarkable that the same seed was used twice, but that happens.
    </li>
+   <li> n=158, palindromic case with full symmetry-breaking:
+   \verbatim
+> ubcsat-okl -alg vw2 -v 2005 -runs 400000 -cutoff 200000 -i Schur_pd_fullsbUCP_5_158.cnf | tee Schur_pd_fullsbUCP_5_158.cnf_OUT
+XXX cs-oksvr
+   \endverbatim
+   </li>
+   <li> n=160, palindromic case with full symmetry-breaking:
+   \verbatim
+> ubcsat-okl -alg vw2 -v 2005 -runs 200000 -cutoff 200000 -i Schur_pd_fullsbUCP_5_160.cnf | tee Schur_pd_fullsbUCP_5_160.cnf_OUT
+# aborted after finding a solution
+> E=read_ubcsat("Schur_pd_fullsbUCP_5_160.cnf_OUT")
+   0    1    2
+   1 4901    3
+4905
+> E[E$min==0,]
+     sat min osteps msteps      seed
+3220   1   0  81502  81502 146562509
+
+> ubcsat-okl -alg vw2 -v 2005 -runs 1 -cutoff 81502 -i Schur_pd_fullsbUCP_5_160.cnf -seed 146562509 -solve > Solution_1
+> OKsolver_2002-O3-DNDEBUG -SF -S="UCP_1" -D0 Schur_pd_fullsb_5_160.cnf
+
+# editing of Solution_1, UCP_1 to transform them into CNF
+> oklib --maxima
+oklib_load_all();
+pa1 : first(read_fcl_f("Solution_1")[2]);
+pa2 : first(read_fcl_f("UCP_1")[2]);
+pa : compo_pass(pa1,pa2);
+pa : subset(pa, lambda([x], is(x>0)));
+I : invstandardise_pd_schur_aloamo(5,160);
+P : extract_partition(map(I,pa));
+  [{1,6,15,19,26,40,49,54,62,70,74,79},
+   {2,7,8,12,22,27,32,36,42,46,52,55,56,61,65,66,71,75,76,80},
+   {4,5,20,21,28,34,35,47,50,53,59,60,72},
+   {13,14,16,18,33,38,39,41,48,58,67,68,69,73},
+   {3,9,10,11,17,23,24,25,29,30,31,37,43,44,45,51,57,63,64,77,78}]
+FP : uncompresss_schurpalindromic_subsets(160,P);
+certificate_pdschurfsb_p(5,160,FP);
+  true
+certificate_pdwschur_p(5,160,FP);
+  true
+certificate_pdwschurfsb_p(5,160,FP);
+  false
+   \endverbatim
+   </li
   </ul>
 
 
