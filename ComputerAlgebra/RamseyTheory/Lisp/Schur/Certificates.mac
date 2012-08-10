@@ -113,6 +113,10 @@ uncompresss_wschurpalindromic_subsets(n,P) :=
 */
 
 depth_partition(P) := lmax(map(lmin,P))$
+/* For palindromic partitions without empty parts, n >= 1 (or, more generally,
+   for solutions of the modular Schur-problems, weak or standard): */
+edepth_partition(P) := block([n : lmax(map(lmax,P))],
+ lmax(map(lambda([x], depth_partition(map2(lambda([v], mod(x*v,n+1)), P))), inv_residues(n+1))))$
 
 
 /*!

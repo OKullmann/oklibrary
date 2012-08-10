@@ -50,6 +50,7 @@ okltest_uncompresss_wschurpalindromic_subsets(uncompresss_wschurpalindromic_subs
 */
 
 okltest_depth_partition(depth_partition);
+okltest_edepth_partition(edepth_partition);
 
 /*!
 \endhtmlonly

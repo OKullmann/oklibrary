@@ -60,6 +60,8 @@ C : uncompresss_palindromic_subsets(160,[
 ]);
 certificate_pdschur_p(5,160,C);
   true
+edepth_partition(C);
+  44
    \endverbatim
    and thus schur(5) >= 161 (it seems that was overlooked in some parts of the
    literature). </li>

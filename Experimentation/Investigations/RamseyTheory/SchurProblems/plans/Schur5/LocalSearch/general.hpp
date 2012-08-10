@@ -442,6 +442,8 @@ certificate_pdwschur_p(5,159,FP);
   true
 certificate_pdwschurfsb_p(5,159,FP);
   false
+edepth_partition(FP);
+  39
    \endverbatim
    Remarkable that the same seed was used twice, but that happens.
    </li>
@@ -490,6 +492,8 @@ certificate_pdwschur_p(5,160,FP);
   true
 certificate_pdwschurfsb_p(5,160,FP);
   false
+edepth_partition(FP);
+  44
    \endverbatim
    </li
   </ul>
@@ -1218,6 +1222,8 @@ certificate_pdschur_p(5,157,FP);
   true
 certificate_pdschurfsb_p(5,157,FP);
   false
+edepth_partition(FP);
+  44
    \endverbatim
    </li>
    <li> n=159 with full symmetry-breaking:
@@ -1262,6 +1268,8 @@ certificate_pdschur_p(5,160,FP);
   true
 certificate_pdschurfsb_p(5,160,FP);
   false
+edepth_partition(FP);
+  44
    \endverbatim
    </li>
   </ul>

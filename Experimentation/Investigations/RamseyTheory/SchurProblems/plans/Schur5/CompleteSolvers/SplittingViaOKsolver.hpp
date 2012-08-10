@@ -660,8 +660,14 @@ P : extract_partition(map(I,pa));
    {8,9,11,12,14,27,30,33,40,43,58,59,61,64},
    {3,4,15,16,17,24,25,26,35,36,37,45,46,47,55,56,57,66,67,68,76,77}]
 FP : uncompresss_schurpalindromic_subsets(153,P);
-certificate_pdschur_p(5,153,FP);
+certificate_pdschurfsb_p(5,153,FP);
   true
+certificate_pdwschur_p(5,153,FP);
+  true
+certificate_pdwschurfsb_p(5,153,FP);
+  false
+edepth_partition(FP);
+  45
    \endverbatim
    </li>
    <li> n=154:
@@ -772,8 +778,14 @@ P : extract_partition(map(I,pa));
    {3,9,14,22,30,32,34,40,42,57,59,61,65,67,77},
    {6,13,20,28,29,31,36,43,45,50,54,66,68,75}]
 FP : uncompresss_schurpalindromic_subsets(154,P);
-certificate_pdschur_p(5,154,FP);
+certificate_pdschurfsb_p(5,154,FP);
   true
+certificate_pdwschur_p(5,154,FP);
+  true
+certificate_pdwschurfsb_p(5,154,FP);
+  false
+edepth_partition(FP);
+  28
    \endverbatim
    </li>
    <li> First open case n=155 for palindromic problems:
@@ -933,10 +945,12 @@ P : extract_partition(map(I,pa));
    {6,9,10,11,13,14,29,31,32,47,48,49,51,52,67,68,69,70},
    {3,4,16,18,30,35,44,45,50,58,59,64,72,73,78}]
 FP : uncompresss_schurpalindromic_subsets(155,P);
-certificate_pdschur_p(5,155,FP);
+certificate_pdschurfsb_p(5,155,FP);
   true
 certificate_pdwschur_p(5,155,FP);
   false
+edepth_partition(FP);
+  25
    \endverbatim
    This is a new result (satisfiability was not known before), so the full
    symmetry-breaking seems helpful in combination with C&C for breaking up
@@ -1055,6 +1069,8 @@ certificate_pdwschur_p(5,156,FP);
   true
 certificate_pdwschurfsb_p(5,156,FP);
   false
+edepth_partition(FP);
+  44
    \endverbatim
    </li>
    <li> n=157:
@@ -1171,6 +1187,8 @@ certificate_pdwschur_p(5,157,FP);
   true
 certificate_pdwschurfsb_p(5,157,FP);
   false
+edepth_partition(FP);
+  44
    \endverbatim
    </li>
    <li> n=158:
@@ -1362,6 +1380,8 @@ certificate_pdwschur_p(5,152,FP);
   true
 certificate_pdschur_p(5,152,FP);
   false
+edepth_partition(FP);
+  44
    \endverbatim
    </li>
    <li> Open case n=153:
@@ -1579,6 +1599,8 @@ certificate_pdwschur_p(5,155,FP);
   true
 certificate_pdschur_p(5,155,FP);
   false
+edepth_partition(FP);
+  31
    \endverbatim
    </li>
    <li> n=156:
@@ -1696,6 +1718,8 @@ certificate_pdschur_p(5,156,FP);
   true
 certificate_pdschurfsb_p(5,156,FP);
   false
+edepth_partition(FP);
+  44
    \endverbatim
    </li>
    <li> Open case n=158:
@@ -1807,6 +1831,8 @@ certificate_pdwschur_p(5,158,FP);
   true
 certificate_pdschur_p(5,158,FP);
   false
+edepth_partition(FP);
+  44
    \endverbatim
    </li>
   </ul>
