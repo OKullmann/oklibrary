@@ -23,7 +23,6 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac")$
-oklib_include("OKlib/ComputerAlgebra/MaximaInternals/Auxiliary.mac")$
 
 
 /* *******************
@@ -113,12 +112,10 @@ has_wschurtriple(S) :=
 */
 
 mirrorfold_schur(n) := block([div:ceiling(n/2)],
- if mod(n+1,3)#0 then
-   simplify_st(buildq([n,div],
-     lambda([v], if v >= div+1 then n-v+1 else v)))
- else
-   simplify_st(buildq([n,div,excl:2*(n+1)/3],
-     lambda([v], if v >= div+1 and v#excl then n-v+1 else v))))$
+ if mod(n+1,3)#0 then buildq([n,div],
+     lambda([v], if v >= div+1 then n-v+1 else v))
+ else buildq([n,div,excl:2*(n+1)/3],
+     lambda([v], if v >= div+1 and v#excl then n-v+1 else v)))$
 
 ver_schurtriples_pd_ohg(n) :=
   if mod(n+1,3)#0 then create_list(i,i,1,ceiling(n/2))
@@ -147,9 +144,12 @@ schurtriples_pd_hg(n) := ohg2hg(schurtriples_pd_ohg(n))$
 /* The palindromic versions of the weak Schur-triples hypergraphs, with
    colexicographical order (note that this is different from
    wschurtriples_ohg) and with subsumptions eliminated: */
+
+mirrorfold_wschur(n) := mirrorfold_vdw(n)$
+ver_wschurtriples_pd_ohg(n) := create_list(i,i,1,ceiling(n/2))$
 wschurtriples_pd_ohg(n) := block(
- [G : wschurtriples_ohg(n), m : mirrorfold_vdw(n), div : ceiling(n/2)],
-  [create_list(i,i,1,div),
+ [G : wschurtriples_ohg(n), m : mirrorfold_wschur(n)],
+  [ver_wschurtriples_pd_ohg(n),
    map(setify,
        sort(map(listify,
               min_elements_l(unique(
