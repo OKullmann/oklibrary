@@ -1229,6 +1229,11 @@ edepth_partition(FP);
    <li> n=159 with full symmetry-breaking:
    \verbatim
 > ubcsat-okl -alg saps -cutoff 200000 -runs 200000 -i WSchur_pd_fullsbUCP_5_159.cnf | tee WSchur_pd_fullsbUCP_5_159.cnf_OUT
+> E=read_ubcsat("WSchur_pd_fullsbUCP_5_159.cnf_OUT",nrows=200000)
+     1      2
+199954     46
+200000
+> ubcsat-okl -alg saps -cutoff 100000 -runs 1000000 -i WSchur_pd_fullsbUCP_5_159.cnf | tee WSchur_pd_fullsbUCP_5_159.cnf_OUT
 XXX cs-wsok
    \endverbatim
    </li>
