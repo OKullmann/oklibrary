@@ -79,6 +79,23 @@ okltest_lappend(f) := block(
   true)$
 
 
+/* *********************
+   * Map-functionality *
+   *********************
+*/
+
+okltest_map2(f) := block([add1 : lambda([x], x+1), a,b,c],
+  assert(f(add1,[]) = []),
+  assert(f(add1, [{}]) = [{}]),
+  assert(f(add1, [{1,2},{3,4},{5},{}]) = [{2,3},{4,5},{6},{}]),
+  assert(f(add1, [[1,[2,3]],[3]]) = [[2,[3,4]],[4]]),
+  assert(f(add1, [[1,{2,3}],[3]]) = [[2,{2,3}+1],[4]]),
+  assert(f(add1, {{1,2},{3,4}}) = {{2,3},{4,5}}),
+  assert(f(add1, a(b(c,c),b(c))) = a(b(c+1,c+1),b(c+1))),
+  assert(f(lambda([x],0), {{1,2},{3,4}}) = {{0}}),
+  true)$
+
+
 /* *******************************
    * Testing properties of lists *
    *******************************

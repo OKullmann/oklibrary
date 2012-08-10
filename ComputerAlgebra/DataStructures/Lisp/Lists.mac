@@ -66,6 +66,15 @@ uaapply(_op,L) := uapply(_op,L,maximal_argument_length)$
 lappend(L) := uaapply(append,L)$
 
 
+/* *********************
+   * Map-functionality *
+   *********************
+*/
+
+/* Apply mapping_ to the elements of the elements of L: */
+map2(mapping_, L) := map(lambda([e], map(mapping_,e)), L)$
+
+
 /* *******************************
    * Testing properties of lists *
    *******************************

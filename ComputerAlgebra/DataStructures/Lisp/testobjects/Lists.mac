@@ -40,6 +40,13 @@ okltest_uaapply(uaapply);
 
 okltest_lappend(lappend);
 
+/* *********************
+   * Map-functionality *
+   *********************
+*/
+
+okltest_map2(map2);
+
 /* *******************************
    * Testing properties of lists *
    *******************************
