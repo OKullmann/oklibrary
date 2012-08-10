@@ -20,6 +20,8 @@ oklib_load("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/Homomorphisms.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueClasses.mac")$ /* to provide inv_residues(n) */
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Schur.mac")$
 
 
 /* ***********************************
@@ -42,6 +44,11 @@ hom_ramsey_schur(n) := lambda([e], second_element(e) - first_element(e))$
    *****************
 */
 
+/* For x in inv_residues(n+1) an automorphism of schurtriples_pd_hg(n): */
+auto_pdschur(n,x) := buildq([n,x], lambda([v], mirrorfold_schur(n)(mod(x*v,n+1))));
+
+/* For x in inv_residues(n+1) an automorphism of wschurtriples_pd_hg(n): */
+auto_pdwschur(n,x) := buildq([n,x], lambda([v], mirrorfold_wschur(n)(mod(x*v,n+1))));
 
 
 /*!

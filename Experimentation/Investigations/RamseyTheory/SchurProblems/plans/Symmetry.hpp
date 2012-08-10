@@ -41,21 +41,14 @@ for n : 1 thru 10 do print(n, test_auto_schur(n));
    <li> Automorphisms of schurtriples_pd_hg(n):
     <ol>
      <li> Here now multiplication by invertible elements of ZZ_{n+1} yield
-     automorphisms:
-     \verbatim
-test_auto_pdschur(n) := block(
- [G : schurtriples_pd_hg(n), p_ : mod_mul(n+1), m_ : mirrorfold_schur(n)],
- every(lambda([x], automorphism_bydef_hg(lambda([v], m_(p_(x,v))),G)), inv_residues(n+1)))$
-for n : 1 thru 50 do print(n, test_auto_pdschur(n));
-  all true
-     \endverbatim
+     automorphisms; see okltest_auto_pdschur and okltest_auto_pdwschur in
+     ComputerAlgebra/RamseyTheory/Lisp/Schur/tests/Homomorphisms.mac.
      </li>
      <li> In [Fredricksen, Sweet, 2000] we find the assertion that such
      bijections preserve solutions; we now know stronger that they are
      automorphisms of the underlying hypergraph. </li>
      <li> What is the kernel of the homomorphism ZZ_{n+1}^* -> automorphisms ?
      \verbatim
-auto_pdschur(n,x) := buildq([n,x], lambda([v], mirrorfold_schur(n)(mod(x*v,n+1))));
 kernel_pdschur(n) := block([V : ver_schurtriples_pd_ohg(n)],
  subset(inv_residues(n+1), lambda([x], block([phi : auto_pdschur(n,x)], every_s(lambda([v], is(phi(v)=v)), V)))))$
      \endverbatim
@@ -63,18 +56,14 @@ kernel_pdschur(n) := block([V : ver_schurtriples_pd_ohg(n)],
      otherwise the kernel consists exactly of 1 and -1=n. </li>
      <li> How to exploit these symmetries?!
       <ol>
-       <li> Via the colour-symmetries one can assign to the vertices
-       v_1 := schur(0), ..., v_r := schur(r-1) the colours 1, ..., r. Now
-       we can apply a hypergraph-automorphism phi to (v_1,...,v_r), obtaining
-       (phi(v_1), ..., phi(v_r)), which might be more powerful for symmetry-
-       breaking. </li>
+       <li> Motivated by the colour-symmetries one may assign to the vertices
+       v_1 := schur(0), ..., v_r := schur(r-1) the colours 1, ..., r. See
+       "Full symmetry-breaking" below. </li>
+       <li> Now we can apply a hypergraph-automorphism phi to (v_1,...,v_r),
+       obtaining (phi(v_1), ..., phi(v_r)), which might be more powerful for
+       symmetry-breaking. </li>
        <li> Considering n=161, with totient(162)=54 automorphisms of the
-       hypergraph:
-       \verbatim
-test_auto_pdschur(162);
-  true
-       \endverbatim
-       </li>
+       hypergraph. </li>
        <li> Now the mapping:
        \verbatim
 r : 5;

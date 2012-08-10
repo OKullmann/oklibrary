@@ -33,10 +33,28 @@ kill(f)$
 */
 
 okltest_hom_ramsey_schur(f) := (
-  for n : 0 thru cokltl(5,12) do
+  for n : 0 thru cokltl(5,16) do
     assert(homomorphism_bydef_hg(f(n), ramsey_hg(3,2,n+1), schurtriples_hg(n)) = true),
-  for n : 0 thru cokltl(5,12) do
+  for n : 0 thru cokltl(5,16) do
     assert(suphomomorphism_bydef_hg(f(n), ramsey_hg(4,2,n+1), wschurtriples_hg(n)) = true),
+  true)$
+
+
+/* *****************
+   * Automorphisms *
+   *****************
+*/
+
+okltest_auto_pdschur(f) := (
+  for n : 0 thru cokltl(5,16) do
+   for x in inv_residues(n+1) do
+    assert(automorphism_bydef_hg(f(n,x), schurtriples_pd_hg(n)) = true),
+  true)$
+
+okltest_auto_pdwschur(f) := (
+  for n : 0 thru cokltl(5,16) do
+   for x in inv_residues(n+1) do
+    assert(automorphism_bydef_hg(f(n,x), wschurtriples_pd_hg(n)) = true),
   true)$
 
 
