@@ -448,9 +448,12 @@ certificate_pdwschurfsb_p(5,159,FP);
    <li> n=158, palindromic case with full symmetry-breaking:
    \verbatim
 > ubcsat-okl -alg vw2 -v 2005 -runs 400000 -cutoff 200000 -i Schur_pd_fullsbUCP_5_158.cnf | tee Schur_pd_fullsbUCP_5_158.cnf_OUT
-XXX cs-oksvr
+> E=read_ubcsat("Schur_pd_fullsbUCP_5_158.cnf_OUT",nrows=400000)
+     1      2
+399938     62
+400000
    \endverbatim
-   </li>
+   Either it's unsatisfiable, or hard to satisfy. </li>
    <li> n=160, palindromic case with full symmetry-breaking:
    \verbatim
 > ubcsat-okl -alg vw2 -v 2005 -runs 200000 -cutoff 200000 -i Schur_pd_fullsbUCP_5_160.cnf | tee Schur_pd_fullsbUCP_5_160.cnf_OUT
@@ -1214,6 +1217,50 @@ certificate_pdwschurfsb_p(5,157,FP);
 certificate_pdschur_p(5,157,FP);
   true
 certificate_pdschurfsb_p(5,157,FP);
+  false
+   \endverbatim
+   </li>
+   <li> n=159 with full symmetry-breaking:
+   \verbatim
+> ubcsat-okl -alg saps -cutoff 200000 -runs 200000 -i WSchur_pd_fullsbUCP_5_159.cnf | tee WSchur_pd_fullsbUCP_5_159.cnf_OUT
+XXX cs-wsok
+   \endverbatim
+   </li>
+   <li> n=160 with full symmetry-breaking:
+   \verbatim
+> ubcsat-okl -alg saps -cutoff 200000 -runs 200000 -i WSchur_pd_fullsbUCP_5_160.cnf | tee WSchur_pd_fullsbUCP_5_160.cnf_OUT
+# aborted since solution was found:
+> E=read_ubcsat("WSchur_pd_fullsbUCP_5_160.cnf_OUT")
+  0   1
+  1 134
+135
+> E[E$min==0,]
+   sat min osteps msteps       seed
+65   1   0  21468  21468 2896961143
+
+> ubcsat-okl -alg saps -runs 1 -cutoff 21468 -i WSchur_pd_fullsbUCP_5_160.cnf -seed 2896961143 -solve > Solution_1
+> OKsolver_2002-O3-DNDEBUG -SF -S="UCP_1" -D0 WSchur_pd_fullsb_5_160.cnf
+
+# editing of Solution_1, UCP_1 to transform them into CNF
+> oklib --maxima
+oklib_load_all();
+pa1 : first(read_fcl_f("Solution_1")[2]);
+pa2 : first(read_fcl_f("UCP_1")[2]);
+pa : compo_pass(pa1,pa2);
+pa : subset(pa, lambda([x], is(x>0)));
+I : invstandardise_pd_wschur_aloamo(5,160);
+P : extract_partition(map(I,pa));
+    [{1,6,8,10,23,25,30,37,39,42,54,57,66,71,75},
+     {2,3,7,11,12,17,21,26,35,36,40,41,45,49,50,59,64,65,69,73,74,78},
+     {9,13,27,32,33,34,38,48,56,58,62,63,77},
+     {14,15,16,18,22,24,47,51,53,60,70,72,80},
+     {4,5,19,20,28,29,31,43,44,46,52,55,61,67,68,76,79}]
+FP : uncompresss_wschurpalindromic_subsets(160,P);
+certificate_pdwschurfsb_p(5,160,FP);
+  true
+certificate_pdschur_p(5,160,FP);
+  true
+certificate_pdschurfsb_p(5,160,FP);
   false
    \endverbatim
    </li>
