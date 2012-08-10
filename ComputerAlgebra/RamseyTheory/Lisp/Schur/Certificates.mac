@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Schur.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/VanderWaerden/Certificates.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/Numbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lambda.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueClasses.mac")$
 
 
 /* *****************
