@@ -31,6 +31,7 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Ringframes/BasicNotions.mac")$
    congruence classes):
 */
 cyclic_ugrp(n) := rngfrm2egrd_add(residues_rng(n))$
+cyclic_ougrp(n) := [create_list(i,i,0,n-1), mod_add(n), 0]$
 
 
 /*!
