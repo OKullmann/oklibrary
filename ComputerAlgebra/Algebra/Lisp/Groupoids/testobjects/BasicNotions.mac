@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 6.7.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -33,6 +33,9 @@ okltest_ugrd_p(ugrd_p);
 okltest_cgrd_p(cgrd_p);
 okltest_cugrd_p(cugrd_p);
 
+okltest_ogrd_p(ogrd_p);
+okltest_ougrd_p(ougrd_p);
+
 okltest_sgr_p(sgr_p);
 okltest_csgr_p(csgr_p);
 okltest_mon_p(mon_p);
@@ -43,6 +46,9 @@ okltest_cqgrp_p(cqgrp_p);
 okltest_uqgrp_p(uqgrp_p);
 okltest_cuqgrp_p(cuqgrp_p);
 
+okltest_oqgrp_p(oqgrp_p);
+okltest_ouqgrp_p(ouqgrp_p);
+
 okltest_grp_p(grp_p);
 okltest_cgrp_p(cgrp_p);
 okltest_ugrp_p(ugrp_p);
@@ -50,6 +56,9 @@ okltest_cugrp_p(cugrp_p);
 okltest_ugrpi_p(ugrpi_p);
 okltest_cugrpi_p(cugrpi_p);
 
+okltest_ogrp_p(ogrp_p);
+okltest_ougrp_p(ougrp_p);
+okltest_ougrpi_p(ougrpi_p);
 
 /* *********************
    * Checking equality *
@@ -66,14 +75,25 @@ okltest_ugrd_equalp(ugrd_equalp);
 
 okltest_ugrd2grd(ugrd2grd);
 
+okltest_ogrd2grd(ogrd2grd);
+
 okltest_ugrpi2ugrp(ugrpi2ugrp);
 okltest_ugrpi2grp(ugrpi2grp);
 okltest_ugrp2grp(ugrp2grp);
+
+okltest_ougrp2ugrp(ougrp2ugrp);
+okltest_ougrpi2ugrpi(ougrpi2ugrpi);
 
 /* **************
    * Promotions *
    **************
 */
+
+okltest_grd2ogrd(grd2ogrd);
+okltest_ugrd2ougrd(ugrd2ougrd);
+
+okltest_ugrp2ougrp(ugrp2ougrp);
+okltest_ugrpi2ougrpi(ugrpi2ougrpi);
 
 /* ***************
    * Conversions *

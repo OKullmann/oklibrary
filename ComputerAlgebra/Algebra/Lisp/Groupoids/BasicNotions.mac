@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 6.7.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,6 +27,7 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Commutativity.mac")$
 oklib_include("OKlib/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* ***********************
@@ -52,6 +53,12 @@ ugrd_p(V) := listp(V) and is(length(V)=3) and grd_p([V[1],V[2]]) and
 cgrd_p(V) := grd_p(V) and commutative_bydef_grd(V)$
 cugrd_p(V) := ugrd_p(V) and commutative_bydef_grd(V)$
 
+ogrd_p(V) := listp(V) and is(length(V)=2) and listnorep_p(first(V)) and
+  grd_p(ogrd2grd(V))$
+ougrd_p(V) := listp(V) and is(length(V)=3) and listnorep_p(first(V)) and
+  not emptyp(first(V)) and is(first(first(V)) = third(V)) and
+  ugrd_p(ougrd2ugrd(V))$
+
 /* Semigroups and monoids: */
 sgr_p(S) := grd_p(S) and associative_bydef_grd(S)$
 csgr_p(S) := sgr_p(S) and commutative_bydef_grd(S)$
@@ -69,13 +76,28 @@ uqgrp_p(L) := ugrd_p(L) and uniquelysolvable_bydef_grd(ugrd2grd(L))$
 /* Commutative unital quasigroups: */
 cuqgrp_p(L) := uqgrp_p(L) and commutative_bydef_grd(ugrd2grd(L))$
 
+oqgrp_p(Q) := listp(Q) and is(length(Q)=2) and listnorep_p(first(Q)) and
+  qgrp_p(ogrd2grd(Q))$
+ouqgrp_p(L) := listp(L) and is(length(L)=3) and listnorep_p(first(L)) and
+  not emptyp(first(L)) and is(first(first(L)) = third(L)) and
+  uqgrp_p(ougrd2ugrd(L))$
+
 /* Groups: */
 grp_p(G) := qgrp_p(G) and associative_bydef_grd(G) and not emptyp(G[1])$
 cgrp_p(G) := grp_p(G) and commutative_bydef_grd(G)$
 ugrp_p(G) := uqgrp_p(G) and associative_bydef_grd(G)$
 cugrp_p(G) := ugrp_p(G) and commutative_bydef_grd(G)$
-ugrpi_p(G) := ugrd(rest(G,-1)) and inversion_ugrd(G,G[4])$
+ugrpi_p(G) := ugrp_p(rest(G,-1)) and inversion_ugrd(G,G[4])$
 cugrpi_p(G) := ugrpi_p(G) and commutative_bydef_grd(G)$
+
+ogrp_p(G) := listp(G) and is(length(G)=2) and listnorep_p(first(G)) and
+  grp_p(ogrd2grd(G))$
+ougrp_p(G) := listp(G) and is(length(G)=3) and listnorep_p(first(G)) and
+  not emptyp(first(G)) and is(first(first(G)) = third(G)) and
+  ugrp_p(ougrd2ugrd(G))$
+ougrpi_p(G) := listp(G) and is(length(G)=4) and listnorep_p(first(G)) and
+  not emptyp(first(G)) and is(first(first(G)) = third(G)) and
+  ugrpi_p(ougrpi2ugrpi(G))$
 
 
 /* *********************
@@ -94,9 +116,15 @@ ugrd_equalp(V1,V2) := grd_equalp(rest(V1,-1),rest(V2,-1)) and is(V1[3]=V2[3])$
 
 ugrd2grd(V) := rest(V,-1)$
 
+ogrd2grd(V) := [setify(first(V)), second(V)]$
+ougrd2ugrd(V) := [setify(first(V)), second(V), third(V)]$
+
 ugrpi2ugrp(G) := rest(G,-1)$
 ugrpi2grp(G) := rest(G,-2)$
 ugrp2grp(G) := rest(G,-1)$
+
+ougrp2ugrp(G) := [setify(first(G)), second(G), third(G)]$
+ougrpi2ugrpi(G) := [setify(first(G)), second(G), third(G), fourth(G)]$
 
 
 /* **************
@@ -107,6 +135,14 @@ ugrp2grp(G) := rest(G,-1)$
 /* grp2ugrp(G), grp2ugrpi(G), ugrp2ugrpi(G) : 
    here we have the typical three possibilities ... 
 */
+
+grd2ogrd(V) := [listify(first(V)), second(V)]$
+ugrd2ougrd(V) := [cons(third(V), listify(disjoin(third(V),first(V)))),
+ second(V), third(V)]$
+
+ugrp2ougrp(G) := ugrd2ougrd(G)$
+ugrpi2ougrpi(G) := [cons(third(G), listify(disjoin(third(G),first(G)))),
+ second(G), third(G), fourth(G)]$
 
 
 /* ***************
@@ -150,7 +186,7 @@ grd2m_std(V) := grd2m(grd2stdgrd(V))$
    ******************
 */
 
-/* A smallest non-associated groupoid: */
+/* A smallest non-associativ groupoid: */
 non_assoc_2_grd : m2grd(matrix([2,2],[1,2]))$
 
 
