@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 4.5.2008 (Guangzhou) */
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -183,10 +183,6 @@ array2l(a) := okl_listarray(a)$
 ary2l(a) := okl_listarray(a)$
 /* Here L must be a list and a an okl-array: */
 okl_fillarray_l(a,L) := fillarray(a,cons(a[0],L))$
-
-/* A named okl-array of size n can be created by
-  array(name, type, n).
-*/
 
 /* Creating okl-arrays from lists: */
 
