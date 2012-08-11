@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/testobjects/Cycl
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGroups.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/tests/CyclicGroups.mac")$
 
+okltest_cyclic_ugrpi(cyclic_ugrpi);
 okltest_cyclic_ougrp(cyclic_ougrp);
 
 /*!

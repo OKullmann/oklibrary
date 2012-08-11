@@ -25,10 +25,17 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGroups.
 
 kill(f)$
 
+okltest_cyclic_ugrpi(f) := (
+  assert(f(1) = [{0},mod_add(1), 0,mod_add_inv(1)]),
+  for n : 1 thru cokltl(6,12) do block([Z : f(n)],
+    assert(ugrpi_p(Z) = true),
+    assert(ugrpi2ugrp(Z) = cyclic_ugrp(n))
+  ),
+  true)$
 
 okltest_cyclic_ougrp(f) := (
   assert(f(1) = [[0],mod_add(1), 0]),
-  for n : 1 thru 10 do block([Z : f(n)],
+  for n : 1 thru cokltl(6,12) do block([Z : f(n)],
     assert(ougrp_p(Z) = true),
     assert(ougrp2ugrp(Z) = cyclic_ugrp(n))
   ),
