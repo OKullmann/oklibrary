@@ -1,0 +1,28 @@
+/* Oliver Kullmann, 11.8.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/testobjects/SymmetricGroups.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/testobjects/SymmetricGroups.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGroups.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/tests/SymmetricGroups.mac")$
+
+okltest_sym_l_ougrp(sym_l_ougrp);
+
+/*!
+\endhtmlonly
+*/

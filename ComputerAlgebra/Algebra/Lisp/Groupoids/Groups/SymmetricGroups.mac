@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 6.7.2008 (Swansea) */
-/* Copyright 2008, 2009, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -30,11 +30,16 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    **************************
 */
 
-/* The symmetric group with n elements, as submonoid of the full transformation
-   monoid trf_l_mon(n):
+/* The symmetric group with n (>= 0) elements, as submonoid of the full
+   transformation monoid trf_l_mon(n):
 */
-sym_l_ugrp(n) := 
+sym_l_ugrp(n) :=
  [permutations(setn(n)),
+  transformation_l_compo,
+  create_list(i,i,1,n)]$
+/* Lexicographical order: */
+sym_l_ougrp(n) :=
+ [listify(permutations(setn(n))),
   transformation_l_compo,
   create_list(i,i,1,n)]$
 
@@ -49,7 +54,7 @@ sym_l_ugrp(n) :=
    element, so that these lists as sets are a partitioning of {1,...,n}.
 */
 
-/* For a permutation over {1,...,n} as function/list compute the 
+/* For a permutation over {1,...,n} as function/list compute the
    cycle presentation (a set of lists, each list representing a
    cyle, standardised to start with the smallest element):
 */
@@ -80,7 +85,7 @@ cyclepres2perl(c) := block([h : cyclepres2hm(c)],
 */
 
 /* The cycle-type of a permutation as function/list: */
-cycletype_pmtf(p,n) := 
+cycletype_pmtf(p,n) :=
   list_distribution(map(length,listify(cyclepres_pmtf(p,n))))$
 cycletype_perl(p) := cycletype_pmtf(trfl2trff(p), length(p))$
 
