@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/testobjects/Symm
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGroups.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/tests/SymmetricGroups.mac")$
 
+okltest_sym_l_ugrpi(sym_l_ugrpi);
 okltest_sym_l_ougrp(sym_l_ougrp);
 
 /*!

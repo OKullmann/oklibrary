@@ -26,6 +26,14 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGrou
 kill(f)$
 
 
+okltest_sym_l_ugrpi(f) := (
+  assert(f(0) = [{[]},transformation_l_compo, [], permutation_l_inv(0)]),
+  for n : 1 thru cokltl(3,4,5) do block([S : f(n)],
+    assert(ugrpi_p(S) = true),
+    assert(ugrpi2ugrp(S) = sym_l_ugrp(n))
+  ),
+  true)$
+
 okltest_sym_l_ougrp(f) := (
   assert(f(0) = [[[]],transformation_l_compo, []]),
   for n : 1 thru cokltl(3,4,5) do block([S : f(n)],

@@ -30,6 +30,9 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    **************************
 */
 
+permutation_l_inv(n) := buildq([n],
+ lambda([p], ary2l(osm2ary_lt(l2osm_inv(p), n, fixnum))))$
+
 /* The symmetric group with n (>= 0) elements, as submonoid of the full
    transformation monoid trf_l_mon(n):
 */
@@ -37,6 +40,7 @@ sym_l_ugrp(n) :=
  [permutations(setn(n)),
   transformation_l_compo,
   create_list(i,i,1,n)]$
+sym_l_ugrpi(n) := endcons(permutation_l_inv(n), sym_l_ugrp(n))$
 /* Lexicographical order: */
 sym_l_ougrp(n) :=
  [listify(permutations(setn(n))),
