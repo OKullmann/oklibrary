@@ -1827,12 +1827,18 @@ P : extract_partition(map(I,pa));
    {4,5,11,17,23,24,25,31,32,38,39,45,51,58,59,65,66,72,73,79},
    {2,7,10,16,21,29,30,34,48,52,53,56,61,67,70,75}]
 FP : uncompresss_wschurpalindromic_subsets(158,P);
-certificate_pdwschur_p(5,158,FP);
+certificate_pdwschurfsb_p(5,158,FP);
   true
 certificate_pdschur_p(5,158,FP);
   false
 edepth_partition(FP);
   44
+   \endverbatim
+   </li>
+   <li> Open case n=158:
+   \verbatim
+> SplittingViaOKsolver -D70 WSchur_pd_fullsb_5_159.cnf
+XXX cs-wsok
    \endverbatim
    </li>
   </ul>
