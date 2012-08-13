@@ -1838,9 +1838,36 @@ edepth_partition(FP);
    <li> Open case n=158:
    \verbatim
 > SplittingViaOKsolver -D70 WSchur_pd_fullsb_5_159.cnf
+> cat Result
+c initial_maximal_clause_length         5
+c initial_number_of_variables           400
+c initial_number_of_clauses             11185
+c initial_number_of_literal_occurrences 32485
+c number_of_initial_unit-eliminations   32
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           32
+c reddiff_number_of_clauses             2059
+c reddiff_number_of_literal_occurrences 6368
+c number_of_2-clauses_after_reduction   1404
+c running_time(sec)                     3260.9
+c number_of_nodes                       543817
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                677
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c max_tree_depth                        29
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 162755457
+c splitting_directory                   SplitViaOKsolver_D70WSchur_pd_fullsb_5_159cnf_2012-08-12-211536/Instances
+c splitting_cases                       271909
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D70WSchur_pd_fullsb_5_159cnf_2012-08-12-211536
 XXX cs-wsok
    \endverbatim
-   </li>
+   Likely the depth needed to be increased. </li>
   </ul>
 
 */
