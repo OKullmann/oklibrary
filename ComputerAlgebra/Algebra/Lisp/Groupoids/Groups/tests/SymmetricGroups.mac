@@ -22,9 +22,15 @@ oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/tests/SymmetricG
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGroups.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/InvertibleElements.mac")$
 
 kill(f)$
 
+
+/* **************************
+   * Permutations as lists *
+   **************************
+*/
 
 okltest_sym_l_ugrpi(f) := (
   assert(f(0) = [{[]},transformation_l_compo, [], permutation_l_inv(0)]),
@@ -42,6 +48,25 @@ okltest_sym_l_ougrp(f) := (
   ),
   true)$
 
+
+/* **********************
+   * Cycle presentation *
+   **********************
+*/
+
+
+/* ********************
+   * Basic operations *
+   ********************
+*/
+
+okltest_numinvolutions_symgrp(f) := (
+  assert(f(0) = 1),
+  assert(f(1) = 1).
+  assert(f(10) = 9496),
+  for n : 0 thru cokltl(4,6) do
+    assert(f(n) = 1 + length(involutions_ugrd(sym_l_ugrp(n)))),
+  true)$
 
 /*!
 \endhtmlonly

@@ -114,6 +114,12 @@ order_element_pmtf(p,n) :=
   apply(lcm, map(length,listify(cyclepres_pmtf(p,n))))$
 order_element_perl(p) := order_element_pmtf(trfl2trff(p), length(p))$
 
+/* The number of involutions (self-inverse permutations) of the
+   symmetric group:
+*/
+numinvolutions_symgrp(n) := if n<=1 then 1 else
+ numinvolutions_symgrp(n-1) + (n-1) * numinvolutions_symgrp(n-2)$
+/* This is http://oeis.org/A000085 . */
 
 /*!
 \endhtmlonly
