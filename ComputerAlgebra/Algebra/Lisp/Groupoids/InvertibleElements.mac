@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 8.7.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,6 +22,11 @@ oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/InvertibleElements.mac"
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
+/* **********
+   * Basics *
+   **********
+*/
+
 /* Check whether x is left-invertible for unital groupoid V: */
 leftinvertible_el_ugrd(V,x) := some_s(lambda([y],is(V[2](y,x)=V[3])), V[1])$
 /* Check whether x is right-invertible for unital groupoid V: */
@@ -33,6 +38,18 @@ invertible_el_ugrd(V,x) := leftinvertible_el_ugrd(V,x) and rightinvertible_el_ug
 leftinversion_ugrd(V,f) := every_s(lambda([x],is(V[2](f(x),x)=V[3])),V[1])$
 rightinversion_ugrd(V,f) := every_s(lambda([x],is(V[2](x,f(x))=V[3])),V[1])$
 inversion_ugrd(V,f) := leftinversion_ugrd(V,f) and rightinversion_ugrd(V,f)$
+
+
+/* ***************
+   * Involutions *
+   ***************
+*/
+
+/* Involutions are self-inverse elements (not the neutral element). */
+
+/* The set of involutions of a unital groupoid: */
+involutions_ugrd(V) :=
+ subset(disjoin(V[3],V[1]), lambda([x], is(V[2](x,x) = V[3])))$
 
 /*!
 \endhtmlonly

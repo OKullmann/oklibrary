@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 14.1.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Algebra/Lisp/Groupoids/tests/InvertibleElements.mac
-  \brief Tests regarding null elements in groupoids
+  \brief Tests regarding invertible elements in groupoids
 
 Use by
 
@@ -27,6 +27,11 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGroups.
 
 kill(f)$
 
+
+/* **********
+   * Basics *
+   **********
+*/
 
 okltest_leftinvertible_el_ugrd(f) := block([V],
   assert(f(singleton_mon,1) = true),
@@ -71,8 +76,20 @@ okltest_rightinversion_ugrd(f) := (
 
 okltest_inversion_ugrd(f) := (
   assert(f(singleton_mon,identity) = true),
-  for n : 1 thru 4 do block([G : cyclic_ugrp(n)],
+  for n : 1 thru cokltl(5,20) do block([G : cyclic_ugrp(n)],
     assert(f(G,"-") = true)),
+  /* XXX */
+  true)$
+
+
+/* ***************
+   * Involutions *
+   ***************
+*/
+
+okltest_involutions_ugrd(f) := (
+  for n : 1 thru cokltl(5,20) do
+    assert(f(cyclic_ugrp(n)) = if evenp(n) then {n/2} else {}),
   /* XXX */
   true)$
 
