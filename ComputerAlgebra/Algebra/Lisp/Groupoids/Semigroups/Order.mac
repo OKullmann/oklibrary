@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 17.5.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -35,6 +35,30 @@ closure_element_sgr(compo_, a) := block([p : compo_(a,a), res : {a}],
    order of a:
 */
 order_element_sgr(compo_, a) := length(closure_element_sgr(compo_, a))$
+/* Remarks:
+   1. The set of elements of order 1 of a semigroup S is
+      idempotents_grd(S).
+   2. In a group, the order of an element a is the smallest n >= 0 such
+      that a^n = 1.
+*/
+
+/* More efficiently, for compo_ and element a decide whether a has
+   order precisely n:
+*/
+test_order_element_sgr(compo_, a, n) := block(
+ [p : compo_(a,a), res : {a}, l : 1],
+  while not elementp(p,res) and l <= n do (
+   res : adjoin(p,res), l : l+1,
+   p : compo_(p,a)
+  ),
+  is(l=n))$
+
+/* For a semigroup S and a number n, the subset of S of elements of
+   order precisely n:
+*/
+subset_order_sgr(S,n) :=
+ subset(first(S), lambda([x], test_order_element_sgr(second(S), x, n)))$
+
 
 /* Computing the triple [index, period, order] of a: */
 ipo_element_sgr(compo_, a) := block(

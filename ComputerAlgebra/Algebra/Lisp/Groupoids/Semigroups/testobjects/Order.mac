@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 18.5.2010 (Swansea) */
-/* Copyright 2010 Oliver Kullmann
+/* Copyright 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,6 +23,9 @@ oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/tests/Ord
 
 okltest_closure_element_sgr(closure_element_sgr);
 okltest_order_element_sgr(order_element_sgr);
+
+okltest_test_order_element_sgr(test_order_element_sgr);
+okltest_subset_order_sgr(subset_order_sgr);
 
 okltest_ipo_element_sgr(ipo_element_sgr);
 okltest_ipokernel_element_sgr(ipokernel_element_sgr);
