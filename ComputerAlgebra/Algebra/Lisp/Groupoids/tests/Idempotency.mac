@@ -34,22 +34,22 @@ okltest_idempotent_el_grd(f) := (
     assert(f(V,x) = true)),
   true)$
 
-okltest_has_idempotent_el_grd(f) := block([x,y],
+okltest_has_idempotent_el_grd(f) := (
   assert(f(empty_sgr) = false),
   assert(f(singleton_sgr) = true),
   assert(f(leftnull_sgr({1,2,3})) = true),
   assert(f(rightnull_sgr({1,2,3})) = true),
   assert(f(null_sgr({1,2,3},1)) = true),
-  assert(f(scom2grd(m2scom(matrix([2,x],[2,y])))) = false),
+  assert(f(scom2grd(m2scom(matrix([2,1],[2,1])))) = false),
   true)$
 
-okltest_idempotent_bydef_grd(f) := block([x,y],
+okltest_idempotent_bydef_grd(f) := (
   assert(f(empty_sgr) = true),
   assert(f(singleton_sgr) = true),
   assert(f(leftnull_sgr({1,2,3})) = true),
   assert(f(rightnull_sgr({1,2,3})) = true),
   assert(f(null_sgr({1,2,3},1)) = false),
-  assert(f(scom2grd(m2scom(matrix([2,x],[2,y])))) = false),
+  assert(f(scom2grd(m2scom(matrix([2,1],[2,1])))) = false),
   true)$
 
 okltest_idempotents_grd(f) := (
