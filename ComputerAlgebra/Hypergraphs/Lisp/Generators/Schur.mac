@@ -23,6 +23,10 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/VanderWaerden.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGroups.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGroups.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/InvertibleElements.mac")$
 
 
 /* *******************
@@ -170,6 +174,111 @@ nver_schurtriples_pd_ohg(n) := nver_schurtriples_pd_hg(n)$
 
 nver_wschurtriples_pd_hg(n) := ceiling(n/2)$
 nver_wschurtriples_pd_ohg(n) := nver_wschurtriples_pd_hg(n)$
+
+
+/* *****************
+   * Group triples *
+   *****************
+*/
+
+/* Generalisation (in some form) via using a group (G,*,e):
+   The hyperedges are now of the form {x,y,x*y} with x,y,x*y # e.
+*/
+
+/* Creating the hyperedges by running through all x,y and removing hyperedges
+   containing the neutral elemenet:
+*/
+grouptriples_ougrp2ohg(G) := block(
+ [V : rest(first(G)), compo_ : second(G), e : third(G)],
+  [V,
+   sublist(create_list({x,y,compo_(x,y)}, x,V, y,V),
+           lambda([H], not elementp(e, H)))])$
+/* Note that here in general we have multiple occurrences of hyperedges. */
+grouptriples_ugrp2hg(G) := ohg2hg(grouptriples_ougrp2ohg(ugrp2ougrp(G)))$
+
+/* Eliminating subsumptions: */
+grouptriples_me_ougrp2ohg(G) := block([H : grouptriples_ougrp2ohg(G)],
+ [first(H), min_elements_l(second(H))])$
+grouptriples_me_ugrp2hg(G) := block([H : grouptriples_ugrp2hg(G)],
+ [first(H), min_elements(second(H))])$
+
+/* The sub-hypergraphs containing exactly the hyperedges of length 3: */
+wgrouptriples_ougrp2ohg(G) := block(
+ [V : rest(first(G)), compo_ : second(G), e : third(G)],
+  [V,
+   sublist(create_list({x,y,compo_(x,y)}, x,V, y,V),
+           lambda([H], not elementp(e, H) and length(H)#2))])$
+wgrouptriples_ugrp2hg(G) := ohg2hg(wgrouptriples_ougrp2ohg(ugrp2ougrp(G)))$
+
+
+/* Statistics functions: */
+
+nver_grouptriples_ougrp2ohg(G) := length(first(G)) - 1$
+nver_grouptriples_ugrp2hg(G) := length(first(G)) - 1$
+nver_grouptriples_me_ougrp2ohg(G) := length(first(G)) - 1$
+nver_grouptriples_me_ugrp2hg(G) := length(first(G)) - 1$
+nver_wgrouptriples_ougrp2ohg(G) := length(first(G)) - 1$
+nver_wgrouptriples_ugrp2hg(G) := length(first(G)) - 1$
+
+nhyp_grouptriples_ougrp2ohg(G) := block([n : length(first(G))], (n-1)*(n-2))$
+nhyp_wgrouptriples_ougrp2ohg(G) := block([n : length(first(G))],
+ (n-1)*(n-3) + length(involutions_ugrd(ougrd2ugrd(G))))$
+/* Remark: Compared to nhyp_grouptriples_ougrp2ohg, we have to subtract
+   the 2-hyperedges {x,x*x}, where now the involutions are doubly-counted
+   (also as hyperedges {x,e}).
+*/
+
+
+/* Special cases: */
+
+/* Modular Schur-triples (n >= 0): */
+mschurtriples_ohg(n) := grouptriples_ougrp2ohg(cyclic_ougrp(n+1))$
+mschurtriples_hg(n) := grouptriples_ugrp2hg(cyclic_ugrp(n+1))$
+mschurtriples_me_ohg(n) := grouptriples_me_ougrp2ohg(cyclic_ougrp(n+1))$
+mschurtriples_me_hg(n) := grouptriples_me_ugrp2hg(cyclic_ugrp(n+1))$
+wmschurtriples_ohg(n) := wgrouptriples_ougrp2ohg(cyclic_ougrp(n+1))$
+wmschurtriples_hg(n) := wgrouptriples_ugrp2hg(cyclic_ugrp(n+1))$
+
+nver_mschurtriples_ohg(n) := n$
+nver_mschurtriples_hg(n) := n$
+nver_mschurtriples_me_ohg(n) := n$
+nver_mschurtriples_me_hg(n) := n$
+nver_wmschurtriples_ohg(n) := n$
+nver_wmschurtriples_hg(n) := n$
+
+nhyp_mschurtriples_ohg(n) := n*(n-1)$
+/* Remark: This is (basically) http://oeis.org/A002378 . */
+/* nhyp_mschurtriples_hg(n) := unknown$ */
+/* nhyp_mschurtriples_me_ohg(n) := unknown$ */
+/* nhyp_mschurtriples_me_hg(n) := unknown$ */
+nhyp_wmschurtriples_ohg(n) := n*(n-2) + mod(n,2)$
+/* Remark: This is http://oeis.org/A137932 = n^2 - 2*n + mod(n,2).
+   For every x#0 there are two y which do not lead to acceptable z = x + y,
+   namely y = x and y = -x; this coincides in case of x = -x <=> 2x = 0,
+   which is a unique solution in case n is odd, and no solution for even n.
+   This is a special case of nhyp_wgrouptriples_ougrp2ohg(G).
+*/
+/* nhyp_wmschurtriples_hg(n) := unknown$ */
+
+
+/* Symmetric groups (n >= 0): */
+symmetrictriples_ohg(n) := grouptriples_ougrp2ohg(sym_l_ougrp(n))$
+symmetrictriples_hg(n) := grouptriples_ugrp2hg(sym_l_ugrp(n))$
+symmetrictriples_me_ohg(n) := grouptriples_me_ougrp2ohg(sym_l_ougrp(n))$
+symmetrictriples_me_hg(n) := grouptriples_me_ugrp2hg(sym_l_ugrp(n))$
+wsymmetrictriples_ohg(n) := wgrouptriples_ougrp2ohg(sym_l_ougrp(n))$
+wsymmetrictriples_hg(n) := wgrouptriples_ugrp2hg(sym_l_ugrp(n))$
+
+nver_symmetrictriples_ohg(n) := n!-1$
+nver_symmetrictriples_hg(n) := n!-1$
+nver_symmetrictriples_me_ohg(n) := n!-1$
+nver_symmetrictriples_me_hg(n) := n!-1$
+nver_wsymmetrictriples_ohg(n) := n!-1$
+nver_wsymmetrictriples_hg(n) := n!-1$
+
+nhyp_symmetrictriples_ohg(n) := block([f : n!], (f-1)*(f-2))$
+nhyp_wsymmetrictriples_ohg(n) := block([f : n!],
+ (f-1)*(f-3) + numinvolutions_symgrp(n) - 1)$
 
 
 /* ****************

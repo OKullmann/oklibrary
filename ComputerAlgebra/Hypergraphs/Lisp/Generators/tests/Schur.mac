@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/tests/Schur.mac");
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Schur.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Statistics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGroups.mac")$
 
 kill(f)$
 
@@ -186,13 +187,299 @@ okltest_wschurtriples_pd_ohg(f) := (
   true)$
 
 okltest_nver_schurtriples_pd_ohg(f) := (
-  for n : 0 thru 10 do
+  for n : 0 thru cokltl(10,20) do
     assert(f(n) = nver_ohg(schurtriples_pd_ohg(n))),
   true)$
 
 okltest_nver_wschurtriples_pd_ohg(f) := (
-  for n : 0 thru 10 do
+  for n : 0 thru cokltl(10,20) do
     assert(f(n) = nver_ohg(wschurtriples_pd_ohg(n))),
+  true)$
+
+
+/* *****************
+   * Group triples *
+   *****************
+*/
+
+okltest_grouptriples_ougrp2ohg(f) := (
+  assert(f(cyclic_ougrp(1)) = [[],[]]),
+  /* XXX */
+  true)$
+
+okltest_grouptriples_ugrp2hg(f) := (
+  assert(f(cyclic_ugrp(1)) = [{},{}]),
+  /* XXX */
+  true)$
+
+okltest_grouptriples_me_ougrp2ohg(f) := (
+  assert(f(cyclic_ougrp(1)) = [[],[]]),
+  /* XXX */
+  true)$
+
+okltest_grouptriples_me_ugrp2hg(f) := (
+  assert(f(cyclic_ugrp(1)) = [{},{}]),
+  /* XXX */
+  true)$
+
+okltest_wgrouptriples_ougrp2ohg(f) := (
+  assert(f(cyclic_ougrp(1)) = [[],[]]),
+  /* XXX */
+  true)$
+
+okltest_wgrouptriples_ugrp2hg(f) := (
+  assert(f(cyclic_ugrp(1)) = [{},{}]),
+  /* XXX */
+  true)$
+
+okltest_nver_grouptriples_ougrp2ohg(f) := block([C],
+  assert(f([[0],C]) = 0),
+  assert(f([[0,1],C]) = 1),
+  assert(f([[0,1,3],C]) = 2),
+  true)$
+
+okltest_nver_grouptriples_ugrp2hg(f) := block([C],
+  assert(f([{0},C]) = 0),
+  assert(f([{0,1},C]) = 1),
+  assert(f([{0,1,3},C]) = 2),
+  true)$
+
+okltest_nver_grouptriples_me_ougrp2ohg(f) := block([C],
+  assert(f([[0],C]) = 0),
+  assert(f([[0,1],C]) = 1),
+  assert(f([[0,1,3],C]) = 2),
+  true)$
+
+okltest_nver_grouptriples_me_ugrp2hg(f) := block([C],
+  assert(f([{0},C]) = 0),
+  assert(f([{0,1},C]) = 1),
+  assert(f([{0,1,3},C]) = 2),
+  true)$
+
+okltest_nver_wgrouptriples_ougrp2ohg(f) := block([C],
+  assert(f([[0],C]) = 0),
+  assert(f([[0,1],C]) = 1),
+  assert(f([[0,1,3],C]) = 2),
+  true)$
+
+okltest_nver_wgrouptriples_ugrp2hg(f) := block([C],
+  assert(f([{0},C]) = 0),
+  assert(f([{0,1},C]) = 1),
+  assert(f([{0,1,3},C]) = 2),
+  true)$
+
+okltest_nhyp_grouptriples_ougrp2ohg(f) := (
+  for G in append(create_list(cyclic_ougrp(n),n,1,cokltl(5,20)), create_list(sym_l_ougrp(n),n,1,cokltl(4,5))) do
+    assert(f(G) = nhyp_ohg(grouptriples_ougrp2ohg(G))),
+  true)$
+
+okltest_nhyp_wgrouptriples_ougrp2ohg(f) := (
+  for G in append(create_list(cyclic_ougrp(n),n,1,cokltl(5,20)), create_list(sym_l_ougrp(n),n,1,cokltl(4,5))) do
+    assert(f(G) = nhyp_ohg(wgrouptriples_ougrp2ohg(G))),
+  true)$
+
+okltest_mschurtriples_ohg(f) := (
+  assert(f(0) = [[],[]]),
+  assert(f(1) = [[1],[]]),
+  assert(f(2) = [[1,2],[{1,2},{1,2}]]),
+  assert(f(3) = [[1,2,3],[{1,2},{1,2,3},{1,2,3},{1,2,3},{1,2,3},{2,3}]]),
+  assert(f(4) = [[1,2,3,4],[{1,2},{1,2,3},{1,3,4},{1,2,3},{2,4},{1,2,4},{1,3,4},{1,3},{2,3,4},{1,2,4},{2,3,4},{3,4}]]),
+  true)$
+
+okltest_mschurtriples_hg(f) := (
+  assert(f(0) = [{},{}]),
+  assert(f(1) = [{1},{}]),
+  assert(f(2) = [{1,2},{{1,2}}]),
+  assert(f(3) = [{1,2,3},{{1,2},{1,2,3},{2,3}}]),
+  assert(f(4) = [{1,2,3,4},{{1,2},{1,2,3},{1,3,4},{2,4},{1,2,4},{1,3},{2,3,4},{1,2,4},{3,4}}]),
+  true)$
+
+okltest_mschurtriples_me_ohg(f) := (
+  assert(f(0) = [[],[]]),
+  assert(f(1) = [[1],[]]),
+  assert(f(2) = [[1,2],[{1,2}]]),
+  assert(f(3) = [[1,2,3],[{1,2},{2,3}]]),
+  assert(f(4) = [[1,2,3,4],[{1,2},{2,4},{1,3},{3,4}]]),
+  true)$
+
+okltest_mschurtriples_me_hg(f) := (
+  assert(f(0) = [{},{}]),
+  assert(f(1) = [{1},{}]),
+  assert(f(2) = [{1,2},{{1,2}}]),
+  assert(f(3) = [{1,2,3},{{1,2},{2,3}}]),
+  assert(f(4) = [{1,2,3,4},{{1,2},{2,4},{1,3},{3,4}}]),
+  true)$
+
+okltest_wmschurtriples_ohg(f) := (
+  assert(f(0) = [[],[]]),
+  assert(f(1) = [[1],[]]),
+  assert(f(2) = [[1,2],[]]),
+  assert(f(3) = [[1,2,3],[{1,2,3},{1,2,3},{1,2,3},{1,2,3}]]),
+  assert(f(4) = [[1,2,3,4],[{1,2,3},{1,3,4},{1,2,3},{1,2,4},{1,3,4},{2,3,4},{1,2,4},{2,3,4}]]),
+  true)$
+
+okltest_wmschurtriples_hg(f) := (
+  assert(f(0) = [{},{}]),
+  assert(f(1) = [{1},{}]),
+  assert(f(2) = [{1,2},{}]),
+  assert(f(3) = [{1,2,3},{{1,2,3}}]),
+  assert(f(4) = [{1,2,3,4},{{1,2,3},{1,3,4},{1,2,4},{2,3,4},{1,2,4}}]),
+  true)$
+
+okltest_nver_mschurtriples_ohg(f) := (
+  for n : 0 thru cokltl(10,20) do
+    assert(f(n) = nver_ohg(mschurtriples_ohg(n))),
+  true)$
+
+okltest_nver_mschurtriples_hg(f) := (
+  for n : 0 thru cokltl(10,20) do
+    assert(f(n) = nver_hg(mschurtriples_hg(n))),
+  true)$
+
+okltest_nver_mschurtriples_me_ohg(f) := (
+  for n : 0 thru cokltl(10,20) do
+    assert(f(n) = nver_ohg(mschurtriples_me_ohg(n))),
+  true)$
+
+okltest_nver_mschurtriples_me_hg(f) := (
+  for n : 0 thru cokltl(10,20) do
+    assert(f(n) = nver_hg(mschurtriples_me_hg(n))),
+  true)$
+
+okltest_nver_wmschurtriples_ohg(f) := (
+  for n : 0 thru cokltl(10,20) do
+    assert(f(n) = nver_ohg(wmschurtriples_ohg(n))),
+  true)$
+
+okltest_nver_wmschurtriples_hg(f) := (
+  for n : 0 thru cokltl(10,20) do
+    assert(f(n) = nver_hg(wmschurtriples_hg(n))),
+  true)$
+
+okltest_nhyp_mschurtriples_ohg(f) := (
+  for n : 0 thru cokltl(10,20) do
+    assert(f(n) = nhyp_ohg(mschurtriples_ohg(n))),
+  true)$
+
+/*
+okltest_nhyp_mschurtriples_hg(f) := (
+  for n : 0 thru cokltl(10,20) do
+    assert(f(n) = nhyp_hg(mschurtriples_hg(n))),
+  true)$
+*/
+
+/*
+okltest_nhyp_mschurtriples_me_ohg(f) := (
+  for n : 0 thru cokltl(10,20) do
+    assert(f(n) = nhyp_ohg(mschurtriples_me_ohg(n))),
+  true)$
+*/
+
+/*
+okltest_nhyp_mschurtriples_me_hg(f) := (
+  for n : 0 thru cokltl(10,20) do
+    assert(f(n) = nhyp_hg(mschurtriples_me_hg(n))),
+  true)$
+*/
+
+okltest_nhyp_wmschurtriples_ohg(f) := (
+  for n : 0 thru cokltl(10,20) do
+    assert(f(n) = nhyp_ohg(wmschurtriples_ohg(n))),
+  true)$
+
+/*
+okltest_nhyp_wmschurtriples_hg(f) := (
+  for n : 0 thru cokltl(10,20) do
+    assert(f(n) = nhyp_ohg(wmschurtriples_hg(n))),
+  true)$
+*/
+
+okltest_symmetrictriples_ohg(f) := (
+  assert(f(0) = [[],[]]),
+  assert(f(1) = [[],[]]),
+  assert(f(2) = [[[2,1]],[]]),
+  assert(f(3)[1] = [[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]),
+  /* XXX */
+  true)$
+
+okltest_symmetrictriples_hg(f) := (
+  assert(f(0) = [{},{}]),
+  assert(f(1) = [{},{}]),
+  assert(f(2) = [{[2,1]},{}]),
+  assert(f(3)[1] = {[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]}),
+  /* XXX */
+  true)$
+
+okltest_symmetrictriples_me_ohg(f) := (
+  assert(f(0) = [[],[]]),
+  assert(f(1) = [[],[]]),
+  assert(f(2) = [[[2,1]],[]]),
+  assert(f(3)[1] = [[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]),
+  /* XXX */
+  true)$
+
+okltest_symmetrictriples_me_hg(f) := (
+  assert(f(0) = [{},{}]),
+  assert(f(1) = [{},{}]),
+  assert(f(2) = [{[2,1]},{}]),
+  assert(f(3)[1] = {[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]}),
+  /* XXX */
+  true)$
+
+okltest_wsymmetrictriples_ohg(f) := (
+  assert(f(0) = [[],[]]),
+  assert(f(1) = [[],[]]),
+  assert(f(2) = [[[2,1]],[]]),
+  assert(f(3)[1] = [[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]),
+  /* XXX */
+  true)$
+
+okltest_wsymmetrictriples_hg(f) := (
+  assert(f(0) = [{},{}]),
+  assert(f(1) = [{},{}]),
+  assert(f(2) = [{[2,1]},{}]),
+  assert(f(3)[1] = {[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]}),
+  /* XXX */
+  true)$
+
+okltest_nver_symmetrictriples_ohg(f) := (
+  for n : 0 thru cokltl(3,4,5) do
+    assert(f(n) = nver_ohg(symmetrictriples_ohg(n))),
+  true)$
+
+okltest_nver_symmetrictriples_hg(f) := (
+  for n : 0 thru cokltl(3,4,5) do
+    assert(f(n) = nver_hg(symmetrictriples_hg(n))),
+  true)$
+
+okltest_nver_symmetrictriples_me_ohg(f) := (
+  for n : 0 thru cokltl(3,4,5) do
+    assert(f(n) = nver_ohg(symmetrictriples_me_ohg(n))),
+  true)$
+
+okltest_nver_symmetrictriples_me_hg(f) := (
+  for n : 0 thru cokltl(3,4,5) do
+    assert(f(n) = nver_hg(symmetrictriples_me_hg(n))),
+  true)$
+
+okltest_nver_wsymmetrictriples_ohg(f) := (
+  for n : 0 thru cokltl(3,4,5) do
+    assert(f(n) = nver_ohg(wsymmetrictriples_ohg(n))),
+  true)$
+
+okltest_nver_wsymmetrictriples_hg(f) := (
+  for n : 0 thru cokltl(3,4,5) do
+    assert(f(n) = nver_hg(wsymmetrictriples_hg(n))),
+  true)$
+
+okltest_nhyp_symmetrictriples_ohg(f) := (
+  for n : 0 thru cokltl(3,4,5) do
+    assert(f(n) = nhyp_ohg(symmetrictriples_ohg(n))),
+  true)$
+
+okltest_nhyp_wsymmetrictriples_ohg(f) := (
+  for n : 0 thru cokltl(3,4,5) do
+    assert(f(n) = nhyp_ohg(wsymmetrictriples_ohg(n))),
   true)$
 
 

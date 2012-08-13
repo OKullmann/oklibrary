@@ -186,4 +186,36 @@ create_list(pdwschur(i),i,0,4);
    <li> It seems that there is only little deviation from pdschur(r). </li>
   </ul>
 
+
+  \todo Modular form of Schur numbers
+  <ul>
+   <li> The number of hyperedges of mschurtriples_ohg and its altogether
+   6 variations (where we know 2 of them; see
+   ComputerAlgebra/Hypergraphs/Lisp/Generators/Schur.mac) should be of
+   interest to OEIS. The 2 known are in OEIS, but not the unknown ones. </li>
+   <li> Similar for the 6 forms of numbers of hyperedges of
+   symmetrictriples_ohg. Again we know two cases, but now none of them is in
+   the OEIS:
+   \verbatim
+create_list(nhyp_ohg(symmetrictriples_ohg(n)),n,0,5);
+  [0,0,0,20,506,14042]
+create_list(nhyp_hg(symmetrictriples_hg(n)),n,0,5);
+  [0,0,0,7,305,11003]
+create_list(nhyp_ohg(symmetrictriples_me_ohg(n)),n,0,5);
+  [0,0,0,7,302,10924]
+create_list(nhyp_hg(symmetrictriples_me_hg(n)),n,0,5);
+  [0,0,0,7,302,10924]
+create_list(nhyp_ohg(wsymmetrictriples_ohg(n)),n,0,5);
+  [0,0,0,18,492,13948]
+create_list(nhyp_hg(wsymmetrictriples_hg(n)),n,0,5);
+  [0,0,0,6,295,10919]
+
+create_list(nhyp_symmetrictriples_ohg(n),n,0,5);
+  [0,0,0,20,506,14042]
+create_list(nhyp_wsymmetrictriples_ohg(n),n,0,5);
+  [0,0,0,18,492,13948]
+   \endverbatim
+   </li>
+  </ul>
+
 */

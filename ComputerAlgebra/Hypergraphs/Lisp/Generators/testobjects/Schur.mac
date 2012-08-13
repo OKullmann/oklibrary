@@ -55,6 +55,66 @@ okltest_wschurtriples_pd_ohg(wschurtriples_pd_ohg);
 okltest_nver_schurtriples_pd_ohg(nver_schurtriples_pd_ohg);
 okltest_nver_wschurtriples_pd_ohg(nver_wschurtriples_pd_ohg);
 
+/* *****************
+   * Group triples *
+   *****************
+*/
+
+okltest_grouptriples_ougrp2ohg(grouptriples_ougrp2ohg);
+okltest_grouptriples_ugrp2hg(grouptriples_ugrp2hg);
+okltest_grouptriples_me_ougrp2ohg(grouptriples_me_ougrp2ohg);
+okltest_grouptriples_me_ugrp2hg(grouptriples_me_ugrp2hg);
+okltest_wgrouptriples_ougrp2ohg(wgrouptriples_ougrp2ohg);
+okltest_wgrouptriples_ugrp2hg(wgrouptriples_ugrp2hg);
+
+okltest_nver_grouptriples_ougrp2ohg(nver_grouptriples_ougrp2ohg);
+okltest_nver_grouptriples_ugrp2hg(nver_grouptriples_ugrp2hg);
+okltest_nver_grouptriples_me_ougrp2ohg(nver_grouptriples_me_ougrp2ohg);
+okltest_nver_grouptriples_me_ugrp2hg(nver_grouptriples_me_ugrp2hg);
+okltest_nver_wgrouptriples_ougrp2ohg(nver_wgrouptriples_ougrp2ohg);
+okltest_nver_wgrouptriples_ugrp2hg(nver_wgrouptriples_ugrp2hg);
+
+okltest_nhyp_grouptriples_ougrp2ohg(nhyp_grouptriples_ougrp2ohg);
+okltest_nhyp_wgrouptriples_ougrp2ohg(nhyp_wgrouptriples_ougrp2ohg);
+
+okltest_mschurtriples_ohg(mschurtriples_ohg);
+okltest_mschurtriples_hg(mschurtriples_hg);
+okltest_mschurtriples_me_ohg(mschurtriples_me_ohg);
+okltest_mschurtriples_me_hg(mschurtriples_me_hg);
+okltest_wmschurtriples_ohg(wmschurtriples_ohg);
+okltest_wmschurtriples_hg(wmschurtriples_hg);
+
+okltest_nver_mschurtriples_ohg(nver_mschurtriples_ohg);
+okltest_nver_mschurtriples_hg(nver_mschurtriples_hg);
+okltest_nver_mschurtriples_me_ohg(nver_mschurtriples_me_ohg);
+okltest_nver_mschurtriples_me_hg(nver_mschurtriples_me_hg);
+okltest_nver_wmschurtriples_ohg(nver_wmschurtriples_ohg);
+okltest_nver_wmschurtriples_hg(nver_wmschurtriples_hg);
+
+okltest_nhyp_mschurtriples_ohg(nhyp_mschurtriples_ohg);
+/* okltest_nhyp_mschurtriples_hg(nhyp_mschurtriples_hg); */
+/* okltest_nhyp_mschurtriples_me_ohg(nhyp_mschurtriples_me_ohg); */
+/* okltest_nhyp_mschurtriples_me_hg(nhyp_mschurtriples_me_hg); */
+okltest_nhyp_wmschurtriples_ohg(nhyp_wmschurtriples_ohg);
+/* okltest_nhyp_wmschurtriples_hg(nhyp_wmschurtriples_hg); */
+
+okltest_symmetrictriples_ohg(symmetrictriples_ohg);
+okltest_symmetrictriples_hg(symmetrictriples_hg);
+okltest_symmetrictriples_me_ohg(symmetrictriples_me_ohg);
+okltest_symmetrictriples_me_hg(symmetrictriples_me_hg);
+okltest_wsymmetrictriples_ohg(wsymmetrictriples_ohg);
+okltest_wsymmetrictriples_hg(wsymmetrictriples_hg);
+
+okltest_nver_symmetrictriples_ohg(nver_symmetrictriples_ohg);
+okltest_nver_symmetrictriples_hg(nver_symmetrictriples_hg);
+okltest_nver_symmetrictriples_me_ohg(nver_symmetrictriples_me_ohg);
+okltest_nver_symmetrictriples_me_hg(nver_symmetrictriples_me_hg);
+okltest_nver_wsymmetrictriples_ohg(nver_wsymmetrictriples_ohg);
+okltest_nver_wsymmetrictriples_hg(nver_wsymmetrictriples_hg);
+
+okltest_nhyp_symmetrictriples_ohg(nhyp_symmetrictriples_ohg);
+okltest_nhyp_wsymmetrictriples_ohg(nhyp_wsymmetrictriples_ohg);
+
 /*!
 \endhtmlonly
 */
