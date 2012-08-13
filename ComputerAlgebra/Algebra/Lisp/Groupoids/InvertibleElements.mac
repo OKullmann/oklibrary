@@ -45,11 +45,16 @@ inversion_ugrd(V,f) := leftinversion_ugrd(V,f) and rightinversion_ugrd(V,f)$
    ***************
 */
 
-/* Involutions are self-inverse elements (not the neutral element). */
+/* Involutions are self-inverse elements. */
 
-/* The set of involutions of a unital groupoid: */
+/* The set of non-trivial involutions of a unital groupoid: */
 involutions_ugrd(V) :=
  subset(disjoin(V[3],V[1]), lambda([x], is(V[2](x,x) = V[3])))$
+/* Remark: The name of the function reflects that in the context of
+   group-theory, involutions are non-trivial (not the neutral elemenet).
+   However in the context of functions, the identity is considered to be
+   an involution.
+*/
 
 /*!
 \endhtmlonly
