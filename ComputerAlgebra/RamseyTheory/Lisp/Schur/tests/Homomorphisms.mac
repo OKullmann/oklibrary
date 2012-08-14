@@ -23,6 +23,8 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Homomorphisms.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Ramsey.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Generators/Schur.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGroups.mac")$
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGroups.mac")$
 
 kill(f)$
 
@@ -33,10 +35,21 @@ kill(f)$
 */
 
 okltest_hom_ramsey_schur(f) := (
-  for n : 0 thru cokltl(5,16) do
+  for n : 0 thru cokltl(5,20) do
     assert(homomorphism_bydef_hg(f(n), ramsey_hg(3,2,n+1), schurtriples_hg(n)) = true),
-  for n : 0 thru cokltl(5,16) do
+  for n : 0 thru cokltl(5,20) do
     assert(suphomomorphism_bydef_hg(f(n), ramsey_hg(4,2,n+1), wschurtriples_hg(n)) = true),
+  true)$
+
+okltest_hom_ramsey_group_ugrpi(f) := (
+for n : 1 thru cokltl(5,20) do (
+  assert(homomorphism_bydef_hg(f(cyclic_ugrpi(n)), ramsey_hg(3,2,n), grouptriples_ugrp2hg(cyclic_ugrp(n))) = true),
+  assert(suphomomorphism_bydef_hg(f(cyclic_ugrpi(n)), ramsey_hg(4,2,n), wgrouptriples_ugrp2hg(cyclic_ugrp(n))) = true)
+  ),
+  for n : 0 thru cokltl(3,4,5) do (
+  assert(homomorphism_bydef_hg(f(sym_l_ugrpi(n)), ramsey_hg(3,2,n!), grouptriples_ugrp2hg(sym_l_ugrp(n))) = true),
+  assert(suphomomorphism_bydef_hg(f(sym_l_ugrpi(n)), ramsey_hg(4,2,n!), wgrouptriples_ugrp2hg(sym_l_ugrp(n))) = true)
+  ),
   true)$
 
 

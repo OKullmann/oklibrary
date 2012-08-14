@@ -35,8 +35,17 @@ hom_ramsey_schur(n) := lambda([e], second_element(e) - first_element(e))$
 
 /* Due to these morphisms we have
      schur(r)  <= ramsey([2,create_list(3,i,1,r)]) - 1
-     wschur(r) <= ramsey([2,create_list(4,i,1,r)]) - 1
+     wschur(r) <= ramsey([2,create_list(4,i,1,r)]) - 1.
 */
+
+/* For a group G (with inversion) of order n together with an arbitrary
+   linear order V (as a repetition-free list) of the base-set of G, a
+   homomorphism from ramsey_hg(3,2,n) to grouptriples_ugrp2hg(G):
+*/
+hom_ramsey_group_ugrpi_l(G,V) := block(
+ [compo_ : G[2], inv_ : G[4], A : l2ary(V)],
+ buildq([compo_,inv_,A], lambda([e], compo_(A[second_element(e)], inv_(A[first_element(e)])))))$
+hom_ramsey_group_ugrpi(G) := hom_ramsey_group_ugrpi_l(G,listify(G[1]))$
 
 
 /* *****************

@@ -28,6 +28,8 @@ oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/tests/Homomorphisms
 
 okltest_hom_ramsey_schur(hom_ramsey_schur);
 
+okltest_hom_ramsey_group_ugrpi(hom_ramsey_group_ugrpi);
+
 /* *****************
    * Automorphisms *
    *****************
