@@ -13,7 +13,8 @@ License, or any later version. */
 
   (In [Ramsey Theory on the Integers; Landman, Robertson, 2003] we have the
   conjecture "schur(5) = 160", but already 1994 it was shown schur(5) >= 161
-  (see below).)
+  (see below), so this is a mix-up of the two different forms of
+  "Schur-numbers".)
 
 
   \todo Overview

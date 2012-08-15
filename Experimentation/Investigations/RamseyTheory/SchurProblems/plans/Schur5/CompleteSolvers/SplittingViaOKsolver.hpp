@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Investigations/RamseyTheory/SchurProblems/plans/Schur5/SplittingViaOKsolver.hpp
+  \file Investigations/RamseyTheory/SchurProblems/plans/Schur5/CompleteSolvers/SplittingViaOKsolver.hpp
   \brief On computing schur(5) and variations via Cube-and-Conquer
 
 

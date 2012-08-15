@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Overview
   <ul>
    <li> See
-   RamseyTheory/SchurProblems/plans/Schur5/SplittingViaOKsolver/general.hpp
+   RamseyTheory/SchurProblems/plans/Schur5/CompleteSolvers/SplittingViaOKsolver.hpp
    for the Cube-and-Conquer method. </li>
   </ul>
 
