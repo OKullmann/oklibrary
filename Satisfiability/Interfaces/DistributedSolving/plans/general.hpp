@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.5.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -37,7 +37,7 @@ License, or any later version. */
    launches and monitors solving of the sub-instances computed by
    SplittingViaOKsolver. </li>
    <li> Better actually, just to split the SplitViaOKsolver-data into chunks,
-   which can be processed simply by processSplitViaOKsolver. </li>
+   which can be processed simply by ProcessSplitViaOKsolver. </li>
    <li> See "Simple script for monitoring remote processes" and
    "Launching and monitoring" in ExperimentSystem/plans/general.hpp. </li>
    <li> For very large tasks, a "database" as described below in "Organising

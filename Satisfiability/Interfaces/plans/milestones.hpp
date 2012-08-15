@@ -19,6 +19,7 @@ License, or any later version. */
   \par
    In Interfaces/DistributedSolving/plans/ProcessSplitViaOKsolver.hpp the
    following topics are handled:
+    - Better stopping
     - More powerful processing options
     - Option for using only decision variables with ProcessSplitViaOKsolver : DONE
 
