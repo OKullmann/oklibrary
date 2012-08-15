@@ -1223,6 +1223,28 @@ c splitting_cases                       338269
 
 > ProcessSplitViaOKsolver SplitViaOKsolver_D70Schur_pd_fullsb_5_158cnf_2012-07-31-200509
 XXX cs-oksvr
+# snapshot:
+> E=read_processsplit_minisat()
+43519: 14.21d, sum-cfs=3.600549e+10, mean-t=28.211s, mean-cfs=827351, sat: 0
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   0.26   14.23   22.52   28.21   36.26  265.10
+sd= 21.56667
+      95%       96%       97%       98%       99%      100%
+ 70.75960  76.57792  82.47688  89.24016 102.60168 265.11700
+sum= 1227703
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  10510  457000  691200  827400 1069000 6037000
+sd= 558543.2
+    95%     96%     97%     98%     99%    100%
+1920638 2080903 2233861 2395540 2697165 6037408
+sum= 36005485696
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -3.5609e+00  1.9277e-02 -184.72 < 2.2e-16 ***
+E$cfs        3.8402e-05  1.9311e-08 1988.55 < 2.2e-16 ***
+R-squared: 0.9891
    \endverbatim
    </li>
    <li> n=159:
@@ -1866,6 +1888,28 @@ c splitting_cases                       271909
 
 > ProcessSplitViaOKsolver SplitViaOKsolver_D70WSchur_pd_fullsb_5_159cnf_2012-08-12-211536
 XXX cs-wsok
+# snapshot:
+> E=read_processsplit_minisat()
+5291: 2.172d, sum-cfs=4.964561e+09, mean-t=35.470s, mean-cfs=938303, sat: 0
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+  0.5249  15.8300  26.8200  35.4700  43.1200 372.6000
+sd= 32.43662
+     95%      96%      97%      98%      99%     100%
+ 94.2842 100.2484 110.5093 126.4026 169.9983 372.5670
+sum= 187673.4
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  20720  465200  744400  938300 1157000 7869000
+sd= 749589.5
+    95%     96%     97%     98%     99%    100%
+2348392 2456147 2690294 3054848 3913020 7868819
+sum= 4964560830
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -4.9578e+00  6.6194e-02 -74.898 < 2.2e-16 ***
+E$cfs        4.3086e-05  5.5120e-08 781.690 < 2.2e-16 ***
+R-squared: 0.9914
    \endverbatim
    Likely the depth needed to be increased. </li>
   </ul>
