@@ -13,6 +13,10 @@ License, or any later version. */
    - ProcessSplitViaOKsolver
    - ProcessiCNF
 
+  See DistributedSolving/plans/RProcessSplitViaOKsolver.hpp for plans
+  regarding processing the task posed by SplittingViaOKsolver on remote
+  machines (many of them).
+
 
   \todo Better stopping
   <ul>

@@ -46,6 +46,11 @@ License, or any later version. */
    are handled:
     - Adding distribution power to SplittingViaOKsolver
 
+  \par
+   In Interfaces/DistributedSolving/plans/RProcessSplitViaOKsolver.hpp the
+   following topics are handled:
+    - Basic prototype
+
 
   \par Version 0.0.11
 

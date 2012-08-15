@@ -33,11 +33,17 @@ License, or any later version. */
 
   \todo Adding distribution power to SplittingViaOKsolver
   <ul>
-   <li> Basically a script which has given a list of machines where it
+   <li> DONE (it seems much better that "whoever" wants to do something, just
+   asks for a chunk of work; this leaves a log-entry, but is not organised in
+   advanced)
+   Basically a script which has given a list of machines where it
    launches and monitors solving of the sub-instances computed by
    SplittingViaOKsolver. </li>
    <li> Better actually, just to split the SplitViaOKsolver-data into chunks,
-   which can be processed simply by ProcessSplitViaOKsolver. </li>
+   which can be processed simply by ProcessSplitViaOKsolver. So it seems that
+   SplittingViaOKsolver should not be affected. </li>
+   <li> See Interfaces/DistributedSolving/plans/RProcessSplitViaOKsolver.hpp
+   for the script doing remote-processing. </li>
    <li> See "Simple script for monitoring remote processes" and
    "Launching and monitoring" in ExperimentSystem/plans/general.hpp. </li>
    <li> For very large tasks, a "database" as described below in "Organising
@@ -49,7 +55,10 @@ License, or any later version. */
   <ul>
    <li> This is about larger tasks, involving separated groups, attacked by
    SplittingViaOKsolver. </li>
-   <li> Would be good if it could be organised via Github. </li>
+   <li> Could be good if it could be organised via Github, or might this
+   be a misuse? Likely the atomicity can not be organised --- allowing clashes
+   are basic part of Git, but should not be allowed here. So Github seems
+   inappropriate here. </li>
    <li> The "database" could be just a file with one entry per line,
    either a single number i, or a range i-j, for the sub-instances which
    have been solved already. </li>
@@ -72,6 +81,10 @@ License, or any later version. */
      assigning chunks, i.e., intervals i-j of indices of sub-problems. </li>
      <li> One need then to have a file with participants, and their assigned
      intervals. </li>
+     <li> On the other hand, instead of assigning workloads, it seems far
+     easier that processors acquire workloads themselves, by just *actively*
+     obtaining in a standardised way a chunk of work from the database (in
+     an atomic way). </li>
     </ol>
    </li>
   </ul>
