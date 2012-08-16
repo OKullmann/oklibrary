@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 7.6.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -96,7 +96,7 @@ oct2int(str) := polyadicstr2int(str,8)$
 dec2int(str) := polyadicstr2int(str,10)$
 hex2int(str) := polyadicstr2int(str,16)$
 
-/* Computing the representation of a number m to base by
+/* Computing the representation of a number m to base b by
    (as a list, big endian). */
 /* Prerequisites: m a natural number >= 0, b a natural number >= 2
    (where in case m=0 also b in {0,1} is possible). */
@@ -136,6 +136,27 @@ hexstr2binv(str) := lappend(map(lambda([x],int2polyadic_padd(x,2,4)),map(digit2i
 binv2hexstr(v) := simplode(map(int2digit,map(lambda([x],polyadic2int(x,2)),partition_elements(v,4))))$
 /* Example: binv2hexstr([1,1,1,1,1]) = "F1" = binv2hexstr([1,1,1,1,0,0,0,1]).
 */
+
+
+/* The factorial number representation (see
+   http://en.wikipedia.org/wiki/Factoradic):
+*/
+factoradic2int(N) := block([res : 0, fac : 1, i : 0],
+ for d in reverse(N) do (res : d * fac + res, i : i + 1, fac : fac * i),
+ res)$
+
+int2factoradic(m) := if m = 0 then [0] else
+ block([res : [], f : 1, i : 0, div],
+  while f <= m do (i : i + 1, f : f * i),
+  f : f / i, i : i-1,
+  while i > 0 do (
+    div : divide(m, f),
+    res : cons(div[1],res),
+    m : div[2],
+    f : f / i,
+    i : i - 1
+  ),
+  reverse(cons(0,res)))$
 
 
 /* ************
