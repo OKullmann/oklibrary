@@ -228,6 +228,8 @@ okltest_factoradic2int(f) := (
   assert(f([1,1,0]) = 3),
   assert(f([2,0,0]) = 4),
   assert(f([2,1,0]) = 5),
+  assert(f([3,1,0,0]) = 20),
+  assert(f([5,4,3,2,1,0]) = 719),
   true)$
 
 okltest_int2factoradic(f) := (
