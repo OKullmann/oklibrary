@@ -145,18 +145,15 @@ factoradic2int(N) := block([res : 0, fac : 1, i : 0],
  for d in reverse(N) do (res : d * fac + res, i : i + 1, fac : fac * i),
  res)$
 
-int2factoradic(m) := if m = 0 then [0] else
- block([res : [], f : 1, i : 0, div],
-  while f <= m do (i : i + 1, f : f * i),
-  f : f / i, i : i-1,
-  while i > 0 do (
-    div : divide(m, f),
-    res : cons(div[1],res),
-    m : div[2],
-    f : f / i,
-    i : i - 1
-  ),
-  reverse(cons(0,res)))$
+int2factoradic(m) :=
+ block([res : [], i : 1, div],
+  do (
+    div : divide(m,i),
+    res : cons(div[2], res),
+    m : div[1],
+    if m=0 then return(res),
+    i : i + 1
+  ))$
 
 
 /* ************

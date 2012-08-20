@@ -234,6 +234,9 @@ okltest_factoradic2int(f) := (
 
 okltest_int2factoradic(f) := (
   assert(f(0) = [0]),
+  assert(f(1) = [1,0]),
+  assert(f(17) = [2,2,1,0]),
+  assert(f(0) = [0]),
   for n : 0 thru cokltl(120,720) do
     assert(factoradic2int(f(n)) = n),
   true)$
