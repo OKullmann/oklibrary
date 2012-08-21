@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 21.1.2009 (Swansea) */
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -55,7 +55,7 @@ count_ksubsets(n,k) := binomial(n,k)$
 lex_ksubsets_l(M,k) := listify(powerset(M,k))$
 /* This implementation assumes that the internal order of sets is given by
    lexicographical order.
-   Alternatively we have 
+   Alternatively we have
      lex_ksubsets_l(M,k) = lex_ksubsets_ll(listify(M),k)
                         = map(setify,
                               sort(map(listify,
@@ -66,7 +66,7 @@ lex_ksubsets_l(M,k) := listify(powerset(M,k))$
 */
 lex_ksubsets_ll(M,k) := reverse(colex_ksubsets_ll(reverse(M),k))$
 
-/* Returns the rank (position) of the subset S of {1,...,n} in the 
+/* Returns the rank (position) of the subset S of {1,...,n} in the
    lexicographical enumeration of all |S|-subsets: */
 rank_lex_ksubsets(S,n) := block([L : listify(S), k : length(S)],
   binomial(n,k) - sum_l(map(binomial,n-L,create_list(k-i+1, i,1,k))))$
@@ -83,7 +83,7 @@ rank_lex_ksubsets(S,n) := block([L : listify(S), k : length(S)],
 */
 
 /* Returns the 'x'th subset in the lexicographical enumeration of all
-   k-subsets of {1,...,n}: */ 
+   k-subsets of {1,...,n}: */
 unrank_lex_ksubsets(x,n,k) := block([S : [], L : 1],
   x : binomial(n,k) - x,
   for i : 1 thru k do block([j : k-i+1],
@@ -113,7 +113,7 @@ colex_ksubsets_l(M,k) := colex_ksubsets_ll(listify(M),k)$
 /* More generally, now M is a repetition-free list, and the order is as
    specified by the order of M:
 */
-colex_ksubsets_ll(M,k) := if k=0 then [{}] 
+colex_ksubsets_ll(M,k) := if k=0 then [{}]
  elseif k=1 then map(set,M)
  elseif k=2 then block([res : [], j : 1],
    for y in M do block([i : 1],
@@ -128,7 +128,7 @@ colex_ksubsets_ll(M,k) := if k=0 then [{}]
   block([x : last(M), R : rest(M,-1)],
     append(colex_ksubsets_ll(R,k), add_element_l(x,colex_ksubsets_ll(R,k-1))))$
 
-/* Returns the rank (position) of the subset S of {1,...,n} in the 
+/* Returns the rank (position) of the subset S of {1,...,n} in the
    colexicographical enumeration of all |S|-subsets: */
 rank_colex_ksubsets(S) := block([L : listify(S)],
   sum_l(map(binomial,L-1,create_list(i,i,1,length(L)))) + 1)$
@@ -145,7 +145,7 @@ rank_colex_ksubsets(S) := block([L : listify(S)],
 */
 
 /* Returns the 'x'th subset in the colexicographical enumeration of all
-   k-subsets of {1,...,n}. */ 
+   k-subsets of {1,...,n}. */
 unrank_colex_ksubsets(x,n,k) := block([S : [], L : n],
   x : x - 1,
   for i : k thru 1 step -1 do (
