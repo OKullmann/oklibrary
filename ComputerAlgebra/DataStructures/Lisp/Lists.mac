@@ -390,6 +390,14 @@ remove_random_element(L) := block([n : length(ev(L)), i, x],
 count_l(x,L) := block([_res : 0],
  for _y in L do if _y = x then _res : _res + 1,
  _res)$
+/* Count the number of occurrences of elements > x in L: */
+countgt_l(x, L) := block([_res : 0],
+ for _y in L do if _y > x then _res : _res + 1,
+ _res)$
+/* Count the number of occurrences of elements < x in L: */
+countlt_l(x, L) := block([_res : 0],
+ for _y in L do if _y < x then _res : _res + 1,
+ _res)$
 /* More generally, count the number of elements in L where _pred is true: */
 countpred_l(_pred,L) := block([_res : 0],
  for _x in L do if _pred(_x) then _res : _res + 1,

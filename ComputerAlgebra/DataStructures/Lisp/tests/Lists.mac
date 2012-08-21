@@ -573,6 +573,22 @@ okltest_count_l(f) := (
   assert(f(0,[1,2,0,0,1,-1,0,3]) = 3),
   true)$
 
+okltest_countgt_l(f) := (
+  assert(f(0,[]) = 0),
+  assert(f(0,[1]) = 1),
+  assert(f(0,[0]) = 0),
+  assert(f(0,[-1]) = 0),
+  assert(f(0,[1,2,0,0,1,-1,0,3]) = 4),
+  true)$
+
+okltest_countlt_l(f) := (
+  assert(f(0,[]) = 0),
+  assert(f(0,[1]) = 0),
+  assert(f(0,[0]) = 0),
+  assert(f(0,[-1]) = 1),
+  assert(f(0,[1,2,0,0,1,-1,0,3]) = 1),
+  true)$
+
 okltest_countpred_l(f) := (
   assert(f(identity,[]) = 0),
   assert(f(evenp,[0,2,3,4,5]) = 3),

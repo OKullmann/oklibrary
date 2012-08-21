@@ -149,6 +149,8 @@ okltest_interleave_l(interleave_l);
 */
 
 okltest_count_l(count_l);
+okltest_countgt_l(countgt_l);
+okltest_countlt_l(countlt_l);
 okltest_countpred_l(countpred_l);
 
 okltest_countntconst_l(countntconst_l);
