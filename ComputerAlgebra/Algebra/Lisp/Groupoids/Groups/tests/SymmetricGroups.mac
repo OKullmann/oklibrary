@@ -23,6 +23,8 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGroups.mac")$
 oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/InvertibleElements.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
 
 kill(f)$
 
@@ -66,6 +68,14 @@ okltest_inversion_vector_perl(f) := (
   assert(f([1,2]) = [0,0]),
   assert(f([2,1]) = [1,0]),
   assert(f([4,6,2,5,3,1,8,7]) = [3,4,1,2,1,0,1,0]),
+  true)$
+
+okltest_perl_inversion_vector(f) := (
+  assert(f([]) = []),
+  assert(f([0]) = [1]),
+  for n : 0 thru cokltl(4,7) do
+    for p in permutations(setn(n)) do
+      assert(f(inversion_vector_perl(p)) = p),
   true)$
 
 okltest_numinvolutions_symgrp(f) := (
