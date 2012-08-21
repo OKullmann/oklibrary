@@ -41,6 +41,8 @@ okltest_sym_l_ougrp(sym_l_ougrp);
    ********************
 */
 
+okltest_inversion_vector_perl(inversion_vector_perl);
+
 okltest_numinvolutions_symgrp(numinvolutions_symgrp);
 
 /*!

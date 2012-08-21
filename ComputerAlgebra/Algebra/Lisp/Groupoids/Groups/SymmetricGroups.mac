@@ -114,6 +114,10 @@ order_element_pmtf(p,n) :=
   apply(lcm, map(length,listify(cyclepres_pmtf(p,n))))$
 order_element_perl(p) := order_element_pmtf(trfl2trff(p), length(p))$
 
+/* The inversion-vector of permutation p as list: */
+inversion_vector_perl(p) := if emptyp(p) then [] else
+ cons(countlt_l(first(p),rest(p)), inversion_vector_perl(rest(p)))$
+
 /* The number of involutions (self-inverse permutations) of the
    symmetric group:
 */

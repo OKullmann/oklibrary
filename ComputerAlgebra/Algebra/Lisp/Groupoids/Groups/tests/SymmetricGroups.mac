@@ -60,6 +60,14 @@ okltest_sym_l_ougrp(f) := (
    ********************
 */
 
+okltest_inversion_vector_perl(f) := (
+  assert(f([]) = []),
+  assert(f([1]) = [0]),
+  assert(f([1,2]) = [0,0]),
+  assert(f([2,1]) = [1,0]),
+  assert(f([4,6,2,5,3,1,8,7]) = [3,4,1,2,1,0,1,0]),
+  true)$
+
 okltest_numinvolutions_symgrp(f) := (
   assert(f(0) = 1),
   assert(f(1) = 1).
