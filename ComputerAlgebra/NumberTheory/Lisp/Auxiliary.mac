@@ -108,8 +108,8 @@ int2polyadic(m,b) :=
       m : d[1]),
     return(result))$
 /* Adding leading zeros if the result does not have length l: */
-int2polyadic_padd(m,b,l) := block([L : int2polyadic(m,b)],
-  append(create_list(0,i,1,l-length(L)), L))$
+int2polyadic_padd(m,b,l) := paddingfront_l(0,int2polyadic(m,b),l)$
+
 
 /* Converts a given integer m to its base b representation as a
    string, where 2 <= b <= 36 is a natural number. */
