@@ -27,6 +27,8 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/RamseyTheory/Lisp/Schur/Numbers.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Permutations.mac")$
+
 
 /* *****************
    * Schur triples *
@@ -70,6 +72,27 @@ pd_wschur_nbfcsud(r,n) :=
 
 /* Statistics: */
 nvar_pd_wschur_nbfcsud(r,n) := nver_wschurtriples_pd_hg(n)$
+
+
+/* *****************
+   * Group triples *
+   *****************
+*/
+
+/* The modular form (in ZZ_{n+1}): */
+mschur_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(mschurtriples_me_ohg(n), create_list(i,i,1,r))$
+mschur_nbfcsud(r,n) := col2sat_stdhg2stdnbfcsud(mschurtriples_me_hg(n), setn(r))$
+
+wmschur_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(wmschurtriples_ohg(n), create_list(i,i,1,r))$
+wmschur_nbfcsud(r,n) := col2sat_stdhg2stdnbfcsud(wmschurtriples_hg(n), setn(r))$
+
+
+/* Using the symmetric groups instead of the cyclic groups: */
+symmetrictriples_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(symmetrictriples_me_ohg(n), create_list(i,i,1,r))$
+symmetrictriples_nbfcsud(r,n) := col2sat_stdhg2stdnbfcsud(symmetrictriples_me_hg(n), setn(r))$
+
+wsymmetrictriples_nbfclud(r,n) := col2sat_stdohg2stdnbfclud(wsymmetrictriples_ohg(n), create_list(i,i,1,r))$
+wsymmetrictriples_nbfcsud(r,n) := col2sat_stdhg2stdnbfcsud(wsymmetrictriples_hg(n), create_list(i,i,1,r))$
 
 
 /* *********************
@@ -194,6 +217,19 @@ pd_wschur_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(pd_wschur_nbfclud(r,n))$
 pd_wschur_aloamo_fcs(r,n) := fcl2fcs(pd_wschur_aloamo_fcl(r,n))$
 
 
+mschur_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(mschur_nbfclud(r,n))$
+mschur_aloamo_fcs(r,n) := nbfcsud2fcs_aloamo(mschur_nbfcsud(r,n))$
+
+wmschur_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(wmschur_nbfclud(r,n))$
+wmschur_aloamo_fcs(r,n) := nbfcsud2fcs_aloamo(wmschur_nbfcsud(r,n))$
+
+symmetrictriples_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(symmetrictriples_nbfclud(r,n))$
+symmetrictriples_aloamo_fcs(r,n) := nbfcsud2fcs_aloamo(symmetrictriples_nbfcsud(r,n))$
+
+wsymmetrictriples_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(wsymmetrictriples_nbfclud(r,n))$
+wsymmetrictriples_aloamo_fcs(r,n) := nbfcsud2fcs_aloamo(wsymmetrictriples_nbfcsud(r,n))$
+
+
 schur_sb_aloamo_fcl(r,n) := nbfclud2fcl_aloamo(schur_sb_nbfclud(r,n))$
 schur_sb_aloamo_fcs(r,n) := fcl2fcs(schur_sb_aloamo_fcl(r,n))$
 
@@ -305,6 +341,44 @@ pd_wschur_aloamo_stdfcl(r,n) := (
    standardise_fcl(pd_wschur_aloamo_fcl(r,n)).
 */
 
+
+mschur_aloamo_stdfcl(r,n) := (
+  [block([s : standardise_schur_aloamo(r,n)],
+     s(mschur_aloamo_fcl(r,n))),
+   block([invs : invstandardise_schur_aloamo(r,n)],
+     create_list(invs(i), i,1,n*r))])$
+/* We have mschur_aloamo_stdfcl(r,n) =
+   standardise_fcl(mschur_aloamo_fcl(r,n)).
+*/
+
+wmschur_aloamo_stdfcl(r,n) := (
+  [block([s : standardise_schur_aloamo(r,n)],
+     s(wmschur_aloamo_fcl(r,n))),
+   block([invs : invstandardise_schur_aloamo(r,n)],
+     create_list(invs(i), i,1,n*r))])$
+/* We have wmschur_aloamo_stdfcl(r,n) =
+   standardise_fcl(wmschur_aloamo_fcl(r,n)).
+*/
+
+symmetrictriples_aloamo_stdfcl(r,n) := (
+  [block([s : standardise_symmetrictriples_aloamo(r,n)],
+     s(symmetrictriples_aloamo_fcl(r,n))),
+   block([invs : invstandardise_symmetrictriples_aloamo(r,n)],
+     create_list(invs(i), i,1,(n!-1)*r))])$
+/* We have symmetrictriples_aloamo_stdfcl(r,n) =
+   standardise_fcl(symmetrictriples_aloamo_fcl(r,n)).
+*/
+
+wsymmetrictriples_aloamo_stdfcl(r,n) := (
+  [block([s : standardise_symmetrictriples_aloamo(r,n)],
+     s(wsymmetrictriples_aloamo_fcl(r,n))),
+   block([invs : invstandardise_symmetrictriples_aloamo(r,n)],
+     create_list(invs(i), i,1,(n!-1)*r))])$
+/* We have wsymmetrictriples_aloamo_stdfcl(r,n) =
+   standardise_fcl(wsymmetrictriples_aloamo_fcl(r,n)).
+*/
+
+
 schur_sb_aloamo_stdfcl(r,n) := (
   [block([s : standardise_schur_aloamo(r,n)],
      s(schur_sb_aloamo_fcl(r,n))),
@@ -409,6 +483,12 @@ invstandardise_pd_schur_aloamo(r,n) := if mod(n+1,3)#0 then
 
 standardise_pd_wschur_aloamo(r,n) := standardise_schur_aloamo(r,ceiling(n/2))$
 invstandardise_pd_wschur_aloamo(r,n) := invstandardise_schur_aloamo(r,ceiling(n/2))$
+
+standardise_symmetrictriples_aloamo(r,n) :=
+  buildq([r], lambda([t], ev(t, nbv(t,i):=(rank_lex_permutations(t)-2)*r+i, nbv)))$
+invstandardise_symmetrictriples_aloamo(r,n) :=
+  buildq([r,n], lambda([i], block([d : divide(i-1,r)+1],
+    nbv_var(unrank_lex_permutations(d[1]+1,n), d[2]))))$
 
 
 /* Weak and strong standard nested translation; now r >= 1 must hold: */
@@ -521,6 +601,51 @@ output_pd_wschur(r,n,filename) := block(
 /* Providing a standard name: "WSchur_pd_r_n.cnf": */
 output_pd_wschur_stdname(r,n) := output_pd_wschur(r,n,
   sconcat("WSchur_pd_",r,"_",n,".cnf"))$
+
+
+output_mschur(r,n,filename) := block(
+ [FF : mschur_aloamo_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Modular Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c ", "Created by output_mschur(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "MSchur_r_n.cnf": */
+output_mschur_stdname(r,n) := output_mschur(r,n,
+  sconcat("MSchur_",r,"_",n,".cnf"))$
+
+output_wmschur(r,n,filename) := block(
+ [FF : wmschur_aloamo_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Weak modular Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c ", "Created by output_wmschur(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "WMSchur_r_n.cnf": */
+output_wmschur_stdname(r,n) := output_wmschur(r,n,
+  sconcat("WMSchur_",r,"_",n,".cnf"))$
+
+output_symmetrictriples(r,n,filename) := block(
+ [FF : symmetrictriples_aloamo_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Symmetric-group Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c ", "Created by output_symmetrictriples(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "SgSchur_r_n.cnf": */
+output_symmetrictriples_stdname(r,n) := output_symmetrictriples(r,n,
+  sconcat("SgSchur_",r,"_",n,".cnf"))$
+
+output_wsymmetrictriples(r,n,filename) := block(
+ [FF : wsymmetrictriples_aloamo_stdfcl(r,n)],
+  output_fcl_v(
+    sconcat("Weak symmetic-group Schur problem with ", r, " parts and ", n, " elements, using the direct (strong) translation.", newline, "c ", "Created by output_wsymmetrictriples(", r, ",", n, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF[1],
+    filename,
+    FF[2]))$
+/* Providing a standard name: "WSgSchur_r_n.cnf": */
+output_wsymmetrictriples_stdname(r,n) := output_wsymmetrictriples(r,n,
+  sconcat("WSgSchur_",r,"_",n,".cnf"))$
 
 
 output_schur_sb(r,n,filename) := block(
