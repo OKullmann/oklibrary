@@ -556,6 +556,29 @@ okltest_interleave_l(f) := block(
   assert(f([1,4,7],[2,5],[3,6]) = [1,2,3,4,5,6]),
   true)$
 
+okltest_paddingfront_l(f) := (
+  assert(f(0,[],0) = []),
+  assert(f(0,[],-1) = []),
+  assert(f(0,[],1) = [0]),
+  assert(f(0,[1,2],0) = [1,2]),
+  assert(f(0,[1,2],1) = [1,2]),
+  assert(f(0,[1,2],2) = [1,2]),
+  assert(f(0,[1,2],3) = [0,1,2]),
+  assert(f(0,[1,2],4) = [0,0,1,2]),
+  true)$
+
+okltest_paddingback_l(f) := (
+  assert(f(0,[],0) = []),
+  assert(f(0,[],-1) = []),
+  assert(f(0,[],1) = [0]),
+  assert(f(0,[1,2],0) = [1,2]),
+  assert(f(0,[1,2],1) = [1,2]),
+  assert(f(0,[1,2],2) = [1,2]),
+  assert(f(0,[1,2],3) = [1,2,0]),
+  assert(f(0,[1,2],4) = [1,2,0,0]),
+  true)$
+
+
 /* *************************
    * Random parts of lists *
    *************************

@@ -352,6 +352,10 @@ interleave_l([L]) := block([l : length(L)],
   elseif member([], L) then []
   else append(map(first,L), apply(interleave_l, map(rest,L))))$
 
+/* Add x's to the front of L, until length n is reached: */
+paddingfront_l(x,L,n) := append(create_list(x,i,1,n-length(L)),L)$
+paddingback_l(x,L,n) := append(L,create_list(x,i,1,n-length(L)))$
+
 
 /* *************************
    * Random parts of lists *

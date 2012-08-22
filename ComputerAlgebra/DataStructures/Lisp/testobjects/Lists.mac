@@ -136,7 +136,11 @@ okltest_split_list_epo(split_list_epo);
 okltest_rotate(rotate);
 
 okltest_stable_unique(stable_unique);
+
 okltest_interleave_l(interleave_l);
+
+okltest_paddingfront_l(paddingfront_l);
+okltest_paddingback_l(paddingback_l);
 
 /* *************************
    * Random parts of lists *
@@ -165,7 +169,6 @@ okltest_m2l_r(m2l_r);
 okltest_transpose_l(transpose_l);
 okltest_matrixcolumns(matrixcolumns);
 okltest_columns2matrix(columns2matrix);
-
 
 /* ***********
    * Sorting *
