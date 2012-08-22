@@ -1,0 +1,60 @@
+/* Oliver Kullmann, 21.8.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Combinatorics/Lisp/Enumeration/Permutations.mac
+  \brief Permutations enumeration functions
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Permutations.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/SymmetricGroups.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
+/* ************
+   * Counting *
+   ************
+*/
+
+/* The number of permutations of n objects: */
+count_permutations(n) := n!$
+
+
+/* ****************************
+   * Lexicographical ordering *
+   ****************************
+*/
+
+/* Produces a list of all permutations of M (a set or list) in lexicographical
+   order: */
+lex_permutations_l(M) := listify(permutations(M))$
+/* This implementation assumes that the internal order of sets is given by
+   lexicographical order.
+*/
+
+/* Returns the rank (position) of the permutation p of [1,...,n] in the
+   lexicographical enumeration of all permutations, where n = length(p): */
+rank_lex_permutations(p) := factoradic2int(inversion_vector_perl(p))+1$
+
+/* Returns the 'x'th permutation in the lexicographical enumeration of all
+   permutations of [1,...,n] for 1 <= x <= n!: */
+unrank_lex_permutations(x,n) := if n=0 then [] else
+ perl_inversion_vector(paddingfront_l(0,int2factoradic(x-1),n))$
+
+
+/*!
+\endhtmlonly
+*/
