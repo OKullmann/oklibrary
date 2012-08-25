@@ -19,8 +19,6 @@
 # n the result).
 # Statistics (in R format) are stored in file "Statistics".
 
-# Currently the extraction of statistics information only works for
-# minisat-solvers.
 # The number of vertices in the original Schur-problem is the first column,
 # called "v".
 
@@ -29,7 +27,7 @@ set -o errexit
 set -o nounset
 
 script_name="CRunPdSchur"
-version_number="0.0.6"
+version_number="0.0.8"
 
 if [[ $# != 3 ]]; then
   echo "ERROR[${script_name}]: Three parameters r, nmax, solver, are needed:
@@ -40,7 +38,7 @@ fi
 r=$1
 nmax=$2
 solver="$3"
-extraction_tool=ExtractMinisat # works currently only for minisat-solvers
+extraction_tool=$(SelectExtractionTool ${solver})
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
