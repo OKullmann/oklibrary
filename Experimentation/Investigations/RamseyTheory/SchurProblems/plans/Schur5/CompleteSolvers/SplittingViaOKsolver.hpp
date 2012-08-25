@@ -1223,7 +1223,7 @@ c splitting_cases                       338269
 
 > ProcessSplitViaOKsolver SplitViaOKsolver_D70Schur_pd_fullsb_5_158cnf_2012-07-31-200509
 XXX cs-oksvr
-# snapshot:
+# snapshots:
 > E=read_processsplit_minisat()
 43519: 14.21d, sum-cfs=3.600549e+10, mean-t=28.211s, mean-cfs=827351, sat: 0
 $t:
@@ -1245,6 +1245,30 @@ $t ~ $cfs:
 (Intercept) -3.5609e+00  1.9277e-02 -184.72 < 2.2e-16 ***
 E$cfs        3.8402e-05  1.9311e-08 1988.55 < 2.2e-16 ***
 R-squared: 0.9891
+> E=read_processsplit_minisat()
+68733: 24.78d, sum-cfs=6.199071e+10, mean-t=31.149s, mean-cfs=901906, sat: 0
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   0.26   15.25   24.93   31.15   39.01  437.70
+sd= 24.09749
+      95%       96%       97%       98%       99%      100%
+ 79.50980  83.96184  88.92240  96.18232 115.21116 437.74300
+sum= 2140993
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  10510  486800  752000  901900 1134000 9361000
+sd= 613727.1
+    95%     96%     97%     98%     99%    100%
+2147572 2263781 2381531 2519804 2981639 9361192
+sum= 61990713205
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -4.0533e+00  1.7763e-02 -228.18 < 2.2e-16 ***
+E$cfs        3.9031e-05  1.6283e-08 2397.10 < 2.2e-16 ***
+R-squared: 0.9882
+
+> solver="satz215" ProcessSplitViaOKsolver SplitViaOKsolver_D70Schur_pd_fullsb_5_158cnf_2012-07-31-200509
+XXX cs-oksvr
    \endverbatim
    </li>
    <li> n=159:
@@ -1888,7 +1912,7 @@ c splitting_cases                       271909
 
 > ProcessSplitViaOKsolver SplitViaOKsolver_D70WSchur_pd_fullsb_5_159cnf_2012-08-12-211536
 XXX cs-wsok
-# snapshot:
+# snapshots:
 > E=read_processsplit_minisat()
 5291: 2.172d, sum-cfs=4.964561e+09, mean-t=35.470s, mean-cfs=938303, sat: 0
 $t:
@@ -1910,6 +1934,27 @@ $t ~ $cfs:
 (Intercept) -4.9578e+00  6.6194e-02 -74.898 < 2.2e-16 ***
 E$cfs        4.3086e-05  5.5120e-08 781.690 < 2.2e-16 ***
 R-squared: 0.9914
+> E=read_processsplit_minisat()
+25196: 12.418d, sum-cfs=2.770612e+10, mean-t=42.583s, mean-cfs=1099624, sat: 0
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+  0.5249  18.5100  32.9600  42.5800  51.9900 632.3000
+sd= 38.19861
+     95%      96%      97%      98%      99%     100%
+107.9670 116.7376 130.9240 154.9221 200.7066 632.3310
+sum= 1072919
+$cfs:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   20720   533800   894800  1100000  1354000 12720000
+sd= 858979.8
+     95%      96%      97%      98%      99%     100%
+ 2593410  2804505  3085180  3580391  4494277 12719812
+sum= 27706124958
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -6.0547e+00  4.0446e-02  -149.7 < 2.2e-16 ***
+E$cfs        4.4231e-05  2.8987e-08  1525.9 < 2.2e-16 ***
+R-squared: 0.9893
    \endverbatim
    Likely the depth needed to be increased. </li>
   </ul>
