@@ -1,9 +1,9 @@
 #!/bin/bash
 # Oliver Kullmann, 13.8.2011 (Swansea)
 # Copyright 2011, 2012 Oliver Kullmann
-# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
-# the Free Software Foundation and included in this library; either version 3 of the 
+# the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
 # Processing of a directory produced by SplitViaOKsolver.
@@ -41,13 +41,17 @@
 # For the final running time, as stored in Result, currently only the last
 # run is used.
 
-# Currently usage of minisat-2.2.0 is hardcoded.
-# Evaluation of the file SubinstanceStatistics (in R) via
-# read_processsplit_minisat.
-# To run the solver with additional parameters, for example a time-limit,
-# use e.g. (here a time-limit of 20s is set)
+# By default the solver is minisat-2.2.0. To use a different solver, set
+# variable "solver" (possible with options), for example
+
+# solver="OKsolver_2002-O3-DNDEBUG -M -D10" ProcessSplitViaOKsolver XXX [YYY]
+
+# To run the default-solver with just additional parameters, for example a
+# time-limit, use e.g. (here a time-limit of 20s is set)
 #   solver="minisat-2.2.0 -cpu-lim=20" ProcessSplitViaOKsolver XXX [YYY]
-# These environment variables need also to be set for continuation.
+# This environment-variable needs also to be set when re-starting
+# ProcessSplitViaOKsolver (via using the second argument).
+
 # Expected return-values of the solver are 0 (return without a result),
 # 10 (sat) and 20 (unsat).
 
@@ -58,12 +62,16 @@
 #   pkill -TERM -P pid
 # where the process-id ("pid") can be obtained from the Log-file.
 
+# Evaluation of the file SubinstanceStatistics (in R) via e.g.
+# read_processsplit_minisat (for the default).
+
+
 
 set -o errexit
 set -o nounset
 
 script_name="ProcessSplitViaOKsolver"
-version_number=0.1.3
+version_number=0.1.5
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
@@ -77,7 +85,11 @@ if [[ $# -ge 3 ]]; then
 fi
 
 solver=${solver:=minisat-2.2.0}
-extraction_tool=${extraction_tool:=ExtractMinisat}
+extraction_tool=$(SelectExtractionTool ${solver})
+if [[ ${extraction_tool} == "UNKNOWN" ]]; then
+  echo -e "ERROR[${script_name}]: Unknown solver: \"${solver}\"."
+  exit 1
+fi
 
 directory1=$1
 
