@@ -230,13 +230,13 @@ okltest_wmschur_aloamo_stdfcl(f) := (
 
 okltest_symmetrictriples_aloamo_stdfcl(f) := (
   for r : 0 thru cokltl(4,10) do
-   for n : 0 thru cokltl(4,6) do
+   for n : 0 thru cokltl(4,5) do
     assert(f(r,n) = standardise_fcl(symmetrictriples_aloamo_fcl(r,n))),
   true)$
 
 okltest_wsymmetrictriples_aloamo_stdfcl(f) := (
   for r : 0 thru cokltl(4,10) do
-   for n : 0 thru cokltl(4,6) do
+   for n : 0 thru cokltl(4,5) do
     assert(f(r,n) = standardise_fcl(wsymmetrictriples_aloamo_fcl(r,n))),
   true)$
 
