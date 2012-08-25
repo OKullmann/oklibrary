@@ -34,6 +34,6 @@ BEGIN {
 }
 
 END { 
-  print rn " " rc " " t " " sat " " nds " " r1 " " pls " " file " " bck " " \
+  print rn " " rc " " t " " sat " " nds " " r1 " " pls " \"" file "\" " bck " " \
     src " " fix " " dc " " src2 " " fix2
 }
