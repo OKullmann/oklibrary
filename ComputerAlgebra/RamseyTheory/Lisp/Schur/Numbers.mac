@@ -145,6 +145,41 @@ pdwschurfsb(r) := if r <= 4 then [ltlb(1),ltlb(3),ltlb(6),ltlb(15),lambda([n], i
    since the weak form uses a different full symmetry-breaking.
 */
 
+
+/* *****************
+   * Modular forms *
+   *****************
+*/
+
+/* Instead of "numbers" we have "number predicates", which are true for n
+   iff the corresponding satisfiability-problem for n is satisfiable.
+*/
+
+/* r is natural numbers >= 0: */
+mschur(r) := if r <= 4 then [ltlb(1),ltlb(2),ltlb(5),ltlb(14),ltlb(45)][r+1]
+ elseif r=5 then unknown
+ else unknown$
+/* Consider a fixed n:
+   If the modular problem for n is satisfiable, then also the ordinary problem.
+   And if the palindromic (ordinary) problem is satisfiable, then so is the
+   modular problem.
+*/
+
+/* r is natural numbers >= 0: */
+wmschur(r) := if r <= 4 then [ltlb(1),ltlb(3),ltlb(7),ltlb(15),
+   lambda([n], if n<45 or n=47 then true elseif n>51 then unknown else false)][r+1]
+ elseif r=5 then unknown
+ else unknown$
+/* Consider a fixed n:
+   If the modular problem for n is satisfiable, then also the ordinary problem.
+   And if the palindromic (ordinary) problem is satisfiable, then so is the
+   modular problem.
+*/
+/* Note that if a modular (ordinary) Schur-instance is satisfiable, then also
+   the weak modular Schur-instance for that n.
+*/
+
+
 /*!
 \endhtmlonly
 */

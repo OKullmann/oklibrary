@@ -216,6 +216,41 @@ create_list(nhyp_wsymmetrictriples_ohg(n),n,0,5);
   [0,0,0,18,492,13948]
    \endverbatim
    </li>
+   <li> Via
+   \verbatim
+> CRunMSchur 1 2 minisat-2.2.0
+> CRunMSchur 2 5 minisat-2.2.0
+> CRunMSchur 3 14 minisat-2.2.0
+> CRunMSchur 4 45 minisat-2.2.0
+   \endverbatim
+   we determined mschur(r) for 0 <= r <= 4:
+   \verbatim
+create_list(mschur(r),r,0,4);
+  [lambda([x],is(x < 1)),
+   lambda([x],is(x < 2)),
+   lambda([x],is(x < 5)),
+   lambda([x],is(x < 14)),
+   lambda([x],is(x < 45))]
+   \endverbatim
+   which is the same as schur(r) and pdschur(r) for these values. </li>
+   <li> Via
+   \verbatim
+> CRunWMSchur 1 3 minisat-2.2.0
+> CRunWMSchur 2 9 minisat-2.2.0
+> CRunWMSchur 3 24 minisat-2.2.0
+> CRunWMSchur 4 67 minisat-2.2.0
+   \endverbatim
+   we determined wmschur(r) for 0 <= r <= 4:
+   \verbatim
+create_list(wmschur(r),r,0,4);
+  [lambda([x],is(x < 1)),
+   lambda([x],is(x < 3)),
+   lambda([x],is(x < 7)),
+   lambda([x],is(x < 15)),
+   lambda([n],if n < 45 or n = 47 then true elseif n > 51 then unknown)]
+   \endverbatim
+   We see that for r=2 we have one satisfiable instance more compared to the
+   palindromic case (and two less than the ordinary case). </li>
   </ul>
 
 */

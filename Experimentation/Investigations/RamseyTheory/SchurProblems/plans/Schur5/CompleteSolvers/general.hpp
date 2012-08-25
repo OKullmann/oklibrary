@@ -483,4 +483,7 @@ pdwschur(5);
    palindromic problem). </li>
   </ul>
 
+
+  \todo wmschur(5)
+
 */
