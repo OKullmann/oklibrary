@@ -102,7 +102,8 @@ License, or any later version. */
      </li>
      <li> Such a test allows us to then detect small changes in a solver
      which might break extraction scripts and other tools, but are small
-     enough to go unnoticed; perhaps an attribute we rarely look at changes. </li>
+     enough to go unnoticed; perhaps an attribute we rarely look at changes.
+     </li>
      <li> This test would also make it easier to write extraction tools for
      new versions of solvers with large differences, as it acts as a form
      of documentation of the features and output format we expect of the
@@ -206,12 +207,12 @@ License, or any later version. */
     <li> ExtractPicosat.awk </li>
     <li> ExtractArgosat.awk </li>
     <li> ExtractMinisat.awk : DONE </li>
-    <li> ExtractOKsolver.awk </li>
-    <li> ExtractGlucose.awk </li>
+    <li> ExtractOKsolver.awk : DONE </li>
+    <li> ExtractGlucose.awk : DONE </li>
     <li> ExtractPrecosat236.awk </li>
-    <li> ExtractPrecosat570.awk </li>
-    <li> ExtractSatz </li>
-    <li> ExtractMarchpl : DONE </li>
+    <li> ExtractPrecosat570.awk : DONE </li>
+    <li> ExtractSatz.awk : DONE </li>
+    <li> ExtractMarchpl.awk : DONE </li>
    </ul>
    </li>
    <li> We should provide tests for all of these scripts, as discussed
@@ -237,8 +238,8 @@ License, or any later version. */
     </ol>
    </li>
    <li> DONE (actually, we don't need such a script since it is the task of the
-   experiment-processing script to collect all data into statistics-files, at the
-   time when the data is created)
+   experiment-processing script to collect all data into statistics-files, at
+   the time when the data is created)
    And with parameter "dir=Directory" it reads all the files in Directory,
    and prints to standard output the header followed by the data-lines. </li>
    <li> DONE (no need anymore, see above)
@@ -271,7 +272,7 @@ License, or any later version. */
      <li> ExtractGlucose (see
      ExperimentSystem/SolverMonitoring/plans/Glucose.hpp). </li>
      <li> ExtractSatz </li>
-     <li> ExtractMarchpl </li>
+     <li> ExtractMarchpl (not yet implemented) </li>
      <li> To be completed </li>
     </ol>
    </li>
@@ -303,6 +304,13 @@ License, or any later version. */
      <li> mem : double, in MB. </li>
      <li> ptime : double, parse time (in seconds). </li>
      <li> file : string. </li>
+     <li> bnds : double, number of backtracing-nodes (exactly two successor).
+     </li>
+     <li> snds : double, number of single-nodes (exactly one successor). </li>
+     <li> lvs : double, number of leaves (no successor). </li>
+     <li> r2la : double, number of r_2-look-aheads (for r_2-reductions). </li>
+     <li> r3 : double, number of r_2-reductions. </li>
+     <li> r3la : double, number of r_3-look-aheads (for r_3-reductions). </li>
      <li> There can be more attributes; the above ones always occur in that
      order. </li>
      <li> DONE (no need to make incomparable data comparable)
