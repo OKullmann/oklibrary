@@ -9,23 +9,23 @@
 # Extracts the numerical data from output of satz215, in a single line.
 
 BEGIN {
-  rn=0; rc=0; t=0; sat=2; nds=0; r1=0; file=""; bck=0; src=0; fix=0; dc=0;
-  src2=0;fix2=0
+  rn=0; rc=0; t=0; sat=2; nds=0; r1=0; file=""; bnds=0; r2la=0
+  r2=0; prpr=0; r3la=0; r3=0
 }
 
 /^satz215 ([^ ]+ )+/ { 
   file=$2
   t=$3
   nds=$4
-  bck=$5
-  src=$6
-  fix=$7
+  bnds=$5
+  r2la=$6
+  r2=$7
   sat=$8
   rn=$9
   rc=$10
-  dc=-$11
-  src2=$12
-  fix2=$13
+  prpr=$11 # preprocessing: number of added resolvents of lengths 2,3 minus number of clauses eliminated by subsumption
+  r3la=$12
+  r3=$13
 }
 
 /^NB_MONO= / {
@@ -34,6 +34,6 @@ BEGIN {
 }
 
 END { 
-  print rn " " rc " " t " " sat " " nds " " r1 " " pls " \"" file "\" " bck " " \
-    src " " fix " " dc " " src2 " " fix2
+  print rn " " rc " " t " " sat " " nds " " r1 " " r2 " " pls " \"" file "\" " bnds " " \
+    r2la " " r3 " " r3la " " prpr
 }
