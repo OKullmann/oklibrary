@@ -247,7 +247,7 @@ create_list(wmschur(r),r,0,4);
    lambda([x],is(x < 3)),
    lambda([x],is(x < 7)),
    lambda([x],is(x < 15)),
-   lambda([n],if n < 45 or n = 47 then true elseif n > 51 then unknown)]
+   lambda([n],if n < 45 or n = 47 then true)]
    \endverbatim
    We see that for r=2 we have one satisfiable instance more compared to the
    palindromic case (and two less than the ordinary case). </li>
