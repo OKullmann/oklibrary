@@ -1955,6 +1955,9 @@ $t ~ $cfs:
 (Intercept) -6.0547e+00  4.0446e-02  -149.7 < 2.2e-16 ***
 E$cfs        4.4231e-05  2.8987e-08  1525.9 < 2.2e-16 ***
 R-squared: 0.9893
+
+> solver="satz215" ProcessSplitViaOKsolver SplitViaOKsolver_D70WSchur_pd_fullsb_5_159cnf_2012-08-12-211536
+XXX cs-wsok
    \endverbatim
    Likely the depth needed to be increased. </li>
   </ul>
