@@ -136,6 +136,19 @@ License, or any later version. */
      RamseyTheory/SchurProblems/plans/Symmetry.hpp. </li>
     </ol>
    </li>
+   <li> Modular problems:
+    <ol>
+     <li> If pdschur(r)=schur(r) is true, then also mschur(r)=schur(r), since
+     mschur(r) is sandwiched between the two. </li>
+     <li> The assumption mschur(r)=schur(r) is (at least formally) weaker.
+     </li>
+     <li> Another weaker assumption is that mschur(r) has the monotonicity-
+     property, that is, for fixed r first the problems are satisfiable, and
+     then from mschur(r) on they are unsatisfiable. </li>
+     <li> wmschur(r) deviates from pdwschur(r) (for r=2) and from wschur(r).
+     Is the deviation from pdwschur(r) for r=2 the only one? </li>
+    </ol>
+   </li>
   </ul>
 
 
