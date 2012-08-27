@@ -31,7 +31,7 @@ License, or any later version. */
 namespace {
 
   const std::string program = "Schur_BHR";
-  const std::string version = "0.1.2";
+  const std::string version = "0.1.3";
 
   const int cols = 3;
   const int upb = 24+1; // upper bound+1 for n for expected solutions
@@ -39,10 +39,10 @@ namespace {
 
   long int count = 0;
 
-  short int Base[cols][upb+1];
+  short int Base[cols][upb+1] = {};
   short int wsol[upb];
   int nums[upb+1][upb+1];
-  int wmax = 0, max = 0;
+  int wmax = 0, max = lowb;
 
   inline void updatesol() {
     // there seems to be an error in the original code: "max" is redefined
@@ -115,9 +115,5 @@ namespace {
 }
 
 int main() {
-  for (int i = 0; i < cols; ++i)
-    for (int j = 0; j <= upb; ++j)
-      Base[i][j] = 0;
-  max = lowb;
   brute_force(-1);
 }
