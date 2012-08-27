@@ -31,11 +31,13 @@ License, or any later version. */
 namespace {
 
   const std::string program = "Schur_BHR";
-  const std::string version = "0.1.1";
+  const std::string version = "0.1.2";
 
   const int cols = 3;
   const int upb = 24+1; // upper bound+1 for n for expected solutions
   const int lowb = 23-1; // lower bound-1 for n on enumerated solutions
+
+  long int count = 0;
 
   short int Base[cols][upb+1];
   short int wsol[upb];
@@ -49,7 +51,7 @@ namespace {
     assert(max < upb);
     if (max > lowb and max >= lprint) {
       for (int i = 1; i <= max; ++i) std::printf("%d", wsol[i]+1);
-      std::printf(" %d\n", wmax); // also here apparently errors in original
+      std::printf(" %d %d\n", wmax, ++count); // also here apparently errors in original
       lprint = max;
     }
     std::cout.flush();
