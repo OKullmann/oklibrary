@@ -26,8 +26,12 @@ License, or any later version. */
 #include <algorithm>
 #include <iostream>
 #include <cassert>
+#include <string>
 
 namespace {
+
+  const std::string program = "Schur_BHR";
+  const std::string version = "0.1.1";
 
   const int cols = 3;
   const int upb = 24+1; // upper bound+1 for n for expected solutions
