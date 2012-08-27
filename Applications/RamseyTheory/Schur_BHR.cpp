@@ -31,49 +31,49 @@ License, or any later version. */
 namespace {
 
   const std::string program = "Schur_BHR";
-  const std::string version = "0.1.3";
+  const std::string version = "0.1.5";
 
-  const int cols = 3;
-  const int upb = 24+1; // upper bound+1 for n for expected solutions
-  const int lowb = 23-1; // lower bound-1 for n on enumerated solutions
+  const unsigned int cols = 3;
+  const unsigned int upb = 24+1; // upper bound+1 for n for expected solutions
+  const unsigned int lowb = 23-1; // lower bound-1 for n on enumerated solutions
 
-  long int count = 0;
+  long unsigned int count = 0;
 
-  short int Base[cols][upb+1] = {};
-  short int wsol[upb];
-  int nums[upb+1][upb+1];
-  int wmax = 0, max = lowb;
+  short unsigned int Base[cols][upb+1] = {};
+  short unsigned int wsol[upb];
+  unsigned int nums[upb+1][upb+1];
+  unsigned int wmax = 0, max = lowb;
 
   inline void updatesol() {
     // there seems to be an error in the original code: "max" is redefined
-    static int lprint = 0;
+    static unsigned int lprint = 0;
     max = wmax;
     assert(max < upb);
     if (max > lowb and max >= lprint) {
-      for (int i = 1; i <= max; ++i) std::printf("%d", wsol[i]+1);
-      std::printf(" %d %d\n", wmax, ++count); // also here apparently errors in original
+      for (unsigned int i = 1; i <= max; ++i) std::printf("%u", wsol[i]+1);
+      std::printf(" %u %lu\n", wmax, ++count); // also here apparently errors in original
       lprint = max;
     }
     std::cout.flush();
   }
 
-  inline bool excludedp(const int n) {
-    assert(n >= 0);
+  inline bool excludedp(const unsigned int n) {
     assert(n <= upb);
     bool res = true;
     // apparently error in original:
-    for (int i = 0; i < cols; ++i) res &= Base[i][n];
+    for (unsigned int i = 0; i < cols; ++i) res &= Base[i][n];
     return res;
   }
 
-  inline int add_col(const int col) {
+  inline unsigned int add_col(const unsigned int col) {
     assert(wmax + 1 < upb);
     wsol[++wmax] = col;
     if (wmax >= max) updatesol();
-    int ex = 0;
-    {int j = 1;
-     for (int i = 1; i < std::min(wmax, upb-wmax); ++i) {
-       const int sum = wmax + i;
+    unsigned int ex = 0;
+    {unsigned int j = 1;
+     assert(wmax <= upb);
+     for (unsigned int i = 1; i < std::min(wmax, upb-wmax); ++i) {
+       const unsigned int sum = wmax + i;
        if (wsol[i] == col) {
          nums[wmax][j++] = sum;
          ++Base[col][sum];
@@ -86,9 +86,10 @@ namespace {
 
   inline void del_col() {
     assert(wmax < upb);
-    const int col = wsol[wmax];
-    {int i = 1;
+    const unsigned short int col = wsol[wmax];
+    {unsigned int i = 1;
      while (nums[wmax][i]) {
+       assert(Base[col][nums[wmax][i]] >= 1);
        --Base[col][nums[wmax][i]];
        nums[wmax][i++] = 0;
        assert(i <= upb or nums[wmax][i] == 0);
@@ -97,17 +98,16 @@ namespace {
     --wmax;
   }
 
-  inline bool colp(const int x) {
-    assert(x >= 0);
+  inline bool colp(const unsigned int x) {
     assert(x < cols);
     assert(wmax < upb);
     return not Base[x][wmax+1];
   }
 
-  inline void brute_force(const int b) {
-    for (int i = 0; i <= std::min(cols-1,b+1); ++i)
+  inline void brute_force(const unsigned int b) {
+    for (unsigned int i = 0; i < std::min(cols,b+1); ++i)
       if (colp(i)) {
-        if (not add_col(i)) brute_force(std::max(i,b));
+        if (not add_col(i)) brute_force(std::max(i+1, b));
         del_col();
       }
   }
@@ -115,5 +115,5 @@ namespace {
 }
 
 int main() {
-  brute_force(-1);
+  brute_force(0);
 }
