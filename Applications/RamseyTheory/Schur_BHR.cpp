@@ -15,8 +15,15 @@ License, or any later version. */
 
   To redefine the main parameters COLS, UPB, LOWB, set them via CPPFLAGS, e.g.,
   \code
-    > CPPFLAGS="-DCOLS=2 -DUPB=10 -DLOWB=7" oklib all
+    > CPPFLAGS="-DCOLS=2 -DUPB=9 -DLOWB=8" oklib all
   \endcode
+  <ul>
+   <li> COLS is the number of colours. </li>
+   <li> UPB is the maximal number n of vertices to be considered (should be at
+   least wschur(COLS). </li>
+   <li> LOWB is the minimal number n of vertices where the solutions are
+   output. </li>
+  </ul>
 
 
   \bug Assertion in add_col fails after enumerating some solutions for upb=24
@@ -36,21 +43,24 @@ License, or any later version. */
 namespace {
 
   const std::string program = "Schur_BHR";
-  const std::string version = "0.1.7";
+  const std::string version = "0.1.8";
 
 #ifndef COLS
+//! number of colours
 # define COLS 3
 #endif
-#ifndef UPB
-# define UPB 24+1
+#ifndef UPB // upper bound for n for expected solutions
+//! maximal n
+# define UPB 24
 #endif
-#ifndef LOWB
-# define LOWB 23-1
+#ifndef LOWB // lower bound for n on enumerated solutions
+//! minimal n
+# define LOWB 23
 #endif
 
   const unsigned int cols = COLS;
-  const unsigned int upb = UPB; // upper bound+1 for n for expected solutions
-  const unsigned int lowb = LOWB; // lower bound-1 for n on enumerated solutions
+  const unsigned int upb = UPB+1;
+  const unsigned int lowb = LOWB-1;
 
   long unsigned int count = 0;
 
