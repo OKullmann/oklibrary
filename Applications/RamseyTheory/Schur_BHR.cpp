@@ -13,6 +13,11 @@ License, or any later version. */
   Rogerio Reis; INTEGERS: Electronic Journal of combinatorial number theory 6,
   2006], http://www.integers-ejcnt.org/vol6.html .
 
+  To redefine the main parameters COLS, UPB, LOWB, set them via CPPFLAGS, e.g.,
+  \code
+    > CPPFLAGS="-DCOLS=2 -DUPB=10 -DLOWB=7" oklib all
+  \endcode
+
 
   \bug Assertion in add_col fails after enumerating some solutions for upb=24
   <ul>
@@ -31,11 +36,21 @@ License, or any later version. */
 namespace {
 
   const std::string program = "Schur_BHR";
-  const std::string version = "0.1.5";
+  const std::string version = "0.1.7";
 
-  const unsigned int cols = 3;
-  const unsigned int upb = 24+1; // upper bound+1 for n for expected solutions
-  const unsigned int lowb = 23-1; // lower bound-1 for n on enumerated solutions
+#ifndef COLS
+# define COLS 3
+#endif
+#ifndef UPB
+# define UPB 24+1
+#endif
+#ifndef LOWB
+# define LOWB 23-1
+#endif
+
+  const unsigned int cols = COLS;
+  const unsigned int upb = UPB; // upper bound+1 for n for expected solutions
+  const unsigned int lowb = LOWB; // lower bound-1 for n on enumerated solutions
 
   long unsigned int count = 0;
 
