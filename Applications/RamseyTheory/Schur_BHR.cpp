@@ -9,6 +9,10 @@ License, or any later version. */
   \file Applications/RamseyTheory/Schur_BHR.cpp
   \brief Program from [BHR 2006], adapted to C++
 
+  For enumerating all weak Schur-solutions for COLS colours and
+  LOWB <= n < UPB with ascending n and in lexicograhical order, listing for
+  each colour-equivalence-class the first element.
+
   Code from [Partitions into sum-free sets; Peter F. Blanchard, Frank Harary,
   Rogerio Reis; INTEGERS: Electronic Journal of combinatorial number theory 6,
   2006], http://www.integers-ejcnt.org/vol6.html .
