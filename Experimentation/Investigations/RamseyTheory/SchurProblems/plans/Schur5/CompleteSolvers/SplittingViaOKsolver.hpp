@@ -1222,7 +1222,6 @@ c splitting_directory                   SplitViaOKsolver_D70Schur_pd_fullsb_5_15
 c splitting_cases                       338269
 
 > ProcessSplitViaOKsolver SplitViaOKsolver_D70Schur_pd_fullsb_5_158cnf_2012-07-31-200509
-XXX cs-oksvr
 # snapshots:
 > E=read_processsplit_minisat()
 43519: 14.21d, sum-cfs=3.600549e+10, mean-t=28.211s, mean-cfs=827351, sat: 0
@@ -1246,26 +1245,27 @@ $t ~ $cfs:
 E$cfs        3.8402e-05  1.9311e-08 1988.55 < 2.2e-16 ***
 R-squared: 0.9891
 > E=read_processsplit_minisat()
-68733: 24.78d, sum-cfs=6.199071e+10, mean-t=31.149s, mean-cfs=901906, sat: 0
+73526: 26.881d, sum-cfs=6.713575e+10, mean-t=31.587s, mean-cfs=913089, sat: 0
 $t:
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-   0.26   15.25   24.93   31.15   39.01  437.70
-sd= 24.09749
-      95%       96%       97%       98%       99%      100%
- 79.50980  83.96184  88.92240  96.18232 115.21116 437.74300
-sum= 2140993
+   0.26   15.40   25.25   31.59   39.45  437.70
+sd= 24.44974
+     95%      96%      97%      98%      99%     100%
+ 80.6290  85.0573  89.9306  97.3981 116.9250 437.7430
+sum= 2322494
 $cfs:
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-  10510  486800  752000  901900 1134000 9361000
-sd= 613727.1
+  10510  491400  761200  913100 1143000 9361000
+sd= 621815.2
     95%     96%     97%     98%     99%    100%
-2147572 2263781 2381531 2519804 2981639 9361192
-sum= 61990713205
+2179761 2284610 2402450 2548260 3015793 9361192
+sum= 67135747405
 $t ~ $cfs:
                Estimate  Std. Error t value  Pr(>|t|)
-(Intercept) -4.0533e+00  1.7763e-02 -228.18 < 2.2e-16 ***
-E$cfs        3.9031e-05  1.6283e-08 2397.10 < 2.2e-16 ***
+(Intercept) -4.1028e+00  1.7398e-02 -235.82 < 2.2e-16 ***
+E$cfs        3.9087e-05  1.5749e-08 2481.90 < 2.2e-16 ***
 R-squared: 0.9882
+# aborted, since satz215 is faster.
 
 > solver="satz215" ProcessSplitViaOKsolver SplitViaOKsolver_D70Schur_pd_fullsb_5_158cnf_2012-07-31-200509
 XXX cs-oksvr
