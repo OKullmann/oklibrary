@@ -930,7 +930,32 @@ s UNSATISFIABLE
    <li> We need to determine all solutions of the 4 main combinations we
    consider (weak, palindromic), and below the respectivey Ramsey-number,
    and we need to represent them. </li>
-   <li> For wschur-problems see above. </li>
+   <li> For wschur-problems:
+    <ol>
+     <li> Compare above (the 24 satisfiable subinstances). </li>
+     <li> According to [Partitions into sum-free sets, BHR 2006] there are
+     29931 non-isomorphic solutions (for n=66 with 4 colours). </li>
+     <li> This makes 4! * 29931 = 718344 different solutions altogether. </li>
+     <li> The lexicographical first solutions is presented there:
+     \verbatim
+L : "112122213313333133232124144444144422144144144444412223331331331222";
+C:seq2certificatevdw(map(eval_string,charlist(L))-1);
+certificate_wschur_p(4,66,C);
+  true
+     \endverbatim
+     </li>
+     <li> All solutions are enumerated by
+     \verbatim
+> cd OKplatform/OKsystem/OKlib/Applications/RamseyTheory/
+> touch Schur_BHR.cpp
+> CPPFLAGS="-DCOLS=4 -DUPB=67 -DLOWB=66" oklib all
+> cd ../../../../Schur
+> time ../system_directories/bin/Schur_BHR-O3-DNDEBUG > Schur_4_66_ALL_SOLUTIONS
+XXX cs-oksvr
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> For schur-problems [Fredricksen, Sweet, 2000] asserts that there are
    273 sum-free partitions (apparently the colour-symmetry has been already
    broken?), and 24 of them are palindromic, and they are all equivalent

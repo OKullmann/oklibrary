@@ -145,6 +145,8 @@ create_list(pdwschurfsb(r),r,0,4);
   <ul>
    <li> The idea is simple: as soon as a new colour is used, the other
    yet unused colours do not need to be considered. </li>
+   <li> Compare "Enumerating all solutions without colour-symmetry-repetition"
+   below. </li>
    <li> The underlying fundamental lemma: Let F represent a Schur-problem in
    one of its four main forms (weak or not, palindromic or not). Consider a
    partial assignment phi. Let C be the set of colours not involved in phi.
@@ -164,6 +166,24 @@ create_list(pdwschurfsb(r),r,0,4);
    <li> A simpler version is just to postprocess the splitting assignments of
    the C&C approach (here SplittingViaOKsolver). This is easy, especially if
    it is known which are the decision-variables. </li>
+  </ul>
+
+
+  \todo Enumerating all solutions without colour-symmetry-repetition
+  <ul>
+   <li> That exchanging some colours does not change a partition can only
+   happen if the affected colours are not used. And this is never the case
+   near the critical point of Schur (or vdW-like) problems. </li>
+   <li> Considering all solutions of a given length as sequences (via
+   P -> certificatevdw2seq(P)), for every solution there are precisely
+   r! (r is the number of parts/colours) equivalent forms. </li>
+   <li> When enumerating the solution-sequences lexicographically, then
+   symmetry-breaking as discussed above in "Embedding colour-symmetry-breaking
+   into the search", means, when considering the numerical order of vertices
+   (not the order given by the search), that exactly the lexicographical first
+   solututions amongst the equivalent once are chosen. </li>
+   <li> The program "Schur_BHR" lists exactly these first solutions, in
+   lexicographical order. </li>
   </ul>
 
 

@@ -152,6 +152,31 @@ License, or any later version. */
   </ul>
 
 
+  \todo Enumerating all solutions
+  <ul>
+   <li> See "Determining all solutions" in
+   Investigations/RamseyTheory/SchurProblems/plans/Schur4/general.hpp. </li>
+   <li> Via the program Schur_BHR from [Partitions into sum-free sets; 2006]
+   one obtains the three lexicographical first non-colour-equivalent solutions
+   for weak problems with 3 colours:
+   \verbatim
+> ~/OKplatform/system_directories/bin/Schur_BHR-O3-DNDEBUG
+11212221331333313323212 23 1
+11212221331333331323212 23 2
+11212221331333333323212 23 3
+   \endverbatim
+   This yields 3!*3 = 18 solutions altogether. </li>
+   <li> And for 2 colours there is is exactly one (non-equivalent) solution:
+   \verbatim
+RamseyTheory> touch Schur_BHR.cpp
+RamseyTheory> CPPFLAGS="-DCOLS=2 -DUPB=9 -DLOWB=8" oklib all
+RamseyTheory> ~/OKplatform/system_directories/bin/Schur_BHR-O3-DNDEBUG
+11212221 8 1
+   \endverbatim
+   which yields 2!*1 = 2 solutions altogether. </li>
+  </ul>
+
+
   \todo Palindromic problems
   <ul>
    <li> Via
