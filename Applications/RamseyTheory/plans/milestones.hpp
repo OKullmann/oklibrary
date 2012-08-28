@@ -1,5 +1,5 @@
 // Oliver Kullmann, 1.11.2006 (Swansea)
-/* Copyright 2006 - 2007, 2009 Oliver Kullmann
+/* Copyright 2006 - 2007, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,6 +19,16 @@ License, or any later version. */
 
   \par
    Update milestones, and embed them into higher milestones.
+
+
+  \par Version 0.1.3 :
+
+  \par
+   In Applications/RamseyTheory/Schur_BHR.cpp the following topics are handled:
+    - Assertion in add_col fails after enumerating some solutions for upb=24
+    - Rename to WSchur_BHR.cpp
+    - Create complete specifications
+    - Write modification to handle ordinary Schur-problems
 
 
 

@@ -32,6 +32,22 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Rename to WSchur_BHR.cpp
+
+
+  \todo Create complete specifications
+  <ul>
+   <li> The algorithm needs to be fully understood, and all functions and
+   variables need to have full specifications. </li>
+  </ul>
+
+
+  \todo Write modification to handle ordinary Schur-problems
+  <ul>
+   <li> Perhaps only add_col and del_col need to be changed. </li>
+  </ul>
+
 */
 
 #include <cstdio>
