@@ -1955,6 +1955,27 @@ $t ~ $cfs:
 (Intercept) -6.0547e+00  4.0446e-02  -149.7 < 2.2e-16 ***
 E$cfs        4.4231e-05  2.8987e-08  1525.9 < 2.2e-16 ***
 R-squared: 0.9893
+29908: 15.074d, sum-cfs=3.349246e+10, mean-t=43.545s, mean-cfs=1119850, sat: 0
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+  0.5249  18.8400  33.6700  43.5500  53.3200 632.3000
+sd= 39.12636
+     95%      96%      97%      98%      99%     100%
+109.8059 119.6030 134.5000 158.7429 206.8310 632.3310
+sum= 1302353
+$cfs:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   20720   541800   911400  1120000  1384000 12720000
+sd= 874583.2
+     95%      96%      97%      98%      99%     100%
+ 2633118  2845195  3150276  3635838  4610830 12719812
+sum= 33492463144
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -6.2720e+00  3.8916e-02 -161.17 < 2.2e-16 ***
+E$cfs        4.4486e-05  2.7388e-08 1624.26 < 2.2e-16 ***
+R-squared: 0.9888
+# terminated, since satz215 is much faster.
 
 > solver="satz215" ProcessSplitViaOKsolver SplitViaOKsolver_D70WSchur_pd_fullsb_5_159cnf_2012-08-12-211536
 XXX cs-wsok

@@ -951,9 +951,15 @@ certificate_wschur_p(4,66,C);
 > CPPFLAGS="-DCOLS=4 -DUPB=67 -DLOWB=66" oklib all
 > cd ../../../../Schur
 > time ../system_directories/bin/Schur_BHR-O3-DNDEBUG > Schur_4_66_ALL_SOLUTIONS
-XXX cs-oksvr
+# the lexicographically last solution is:
+112122213313333333232124144444444444444444444444422213333333332221 66 29931
+real    2795m58.631s
+user    2778m13.690s
+sys     0m37.166s
      \endverbatim
-     </li>
+     The computation took roughly 166000s (on cs-oksvr, with  a 2.4GHz AMD
+     Opteron), while [BHR 2006] speak of 120000s with a 3 GHz Pentium 4, so
+     our implementation might be somewhat slower? </li>
     </ol>
    </li>
    <li> For schur-problems [Fredricksen, Sweet, 2000] asserts that there are
