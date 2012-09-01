@@ -65,6 +65,9 @@ License, or any later version. */
    regarding symmetries. </li>
    <li> See "What is known" below for a quick overview. </li>
    <li> See below for the main research questions. </li>
+   <li> See "Achievement and avoidance game" in
+   ComputerAlgebra/Hypergraphs/Lisp/plans/Colouring.hpp for games
+   considered on (weak) Schur-hypergraphs. </li>
   </ul>
 
 

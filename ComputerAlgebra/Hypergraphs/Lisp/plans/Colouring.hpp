@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.7.2008 (Swansea)
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -179,6 +179,30 @@ License, or any later version. */
    SAT solving to experimentally explore open questions on positional games.
    </li>
    <li> A nice test-case is tic-tac-toe. </li>
+  </ul>
+
+
+  \todo Achievement and avoidance game
+  <ul>
+   <li> In [Partitions into sum-free sets, BHR 2006] the following other forms
+   of 2-player hypergraph games are considered:
+    <ol>
+     <li> In "Positional games" above, every plays has his colour, and proper
+     colourings are to be constructed. </li>
+     <li> Now there are only two players, and every move consists in either
+     only choosing a colour (from a fixed set of colours), while the vertices
+     are run through in order, or both vertex and colour are chosen, while
+     still proper colourings are to be constructed. </li>
+     <li> In the "achievement game", the last player who can move wins. </li>
+     <li> In the "avoidance game", the last player who can move loses. </li>
+     <li> If the hypergraph is infinite, than an order needs to be fixed.
+     </li>
+     <li> Non-k-colourability of the whole hypergraph guarantees that the games
+     end in a fixed number of steps.
+     <li> If the hypergraph is finite, then both forms are possible, fixing
+     a vertex-order, or allowing free choices. </li>
+    </ol>
+   </li>
   </ul>
 
 */
