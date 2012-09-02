@@ -21,5 +21,13 @@ read_satz = function(filename, ...) {
         header = T,
         colClasses = c(rep("integer",lengthfirstline(filename)-11),"numeric","integer",rep("numeric",4),"character",rep("numeric",5)),
         ...)
+  cat(sprintf("%d: %s, sum-nds=%e, mean-t=%.3fs, mean-nds=%.0f, sat:",length(E$t),display_seconds(sum(E$t)),sum(E$nds),mean(E$t),mean(E$nds)),orderedset(E$sat),"\n")
+  cat("$t:\n")
+  basic_stats(E$t)
+  cat("$nds:\n")
+  basic_stats(E$nds)
+  L = lm(E$t ~ E$nds)
+  cat("$t ~ $nds:\n")
+  short_summary_lm(L)
   E
 }
