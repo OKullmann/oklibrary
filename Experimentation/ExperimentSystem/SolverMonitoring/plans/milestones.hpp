@@ -35,7 +35,7 @@ License, or any later version. */
   \par
    In ExperimentSystem/SolverMonitoring/plans/OKsolver.hpp the following
    topics are handled:
-    - Handling splitting output
+    - Handling splitting output : DONE
     - Write extraction tool
 
   \par

@@ -10,7 +10,8 @@ License, or any later version. */
   \brief General plans monitoring OKsolver_2002
 
 
-  \todo Handling splitting output
+  \todo DONE (outputting "NA" in case field does not exist)
+  Handling splitting output
   <ul>
    <li> OKsolver_2002 outputs the fields
    \verbatim
