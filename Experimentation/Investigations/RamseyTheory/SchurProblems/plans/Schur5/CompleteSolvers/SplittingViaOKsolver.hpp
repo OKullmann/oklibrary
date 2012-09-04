@@ -1312,7 +1312,7 @@ c splitting_cases                       310857
    <li> Current values:
    \verbatim
 pdwschurfsb(5);
-  lambda([n],if n > 1631 then false elseif n <= 158 or n = 160 then true else unknown)
+  lambda([n],if n > 1631 then false elseif n <= 160 then true else unknown)
    \endverbatim
    </li>
    <li> Open case n=152:
@@ -1911,7 +1911,6 @@ c splitting_directory                   SplitViaOKsolver_D70WSchur_pd_fullsb_5_1
 c splitting_cases                       271909
 
 > ProcessSplitViaOKsolver SplitViaOKsolver_D70WSchur_pd_fullsb_5_159cnf_2012-08-12-211536
-XXX cs-wsok
 # snapshots:
 > E=read_processsplit_minisat()
 5291: 2.172d, sum-cfs=4.964561e+09, mean-t=35.470s, mean-cfs=938303, sat: 0
@@ -1978,9 +1977,96 @@ R-squared: 0.9888
 # terminated, since satz215 is much faster.
 
 > solver="satz215" ProcessSplitViaOKsolver SplitViaOKsolver_D70WSchur_pd_fullsb_5_159cnf_2012-08-12-211536
-XXX cs-wsok
+> E=read_processsplit_satz()
+75838: 8.159d, sum-nds=4.926779e+09, mean-t=9.295s, mean-nds=64965, sat: 0 1
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.090   5.640   8.030   9.295  11.430  88.730
+sd= 5.576402
+    95%     96%     97%     98%     99%    100%
+19.4500 20.7152 22.3500 24.6700 29.0963 88.7300
+sum= 704937
+$nds:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    472   39310   56220   64960   80160  584800
+sd= 38785.65
+     95%      96%      97%      98%      99%     100%
+136265.0 145290.0 156717.8 172253.0 202169.3 584765.0
+sum= 4926778554
+$t ~ $nds:
+               Estimate  Std. Error   t value Pr(>|t|)
+(Intercept) -7.2241e-03  3.5475e-03   -2.0364  0.04171 *
+E$nds        1.4319e-04  4.6886e-08 3054.0864  < 2e-16 ***
+R-squared: 0.9919
+> E[E$sat==1,]
+          i npa  d  rn   rc    t sat nds    r1   r2 pls
+75368 18988 107 16 400 5271 0.09   1 472 19194 1219 107
+      bnds  r2la  r3 r3la prpr
+75368  241 28631 175  538 -609
+
+> cd SplitViaOKsolver_D70WSchur_pd_fullsb_5_159cnf_2012-08-12-211536/
+> cat Instances/18988 > Solution_1
+> cat WSchur_pd_fullsb_5_159.cnf | ApplyPass-O3-DNDEBUG Solution_1 > Instance_1
+> OKsolver_2002-O3-DNDEBUG -O -F Instance_1
+c sat_status                            1
+c initial_maximal_clause_length         5
+c initial_number_of_variables           293
+c initial_number_of_clauses             5271
+c initial_number_of_literal_occurrences 14355
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   1560
+c running_time(sec)                     24.0
+c number_of_nodes                       21893
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                288011
+c number_of_pure_literals               0
+c number_of_autarkies                   8
+c number_of_missed_single_nodes         1
+c max_tree_depth                        30
+c proportion_searched                   6.133728e-01
+c proportion_single                     0.000000e+00
+c total_proportion                      0.613372802734375
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 2148548
+
+# via vi in Solution_1 the trailing "0" removed
+# via vi in Instance_1.pa the initial "v" removed
+> cat Instance_1.pa >> Solution_1
+
+# checking:
+> cat WSchur_pd_fullsb_5_159.cnf | ApplyPass-O3-DNDEBUG Solution_1 result_1
+> tail -1 result_1
+p cnf 0 0
+
+# via vi transformed Solution_1 into a CNF with a single clause ("p cnf 400 1")
+> oklib --maxima
+oklib_load_all();
+F : read_fcl_f("Solution_1")$
+pa : subset(first(F[2]), lambda([x], is(x>0)));
+I : invstandardise_pd_wschur_aloamo(5,159);
+P : extract_partition(map(I,pa));
+  [{1,5,7,16,18,20,22,26,35,37,39,43,45,49,58,60,73,77,79},
+   {3,10,12,21,27,28,41,46,50,52,59,61,65,70,76},
+   {6,8,9,19,29,30,40,44,51,55,56,66,68,71,78},
+   {4,13,14,15,24,25,31,34,36,42,53,64,69,74,75,80},
+   {2,11,17,23,32,33,38,47,48,54,57,62,63,67,72}]
+FP : uncompresss_wschurpalindromic_subsets(159,P);
+certificate_pdwschurfsb_p(5,159,FP);
+  true
+certificate_pdschur_p(5,159,FP);
+  true
+certificate_pdschurfsb_p(5,159,FP);
+  false
+edepth_partition(FP);
+  26
    \endverbatim
-   Likely the depth needed to be increased. </li>
+   Perhaps the depth should be increased (or perhaps this is not advisable
+   here, where we use a lookahead-solver as subsolver?). </li>
   </ul>
 
 */
