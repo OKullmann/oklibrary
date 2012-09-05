@@ -242,9 +242,9 @@ okltest_int2factoradic(f) := (
   true)$
 
 
-/* ************
-   * Rounding *
-   ************
+/* ***************
+   * Conversions *
+   ***************
 */
 
 okltest_round_fdd(f) := (
@@ -307,6 +307,19 @@ okltest_round_bfdd(f) := block(
   assert_bfloat_equal(f(10.65,1), 10.6, 16),
   assert_bfloat_equal(f(10.66,1), 10.7, 16),
   true)$
+
+/* The part after the decimal point: */
+okltest_fractional_part(f) := (
+  assert(f(2/4) = 1/2),
+  assert_float_equal(f(3.4), 0.4),
+  assert(f(-3-1/3) = 2/3),
+  assert(f(-4+1/3) = 1/3),
+  assert(f(3+1/3) = 1/3),
+  true)$
+
+/* Remark: Given a fraction q, the numerator is nom(q), and
+   the denominator is denom(q).
+*/
 
 
 /* **********************

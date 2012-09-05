@@ -156,13 +156,17 @@ int2factoradic(m) :=
   ))$
 
 
-/* ************
-   * Rounding *
-   ************
+/* ***************
+   * Conversions *
+   ***************
 */
 
+/* Rounding to d decimal digits: */
 round_fdd(x,d) := float(round(x*10^d)/10^d)$
 round_bfdd(x,d) := bfloat(round(x*10^d)/10^d)$
+
+fractional_part(x) := x - floor(x)$
+
 
 /* **********************
    * Integer partitions *

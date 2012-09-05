@@ -56,13 +56,15 @@ okltest_binv2hexstr(binv2hexstr);
 okltest_factoradic2int(factoradic2int);
 okltest_int2factoradic(int2factoradic);
 
-/* ************
-   * Rounding *
-   ************
+/* ***************
+   * Conversions *
+   ***************
 */
 
 okltest_round_fdd(round_fdd);
 okltest_round_bfdd(round_bfdd);
+
+okltest_fractional_part(fractional_part);
 
 /* **********************
    * Integer partitions *
