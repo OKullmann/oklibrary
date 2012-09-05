@@ -19,6 +19,9 @@ oklib_load("OKlib/ComputerAlgebra/MaximaInternals/Auxiliary.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
 /* ***********************
    * Properties of terms *
    ***********************
@@ -36,11 +39,22 @@ tcre_p(p) := not is(totaldisrep(p)=p)$
 /* Helper-function for simplification of "simple" terms: */
 simplify_st(t) := block([simp:true, simpsum:true],
  factor(radcan(ratsimp(trigreduce(trigsimp(minfactorial(makefact(t))))))))$
+/* Equality between simple terms: */
+simplify_eq(t1,t2) := is(equal(simplify_st(t1-t2), 0))$
+/* Equality between lists (prerequisite: L1 is a list): */
+simplify_eql(L1,L2) :=
+ if not listp(L2) or length(L1)#length(L2) then false else
+ every_s(lambda([p], simplify_eq(first(p),second(p))), map("[",L1,L2))$
 
-/* Simplification of arbitrary terms: */
-simplify_t(t) := if atom(t) then t else block([opr : op(t)],
- if opr = "=" then is(equal(simplify_st(first(t)-second(t)), 0))
- else simplify_st(t))$
+
+/* Simplification of arbitrary terms t: */
+simplify_t(t) := if atom(t) then t
+ elseif op(t) = "=" then
+   if listp(first(t)) then simplify_eql(first(t),second(t))
+   elseif listp(second(t)) then false
+   elseif {setp(first(t)),setp(second(t))} = {true,false} then false
+   else simplify_eq(first(t),second(t))
+ else simplify_st(t)$
 
 
 /*!

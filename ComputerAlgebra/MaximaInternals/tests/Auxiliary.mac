@@ -39,8 +39,10 @@ okltest_tcre_p(f) := (
    ***************************
 */
 
-okltest_simplify_t(f) := block([x,n],
+okltest_simplify_t(f) := block([x,n,p,q],
   assert(f(log(4)/log(2)) = 2),
+  assert(f({log(4)/log(2)}) = {2}),
+  assert(f({log(4)/log(2)}) # {}),
   assert(f(log(4)/log(2) = 2) = true),
   assert(f(sin(x)^2+cos(x)^2) = 1),
   assert(f(sin(x)^2+cos(x)^2 = 1) = true),
@@ -50,6 +52,17 @@ okltest_simplify_t(f) := block([x,n],
   assert(f(n!/(n-1)!) = n),
   assert(f(gamma(x+1)/gamma(x)) = x),
   assert(f(gamma(x)) = (x-1)!),
+  assert(f(1/(1+q/p) = p/(p+q)) = true),
+  assert(f([] = []) = true),
+  assert(f([] = [0]) = false),
+  assert(f([log(4)/log(2),sin(x)^2+cos(x)^2] = [2,1]) = true),
+  assert(f([] = {}) = false),
+  assert(f({log(4)/log(2),sin(x)^2+cos(x)^2,gamma(1)}) = {1,2}),
+  assert(f({} = []) = false),
+  assert(f([] = 0) = false),
+  assert(f({} = 0) = false),
+  assert(f(0 = []) = false),
+  assert(f(0 = {}) = false),
   true)$
 
 
