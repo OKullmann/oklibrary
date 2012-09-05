@@ -30,9 +30,10 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 /* For a positive rational number r, its left and right successor (as a pair):
 */
-calkinwilf_expand(r) := [1/(1+1/r), 1+r]$
+calkinwilf_expand(r) := [r/(r+1), 1+r]$
 /* Alternatively:
-block([p,q], [p,q] : [num(r), denom(r)], [p/(p+q),(p+q)/q])$
+block([p,q], [p,q] : [num(r), denom(r)], [p/(p+q),(p+q)/q])
+Note also that r/(r+1) = hmean([r,1])/2.
 */
 
 /* The levels of the Calkin-Wilf tree: */
