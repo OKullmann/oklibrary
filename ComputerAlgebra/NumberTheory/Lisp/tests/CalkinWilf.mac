@@ -1,0 +1,52 @@
+/* Oliver Kullmann, 5.9.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/NumberTheory/Lisp/tests/CalkinWilf.mac
+  \brief Tests for auxiliary number theory functions
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/CalkinWilf.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/MaximaInternals/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/CalkinWilf.mac")$
+
+
+/* **********
+   * Basics *
+   **********
+*/
+
+okltest_calkinwilf_expand(f) := block([p,q,x,res],
+  res : f(p/q),
+  assert(simplify_t(f(p/q) = [p/(q+p), (q+p)/q]) = true),
+  assert(simplify_t(res[2] = (q+p)/q) = true),
+  true)$
+
+okltest_calkinwilf_levels(f) := (
+  assert(f(0) = [1]),
+  assert(f(1) = [1/2,2/1]),
+  assert(f(2) = [1/3,3/2,2/3,3/1]),
+  assert(f(3) = [1/4,4/3,3/5,5/2,2/5,5/3,3/4,4/1]),
+  assert(f(4) = [1/5,5/4,4/7,7/3,3/8,8/5,5/7,7/2,2/7,7/5,5/8,8/3,3/7,7/4,4/5,5/1]),
+  true)$
+
+okltest_calkinwilf_recursion(f) := (
+  for l : 0 thru cokltl(5,8) do
+    assert(create_list(f(n), n, 2^l-1, 2^(l+1)-2) = calkinwilf_levels(l)),
+  true)$
+
+/*!
+\endhtmlonly
+*/

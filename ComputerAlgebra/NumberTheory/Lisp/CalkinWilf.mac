@@ -1,0 +1,49 @@
+/* Oliver Kullmann, 3.9.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/NumberTheory/Lisp/CalkinWilf.mac
+  \brief Functions related to surreal numbers
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/CalkinWilf.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+
+
+/* **********
+   * Basics *
+   **********
+*/
+
+/* For a positive rational number r, its left and right successor (as a pair):
+*/
+calkinwilf_expand(r) := [1/(1+1/r), 1+r]$
+/* Alternatively:
+block([p,q], [p,q] : [num(r), denom(r)], [p/(p+q),(p+q)/q])$
+*/
+
+/* The levels of the Calkin-Wilf tree: */
+calkinwilf_levels(k) := if k=0 then [1] else
+ lappend(map(lambda([r],calkinwilf_expand(r)), calkinwilf_levels(k-1)))$
+
+calkinwilf_recursion(n) := block([res : 1],
+ while n>0 do (res : 1/(1+floor(res) - fractional_part(res)), n:n-1),
+ res)$
+
+/*!
+\endhtmlonly
+*/
+
