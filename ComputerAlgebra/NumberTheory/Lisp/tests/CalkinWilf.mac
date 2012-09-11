@@ -19,6 +19,7 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/CalkinWilf.mac");
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/MaximaInternals/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/CalkinWilf.mac")$
 
