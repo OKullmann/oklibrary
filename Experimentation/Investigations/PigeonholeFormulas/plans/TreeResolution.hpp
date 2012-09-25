@@ -145,7 +145,7 @@ rescompphp(dll_simplest_st_max_var,4);
      dag-refutations? </li>
     </ol>
    </li>
-   <li> Developping a formula:
+   <li> Developping a formula (now for the numbers of leaves):
    \verbatim
 # First a recursion.
 # Strategy: first pigeon in first hole, then first pigeon in second hole,
