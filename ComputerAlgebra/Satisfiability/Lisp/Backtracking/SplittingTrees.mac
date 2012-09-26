@@ -61,6 +61,13 @@ fst_p(T) := lrt_p(T) and rt2_p(lrt2rt(T)) and
 
 /* Whether T is a splitting tree for clause-set F: */
 st_p(T,F) := fst_p(T) and subsetp(il_lrt(T), flit_cs(F)) and st0_p(T,F)$
+/* Remark: the condition "subsetp(il_lrt(T), flit_cs(F))" is on the one hand
+   too strong (typically we don't need it), and on the other hand not
+   strong enough, since it is inherited to sub-trees (variables might vanish).
+   So perhaps a revision of the concepts is needed: best seems to have
+   two concepts, one with no requirements on the literals, one where they
+   need to be formal literals of the *current* clause-set.
+*/
 /* Whether rooted tree T, which fulfills the formal requirements for being
    a splitting tree for F, fulfills the splitting requirements, that is,
    a leaf is exactly reached when either we have [] or when the clause-set
@@ -97,6 +104,15 @@ complete_stp(T) := not elementp([], ll_lrt(T))$
    * Manipulating splitting trees *
    ********************************
 */
+
+fst2st(T,F) :=
+ if emptyp(F) then [true]
+ elseif has_empty_element(F) then [false]
+ elseif length(F)=1 then [[]]
+ else block([x : first(T)],
+  if not elementp(x, flit_cs(F)) then
+   if nnds_lrt(second(T)) <= nnds_lrt(third(T)) then second(T) else third(T)
+  else [x, fst2st(second(T), apply_pa_cs({-x},F)), fst2st(third(T), apply_pa_cs({x},F))])$
 
 /* Negate a splitting tree, i.e., negate the leaves: */
 negate_st(T) := if length(T) = 1 then [not T[1]] else
@@ -363,16 +379,17 @@ amend_r_splitting_tree(F,T,k) := block(
     T1 : amend_r_splitting_tree(apply_pa({x},Fr[1]), T[3], k)],
     return([[x,Fr[2]], T0, T1])))$
 
-/* Transforming an an r_k-splitting tree T for F into a splitting tree for F:
-*/
-unfold_r_splitting_tree(F,T,k) :=
+/* Transforming an r_k-splitting tree T for F into a splitting tree for F: */
+rst2st(F,T,k) := fst2st(rst2est(F,T,k),F)$
+/* Expanding the r_k-steps (obtaining an extended splitting tree): */
+rst2est(F,T,k) :=
  if k=0 then T
  elseif k=1 then block([x : T[1], redres : ucp_lpa_0_cs(F), Fr, phi],
    Fr : redres[1],
    phi : lappend(map(listify,redres[2])),
    if length(T)=1 then input_list_st(phi, [x]) else
-   input_list_st(phi, [x,unfold_r_splitting_tree(apply_pa_cs({-x},Fr),T[2],k),
-                        unfold_r_splitting_tree(apply_pa_cs({x},Fr),T[3],k)]))
+   input_list_st(phi, [x,rst2est(apply_pa_cs({-x},Fr),T[2],k),
+                         rst2est(apply_pa_cs({x},Fr),T[3],k)]))
  else unknown$ /* not yet implemented */
 
 

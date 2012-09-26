@@ -70,10 +70,11 @@ okltest_st_p(f) := (
   assert(f([1,[2,[[]],[[]]],[[]]], {{1,2},{1,-2}}) = true),
   assert(f([1,[2,[[]],[[]]],[false]], {{1,2},{1,-2}}) = false),
   assert(f([1,[2,[[]],[[]]],[true]], {{1,2},{1,-2}}) = true),
+  assert(f([1,[2,[false],[[]]],[2,[[]],[[]]]], {{1,2}, {3}}) = true),
   true)$
 
 okltest_est_p(f) := (
-    assert(f([[]],{}) = true),
+  assert(f([[]],{}) = true),
   assert(f([true],{}) = true),
   assert(f([false],{}) = false),
   assert(f([[]],{{}}) = true),
@@ -114,6 +115,13 @@ okltest_complete_stp(f) := (
    * Manipulating splitting trees *
    ********************************
 */
+
+okltest_fst2st(f) := (
+  assert(f([1,[true],[true]],{{}}) = [false]),
+  assert(f([1,[2,[3,[false],[false]],[false]],[true]], {{1,2},{1,-2}}) = [1,[2,[false],[false]],[true]]),
+  assert(f([1,[2,[false],[[]]],[2,[[]],[[]]]], {{1,2}, {3}}) = [1,[2,[false],[[]]],[[]]]),
+  /* XXX */
+  true)$
 
 okltest_negate_st(f) := block(
   assert(f([true]) = [false]),
@@ -266,7 +274,11 @@ okltest_genhornsat_st(f) := (
    ***********************
 */
 
-okltest_unfold_r_splitting_tree(f) := block([F],
+okltest_rst2st(f) := (
+  /* XXX */
+  true)$
+
+okltest_rst2est(f) := block([F],
   assert(f({{}},[false],0) = [false]),
   assert(f({{}},[false],1) = [false]),
   /* assert(f({{}},[false],2) = [false]), */

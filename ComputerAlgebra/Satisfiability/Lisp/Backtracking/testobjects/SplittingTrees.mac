@@ -37,7 +37,10 @@ okltest_complete_stp(complete_stp);
    ********************************
 */
 
+okltest_fst2st(fst2st);
+
 okltest_negate_st(negate_st);
+
 okltest_condense_st(condense_st);
 
 /* ***************************
@@ -79,7 +82,8 @@ okltest_genhornsat_st(genhornsat_st);
    ***********************
 */
 
-okltest_unfold_r_splitting_tree(unfold_r_splitting_tree);
+okltest_rst2st(rst2st);
+okltest_rst2est(rst2est);
 
 /* **********
    * Output *
