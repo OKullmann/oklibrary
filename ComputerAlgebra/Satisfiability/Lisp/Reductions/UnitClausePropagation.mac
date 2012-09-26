@@ -36,13 +36,15 @@ ucp_0_cs(F) := block([U],
 
 /* Now returning a pair [F,phi], where phi is a list of
    partial assignments, corresponding to the blocks of
-   unit-clauses found.
-   Only forced assignments (by unit-clauses) are considered
+   unit-clauses found (phi_1 comprises the unit-clauses
+   in F, phi_2 those in pni_1 * F, etc.).
+   Only forced assignments by unit-clauses are considered
    here, and so if {} in F, then the process stops, and the
    remaining clauses stay in F.
    If in some stage contradictory unit-clauses {x},{-x} are found,
    then the positive assignment is applied, while all other eliminations
-   are ignored.
+   are ignored (if there are several such x, then that x with lexicographically
+   first x or -x is chosen).
 */
 ucp_lpa_0_cs(F) := block([phi : [], U],
   do (

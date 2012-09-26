@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 23.12.2008 (Schwalbach) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -51,6 +51,8 @@ okltest_ucp_lpa_cs(f) := (
   assert(f({{1},{-1,-2},{2,3}}) = [{},[{1},{-2},{3}]]),
   assert(f({{1},{-1,-2},{2,3},{-1,2,-3}}) = [{{}},[{1},{-2},{3}]]),
   assert(f({{1},{-1,-2},{2,3},{-1,2,-3},{-1,2,-3,4}}) = [{{},{4}},[{1},{-2},{3}]]),
+  assert(f({{1},{2},{3},{4},{-1,-2},{-3,-4}}) = [{{}},[{1,2,3,4}]]),
+  assert(f({{1},{-1},{2},{-2}}) = [{{},{1},{-1}},[{2}]]),
   true)$
 
 
