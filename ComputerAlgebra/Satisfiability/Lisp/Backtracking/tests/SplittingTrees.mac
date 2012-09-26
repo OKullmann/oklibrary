@@ -23,6 +23,8 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Pigeonhole.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac")$
 
 kill(f)$
 
@@ -235,6 +237,11 @@ okltest_horn_st(f) := (
   assert(f(3) = [trv([]), [false], [trv([2]),[false],[trv([2,2]),[false],[false]]]]),
   true)$
 
+okltest_input_list_st(f) := (
+  assert(f([],1) = 1),
+  assert(okltest_horn_st(buildq([f], lambda([k], f(create_list(trv_var(create_list(2,j,1,i-1)), i,1,k), [false])))) = true),
+  true)$
+
 okltest_genhorn_st(f) := block([x],
   assert(f(0,x) = [false]),
   assert(f(x,0) = [false]),
@@ -258,6 +265,18 @@ okltest_genhornsat_st(f) := (
    * r_k splitting trees *
    ***********************
 */
+
+okltest_unfold_r_splitting_tree(f) := (
+  assert(f({{}},[false],0) = [false]),
+  assert(f({{}},[false],1) = [false]),
+  /* assert(f({{}},[false],2) = [false]), */
+  assert(f({{1},{-1}},[1,[false],[false]],0) = [1,[false],[false]]),
+  assert(f({{1},{-1}},[false],1) = [1,[false],[false]]),
+  for k : 0 thru cokltl(7,40) do block([F : smusat_horn_stdfcs(k)[2]],
+    assert(f(F,[false],1) = input_list_st(create_list(i,i,1,k), [false]))
+  ),
+  true)$
+
 
 /* **********
    * Output *

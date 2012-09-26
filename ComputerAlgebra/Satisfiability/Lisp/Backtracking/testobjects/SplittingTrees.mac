@@ -69,6 +69,7 @@ okltest_treepruning_st(treepruning_st);
 okltest_complete_st_alldifferent(complete_st_alldifferent);
 
 okltest_horn_st(horn_st);
+okltest_input_list_st(input_list_st);
 okltest_horn_st(lambda([k], genhorn_st(k,1)));
 okltest_genhorn_st(genhorn_st);
 okltest_genhornsat_st(genhornsat_st);
@@ -77,6 +78,8 @@ okltest_genhornsat_st(genhornsat_st);
    * r_k splitting trees *
    ***********************
 */
+
+okltest_unfold_r_splitting_tree(unfold_r_splitting_tree);
 
 /* **********
    * Output *

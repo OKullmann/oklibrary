@@ -249,12 +249,19 @@ complete_st_alldifferent_pref(k,prefix) := if k = 0 then [false] else
      complete_st_alldifferent_pref(k-1, cons(2,prefix))]$
 
 /* The complete splitting tree of height k and levelled height <= 1.
-   The corresponding tree-hitting clause-sets are exactly the saturated
-   minimally unsatisfiable Horn clause-sets.
+   The splitting-literals are variables trv(P), where P is the path to the
+   current node; the false branches are the first branches.
+   The corresponding tree-hitting clause-sets are exactly (up to isomorphism)
+   the saturated minimally unsatisfiable Horn clause-sets.
 */
+/* RENAME: input_st */
 horn_st(k) := horn_st_pref(k,[])$
 horn_st_pref(k,prefix) := if k = 0 then [false] else
   [trv_var(reverse(prefix)), [false], horn_st_pref(k-1, cons(2,prefix))]$
+/* The variation where the list L of splitting-literals, starting from the
+   root, together with the base-tree b, is given: */
+input_list_st(L,b) := if emptyp(L) then b else
+  [first(L), [false], input_list_st(rest(L),b)]$
 
 /* More generally, the complete splitting tree of height k >= 0 and levelled
    height l >= 0 (if l=0 then k=0, else k is arbitrary), using different
@@ -350,12 +357,23 @@ optimal_r_splitting_tree_rec(F,k,depth,upperb) :=
 */
 amend_r_splitting_tree(F,T,k) := block(
   [x : T[1], Fr : generalised_ucp_pa(F,k)],
-  if length(T) = 1 then
-    return([[x,Fr[2]]])
+  if length(T) = 1 then return([[x,Fr[2]]])
   else block([
     T0 : amend_r_splitting_tree(apply_pa({-x},Fr[1]), T[2], k),
     T1 : amend_r_splitting_tree(apply_pa({x},Fr[1]), T[3], k)],
     return([[x,Fr[2]], T0, T1])))$
+
+/* Transforming an an r_k-splitting tree T for F into a splitting tree for F:
+*/
+unfold_r_splitting_tree(F,T,k) :=
+ if k=0 then T
+ elseif k=1 then block([x : T[1], redres : ucp_lpa_0_cs(F), Fr, phi],
+   Fr : redres[1],
+   phi : lappend(redres[2]),
+   if length(T)=1 then input_list_st(phi, [x]) else
+   input_list_st(phi, [x,unfold_r_splitting_tree(apply_pa_cs({-x},Fr),T[2],k),
+                        unfold_r_splitting_tree(apply_pa_cs({x},Fr),T[3],k)]))
+ else unknown$ /* not yet implemented */
 
 
 /* **********
