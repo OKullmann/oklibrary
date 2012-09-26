@@ -100,6 +100,11 @@ lrt_p(T) := listp(T) and is(length(T) >= 1) and every_s(lrt_p,rest(T))$
 l2ult(T) := map(l2ult,rest(T))$
 lrt2rt(T) := l2ult(T)$
 
+/* Apply map lmap_ to all labels of lrt T (obtaining another lrt): */
+lmap_lrt(T, lmap_) := cons(lmap_(first(T)),
+ map(lambda([t], lmap_lrt(t, lmap_)), rest(T)))$
+
+
 /* Adding labels from list L to unlabelled tree T at inner nodes in in-order,
    while leaves are labelled by l.
    Prerequisite: the length of L is at least the number of inner nodes of T.

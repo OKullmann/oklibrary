@@ -112,6 +112,13 @@ okltest_l2ult(f) := block([x],
   assert(f([x,[x,[1],[2]],[x,[x],[x,[x]]]]) = [[[],[]], [[],[[]]]]),
   true)$
 
+okltest_lmap_lrt(f) := (
+  assert(f([1], identity) = [1]),
+  assert(f([1], lambda([x],x+1)) = [2]),
+  assert(f([1,[2],[3]], identity) = [1,[2],[3]]),
+  assert(f([1,[2],[3]], lambda([x],x+1)) = [2,[3],[4]]),
+  true)$
+
 okltest_rt2lrt_il(f) := block([x,y],
   assert(f([],[],x) = [x]),
   assert(f([],[1],x) = [x]),

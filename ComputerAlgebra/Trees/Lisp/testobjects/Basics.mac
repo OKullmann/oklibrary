@@ -45,6 +45,8 @@ okltest_lrt_p(lrt_p);
 
 okltest_l2ult(l2ult);
 
+okltest_lmap_lrt(lmap_lrt);
+
 okltest_rt2lrt_il(rt2lrt_il);
 
 okltest_ll_lrt(ll_lrt);
