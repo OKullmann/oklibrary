@@ -145,6 +145,49 @@ rescompphp(dll_simplest_st_max_var,4);
      dag-refutations? </li>
     </ol>
    </li>
+   <li> The above heuristics have the problem that they also have to deal with
+   unit-clauses; using ucp now:
+   \verbatim
+rescompa_php(_f,N) := for n : 0 thru N do block([F:weak_php_fcs(n+1,n), T0,T, R],
+ T0 : _f(F),
+ T : rst2st(F[2],T0,1),
+ R : st2reslrt_cs(T,F[2]),
+ printf(true, "~1d | ~5d ~5d | ~5d ~5d | ~5d~&", n, nnds_lrt(T), nlvs_lrt(T), nnds_lrt(R), nlvs_lrt(R), ncl_cs(l_lrt(R)))
+)$
+
+rescompa_php(lambda([FF], dll_rk_st_trivial1(FF,1)),6);
+0 |     1     1 |     1     1 |     1
+1 |     5     3 |     5     3 |     5
+2 |    21    11 |    21    11 |    19
+3 |   121    61 |    85    43 |    58
+4 |   781   391 |   377   189 |   157
+XXX
+rescompa_php(lambda([FF], dll_rk_st_trivial2(FF,1)),6);
+0 |     1     1 |     1     1 |     1
+1 |     5     3 |     5     3 |     5
+2 |    21    11 |    21    11 |    19
+3 |   121    61 |    85    43 |    58
+4 |   781   391 |   377   189 |   157
+XXX
+rescompa_php(lambda([FF], dll_rk_st_first_shortest_clause(FF,1)),6);
+0 |     1     1 |     1     1 |     1
+1 |     5     3 |     5     3 |     5
+2 |    21    11 |    21    11 |    19
+3 |   121    61 |    85    43 |    58
+4 |   781   391 |   377   189 |   157
+5 |  6001  3001 |  1941   971 |   401
+XXX
+rescompa_php(lambda([FF], dll_rk_st_max_var(FF,1)),4);
+0 |     1     1 |     1     1 |     1
+1 |     5     3 |     5     3 |     5
+2 |    21    11 |    21    11 |    19
+3 |    91    46 |    85    43 |    58
+4 |   437   219 |   377   189 |   159
+   \endverbatim
+   </li>
+   <li> Now except of the last heuristics all heuristics find the shortest
+   (known) tree-refutations as well as the shortest known dag-refutations!
+   </li>
    <li> Developping a formula (now for the numbers of leaves):
    \verbatim
 # First a recursion.
