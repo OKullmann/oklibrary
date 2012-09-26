@@ -266,7 +266,7 @@ okltest_genhornsat_st(f) := (
    ***********************
 */
 
-okltest_unfold_r_splitting_tree(f) := (
+okltest_unfold_r_splitting_tree(f) := block([F],
   assert(f({{}},[false],0) = [false]),
   assert(f({{}},[false],1) = [false]),
   /* assert(f({{}},[false],2) = [false]), */
@@ -275,6 +275,10 @@ okltest_unfold_r_splitting_tree(f) := (
   for k : 0 thru cokltl(7,40) do block([F : smusat_horn_stdfcs(k)[2]],
     assert(f(F,[false],1) = input_list_st(create_list(i,i,1,k), [false]))
   ),
+  F : weak_php_cs(3,2),
+  assert(f(F, [-php(1,1),[false],[false]], 1) = [-php(1,1),
+       [-php(2,1),[false],[-php(3,1),[false],[php(2,2),[false],[php(3,2),[false],[false]]]]],
+       [php(1,2),[false],[-php(2,2),[false],[-php(3,2),[false],[php(2,1),[false],[php(3,1),[false],[false]]]]]]]),
   true)$
 
 

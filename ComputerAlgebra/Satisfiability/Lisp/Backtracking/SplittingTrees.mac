@@ -369,7 +369,7 @@ unfold_r_splitting_tree(F,T,k) :=
  if k=0 then T
  elseif k=1 then block([x : T[1], redres : ucp_lpa_0_cs(F), Fr, phi],
    Fr : redres[1],
-   phi : lappend(redres[2]),
+   phi : lappend(map(listify,redres[2])),
    if length(T)=1 then input_list_st(phi, [x]) else
    input_list_st(phi, [x,unfold_r_splitting_tree(apply_pa_cs({-x},Fr),T[2],k),
                         unfold_r_splitting_tree(apply_pa_cs({x},Fr),T[3],k)]))
