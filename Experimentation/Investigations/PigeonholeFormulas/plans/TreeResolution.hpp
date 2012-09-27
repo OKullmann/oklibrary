@@ -161,14 +161,16 @@ rescompa_php(lambda([FF], dll_rk_st_trivial1(FF,1)),6);
 2 |    21    11 |    21    11 |    19
 3 |   121    61 |    85    43 |    58
 4 |   781   391 |   377   189 |   157
-XXX
+5 |  6001  3001 |  1941   971 |   401
+6 | 54653 27327 | 11725  5863 |   997
 rescompa_php(lambda([FF], dll_rk_st_trivial2(FF,1)),6);
 0 |     1     1 |     1     1 |     1
 1 |     5     3 |     5     3 |     5
 2 |    21    11 |    21    11 |    19
 3 |   121    61 |    85    43 |    58
 4 |   781   391 |   377   189 |   157
-XXX
+5 |  6001  3001 |  1941   971 |   401
+6 | 54653 27327 | 11725  5863 |   997
 rescompa_php(lambda([FF], dll_rk_st_first_shortest_clause(FF,1)),6);
 0 |     1     1 |     1     1 |     1
 1 |     5     3 |     5     3 |     5
@@ -176,13 +178,15 @@ rescompa_php(lambda([FF], dll_rk_st_first_shortest_clause(FF,1)),6);
 3 |   121    61 |    85    43 |    58
 4 |   781   391 |   377   189 |   157
 5 |  6001  3001 |  1941   971 |   401
-XXX
-rescompa_php(lambda([FF], dll_rk_st_max_var(FF,1)),4);
+6 | 54653 27327 | 11725  5863 |   997
+rescompa_php(lambda([FF], dll_rk_st_max_var(FF,1)),6);
 0 |     1     1 |     1     1 |     1
 1 |     5     3 |     5     3 |     5
 2 |    21    11 |    21    11 |    19
 3 |    91    46 |    85    43 |    58
 4 |   437   219 |   377   189 |   159
+5 |  2441  1221 |  1941   971 |   416
+6 | 15955  7978 | 11725  5863 |  1065
    \endverbatim
    </li>
    <li> Now except of the last heuristics all heuristics find the shortest
