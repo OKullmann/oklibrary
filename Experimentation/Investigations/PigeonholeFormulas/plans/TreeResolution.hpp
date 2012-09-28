@@ -192,11 +192,15 @@ rescompa_php(lambda([FF], dll_rk_st_max_var(FF,1)),6);
    <li> Now except of the last heuristics all heuristics find the shortest
    (known) tree-refutations as well as the shortest known dag-refutations!
    </li>
-   <li> Developping a formula (now for the numbers of leaves):
+  </ul>
+
+
+  \todo Developing a formula (now for the numbers of leaves)
+  <ul>
+   <li> Strategy: first pigeon in first hole, then first pigeon in second hole,
+   and so on. </li>
+   <li> First a recursion:
    \verbatim
-# First a recursion.
-# Strategy: first pigeon in first hole, then first pigeon in second hole,
-# and so on:
 trphp(n) := if n=0 then 1 else n*trphp(n-1) + n*n + 1;
 for n : 0 thru 6 do print(n,trphp(n));
 0 1
@@ -206,8 +210,24 @@ for n : 0 thru 6 do print(n,trphp(n));
 4 189
 5 971
 6 5863
-
-# Trying to find a closed formula.
+   \endverbatim
+   </li>
+   <li> Explanation:
+    <ol>
+     <li> There are n possible holes for the first pigeon. </li>
+     <li> After placing the pigeon into one of the holes and performing UCP,
+     we obtain an instance isomorphic to PHP^n_(n-1). </li>
+     <li> To transform this into binary splitting, in the false branch we
+     immediately split regarding the next free hole. </li>
+     <li> Once placed, UCP removes the other n pigeons from that hole, which
+     creates n leaves (by the binary clauses). </li>
+     <li> One further leave is created when the pigeon was denied the last
+     hole (by the long clause for that pigeon). </li>
+     <li> So the recursion formula is trphp(n) = n*trphp(n-1) + n*n + 1. </li>
+    </ol>
+   </li>
+   <li> Trying to find a closed formula:
+   \verbatim
 load(solve_rec);
 solve_rec(t[n]=n*t[n-1]+n*n+1, t[n], t[0]=1);
   t[n] = ('sum((%j^2+2*%j+2)/(%j+1)!,%j,0,n-1))*n!+n!
