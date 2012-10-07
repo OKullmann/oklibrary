@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.8.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -55,6 +55,13 @@ kullmann-0:PrimeNumbers> time RankPrimes-O3-DNDEBUG data/PrimeRanks.txt rank
 user    0m26.546s
    \endverbatim
    So 4.2.4 needs only about %65 of the time needed by 4.3.0 or 4.3.1. </li>
+  </ul>
+
+
+  \todo Improve installation of Mpfr
+  <ul>
+   <li> Likely, as with Gmp, we should set "libdir", to avoid the distinction
+   between "lib" and "lib64". </li>
   </ul>
 
 
