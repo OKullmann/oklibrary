@@ -1,5 +1,5 @@
 # Oliver Kullmann, 15.4.2005 (Swansea)
-# Copyright 2005-2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+# Copyright 2005-2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -82,16 +82,16 @@ The following software needs to be installed:
   (check: "ld --version"; also the library is needed, see below)
 
  - binutils development library ("binutils-devel").
- - glibc development library.
+ - glibc development include-library plus static-link-libary.
  - readline development library.
- - X libraries ("X11" development libraries; needed by gnuplot).
+ - X libraries ("X11" development libraries; needed by gnuplot and R).
  - postgresql development library ("postgresql-devel").
 
  - zlib (development library, needed by gcc-4.5.3 (due to defective build)).
 
 If the build-machine is a 64-bit machine, then additionally
-also the 32-bit version of glibc (development library)
-is needed (in order to build the local gcc).
+also the 32-bit versions of glibc (include-library and static linking)
+are needed.
 
 For creation of documentation we also need:
 
