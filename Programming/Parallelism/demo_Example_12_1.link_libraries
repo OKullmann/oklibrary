@@ -1,2 +1,2 @@
-echo ${boost_link_option_okl} -lboost_filesystem -lboost_thread
+echo ${boost_link_option_okl} -lboost_filesystem -lboost_system -lboost_thread
 
