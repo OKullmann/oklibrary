@@ -212,17 +212,24 @@ max_literal_degree_tb_l_cs(FF,d,n) := block(
 /* The degree of a variable in a clause-set: */
 variable_degree_cs(F,v) := length(scls_v(F,v))$
 
-/* The variable-degrees of a clause-set, as hash-map. */
+/* The variable-degrees of a clause-set, as hash-map: */
 variable_degrees_cs(F) := block([h : sm2hm({})],
- for C in F do
-  for v in var_c(C) do enter_new_occurrence(h,v),
+ for C in F do for v in var_c(C) do enter_new_occurrence(h,v),
  return(h))$
 
 /* The minimal variable-degree of a clause-set: */
-min_variable_degree_cs(F) :=
-  lmin(map(second,hm2sm(variable_degrees_cs(F))))$
+min_variable_degree_cs(F) := lmin(map(second,hm2sm(variable_degrees_cs(F))))$
 min_variable_degree_fcs(FF) := min_variable_degree_cs(FF[2])$
-/* The maximal min-var-degree of a set (or list) of clause-sets. */
+/* Also returns a variable of minimal degree, i.e., returns a pair
+   [min-degree, var], chosing the first in the internal order, while returning
+   [inf,0] in case there is no variable:
+*/
+min_variable_degree_v_cs(F) := if F = {} or F = {{}} then [inf,0] else block(
+  [D : hm2sm(variable_degrees_cs(F)), optv : 0, mind : inf],
+  for m in D do block([d : m[2]], if d < mind then (mind : d, optv : m[1])),
+  return([mind, optv]))$
+
+/* The maximal min-var-degree of a set (or list) of clause-sets: */
 max_min_var_deg_cs(SF) := lmax(map(min_variable_degree_cs,SF))$
 max_variable_degree_fcs(FF) := max_variable_degree_cs(FF[2])$
 
@@ -236,6 +243,7 @@ max_variable_degree_v_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
   for m in D do block([d : m[2]],
     if d > maxd then (maxd : d, optv : m[1])),
   return([maxd, optv]))$
+
 /* The minimal max-var-degree of a set (or list) of clause-sets. */
 min_max_var_deg_cs(SF) := lmin(map(max_variable_degree_cs,SF))$
 

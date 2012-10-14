@@ -101,10 +101,14 @@ okltest_variable_degrees_cs(variable_degrees_cs);
 
 okltest_min_variable_degree_cs(min_variable_degree_cs);
 okltest_min_variable_degree_fcs(min_variable_degree_fcs);
+okltest_min_variable_degree_v_cs(min_variable_degree_v_cs);
+
 okltest_max_min_var_deg_cs(max_min_var_deg_cs);
+
 okltest_max_variable_degree_fcs(max_variable_degree_fcs);
 okltest_max_variable_degree_cs(max_variable_degree_cs);
 okltest_max_variable_degree_v_cs(max_variable_degree_v_cs);
+
 okltest_min_max_var_deg_cs(min_max_var_deg_cs);
 
 okltest_variableregularcsp(variableregularcsp);

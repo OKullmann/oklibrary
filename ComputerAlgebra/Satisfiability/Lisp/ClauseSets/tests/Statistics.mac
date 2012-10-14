@@ -370,6 +370,16 @@ okltest_min_variable_degree_fcs(f) := (
   /* XXX */
   true)$
 
+okltest_min_variable_degree_v_cs(f) := (
+  assert(f({}) = [inf,0]),
+  assert(f({{}}) = [inf,0]),
+  assert(f({{1},{}}) = [1,1]),
+  assert(f({{-1},{}}) = [1,1]),
+  assert(f({{1},{-2},{}}) = [1,1]),
+  assert(f({{1},{-1},{2},{-2},{1,2}}) = [3,1]),
+  assert(f({{2},{1},{-1}}) = [1,2]),
+  true)$
+
 okltest_max_min_var_deg_cs(f) := (
   /* XXX */
   true)$
