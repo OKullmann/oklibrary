@@ -52,6 +52,8 @@ okltest_var_sl(var_c);
 
 okltest_pospart_c(pospart_c);
 okltest_negpart_c(negpart_c);
+okltest_posp_c(posp_c);
+okltest_negp_c(negp_c);
 
 /* ***************
    * Clause-sets *

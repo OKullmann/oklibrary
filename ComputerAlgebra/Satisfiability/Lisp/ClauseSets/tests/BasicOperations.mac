@@ -147,6 +147,22 @@ okltest_negpart_c(f) := (
   assert(okltest_pospart_c(buildq([f],lambda([C],comp_sl(f(comp_sl(C))))))),
   true)$
 
+okltest_posp_c(f) := (
+  assert(f({}) = true),
+  assert(f({-1}) = false),
+  assert(f({1}) = true),
+  assert(f({1,2}) = true),
+  assert(f({1,-2}) = false),
+  true)$
+
+okltest_negp_c(f) := (
+  assert(f({}) = true),
+  assert(f({-1}) = true),
+  assert(f({1}) = false),
+  assert(f({-1,-2}) = true),
+  assert(f({-1,2}) = false),
+  true)$
+
 
 /* ***************
    * Clause-sets *

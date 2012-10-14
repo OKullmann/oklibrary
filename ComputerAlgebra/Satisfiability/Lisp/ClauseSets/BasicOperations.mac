@@ -109,6 +109,9 @@ var_sl(C) := map(var_l, C)$
    a set of literals): */
 pospart_c(C) := subset(C, lambda([x], is(x>0)))$
 negpart_c(C) := subset(C, lambda([x], is(x<0)))$
+/* Testing whether clause C is positive resp. negative: */
+posp_c(C) := emptyp(negpart_c(C))$
+negp_c(C) := emptyp(pospart_c(C))$
 
 /* The set of all full clauses over a set or list V of variables is computed by
      full_cs_v(V) (resp. full_cs(n) for V = {1,...,n})
