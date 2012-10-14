@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 24.12.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -36,14 +36,17 @@ oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
    **********************************
 */
 
-/* The simplest scheme: input is a formal clause-set, and the return value
+/* The simplest scheme: input is a formal clause-set FF, and the return value
    is true or false.
-   The heuristics has to return a literal for input a formal clause-set,
-   and this literal is first set to true. */
+   The heuristics h gets as input a formal clause-set, which is neither empty
+   nor contains the empty clause, and has to return either 0 in case the input
+   was determined unsatisfiable, or a literal where then this literal is first
+   set to true. */
 
 dll_simplest(FF, h) := if emptyp(FF[2]) then true
  elseif empty_element_p(FF[2]) then false
  else block([x : h(FF)], 
+    if x=0 then return(false) else
     return(dll_simplest(apply_pa_fcs({x}, FF), h) or 
            dll_simplest(apply_pa_fcs({-x}, FF), h)))$
 
@@ -51,7 +54,8 @@ dll_simplest(FF, h) := if emptyp(FF[2]) then true
    returned: */
 dll_simplest_spa(FF,h) := if emptyp(FF[2]) then {}
  elseif empty_element_p(FF[2]) then false
- else block([x : h(FF), res], 
+ else block([x : h(FF), res],
+    if x=0 then return(false),
     res : dll_simplest_spa(apply_pa_fcs({x}, FF), h),
     if res # false then return(adjoin(x,res)),
     res : dll_simplest_spa(apply_pa_fcs({-x}, FF), h),
@@ -62,7 +66,8 @@ dll_simplest_spa(FF,h) := if emptyp(FF[2]) then {}
    tree (representing now all solutions): */
 dll_simplest_st(FF, h) := if emptyp(FF[2]) then [true]
  elseif empty_element_p(FF[2]) then [false]
- else block([x : h(FF)], 
+ else block([x : h(FF)],
+    if x=0 then return([false]) else
     return([-x,
             dll_simplest_st(apply_pa_fcs({x}, FF), h),
             dll_simplest_st(apply_pa_fcs({-x}, FF), h)]))$
@@ -71,6 +76,10 @@ dll_simplest_st(FF, h) := if emptyp(FF[2]) then [true]
 /* ***********************************
    * Backtracking with r_k-reduction *
    ***********************************
+*/
+
+/* ATTENTION: In the following the heuristic is not yet allowed to return 0;
+   likely this should be updated.
 */
 
 monitorcheck_dll(name,red) := if oklib_monitor then (
@@ -189,8 +198,22 @@ dll_rk_first_shortest_clause(FF,k) := dll_rk(FF, dll_heuristics_first_shortest_c
 dll_rk_st_first_shortest_clause(FF,k) := dll_rk_st(FF, dll_heuristics_first_shortest_clause, k)$
 
 
+/* The first variable in the first shortest positive clause: */
+dll_heuristics_first_shortest_positive_clause(FF) := block([ml : inf, x : 0],
+ for C in FF[2] do if posp_c(C) and length(C) < ml then
+  (ml : length(C), x : first(C)),
+ x)$
+
+/* Instantiations of SAT solvers: */
+dll_simplest_first_shortest_positive_clause(FF) := dll_simplest(FF, dll_heuristics_first_shortest_positive_clause)$
+dll_simplest_st_first_shortest_positive_clause(FF) := dll_simplest_st(FF, dll_heuristics_first_shortest_positive_clause)$
+dll_rk_first_shortest_positive_clause(FF,k) := dll_rk(FF, dll_heuristics_first_shortest_positive_clause, k)$
+dll_rk_st_first_shortest_positive_clause(FF,k) := dll_rk_st(FF, dll_heuristics_first_shortest_positive_clause, k)$
+
+
 /* Heuristics: choose a variable occurring most often, and choose the sign
-   first which satisfies most clauses. */
+   first which satisfies most clauses.
+*/
 
 dll_heuristics_max_var(FF) := block(
  [v : max_variable_degree_v_cs(FF[2])[2]],
@@ -202,6 +225,22 @@ dll_simplest_max_var(FF) := dll_simplest(FF, dll_heuristics_max_var)$
 dll_simplest_st_max_var(FF) := dll_simplest_st(FF, dll_heuristics_max_var)$
 dll_rk_max_var(FF,k) := dll_rk(FF, dll_heuristics_max_var, k)$
 dll_rk_st_max_var(FF,k) := dll_rk_st(FF, dll_heuristics_max_var, k)$
+
+
+/* For comparison: choose variable occurring least often, and choose sign
+   first which satisfies fewest clauses:
+*/
+
+dll_heuristics_min_var(FF) := block(
+ [v : min_variable_degree_v_cs(FF[2])[2]],
+ if literal_degree_cs(FF[2],v) >= literal_degree_cs(FF[2],-v) then
+   return(v) else return(-v))$
+
+/* Instantiations of SAT solvers: */
+dll_simplest_min_var(FF) := dll_simplest(FF, dll_heuristics_min_var)$
+dll_simplest_st_min_var(FF) := dll_simplest_st(FF, dll_heuristics_min_var)$
+dll_rk_min_var(FF,k) := dll_rk(FF, dll_heuristics_min_var, k)$
+dll_rk_st_min_var(FF,k) := dll_rk_st(FF, dll_heuristics_min_var, k)$
 
 
 /* *** Heuristics for a good representation of the set of satisfying
