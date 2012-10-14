@@ -26,5 +26,6 @@ sage_homepage_url_okl := http://www.sagemath.org/
 sage_documentation_url_okl := http://sage.math.washington.edu/sage/doc/
 
 sage_recommended_okl := $(sage_prefix_okl)-$(sage_recommended_version_number_okl)
-sage_source_okl := $(ExternalSources)/sources/Sage/$(sage_recommended_okl)
+sage_source_dir_okl := $(ExternalSources)/sources/Sage
+sage_source_okl := $(sage_source_dir_okl)/$(sage_recommended_okl)
 
