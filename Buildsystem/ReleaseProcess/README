@@ -86,7 +86,7 @@ The following software needs to be installed:
  - readline development library.
  - X libraries ("X11" development libraries; needed by gnuplot and R).
  - postgresql development library ("postgresql-devel").
-
+ - openssl library (also development library; needed by Sage).
  - zlib (development library, needed by gcc-4.5.3 (due to defective build)).
 
 If the build-machine is a 64-bit machine, then additionally
