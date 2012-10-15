@@ -179,6 +179,14 @@ rescompa_php(lambda([FF], dll_rk_st_first_shortest_clause(FF,1)),6);
 4 |   781   391 |   377   189 |   157
 5 |  6001  3001 |  1941   971 |   401
 6 | 54653 27327 | 11725  5863 |   997
+rescompa_php(lambda([FF], dll_rk_st_first_shortest_positive_clause(FF,1)),6);
+0 |     1     1 |     1     1 |     1
+1 |     5     3 |     5     3 |     5
+2 |    21    11 |    21    11 |    19
+3 |    91    46 |    85    43 |    58
+4 |   437   219 |   377   189 |   157
+5 |  2441  1221 |  1941   971 |   401
+6 | 15955  7978 | 11725  5863 |   997
 rescompa_php(lambda([FF], dll_rk_st_max_var(FF,1)),6);
 0 |     1     1 |     1     1 |     1
 1 |     5     3 |     5     3 |     5
@@ -187,11 +195,20 @@ rescompa_php(lambda([FF], dll_rk_st_max_var(FF,1)),6);
 4 |   437   219 |   377   189 |   159
 5 |  2441  1221 |  1941   971 |   416
 6 | 15955  7978 | 11725  5863 |  1065
+rescompa_php(lambda([FF], dll_rk_st_min_var(FF,1)),6);
+0 |      1      1 |     1     1 |     1
+1 |      5      3 |     5     3 |     5
+2 |     21     11 |    21    11 |    19
+3 |    191     96 |    99    50 |    67
+4 |   1875    938 |   519   260 |   188
+5 |  22963  11482 |  3149  1575 |   480
+6 | 343619 171810 | 22091 11046 |  1179
    \endverbatim
    </li>
-   <li> Now except of the last heuristics all heuristics find the shortest
+   <li> Now except of the last two heuristics all heuristics find the shortest
    (known) tree-refutations as well as the shortest known dag-refutations!
    </li>
+   <li> It would be good to understand these results in more detail. </li>
   </ul>
 
 
