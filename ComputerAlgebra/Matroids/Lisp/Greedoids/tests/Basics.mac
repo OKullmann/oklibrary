@@ -51,12 +51,41 @@ okltest_grdfs_p(f) := (
   ),
   true)$
 
+okltest_rank_grdfs(f) := (
+  assert(f([{},{{}}]) = 0),
+  /* XXX */
+  true)$
+
+okltest_bases_grdfs(f) := (
+  assert(f([{},{{}}]) = {{}}),
+  /* XXX */
+  true)$
+
+okltest_restriction_grdfs(f) := (
+  assert(f([{},{{}}],{}) = [{},{{}}]),
+  /* XXX */
+  true)$
+
+
+/* ******************************
+   * Special forms of greedoids *
+   ******************************
+*/
+
 okltest_antimtrfs_p(f) := (
   assert(f([{},{}]) = false),
   assert(f([{},{{}}]) = true),
   assert(f([{1},{{}}]) = true),
   assert(f([{1,2},{{},{1},{2}}]) = false),
   assert(f([{1,2,3},{{},{1},{1,2},{1,2,3}}]) = true),
+  true)$
+
+okltest_intervalgrdfs_p(f) := (
+  assert(f([{},{{}}]) = true),
+  assert(f([{1},{{}}]) = true),
+  assert(f([{1,2},{{},{1},{1,2}}]) = true),
+  assert(f([{1,2,3},{{},{1},{2},{3},{1,2},{1,3},{2,3}}]) = true),
+  assert(f([{1,2,3},{{},{1},{1,2},{1,2,3},{3},{2,3}}]) = false),
   true)$
 
 okltest_gaussian_ss_p(f) := (

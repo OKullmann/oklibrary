@@ -29,7 +29,20 @@ oklib_include("OKlib/ComputerAlgebra/Matroids/Lisp/Greedoids/tests/Basics.mac")$
 
 okltest_grdfs_p(grdfs_p);
 
+okltest_rank_grdfs(rank_grdfs);
+
+okltest_bases_grdfs(bases_grdfs);
+
+okltest_restriction_grdfs(restriction_grdfs);
+
+/* ******************************
+   * Special forms of greedoids *
+   ******************************
+*/
+
 okltest_antimtrfs_p(antimtrfs_p);
+
+okltest_intervalgrdfs_p(intervalgrdfs_p);
 
 okltest_gaussian_ss_p(gaussian_ss_p);
 

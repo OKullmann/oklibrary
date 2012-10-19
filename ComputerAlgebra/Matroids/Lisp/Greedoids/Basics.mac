@@ -33,9 +33,37 @@ oklib_include("OKlib/ComputerAlgebra/Matroids/Lisp/Basics.mac")$
 grdfs_p(M) := hg_p(M) and not emptyp(second(M)) and
  accessible_ss_p(second(M)) and augmentation_ss_p(second(M))$
 
+
+/* Computing the rank of a greedoid G: */
+rank_grdfs(G) := lmax(map(length,G[2]))$
+
+/* Computing the set of bases of a greedoid G: */
+bases_grdfs(G) := block([r : rank_grdfs(G)],
+ subset(G[2], lambda([H], is(length(H)=r))))$
+
+/* For a greedoid G and a set A, the greedoid given by all the feasible sets
+   contained in A:
+*/
+restriction_grdfs(G,A) := [A, subset(G[2], lambda([B], subsetp(B,A)))]$
+
+
+/* ******************************
+   * Special forms of greedoids *
+   ******************************
+*/
+
 /* Whether G is an antimatroid given by the feasible sets: */
 antimtrfs_p(G) := hg_p(G) and elementp({},second(G)) and
  accessible_ss_p(second(G)) and bunion_closed_p(second(G))$
+
+
+/* Whether the greedoid G is an interval greedoid: */
+intervalgrdfs_p(G) := block([B : bases_grdfs(G)],
+ every_s(lambda([A], antimtrfs_p(restriction_grdfs(G,A))), B))$
+/* Remark: Here the characterisation is used, that a greedoid G is an interval
+   greedoid iff every restriction to a feasible set is an antimatroid.
+   Are there more efficient tests?
+*/
 
 /* A greedoid G is Gaussian iff G[2] fulfils the following Gaussian
    property:
