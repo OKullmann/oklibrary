@@ -35,4 +35,63 @@ all_n_n1stts(n) := block([m:0, S],
    contains only non-1-singular variables from F. </li>
   </ul>
 
+
+  \todo Special properties of the greedoid of singular sets
+  <ul>
+   <li>
+   \verbatim
+F : {{1,2},{-1,3},{-1,-3},{-2,4},{-2,-4}};
+min_unsat_bydef_cs(F);
+  true
+deficiency_cs(F);
+  1
+G : sdphg_cs_bydef(F);
+  [{1,2,3,4},
+   {{},{1},{1,2,3},{1,2,3,4},{1,2,4},{1,3},{1,3,4},{1,4},{2},{2,3},{2,3,4},{2,4},{3},{3,4},{4}}]
+grdfs_p(G);
+  true
+antimtrfs_p(G);
+  false
+rank_grdfs(G);
+  6
+bases_grdfs(G);
+  {{1,2,3,4}}
+intervalgrdfs_p(G);
+  false
+gaussian_ss_p(G[2]);
+  true
+   \endverbatim
+   </li>
+   <li>
+   \verbatim
+F : {{1,2},{-1,3},{-2,4},{-3,5},{-3,-5},{-4,6},{-4,-6}};
+min_unsat_bydef_cs(F);
+  true
+deficiency_cs(F);
+  1
+G : sdphg_cs_bydef(F);
+[{1,2,3,4,5,6},
+ {{},{1},{1,2},{1,2,3},{1,2,3,4,5},{1,2,3,4,5,6},{1,2,3,4,6},{1,2,3,5},{1,2,3,5,6},
+  {1,2,3,6},{1,2,4},{1,2,4,5},{1,2,4,5,6},{1,2,4,6},{1,2,5},{1,2,5,6},{1,2,6},{1,3},{1,3,4},
+  {1,3,4,5},{1,3,4,5,6},{1,3,4,6},{1,3,5},{1,3,5,6},{1,3,6},{1,4},{1,4,5},{1,4,5,6},{1,4,6},
+  {1,5},{1,5,6},{1,6},{2},{2,3},{2,3,4},{2,3,4,5},{2,3,4,5,6},{2,3,4,6},{2,3,5},{2,3,5,6},
+  {2,3,6},{2,4},{2,4,5},{2,4,5,6},{2,4,6},{2,5},{2,5,6},{2,6},{3},{3,4},{3,4,5},{3,4,5,6},
+  {3,4,6},{3,5},{3,5,6},{3,6},{4},{4,5},{4,5,6},{4,6},{5},{5,6},{6}}]
+grdfs_p(G);
+  true
+antimtrfs_p(G);
+  false
+rank_grdfs(G);
+  6
+bases_grdfs(G);
+  {{1,2,3,4,5,6}}
+intervalgrdfs_p(G);
+  false
+gaussian_ss_p(G[2]);
+  true
+   \endverbatim
+   </li>
+   <li> So is every such greedoid Gaussian ?! </li>
+  </ul>
+
 */
