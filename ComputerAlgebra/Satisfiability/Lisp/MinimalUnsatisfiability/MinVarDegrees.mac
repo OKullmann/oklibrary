@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.4.2011 (Guangzhou) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -142,6 +142,9 @@ nonmersenne_law(k) := k + fld(k+1 + fld(k+1))$
 nonmersenne_lb(k) := k + fld(k+1)$
 /* A natural upper bound: */
 nonmersenne_ub(k) := k + 1 + fld(k)$
+
+/* The fastest computation: */
+nonmersenne(k) := nonmersenne_law(k)$
 
 /* Compare Lisp/ConflictCombinatorics/HittingClauseSets.mac
    for the treatmeant of hitting clause-sets.
