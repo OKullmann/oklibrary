@@ -7,7 +7,7 @@
 
 # Settings for building and using R
 
-R_recommended_version_number_okl ?= 2.14.1
+R_recommended_version_number_okl ?= 2.15.2
 R_other_versions_okl ?= 2.14.0
 
 R_prefix_okl ?= R
