@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.6.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,41 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp
   \brief Plans regarding installation of R
+
+
+  \todo Failing tests
+  <ul>
+   <li> With version 2.15.2 and also previous versions we get the
+   "make check" error as documented in the e-mail
+   https://stat.ethz.ch/pipermail/r-devel/2012-October/065002.html
+   to the R-devel list, without any answer. </li>
+   <li> Per e-mail OK was informed that using
+   "R_INSTALL_TAR=$(which tar)" should do the job, but that doesn't seem to
+   help, at least not for version 2.15.2. </li>
+   <li> Apparently Obj-C is used somewhere, so we also build this now with
+   gcc. </li>
+   <li> The following messages in the build-log seem suspicious:
+   \verbatim
+/usr/bin/ld: skipping incompatible /home/csoliver/OKplatform/ExternalSources/Installations/Gcc/4.5.4/lib/libgfortran.so when searching for -lgfortran
+/usr/bin/ld: skipping incompatible /home/csoliver/OKplatform/ExternalSources/Installations/Gcc/4.5.4/lib/libgfortran.a when searching for -lgfortran
+/usr/bin/ld: skipping incompatible /home/csoliver/OKplatform/ExternalSources/Installations/Gcc/4.5.4/lib/libgomp.so when searching for -lgomp
+/usr/bin/ld: skipping incompatible /home/csoliver/OKplatform/ExternalSources/Installations/Gcc/4.5.4/lib/libgomp.a when searching for -lgomp
+/usr/bin/ld: skipping incompatible /home/csoliver/OKplatform/ExternalSources/Installations/Gcc/4.5.4/lib/libgcc_s.so when searching for -lgcc_s
+/usr/bin/ld: skipping incompatible /home/csoliver/OKplatform/ExternalSources/Installations/Gcc/4.5.4/lib/libgcc_s.so when searching for -lgcc_s
+   \endverbatim
+   Why that? </li>
+   <li> The final error message is
+   \verbatim
+running code in 'reg-examples1.R' ... OK
+running code in 'reg-examples2.R' ... OK
+running code in 'reg-packages.R' ...make[4]: *** [reg-packages.Rout] Error 1
+make[4]: Leaving directory `/home/csoliver/OKplatform/ExternalSources/builds/R/R-2.15.2/tests'
+make[3]: *** [test-Reg] Error 2
+   \endverbatim
+   </li>
+   <li> Disabling "make check" makes the build compiling, and apparently
+   at least our functionality works. </li>
+  </ul>
 
 
   \todo DONE (installed 2.14.0)

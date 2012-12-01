@@ -55,7 +55,7 @@ gcc_documentation_url_okl := http://gcc.gnu.org/onlinedocs/
 gcc_source_base_okl := $(ExternalSources)/sources/Gcc
 gcc_source_okl := $(gcc_source_base_okl)/$(gcc_recommended_package_name_okl)
 
-gcc_enable_languages_okl ?= c,c++,fortran,java
+gcc_enable_languages_okl ?= c,c++,fortran,java,objc
 gcc_threads_okl ?= posix
 gcc_other_options_okl ?= --enable-shared --enable-multilib
 gcc_user_options_okl ?= 
