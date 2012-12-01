@@ -83,6 +83,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
    topics are handled:
+    - Failing tests
     - Installing 2.12.1 : DONE
     - Local installation of gfortran : DONE
     - Can't output graphics : DONE
