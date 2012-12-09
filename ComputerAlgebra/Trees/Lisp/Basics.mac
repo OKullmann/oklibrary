@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* ****************************
@@ -95,6 +96,11 @@ dst(T,p) := block([S : subtree(T,p)],
 lrt_p(T) := listp(T) and is(length(T) >= 1) and every_s(lrt_p,rest(T))$
 
 
+/* For a node-representation p in the labelled tree T, compute the label: */
+ndrep2l_lrt(p,T) := if emptyp(p) then first(T) else
+ ndrep2l_lrt(rest(p), T[first(p) + 1])$
+
+
 /* Transforms a labelled into an unlabelled tree by removing the labels: */
 /* UPDATE: rename to lrt2rt. */
 l2ult(T) := map(l2ult,rest(T))$
@@ -121,6 +127,9 @@ rt2lrt_il(T,L,l) := if emptyp(T) then [l] else
 /* The set of leaf-labels: */
 ll_lrt(T) := if length(T) = 1 then {first(T)}
 else lunion(map(ll_lrt,rest(T)))$
+/* The list-form (listing the leaf-labels from left to right): */
+lll_lrt(T) := if length(T) = 1 then [first(T)]
+else lappend(map(lll_lrt,rest(T)))$
 /* The set of non-leaf-node-labels: */
 il_lrt(T) := if length(T) = 1 then {}
 else adjoin(first(T), lunion(map(il_lrt,rest(T))))$

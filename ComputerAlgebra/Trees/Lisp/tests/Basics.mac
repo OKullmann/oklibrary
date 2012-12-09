@@ -105,6 +105,13 @@ okltest_lrt_p(f) := block([x],
   /* XXX */
   true)$
 
+okltest_ndrep2l_lrt(f) := block([x,y],
+  assert(f([], [x]) = x),
+  assert(f([1], [x, [y]]) = y),
+  assert(f([2], [0, [x], [y]]) = y),
+  assert(f([1,2], [0, [0, [x], [y]]]) = y),
+  true)$
+
 okltest_l2ult(f) := block([x],
   assert(f([0]) = []),
   assert(f([x]) = []),
@@ -134,6 +141,13 @@ okltest_ll_lrt(f) := (
   assert(f([1,[2]]) = {2}),
   assert(f([1,[2],[3]]) = {2,3}),
   assert(f([1,[2,[4],[5]],[3]]) = {4,5,3}),
+  true)$
+
+okltest_lll_lrt(f) := (
+  assert(f([1]) = [1]),
+  assert(f([1,[2]]) = [2]),
+  assert(f([1,[2],[3]]) = [2,3]),
+  assert(f([1,[2,[4],[5]],[3]]) = [4,5,3]),
   true)$
 
 okltest_il_lrt(f) := (
