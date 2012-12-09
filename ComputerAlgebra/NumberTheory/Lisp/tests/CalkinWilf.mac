@@ -22,6 +22,7 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/CalkinWilf.mac");
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/MaximaInternals/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/CalkinWilf.mac")$
+oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
 
 
 /* **********
@@ -29,10 +30,33 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/CalkinWilf.mac")$
    **********
 */
 
-okltest_calkinwilf_expand(f) := block([p,q,x,res],
+okltest_calkinwilf_expand(f) := block([p,q,res],
   res : f(p/q),
-  assert(simplify_t(f(p/q) = [p/(q+p), (q+p)/q]) = true),
+  assert(simplify_t(res = [p/(q+p), (q+p)/q]) = true),
   assert(simplify_t(res[2] = (q+p)/q) = true),
+  true)$
+
+okltest_calkinwilf_reduce(f) := (
+  for p : 1 thru cokltl(8,12) do
+   for q : 1 thru cokltl(8,12) do block([e : calkinwilf_expand(p/q)],
+    assert(f(first(e)) = p/q),
+    assert(f(second(e)) = p/q)
+  ),
+  true)$
+
+okltest_calkinwilfg_lrt(f) := (
+  /* XXX */
+  true)$
+
+okltest_calkinwilf_lrt(f) := (
+  for l : 0 thru cokltl(5,10) do
+    assert(lll_lrt(f(l)) = calkinwilf_levels(l)),
+  true)$
+
+okltest_calkinwilf_path(f) := block([T],
+  T : calkinwilf_lrt(cokltl(8,10)),
+  for r in l_lrt(T) do
+    assert(ndrep2l_lrt(f(r), T) = r),
   true)$
 
 okltest_calkinwilf_levels(f) := (

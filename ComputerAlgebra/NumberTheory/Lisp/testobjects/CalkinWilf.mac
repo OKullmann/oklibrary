@@ -27,8 +27,14 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/CalkinWilf.mac")$
 */
 
 okltest_calkinwilf_expand(calkinwilf_expand);
+okltest_calkinwilf_reduce(calkinwilf_reduce);
+
+okltest_calkinwilfg_lrt(calkinwilfg_lrt);
+okltest_calkinwilf_lrt(calkinwilf_lrt);
+okltest_calkinwilf_path(calkinwilf_path);
 
 okltest_calkinwilf_levels(calkinwilf_levels);
+
 okltest_calkinwilf_recursion(calkinwilf_recursion);
 
 /*!

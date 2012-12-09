@@ -37,10 +37,47 @@ block([p,q], [p,q] : [num(r), denom(r)], [p/(p+q),(p+q)/q])
 Note also that r/(r+1) = hmean([r,1])/2.
 */
 
+/* In the other direction, the parent of a positive rational number r # 1
+   in the tree:
+*/
+calkinwilf_reduce(r) := if r>1 then r-1 else r/(1-r)$
+/* Alternatively:
+block([p,q], [p,q] : [num(r), denom(r)], if r>1 then (p-q)/q else p/(q-p)
+*/
+
+/* The Calkin-Wilf tree of height k, with root r, a positive rational number,
+   as perfect labelled root tree: */
+calkinwilfg_lrt(k,r) := if k=0 then [r] else block([e : calkinwilf_expand(r)],
+ [r, calkinwilfg_lrt(k-1, first(e)), calkinwilfg_lrt(k-1, second(e))])$
+/* The full Calkin-Wilf tree of height k: */
+calkinwilf_lrt(k) := calkinwilfg_lrt(k,1)$
+
+/* The path from the root to r in the Calkin-Wilf tree, as a list of 1's and
+   2's (the node representation of the node of r according to
+   ComputerAlgebra/Trees/Lisp/Basics.mac):
+*/
+calkinwilf_path(r) := if r=1 then [] else
+ if r<1 then endcons(1, calkinwilf_path(r/(1-r)))
+ else endcons(2, calkinwilf_path(r-1))$
+
+/* Remark:
+   That calkinwilf_path is a bijection from the positive rational numbers
+   to the set of words over {1,2}, and thus the Calkin-Wilf tree enumerates
+   the positive rational numbers, is easily seen:
+    - calkinwilf_path(r) is well-defined, since the sum of numerator and
+      denominator decreases via calkinwilf_reduce(r).
+    - The map is a bijection since calkinwilf_reduce(r) is the inverse,
+      for both children, of calkinwilf_expand(r).
+*/
+
+
 /* The levels of the Calkin-Wilf tree: */
 calkinwilf_levels(k) := if k=0 then [1] else
  lappend(map(lambda([r],calkinwilf_expand(r)), calkinwilf_levels(k-1)))$
 
+/* The n-th element (n >= 0) of the Calkin-Wilf enumeration of the positive
+   rational numbers (enumerating the levels):
+*/
 calkinwilf_recursion(n) := block([res : 1],
  while n>0 do (res : 1/(1+floor(res) - fractional_part(res)), n:n-1),
  res)$
