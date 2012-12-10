@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 22.3.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -18,7 +18,6 @@ oklib_load("OKlib/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac");
 /*!
 \htmlonly
 */
-
 
 oklib_plain_include(gf)$
 
@@ -46,28 +45,35 @@ egf_func(func,args) := (
     apply(gf_set, first(args)),
     apply(func,rest(args)))$
 
-egf_add([args]) := egf_func(gf_add, args)$
-egf_sub([args]) := egf_func(gf_sub, args)$
-egf_mul([args]) := egf_func(gf_mul, args)$
-egf_div([args]) := egf_func(gf_div, args)$
-egf_inv([args]) := egf_func(gf_inv, args)$
-egf_matmul([args]) := egf_func(gf_matmul, args)$
-egf_matinv([args]) := egf_func(gf_matinv, args)$
+egf_add([args]) := egf_func('gf_add, args)$
+egf_sub([args]) := egf_func('gf_sub, args)$
+egf_mul([args]) := egf_func('gf_mult, args)$
+egf_div([args]) := egf_func('gf_div, args)$
+egf_inv([args]) := egf_func('gf_inv, args)$
+egf_matmul([args]) := egf_func('gf_matmult, args)$
+egf_matinv([args]) := egf_func('gf_matinv, args)$
 egf_exp([args]) := egf_func('gf_exp, args)$
-egf_rand([args]) := egf_func(gf_rand, args)$
-egf_findprim([args]) := egf_func(gf_findprim, args)$
-egf_ind([args]) := egf_func(gf_ind, args)$
-egf_log([args]) := egf_func(gf_log, args)$
-egf_primep([args]) := egf_func(gf_primep, args)$
-egf_ord([args]) := egf_func(gf_ord, args)$
-egf_minpoly([args]) := egf_func(gf_minpoly, args)$
-egf_findnorm([args]) := egf_func(gf_findnorm, args)$
-egf_sfindnorm([args]) := egf_func(gf_sfindnorm, args)$
-egf_normbasis([args]) := egf_func(gf_normbasis, args)$
-egf_nbrep([args]) := egf_func(gf_nbrep, args)$
-egf_poly2num([args]) := egf_func(poly2num, args)$
-egf_num2poly([args]) := egf_func(num2poly, args)$
-egf_coeffs([args]) := egf_func(coeffs, args)$
+egf_rand([args]) := egf_func('gf_rand, args)$
+egf_findprim([args]) := egf_func('gf_primitive, args)$
+egf_ind([args]) := egf_func('gf_index, args)$
+egf_primep([args]) := egf_func('gf_primitive_p, args)$
+egf_poly2num([args]) := egf_func('gf_p2n, args)$
+egf_num2poly([args]) := egf_func('gf_n2p, args)$
+
+/* Functions no longer implemented by Maxima: */
+
+/* gf_coeffs(p, k), where p is a polynomial with integer coefficients, and
+   k is an integer, is the list of coefficients of terms x^i, 0 <= i <= k,
+   in the standard-representation of p, with constant coefficient last;
+   p must be an polynomial in one indeterminate, and the result will be
+   expressed in the indeterminate used in gf_set:
+*/
+gf_coeffs(p,k) := block([x,V],
+ p : gf_add(0,p),
+ V : listofvars(p),
+ if not emptyp(V) then x : first(V),
+ create_list(coeff(p,x,k-i), i,0,k))$
+egf_coeffs([args]) := egf_func('gf_coeffs, args)$
 
 
 /* ****************************

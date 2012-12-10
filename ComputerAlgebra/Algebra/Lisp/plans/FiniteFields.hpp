@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.7.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -29,7 +29,7 @@ License, or any later version. */
   \todo Maxima bugs
   <ul>
    <li> All items below need to be updated w.r.t. the new Maxima version
-   5.20 (there doesn't seem to be much improvement). </li>
+   5.29 (which is a complete revision). </li>
    <li> Register all gf-bugs we are aware of with the Maxima bug-tracker,
    and also send a summarising e-mail to the Maxima mailing list.
     <ol>
@@ -42,7 +42,8 @@ License, or any later version. */
    reported to the Maxima bug-tracker and mailing list.
     <ul>
      <li> "gf_matmul" can not multiply square matrices of dimension 1. </li>
-     <li> "gf_exp" returns 1 for "gf_exp(p,-1)" for any "p", i.e the handling
+     <li> This should be solved with Maxima 5.29.1:
+     "gf_exp" returns 1 for "gf_exp(p,-1)" for any "p", i.e the handling
      of negative exponents is incorrect. 
      \verbatim
 (%i2) gf_set(2,2,x^2+x+1); 
@@ -69,7 +70,8 @@ Evaluation took 0.0000 seconds (0.0004 elapsed) using 2.961 KB.
 (%o4) [1]
      \endverbatim
      </li>
-     <li> "gf_findprim" produces an error when called on the field
+     <li> DONE (gf_primitive() works now)
+     "gf_findprim" produces an error when called on the field
      with 2 elements, however 1 is a primitive root of this field
      \verbatim
 (%i2) gf_set(2,1,x);
@@ -83,6 +85,8 @@ Use `fasttimes' only on CRE polynomials with same varlists
  -- an error.  To debug this try debugmode(true);
       \endverbatim
      </li>
+     <li> gf_set(2,1,x) followed by gf_primitive_p(1) yields a Lisp-error.
+     </li.
      <li> Setting "largefield" to false seems to break "gf_set" for some fields
      \verbatim
 (%i2) largefield : false; gf_set(2,2,x^2+x+1);

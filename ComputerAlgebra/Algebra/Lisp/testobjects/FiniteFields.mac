@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 4.6.2008 (Swansea) */
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -38,10 +38,15 @@ okltest_egf_matinv(egf_matinv);
 okltest_egf_inv(egf_inv);
 
 okltest_egf_exp(egf_exp);
-
 okltest_egf_findprim(egf_findprim);
+okltest_egf_ind(egf_ind);
 
-okltest_egf_coeff(egf_coeff);
+okltest_egf_primep(egf_primep);
+
+okltest_egf_poly2num(egf_poly2num);
+okltest_egf_num2poly(egf_num2poly);
+
+okltest_egf_coeffs(egf_coeffs);
 
 /* ****************************
    * Standard representations *
