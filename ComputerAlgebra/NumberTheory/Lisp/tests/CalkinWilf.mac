@@ -24,6 +24,8 @@ oklib_include("OKlib/ComputerAlgebra/MaximaInternals/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/CalkinWilf.mac")$
 oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
 
+kill(f)$
+
 
 /* **********
    * Basics *
