@@ -164,6 +164,30 @@ okltest_l_lrt(f) := (
   assert(f([1,[2,[4],[5]],[3]]) = {1,2,4,5,3}),
   true)$
 
+okltest_preorderl_lrt(f) := (
+  assert(f([0]) = [0]),
+  assert(f([0,[1]]) = [0,1]),
+  assert(f([0,[1],[1]]) = [0,1,1]),
+  assert(f([0,[1,[3],[4],[5]],[2]]) = [0,1,3,4,5,2]),
+  true)$
+
+okltest_levelorderl_lrt(f) := (
+  assert(f([0]) = [0]),
+  assert(f([0,[1]]) = [0,1]),
+  assert(f([0,[1],[1]]) = [0,1,1]),
+  assert(f([0,[1,[3],[4],[5]],[2]]) = [0,1,2,3,4,5]),
+  true)$
+
+okltest_depth_annotation_g_lrt(f) := block([x],
+  assert(f([0],x) = [[0,x]]),
+  assert(f([0,[1],[2]],x) = [[0,x],[[1,x+1]],[[2,x+1]]]),
+  true)$
+
+okltest_depth_annotation_lrt(f) := (
+  assert(f([0]) = [[0,0]]),
+  assert(f([0,[1,[2,[3]]]]) = [[0,0],[[1,1],[[2,2],[[3,3]]]]]),
+  true)$
+
 
 /* ************
    * Measures *

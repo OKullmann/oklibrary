@@ -130,11 +130,27 @@ else lunion(map(ll_lrt,rest(T)))$
 /* The list-form (listing the leaf-labels from left to right): */
 lll_lrt(T) := if length(T) = 1 then [first(T)]
 else lappend(map(lll_lrt,rest(T)))$
+
 /* The set of non-leaf-node-labels: */
 il_lrt(T) := if length(T) = 1 then {}
 else adjoin(first(T), lunion(map(il_lrt,rest(T))))$
+
 /* The set of all labels: */
 l_lrt(T) := adjoin(first(T), lunion(map(l_lrt,rest(T))))$
+/* The list of labels, in pre-order: */
+preorderl_lrt(T) := cons(first(T), lappend(map(preorderl_lrt, rest(T))))$
+/* The list of labels, first sorted by level-order, then from left to right: */
+levelorderl_lrt(T) := map(first,
+ sort(preorderl_lrt(depth_annotation_lrt(T)),
+      lambda([p1,p2], is(second(p1) < second(p2)))))$
+
+
+/* Replacing every label l with the pair [l,d], where d is the depth of
+   the node (the distance to the root):
+*/
+depth_annotation_g_lrt(T,k) :=
+ cons([first(T), k], map(lambda([t], depth_annotation_g_lrt(t,k+1)), rest(T)))$
+depth_annotation_lrt(T) := depth_annotation_g_lrt(T,0)$
 
 
 /* ************

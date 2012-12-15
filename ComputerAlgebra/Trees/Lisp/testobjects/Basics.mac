@@ -56,6 +56,12 @@ okltest_lll_lrt(lll_lrt);
 okltest_il_lrt(il_lrt);
 okltest_l_lrt(l_lrt);
 
+okltest_preorderl_lrt(preorderl_lrt);
+okltest_levelorderl_lrt(levelorderl_lrt);
+
+okltest_depth_annotation_g_lrt(depth_annotation_g_lrt);
+okltest_depth_annotation_lrt(depth_annotation_lrt);
+
 /* ************
    * Measures *
    ************
