@@ -76,27 +76,75 @@ output_weak_php_stdname(m,n) := output_weak_php(m,n,
   sconcat("PHP_weak_",m,"_",n,".cnf"))$
 
 
+/* Additional clauses: */
+
+
 /* No pigeon in more than one hole: */
 pigeon_unique_hole(m,n) := setify(create_list({-php_var(i,k1), -php_var(i,k2)},
   i,1,m, k1,1,n-1, k2,k1+1,n))$
 
 /* Every hole carries a pigeon: */
-holes_occupied(m,n) := if m < n then {} else
-  setify(create_list(setify(create_list(php_var(i,j), i, 1, m)), j,1,n))$
+holes_occupied(m,n) :=
+ setify(create_list(setify(create_list(php_var(i,j), i, 1, m)), j,1,n))$
 
-/* The strong pigeonhole formula as formal clause-set: */
-/* RENAME: strong_php_fcs */
-strong_php(m,n) := block([FF : weak_php(m,n)],
-  [FF[1], union(FF[2], pigeon_unique_hole(m,n), holes_occupied(m,n))])$
-strong_php_fcs(m,n) := strong_php(m,n)$
+/* Remark: The clauses of pigeon_unique_hole(m,n) as well as of
+   pigeon_unique_hole(m,n) are totally blocked for weak_php_cs(m,n) (except
+   possibly for degenerations) *on their own*, but not together.
+*/
+
+/* The "strong" pigeonhole formula as formal clause-set: */
+strong_php_fcs(m,n) := block([FF : weak_php(m,n)],
+  [FF[1], union(FF[2], pigeon_unique_hole(m,n))])$
 strong_php_cs(m,n) := fcs2cs(strong_php_fcs(m,n))$
+/* Remark: "strong" comes from our general terminology regarding boolean
+   translation of non-boolean clause-sets; especially for the PHP the
+   term "functional" is used.
+*/
 
-output_strong_php(m,n,filename) := block([FF : standardise_fcs(strong_php(m,n))],
+output_strong_php(m,n,filename) := block(
+ [FF : standardise_fcs(strong_php_fcs(m,n))],
   output_fcs_v(
-    sconcat("The pigeonhole principle (strong form): ", m, " pigeons, ", n, " holes."),
+    sconcat("The pigeonhole principle (strong (i.e., functional) form): ", m, " pigeons, ", n, " holes."),
     FF[1], filename, FF[2]))$
 output_strong_php_stdname(m,n) := output_strong_php(m,n,
-  sconcat("PHP_weak_",m,"_",n,".cnf"))$
+  sconcat("PHP_strong_",m,"_",n,".cnf"))$
+
+
+/* The "dual_strong" pigeonhole formula as formal clause-set: */
+dual_strong_php_fcs(m,n) := block([FF : weak_php(m,n)],
+  [FF[1], union(FF[2], holes_occupied(m,n))])$
+dual_strong_php_cs(m,n) := fcs2cs(dual_strong_php_fcs(m,n))$
+/* Remark: "dual strong" comes from our general terminology regarding boolean
+   translation of non-boolean clause-sets; especially for the PHP the
+   term "onto" is used.
+*/
+
+output_dual_strong_php(m,n,filename) := block(
+ [FF : standardise_fcs(dual_strong_php_fcs(m,n))],
+  output_fcs_v(
+    sconcat("The pigeonhole principle (dual strong (i.e., onto-) form): ", m, " pigeons, ", n, " holes."),
+    FF[1], filename, FF[2]))$
+output_dual_strong_php_stdname(m,n) := output_dual_strong_php(m,n,
+  sconcat("PHP_dual_strong_",m,"_",n,".cnf"))$
+
+
+/* The "special" pigeonhole formula as formal clause-set: */
+special_php_fcs(m,n) := block([FF : weak_php(m,n)],
+  [FF[1], union(FF[2], pigeon_unique_hole(m,n), holes_occupied(m,n))])$
+special_php_cs(m,n) := fcs2cs(special_php_fcs(m,n))$
+/* Remark: special_php_fcs(m,n) is satisfiable iff m=n.
+   "Special" comes from our general terminology regarding boolean
+   translation of non-boolean clause-sets; especially for the PHP the
+   term "onto-functional" is used (in case m>n).
+*/
+
+output_special_php(m,n,filename) := block(
+ [FF : standardise_fcs(special_php_fcs(m,n))],
+  output_fcs_v(
+    sconcat("The pigeonhole principle (special (i.e., bijective) form): ", m, " pigeons, ", n, " holes."),
+    FF[1], filename, FF[2]))$
+output_special_php_stdname(m,n) := output_special_php(m,n,
+  sconcat("PHP_special_",m,"_",n,".cnf"))$
 
 
 /* Measures */
