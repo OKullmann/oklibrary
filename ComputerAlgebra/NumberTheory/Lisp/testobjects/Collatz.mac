@@ -1,0 +1,43 @@
+/* Oliver Kullmann, 10.12.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/NumberTheory/Lisp/testobjects/Collatz.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/testobjects/Collatz.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Collatz.mac")$
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/Collatz.mac")$
+
+okltest_collatz_reduction(collatz_reduction);
+okltest_collatz_redseq(collatz_redseq);
+
+okltest_collatz_switch_p(collatz_switch_p);
+okltest_collatz_prevswitch(collatz_prevswitch);
+
+okltest_collatz_prevswitch_lrt_g(collatz_prevswitch_lrt_g);
+okltest_collatz_prevswitch_lrt(collatz_prevswitch_lrt);
+okltest_collatz_prevswitch_l(collatz_prevswitch_l);
+
+okltest_collatz_redswitch(collatz_redswitch);
+okltest_collatz_prevswitchred_lrt(collatz_prevswitchred_lrt);
+okltest_collatz_prevswitchred_l(collatz_prevswitchred_l);
+
+okltest_collatz_prevswitch_rm(collatz_prevswitch_rm);
+okltest_collatz_prevswitchred_rm(collatz_prevswitchred_rm);
+
+/*!
+\endhtmlonly
+*/

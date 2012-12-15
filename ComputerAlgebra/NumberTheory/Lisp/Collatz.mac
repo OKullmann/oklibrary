@@ -1,0 +1,105 @@
+/* Oliver Kullmann, 9.12.2012 (Swansea) */
+/* Copyright 2012 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/NumberTheory/Lisp/Collatz.mac
+  \brief Functions related to the Collatz conjecture
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/Collatz.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Visualisation.mac")$
+
+
+/* For n > 1: */
+collatz_reduction(n) := if evenp(n) then n/2 else 3*n+1$
+/* For n >= 1: */
+collatz_redseq(n) := if n=1 then [1] else 
+ cons(n, collatz_redseq(collatz_reduction(n)))$
+
+
+/* Condensing the "Collatz graph"
+   http://en.wikipedia.org/wiki/Collatz_conjecture#In_reverse :
+*/
+
+
+/* Those n >= 1 for which there are possibly two different m with
+   collatz_reduction(m) = n:
+*/
+collatz_switch_p(n) := is(n >= 0 and evenp(n) and mod(n,3)=1)$
+/* For a switch-number n (with collatz_switch_p(n) = true) the list
+   of immediatly previous switches, with 4*n first:
+*/
+collatz_prevswitch(n) := if n=4 then [4*n] else
+ block([p1 : 4*n, d : (n-1)/3, m],
+  m : mod(d,3),
+  if m=0 then [p1]
+  elseif m=1 then [p1, 4*d]
+  else [p1, 2*d])$
+
+/* For a switch-number n, the rooted tree of previous switches up to
+   height k >= 0:
+*/
+collatz_prevswitch_lrt_g(k, n) :=
+ if k=0 then [n]
+ else cons(n, map(lambda([m], collatz_prevswitch_lrt_g(k-1, m)),
+                  collatz_prevswitch(n)))$
+/* The full tree: */
+collatz_prevswitch_lrt(k) := collatz_prevswitch_lrt_g(k, 4)$
+/* Drawing that tree: */
+draw_collatz_prevswitch_lrt(k) :=
+ draw_lrt_dbl(collatz_prevswitch_lrt(k+1), d:k+1, fc:white)$
+
+/* The respective listing of the nodes, level-wise: */
+collatz_prevswitch_l(k) := levelorderl_lrt(collatz_prevswitch_lrt(k))$
+
+/* Instead of considering the switches 4,10,16,22 etc., one can reduce them
+   to 1,2,3,4 etc.:
+*/
+collatz_redswitch(n) := (n+2)/6$
+collatz_prevswitchred_lrt(k) :=
+ lmap_lrt(collatz_prevswitch_lrt(k), collatz_redswitch)$
+draw_collatz_prevswitchred_lrt(k) :=
+ draw_lrt_dbl(collatz_prevswitchred_lrt(k+1), d:k+1, fc:white)$
+
+collatz_prevswitchred_l(k) := levelorderl_lrt(collatz_prevswitchred_lrt(k))$
+
+
+/* Remark:
+   Let T be the infinite rooted tree obtained as union of all
+   collatz_prevswitchred_lrt(k) for k >= 0.
+   By definition, only natural numbers >= 1 occur in T, and no number
+   occurs more than once.
+   The "Collatz Conjecture" http://en.wikipedia.org/wiki/Collatz_conjecture
+   is equivalent to the statement, that all natural numbers actually occur.
+*/
+
+/* The rightmost branch in collatz_prevswitch_lrt(k): */
+collatz_prevswitch_rm(k) := block([n:4, res],
+ res : [n],
+ while k>0 do (
+   n : last(collatz_prevswitch(n)),
+   res : cons(n, res),
+   k : k-1
+ ),
+ reverse(res))$
+/* The rightmost branch in collatz_prevswitchred_lrt(k): */
+collatz_prevswitchred_rm(k) :=
+ map(collatz_redswitch, collatz_prevswitch_rm(k))$
+   
+/*!
+\endhtmlonly
+*/
+
