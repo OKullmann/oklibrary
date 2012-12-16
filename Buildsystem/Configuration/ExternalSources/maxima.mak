@@ -75,7 +75,9 @@ ifeq ($(machine_bits_okl), 32)
 else
   heap_size_ecl_okl ?= 7000000000 # 7*10^9 (between 2^32 and 2^33)
 endif
-lisp_stack_ecl_okl ?= 33554432 # 2^25
+lisp_stack_ecl_okl ?= 1000000 # 10^6
+# Remark: It seems lisp_stack_ecl_okl becomes automatically enlarged by a
+# factor of around 500 by Ecl.
 
 
 # Integer sequences

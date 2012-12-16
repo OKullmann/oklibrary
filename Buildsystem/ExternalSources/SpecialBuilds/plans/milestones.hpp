@@ -215,6 +215,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
+    - Memory restrictions
     - External documentation
     - Install xgettext
     - Database of integer sequences
