@@ -67,15 +67,15 @@ maxima_homedir_okl ?= $(maxima_installation_dir_okl)
 maxima_init_okl ?= $(maxima_share_dir_okl)/maxima-init.mac
 maxima_preload_okl ?= $(maxima_installation_dir_okl)/preload.lisp
 
-frame_stack_ecl_okl ?= 16384 # 2^14;
-binding_stack_ecl_okl ?= 131072 # 2^17;
-c_stack_ecl_okl ?= 8388608 # 2^23;
+frame_stack_ecl_okl ?= 16384 # 2^14
+binding_stack_ecl_okl ?= 131072 # 2^17
+c_stack_ecl_okl ?= 8388608 # 2^23
 ifeq ($(machine_bits_okl), 32)
-  heap_size_ecl_okl ?= 2147483648 # 2^31;
+  heap_size_ecl_okl ?= 2147483648 # 2^31
 else
-  heap_size_ecl_okl ?= 4294967296 # 2^32;
+  heap_size_ecl_okl ?= 7000000000 # 7*10^9 (between 2^32 and 2^33)
 endif
-lisp_stack_ecl_okl ?= 262144 # 2^18;
+lisp_stack_ecl_okl ?= 33554432 # 2^25
 
 
 # Integer sequences
