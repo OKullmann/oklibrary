@@ -224,6 +224,7 @@ clauses_f(FF) := FF[2]$
 fcs2cs(FF) := second(FF)$
 ofcs2ocs(FF) := second(FF)$
 fcl2cl(FF) := second(FF)$
+fcl2cs(F) := setify(second(F))$
 
 
 /* ***********************************

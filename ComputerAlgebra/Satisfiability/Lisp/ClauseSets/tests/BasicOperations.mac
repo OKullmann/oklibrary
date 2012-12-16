@@ -386,6 +386,12 @@ okltest_fcl2cl(f) := (
   assert(okltest_fcs2cs(f)),
   true)$
 
+okltest_fcl2cs(f) := (
+  assert(f([[],[]]) = {}),
+  assert(f([[],[{}]]) = {{}}),
+  assert(f([[3,1],[{3},{-1},{3},{1}]]) = {{-1},{1},{3}}),
+  true)$
+
 
 /* ***********************************
    * Selecting parts of a clause-set *

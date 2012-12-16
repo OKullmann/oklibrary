@@ -95,6 +95,7 @@ okltest_cl2cs(cl2cs);
 okltest_fcs2cs(fcs2cs);
 okltest_ofcs2ocs(ofcs2ocs);
 okltest_fcl2cl(fcl2cl);
+okltest_fcl2cs(fcl2cs);
 
 /* ***********************************
    * Selecting parts of a clause-set *
