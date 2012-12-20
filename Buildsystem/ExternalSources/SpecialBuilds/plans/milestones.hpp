@@ -47,6 +47,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
+    - Some errors when building 1_52_0
     - Update to version 1_48_0 : DONE
     - Linking error (on csoberon) : DONE
     - Defect boost-installation for fixed gcc-4.1.2 : DONE

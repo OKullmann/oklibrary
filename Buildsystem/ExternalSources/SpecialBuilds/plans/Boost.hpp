@@ -10,6 +10,14 @@ License, or any later version. */
   \brief Plans regarding installation of the Boost library
 
 
+  \todo Some errors when building 1_52_0
+  <ul>
+   <li> The build with gcc 4.5.4 apparently went through, but there have
+   been 2 errors. At the moment this seems not relevant, but it might become
+   relevant, and needs to be investigated at some point. </li>
+  </ul>
+
+
   \todo DONE (updated path to bjam-sources)
   Update to version 1_48_0
   <ul>
@@ -20,7 +28,7 @@ License, or any later version. */
   </ul>
 
 
-  \bug DONE (explicite linking to libboost_regex required, when using the
+  \bug DONE (explicit linking to libboost_regex required, when using the
   Graphviz components of the Graph library)
   Linking error (on csoberon)
   <ul>
