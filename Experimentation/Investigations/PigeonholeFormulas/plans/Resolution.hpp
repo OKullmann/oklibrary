@@ -131,7 +131,7 @@ to find just them (after a day or so), so just applying them:
 # lengths 39-52: 1
 
 > minisat-2.2.0 Php_res_3_35_UP_r2.cnf
-XXX cs-wsok
+# output "INDETERMINATE" after 2 days (space-limit), down to 3564 variables
 
 
 output_res_php(3,36);
@@ -230,16 +230,19 @@ to find just them (after a day or so), so just applying them:
 # lengths 40-53: 1
 
 > minisat-2.2.0 Php_res_3_36_UP_r2.cnf
-XXX cs-wsok
+# output "INDETERMINATE" after 2 days (space-limit), down to 3707 variables
 > glucose-2.0 Php_res_3_36_UP_r2.cnf
-XXX cs-wsok
+# aborted after 2 days, down to 3711 variables
 > precosat-570.1 -v Php_res_3_36_UP_r2.cnf
-XXX cs-wsok
+# aborted after 2days, down to 3636 variables
 
 > ubcsat-okl -alg rsaps -cutoff 1000000 -runs 10000 -i Php_res_3_36_UP_r2.cnf | tee Php_res_3_36_UP_r2.cnf_OUT
-XXX cs-wsok
+   1    2    3
+9419  575    6
+10000
      \endverbatim
      </li>
+     precosat-570.1 seems best. But symmetry-breaking is needed.
     </ol>
    </li>
    <li> Established values for rc(n):
