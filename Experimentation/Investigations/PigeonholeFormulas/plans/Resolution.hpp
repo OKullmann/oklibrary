@@ -51,7 +51,19 @@ for n : 0 thru 20 do print(n,f(n),(n^2 + 3*n) * 2^(n-2));
    </li>
    <li> Experimentally:
     <ol>
-     <li> Easy cases:
+     <li> An overview on the sizes involved:
+     \verbatim
+f(n) := (n^2 + 3*n) * 2^(n-2);
+for n : 1 thru 5 do block([F:fcs2fcl(weak_php_fcs(n+1,n)), k : f(n)], print(n, k, "[", nvar_shortres_aloamo_fcl(F,k-1), ncl_shortresref_aloamo_fcl(F,k-1), "]", "[", nvar_shortres_aloamo_fcl(F,k), ncl_shortresref_aloamo_fcl(F,k),"]"));
+
+1 2 [ 32 148 ] [ 48 358 ]
+2 10 [ 612 65064 ] [ 672 78486 ]
+3 36 [ 5202 4751007 ] [ 5364 5023824 ]
+4 112 [ 33780 171494303 ] [ 34172 174910216 ]
+5 320 [ 198690 4436417912 ] [ 199610 4470118100 ]
+     \endverbatim
+     </li>
+     <li> Easy cases n=1,2:
      \verbatim
 output_res_php(n,k) := outputext_fcl(sconcat("PHP with n=",n," and k=",k,"."), shortresref_aloamo_fcl(fcs2fcl(weak_php_fcs(n+1,n)),k),sconcat("PHP_RES_",n,"_",k,".cnf"));
 
