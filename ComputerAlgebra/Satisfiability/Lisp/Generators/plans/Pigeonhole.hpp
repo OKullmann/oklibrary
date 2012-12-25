@@ -94,8 +94,8 @@ ev(float(floor((sqrt(243*t^2-486*t+239)/(2*3^(3/2))+(3*t-3)/2)^(1/3)
    for m pigeons and n holes. </li>
    <li> That is, consider the decision problem: is there an injective map
    from {1,...,m} to {1,...,n}? </li>
-   <li> The clause-set for the weak/strong SAT translation of PHP is given by
-   weak/strong_php_fcs(m,n). </li>
+   <li> The clause-set for the (weak) SAT translation of PHP is given by
+   weak_php_fcs(m,n). </li>
    <li> The clause-set weak_php_fcs(m+1,m) has only exponential size
    resolution proofs. Investigations started with [The intractability of
    resolution; Armin Haken]. </li>
