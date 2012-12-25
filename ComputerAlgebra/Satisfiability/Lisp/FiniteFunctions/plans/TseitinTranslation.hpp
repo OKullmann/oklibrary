@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.12.2010 (Swansea)
-/* Copyright 2010, 2011 Oliver Kullmann
+/* Copyright 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,16 +15,13 @@ License, or any later version. */
 
   \todo Translation of boolean circuits into boolean CNF-clause-sets
   <ul>
-   <li> It seems there is basically only one translation to CNF known, the
-   "Tseitin translation". And for every other form of representations of
-   finite functions the CNF-translation seems always to work via
-   first constructing a circuit, and then representing this circuit
-   as CNF. </li>
+   <li> See [Jackson, Sheridan: Clause Form Conversions for Boolean Circuits;
+   SAT 2004] for more refined forms than the basic Tseitin-translation. </li>
    <li> See
    Satisfiability/Transformers/Generators/plans/TseitinTransformation.hpp
    for the general considerations. </li>
    <li> See
-   ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/TseitinTranslation.hpp
+   Satisfiability/Lisp/PropositionalLogic/plans/TseitinTranslation.hpp
    for the special case of propositional formulas. </li>
    <li> For each gate g in a circuit C, one represents the inputs i
    by variables v_i, the output by variable o, and then represents
@@ -39,10 +36,11 @@ License, or any later version. */
 
   \todo Understanding dualts_fcl
   <ul>
-   <li> The following needs to be updated according to the AES-DES-report.
-   </li>
+   <li> The following needs to be updated according to the report of MG+OK
+   on boolean functions and their representations. </li>
    <li> Then also all variations need to be implemented. </li>
-   <li> And likely the notion of "dualts" is not appropriate. </li>
+   <li> And likely the notion of "dualts" is not appropriate: rename it to
+   "canonical translation". </li>
    <li> Consider a DNF F. The task is to understand the CNF G := dualts_cl(F).
    </li>
    <li> Let n be the number of variables of F, and let c be the number of
@@ -67,7 +65,7 @@ License, or any later version. */
    <li> The other prime-CNF-clauses of G are exactly the prime-CNF-clauses
    of F. </li>
    <li> It is G thus (totally) properly r_1-based (see "r-based clause-sets" in
-   Experimentation/Investigations/BooleanFunctions/plans/ReductionBasedRepresentations.hpp).
+   Investigations/BooleanFunctions/plans/ReductionBasedRepresentations.hpp).
    </li>
   </ul>
 
@@ -110,6 +108,5 @@ ucp_lpa_0_cs(G2)[2];
    also other strong redundancies. </li>
    </li>
   </ul>
-
 
 */
