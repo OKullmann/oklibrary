@@ -215,7 +215,10 @@ fps: 24953
  756 2650 3005 1957 1060  393  137   34    6    2
 10000
 > ubcsat-okl -alg rsaps -cutoff 1000000 -runs 10000 -i Php_res_3_36_UP.cnf | tee Php_res_3_36_UP.cnf_OUT
-XXX cs-wsok
+ 1  2
+53 13
+66
+# aborted, since r_2-reductions should help
 
 # r_2-reductions yields 792 assignments, and the conflict-driven solvers seem
 to find just them (after a day or so), so just applying them:
@@ -248,13 +251,37 @@ to find just them (after a day or so), so just applying them:
 > precosat-570.1 -v Php_res_3_36_UP_r2.cnf
 # aborted after 2days, down to 3636 variables
 
+> cryptominisat res_3_36_UP_r2.cnf
+XXX cs-wsok
+
+> march_pl Php_res_3_36_UP_r2.cnf
+XXX cs-wsok
+
+> satz215 Php_res_3_36_UP_r2.cnf
+Segmentation fault
+
 > ubcsat-okl -alg rsaps -cutoff 1000000 -runs 10000 -i Php_res_3_36_UP_r2.cnf | tee Php_res_3_36_UP_r2.cnf_OUT
    1    2    3
 9419  575    6
 10000
      \endverbatim
-     </li>
      precosat-570.1 seems best. But symmetry-breaking is needed.
+     </li>
+     <li> SplittingViaOKsolver:
+     \verbatim
+> SplittingViaOKsolver -D10 Php_res_3_35_UP_r2.cnf
+c splitting_cases                       3
+> SplittingViaOKsolver -D20 Php_res_3_35_UP_r2.cnf
+c splitting_cases                       6
+> SplittingViaOKsolver -D40 Php_res_3_35_UP_r2.cnf
+c splitting_cases                       79
+> SplittingViaOKsolver -D60 Php_res_3_35_UP_r2.cnf
+c splitting_cases                       247
+> SplittingViaOKsolver -D80 Php_res_3_35_UP_r2.cnf
+c running_time(sec)                     26804.4
+c splitting_cases                       1314
+XXX cs-wsok
+     \verbatim
     </ol>
    </li>
    <li> Established values for rc(n):
