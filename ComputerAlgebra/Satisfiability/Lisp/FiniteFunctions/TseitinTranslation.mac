@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 24.12.2010 (Swansea) */
-/* Copyright 2010, 2011 Oliver Kullmann
+/* Copyright 2010, 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -56,6 +56,8 @@ dualts_fcl(FF) := block([c : length(FF[2]), NV, G1, G2],
   G2 : lappend(map(lambda([C,i], create_list({-dts_var(i),x},x,listify(C))),
         FF[2], create_list(i,i,1,c))),
   [append(FF[1],NV), append(G1,G2,[setify(NV)])])$
+dualts_cs(F) := fcl2cs(dualts_fcl(cs2fcl(F)))$
+
 /* Characteristic properties:
    Given a total assignment to the variables in FF, by unit-clause 
    propagation all additional variables in dualts_fcl(FF) are determined
@@ -77,7 +79,7 @@ dualts_fcl(FF) := block([c : length(FF[2]), NV, G1, G2],
    dts(i) where i ranges from 1 to c. c = length(FF[2]) = number of clauses in
    FF.
    The clauses of dualts_fcl(FF) are canonical translations. They are
-   translations of::
+   translations of:
      - (C <-> dts(i)) for all clauses C of FF with index i.
      - the disjunction of all dts(i).
      - (l <-> T) for every literal l occurring in FF[2].
