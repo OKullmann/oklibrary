@@ -12,6 +12,9 @@ License, or any later version. */
 
   \todo Connections
   <ul>
+   <li> See Satisfiability/Lisp/FiniteFunctions/plans/TseitinTranslation.hpp.
+   </li>
+   <li> See Investigations/PigeonholeFormulas/plans/Hardness.hpp. </li>
    <li> See "Hardness" in
    Investigations/PigeonholeFormulas/plans/ExtendedResolution.hpp. </li>
   </ul>
@@ -159,6 +162,29 @@ is(min_resolution_closure_cs(F)[1] = sat_genhorn_prime_cs(3,3));
     </ol>
    </li>
    <li> Are the sat_genhorn_cs(k,l) actually level-l Horn clause-sets? </li>
+  </ul>
+
+
+  \todo Hardness of canonical translation of positive DNF
+  <ul>
+   <li> For a positive DNF-clause-set F, the set of CNF-prime-clauses is
+   the transversal hypergraph of F, with element-wise negation. </li>
+   <li> One would guess that if F is far away from a variable-disjoint
+   hitting clause-set, then the canonical translation dualts_cs(F) should have
+   high hardness. </li>
+   <li> The boolean function of the DNF F could then also have the property
+   of not having a small CNF-representation of small hardness. </li>
+   <li> If F is a positive 2-CLS, then we have hardness at most 1:
+   \verbatim
+test1(n) := hardness_cs(dualts_cs(powerset(setn(n),2)))$
+   \endverbatim
+   n <= 1 yield hardness 0, all other n yield hardness 1. </li>
+   <li> 3-CLS:
+   \verbatim
+hardness_cs(dualts_cs({{1,2,3},{2,3,4}});
+  1
+   \endverbatim
+   </li>
   </ul>
 
 */
