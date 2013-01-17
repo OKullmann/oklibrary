@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 10.12.2012 (Swansea) */
-/* Copyright 2012 Oliver Kullmann
+/* Copyright 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/Collatz.mac")$
 
 okltest_collatz_reduction(collatz_reduction);
 okltest_collatz_redseq(collatz_redseq);
+okltest_collatz_basics(collatz_basics);
 
 okltest_collatz_switch_p(collatz_switch_p);
 okltest_collatz_prevswitch(collatz_prevswitch);

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 10.12.2012 (Swansea) */
-/* Copyright 2012 Oliver Kullmann
+/* Copyright 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -39,6 +39,17 @@ okltest_collatz_redseq(f) := (
   assert(f(6) = [6,3,10,5,16,8,4,2,1]),
   assert(f(11) = [11,34,17,52,26,13,40,20,10,5,16,8,4,2,1]),
   assert(length(f(63728127)) = 950),
+  true)$
+
+okltest_collatz_basics(f) := (
+  assert(f(1) = [0,1]),
+  assert(f(2) = [1,2]),
+  assert(f(3) = [7,16]),
+  assert(f(4) = [2,4]),
+  assert(f(5) = [5,16]),
+  assert(f(6) = [8,16]),
+  assert(f(11) = [14,52]),
+  assert(f(63728127) = [949,966616035460]),
   true)$
 
 okltest_collatz_switch_p(f) := (

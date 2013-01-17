@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 9.12.2012 (Swansea) */
-/* Copyright 2012 Oliver Kullmann
+/* Copyright 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,6 +28,9 @@ collatz_reduction(n) := if evenp(n) then n/2 else 3*n+1$
 /* For n >= 1: */
 collatz_redseq(n) := if n=1 then [1] else 
  cons(n, collatz_redseq(collatz_reduction(n)))$
+/* The number of reductions and the maximal number reached: */
+collatz_basics(n) := block([R : collatz_redseq(n)],
+ [length(R)-1, lmax(R)])$
 
 
 /* Condensing the "Collatz graph"
