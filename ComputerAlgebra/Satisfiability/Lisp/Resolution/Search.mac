@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 7.10.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2012 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -192,6 +192,23 @@ shortresref_fcl2snbfclfd(FF,k) := block([n : nvar_fcl(FF), c : ncl_fcl(FF), T],
 /* Translation into a boolean clause-list: */
 shortresref_aloamo_fcl(FF,k) :=
   snbfclfd2fcl_aloamo(shortresref_fcl2snbfclfd(FF,k))$
+
+
+/* Additional clauses: */
+
+/* Setting the first resolvent as the resolvent of clauses i, j; FF is a
+   formal clause-list: */
+shortresref_setfirstresolvent_snbcl(FF, i, j) := block(
+ [n : nvar_fcl(FF), c : ncl_fcl(FF), Avar : l2ary(first(FF)),
+  C : FF[2][i], D : FF[2][j], v, vi : 0, R],
+  v : var_l(resolution_literal(C,D)),
+  for k : 1 thru n while vi = 0 do if Avar[k] = v then vi : k,
+  R : resolvent(C,D),
+  append(
+   create_list(
+    {[sres_cl_var(p,c+1), if elementp(Avar[p],R) then 1 else if elementp(-Avar[p],R) then -1 else 0, 1]}, p,1,n),
+   [{[sres_rv_var(c+1), vi, 1]}],
+   [{[sres_rp1_var(c+1), i, 1]}, {[sres_rp2_var(c+1), j,1]}]))$
 
 
 /* Measures for the translated formulas */
