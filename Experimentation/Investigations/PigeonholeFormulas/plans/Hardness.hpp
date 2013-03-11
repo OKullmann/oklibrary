@@ -1,5 +1,5 @@
 // Oliver Kullmann, 1.12.2012 (Swansea)
-/* Copyright 2012 Oliver Kullmann
+/* Copyright 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -28,10 +28,31 @@ for n : 0 thru 4 do print(n,hardness_u_cs(special_php_cs(n+1,n)));
 2 2
 3 3
 4 4
+
+for n : 0 thru 4 do print(n,hardness_u_cs(special_php_cs(n+2,n)));
+0 0
+1 1
+2 2
+3 3
+4 4
+
+for n : 1 thru 5 do print(n,hardness_u_cs(special_php_cs(n-1,n)));
+1 0
+2 1
+3 2
+4 3
+5 4
+
+for n : 2 thru 6 do print(n,hardness_u_cs(special_php_cs(n-2,n)));
+2 0
+3 1
+4 2
+5 3
+6 4
    \endverbatim
    The special PHP-clause-sets are not obtained by addition of blocked clauses
    from the weak PHP-clause-sets, since the AMO-clauses can be resolved with
-   the long hole-clauses, but as the above experiment shows, even for that
+   the long hole-clauses, but as the above experiments shows, even for that
    form the hardness is not influenced. </li>
    <li> For satisfiable clause-sets:
    \verbatim
