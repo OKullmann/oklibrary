@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.4.2011 (Guangzhou) */
-/* Copyright 2011, 2012 Oliver Kullmann
+/* Copyright 2011, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -60,6 +60,9 @@ Sma_S2_list(n) := if n=0 then [] else block([res:[1], e : 2],
   e : e+2
  ),
  res)$
+
+Sma_bydef(n,d) := block([e:d^n, p:1, k:1],
+ while mod(p,e)#0 do (k:k+1, p:p*k), k)$
 
 /* We have fullclauses_dmu_lb1[k] = Sma_S2_bydef(k). */
 
@@ -149,6 +152,16 @@ nonmersenne(k) := nonmersenne_law(k)$
 /* Compare Lisp/ConflictCombinatorics/HittingClauseSets.mac
    for the treatmeant of hitting clause-sets.
 */
+
+/* Generalising the non-Mersenne numbers to "arity" d (for the ordinary numbers
+   we have d=2), where now the values d^m-1, ..., d^m - (d-1) are jumped:
+*/
+nonmersenne_dary_jump(k,d) :=
+ block([e : d^1, y : 0], while k > 0 do (
+  k : k-1, y : y + 1,
+  if y > e - d then (y : y+(d-1), e : e*d)
+ ),
+ y)$
 
 /* Analysis of the recurrence behaviour:
    Return [] iff k=1, else return the list of tuples T_i for 2 <= i <= k where

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.4.2011 (Guangzhou) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -46,6 +46,8 @@ okltest_nonmersenne_rec(nonmersenne_rec);
 okltest_nonmersenne_law(nonmersenne_law);
 okltest_nonmersenne_lb(nonmersenne_lb);
 okltest_nonmersenne_ub(nonmersenne_ub);
+
+okltest_nonmersenne_dary_jump(nonmersenne_dary_jump);
 
 okltest_analyse_nonmersenne_rec(analyse_nonmersenne_rec);
 
