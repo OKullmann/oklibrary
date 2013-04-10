@@ -18,7 +18,11 @@ License, or any later version. */
   </ul>
 
 
-  \todo Add statistics for dualtsplus_fcl
+  \todo Add statistics
+  <ul>
+   <li> For dualtsplus_fcl. </li>
+   <li> For rcantrans_fcl2fcl. </li>
+  </ul>
 
 
   \todo Translation of boolean circuits into boolean CNF-clause-sets

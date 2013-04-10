@@ -56,7 +56,9 @@ dtsext_var(v,d) := nounify(dts)(v,d)$
 /* TODO: bad order: this should be an extension of the reduced translation,
    and thus "those mirror-clauses" should come last. The plus-form has then
    also to be updated accordingly.
+   The implementation perhaps should just use rcantrans_fcl2fcl(FF).
 */
+/* TODO: rename to cantrans_fcl2fcl. */
 dualts_fcl(FF) := block([c : length(FF[2]), NV, G1, G2],
   NV : create_list(dts_var(i),i,1,c),
   G1 : map(lambda([C,i], adjoin(dts_var(i),comp_sl(C))), 
@@ -82,6 +84,18 @@ dualts_cs(F) := fcl2cs(dualts_fcl(cs2fcl(F)))$
    (However, even if all extension of phi make FF true, this cannot be
    seen "directly" with dualts_fcl(FF) (consider for example a tautology FF)).
 */
+
+
+/* The reduced canonical translation, using only the direction (C <- dts(i))
+   from dualts_fcl(FF):
+*/
+rcantrans_fcl2fcl(FF) := block([c : length(FF[2]), NV, G1],
+  NV : create_list(dts_var(i),i,1,c),
+  G1 : lappend(map(lambda([C,i], create_list({-dts_var(i),x},x,listify(C))),
+        FF[2], create_list(i,i,1,c))),
+  [append(FF[1],NV), append(G1,[setify(NV)])])$
+rcantrans_cs2cs(F) := fcl2cs(rcantrans_fcl2fcl(cs2fcl(F)))$
+
 
 /* dualtsplus_fcl(FF) has the same variables as dualts_fcl(FF).
    The clauses of dualts_fcl(FF) are those of dualts_fcl(FF), plus
