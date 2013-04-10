@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 24.12.2010 (Swansea) */
-/* Copyright 2010, 2011, 2012 Oliver Kullmann
+/* Copyright 2010, 2011, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -37,8 +37,10 @@ declare(dts, posfun)$
 dts_var(v) := nounify(dts)(v)$
 dtsext_var(v,d) := nounify(dts)(v,d)$
 
-/* dualts_fcl(FF) has the variables FF[1] from FF plus the dts(i) for i from
-   1 to c = length(FF[2]) = number of clauses in FF.
+/* The variables of dualts_fcl(FF) are:
+    - the variables FF[1] from FF
+    - plus the dts(i) for i from 1 to c = length(FF[2]) = number of clauses in
+      FF.
    The clauses of dualts_fcl(FF) are given by the clauses C of FF with index i
    as the canonical translations of (C <-> dts(i)), plus the disjunction
    of all the dts(i).
@@ -75,25 +77,16 @@ dualts_cs(F) := fcl2cs(dualts_fcl(cs2fcl(F)))$
    seen "directly" with dualts_fcl(FF) (consider for example a tautology FF)).
 */
 
-/* dualtsplus_fcl(FF) has the variables FF[1] from FF. It also has variables
-   dts(i) where i ranges from 1 to c. c = length(FF[2]) = number of clauses in
-   FF.
-   The clauses of dualts_fcl(FF) are canonical translations. They are
-   translations of:
-     - (C <-> dts(i)) for all clauses C of FF with index i.
-     - the disjunction of all dts(i).
-     - (l <-> T) for every literal l occurring in FF[2].
-       T is the conjunction of -dts(i) where -l is in C with index i.
-   Thus we obtain per C one clause of length |C|+1. We also obtain |C| clauses
-   of length 2. We obtain one clause of length literal_degree_cs(FF[2],-l)
-   for every literal l in FF[2]. Finally we have one clause of length |FF|.
-   The clauses are given in the order:
-     - mirror-clauses.
-     - binary clauses (with the natural order on them, given by the
-       order of clauses in FF and the order of the literals in C in FF),
-     - literal equivalence clauses (with the order given by the natural order
-       on the literals)
-     - the long clause.
+/* dualtsplus_fcl(FF) has the same variables as dualts_fcl(FF).
+   The clauses of dualts_fcl(FF) are those of dualts_fcl(FF), plus
+   (x <-> D) for every literal x occurring in FF[2], where D is the
+   conjunction of -dts(i) for those i with -x in C_i.
+   Thus we obtain additionally one clause of length literal_degree_cs(FF[2],-x)
+   for every literal x in FF[2]. Currently these new clauses are placed just
+   before the final long clause of dualts_fcl(FF).
+*/
+/* TODO: bad order: it should extend dualts_fcl(FF); and also the measures are
+   needed.
 */
 dualtsplus_fcl(FF) := block([c : length(FF[2]), NV, G1, G2, G3],
   NV : create_list(dts_var(i),i,1,c),

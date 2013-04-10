@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.12.2010 (Swansea)
-/* Copyright 2010, 2011, 2012 Oliver Kullmann
+/* Copyright 2010, 2011, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -72,6 +72,8 @@ License, or any later version. */
 
   \todo Strengthening dualts_fcl by adding some redundant clauses
   <ul>
+   <li> The following needs update: it seems to be implementent by
+   dualtsplus_fcl; see also the todos there. </li>
    <li> Given a formal clause-list F as DNF, and a partial assignment
    phi, there are (of course) forced assignments on phi * dualts(F) which 
    are not derived by unit propagation (while if phi * dualts(F) is 
