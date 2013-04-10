@@ -7,7 +7,15 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/plans/TseitinTranslation.hpp
-  \brief Plans regarding the Tseitin translation from boolean circuits to CNF
+  \brief Plans regarding the Tseitin translation from DNF to CNF
+
+
+  \todo Renaming the file to "CanonicalTranslation.mac"
+  <ul>
+   <li> Then "TseitinTranslation.mac" should be in module PropositionalLogic,
+   where currently we have the Tseitin translation in Formulas.mac. See below
+   for further plans. </li>
+  </ul>
 
 
   \todo Add statistics for dualtsplus_fcl
@@ -15,6 +23,13 @@ License, or any later version. */
 
   \todo Translation of boolean circuits into boolean CNF-clause-sets
   <ul>
+   <li> Where shall the following go ?
+    <ol>
+     <li> In PropositionalLogic/Formulas.mac we have already the Tseitin
+     translation for formulas. </li>
+     <li> Either there, or even a new module "Circuits". </li>
+    </ol>
+   </li>
    <li> See [Jackson, Sheridan: Clause Form Conversions for Boolean Circuits;
    SAT 2004] for more refined forms than the basic Tseitin-translation. </li>
    <li> See
@@ -40,7 +55,20 @@ License, or any later version. */
    on boolean functions and their representations. </li>
    <li> Then also all variations need to be implemented. </li>
    <li> And likely the notion of "dualts" is not appropriate: rename it to
-   "canonical translation". </li>
+   "canonical translation".
+    <ol>
+     <li> Perhaps "cantrans_fcl2fcl" ? </li>
+     <li> The reduced form then "rcantrans_fcl2fcl" ? </li>
+     <li> And the extended form (currently "plus-form") "ecantrans_fcl2fcl" ?
+     </li>
+     <li> The mathematical notation for reduced resp. extended form could use
+     "-" resp. "+". </li>
+     <li> The extended form can come in three versions: full equivalence, or
+     only one of the two implication-directions. </li>
+     <li> And these three extended-versions can also be applied to the reduced
+     form. </li>
+    </ol>
+   </li>
    <li> Consider a DNF F. The task is to understand the CNF G := dualts_cl(F).
    </li>
    <li> Let n be the number of variables of F, and let c be the number of

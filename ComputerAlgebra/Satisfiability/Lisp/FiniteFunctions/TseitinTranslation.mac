@@ -7,7 +7,9 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/TseitinTranslation.mac
-  \brief The Tseitin translation (boolean circuits into CNF)
+  \brief The Tseitin translation for translating DNF to CNF
+
+TODO: file needs renaming to "CanonicalTranslation.mac".
 
 Use by
 
@@ -50,6 +52,10 @@ dtsext_var(v,d) := nounify(dts)(v,d)$
    binary clauses (with the natural order on them, given by the order of
    clauses in FF and the order of the literals in C in FF), and finally
    the long clause.
+*/
+/* TODO: bad order: this should be an extension of the reduced translation,
+   and thus "those mirror-clauses" should come last. The plus-form has then
+   also to be updated accordingly.
 */
 dualts_fcl(FF) := block([c : length(FF[2]), NV, G1, G2],
   NV : create_list(dts_var(i),i,1,c),
