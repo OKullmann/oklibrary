@@ -71,7 +71,7 @@ okltest_nonmersenne_rec(f) := (
   true)$
 
 okltest_nonmersenne_law(f) := (
-  for k : 1 thru 100 do
+  for k : 1 thru cokltl(30,100,200) do
     assert(f(k) = nonmersenne_rec[k]),
   true)$
 
@@ -125,6 +125,22 @@ okltest_possible_degree_pairs_nm(f) := (
   assert(f(4,4) = [[[2,2],[3,7,3,7]]]),
   assert(f(4,5) = [[[2,3],[3,7,2,7]]]),
   assert(f(4,6) = [[[2,4],[3,7,1,6]],[[3,3],[2,7,2,7]]]),
+  assert(f(6,9) = [[[4,5],[3,9,2,9]]]),
+  for k : 2 thru cokltl(30,200) do block(
+   [i : index_nonmersenne_rec(k)],
+    assert(elementp([nonmersenne(k-i+1),i], setify(map(first,f(k,nonmersenne(k))))) = true),
+    assert(f(k,nonmersenne(k)+1) = [])
+  ),
+  true)$
+
+okltest_possible_degree_pairs_gen(f) := (
+  assert(okltest_possible_degree_pairs_nm(buildq([f], lambda([k,m], f(k,m,nonmersenne)))) = true),
+  /* XXX */
+  true)$
+
+okltest_nonmersenne_op(f) := (
+  assert(okltest_nonmersenne_law(buildq([f], lambda([k], f[k,[2]]))) = true),
+  /* XXX */
   true)$
 
 okltest_nonmersenne_gen_rec(f) := (
