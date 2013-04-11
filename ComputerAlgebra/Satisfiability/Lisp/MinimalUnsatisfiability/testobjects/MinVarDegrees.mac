@@ -26,11 +26,15 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
    **************************
 */
 
+okltest_fullclauses_dmu_lb1_gen(fullclauses_dmu_lb1_gen);
+
 okltest_Sma_S2_list(lambda([n], if n=0 then [] else cons(1,create_list(fullclauses_dmu_lb1[k],k,1,n-1))));
 okltest_Sma_S2_list(lambda([n], create_list(Sma_S2_bydef(k),k,0,n-1)));
 okltest_Sma_S2_list(Sma_S2_list);
 
 okltest_Sma_bydef(Sma_bydef);
+okltest_Sma_start(Sma_start);
+okltest_Sma_list(Sma_list);
 
 /* ***************************
    * Maximal min-var-degrees *

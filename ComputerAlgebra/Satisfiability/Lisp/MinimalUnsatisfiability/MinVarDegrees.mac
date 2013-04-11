@@ -39,7 +39,7 @@ fullclauses_dmu_lb1[k]:= if k=1 then 2 else
   for i : 1 thru k-1 do
     if k-i+1<=fullclauses_dmu_lb1[i] then return(2 * (k-i+1))$
 
-/* For k >= 2: */
+/* For k >= 2 the index i in the recusion of fullclauses_dmu_lb1: */
 index_Sma_S2_rec(k) := for i : 1 do
   if k-i+1<=fullclauses_dmu_lb1[i] then return(i)$
 
@@ -49,7 +49,7 @@ index_Sma_S2_rec(k) := for i : 1 do
 fullclauses_dmu_lb1_gen[k,d]:= if k=1 then d else
   for i : 1 thru k-1 do
     if k-i+1<=fullclauses_dmu_lb1_gen[i,d] then return(d * (k-i+1))$
-
+/* And it seems always equal to the values produced by Sma_list(n,d). */
 
 /* The Smarandache Primitive Numbers for a natural number n >= 0,
    defined as the minimal natural number k >= 1 such that 2^n divides k!;
@@ -70,11 +70,27 @@ Sma_S2_list(n) := if n=0 then [] else block([res:[1], e : 2],
  ),
  res)$
 
-/* The general function S_d (Sma_S2_bydef is for d=2): */
+/* The general function S_d (Sma_S2_bydef is for d=2), for d >= 2: */
 Sma_bydef(n,d) := block([e:d^n, p:1, k:1],
  while mod(p,e)#0 do (k:k+1, p:p*k), k)$
 
-/* A more efficient
+/* A different computation for Sma_bydef(1,d): */
+Sma_start(d) := if primep(d) then d
+else lmax(create_list(Sma_bydef(p[2],p[1]), p,ifactors(d)))$
+
+/* A more efficient implementation, yielding the list of the first n numbers
+   (starting with index 0), for prime numbers d (however defined for
+   arbitrary d >= 2): */
+Sma_list(n,d) := if n=0 then [] else block([res:[1], e : d],
+ n : n-1,
+ while n>0 do block([count : expfact(e,d), t],
+  t : min(n,count),
+  n : n-t,
+  res : append(res, create_list(e,i,1,t)),
+  e : e+d
+ ),
+ res)$
+
 
 /* We have fullclauses_dmu_lb1[k] = Sma_S2_bydef(k). */
 

@@ -31,6 +31,14 @@ kill(f)$
    **************************
 */
 
+okltest_fullclauses_dmu_lb1_gen(f) := block([N],
+  for k : 1 thru cokltl(100,1000) do
+    assert(f[k,2] = fullclauses_dmu_lb1[k]),
+  N : cokltl(100,1000),
+  for d : 2 thru cokltl(10,30) do
+    assert(create_list(f[k,d],k,1,N) = rest(Sma_list(N+1,d))),
+  true)$
+
 okltest_Sma_S2_list(f) := (
   assert(f(0) = []),
   assert(f(21) = [1,2,4,4,6,8,8,8,10,12,12,14,16,16,16,16,18,20,20,22,24]),
@@ -49,6 +57,17 @@ okltest_Sma_bydef(f) := (
   assert(create_list(f(k,2),k,1,20) = [2,4,4,6,8,8,8,10,12,12,14,16,16,16,16,18,20,20,22,24]),
   assert(create_list(f(k,3),k,1,20) = [3,6,9,9,12,15,18,18,21,24,27,27,27,30,33,36,36,39,42,45]),
   assert(create_list(f(k,5),k,1,20) = [5,10,15,20,25,25,30,35,40,45,50,50,55,60,65,70,75,75,80,85]),
+  true)$
+
+okltest_Sma_start(f) := (
+  for d : 2 thru cokltl(100,1000) do
+    assert(Sma_bydef(1,d) = f(d)),
+  true)$
+
+okltest_Sma_list(f) := (
+  for d : 2 thru cokltl(20,100) do
+    if primep(d) then
+      assert(f(20,d) = create_list(Sma_bydef(k,d), k, 0,19)),
   true)$
 
 
