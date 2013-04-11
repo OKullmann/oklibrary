@@ -58,7 +58,8 @@ fullclauses_dmu_lb1_gen[k,d]:= if k=1 then d else
 Sma_S2_bydef(n) := block([e:2^n, p:1, k:1],
  while mod(p,e)#0 do (k:k+1, p:p*k), k)$
 
-/* A different computation, yielding the list of the first n numbers: */
+/* A different computation, yielding the list of the first n numbers (starting
+   with index 0): */
 Sma_S2_list(n) := if n=0 then [] else block([res:[1], e : 2],
  n : n-1,
  while n>0 do block([count : expfact(e,2), t],
@@ -69,8 +70,11 @@ Sma_S2_list(n) := if n=0 then [] else block([res:[1], e : 2],
  ),
  res)$
 
+/* The general function S_d (Sma_S2_bydef is for d=2): */
 Sma_bydef(n,d) := block([e:d^n, p:1, k:1],
  while mod(p,e)#0 do (k:k+1, p:p*k), k)$
+
+/* A more efficient
 
 /* We have fullclauses_dmu_lb1[k] = Sma_S2_bydef(k). */
 
