@@ -35,7 +35,7 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
 /* The lower bound on the maximal number of full clauses for deficiency k,
    using inverse 2-subsumption-resolution with a new variable:
 */
-fullclauses_dmu_lb1[k]:= if k=1 then 2 else
+fullclauses_dmu_lb1[k] := if k=1 then 2 else
   for i : 1 thru k-1 do
     if k-i+1<=fullclauses_dmu_lb1[i] then return(2 * (k-i+1))$
 
@@ -46,7 +46,7 @@ index_Sma_S2_rec(k) := for i : 1 do
 /* This function, for fixed d >= 2, seems to be equal to Sma_bydef(k,d) if
    and only if d is a prime number:
 */
-fullclauses_dmu_lb1_gen[k,d]:= if k=1 then d else
+fullclauses_dmu_lb1_gen[k,d] := if k=1 then d else
   for i : 1 thru k-1 do
     if k-i+1<=fullclauses_dmu_lb1_gen[i,d] then return(d * (k-i+1))$
 /* And it seems always equal to the values produced by Sma_list(n,d). */
