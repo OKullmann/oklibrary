@@ -36,6 +36,11 @@ okltest_index_Sma_S2_rec(f) := block([N],
   assert(create_list(2*(k+1-f(k)),k,2,N) = rest(Sma_S2_list(N+1),2)),
   true)$
 
+okltest_Sma_S2_replica(f) := (
+  for k : 0 thru cokltl(100,1000) do
+    assert(f(k) = rest(Sma_S2_list(k+1))),
+  true)$
+
 okltest_fullclauses_dmu_lb1_gen(f) := block([N],
   for k : 1 thru cokltl(100,1000) do
     assert(f[k,2] = fullclauses_dmu_lb1[k]),

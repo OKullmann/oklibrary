@@ -25,6 +25,7 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Mi
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /* **************************
@@ -42,6 +43,26 @@ fullclauses_dmu_lb1[k] := if k=1 then 2 else
 /* For k >= 2 the index i in the recusion of fullclauses_dmu_lb1: */
 index_Sma_S2_rec(k) := for i : 1 do
   if k-i+1<=fullclauses_dmu_lb1[i] then return(i)$
+
+/* Analysing the recursion of fullclauses_dmu_lb1[k], we obtain the following
+   algorithm for computing the list of the first k values (starting with k=1):
+*/
+Sma_S2_replica(k) := block(
+ [L : okl_make_array(fixnum,max(k,3)), i:2,j,z, current,fin, d],
+  L[1]:2, L[2]:4, L[3]:4, z : 3+1, current : L[i], fin : L[z-1],
+  while z <= k do (
+    fin : fin + 2,
+    L[z] : fin, z : z+1,
+    if z <= k then (
+      j : i+1,
+      while j <= k and L[j] = current do j : j+1,
+      fin : fin + 2,
+      d:k-z+1, thru min(j-i+1, d) do (L[z] : fin, z : z+1),
+      i : j,
+      current : current + 2
+    )
+  ),
+  return(take_l(k,ary2l(L))))$
 
 /* This function, for fixed d >= 2, seems to be equal to Sma_bydef(k,d) if
    and only if d is a prime number:

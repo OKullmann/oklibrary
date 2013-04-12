@@ -27,6 +27,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
 */
 
 okltest_index_Sma_S2_rec(index_Sma_S2_rec);
+
+okltest_Sma_S2_replica(Sma_S2_replica);
+
 okltest_fullclauses_dmu_lb1_gen(fullclauses_dmu_lb1_gen);
 
 okltest_Sma_S2_list(lambda([n], if n=0 then [] else cons(1,create_list(fullclauses_dmu_lb1[k],k,1,n-1))));
