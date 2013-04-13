@@ -31,6 +31,12 @@ kill(f)$
    **************************
 */
 
+okltest_fullclauses_dmu_lb1(f) := (
+  assert(f[1] = 2),
+  assert(f[2] = 4),
+  assert(f[3] = 4),
+  true)$
+
 okltest_index_Sma_S2_rec(f) := block([N],
   N : cokltl(100,1000),
   assert(create_list(2*(k+1-f(k)),k,2,N) = rest(Sma_S2_list(N+1),2)),
@@ -38,7 +44,7 @@ okltest_index_Sma_S2_rec(f) := block([N],
 
 okltest_Sma_S2_replica(f) := (
   for k : 0 thru cokltl(100,1000) do
-    assert(f(k) = rest(Sma_S2_list(k+1))),
+    assert(f(k) = Sma_S2_list(k)),
   true)$
 
 okltest_fullclauses_dmu_lb1_gen(f) := block([N],
@@ -51,22 +57,24 @@ okltest_fullclauses_dmu_lb1_gen(f) := block([N],
 
 okltest_Sma_S2_list(f) := (
   assert(f(0) = []),
-  assert(f(21) = [1,2,4,4,6,8,8,8,10,12,12,14,16,16,16,16,18,20,20,22,24]),
+  assert(f(21) = [0,2,4,4,6,8,8,8,10,12,12,14,16,16,16,16,18,20,20,22,24]),
   true)$
 
 okltest_Sma_bydef(f) := (
-  for d : 1 thru cokltl(40,1000) do (
-    assert(f(0,d) = 1),
-    if d=1 or primep(d) then
+  for k: 0 thru 20 do
+    assert(f(k,1) = 0),
+  for d : 2 thru cokltl(40,1000) do (
+    assert(f(0,d) = 0),
+    if primep(d) then
       assert(f(1,d) = d)
     else block([L : ifactors(d), res],
       res : lmax(create_list(f(p[2],p[1]), p,L)),
       assert(f(1,d) = res)
     )
   ),
-  assert(create_list(f(k,2),k,1,20) = [2,4,4,6,8,8,8,10,12,12,14,16,16,16,16,18,20,20,22,24]),
-  assert(create_list(f(k,3),k,1,20) = [3,6,9,9,12,15,18,18,21,24,27,27,27,30,33,36,36,39,42,45]),
-  assert(create_list(f(k,5),k,1,20) = [5,10,15,20,25,25,30,35,40,45,50,50,55,60,65,70,75,75,80,85]),
+  assert(create_list(f(k,2),k,0,20) = [0,2,4,4,6,8,8,8,10,12,12,14,16,16,16,16,18,20,20,22,24]),
+  assert(create_list(f(k,3),k,0,20) = [0,3,6,9,9,12,15,18,18,21,24,27,27,27,30,33,36,36,39,42,45]),
+  assert(create_list(f(k,5),k,0,20) = [0,5,10,15,20,25,25,30,35,40,45,50,50,55,60,65,70,75,75,80,85]),
   true)$
 
 okltest_Sma_start(f) := (
@@ -75,6 +83,8 @@ okltest_Sma_start(f) := (
   true)$
 
 okltest_Sma_list(f) := block([D,N],
+  for k : 0 thru cokltl(100,500) do
+    assert(f(k,2) = Sma_S2_list(k)),
   D : cokltl(15,40,100),
   N : cokltl(2,4)*D,
   for d : 2 thru D do
@@ -86,7 +96,7 @@ okltest_Sma_replica(f) := block([D,N],
   D : cokltl(20,100),
   N : cokltl(100,1000),
   for d : 2 thru D do
-    assert(f(N,d) = rest(Sma_list(N+1,d))),
+    assert(f(N,d) = Sma_list(N,d)),
   true)$
 
 

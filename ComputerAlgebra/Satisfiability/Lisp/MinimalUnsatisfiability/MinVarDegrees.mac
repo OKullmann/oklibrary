@@ -48,18 +48,17 @@ index_Sma_S2_rec(k) := for i : 1 do
    algorithm for computing the list of the first k values (starting with k=1):
 */
 Sma_S2_replica(k) := block(
- [L : okl_make_array(fixnum,max(k,3)), i:2,j,z, current,fin, d],
-  L[1]:2, L[2]:4, L[3]:4, z : 3+1, current : L[i], fin : L[z-1],
+ [L, i:2,j,z:1, current:2,fin:0, rem],
+  L : okl_make_array(fixnum,max(k,1)),
+  L[z]:fin, z:z+1,
   while z <= k do (
-    fin : fin + 2,
-    L[z] : fin, z : z+1,
+    rem:k-z+1, thru min(rem, 2) do (fin:fin+2, L[z]:fin, z:z+1),
     if z <= k then (
-      j : i+1,
+      j:i+1,
       while j <= k and L[j] = current do j : j+1,
-      fin : fin + 2,
-      d:k-z+1, thru min(j-i+1, d) do (L[z] : fin, z : z+1),
-      i : j,
-      current : current + 2
+      rem:k-z+1, thru min(rem, j-i) do (L[z]:fin, z:z+1),
+      i:j,
+      current:current+2
     )
   ),
   return(take_l(k,ary2l(L))))$
@@ -73,15 +72,16 @@ fullclauses_dmu_lb1_gen[k,d] := if k=1 then d else
 /* And it seems always equal to the values produced by Sma_list(n,d). */
 
 /* The Smarandache Primitive Numbers for a natural number n >= 0,
-   defined as the minimal natural number k >= 1 such that 2^n divides k!;
-   this is http://oeis.org/A007843.
+   defined as the minimal natural number s >= 0 such that 2^n divides s!;
+   this is http://oeis.org/A007843, except of that we start with 0, not with
+   the faulty 1.
 */
-Sma_S2_bydef(n) := block([e:2^n, p:1, k:1],
+Sma_S2_bydef(n) := block([e:2^n, p:1, k:0],
  while mod(p,e)#0 do (k:k+1, p:p*k), k)$
 
 /* A different computation, yielding the list of the first n numbers (starting
    with index 0): */
-Sma_S2_list(n) := if n=0 then [] else block([res:[1], e : 2],
+Sma_S2_list(n) := if n=0 then [] else block([res:[0], e : 2],
  n : n-1,
  while n>0 do block([count : expfact(e,2), t],
   t : min(n,count),
@@ -91,8 +91,9 @@ Sma_S2_list(n) := if n=0 then [] else block([res:[1], e : 2],
  ),
  res)$
 
-/* The general function S_d (Sma_S2_bydef is for d=2), for d >= 2: */
-Sma_bydef(n,d) := block([e:d^n, p:1, k:1],
+/* The general function S_d (Sma_S2_bydef is for d=2), for d >= 1 and n >= 0:
+*/
+Sma_bydef(n,d) := block([e:d^n, p:1, k:0],
  while mod(p,e)#0 do (k:k+1, p:p*k), k)$
 
 /* A different computation for Sma_bydef(1,d): */
@@ -100,9 +101,8 @@ Sma_start(d) := if primep(d) then d
 else lmax(create_list(Sma_bydef(p[2],p[1]), p,ifactors(d)))$
 
 /* A more efficient implementation, yielding the list of the first n numbers
-   (starting with index 0), for prime numbers d (however defined for
-   arbitrary d >= 2): */
-Sma_list(n,d) := if n=0 then [] else block([res:[1], e : d],
+   (starting with index 0), for arbitrary d >= 2: */
+Sma_list(n,d) := if n=0 then [] else block([res:[0], e : d],
  n : n-1,
  while n>0 do block([count : expfact(e,d), t],
   t : min(n,count),
@@ -117,18 +117,15 @@ Sma_list(n,d) := if n=0 then [] else block([res:[1], e : d],
    with k=1):
 */
 Sma_replica(k,d) := block(
- [init:d+1, L, i:2,j,z:1, current:2*d,fin:0, rem],
-  L : okl_make_array(fixnum,max(k,init)),
-  thru d do (fin:fin+d, L[z]:fin, z:z+1),
+ [L, i:2,j,z:1, current:d,fin:0, rem],
+  L : okl_make_array(fixnum,max(k,1)),
   L[z]:fin, z:z+1,
   while z <= k do (
-    rem:k-z+1,
-    thru min(rem, d-1) do (fin:fin+d, L[z]:fin, z:z+1),
+    rem:k-z+1, thru min(rem, d) do (fin:fin+d, L[z]:fin, z:z+1),
     if z <= k then (
       j:i+1,
       while j <= k and L[j] = current do j : j+1,
-      fin:fin+d,
-      rem:k-z+1, thru min(rem, j-i+1) do (L[z]:fin, z:z+1),
+      rem:k-z+1, thru min(rem, j-i) do (L[z]:fin, z:z+1),
       i:j,
       current:current+d
     )
