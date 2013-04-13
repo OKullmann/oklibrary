@@ -112,6 +112,30 @@ Sma_list(n,d) := if n=0 then [] else block([res:[1], e : d],
  ),
  res)$
 
+/* Analysing the recursion of fullclauses_dmu_lb1_gen[k], we obtain the
+   following algorithm for computing the list of the first k values (starting
+   with k=1):
+*/
+Sma_replica(k,d) := block(
+ [init:d+1, L, i:2,j,z:1, current:2*d,fin:0, rem],
+  L : okl_make_array(fixnum,max(k,init)),
+  thru d do (fin:fin+d, L[z]:fin, z:z+1),
+  L[z]:fin, z:z+1,
+  while z <= k do (
+    rem:k-z+1,
+    thru min(rem, d-1) do (fin:fin+d, L[z]:fin, z:z+1),
+    if z <= k then (
+      j:i+1,
+      while j <= k and L[j] = current do j : j+1,
+      fin:fin+d,
+      rem:k-z+1, thru min(rem, j-i+1) do (L[z]:fin, z:z+1),
+      i:j,
+      current:current+d
+    )
+  ),
+  return(take_l(k,ary2l(L))))$
+
+
 
 /* We have fullclauses_dmu_lb1[k] = Sma_S2_bydef(k). */
 

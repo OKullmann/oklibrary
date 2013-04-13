@@ -40,6 +40,8 @@ okltest_Sma_bydef(Sma_bydef);
 okltest_Sma_start(Sma_start);
 okltest_Sma_list(Sma_list);
 
+okltest_Sma_replica(Sma_replica);
+
 /* ***************************
    * Maximal min-var-degrees *
    ***************************

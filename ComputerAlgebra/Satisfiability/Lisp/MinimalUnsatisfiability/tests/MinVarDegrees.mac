@@ -74,10 +74,19 @@ okltest_Sma_start(f) := (
     assert(Sma_bydef(1,d) = f(d)),
   true)$
 
-okltest_Sma_list(f) := (
-  for d : 2 thru cokltl(20,100) do
+okltest_Sma_list(f) := block([D,N],
+  D : cokltl(15,40,100),
+  N : cokltl(2,4)*D,
+  for d : 2 thru D do
     if primep(d) then
-      assert(f(20,d) = create_list(Sma_bydef(k,d), k, 0,19)),
+      assert(f(N,d) = create_list(Sma_bydef(k,d), k, 0,N-1)),
+  true)$
+
+okltest_Sma_replica(f) := block([D,N],
+  D : cokltl(20,100),
+  N : cokltl(100,1000),
+  for d : 2 thru D do
+    assert(f(N,d) = rest(Sma_list(N+1,d))),
   true)$
 
 
