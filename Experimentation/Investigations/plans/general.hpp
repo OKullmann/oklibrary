@@ -1,5 +1,5 @@
 // Oliver Kullmann, 14.2.2008 (Swansea)
-/* Copyright 2008, 2011, 2012 Oliver Kullmann
+/* Copyright 2008, 2011, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -497,6 +497,27 @@ c 15.2 seconds, 101 MB max, 5 MB recycled
    <li> So perhaps precosat uses longer clauses than the other conflict-driven
    solvers (which still use full resolution, and have an advantage over the
    look-ahead solvers)? </li>
+  </ul>
+
+
+  \todo 3 different representations of UHIT(1)
+  <ul>
+   <li> According to [Gywnne, Kullman, 2013]. </li>
+   <li> Example for usage:
+   \verbatim
+output_ext1_sat_genhorn(33,3);
+
+CP2013> cat E1_SAT_genhorn_33_3.ecnf | ExtendedToStrictDimacs-O3-DNDEBUG > E1_SAT_genhorn_33_3.cnf
+> cat E2_SAT_genhorn_33_3.ecnf | ExtendedToStrictDimacs-O3-DNDEBUG > E2_SAT_genhorn_33_3.cnf
+> cat E3_SAT_genhorn_33_3.ecnf | ExtendedToStrictDimacs-O3-DNDEBUG > E3_SAT_genhorn_33_3.cnf
+
+> minisat2 -pre=none E1_SAT_genhorn_33_3.cnf
+> minisat2 E1_SAT_genhorn_33_3.cnf
+
+   \endverbatim
+   </li>
+   <li> From the look-ahead solvers OKsolver2002 seems far best, from the
+   conflict-driven solvers glucose-2.0 and precosat-570.1, picosat913. </li>
   </ul>
 
 */
