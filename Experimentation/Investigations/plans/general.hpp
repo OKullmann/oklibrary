@@ -142,14 +142,14 @@ find ./ -iname "*" -exec file \{} \; | grep Bourne-Again
   <ul>
    <li> Experiments need to be run on AES instances with different types
    of SAT algorithm (local search, dpll etc) to see how things stand
-   with the AES translation (See 
+   with the AES translation (See
    ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp).
    </li>
    <li> Also experiments with the following need to be run :
     <ul>
      <li> Variants with less rounds. </li>
      <li> AES variants with different Sboxes. </li>
-     <li> Analysis of good heuristics for AES (See "Experimental 
+     <li> Analysis of good heuristics for AES (See "Experimental
      investigations on heuristics") . </li>
     </ul>
    </li>
@@ -500,20 +500,159 @@ c 15.2 seconds, 101 MB max, 5 MB recycled
   </ul>
 
 
-  \todo 3 different representations of UHIT(1)
+  \todo 3 different representations of HIT(1)
   <ul>
-   <li> According to [Gywnne, Kullman, 2013]. </li>
-   <li> Example for usage:
+   <li> According to [Gywnne, Kullmann, 2013]. </li>
+   <li> Experiment preparation:
    \verbatim
-output_ext1_sat_genhorn(33,3);
+k:2;
+for h in [22,32,42,52,62,72] do (output_ext1_sat_genhorn(h,k),output_ext2_sat_genhorn(h,k),output_ext3_sat_genhorn(h,k));
+k:3;
+for h in [23,33,43] do (output_ext1_sat_genhorn(h,k),output_ext2_sat_genhorn(h,k),output_ext3_sat_genhorn(h,k));
+k:4;
+for h in [24,34,44] do (output_ext1_sat_genhorn(h,k),output_ext2_sat_genhorn(h,k),output_ext3_sat_genhorn(h,k));
+missing:
+output_ext2_sat_genhorn(44,4); XXX
+output_ext3_sat_genhorn(44,4); XXX cs-wsok
+k:5;
+for h in [25,35] do (output_ext1_sat_genhorn(h,k),output_ext2_sat_genhorn(h,k),output_ext3_sat_genhorn(h,k));
+missing (more memory)
+output_ext2_sat_genhorn(35,5); XXX cs-wsok
+output_ext3_sat_genhorn(35,5); XXX
 
-CP2013> cat E1_SAT_genhorn_33_3.ecnf | ExtendedToStrictDimacs-O3-DNDEBUG > E1_SAT_genhorn_33_3.cnf
-> cat E2_SAT_genhorn_33_3.ecnf | ExtendedToStrictDimacs-O3-DNDEBUG > E2_SAT_genhorn_33_3.cnf
-> cat E3_SAT_genhorn_33_3.ecnf | ExtendedToStrictDimacs-O3-DNDEBUG > E3_SAT_genhorn_33_3.cnf
+> for F in *.ecnf; do B=$(basename --suffix=".ecnf" ${F}); echo ${B}; cat ${F} | ExtendedToStrictDimacs-O3-DNDEBUG > ${B}.cnf; done
+   \endverbatim
+   </li>
+   <li> Determining the sizes:
+   \verbatim
+for F in *.cnf; do echo ${F} " "; cat ${F} | ExtendedDimacsStatistics-O3-DNDEBUG; done
+E1_SAT_genhorn_22_2.cnf
+      n       c   l
+    507     508   8604
+E1_SAT_genhorn_23_3.cnf
+      n       c   l
+   4095    4096   80594
+E1_SAT_genhorn_24_4.cnf
+      n       c   l
+  25901   25902   562542
+E1_SAT_genhorn_25_5.cnf
+      n       c   l
+ 136811  136812   3202912
+E1_SAT_genhorn_32_2.cnf
+      n       c   l
+   1057    1058   24994
+E1_SAT_genhorn_33_3.cnf
+      n       c   l
+  12035   12036   327384
+E1_SAT_genhorn_34_4.cnf
+      n       c   l
+ 105911  105912   3150408
+E1_SAT_genhorn_35_5.cnf
+      n       c   l
+ 768335  768336   24413776
+E1_SAT_genhorn_42_2.cnf
+      n       c   l
+   1807    1808   54784
+E1_SAT_genhorn_43_3.cnf
+      n       c   l
+  26575   26576   922524
+E1_SAT_genhorn_44_4.cnf
+      n       c   l
+ 299971  299972   11326724
+E1_SAT_genhorn_52_2.cnf
+      n       c   l
+   2757    2758   101974
+E1_SAT_genhorn_62_2.cnf
+      n       c   l
+   3907    3908   170564
+E1_SAT_genhorn_72_2.cnf
+      n       c   l
+   5257    5258   264554
+E2_SAT_genhorn_22_2.cnf
+      n       c   l
+    761    4811   17716
+E2_SAT_genhorn_23_3.cnf
+      n       c   l
+   6143   44394   165284
+E2_SAT_genhorn_24_4.cnf
+      n       c   l
+  38852  307174   1150986
+E2_SAT_genhorn_25_5.cnf
+      n       c   l
+ 205217 1738269   6542636
+E2_SAT_genhorn_32_2.cnf
+      n       c   l
+   1586   13556   51046
+E2_SAT_genhorn_33_3.cnf
+      n       c   l
+  18053  175729   666804
+E2_SAT_genhorn_34_4.cnf
+      n       c   l
+ 158867 1681117   6406728
+E2_SAT_genhorn_42_2.cnf
+      n       c   l
+   2711   29201   111376
+E2_SAT_genhorn_43_3.cnf
+      n       c   l
+  39863  487839   1871624
+E2_SAT_genhorn_52_2.cnf
+      n       c   l
+   4136   53746   206706
+E2_SAT_genhorn_62_2.cnf
+      n       c   l
+   5861   89191   345036
+E2_SAT_genhorn_72_2.cnf
+      n       c   l
+   7886  137536   534366
+E3_SAT_genhorn_22_2.cnf
+      n       c   l
+    761    4557   13160
+E3_SAT_genhorn_23_3.cnf
+      n       c   l
+   6143   42346   122939
+E3_SAT_genhorn_24_4.cnf
+      n       c   l
+  38852  294223   856764
+E3_SAT_genhorn_25_5.cnf
+      n       c   l
+ 205217 1669863   4872774
+E3_SAT_genhorn_32_2.cnf
+      n       c   l
+   1586   13027   38020
+E3_SAT_genhorn_33_3.cnf
+      n       c   l
+  18053  169711   497094
+E3_SAT_genhorn_34_4.cnf
+      n       c   l
+ 158867 1628161   4778568
+E3_SAT_genhorn_42_2.cnf
+      n       c   l
+   2711   28297   83080
+E3_SAT_genhorn_43_3.cnf
+      n       c   l
+  39863  474551   1397074
+E3_SAT_genhorn_52_2.cnf
+      n       c   l
+   4136   52367   154340
+E3_SAT_genhorn_62_2.cnf
+      n       c   l
+   5861   87237   257800
+E3_SAT_genhorn_72_2.cnf
+      n       c   l
+   7886  134907   399460
 
-> minisat2 -pre=none E1_SAT_genhorn_33_3.cnf
-> minisat2 E1_SAT_genhorn_33_3.cnf
-
+  \endverbatim
+  </li>
+   <li> Running experiments (on cs-wsok):
+   \verbatim
+> for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002-O3-DNDEBUG --timeout=7200 ${F} > ${B}.oksolver; done
+XXX cs-wsok
+> for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.0 -cpu-lim=3600 ${F} > ${B}.glucose; done
+XXX cs-wsok
+> for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; picosat913 ${F} > ${B}.picosat; done
+> for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; precosat-570.1 -v ${F} > ${B}.precosat; done
+> for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -no-pre -cpu-lim=3600 ${F} > ${B}.minisat-no; done
+> for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -cpu-lim=3600 ${F} > ${B}.minisat; done
    \endverbatim
    </li>
    <li> From the look-ahead solvers OKsolver2002 seems far best, from the
