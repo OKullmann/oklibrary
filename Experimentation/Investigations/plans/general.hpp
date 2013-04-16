@@ -646,13 +646,16 @@ E3_SAT_genhorn_72_2.cnf
    <li> Running experiments (on cs-wsok):
    \verbatim
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002-O3-DNDEBUG --timeout=7200 ${F} > ${B}.oksolver; done
-XXX cs-wsok
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.0 -cpu-lim=3600 ${F} > ${B}.glucose; done
-XXX cs-wsok
+(E1_SAT_genhorn_35_5, E2_SAT_genhorn_25_5, E2_SAT_genhorn_34_4,
+E3_SAT_genhorn_25_5, E3_SAT_genhorn_34_4: CPU time limit exceeded)
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; picosat913 ${F} > ${B}.picosat; done
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; precosat-570.1 -v ${F} > ${B}.precosat; done
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -no-pre -cpu-lim=3600 ${F} > ${B}.minisat-no; done
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -cpu-lim=3600 ${F} > ${B}.minisat; done
+XXX cs-wsok
+> for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; cryptominisat ${F} > ${B}.cryptominisat_295; done
+XXX cs-wsok
    \endverbatim
    </li>
    <li> From the look-ahead solvers OKsolver2002 seems far best, from the
