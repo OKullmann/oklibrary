@@ -512,13 +512,13 @@ for h in [23,33,43] do (output_ext1_sat_genhorn(h,k),output_ext2_sat_genhorn(h,k
 k:4;
 for h in [24,34,44] do (output_ext1_sat_genhorn(h,k),output_ext2_sat_genhorn(h,k),output_ext3_sat_genhorn(h,k));
 missing:
-output_ext2_sat_genhorn(44,4); XXX
-output_ext3_sat_genhorn(44,4); XXX cs-wsok
+output_ext2_sat_genhorn(44,4); DONE(3)
+output_ext3_sat_genhorn(44,4); DONE(2)
 k:5;
 for h in [25,35] do (output_ext1_sat_genhorn(h,k),output_ext2_sat_genhorn(h,k),output_ext3_sat_genhorn(h,k));
 missing (more memory)
-output_ext2_sat_genhorn(35,5); XXX cs-wsok
-output_ext3_sat_genhorn(35,5); XXX
+output_ext2_sat_genhorn(35,5); DONE(1)
+output_ext3_sat_genhorn(35,5); XXX cs-wsok
 
 > for F in *.ecnf; do B=$(basename --suffix=".ecnf" ${F}); echo ${B}; cat ${F} | ExtendedToStrictDimacs-O3-DNDEBUG > ${B}.cnf; done
    \endverbatim
@@ -589,12 +589,18 @@ E2_SAT_genhorn_33_3.cnf
 E2_SAT_genhorn_34_4.cnf
       n       c   l
  158867 1681117   6406728
+E2_SAT_genhorn_35_5.cnf
+     n        c   l
+1152503 12975225  49595888
 E2_SAT_genhorn_42_2.cnf
       n       c   l
    2711   29201   111376
 E2_SAT_genhorn_43_3.cnf
       n       c   l
   39863  487839   1871624
+E2_SAT_genhorn_44_4.cnf
+      n       c   l
+ 449957 5963335   22953420
 E2_SAT_genhorn_52_2.cnf
       n       c   l
    4136   53746   206706
@@ -631,6 +637,9 @@ E3_SAT_genhorn_42_2.cnf
 E3_SAT_genhorn_43_3.cnf
       n       c   l
   39863  474551   1397074
+E3_SAT_genhorn_44_4.cnf
+      n       c   l
+ 449957 5813349   17140072
 E3_SAT_genhorn_52_2.cnf
       n       c   l
    4136   52367   154340
@@ -646,16 +655,21 @@ E3_SAT_genhorn_72_2.cnf
    <li> Running experiments (on cs-wsok):
    \verbatim
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002-O3-DNDEBUG --timeout=7200 ${F} > ${B}.oksolver; done
+XXX
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.0 -cpu-lim=3600 ${F} > ${B}.glucose; done
 (E1_SAT_genhorn_35_5, E2_SAT_genhorn_25_5, E2_SAT_genhorn_34_4,
-E3_SAT_genhorn_25_5, E3_SAT_genhorn_34_4: CPU time limit exceeded)
+E3_SAT_genhorn_25_5, E3_SAT_genhorn_34_4: CPU time limit exceeded
+E2_SAT_genhorn_35_5 not tried)
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; picosat913 ${F} > ${B}.picosat; done
+XXX
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; precosat-570.1 -v ${F} > ${B}.precosat; done
+XXX
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -no-pre -cpu-lim=3600 ${F} > ${B}.minisat-no; done
+XXX
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -cpu-lim=3600 ${F} > ${B}.minisat; done
 XXX cs-wsok
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; cryptominisat ${F} > ${B}.cryptominisat_295; done
-XXX cs-wsok
+XXX
    \endverbatim
    </li>
    <li> From the look-ahead solvers OKsolver2002 seems far best, from the
