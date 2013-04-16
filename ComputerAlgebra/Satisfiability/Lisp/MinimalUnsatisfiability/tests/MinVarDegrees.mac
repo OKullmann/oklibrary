@@ -152,12 +152,20 @@ okltest_nonmersenne_ub(f) := (
   assert(f(4) = 7),
   true)$
 
-okltest_nonmersenne_dary_jump(f) := (
+okltest_nonmersenne_dary_jump0(f) := (
   for k : 1 thru 100 do
     assert(f(k,1) = k),
   for k : 1 thru 100 do
     assert(f(k,2) = nonmersenne(k)),
   assert(create_list(f(k,3),k,1,22) = [3,4,5,6,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,27,28]),
+  true)$
+
+okltest_nonmersenne_dary_rec(f) := (
+  for k : 1 thru 200 do
+    assert(f[k,2] = nonmersenne(k)),
+  for d : 3 thru cokltl(5,12) do
+    for k : 1 thru cokltl(5,50) * d do
+      assert(f[k,d] = nonmersenne_dary_jump_bydef(k,d)),
   true)$
 
 okltest_analyse_nonmersenne_rec(f) := (

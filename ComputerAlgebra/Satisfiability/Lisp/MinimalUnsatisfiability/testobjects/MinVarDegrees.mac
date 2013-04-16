@@ -60,7 +60,8 @@ okltest_nonmersenne_law(nonmersenne_law);
 okltest_nonmersenne_lb(nonmersenne_lb);
 okltest_nonmersenne_ub(nonmersenne_ub);
 
-okltest_nonmersenne_dary_jump(nonmersenne_dary_jump);
+okltest_nonmersenne_dary_jump0(nonmersenne_dary_jump0);
+okltest_nonmersenne_dary_rec(nonmersenne_dary_rec);
 
 okltest_analyse_nonmersenne_rec(analyse_nonmersenne_rec);
 

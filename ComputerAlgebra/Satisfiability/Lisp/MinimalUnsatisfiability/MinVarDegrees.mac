@@ -226,12 +226,34 @@ nonmersenne(k) := nonmersenne_law(k)$
 /* Generalising the non-Mersenne numbers to "arity" d (for the ordinary numbers
    we have d=2), where now the values d^m-1, ..., d^m - (d-1) are jumped:
 */
-nonmersenne_dary_jump(k,d) :=
+nonmersenne_dary_jump0(k,d) :=
  block([e : d^1, y : 0], while k > 0 do (
   k : k-1, y : y + 1,
   if y > e - d then (y : y+(d-1), e : e*d)
  ),
  y)$
+/* Remark: This function however does not seem to be relevant here. The
+   following function nonmersenne_dary_rec[k,d] seems to be the right
+   generalisation.
+*/
+
+/* Generalising the recursion (k >= 1, d >= 2): */
+nonmersenne_dary_rec[k,d] :=
+ if k = 1 then d else
+ lmax(create_list(
+   min(floor((1 + 1/(d-1))*i),nonmersenne_dary_rec[k-i+(d-1),d]+i),
+   i,d,k+d-2))$
+nonmersenne_dary_jumpedpattern(L,d) :=
+ not emptyp(L) and first(L)#0 and every_s(lambda([x], is(x=d-1)), rest(L))$
+nonmersenne_dary_jump_bydef(k,d) := block([res : 0],
+ unless k=0 do (
+   res : res+1,
+   while nonmersenne_dary_jumpedpattern(int2polyadic(res,d),d) do
+     res : res + 1,
+   k : k-1
+ ),
+ res)$
+
 
 /* Analysis of the recurrence behaviour:
    Return [] iff k=1, else return the list of tuples T_i for 2 <= i <= k where
