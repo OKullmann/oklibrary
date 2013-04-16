@@ -37,6 +37,7 @@ okltest_dualtsext_fcl(dualtsext_fcl);
 
 /* Measures */
 okltest_nvar_dualts(nvar_dualts);
+okltest_nvar_dualts_num(nvar_dualts_num);
 okltest_nvar_full_dualts(nvar_full_dualts);
 okltest_ncl_dualts(ncl_dualts);
 okltest_ncl_full_dualts(ncl_full_dualts);

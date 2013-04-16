@@ -128,6 +128,11 @@ okltest_nvar_dualts(f) := (
   assert(f([[1,2],[{1,2},{-1,2},{1,-2}]]) = 5),
   true)$
 
+okltest_nvar_dualts_num(f) := (
+  assert(okltest_nvar_dualts(buildq([f], lambda([FF], f(nvar_fcl(FF), ncl_fcl(FF))))) = true),
+  assert(okltest_nvar_full_dualts(f) = true),
+  true)$
+
 okltest_nvar_full_dualts(f) := (
   assert(f(0,0) = 0),
   assert(f(1,0) = 1),

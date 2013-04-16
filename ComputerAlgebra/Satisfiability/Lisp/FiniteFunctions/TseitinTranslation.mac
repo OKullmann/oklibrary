@@ -149,10 +149,14 @@ dualtsext_fcl(FF,d) := block([c : length(FF[2]), NV, G1, G2],
 /* Measures */
 
 nvar_dualts(FF) := length(FF[1])+length(FF[2])$
+/* Numerically, given the number of variables and clauses: */
+nvar_dualts_num(n,c) := n+c$
 /* For a full clause-set with n variables and c clauses: */
 nvar_full_dualts(n,c) := n+c$
 
 ncl_dualts(FF) := nlitocc_fcl(FF) + ncl_fcl(FF) + 1$
+/* Numerically, given the number of clauses and literal-occurrences: */
+ncl_dualts_num(c,l) := l + c + 1$
 /* For a full clause-set with n variables and c clauses: */
 ncl_full_dualts(n,c) := (n * c) + c + 1$
 
