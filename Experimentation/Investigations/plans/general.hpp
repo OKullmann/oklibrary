@@ -656,20 +656,48 @@ E3_SAT_genhorn_72_2.cnf
    \verbatim
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002-O3-DNDEBUG --timeout=7200 ${F} > ${B}.oksolver; done
 XXX
+
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.0 -cpu-lim=3600 ${F} > ${B}.glucose; done
 (E1_SAT_genhorn_35_5, E2_SAT_genhorn_25_5, E2_SAT_genhorn_34_4,
 E3_SAT_genhorn_25_5, E3_SAT_genhorn_34_4: CPU time limit exceeded
 E2_SAT_genhorn_35_5 not tried)
+
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; picosat913 ${F} > ${B}.picosat; done
-XXX
+(E2_SAT_genhorn_35_5: out of memory, > 20GB)
+
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; precosat-570.1 -v ${F} > ${B}.precosat; done
 XXX
+
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -no-pre -cpu-lim=3600 ${F} > ${B}.minisat-no; done
 XXX
+
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -cpu-lim=3600 ${F} > ${B}.minisat; done
 XXX cs-wsok
+
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; cryptominisat ${F} > ${B}.cryptominisat_295; done
 XXX
+   \endverbatim
+   </li>
+   <li> Extracting statistics:
+   \verbatim
+ExtractOKsolver "header-only" > OKsolver.stats
+for ((k=2; k <= 5; ++k)); do for F in *_${k}.oksolver; do cat ${F} | ExtractOKsolver extract >> OKsolver.stats; done; done
+
+echo -n "file " > Glucose.stats
+ExtractGlucose "header-only" >> Glucose.stats
+for ((k=2; k <= 5; ++k)); do for F in *_${k}.glucose; do echo -ne "\"${F}\" " >> Glucose.stats; cat ${F} | ExtractGlucose extract >> Glucose.stats; done; done
+
+ExtractPrecosat570 "header-only" > Precosat570.stats
+for ((k=2; k <= 5; ++k)); do for F in *_${k}.precosat; do cat ${F} | ExtractPrecosat570 extract >> Precosat570.stats; done; done
+
+echo -n "file " > Minisat.stats
+ExtractMinisat "header-only" >> Minisat.stats
+for ((k=2; k <= 5; ++k)); do for F in *_${k}.minisat; do echo -ne "\"${F}\" " >> Minisat.stats; cat ${F} | ExtractMinisat extract >> Minisat.stats; done; done
+
+echo -n "file " > Minisat-no.stats
+ExtractMinisat "header-only" >> Minisat-no.stats
+for ((k=2; k <= 5; ++k)); do for F in *_${k}.minisat-no; do echo -ne "\"${F}\" " >> Minisat-no.stats; cat ${F} | ExtractMinisat extract >> Minisat-no.stats; done; done
+
    \endverbatim
    </li>
    <li> From the look-ahead solvers OKsolver2002 seems far best, from the
