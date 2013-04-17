@@ -244,7 +244,7 @@ nonmersenne_dary_rec[k,d] :=
    min(floor((1 + 1/(d-1))*i),nonmersenne_dary_rec[k-i+(d-1),d]+i),
    i,d,k+d-2))$
 nonmersenne_dary_jumpedpattern(L,d) :=
- not emptyp(L) and first(L)#0 and every_s(lambda([x], is(x=d-1)), rest(L))$
+ not emptyp(L) and every_s(lambda([x], is(x=d-1)), rest(L))$
 nonmersenne_dary_jump_bydef(k,d) := block([res : 0],
  unless k=0 do (
    res : res+1,
