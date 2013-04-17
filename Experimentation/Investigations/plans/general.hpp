@@ -518,7 +518,7 @@ k:5;
 for h in [25,35] do (output_ext1_sat_genhorn(h,k),output_ext2_sat_genhorn(h,k),output_ext3_sat_genhorn(h,k));
 missing (more memory)
 output_ext2_sat_genhorn(35,5); DONE(1)
-output_ext3_sat_genhorn(35,5); XXX cs-wsok
+output_ext3_sat_genhorn(35,5); DONE(4)
 
 > for F in *.ecnf; do B=$(basename --suffix=".ecnf" ${F}); echo ${B}; cat ${F} | ExtendedToStrictDimacs-O3-DNDEBUG > ${B}.cnf; done
    \endverbatim
@@ -631,6 +631,9 @@ E3_SAT_genhorn_33_3.cnf
 E3_SAT_genhorn_34_4.cnf
       n       c   l
  158867 1628161   4778568
+E3_SAT_genhorn_35_5.cnf
+      n       c   l
+1152503 12591057  37004832
 E3_SAT_genhorn_42_2.cnf
       n       c   l
    2711   28297   83080
@@ -649,7 +652,6 @@ E3_SAT_genhorn_62_2.cnf
 E3_SAT_genhorn_72_2.cnf
       n       c   l
    7886  134907   399460
-
   \endverbatim
   </li>
    <li> Running experiments (on cs-wsok):
