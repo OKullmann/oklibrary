@@ -657,6 +657,7 @@ E3_SAT_genhorn_72_2.cnf
    <li> Running experiments (on cs-wsok):
    \verbatim
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002-O3-DNDEBUG --timeout=7200 ${F} > ${B}.oksolver; done
+(E2_SAT_genhorn_35_5: aborted after 27097.7s and ~ 26 GB)
 XXX
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.0 -cpu-lim=3600 ${F} > ${B}.glucose; done
@@ -678,6 +679,8 @@ XXX cs-wsok
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; cryptominisat ${F} > ${B}.cryptominisat_295; done
 XXX
+(E2_SAT_genhorn_35_5.cnf: "Too long clause!";
+E3_SAT_genhorn_44_4.cnf: "Memory manager cannot handle the load. Sorry. Exiting.")
    \endverbatim
    </li>
    <li> Extracting statistics:
@@ -688,6 +691,8 @@ for ((k=2; k <= 5; ++k)); do for F in *_${k}.oksolver; do cat ${F} | ExtractOKso
 echo -n "file " > Glucose.stats
 ExtractGlucose "header-only" >> Glucose.stats
 for ((k=2; k <= 5; ++k)); do for F in *_${k}.glucose; do echo -ne "\"${F}\" " >> Glucose.stats; cat ${F} | ExtractGlucose extract >> Glucose.stats; done; done
+
+XXX no extraction available for picosat XXX
 
 ExtractPrecosat570 "header-only" > Precosat570.stats
 for ((k=2; k <= 5; ++k)); do for F in *_${k}.precosat; do cat ${F} | ExtractPrecosat570 extract >> Precosat570.stats; done; done
@@ -700,6 +705,7 @@ echo -n "file " > Minisat-no.stats
 ExtractMinisat "header-only" >> Minisat-no.stats
 for ((k=2; k <= 5; ++k)); do for F in *_${k}.minisat-no; do echo -ne "\"${F}\" " >> Minisat-no.stats; cat ${F} | ExtractMinisat extract >> Minisat-no.stats; done; done
 
+XXX no extraction works for cryptominisat XXX
    \endverbatim
    </li>
    <li> From the look-ahead solvers OKsolver2002 seems far best, from the
@@ -707,4 +713,3 @@ for ((k=2; k <= 5; ++k)); do for F in *_${k}.minisat-no; do echo -ne "\"${F}\" "
   </ul>
 
 */
-
