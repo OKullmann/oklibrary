@@ -31,7 +31,9 @@ elif [[ ${solver_call} =~ ^satz ]]; then
 elif [[ ${solver_call} =~ ^march_pl ]]; then
   echo "ExtractMarchpl"
 elif [[ ${solver_call} =~ ^precosat ]]; then
-  echo "ExtractPrecosat"
+  echo "ExtractPrecosat570"
+elif [[ ${solver_call} =~ ^picosat ]]; then
+  echo "ExtractPicosat"
 else
   echo "UNKNOWN"
 fi
