@@ -204,8 +204,8 @@ License, or any later version. */
    attributes, in the docus):
    <ul>
     <li> ExtractGrasp.awk </li>
-    <li> ExtractPicosat.awk </li>
     <li> ExtractArgosat.awk </li>
+    <li> ExtractPicosat.awk : DONE </li>
     <li> ExtractMinisat.awk : DONE </li>
     <li> ExtractOKsolver.awk : DONE </li>
     <li> ExtractGlucose.awk : DONE </li>
