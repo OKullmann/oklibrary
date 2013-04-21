@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 14.6.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -90,8 +90,10 @@ hitting_extension_fcs(FF,G) := basic_inverse_singulardp_fcs(FF,G,1,1)$
    non-empty sub-clause-set of FF such that the intersection of G clashes with
    every clause from FF - G.
 */
+/* TODO: this should better be called "hitting-divisor". */
 pre_hitting_extension_fcs_p(FF,G) := subsetp(G,FF[2]) and not emptyp(G) and
  block([I : lintersection(G)], every_s(lambda([C], clashp(C,I)), setdifference(FF[2],G)))$
+hittingdivisor_fcs_p(FF,G) := pre_hitting_extension_fcs_p(FF,G)$
 
 /* For a "hitting extension", G additionally needs to be a hitting clause-set
    (which is automatically fulfilled if FF is hitting):
@@ -105,6 +107,15 @@ hitting_extension_fcs_p(FF,G) := pre_hitting_extension_fcs_p(FF,G) and
 all_pre_hitting_extensions_fcs(FF) := 
  map(lambda([G], block([FF2 : copy(FF)], hitting_extension_fcs(FF2,G), FF2)), 
      subset(disjoin({},powerset(FF[2])), lambda([G], pre_hitting_extension_fcs_p(FF,G))))$
+
+/* The smallest superset of G such that hittingdivisor_fcs_p(cs2fcs(F),G)
+   holds, where F is a clause-set, G is a non-empty sub-clause-set of F:
+*/
+hittingdivisor_extension_cs(F,G) := block([EG, I : lintersection(G)],
+  while not emptyp(
+    EG : subset(setdifference(F,G), lambda([C], not clashp(C,I)))) do
+      (G : union(G,EG), I : intersection(I,lintersection(EG))),
+  G)$
 
 
 /* ********************************
