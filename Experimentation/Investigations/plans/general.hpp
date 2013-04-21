@@ -658,6 +658,8 @@ E3_SAT_genhorn_72_2.cnf
    \verbatim
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002-O3-DNDEBUG --timeout=7200 ${F} > ${B}.oksolver; done
 (E2_SAT_genhorn_35_5: aborted after 27097.7s and ~ 26 GB)
+
+for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002_NTP-O3-DNDEBUG ${F} > ${B}.oksolver-ntp; done
 XXX
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.0 -cpu-lim=3600 ${F} > ${B}.glucose; done
@@ -692,7 +694,8 @@ echo -n "file " > Glucose.stats
 ExtractGlucose "header-only" >> Glucose.stats
 for ((k=2; k <= 5; ++k)); do for F in *_${k}.glucose; do echo -ne "\"${F}\" " >> Glucose.stats; cat ${F} | ExtractGlucose extract >> Glucose.stats; done; done
 
-XXX no extraction available for picosat XXX
+ExtractPicosat "header-only" > Picosat.stats
+for ((k=2; k <= 5; ++k)); do for F in *_${k}.picosat; do cat ${F} | ExtractPicosat extract >> Picosat.stats; done; done
 
 ExtractPrecosat570 "header-only" > Precosat570.stats
 for ((k=2; k <= 5; ++k)); do for F in *_${k}.precosat; do cat ${F} | ExtractPrecosat570 extract >> Precosat570.stats; done; done
