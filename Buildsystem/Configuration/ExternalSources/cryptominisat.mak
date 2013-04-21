@@ -1,5 +1,5 @@
 # Matthew Gwynne, 7.1.2011 (Swansea)
-# Copyright 2011, 2012 Oliver Kullmann
+# Copyright 2011, 2012, 2013 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -7,7 +7,7 @@
 
 # Settings for building and using CryptoMinisat
 
-cryptominisat_recommended_version_number_okl ?= 2.9.5
+cryptominisat_recommended_version_number_okl ?= 2.9.6
 cryptominisat_other_versions_okl ?= 2.9.0
 
 cryptominisat_base_name_okl := cmsat
