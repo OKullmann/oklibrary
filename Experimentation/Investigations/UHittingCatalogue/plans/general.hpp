@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.9.2009 (Swansea)
-/* Copyright 2009, 2010, 2012 Oliver Kullmann
+/* Copyright 2009, 2010, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -127,6 +127,53 @@ all_unsinghitting_def(3,5,'Result_3_5);
    </li>
    <li> See "derived_hitting_cs_pred_isoelim" in
    ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp.
+   </li>
+  </ul>
+
+
+  \todo Primes
+  <ul>
+   <li> From the catalogue we determine the primes for deficiency k via
+   sublist(all_uhit_def(k), primeuhitting_p). </li>
+   <li> For deficiency 1 we have exactly one prime, namely {{}}.
+   <li> For deficiency 2 we have exactly one prime, namely musatd2_cs(3) =
+   {{-3,-2,-1},{-3,1},{-2,3},{-1,2},{1,2,3}}. </li>
+   For deficiency 2 we have exactly two primes, namely
+   \verbatim
+sublist(all_uhit_def(3), primeuhitting_p);
+[
+  {{-4,-3},{-4,-1,2,3},{-4,1,3},{-3,-2,-1,4},{-2,-1,3},{-2,1,4},{2,4}},
+  {{-4,-3},{-4,2,3},{-3,-2,1,4},{-3,-1,4},{-2,3},{-1,2,3,4},{1,2,4}}
+]
+   \endverbatim
+   </li>
+   <li> The factors of length 2 are precisely the 2-subsumption pairs, so we
+   need to eliminate them:
+   \verbatim
+L : sublist(all_uhit_def(3), redtsrp)$
+length(L);
+  3
+   \endverbatim
+   There is one composite element in this list, namely
+   \verbatim
+L[3];
+{{-7,-6,-5,-4},{-7,-6,4},{-7,-5,6},{-7,-4,5},{-7,4,5,6},{-3,-2,-1,7},{-3,1,7},{-2,3,7},
+         {-1,2,7},{1,2,3,7}}
+   \endverbatim
+   This is a clause-set realising the maximal number of variables, according to
+   our conjecture. It has a full variable. </li>
+   <li> A general conjecture is that a non-singular unsatisfiable hitting
+   clause-set not containing a 2-subsumption or a full variable is prime.
+   Checking this conjecture:
+   \verbatim
+conjecture_primeuhit(k) := sublist(sublist(sublist(all_uhit_def(k), redtsrp), full_var_csp), primeuhitting_p);
+   \endverbatim
+   So the conjecture is true for the elements of the catalogue of deficiency k
+   iff the empty list is returned (otherwise a counterexample is returned):
+   \verbatim
+for k in uhit_def[0,"info"] do if not emptyp(conjecture_primeuhit(k)) then print(k);
+   \endverbatim
+   It's true for the current catalogue.
    </li>
   </ul>
 

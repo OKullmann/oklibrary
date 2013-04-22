@@ -750,6 +750,18 @@ min_nssplittree_def(k) := block(
   reverse(res))$
 
 
+/* ****************************
+   * Primes and factorisation *
+   ****************************
+*/
+
+/* Decision whether unsatisfiable hitting clause-set F is prime: */
+primeuhitting_p(F) := block([c : ncl_cs(F)],
+ every_s(lambda([P], is(length(hittingdivisor_extension_cs(F,P)) = c)),
+         powerset(F,2)))$
+
+
+
 /*!
 \endhtmlonly
 */

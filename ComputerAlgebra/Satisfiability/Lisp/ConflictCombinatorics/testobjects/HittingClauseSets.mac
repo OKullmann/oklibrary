@@ -142,6 +142,13 @@ if oklib_test_level >= 1 then (
 )
 else true;
 
+/* ****************************
+   * Primes and factorisation *
+   ****************************
+*/
+
+okltest_primeuhitting_p(primeuhitting_p);
+
 /*!
 \endhtmlonly
 */

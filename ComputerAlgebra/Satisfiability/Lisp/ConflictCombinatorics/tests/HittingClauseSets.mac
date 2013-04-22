@@ -33,6 +33,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/DeficiencyOne.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Deficiency2.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/PrimeImplicatesImplicants.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/Hardness.mac")$
 
@@ -539,6 +540,21 @@ okltest_min_nssplittree_def(f) := block(
   assert(f(1) = [1]),
   assert(f(2) = [2,2]),
   assert(f(3) = [2,2,2,2,3,2,2,2,3,2,2,2,3,4,2,3,3,3,3,3,3,3,4,3,4]),
+  true)$
+
+
+/* ****************************
+   * Primes and factorisation *
+   ****************************
+*/
+
+okltest_primeuhitting_p(f) := (
+  assert(f({{}}) = true),
+  assert(f({{1},{-1}}) = true),
+  for n : 2 thru 5 do
+    assert(f(full_cs(n)) = false),
+  assert(f(musatd2_cs(2)) = false),
+  assert(f(musatd2_cs(3)) = true),
   true)$
 
 /*!
