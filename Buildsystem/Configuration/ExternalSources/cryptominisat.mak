@@ -31,7 +31,7 @@ cryptominisat_docu_page_okl ?= $(doc_dir)/doxygen_html/
 
 cryptominisat_homepage_url_okl := http://www.msoos.org/cryptominisat2
 cryptominisat_documentation_url_okl := http://www.msoos.org/documentation/cryptominisat/
-cryptominisat_git_url_okl := git://gitorious.org/cryptominisat/cryptominisat.git
+cryptominisat_git_url_okl := git://github.com/msoos/cryptominisat.git
 
 
 # Settings for building and using CryptoMinisat3
