@@ -659,8 +659,7 @@ E3_SAT_genhorn_72_2.cnf
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002-O3-DNDEBUG --timeout=7200 ${F} > ${B}.oksolver; done
 (E2_SAT_genhorn_35_5: aborted after 27097.7s and ~ 26 GB)
 
-for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002_NTP-O3-DNDEBUG ${F} > ${B}.oksolver-ntp; done
-XXX
+> for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002_NTP-O3-DNDEBUG ${F} > ${B}.oksolver-ntp; done
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.0 -cpu-lim=3600 ${F} > ${B}.glucose; done
 (E1_SAT_genhorn_35_5, E2_SAT_genhorn_25_5, E2_SAT_genhorn_34_4,
@@ -680,15 +679,20 @@ XXX
 XXX cs-wsok
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; cryptominisat ${F} > ${B}.cryptominisat_295; done
-XXX
 (E2_SAT_genhorn_35_5.cnf: "Too long clause!";
 E3_SAT_genhorn_44_4.cnf: "Memory manager cannot handle the load. Sorry. Exiting.")
+
+> for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; cryptominisat ${F} > ${B}.cryptominisat_296; done
+XXX
    \endverbatim
    </li>
    <li> Extracting statistics:
    \verbatim
 ExtractOKsolver "header-only" > OKsolver.stats
 for ((k=2; k <= 5; ++k)); do for F in *_${k}.oksolver; do cat ${F} | ExtractOKsolver extract >> OKsolver.stats; done; done
+
+ExtractOKsolver "header-only" > OKsolver-ntp.stats
+for ((k=2; k <= 5; ++k)); do for F in *_${k}.oksolver-ntp; do cat ${F} | ExtractOKsolver extract >> OKsolver-ntp.stats; done; done
 
 echo -n "file " > Glucose.stats
 ExtractGlucose "header-only" >> Glucose.stats
