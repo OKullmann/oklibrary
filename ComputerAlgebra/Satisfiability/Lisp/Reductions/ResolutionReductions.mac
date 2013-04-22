@@ -34,14 +34,14 @@ redtsrp(F) := block(
   for j : i+1 thru l unless found do
    if two_subsumption_resolvable(C, LF[j]) then found : true),
  return(not found))$
-/* The variation where a list of length <= 1 is returned. */
+/* The variation where a list of length <= 1 is returned: */
 redtsrl(F) := block(
  [LF : listify(F), l : length(F), R : []],
  for i : 1 thru l-1 unless not emptyp(R) do block([C : LF[i]],
   for j : i+1 thru l unless not emptyp(R) do
    if two_subsumption_resolvable(C, LF[j]) then R : [{C,LF[j]}]),
  return(R))$
-/* Reduce F w.r.t. 2-subsumption resolution */
+/* Reduce F w.r.t. 2-subsumption resolution: */
 redtsr(F) := block([R : redtsrl(F)],
   while not emptyp(R) do (
     F : adjoin(resolvent_s(R[1]),setdifference(F,R[1])),
