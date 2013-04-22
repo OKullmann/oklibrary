@@ -672,6 +672,9 @@ E2_SAT_genhorn_35_5 not tried)
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; precosat-570.1 -v ${F} > ${B}.precosat; done
 XXX
 
+> for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; lingelingala-b02aa1a-121013 -v ${F} > ${B}.lingeling; done
+XXX
+
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -no-pre -cpu-lim=3600 ${F} > ${B}.minisat-no; done
 XXX
 
