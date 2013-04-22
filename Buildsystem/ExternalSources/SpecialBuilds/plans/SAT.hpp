@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.10.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,22 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp
   \brief Plans regarding building of SAT solvers and libraries
+
+
+  \todo Building CryptoMinisat-3.1 using perftools
+  <ul>
+   <li> Currently cryptominisat-3.1 builds, but with the following warning:
+   \verbatim
+ExternalSources> oklib cryptominisat3
+...
+CMake Warning at CMakeLists.txt:111 (MESSAGE):
+  Did NOT find Perftools, memory allocation will be terrible
+...
+   \endverbatim
+   </li>
+   <li> Perftools should be installed and linked against cryptominisat-3.1
+   (see http://code.google.com/p/gperftools/). </li>
+  </ul>
 
 
   \todo Parallel SAT solvers
