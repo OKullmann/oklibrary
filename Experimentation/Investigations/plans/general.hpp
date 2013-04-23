@@ -686,7 +686,8 @@ XXX cs-wsok
 E3_SAT_genhorn_44_4.cnf: "Memory manager cannot handle the load. Sorry. Exiting.")
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; cryptominisat ${F} > ${B}.cryptominisat_296; done
-XXX
+(for E2_SAT_genhorn_35_5.cnf and E3_SAT_genhorn_35_5.cnf there are too long
+clauses to be handled by it)
    \endverbatim
    </li>
    <li> Extracting statistics:
