@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.8.2009 (Swansea)
-/* Copyright 2009, 2011, 2012 Oliver Kullmann
+/* Copyright 2009, 2011, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -205,6 +205,7 @@ License, or any later version. */
    <ul>
     <li> ExtractGrasp.awk </li>
     <li> ExtractArgosat.awk </li>
+    <li> ExtractCryptominisat.awk: DONE </li>
     <li> ExtractPicosat.awk : DONE </li>
     <li> ExtractMinisat.awk : DONE </li>
     <li> ExtractOKsolver.awk : DONE </li>
