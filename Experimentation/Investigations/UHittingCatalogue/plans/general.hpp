@@ -138,7 +138,7 @@ all_unsinghitting_def(3,5,'Result_3_5);
    <li> For deficiency 1 we have exactly one prime, namely {{}}.
    <li> For deficiency 2 we have exactly one prime, namely musatd2_cs(3) =
    {{-3,-2,-1},{-3,1},{-2,3},{-1,2},{1,2,3}}. </li>
-   For deficiency 2 we have exactly two primes, namely
+   For deficiency 3 we have exactly two primes, namely
    \verbatim
 sublist(all_uhit_def(3), primeuhitting_p);
 [
@@ -162,19 +162,19 @@ L[3];
    \endverbatim
    This is a clause-set realising the maximal number of variables, according to
    our conjecture. It has a full variable. </li>
-   <li> A general conjecture is that a non-singular unsatisfiable hitting
+   <li> A first guess was that a non-singular unsatisfiable hitting
    clause-set not containing a 2-subsumption or a full variable is prime.
    Checking this conjecture:
    \verbatim
-conjecture_primeuhit(k) := sublist(sublist(sublist(all_uhit_def(k), redtsrp), full_var_csp), primeuhitting_p);
+conjecture_primeuhit(k) := sublist(sublist(sublist(all_uhit_def(k), redtsrp), lambda([F], not full_var_csp(F))), lambda([F], not primeuhitting_p(F)));
    \endverbatim
    So the conjecture is true for the elements of the catalogue of deficiency k
    iff the empty list is returned (otherwise a counterexample is returned):
    \verbatim
 for k in uhit_def[0,"info"] do if not emptyp(conjecture_primeuhit(k)) then print(k);
    \endverbatim
-   It's true for the current catalogue.
-   </li>
+   With the current catalogue it's false for k=3,4. But for all deficiencies
+   there are counterexamples. </li>
   </ul>
 
 */
