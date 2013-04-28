@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.7.2007 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -133,6 +133,13 @@ okltest_make_vardisjoint_fcs(f) := (
   assert(f(map(cs_to_fcs,[{},{{}},{},{{}}])) = [map(cs_to_fcs,[{},{{}},{},{{}}]), 0]),
   assert(f(map(cs_to_fcs,[{{1}},{{}},{{1}},{{}}])) = [map(cs_to_fcs,[{{1}},{{}},{{2}},{{}}]), 2]),
   assert(f(map(cs_to_fcs,[{{4}},{{2}},{{2}},{{1}}])) = [map(cs_to_fcs,[{{1}},{{2}},{{3}},{{4}}]), 4]),
+  true)$
+
+okltest_make_vardisjoint_vl_fcs(f) := (
+  assert(f([]) = [[],0,[]]),
+  assert(okltest_make_vardisjoint_fcs(buildq([f], lambda([L],rest(f(L),-1)))) = true),
+  assert(f([[{2},{}],[{1},{}]]) = [[[{1},{}],[{2},{}]],2,[[2],[1]]]),
+  assert(f([[{2},{{2},{-2}}],[{1},{{1}}]]) = [[[{1},{{1},{-1}}],[{2},{{2}}]],2,[[2],[1]]]),
   true)$
 
 

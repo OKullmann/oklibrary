@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.7.2007 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -112,6 +112,11 @@ make_vardisjoint_fcs(LFF) := block([index : 0, result : []],
     result : endcons(rename_fcs(FF,create_list(index + i, i,1,n)), result),
     index : index + n),
   return([result, index]))$
+/* Returning now a triple, with the list of lists of old variables as third
+   component (corresponding to the new variable-numbers):
+*/
+make_vardisjoint_vl_fcs(LFF) :=
+ endcons(map(listify,map(first,LFF)), make_vardisjoint_fcs(LFF))$
 
 /*!
 \endhtmlonly

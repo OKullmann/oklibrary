@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.7.2007 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -51,6 +51,7 @@ okltest_all_renamings_fcs(all_renamings_fcs);
 
 okltest_standardise_fcs(standardise_fcs);
 okltest_make_vardisjoint_fcs(make_vardisjoint_fcs);
+okltest_make_vardisjoint_vl_fcs(make_vardisjoint_vl_fcs);
 
 /*!
 \endhtmlonly
