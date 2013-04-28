@@ -8,7 +8,7 @@
 # Converts the output of "precosat-570.1 -v" to a single line.
 
 BEGIN {
-  rn=0; rc=0; t=0; sat=0; cfs=0; dec=0; rts=0; r1=0; pls=0; ats=0; mem=0; ptime=0
+  rn=0; rc=0; t=0; sat=2; cfs=0; dec=0; rts=0; r1=0; pls=0; ats=0; mem=0; ptime=0
   file=""; rnd=0; its=0; skip=0; enl=0; shk=0; resc=0; rebi=0; simp=0; red=0
   ar=0; arx=0; atssz=0; bck=0; bckct=0; bckj=0; bckjln=0; blkres=0; blkph=0
   blkr=0; blk=0; blkimp=0; blkexp=0; clsrec=0; clspur=0; clsaut=0; dom=0

@@ -8,7 +8,7 @@
 # Converts the output of "cryptominisat" to a single line.
 
 BEGIN {
-  rn=0; rc=0; n=0; c=0; t=0; sat=0; cfs=0; dec=0; rts=0; mem=0; ptime=0
+  rn=0; rc=0; n=0; c=0; t=0; sat=2; cfs=0; dec=0; rts=0; mem=0; ptime=0
   file=""; rlc=0; rxc=0; threads=0; drts=0; srts=0; frts=0; stime=0
   ldl2=0; ls2=0; ls1=0; cfl=0; cfld=0; bogp=0; flt=0; vesel=0; set=0
   vex=0; xet=0; xtr2=0; xtr2c=0; x2ft=0; otfci=0; otfsdiff=0; otfws=0
@@ -16,7 +16,7 @@ BEGIN {
   dpun=0; dpn=0; recmc=0
 }
 
-/^c +Reading file +'.+/ { file=$4; sub(/'/,"",file)  }
+/^c +Reading file +'.+/ { file=$4; file=substr(file,2,length(file)-2)  }
 /^c +-- +header says num vars: +[0-9]+/ { rn=$7 }
 /^c +-- +header says num clauses: +[0-9]+/ { rc=$7 }
 /^c +-- +clauses added: + [0-9]+ learnts, +[0-9]+ normals, + [0-9]+ xors/ { rlc=$5; c=$7; rxc=$9 }
