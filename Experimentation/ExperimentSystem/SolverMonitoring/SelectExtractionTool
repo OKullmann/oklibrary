@@ -34,6 +34,8 @@ elif [[ ${solver_call} =~ ^precosat ]]; then
   echo "ExtractPrecosat570"
 elif [[ ${solver_call} =~ ^picosat ]]; then
   echo "ExtractPicosat"
+elif [[ ${solver_call} =~ ^cryptominisat ]]; then
+  echo "ExtractCryptominisat"
 else
   echo "UNKNOWN"
 fi
