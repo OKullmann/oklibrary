@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 23.2.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -130,6 +130,20 @@ partial_gluing(FF1,S1,FF2,S2) := block(
   return([setn(n+1), union(add_element(n+1,S1),
                            add_element(-(n+1),S2),
                            F1, F2)]))$
+
+/* For clause-sets F, G and an element C of F the "twisting of F and G on C"
+   is the union of F minus C and G with C added to every clause:
+*/
+twisting_cs(F,C,G) := union(disjoin(C,F), or_cs2({C},G))$
+/* Now making F, G variable-disjoint before twisting, using standardised
+   variables 1, ..., n(F)+n(G), first variables of F, then of G: */
+twisting_var_disjoint_cs(F,C,G) := block(
+ [D : make_vardisjoint_vl_fcs([cs2fcs(F), cs2fcs(G)]), V],
+  F : D[1][1][2], G : D[1][2][2],
+  V : D[3][1],
+  C : substitute_c(C, osm2hm(map("[", V, create_list(i,i,1,length(V))))),
+  twisting_cs(F,C,G))$
+
 
 /*!
 \endhtmlonly
