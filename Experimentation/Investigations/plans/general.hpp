@@ -716,14 +716,11 @@ echo -n "file " > Minisat-no.stats
 ExtractMinisat "header-only" >> Minisat-no.stats
 for ((k=2; k <= 5; ++k)); do for F in *_${k}.minisat-no; do echo -ne "\"${F}\" " >> Minisat-no.stats; cat ${F} | ExtractMinisat extract >> Minisat-no.stats; done; done
 
-echo -n "file " > Cryptominisat295.stats
-ExtractCryptominisat "header-only" >> Cryptominisat295.stats
-for ((k=2; k <= 5; ++k)); do for F in *_${k}.cryptominisat_295; do echo -ne "\"${F}\" " >> Cryptominisat295.stats; cat ${F} | ExtractCryptominisat extract >> Cryptominisat295.stats; done; done
-XXX defective extraction
-echo -n "file " > Cryptominisat296.stats
+ExtractCryptominisat "header-only" > Cryptominisat295.stats
+for ((k=2; k <= 5; ++k)); do for F in *_${k}.cryptominisat_295; do cat ${F} | ExtractCryptominisat extract >> Cryptominisat295.stats; done; done
+
 ExtractCryptominisat "header-only" >> Cryptominisat296.stats
-for ((k=2; k <= 5; ++k)); do for F in *_${k}.cryptominisat_296; do echo -ne "\"${F}\" " >> Cryptominisat296.stats; cat ${F} | ExtractCryptominisat extract >> Cryptominisat296.stats; done; done
-XXX defective extraction
+for ((k=2; k <= 5; ++k)); do for F in *_${k}.cryptominisat_296; do cat ${F} | ExtractCryptominisat extract >> Cryptominisat296.stats; done; done
    \endverbatim
    </li>
    <li> From the look-ahead solvers OKsolver2002 seems far best, from the
