@@ -16,7 +16,7 @@ BEGIN {
   dpun=0; dpn=0; recmc=0
 }
 
-/^c +Reading file +'.+/ { file=$4; sub(/'/,"",file)  }
+/^c +Reading file +'.+/ { file=$4; file=substr(file,2,length(file)-2)  }
 /^c +-- +header says num vars: +[0-9]+/ { rn=$7 }
 /^c +-- +header says num clauses: +[0-9]+/ { rc=$7 }
 /^c +-- +clauses added: + [0-9]+ learnts, +[0-9]+ normals, + [0-9]+ xors/ { rlc=$5; c=$7; rxc=$9 }
