@@ -539,7 +539,7 @@ okltest_min_nssplittree_isot(f) := (
 okltest_min_nssplittree_def(f) := block(
   assert(f(1) = [1]),
   assert(f(2) = [2,2]),
-  assert(f(3) = [2,2,2,2,3,2,2,2,3,2,2,2,3,4,2,3,3,3,3,3,3,3,4,3,4]),
+  assert(f(3) = [2,2,2,2,3,2,2,2,3,2,2,2,3,4,2,3,3,3,3,3,3,3,4,3,3,3,4]),
   true)$
 
 
