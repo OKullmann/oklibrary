@@ -739,7 +739,8 @@ min_nssplittree_isot[t] := block([k,n,i,F,res:inf,G,tn,sum],
  ),
  res)$
 /* Compute the minimal size of a nonsingular splitting tree for all clause-sets
-   in uhit_def with deficiency k:
+   in uhit_def with deficiency k, sorted by ascending number n of variables,
+   and then following the order in the uhit-catalogue:
 */
 min_nssplittree_def(k) := block(
  [L : map(first,uhit_def[k,"info"][4]), res : []],
