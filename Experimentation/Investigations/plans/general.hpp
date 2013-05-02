@@ -673,10 +673,10 @@ E2_SAT_genhorn_35_5 not tried)
 XXX
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; lingelingala-b02aa1a-121013 -v ${F} > ${B}.lingeling; done
-(aborted on E2_SAT_genhorn_35_5 after 11464 min)
+(aborted on E2_SAT_genhorn_35_5 after 11464 min, and on E2_SAT_genhorn_44_4
+after 1571 min)
 > ls *.cnf > AllProblems
 > cp AllProblems ProblemsLingeling
-# edited ProblemsLingeling, removing all lines up to E2_SAT_genhorn_35_5.cnf
 > for F in $(cat ProblemsLingeling); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; lingelingala-b02aa1a-121013 -v ${F} > ${B}.lingeling; done
 
 
@@ -712,6 +712,9 @@ for ((k=2; k <= 5; ++k)); do for F in *_${k}.picosat; do cat ${F} | ExtractPicos
 
 ExtractPrecosat570 "header-only" > Precosat570.stats
 for ((k=2; k <= 5; ++k)); do for F in *_${k}.precosat; do cat ${F} | ExtractPrecosat570 extract >> Precosat570.stats; done; done
+
+ExtractLingeling "header-only" > Lingeling.stats
+for ((k=2; k <= 5; ++k)); do for F in *_${k}.lingeling; do cat ${F} | ExtractLingeling extract >> Lingeling.stats; done; done
 
 echo -n "file " > Minisat.stats
 ExtractMinisat "header-only" >> Minisat.stats
