@@ -667,12 +667,14 @@ E3_SAT_genhorn_25_5, E3_SAT_genhorn_34_4: CPU time limit exceeded
 E2_SAT_genhorn_35_5 not tried)
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; picosat913 ${F} > ${B}.picosat; done
+(E1_SAT_genhorn_35_5: gives up after 478.5 sec)
 (E2_SAT_genhorn_35_5: out of memory, > 20 GB)
 (E3_SAT_genhorn_35_5: out of memory, > 30 GB)
 (E3_SAT_genhorn_44_4: out of memory, > 30 GB)
 (E2_SAT_genhorn_44_4: out of memory, > 30 GB)
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; precosat-570.1 -v ${F} > ${B}.precosat; done
+XXX
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; lingelingala-b02aa1a-121013 -v ${F} > ${B}.lingeling; done
 (aborted on E2_SAT_genhorn_35_5 after 11464 min, on E2_SAT_genhorn_44_4 after
@@ -684,7 +686,8 @@ E2_SAT_genhorn_35_5 not tried)
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -no-pre -cpu-lim=3600 ${F} > ${B}.minisat-no; done
 
-> for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -cpu-lim=3600 ${F} > ${B}.minisat; done
+> for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 ${F} > ${B}.minisat; done
+XXX
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; cryptominisat ${F} > ${B}.cryptominisat_295; done
 (E2_SAT_genhorn_35_5.cnf: "Too long clause!";
@@ -697,42 +700,349 @@ clauses to be handled by it)
    </li>
    <li> Extracting statistics:
    \verbatim
-ExtractOKsolver "header-only" > OKsolver.stats
-for ((k=2; k <= 5; ++k)); do for F in *_${k}.oksolver; do cat ${F} | ExtractOKsolver extract >> OKsolver.stats; done; done
+sfile="OKsolver.stats"
+ssuffix=".oksolver"
+sextract="ExtractOKsolver"
+echo -n "type k h " > ${sfile}
+${sextract} "header-only" >> ${sfile}
+for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
 
-ExtractOKsolver "header-only" > OKsolver-ntp.stats
-for ((k=2; k <= 5; ++k)); do for F in *_${k}.oksolver-ntp; do cat ${F} | ExtractOKsolver extract >> OKsolver-ntp.stats; done; done
+sfile="OKsolver-ntp.stats"
+ssuffix=".oksolver-ntp"
+sextract="ExtractOKsolver"
+echo -n "type k h " > ${sfile}
+${sextract} "header-only" >> ${sfile}
+for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
 
-echo -n "file " > Glucose.stats
-ExtractGlucose "header-only" >> Glucose.stats
-for ((k=2; k <= 5; ++k)); do for F in *_${k}.glucose; do echo -ne "\"${F}\" " >> Glucose.stats; cat ${F} | ExtractGlucose extract >> Glucose.stats; done; done
+sfile="Glucose.stats"
+ssuffix=".glucose"
+sextract="ExtractGlucose"
+echo -n "type k h " > ${sfile}
+${sextract} "header-only" >> ${sfile}
+for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
 
-ExtractPicosat "header-only" > Picosat.stats
-for ((k=2; k <= 5; ++k)); do for F in *_${k}.picosat; do cat ${F} | ExtractPicosat extract >> Picosat.stats; done; done
+sfile="Picosat.stats"
+ssuffix=".picosat"
+sextract="ExtractPicosat"
+echo -n "type k h " > ${sfile}
+${sextract} "header-only" >> ${sfile}
+for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
 
-ExtractPrecosat570 "header-only" > Precosat570.stats
-for ((k=2; k <= 5; ++k)); do for F in *_${k}.precosat; do cat ${F} | ExtractPrecosat570 extract >> Precosat570.stats; done; done
+sfile="Precosat570.stats"
+ssuffix=".precosat"
+sextract="ExtractPrecosat570"
+echo -n "type k h " > ${sfile}
+${sextract} "header-only" >> ${sfile}
+for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
 
-ExtractLingeling "header-only" > Lingeling.stats
-for ((k=2; k <= 5; ++k)); do for F in *_${k}.lingeling; do cat ${F} | ExtractLingeling extract >> Lingeling.stats; done; done
+sfile="Lingeling.stats"
+ssuffix=".lingeling"
+sextract="ExtractLingeling"
+echo -n "type k h " > ${sfile}
+${sextract} "header-only" >> ${sfile}
+for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
 
-echo -n "file " > Minisat.stats
-ExtractMinisat "header-only" >> Minisat.stats
-for ((k=2; k <= 5; ++k)); do for F in *_${k}.minisat; do echo -ne "\"${F}\" " >> Minisat.stats; cat ${F} | ExtractMinisat extract >> Minisat.stats; done; done
+sfile="Minisat.stats"
+ssuffix=".minisat"
+sextract="ExtractMinisat"
+echo -n "type k h " > ${sfile}
+${sextract} "header-only" >> ${sfile}
+for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
 
-echo -n "file " > Minisat-no.stats
-ExtractMinisat "header-only" >> Minisat-no.stats
-for ((k=2; k <= 5; ++k)); do for F in *_${k}.minisat-no; do echo -ne "\"${F}\" " >> Minisat-no.stats; cat ${F} | ExtractMinisat extract >> Minisat-no.stats; done; done
+sfile="Minisat-no.stats"
+ssuffix=".minisat-no"
+sextract="ExtractMinisat"
+echo -n "type k h " > ${sfile}
+${sextract} "header-only" >> ${sfile}
+for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
 
-ExtractCryptominisat "header-only" > Cryptominisat295.stats
-for ((k=2; k <= 5; ++k)); do for F in *_${k}.cryptominisat_295; do cat ${F} | ExtractCryptominisat extract >> Cryptominisat295.stats; done; done
+sfile="Cryptominisat295.stats"
+ssuffix=".cryptominisat_295"
+sextract="ExtractCryptominisat"
+echo -n "type k h " > ${sfile}
+${sextract} "header-only" >> ${sfile}
+for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
 
-ExtractCryptominisat "header-only" >> Cryptominisat296.stats
-for ((k=2; k <= 5; ++k)); do for F in *_${k}.cryptominisat_296; do cat ${F} | ExtractCryptominisat extract >> Cryptominisat296.stats; done; done
+sfile="Cryptominisat296.stats"
+ssuffix=".cryptominisat_296"
+sextract="ExtractCryptominisat"
+echo -n "type k h " > ${sfile}
+${sextract} "header-only" >> ${sfile}
+for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
    \endverbatim
    </li>
-   <li> From the look-ahead solvers OKsolver2002 seems far best, from the
-   conflict-driven solvers glucose-2.0 and precosat-570.1, picosat913. </li>
+   <li> Evaluation:
+   \verbatim
+> E=read_satstat("OKsolver.stats")
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 0 0 0.1 0.1 0.3 0.6
+1 3 : 0 0.3 1.5
+1 4 : 0.5 4.2 24.3
+1 5 : 3.5 52
+2 2 : 0 0 0.2 1.7 4.8 11.6
+2 3 : 0.3 16.9 135.5
+2 4 : 36.2 1164.6
+2 5 : 932.1
+3 2 : 0 0 0.1 0.4 1.1 5.1
+3 3 : 0.1 6.9 65.3
+3 4 : 17.9 638.7
+3 5 : 553.7
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$nds[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 43 63 83 103 123 143
+1 3 : 507 1057 1807
+1 4 : 4095 12035 26575
+1 5 : 25901 105911
+2 2 : 1 1 1 1 1 1
+2 3 : 1 1 1
+2 4 : 1 1
+2 5 : 1
+3 2 : 1 1 1 1 1 1
+3 3 : 1 1 1
+3 4 : 1 1
+3 5 : 1
+
+> E=read_satstat("OKsolver-ntp.stats")
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 0 0 0 0.1 0.2 0.4
+1 3 : 0 0.2 1
+1 4 : 0.4 3.3 16.5
+1 5 : 2.7 31.2
+2 2 : 0 0 0.1 0.4 1 4
+2 3 : 0.2 4.8 82.6
+2 4 : 15.4 843.4 10232.8
+2 5 : 664.6 36743.4
+3 2 : 0 0 0.1 0.2 0.5 1
+3 3 : 0.1 1.6 28.9
+3 4 : 4.5 410.8 5295.6
+3 5 : 348.7 20061.6
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$nds[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 43 63 83 103 123 143
+1 3 : 507 1057 1807
+1 4 : 4095 12035 26575
+1 5 : 25901 105911
+2 2 : 1 1 1 1 1 1
+2 3 : 1 1 1
+2 4 : 1 1 1
+2 5 : 1 1
+3 2 : 1 1 1 1 1 1
+3 3 : 1 1 1
+3 4 : 1 1 1
+3 5 : 1 1
+
+> E=read_satstat("Glucose.stats")
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 0.001999 0.005999 0.015997 0.031995 0.044993 0.170974
+1 3 : 0.049992 0.407937 1.9447
+1 4 : 2.6066 55.4506 400.041
+1 5 : 99.1869
+2 2 : 0.004999 0.024996 0.092985 0.183972 0.450931 0.929858
+2 3 : 0.345947 18.1582 94.4446
+2 4 : 80.7637
+2 5 :
+3 2 : 0.004999 0.024996 0.087986 0.188971 0.465929 0.951855
+3 3 : 0.403938 12.5651 102.567
+3 4 : 84.2212
+3 5 :
+
+> E=read_satstat("Picosat.stats")
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 0 0 0 0 0.1 0.1
+1 3 : 0.1 0.4 1.5
+1 4 : 1.3 15.9 135.7
+1 5 : 25.6
+2 2 : 0 0 0 0.1 0.1 0.2
+2 3 : 0.1 3.6 125.1
+2 4 : 44.5 5110.2
+2 5 : 5523.5
+3 2 : 0 0 0 0 0.1 0.1
+3 3 : 0.1 3.8 125.2
+3 4 : 53.5 5822.1
+3 5 : 6540.2
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$cfs[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 254 585 964 1411 2023 2689
+1 3 : 2217 6261 13635
+1 4 : 13337 54002 152931
+1 5 : 69336
+2 2 : 254 529 904 1379 1954 2629
+2 3 : 2048 7808 20567
+2 4 : 16283 73501
+2 5 : 83821
+3 2 : 254 529 904 1379 1954 2629
+3 3 : 2048 7774 20760
+3 4 : 16270 73540
+3 5 : 83829
+
+> E=read_satstat("Precosat570.stats")
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 0 0 0 0.1 0.1 0.2
+1 3 : 0 0.2 1.2
+1 4 : 0.6 9.4 99
+1 5 : 10.4 499.8
+2 2 : 0 0.1 0.4 1 2.2 4.4
+2 3 : 0.9 9.2 55.5
+2 4 : 31.4 789.7
+2 5 : 3904.4
+3 2 : 0 0.1 0.4 1 2.2 4.4
+3 3 : 0.9 9.2 55.4
+3 4 : 31.3 780.9
+3 5 : 3953.9
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$cfs[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 1 1 1 1 1 1
+1 3 : 1 1 1
+1 4 : 1 1 1
+1 5 : 1 1
+2 2 : 16 20 560 1438 2398 3493
+2 3 : 17 209 17295
+2 4 : 857 64688
+2 5 : 31092
+3 2 : 16 20 560 1438 2398 3493
+3 3 : 17 209 17295
+3 4 : 857 64688
+3 5 : 31092
+
+> E=read_satstat("Lingeling.stats")
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 0 0.2 0.3 0.5 2.1 3.8
+1 3 : 0.9 7 54.6
+1 4 : 33.2 389.4 3139
+1 5 : 479.6 14845.9
+2 2 : 0 0 0 0.1 1.4 3.4
+2 3 : 0.3 15.6 834.3
+2 4 : 201 25004.9
+2 5 : 37201.4
+3 2 : 0 0 0 0.1 1.2 1.6
+3 3 : 0.3 34.8 683.6
+3 4 : 411 18593.2
+3 5 : 19148.9
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$cfs[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 100 100 100 100 1528 2100
+1 3 : 655 4470 13585
+1 4 : 13324 54187 152934
+1 5 : 70177 392047
+2 2 : 100 100 100 100 338 835
+2 3 : 100 4822 28616
+2 4 : 19113 103069
+2 5 : 124208
+3 2 : 100 100 100 100 343 745
+3 3 : 100 4941 29862
+3 4 : 20978 119524
+3 5 : 117605
+
+> E=read_satstat("Minisat.stats")
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 0.003999 0.023996 0.084987 0.238963 0.562914 1.16082
+1 3 : 0.167974 2.19167 15.1847
+1 4 : 5.73813 157.595 2247.59
+1 5 : 150.848
+2 2 : 0.008998 0.046992 0.147977 0.553915 0.98385 2.36764
+2 3 : 0.095985 15.0097 126.526
+2 4 : 10.0005
+2 5 : 3317.21
+3 2 : 0.006998 0.039993 0.146977 0.561914 0.993848 2.51462
+3 3 : 0.082987 13.025 137.953
+3 4 : 9.11961
+3 5 : 2875.94
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$cfs[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 0 0 0 0 0 0
+1 3 : 0 0 0
+1 4 : 0 0 0
+1 5 : 0
+2 2 : 136 740 1529 2778 3887 5417
+2 3 : 1276 8333 20033
+2 4 : 10427
+2 5 : 67344
+3 2 : 136 740 1529 2778 3887 5417
+3 3 : 1276 8272 19939
+3 4 : 10330
+3 5 : 66739
+
+> E=read_satstat("Minisat-no.stats")
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 0.003999 0.005999 0.016997 0.030995 0.06199 0.089986
+1 3 : 0.074988 0.592909 2.91356
+1 4 : 3.16152 62.4135 422.856
+1 5 : 81.3936 2623
+2 2 : 0.005999 0.027995 0.055991 0.149977 0.356945 1.17982
+2 3 : 0.504923 9.49056 79.3279
+2 4 : 67.7607
+2 5 :
+3 2 : 0.005999 0.026995 0.054991 0.143978 0.337948 1.11683
+3 3 : 0.473927 8.86765 80.3748
+3 4 : 62.6315
+3 5 :
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$cfs[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 365 795 1366 1962 2861 3963
+1 3 : 3344 10163 23355
+1 4 : 23307 88280 232867
+1 5 : 109898 608180
+2 2 : 416 905 1563 2496 3697 4981
+2 3 : 2719 8213 20101
+2 4 : 15761
+2 5 :
+3 2 : 416 905 1563 2496 3697 4981
+3 3 : 2683 8217 19817
+3 4 : 15761
+3 5 :
+
+> E=read_satstat("Cryptominisat295.stats")
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 0 0.02 0.05 0.11 0.24 0.5
+1 3 : 0.1 0.89 6.25
+1 4 : 3.11 85.34 839.91
+1 5 : 116.84 7952.08
+2 2 : 0 0.01 0.02 0.04 0.08 0.13
+2 3 : 0.06 0.44 1.04
+2 4 : 1.17 796.04
+2 5 : 1457.62
+3 2 : 0 0 0.02 0.03 0.06 0.1
+3 3 : 0.05 0.35 1.18
+3 4 : 1.46 631.08
+3 5 : 1364.41
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$cfs[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 20 25 53 50 55 56
+1 3 : 349 1426 12547
+1 4 : 14335 65608 332497
+1 5 : 66235 942020
+2 2 : 0 0 0 0 0 0
+2 3 : 0 0 0
+2 4 : 0 30501
+2 5 : 30561
+3 2 : 0 0 0 0 0 0
+3 3 : 0 0 0
+3 4 : 0 30500
+3 5 : 30500
+
+> E=read_satstat("Cryptominisat296.stats")
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 0.01 0.02 0.04 0.11 0.22 0.45
+1 3 : 0.09 0.74 4.83
+1 4 : 2.5 57.78 538.63
+1 5 : 76.51 4440.04
+2 2 : 0 0.01 0.02 0.04 0.07 0.11
+2 3 : 0.06 0.4 0.97
+2 4 : 1.1 706.17 34460.56
+2 5 : 1323.26
+3 2 : 0 0.01 0.01 0.03 0.06 0.09
+3 3 : 0.05 0.35 1.15
+3 4 : 1.36 614.75 34849.85
+3 5 : 1282.69
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$cfs[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 20 25 53 50 55 56
+1 3 : 349 1426 12547
+1 4 : 14335 65608 332497
+1 5 : 66235 942020
+2 2 : 0 0 0 0 0 0
+2 3 : 0 0 0
+2 4 : 0 30501 114958
+2 5 : 30561
+3 2 : 0 0 0 0 0 0
+3 3 : 0 0 0
+3 4 : 0 30500 105312
+3 5 : 30500
+   \endverbatim
+   </li>
+   <li> From the look-ahead solvers OKsolver2002 is far best, and also likely
+   overall the best. </li>
   </ul>
 
 */
