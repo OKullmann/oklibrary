@@ -142,11 +142,14 @@ display_seconds = function(x) {
 # Removes leading and trailing whitespaces from string x:
 trim = function(x) gsub("^\\s+|\\s+$", "", x)
 
+# Removes leading non-digit characters:
+remleadnondigit = function(x) gsub("^\\D+", "", x)
+
 # Returns the part of non-emtpy string x before the first "." (so that
 # filename-extensions can be removed in this way):
 remextension = function(x) strsplit(x,".",fixed=TRUE)[[1]][1]
 
-# Splitting a string along underscore-characters; returns a vector of string:
+# Splitting a string along underscore-characters; returns a vector of strings:
 underscore_splitting = function(x) strsplit(x,"_")[[1]]
 
 # Splitting a filename along the underscores, ignoring a filename-extension:
