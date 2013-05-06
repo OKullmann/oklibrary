@@ -667,24 +667,24 @@ E3_SAT_genhorn_25_5, E3_SAT_genhorn_34_4: CPU time limit exceeded
 E2_SAT_genhorn_35_5 not tried)
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; picosat913 ${F} > ${B}.picosat; done
-(E2_SAT_genhorn_35_5: out of memory, > 20GB)
+(E2_SAT_genhorn_35_5: out of memory, > 20 GB)
+(E3_SAT_genhorn_35_5: out of memory, > 30 GB)
+(E3_SAT_genhorn_44_4: out of memory, > 30 GB)
+(E2_SAT_genhorn_44_4: out of memory, > 30 GB)
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; precosat-570.1 -v ${F} > ${B}.precosat; done
-XXX
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; lingelingala-b02aa1a-121013 -v ${F} > ${B}.lingeling; done
-(aborted on E2_SAT_genhorn_35_5 after 11464 min, and on E2_SAT_genhorn_44_4
-after 1571 min)
+(aborted on E2_SAT_genhorn_35_5 after 11464 min, on E2_SAT_genhorn_44_4 after
+1571 min, on E3_SAT_genhorn_35_5 after 1580 min, on E3_SAT_genhorn_44_4 after
+1015 min)
 > ls *.cnf > AllProblems
 > cp AllProblems ProblemsLingeling
 > for F in $(cat ProblemsLingeling); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; lingelingala-b02aa1a-121013 -v ${F} > ${B}.lingeling; done
 
-
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -no-pre -cpu-lim=3600 ${F} > ${B}.minisat-no; done
-XXX
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -cpu-lim=3600 ${F} > ${B}.minisat; done
-XXX cs-wsok
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; cryptominisat ${F} > ${B}.cryptominisat_295; done
 (E2_SAT_genhorn_35_5.cnf: "Too long clause!";
