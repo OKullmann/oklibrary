@@ -1,5 +1,5 @@
 # Oliver Kullmann, 20.9.2011 (Swansea)
-# Copyright 2011 Oliver Kullmann
+# Copyright 2011, 2013 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -141,6 +141,16 @@ display_seconds = function(x) {
 
 # Removes leading and trailing whitespaces from string x:
 trim = function(x) gsub("^\\s+|\\s+$", "", x)
+
+# Returns the part of non-emtpy string x before the first "." (so that
+# filename-extensions can be removed in this way):
+remextension = function(x) strsplit(x,".",fixed=TRUE)[[1]][1]
+
+# Splitting a string along underscore-characters; returns a vector of string:
+underscore_splitting = function(x) strsplit(x,"_")[[1]]
+
+# Splitting a filename along the underscores, ignoring a filename-extension:
+filename_splitting = function(x) underscore_splitting(remextension(x))
 
 
 # #################
