@@ -689,10 +689,6 @@ XXX
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 ${F} > ${B}.minisat; done
 XXX
 
-> for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; cryptominisat ${F} > ${B}.cryptominisat_295; done
-(E2_SAT_genhorn_35_5.cnf: "Too long clause!";
-E3_SAT_genhorn_44_4.cnf: "Memory manager cannot handle the load. Sorry. Exiting.")
-
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; cryptominisat ${F} > ${B}.cryptominisat_296; done
 (for E2_SAT_genhorn_35_5.cnf and E3_SAT_genhorn_35_5.cnf there are too long
 clauses to be handled by it)
@@ -752,13 +748,6 @@ for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -
 sfile="Minisat-no.stats"
 ssuffix=".minisat-no"
 sextract="ExtractMinisat"
-echo -n "type k h " > ${sfile}
-${sextract} "header-only" >> ${sfile}
-for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
-
-sfile="Cryptominisat295.stats"
-ssuffix=".cryptominisat_295"
-sextract="ExtractCryptominisat"
 echo -n "type k h " > ${sfile}
 ${sextract} "header-only" >> ${sfile}
 for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
@@ -983,34 +972,6 @@ for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -
 3 3 : 2683 8217 19817
 3 4 : 15761
 3 5 :
-
-> E=read_satstat("Cryptominisat295.stats")
-> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
-1 2 : 0 0.02 0.05 0.11 0.24 0.5
-1 3 : 0.1 0.89 6.25
-1 4 : 3.11 85.34 839.91
-1 5 : 116.84 7952.08
-2 2 : 0 0.01 0.02 0.04 0.08 0.13
-2 3 : 0.06 0.44 1.04
-2 4 : 1.17 796.04
-2 5 : 1457.62
-3 2 : 0 0 0.02 0.03 0.06 0.1
-3 3 : 0.05 0.35 1.18
-3 4 : 1.46 631.08
-3 5 : 1364.41
-> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$cfs[E$type==t & E$k==k & E$sat==0],"\n")
-1 2 : 20 25 53 50 55 56
-1 3 : 349 1426 12547
-1 4 : 14335 65608 332497
-1 5 : 66235 942020
-2 2 : 0 0 0 0 0 0
-2 3 : 0 0 0
-2 4 : 0 30501
-2 5 : 30561
-3 2 : 0 0 0 0 0 0
-3 3 : 0 0 0
-3 4 : 0 30500
-3 5 : 30500
 
 > E=read_satstat("Cryptominisat296.stats")
 > for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
