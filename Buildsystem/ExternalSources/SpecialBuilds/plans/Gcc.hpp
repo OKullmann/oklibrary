@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.6.2007 (Swansea)
-/* Copyright 2007, 2008, 2010, 2011, 2012 Oliver Kullmann
+/* Copyright 2007, 2008, 2010, 2011, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,16 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp
   \brief Plans regarding installation of gcc
+
+
+  \todo Incorrect .texi-files
+  <ul>
+   <li> In gcc.mak we have to copy the files copying-lib.texi, gpl.texi, due to
+   syntax errors. </li>
+   <li> File gpl.texi was obtained from the internet, and additionally in
+   line 291 we replaced "@header NO WARRANTY" by "@center NO WARRANTY". </li>
+   <li> Hopefully with a newer version of gcc this error goes away. </li
+  </ul>
 
 
   \todo DONE (not reproducible, taken as caused by some strange state of

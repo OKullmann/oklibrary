@@ -1,5 +1,5 @@
 # Matthew Henderson, 18.7.2006 (Paderborn)
-# Copyright 2006-2007, 2008, 2010, 2011, 2012 Oliver Kullmann
+# Copyright 2006-2007, 2008, 2010, 2011, 2012, 2013 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -45,6 +45,7 @@ gcc : $(gcc_directories_okl)
 	$(call unarchive,$(mpc_source_okl),$(gcc_unarchived_source_okl))
 	mv $(gcc_unarchived_source_okl)/$(mpc_recommended_okl) $(gcc_unarchived_source_okl)/mpc
 	cp $(gcc_source_base_okl)/copying-lib.texi $(gcc_unarchived_source_okl)/libiberty
+	cp $(gcc_source_base_okl)/gpl.texi $(gcc_unarchived_source_okl)/gcc/doc/include
 	cd $(gcc_build_dir_okl); $(postcondition) \
 	$(gcc_unarchived_source_okl)/configure --prefix=$(gcc_installation_dir_okl) --enable-languages=$(gcc_enable_languages_okl) --enable-threads=$(gcc_threads_okl) --with-system-zlib $(gcc_other_options_okl) $(gcc_user_options_okl); $(postcondition) \
 	make; $(postcondition) \
@@ -54,8 +55,8 @@ gcc : $(gcc_directories_okl)
 	mv -f $(gcc_doc_dir_okl)/doc $(gcc_doc_dir_okl)/html; $(postcondition) \
 	cp -fr gcc/doc $(gcc_doc_dir_okl); $(postcondition)
 
-# Remark: Correction of copying-lib.texi should be removed for target gcc,
-# once it has been done in the package itself.
+# Remark: Correction of copying-lib.texi, gpl.texi should be removed for
+# target gcc, once it has been done in the package itself.
 
 
 # ####################################
