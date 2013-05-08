@@ -687,11 +687,23 @@ XXX
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -no-pre -cpu-lim=3600 ${F} > ${B}.minisat-no; done
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 ${F} > ${B}.minisat; done
+(E2_SAT_genhorn_35_5: aborted after 1511 min)
+(E2_SAT_genhorn_44_4: aborted after 296 min)
 XXX
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; cryptominisat ${F} > ${B}.cryptominisat_296; done
 (for E2_SAT_genhorn_35_5.cnf and E3_SAT_genhorn_35_5.cnf there are too long
 clauses to be handled by it)
+
+ls *_2.cnf > Problems; ls *_3.cnf >> Problems; ls *_4.cnf >> Problems; ls *_5.cnf >> Problems
+
+> for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; satz215 ${F} > ${B}.satz; done
+XXX
+(E1_SAT_genhorn_25_5 aborted after 152 min)
+
+> for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; march_pl ${F} > ${B}.march; done
+(E1_SAT_genhorn_25_5 aborted after 174 min)
+XXX
    \endverbatim
    </li>
    <li> Extracting statistics:
