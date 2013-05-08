@@ -684,7 +684,9 @@ XXX
 > cp AllProblems ProblemsLingeling
 > for F in $(cat ProblemsLingeling); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; lingelingala-b02aa1a-121013 -v ${F} > ${B}.lingeling; done
 
-> for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -no-pre -cpu-lim=3600 ${F} > ${B}.minisat-no; done
+ls *_2.cnf > Problems; ls *_3.cnf >> Problems; ls *_4.cnf >> Problems; ls *_5.cnf >> Problems
+
+> for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -no-pre ${F} > ${B}.minisat-no; done
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 ${F} > ${B}.minisat; done
 (E2_SAT_genhorn_35_5: aborted after 1511 min)
@@ -695,15 +697,17 @@ XXX
 (for E2_SAT_genhorn_35_5.cnf and E3_SAT_genhorn_35_5.cnf there are too long
 clauses to be handled by it)
 
-ls *_2.cnf > Problems; ls *_3.cnf >> Problems; ls *_4.cnf >> Problems; ls *_5.cnf >> Problems
-
 > for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; satz215 ${F} > ${B}.satz; done
-XXX
-(E1_SAT_genhorn_25_5 aborted after 152 min)
+solved only E1_SAT_genhorn_22_2, E1_SAT_genhorn_32_2, in 4.3 sec and 7193 sec;
+aborted then.
 
 > for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; march_pl ${F} > ${B}.march; done
-(E1_SAT_genhorn_25_5 aborted after 174 min)
-XXX
+(can't solve E2_SAT_genhorn_23_3, E3_SAT_genhorn_23_3 due to
+Assertion `btb_size[ i ] == 0' failed)
+(can't solve E2_SAT_genhorn_33_3, E3_SAT_genhorn_33_3 due to
+segmentation fault)
+(E1_SAT_genhorn_34_4: aborted after 370 min)
+other instances not tried
    \endverbatim
    </li>
    <li> Extracting statistics:
@@ -770,6 +774,13 @@ sextract="ExtractCryptominisat"
 echo -n "type k h " > ${sfile}
 ${sextract} "header-only" >> ${sfile}
 for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
+
+sfile="Marchpl.stats"
+ssuffix=".march"
+sextract="ExtractMarchpl"
+echo -n "type k h " > ${sfile}
+${sextract} "header-only" >> ${sfile}
+for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
    \endverbatim
    </li>
    <li> Evaluation:
@@ -829,6 +840,34 @@ for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -
 3 3 : 1 1 1
 3 4 : 1 1 1
 3 5 : 1 1
+
+> E=read_satstat("Marchpl.stats")
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 0.11 0.89 4.17 14.77 41.26 100.15
+1 3 : 5.33 90.37 763.13
+1 4 : 190.6
+1 5 :
+2 2 : 0.14 1.24 6.98 13.98 38.89 513.06
+2 3 : 617.42
+2 4 :
+2 5 :
+3 2 : 0.04 0.34 1.86 25.01 93.8 228.52
+3 3 : 940.86
+3 4 :
+3 5 :
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$nds[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 14 20 25 31 36 42
+1 3 : 41 61 81
+1 4 : 463
+1 5 :
+2 2 : 11 13 17 1 1 1
+2 3 : 1
+2 4 :
+2 5 :
+3 2 : 19 25 31 1 1 1
+3 3 : 1
+3 4 :
+3 5 :
 
 > E=read_satstat("Glucose.stats")
 > for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
