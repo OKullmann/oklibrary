@@ -662,10 +662,12 @@ E3_SAT_genhorn_72_2.cnf
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002_NTP-O3-DNDEBUG ${F} > ${B}.oksolver-ntp; done
 
 > for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.0 ${F} > ${B}.glucose; done
+XXX
+(E2_SAT_genhorn_44_4: aborted after 535 min)
+Old:
 (E1_SAT_genhorn_35_5, E2_SAT_genhorn_25_5, E2_SAT_genhorn_34_4,
 E3_SAT_genhorn_25_5, E3_SAT_genhorn_34_4: CPU time limit exceeded
 E2_SAT_genhorn_35_5 not tried)
-XXX
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; picosat913 ${F} > ${B}.picosat; done
 (E1_SAT_genhorn_35_5: gives up after 478.5 sec)
@@ -687,11 +689,13 @@ XXX
 ls *_2.cnf > Problems; ls *_3.cnf >> Problems; ls *_4.cnf >> Problems; ls *_5.cnf >> Problems
 
 > for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -no-pre ${F} > ${B}.minisat-no; done
+(E2_SAT_genhorn_44_4: aborted after 848 min)
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 ${F} > ${B}.minisat; done
 (E2_SAT_genhorn_35_5: aborted after 1511 min)
 (E2_SAT_genhorn_44_4: aborted after 296 min)
-XXX
+(E3_SAT_genhorn_35_5: aborted after 1011 min)
+(E3_SAT_genhorn_44_4: segmentation fault)
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; cryptominisat ${F} > ${B}.cryptominisat_296; done
 (for E2_SAT_genhorn_35_5.cnf and E3_SAT_genhorn_35_5.cnf there are too long
@@ -970,30 +974,30 @@ for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -
 
 > E=read_satstat("Minisat.stats")
 > for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
-1 2 : 0.003999 0.023996 0.084987 0.238963 0.562914 1.16082
-1 3 : 0.167974 2.19167 15.1847
-1 4 : 5.73813 157.595 2247.59
-1 5 : 150.848
-2 2 : 0.008998 0.046992 0.147977 0.553915 0.98385 2.36764
-2 3 : 0.095985 15.0097 126.526
-2 4 : 10.0005
-2 5 : 3317.21
-3 2 : 0.006998 0.039993 0.146977 0.561914 0.993848 2.51462
-3 3 : 0.082987 13.025 137.953
-3 4 : 9.11961
-3 5 : 2875.94
+1 2 : 0.003999 0.021996 0.080987 0.234964 0.546916 1.14083
+1 3 : 0.158975 2.06669 14.5708
+1 4 : 5.48017 149.517 2117.11
+1 5 : 143.273 11635.8
+2 2 : 0.006998 0.045993 0.152976 0.597909 1.06584 2.6626
+2 3 : 0.100984 15.0077 132.493
+2 4 : 10.0605 6380.75
+2 5 : 3281.57
+3 2 : 0.008998 0.044993 0.142978 0.559914 0.991849 2.42663
+3 3 : 0.088986 14.8467 134.714
+3 4 : 9.93149 6894.03
+3 5 : 3208.5
 > for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$cfs[E$type==t & E$k==k & E$sat==0],"\n")
 1 2 : 0 0 0 0 0 0
 1 3 : 0 0 0
 1 4 : 0 0 0
-1 5 : 0
+1 5 : 0 0
 2 2 : 136 740 1529 2778 3887 5417
 2 3 : 1276 8333 20033
-2 4 : 10427
+2 4 : 10427 72123
 2 5 : 67344
 3 2 : 136 740 1529 2778 3887 5417
 3 3 : 1276 8272 19939
-3 4 : 10330
+3 4 : 10330 70250
 3 5 : 66739
 
 > E=read_satstat("Minisat-no.stats")
