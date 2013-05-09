@@ -1064,7 +1064,8 @@ for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -
    overall the best. </li>
    <li> Some regressions:
    \verbatim
-E = read.table("OKsolver-ntp.stats", header=TRUE)
+E = read_satstat("OKsolver-ntp.stats")
+
 Et1 = E[E$type == 1,]
 m = lm(Et1$t ~ Et1$l)
 summary(m)
