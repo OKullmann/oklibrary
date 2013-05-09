@@ -661,10 +661,11 @@ E3_SAT_genhorn_72_2.cnf
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002_NTP-O3-DNDEBUG ${F} > ${B}.oksolver-ntp; done
 
-> for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.0 -cpu-lim=3600 ${F} > ${B}.glucose; done
+> for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.0 ${F} > ${B}.glucose; done
 (E1_SAT_genhorn_35_5, E2_SAT_genhorn_25_5, E2_SAT_genhorn_34_4,
 E3_SAT_genhorn_25_5, E3_SAT_genhorn_34_4: CPU time limit exceeded
 E2_SAT_genhorn_35_5 not tried)
+XXX
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; picosat913 ${F} > ${B}.picosat; done
 (E1_SAT_genhorn_35_5: gives up after 478.5 sec)
@@ -674,7 +675,6 @@ E2_SAT_genhorn_35_5 not tried)
 (E2_SAT_genhorn_44_4: out of memory, > 30 GB)
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; precosat-570.1 -v ${F} > ${B}.precosat; done
-XXX
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; lingelingala-b02aa1a-121013 -v ${F} > ${B}.lingeling; done
 (aborted on E2_SAT_genhorn_35_5 after 11464 min, on E2_SAT_genhorn_44_4 after
@@ -915,17 +915,17 @@ for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -
 > E=read_satstat("Precosat570.stats")
 > for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
 1 2 : 0 0 0 0.1 0.1 0.2
-1 3 : 0 0.2 1.2
-1 4 : 0.6 9.4 99
-1 5 : 10.4 499.8
-2 2 : 0 0.1 0.4 1 2.2 4.4
-2 3 : 0.9 9.2 55.5
-2 4 : 31.4 789.7
-2 5 : 3904.4
+1 3 : 0 0.2 1.1
+1 4 : 0.5 9.2 94.2
+1 5 : 10.1 389
+2 2 : 0 0.1 0.4 0.9 2 4.1
+2 3 : 0.9 8.8 53.9
+2 4 : 30.4 751.9 35356
+2 5 : 3635.8
 3 2 : 0 0.1 0.4 1 2.2 4.4
-3 3 : 0.9 9.2 55.4
-3 4 : 31.3 780.9
-3 5 : 3953.9
+3 3 : 0.9 8.7 54.7
+3 4 : 29.9 735.8 44808.4
+3 5 : 3484.4
 > for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$cfs[E$type==t & E$k==k & E$sat==0],"\n")
 1 2 : 1 1 1 1 1 1
 1 3 : 1 1 1
@@ -933,11 +933,11 @@ for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -
 1 5 : 1 1
 2 2 : 16 20 560 1438 2398 3493
 2 3 : 17 209 17295
-2 4 : 857 64688
+2 4 : 857 64688 410510
 2 5 : 31092
 3 2 : 16 20 560 1438 2398 3493
 3 3 : 17 209 17295
-3 4 : 857 64688
+3 4 : 857 64688 410510
 3 5 : 31092
 
 > E=read_satstat("Lingeling.stats")
