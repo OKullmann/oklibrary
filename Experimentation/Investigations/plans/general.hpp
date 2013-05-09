@@ -664,6 +664,7 @@ E3_SAT_genhorn_72_2.cnf
 > for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.0 ${F} > ${B}.glucose; done
 XXX
 (E2_SAT_genhorn_44_4: aborted after 535 min)
+(E3_SAT_genhorn_44_4: aborted after 518 min)
 Old:
 (E1_SAT_genhorn_35_5, E2_SAT_genhorn_25_5, E2_SAT_genhorn_34_4,
 E3_SAT_genhorn_25_5, E3_SAT_genhorn_34_4: CPU time limit exceeded
@@ -690,6 +691,8 @@ ls *_2.cnf > Problems; ls *_3.cnf >> Problems; ls *_4.cnf >> Problems; ls *_5.cn
 
 > for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 -no-pre ${F} > ${B}.minisat-no; done
 (E2_SAT_genhorn_44_4: aborted after 848 min)
+(E3_SAT_genhorn_44_4: aborted after 533 min)
+XXX
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 ${F} > ${B}.minisat; done
 (E2_SAT_genhorn_35_5: aborted after 1511 min)
@@ -1059,6 +1062,41 @@ for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -
    </li>
    <li> From the look-ahead solvers OKsolver2002 is far best, and also likely
    overall the best. </li>
+   <li> Some regressions:
+   \verbatim
+E = read.table("OKsolver-ntp.stats", header=TRUE)
+Et1 = E[E$type == 1,]
+m = lm(Et1$t ~ Et1$l)
+summary(m)
+     Min       1Q   Median       3Q      Max
+-1.32137 -0.13701  0.08398  0.14693  1.84109
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -1.726e-01  2.118e-01  -0.815    0.431
+Et1$l        1.309e-06  2.902e-08  45.125 9.14e-15 ***
+Residual standard error: 0.713 on 12 degrees of freedom
+Multiple R-squared: 0.9941,     Adjusted R-squared: 0.9937
+F-statistic:  2036 on 1 and 12 DF,  p-value: 9.145e-15
+
+plot(Et1$l,Et1$t)
+lines(Et1$l,predict(m))
+
+Et23 = E[E$type != 1,]
+v = as.double(Et23$l) * as.double(Et23$n)
+m23 = lm(Et23$t ~ v)
+summary(m23)
+    Min      1Q  Median      3Q     Max
+-5128.9  -105.6  -102.1  -101.9  4055.2
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 1.019e+02  2.838e+02   0.359    0.723
+v           5.883e-10  2.072e-11  28.398   <2e-16 ***
+Residual standard error: 1424 on 26 degrees of freedom
+Multiple R-squared: 0.9688,     Adjusted R-squared: 0.9676
+F-statistic: 806.4 on 1 and 26 DF,  p-value: < 2.2e-16
+
+plot(Et23$t)
+lines(predict(m23))
+   \endverbatim
+   </li>
   </ul>
 
 */
