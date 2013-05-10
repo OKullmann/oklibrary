@@ -56,6 +56,19 @@ floorlog(n,b) := block([l : floor(float(log(n)/log(b)))],
 */
 
 
+/* **********************
+   * Sign functionality *
+   **********************
+*/
+
+posp(x) := is(x > 0)$
+negp(x) := is(x < 0)$
+nullp(x) := is(x = 0)$
+possignum(x) := if posp(x) then 1 else 0$
+negsignum(x) := if negp(x) then -1 else 0$
+/* Reminder: signum(x) = +1,0,-1 if resp. posp(x), nullp(x), negp(x) is true.
+*/
+
 /* ******************************
    * Representations of numbers *
    ******************************
