@@ -1,5 +1,5 @@
 // Matthew Gwynne, 13.2.2012 (Swansea)
-/* Copyright 2012 Oliver Kullmann
+/* Copyright 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -78,11 +78,11 @@ maxima> hardness_wpi_cs(setify(Round_min[2]), setify(Round_primes[2]));
  /* Generating the encoding: */
 maxima> Round_anf : lappend(map(lambda([v,C], cons(adjoin(v,map("-",C)),create_list({-v,l},l,listify(C)))),[10,11,12,13,14,15,16,17,18,19,20],[{4,6},{4,8},{5,6},{5,8},{6,7},{7,8},{11,7},{11,6},{20,7},{20,6},{4,5}]))$
 maxima> Round_par_anf : append(
-              boolm_mul2cnf_wv_fcl(matrix([1,1,1,1]),[1,2,3,7,21])[2],
-              boolm_mul2cnf_wv_fcl(matrix([1,1,1,1]),[8,10,11,12,22])[2],
-              boolm_mul2cnf_wv_fcl(matrix([1,1,1,1]),[13,14,15,16,23])[2],
-              boolm_mul2cnf_wv_fcl(matrix([1,1,1]),[17,18,19,24])[2],
-              boolm_mul2cnf_wv_fcl(matrix([1,1,1,1]),[21,22,23,24,9])[2]);
+              fullxoreqs_wv_fcl(4,1,[1,2,3,7,21])[2],
+              fullxoreqs_wv_fcl(4,1,[8,10,11,12,22])[2],
+              fullxoreqs_wv_fcl(4,1,[13,14,15,16,23])[2],
+              fullxoreqs(3,1,[17,18,19,24])[2],
+              fullxoreqs_wv_fcl(4,1,[21,22,23,24,9])[2]);
 maxima> Round_anf : append(Round_anf,Round_par_anf);
 maxima> statistics_cs(Round_anf);
  [24,105,429,5,2]

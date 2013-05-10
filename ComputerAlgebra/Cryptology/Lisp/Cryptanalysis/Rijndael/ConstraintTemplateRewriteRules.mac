@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 28.9.2010 (Swansea) */
-/* Copyright 2010, 2011 Oliver Kullmann
+/* Copyright 2010, 2011, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -724,8 +724,7 @@ aes_key_expansion_cstr_cstl(cst) := block(
 aes_add_cst_cl(cst) := block(
   [nb, n : if cstt_args_l(cst) = [] then 2 else cstt_args_l(cst)[1]],
   nb : floor(length(cst[2]) / (n+1)),
-  parity_f : lambda([[a]],
-    fcl2cl(boolm_mul2cnf_wv_fcl(genmatrix(lambda([a,b],1), 1,length(a)-1),a))),
+  parity_f : lambda([[a]], fcl2cl(fullxoreqs_wv_fcl(1,length(a)-1,a))),
   lappend(
     apply(map,
       append([parity_f],

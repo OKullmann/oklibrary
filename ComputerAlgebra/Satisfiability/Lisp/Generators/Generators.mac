@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.11.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -26,7 +26,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssig
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
-
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 
 /* ********************
@@ -77,47 +77,38 @@ output_fullcs_stdname(n) := output_fullcs(n,
    ************************
 */
 
-/* Returns the formal CNF clause-set without new variables which is
-   satisfiable if the variables 1 to n are assigned values such that they have
-   even parity. */
+/* The repetition-free clause-list of full clauses over variables 1, ..., n,
+   such that the satisfying assignments are given by the condition that the
+   sum over the values is even resp. odd, that is, the list of full clauses
+   having an odd resp. even number of negative literals; the order is
+   lexicographical:
+*/
 even_parity_cl(n) :=
-   map(lambda([D], map("-",bv2c_wv(D,create_list(i,i,1,n)))),
-     sublist(
-       listify(apply(cartesian_product, create_list({0,1},i,1,n))),
-       lambda([C], is(mod(sum_l(C),2) # 0))))$
-even_parity_fcl(n) :=
-  [create_list(i,i,1,n),even_parity_cl(n)]$
+  sublist(all_tass_l(setn(n)),
+          lambda([C], oddp(sum_l(map(negsignum, listify(C))))))$
+even_parity_fcl(n) := [create_list(i,i,1,n),even_parity_cl(n)]$
 
-/* Returns the formal CNF clause-set without new variables which is
-   satisfiable if the variables 1 to n are assigned values such that they have
-   odd parity. */
 odd_parity_cl(n) :=
-  remove_elements(even_parity_fcl(n)[2],all_tass_l(setn(n)))$
+  sublist(all_tass_l(setn(n)),
+          lambda([C], evenp(sum_l(map(negsignum, listify(C))))))$
 odd_parity_fcl(n) :=
  [create_list(i,i,1,n),odd_parity_cl(n)]$
 
 
-/* ************************
-   * Matrix formulas      *
-   ************************
+/* Expressing the linear system
+     x_1 + ... + x_n = y_i for i = 1,...,m
+   over the 2-element field {0,1} as a standardised formal clause-set,
+   using 1,...,n for x_1,...,x_n, and n+1,...,n+m for y_1,...,y_m:
 */
-
-/* Takes a boolean matrix and returns a DNF representing
-   the multiplication of the matrix by a bit vector.
-   The (input) bits in the bit vector are represented by
-   the variables 1 to length(m), and the output bits are
-   represented by length(m)+1 to 2*length(m). */
-boolm_mul2cnf_fcl(m) := block(
-  [IV,OV,F : [],nc : length(matrixcolumns(m)),count : 0],
-  IV : create_list(i,i,1,nc),
-  OV : create_list(i,i,nc+1, nc+length(m)),
+fullxoreqs_fcl(m,n) := block(
+ [IV:create_list(i,i,1,n)],
   return([
-    append(IV,OV),
-    lappend(map(
-        lambda([R],
-          fcl2cl(rename_fcl(even_parity_fcl(length(R)+1),
-              endcons(nc + count : count + 1, IV)))),args(m)))]))$
-boolm_mul2cnf_wv_fcl(m,V) := rename_fcl(boolm_mul2cnf_fcl(m),V)$
+    create_list(i,i,1,n+m),
+    lappend(create_list(
+              fcl2cl(rename_fcl(even_parity_fcl(n+1), endcons(n+i, IV))),
+              i,1,m))]))$
+/* Now replacing the variable-list [1,...,n+m] by V: */
+fullxoreqs_wv_fcl(m,n,V) := rename_fcl(fullxoreqs_fcl(m,n),V)$
 
 
 /* ********************
