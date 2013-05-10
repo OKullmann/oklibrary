@@ -691,7 +691,7 @@ ls *_2.cnf > Problems; ls *_3.cnf >> Problems; ls *_4.cnf >> Problems; ls *_5.cn
 (E2_SAT_genhorn_44_4: aborted after 848 min)
 (E3_SAT_genhorn_44_4: aborted after 533 min)
 (E2_SAT_genhorn_35_5: segmentation fault)
-(E2_SAT_genhorn_35_5: got killed by accident, > 600 min)
+(E3_SAT_genhorn_35_5: got killed by accident, > 600 min)
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; minisat-2.2.0 ${F} > ${B}.minisat; done
 (E2_SAT_genhorn_35_5: aborted after 1511 min)
