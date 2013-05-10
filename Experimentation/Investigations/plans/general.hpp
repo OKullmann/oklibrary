@@ -662,7 +662,6 @@ E3_SAT_genhorn_72_2.cnf
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002_NTP-O3-DNDEBUG ${F} > ${B}.oksolver-ntp; done
 
 > for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.0 ${F} > ${B}.glucose; done
-XXX
 (E2_SAT_genhorn_44_4: aborted after 535 min)
 (E3_SAT_genhorn_44_4: aborted after 518 min)
 (E2_SAT_genhorn_35_5: aborted after 674 min)
