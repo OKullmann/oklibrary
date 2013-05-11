@@ -78,6 +78,7 @@ rename_fcl(FF,L) := block(
  [V : FF[1], h],
   h : osm2hm(map("[",V,L)),
   [abs(L), substitutetotal_cl(FF[2],h)])$
+rename_cl(F,L) := fcl2cl(rename_fcl(cl2fcl(F),L))$
 
 /* The set of all renamings without flipping signs or introducing new
    variables of a formal clause-set FF:
