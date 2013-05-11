@@ -248,7 +248,7 @@ des_key2fcl(key) := block(
 des2fcl(sbox_l) := block(
   [xor_cl_l, sbox_cl_l : [], num_sbox_aux_var_l,
    new_var_ind : 1, rename_aux_vars],
-  xor_cl_l : create_list(fullxoreqs_wv_fcl(2,1,C[1])[2], C, des_xor),
+  xor_cl_l : create_list(even_parity_wv_cl(C[1]), C, des_xor),
   num_sbox_aux_var_l : create_list(length(sbox_l[i][1])-10, i, 1, 8),
   rename_aux_vars : lambda([sbox_cst],
     block([aux_vars],

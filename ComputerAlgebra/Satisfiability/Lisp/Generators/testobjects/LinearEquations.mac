@@ -27,9 +27,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Linear
 */
 
 okltest_even_parity_cl(even_parity_cl);
+okltest_even_parity_wv_cl(even_parity_wv_cl);
 okltest_odd_parity_cl(odd_parity_cl);
-okltest_fullxoreqs_fcl(fullxoreqs_fcl);
-okltest_fullxoreqs_wv_fcl(fullxoreqs_wv_fcl);
 
 /*!
 \endhtmlonly

@@ -41,6 +41,11 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 even_parity_cl(n) :=
   sublist(all_tass_l(setn(n)),
           lambda([C], oddp(sum_l(map(negsignum, listify(C))))))$
+/* Now supplying the list V of variables: */
+even_parity_wv_cl(V) :=
+  sublist(all_tass_l(setify(V)),
+          lambda([C], oddp(sum_l(map(negsignum, listify(C))))))$
+/* As formal clause-list: */
 even_parity_fcl(n) := [create_list(i,i,1,n),even_parity_cl(n)]$
 
 odd_parity_cl(n) :=
@@ -48,22 +53,6 @@ odd_parity_cl(n) :=
           lambda([C], evenp(sum_l(map(negsignum, listify(C))))))$
 odd_parity_fcl(n) :=
  [create_list(i,i,1,n),odd_parity_cl(n)]$
-
-
-/* Expressing the linear system
-     x_1 + ... + x_n = y_i for i = 1,...,m
-   over the 2-element field {0,1} as a standardised formal clause-set,
-   using 1,...,n for x_1,...,x_n, and n+1,...,n+m for y_1,...,y_m:
-*/
-fullxoreqs_fcl(m,n) := block(
- [IV:create_list(i,i,1,n)],
-  return([
-    create_list(i,i,1,n+m),
-    lappend(create_list(
-              fcl2cl(rename_fcl(even_parity_fcl(n+1), endcons(n+i, IV))),
-              i,1,m))]))$
-/* Now replacing the variable-list [1,...,n+m] by V: */
-fullxoreqs_wv_fcl(m,n,V) := rename_fcl(fullxoreqs_fcl(m,n),V)$
 
 
 /*!

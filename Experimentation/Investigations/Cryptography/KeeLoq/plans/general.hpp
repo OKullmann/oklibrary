@@ -83,6 +83,9 @@ maxima> Round_par_anf : append(
               fullxoreqs_wv_fcl(4,1,[13,14,15,16,23])[2],
               fullxoreqs(3,1,[17,18,19,24])[2],
               fullxoreqs_wv_fcl(4,1,[21,22,23,24,9])[2]);
+XXX Apparently each fullxoreqs_wv_fcl(m,1,L) just expresses that the first
+    variable in L is equal to all the others ???
+XXX
 maxima> Round_anf : append(Round_anf,Round_par_anf);
 maxima> statistics_cs(Round_anf);
  [24,105,429,5,2]

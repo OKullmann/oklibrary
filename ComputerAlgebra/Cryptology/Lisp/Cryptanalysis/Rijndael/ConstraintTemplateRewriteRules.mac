@@ -722,13 +722,10 @@ aes_key_expansion_cstr_cstl(cst) := block(
    m bits to be summed) and output variables where n is the first
    argument to the constraint. */
 aes_add_cst_cl(cst) := block(
-  [nb, n : if cstt_args_l(cst) = [] then 2 else cstt_args_l(cst)[1]],
+ [nb, n : if cstt_args_l(cst) = [] then 2 else cstt_args_l(cst)[1]],
   nb : floor(length(cst[2]) / (n+1)),
-  parity_f : lambda([[a]], fcl2cl(fullxoreqs_wv_fcl(1,length(a)-1,a))),
-  lappend(
-    apply(map,
-      append([parity_f],
-        partition_elements(cst[2],nb)))))$
+  parity_f : lambda([[V]], even_parity_wv_cl(V)),
+  lappend(apply(map, cons(parity_f, partition_elements(cst[2],nb)))))$
 
 /* Returns a list of CNF clauses representing equivalence between the first
    half of the list of variables and the second half in the constraint.

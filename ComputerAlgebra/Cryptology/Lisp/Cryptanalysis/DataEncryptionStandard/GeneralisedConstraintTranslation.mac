@@ -229,8 +229,7 @@ output_des_random_kc_pa_std(seed,r) :=
 des2fcl_gen(sbox_l, r) := block(
   [xor_cl_l, sbox_cl_l : [], num_sbox_aux_var_l,
    new_var_ind : 1, rename_aux_vars],
-  xor_cl_l : create_list(
-    fullxoreqs_wv_fcl(1,2,C[1])[2], C, des_xor_gen(r)),
+  xor_cl_l : create_list(even_parity_wv_cl(C[1]), C, des_xor_gen(r)),
   num_sbox_aux_var_l : create_list(length(sbox_l[i][1])-10, i, 1, 8),
   rename_aux_vars : lambda([sbox_cst],
     block([aux_vars],
@@ -259,8 +258,7 @@ output_des2fcl_gen_std(sbox_name, sbox_l, r) :=
 des2fcl_gen_l(sbox_l,sbox_outputs_l, r) := block(
   [xor_cl_l, sbox_cl_l : [], num_sbox_aux_var_l,
    new_var_ind : 1, rename_aux_vars],
-  xor_cl_l : create_list(
-    fullxoreqs_wv_fcl(1,2,C[1])[2], C, des_xor_gen(r)),
+  xor_cl_l : create_list(even_parity_wv_cl(C[1]), C, des_xor_gen(r)),
   rename_aux_vars : lambda([sbox_cst],
     block([aux_vars,
        num_aux_vars :
