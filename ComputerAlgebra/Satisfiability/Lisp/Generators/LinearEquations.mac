@@ -51,8 +51,12 @@ even_parity_fcl(n) := [create_list(i,i,1,n),even_parity_cl(n)]$
 odd_parity_cl(n) :=
   sublist(all_tass_l(setn(n)),
           lambda([C], evenp(sum_l(map(negsignum, listify(C))))))$
-odd_parity_fcl(n) :=
- [create_list(i,i,1,n),odd_parity_cl(n)]$
+/* Now supplying the list V of variables: */
+odd_parity_wv_cl(V) :=
+  sublist(all_tass_l(setify(V)),
+          lambda([C], evenp(sum_l(map(negsignum, listify(C))))))$
+/* As formal clause-list: */
+odd_parity_fcl(n) := [create_list(i,i,1,n),odd_parity_cl(n)]$
 
 
 /*!
