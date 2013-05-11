@@ -1,0 +1,36 @@
+/* Oliver Kullmann, 11.5.2013 (Swansea) */
+/* Copyright 2013 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/testobjects/LinearEquations.mac
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/testobjects/LinearEquations.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/LinearEquations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/LinearEquations.mac")$
+
+/* *********************
+   * Parity conditions *
+   *********************
+*/
+
+okltest_even_parity_cl(even_parity_cl);
+okltest_odd_parity_cl(odd_parity_cl);
+okltest_fullxoreqs_fcl(fullxoreqs_fcl);
+okltest_fullxoreqs_wv_fcl(fullxoreqs_wv_fcl);
+
+/*!
+\endhtmlonly
+*/

@@ -21,10 +21,9 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generator
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
-oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
 
 kill(f)$
 
@@ -107,38 +106,6 @@ okltest_deficiency_full_fcs(f) := block(
  true
 )$
 
-
-/* ************************
-   * Parity formulas      *
-   ************************
-*/
-
-
-okltest_even_parity_cl(f) := block(
-  assert(f(0) = []),
-  assert(f(1) = [{-1}]),
-  assert(f(2) = [{-2,1},{-1,2}]),
-  assert(f(3) = [{-3,-2,-1},{-3,2,1},{3,-2,1},{3,2,-1}]),
-  true)$
-
-okltest_odd_parity_cl(f) := block(
-  assert(f(0) = [{}]),
-  assert(f(1) = [{1}]),
-  assert(f(2) = [{-1,-2},{2,1}]),
-  assert(f(3) = [{-3,-2,1},{-3,2,-1},{3,-2,-1},{1,2,3}]),
-  true)$
-
-okltest_fullxoreqs_fcl(f) := block(
-  assert(f(0,0) = [[],[]]),
-  assert(f(1,1) = [[1,2],[{1,-2},{-1,2}]]),
-  assert(f(2,2) = [[1,2,3,4], [{-3,-2,-1},{-3,1,2},{-2,1,3},{-1,2,3},{-4,-2,-1},{-4,1,2},{-2,1,4},{-1,2,4}]]),
-  assert(f(1,3) = [[1,2,3,4], [{-4,-3,-2,1},{-4,-3,-1,2},{-4,-2,-1,3},{-4,1,2,3},{-3,-2,-1,4},{-3,1,2,4},{-2,1,3,4},{-1,2,3,4}]]),
-  true)$
-
-okltest_fullxoreqs_wv_fcl(f) := block(
-  assert(okltest_fullxoreqs_fcl(buildq([f], lambda([m,n], f(m,n, create_list(i,i,1,m+n)))))),
-  assert(f(2,2,[5,6,7,8]) = [[5,6,7,8],[{-7,-6,-5},{-7,5,6},{-6,5,7},{-5,6,7},{-8,-6,-5},{-8,5,6},{-6,5,8},{-5,6,8}]]),
-  true)$
 
 
 /* ********************

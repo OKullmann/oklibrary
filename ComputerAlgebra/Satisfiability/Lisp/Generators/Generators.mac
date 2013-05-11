@@ -26,7 +26,6 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssig
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
-oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 
 /* ********************
@@ -70,45 +69,6 @@ c Created by the OKlibrary at ", timedate(), "."),
 
 output_fullcs_stdname(n) := output_fullcs(n,
  sconcat("FullCls-",n,".cnf"))$
-
-
-/* ************************
-   * Parity formulas      *
-   ************************
-*/
-
-/* The repetition-free clause-list of full clauses over variables 1, ..., n,
-   such that the satisfying assignments are given by the condition that the
-   sum over the values is even resp. odd, that is, the list of full clauses
-   having an odd resp. even number of negative literals; the order is
-   lexicographical:
-*/
-even_parity_cl(n) :=
-  sublist(all_tass_l(setn(n)),
-          lambda([C], oddp(sum_l(map(negsignum, listify(C))))))$
-even_parity_fcl(n) := [create_list(i,i,1,n),even_parity_cl(n)]$
-
-odd_parity_cl(n) :=
-  sublist(all_tass_l(setn(n)),
-          lambda([C], evenp(sum_l(map(negsignum, listify(C))))))$
-odd_parity_fcl(n) :=
- [create_list(i,i,1,n),odd_parity_cl(n)]$
-
-
-/* Expressing the linear system
-     x_1 + ... + x_n = y_i for i = 1,...,m
-   over the 2-element field {0,1} as a standardised formal clause-set,
-   using 1,...,n for x_1,...,x_n, and n+1,...,n+m for y_1,...,y_m:
-*/
-fullxoreqs_fcl(m,n) := block(
- [IV:create_list(i,i,1,n)],
-  return([
-    create_list(i,i,1,n+m),
-    lappend(create_list(
-              fcl2cl(rename_fcl(even_parity_fcl(n+1), endcons(n+i, IV))),
-              i,1,m))]))$
-/* Now replacing the variable-list [1,...,n+m] by V: */
-fullxoreqs_wv_fcl(m,n,V) := rename_fcl(fullxoreqs_fcl(m,n),V)$
 
 
 /* ********************

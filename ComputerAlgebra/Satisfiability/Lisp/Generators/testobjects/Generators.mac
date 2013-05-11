@@ -44,16 +44,6 @@ okltest_ncl_full_fcs(ncl_full_fcs);
 
 okltest_deficiency_full_fcs(deficiency_full_fcs);
 
-/* ************************
-   * Parity formulas      *
-   ************************
-*/
-
-okltest_even_parity_cl(even_parity_cl);
-okltest_odd_parity_cl(odd_parity_cl);
-okltest_fullxoreqs_fcl(fullxoreqs_fcl);
-okltest_fullxoreqs_wv_fcl(fullxoreqs_wv_fcl);
-
 /* ********************
    * Order principles *
    ********************
