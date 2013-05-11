@@ -1,12 +1,12 @@
 // Oliver Kullmann, 28.2.2012 (Swansea)
-/* Copyright 2012 Oliver Kullmann
+/* Copyright 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file Experimentation/Investigations/BooleanFunctions/plans/Hardness.hpp
+  \file Experimentation/Investigations/BooleanFunctions/plans/Hardness/general.hpp
   \brief On investigations regarding the hardness of representations of boolean functions
 
 
