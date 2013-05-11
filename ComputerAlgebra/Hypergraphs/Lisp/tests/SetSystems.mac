@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.3.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -104,6 +104,22 @@ okltest_setmn(f) := (
   assert(f(2,1) = {}),
   assert(f(-3,-4) = {}),
   assert(f(-4,-3) = {-4,-3}),
+  true)$
+
+okltest_listn(f) := (
+  assert(f(0) = []),
+  assert(f(1) = [1]),
+  assert(f(2) = [1,2]),
+  assert(f(-1) = []),
+  true)$
+
+okltest_listmn(f) := (
+  okltest_listn(buildq([f],lambda([n],f(1,n)))),
+  assert(f(0,0) = [0]),
+  assert(f(2,5) = [2,3,4,5]),
+  assert(f(2,1) = []),
+  assert(f(-3,-4) = []),
+  assert(f(-4,-3) = [-4,-3]),
   true)$
 
 okltest_singletons(f) := (
