@@ -511,14 +511,8 @@ k:3;
 for h in [23,33,43] do (output_ext1_sat_genhorn(h,k),output_ext2_sat_genhorn(h,k),output_ext3_sat_genhorn(h,k));
 k:4;
 for h in [24,34,44] do (output_ext1_sat_genhorn(h,k),output_ext2_sat_genhorn(h,k),output_ext3_sat_genhorn(h,k));
-missing:
-output_ext2_sat_genhorn(44,4); DONE(3)
-output_ext3_sat_genhorn(44,4); DONE(2)
 k:5;
 for h in [25,35] do (output_ext1_sat_genhorn(h,k),output_ext2_sat_genhorn(h,k),output_ext3_sat_genhorn(h,k));
-missing (more memory)
-output_ext2_sat_genhorn(35,5); DONE(1)
-output_ext3_sat_genhorn(35,5); DONE(4)
 
 > for F in *.ecnf; do B=$(basename --suffix=".ecnf" ${F}); echo ${B}; cat ${F} | ExtendedToStrictDimacs-O3-DNDEBUG > ${B}.cnf; done
    \endverbatim
