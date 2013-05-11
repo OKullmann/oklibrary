@@ -87,6 +87,8 @@ License, or any later version. */
 
   \todo Hardness of prime-extremal satisfiable general Horn clause-sets
   <ul>
+   <li> The following needs a complete update, based on the arXiv
+   report http://arxiv.org/abs/1302.4421 . </li>
    <li> The clause-sets sat_genhorn_cs(k,l) are candidates to separate
    representations without new variables of softness l+1 from softness l:
     <ol>
