@@ -161,7 +161,7 @@ resolution_closure_cs(F) := block(
     history : append(history, [length(nF)]),
     monitorcheck_resolution_closure_loop("resolution_closure_cs")
   ),
-  return([nF, history]))$
+  return([nF, rest(history,-1)]))$
 
 
 /* Adds all resolvents to a clause-set and then applies
@@ -180,7 +180,7 @@ min_resolution_closure_cs(F) := block(
     history : append(history, [length(nF)]),
     monitorcheck_resolution_closure_loop("min_resolution_closure_cs")
   ),
-  return([nF, history]))$
+  return([nF, rest(history,-1)]))$
 /* A basic equality is
    min_resolution_closure_cs(F)[1] = min_elements(resolution_closure_cs(F)[1]).
    Another basic equality (yielding an alternative computation) is
@@ -275,7 +275,7 @@ kresolution_closure_cs(F,k) := block(
     history : append(history, [length(nF)]),
     monitorcheck_kresolution_closure_loop("kresolution_closure_cs")
   ),
-  return([nF, history]))$
+  return([nF, rest(history,-1)]))$
 
 /* Adds all k-resolvents to a clause-set and then applies
    subsumption-elimination: */
@@ -294,7 +294,7 @@ min_kresolution_closure_cs(F,k) := block(
     history : append(history, [length(nF)]),
     monitorcheck_kresolution_closure_loop("min_kresolution_closure_cs")
   ),
-  return([nF, history]))$
+  return([nF, rest(history,-1)]))$
 /* A basic equality is
     min_kresolution_closure_cs(F,k)[1] =
       min_elements(kresolution_closure_cs(F,k)[1]).
@@ -356,7 +356,7 @@ min_bresolution_closure_cs(F,k) := block(
     history : append(history, [length(nF)]),
     monitorcheck_kresolution_closure_loop("min_bresolution_closure_cs")
   ),
-  return([nF, history]))$
+  return([nF, rest(history,-1)]))$
 /* A basic equality is
     min_bresolution_closure_cs(F,k)[1] =
       min_elements(bresolution_closure_cs(F,k)[1]).

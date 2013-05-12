@@ -23,6 +23,7 @@ oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/LinearEquations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 kill(f)$
 
@@ -200,11 +201,28 @@ okltest_kresolvents_cs(f) := (
   true)$
 
 okltest_add_kresolvents_cs(f) := (
-
+  assert(f({},0) = {}),
+  assert(f({{1}},0) = {{1}}),
+  assert(f({{1},{-1}},0) = {{1},{-1}}),
+  assert(f({{1},{-1}},1) = {{},{1},{-1}}),
+  assert(f({{1},{-1},{-1,2}},1) = {{},{2},{1},{-1},{-1,2}}),
+  assert(f({{1},{1,2},{-1},{-1,2}},1) = {{},{2},{1},{1,2},{-1},{-1,2}}),
+  assert(f({{1},{1,2,4},{-1},{-1,2,3}},1) = {{},{2,4},{2,3},{1},{1,2,4},{-1},{-1,2,3}}),
+  assert(f({{1},{1,2,4},{-1},{-1,2,3}},2) = {{},{2,4},{2,3},{1},{1,2,4},{-1},{-1,2,3}}),
+  assert(f({{1},{1,2,4},{-1},{-1,2,3}},3) = {{},{2,4},{2,3},{2,3,4},{1},{1,2,4},{-1},{-1,2,3}}),
   true)$
 
 okltest_kresolution_closure_cs(f) := (
-
+  assert(f({},0) = [{},[0]]),
+  assert(f({},1) = [{},[0]]),
+  assert(f({{}},0) = [{{}},[1]]),
+  assert(f({{}},1) = [{{}},[1]]),
+  assert(f({{1}},0) = [{{1}},[1]]),
+  assert(f({{1}},1) = [{{1}},[1]]),
+  assert(f({{1},{-1}},0) = [{{1},{-1}},[2]]),
+  assert(f({{1},{-1}},1) = [{{},{1},{-1}},[2,3]]),
+  for n : 1 thru 5 do block([N:setn(n), NN:singletons(setmn(-n,-1))],
+    assert(f(adjoin(N,NN),1)[1] = union(NN,powerset(N)))),
   true)$
 
 okltest_min_add_kresolvents_cs(f) := (
