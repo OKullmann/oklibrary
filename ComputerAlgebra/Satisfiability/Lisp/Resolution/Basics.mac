@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 14.12.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -35,7 +35,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 /* Checks whether two clauses are resolvable: */
 resolvable(C,D) := singletonp(intersection(C, comp_sl(D)))$
 
-/* Checks whether two clauses are resolvable and that the resolvent subsumes 
+/* Checks whether two clauses are resolvable and that the resolvent subsumes
    the two parents: */
 two_subsumption_resolvable(C,D) := resolvable(C,D) and is(length(symmdifference(C,D)) = 2)$
 
@@ -58,7 +58,7 @@ resolvable_p(C,D) :=  block([clashs : intersection(C, comp_sl(D))],
 
 /* If C,D are 2-subsumption-resolvable, return [R], else []: */
 two_subsumption_resolvent_p(C,D) := block([x : resolvable_p(C,D)],
- if not emptyp(x) then 
+ if not emptyp(x) then
   block([x : x[1], R],
    R : disjoin(x,C), if R = disjoin(-x,D) then return([R]) else return([]))
  else return([]))$
@@ -120,7 +120,7 @@ resolvents_cs(F) := map(resolvent_s, resolvable_cs(F))$
 two_subsumption_resolvents_cs(F) := map(resolvent_s, two_subsumption_resolvable_cs(F))$
 
 /* Returns a pair [res, R], where res is the set of 2-subsumption-resolvents
-   of F, while R is the set of remaining clauses of F, i.e., clauses not 
+   of F, while R is the set of remaining clauses of F, i.e., clauses not
    subsumed by their 2-subsumption-resolvents: */
 two_subsumption_resolvents_rem_cs(F) := block(
  [L : l2array(listify(F)), l : length(F), subsumed, result : {}],
@@ -149,9 +149,10 @@ monitorcheck_resolution_closure_loop(name) := if oklib_monitor then (
   print(last(history)))$
 
 
-/* The (full) resolution closure of a clause-set (returning a pair, where
-   the second element is the list of clause-counts for the stages): */
-resolution_closure_cs(F) := block([nF : add_resolvents_cs(F), history : [length(F)]],
+/* The (full) resolution closure of a clause-set, returning a pair, where
+   the second element is the list of clause-counts for the stages: */
+resolution_closure_cs(F) := block(
+ [nF : add_resolvents_cs(F), history : [length(F)]],
   history : append(history, [length(nF)]),
   monitorcheck_resolution_closure_init("resolution_closure_cs"),
   while length(nF) > length(F) do (
@@ -162,12 +163,12 @@ resolution_closure_cs(F) := block([nF : add_resolvents_cs(F), history : [length(
   return([nF, history]))$
 
 
-/* Adds all resolvents to a clause-set and then applies 
+/* Adds all resolvents to a clause-set and then applies
    subsumption-elimination: */
 min_add_resolvents_cs(F) := min_elements(add_resolvents_cs(F))$
 
-/* The prime-implicates of a clause-set F (as CNF), and the list of 
-   clause-counts for the successive extensions of F (until a fixed point is 
+/* The prime-implicates of a clause-set F (as CNF), and the list of
+   clause-counts for the successive extensions of F (until a fixed point is
    reached): */
 min_resolution_closure_cs(F) := block(
  [nF : min_add_resolvents_cs(F), history : [length(F)]],
@@ -226,6 +227,80 @@ distribution_min_dp(FF) := block(
       counts : adjoin(s, counts), hash[s] : 1)
   ),
   return(create_list([s, hash[s]], s, listify(counts))))$
+
+
+/* ****************************
+   * Width-bounded resolution *
+   ****************************
+*/
+
+/* Checks whether two clauses are k-resolvable: */
+kresolvable(C,D,k) := resolvable(C,D) and (length(C)<=k or length(D)<=k)$
+
+/* Checks whether a set of clauses is k-resolvable: */
+kresolvable_s(S,k) := resolvable_s(S) and
+  (length(first(S))<=k or length(second(S))<=k)$
+
+/* The k-resolvable 2-sets of a clause-set: */
+kresolvable_cs(F,k) := block([LF : l2array(listify(F)), l : length(F), R : []],
+ for i : 1 thru l-1 do block([C : LF[i]],
+  for j : i+1 thru l do
+   if kresolvable(C, LF[j],k) then R : cons({C,LF[j]}, R)),
+ setify(R))$
+/*
+  kresolvable_cs(F,k) = subset(powerset(F,2), lambda([S],kresolvable_s(S,k))
+*/
+
+
+/* All k-resolvents of a clause-set: */
+kresolvents_cs(F,k) := map(resolvent_s, resolvable_cs(F))$
+
+/* Adds all k-resolvents to a clause-set: */
+add_kresolvents_cs(F,k) := union(F, kresolvents_cs(F,k))$
+
+
+monitorcheck_kresolution_closure_init(name) := if oklib_monitor then (
+  print(sconcat("M[",name,"]:"), history))$
+monitorcheck_kresolution_closure_loop(name) := if oklib_monitor then (
+  print(last(history)))$
+
+/* The k-resolution (asymmetric width) closure of a clause-set, returning a
+   pair, where the second element is the list of clause-counts for the
+   stages:
+*/
+kresolution_closure_cs(F,k) := block(
+ [nF : add_kresolvents_cs(F,k), history : [length(F)]],
+  history : append(history, [length(nF)]),
+  monitorcheck_kresolution_closure_init("kresolution_closure_cs"),
+  while length(nF) > length(F) do (
+    F : nF, nF : add_kresolvents_cs(F,k),
+    history : append(history, [length(nF)]),
+    monitorcheck_kresolution_closure_loop("kresolution_closure_cs")
+  ),
+  return([nF, history]))$
+
+/* Adds all k-resolvents to a clause-set and then applies
+   subsumption-elimination: */
+min_add_kresolvents_cs(F,k) := min_elements(add_kresolvents_cs(F,k))$
+
+/* The minimal clauses derivable by k-resolution of a clause-set F,
+   and the list of clause-counts for the successive extensions of F (until a
+   fixed point is  reached):
+*/
+min_kresolution_closure_cs(F,k) := block(
+ [nF : min_add_kresolvents_cs(F,k), history : [length(F)]],
+  history : append(history, [length(nF)]),
+  monitorcheck_kresolution_closure_init("min_kresolution_closure_cs"),
+  while nF # F do (
+    F : nF, nF : min_add_kresolvents_cs(F,k),
+    history : append(history, [length(nF)]),
+    monitorcheck_kresolution_closure_loop("min_kresolution_closure_cs")
+  ),
+  return([nF, history]))$
+/* A basic equality is
+    min_kresolution_closure_cs(F,k)[1] =
+      min_elements(kresolution_closure_cs(F,k)[1]).
+*/
 
 
 /* *******************
