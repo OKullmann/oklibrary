@@ -263,19 +263,45 @@ okltest_min_kresolution_closure_cs(f) := (
   true)$
 
 okltest_bresolvable(f) := (
-
+  assert(f({},{},0) = false),
+  assert(f({1},{-1},0) = false),
+  assert(f({1},{-1},1) = true),
+  assert(f({1},{-1,2},1) = false),
+  assert(f({1},{-1,2},2) = true),
+  assert(f({1,2},{-2},1) = false),
+  assert(f({1,2},{-2},2) = true),
   true)$
 
 okltest_bresolvable_s(f) := (
-
+  assert(f({},0) = false),
+  assert(f({{}},0) = false),
+  assert(f({{},{1}},1) = false),
+  assert(f({{1},{-1}},1) = true),
+  assert(okltest_bresolvable(buildq([f], lambda([C,D,k], f({C,D},k)))) = true),
   true)$
 
 okltest_bresolvable_cs(f) := (
-
+  assert(f({},0) = {}),
+  assert(f({{1}},0) = {}),
+  assert(f({{1},{-1}},0) = {}),
+  assert(f({{1},{-1}},1) = {{{1},{-1}}}),
+  assert(f({{1},{-1},{-1,2}},1) = {{{1},{-1}}}),
+  assert(f({{1},{1,2},{-1},{-1,2}},1) = {{{1},{-1}}}),
+  assert(f({{1,2},{-2,3},{-3}},1) = {}),
+  assert(f({{1,2},{-2,3},{-3}},2) = {{{1,2},{-2,3}},{{-2,3},{-3}}}),
+  assert(f({{1,2},{-2,3},{-3},{1,2,3}},2) = {{{1,2},{-2,3}},{{-2,3},{-3}}}),
   true)$
 
 okltest_bresolvents_cs(f) := (
-
+  assert(f({},0) = {}),
+  assert(f({{1}},0) = {}),
+  assert(f({{1},{-1}},0) = {}),
+  assert(f({{1},{-1}},1) = {{}}),
+  assert(f({{1},{-1},{-1,2}},1) = {{}}),
+  assert(f({{1},{1,2},{-1},{-1,2}},1) = {{}}),
+  assert(f({{1,2},{-2,3},{-3}},1) = {}),
+  assert(f({{1,2},{-2,3},{-3}},2) = {{1,3},{-2}}),
+  assert(f({{1,2},{-2,3},{-3},{1,2,3}},2) = {{1,3},{-2}}),
   true)$
 
 okltest_add_bresolvents_cs(f) := (
