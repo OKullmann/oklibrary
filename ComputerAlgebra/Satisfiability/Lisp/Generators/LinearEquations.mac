@@ -93,6 +93,7 @@ prt2cl_0(P) :=
  if evenp(sum_l(map(negsignum, listify(P)))) then
    even_parity_wv_cl(map(var_l,P))
  else odd_parity_wv_cl(map(var_l,P))$
+/* Remark: this directly generalises even_parity_wv_cl(V). */
 
 /* Translating the sequence of equations, using the list aux of auxiliary
    variables fulfilling length(aux) >= length(P)-2:
@@ -106,6 +107,9 @@ prt2cl_aux_1(P,aux) := if length(P) <= 2 then prt2cl_0(P)
   ),
   append(F, prt2cl_0([P[1],aux[1]])))$
 
+/* A generator for unsatisfiable clause-sets of hardness n and w-hardness 2
+   (for n >= 2), via translating the prt's [1,...,n], and [1,...,n-1,-n]:
+*/
 gen_2xor_fcl(n) := if n<=2 then full_fcl(n) else
  [listn(3*n-4),
   append(prt2cl_aux_1(listn(n), listmn(n+1,2*n-2)),

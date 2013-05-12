@@ -36,9 +36,13 @@ oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac"
 /* The full clause-set over variable set or list V: */
 full_fcs_v(V) := [if listp(V) then setify(V) else V, all_tass(V)]$
 full_cs_v(V) := all_tass(V)$
+/* We have full_fcs_v(V) = expand_fcs([V,{{}}]) for sets V. */
+
 full_fcl_v(V) := [listify(V), all_tass_l(listify(V))]$
 full_cl_v(V) := all_tass_l(listify(V))$
-/* We have full_fcs_v(V) = expand_fcs([V,{{}}]) for sets V. */
+/* Remark: the order of  full_fcl_v(V) is lexicographical, based on
+   [-1,1,-2,2,...,-n,n], for V=[1,...,n].
+*/
 
 /* The formal full clause-set with variable set {1,...,n} and all
    possible (full) clauses (also known as "canonical CNF/DNF"): */
