@@ -75,11 +75,18 @@ odd_parity_fcl(n) := [create_list(i,i,1,n),odd_parity_cl(n)]$
   "sum_{x in L} x = 0".
 */
 
-/* Simplifying a general parity-constraint P to a parity-constraint or to
-   false in case P is unsatisfiable:
+/* Simplifying a general parity-constraint P to a parity-constraint (sorted
+   by built-in-order or to false in case P is unsatisfiable:
 */
-gprt2prt(P) := block([L:first(P), e:second(P)],
- 0)$
+gprt2prt(P) := block([L:first(P), e:second(P), res:{}],
+ for x in L do
+   if elementp(x,res) then res : disjoin(x,res)
+   elseif elementp(-x,res) then (res : disjoin(-x,res), e : 1-e)
+   else res : adjoin(x,res),
+ if e=1 then
+   if emptyp(res) then return(false)
+   else block([x:first_element(res)], res : adjoin(-x,disjoin(x,res))),
+ listify(res))$
 
 /* Direct translation: */
 prt2cl_0(P) :=
