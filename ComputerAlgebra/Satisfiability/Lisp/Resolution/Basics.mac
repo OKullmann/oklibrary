@@ -236,16 +236,14 @@ distribution_min_dp(FF) := block(
 
 /* Checks whether two clauses are k-resolvable: */
 kresolvable(C,D,k) := resolvable(C,D) and (length(C)<=k or length(D)<=k)$
-
 /* Checks whether a set of clauses is k-resolvable: */
 kresolvable_s(S,k) := resolvable_s(S) and
   (length(first(S))<=k or length(second(S))<=k)$
-
 /* The k-resolvable 2-sets of a clause-set: */
 kresolvable_cs(F,k) := block([LF : l2array(listify(F)), l : length(F), R : []],
  for i : 1 thru l-1 do block([C : LF[i]],
   for j : i+1 thru l do
-   if kresolvable(C, LF[j],k) then R : cons({C,LF[j]}, R)),
+   if kresolvable(C,LF[j],k) then R : cons({C,LF[j]}, R)),
  setify(R))$
 /*
   kresolvable_cs(F,k) = subset(powerset(F,2), lambda([S],kresolvable_s(S,k))
@@ -254,7 +252,6 @@ kresolvable_cs(F,k) := block([LF : l2array(listify(F)), l : length(F), R : []],
 
 /* All k-resolvents of a clause-set: */
 kresolvents_cs(F,k) := map(resolvent_s, resolvable_cs(F))$
-
 /* Adds all k-resolvents to a clause-set: */
 add_kresolvents_cs(F,k) := union(F, kresolvents_cs(F,k))$
 
@@ -300,6 +297,68 @@ min_kresolution_closure_cs(F,k) := block(
 /* A basic equality is
     min_kresolution_closure_cs(F,k)[1] =
       min_elements(kresolution_closure_cs(F,k)[1]).
+*/
+
+
+/* Checks whether two clauses are symmetric k-resolvable
+   ("bounded resolution"):
+*/
+bresolvable(C,D,k) := length(C)<=k and length(D)<=k and resolvable(C,D) and
+ length(resolvent(C,D))<=k$
+/* Checks whether a set of clauses is symmetric k-resolvable: */
+bresolvable_s(S,k) := length(S)=2 and bresolvable(first(S),second(S),k)$
+/* The symmetric k-resolvable 2-sets of a clause-set: */
+bresolvable_cs(F,k) := block([LF : l2array(listify(F)), l : length(F), R : []],
+ for i : 1 thru l-1 do block([C : LF[i]],
+  for j : i+1 thru l do
+   if bresolvable(C,LF[j],k) then R : cons({C,LF[j]}, R)),
+ setify(R))$
+/*
+  bresolvable_cs(F,k) = subset(powerset(F,2), lambda([S],bresolvable_s(S,k))
+*/
+
+
+/* All symmetric k-resolvents of a clause-set: */
+bresolvents_cs(F,k) := map(resolvent_s, bresolvable_cs(F,k))$
+/* Adds all symmetric k-resolvents to a clause-set: */
+add_bresolvents_cs(F,k) := union(F, bresolvents_cs(F,k))$
+
+
+/* The symmetric k-resolution closure of a clause-set, returning a pair, where
+   the second element is the list of clause-counts for the stages:
+*/
+bresolution_closure_cs(F,k) := block(
+ [nF : add_bresolvents_cs(F,k), history : [length(F)]],
+  history : append(history, [length(nF)]),
+  monitorcheck_kresolution_closure_init("bresolution_closure_cs"),
+  while length(nF) > length(F) do (
+    F : nF, nF : add_bresolvents_cs(F,k),
+    history : append(history, [length(nF)]),
+    monitorcheck_kresolution_closure_loop("bresolution_closure_cs")
+  ),
+  return([nF, history]))$
+
+/* Adds all symmetric k-resolvents to a clause-set and then applies
+   subsumption-elimination: */
+min_add_bresolvents_cs(F,k) := min_elements(add_bresolvents_cs(F,k))$
+
+/* The minimal clauses derivable by symmetric k-resolution of a clause-set F,
+   and the list of clause-counts for the successive extensions of F (until a
+   fixed point is  reached):
+*/
+min_bresolution_closure_cs(F,k) := block(
+ [nF : min_add_bresolvents_cs(F,k), history : [length(F)]],
+  history : append(history, [length(nF)]),
+  monitorcheck_kresolution_closure_init("min_bresolution_closure_cs"),
+  while nF # F do (
+    F : nF, nF : min_add_bresolvents_cs(F,k),
+    history : append(history, [length(nF)]),
+    monitorcheck_kresolution_closure_loop("min_bresolution_closure_cs")
+  ),
+  return([nF, history]))$
+/* A basic equality is
+    min_bresolution_closure_cs(F,k)[1] =
+      min_elements(bresolution_closure_cs(F,k)[1]).
 */
 
 
