@@ -41,11 +41,45 @@ okltest_even_parity_wv_cl(f) := (
   assert(f([5,7]) = [{-7,5},{-5,7}]),
   true)$
 
+okltest_even_parity_fcl(f) := (
+  /* XXX */
+  true)$
+
 okltest_odd_parity_cl(f) := (
   assert(f(0) = [{}]),
   assert(f(1) = [{1}]),
   assert(f(2) = [{-1,-2},{2,1}]),
   assert(f(3) = [{-3,-2,1},{-3,2,-1},{3,-2,-1},{1,2,3}]),
+  true)$
+
+okltest_odd_parity_wv_fcl(f) := (
+  /* XXX */
+  true)$
+
+okltest_odd_parity_fcl(f) := (
+  /* XXX */
+  true)$
+
+
+/* **********************
+   * Parity constraints *
+   **********************
+*/
+
+okltest_gprt2prt(f) := (
+  /* XXX */
+  true)$
+
+okltest_prt2cl_0(f) := (
+  /* XXX */
+  true)$
+
+okltest_prt2cl_aux_1(f) := (
+  /* XXX */
+  true)$
+
+okltest_gen_2xor_fcl(f) := (
+  /* XXX */
   true)$
 
 

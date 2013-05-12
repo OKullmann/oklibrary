@@ -30,6 +30,18 @@ okltest_even_parity_cl(even_parity_cl);
 okltest_even_parity_wv_cl(even_parity_wv_cl);
 okltest_odd_parity_cl(odd_parity_cl);
 
+/* **********************
+   * Parity constraints *
+   **********************
+*/
+
+okltest_gprt2prt(gprt2prt);
+
+okltest_prt2cl_0(prt2cl_0);
+okltest_prt2cl_aux_1(prt2cl_aux_1);
+
+okltest_gen_2xor_fcl(gen_2xor_fcl);
+
 /*!
 \endhtmlonly
 */

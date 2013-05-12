@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
 
 /* *********************
@@ -58,6 +59,60 @@ odd_parity_wv_cl(V) :=
 /* As formal clause-list: */
 odd_parity_fcl(n) := [create_list(i,i,1,n),odd_parity_cl(n)]$
 
+
+/* **********************
+   * Parity constraints *
+   **********************
+*/
+
+/*
+  A "(boolean) parity-constraint" ("prt") is a list L of literals with
+  different underlying variables, with meaning "sum_{x in L} x = 0",
+  where the sum takes places in the 2-element field {0,1} (i.e., the sum
+  is xor).
+  A "general (boolean) parity-constraint" ("gprt") is a pair [L,e], where
+  L is a list of literals (arbitrary) and e in {0,1}. Again, the meaning is
+  "sum_{x in L} x = 0".
+*/
+
+/* Simplifying a general parity-constraint P to a parity-constraint or to
+   false in case P is unsatisfiable:
+*/
+gprt2prt(P) := block([L:first(P), e:second(P)],
+ 0)$
+
+/* Direct translation: */
+prt2cl_0(P) :=
+ if evenp(sum_l(map(negsignum, listify(P)))) then
+   even_parity_wv_cl(map(var_l,P))
+ else odd_parity_wv_cl(map(var_l,P))$
+
+/* Translating the sequence of equations, using the list aux of auxiliary
+   variables fulfilling length(aux) >= length(P)-2:
+*/
+prt2cl_aux_1(P,aux) := if length(P) <= 2 then prt2cl_0(P)
+ else block([F : prt2cl_0([P[1],P[2],aux[1]])],
+  P : rest(P,2),
+  while length(P) > 1 do (
+    F : append(F, prt2cl_0([P[1],aux[1],aux[2]])),
+    P : rest(P), aux : rest(aux)
+  ),
+  append(F, prt2cl_0([P[1],aux[1]])))$
+
+gen_2xor_fcl(n) := if n<=2 then full_fcl(n) else
+ [listn(3*n-4),
+  append(prt2cl_aux_1(listn(n), listmn(n+1,2*n-2)),
+         prt2cl_aux_1(endcons(-n,listn(n-1)), listmn(2*n-1,3*n-4)))]$
+
+output_gen_2xor_fcl(n,filename) :=
+ outputext_fcl(
+   sconcat("2 xor-clauses with contradiction, ", n, " basic variables.
+c Created by the OKlibrary at ", timedate(), "."),
+   gen_2xor_fcl(n),
+   filename)$
+
+output_gen_2xor_stdname(n) := output_gen_2xor_fcl(n,
+ sconcat("TwoXORclauses-",n,".cnf"))$
 
 /*!
 \endhtmlonly
