@@ -1,5 +1,5 @@
 # Oliver Kullmann, 9.9.2007 (Swansea)
-# Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2010, 2011, 2013 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -46,7 +46,6 @@ rel_les_ocaml_docu_page := $(shell $(rel_path_tool) $(ocaml_docu_page) $(externa
 rel_les_valgrind_docu_page_okl := $(shell $(rel_path_tool) $(valgrind_docu_page_okl) $(externalsources_page_output))
 rel_les_git_docu_page_okl := $(shell $(rel_path_tool) $(git_docu_page_okl) $(externalsources_page_output))
 rel_les_doxygen_docu_page_okl := $(shell $(rel_path_tool) $(doxygen_docu_page_okl) $(externalsources_page_output))
-rel_les_cmake_docu_page := $(shell $(rel_path_tool) $(cmake_docu_page_okl) $(externalsources_page_output))
 rel_les_postgresql_docu_page := $(shell $(rel_path_tool) $(postgresql_docu_page) $(externalsources_page_output))
 rel_les_R_docu_page_okl := $(shell $(rel_path_tool) $(R_docu_page_okl) $(externalsources_page_output))
 rel_les_gmp_docu_page_okl := $(shell $(rel_path_tool) $(gmp_docu_page_okl) $(externalsources_page_output))
@@ -59,7 +58,6 @@ rel_les_maxima_docu_page_okl := $(shell $(rel_path_tool) $(maxima_docu_page_okl)
 rel_les_gap_docu_page_okl := $(shell $(rel_path_tool) $(gap_docu_page_okl) $(externalsources_page_output))
 rel_les_grasp_docu_page_okl := $(shell $(rel_path_tool) $(grasp_docu_page_okl) $(externalsources_page_output))
 rel_les_picosat_docu_page_okl := $(shell $(rel_path_tool) $(picosat_docu_page_okl) $(externalsources_page_output))
-rel_les_cmake_docu_page_okl := $(shell $(rel_path_tool) $(cmake_docu_page_okl) $(externalsources_page_output))
 rel_les_espresso_docu_page_okl := $(shell $(rel_path_tool) $(espresso_docu_page_okl) $(externalsources_page_output))
 
 ifeq ($(extsrc_relative),)
@@ -68,14 +66,12 @@ ifeq ($(extsrc_relative),)
   rel_les_valgrind_html_documentation_index_location_okl := $(valgrind_html_documentation_index_location_okl)
   rel_les_git_html_documentation_index_location_okl := $(git_html_documentation_index_location_okl)
   rel_les_doxygen_html_documentation_index_location_okl := $(doxygen_html_documentation_index_location_okl)
-#  rel_les_cmake_html_documentation_index_location := $(cmake_html_documentation_index_location)
   rel_les_pgsql_html_documentation_index_location := $(pgsql_html_documentation_index_location)
   rel_les_R_html_documentation_index_location_okl := $(R_html_documentation_index_location_okl)
   rel_les_sage_main_index_okl := $(sage_main_index_okl)
   rel_les_gmp_html_documentation_index_location_okl := $(gmp_html_documentation_index_location_okl)
   rel_les_gmp_dvi_documentation_index_location_okl := $(gmp_dvi_documentation_index_location_okl)
   rel_les_grasp_html_documentation_index_location_okl := $(grasp_man_okl)
-  rel_les_cmake_html_documentation_index_location_okl := $(cmake_html_documentation_index_location_okl)
 
 else
 
@@ -84,14 +80,12 @@ else
   rel_les_valgrind_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(valgrind_html_documentation_index_location_okl) $(externalsources_page_output))
   rel_les_git_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(git_html_documentation_index_location_okl) $(externalsources_page_output))
   rel_les_doxygen_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(doxygen_html_documentation_index_location_okl) $(externalsources_page_output))
-#  rel_les_cmake_html_documentation_index_location := $(shell $(rel_path_tool) $(cmake_html_documentation_index_location) $(externalsources_page_output))
   rel_les_pgsql_html_documentation_index_location := $(shell $(rel_path_tool) $(pgsql_html_documentation_index_location) $(externalsources_page_output))
   rel_les_R_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(R_html_documentation_index_location_okl) $(externalsources_page_output))
   rel_les_sage_main_index_okl := $(shell $(rel_path_tool) $(sage_main_index_okl) $(externalsources_page_output))
   rel_les_gmp_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(gmp_html_documentation_index_location_okl) $(externalsources_page_output))
   rel_les_gmp_dvi_documentation_index_location_okl := $(shell $(rel_path_tool) $(gmp_dvi_documentation_index_location_okl) $(externalsources_page_output))
   rel_les_grasp_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(grasp_man_okl) $(externalsources_page_output))
-  rel_les_cmake_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(cmake_html_documentation_index_location_okl) $(externalsources_page_output))
 endif
 
 # to be completed XXX

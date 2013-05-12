@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.7.2007 (Swansea)
-/* Copyright 2007, 2010 Oliver Kullmann
+/* Copyright 2007, 2010, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -43,13 +43,13 @@ License, or any later version. */
 
   \todo Software management
   <ul>
-   <li> All information about whether software (like doxygen, cmake, gcc etc.)
+   <li> All information about whether software (like doxygen, gcc etc.)
    needed is installed locally or system-wide, and where to find it,
    must be found in the configuration directory (in an easily accesible
    way). </li>
    <li> It must be possible to update the system (installing a new
-   cmake, for example, or a new gcc), perhaps by setting variables
-   about supported and recommended versions. </li>
+   gcc, for example), perhaps by setting variables about supported and
+   recommended versions. </li>
   </ul>
 
 

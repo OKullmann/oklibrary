@@ -1,5 +1,5 @@
 # Oliver Kullmann, 1.8.2007 (Swansea)
-# Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+# Copyright 2007, 2008, 2009, 2010, 2011, 2013 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -473,28 +473,6 @@ else
   endif
 endif
 
-
-# New variables for the configuration of building cmake (to be designed 
-# and implemented):
-
-cmake_version_number_extraction_okl := awk '{print $$3 $$4}' | sed 's/-patch/\./'
-# assumes that the output of "cmake -version" contains a line of the form
-# (for example) "cmake version 2.6-patch 4"
-
-location_cmake_call_okl ?= $(shell (type -P $(cmake_call_okl)))
-ifeq ($(location_cmake_call_okl),)
-  cmake_call_ready_okl ?= NO
-else
-  version_cmake_call_okl ?= $(shell $(cmake_call_okl) --version | $(cmake_version_number_extraction_okl))
-  ifeq ($(version_cmake_call_okl),$(cmake_recommended_version_number_okl))
-    cmake_call_ready_okl ?= YES
-  else
-    cmake_call_ready_okl ?= MAYBE
-  endif
-endif
-
-# the following construction needs to be generalised by some function
-cmake_html_documentation_index_location_tag_okl ?= <a href="$(cmake_html_documentation_index_location_okl)">$(cmake_html_documentation_index_location_okl)</a>
 
 # New variables for the configuration of building mhash (to be designed 
 # and implemented):

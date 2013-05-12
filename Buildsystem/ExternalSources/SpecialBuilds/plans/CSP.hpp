@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.3.2008 (Swansea)
-/* Copyright 2008, 2009, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2011, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -148,7 +148,7 @@ minion-0.12/bin> CC="$(gcc_call_okl)" CXX="$(gcc_call_okl)" cmake -DBOOST_ROOT:P
    \endverbatim
    Note that $(gcc_call_okl) are make variables.
    </li>
-   <li> We should update CMake. </li>
+   <li> We should update CMake. DONE (don't provide it ourselves anymore) </li>
   </ul>
 
 

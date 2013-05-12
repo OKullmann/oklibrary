@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.2.2006 (Swansea)
-/* Copyright 2006 - 2007, 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008, 2009, 2010, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -355,7 +355,7 @@ SAGE_ROOT="....."
   </ul>
 
 
-  \todo Using CMake
+  \todo Using CMake : DONE (we don't use cmake)
   <ul>
    <li> It seems that the special makefile for external sources might be a
    suitable candidate for using CMake. </li>
