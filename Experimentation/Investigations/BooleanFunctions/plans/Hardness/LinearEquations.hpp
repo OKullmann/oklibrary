@@ -33,11 +33,20 @@ output_gen_2xor_stdname(n);
     </ol>
     satz215 seems slower than the OKsolver.
    </li>
-   <li> march_pl solves these instances via equivalence-reasoning. </li>
+   <li> march_pl solves these instances quickly via equivalence-reasoning.
+   </li>
    <li> minisat also solves all instances via (quick) preprocessing. Would be
    interesting to find it what happens here. </li>
-   <li> Also minisat-no-pre solves large instances very quickly, and all
-   other conflict-driven solvers (with or without preprocessing). </li>
+   <li> Also minisat-no-pre solves large instances very quickly (for example
+   n=10000 in 15 sec; now of course based on splitting). </li>
+   <li> Picosat913 has problems already with n=1000 (aborted after 180 sec,
+   apparently without progress). </li>
+   <li> Precosat-570 solves instances quickly by preprocessing. </li>
+   <li> lingelingala-b02aa1a-121013 solves instances even more quickly than
+   minisat-no-pre. </li>
+   <li> Also glucose-2.0 seems faster then minisat-no-pre. </li>
+   <li> cryptominisat-296 uses apparently a mixture of splitting and
+   xor-reasoning (very quick). </li>
    <li> The w-hardness of these instances seems to be 2:
    \verbatim
 for k : 0 thru 5 do print(k, min_kresolution_closure_cs(fcl2cs(gen_2xor_fcl(k)),2));
