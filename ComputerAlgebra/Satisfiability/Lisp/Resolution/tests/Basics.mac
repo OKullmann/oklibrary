@@ -142,10 +142,111 @@ okltest_distribution_min_dp(f) := block(
   assert(f([{1},{{},{1},{-1}}]) = [[4,1]]),
   assert(f([{1,2},{{1,2},{-1,2},{-1,-2}}]) = [[4,2]]),
   assert(f([{1,2},{{1},{1,2},{-1,2},{-1,-2}}]) = [[7,2]]),
-  for n : 0 thru if oklib_test_level=0 then 3 else 4 do 
+  for n : 0 thru if oklib_test_level=0 then 3 else 4 do
    block([FF : full_fcs(n)],
     assert(f(FF) = [[2^(n+1)-1,n!]])),
   true)$
+
+
+/* ****************************
+   * Width-bounded resolution *
+   ****************************
+*/
+
+okltest_kresolvable(f) := (
+  assert(f({},{},0) = false),
+  assert(f({1},{-1},0) = false),
+  assert(f({1},{-1},1) = true),
+  assert(f({1},{-1,2},1) = true),
+  assert(f({1,2},{-1},1) = true),
+  assert(f({1,2},{-1,2},1) = false),
+  assert(f({1,2},{-1,2},2) = true),
+  assert(f({1,2,3},{-1,2},2) = true),
+  assert(f({1,2},{-1,2,3},2) = true),
+  true)$
+
+okltest_kresolvable_s(f) := (
+  assert(okltest_kresolvable(buildq([f], lambda([C,D,k], f({C,D},k)))) = true),
+  assert(f({},0) = false),
+  assert(f({{1}},0) = false),
+  assert(f({{1},{}},0) = false),
+  assert(f({{1},{-1}},0) = false),
+  assert(f({{1},{-1}},1) = true),
+  assert(f({{1},{-1,2}},1) = true),
+  assert(f({{1,2},{-1,2}},1) = false),
+  assert(f({{1,2},{-1,2}},2) = true),
+  assert(f({{1,2,3},{-1,2}},2) = true),
+  true)$
+
+okltest_kresolvable_cs(f) := (
+  assert(f({},0) = {}),
+  assert(f({{1}},0) = {}),
+  assert(f({{1},{-1}},0) = {}),
+  assert(f({{1},{-1}},1) = {{{1},{-1}}}),
+  assert(f({{1},{-1},{-1,2}},1) = {{{1},{-1}},{{1},{-1,2}}}),
+  assert(f({{1},{1,2},{-1},{-1,2}},1) = {{{1},{-1}},{{1},{-1,2}},{{1,2},{-1}}}),
+  true)$
+
+okltest_kresolvents_cs(f) := (
+  assert(f({},0) = {}),
+  assert(f({{1}},0) = {}),
+  assert(f({{1},{-1}},0) = {}),
+  assert(f({{1},{-1}},1) = {{}}),
+  assert(f({{1},{-1},{-1,2}},1) = {{},{2}}),
+  assert(f({{1},{1,2},{-1},{-1,2}},1) = {{},{2}}),
+  assert(f({{1},{1,2,4},{-1},{-1,2,3}},1) = {{},{2,4},{2,3}}),
+  assert(f({{1},{1,2,4},{-1},{-1,2,3}},2) = {{},{2,4},{2,3}}),
+  assert(f({{1},{1,2,4},{-1},{-1,2,3}},3) = {{},{2,4},{2,3},{2,3,4}}),
+  true)$
+
+okltest_add_kresolvents_cs(f) := (
+
+  true)$
+
+okltest_kresolution_closure_cs(f) := (
+
+  true)$
+
+okltest_min_add_kresolvents_cs(f) := (
+
+  true)$
+
+okltest_min_kresolution_closure_cs(f) := (
+
+  true)$
+
+okltest_bresolvable(f) := (
+
+  true)$
+
+okltest_bresolvable_s(f) := (
+
+  true)$
+
+okltest_bresolvable_cs(f) := (
+
+  true)$
+
+okltest_bresolvents_cs(f) := (
+
+  true)$
+
+okltest_add_bresolvents_cs(f) := (
+
+  true)$
+
+okltest_bresolution_closure_cs(f) := (
+
+  true)$
+
+okltest_min_add_bresolvents_cs(f) := (
+
+  true)$
+
+okltest_min_bresolution_closure_cs(f) := (
+
+  true)$
+
 
 
 /* *******************

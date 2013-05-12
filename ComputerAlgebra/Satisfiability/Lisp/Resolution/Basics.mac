@@ -69,7 +69,8 @@ two_subsumption_resolvent_p(C,D) := block([x : resolvable_p(C,D)],
 /* The variations for sets of parent clauses */
 
 /* Checks whether a set of clauses is resolvable: */
-resolvable_s(S) := block([L : listify(S)], resolvable(L[1], L[2]))$
+resolvable_s(S) := setp(S) and length(S)=2 and
+ block([L : listify(S)], resolvable(L[1], L[2]))$
 
 /* The resolvent of a resolvable set of clauses: */
 resolvent_s(S) := block([L : listify(S)], resolvent(L[1], L[2]))$
@@ -251,7 +252,7 @@ kresolvable_cs(F,k) := block([LF : l2array(listify(F)), l : length(F), R : []],
 
 
 /* All k-resolvents of a clause-set: */
-kresolvents_cs(F,k) := map(resolvent_s, resolvable_cs(F))$
+kresolvents_cs(F,k) := map(resolvent_s, kresolvable_cs(F,k))$
 /* Adds all k-resolvents to a clause-set: */
 add_kresolvents_cs(F,k) := union(F, kresolvents_cs(F,k))$
 

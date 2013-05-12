@@ -47,15 +47,21 @@ output_gen_2xor_stdname(n);
    <li> Also glucose-2.0 seems faster then minisat-no-pre. </li>
    <li> cryptominisat-296 uses apparently a mixture of splitting and
    xor-reasoning (very quick). </li>
-   <li> The w-hardness of these instances seems to be 2:
+   <li> The w-hardness of these instances seems to be 3:
    \verbatim
-for k : 0 thru 5 do print(k, min_kresolution_closure_cs(fcl2cs(gen_2xor_fcl(k)),2));
+min_kresolution_closure_cs(fcl2cs(gen_2xor_fcl(3)),2);
+[{{-5,-4},{-5,-3},{-5,-2,-1},{-5,-2,1},{-5,-1,2},{-5,1,2},{-4,-2,-1},
+ {-4,-2,1},{-4,-1,2},{-4,1,2},{-4,3},{-3,-2,-1},{-3,-2,1},{-3,-1,2},
+ {-3,1,2},{-3,4},{-2,-1,3},{-2,-1,4},{-2,-1,5},{-2,1,3},{-2,1,4},
+ {-2,1,5},{-1,2,3},{-1,2,4},{-1,2,5},{1,2,3},{1,2,4},{1,2,5},{3,5},{4,5}},
+[12,22,30,30]]
+for k : 0 thru 5 do print(k, min_kresolution_closure_cs(fcl2cs(gen_2xor_fcl(k)),3));
 0 [{{}},[1,1]]
 1 [{{}},[2,1,1]]
 2 [{{}},[4,4,1,1]]
 3 [{{}},[12,30,36,10,1,1]]
-4 [{{}},[20,58,240,142,16,1,1]]
-5 [{{}},[28,90,508,1882,592,34,1,1]]
+4 [{{}},[20,58,216,122,12,1,1]]
+5 [{{}},[28,90,388,1274,380,54,1,1]]
    \endverbatim
    </li>
    <li> The symmetric width of these instances seems to be 3:

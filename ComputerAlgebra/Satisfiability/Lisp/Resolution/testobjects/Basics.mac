@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.3.2008 (Swansea) */
-/* Copyright 2008, 2010, 2011, 2012 Oliver Kullmann
+/* Copyright 2008, 2010, 2011, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -63,6 +63,32 @@ okltest_dp_operator_fcs(dp_operator_fcs);
 
 okltest_distribution_min_dp(distribution_min_dp);
 
+/* ****************************
+   * Width-bounded resolution *
+   ****************************
+*/
+
+okltest_kresolvable(kresolvable);
+okltest_kresolvable_s(kresolvable_s);
+okltest_kresolvable_cs(kresolvable_cs);
+
+okltest_kresolvents_cs(kresolvents_cs);
+okltest_add_kresolvents_cs(add_kresolvents_cs);
+
+okltest_kresolution_closure_cs(kresolution_closure_cs);
+okltest_min_add_kresolvents_cs(min_add_kresolvents_cs);
+okltest_min_kresolution_closure_cs(min_kresolution_closure_cs);
+
+okltest_bresolvable(bresolvable);
+okltest_bresolvable_s(bresolvable_s);
+okltest_bresolvable_cs(bresolvable_cs);
+
+okltest_bresolvents_cs(bresolvents_cs);
+okltest_add_bresolvents_cs(add_bresolvents_cs);
+
+okltest_bresolution_closure_cs(bresolution_closure_cs);
+okltest_min_add_bresolvents_cs(min_add_bresolvents_cs);
+okltest_min_bresolution_closure_cs(min_bresolution_closure_cs);
 
 /* *******************
    * Blocked clauses *
@@ -71,7 +97,7 @@ okltest_distribution_min_dp(distribution_min_dp);
 
 okltest_blocking_literal_p(blocking_literal_p);
 okltest_blocked_cs_p(blocked_cs_p);
-okltest_okltest_elim_blocked_cs(elim_blocked_cs);
+okltest_elim_blocked_cs(elim_blocked_cs);
 okltest_blocked_extension_cs_p(blocked_extension_cs_p);
 
 /*!
