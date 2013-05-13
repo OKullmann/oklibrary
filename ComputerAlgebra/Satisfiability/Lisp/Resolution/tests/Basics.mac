@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/LinearEquations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
 
 kill(f)$
 
@@ -305,19 +306,83 @@ okltest_bresolvents_cs(f) := (
   true)$
 
 okltest_add_bresolvents_cs(f) := (
-
+  assert(f({},0) = {}),
+  assert(f({{1}},0) = {{1}}),
+  assert(f({{1},{-1}},0) = {{1},{-1}}),
+  assert(f({{1},{-1}},1) = {{},{1},{-1}}),
+  assert(f({{1},{-1},{-1,2}},1) = {{},{1},{-1},{-1,2}}),
+  assert(f({{1},{1,2},{-1},{-1,2}},1) = {{},{1},{1,2},{-1},{-1,2}}),
+  assert(f({{1},{1,2,4},{-1},{-1,2,3}},1) = {{},{1},{1,2,4},{-1},{-1,2,3}}),
+  assert(f({{1},{1,2,4},{-1},{-1,2,3}},2) = {{},{1},{1,2,4},{-1},{-1,2,3}}),
+  assert(f({{1},{1,2,4},{-1},{-1,2,3}},3) = {{},{2,4},{2,3},{2,3,4},{1},{1,2,4},{-1},{-1,2,3}}),
   true)$
 
 okltest_bresolution_closure_cs(f) := (
-
+  assert(f({},0) = [{},[0]]),
+  assert(f({},1) = [{},[0]]),
+  assert(f({{}},0) = [{{}},[1]]),
+  assert(f({{}},1) = [{{}},[1]]),
+  assert(f({{1}},0) = [{{1}},[1]]),
+  assert(f({{1}},1) = [{{1}},[1]]),
+  assert(f({{1},{-1}},0) = [{{1},{-1}},[2]]),
+  assert(f({{1},{-1}},1) = [{{},{1},{-1}},[2,3]]),
+  for n : 2 thru 5 do block([N:setn(n), NN:singletons(setmn(-n,-1)), F],
+    F : adjoin(N,NN),
+    assert(f(F,1)[1] = F),
+    assert(f(F,n-1)[1] = F),
+    assert(f(F,n)[1] = union(NN,powerset(N)))
+  ),
+  assert(f({{1,2},{-1,2}},1) = [{{1,2},{-1,2}},[2]]),
+  assert(f({{1,2},{-1,2}},2) = [{{1,2},{-1,2},{2}},[2,3]]),
+  assert(f({{1,2},{-1,2},{1,-2},{-1,-2}},2) = [{{1,2},{-1,2},{1,-2},{-1,-2},{1},{-1},{2},{-2},{}},[4,8,9]]),
+  assert(f({{1,2,3},{-1,2,3}},2) = [{{1,2,3},{-1,2,3}},[2]]),
+  assert(f({{1,2,3},{-1,2,3}},3) = [{{1,2,3},{-1,2,3},{2,3}},[2,3]]),
+  for n : 1 thru cokltl(3,5) do block([F : full_cs(n)],
+    assert(f(F,n-1)[1] = F),
+    assert(f(F,n)[1] = all_pass(setn(n)))
+  ),
   true)$
 
 okltest_min_add_bresolvents_cs(f) := (
-
+  assert(f({},0) = {}),
+  assert(f({{1}},0) = {{1}}),
+  assert(f({{1},{-1}},0) = {{1},{-1}}),
+  assert(f({{1},{-1}},1) = {{}}),
+  assert(f({{1},{-1},{-1,2}},1) = {{}}),
+  assert(f({{1},{1,2},{-1},{-1,2}},1) = {{}}),
+  assert(f({{1},{1,2,4},{-1},{-1,2,3}},1) = {{}}),
+  assert(f({{1},{1,2,4},{-1},{-1,2,3}},2) = {{}}),
+  assert(f({{1},{1,2,4},{-1},{-1,2,3}},3) = {{}}),
+  assert(f({{1,2},{2,3}},2) = {{1,2},{2,3}}),
+  assert(f({{1,2},{-2,3}},2) = {{1,2},{-2,3},{1,3}}),
+  assert(f({{1,2,3},{-1,2}},2) = {{1,2,3},{-1,2}}),
+  assert(f({{1,2,3},{-1,2}},3) = {{2,3},{-1,2}}),
   true)$
 
 okltest_min_bresolution_closure_cs(f) := (
-
+  assert(f({},0) = [{},[0]]),
+  assert(f({},1) = [{},[0]]),
+  assert(f({{}},0) = [{{}},[1]]),
+  assert(f({{}},1) = [{{}},[1]]),
+  assert(f({{1}},0) = [{{1}},[1]]),
+  assert(f({{1}},1) = [{{1}},[1]]),
+  assert(f({{1},{-1}},0) = [{{1},{-1}},[2]]),
+  assert(f({{1},{-1}},1) = [{{}},[2,1]]),
+  for n : 2 thru 5 do block([N:setn(n), NN:singletons(setmn(-n,-1)), F],
+    F : adjoin(N,NN),
+    assert(f(F,1)[1] = F),
+    assert(f(F,n-1)[1] = F),
+    assert(f(F,n)[1] = {{}})
+  ),
+  assert(f({{1,2},{-1,2}},1) = [{{1,2},{-1,2}},[2]]),
+  assert(f({{1,2},{-1,2}},2) = [{{2}},[2,1]]),
+  assert(f({{1,2},{-1,2},{1,-2},{-1,-2}},2) = [{{}},[4,4,1]]),
+  assert(f({{1,2,3},{-1,2,3}},2) = [{{1,2,3},{-1,2,3}},[2]]),
+  assert(f({{1,2,3},{-1,2,3}},3) = [{{2,3}},[2,1]]),
+  for n : 1 thru cokltl(3,5) do block([F : full_cs(n)],
+    assert(f(F,n-1)[1] = F),
+    assert(f(F,n)[1] = {{}})
+  ),
   true)$
 
 
