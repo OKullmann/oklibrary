@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.7.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Strings.mac")$
 
 
 /* *********************************
@@ -55,7 +56,8 @@ random_fcl(n,k,c) := block([V : create_list(i,i,1,n), F : []],
 random_fcs(n,k,c) := fcl2fcs(random_fcl(n,k,c))$
 
 output_random_fcl(n,k,c,filename) := output_fcl_v(
- "Pseudo-random clause-list created by Maxima::output_random_fcl.",
+ sconcat("Pseudo-random clause-list created by Maxima::output_random_fcl(",n,",",k,",",c,").
+c ", created_by_OKlib()),
  random_fcl(n,k,c),filename,[])$
 output_random_fcl_stdname(n,k,c) := output_random_fcl(n,k,c,sconcat("Random_",n,"_",k,"_",c,".cnf"))$
 /* Convenience instantiation, specifying density and seed: */
@@ -151,6 +153,13 @@ OKgenerator_nbfcl(s,k,n,d,P,C) := []$
 
 /* Testing the inputs: */
 OKgenerator_nbfcl_p(s,k,n,d,P,C) := false$
+
+
+/* *************************
+   * Translated random DNF *
+   *************************
+*/
+
 
 
 

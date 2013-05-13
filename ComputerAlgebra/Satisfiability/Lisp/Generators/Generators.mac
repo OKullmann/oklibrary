@@ -26,6 +26,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssig
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Combinatorics/Lisp/Enumeration/Subsets.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Strings.mac")$
 
 
 /* ********************
@@ -67,7 +68,7 @@ deficiency_full_fcs(n) := ncl_full_fcs(n) - nvar_full_fcs(n)$
 output_fullcs(n,filename) :=
  outputext_fcl(
    sconcat("Canonical unsatisfiable clause-set with ", n, " variables.
-c Created by the OKlibrary at ", timedate(), "."),
+c ", created_by_OKlib()),
    full_fcl(n),
    filename)$
 
