@@ -68,23 +68,6 @@ dualts_fcl(FF) := block([c : length(FF[2]), NV, G1, G2],
   [append(FF[1],NV), append(G1,G2,[setify(NV)])])$
 dualts_cs(F) := fcl2cs(dualts_fcl(cs2fcl(F)))$
 
-/* Characteristic properties:
-   Given a total assignment to the variables in FF, by unit-clause 
-   propagation all additional variables in dualts_fcl(FF) are determined
-   where dts(i) is true iff FF[2][i] is true.
-   dualts_fcl(FF) as CNF is equivalent to FF as DNF on the common variables 
-   (that is, on FF[1]) via the unique extension.
-   Thus if m=0 then dualts_fcl(FF) is unsatisfiable, while otherwise
-   dualts_fcl(FF) is satisfiable.
-   If FF is irredundant, then we have the following property.
-   Given any partial assignment phi such that phi cannot be extended to a
-   satisfying assignment of FF, phi * F yields the empty clause via
-   unit-clause propagation (since dualts_fcl(FF) is "r_1-based"; see
-   "Understanding dualts_fcl" in FiniteFunctions/plans/TseitinTranslation.hpp).
-   (However, even if all extension of phi make FF true, this cannot be
-   seen "directly" with dualts_fcl(FF) (consider for example a tautology FF)).
-*/
-
 
 /* The reduced canonical translation, using only the direction (C <- dts(i))
    from dualts_fcl(FF):
@@ -121,16 +104,7 @@ dualtsplus_fcl(FF) := block([c : length(FF[2]), NV, G1, G2, G3],
          listify(literals_v(
              sublist(FF[1], lambda([v], elementp(v,var_cs(FF[2]))))))),
   [append(FF[1],NV), append(G1,G2,G3,[setify(NV)])])$
-/* Characteristic properties:
-   dualtsplus_fcl has the characteristics properties of dualts_fcl.
-   It also has the following property if FF is full.
 
-   Consider all partial assignments phi on dualtsplus_fcl(FF). If
-   phi * dualtsplus_fcl(FF) has a forced assignment <v -> b> then
-   phi * dualtsplus_fcl(FF)[2] contains {l}. l is v if b = 1 and
-   -v otherwise. {l} is the unit-clause enforcing <v -> b>. b is
-   a value in {0,1}.
-*/
 
 /* The variation which uses value d (for "distinguish") as second parameter
    of dts_var (producing the same formal clause-list otherwise; this is
