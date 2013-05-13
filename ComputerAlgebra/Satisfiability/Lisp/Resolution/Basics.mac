@@ -337,7 +337,7 @@ bresolution_closure_cs(F,k) := block(
     history : append(history, [length(nF)]),
     monitorcheck_kresolution_closure_loop("bresolution_closure_cs")
   ),
-  return([nF, history]))$
+  return([nF, rest(history,-1)]))$
 
 /* Adds all symmetric k-resolvents to a clause-set and then applies
    subsumption-elimination: */
