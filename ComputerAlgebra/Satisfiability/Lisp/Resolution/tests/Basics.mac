@@ -386,12 +386,10 @@ okltest_min_bresolution_closure_cs(f) := (
   true)$
 
 
-
 /* *******************
    * Blocked clauses *
    *******************
 */
-
 
 okltest_blocking_literal_p(f) := block(
   assert(f({{1}},{1},1)),
