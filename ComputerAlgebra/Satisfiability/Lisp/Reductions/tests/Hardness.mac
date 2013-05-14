@@ -91,9 +91,6 @@ okltest_whardness_cs(f) := (
   assert(f({{1},{2}}) = 0).
   assert(f({{1,2},{-1,2}}) = 1),
   assert(f({{1,2},{-2,3,4,5}}) = 1),
-  for k : 0 thru if oklib_test_level=0 then 3 else 5 do (
-   for l : 0 thru if oklib_test_level=0 then 2 else 4 do (
-     assert(f(smusat_genhorn_cs(k,l)) = min(k,l)) )),
   /* XXX */
   true)$
 
