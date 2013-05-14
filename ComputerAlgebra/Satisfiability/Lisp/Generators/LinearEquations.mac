@@ -88,6 +88,12 @@ gprt2prt(P) := block([L:first(P), e:second(P), res:{}],
    else block([x:first_element(res)], res : adjoin(-x,disjoin(x,res))),
  listify(res))$
 
+
+/* **********************************
+   * Translating parity constraints *
+   **********************************
+*/
+
 /* Direct translation: */
 prt2cl_0(P) :=
  if evenp(sum_l(map(negsignum, listify(P)))) then
@@ -95,8 +101,8 @@ prt2cl_0(P) :=
  else odd_parity_wv_cl(map(var_l,P))$
 /* Remark: this directly generalises even_parity_wv_cl(V). */
 
-/* Translating the sequence of equations, using the list aux of auxiliary
-   variables fulfilling length(aux) >= length(P)-2:
+/* Translating the sequence of partial equations, using the list aux of
+   auxiliary variables fulfilling length(aux) >= length(P)-2:
 */
 prt2cl_aux_1(P,aux) := if length(P) <= 2 then prt2cl_0(P)
  else block([F : prt2cl_0([P[1],P[2],aux[1]])],

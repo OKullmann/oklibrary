@@ -37,6 +37,11 @@ okltest_odd_parity_cl(odd_parity_cl);
 
 okltest_gprt2prt(gprt2prt);
 
+/* **********************************
+   * Translating parity constraints *
+   **********************************
+*/
+
 okltest_prt2cl_0(prt2cl_0);
 okltest_prt2cl_aux_1(prt2cl_aux_1);
 
