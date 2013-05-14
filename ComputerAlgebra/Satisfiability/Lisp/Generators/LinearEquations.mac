@@ -75,8 +75,10 @@ odd_parity_fcl(n) := [create_list(i,i,1,n),odd_parity_cl(n)]$
   "sum_{x in L} x = 0".
 */
 
+prt2gprt(P) := [P,0]$
+
 /* Simplifying a general parity-constraint P to a parity-constraint (sorted
-   by built-in-order or to false in case P is unsatisfiable:
+   by built-in-order or to false in case P is unsatisfiable):
 */
 gprt2prt(P) := block([L:first(P), e:second(P), res:{}],
  for x in L do
@@ -87,6 +89,10 @@ gprt2prt(P) := block([L:first(P), e:second(P), res:{}],
    if emptyp(res) then return(false)
    else block([x:first_element(res)], res : adjoin(-x,disjoin(x,res))),
  listify(res))$
+
+/* Adding a list of parity-constraints and simplifying the result: */
+addgprt2prt(L) :=
+ gprt2prt([lappend(map(first,L)), mod(sum_l(map(second,L)),2)])$
 
 
 /* **********************************
@@ -130,6 +136,31 @@ c Created by the OKlibrary at ", timedate(), "."),
 
 output_gen_2xor_stdname(n) := output_gen_2xor_fcl(n,
  sconcat("TwoXORclauses-",n,".cnf"))$
+
+
+/* Now the general translation of two xor-clauses. */
+
+/* Using the UC-translation for the two parity-constraints, plus the
+   UC-translation for the sum of the two parity constraints, where actually
+   general parity-constraints are allowed:
+*/
+gprt2s2cl_aux_2(P1,aux1,P2,aux2,aux3) :=
+ block([S1:gprt2prt(P1), S2:gprt2prt(P2), S3],
+  S3 : addgprt2prt([P1,P2]),
+  if S1=false or S2=false or S3=false then [{}]
+  else append(prt2cl_aux_1(S1,aux1), prt2cl_aux_1(S2,aux2), prt2cl_aux_1(S3,aux3)))$
+
+
+/* Finally general systems of parity constraints ("sprt"). */
+
+
+/* For a list L of parity constraints the prime implicates per constraint: */
+sprt2cl_0(L) := lappend(map(prt2cl_0,L))$
+
+/* For a list of pairs [P,aux], where aux is the list of auxiliary variables
+   (or literals; all new):
+*/
+sprt2cl_aux_1(L) := lappend(map(lambda([p],apply(prt2cl_aux_1,p)), L))$
 
 /*!
 \endhtmlonly

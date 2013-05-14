@@ -83,7 +83,27 @@ for k : 0 thru 10 do print(k, min_bresolution_closure_cs(fcl2cs(gen_2xor_fcl(k))
   </ul>
 
 
+  \todo Translating two xor-clauses
+  <ul>
+   <li> The conjecture is that in general the translation gprt2s2cl_aux_2
+   achieves hardness at most 2:
+   \verbatim
+F1 : gprt2s2cl_aux_2([[1,2,3,10,7,14],0],[4,8,11,15],[[2,3,5,7,10],0],[6,9,12],[13,16]);
+  [{-4,-2,-1},{-4,1,2},{-2,1,4},{-1,2,4},{-8,-4,-3},{-8,3,4},{-4,3,8},{-3,4,8},{-11,-8,-7},{-11,7,8},{-8,7,11},{-7,8,11},{-15,-11,-10},{-15,10,11},{-11,10,15},{-10,11,15},{-15,14},{-14,15},{-6,-3,-2},{-6,2,3},{-3,2,6},{-2,3,6},{-9,-6,-5},{-9,5,6},{-6,5,9},{-5,6,9},{-12,-9,-7},{-12,7,9},{-9,7,12},{-7,9,12},{-12,10},{-10,12},{-13,-5,-1},{-13,1,5},{-5,1,13},{-1,5,13},{-14,13},{-13,14}]
+hardness_cs(cl2cs(F1));
+  2
+   \endverbatim
+   </li>
+   <li> While w-hardness also of the general case for the translation
+   sprt2cl_aux_1 of two xor-clauses should be three:
+   \verbatim
+F1 : sprt2cl_aux_1([[[1,2,3,4],[7,8]],[[3,4,5,6],[9,10]]]);
+  [{-7,-2,-1},{-7,1,2},{-2,1,7},{-1,2,7},{-8,-7,-3},{-8,3,7},{-7,3,8},{-3,7,8},{-8,4},{-4,8},{-9,-4,-3},{-9,3,4},{-4,3,9},{-3,4,9},{-10,-9,-5},{-10,5,9},{-9,5,10},{-5,9,10},{-10,6},{-6,10}]
+length(min_resolution_closure_cs(cl2cs(F1))[1]);
+  110
+XXX function needed to compute w-hardness XXX
+   \endverbatim
+   </li>
+  </ul>
+
 */
-
-
-

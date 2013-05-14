@@ -47,6 +47,12 @@ okltest_prt2cl_aux_1(prt2cl_aux_1);
 
 okltest_gen_2xor_fcl(gen_2xor_fcl);
 
+okltest_gprt2s2cl_aux_2(gprt2s2cl_aux_2);
+
+okltest_sprt2cl_0(sprt2cl_0);
+
+okltest_sprt2cl_aux_1(sprt2cl_aux_1);
+
 /*!
 \endhtmlonly
 */
