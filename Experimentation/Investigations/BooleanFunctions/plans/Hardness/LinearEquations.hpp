@@ -86,7 +86,8 @@ for k : 0 thru 10 do print(k, min_bresolution_closure_cs(fcl2cs(gen_2xor_fcl(k))
   \todo Translating two xor-clauses
   <ul>
    <li> The conjecture is that in general the translation gprt2s2cl_aux_2
-   achieves hardness at most 2:
+   achieves relative hardness at most 2, while (absolute) hardness is
+   unbounded:
    \verbatim
 F1 : gprt2s2cl_aux_2([[1,2,3,10,7,14],0],[4,8,11,15],[[2,3,5,7,10],0],[6,9,12],[13,16]);
   [{-4,-2,-1},{-4,1,2},{-2,1,4},{-1,2,4},{-8,-4,-3},{-8,3,4},{-4,3,8},{-3,4,8},{-11,-8,-7},{-11,7,8},{-8,7,11},{-7,8,11},{-15,-11,-10},{-15,10,11},{-11,10,15},{-10,11,15},{-15,14},{-14,15},{-6,-3,-2},{-6,2,3},{-3,2,6},{-2,3,6},{-9,-6,-5},{-9,5,6},{-6,5,9},{-5,6,9},{-12,-9,-7},{-12,7,9},{-9,7,12},{-7,9,12},{-12,10},{-10,12},{-13,-5,-1},{-13,1,5},{-5,1,13},{-1,5,13},{-14,13},{-13,14}]
@@ -98,7 +99,46 @@ hardness_cs(cl2cs(F2));
 F3 : gprt2s2cl_aux_2([[1,2,3,4,10],0],[5,6,11],[[1,2,3,7,10],0],[8,9,12],[])$
 hardness_cs(cl2cs(F3));
   2
+F4 : gprt2s2cl_aux_2([[1,2,3,4,10,13],0],[5,6,11,14],[[1,2,3,7,10],0],[8,9,12],[15])$
+hardness_cs(cl2cs(F4));
+  3
+F5 : cl2cs(gprt2s2cl_aux_2([[1,2,3,4,10,13],0],[5,6,11,14],[[1,2,3,7,10,16],0],[8,9,12,17],[15,18]))$
+F5i : ucp_0_cs(apply_pa(comp_sl({6,-9}),F5))$
+current_satsolver(cs2fcs(F5i));
+  false
+hardness_u_cs(F5i);
+  3
    \endverbatim
+   </li>
+   <li> Analysis of hardness:
+    <ol>
+     <li>
+     \verbatim
+F2 : gprt2s2cl_aux_2([[1,2,3,4],0],[5,6],[[1,2,3,7],0],[8,9],[])$
+     \endverbatim
+     is a minimal example with hardness 2. A prime implicate needing r_2 is
+     {-8,5}. </li>
+     <li> Considering the constraints as x_1+x_2+x_3+x_4=0 and
+     x_1+x_2+x_3+x_7=0, the application of the partial assignment <-8,5 -> 0>
+     creates x_1+x_2=0 and x_1+x_2=1. </li>
+     <li> This effectively cuts off the first two variables from the equations,
+     when considering the translations of these equations. </li>
+     <li> In this case this causes then the determination of all other
+     variables via r_2. </li>
+     <li> But only due to the fact that there are only two other variables in
+     each of the two equations. </li>
+    </ol>
+   </li>
+   <li> In order to achieve (absolute!) hardness 1, we need to take into
+   account that via instantiating the new variables we create effectively new
+   equations.
+    <ol>
+     <li> If [v_1,...,v_m] is the list of common variables of the two
+     constraints, then just treating the cases "v_1,...,v_i set to 0 and 1"
+     seems to suffice. </li>
+     <li> Then one better sorts the two prt-constraints, first the common
+     variables. </li>
+    </ol>
    </li>
    <li> While w-hardness also of the general case for the translation
    sprt2cl_aux_1 of two xor-clauses should be 3:

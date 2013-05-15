@@ -47,9 +47,12 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/PrimeImplicat
 hardness_wpi_cs(F,PI) := block([k : 0, F_phi],
   for C in PI do (
     F_phi : apply_pa(comp_sl(C),F),
-    while generalised_ucp_cs(F_phi,k) # {{}} do k : k+1
+    while generalised_ucp_cs(F_phi,k) # {{}} do k:k+1
   ),
   k)$
+/* Remark: if one wants to see the prime implicates causing an increase in
+   assumed hardness, replace "k:k+1" by "(print(k,C), k:k+1)".
+*/
 /* Taking just the clause-set F: */
 hardness_cs(F) := hardness_wpi_cs(F,min_resolution_closure_cs(F)[1])$
 /* Only considering unsatisfiable F: */
