@@ -77,20 +77,25 @@ odd_parity_fcl(n) := [create_list(i,i,1,n),odd_parity_cl(n)]$
 
 prt2gprt(P) := [P,0]$
 
-/* Simplifying a general parity-constraint P to a parity-constraint (sorted
-   by built-in-order or to false in case P is unsatisfiable):
+/* Simplifying a general parity-constraint P to a parity-constraint or to
+   false iff P is unsatisfiable, sorted in ascending order by absolute values,
+   and such that at most one literal is negative, which then is the first
+   literal:
 */
 gprt2prt(P) := block([L:first(P), e:second(P), res:{}],
  for x in L do
    if elementp(x,res) then res : disjoin(x,res)
    elseif elementp(-x,res) then (res : disjoin(-x,res), e : 1-e)
-   else res : adjoin(x,res),
+   else
+     if pos_l(x) then res : adjoin(x,res)
+     else (res : adjoin(-x,res), e : 1-e),
+ res : listify(res),
  if e=1 then
-   if emptyp(res) then return(false)
-   else block([x:first_element(res)], res : adjoin(-x,disjoin(x,res))),
- listify(res))$
+   if emptyp(res) then false
+   else cons(-first(res), rest(res))
+ else res)$
 
-/* Adding a list of parity-constraints and simplifying the result: */
+/* Adding together a list of parity-constraints and simplifying the result: */
 addgprt2prt(L) :=
  gprt2prt([lappend(map(first,L)), mod(sum_l(map(second,L)),2)])$
 
