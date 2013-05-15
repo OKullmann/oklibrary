@@ -156,6 +156,35 @@ gprt2s2cl_aux_2(P1,aux1,P2,aux2,aux3) :=
   else append(prt2cl_aux_1(S1,aux1), prt2cl_aux_1(S2,aux2), prt2cl_aux_1(S3,aux3)))$
 
 
+/* An improved translation, not using the third (derived) constraint, but
+   "sharing common sub-expressions":
+*/
+gprt2s2cl_aux_s(P1,aux1,P2,aux2) :=
+ block([S1:gprt2prt(P1), S2:gprt2prt(P2)],
+  if S1=false or S2=false or addgprt2prt([[S1,0],[S2,0]])=false then [{}]
+  elseif emptyp(S2) or S1=S2 then prt2cl_aux_1(S1,aux1)
+  elseif emptyp(S1) then prt2cl_aux_1(S2,aux2)
+  else block([e1:0, e2:0, I],
+   if neg_l(first(S1)) then (e1:1, S1:cons(-first(S1),rest(S1))),
+   if neg_l(first(S2)) then (e2:1, S2:cons(-first(S2),rest(S2))),
+   S1:setify(S1), S2:setify(S2),
+   I : intersection(S1, S2),
+   if emptyp(I) then
+     return(append(prt2cl_aux_1(gprt2prt([S1,e1]),aux1), prt2cl_aux_1(gprt2prt([S2,e2]),aux2))),
+   if length(S1)>length(S2) then block([S:S2,a:aux2],S2:S1,S1:S,aux2:aux1,aux1:a),
+   S1 : append(listify(I), listify(setdifference(S1,I))),
+   S2 : listify(setdifference(S2,I)),
+   if length(I)=length(S1) then (
+     e2 : e2 + e1,
+     return(append(prt2cl_aux_1(gprt2prt([S1,e1]),aux1), prt2cl_aux_1(gprt2prt([S2,e2]),aux2)))
+   )
+   elseif length(I)=1 then S2 : cons(first(S1), S2)
+   else S2 : cons(aux1[length(I)-1], S2),
+   if e1=1 then S1 : endcons(-last(S1),rest(S1,-1)),
+   return(append(prt2cl_aux_1(S1,aux1), prt2cl_aux_1(gprt2prt([S2,e2]),aux2)))
+  ))$
+
+
 /* Finally general systems of parity constraints ("sprt"). */
 
 

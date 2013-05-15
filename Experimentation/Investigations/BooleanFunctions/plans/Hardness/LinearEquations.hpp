@@ -140,6 +140,26 @@ F2 : gprt2s2cl_aux_2([[1,2,3,4],0],[5,6],[[1,2,3,7],0],[8,9],[])$
      variables. </li>
     </ol>
    </li>
+   <li> Improved translation, not repeating the common literals:
+   \verbatim
+F1 : gprt2s2cl_aux_s([[1,2,3,10,7,14],0],[4,8,11,15],[[2,3,5,7,10],0],[6]);
+  [{-4,-3,-2},{-4,2,3},{-3,2,4},{-2,3,4},{-8,-7,-4},{-8,4,7},{-7,4,8},{-4,7,8},{-11,-10,-8},{-11,8,10},{-10,8,11},{-8,10,11},{-11,5},{-5,11},{-11,-6,-1},{-11,1,6},{-6,1,11},{-1,6,11},{-14,6},{-6,14}]
+hardness_cs(cl2cs(F1));
+  1
+F2 : gprt2s2cl_aux_s([[1,2,3,4],0],[5,6],[[1,2,3,7],0],[])$
+hardness_cs(cl2cs(F2));
+  1
+F3 : gprt2s2cl_aux_s([[1,2,3,4,10],0],[5,6,11],[[1,2,3,7,10],0],[])$
+hardness_cs(cl2cs(F3));
+  1
+F4 : gprt2s2cl_aux_s([[1,2,3,4,10,13],0],[5],[[1,2,3,7,10],0],[8,9,12])$
+hardness_cs(cl2cs(F4));
+  1
+F5 : cl2cs(gprt2s2cl_aux_s([[1,2,3,4,10,13],0],[5,6,11,14],[[1,2,3,7,10,16],0],[8]))$
+hardness_cs(F5);
+  1
+   \endverbatim
+   </li>
    <li> While w-hardness also of the general case for the translation
    sprt2cl_aux_1 of two xor-clauses should be 3:
    \verbatim
