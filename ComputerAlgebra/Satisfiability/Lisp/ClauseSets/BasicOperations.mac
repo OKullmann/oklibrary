@@ -67,6 +67,8 @@ var_l(x) := abs(x)$
 
 /* The sign of a literal in {-1,+1}: */
 sign_l(x) := if sign(x)=pos then 1 else -1$
+pos_l(x) := is(sign(x)=pos)$
+neg_l(x) := is(sign(x)=neg)$
 
 /* The set of literals for a set/list V of literals, that is, the closure under
    complementation: */
