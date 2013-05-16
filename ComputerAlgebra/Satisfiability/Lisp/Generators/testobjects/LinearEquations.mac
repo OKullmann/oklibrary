@@ -28,7 +28,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Linear
 
 okltest_even_parity_cl(even_parity_cl);
 okltest_even_parity_wv_cl(even_parity_wv_cl);
+okltest_even_parity_fcl(even_parity_fcl);
 okltest_odd_parity_cl(odd_parity_cl);
+okltest_odd_parity_fcl(odd_parity_fcl);
 
 /* **********************
    * Parity constraints *
