@@ -157,7 +157,8 @@ gprt2s2cl_aux_2(P1,aux1,P2,aux2,aux3) :=
 
 
 /* An improved translation, not using the third (derived) constraint, but
-   "sharing common sub-expressions":
+   "sharing common sub-expressions", that is, the value of the common part
+   is used via the appropriate (auxiliary) variable in the larger constraint:
 */
 gprt2s2cl_aux_s(P1,aux1,P2,aux2) :=
  block([S1:gprt2prt(P1), S2:gprt2prt(P2)],
@@ -183,6 +184,7 @@ gprt2s2cl_aux_s(P1,aux1,P2,aux2) :=
    if e1=1 then S1 : endcons(-last(S1),rest(S1,-1)),
    return(append(prt2cl_aux_1(S1,aux1), prt2cl_aux_1(gprt2prt([S2,e2]),aux2)))
   ))$
+/* Remark: The order of clauses is as given by gprt2prt and prt2cl_aux_1. */
 
 
 /* Finally general systems of parity constraints ("sprt"). */
