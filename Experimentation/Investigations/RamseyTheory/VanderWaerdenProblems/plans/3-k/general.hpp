@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.4.2009 (Swansea)
-/* Copyright 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2009, 2010, 2011, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -184,7 +184,7 @@ d - round(fnlq(X))
      the preprocessor does nothing). </li>
     </ol>
    </li>
-   <li> k=12, n=134, 135:
+   <li> k=12, n=134, 135 (cswsok, 3GHz):
    \verbatim
 > OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-12_134.cnf 
 s SATISFIABLE
@@ -199,7 +199,7 @@ c reddiff_number_of_variables           0
 c reddiff_number_of_clauses             0
 c reddiff_number_of_literal_occurrences 0
 c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     593.2
+c running_time(sec)                     222.1
 c number_of_nodes                       283568
 c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
@@ -208,14 +208,16 @@ c number_of_pure_literals               35
 c number_of_autarkies                   1
 c number_of_missed_single_nodes         0
 c max_tree_depth                        36
+c proportion_searched                   9.996262e-01
+c proportion_single                     0.000000e+00
+c total_proportion                      0.9996261596679688
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 516
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-3-12_134.cnf
 
-same machine csltok (Intel i5, 2.4GHz), but only with 2 processes altogether:
-329.4s
+# without tree-pruning: precisely the same.
 
 > OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-12_135.cnf 
 s UNSATISFIABLE
@@ -230,7 +232,7 @@ c reddiff_number_of_variables           0
 c reddiff_number_of_clauses             0
 c reddiff_number_of_literal_occurrences 0
 c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     636.0
+c running_time(sec)                     220.8
 c number_of_nodes                       281381
 c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
@@ -239,6 +241,9 @@ c number_of_pure_literals               29
 c number_of_autarkies                   0
 c number_of_missed_single_nodes         0
 c max_tree_depth                        36
+c proportion_searched                   1.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      1
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 490
 c number_of_new_2-clauses               0
@@ -349,19 +354,32 @@ c main():: time=5111.450195
   <ul>
    <li> k=12:
     <ol>
-     <li> k=12, n=134: 106s (NB_BRANCHE= 240158, csltok) </li>
-     <li> k=12, n=135: 119s (NB_BRANCHE= 262304, csltok) </li>
+     <li> k=12, n=134: 73s (NB_BRANCHE= 240158, cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 79s (NB_BRANCHE= 262304, cswsok (3 GHz)) </li>
     </ol>
    </li>
-   <li> k=13, n=160:
+   <li> k=13, n=160 (cswsok, 3GHz):
    \verbatim
 > satz215 VanDerWaerden_2-3-13_160.cnf
-****the instance is unsatisfiable *****
-NB_MONO= 316, NB_UNIT= 38903958, NB_BRANCHE= 1699870, NB_BACK= 864253
-Program terminated in 1308.930 seconds.
-satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0 160 7308 0 3878431 1563013
+**** The instance is unsatisfiable. *****
+NB_MONO= 363, NB_UNIT= 39344343, NB_BRANCHE= 1698185, NB_BACK= 863252
+Program terminated in 711.470 seconds.
+satz215 VanDerWaerden_2-3-13_160.cnf 711.470 1698185 863252 219047856 8567070 0 160 7308 0 4263617 1867228
    \endverbatim
-   So satz215 seems best-performing here.
+   </li>
+   <li> k=14, n=186 (cswsok, 3GHz):
+   \verbatim
+> satz215 VanDerWaerden_2-3-14_186.cnf
+NB_MONO= 1435, NB_UNIT= 277867725, NB_BRANCHE= 10822316, NB_BACK= 5500793
+Program terminated in 6233.370 seconds.
+satz215 VanDerWaerden_2-3-14_186.cnf 6233.370 10822316 5500793 1573930613 58462301 0 186 9795 0 29371201 12582731
+   \endverbatim
+   </li>
+   <li> k=15, n=218 (cswsok, 3GHz):
+   \verbatim
+> satz215 VanDerWaerden_2-3-15_218.cnf
+XXX
+   \endverbatim
    </li>
   </ul>
 
@@ -378,11 +396,16 @@ satz215 VanDerWaerden_2-3-13_160.cnf 1308.930 1699870 864253 214884364 8337569 0
    </li>
    <li> minisat-2.2.0:
     <ol>
-     <li> k=12, n=134: 153s (3605914 conflicts; csltok) </li>
-     <li> k=12, n=135: 266s (5963349 conflicts; csltok (higher load)) </li>
-     <li> k=13, n=159: 33s (701558 conflicts; csltok) </li>
-     <li> k=13, n=160: 4871s (63901998 conflicts; csltok) </li>
-     <li> SplittingViaOKsolver:
+     <li> k=12, n=134: 61s (3605914 conflicts; cswsok (3GHz)) </li>
+     <li> k=12, n=135: 107s (5963349 conflicts; cswsok (3GHz)) </li>
+     <li> k=13, n=159: 13s (701558 conflicts; cswsok (3GHz)) </li>
+     <li> k=13, n=160: 1716s (63901998 conflicts; cswsok (3GHz)) </li>
+     <li> k=14, n=185: 147s (5619881 conflicts; cswsok (3GHz)) </li>
+     <li> k=14, n=186: 16836s (463984635 conflicts; cswsok (3GHz)) </li>
+     <li> k=15, n=217: XXXs ( conflicts; cswsok (3GHz)) </li>
+     <li> k=15, n=218: XXXs ( conflicts; cswsok (3GHz)) </li>
+
+     <li> SplittingViaOKsolver (csltok):
      \verbatim
 > SplittingViaOKsolver -D10 VanDerWaerden_2-3-13_160.cnf
 > cd SplitViaOKsolver_D10VanDerWaerden_2313_160cnf_2011-05-18-182552
@@ -446,24 +469,52 @@ sys     0m16.273s
      <li> k=12, n=135: 763s (2815643 conflicts; csltok) </li>
     </ol>
    </li>
+   <li> cryptominisat-2.9.6:
+    <ol>
+     <li> k=12, n=134: 155s (1693268 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 212s (2109106 conflicts; cswsok (3 GHz)) </li>
+    </ol>
+   </li>
+   <li> picosat913:
+    <ol>
+     <li> k=12, n=134: 7s (368890 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 259s (9643671 conflicts; cswsok (3 GHz)) </li>
+    </ol>
+   </li>
    <li> precosat236:
     <ol>
-     <li> k=12, n=134: 159s (1145491 conflicts; csltok) </li>
-     <li> k=12, n=135: 744s (3583785 conflicts; csltok) </li>
+     <li> k=12, n=134: 52s (1145491 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 205s (3583785 conflicts; cswsok (3 GHz)) </li>
     </ol>
    </li>
-   <li> precosat-570:
+   <li> precosat-570.1:
     <ol>
-     <li> k=12, n=134: 278s (1531799 conflicts; csltok) </li>
-     <li> k=12, n=135: 526s (2425722 conflicts; csltok) </li>
+     <li> k=12, n=134: 91s (1531799 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 211s (2425722 conflicts; cswsok (3 GHz)) </li>
     </ol>
    </li>
-   <li> glucose:
+   <li> lingelingala-b02aa1a-121013:
+    <ol>
+     <li> k=12, n=134: 171s (1659607 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 476s (3435610 conflicts; cswsok (3 GHz)) </li>
+    </ol>
+   </li>
+   <li> glucose-1.0:
     <ol>
      <li> k=12, n=134: 39s (425399 conflicts; csltok) </li>
      <li> k=12, n=135: 191s (1356325 conflicts; csltok) </li>
      <li> k=13, n=159: 139s (957255 conflicts; csltok) </li>
      <li> k=13, n=160: 3274s (9907932 conflicts; csltok) </li>
+    </ol>
+   </li>
+   <li> glucose-2.0:
+    <ol>
+     <li> k=12, n=134: 5s (169420 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 58s (1263087 conflicts; cswsok (3 GHz)) </li>
+     <li> k=13, n=159: 1s (50528 conflicts; cswsok (3 GHz)) </li>
+     <li> k=13, n=160: 781s (8377487 conflicts; cswsok (3 GHz)) </li>
+     <li> k=14, n=185: 5133s (31516583 conflicts; cswsok (3 GHz)) </li>
+     <li> k=14, n=186: XXXs ( conflicts; cswsok (3 GHz)) </li>
     </ol>
    </li>
    <li> minisat-2.2.0 and glucose seem best (for the conflict-driven solvers,
