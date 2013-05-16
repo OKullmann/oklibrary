@@ -57,11 +57,11 @@ L0 = lm(y0 ~ x0)
 summary(L0)
 
 Coefficients:
-            Estimate Std. Error t value Pr(>|t|)    
+            Estimate Std. Error t value Pr(>|t|)
 (Intercept)  0.58155    0.12319   4.721 0.000197 ***
 x0           1.73669    0.05563  31.220  < 2e-16 ***
 Residual standard error: 0.1906 on 17 degrees of freedom
-Multiple R-squared: 0.9829,     Adjusted R-squared: 0.9818 
+Multiple R-squared: 0.9829,     Adjusted R-squared: 0.9818
 
 lines(x0,predict(L0))
    \endverbatim
@@ -92,15 +92,15 @@ lines(predict(NL))
 summary(NL)
 
 Parameters:
-  Estimate Std. Error t value Pr(>|t|)    
+  Estimate Std. Error t value Pr(>|t|)
 a  0.58471    0.05241   11.16 1.29e-11 ***
 b  2.17488    0.02799   77.70  < 2e-16 ***
 Residual standard error: 11.28 on 27 degrees of freedom
 
 Cnl = coefficients(NL)
 Cnl
-        a         b 
-0.5847057 2.1748818 
+        a         b
+0.5847057 2.1748818
 fnl = function(k){Cnl[1] * k^Cnl[2]}
 round(fnl(1:35))
  1 3 6 12 19 29 40 54 70 87
@@ -122,16 +122,16 @@ lines(predict(NLq))
 summary(NLq)
 
 Parameters:
-  Estimate Std. Error t value Pr(>|t|)    
-a 17.38095    7.21230   2.410   0.0233 *  
+  Estimate Std. Error t value Pr(>|t|)
+a 17.38095    7.21230   2.410   0.0233 *
 b -5.09519    1.10817  -4.598 9.72e-05 ***
 c  1.20367    0.03584  33.580  < 2e-16 ***
 Residual standard error: 12.06 on 26 degrees of freedom
 
 Cnlq = coefficients(NLq)
 Cnlq
-        a         b         c 
-17.380952 -5.095185  1.203665 
+        a         b         c
+17.380952 -5.095185  1.203665
 fnlq = function(k){Cnlq[1] + Cnlq[2]*k +Cnlq[3] * k^2}
 round(fnlq(1:35))
  13 12 13 16 22 30 41 54 69 87
@@ -186,7 +186,7 @@ d - round(fnlq(X))
    </li>
    <li> k=12, n=134, 135 (cswsok, 3GHz):
    \verbatim
-> OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-12_134.cnf 
+> OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-12_134.cnf
 s SATISFIABLE
 c sat_status                            1
 c initial_maximal_clause_length         12
@@ -219,7 +219,7 @@ c file_name                             VanDerWaerden_2-3-12_134.cnf
 
 # without tree-pruning: precisely the same.
 
-> OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-12_135.cnf 
+> OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-12_135.cnf
 s UNSATISFIABLE
 c sat_status                            0
 c initial_maximal_clause_length         12
@@ -258,7 +258,7 @@ same machine csltok (Intel i5, 2.4GHz), but only with 1-2 processes altogether:
    <li> k=13, n=159, 160:
    \verbatim
 On new csltok (64bit):
-> OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-13_159.cnf 
+> OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-13_159.cnf
 s SATISFIABLE
 c sat_status                            1
 c initial_maximal_clause_length         13
@@ -289,7 +289,7 @@ c file_name                             VanDerWaerden_2-3-13_159.cnf
 same machine csltok (Intel i5, 2.4GHz), but only with 1-2 processes altogether:
 3224.7s
 
-> OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-13_160.cnf 
+> OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-13_160.cnf
 s UNSATISFIABLE
 c sat_status                            0
 c initial_maximal_clause_length         13
@@ -405,24 +405,25 @@ XXX
      <li> k=15, n=217: XXXs ( conflicts; cswsok (3GHz)) </li>
      <li> k=15, n=218: XXXs ( conflicts; cswsok (3GHz)) </li>
 
-     <li> SplittingViaOKsolver (csltok):
+     <li> SplittingViaOKsolver (cswsok, 3 GHz):
      \verbatim
-> SplittingViaOKsolver -D10 VanDerWaerden_2-3-13_160.cnf
-> cd SplitViaOKsolver_D10VanDerWaerden_2313_160cnf_2011-05-18-182552
+> SplittingViaOKsolver -D20 VanDerWaerden_2-3-13_160.cnf
+> cd SplitViaOKsolver_D20VanDerWaerden_2313_160cnf_2013-05-17-001649
 > more Md5sum
-8170fac5b1e642079043fcc8fc20d446
+16c1083271af4be87d875298d869a6c7
 > more Statistics
-> E=read.table("Data")
 > summary(E$n)
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
-  10.00   23.00   31.00   31.76   40.00   78.00
+  20.00   20.00   23.00   23.23   25.00   37.00
 > table(E$n)
-10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35
-11  4 25 16  3  9 22 47 25 14  3 14 32 61 55 32 12  7 11 30 38 53 53 33 20  9
-36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61
- 6 13 24 37 30 23 34 19 13  2  8  7 12 15 11 13 16 10  8  5  2  4  3  2  4  3
-62 63 64 65 66 70 71 78
- 4  4  4  1  1  1  2  1
+ 20  21  22  23  24  25  26  27  28  29  30  31  32  34  37
+409 111 125 196 233 201 151  96  52  12   2   2   4   2   3
+> summary(E$d)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   5.00   12.00   13.00   13.21   15.00   18.00
+> table(E$d)
+  5   6   7   8   9  10  11  12  13  14  15  16  17  18
+  3  10  28  40  61  86 138 193 264 240 217 195 112  12
 > more Result
 s UNKNOWN
 c sat_status                            2
@@ -436,29 +437,31 @@ c reddiff_number_of_variables           0
 c reddiff_number_of_clauses             0
 c reddiff_number_of_literal_occurrences 0
 c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     12.3
-c number_of_nodes                       2033
+c running_time(sec)                     9.7
+c number_of_nodes                       3197
 c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
-c number_of_2-reductions                1183
+c number_of_2-reductions                110
 c number_of_pure_literals               0
 c number_of_autarkies                   0
 c number_of_missed_single_nodes         0
-c max_tree_depth                        10
+c max_tree_depth                        18
+c proportion_searched                   0.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      0
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-3-13_160.cnf
-c splitting_directory                   SplitViaOKsolver_D10VanDerWaerden_2313_160cnf_2011-05-18-182552/Instances
-c splitting_cases                       981
+c splitting_directory                   SplitViaOKsolver_D20VanDerWaerden_2313_160cnf_2013-05-17-001649/Insta
+nces
+c splitting_cases                       1599
 
-> cd Instances/
-> I="../$(cat ../F)"; echo " i n t cfs" > Stats; time tail -n +2 ../Data | while read C F N; do cat $I | ApplyPass-O3-DNDEBUG $F Temp.cnf; minisat-2.2.0 Temp.cnf >Temp.out 2>&1; S=$?; if [[ $S != 20 ]]; then echo -e "UNEXPECTED RETURN VALUE ${S}\!"; break; else T=$(cat Temp.out | awk '/CPU time/ {print $4}'); CF=$(cat Temp.out | awk '/conflicts/ {print $3}'); echo "$C $F $N $T $CF" >> Stats; echo -n "$C:$T "; fi; done
-
-real    8m21.894s
-user    7m41.609s
-sys     0m16.273s
+> cd ..
+> ProcessSplitViaOKsolver SplitViaOKsolver_D20VanDerWaerden_2313_160cnf_2013-05-17-001649
+> cat Process_SplitViaOKsolver_D20VanDerWaerden_2313_160cnf_2013-05-17-001649_2013-05-17-002115/Result
+  2:35
      \endverbatim
      A big speed-up! </li>
     </ol>
