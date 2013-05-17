@@ -23,7 +23,7 @@ sage_main_index_okl ?= $(sage_installation_dir_okl)/devel/sage-main/doc/output/h
 sage_docu_page_okl ?= $(doc_dir)/doxygen_html/d9/dc3/docus_2Sage_8hpp.html
 
 sage_homepage_url_okl := http://www.sagemath.org/
-sage_documentation_url_okl := http://sage.math.washington.edu/sage/doc/
+sage_documentation_url_okl := http://www.sagemath.org/help.html#SageStandardDoc
 
 sage_recommended_okl := $(sage_prefix_okl)-$(sage_recommended_version_number_okl)
 sage_source_dir_okl := $(ExternalSources)/sources/Sage

@@ -147,19 +147,15 @@ coq_html_documentation_index_location_tag ?= <a href="$(coq_html_output)">$(coq_
 
 sage_call_okl ?= $(sage_installation_dir)/sage
 
-sage_version_number_extraction_okl := > /dev/null; echo $$?
-# sage doesn't allow to ask for the version number
+sage_version_number_extraction_okl := cut -d" " -f3 | cut -d"," -f1
+# assumes that the output of "sage --version" contains a line of the form
+# (for example) "Sage Version 5.9, Release Date: 2013-04-30"
 
 location_sage_call_okl ?= $(shell (type -P $(sage_call_okl)))
 ifeq ($(location_sage_call_okl),)
   sage_call_ready_okl ?= NO
 else
-  output_sage_call_okl ?=  $(shell $(sage_call_okl) -h $(sage_version_number_extraction_okl))
-  ifeq ($(output_sage_call_okl),1)
-    version_sage_call_okl ?= $(sage_recommended_version_number_okl)
-  else
-    version_sage_call_okl ?= UNKNOWN
-  endif
+  version_sage_call_okl ?=  $(shell $(sage_call_okl) --version | $(sage_version_number_extraction_okl))
   ifeq ($(version_sage_call_okl),$(sage_recommended_version_number_okl))
     sage_call_ready_okl ?= YES
   else
