@@ -378,6 +378,14 @@ satz215 VanDerWaerden_2-3-14_186.cnf 6233.370 10822316 5500793 1573930613 584623
    <li> k=15, n=218 (cswsok, 3GHz):
    \verbatim
 > satz215 VanDerWaerden_2-3-15_218.cnf
+NB_MONO= 3848, NB_UNIT= 1902278418, NB_BRANCHE= 66595028, NB_BACK= 33775013
+Program terminated in 54913.090 seconds.
+satz215 VanDerWaerden_2-3-15_218.cnf 54913.090 66595028 33775013 11030537203 387523942 0 218 13362 0 314567493 92988051
+   \endverbatim
+   </li>
+   <li> SplittingViaOKsolver:
+   \verbatim
+> solver="satz215" ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710
 XXX
    \endverbatim
    </li>
@@ -402,7 +410,7 @@ XXX
      <li> k=13, n=160: 1716s (63901998 conflicts; cswsok (3GHz)) </li>
      <li> k=14, n=185: 147s (5619881 conflicts; cswsok (3GHz)) </li>
      <li> k=14, n=186: 16836s (463984635 conflicts; cswsok (3GHz)) </li>
-     <li> k=15, n=217: XXXs ( conflicts; cswsok (3GHz)) </li>
+     <li> k=15, n=217: 26319s (500756444 conflicts; cswsok (3GHz)) </li>
      <li> k=15, n=218: XXXs ( conflicts; cswsok (3GHz)) </li>
 
      <li> SplittingViaOKsolver (cswsok, 3 GHz):
@@ -462,6 +470,75 @@ c splitting_cases                       1599
 > ProcessSplitViaOKsolver SplitViaOKsolver_D20VanDerWaerden_2313_160cnf_2013-05-17-001649
 > cat Process_SplitViaOKsolver_D20VanDerWaerden_2313_160cnf_2013-05-17-001649_2013-05-17-002115/Result
   2:35
+
+> SplittingViaOKsolver -D30 VanDerWaerden_2-3-14_186.cnf
+c running_time(sec)                     145.7
+c splitting_cases                       13527
+> ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_2314_186cnf_2013-05-17-002903/
+> cat Process_SplitViaOKsolver_D30VanDerWaerden_2314_186cnf_2013-05-17-002903_2013-05-17-003312/Result
+  22:08
+
+> SplittingViaOKsolver -D30 VanDerWaerden_2-3-15_218.cnf
+c running_time(sec)                     231.8
+c splitting_cases                       12922
+> ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710
+> cat Process_SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710_2013-05-17-020436/Result
+  141:27
+> E=read_processsplit_minisat()
+12922: 2.226h, sum-cfs=3.806417e+08, mean-t=0.620s, mean-cfs=29457, sat: 0
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 0.0150  0.2320  0.3969  0.6203  0.7576 15.5700
+sd= 0.6646329
+      95%       96%       97%       98%       99%      100%
+ 1.866720  2.026010  2.252030  2.599404  3.274080 15.569600
+sum= 8015.144
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    408   11500   19900   29460   36550  636800
+sd= 29454.45
+      95%       96%       97%       98%       99%      100%
+ 85033.00  92782.64 102557.00 117306.90 145427.27 636785.00
+sum= 380641711
+$t ~ $cfs:
+               Estimate  Std. Error  t value  Pr(>|t|)
+(Intercept) -4.3157e-02  5.0876e-04  -84.827 < 2.2e-16 ***
+E$cfs        2.2522e-05  1.2214e-08 1844.020 < 2.2e-16 ***
+R-squared: 0.9962
+
+> SplittingViaOKsolver -D35 VanDerWaerden_2-3-15_218.cnf
+c running_time(sec)                     821.3
+c splitting_cases                       32331
+> ProcessSplitViaOKsolver SplitViaOKsolver_D35VanDerWaerden_2315_218cnf_2013-05-17-090420
+> cat Process_SplitViaOKsolver_D35VanDerWaerden_2315_218cnf_2013-05-17-090420_2013-05-17-092127/Result
+  134:31
+> E=read_processsplit_minisat()
+32331: 1.913h, sum-cfs=3.615115e+08, mean-t=0.213s, mean-cfs=11182, sat: 0
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+0.005999 0.089990 0.158000 0.213100 0.274000 3.906000
+sd= 0.1911241
+     95%      96%      97%      98%      99%     100%
+0.574912 0.619905 0.676897 0.752885 0.910861 3.906410
+sum= 6888.165
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     41    4755    8441   11180   14400  180100
+sd= 9784.68
+     95%      96%      97%      98%      99%     100%
+ 29808.0  32137.8  34737.2  38804.8  46902.0 180053.0
+sum= 361511501
+$t ~ $cfs:
+               Estimate  Std. Error  t value  Pr(>|t|)
+(Intercept) -4.8847e-03  1.0623e-04  -45.985 < 2.2e-16 ***
+E$cfs        1.9491e-05  7.1493e-09 2726.231 < 2.2e-16 ***
+R-squared: 0.9957
+
+> SplittingViaOKsolver -D40 VanDerWaerden_2-3-16_238.cnf
+c running_time(sec)                     3247.6
+c splitting_cases                       104797
+> ProcessSplitViaOKsolver SplitViaOKsolver_D40VanDerWaerden_2316_238cnf_2013-05-17-140911
+XXX
      \endverbatim
      A big speed-up! </li>
     </ol>
@@ -517,7 +594,13 @@ c splitting_cases                       1599
      <li> k=13, n=159: 1s (50528 conflicts; cswsok (3 GHz)) </li>
      <li> k=13, n=160: 781s (8377487 conflicts; cswsok (3 GHz)) </li>
      <li> k=14, n=185: 5133s (31516583 conflicts; cswsok (3 GHz)) </li>
-     <li> k=14, n=186: XXXs ( conflicts; cswsok (3 GHz)) </li>
+     <li> k=14, n=186: 84334s (163500051 conflicts; cswsok (3 GHz)) </li>
+     <li> SplittingViaOKsolver (cswsok, 3 GHz):
+     \verbatim
+> solver="glucose-2.0" ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710
+XXX
+   \endverbatim
+     </li>
     </ol>
    </li>
    <li> minisat-2.2.0 and glucose seem best (for the conflict-driven solvers,
