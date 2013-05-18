@@ -1,12 +1,12 @@
 # Matthew Gwynne, 13.1.2011 (Swansea)
-# Copyright 2011 Oliver Kullmann
+# Copyright 2011, 2013 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-glucose_recommended_version_number_okl ?= 2.0
-glucose_other_versions_okl ?= 1.0
+glucose_recommended_version_number_okl ?= 2.2
+glucose_other_versions_okl ?=
 
 glucose_base_name_okl := glucose
 glucose_recommended_okl := $(glucose_base_name_okl)-$(glucose_recommended_version_number_okl)
