@@ -658,8 +658,19 @@ XXX
      </li>
     </ol>
    </li>
+   <li> glucose-2.2:
+    <ol>
+     <li> k=12, n=134: 84s (1350204 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 94s (1444017 conflicts; cswsok (3 GHz)) </li>
+     <li> k=13, n=159: 87s (1332829 conflicts; cswsok (3 GHz)) </li>
+     <li> k=13, n=160: 1412s (10447051 conflicts; cswsok (3 GHz)) </li>
+     </li>
+    </ol>
+    Performance much worse -- apparently due to much more restarts!
+   </li>
    <li> minisat-2.2.0 and glucose-2.0 seem best (for the conflict-driven
-   solvers, while satz215 seems best overall). </li>
+   solvers, while satz215 seems best overall); however SplittingViaOKsolver
+   with minisat-2.2 is much better than satz215. </li>
   </ul>
 
 
