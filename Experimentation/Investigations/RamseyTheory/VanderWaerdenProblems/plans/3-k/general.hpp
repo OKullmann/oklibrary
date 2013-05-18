@@ -382,13 +382,43 @@ NB_MONO= 3848, NB_UNIT= 1902278418, NB_BRANCHE= 66595028, NB_BACK= 33775013
 Program terminated in 54913.090 seconds.
 satz215 VanDerWaerden_2-3-15_218.cnf 54913.090 66595028 33775013 11030537203 387523942 0 218 13362 0 314567493 92988051
    \endverbatim
+   (that's 15.3 hours).
    </li>
+   <li> k=16, n=238 (cswsok, 3GHz):
+   \verbatim
+> satz215 VanDerWaerden_2-3-16_238.cnf
+XXX
+   \endverbatim
+   (that's XXX hours).
+   </li>
+
    <li> SplittingViaOKsolver:
    \verbatim
 > solver="satz215" ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710
-XXX
+# aborted after 2071 from 12922 sub-instances:
+> E=read_processsplit_satz()
+2071: 21.955h, sum-nds=1.363216e+08, mean-t=38.165s, mean-nds=65824, sat: 0
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   0.120    0.890    1.420   38.160    2.305 6503.000
+sd= 339.4337
+     95%      96%      97%      98%      99%     100%
+   4.845    5.630    6.979   39.830 1316.095 6503.010
+sum= 79038.94
+$nds:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+      34     1438     2465    65820     4323 11620000
+sd= 586093.9
+       95%        96%        97%        98%        99%       100%
+    9509.0    11161.4    14417.8    83698.2  2248985.2 11621345.0
+sum= 136321627
+$t ~ $nds:
+              Estimate Std. Error   t value Pr(>|t|)
+(Intercept) 6.2299e-02 2.3939e-01    0.2602   0.7947
+E$nds       5.7885e-04 4.0600e-07 1425.7567   <2e-16 ***
+R-squared: 0.999
    \endverbatim
-   </li>
+   That is cleary worse than just plain satz215. </li>
   </ul>
 
 
@@ -538,6 +568,29 @@ R-squared: 0.9957
 c running_time(sec)                     3247.6
 c splitting_cases                       104797
 > ProcessSplitViaOKsolver SplitViaOKsolver_D40VanDerWaerden_2316_238cnf_2013-05-17-140911
+> E=read_processsplit_minisat()
+104797: 22.238h, sum-cfs=3.723995e+09, mean-t=0.764s, mean-cfs=35535, sat: 0
+$t:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+ 0.009998  0.266000  0.459900  0.763900  0.853900 29.560000
+sd= 0.9925851
+      95%       96%       97%       98%       99%      100%
+ 2.414630  2.746580  3.184759  3.804420  4.983320 29.558500
+sum= 80056.43
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     71   12830   22290   35540   40960 1128000
+sd= 42953.37
+      95%       96%       97%       98%       99%      100%
+ 110594.8  124136.6  142799.4  167161.1  218275.0 1127634.0
+sum= 3723995162
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -5.5472e-02  2.6144e-04 -212.18 < 2.2e-16 ***
+E$cfs        2.3059e-05  4.6897e-09 4916.80 < 2.2e-16 ***
+R-squared: 0.9957
+
+> SplittingViaOKsolver -D50 VanDerWaerden_2-3-17_279.cnf
 XXX
      \endverbatim
      A big speed-up! </li>
@@ -598,13 +651,15 @@ XXX
      <li> SplittingViaOKsolver (cswsok, 3 GHz):
      \verbatim
 > solver="glucose-2.0" ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710
-XXX
-   \endverbatim
+> cat Process_SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710_2013-05-17-180553/Result
+  187:11
+     \endverbatim
+     Reasonable fast, but minisat-2.2.0 is faster.
      </li>
     </ol>
    </li>
-   <li> minisat-2.2.0 and glucose seem best (for the conflict-driven solvers,
-   while satz215 seems best overall). </li>
+   <li> minisat-2.2.0 and glucose-2.0 seem best (for the conflict-driven
+   solvers, while satz215 seems best overall). </li>
   </ul>
 
 
