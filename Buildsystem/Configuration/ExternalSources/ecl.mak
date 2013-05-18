@@ -1,5 +1,5 @@
 # Oliver Kullmann, 30.8.2008 (Swansea)
-# Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+# Copyright 2008, 2009, 2010, 2011, 2013 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -8,7 +8,7 @@
 # Settings for building and using Ecl
 
 ecl_recommended_version_number_okl ?= 11.1.1.2
-ecl_other_versions_okl ?= 11.1.1.1
+ecl_other_versions_okl ?= 12.12.1
 
 ecl_prefix_okl ?= ecl
 
@@ -43,8 +43,8 @@ ecl_source_okl := $(ExternalSources)/sources/Ecl/$(ecl_recommended_okl)
 
 # Tool: rlwrap
 
-rlwrap_recommended_version_number_okl ?= 0.30
-rlwrap_other_versions_okl ?= 
+rlwrap_recommended_version_number_okl ?= 0.37
+rlwrap_other_versions_okl ?= 0.30
 
 rlwrap_prefix_okl ?= rlwrap
 
@@ -64,8 +64,8 @@ rlwrap_source_okl := $(ExternalSources)/sources/Ecl/$(rlwrap_recommended_okl)
 
 # Tool: libffi
 
-libffi_recommended_version_number_okl ?= 3.0.9
-libffi_other_versions_okl ?= 
+libffi_recommended_version_number_okl ?= 3.0.13
+libffi_other_versions_okl ?= 3.0.9
 
 libffi_prefix_okl ?= libffi
 
@@ -77,7 +77,7 @@ libffi_base_build_dir_okl ?= $(ecl_base_build_dir_okl)/Libffi
 libffi_build_dir_okl ?= $(libffi_base_build_dir_okl)/$(libffi_recommended_okl)
 
 libffi_link_path_okl ?= -Wl,-rpath,$(libffi_installation_dir_okl)/lib
-libffi_link_option_okl ?= -L $(libffi_installation_dir_okl)/lib $(libffi_link_path_okl) -lffi
+libffi_link_option_okl ?= -L$(libffi_installation_dir_okl)/lib $(libffi_link_path_okl) -lffi
 
 libffi_source_library_okl ?= $(libffi_installation_dir_okl)/include
 libffi_include_option_okl ?= -I $(libffi_source_library_okl)

@@ -17,7 +17,8 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ecl.hpp the following
    topics are handled:
-    - Update to 11.1.1.2
+    - Update to 12.12.1
+    - Update to 11.1.1.2 : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following

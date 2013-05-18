@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.1.2009 (Swansea)
-/* Copyright 2009, 2010, 2011, 2012 Oliver Kullmann
+/* Copyright 2009, 2010, 2011, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,7 +10,22 @@ License, or any later version. */
   \brief Plans regarding installation of the Common-Lisp Ecl
 
 
-  \todo Update to 12.2.1
+  \todo Update to 12.12.1
+  <ul>
+   <li> Building Ecl seems to work, but when building Maxima we get
+   \verbatim
+;;; Loading "/home/kullmann/OKplatform/ExternalSources/builds/Maxima/ecl/maxima-5.29.0/src/binary-ecl/maxima-package.fas"
+
+Condition of type: SEGMENTATION-VIOLATION
+Detected access to an invalid or protected memory address.
+   \endverbatim
+   </li>
+   <li> Let's wait for an update of Maxima (we can't use 5.29.1 due to a bug).
+   </li>
+  </ul>
+
+
+  \todo Update to 12.2.1 : DONE (now outdated)
   <ul>
    <li> Building Ecl seems to work, but when building Maxima we get
    \verbatim
