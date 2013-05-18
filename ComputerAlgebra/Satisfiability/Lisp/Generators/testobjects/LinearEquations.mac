@@ -40,6 +40,12 @@ okltest_odd_parity_fcl(odd_parity_fcl);
 
 okltest_gprt2prt(gprt2prt);
 
+okltest_equiv_gprt(equiv_gprt);
+okltest_equiv_prt(equiv_prt);
+
+okltest_addgprt2prt(addgprt2prt);
+okltest_addprt2prt(addprt2prt);
+
 /* **********************************
    * Translating parity constraints *
    **********************************
@@ -50,6 +56,8 @@ okltest_prt2cl_aux_1(prt2cl_aux_1);
 
 okltest_gen_2xor_fcl(gen_2xor_fcl);
 
+okltest_seteqlit2cl(seteqlit2cl);
+
 okltest_gprt2s2cl_aux_2(gprt2s2cl_aux_2);
 
 okltest_gprt2s2cl_aux_s(gprt2s2cl_aux_s);
@@ -57,6 +65,10 @@ okltest_gprt2s2cl_aux_s(gprt2s2cl_aux_s);
 okltest_sprt2cl_0(sprt2cl_0);
 
 okltest_sprt2cl_aux_1(sprt2cl_aux_1);
+
+okltest_sprt2cl_aux_1e(sprt2cl_aux_1e);
+
+okltest_closure_sprt(closure_sprt);
 
 /*!
 \endhtmlonly
