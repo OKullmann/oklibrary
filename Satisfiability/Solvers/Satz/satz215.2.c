@@ -1512,13 +1512,10 @@ int further_examin(int saved_managedclause_fill_pointer) {
    return TRUE;
 }
 
-int further_testable(saved_managedclause_fill_pointer) {
-  if ((MANAGEDCLAUSE_STACK_fill_pointer-
-       saved_managedclause_fill_pointer>T_SEUIL) &&
-      (MANAGEDCLAUSE_STACK_fill_pointer-
-       saved_managedclause_fill_pointer>MAX_REDUCED)) {
-    MAX_REDUCED=MANAGEDCLAUSE_STACK_fill_pointer-
-      saved_managedclause_fill_pointer;
+int further_testable(const int saved_managedclause_fill_pointer) {
+  if ((MANAGEDCLAUSE_STACK_fill_pointer - saved_managedclause_fill_pointer > T_SEUIL) &&
+      (MANAGEDCLAUSE_STACK_fill_pointer - saved_managedclause_fill_pointer > MAX_REDUCED)) {
+    MAX_REDUCED = MANAGEDCLAUSE_STACK_fill_pointer - saved_managedclause_fill_pointer;
     return TRUE;
   }
   return FALSE;
