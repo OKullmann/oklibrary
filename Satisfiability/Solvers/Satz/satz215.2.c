@@ -1767,7 +1767,7 @@ void reset_all() {
    MANAGEDCLAUSE_STACK_fill_pointer = 0;
 }
 
-int dpl() {
+void dpl() {
   int var;
 
   reset_all();
