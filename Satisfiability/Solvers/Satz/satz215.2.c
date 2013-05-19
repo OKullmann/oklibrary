@@ -513,7 +513,7 @@ int CLAUSE_INVOLVED[tab_clause_size];
 
 int already_present(int *resolvant) {
   int lit, *lits, clause, length=0, i;
-  struct node *pnode, *pnode1;
+  struct node *pnode;
   lits=resolvant;
   for (lit=*lits; lit != NONE; lit=*(++lits)) {
     length++;
@@ -901,7 +901,7 @@ int verify_solution() {
 long NB_SEARCH = 0; long NB_FIXED = 0;
 
 int unitclause_process() {
-  int var, i, unitclause, lit, *lits, unitclause_position;
+  int var, unitclause, lit, *lits, unitclause_position;
 
   for (unitclause_position = 0;
        unitclause_position < UNITCLAUSE_STACK_fill_pointer;
@@ -1069,7 +1069,7 @@ int examine1(int tested_var) {
 }
 
 int examine(int tested_var) {
-   int  i, generating_fixed_variables_if_positif = 0,
+   int generating_fixed_variables_if_positif = 0,
      generating_fixed_variables_if_negatif = 0,
      saved_var_stack_fill_pointer,
      saved_managedclause_fill_pointer;
@@ -1521,7 +1521,7 @@ int further_testable(saved_managedclause_fill_pointer) {
 }
 
 int examine3(int tested_var) {
-  int i, generating_if_positif, generating_if_negatif,
+  int generating_if_positif, generating_if_negatif,
     saved_var_stack_fill_pointer,
     saved_managedclause_fill_pointer;
 
@@ -1625,12 +1625,10 @@ int get_pos_clause_nb(int var) {
 }
 
 int choose_and_instantiate_variable_in_clause() {
-    int var, nb=0, chosen_var=NONE;
+    int var, chosen_var=NONE;
     long  i, posi, nega;
     unsigned long nb_clauses, max_nb_clauses = 0;
     my_type pos2, neg2;
-    long saved_nb_back;
-    struct var_node *pvar_node;
 
     ++NB_BRANCHE;
     TESTED_VAR_STACK_fill_pointer=0;
@@ -1780,7 +1778,7 @@ int dpl() {
 
 main(int argc, char *argv[]) {
    char saved_input_file[WORD_LENGTH];
-   int i,  var;
+   int i;
    clock_t begintime, endtime;
    struct tms *a_tms;
    const long EPS = sysconf(_SC_CLK_TCK);
