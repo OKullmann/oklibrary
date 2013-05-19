@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.4.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans and todos for the versioning control system
 
 
-  \todo Clean-up regarding shared repositories
+  \todo Clean-up regarding shared repositories : DONE
   <ul>
    <li> Since now we use Github for providing shared repositories, we don't
    have our own shared repositories anymore. </li>
@@ -95,7 +95,7 @@ spellingprogram = /usr/bin/ispell
   </ul>
 
 
-  \todo Resetting the shared repository
+  \todo Resetting the shared repository : DONE (moved to Github)
   <ul>
    <li> Why can't the shared bare repository on cs-oksvr not be reset
    as every other repository? git complains about it, but it seems
