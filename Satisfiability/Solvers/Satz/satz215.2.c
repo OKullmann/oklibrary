@@ -1770,24 +1770,20 @@ void dpl() {
   } while ((VARIABLE_STACK_fill_pointer != 0) && (!(satisfiable())));
 }
 
-int main(const int argc, char* const argv[]) {
-   char saved_input_file[WORD_LENGTH];
-   int i;
-   clock_t begintime, endtime;
-   struct tms *a_tms;
-   const long EPS = sysconf(_SC_CLK_TCK);
-   FILE *fp_time;
-   int exit_value;
 
+int main(const int argc, char* const argv[]) {
    if ((argc!=2) && (argc !=3)) {
       printf("Usage format: \"satz input_instance [-s]\"\n");
       return EXITCODE_PARAMETER_FAILURE;
    }
-   for (i=0; i<WORD_LENGTH; ++i) saved_input_file[i]=argv[1][i];
+   char saved_input_file[WORD_LENGTH];
+   for (int i=0; i<WORD_LENGTH; ++i) saved_input_file[i]=argv[1][i];
 
-   a_tms = ( struct tms *) malloc( sizeof (struct tms));
-   times(a_tms); begintime = a_tms->tms_utime;
+   struct tms* a_tms = malloc(sizeof(struct tms));
+   times(a_tms);
+   const clock_t begintime = a_tms->tms_utime;
 
+   int exit_value;
    switch (build(argc, argv)) {
       case FALSE: printf("Input file error.\n"); return EXITCODE_INPUT_ERROR;
       case TRUE:
@@ -1803,7 +1799,8 @@ int main(const int argc, char* const argv[]) {
         exit_value = EXITCODE_UNSAT;
         break;
    }
-   times(a_tms); endtime = a_tms->tms_utime;
+   times(a_tms);
+   const clock_t endtime = a_tms->tms_utime;
 
    if (satisfiable()) {
      exit_value = EXITCODE_SAT;
@@ -1823,17 +1820,18 @@ int main(const int argc, char* const argv[]) {
   printf("NB_MONO= %lu, NB_UNIT= %lu, NB_BRANCHE= %lu, NB_BACK= %lu \n",
          NB_MONO, NB_UNIT, NB_BRANCHE, NB_BACK);
 
-  printf ("Program terminated in %5.3f seconds.\n",
-          ((double)(endtime-begintime)/EPS));
+  const long EPS = sysconf(_SC_CLK_TCK);
+  const double elapsed = (double)(endtime-begintime)/EPS;
+  printf ("Program terminated in %5.3f seconds.\n", elapsed);
 
-  fp_time = fopen("satz215_timetable", "a");
+  FILE* const fp_time = fopen("satz215_timetable", "a");
   fprintf(fp_time, "satz215 %s %5.3f %lu %lu %ld %ld %d %d %d %d %ld %ld\n",
-          saved_input_file, ((double)(endtime-begintime)/EPS),
+          saved_input_file, elapsed,
           NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED,
           satisfiable(), NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
           NB_SECOND_SEARCH, NB_SECOND_FIXED);
   printf("satz215 %s %5.3f %lu %lu %ld %ld %d %d %d %d %ld %ld\n",
-          saved_input_file, ((double)(endtime-begintime)/EPS),
+          saved_input_file, elapsed,
           NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED,
           satisfiable(), NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
           NB_SECOND_SEARCH, NB_SECOND_FIXED);
