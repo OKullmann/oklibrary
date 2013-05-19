@@ -640,6 +640,8 @@ int* copy_clauses(struct node *node_in) {
     return in;
 }
 
+int unitclause_process();
+
 /* a clause should not contain more than 1000 literals */
 my_type build_sat_instance(char *input_file) {
    FILE* fp_in=fopen(input_file, "r");
@@ -1004,6 +1006,8 @@ void reset_context(int saved_var_stack_fill_pointer,
    MANAGEDCLAUSE_STACK_fill_pointer =
      saved_managedclause_fill_pointer;
 }
+
+int branch();
 
 int examine1(int tested_var) {
   int generating_fixed_variables_if_positif,
