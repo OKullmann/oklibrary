@@ -1805,9 +1805,7 @@ int main(const int argc, char* const argv[]) {
    if (satisfiable()) {
      exit_value = EXITCODE_SAT;
      printf ("**** The instance is satisfiable. *****\n");
-     if (verify_solution()) {
-       print_values(NB_VAR);
-     }
+     if (verify_solution()) print_values(NB_VAR);
      else {
        exit_value = EXITCODE_VERIFICATION_FAILED;
        printf ("**** Solution verification failed (for unknown reasons)! ****\n");
@@ -1817,7 +1815,8 @@ int main(const int argc, char* const argv[]) {
     exit_value = EXITCODE_UNSAT;
     printf ("**** The instance is unsatisfiable. *****\n");
   }
-  printf("NB_MONO= %lu, NB_UNIT= %lu, NB_BRANCHE= %lu, NB_BACK= %lu \n",
+
+  printf("NB_MONO= %lu, NB_UNIT= %lu, NB_BRANCHE= %lu, NB_BACK= %lu\n",
          NB_MONO, NB_UNIT, NB_BRANCHE, NB_BACK);
 
   const long EPS = sysconf(_SC_CLK_TCK);
