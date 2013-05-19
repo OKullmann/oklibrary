@@ -35,6 +35,7 @@ added into the formule in the preprocessing */
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <stdbool.h>
 
 #include <sys/times.h>
 #include <unistd.h>
@@ -1802,7 +1803,8 @@ int main(const int argc, char* const argv[]) {
    times(a_tms);
    const clock_t endtime = a_tms->tms_utime;
 
-   if (satisfiable()) {
+   const bool sat_decision = satisfiable();
+   if (sat_decision) {
      exit_value = EXITCODE_SAT;
      printf ("**** The instance is satisfiable. *****\n");
      if (verify_solution()) print_values(NB_VAR);
@@ -1827,12 +1829,12 @@ int main(const int argc, char* const argv[]) {
   fprintf(fp_time, "\"%s\" %5.3f %lu %lu %ld %ld %d %d %d %d %ld %ld\n",
           saved_input_file, elapsed,
           NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED,
-          satisfiable(), NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
+          sat_decision, NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
           NB_SECOND_SEARCH, NB_SECOND_FIXED);
   printf("\"%s\" %5.3f %lu %lu %ld %ld %d %d %d %d %ld %ld\n",
           saved_input_file, elapsed,
           NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED,
-          satisfiable(), NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
+          sat_decision, NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
           NB_SECOND_SEARCH, NB_SECOND_FIXED);
   fclose(fp_time);
   return exit_value;
