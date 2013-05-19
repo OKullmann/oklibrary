@@ -1768,14 +1768,11 @@ void reset_all() {
 }
 
 void dpl() {
-  int var;
-
   reset_all();
-  for(var=0; var<NB_VAR; var++) test_flag[var]=0;
+  for(int var=0; var<NB_VAR; ++var) test_flag[var]=0;
   do {
     if (UNITCLAUSE_STACK_fill_pointer==0)
-      if (choose_and_instantiate_variable_in_clause()==NONE)
-        backtracking();
+      if (choose_and_instantiate_variable_in_clause()==NONE) backtracking();
     if (unitclause_process()==NONE) backtracking();
   } while ((VARIABLE_STACK_fill_pointer != 0) && (!(satisfiable())));
 }
