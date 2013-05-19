@@ -212,12 +212,12 @@ int manage_clauses(register int *clauses) {
    for(clause=*clauses; clause!=NONE; clause=*(++clauses)) {
       if (clause_state[clause] == ACTIVE) {
          switch (clause_length[clause]) {
-	 case 1: return FALSE;
-	 case 2: push(clause, UNITCLAUSE_STACK);
-	   push(clause, MANAGEDCLAUSE_STACK);
-	   clause_length[clause]--; break;
-	 default: clause_length[clause]--;
-	   push(clause, MANAGEDCLAUSE_STACK);
+         case 1: return FALSE;
+         case 2: push(clause, UNITCLAUSE_STACK);
+           push(clause, MANAGEDCLAUSE_STACK);
+           clause_length[clause]--; break;
+         default: clause_length[clause]--;
+           push(clause, MANAGEDCLAUSE_STACK);
          }
       }
    }
@@ -230,10 +230,10 @@ void simple_manage_clauses(register int *clauses) {
      if (clause_state[clause] == ACTIVE) {
        switch (clause_length[clause]) {
        case 2: push(clause, UNITCLAUSE_STACK);
-	 push(clause, MANAGEDCLAUSE_STACK);
-	 clause_length[clause]--; break;
+         push(clause, MANAGEDCLAUSE_STACK);
+         clause_length[clause]--; break;
        default: clause_length[clause]--;
-	 push(clause, MANAGEDCLAUSE_STACK);
+         push(clause, MANAGEDCLAUSE_STACK);
        }
      }
    }
@@ -245,9 +245,9 @@ void my_simple_manage_clauses(register int *clauses) {
      if (clause_state[clause] == ACTIVE) { 
        switch (clause_length[clause]) {
        case 2: push(clause, UNITCLAUSE_STACK);
-	 clause_length[clause]--; break;
+         clause_length[clause]--; break;
        default: clause_length[clause]--; 
-	 push(clause, MANAGEDCLAUSE_STACK);
+         push(clause, MANAGEDCLAUSE_STACK);
        }
      }
    }
@@ -260,9 +260,9 @@ int my_manage_clauses(register int *clauses) {
       switch (clause_length[clause]) {
       case 1: return FALSE;
       case 2: push(clause, UNITCLAUSE_STACK);
-	clause_length[clause]--; break;
+        clause_length[clause]--; break;
       default: clause_length[clause]--;
-	push(clause, MANAGEDCLAUSE_STACK);
+        push(clause, MANAGEDCLAUSE_STACK);
       }
     }
   }
@@ -280,7 +280,7 @@ void print_values(int nb_var) {
           fprintf(fp_out, "%d ", 0-i-1);
     }
     fprintf(fp_out, "\n");
-    fclose(fp_out);			
+    fclose(fp_out);                     
 } 
 
 int backtracking() {
@@ -330,7 +330,7 @@ int backtracking() {
 
 int smaller_than(int lit1, int lit2) {
     return ((lit1<NB_VAR) ? lit1 : lit1-NB_VAR) < 
-	((lit2<NB_VAR) ? lit2 : lit2-NB_VAR);
+        ((lit2<NB_VAR) ? lit2 : lit2-NB_VAR);
 }
 
 my_type redundant(int *new_clause, int *old_clause) {
@@ -479,13 +479,13 @@ void set_link_for_resolv(int resolv) {
    for (lit=*lits; lit != NONE; lit=*(++lits)) { 
        pnode = allocate_node();
        pnode->clause = resolv;
-	   pnode->next=in_resolv[lit];
-	   in_resolv[lit]=pnode;
+           pnode->next=in_resolv[lit];
+           in_resolv[lit]=pnode;
    }
 }
 
 void remove_link_for_resolv(int resolv) {
-	int lit, *lits;
+        int lit, *lits;
    struct node *pnode1, *pnode2, *pnode;
 
    lits = sat[resolv];
@@ -493,7 +493,7 @@ void remove_link_for_resolv(int resolv) {
        pnode = in_resolv[lit];
        if (pnode == NULL) return;
        if (pnode->clause == resolv) 
-		  in_resolv[lit] = pnode->next;
+                  in_resolv[lit] = pnode->next;
        else
        for (pnode1 = pnode, pnode2 = pnode->next;
             pnode2 != NULL; pnode2=pnode2->next) {
@@ -521,12 +521,12 @@ int already_present(int *resolvant) {
       clause=pnode->clause;
       CLAUSE_INVOLVED[clause]++;
       if (CLAUSE_INVOLVED[clause]==1)
-	push(clause, INVOLVED_CLAUSE_STACK);
+        push(clause, INVOLVED_CLAUSE_STACK);
       if (clause_length[clause]==CLAUSE_INVOLVED[clause]) {
-	for(i=0; i<INVOLVED_CLAUSE_STACK_fill_pointer; i++) 
-	  CLAUSE_INVOLVED[INVOLVED_CLAUSE_STACK[i]]=0;
-	INVOLVED_CLAUSE_STACK_fill_pointer=0;
-	return NEW_CLAUSE_REDUNDANT;
+        for(i=0; i<INVOLVED_CLAUSE_STACK_fill_pointer; i++) 
+          CLAUSE_INVOLVED[INVOLVED_CLAUSE_STACK[i]]=0;
+        INVOLVED_CLAUSE_STACK_fill_pointer=0;
+        return NEW_CLAUSE_REDUNDANT;
       }
     }
   }
@@ -556,23 +556,23 @@ int search_redundence(int *lits) {
   new_lits = lits; OLD_CLAUSE_SUPPRESED=FALSE;
   for (lit=*lits; lit != NONE; lit=*(++lits)) { 
     for (pnode = (positive(lit) ? node_pos_in[lit] : 
-		  node_neg_in[get_var_from_lit(lit)]);
-	 pnode != NULL; pnode = pnode1) {
+                  node_neg_in[get_var_from_lit(lit)]);
+         pnode != NULL; pnode = pnode1) {
       pnode1=pnode->next;
       old_lits = sat[pnode->clause];
       is_red = redundant(new_lits, old_lits);
       if (is_red == OLD_CLAUSE_REDUNDANT) {
-	/*          printf("old clause %d is redundant\n", 
-		    pnode->clause);
-	*/
-	OLD_CLAUSE_SUPPRESED=TRUE;
-	clause_state[pnode->clause] = PASSIVE;
-	remove_link(pnode->clause);
+        /*          printf("old clause %d is redundant\n", 
+                    pnode->clause);
+        */
+        OLD_CLAUSE_SUPPRESED=TRUE;
+        clause_state[pnode->clause] = PASSIVE;
+        remove_link(pnode->clause);
       }
       else
-	if (is_red == NEW_CLAUSE_REDUNDANT) {
+        if (is_red == NEW_CLAUSE_REDUNDANT) {
           return NEW_CLAUSE_REDUNDANT;
-	}
+        }
     }
   }
   return OLD_CLAUSE_SUPPRESED;  
@@ -589,32 +589,32 @@ int add_resolvant(int *lits) {
   new_lits = lits;
   for (lit=*lits; lit != NONE; lit=*(++lits))
     for (pnode = (positive(lit) ?
-		  node_neg_in[lit] :
-		  node_pos_in[get_var_from_lit(lit)]);
-	 pnode != NULL; pnode = pnode1) {
+                  node_neg_in[lit] :
+                  node_pos_in[get_var_from_lit(lit)]);
+         pnode != NULL; pnode = pnode1) {
       pnode1=pnode->next;
       old_lits = sat[pnode->clause];
       is_res = get_resolvant(new_lits, old_lits, resolvant);
       if (is_res == NONE) return NONE;
       if (is_res != FALSE) {
-	is_red=search_redundence(resolvant);
-	if (is_red != NEW_CLAUSE_REDUNDANT) {
-	  if (already_present(resolvant) == FALSE) { 
-	    res=(int *)malloc((RESOLVANT_LENGTH+1)*sizeof(int));
-	    if (OLD_CLAUSE_SUPPRESED==TRUE)
-	      clause_state[NB_CLAUSE]=ACTIVE2;
-	    else
-	      clause_state[NB_CLAUSE]=ACTIVE;      
-	    j=0;
-	    while ((res[j]=resolvant[j]) != NONE) ++j;
-	    if (j==0) return NONE;
-	    sat[NB_CLAUSE] = res; 
-	    set_link_for_resolv(NB_CLAUSE);
-	    clause_length[NB_CLAUSE++]=j;
-	  }
-	  /* new_lits is redundant by resolvant */
-	  if (is_res == 2) return 2;
-	}
+        is_red=search_redundence(resolvant);
+        if (is_red != NEW_CLAUSE_REDUNDANT) {
+          if (already_present(resolvant) == FALSE) { 
+            res=(int *)malloc((RESOLVANT_LENGTH+1)*sizeof(int));
+            if (OLD_CLAUSE_SUPPRESED==TRUE)
+              clause_state[NB_CLAUSE]=ACTIVE2;
+            else
+              clause_state[NB_CLAUSE]=ACTIVE;      
+            j=0;
+            while ((res[j]=resolvant[j]) != NONE) ++j;
+            if (j==0) return NONE;
+            sat[NB_CLAUSE] = res; 
+            set_link_for_resolv(NB_CLAUSE);
+            clause_length[NB_CLAUSE++]=j;
+          }
+          /* new_lits is redundant by resolvant */
+          if (is_res == 2) return 2;
+        }
       }
     }
   return TRUE;
@@ -713,29 +713,29 @@ my_type build_sat_instance(char *input_file) {
    INIT_NB_CLAUSE= NB_CLAUSE;
    
    for(i=0; i<NB_CLAUSE; i++) 
-	   set_link_for_resolv(i);
+           set_link_for_resolv(i);
    
    for(i=0; i<tab_clause_size; i++) 
-	   CLAUSE_INVOLVED[INVOLVED_CLAUSE_STACK[i]]=0;
+           CLAUSE_INVOLVED[INVOLVED_CLAUSE_STACK[i]]=0;
    INVOLVED_CLAUSE_STACK_fill_pointer=0;
-		   
+                   
    for(i=0; i<NB_CLAUSE; i++) {
-	  remove_link_for_resolv(i);
+          remove_link_for_resolv(i);
       plit = sat[i];
       length = clause_length[i];          
       if (length==1) push(i, UNITCLAUSE_STACK);
       if (search_redundence(plit) != NEW_CLAUSE_REDUNDANT) {
-	if ((i<INIT_NB_CLAUSE*10) ||
-	    (length<3) ||
-	    (clause_state[i]==ACTIVE2)) {
-	  is_res = add_resolvant(plit);
-	  if (is_res  == NONE) return NONE;
-	  else 
-	    if (is_res == 2) clause_state[i] = PASSIVE;
-	    else
-	      {set_link(i); clause_state[i] = ACTIVE;}
-	}
-	else clause_state[i] = PASSIVE;
+        if ((i<INIT_NB_CLAUSE*10) ||
+            (length<3) ||
+            (clause_state[i]==ACTIVE2)) {
+          is_res = add_resolvant(plit);
+          if (is_res  == NONE) return NONE;
+          else 
+            if (is_res == 2) clause_state[i] = PASSIVE;
+            else
+              {set_link(i); clause_state[i] = ACTIVE;}
+        }
+        else clause_state[i] = PASSIVE;
       }
       else clause_state[i] = PASSIVE;
    }
@@ -811,37 +811,37 @@ my_type build_simple_sat_instance(char *input_file) {
       }              
       if (tautologie == FALSE) {     
         lits[length] = 0;
-	sat[i]= (int *)malloc((length+1) * sizeof(int));
-	for (j=0; j<length; j++) {
-	  if (lits[j] < 0) {
-	    var=abs(lits[j]) - 1;
-	    if (length==3)
+        sat[i]= (int *)malloc((length+1) * sizeof(int));
+        for (j=0; j<length; j++) {
+          if (lits[j] < 0) {
+            var=abs(lits[j]) - 1;
+            if (length==3)
               nb_neg_clause_of_length3[var]++;
-	    else
-	      if (length==2)
-		nb_neg_clause_of_length2[var]++;
-	      else
-		if (length==1)
-		  push(i, UNITCLAUSE_STACK);
-	    neg_nb[var]++;
-	    sat[i][j] = var + NB_VAR ;
-	  }
-	  else {
-	    sat[i][j] = lits[j]-1;
-	    pos_nb[sat[i][j]]++;
-	    if (length==3)
+            else
+              if (length==2)
+                nb_neg_clause_of_length2[var]++;
+              else
+                if (length==1)
+                  push(i, UNITCLAUSE_STACK);
+            neg_nb[var]++;
+            sat[i][j] = var + NB_VAR ;
+          }
+          else {
+            sat[i][j] = lits[j]-1;
+            pos_nb[sat[i][j]]++;
+            if (length==3)
               nb_pos_clause_of_length3[sat[i][j]]++;
-	    else
-	      if (length==2)
-		nb_pos_clause_of_length2[sat[i][j]]++;
-	      else
-		if (length==1)
-		  push(i, UNITCLAUSE_STACK);
-	  }
-	}
-	clause_length[i]=length;
-	clause_state[i] = ACTIVE;
-	sat[i][length]=NONE;
+            else
+              if (length==2)
+                nb_pos_clause_of_length2[sat[i][j]]++;
+              else
+                if (length==1)
+                  push(i, UNITCLAUSE_STACK);
+          }
+        }
+        clause_length[i]=length;
+        clause_state[i] = ACTIVE;
+        sat[i][length]=NONE;
       }
       else {NB_CLAUSE--; i--;}
    }
@@ -850,9 +850,9 @@ my_type build_simple_sat_instance(char *input_file) {
    for (i=0; i<NB_VAR; i++) { 
 
       neg_in[i] = (int *)
-	          malloc((neg_nb[i]+1) * sizeof(int));
+                  malloc((neg_nb[i]+1) * sizeof(int));
       pos_in[i] = (int *)
-	          malloc((pos_nb[i]+1) * sizeof(int));
+                  malloc((pos_nb[i]+1) * sizeof(int));
       neg_in[i][neg_nb[i]]=NONE;
       pos_in[i][pos_nb[i]]=NONE;
       neg_nb[i] = 0;
@@ -862,9 +862,9 @@ my_type build_simple_sat_instance(char *input_file) {
    for (i=0; i<NB_CLAUSE; i++) {
       lits1 = sat[i];
       for(lit=*lits1; lit!=NONE; lit=*(++lits1)) {
-	 if (positive(lit)) 
+         if (positive(lit)) 
             pos_in[lit][pos_nb[lit]++] = i;
-	 else
+         else
             neg_in[get_var_from_lit(lit)]
                   [neg_nb[get_var_from_lit(lit)]++] = i;
       }
@@ -967,18 +967,18 @@ int get_resolvant_nb(int saved_managedclause_fill_pointer) {
     if (clause_length[clause] == 2) {
       lits = sat[clause];
       for(lit=*lits; lit!=NONE; lit=*(++lits)) {
-	if (positive(lit)) {
-	  var = lit;
-	  if (var_state[var] == ACTIVE)
-	    resolvant_nb += (nb_neg_clause_of_length2[var] * WEIGTH)
-	      +nb_neg_clause_of_length3[var]; 
-	}
-	else {
-	  var = get_var_from_lit(lit);
-	  if (var_state[var] == ACTIVE) 
-	    resolvant_nb += (nb_pos_clause_of_length2[var] * WEIGTH) 
-	      +nb_pos_clause_of_length3[var]; 
-	}
+        if (positive(lit)) {
+          var = lit;
+          if (var_state[var] == ACTIVE)
+            resolvant_nb += (nb_neg_clause_of_length2[var] * WEIGTH)
+              +nb_neg_clause_of_length3[var]; 
+        }
+        else {
+          var = get_var_from_lit(lit);
+          if (var_state[var] == ACTIVE) 
+            resolvant_nb += (nb_pos_clause_of_length2[var] * WEIGTH) 
+              +nb_pos_clause_of_length3[var]; 
+        }
       }
     }
   }
@@ -986,7 +986,7 @@ int get_resolvant_nb(int saved_managedclause_fill_pointer) {
 }
 
 void reset_context(int saved_var_stack_fill_pointer,
-		   int saved_managedclause_fill_pointer) {
+                   int saved_managedclause_fill_pointer) {
    int i;
 
    for (i=0; i<UNITCLAUSE_STACK_fill_pointer; i++)
@@ -994,12 +994,12 @@ void reset_context(int saved_var_stack_fill_pointer,
    UNITCLAUSE_STACK_fill_pointer = 0;
 
    for (i=saved_var_stack_fill_pointer; 
-	i<VARIABLE_STACK_fill_pointer; i++)
+        i<VARIABLE_STACK_fill_pointer; i++)
        var_state[VARIABLE_STACK[i]] = ACTIVE;
    VARIABLE_STACK_fill_pointer = saved_var_stack_fill_pointer;
 
    for (i=saved_managedclause_fill_pointer; 
-	i<MANAGEDCLAUSE_STACK_fill_pointer; i++)
+        i<MANAGEDCLAUSE_STACK_fill_pointer; i++)
          clause_length[MANAGEDCLAUSE_STACK[i]]++;
    MANAGEDCLAUSE_STACK_fill_pointer = 
      saved_managedclause_fill_pointer;  
@@ -1024,7 +1024,7 @@ int examine1(int tested_var) {
    
    if (generating_fixed_variables_if_positif == NONE) {
      reset_context(saved_var_stack_fill_pointer, 
-		   saved_managedclause_fill_pointer);
+                   saved_managedclause_fill_pointer);
      var_current_value[tested_var] = FALSE;
      var_rest_value[tested_var] = NONE;
      var_state[tested_var] = PASSIVE;
@@ -1037,7 +1037,7 @@ int examine1(int tested_var) {
      reduce_if_positive_nb[tested_var] = 
        get_resolvant_nb(saved_managedclause_fill_pointer);
      reset_context(saved_var_stack_fill_pointer, 
-		   saved_managedclause_fill_pointer);
+                   saved_managedclause_fill_pointer);
    }
    var_current_value[tested_var] = FALSE;
    
@@ -1049,7 +1049,7 @@ int examine1(int tested_var) {
    
    if (generating_fixed_variables_if_negatif == NONE) {
      reset_context(saved_var_stack_fill_pointer, 
-		   saved_managedclause_fill_pointer);
+                   saved_managedclause_fill_pointer);
      simple_manage_clauses(neg_in[tested_var]);
      var_current_value[tested_var] = TRUE;
      var_rest_value[tested_var] = NONE;
@@ -1062,7 +1062,7 @@ int examine1(int tested_var) {
      reduce_if_negative_nb[tested_var] = 
        get_resolvant_nb(saved_managedclause_fill_pointer);
      reset_context(saved_var_stack_fill_pointer, 
-		   saved_managedclause_fill_pointer);
+                   saved_managedclause_fill_pointer);
    }
    push(tested_var, TESTED_VAR_STACK);
    return TRUE;
@@ -1086,10 +1086,10 @@ int examine(int tested_var) {
 
       generating_fixed_variables_if_positif = branch();
       reduce_if_positive_nb[tested_var]=
-	MANAGEDCLAUSE_STACK_fill_pointer-
-	saved_managedclause_fill_pointer;
+        MANAGEDCLAUSE_STACK_fill_pointer-
+        saved_managedclause_fill_pointer;
       reset_context(saved_var_stack_fill_pointer, 
-		    saved_managedclause_fill_pointer);
+                    saved_managedclause_fill_pointer);
    
       if (generating_fixed_variables_if_positif == NONE) {
          var_current_value[tested_var] = FALSE;
@@ -1109,10 +1109,10 @@ int examine(int tested_var) {
 
       generating_fixed_variables_if_negatif = branch();
       reduce_if_negative_nb[tested_var]=
-	MANAGEDCLAUSE_STACK_fill_pointer-
-	saved_managedclause_fill_pointer;
+        MANAGEDCLAUSE_STACK_fill_pointer-
+        saved_managedclause_fill_pointer;
       reset_context(saved_var_stack_fill_pointer, 
-		    saved_managedclause_fill_pointer);
+                    saved_managedclause_fill_pointer);
 
       if (generating_fixed_variables_if_negatif == NONE) {
          simple_manage_clauses(neg_in[tested_var]);
@@ -1121,7 +1121,7 @@ int examine(int tested_var) {
          var_state[tested_var] = PASSIVE;
          push(tested_var, VARIABLE_STACK);
          remove_clauses(pos_in[tested_var]);
-	 return NONE;
+         return NONE;
        }
    push(tested_var, TESTED_VAR_STACK);
    return TRUE;
@@ -1136,18 +1136,18 @@ int get_nb(int saved_managedclause_fill_pointer) {
     if (clause_length[clause] == 2) {
       lits = sat[clause];
       for(lit=*lits; lit!=NONE; lit=*(++lits)) {
-	if (negative(lit)) {
-	  var=get_var_from_lit(lit);
-	  if (var_state[var] == ACTIVE) {
-	    nb+=nb_pos_clause_of_length2[var];
-	  }
-	}
-	else {
-	  var=lit;
-	  if (var_state[var] == ACTIVE) {
-	    nb+=nb_neg_clause_of_length2[var];
-	  }
-	}
+        if (negative(lit)) {
+          var=get_var_from_lit(lit);
+          if (var_state[var] == ACTIVE) {
+            nb+=nb_pos_clause_of_length2[var];
+          }
+        }
+        else {
+          var=lit;
+          if (var_state[var] == ACTIVE) {
+            nb+=nb_neg_clause_of_length2[var];
+          }
+        }
       }
     }
   }
@@ -1173,7 +1173,7 @@ int examine2(int tested_var) {
    
    if (generating_fixed_variables_if_positif == NONE) {
      reset_context(saved_var_stack_fill_pointer, 
-		   saved_managedclause_fill_pointer);
+                   saved_managedclause_fill_pointer);
      var_current_value[tested_var] = FALSE;
      var_rest_value[tested_var] = NONE;
      var_state[tested_var] = PASSIVE;
@@ -1186,7 +1186,7 @@ int examine2(int tested_var) {
      reduce_if_positive_nb[tested_var]=
        get_nb(saved_managedclause_fill_pointer);
      reset_context(saved_var_stack_fill_pointer, 
-		   saved_managedclause_fill_pointer);
+                   saved_managedclause_fill_pointer);
    }
    
    
@@ -1199,7 +1199,7 @@ int examine2(int tested_var) {
    
    if (generating_fixed_variables_if_negatif == NONE) {
      reset_context(saved_var_stack_fill_pointer, 
-		   saved_managedclause_fill_pointer);
+                   saved_managedclause_fill_pointer);
      simple_manage_clauses(neg_in[tested_var]);
      var_current_value[tested_var] = TRUE;
      var_rest_value[tested_var] = NONE;
@@ -1212,7 +1212,7 @@ int examine2(int tested_var) {
      reduce_if_negative_nb[tested_var]=
        get_nb(saved_managedclause_fill_pointer);
      reset_context(saved_var_stack_fill_pointer, 
-		   saved_managedclause_fill_pointer);
+                   saved_managedclause_fill_pointer);
    }
    
    push(tested_var, TESTED_VAR_STACK);
@@ -1238,11 +1238,11 @@ int branch() {
                  if (var_state[var] == ACTIVE) {
                     var_current_value[var] = TRUE;
                     if (my_manage_clauses(neg_in[var]) == TRUE) {
-		      if (LIT_IMPLIED[lit]==0) push(lit, IMPLIED_LITS);
-		      LIT_IMPLIED[lit]++;
-		      var_state[var] = PASSIVE;
-		      push(var, VARIABLE_STACK);
-		      break;
+                      if (LIT_IMPLIED[lit]==0) push(lit, IMPLIED_LITS);
+                      LIT_IMPLIED[lit]++;
+                      var_state[var] = PASSIVE;
+                      push(var, VARIABLE_STACK);
+                      break;
                     }
                     else {
                        NB_FIXED++;
@@ -1255,15 +1255,15 @@ int branch() {
                  if (var_state[var] == ACTIVE) {
                     var_current_value[var] = FALSE;
                     if (my_manage_clauses(pos_in[var]) == TRUE) {
-		      if (LIT_IMPLIED[lit]==0) push(lit, IMPLIED_LITS);
-		      LIT_IMPLIED[lit]++;
-		      var_state[var] = PASSIVE;
-		      push(var, VARIABLE_STACK);
-		      break;
+                      if (LIT_IMPLIED[lit]==0) push(lit, IMPLIED_LITS);
+                      LIT_IMPLIED[lit]++;
+                      var_state[var] = PASSIVE;
+                      push(var, VARIABLE_STACK);
+                      break;
                     }
                     else { 
-		      NB_FIXED++;
-		      return NONE;
+                      NB_FIXED++;
+                      return NONE;
                     }
                  }
               }
@@ -1311,7 +1311,7 @@ int treat_implied_lits() {
     lit=IMPLIED_LITS[i];
     if (LIT_IMPLIED[lit]==2)
       if (satisfy_literal(lit)==NONE)
-	return NONE;
+        return NONE;
   }
   return TRUE;
 }
@@ -1339,11 +1339,11 @@ int insert_var_if_necessary1(int var) {
     nb=1; pvar_node1=VAR_FOR_TEST1; pvar_node2=pvar_node1->next; 
     while (nb<VAR_NODES1_nb) {
       if ((pvar_node2==NULL) || 
-	  ((pvar_node2!=NULL) && (weight>pvar_node2->weight))) {
-	pvar_node=allocate_var_node1();
-	pvar_node->var=var; pvar_node->weight=weight;
-	pvar_node->next=pvar_node1->next; pvar_node1->next=pvar_node;
-	break;
+          ((pvar_node2!=NULL) && (weight>pvar_node2->weight))) {
+        pvar_node=allocate_var_node1();
+        pvar_node->var=var; pvar_node->weight=weight;
+        pvar_node->next=pvar_node1->next; pvar_node1->next=pvar_node;
+        break;
       }
       nb++; pvar_node1=pvar_node2; pvar_node2=pvar_node1->next;
     }
@@ -1366,11 +1366,11 @@ int branch1() {
                  if (var_state[var] == ACTIVE) {
                     var_current_value[var] = TRUE;
                     if (my_manage_clauses(neg_in[var]) == TRUE) {
-		      //if (LIT_IMPLIED[lit]==0) push(lit, IMPLIED_LITS);
-		      //LIT_IMPLIED[lit]+=5;
-		      var_state[var] = PASSIVE;
-		      push(var, VARIABLE_STACK);
-		      break;
+                      //if (LIT_IMPLIED[lit]==0) push(lit, IMPLIED_LITS);
+                      //LIT_IMPLIED[lit]+=5;
+                      var_state[var] = PASSIVE;
+                      push(var, VARIABLE_STACK);
+                      break;
                     }
                     else {
                        NB_FIXED++;
@@ -1383,15 +1383,15 @@ int branch1() {
                  if (var_state[var] == ACTIVE) {
                     var_current_value[var] = FALSE;
                     if (my_manage_clauses(pos_in[var]) == TRUE) {
-		      //if (LIT_IMPLIED[lit]==0) push(lit, IMPLIED_LITS);
-		      //LIT_IMPLIED[lit]+=5;
-		      var_state[var] = PASSIVE;
-		      push(var, VARIABLE_STACK);
-		      break;
+                      //if (LIT_IMPLIED[lit]==0) push(lit, IMPLIED_LITS);
+                      //LIT_IMPLIED[lit]+=5;
+                      var_state[var] = PASSIVE;
+                      push(var, VARIABLE_STACK);
+                      break;
                     }
                     else { 
-		      NB_FIXED++;
-		      return NONE;
+                      NB_FIXED++;
+                      return NONE;
                     }
                  }
               }
@@ -1418,7 +1418,7 @@ int further_examin_var_if_positive(int var) {
     NB_SECOND_SEARCH++; 
     nb_reduced_clauses_if_further_positif = branch1();
     reset_context(saved_var_stack_fill_pointer, 
-		  saved_managedclause_fill_pointer);
+                  saved_managedclause_fill_pointer);
     
     if (nb_reduced_clauses_if_further_positif == NONE) {
       NB_SECOND_FIXED++;
@@ -1451,7 +1451,7 @@ int further_examin_var_if_negative(int var) {
   NB_SECOND_SEARCH++;
   nb_reduced_clauses_if_further_negatif = branch1();
   reset_context(saved_var_stack_fill_pointer, 
-		saved_managedclause_fill_pointer);
+                saved_managedclause_fill_pointer);
   
   if (nb_reduced_clauses_if_further_negatif == NONE) {
     NB_SECOND_FIXED++;
@@ -1476,32 +1476,32 @@ int further_examin(int saved_managedclause_fill_pointer) {
      if (clause_length[clause] == 2) {
        lits = sat[clause];
        for(lit=*lits; lit!=NONE; lit=*(++lits)) {
-	 if (positive(lit)) {
-	   var = lit;
-	   if ((var_state[var] == ACTIVE) && 
-	       (test_flag[var] < NB_SEARCH)) {
-	     test_flag[var] = NB_SEARCH; 
-	     if (nb_neg_clause_of_length2[var]>0) {
-	       if (further_examin_var_if_positive(var)==NONE) {
-		 MAX_REDUCED=-1;
-		 return NONE; 
-	       } 
-	     }
-	   }
-	 }
-	 else {
-	   var = get_var_from_lit(lit);
-	   if ((var_state[var] == ACTIVE) && 
-	       (test_flag[var] < NB_SEARCH))  {
-	     test_flag[var] = NB_SEARCH; 
-	     if (nb_pos_clause_of_length2[var]>0) {
-	       if (further_examin_var_if_negative(var)==NONE) {
-		 MAX_REDUCED=-1;
-		 return NONE; 
-	       }
-	     }
-	   }
-	 }
+         if (positive(lit)) {
+           var = lit;
+           if ((var_state[var] == ACTIVE) && 
+               (test_flag[var] < NB_SEARCH)) {
+             test_flag[var] = NB_SEARCH; 
+             if (nb_neg_clause_of_length2[var]>0) {
+               if (further_examin_var_if_positive(var)==NONE) {
+                 MAX_REDUCED=-1;
+                 return NONE; 
+               } 
+             }
+           }
+         }
+         else {
+           var = get_var_from_lit(lit);
+           if ((var_state[var] == ACTIVE) && 
+               (test_flag[var] < NB_SEARCH))  {
+             test_flag[var] = NB_SEARCH; 
+             if (nb_pos_clause_of_length2[var]>0) {
+               if (further_examin_var_if_negative(var)==NONE) {
+                 MAX_REDUCED=-1;
+                 return NONE; 
+               }
+             }
+           }
+         }
        }
      }
    }
@@ -1542,7 +1542,7 @@ int examine3(int tested_var) {
       ((further_testable(saved_managedclause_fill_pointer)==TRUE) 
        && (further_examin(saved_managedclause_fill_pointer)==NONE))) {
     reset_context(saved_var_stack_fill_pointer, 
-		  saved_managedclause_fill_pointer);
+                  saved_managedclause_fill_pointer);
     var_current_value[tested_var] = FALSE;
     var_rest_value[tested_var] = NONE;
     var_state[tested_var] = PASSIVE;
@@ -1553,7 +1553,7 @@ int examine3(int tested_var) {
   }
   else {
     reset_context(saved_var_stack_fill_pointer, 
-		  saved_managedclause_fill_pointer);
+                  saved_managedclause_fill_pointer);
   }
   
   var_current_value[tested_var] = FALSE;
@@ -1570,7 +1570,7 @@ int examine3(int tested_var) {
       ((further_testable(saved_managedclause_fill_pointer)==TRUE) 
        && (further_examin(saved_managedclause_fill_pointer)==NONE)))  {
     reset_context(saved_var_stack_fill_pointer, 
-		  saved_managedclause_fill_pointer);
+                  saved_managedclause_fill_pointer);
     simple_manage_clauses(neg_in[tested_var]);
     var_current_value[tested_var] = TRUE;
     var_rest_value[tested_var] = NONE;
@@ -1581,7 +1581,7 @@ int examine3(int tested_var) {
   }
   else {
     reset_context(saved_var_stack_fill_pointer, 
-		  saved_managedclause_fill_pointer);
+                  saved_managedclause_fill_pointer);
   }
   push(tested_var, TESTED_VAR_STACK);
   return TRUE;
@@ -1662,14 +1662,14 @@ int choose_and_instantiate_variable_in_clause() {
               pos2 = nb_pos_clause_of_length2[var];
               neg2 = nb_neg_clause_of_length2[var];
               if ((neg2>0) && (pos2>0) && ((neg2+pos2)>3) ) {
-		for(i=0; i<IMPLIED_LITS_fill_pointer; i++) 
-		  LIT_IMPLIED[IMPLIED_LITS[i]]=0;
-		IMPLIED_LITS_fill_pointer=0;
-		if (examine3(var) == NONE) {
-		   if (unitclause_process() == NONE) return NONE;
-		}
-		else
-		  if (treat_implied_lits()==NONE) return NONE;
+                for(i=0; i<IMPLIED_LITS_fill_pointer; i++) 
+                  LIT_IMPLIED[IMPLIED_LITS[i]]=0;
+                IMPLIED_LITS_fill_pointer=0;
+                if (examine3(var) == NONE) {
+                   if (unitclause_process() == NONE) return NONE;
+                }
+                else
+                  if (treat_implied_lits()==NONE) return NONE;
               }
            }
        }
@@ -1677,47 +1677,47 @@ int choose_and_instantiate_variable_in_clause() {
     if (TESTED_VAR_STACK_fill_pointer < T) {
       TESTED_VAR_STACK_fill_pointer=0; 
       for (var=0; var<NB_VAR; var++)
-	if (var_state[var] == ACTIVE) {
-	  pos2 = nb_pos_clause_of_length2[var];
-	  neg2 = nb_neg_clause_of_length2[var];
-	  if ((neg2>0) && (pos2 > 0) &&
-	      ((neg2 > 1) || (pos2 > 1) ) ) {
-	    for(i=0; i<IMPLIED_LITS_fill_pointer; i++) 
-	      LIT_IMPLIED[IMPLIED_LITS[i]]=0;
-	    IMPLIED_LITS_fill_pointer=0;
-	    if (examine2(var) == NONE) {
-	      if (unitclause_process() == NONE) return NONE;
-	    }
-	    else
-	      if (treat_implied_lits()==NONE) return NONE;
-	  }
-	}
+        if (var_state[var] == ACTIVE) {
+          pos2 = nb_pos_clause_of_length2[var];
+          neg2 = nb_neg_clause_of_length2[var];
+          if ((neg2>0) && (pos2 > 0) &&
+              ((neg2 > 1) || (pos2 > 1) ) ) {
+            for(i=0; i<IMPLIED_LITS_fill_pointer; i++) 
+              LIT_IMPLIED[IMPLIED_LITS[i]]=0;
+            IMPLIED_LITS_fill_pointer=0;
+            if (examine2(var) == NONE) {
+              if (unitclause_process() == NONE) return NONE;
+            }
+            else
+              if (treat_implied_lits()==NONE) return NONE;
+          }
+        }
 
       if (TESTED_VAR_STACK_fill_pointer < T) {
-	TESTED_VAR_STACK_fill_pointer = 0;
-	for (var=0; var<NB_VAR; var++)
-	  if (var_state[var] == ACTIVE) {
-	    for(i=0; i<IMPLIED_LITS_fill_pointer; i++) 
-	      LIT_IMPLIED[IMPLIED_LITS[i]]=0;
-	    IMPLIED_LITS_fill_pointer=0;
-	    if (examine1(var) == NONE) {
-	      if (unitclause_process() == NONE) return NONE;
-	    }
-	    else
-	      if (treat_implied_lits()==NONE) return NONE;
-	  }
+        TESTED_VAR_STACK_fill_pointer = 0;
+        for (var=0; var<NB_VAR; var++)
+          if (var_state[var] == ACTIVE) {
+            for(i=0; i<IMPLIED_LITS_fill_pointer; i++) 
+              LIT_IMPLIED[IMPLIED_LITS[i]]=0;
+            IMPLIED_LITS_fill_pointer=0;
+            if (examine1(var) == NONE) {
+              if (unitclause_process() == NONE) return NONE;
+            }
+            else
+              if (treat_implied_lits()==NONE) return NONE;
+          }
       }
     }
     for (i=0; i<TESTED_VAR_STACK_fill_pointer; i++) {
       var=TESTED_VAR_STACK[i];
       if (var_state[var] == ACTIVE) {
-	posi=reduce_if_positive_nb[var];
-	nega=reduce_if_negative_nb[var];
-	nb_clauses = posi*nega*128 + posi + nega +1;
-	if (nb_clauses > max_nb_clauses) {
-	  chosen_var = var;
-	  max_nb_clauses = nb_clauses;
-	}
+        posi=reduce_if_positive_nb[var];
+        nega=reduce_if_negative_nb[var];
+        nb_clauses = posi*nega*128 + posi + nega +1;
+        if (nb_clauses > max_nb_clauses) {
+          chosen_var = var;
+          max_nb_clauses = nb_clauses;
+        }
       }
     }       
     
@@ -1773,7 +1773,7 @@ int dpl() {
   do {
     if (UNITCLAUSE_STACK_fill_pointer==0)
       if (choose_and_instantiate_variable_in_clause()==NONE)
-	backtracking();
+        backtracking();
     if (unitclause_process()==NONE) backtracking();
   } while ((VARIABLE_STACK_fill_pointer != 0) && (!(satisfiable())));
 }
@@ -1799,13 +1799,13 @@ main(int argc, char *argv[]) {
    switch (build(argc, argv)) {
       case FALSE: printf("Input file error.\n"); return EXITCODE_INPUT_ERROR;
       case TRUE:
-	VARIABLE_STACK_fill_pointer=0;
-	CLAUSE_STACK_fill_pointer = 0;
-	MANAGEDCLAUSE_STACK_fill_pointer = 0;
-	T_SEUIL= NB_VAR/6; 
-	H_SEUIL=3*T/2;
-	dpl();
-	break;
+        VARIABLE_STACK_fill_pointer=0;
+        CLAUSE_STACK_fill_pointer = 0;
+        MANAGEDCLAUSE_STACK_fill_pointer = 0;
+        T_SEUIL= NB_VAR/6; 
+        H_SEUIL=3*T/2;
+        dpl();
+        break;
       case NONE:
         printf("An empty resolvent was found.\n");
         exit_value = EXITCODE_UNSAT;
@@ -1830,7 +1830,7 @@ main(int argc, char *argv[]) {
   }
   printf("NB_MONO= %lu, NB_UNIT= %lu, NB_BRANCHE= %lu, NB_BACK= %lu \n",
          NB_MONO, NB_UNIT, NB_BRANCHE, NB_BACK);
-	        
+                
   printf ("Program terminated in %5.3f seconds.\n",
           ((double)(endtime-begintime)/EPS));
 
