@@ -149,7 +149,7 @@ END {
   </ul>
 
 
-  \todo Improve range of statistic measurements
+  \todo Improve range of statistic measurements : DONE
   <ul>
    <li> Yet for the four basic statistics variables, <code> NB_UNIT, NB_MONO,
    NB_BRANCHE, NB_BACK </code> just type <code>long</code> is used. </li>

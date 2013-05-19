@@ -168,7 +168,8 @@ int NB_CLAUSE;
 int INIT_NB_CLAUSE;
 my_type R = 3;
 
-long NB_UNIT=0, NB_MONO=0, NB_BRANCHE=0, NB_BACK = 0;
+typedef unsigned long StatisticsCount;
+StatisticsCount NB_UNIT=0, NB_MONO=0, NB_BRANCHE=0, NB_BACK=0;
 
 #define double_tab_clause_size 2*tab_clause_size
 
@@ -286,7 +287,7 @@ int backtracking() {
    int var, index;
       
    UNITCLAUSE_STACK_fill_pointer = 0;
-   NB_BACK++;
+   ++NB_BACK;
 
    do {
       var = pop(VARIABLE_STACK);
@@ -907,7 +908,7 @@ int unitclause_process() {
        unitclause_position++) {
      unitclause = UNITCLAUSE_STACK[unitclause_position];
      if (clause_state[unitclause] == ACTIVE) {
-       NB_UNIT++;
+       ++NB_UNIT;
        lits = sat[unitclause];
        for(lit=*lits; lit!=NONE; lit=*(++lits)) {
           if (positive(lit)) {
@@ -1631,7 +1632,7 @@ int choose_and_instantiate_variable_in_clause() {
     long saved_nb_back;
     struct var_node *pvar_node;
     
-    NB_BRANCHE++;
+    ++NB_BRANCHE;
     TESTED_VAR_STACK_fill_pointer=0;
     VAR_FOR_TEST1=NULL; VAR_NODES1_index=0; MAX_REDUCED=-1;
 
@@ -1641,7 +1642,7 @@ int choose_and_instantiate_variable_in_clause() {
            reduce_if_positive_nb[var]=0;
 
            if (get_neg_clause_nb(var) == 0) {
-	       NB_MONO++;
+               ++NB_MONO;
                var_current_value[var] = TRUE;
                var_rest_value[var] = NONE;
                var_state[var] = PASSIVE;
@@ -1650,7 +1651,7 @@ int choose_and_instantiate_variable_in_clause() {
            }
            else
            if (get_pos_clause_nb(var) == 0) {
-               NB_MONO++;
+               ++NB_MONO;
                var_current_value[var] = FALSE;
                var_rest_value[var] = NONE;
                var_state[var] = PASSIVE;
@@ -1827,19 +1828,19 @@ main(int argc, char *argv[]) {
     exit_value = EXITCODE_UNSAT;
     printf ("**** The instance is unsatisfiable. *****\n");
   }
-  printf("NB_MONO= %ld, NB_UNIT= %ld, NB_BRANCHE= %ld, NB_BACK= %ld \n", 
+  printf("NB_MONO= %lu, NB_UNIT= %lu, NB_BRANCHE= %lu, NB_BACK= %lu \n",
          NB_MONO, NB_UNIT, NB_BRANCHE, NB_BACK);
 	        
   printf ("Program terminated in %5.3f seconds.\n",
           ((double)(endtime-begintime)/EPS));
 
   fp_time = fopen("satz215_timetable", "a");
-  fprintf(fp_time, "satz215 %s %5.3f %ld %ld %ld %ld %d %d %d %d %ld %ld\n", 
+  fprintf(fp_time, "satz215 %s %5.3f %lu %lu %ld %ld %d %d %d %d %ld %ld\n",
           saved_input_file, ((double)(endtime-begintime)/EPS),
           NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED, 
           satisfiable(), NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
           NB_SECOND_SEARCH, NB_SECOND_FIXED);
-  printf("satz215 %s %5.3f %ld %ld %ld %ld %d %d %d %d %ld %ld\n", 
+  printf("satz215 %s %5.3f %lu %lu %ld %ld %d %d %d %d %ld %ld\n",
           saved_input_file, ((double)(endtime-begintime)/EPS),
           NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED, 
           satisfiable(), NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
