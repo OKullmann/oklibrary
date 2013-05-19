@@ -139,6 +139,13 @@ END {
    Clause elimination happens also by pure-literals.
    </li>
    <li> And we need additional documentation on these numbers. </li>
+   <li> We should also update the output to the file "satz215_timetable":
+    <ol>
+     <li> It should be just like the extracted statistics file. </li>
+     <li> So when it is created, the header-line is output. </li>
+     <li> And no output of the leading "satz215". </li>
+    </ol>
+   </li>
   </ul>
 
 
