@@ -1590,17 +1590,13 @@ int examine3(const int tested_var) {
 
 int get_neg_clause_nb(const int var) {
     my_type neg_clause3_nb = 0, neg_clause2_nb = 0;
-    int *clauses, clause;
-    clauses = neg_in[var];
+    const int* clauses = neg_in[var];
 
-    for(clause=*clauses; clause!=NONE; clause=*(++clauses)) {
-       if (clause_state[clause] == ACTIVE) {
-            if (clause_length[clause] == 2)
-                neg_clause2_nb++;
-            else
-                neg_clause3_nb++;
-        }
-    }
+    for(int clause=*clauses; clause!=NONE; clause=*(++clauses))
+     if (clause_state[clause] == ACTIVE)
+       if (clause_length[clause] == 2) ++neg_clause2_nb;
+       else ++neg_clause3_nb;
+
     nb_neg_clause_of_length2[var] = neg_clause2_nb;
     nb_neg_clause_of_length3[var] = neg_clause3_nb;
     return neg_clause2_nb + neg_clause3_nb;
