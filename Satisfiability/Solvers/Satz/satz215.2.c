@@ -1804,19 +1804,21 @@ int main(const int argc, char* const argv[]) {
    const clock_t endtime = a_tms->tms_utime;
 
    const bool sat_decision = satisfiable();
+   printf("s ");
    if (sat_decision) {
      exit_value = EXITCODE_SAT;
-     printf ("**** The instance is satisfiable. *****\n");
+     printf("SATISFIABLE");
      if (verify_solution()) print_values(NB_VAR);
      else {
        exit_value = EXITCODE_VERIFICATION_FAILED;
-       printf ("**** Solution verification failed (for unknown reasons)! ****\n");
+       printf ("**** Solution verification failed! ****\n");
      }
    }
   else {
     exit_value = EXITCODE_UNSAT;
-    printf ("**** The instance is unsatisfiable. *****\n");
+    printf ("UNSATISFIABLE");
   }
+  printf("\n");
 
   printf("NB_MONO= %lu, NB_UNIT= %lu, NB_BRANCHE= %lu, NB_BACK= %lu\n",
          NB_MONO, NB_UNIT, NB_BRANCHE, NB_BACK);
