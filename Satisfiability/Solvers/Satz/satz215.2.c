@@ -1521,7 +1521,7 @@ int further_testable(const int saved_managedclause_fill_pointer) {
   return FALSE;
 }
 
-int examine3(int tested_var) {
+int examine3(const int tested_var) {
   int generating_if_positif, generating_if_negatif,
     saved_var_stack_fill_pointer,
     saved_managedclause_fill_pointer;
@@ -1588,7 +1588,7 @@ int examine3(int tested_var) {
   return TRUE;
 }
 
-int get_neg_clause_nb(int var) {
+int get_neg_clause_nb(const int var) {
     my_type neg_clause3_nb = 0, neg_clause2_nb = 0;
     int *clauses, clause;
     clauses = neg_in[var];
@@ -1606,7 +1606,7 @@ int get_neg_clause_nb(int var) {
     return neg_clause2_nb + neg_clause3_nb;
 }
 
-int get_pos_clause_nb(int var) {
+int get_pos_clause_nb(const int var) {
 
     my_type pos_clause3_nb = 0, pos_clause2_nb = 0;
     int *clauses, clause;
