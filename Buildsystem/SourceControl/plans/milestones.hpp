@@ -16,8 +16,9 @@ License, or any later version. */
   \par
    In Buildsystem/SourceControl/plans/general.hpp the following topics
    are handled:
+    - Best practices
     - Clean-up regarding shared repositories : DONE
-    - Documentation
+    - Documentation : DONE
     - Notification-e-mails : DONE
 
   \par
@@ -35,22 +36,24 @@ License, or any later version. */
     - Spell checking
     - Cloning
     - Remote access
+    - Space usage
 
 
   \par Version 0.2.4
 
   \par
-   In Buildsystem/SourceControl/plans/general.hpp the following topics are handled:
+   In Buildsystem/SourceControl/plans/general.hpp the following topics are
+   handled:
     - Tagging
     - More advanced usage
     - Change dates and revision numbers
     - Exploring usage patterns
-    - Space usage
 
   \par
    In Buildsystem/SourceControl/plans/Branching.hpp the following topics
    are handled:
     - Problems with branch rijndael
+    - Purely local branches
 
 
 

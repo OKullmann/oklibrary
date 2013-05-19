@@ -10,6 +10,18 @@ License, or any later version. */
   \brief Plans and todos for the versioning control system
 
 
+  \todo Best practices
+  <ul>
+   <li> Following the (now mostly stale) old "main-text", we need to discuss
+   how to use Git and Github in our context. </li>
+   <li> See the documentation in SourceControl/plans/Branching.hpp, especially
+   under "Tutorial on branching" and "On branching". </li>
+   <li> For all of that a suitable place is needed. </li>
+   <li> Perhaps we create a web-page and a link to it from the main local
+   OKlibrary page ("Main local index page"). </li>
+  </ul>
+
+
   \todo Clean-up regarding shared repositories : DONE
   <ul>
    <li> Since now we use Github for providing shared repositories, we don't
@@ -24,7 +36,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Documentation
+  \todo Documentation : DONE (we don't provide Git ourselves anymore)
   <ul>
    <li> There needs to be an index-page for Git, which contains the link to
    Git's own documentation and to all other documentation we provide. </li>
@@ -426,7 +438,7 @@ git tag -m "FIRST RELEASE" -a OKlib-0.2.0
 
   \todo More advanced usage:
   <ul>
-   <li> Install qgit:
+   <li> Using qgit:
     <ol>
      <li> Perhaps it allows to follow renaming (like --follows and --parents)?
      </li>
@@ -449,7 +461,8 @@ $  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
      <li> Ask the git mailing list. </li>
     </ol>
    </li>
-   <li> Secure pushs to the central repository on cs-oksvr:
+   <li> Secure pushs to the central repository on cs-oksvr: DONE (no longer
+   relevant)
     <ol>
      <li> Is it possible to only allows pushs to a repository if the pushing
      repository is identical in content to the receiving repository? </li>
@@ -610,7 +623,7 @@ git pull -s subtree path_to_repository_B master
   </ul>
 
 
-  \todo Exploring usage patterns;
+  \todo Exploring usage patterns
   <ul>
    <li> The configuration data about developers, library names etc. must go
    to Configuration (see Buildsystem/Configuration/plans/Persons.hpp). </li>
