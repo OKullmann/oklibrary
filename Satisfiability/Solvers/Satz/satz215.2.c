@@ -1796,7 +1796,6 @@ int main(const int argc, char* const argv[]) {
         dpl();
         break;
       case NONE:
-        printf("An empty resolvent was found.\n");
         exit_value = EXITCODE_UNSAT;
         break;
    }
