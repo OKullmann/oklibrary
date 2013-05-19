@@ -1,5 +1,5 @@
 // Oliver Kullmann, 30.7.2008 (Swansea)
-/* Copyright 2008 Oliver Kullmann
+/* Copyright 2008, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans and todos for accessing and maintaining the OKlibrary via "Github"
 
 
-  \todo General usage strategy
+  \todo General usage strategy : DONE (we only use Github, no own server)
   <ul>
    <li> Created the central OKlibrary repository at
    \verbatim
@@ -122,7 +122,8 @@ git pull MLgithub master:4f0ea0c
      always possible. </li>
     </ol>
    </li>
-   <li> This setup is reasonable for allowing anybody to contribute, but for
+   <li> DONE (no own server anymore)
+   This setup is reasonable for allowing anybody to contribute, but for
    the normal work, as stated above, that's a bit too much work, and we just
    push (if available) to the central local (bare) repository (as on cs-oksvr,
    if running). </li>

@@ -38,6 +38,13 @@ License, or any later version. */
     - Remote access
     - Space usage
 
+  \par
+   In Buildsystem/SourceControl/plans/Github.hpp the following topics
+   are handled:
+    - Github terminology and features
+    - Collaborative work on github
+    - SourceForge
+
 
   \par Version 0.2.4
 
