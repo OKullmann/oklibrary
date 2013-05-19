@@ -1824,12 +1824,12 @@ int main(const int argc, char* const argv[]) {
   printf ("Program terminated in %5.3f seconds.\n", elapsed);
 
   FILE* const fp_time = fopen("satz215_timetable", "a");
-  fprintf(fp_time, "satz215 %s %5.3f %lu %lu %ld %ld %d %d %d %d %ld %ld\n",
+  fprintf(fp_time, "%s %5.3f %lu %lu %ld %ld %d %d %d %d %ld %ld\n",
           saved_input_file, elapsed,
           NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED,
           satisfiable(), NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
           NB_SECOND_SEARCH, NB_SECOND_FIXED);
-  printf("satz215 %s %5.3f %lu %lu %ld %ld %d %d %d %d %ld %ld\n",
+  printf("%s %5.3f %lu %lu %ld %ld %d %d %d %d %ld %ld\n",
           saved_input_file, elapsed,
           NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED,
           satisfiable(), NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
