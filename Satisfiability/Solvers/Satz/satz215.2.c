@@ -1735,7 +1735,7 @@ int choose_and_instantiate_variable_in_clause() {
     return TRUE;
 }
 
-my_type build(int argc, char *argv[]) {
+my_type build(const int argc, char* const argv[]) {
     if (argc ==3) {
        if ((argv[2][0] == '-') && (argv[2][1] == 's'))
           return build_simple_sat_instance(argv[1]);
@@ -1780,7 +1780,7 @@ int dpl() {
   } while ((VARIABLE_STACK_fill_pointer != 0) && (!(satisfiable())));
 }
 
-main(int argc, char *argv[]) {
+int main(const int argc, char* const argv[]) {
    char saved_input_file[WORD_LENGTH];
    int i;
    clock_t begintime, endtime;
