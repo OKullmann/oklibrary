@@ -441,8 +441,7 @@ R-squared: 0.999
      <li> k=14, n=185: 147s (5619881 conflicts; cswsok (3GHz)) </li>
      <li> k=14, n=186: 16836s (463984635 conflicts; cswsok (3GHz)) </li>
      <li> k=15, n=217: 26319s (500756444 conflicts; cswsok (3GHz)) </li>
-     <li> k=15, n=218: XXXs ( conflicts; cswsok (3GHz)) </li>
-
+     <li> k=15, n=218: 190211s (3205639994 conflicts; cswsok (3GHz)) </li>
      <li> SplittingViaOKsolver (cswsok, 3 GHz):
      \verbatim
 > SplittingViaOKsolver -D20 VanDerWaerden_2-3-13_160.cnf
@@ -591,6 +590,12 @@ E$cfs        2.3059e-05  4.6897e-09 4916.80 < 2.2e-16 ***
 R-squared: 0.9957
 
 > SplittingViaOKsolver -D50 VanDerWaerden_2-3-17_279.cnf
+c running_time(sec)                     23546.1
+c number_of_nodes                       1399505
+c number_of_2-reductions                82906
+c max_tree_depth                        41
+c splitting_cases                       699751
+> ProcessSplitViaOKsolver SplitViaOKsolver_D50VanDerWaerden_2317_279cnf_2013-05-18-154809
 XXX
      \endverbatim
      A big speed-up! </li>
@@ -664,6 +669,11 @@ XXX
      <li> k=12, n=135: 94s (1444017 conflicts; cswsok (3 GHz)) </li>
      <li> k=13, n=159: 87s (1332829 conflicts; cswsok (3 GHz)) </li>
      <li> k=13, n=160: 1412s (10447051 conflicts; cswsok (3 GHz)) </li>
+     <li> SplittingViaOKsolver (cswsok, 3 GHz):
+     \verbatim
+> solver="glucose-2.2" ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710
+XXX
+     \endverbatim
      </li>
     </ol>
     Performance much worse -- apparently due to much more restarts!
