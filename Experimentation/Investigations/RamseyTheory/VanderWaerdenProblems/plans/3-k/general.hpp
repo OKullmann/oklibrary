@@ -361,7 +361,8 @@ satz215 VanDerWaerden_2-3-13_160.cnf 711.470 1698185 863252 219047856 8567070 0 
    Compared to OKsolver (see above) we have only 1,698,185 nodes (versus
    2,970,723), and we have 8,567,070 r_2_reductions (versus 24,138,237), and
    1,867,228 r_3-reductions. The OKsolver needs 5-times more time. We need to
-   understand this difference! Is the satz-heuristic here better?!
+   understand this difference! Is the satz-heuristic here better?! Or are the
+   r_3-reductions here of key importance?
    </li>
    <li> k=14, n=186 (cswsok, 3GHz):
    \verbatim
