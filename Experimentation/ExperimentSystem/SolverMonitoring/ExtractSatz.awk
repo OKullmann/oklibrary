@@ -1,5 +1,5 @@
 # Matthew Gwynne, 3.6.2011 (Swansea)
-# Copyright 2011, 2012 Oliver Kullmann
+# Copyright 2011, 2012, 2013 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -7,6 +7,7 @@
 
 
 # Extracts the numerical data from output of satz215, in a single line.
+# TODO: needs UPDATE
 
 BEGIN {
   rn=0; rc=0; t=0; sat=2; nds=0; r1=0; file=""; bnds=0; r2la=0

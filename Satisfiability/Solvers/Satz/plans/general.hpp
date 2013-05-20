@@ -14,7 +14,8 @@ License, or any later version. */
 
   \todo Improve the statistics output
   <ul>
-   <li> The output should confirm to the Dimacs-output form. </li>
+   <li> DONE
+   The output should confirm to the Dimacs-output form. </li>
    <li> The labels for the various numbers should be improved resp.
    introduced at all:
     <ol>
@@ -136,10 +137,11 @@ END {
     r2la " " r3 " " r3la " " prpr
 }
    \endverbatim
-   Clause elimination happens also by pure-literals.
-   </li>
+   Clause elimination (in prpr) happens also by pure-literals; it is now called
+   "dc" (for "delta c"). </li>
    <li> And we need additional documentation on these numbers. </li>
-   <li> We should also update the output to the file "satz215_timetable":
+   <li> DONE
+   We should also update the output to the file "satz215_timetable":
     <ol>
      <li> It should be just like the extracted statistics file. </li>
      <li> So when it is created, the header-line is output. </li>

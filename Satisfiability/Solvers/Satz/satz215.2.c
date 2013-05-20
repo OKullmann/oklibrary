@@ -1818,25 +1818,39 @@ int main(const int argc, char* const argv[]) {
     printf ("UNSATISFIABLE");
   }
   printf("\n");
-
-  printf("NB_MONO= %lu, NB_UNIT= %lu, NB_BRANCHE= %lu, NB_BACK= %lu\n",
-         NB_MONO, NB_UNIT, NB_BRANCHE, NB_BACK);
-
+  const int diff_c = NB_CLAUSE-INIT_NB_CLAUSE;
   const long EPS = sysconf(_SC_CLK_TCK);
   const double elapsed = (double)(endtime-begintime)/EPS;
-  printf ("Program terminated in %5.3f seconds.\n", elapsed);
+  printf("c sat_status                            %d\n"
+         "c number_of_variables                   %u\n"
+         "c initial_number_of_clauses             %u\n"
+         "c reddiff_number_of_clauses             %d\n"
+         "c running_time(sec)                     %1.2f\n"
+         "c number_of_nodes                       %lu\n"
+         "c number_of_binary_nodes                %lu\n"
+         "c number_of_pure_literals               %lu\n"
+         "c number_of_1-reductions                %lu\n"
+         "c number_of_2-look-ahead                %lu\n"
+         "c number_of_2-reductions                %lu\n"
+         "c number_of_3-look-ahead                %lu\n"
+         "c number_of_3-reductions                %lu\n"
+         "c file_name                             %s\n",
+       sat_decision, NB_VAR, INIT_NB_CLAUSE, diff_c, elapsed, NB_BRANCHE,
+       NB_BACK, NB_MONO, NB_UNIT, NB_SEARCH, NB_FIXED, NB_SECOND_SEARCH,
+       NB_SECOND_FIXED, saved_input_file);
 
+  {FILE* fp_time;
+   if (! (fp_time = fopen("satz215_timetable", "r"))) {
+     fp_time = fopen("satz215_timetable", "w");
+     fprintf(fp_time, " rn rc t sat nds r1 r2 pls file bnds r2la r3 r3la dc\n");
+   }
+   fclose(fp_time);
+  }
   FILE* const fp_time = fopen("satz215_timetable", "a");
-  fprintf(fp_time, "\"%s\" %5.3f %lu %lu %ld %ld %d %d %d %d %ld %ld\n",
-          saved_input_file, elapsed,
-          NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED,
-          sat_decision, NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
-          NB_SECOND_SEARCH, NB_SECOND_FIXED);
-  printf("\"%s\" %5.3f %lu %lu %ld %ld %d %d %d %d %ld %ld\n",
-          saved_input_file, elapsed,
-          NB_BRANCHE, NB_BACK,  NB_SEARCH, NB_FIXED,
-          sat_decision, NB_VAR, INIT_NB_CLAUSE, NB_CLAUSE-INIT_NB_CLAUSE,
-          NB_SECOND_SEARCH, NB_SECOND_FIXED);
+  fprintf(fp_time, "%d %d %1.2f %d %lu %lu %lu %lu \"%s\" %lu %lu %lu %lu %d\n",
+    NB_VAR, INIT_NB_CLAUSE, elapsed, sat_decision, NB_BRANCHE, NB_UNIT,
+    NB_FIXED, NB_MONO, saved_input_file, NB_BACK, NB_SEARCH, NB_SECOND_FIXED,
+    NB_SECOND_SEARCH, diff_c);
   fclose(fp_time);
   return exit_value;
 }
