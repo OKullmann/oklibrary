@@ -305,7 +305,7 @@ License, or any later version. */
      <li> mem : double, in MB. </li>
      <li> ptime : double, parse time (in seconds). </li>
      <li> file : string. </li>
-     <li> bnds : double, number of backtracing-nodes (exactly two successor).
+     <li> bnds : double, number of backtracking-nodes (exactly two successor).
      </li>
      <li> snds : double, number of single-nodes (exactly one successor). </li>
      <li> lvs : double, number of leaves (no successor). </li>
