@@ -249,15 +249,10 @@ c number_of_1-autarkies                 490
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-3-12_135.cnf
-
-same machine csltok (Intel i5, 2.4GHz), but only with 1-2 processes altogether:
-306.0s
-
    \endverbatim
    </li>
-   <li> k=13, n=159, 160:
+   <li> k=13, n=159, 160 (cswsok, 3GHz):
    \verbatim
-On new csltok (64bit):
 > OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-13_159.cnf
 s SATISFIABLE
 c sat_status                            1
@@ -271,7 +266,7 @@ c reddiff_number_of_variables           0
 c reddiff_number_of_clauses             0
 c reddiff_number_of_literal_occurrences 0
 c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     6835.3
+c running_time(sec)                     2118.0
 c number_of_nodes                       1590139
 c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
@@ -280,14 +275,14 @@ c number_of_pure_literals               455
 c number_of_autarkies                   0
 c number_of_missed_single_nodes         0
 c max_tree_depth                        43
+c proportion_searched                   4.645918e-02
+c proportion_single                     0.000000e+00
+c total_proportion                      0.04645918309688568
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 12836
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-3-13_159.cnf
-
-same machine csltok (Intel i5, 2.4GHz), but only with 1-2 processes altogether:
-3224.7s
 
 > OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-13_160.cnf
 s UNSATISFIABLE
@@ -302,7 +297,7 @@ c reddiff_number_of_variables           0
 c reddiff_number_of_clauses             0
 c reddiff_number_of_literal_occurrences 0
 c number_of_2-clauses_after_reduction   0
-c running_time(sec)                     14095.2
+c running_time(sec)                     3806.0
 c number_of_nodes                       2970723
 c number_of_single_nodes                0
 c number_of_quasi_single_nodes          0
@@ -311,20 +306,17 @@ c number_of_pure_literals               706
 c number_of_autarkies                   0
 c number_of_missed_single_nodes         0
 c max_tree_depth                        43
+c proportion_searched                   1.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      1
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 24075
 c number_of_new_2-clauses               0
 c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-3-13_160.cnf
 
-same machine csltok (Intel i5, 2.4GHz), but only with 1-2 processes altogether:
-5372s
-
-On old csltok (32bit):
-s SATISFIABLE
-c sat_status=1 initial_maximal_clause_length=13 initial_number_of_variables=159 initial_number_of_clauses=7216 initial_number_of_literal_occurrences=31398 running_time(s)=4187.7 number_of_nodes=1590137 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=13477703 number_of_pure_literals=455 number_of_autarkies=0 number_of_missed_single_nodes=1 max_tree_depth=43 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=12836 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=VanDerWaerden_2-3-13_159.cnf
-s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=13 initial_number_of_variables=160 initial_number_of_clauses=7308 initial_number_of_literal_occurrences=31804 running_time(s)=7514.8 number_of_nodes=2970721 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=25434723 number_of_pure_literals=706 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=43 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=24074 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=VanDerWaerden_2-3-13_160.cnf
+> OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-14_186.cnf
+XXX
    \endverbatim
    </li>
   </ul>
@@ -366,6 +358,10 @@ NB_MONO= 363, NB_UNIT= 39344343, NB_BRANCHE= 1698185, NB_BACK= 863252
 Program terminated in 711.470 seconds.
 satz215 VanDerWaerden_2-3-13_160.cnf 711.470 1698185 863252 219047856 8567070 0 160 7308 0 4263617 1867228
    \endverbatim
+   Compared to OKsolver (see above) we have only 1,698,185 nodes (versus
+   2,970,723), and we have 8,567,070 r_2_reductions (versus 24,138,237), and
+   1,867,228 r_3-reductions. The OKsolver needs 5-times more time. We need to
+   understand this difference! Is the satz-heuristic here better?!
    </li>
    <li> k=14, n=186 (cswsok, 3GHz):
    \verbatim
@@ -382,7 +378,8 @@ NB_MONO= 3848, NB_UNIT= 1902278418, NB_BRANCHE= 66595028, NB_BACK= 33775013
 Program terminated in 54913.090 seconds.
 satz215 VanDerWaerden_2-3-15_218.cnf 54913.090 66595028 33775013 11030537203 387523942 0 218 13362 0 314567493 92988051
    \endverbatim
-   (that's 15.3 hours).
+   (that's 15.3 hours). A lot of r2-reductions (387523942) and r3-reductions
+   (92988051).
    </li>
    <li> k=16, n=238 (cswsok, 3GHz):
    \verbatim
@@ -672,8 +669,14 @@ XXX
      <li> SplittingViaOKsolver (cswsok, 3 GHz):
      \verbatim
 > solver="glucose-2.2" ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710
-XXX
+> cat Process_SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710_2013-05-19-084751/Result
+  132:00
+
+> solver="glucose-2.2" ProcessSplitViaOKsolver SplitViaOKsolver_D40VanDerWaerden_2316_238cnf_2013-05-17-140911
+  1288:01
      \endverbatim
+     This is now faster than glucose-2.0, but basically the same as
+     minisat-2.2.0 (for k=16 a bit faster).
      </li>
     </ol>
     Performance much worse -- apparently due to much more restarts!
