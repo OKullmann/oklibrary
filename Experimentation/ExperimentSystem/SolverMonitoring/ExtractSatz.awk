@@ -40,7 +40,3 @@ END {
 #   Program terminated in t seconds.
 #   satz215 file t nds bnds r2la r2 sat rn rc dc r3la r3
 #
-# "(satisfiable\unsatisfiable)"
-# denotes that either "satisfiable" or "unsatisfiable" was output depending
-# on the satisfiability of the input CNF. Note that the filename was
-# originally printed without quotes, but is now printed with double-quotes.
