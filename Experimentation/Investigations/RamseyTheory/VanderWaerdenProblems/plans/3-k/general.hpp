@@ -474,6 +474,18 @@ VanDerWaerden_2-3-13_160.cnf
 N_UNITS: 180658356, N_BRANCHES: 13722975, N_BACK: 6861487
 Running time: 462.84 seconds
 
+VanDerWaerden_2-3-14_185.cnf
+N_UNITS: 1002639318, N_BRANCHES: 69102886, N_BACK: 34551429
+Running time: 3030.05 seconds
+
+VanDerWaerden_2-3-14_186.cnf
+N_UNITS: 1498228640, N_BRANCHES: 102268511, N_BACK: 51134255
+Running time: 4576.51 seconds
+
+VanDerWaerden_2-3-15_217.cnf
+N_UNITS: 4924868287, N_BRANCHES: 309583287, N_BACK: 154791621
+Running time: 18378.29 seconds
+
 XXX
    \endverbatim
    </li>
