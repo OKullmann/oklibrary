@@ -316,7 +316,35 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-3-13_160.cnf
 
 > OKsolver_2002-O3-DNDEBUG VanDerWaerden_2-3-14_186.cnf
-XXX
+s UNSATISFIABLE
+c sat_status                            0
+c initial_maximal_clause_length         14
+c initial_number_of_variables           186
+c initial_number_of_clauses             9795
+c initial_number_of_literal_occurrences 43014
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     47597.9
+c number_of_nodes                       22470241
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                200801343
+c number_of_pure_literals               2161
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         9
+c max_tree_depth                        52
+c proportion_searched                   1.000000e+00
+c proportion_single                     0.000000e+00
+c total_proportion                      1
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 60234
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-3-14_186.cnf
    \endverbatim
    </li>
   </ul>
@@ -326,17 +354,22 @@ XXX
   <ul>
    <li> k=12:
     <ol>
-     <li> k=12, n=134: 73s (5567 nodes, csltok) </li>
-     <li> k=12, n=135: 550s (47963 nodes, csltok) </li>
+     <li> k=12, n=134: 28s (5567 nodes, cswsok (3GHz)) </li>
+     <li> k=12, n=135: 213s (47963 nodes, cswsok (3GHz)) </li>
     </ol>
    </li>
    <li> k=13, n=160:
    \verbatim
-c main():: nodeCount: 279674
-c main():: dead ends in main: 531
-c main():: lookAheadCount: 71792373
-c main():: unitResolveCount: 1830566
-c main():: time=5111.450195
+c main():: nodeCount: 279061
+c main():: dead ends in main: 552
+c main():: lookAheadCount: 71404700
+c main():: unitResolveCount: 1831368
+c main():: time=1944.450073
+c main():: necessary_assignments: 37675
+c main():: bin_sat: 0, bin_unsat 0
+c main():: doublelook: #: 2653564, succes #: 2089797
+c main():: doublelook: overall 3.822 of all possible doublelooks executed
+c main():: doublelook: succesrate: 78.754, average DL_trigger: 312.059
    \endverbatim
    </li>
   </ul>
@@ -389,7 +422,6 @@ XXX
    \endverbatim
    (that's XXX hours).
    </li>
-
    <li> SplittingViaOKsolver:
    \verbatim
 > solver="satz215" ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710
@@ -417,6 +449,34 @@ E$nds       5.7885e-04 4.0600e-07 1425.7567   <2e-16 ***
 R-squared: 0.999
    \endverbatim
    That is cleary worse than just plain satz215. </li>
+  </ul>
+
+
+  \todo Tanbir Ahmed's solver
+  <ul>
+   <li> On cswsok (3 GHz):
+   \verbatim
+for F in *.cnf; do echo $F; ./ta_solver75 $F | tee -a Output_ta75; done
+
+VanDerWaerden_2-3-12_134.cnf
+N_UNITS: 20977611, N_BRANCHES: 1721206, N_BACK: 860593
+Running time: 44.09 seconds
+
+VanDerWaerden_2-3-12_135.cnf
+N_UNITS: 21978048, N_BRANCHES: 1790733, N_BACK: 895366
+Running time: 46.64 seconds
+
+VanDerWaerden_2-3-13_159.cnf
+N_UNITS: 821693, N_BRANCHES: 65615, N_BACK: 32796
+Running time: 2.01 seconds
+
+VanDerWaerden_2-3-13_160.cnf
+N_UNITS: 180658356, N_BRANCHES: 13722975, N_BACK: 6861487
+Running time: 462.84 seconds
+
+XXX
+   \endverbatim
+   </li>
   </ul>
 
 
