@@ -1,5 +1,5 @@
 // Oliver Kullmann, 1.11.2008 (Swansea)
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -42,23 +42,17 @@ License, or any later version. */
  [9,6,4],[9,9,9]]$
 (%i7) output_sdk_puzzle(3,Sudogen0_707,"Problem Sudogen0-707 in [The Hidden Logic of Sudoku, Berthier].","S0_707.cnf");
 
-(%i8) EasterMonster : [
- [1,1,1],[1,9,2],
- [2,2,9],[2,4,4],[2,8,5],
- [3,3,6],[3,7,7],
- [4,2,5],[4,4,9],[4,6,3],
- [5,5,7],
- [6,4,8],[6,5,5],[6,8,4],
- [7,1,7],[7,7,6],
- [8,2,3],[8,6,9],[8,8,8],
- [9,3,2],[9,9,1]]$
-(%i9) output_sdk_puzzle(3,EasterMonster,"Problem EasterMonster in [The Hidden Logic of Sudoku, Berthier].","S_EasterMonster.cnf");
+(%i8) EasterMonster;
+  [[1,1,1],[1,9,2],[2,2,9],[2,4,4],[2,8,5],[3,3,6],[3,7,7],
+   [4,2,5],[4,4,9],[4,6,3],[5,5,7],[6,4,8],[6,5,5],[6,8,4],
+   [7,1,7],[7,7,6],[8,2,3],[8,6,9],[8,8,8],[9,3,2],[9,9,1]]
+(%i9) output_sdk_EasterMonster();
    \endverbatim
 
 
    <h2> Solving problem instances </h2>
 
-   Via the C-OKsolver-2002:
+   Via the OKsolver-2002:
    \verbatim
 > OKsolver_2002-O3-DNDEBUG SP100.cnf
 s SATISFIABLE
