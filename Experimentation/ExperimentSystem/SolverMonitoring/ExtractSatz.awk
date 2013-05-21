@@ -36,11 +36,11 @@ END {
 # The original satz output was of the following form:
 #
 #   **** The instance is (satisfiable|unsatisfiable). *****
-#   NB_MONO= $pls, NB_UNIT= $r1, NB_BRANCHE= $nds, NB_BACK= $bnds
-#   Program terminated in $t seconds.
-#   satz215 $file $t $nds $bnds $r2la $r2 $sat $rn $rc $dc $r3la $r3
+#   NB_MONO= pls, NB_UNIT= r1, NB_BRANCHE= nds, NB_BACK= bnds
+#   Program terminated in t seconds.
+#   satz215 file t nds bnds r2la r2 sat rn rc dc r3la r3
 #
-# Statistics column names are prefixed with $; "(satisfiable\unsatisfiable)"
+# "(satisfiable\unsatisfiable)"
 # denotes that either "satisfiable" or "unsatisfiable" was output depending
 # on the satisfiability of the input CNF. Note that the filename was
 # originally printed without quotes, but is now printed with double-quotes.
