@@ -1,5 +1,5 @@
 /* Rui Wang, 28.10.2009 (Swansea) */
-/* Copyright 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2009, 2010, 2011, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -211,10 +211,10 @@ leaves_colour(v,p,c) := block([value:if listp(v) then v[1] else v],
              [if value=true then color=c[1] else color=c[2],points([p])])$
 
 /* Print the labels of the nodes of a binary labelled rooted tree T up to the
-   depth d, where d is a natural number >= -1, and for the nodes of depth <= d
-   then the labels are printed, while otherwise nothing shows. Leaves are
-   treated differently, where the leaves that are labelled by "true" show the 
-   node-symbol with red colour, otherwise grey colour.
+   depth d, where d is a natural number >= -1. For the nodes of depth <= d
+   the labels are printed, while otherwise nothing shows. Leaves are
+   treated differently, where the leaves that are labelled by "true" are shown
+   with red colour, otherwise grey colour.
    The compulsory parameter T is a labelled rooted tree. For the usage and 
    other possible parameters, please refer to draw_rt.
    Additionally, the following possible parameters are provided for 
@@ -223,7 +223,7 @@ leaves_colour(v,p,c) := block([value:if listp(v) then v[1] else v],
     lbc : the colour of labels; default red.
     tc  : the colour of true-leaves; default red.
     fc  : the colour of false-leaves; default grey.
-    d   : the maximum depth which the labels will be printed.
+    d   : the maximum depth for which the labels will be printed.
            (d is a natural number >= -1).
 */
 draw_lrt_dbl(['P]) := 
