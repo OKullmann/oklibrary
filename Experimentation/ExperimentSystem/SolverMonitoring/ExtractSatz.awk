@@ -32,8 +32,8 @@ END {
   print rn " " rc " " t " " sat " " nds " " r1 " " r2 " " pls " \"" file "\" " bnds " " \
     r2la " " r3 " " r3la " " dc
 }
-# Before satz's output was updated to match that of the OKsolver, the output
-# was of the following form:
+
+# The original satz output was of the following form:
 #
 #   **** The instance is (satisfiable|unsatisfiable). *****
 #   NB_MONO= $pls, NB_UNIT= $r1, NB_BRANCHE= $nds, NB_BACK= $bnds
