@@ -253,6 +253,13 @@ E3_SAT_genhorn_72_2.cnf
 (E2_SAT_genhorn_35_5: aborted after 674 min)
 (E3_SAT_genhorn_35_5: aborted after 538 min)
 
+> for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.2 ${F} > ${B}.glucose22; done
+XXX
+(E2_SAT_genhorn_44_4: aborted after )
+(E3_SAT_genhorn_44_4: aborted after )
+(E2_SAT_genhorn_35_5: aborted after )
+(E3_SAT_genhorn_35_5: aborted after )
+
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; picosat913 ${F} > ${B}.picosat; done
 (E1_SAT_genhorn_35_5: gives up after 478.5 sec)
 (E2_SAT_genhorn_35_5: out of memory, > 20 GB)
