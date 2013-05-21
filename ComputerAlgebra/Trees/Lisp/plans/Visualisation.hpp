@@ -1,5 +1,5 @@
 // Rui Wang, 21.10.2009 (Swansea)
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -54,6 +54,8 @@ License, or any later version. */
    <li> Compare with "False labels at the leaves" above. </li>
    <li> Likely "draw_lrt" shouldn't make any assumptions on the labels,
    only more specialised versions perform special drawings. </li>
+   <li> Especially we need a version which doesn't make a special case for
+   leaves. </li>
   </ul>
 
 
@@ -109,9 +111,9 @@ License, or any later version. */
   \todo DONE Full implementation of tree drawing using Gnuplot
   <ul> 
    <li> In the basic example, all points and edges must be specified manually.
-   For the requirement of algorithmically extracting the data of points and edges
-   from the results of reingold_tilford_rt, tdlrt2points and tdlrt2deges are
-   provided. Then the extracted data can be used by draw_rt to perform tree
+   For the requirement of algorithmically extracting the data of points and
+   edges from the results of reingold_tilford_rt, tdlrt2points and tdlrt2deges
+   are provided. Then the extracted data can be used by draw_rt to perform tree
    drawing.  
    </li>
    <li> The usage of draw_rt. 
@@ -121,24 +123,26 @@ License, or any later version. */
      attributes. If an empty list [] is provided, the automatic computation and
      drawing will be performed. Otherwise, the drawing attributes in the list
      can be defined as [name_1, value_1, ... , name_N, value_N], n >= 0. Each
-     attribute contains two fields, which are name and value, both of which must
-     be provided. Possible attribute names are 'root', 'x_ran', 'y_ran', 'p_size',
-     'p_type', 'p_colour', 'e_colour'. The details are listed below.
+     attribute contains two fields, which are name and value, both of which
+     must be provided. Possible attribute names are 'root', 'x_ran', 'y_ran',
+     'p_size', 'p_type', 'p_colour', 'e_colour'. The details are listed below.
       <ol>
-       <li> root: the root coordinates which is a list [x,y] contains a pair of 
-       coordinates. </li>
-       <li> x_ran: the range for the x coordinate which is a list [x_min,x_max] 
-       contains a pair of extreme x coordinates. </li>
-       <li> y_ran: the range for the y coordinate which is a list [y_min,y_max] 
-       contains a pair of extreme y coordinates. </li>
+       <li> root: the root coordinates which is a list [x,y] contains a pair
+       of coordinates. </li>
+       <li> x_ran: the range for the x coordinate which is a list
+       [x_min,x_max] contains a pair of extreme x coordinates. </li>
+       <li> y_ran: the range for the y coordinate which is a list
+       [y_min,y_max]  contains a pair of extreme y coordinates. </li>
        <li> p_size: the points size, it must be a non-negative number.
        (eg. 0, 1, 3.4) </li>
        <li> p_type: the points type. (Possible values: dot, plus, multiply,
        asterisk, square, filled_square, circle, filled_circle, up_triangel,
        filled_up_triangle, down_triangle, filled_down_triangle, diamant,
        filled_diamant). </li>
-       <li> p_colour: the points colour. Colours can be given as names or in hexadecimal rgb code "#rrggbb". </li>
-       <li> e_colour: the edges colour. Colours can be given as names or in hexadecimal rgb code "#rrggbb". </li>
+       <li> p_colour: the points colour. Colours can be given as names or in
+       hexadecimal rgb code "#rrggbb". </li>
+       <li> e_colour: the edges colour. Colours can be given as names or in
+       hexadecimal rgb code "#rrggbb". </li>
       </ol>
      </li>
      <li> Somes examples: draw_rt([[],[]],[]); draw_rt([[],[[],[]]],[root,[1,1]]). </li>
@@ -159,7 +163,8 @@ License, or any later version. */
   \todo draw_lrt_x
   <ul>
    <li> "draw_lrt_X", where X gives information on the special assumptions
-   about the labels: For different assumptions one has different drawing functions. </li>
+   about the labels: For different assumptions one has different drawing
+   functions. </li>
   </ul> 
   
   
