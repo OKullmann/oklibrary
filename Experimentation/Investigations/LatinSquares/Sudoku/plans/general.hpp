@@ -1,5 +1,5 @@
 // Oliver Kullmann, 1.11.2008 (Swansea)
-/* Copyright 2008, 2009, 2010 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -86,7 +86,7 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> We should search for problems which are as hard as possible.
+   <li> We should search for problems which are as "hard" as possible.
     <ol>
      <li> See
      "Sampling of minimally uniquely satisfiable problems" in
@@ -94,6 +94,28 @@ License, or any later version. */
      <li> The "EasterMonster" (see
      Satisfiability/Lisp/Generators/docus/Sudoku.hpp) needs 9 nodes with
      the OKsolver_2002; this is the hardest example yet encountered. </li>
+     <li> The right approach should be to compute the t-hardness, p-hardness
+     and w-hardness!
+      <ol>
+       <li> For uniquely satisfying solutions these hardnesses are given by
+       the hardness of the unsatisfiable problems given by setting (just) one
+       variable to a wrong value. </li>
+       <li> This needed to be computed for all known instances. </li>
+       <li> p-hardness 1 means that by directly applying the most basic rules
+       all fields are filled. </li>
+       <li> p-hardness 2 and hardness 1 means that one needs to fill in one at
+       least one false number, and then apply "basic" reasoning. </li>
+       <li> Note that in general a hardness value k is not just the worst-case,
+       but also determines the best-case for reasoning: by setting or
+       forbidding values for fields (i.e., assigning a value to a variable) we
+       need precisely r_{k-1} to refute the false values and solve all fields
+       (one after another). </li>
+       <li> See "Hardness of Sudoku problems" in
+       Investigations/BooleanFunctions/plans/Hardness/general.hpp. </li>
+       <li> This should replace the following older discussion, based on
+       solver-runs. </li>
+      </ol>
+     </li>
      <li> There should be harder *unsatisfiable* problems. </li>
      <li> While for the uniquely satisfiable problems actually it would be
      good if the OKsolver could enumerate all solution --- since here this

@@ -107,4 +107,16 @@ hardness_cs(dualts_cs({{1,2,3},{2,3,4}});
    </li>
   </ul>
 
+
+  \todo Hardness of Sudoku problems
+  <ul>
+   <li> As discussed in "Finding hard instances for box-dimension 3" in
+   Investigations/LatinSquares/Sudoku/plans/general.hpp, the right approach
+   for determining the "hardness" of Sudoku problems should be to determine
+   their t-, p- and w-hardness! </li>
+   <li> Also the direct encoding is very natural here. </li>
+   <li> An article about this should be very attractive! </li>
+   <li> For this we need hardness-computation at C++ level. </li>
+  </ul>
+
 */
