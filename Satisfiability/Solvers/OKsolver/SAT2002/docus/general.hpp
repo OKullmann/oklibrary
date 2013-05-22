@@ -74,7 +74,8 @@ License, or any later version. */
      </li>
      <li> The attribute-value for "l" is the number of r_2-reductions at the
      node. </li>
-     <li> An example
+     <li> An example (created by
+     "oklib_load_all(); output_sdk_EasterMonster();" in Maxima):
      \verbatim
 > OKplatform/system_directories/bin/OKsolver_2002_OUTPUTXML-O3-DNDEBUG S_EasterMonster.cnf
 s SATISFIABLE
@@ -98,6 +99,9 @@ c number_of_pure_literals               0
 c number_of_autarkies                   0
 c number_of_missed_single_nodes         0
 c max_tree_depth                        3
+c proportion_searched                   8.750000e-01
+c proportion_single                     0.000000e+00
+c total_proportion                      0.875
 c number_of_table_enlargements          0
 c number_of_1-autarkies                 0
 c number_of_new_2-clauses               0
@@ -122,7 +126,7 @@ c file_name                             S_EasterMonster.cnf
 </t>
 </t>
      \endverbatim
-     </li>
+     The solution was found in the right-most branch. </li>
      <li> This tree as a labelled (binary) Maxima-tree is (using lists
      of values as labels (here of length 1)):
      \verbatim
@@ -148,7 +152,8 @@ T :
 T_oklib :
 [[0],[[7],[[9]],[[25]]],[[9],[[12]],[[4],[[10]],[[24]]]]];
      \endverbatim
-     Draw with draw_rt(lrt2rt(T_oklib),[]) (ignoring the labels). </li>
+     Draw with "draw_lrt(T_oklib);" (in Maxima).
+     </li>
     </ol>
    </li>
    <li> If <code>SYSTIME</code> is defined, then instead of the standard time
