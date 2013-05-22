@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 25.3.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -27,9 +27,9 @@ okltest_des_encryption(des_encryption);
 okltest_des_decryption(des_decryption);
 okltest_des_encryption_gen(des_encryption_gen);
 okltest_des_decryption_gen(des_decryption_gen);
-kltest_des_encryption_hex(des_encryption_hex);
+okltest_des_encryption_hex(des_encryption_hex);
 okltest_des_decryption_hex(des_decryption_hex);
-kltest_des_encryption_hex_gen(des_encryption_hex_gen);
+okltest_des_encryption_hex_gen(des_encryption_hex_gen);
 okltest_des_decryption_hex_gen(des_decryption_hex_gen);
 
 /*!
