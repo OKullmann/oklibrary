@@ -1,6 +1,6 @@
 #!/bin/bash
 # Oliver Kullmann, 21.4.2009 (Swansea)
-# Copyright 2009 Oliver Kullmann
+# Copyright 2009, 2013 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -14,15 +14,19 @@
 # There are two additional outputs (besides those of the final satz215-call):
 # statistics for the original file (by the OKsolver), and the minisat2-output.
 
+set -o errexit
+set -o nounset
+
 script_name="satz215-m2pp"
+version_number=0.0.9
 
 if [[ $# == 0 ]]; then
   echo -e "ERROR[${script_name}]: At least one parameter is needed, the filename."
   exit 1
 fi
 
-preprocessor=minisat2
-OKsolver=OKsolver_2002-O3-DNDEBUG
+preprocessor=minisat-2.2.0
+stat_tool=ExtendedDimacsFullStatistics-O3-DNDEBUG
 solver=satz215
 
 filename=$(eval echo "$""{""$#""}") # last parameter
@@ -32,14 +36,19 @@ filename_pp=${filename}_m2pp_$$
 other_arguments=
 for (( i = 1; i < $#; ++i )); do other_arguments="${other_arguments} $(eval echo "$""{""$i""}")"; done
 
-${OKsolver} -P ${filename}
+cat ${filename} | ${stat_tool}
+echo
 
 ${preprocessor} -dimacs=${filename_pp} ${filename}
+echo
+
+cat ${filename_pp} | ${stat_tool}
+echo
 
 # The minisat-preprocessor might produce an empty clause:
 if [[ $(grep "^0$" ${filename_pp}) ]]; then
   echo "s UNSATISFIABLE"
-  echo "c minisat2 preprocessor created empty clause"
+  echo "c minisat-2.2.0 preprocessor created empty clause"
   return_value=20
 else
   ${solver} ${other_arguments} ${filename_pp}
@@ -49,4 +58,3 @@ fi
 rm ${filename_pp}
 
 exit ${return_value}
-
