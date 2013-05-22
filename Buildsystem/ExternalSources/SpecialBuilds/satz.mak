@@ -20,9 +20,7 @@ $(satz_directories_okl) : % :
 # Main Satz targets
 # #################################
 
-.PHONY : satzall satz satzm2pp cleansatz cleanallsatz
-
-satzall : satz satzm2pp
+.PHONY : satz cleansatz cleanallsatz
 
 satz : $(satz_directories_okl)
 	cp $(satz_corrected_src_okl) $(satz_build_dir_okl)
@@ -31,9 +29,6 @@ satz : $(satz_directories_okl)
 	cp satz $(satz_call_okl); $(postcondition) \
 	ln -s --force $(satz_call_okl) $(public_bin_dir_okl)/$(satz_public_call_okl); $(postcondition)
 
-satzm2pp :
-	$(preprocessing_call) $(satz_m2pp_okl) > $(public_bin_dir_okl)/satz215-m2pp
-	chmod u+x $(public_bin_dir_okl)/satz215-m2pp
 
 # #################################
 # Cleaning
