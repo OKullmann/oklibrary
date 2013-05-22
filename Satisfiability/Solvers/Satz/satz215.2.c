@@ -9,7 +9,9 @@ either version 3 of the License, or any later version. */
   \brief Updated and corrected version
 
   <ul>
-   <li> Updated output conventions and C usage. </li>
+   <li> Safer input handling. </li>
+   <li> Updated output format. </li>
+   <li> Improved C usage, and update to C99. </li>
    <li> Corrected time measurement. </li>
   </ul>
 */
@@ -787,129 +789,6 @@ my_type build_sat_instance(char* const input_file) {
    return TRUE;
 }
 
-my_type build_simple_sat_instance(char *input_file) {
-   FILE* fp_in=fopen(input_file, "r");
-   char ch, word2[WORD_LENGTH];
-   int i, j, length, NB_CLAUSE1, ii, jj, tautologie,
-       lits[1000], *lits1, lit, lit1, var, *pos_nb, *neg_nb;
-
-   if (fp_in == NULL) return FALSE;
-
-   ch=getc(fp_in);
-  while (ch!='p') {
-    while (ch!='\n') ch=getc(fp_in);
-    ch=getc(fp_in);
-  }
-
-   fscanf(fp_in, "%s%d%d", word2, &NB_VAR, &NB_CLAUSE);
-   INIT_NB_CLAUSE = NB_CLAUSE;
-   neg_nb=reduce_if_negative_nb;
-   pos_nb=reduce_if_positive_nb;
-
-   for (i=0; i<NB_VAR; i++) {
-       nb_neg_clause_of_length3[i] = 0;
-       nb_pos_clause_of_length3[i] = 0;
-       nb_neg_clause_of_length2[i] = 0;
-       nb_pos_clause_of_length2[i] = 0;
-       neg_nb[i] = 0;
-       pos_nb[i] = 0;
-   }
-   for (i=0; i<NB_CLAUSE; i++) {
-      length=0;
-      fscanf(fp_in, "%d", &lits[length]);
-      while (lits[length] != 0) {
-        length++;
-        fscanf(fp_in, "%d", &lits[length]);
-      }
-      tautologie = FALSE;
-      /* test if some literals are redundant and sort the clause */
-      for (ii=0; ii<length-1; ii++) {
-         lit = lits[ii];
-         for (jj=ii+1; jj<length; jj++) {
-            if (abs(lit)>abs(lits[jj])) {
-               lit1=lits[jj]; lits[jj]=lit; lit=lit1;
-            }
-            else
-            if (lit == lits[jj]) {
-               lits[jj--] = lits[--length]; lits[length] = 0;
-               printf("literal %d is redundant in clause %d\n", lit, i);
-            }
-            else
-            if (abs(lit) == lits[jj]) {
-               tautologie = TRUE; break;
-            }
-         }
-         if (tautologie == TRUE) break;
-         else lits[ii] = lit;
-      }
-      if (tautologie == FALSE) {
-        lits[length] = 0;
-        sat[i]= (int *)malloc((length+1) * sizeof(int));
-        for (j=0; j<length; j++) {
-          if (lits[j] < 0) {
-            var=abs(lits[j]) - 1;
-            if (length==3)
-              nb_neg_clause_of_length3[var]++;
-            else
-              if (length==2)
-                nb_neg_clause_of_length2[var]++;
-              else
-                if (length==1)
-                  push(i, UNITCLAUSE_STACK);
-            neg_nb[var]++;
-            sat[i][j] = var + NB_VAR ;
-          }
-          else {
-            sat[i][j] = lits[j]-1;
-            pos_nb[sat[i][j]]++;
-            if (length==3)
-              nb_pos_clause_of_length3[sat[i][j]]++;
-            else
-              if (length==2)
-                nb_pos_clause_of_length2[sat[i][j]]++;
-              else
-                if (length==1)
-                  push(i, UNITCLAUSE_STACK);
-          }
-        }
-        clause_length[i]=length;
-        clause_state[i] = ACTIVE;
-        sat[i][length]=NONE;
-      }
-      else {NB_CLAUSE--; i--;}
-   }
-   fclose(fp_in);
-
-   for (i=0; i<NB_VAR; i++) {
-
-      neg_in[i] = (int *)
-                  malloc((neg_nb[i]+1) * sizeof(int));
-      pos_in[i] = (int *)
-                  malloc((pos_nb[i]+1) * sizeof(int));
-      neg_in[i][neg_nb[i]]=NONE;
-      pos_in[i][pos_nb[i]]=NONE;
-      neg_nb[i] = 0;
-      pos_nb[i] = 0;
-      var_state[i] = ACTIVE;
-   }
-   for (i=0; i<NB_CLAUSE; i++) {
-      lits1 = sat[i];
-      for(lit=*lits1; lit!=NONE; lit=*(++lits1)) {
-         if (positive(lit))
-            pos_in[lit][pos_nb[lit]++] = i;
-         else
-            neg_in[get_var_from_lit(lit)]
-                  [neg_nb[get_var_from_lit(lit)]++] = i;
-      }
-   }
-   if (unitclause_process()==NONE) return NONE;
-   NB_CLAUSE1 = 0;
-   for (i=0; i<NB_CLAUSE; i++) {
-     if (clause_state[i] == ACTIVE) NB_CLAUSE1++;
-   }
-   NB_CLAUSE = NB_CLAUSE1;
-   return TRUE;
-}
 
 int verify_solution() {
    int i, lit, *lits, clause_truth;
@@ -1759,18 +1638,6 @@ int choose_and_instantiate_variable_in_clause() {
     return TRUE;
 }
 
-my_type build(const int argc, char* const argv[]) {
-    if (argc ==3) {
-       if ((argv[2][0] == '-') && (argv[2][1] == 's'))
-          return build_simple_sat_instance(argv[1]);
-       else if ((argv[1][0] == '-') && (argv[1][1] == 's'))
-               return build_simple_sat_instance(argv[2]);
-       else if (argv[1][0] == '-')
-              return build_sat_instance(argv[2]);
-       else return build_sat_instance(argv[1]);
-    }
-    else return build_sat_instance(argv[1]);
-}
 
 void reset_all() {
    int index;
@@ -1803,8 +1670,8 @@ void dpl() {
 
 
 int main(const int argc, char* const argv[]) {
-   if ((argc!=2) && (argc !=3)) {
-      printf("Usage format: \"satz input_instance [-s]\"\n");
+   if (argc!=2) {
+      printf("Usage format: \"satz215 input_instance\"\n");
       return EXITCODE_PARAMETER_FAILURE;
    }
    char saved_input_file[WORD_LENGTH];
@@ -1815,7 +1682,7 @@ int main(const int argc, char* const argv[]) {
    const clock_t begintime = a_tms->tms_utime;
 
    int exit_value;
-   switch (build(argc, argv)) {
+   switch (build_sat_instance(argv[1])) {
       case FALSE: printf("Input file error.\n"); return EXITCODE_INPUT_ERROR;
       case TRUE:
         VARIABLE_STACK_fill_pointer=0;
