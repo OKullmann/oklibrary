@@ -12,7 +12,7 @@ License, or any later version. */
   Yet only satz215 is considered.
 
 
-  \todo Improve the statistics output
+  \todo Improve the statistics output : DONE
   <ul>
    <li> DONE
    The output should confirm to the Dimacs-output form. </li>
