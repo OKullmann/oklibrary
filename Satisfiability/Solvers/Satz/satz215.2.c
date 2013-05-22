@@ -43,7 +43,11 @@ added into the formule in the preprocessing */
 typedef signed int my_type;
 typedef unsigned int my_unsigned_type;
 
-#define WORD_LENGTH 100
+//! The maximal length of words to be read (otherwise segmentation fault!)
+#ifndef WORD_LENGTH
+# define WORD_LENGTH 100
+#endif
+
 #define TRUE 1
 #define FALSE 0
 #define NONE -1
@@ -57,11 +61,25 @@ typedef unsigned int my_unsigned_type;
 #define EXITCODE_SAT 10
 #define EXITCODE_UNSAT 20
 
-/* the tables of variables and clauses are statically allocated. Modify the
-   parameters tab_variable_size and tab_clause_size before compilation if
-   necessary */
-#define tab_variable_size  200000
-#define tab_clause_size 800000
+#ifndef MAX_NUMBER_VARIABLES
+# define MAX_NUMBER_VARIABLES 200000
+#endif
+
+#ifndef MAX_NUMBER_CLAUSES
+# define MAX_NUMBER_CLAUSES 800000
+#endif
+
+#ifndef MAX_CLAUSE_LENGTH
+# define MAX_CLAUSE_LENGTH 1000
+#endif
+
+
+/* The tables of variables and clauses are statically allocated. Set macros
+   MAX_NUMBER_CLAUSES, MAX_NUMBER_CLAUSES for compilation if necessary.
+*/
+#define tab_variable_size MAX_NUMBER_VARIABLES
+#define tab_clause_size MAX_NUMBER_CLAUSES
+
 #define tab_unitclause_size \
  ((tab_clause_size/4<2000) ? 2000 : tab_clause_size/4)
 #define my_tab_variable_size \
@@ -643,37 +661,51 @@ int* copy_clauses(struct node *node_in) {
 
 int unitclause_process();
 
-/* a clause should not contain more than 1000 literals */
-my_type build_sat_instance(char *input_file) {
-   FILE* fp_in=fopen(input_file, "r");
-   char ch, tautologie, word2[WORD_LENGTH];
-   int i, j, length, ii, jj, lit1,
-       lits[1000], *plit, lit, NB_CLAUSE1, is_res;
 
+my_type build_sat_instance(char* const input_file) {
+   FILE* const fp_in=fopen(input_file, "r");
    if (fp_in==NULL) return FALSE;
 
-   ch=getc(fp_in);
-  while (ch!='p') {
-    while (ch!='\n') ch=getc(fp_in);
-    ch=getc(fp_in);
-  }
+   {char ch=getc(fp_in);
+    while (ch!='p') {
+      while (ch!='\n') ch=getc(fp_in);
+      ch=getc(fp_in);
+    }
+   }
 
-   fscanf(fp_in, "%s%d%d", word2, &NB_VAR, &NB_CLAUSE);
+   {
+    char word2[WORD_LENGTH];
+    fscanf(fp_in, "%s%d%d", word2, &NB_VAR, &NB_CLAUSE);
+   }
+   if (NB_VAR > MAX_NUMBER_VARIABLES) {
+     fprintf(stderr, "ERROR: Parameter lines says maximal variable index is %d,\n"
+      " but MAX_NUMBER_VARIABLES = %d.\n", NB_VAR, MAX_NUMBER_VARIABLES);
+     return FALSE;
+   }
+   if (NB_CLAUSE > MAX_NUMBER_CLAUSES) {
+     fprintf(stderr, "ERROR: Parameter lines says the clause-number is %d,\n"
+      " but MAX_NUMBER_CLAUSES = %d.\n", NB_CLAUSE, MAX_NUMBER_CLAUSES);
+     return FALSE;
+   }
 
-   for (i=0; i<NB_CLAUSE; i++) {
-      length=0;
-      fscanf(fp_in, "%d", &lits[length]);
-      while (lits[length] != 0) {
-        length++;
-        fscanf(fp_in, "%d", &lits[length]);
+   for (int i=0; i<NB_CLAUSE; ++i) {
+      int lits[MAX_CLAUSE_LENGTH+1];
+      fscanf(fp_in, "%d", &lits[0]);
+      int length=0;
+      while (length <= MAX_CLAUSE_LENGTH && lits[length] != 0)
+        fscanf(fp_in, "%d", &lits[++length]);
+      if (length > MAX_CLAUSE_LENGTH) {
+        fprintf(stderr, "ERROR: A clause-line contains more than MAX_CLAUSE_LENGTH = %d literals.\n", MAX_CLAUSE_LENGTH);
+        return FALSE;
       }
-      tautologie = FALSE;
+
+      char tautologie = FALSE;
       /* test if some literals are redundant and sort the clause */
-      for (ii=0; ii<length-1; ii++) {
-         lit = lits[ii];
-         for (jj=ii+1; jj<length; jj++) {
+      for (int ii=0; ii<length-1; ++ii) {
+         int lit = lits[ii];
+         for (int jj=ii+1; jj<length; ++jj) {
             if (abs(lit)>abs(lits[jj])) {
-               lit1=lits[jj]; lits[jj]=lit; lit=lit1;
+               const int lit1=lits[jj]; lits[jj]=lit; lit=lit1;
             }
             else
             if (lit == lits[jj]) {
@@ -691,11 +723,11 @@ my_type build_sat_instance(char *input_file) {
       if (tautologie == FALSE) {
         lits[length] = 0;
         sat[i] = (int *)malloc((length+1)*sizeof(int));
-        j=0;
+        int j=0;
         while (lits[j] != 0) {
            if (lits[j] > 0) sat[i][j] = lits[j]-1;
            else sat[i][j] = abs(lits[j]) + NB_VAR -1;
-           j++;
+           ++j;
         }
         sat[i][j] = NONE;
         clause_length[i] = length;
@@ -707,7 +739,7 @@ my_type build_sat_instance(char *input_file) {
    }
    fclose(fp_in);
 
-   for (i=0; i<NB_VAR; i++) {
+   for (int i=0; i<NB_VAR; ++i) {
       node_neg_in[i] = NULL;
       node_pos_in[i] = NULL;
       var_state[i]=ACTIVE;
@@ -715,23 +747,22 @@ my_type build_sat_instance(char *input_file) {
 
    INIT_NB_CLAUSE= NB_CLAUSE;
 
-   for(i=0; i<NB_CLAUSE; i++)
-           set_link_for_resolv(i);
+   for(int i=0; i<NB_CLAUSE; ++i) set_link_for_resolv(i);
 
-   for(i=0; i<tab_clause_size; i++)
+   for(int i=0; i<tab_clause_size; ++i)
            CLAUSE_INVOLVED[INVOLVED_CLAUSE_STACK[i]]=0;
    INVOLVED_CLAUSE_STACK_fill_pointer=0;
 
-   for(i=0; i<NB_CLAUSE; i++) {
-          remove_link_for_resolv(i);
-      plit = sat[i];
-      length = clause_length[i];
+   for(int i=0; i<NB_CLAUSE; ++i) {
+      remove_link_for_resolv(i);
+      int* plit = sat[i];
+      const int length = clause_length[i];
       if (length==1) push(i, UNITCLAUSE_STACK);
       if (search_redundence(plit) != NEW_CLAUSE_REDUNDANT) {
         if ((i<INIT_NB_CLAUSE*10) ||
             (length<3) ||
             (clause_state[i]==ACTIVE2)) {
-          is_res = add_resolvant(plit);
+          const char is_res = add_resolvant(plit);
           if (is_res  == NONE) return NONE;
           else
             if (is_res == 2) clause_state[i] = PASSIVE;
@@ -742,16 +773,15 @@ my_type build_sat_instance(char *input_file) {
       }
       else clause_state[i] = PASSIVE;
    }
-   for(i=0; i<NB_VAR; i++) {
+   for(int i=0; i<NB_VAR; ++i) {
       neg_in[i]=copy_clauses(node_neg_in[i]);
       pos_in[i]=copy_clauses(node_pos_in[i]);
    }
    free_ressources();
    if (unitclause_process()==NONE) return NONE;
-   NB_CLAUSE1 = 0;
-   for (i=0; i<NB_CLAUSE; i++) {
-     if (clause_state[i] == ACTIVE) NB_CLAUSE1++;
-   }
+   int NB_CLAUSE1 = 0;
+   for (int i=0; i<NB_CLAUSE; ++i)
+     if (clause_state[i] == ACTIVE) ++NB_CLAUSE1;
    NB_CLAUSE = NB_CLAUSE1;
 
    return TRUE;
