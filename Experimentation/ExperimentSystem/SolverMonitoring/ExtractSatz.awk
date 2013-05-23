@@ -16,7 +16,7 @@ BEGIN {
 /^c sat_status +[0-9]+/ { sat = $3 }
 /^c number_of_variables +[0-9]+/ { rn = $3 }
 /^c initial_number_of_clauses +[0-9]+/ { rc = $3 }
-/^c reddiff_number_of_clauses +[0-9]+/ { dc = $3 }
+/^c reddiff_number_of_clauses +[0-9]+/ { dc = $3 } # Difference in number of Clauses after preprocessing (previously "prpr"); more precisely, the number of added resolvents of lengths 2,3 minus the number of clauses eliminated by subsumption and pure literal elimination.
 /^c running_time\(sec\) +[0-9]+.[0-9]+/ { t = $3 }
 /^c number_of_nodes +[0-9]+/ { nds = $3 }
 /^c number_of_binary_nodes +[0-9]+/ { bnds = $3 }
