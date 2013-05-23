@@ -1,14 +1,14 @@
 # Oliver Kullmann, 18.12.2007 (Swansea)
 # Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013 Oliver Kullmann
-# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
-# the Free Software Foundation and included in this library; either version 3 of the 
+# the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
 # Settings for building and using Maxima
 
 maxima_recommended_version_number_okl ?= 5.29.0
-# 5.29.1 defective (egf-defect)
+# 5.29.1 defective (egf-defect), 5.30.0 defective (patch submitted)
 maxima_other_versions_okl ?= 5.27.0
 
 maxima_prefix_okl ?= maxima
