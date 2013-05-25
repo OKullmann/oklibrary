@@ -418,9 +418,11 @@ satz215 VanDerWaerden_2-3-15_218.cnf 54913.090 66595028 33775013 11030537203 387
    <li> k=16, n=238 (cswsok, 3GHz):
    \verbatim
 > satz215 VanDerWaerden_2-3-16_238.cnf
-XXX
+NB_MONO= 87981, NB_UNIT= 17845374254, NB_BRANCHE= 599520428, NB_BACK= 304003189
+Program terminated in 562161.320 seconds.
+satz215 VanDerWaerden_2-3-16_238.cnf 562161.320 599520428 304003189 101411640715 3643082746 0 238 15812 0 3402007271 917339083
    \endverbatim
-   (that's XXX hours).
+   (that's 156 hours).
    </li>
    <li> SplittingViaOKsolver:
    \verbatim
@@ -485,6 +487,10 @@ Running time: 4576.51 seconds
 VanDerWaerden_2-3-15_217.cnf
 N_UNITS: 4924868287, N_BRANCHES: 309583287, N_BACK: 154791621
 Running time: 18378.29 seconds
+
+VanDerWaerden_2-3-15_218.cnf
+N_UNITS: 12442138772, N_BRANCHES: 774872707, N_BACK: 387436353
+Running time: 47005.83 seconds
 
 XXX
    \endverbatim
