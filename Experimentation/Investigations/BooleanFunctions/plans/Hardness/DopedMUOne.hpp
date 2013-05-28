@@ -254,11 +254,17 @@ E3_SAT_genhorn_72_2.cnf
 (E3_SAT_genhorn_35_5: aborted after 538 min)
 
 > for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.2 ${F} > ${B}.glucose22; done
+(E2_SAT_genhorn_44_4: aborted after 1513m)
+(E3_SAT_genhorn_44_4: aborted after 1140m)
+(E2_SAT_genhorn_35_5: aborted after 6240m)
+(E3_SAT_genhorn_35_5: aborted after 1298m)
+
+> for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.2 -no-pre ${F} > ${B}.glucose22-no; done
 XXX
-(E2_SAT_genhorn_44_4: aborted after )
-(E3_SAT_genhorn_44_4: aborted after )
-(E2_SAT_genhorn_35_5: aborted after )
-(E3_SAT_genhorn_35_5: aborted after )
+(E2_SAT_genhorn_44_4: aborted after m)
+(E3_SAT_genhorn_44_4: aborted after m)
+(E2_SAT_genhorn_35_5: aborted after m)
+(E3_SAT_genhorn_35_5: aborted after m)
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; picosat913 ${F} > ${B}.picosat; done
 (E1_SAT_genhorn_35_5: gives up after 478.5 sec)
@@ -326,6 +332,13 @@ for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -
 
 sfile="Glucose.stats"
 ssuffix=".glucose"
+sextract="ExtractGlucose"
+echo -n "type k h " > ${sfile}
+${sextract} "header-only" >> ${sfile}
+for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
+
+sfile="Glucose22.stats"
+ssuffix=".glucose22"
 sextract="ExtractGlucose"
 echo -n "type k h " > ${sfile}
 ${sextract} "header-only" >> ${sfile}
@@ -494,6 +507,34 @@ for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -
 3 3 : 2626 8633 22331
 3 4 : 16463 75795
 3 5 : 83959
+
+> E=read_satstat("Glucose22.stats")
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 0.003999 0.021996 0.081987 0.226965 0.540917 1.12483
+1 3 : 0.169974 2.18467 14.6958
+1 4 : 5.80812 159.142 1910.98
+1 5 : 152.08 9959.28
+2 2 : 0.008998 0.046992 0.285956 0.45693 1.04484 1.3138
+2 3 : 0.095985 16.6885 169.929
+2 4 : 11.7832 9479.15
+2 5 : 4903.1
+3 2 : 0.007998 0.044993 0.266959 0.439933 1.04084 1.2868
+3 3 : 0.089986 16.3895 180.317
+3 4 : 12.4651 7804.1
+3 5 : 3115.65
+> for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$cfs[E$type==t & E$k==k & E$sat==0],"\n")
+1 2 : 0 0 0 0 0 0
+1 3 : 0 0 0
+1 4 : 0 0 0
+1 5 : 0 0
+2 2 : 117 821 1815 2780 4049 5428
+2 3 : 1203 8357 21365
+2 4 : 10756 79382
+2 5 : 74150
+3 2 : 117 821 1810 2855 4034 5428
+3 3 : 1203 8725 20823
+3 4 : 10558 73212
+3 5 : 70752
 
 > E=read_satstat("Picosat.stats")
 > for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
