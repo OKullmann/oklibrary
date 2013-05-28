@@ -110,6 +110,7 @@ License, or any later version. */
     - Improvements of CryptoMiniSat
     - Glucose
     - Add todos for SAT-Race 2010 SAT solvers
+    - Glucose outputs to STDERR not STDOUT : DONE
     - Fuzzing
     - Write docus for March
     - Write docus for Satz

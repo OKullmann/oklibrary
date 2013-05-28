@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.10.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -419,7 +419,7 @@ bin> ldd sat-grasp
   </ul>
 
 
-  \todo Glucose outputs to STDERR not STDOUT
+  \todo Glucose outputs to STDERR not STDOUT (DONE solved with version 2.0)
   <ul>
    <li> See:
    \verbatim
@@ -727,7 +727,7 @@ builds/CryptoMiniSat> make
   \todo Glucose
   <ul>
    <li> http://www.lri.fr/~simon/glucose/ </li>
-   <li> We need to install version 2.
+   <li> We need to install version 2 : DONE
     <ol>
      <li> DONE (created archive following our naming conventions out of this
      archive)
