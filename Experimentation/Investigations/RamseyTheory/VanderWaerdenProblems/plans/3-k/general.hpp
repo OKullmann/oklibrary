@@ -492,9 +492,14 @@ VanDerWaerden_2-3-15_218.cnf
 N_UNITS: 12442138772, N_BRANCHES: 774872707, N_BACK: 387436353
 Running time: 47005.83 seconds
 
-XXX
+VanDerWaerden_2-3-16_238.cnf
+N_UNITS: 134192977183, N_BRANCHES: 8120609615, N_BACK: 4060304807
+Running time: 532416.20 seconds
    \endverbatim
    </li>
+   <li> This solver is the fastest single solver, but nearly 7x slower than
+   Cube&Conquer via OKsolver&minisat22. </li>
+   <li> We should also try C&C with this solver. </li>
   </ul>
 
 
