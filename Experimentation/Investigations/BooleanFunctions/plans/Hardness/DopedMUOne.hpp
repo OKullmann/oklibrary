@@ -238,14 +238,23 @@ E3_SAT_genhorn_62_2.cnf
 E3_SAT_genhorn_72_2.cnf
       n       c   l
    7886  134907   399460
-  \endverbatim
-  </li>
-   <li> Running experiments (on cs-wsok):
+   \endverbatim
+   </li>
+   <li> Compiling satz:
+   \verbatim
+ExternalSources> CPPFLAGS="-DMAX_CLAUSE_LENGTH=1000000 -DMAX_NUMBER_VARIABLES=2000000 -DMAX_NUMBER_CLAUSES=15000000" oklib satz
+   \endverbatim
+   </li>
+   <li> Running experiments (on cs-wsok; file "Problems" contains all problems,
+   "Problems23" those of type 2,3):
    \verbatim
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002-O3-DNDEBUG --timeout=7200 ${F} > ${B}.oksolver; done
 (E2_SAT_genhorn_35_5: aborted after 27097.7s and ~ 26 GB)
 
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002_NTP-O3-DNDEBUG ${F} > ${B}.oksolver-ntp; done
+
+> for F in $(cat Problems23); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; satz215 ${F} > ${B}.satz; done
+XXX
 
 > for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.0 ${F} > ${B}.glucose; done
 (E2_SAT_genhorn_44_4: aborted after 535 min)
