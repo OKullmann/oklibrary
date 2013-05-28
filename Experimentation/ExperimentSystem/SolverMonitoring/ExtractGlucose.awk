@@ -17,9 +17,8 @@ BEGIN {
 /^c +\|  Eliminated clauses: +[0-9]+\.[0-9]+ Mb/ { elc=$5 }
 /^c +\|  Simplification time: +[0-9]+\.[0-9]+ s/ { stime=$5 }
 /^c +CPU time +: ([0-9]+|[0-9]+.[0-9]+) s/ { t=$5 }
-/^s +UNSATISFIABLE *$/ { sat=0 }
-/^s +SATISFIABLE *$/ { sat=1 }
-/^(INDETERMINATE|*** INTERRUPTED ***) *$/ { sat=2 }
+/SATISFIABLE/ { sat=1 }
+/UNSATISFIABLE/ { sat=0 }
 /^c blocked restarts +: [0-9]+ \(multiple: [0-9]+\)/ { brts=$5; mbrts=$7; sub(/\)/,"",mbrts) }
 /^c last block at restart +: [0-9]+/ { lbrts=$7 }
 /^c +conflicts +:/ { cfs=$4 }
