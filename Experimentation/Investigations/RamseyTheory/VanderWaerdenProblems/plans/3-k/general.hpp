@@ -677,7 +677,29 @@ c number_of_2-reductions                82906
 c max_tree_depth                        41
 c splitting_cases                       699751
 > ProcessSplitViaOKsolver SplitViaOKsolver_D50VanDerWaerden_2317_279cnf_2013-05-18-154809
-XXX
+> cat Process_SplitViaOKsolver_D50VanDerWaerden_2317_279cnf_2013-05-18-154809_2013-05-19-084513/Result
+  17439:22
+> E=read_processsplit_minisat()
+699751: 11.652d, sum-cfs=3.593149e+10, mean-t=1.439s, mean-cfs=51349, sat: 0
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+  0.0100   0.4569   0.8199   1.4390   1.5770 199.0000
+sd= 2.289549
+      95%       96%       97%       98%       99%      100%
+  4.56531   5.16921   5.95509   7.39288  10.27740 199.02700
+sum= 1006718
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     31   17740   30880   51350   58130 4782000
+sd= 71854.53
+      95%       96%       97%       98%       99%      100%
+ 158454.0  177082.0  203221.5  249985.0  335532.0 4781946.0
+sum= 35931491146
+$t ~ $cfs:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept) -1.8913e-01  3.3949e-04  -557.1 < 2.2e-16 ***
+E$cfs        3.1701e-05  3.8441e-09  8246.8 < 2.2e-16 ***
+R-squared: 0.9898
      \endverbatim
      A big speed-up! </li>
     </ol>
