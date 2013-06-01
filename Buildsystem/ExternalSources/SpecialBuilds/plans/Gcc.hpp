@@ -10,6 +10,28 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
+  \todo Problems building 4.6.4
+  <ul>
+   <li>
+   \verbatim
+Generating pdf dblatex files...
+dblatex --dump --verbose --pdf -o /home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.6.4_build/x86_64-unknown-linux-gnu/libstdc++-v3/doc/docbook/pdf/libstdc++-manual.pdf /home/kullmann/OKplatform/ExternalSources/builds/Gcc/gcc-4.6.4/libstdc++-v3/doc/xml/spine.xml
+Error: [Errno 2] No such file or directory
+   \endverbatim
+   File spine.xml exists, directory
+   x86_64-unknown-linux-gnu/libstdc++-v3/doc/docbook/pdf/ also exists.
+   </li>
+   <li> Already "dblatex spine.xml" in the same directory as the file yields
+   that error! This can be corrected by installing "libxslt-tools" (Suse),
+   which contains "xsltproc". </li>
+   <li> However then we get the same error as reported at
+   http://www.mail-archive.com/texlive@linux.cz/msg00363.html . </li>
+   <li> This looks like a Linux-distribution problem; checking again with
+   Suse 12.3 (currently Suse 12.2). </li>
+   <li> For now disabled target "pdf". </li>
+  </ul>
+
+
   \todo Incorrect .texi-files
   <ul>
    <li> In gcc.mak we have to copy the files copying-lib.texi, gpl.texi, due to

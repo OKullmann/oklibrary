@@ -68,6 +68,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
    topics are handled:
+    - Problems building 4.6.4
     - Incorrect .texi-files
     - Failure building gcc412/gcc due to internal compiler error : DONE
     - Gcj

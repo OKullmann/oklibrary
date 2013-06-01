@@ -49,7 +49,7 @@ gcc : $(gcc_directories_okl)
 	cd $(gcc_build_dir_okl); $(postcondition) \
 	$(gcc_unarchived_source_okl)/configure --prefix=$(gcc_installation_dir_okl) --enable-languages=$(gcc_enable_languages_okl) --enable-threads=$(gcc_threads_okl) --with-system-zlib $(gcc_other_options_okl) $(gcc_user_options_okl); $(postcondition) \
 	make; $(postcondition) \
-	make html dvi pdf; $(postcondition) \
+	make html dvi; $(postcondition) \
 	make install install-html; $(postcondition) \
 	cp -fr $(gcc_installation_dir_okl)/share/doc $(gcc_doc_dir_okl); $(postcondition) \
 	mv -f $(gcc_doc_dir_okl)/doc $(gcc_doc_dir_okl)/html; $(postcondition) \
@@ -57,6 +57,7 @@ gcc : $(gcc_directories_okl)
 
 # Remark: Correction of copying-lib.texi, gpl.texi should be removed for
 # target gcc, once it has been done in the package itself.
+# Also target "pdf" needs to be re-added to "make html dvi" when working again.
 
 
 # ####################################
