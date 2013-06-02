@@ -1,5 +1,5 @@
 // Matthew Gwynne, 26.8.2011 (Swansea)
-/* Copyright 2011, 2012 Oliver Kullmann
+/* Copyright 2011, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,7 +13,8 @@ License, or any later version. */
   \todo Standard variable ordering for extended-pigeon-hole formulas
   <ul>
    <li> For the extended pigeon-hole formulas with m holes, we have variables
-   of the form php_ext(l,i,j) for 1 <= l <= m, 1 <= i <= l+1, 1 <= j <= l. </li>
+   of the form php_ext(l,i,j) for 1 <= l <= m, 1 <= i <= l+1, 1 <= j <= l.
+   </li>
    <li> The natural ordering is the lexicographical order on
    NN x {1,...,l+1} x {1,...,l}. This has the nice property that
    the ordering doesn't depend on m. </li>
