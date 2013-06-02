@@ -28,7 +28,9 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Pigeon
 */
 
 okltest_var_php_l(var_php_l);
+
 okltest_pigeons_different_holes_cl(pigeons_different_holes_cl);
+okltest_pigeons_in_holes_cl(pigeons_in_holes_cl);
 
 /* Measures */
 

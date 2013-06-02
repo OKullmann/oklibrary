@@ -61,14 +61,15 @@ pigeons_different_holes_cl(m,n) :=
  create_list({-php_var(i,k), -php_var(j,k)}, k,1,n, i,1,m-1, j,i+1,m)$
 pigeons_different_holes_cs(m,n) := setify(pigeons_different_holes_cl(m,n))$
 
-/* Every pigeon in one hole: */
-pigeons_in_holes(m,n) := setify(
-  create_list(setify(create_list(php_var(i,j), j, 1, n)), i,1,m))$
+/* Every pigeon in one hole (order by pigeons): */
+pigeons_in_holes_cl(m,n) :=
+ create_list(setify(create_list(php_var(i,j), j,1,n)), i,1,m)$
+pigeons_in_holes_cs(m,n) := setify(pigeons_in_holes_cl(m,n))$
 
 /* The weak pigeon formula as formal clause-set: */
 /* RENAME: weak_php_fcs */
 weak_php(m,n) := [var_php(m,n),
- union(pigeons_different_holes_cs(m,n), pigeons_in_holes(m,n))]$
+ union(pigeons_different_holes_cs(m,n), pigeons_in_holes_cs(m,n))]$
 weak_php_fcs(m,n) := weak_php(m,n)$
 weak_php_cs(m,n) := fcs2cs(weak_php_fcs(m,n))$
 
