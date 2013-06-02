@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.6.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,6 +12,8 @@ License, or any later version. */
 
   \todo Failing tests
   <ul>
+   <li> However with version 3.0.1 apparently the tests work now. Nevertheless,
+   the incompatabilities below are still reported. </li>
    <li> With version 2.15.2 and also previous versions we get the
    "make check" error as documented in the e-mail
    https://stat.ethz.ch/pipermail/r-devel/2012-October/065002.html
@@ -31,6 +33,16 @@ License, or any later version. */
 /usr/bin/ld: skipping incompatible /home/csoliver/OKplatform/ExternalSources/Installations/Gcc/4.5.4/lib/libgcc_s.so when searching for -lgcc_s
    \endverbatim
    Why that? </li>
+   <li> Apparently there is a (new) incompatibility between glibc (version 2.0)
+   and libgcc? Apparently libgcc is built into our gcc-installation. Then
+   perhaps we need also a local glibc installation?
+    <ol>
+     <li> But there seems no information available on possible
+     incompatibilities? </li>
+     <li> The glibc version is 2.15 (obtained by "> /lib/libc.so.6"). No
+     incompatability is reported? </li>
+    </ol>
+   </li>
    <li> The final error message is
    \verbatim
 running code in 'reg-examples1.R' ... OK
