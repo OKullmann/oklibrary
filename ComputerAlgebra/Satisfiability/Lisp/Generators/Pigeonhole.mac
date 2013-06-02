@@ -47,16 +47,19 @@ declare(php, posfun)$
 php_var(i,j) := nounify(php)(i,j)$
 
 /* The set of variables for the pigeonhole formulas with m pigeons and
-   n holes:
+   n holes (order is lexicographical):
 */
 var_php_l(m,n) := create_list(php_var(i,j), i,1,m, j,1,n)$
 var_php(m,n) := setify(var_php_l(m,n))$
 
 /* In the following m denotes the number of pigeons, n the number of holes. */
 
-/* No two pigeon in the same hole: */
-pigeons_different_holes_cs(m,n) := setify(create_list({- php_var(i,k), - php_var(j,k)},
-  i,1,m-1, j,i+1,m, k,1,n))$
+/* No two pigeons in the same hole (order is first holes k, then the two
+   pigeons i, j lexicographically):
+*/
+pigeons_different_holes_cl(m,n) :=
+ create_list({-php_var(i,k), -php_var(j,k)}, k,1,n, i,1,m-1, j,i+1,m)$
+pigeons_different_holes_cs(m,n) := setify(pigeons_different_holes_cl(m,n))$
 
 /* Every pigeon in one hole: */
 pigeons_in_holes(m,n) := setify(
