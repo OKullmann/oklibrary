@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.3.2012 (Swansea)
-/* Copyright 2012 Oliver Kullmann
+/* Copyright 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -63,7 +63,7 @@ for n : 0 thru 6 do print(n,independence_number_m_cs(weak_php_cs(n+1,n)));
   \todo Conflict-partition_number
   <ul>
    <li> The conflict-partition_number as upper-bounded by the length of
-   hitting_decomposition_m_cs(weak_php(n+1,n)[2]) seems to be the
+   hitting_decomposition_m_cs(weak_php_cs(n+1,n)) seems to be the
    same as the conflict-independence number:
    \verbatim
 for n : 0 thru 6 do print(n,partition_number_m_cs(weak_php_cs(n+1,n)));
@@ -98,7 +98,7 @@ for n : 0 thru 6 do block([F:weak_php_cs(n+1,n),h],h:hermitian_rank_cs(F),print(
    </li>
    <li> We should be able to figure this out:
     <ol>
-     <li> hermitian_rank(weak_php(m+1,m)) = m+1 </li>
+     <li> hermitian_rank(weak_php_fcs(m+1,m)) = m+1 </li>
      <li> hermitian_deficiency and conflict_independence_number follow
      suit. </li>
     </ol>
