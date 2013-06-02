@@ -55,7 +55,7 @@ var_php(m,n) := setify(var_php_l(m,n))$
 /* In the following m denotes the number of pigeons, n the number of holes. */
 
 /* No two pigeon in the same hole: */
-pigeons_different_holes(m,n) := setify(create_list({- php_var(i,k), - php_var(j,k)},
+pigeons_different_holes_cs(m,n) := setify(create_list({- php_var(i,k), - php_var(j,k)},
   i,1,m-1, j,i+1,m, k,1,n))$
 
 /* Every pigeon in one hole: */
@@ -65,7 +65,7 @@ pigeons_in_holes(m,n) := setify(
 /* The weak pigeon formula as formal clause-set: */
 /* RENAME: weak_php_fcs */
 weak_php(m,n) := [var_php(m,n),
- union(pigeons_different_holes(m,n), pigeons_in_holes(m,n))]$
+ union(pigeons_different_holes_cs(m,n), pigeons_in_holes(m,n))]$
 weak_php_fcs(m,n) := weak_php(m,n)$
 weak_php_cs(m,n) := fcs2cs(weak_php_fcs(m,n))$
 
