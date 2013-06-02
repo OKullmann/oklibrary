@@ -58,10 +58,10 @@ fib_formula(n) := 1/sqrt(5) * (gs_pos^n - gs_neg^n);
 for i : -10 thru 10 do print(i,": ", float(fib_formula(i)));
 /* round(1/2) = 0, round(3/2) = 2 */
 round_cautious(x) := block([fx : floor(x), s],
-  s : sign(x - fx - 1/2), 
+  s : sign(x - fx - 1/2),
   if s = zero then error("Ambiguous rounding for ", x)
   else if s = pos then fx + 1 else fx)$
-for i : 0 thru 10 do 
+for i : 0 thru 10 do
   print(i,": ", float(round_cautious(1/sqrt(5) *  gs_pos^i)));
 
 
@@ -82,7 +82,7 @@ tau([1,2]);
 tau_hp([1,2],40);
 tau_symbolical([2,3,5]);
 tau([2,3,5]);
-tau_hp([2,3,5],100); 
+tau_hp([2,3,5],100);
 
 /* **************************************************************************
    * Section "Associating probability distributions with branching tuples"  *
@@ -272,14 +272,14 @@ tpd_variance(T_3_tpd);
 /* The trivial heuristics */
 
 trivial_ncl_ucp1 : amended_heuristics_lookahead_distances(
-  generalised_ucp1, 
-  [trivial_distance], 
-  [tau2], 
-  trivial_sat_approx, 
+  generalised_ucp1,
+  [trivial_distance],
+  [tau2],
+  trivial_sat_approx,
   [delta_n,delta_c,delta_l])$
 trivial_ncl_ast_54 : dll_red_st_dist(
   weak_php_fcs(5,4),
-  trivial_ncl_ucp1, 
+  trivial_ncl_ucp1,
   generalised_ucp1);
 
 assert(nnds_l(trivial_ncl_ast_54) = 103);
@@ -400,14 +400,14 @@ assert_float_equal(upper_bound_nlvs_tau(tbt_lt_ast_54), 512.0);
 /* The weighted number of clauses as heuristics */
 
 wnc_nclt_ucp1 : amended_heuristics_lookahead_distances(
-  generalised_ucp1, 
-  [wn_newclauses(weightingscheme_OKsolver2002)], 
-  [tau2], 
-  trivial_sat_approx, 
+  generalised_ucp1,
+  [wn_newclauses(weightingscheme_OKsolver2002)],
+  [tau2],
+  trivial_sat_approx,
   [delta_n,delta_c,delta_l,trivial_distance])$
 wnc_nclt_ast_54 : dll_red_st_dist(
-  weak_php_fcs(5,4), 
-  wnc_nclt_ucp1, 
+  weak_php_fcs(5,4),
+  wnc_nclt_ucp1,
   generalised_ucp1);
 
 assert(nnds_l(wnc_nclt_ast_54) = 47);
@@ -479,13 +479,13 @@ assert_float_equal(upper_bound_nlvs_tau(tbt_lt_ast_65), 65536.0);
 /* The weighted number of clauses as heuristics for weak_php_fcs(6,5) */
 
 ok2002_ncl234_ucp1 : amended_heuristics_lookahead_distances(
-  generalised_ucp1, 
-  [wn_newclauses_2(weightingscheme_OKsolver2002), delta_n], 
-  [tau2], 
-  trivial_sat_approx, 
+  generalised_ucp1,
+  [wn_newclauses_2(weightingscheme_OKsolver2002), delta_n],
+  [tau2],
+  trivial_sat_approx,
   [delta_n,delta_c,delta_l,n_newclauses(2),n_newclauses(3),n_newclauses(4)])$
 ok2002_ncl234_ast_65 : dll_red_st_dist(
-  weak_php_fcs(6,5), 
+  weak_php_fcs(6,5),
   ok2002_ncl234_ucp1,
   generalised_ucp_ple1);
 
@@ -541,7 +541,7 @@ assert_float_equal(approx_min_varc, 0.9544);
 
 minvarl(x) := tpd_variance(tauprob_tbt(
   x * tbt_wnc_ok2002_ncl234_ast_65 + (1-x) * tbt_l_ok2002_ncl234_ast_65));
-plot2d(minvarl, [x,0,1]); 
+plot2d(minvarl, [x,0,1]);
 approx_min_varl : min_scanning(minvarl, [[0,1]], 100)[2][1];
 approx_min_varl : min_scanning(minvarl, [[approx_min_varl-0.1,min(approx_min_varl+0.1,1)]], 100)[2][1];
 approx_min_varl : min_scanning(minvarl, [[approx_min_varl-0.01,min(approx_min_varl+0.01,1)]], 100)[2][1];
@@ -556,13 +556,13 @@ minvarw23(x,y) := tpd_variance(tauprob_tbt(
   (1 - x - y * (1-x)) * tpbt_w4_ok2002_ncl234_ast_65))$
 plot3d(minvarw23, [x,0.1,0.9], [y,0.1,0.9]);
 approx_min_varw23 : min_scanning(minvarw23, [[0.1,0.9], [0.1,0.9]], 30)[2];
-approx_min_varw23 : min_scanning(minvarw23, 
-  [[approx_min_varw23[1]-0.1,approx_min_varw23[1]+0.1], 
-  [approx_min_varw23[2]-0.1,approx_min_varw23[2]+0.1]], 
+approx_min_varw23 : min_scanning(minvarw23,
+  [[approx_min_varw23[1]-0.1,approx_min_varw23[1]+0.1],
+  [approx_min_varw23[2]-0.1,approx_min_varw23[2]+0.1]],
   30)[2];
-approx_min_varw23 : min_scanning(minvarw23, 
-  [[approx_min_varw23[1]-0.01,approx_min_varw23[1]+0.01], 
-  [approx_min_varw23[2]-0.01,approx_min_varw23[2]+0.01]], 
+approx_min_varw23 : min_scanning(minvarw23,
+  [[approx_min_varw23[1]-0.01,approx_min_varw23[1]+0.01],
+  [approx_min_varw23[2]-0.01,approx_min_varw23[2]+0.01]],
   30)[2];
 assert_float_equal(approx_min_varw23[1],0.7146666666666667);
 assert_float_equal(approx_min_varw23[2], 0.358);
@@ -575,7 +575,7 @@ assert_float_equal(approx_min_varw23[1],0.7147);
 */
 
 approx_min_varw : [
- approx_min_varw23[1], 
+ approx_min_varw23[1],
  approx_min_varw23[2] * (1-approx_min_varw23[1]),
  1 - approx_min_varw23[1] - approx_min_varw23[2] * (1-approx_min_varw23[1])];
 approx_min_varw : approx_min_varw / approx_min_varw[1];
@@ -594,13 +594,13 @@ weightingscheme_special(k) :=
   else error("Only clause-lengths 2,3,4 allowed!")$
 
 ok2002_php65_ucp1 : amended_heuristics_lookahead_distances(
-  generalised_ucp1, 
-  [wn_newclauses_2(weightingscheme_special), delta_l], 
-  [tau2], 
-  trivial_sat_approx, 
+  generalised_ucp1,
+  [wn_newclauses_2(weightingscheme_special), delta_l],
+  [tau2],
+  trivial_sat_approx,
   [])$
 ok2002_php65_ast_65 : dll_red_st_dist(
-  weak_php_fcs(6,5), 
+  weak_php_fcs(6,5),
   ok2002_php65_ucp1,
   generalised_ucp_ple1);
 
@@ -619,13 +619,13 @@ assert(levelled_height(l2ult(col_ok2002_php65_ast_65)) = 2);
 /* Optimised heuristics: clause-weights (using, as originally, Delta(n) as secondary heuristics) */
 
 ok2002n_php65_ucp1 : amended_heuristics_lookahead_distances(
-  generalised_ucp1, 
-  [wn_newclauses_2(weightingscheme_special), delta_n], 
-  [tau2], 
-  trivial_sat_approx, 
+  generalised_ucp1,
+  [wn_newclauses_2(weightingscheme_special), delta_n],
+  [tau2],
+  trivial_sat_approx,
   [])$
 ok2002n_php65_ast_65 : dll_red_st_dist(
-  weak_php_fcs(6,5), 
+  weak_php_fcs(6,5),
   ok2002n_php65_ucp1,
   generalised_ucp_ple1);
 
@@ -644,16 +644,16 @@ assert(levelled_height(l2ult(col_ok2002n_php65_ast_65)) = 2);
 /* Optimised heuristics: Linear combination of weighted clauses and Delta(l) */
 
 ok2002wl_php65_ucp1 : amended_heuristics_lookahead_distances(
-  generalised_ucp1, 
-  [lambda([F0,F1], 
-    approx_min_varl * wn_newclauses_2(weightingscheme_OKsolver2002)(F0,F1) 
+  generalised_ucp1,
+  [lambda([F0,F1],
+    approx_min_varl * wn_newclauses_2(weightingscheme_OKsolver2002)(F0,F1)
     + (1-approx_min_varl) * delta_l(F0,F1)),
-   delta_n], 
-  [tau2], 
-  trivial_sat_approx, 
+   delta_n],
+  [tau2],
+  trivial_sat_approx,
   [])$
 ok2002wl_php65_ast_65 : dll_red_st_dist(
-  weak_php_fcs(6,5), 
+  weak_php_fcs(6,5),
   ok2002wl_php65_ucp1,
   generalised_ucp_ple1);
 
@@ -672,16 +672,16 @@ assert(levelled_height(l2ult(col_ok2002wl_php65_ast_65)) = 2);
 /* Optimised heuristics: Linear combination of weighted clauses and Delta(c) */
 
 ok2002wc_php65_ucp1 : amended_heuristics_lookahead_distances(
-  generalised_ucp1, 
-  [lambda([F0,F1], 
-    approx_min_varc * wn_newclauses_2(weightingscheme_OKsolver2002)(F0,F1) 
+  generalised_ucp1,
+  [lambda([F0,F1],
+    approx_min_varc * wn_newclauses_2(weightingscheme_OKsolver2002)(F0,F1)
     + (1-approx_min_varc) * delta_c(F0,F1)),
-   delta_n], 
-  [tau2], 
-  trivial_sat_approx, 
+   delta_n],
+  [tau2],
+  trivial_sat_approx,
   [])$
 ok2002wc_php65_ast_65 : dll_red_st_dist(
-  weak_php_fcs(6,5), 
+  weak_php_fcs(6,5),
   ok2002wc_php65_ucp1,
   generalised_ucp_ple1);
 
@@ -730,13 +730,13 @@ mintauw23(x,y) := upper_bound_nlvs_tau(
 plot3d(mintauw23, [x,0.2,0.7], [y,0.2,0.7]);
 
 approx_min_tauw23 : min_scanning(mintauw23, [[0.1,0.9], [0.1,0.9]], 30)[2];
-approx_min_tauw23 : min_scanning(mintauw23, 
-  [[approx_min_tauw23[1]-0.1,approx_min_tauw23[1]+0.1], 
-  [approx_min_tauw23[2]-0.1,approx_min_tauw23[2]+0.1]], 
+approx_min_tauw23 : min_scanning(mintauw23,
+  [[approx_min_tauw23[1]-0.1,approx_min_tauw23[1]+0.1],
+  [approx_min_tauw23[2]-0.1,approx_min_tauw23[2]+0.1]],
   30)[2];
-approx_min_tauw23 : min_scanning(mintauw23, 
-  [[approx_min_tauw23[1]-0.01,approx_min_tauw23[1]+0.01], 
-  [approx_min_tauw23[2]-0.01,approx_min_tauw23[2]+0.01]], 
+approx_min_tauw23 : min_scanning(mintauw23,
+  [[approx_min_tauw23[1]-0.01,approx_min_tauw23[1]+0.01],
+  [approx_min_tauw23[2]-0.01,approx_min_tauw23[2]+0.01]],
   30)[2];
 assert_float_equal(approx_min_tauw23[1],0.384);
 assert_float_equal(approx_min_tauw23[2], 0.6233333333333334);
@@ -744,7 +744,7 @@ approx_min_tauw23[2] : roundd(approx_min_tauw23[2], 4);
 assert_float_equal(approx_min_tauw23[2],0.6233);
 
 approx_min_tauw : [
- approx_min_tauw23[1], 
+ approx_min_tauw23[1],
  approx_min_tauw23[2] * (1-approx_min_tauw23[1]),
  1 - approx_min_tauw23[1] - approx_min_tauw23[2] * (1-approx_min_tauw23[1])];
 approx_min_tauw : approx_min_tauw / approx_min_tauw[1];
@@ -762,13 +762,13 @@ weightingscheme_special_t(k) :=
   else error("Only clause-lengths 2,3,4 allowed!")$
 
 ok2002nt_php65_ucp1 : amended_heuristics_lookahead_distances(
-  generalised_ucp1, 
-  [wn_newclauses_2(weightingscheme_special_t), delta_n], 
-  [tau2], 
-  trivial_sat_approx, 
+  generalised_ucp1,
+  [wn_newclauses_2(weightingscheme_special_t), delta_n],
+  [tau2],
+  trivial_sat_approx,
   [])$
 ok2002nt_php65_ast_65 : dll_red_st_dist(
-  weak_php_fcs(6,5), 
+  weak_php_fcs(6,5),
   ok2002nt_php65_ucp1,
   generalised_ucp_ple1);
 
@@ -787,16 +787,16 @@ assert(levelled_height(l2ult(col_ok2002nt_php65_ast_65)) = 2);
 /* Optimised heuristics: Linear combination of weighted clauses and Delta(n) */
 
 ok2002wnt_php65_ucp1 : amended_heuristics_lookahead_distances(
-  generalised_ucp1, 
-  [lambda([F0,F1], 
-    approx_min_taun * wn_newclauses_2(weightingscheme_OKsolver2002)(F0,F1) 
+  generalised_ucp1,
+  [lambda([F0,F1],
+    approx_min_taun * wn_newclauses_2(weightingscheme_OKsolver2002)(F0,F1)
     + (1-approx_min_taun) * delta_c(F0,F1)),
-   delta_n], 
-  [tau2], 
-  trivial_sat_approx, 
+   delta_n],
+  [tau2],
+  trivial_sat_approx,
   [])$
 ok2002wnt_php65_ast_65 : dll_red_st_dist(
-  weak_php_fcs(6,5), 
+  weak_php_fcs(6,5),
   ok2002wnt_php65_ucp1,
   generalised_ucp_ple1);
 
@@ -815,16 +815,16 @@ assert(levelled_height(l2ult(col_ok2002wnt_php65_ast_65)) = 2);
 /* Optimised heuristics: Linear combination of weighted clauses and Delta(c) */
 
 ok2002wct_php65_ucp1 : amended_heuristics_lookahead_distances(
-  generalised_ucp1, 
-  [lambda([F0,F1], 
-    approx_min_tauc * wn_newclauses_2(weightingscheme_OKsolver2002)(F0,F1) 
+  generalised_ucp1,
+  [lambda([F0,F1],
+    approx_min_tauc * wn_newclauses_2(weightingscheme_OKsolver2002)(F0,F1)
     + (1-approx_min_tauc) * delta_c(F0,F1)),
-   delta_n], 
-  [tau2], 
-  trivial_sat_approx, 
+   delta_n],
+  [tau2],
+  trivial_sat_approx,
   [])$
 ok2002wct_php65_ast_65 : dll_red_st_dist(
-  weak_php_fcs(6,5), 
+  weak_php_fcs(6,5),
   ok2002wct_php65_ucp1,
   generalised_ucp_ple1);
 
@@ -843,16 +843,16 @@ assert(levelled_height(l2ult(col_ok2002wct_php65_ast_65)) = 2);
 /* Optimised heuristics: Linear combination of weighted clauses and Delta(l) */
 
 ok2002wlt_php65_ucp1 : amended_heuristics_lookahead_distances(
-  generalised_ucp1, 
-  [lambda([F0,F1], 
-    approx_min_taul * wn_newclauses_2(weightingscheme_OKsolver2002)(F0,F1) 
+  generalised_ucp1,
+  [lambda([F0,F1],
+    approx_min_taul * wn_newclauses_2(weightingscheme_OKsolver2002)(F0,F1)
     + (1-approx_min_taul) * delta_l(F0,F1)),
-   delta_n], 
-  [tau2], 
-  trivial_sat_approx, 
+   delta_n],
+  [tau2],
+  trivial_sat_approx,
   [])$
 ok2002wlt_php65_ast_65 : dll_red_st_dist(
-  weak_php_fcs(6,5), 
+  weak_php_fcs(6,5),
   ok2002wlt_php65_ucp1,
   generalised_ucp_ple1);
 
