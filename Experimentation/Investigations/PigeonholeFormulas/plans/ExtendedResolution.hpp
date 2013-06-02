@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.3.2012 (Swansea)
-/* Copyright 2012 Oliver Kullmann
+/* Copyright 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -42,7 +42,7 @@ n=14
 
     \todo Hardness
   <ul>
-   <li> The hardness of weak_php(m,m-1) vs weak_php_unsat_ext_fcs(m):
+   <li> The hardness of weak_php_fcs(m,m-1) vs weak_php_unsat_ext_fcs(m):
    \verbatim
 maxima> for m : 1 while true do
   print([hardness_wpi_cs(weak_php_fcs(m,m-1)[2],{{}}),

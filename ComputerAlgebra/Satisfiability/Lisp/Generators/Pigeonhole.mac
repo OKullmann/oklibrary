@@ -67,13 +67,12 @@ pigeons_in_holes_cl(m,n) :=
 pigeons_in_holes_cs(m,n) := setify(pigeons_in_holes_cl(m,n))$
 
 /* The weak pigeon formula as formal clause-set: */
-/* RENAME: weak_php_fcs */
-weak_php(m,n) := [var_php(m,n),
+weak_php_fcs(m,n) := [var_php(m,n),
  union(pigeons_different_holes_cs(m,n), pigeons_in_holes_cs(m,n))]$
-weak_php_fcs(m,n) := weak_php(m,n)$
 weak_php_cs(m,n) := fcs2cs(weak_php_fcs(m,n))$
 
-output_weak_php(m,n,filename) := block([FF : standardise_fcs(weak_php(m,n))],
+output_weak_php(m,n,filename) := block(
+ [FF : standardise_fcs(weak_php_fcs(m,n))],
   output_fcs_v(
     sconcat("The pigeonhole principle (weak form): ", m, " pigeons, ", n, " holes."),
     FF[1], filename, FF[2]))$
@@ -98,7 +97,7 @@ holes_occupied(m,n) :=
 */
 
 /* The "strong" pigeonhole formula as formal clause-set: */
-strong_php_fcs(m,n) := block([FF : weak_php(m,n)],
+strong_php_fcs(m,n) := block([FF : weak_php_fcs(m,n)],
   [FF[1], union(FF[2], pigeon_unique_hole(m,n))])$
 strong_php_cs(m,n) := fcs2cs(strong_php_fcs(m,n))$
 /* Remark: "strong" comes from our general terminology regarding boolean
@@ -116,7 +115,7 @@ output_strong_php_stdname(m,n) := output_strong_php(m,n,
 
 
 /* The "dual_strong" pigeonhole formula as formal clause-set: */
-dual_strong_php_fcs(m,n) := block([FF : weak_php(m,n)],
+dual_strong_php_fcs(m,n) := block([FF : weak_php_fcs(m,n)],
   [FF[1], union(FF[2], holes_occupied(m,n))])$
 dual_strong_php_cs(m,n) := fcs2cs(dual_strong_php_fcs(m,n))$
 /* Remark: "dual strong" comes from our general terminology regarding boolean
@@ -134,7 +133,7 @@ output_dual_strong_php_stdname(m,n) := output_dual_strong_php(m,n,
 
 
 /* The "special" pigeonhole formula as formal clause-set: */
-special_php_fcs(m,n) := block([FF : weak_php(m,n)],
+special_php_fcs(m,n) := block([FF : weak_php_fcs(m,n)],
   [FF[1], union(FF[2], pigeon_unique_hole(m,n), holes_occupied(m,n))])$
 special_php_cs(m,n) := fcs2cs(special_php_fcs(m,n))$
 /* Remark: special_php_fcs(m,n) is satisfiable iff m=n.
@@ -214,8 +213,6 @@ php_induction_uni_cl(m) :=
     create_list(php_induction_step_cl(mp), mp,1,m-1))$
 php_induction_cl(m) :=
   substitute_cl(php_induction_uni_cl(m),sm2hm(var_ephp2php_sm(m)))$
-/* union(weak_php(m,m-1), setify(weak_php_induction_cl(m)) has a polynomial
-   size resolution proof. */
 
 /* For m >= 0, yields weak_php_fcs(m+1,m) with Extended Resolution clauses
    as given in

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.9.2008 (Swansea)
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -78,10 +78,10 @@ var_cs_apply(F) := var_sl(uaapply(union,listify(F)))$
 var_cs_tree(F) := var_sl(tree_reduce(union,F))$
      \endverbatim
      </li>
-     <li> With Ecl: For weak_php(n,n) no difference, while with full_fcs(n)[2] "apply"
-     is by 50% faster than "tree". On the other hand, for van-der-Waerden problems
-     "tree" is with a growing factor faster (2 s instead of 15.5 s for
-     vanderwaerden2_fcs(5,300)[2]). </li>
+     <li> With Ecl: For weak_php_fcs(n,n) no difference, while
+     with full_fcs(n)[2] "apply" is by 50% faster than "tree". On the other
+     hand, for van-der-Waerden problems "tree" is with a growing factor faster
+     (2 s instead of 15.5 s for vanderwaerden2_fcs(5,300)[2]). </li>
      <li> So it seems that with tree_reduce one is on the safe side. </li>
     </ol>
    </li>

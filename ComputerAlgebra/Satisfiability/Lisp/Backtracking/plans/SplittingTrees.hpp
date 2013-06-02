@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.8.2008 (Swansea)
-/* Copyright 2008, 2009, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2011, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -116,7 +116,7 @@ License, or any later version. */
    <li> Given an r_k-splitting tree for F, and F, counting the satisfying
    assignments. </li>
    <li> With the current algorithm computing an optimal r_2-splitting
-   tree for weak_php(6,5) is hopeless. Hopefully, as described above,
+   tree for weak_php_fcs(6,5) is hopeless. Hopefully, as described above,
    introducing also lower bounds enables us to process this. </li>
    <li> DONE (amend_r_splitting_tree does the job, for each node : the
    assignments are not unique anyway, only the results)

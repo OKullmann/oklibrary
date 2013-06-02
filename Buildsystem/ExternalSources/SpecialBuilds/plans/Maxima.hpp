@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.10.2007 (Swansea)
-/* Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -76,7 +76,7 @@ file_search1: "grcommon.lisp" not found in file_search_maxima,file_search_lisp.
      <li> Failure of okltest_probsatrand(probsatrand) due to less precise
      computation:
      \verbatim
-F : weak_php(2,3)$
+F : weak_php_fcs(2,3)$
 p : probsatrand(F);
   1953/2048
 float(p);

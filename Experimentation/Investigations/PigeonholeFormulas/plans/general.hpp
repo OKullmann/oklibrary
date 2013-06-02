@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.5.2008 (Swansea)
-/* Copyright 2008, 2011, 2012 Oliver Kullmann
+/* Copyright 2008, 2011, 2012, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -83,13 +83,13 @@ for ((n=1;n<=4;++n)); do echo ${n}; QuineMcCluskey-n16-O3-DNDEBUG PHP_CNF_${n}.c
 
   \todo Applying partial assignments
   <ul>
-   <li> Minimally unsatisfiable sub-clause-sets of phi * weak_php(m,n) for
+   <li> Minimally unsatisfiable sub-clause-sets of phi * weak_php_cs(m,n) for
    m > n:
     <ol>
-     <li> Are these all isomorphic to some weak_php(k+1,k) ? </li>
+     <li> Are these all isomorphic to some weak_php_fcs(k+1,k) ? </li>
      <li> No; for example
      \verbatim
-L3 : random_splitting_mus(weak_php(7,5)[2],3,dll_simplest_trivial2)$
+L3 : random_splitting_mus(weak_php_cs(7,5),3,dll_simplest_trivial2)$
 map(deficiency_cs,L3);
   [51, 47, 43, 39, 36, 32, 29, 26, 24, 20, 8, 7, 5, 3, 1, 1, 1, 1]
      \endverbatim
@@ -106,7 +106,7 @@ for n : 1 thru 5 do print(deficiency_weak_php(n+1,n));
      \verbatim
 def3cls : [];
 experiment(m,n) := block(
- [count : 0, F : weak_php(m,n)[2]],
+ [count : 0, F : weak_php_cs(m,n)],
   for seed : 0 do block(
    [L : random_splitting_mus(F,seed,dll_simplest_trivial2), S],
     print("seed:", seed, map(deficiency_cs,L)),
@@ -125,7 +125,7 @@ experiment(7,5);
      DP-reduction:
 def3cls : [];
 experiment(m,n) := block(
- [count : 0, F : weak_php(m,n)[2]],
+ [count : 0, F : weak_php_cs(m,n)],
   for seed : 9 do block(
    [L : random_splitting_nsing_mus(F,seed,dll_simplest_trivial2), S],
     print("seed:", seed, map(deficiency_cs,L)),

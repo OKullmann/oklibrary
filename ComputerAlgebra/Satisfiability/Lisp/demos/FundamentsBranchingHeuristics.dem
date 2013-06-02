@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 21.1.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -278,7 +278,7 @@ trivial_ncl_ucp1 : amended_heuristics_lookahead_distances(
   trivial_sat_approx, 
   [delta_n,delta_c,delta_l])$
 trivial_ncl_ast_54 : dll_red_st_dist(
-  weak_php(5,4), 
+  weak_php_fcs(5,4),
   trivial_ncl_ucp1, 
   generalised_ucp1);
 
@@ -310,7 +310,7 @@ assert_float_equal(upper_bound_nlvs_tau(tbt_l_ast_54), 120414.1082378856);
 /* Delta(n) as heuristics */
 
 n_clt_ucp1 : amended_heuristics_lookahead_distances(generalised_ucp1, [delta_n], [tau2], trivial_sat_approx, [delta_c,delta_l,trivial_distance])$
-n_clt_ast_54 : dll_red_st_dist(weak_php(5,4), n_clt_ucp1, generalised_ucp1);
+n_clt_ast_54 : dll_red_st_dist(weak_php_fcs(5,4), n_clt_ucp1, generalised_ucp1);
 
 assert(nnds_l(n_clt_ast_54) = 71);
 assert(height(l2ult(n_clt_ast_54)) = 7);
@@ -340,7 +340,7 @@ assert_float_equal(upper_bound_nlvs_tau(tbt_nt_ast_54), 128.0);
 /* Delta(c) as heuristics */
 
 c_nlt_ucp1 : amended_heuristics_lookahead_distances(generalised_ucp1, [delta_c], [tau2], trivial_sat_approx, [delta_n,delta_l,trivial_distance])$
-c_nlt_ast_54 : dll_red_st_dist(weak_php(5,4), c_nlt_ucp1, generalised_ucp1);
+c_nlt_ast_54 : dll_red_st_dist(weak_php_fcs(5,4), c_nlt_ucp1, generalised_ucp1);
 
 assert(nnds_l(c_nlt_ast_54) = 49);
 assert(height(l2ult(c_nlt_ast_54)) = 7);
@@ -370,7 +370,7 @@ assert_float_equal(upper_bound_nlvs_tau(tbt_ct_ast_54), 128.0);
 /* Delta(l) as heuristics */
 
 l_nct_ucp1 : amended_heuristics_lookahead_distances(generalised_ucp1, [delta_l], [tau2], trivial_sat_approx, [delta_n,delta_c,trivial_distance])$
-l_nct_ast_54 : dll_red_st_dist(weak_php(5,4), l_nct_ucp1, generalised_ucp1);
+l_nct_ast_54 : dll_red_st_dist(weak_php_fcs(5,4), l_nct_ucp1, generalised_ucp1);
 
 assert(nnds_l(l_nct_ast_54) = 45);
 assert(height(l2ult(l_nct_ast_54)) = 9);
@@ -406,7 +406,7 @@ wnc_nclt_ucp1 : amended_heuristics_lookahead_distances(
   trivial_sat_approx, 
   [delta_n,delta_c,delta_l,trivial_distance])$
 wnc_nclt_ast_54 : dll_red_st_dist(
-  weak_php(5,4), 
+  weak_php_fcs(5,4), 
   wnc_nclt_ucp1, 
   generalised_ucp1);
 
@@ -439,9 +439,9 @@ assert_float_equal(upper_bound_nlvs_tau(tbt_wncl_ast_54), 2.481139355236184E+10)
 assert_float_equal(upper_bound_nlvs_tau(tbt_wnct_ast_54), 1024.0);
 
 
-/* Delta(l) as heuristics for weak_php(6,5) */
+/* Delta(l) as heuristics for weak_php_fcs(6,5) */
 
-l_nct_ast_65 : dll_red_st_dist(weak_php(6,5), l_nct_ucp1, generalised_ucp1);
+l_nct_ast_65 : dll_red_st_dist(weak_php_fcs(6,5), l_nct_ucp1, generalised_ucp1);
 
 assert(nnds_l(l_nct_ast_65) = 219);
 assert(height(l2ult(l_nct_ast_65)) = 16);
@@ -476,7 +476,7 @@ assert_float_equal(upper_bound_nlvs_tau(tbt_lt_ast_65), 65536.0);
 
 /* Minimising the variances */
 
-/* The weighted number of clauses as heuristics for weak_php(6,5) */
+/* The weighted number of clauses as heuristics for weak_php_fcs(6,5) */
 
 ok2002_ncl234_ucp1 : amended_heuristics_lookahead_distances(
   generalised_ucp1, 
@@ -485,7 +485,7 @@ ok2002_ncl234_ucp1 : amended_heuristics_lookahead_distances(
   trivial_sat_approx, 
   [delta_n,delta_c,delta_l,n_newclauses(2),n_newclauses(3),n_newclauses(4)])$
 ok2002_ncl234_ast_65 : dll_red_st_dist(
-  weak_php(6,5), 
+  weak_php_fcs(6,5), 
   ok2002_ncl234_ucp1,
   generalised_ucp_ple1);
 
@@ -600,7 +600,7 @@ ok2002_php65_ucp1 : amended_heuristics_lookahead_distances(
   trivial_sat_approx, 
   [])$
 ok2002_php65_ast_65 : dll_red_st_dist(
-  weak_php(6,5), 
+  weak_php_fcs(6,5), 
   ok2002_php65_ucp1,
   generalised_ucp_ple1);
 
@@ -625,7 +625,7 @@ ok2002n_php65_ucp1 : amended_heuristics_lookahead_distances(
   trivial_sat_approx, 
   [])$
 ok2002n_php65_ast_65 : dll_red_st_dist(
-  weak_php(6,5), 
+  weak_php_fcs(6,5), 
   ok2002n_php65_ucp1,
   generalised_ucp_ple1);
 
@@ -653,7 +653,7 @@ ok2002wl_php65_ucp1 : amended_heuristics_lookahead_distances(
   trivial_sat_approx, 
   [])$
 ok2002wl_php65_ast_65 : dll_red_st_dist(
-  weak_php(6,5), 
+  weak_php_fcs(6,5), 
   ok2002wl_php65_ucp1,
   generalised_ucp_ple1);
 
@@ -681,7 +681,7 @@ ok2002wc_php65_ucp1 : amended_heuristics_lookahead_distances(
   trivial_sat_approx, 
   [])$
 ok2002wc_php65_ast_65 : dll_red_st_dist(
-  weak_php(6,5), 
+  weak_php_fcs(6,5), 
   ok2002wc_php65_ucp1,
   generalised_ucp_ple1);
 
@@ -768,7 +768,7 @@ ok2002nt_php65_ucp1 : amended_heuristics_lookahead_distances(
   trivial_sat_approx, 
   [])$
 ok2002nt_php65_ast_65 : dll_red_st_dist(
-  weak_php(6,5), 
+  weak_php_fcs(6,5), 
   ok2002nt_php65_ucp1,
   generalised_ucp_ple1);
 
@@ -796,7 +796,7 @@ ok2002wnt_php65_ucp1 : amended_heuristics_lookahead_distances(
   trivial_sat_approx, 
   [])$
 ok2002wnt_php65_ast_65 : dll_red_st_dist(
-  weak_php(6,5), 
+  weak_php_fcs(6,5), 
   ok2002wnt_php65_ucp1,
   generalised_ucp_ple1);
 
@@ -824,7 +824,7 @@ ok2002wct_php65_ucp1 : amended_heuristics_lookahead_distances(
   trivial_sat_approx, 
   [])$
 ok2002wct_php65_ast_65 : dll_red_st_dist(
-  weak_php(6,5), 
+  weak_php_fcs(6,5), 
   ok2002wct_php65_ucp1,
   generalised_ucp_ple1);
 
@@ -852,7 +852,7 @@ ok2002wlt_php65_ucp1 : amended_heuristics_lookahead_distances(
   trivial_sat_approx, 
   [])$
 ok2002wlt_php65_ast_65 : dll_red_st_dist(
-  weak_php(6,5), 
+  weak_php_fcs(6,5), 
   ok2002wlt_php65_ucp1,
   generalised_ucp_ple1);
 
@@ -875,8 +875,8 @@ assert(levelled_height(l2ult(col_ok2002wlt_php65_ast_65)) = 2);
 
 /* Example 1.9.1 */
 
-F0 : weak_php(3,2);
-F1 : weak_php(3,3);
+F0 : weak_php_fcs(3,2);
+F1 : weak_php_fcs(3,3);
 
 assert(probsatrand(F0[2]) = 19683 / 262144);
 assert_float_equal(log(probsatrand(F0[2])), logprobrand(F0[2]));
@@ -894,7 +894,7 @@ assert(independence_number_m_cs(F1[2]) = 9);
 assert(hermitian_defect_cs(F1[2]) = 9);
 assert(1 - rest(satprob_seqap_mcind_trrs(F1[2]),1) = [21/8, -33/64, 1045/512, 107/256, 157/128, 469/512, 257/256, 505/512, 253/256]);
 
-1 - float(rest(satprob_seqap_mcind_trrs(weak_php(4,3)[2]),1));
+1 - float(rest(satprob_seqap_mcind_trrs(weak_php_cs(4,3)),1));
 
 assert(max_degree_cvg_cs(F0[2]) = 4);
 assert(1 / locallemma_satapprox(F0[2]) = 4 * 1/4);

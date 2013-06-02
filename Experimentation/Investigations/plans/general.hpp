@@ -115,7 +115,7 @@ find ./ -iname "*" -exec file \{} \; | grep Bourne-Again
    <li> One could conjecture that the distance to the correct value first
    strictly increases, and then strictly decreases.
     <ol>
-     <li> Verified with weak_php(m+1,m) for 0 <= m <= 3. </li>
+     <li> Verified with weak_php_fcs(m+1,m) for 0 <= m <= 3. </li>
     </ol>
    </li>
    <li> Perhaps even stronger statements hold?!? </li>
