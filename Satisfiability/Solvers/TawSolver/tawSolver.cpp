@@ -99,7 +99,7 @@ void read_formula_header(FILE* const f) {
       fgets(str, 256, f);
       if(str[0] == 'p') break;
     }
-  sscanf(str, "%s %s %d %d", p, cnf, &n_vars, &n_clauses);
+  sscanf(str, "%s %s %u %u", p, cnf, &n_vars, &n_clauses);
   clauses = (clause_info *)realloc(clauses, (n_clauses+1)*sizeof(clause_info));
   n_clauses = r_clauses = 0;
 }
