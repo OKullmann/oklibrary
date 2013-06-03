@@ -32,8 +32,6 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
 const int POS = 1;
 const int NEG = 0;
-const int TRUE = 1;
-const int FALSE = 0;
 const int UNSAT = 0;
 const int SAT = 1;
 const int MAX_CLAUSES = 300000;
@@ -81,7 +79,7 @@ int current_working_clause[256], cwc_length;
 int n_trivial_clauses, n_duplicate_literals;
 int gucl_stack[4096], gant_stack[4096], n_gucl = 0;
 
-int contradictory_unit_clauses = FALSE, conflicting_clause;
+int contradictory_unit_clauses = false, conflicting_clause;
 unsigned long long int n_branches = 0, n_units = 0;
 unsigned int max_clause_len = 0;
 unsigned long long int n_backtracks = 0;
@@ -111,12 +109,12 @@ void close_formula_file(FILE* const f) {
 }
 
 int read_a_clause_from_file(FILE* const f) {  // Assumption: clauses are of length 32 or less
-  int x, trivial_clause = 0;
+  bool trivial_clause = false;
   cwc_length = 0;
-  int * checker;
-  checker = (int *) calloc((n_vars+1), sizeof(int));
+  int* const checker = (int *) calloc((n_vars+1), sizeof(int));
   while(1) {
-      if(fscanf(f, "%d", &x) == EOF) return FALSE;
+      int x;
+      if(fscanf(f, "%d", &x) == EOF) return false;
       if(x == 0) break;
       if(checker[abs(x)]==0)
 	{
@@ -124,24 +122,24 @@ int read_a_clause_from_file(FILE* const f) {  // Assumption: clauses are of leng
 	  checker[abs(x)] = x;
 	}
       else if(checker[abs(x)] + x == 0)
-	trivial_clause = 1;
+	trivial_clause = true;
       else if(checker[abs(x)] == x)
 	++n_duplicate_literals;
     }
   if(trivial_clause) {
       cwc_length = 0;
       ++n_trivial_clauses;
-      return TRUE;
+      return true;
     }
   free(checker);
-  if(cwc_length == 0) return FALSE;
-  return TRUE;
+  if(cwc_length == 0) return false;
+  return true;
 }
 
 void add_a_clause_to_formula(const int A[], const unsigned int n) {
   if(n == 0) return;
   clauses[n_clauses].number = n_clauses;
-  clauses[n_clauses].status = TRUE;
+  clauses[n_clauses].status = true;
   clauses[n_clauses].length = n;
   clauses[n_clauses].value = ((1<<n)-1);
   clauses[n_clauses].c_ucl = 0;
@@ -158,8 +156,8 @@ void add_a_clause_to_formula(const int A[], const unsigned int n) {
     vars[p][q].var_in_clauses[vars[p][q].n_occur] = n_clauses;
     vars[p][q].var_in_clause_locs[vars[p][q].n_occur] = i;
     vars[p][q].n_occur++;
-    vars[p][q].status = TRUE;
-    vars[p][q].is_ucl = FALSE;
+    vars[p][q].status = true;
+    vars[p][q].is_ucl = false;
     clauses[n_clauses].literals[i] = A[i];
   }
   ++n_clauses;
@@ -182,7 +180,7 @@ void reduce(const int v) {
   for(unsigned int i=0; i<vars[p][q].n_occur; ++i) {    
     const int m = vars[p][q].var_in_clauses[i];
     if(!clauses[m].status) continue;    
-    clauses[m].status = FALSE;
+    clauses[m].status = false;
     --r_clauses;
     changes[changes_index++].clause_number = m;
     n_changes[depth][POS]++;
@@ -209,14 +207,14 @@ void reduce(const int v) {
 	++n_gucl;
       }
       if(checker[abs(ucl)]+ucl == 0) {
-	contradictory_unit_clauses = TRUE;
+	contradictory_unit_clauses = true;
 	checker[abs(ucl)] = 0;
       }
     }
   }
   ++depth;
-  vars[p][POS].status = FALSE;
-  vars[p][NEG].status = FALSE;
+  vars[p][POS].status = false;
+  vars[p][NEG].status = false;
 }
 
 void reverse(const int v) {
@@ -239,11 +237,11 @@ void reverse(const int v) {
   while(n_changes[depth][POS]) {    
     --n_changes[depth][POS];
     const int m = changes[--changes_index].clause_number;
-    clauses[m].status = TRUE;
+    clauses[m].status = true;
     ++r_clauses;
   }  
-  vars[p][POS].status = TRUE;
-  vars[p][NEG].status = TRUE;
+  vars[p][POS].status = true;
+  vars[p][NEG].status = true;
 }
 
 inline int get_variable_2sjw() {
@@ -294,7 +292,7 @@ int dpll() {
 	reverse(lucl_stack[--n_lucl]);	
 	out[depth] = 0;
       }
-      contradictory_unit_clauses = FALSE;
+      contradictory_unit_clauses = false;
       free(lucl_stack);	  
       n_gucl = 0;
       return UNSAT;
@@ -336,7 +334,7 @@ int dpll() {
   }
 
   free(lucl_stack);
-  contradictory_unit_clauses = FALSE;
+  contradictory_unit_clauses = false;
   return UNSAT;
 }
 
