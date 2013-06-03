@@ -43,26 +43,26 @@ typedef struct clause_info{
   int number;
   int length;
   unsigned int value;
-  int status;
+  bool status;
   int c_ucl;
-  int * literals;
-}clause_info;
+  int* literals;
+} clause_info;
 
 clause_info * clauses;
 
 typedef struct var_info{
-  int status;
+  bool status;
   unsigned int n_occur;
-  int * var_in_clauses;
-  int * var_in_clause_locs;
+  int* var_in_clauses;
+  int* var_in_clause_locs;
   int is_ucl;
-}var_info;
+} var_info;
 
 
 typedef struct change_info{
   int clause_number;	
   int literal_index;	
-}change_info;
+} change_info;
 
 change_info changes[MAX_CLAUSES];
 int n_changes[MAX_VARS][2], changes_index = 0;
