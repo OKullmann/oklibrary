@@ -39,6 +39,8 @@ const int SAT = 1;
 const int MAX_CLAUSES = 300000;
 const int MAX_VARS = 4096;
 
+enum Error_codes { file_reading_error = 1 };
+
 typedef struct clause_info{
   int number;
   int length;
@@ -87,8 +89,8 @@ unsigned long long int n_backtracks = 0;
 FILE* open_formula_file(const char* const file_name) {
   FILE* const f = fopen(file_name, "r");
   if(!f) {
-      printf("Invalid file name\n");
-      exit(0);
+      printf("Invalid file name.\n");
+      exit(file_reading_error);
     }
   else return f;
 }
