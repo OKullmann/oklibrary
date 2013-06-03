@@ -108,7 +108,8 @@ void close_formula_file(FILE* const f) {
   if(f) fclose(f);
 }
 
-int read_a_clause_from_file(FILE* const f) {  // Assumption: clauses are of length 32 or less
+bool read_a_clause_from_file(FILE* const f) {
+ // Assumption: clauses are of length 32 or less
   bool trivial_clause = false;
   cwc_length = 0;
   int* const checker = (int *) calloc((n_vars+1), sizeof(int));
