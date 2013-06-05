@@ -26,6 +26,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssig
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Pigeonhole.mac")$
 
 
 /* *********************
@@ -209,6 +210,55 @@ gprt2s2cl_aux_s(P1,aux1,P2,aux2) :=
    return(append(prt2cl_aux_1(S1,aux1), prt2cl_aux_1(gprt2prt([S2,e2]),aux2)))
   ))$
 /* Remark: The order of clauses is as given by gprt2prt and prt2cl_aux_1. */
+
+/* A generator for unsatisfiable clause-sets, with p >= 1 the common
+   "parity part", and q >= 0 the "pigeonhole part":
+   The main variables are 1,...,p and the variables php(i,j) of weak_php(m,n)
+   with n=2*q and m=n+1.
+   We have two parity-constraints, namely that, using v_1,...,v_p for
+   the variables 1,...,p, "+" for xor, and S = v_1+...+v_{p-1}:
+     S + v_p + php(1,1) + ... + php(1,q) = 0
+     S - v_p + php(1,q+1) + ... + php(1,n) = 0.
+   From this follows that
+     php(1,1) + ... + php(1,n) = 1.
+   And then we have weak_php_cs(m,n) minus the clause
+     {php(1,1), ... php(1,n)}
+   (which enforces, that php(1,1) = ... = php(1,n) = 0).
+   For s=0 the translation sprt2cl_aux_1 is used, for s=1 the translation
+   gprt2s2cl_aux_s.
+*/
+/* TODO: the natural-number-variables should be numbered without gap (
+   currently this is not the case for aux2). */
+/* TODO: we need the ordered version. */
+/* TODO: we need the standardised version. */
+/* TODO: for s=2 the two parity-constraints are replaced by
+   php(1,1) + ... + php(1,n) = 1.
+*/
+parityphp_cs(p,q,s) := block([n:2*q, m:2*q+1, PH, C, P1,P2,aux1,a,aux2,P],
+ PH : weak_php_cs(m,n),
+ C : create_list(php_var(1,j),j,1,n),
+ PH : disjoin(setify(C), PH),
+ P1 : append(listn(p),rest(C,-q)),
+ P2 : append(listn(p-1),[-p],rest(C,q)),
+ a : p+1+length(P1)-2,
+ aux1 : listmn(p+1, a-1),
+ aux2 : listmn(a, a + length(P2)-2 -1),
+ if s=0 then
+  P : sprt2cl_aux_1([[P1,aux1],[P2,aux2]])
+ else
+  P : gprt2s2cl_aux_s([P1,0],aux1,[P2,0],aux2),
+ union(PH,cl2cs(P)))$
+parityphp_fcl(p,q,s) := cs2fcl(parityphp_cs(p,q,s))$
+
+output_parityphp_cs(p,q,s,filename) := block(
+ [FF : standardise_fcl(parityphp_fcl(p,q,s))],
+  output_fcl_v(
+    sconcat("2 parity-constraints plus PHP, p=", p, ", q=", q, ", s=", s, ".
+c Created by the OKlibrary at ", timedate(), "."),
+    FF[1], filename, FF[2]))$
+
+output_parityphp_stdname(p,q,s) := output_parityphp_cs(p,q,s,
+ sconcat("ParityPHP-",p,"_",q,"_",s,".cnf"))$
 
 
 /* Finally general systems of parity constraints ("sprt"). */
