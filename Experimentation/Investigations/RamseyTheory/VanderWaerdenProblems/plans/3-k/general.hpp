@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Experimentation/Investigations/RamseyTheory/VanderWaerdenProblems/plans/3-k/general.hpp
-  \brief On investigations into vdW-numbers vdw_2(3,k)
+  \brief On investigations into vdW-numbers vdw_2(3,k) and pdvdw_2(3,k)
 
   Instances created by output_vanderwaerden2nd_stdname(3,k,n) at Maxima-level,
   or by "VanderWaerden-O3-DNDEBUG 3 k n" at C++ level (instances differ by
@@ -194,6 +194,20 @@ d - round(fnlq(X))
    <li> However, for vanderwaerden_2(3,18) samd again seems clearly better,
    while for 19 <= k <= 23 gsat-tabu seems best, and for k >= 24 rots
    seems best --- this needs to be investigated more thoroughly. </li>
+  </ul>
+
+
+  \todo Predictions of pdvdw_2(3,k)
+  <ul>
+   <li> The known values with k=1, ..., 27 are available via
+   pdvanderwaerden3k(k):
+   \verbatim
+create_list(pdvanderwaerden3k(k),k,1,27);
+[[2,3],[3,6],[6,9],[15,16],[16,21],[30,31],[41,44],[52,57],[62,77],[93,94],
+ [110,113],[126,135],[142,155],[174,183],[200,205],[232,237],[256,279],[299,312],[338,347],[380,389],
+ [400,405],[444,463],[506,507],[568,593],[586,607],[634,643],[664,699]]
+   \endverbatim
+   </li>
   </ul>
 
 */
