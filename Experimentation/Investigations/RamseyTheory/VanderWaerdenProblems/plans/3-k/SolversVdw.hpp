@@ -365,8 +365,86 @@ Running time: 532416.20 seconds
      <li> k=14, n=186: 16836s (463984635 conflicts; cswsok (3GHz)) </li>
      <li> k=15, n=217: 26319s (500756444 conflicts; cswsok (3GHz)) </li>
      <li> k=15, n=218: 190211s (3205639994 conflicts; cswsok (3GHz)) </li>
+    </ol>
+   </li>
+   <li> cryptominisat-2.9.0:
+    <ol>
+     <li> k=12, n=134: 91s (619145 conflicts; csltok) </li>
+     <li> k=12, n=135: 763s (2815643 conflicts; csltok) </li>
+    </ol>
+   </li>
+   <li> cryptominisat-2.9.6:
+    <ol>
+     <li> k=12, n=134: 155s (1693268 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 212s (2109106 conflicts; cswsok (3 GHz)) </li>
+    </ol>
+   </li>
+   <li> picosat913:
+    <ol>
+     <li> k=12, n=134: 7s (368890 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 259s (9643671 conflicts; cswsok (3 GHz)) </li>
+    </ol>
+   </li>
+   <li> precosat236:
+    <ol>
+     <li> k=12, n=134: 52s (1145491 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 205s (3583785 conflicts; cswsok (3 GHz)) </li>
+    </ol>
+   </li>
+   <li> precosat-570.1:
+    <ol>
+     <li> k=12, n=134: 91s (1531799 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 211s (2425722 conflicts; cswsok (3 GHz)) </li>
+    </ol>
+   </li>
+   <li> lingelingala-b02aa1a-121013:
+    <ol>
+     <li> k=12, n=134: 171s (1659607 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 476s (3435610 conflicts; cswsok (3 GHz)) </li>
+    </ol>
+   </li>
+   <li> glucose-1.0:
+    <ol>
+     <li> k=12, n=134: 39s (425399 conflicts; csltok) </li>
+     <li> k=12, n=135: 191s (1356325 conflicts; csltok) </li>
+     <li> k=13, n=159: 139s (957255 conflicts; csltok) </li>
+     <li> k=13, n=160: 3274s (9907932 conflicts; csltok) </li>
+    </ol>
+   </li>
+   <li> glucose-2.0:
+    <ol>
+     <li> k=12, n=134: 5s (169420 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 58s (1263087 conflicts; cswsok (3 GHz)) </li>
+     <li> k=13, n=159: 1s (50528 conflicts; cswsok (3 GHz)) </li>
+     <li> k=13, n=160: 781s (8377487 conflicts; cswsok (3 GHz)) </li>
+     <li> k=14, n=185: 5133s (31516583 conflicts; cswsok (3 GHz)) </li>
+     <li> k=14, n=186: 84334s (163500051 conflicts; cswsok (3 GHz)) </li>
      <li> SplittingViaOKsolver (cswsok, 3 GHz):
      \verbatim
+     \endverbatim
+     Reasonable fast, but minisat-2.2.0 is faster.
+     </li>
+    </ol>
+   </li>
+   <li> glucose-2.2:
+    <ol>
+     <li> k=12, n=134: 84s (1350204 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 94s (1444017 conflicts; cswsok (3 GHz)) </li>
+     <li> k=13, n=159: 87s (1332829 conflicts; cswsok (3 GHz)) </li>
+     <li> k=13, n=160: 1412s (10447051 conflicts; cswsok (3 GHz)) </li>
+    </ol>
+    Performance much worse -- apparently due to much more restarts!
+   </li>
+   <li> minisat-2.2.0 and glucose-2.0 seem best (for the conflict-driven
+   solvers, while satz215 seems best overall); however SplittingViaOKsolver
+   with minisat-2.2 is much better than satz215. </li>
+  </ul>
+
+
+  \todo SplittingViaOKsolver
+  <ul>
+   <li> Using minisat-2.2.0 (cswsok, 3 GHz):
+   \verbatim
 > SplittingViaOKsolver -D20 VanDerWaerden_2-3-13_160.cnf
 > cd SplitViaOKsolver_D20VanDerWaerden_2313_160cnf_2013-05-17-001649
 > more Md5sum
@@ -542,96 +620,29 @@ $t ~ $cfs:
 (Intercept) -1.8913e-01  3.3949e-04  -557.1 < 2.2e-16 ***
 E$cfs        3.1701e-05  3.8441e-09  8246.8 < 2.2e-16 ***
 R-squared: 0.9898
-     \endverbatim
-     A big speed-up! </li>
-    </ol>
+   \endverbatim
+   A big speed-up!
    </li>
-   <li> cryptominisat-2.9.0:
-    <ol>
-     <li> k=12, n=134: 91s (619145 conflicts; csltok) </li>
-     <li> k=12, n=135: 763s (2815643 conflicts; csltok) </li>
-    </ol>
-   </li>
-   <li> cryptominisat-2.9.6:
-    <ol>
-     <li> k=12, n=134: 155s (1693268 conflicts; cswsok (3 GHz)) </li>
-     <li> k=12, n=135: 212s (2109106 conflicts; cswsok (3 GHz)) </li>
-    </ol>
-   </li>
-   <li> picosat913:
-    <ol>
-     <li> k=12, n=134: 7s (368890 conflicts; cswsok (3 GHz)) </li>
-     <li> k=12, n=135: 259s (9643671 conflicts; cswsok (3 GHz)) </li>
-    </ol>
-   </li>
-   <li> precosat236:
-    <ol>
-     <li> k=12, n=134: 52s (1145491 conflicts; cswsok (3 GHz)) </li>
-     <li> k=12, n=135: 205s (3583785 conflicts; cswsok (3 GHz)) </li>
-    </ol>
-   </li>
-   <li> precosat-570.1:
-    <ol>
-     <li> k=12, n=134: 91s (1531799 conflicts; cswsok (3 GHz)) </li>
-     <li> k=12, n=135: 211s (2425722 conflicts; cswsok (3 GHz)) </li>
-    </ol>
-   </li>
-   <li> lingelingala-b02aa1a-121013:
-    <ol>
-     <li> k=12, n=134: 171s (1659607 conflicts; cswsok (3 GHz)) </li>
-     <li> k=12, n=135: 476s (3435610 conflicts; cswsok (3 GHz)) </li>
-    </ol>
-   </li>
-   <li> glucose-1.0:
-    <ol>
-     <li> k=12, n=134: 39s (425399 conflicts; csltok) </li>
-     <li> k=12, n=135: 191s (1356325 conflicts; csltok) </li>
-     <li> k=13, n=159: 139s (957255 conflicts; csltok) </li>
-     <li> k=13, n=160: 3274s (9907932 conflicts; csltok) </li>
-    </ol>
-   </li>
-   <li> glucose-2.0:
-    <ol>
-     <li> k=12, n=134: 5s (169420 conflicts; cswsok (3 GHz)) </li>
-     <li> k=12, n=135: 58s (1263087 conflicts; cswsok (3 GHz)) </li>
-     <li> k=13, n=159: 1s (50528 conflicts; cswsok (3 GHz)) </li>
-     <li> k=13, n=160: 781s (8377487 conflicts; cswsok (3 GHz)) </li>
-     <li> k=14, n=185: 5133s (31516583 conflicts; cswsok (3 GHz)) </li>
-     <li> k=14, n=186: 84334s (163500051 conflicts; cswsok (3 GHz)) </li>
-     <li> SplittingViaOKsolver (cswsok, 3 GHz):
-     \verbatim
+   <li> Using glucose 2.0 (cswsok, 3 GHz):
+   \verbatim
 > solver="glucose-2.0" ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710
 > cat Process_SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710_2013-05-17-180553/Result
   187:11
-     \endverbatim
-     Reasonable fast, but minisat-2.2.0 is faster.
-     </li>
-    </ol>
+   \endverbatim
+   Reasonable fast, but minisat-2.2.0 is faster.
    </li>
-   <li> glucose-2.2:
-    <ol>
-     <li> k=12, n=134: 84s (1350204 conflicts; cswsok (3 GHz)) </li>
-     <li> k=12, n=135: 94s (1444017 conflicts; cswsok (3 GHz)) </li>
-     <li> k=13, n=159: 87s (1332829 conflicts; cswsok (3 GHz)) </li>
-     <li> k=13, n=160: 1412s (10447051 conflicts; cswsok (3 GHz)) </li>
-     <li> SplittingViaOKsolver (cswsok, 3 GHz):
-     \verbatim
+   <li> Using glucose 2.2 (cswsok, 3 GHz):
+   \verbatim
 > solver="glucose-2.2" ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710
 > cat Process_SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710_2013-05-19-084751/Result
   132:00
 
 > solver="glucose-2.2" ProcessSplitViaOKsolver SplitViaOKsolver_D40VanDerWaerden_2316_238cnf_2013-05-17-140911
   1288:01
-     \endverbatim
-     This is now faster than glucose-2.0, but basically the same as
-     minisat-2.2.0 (for k=16 a bit faster).
-     </li>
-    </ol>
-    Performance much worse -- apparently due to much more restarts!
+   \endverbatim
+   This is now faster than glucose-2.0, but basically the same as
+   minisat-2.2.0 (for k=16 a bit faster).
    </li>
-   <li> minisat-2.2.0 and glucose-2.0 seem best (for the conflict-driven
-   solvers, while satz215 seems best overall); however SplittingViaOKsolver
-   with minisat-2.2 is much better than satz215. </li>
   </ul>
 
 */
