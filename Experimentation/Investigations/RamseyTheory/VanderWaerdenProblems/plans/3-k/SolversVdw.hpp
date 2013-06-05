@@ -200,18 +200,32 @@ c file_name                             VanDerWaerden_2-3-14_186.cnf
      <li> k=12, n=135: 213s (47963 nodes, cswsok (3GHz)) </li>
     </ol>
    </li>
-   <li> k=13, n=160:
+   <li> k=13, n=160 (cswsok, 3GHz):
    \verbatim
 c main():: nodeCount: 279061
 c main():: dead ends in main: 552
 c main():: lookAheadCount: 71404700
 c main():: unitResolveCount: 1831368
-c main():: time=1944.450073
+c main():: time=1849.209961
 c main():: necessary_assignments: 37675
 c main():: bin_sat: 0, bin_unsat 0
 c main():: doublelook: #: 2653564, succes #: 2089797
 c main():: doublelook: overall 3.822 of all possible doublelooks executed
 c main():: doublelook: succesrate: 78.754, average DL_trigger: 312.059
+   \endverbatim
+   </li>
+   <li> k=14, n=186 (cswsok, 3GHz):
+   \verbatim
+c main():: nodeCount: 1975338
+c main():: dead ends in main: 3875
+c main():: lookAheadCount: 578164648
+c main():: unitResolveCount: 14151563
+c main():: time=17018.310547
+c main():: necessary_assignments: 284061
+c main():: bin_sat: 0, bin_unsat 0
+c main():: doublelook: #: 20709282, succes #: 16337811
+c main():: doublelook: overall 3.680 of all possible doublelooks executed
+c main():: doublelook: succesrate: 78.891, average DL_trigger: 348.623
    \endverbatim
    </li>
   </ul>
@@ -399,8 +413,10 @@ Running time: 532416.20 seconds
    </li>
    <li> lingelingala-b02aa1a-121013:
     <ol>
-     <li> k=12, n=134: 171s (1659607 conflicts; cswsok (3 GHz)) </li>
-     <li> k=12, n=135: 476s (3435610 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=134: 205s (1659607 conflicts; cswsok (3 GHz)) </li>
+     <li> k=12, n=135: 519s (3435610 conflicts; cswsok (3 GHz)) </li>
+     <li> k=13, n=160: 7651s (24124525 conflicts; cswsok (3 GHz)) </li>
+     <li> k=14, n=186: ???s (??? conflicts; cswsok (3 GHz)) </li>
     </ol>
    </li>
    <li> glucose-1.0:
@@ -419,11 +435,6 @@ Running time: 532416.20 seconds
      <li> k=13, n=160: 781s (8377487 conflicts; cswsok (3 GHz)) </li>
      <li> k=14, n=185: 5133s (31516583 conflicts; cswsok (3 GHz)) </li>
      <li> k=14, n=186: 84334s (163500051 conflicts; cswsok (3 GHz)) </li>
-     <li> SplittingViaOKsolver (cswsok, 3 GHz):
-     \verbatim
-     \endverbatim
-     Reasonable fast, but minisat-2.2.0 is faster.
-     </li>
     </ol>
    </li>
    <li> glucose-2.2:
