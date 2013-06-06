@@ -310,7 +310,7 @@ R-squared: 0.999
   </ul>
 
 
-  \todo Tanbir Ahmed's solver
+  \todo tawSolver
   <ul>
    <li> On cswsok (3 GHz):
    \verbatim
