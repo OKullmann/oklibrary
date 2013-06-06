@@ -280,33 +280,6 @@ satz215 VanDerWaerden_2-3-16_238.cnf 562161.320 599520428 304003189 101411640715
    \endverbatim
    (that's 156 hours).
    </li>
-   <li> SplittingViaOKsolver:
-   \verbatim
-> solver="satz215" ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710
-# aborted after 2071 from 12922 sub-instances:
-> E=read_processsplit_satz()
-2071: 21.955h, sum-nds=1.363216e+08, mean-t=38.165s, mean-nds=65824, sat: 0
-$t:
-    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
-   0.120    0.890    1.420   38.160    2.305 6503.000
-sd= 339.4337
-     95%      96%      97%      98%      99%     100%
-   4.845    5.630    6.979   39.830 1316.095 6503.010
-sum= 79038.94
-$nds:
-    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
-      34     1438     2465    65820     4323 11620000
-sd= 586093.9
-       95%        96%        97%        98%        99%       100%
-    9509.0    11161.4    14417.8    83698.2  2248985.2 11621345.0
-sum= 136321627
-$t ~ $nds:
-              Estimate Std. Error   t value Pr(>|t|)
-(Intercept) 6.2299e-02 2.3939e-01    0.2602   0.7947
-E$nds       5.7885e-04 4.0600e-07 1425.7567   <2e-16 ***
-R-squared: 0.999
-   \endverbatim
-   That is cleary worse than just plain satz215. </li>
   </ul>
 
 
@@ -654,6 +627,33 @@ R-squared: 0.9898
    This is now faster than glucose-2.0, but basically the same as
    minisat-2.2.0 (for k=16 a bit faster).
    </li>
+   <li> Using satz (cswsok, 3 GHz):
+   \verbatim
+> solver="satz215" ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_2315_218cnf_2013-05-17-015710
+# aborted after 2071 from 12922 sub-instances:
+> E=read_processsplit_satz()
+2071: 21.955h, sum-nds=1.363216e+08, mean-t=38.165s, mean-nds=65824, sat: 0
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+   0.120    0.890    1.420   38.160    2.305 6503.000
+sd= 339.4337
+     95%      96%      97%      98%      99%     100%
+   4.845    5.630    6.979   39.830 1316.095 6503.010
+sum= 79038.94
+$nds:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+      34     1438     2465    65820     4323 11620000
+sd= 586093.9
+       95%        96%        97%        98%        99%       100%
+    9509.0    11161.4    14417.8    83698.2  2248985.2 11621345.0
+sum= 136321627
+$t ~ $nds:
+              Estimate Std. Error   t value Pr(>|t|)
+(Intercept) 6.2299e-02 2.3939e-01    0.2602   0.7947
+E$nds       5.7885e-04 4.0600e-07 1425.7567   <2e-16 ***
+R-squared: 0.999
+   \endverbatim
+   That is cleary worse than just plain satz215. </li>
   </ul>
 
 */
