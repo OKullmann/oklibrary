@@ -228,6 +228,11 @@ c main():: doublelook: overall 3.680 of all possible doublelooks executed
 c main():: doublelook: succesrate: 78.891, average DL_trigger: 348.623
    \endverbatim
    </li>
+   <li> k=15, n=218 (cswsok, 3GHz):
+   \verbatim
+XXX
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -328,18 +333,19 @@ Running time: 532416.20 seconds
    </li>
    <li> This solver is the fastest single solver, but nearly 7x slower than
    Cube&Conquer via OKsolver&minisat22. </li>
-   <li> We should also try C&C with this solver. </li>
+   <li> We should also try C&C with this solver XXX. </li>
   </ul>
 
 
   \todo Performance of conflict-driven solvers
   <ul>
-   <li> minisat2:
+   <li> minisat2: (cswsok, 3GHz)
     <ol>
-     <li> k=12, n=134: 1387192 conflicts, 22 restarts (csltok; 598s). </li>
-     <li> k=12, n=135: 1454696 conflicts, 22 restarts (csltok; 608s). </li>
-     <li> k=13, n=159: 525039 conflicts,  20 restarts (csltok; 263s). </li>
-     <li> k=13, n=160: 9298288 conflicts, 27 restarts (csltok; 7019s). </li>
+     <li> k=12, n=134: 1387192 conflicts, 22 restarts (258s). </li>
+     <li> k=12, n=135: 1454696 conflicts, 22 restarts (273s). </li>
+     <li> k=13, n=159: 525039 conflicts,  20 restarts (116s). </li>
+     <li> k=13, n=160: 9298288 conflicts, 27 restarts (3022s). </li>
+     <li> k=14, n=186: XXX conflicts, XXX restarts (XXXs) </li>
     </ol>
    </li>
    <li> minisat-2.2.0:
@@ -364,6 +370,8 @@ Running time: 532416.20 seconds
     <ol>
      <li> k=12, n=134: 155s (1693268 conflicts; cswsok (3 GHz)) </li>
      <li> k=12, n=135: 212s (2109106 conflicts; cswsok (3 GHz)) </li>
+     <li> k=13, n=160: 4630s (18137202 conflicts; cswsok (3 GHz)) </li>
+     <li> k=14, n=186: XXXs (XXX conflicts; cswsok (3GHz)) </li>
     </ol>
    </li>
    <li> picosat913:
@@ -382,6 +390,7 @@ Running time: 532416.20 seconds
     <ol>
      <li> k=12, n=134: 91s (1531799 conflicts; cswsok (3 GHz)) </li>
      <li> k=12, n=135: 211s (2425722 conflicts; cswsok (3 GHz)) </li>
+     <li> k=13, n=160: XXXs (XXX conflicts; cswsok (3 GHz)) </li>
     </ol>
    </li>
    <li> lingelingala-b02aa1a-121013:
@@ -389,7 +398,7 @@ Running time: 532416.20 seconds
      <li> k=12, n=134: 205s (1659607 conflicts; cswsok (3 GHz)) </li>
      <li> k=12, n=135: 519s (3435610 conflicts; cswsok (3 GHz)) </li>
      <li> k=13, n=160: 7651s (24124525 conflicts; cswsok (3 GHz)) </li>
-     <li> k=14, n=186: ???s (??? conflicts; cswsok (3 GHz)) </li>
+     <li> k=14, n=186: XXXs (XXX conflicts; cswsok (3 GHz)) </li>
     </ol>
    </li>
    <li> glucose-1.0:
@@ -416,6 +425,7 @@ Running time: 532416.20 seconds
      <li> k=12, n=135: 94s (1444017 conflicts; cswsok (3 GHz)) </li>
      <li> k=13, n=159: 87s (1332829 conflicts; cswsok (3 GHz)) </li>
      <li> k=13, n=160: 1412s (10447051 conflicts; cswsok (3 GHz)) </li>
+     <li> k=14, n=186: XXXs (XXX conflicts; cswsok (3 GHz)) </li>
     </ol>
     Performance much worse -- apparently due to much more restarts!
    </li>
