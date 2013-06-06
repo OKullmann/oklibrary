@@ -390,7 +390,8 @@ Running time: 532416.20 seconds
     <ol>
      <li> k=12, n=134: 91s (1531799 conflicts; cswsok (3 GHz)) </li>
      <li> k=12, n=135: 211s (2425722 conflicts; cswsok (3 GHz)) </li>
-     <li> k=13, n=160: XXXs (XXX conflicts; cswsok (3 GHz)) </li>
+     <li> k=13, n=160: 2777s (16978254 conflicts; cswsok (3 GHz)) </li>
+     <li> k=14, n=186: XXXs (XXX conflicts; cswsok (3 GHz)) </li>
     </ol>
    </li>
    <li> lingelingala-b02aa1a-121013:
@@ -398,7 +399,7 @@ Running time: 532416.20 seconds
      <li> k=12, n=134: 205s (1659607 conflicts; cswsok (3 GHz)) </li>
      <li> k=12, n=135: 519s (3435610 conflicts; cswsok (3 GHz)) </li>
      <li> k=13, n=160: 7651s (24124525 conflicts; cswsok (3 GHz)) </li>
-     <li> k=14, n=186: XXXs (XXX conflicts; cswsok (3 GHz)) </li>
+     <li> k=14, n=186: 107243s (176909499 conflicts; cswsok (3 GHz)) </li>
     </ol>
    </li>
    <li> glucose-1.0:
