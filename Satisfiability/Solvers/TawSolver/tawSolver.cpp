@@ -265,7 +265,7 @@ inline int get_variable_2sjw() {
 }
 
 
-int impl_clauses[MAX_VARS], icl_cnt;
+int impl_clauses[MAX_VARS];
 
 int out[MAX_VARS];
 
@@ -276,7 +276,6 @@ bool dpll() {
   int* lucl_stack = nullptr;
   while (true) {
     if (contradictory_unit_clauses) {
-      icl_cnt = 0;
       while(n_lucl) {
         reverse(lucl_stack[--n_lucl]);
         out[depth] = 0;
