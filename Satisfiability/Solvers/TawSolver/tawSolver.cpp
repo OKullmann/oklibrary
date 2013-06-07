@@ -168,7 +168,7 @@ void read_formula(const char* const filename) {
   read_formula_header(f);
   n_init_clauses = 0;
   while(read_a_clause_from_file(f)) {
-    add_a_clause_to_formula(current_working_clause, cwc_length);    
+    add_a_clause_to_formula(current_working_clause, cwc_length);
     n_init_clauses++;
   }
   close_formula_file(f);
@@ -178,9 +178,9 @@ int checker[4096];
 
 void reduce(const int v) {
   const int p = abs(v); int q = (v>0) ? POS : NEG;
-  for(unsigned int i=0; i<vars[p][q].n_occur; ++i) {    
+  for(unsigned int i=0; i<vars[p][q].n_occur; ++i) {
     const int m = vars[p][q].var_in_clauses[i];
-    if(!clauses[m].status) continue;    
+    if(!clauses[m].status) continue;
     clauses[m].status = false;
     --r_clauses;
     changes[changes_index++].clause_number = m;
@@ -198,9 +198,9 @@ void reduce(const int v) {
     changes[changes_index++].literal_index = n;
     n_changes[depth][NEG]++;
 
-    if(clauses[m].length == 1) {      
-      const int ucl = clauses[m].literals[int(log2(clauses[m].value))];     
-           
+    if(clauses[m].length == 1) {
+      const int ucl = clauses[m].literals[int(log2(clauses[m].value))];
+
       if(checker[abs(ucl)] == 0) {
 	gucl_stack[n_gucl] = ucl;
 	checker[abs(ucl)] = ucl;
@@ -235,12 +235,12 @@ void reverse(const int v) {
     clauses[m].value += ((1 << n));
   }
 
-  while(n_changes[depth][POS]) {    
+  while(n_changes[depth][POS]) {
     --n_changes[depth][POS];
     const int m = changes[--changes_index].clause_number;
     clauses[m].status = true;
     ++r_clauses;
-  }  
+  }
   vars[p][POS].status = true;
   vars[p][NEG].status = true;
 }
@@ -289,28 +289,28 @@ int dpll() {
   unsigned int n_lucl = 0;
   int * lucl_stack = NULL;
   while (true) {
-    if (contradictory_unit_clauses) {	  
+    if (contradictory_unit_clauses) {	
       icl_cnt = 0;
       while(n_lucl) {
 	  reverse(lucl_stack[--n_lucl]);	
 	  out[depth] = 0;
       }
       contradictory_unit_clauses = false;
-      free(lucl_stack);	  
+      free(lucl_stack);	
       n_gucl = 0;
       return UNSAT;
     }
     else if (n_gucl) {
       lucl_stack = (int *) realloc(lucl_stack, (n_lucl + 1) * sizeof(int));
       const int implied_literal = gucl_stack[--n_gucl];
-      out[depth] = lucl_stack[n_lucl++] = implied_literal;       
+      out[depth] = lucl_stack[n_lucl++] = implied_literal;
       reduce(implied_literal);
       ++n_units;
     }
     else break;
   }
   if(!r_clauses) return SAT;
-  
+
   int v = get_variable_2sjw();
 
   out[depth] = v;
@@ -320,7 +320,7 @@ int dpll() {
   reverse(v);
 
   ++n_backtracks;
-  
+
   v = -v;
   out[depth] = v;
 
