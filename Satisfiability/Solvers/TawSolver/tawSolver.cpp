@@ -315,7 +315,6 @@ void print_solution(const char* const file, const bool result, const long int ti
       if (out[i]>0) order[abs(out[i])-1] = 1;
       else if (out[i]<0) order[abs(out[i])-1] = -1;
     }
-
     for (unsigned int i=0; i<n_vars; ++i) {
       printf("[%3d:", i+1);
       if (order[i]==1) printf("H],");
@@ -325,7 +324,6 @@ void print_solution(const char* const file, const bool result, const long int ti
     }
     printf("\n");
   }
-
   printf("V_VARS: %d, N_CLAUSES: %d\n", n_vars, n_init_clauses);
   printf("N_UNITS: %llu, N_BRANCHES: %llu, N_BACK: %llu\n", n_units, n_branches, n_backtracks);
   printf("Running time: %ld.%ld%ld seconds\n", timediff/100, (timediff%100)/10, ((timediff%100)%10));
