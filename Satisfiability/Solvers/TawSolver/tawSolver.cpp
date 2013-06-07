@@ -309,7 +309,7 @@ bool dpll() {
 
 int order[MAX_VARS];
 
-void print_solution(const char* const file, const bool result, const int timediff) {
+void print_solution(const char* const file, const bool result, const long int timediff) {
   if (result) {
     for (unsigned int i=0; i<n_vars; i++) {
       if (out[i]>0) order[abs(out[i])-1] = 1;
@@ -328,7 +328,7 @@ void print_solution(const char* const file, const bool result, const int timedif
 
   printf("V_VARS: %d, N_CLAUSES: %d\n", n_vars, n_init_clauses);
   printf("N_UNITS: %llu, N_BRANCHES: %llu, N_BACK: %llu\n", n_units, n_branches, n_backtracks);
-  printf("Running time: %d.%d%d seconds\n", timediff/100, (timediff%100)/10, ((timediff%100)%10));
+  printf("Running time: %ld.%ld%ld seconds\n", timediff/100, (timediff%100)/10, ((timediff%100)%10));
 }
 
 
@@ -340,9 +340,9 @@ int main(const int argc, const char* const argv[]) {
   read_formula(argv[1]);
   struct rusage runtime;
   getrusage(RUSAGE_SELF, &runtime);
-  const int t1 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
+  const int long t1 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
   const bool result = dpll();
-  const int t2 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
+  const long int t2 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
   if (result) printf("%s is SATISFIABLE\n", argv[1]);
   else printf("%s is UNSATISFIABLE\n", argv[1]);
   print_solution(argv[1], result, t2-t1);
