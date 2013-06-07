@@ -32,8 +32,6 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
 constexpr int POS = 1;
 constexpr int NEG = 0;
-constexpr int UNSAT = 0;
-constexpr int SAT = 1;
 constexpr int MAX_CLAUSES = 300000;
 constexpr int MAX_VARS = 4096;
 
@@ -272,7 +270,7 @@ double max_resolved = 0.0;
 
 int out[4096];
 
-int dpll() {
+bool dpll() {
   ++n_branches;
 
   unsigned int n_lucl = 0;
@@ -287,7 +285,7 @@ int dpll() {
       contradictory_unit_clauses = false;
       free(lucl_stack);
       n_gucl = 0;
-      return UNSAT;
+      return false;
     }
     else if (n_gucl) {
       lucl_stack = (int *) realloc(lucl_stack, (n_lucl + 1) * sizeof(int));
@@ -298,19 +296,19 @@ int dpll() {
     }
     else break;
   }
-  if (!r_clauses) return SAT;
+  if (!r_clauses) return true;
 
   const int v = get_variable_2sjw();
   out[depth] = v;
   reduce(v);
-  if (dpll()) return SAT;
+  if (dpll()) return true;
   reverse(v);
   ++n_backtracks;
 
   const int nv = -v;
   out[depth] = nv;
   reduce(nv);
-  if (dpll()) return SAT;
+  if (dpll()) return true;
   reverse(nv);
   out[depth] = 0;
 
@@ -320,14 +318,14 @@ int dpll() {
   }
   free(lucl_stack);
   contradictory_unit_clauses = false;
-  return UNSAT;
+  return false;
 }
 
 
 int order[4096];
 
-void print_solution(const char* const file, const int result, const int timediff) {
-  if (result == SAT) {
+void print_solution(const char* const file, const bool result, const int timediff) {
+  if (result) {
     for (unsigned int i=0; i<n_vars; i++) {
       if (out[i]>0) order[abs(out[i])-1] = 1;
       else if (out[i]<0) order[abs(out[i])-1] = -1;
@@ -356,7 +354,7 @@ int main(const int argc, const char* const argv[]) {
   struct rusage runtime;
   getrusage(RUSAGE_SELF, &runtime);
   const int t1 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
-  const int result = dpll();
+  const bool result = dpll();
   const int t2 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
 
   if (result) printf("%s is SATISFIABLE\n", argv[1]);
