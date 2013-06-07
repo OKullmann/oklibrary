@@ -193,16 +193,15 @@ void reduce(const int v) {
 
     if (clauses[m].length == 1) {
       const int ucl = clauses[m].literals[int(log2(clauses[m].value))];
-
-      if (checker[abs(ucl)] == 0) {
-          gucl_stack[n_gucl] = ucl;
-          checker[abs(ucl)] = ucl;
-          clauses[m].c_ucl = ucl;
-          ++n_gucl;
+      const int aucl = abs(ucl);
+      if (checker[aucl] == 0) {
+        gucl_stack[n_gucl++] = ucl;
+        checker[aucl] = ucl;
+        clauses[m].c_ucl = ucl;
       }
-      if (checker[abs(ucl)]+ucl == 0) {
-          contradictory_unit_clauses = true;
-          checker[abs(ucl)] = 0;
+      if (checker[aucl]+ucl == 0) {
+        contradictory_unit_clauses = true;
+        checker[aucl] = 0;
       }
     }
   }
