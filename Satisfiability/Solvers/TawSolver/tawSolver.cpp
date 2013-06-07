@@ -300,29 +300,24 @@ int dpll() {
   }
   if (!r_clauses) return SAT;
 
-  int v = get_variable_2sjw();
-
+  const int v = get_variable_2sjw();
   out[depth] = v;
-
   reduce(v);
   if (dpll()) return SAT;
   reverse(v);
-
   ++n_backtracks;
 
-  v = -v;
-  out[depth] = v;
-
-  reduce(v);
+  const int nv = -v;
+  out[depth] = nv;
+  reduce(nv);
   if (dpll()) return SAT;
-  reverse(v);
+  reverse(nv);
   out[depth] = 0;
 
   while (n_lucl) {
     reverse(lucl_stack[--n_lucl]);
     out[depth] = 0;
   }
-
   free(lucl_stack);
   contradictory_unit_clauses = false;
   return UNSAT;
