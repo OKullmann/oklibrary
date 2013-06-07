@@ -338,8 +338,9 @@ int main(const int argc, const char* const argv[]) {
   read_formula(argv[1]);
   struct rusage runtime;
   getrusage(RUSAGE_SELF, &runtime);
-  const int long t1 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
+  const long int t1 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
   const bool result = dpll();
+  getrusage(RUSAGE_SELF, &runtime);
   const long int t2 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
   if (result) printf("%s is SATISFIABLE\n", argv[1]);
   else printf("%s is UNSATISFIABLE\n", argv[1]);
