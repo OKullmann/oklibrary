@@ -68,11 +68,9 @@ change_info changes[MAX_CLAUSES];
 int n_changes[MAX_VARS][2], changes_index = 0;
 
 var_info vars[4096][2];
-int checker[4096], out[4096];
 
 struct rusage runtime;
-int t1,t2; FILE* of;
-char outfile[32];
+int t1,t2;
 
 unsigned int n_clauses, r_clauses, n_init_clauses, n_vars, depth = 0;
 int current_working_clause[256], cwc_length;
@@ -176,6 +174,8 @@ void read_formula(const char* const filename) {
   close_formula_file(f);
 }
 
+int checker[4096];
+
 void reduce(const int v) {
   const int p = abs(v); int q = (v>0) ? POS : NEG;
   for(unsigned int i=0; i<vars[p][q].n_occur; ++i) {    
@@ -278,6 +278,8 @@ double max_resolved = 0.0;
 
 char input_file[64];
 
+int out[4096];
+
 int dpll() {
   n_branches++;
 
@@ -342,7 +344,7 @@ int dpll() {
 
 int order[4096];
 
-void print_solution(const char* const file, const int result, FILE* const of) {
+void print_solution(const char* const file, const int result) {
   if(result == SAT) {
     for(unsigned int i=0; i<n_vars; i++) {
       if(out[i]>0) order[abs(out[i])-1] = 1;
@@ -367,7 +369,6 @@ void print_solution(const char* const file, const int result, FILE* const of) {
 	  ((t2-t1)%100)/10, (((t2-t1)%100)%10));
 }
 
-
 int main(const int argc, const char* const argv[]) {
   read_formula(argv[1]);
   strcpy(input_file, argv[1]);
@@ -379,5 +380,5 @@ int main(const int argc, const char* const argv[]) {
 
   if(result) printf("%s is SATISFIABLE\n", argv[1]);
   else printf("%s is UNSATISFIABLE\n", argv[1]);
-  print_solution(argv[1], result, of);
+  print_solution(argv[1], result);
 }
