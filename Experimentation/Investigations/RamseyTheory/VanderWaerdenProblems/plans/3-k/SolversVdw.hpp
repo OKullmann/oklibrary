@@ -378,6 +378,8 @@ Running time: 532416.20 seconds
     <ol>
      <li> k=12, n=134: 7s (368890 conflicts; cswsok (3 GHz)) </li>
      <li> k=12, n=135: 259s (9643671 conflicts; cswsok (3 GHz)) </li>
+     <li> k=13, n=160: 4258s (82811468 conflicts; cswsok (3 GHz)) </li>
+     <li> k=14, n=186: XXXs (XXX conflicts; cswsok (3GHz)) </li>
     </ol>
    </li>
    <li> precosat236:
@@ -391,7 +393,7 @@ Running time: 532416.20 seconds
      <li> k=12, n=134: 91s (1531799 conflicts; cswsok (3 GHz)) </li>
      <li> k=12, n=135: 211s (2425722 conflicts; cswsok (3 GHz)) </li>
      <li> k=13, n=160: 2777s (16978254 conflicts; cswsok (3 GHz)) </li>
-     <li> k=14, n=186: XXXs (XXX conflicts; cswsok (3 GHz)) </li>
+     <li> k=14, n=186: 47624s (140816236 conflicts; cswsok (3 GHz)) </li>
     </ol>
    </li>
    <li> lingelingala-b02aa1a-121013:
