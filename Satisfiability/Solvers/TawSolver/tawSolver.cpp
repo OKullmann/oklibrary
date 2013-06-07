@@ -266,7 +266,6 @@ inline int get_variable_2sjw() {
 
 
 int impl_clauses[MAX_VARS], icl_cnt;
-double max_resolved = 0.0;
 
 int out[MAX_VARS];
 
