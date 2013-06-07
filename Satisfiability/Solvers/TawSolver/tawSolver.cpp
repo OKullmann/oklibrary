@@ -264,9 +264,6 @@ inline int get_variable_2sjw() {
   return v;
 }
 
-
-int impl_clauses[MAX_VARS];
-
 int out[MAX_VARS];
 
 bool dpll() {
