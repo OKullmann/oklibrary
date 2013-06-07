@@ -169,26 +169,27 @@ void read_formula(const char* const filename) {
 int checker[MAX_VARS];
 
 void reduce(const int v) {
-  const int p = abs(v); int q = (v>0) ? POS : NEG;
+  const int p = abs(v);
+  const int q = (v>0) ? POS : NEG;
   for (unsigned int i=0; i<vars[p][q].n_occur; ++i) {
     const int m = vars[p][q].var_in_clauses[i];
     if(!clauses[m].status) continue;
     clauses[m].status = false;
     --r_clauses;
     changes[changes_index++].clause_number = m;
-    n_changes[depth][POS]++;
+    ++n_changes[depth][POS];
   }
-  q = !q;
-  for (unsigned int i=0; i<vars[p][q].n_occur; ++i) {
-    const int m = vars[p][q].var_in_clauses[i];
+  const int nq = !q;
+  for (unsigned int i=0; i<vars[p][nq].n_occur; ++i) {
+    const int m = vars[p][nq].var_in_clauses[i];
     if (!clauses[m].status) continue;
-    const int n = vars[p][q].var_in_clause_locs[i];
+    const int n = vars[p][nq].var_in_clause_locs[i];
     --clauses[m].length;
     clauses[m].value -= ((1 << n));
 
     changes[changes_index].clause_number = m;
     changes[changes_index++].literal_index = n;
-    n_changes[depth][NEG]++;
+    ++n_changes[depth][NEG];
 
     if (clauses[m].length == 1) {
       const int ucl = clauses[m].literals[int(log2(clauses[m].value))];
