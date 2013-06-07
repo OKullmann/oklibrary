@@ -35,7 +35,7 @@ constexpr int NEG = 0;
 constexpr int MAX_CLAUSES = 300000;
 constexpr int MAX_VARS = 4096;
 
-enum Error_codes { file_reading_error = 1 };
+enum Error_codes { missing_file_error=1, file_reading_error=2 };
 
 typedef struct clause_info {
   int number;
@@ -333,6 +333,10 @@ void print_solution(const char* const file, const bool result, const int timedif
 
 
 int main(const int argc, const char* const argv[]) {
+  if (argc < 2) {
+    printf("Missing file name.\n");
+    return missing_file_error;
+  }
   read_formula(argv[1]);
   struct rusage runtime;
   getrusage(RUSAGE_SELF, &runtime);
