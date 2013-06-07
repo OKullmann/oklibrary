@@ -50,16 +50,16 @@ cleanallcryptominisat : cleancryptominisat cleanallcryptominisat3
 # Main cryptominisat3 targets
 # #################################
 
-cryptominisat3_directories_okl := $(cryptominisat3_base_installation_dir_okl) $(cryptominisat3_installation_dir_okl) $(cryptominisat3_base_build_dir_okl) $(cryptominisat3_base_doc_dir_okl) $(cryptominisat3_doc_dir_okl)
+cryptominisat3_directories_okl :=  $(cryptominisat3_installation_dir_okl) $(cryptominisat3_doc_dir_okl)
 
-$(cryptominisat3_directories_okl) : % :
+$(cryptominisat3_directories_okl) : % : $(cryptominisat_base_build_dir_okl) $(cryptominisat_base_installation_dir_okl) $(cryptominisat_base_build_dir_okl) $(cryptominisat_base_doc_dir_okl)
 	mkdir -p $@
 
 .PHONY : cryptominisat3 cryptominisat3_doc cleancryptominisat3 cleanallcryptominisat3
 
 
 cryptominisat3 : $(cryptominisat3_directories_okl) m4ri
-	$(call unarchive,$(cryptominisat3_source_okl),$(cryptominisat3_base_build_dir_okl)) $(postcondition) \
+	$(call unarchive,$(cryptominisat3_source_okl),$(cryptominisat_base_build_dir_okl)) $(postcondition) \
         cd $(cryptominisat3_build_dir_okl); $(postcondition) \
         mkdir -p build; $(postcondition) \
         cd build; $(postcondition) \
@@ -73,26 +73,26 @@ cryptominisat3_doc :
 
 
 cleancryptominisat3 :
-	-rm -rf $(cryptominisat3_base_build_dir_okl)
+	-rm -rf $(cryptominisat3_build_dir_okl)
 
 cleanallcryptominisat3 : cleancryptominisat3 cleanallm4ri
-	-rm -rf $(cryptominisat3_base_installation_dir_okl) $(cryptominisat3_base_doc_dir_okl)
+	-rm -rf $(cryptominisat_installation_dir_okl) $(cryptominisat_doc_dir_okl)
 
 
 # #################################
 # M4RI tool targets
 # #################################
 
-m4ri_directories_okl := $(m4ri_base_build_dir_okl) $(m4ri_base_installation_dir_okl)
+m4ri_directories_okl := $(m4ri_build_dir_okl) $(m4ri_installation_dir_okl)
 
 .PHONY : m4ri m4ri_doc cleanm4ri cleanallm4ri
 
-$(m4ri_directories_okl) : % :
+$(m4ri_directories_okl) : % : $(cryptominisat_base_build_dir_okl) $(cryptominisat_base_installation_dir_okl)
 	mkdir -p $@
 
 
 m4ri : $(m4ri_directories_okl)
-	$(call unarchive,$(m4ri_source_okl),$(m4ri_base_build_dir_okl)) $(postcondition) \
+	$(call unarchive,$(m4ri_source_okl),$(cryptominisat_base_build_dir_okl)) $(postcondition) \
 	cd $(m4ri_build_dir_okl); $(postcondition) \
 	CC="$(gcc_call_okl)" CXX="$(gpp_call_okl)" LDFLAGS="$(gcc_linking_okl)" ./configure --prefix="$(m4ri_installation_dir_okl)"; $(postcondition) \
 	make; $(postcondition) \
@@ -103,7 +103,7 @@ m4ri_doc :
 
 
 cleanm4ri:
-	-rm -rf $(m4ri_base_build_dir_okl)
+	-rm -rf $(m4ri_build_dir_okl)
 
 cleanallm4ri: cleanm4ri
-	-rm -rf $(m4ri_base_installation_dir_okl) $(m4ri_base_doc_dir_okl)
+	-rm -rf $(m4ri_installation_dir_okl) $(m4ri_doc_dir_okl)
