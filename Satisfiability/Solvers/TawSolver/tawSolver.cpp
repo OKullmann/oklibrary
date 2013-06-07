@@ -69,9 +69,6 @@ int n_changes[MAX_VARS][2], changes_index = 0;
 
 var_info vars[4096][2];
 
-struct rusage runtime;
-int t1,t2;
-
 unsigned int n_clauses, r_clauses, n_init_clauses, n_vars, depth = 0;
 int current_working_clause[256], cwc_length;
 int n_trivial_clauses, n_duplicate_literals;
@@ -281,9 +278,6 @@ int out[4096];
 int dpll() {
   ++n_branches;
 
-  getrusage(RUSAGE_SELF, &runtime);
-  t2 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
-
   unsigned int n_lucl = 0;
   int* lucl_stack = nullptr;
   while (true) {
@@ -340,7 +334,7 @@ int dpll() {
 
 int order[4096];
 
-void print_solution(const char* const file, const int result) {
+void print_solution(const char* const file, const int result, const int timediff) {
   if(result == SAT) {
     for(unsigned int i=0; i<n_vars; i++) {
       if(out[i]>0) order[abs(out[i])-1] = 1;
@@ -357,23 +351,23 @@ void print_solution(const char* const file, const int result) {
     printf("\n");
   }
 
-  getrusage(RUSAGE_SELF, &runtime);
-  t2 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
   printf("V_VARS: %d, N_CLAUSES: %d\n", n_vars, n_init_clauses);
   printf("N_UNITS: %llu, N_BRANCHES: %llu, N_BACK: %llu\n", n_units, n_branches, n_backtracks);
-  printf("Running time: %d.%d%d seconds\n", (t2-t1)/100,
-	  ((t2-t1)%100)/10, (((t2-t1)%100)%10));
+  printf("Running time: %d.%d%d seconds\n", timediff/100,
+	  (timediff%100)/10, ((timediff%100)%10));
 }
+
 
 int main(const int argc, const char* const argv[]) {
   read_formula(argv[1]);
 
+  struct rusage runtime;
   getrusage(RUSAGE_SELF, &runtime);
-  t1 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
-
+  const int t1 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
   const int result = dpll();
+  const int t2 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
 
   if (result) printf("%s is SATISFIABLE\n", argv[1]);
   else printf("%s is UNSATISFIABLE\n", argv[1]);
-  print_solution(argv[1], result);
+  print_solution(argv[1], result, t2-t1);
 }
