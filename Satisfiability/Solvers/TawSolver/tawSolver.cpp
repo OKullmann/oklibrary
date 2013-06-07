@@ -288,7 +288,7 @@ bool dpll() {
       return false;
     }
     else if (n_gucl) {
-      lucl_stack = (int *) realloc(lucl_stack, (n_lucl + 1) * sizeof(int));
+      lucl_stack = (int*) realloc(lucl_stack, (n_lucl + 1) * sizeof(int));
       const int implied_literal = gucl_stack[--n_gucl];
       out[depth] = lucl_stack[n_lucl++] = implied_literal;
       reduce(implied_literal);
