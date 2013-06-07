@@ -371,7 +371,7 @@ int main(const int argc, const char* const argv[]) {
   getrusage(RUSAGE_SELF, &runtime);
   t1 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
 
-  int result = dpll();
+  const int result = dpll();
 
   if (result) printf("%s is SATISFIABLE\n", argv[1]);
   else printf("%s is UNSATISFIABLE\n", argv[1]);
