@@ -67,9 +67,9 @@ $(cryptominisat3_directories_okl) : % : $(cryptominisat_base_build_dir_okl) $(cr
 
 cryptominisat3 : $(cryptominisat3_directories_okl) m4ri
 	$(call unarchive,$(cryptominisat3_source_okl),$(cryptominisat_base_build_dir_okl)) $(postcondition) \
-        cd $(cryptominisat3_build_dir_okl); $(postcondition) \
-        mkdir -p build; $(postcondition) \
-        cd build; $(postcondition) \
+	cd $(cryptominisat3_build_dir_okl); $(postcondition) \
+	mkdir -p build; $(postcondition) \
+	cd build; $(postcondition) \
 	CC="$(gcc_call_okl) $(m4ri_include_option_okl)" CXX="$(gpp_call_okl) $(m4ri_include_option_okl)" LDFLAGS="$(gcc_linking_okl)" CMAKE_LIBRARY_PATH="$(boost_link_library_okl):$(zlib_link_library_okl):$(m4ri_link_library_okl)" CMAKE_INCLUDE_PATH="$(boost_source_library_okl):$(zlib_source_library_okl):$(m4ri_source_library_okl):$(CMAKE_INCLUDE_PATH)" M4RI_HOME="$(m4ri_installation_dir_okl)" cmake ../; $(postcondition) \
 	make; $(postcondition) \
 	cp -f cryptominisat $(cryptominisat3_call_okl); $(postcondition) \
