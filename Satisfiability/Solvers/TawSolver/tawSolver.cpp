@@ -281,19 +281,19 @@ char input_file[64];
 int out[4096];
 
 int dpll() {
-  n_branches++;
+  ++n_branches;
 
   getrusage(RUSAGE_SELF, &runtime);
-  t2=(100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
+  t2 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
 
   unsigned int n_lucl = 0;
   int * lucl_stack = NULL;
-  while(1) {
-    if(contradictory_unit_clauses) {	  
+  while (true) {
+    if (contradictory_unit_clauses) {	  
       icl_cnt = 0;
       while(n_lucl) {
-	reverse(lucl_stack[--n_lucl]);	
-	out[depth] = 0;
+	  reverse(lucl_stack[--n_lucl]);	
+	  out[depth] = 0;
       }
       contradictory_unit_clauses = false;
       free(lucl_stack);	  
@@ -301,11 +301,11 @@ int dpll() {
       return UNSAT;
     }
     else if (n_gucl) {
-       lucl_stack = (int *) realloc(lucl_stack, (n_lucl + 1) * sizeof(int));
-       const int implied_literal = gucl_stack[--n_gucl];
-       out[depth] = lucl_stack[n_lucl++] = implied_literal;       
-       reduce(implied_literal);
-       n_units++;
+      lucl_stack = (int *) realloc(lucl_stack, (n_lucl + 1) * sizeof(int));
+      const int implied_literal = gucl_stack[--n_gucl];
+      out[depth] = lucl_stack[n_lucl++] = implied_literal;       
+      reduce(implied_literal);
+      ++n_units;
     }
     else break;
   }
@@ -313,11 +313,10 @@ int dpll() {
   
   int v = get_variable_2sjw();
 
-
   out[depth] = v;
 
   reduce(v);
-  if(dpll()) return SAT;
+  if (dpll()) return SAT;
   reverse(v);
 
   ++n_backtracks;
@@ -326,10 +325,9 @@ int dpll() {
   out[depth] = v;
 
   reduce(v);
-  if(dpll()) return SAT;
+  if (dpll()) return SAT;
   reverse(v);
   out[depth] = 0;
-
 
   while(n_lucl) {
     reverse(lucl_stack[--n_lucl]);
