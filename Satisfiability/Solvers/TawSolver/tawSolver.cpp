@@ -69,7 +69,6 @@ var_info vars[MAX_VARS][2];
 
 unsigned int n_clauses, r_clauses, n_init_clauses, n_vars, depth = 0;
 int current_working_clause[256], cwc_length;
-int n_duplicate_literals;
 int gucl_stack[MAX_VARS], gant_stack[MAX_VARS], n_gucl = 0;
 
 int contradictory_unit_clauses = false, conflicting_clause;
@@ -115,7 +114,6 @@ bool read_a_clause_from_file(FILE* const f) {
       checker[abs(x)] = x;
     }
     else if (checker[abs(x)] + x == 0) trivial_clause = true;
-    else if (checker[abs(x)] == x) ++n_duplicate_literals;
   }
   if (trivial_clause) {
     cwc_length = 0;
