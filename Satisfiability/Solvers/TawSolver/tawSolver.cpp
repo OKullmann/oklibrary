@@ -60,8 +60,8 @@ typedef struct var_info {
 
 
 typedef struct change_info {
-  int clause_number;	
-  int literal_index;	
+  int clause_number;    
+  int literal_index;    
 } change_info;
 
 change_info changes[MAX_CLAUSES];
@@ -114,7 +114,7 @@ bool read_a_clause_from_file(FILE* const f) {
     if(x == 0) break;
     if(checker[abs(x)]==0) {
       current_working_clause[cwc_length++] = x;
-	checker[abs(x)] = x;
+        checker[abs(x)] = x;
     }
     else if (checker[abs(x)] + x == 0) trivial_clause = true;
     else if (checker[abs(x)] == x) ++n_duplicate_literals;
@@ -143,9 +143,9 @@ void add_a_clause_to_formula(const int A[], const unsigned int n) {
   for(unsigned int i=0; i<n; ++i) {
     int p = abs(A[i]), q = A[i]>0 ? POS : NEG;
     vars[p][q].var_in_clauses = (int *)realloc(vars[p][q].var_in_clauses,
-				(vars[p][q].n_occur+1) * sizeof(int));
+                                (vars[p][q].n_occur+1) * sizeof(int));
     vars[p][q].var_in_clause_locs = (int *)realloc(vars[p][q].var_in_clause_locs,
-				(vars[p][q].n_occur+1) * sizeof(int));
+                                (vars[p][q].n_occur+1) * sizeof(int));
     vars[p][q].var_in_clauses[vars[p][q].n_occur] = n_clauses;
     vars[p][q].var_in_clause_locs[vars[p][q].n_occur] = i;
     vars[p][q].n_occur++;
@@ -196,14 +196,14 @@ void reduce(const int v) {
       const int ucl = clauses[m].literals[int(log2(clauses[m].value))];
 
       if (checker[abs(ucl)] == 0) {
-	  gucl_stack[n_gucl] = ucl;
-	  checker[abs(ucl)] = ucl;
-	  clauses[m].c_ucl = ucl;
-	  ++n_gucl;
+          gucl_stack[n_gucl] = ucl;
+          checker[abs(ucl)] = ucl;
+          clauses[m].c_ucl = ucl;
+          ++n_gucl;
       }
       if (checker[abs(ucl)]+ucl == 0) {
-	  contradictory_unit_clauses = true;
-	  checker[abs(ucl)] = 0;
+          contradictory_unit_clauses = true;
+          checker[abs(ucl)] = 0;
       }
     }
   }
@@ -248,18 +248,18 @@ inline int get_variable_2sjw() {
     if (vars[i][POS].status | vars[i][NEG].status) {
        unsigned int pz = 0, nz = 0;
        for(unsigned int k=0; k<vars[i][POS].n_occur; ++k) {
-	   const unsigned int ell = vars[i][POS].var_in_clauses[k];
-	   pz += ((1 & clauses[ell].status) << (mlen - clauses[ell].length));
+           const unsigned int ell = vars[i][POS].var_in_clauses[k];
+           pz += ((1 & clauses[ell].status) << (mlen - clauses[ell].length));
        }
        for (unsigned int k=0; k<vars[i][NEG].n_occur; ++k) {
-	   const unsigned int ell = vars[i][NEG].var_in_clauses[k];
-	   nz += ((1 & clauses[ell].status) << (mlen - clauses[ell].length));
+           const unsigned int ell = vars[i][NEG].var_in_clauses[k];
+           nz += ((1 & clauses[ell].status) << (mlen - clauses[ell].length));
        }
        const unsigned int s = pz + nz;
        if (s > max) {
-	   max = s;
-	   if (pz >= nz) v = i;
-	   else v = -i;
+           max = s;
+           if (pz >= nz) v = i;
+           else v = -i;
        }
     }
   }
@@ -278,14 +278,14 @@ int dpll() {
   unsigned int n_lucl = 0;
   int* lucl_stack = nullptr;
   while (true) {
-    if (contradictory_unit_clauses) {	
+    if (contradictory_unit_clauses) {   
       icl_cnt = 0;
       while(n_lucl) {
-	  reverse(lucl_stack[--n_lucl]);	
-	  out[depth] = 0;
+          reverse(lucl_stack[--n_lucl]);        
+          out[depth] = 0;
       }
       contradictory_unit_clauses = false;
-      free(lucl_stack);	
+      free(lucl_stack); 
       n_gucl = 0;
       return UNSAT;
     }
@@ -351,7 +351,7 @@ void print_solution(const char* const file, const int result, const int timediff
   printf("V_VARS: %d, N_CLAUSES: %d\n", n_vars, n_init_clauses);
   printf("N_UNITS: %llu, N_BRANCHES: %llu, N_BACK: %llu\n", n_units, n_branches, n_backtracks);
   printf("Running time: %d.%d%d seconds\n", timediff/100,
-	  (timediff%100)/10, ((timediff%100)%10));
+          (timediff%100)/10, ((timediff%100)%10));
 }
 
 
