@@ -30,16 +30,16 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include <sys/resource.h>
 
 
-const int POS = 1;
-const int NEG = 0;
-const int UNSAT = 0;
-const int SAT = 1;
-const int MAX_CLAUSES = 300000;
-const int MAX_VARS = 4096;
+constexpr int POS = 1;
+constexpr int NEG = 0;
+constexpr int UNSAT = 0;
+constexpr int SAT = 1;
+constexpr int MAX_CLAUSES = 300000;
+constexpr int MAX_VARS = 4096;
 
 enum Error_codes { file_reading_error = 1 };
 
-typedef struct clause_info{
+typedef struct clause_info {
   int number;
   int length;
   unsigned int value;
@@ -48,9 +48,9 @@ typedef struct clause_info{
   int* literals;
 } clause_info;
 
-clause_info * clauses;
+clause_info* clauses;
 
-typedef struct var_info{
+typedef struct var_info {
   bool status;
   unsigned int n_occur;
   int* var_in_clauses;
@@ -59,7 +59,7 @@ typedef struct var_info{
 } var_info;
 
 
-typedef struct change_info{
+typedef struct change_info {
   int clause_number;	
   int literal_index;	
 } change_info;
@@ -71,7 +71,7 @@ var_info vars[4096][2];
 int checker[4096], out[4096];
 
 struct rusage runtime;
-int t1,t2; FILE * of;
+int t1,t2; FILE* of;
 char outfile[32];
 
 unsigned int n_clauses, r_clauses, n_init_clauses, n_vars, depth = 0;
