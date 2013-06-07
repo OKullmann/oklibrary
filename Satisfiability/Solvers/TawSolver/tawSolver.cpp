@@ -285,7 +285,7 @@ int dpll() {
   t2 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
 
   unsigned int n_lucl = 0;
-  int * lucl_stack = NULL;
+  int* lucl_stack = nullptr;
   while (true) {
     if (contradictory_unit_clauses) {	
       icl_cnt = 0;
