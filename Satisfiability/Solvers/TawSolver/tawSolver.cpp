@@ -60,8 +60,8 @@ typedef struct var_info {
 
 
 typedef struct change_info {
-  int clause_number;    
-  int literal_index;    
+  int clause_number;
+  int literal_index;
 } change_info;
 
 change_info changes[MAX_CLAUSES];
@@ -278,14 +278,14 @@ int dpll() {
   unsigned int n_lucl = 0;
   int* lucl_stack = nullptr;
   while (true) {
-    if (contradictory_unit_clauses) {   
+    if (contradictory_unit_clauses) {
       icl_cnt = 0;
       while(n_lucl) {
-          reverse(lucl_stack[--n_lucl]);        
+          reverse(lucl_stack[--n_lucl]);
           out[depth] = 0;
       }
       contradictory_unit_clauses = false;
-      free(lucl_stack); 
+      free(lucl_stack);
       n_gucl = 0;
       return UNSAT;
     }
