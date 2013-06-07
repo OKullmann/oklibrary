@@ -82,18 +82,18 @@ unsigned long long int n_backtracks = 0;
 FILE* open_formula_file(const char* const file_name) {
   FILE* const f = fopen(file_name, "r");
   if(!f) {
-      printf("Invalid file name.\n");
-      exit(file_reading_error);
-    }
+    printf("Invalid file name.\n");
+    exit(file_reading_error);
+  }
   else return f;
 }
 
 void read_formula_header(FILE* const f) {
   char str[256], p[2], cnf[4];
   while(1) {
-      fgets(str, 256, f);
-      if(str[0] == 'p') break;
-    }
+    fgets(str, 256, f);
+    if(str[0] == 'p') break;
+  }
   sscanf(str, "%s %s %u %u", p, cnf, &n_vars, &n_clauses);
   clauses = (clause_info *)realloc(clauses, (n_clauses+1)*sizeof(clause_info));
   n_clauses = r_clauses = 0;
@@ -109,24 +109,21 @@ bool read_a_clause_from_file(FILE* const f) {
   cwc_length = 0;
   int* const checker = (int *) calloc((n_vars+1), sizeof(int));
   while(1) {
-      int x;
-      if(fscanf(f, "%d", &x) == EOF) return false;
-      if(x == 0) break;
-      if(checker[abs(x)]==0)
-	{
-	  current_working_clause[cwc_length++] = x;
-	  checker[abs(x)] = x;
-	}
-      else if(checker[abs(x)] + x == 0)
-	trivial_clause = true;
-      else if(checker[abs(x)] == x)
-	++n_duplicate_literals;
+    int x;
+    if(fscanf(f, "%d", &x) == EOF) return false;
+    if(x == 0) break;
+    if(checker[abs(x)]==0) {
+      current_working_clause[cwc_length++] = x;
+	checker[abs(x)] = x;
     }
+    else if (checker[abs(x)] + x == 0) trivial_clause = true;
+    else if (checker[abs(x)] == x) ++n_duplicate_literals;
+  }
   if(trivial_clause) {
-      cwc_length = 0;
-      ++n_trivial_clauses;
-      return true;
-    }
+    cwc_length = 0;
+    ++n_trivial_clauses;
+    return true;
+  }
   free(checker);
   if(cwc_length == 0) return false;
   return true;
@@ -198,15 +195,15 @@ void reduce(const int v) {
     if(clauses[m].length == 1) {
       const int ucl = clauses[m].literals[int(log2(clauses[m].value))];
 
-      if(checker[abs(ucl)] == 0) {
-	gucl_stack[n_gucl] = ucl;
-	checker[abs(ucl)] = ucl;
-	clauses[m].c_ucl = ucl;
-	++n_gucl;
+      if (checker[abs(ucl)] == 0) {
+	  gucl_stack[n_gucl] = ucl;
+	  checker[abs(ucl)] = ucl;
+	  clauses[m].c_ucl = ucl;
+	  ++n_gucl;
       }
-      if(checker[abs(ucl)]+ucl == 0) {
-	contradictory_unit_clauses = true;
-	checker[abs(ucl)] = 0;
+      if (checker[abs(ucl)]+ucl == 0) {
+	  contradictory_unit_clauses = true;
+	  checker[abs(ucl)] = 0;
       }
     }
   }
@@ -232,7 +229,7 @@ void reverse(const int v) {
     clauses[m].value += ((1 << n));
   }
 
-  while(n_changes[depth][POS]) {
+  while (n_changes[depth][POS]) {
     --n_changes[depth][POS];
     const int m = changes[--changes_index].clause_number;
     clauses[m].status = true;
@@ -247,22 +244,22 @@ inline int get_variable_2sjw() {
   unsigned int max = 0;
   int v = 0;
 
-  for(unsigned int i=1; i<=n_vars; ++i) {
-    if(vars[i][POS].status | vars[i][NEG].status) {
+  for (unsigned int i=1; i<=n_vars; ++i) {
+    if (vars[i][POS].status | vars[i][NEG].status) {
        unsigned int pz = 0, nz = 0;
        for(unsigned int k=0; k<vars[i][POS].n_occur; ++k) {
-	  const unsigned int ell = vars[i][POS].var_in_clauses[k];
-	  pz += ((1 & clauses[ell].status) << (mlen - clauses[ell].length));
+	   const unsigned int ell = vars[i][POS].var_in_clauses[k];
+	   pz += ((1 & clauses[ell].status) << (mlen - clauses[ell].length));
        }
-       for(unsigned int k=0; k<vars[i][NEG].n_occur; ++k) {
-	  const unsigned int ell = vars[i][NEG].var_in_clauses[k];
-	  nz += ((1 & clauses[ell].status) << (mlen - clauses[ell].length));
+       for (unsigned int k=0; k<vars[i][NEG].n_occur; ++k) {
+	   const unsigned int ell = vars[i][NEG].var_in_clauses[k];
+	   nz += ((1 & clauses[ell].status) << (mlen - clauses[ell].length));
        }
        const unsigned int s = pz + nz;
-       if(s > max) {
-	  max = s;
-	  if(pz >= nz) v = i;
-	  else v = -i;
+       if (s > max) {
+	   max = s;
+	   if (pz >= nz) v = i;
+	   else v = -i;
        }
     }
   }
@@ -321,7 +318,7 @@ int dpll() {
   reverse(v);
   out[depth] = 0;
 
-  while(n_lucl) {
+  while (n_lucl) {
     reverse(lucl_stack[--n_lucl]);
     out[depth] = 0;
   }
@@ -335,18 +332,18 @@ int dpll() {
 int order[4096];
 
 void print_solution(const char* const file, const int result, const int timediff) {
-  if(result == SAT) {
-    for(unsigned int i=0; i<n_vars; i++) {
-      if(out[i]>0) order[abs(out[i])-1] = 1;
-      else if(out[i]<0) order[abs(out[i])-1] = -1;
+  if (result == SAT) {
+    for (unsigned int i=0; i<n_vars; i++) {
+      if (out[i]>0) order[abs(out[i])-1] = 1;
+      else if (out[i]<0) order[abs(out[i])-1] = -1;
     }
 
-    for(unsigned int i=0; i<n_vars; ++i) {
+    for (unsigned int i=0; i<n_vars; ++i) {
       printf("[%3d:", i+1);
-      if(order[i]==1) printf("H],");
-      if(order[i]==-1) printf("L],");
-      if(order[i]==0) printf("*],");
-      if((i+1)%16==0) printf("\n");
+      if (order[i]==1) printf("H],");
+      if (order[i]==-1) printf("L],");
+      if (order[i]==0) printf("*],");
+      if ((i+1)%16==0) printf("\n");
     }
     printf("\n");
   }
