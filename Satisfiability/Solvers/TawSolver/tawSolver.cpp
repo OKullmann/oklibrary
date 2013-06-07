@@ -114,12 +114,12 @@ bool read_a_clause_from_file(FILE* const f) {
     if(x == 0) break;
     if(checker[abs(x)]==0) {
       current_working_clause[cwc_length++] = x;
-        checker[abs(x)] = x;
+      checker[abs(x)] = x;
     }
     else if (checker[abs(x)] + x == 0) trivial_clause = true;
     else if (checker[abs(x)] == x) ++n_duplicate_literals;
   }
-  if(trivial_clause) {
+  if (trivial_clause) {
     cwc_length = 0;
     ++n_trivial_clauses;
     return true;
@@ -130,7 +130,7 @@ bool read_a_clause_from_file(FILE* const f) {
 }
 
 void add_a_clause_to_formula(const int A[], const unsigned int n) {
-  if(n == 0) return;
+  if (n == 0) return;
   clauses[n_clauses].number = n_clauses;
   clauses[n_clauses].status = true;
   clauses[n_clauses].length = n;
@@ -138,9 +138,9 @@ void add_a_clause_to_formula(const int A[], const unsigned int n) {
   clauses[n_clauses].c_ucl = 0;
   clauses[n_clauses].literals = (int *) malloc((n + 1) * sizeof(int));
 
-  if(n>max_clause_len) max_clause_len = n;
+  if (n>max_clause_len) max_clause_len = n;
 
-  for(unsigned int i=0; i<n; ++i) {
+  for (unsigned int i=0; i<n; ++i) {
     int p = abs(A[i]), q = A[i]>0 ? POS : NEG;
     vars[p][q].var_in_clauses = (int *)realloc(vars[p][q].var_in_clauses,
                                 (vars[p][q].n_occur+1) * sizeof(int));
@@ -158,12 +158,12 @@ void add_a_clause_to_formula(const int A[], const unsigned int n) {
 }
 
 void read_formula(const char* const filename) {
-  FILE * f = open_formula_file(filename);
+  FILE* const f = open_formula_file(filename);
   read_formula_header(f);
   n_init_clauses = 0;
   while(read_a_clause_from_file(f)) {
     add_a_clause_to_formula(current_working_clause, cwc_length);
-    n_init_clauses++;
+    ++n_init_clauses;
   }
   close_formula_file(f);
 }
@@ -172,7 +172,7 @@ int checker[4096];
 
 void reduce(const int v) {
   const int p = abs(v); int q = (v>0) ? POS : NEG;
-  for(unsigned int i=0; i<vars[p][q].n_occur; ++i) {
+  for (unsigned int i=0; i<vars[p][q].n_occur; ++i) {
     const int m = vars[p][q].var_in_clauses[i];
     if(!clauses[m].status) continue;
     clauses[m].status = false;
@@ -181,9 +181,9 @@ void reduce(const int v) {
     n_changes[depth][POS]++;
   }
   q = !q;
-  for(unsigned int i=0; i<vars[p][q].n_occur; ++i) {
+  for (unsigned int i=0; i<vars[p][q].n_occur; ++i) {
     const int m = vars[p][q].var_in_clauses[i];
-    if(!clauses[m].status) continue;
+    if (!clauses[m].status) continue;
     const int n = vars[p][q].var_in_clause_locs[i];
     --clauses[m].length;
     clauses[m].value -= ((1 << n));
@@ -192,7 +192,7 @@ void reduce(const int v) {
     changes[changes_index++].literal_index = n;
     n_changes[depth][NEG]++;
 
-    if(clauses[m].length == 1) {
+    if (clauses[m].length == 1) {
       const int ucl = clauses[m].literals[int(log2(clauses[m].value))];
 
       if (checker[abs(ucl)] == 0) {
@@ -217,7 +217,7 @@ void reverse(const int v) {
 
   --depth;
 
-  while(n_changes[depth][NEG]) {
+  while (n_changes[depth][NEG]) {
     --n_changes[depth][NEG];
     const int m = changes[--changes_index].clause_number;
     const int n = changes[changes_index].literal_index;
@@ -246,21 +246,21 @@ inline int get_variable_2sjw() {
 
   for (unsigned int i=1; i<=n_vars; ++i) {
     if (vars[i][POS].status | vars[i][NEG].status) {
-       unsigned int pz = 0, nz = 0;
-       for(unsigned int k=0; k<vars[i][POS].n_occur; ++k) {
-           const unsigned int ell = vars[i][POS].var_in_clauses[k];
-           pz += ((1 & clauses[ell].status) << (mlen - clauses[ell].length));
-       }
-       for (unsigned int k=0; k<vars[i][NEG].n_occur; ++k) {
-           const unsigned int ell = vars[i][NEG].var_in_clauses[k];
-           nz += ((1 & clauses[ell].status) << (mlen - clauses[ell].length));
-       }
-       const unsigned int s = pz + nz;
-       if (s > max) {
-           max = s;
-           if (pz >= nz) v = i;
-           else v = -i;
-       }
+      unsigned int pz = 0, nz = 0;
+      for(unsigned int k=0; k<vars[i][POS].n_occur; ++k) {
+        const unsigned int ell = vars[i][POS].var_in_clauses[k];
+        pz += ((1 & clauses[ell].status) << (mlen - clauses[ell].length));
+      }
+      for (unsigned int k=0; k<vars[i][NEG].n_occur; ++k) {
+        const unsigned int ell = vars[i][NEG].var_in_clauses[k];
+        nz += ((1 & clauses[ell].status) << (mlen - clauses[ell].length));
+      }
+      const unsigned int s = pz + nz;
+      if (s > max) {
+        max = s;
+        if (pz >= nz) v = i;
+        else v = -i;
+      }
     }
   }
   return v;
@@ -281,8 +281,8 @@ int dpll() {
     if (contradictory_unit_clauses) {
       icl_cnt = 0;
       while(n_lucl) {
-          reverse(lucl_stack[--n_lucl]);
-          out[depth] = 0;
+        reverse(lucl_stack[--n_lucl]);
+        out[depth] = 0;
       }
       contradictory_unit_clauses = false;
       free(lucl_stack);
@@ -298,7 +298,7 @@ int dpll() {
     }
     else break;
   }
-  if(!r_clauses) return SAT;
+  if (!r_clauses) return SAT;
 
   int v = get_variable_2sjw();
 
