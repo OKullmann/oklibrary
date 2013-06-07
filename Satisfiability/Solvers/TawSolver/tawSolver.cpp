@@ -96,9 +96,7 @@ void read_formula_header(FILE* const f) {
   n_clauses = r_clauses = 0;
 }
 
-void close_formula_file(FILE* const f) {
-  if(f) fclose(f);
-}
+void close_formula_file(FILE* const f) { if (f) fclose(f); }
 
 bool read_a_clause_from_file(FILE* const f) {
  // Assumption: clauses are of length 32 or less
