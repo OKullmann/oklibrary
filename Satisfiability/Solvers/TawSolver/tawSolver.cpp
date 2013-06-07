@@ -276,8 +276,6 @@ inline int get_variable_2sjw() {
 int impl_clauses[4096], icl_cnt;
 double max_resolved = 0.0;
 
-char input_file[64];
-
 int out[4096];
 
 int dpll() {
@@ -360,7 +358,7 @@ void print_solution(const char* const file, const int result) {
   }
 
   getrusage(RUSAGE_SELF, &runtime);
-  t2=(100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
+  t2 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
   printf("V_VARS: %d, N_CLAUSES: %d\n", n_vars, n_init_clauses);
   printf("N_UNITS: %llu, N_BRANCHES: %llu, N_BACK: %llu\n", n_units, n_branches, n_backtracks);
   printf("Running time: %d.%d%d seconds\n", (t2-t1)/100,
@@ -369,14 +367,13 @@ void print_solution(const char* const file, const int result) {
 
 int main(const int argc, const char* const argv[]) {
   read_formula(argv[1]);
-  strcpy(input_file, argv[1]);
 
   getrusage(RUSAGE_SELF, &runtime);
-  t1=(100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
+  t1 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
 
   int result = dpll();
 
-  if(result) printf("%s is SATISFIABLE\n", argv[1]);
+  if (result) printf("%s is SATISFIABLE\n", argv[1]);
   else printf("%s is UNSATISFIABLE\n", argv[1]);
   print_solution(argv[1], result);
 }
