@@ -309,10 +309,6 @@ ls *_2.cnf > Problems; ls *_3.cnf >> Problems; ls *_4.cnf >> Problems; ls *_5.cn
 (for E2_SAT_genhorn_35_5.cnf and E3_SAT_genhorn_35_5.cnf there are too long
 clauses to be handled by it)
 
-> for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; satz215 ${F} > ${B}.satz; done
-solved only E1_SAT_genhorn_22_2, E1_SAT_genhorn_32_2, in 4.3 sec and 7193 sec;
-aborted then.
-
 > for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; march_pl ${F} > ${B}.march; done
 (can't solve E2_SAT_genhorn_23_3, E3_SAT_genhorn_23_3 due to
 Assertion `btb_size[ i ] == 0' failed)
@@ -334,6 +330,13 @@ for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -
 sfile="OKsolver-ntp.stats"
 ssuffix=".oksolver-ntp"
 sextract="ExtractOKsolver"
+echo -n "type k h " > ${sfile}
+${sextract} "header-only" >> ${sfile}
+for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
+
+sfile="Satz.stats"
+ssuffix=".satz"
+sextract="ExtractSatz"
 echo -n "type k h " > ${sfile}
 ${sextract} "header-only" >> ${sfile}
 for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -d"_" -f1 | cut -d"E" -f2); H=$(echo ${F} | cut -d"_" -f4); K=$(basename --suffix="${ssuffix}" ${F} | cut -d"_" -f5); echo -n "$T $K $H " >> ${sfile}; cat ${F} | ${sextract} extract >> ${sfile}; done; done
