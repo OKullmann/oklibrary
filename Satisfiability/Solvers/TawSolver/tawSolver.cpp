@@ -69,7 +69,7 @@ var_info vars[MAX_VARS][2];
 
 unsigned int n_clauses, r_clauses, n_init_clauses, n_vars, depth = 0;
 int current_working_clause[256], cwc_length;
-int gucl_stack[MAX_VARS], gant_stack[MAX_VARS], n_gucl = 0;
+int gucl_stack[MAX_VARS], n_gucl = 0;
 
 int contradictory_unit_clauses = false;
 unsigned long long int n_branches = 0, n_units = 0;
