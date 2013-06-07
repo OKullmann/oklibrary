@@ -19,7 +19,7 @@ $(cryptominisat_directories_okl) : % :
 # Main cryptominisat targets
 # #################################
 
-.PHONY : allcryptominisat cryptominisat cryptominisat_doc cleancryptominisat cleanallcryptominisat
+.PHONY : allcryptominisat cryptominisat cryptominisat_doc cleancryptominisat2 cleanallcryptominisat2 cleancryptominisat cleanallcryptominisat
 
 allcryptominisat : cryptominisat cryptominisat3
 
@@ -39,10 +39,17 @@ cryptominisat_doc :
 # Cleaning
 # #################################
 
-cleancryptominisat :
+cleancryptominisat2 :
+	-rm -rf $(cryptominisat_build_dir_okl)
+
+cleanallcryptominisat2 : cleancryptominisat2
+	-rm -rf $(cryptominisat_installation_dir_okl) $(cryptominisat_doc_dir_okl)
+
+# Cleaning *all* cryptominisat versions
+cleancryptominisat : cleancryptominisat2 cleancryptominisat3
 	-rm -rf $(cryptominisat_base_build_dir_okl)
 
-cleanallcryptominisat : cleancryptominisat cleanallcryptominisat3
+cleanallcryptominisat : cleanallcryptominisat2 cleanallcryptominisat3
 	-rm -rf $(cryptominisat_base_installation_dir_okl) $(cryptominisat_base_doc_dir_okl)
 
 
@@ -72,11 +79,11 @@ cryptominisat3 : $(cryptominisat3_directories_okl) m4ri
 cryptominisat3_doc :
 
 
-cleancryptominisat3 :
+cleancryptominisat3 : cleanm4ri
 	-rm -rf $(cryptominisat3_build_dir_okl)
 
 cleanallcryptominisat3 : cleancryptominisat3 cleanallm4ri
-	-rm -rf $(cryptominisat_installation_dir_okl) $(cryptominisat_doc_dir_okl)
+	-rm -rf $(cryptominisat3_installation_dir_okl) $(cryptominisat3_doc_dir_okl)
 
 
 # #################################
