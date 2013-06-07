@@ -41,21 +41,17 @@ cryptominisat3_other_versions_okl ?=
 
 cryptominisat3_base_name_okl := cryptominisat
 cryptominisat3_recommended_okl := $(cryptominisat3_base_name_okl)-$(cryptominisat3_recommended_version_number_okl)
-cryptominisat3_base_source_okl := $(cryptominisat_base_source_okl)
-cryptominisat3_source_okl := $(cryptominisat3_base_source_okl)/$(cryptominisat3_recommended_okl)
+cryptominisat3_source_okl := $(cryptominisat_base_source_okl)/$(cryptominisat3_recommended_okl)
 
-cryptominisat3_base_build_dir_okl ?= $(cryptominisat_base_build_dir_okl)
-cryptominisat3_build_dir_okl ?= $(cryptominisat3_base_build_dir_okl)/$(cryptominisat3_recommended_okl)
+cryptominisat3_build_dir_okl ?= $(cryptominisat_base_build_dir_okl)/$(cryptominisat3_recommended_okl)
 
-cryptominisat3_base_installation_dir_okl ?= $(cryptominisat_base_installation_dir_okl)
-cryptominisat3_installation_dir_okl ?= $(cryptominisat3_base_installation_dir_okl)/$(cryptominisat3_recommended_version_number_okl)
+cryptominisat3_installation_dir_okl ?= $(cryptominisat_base_installation_dir_okl)/$(cryptominisat3_recommended_version_number_okl)
 
 cryptominisat3_exec_okl ?= cryptominisat3
 cryptominisat3_call_okl ?= $(cryptominisat3_installation_dir_okl)/$(cryptominisat3_exec_okl)
 cryptominisat3_public_call_okl ?= $(cryptominisat3_exec_okl)
 
-cryptominisat3_base_doc_dir_okl ?= $(cryptominisat_base_doc_dir_okl)
-cryptominisat3_doc_dir_okl ?= $(cryptominisat3_base_doc_dir_okl)/$(cryptominisat3_recommended_okl)
+cryptominisat3_doc_dir_okl ?= $(cryptominisat_base_doc_dir_okl)/$(cryptominisat3_recommended_okl)
 cryptominisat3_docu_page_okl ?= $(doc_dir)/doxygen_html/
 
 cryptominisat3_homepage_url_okl := http://www.msoos.org/cryptominisat2
@@ -69,17 +65,13 @@ m4ri_other_versions_okl ?=
 
 m4ri_base_name_okl := m4ri
 m4ri_recommended_okl := $(m4ri_base_name_okl)-$(m4ri_recommended_version_number_okl)
-m4ri_base_source_okl := $(cryptominisat3_base_source_okl)
-m4ri_source_okl := $(m4ri_base_source_okl)/$(m4ri_recommended_okl)
+m4ri_source_okl := $(cryptominisat_base_source_okl)/$(m4ri_recommended_okl)
 
-m4ri_base_build_dir_okl ?= $(cryptominisat3_base_build_dir_okl)
-m4ri_build_dir_okl ?= $(m4ri_base_build_dir_okl)/$(m4ri_recommended_okl)
+m4ri_build_dir_okl ?= $(cryptominisat_base_build_dir_okl)/$(m4ri_recommended_okl)
 
-m4ri_base_installation_dir_okl ?= $(cryptominisat3_base_installation_dir_okl)
-m4ri_installation_dir_okl ?= $(m4ri_base_installation_dir_okl)/m4ri-$(m4ri_recommended_version_number_okl)
+m4ri_installation_dir_okl ?= $(cryptominisat_base_installation_dir_okl)/m4ri-$(m4ri_recommended_version_number_okl)
 
-m4ri_base_doc_dir_okl ?= $(cryptominisat3_base_doc_dir_okl)
-m4ri_doc_dir_okl ?= $(m4ri_base_doc_dir_okl)/$(m4ri_recommended_okl)
+m4ri_doc_dir_okl ?= $(cryptominisat_base_doc_dir_okl)/$(m4ri_recommended_okl)
 m4ri_docu_page_okl ?= $(doc_dir)/doxygen_html/
 
 m4ri_homepage_url_okl := http://m4ri.sagemath.org/
