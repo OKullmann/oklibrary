@@ -9,8 +9,8 @@
 # Extracts the numerical data from output of satz215, in a single line.
 
 BEGIN {
-  rn=0; rc=0; t=0; sat=2; nds=0; r1=0; file=""; bnds=0; r2la=0
-  r2=0; prpr=0; r3la=0; r3=0
+  rn=0; rc=0; t=0; sat=2; nds=0; r1=0; r2=0; pls=0; file=""; bnds=0; r2la=0
+  r3=0; r3la=0; dc=0
 }
 
 /^c sat_status +[0-9]+/ { sat = $3 }
