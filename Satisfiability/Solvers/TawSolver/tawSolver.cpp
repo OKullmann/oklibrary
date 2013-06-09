@@ -337,6 +337,8 @@ bool dpll() {
 int order[MAX_VARS];
 
 void print_solution(const char* const file, const bool result, const long int timediff) {
+  if (result) printf("%s is SATISFIABLE\n", file);
+  else printf("%s is UNSATISFIABLE\n", file);
   if (result) {
     for (unsigned int i=0; i<n_vars; i++) {
       if (out[i]>0) order[abs(out[i])-1] = 1;
@@ -369,7 +371,5 @@ int main(const int argc, const char* const argv[]) {
   const bool result = dpll();
   getrusage(RUSAGE_SELF, &runtime);
   const long int t2 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
-  if (result) printf("%s is SATISFIABLE\n", argv[1]);
-  else printf("%s is UNSATISFIABLE\n", argv[1]);
   print_solution(argv[1], result, t2-t1);
 }
