@@ -230,7 +230,17 @@ c main():: doublelook: succesrate: 78.891, average DL_trigger: 348.623
    </li>
    <li> k=15, n=218 (cswsok, 3GHz):
    \verbatim
-XXX
+c main():: nodeCount: 11959263
+c main():: dead ends in main: 22968
+c main():: lookAheadCount: -212374051
+c main():: unitResolveCount: 92354095
+c main():: time=175614.406250
+c main():: necessary_assignments: 1870576
+c main():: bin_sat: 0, bin_unsat 0
+c main():: doublelook: #: 139136152, succes #: 111145034
+c main():: doublelook: overall 3.496 of all possible doublelooks executed
+c main():: doublelook: succesrate: 79.882, average DL_trigger: 125.399
+s UNSATISFIABLE
    \endverbatim
    </li>
   </ul>
@@ -345,7 +355,8 @@ Running time: 532416.20 seconds
      <li> k=12, n=135: 1454696 conflicts, 22 restarts (273s). </li>
      <li> k=13, n=159: 525039 conflicts,  20 restarts (116s). </li>
      <li> k=13, n=160: 9298288 conflicts, 27 restarts (3022s). </li>
-     <li> k=14, n=186: XXX conflicts, XXX restarts (XXXs) </li>
+     <li> k=14, n=186: 60091581 conflicts, 32 restarts (33391s) </li>
+     <li> k=15, n=218: XXX conflicts, XXX restarts (XXXs) </li>
     </ol>
    </li>
    <li> minisat-2.2.0:
@@ -379,7 +390,7 @@ Running time: 532416.20 seconds
      <li> k=12, n=134: 7s (368890 conflicts; cswsok (3 GHz)) </li>
      <li> k=12, n=135: 259s (9643671 conflicts; cswsok (3 GHz)) </li>
      <li> k=13, n=160: 4258s (82811468 conflicts; cswsok (3 GHz)) </li>
-     <li> k=14, n=186: XXXs (XXX conflicts; cswsok (3GHz)) </li>
+     <li> k=14, n=186: 48372s (576692221 conflicts; cswsok (3GHz)) </li>
     </ol>
    </li>
    <li> precosat236:
