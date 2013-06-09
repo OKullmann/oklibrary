@@ -48,13 +48,13 @@ struct clause_info {
 
 clause_info* clauses;
 
-typedef struct var_info {
+struct var_info {
   bool status;
   unsigned int n_occur;
   int* var_in_clauses;
   int* var_in_clause_locs;
   int is_ucl;
-} var_info;
+};
 
 
 typedef struct change_info {
