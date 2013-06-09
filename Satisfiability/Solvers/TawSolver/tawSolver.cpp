@@ -333,7 +333,7 @@ bool dpll() {
   return false;
 }
 
-void output(const char* const file, const bool result, const long int timediff) {
+void output(const char* const file, const bool result, const double elapsed) {
   printf("s ");
   if (result) printf("SATISFIABLE\n"); else printf("UNSATISFIABLE\n");
   printf("c number_of_variables                   %u\n"
@@ -343,7 +343,7 @@ void output(const char* const file, const bool result, const long int timediff) 
          "c number_of_binary_nodes                %llu\n"
          "c number_of_1-reductions                %llu\n"
          "c file_name                             %s\n",
-       n_vars, n_init_clauses, double(timediff)/100, n_branches, n_backtracks, n_units, file);
+       n_vars, n_init_clauses, elapsed, n_branches, n_backtracks, n_units, file);
   if (result) {
     int order[MAX_VARS];
     for (unsigned int i=0; i<n_vars; i++) {
@@ -369,10 +369,10 @@ int main(const int argc, const char* const argv[]) {
   read_formula(argv[1]);
   struct rusage runtime;
   getrusage(RUSAGE_SELF, &runtime);
-  const long int t1 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
+  const double t1 = runtime.ru_utime.tv_sec+runtime.ru_utime.tv_usec/1000000.0;
   const bool result = dpll();
   getrusage(RUSAGE_SELF, &runtime);
-  const long int t2 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
+  const double t2 = runtime.ru_utime.tv_sec+runtime.ru_utime.tv_usec/1000000.0;
   output(argv[1], result, t2-t1);
   return (result) ? 10 : 20;
 }
