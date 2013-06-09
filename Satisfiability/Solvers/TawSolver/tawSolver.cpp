@@ -57,10 +57,10 @@ struct var_info {
 };
 
 
-typedef struct change_info {
+struct change_info {
   int clause_number;
   int literal_index;
-} change_info;
+};
 
 change_info changes[MAX_CLAUSES];
 int n_changes[MAX_VARS][2], changes_index = 0;
