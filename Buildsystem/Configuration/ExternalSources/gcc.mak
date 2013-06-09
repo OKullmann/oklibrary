@@ -7,8 +7,8 @@
 
 # Settings for building and using gcc
 
-gcc_recommended_version_number_okl ?= 4.6.4
-gcc_other_versions_okl ?= 4.5.4
+gcc_recommended_version_number_okl ?= 4.7.3
+gcc_other_versions_okl ?= 4.6.4
 
 gcc_prefix_okl ?= gcc
 
