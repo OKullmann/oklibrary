@@ -44,12 +44,12 @@ constexpr int max_clause_length {std::numeric_limits<Clause_content>::digits};
 // If longer clauses are needed, replace Clause_content with bigger uint type.
 
 struct clause_info {
+  int* literals;
+  Clause_content value;
   int number;
   int length;
-  Clause_content value;
-  bool status;
   int c_ucl;
-  int* literals;
+  bool status;
 };
 
 clause_info* clauses;
@@ -73,11 +73,11 @@ inline int log2s(const Clause_content v) {
 }
 
 struct var_info {
-  bool status;
-  unsigned int n_occur;
   int* var_in_clauses;
   int* var_in_clause_locs;
+  unsigned int n_occur;
   int is_ucl;
+  bool status;
 };
 
 
