@@ -37,14 +37,14 @@ constexpr int MAX_VARS = 4096;
 
 enum Error_codes { missing_file_error=1, file_reading_error=2 };
 
-typedef struct clause_info {
+struct clause_info {
   int number;
   int length;
   unsigned int value;
   bool status;
   int c_ucl;
   int* literals;
-} clause_info;
+};
 
 clause_info* clauses;
 
@@ -92,7 +92,7 @@ void read_formula_header(FILE* const f) {
     if(str[0] == 'p') break;
   }
   sscanf(str, "%s %s %u %u", p, cnf, &n_vars, &n_clauses);
-  clauses = (clause_info *)realloc(clauses, (n_clauses+1)*sizeof(clause_info));
+  clauses = (clause_info*) realloc(clauses, (n_clauses+1)*sizeof(clause_info));
   n_clauses = r_clauses = 0;
 }
 
