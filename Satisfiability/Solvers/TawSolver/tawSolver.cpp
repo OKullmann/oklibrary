@@ -41,6 +41,7 @@ enum Error_codes {
 
 typedef unsigned int Clause_content;
 constexpr int max_clause_length {std::numeric_limits<Clause_content>::digits};
+// If longer clauses are needed, replace Clause_content with bigger uint type.
 
 struct clause_info {
   int number;
