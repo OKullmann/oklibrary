@@ -21,6 +21,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 // Compile with
 // g++ -Wall -Ofast tawSolver.cpp -o tawSolver
 
+#include <limits>
 #include <cstdio>
 #include <cmath>
 #include <cstdlib>
@@ -35,12 +36,16 @@ constexpr int NEG = 0;
 constexpr int MAX_CLAUSES = 300000;
 constexpr int MAX_VARS = 4096;
 
-enum Error_codes { missing_file_error=1, file_reading_error=2 };
+enum Error_codes {
+  missing_file_error=1, file_reading_error=2, clause_length_error=3 };
+
+typedef unsigned int Clause_content;
+constexpr int max_clause_length {std::numeric_limits<Clause_content>::digits};
 
 struct clause_info {
   int number;
   int length;
-  unsigned int value;
+  Clause_content value;
   bool status;
   int c_ucl;
   int* literals;
@@ -68,7 +73,7 @@ int n_changes[MAX_VARS][2], changes_index = 0;
 var_info vars[MAX_VARS][2];
 
 unsigned int n_clauses, r_clauses, n_init_clauses, n_vars, depth = 0;
-int current_working_clause[256], cwc_length;
+int current_working_clause[max_clause_length], cwc_length;
 int gucl_stack[MAX_VARS], n_gucl = 0;
 
 int contradictory_unit_clauses = false;
@@ -99,7 +104,6 @@ void read_formula_header(FILE* const f) {
 void close_formula_file(FILE* const f) { if (f) fclose(f); }
 
 bool read_a_clause_from_file(FILE* const f) {
- // Assumption: clauses are of length 32 or less
   bool trivial_clause = false;
   cwc_length = 0;
   int* const checker = (int*) calloc((n_vars+1), sizeof(int));
@@ -108,6 +112,10 @@ bool read_a_clause_from_file(FILE* const f) {
     if (fscanf(f, "%d", &x) == EOF) return false;
     if (x == 0) break;
     if (checker[abs(x)]==0) {
+      if (cwc_length >= max_clause_length) {
+        printf("Clauses can have at most %u elements.\n", max_clause_length);
+        exit(clause_length_error);
+      }
       current_working_clause[cwc_length++] = x;
       checker[abs(x)] = x;
     }
