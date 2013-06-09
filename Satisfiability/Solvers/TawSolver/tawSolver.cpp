@@ -333,29 +333,31 @@ bool dpll() {
   return false;
 }
 
-
-int order[MAX_VARS];
-
 void output(const char* const file, const bool result, const long int timediff) {
-  if (result) printf("%s is SATISFIABLE\n", file);
-  else printf("%s is UNSATISFIABLE\n", file);
+  printf("s ");
+  if (result) printf("SATISFIABLE\n"); else printf("UNSATISFIABLE\n");
+  printf("c number_of_variables                   %u\n"
+         "c number_of_clauses                     %u\n"
+         "c running_time(sec)                     %1.2f\n"
+         "c number_of_nodes                       %llu\n"
+         "c number_of_binary_nodes                %llu\n"
+         "c number_of_1-reductions                %llu\n"
+         "c file_name                             %s\n",
+       n_vars, n_init_clauses, double(timediff)/100, n_branches, n_backtracks, n_units, file);
   if (result) {
+    int order[MAX_VARS];
     for (unsigned int i=0; i<n_vars; i++) {
-      if (out[i]>0) order[abs(out[i])-1] = 1;
-      else if (out[i]<0) order[abs(out[i])-1] = -1;
+      const auto val = out[i];
+      const auto index = std::abs(val)-1;
+      if (val > 0) order[index] = 1;
+      else if (val < 0) order[index] = -1;
+      else order[index] = 0;
     }
-    for (unsigned int i=0; i<n_vars; ++i) {
-      printf("[%3d:", i+1);
-      if (order[i]==1) printf("H],");
-      if (order[i]==-1) printf("L],");
-      if (order[i]==0) printf("*],");
-      if ((i+1)%16==0) printf("\n");
-    }
-    printf("\n");
+    printf("v ");
+    for (unsigned int i=0; i<n_vars; ++i)
+     if (order[i]) printf("%d ", order[i]*(i+1));
+    printf("0\n");
   }
-  printf("V_VARS: %d, N_CLAUSES: %d\n", n_vars, n_init_clauses);
-  printf("N_UNITS: %llu, N_BRANCHES: %llu, N_BACK: %llu\n", n_units, n_branches, n_backtracks);
-  printf("Running time: %ld.%ld%ld seconds\n", timediff/100, (timediff%100)/10, ((timediff%100)%10));
 }
 
 
@@ -372,4 +374,5 @@ int main(const int argc, const char* const argv[]) {
   getrusage(RUSAGE_SELF, &runtime);
   const long int t2 = (100*runtime.ru_utime.tv_sec)+(runtime.ru_utime.tv_usec/10000);
   output(argv[1], result, t2-t1);
+  return (result) ? 10 : 20;
 }
