@@ -40,7 +40,7 @@ enum Error_codes {
   missing_file_error=1, file_reading_error=2, clause_length_error=3 };
 
 typedef unsigned int Clause_content;
-constexpr int max_clause_length {std::numeric_limits<Clause_content>::digits};
+constexpr int MAX_CLAUSE_LENGTH {std::numeric_limits<Clause_content>::digits};
 // If longer clauses are needed, replace Clause_content with bigger uint type.
 
 struct clause_info {
@@ -61,8 +61,8 @@ constexpr int log2(const Clause_content n) {return (n <= 1)?0:1+log2(n/2);}
 inline constexpr Clause_content bp(const unsigned N, const unsigned i) {
   return (i < N-1) ? bp(N-1,i) * (1 + pow22(N-1)) : pow22(N) - pow22(N-1);
 }
-constexpr int N = log2(max_clause_length);
-static_assert(pow2(N) == (unsigned) max_clause_length, "Number of bits in \"Clause_content\" not a power of 2.");
+constexpr int N = log2(MAX_CLAUSE_LENGTH);
+static_assert(pow2(N) == (unsigned) MAX_CLAUSE_LENGTH, "Number of bits in \"Clause_content\" not a power of 2.");
 static_assert(N==5 or N==6, "Unexpected size of type \"Clause_content\".");
 const Clause_content b[6] {bp(N,0),bp(N,1),bp(N,2),bp(N,3),bp(N,4), (N==6)?bp(N,5):0}; // Unfortunately there is no reasonable way in C++ to just define b[N].
 inline int log2s(const Clause_content v) {
@@ -92,7 +92,7 @@ int n_changes[MAX_VARS][2], changes_index = 0;
 var_info vars[MAX_VARS][2];
 
 unsigned int n_clauses, r_clauses, n_init_clauses, n_vars, depth = 0;
-int current_working_clause[max_clause_length], cwc_length;
+int current_working_clause[MAX_CLAUSE_LENGTH], cwc_length;
 int gucl_stack[MAX_VARS], n_gucl = 0;
 
 int contradictory_unit_clauses = false;
@@ -131,8 +131,8 @@ bool read_a_clause_from_file(FILE* const f) {
     if (fscanf(f, "%d", &x) == EOF) return false;
     if (x == 0) break;
     if (checker[abs(x)]==0) {
-      if (cwc_length >= max_clause_length) {
-        printf("Clauses can have at most %u elements.\n", max_clause_length);
+      if (cwc_length >= MAX_CLAUSE_LENGTH) {
+        printf("Clauses can have at most %u elements.\n", MAX_CLAUSE_LENGTH);
         exit(clause_length_error);
       }
       current_working_clause[cwc_length++] = x;
