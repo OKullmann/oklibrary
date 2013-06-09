@@ -17,7 +17,7 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all cleanall
+.PHONY : all check new_check app_tests cleanall
 
 ifeq ($(gpp_call_okl),)
   CXX = g++
@@ -41,6 +41,12 @@ all : $(main_target)
 
 $(main_target) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $(main_target) $(LFLAGS)
+
+
+check :
+new_check :
+app_tests :
+
 
 cleanall :
 	- rm $(main_target)
