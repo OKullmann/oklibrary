@@ -254,7 +254,6 @@ ExternalSources> CPPFLAGS="-DMAX_CLAUSE_LENGTH=1000000 -DMAX_NUMBER_VARIABLES=20
 > for F in *.cnf; do B=$(basename --suffix=".cnf" ${F}); echo ${B}; OKsolver_2002_NTP-O3-DNDEBUG ${F} > ${B}.oksolver-ntp; done
 
 > for F in $(cat Problems23); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; satz215 ${F} > ${B}.satz; done
-XXX
 
 > for F in $(cat Problems); do B=$(basename --suffix=".cnf" ${F}); echo ${B}; glucose-2.0 ${F} > ${B}.glucose; done
 (E2_SAT_genhorn_44_4: aborted after 535 min)
@@ -469,6 +468,26 @@ for ((k=2; k <= 5; ++k)); do for F in *_${k}${ssuffix}; do T=$(echo ${F} | cut -
 3 3 : 1 1 1
 3 4 : 1 1 1
 3 5 : 1 1
+
+> E=read_satstat("Satz.stats")
+> for (t in seq(2,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
+2 2 : 0.09 0.68 3.89 13.8 37.66 89.93
+2 3 : 7.83 161.78 1326.47
+2 4 : 469.46 12956.74 143558
+2 5 : 13419.7 609055.6
+3 2 : 0.04 0.3 1.6 5.73 16.7 39.47
+3 3 : 2.79 66.92 521.59
+3 4 : 205.45 5666.27 60673.13
+3 5 : 5518.24 250076
+> for (t in seq(2,3)) for (k in seq(2,5)) cat(t,k,":",E$nds[E$type==t & E$k==k & E$sat==0],"\n")
+2 2 : 37 57 77 97 117 137
+2 3 : 381 871 1561
+2 4 : 2701 9051 21401
+2 5 : 15093 72913
+3 2 : 37 57 77 97 117 137
+3 3 : 381 871 1561
+3 4 : 2701 9051 21401
+3 5 : 15093 72913
 
 > E=read_satstat("Marchpl.stats")
 > for (t in seq(1,3)) for (k in seq(2,5)) cat(t,k,":",E$t[E$type==t & E$k==k & E$sat==0],"\n")
