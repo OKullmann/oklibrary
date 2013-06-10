@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans regarding updating and improving the TawSolver
 
 
+  \todo Provide information
+  <ul>
+   <li> On the ExternalSources page the data needs to be entered. </li>
+   <li> http://sourceforge.net/projects/tawsolver/ </li>
+  </ul>
+
+
   \todo Timing
   <ul>
    <li> On csltok (2.7 GHz) resp. cswsok (3GHz):
