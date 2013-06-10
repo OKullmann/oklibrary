@@ -12,45 +12,107 @@ License, or any later version. */
 
   \todo Timing
   <ul>
-   <li> On csltok (2.7 GHz):
+   <li> On csltok (2.7 GHz) resp. cswsok (3GHz):
    \verbatim
-# Old: 588a9cf1d823c5e59090ad20938b1708e6961643
+# Id: 588a9cf1d823c5e59090ad20938b1708e6961643
 
 > tawSolver VanDerWaerden_2-3-12_134.cnf
 V_VARS: 134, N_CLAUSES: 5172
 N_UNITS: 20977611, N_BRANCHES: 1721206, N_BACK: 860593
 
-46.44 46.11 46.01 46.25
+csltok: 46.44 46.11 46.01 46.25
 
 > tawSolver VanDerWaerden_2-3-12_135.cnf
 V_VARS: 135, N_CLAUSES: 5251
 N_UNITS: 21978048, N_BRANCHES: 1790733, N_BACK: 895366
 
-49.33 49.45 49.24 49.67 48.09
+csltok: 49.33 49.45 49.24 49.67 48.09
 
-# New: fb0212392a795e09e3c1ae7d188ad30d0f4e57cf
+
+# ID: fb0212392a795e09e3c1ae7d188ad30d0f4e57cf
 
 > tawSolver VanDerWaerden_2-3-12_134.cnf
-45.85 46.08 45.40 46.04
+csltok: 45.85 46.08 45.40 46.04
+cswsok: 41.14 41.11 41.14 41.03
 
 > tawSolver VanDerWaerden_2-3-12_135.cnf
-47.71 47.96 47.75 47.22 47.58
+csltok: 47.71 47.96 47.75 47.22 47.58
+cswsok: 44.10 43.80 43.63 43.80 43.77
 
 # A bit faster: Perhaps due to saving superfluous calls to getrusage.
 # It might be, that actually most of the time for these calls is not recorded
 # in these times, since it belongs to "sys" (when using "time") ?!
 
-# New: 0762218ce28bc0a8e9e6e87d092d1a6d86e1b7c6
+
+# Id: 0762218ce28bc0a8e9e6e87d092d1a6d86e1b7c6
 
 > tawSolver VanDerWaerden_2-3-12_134.cnf
-44.99 45.77 45.18 45.37
+csltok: 44.99 45.77 45.18 45.37
 
 > tawSolver VanDerWaerden_2-3-12_135.cnf
-48.36 47.98 47.92 48.41 46.99
+csltok: 48.36 47.98 47.92 48.41 46.99
 # at the same time(!) for the previous version: 49.29 48.88 47.69
 
 # So apparently the introduction of log2s saved 1% run-time.
+
+
+# Id: 2407136679fc921445acde574e1d5b3cef1f718f
+# Now with g++ version 4.7.3.
+
+> tawSolver VanDerWaerden_2-3-12_134.cnf
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c running_time(sec)                     41.28
+c number_of_nodes                       1721206
+c number_of_binary_nodes                860593
+c number_of_1-reductions                20977611
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+v 1 2 3 4 5 6 7 8 9 -10 11 12 13 14 15 16 17 18 -19 20 21 22 23 24 25 26 27 28 -29 30 31 -32 33 34 35 -36 37 -38 39 40 41 42 43 44 45 -46 47 48 -49 50 -51 52 53 54 -55 56 57 58 59 60 61 62 63 64 65 66 -67 -68 69 70 71 72 73 74 75 76 77 78 79 -80 81 82 83 -84 85 -86 87 88 -89 90 91 92 93 94 95 96 -97 98 -99 100 101 102 -103 104 105 -106 107 108 109 110 111 112 113 114 115 -116 117 118 119 120 121 122 123 124 -125 126 127 128 129 130 131 132 133 134 0
+
+csltok: 45.61 45.93 45.72 45.45 45.51
+cswsok: 41.28 41.31 41.17 41.17 41.25
+
+> tawSolver VanDerWaerden_2-3-12_135.cnf
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c running_time(sec)                     43.76
+c number_of_nodes                       1790733
+c number_of_binary_nodes                895366
+c number_of_1-reductions                21978048
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+csltok: 49.22 48.80 49.14 48.68 49.18
+cswsok: 43.76 43.83 43.57 43.64 44.00
    \endverbatim
+   </li>
+  </ul>
+
+
+  \todo Introduce macros
+  <ul>
+   <li> MAX_NUMBER_CLAUSES, MAX_NUMBER_VARIABLES. </li>
+   <li> And GIT_ID. </li>
+   <li> And CLAUSE_CONTENT (default "unsigned int"). </li>
+   <li> Then a static_assert is needed, that the type for CLAUSE_CONTENT
+   is unsigned integral. </li>
+  </ul>
+
+
+  \todo Version information
+  <ul>
+   <li> Like the OKsolver, when using command-line argument "-v", the solver
+   should output version information and date of compilation. </li>
+   <li> Let's also handle "--version". </li>
+   <li> Also the macro-values (once introduced), plus MAX_CLAUSE_LENGTH. </li>
+   <li> And the git-ID (this needs to be added for the OKsolver as well). </li>
+   <li> There should be an official version of the tawSolver:
+    <ol>
+     <li> The one on the solver's homepage is 1.0.0. </li>
+     <li> Let's call the current version 1.1 (improved handling of maximal
+     clause-length, improved output, code improvements). </li>
+    </ol>
    </li>
   </ul>
 
