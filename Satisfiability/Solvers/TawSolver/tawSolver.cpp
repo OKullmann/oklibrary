@@ -31,17 +31,18 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include <sys/resource.h>
 
 
-constexpr int POS = 1;
-constexpr int NEG = 0;
 constexpr int MAX_CLAUSES = 300000;
 constexpr int MAX_VARS = 4096;
+typedef unsigned int Clause_content;
+constexpr int MAX_CLAUSE_LENGTH {std::numeric_limits<Clause_content>::digits};
+// If longer clauses are needed, replace Clause_content with bigger uint type.
 
 enum Error_codes {
   missing_file_error=1, file_reading_error=2, clause_length_error=3 };
 
-typedef unsigned int Clause_content;
-constexpr int MAX_CLAUSE_LENGTH {std::numeric_limits<Clause_content>::digits};
-// If longer clauses are needed, replace Clause_content with bigger uint type.
+
+constexpr int POS = 1;
+constexpr int NEG = 0;
 
 struct clause_info {
   int* literals;
