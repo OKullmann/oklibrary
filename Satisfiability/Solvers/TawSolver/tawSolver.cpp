@@ -89,7 +89,7 @@ struct change_info {
 change_info changes[MAX_CLAUSES];
 int n_changes[MAX_VARS][2], changes_index = 0;
 
-var_info vars[MAX_VARS][2];
+var_info vars[MAX_VARS+1][2];
 
 unsigned int n_clauses, r_clauses, n_init_clauses, n_vars, depth = 0;
 unsigned int max_clause_len = 0;
