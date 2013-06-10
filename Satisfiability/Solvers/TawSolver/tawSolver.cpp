@@ -191,7 +191,7 @@ void read_formula(const char* const filename) {
   close_formula_file(f);
 }
 
-int checker[MAX_VARS];
+int checker[MAX_VARS+1];
 
 void reduce(const int v) {
   const int p = abs(v);
