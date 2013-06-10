@@ -107,6 +107,12 @@ cswsok: 43.76 43.83 43.57 43.64 44.00
   </ul>
 
 
+  \todo Check number of variables and clauses
+  <ul>
+   <li> Errors must happen if there are too many variables or clauses. </li>
+  </ul>
+
+
   \todo Version information
   <ul>
    <li> Like the OKsolver, when using command-line argument "-v", the solver
