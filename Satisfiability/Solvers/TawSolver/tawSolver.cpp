@@ -81,7 +81,6 @@ struct var_info {
   bool status;
 };
 
-
 struct change_info {
   int clause_number;
   int literal_index;
@@ -93,13 +92,16 @@ int n_changes[MAX_VARS][2], changes_index = 0;
 var_info vars[MAX_VARS][2];
 
 unsigned int n_clauses, r_clauses, n_init_clauses, n_vars, depth = 0;
-int current_working_clause[MAX_CLAUSE_LENGTH], cwc_length;
-int gucl_stack[MAX_VARS], n_gucl = 0;
-
-int contradictory_unit_clauses = false;
-unsigned long long int n_branches = 0, n_units = 0;
 unsigned int max_clause_len = 0;
+
+int current_working_clause[MAX_CLAUSE_LENGTH], cwc_length;
+
+int gucl_stack[MAX_VARS], n_gucl = 0;
+int contradictory_unit_clauses = false;
+
+unsigned long long int n_branches = 0, n_units = 0;
 unsigned long long int n_backtracks = 0;
+
 
 FILE* open_formula_file(const char* const file_name) {
   FILE* const f = fopen(file_name, "r");
