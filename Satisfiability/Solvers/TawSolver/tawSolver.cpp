@@ -210,7 +210,7 @@ void reduce(const int v) {
     if (!clauses[m].status) continue;
     --clauses[m].length;
     const int n = vars[p][nq].var_in_clause_locs[i];
-    clauses[m].value -= ((1 << n));
+    clauses[m].value -= 1 << n;
 
     changes[changes_index].clause_number = m;
     changes[changes_index++].literal_index = n;
@@ -247,7 +247,7 @@ void reverse(const int v) {
       checker[abs(clauses[m].c_ucl)] = 0;
       clauses[m].c_ucl = 0;
     }
-    clauses[m].value += ((1 << n));
+    clauses[m].value += 1 << n;
   }
 
   while (n_changes[depth][POS]) {
