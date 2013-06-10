@@ -159,12 +159,12 @@ void add_a_clause_to_formula(const int A[], const unsigned int n) {
   clauses[n_clauses].length = n;
   clauses[n_clauses].value = ((1<<n)-1);
   clauses[n_clauses].c_ucl = 0;
-  clauses[n_clauses].literals = (int *) malloc((n + 1) * sizeof(int));
+  clauses[n_clauses].literals = (int*) malloc((n + 1) * sizeof(int));
 
   if (n>max_clause_len) max_clause_len = n;
 
   for (unsigned int i=0; i<n; ++i) {
-    int p = abs(A[i]), q = A[i]>0 ? POS : NEG;
+    const int p = abs(A[i]), q = A[i]>0 ? POS : NEG;
     vars[p][q].var_in_clauses = (int*) realloc(vars[p][q].var_in_clauses,
                                 (vars[p][q].n_occur+1) * sizeof(int));
     vars[p][q].var_in_clause_locs = (int*) realloc(vars[p][q].var_in_clause_locs,
@@ -208,8 +208,8 @@ void reduce(const int v) {
   for (unsigned int i=0; i<vars[p][nq].n_occur; ++i) {
     const int m = vars[p][nq].var_in_clauses[i];
     if (!clauses[m].status) continue;
-    const int n = vars[p][nq].var_in_clause_locs[i];
     --clauses[m].length;
+    const int n = vars[p][nq].var_in_clause_locs[i];
     clauses[m].value -= ((1 << n));
 
     changes[changes_index].clause_number = m;
@@ -217,7 +217,7 @@ void reduce(const int v) {
     ++n_changes[depth][NEG];
 
     if (clauses[m].length == 1) {
-      const int ucl = clauses[m].literals[int(log2s(clauses[m].value))];
+      const int ucl = clauses[m].literals[log2s(clauses[m].value)];
       const int aucl = abs(ucl);
       if (checker[aucl] == 0) {
         gucl_stack[n_gucl++] = ucl;
