@@ -382,7 +382,7 @@ Running time: 532416.20 seconds
      <li> k=12, n=134: 155s (1693268 conflicts; cswsok (3 GHz)) </li>
      <li> k=12, n=135: 212s (2109106 conflicts; cswsok (3 GHz)) </li>
      <li> k=13, n=160: 4630s (18137202 conflicts; cswsok (3 GHz)) </li>
-     <li> k=14, n=186: XXXs (XXX conflicts; cswsok (3GHz)) </li>
+     <li> k=14, n=186: 141636s (205583043 conflicts; cswsok (3GHz)) </li>
     </ol>
    </li>
    <li> picosat913:
