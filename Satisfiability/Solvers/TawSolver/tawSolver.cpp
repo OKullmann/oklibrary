@@ -30,7 +30,6 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include <cstring>
 #include <cassert>
 
-#include <sys/time.h>
 #include <sys/resource.h>
 
 #ifndef MAX_VARS
