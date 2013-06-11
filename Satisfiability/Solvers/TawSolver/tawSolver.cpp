@@ -36,7 +36,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 constexpr int MAX_CLAUSES = 300000;
 static_assert(MAX_CLAUSES > 0, "MAX_CLAUSES must be positive.");
 constexpr int MAX_VARS = 4096;
-typedef unsigned int Clause_content;
+typedef unsigned long Clause_content;
 constexpr int MAX_CLAUSE_LENGTH {std::numeric_limits<Clause_content>::digits};
 // If longer clauses are needed, replace Clause_content with bigger uint type.
 
