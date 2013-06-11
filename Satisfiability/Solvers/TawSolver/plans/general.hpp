@@ -92,6 +92,39 @@ c file_name                             VanDerWaerden_2-3-12_135.cnf
 
 csltok: 49.22 48.80 49.14 48.68 49.18
 cswsok: 43.76 43.83 43.57 43.64 44.00
+
+# ID: a5f506fae59b572b2dee6aeb0330676d65641acc
+# Using a std::vector for the changes-array, checking for overflow (this
+# should cost the most time), and allowing clauses of length
+# up to 64.
+
+> tawSolver VanDerWaerden_2-3-12_134.cnf
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c running_time(sec)                     41.79
+c number_of_nodes                       1721206
+c number_of_binary_nodes                860593
+c number_of_1-reductions                20977611
+c max_number_changes                    9912
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+cswsok: 41.75 41.79 41.65 41.48 41.84
+
+> tawSolver VanDerWaerden_2-3-12_135.cnf
+ UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c running_time(sec)                     44.81
+c number_of_nodes                       1790733
+c number_of_binary_nodes                895366
+c number_of_1-reductions                21978048
+c max_number_changes                    10029
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+cswsok: 44.81 44.25 44.41 44.83 44.58
+
+# Got apparently 1 - 2% slower.
    \endverbatim
    </li>
   </ul>
