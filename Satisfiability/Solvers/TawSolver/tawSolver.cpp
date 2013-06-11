@@ -42,14 +42,14 @@ static_assert(MAX_VARS > 0, "MAX_VARS must be positive.");
 #ifndef MAX_CLAUSE_LENGTH
 #define MAX_CLAUSE_LENGTH 32
 #endif
-constexpr int maximal_clause_length = MAX_CLAUSE_LENGTH;
-static_assert(maximal_clause_length==32 or maximal_clause_length==64,"Currently only MAX_CLAUSE_LENGTH=32,64 is possible.");
+constexpr int max_clause_length = MAX_CLAUSE_LENGTH;
+static_assert(max_clause_length==32 or max_clause_length==64,"Currently only MAX_CLAUSE_LENGTH=32,64 is possible.");
 #if MAX_CLAUSE_LENGTH == 32
 typedef uint32_t Clause_content;
 #else
 typedef uint64_t Clause_content;
 #endif
-static_assert(std::numeric_limits<Clause_content>::digits==maximal_clause_length,"Error with choice of type \"Clause_content\".");
+static_assert(std::numeric_limits<Clause_content>::digits==max_clause_length,"Error with choice of type \"Clause_content\".");
 
 enum Error_codes {
   missing_file_error=1, file_reading_error=2, clause_length_error=3 };
@@ -76,8 +76,8 @@ constexpr int log2(const Clause_content n) {return (n <= 1)?0:1+log2(n/2);}
 inline constexpr Clause_content bp(const unsigned N, const unsigned i) {
   return (i < N-1) ? bp(N-1,i) * (1 + pow22(N-1)) : pow22(N) - pow22(N-1);
 }
-constexpr int N = log2(maximal_clause_length);
-static_assert(pow2(N) == (unsigned) maximal_clause_length, "Number of bits in \"Clause_content\" not a power of 2.");
+constexpr int N = log2(max_clause_length);
+static_assert(pow2(N) == (unsigned) max_clause_length, "Number of bits in \"Clause_content\" not a power of 2.");
 static_assert(N==5 or N==6, "Unexpected size of type \"Clause_content\".");
 const Clause_content b[6] {bp(N,0),bp(N,1),bp(N,2),bp(N,3),bp(N,4), (N==6)?bp(N,5):0}; // Unfortunately there is no reasonable way in C++ to just define b[N].
 inline int log2s(const Clause_content v) {
@@ -110,9 +110,9 @@ change_index_t changes_index = 0; // Invariant: changes_index < changes.size().
 int n_changes[MAX_VARS][2];
 
 unsigned int n_clauses, r_clauses, n_init_clauses, n_vars, depth = 0;
-unsigned int max_clause_len = 0;
+unsigned int act_max_clause_length = 0;
 
-int current_working_clause[maximal_clause_length], cwc_length;
+int current_working_clause[max_clause_length], cwc_length;
 
 int gucl_stack[MAX_VARS], n_gucl = 0;
 int contradictory_unit_clauses = false;
@@ -152,8 +152,8 @@ bool read_a_clause_from_file(FILE* const f) {
     if (fscanf(f, "%d", &x) == EOF) return false;
     if (x == 0) break;
     if (checker[abs(x)]==0) {
-      if (cwc_length >= maximal_clause_length) {
-        printf("Clauses can have at most %u elements.\n", maximal_clause_length);
+      if (cwc_length >= max_clause_length) {
+        printf("Clauses can have at most %u elements.\n", max_clause_length);
         exit(clause_length_error);
       }
       current_working_clause[cwc_length++] = x;
@@ -179,7 +179,7 @@ void add_a_clause_to_formula(const int A[], const unsigned n) {
   clauses[n_clauses].c_ucl = 0;
   clauses[n_clauses].literals = (int*) malloc((n + 1) * sizeof(int));
 
-  if (n>max_clause_len) max_clause_len = n;
+  if (n>act_max_clause_length) act_max_clause_length = n;
 
   for (int i=0; i<(int)n; ++i) {
     const int p = abs(A[i]), q = A[i]>0 ? POS : NEG;
@@ -291,7 +291,7 @@ void reverse(const int v) {
 }
 
 inline int get_variable_2sjw() {
-  const auto mlen = max_clause_len;
+  const auto mlen = act_max_clause_length;
   const auto nvar = n_vars;
   double max = 0;
   int v = 0;
