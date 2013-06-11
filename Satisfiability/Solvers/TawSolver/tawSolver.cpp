@@ -33,21 +33,18 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include <sys/time.h>
 #include <sys/resource.h>
 
-
-constexpr int MAX_CLAUSES = 100000;
-static_assert(MAX_CLAUSES > 0, "MAX_CLAUSES must be positive.");
 constexpr int MAX_VARS = 1000;
 static_assert(MAX_VARS > 0, "MAX_VARS must be positive.");
 
 #ifndef MAX_CLAUSE_LENGTH
-#define MAX_CLAUSE_LENGTH 32
+# define MAX_CLAUSE_LENGTH 32
 #endif
 constexpr int max_clause_length = MAX_CLAUSE_LENGTH;
 static_assert(max_clause_length==32 or max_clause_length==64,"Currently only MAX_CLAUSE_LENGTH=32,64 is possible.");
 #if MAX_CLAUSE_LENGTH == 32
-typedef uint32_t Clause_content;
+ typedef uint32_t Clause_content;
 #else
-typedef uint64_t Clause_content;
+ typedef uint64_t Clause_content;
 #endif
 static_assert(std::numeric_limits<Clause_content>::digits==max_clause_length,"Error with choice of type \"Clause_content\".");
 
