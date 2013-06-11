@@ -40,7 +40,9 @@ endif
 all : $(main_target)
 
 $(main_target) : tawSolver.cpp
-	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $(main_target) $(LFLAGS)
+	$(CXX) -DMAX_CLAUSE_LENGTH=32 $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $(main_target) $(LFLAGS)
+	$(CXX) -DMAX_CLAUSE_LENGTH=64 $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $(main_target)64 $(LFLAGS)
+
 
 
 check :
