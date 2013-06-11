@@ -93,7 +93,7 @@ struct change_info {
 
 typedef std::vector<change_info> Change_v;
 typedef Change_v::size_type change_index_t;
-Change_v changes;
+Change_v changes(1);
 change_index_t changes_index = 0; // Invariant: changes_index < changes.size().
 
 int n_changes[MAX_VARS][2];
