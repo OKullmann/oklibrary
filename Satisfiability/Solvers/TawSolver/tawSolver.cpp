@@ -33,8 +33,11 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include <sys/time.h>
 #include <sys/resource.h>
 
-constexpr int MAX_VARS = 1000;
-static_assert(MAX_VARS > 0, "MAX_VARS must be positive.");
+#ifndef MAX_VARS
+# define MAX_VARS 10000
+#endif
+constexpr int max_vars = MAX_VARS;
+static_assert(max_vars > 0, "MAX_VARS must be positive.");
 
 #ifndef MAX_CLAUSE_LENGTH
 # define MAX_CLAUSE_LENGTH 32
@@ -92,7 +95,7 @@ struct var_info {
   bool status;
 };
 
-var_info vars[MAX_VARS+1][2];
+var_info vars[max_vars+1][2];
 
 struct change_info {
   int clause_number;
@@ -104,14 +107,14 @@ typedef Change_v::size_type change_index_t;
 Change_v changes(1);
 change_index_t changes_index = 0; // Invariant: changes_index < changes.size().
 
-int n_changes[MAX_VARS][2];
+int n_changes[max_vars][2];
 
 unsigned int n_clauses, r_clauses, n_init_clauses, n_vars, depth = 0;
 unsigned int act_max_clause_length = 0;
 
 int current_working_clause[max_clause_length], cwc_length;
 
-int gucl_stack[MAX_VARS], n_gucl = 0;
+int gucl_stack[max_vars], n_gucl = 0;
 int contradictory_unit_clauses = false;
 
 unsigned long long int n_branches = 0, n_units = 0;
@@ -206,7 +209,7 @@ void read_formula(const char* const filename) {
   close_formula_file(f);
 }
 
-int checker[MAX_VARS+1];
+int checker[max_vars+1];
 
 void reduce(const int v) {
   const int p = abs(v);
@@ -318,7 +321,7 @@ inline int get_variable_2sjw() {
   return v;
 }
 
-int out[MAX_VARS];
+int out[max_vars];
 
 bool dpll() {
   ++n_branches;
@@ -383,7 +386,7 @@ void output(const char* const file, const bool result, const double elapsed) {
          "c file_name                             %s\n",
        n_vars, n_init_clauses, elapsed, n_branches, n_backtracks, n_units, changes.size(), file);
   if (result) {
-    int order[MAX_VARS];
+    int order[max_vars];
     for (unsigned int i=0; i<n_vars; i++) {
       const auto val = out[i];
       const auto index = std::abs(val)-1;
