@@ -277,26 +277,29 @@ void reverse(const int v) {
 }
 
 inline int get_variable_2sjw() {
-  const unsigned int mlen = max_clause_len;
+  const auto mlen = max_clause_len;
+  const auto nvar = n_vars;
   unsigned int max = 0;
   int v = 0;
 
-  for (unsigned int i=1; i<=n_vars; ++i) {
-    if (vars[i][POS].status or vars[i][NEG].status) {
+  for (unsigned int i=1; i<=nvar; ++i) {
+    const auto& vpos = vars[i][POS]; const auto& vneg = vars[i][NEG];
+    if (vpos.status or vneg.status) {
       unsigned int pz = 0, nz = 0;
-      for(unsigned int k=0; k<vars[i][POS].n_occur; ++k) {
-        const unsigned int ell = vars[i][POS].var_in_clauses[k];
-        pz += clauses[ell].status << (mlen - clauses[ell].length);
+      {const auto pos_occur = vpos.n_occur;
+       for(unsigned int k=0; k<pos_occur; ++k) {
+         const unsigned int ell = vpos.var_in_clauses[k];
+         pz += clauses[ell].status << (mlen - clauses[ell].length);
+       }
       }
-      for (unsigned int k=0; k<vars[i][NEG].n_occur; ++k) {
-        const unsigned int ell = vars[i][NEG].var_in_clauses[k];
-        nz += clauses[ell].status << (mlen - clauses[ell].length);
+      {const auto neg_occur = vneg.n_occur;
+       for (unsigned int k=0; k<neg_occur; ++k) {
+         const unsigned int ell = vneg.var_in_clauses[k];
+         nz += clauses[ell].status << (mlen - clauses[ell].length);
+       }
       }
       const unsigned int s = pz + nz;
-      if (s > max) {
-        max = s;
-        if (pz >= nz) v = i; else v = -i;
-      }
+      if (s > max) { max = s; v = (pz >= nz) ? i : -i; }
     }
   }
   return v;
