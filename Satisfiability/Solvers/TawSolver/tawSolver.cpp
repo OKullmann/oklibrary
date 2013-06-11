@@ -70,7 +70,7 @@ static_assert(pow2(N) == (unsigned) MAX_CLAUSE_LENGTH, "Number of bits in \"Clau
 static_assert(N==5 or N==6, "Unexpected size of type \"Clause_content\".");
 const Clause_content b[6] {bp(N,0),bp(N,1),bp(N,2),bp(N,3),bp(N,4), (N==6)?bp(N,5):0}; // Unfortunately there is no reasonable way in C++ to just define b[N].
 inline int log2s(const Clause_content v) {
-  assert(exp2(log2(v)) == v);
+  assert(pow2(log2(v)) == v);
   Clause_content r = (v & b[0]) != 0;
   for (int i = 1; i < N; ++i) r |= ((v & b[i]) != 0) << i;
   return r;
