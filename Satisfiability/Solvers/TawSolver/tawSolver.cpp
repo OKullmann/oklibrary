@@ -22,6 +22,8 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 // g++ -Wall -Ofast tawSolver.cpp -o tawSolver
 
 #include <limits>
+#include <vector>
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -32,6 +34,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
 
 constexpr int MAX_CLAUSES = 300000;
+static_assert(MAX_CLAUSES > 0, "MAX_CLAUSES must be positive.");
 constexpr int MAX_VARS = 4096;
 typedef unsigned int Clause_content;
 constexpr int MAX_CLAUSE_LENGTH {std::numeric_limits<Clause_content>::digits};
@@ -81,15 +84,19 @@ struct var_info {
   bool status;
 };
 
+var_info vars[MAX_VARS+1][2];
+
 struct change_info {
   int clause_number;
   int literal_index;
 };
 
-change_info changes[MAX_CLAUSES];
-int n_changes[MAX_VARS][2], changes_index = 0;
+typedef std::vector<change_info> Change_v;
+typedef Change_v::size_type change_index_t;
+Change_v changes(MAX_CLAUSES);
+change_index_t changes_index = 0; // Invariant: changes_index < changes.size().
 
-var_info vars[MAX_VARS+1][2];
+int n_changes[MAX_VARS][2];
 
 unsigned int n_clauses, r_clauses, n_init_clauses, n_vars, depth = 0;
 unsigned int max_clause_len = 0;
@@ -195,40 +202,49 @@ int checker[MAX_VARS+1];
 
 void reduce(const int v) {
   const int p = abs(v);
-  const int q = (v>0) ? POS : NEG;
-  for (unsigned int i=0; i<vars[p][q].n_occur; ++i) {
-    const int m = vars[p][q].var_in_clauses[i];
-    if(!clauses[m].status) continue;
-    clauses[m].status = false;
-    --r_clauses;
-    changes[changes_index++].clause_number = m;
-    ++n_changes[depth][POS];
+  {
+   const int q = (v>0) ? POS : NEG;
+   const auto occur_true = vars[p][q].n_occur;
+   const auto max_size = changes_index + occur_true;
+   if (max_size >= changes.size()) changes.resize(max_size);
+   for (unsigned int i=0; i<occur_true; ++i) {
+     const int m = vars[p][q].var_in_clauses[i];
+     if(!clauses[m].status) continue;
+     clauses[m].status = false;
+     --r_clauses;
+     changes[changes_index++].clause_number = m;
+     ++n_changes[depth][POS];
+   }
   }
-  const int nq = !q;
-  for (unsigned int i=0; i<vars[p][nq].n_occur; ++i) {
-    const int m = vars[p][nq].var_in_clauses[i];
-    if (!clauses[m].status) continue;
-    --clauses[m].length;
-    const int n = vars[p][nq].var_in_clause_locs[i];
-    clauses[m].value -= 1 << n;
+  {
+   const int q = (v>0) ? NEG : POS;
+   const auto occur_false = vars[p][q].n_occur;
+   const auto max_size = changes_index + occur_false;
+   if (max_size > changes.size()) changes.resize(max_size);
+   for (unsigned int i=0; i<occur_false; ++i) {
+     const int m = vars[p][q].var_in_clauses[i];
+     if (!clauses[m].status) continue;
+     --clauses[m].length;
+     const int n = vars[p][q].var_in_clause_locs[i];
+     clauses[m].value -= 1 << n;
 
-    changes[changes_index].clause_number = m;
-    changes[changes_index++].literal_index = n;
-    ++n_changes[depth][NEG];
+     changes[changes_index++] = {m,n};
+     ++n_changes[depth][NEG];
 
-    if (clauses[m].length == 1) {
-      const int ucl = clauses[m].literals[log2s(clauses[m].value)];
-      const int aucl = abs(ucl);
-      if (checker[aucl] == 0) {
-        gucl_stack[n_gucl++] = ucl;
-        checker[aucl] = ucl;
-        clauses[m].c_ucl = ucl;
-      }
-      if (checker[aucl]+ucl == 0) {
-        contradictory_unit_clauses = true;
-        checker[aucl] = 0;
-      }
-    }
+     if (clauses[m].length == 1) {
+       const int ucl = clauses[m].literals[log2s(clauses[m].value)];
+       const int aucl = abs(ucl);
+       if (checker[aucl] == 0) {
+         gucl_stack[n_gucl++] = ucl;
+         checker[aucl] = ucl;
+         clauses[m].c_ucl = ucl;
+       }
+       if (checker[aucl]+ucl == 0) {
+         contradictory_unit_clauses = true;
+         checker[aucl] = 0;
+       }
+     }
+   }
   }
   ++depth;
   vars[p][POS].status = false;
@@ -345,8 +361,9 @@ void output(const char* const file, const bool result, const double elapsed) {
          "c number_of_nodes                       %llu\n"
          "c number_of_binary_nodes                %llu\n"
          "c number_of_1-reductions                %llu\n"
+         "c max_number_changes                    %lu\n"
          "c file_name                             %s\n",
-       n_vars, n_init_clauses, elapsed, n_branches, n_backtracks, n_units, file);
+       n_vars, n_init_clauses, elapsed, n_branches, n_backtracks, n_units, changes.size(), file);
   if (result) {
     int order[MAX_VARS];
     for (unsigned int i=0; i<n_vars; i++) {
