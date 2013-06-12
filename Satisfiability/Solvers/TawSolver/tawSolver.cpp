@@ -150,15 +150,15 @@ bool read_a_clause_from_file(FILE* const f) {
     int x;
     if (fscanf(f, "%d", &x) == EOF) return false;
     if (x == 0) break;
-    if (checker[abs(x)]==0) {
+    if (checker[std::abs(x)]==0) {
       if (cwc_length >= max_clause_length) {
         printf("Clauses can have at most %u elements.\n", max_clause_length);
         exit(clause_length_error);
       }
       current_working_clause[cwc_length++] = x;
-      checker[abs(x)] = x;
+      checker[std::abs(x)] = x;
     }
-    else if (checker[abs(x)] + x == 0) trivial_clause = true;
+    else if (checker[std::abs(x)] + x == 0) trivial_clause = true;
   }
   if (trivial_clause) {
     cwc_length = 0;
@@ -181,7 +181,7 @@ void add_a_clause_to_formula(const int A[], const unsigned n) {
   if (n>act_max_clause_length) act_max_clause_length = n;
 
   for (int i=0; i<(int)n; ++i) {
-    const int p = abs(A[i]), q = A[i]>0 ? POS : NEG;
+    const int p = std::abs(A[i]), q = A[i]>0 ? POS : NEG;
     vars[p][q].var_in_clauses = (int*) realloc(vars[p][q].var_in_clauses,
                                 (vars[p][q].n_occur+1) * sizeof(int));
     vars[p][q].var_in_clause_locs = (int*) realloc(vars[p][q].var_in_clause_locs,
@@ -211,7 +211,7 @@ void read_formula(const char* const filename) {
 int checker[max_vars+1];
 
 void reduce(const int v) {
-  const int p = abs(v);
+  const int p = std::abs(v);
   {
    const int q = (v>0) ? POS : NEG;
    const auto occur_true = vars[p][q].n_occur;
@@ -245,7 +245,7 @@ void reduce(const int v) {
 
      if (clauses[m].length == 1) {
        const int ucl = clauses[m].literals[log2s(clauses[m].value)];
-       const int aucl = abs(ucl);
+       const int aucl = std::abs(ucl);
        if (checker[aucl] == 0) {
          gucl_stack[n_gucl++] = ucl;
          checker[aucl] = ucl;
@@ -264,7 +264,7 @@ void reduce(const int v) {
 }
 
 void reverse(const int v) {
-  const int p = abs(v);
+  const int p = std::abs(v);
   assert(depth >= 1);
   --depth;
   while (n_changes[depth][NEG]) {
@@ -273,7 +273,7 @@ void reverse(const int v) {
     const int n = changes[changes_index].literal_index;
     ++clauses[m].length;
     if(clauses[m].length == 2) {
-      checker[abs(clauses[m].c_ucl)] = 0;
+      checker[std::abs(clauses[m].c_ucl)] = 0;
       clauses[m].c_ucl = 0;
     }
     clauses[m].value += (Clause_content) 1 << n;
