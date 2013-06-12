@@ -68,7 +68,7 @@ struct clause_info {
   bool status;
 };
 
-clause_info* clauses;
+std::vector<clause_info> clauses;
 
 struct var_info {
   int* var_in_clauses;
@@ -126,7 +126,7 @@ void read_formula_header(FILE* const f) {
     printf("The maximal possible variable-index is MAX_VARS=%u.\n", max_vars);
     std::exit(number_vars_error);
   }
-  clauses = (clause_info*) realloc(clauses, (n_header_clauses+1)*sizeof(clause_info));
+  clauses.resize(n_header_clauses+1);
 }
 
 void close_formula_file(FILE* const f) { if (f) fclose(f); }
