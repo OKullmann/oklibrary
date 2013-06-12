@@ -52,7 +52,8 @@ static_assert(std::numeric_limits<Clause_content>::digits==max_clause_length,"Er
 
 enum Error_codes {
   missing_file_error=1, file_reading_error=2, clause_length_error=3,
-  number_vars_error=4, variable_value_error=5, number_clauses_error=6 };
+  number_vars_error=4, variable_value_error=5, number_clauses_error=6,
+  empty_clause_error=7 };
 
 
 constexpr int POS = 1;
@@ -156,7 +157,10 @@ bool read_a_clause_from_file(FILE* const f) {
     cwc_length = 0;
     return true;
   }
-  if(cwc_length == 0) return false;
+  if(cwc_length == 0) {
+    printf("Found empty clause.\n");
+    std::exit(empty_clause_error);
+  }
   return true;
 }
 
