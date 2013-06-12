@@ -140,6 +140,19 @@ cswsok: 48.99 49.14
 cswsok: 51.65 51.43
 
 # The corrected computations make it more than 10% slower.
+
+# ID: f1157a664c98c72c1a299339ae2690bc25c1fb22
+# Input is now handled dynamically.
+
+> tawSolver VanDerWaerden_2-3-12_134.cnf
+cswsok: 46.21 46.57 46.10 46.36
+> tawSolver64 VanDerWaerden_2-3-12_134.cnf
+cswsok: 48.49 48.93 48.84 48.80
+
+> tawSolver VanDerWaerden_2-3-12_135.cnf
+cswsok: 48.98 49.84 49.37 49.33
+> tawSolver64 VanDerWaerden_2-3-12_135.cnf
+cswsok: 52.03 51.85 51.92 52.08
    \endverbatim
    </li>
   </ul>
