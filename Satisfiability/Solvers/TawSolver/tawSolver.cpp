@@ -132,7 +132,7 @@ void close_formula_file(FILE* const f) { if (f) fclose(f); }
 bool read_a_clause_from_file(FILE* const f) {
   bool trivial_clause = false;
   cwc_length = 0;
-  int* const checker = (int*) calloc((n_vars+1), sizeof(int));
+  std::vector<int> checker(n_vars+1);
   while (true) {
     int x;
     if (fscanf(f, "%d", &x) == EOF) return false;
@@ -156,7 +156,6 @@ bool read_a_clause_from_file(FILE* const f) {
     cwc_length = 0;
     return true;
   }
-  free(checker);
   if(cwc_length == 0) return false;
   return true;
 }
