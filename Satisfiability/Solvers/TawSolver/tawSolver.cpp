@@ -388,13 +388,12 @@ void output(const char* const file, const bool result, const double elapsed) {
          "c file_name                             %s\n",
        n_vars, n_init_clauses, elapsed, n_branches, n_backtracks, n_units, changes.size(), file);
   if (result) {
-    int order[max_vars];
+    std::vector<int> order(n_vars);
     for (unsigned int i=0; i<n_vars; i++) {
       const auto val = out[i];
       const auto index = std::abs(val)-1;
       if (val > 0) order[index] = 1;
       else if (val < 0) order[index] = -1;
-      else order[index] = 0;
     }
     printf("v ");
     for (unsigned int i=0; i<n_vars; ++i)
