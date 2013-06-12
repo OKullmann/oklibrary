@@ -51,7 +51,8 @@ static_assert(max_clause_length==32 or max_clause_length==64,"Currently only MAX
 static_assert(std::numeric_limits<Clause_content>::digits==max_clause_length,"Error with choice of type \"Clause_content\".");
 
 enum Error_codes {
-  missing_file_error=1, file_reading_error=2, clause_length_error=3 };
+  missing_file_error=1, file_reading_error=2, clause_length_error=3,
+  number_vars_error=4 };
 
 
 constexpr int POS = 1;
@@ -118,6 +119,10 @@ void read_formula_header(FILE* const f) {
     if(str[0] == 'p') break;
   }
   sscanf(str, "%s %s %u %u", p, cnf, &n_vars, &n_clauses);
+  if (n_vars > (unsigned) max_vars) {
+    printf("The maximal possible variable-index is MAX_VARS=%u.\n", max_vars);
+    std::exit(number_vars_error);
+  }
   clauses = (clause_info*) realloc(clauses, (n_clauses+1)*sizeof(clause_info));
   n_clauses = r_clauses = 0;
 }
