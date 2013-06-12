@@ -24,6 +24,10 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include <limits>
 #include <vector>
 #include <array>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
 
 #include <cstdint>
 #include <cstdio>
@@ -104,45 +108,61 @@ unsigned long long int n_branches = 0, n_units = 0;
 unsigned long long int n_backtracks = 0;
 
 
-FILE* open_formula_file(const char* const file_name) {
-  FILE* const f = fopen(file_name, "r");
-  if(!f) {
-    printf("Invalid file name.\n");
+void read_formula_header(std::ifstream& f) {
+  std::string line;
+  while (true) {
+    std::getline(f, line);
+    if (not f) {
+      printf("Reading error.\n");
+      std::exit(file_reading_error);
+    }
+    if (line[0] == 'p') break;
+  }
+  std::stringstream s(line);
+  {std::string inp; s >> inp;
+   if (inp != "p") {
+     printf("Syntax error in parameter line (no \"p \").\n");
+     std::exit(file_reading_error);
+   }
+   s >> inp;
+   if (inp != "cnf") {
+     printf("Syntax error in parameter line (no \"cnf\").\n");
+     std::exit(file_reading_error);
+   }
+  }
+  s >> n_vars;
+  s >> n_header_clauses;
+  if (not s) {
+    printf("Reading error with parameters.\n");
     std::exit(file_reading_error);
   }
-  else return f;
-}
-
-void read_formula_header(FILE* const f) {
-  char str[256], p[2], cnf[4];
-  while(1) {
-    fgets(str, 256, f);
-    if(str[0] == 'p') break;
-  }
-  sscanf(str, "%s %s %u %u", p, cnf, &n_vars, &n_header_clauses);
   vars.resize(n_vars+1);
   n_changes.resize(n_vars);
   checker.resize(n_vars+1);
   out.resize(n_vars);
+  gucl_stack.resize(n_vars);
   clauses.resize(n_header_clauses+1);
 }
 
-void close_formula_file(FILE* const f) { if (f) fclose(f); }
-
-bool read_a_clause_from_file(FILE* const f) {
-  bool trivial_clause = false;
+bool read_a_clause_from_file(std::ifstream& f) {
   cwc_length = 0;
+  bool tautology = false;
+  int x;
+  f >> x;
+  if (f.eof()) return false;
   std::vector<int> checker_cl(n_vars+1);
   while (true) {
-    int x;
-    if (fscanf(f, "%d", &x) == EOF) return false;
+    if (not f) {
+      printf("Invalid literal-read.\n");
+      std::exit(file_reading_error);
+    }
     if (x == 0) break;
     const int v {std::abs(x)};
     if ((unsigned) v > n_vars) {
       printf("Literal %d contradicts n=%d.\n", x, n_vars);
       std::exit(variable_value_error);
     }
-    if (checker_cl[v]==0) {
+    if (checker_cl[v] == 0) {
       if (cwc_length >= max_clause_length) {
         printf("Clauses can have at most %u elements.\n", max_clause_length);
         std::exit(clause_length_error);
@@ -150,13 +170,14 @@ bool read_a_clause_from_file(FILE* const f) {
       current_working_clause[cwc_length++] = x;
       checker_cl[v] = x;
     }
-    else if (checker_cl[v] + x == 0) trivial_clause = true;
+    else if (checker_cl[v] == -x) tautology = true;
+    f >> x;
   }
-  if (trivial_clause) {
+  if (tautology) {
     cwc_length = 0;
     return true;
   }
-  if(cwc_length == 0) {
+  if (cwc_length == 0) {
     printf("Found empty clause.\n");
     std::exit(empty_clause_error);
   }
@@ -195,15 +216,16 @@ void add_a_clause_to_formula(const int A[], const unsigned n) {
 }
 
 void read_formula(const char* const filename) {
-  FILE* const f = open_formula_file(filename);
+  std::ifstream f(filename);
+  if (not f) {
+    printf("Invalid file name.\n");
+    std::exit(file_reading_error);
+  }
   read_formula_header(f);
   n_clauses = 0;
-  while(read_a_clause_from_file(f)) {
+  while (read_a_clause_from_file(f))
     add_a_clause_to_formula(current_working_clause, cwc_length);
-  }
-  close_formula_file(f);
   r_clauses = n_clauses;
-  gucl_stack.resize(n_vars);
 }
 
 
@@ -234,7 +256,7 @@ void reduce(const int v) {
    if (max_size >= changes.size()) changes.resize(max_size);
    for (unsigned int i=0; i<occur_true; ++i) {
      const int m = vars[p][q].var_in_clauses[i];
-     if(not clauses[m].status) continue;
+     if (not clauses[m].status) continue;
      clauses[m].status = false;
      assert(r_clauses >= 1);
      --r_clauses;
@@ -287,7 +309,7 @@ void reverse(const int v) {
     const int m = changes[--changes_index].clause_number;
     const int n = changes[changes_index].literal_index;
     ++clauses[m].length;
-    if(clauses[m].length == 2) {
+    if (clauses[m].length == 2) {
       checker[std::abs(clauses[m].c_ucl)] = 0;
       clauses[m].c_ucl = 0;
     }
