@@ -356,7 +356,7 @@ Running time: 532416.20 seconds
      <li> k=13, n=159: 525039 conflicts,  20 restarts (116s). </li>
      <li> k=13, n=160: 9298288 conflicts, 27 restarts (3022s). </li>
      <li> k=14, n=186: 60091581 conflicts, 32 restarts (33391s) </li>
-     <li> k=15, n=218: XXX conflicts, XXX restarts (XXXs) </li>
+     <li> k=15, n=218: 314678660 conflicts, 36 restarts (274457s) </li>
     </ol>
    </li>
    <li> minisat-2.2.0:
