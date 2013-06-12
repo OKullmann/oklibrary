@@ -201,10 +201,10 @@ void read_formula(const char* const filename) {
 int checker[max_vars+1];
 
 constexpr Clause_content pow22(const unsigned e) {return pow2(pow2(e));}
-inline constexpr Clause_content bp(const unsigned N, const unsigned i) {
-  return (i < N-1) ? bp(N-1,i) * (1 + pow22(N-1)) : pow22(N) - pow22(N-1);
+inline constexpr Clause_content B(const unsigned N, const unsigned i) {
+  return (i>=N) ? 0 : (i<N-1) ? B(N-1,i)*(1+pow22(N-1)) : pow22(N)-pow22(N-1);
 }
-const Clause_content b[6] {bp(N,0),bp(N,1),bp(N,2),bp(N,3),bp(N,4), (N==6)?bp(N,5):0}; // Unfortunately there is no reasonable way in C++ to just define b[N].
+const Clause_content b[6] {B(N,0),B(N,1),B(N,2),B(N,3),B(N,4),B(N,5)};
 inline int log2s(const Clause_content v) {
   assert(pow2(log2(v)) == v);
   Clause_content r = (v & b[0]) != 0;
