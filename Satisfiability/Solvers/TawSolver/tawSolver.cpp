@@ -52,7 +52,7 @@ static_assert(std::numeric_limits<Clause_content>::digits==max_clause_length,"Er
 
 enum Error_codes {
   missing_file_error=1, file_reading_error=2, clause_length_error=3,
-  number_vars_error=4, variable_value_error=5 };
+  number_vars_error=4, variable_value_error=5, number_clauses_error=6 };
 
 
 constexpr int POS = 1;
@@ -91,7 +91,8 @@ change_index_t changes_index = 0; // Invariant: changes_index < changes.size().
 
 int n_changes[max_vars][2];
 
-unsigned int n_clauses, r_clauses, n_init_clauses, n_vars, depth = 0;
+unsigned int n_clauses, n_header_clauses, r_clauses;
+unsigned int n_vars, depth = 0;
 unsigned int act_max_clause_length = 0;
 
 int current_working_clause[max_clause_length], cwc_length;
@@ -118,13 +119,12 @@ void read_formula_header(FILE* const f) {
     fgets(str, 256, f);
     if(str[0] == 'p') break;
   }
-  sscanf(str, "%s %s %u %u", p, cnf, &n_vars, &n_clauses);
+  sscanf(str, "%s %s %u %u", p, cnf, &n_vars, &n_header_clauses);
   if (n_vars > (unsigned) max_vars) {
     printf("The maximal possible variable-index is MAX_VARS=%u.\n", max_vars);
     std::exit(number_vars_error);
   }
-  clauses = (clause_info*) realloc(clauses, (n_clauses+1)*sizeof(clause_info));
-  n_clauses = r_clauses = 0;
+  clauses = (clause_info*) realloc(clauses, (n_header_clauses+1)*sizeof(clause_info));
 }
 
 void close_formula_file(FILE* const f) { if (f) fclose(f); }
@@ -162,6 +162,10 @@ bool read_a_clause_from_file(FILE* const f) {
 
 void add_a_clause_to_formula(const int A[], const unsigned n) {
   if (n == 0) return;
+  if (n_clauses >= n_header_clauses) {
+    printf("More than %u clauses, contradicting cnf-header.\n", n_header_clauses);
+    std::exit(number_clauses_error);
+  }
   clauses[n_clauses].number = n_clauses;
   clauses[n_clauses].status = true;
   clauses[n_clauses].length = n;
@@ -185,18 +189,17 @@ void add_a_clause_to_formula(const int A[], const unsigned n) {
     clauses[n_clauses].literals[i] = A[i];
   }
   ++n_clauses;
-  ++r_clauses;
 }
 
 void read_formula(const char* const filename) {
   FILE* const f = open_formula_file(filename);
   read_formula_header(f);
-  n_init_clauses = 0;
+  n_clauses = 0;
   while(read_a_clause_from_file(f)) {
     add_a_clause_to_formula(current_working_clause, cwc_length);
-    ++n_init_clauses;
   }
   close_formula_file(f);
+  r_clauses = n_clauses;
 }
 
 
@@ -390,7 +393,7 @@ void output(const char* const file, const bool result, const double elapsed) {
          "c number_of_1-reductions                %llu\n"
          "c max_number_changes                    %lu\n"
          "c file_name                             %s\n",
-       n_vars, n_init_clauses, elapsed, n_branches, n_backtracks, n_units, changes.size(), file);
+       n_vars, n_clauses, elapsed, n_branches, n_backtracks, n_units, changes.size(), file);
   if (result) {
     std::vector<int> order(n_vars);
     for (unsigned int i=0; i<n_vars; i++) {
