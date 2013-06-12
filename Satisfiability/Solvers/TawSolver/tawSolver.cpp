@@ -291,11 +291,10 @@ void reverse(const int v) {
 }
 
 inline int get_variable_2sjw() {
-  const auto mlen = act_max_clause_length;
-  const auto nvar = n_vars;
   double max = 0;
   int v = 0;
-
+  const auto mlen = act_max_clause_length;
+  const auto nvar = n_vars;
   for (unsigned int i=1; i<=nvar; ++i) {
     const auto& vpos = vars[i][POS];
     const auto& vneg = vars[i][NEG];
@@ -305,15 +304,13 @@ inline int get_variable_2sjw() {
        for(unsigned int k=0; k<pos_occur; ++k) {
          const unsigned int ell = vpos.var_in_clauses[k];
          pz += Clause_content(clauses[ell].status) << (mlen - clauses[ell].length);
-       }
-      }
+       }}
       double nz = 0;
       {const auto neg_occur = vneg.n_occur;
        for (unsigned int k=0; k<neg_occur; ++k) {
          const unsigned int ell = vneg.var_in_clauses[k];
          nz += Clause_content(clauses[ell].status) << (mlen - clauses[ell].length);
-       }
-      }
+       }}
       const double s = pz + nz;
       if (s > max) { max = s; v = (pz >= nz) ? i : -i; }
     }
