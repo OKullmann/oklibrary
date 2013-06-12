@@ -33,12 +33,6 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
 #include <sys/resource.h>
 
-#ifndef MAX_VARS
-# define MAX_VARS 10000
-#endif
-constexpr int max_vars = MAX_VARS;
-static_assert(max_vars > 0, "MAX_VARS must be positive.");
-
 #ifndef MAX_CLAUSE_LENGTH
 # define MAX_CLAUSE_LENGTH 32
 #endif
@@ -53,8 +47,7 @@ static_assert(std::numeric_limits<Clause_content>::digits==max_clause_length,"Er
 
 enum Error_codes {
   missing_file_error=1, file_reading_error=2, clause_length_error=3,
-  number_vars_error=4, variable_value_error=5, number_clauses_error=6,
-  empty_clause_error=7 };
+  variable_value_error=4, number_clauses_error=5, empty_clause_error=6 };
 
 
 constexpr int POS = 1;
@@ -91,7 +84,8 @@ typedef Change_v::size_type change_index_t;
 Change_v changes(1);
 change_index_t changes_index = 0; // Invariant: changes_index < changes.size().
 
-int n_changes[max_vars][2];
+typedef std::array<int,2> int_pair;
+std::vector<int_pair> n_changes;
 
 unsigned int n_clauses, n_header_clauses, r_clauses;
 unsigned int n_vars, depth = 0;
@@ -102,6 +96,9 @@ int current_working_clause[max_clause_length], cwc_length;
 std::vector<int> gucl_stack;
 int n_gucl = 0;
 int contradictory_unit_clauses = false;
+std::vector<int> checker;
+
+std::vector<int> out;
 
 unsigned long long int n_branches = 0, n_units = 0;
 unsigned long long int n_backtracks = 0;
@@ -123,11 +120,10 @@ void read_formula_header(FILE* const f) {
     if(str[0] == 'p') break;
   }
   sscanf(str, "%s %s %u %u", p, cnf, &n_vars, &n_header_clauses);
-  if (n_vars > (unsigned) max_vars) {
-    printf("The maximal possible variable-index is MAX_VARS=%u.\n", max_vars);
-    std::exit(number_vars_error);
-  }
   vars.resize(n_vars+1);
+  n_changes.resize(n_vars);
+  checker.resize(n_vars+1);
+  out.resize(n_vars);
   clauses.resize(n_header_clauses+1);
 }
 
@@ -136,7 +132,7 @@ void close_formula_file(FILE* const f) { if (f) fclose(f); }
 bool read_a_clause_from_file(FILE* const f) {
   bool trivial_clause = false;
   cwc_length = 0;
-  std::vector<int> checker(n_vars+1);
+  std::vector<int> checker_cl(n_vars+1);
   while (true) {
     int x;
     if (fscanf(f, "%d", &x) == EOF) return false;
@@ -146,15 +142,15 @@ bool read_a_clause_from_file(FILE* const f) {
       printf("Literal %d contradicts n=%d.\n", x, n_vars);
       std::exit(variable_value_error);
     }
-    if (checker[v]==0) {
+    if (checker_cl[v]==0) {
       if (cwc_length >= max_clause_length) {
         printf("Clauses can have at most %u elements.\n", max_clause_length);
         std::exit(clause_length_error);
       }
       current_working_clause[cwc_length++] = x;
-      checker[v] = x;
+      checker_cl[v] = x;
     }
-    else if (checker[v] + x == 0) trivial_clause = true;
+    else if (checker_cl[v] + x == 0) trivial_clause = true;
   }
   if (trivial_clause) {
     cwc_length = 0;
@@ -210,8 +206,6 @@ void read_formula(const char* const filename) {
   gucl_stack.resize(n_vars);
 }
 
-
-int checker[max_vars+1];
 
 // Defining "special logarithm" log2s(v)=k, where v=2^k, k natural number:
 constexpr Clause_content pow2(const unsigned e) {return (e==0)?1:2*pow2(e-1);}
@@ -337,8 +331,6 @@ inline int get_variable_2sjw() {
   }
   return v;
 }
-
-int out[max_vars];
 
 bool dpll() {
   ++n_branches;
