@@ -68,12 +68,6 @@ struct clause_info {
 
 clause_info* clauses;
 
-constexpr Clause_content pow2(const unsigned e) {return (e==0)?1:2*pow2(e-1);}
-constexpr int log2(const Clause_content n) {return (n <= 1)?0:1+log2(n/2);}
-constexpr int N = log2(max_clause_length);
-static_assert(pow2(N) == (unsigned) max_clause_length, "Number of bits in \"Clause_content\" not a power of 2.");
-static_assert(N==5 or N==6, "Unexpected size of type \"Clause_content\".");
-
 struct var_info {
   int* var_in_clauses;
   int* var_in_clause_locs;
@@ -200,8 +194,13 @@ void read_formula(const char* const filename) {
 int checker[max_vars+1];
 
 // Defining "special logarithm" log2s(v)=k, where v=2^k, k natural number:
+constexpr Clause_content pow2(const unsigned e) {return (e==0)?1:2*pow2(e-1);}
+constexpr int log2(const Clause_content n) {return (n <= 1)?0:1+log2(n/2);}
+constexpr int N = log2(max_clause_length);
+static_assert(pow2(N) == (unsigned) max_clause_length, "Number of bits in \"Clause_content\" not a power of 2.");
+static_assert(N==5 or N==6, "Unexpected size of type \"Clause_content\".");
 constexpr Clause_content pow22(const unsigned e) {return pow2(pow2(e));}
-inline constexpr Clause_content B(const unsigned N, const unsigned i) {
+constexpr Clause_content B(const unsigned N, const unsigned i) {
   return (i>=N) ? 0 : (i<N-1) ? B(N-1,i)*(1+pow22(N-1)) : pow22(N)-pow22(N-1);
 }
 const Clause_content b[6] {B(N,0),B(N,1),B(N,2),B(N,3),B(N,4),B(N,5)};
