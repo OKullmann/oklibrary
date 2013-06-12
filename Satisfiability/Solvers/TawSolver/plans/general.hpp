@@ -147,15 +147,19 @@ cswsok: 51.65 51.43
 
   \todo Introduce macros
   <ul>
-   <li> MAX_NUMBER_CLAUSES, MAX_NUMBER_VARIABLES. </li>
+   <li> DONE (no longer needed)
+   MAX_NUMBER_CLAUSES, MAX_NUMBER_VARIABLES. </li>
    <li> And GIT_ID. </li>
-   <li> And CLAUSE_CONTENT (default "unsigned int"). </li>
-   <li> Then a static_assert is needed, that the type for CLAUSE_CONTENT
+   <li> DONE (different design)
+   And CLAUSE_CONTENT (default "unsigned int"). </li>
+   <li> DONE (not needed)
+   Then a static_assert is needed, that the type for CLAUSE_CONTENT
    is unsigned integral. </li>
   </ul>
 
 
-  \todo Check number of variables and clauses
+  \todo DONE
+  Check number of variables and clauses
   <ul>
    <li> Errors must happen if there are too many variables or clauses. </li>
   </ul>
