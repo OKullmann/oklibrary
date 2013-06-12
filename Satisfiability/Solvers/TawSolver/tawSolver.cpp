@@ -68,7 +68,6 @@ struct clause_info {
 
 clause_info* clauses;
 
-// Defining "special logarithm" log2s(v)=k, where v=2^k, k natural number:
 constexpr Clause_content pow2(const unsigned e) {return (e==0)?1:2*pow2(e-1);}
 constexpr int log2(const Clause_content n) {return (n <= 1)?0:1+log2(n/2);}
 constexpr int N = log2(max_clause_length);
@@ -200,6 +199,7 @@ void read_formula(const char* const filename) {
 
 int checker[max_vars+1];
 
+// Defining "special logarithm" log2s(v)=k, where v=2^k, k natural number:
 constexpr Clause_content pow22(const unsigned e) {return pow2(pow2(e));}
 inline constexpr Clause_content B(const unsigned N, const unsigned i) {
   return (i>=N) ? 0 : (i<N-1) ? B(N-1,i)*(1+pow22(N-1)) : pow22(N)-pow22(N-1);
