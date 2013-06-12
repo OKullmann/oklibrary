@@ -203,7 +203,7 @@ constexpr Clause_content pow22(const unsigned e) {return pow2(pow2(e));}
 constexpr Clause_content B(const unsigned N, const unsigned i) {
   return (i>=N) ? 0 : (i<N-1) ? B(N-1,i)*(1+pow22(N-1)) : pow22(N)-pow22(N-1);
 }
-const Clause_content b[6] {B(N,0),B(N,1),B(N,2),B(N,3),B(N,4),B(N,5)};
+constexpr Clause_content b[6] {B(N,0),B(N,1),B(N,2),B(N,3),B(N,4),B(N,5)};
 inline int log2s(const Clause_content v) {
   assert(pow2(log2(v)) == v);
   Clause_content r = (v & b[0]) != 0;
