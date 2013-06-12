@@ -23,6 +23,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
 #include <limits>
 #include <vector>
+#include <array>
 
 #include <cstdint>
 #include <cstdio>
@@ -77,8 +78,8 @@ struct var_info {
   int is_ucl;
   bool status;
 };
-
-var_info vars[max_vars+1][2];
+typedef std::array<var_info,2> var_info_pair;
+std::vector<var_info_pair> vars;
 
 struct change_info {
   int clause_number;
@@ -126,6 +127,7 @@ void read_formula_header(FILE* const f) {
     printf("The maximal possible variable-index is MAX_VARS=%u.\n", max_vars);
     std::exit(number_vars_error);
   }
+  vars.resize(n_vars+1);
   clauses.resize(n_header_clauses+1);
 }
 
