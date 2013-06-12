@@ -206,8 +206,8 @@ constexpr Clause_content B(const unsigned N, const unsigned i) {
 constexpr Clause_content b[6] {B(N,0),B(N,1),B(N,2),B(N,3),B(N,4),B(N,5)};
 inline int log2s(const Clause_content v) {
   assert(pow2(log2(v)) == v);
-  Clause_content r = (v & b[0]) != 0;
-  for (int i = 1; i < N; ++i) r |= ((v & b[i]) != 0) << i;
+  Clause_content r = bool(v & b[0]);
+  for (int i = 1; i < N; ++i) r |= bool(v & b[i]) << i;
   return r;
 }
 
