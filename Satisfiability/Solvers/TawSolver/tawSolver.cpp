@@ -52,7 +52,7 @@ static_assert(std::numeric_limits<Clause_content>::digits==max_clause_length,"Er
 
 enum Error_codes {
   missing_file_error=1, file_reading_error=2, clause_length_error=3,
-  number_vars_error=4 };
+  number_vars_error=4, variable_value_error=5 };
 
 
 constexpr int POS = 1;
@@ -107,7 +107,7 @@ FILE* open_formula_file(const char* const file_name) {
   FILE* const f = fopen(file_name, "r");
   if(!f) {
     printf("Invalid file name.\n");
-    exit(file_reading_error);
+    std::exit(file_reading_error);
   }
   else return f;
 }
@@ -137,15 +137,20 @@ bool read_a_clause_from_file(FILE* const f) {
     int x;
     if (fscanf(f, "%d", &x) == EOF) return false;
     if (x == 0) break;
-    if (checker[std::abs(x)]==0) {
+    const int v {std::abs(x)};
+    if ((unsigned) v > n_vars) {
+      printf("Literal %d contradicts n=%d.\n", x, n_vars);
+      std::exit(variable_value_error);
+    }
+    if (checker[v]==0) {
       if (cwc_length >= max_clause_length) {
         printf("Clauses can have at most %u elements.\n", max_clause_length);
-        exit(clause_length_error);
+        std::exit(clause_length_error);
       }
       current_working_clause[cwc_length++] = x;
-      checker[std::abs(x)] = x;
+      checker[v] = x;
     }
-    else if (checker[std::abs(x)] + x == 0) trivial_clause = true;
+    else if (checker[v] + x == 0) trivial_clause = true;
   }
   if (trivial_clause) {
     cwc_length = 0;
