@@ -125,6 +125,21 @@ c file_name                             VanDerWaerden_2-3-12_135.cnf
 cswsok: 44.81 44.25 44.41 44.83 44.58
 
 # Got apparently 1 - 2% slower.
+
+# ID: 583ab3bbb194c94126373765958689d28e847639
+# Corrected computations.
+
+> tawSolver VanDerWaerden_2-3-12_134.cnf
+cswsok: 46.21 46.25
+> tawSolver64 VanDerWaerden_2-3-12_134.cnf
+cswsok: 48.38 48.60
+
+> tawSolver VanDerWaerden_2-3-12_135.cnf
+cswsok: 48.99 49.14
+> tawSolver64 VanDerWaerden_2-3-12_135.cnf
+cswsok: 51.65 51.43
+
+# The corrected computations make it more than 10% slower.
    \endverbatim
    </li>
   </ul>
