@@ -156,7 +156,7 @@ void add_a_clause_to_formula(const int A[], const unsigned n) {
   clauses[n_clauses].number = n_clauses;
   clauses[n_clauses].status = true;
   clauses[n_clauses].length = n;
-  clauses[n_clauses].value = ((Clause_content) 1 << n) - 1;
+  clauses[n_clauses].value = (Clause_content(1) << n) - 1;
   clauses[n_clauses].c_ucl = 0;
   clauses[n_clauses].literals = (int*) malloc((n + 1) * sizeof(int));
 
@@ -239,7 +239,7 @@ void reduce(const int v) {
      assert(clauses[m].length >= 2);
      --clauses[m].length;
      const int n = vars[p][q].var_in_clause_locs[i];
-     clauses[m].value -= (Clause_content) 1 << n;
+     clauses[m].value -= Clause_content(1) << n;
 
      changes[changes_index++] = {m,n};
      ++n_changes[depth][NEG];
@@ -277,7 +277,7 @@ void reverse(const int v) {
       checker[std::abs(clauses[m].c_ucl)] = 0;
       clauses[m].c_ucl = 0;
     }
-    clauses[m].value += (Clause_content) 1 << n;
+    clauses[m].value += Clause_content(1) << n;
   }
 
   while (n_changes[depth][POS]) {
@@ -304,14 +304,14 @@ inline int get_variable_2sjw() {
       {const auto pos_occur = vpos.n_occur;
        for(unsigned int k=0; k<pos_occur; ++k) {
          const unsigned int ell = vpos.var_in_clauses[k];
-         pz += (Clause_content) clauses[ell].status << (mlen - clauses[ell].length);
+         pz += Clause_content(clauses[ell].status) << (mlen - clauses[ell].length);
        }
       }
       double nz = 0;
       {const auto neg_occur = vneg.n_occur;
        for (unsigned int k=0; k<neg_occur; ++k) {
          const unsigned int ell = vneg.var_in_clauses[k];
-         nz += (Clause_content) clauses[ell].status << (mlen - clauses[ell].length);
+         nz += Clause_content(clauses[ell].status) << (mlen - clauses[ell].length);
        }
       }
       const double s = pz + nz;
