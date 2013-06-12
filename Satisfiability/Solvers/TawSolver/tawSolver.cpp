@@ -70,21 +70,10 @@ clause_info* clauses;
 
 // Defining "special logarithm" log2s(v)=k, where v=2^k, k natural number:
 constexpr Clause_content pow2(const unsigned e) {return (e==0)?1:2*pow2(e-1);}
-constexpr Clause_content pow22(const unsigned e) {return pow2(pow2(e));}
 constexpr int log2(const Clause_content n) {return (n <= 1)?0:1+log2(n/2);}
-inline constexpr Clause_content bp(const unsigned N, const unsigned i) {
-  return (i < N-1) ? bp(N-1,i) * (1 + pow22(N-1)) : pow22(N) - pow22(N-1);
-}
 constexpr int N = log2(max_clause_length);
 static_assert(pow2(N) == (unsigned) max_clause_length, "Number of bits in \"Clause_content\" not a power of 2.");
 static_assert(N==5 or N==6, "Unexpected size of type \"Clause_content\".");
-const Clause_content b[6] {bp(N,0),bp(N,1),bp(N,2),bp(N,3),bp(N,4), (N==6)?bp(N,5):0}; // Unfortunately there is no reasonable way in C++ to just define b[N].
-inline int log2s(const Clause_content v) {
-  assert(pow2(log2(v)) == v);
-  Clause_content r = (v & b[0]) != 0;
-  for (int i = 1; i < N; ++i) r |= ((v & b[i]) != 0) << i;
-  return r;
-}
 
 struct var_info {
   int* var_in_clauses;
@@ -208,7 +197,20 @@ void read_formula(const char* const filename) {
   close_formula_file(f);
 }
 
+
 int checker[max_vars+1];
+
+constexpr Clause_content pow22(const unsigned e) {return pow2(pow2(e));}
+inline constexpr Clause_content bp(const unsigned N, const unsigned i) {
+  return (i < N-1) ? bp(N-1,i) * (1 + pow22(N-1)) : pow22(N) - pow22(N-1);
+}
+const Clause_content b[6] {bp(N,0),bp(N,1),bp(N,2),bp(N,3),bp(N,4), (N==6)?bp(N,5):0}; // Unfortunately there is no reasonable way in C++ to just define b[N].
+inline int log2s(const Clause_content v) {
+  assert(pow2(log2(v)) == v);
+  Clause_content r = (v & b[0]) != 0;
+  for (int i = 1; i < N; ++i) r |= ((v & b[i]) != 0) << i;
+  return r;
+}
 
 void reduce(const int v) {
   const int p = std::abs(v);
