@@ -98,7 +98,8 @@ unsigned int act_max_clause_length = 0;
 
 int current_working_clause[max_clause_length], cwc_length;
 
-int gucl_stack[max_vars], n_gucl = 0;
+std::vector<int> gucl_stack;
+int n_gucl = 0;
 int contradictory_unit_clauses = false;
 
 unsigned long long int n_branches = 0, n_units = 0;
@@ -204,6 +205,7 @@ void read_formula(const char* const filename) {
   }
   close_formula_file(f);
   r_clauses = n_clauses;
+  gucl_stack.resize(n_vars);
 }
 
 
