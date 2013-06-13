@@ -59,6 +59,13 @@ c running_time(sec)                     18305.95
 c number_of_nodes                       170414771
 c number_of_binary_nodes                85207385
 c number_of_1-reductions                2236999086
+
+# corrected version:
+c running_time(sec)                     21764.99
+c number_of_nodes                       170414771
+c number_of_binary_nodes                85207385
+c number_of_1-reductions                2236999086
+c max_number_changes                    54879
    \endverbatim
    </li>
   </ul>
@@ -303,6 +310,16 @@ c main():: doublelook: succesrate: 79.646, average DL_trigger: 1436.372
    </li>
    <li> k=22, n=463:
    \verbatim
+c main():: nodeCount: 376285
+c main():: dead ends in main: 2998
+c main():: lookAheadCount: 155528208
+c main():: unitResolveCount: 4693870
+c main():: time=25841.298828
+c main():: necessary_assignments: 153181
+c main():: bin_sat: 0, bin_unsat 0
+c main():: doublelook: #: 3725128, succes #: 3005292
+c main():: doublelook: overall 2.468 of all possible doublelooks executed
+c main():: doublelook: succesrate: 80.676, average DL_trigger: 1555.402
    \endverbatim
    </li>
   </ul>
@@ -375,6 +392,17 @@ propagations          : 1717379015     (545082 /sec)
 conflict literals     : 1306810558     (44.32 % deleted)
 Memory used           : 139.00 MB
 CPU time              : 3150.68 s
+   \endverbatim
+   </li>
+   <li> k=23, n=507:
+   \verbatim
+restarts              : 131071
+conflicts             : 108028217      (13188 /sec)
+decisions             : 134363355      (0.00 % random) (16403 /sec)
+propagations          : 3842638229     (469102 /sec)
+conflict literals     : 2874581596     (45.35 % deleted)
+Memory used           : 185.00 MB
+CPU time              : 8191.48 s
    \endverbatim
    </li>
   </ul>
@@ -461,6 +489,74 @@ XXX
   </ul>
 
 
+  \todo cryptominisat 296
+  <ul>
+   <li> The following data is on cswsok (3GHz). </li>
+   <li> k=17, n=279:
+   \verbatim
+c conflicts                : 59443       (16765.94  / sec)
+c decisions                : 74385       (1.41      % random)
+c bogo-props               : 290602922   (81964777.50 / sec)
+c conflict literals        : 636275      (55.16     % deleted)
+c Memory used              : 44.63       MB
+c CPU time                 : 3.55        s
+   \endverbatim
+   </li>
+   <li> k=18, n=312:
+   \verbatim
+c conflicts                : 871916      (11133.58  / sec)
+c decisions                : 1088441     (0.46      % random)
+c bogo-props               : 10047985340 (128303665.75 / sec)
+c conflict literals        : 11363718    (56.25     % deleted)
+c Memory used              : 78.76       MB
+c CPU time                 : 78.31       s
+   \endverbatim
+   </li>
+   <li> k=19, n=347:
+   \verbatim
+c conflicts                : 765301      (10610.90  / sec)
+c decisions                : 972979      (0.47      % random)
+c bogo-props               : 8546056772  (118491107.33 / sec)
+c conflict literals        : 9898161     (56.73     % deleted)
+c Memory used              : 75.16       MB
+c CPU time                 : 72.12       s
+   \endverbatim
+   </li>
+   <li> k=20, n=389:
+   \verbatim
+c conflicts                : 3071462     (7993.99   / sec)
+c decisions                : 3912677     (0.24      % random)
+c bogo-props               : 55732081469 (145051925.93 / sec)
+c conflict literals        : 43823104    (57.27     % deleted)
+c Memory used              : 147.80      MB
+c CPU time                 : 384.22      s
+   \endverbatim
+   </li>
+   <li> k=21, n=405:
+   \verbatim
+c conflicts                : 8458496     (5963.80   / sec)
+c decisions                : 10801635    (0.18      % random)
+c bogo-props               : 224001275243 (157935744.89 / sec)
+c conflict literals        : 128081298   (57.71     % deleted)
+c Memory used              : 287.72      MB
+c CPU time                 : 1418.31     s
+   \endverbatim
+   </li>
+   <li> k=22, n=463:
+   \verbatim
+   \endverbatim
+   </li>
+   <li> k=23, n=507:
+   \verbatim
+   \endverbatim
+   </li>
+   <li> k=24, n=593:
+   \verbatim
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo lingelingala-b02aa1a-121013
   <ul>
    <li> The following data is on cswsok (3GHz). </li>
@@ -494,20 +590,27 @@ c 354.9 seconds, 31.5 MB
    </li>
    <li> k=21, n=405:
    \verbatim
-XXX
+c 8672073 decisions, 5878695 conflicts, 5545.8 conflicts/sec
+c 185032629 propagations, 0.2 megaprops/sec
+c 1060.0 seconds, 47.8 MB
    \endverbatim
    </li>
    <li> k=22, n=463:
    \verbatim
+c 41696062 decisions, 28280142 conflicts, 3355.4 conflicts/sec
+c 936307021 propagations, 0.1 megaprops/sec
+c 8428.2 seconds, 125.1 MB
    \endverbatim
    </li>
    <li> k=23, n=507:
    \verbatim
+c 104007799 decisions, 70252631 conflicts, 2461.3 conflicts/sec
+c 2452960787 propagations, 0.1 megaprops/sec
+c 28542.5 seconds, 173.2 MB
    \endverbatim
    </li>
    <li> k=24, n=593:
    \verbatim
-XXX
    \endverbatim
    </li>
   </ul>
