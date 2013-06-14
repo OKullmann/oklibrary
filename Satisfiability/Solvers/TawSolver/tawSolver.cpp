@@ -28,6 +28,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <type_traits>
 
 #include <cstdint>
 #include <cstdio>
@@ -56,12 +57,17 @@ enum Error_codes {
 constexpr int POS = 1;
 constexpr int NEG = 0;
 
+typedef int Lit; // alternative: short
+static_assert(std::numeric_limits<Lit>::digits <= 32, "Not prepared for literals with more than 32 bits.");
+static_assert(std::is_signed<Lit>::value, "Type \"Lit\" must be signed integral.");
+constexpr Lit forbidden_lit = std::numeric_limits<Lit>::min();
+
 struct clause_info {
-  int* literals;
+  Lit* literals;
   Clause_content value;
   int number;
   int length;
-  int c_ucl;
+  Lit c_ucl;
   bool status;
 };
 
@@ -71,7 +77,6 @@ struct var_info {
   int* var_in_clauses;
   int* var_in_clause_locs;
   unsigned int n_occur;
-  int is_ucl;
   bool status;
 };
 typedef std::array<var_info,2> var_info_pair;
@@ -94,14 +99,15 @@ unsigned int n_clauses, n_header_clauses, r_clauses;
 unsigned int n_vars, depth = 0;
 unsigned int act_max_clause_length = 0;
 
-int current_working_clause[max_clause_length], cwc_length;
+Lit current_working_clause[max_clause_length];
+int cwc_length;
 
-std::vector<int> gucl_stack;
+std::vector<Lit> gucl_stack;
 int n_gucl = 0;
 int contradictory_unit_clauses = false;
-std::vector<int> checker;
+std::vector<Lit> checker;
 
-std::vector<int> out;
+std::vector<Lit> out;
 
 unsigned long long int n_branches = 0, n_units = 0;
 unsigned long long int n_backtracks = 0;
@@ -146,7 +152,7 @@ void read_formula_header(std::ifstream& f) {
 bool read_a_clause_from_file(std::ifstream& f) {
   cwc_length = 0;
   bool tautology = false;
-  int x;
+  Lit x;
   f >> x;
   if (f.eof()) return false;
   std::vector<int> checker_cl(n_vars+1);
@@ -156,7 +162,11 @@ bool read_a_clause_from_file(std::ifstream& f) {
       std::exit(file_reading_error);
     }
     if (x == 0) break;
-    const int v {std::abs(x)};
+    if (x == forbidden_lit) {
+      printf("Literal %d can not be negated.\n", x);
+      std::exit(variable_value_error);
+    }
+    const Lit v = std::abs(x);
     if ((unsigned) v > n_vars) {
       printf("Literal %d contradicts n=%d.\n", x, n_vars);
       std::exit(variable_value_error);
@@ -183,7 +193,7 @@ bool read_a_clause_from_file(std::ifstream& f) {
   return true;
 }
 
-void add_a_clause_to_formula(const int A[], const unsigned n) {
+void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   if (n == 0) return;
   if (n_clauses >= n_header_clauses) {
     printf("More than %u clauses, contradicting cnf-header.\n", n_header_clauses);
@@ -194,12 +204,12 @@ void add_a_clause_to_formula(const int A[], const unsigned n) {
   clauses[n_clauses].length = n;
   clauses[n_clauses].value = (Clause_content(1) << n) - 1;
   clauses[n_clauses].c_ucl = 0;
-  clauses[n_clauses].literals = (int*) malloc((n + 1) * sizeof(int));
+  clauses[n_clauses].literals = (Lit*) malloc((n + 1) * sizeof(Lit));
 
   if (n>act_max_clause_length) act_max_clause_length = n;
 
   for (int i=0; i<(int)n; ++i) {
-    const int p = std::abs(A[i]), q = A[i]>0 ? POS : NEG;
+    const Lit p = std::abs(A[i]), q = A[i]>0 ? POS : NEG;
     vars[p][q].var_in_clauses = (int*) realloc(vars[p][q].var_in_clauses,
                                 (vars[p][q].n_occur+1) * sizeof(int));
     vars[p][q].var_in_clause_locs = (int*) realloc(vars[p][q].var_in_clause_locs,
@@ -208,7 +218,6 @@ void add_a_clause_to_formula(const int A[], const unsigned n) {
     vars[p][q].var_in_clause_locs[vars[p][q].n_occur] = i;
     ++vars[p][q].n_occur;
     vars[p][q].status = true;
-    vars[p][q].is_ucl = false;
     clauses[n_clauses].literals[i] = A[i];
   }
   ++n_clauses;
@@ -246,8 +255,8 @@ inline int log2s(const Clause_content v) {
   return r;
 }
 
-void reduce(const int v) {
-  const int p = std::abs(v);
+void reduce(const Lit v) {
+  const Lit p = std::abs(v);
   {
    const int q = (v>0) ? POS : NEG;
    const auto occur_true = vars[p][q].n_occur;
@@ -280,8 +289,8 @@ void reduce(const int v) {
      ++n_changes[depth][NEG];
 
      if (clauses[m].length == 1) {
-       const int ucl = clauses[m].literals[log2s(clauses[m].value)];
-       const int aucl = std::abs(ucl);
+       const Lit ucl = clauses[m].literals[log2s(clauses[m].value)];
+       const Lit aucl = std::abs(ucl);
        if (checker[aucl] == 0) {
          gucl_stack[n_gucl++] = ucl;
          checker[aucl] = ucl;
@@ -299,8 +308,8 @@ void reduce(const int v) {
   vars[p][NEG].status = false;
 }
 
-void reverse(const int v) {
-  const int p = std::abs(v);
+void reverse(const Lit v) {
+  const Lit p = std::abs(v);
   assert(depth >= 1);
   --depth;
   while (n_changes[depth][NEG]) {
@@ -325,9 +334,9 @@ void reverse(const int v) {
   vars[p][NEG].status = true;
 }
 
-inline int get_variable_2sjw() {
+inline Lit get_variable_2sjw() {
   double max = 0;
-  int v = 0;
+  Lit v = 0;
   const auto mlen = act_max_clause_length;
   const auto nvar = n_vars;
   for (unsigned int i=1; i<=nvar; ++i) {
@@ -356,7 +365,7 @@ inline int get_variable_2sjw() {
 bool dpll() {
   ++n_branches;
   unsigned int n_lucl = 0;
-  int* lucl_stack = nullptr;
+  Lit* lucl_stack = nullptr;
   while (true) {
     if (contradictory_unit_clauses) {
       while(n_lucl) {
@@ -369,8 +378,8 @@ bool dpll() {
       return false;
     }
     else if (n_gucl) {
-      lucl_stack = (int*) realloc(lucl_stack, (n_lucl + 1) * sizeof(int));
-      const int implied_literal = gucl_stack[--n_gucl];
+      lucl_stack = (Lit*) realloc(lucl_stack, (n_lucl + 1) * sizeof(Lit));
+      const Lit implied_literal = gucl_stack[--n_gucl];
       out[depth] = lucl_stack[n_lucl++] = implied_literal;
       reduce(implied_literal);
       ++n_units;
@@ -378,7 +387,7 @@ bool dpll() {
     else break;
   }
   if (!r_clauses) return true;
-  const int v = get_variable_2sjw();
+  const Lit v = get_variable_2sjw();
   assert(v);
   assert(depth < n_vars);
   out[depth] = v;
@@ -387,7 +396,7 @@ bool dpll() {
   reverse(v);
   ++n_backtracks;
 
-  const int nv = -v;
+  const Lit nv = -v;
   out[depth] = nv;
   reduce(nv);
   if (dpll()) return true;
