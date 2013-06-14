@@ -198,7 +198,7 @@ cswsok: 50.71 50.45 50.63 50.39
    <li> Like the OKsolver, when using command-line argument "-v", the solver
    should output version information and date of compilation. </li>
    <li> Let's also handle "--version". </li>
-   <li> Also the macro-values (once introduced), plus MAX_CLAUSE_LENGTH. </li>
+   <li> Also the value of MAX_CLAUSE_LENGTH, LIT_TYPE and GIT_ID. </li>
    <li> And the git-ID (this needs to be added for the OKsolver as well). </li>
    <li> There should be an official version of the tawSolver:
     <ol>
