@@ -99,9 +99,6 @@ unsigned int n_clauses, n_header_clauses, r_clauses;
 unsigned int n_vars, depth = 0;
 unsigned int act_max_clause_length = 0;
 
-Lit current_working_clause[max_clause_length];
-int cwc_length;
-
 std::vector<Lit> gucl_stack;
 int n_gucl = 0;
 int contradictory_unit_clauses = false;
@@ -148,6 +145,9 @@ void read_formula_header(std::ifstream& f) {
   gucl_stack.resize(n_vars);
   clauses.resize(n_header_clauses+1);
 }
+
+Lit current_working_clause[max_clause_length];
+int cwc_length;
 
 bool read_a_clause_from_file(std::ifstream& f) {
   cwc_length = 0;
