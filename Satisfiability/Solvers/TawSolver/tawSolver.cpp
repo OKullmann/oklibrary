@@ -19,7 +19,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 **************************************************************************************************/
 
 // Compile with
-// g++ -Wall -Ofast tawSolver.cpp -o tawSolver
+// g++ --std=c++11 -Wall -Ofast -DNDEBUG -o tawSolver tawSolver.cpp
 
 #include <limits>
 #include <vector>
