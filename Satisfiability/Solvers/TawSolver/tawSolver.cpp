@@ -210,10 +210,12 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   for (int i=0; i<(int)n; ++i) {
     const Lit p = std::abs(A[i]);
     const Polarity q = A[i]>0 ? POS : NEG;
-    vars[p][q].var_in_clauses = (int*) realloc(vars[p][q].var_in_clauses,
-                                (vars[p][q].n_occur+1) * sizeof(int));
-    vars[p][q].var_in_clause_locs = (int*) realloc(vars[p][q].var_in_clause_locs,
-                                (vars[p][q].n_occur+1) * sizeof(int));
+    vars[p][q].var_in_clauses =
+      (int*) std::realloc(vars[p][q].var_in_clauses,
+                          (vars[p][q].n_occur+1) * sizeof(int));
+    vars[p][q].var_in_clause_locs =
+      (int*) std::realloc(vars[p][q].var_in_clause_locs,
+                          (vars[p][q].n_occur+1) * sizeof(int));
     vars[p][q].var_in_clauses[vars[p][q].n_occur] = n_clauses;
     vars[p][q].var_in_clause_locs[vars[p][q].n_occur] = i;
     ++vars[p][q].n_occur;
