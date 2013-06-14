@@ -69,6 +69,8 @@ enum Error_codes {
   empty_clause_error=7
 };
 
+enum Exit_codes { sat=10, unsat=20 };
+
 enum Polarity { neg = 0, pos = 1 };
 
 #ifndef LIT_TYPE
@@ -486,5 +488,5 @@ int main(const int argc, const char* const argv[]) {
   getrusage(RUSAGE_SELF, &runtime);
   const double t2 = runtime.ru_utime.tv_sec+runtime.ru_utime.tv_usec/1000000.0;
   output(argv[1], result, t2-t1);
-  return (result) ? 10 : 20;
+  return (result) ? sat : unsat;
 }
