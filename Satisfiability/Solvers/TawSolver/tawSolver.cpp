@@ -30,9 +30,9 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include <sstream>
 #include <type_traits>
 #include <stack>
+#include <iomanip>
 
 #include <cstdint>
-#include <cstdio>
 #include <cstdlib>
 #include <cassert>
 
@@ -114,7 +114,7 @@ void read_formula_header(std::ifstream& f) {
   while (true) {
     std::getline(f, line);
     if (not f) {
-      printf("Reading error.\n");
+      std::cerr << "Reading error.\n";
       std::exit(file_reading_error);
     }
     if (line[0] == 'p') break;
@@ -122,19 +122,19 @@ void read_formula_header(std::ifstream& f) {
   std::stringstream s(line);
   {std::string inp; s >> inp;
    if (inp != "p") {
-     printf("Syntax error in parameter line (no \"p \").\n");
+     std::cerr << "Syntax error in parameter line (no \"p \").\n";
      std::exit(file_reading_error);
    }
    s >> inp;
    if (inp != "cnf") {
-     printf("Syntax error in parameter line (no \"cnf\").\n");
+     std::cerr << "Syntax error in parameter line (no \"cnf\").\n";
      std::exit(file_reading_error);
    }
   }
   s >> n_vars;
   s >> n_header_clauses;
   if (not s) {
-    printf("Reading error with parameters.\n");
+    std::cerr << "Reading error with parameters.\n";
     std::exit(file_reading_error);
   }
   lits.resize(n_vars+1);
@@ -157,22 +157,22 @@ bool read_a_clause_from_file(std::ifstream& f) {
   std::vector<int> checker_cl(n_vars+1);
   while (true) {
     if (not f) {
-      printf("Invalid literal-read.\n");
+      std::cerr << "Invalid literal-read.\n";
       std::exit(file_reading_error);
     }
     if (x == 0) break;
     if (x == forbidden_lit) {
-      printf("Literal %d can not be negated.\n", x);
+      std::cerr << "Literal " << x << " can not be negated.\n";
       std::exit(variable_value_error);
     }
     const Lit v = std::abs(x);
     if ((unsigned) v > n_vars) {
-      printf("Literal %d contradicts n=%d.\n", x, n_vars);
+      std::cerr << "Literal " << x << " contradicts n=" << n_vars << ".\n";
       std::exit(variable_value_error);
     }
     if (checker_cl[v] == 0) {
       if (cwc_length >= max_clause_length) {
-        printf("Clauses can have at most %u elements.\n", max_clause_length);
+        std::cerr << "Clauses can have at most " << max_clause_length << " elements.\n";
         std::exit(clause_length_error);
       }
       current_working_clause[cwc_length++] = x;
@@ -186,7 +186,7 @@ bool read_a_clause_from_file(std::ifstream& f) {
     return true;
   }
   if (cwc_length == 0) {
-    printf("Found empty clause.\n");
+    std::cerr << "Found empty clause.\n";
     std::exit(empty_clause_error);
   }
   return true;
@@ -195,7 +195,7 @@ bool read_a_clause_from_file(std::ifstream& f) {
 void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   if (n == 0) return;
   if (n_clauses >= n_header_clauses) {
-    printf("More than %u clauses, contradicting cnf-header.\n", n_header_clauses);
+    std::cerr << "More than " << n_header_clauses << " clauses, contradicting cnf-header.\n";
     std::exit(number_clauses_error);
   }
   clauses[n_clauses].number = n_clauses;
@@ -228,7 +228,7 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
 void read_formula(const char* const filename) {
   std::ifstream f(filename);
   if (not f) {
-    printf("Invalid file name.\n");
+    std::cerr << "Invalid file name.\n";
     std::exit(file_reading_error);
   }
   read_formula_header(f);
@@ -413,17 +413,18 @@ bool dpll() {
 }
 
 void output(const char* const file, const bool result, const double elapsed) {
-  printf("s ");
-  if (result) printf("SATISFIABLE\n"); else printf("UNSATISFIABLE\n");
-  printf("c number_of_variables                   %u\n"
-         "c number_of_clauses                     %u\n"
-         "c running_time(sec)                     %1.2f\n"
-         "c number_of_nodes                       %llu\n"
-         "c number_of_binary_nodes                %llu\n"
-         "c number_of_1-reductions                %llu\n"
-         "c max_number_changes                    %lu\n"
-         "c file_name                             %s\n",
-       n_vars, n_clauses, elapsed, n_branches, n_backtracks, n_units, changes.size(), file);
+  std::cout << "s ";
+  if (not result) std::cout << "UN";
+  std::cout << "SATISFIABLE\n";
+  std::cout <<
+         "c number_of_variables                   " << n_vars << "\n" <<
+         "c number_of_clauses                     " << n_clauses << "\n" <<
+         "c running_time(sec)                     " << std::setprecision(2) << std::fixed << elapsed << "\n" <<
+         "c number_of_nodes                       " << n_branches << "\n" <<
+         "c number_of_binary_nodes                " << n_backtracks << "\n" <<
+         "c number_of_1-reductions                " << n_units << "\n" <<
+         "c max_number_changes                    " << changes.size() << "\n" <<
+         "c file_name                             " << file << std::endl;
   if (result) {
     std::vector<int> order(n_vars);
     for (unsigned int i=0; i<n_vars; i++) {
@@ -432,17 +433,17 @@ void output(const char* const file, const bool result, const double elapsed) {
       if (val > 0) order[index] = 1;
       else if (val < 0) order[index] = -1;
     }
-    printf("v ");
-    for (unsigned int i=0; i<n_vars; ++i)
-     if (order[i]) printf("%d ", order[i]*(i+1));
-    printf("0\n");
+    std::cout << "v ";
+    for (int i=0; i< (int)n_vars; ++i)
+      if (order[i]) std::cout << order[i]*(i+1) << " ";
+    std::cout << "0" << std::endl;
   }
 }
 
 
 int main(const int argc, const char* const argv[]) {
   if (argc < 2) {
-    printf("Missing file name.\n");
+    std::cerr << "Missing file name.\n";
     return missing_file_error;
   }
   read_formula(argv[1]);
