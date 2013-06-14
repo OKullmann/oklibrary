@@ -78,9 +78,7 @@ enum Polarity { neg = 0, pos = 1 };
 #endif
 typedef LIT_TYPE Lit;
 static_assert(std::is_signed<Lit>::value, "Type \"Lit\" must be signed integral.");
-/* REMARK: LIT_TYPE = char (or int8_t) doesn't work with reading (since not
-   numbers are read, but characters).
-*/
+static_assert(sizeof(Lit)!=sizeof(char), "LIT_TYPE = char (or int8_t) doesn't work with reading (since not numbers are read, but characters).");
 
 typedef std::make_unsigned<Lit>::type Var;
 
