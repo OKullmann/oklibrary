@@ -406,7 +406,6 @@ bool dpll() {
   while (not lucl_stack.empty()) {
     reverse(lucl_stack.top());
     lucl_stack.pop();
-    out[depth] = 0;
   }
   contradictory_unit_clauses = false;
   return false;
