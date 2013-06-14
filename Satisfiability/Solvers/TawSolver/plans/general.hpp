@@ -153,6 +153,21 @@ cswsok: 48.49 48.93 48.84 48.80
 cswsok: 48.98 49.84 49.37 49.33
 > tawSolver64 VanDerWaerden_2-3-12_135.cnf
 cswsok: 52.03 51.85 51.92 52.08
+
+# ID: 0350beb15e9ddcc72f3eac9a7f40c9e92045ea47
+# Now using (local) std::stack for storing unit-clauses (saving all
+# realloc-calls in dpll()).
+
+> tawSolver VanDerWaerden_2-3-12_134.cnf
+cswsok: 45.39 45.50 45.46 44.31 43.51 43.48
+# the first three calls had higher cpu-load
+> tawSolver64 VanDerWaerden_2-3-12_134.cnf
+cswsok: 47.49 47.82 47.46 47.82
+
+> tawSolver VanDerWaerden_2-3-12_135.cnf
+cswsok: 46.74 46.49 46.35 46.48
+> tawSolver64 VanDerWaerden_2-3-12_135.cnf
+cswsok: 50.71 50.45 50.63 50.39
    \endverbatim
    </li>
   </ul>
