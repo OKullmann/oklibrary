@@ -21,8 +21,9 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 /*
  Compile with
    g++ --std=c++11 -Wall -Ofast -DNDEBUG -o tawSolver tawSolver.cpp
- There are two macros to control compilation, MAX_CLAUSE_LENGTH (default 32)
- and LIT_TYPE (default int).
+ There are two macros to control compilation:
+   - MAX_CLAUSE_LENGTH (default 32)
+   - LIT_TYPE (default int).
 */
 
 #include <limits>
@@ -59,8 +60,14 @@ static_assert(max_clause_length==8 or max_clause_length==16 or max_clause_length
 static_assert(std::numeric_limits<Clause_content>::digits==max_clause_length,"Error with choice of type \"Clause_content\".");
 
 enum Error_codes {
-  missing_file_error=1, file_reading_error=2, clause_length_error=3,
-  variable_value_error=4, number_clauses_error=5, empty_clause_error=6 };
+  missing_file_error=1,
+  file_reading_error=2,
+  num_vars_error=3,
+  clause_length_error=4,
+  variable_value_error=5,
+  number_clauses_error=6,
+  empty_clause_error=7
+};
 
 enum Polarity { neg = 0, pos = 1 };
 
@@ -69,7 +76,9 @@ enum Polarity { neg = 0, pos = 1 };
 #endif
 typedef LIT_TYPE Lit;
 static_assert(std::is_signed<Lit>::value, "Type \"Lit\" must be signed integral.");
-constexpr Lit forbidden_lit = std::numeric_limits<Lit>::min();
+/* REMARK: LIT_TYPE = char (or int8_t) doesn't work with reading (since not
+   numbers are read, but characters).
+*/
 
 typedef std::make_unsigned<Lit>::type Var;
 
@@ -118,7 +127,8 @@ std::vector<Lit> checker;
 
 std::vector<Lit> out;
 
-unsigned long long int n_branches = 0, n_units = 0;
+unsigned long long int n_branches = 0;
+unsigned long long int n_units = 0;
 unsigned long long int n_backtracks = 0;
 
 
@@ -145,6 +155,10 @@ void read_formula_header(std::ifstream& f) {
    }
   }
   s >> n_vars;
+  if (n_vars > Var(std::numeric_limits<Lit>::max())) {
+    std::cerr << "Parameter n=" << n_vars << " is too big for numeric_limits<Lit>::max=" << std::numeric_limits<Lit>::max() << "\n";
+    std::exit(num_vars_error);
+  }
   s >> n_header_clauses;
   if (not s) {
     std::cerr << "Reading error with parameters.\n";
@@ -174,10 +188,6 @@ bool read_a_clause_from_file(std::ifstream& f) {
       std::exit(file_reading_error);
     }
     if (x == 0) break;
-    if (x == forbidden_lit) {
-      std::cerr << "Literal " << x << " can not be negated.\n";
-      std::exit(variable_value_error);
-    }
     const Var v = std::abs(x);
     if (v > n_vars) {
       std::cerr << "Literal " << x << " contradicts n=" << n_vars << ".\n";
@@ -221,19 +231,20 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   if (n>act_max_clause_length) act_max_clause_length = n;
 
   for (int i=0; i<(int)n; ++i) {
-    const Var p = std::abs(A[i]);
-    const Polarity q = A[i]>0 ? pos : neg;
-    lits[p][q].clause_occ =
-      (unsigned int*) std::realloc(lits[p][q].clause_occ,
-                          (lits[p][q].n_occur+1) * sizeof(unsigned int));
-    lits[p][q].clause_index =
-      (unsigned int*) std::realloc(lits[p][q].clause_index,
-                          (lits[p][q].n_occur+1) * sizeof(unsigned int));
-    lits[p][q].clause_occ[lits[p][q].n_occur] = n_clauses;
-    lits[p][q].clause_index[lits[p][q].n_occur] = i;
-    ++lits[p][q].n_occur;
-    lits[p][q].status = true;
-    clauses[n_clauses].literals[i] = A[i];
+    const Lit x = A[i];
+    const Var v = std::abs(x);
+    const Polarity p = x > 0 ? pos : neg;
+    lits[v][p].clause_occ =
+      (unsigned int*) std::realloc(lits[v][p].clause_occ,
+                          (lits[v][p].n_occur+1) * sizeof(unsigned int));
+    lits[v][p].clause_index =
+      (unsigned int*) std::realloc(lits[v][p].clause_index,
+                          (lits[v][p].n_occur+1) * sizeof(unsigned int));
+    lits[v][p].clause_occ[lits[v][p].n_occur] = n_clauses;
+    lits[v][p].clause_index[lits[v][p].n_occur] = i;
+    ++lits[v][p].n_occur;
+    lits[v][p].status = true;
+    clauses[n_clauses].literals[i] = x;
   }
   ++n_clauses;
 }
@@ -270,18 +281,20 @@ inline int log2s(const Clause_content v) {
   return r;
 }
 
-void reduce(const Lit v) {
-  const Var p = std::abs(v);
-  assert(p <= n_vars);
+void reduce(const Lit x) {
+  const Var v = std::abs(x);
+  assert(v <= n_vars);
+  const Polarity p = (x>0) ? pos : neg;
   {
-   const Polarity q = (v>0) ? pos : neg;
-   const auto occur_true = lits[p][q].n_occur;
+   const auto L = lits[v][p];
+   const auto occur_true = L.n_occur;
    const auto max_size = changes_index + occur_true;
    if (max_size >= changes.size()) changes.resize(max_size);
    for (unsigned int i=0; i<occur_true; ++i) {
-     const int m = lits[p][q].clause_occ[i];
-     if (not clauses[m].status) continue;
-     clauses[m].status = false;
+     const auto m = L.clause_occ[i];
+     auto& C = clauses[m];
+     if (not C.status) continue;
+     C.status = false;
      assert(r_clauses >= 1);
      --r_clauses;
      changes[changes_index++].clause_number = m;
@@ -289,28 +302,30 @@ void reduce(const Lit v) {
    }
   }
   {
-   const Polarity q = (v>0) ? neg : pos;
-   const auto occur_false = lits[p][q].n_occur;
+   const Polarity np = (x>0) ? neg : pos;
+   const auto L = lits[v][np];
+   const auto occur_false = L.n_occur;
    const auto max_size = changes_index + occur_false;
    if (max_size > changes.size()) changes.resize(max_size);
    for (unsigned int i=0; i<occur_false; ++i) {
-     const auto m = lits[p][q].clause_occ[i];
-     if (!clauses[m].status) continue;
-     assert(clauses[m].length >= 2);
-     --clauses[m].length;
-     const auto n = lits[p][q].clause_index[i];
-     clauses[m].value -= Clause_content(1) << n;
+     const auto m = L.clause_occ[i];
+     auto& C = clauses[m];
+     if (not C.status) continue;
+     assert(C.length >= 2);
+     --C.length;
+     const auto n = L.clause_index[i];
+     C.value -= Clause_content(1) << n;
 
      changes[changes_index++] = {m,n};
      ++n_changes[depth][neg];
 
-     if (clauses[m].length == 1) {
-       const Lit ucl = clauses[m].literals[log2s(clauses[m].value)];
-       const Lit aucl = std::abs(ucl);
+     if (C.length == 1) {
+       const Lit ucl = C.literals[log2s(C.value)];
+       const Var aucl = std::abs(ucl);
        if (checker[aucl] == 0) {
          gucl_stack[n_gucl++] = ucl;
          checker[aucl] = ucl;
-         clauses[m].c_ucl = ucl;
+         C.c_ucl = ucl;
        }
        if (checker[aucl]+ucl == 0) {
          contradictory_unit_clauses = true;
@@ -320,24 +335,25 @@ void reduce(const Lit v) {
    }
   }
   ++depth;
-  lits[p][pos].status = false;
-  lits[p][neg].status = false;
+  lits[v][pos].status = false;
+  lits[v][neg].status = false;
 }
 
-void reverse(const Lit v) {
-  const Var p = std::abs(v);
+void reverse(const Lit x) {
+  const Var v = std::abs(x);
   assert(depth >= 1);
   --depth;
   while (n_changes[depth][neg]) {
     --n_changes[depth][neg];
     const auto m = changes[--changes_index].clause_number;
     const auto n = changes[changes_index].literal_index;
-    ++clauses[m].length;
-    if (clauses[m].length == 2) {
-      checker[std::abs(clauses[m].c_ucl)] = 0;
-      clauses[m].c_ucl = 0;
+    auto& C = clauses[m];
+    ++C.length;
+    if (C.length == 2) {
+      checker[std::abs(C.c_ucl)] = 0;
+      C.c_ucl = 0;
     }
-    clauses[m].value += Clause_content(1) << n;
+    C.value += Clause_content(1) << n;
   }
 
   while (n_changes[depth][pos]) {
@@ -346,13 +362,13 @@ void reverse(const Lit v) {
     clauses[m].status = true;
     ++r_clauses;
   }
-  lits[p][pos].status = true;
-  lits[p][neg].status = true;
+  lits[v][pos].status = true;
+  lits[v][neg].status = true;
 }
 
-inline Lit get_variable_2sjw() {
+inline Lit branching_literal_2sjw() {
   double max = 0;
-  Lit v = 0;
+  Lit x = 0;
   const auto mlen = act_max_clause_length;
   const auto nvar = n_vars;
   for (Lit i=1; (unsigned)i <= nvar; ++i) {
@@ -374,10 +390,10 @@ inline Lit get_variable_2sjw() {
          nz += Clause_content(clauses[ci].status) << (mlen - clauses[ci].length);
        }}
       const auto s = pz + nz;
-      if (s > max) { max = s; v = (pz >= nz) ? i : -i; }
+      if (s > max) { max = s; x = (pz >= nz) ? i : -i; }
     }
   }
-  return v;
+  return x;
 }
 
 bool dpll() {
@@ -404,20 +420,20 @@ bool dpll() {
     else break;
   }
   if (!r_clauses) return true;
-  const Lit v = get_variable_2sjw();
-  assert(v);
+  const Lit x = branching_literal_2sjw();
+  assert(x);
   assert(depth < n_vars);
-  out[depth] = v;
-  reduce(v);
+  out[depth] = x;
+  reduce(x);
   if (dpll()) return true;
-  reverse(v);
+  reverse(x);
   ++n_backtracks;
 
-  const Lit nv = -v;
-  out[depth] = nv;
-  reduce(nv);
+  const Lit nx = -x;
+  out[depth] = nx;
+  reduce(nx);
   if (dpll()) return true;
-  reverse(nv);
+  reverse(nx);
   out[depth] = 0;
 
   while (not lucl_stack.empty()) {
@@ -443,14 +459,14 @@ void output(const char* const file, const bool result, const double elapsed) {
          "c file_name                             " << file << std::endl;
   if (result) {
     std::vector<int> order(n_vars);
-    for (unsigned int i=0; i<n_vars; i++) {
+    for (Var i=0; i<n_vars; i++) {
       const auto val = out[i];
       const auto index = std::abs(val)-1;
       if (val > 0) order[index] = 1;
       else if (val < 0) order[index] = -1;
     }
     std::cout << "v ";
-    for (int i=0; i< (int)n_vars; ++i)
+    for (Lit i=0; i< (Lit)n_vars; ++i)
       if (order[i]) std::cout << order[i]*(i+1) << " ";
     std::cout << "0" << std::endl;
   }
