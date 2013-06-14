@@ -203,7 +203,7 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   clauses[n_clauses].length = n;
   clauses[n_clauses].value = (Clause_content(1) << n) - 1;
   clauses[n_clauses].c_ucl = 0;
-  clauses[n_clauses].literals = (Lit*) malloc((n + 1) * sizeof(Lit));
+  clauses[n_clauses].literals = new int[n];
 
   if (n>act_max_clause_length) act_max_clause_length = n;
 
