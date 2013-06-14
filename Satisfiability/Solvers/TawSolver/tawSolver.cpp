@@ -281,7 +281,7 @@ inline int log2s(const Clause_content v) {
   return r;
 }
 
-void reduce(const Lit x) {
+void assign(const Lit x) {
   const Var v = std::abs(x);
   assert(v <= n_vars);
   const Polarity p = (x>0) ? pos : neg;
@@ -339,7 +339,7 @@ void reduce(const Lit x) {
   lits[v][neg].status = false;
 }
 
-void reverse(const Lit x) {
+void unassign(const Lit x) {
   const Var v = std::abs(x);
   assert(depth >= 1);
   --depth;
@@ -402,7 +402,7 @@ bool dpll() {
   while (true) {
     if (contradictory_unit_clauses) {
       while (not lucl_stack.empty()) {
-        reverse(lucl_stack.top());
+        unassign(lucl_stack.top());
         lucl_stack.pop();
         out[depth] = 0;
       }
@@ -414,7 +414,7 @@ bool dpll() {
       const Lit implied_literal = gucl_stack[--n_gucl];
       lucl_stack.push(implied_literal);
       out[depth] = implied_literal;
-      reduce(implied_literal);
+      assign(implied_literal);
       ++n_units;
     }
     else break;
@@ -424,20 +424,20 @@ bool dpll() {
   assert(x);
   assert(depth < n_vars);
   out[depth] = x;
-  reduce(x);
+  assign(x);
   if (dpll()) return true;
-  reverse(x);
+  unassign(x);
   ++n_backtracks;
 
   const Lit nx = -x;
   out[depth] = nx;
-  reduce(nx);
+  assign(nx);
   if (dpll()) return true;
-  reverse(nx);
+  unassign(nx);
   out[depth] = 0;
 
   while (not lucl_stack.empty()) {
-    reverse(lucl_stack.top());
+    unassign(lucl_stack.top());
     lucl_stack.pop();
   }
   contradictory_unit_clauses = false;
