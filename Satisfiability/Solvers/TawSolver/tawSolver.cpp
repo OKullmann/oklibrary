@@ -18,8 +18,12 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **************************************************************************************************/
 
-// Compile with
-// g++ --std=c++11 -Wall -Ofast -DNDEBUG -o tawSolver tawSolver.cpp
+/*
+ Compile with
+   g++ --std=c++11 -Wall -Ofast -DNDEBUG -o tawSolver tawSolver.cpp
+ There are two macros to control compilation, MAX_CLAUSE_LENGTH (default 32)
+ and LIT_TYPE (default int).
+*/
 
 #include <limits>
 #include <vector>
@@ -42,8 +46,12 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 # define MAX_CLAUSE_LENGTH 32
 #endif
 constexpr int max_clause_length = MAX_CLAUSE_LENGTH;
-static_assert(max_clause_length==32 or max_clause_length==64,"Currently only MAX_CLAUSE_LENGTH=32,64 is possible.");
-#if MAX_CLAUSE_LENGTH == 32
+static_assert(max_clause_length==8 or max_clause_length==16 or max_clause_length==32 or max_clause_length==64,"Currently only MAX_CLAUSE_LENGTH=8,16,32,64 is possible.");
+#if MAX_CLAUSE_LENGTH == 8
+ typedef uint8_t Clause_content;
+#elif MAX_CLAUSE_LENGTH == 16
+ typedef uint16_t Clause_content;
+#elif MAX_CLAUSE_LENGTH == 32
  typedef uint32_t Clause_content;
 #else
  typedef uint64_t Clause_content;
@@ -56,8 +64,11 @@ enum Error_codes {
 
 enum Polarity { neg = 0, pos = 1 };
 
-typedef int Lit; // alternative: short
-static_assert(std::numeric_limits<Lit>::digits <= 32, "Not prepared for literals with more than 32 bits.");
+#ifndef LIT_TYPE
+# define LIT_TYPE int
+#endif
+typedef LIT_TYPE Lit;
+static_assert(std::numeric_limits<Lit>::digits <= std::numeric_limits<unsigned int>::digits, "Currently type \"unsigned int\" hard-coded.");
 static_assert(std::is_signed<Lit>::value, "Type \"Lit\" must be signed integral.");
 constexpr Lit forbidden_lit = std::numeric_limits<Lit>::min();
 
@@ -203,7 +214,7 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   clauses[n_clauses].length = n;
   clauses[n_clauses].value = (Clause_content(1) << n) - 1;
   clauses[n_clauses].c_ucl = 0;
-  clauses[n_clauses].literals = new int[n];
+  clauses[n_clauses].literals = new Lit[n];
 
   if (n>act_max_clause_length) act_max_clause_length = n;
 
@@ -244,7 +255,7 @@ constexpr Clause_content pow2(const unsigned e) {return (e==0)?1:2*pow2(e-1);}
 constexpr int log2(const Clause_content n) {return (n <= 1)?0:1+log2(n/2);}
 constexpr int N = log2(max_clause_length);
 static_assert(pow2(N) == (unsigned) max_clause_length, "Number of bits in \"Clause_content\" not a power of 2.");
-static_assert(N==5 or N==6, "Unexpected size of type \"Clause_content\".");
+static_assert(N==3 or N==4 or N==5 or N==6, "Unexpected size of type \"Clause_content\".");
 constexpr Clause_content pow22(const unsigned e) {return pow2(pow2(e));}
 constexpr Clause_content B(const unsigned N, const unsigned i) {
   return (i>=N) ? 0 : (i<N-1) ? B(N-1,i)*(1+pow22(N-1)) : pow22(N)-pow22(N-1);
