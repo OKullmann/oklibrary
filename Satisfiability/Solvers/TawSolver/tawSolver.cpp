@@ -68,9 +68,10 @@ enum Polarity { neg = 0, pos = 1 };
 # define LIT_TYPE int
 #endif
 typedef LIT_TYPE Lit;
-static_assert(std::numeric_limits<Lit>::digits <= std::numeric_limits<unsigned int>::digits, "Currently type \"unsigned int\" hard-coded.");
 static_assert(std::is_signed<Lit>::value, "Type \"Lit\" must be signed integral.");
 constexpr Lit forbidden_lit = std::numeric_limits<Lit>::min();
+
+typedef std::make_unsigned<Lit>::type Var;
 
 struct clause_info {
   Lit* literals;
@@ -84,8 +85,8 @@ struct clause_info {
 std::vector<clause_info> clauses;
 
 struct lit_info {
-  int* clause_occ; // array with clause-numbers
-  int* clause_index; // array with array-indices (for the clauses)
+  unsigned int* clause_occ; // array with clause-numbers
+  unsigned int* clause_index; // array with array-indices (for the clauses)
   unsigned int n_occur;
   bool status;
 };
@@ -93,8 +94,8 @@ typedef std::array<lit_info,2> lit_info_pair;
 std::vector<lit_info_pair> lits;
 
 struct change_info {
-  int clause_number;
-  int literal_index;
+  unsigned int clause_number;
+  unsigned int literal_index;
 };
 
 typedef std::vector<change_info> Change_v;
@@ -106,12 +107,13 @@ typedef std::array<int,2> int_pair;
 std::vector<int_pair> n_changes;
 
 unsigned int n_clauses, n_header_clauses, r_clauses;
-unsigned int n_vars, depth = 0;
+Var n_vars;
+unsigned int depth = 0;
 unsigned int act_max_clause_length = 0;
 
 std::vector<Lit> gucl_stack;
 int n_gucl = 0;
-int contradictory_unit_clauses = false;
+bool contradictory_unit_clauses = false;
 std::vector<Lit> checker;
 
 std::vector<Lit> out;
@@ -176,8 +178,8 @@ bool read_a_clause_from_file(std::ifstream& f) {
       std::cerr << "Literal " << x << " can not be negated.\n";
       std::exit(variable_value_error);
     }
-    const Lit v = std::abs(x);
-    if ((unsigned) v > n_vars) {
+    const Var v = std::abs(x);
+    if (v > n_vars) {
       std::cerr << "Literal " << x << " contradicts n=" << n_vars << ".\n";
       std::exit(variable_value_error);
     }
@@ -219,14 +221,14 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   if (n>act_max_clause_length) act_max_clause_length = n;
 
   for (int i=0; i<(int)n; ++i) {
-    const Lit p = std::abs(A[i]);
+    const Var p = std::abs(A[i]);
     const Polarity q = A[i]>0 ? pos : neg;
     lits[p][q].clause_occ =
-      (int*) std::realloc(lits[p][q].clause_occ,
-                          (lits[p][q].n_occur+1) * sizeof(int));
+      (unsigned int*) std::realloc(lits[p][q].clause_occ,
+                          (lits[p][q].n_occur+1) * sizeof(unsigned int));
     lits[p][q].clause_index =
-      (int*) std::realloc(lits[p][q].clause_index,
-                          (lits[p][q].n_occur+1) * sizeof(int));
+      (unsigned int*) std::realloc(lits[p][q].clause_index,
+                          (lits[p][q].n_occur+1) * sizeof(unsigned int));
     lits[p][q].clause_occ[lits[p][q].n_occur] = n_clauses;
     lits[p][q].clause_index[lits[p][q].n_occur] = i;
     ++lits[p][q].n_occur;
@@ -269,7 +271,8 @@ inline int log2s(const Clause_content v) {
 }
 
 void reduce(const Lit v) {
-  const Lit p = std::abs(v);
+  const Var p = std::abs(v);
+  assert(p <= n_vars);
   {
    const Polarity q = (v>0) ? pos : neg;
    const auto occur_true = lits[p][q].n_occur;
@@ -291,11 +294,11 @@ void reduce(const Lit v) {
    const auto max_size = changes_index + occur_false;
    if (max_size > changes.size()) changes.resize(max_size);
    for (unsigned int i=0; i<occur_false; ++i) {
-     const int m = lits[p][q].clause_occ[i];
+     const auto m = lits[p][q].clause_occ[i];
      if (!clauses[m].status) continue;
      assert(clauses[m].length >= 2);
      --clauses[m].length;
-     const int n = lits[p][q].clause_index[i];
+     const auto n = lits[p][q].clause_index[i];
      clauses[m].value -= Clause_content(1) << n;
 
      changes[changes_index++] = {m,n};
@@ -322,13 +325,13 @@ void reduce(const Lit v) {
 }
 
 void reverse(const Lit v) {
-  const Lit p = std::abs(v);
+  const Var p = std::abs(v);
   assert(depth >= 1);
   --depth;
   while (n_changes[depth][neg]) {
     --n_changes[depth][neg];
-    const int m = changes[--changes_index].clause_number;
-    const int n = changes[changes_index].literal_index;
+    const auto m = changes[--changes_index].clause_number;
+    const auto n = changes[changes_index].literal_index;
     ++clauses[m].length;
     if (clauses[m].length == 2) {
       checker[std::abs(clauses[m].c_ucl)] = 0;
@@ -339,7 +342,7 @@ void reverse(const Lit v) {
 
   while (n_changes[depth][pos]) {
     --n_changes[depth][pos];
-    const int m = changes[--changes_index].clause_number;
+    const auto m = changes[--changes_index].clause_number;
     clauses[m].status = true;
     ++r_clauses;
   }
@@ -352,23 +355,25 @@ inline Lit get_variable_2sjw() {
   Lit v = 0;
   const auto mlen = act_max_clause_length;
   const auto nvar = n_vars;
-  for (unsigned int i=1; i<=nvar; ++i) {
+  for (Lit i=1; (unsigned)i <= nvar; ++i) {
     const auto& vpos = lits[i][pos];
     const auto& vneg = lits[i][neg];
     if (vpos.status or vneg.status) {
       double pz = 0;
       {const auto pos_occur = vpos.n_occur;
        for(unsigned int k=0; k<pos_occur; ++k) {
-         const unsigned int ell = vpos.clause_occ[k];
-         pz += Clause_content(clauses[ell].status) << (mlen - clauses[ell].length);
+         const auto ci = vpos.clause_occ[k];
+         assert(ci < clauses.size());
+         pz += Clause_content(clauses[ci].status) << (mlen - clauses[ci].length);
        }}
       double nz = 0;
       {const auto neg_occur = vneg.n_occur;
        for (unsigned int k=0; k<neg_occur; ++k) {
-         const unsigned int ell = vneg.clause_occ[k];
-         nz += Clause_content(clauses[ell].status) << (mlen - clauses[ell].length);
+         const auto ci = vneg.clause_occ[k];
+         assert(ci < clauses.size());
+         nz += Clause_content(clauses[ci].status) << (mlen - clauses[ci].length);
        }}
-      const double s = pz + nz;
+      const auto s = pz + nz;
       if (s > max) { max = s; v = (pz >= nz) ? i : -i; }
     }
   }
