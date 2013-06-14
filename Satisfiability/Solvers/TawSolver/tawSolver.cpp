@@ -72,14 +72,14 @@ struct clause_info {
 
 std::vector<clause_info> clauses;
 
-struct var_info {
-  int* var_in_clauses;
-  int* var_in_clause_locs;
+struct lit_info {
+  int* clause_occ; // array with clause-numbers
+  int* clause_index; // array with array-indices (for the clauses)
   unsigned int n_occur;
   bool status;
 };
-typedef std::array<var_info,2> var_info_pair;
-std::vector<var_info_pair> vars;
+typedef std::array<lit_info,2> lit_info_pair;
+std::vector<lit_info_pair> lits;
 
 struct change_info {
   int clause_number;
@@ -137,7 +137,7 @@ void read_formula_header(std::ifstream& f) {
     printf("Reading error with parameters.\n");
     std::exit(file_reading_error);
   }
-  vars.resize(n_vars+1);
+  lits.resize(n_vars+1);
   n_changes.resize(n_vars);
   checker.resize(n_vars+1);
   out.resize(n_vars);
@@ -210,16 +210,16 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   for (int i=0; i<(int)n; ++i) {
     const Lit p = std::abs(A[i]);
     const Polarity q = A[i]>0 ? POS : NEG;
-    vars[p][q].var_in_clauses =
-      (int*) std::realloc(vars[p][q].var_in_clauses,
-                          (vars[p][q].n_occur+1) * sizeof(int));
-    vars[p][q].var_in_clause_locs =
-      (int*) std::realloc(vars[p][q].var_in_clause_locs,
-                          (vars[p][q].n_occur+1) * sizeof(int));
-    vars[p][q].var_in_clauses[vars[p][q].n_occur] = n_clauses;
-    vars[p][q].var_in_clause_locs[vars[p][q].n_occur] = i;
-    ++vars[p][q].n_occur;
-    vars[p][q].status = true;
+    lits[p][q].clause_occ =
+      (int*) std::realloc(lits[p][q].clause_occ,
+                          (lits[p][q].n_occur+1) * sizeof(int));
+    lits[p][q].clause_index =
+      (int*) std::realloc(lits[p][q].clause_index,
+                          (lits[p][q].n_occur+1) * sizeof(int));
+    lits[p][q].clause_occ[lits[p][q].n_occur] = n_clauses;
+    lits[p][q].clause_index[lits[p][q].n_occur] = i;
+    ++lits[p][q].n_occur;
+    lits[p][q].status = true;
     clauses[n_clauses].literals[i] = A[i];
   }
   ++n_clauses;
@@ -261,11 +261,11 @@ void reduce(const Lit v) {
   const Lit p = std::abs(v);
   {
    const Polarity q = (v>0) ? POS : NEG;
-   const auto occur_true = vars[p][q].n_occur;
+   const auto occur_true = lits[p][q].n_occur;
    const auto max_size = changes_index + occur_true;
    if (max_size >= changes.size()) changes.resize(max_size);
    for (unsigned int i=0; i<occur_true; ++i) {
-     const int m = vars[p][q].var_in_clauses[i];
+     const int m = lits[p][q].clause_occ[i];
      if (not clauses[m].status) continue;
      clauses[m].status = false;
      assert(r_clauses >= 1);
@@ -276,15 +276,15 @@ void reduce(const Lit v) {
   }
   {
    const Polarity q = (v>0) ? NEG : POS;
-   const auto occur_false = vars[p][q].n_occur;
+   const auto occur_false = lits[p][q].n_occur;
    const auto max_size = changes_index + occur_false;
    if (max_size > changes.size()) changes.resize(max_size);
    for (unsigned int i=0; i<occur_false; ++i) {
-     const int m = vars[p][q].var_in_clauses[i];
+     const int m = lits[p][q].clause_occ[i];
      if (!clauses[m].status) continue;
      assert(clauses[m].length >= 2);
      --clauses[m].length;
-     const int n = vars[p][q].var_in_clause_locs[i];
+     const int n = lits[p][q].clause_index[i];
      clauses[m].value -= Clause_content(1) << n;
 
      changes[changes_index++] = {m,n};
@@ -306,8 +306,8 @@ void reduce(const Lit v) {
    }
   }
   ++depth;
-  vars[p][POS].status = false;
-  vars[p][NEG].status = false;
+  lits[p][POS].status = false;
+  lits[p][NEG].status = false;
 }
 
 void reverse(const Lit v) {
@@ -332,8 +332,8 @@ void reverse(const Lit v) {
     clauses[m].status = true;
     ++r_clauses;
   }
-  vars[p][POS].status = true;
-  vars[p][NEG].status = true;
+  lits[p][POS].status = true;
+  lits[p][NEG].status = true;
 }
 
 inline Lit get_variable_2sjw() {
@@ -342,19 +342,19 @@ inline Lit get_variable_2sjw() {
   const auto mlen = act_max_clause_length;
   const auto nvar = n_vars;
   for (unsigned int i=1; i<=nvar; ++i) {
-    const auto& vpos = vars[i][POS];
-    const auto& vneg = vars[i][NEG];
+    const auto& vpos = lits[i][POS];
+    const auto& vneg = lits[i][NEG];
     if (vpos.status or vneg.status) {
       double pz = 0;
       {const auto pos_occur = vpos.n_occur;
        for(unsigned int k=0; k<pos_occur; ++k) {
-         const unsigned int ell = vpos.var_in_clauses[k];
+         const unsigned int ell = vpos.clause_occ[k];
          pz += Clause_content(clauses[ell].status) << (mlen - clauses[ell].length);
        }}
       double nz = 0;
       {const auto neg_occur = vneg.n_occur;
        for (unsigned int k=0; k<neg_occur; ++k) {
-         const unsigned int ell = vneg.var_in_clauses[k];
+         const unsigned int ell = vneg.clause_occ[k];
          nz += Clause_content(clauses[ell].status) << (mlen - clauses[ell].length);
        }}
       const double s = pz + nz;
