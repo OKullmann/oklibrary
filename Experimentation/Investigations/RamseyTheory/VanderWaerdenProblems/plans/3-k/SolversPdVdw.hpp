@@ -405,6 +405,17 @@ Memory used           : 185.00 MB
 CPU time              : 8191.48 s
    \endverbatim
    </li>
+   <li> k=24, n=593:
+   \verbatim
+restarts              : 524287
+conflicts             : 476716936      (8719 /sec)
+decisions             : 591563295      (0.00 % random) (10819 /sec)
+propagations          : 18599887471    (340173 /sec)
+conflict literals     : 13778598918    (45.50 % deleted)
+Memory used           : 431.00 MB
+CPU time              : 54677.7 s
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -544,6 +555,12 @@ c CPU time                 : 1418.31     s
    </li>
    <li> k=22, n=463:
    \verbatim
+c conflicts                : 49716762    (3471.55   / sec)
+c decisions                : 63574055    (0.15      % random)
+c bogo-props               : 2626670786337 (183411593.68 / sec)
+c conflict literals        : 823872626   (58.16     % deleted)
+c Memory used              : 1318.82     MB
+c CPU time                 : 14321.18    s
    \endverbatim
    </li>
    <li> k=23, n=507:
