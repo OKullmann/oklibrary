@@ -54,9 +54,7 @@ enum Error_codes {
   missing_file_error=1, file_reading_error=2, clause_length_error=3,
   variable_value_error=4, number_clauses_error=5, empty_clause_error=6 };
 
-
-constexpr int POS = 1;
-constexpr int NEG = 0;
+enum Polarity { NEG = 0, POS = 1 };
 
 typedef int Lit; // alternative: short
 static_assert(std::numeric_limits<Lit>::digits <= 32, "Not prepared for literals with more than 32 bits.");
@@ -210,7 +208,8 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   if (n>act_max_clause_length) act_max_clause_length = n;
 
   for (int i=0; i<(int)n; ++i) {
-    const Lit p = std::abs(A[i]), q = A[i]>0 ? POS : NEG;
+    const Lit p = std::abs(A[i]);
+    const Polarity q = A[i]>0 ? POS : NEG;
     vars[p][q].var_in_clauses = (int*) realloc(vars[p][q].var_in_clauses,
                                 (vars[p][q].n_occur+1) * sizeof(int));
     vars[p][q].var_in_clause_locs = (int*) realloc(vars[p][q].var_in_clause_locs,
@@ -259,7 +258,7 @@ inline int log2s(const Clause_content v) {
 void reduce(const Lit v) {
   const Lit p = std::abs(v);
   {
-   const int q = (v>0) ? POS : NEG;
+   const Polarity q = (v>0) ? POS : NEG;
    const auto occur_true = vars[p][q].n_occur;
    const auto max_size = changes_index + occur_true;
    if (max_size >= changes.size()) changes.resize(max_size);
@@ -274,7 +273,7 @@ void reduce(const Lit v) {
    }
   }
   {
-   const int q = (v>0) ? NEG : POS;
+   const Polarity q = (v>0) ? NEG : POS;
    const auto occur_false = vars[p][q].n_occur;
    const auto max_size = changes_index + occur_false;
    if (max_size > changes.size()) changes.resize(max_size);
