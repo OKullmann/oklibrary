@@ -29,6 +29,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include <string>
 #include <sstream>
 #include <type_traits>
+#include <stack>
 
 #include <cstdint>
 #include <cstdio>
@@ -364,23 +365,22 @@ inline Lit get_variable_2sjw() {
 
 bool dpll() {
   ++n_branches;
-  unsigned int n_lucl = 0;
-  Lit* lucl_stack = nullptr;
+  std::stack<Lit> lucl_stack;
   while (true) {
     if (contradictory_unit_clauses) {
-      while(n_lucl) {
-        reverse(lucl_stack[--n_lucl]);
+      while (not lucl_stack.empty()) {
+        reverse(lucl_stack.top());
+        lucl_stack.pop();
         out[depth] = 0;
       }
       contradictory_unit_clauses = false;
-      free(lucl_stack);
       n_gucl = 0;
       return false;
     }
     else if (n_gucl) {
-      lucl_stack = (Lit*) realloc(lucl_stack, (n_lucl + 1) * sizeof(Lit));
       const Lit implied_literal = gucl_stack[--n_gucl];
-      out[depth] = lucl_stack[n_lucl++] = implied_literal;
+      lucl_stack.push(implied_literal);
+      out[depth] = implied_literal;
       reduce(implied_literal);
       ++n_units;
     }
@@ -403,11 +403,11 @@ bool dpll() {
   reverse(nv);
   out[depth] = 0;
 
-  while (n_lucl) {
-    reverse(lucl_stack[--n_lucl]);
+  while (not lucl_stack.empty()) {
+    reverse(lucl_stack.top());
+    lucl_stack.pop();
     out[depth] = 0;
   }
-  free(lucl_stack);
   contradictory_unit_clauses = false;
   return false;
 }
