@@ -71,14 +71,14 @@ enum Error_codes {
 
 enum Exit_codes { sat=10, unsat=20 };
 
-enum Polarity { neg = 0, pos = 1 };
+enum Polarity { neg=0, pos=1 };
 
 #ifndef LIT_TYPE
 # define LIT_TYPE int
 #endif
 typedef LIT_TYPE Lit;
 static_assert(std::is_signed<Lit>::value, "Type \"Lit\" must be signed integral.");
-static_assert(sizeof(Lit)!=sizeof(char), "LIT_TYPE = char (or int8_t) doesn't work with reading (since not numbers are read, but characters).");
+static_assert(sizeof(Lit) != 1, "LIT_TYPE = char (or int8_t) doesn't work with reading (since not numbers are read, but characters).");
 
 typedef std::make_unsigned<Lit>::type Var;
 
@@ -221,12 +221,13 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
     std::cerr << "More than " << n_header_clauses << " clauses, contradicting cnf-header.\n";
     std::exit(number_clauses_error);
   }
-  clauses[n_clauses].number = n_clauses;
-  clauses[n_clauses].status = true;
-  clauses[n_clauses].length = n;
-  clauses[n_clauses].value = (Clause_content(1) << n) - 1;
-  clauses[n_clauses].c_ucl = 0;
-  clauses[n_clauses].literals = new Lit[n];
+  auto& C = clauses[n_clauses];
+  C.number = n_clauses;
+  C.status = true;
+  C.length = n;
+  C.value = (Clause_content(1) << n) - 1;
+  C.c_ucl = 0;
+  C.literals = new Lit[n];
 
   if (n>act_max_clause_length) act_max_clause_length = n;
 
@@ -234,17 +235,14 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
     const Lit x = A[i];
     const Var v = std::abs(x);
     const Polarity p = x > 0 ? pos : neg;
-    lits[v][p].clause_occ =
-      (unsigned int*) std::realloc(lits[v][p].clause_occ,
-                          (lits[v][p].n_occur+1) * sizeof(unsigned int));
-    lits[v][p].clause_index =
-      (unsigned int*) std::realloc(lits[v][p].clause_index,
-                          (lits[v][p].n_occur+1) * sizeof(unsigned int));
-    lits[v][p].clause_occ[lits[v][p].n_occur] = n_clauses;
-    lits[v][p].clause_index[lits[v][p].n_occur] = i;
-    ++lits[v][p].n_occur;
-    lits[v][p].status = true;
-    clauses[n_clauses].literals[i] = x;
+    auto& L = lits[v][p];
+    L.clause_occ = (unsigned int*) std::realloc(L.clause_occ, (L.n_occur+1)*sizeof(unsigned int));
+    L.clause_index = (unsigned int*) std::realloc(L.clause_index, (L.n_occur+1)*sizeof(unsigned int));
+    L.clause_occ[L.n_occur] = n_clauses;
+    L.clause_index[L.n_occur] = i;
+    ++L.n_occur;
+    L.status = true;
+    C.literals[i] = x;
   }
   ++n_clauses;
 }
@@ -377,7 +375,7 @@ inline Lit branching_literal_2sjw() {
     if (vpos.status or vneg.status) {
       double pz = 0;
       {const auto pos_occur = vpos.n_occur;
-       for(unsigned int k=0; k<pos_occur; ++k) {
+       for (unsigned int k=0; k<pos_occur; ++k) {
          const auto ci = vpos.clause_occ[k];
          assert(ci < clauses.size());
          pz += Clause_content(clauses[ci].status) << (mlen - clauses[ci].length);
