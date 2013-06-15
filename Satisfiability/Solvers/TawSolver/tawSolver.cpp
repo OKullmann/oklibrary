@@ -249,7 +249,7 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   ++n_clauses;
 }
 
-void read_formula(const char* const filename) {
+void read_formula(const std::string& filename) {
   std::ifstream f(filename);
   if (not f) {
     std::cerr << "Invalid file name.\n";
@@ -444,7 +444,7 @@ bool dpll() {
   return false;
 }
 
-void output(const char* const file, const bool result, const double elapsed) {
+void output(const std::string& file, const bool result, const double elapsed) {
   std::cout << "s ";
   if (not result) std::cout << "UN";
   std::cout << "SATISFIABLE\n";
@@ -478,13 +478,14 @@ int main(const int argc, const char* const argv[]) {
     std::cerr << "Missing file name.\n";
     return missing_file_error;
   }
-  read_formula(argv[1]);
+  const std::string filename(argv[1]);
+  read_formula(filename);
   struct rusage runtime;
   getrusage(RUSAGE_SELF, &runtime);
   const double t1 = runtime.ru_utime.tv_sec+runtime.ru_utime.tv_usec/1000000.0;
   const bool result = dpll();
   getrusage(RUSAGE_SELF, &runtime);
   const double t2 = runtime.ru_utime.tv_sec+runtime.ru_utime.tv_usec/1000000.0;
-  output(argv[1], result, t2-t1);
+  output(filename, result, t2-t1);
   return (result) ? sat : unsat;
 }
