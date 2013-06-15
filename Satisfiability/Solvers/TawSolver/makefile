@@ -42,6 +42,9 @@ ifeq ($(git_id_oklib),)
 else
   Other_options = -DGIT_ID=$(git_id_oklib)
 endif
+ifneq ($(oklibrary_domain),)
+  Other_options += -DOKLIB="$(subst http://,,$(oklibrary_domain))"
+endif
 
 ifeq ($(bin_dir),)
   main_target = tawSolver

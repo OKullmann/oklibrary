@@ -492,10 +492,13 @@ void version_information() {
 #ifdef __GNUC__
    " Compiler: g++, version " __VERSION__ "\n"
 #else
-   "Compiler not gcc\n"
+   " Compiler not gcc\n"
+#endif
+#ifdef OKLIB
+   " Provided in the OKlibrary " "http://" STR(OKLIB) "\n"
 #endif
 #ifdef GIT_ID
-   " OKlibrary Git ID = " STR(GIT_ID) "\n"
+   " Git ID = " STR(GIT_ID) "\n"
 #endif
   ;
 }
