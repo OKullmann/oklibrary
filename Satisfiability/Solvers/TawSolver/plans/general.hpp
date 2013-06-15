@@ -168,6 +168,19 @@ cswsok: 47.49 47.82 47.46 47.82
 cswsok: 46.74 46.49 46.35 46.48
 > tawSolver64 VanDerWaerden_2-3-12_135.cnf
 cswsok: 50.71 50.45 50.63 50.39
+
+# ID: 01cf7bccbc306bb96b5b7b33a3104a56fcb1452f
+# Various type-corrections.
+
+> tawSolver VanDerWaerden_2-3-12_134.cnf
+cswsok: 42.42 42.41 42.29 42.36
+> tawSolver64 VanDerWaerden_2-3-12_134.cnf
+cswsok: 47.09 47.06 47.00 46.98
+
+> tawSolver VanDerWaerden_2-3-12_135.cnf
+cswsok: 45.34 45.41 45.04 45.39
+> tawSolver64 VanDerWaerden_2-3-12_135.cnf
+cswsok: 50.26 50.11 50.15 50.30
    \endverbatim
    </li>
   </ul>
