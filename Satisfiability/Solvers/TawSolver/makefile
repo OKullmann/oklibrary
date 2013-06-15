@@ -37,6 +37,11 @@ endif
 Standard_options = --std=c++11 -pedantic
 Warning_options = -Wall
 Optimisation_options = -Ofast -DNDEBUG
+ifeq ($(git_id_oklib),)
+  Other_options =
+else
+  Other_options = -DGIT_ID=$(git_id_oklib)
+endif
 
 ifeq ($(bin_dir),)
   main_target = tawSolver
@@ -49,8 +54,8 @@ all : $(main_target)
 ifeq ($(MAX_CLAUSE_LENGTH),)
 
 $(main_target) : tawSolver.cpp
-	$(CXX) -DMAX_CLAUSE_LENGTH=32 $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $(main_target) $(LFLAGS)
-	$(CXX) -DMAX_CLAUSE_LENGTH=64 $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $(main_target)64 $(LFLAGS)
+	$(CXX) -DMAX_CLAUSE_LENGTH=32 $(Standard_options) $(Warning_options) $(Optimisation_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $(main_target) $(LFLAGS)
+	$(CXX) -DMAX_CLAUSE_LENGTH=64 $(Standard_options) $(Warning_options) $(Optimisation_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $(main_target)64 $(LFLAGS)
 
 else
 

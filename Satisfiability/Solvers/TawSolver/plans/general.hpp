@@ -186,7 +186,7 @@ cswsok: 50.26 50.11 50.15 50.30
   </ul>
 
 
-  \todo Introduce macros
+  \todo Introduce macros : DONE
   <ul>
    <li> DONE (no longer needed)
    MAX_NUMBER_CLAUSES, MAX_NUMBER_VARIABLES. </li>
@@ -208,11 +208,14 @@ cswsok: 50.26 50.11 50.15 50.30
 
   \todo Version information
   <ul>
-   <li> Like the OKsolver, when using command-line argument "-v", the solver
+   <li> DONE
+   Like the OKsolver, when using command-line argument "-v", the solver
    should output version information and date of compilation. </li>
-   <li> Let's also handle "--version". </li>
+   <li> DONE
+   Let's also handle "--version". </li>
    <li> Also the value of MAX_CLAUSE_LENGTH, LIT_TYPE and GIT_ID. </li>
-   <li> And the git-ID (this needs to be added for the OKsolver as well). </li>
+   <li> DONE
+   And the git-ID (this needs to be added for the OKsolver as well). </li>
    <li> There should be an official version of the tawSolver:
     <ol>
      <li> The one on the solver's homepage is 1.0.0. </li>

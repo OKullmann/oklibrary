@@ -470,6 +470,35 @@ void output(const std::string& file, const bool result, const double elapsed) {
   }
 }
 
+#define S(x) #x
+#define STR(x) S(x)
+void version_information() {
+  std::cout << "tawSolver:\n"
+   " author: Tanbir Ahmed\n"
+   " url: http://sourceforge.net/projects/tawsolver/\n"
+   " Changes by Oliver Kullmann\n"
+   " Macros: MAX_CLAUSE_LENGTH = " STR(MAX_CLAUSE_LENGTH) ", LIT_TYPE = " STR(LIT_TYPE) " (with " << std::numeric_limits<Lit>::digits << " binary digits)\n"
+#ifdef NDEBUG
+   " Compiled with NDEBUG\n"
+#else
+   " Compiled without NDEBUG\n"
+#endif
+#ifdef __OPTIMIZE__
+   " Compiled with optimisation options\n"
+#else
+   " Compiled without optimisation options\n"
+#endif
+   " Compilation date: " __DATE__ " " __TIME__ "\n"
+#ifdef __GNUC__
+   " Compiler: g++, version " __VERSION__ "\n"
+#else
+   "Compiler not gcc\n"
+#endif
+#ifdef GIT_ID
+   " OKlibrary Git ID = " STR(GIT_ID) "\n"
+#endif
+  ;
+}
 
 int main(const int argc, const char* const argv[]) {
   if (argc < 2) {
@@ -477,6 +506,10 @@ int main(const int argc, const char* const argv[]) {
     return missing_file_error;
   }
   const std::string filename(argv[1]);
+  if (filename == "-v" or filename == "--version") {
+    version_information();
+    return 0;
+  }
   read_formula(filename);
   rusage runtime;
   getrusage(RUSAGE_SELF, &runtime);
