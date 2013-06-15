@@ -480,7 +480,7 @@ int main(const int argc, const char* const argv[]) {
   }
   const std::string filename(argv[1]);
   read_formula(filename);
-  struct rusage runtime;
+  rusage runtime;
   getrusage(RUSAGE_SELF, &runtime);
   const double t1 = runtime.ru_utime.tv_sec+runtime.ru_utime.tv_usec/1000000.0;
   const bool result = dpll();
