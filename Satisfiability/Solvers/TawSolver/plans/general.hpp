@@ -206,7 +206,7 @@ cswsok: 50.26 50.11 50.15 50.30
   </ul>
 
 
-  \todo Version information
+  \todo Version information : DONE
   <ul>
    <li> DONE
    Like the OKsolver, when using command-line argument "-v", the solver
@@ -219,7 +219,8 @@ cswsok: 50.26 50.11 50.15 50.30
    <li> There should be an official version of the tawSolver:
     <ol>
      <li> The one on the solver's homepage is 1.0.0. </li>
-     <li> Let's call the current version 1.1 (improved handling of maximal
+     <li> DONE (using 1.3 now)
+     Let's call the current version 1.1 (improved handling of maximal
      clause-length, improved output, code improvements). </li>
     </ol>
    </li>

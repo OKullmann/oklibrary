@@ -55,6 +55,8 @@ namespace {
   const std::string program = "tawSolver64";
 #endif
 const std::string err = "ERROR[" + program + "]: ";
+const std::string version = "1.3.0";
+const std::string date = "16.6.2013";
 
 constexpr int max_clause_length = MAX_CLAUSE_LENGTH;
 static_assert(max_clause_length==8 or max_clause_length==16 or max_clause_length==32 or max_clause_length==64,"Currently only MAX_CLAUSE_LENGTH=8,16,32,64 is possible.");
@@ -486,7 +488,11 @@ void version_information() {
    " author: Tanbir Ahmed\n"
    " url: http://sourceforge.net/projects/tawsolver/\n"
    " Changes by Oliver Kullmann\n"
-   " Macros: MAX_CLAUSE_LENGTH = " STR(MAX_CLAUSE_LENGTH) ", LIT_TYPE = " STR(LIT_TYPE) " (with " << std::numeric_limits<Lit>::digits << " binary digits)\n"
+   " Version: " << version << "\n"
+   " Last change date: " << date << "\n"
+   " Macro settings:\n"
+   "  MAX_CLAUSE_LENGTH = " STR(MAX_CLAUSE_LENGTH)"\n"
+   "  LIT_TYPE = " STR(LIT_TYPE) " (with " << std::numeric_limits<Lit>::digits << " binary digits)\n"
 #ifdef NDEBUG
    " Compiled with NDEBUG\n"
 #else
