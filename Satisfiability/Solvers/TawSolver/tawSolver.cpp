@@ -19,11 +19,29 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 **************************************************************************************************/
 
 /*
- Compile with
-   g++ --std=c++11 -Wall -Ofast -DNDEBUG -o tawSolver tawSolver.cpp
- There are two macros to control compilation:
+  Compile with
+
+> g++ --std=c++11 -Wall -Ofast -DNDEBUG -o tawSolver tawSolver.cpp
+
+(or with "g++ --std=c++11 -Wall -g -o tawSolver tawSolver.cpp"
+for debugging).
+
+  Usage:
+
+> tawSolver [argument]
+
+   - without argument shows usage
+   - without argument "-v" or "--version" shows information
+   - with filename runs the SAT solver.
+
+  There are two macros to control compilation:
    - MAX_CLAUSE_LENGTH (default 32)
    - LIT_TYPE (default int).
+
+  To provide further versioning-information, there are two macros, which are
+  only relevant if they are defined:
+   - GIT_ID (for the identity hash-value of the Git repository)
+   - OKLIB (with the url (without prefix "http://") for the OKlibrary.
 */
 
 #include <limits>
@@ -45,18 +63,21 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
 namespace {
 
+const std::string version = "1.3.1";
+const std::string date = "16.6.2013";
+
 #ifndef MAX_CLAUSE_LENGTH
 # define MAX_CLAUSE_LENGTH 32
 #endif
 
-#if MAX_CLAUSE_LENGTH != 64
+#ifndef OKLIB
+   const std::string program = "tawSolver";
+#elif MAX_CLAUSE_LENGTH != 64
   const std::string program = "tawSolver";
 #else
   const std::string program = "tawSolver64";
 #endif
 const std::string err = "ERROR[" + program + "]: ";
-const std::string version = "1.3.0";
-const std::string date = "16.6.2013";
 
 constexpr int max_clause_length = MAX_CLAUSE_LENGTH;
 static_assert(max_clause_length==8 or max_clause_length==16 or max_clause_length==32 or max_clause_length==64,"Currently only MAX_CLAUSE_LENGTH=8,16,32,64 is possible.");
