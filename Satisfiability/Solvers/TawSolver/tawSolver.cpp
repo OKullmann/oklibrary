@@ -43,6 +43,8 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
 #include <sys/resource.h>
 
+namespace {
+
 #ifndef MAX_CLAUSE_LENGTH
 # define MAX_CLAUSE_LENGTH 32
 #endif
@@ -500,6 +502,8 @@ void version_information() {
    " Git ID = " STR(GIT_ID) "\n"
 #endif
   ;
+}
+
 }
 
 int main(const int argc, const char* const argv[]) {
