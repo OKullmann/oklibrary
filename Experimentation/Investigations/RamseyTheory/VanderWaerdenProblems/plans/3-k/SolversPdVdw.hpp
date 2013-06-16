@@ -60,15 +60,14 @@ c number_of_nodes                       170414771
 c number_of_binary_nodes                85207385
 c number_of_1-reductions                2236999086
 
-# corrected version:
-c running_time(sec)                     21764.99
+#final version (dbfe40729515a5643f18e5953abe91d704626edf)
+c number_of_variables                   232
+c number_of_clauses                     28650
+c running_time(sec)                     20753.85
 c number_of_nodes                       170414771
 c number_of_binary_nodes                85207385
 c number_of_1-reductions                2236999086
 c max_number_changes                    54879
-
-#final version (dbfe40729515a5643f18e5953abe91d704626edf)
-XXX
    \endverbatim
    </li>
   </ul>
