@@ -63,7 +63,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.3.1";
+const std::string version = "1.3.2";
 const std::string date = "16.6.2013";
 
 #ifndef MAX_CLAUSE_LENGTH
@@ -98,7 +98,8 @@ enum Error_codes {
   clause_length_error=3,
   variable_value_error=4,
   number_clauses_error=5,
-  empty_clause_error=6
+  empty_clause_error=6,
+  unit_clause_error=7
 };
 
 enum Exit_codes { sat=10, unsat=20 };
@@ -241,8 +242,12 @@ bool read_a_clause_from_file(std::ifstream& f) {
     return true;
   }
   if (cwc_length == 0) {
-    std::cerr << err << "Found empty clause.\n";
+    std::cerr << err << "Found empty clause in input.\n";
     std::exit(empty_clause_error);
+  }
+  if (cwc_length == 1) {
+    std::cerr << err << "Found unit-clause in input.\n";
+    std::exit(unit_clause_error);
   }
   return true;
 }
