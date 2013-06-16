@@ -60,13 +60,12 @@ static_assert(max_clause_length==8 or max_clause_length==16 or max_clause_length
 static_assert(std::numeric_limits<Clause_content>::digits==max_clause_length,"Error with choice of type \"Clause_content\".");
 
 enum Error_codes {
-  missing_file_error=1,
-  file_reading_error=2,
-  num_vars_error=3,
-  clause_length_error=4,
-  variable_value_error=5,
-  number_clauses_error=6,
-  empty_clause_error=7
+  file_reading_error=1,
+  num_vars_error=2,
+  clause_length_error=3,
+  variable_value_error=4,
+  number_clauses_error=5,
+  empty_clause_error=6
 };
 
 enum Exit_codes { sat=10, unsat=20 };
@@ -504,9 +503,11 @@ void version_information() {
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (argc < 2) {
-    std::cerr << "Missing file name.\n";
-    return missing_file_error;
+  if (argc == 1) {
+    std::cout << "Usage:\n"
+      "> tawSolver[64] argument\n"
+      " where argument is one of \"-v\", \"--version\", or a filename.\n";
+    return 0;
   }
   const std::string filename(argv[1]);
   if (filename == "-v" or filename == "--version") {
