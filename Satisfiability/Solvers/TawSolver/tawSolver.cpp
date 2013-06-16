@@ -201,7 +201,7 @@ void read_formula_header(std::ifstream& f) {
   checker.resize(n_vars+1);
   out.resize(n_vars);
   gucl_stack.resize(n_vars);
-  clauses.resize(n_header_clauses+1);
+  clauses.resize(n_header_clauses);
 }
 
 Lit current_working_clause[max_clause_length];
