@@ -48,6 +48,14 @@ namespace {
 #ifndef MAX_CLAUSE_LENGTH
 # define MAX_CLAUSE_LENGTH 32
 #endif
+
+#if MAX_CLAUSE_LENGTH != 64
+  const std::string program = "tawSolver";
+#else
+  const std::string program = "tawSolver64";
+#endif
+const std::string err = "ERROR[" + program + "]: ";
+
 constexpr int max_clause_length = MAX_CLAUSE_LENGTH;
 static_assert(max_clause_length==8 or max_clause_length==16 or max_clause_length==32 or max_clause_length==64,"Currently only MAX_CLAUSE_LENGTH=8,16,32,64 is possible.");
 #if MAX_CLAUSE_LENGTH == 8
@@ -138,7 +146,7 @@ void read_formula_header(std::ifstream& f) {
   while (true) {
     std::getline(f, line);
     if (not f) {
-      std::cerr << "Reading error.\n";
+      std::cerr << err << "Reading error.\n";
       std::exit(file_reading_error);
     }
     if (line[0] == 'p') break;
@@ -146,23 +154,23 @@ void read_formula_header(std::ifstream& f) {
   std::stringstream s(line);
   {std::string inp; s >> inp;
    if (inp != "p") {
-     std::cerr << "Syntax error in parameter line (no \"p \").\n";
+     std::cerr << err << "Syntax error in parameter line (no \"p \").\n";
      std::exit(file_reading_error);
    }
    s >> inp;
    if (inp != "cnf") {
-     std::cerr << "Syntax error in parameter line (no \"cnf\").\n";
+     std::cerr << err << "Syntax error in parameter line (no \"cnf\").\n";
      std::exit(file_reading_error);
    }
   }
   s >> n_vars;
   if (n_vars > Var(std::numeric_limits<Lit>::max())) {
-    std::cerr << "Parameter n=" << n_vars << " is too big for numeric_limits<Lit>::max=" << std::numeric_limits<Lit>::max() << "\n";
+    std::cerr << err << "Parameter n=" << n_vars << " is too big for numeric_limits<Lit>::max=" << std::numeric_limits<Lit>::max() << "\n";
     std::exit(num_vars_error);
   }
   s >> n_header_clauses;
   if (not s) {
-    std::cerr << "Reading error with parameters.\n";
+    std::cerr << err << "Reading error with parameters.\n";
     std::exit(file_reading_error);
   }
   lits.resize(n_vars+1);
@@ -185,18 +193,18 @@ bool read_a_clause_from_file(std::ifstream& f) {
   std::vector<int> checker_cl(n_vars+1);
   while (true) {
     if (not f) {
-      std::cerr << "Invalid literal-read.\n";
+      std::cerr << err << "Invalid literal-read.\n";
       std::exit(file_reading_error);
     }
     if (x == 0) break;
     const Var v = std::abs(x);
     if (v > n_vars) {
-      std::cerr << "Literal " << x << " contradicts n=" << n_vars << ".\n";
+      std::cerr << err << "Literal " << x << " contradicts n=" << n_vars << ".\n";
       std::exit(variable_value_error);
     }
     if (checker_cl[v] == 0) {
       if (cwc_length >= max_clause_length) {
-        std::cerr << "Clauses can have at most " << max_clause_length << " elements.\n";
+        std::cerr << err << "Clauses can have at most " << max_clause_length << " elements.\n";
         std::exit(clause_length_error);
       }
       current_working_clause[cwc_length++] = x;
@@ -210,7 +218,7 @@ bool read_a_clause_from_file(std::ifstream& f) {
     return true;
   }
   if (cwc_length == 0) {
-    std::cerr << "Found empty clause.\n";
+    std::cerr << err << "Found empty clause.\n";
     std::exit(empty_clause_error);
   }
   return true;
@@ -219,7 +227,7 @@ bool read_a_clause_from_file(std::ifstream& f) {
 void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   if (n == 0) return;
   if (n_clauses >= n_header_clauses) {
-    std::cerr << "More than " << n_header_clauses << " clauses, contradicting cnf-header.\n";
+    std::cerr << err << "More than " << n_header_clauses << " clauses, contradicting cnf-header.\n";
     std::exit(number_clauses_error);
   }
   auto& C = clauses[n_clauses];
@@ -251,7 +259,7 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
 void read_formula(const std::string& filename) {
   std::ifstream f(filename);
   if (not f) {
-    std::cerr << "Invalid file name.\n";
+    std::cerr << err << "Invalid file name.\n";
     std::exit(file_reading_error);
   }
   read_formula_header(f);
@@ -474,7 +482,7 @@ void output(const std::string& file, const bool result, const double elapsed) {
 #define S(x) #x
 #define STR(x) S(x)
 void version_information() {
-  std::cout << "tawSolver:\n"
+  std::cout << program << ":\n"
    " author: Tanbir Ahmed\n"
    " url: http://sourceforge.net/projects/tawsolver/\n"
    " Changes by Oliver Kullmann\n"
@@ -509,7 +517,7 @@ void version_information() {
 int main(const int argc, const char* const argv[]) {
   if (argc == 1) {
     std::cout << "Usage:\n"
-      "> tawSolver[64] argument\n"
+      "> " << program << " argument\n"
       " where argument is one of \"-v\", \"--version\", or a filename.\n";
     return 0;
   }
