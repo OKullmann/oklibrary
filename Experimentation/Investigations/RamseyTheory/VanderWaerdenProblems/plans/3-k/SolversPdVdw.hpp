@@ -70,6 +70,11 @@ c number_of_1-reductions                2236999086
 c max_number_changes                    54879
    \endverbatim
    </li>
+   <li> k=23, n=507 (with final version):
+   \verbatim
+XXX
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -162,13 +167,22 @@ c number_of_3-reductions                1919460
    </li>
    <li> k=23, n=507:
    \verbatim
-XXX
+c reddiff_number_of_clauses             0
+c running_time(sec)                     35633.40
+c number_of_nodes                       12587868
+c number_of_binary_nodes                6480362
+c number_of_pure_literals               247
+c number_of_1-reductions                419514647
+c number_of_2-look-ahead                2324947999
+c number_of_2-reductions                77105659
+c number_of_3-look-ahead                9992839
+c number_of_3-reductions                5266746
    \endverbatim
    </li>
   </ul>
 
 
-  \todo Performance of OKsolver
+  \todo Performance of OKsolver-2002
   <ul>
    <li> The following data is on cswsok (3GHz). </li>
    <li> k=17, n=279:
@@ -650,11 +664,16 @@ c 2825.6 seconds, 59 MB max, 2579 MB recycled
    </li>
    <li> k=23, n=507:
    \verbatim
-XXX
+c 54951563 conflicts, 77506262 decisions, 39144 random
+c 20 iterations, 589652 restarts, 0 skipped
+c 328 enlarged, 1 shrunken, 537534 rescored, 8650 rebiased
+c 3 simplifications, 328 reductions
+c 9279.6 seconds, 94 MB max, 2608 MB recycled
    \endverbatim
    </li>
    <li> k=24, n=593:
    \verbatim
+XXX
    \endverbatim
    </li>
   </ul>
