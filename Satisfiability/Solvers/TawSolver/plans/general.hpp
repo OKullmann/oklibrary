@@ -10,6 +10,9 @@ License, or any later version. */
   \brief Plans regarding updating and improving the TawSolver
 
 
+  \todo Create milestones
+
+
   \todo Provide information
   <ul>
    <li> On the ExternalSources page the data needs to be entered. </li>
@@ -184,6 +187,9 @@ cswsok: 50.26 50.11 50.15 50.30
    \endverbatim
    </li>
   </ul>
+
+
+  \todo Provide Doxygen documentation
 
 
   \todo Introduce macros : DONE
