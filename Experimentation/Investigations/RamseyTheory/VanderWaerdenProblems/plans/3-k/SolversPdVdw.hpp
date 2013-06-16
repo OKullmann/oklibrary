@@ -66,6 +66,9 @@ c number_of_nodes                       170414771
 c number_of_binary_nodes                85207385
 c number_of_1-reductions                2236999086
 c max_number_changes                    54879
+
+#final version (dbfe40729515a5643f18e5953abe91d704626edf)
+XXX
    \endverbatim
    </li>
   </ul>
@@ -156,6 +159,11 @@ c number_of_2-look-ahead                759328415
 c number_of_2-reductions                26618563
 c number_of_3-look-ahead                3364632
 c number_of_3-reductions                1919460
+   \endverbatim
+   </li>
+   <li> k=23, n=507:
+   \verbatim
+XXX
    \endverbatim
    </li>
   </ul>
@@ -264,10 +272,6 @@ c main():: doublelook: succesrate: 75.612, average DL_trigger: 1409.377
    </li>
    <li> k=18, n=312:
    \verbatim
-   \endverbatim
-   </li>
-   <li> k=19, n=347:
-   \verbatim
 c main():: nodeCount: 12289
 c main():: dead ends in main: 84
 c main():: lookAheadCount: 3382245
@@ -278,6 +282,20 @@ c main():: bin_sat: 0, bin_unsat 0
 c main():: doublelook: #: 89638, succes #: 68692
 c main():: doublelook: overall 2.748 of all possible doublelooks executed
 c main():: doublelook: succesrate: 76.633, average DL_trigger: 1061.048
+   \endverbatim
+   </li>
+   <li> k=19, n=347:
+   \verbatim
+c main():: nodeCount: 12423
+c main():: dead ends in main: 138
+c main():: lookAheadCount: 3943140
+c main():: unitResolveCount: 127771
+c main():: time=499.959991
+c main():: necessary_assignments: 4284
+c main():: bin_sat: 0, bin_unsat 0
+c main():: doublelook: #: 93667, succes #: 73103
+c main():: doublelook: overall 2.453 of all possible doublelooks executed
+c main():: doublelook: succesrate: 78.046, average DL_trigger: 1496.145
    \endverbatim
    </li>
    <li> k=20, n=389:
@@ -565,6 +583,75 @@ c CPU time                 : 14321.18    s
    </li>
    <li> k=23, n=507:
    \verbatim
+   \endverbatim
+   </li>
+   <li> k=24, n=593:
+   \verbatim
+   \endverbatim
+   </li>
+  </ul>
+
+
+  \todo precosat-570
+  <ul>
+   <li> The following data is on cswsok (3GHz). </li>
+   <li> k=17, n=279:
+   \verbatim
+c 41961 conflicts, 63292 decisions, 27 random
+c 11 iterations, 983 restarts, 0 skipped
+c 6 enlarged, 1 shrunken, 409 rescored, 21 rebiased
+c 3 simplifications, 6 reductions
+c 1.2 seconds, 3 MB max, 3 MB recycled
+   \endverbatim
+   </li>
+   <li> k=18, n=312:
+   \verbatim
+c 506793 conflicts, 735216 decisions, 363 random
+c 9 iterations, 9030 restarts, 0 skipped
+c 28 enlarged, 1 shrunken, 4954 rescored, 156 rebiased
+c 2 simplifications, 28 reductions
+c 24.5 seconds, 9 MB max, 47 MB recycled
+   \endverbatim
+   </li>
+   <li> k=19, n=347:
+   \verbatim
+c 485357 conflicts, 710776 decisions, 352 random
+c 8 iterations, 8830 restarts, 0 skipped
+c 27 enlarged, 2 shrunken, 4745 rescored, 146 rebiased
+c 3 simplifications, 27 reductions
+c 24.1 seconds, 8 MB max, 42 MB recycled
+   \endverbatim
+   </li>
+   <li> k=20, n=389:
+   \verbatim
+c 1799145 conflicts, 2620097 decisions, 1288 random
+c 11 iterations, 29215 restarts, 0 skipped
+c 56 enlarged, 1 shrunken, 17594 rescored, 504 rebiased
+c 3 simplifications, 56 reductions
+c 130.7 seconds, 16 MB max, 178 MB recycled
+   \endverbatim
+   </li>
+   <li> k=21, n=405:
+   \verbatim
+c 4687589 conflicts, 6717622 decisions, 3434 random
+c 13 iterations, 65967 restarts, 0 skipped
+c 93 enlarged, 2 shrunken, 45846 rescored, 1022 rebiased
+c 4 simplifications, 93 reductions
+c 444.8 seconds, 27 MB max, 503 MB recycled
+   \endverbatim
+   </li>
+   <li> k=22, n=463:
+   \verbatim
+c 22283651 conflicts, 31613291 decisions, 15760 random
+c 11 iterations, 265520 restarts, 0 skipped
+c 207 enlarged, 2 shrunken, 217970 rescored, 4093 rebiased
+c 4 simplifications, 207 reductions
+c 2825.6 seconds, 59 MB max, 2579 MB recycled
+   \endverbatim
+   </li>
+   <li> k=23, n=507:
+   \verbatim
+XXX
    \endverbatim
    </li>
    <li> k=24, n=593:
