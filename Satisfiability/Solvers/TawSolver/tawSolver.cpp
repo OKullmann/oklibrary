@@ -380,21 +380,18 @@ void unassign(const Lit x) {
   --depth;
   while (n_changes[depth][neg]) {
     --n_changes[depth][neg];
-    const auto m = changes[--changes_index].clause_index;
-    const auto n = changes[changes_index].literal_index;
-    auto& C = clauses[m];
+    auto& C = clauses[changes[--changes_index].clause_index];
     ++C.length;
     if (C.length == 2) {
       checker[std::abs(C.c_ucl)] = 0;
       C.c_ucl = 0;
     }
-    C.value += Clause_content(1) << n;
+    C.value += Clause_content(1) << changes[changes_index].literal_index;
   }
 
   while (n_changes[depth][pos]) {
     --n_changes[depth][pos];
-    const auto m = changes[--changes_index].clause_index;
-    clauses[m].status = true;
+    clauses[changes[--changes_index].clause_index].status = true;
     ++r_clauses;
   }
   lits[v][pos].status = true;
