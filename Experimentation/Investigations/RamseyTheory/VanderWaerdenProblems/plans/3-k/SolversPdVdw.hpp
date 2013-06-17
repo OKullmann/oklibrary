@@ -673,7 +673,11 @@ c 9279.6 seconds, 94 MB max, 2608 MB recycled
    </li>
    <li> k=24, n=593:
    \verbatim
-XXX
+c 261084988 conflicts, 366324085 decisions, 184615 random
+c 14 iterations, 2543523 restarts, 0 skipped
+c 719 enlarged, 1 shrunken, 2554016 rescored, 35799 rebiased
+c 3 simplifications, 719 reductions
+c 82750.4 seconds, 214 MB max, 951 MB recycled
    \endverbatim
    </li>
   </ul>

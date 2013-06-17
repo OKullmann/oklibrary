@@ -439,7 +439,15 @@ Running time: 532416.20 seconds
      <li> k=12, n=135: 94s (1444017 conflicts; cswsok (3 GHz)) </li>
      <li> k=13, n=159: 87s (1332829 conflicts; cswsok (3 GHz)) </li>
      <li> k=13, n=160: 1412s (10447051 conflicts; cswsok (3 GHz)) </li>
-     <li> k=14, n=186: XXXs (XXX conflicts; cswsok (3 GHz)) </li>
+     <li> k=14, n=186: Aborted (cswsok (3 GHz)):
+     \verbatim
+c | 12782852     54452       53 |     186     9795    43014 |   727  2068402      151 687161597 |  0.003 % |
+Terminated
+real    15723m27.101s
+user    15667m20.240s
+sys     1m11.570s
+     \endverbatim
+     </li>
     </ol>
     Performance much worse -- apparently due to much more restarts!
    </li>
