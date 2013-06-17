@@ -116,19 +116,19 @@ static_assert(sizeof(Lit) != 1, "LIT_TYPE = char (or int8_t) doesn't work with r
 typedef std::make_unsigned<Lit>::type Var;
 
 struct clause_info {
-  Lit* literals;
-  Clause_content value;
-  int number;
-  int length;
-  Lit c_ucl;
-  bool status;
+  Lit* literals; // the array of literals
+  Clause_content value; // bit-vector, showing current content
+  int index; // the index of this clause
+  int length; // the current length
+  Lit c_ucl; // the unique literal, if length = 1
+  bool status; // true iff currently not satisfied
 };
 
 std::vector<clause_info> clauses;
 
 struct lit_info {
-  unsigned int* clause_occ; // array with clause-numbers
-  unsigned int* clause_index; // array with array-indices (for the clauses)
+  unsigned int* clause_index; // array with clause-indices
+  unsigned int* literal_index; // array with literal-indices (into the clause)
   unsigned int n_occur;
   bool status;
 };
@@ -136,7 +136,7 @@ typedef std::array<lit_info,2> lit_info_pair;
 std::vector<lit_info_pair> lits;
 
 struct change_info {
-  unsigned int clause_number;
+  unsigned int clause_index;
   unsigned int literal_index;
 };
 
@@ -259,7 +259,7 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
     std::exit(number_clauses_error);
   }
   auto& C = clauses[n_clauses];
-  C.number = n_clauses;
+  C.index = n_clauses;
   C.status = true;
   C.length = n;
   C.value = (Clause_content(1) << n) - 1;
@@ -273,10 +273,10 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
     const Var v = std::abs(x);
     const Polarity p = x > 0 ? pos : neg;
     auto& L = lits[v][p];
-    L.clause_occ = (unsigned int*) std::realloc(L.clause_occ, (L.n_occur+1)*sizeof(unsigned int));
     L.clause_index = (unsigned int*) std::realloc(L.clause_index, (L.n_occur+1)*sizeof(unsigned int));
-    L.clause_occ[L.n_occur] = n_clauses;
-    L.clause_index[L.n_occur] = i;
+    L.literal_index = (unsigned int*) std::realloc(L.literal_index, (L.n_occur+1)*sizeof(unsigned int));
+    L.clause_index[L.n_occur] = n_clauses;
+    L.literal_index[L.n_occur] = i;
     ++L.n_occur;
     L.status = true;
     C.literals[i] = x;
@@ -326,13 +326,13 @@ void assign(const Lit x) {
    const auto max_size = changes_index + occur_true;
    if (max_size >= changes.size()) changes.resize(max_size);
    for (unsigned int i=0; i<occur_true; ++i) {
-     const auto m = L.clause_occ[i];
+     const auto m = L.clause_index[i];
      auto& C = clauses[m];
      if (not C.status) continue;
      C.status = false;
      assert(r_clauses >= 1);
      --r_clauses;
-     changes[changes_index++].clause_number = m;
+     changes[changes_index++].clause_index = m;
      ++n_changes[depth][pos];
    }
   }
@@ -343,12 +343,12 @@ void assign(const Lit x) {
    const auto max_size = changes_index + occur_false;
    if (max_size > changes.size()) changes.resize(max_size);
    for (unsigned int i=0; i<occur_false; ++i) {
-     const auto m = L.clause_occ[i];
+     const auto m = L.clause_index[i];
      auto& C = clauses[m];
      if (not C.status) continue;
      assert(C.length >= 2);
      --C.length;
-     const auto n = L.clause_index[i];
+     const auto n = L.literal_index[i];
      C.value -= Clause_content(1) << n;
 
      changes[changes_index++] = {m,n};
@@ -380,7 +380,7 @@ void unassign(const Lit x) {
   --depth;
   while (n_changes[depth][neg]) {
     --n_changes[depth][neg];
-    const auto m = changes[--changes_index].clause_number;
+    const auto m = changes[--changes_index].clause_index;
     const auto n = changes[changes_index].literal_index;
     auto& C = clauses[m];
     ++C.length;
@@ -393,7 +393,7 @@ void unassign(const Lit x) {
 
   while (n_changes[depth][pos]) {
     --n_changes[depth][pos];
-    const auto m = changes[--changes_index].clause_number;
+    const auto m = changes[--changes_index].clause_index;
     clauses[m].status = true;
     ++r_clauses;
   }
@@ -413,14 +413,14 @@ inline Lit branching_literal_2sjw() {
       double pz = 0;
       {const auto pos_occur = vpos.n_occur;
        for (unsigned int k=0; k<pos_occur; ++k) {
-         const auto cv = vpos.clause_occ[k];
+         const auto cv = vpos.clause_index[k];
          assert(cv < clauses.size());
          pz += Clause_content(clauses[cv].status) << (mlen - clauses[cv].length);
        }}
       double nz = 0;
       {const auto neg_occur = vneg.n_occur;
        for (unsigned int k=0; k<neg_occur; ++k) {
-         const auto cv = vneg.clause_occ[k];
+         const auto cv = vneg.clause_index[k];
          assert(cv < clauses.size());
          nz += Clause_content(clauses[cv].status) << (mlen - clauses[cv].length);
        }}
