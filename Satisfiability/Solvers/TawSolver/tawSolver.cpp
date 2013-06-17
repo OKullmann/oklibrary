@@ -1,4 +1,4 @@
-/**************************************************************************************************
+/*********************************************************************
 tawSolver -- Copyright (c) 2007-2013, Tanbir Ahmed
 http://users.encs.concordia.ca/~ta_ahmed/
 
@@ -16,7 +16,7 @@ NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPO
 NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
 OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-**************************************************************************************************/
+**********************************************************************/
 
 /*
   Compile with
