@@ -120,7 +120,7 @@ struct clause_info {
   Clause_content value; // bit-vector, showing current content
   int index; // the index of this clause
   int length; // the current length
-  Lit c_ucl; // the unique literal, if length = 1
+  Lit unit; // the unique literal, if length = 1
   bool status; // true iff currently not satisfied
 };
 
@@ -263,7 +263,7 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   C.status = true;
   C.length = n;
   C.value = (Clause_content(1) << n) - 1;
-  C.c_ucl = 0;
+  C.unit = 0;
   C.literals = new Lit[n];
 
   if (n>act_max_clause_length) act_max_clause_length = n;
@@ -360,7 +360,7 @@ void assign(const Lit x) {
        if (checker[aucl] == 0) {
          gucl_stack[n_gucl++] = ucl;
          checker[aucl] = ucl;
-         C.c_ucl = ucl;
+         C.unit = ucl;
        }
        if (checker[aucl]+ucl == 0) {
          contradictory_unit_clauses = true;
@@ -383,8 +383,8 @@ void unassign(const Lit x) {
     auto& C = clauses[changes[--changes_index].clause_index];
     ++C.length;
     if (C.length == 2) {
-      checker[std::abs(C.c_ucl)] = 0;
-      C.c_ucl = 0;
+      checker[std::abs(C.unit)] = 0;
+      C.unit = 0;
     }
     C.value += Clause_content(1) << changes[changes_index].literal_index;
   }
