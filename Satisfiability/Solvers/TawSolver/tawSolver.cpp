@@ -406,26 +406,26 @@ inline Lit branching_literal_2sjw() {
   Lit x = 0;
   const auto mlen = act_max_clause_length;
   const auto nvar = n_vars;
-  for (Lit i=1; (unsigned)i <= nvar; ++i) {
-    const auto& vpos = lits[i][pos];
-    const auto& vneg = lits[i][neg];
+  for (Lit v=1; (unsigned)v <= nvar; ++v) {
+    const auto& vpos = lits[v][pos];
+    const auto& vneg = lits[v][neg];
     if (vpos.status or vneg.status) {
       double pz = 0;
       {const auto pos_occur = vpos.n_occur;
        for (unsigned int k=0; k<pos_occur; ++k) {
-         const auto ci = vpos.clause_occ[k];
-         assert(ci < clauses.size());
-         pz += Clause_content(clauses[ci].status) << (mlen - clauses[ci].length);
+         const auto cv = vpos.clause_occ[k];
+         assert(cv < clauses.size());
+         pz += Clause_content(clauses[cv].status) << (mlen - clauses[cv].length);
        }}
       double nz = 0;
       {const auto neg_occur = vneg.n_occur;
        for (unsigned int k=0; k<neg_occur; ++k) {
-         const auto ci = vneg.clause_occ[k];
-         assert(ci < clauses.size());
-         nz += Clause_content(clauses[ci].status) << (mlen - clauses[ci].length);
+         const auto cv = vneg.clause_occ[k];
+         assert(cv < clauses.size());
+         nz += Clause_content(clauses[cv].status) << (mlen - clauses[cv].length);
        }}
       const auto s = pz + nz;
-      if (s > max) { max = s; x = (pz >= nz) ? i : -i; }
+      if (s > max) { max = s; x = (pz >= nz) ? v : -v; }
     }
   }
   return x;
