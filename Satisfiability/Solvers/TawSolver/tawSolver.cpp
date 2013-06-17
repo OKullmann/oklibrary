@@ -63,8 +63,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.3.2";
-const std::string date = "16.6.2013";
+const std::string version = "1.3.3";
+const std::string date = "17.6.2013";
 
 #ifndef MAX_CLAUSE_LENGTH
 # define MAX_CLAUSE_LENGTH 32
