@@ -415,14 +415,22 @@ okltest_blocked_cs_p(f) := block(
   true)$
 
 okltest_elim_blocked_cs(f) := block(
-  assert(f({{1}}) = {}),
   assert(f({}) = {}),
+  assert(f({{}}) = {{}}),
+  assert(f({{1}}) = {}),
   assert(f({{1},{-1}}) = {{1},{-1}}),
   assert(f({{1,2},{1,-2,-3},{-1,3}}) = {}),
   for i : 1 thru 3 do block([F : full_cs(i)],
     assert(f(F) = F)),
   for i : 1 thru 3 do block([F : setify(even_parity_cl(i))],
     assert(f(F) = {})),
+  true)$
+
+okltest_elim_blockedk_cs(f) := (
+  assert(okltest_elim_blocked_cs(buildq([f], lambda([F], f(F,inf)))) = true),
+  assert(f({{1}},0) = {{1}}),
+  assert(f({{1}},1) = {}),
+  assert(f({{1,2},{1,-2,-3},{-1,3}},2) = {{1,-2,-3}}),
   true)$
 
 okltest_blocked_extension_cs_p(f) := block(

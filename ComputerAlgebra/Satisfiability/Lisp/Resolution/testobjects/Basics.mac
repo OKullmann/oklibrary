@@ -98,6 +98,7 @@ okltest_min_bresolution_closure_cs(min_bresolution_closure_cs);
 okltest_blocking_literal_p(blocking_literal_p);
 okltest_blocked_cs_p(blocked_cs_p);
 okltest_elim_blocked_cs(elim_blocked_cs);
+okltest_elim_blockedk_cs(elim_blockedk_cs);
 okltest_blocked_extension_cs_p(blocked_extension_cs_p);
 
 /*!

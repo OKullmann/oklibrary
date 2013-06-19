@@ -393,6 +393,14 @@ elim_blocked_cs(F) := block([tF : F, had_blocked : true],
     if emptyp(F_blocked) then had_blocked : false
     else tF : setdifference(tF, F_blocked)),
   return(tF))$
+/* Eliminating blocked clauses of length at most k from F: */
+elim_blockedk_cs(F,k) := block([tF : F, had_blocked : true],
+  while had_blocked do block([F_blocked],
+    F_blocked : subset(tF, lambda([C], is(length(C)<=k) and blocked_cs_p(tF,C))),
+    if emptyp(F_blocked) then had_blocked : false
+    else tF : setdifference(tF, F_blocked)),
+  return(tF))$
+
 
 /* Checking whether eF is a blocked extension of F: */
 blocked_extension_cs_p(eF,F) :=
