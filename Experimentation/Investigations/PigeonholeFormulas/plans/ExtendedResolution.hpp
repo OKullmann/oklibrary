@@ -88,6 +88,9 @@ experiment(7);
      <li> For this the generator in
      ComputerAlgebra/Satisfiability/Lisp/Generators/Pigeonhole.mac needs to be
      given more structure (and better documentation). </li>
+     <li> Perhaps the extension should be standardised in the sense that only
+     extension via {v,a,b},{-v,-a},{-v,-b} is used? Perhaps then removal of
+     blocked 2-clauses becomes more powerful? </li>
     </ol>
    </li>
   </ul>
