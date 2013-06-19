@@ -271,7 +271,15 @@ c max_tree_depth                        47
    </li>
    <li> k=23, n=507:
    \verbatim
-XXX
+c running_time(sec)                     132149.5
+c number_of_nodes                       7461907
+c number_of_single_nodes                0
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                126199368
+c number_of_pure_literals               51
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         0
+c max_tree_depth                        47
    \endverbatim
    </li>
   </ul>
