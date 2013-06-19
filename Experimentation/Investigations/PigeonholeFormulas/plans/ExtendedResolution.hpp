@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Investigations regarding extended resolution for pigeonhole clause-sets
 
 
- \todo Extended PHP clause-sets
+ \todo Sat solvers on xxtended PHP clause-sets
   <ul>
    <li> Computed by output_weak_php_unsat_ext_stdname(n). </li>
    <li> Performance of SAT solvers (n is the number of holes):
