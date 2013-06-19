@@ -216,7 +216,7 @@ php_induction_cl(m) :=
 
 /* For m >= 0, yields weak_php_fcs(m+1,m) with Extended Resolution clauses
    as given in
-   [A short proof of the pigeon hole principle using extended resolution";
+   [A short proof of the pigeon hole principle using extended resolution;
    Stephen Cook]: */
 weak_php_unsat_ext_fcs(m) := block([F : weak_php_unsat_ext_uni_fcs(m)],
   [listify(substitute_cs({F[1]},sm2hm(var_ephp2php_sm(m))))[1],
