@@ -366,7 +366,16 @@ c main():: doublelook: succesrate: 80.676, average DL_trigger: 1555.402
    </li>
    <li> k=23, n=507:
    \verbatim
-XXX
+c main():: nodeCount: 876315
+c main():: dead ends in main: 6524
+c main():: lookAheadCount: 400324456
+c main():: unitResolveCount: 11740884
+c main():: time=77763.023438
+c main():: necessary_assignments: 381321
+c main():: bin_sat: 0, bin_unsat 0
+c main():: doublelook: #: 9348272, succes #: 7623499
+c main():: doublelook: overall 2.403 of all possible doublelooks executed
+c main():: doublelook: succesrate: 81.550, average DL_trigger: 1670.000
    \endverbatim
    </li>
   </ul>
