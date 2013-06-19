@@ -72,7 +72,13 @@ c max_number_changes                    54879
    </li>
    <li> k=23, n=507 (with final version):
    \verbatim
-XXX
+c number_of_variables                   254
+c number_of_clauses                     34289
+c running_time(sec)                     86869.06
+c number_of_nodes                       573190251
+c number_of_binary_nodes                286595125
+c number_of_1-reductions                7857883219
+c max_number_changes                    65646
    \endverbatim
    </li>
   </ul>
@@ -263,6 +269,11 @@ c number_of_missed_single_nodes         1
 c max_tree_depth                        47
    \endverbatim
    </li>
+   <li> k=23, n=507:
+   \verbatim
+XXX
+   \endverbatim
+   </li>
   </ul>
 
 
@@ -351,6 +362,11 @@ c main():: bin_sat: 0, bin_unsat 0
 c main():: doublelook: #: 3725128, succes #: 3005292
 c main():: doublelook: overall 2.468 of all possible doublelooks executed
 c main():: doublelook: succesrate: 80.676, average DL_trigger: 1555.402
+   \endverbatim
+   </li>
+   <li> k=23, n=507:
+   \verbatim
+XXX
    \endverbatim
    </li>
   </ul>
