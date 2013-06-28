@@ -558,7 +558,16 @@ c CPU time              : 6817.36 s
    </li>
    <li> k=24, n=593:
    \verbatim
-XXX
+# ABORTED
+c restarts              : 20783693 (52 conflicts in avg)
+c nb learnts size 2     : 1
+c nb learnts size 1     : 0
+c conflicts             : 1100664795     (1109 /sec)
+c decisions             : 1642761317     (0.00 % random) (1655 /sec)
+c propagations          : 38944511191    (39237 /sec)
+c conflict literals     : 26161267074    (54.87 % deleted)
+c nb reduced Clauses    : 74801
+c CPU time              : 992540 s
    \endverbatim
    </li>
   </ul>
@@ -629,6 +638,12 @@ c CPU time                 : 14321.18    s
    </li>
    <li> k=23, n=507:
    \verbatim
+c conflicts                : 141249316   (2543.01   / sec)
+c decisions                : 181119909   (0.15      % random)
+c bogo-props               : 11189010459567 (201443388.69 / sec)
+c conflict literals        : 2463353882  (58.99     % deleted)
+c Memory used              : 3391.55     MB
+c CPU time                 : 55544.19    s
    \endverbatim
    </li>
    <li> k=24, n=593:
@@ -770,6 +785,301 @@ c 28542.5 seconds, 173.2 MB
    </li>
    <li> k=24, n=593:
    \verbatim
+c 422440951 decisions, 285546948 conflicts, 1877.7 conflicts/sec
+c 10742297451 propagations, 0.1 megaprops/sec
+c 152075.8 seconds, 394.3 MB
+   \endverbatim
+   </li>
+  </ul>
+
+
+  \todo Cube-and-Conquer (SplittingViaOKsolver)
+  <ul>
+   <li> k=23, n=507 (cswsok, 3 GHz):
+   \verbatim
+> SplittingViaOKsolver -D20 VanDerWaerden_pd_2-3-23_507.cnf
+> cd SplitViaOKsolver_D20VanDerWaerden_pd_2323_507cnf_2013-06-22-205931
+> cat Result
+c running_time(sec)                     40.3
+c number_of_nodes                       713
+c number_of_2-reductions                25
+c max_tree_depth                        17
+c splitting_cases                       357
+> cd ..
+
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D20VanDerWaerden_pd_2323_507cnf_2013-06-22-205931
+> cat Process_SplitViaOKsolver_D20VanDerWaerden_pd_2323_507cnf_2013-06-22-205931_2013-06-22-210258/Result
+  19:56
+> E=read_processsplit_minisat()
+357: 19.42m, sum-cfs=2.778396e+07, mean-t=3.263s, mean-cfs=77826, sat: 0
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 0.4139  1.4630  2.6240  3.2630  3.9310 18.2500
+sd= 2.657439
+      95%       96%       97%       98%       99%      100%
+ 8.265948  9.125855 10.081654 12.026772 14.275000 18.248200
+sum= 1164.904
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  10750   36170   62790   77830   93880  426200
+sd= 62121.7
+     95%      96%      97%      98%      99%     100%
+200127.8 216331.1 240333.9 280592.2 333469.4 426233.0
+sum= 27783956
+$t ~ $cfs:
+               Estimate  Std. Error  t value  Pr(>|t|)
+(Intercept) -5.2852e-02  2.0222e-02  -2.6135  0.009342 **
+E$cfs        4.2606e-05  2.0319e-07 209.6892 < 2.2e-16 ***
+R-squared: 0.992
+
+
+> SplittingViaOKsolver -D25 VanDerWaerden_pd_2-3-23_507.cnf
+> cd SplitViaOKsolver_D25VanDerWaerden_pd_2323_507cnf_2013-06-22-212630
+c running_time(sec)                     105.9
+c number_of_nodes                       1717
+c number_of_2-reductions                68
+c max_tree_depth                        20
+c splitting_cases                       859
+> cd ..
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D25VanDerWaerden_pd_2323_507cnf_2013-06-22-212630
+> cat Process_SplitViaOKsolver_D25VanDerWaerden_pd_2323_507cnf_2013-06-22-212630_2013-06-22-212925/Result
+  19:26
+> E=read_processsplit_minisat()
+859: 18.25m, sum-cfs=2.730857e+07, mean-t=1.275s, mean-cfs=31791, sat: 0
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 0.1410  0.4804  0.9529  1.2750  1.6550 17.8500
+sd= 1.203853
+      95%       96%       97%       98%       99%      100%
+ 3.392480  3.698520  4.009290  4.327740  4.913692 17.852300
+sum= 1095.072
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   1904   12440   23700   31790   42230  426200
+sd= 29025.9
+      95%       96%       97%       98%       99%      100%
+ 84844.30  88237.56  97650.90 106160.68 116435.88 426233.00
+sum= 27308572
+$t ~ $cfs:
+               Estimate  Std. Error  t value  Pr(>|t|)
+(Intercept) -3.8116e-02  5.6153e-03  -6.7879 2.124e-11 ***
+E$cfs        4.1299e-05  1.3047e-07 316.5281 < 2.2e-16 ***
+R-squared: 0.9915
+
+> solver="glucose-2.2" ProcessSplitViaOKsolver SplitViaOKsolver_D20VanDerWaerden_pd_2323_507cnf_2013-06-22-205931
+> cat Process_SplitViaOKsolver_D20VanDerWaerden_pd_2323_507cnf_2013-06-22-205931_2013-06-22-221041/Result
+  18:26
+
+> solver="glucose-2.2" ProcessSplitViaOKsolver SplitViaOKsolver_D25VanDerWaerden_pd_2323_507cnf_2013-06-22-212630/
+> cat Process_SplitViaOKsolver_D25VanDerWaerden_pd_2323_507cnf_2013-06-22-212630_2013-06-22-223727/Result
+  18:29
+   \endverbatim
+   So glucose-2.2 with D=25 seems best.
+   </li>
+   <li> k=24, n=593 (cswsok, 3 GHz):
+   \verbatim
+> SplittingViaOKsolver -D30 VanDerWaerden_pd_2-3-24_593.cnf
+> cd SplitViaOKsolver_D30VanDerWaerden_pd_2324_593cnf_2013-06-22-232152
+c running_time(sec)                     254.8
+c number_of_nodes                       2417
+c number_of_2-reductions                134
+c max_tree_depth                        20
+c splitting_cases                       1209
+
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_pd_2324_593cnf_2013-06-22-232152
+> cat Process_SplitViaOKsolver_D30VanDerWaerden_pd_2324_593cnf_2013-06-22-232152_2013-06-22-232717/Result
+  89:00
+> E=read_processsplit_minisat()
+1209: 1.445h, sum-cfs=1.008811e+08, mean-t=4.302s, mean-cfs=83442, sat: 0
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.315   1.429   2.566   4.302   4.901  57.240
+sd= 5.393348
+     95%      96%      97%      98%      99%     100%
+14.28480 15.73240 18.34294 20.58778 27.18190 57.24230
+sum= 5201.499
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   4299   28380   50300   83440   95830 1128000
+sd= 100984.3
+      95%       96%       97%       98%       99%      100%
+ 269063.8  298589.4  342176.2  390720.2  480286.2 1127889.0
+sum= 100881074
+$t ~ $cfs:
+               Estimate  Std. Error  t value  Pr(>|t|)
+(Intercept) -1.4224e-01  1.4692e-02  -9.6816 < 2.2e-16 ***
+E$cfs        5.3265e-05  1.1218e-07 474.8130 < 2.2e-16 ***
+R-squared: 0.9947
+
+> solver="glucose-2.2" ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_pd_2324_593cnf_2013-06-22-232152
+> cat Process_SplitViaOKsolver_D30VanDerWaerden_pd_2324_593cnf_2013-06-22-232152_2013-06-23-111749/Result
+  76.29
+
+
+> SplittingViaOKsolver -D35 VanDerWaerden_pd_2-3-24_593.cnf
+> cat SplitViaOKsolver_D35VanDerWaerden_pd_2324_593cnf_2013-06-23-112845/Result
+c running_time(sec)                     500.4
+c number_of_nodes                       5559
+c number_of_2-reductions                537
+c max_tree_depth                        23
+c splitting_cases                       2780
+
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D35VanDerWaerden_pd_2324_593cnf_2013-06-23-112845
+> cat Process_SplitViaOKsolver_D35VanDerWaerden_pd_2324_593cnf_2013-06-23-112845_2013-06-23-114158/Result
+  79.23
+> E=read_processsplit_minisat()
+2780: 1.241h, sum-cfs=9.383166e+07, mean-t=1.606s, mean-cfs=33752, sat: 0
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 0.1750  0.7009  1.1780  1.6060  2.0160 27.0000
+sd= 1.57834
+      95%       96%       97%       98%       99%      100%
+ 4.131819  4.433530  4.805160  5.574870  7.638510 27.002900
+sum= 4466.019
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+   1309   14760   24850   33750   42610  545300
+sd= 33077.35
+      95%       96%       97%       98%       99%      100%
+ 87163.10  94105.28 104421.86 117065.40 156457.63 545342.00
+sum= 93831664
+$t ~ $cfs:
+               Estimate  Std. Error  t value Pr(>|t|)
+(Intercept) -1.7004e-03  2.3194e-03  -0.7331   0.4635
+E$cfs        4.7646e-05  4.9084e-08 970.7191   <2e-16 ***
+R-squared: 0.9971
+
+> solver="glucose-2.2" ProcessSplitViaOKsolver SplitViaOKsolver_D35VanDerWaerden_pd_2324_593cnf_2013-06-23-112845/
+> cat Process_SplitViaOKsolver_D35VanDerWaerden_pd_2324_593cnf_2013-06-23-112845_2013-06-23-131800/Result
+  74:20
+   \endverbatim
+   D=35 and glucose-2.2 is best.
+   </li>
+   <li> k=25, n=607 (cswsok, 3 GHz):
+   \verbatim
+> SplittingViaOKsolver -D45 VanDerWaerden_pd_2-3-25_607.cnf
+> cat SplitViaOKsolver_D45VanDerWaerden_pd_2325_607cnf_2013-06-23-132529/Result
+c running_time(sec)                     1751.8
+c number_of_nodes                       17633
+c number_of_2-reductions                2105
+c max_tree_depth                        29
+c splitting_cases                       8817
+
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D45VanDerWaerden_pd_2325_607cnf_2013-06-23-132529
+> cat Process_SplitViaOKsolver_D45VanDerWaerden_pd_2325_607cnf_2013-06-23-132529_2013-06-23-141015/Result
+  212:43
+> E=read_processsplit_minisat()
+8817: 3.284h, sum-cfs=2.588296e+08, mean-t=1.341s, mean-cfs=29356, sat: 0
+$t:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+ 0.07299  0.46790  0.81290  1.34100  1.56800 46.83000
+sd= 1.665943
+      95%       96%       97%       98%       99%      100%
+ 4.051780  4.599180  5.427255  6.388510  8.451912 46.826900
+sum= 11822.47
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    225    9967   18260   29360   34630  923400
+sd= 36417.99
+     95%      96%      97%      98%      99%     100%
+ 89460.0 102250.0 120132.6 141854.0 185405.8 923423.0
+sum= 258829555
+$t ~ $cfs:
+              Estimate Std. Error   t value Pr(>|t|)
+(Intercept) 4.3601e-04 1.3743e-03    0.3173   0.7511
+E$cfs       4.5662e-05 2.9382e-08 1554.0913   <2e-16 ***
+R-squared: 0.9964
+
+> solver="glucose-2.2" ProcessSplitViaOKsolver SplitViaOKsolver_D45VanDerWaerden_pd_2325_607cnf_2013-06-23-132529
+cat Process_SplitViaOKsolver_D45VanDerWaerden_pd_2325_607cnf_2013-06-23-132529_2013-06-23-175234/Result
+  198:32
+   \endverbatim
+   </li>
+   <li> k=26, n=643 (cswsok, 3 GHz):
+   \verbatim
+> SplittingViaOKsolver -D55 VanDerWaerden_pd_2-3-26_643.cnf
+> cat SplitViaOKsolver_D55VanDerWaerden_pd_2326_643cnf_2013-06-23-212929/Result
+c running_time(sec)                     7889.3
+c number_of_nodes                       77161
+c number_of_2-reductions                9804
+c max_tree_depth                        36
+c splitting_cases                       38581
+
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D55VanDerWaerden_pd_2326_643cnf_2013-06-23-212929
+> cat Process_SplitViaOKsolver_D55VanDerWaerden_pd_2326_643cnf_2013-06-23-212929_2013-06-23-235611/Result
+  998:37
+> E=read_processsplit_minisat()
+38581: 15.363h, sum-cfs=1.231384e+09, mean-t=1.434s, mean-cfs=31917, sat: 0
+$t:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 0.1030  0.5389  0.9509  1.4340  1.7570 57.6300
+sd= 1.627163
+     95%      96%      97%      98%      99%     100%
+ 4.02139  4.36394  4.90485  5.90410  7.65664 57.62920
+sum= 55305.95
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+    120   11450   21240   31920   39330 1188000
+sd= 36956.36
+      95%       96%       97%       98%       99%      100%
+  91803.0  100184.6  112881.4  135663.8  174461.2 1188254.0
+sum= 1231383588
+$t ~ $cfs:
+              Estimate Std. Error  t value  Pr(>|t|)
+(Intercept) 3.1873e-02 7.8809e-04   40.443 < 2.2e-16 ***
+E$cfs       4.3915e-05 1.6139e-08 2720.998 < 2.2e-16 ***
+R-squared: 0.9948
+
+> solver="glucose-2.2" ProcessSplitViaOKsolver SplitViaOKsolver_D55VanDerWaerden_pd_2326_643cnf_2013-06-23-212929
+> cat Process_SplitViaOKsolver_D55VanDerWaerden_pd_2326_643cnf_2013-06-23-212929_2013-06-24-104758/Result
+  946:41
+   \endverbatim
+   </li>
+   <li> k=27, n=699 (cswsok, 3 GHz):
+   \verbatim
+> SplittingViaOKsolver -D65 VanDerWaerden_pd_2-3-27_699.cnf
+> cat SplitViaOKsolver_D65VanDerWaerden_pd_2327_699cnf_2013-06-24-192940/Result
+c running_time(sec)                     25477.9
+c number_of_nodes                       220069
+c number_of_2-reductions                39483
+c max_tree_depth                        39
+c splitting_cases                       110032
+
+
+> ProcessSplitViaOKsolver SplitViaOKsolver_D65VanDerWaerden_pd_2327_699cnf_2013-06-24-192940
+> cat Process_SplitViaOKsolver_D65VanDerWaerden_pd_2327_699cnf_2013-06-24-192940_2013-06-25-094906/Result
+  3114:15
+> E=read_processsplit_minisat()
+110032: 1.991d, sum-cfs=3.423842e+09, mean-t=1.563s, mean-cfs=31117, sat: 0
+$t:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+  0.06399   0.48090   0.82090   1.56300   1.61500 124.90000
+sd= 2.813443
+      95%       96%       97%       98%       99%      100%
+  4.93570   5.74489   6.89302   8.64896  12.04052 124.92100
+sum= 172032.8
+$cfs:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     50    8538   16480   31120   32160 2280000
+sd= 56429.02
+      95%       96%       97%       98%       99%      100%
+ 102899.2  119073.7  141846.1  176742.3  247074.5 2279919.0
+sum= 3423841749
+$t ~ $cfs:
+              Estimate Std. Error  t value  Pr(>|t|)
+(Intercept) 1.4741e-02 5.6957e-04   25.882 < 2.2e-16 ***
+E$cfs       4.9772e-05 8.8389e-09 5631.020 < 2.2e-16 ***
+R-squared: 0.9965
+
+> solver="glucose-2.2" ProcessSplitViaOKsolver SplitViaOKsolver_D65VanDerWaerden_pd_2327_699cnf_2013-06-24-192940
+> cat Process_SplitViaOKsolver_D65VanDerWaerden_pd_2327_699cnf_2013-06-24-192940_2013-06-25-095104/Result
+  2839:59
    \endverbatim
    </li>
   </ul>
