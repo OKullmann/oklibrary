@@ -404,22 +404,24 @@ inline Lit branching_literal_2sjw() {
   const auto mlen = act_max_clause_length;
   const auto nvar = n_vars;
   for (Lit v=1; (unsigned)v <= nvar; ++v) {
-    const auto& vpos = lits[v][pos];
-    const auto& vneg = lits[v][neg];
+    const auto vpos = lits[v][pos];
+    const auto vneg = lits[v][neg];
     if (vpos.status or vneg.status) {
       double pz = 0;
       {const auto pos_occur = vpos.n_occur;
        for (unsigned int k=0; k<pos_occur; ++k) {
          const auto cv = vpos.clause_index[k];
          assert(cv < clauses.size());
-         pz += Clause_content(clauses[cv].status) << (mlen - clauses[cv].length);
+         const auto C = clauses[cv];
+         pz += Clause_content(C.status) << (mlen - C.length);
        }}
       double nz = 0;
       {const auto neg_occur = vneg.n_occur;
        for (unsigned int k=0; k<neg_occur; ++k) {
          const auto cv = vneg.clause_index[k];
          assert(cv < clauses.size());
-         nz += Clause_content(clauses[cv].status) << (mlen - clauses[cv].length);
+         const auto C = clauses[cv];
+         nz += Clause_content(C.status) << (mlen - C.length);
        }}
       const auto s = pz + nz;
       if (s > max) { max = s; x = (pz >= nz) ? v : -v; }
