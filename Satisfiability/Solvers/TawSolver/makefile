@@ -24,7 +24,7 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all check new_check app_tests cleanall
+.PHONY : all check new_check app_tests timing cleanall
 
 ifeq ($(gpp_call_okl),)
   CXX = g++
@@ -52,6 +52,12 @@ else
   main_target = $(bin_dir)/tawSolver
 endif
 
+ifeq ($(log_dir),)
+  outputfile = Output_timing_tawSolver
+else
+  outputfile = $(log_dir)/Output_timing_tawSolver
+endif
+
 all : $(main_target)
 
 ifeq ($(MAX_CLAUSE_LENGTH),)
@@ -66,6 +72,27 @@ $(main_target) : tawSolver.cpp
 	$(CXX) -DMAX_CLAUSE_LENGTH=$(MAX_CLAUSE_LENGTH) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $(main_target) $(LFLAGS)
 
 endif
+
+repeat := 5
+time := /usr/bin/time -f "%U %M" -o $(outputfile) -a
+input1 := VanDerWaerden_2-3-12_134.cnf
+input2 := VanDerWaerden_2-3-12_135.cnf
+timing :
+	VanderWaerdenCNF-O3-DNDEBUG 3 12 134
+	tawSolver -v > $(outputfile)
+	date >> $(outputfile); echo >> $(outputfile)
+	echo "tawSolver $(input1)" >> $(outputfile)
+	- for ((i=0; i<$(repeat); ++i)); do $(time) tawSolver $(input1); done; echo >> $(outputfile)
+	echo "tawSolver64 $(input1)" >> $(outputfile)
+	for ((i=0; i<$(repeat); ++i)); do $(time) tawSolver64 $(input1); done; echo >> $(outputfile)
+	rm $(input1)
+	VanderWaerdenCNF-O3-DNDEBUG 3 12 135
+	echo "tawSolver $(input2)" >> $(outputfile)
+	for ((i=0; i<$(repeat); ++i)); do $(time) tawSolver $(input2); done; echo >> $(outputfile)
+	echo "tawSolver64 $(input2)" >> $(outputfile)
+	for ((i=0; i<$(repeat); ++i)); do $(time) tawSolver64 $(input2); done; echo >> $(outputfile)
+	rm $(input2)
+
 
 
 check :
