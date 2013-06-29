@@ -130,7 +130,7 @@ struct lit_info {
   unsigned int* clause_index; // array with clause-indices
   unsigned int* literal_index; // array with literal-indices (into the clause)
   unsigned int n_occur;
-  bool status;
+  bool unassigned;
 };
 typedef std::array<lit_info,2> lit_info_pair;
 std::vector<lit_info_pair> lits;
@@ -278,7 +278,7 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
     L.clause_index[L.n_occur] = n_clauses;
     L.literal_index[L.n_occur] = i;
     ++L.n_occur;
-    L.status = true;
+    L.unassigned = true;
     C.literals[i] = x;
   }
   ++n_clauses;
@@ -370,8 +370,8 @@ void assign(const Lit x) {
    }
   }
   ++depth;
-  lits[v][pos].status = false;
-  lits[v][neg].status = false;
+  lits[v][pos].unassigned = false;
+  lits[v][neg].unassigned = false;
 }
 
 void unassign(const Lit x) {
@@ -394,8 +394,8 @@ void unassign(const Lit x) {
     clauses[changes[--changes_index].clause_index].status = true;
     ++r_clauses;
   }
-  lits[v][pos].status = true;
-  lits[v][neg].status = true;
+  lits[v][pos].unassigned = true;
+  lits[v][neg].unassigned = true;
 }
 
 inline Lit branching_literal_2sjw() {
@@ -406,7 +406,7 @@ inline Lit branching_literal_2sjw() {
   for (Lit v=1; (unsigned)v <= nvar; ++v) {
     const auto vpos = lits[v][pos];
     const auto vneg = lits[v][neg];
-    if (vpos.status or vneg.status) {
+    if (vpos.unassigned or vneg.unassigned) {
       double pz = 0;
       {const auto pos_occur = vpos.n_occur;
        for (unsigned int k=0; k<pos_occur; ++k) {
