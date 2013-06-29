@@ -190,6 +190,20 @@ cswsok: 47.09 47.06 47.00 46.98
 cswsok: 45.34 45.41 45.04 45.39
 > tawSolver64 VanDerWaerden_2-3-12_135.cnf
 cswsok: 50.26 50.11 50.15 50.30
+
+# ID: 691fe428fe57f20b22e963697cdd74a3e79f450c
+# Explicitly requested loop-unrolling from gcc.
+# following times on otherwise idle cswsok:
+
+> tawSolver VanDerWaerden_2-3-12_134.cnf
+cswsok: 38.12 38.15 38.31 37.96
+> tawSolver64 VanDerWaerden_2-3-12_134.cnf
+cswsok: 41.86 41.94 42.01 41.94
+
+> tawSolver VanDerWaerden_2-3-12_135.cnf
+cswsok: 40.22 40.18 40.21 40.38
+> tawSolver64 VanDerWaerden_2-3-12_135.cnf
+cswsok: 44.41 44.55 44.56 44.53
    \endverbatim
    </li>
   </ul>
