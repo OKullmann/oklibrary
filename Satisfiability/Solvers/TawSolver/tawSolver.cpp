@@ -130,7 +130,7 @@ struct lit_info {
   unsigned int* clause_index; // array with clause-indices
   unsigned int* literal_index; // array with literal-indices (into the clause)
   unsigned int n_occur;
-  bool unassigned;
+  bool unassigned; // used only for the positive literal
 };
 typedef std::array<lit_info,2> lit_info_pair;
 std::vector<lit_info_pair> lits;
@@ -271,6 +271,7 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   for (int i=0; i<(int)n; ++i) {
     const Lit x = A[i];
     const Var v = std::abs(x);
+    lits[v][pos].unassigned = true;
     const Polarity p = x > 0 ? pos : neg;
     auto& L = lits[v][p];
     L.clause_index = (unsigned int*) std::realloc(L.clause_index, (L.n_occur+1)*sizeof(unsigned int));
@@ -278,7 +279,6 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
     L.clause_index[L.n_occur] = n_clauses;
     L.literal_index[L.n_occur] = i;
     ++L.n_occur;
-    L.unassigned = true;
     C.literals[i] = x;
   }
   ++n_clauses;
@@ -371,7 +371,6 @@ void assign(const Lit x) {
   }
   ++depth;
   lits[v][pos].unassigned = false;
-  lits[v][neg].unassigned = false;
 }
 
 void unassign(const Lit x) {
@@ -395,7 +394,6 @@ void unassign(const Lit x) {
     ++r_clauses;
   }
   lits[v][pos].unassigned = true;
-  lits[v][neg].unassigned = true;
 }
 
 inline Lit branching_literal_2sjw() {
@@ -405,8 +403,7 @@ inline Lit branching_literal_2sjw() {
   const auto nvar = n_vars;
   for (Lit v=1; (unsigned)v <= nvar; ++v) {
     const auto vpos = lits[v][pos];
-    const auto vneg = lits[v][neg];
-    if (vpos.unassigned or vneg.unassigned) {
+    if (vpos.unassigned) {
       double pz = 0;
       {const auto pos_occur = vpos.n_occur;
        for (unsigned int k=0; k<pos_occur; ++k) {
@@ -416,7 +413,8 @@ inline Lit branching_literal_2sjw() {
          pz += Clause_content(C.status) << (mlen - C.length);
        }}
       double nz = 0;
-      {const auto neg_occur = vneg.n_occur;
+      {const auto vneg = lits[v][neg];
+       const auto neg_occur = vneg.n_occur;
        for (unsigned int k=0; k<neg_occur; ++k) {
          const auto cv = vneg.clause_index[k];
          assert(cv < clauses.size());
