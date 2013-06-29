@@ -21,7 +21,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 /*
   Compile with
 
-> g++ --std=c++11 -Wall -Ofast -DNDEBUG -o tawSolver tawSolver.cpp
+> g++ --std=c++11 -Wall -Ofast -funroll-loops -DNDEBUG -o tawSolver tawSolver.cpp
 
 (or with "g++ --std=c++11 -Wall -g -o tawSolver tawSolver.cpp"
 for debugging).
@@ -31,8 +31,8 @@ for debugging).
 > tawSolver [argument]
 
    - without argument shows usage
-   - without argument "-v" or "--version" shows information
-   - with filename runs the SAT solver.
+   - with argument= "-v" or "--version" shows information
+   - with argument=filename runs the SAT solver.
 
   There are two macros to control compilation:
    - MAX_CLAUSE_LENGTH (default 32)
@@ -63,8 +63,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.3.3";
-const std::string date = "17.6.2013";
+const std::string version = "1.3.4";
+const std::string date = "29.6.2013";
 
 #ifndef MAX_CLAUSE_LENGTH
 # define MAX_CLAUSE_LENGTH 32
@@ -543,6 +543,11 @@ void version_information() {
 
 }
 
+inline double current_time(rusage& ru) {
+  getrusage(RUSAGE_SELF, &ru);
+  return ru.ru_utime.tv_sec + ru.ru_utime.tv_usec / 1000000.0;
+}
+
 int main(const int argc, const char* const argv[]) {
   if (argc == 1) {
     std::cout << "Usage:\n"
@@ -556,12 +561,10 @@ int main(const int argc, const char* const argv[]) {
     return 0;
   }
   read_formula(filename);
-  rusage runtime;
-  getrusage(RUSAGE_SELF, &runtime);
-  const double t1 = runtime.ru_utime.tv_sec+runtime.ru_utime.tv_usec/1000000.0;
+  rusage timing;
+  const double t1 = current_time(timing);
   const bool result = dpll();
-  getrusage(RUSAGE_SELF, &runtime);
-  const double t2 = runtime.ru_utime.tv_sec+runtime.ru_utime.tv_usec/1000000.0;
+  const double t2 = current_time(timing);
   output(filename, result, t2-t1);
   return (result) ? sat : unsat;
 }

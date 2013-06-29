@@ -36,7 +36,7 @@ endif
 
 Standard_options = --std=c++11 -pedantic
 Warning_options = -Wall
-Optimisation_options = -Ofast -DNDEBUG
+Optimisation_options = -Ofast -funroll-loops -DNDEBUG
 ifeq ($(git_id_oklib),)
   Other_options =
 else
