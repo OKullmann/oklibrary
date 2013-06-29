@@ -63,7 +63,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.3.4";
+const std::string version = "1.3.5";
 const std::string date = "29.6.2013";
 
 #ifndef MAX_CLAUSE_LENGTH
@@ -104,7 +104,7 @@ enum Error_codes {
 
 enum Exit_codes { sat=10, unsat=20 };
 
-enum Polarity { neg=0, pos=1 };
+enum Polarity { pos=0, neg=1 };
 
 #ifndef LIT_TYPE
 # define LIT_TYPE int
