@@ -22,6 +22,12 @@ License, or any later version. */
 
   \todo Timing
   <ul>
+   <li> Test instances created by
+   \verbatim
+> VanderWaerdenCNF-O3-DNDEBUG 3 12 134
+> VanderWaerdenCNF-O3-DNDEBUG 3 12 135
+   \endverbatim
+   </li>
    <li> On csltok (2.7 GHz) resp. cswsok (3GHz):
    \verbatim
 # Id: 588a9cf1d823c5e59090ad20938b1708e6961643
