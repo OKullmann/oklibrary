@@ -204,6 +204,23 @@ cswsok: 41.86 41.94 42.01 41.94
 cswsok: 40.22 40.18 40.21 40.38
 > tawSolver64 VanDerWaerden_2-3-12_135.cnf
 cswsok: 44.41 44.55 44.56 44.53
+
+# ID 2da9342c0399452746517de41340ece4720fe495
+# perhaps major change: pos now first.
+
+> oklib timing
+cswsok (otherwise idle):
+tawSolver VanDerWaerden_2-3-12_134.cnf
+36.94 37.17 37.02 36.88 37.07
+tawSolver64 VanDerWaerden_2-3-12_134.cnf
+42.05 42.23 41.80 42.28 42.01
+tawSolver VanDerWaerden_2-3-12_135.cnf
+39.20 39.51 39.35 39.59 39.59
+tawSolver64 VanDerWaerden_2-3-12_135.cnf
+44.63 45.19 44.95 44.79 44.78
+
+# apparently the 32-bit version got faster, while the 64-bit version got
+# a bit slower.
    \endverbatim
    </li>
   </ul>
