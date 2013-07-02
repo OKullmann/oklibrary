@@ -63,8 +63,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.3.5";
-const std::string date = "29.6.2013";
+const std::string version = "1.3.6";
+const std::string date = "2.7.2013";
 
 #ifndef MAX_CLAUSE_LENGTH
 # define MAX_CLAUSE_LENGTH 32
@@ -160,8 +160,6 @@ bool contradictory_unit_clauses = false;
 std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
  v is unassigned, otherwise it is v in case v -> true and else -v. */
 
-std::vector<Lit> out;
-
 unsigned long long int n_branches = 0;
 unsigned long long int n_units = 0;
 unsigned long long int n_backtracks = 0;
@@ -202,7 +200,6 @@ void read_formula_header(std::ifstream& f) {
   lits.resize(n_vars+1);
   n_changes.resize(n_vars);
   pass.resize(n_vars+1);
-  out.resize(n_vars);
   gucl_stack.resize(n_vars);
   clauses.resize(n_header_clauses);
 }
@@ -438,7 +435,6 @@ bool dpll() {
       while (not lucl_stack.empty()) {
         unassign(lucl_stack.top());
         lucl_stack.pop();
-        out[depth] = 0;
       }
       contradictory_unit_clauses = false;
       n_gucl = 0;
@@ -447,7 +443,6 @@ bool dpll() {
     else if (n_gucl) {
       const Lit implied_literal = gucl_stack[--n_gucl];
       lucl_stack.push(implied_literal);
-      out[depth] = implied_literal;
       assign(implied_literal);
       ++n_units;
     }
@@ -457,18 +452,15 @@ bool dpll() {
   const Lit x = branching_literal_2sjw();
   assert(x);
   assert(depth < n_vars);
-  out[depth] = x;
   assign(x);
   if (dpll()) return true;
   unassign(x);
   ++n_backtracks;
 
   const Lit nx = -x;
-  out[depth] = nx;
   assign(nx);
   if (dpll()) return true;
   unassign(nx);
-  out[depth] = 0;
 
   while (not lucl_stack.empty()) {
     unassign(lucl_stack.top());
@@ -492,16 +484,8 @@ void output(const std::string& file, const bool result, const double elapsed) {
          "c max_number_changes                    " << changes.size() << "\n" <<
          "c file_name                             " << file << std::endl;
   if (result) {
-    std::vector<int> order(n_vars);
-    for (Var i=0; i<n_vars; i++) {
-      const auto val = out[i];
-      const auto index = std::abs(val)-1;
-      if (val > 0) order[index] = 1;
-      else if (val < 0) order[index] = -1;
-    }
     std::cout << "v ";
-    for (Lit i=0; i< (Lit)n_vars; ++i)
-      if (order[i]) std::cout << order[i]*(i+1) << " ";
+    for (Var i=1; i <= n_vars; ++i) if (pass[i]) std::cout << pass[i] << " ";
     std::cout << "0" << std::endl;
   }
 }
