@@ -156,7 +156,9 @@ unsigned int act_max_clause_length = 0;
 std::vector<Lit> gucl_stack;
 int n_gucl = 0;
 bool contradictory_unit_clauses = false;
-std::vector<Lit> checker;
+
+std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
+ v is unassigned, otherwise it is v in case v -> true and else -v. */
 
 std::vector<Lit> out;
 
@@ -199,7 +201,7 @@ void read_formula_header(std::ifstream& f) {
   }
   lits.resize(n_vars+1);
   n_changes.resize(n_vars);
-  checker.resize(n_vars+1);
+  pass.resize(n_vars+1);
   out.resize(n_vars);
   gucl_stack.resize(n_vars);
   clauses.resize(n_header_clauses);
@@ -357,14 +359,14 @@ void assign(const Lit x) {
      if (C.length == 1) {
        const Lit ucl = C.literals[log2s(C.value)];
        const Var aucl = std::abs(ucl);
-       if (checker[aucl] == 0) {
+       if (pass[aucl] == 0) {
          gucl_stack[n_gucl++] = ucl;
-         checker[aucl] = ucl;
+         pass[aucl] = ucl;
          C.unit = ucl;
        }
-       else if (checker[aucl] == -ucl) {
+       else if (pass[aucl] == -ucl) {
          contradictory_unit_clauses = true;
-         checker[aucl] = 0;
+         pass[aucl] = 0;
        }
      }
    }
@@ -382,7 +384,7 @@ void unassign(const Lit x) {
     auto& C = clauses[changes[--changes_index].clause_index];
     ++C.length;
     if (C.length == 2) {
-      checker[std::abs(C.unit)] = 0;
+      pass[std::abs(C.unit)] = 0;
       C.unit = 0;
     }
     C.value += Clause_content(1) << changes[changes_index].literal_index;
