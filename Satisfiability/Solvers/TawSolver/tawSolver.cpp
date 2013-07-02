@@ -362,7 +362,7 @@ void assign(const Lit x) {
          checker[aucl] = ucl;
          C.unit = ucl;
        }
-       if (checker[aucl]+ucl == 0) {
+       else if (checker[aucl] == -ucl) {
          contradictory_unit_clauses = true;
          checker[aucl] = 0;
        }
