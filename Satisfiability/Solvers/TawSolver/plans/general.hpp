@@ -221,6 +221,23 @@ tawSolver64 VanDerWaerden_2-3-12_135.cnf
 
 # apparently the 32-bit version got faster, while the 64-bit version got
 # a bit slower.
+
+# ID bd35d014e905b64e75571ed9199dd9cc8e4a4e38
+# some clean-up
+
+> oklib timing
+cswsok (one other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+37.71 37.83 37.71 37.79 37.76
+tawSolver64 VanDerWaerden_2-3-12_134.cnf
+42.81 42.91 43.08 42.80 42.96
+tawSolver VanDerWaerden_2-3-12_135.cnf
+40.07 40.28 40.27 40.00 40.12
+tawSolver64 VanDerWaerden_2-3-12_135.cnf
+45.70 45.74 45.74 45.66 45.67
+
+# higher running time likely due to higher load.
    \endverbatim
    </li>
   </ul>
