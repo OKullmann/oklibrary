@@ -63,8 +63,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.3.7";
-const std::string date = "3.7.2013";
+const std::string version = "1.3.8";
+const std::string date = "4.7.2013";
 
 #ifndef MAX_CLAUSE_LENGTH
 # define MAX_CLAUSE_LENGTH 32
@@ -114,13 +114,13 @@ static_assert(sizeof(Lit) != 1, "LIT_TYPE = char (or int8_t) doesn't work with r
 typedef std::make_unsigned<Lit>::type Var;
 
 struct clause_info {
-  Lit* literals; // the array of literals
+  Lit* literals; // the array of literals in the clause
   Clause_content value; // bit-vector, showing current content
   int index; // the index of this clause
   int length; // the current length
-  Lit unit; // the unique literal, if length = 1
   bool status; // true iff currently not satisfied
 };
+// Members "literals" and "index" are fixed after reading the input.
 
 std::vector<clause_info> clauses;
 
@@ -128,11 +128,13 @@ struct lit_info {
   unsigned int* clause_index; // array with clause-indices
   unsigned int* literal_index; // array with literal-indices (into the clause)
   unsigned int n_occur;
-  bool unassigned; // used only for the positive literal
 };
+// The lit_info data is fixed with the input.
 typedef std::array<lit_info,2> lit_info_pair;
 std::vector<lit_info_pair> lits;
 
+// for every active touched clause its index, and in case it didn't get
+// satisfied, the literal-index of the delelted literal:
 struct change_info {
   unsigned int clause_index;
   unsigned int literal_index; // used only for falsified literals in clause
@@ -140,23 +142,23 @@ struct change_info {
 
 typedef std::vector<change_info> Change_v;
 typedef Change_v::size_type change_index_t;
-Change_v changes(1); // acts as a stack
+Change_v changes(1); // acts as a global stack
 change_index_t changes_index = 0; // Invariant: changes_index < changes.size().
 
 typedef std::array<int,2> int_pair;
 std::vector<int_pair> n_changes;
+/* n_changes[depth][pos] is the number of satisfied clauses, while
+   n_changes[depth][neg] is the number of clauses with one literal removed;
+   depth here is the number of assignments on the current path
+*/
 
 unsigned int n_clauses, n_header_clauses, r_clauses;
 Var n_vars;
 unsigned int depth = 0;
 unsigned int act_max_clause_length = 0;
 
-std::vector<Lit> gucl_stack;
-int n_gucl = 0;
-bool contradictory_unit_clauses = false;
-
 std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
- v is unassigned, otherwise it is v in case v -> true and else -v. */
+ v is unassigned, otherwise it is v in case v->true and else -v. */
 
 unsigned long long int n_branches = 0;
 unsigned long long int n_units = 0;
@@ -167,6 +169,11 @@ inline Var var(const Lit x) { return std::abs(x); }
 enum Polarity { pos=0, neg=1 };
 inline Polarity sign(const Lit x) { return (x > 0) ? pos : neg; }
 inline Polarity inv_polarity(const Polarity p) { return (p == pos) ? neg:pos; }
+
+// to handle the branching-assignment plus the derived assignments:
+std::vector<Lit> gucl_stack;
+int n_gucl = 0; // the index of the next free element of the stack
+bool contradictory_unit_clauses = false;
 
 
 void read_formula_header(std::ifstream& f) {
@@ -273,7 +280,6 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   for (int i=0; i<(int)n; ++i) {
     const Lit x = A[i];
     const Var v = var(x);
-    lits[v][pos].unassigned = true;
     const Polarity p = sign(x);
     auto& L = lits[v][p];
     L.clause_index = (unsigned int*) std::realloc(L.clause_index, (L.n_occur+1)*sizeof(unsigned int));
@@ -318,10 +324,12 @@ inline int log2s(const Clause_content v) {
   return r;
 }
 
-void assign(const Lit x) { // set x to true
+void assign(const Lit x) {
+/* set x to true, and enter found unit-literals onto the global stack */
   assert(x);
   const Var v = var(x);
   assert(v <= n_vars);
+  pass[v] = x;
   const Polarity p = sign(x);
   {
    const auto L = lits[v][p];
@@ -351,6 +359,7 @@ void assign(const Lit x) { // set x to true
      auto& C = clauses[m];
      if (not C.status) continue;
      const auto n = L.literal_index[i];
+     assert((C.value >> n) % 2 == 1);
      C.value -= Clause_content(1) << n;
 
      changes[changes_index++] = {m,n};
@@ -364,32 +373,35 @@ void assign(const Lit x) { // set x to true
        if (pass[ucv] == 0) {
          gucl_stack[n_gucl++] = ucl;
          pass[ucv] = ucl;
-         C.unit = ucl;
        }
        else if (pass[ucv] == -ucl) {
          contradictory_unit_clauses = true;
-         pass[ucv] = 0;
+         goto end;
        }
      }
    }
   }
-  ++depth;
-  lits[v][pos].unassigned = false;
+  end : ++depth;
 }
 
 void unassign(const Lit x) {
   assert(x);
   const Var v = var(x);
+  pass[v] = 0;
   assert(depth >= 1);
   --depth;
+  assert(depth < n_vars);
   auto& nch = n_changes[depth];
   while (nch[neg]) {
     --nch[neg];
     assert(changes_index >= 1);
+    assert(changes_index <= changes.size());
     const auto ch = changes[--changes_index];
+    assert(ch.clause_index < clauses.size());
     auto& C = clauses[ch.clause_index];
+    assert(C.status);
     ++C.length;
-    if (C.length == 2) pass[var(C.unit)] = 0;
+    assert((C.value >> ch.literal_index) % 2 == 0);
     C.value += Clause_content(1) << ch.literal_index;
   }
 
@@ -397,10 +409,10 @@ void unassign(const Lit x) {
     --nch[pos];
     const auto ch = changes[--changes_index];
     auto& C = clauses[ch.clause_index];
+    assert(not C.status);
     C.status = true;
     ++r_clauses;
   }
-  lits[v][pos].unassigned = true;
 }
 
 inline void accumulate(const bool stat, const unsigned int exp, double& sum) {
@@ -413,7 +425,7 @@ inline Lit branching_literal_2sjw() {
   const auto nvar = n_vars;
   for (Lit v=1; (unsigned)v <= nvar; ++v) {
     const auto vpos = lits[v][pos];
-    if (vpos.unassigned) {
+    if (pass[v] == 0) {
       double pz = 0;
       {const auto pos_occur = vpos.n_occur;
        for (unsigned int k=0; k<pos_occur; ++k) {
@@ -442,15 +454,16 @@ inline Lit branching_literal_2sjw() {
 
 bool dpll() {
   ++n_branches;
-  std::stack<Lit> lucl_stack;
-  while (true) {
+  std::stack<Lit> lucl_stack; // local unit-clause literals
+  while (true) { // unit-clause propagation
     if (contradictory_unit_clauses) {
       while (not lucl_stack.empty()) {
+        assert(pass[var(lucl_stack.top())]);
         unassign(lucl_stack.top());
         lucl_stack.pop();
       }
       contradictory_unit_clauses = false;
-      n_gucl = 0;
+      while (n_gucl) pass[var(gucl_stack[--n_gucl])] = 0;
       return false;
     }
     else if (n_gucl) {
@@ -462,24 +475,26 @@ bool dpll() {
     else break;
   }
   if (!r_clauses) return true;
+  assert(n_gucl == 0);
   const Lit x = branching_literal_2sjw();
-  assert(x);
-  assert(depth < n_vars);
+  assert(x); assert(pass[var(x)] == 0); assert(depth < n_vars);
   assign(x);
   if (dpll()) return true;
+  assert(pass[var(x)] == x);
   unassign(x);
   ++n_backtracks;
 
   const Lit nx = -x;
+  assert(pass[var(x)] == 0);
   assign(nx);
   if (dpll()) return true;
+  assert(pass[var(x)] == nx);
   unassign(nx);
 
   while (not lucl_stack.empty()) {
     unassign(lucl_stack.top());
     lucl_stack.pop();
   }
-  contradictory_unit_clauses = false;
   return false;
 }
 
