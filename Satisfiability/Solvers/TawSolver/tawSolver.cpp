@@ -104,8 +104,6 @@ enum Error_codes {
 
 enum Exit_codes { sat=10, unsat=20 };
 
-enum Polarity { pos=0, neg=1 };
-
 #ifndef LIT_TYPE
 # define LIT_TYPE int
 #endif
@@ -165,6 +163,12 @@ unsigned long long int n_units = 0;
 unsigned long long int n_backtracks = 0;
 
 
+inline Var var(const Lit x) { return std::abs(x); }
+enum Polarity { pos=0, neg=1 };
+inline Polarity sign(const Lit x) { return (x > 0) ? pos : neg; }
+inline Polarity inv_polarity(const Polarity p) { return (p == pos) ? neg:pos; }
+
+
 void read_formula_header(std::ifstream& f) {
   std::string line;
   while (true) {
@@ -220,7 +224,7 @@ bool read_a_clause_from_file(std::ifstream& f) {
       std::exit(file_reading_error);
     }
     if (x == 0) break;
-    const Var v = std::abs(x);
+    const Var v = var(x);
     if (v > n_vars) {
       std::cerr << err << "Literal " << x << " contradicts n=" << n_vars << ".\n";
       std::exit(variable_value_error);
@@ -268,9 +272,9 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
 
   for (int i=0; i<(int)n; ++i) {
     const Lit x = A[i];
-    const Var v = std::abs(x);
+    const Var v = var(x);
     lits[v][pos].unassigned = true;
-    const Polarity p = x > 0 ? pos : neg;
+    const Polarity p = sign(x);
     auto& L = lits[v][p];
     L.clause_index = (unsigned int*) std::realloc(L.clause_index, (L.n_occur+1)*sizeof(unsigned int));
     L.literal_index = (unsigned int*) std::realloc(L.literal_index, (L.n_occur+1)*sizeof(unsigned int));
@@ -316,9 +320,9 @@ inline int log2s(const Clause_content v) {
 
 void assign(const Lit x) { // set x to true
   assert(x);
-  const Var v = std::abs(x);
+  const Var v = var(x);
   assert(v <= n_vars);
-  const Polarity p = (x>0) ? pos : neg;
+  const Polarity p = sign(x);
   {
    const auto L = lits[v][p];
    const auto occur_true = L.n_occur;
@@ -337,7 +341,7 @@ void assign(const Lit x) { // set x to true
    }
   }
   {
-   const Polarity np = (x>0) ? neg : pos;
+   const Polarity np = inv_polarity(p);
    const auto L = lits[v][np];
    const auto occur_false = L.n_occur;
    const auto max_size = changes_index + occur_false;
@@ -356,15 +360,15 @@ void assign(const Lit x) { // set x to true
      --C.length;
      if (C.length == 1) {
        const Lit ucl = C.literals[log2s(C.value)];
-       const Var aucl = std::abs(ucl);
-       if (pass[aucl] == 0) {
+       const Var ucv = var(ucl);
+       if (pass[ucv] == 0) {
          gucl_stack[n_gucl++] = ucl;
-         pass[aucl] = ucl;
+         pass[ucv] = ucl;
          C.unit = ucl;
        }
-       else if (pass[aucl] == -ucl) {
+       else if (pass[ucv] == -ucl) {
          contradictory_unit_clauses = true;
-         pass[aucl] = 0;
+         pass[ucv] = 0;
        }
      }
    }
@@ -375,7 +379,7 @@ void assign(const Lit x) { // set x to true
 
 void unassign(const Lit x) {
   assert(x);
-  const Var v = std::abs(x);
+  const Var v = var(x);
   assert(depth >= 1);
   --depth;
   auto& nch = n_changes[depth];
@@ -385,7 +389,7 @@ void unassign(const Lit x) {
     const auto ch = changes[--changes_index];
     auto& C = clauses[ch.clause_index];
     ++C.length;
-    if (C.length == 2) pass[std::abs(C.unit)] = 0;
+    if (C.length == 2) pass[var(C.unit)] = 0;
     C.value += Clause_content(1) << ch.literal_index;
   }
 
