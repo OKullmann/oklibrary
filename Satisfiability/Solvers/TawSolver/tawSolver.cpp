@@ -395,6 +395,9 @@ void unassign(const Lit x) {
   lits[v][pos].unassigned = true;
 }
 
+inline void accumulate(const bool stat, const unsigned int exp, double& sum) {
+  sum += Clause_content(stat) << exp;
+}
 inline Lit branching_literal_2sjw() {
   double max = 0;
   Lit x = 0;
@@ -409,7 +412,7 @@ inline Lit branching_literal_2sjw() {
          const auto cv = vpos.clause_index[k];
          assert(cv < clauses.size());
          const auto C = clauses[cv];
-         pz += Clause_content(C.status) << (mlen - C.length);
+         accumulate(C.status, mlen-C.length, pz);
        }}
       double nz = 0;
       {const auto vneg = lits[v][neg];
@@ -418,7 +421,7 @@ inline Lit branching_literal_2sjw() {
          const auto cv = vneg.clause_index[k];
          assert(cv < clauses.size());
          const auto C = clauses[cv];
-         nz += Clause_content(C.status) << (mlen - C.length);
+         accumulate(C.status, mlen-C.length, nz);
        }}
       const auto s = pz + nz;
       if (s > max) { max = s; x = (pz >= nz) ? v : -v; }
