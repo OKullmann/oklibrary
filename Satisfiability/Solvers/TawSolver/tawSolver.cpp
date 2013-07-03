@@ -315,7 +315,8 @@ inline int log2s(const Clause_content v) {
   return r;
 }
 
-void assign(const Lit x) {
+void assign(const Lit x) { // set x to true
+  assert(x);
   const Var v = std::abs(x);
   assert(v <= n_vars);
   const Polarity p = (x>0) ? pos : neg;
@@ -328,6 +329,7 @@ void assign(const Lit x) {
      const auto m = L.clause_index[i];
      auto& C = clauses[m];
      if (not C.status) continue;
+     assert(C.length >= 1);
      C.status = false;
      assert(r_clauses >= 1);
      --r_clauses;
@@ -345,14 +347,14 @@ void assign(const Lit x) {
      const auto m = L.clause_index[i];
      auto& C = clauses[m];
      if (not C.status) continue;
-     assert(C.length >= 2);
-     --C.length;
      const auto n = L.literal_index[i];
      C.value -= Clause_content(1) << n;
 
      changes[changes_index++] = {m,n};
      ++n_changes[depth][neg];
 
+     assert(C.length >= 2);
+     --C.length;
      if (C.length == 1) {
        const Lit ucl = C.literals[log2s(C.value)];
        const Var aucl = std::abs(ucl);
@@ -373,23 +375,29 @@ void assign(const Lit x) {
 }
 
 void unassign(const Lit x) {
+  assert(x);
   const Var v = std::abs(x);
   assert(depth >= 1);
   --depth;
-  while (n_changes[depth][neg]) {
-    --n_changes[depth][neg];
-    auto& C = clauses[changes[--changes_index].clause_index];
+  auto& nch = n_changes[depth];
+  while (nch[neg]) {
+    --nch[neg];
+    assert(changes_index >= 1);
+    const auto ch = changes[--changes_index];
+    auto& C = clauses[ch.clause_index];
     ++C.length;
     if (C.length == 2) {
       pass[std::abs(C.unit)] = 0;
       C.unit = 0;
     }
-    C.value += Clause_content(1) << changes[changes_index].literal_index;
+    C.value += Clause_content(1) << ch.literal_index;
   }
 
-  while (n_changes[depth][pos]) {
-    --n_changes[depth][pos];
-    clauses[changes[--changes_index].clause_index].status = true;
+  while (nch[pos]) {
+    --nch[pos];
+    const auto ch = changes[--changes_index];
+    auto& C = clauses[ch.clause_index];
+    C.status = true;
     ++r_clauses;
   }
   lits[v][pos].unassigned = true;
@@ -413,7 +421,8 @@ inline Lit branching_literal_2sjw() {
          assert(cv < clauses.size());
          const auto C = clauses[cv];
          accumulate(C.status, mlen-C.length, pz);
-       }}
+       }
+      }
       double nz = 0;
       {const auto vneg = lits[v][neg];
        const auto neg_occur = vneg.n_occur;
@@ -422,7 +431,8 @@ inline Lit branching_literal_2sjw() {
          assert(cv < clauses.size());
          const auto C = clauses[cv];
          accumulate(C.status, mlen-C.length, nz);
-       }}
+       }
+      }
       const auto s = pz + nz;
       if (s > max) { max = s; x = (pz >= nz) ? v : -v; }
     }
