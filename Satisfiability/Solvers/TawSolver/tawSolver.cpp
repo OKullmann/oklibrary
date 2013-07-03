@@ -262,7 +262,6 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   C.status = true;
   C.length = n;
   C.value = (Clause_content(1) << n) - 1;
-  C.unit = 0;
   C.literals = new Lit[n];
 
   if (n>act_max_clause_length) act_max_clause_length = n;
@@ -386,10 +385,7 @@ void unassign(const Lit x) {
     const auto ch = changes[--changes_index];
     auto& C = clauses[ch.clause_index];
     ++C.length;
-    if (C.length == 2) {
-      pass[std::abs(C.unit)] = 0;
-      C.unit = 0;
-    }
+    if (C.length == 2) pass[std::abs(C.unit)] = 0;
     C.value += Clause_content(1) << ch.literal_index;
   }
 
