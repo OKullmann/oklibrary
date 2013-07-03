@@ -63,8 +63,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.3.6";
-const std::string date = "2.7.2013";
+const std::string version = "1.3.7";
+const std::string date = "3.7.2013";
 
 #ifndef MAX_CLAUSE_LENGTH
 # define MAX_CLAUSE_LENGTH 32
@@ -137,12 +137,12 @@ std::vector<lit_info_pair> lits;
 
 struct change_info {
   unsigned int clause_index;
-  unsigned int literal_index;
+  unsigned int literal_index; // used only for falsified literals in clause
 };
 
 typedef std::vector<change_info> Change_v;
 typedef Change_v::size_type change_index_t;
-Change_v changes(1);
+Change_v changes(1); // acts as a stack
 change_index_t changes_index = 0; // Invariant: changes_index < changes.size().
 
 typedef std::array<int,2> int_pair;
