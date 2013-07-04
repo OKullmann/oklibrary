@@ -323,6 +323,15 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
   </ul>
 
 
+  \todo Handle signals
+  <ul>
+   <li> As the OKsolver, when interrupted, then the current statistics should
+   be printed (before exit). </li>
+   <li> And SIGUSR1 should result in just printing the statistics (while
+   continuing the computation). </li>
+  </ul>
+
+
   \todo Provide Doxygen documentation
 
 
@@ -370,7 +379,8 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
   \todo Improving the clause-bitsets
   <ul>
    <li> The following should be transferred to a the general library.
-   Otherwise this todo is completed. </li>
+   Otherwise this todo is completed (from the solver these tools were
+   removed after version 1.3.7). </li>
    <li> http://graphics.stanford.edu/~seander/bithacks.html
    contains various bit-level operations. </li>
    </li>
