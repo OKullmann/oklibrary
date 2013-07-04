@@ -35,7 +35,6 @@ for debugging).
    - with argument=filename runs the SAT solver.
 
   There are two macros to control compilation:
-   - MAX_CLAUSE_LENGTH (default 32)
    - LIT_TYPE (default int).
 
   To provide further versioning-information, there are two macros, which are
@@ -55,6 +54,7 @@ for debugging).
 #include <stack>
 #include <iomanip>
 
+#include <cmath>
 #include <cstdint>
 #include <cstdlib>
 #include <cassert>
@@ -63,43 +63,19 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.3.8";
+const std::string version = "1.4";
 const std::string date = "4.7.2013";
 
-#ifndef MAX_CLAUSE_LENGTH
-# define MAX_CLAUSE_LENGTH 32
-#endif
-
-#ifndef OKLIB
-   const std::string program = "tawSolver";
-#elif MAX_CLAUSE_LENGTH != 64
-  const std::string program = "tawSolver";
-#else
-  const std::string program = "tawSolver64";
-#endif
+const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
-
-constexpr int max_clause_length = MAX_CLAUSE_LENGTH;
-static_assert(max_clause_length==8 or max_clause_length==16 or max_clause_length==32 or max_clause_length==64,"Currently only MAX_CLAUSE_LENGTH=8,16,32,64 is possible.");
-#if MAX_CLAUSE_LENGTH == 8
- typedef uint8_t Clause_content;
-#elif MAX_CLAUSE_LENGTH == 16
- typedef uint16_t Clause_content;
-#elif MAX_CLAUSE_LENGTH == 32
- typedef uint32_t Clause_content;
-#else
- typedef uint64_t Clause_content;
-#endif
-static_assert(std::numeric_limits<Clause_content>::digits==max_clause_length,"Error with choice of type \"Clause_content\".");
 
 enum Error_codes {
   file_reading_error=1,
   num_vars_error=2,
-  clause_length_error=3,
-  variable_value_error=4,
-  number_clauses_error=5,
-  empty_clause_error=6,
-  unit_clause_error=7
+  variable_value_error=3,
+  number_clauses_error=4,
+  empty_clause_error=5,
+  unit_clause_error=6
 };
 
 enum Exit_codes { sat=10, unsat=20 };
@@ -115,30 +91,25 @@ typedef std::make_unsigned<Lit>::type Var;
 
 struct clause_info {
   Lit* literals; // the array of literals in the clause
-  Clause_content value; // bit-vector, showing current content
+  Lit* end;
   int index; // the index of this clause
   int length; // the current length
   bool status; // true iff currently not satisfied
 };
-// Members "literals" and "index" are fixed after reading the input.
+// Members "literals", "end" and "index" are fixed after reading the input.
 
 std::vector<clause_info> clauses;
 
 struct lit_info {
   unsigned int* clause_index; // array with clause-indices
-  unsigned int* literal_index; // array with literal-indices (into the clause)
   unsigned int n_occur;
 };
 // The lit_info data is fixed with the input.
 typedef std::array<lit_info,2> lit_info_pair;
 std::vector<lit_info_pair> lits;
 
-// for every active touched clause its index, and in case it didn't get
-// satisfied, the literal-index of the delelted literal:
-struct change_info {
-  unsigned int clause_index;
-  unsigned int literal_index; // used only for falsified literals in clause
-};
+// for every active touched clause its index:
+typedef unsigned int change_info;
 
 typedef std::vector<change_info> Change_v;
 typedef Change_v::size_type change_index_t;
@@ -151,6 +122,13 @@ std::vector<int_pair> n_changes;
    n_changes[depth][neg] is the number of clauses with one literal removed;
    depth here is the number of assignments on the current path
 */
+
+// the clause-weights:
+constexpr double basis_w = 2; // 4 seems better
+std::vector<double> weights;
+double wexp2(unsigned int clause_length) {
+  return std::pow(basis_w,-int(clause_length));
+}
 
 unsigned int n_clauses, n_header_clauses, r_clauses;
 Var n_vars;
@@ -215,11 +193,10 @@ void read_formula_header(std::ifstream& f) {
   clauses.resize(n_header_clauses);
 }
 
-Lit current_working_clause[max_clause_length];
-int cwc_length;
+std::vector<Lit> current_working_clause;
 
 bool read_a_clause_from_file(std::ifstream& f) {
-  cwc_length = 0;
+  current_working_clause.clear();
   bool tautology = false;
   Lit x;
   f >> x;
@@ -237,32 +214,29 @@ bool read_a_clause_from_file(std::ifstream& f) {
       std::exit(variable_value_error);
     }
     if (checker_cl[v] == 0) {
-      if (cwc_length >= max_clause_length) {
-        std::cerr << err << "Clauses can have at most " << max_clause_length << " elements.\n";
-        std::exit(clause_length_error);
-      }
-      current_working_clause[cwc_length++] = x;
+      current_working_clause.push_back(x);
       checker_cl[v] = x;
     }
     else if (checker_cl[v] == -x) tautology = true;
     f >> x;
   }
   if (tautology) {
-    cwc_length = 0;
+    current_working_clause.clear();
     return true;
   }
-  if (cwc_length == 0) {
+  if (current_working_clause.empty()) {
     std::cerr << err << "Found empty clause in input.\n";
     std::exit(empty_clause_error);
   }
-  if (cwc_length == 1) {
+  if (current_working_clause.size() == 1) {
     std::cerr << err << "Found unit-clause in input.\n";
     std::exit(unit_clause_error);
   }
   return true;
 }
 
-void add_a_clause_to_formula(const Lit A[], const unsigned n) {
+void add_a_clause_to_formula() {
+  const auto n = current_working_clause.size();
   if (n == 0) return;
   if (n_clauses >= n_header_clauses) {
     std::cerr << err << "More than " << n_header_clauses << " clauses, contradicting cnf-header.\n";
@@ -272,20 +246,18 @@ void add_a_clause_to_formula(const Lit A[], const unsigned n) {
   C.index = n_clauses;
   C.status = true;
   C.length = n;
-  C.value = (Clause_content(1) << n) - 1;
   C.literals = new Lit[n];
+  C.end = C.literals + n;
 
   if (n>act_max_clause_length) act_max_clause_length = n;
 
   for (int i=0; i<(int)n; ++i) {
-    const Lit x = A[i];
+    const Lit x = current_working_clause[i];
     const Var v = var(x);
     const Polarity p = sign(x);
     auto& L = lits[v][p];
     L.clause_index = (unsigned int*) std::realloc(L.clause_index, (L.n_occur+1)*sizeof(unsigned int));
-    L.literal_index = (unsigned int*) std::realloc(L.literal_index, (L.n_occur+1)*sizeof(unsigned int));
     L.clause_index[L.n_occur] = n_clauses;
-    L.literal_index[L.n_occur] = i;
     ++L.n_occur;
     C.literals[i] = x;
   }
@@ -301,28 +273,14 @@ void read_formula(const std::string& filename) {
   read_formula_header(f);
   n_clauses = 0;
   while (read_a_clause_from_file(f))
-    add_a_clause_to_formula(current_working_clause, cwc_length);
+    add_a_clause_to_formula();
   r_clauses = n_clauses;
+  weights.resize(act_max_clause_length+1);
+  for (unsigned int i = 0; i <= act_max_clause_length; ++i)
+    weights[i] = wexp2(i);
 }
 
-
-// Defining "special logarithm" log2s(v)=k, where v=2^k, k natural number:
-constexpr Clause_content pow2(const unsigned e) {return (e==0)?1:2*pow2(e-1);}
-constexpr int log2(const Clause_content n) {return (n <= 1)?0:1+log2(n/2);}
-constexpr int N = log2(max_clause_length);
-static_assert(pow2(N) == (unsigned) max_clause_length, "Number of bits in \"Clause_content\" not a power of 2.");
-static_assert(N==3 or N==4 or N==5 or N==6, "Unexpected size of type \"Clause_content\".");
-constexpr Clause_content pow22(const unsigned e) {return pow2(pow2(e));}
-constexpr Clause_content B(const unsigned N, const unsigned i) {
-  return (i>=N) ? 0 : (i<N-1) ? B(N-1,i)*(1+pow22(N-1)) : pow22(N)-pow22(N-1);
-}
-constexpr Clause_content b[6] {B(N,0),B(N,1),B(N,2),B(N,3),B(N,4),B(N,5)};
-inline int log2s(const Clause_content v) {
-  assert(pow2(log2(v)) == v);
-  Clause_content r = bool(v & b[0]);
-  for (int i = 1; i < N; ++i) r |= bool(v & b[i]) << i;
-  return r;
-}
+// --- Initialisation completed ---
 
 void assign(const Lit x) {
 /* set x to true, and enter found unit-literals onto the global stack */
@@ -344,7 +302,7 @@ void assign(const Lit x) {
      C.status = false;
      assert(r_clauses >= 1);
      --r_clauses;
-     changes[changes_index++].clause_index = m;
+     changes[changes_index++] = m;
      ++n_changes[depth][pos];
    }
   }
@@ -358,30 +316,29 @@ void assign(const Lit x) {
      const auto m = L.clause_index[i];
      auto& C = clauses[m];
      if (not C.status) continue;
-     const auto n = L.literal_index[i];
-     assert((C.value >> n) % 2 == 1);
-     C.value -= Clause_content(1) << n;
-
-     changes[changes_index++] = {m,n};
+     changes[changes_index++] = m;
      ++n_changes[depth][neg];
-
      assert(C.length >= 2);
      --C.length;
      if (C.length == 1) {
-       const Lit ucl = C.literals[log2s(C.value)];
-       const Var ucv = var(ucl);
-       if (pass[ucv] == 0) {
-         gucl_stack[n_gucl++] = ucl;
-         pass[ucv] = ucl;
+       const Lit* cend = C.end;
+       for (const Lit* lp = C.literals; lp != cend; ++lp) {
+         const Lit ucl = *lp;
+         const Var ucv = var(ucl);
+         Lit& val = pass[ucv];
+         if (val == 0) {
+           gucl_stack[n_gucl++] = ucl;
+           val = ucl;
+           goto occ_loop;
+         }
+         else if (val == ucl) goto occ_loop;
        }
-       else if (pass[ucv] == -ucl) {
-         contradictory_unit_clauses = true;
-         goto end;
-       }
+       contradictory_unit_clauses = true;
+       goto end;
      }
-   }
+   occ_loop:;}
   }
-  end : ++depth;
+  end: ++depth;
 }
 
 void unassign(const Lit x) {
@@ -396,32 +353,27 @@ void unassign(const Lit x) {
     --nch[neg];
     assert(changes_index >= 1);
     assert(changes_index <= changes.size());
-    const auto ch = changes[--changes_index];
-    assert(ch.clause_index < clauses.size());
-    auto& C = clauses[ch.clause_index];
-    assert(C.status);
-    ++C.length;
-    assert((C.value >> ch.literal_index) % 2 == 0);
-    C.value += Clause_content(1) << ch.literal_index;
+    const auto clause_index = changes[--changes_index];
+    assert(clauses[clause_index].status);
+    ++clauses[clause_index].length;
   }
 
   while (nch[pos]) {
     --nch[pos];
-    const auto ch = changes[--changes_index];
-    auto& C = clauses[ch.clause_index];
-    assert(not C.status);
-    C.status = true;
+    const auto clause_index = changes[--changes_index];
+    assert(not clauses[clause_index].status);
+    clauses[clause_index].status = true;
     ++r_clauses;
   }
 }
 
-inline void accumulate(const bool stat, const unsigned int exp, double& sum) {
-  sum += Clause_content(stat) << exp;
+// performance-critical computation:
+inline void accumulate(const bool stat, const unsigned length, double& sum) {
+  sum += stat * weights[length];
 }
-inline Lit branching_literal_2sjw() {
+inline Lit branching_literal() {
   double max = 0;
   Lit x = 0;
-  const auto mlen = act_max_clause_length;
   const auto nvar = n_vars;
   for (Lit v=1; (unsigned)v <= nvar; ++v) {
     const auto vpos = lits[v][pos];
@@ -429,20 +381,16 @@ inline Lit branching_literal_2sjw() {
       double pz = 0;
       {const auto pos_occur = vpos.n_occur;
        for (unsigned int k=0; k<pos_occur; ++k) {
-         const auto cv = vpos.clause_index[k];
-         assert(cv < clauses.size());
-         const auto C = clauses[cv];
-         accumulate(C.status, mlen-C.length, pz);
+         const auto C = clauses[vpos.clause_index[k]];
+         accumulate(C.status, C.length, pz);
        }
       }
       double nz = 0;
       {const auto vneg = lits[v][neg];
        const auto neg_occur = vneg.n_occur;
        for (unsigned int k=0; k<neg_occur; ++k) {
-         const auto cv = vneg.clause_index[k];
-         assert(cv < clauses.size());
-         const auto C = clauses[cv];
-         accumulate(C.status, mlen-C.length, nz);
+         const auto C = clauses[vneg.clause_index[k]];
+         accumulate(C.status, C.length, nz);
        }
       }
       const auto s = pz + nz;
@@ -476,7 +424,7 @@ bool dpll() {
   }
   if (!r_clauses) return true;
   assert(n_gucl == 0);
-  const Lit x = branching_literal_2sjw();
+  const Lit x = branching_literal();
   assert(x); assert(pass[var(x)] == 0); assert(depth < n_vars);
   assign(x);
   if (dpll()) return true;
@@ -497,6 +445,8 @@ bool dpll() {
   }
   return false;
 }
+
+// --- Output ---
 
 void output(const std::string& file, const bool result, const double elapsed) {
   std::cout << "s ";
@@ -528,7 +478,6 @@ void version_information() {
    " Version: " << version << "\n"
    " Last change date: " << date << "\n"
    " Macro settings:\n"
-   "  MAX_CLAUSE_LENGTH = " STR(MAX_CLAUSE_LENGTH)"\n"
    "  LIT_TYPE = " STR(LIT_TYPE) " (with " << std::numeric_limits<Lit>::digits << " binary digits)\n"
 #ifdef NDEBUG
    " Compiled with NDEBUG\n"

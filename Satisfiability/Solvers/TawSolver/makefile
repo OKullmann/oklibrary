@@ -14,12 +14,10 @@
 # this directory (Solvers/TawSolver), then run one level up:
 # Solvers> make all sub_make_directories="TawSolver" bin_dir=""
 
-# An optional argument is "MAX_CLAUSE_LENGTH=N"; if set then only tawSolver
-# is created, not tawSolver64.
 # The macro LIT_TYPE can be used to redefine the literal-type (default is int).
 # When calling from the OKlibrary, e.g.:
-# CXXFLAGS="-DLIT_TYPE=int8_t" oklib all MAX_CLAUSE_LENGTH=16
-# CXXFLAGS="-DLIT_TYPE=int64_t" oklib all MAX_CLAUSE_LENGTH=64 Optimisation_options="-g" sub_make_directories="TawSolver"
+# CXXFLAGS="-DLIT_TYPE=int8_t" oklib all
+# CXXFLAGS="-DLIT_TYPE=int64_t" oklib all Optimisation_options="-g" sub_make_directories="TawSolver"
 
 SHELL = /bin/bash
 .SUFFIXES :
@@ -60,18 +58,9 @@ endif
 
 all : $(main_target)
 
-ifeq ($(MAX_CLAUSE_LENGTH),)
-
 $(main_target) : tawSolver.cpp
-	$(CXX) -DMAX_CLAUSE_LENGTH=32 $(Standard_options) $(Warning_options) $(Optimisation_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $(main_target) $(LFLAGS)
-	$(CXX) -DMAX_CLAUSE_LENGTH=64 $(Standard_options) $(Warning_options) $(Optimisation_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $(main_target)64 $(LFLAGS)
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $(main_target) $(LFLAGS)
 
-else
-
-$(main_target) : tawSolver.cpp
-	$(CXX) -DMAX_CLAUSE_LENGTH=$(MAX_CLAUSE_LENGTH) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $(main_target) $(LFLAGS)
-
-endif
 
 repeat := 5
 time := /usr/bin/time -f "%U %M" -o $(outputfile) -a
@@ -83,14 +72,10 @@ timing :
 	date >> $(outputfile); echo >> $(outputfile)
 	echo "tawSolver $(input1)" >> $(outputfile)
 	- for ((i=0; i<$(repeat); ++i)); do $(time) tawSolver $(input1); done; echo >> $(outputfile)
-	echo "tawSolver64 $(input1)" >> $(outputfile)
-	for ((i=0; i<$(repeat); ++i)); do $(time) tawSolver64 $(input1); done; echo >> $(outputfile)
 	rm $(input1)
 	VanderWaerdenCNF-O3-DNDEBUG 3 12 135
 	echo "tawSolver $(input2)" >> $(outputfile)
 	for ((i=0; i<$(repeat); ++i)); do $(time) tawSolver $(input2); done; echo >> $(outputfile)
-	echo "tawSolver64 $(input2)" >> $(outputfile)
-	for ((i=0; i<$(repeat); ++i)); do $(time) tawSolver64 $(input2); done; echo >> $(outputfile)
 	rm $(input2)
 
 
@@ -101,4 +86,4 @@ app_tests :
 
 
 cleanall :
-	- rm $(main_target) $(main_target)64
+	- rm $(main_target)
