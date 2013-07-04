@@ -89,7 +89,7 @@ static_assert(sizeof(Lit) != 1, "LIT_TYPE = char (or int8_t) doesn't work with r
 
 typedef std::make_unsigned<Lit>::type Var;
 
-struct clause_info {
+struct Clause {
   Lit* literals; // the array of literals in the clause
   Lit* end;
   int index; // the index of this clause
@@ -98,7 +98,7 @@ struct clause_info {
 };
 // Members "literals", "end" and "index" are fixed after reading the input.
 
-std::vector<clause_info> clauses;
+std::vector<Clause> clauses;
 
 struct lit_info {
   unsigned int* clause_index; // array with clause-indices
