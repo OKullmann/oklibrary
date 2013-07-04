@@ -63,7 +63,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.4.2";
+const std::string version = "1.4.3";
 const std::string date = "4.7.2013";
 
 const std::string program = "tawSolver";
@@ -138,7 +138,7 @@ double wexp2(unsigned int clause_length) {
 unsigned int n_clauses, n_header_clauses, r_clauses;
 Var n_vars;
 unsigned int depth = 0;
-unsigned int act_max_clause_length = 0;
+unsigned int max_clause_length = 0;
 
 std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
  v is unassigned, otherwise it is v in case v->true and else -v. */
@@ -253,7 +253,7 @@ void add_a_clause_to_formula() {
   C.literals = new Lit[n];
   C.end = C.literals + n;
 
-  if (n>act_max_clause_length) act_max_clause_length = n;
+  if (n>max_clause_length) max_clause_length = n;
 
   for (int i=0; i<(int)n; ++i) {
     const Lit x = current_working_clause[i];
@@ -279,8 +279,8 @@ void read_formula(const std::string& filename) {
   while (read_a_clause_from_file(f))
     add_a_clause_to_formula();
   r_clauses = n_clauses;
-  weights.resize(act_max_clause_length+1);
-  for (unsigned int i = 4; i <= act_max_clause_length; ++i)
+  weights.resize(max_clause_length+1);
+  for (unsigned int i = 4; i <= max_clause_length; ++i)
     weights[i] = wexp2(i);
 }
 
@@ -457,6 +457,7 @@ void output(const std::string& file, const bool result, const double elapsed) {
   std::cout <<
          "c number_of_variables                   " << n_vars << "\n" <<
          "c number_of_clauses                     " << n_clauses << "\n" <<
+         "c maximal_clause_length                 " << max_clause_length << "\n" <<
          "c running_time(sec)                     " << std::setprecision(2) << std::fixed << elapsed << "\n" <<
          "c number_of_nodes                       " << n_branches << "\n" <<
          "c number_of_binary_nodes                " << n_backtracks << "\n" <<
