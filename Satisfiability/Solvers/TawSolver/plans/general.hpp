@@ -238,6 +238,24 @@ tawSolver64 VanDerWaerden_2-3-12_135.cnf
 45.70 45.74 45.74 45.66 45.67
 
 # higher running time likely due to higher load.
+
+# ID eae286456fc8912331d967e851dba3a4cfbb4898
+# clean-up of handling of unit-clause propagation (perhaps most relevant, that
+# now an assignment is aborted as soon as a contradiction was found)
+
+> oklib timing
+cswsok (one other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+35.23 35.27 35.30 35.11
+tawSolver64 VanDerWaerden_2-3-12_134.cnf
+42.16 42.14 42.25 42.10 42.11
+tawSolver VanDerWaerden_2-3-12_135.cnf
+37.34 37.26 37.39 37.26 37.39
+tawSolver64 VanDerWaerden_2-3-12_135.cnf
+44.92 44.70 44.78 44.71 44.80
+
+# a speed-up; again, less for 64-bit.
    \endverbatim
    </li>
   </ul>
