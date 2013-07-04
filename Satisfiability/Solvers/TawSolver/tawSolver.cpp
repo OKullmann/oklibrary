@@ -63,7 +63,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.4.1";
+const std::string version = "1.4.2";
 const std::string date = "4.7.2013";
 
 const std::string program = "tawSolver";
@@ -92,24 +92,25 @@ typedef std::make_unsigned<Lit>::type Var;
 struct Clause {
   Lit* literals; // the array of literals in the clause
   Lit* end;
-  int index; // the index of this clause
   int length; // the current length
   bool status; // true iff currently not satisfied
 };
 // Members "literals", "end" and "index" are fixed after reading the input.
+typedef Clause* ClauseP;
+typedef const Clause* ClausePc;
 
 std::vector<Clause> clauses;
 
 struct lit_info {
-  unsigned int* clause_index; // array with clause-indices
+  ClauseP* occur; // array with clause-pointers
   unsigned int n_occur;
 };
 // The lit_info data is fixed with the input.
 typedef std::array<lit_info,2> lit_info_pair;
 std::vector<lit_info_pair> lits;
 
-// for every active touched clause its index:
-typedef unsigned int change_info;
+// a touched clause:
+typedef ClauseP change_info;
 
 typedef std::vector<change_info> Change_v;
 typedef Change_v::size_type change_index_t;
@@ -247,9 +248,8 @@ void add_a_clause_to_formula() {
     std::exit(number_clauses_error);
   }
   auto& C = clauses[n_clauses];
-  C.index = n_clauses;
-  C.status = true;
   C.length = n;
+  C.status = true;
   C.literals = new Lit[n];
   C.end = C.literals + n;
 
@@ -257,13 +257,13 @@ void add_a_clause_to_formula() {
 
   for (int i=0; i<(int)n; ++i) {
     const Lit x = current_working_clause[i];
+    C.literals[i] = x;
     const Var v = var(x);
     const Polarity p = sign(x);
     auto& L = lits[v][p];
-    L.clause_index = (unsigned int*) std::realloc(L.clause_index, (L.n_occur+1)*sizeof(unsigned int));
-    L.clause_index[L.n_occur] = n_clauses;
+    L.occur = (ClauseP*) std::realloc(L.occur, (L.n_occur+1)*sizeof(ClauseP));
+    L.occur[L.n_occur] = &(clauses[n_clauses]);
     ++L.n_occur;
-    C.literals[i] = x;
   }
   ++n_clauses;
 }
@@ -299,14 +299,13 @@ void assign(const Lit x) {
    const auto max_size = changes_index + occur_true;
    if (max_size >= changes.size()) changes.resize(max_size);
    for (unsigned int i=0; i<occur_true; ++i) {
-     const auto m = L.clause_index[i];
-     auto& C = clauses[m];
-     if (not C.status) continue;
-     assert(C.length >= 1);
-     C.status = false;
+     const auto C = L.occur[i];
+     if (not C->status) continue;
+     assert(C->length >= 1);
+     C->status = false;
      assert(r_clauses >= 1);
      --r_clauses;
-     changes[changes_index++] = m;
+     changes[changes_index++] = C;
      ++n_changes[depth][pos];
    }
   }
@@ -317,16 +316,15 @@ void assign(const Lit x) {
    const auto max_size = changes_index + occur_false;
    if (max_size > changes.size()) changes.resize(max_size);
    for (unsigned int i=0; i<occur_false; ++i) {
-     const auto m = L.clause_index[i];
-     auto& C = clauses[m];
-     if (not C.status) continue;
-     changes[changes_index++] = m;
+     const auto C = L.occur[i];
+     if (not C->status) continue;
+     changes[changes_index++] = C;
      ++n_changes[depth][neg];
-     assert(C.length >= 2);
-     --C.length;
-     if (C.length == 1) {
-       const Lit* cend = C.end;
-       for (const Lit* lp = C.literals; lp != cend; ++lp) {
+     assert(C->length >= 2);
+     --C->length;
+     if (C->length == 1) {
+       const Lit* cend = C->end;
+       for (const Lit* lp = C->literals; lp != cend; ++lp) {
          const Lit ucl = *lp;
          const Var ucv = var(ucl);
          Lit& val = pass[ucv];
@@ -357,16 +355,16 @@ void unassign(const Lit x) {
     --nch[neg];
     assert(changes_index >= 1);
     assert(changes_index <= changes.size());
-    const auto clause_index = changes[--changes_index];
-    assert(clauses[clause_index].status);
-    ++clauses[clause_index].length;
+    const auto C = changes[--changes_index];
+    assert(C->status);
+    ++C->length;
   }
 
   while (nch[pos]) {
     --nch[pos];
-    const auto clause_index = changes[--changes_index];
-    assert(not clauses[clause_index].status);
-    clauses[clause_index].status = true;
+    const auto C = changes[--changes_index];
+    assert(not C->status);
+    C->status = true;
     ++r_clauses;
   }
 }
@@ -385,16 +383,16 @@ inline Lit branching_literal() {
       double pz = 0;
       {const auto pos_occur = vpos.n_occur;
        for (unsigned int k=0; k<pos_occur; ++k) {
-         const auto C = clauses[vpos.clause_index[k]];
-         accumulate(C.status, C.length, pz);
+         const ClausePc C = vpos.occur[k];
+         accumulate(C->status, C->length, pz);
        }
       }
       double nz = 0;
       {const auto vneg = lits[v][neg];
        const auto neg_occur = vneg.n_occur;
        for (unsigned int k=0; k<neg_occur; ++k) {
-         const auto C = clauses[vneg.clause_index[k]];
-         accumulate(C.status, C.length, nz);
+         const ClausePc C = vneg.occur[k];
+         accumulate(C->status, C->length, nz);
        }
       }
       const auto s = pz + nz;
