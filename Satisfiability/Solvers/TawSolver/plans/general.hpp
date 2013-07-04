@@ -256,6 +256,55 @@ tawSolver64 VanDerWaerden_2-3-12_135.cnf
 44.92 44.70 44.78 44.71 44.80
 
 # a speed-up; again, less for 64-bit.
+
+# ID 42ebae49d4ae1c0b10dbaf338b29b204b0c4940d
+# Removed the special machinery via (integral) bitsets for determining
+# the unit-literal -- the direct computation is faster.
+# Now there are no restrictions on clause-size anymore.
+# A small speed-penalty is given by the now general handling of weights
+# in the heuristics, but now arbitrary weights can be used, which enables
+# optimising the heuristics.
+
+> oklib timing
+cswsok (one other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+32.47 32.35 32.50 32.52 32.83
+tawSolver VanDerWaerden_2-3-12_135.cnf
+34.59 34.65 34.81 34.68 34.56
+
+
+# ID d72626596917101a573c05cfb90cda9ab25f4214
+# Now new basis-weight 3.0.
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c running_time(sec)                     28.43
+c number_of_nodes                       1498256
+c number_of_binary_nodes                749117
+c number_of_1-reductions                18113899
+c max_number_changes                    9959
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+v 1 2 3 4 5 6 7 8 9 -10 11 12 13 14 15 16 17 18 -19 20 21 22 23 24 25 26 27 28 -29 30 31 -32 33 34 35 -36 37 -38 39 40 41 42 43 44 45 -46 47 48 -49 50 -51 52 53 54 -55 56 57 58 59 60 61 62 63 64 65 66 -67 -68 69 70 71 72 73 74 75 76 77 78 79 -80 81 82 83 -84 85 -86 87 88 -89 90 91 92 93 94 95 96 -97 98 -99 100 101 102 -103 104 105 -106 107 108 109 110 111 112 113 114 115 -116 117 118 119 120 121 122 123 124 -125 126 127 128 129 130 131 132 133 134 0
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c running_time(sec)                     33.21
+c number_of_nodes                       1713023
+c number_of_binary_nodes                856511
+c number_of_1-reductions                20916887
+c max_number_changes                    10052
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> oklib timing
+cswsok (one other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+28.11 28.22 28.16 28.08 28.43
+tawSolver VanDerWaerden_2-3-12_135.cnf
+32.94 32.80 33.22 32.76 33.21
    \endverbatim
    </li>
   </ul>
