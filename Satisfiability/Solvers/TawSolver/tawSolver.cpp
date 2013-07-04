@@ -124,10 +124,14 @@ std::vector<int_pair> n_changes;
 */
 
 // the clause-weights:
-constexpr double basis_w = 2; // 4 seems better
-std::vector<double> weights;
+#ifdef BASIS_WEIGHT
+  constexpr double basis_w = BASIS_WEIGHT;
+#else
+  constexpr double basis_w = 3;
+#endif
+std::vector<double> weights {0,0, 1.0, 1/basis_w};
 double wexp2(unsigned int clause_length) {
-  return std::pow(basis_w,-int(clause_length));
+  return std::pow(basis_w,-(int(clause_length)-2));
 }
 
 unsigned int n_clauses, n_header_clauses, r_clauses;
@@ -276,7 +280,7 @@ void read_formula(const std::string& filename) {
     add_a_clause_to_formula();
   r_clauses = n_clauses;
   weights.resize(act_max_clause_length+1);
-  for (unsigned int i = 0; i <= act_max_clause_length; ++i)
+  for (unsigned int i = 4; i <= act_max_clause_length; ++i)
     weights[i] = wexp2(i);
 }
 
@@ -477,6 +481,7 @@ void version_information() {
    " Changes by Oliver Kullmann\n"
    " Version: " << version << "\n"
    " Last change date: " << date << "\n"
+   " Clause-weight basis: " << basis_w << " (clause-lengths 2,3:  " << weights[2] << ", " << weights[3] << ")\n" 
    " Macro settings:\n"
    "  LIT_TYPE = " STR(LIT_TYPE) " (with " << std::numeric_limits<Lit>::digits << " binary digits)\n"
 #ifdef NDEBUG
