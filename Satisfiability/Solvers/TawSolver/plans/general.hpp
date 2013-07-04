@@ -305,6 +305,19 @@ tawSolver VanDerWaerden_2-3-12_134.cnf
 28.11 28.22 28.16 28.08 28.43
 tawSolver VanDerWaerden_2-3-12_135.cnf
 32.94 32.80 33.22 32.76 33.21
+
+# ID 6a22ecdde554f19b56cbf7faaaa40429cf3d650d
+# Replaced clause-indices by clause-pointers.
+
+> oklib timing
+cswsok (one other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+24.80 24.82 24.94 24.86 24.77
+tawSolver VanDerWaerden_2-3-12_135.cnf
+28.96 29.06 29.26 28.98 29.15
+
+# a considerable speed-up
    \endverbatim
    </li>
   </ul>
