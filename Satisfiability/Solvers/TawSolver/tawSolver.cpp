@@ -63,7 +63,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.4";
+const std::string version = "1.4.1";
 const std::string date = "4.7.2013";
 
 const std::string program = "tawSolver";
