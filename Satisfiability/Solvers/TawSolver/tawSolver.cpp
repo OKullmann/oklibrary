@@ -35,7 +35,8 @@ for debugging).
    - with argument=filename runs the SAT solver.
 
   There are two macros to control compilation:
-   - LIT_TYPE (default int).
+   - LIT_TYPE (default int)
+   - BASIS_WEIGHT (default 3): clauses of length k have weight BASIS_WEIGHT^-k.
 
   To provide further versioning-information, there are two macros, which are
   only relevant if they are defined:
@@ -59,11 +60,9 @@ for debugging).
 #include <cstdlib>
 #include <cassert>
 
-#include <sys/resource.h>
-
 namespace {
 
-const std::string version = "1.4.3";
+const std::string version = "1.4.4";
 const std::string date = "4.7.2013";
 
 const std::string program = "tawSolver";
@@ -135,7 +134,7 @@ double wexp2(unsigned int clause_length) {
   return std::pow(basis_w,-(int(clause_length)-2));
 }
 
-unsigned int n_clauses, n_header_clauses, r_clauses;
+unsigned int n_header_clauses, n_clauses, r_clauses;
 Var n_vars;
 unsigned int depth = 0;
 unsigned int max_clause_length = 0;
@@ -158,6 +157,7 @@ std::vector<Lit> gucl_stack;
 int n_gucl = 0; // the index of the next free element of the stack
 bool contradictory_unit_clauses = false;
 
+// --- Input and initialisation ---
 
 void read_formula_header(std::ifstream& f) {
   std::string line;
@@ -242,7 +242,7 @@ bool read_a_clause_from_file(std::ifstream& f) {
 
 void add_a_clause_to_formula() {
   const auto n = current_working_clause.size();
-  if (n == 0) return;
+  if (n == 0) return; // means tautology here
   if (n_clauses >= n_header_clauses) {
     std::cerr << err << "More than " << n_header_clauses << " clauses, contradicting cnf-header.\n";
     std::exit(number_clauses_error);
@@ -284,7 +284,7 @@ void read_formula(const std::string& filename) {
     weights[i] = wexp2(i);
 }
 
-// --- Initialisation completed ---
+// --- SAT solving ---
 
 void assign(const Lit x) {
 /* set x to true, and enter found unit-literals onto the global stack */
@@ -293,8 +293,7 @@ void assign(const Lit x) {
   assert(v <= n_vars);
   pass[v] = x;
   const Polarity p = sign(x);
-  {
-   const auto L = lits[v][p];
+  {const auto L = lits[v][p];
    const auto occur_true = L.n_occur;
    const auto max_size = changes_index + occur_true;
    if (max_size >= changes.size()) changes.resize(max_size);
@@ -309,8 +308,7 @@ void assign(const Lit x) {
      ++n_changes[depth][pos];
    }
   }
-  {
-   const Polarity np = inv_polarity(p);
+  {const Polarity np = inv_polarity(p);
    const auto L = lits[v][np];
    const auto occur_false = L.n_occur;
    const auto max_size = changes_index + occur_false;
@@ -424,7 +422,7 @@ bool dpll() {
     }
     else break;
   }
-  if (!r_clauses) return true;
+  if (not r_clauses) return true;
   assert(n_gucl == 0);
   const Lit x = branching_literal();
   assert(x); assert(pass[var(x)] == 0); assert(depth < n_vars);
@@ -509,6 +507,8 @@ void version_information() {
 }
 
 }
+
+#include <sys/resource.h>
 
 inline double current_time(rusage& ru) {
   getrusage(RUSAGE_SELF, &ru);
