@@ -136,7 +136,7 @@ double wexp2(unsigned int clause_length) {
 
 unsigned int n_header_clauses, n_clauses, r_clauses;
 Var n_vars;
-unsigned int depth = 0;
+unsigned int depth = 0, max_depth = 0; // depth is the number of assigned variables
 unsigned int max_clause_length = 0;
 
 std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
@@ -339,7 +339,7 @@ void assign(const Lit x) {
      }
    occ_loop:;}
   }
-  end: ++depth;
+  end: if (++depth > max_depth) max_depth = depth;
 }
 
 void unassign(const Lit x) {
@@ -474,6 +474,7 @@ void output(const std::string& file, const bool result, const double elapsed) {
          "c number_of_nodes                       " << n_branches << "\n" <<
          "c number_of_binary_nodes                " << n_backtracks << "\n" <<
          "c number_of_1-reductions                " << n_units << "\n" <<
+         "c max_number_assignments                " << max_depth << "\n" <<
          "c max_number_changes                    " << changes.size() << "\n" <<
          "c file_name                             " << file << std::endl;
   if (result) {
