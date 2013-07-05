@@ -318,6 +318,43 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
 28.96 29.06 29.26 28.98 29.15
 
 # a considerable speed-up
+
+# ID c730dc830fb5df241fdc81697c389afcce6ba117
+# Now with product as projection, and weight-basis 2.
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c running_time(sec)                     15.55
+c number_of_nodes                       957164
+c number_of_binary_nodes                478575
+c number_of_1-reductions                10859220
+c max_number_assignments                134
+c max_number_changes                    9780
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c running_time(sec)                     18.58
+c number_of_nodes                       1122651
+c number_of_binary_nodes                561325
+c number_of_1-reductions                12787692
+c max_number_assignments                130
+c max_number_changes                    9900
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> oklib timing
+cswsok (one other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+15.55 15.54 15.53 15.56 15.64
+tawSolver VanDerWaerden_2-3-12_135.cnf
+18.58 18.58 18.45 18.60 18.52
+
+# a big improvement.
    \endverbatim
    </li>
   </ul>
