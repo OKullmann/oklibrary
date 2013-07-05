@@ -34,6 +34,11 @@ for debugging).
    - with argument= "-v" or "--version" shows information
    - with argument=filename runs the SAT solver.
 
+  When sending SIGINT to the program (for example via CTRL-C from the calling
+  terminal), then the current state of statistics is output, and computation
+  is aborted. When sending SIGUSR1, then the statistics is output, and the
+  computation is continued.
+
   There are two macros to control compilation:
    - LIT_TYPE (default int)
    - BASIS_WEIGHT (default 2.0): clauses of length k have weight BASIS_WEIGHT^-k.
@@ -59,10 +64,11 @@ for debugging).
 #include <cstdint>
 #include <cstdlib>
 #include <cassert>
+#include <csignal>
 
 namespace {
 
-const std::string version = "1.5.0";
+const std::string version = "1.5.1";
 const std::string date = "5.7.2013";
 
 const std::string program = "tawSolver";
@@ -77,7 +83,8 @@ enum Error_codes {
   unit_clause_error=6
 };
 
-enum Exit_codes { sat=10, unsat=20 };
+enum Result_value { unsat=20, sat=10, unknown=0 };
+Result_value interprete_run(const bool result) { return result ? sat : unsat; }
 
 #ifndef LIT_TYPE
 # define LIT_TYPE int
@@ -462,10 +469,13 @@ bool dpll() {
 
 // --- Output ---
 
-void output(const std::string& file, const bool result, const double elapsed) {
+void output(const std::string& file, const Result_value result, const double elapsed) {
   std::cout << "s ";
-  if (not result) std::cout << "UN";
-  std::cout << "SATISFIABLE\n";
+  switch (result) {
+    case unknown : std::cout << "UNKNOWN\n"; break;
+    case unsat : std::cout << "UN";
+    case sat : std::cout << "SATISFIABLE\n";
+  }
   std::cout <<
          "c number_of_variables                   " << n_vars << "\n" <<
          "c number_of_clauses                     " << n_clauses << "\n" <<
@@ -477,7 +487,7 @@ void output(const std::string& file, const bool result, const double elapsed) {
          "c max_number_assignments                " << max_depth << "\n" <<
          "c max_number_changes                    " << changes.size() << "\n" <<
          "c file_name                             " << file << std::endl;
-  if (result) {
+  if (result == sat) {
     std::cout << "v ";
     for (Var i=1; i <= n_vars; ++i) if (pass[i]) std::cout << pass[i] << " ";
     std::cout << "0" << std::endl;
@@ -523,11 +533,22 @@ void version_information() {
 
 }
 
+std::string filename;
 #include <sys/resource.h>
-
-inline double current_time(rusage& ru) {
-  getrusage(RUSAGE_SELF, &ru);
-  return ru.ru_utime.tv_sec + ru.ru_utime.tv_usec / 1000000.0;
+rusage timing;
+double current_time() {
+  getrusage(RUSAGE_SELF, &timing);
+  return timing.ru_utime.tv_sec + timing.ru_utime.tv_usec / 1000000.0;
+}
+double t1; // start of SAT solving
+void abortion(const int sig) {
+  std::signal(SIGINT, abortion);
+  output(filename, unknown, current_time() - t1);
+  std::exit(unknown);
+}
+void show_statistics(const int sig) {
+  signal(SIGUSR1, show_statistics);
+  output(filename, unknown, current_time() - t1);
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -537,16 +558,17 @@ int main(const int argc, const char* const argv[]) {
       " where argument is one of \"-v\", \"--version\", or a filename.\n";
     return 0;
   }
-  const std::string filename(argv[1]);
+  filename = argv[1];
   if (filename == "-v" or filename == "--version") {
     version_information();
     return 0;
   }
   read_formula(filename);
-  rusage timing;
-  const double t1 = current_time(timing);
+  std::signal(SIGINT, abortion);
+  std::signal(SIGUSR1, show_statistics);
+  t1 = current_time();
   const bool result = dpll();
-  const double t2 = current_time(timing);
-  output(filename, result, t2-t1);
-  return (result) ? sat : unsat;
+  const double t2 = current_time();
+  output(filename, interprete_run(result), t2-t1);
+  return interprete_run(result);
 }

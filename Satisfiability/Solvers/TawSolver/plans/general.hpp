@@ -323,7 +323,7 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
   </ul>
 
 
-  \todo Handle signals
+  \todo Handle signals : DONE
   <ul>
    <li> As the OKsolver, when interrupted, then the current statistics should
    be printed (before exit). </li>
