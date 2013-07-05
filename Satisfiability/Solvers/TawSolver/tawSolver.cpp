@@ -345,14 +345,12 @@ void unassign(const Lit x) {
   assert(x);
   const Var v = var(x);
   pass[v] = 0;
-  assert(depth >= 1);
+  assert(depth >= 1); assert(depth <= n_vars);
   --depth;
-  assert(depth < n_vars);
   auto& nch = n_changes[depth];
   while (nch[neg]) {
     --nch[neg];
-    assert(changes_index >= 1);
-    assert(changes_index <= changes.size());
+    assert(changes_index >= 1); assert(changes_index <= changes.size());
     const auto C = changes[--changes_index];
     assert(C->status);
     ++C->length;
