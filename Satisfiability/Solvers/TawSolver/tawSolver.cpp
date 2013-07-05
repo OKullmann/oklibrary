@@ -36,7 +36,7 @@ for debugging).
 
   There are two macros to control compilation:
    - LIT_TYPE (default int)
-   - BASIS_WEIGHT (default 3): clauses of length k have weight BASIS_WEIGHT^-k.
+   - BASIS_WEIGHT (default 2.0): clauses of length k have weight BASIS_WEIGHT^-k.
 
   To provide further versioning-information, there are two macros, which are
   only relevant if they are defined:
@@ -62,8 +62,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.4.4";
-const std::string date = "4.7.2013";
+const std::string version = "1.5.0";
+const std::string date = "5.7.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -127,7 +127,7 @@ std::vector<int_pair> n_changes;
 #ifdef BASIS_WEIGHT
   constexpr double basis_w = BASIS_WEIGHT;
 #else
-  constexpr double basis_w = 3;
+  constexpr double basis_w = 2.0;
 #endif
 std::vector<double> weights {0,0, 1.0, 1/basis_w};
 double wexp2(unsigned int clause_length) {
@@ -372,30 +372,45 @@ inline void accumulate(const bool stat, const unsigned length, double& sum) {
   sum += stat * weights[length];
 }
 inline Lit branching_literal() {
-  double max = 0;
   Lit x = 0;
+  double max = 0, max2 = 0;
   const auto nvar = n_vars;
-  for (Lit v=1; (unsigned)v <= nvar; ++v) {
-    const auto vpos = lits[v][pos];
+  for (Var v=1; v <= nvar; ++v) {
     if (pass[v] == 0) {
-      double pz = 0;
-      {const auto pos_occur = vpos.n_occur;
+      double ps = 0;
+      {const auto vpos = lits[v][pos]; const auto pos_occur = vpos.n_occur;
        for (unsigned int k=0; k<pos_occur; ++k) {
          const ClausePc C = vpos.occur[k];
-         accumulate(C->status, C->length, pz);
-       }
-      }
-      double nz = 0;
-      {const auto vneg = lits[v][neg];
-       const auto neg_occur = vneg.n_occur;
+         accumulate(C->status, C->length, ps);
+       }}
+      double ns = 0;
+      {const auto vneg = lits[v][neg]; const auto neg_occur = vneg.n_occur;
        for (unsigned int k=0; k<neg_occur; ++k) {
          const ClausePc C = vneg.occur[k];
-         accumulate(C->status, C->length, nz);
-       }
-      }
-      const auto s = pz + nz;
-      if (s > max) { max = s; x = (pz >= nz) ? v : -v; }
+         accumulate(C->status, C->length, ns);
+       }}
+      const double prod = ps * ns, sum = ps + ns;
+      if (prod > max) { max = prod; max2 = sum; x = (ps>=ns)?v:-Lit(v); }
+      // handles also the case that only pure literals are left:
+      else if (prod==max and sum>max2) { max2 = sum; x = (ps>=ns)?v:-Lit(v); }
     }
+  }
+  if (not x) {
+    /* All remaining clauses have length >=1023, and thus the instance is
+       satisfiable (since we can't have 2^1023 clauses); choose a literal
+       occurring most often. */
+    unsigned int max = 0;
+    for (Var v=1; v <= nvar; ++v)
+      if (pass[v] == 0) {
+        unsigned int count = 0;
+        {const auto vpos = lits[v][pos]; const auto pos_o = vpos.n_occur;
+         for (unsigned int k=0; k<pos_o; ++k) count += vpos.occur[k]->status;}
+        if (count > max) {max = count; x = v;}
+        count = 0;
+        {const auto vneg = lits[v][neg]; const auto neg_o = vneg.n_occur;
+         for (unsigned int k=0; k<neg_o; ++k) count += vneg.occur[k]->status;}
+        if (count > max) {max = count; x = -Lit(v);}
+      }
   }
   return x;
 }
