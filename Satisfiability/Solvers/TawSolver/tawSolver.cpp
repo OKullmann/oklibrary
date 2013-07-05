@@ -137,9 +137,10 @@ std::vector<int_pair> n_changes;
   constexpr double basis_w = 2.0;
 #endif
 std::vector<double> weights {0,0, 1.0, 1/basis_w};
-double wexp2(unsigned int clause_length) {
+double wexp(unsigned int clause_length) {
   return std::pow(basis_w,-(int(clause_length)-2));
 }
+// Remark: wexp(k) == 0 iff k >= 1023 (for basis_w == 2).
 
 unsigned int n_header_clauses, n_clauses, r_clauses;
 Var n_vars;
@@ -289,7 +290,7 @@ void read_formula(const std::string& filename) {
   r_clauses = n_clauses;
   weights.resize(max_clause_length+1);
   for (unsigned int i = 4; i <= max_clause_length; ++i)
-    weights[i] = wexp2(i);
+    weights[i] = wexp(i);
 }
 
 // --- SAT solving ---
