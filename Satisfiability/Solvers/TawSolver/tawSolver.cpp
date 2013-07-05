@@ -150,7 +150,7 @@ unsigned int max_clause_length = 0;
 std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
  v is unassigned, otherwise it is v in case v->true and else -v. */
 
-unsigned long long int n_branches = 0;
+unsigned long long int n_nodes = 0;
 unsigned long long int n_units = 0;
 unsigned long long int n_backtracks = 0;
 
@@ -423,7 +423,7 @@ inline Lit branching_literal() {
 }
 
 bool dpll() {
-  ++n_branches;
+  ++n_nodes;
   std::stack<Lit> lucl_stack; // local unit-clause literals
   while (true) { // unit-clause propagation
     if (contradictory_unit_clauses) {
@@ -482,7 +482,7 @@ void output(const std::string& file, const Result_value result, const double ela
          "c number_of_clauses                     " << n_clauses << "\n" <<
          "c maximal_clause_length                 " << max_clause_length << "\n" <<
          "c running_time(sec)                     " << std::setprecision(2) << std::fixed << elapsed << "\n" <<
-         "c number_of_nodes                       " << n_branches << "\n" <<
+         "c number_of_nodes                       " << n_nodes << "\n" <<
          "c number_of_binary_nodes                " << n_backtracks << "\n" <<
          "c number_of_1-reductions                " << n_units << "\n" <<
          "c max_number_assignments                " << max_depth << "\n" <<
