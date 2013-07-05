@@ -201,12 +201,13 @@ void read_formula_header(std::ifstream& f) {
 std::vector<Lit> current_working_clause;
 
 bool read_a_clause_from_file(std::ifstream& f) {
+  static std::vector<int> literal_table;
   current_working_clause.clear();
+  literal_table.assign(n_vars+1,0);
   bool tautology = false;
   Lit x;
   f >> x;
   if (f.eof()) return false;
-  std::vector<int> literal_table(n_vars+1);
   while (true) {
     if (not f) {
       std::cerr << err << "Invalid literal-read.\n";
