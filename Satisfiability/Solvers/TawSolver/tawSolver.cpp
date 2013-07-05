@@ -206,7 +206,7 @@ bool read_a_clause_from_file(std::ifstream& f) {
   Lit x;
   f >> x;
   if (f.eof()) return false;
-  std::vector<int> checker_cl(n_vars+1);
+  std::vector<int> literal_table(n_vars+1);
   while (true) {
     if (not f) {
       std::cerr << err << "Invalid literal-read.\n";
@@ -218,11 +218,11 @@ bool read_a_clause_from_file(std::ifstream& f) {
       std::cerr << err << "Literal " << x << " contradicts n=" << n_vars << ".\n";
       std::exit(variable_value_error);
     }
-    if (checker_cl[v] == 0) {
+    if (literal_table[v] == 0) {
       current_working_clause.push_back(x);
-      checker_cl[v] = x;
+      literal_table[v] = x;
     }
-    else if (checker_cl[v] == -x) tautology = true;
+    else if (literal_table[v] == -x) tautology = true;
     f >> x;
   }
   if (tautology) {
