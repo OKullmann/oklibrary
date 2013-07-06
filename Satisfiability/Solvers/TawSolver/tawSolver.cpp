@@ -68,8 +68,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.5.1";
-const std::string date = "5.7.2013";
+const std::string version = "1.6.0";
+const std::string date = "6.7.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -142,7 +142,7 @@ double wexp(unsigned int clause_length) {
 }
 // Remark: wexp(k) == 0 iff k >= 1023 (for basis_w == 2).
 
-unsigned int n_header_clauses, n_clauses, r_clauses;
+unsigned int n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
 Var n_vars;
 unsigned int depth = 0, max_depth = 0; // depth is the number of assigned variables
 unsigned int max_clause_length = 0;
@@ -261,9 +261,7 @@ void add_a_clause_to_formula() {
   C.status = true;
   C.literals = new Lit[n];
   C.end = C.literals + n;
-
   if (n>max_clause_length) max_clause_length = n;
-
   for (int i=0; i<(int)n; ++i) {
     const Lit x = current_working_clause[i];
     C.literals[i] = x;
@@ -285,8 +283,7 @@ void read_formula(const std::string& filename) {
   }
   read_formula_header(f);
   n_clauses = 0;
-  while (read_a_clause_from_file(f))
-    add_a_clause_to_formula();
+  while (read_a_clause_from_file(f)) add_a_clause_to_formula();
   r_clauses = n_clauses;
   weights.resize(max_clause_length+1);
   for (unsigned int i = 4; i <= max_clause_length; ++i)
@@ -296,7 +293,8 @@ void read_formula(const std::string& filename) {
 // --- SAT solving ---
 
 void assign(const Lit x) {
-/* set x to true, and enter found unit-literals onto the global stack */
+/* set x to true, enter found unit-literals onto the global stack, and create
+   change information */
   assert(x);
   const Var v = var(x);
   assert(v <= n_vars);
@@ -382,17 +380,17 @@ inline Lit branching_literal() {
   Lit x = 0;
   double max = 0, max2 = 0;
   const auto nvar = n_vars;
-  for (Var v=1; v <= nvar; ++v) {
+  for (Var v = 1; v <= nvar; ++v) {
     if (pass[v] == 0) {
       double ps = 0;
       {const auto vpos = lits[v][pos]; const auto pos_occur = vpos.n_occur;
-       for (unsigned int k=0; k<pos_occur; ++k) {
+       for (unsigned int k=0; k < pos_occur; ++k) {
          const ClausePc C = vpos.occur[k];
          accumulate(C->status, C->length, ps);
        }}
       double ns = 0;
       {const auto vneg = lits[v][neg]; const auto neg_occur = vneg.n_occur;
-       for (unsigned int k=0; k<neg_occur; ++k) {
+       for (unsigned int k=0; k < neg_occur; ++k) {
          const ClausePc C = vneg.occur[k];
          accumulate(C->status, C->length, ns);
        }}
@@ -407,7 +405,7 @@ inline Lit branching_literal() {
        satisfiable (since we can't have 2^1023 clauses); choose a literal
        occurring most often. */
     unsigned int max = 0;
-    for (Var v=1; v <= nvar; ++v)
+    for (Var v = 1; v <= nvar; ++v)
       if (pass[v] == 0) {
         unsigned int count = 0;
         {const auto vpos = lits[v][pos]; const auto pos_o = vpos.n_occur;
@@ -537,8 +535,9 @@ void version_information() {
 std::string filename;
 #include <sys/resource.h>
 rusage timing;
+rusage* const ptiming = &timing;
 double current_time() {
-  getrusage(RUSAGE_SELF, &timing);
+  getrusage(RUSAGE_SELF, ptiming);
   return timing.ru_utime.tv_sec + timing.ru_utime.tv_usec / 1000000.0;
 }
 double t1; // start of SAT solving
@@ -568,8 +567,9 @@ int main(const int argc, const char* const argv[]) {
   std::signal(SIGINT, abortion);
   std::signal(SIGUSR1, show_statistics);
   t1 = current_time();
-  const bool result = dpll();
-  const double t2 = current_time();
-  output(filename, interprete_run(result), t2-t1);
-  return interprete_run(result);
+  const auto result = dpll();
+  const auto t2 = current_time();
+  const auto ires = interprete_run(result);
+  output(filename, ires, t2-t1);
+  return ires;
 }
