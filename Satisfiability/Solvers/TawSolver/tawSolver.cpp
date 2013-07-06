@@ -21,7 +21,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 /*
   Compile with
 
-> g++ --std=c++11 -Wall -Ofast -funroll-loops -DNDEBUG -o tawSolver tawSolver.cpp
+> g++ --std=c++11 -Wall -Ofast -funroll-loops -fwhole-program -DNDEBUG -o tawSolver tawSolver.cpp
 
 (or with "g++ --std=c++11 -Wall -g -o tawSolver tawSolver.cpp"
 for debugging).
@@ -70,7 +70,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.6.3";
+const std::string version = "1.7.0";
 const std::string date = "6.7.2013";
 
 const std::string program = "tawSolver";
@@ -109,18 +109,16 @@ typedef const Clause* ClausePc;
 
 std::vector<Clause> clauses;
 
-struct lit_info {
+struct literal_occurrences {
   ClauseP* occur; // array with clause-pointers
   unsigned int n_occur;
 };
-// The lit_info data is fixed with the input.
-typedef std::array<lit_info,2> lit_info_pair;
-std::vector<lit_info_pair> lits;
+std::vector<std::array<literal_occurrences,2>> lits;
+/* lits[v][pos/neg] for a variable v represents the list of occurrences; this
+   data is fixed with the input. */
 
-// a touched clause:
-typedef ClauseP change_info;
-
-typedef std::vector<change_info> Change_v;
+// The stack of touched clauses:
+typedef std::vector<ClauseP> Change_v;
 typedef Change_v::size_type change_index_t;
 Change_v changes(1); // acts as a global stack
 change_index_t changes_index = 0; // Invariant: changes_index < changes.size().
