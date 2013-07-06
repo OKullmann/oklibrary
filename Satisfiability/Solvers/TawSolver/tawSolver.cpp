@@ -151,7 +151,7 @@ void initialise_weights() {
   for (int i = first_open_weight; unsigned(i) <= max_clause_length; ++i)
     weights[i] = std::pow(basis_w_2,-i+3);
 }
-// Remark: wexp(k) == 0 iff k >= 1023 (for basis_w == 2).
+// Remark: weights[i] == 0 iff i >= 1078 (for basis_w_2 == 2).
 
 unsigned int n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
 Var n_vars;
@@ -410,8 +410,8 @@ inline Lit branching_literal() {
     }
   }
   if (not x) {
-    /* All remaining clauses have length >=1023, and thus the instance is
-       satisfiable (since we can't have 2^1023 clauses); choose a literal
+    /* All remaining clauses have length >=1078, and thus the instance is
+       satisfiable (since we can't have 2^1078 clauses); choose a literal
        occurring most often. */
     unsigned int max = 0;
     for (Var v = 1; v <= nvar; ++v)
