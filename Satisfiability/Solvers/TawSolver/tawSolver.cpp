@@ -70,8 +70,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.7.1";
-const std::string date = "6.7.2013";
+const std::string version = "1.7.2";
+const std::string date = "7.7.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -98,12 +98,12 @@ static_assert(sizeof(Lit) != 1, "LIT_TYPE = char (or int8_t) doesn't work with r
 typedef std::make_unsigned<Lit>::type Var;
 
 struct Clause {
-  Lit* literals; // the array of literals in the clause
-  Lit* end;
-  int length; // the current length
+  Lit* literals; // the array of literals in the clause (as in the input)
+  Lit* end; // one past-the-end
+  int length; // the current length (between 1 and (end - literals)).
   bool status; // true iff currently not satisfied
 };
-// Members "literals", "end" and "index" are fixed after reading the input.
+// Members "literals" and "end" are fixed after reading the input.
 typedef Clause* ClauseP;
 typedef const Clause* ClausePc;
 
@@ -115,7 +115,7 @@ struct literal_occurrences {
 };
 std::vector<std::array<literal_occurrences,2>> lits;
 /* lits[v][pos/neg] for a variable v represents the list of occurrences; this
-   data is fixed with the input. */
+   data is fixed after reading the input. */
 
 // The stack of touched clauses:
 typedef std::vector<ClauseP> Change_v;
@@ -138,11 +138,16 @@ unsigned int max_clause_length = 0;
 #endif
 std::vector<double> weights {0,0, basis_w_1, 1, 1/basis_w_2};
 constexpr int first_open_weight = 5;
+constexpr double weight(const int clause_length) {
+  return std::pow(basis_w_2,-clause_length+3);
+}
 void initialise_weights() {
   for (int i = first_open_weight; unsigned(i) <= max_clause_length; ++i)
-    weights[i] = std::pow(basis_w_2,-i+3);
+    weights[i] = weight(i);
 }
-// Remark: weights[i] == 0 iff i >= 1078 (for basis_w_2 == 2).
+constexpr int first_zero_weight = 1078;
+static_assert(weight(first_zero_weight-1) != 0, "first_zero_weight not first");
+static_assert(weight(first_zero_weight) == 0, "first_zero_weight not zero");
 
 unsigned int n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
 Var n_vars;
@@ -390,9 +395,9 @@ inline Lit branching_literal() {
     }
   }
   if (not x) {
-    /* All remaining clauses have length >=1078, and thus the instance is
-       satisfiable (since we can't have 2^1078 clauses); choose a literal
-       occurring most often. */
+    /* All remaining clauses have length >= first_zero_weight, and thus the
+       instance is satisfiable (since we can't have 2^first_zero_weight
+       clauses); choose a literal occurring most often. */
     unsigned int max = 0;
     for (Var v = 1; v <= nvar; ++v)
       if (pass[v] == 0) {
