@@ -70,7 +70,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.6.2";
+const std::string version = "1.6.3";
 const std::string date = "6.7.2013";
 
 const std::string program = "tawSolver";
@@ -125,13 +125,6 @@ typedef Change_v::size_type change_index_t;
 Change_v changes(1); // acts as a global stack
 change_index_t changes_index = 0; // Invariant: changes_index < changes.size().
 
-typedef std::array<int,2> int_pair;
-std::vector<int_pair> n_changes;
-/* n_changes[depth][pos] is the number of satisfied clauses, while
-   n_changes[depth][neg] is the number of clauses with one literal removed;
-   depth here is the number of assignments on the current path
-*/
-
 unsigned int max_clause_length = 0;
 
 // the clause-weights:
@@ -155,7 +148,6 @@ void initialise_weights() {
 
 unsigned int n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
 Var n_vars;
-unsigned int depth = 0, max_depth = 0; // depth is the number of assigned variables
 
 std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
  v is unassigned, otherwise it is v in case v->true and else -v. */
@@ -210,7 +202,6 @@ void read_formula_header(std::ifstream& f) {
     std::exit(file_reading_error);
   }
   lits.resize(n_vars+1);
-  n_changes.resize(n_vars);
   pass.resize(n_vars+1);
   gucl_stack.resize(n_vars);
   clauses.resize(n_header_clauses);
@@ -309,10 +300,12 @@ void assign(const Lit x) {
   assert(v <= n_vars);
   pass[v] = x;
   const Polarity p = sign(x);
+
   {const auto L = lits[v][p];
    const auto occur_true = L.n_occur;
-   const auto max_size = changes_index + occur_true;
+   const auto max_size = changes_index + occur_true + 1;
    if (max_size >= changes.size()) changes.resize(max_size);
+   changes[changes_index++] = nullptr;
    for (unsigned int i=0; i < occur_true; ++i) {
      const auto C = L.occur[i];
      if (not C->status) continue;
@@ -321,19 +314,18 @@ void assign(const Lit x) {
      assert(r_clauses >= 1);
      --r_clauses;
      changes[changes_index++] = C;
-     ++n_changes[depth][pos];
    }
   }
   {const Polarity np = inv_polarity(p);
    const auto L = lits[v][np];
    const auto occur_false = L.n_occur;
-   const auto max_size = changes_index + occur_false;
+   const auto max_size = changes_index + occur_false + 1;
    if (max_size > changes.size()) changes.resize(max_size);
+   changes[changes_index++] = nullptr;
    for (unsigned int i=0; i < occur_false; ++i) {
      const auto C = L.occur[i];
      if (not C->status) continue;
      changes[changes_index++] = C;
-     ++n_changes[depth][neg];
      assert(C->length >= 2);
      --C->length;
      if (C->length == 1) {
@@ -354,32 +346,21 @@ void assign(const Lit x) {
      }
    occ_loop:;}
   }
-  end: if (++depth > max_depth) max_depth = depth;
+  end:;
 }
 
 void unassign(const Lit x) {
   assert(x);
   pass[var(x)] = 0;
-  assert(depth >= 1); assert(depth <= n_vars);
-  --depth;
-  auto& nch = n_changes[depth];
-
-  const auto n_changes_neg = nch[neg];
-  for (int i = 0; i < n_changes_neg; ++i) {
-    const auto C = changes[--changes_index];
+  while (const ClauseP C = changes[--changes_index]) {
     assert(C->status);
     ++C->length;
   }
-  nch[neg] = 0;
-
-  const auto n_changes_pos = nch[pos];
-  for (int i = 0; i < n_changes_pos; ++i) {
-    const auto C = changes[--changes_index];
+  while (const ClauseP C = changes[--changes_index]) {
     assert(not C->status);
     C->status = true;
     ++r_clauses;
   }
-  nch[pos] = 0;
 }
 
 // performance-critical computation:
@@ -455,7 +436,7 @@ bool dpll() {
   if (not r_clauses) return true;
   assert(n_gucl == 0);
   const Lit x = branching_literal();
-  assert(x); assert(pass[var(x)] == 0); assert(depth < n_vars);
+  assert(x); assert(pass[var(x)] == 0);
   assign(x);
   if (dpll()) return true;
   assert(pass[var(x)] == x);
@@ -493,7 +474,6 @@ void output(const std::string& file, const Result_value result, const double ela
          "c number_of_nodes                       " << n_nodes << "\n" <<
          "c number_of_binary_nodes                " << n_backtracks << "\n" <<
          "c number_of_1-reductions                " << n_units << "\n" <<
-         "c max_number_assignments                " << max_depth << "\n" <<
          "c max_number_changes                    " << changes.size() << "\n" <<
          "c file_name                             " << file << std::endl;
   if (result == sat) {
