@@ -70,7 +70,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.7.0";
+const std::string version = "1.7.1";
 const std::string date = "6.7.2013";
 
 const std::string program = "tawSolver";
@@ -472,7 +472,6 @@ void output(const std::string& file, const Result_value result, const double ela
          "c number_of_nodes                       " << n_nodes << "\n" <<
          "c number_of_binary_nodes                " << n_backtracks << "\n" <<
          "c number_of_1-reductions                " << n_units << "\n" <<
-         "c max_number_changes                    " << changes.size() << "\n" <<
          "c file_name                             " << file << std::endl;
   if (result == sat) {
     std::cout << "v ";
