@@ -39,9 +39,11 @@ for debugging).
   is aborted. When sending SIGUSR1, then the statistics is output, and the
   computation is continued.
 
-  There are two macros to control compilation:
+  There are three macros to control compilation:
    - LIT_TYPE (default int)
-   - BASIS_WEIGHT (default 2.0): clauses of length k have weight BASIS_WEIGHT^-k.
+   - BASIS_WEIGHT1 (default 7.5) and BASIS_WEIGHT2 (default 2.0):
+     clauses of length 2,3,4,5,... have weight
+     BASIS_WEIGHT1, 1, BASIS_WEIGHT2^-1, BASIS_WEIGHT2^-2, ... .
 
   To provide further versioning-information, there are two macros, which are
   only relevant if they are defined:
@@ -68,7 +70,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.6.0";
+const std::string version = "1.6.1";
 const std::string date = "6.7.2013";
 
 const std::string program = "tawSolver";
@@ -130,22 +132,30 @@ std::vector<int_pair> n_changes;
    depth here is the number of assignments on the current path
 */
 
+unsigned int max_clause_length = 0;
+
 // the clause-weights:
-#ifdef BASIS_WEIGHT
-  constexpr double basis_w = BASIS_WEIGHT;
+#ifdef BASIS_WEIGHT1
+  constexpr double basis_w_1 = BASIS_WEIGHT1;
 #else
-  constexpr double basis_w = 2.0;
+  constexpr double basis_w_1 = 7.5;
 #endif
-std::vector<double> weights {0,0, 1.0, 1/basis_w};
-double wexp(unsigned int clause_length) {
-  return std::pow(basis_w,-(int(clause_length)-2));
+#ifdef BASIS_WEIGHT2
+  constexpr double basis_w_2 = BASIS_WEIGHT2;
+#else
+  constexpr double basis_w_2 = 2.0;
+#endif
+std::vector<double> weights {0,0, basis_w_1, 1, 1/basis_w_2};
+constexpr int first_open_weight = 5;
+void initialise_weights() {
+  for (int i = first_open_weight; unsigned(i) <= max_clause_length; ++i)
+    weights[i] = std::pow(basis_w_2,-i+3);
 }
 // Remark: wexp(k) == 0 iff k >= 1023 (for basis_w == 2).
 
 unsigned int n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
 Var n_vars;
 unsigned int depth = 0, max_depth = 0; // depth is the number of assigned variables
-unsigned int max_clause_length = 0;
 
 std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
  v is unassigned, otherwise it is v in case v->true and else -v. */
@@ -286,8 +296,7 @@ void read_formula(const std::string& filename) {
   while (read_a_clause_from_file(f)) add_a_clause_to_formula();
   r_clauses = n_clauses;
   weights.resize(max_clause_length+1);
-  for (unsigned int i = 4; i <= max_clause_length; ++i)
-    weights[i] = wexp(i);
+  initialise_weights();
 }
 
 // --- SAT solving ---
@@ -502,7 +511,7 @@ void version_information() {
    " Changes by Oliver Kullmann\n"
    " Version: " << version << "\n"
    " Last change date: " << date << "\n"
-   " Clause-weight basis: " << basis_w << " (clause-lengths 2,3:  " << weights[2] << ", " << weights[3] << ")\n" 
+   " Clause-weight parameters: " << basis_w_1 << ", " << basis_w_2 << " (resulting weights for clause-lengths 2,3,4:  " << weights[2] << ", " << weights[3] << ", " << weights[4] << ")\n" 
    " Macro settings:\n"
    "  LIT_TYPE = " STR(LIT_TYPE) " (with " << std::numeric_limits<Lit>::digits << " binary digits)\n"
 #ifdef NDEBUG
