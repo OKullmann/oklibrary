@@ -19,6 +19,10 @@ c running_time(sec)                     6.65
 c number_of_nodes                       143319
 c number_of_binary_nodes                71659
 c number_of_1-reductions                1511306
+
+# version b45bc81344b378d0130138af761e397f2b3a87c7
+c running_time(sec)                     6.31
+c max_number_changes                    19398
    \endverbatim
    </li>
    <li> k=18, n=312:
@@ -27,6 +31,10 @@ c running_time(sec)                     59.59
 c number_of_nodes                       1063979
 c number_of_binary_nodes                531989
 c number_of_1-reductions                12050046
+
+# version b45bc81344b378d0130138af761e397f2b3a87c7
+c running_time(sec)                     56.28
+c max_number_changes                    25693
    \endverbatim
    </li>
    <li> k=19, n=347:
@@ -35,6 +43,10 @@ c running_time(sec)                     134.32
 c number_of_nodes                       2009635
 c number_of_binary_nodes                1004817
 c number_of_1-reductions                23490743
+
+# version b45bc81344b378d0130138af761e397f2b3a87c7
+c running_time(sec)                     126.75
+c max_number_changes                    30281
    \endverbatim
    </li>
    <li> k=20, n=389:
@@ -43,6 +55,10 @@ c running_time(sec)                     738.25
 c number_of_nodes                       9076261
 c number_of_binary_nodes                4538130
 c number_of_1-reductions                110593054
+
+# version b45bc81344b378d0130138af761e397f2b3a87c7
+c running_time(sec)                     693.71
+c max_number_changes                    38297
    \endverbatim
    </li>
    <li> k=21, n=405:
@@ -51,6 +67,10 @@ c running_time(sec)                     2541.11
 c number_of_nodes                       30470349
 c number_of_binary_nodes                15235174
 c number_of_1-reductions                374871138
+
+# version b45bc81344b378d0130138af761e397f2b3a87c7
+c running_time(sec)                     2374.85
+c max_number_changes                    41676
    \endverbatim
    </li>
    <li> k=22, n=463:
@@ -60,7 +80,7 @@ c number_of_nodes                       170414771
 c number_of_binary_nodes                85207385
 c number_of_1-reductions                2236999086
 
-#final version (dbfe40729515a5643f18e5953abe91d704626edf)
+# version dbfe40729515a5643f18e5953abe91d704626edf
 c number_of_variables                   232
 c number_of_clauses                     28650
 c running_time(sec)                     20753.85
@@ -68,9 +88,12 @@ c number_of_nodes                       170414771
 c number_of_binary_nodes                85207385
 c number_of_1-reductions                2236999086
 c max_number_changes                    54879
+
+# version b45bc81344b378d0130138af761e397f2b3a87c7
+c running_time(sec)                     16633.30
    \endverbatim
    </li>
-   <li> k=23, n=507 (with final version):
+   <li> k=23, n=507 (with version dbfe40729515a5643f18e5953abe91d704626edf):
    \verbatim
 c number_of_variables                   254
 c number_of_clauses                     34289
@@ -79,6 +102,9 @@ c number_of_nodes                       573190251
 c number_of_binary_nodes                286595125
 c number_of_1-reductions                7857883219
 c max_number_changes                    65646
+
+# version b45bc81344b378d0130138af761e397f2b3a87c7
+c running_time(sec)                     65916.72
    \endverbatim
    </li>
   </ul>
