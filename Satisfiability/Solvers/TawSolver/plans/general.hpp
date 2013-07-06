@@ -391,6 +391,39 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
 
 # A further improvement; this should now be the final version (before deeper
 ## research into the weight-structure might reveal better weights).
+
+# ID 7da84e6c2727eb51d61117aea7a7938092d5712c
+# Simplified change-handling.
+# No longer output of "max_number_assignments" and max_number_changes
+# (wasn't very informative).
+
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c running_time(sec)                     13.63
+c number_of_nodes                       857366
+c number_of_binary_nodes                428676
+c number_of_1-reductions                9983978
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c running_time(sec)                     16.31
+c number_of_nodes                       1003777
+c number_of_binary_nodes                501888
+c number_of_1-reductions                11774917
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> oklib timing
+cswsok (one other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+13.63 13.62 13.68 13.77 13.68
+tawSolver VanDerWaerden_2-3-12_135.cnf
+16.31 16.42 16.26 16.36 16.31
+
+# small run-time improvement, and code simplified.
    \endverbatim
    </li>
   </ul>
