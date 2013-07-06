@@ -16,7 +16,7 @@
 
 # The macro LIT_TYPE can be used to redefine the literal-type (default is int).
 # When calling from the OKlibrary, e.g.:
-# CXXFLAGS="-DLIT_TYPE=int8_t" oklib all
+# CXXFLAGS="-DLIT_TYPE=int16_t" oklib all
 # CXXFLAGS="-DLIT_TYPE=int64_t" oklib all Optimisation_options="-g" sub_make_directories="TawSolver"
 
 SHELL = /bin/bash
