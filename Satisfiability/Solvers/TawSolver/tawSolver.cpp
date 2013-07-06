@@ -313,7 +313,7 @@ void assign(const Lit x) {
    const auto occur_true = L.n_occur;
    const auto max_size = changes_index + occur_true;
    if (max_size >= changes.size()) changes.resize(max_size);
-   for (unsigned int i=0; i<occur_true; ++i) {
+   for (unsigned int i=0; i < occur_true; ++i) {
      const auto C = L.occur[i];
      if (not C->status) continue;
      assert(C->length >= 1);
@@ -329,7 +329,7 @@ void assign(const Lit x) {
    const auto occur_false = L.n_occur;
    const auto max_size = changes_index + occur_false;
    if (max_size > changes.size()) changes.resize(max_size);
-   for (unsigned int i=0; i<occur_false; ++i) {
+   for (unsigned int i=0; i < occur_false; ++i) {
      const auto C = L.occur[i];
      if (not C->status) continue;
      changes[changes_index++] = C;
@@ -364,21 +364,23 @@ void unassign(const Lit x) {
   assert(depth >= 1); assert(depth <= n_vars);
   --depth;
   auto& nch = n_changes[depth];
-  while (nch[neg]) {
-    --nch[neg];
-    assert(changes_index >= 1); assert(changes_index <= changes.size());
+
+  const auto n_changes_neg = nch[neg];
+  for (int i = 0; i < n_changes_neg; ++i) {
     const auto C = changes[--changes_index];
     assert(C->status);
     ++C->length;
   }
+  nch[neg] = 0;
 
-  while (nch[pos]) {
-    --nch[pos];
+  const auto n_changes_pos = nch[pos];
+  for (int i = 0; i < n_changes_pos; ++i) {
     const auto C = changes[--changes_index];
     assert(not C->status);
     C->status = true;
     ++r_clauses;
   }
+  nch[pos] = 0;
 }
 
 // performance-critical computation:
