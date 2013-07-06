@@ -70,7 +70,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.6.1";
+const std::string version = "1.6.2";
 const std::string date = "6.7.2013";
 
 const std::string program = "tawSolver";
@@ -359,8 +359,7 @@ void assign(const Lit x) {
 
 void unassign(const Lit x) {
   assert(x);
-  const Var v = var(x);
-  pass[v] = 0;
+  pass[var(x)] = 0;
   assert(depth >= 1); assert(depth <= n_vars);
   --depth;
   auto& nch = n_changes[depth];
