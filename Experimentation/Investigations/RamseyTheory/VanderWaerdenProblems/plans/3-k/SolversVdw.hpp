@@ -341,6 +341,7 @@ N_UNITS: 134192977183, N_BRANCHES: 8120609615, N_BACK: 4060304807
 Running time: 532416.20 seconds
 
 # version b45bc81344b378d0130138af761e397f2b3a87c7
+
 > tawSolver VanDerWaerden_2-3-12_134.cnf
 c running_time(sec)                     37.13
 c number_of_nodes                       1721206
@@ -390,7 +391,12 @@ c number_of_binary_nodes                387436353
 c number_of_1-reductions                12442138772
 c max_number_changes                    26075
 > tawSolver VanDerWaerden_2-3-16_238.cnf
-XXX
+c running_time(sec)                     456846.11
+c number_of_nodes                       8120609615
+c number_of_binary_nodes                4060304807
+c number_of_1-reductions                134192977183
+c max_number_changes                    30874
+
 
 # ID d72626596917101a573c05cfb90cda9ab25f4214
 # Now new basis-weight 3.0.
@@ -739,11 +745,17 @@ c number_of_binary_nodes                6938206
 c number_of_1-reductions                215404699
 c file_name                             VanDerWaerden_2-3-15_217.cnf
 
+c running_time(sec)                     7108.35
+c number_of_nodes                       198353325
+c number_of_binary_nodes                99176662
+c number_of_1-reductions                3078439723
+c file_name                             VanDerWaerden_2-3-15_218.cnf
+
 XXX
    \endverbatim
    </li>
    <li> This solver is the fastest single solver, but nearly 7x slower than
-   Cube&Conquer via OKsolver&minisat22. </li>
+   Cube&Conquer via OKsolver&minisat22. XXX </li>
    <li> We should also try C&C with this solver XXX. </li>
   </ul>
 
