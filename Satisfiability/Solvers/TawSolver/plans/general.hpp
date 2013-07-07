@@ -424,6 +424,37 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
 16.31 16.42 16.26 16.36 16.31
 
 # small run-time improvement, and code simplified.
+
+# ID 4d644cd9007a1351d8c263db7dfbb50df33db946
+# Optimised weights.
+
+> oklib timing
+cswsok (one other process running)
+
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c running_time(sec)                     13.57
+c number_of_nodes                       864314
+c number_of_binary_nodes                432150
+c number_of_1-reductions                10105278
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c running_time(sec)                     15.80
+c number_of_nodes                       977415
+c number_of_binary_nodes                488707
+c number_of_1-reductions                11522820
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+13.57 13.58 13.53 13.58 13.60
+tawSolver VanDerWaerden_2-3-12_135.cnf
+15.80 15.68 15.67 15.66 15.74
+
+# reduced node count.
    \endverbatim
    </li>
   </ul>
