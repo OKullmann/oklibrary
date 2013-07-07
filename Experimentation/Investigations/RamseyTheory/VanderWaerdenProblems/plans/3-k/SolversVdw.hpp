@@ -694,6 +694,51 @@ c number_of_binary_nodes                121721704
 c number_of_1-reductions                3761900684
 c file_name                             VanDerWaerden_2-3-15_218.cnf
 
+# ID 4d644cd9007a1351d8c263db7dfbb50df33db946
+# weight_2=7.0, weight_4=0.31, weight_5=0.19, basis_open = 1.70
+
+c running_time(sec)                     13.53
+c number_of_nodes                       864314
+c number_of_binary_nodes                432150
+c number_of_1-reductions                10105278
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+c running_time(sec)                     15.73
+c number_of_nodes                       977415
+c number_of_binary_nodes                488707
+c number_of_1-reductions                11522820
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+c running_time(sec)                     36.00
+c number_of_nodes                       1771688
+c number_of_binary_nodes                885835
+c number_of_1-reductions                22477004
+c file_name                             VanDerWaerden_2-3-13_159.cnf
+
+c running_time(sec)                     117.12
+c number_of_nodes                       5642269
+c number_of_binary_nodes                2821134
+c number_of_1-reductions                72084484
+c file_name                             VanDerWaerden_2-3-13_160.cnf
+
+c running_time(sec)                     39.91
+c number_of_nodes                       1476187
+c number_of_binary_nodes                738082
+c number_of_1-reductions                20813471
+c file_name                             VanDerWaerden_2-3-14_185.cnf
+
+c running_time(sec)                     950.33
+c number_of_nodes                       35499881
+c number_of_binary_nodes                17749940
+c number_of_1-reductions                500275401
+c file_name                             VanDerWaerden_2-3-14_186.cnf
+
+c running_time(sec)                     503.95
+c number_of_nodes                       13876432
+c number_of_binary_nodes                6938206
+c number_of_1-reductions                215404699
+c file_name                             VanDerWaerden_2-3-15_217.cnf
+
 XXX
    \endverbatim
    </li>
