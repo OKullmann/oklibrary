@@ -39,11 +39,14 @@ for debugging).
   is aborted. When sending SIGUSR1, then the statistics is output, and the
   computation is continued.
 
-  There are three macros to control compilation:
+  There are the following macros to control compilation:
    - LIT_TYPE (default int)
-   - BASIS_WEIGHT1 (default 7.5) and BASIS_WEIGHT2 (default 2.0):
-     clauses of length 2,3,4,5,... have weight
-     BASIS_WEIGHT1, 1, BASIS_WEIGHT2^-1, BASIS_WEIGHT2^-2, ... .
+   - WEIGHT_2_CLAUSES, WEIGHT_4_CLAUSES, WEIGHT_5_CLAUSES,
+     and WEIGHT_BASIS_OPEN:
+     the weight for clause-length k=3 is standardised to 1, the weights for
+     k = 2, 4, 5 are given by the first three macros, and for k without
+     predetermined weight (in the initialisation of vector weights) the weight
+     is decreased from the last set weight by the factor WEIGHT_BASIS_OPEN.
 
   To provide further versioning-information, there are two macros, which are
   only relevant if they are defined:
@@ -71,7 +74,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.7.3";
+const std::string version = "1.8.0";
 const std::string date = "7.7.2013";
 
 const std::string program = "tawSolver";
@@ -129,30 +132,56 @@ change_index_t changes_index = 0; // Invariant: changes_index < changes.size().
 
 unsigned int max_clause_length = 0;
 
-// the clause-weights:
-#ifdef BASIS_WEIGHT1
-  constexpr double basis_w_1 = BASIS_WEIGHT1;
+// The clause-weights:
+#ifdef WEIGHT_2_CLAUSES
+  constexpr double weight_2 = WEIGHT_2_CLAUSES;
 #else
-  constexpr double basis_w_1 = 7.5;
+  constexpr double weight_2 = 7.0;
 #endif
-#ifdef BASIS_WEIGHT2
-  constexpr double basis_w_2 = BASIS_WEIGHT2;
+#ifdef WEIGHT_4_CLAUSES
+  constexpr double weight_4 = WEIGHT_4_CLAUSES;
 #else
-  constexpr double basis_w_2 = 2.0;
+  constexpr double weight_4 = 0.31;
 #endif
-std::vector<double> weights {0,0, basis_w_1, 1, 1/basis_w_2};
-constexpr int first_open_weight = 5;
-constexpr double weight(const int clause_length) {
-  return std::pow(basis_w_2,-clause_length+3);
+#ifdef WEIGHT_5_CLAUSES
+  constexpr double weight_5 = WEIGHT_5_CLAUSES;
+#else
+  constexpr double weight_5 = 0.19;
+#endif
+#ifdef WEIGHT_BASIS_OPEN
+  constexpr double basis_open = WEIGHT_BASIS_OPEN;
+#else
+  constexpr double basis_open = 1.70;
+#endif
+// weights[k] is the weight for clause-length k >= 2:
+std::vector<double> weights {0,0, weight_2, 1, weight_4, weight_5};
+constexpr int first_open_weight = 6;
+/* If special weights for clause-lengths k = 4,5,... are to be used, then
+   these weights are written into the initialisation of weights, and
+   first_open_weight is to be adapted accordingly.
+
+   The current parameter values
+     weight_2=7.0, weight_4=0.31, weight_5=0.19, basis_open = 1.70
+   have been obtained via optimisation on VanDerWaerden_2-3-12_135.cnf,
+   yielding a local minimum for the node-count w.r.t. the indicated
+   precision (e.g., for weight_4 the values 0.32, 0.30 yield worse node count).
+*/
+// the weights for clause of length >= first_open_weight:
+double w2(const int clause_length) {
+  return weights[first_open_weight-1] *
+    std::pow(basis_open,-clause_length+first_open_weight-1);
 }
 void initialise_weights() {
+  assert(weights.size() == unsigned(first_open_weight));
+  try { weights.resize(max_clause_length+1); }
+  catch (const std::bad_alloc&) {
+    std::cerr << err << "Allocation error for double-vector of size " <<
+       max_clause_length << "+1 (the maximal clause-length).\n";
+    std::exit(allocation_error);
+  }
   for (int i = first_open_weight; unsigned(i) <= max_clause_length; ++i)
-    weights[i] = weight(i);
+    weights[i] = w2(i);
 }
-// the first clause-length where the weight is zero:
-constexpr int first_zero_weight = 1078;
-static_assert(weight(first_zero_weight-1) != 0, "first_zero_weight not first");
-static_assert(weight(first_zero_weight) == 0, "first_zero_weight not zero");
 
 unsigned int n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
 Var n_vars;
@@ -320,12 +349,6 @@ void read_formula(const std::string& filename) {
   n_clauses = 0;
   while (read_a_clause_from_file(f)) add_a_clause_to_formula();
   r_clauses = n_clauses;
-  try { weights.resize(max_clause_length+1); }
-  catch (const std::bad_alloc&) {
-    std::cerr << err << "Allocation error for vector of size " <<
-       max_clause_length << "+1 (the maximal clause-length).\n";
-    std::exit(allocation_error);
-  }
   initialise_weights();
 }
 
@@ -441,9 +464,9 @@ inline Lit branching_literal() {
     }
   }
   if (not x) {
-    /* All remaining clauses have length >= first_zero_weight, and thus the
-       instance is satisfiable (since we can't have 2^first_zero_weight
-       clauses); choose a literal occurring most often. */
+    /* All remaining clauses have length at least 1000 (the first k with
+    w2(k) == 0), and thus the instance is satisfiable (since we can't have
+    2^1000 clauses). Now just choosing a literal occurring most often. */
     unsigned int max = 0;
     for (Var v = 1; v <= nvar; ++v)
       if (pass[v] == 0) {
@@ -541,7 +564,11 @@ void version_information() {
    " Changes by Oliver Kullmann\n"
    " Version: " << version << "\n"
    " Last change date: " << date << "\n"
-   " Clause-weight parameters: " << basis_w_1 << ", " << basis_w_2 << " (resulting weights for clause-lengths 2,3,4:  " << weights[2] << ", " << weights[3] << ", " << weights[4] << ")\n" 
+   " Clause-weight parameters: " << weight_2 << ", " << basis_open << "\n"
+   "  Mapping k -> weight for weights specified at compile-time:\n ";
+   for (int k = 2; k < first_open_weight; ++k)
+     std::cout << "  " << k << "->" << weights[k];
+   std::cout << "\n"
    " Macro settings:\n"
    "  LIT_TYPE = " STR(LIT_TYPE) " (with " << std::numeric_limits<Lit>::digits << " binary digits)\n"
 #ifdef NDEBUG
