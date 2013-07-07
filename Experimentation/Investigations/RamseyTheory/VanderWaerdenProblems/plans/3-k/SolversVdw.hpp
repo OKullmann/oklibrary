@@ -577,6 +577,123 @@ c max_number_assignments                217
 c max_number_changes                    25808
 c file_name                             VanDerWaerden_2-3-15_218.cnf
 
+# ID 215c1f65d3368dab47052b512de966741940ab94
+# The weights are now w_2=7.5, w_3=1, w_4=2^-1, w_5=2^-2, ...
+
+c running_time(sec)                     14.06
+c number_of_nodes                       857366
+c number_of_binary_nodes                428676
+c number_of_1-reductions                9983978
+c max_number_assignments                134
+c max_number_changes                    9815
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+c running_time(sec)                     16.82
+c number_of_nodes                       1003777
+c number_of_binary_nodes                501888
+c number_of_1-reductions                11774917
+c max_number_assignments                132
+c max_number_changes                    9884
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+c running_time(sec)                     39.88
+c number_of_nodes                       1875227
+c number_of_binary_nodes                937604
+c number_of_1-reductions                23829208
+c max_number_assignments                157
+c max_number_changes                    13710
+c file_name                             VanDerWaerden_2-3-13_159.cnf
+
+c running_time(sec)                     124.75
+c number_of_nodes                       5811929
+c number_of_binary_nodes                2905964
+c number_of_1-reductions                74119386
+c max_number_assignments                157
+c max_number_changes                    13848
+c file_name                             VanDerWaerden_2-3-13_160.cnf
+
+c running_time(sec)                     63.27
+c number_of_nodes                       2229826
+c number_of_binary_nodes                1114902
+c number_of_1-reductions                31487282
+c max_number_assignments                184
+c max_number_changes                    18247
+c file_name                             VanDerWaerden_2-3-14_185.cnf
+
+c running_time(sec)                     1059.86
+c number_of_nodes                       38107857
+c number_of_binary_nodes                19053928
+c number_of_1-reductions                533296743
+c max_number_assignments                182
+c max_number_changes                    18748
+c file_name                             VanDerWaerden_2-3-14_186.cnf
+
+c running_time(sec)                     906.07
+c number_of_nodes                       23469490
+c number_of_binary_nodes                11734735
+c number_of_1-reductions                363222334
+c max_number_assignments                217
+c max_number_changes                    25253
+c file_name                             VanDerWaerden_2-3-15_217.cnf
+
+c running_time(sec)                     9155.65
+c number_of_nodes                       243443409
+c number_of_binary_nodes                121721704
+c number_of_1-reductions                3761900684
+c max_number_assignments                213
+c max_number_changes                    25535
+c file_name                             VanDerWaerden_2-3-15_218.cnf
+
+# ID 7da84e6c2727eb51d61117aea7a7938092d5712c
+
+c running_time(sec)                     13.63
+c number_of_nodes                       857366
+c number_of_binary_nodes                428676
+c number_of_1-reductions                9983978
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+c running_time(sec)                     16.31
+c number_of_nodes                       1003777
+c number_of_binary_nodes                501888
+c number_of_1-reductions                11774917
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+c running_time(sec)                     38.85
+c number_of_nodes                       1875227
+c number_of_binary_nodes                937604
+c number_of_1-reductions                23829208
+c file_name                             VanDerWaerden_2-3-13_159.cnf
+
+c running_time(sec)                     122.10
+c number_of_nodes                       5811929
+c number_of_binary_nodes                2905964
+c number_of_1-reductions                74119386
+c file_name                             VanDerWaerden_2-3-13_160.cnf
+
+c running_time(sec)                     61.67
+c number_of_nodes                       2229826
+c number_of_binary_nodes                1114902
+c number_of_1-reductions                31487282
+c file_name                             VanDerWaerden_2-3-14_185.cnf
+
+c running_time(sec)                     1039.53
+c number_of_nodes                       38107857
+c number_of_binary_nodes                19053928
+c number_of_1-reductions                533296743
+c file_name                             VanDerWaerden_2-3-14_186.cnf
+
+c running_time(sec)                     891.87
+c number_of_nodes                       23469490
+c number_of_binary_nodes                11734735
+c number_of_1-reductions                363222334
+c file_name                             VanDerWaerden_2-3-15_217.cnf
+
+c running_time(sec)                     8972.42
+c number_of_nodes                       243443409
+c number_of_binary_nodes                121721704
+c number_of_1-reductions                3761900684
+c file_name                             VanDerWaerden_2-3-15_218.cnf
+
 XXX
    \endverbatim
    </li>
