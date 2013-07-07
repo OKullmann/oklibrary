@@ -61,6 +61,7 @@ for debugging).
 #include <type_traits>
 #include <stack>
 #include <iomanip>
+#include <exception>
 
 #include <cmath>
 #include <cstdint>
@@ -70,7 +71,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.7.2";
+const std::string version = "1.7.3";
 const std::string date = "7.7.2013";
 
 const std::string program = "tawSolver";
@@ -78,11 +79,14 @@ const std::string err = "ERROR[" + program + "]: ";
 
 enum Error_codes {
   file_reading_error=1,
-  num_vars_error=2,
-  variable_value_error=3,
-  number_clauses_error=4,
-  empty_clause_error=5,
-  unit_clause_error=6
+  file_pline_error=2,
+  num_vars_error=3,
+  allocation_error=4,
+  literal_read_error=5,
+  variable_value_error=6,
+  number_clauses_error=7,
+  empty_clause_error=8,
+  unit_clause_error=9
 };
 
 enum Result_value { unsat=20, sat=10, unknown=0 };
@@ -145,6 +149,7 @@ void initialise_weights() {
   for (int i = first_open_weight; unsigned(i) <= max_clause_length; ++i)
     weights[i] = weight(i);
 }
+// the first clause-length where the weight is zero:
 constexpr int first_zero_weight = 1078;
 static_assert(weight(first_zero_weight-1) != 0, "first_zero_weight not first");
 static_assert(weight(first_zero_weight) == 0, "first_zero_weight not zero");
@@ -159,7 +164,7 @@ unsigned long long int n_nodes = 0;
 unsigned long long int n_units = 0;
 unsigned long long int n_backtracks = 0;
 
-
+// handling of variables and literals:
 inline Var var(const Lit x) { return std::abs(x); }
 enum Polarity { pos=0, neg=1 };
 inline Polarity sign(const Lit x) { return (x > 0) ? pos : neg; }
@@ -170,6 +175,7 @@ std::vector<Lit> gucl_stack;
 int n_gucl = 0; // the index of the next free element of the stack
 bool contradictory_unit_clauses = false;
 
+
 // --- Input and initialisation ---
 
 void read_formula_header(std::ifstream& f) {
@@ -177,7 +183,7 @@ void read_formula_header(std::ifstream& f) {
   while (true) {
     std::getline(f, line);
     if (not f) {
-      std::cerr << err << "Reading error.\n";
+      std::cerr << err << "Reading error (possibly no line starting with \"p\").\n";
       std::exit(file_reading_error);
     }
     if (line[0] == 'p') break;
@@ -185,29 +191,51 @@ void read_formula_header(std::ifstream& f) {
   std::stringstream s(line);
   {std::string inp; s >> inp;
    if (inp != "p") {
-     std::cerr << err << "Syntax error in parameter line (no \"p \").\n";
-     std::exit(file_reading_error);
+     std::cerr << err << "Syntax error in parameter line (\"p\" not followed by space).\n";
+     std::exit(file_pline_error);
    }
    s >> inp;
    if (inp != "cnf") {
      std::cerr << err << "Syntax error in parameter line (no \"cnf\").\n";
-     std::exit(file_reading_error);
+     std::exit(file_pline_error);
    }
   }
   s >> n_vars;
+  if (not s) {
+    std::cerr << err << "Reading error with parameter maximal-variable-index "
+      "(too big or not-a-number).\n";
+    std::exit(file_pline_error);
+  }
   if (n_vars > Var(std::numeric_limits<Lit>::max())) {
-    std::cerr << err << "Parameter n=" << n_vars << " is too big for numeric_limits<Lit>::max=" << std::numeric_limits<Lit>::max() << "\n";
+    std::cerr << err << "Parameter maximal-variable-index n=" << n_vars <<
+      " is too big for numeric_limits<Lit>::max=" <<
+      std::numeric_limits<Lit>::max() << ".\n";
     std::exit(num_vars_error);
   }
   s >> n_header_clauses;
   if (not s) {
-    std::cerr << err << "Reading error with parameters.\n";
-    std::exit(file_reading_error);
+    std::cerr << err << "Reading error with parameter number-of-clauses "
+      "(too big or not-a-number).\n";
+    std::exit(file_pline_error);
   }
-  lits.resize(n_vars+1);
-  pass.resize(n_vars+1);
-  gucl_stack.resize(n_vars);
-  clauses.resize(n_header_clauses);
+  try {
+    lits.resize(n_vars+1);
+    pass.resize(n_vars+1);
+    gucl_stack.resize(n_vars);
+  }
+  catch (const std::bad_alloc&) {
+    std::cerr << err << "Allocation error for vectors of size " << n_vars <<
+      "+1 (the maximal-variable-index).\n";
+    std::exit(allocation_error);
+  }
+  try {
+    clauses.resize(n_header_clauses);
+  }
+  catch (const std::bad_alloc&) {
+    std::cerr << err << "Allocation error for vector of size " <<
+      n_header_clauses << " (the number-of-clauses).\n";
+    std::exit(allocation_error);
+  }
 }
 
 std::vector<Lit> current_working_clause;
@@ -223,7 +251,7 @@ bool read_a_clause_from_file(std::ifstream& f) {
   while (true) {
     if (not f) {
       std::cerr << err << "Invalid literal-read.\n";
-      std::exit(file_reading_error);
+      std::exit(literal_read_error);
     }
     if (x == 0) break;
     const Var v = var(x);
@@ -269,10 +297,13 @@ void add_a_clause_to_formula() {
   for (int i=0; i<(int)n; ++i) {
     const Lit x = current_working_clause[i];
     C.literals[i] = x;
-    const Var v = var(x);
-    const Polarity p = sign(x);
-    auto& L = lits[v][p];
+    auto& L = lits[var(x)][sign(x)];
     L.occur = (ClauseP*) std::realloc(L.occur, (L.n_occur+1)*sizeof(ClauseP));
+    if (L.occur == nullptr) {
+      std::cerr << err << "Allocation error when calling realloc to extend "
+        "an occurrence list.\n";
+      std::exit(allocation_error);
+    }
     L.occur[L.n_occur] = &(clauses[n_clauses]);
     ++L.n_occur;
   }
@@ -289,7 +320,12 @@ void read_formula(const std::string& filename) {
   n_clauses = 0;
   while (read_a_clause_from_file(f)) add_a_clause_to_formula();
   r_clauses = n_clauses;
-  weights.resize(max_clause_length+1);
+  try { weights.resize(max_clause_length+1); }
+  catch (const std::bad_alloc&) {
+    std::cerr << err << "Allocation error for vector of size " <<
+       max_clause_length << "+1 (the maximal clause-length).\n";
+    std::exit(allocation_error);
+  }
   initialise_weights();
 }
 
@@ -307,7 +343,12 @@ void assign(const Lit x) {
   {const auto L = lits[v][p];
    const auto occur_true = L.n_occur;
    const auto max_size = changes_index + occur_true + 1;
-   if (max_size >= changes.size()) changes.resize(max_size);
+   try { if (max_size >= changes.size()) changes.resize(max_size); }
+   catch (const std::bad_alloc&) {
+    std::cerr << err << "Allocation error when resizing \"changes\" to size "
+      << max_size << " (positive occurrences).\n";
+    std::exit(allocation_error);
+   }
    changes[changes_index++] = nullptr;
    for (unsigned int i=0; i < occur_true; ++i) {
      const auto C = L.occur[i];
@@ -323,7 +364,12 @@ void assign(const Lit x) {
    const auto L = lits[v][np];
    const auto occur_false = L.n_occur;
    const auto max_size = changes_index + occur_false + 1;
-   if (max_size > changes.size()) changes.resize(max_size);
+   try { if (max_size > changes.size()) changes.resize(max_size); }
+   catch (const std::bad_alloc&) {
+    std::cerr << err << "Allocation error when resizing \"changes\" to size "
+      << max_size << " (negative occurrences).\n";
+    std::exit(allocation_error);
+   }
    changes[changes_index++] = nullptr;
    for (unsigned int i=0; i < occur_false; ++i) {
      const auto C = L.occur[i];
@@ -459,6 +505,7 @@ bool dpll() {
   }
   return false;
 }
+
 
 // --- Output ---
 
