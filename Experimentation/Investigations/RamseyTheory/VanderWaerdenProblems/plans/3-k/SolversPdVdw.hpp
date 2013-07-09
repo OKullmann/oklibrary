@@ -23,6 +23,16 @@ c number_of_1-reductions                1511306
 # version b45bc81344b378d0130138af761e397f2b3a87c7
 c running_time(sec)                     6.31
 c max_number_changes                    19398
+
+# ID 4d644cd9007a1351d8c263db7dfbb50df33db946
+c number_of_variables                   140
+c number_of_clauses                     10536
+c maximal_clause_length                 17
+c running_time(sec)                     1.04
+c number_of_nodes                       31401
+c number_of_binary_nodes                15700
+c number_of_1-reductions                380917
+c file_name                             VanDerWaerden_pd_2-3-17_279.cnf
    \endverbatim
    </li>
    <li> k=18, n=312:
@@ -35,6 +45,16 @@ c number_of_1-reductions                12050046
 # version b45bc81344b378d0130138af761e397f2b3a87c7
 c running_time(sec)                     56.28
 c max_number_changes                    25693
+
+# ID 4d644cd9007a1351d8c263db7dfbb50df33db946
+c number_of_variables                   156
+c number_of_clauses                     13277
+c maximal_clause_length                 18
+c running_time(sec)                     12.13
+c number_of_nodes                       320147
+c number_of_binary_nodes                160073
+c number_of_1-reductions                3883694
+c file_name                             VanDerWaerden_pd_2-3-18_312.cnf
    \endverbatim
    </li>
    <li> k=19, n=347:
@@ -47,6 +67,16 @@ c number_of_1-reductions                23490743
 # version b45bc81344b378d0130138af761e397f2b3a87c7
 c running_time(sec)                     126.75
 c max_number_changes                    30281
+
+# ID 4d644cd9007a1351d8c263db7dfbb50df33db946
+c number_of_variables                   174
+c number_of_clauses                     16208
+c maximal_clause_length                 19
+c running_time(sec)                     16.70
+c number_of_nodes                       349133
+c number_of_binary_nodes                174566
+c number_of_1-reductions                4687791
+c file_name                             VanDerWaerden_pd_2-3-19_347.cnf
    \endverbatim
    </li>
    <li> k=20, n=389:
@@ -59,6 +89,16 @@ c number_of_1-reductions                110593054
 # version b45bc81344b378d0130138af761e397f2b3a87c7
 c running_time(sec)                     693.71
 c max_number_changes                    38297
+
+# ID 4d644cd9007a1351d8c263db7dfbb50df33db946
+c number_of_variables                   195
+c number_of_clauses                     20327
+c maximal_clause_length                 20
+c running_time(sec)                     61.96
+c number_of_nodes                       1067245
+c number_of_binary_nodes                533622
+c number_of_1-reductions                15048643
+c file_name                             VanDerWaerden_pd_2-3-20_389.cnf
    \endverbatim
    </li>
    <li> k=21, n=405:
@@ -71,6 +111,16 @@ c number_of_1-reductions                374871138
 # version b45bc81344b378d0130138af761e397f2b3a87c7
 c running_time(sec)                     2374.85
 c max_number_changes                    41676
+
+# ID 4d644cd9007a1351d8c263db7dfbb50df33db946
+c number_of_variables                   203
+c number_of_clauses                     21950
+c maximal_clause_length                 21
+c running_time(sec)                     155.18
+c number_of_nodes                       2656801
+c number_of_binary_nodes                1328400
+c number_of_1-reductions                37456772
+c file_name                             VanDerWaerden_pd_2-3-21_405.cnf
    \endverbatim
    </li>
    <li> k=22, n=463:
@@ -91,10 +141,21 @@ c max_number_changes                    54879
 
 # version b45bc81344b378d0130138af761e397f2b3a87c7
 c running_time(sec)                     16633.30
+
+# ID 4d644cd9007a1351d8c263db7dfbb50df33db946
+c number_of_variables                   232
+c number_of_clauses                     28650
+c maximal_clause_length                 22
+c running_time(sec)                     1014.33
+c number_of_nodes                       13431053
+c number_of_binary_nodes                6715526
+c number_of_1-reductions                205341960
+c file_name                             VanDerWaerden_pd_2-3-22_463.cnf
    \endverbatim
    </li>
-   <li> k=23, n=507 (with version dbfe40729515a5643f18e5953abe91d704626edf):
+   <li> k=23, n=507:
    \verbatim
+# version dbfe40729515a5643f18e5953abe91d704626edf
 c number_of_variables                   254
 c number_of_clauses                     34289
 c running_time(sec)                     86869.06
@@ -105,7 +166,42 @@ c max_number_changes                    65646
 
 # version b45bc81344b378d0130138af761e397f2b3a87c7
 c running_time(sec)                     65916.72
+
+# ID 4d644cd9007a1351d8c263db7dfbb50df33db946
+c number_of_variables                   254
+c number_of_clauses                     34289
+c maximal_clause_length                 23
+c running_time(sec)                     2320.95
+c number_of_nodes                       26126051
+c number_of_binary_nodes                13063025
+c number_of_1-reductions                424416424
+c file_name                             VanDerWaerden_pd_2-3-23_507.cnf
    \endverbatim
+   </li>
+   <li> k=24, n=593:
+   \verbatim
+# ID 4d644cd9007a1351d8c263db7dfbb50df33db946
+c number_of_variables                   297
+c number_of_clauses                     46881
+c maximal_clause_length                 24
+c running_time(sec)                     54376.47
+c number_of_nodes                       445735819
+c number_of_binary_nodes                222867909
+c number_of_1-reductions                7790489169
+c file_name                             VanDerWaerden_pd_2-3-24_593.cnf
+   \endverbatim
+   </li>
+   <li> From version 1.0 to version 1.8 an enormous improvement; when
+   comparing the run-times and node-counts:
+   \verbatim
+> round(c(7,60,134,738,2541,18306,86869)/c(1,12,17,62,155,1014,2321), digits=1)
+[1] 7.0  5.0  7.9 11.9 16.4 18.1 37.4
+> round(c(143319,1063979,2009635,9076261,30470349,170414771,573190251)/c(31401,320147,349133,1067245,2656801,13431053,26126051), digits=1)
+[1] 4.6  3.3  5.8  8.5 11.5 12.7 21.9
+   \endverbatim
+   </li>
+   <li> Version 1.8 is now the fastest single solver XXX
+   Cube&Conquer via OKsolver&minisat22
    </li>
   </ul>
 

@@ -751,11 +751,25 @@ c number_of_binary_nodes                99176662
 c number_of_1-reductions                3078439723
 c file_name                             VanDerWaerden_2-3-15_218.cnf
 
-XXX
+c running_time(sec)                     59385.40
+c number_of_nodes                       1534688845
+c number_of_binary_nodes                767344422
+c number_of_1-reductions                24555644336
+c file_name                             VanDerWaerden_2-3-16_238.cnf
    \endverbatim
    </li>
-   <li> This solver is the fastest single solver, but nearly 7x slower than
-   Cube&Conquer via OKsolver&minisat22. XXX </li>
+   <li> From version 1.0 to version 1.8 a big improvement; when comparing the
+   run-times and node-counts:
+   \verbatim
+> round(c(47,463,4577,47006,532416)/c(16,117,950,7108,59385), digits=1)
+[1] 2.9 4.0 4.8 6.6 9.0
+> round(c(1790733,13722975,102268511,774872707,8120609615)/c(977415,5642269,35499881,198353325,1534688845), digits=1)
+[1] 1.8 2.4 2.9 3.9 5.3
+   \endverbatim
+   </li>
+   <li> This solver is the fastest single solver, and in the new version even
+   faster than Cube&Conquer via OKsolver&minisat22 (but basically comparable).
+   </li>
    <li> We should also try C&C with this solver XXX. </li>
   </ul>
 
