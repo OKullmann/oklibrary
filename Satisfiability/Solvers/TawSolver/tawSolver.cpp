@@ -191,9 +191,10 @@ Var n_vars;
 std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
  v is unassigned, otherwise it is v in case v->true and else -v. */
 
-unsigned long long int n_nodes = 0;
-unsigned long long int n_units = 0;
-unsigned long long int n_backtracks = 0;
+typedef unsigned long long Count_statistics;
+Count_statistics n_nodes = 0;
+Count_statistics n_units = 0;
+Count_statistics n_backtracks = 0;
 
 // handling of variables and literals:
 inline Var var(const Lit x) { return std::abs(x); }
