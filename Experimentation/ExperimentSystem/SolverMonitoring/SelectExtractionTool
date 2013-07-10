@@ -29,7 +29,7 @@ elif [[ ${solver_call} =~ ^glucose ]]; then
 elif [[ ${solver_call} =~ ^satz ]]; then
   echo "ExtractSatz"
 elif [[ ${solver_call} =~ ^tawSolver ]]; then
-  echo "ExtracttawSolver"
+  echo "ExtractTawSolver"
 elif [[ ${solver_call} =~ ^march_pl ]]; then
   echo "ExtractMarchpl"
 elif [[ ${solver_call} =~ ^precosat ]]; then
