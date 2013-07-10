@@ -116,9 +116,11 @@ typedef const Clause* ClausePc;
 
 std::vector<Clause> clauses;
 
+typedef unsigned int Count_clauses;
+
 struct literal_occurrences {
   ClauseP* occur; // array with clause-pointers
-  unsigned int n_occur;
+  Count_clauses n_occur;
 };
 std::vector<std::array<literal_occurrences,2>> lits;
 /* lits[v][pos/neg] for a variable v represents the list of occurrences; this
@@ -183,7 +185,7 @@ void initialise_weights() {
     weights[i] = w2(i);
 }
 
-unsigned int n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
+Count_clauses n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
 Var n_vars;
 
 std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
@@ -373,7 +375,7 @@ void assign(const Lit x) {
     std::exit(allocation_error);
    }
    changes[changes_index++] = nullptr;
-   for (unsigned int i=0; i < occur_true; ++i) {
+   for (Count_clauses i=0; i < occur_true; ++i) {
      const auto C = L.occur[i];
      if (not C->status) continue;
      assert(C->length >= 1);
@@ -394,7 +396,7 @@ void assign(const Lit x) {
     std::exit(allocation_error);
    }
    changes[changes_index++] = nullptr;
-   for (unsigned int i=0; i < occur_false; ++i) {
+   for (Count_clauses i=0; i < occur_false; ++i) {
      const auto C = L.occur[i];
      if (not C->status) continue;
      changes[changes_index++] = C;
@@ -447,13 +449,13 @@ inline Lit branching_literal() {
     if (pass[v] == 0) {
       double ps = 0;
       {const auto vpos = lits[v][pos]; const auto pos_occur = vpos.n_occur;
-       for (unsigned int k=0; k < pos_occur; ++k) {
+       for (Count_clauses k=0; k < pos_occur; ++k) {
          const ClausePc C = vpos.occur[k];
          accumulate(C->status, C->length, ps);
        }}
       double ns = 0;
       {const auto vneg = lits[v][neg]; const auto neg_occur = vneg.n_occur;
-       for (unsigned int k=0; k < neg_occur; ++k) {
+       for (Count_clauses k=0; k < neg_occur; ++k) {
          const ClausePc C = vneg.occur[k];
          accumulate(C->status, C->length, ns);
        }}
@@ -467,16 +469,16 @@ inline Lit branching_literal() {
     /* All remaining clauses have length at least 1000 (the first k with
     w2(k) == 0), and thus the instance is satisfiable (since we can't have
     2^1000 clauses). Now just choosing a literal occurring most often. */
-    unsigned int max = 0;
+    Count_clauses max = 0;
     for (Var v = 1; v <= nvar; ++v)
       if (pass[v] == 0) {
-        unsigned int count = 0;
+        Count_clauses count = 0;
         {const auto vpos = lits[v][pos]; const auto pos_o = vpos.n_occur;
-         for (unsigned int k=0; k<pos_o; ++k) count += vpos.occur[k]->status;}
+         for (Count_clauses k=0; k<pos_o; ++k) count += vpos.occur[k]->status;}
         if (count > max) {max = count; x = v;}
         count = 0;
         {const auto vneg = lits[v][neg]; const auto neg_o = vneg.n_occur;
-         for (unsigned int k=0; k<neg_o; ++k) count += vneg.occur[k]->status;}
+         for (Count_clauses k=0; k<neg_o; ++k) count += vneg.occur[k]->status;}
         if (count > max) {max = count; x = -Lit(v);}
       }
   }
