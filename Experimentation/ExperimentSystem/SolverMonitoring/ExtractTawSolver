@@ -1,0 +1,61 @@
+#!/bin/bash
+# Oliver Kullmann, 10.7.2013 (Swansea)
+# Copyright 2013 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version.
+
+# Reads tawSolver-output from standard input, printing the extracted numerical
+# data together with a header (R table-style) to standard output.
+
+# One optional argument is allowed:
+# - if it is "header-only" then only the header is printed
+# - otherwise (with one argument) only the data is printed.
+# (If there is no argument, then both header and data are printed.)
+
+set -o errexit
+set -o nounset
+
+script_name="ExtractTawSolver"
+version_number=0.0.7
+
+if ([ $# -ge 2 ]) then
+  echo -e "ERROR[${script_name}]: At most one parameter is allowed,\n" \
+    " either string \"header-only\" or string \"data-only\"."
+  exit 1
+fi
+
+if ([ $# -eq 1 ]) then
+  if ([ $1 == header-only ]) then
+    mode=header-file
+  else
+    mode=data-file
+  fi
+else
+  mode=both-file
+fi
+
+# Computation of path to source code:
+src_path="${BASH_SOURCE[0]}";
+while ([ -h "${src_path}" ]) do src_path=$(readlink "${src_path}"); done
+cd $(dirname ${src_path}) > /dev/null
+src_path=$(pwd)
+cd - > /dev/null
+
+if ([ ${mode} == header-file ]) then
+  header="$(cat ${src_path}/headers/tawSolver)"
+  echo "${header}"
+  exit 0
+elif ([ ${mode} == data-file ]) then
+  extract_awk=${src_path}/ExtractTawSolver.awk
+  awk -f ${extract_awk}
+  exit 0
+fi
+
+header="$(cat ${src_path}/headers/tawSolver)"
+echo "${header}"
+extract_awk=${src_path}/ExtractTawSolver.awk
+awk -f ${extract_awk}
+
+exit 0
