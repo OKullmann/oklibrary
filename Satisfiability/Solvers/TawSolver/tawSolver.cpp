@@ -203,8 +203,10 @@ inline Polarity sign(const Lit x) { return (x > 0) ? pos : neg; }
 inline Polarity inv_polarity(const Polarity p) { return (p == pos) ? neg:pos; }
 
 // to handle the branching-assignment plus the derived assignments:
-std::vector<Lit> gucl_stack;
-int n_gucl = 0; // the index of the next free element of the stack
+typedef std::vector<Lit> Global_assignment_stack;
+Global_assignment_stack gucl_stack;
+Global_assignment_stack::size_type n_gucl = 0; // the index of the next free element of the stack
+typedef std::stack<Lit> Local_assignment_stack;
 bool contradictory_unit_clauses = false;
 
 
@@ -488,7 +490,7 @@ inline Lit branching_literal() {
 
 bool dpll() {
   ++n_nodes;
-  std::stack<Lit> lucl_stack; // local unit-clause literals
+  Local_assignment_stack lucl_stack; // local unit-clause literals
   while (true) { // unit-clause propagation
     if (contradictory_unit_clauses) {
       while (not lucl_stack.empty()) {
