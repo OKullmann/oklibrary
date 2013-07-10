@@ -104,10 +104,12 @@ static_assert(sizeof(Lit) != 1, "LIT_TYPE = char (or int8_t) doesn't work with r
 
 typedef std::make_unsigned<Lit>::type Var;
 
+typedef int Clause_index;
+
 struct Clause {
   Lit* literals; // the array of literals in the clause (as in the input)
   Lit* end; // one past-the-end
-  int length; // the current length (between 1 and (end - literals)).
+  Clause_index length; // the current length (between 1 and (end - literals)).
   bool status; // true iff currently not satisfied
 };
 // Members "literals" and "end" are fixed after reading the input.
@@ -157,7 +159,7 @@ Var max_clause_length = 0;
 #endif
 // weights[k] is the weight for clause-length k >= 2:
 std::vector<double> weights {0,0, weight_2, 1, weight_4, weight_5};
-constexpr int first_open_weight = 6;
+constexpr Clause_index first_open_weight = 6;
 /* If special weights for clause-lengths k = 4,5,... are to be used, then
    these weights are written into the initialisation of weights, and
    first_open_weight is to be adapted accordingly.
@@ -169,7 +171,7 @@ constexpr int first_open_weight = 6;
    precision (e.g., for weight_4 the values 0.32, 0.30 yield worse node count).
 */
 // the weights for clause of length >= first_open_weight:
-double w2(const int clause_length) {
+double w2(const Clause_index clause_length) {
   return weights[first_open_weight-1] *
     std::pow(basis_open,-clause_length+first_open_weight-1);
 }
@@ -181,7 +183,7 @@ void initialise_weights() {
        max_clause_length << "+1 (the maximal clause-length).\n";
     std::exit(allocation_error);
   }
-  for (int i = first_open_weight; unsigned(i) <= max_clause_length; ++i)
+  for (Clause_index i = first_open_weight; unsigned(i) <= max_clause_length; ++i)
     weights[i] = w2(i);
 }
 
@@ -328,7 +330,7 @@ void add_a_clause_to_formula() {
   C.literals = new Lit[n];
   C.end = C.literals + n;
   if (n>max_clause_length) max_clause_length = n;
-  for (int i=0; i<(int)n; ++i) {
+  for (Clause_index i=0; i<(Clause_index)n; ++i) {
     const Lit x = current_working_clause[i];
     C.literals[i] = x;
     auto& L = lits[var(x)][sign(x)];
@@ -571,7 +573,7 @@ void version_information() {
    " Last change date: " << date << "\n"
    " Clause-weight parameters: " << weight_2 << ", " << basis_open << "\n"
    "  Mapping k -> weight for weights specified at compile-time:\n ";
-   for (int k = 2; k < first_open_weight; ++k)
+   for (Clause_index k = 2; k < first_open_weight; ++k)
      std::cout << "  " << k << "->" << weights[k];
    std::cout << "\n"
    " Macro settings:\n"
