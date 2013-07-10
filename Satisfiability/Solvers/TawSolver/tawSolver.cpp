@@ -132,7 +132,7 @@ typedef Change_v::size_type change_index_t;
 Change_v changes(1); // acts as a global stack
 change_index_t changes_index = 0; // Invariant: changes_index < changes.size().
 
-unsigned int max_clause_length = 0;
+Var max_clause_length = 0;
 
 // The clause-weights:
 #ifdef WEIGHT_2_CLAUSES
