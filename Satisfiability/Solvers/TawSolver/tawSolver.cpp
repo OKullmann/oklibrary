@@ -129,10 +129,9 @@ std::vector<std::array<literal_occurrences,2>> lits;
    data is fixed after reading the input. */
 
 // The stack of touched clauses:
-typedef std::vector<ClauseP> Change_v;
-typedef Change_v::size_type change_index_t;
-Change_v changes(1); // acts as a global stack
-change_index_t changes_index = 0; // Invariant: changes_index < changes.size().
+typedef std::vector<ClauseP> Change_vec;
+Change_vec changes(1); // acts as a global stack
+Change_vec::size_type changes_index = 0; // Invariant: changes_index < changes.size().
 
 Var max_clause_length = 0;
 
