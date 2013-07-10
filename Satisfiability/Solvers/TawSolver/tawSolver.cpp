@@ -273,7 +273,7 @@ void read_formula_header(std::ifstream& f) {
 std::vector<Lit> current_working_clause;
 
 bool read_a_clause_from_file(std::ifstream& f) {
-  static std::vector<int> literal_table;
+  static std::vector<Lit> literal_table;
   current_working_clause.clear();
   literal_table.assign(n_vars+1,0);
   bool tautology = false;
