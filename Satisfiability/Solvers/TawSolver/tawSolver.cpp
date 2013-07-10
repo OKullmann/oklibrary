@@ -135,29 +135,31 @@ Change_vec::size_type changes_index = 0; // Invariant: changes_index < changes.s
 
 Var max_clause_length = 0;
 
+typedef double Weight_t; // weights and their sums
+
 // The clause-weights:
 #ifdef WEIGHT_2_CLAUSES
-  constexpr double weight_2 = WEIGHT_2_CLAUSES;
+  constexpr Weight_t weight_2 = WEIGHT_2_CLAUSES;
 #else
-  constexpr double weight_2 = 7.0;
+  constexpr Weight_t weight_2 = 7.0;
 #endif
 #ifdef WEIGHT_4_CLAUSES
-  constexpr double weight_4 = WEIGHT_4_CLAUSES;
+  constexpr Weight_t weight_4 = WEIGHT_4_CLAUSES;
 #else
-  constexpr double weight_4 = 0.31;
+  constexpr Weight_t weight_4 = 0.31;
 #endif
 #ifdef WEIGHT_5_CLAUSES
-  constexpr double weight_5 = WEIGHT_5_CLAUSES;
+  constexpr Weight_t weight_5 = WEIGHT_5_CLAUSES;
 #else
-  constexpr double weight_5 = 0.19;
+  constexpr Weight_t weight_5 = 0.19;
 #endif
 #ifdef WEIGHT_BASIS_OPEN
-  constexpr double basis_open = WEIGHT_BASIS_OPEN;
+  constexpr Weight_t basis_open = WEIGHT_BASIS_OPEN;
 #else
-  constexpr double basis_open = 1.70;
+  constexpr Weight_t basis_open = 1.70;
 #endif
 // weights[k] is the weight for clause-length k >= 2:
-std::vector<double> weights {0,0, weight_2, 1, weight_4, weight_5};
+std::vector<Weight_t> weights {0,0, weight_2, 1, weight_4, weight_5};
 constexpr Clause_index first_open_weight = 6;
 /* If special weights for clause-lengths k = 4,5,... are to be used, then
    these weights are written into the initialisation of weights, and
@@ -170,7 +172,7 @@ constexpr Clause_index first_open_weight = 6;
    precision (e.g., for weight_4 the values 0.32, 0.30 yield worse node count).
 */
 // the weights for clause of length >= first_open_weight:
-double w2(const Clause_index clause_length) {
+Weight_t w2(const Clause_index clause_length) {
   return weights[first_open_weight-1] *
     std::pow(basis_open,-clause_length+first_open_weight-1);
 }
@@ -442,28 +444,28 @@ void unassign(const Lit x) {
 }
 
 // performance-critical computation:
-inline void accumulate(const bool stat, const unsigned length, double& sum) {
+inline void accumulate(const bool stat, const unsigned length, Weight_t& sum) {
   sum += stat * weights[length];
 }
 inline Lit branching_literal() {
   Lit x = 0;
-  double max = 0, max2 = 0;
+  Weight_t max = 0, max2 = 0;
   const auto nvar = n_vars;
   for (Var v = 1; v <= nvar; ++v) {
     if (pass[v] == 0) {
-      double ps = 0;
+      Weight_t ps = 0;
       {const auto vpos = lits[v][pos]; const auto pos_occur = vpos.n_occur;
        for (Count_clauses k=0; k < pos_occur; ++k) {
          const ClausePc C = vpos.occur[k];
          accumulate(C->status, C->length, ps);
        }}
-      double ns = 0;
+      Weight_t ns = 0;
       {const auto vneg = lits[v][neg]; const auto neg_occur = vneg.n_occur;
        for (Count_clauses k=0; k < neg_occur; ++k) {
          const ClausePc C = vneg.occur[k];
          accumulate(C->status, C->length, ns);
        }}
-      const double prod = ps * ns, sum = ps + ns;
+      const Weight_t prod = ps * ns, sum = ps + ns;
       if (prod > max) { max = prod; max2 = sum; x = (ps>=ns)?v:-Lit(v); }
       // handles also the case that only pure literals are left:
       else if (prod==max and sum>max2) { max2 = sum; x = (ps>=ns)?v:-Lit(v); }
@@ -538,7 +540,7 @@ bool dpll() {
 
 // --- Output ---
 
-void output(const std::string& file, const Result_value result, const double elapsed) {
+void output(const std::string& file, const Result_value result, const Weight_t elapsed) {
   std::cout << "s ";
   switch (result) {
     case unknown : std::cout << "UNKNOWN\n"; break;
