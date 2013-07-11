@@ -121,11 +121,11 @@ typedef Clause* ClauseP;
 
 std::vector<Clause> clauses;
 
-struct literal_occurrences {
+struct Literal_occurrences {
   ClauseP* begin; // array with clause-pointers
   ClauseP* end; // one past-the-end
 };
-std::vector<std::array<literal_occurrences,2>> lits;
+std::vector<std::array<Literal_occurrences,2>> lits;
 /* lits[v][pos/neg] for a variable v represents the list of occurrences; this
    data is fixed after reading the input. */
 
@@ -263,7 +263,7 @@ void read_formula_header(std::ifstream& f) {
   }
   catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error for vectors of size " << n_vars <<
-      "+1 (the maximal-variable-index).\n";
+      " (the maximal-variable-index).\n";
     std::exit(allocation_error);
   }
   try {
