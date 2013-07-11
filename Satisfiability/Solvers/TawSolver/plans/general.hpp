@@ -209,7 +209,8 @@ cswsok: 44.41 44.55 44.56 44.53
 # perhaps major change: pos now first.
 
 > oklib timing
-cswsok (otherwise idle):
+# cswsok (otherwise idle):
+
 tawSolver VanDerWaerden_2-3-12_134.cnf
 36.94 37.17 37.02 36.88 37.07
 tawSolver64 VanDerWaerden_2-3-12_134.cnf
@@ -226,7 +227,7 @@ tawSolver64 VanDerWaerden_2-3-12_135.cnf
 # some clean-up
 
 > oklib timing
-cswsok (one other process running)
+# cswsok (one other process running)
 
 tawSolver VanDerWaerden_2-3-12_134.cnf
 37.71 37.83 37.71 37.79 37.76
@@ -244,7 +245,7 @@ tawSolver64 VanDerWaerden_2-3-12_135.cnf
 # now an assignment is aborted as soon as a contradiction was found)
 
 > oklib timing
-cswsok (one other process running)
+# cswsok (one other process running)
 
 tawSolver VanDerWaerden_2-3-12_134.cnf
 35.23 35.27 35.30 35.11
@@ -266,7 +267,7 @@ tawSolver64 VanDerWaerden_2-3-12_135.cnf
 # optimising the heuristics.
 
 > oklib timing
-cswsok (one other process running)
+# cswsok (one other process running)
 
 tawSolver VanDerWaerden_2-3-12_134.cnf
 32.47 32.35 32.50 32.52 32.83
@@ -299,7 +300,7 @@ c max_number_changes                    10052
 c file_name                             VanDerWaerden_2-3-12_135.cnf
 
 > oklib timing
-cswsok (one other process running)
+# cswsok (one other process running)
 
 tawSolver VanDerWaerden_2-3-12_134.cnf
 28.11 28.22 28.16 28.08 28.43
@@ -310,7 +311,7 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
 # Replaced clause-indices by clause-pointers.
 
 > oklib timing
-cswsok (one other process running)
+# cswsok (one other process running)
 
 tawSolver VanDerWaerden_2-3-12_134.cnf
 24.80 24.82 24.94 24.86 24.77
@@ -347,7 +348,7 @@ c max_number_changes                    9900
 c file_name                             VanDerWaerden_2-3-12_135.cnf
 
 > oklib timing
-cswsok (one other process running)
+# cswsok (one other process running)
 
 tawSolver VanDerWaerden_2-3-12_134.cnf
 15.55 15.54 15.53 15.56 15.64
@@ -382,7 +383,7 @@ c max_number_changes                    9884
 c file_name                             VanDerWaerden_2-3-12_135.cnf
 
 > oklib timing
-cswsok (one other process running)
+# cswsok (one other process running)
 
 tawSolver VanDerWaerden_2-3-12_134.cnf
 14.11 14.03 14.00 14.01 14.07
@@ -416,7 +417,7 @@ c number_of_1-reductions                11774917
 c file_name                             VanDerWaerden_2-3-12_135.cnf
 
 > oklib timing
-cswsok (one other process running)
+# cswsok (one other process running)
 
 tawSolver VanDerWaerden_2-3-12_134.cnf
 13.63 13.62 13.68 13.77 13.68
@@ -429,7 +430,7 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
 # Optimised weights.
 
 > oklib timing
-cswsok (one other process running)
+# cswsok (one other process running)
 
 c number_of_variables                   134
 c number_of_clauses                     5172
@@ -455,6 +456,19 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
 15.80 15.68 15.67 15.66 15.74
 
 # reduced node count.
+
+# ID 3a87d8d3cccb7056bb23597a2c6fcfb5eddc68ca
+# Improved implementation.
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+11.89 11.97 11.98 11.94 11.94
+tawSolver VanDerWaerden_2-3-12_135.cnf
+13.74 13.89 13.79 13.77 13.74
+
+# An improvement of 10% (due to the faster computation of the heuristics).
    \endverbatim
    </li>
   </ul>
