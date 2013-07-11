@@ -1,6 +1,7 @@
 /*********************************************************************
-tawSolver -- Copyright (c) 2007-2013, Tanbir Ahmed
-http://users.encs.concordia.ca/~ta_ahmed/
+tawSolver -- A basic and efficient DLL SAT solver
+Copyright (c) 2007-2013 Tanbir Ahmed http://users.encs.concordia.ca/~ta_ahmed/
+Copyright 2013 Oliver Kullmann http://www.cs.swan.ac.uk/~csoliver/
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
