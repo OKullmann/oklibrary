@@ -75,7 +75,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.8.2";
+const std::string version = "1.8.3";
 const std::string date = "11.7.2013";
 
 const std::string program = "tawSolver";
@@ -108,21 +108,19 @@ typedef std::make_unsigned<Lit>::type Var;
 typedef int Clause_index;
 
 struct Clause {
-  Lit* literals; // the array of literals in the clause (as in the input)
+  Lit* begin; // the array of literals in the clause (as in the input)
   Lit* end; // one past-the-end
-  Clause_index length; // the current length, between 1 and end-literals, or 0, iff clause is satisfied.
+  Clause_index length; // the current length, or 0 iff clause is satisfied.
   Clause_index old_length;
 };
-// Members "literals" and "end" are fixed after reading the input.
+// Members "begin" and "end" are fixed after reading the input.
 typedef Clause* ClauseP;
 
 std::vector<Clause> clauses;
 
-typedef unsigned int Count_clauses;
-
 struct literal_occurrences {
-  ClauseP* occur; // array with clause-pointers
-  Count_clauses n_occur;
+  ClauseP* begin; // array with clause-pointers
+  ClauseP* end; // one past-the-end
 };
 std::vector<std::array<literal_occurrences,2>> lits;
 /* lits[v][pos/neg] for a variable v represents the list of occurrences; this
@@ -189,11 +187,12 @@ void initialise_weights() {
     weights[i] = wopen(i);
 }
 
-Count_clauses n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
-Var n_vars;
-
 std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
  v is unassigned, otherwise it is v in case v->true and else -v. */
+
+typedef unsigned int Count_clauses;
+Count_clauses n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
+Var n_vars;
 
 typedef unsigned long long Count_statistics;
 Count_statistics n_nodes = 0;
@@ -328,21 +327,22 @@ void add_a_clause_to_formula() {
   }
   auto& C = clauses[n_clauses];
   C.length = n;
-  C.literals = new Lit[n];
-  C.end = C.literals + n;
+  C.begin = new Lit[n];
+  C.end = C.begin + n;
   if (n>max_clause_length) max_clause_length = n;
   for (Clause_index i=0; i<(Clause_index)n; ++i) {
     const Lit x = current_working_clause[i];
-    C.literals[i] = x;
+    C.begin[i] = x;
     auto& L = lits[var(x)][sign(x)];
-    L.occur = (ClauseP*) std::realloc(L.occur, (L.n_occur+1)*sizeof(ClauseP));
-    if (L.occur == nullptr) {
+    const auto n_occur = L.end - L.begin + 1;
+    L.begin = (ClauseP*) std::realloc(L.begin, n_occur*sizeof(ClauseP));
+    if (L.begin == nullptr) {
       std::cerr << err << "Allocation error when calling realloc to extend "
         "an occurrence list.\n";
       std::exit(allocation_error);
     }
-    L.occur[L.n_occur] = &(clauses[n_clauses]);
-    ++L.n_occur;
+    L.end = L.begin + n_occur;
+    *(L.end-1) = &(clauses[n_clauses]);
   }
   ++n_clauses;
 }
@@ -372,8 +372,9 @@ void assign(const Lit x) {
   const Polarity p = sign(x);
 
   {const auto L = lits[v][p];
-   const auto occur_true = L.n_occur;
-   const auto max_size = changes_index + occur_true + 1;
+   const auto begin = L.begin;
+   const auto end = L.end;
+   const auto max_size = changes_index + (end - begin) + 1;
    try { if (max_size >= changes.size()) changes.resize(max_size); }
    catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error when resizing \"changes\" to size "
@@ -381,8 +382,8 @@ void assign(const Lit x) {
     std::exit(allocation_error);
    }
    changes[changes_index++] = nullptr;
-   for (Count_clauses i=0; i < occur_true; ++i) {
-     const auto C = L.occur[i];
+   for (auto p = begin; p != end; ++p) {
+     const auto C = *p;
      if (not C->length) continue;
      assert(C->length >= 1);
      C->old_length = C->length;
@@ -394,8 +395,9 @@ void assign(const Lit x) {
   }
   {const Polarity np = inv_polarity(p);
    const auto L = lits[v][np];
-   const auto occur_false = L.n_occur;
-   const auto max_size = changes_index + occur_false + 1;
+   const auto begin = L.begin;
+   const auto end = L.end;
+   const auto max_size = changes_index + (end - begin) + 1;
    try { if (max_size > changes.size()) changes.resize(max_size); }
    catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error when resizing \"changes\" to size "
@@ -403,15 +405,15 @@ void assign(const Lit x) {
     std::exit(allocation_error);
    }
    changes[changes_index++] = nullptr;
-   for (Count_clauses i=0; i < occur_false; ++i) {
-     const auto C = L.occur[i];
+   for (auto p = begin; p != end; ++p) {
+     const auto C = *p;
      if (not C->length) continue;
      changes[changes_index++] = C;
      assert(C->length >= 2);
      --C->length;
      if (C->length == 1) {
        const Lit* cend = C->end;
-       for (const Lit* lp = C->literals; lp != cend; ++lp) {
+       for (const Lit* lp = C->begin; lp != cend; ++lp) {
          const Lit ucl = *lp;
          const Var ucv = var(ucl);
          Lit& val = pass[ucv];
@@ -450,15 +452,14 @@ inline Lit branching_literal() {
   const auto nvar = n_vars;
   for (Var v = 1; v <= nvar; ++v) {
     if (pass[v] == 0) {
+      const auto L = lits[v];
       Weight_t ps = 0;
-      {const auto vpos = lits[v][pos]; const auto pos_occur = vpos.n_occur;
-       for (Count_clauses k=0; k < pos_occur; ++k)
-         ps += weights[vpos.occur[k]->length];
+      {const auto end = L[pos].end;
+       for (auto C = L[pos].begin; C != end; ++C) ps += weights[(*C)->length];
       }
       Weight_t ns = 0;
-      {const auto vneg = lits[v][neg]; const auto neg_occur = vneg.n_occur;
-       for (Count_clauses k=0; k < neg_occur; ++k)
-         ns += weights[vneg.occur[k]->length];
+      {const auto end = L[neg].end;
+       for (auto C = L[neg].begin; C != end; ++C) ns += weights[(*C)->length];
       }
       const Weight_t prod = ps * ns, sum = ps + ns;
       if (prod > max) { max = prod; max2 = sum; x = (ps>=ns)?v:-Lit(v); }
@@ -473,16 +474,15 @@ inline Lit branching_literal() {
     Count_clauses max = 0;
     for (Var v = 1; v <= nvar; ++v)
       if (pass[v] == 0) {
+        const auto L = lits[v];
         Count_clauses count = 0;
-        {const auto vpos = lits[v][pos]; const auto pos_o = vpos.n_occur;
-         for (Count_clauses k=0; k<pos_o; ++k)
-           count += bool(vpos.occur[k]->length);
+        {const auto end = L[pos].end;
+         for (auto C = L[pos].begin; C!=end; ++C) count += bool((*C)->length);
          }
         if (count > max) {max = count; x = v;}
         count = 0;
-        {const auto vneg = lits[v][neg]; const auto neg_o = vneg.n_occur;
-         for (Count_clauses k=0; k<neg_o; ++k)
-           count += bool(vneg.occur[k]->length);
+        {const auto end = L[neg].end;
+         for (auto C = L[neg].begin; C!=end; ++C) count += bool((*C)->length);
          }
         if (count > max) {max = count; x = -Lit(v);}
       }
