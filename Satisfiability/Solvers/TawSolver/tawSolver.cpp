@@ -173,7 +173,7 @@ constexpr Clause_index first_open_weight = 6;
    precision (e.g., for weight_4 the values 0.32, 0.30 yield worse node count).
 */
 // the weights for clause of length >= first_open_weight:
-Weight_t w2(const Clause_index clause_length) {
+Weight_t wopen(const Clause_index clause_length) {
   return weights[first_open_weight-1] *
     std::pow(basis_open,-clause_length+first_open_weight-1);
 }
@@ -186,7 +186,7 @@ void initialise_weights() {
     std::exit(allocation_error);
   }
   for (Clause_index i = first_open_weight; unsigned(i) <= max_clause_length; ++i)
-    weights[i] = w2(i);
+    weights[i] = wopen(i);
 }
 
 Count_clauses n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
@@ -468,7 +468,7 @@ inline Lit branching_literal() {
   }
   if (not x) {
     /* All remaining clauses have length at least 1000 (the first k with
-    w2(k) == 0), and thus the instance is satisfiable (since we can't have
+    wopen(k) == 0), and thus the instance is satisfiable (since we can't have
     2^1000 clauses). Now just choosing a literal occurring most often. */
     Count_clauses max = 0;
     for (Var v = 1; v <= nvar; ++v)
