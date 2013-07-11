@@ -75,7 +75,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.8.3";
+const std::string version = "1.8.4";
 const std::string date = "11.7.2013";
 
 const std::string program = "tawSolver";
@@ -97,7 +97,7 @@ enum Result_value { unsat=20, sat=10, unknown=0 };
 Result_value interprete_run(const bool result) { return result ? sat : unsat; }
 
 #ifndef LIT_TYPE
-# define LIT_TYPE int
+# define LIT_TYPE int32_t
 #endif
 typedef LIT_TYPE Lit;
 static_assert(std::is_signed<Lit>::value, "Type \"Lit\" must be signed integral.");
@@ -105,12 +105,15 @@ static_assert(sizeof(Lit) != 1, "LIT_TYPE = char (or int8_t) doesn't work with r
 
 typedef std::make_unsigned<Lit>::type Var;
 
-typedef int Clause_index;
+typedef double Weight_t; // weights and their sums
+typedef std::vector<Weight_t> Weight_vector;
+typedef Var Clause_index;
+static_assert(std::numeric_limits<Clause_index>::max() <= std::numeric_limits<Weight_vector::size_type>::max(), "Type Clause_index too large for weight vector.");
 
 struct Clause {
   Lit* begin; // the array of literals in the clause (as in the input)
   Lit* end; // one past-the-end
-  Clause_index length; // the current length, or 0 iff clause is satisfied.
+  Clause_index length; // the current length, or 0 iff clause is satisfied
   Clause_index old_length;
 };
 // Members "begin" and "end" are fixed after reading the input.
@@ -132,8 +135,6 @@ Change_vec changes(1); // acts as a global stack
 Change_vec::size_type changes_index = 0; // Invariant: changes_index < changes.size().
 
 Var max_clause_length = 0;
-
-typedef double Weight_t; // weights and their sums
 
 // The clause-weights:
 #ifdef WEIGHT_2_CLAUSES
@@ -157,7 +158,7 @@ typedef double Weight_t; // weights and their sums
   constexpr Weight_t basis_open = 1.70;
 #endif
 // weights[k] is the weight for clause-length k >= 2:
-std::vector<Weight_t> weights {0,0, weight_2, 1, weight_4, weight_5};
+Weight_vector weights {0,0, weight_2, 1, weight_4, weight_5};
 // Remark: weights[1] is arbitrary (since not used).
 constexpr Clause_index first_open_weight = 6;
 /* If special weights for clause-lengths k = 4,5,... are to be used, then
@@ -173,7 +174,7 @@ constexpr Clause_index first_open_weight = 6;
 // the weights for clause of length >= first_open_weight:
 Weight_t wopen(const Clause_index clause_length) {
   return weights[first_open_weight-1] *
-    std::pow(basis_open,-clause_length+first_open_weight-1);
+    std::pow(basis_open,-double(clause_length)+first_open_weight-1);
 }
 void initialise_weights() {
   assert(weights.size() == unsigned(first_open_weight));
@@ -183,18 +184,18 @@ void initialise_weights() {
        max_clause_length << "+1 (the maximal clause-length).\n";
     std::exit(allocation_error);
   }
-  for (Clause_index i = first_open_weight; unsigned(i) <= max_clause_length; ++i)
+  for (Clause_index i = first_open_weight; i <= max_clause_length; ++i)
     weights[i] = wopen(i);
 }
 
 std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
  v is unassigned, otherwise it is v in case v->true and else -v. */
 
-typedef unsigned int Count_clauses;
+typedef uint_fast64_t Count_clauses;
 Count_clauses n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
 Var n_vars;
 
-typedef unsigned long long Count_statistics;
+typedef uint_fast64_t Count_statistics;
 Count_statistics n_nodes = 0;
 Count_statistics n_units = 0;
 Count_statistics n_backtracks = 0;
@@ -330,7 +331,7 @@ void add_a_clause_to_formula() {
   C.begin = new Lit[n];
   C.end = C.begin + n;
   if (n>max_clause_length) max_clause_length = n;
-  for (Clause_index i=0; i<(Clause_index)n; ++i) {
+  for (Clause_index i = 0; i < n; ++i) {
     const Lit x = current_working_clause[i];
     C.begin[i] = x;
     auto& L = lits[var(x)][sign(x)];
