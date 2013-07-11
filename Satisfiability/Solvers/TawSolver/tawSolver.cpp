@@ -75,8 +75,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.8.1";
-const std::string date = "10.7.2013";
+const std::string version = "1.8.2";
+const std::string date = "11.7.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -110,12 +110,11 @@ typedef int Clause_index;
 struct Clause {
   Lit* literals; // the array of literals in the clause (as in the input)
   Lit* end; // one past-the-end
-  Clause_index length; // the current length (between 1 and (end - literals)).
-  bool status; // true iff currently not satisfied
+  Clause_index length; // the current length, between 1 and end-literals, or 0, iff clause is satisfied.
+  Clause_index old_length;
 };
 // Members "literals" and "end" are fixed after reading the input.
 typedef Clause* ClauseP;
-typedef const Clause* ClausePc;
 
 std::vector<Clause> clauses;
 
@@ -161,6 +160,7 @@ typedef double Weight_t; // weights and their sums
 #endif
 // weights[k] is the weight for clause-length k >= 2:
 std::vector<Weight_t> weights {0,0, weight_2, 1, weight_4, weight_5};
+// Remark: weights[1] is arbitrary (since not used).
 constexpr Clause_index first_open_weight = 6;
 /* If special weights for clause-lengths k = 4,5,... are to be used, then
    these weights are written into the initialisation of weights, and
@@ -328,7 +328,6 @@ void add_a_clause_to_formula() {
   }
   auto& C = clauses[n_clauses];
   C.length = n;
-  C.status = true;
   C.literals = new Lit[n];
   C.end = C.literals + n;
   if (n>max_clause_length) max_clause_length = n;
@@ -384,9 +383,10 @@ void assign(const Lit x) {
    changes[changes_index++] = nullptr;
    for (Count_clauses i=0; i < occur_true; ++i) {
      const auto C = L.occur[i];
-     if (not C->status) continue;
+     if (not C->length) continue;
      assert(C->length >= 1);
-     C->status = false;
+     C->old_length = C->length;
+     C->length = 0;
      assert(r_clauses >= 1);
      --r_clauses;
      changes[changes_index++] = C;
@@ -405,7 +405,7 @@ void assign(const Lit x) {
    changes[changes_index++] = nullptr;
    for (Count_clauses i=0; i < occur_false; ++i) {
      const auto C = L.occur[i];
-     if (not C->status) continue;
+     if (not C->length) continue;
      changes[changes_index++] = C;
      assert(C->length >= 2);
      --C->length;
@@ -434,20 +434,16 @@ void unassign(const Lit x) {
   assert(x);
   pass[var(x)] = 0;
   while (const ClauseP C = changes[--changes_index]) {
-    assert(C->status);
+    assert(C->length);
     ++C->length;
   }
   while (const ClauseP C = changes[--changes_index]) {
-    assert(not C->status);
-    C->status = true;
+    assert(not C->length);
+    C->length = C->old_length;
     ++r_clauses;
   }
 }
 
-// performance-critical computation:
-inline void accumulate(const bool stat, const unsigned length, Weight_t& sum) {
-  sum += stat * weights[length];
-}
 inline Lit branching_literal() {
   Lit x = 0;
   Weight_t max = 0, max2 = 0;
@@ -456,16 +452,14 @@ inline Lit branching_literal() {
     if (pass[v] == 0) {
       Weight_t ps = 0;
       {const auto vpos = lits[v][pos]; const auto pos_occur = vpos.n_occur;
-       for (Count_clauses k=0; k < pos_occur; ++k) {
-         const ClausePc C = vpos.occur[k];
-         accumulate(C->status, C->length, ps);
-       }}
+       for (Count_clauses k=0; k < pos_occur; ++k)
+         ps += weights[vpos.occur[k]->length];
+      }
       Weight_t ns = 0;
       {const auto vneg = lits[v][neg]; const auto neg_occur = vneg.n_occur;
-       for (Count_clauses k=0; k < neg_occur; ++k) {
-         const ClausePc C = vneg.occur[k];
-         accumulate(C->status, C->length, ns);
-       }}
+       for (Count_clauses k=0; k < neg_occur; ++k)
+         ns += weights[vneg.occur[k]->length];
+      }
       const Weight_t prod = ps * ns, sum = ps + ns;
       if (prod > max) { max = prod; max2 = sum; x = (ps>=ns)?v:-Lit(v); }
       // handles also the case that only pure literals are left:
@@ -481,11 +475,15 @@ inline Lit branching_literal() {
       if (pass[v] == 0) {
         Count_clauses count = 0;
         {const auto vpos = lits[v][pos]; const auto pos_o = vpos.n_occur;
-         for (Count_clauses k=0; k<pos_o; ++k) count += vpos.occur[k]->status;}
+         for (Count_clauses k=0; k<pos_o; ++k)
+           count += bool(vpos.occur[k]->length);
+         }
         if (count > max) {max = count; x = v;}
         count = 0;
         {const auto vneg = lits[v][neg]; const auto neg_o = vneg.n_occur;
-         for (Count_clauses k=0; k<neg_o; ++k) count += vneg.occur[k]->status;}
+         for (Count_clauses k=0; k<neg_o; ++k)
+           count += bool(vneg.occur[k]->length);
+         }
         if (count > max) {max = count; x = -Lit(v);}
       }
   }
