@@ -74,7 +74,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.9.4";
+const std::string version = "1.9.5";
 const std::string date = "12.7.2013";
 
 const std::string program = "tawSolver";
@@ -148,10 +148,35 @@ public :
 std::vector<std::array<Literal_occurrences,2>> lits;
 // lits[v][pos/neg] for a variable v represents the list of occurrences.
 
-// The stack of touched clauses:
-typedef std::vector<ClauseP> Change_vec;
-Change_vec changes(1); // acts as a global stack
-Change_vec::size_type changes_index = 0; // Invariant: changes_index < changes.size().
+class ChangeManagement {
+  typedef std::vector<ClauseP> Change_vec;
+  typedef Change_vec::size_type size_type;
+  size_type changes_index = 0;
+  Change_vec changes;
+public :
+  ChangeManagement() : changes(1) {}
+  void resize(const size_type add_elements) {
+    const size_type max_size = changes_index + add_elements + 1;
+    try { if (max_size >= changes.size()) changes.resize(max_size); }
+    catch (const std::bad_alloc&) {
+      std::cerr << err << "Allocation error when resizing \"changes\" to size "
+       << max_size << " (positive occurrences).\n";
+      std::exit(allocation_error);
+    }
+  }
+  void start_new() { changes[changes_index++] = nullptr; }
+  void push(const ClauseP C) { changes[changes_index++] = C; }
+  size_type reactivate() {
+    while (const ClauseP C = changes[--changes_index]) C->increment();
+    size_type count = 0;
+    while (const ClauseP C = changes[--changes_index]) {
+      C->activate();
+      ++count;
+    }
+    return count;
+  }
+};
+ChangeManagement changes;
 
 std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
  v is unassigned, otherwise it is v in case v->true and else -v. */
@@ -402,7 +427,7 @@ void read_formula(const std::string& filename) {
 
 // --- SAT solving ---
 
-void assign(const Lit x) {
+inline void assign(const Lit x) {
 /* set x to true, enter found unit-literals onto the global stack, and create
    change information */
   assert(x);
@@ -413,34 +438,22 @@ void assign(const Lit x) {
   const auto Occ = lits[v];
 
   {const auto L = Occ[p];
-   const auto max_size = changes_index + L.size() + 1;
-   try { if (max_size >= changes.size()) changes.resize(max_size); }
-   catch (const std::bad_alloc&) {
-    std::cerr << err << "Allocation error when resizing \"changes\" to size "
-      << max_size << " (positive occurrences).\n";
-    std::exit(allocation_error);
-   }
-   changes[changes_index++] = nullptr;
+   changes.resize(L.size());
+   changes.start_new();
    for (auto C : L) {
      if (not *C) continue;
      C->deactivate();
      assert(r_clauses >= 1);
      --r_clauses;
-     changes[changes_index++] = C;
+     changes.push(C);
    }
   }
   {const auto L = Occ[inv_polarity(p)];
-   const auto max_size = changes_index + L.size() + 1;
-   try { if (max_size > changes.size()) changes.resize(max_size); }
-   catch (const std::bad_alloc&) {
-    std::cerr << err << "Allocation error when resizing \"changes\" to size "
-      << max_size << " (negative occurrences).\n";
-    std::exit(allocation_error);
-   }
-   changes[changes_index++] = nullptr;
+   changes.resize(L.size());
+   changes.start_new();
    for (auto C : L) {
      if (not *C) continue;
-     changes[changes_index++] = C;
+     changes.push(C);
      C->decrement();
      if (C->length() == 1) {
        for (const Lit ucl : *C) {
@@ -461,14 +474,10 @@ void assign(const Lit x) {
   end:;
 }
 
-void unassign(const Lit x) {
+inline void unassign(const Lit x) {
   assert(x);
   pass[var(x)] = 0;
-  while (const ClauseP C = changes[--changes_index]) C->increment();
-  while (const ClauseP C = changes[--changes_index]) {
-    C->activate();
-    ++r_clauses;
-  }
+  r_clauses += changes.reactivate();
 }
 
 inline Lit branching_literal() {
