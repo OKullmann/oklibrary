@@ -109,13 +109,16 @@ typedef std::vector<Weight_t> Weight_vector;
 typedef Var Clause_index;
 static_assert(std::numeric_limits<Clause_index>::max() <= std::numeric_limits<Weight_vector::size_type>::max(), "Type Clause_index too large for weight vector.");
 
-struct Clause {
-  Lit* begin; // the array of literals in the clause (as in the input)
-  Lit* end; // one past-the-end
+class Clause {
+  const Lit* b; // the array of literals in the clause (as in the input)
+  const Lit* e; // one past-the-end
+public :
   Clause_index length; // the current length, or 0 iff clause is satisfied
   Clause_index old_length;
+  const Lit* begin() const { return b; }
+  const Lit* end() const {return e; }
+  friend void add_a_clause_to_formula();
 };
-// Members "begin" and "end" are fixed after reading the input.
 typedef Clause* ClauseP;
 
 std::vector<Clause> clauses;
@@ -331,12 +334,12 @@ void add_a_clause_to_formula() {
   }
   auto& C = clauses[n_clauses];
   C.length = n;
-  C.begin = new Lit[n];
-  C.end = C.begin + n;
+  C.b = new Lit[n];
+  C.e = C.b + n;
   if (n>max_clause_length) max_clause_length = n;
   for (Clause_index i = 0; i < n; ++i) {
     const Lit x = current_working_clause[i];
-    C.begin[i] = x;
+    const_cast<Lit*>(C.b)[i] = x;
     ++lit_occur_count[var(x)][sign(x)];
   }
   ++n_clauses;
@@ -357,10 +360,7 @@ void set_literal_occurrences() {
   assert(pointer == &all_lit_occurrences[0] + n_lit_occurrences);
   {const auto clend = clauses.cend();
    for (auto i = clauses.cbegin(); i != clend; ++i) {
-     const auto C = *i;
-     const auto cend = C.end;
-     for (auto xp = C.begin; xp != cend; ++xp) {
-       const Lit x = *xp;
+     for (const Lit x : *i) {
        const Var v = var(x); const Polarity p = sign(x);
        *(lits[v][p].end - lit_occur_count[v][p]--) = const_cast<ClauseP>(&*i);
      }
@@ -441,9 +441,7 @@ void assign(const Lit x) {
      assert(C->length >= 2);
      --C->length;
      if (C->length == 1) {
-       const Lit* cend = C->end;
-       for (const Lit* lp = C->begin; lp != cend; ++lp) {
-         const Lit ucl = *lp;
+       for (const Lit ucl : *C) {
          const Var ucv = var(ucl);
          Lit& val = pass[ucv];
          if (val == 0) {
