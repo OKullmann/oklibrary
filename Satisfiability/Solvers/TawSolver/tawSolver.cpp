@@ -74,7 +74,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.9.0";
+const std::string version = "1.9.1";
 const std::string date = "12.7.2013";
 
 const std::string program = "tawSolver";
@@ -401,9 +401,9 @@ void assign(const Lit x) {
   const Polarity p = sign(x);
 
   {const auto L = lits[v][p];
-   const auto begin = L.begin;
-   const auto end = L.end;
-   const auto max_size = changes_index + (end - begin) + 1;
+   const auto obegin = L.begin;
+   const auto oend = L.end;
+   const auto max_size = changes_index + (oend - obegin) + 1;
    try { if (max_size >= changes.size()) changes.resize(max_size); }
    catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error when resizing \"changes\" to size "
@@ -411,7 +411,7 @@ void assign(const Lit x) {
     std::exit(allocation_error);
    }
    changes[changes_index++] = nullptr;
-   for (auto p = begin; p != end; ++p) {
+   for (auto p = obegin; p != oend; ++p) {
      const auto C = *p;
      if (not C->length) continue;
      assert(C->length >= 1);
@@ -424,9 +424,9 @@ void assign(const Lit x) {
   }
   {const Polarity np = inv_polarity(p);
    const auto L = lits[v][np];
-   const auto begin = L.begin;
-   const auto end = L.end;
-   const auto max_size = changes_index + (end - begin) + 1;
+   const auto obegin = L.begin;
+   const auto oend = L.end;
+   const auto max_size = changes_index + (oend - obegin) + 1;
    try { if (max_size > changes.size()) changes.resize(max_size); }
    catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error when resizing \"changes\" to size "
@@ -434,7 +434,7 @@ void assign(const Lit x) {
     std::exit(allocation_error);
    }
    changes[changes_index++] = nullptr;
-   for (auto p = begin; p != end; ++p) {
+   for (auto p = obegin; p != oend; ++p) {
      const auto C = *p;
      if (not C->length) continue;
      changes[changes_index++] = C;
