@@ -112,11 +112,17 @@ static_assert(std::numeric_limits<Clause_index>::max() <= std::numeric_limits<We
 class Clause {
   const Lit* b; // the array of literals in the clause (as in the input)
   const Lit* e; // one past-the-end
-public :
-  Clause_index length; // the current length, or 0 iff clause is satisfied
+  Clause_index length_; // the current length, or 0 iff clause is satisfied
   Clause_index old_length;
+public :
   const Lit* begin() const { return b; }
   const Lit* end() const {return e; }
+  Clause_index length() const { return length_; }
+  operator bool() const { return length_; }
+  void decrement() { assert(length_ >= 2); --length_; }
+  void increment() { assert(length_ >= 1); ++length_; }
+  void deactivate() {assert(length_ >= 1); old_length = length_; length_ = 0; }
+  void activate() { assert(length_ == 0); length_ = old_length; }
   friend void add_a_clause_to_formula();
 };
 typedef Clause* ClauseP;
@@ -336,7 +342,7 @@ void add_a_clause_to_formula() {
     std::exit(number_clauses_error);
   }
   auto& C = clauses[n_clauses];
-  C.length = n;
+  C.length_ = n;
   C.b = new Lit[n];
   C.e = C.b + n;
   if (n>max_clause_length) max_clause_length = n;
@@ -416,10 +422,8 @@ void assign(const Lit x) {
    changes[changes_index++] = nullptr;
    for (auto p = obegin; p != oend; ++p) {
      const auto C = *p;
-     if (not C->length) continue;
-     assert(C->length >= 1);
-     C->old_length = C->length;
-     C->length = 0;
+     if (not *C) continue;
+     C->deactivate();
      assert(r_clauses >= 1);
      --r_clauses;
      changes[changes_index++] = C;
@@ -439,11 +443,10 @@ void assign(const Lit x) {
    changes[changes_index++] = nullptr;
    for (auto p = obegin; p != oend; ++p) {
      const auto C = *p;
-     if (not C->length) continue;
+     if (not *C) continue;
      changes[changes_index++] = C;
-     assert(C->length >= 2);
-     --C->length;
-     if (C->length == 1) {
+     C->decrement();
+     if (C->length() == 1) {
        for (const Lit ucl : *C) {
          const Var ucv = var(ucl);
          Lit& val = pass[ucv];
@@ -465,13 +468,9 @@ void assign(const Lit x) {
 void unassign(const Lit x) {
   assert(x);
   pass[var(x)] = 0;
+  while (const ClauseP C = changes[--changes_index]) C->increment();
   while (const ClauseP C = changes[--changes_index]) {
-    assert(C->length);
-    ++C->length;
-  }
-  while (const ClauseP C = changes[--changes_index]) {
-    assert(not C->length);
-    C->length = C->old_length;
+    C->activate();
     ++r_clauses;
   }
 }
@@ -487,11 +486,11 @@ inline Lit branching_literal() {
       const auto L = lits[v];
       Weight_t ps = 0;
       {const auto end = L[pos].end();
-       for (auto C = L[pos].begin(); C!=end; ++C) ps += weights[(*C)->length];
+       for (auto C=L[pos].begin(); C!=end; ++C) ps += weights[(*C)->length()];
       }
       Weight_t ns = 0;
       {const auto end = L[neg].end();
-       for (auto C = L[neg].begin(); C!=end; ++C) ns += weights[(*C)->length];
+       for (auto C=L[neg].begin(); C!=end; ++C) ns += weights[(*C)->length()];
       }
       const Weight_t prod = ps * ns, sum = ps + ns;
       if (prod > max) { max = prod; max2 = sum; x = (ps>=ns)?v:-Lit(v); }
@@ -509,12 +508,12 @@ inline Lit branching_literal() {
         const auto L = lits[v];
         Count_clauses count = 0;
         {const auto end = L[pos].end();
-         for (auto C = L[pos].begin(); C!=end; ++C) count += bool((*C)->length);
+         for (auto C = L[pos].begin(); C!=end; ++C) count += bool(*C);
          }
         if (count > max) {max = count; x = v;}
         count = 0;
         {const auto end = L[neg].end();
-         for (auto C = L[neg].begin(); C!=end; ++C) count += bool((*C)->length);
+         for (auto C = L[neg].begin(); C!=end; ++C) count += bool(*C);
          }
         if (count > max) {max = count; x = -Lit(v);}
       }
