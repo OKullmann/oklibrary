@@ -152,16 +152,7 @@ class ChangeManagement {
   typedef std::vector<ClauseP> Change_vec;
 public :
   typedef Change_vec::size_type size_type;
-  ChangeManagement() : changes(1) {}
-  void resize(const size_type add_elements) {
-    const size_type max_size = changes_index + add_elements + 1;
-    try { if (max_size >= changes.size()) changes.resize(max_size); }
-    catch (const std::bad_alloc&) {
-      std::cerr << err << "Allocation error when resizing \"changes\" to size "
-       << max_size << " (positive occurrences).\n";
-      std::exit(allocation_error);
-    }
-  }
+  void init(const size_type s) { changes.resize(s); }
   void start_new() { changes[changes_index++] = nullptr; }
   void push(const ClauseP C) { changes[changes_index++] = C; }
   size_type reactivate() {
@@ -436,7 +427,10 @@ void read_formula(const std::string& filename) {
   while (read_a_clause_from_file(f)) add_a_clause_to_formula();
   r_clauses = n_clauses;
   initialise_weights();
-  try { all_lit_occurrences.resize(n_lit_occurrences); }
+  try {
+    all_lit_occurrences.resize(n_lit_occurrences);
+    changes.init(n_lit_occurrences);
+  }
   catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error for ClauseP-vector of size " <<
        n_lit_occurrences << " (the number of literal occurrences).\n";
@@ -457,40 +451,34 @@ inline void assign(const Lit x) {
   const Polarity p = sign(x);
   const auto Occ = lits[v];
 
-  {const auto L = Occ[p];
-   changes.resize(L.size());
-   changes.start_new();
-   for (auto C : L) {
-     if (not *C) continue;
-     C->deactivate();
-     assert(r_clauses >= 1);
-     --r_clauses;
-     changes.push(C);
-   }
+  changes.start_new();
+  for (auto C : Occ[p]) {
+    if (not *C) continue;
+    C->deactivate();
+    assert(r_clauses >= 1);
+    --r_clauses;
+    changes.push(C);
   }
-  {const auto L = Occ[inv_polarity(p)];
-   changes.resize(L.size());
-   changes.start_new();
-   for (auto C : L) {
-     if (not *C) continue;
-     changes.push(C);
-     C->decrement();
-     if (C->length() == 1) {
-       for (const Lit ucl : *C) {
-         const Var ucv = var(ucl);
-         Lit& val = pass[ucv];
-         if (val == 0) {
-           unit_assignments.push(ucl);
-           val = ucl;
-           goto occ_loop;
-         }
-         else if (val == ucl) goto occ_loop;
-       }
-       contradictory_unit_clauses = true;
-       goto end;
-     }
-   occ_loop:;}
-  }
+  changes.start_new();
+  for (auto C : Occ[inv_polarity(p)]) {
+    if (not *C) continue;
+    changes.push(C);
+    C->decrement();
+    if (C->length() == 1) {
+      for (const Lit ucl : *C) {
+        const Var ucv = var(ucl);
+        Lit& val = pass[ucv];
+        if (val == 0) {
+          unit_assignments.push(ucl);
+          val = ucl;
+          goto occ_loop;
+        }
+        else if (val == ucl) goto occ_loop;
+      }
+      contradictory_unit_clauses = true;
+      goto end;
+    }
+  occ_loop:;}
   end:;
 }
 
