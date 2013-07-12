@@ -74,7 +74,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.9.5";
+const std::string version = "1.9.6";
 const std::string date = "12.7.2013";
 
 const std::string program = "tawSolver";
@@ -150,10 +150,8 @@ std::vector<std::array<Literal_occurrences,2>> lits;
 
 class ChangeManagement {
   typedef std::vector<ClauseP> Change_vec;
-  typedef Change_vec::size_type size_type;
-  size_type changes_index = 0;
-  Change_vec changes;
 public :
+  typedef Change_vec::size_type size_type;
   ChangeManagement() : changes(1) {}
   void resize(const size_type add_elements) {
     const size_type max_size = changes_index + add_elements + 1;
@@ -175,6 +173,9 @@ public :
     }
     return count;
   }
+private :
+  size_type changes_index = 0;
+  Change_vec changes;
 };
 ChangeManagement changes;
 
