@@ -469,6 +469,19 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
 13.74 13.89 13.79 13.77 13.74
 
 # An improvement of 10% (due to the faster computation of the heuristics).
+
+# ID 0ae7feac814d528dcb24c31cf65a5f83931ddf07
+# Improved implementation.
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+11.78 11.72 11.77 11.89 11.87
+tawSolver VanDerWaerden_2-3-12_135.cnf
+13.62 13.56 13.63 13.61 13.61
+
+# Small improvement due to improved data-locality.
    \endverbatim
    </li>
   </ul>
