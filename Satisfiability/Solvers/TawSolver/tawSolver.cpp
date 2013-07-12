@@ -75,8 +75,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.8.4";
-const std::string date = "11.7.2013";
+const std::string version = "1.9.0";
+const std::string date = "12.7.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -134,7 +134,7 @@ typedef std::vector<ClauseP> Change_vec;
 Change_vec changes(1); // acts as a global stack
 Change_vec::size_type changes_index = 0; // Invariant: changes_index < changes.size().
 
-Var max_clause_length = 0;
+Clause_index max_clause_length = 0;
 
 // The clause-weights:
 #ifdef WEIGHT_2_CLAUSES
@@ -217,6 +217,8 @@ bool contradictory_unit_clauses = false;
 
 // --- Input and initialisation ---
 
+std::vector<std::array<Count_clauses,2>> lit_occur_count;
+
 void read_formula_header(std::ifstream& f) {
   std::string line;
   while (true) {
@@ -260,6 +262,7 @@ void read_formula_header(std::ifstream& f) {
   try {
     lits.resize(n_vars+1);
     pass.resize(n_vars+1);
+    lit_occur_count.resize(n_vars+1);
     gucl_stack.resize(n_vars);
   }
   catch (const std::bad_alloc&) {
@@ -335,19 +338,36 @@ void add_a_clause_to_formula() {
   for (Clause_index i = 0; i < n; ++i) {
     const Lit x = current_working_clause[i];
     C.begin[i] = x;
-    auto& L = lits[var(x)][sign(x)];
-    const auto n_occur = L.end - L.begin + 1;
-    L.begin = (ClauseP*) std::realloc(L.begin, n_occur*sizeof(ClauseP));
-    if (L.begin == nullptr) {
-      std::cerr << err << "Allocation error when calling realloc to extend "
-        "an occurrence list.\n";
-      std::exit(allocation_error);
-    }
-    L.end = L.begin + n_occur;
-    *(L.end-1) = &(clauses[n_clauses]);
+    ++lit_occur_count[var(x)][sign(x)];
   }
   ++n_clauses;
   n_lit_occurrences += n;
+}
+
+std::vector<ClauseP> all_lit_occurrences;
+
+void set_literal_occurrences() {
+  if (all_lit_occurrences.empty()) return;
+  ClauseP* pointer = &all_lit_occurrences[0];
+  for (Var v = 1; v <= n_vars; ++v)
+    for (int p = 0; p <= 1; ++p) {
+      lits[v][p].begin = pointer;
+      pointer += lit_occur_count[v][p];
+      lits[v][p].end = pointer;
+    }
+  assert(pointer == &all_lit_occurrences[0] + n_lit_occurrences);
+  {const auto clend = clauses.cend();
+   for (auto i = clauses.cbegin(); i != clend; ++i) {
+     const auto C = *i;
+     const auto cend = C.end;
+     for (auto xp = C.begin; xp != cend; ++xp) {
+       const Lit x = *xp;
+       const Var v = var(x); const Polarity p = sign(x);
+       *(lits[v][p].end - lit_occur_count[v][p]--) = const_cast<ClauseP>(&*i);
+     }
+   }
+  }
+  lit_occur_count.clear();
 }
 
 void read_formula(const std::string& filename) {
@@ -361,6 +381,13 @@ void read_formula(const std::string& filename) {
   while (read_a_clause_from_file(f)) add_a_clause_to_formula();
   r_clauses = n_clauses;
   initialise_weights();
+  try { all_lit_occurrences.resize(n_lit_occurrences); }
+  catch (const std::bad_alloc&) {
+    std::cerr << err << "Allocation error for ClauseP-vector of size " <<
+       n_lit_occurrences << " (the number of literal occurrences).\n";
+    std::exit(allocation_error);
+  }
+  set_literal_occurrences();
 }
 
 // --- SAT solving ---
