@@ -363,9 +363,10 @@ void set_literal_occurrences() {
   const ClauseP* pointer = &all_lit_occurrences[0];
   for (Var v = 1; v <= n_vars; ++v)
     for (int p = 0; p <= 1; ++p) {
-      lits[v][p].b = pointer;
+      auto& L = lits[v][p];
+      L.b = pointer;
       pointer += lit_occur_count[v][p];
-      lits[v][p].e = pointer;
+      L.e = pointer;
     }
   assert(pointer == &all_lit_occurrences[0] + n_lit_occurrences);
   {const auto clend = clauses.cend();
