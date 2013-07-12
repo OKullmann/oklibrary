@@ -244,10 +244,29 @@ Count_statistics n_nodes = 0;
 Count_statistics n_units = 0;
 Count_statistics n_backtracks = 0;
 
-// to handle the branching-assignment plus the derived assignments:
-typedef std::vector<Lit> Global_assignment_stack;
-Global_assignment_stack gucl_stack;
-Global_assignment_stack::size_type n_gucl = 0; // the index of the next free element of the stack
+class Assignment_stack {
+  typedef std::vector<Lit> stack_t;
+  stack_t s;
+  Lit* begin;
+  Lit* next;
+public :
+  typedef stack_t::size_type size_type;
+  void init(const size_type n) {
+   s.resize(n);
+   next = begin = &*s.begin();
+  }
+  operator bool() const { return next != begin; }
+  void push(const Lit x) {
+    assert(next != begin + s.size());
+    *(next++) = x;
+  }
+  Lit pop() {
+    assert(next != begin);
+    return *(--next);
+  }
+};
+Assignment_stack unit_assignments;
+
 typedef std::stack<Lit> Local_assignment_stack;
 bool contradictory_unit_clauses = false;
 
@@ -300,7 +319,7 @@ void read_formula_header(std::ifstream& f) {
     lits.resize(n_vars+1);
     pass.resize(n_vars+1);
     lit_occur_count.resize(n_vars+1);
-    gucl_stack.resize(n_vars);
+    unit_assignments.init(n_vars);
   }
   catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error for vectors of size " << n_vars <<
@@ -460,7 +479,7 @@ inline void assign(const Lit x) {
          const Var ucv = var(ucl);
          Lit& val = pass[ucv];
          if (val == 0) {
-           gucl_stack[n_gucl++] = ucl;
+           unit_assignments.push(ucl);
            val = ucl;
            goto occ_loop;
          }
@@ -527,11 +546,11 @@ bool dpll() {
         lucl_stack.pop();
       }
       contradictory_unit_clauses = false;
-      while (n_gucl) pass[var(gucl_stack[--n_gucl])] = 0;
+      while (unit_assignments) pass[var(unit_assignments.pop())] = 0;
       return false;
     }
-    else if (n_gucl) {
-      const Lit implied_literal = gucl_stack[--n_gucl];
+    else if (unit_assignments) {
+      const Lit implied_literal = unit_assignments.pop();
       lucl_stack.push(implied_literal);
       assign(implied_literal);
       ++n_units;
@@ -539,7 +558,7 @@ bool dpll() {
     else break;
   }
   if (not r_clauses) return true;
-  assert(n_gucl == 0);
+  assert(not unit_assignments);
   const Lit x = branching_literal();
   assert(x); assert(pass[var(x)] == 0);
   assign(x);
