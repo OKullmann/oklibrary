@@ -74,7 +74,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.9.1";
+const std::string version = "1.9.2";
 const std::string date = "12.7.2013";
 
 const std::string program = "tawSolver";
@@ -123,13 +123,16 @@ typedef Clause* ClauseP;
 
 std::vector<Clause> clauses;
 
-struct Literal_occurrences {
-  ClauseP* begin; // array with clause-pointers
-  ClauseP* end; // one past-the-end
+class Literal_occurrences {
+  const ClauseP* b; // array with clause-pointers
+  const ClauseP* e; // one past-the-end
+public :
+   const ClauseP* begin() const { return b; }
+   const ClauseP* end() const {return e; }
+   friend void set_literal_occurrences();
 };
 std::vector<std::array<Literal_occurrences,2>> lits;
-/* lits[v][pos/neg] for a variable v represents the list of occurrences; this
-   data is fixed after reading the input. */
+// lits[v][pos/neg] for a variable v represents the list of occurrences.
 
 // The stack of touched clauses:
 typedef std::vector<ClauseP> Change_vec;
@@ -350,19 +353,19 @@ std::vector<ClauseP> all_lit_occurrences;
 
 void set_literal_occurrences() {
   if (all_lit_occurrences.empty()) return;
-  ClauseP* pointer = &all_lit_occurrences[0];
+  const ClauseP* pointer = &all_lit_occurrences[0];
   for (Var v = 1; v <= n_vars; ++v)
     for (int p = 0; p <= 1; ++p) {
-      lits[v][p].begin = pointer;
+      lits[v][p].b = pointer;
       pointer += lit_occur_count[v][p];
-      lits[v][p].end = pointer;
+      lits[v][p].e = pointer;
     }
   assert(pointer == &all_lit_occurrences[0] + n_lit_occurrences);
   {const auto clend = clauses.cend();
    for (auto i = clauses.cbegin(); i != clend; ++i) {
      for (const Lit x : *i) {
        const Var v = var(x); const Polarity p = sign(x);
-       *(lits[v][p].end - lit_occur_count[v][p]--) = const_cast<ClauseP>(&*i);
+       *const_cast<ClauseP*>(lits[v][p].end() - lit_occur_count[v][p]--) = const_cast<ClauseP>(&*i);
      }
    }
   }
@@ -401,8 +404,8 @@ void assign(const Lit x) {
   const Polarity p = sign(x);
 
   {const auto L = lits[v][p];
-   const auto obegin = L.begin;
-   const auto oend = L.end;
+   const auto obegin = L.begin();
+   const auto oend = L.end();
    const auto max_size = changes_index + (oend - obegin) + 1;
    try { if (max_size >= changes.size()) changes.resize(max_size); }
    catch (const std::bad_alloc&) {
@@ -424,8 +427,8 @@ void assign(const Lit x) {
   }
   {const Polarity np = inv_polarity(p);
    const auto L = lits[v][np];
-   const auto obegin = L.begin;
-   const auto oend = L.end;
+   const auto obegin = L.begin();
+   const auto oend = L.end();
    const auto max_size = changes_index + (oend - obegin) + 1;
    try { if (max_size > changes.size()) changes.resize(max_size); }
    catch (const std::bad_alloc&) {
@@ -473,6 +476,8 @@ void unassign(const Lit x) {
   }
 }
 
+// Remark: With gcc version 4.7.3 replacing the C-loop by a range-loop incurs
+// a large time-penalty.
 inline Lit branching_literal() {
   Lit x = 0;
   Weight_t max = 0, max2 = 0;
@@ -481,12 +486,12 @@ inline Lit branching_literal() {
     if (pass[v] == 0) {
       const auto L = lits[v];
       Weight_t ps = 0;
-      {const auto end = L[pos].end;
-       for (auto C = L[pos].begin; C != end; ++C) ps += weights[(*C)->length];
+      {const auto end = L[pos].end();
+       for (auto C = L[pos].begin(); C!=end; ++C) ps += weights[(*C)->length];
       }
       Weight_t ns = 0;
-      {const auto end = L[neg].end;
-       for (auto C = L[neg].begin; C != end; ++C) ns += weights[(*C)->length];
+      {const auto end = L[neg].end();
+       for (auto C = L[neg].begin(); C!=end; ++C) ns += weights[(*C)->length];
       }
       const Weight_t prod = ps * ns, sum = ps + ns;
       if (prod > max) { max = prod; max2 = sum; x = (ps>=ns)?v:-Lit(v); }
@@ -503,13 +508,13 @@ inline Lit branching_literal() {
       if (pass[v] == 0) {
         const auto L = lits[v];
         Count_clauses count = 0;
-        {const auto end = L[pos].end;
-         for (auto C = L[pos].begin; C!=end; ++C) count += bool((*C)->length);
+        {const auto end = L[pos].end();
+         for (auto C = L[pos].begin(); C!=end; ++C) count += bool((*C)->length);
          }
         if (count > max) {max = count; x = v;}
         count = 0;
-        {const auto end = L[neg].end;
-         for (auto C = L[neg].begin; C!=end; ++C) count += bool((*C)->length);
+        {const auto end = L[neg].end();
+         for (auto C = L[neg].begin(); C!=end; ++C) count += bool((*C)->length);
          }
         if (count > max) {max = count; x = -Lit(v);}
       }
