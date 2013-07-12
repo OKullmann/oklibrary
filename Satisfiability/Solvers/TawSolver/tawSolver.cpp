@@ -74,7 +74,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.9.2";
+const std::string version = "1.9.3";
 const std::string date = "12.7.2013";
 
 const std::string program = "tawSolver";
@@ -485,13 +485,9 @@ inline Lit branching_literal() {
     if (pass[v] == 0) {
       const auto L = lits[v];
       Weight_t ps = 0;
-      {const auto end = L[pos].end();
-       for (auto C=L[pos].begin(); C!=end; ++C) ps += weights[(*C)->length()];
-      }
+      for (const auto C : L[pos]) ps += weights[C->length()];
       Weight_t ns = 0;
-      {const auto end = L[neg].end();
-       for (auto C=L[neg].begin(); C!=end; ++C) ns += weights[(*C)->length()];
-      }
+      for (const auto C : L[neg]) ns += weights[C->length()];
       const Weight_t prod = ps * ns, sum = ps + ns;
       if (prod > max) { max = prod; max2 = sum; x = (ps>=ns)?v:-Lit(v); }
       // handles also the case that only pure literals are left:
@@ -507,14 +503,10 @@ inline Lit branching_literal() {
       if (pass[v] == 0) {
         const auto L = lits[v];
         Count_clauses count = 0;
-        {const auto end = L[pos].end();
-         for (auto C = L[pos].begin(); C!=end; ++C) count += bool(*C);
-         }
+        for (const auto C : L[pos]) count += bool(*C);
         if (count > max) {max = count; x = v;}
         count = 0;
-        {const auto end = L[neg].end();
-         for (auto C = L[neg].begin(); C!=end; ++C) count += bool(*C);
-         }
+        for (const auto C : L[neg]) count += bool(*C);
         if (count > max) {max = count; x = -Lit(v);}
       }
   }
