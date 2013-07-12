@@ -69,7 +69,6 @@ for debugging).
 
 #include <cmath>
 #include <cstdint>
-#include <cstdlib>
 #include <cassert>
 #include <csignal>
 
@@ -202,9 +201,9 @@ Count_statistics n_units = 0;
 Count_statistics n_backtracks = 0;
 
 // handling of variables and literals:
-inline Var var(const Lit x) { return std::abs(x); }
+inline Var var(const Lit x) { return (x >= 0) ? x : -x; }
 enum Polarity { pos=0, neg=1 };
-inline Polarity sign(const Lit x) { return (x > 0) ? pos : neg; }
+inline Polarity sign(const Lit x) { return (x >= 0) ? pos : neg; }
 inline Polarity inv_polarity(const Polarity p) { return (p == pos) ? neg:pos; }
 
 // to handle the branching-assignment plus the derived assignments:
