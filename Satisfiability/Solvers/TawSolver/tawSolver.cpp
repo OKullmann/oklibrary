@@ -104,6 +104,11 @@ static_assert(sizeof(Lit) != 1, "LIT_TYPE = char (or int8_t) doesn't work with r
 
 typedef std::make_unsigned<Lit>::type Var;
 
+inline Var var(const Lit x) { return (x >= 0) ? x : -x; }
+enum Polarity { pos=0, neg=1 };
+inline Polarity sign(const Lit x) { return (x >= 0) ? pos : neg; }
+inline Polarity inv_polarity(const Polarity p) { return (p == pos) ? neg:pos; }
+
 typedef double Weight_t; // weights and their sums
 typedef std::vector<Weight_t> Weight_vector;
 typedef Var Clause_index;
@@ -144,6 +149,14 @@ std::vector<std::array<Literal_occurrences,2>> lits;
 typedef std::vector<ClauseP> Change_vec;
 Change_vec changes(1); // acts as a global stack
 Change_vec::size_type changes_index = 0; // Invariant: changes_index < changes.size().
+
+std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
+ v is unassigned, otherwise it is v in case v->true and else -v. */
+
+typedef uint_fast64_t Count_clauses;
+Count_clauses n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
+Count_clauses n_lit_occurrences = 0;
+Var n_vars;
 
 Clause_index max_clause_length = 0;
 
@@ -199,24 +212,10 @@ void initialise_weights() {
     weights[i] = wopen(i);
 }
 
-std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
- v is unassigned, otherwise it is v in case v->true and else -v. */
-
-typedef uint_fast64_t Count_clauses;
-Count_clauses n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
-Count_clauses n_lit_occurrences = 0;
-Var n_vars;
-
 typedef uint_fast64_t Count_statistics;
 Count_statistics n_nodes = 0;
 Count_statistics n_units = 0;
 Count_statistics n_backtracks = 0;
-
-// handling of variables and literals:
-inline Var var(const Lit x) { return (x >= 0) ? x : -x; }
-enum Polarity { pos=0, neg=1 };
-inline Polarity sign(const Lit x) { return (x >= 0) ? pos : neg; }
-inline Polarity inv_polarity(const Polarity p) { return (p == pos) ? neg:pos; }
 
 // to handle the branching-assignment plus the derived assignments:
 typedef std::vector<Lit> Global_assignment_stack;
@@ -475,8 +474,6 @@ void unassign(const Lit x) {
   }
 }
 
-// Remark: With gcc version 4.7.3 replacing the C-loop by a range-loop incurs
-// a large time-penalty.
 inline Lit branching_literal() {
   Lit x = 0;
   Weight_t max = 0, max2 = 0;
