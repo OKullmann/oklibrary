@@ -74,7 +74,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.9.6";
+const std::string version = "1.9.7";
 const std::string date = "12.7.2013";
 
 const std::string program = "tawSolver";
@@ -150,23 +150,27 @@ std::vector<std::array<Literal_occurrences,2>> lits;
 
 class ChangeManagement {
   typedef std::vector<ClauseP> Change_vec;
+  Change_vec changes;
+  ClauseP* begin;
+  ClauseP* next;
 public :
   typedef Change_vec::size_type size_type;
-  void init(const size_type s) { changes.resize(s); }
-  void start_new() { changes[changes_index++] = nullptr; }
-  void push(const ClauseP C) { changes[changes_index++] = C; }
+  void init(const size_type s) {
+    assert(s >= 1);
+    changes.resize(s);
+    next = begin = &*changes.begin();
+  }
+  void start_new() { *(next++) = nullptr; }
+  void push(const ClauseP C) { *(next++) = C; }
   size_type reactivate() {
-    while (const ClauseP C = changes[--changes_index]) C->increment();
+    while (const ClauseP C = *(--next)) C->increment();
     size_type count = 0;
-    while (const ClauseP C = changes[--changes_index]) {
+    while (const ClauseP C = *(--next)) {
       C->activate();
       ++count;
     }
     return count;
   }
-private :
-  size_type changes_index = 0;
-  Change_vec changes;
 };
 ChangeManagement changes;
 
@@ -244,6 +248,7 @@ class Assignment_stack {
 public :
   typedef stack_t::size_type size_type;
   void init(const size_type n) {
+   assert(n >= 1);
    s.resize(n);
    next = begin = &*s.begin();
   }
@@ -311,7 +316,6 @@ void read_formula_header(std::ifstream& f) {
     lits.resize(n_vars+1);
     pass.resize(n_vars+1);
     lit_occur_count.resize(n_vars+1);
-    unit_assignments.init(n_vars);
   }
   catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error for vectors of size " << n_vars <<
@@ -425,8 +429,14 @@ void read_formula(const std::string& filename) {
   read_formula_header(f);
   n_clauses = 0;
   while (read_a_clause_from_file(f)) add_a_clause_to_formula();
-  r_clauses = n_clauses;
+  if (not (r_clauses = n_clauses)) return;
   initialise_weights();
+  try { unit_assignments.init(n_vars); }
+  catch (const std::bad_alloc&) {
+    std::cerr << err << "Allocation error for Lit-vector of size " <<
+       n_vars << " (the number of variables).\n";
+    std::exit(allocation_error);
+  }
   try {
     all_lit_occurrences.resize(n_lit_occurrences);
     changes.init(n_lit_occurrences);
@@ -675,7 +685,7 @@ int main(const int argc, const char* const argv[]) {
   std::signal(SIGINT, abortion);
   std::signal(SIGUSR1, show_statistics);
   t1 = current_time();
-  const auto result = dpll();
+  const auto result = (r_clauses) ? dpll() : (n_nodes = 1, true);
   const auto t2 = current_time();
   const auto ires = interprete_run(result);
   output(filename, ires, t2-t1);
