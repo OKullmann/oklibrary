@@ -74,7 +74,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.9.3";
+const std::string version = "1.9.4";
 const std::string date = "12.7.2013";
 
 const std::string program = "tawSolver";
@@ -134,12 +134,15 @@ typedef Clause* ClauseP;
 
 std::vector<Clause> clauses;
 
+typedef uint_fast64_t Count_clauses;
+
 class Literal_occurrences {
   const ClauseP* b; // array with clause-pointers
   const ClauseP* e; // one past-the-end
 public :
    const ClauseP* begin() const { return b; }
-   const ClauseP* end() const {return e; }
+   const ClauseP* end() const { return e; }
+   Count_clauses size() const { return e-b; }
    friend void set_literal_occurrences();
 };
 std::vector<std::array<Literal_occurrences,2>> lits;
@@ -153,7 +156,6 @@ Change_vec::size_type changes_index = 0; // Invariant: changes_index < changes.s
 std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
  v is unassigned, otherwise it is v in case v->true and else -v. */
 
-typedef uint_fast64_t Count_clauses;
 Count_clauses n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
 Count_clauses n_lit_occurrences = 0;
 Var n_vars;
@@ -407,11 +409,10 @@ void assign(const Lit x) {
   assert(v <= n_vars);
   pass[v] = x;
   const Polarity p = sign(x);
+  const auto Occ = lits[v];
 
-  {const auto L = lits[v][p];
-   const auto obegin = L.begin();
-   const auto oend = L.end();
-   const auto max_size = changes_index + (oend - obegin) + 1;
+  {const auto L = Occ[p];
+   const auto max_size = changes_index + L.size() + 1;
    try { if (max_size >= changes.size()) changes.resize(max_size); }
    catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error when resizing \"changes\" to size "
@@ -419,8 +420,7 @@ void assign(const Lit x) {
     std::exit(allocation_error);
    }
    changes[changes_index++] = nullptr;
-   for (auto p = obegin; p != oend; ++p) {
-     const auto C = *p;
+   for (auto C : L) {
      if (not *C) continue;
      C->deactivate();
      assert(r_clauses >= 1);
@@ -428,11 +428,8 @@ void assign(const Lit x) {
      changes[changes_index++] = C;
    }
   }
-  {const Polarity np = inv_polarity(p);
-   const auto L = lits[v][np];
-   const auto obegin = L.begin();
-   const auto oend = L.end();
-   const auto max_size = changes_index + (oend - obegin) + 1;
+  {const auto L = Occ[inv_polarity(p)];
+   const auto max_size = changes_index + L.size() + 1;
    try { if (max_size > changes.size()) changes.resize(max_size); }
    catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error when resizing \"changes\" to size "
@@ -440,8 +437,7 @@ void assign(const Lit x) {
     std::exit(allocation_error);
    }
    changes[changes_index++] = nullptr;
-   for (auto p = obegin; p != oend; ++p) {
-     const auto C = *p;
+   for (auto C : L) {
      if (not *C) continue;
      changes[changes_index++] = C;
      C->decrement();
@@ -480,11 +476,11 @@ inline Lit branching_literal() {
   const auto nvar = n_vars;
   for (Var v = 1; v <= nvar; ++v) {
     if (pass[v] == 0) {
-      const auto L = lits[v];
+      const auto Occ = lits[v];
       Weight_t ps = 0;
-      for (const auto C : L[pos]) ps += weights[C->length()];
+      for (const auto C : Occ[pos]) ps += weights[C->length()];
       Weight_t ns = 0;
-      for (const auto C : L[neg]) ns += weights[C->length()];
+      for (const auto C : Occ[neg]) ns += weights[C->length()];
       const Weight_t prod = ps * ns, sum = ps + ns;
       if (prod > max) { max = prod; max2 = sum; x = (ps>=ns)?v:-Lit(v); }
       // handles also the case that only pure literals are left:
@@ -498,12 +494,12 @@ inline Lit branching_literal() {
     Count_clauses max = 0;
     for (Var v = 1; v <= nvar; ++v)
       if (pass[v] == 0) {
-        const auto L = lits[v];
+        const auto Occ = lits[v];
         Count_clauses count = 0;
-        for (const auto C : L[pos]) count += bool(*C);
+        for (const auto C : Occ[pos]) count += bool(*C);
         if (count > max) {max = count; x = v;}
         count = 0;
-        for (const auto C : L[neg]) count += bool(*C);
+        for (const auto C : Occ[neg]) count += bool(*C);
         if (count > max) {max = count; x = -Lit(v);}
       }
   }
