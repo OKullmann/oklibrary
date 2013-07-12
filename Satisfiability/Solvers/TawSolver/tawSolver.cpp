@@ -193,6 +193,7 @@ std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
 
 typedef uint_fast64_t Count_clauses;
 Count_clauses n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
+Count_clauses n_lit_occurrences = 0;
 Var n_vars;
 
 typedef uint_fast64_t Count_statistics;
@@ -346,6 +347,7 @@ void add_a_clause_to_formula() {
     *(L.end-1) = &(clauses[n_clauses]);
   }
   ++n_clauses;
+  n_lit_occurrences += n;
 }
 
 void read_formula(const std::string& filename) {
@@ -551,6 +553,7 @@ void output(const std::string& file, const Result_value result, const Weight_t e
          "c number_of_variables                   " << n_vars << "\n" <<
          "c number_of_clauses                     " << n_clauses << "\n" <<
          "c maximal_clause_length                 " << max_clause_length << "\n" <<
+         "c number_of_literal_occurrences         " << n_lit_occurrences << "\n" <<
          "c running_time(sec)                     " << std::setprecision(2) << std::fixed << elapsed << "\n" <<
          "c number_of_nodes                       " << n_nodes << "\n" <<
          "c number_of_binary_nodes                " << n_backtracks << "\n" <<
