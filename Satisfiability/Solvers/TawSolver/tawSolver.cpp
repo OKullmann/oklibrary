@@ -716,7 +716,7 @@ int main(const int argc, const char* const argv[]) {
   std::signal(SIGINT, abortion);
   std::signal(SIGUSR1, show_statistics);
   t1 = current_time();
-  const auto result = (r_clauses) ? dpll() : (n_nodes = 1, true);
+  const auto result = (n_clauses) ? dpll() : (n_nodes = 1, true);
   const auto t2 = current_time();
   const auto ires = interprete_run(result);
   output(filename, ires, t2-t1);
