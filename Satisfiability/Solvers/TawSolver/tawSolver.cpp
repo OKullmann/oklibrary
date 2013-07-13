@@ -130,6 +130,9 @@ typedef std::vector<Weight_t> Weight_vector;
 typedef Var Clause_index;
 static_assert(std::numeric_limits<Clause_index>::max() <= std::numeric_limits<Weight_vector::size_type>::max(), "Type Clause_index too large for weight vector.");
 
+typedef std::uint_fast64_t Count_clauses;
+typedef std::vector<std::array<Count_clauses,2>> Count_vec;
+
 class Clause {
   const Lit* b; // the array of literals in the clause (as in the input)
   const Lit* e; // one past-the-end
@@ -144,13 +147,11 @@ public :
   void increment() { assert(length_ >= 1); ++length_; }
   void deactivate() {assert(length_ >= 1); old_length = length_; length_ = 0; }
   void activate() { assert(length_ == 0); length_ = old_length; }
-  friend void add_a_clause_to_formula(const Lit_vec&);
+  friend void add_a_clause_to_formula(const Lit_vec&, Count_vec&);
 };
 typedef Clause* ClauseP;
 
 std::vector<Clause> clauses;
-
-typedef std::uint_fast64_t Count_clauses;
 
 class Literal_occurrences {
   const ClauseP* b; // array with clause-pointers
@@ -159,7 +160,7 @@ public :
    const ClauseP* begin() const { return b; }
    const ClauseP* end() const { return e; }
    Count_clauses size() const { return e-b; }
-   friend void set_literal_occurrences();
+   friend void set_literal_occurrences(Count_vec&);
 };
 std::vector<std::array<Literal_occurrences,2>> lits;
 // lits[v][pos/neg] for a variable v represents the list of occurrences.
@@ -310,8 +311,6 @@ bool contradictory_unit_clauses = false;
 
 // --- Input and initialisation ---
 
-std::vector<std::array<Count_clauses,2>> lit_occur_count;
-
 void read_formula_header(std::ifstream& f) {
   std::string line;
   while (true) {
@@ -355,7 +354,6 @@ void read_formula_header(std::ifstream& f) {
   try {
     lits.resize(n_vars+1);
     pass.resize(n_vars+1);
-    lit_occur_count.resize(n_vars+1);
     Local_assignment_stack::init();
   }
   catch (const std::bad_alloc&) {
@@ -412,7 +410,7 @@ bool read_a_clause_from_file(std::ifstream& f, Lit_vec& C) {
   return true;
 }
 
-void add_a_clause_to_formula(const Lit_vec& D) {
+void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
   const auto n = D.size();
   if (n == 0) return; // means tautology here
   if (n_clauses >= n_header_clauses) {
@@ -427,7 +425,7 @@ void add_a_clause_to_formula(const Lit_vec& D) {
   for (Clause_index i = 0; i < n; ++i) {
     const Lit x = D[i];
     const_cast<Lit*>(C.b)[i] = x;
-    ++lit_occur_count[var(x)][sign(x)];
+    ++count[var(x)][sign(x)];
   }
   ++n_clauses;
   n_lit_occurrences += n;
@@ -435,14 +433,14 @@ void add_a_clause_to_formula(const Lit_vec& D) {
 
 std::vector<ClauseP> all_lit_occurrences;
 
-void set_literal_occurrences() {
+void set_literal_occurrences(Count_vec& count) {
   if (all_lit_occurrences.empty()) return;
   const ClauseP* pointer = &all_lit_occurrences[0];
   for (Var v = 1; v <= n_vars; ++v)
     for (int p = 0; p <= 1; ++p) {
       auto& L = lits[v][p];
       L.b = pointer;
-      pointer += lit_occur_count[v][p];
+      pointer += count[v][p];
       L.e = pointer;
     }
   assert(pointer == &all_lit_occurrences[0] + n_lit_occurrences);
@@ -450,12 +448,11 @@ void set_literal_occurrences() {
    for (auto i = clauses.cbegin(); i != clend; ++i) {
      for (const Lit x : *i) {
        const Var v = var(x); const Polarity p = sign(x);
-       *const_cast<ClauseP*>(lits[v][p].end() - lit_occur_count[v][p]--) =
+       *const_cast<ClauseP*>(lits[v][p].end() - count[v][p]--) =
          const_cast<ClauseP>(&*i);
      }
    }
   }
-  lit_occur_count.clear();
 }
 
 void read_formula(const std::string& filename) {
@@ -465,9 +462,16 @@ void read_formula(const std::string& filename) {
     std::exit(file_reading_error);
   }
   read_formula_header(f);
+  Count_vec count;
+  try { count.resize(n_vars+1); }
+  catch (const std::bad_alloc&) {
+    std::cerr << err << "Allocation error for counting-vector of size " <<
+      n_vars << " (the maximal-variable-index).\n";
+    std::exit(allocation_error);
+  }
   n_clauses = 0;
   {Lit_vec C;
-   while (read_a_clause_from_file(f,C)) add_a_clause_to_formula(C);
+   while (read_a_clause_from_file(f,C)) add_a_clause_to_formula(C,count);
   }
   if (not (r_clauses = n_clauses)) return;
   initialise_weights();
@@ -486,7 +490,7 @@ void read_formula(const std::string& filename) {
        n_lit_occurrences << " (the number of literal occurrences).\n";
     std::exit(allocation_error);
   }
-  set_literal_occurrences();
+  set_literal_occurrences(count);
 }
 
 // --- SAT solving ---
