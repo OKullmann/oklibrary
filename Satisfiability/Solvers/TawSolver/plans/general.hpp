@@ -515,6 +515,42 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
 13.35 13.29 13.35 13.32 13.35
 
 # A tiny improvement.
+
+# ID d8cab850756bfc0d1a8e7c1d61012630aa79f3d3
+# Version 1.10.0; improved unit-clause propagation
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     11.41
+c number_of_nodes                       864314
+c number_of_binary_nodes                432150
+c number_of_1-reductions                9949777
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     13.18
+c number_of_nodes                       977415
+c number_of_binary_nodes                488707
+c number_of_1-reductions                11324097
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+11.41 11.51 11.43 11.42 11.46
+tawSolver VanDerWaerden_2-3-12_135.cnf
+13.18 13.16 13.18 13.21 13.27
+
+# A tiny improvement.
    \endverbatim
    </li>
   </ul>
