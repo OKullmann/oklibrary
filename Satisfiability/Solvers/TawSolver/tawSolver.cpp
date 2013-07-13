@@ -123,6 +123,8 @@ public :
   }
 };
 
+typedef std::vector<Lit> Lit_vec;
+
 typedef double Weight_t; // weights and their sums
 typedef std::vector<Weight_t> Weight_vector;
 typedef Var Clause_index;
@@ -142,7 +144,7 @@ public :
   void increment() { assert(length_ >= 1); ++length_; }
   void deactivate() {assert(length_ >= 1); old_length = length_; length_ = 0; }
   void activate() { assert(length_ == 0); length_ = old_length; }
-  friend void add_a_clause_to_formula();
+  friend void add_a_clause_to_formula(const Lit_vec&);
 };
 typedef Clause* ClauseP;
 
@@ -188,7 +190,7 @@ public :
 };
 ChangeManagement changes;
 
-std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
+Lit_vec pass; /* the current assignment: pass[v] is 0 iff variable
  v is unassigned, otherwise it is v in case v->true and else -v. */
 
 Count_clauses n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
@@ -255,7 +257,7 @@ Count_statistics n_units = 0;
 Count_statistics n_backtracks = 0;
 
 class Assignment_stack {
-  typedef std::vector<Lit> stack_t;
+  typedef Lit_vec stack_t;
   stack_t s;
   const Lit* begin;
   Lit* next;
@@ -279,7 +281,7 @@ public :
 Assignment_stack unit_assignments;
 
 class Local_assignment_stack {
-  typedef std::vector<Lit> stack_t;
+  typedef Lit_vec stack_t;
   static stack_t stack;
   static Lit* next;
   const Lit* const begin;
@@ -369,11 +371,9 @@ void read_formula_header(std::ifstream& f) {
   }
 }
 
-std::vector<Lit> current_working_clause;
-
-bool read_a_clause_from_file(std::ifstream& f) {
-  static std::vector<Lit> literal_table;
-  current_working_clause.clear();
+bool read_a_clause_from_file(std::ifstream& f, Lit_vec& C) {
+  static Lit_vec literal_table;
+  C.clear();
   literal_table.assign(n_vars+1,Lit());
   bool tautology = false;
   Lit x;
@@ -391,29 +391,29 @@ bool read_a_clause_from_file(std::ifstream& f) {
       std::exit(variable_value_error);
     }
     if (not literal_table[v]) {
-      current_working_clause.push_back(x);
+      C.push_back(x);
       literal_table[v] = x;
     }
     else if (literal_table[v] == -x) tautology = true;
     f >> x;
   }
   if (tautology) {
-    current_working_clause.clear();
+    C.clear();
     return true;
   }
-  if (current_working_clause.empty()) {
+  if (C.empty()) {
     std::cerr << err << "Found empty clause in input.\n";
     std::exit(empty_clause_error);
   }
-  if (current_working_clause.size() == 1) {
+  if (C.size() == 1) {
     std::cerr << err << "Found unit-clause in input.\n";
     std::exit(unit_clause_error);
   }
   return true;
 }
 
-void add_a_clause_to_formula() {
-  const auto n = current_working_clause.size();
+void add_a_clause_to_formula(const Lit_vec& D) {
+  const auto n = D.size();
   if (n == 0) return; // means tautology here
   if (n_clauses >= n_header_clauses) {
     std::cerr << err << "More than " << n_header_clauses << " clauses, contradicting cnf-header.\n";
@@ -425,7 +425,7 @@ void add_a_clause_to_formula() {
   C.e = C.b + n;
   if (n>max_clause_length) max_clause_length = n;
   for (Clause_index i = 0; i < n; ++i) {
-    const Lit x = current_working_clause[i];
+    const Lit x = D[i];
     const_cast<Lit*>(C.b)[i] = x;
     ++lit_occur_count[var(x)][sign(x)];
   }
@@ -466,7 +466,9 @@ void read_formula(const std::string& filename) {
   }
   read_formula_header(f);
   n_clauses = 0;
-  while (read_a_clause_from_file(f)) add_a_clause_to_formula();
+  {Lit_vec C;
+   while (read_a_clause_from_file(f,C)) add_a_clause_to_formula(C);
+  }
   if (not (r_clauses = n_clauses)) return;
   initialise_weights();
   try { unit_assignments.init(n_vars); }
