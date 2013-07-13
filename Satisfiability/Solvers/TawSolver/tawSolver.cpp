@@ -104,7 +104,7 @@ static_assert(sizeof(Lit_int) != 1, "Lit_int = char (or int8_t) doesn't work wit
 
 typedef std::make_unsigned<Lit_int>::type Var;
 enum Polarity { pos=0, neg=1 };
-inline Polarity inv_polarity(const Polarity p) { return (p == pos) ? neg:pos; }
+inline Polarity operator -(const Polarity p) { return (p == pos) ? neg:pos; }
 
 class Lit {
   Lit_int x;
@@ -485,7 +485,7 @@ inline void assign(const Lit x) {
     changes.push(C);
   }
   changes.start_new();
-  for (auto C : Occ[inv_polarity(p)]) {
+  for (auto C : Occ[-p]) {
     if (not *C) continue;
     changes.push(C);
     C->decrement();
