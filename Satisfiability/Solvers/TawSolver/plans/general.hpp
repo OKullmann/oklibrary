@@ -482,6 +482,19 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
 13.62 13.56 13.63 13.61 13.61
 
 # Small improvement due to improved data-locality.
+
+# ID 5689384b9693b8dca1caf8469b19a7ae8d66700a
+# Improved structures.
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+11.76 11.74 11.67 11.76 11.62
+tawSolver VanDerWaerden_2-3-12_135.cnf
+13.58 13.50 13.68 13.62 13.58
+
+# Tiny improvement (at least no impairment).
    \endverbatim
    </li>
   </ul>
