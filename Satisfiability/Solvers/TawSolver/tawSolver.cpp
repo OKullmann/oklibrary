@@ -74,7 +74,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.9.8";
+const std::string version = "1.9.9";
 const std::string date = "13.7.2013";
 
 const std::string program = "tawSolver";
@@ -111,7 +111,7 @@ class Lit {
 public :
   constexpr Lit() : x(0) {}
   constexpr explicit Lit(const Lit_int x) : x(x) {}
-  constexpr operator bool() const { return x; }
+  constexpr explicit operator bool() const { return x; }
   constexpr Lit operator -() const { return Lit{-x}; }
   constexpr bool operator ==(const Lit y) const { return x == y.x; }
   friend constexpr Var var(const Lit x) { return (x.x >= 0) ? x.x : -x.x; }
@@ -136,9 +136,9 @@ class Clause {
   Clause_index old_length;
 public :
   const Lit* begin() const { return b; }
-  const Lit* end() const {return e; }
+  const Lit* end() const { return e; }
   Clause_index length() const { return length_; }
-  operator bool() const { return length_; }
+  explicit operator bool() const { return length_; }
   void decrement() { assert(length_ >= 2); --length_; }
   void increment() { assert(length_ >= 1); ++length_; }
   void deactivate() {assert(length_ >= 1); old_length = length_; length_ = 0; }
@@ -193,10 +193,10 @@ std::vector<Lit> pass; /* the current assignment: pass[v] is 0 iff variable
  v is unassigned, otherwise it is v in case v->true and else -v. */
 
 Count_clauses n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
-Count_clauses n_lit_occurrences = 0;
+Count_clauses n_lit_occurrences;
 Var n_vars;
 
-Clause_index max_clause_length = 0;
+Clause_index max_clause_length;
 
 // The clause-weights:
 #ifdef WEIGHT_2_CLAUSES
@@ -239,7 +239,7 @@ Weight_t wopen(const Clause_index clause_length) {
     std::pow(basis_open,-double(clause_length)+first_open_weight-1);
 }
 void initialise_weights() {
-  assert(weights.size() == unsigned(first_open_weight));
+  assert(weights.size() == first_open_weight);
   try { weights.resize(max_clause_length+1); }
   catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error for double-vector of size " <<
@@ -267,7 +267,7 @@ public :
    s.resize(n);
    next = begin = &*s.begin();
   }
-  operator bool() const { return next != begin; }
+  explicit operator bool() const { return next != begin; }
   void push(const Lit x) {
     assert(next != begin + s.size());
     *(next++) = x;
@@ -337,9 +337,7 @@ void read_formula_header(std::ifstream& f) {
       " (the maximal-variable-index).\n";
     std::exit(allocation_error);
   }
-  try {
-    clauses.resize(n_header_clauses);
-  }
+  try { clauses.resize(n_header_clauses); }
   catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error for vector of size " <<
       n_header_clauses << " (the number-of-clauses).\n";
@@ -362,13 +360,13 @@ bool read_a_clause_from_file(std::ifstream& f) {
       std::cerr << err << "Invalid literal-read.\n";
       std::exit(literal_read_error);
     }
-    if (x == 0) break;
+    if (not x) break;
     const Var v = var(x);
     if (v > n_vars) {
       std::cerr << err << "Literal " << x << " contradicts n=" << n_vars << ".\n";
       std::exit(variable_value_error);
     }
-    if (literal_table[v] == 0) {
+    if (not literal_table[v]) {
       current_working_clause.push_back(x);
       literal_table[v] = x;
     }
@@ -428,7 +426,8 @@ void set_literal_occurrences() {
    for (auto i = clauses.cbegin(); i != clend; ++i) {
      for (const Lit x : *i) {
        const Var v = var(x); const Polarity p = sign(x);
-       *const_cast<ClauseP*>(lits[v][p].end() - lit_occur_count[v][p]--) = const_cast<ClauseP>(&*i);
+       *const_cast<ClauseP*>(lits[v][p].end() - lit_occur_count[v][p]--) =
+         const_cast<ClauseP>(&*i);
      }
    }
   }
@@ -518,7 +517,7 @@ inline Lit branching_literal() {
   Weight_t max = 0, max2 = 0;
   const auto nvar = n_vars;
   for (Var v = 1; v <= nvar; ++v) {
-    if (pass[v] == 0) {
+    if (not pass[v]) {
       const auto Occ = lits[v];
       Weight_t ps = 0;
       for (const auto C : Occ[pos]) ps += weights[C->length()];
@@ -536,7 +535,7 @@ inline Lit branching_literal() {
     2^1000 clauses). Now just choosing a literal occurring most often. */
     Count_clauses max = 0;
     for (Var v = 1; v <= nvar; ++v)
-      if (pass[v] == 0) {
+      if (not pass[v]) {
         const auto Occ = lits[v];
         Count_clauses count = 0;
         for (const auto C : Occ[pos]) count += bool(*C);
@@ -574,7 +573,7 @@ bool dpll() {
   if (not r_clauses) return true;
   assert(not unit_assignments);
   const Lit x = branching_literal();
-  assert(x); assert(pass[var(x)] == 0);
+  assert(x); assert(not pass[var(x)]);
   assign(x);
   if (dpll()) return true;
   assert(pass[var(x)] == x);
@@ -582,7 +581,7 @@ bool dpll() {
   ++n_backtracks;
 
   const Lit nx = -x;
-  assert(pass[var(x)] == 0);
+  assert(not pass[var(x)]);
   assign(nx);
   if (dpll()) return true;
   assert(pass[var(x)] == nx);
