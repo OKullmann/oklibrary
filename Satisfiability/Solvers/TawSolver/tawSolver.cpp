@@ -73,7 +73,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.9.11";
+const std::string version = "1.10.0";
 const std::string date = "13.7.2013";
 
 const std::string program = "tawSolver";
@@ -153,6 +153,7 @@ typedef Clause* ClauseP;
 
 typedef std::vector<Clause> Clause_vec;
 typedef std::vector<ClauseP> ClauseP_vec;
+
 Clause_vec clauses;
 
 class Literal_occurrences {
@@ -258,34 +259,11 @@ Count_statistics n_nodes;
 Count_statistics n_units;
 Count_statistics n_backtracks;
 
-class Assignment_stack {
-  typedef Lit_vec stack_t;
-  stack_t s;
-  const Lit* begin;
-  Lit* next;
-public :
-  typedef stack_t::size_type size_type;
-  void init(const size_type n) {
-   assert(n >= 1);
-   s.resize(n);
-   begin = next = &*s.begin();
-  }
-  explicit operator bool() const { return next != begin; }
-  void push(const Lit x) {
-    assert(next != begin + s.size());
-    *(next++) = x;
-  }
-  Lit pop() {
-    assert(next != begin);
-    return *(--next);
-  }
-};
-Assignment_stack unit_assignments;
-
-class Local_assignment_stack {
+class Unit_stack {
   typedef Lit_vec stack_t;
   static stack_t stack;
   static Lit* next;
+  static Lit* open_;
   const Lit* const begin;
 public :
   static void init() {
@@ -301,13 +279,19 @@ public :
     assert(next != &stack[0]);
     return *(--next);
   }
-  Local_assignment_stack() : begin(next) {}
+  static Lit pop_open() {
+    assert(open_ != next);
+    return *(open_++);
+  }
+  static bool contradiction;
+  Unit_stack() : begin(next) { open_ = next; }
   explicit operator bool() const { return next != begin; }
+  bool open() const { return next != open_; }
 };
-Local_assignment_stack::stack_t Local_assignment_stack::stack;
-Lit* Local_assignment_stack::next;
-
-bool contradictory_unit_clauses = false;
+Unit_stack::stack_t Unit_stack::stack;
+Lit* Unit_stack::next;
+Lit* Unit_stack::open_;
+bool Unit_stack::contradiction;
 
 
 // --- Input and initialisation ---
@@ -355,7 +339,7 @@ void read_formula_header(std::ifstream& f) {
   try {
     lits.resize(n_vars+1);
     pass.resize(n_vars+1);
-    Local_assignment_stack::init();
+    Unit_stack::init();
   }
   catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error for vectors of size " << n_vars <<
@@ -476,12 +460,6 @@ void read_formula(const std::string& filename) {
   }
   if (not (r_clauses = n_clauses)) return;
   initialise_weights();
-  try { unit_assignments.init(n_vars); }
-  catch (const std::bad_alloc&) {
-    std::cerr << err << "Allocation error for Lit-vector of size " <<
-       n_vars << " (the number of variables).\n";
-    std::exit(allocation_error);
-  }
   try {
     all_lit_occurrences.resize(n_lit_occurrences);
     changes.init(n_lit_occurrences);
@@ -502,6 +480,7 @@ inline void assign(const Lit x) {
   assert(x);
   const Var v = var(x);
   assert(v <= n_vars);
+  assert(not(pass[v] == -x));
   pass[v] = x;
   const Polarity p = sign(x);
   const auto Occ = lits[v];
@@ -520,17 +499,16 @@ inline void assign(const Lit x) {
     changes.push(C);
     C->decrement();
     if (C->length() == 1) {
-      for (const Lit ucl : *C) {
-        const Var ucv = var(ucl);
-        Lit& val = pass[ucv];
+      for (const Lit x : *C) {
+        Lit& val = pass[var(x)];
         if (not val) {
-          unit_assignments.push(ucl);
-          val = ucl;
+          Unit_stack::push(x);
+          val = x;
           goto occ_loop;
         }
-        else if (val == ucl) goto occ_loop;
+        else if (val == x) goto occ_loop;
       }
-      contradictory_unit_clauses = true;
+      Unit_stack::contradiction = true;
       goto end;
     }
   occ_loop:;}
@@ -576,46 +554,42 @@ inline Lit branching_literal() {
         if (count > max) {max = count; x = -Lit(v);}
       }
   }
+  assert(x);
   return x;
 }
 
-bool dpll() {
+bool dll(const Lit x) {
   ++n_nodes;
-  const Local_assignment_stack lucl_stack; // local unit-clause literals
+  const Unit_stack unit_stack;
+  Unit_stack::push(x);
+  assign(Unit_stack::pop_open());
   while (true) { // unit-clause propagation
-    if (contradictory_unit_clauses) {
-      while (lucl_stack) unassign(lucl_stack.pop());
-      contradictory_unit_clauses = false;
-      while (unit_assignments) pass[var(unit_assignments.pop())] = Lit();
+    if (Unit_stack::contradiction) {
+      while (unit_stack.open()) pass[var(Unit_stack::pop())] = Lit();
+      while (unit_stack) unassign(Unit_stack::pop());
+      Unit_stack::contradiction = false;
       return false;
     }
-    else if (unit_assignments) {
-      const Lit implied_literal = unit_assignments.pop();
-      lucl_stack.push(implied_literal);
-      assign(implied_literal);
+    else if (unit_stack.open()) {
+      assign(Unit_stack::pop_open());
       ++n_units;
     }
     else break;
   }
   if (not r_clauses) return true;
-  assert(not unit_assignments);
-  const Lit x = branching_literal();
-  assert(x); assert(not pass[var(x)]);
-  assign(x);
-  if (dpll()) return true;
-  assert(pass[var(x)] == x);
-  unassign(x);
+  const Lit y = branching_literal();
+  if (dll(y)) return true;
   ++n_backtracks;
-
-  const Lit nx = -x;
-  assert(not pass[var(x)]);
-  assign(nx);
-  if (dpll()) return true;
-  assert(pass[var(x)] == nx);
-  unassign(nx);
-
-  while (lucl_stack) unassign(lucl_stack.pop());
+  if (dll(-y)) return true;
+  while (unit_stack) unassign(Unit_stack::pop());
   return false;
+}
+
+bool dll0() {
+  ++n_nodes;
+  if (not n_clauses) return true;
+  const Lit x = branching_literal();
+  return dll(x) or (++n_backtracks,dll(-x));
 }
 
 
@@ -723,7 +697,7 @@ int main(const int argc, const char* const argv[]) {
   std::signal(SIGINT, abortion);
   std::signal(SIGUSR1, show_statistics);
   t1 = current_time();
-  const auto result = (n_clauses) ? dpll() : (n_nodes = 1, true);
+  const auto result = dll0();
   const auto t2 = current_time();
   const auto ires = interprete_run(result);
   output(filename, ires, t2-t1);
