@@ -41,7 +41,7 @@ for debugging).
   computation is continued.
 
   There are the following macros to control compilation:
-   - LIT_TYPE (default int)
+   - LIT_TYPE (default std::int32_t)
    - WEIGHT_2_CLAUSES, WEIGHT_4_CLAUSES, WEIGHT_5_CLAUSES,
      and WEIGHT_BASIS_OPEN:
      the weight for clause-length k=3 is standardised to 1, the weights for
@@ -74,8 +74,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.9.7";
-const std::string date = "12.7.2013";
+const std::string version = "1.9.8";
+const std::string date = "13.7.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -96,18 +96,33 @@ enum Result_value { unsat=20, sat=10, unknown=0 };
 Result_value interprete_run(const bool result) { return result ? sat : unsat; }
 
 #ifndef LIT_TYPE
-# define LIT_TYPE int32_t
+# define LIT_TYPE std::int32_t
 #endif
-typedef LIT_TYPE Lit;
-static_assert(std::is_signed<Lit>::value, "Type \"Lit\" must be signed integral.");
-static_assert(sizeof(Lit) != 1, "LIT_TYPE = char (or int8_t) doesn't work with reading (since not numbers are read, but characters).");
+typedef LIT_TYPE Lit_int;
+static_assert(std::is_signed<Lit_int>::value, "Type \"Lit_int\" must be signed integral.");
+static_assert(sizeof(Lit_int) != 1, "Lit_int = char (or int8_t) doesn't work with reading (since not numbers are read, but characters).");
 
-typedef std::make_unsigned<Lit>::type Var;
-
-inline Var var(const Lit x) { return (x >= 0) ? x : -x; }
+typedef std::make_unsigned<Lit_int>::type Var;
 enum Polarity { pos=0, neg=1 };
-inline Polarity sign(const Lit x) { return (x >= 0) ? pos : neg; }
 inline Polarity inv_polarity(const Polarity p) { return (p == pos) ? neg:pos; }
+
+class Lit {
+  Lit_int x;
+public :
+  constexpr Lit() : x(0) {}
+  constexpr explicit Lit(const Lit_int x) : x(x) {}
+  constexpr operator bool() const { return x; }
+  constexpr Lit operator -() const { return Lit{-x}; }
+  constexpr bool operator ==(const Lit y) const { return x == y.x; }
+  friend constexpr Var var(const Lit x) { return (x.x >= 0) ? x.x : -x.x; }
+  friend constexpr Polarity sign(const Lit x) {return (x.x >= 0) ? pos : neg;}
+  friend std::ostream& operator <<(std::ostream& out, const Lit x) {
+    return out << x.x;
+  }
+  friend std::istream& operator >>(std::istream& in, Lit& x) {
+    return in >> x.x;
+  }
+};
 
 typedef double Weight_t; // weights and their sums
 typedef std::vector<Weight_t> Weight_vector;
@@ -134,7 +149,7 @@ typedef Clause* ClauseP;
 
 std::vector<Clause> clauses;
 
-typedef uint_fast64_t Count_clauses;
+typedef std::uint_fast64_t Count_clauses;
 
 class Literal_occurrences {
   const ClauseP* b; // array with clause-pointers
@@ -235,7 +250,7 @@ void initialise_weights() {
     weights[i] = wopen(i);
 }
 
-typedef uint_fast64_t Count_statistics;
+typedef std::uint_fast64_t Count_statistics;
 Count_statistics n_nodes = 0;
 Count_statistics n_units = 0;
 Count_statistics n_backtracks = 0;
@@ -300,10 +315,10 @@ void read_formula_header(std::ifstream& f) {
       "(too big or not-a-number).\n";
     std::exit(file_pline_error);
   }
-  if (n_vars > Var(std::numeric_limits<Lit>::max())) {
+  if (n_vars > Var(std::numeric_limits<Lit_int>::max())) {
     std::cerr << err << "Parameter maximal-variable-index n=" << n_vars <<
-      " is too big for numeric_limits<Lit>::max=" <<
-      std::numeric_limits<Lit>::max() << ".\n";
+      " is too big for numeric_limits<Lit_int>::max=" <<
+      std::numeric_limits<Lit_int>::max() << ".\n";
     std::exit(num_vars_error);
   }
   s >> n_header_clauses;
@@ -337,7 +352,7 @@ std::vector<Lit> current_working_clause;
 bool read_a_clause_from_file(std::ifstream& f) {
   static std::vector<Lit> literal_table;
   current_working_clause.clear();
-  literal_table.assign(n_vars+1,0);
+  literal_table.assign(n_vars+1,Lit());
   bool tautology = false;
   Lit x;
   f >> x;
@@ -478,7 +493,7 @@ inline void assign(const Lit x) {
       for (const Lit ucl : *C) {
         const Var ucv = var(ucl);
         Lit& val = pass[ucv];
-        if (val == 0) {
+        if (not val) {
           unit_assignments.push(ucl);
           val = ucl;
           goto occ_loop;
@@ -494,12 +509,12 @@ inline void assign(const Lit x) {
 
 inline void unassign(const Lit x) {
   assert(x);
-  pass[var(x)] = 0;
+  pass[var(x)] = Lit();
   r_clauses += changes.reactivate();
 }
 
 inline Lit branching_literal() {
-  Lit x = 0;
+  Lit x;
   Weight_t max = 0, max2 = 0;
   const auto nvar = n_vars;
   for (Var v = 1; v <= nvar; ++v) {
@@ -510,9 +525,9 @@ inline Lit branching_literal() {
       Weight_t ns = 0;
       for (const auto C : Occ[neg]) ns += weights[C->length()];
       const Weight_t prod = ps * ns, sum = ps + ns;
-      if (prod > max) { max = prod; max2 = sum; x = (ps>=ns)?v:-Lit(v); }
+      if (prod > max) { max = prod; max2 = sum; x= (ps>=ns) ? Lit(v):-Lit(v); }
       // handles also the case that only pure literals are left:
-      else if (prod==max and sum>max2) { max2 = sum; x = (ps>=ns)?v:-Lit(v); }
+      else if (prod==max and sum>max2) {max2 = sum; x=(ps>=ns)?Lit(v):-Lit(v);}
     }
   }
   if (not x) {
@@ -525,7 +540,7 @@ inline Lit branching_literal() {
         const auto Occ = lits[v];
         Count_clauses count = 0;
         for (const auto C : Occ[pos]) count += bool(*C);
-        if (count > max) {max = count; x = v;}
+        if (count > max) {max = count; x = Lit(v);}
         count = 0;
         for (const auto C : Occ[neg]) count += bool(*C);
         if (count > max) {max = count; x = -Lit(v);}
@@ -545,7 +560,7 @@ bool dpll() {
         lucl_stack.pop();
       }
       contradictory_unit_clauses = false;
-      while (unit_assignments) pass[var(unit_assignments.pop())] = 0;
+      while (unit_assignments) pass[var(unit_assignments.pop())] = Lit();
       return false;
     }
     else if (unit_assignments) {
@@ -622,7 +637,7 @@ void version_information() {
      std::cout << "  " << k << "->" << weights[k];
    std::cout << "\n"
    " Macro settings:\n"
-   "  LIT_TYPE = " STR(LIT_TYPE) " (with " << std::numeric_limits<Lit>::digits << " binary digits)\n"
+   "  LIT_TYPE = " STR(LIT_TYPE) " (with " << std::numeric_limits<Lit_int>::digits << " binary digits)\n"
 #ifdef NDEBUG
    " Compiled with NDEBUG\n"
 #else
