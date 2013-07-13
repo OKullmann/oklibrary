@@ -73,7 +73,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.9.10";
+const std::string version = "1.9.11";
 const std::string date = "13.7.2013";
 
 const std::string program = "tawSolver";
@@ -151,7 +151,9 @@ public :
 };
 typedef Clause* ClauseP;
 
-std::vector<Clause> clauses;
+typedef std::vector<Clause> Clause_vec;
+typedef std::vector<ClauseP> ClauseP_vec;
+Clause_vec clauses;
 
 class Literal_occurrences {
   const ClauseP* b; // array with clause-pointers
@@ -166,12 +168,11 @@ std::vector<std::array<Literal_occurrences,2>> lits;
 // lits[v][pos/neg] for a variable v represents the list of occurrences.
 
 class ChangeManagement {
-  typedef std::vector<ClauseP> Change_vec;
-  Change_vec changes;
+  ClauseP_vec changes;
   const ClauseP* begin;
   ClauseP* next;
 public :
-  typedef Change_vec::size_type size_type;
+  typedef ClauseP_vec::size_type size_type;
   void init(const size_type s) {
     assert(s >= 1);
     changes.resize(s);
@@ -431,7 +432,7 @@ void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
   n_lit_occurrences += n;
 }
 
-std::vector<ClauseP> all_lit_occurrences;
+ClauseP_vec all_lit_occurrences;
 
 void set_literal_occurrences(Count_vec& count) {
   if (all_lit_occurrences.empty()) return;
