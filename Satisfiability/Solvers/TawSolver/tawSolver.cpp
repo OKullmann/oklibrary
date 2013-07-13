@@ -254,9 +254,9 @@ void initialise_weights() {
 }
 
 typedef std::uint_fast64_t Count_statistics;
-Count_statistics n_nodes = 0;
-Count_statistics n_units = 0;
-Count_statistics n_backtracks = 0;
+Count_statistics n_nodes;
+Count_statistics n_units;
+Count_statistics n_backtracks;
 
 class Assignment_stack {
   typedef Lit_vec stack_t;
