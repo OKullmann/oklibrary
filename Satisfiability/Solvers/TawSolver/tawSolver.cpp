@@ -165,14 +165,14 @@ std::vector<std::array<Literal_occurrences,2>> lits;
 class ChangeManagement {
   typedef std::vector<ClauseP> Change_vec;
   Change_vec changes;
-  ClauseP* begin;
+  const ClauseP* begin;
   ClauseP* next;
 public :
   typedef Change_vec::size_type size_type;
   void init(const size_type s) {
     assert(s >= 1);
     changes.resize(s);
-    next = begin = &*changes.begin();
+    begin = next = &*changes.begin();
   }
   void start_new() { *(next++) = nullptr; }
   void push(const ClauseP C) { *(next++) = C; }
@@ -257,14 +257,14 @@ Count_statistics n_backtracks = 0;
 class Assignment_stack {
   typedef std::vector<Lit> stack_t;
   stack_t s;
-  Lit* begin;
+  const Lit* begin;
   Lit* next;
 public :
   typedef stack_t::size_type size_type;
   void init(const size_type n) {
    assert(n >= 1);
    s.resize(n);
-   next = begin = &*s.begin();
+   begin = next = &*s.begin();
   }
   explicit operator bool() const { return next != begin; }
   void push(const Lit x) {
@@ -279,28 +279,28 @@ public :
 Assignment_stack unit_assignments;
 
 class Local_assignment_stack {
-  typedef std::vector<Lit> Store_t;
-  static Store_t store;
+  typedef std::vector<Lit> stack_t;
+  static stack_t stack;
   static Lit* next;
-  Lit* begin;
+  const Lit* const begin;
 public :
   static void init() {
-    store.resize(n_vars);
+    stack.resize(n_vars);
     assert(n_vars);
-    next = &store[0];
+    next = &stack[0];
+  }
+  static void push(const Lit x) {
+    assert(next - &stack[0] < n_vars);
+    *(next++) = x;
+  }
+  static Lit pop() {
+    assert(next != &stack[0]);
+    return *(--next);
   }
   Local_assignment_stack() : begin(next) {}
   explicit operator bool() const { return next != begin; }
-  void push(const Lit x) {
-    assert(next - &store[0] < n_vars);
-    *(next++) = x;
-  }
-  Lit pop() {
-    assert(next != begin);
-    return *(--next);
-  }
 };
-Local_assignment_stack::Store_t Local_assignment_stack::store;
+Local_assignment_stack::stack_t Local_assignment_stack::stack;
 Lit* Local_assignment_stack::next;
 
 bool contradictory_unit_clauses = false;
@@ -574,7 +574,7 @@ inline Lit branching_literal() {
 
 bool dpll() {
   ++n_nodes;
-  Local_assignment_stack lucl_stack; // local unit-clause literals
+  const Local_assignment_stack lucl_stack; // local unit-clause literals
   while (true) { // unit-clause propagation
     if (contradictory_unit_clauses) {
       while (lucl_stack) unassign(lucl_stack.pop());
