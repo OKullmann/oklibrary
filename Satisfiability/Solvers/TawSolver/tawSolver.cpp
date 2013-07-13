@@ -63,7 +63,6 @@ for debugging).
 #include <string>
 #include <sstream>
 #include <type_traits>
-#include <stack>
 #include <iomanip>
 #include <exception>
 
@@ -74,7 +73,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.9.9";
+const std::string version = "1.9.10";
 const std::string date = "13.7.2013";
 
 const std::string program = "tawSolver";
@@ -279,7 +278,31 @@ public :
 };
 Assignment_stack unit_assignments;
 
-typedef std::stack<Lit> Local_assignment_stack;
+class Local_assignment_stack {
+  typedef std::vector<Lit> Store_t;
+  static Store_t store;
+  static Lit* next;
+  Lit* begin;
+public :
+  static void init() {
+    store.resize(n_vars);
+    assert(n_vars);
+    next = &store[0];
+  }
+  Local_assignment_stack() : begin(next) {}
+  explicit operator bool() const { return next != begin; }
+  void push(const Lit x) {
+    assert(next - &store[0] < n_vars);
+    *(next++) = x;
+  }
+  Lit pop() {
+    assert(next != begin);
+    return *(--next);
+  }
+};
+Local_assignment_stack::Store_t Local_assignment_stack::store;
+Lit* Local_assignment_stack::next;
+
 bool contradictory_unit_clauses = false;
 
 
@@ -331,6 +354,7 @@ void read_formula_header(std::ifstream& f) {
     lits.resize(n_vars+1);
     pass.resize(n_vars+1);
     lit_occur_count.resize(n_vars+1);
+    Local_assignment_stack::init();
   }
   catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error for vectors of size " << n_vars <<
@@ -553,11 +577,7 @@ bool dpll() {
   Local_assignment_stack lucl_stack; // local unit-clause literals
   while (true) { // unit-clause propagation
     if (contradictory_unit_clauses) {
-      while (not lucl_stack.empty()) {
-        assert(pass[var(lucl_stack.top())]);
-        unassign(lucl_stack.top());
-        lucl_stack.pop();
-      }
+      while (lucl_stack) unassign(lucl_stack.pop());
       contradictory_unit_clauses = false;
       while (unit_assignments) pass[var(unit_assignments.pop())] = Lit();
       return false;
@@ -587,10 +607,7 @@ bool dpll() {
   assert(pass[var(x)] == nx);
   unassign(nx);
 
-  while (not lucl_stack.empty()) {
-    unassign(lucl_stack.top());
-    lucl_stack.pop();
-  }
+  while (lucl_stack) unassign(lucl_stack.pop());
   return false;
 }
 
