@@ -507,7 +507,14 @@ tawSolver VanDerWaerden_2-3-12_134.cnf
 tawSolver VanDerWaerden_2-3-12_135.cnf
 13.63 13.72 13.69 13.64 13.65
 
-# Seems a tiny improvement (at least no impairment).
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+11.47 11.61 11.57 11.55 11.59
+tawSolver VanDerWaerden_2-3-12_135.cnf
+13.35 13.29 13.35 13.32 13.35
+
+# A tiny improvement.
    \endverbatim
    </li>
   </ul>
