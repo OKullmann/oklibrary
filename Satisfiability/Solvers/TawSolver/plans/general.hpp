@@ -495,6 +495,19 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
 13.58 13.50 13.68 13.62 13.58
 
 # Tiny improvement (at least no impairment).
+
+# ID b2f597d7f36c6c7cfadca8e4a9809ca94a4af029
+# Version 1.9.10; introduced ADT's and improved their implementations
+
+> oklib timing
+# cswsok (one other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+11.87 11.89 11.84 11.80 11.84
+tawSolver VanDerWaerden_2-3-12_135.cnf
+13.63 13.72 13.69 13.64 13.65
+
+# Seems a tiny improvement (at least no impairment).
    \endverbatim
    </li>
   </ul>
