@@ -48,6 +48,8 @@ for debugging).
      k = 2, 4, 5 are given by the first three macros, and for k without
      predetermined weight (in the initialisation of vector weights) the weight
      is decreased from the last set weight by the factor WEIGHT_BASIS_OPEN.
+   - UCP_STRATEGY (default 1): 0 means BFS-processing, 1 means DFS-processing
+     of unit-clauses.
 
   To provide further versioning-information, there are two macros, which are
   only relevant if they are defined:
