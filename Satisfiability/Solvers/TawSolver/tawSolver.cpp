@@ -73,7 +73,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.10.1";
+const std::string version = "1.10.2";
 const std::string date = "14.7.2013";
 
 const std::string program = "tawSolver";
@@ -259,42 +259,97 @@ Count_statistics n_nodes;
 Count_statistics n_units;
 Count_statistics n_backtracks;
 
+#ifndef UCP_STRATEGY
+# define UCP_STRATEGY 1
+#endif
+#if UCP_STRATEGY == 0 // BFS
 class Unit_stack {
   typedef Lit_vec stack_t;
   static stack_t stack;
-  static Lit* next;
+  static Lit* end_;
   static Lit* open_;
   const Lit* const begin_;
 public :
   static void init() {
     stack.resize(n_vars);
     assert(n_vars);
-    next = &stack[0];
+    end_ = &stack[0];
   }
   static void push(const Lit x) {
-    assert(next - &stack[0] < n_vars);
-    *(next++) = x;
+    assert(end_ - &stack[0] < n_vars);
+    *(end_++) = x;
   }
   static Lit pop() {
-    assert(next != &stack[0]);
-    return *(--next);
-  }
-  static Lit pop_open() {
-    assert(open_ != next);
+    assert(open_ != end_);
     return *(open_++);
   }
   static bool contradiction;
-  Unit_stack() : begin_(next) { open_ = next; }
-  explicit operator bool() const { return next != begin_; }
-  bool open() const { return next != open_; }
+  Unit_stack() : begin_(end_) { open_ = end_; }
+  ~Unit_stack() {
+    const auto end = end_;
+    for (auto p = begin_; p != end; ++p) pass[var(*p)] = Lit();
+    end_ = const_cast<Lit*>(begin_);
+  }
+  explicit operator bool() const { return end_ != open_; }
   const Lit* begin() const { return begin_; }
-  const Lit* end() const { return next; }
+  static const Lit* end() { return end_; }
 };
 Unit_stack::stack_t Unit_stack::stack;
-Lit* Unit_stack::next;
+Lit* Unit_stack::end_;
 Lit* Unit_stack::open_;
 bool Unit_stack::contradiction;
 
+#else // DFS
+
+class Unit_stack {
+  typedef Lit_vec stack_t;
+  static stack_t main_stack;
+  static stack_t input_stack;
+  static Lit* begin_input;
+  static Lit* end_input;
+  static Lit* end_main;
+  const Lit* const begin_main;
+  static Lit push_main(const Lit x) {
+    assert(end_main - &main_stack[0] < n_vars);
+    return *(end_main++) = x;
+  }
+  static Lit pop_input() {
+    assert(end_input != begin_input);
+    return *(--end_input);
+  }
+public :
+  static void init() {
+    main_stack.resize(n_vars);
+    input_stack.resize(n_vars);
+    assert(n_vars);
+    end_main = &main_stack[0];
+    begin_input = end_input = &input_stack[0];
+  }
+  static void push(const Lit x) {
+    assert(end_input - begin_input < n_vars);
+    *(end_input++) = x;
+  }
+  static Lit pop() { return push_main(pop_input()); }
+  static bool contradiction;
+  Unit_stack() : begin_main(end_main) { end_input = begin_input; }
+  ~Unit_stack() {
+    const auto mend = end_main;
+    for (auto p = begin_main; p != mend; ++p) pass[var(*p)] = Lit();
+    const auto iend = end_input;
+    for (auto p = begin_input; p != iend; ++p) pass[var(*p)] = Lit();
+    end_main = const_cast<Lit*>(begin_main);
+  }
+  explicit operator bool() const { return end_input != begin_input; }
+  const Lit* begin() const { return begin_main; }
+  static const Lit* end() { return end_main; }
+};
+Unit_stack::stack_t Unit_stack::main_stack;
+Unit_stack::stack_t Unit_stack::input_stack;
+Lit* Unit_stack::begin_input;
+Lit* Unit_stack::end_input;
+Lit* Unit_stack::end_main;
+bool Unit_stack::contradiction;
+#endif
 
 // --- Input and initialisation ---
 
@@ -559,17 +614,15 @@ bool dll(const Lit x) {
   Unit_stack::push(x);
 
   changes.start_new();
-  assign_0(Unit_stack::pop_open());
+  assign_0(Unit_stack::pop());
   while (true) { // unit-clause propagation
     if (Unit_stack::contradiction) {
-      while (unit_stack.open()) pass[var(Unit_stack::pop())] = Lit();
       changes.reactivate_0();
-      while (unit_stack) pass[var(Unit_stack::pop())] = Lit();
       Unit_stack::contradiction = false;
       return false;
     }
-    else if (unit_stack.open()) {
-      assign_0(Unit_stack::pop_open());
+    else if (unit_stack) {
+      assign_0(Unit_stack::pop());
       ++n_units;
     }
     else break;
@@ -577,16 +630,15 @@ bool dll(const Lit x) {
 
   changes.start_new();
   for (const Lit y : unit_stack) assign_1(y);
+  if (not r_clauses) return true;
 
-  {if (not r_clauses) return true;
-   const Lit y = branching_literal();
+  {const Lit y = branching_literal();
    if (dll(y)) return true;
    ++n_backtracks;
    if (dll(-y)) return true;}
 
   r_clauses += changes.reactivate_1();
-  changes.reactivate_0();
-  while (unit_stack) pass[var(Unit_stack::pop())] = Lit();
+  changes.reactivate_0();  
   return false;
 }
 
