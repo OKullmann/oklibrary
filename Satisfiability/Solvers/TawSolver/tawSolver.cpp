@@ -73,8 +73,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.10.0";
-const std::string date = "13.7.2013";
+const std::string version = "1.10.1";
+const std::string date = "14.7.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -181,8 +181,8 @@ public :
   }
   void start_new() { *(next++) = nullptr; }
   void push(const ClauseP C) { *(next++) = C; }
-  size_type reactivate() {
-    while (const ClauseP C = *(--next)) C->increment();
+  void reactivate_0() { while (const ClauseP C = *(--next)) C->increment(); }
+  size_type reactivate_1() {
     size_type count = 0;
     while (const ClauseP C = *(--next)) {
       C->activate();
@@ -264,7 +264,7 @@ class Unit_stack {
   static stack_t stack;
   static Lit* next;
   static Lit* open_;
-  const Lit* const begin;
+  const Lit* const begin_;
 public :
   static void init() {
     stack.resize(n_vars);
@@ -284,9 +284,11 @@ public :
     return *(open_++);
   }
   static bool contradiction;
-  Unit_stack() : begin(next) { open_ = next; }
-  explicit operator bool() const { return next != begin; }
+  Unit_stack() : begin_(next) { open_ = next; }
+  explicit operator bool() const { return next != begin_; }
   bool open() const { return next != open_; }
+  const Lit* begin() const { return begin_; }
+  const Lit* end() const { return next; }
 };
 Unit_stack::stack_t Unit_stack::stack;
 Lit* Unit_stack::next;
@@ -462,7 +464,7 @@ void read_formula(const std::string& filename) {
   initialise_weights();
   try {
     all_lit_occurrences.resize(n_lit_occurrences);
-    changes.init(n_lit_occurrences);
+    changes.init(n_lit_occurrences + 2 * n_vars);
   }
   catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error for ClauseP-vector of size " <<
@@ -474,39 +476,25 @@ void read_formula(const std::string& filename) {
 
 // --- SAT solving ---
 
-inline void assign(const Lit x) {
-/* set x to true, enter found unit-literals onto the global stack, and create
-   change information */
+inline void assign_0(const Lit x) {
   assert(x);
   const Var v = var(x);
   assert(v <= n_vars);
   assert(not(pass[v] == -x));
   pass[v] = x;
-  const Polarity p = sign(x);
-  const auto Occ = lits[v];
-
-  changes.start_new();
-  for (auto C : Occ[p]) {
-    if (not *C) continue;
-    C->deactivate();
-    assert(r_clauses >= 1);
-    --r_clauses;
-    changes.push(C);
-  }
-  changes.start_new();
-  for (auto C : Occ[-p]) {
+  for (auto C : lits[v][-sign(x)]) {
     if (not *C) continue;
     changes.push(C);
     C->decrement();
     if (C->length() == 1) {
-      for (const Lit x : *C) {
-        Lit& val = pass[var(x)];
+      for (const Lit y : *C) {
+        Lit& val = pass[var(y)];
         if (not val) {
-          Unit_stack::push(x);
-          val = x;
+          Unit_stack::push(y);
+          val = y;
           goto occ_loop;
         }
-        else if (val == x) goto occ_loop;
+        else if (val == y) goto occ_loop;
       }
       Unit_stack::contradiction = true;
       goto end;
@@ -514,11 +502,18 @@ inline void assign(const Lit x) {
   occ_loop:;}
   end:;
 }
-
-inline void unassign(const Lit x) {
+inline void assign_1(const Lit x) {
   assert(x);
-  pass[var(x)] = Lit();
-  r_clauses += changes.reactivate();
+  const Var v = var(x);
+  assert(v <= n_vars);
+  assert(pass[v] == x);
+  for (auto C : lits[v][sign(x)]) {
+    if (not *C) continue;
+    C->deactivate();
+    assert(r_clauses >= 1);
+    --r_clauses;
+    changes.push(C);
+  }
 }
 
 inline Lit branching_literal() {
@@ -562,26 +557,36 @@ bool dll(const Lit x) {
   ++n_nodes;
   const Unit_stack unit_stack;
   Unit_stack::push(x);
-  assign(Unit_stack::pop_open());
+
+  changes.start_new();
+  assign_0(Unit_stack::pop_open());
   while (true) { // unit-clause propagation
     if (Unit_stack::contradiction) {
       while (unit_stack.open()) pass[var(Unit_stack::pop())] = Lit();
-      while (unit_stack) unassign(Unit_stack::pop());
+      changes.reactivate_0();
+      while (unit_stack) pass[var(Unit_stack::pop())] = Lit();
       Unit_stack::contradiction = false;
       return false;
     }
     else if (unit_stack.open()) {
-      assign(Unit_stack::pop_open());
+      assign_0(Unit_stack::pop_open());
       ++n_units;
     }
     else break;
   }
-  if (not r_clauses) return true;
-  const Lit y = branching_literal();
-  if (dll(y)) return true;
-  ++n_backtracks;
-  if (dll(-y)) return true;
-  while (unit_stack) unassign(Unit_stack::pop());
+
+  changes.start_new();
+  for (const Lit y : unit_stack) assign_1(y);
+
+  {if (not r_clauses) return true;
+   const Lit y = branching_literal();
+   if (dll(y)) return true;
+   ++n_backtracks;
+   if (dll(-y)) return true;}
+
+  r_clauses += changes.reactivate_1();
+  changes.reactivate_0();
+  while (unit_stack) pass[var(Unit_stack::pop())] = Lit();
   return false;
 }
 
