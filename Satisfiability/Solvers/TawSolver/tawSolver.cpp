@@ -284,10 +284,13 @@ public :
     return *(open_++);
   }
   static bool contradiction;
+  static bool delete_assignments;
   Unit_stack() : begin_(end_) { open_ = end_; }
   ~Unit_stack() {
-    const auto end = end_;
-    for (auto p = begin_; p != end; ++p) pass[var(*p)] = Lit();
+    if (delete_assignments) {
+      const auto end = end_;
+      for (auto p = begin_; p != end; ++p) pass[var(*p)] = Lit();
+    }
     end_ = const_cast<Lit*>(begin_);
   }
   explicit operator bool() const { return end_ != open_; }
@@ -298,6 +301,7 @@ Unit_stack::stack_t Unit_stack::stack;
 Lit* Unit_stack::end_;
 Lit* Unit_stack::open_;
 bool Unit_stack::contradiction;
+bool Unit_stack::delete_assignments = true;
 
 #else // DFS
 
@@ -331,12 +335,15 @@ public :
   }
   static Lit pop() { return push_main(pop_input()); }
   static bool contradiction;
+  static bool delete_assignments;
   Unit_stack() : begin_main(end_main) { end_input = begin_input; }
   ~Unit_stack() {
-    const auto mend = end_main;
-    for (auto p = begin_main; p != mend; ++p) pass[var(*p)] = Lit();
-    const auto iend = end_input;
-    for (auto p = begin_input; p != iend; ++p) pass[var(*p)] = Lit();
+    if (delete_assignments) {
+      const auto mend = end_main;
+      for (auto p = begin_main; p != mend; ++p) pass[var(*p)] = Lit();
+      const auto iend = end_input;
+      for (auto p = begin_input; p != iend; ++p) pass[var(*p)] = Lit();
+    }
     end_main = const_cast<Lit*>(begin_main);
   }
   explicit operator bool() const { return end_input != begin_input; }
@@ -349,6 +356,7 @@ Lit* Unit_stack::begin_input;
 Lit* Unit_stack::end_input;
 Lit* Unit_stack::end_main;
 bool Unit_stack::contradiction;
+bool Unit_stack::delete_assignments = true;
 #endif
 
 // --- Input and initialisation ---
@@ -630,12 +638,13 @@ bool dll(const Lit x) {
 
   changes.start_new();
   for (const Lit y : unit_stack) assign_1(y);
-  if (not r_clauses) return true;
+  if (not r_clauses) {Unit_stack::delete_assignments = false; return true;}
 
   {const Lit y = branching_literal();
    if (dll(y)) return true;
    ++n_backtracks;
-   if (dll(-y)) return true;}
+   if (dll(-y)) return true;
+  }
 
   r_clauses += changes.reactivate_1();
   changes.reactivate_0();  
