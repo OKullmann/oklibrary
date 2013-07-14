@@ -517,7 +517,7 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
 # A tiny improvement.
 
 # ID d8cab850756bfc0d1a8e7c1d61012630aa79f3d3
-# Version 1.10.0; improved unit-clause propagation
+# Version 1.10.0; changed unit-clause propagation (now BFS instead of DFS)
 
 s SATISFIABLE
 c number_of_variables                   134
@@ -564,6 +564,43 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
 11.12 11.10 11.12 11.12 11.13
 
 # 15% faster.
+
+# ID 6d82c68830eccc0a5f3490bfddbdc24ea5fa8ce7
+# Version 1.10.2
+# Now back to dfs as default for ucp.
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     9.52
+c number_of_nodes                       864314
+c number_of_binary_nodes                432150
+c number_of_1-reductions                10105278
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     10.98
+c number_of_nodes                       977415
+c number_of_binary_nodes                488707
+c number_of_1-reductions                11522820
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+9.52 9.53 9.53 9.49 9.58
+tawSolver VanDerWaerden_2-3-12_135.cnf
+10.98 10.95 10.93 11.08 10.94
+
+# Back to the slightly increased 1-reductions-count, but the improved
+# implementation compensates for this.
    \endverbatim
    </li>
   </ul>
