@@ -73,7 +73,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.10.2";
+const std::string version = "1.10.3";
 const std::string date = "14.7.2013";
 
 const std::string program = "tawSolver";
@@ -90,6 +90,9 @@ enum Error_codes {
   empty_clause_error=8,
   unit_clause_error=9
 };
+
+
+// --- Data structures for literals and clauses ---
 
 enum Result_value { unsat=20, sat=10, unknown=0 };
 Result_value interprete_run(const bool result) { return result ? sat : unsat; }
@@ -168,196 +171,17 @@ public :
 std::vector<std::array<Literal_occurrences,2>> lits;
 // lits[v][pos/neg] for a variable v represents the list of occurrences.
 
-class ChangeManagement {
-  ClauseP_vec changes;
-  const ClauseP* begin;
-  ClauseP* next;
-public :
-  typedef ClauseP_vec::size_type size_type;
-  void init(const size_type s) {
-    assert(s >= 1);
-    changes.resize(s);
-    begin = next = &*changes.begin();
-  }
-  void start_new() { *(next++) = nullptr; }
-  void push(const ClauseP C) { *(next++) = C; }
-  void reactivate_0() { while (const ClauseP C = *(--next)) C->increment(); }
-  size_type reactivate_1() {
-    size_type count = 0;
-    while (const ClauseP C = *(--next)) {
-      C->activate();
-      ++count;
-    }
-    return count;
-  }
-};
-ChangeManagement changes;
-
-Lit_vec pass; /* the current assignment: pass[v] is 0 iff variable
- v is unassigned, otherwise it is v in case v->true and else -v. */
-
 Count_clauses n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
 Count_clauses n_lit_occurrences;
 Var n_vars;
 
 Clause_index max_clause_length;
 
-// The clause-weights:
-#ifdef WEIGHT_2_CLAUSES
-  constexpr Weight_t weight_2 = WEIGHT_2_CLAUSES;
-#else
-  constexpr Weight_t weight_2 = 7.0;
-#endif
-#ifdef WEIGHT_4_CLAUSES
-  constexpr Weight_t weight_4 = WEIGHT_4_CLAUSES;
-#else
-  constexpr Weight_t weight_4 = 0.31;
-#endif
-#ifdef WEIGHT_5_CLAUSES
-  constexpr Weight_t weight_5 = WEIGHT_5_CLAUSES;
-#else
-  constexpr Weight_t weight_5 = 0.19;
-#endif
-#ifdef WEIGHT_BASIS_OPEN
-  constexpr Weight_t basis_open = WEIGHT_BASIS_OPEN;
-#else
-  constexpr Weight_t basis_open = 1.70;
-#endif
-// weights[k] is the weight for clause-length k >= 2:
-Weight_vector weights {0,0, weight_2, 1, weight_4, weight_5};
-// Remark: weights[1] is arbitrary (since not used).
-constexpr Clause_index first_open_weight = 6;
-/* If special weights for clause-lengths k = 4,5,... are to be used, then
-   these weights are written into the initialisation of weights, and
-   first_open_weight is to be adapted accordingly.
-
-   The current parameter values
-     weight_2=7.0, weight_4=0.31, weight_5=0.19, basis_open = 1.70
-   have been obtained via optimisation on VanDerWaerden_2-3-12_135.cnf,
-   yielding a local minimum for the node-count w.r.t. the indicated
-   precision (e.g., for weight_4 the values 0.32, 0.30 yield worse node count).
-*/
-// the weights for clause of length >= first_open_weight:
-Weight_t wopen(const Clause_index clause_length) {
-  return weights[first_open_weight-1] *
-    std::pow(basis_open,-double(clause_length)+first_open_weight-1);
-}
-void initialise_weights() {
-  assert(weights.size() == first_open_weight);
-  try { weights.resize(max_clause_length+1); }
-  catch (const std::bad_alloc&) {
-    std::cerr << err << "Allocation error for double-vector of size " <<
-       max_clause_length << "+1 (the maximal clause-length).\n";
-    std::exit(allocation_error);
-  }
-  for (Clause_index i = first_open_weight; i <= max_clause_length; ++i)
-    weights[i] = wopen(i);
-}
-
 typedef std::uint_fast64_t Count_statistics;
 Count_statistics n_nodes;
 Count_statistics n_units;
 Count_statistics n_backtracks;
 
-#ifndef UCP_STRATEGY
-# define UCP_STRATEGY 1
-#endif
-#if UCP_STRATEGY == 0 // BFS
-class Unit_stack {
-  typedef Lit_vec stack_t;
-  static stack_t stack;
-  static Lit* end_;
-  static Lit* open_;
-  const Lit* const begin_;
-public :
-  static void init() {
-    stack.resize(n_vars);
-    assert(n_vars);
-    end_ = &stack[0];
-  }
-  static void push(const Lit x) {
-    assert(end_ - &stack[0] < n_vars);
-    *(end_++) = x;
-  }
-  static Lit pop() {
-    assert(open_ != end_);
-    return *(open_++);
-  }
-  static bool contradiction;
-  static bool delete_assignments;
-  Unit_stack() : begin_(end_) { open_ = end_; }
-  ~Unit_stack() {
-    if (delete_assignments) {
-      const auto end = end_;
-      for (auto p = begin_; p != end; ++p) pass[var(*p)] = Lit();
-    }
-    end_ = const_cast<Lit*>(begin_);
-  }
-  explicit operator bool() const { return end_ != open_; }
-  const Lit* begin() const { return begin_; }
-  static const Lit* end() { return end_; }
-};
-Unit_stack::stack_t Unit_stack::stack;
-Lit* Unit_stack::end_;
-Lit* Unit_stack::open_;
-bool Unit_stack::contradiction;
-bool Unit_stack::delete_assignments = true;
-
-#else // DFS
-
-class Unit_stack {
-  typedef Lit_vec stack_t;
-  static stack_t main_stack;
-  static stack_t input_stack;
-  static Lit* begin_input;
-  static Lit* end_input;
-  static Lit* end_main;
-  const Lit* const begin_main;
-  static Lit push_main(const Lit x) {
-    assert(end_main - &main_stack[0] < n_vars);
-    return *(end_main++) = x;
-  }
-  static Lit pop_input() {
-    assert(end_input != begin_input);
-    return *(--end_input);
-  }
-public :
-  static void init() {
-    main_stack.resize(n_vars);
-    input_stack.resize(n_vars);
-    assert(n_vars);
-    end_main = &main_stack[0];
-    begin_input = end_input = &input_stack[0];
-  }
-  static void push(const Lit x) {
-    assert(end_input - begin_input < n_vars);
-    *(end_input++) = x;
-  }
-  static Lit pop() { return push_main(pop_input()); }
-  static bool contradiction;
-  static bool delete_assignments;
-  Unit_stack() : begin_main(end_main) { end_input = begin_input; }
-  ~Unit_stack() {
-    if (delete_assignments) {
-      const auto mend = end_main;
-      for (auto p = begin_main; p != mend; ++p) pass[var(*p)] = Lit();
-      const auto iend = end_input;
-      for (auto p = begin_input; p != iend; ++p) pass[var(*p)] = Lit();
-    }
-    end_main = const_cast<Lit*>(begin_main);
-  }
-  explicit operator bool() const { return end_input != begin_input; }
-  const Lit* begin() const { return begin_main; }
-  static const Lit* end() { return end_main; }
-};
-Unit_stack::stack_t Unit_stack::main_stack;
-Unit_stack::stack_t Unit_stack::input_stack;
-Lit* Unit_stack::begin_input;
-Lit* Unit_stack::end_input;
-Lit* Unit_stack::end_main;
-bool Unit_stack::contradiction;
-bool Unit_stack::delete_assignments = true;
-#endif
 
 // --- Input and initialisation ---
 
@@ -401,13 +225,9 @@ void read_formula_header(std::ifstream& f) {
       "(too big or not-a-number).\n";
     std::exit(file_pline_error);
   }
-  try {
-    lits.resize(n_vars+1);
-    pass.resize(n_vars+1);
-    Unit_stack::init();
-  }
+  try { lits.resize(n_vars+1); }
   catch (const std::bad_alloc&) {
-    std::cerr << err << "Allocation error for vectors of size " << n_vars <<
+    std::cerr << err << "Allocation error for vector of size " << n_vars <<
       " (the maximal-variable-index).\n";
     std::exit(allocation_error);
   }
@@ -524,11 +344,7 @@ void read_formula(const std::string& filename) {
    while (read_a_clause_from_file(f,C)) add_a_clause_to_formula(C,count);
   }
   if (not (r_clauses = n_clauses)) return;
-  initialise_weights();
-  try {
-    all_lit_occurrences.resize(n_lit_occurrences);
-    changes.init(n_lit_occurrences + 2 * n_vars);
-  }
+  try { all_lit_occurrences.resize(n_lit_occurrences); }
   catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error for ClauseP-vector of size " <<
        n_lit_occurrences << " (the number of literal occurrences).\n";
@@ -537,7 +353,186 @@ void read_formula(const std::string& filename) {
   set_literal_occurrences(count);
 }
 
-// --- SAT solving ---
+
+// --- SAT solving data structures ---
+
+Lit_vec pass; /* the current assignment: pass[v] is 0 iff variable
+ v is unassigned, otherwise it is v in case v->true and else -v. */
+
+class ChangeManagement {
+  ClauseP_vec changes;
+  const ClauseP* begin;
+  ClauseP* next;
+public :
+  typedef ClauseP_vec::size_type size_type;
+  void init(const size_type s) {
+    assert(s >= 1);
+    changes.resize(s);
+    begin = next = &*changes.begin();
+  }
+  void start_new() { *(next++) = nullptr; }
+  void push(const ClauseP C) { *(next++) = C; }
+  void reactivate_0() { while (const ClauseP C = *(--next)) C->increment(); }
+  size_type reactivate_1() {
+    size_type count = 0;
+    while (const ClauseP C = *(--next)) {
+      C->activate();
+      ++count;
+    }
+    return count;
+  }
+};
+ChangeManagement changes;
+
+bool delete_assignments = true;
+
+#ifndef UCP_STRATEGY
+# define UCP_STRATEGY 1
+#endif
+#if UCP_STRATEGY == 0 // BFS
+class Unit_stack {
+  typedef Lit_vec stack_t;
+  static stack_t stack;
+  static Lit* end_;
+  static Lit* open_;
+  const Lit* const begin_;
+public :
+  static void init() {
+    stack.resize(n_vars);
+    assert(n_vars);
+    end_ = &stack[0];
+  }
+  static void push(const Lit x) {
+    assert(end_ - &stack[0] < n_vars);
+    *(end_++) = x;
+  }
+  static Lit pop() {
+    assert(open_ != end_);
+    return *(open_++);
+  }
+  Unit_stack() : begin_(end_) { open_ = end_; }
+  ~Unit_stack() {
+    if (delete_assignments) {
+      const auto end = end_;
+      for (auto p = begin_; p != end; ++p) pass[var(*p)] = Lit();
+    }
+    end_ = const_cast<Lit*>(begin_);
+  }
+  explicit operator bool() const { return end_ != open_; }
+  const Lit* begin() const { return begin_; }
+  static const Lit* end() { return end_; }
+};
+Unit_stack::stack_t Unit_stack::stack;
+Lit* Unit_stack::end_;
+Lit* Unit_stack::open_;
+
+#else // DFS
+
+class Unit_stack {
+  typedef Lit_vec stack_t;
+  static stack_t main_stack;
+  static stack_t input_stack;
+  static Lit* begin_input;
+  static Lit* end_input;
+  static Lit* end_main;
+  const Lit* const begin_main;
+  static Lit push_main(const Lit x) {
+    assert(end_main - &main_stack[0] < n_vars);
+    return *(end_main++) = x;
+  }
+  static Lit pop_input() {
+    assert(end_input != begin_input);
+    return *(--end_input);
+  }
+public :
+  static void init() {
+    main_stack.resize(n_vars);
+    input_stack.resize(n_vars);
+    assert(n_vars);
+    end_main = &main_stack[0];
+    begin_input = end_input = &input_stack[0];
+  }
+  static void push(const Lit x) {
+    assert(end_input - begin_input < n_vars);
+    *(end_input++) = x;
+  }
+  static Lit pop() { return push_main(pop_input()); }
+  Unit_stack() : begin_main(end_main) { end_input = begin_input; }
+  ~Unit_stack() {
+    if (delete_assignments) {
+      const auto mend = end_main;
+      for (auto p = begin_main; p != mend; ++p) pass[var(*p)] = Lit();
+      const auto iend = end_input;
+      for (auto p = begin_input; p != iend; ++p) pass[var(*p)] = Lit();
+    }
+    end_main = const_cast<Lit*>(begin_main);
+  }
+  explicit operator bool() const { return end_input != begin_input; }
+  const Lit* begin() const { return begin_main; }
+  static const Lit* end() { return end_main; }
+};
+Unit_stack::stack_t Unit_stack::main_stack;
+Unit_stack::stack_t Unit_stack::input_stack;
+Lit* Unit_stack::begin_input;
+Lit* Unit_stack::end_input;
+Lit* Unit_stack::end_main;
+#endif
+
+bool contradiction;
+
+#ifdef WEIGHT_2_CLAUSES
+  constexpr Weight_t weight_2 = WEIGHT_2_CLAUSES;
+#else
+  constexpr Weight_t weight_2 = 7.0;
+#endif
+#ifdef WEIGHT_4_CLAUSES
+  constexpr Weight_t weight_4 = WEIGHT_4_CLAUSES;
+#else
+  constexpr Weight_t weight_4 = 0.31;
+#endif
+#ifdef WEIGHT_5_CLAUSES
+  constexpr Weight_t weight_5 = WEIGHT_5_CLAUSES;
+#else
+  constexpr Weight_t weight_5 = 0.19;
+#endif
+#ifdef WEIGHT_BASIS_OPEN
+  constexpr Weight_t basis_open = WEIGHT_BASIS_OPEN;
+#else
+  constexpr Weight_t basis_open = 1.70;
+#endif
+// weights[k] is the weight for clause-length k >= 2:
+Weight_vector weights {0,0, weight_2, 1, weight_4, weight_5};
+// Remark: weights[1] is arbitrary (since not used).
+constexpr Clause_index first_open_weight = 6;
+/* If special weights for clause-lengths k = 4,5,... are to be used, then
+   these weights are written into the initialisation of weights, and
+   first_open_weight is to be adapted accordingly.
+
+   The current parameter values
+     weight_2=7.0, weight_4=0.31, weight_5=0.19, basis_open = 1.70
+   have been obtained via optimisation on VanDerWaerden_2-3-12_135.cnf,
+   yielding a local minimum for the node-count w.r.t. the indicated
+   precision (e.g., for weight_4 the values 0.32, 0.30 yield worse node count).
+*/
+// the weights for clause of length >= first_open_weight:
+Weight_t wopen(const Clause_index clause_length) {
+  return weights[first_open_weight-1] *
+    std::pow(basis_open,-double(clause_length)+first_open_weight-1);
+}
+void initialise_weights() {
+  assert(weights.size() == first_open_weight);
+  try { weights.resize(max_clause_length+1); }
+  catch (const std::bad_alloc&) {
+    std::cerr << err << "Allocation error for double-vector of size " <<
+       max_clause_length << "+1 (the maximal clause-length).\n";
+    std::exit(allocation_error);
+  }
+  for (Clause_index i = first_open_weight; i <= max_clause_length; ++i)
+    weights[i] = wopen(i);
+}
+
+
+// --- SAT solving algorithms ---
 
 inline void assign_0(const Lit x) {
   assert(x);
@@ -559,7 +554,7 @@ inline void assign_0(const Lit x) {
         }
         else if (val == y) goto occ_loop;
       }
-      Unit_stack::contradiction = true;
+      contradiction = true;
       goto end;
     }
   occ_loop:;}
@@ -624,9 +619,9 @@ bool dll(const Lit x) {
   changes.start_new();
   assign_0(Unit_stack::pop());
   while (true) { // unit-clause propagation
-    if (Unit_stack::contradiction) {
+    if (contradiction) {
       changes.reactivate_0();
-      Unit_stack::contradiction = false;
+      contradiction = false;
       return false;
     }
     else if (unit_stack) {
@@ -638,7 +633,7 @@ bool dll(const Lit x) {
 
   changes.start_new();
   for (const Lit y : unit_stack) assign_1(y);
-  if (not r_clauses) {Unit_stack::delete_assignments = false; return true;}
+  if (not r_clauses) {delete_assignments = false; return true;}
 
   {const Lit y = branching_literal();
    if (dll(y)) return true;
@@ -760,8 +755,19 @@ int main(const int argc, const char* const argv[]) {
     return 0;
   }
   read_formula(filename);
-  std::signal(SIGINT, abortion);
-  std::signal(SIGUSR1, show_statistics);
+  if (n_clauses) try {
+    pass.resize(n_vars+1);
+    changes.init(n_lit_occurrences + 2 * n_vars);
+    Unit_stack::init();
+    initialise_weights();
+    std::signal(SIGINT, abortion);
+    std::signal(SIGUSR1, show_statistics);
+  }
+  catch (const std::bad_alloc&) {
+    std::cerr << err << "Allocation error with initialisation of algorithmic"
+     " data structures.\n";
+    std::exit(allocation_error);
+  }
   t1 = current_time();
   const auto result = dll0();
   const auto t2 = current_time();
