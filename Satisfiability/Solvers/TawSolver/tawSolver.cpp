@@ -116,7 +116,7 @@ public :
   constexpr Lit() : x(0) {}
   constexpr explicit Lit(const Lit_int x) : x(x) {}
   constexpr explicit operator bool() const { return x; }
-  constexpr Lit operator -() const { return Lit{-x}; }
+  constexpr Lit operator -() const { return Lit(-x); }
   constexpr bool operator ==(const Lit y) const { return x == y.x; }
   friend constexpr Var var(const Lit x) { return (x.x >= 0) ? x.x : -x.x; }
   friend constexpr Polarity sign(const Lit x) {return (x.x >= 0) ? pos : neg;}
