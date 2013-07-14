@@ -75,7 +75,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "1.10.3";
+const std::string version = "2.0.0";
 const std::string date = "14.7.2013";
 
 const std::string program = "tawSolver";
@@ -133,7 +133,7 @@ typedef std::vector<Lit> Lit_vec;
 typedef double Weight_t; // weights and their sums
 typedef std::vector<Weight_t> Weight_vector;
 typedef Var Clause_index;
-static_assert(std::numeric_limits<Clause_index>::max() <= std::numeric_limits<Weight_vector::size_type>::max(), "Type Clause_index too large for weight vector.");
+static_assert(std::numeric_limits<Clause_index>::max() <= std::numeric_limits<Weight_vector::size_type>::max(), "Type Clause_index too large for weight vector (conversions cost too much time here).");
 
 typedef std::uint_fast64_t Count_clauses;
 typedef std::vector<std::array<Count_clauses,2>> Count_vec;
@@ -229,13 +229,13 @@ void read_formula_header(std::ifstream& f) {
   }
   try { lits.resize(n_vars+1); }
   catch (const std::bad_alloc&) {
-    std::cerr << err << "Allocation error for vector of size " << n_vars <<
-      " (the maximal-variable-index).\n";
+    std::cerr << err << "Allocation error for lits-vector of size " <<
+      n_vars << " (the maximal-variable-index).\n";
     std::exit(allocation_error);
   }
   try { clauses.resize(n_header_clauses); }
   catch (const std::bad_alloc&) {
-    std::cerr << err << "Allocation error for vector of size " <<
+    std::cerr << err << "Allocation error for clauses-vector of size " <<
       n_header_clauses << " (the number-of-clauses).\n";
     std::exit(allocation_error);
   }
@@ -293,7 +293,7 @@ void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
   C.length_ = n;
   C.b = new Lit[n];
   C.e = C.b + n;
-  if (n>max_clause_length) max_clause_length = n;
+  if (n > max_clause_length) max_clause_length = n;
   for (Clause_index i = 0; i < n; ++i) {
     const Lit x = D[i];
     const_cast<Lit*>(C.b)[i] = x;
@@ -617,20 +617,17 @@ bool dll(const Lit x) {
   ++n_nodes;
   const Unit_stack unit_stack;
   Unit_stack::push(x);
-
   changes.start_new();
   assign_0(Unit_stack::pop());
-  while (true) { // unit-clause propagation
+
+  while (unit_stack) { // unit-clause propagation
+    assign_0(Unit_stack::pop());
+    ++n_units;
     if (contradiction) {
       changes.reactivate_0();
       contradiction = false;
       return false;
     }
-    else if (unit_stack) {
-      assign_0(Unit_stack::pop());
-      ++n_units;
-    }
-    else break;
   }
 
   changes.start_new();
@@ -644,7 +641,7 @@ bool dll(const Lit x) {
   }
 
   r_clauses += changes.reactivate_1();
-  changes.reactivate_0();  
+  changes.reactivate_0();
   return false;
 }
 
@@ -686,9 +683,10 @@ void output(const std::string& file, const Result_value result, const Weight_t e
 #define STR(x) S(x)
 void version_information() {
   std::cout << program << ":\n"
-   " author: Tanbir Ahmed\n"
-   " url: http://sourceforge.net/projects/tawsolver/\n"
-   " Changes by Oliver Kullmann\n"
+   " author: Tanbir Ahmed and Oliver Kullmann\n"
+   " url's:\n"
+   "  http://sourceforge.net/projects/tawsolver/\n"
+   "  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp\n"
    " Version: " << version << "\n"
    " Last change date: " << date << "\n"
    " Clause-weight parameters: " << weight_2 << ", " << basis_open << "\n"
@@ -698,6 +696,7 @@ void version_information() {
    std::cout << "\n"
    " Macro settings:\n"
    "  LIT_TYPE = " STR(LIT_TYPE) " (with " << std::numeric_limits<Lit_int>::digits << " binary digits)\n"
+   "  UCP_STRATEGY = " << UCP_STRATEGY << "\n"
 #ifdef NDEBUG
    " Compiled with NDEBUG\n"
 #else
