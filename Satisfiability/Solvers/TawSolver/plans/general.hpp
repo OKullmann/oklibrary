@@ -541,7 +541,6 @@ c number_of_binary_nodes                488707
 c number_of_1-reductions                11324097
 c file_name                             VanDerWaerden_2-3-12_135.cnf
 
-
 > oklib timing
 # cswsok (no other process running)
 
@@ -551,6 +550,20 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
 13.18 13.16 13.18 13.21 13.27
 
 # A tiny improvement.
+
+# ID ce0dd7e1da0f70bfe0c8b560a74e0110a01e2099
+# Version 1.10.1
+# Processing first 0-assignments.
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+9.73 9.51 9.57 9.53 9.54
+tawSolver VanDerWaerden_2-3-12_135.cnf
+11.12 11.10 11.12 11.12 11.13
+
+# 15% faster.
    \endverbatim
    </li>
   </ul>
