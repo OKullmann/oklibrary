@@ -1479,6 +1479,20 @@ R-squared: 0.9965
   2839:59
    \endverbatim
    </li>
+   <li> Using tawSolver (cswsok, 3 GHz):
+   \verbatim
+> solver="tawSolver" ProcessSplitViaOKsolver SplitViaOKsolver_D20VanDerWaerden_pd_2323_507cnf_2013-06-22-205931
+> cat Process_SplitViaOKsolver_D20VanDerWaerden_pd_2323_507cnf_2013-06-22-205931_2013-07-15-075304/Result
+  40:09
+
+> solver="tawSolver" ProcessSplitViaOKsolver SplitViaOKsolver_D30VanDerWaerden_pd_2324_593cnf_2013-06-22-232152
+
+> solver="tawSolver" ProcessSplitViaOKsolver SplitViaOKsolver_D45VanDerWaerden_pd_2325_607cnf_2013-06-23-132529
+
+> solver="tawSolver" ProcessSplitViaOKsolver SplitViaOKsolver_D55VanDerWaerden_pd_2326_643cnf_2013-06-23-212929
+
+   \endverbatim
+   </li>
   </ul>
 
 */
