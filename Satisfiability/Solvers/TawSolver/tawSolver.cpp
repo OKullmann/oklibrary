@@ -75,8 +75,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.0.0";
-const std::string date = "14.7.2013";
+const std::string version = "2.0.1";
+const std::string date = "17.7.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -506,6 +506,7 @@ bool contradiction;
 Weight_vector weights {0,0, weight_2, 1, weight_4, weight_5};
 // Remark: weights[1] is arbitrary (since not used).
 constexpr Clause_index first_open_weight = 6;
+static_assert(first_open_weight >= 4, "Wrong value of first_open_weight.");
 /* If special weights for clause-lengths k = 4,5,... are to be used, then
    these weights are written into the initialisation of weights, and
    first_open_weight is to be adapted accordingly.
@@ -516,10 +517,13 @@ constexpr Clause_index first_open_weight = 6;
    yielding a local minimum for the node-count w.r.t. the indicated
    precision (e.g., for weight_4 the values 0.32, 0.30 yield worse node count).
 */
+constexpr double min_weight = std::numeric_limits<Weight_t>::min();
+static_assert(min_weight != 0, "Error with min_weight.");
 // the weights for clause of length >= first_open_weight:
 Weight_t wopen(const Clause_index clause_length) {
-  return weights[first_open_weight-1] *
+  const Weight_t res = weights[first_open_weight-1] *
     std::pow(basis_open,-double(clause_length)+first_open_weight-1);
+  return (res == 0) ? min_weight : res;
 }
 void initialise_weights() {
   assert(weights.size() == first_open_weight);
@@ -592,22 +596,6 @@ inline Lit branching_literal() {
       // handles also the case that only pure literals are left:
       else if (prod==max and sum>max2) {max2 = sum; x=(ps>=ns)?Lit(v):-Lit(v);}
     }
-  }
-  if (not x) {
-    /* All remaining clauses have length at least 1000 (the first k with
-    wopen(k) == 0), and thus the instance is satisfiable (since we can't have
-    2^1000 clauses). Now just choosing a literal occurring most often. */
-    Count_clauses max = 0;
-    for (Var v = 1; v <= nvar; ++v)
-      if (not pass[v]) {
-        const auto Occ = lits[v];
-        Count_clauses count = 0;
-        for (const auto C : Occ[pos]) count += bool(*C);
-        if (count > max) {max = count; x = Lit(v);}
-        count = 0;
-        for (const auto C : Occ[neg]) count += bool(*C);
-        if (count > max) {max = count; x = -Lit(v);}
-      }
   }
   assert(x);
   return x;
