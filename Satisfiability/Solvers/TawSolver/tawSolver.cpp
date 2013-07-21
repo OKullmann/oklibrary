@@ -75,7 +75,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.0.2";
+const std::string version = "2.0.3";
 const std::string date = "21.7.2013";
 
 const std::string program = "tawSolver";
@@ -548,6 +548,8 @@ class Pure_stack {
   static const Lit* new_begin;
   static Lit* end_;
   const Lit* const begin_;
+  const Lit* begin() const { return begin_; }
+  static const Lit* end() { return end_; }
 public :
   static void init() {
     stack.resize(n_vars);
@@ -564,9 +566,6 @@ public :
     if (delete_assignments) for (const Lit x : *this) pass[var(x)] = Lit();
     end_ = const_cast<Lit*>(begin_);
   }
-  explicit operator bool() const { return begin_ != end_; }
-  const Lit* begin() const { return begin_; }
-  static const Lit* end() { return end_; }
 };
 Pure_stack::stack_t Pure_stack::stack;
 const Lit* Pure_stack::new_begin;
@@ -617,7 +616,7 @@ inline void assign_1(const Lit x) {
 
 inline Lit branching_literal() {
   Lit x;
-  Pure_stack::clear();
+  Pure_stack::clear(); changes.start_new();
   Weight_t max = 0, max2 = 0;
   const auto nvar = n_vars;
   for (Var v = 1; v <= nvar; ++v) {
@@ -629,6 +628,7 @@ inline Lit branching_literal() {
         const Lit pl = -Lit(v);
         pass[v] = pl;
         Pure_stack::push(pl);
+        assign_1(pl);
         ++n_pure_literals;
         continue;
       }
@@ -638,6 +638,7 @@ inline Lit branching_literal() {
         const Lit pl = Lit(v);
         pass[v] = pl;
         Pure_stack::push(pl);
+        assign_1(pl);
         ++n_pure_literals;
         continue;
       }
@@ -672,15 +673,11 @@ bool dll(const Lit x) {
 
   {const Lit y = branching_literal();
    const Pure_stack pure_stack;
-   if (pure_stack) {
-     changes.start_new();
-     for (const Lit z : pure_stack) assign_1(z);
-     if (not r_clauses) {delete_assignments = false; return true;}
-   }
+   if (not r_clauses) {delete_assignments = false; return true;}
    if (dll(y)) return true;
    ++n_backtracks;
    if (dll(-y)) return true;
-   if (pure_stack) r_clauses += changes.reactivate_1();
+   r_clauses += changes.reactivate_1();
   }
 
   r_clauses += changes.reactivate_1();
@@ -693,15 +690,11 @@ bool dll0() { // without unit-clauses
   if (not n_clauses) return true;
   const Lit x = branching_literal();
   const Pure_stack pure_stack;
-  if (pure_stack) {
-    changes.start_new();
-    for (const Lit y : pure_stack) assign_1(y);
-    if (not r_clauses) {delete_assignments = false; return true;}
-  }
+  if (not r_clauses) {delete_assignments = false; return true;}
   if (dll(x)) return true;
   ++n_backtracks;
   if (dll(-x)) return true;
-  if (pure_stack) r_clauses += changes.reactivate_1();
+  r_clauses += changes.reactivate_1();
   return false;
 }
 
