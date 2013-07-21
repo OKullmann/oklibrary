@@ -75,8 +75,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.0.1";
-const std::string date = "17.7.2013";
+const std::string version = "2.0.2";
+const std::string date = "21.7.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -143,16 +143,19 @@ class Clause {
   const Lit* e; // one past-the-end
   Clause_index length_; // the current length, or 0 iff clause is satisfied
   Clause_index old_length;
+  void increment() { assert(length_ >= 1); ++length_; }
+  void decrement() { assert(length_ >= 2); --length_; }
+  void deactivate() {assert(length_ >= 1); old_length = length_; length_ = 0; }
+  void activate() { assert(length_ == 0); length_ = old_length; }
+  friend void add_a_clause_to_formula(const Lit_vec&, Count_vec&);
+  friend class ChangeManagement;
+  friend void assign_0(Lit);
+  friend void assign_1(Lit);
 public :
   const Lit* begin() const { return b; }
   const Lit* end() const { return e; }
   Clause_index length() const { return length_; }
   explicit operator bool() const { return length_; }
-  void decrement() { assert(length_ >= 2); --length_; }
-  void increment() { assert(length_ >= 1); ++length_; }
-  void deactivate() {assert(length_ >= 1); old_length = length_; length_ = 0; }
-  void activate() { assert(length_ == 0); length_ = old_length; }
-  friend void add_a_clause_to_formula(const Lit_vec&, Count_vec&);
 };
 typedef Clause* ClauseP;
 
@@ -181,8 +184,9 @@ Clause_index max_clause_length;
 
 typedef std::uint_fast64_t Count_statistics;
 Count_statistics n_nodes;
-Count_statistics n_units;
 Count_statistics n_backtracks;
+Count_statistics n_units;
+Count_statistics n_pure_literals;
 
 
 // --- Input and initialisation ---
@@ -367,7 +371,8 @@ class ChangeManagement {
   ClauseP* next;
 public :
   typedef ClauseP_vec::size_type size_type;
-  void init(const size_type s) {
+  void init() {
+    const auto s = n_lit_occurrences + 3 * n_vars;
     assert(s >= 1);
     changes.resize(s);
     begin = next = &*changes.begin();
@@ -537,6 +542,36 @@ void initialise_weights() {
     weights[i] = wopen(i);
 }
 
+class Pure_stack {
+  typedef Lit_vec stack_t;
+  static stack_t stack;
+  static const Lit* new_begin;
+  static Lit* end_;
+  const Lit* const begin_;
+public :
+  static void init() {
+    stack.resize(n_vars);
+    assert(n_vars);
+    end_ = &stack[0];
+  }
+  static void clear() { new_begin = end_; }
+  static void push(const Lit x) {
+    assert(end_ - &stack[0] < n_vars);
+    *(end_++) = x;
+  }
+  Pure_stack() : begin_(new_begin) {}
+  ~Pure_stack() {
+    if (delete_assignments) for (const Lit x : *this) pass[var(x)] = Lit();
+    end_ = const_cast<Lit*>(begin_);
+  }
+  explicit operator bool() const { return begin_ != end_; }
+  const Lit* begin() const { return begin_; }
+  static const Lit* end() { return end_; }
+};
+Pure_stack::stack_t Pure_stack::stack;
+const Lit* Pure_stack::new_begin;
+Lit* Pure_stack::end_;
+
 
 // --- SAT solving algorithms ---
 
@@ -582,6 +617,7 @@ inline void assign_1(const Lit x) {
 
 inline Lit branching_literal() {
   Lit x;
+  Pure_stack::clear();
   Weight_t max = 0, max2 = 0;
   const auto nvar = n_vars;
   for (Var v = 1; v <= nvar; ++v) {
@@ -589,25 +625,37 @@ inline Lit branching_literal() {
       const auto Occ = lits[v];
       Weight_t ps = 0;
       for (const auto C : Occ[pos]) ps += weights[C->length()];
+      if (ps == 0) {
+        const Lit pl = -Lit(v);
+        pass[v] = pl;
+        Pure_stack::push(pl);
+        ++n_pure_literals;
+        continue;
+      }
       Weight_t ns = 0;
       for (const auto C : Occ[neg]) ns += weights[C->length()];
+      if (ns == 0) {
+        const Lit pl = Lit(v);
+        pass[v] = pl;
+        Pure_stack::push(pl);
+        ++n_pure_literals;
+        continue;
+      }
       const Weight_t prod = ps * ns, sum = ps + ns;
       if (prod > max) { max = prod; max2 = sum; x= (ps>=ns) ? Lit(v):-Lit(v); }
-      // handles also the case that only pure literals are left:
-      else if (prod==max and sum>max2) {max2 = sum; x=(ps>=ns)?Lit(v):-Lit(v);}
+      else if (prod==max and sum>max2) { max2=sum; x=(ps>=ns)?Lit(v):-Lit(v); }
     }
   }
-  assert(x);
   return x;
 }
 
 bool dll(const Lit x) {
   ++n_nodes;
+  assert(x);
+  changes.start_new();
   const Unit_stack unit_stack;
   Unit_stack::push(x);
-  changes.start_new();
   assign_0(Unit_stack::pop());
-
   while (unit_stack) { // unit-clause propagation
     assign_0(Unit_stack::pop());
     ++n_units;
@@ -623,9 +671,16 @@ bool dll(const Lit x) {
   if (not r_clauses) {delete_assignments = false; return true;}
 
   {const Lit y = branching_literal();
+   const Pure_stack pure_stack;
+   if (pure_stack) {
+     changes.start_new();
+     for (const Lit z : pure_stack) assign_1(z);
+     if (not r_clauses) {delete_assignments = false; return true;}
+   }
    if (dll(y)) return true;
    ++n_backtracks;
    if (dll(-y)) return true;
+   if (pure_stack) r_clauses += changes.reactivate_1();
   }
 
   r_clauses += changes.reactivate_1();
@@ -633,11 +688,21 @@ bool dll(const Lit x) {
   return false;
 }
 
-bool dll0() {
+bool dll0() { // without unit-clauses
   ++n_nodes;
   if (not n_clauses) return true;
   const Lit x = branching_literal();
-  return dll(x) or (++n_backtracks,dll(-x));
+  const Pure_stack pure_stack;
+  if (pure_stack) {
+    changes.start_new();
+    for (const Lit y : pure_stack) assign_1(y);
+    if (not r_clauses) {delete_assignments = false; return true;}
+  }
+  if (dll(x)) return true;
+  ++n_backtracks;
+  if (dll(-x)) return true;
+  if (pure_stack) r_clauses += changes.reactivate_1();
+  return false;
 }
 
 
@@ -659,6 +724,8 @@ void output(const std::string& file, const Result_value result, const Weight_t e
          "c number_of_nodes                       " << n_nodes << "\n" <<
          "c number_of_binary_nodes                " << n_backtracks << "\n" <<
          "c number_of_1-reductions                " << n_units << "\n" <<
+         "c number_of_pure_literals               " << n_pure_literals << "\n" <<
+
          "c file_name                             " << file << std::endl;
   if (result == sat) {
     std::cout << "v ";
@@ -746,9 +813,10 @@ int main(const int argc, const char* const argv[]) {
   read_formula(filename);
   if (n_clauses) try {
     pass.resize(n_vars+1);
-    changes.init(n_lit_occurrences + 2 * n_vars);
+    changes.init();
     Unit_stack::init();
     initialise_weights();
+    Pure_stack::init();
     std::signal(SIGINT, abortion);
     std::signal(SIGUSR1, show_statistics);
   }
