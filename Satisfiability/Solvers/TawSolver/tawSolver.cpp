@@ -50,6 +50,8 @@ for debugging).
      is decreased from the last set weight by the factor WEIGHT_BASIS_OPEN.
    - UCP_STRATEGY (default 1): 0 means BFS-processing, 1 means DFS-processing
      of unit-clauses.
+   - PURE_LITERALS: if defined (default is undefined), then pure literals are
+     eliminated.
 
   To provide further versioning-information, there are two macros, which are
   only relevant if they are defined:
@@ -75,7 +77,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.0.4";
+const std::string version = "2.1.0";
 const std::string date = "22.7.2013";
 
 const std::string program = "tawSolver";
@@ -186,7 +188,9 @@ typedef std::uint_fast64_t Count_statistics;
 Count_statistics n_nodes;
 Count_statistics n_backtracks;
 Count_statistics n_units;
+#ifdef PURE_LITERALS
 Count_statistics n_pure_literals;
+#endif
 
 
 // --- Input and initialisation ---
@@ -540,6 +544,7 @@ void initialise_weights() {
     weights[i] = wopen(i);
 }
 
+#ifdef PURE_LITERALS
 class Pure_stack {
   typedef Lit_vec stack_t;
   static stack_t stack;
@@ -568,6 +573,7 @@ public :
 Pure_stack::stack_t Pure_stack::stack;
 const Lit* Pure_stack::new_begin;
 Lit* Pure_stack::end_;
+#endif
 
 
 // --- SAT solving algorithms ---
@@ -614,7 +620,9 @@ inline void assign_1(const Lit x) {
 
 inline Lit branching_literal() {
   Lit x;
+#ifdef PURE_LITERALS
   Pure_stack::clear(); changes.start_new();
+#endif
   Weight_t max = 0, max2 = 0;
   const auto nvar = n_vars;
   for (Var v = 1; v <= nvar; ++v) {
@@ -622,6 +630,7 @@ inline Lit branching_literal() {
       const auto Occ = lits[v];
       Weight_t ps = 0;
       for (const auto C : Occ[pos]) ps += weights[C->length()];
+#ifdef PURE_LITERALS
       if (ps == 0) {
         const Lit pl = -Lit(v);
         pass[v] = pl;
@@ -630,8 +639,10 @@ inline Lit branching_literal() {
         ++n_pure_literals;
         if (not r_clauses) return Lit(); else continue;
       }
+#endif
       Weight_t ns = 0;
       for (const auto C : Occ[neg]) ns += weights[C->length()];
+#ifdef PURE_LITERALS
       if (ns == 0) {
         const Lit pl = Lit(v);
         pass[v] = pl;
@@ -640,6 +651,7 @@ inline Lit branching_literal() {
         ++n_pure_literals;
        if (not r_clauses) return Lit(); else continue;
       }
+#endif
       const Weight_t prod = ps * ns, sum = ps + ns;
       if (prod > max) { max = prod; max2 = sum; x= (ps>=ns) ? Lit(v):-Lit(v); }
       else if (prod==max and sum>max2) { max2=sum; x=(ps>=ns)?Lit(v):-Lit(v); }
@@ -670,12 +682,16 @@ bool dll(const Lit x) {
   if (not r_clauses) {delete_assignments = false; return true;}
 
   {const Lit y = branching_literal();
+#ifdef PURE_LITERALS
    const Pure_stack pure_stack;
    if (not r_clauses) {delete_assignments = false; return true;}
+#endif
    if (dll(y)) return true;
    ++n_backtracks;
    if (dll(-y)) return true;
+#ifdef PURE_LITERALS
    changes.reactivate_1();
+#endif
   }
 
   changes.reactivate_1();
@@ -687,9 +703,13 @@ bool dll0() { // without unit-clauses
   ++n_nodes;
   if (not n_clauses) return true;
   const Lit x = branching_literal();
+#ifdef PURE_LITERALS
   if (not r_clauses) {delete_assignments = false; return true;}
+#endif
   return dll(x) or (++n_backtracks, dll(-x));
+#ifdef PURE_LITERALS
   // pure_stack and changes.reactivate_1() superfluous here, since no backtrack
+#endif
 }
 
 
@@ -711,8 +731,9 @@ void output(const std::string& file, const Result_value result, const Weight_t e
          "c number_of_nodes                       " << n_nodes << "\n" <<
          "c number_of_binary_nodes                " << n_backtracks << "\n" <<
          "c number_of_1-reductions                " << n_units << "\n" <<
+#ifdef PURE_LITERALS
          "c number_of_pure_literals               " << n_pure_literals << "\n" <<
-
+#endif
          "c file_name                             " << file << std::endl;
   if (result == sat) {
     std::cout << "v ";
@@ -743,6 +764,11 @@ void version_information() {
    " Compiled with NDEBUG\n"
 #else
    " Compiled without NDEBUG\n"
+#endif
+#ifdef PURE_LITERALS
+   " Compiled with PURE_LITERALS\n"
+#else
+   " Compiled without PURE_LITERALS\n"
 #endif
 #ifdef __OPTIMIZE__
    " Compiled with optimisation options\n"
@@ -803,7 +829,9 @@ int main(const int argc, const char* const argv[]) {
     changes.init();
     Unit_stack::init();
     initialise_weights();
+#ifdef PURE_LITERALS
     Pure_stack::init();
+#endif
     std::signal(SIGINT, abortion);
     std::signal(SIGUSR1, show_statistics);
   }
