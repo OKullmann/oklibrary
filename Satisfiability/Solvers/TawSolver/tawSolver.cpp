@@ -380,13 +380,11 @@ public :
   void start_new() { *(next++) = nullptr; }
   void push(const ClauseP C) { *(next++) = C; }
   void reactivate_0() { while (const ClauseP C = *(--next)) C->increment(); }
-  size_type reactivate_1() {
-    size_type count = 0;
+  void reactivate_1() {
     while (const ClauseP C = *(--next)) {
       C->activate();
-      ++count;
+      ++r_clauses;
     }
-    return count;
   }
 };
 ChangeManagement changes;
@@ -677,10 +675,10 @@ bool dll(const Lit x) {
    if (dll(y)) return true;
    ++n_backtracks;
    if (dll(-y)) return true;
-   r_clauses += changes.reactivate_1();
+   changes.reactivate_1();
   }
 
-  r_clauses += changes.reactivate_1();
+  changes.reactivate_1();
   changes.reactivate_0();
   return false;
 }
@@ -691,11 +689,8 @@ bool dll0() { // without unit-clauses
   const Lit x = branching_literal();
   const Pure_stack pure_stack;
   if (not r_clauses) {delete_assignments = false; return true;}
-  if (dll(x)) return true;
-  ++n_backtracks;
-  if (dll(-x)) return true;
-  r_clauses += changes.reactivate_1();
-  return false;
+  return dll(x) or (++n_backtracks, dll(-x));
+  // changes.reactivate_1() superfluous here
 }
 
 
