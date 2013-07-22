@@ -75,8 +75,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.0.3";
-const std::string date = "21.7.2013";
+const std::string version = "2.0.4";
+const std::string date = "22.7.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -628,7 +628,7 @@ inline Lit branching_literal() {
         Pure_stack::push(pl);
         assign_1(pl);
         ++n_pure_literals;
-        continue;
+        if (not r_clauses) return Lit(); else continue;
       }
       Weight_t ns = 0;
       for (const auto C : Occ[neg]) ns += weights[C->length()];
@@ -638,7 +638,7 @@ inline Lit branching_literal() {
         Pure_stack::push(pl);
         assign_1(pl);
         ++n_pure_literals;
-        continue;
+       if (not r_clauses) return Lit(); else continue;
       }
       const Weight_t prod = ps * ns, sum = ps + ns;
       if (prod > max) { max = prod; max2 = sum; x= (ps>=ns) ? Lit(v):-Lit(v); }
@@ -687,10 +687,9 @@ bool dll0() { // without unit-clauses
   ++n_nodes;
   if (not n_clauses) return true;
   const Lit x = branching_literal();
-  const Pure_stack pure_stack;
   if (not r_clauses) {delete_assignments = false; return true;}
   return dll(x) or (++n_backtracks, dll(-x));
-  // changes.reactivate_1() superfluous here
+  // pure_stack and changes.reactivate_1() superfluous here, since no backtrack
 }
 
 
