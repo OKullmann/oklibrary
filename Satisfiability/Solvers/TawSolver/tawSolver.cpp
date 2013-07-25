@@ -45,9 +45,10 @@ for debugging).
    - WEIGHT_2_CLAUSES, WEIGHT_4_CLAUSES, WEIGHT_5_CLAUSES,
      and WEIGHT_BASIS_OPEN:
      the weight for clause-length k=3 is standardised to 1, the weights for
-     k = 2, 4, 5 are given by the first three macros, and for k without
-     predetermined weight (in the initialisation of vector weights) the weight
-     is decreased from the last set weight by the factor WEIGHT_BASIS_OPEN.
+     k = 2, 4, 5 are given by the first three macros, and the
+     non-predetermined weights (w.r.t. the initialisation of vector "weights")
+     are obtained by repeatedly dividing the last predetermined weight by
+     WEIGHT_BASIS_OPEN.
    - UCP_STRATEGY (default 1): 0 means BFS-processing, 1 means DFS-processing
      of unit-clauses.
    - PURE_LITERALS: if defined (default is undefined), then pure literals are
