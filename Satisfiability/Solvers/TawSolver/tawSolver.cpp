@@ -78,8 +78,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.1.0";
-const std::string date = "22.7.2013";
+const std::string version = "2.1.1";
+const std::string date = "27.7.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -141,6 +141,10 @@ static_assert(std::numeric_limits<Clause_index>::max() <= std::numeric_limits<We
 typedef std::uint_fast64_t Count_clauses;
 typedef std::vector<std::array<Count_clauses,2>> Count_vec;
 
+Count_clauses n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
+Count_clauses n_lit_occurrences;
+Var n_vars;
+
 class Clause {
   const Lit* b; // the array of literals in the clause (as in the input)
   const Lit* e; // one past-the-end
@@ -148,8 +152,18 @@ class Clause {
   Clause_index old_length;
   void increment() { assert(length_ >= 1); ++length_; }
   void decrement() { assert(length_ >= 2); --length_; }
-  void deactivate() {assert(length_ >= 1); old_length = length_; length_ = 0; }
-  void activate() { assert(length_ == 0); length_ = old_length; }
+  void deactivate() {
+    assert(length_ >= 1);
+    old_length = length_;
+    length_ = 0;
+    assert(r_clauses >= 1);
+    --r_clauses;
+  }
+  void activate() {
+    assert(length_ == 0);
+    length_ = old_length;
+    ++r_clauses;
+  }
   friend void add_a_clause_to_formula(const Lit_vec&, Count_vec&);
   friend class ChangeManagement;
   friend void assign_0(Lit);
@@ -178,10 +192,6 @@ public :
 };
 std::vector<std::array<Literal_occurrences,2>> lits;
 // lits[v][pos/neg] for a variable v represents the list of occurrences.
-
-Count_clauses n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
-Count_clauses n_lit_occurrences;
-Var n_vars;
 
 Clause_index max_clause_length;
 
@@ -385,12 +395,7 @@ public :
   void start_new() { *(next++) = nullptr; }
   void push(const ClauseP C) { *(next++) = C; }
   void reactivate_0() { while (const ClauseP C = *(--next)) C->increment(); }
-  void reactivate_1() {
-    while (const ClauseP C = *(--next)) {
-      C->activate();
-      ++r_clauses;
-    }
-  }
+  void reactivate_1() { while (const ClauseP C = *(--next)) C->activate(); }
 };
 ChangeManagement changes;
 
@@ -488,7 +493,31 @@ Lit* Unit_stack::end_input;
 Lit* Unit_stack::end_main;
 #endif
 
-bool contradiction;
+class Push_unit_clause {
+  bool contradiction_ = false;
+public :
+  // returns false iff contradiction found:
+  bool operator() (const Clause& C) {
+    assert(C.length() == 1);
+    assert(not contradiction_);
+    for (const Lit y : C) {
+      Lit& val = pass[var(y)];
+      if (not val) {
+        Unit_stack::push(y);
+        val = y;
+        return true;
+      }
+      else if (val == y) return true;
+    }
+    contradiction_ = true;
+    return false;
+  }
+  bool contradiction() {
+    if (contradiction_) {contradiction_ = false; return true;}
+    else return false;
+  }
+};
+Push_unit_clause push_unit_clause;
 
 #ifdef WEIGHT_2_CLAUSES
   constexpr Weight_t weight_2 = WEIGHT_2_CLAUSES;
@@ -589,21 +618,8 @@ inline void assign_0(const Lit x) {
     if (not *C) continue;
     changes.push(C);
     C->decrement();
-    if (C->length() == 1) {
-      for (const Lit y : *C) {
-        Lit& val = pass[var(y)];
-        if (not val) {
-          Unit_stack::push(y);
-          val = y;
-          goto occ_loop;
-        }
-        else if (val == y) goto occ_loop;
-      }
-      contradiction = true;
-      goto end;
-    }
-  occ_loop:;}
-  end:;
+    if (C->length() == 1 and not push_unit_clause(*C)) return;
+  }
 }
 inline void assign_1(const Lit x) {
   assert(x);
@@ -613,8 +629,6 @@ inline void assign_1(const Lit x) {
   for (auto C : lits[v][sign(x)]) {
     if (not *C) continue;
     C->deactivate();
-    assert(r_clauses >= 1);
-    --r_clauses;
     changes.push(C);
   }
 }
@@ -669,13 +683,9 @@ bool dll(const Lit x) {
   Unit_stack::push(x);
   assign_0(Unit_stack::pop());
   while (unit_stack) { // unit-clause propagation
-    assign_0(Unit_stack::pop());
     ++n_units;
-    if (contradiction) {
-      changes.reactivate_0();
-      contradiction = false;
-      return false;
-    }
+    assign_0(Unit_stack::pop());
+    if (push_unit_clause.contradiction()) goto only_units;
   }
 
   changes.start_new();
@@ -696,6 +706,7 @@ bool dll(const Lit x) {
   }
 
   changes.reactivate_1();
+only_units :
   changes.reactivate_0();
   return false;
 }
