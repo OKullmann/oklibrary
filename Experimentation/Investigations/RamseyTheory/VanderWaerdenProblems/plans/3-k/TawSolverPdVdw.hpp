@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On tawSolver computing palindromic vdW-numbers pdvdw_2(3,k)
 
 
-  \todo Performance of tawSolver
+  \todo Versions before version 2.0
   <ul>
    <li> The following data is on cswsok (3GHz). </li>
    <li> k=17, n=279:
@@ -191,6 +191,12 @@ c number_of_1-reductions                7790489169
 c file_name                             VanDerWaerden_pd_2-3-24_593.cnf
    \endverbatim
    </li>
+  </ul>
+
+
+  \todo Towards version 2.0
+  <ul>
+   <li> The following data is on cswsok (3GHz). </li>
    <li>
    \verbatim
 # ID 5689384b9693b8dca1caf8469b19a7ae8d66700a
@@ -362,7 +368,16 @@ c file_name                             VanDerWaerden_pd_2-3-22_463.cnf
 
 c running_time(sec)                     1777.15
 c file_name                             VanDerWaerden_pd_2-3-23_507.cnf
+   \endverbatim
+   </li>
+  </ul>
 
+
+  \todo Version 2.0 and later
+  <ul>
+   <li> The following data is on cswsok (3GHz). </li>
+   <li>
+   \verbatim
 # Version 2:
 # cswsok, with one other process running
 
@@ -466,6 +481,10 @@ c number_of_1-reductions                7790489169
 c file_name                             VanDerWaerden_pd_2-3-24_593.cnf
    \endverbatim
    </li>
+  </ul>
+
+
+  \todo Performance evaluation
    <li> From version 1.0 to version 1.8 an enormous improvement; when
    comparing the run-times and node-counts:
    \verbatim

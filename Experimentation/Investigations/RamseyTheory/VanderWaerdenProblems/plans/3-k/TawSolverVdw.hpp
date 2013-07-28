@@ -10,7 +10,7 @@ License, or any later version. */
   \brief On tawSolver computing vdW-numbers pdvdw_2(3,k)
 
 
-  \todo tawSolver
+  \todo Version 1.0
   <ul>
    <li> On cswsok (3 GHz):
    \verbatim
@@ -51,7 +51,15 @@ Running time: 47005.83 seconds
 VanDerWaerden_2-3-16_238.cnf
 N_UNITS: 134192977183, N_BRANCHES: 8120609615, N_BACK: 4060304807
 Running time: 532416.20 seconds
+   \endverbatim
+   </li>
+  </ul>
 
+
+  \todo From version 1.0 to the version before the improved heuristics
+  <ul>
+   <li> On cswsok (3 GHz):
+   \verbatim
 # version b45bc81344b378d0130138af761e397f2b3a87c7
 
 > tawSolver VanDerWaerden_2-3-12_134.cnf
@@ -227,7 +235,15 @@ c number_of_binary_nodes                381857201
 c number_of_1-reductions                12163387462
 c max_number_changes                    26148
 c file_name                             VanDerWaerden_2-3-15_218.cnf
+   \endverbatim
+   </li>
+  </ul>
 
+
+  \todo Improving the heuristics (and the implementation)
+  <ul>
+   <li> On cswsok (3 GHz):
+   \verbatim
 # ID c730dc830fb5df241fdc81697c389afcce6ba117
 # Now with product as projection, and weight-basis 2.
 
@@ -669,7 +685,9 @@ c file_name                             VanDerWaerden_2-3-15_217.cnf
 
 c running_time(sec)                     5197.32
 c file_name                             VanDerWaerden_2-3-15_218.cnf
-
+   \endverbatim
+   </li>
+   <li> version 2 (on cswsok (3 GHz)):
 # Version 2:
 # cswsok, with one other process running
 
@@ -791,6 +809,11 @@ c number_of_1-reductions                24555644336
 c file_name                             VanDerWaerden_2-3-16_238.cnf
    \endverbatim
    </li>
+  </ul>
+
+
+  \todo Performance evaluation
+  <ul>
    <li> From version 1.0 to version 1.8 a big improvement; when comparing the
    run-times and node-counts:
    \verbatim
