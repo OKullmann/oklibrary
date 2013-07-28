@@ -53,6 +53,12 @@ for debugging).
      of unit-clauses.
    - PURE_LITERALS: if defined (default is undefined), then pure literals are
      eliminated.
+   - TAU_ITERATION: if defined (default is undefined), then this natural number
+     is the number of iterations for computing the in principle more accurate,
+     but also more costly tau-function as projection (instead of the product);
+     using TAU_ITERATION=0 amounts to the choice of the sum as projection,
+     while a reasonable value seems TAU_ITERATION=5 (leading to decreased
+     node-counts, but increased run-times).
 
   To provide further versioning-information, there are two macros, which are
   only relevant if they are defined:
@@ -78,8 +84,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.1.1";
-const std::string date = "27.7.2013";
+const std::string version = "2.1.2";
+const std::string date = "28.7.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -633,6 +639,32 @@ inline void assign_1(const Lit x) {
   }
 }
 
+#ifdef TAU_ITERATION
+inline Weight_t reciprocal_tau(const Weight_t a, const Weight_t b) {
+# ifndef PURE_LITERALS
+  if (a == 0 or b == 0) return 0;
+# endif
+  assert(a > 0); assert(b > 0);
+  constexpr int iterations = TAU_ITERATION;
+  Weight_t x = std::pow(4,1/(a+b));
+  for (int i = 0; i < iterations; ++i) {
+    const Weight_t pa = std::pow(x,-a), pb = std::pow(x,-b);
+    x += x * (pa + pb - 1) / (a*pa + b*pb);
+  }
+  return 1/x;
+}
+inline Weight_t projection1(const Weight_t a, const Weight_t b) {
+  return reciprocal_tau(a,b);
+}
+#else
+inline Weight_t projection1(const Weight_t a, const Weight_t b) {
+  return a * b;
+}
+#endif
+inline Weight_t projection2(const Weight_t a, const Weight_t b) {
+  return a + b;
+}
+
 inline Lit branching_literal() {
   Lit x;
 #ifdef PURE_LITERALS
@@ -667,9 +699,9 @@ inline Lit branching_literal() {
        if (not r_clauses) return Lit(); else continue;
       }
 #endif
-      const Weight_t prod = ps * ns, sum = ps + ns;
-      if (prod > max) { max = prod; max2 = sum; x= (ps>=ns) ? Lit(v):-Lit(v); }
-      else if (prod==max and sum>max2) { max2=sum; x=(ps>=ns)?Lit(v):-Lit(v); }
+      const Weight_t h1 = projection1(ps, ns), h2 = projection2(ps, ns);
+      if (h1 > max) { max = h1; max2 = h2; x = (ps>=ns) ? Lit(v):-Lit(v); }
+      else if (h1==max and h2>max2) { max2=h2; x = (ps>=ns) ? Lit(v):-Lit(v); }
     }
   }
   return x;
@@ -772,15 +804,20 @@ void version_information() {
    " Macro settings:\n"
    "  LIT_TYPE = " STR(LIT_TYPE) " (with " << std::numeric_limits<Lit_int>::digits << " binary digits)\n"
    "  UCP_STRATEGY = " << UCP_STRATEGY << "\n"
-#ifdef NDEBUG
-   " Compiled with NDEBUG\n"
+#ifdef TAU_ITERATION
+   "  TAU_ITERATION = " << TAU_ITERATION << "\n"
 #else
-   " Compiled without NDEBUG\n"
+   " Compiled without TAU_ITERATION \n"
 #endif
 #ifdef PURE_LITERALS
    " Compiled with PURE_LITERALS\n"
 #else
    " Compiled without PURE_LITERALS\n"
+#endif
+#ifdef NDEBUG
+   " Compiled with NDEBUG\n"
+#else
+   " Compiled without NDEBUG\n"
 #endif
 #ifdef __OPTIMIZE__
    " Compiled with optimisation options\n"
