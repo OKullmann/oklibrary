@@ -22,7 +22,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 /*
   Compile with
 
-> g++ --std=c++11 -Wall -Ofast -funroll-loops -fwhole-program -DNDEBUG -o tawSolver tawSolver.cpp
+> g++ --std=c++11 -Wall -Ofast -funroll-loops -funsafe-loop-optimizations -fno-math-errno -funsafe-math-optimizations -ffinite-math-only -fwhole-program -DNDEBUG -o tawSolver tawSolver.cpp
 
 (or with "g++ --std=c++11 -Wall -g -o tawSolver tawSolver.cpp"
 for debugging).
@@ -77,6 +77,7 @@ for debugging).
 #include <iomanip>
 #include <exception>
 
+#include <cstdlib>
 #include <cmath>
 #include <cstdint>
 #include <cassert>
@@ -84,7 +85,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.1.2";
+const std::string version = "2.2.0";
 const std::string date = "28.7.2013";
 
 const std::string program = "tawSolver";
@@ -127,7 +128,7 @@ public :
   constexpr explicit operator bool() const { return x; }
   constexpr Lit operator -() const { return Lit(-x); }
   constexpr bool operator ==(const Lit y) const { return x == y.x; }
-  friend constexpr Var var(const Lit x) { return (x.x >= 0) ? x.x : -x.x; }
+  friend constexpr Var var(const Lit x) { return std::abs(x.x); }
   friend constexpr Polarity sign(const Lit x) {return (x.x >= 0) ? pos : neg;}
   friend std::ostream& operator <<(std::ostream& out, const Lit x) {
     return out << x.x;
@@ -670,7 +671,7 @@ inline Lit branching_literal() {
 #ifdef PURE_LITERALS
   Pure_stack::clear(); changes.start_new();
 #endif
-  Weight_t max = 0, max2 = 0;
+  Weight_t max1 = 0, max2 = 0;
   const auto nvar = n_vars;
   for (Var v = 1; v <= nvar; ++v) {
     if (not pass[v]) {
@@ -700,8 +701,8 @@ inline Lit branching_literal() {
       }
 #endif
       const Weight_t h1 = projection1(ps, ns), h2 = projection2(ps, ns);
-      if (h1 > max) { max = h1; max2 = h2; x = (ps>=ns) ? Lit(v):-Lit(v); }
-      else if (h1==max and h2>max2) { max2=h2; x = (ps>=ns) ? Lit(v):-Lit(v); }
+      if (h1 > max1) { max1 = h1; max2 = h2; x = (ps>=ns) ? Lit(v):-Lit(v); }
+      else if (h1==max1 and h2>max2) { max2=h2; x = (ps>=ns)?Lit(v):-Lit(v); }
     }
   }
   return x;

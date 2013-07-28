@@ -38,7 +38,10 @@ endif
 
 Standard_options = --std=c++11 -pedantic
 Warning_options = -Wall
-Optimisation_options = -Ofast -funroll-loops -fwhole-program -DNDEBUG
+Optimisation_options = -Ofast -funroll-loops -funsafe-loop-optimizations -fno-math-errno -funsafe-math-optimizations -ffinite-math-only -fwhole-program -DNDEBUG
+# Run from time to time with -Wunsafe-loop-optimizations to check for the
+# assumptions made by -funsafe-loop-optimizations.
+
 ifeq ($(git_id_oklib),)
   Other_options =
 else
