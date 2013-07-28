@@ -601,8 +601,202 @@ tawSolver VanDerWaerden_2-3-12_135.cnf
 
 # Back to the slightly increased 1-reductions-count, but the improved
 # implementation compensates for this.
+
+# ID 0fe3cad13317e4ed66f7f2612b2dcc6e1641156a
+# Version 2.1.0; should be basically the final version.
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+9.65 9.65 9.61 9.54 9.56
+tawSolver VanDerWaerden_2-3-12_135.cnf
+11.05 11.08 11.26 11.16 11.12
+
+# Roughly 1% slower. Where does this come from?
+
+# ID 705c3829ba28332862e8e67f2aa92a62db7f08de
+# Version 2.1.1
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+9.44 9.48 9.44 9.49 9.44
+tawSolver VanDerWaerden_2-3-12_135.cnf
+10.88 10.91 10.91 10.85 10.97
+
+# Strange, these small changes; they look consistent, but are hard to explain.
+
+# ID 742c25c36779fedcd73e8a8b4dfb13f5559cccea
+# Version 2.1.2
+# ttawSolver:
+#  - elimination of pure literals (those that are found -- not iterated)
+#  - using tau as projection (5 iterations of Newton method).
+
+# ttawSolver:
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     30.61
+c number_of_nodes                       778208
+c number_of_binary_nodes                389095
+c number_of_1-reductions                9157137
+c number_of_pure_literals               1229
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     37.90
+c number_of_nodes                       953179
+c number_of_binary_nodes                476589
+c number_of_1-reductions                11285589
+c number_of_pure_literals               1317
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+9.42 9.46 9.46 9.52 9.48
+tawSolver VanDerWaerden_2-3-12_135.cnf
+10.85 10.85 10.82 10.90 10.83
+ttawSolver VanDerWaerden_2-3-12_134.cnf
+30.60 30.52 30.59 30.60 30.55
+ttawSolver VanDerWaerden_2-3-12_135.cnf
+37.90 38.12 38.05 38.13 38.12
    \endverbatim
    </li>
+  </ul>
+
+
+  \todo Using the tau-function
+  <ul>
+   <li> It is interesting to replace the product as projection by the
+   tau-function. </li>
+   <li> For the OKsolver this replacement did not reduce the node-count, but
+   here it might be different? </li>
+   <li> A simple implementation (returning 1/tau(a,b), so that maximisation can
+   still be used):
+   \verbatim
+inline Weight_t tau(const Weight_t a, const Weight_t b) {
+  if (a == 0 or b == 0) return 0;
+  assert(a > 0); assert(b > 0);
+  constexpr Weight_t eps = 1e-12;
+  Weight_t x = std::pow(4,1/(a+b));
+  while (true) {
+    const Weight_t pa = std::pow(x,-a), pb = std::pow(x, -b);
+    const Weight_t dx = x * (pa + pb - 1) / (a*pa + b*pb);
+    if (dx <= eps) return 1 / x;
+    x += dx;
+  }
+}
+   \endverbatim
+   resp.
+   \verbatim
+inline Weight_t tau(const Weight_t a, const Weight_t b) {
+  if (a == 0 or b == 0) return 0;
+  assert(a > 0); assert(b > 0);
+  constexpr int iterations = 5;
+  Weight_t x = std::pow(4,1/(a+b));
+  for (int i = 0; i < iterations; ++i) {
+    const Weight_t pa = std::pow(x,-a), pb = std::pow(x,-b);
+    x += x * (pa + pb - 1) / (a*pa + b*pb);
+  }
+  return 1/x;
+}
+   \endverbatim
+   </li>
+   <li> On csltok (2.7 GHz) we get:
+   \verbatim
+# With termination-condition "dx < 10^-12":
+
+> ./tawSolver VanDerWaerden_2-3-12_135.cnf
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     57.14
+c number_of_nodes                       953175
+c number_of_binary_nodes                476587
+c number_of_1-reductions                11286082
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> ./tawSolver VanDerWaerden_2-3-13_160.cnf
+s UNSATISFIABLE
+c number_of_variables                   160
+c number_of_clauses                     7308
+c maximal_clause_length                 13
+c number_of_literal_occurrences         31804
+c running_time(sec)                     414.03
+c number_of_nodes                       5868909
+c number_of_binary_nodes                2934454
+c number_of_1-reductions                75157685
+c file_name                             VanDerWaerden_2-3-13_160.cnf
+
+> ./tawSolver VanDerWaerden_pd_2-3-21_405.cnf
+s UNSATISFIABLE
+c number_of_variables                   203
+c number_of_clauses                     21950
+c maximal_clause_length                 21
+c number_of_literal_occurrences         96305
+c running_time(sec)                     290.98
+c number_of_nodes                       2178341
+c number_of_binary_nodes                1089170
+c number_of_1-reductions                32404324
+c file_name                             VanDerWaerden_pd_2-3-21_405.cnf
+
+# With 5 iterations:
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     49.13
+c number_of_nodes                       953175
+c number_of_binary_nodes                476587
+c number_of_1-reductions                11286082
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> ./tawSolver VanDerWaerden_2-3-13_160.cnf
+0.618034
+s UNSATISFIABLE
+c number_of_variables                   160
+c number_of_clauses                     7308
+c maximal_clause_length                 13
+c number_of_literal_occurrences         31804
+c running_time(sec)                     354.67
+c number_of_nodes                       5868893
+c number_of_binary_nodes                2934446
+c number_of_1-reductions                75158028
+c file_name                             VanDerWaerden_2-3-13_160.cnf
+
+> ./tawSolver VanDerWaerden_pd_2-3-21_405.cnf
+s UNSATISFIABLE
+c number_of_variables                   203
+c number_of_clauses                     21950
+c maximal_clause_length                 21
+c number_of_literal_occurrences         96305
+c running_time(sec)                     251.19
+c number_of_nodes                       2229093
+c number_of_binary_nodes                1114546
+c number_of_1-reductions                33402234
+c file_name                             VanDerWaerden_pd_2-3-21_405.cnf
+   \endverbatim
+   </li>
+   <li> 5 Iterations might be sufficient; interestingly, the more iterations
+   the smaller the node-count (with diminishing return). </li>
+   <li> A reduction in node-count (10% for ordinary, and 20% for the
+   palindromic problem) is achieved, but, as expected, a big increase in time. </li>
+   <li> One needed to re-run the optimisation of the weights. </li>
   </ul>
 
 
