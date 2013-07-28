@@ -484,6 +484,132 @@ c file_name                             VanDerWaerden_pd_2-3-24_593.cnf
   </ul>
 
 
+  \todo With tau-projection
+  <ul>
+   <li> The following data is on cswsok (3GHz). </li>
+   <li>
+   \verbatim
+tawSolver:
+ author: Tanbir Ahmed and Oliver Kullmann
+ url's:
+  http://sourceforge.net/projects/tawsolver/
+  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp
+ Version: 2.1.2
+ Last change date: 28.7.2013
+ Clause-weight parameters: 7, 1.7
+  Mapping k -> weight for weights specified at compile-time:
+   2->7  3->1  4->0.31  5->0.19
+ Macro settings:
+  LIT_TYPE = std::int32_t (with 31 binary digits)
+  UCP_STRATEGY = 1
+  TAU_ITERATION = 5
+ Compiled with PURE_LITERALS
+ Compiled with NDEBUG
+ Compiled with optimisation options
+ Compilation date: Jul 28 2013 15:17:12
+ Compiler: g++, version 4.7.3
+ Provided in the OKlibrary http://www.ok-sat-library.org
+ Git ID = 742c25c36779fedcd73e8a8b4dfb13f5559cccea
+s UNSATISFIABLE
+c number_of_variables                   140
+c number_of_clauses                     10536
+c maximal_clause_length                 17
+c number_of_literal_occurrences         45139
+c running_time(sec)                     1.86
+c number_of_nodes                       32739
+c number_of_binary_nodes                16369
+c number_of_1-reductions                405689
+c number_of_pure_literals               2
+c file_name                             VanDerWaerden_pd_2-3-17_279.cnf
+s UNSATISFIABLE
+c number_of_variables                   156
+c number_of_clauses                     13277
+c maximal_clause_length                 18
+c number_of_literal_occurrences         58763
+c running_time(sec)                     17.12
+c number_of_nodes                       274157
+c number_of_binary_nodes                137078
+c number_of_1-reductions                3510308
+c number_of_pure_literals               8
+c file_name                             VanDerWaerden_pd_2-3-18_312.cnf
+s UNSATISFIABLE
+c number_of_variables                   174
+c number_of_clauses                     16208
+c maximal_clause_length                 19
+c number_of_literal_occurrences         70414
+c running_time(sec)                     20.81
+c number_of_nodes                       282747
+c number_of_binary_nodes                141373
+c number_of_1-reductions                3957446
+c number_of_pure_literals               8
+c file_name                             VanDerWaerden_pd_2-3-19_347.cnf
+s UNSATISFIABLE
+c number_of_variables                   195
+c number_of_clauses                     20327
+c maximal_clause_length                 20
+c number_of_literal_occurrences         88944
+c running_time(sec)                     76.46
+c number_of_nodes                       904693
+c number_of_binary_nodes                452346
+c number_of_1-reductions                13524266
+c number_of_pure_literals               20
+c file_name                             VanDerWaerden_pd_2-3-20_389.cnf
+s UNSATISFIABLE
+c number_of_variables                   203
+c number_of_clauses                     21950
+c maximal_clause_length                 21
+c number_of_literal_occurrences         96305
+c running_time(sec)                     186.92
+c number_of_nodes                       2229093
+c number_of_binary_nodes                1114546
+c number_of_1-reductions                33402131
+c number_of_pure_literals               133
+c file_name                             VanDerWaerden_pd_2-3-21_405.cnf
+s UNSATISFIABLE
+c number_of_variables                   232
+c number_of_clauses                     28650
+c maximal_clause_length                 22
+c number_of_literal_occurrences         126560
+c running_time(sec)                     870.22
+c number_of_nodes                       8456681
+c number_of_binary_nodes                4228340
+c number_of_1-reductions                139132341
+c number_of_pure_literals               217
+c file_name                             VanDerWaerden_pd_2-3-22_463.cnf
+s UNSATISFIABLE
+c number_of_variables                   254
+c number_of_clauses                     34289
+c maximal_clause_length                 23
+c number_of_literal_occurrences         152236
+c running_time(sec)                     2300.44
+c number_of_nodes                       19645719
+c number_of_binary_nodes                9822859
+c number_of_1-reductions                344619878
+c number_of_pure_literals               472
+c file_name                             VanDerWaerden_pd_2-3-23_507.cnf
+s UNSATISFIABLE
+c number_of_variables                   297
+c number_of_clauses                     46881
+c maximal_clause_length                 24
+c number_of_literal_occurrences         209792
+c running_time(sec)                     11569.80
+c number_of_nodes                       73835279
+c number_of_binary_nodes                36917639
+c number_of_1-reductions                1447968422
+c number_of_pure_literals               159
+c file_name                             VanDerWaerden_pd_2-3-24_593.cnf
+   \endverbatim
+   </li>
+   <li> For k=24 a big improvement also in running time! </li>
+   <li> k=25:
+   \verbatim
+> ttawSolver VanDerWaerden_pd_2-3-25_607.cnf
+XXX
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Performance evaluation
    <li> From version 1.0 to version 1.8 an enormous improvement; when
    comparing the run-times and node-counts:
