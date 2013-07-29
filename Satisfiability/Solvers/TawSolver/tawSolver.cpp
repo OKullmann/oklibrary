@@ -85,7 +85,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.2.3";
+const std::string version = "2.3.0";
 const std::string date = "29.7.2013";
 
 const std::string program = "tawSolver";
@@ -562,7 +562,8 @@ static_assert(first_open_weight >= 4, "Wrong value of first_open_weight.");
    every partition of {1,...,n} must contain an arithmetic progression of
    size 3 in the first part or of size 12 in the second part).
 */
-constexpr double min_weight = std::numeric_limits<Weight_t>::min();
+constexpr Weight_t min_weight = std::numeric_limits<Weight_t>::min();
+constexpr Weight_t max_weight = std::numeric_limits<Weight_t>::max();
 static_assert(min_weight != 0, "Error with min_weight.");
 // the weights for clause of length >= first_open_weight:
 Weight_t wopen(const Clause_index clause_length) {
@@ -641,34 +642,63 @@ inline void assign_1(const Lit x) {
   }
 }
 
+inline Lit first_branch(const Weight_t pd, const Weight_t nd, const Var v) {
+  return (pd>=nd) ? Lit(v) : -Lit(v);
+}
 #ifdef TAU_ITERATION
-inline Weight_t tau(const Weight_t a, const Weight_t b) {
-# ifndef PURE_LITERALS
-  if (a == 0 or b == 0) return 0;
-# endif
-  assert(a > 0); assert(b > 0);
-  constexpr int iterations = TAU_ITERATION;
-  Weight_t x = std::pow(4,1/(a+b));
-  for (int i = 0; i < iterations; ++i) {
-    const Weight_t pa = std::pow(x,-a), pb = std::pow(x,-b);
-    x *= 1 + (pa + pb - 1) / (a*pa + b*pb);
+class Branching_tau {
+  Lit x;
+  Weight_t min1, max2;
+  Weight_t tau(const Weight_t a, const Weight_t b) {
+    constexpr int iterations = TAU_ITERATION;
+    Weight_t x = std::pow(4,1/(a+b));
+    for (int i = 0; i < iterations; ++i) {
+      const Weight_t pa = std::pow(x,-a), pb = std::pow(x,-b);
+      x *= 1 + (pa + pb - 1) / (a*pa + b*pb);
+    }
+    return x;
   }
-  return x;
-}
-inline Weight_t projection1(const Weight_t a, const Weight_t b) {
-  return 1 / tau(a,b);
-}
+public :
+  Branching_tau() : x{}, min1(max_weight), max2(0) {}
+  operator Lit() const { return x; }
+  void operator()(const Weight_t pd, const Weight_t nd, const Var v) {
+# ifndef PURE_LITERALS
+    if (pd == 0 or nd == 0)
+      if (min1 < max_weight) return;
+      else {
+        const Weight_t sum = pd + nd;
+        if (sum > max2) { max2=sum; x = first_branch(pd,nd,v); }
+      }
+# endif
+    assert(pd > 0); assert(nd > 0);
+    const Weight_t chi = std::pow(min1,-pd) + std::pow(min1,-nd);
+    const Weight_t sum = pd + nd;
+    if (chi < 1) { min1 = tau(pd, nd); max2 = sum; x = first_branch(pd,nd,v); }
+    else if (chi == 1 and sum > max2) {max2 = sum; x = first_branch(pd,nd,v);}
+  }
+};
+typedef Branching_tau Best_branching;
 #else
-inline Weight_t projection1(const Weight_t a, const Weight_t b) { return a*b; }
+class Branching_product {
+  Lit x;
+  Weight_t max1, max2;
+public :
+  Branching_product() : x{}, max1(0), max2(0) {}
+  operator Lit() const { return x; }
+  void operator()(const Weight_t pd, const Weight_t nd, const Var v) {
+    const Weight_t prod = pd * nd, sum = pd + nd;
+    if (prod > max1) { max1 = prod; max2 = sum; x = first_branch(pd,nd,v); }
+    else if (prod == max1 and sum > max2) {max2=sum; x=first_branch(pd,nd,v);}
+  }
+};
+typedef Branching_product Best_branching;
 #endif
-inline Weight_t projection2(const Weight_t a, const Weight_t b) { return a+b; }
 
 inline Lit branching_literal() {
-  Lit x;
+  Best_branching br;
 #ifdef PURE_LITERALS
   Pure_stack::clear(); changes.start_new();
 #endif
-  Weight_t max1 = 0, max2 = 0;
   const auto nvar = n_vars;
   for (Var v = 1; v <= nvar; ++v) {
     if (not pass[v]) {
@@ -697,12 +727,10 @@ inline Lit branching_literal() {
        if (not r_clauses) return Lit(); else continue;
       }
 #endif
-      const Weight_t h1 = projection1(ps, ns), h2 = projection2(ps, ns);
-      if (h1 > max1) { max1 = h1; max2 = h2; x = (ps>=ns) ? Lit(v):-Lit(v); }
-      else if (h1==max1 and h2>max2) { max2=h2; x = (ps>=ns)?Lit(v):-Lit(v); }
+      br(ps, ns, v);
     }
   }
-  return x;
+  return br;
 }
 
 bool dll(const Lit x) {
