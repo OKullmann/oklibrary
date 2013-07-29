@@ -85,7 +85,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.2.2";
+const std::string version = "2.2.3";
 const std::string date = "29.7.2013";
 
 const std::string program = "tawSolver";
@@ -788,17 +788,17 @@ void output(const std::string& file, const Result_value result, const Weight_t e
 #define STR(x) S(x)
 void version_information() {
   std::cout << program << ":\n"
-   " author: Tanbir Ahmed and Oliver Kullmann\n"
+   " authors: Tanbir Ahmed and Oliver Kullmann\n"
    " url's:\n"
    "  http://sourceforge.net/projects/tawsolver/\n"
    "  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp\n"
    " Version: " << version << "\n"
    " Last change date: " << date << "\n"
-   " Clause-weight parameters: " << weight_2 << ", " << basis_open << "\n"
-   "  Mapping k -> weight for weights specified at compile-time:\n ";
+   " Mapping k -> weight, for clause-lengths k specified at compile-time:\n ";
    for (Clause_index k = 2; k < first_open_weight; ++k)
      std::cout << "  " << k << "->" << weights[k];
    std::cout << "\n"
+   " Divisor for open weights: " << basis_open << "\n"
    " Macro settings:\n"
    "  LIT_TYPE = " STR(LIT_TYPE) " (with " << std::numeric_limits<Lit_int>::digits << " binary digits)\n"
    "  UCP_STRATEGY = " << UCP_STRATEGY << "\n"
