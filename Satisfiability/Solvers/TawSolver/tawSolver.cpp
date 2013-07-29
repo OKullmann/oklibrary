@@ -85,7 +85,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.2.1";
+const std::string version = "2.2.2";
 const std::string date = "29.7.2013";
 
 const std::string program = "tawSolver";
@@ -529,7 +529,7 @@ Push_unit_clause push_unit_clause;
 #ifdef WEIGHT_2_CLAUSES
   constexpr Weight_t weight_2 = WEIGHT_2_CLAUSES;
 #else
-  constexpr Weight_t weight_2 = 7.0;
+  constexpr Weight_t weight_2 = 5.4;
 #endif
 #ifdef WEIGHT_4_CLAUSES
   constexpr Weight_t weight_4 = WEIGHT_4_CLAUSES;
@@ -539,12 +539,12 @@ Push_unit_clause push_unit_clause;
 #ifdef WEIGHT_5_CLAUSES
   constexpr Weight_t weight_5 = WEIGHT_5_CLAUSES;
 #else
-  constexpr Weight_t weight_5 = 0.19;
+  constexpr Weight_t weight_5 = 0.13;
 #endif
 #ifdef WEIGHT_BASIS_OPEN
   constexpr Weight_t basis_open = WEIGHT_BASIS_OPEN;
 #else
-  constexpr Weight_t basis_open = 1.70;
+  constexpr Weight_t basis_open = 1.60;
 #endif
 // weights[k] is the weight for clause-length k >= 2:
 Weight_vector weights {0,0, weight_2, 1, weight_4, weight_5};
@@ -555,11 +555,12 @@ static_assert(first_open_weight >= 4, "Wrong value of first_open_weight.");
    these weights are written into the initialisation of weights, and
    first_open_weight is to be adapted accordingly.
 
-   The current parameter values
-     weight_2=7.0, weight_4=0.31, weight_5=0.19, basis_open = 1.70
-   have been obtained via optimisation on VanDerWaerden_2-3-12_135.cnf,
-   yielding a local minimum for the node-count w.r.t. the indicated
-   precision (e.g., for weight_4 the values 0.32, 0.30 yield worse node count).
+   The current parameter values have been obtained mainly via optimisation on
+   VanDerWaerden_2-3-12_135.cnf (van der Waerden problem with two colours,
+   first colour arithmetic progressions of size 3, second colour
+   arithmetic progressions of size 12, with n = 135, the first n such that
+   every partition of {1,...,n} must contain an arithmetic progression of
+   size 3 in the first part or of size 12 in the second part).
 */
 constexpr double min_weight = std::numeric_limits<Weight_t>::min();
 static_assert(min_weight != 0, "Error with min_weight.");
