@@ -52,7 +52,7 @@ for debugging).
    - UCP_STRATEGY (default 1): 0 means BFS-processing, 1 means DFS-processing
      of unit-clauses.
    - PURE_LITERALS: if defined (default is undefined), then pure literals are
-     eliminated.
+     eliminated (as they are encountered, not iteratedly).
    - TAU_ITERATION: if defined (default is undefined), then this natural number
      is the number of iterations for computing the in principle more accurate,
      but also more costly tau-function as projection (instead of the product);
@@ -85,8 +85,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.2.0";
-const std::string date = "28.7.2013";
+const std::string version = "2.2.1";
+const std::string date = "29.7.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -641,7 +641,7 @@ inline void assign_1(const Lit x) {
 }
 
 #ifdef TAU_ITERATION
-inline Weight_t reciprocal_tau(const Weight_t a, const Weight_t b) {
+inline Weight_t tau(const Weight_t a, const Weight_t b) {
 # ifndef PURE_LITERALS
   if (a == 0 or b == 0) return 0;
 # endif
@@ -650,21 +650,17 @@ inline Weight_t reciprocal_tau(const Weight_t a, const Weight_t b) {
   Weight_t x = std::pow(4,1/(a+b));
   for (int i = 0; i < iterations; ++i) {
     const Weight_t pa = std::pow(x,-a), pb = std::pow(x,-b);
-    x += x * (pa + pb - 1) / (a*pa + b*pb);
+    x *= 1 + (pa + pb - 1) / (a*pa + b*pb);
   }
-  return 1/x;
+  return x;
 }
 inline Weight_t projection1(const Weight_t a, const Weight_t b) {
-  return reciprocal_tau(a,b);
+  return 1 / tau(a,b);
 }
 #else
-inline Weight_t projection1(const Weight_t a, const Weight_t b) {
-  return a * b;
-}
+inline Weight_t projection1(const Weight_t a, const Weight_t b) { return a*b; }
 #endif
-inline Weight_t projection2(const Weight_t a, const Weight_t b) {
-  return a + b;
-}
+inline Weight_t projection2(const Weight_t a, const Weight_t b) { return a+b; }
 
 inline Lit branching_literal() {
   Lit x;
