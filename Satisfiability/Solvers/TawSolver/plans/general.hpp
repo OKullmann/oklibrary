@@ -671,6 +671,75 @@ ttawSolver VanDerWaerden_2-3-12_134.cnf
 30.60 30.52 30.59 30.60 30.55
 ttawSolver VanDerWaerden_2-3-12_135.cnf
 37.90 38.12 38.05 38.13 38.12
+
+# ID 8f849791377c512a2a34286892f7fa62e198d64d
+# Version 2.1.2
+# Revised weights: 5.4, 0.31, 0.13, 1.6
+
+# tawSolver:
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     9.14
+c number_of_nodes                       829473
+c number_of_binary_nodes                414729
+c number_of_1-reductions                9709393
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     10.89
+c number_of_nodes                       977215
+c number_of_binary_nodes                488607
+c number_of_1-reductions                11510241
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+# ttawSolver:
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     36.26
+c number_of_nodes                       916407
+c number_of_binary_nodes                458196
+c number_of_1-reductions                10821102
+c number_of_pure_literals               1418
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     37.40
+c number_of_nodes                       928273
+c number_of_binary_nodes                464136
+c number_of_1-reductions                11010312
+c number_of_pure_literals               1196
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+9.13 9.14 9.08 9.13 9.07
+tawSolver VanDerWaerden_2-3-12_135.cnf
+10.89 10.87 10.84 10.86 10.95
+ttawSolver VanDerWaerden_2-3-12_134.cnf
+36.26 36.56 36.43 36.35 36.41
+ttawSolver VanDerWaerden_2-3-12_135.cnf
+37.40 37.22 37.43 37.42 37.53
+
+# Somewhat improved node-counts (ignoring satisfiable instances).
+
    \endverbatim
    </li>
   </ul>
