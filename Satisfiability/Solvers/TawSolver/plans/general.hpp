@@ -740,6 +740,49 @@ ttawSolver VanDerWaerden_2-3-12_135.cnf
 
 # Somewhat improved node-counts (ignoring satisfiable instances).
 
+# ID cc8bbb4f92750e728ca1c1461034903a3cff1e40
+# Improved implementation of tau-heuristics.
+
+# ttawSolver:
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     19.07
+c number_of_nodes                       916403
+c number_of_binary_nodes                458194
+c number_of_1-reductions                10821105
+c number_of_pure_literals               1418
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     19.52
+c number_of_nodes                       928273
+c number_of_binary_nodes                464136
+c number_of_1-reductions                11010516
+c number_of_pure_literals               1196
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> oklib timing
+# cswsok (one other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+9.31 9.29 9.30 9.28 9.27
+tawSolver VanDerWaerden_2-3-12_135.cnf
+11.25 11.15 11.11 11.11 11.19
+ttawSolver VanDerWaerden_2-3-12_134.cnf
+19.07 19.04 18.99 18.98 19.04
+ttawSolver VanDerWaerden_2-3-12_135.cnf
+19.52 19.60 19.49 19.54 19.51
+
+# Speed improved nearly by a factor of two for the tau-version (while
+# node-counts are nearly identical).
    \endverbatim
    </li>
   </ul>
