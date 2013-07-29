@@ -22,7 +22,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 /*
   Compile with
 
-> g++ --std=c++11 -Wall -Ofast -funroll-loops -funsafe-loop-optimizations -fno-math-errno -funsafe-math-optimizations -ffinite-math-only -fwhole-program -DNDEBUG -o tawSolver tawSolver.cpp
+> g++ --std=c++11 -Wall -Ofast -funroll-loops -funsafe-loop-optimizations -fno-math-errno -funsafe-math-optimizations -fwhole-program -DNDEBUG -o tawSolver tawSolver.cpp
 
 (or with "g++ --std=c++11 -Wall -g -o tawSolver tawSolver.cpp"
 for debugging).
@@ -56,9 +56,8 @@ for debugging).
    - TAU_ITERATION: if defined (default is undefined), then this natural number
      is the number of iterations for computing the in principle more accurate,
      but also more costly tau-function as projection (instead of the product);
-     using TAU_ITERATION=0 amounts to the choice of the sum as projection,
-     while a reasonable value seems TAU_ITERATION=5 (leading to decreased
-     node-counts, but increased run-times).
+     if TAU_ITERATION, then a reasonable default seems the value 5.
+     TAU_ITERATION implies PURE_LITERALS.
 
   To provide further versioning-information, there are two macros, which are
   only relevant if they are defined:
@@ -85,7 +84,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.3.0";
+const std::string version = "2.3.1";
 const std::string date = "29.7.2013";
 
 const std::string program = "tawSolver";
@@ -563,8 +562,11 @@ static_assert(first_open_weight >= 4, "Wrong value of first_open_weight.");
    size 3 in the first part or of size 12 in the second part).
 */
 constexpr Weight_t min_weight = std::numeric_limits<Weight_t>::min();
-constexpr Weight_t max_weight = std::numeric_limits<Weight_t>::max();
 static_assert(min_weight != 0, "Error with min_weight.");
+#ifdef TAU_ITERATION
+static_assert(std::numeric_limits<Weight_t>::has_infinity, "Tau-computation needs +inf.");
+constexpr Weight_t inf_weight = std::numeric_limits<Weight_t>::infinity();
+#endif
 // the weights for clause of length >= first_open_weight:
 Weight_t wopen(const Clause_index clause_length) {
   const Weight_t res = weights[first_open_weight-1] *
@@ -646,10 +648,13 @@ inline Lit first_branch(const Weight_t pd, const Weight_t nd, const Var v) {
   return (pd>=nd) ? Lit(v) : -Lit(v);
 }
 #ifdef TAU_ITERATION
+# ifndef PURE_LITERALS
+#  error "TAU_ITERATION requires PURE_LITERALS"
+# endif
 class Branching_tau {
   Lit x;
   Weight_t min1, max2;
-  Weight_t tau(const Weight_t a, const Weight_t b) {
+  static Weight_t tau(const Weight_t a, const Weight_t b) {
     constexpr int iterations = TAU_ITERATION;
     Weight_t x = std::pow(4,1/(a+b));
     for (int i = 0; i < iterations; ++i) {
@@ -659,22 +664,18 @@ class Branching_tau {
     return x;
   }
 public :
-  Branching_tau() : x{}, min1(max_weight), max2(0) {}
+  Branching_tau() : x{}, min1(inf_weight), max2(0) {}
   operator Lit() const { return x; }
   void operator()(const Weight_t pd, const Weight_t nd, const Var v) {
-# ifndef PURE_LITERALS
-    if (pd == 0 or nd == 0)
-      if (min1 < max_weight) return;
-      else {
-        const Weight_t sum = pd + nd;
-        if (sum > max2) { max2=sum; x = first_branch(pd,nd,v); }
-      }
-# endif
     assert(pd > 0); assert(nd > 0);
     const Weight_t chi = std::pow(min1,-pd) + std::pow(min1,-nd);
+    if (chi>1) return;
     const Weight_t sum = pd + nd;
-    if (chi < 1) { min1 = tau(pd, nd); max2 = sum; x = first_branch(pd,nd,v); }
-    else if (chi == 1 and sum > max2) {max2 = sum; x = first_branch(pd,nd,v);}
+    if (chi==0) { if ((min1=tau(pd,nd))==inf_weight and sum<=max2) return; }
+    else if (chi==1) { if (sum<=max2) return; }
+    else if (chi<1) min1=tau(pd,nd);
+    max2=sum;
+    x = first_branch(pd,nd,v);
   }
 };
 typedef Branching_tau Best_branching;
@@ -686,9 +687,13 @@ public :
   Branching_product() : x{}, max1(0), max2(0) {}
   operator Lit() const { return x; }
   void operator()(const Weight_t pd, const Weight_t nd, const Var v) {
-    const Weight_t prod = pd * nd, sum = pd + nd;
-    if (prod > max1) { max1 = prod; max2 = sum; x = first_branch(pd,nd,v); }
-    else if (prod == max1 and sum > max2) {max2=sum; x=first_branch(pd,nd,v);}
+    const Weight_t prod = pd * nd;
+    if (prod < max1) return;
+    const Weight_t sum = pd + nd;
+    if (prod > max1) max1=prod;
+    else if (sum <= max2) return;
+    max2 = sum;
+    x = first_branch(pd,nd,v);
   }
 };
 typedef Branching_product Best_branching;
