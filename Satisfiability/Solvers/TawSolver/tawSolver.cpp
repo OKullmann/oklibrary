@@ -85,7 +85,7 @@ for debugging).
 namespace {
 
 const std::string version = "2.3.1";
-const std::string date = "29.7.2013";
+const std::string date = "30.7.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -838,7 +838,7 @@ void version_information() {
 #ifdef TAU_ITERATION
    "  TAU_ITERATION = " << TAU_ITERATION << "\n"
 #else
-   " Compiled without TAU_ITERATION \n"
+   " Compiled without TAU_ITERATION\n"
 #endif
 #ifdef PURE_LITERALS
    " Compiled with PURE_LITERALS\n"
