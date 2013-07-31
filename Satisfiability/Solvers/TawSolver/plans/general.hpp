@@ -783,6 +783,23 @@ ttawSolver VanDerWaerden_2-3-12_135.cnf
 
 # Speed improved nearly by a factor of two for the tau-version (while
 # node-counts are nearly identical).
+
+# ID 808f84e3c0057a0ba807d8ad5cb96cf54a44452e
+# Version 2.3.3
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+8.94 8.94 8.88 8.92 8.95
+tawSolver VanDerWaerden_2-3-12_135.cnf
+10.73 10.70 10.72 10.70 10.68
+ttawSolver VanDerWaerden_2-3-12_134.cnf
+18.55 18.77 18.71 18.71 18.69
+ttawSolver VanDerWaerden_2-3-12_135.cnf
+19.15 19.26 19.13 19.13 19.09
+
+# Speed seems to have improved a bit: the improved organisation? Lit now POD?
    \endverbatim
    </li>
   </ul>
