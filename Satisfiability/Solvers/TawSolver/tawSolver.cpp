@@ -535,6 +535,40 @@ public :
 };
 Push_unit_clause push_unit_clause;
 
+#ifdef PURE_LITERALS
+class Pure_stack {
+  typedef Lit_vec stack_t;
+  static stack_t stack;
+  static const Lit* new_begin;
+  static Lit* end_;
+  const Lit* const begin_;
+  const Lit* begin() const { return begin_; }
+  static const Lit* end() { return end_; }
+public :
+  static void init() {
+    stack.resize(n_vars);
+    assert(n_vars);
+    end_ = &stack[0];
+  }
+  static void clear() { new_begin = end_; }
+  static void push(const Lit x) {
+    assert(end_ - &stack[0] < n_vars);
+    *(end_++) = x;
+  }
+  Pure_stack() : begin_(new_begin) {}
+  ~Pure_stack() {
+    if (delete_assignments) for (const Lit x : *this) pass[var(x)] = Lit();
+    end_ = const_cast<Lit*>(begin_);
+  }
+};
+Pure_stack::stack_t Pure_stack::stack;
+const Lit* Pure_stack::new_begin;
+Lit* Pure_stack::end_;
+#endif
+
+
+// --- Weight handling ---
+
 #ifdef WEIGHT_2_CLAUSES
   constexpr Weight_t weight_2 = WEIGHT_2_CLAUSES;
 #else
@@ -594,37 +628,6 @@ void initialise_weights() {
   for (Clause_index i = first_open_weight; i <= max_clause_length; ++i)
     weights[i] = wopen(i);
 }
-
-#ifdef PURE_LITERALS
-class Pure_stack {
-  typedef Lit_vec stack_t;
-  static stack_t stack;
-  static const Lit* new_begin;
-  static Lit* end_;
-  const Lit* const begin_;
-  const Lit* begin() const { return begin_; }
-  static const Lit* end() { return end_; }
-public :
-  static void init() {
-    stack.resize(n_vars);
-    assert(n_vars);
-    end_ = &stack[0];
-  }
-  static void clear() { new_begin = end_; }
-  static void push(const Lit x) {
-    assert(end_ - &stack[0] < n_vars);
-    *(end_++) = x;
-  }
-  Pure_stack() : begin_(new_begin) {}
-  ~Pure_stack() {
-    if (delete_assignments) for (const Lit x : *this) pass[var(x)] = Lit();
-    end_ = const_cast<Lit*>(begin_);
-  }
-};
-Pure_stack::stack_t Pure_stack::stack;
-const Lit* Pure_stack::new_begin;
-Lit* Pure_stack::end_;
-#endif
 
 
 // --- SAT solving algorithms ---
