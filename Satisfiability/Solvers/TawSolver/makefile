@@ -26,7 +26,7 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all check new_check app_tests timing cleanall
+.PHONY : all check new_check app_tests timing cleanall debug debug_main debug_side allall
 
 ifeq ($(gpp_call_okl),)
   CXX = g++
@@ -42,6 +42,7 @@ Optimisation_options = -Ofast -funroll-loops -funsafe-loop-optimizations -fno-ma
 # Run from time to time with -Wunsafe-loop-optimizations to check for the
 # assumptions made by -funsafe-loop-optimizations.
 Optimisation_options_tau = -Ofast -funroll-loops -funsafe-loop-optimizations -fno-math-errno -funsafe-math-optimizations -fwhole-program -DNDEBUG
+debug_options = -g
 
 ifeq ($(git_id_oklib),)
   Other_options =
@@ -56,9 +57,13 @@ tau_iteration = 5
 ifeq ($(bin_dir),)
   main_target = tawSolver
   side_target = ttawSolver
+  debug_main = tawSolver_debug
+  debug_side = ttawSolver_debug
 else
   main_target = $(bin_dir)/tawSolver
   side_target = $(bin_dir)/ttawSolver
+  debug_main = $(bin_dir)/tawSolver_debug
+  debug_side = $(bin_dir)/ttawSolver_debug
 endif
 
 ifeq ($(log_dir),)
@@ -67,13 +72,25 @@ else
   outputfile = $(log_dir)/Output_timing_tawSolver
 endif
 
+
+allall : all debug
+
 all : $(main_target) $(side_target)
 
 $(main_target) : tawSolver.cpp
-	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $(main_target) $(LFLAGS)
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $@ $(LFLAGS)
 
 $(side_target) : tawSolver.cpp
-	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options_tau) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DPURE_LITERALS -DTAU_ITERATION=$(tau_iteration) tawSolver.cpp -o $(side_target) $(LFLAGS)
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options_tau) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DPURE_LITERALS -DTAU_ITERATION=$(tau_iteration) tawSolver.cpp -o $@ $(LFLAGS)
+
+debug : $(debug_main) $(debug_side)
+
+$(debug_main) : tawSolver.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $@ $(LFLAGS)
+
+$(debug_side) : tawSolver.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DPURE_LITERALS -DTAU_ITERATION=$(tau_iteration) tawSolver.cpp -o $@ $(LFLAGS)
+
 
 
 repeat := 5
@@ -105,4 +122,4 @@ app_tests :
 
 
 cleanall :
-	- rm $(main_target) $(side_target)
+	- rm $(main_target) $(side_target) $(debug_main) $(debug_side)
