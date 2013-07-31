@@ -149,9 +149,7 @@ static_assert(std::numeric_limits<Clause_index>::max() <= std::numeric_limits<We
 typedef std::uint_fast64_t Count_clauses;
 typedef std::vector<std::array<Count_clauses,2>> Count_vec;
 
-Count_clauses n_header_clauses, n_clauses, r_clauses; // "r" = "remaining"
-Count_clauses n_lit_occurrences;
-Var n_vars;
+Count_clauses r_clauses; // "r" = "remaining"
 
 class Clause {
   const Lit* b; // the array of literals in the clause (as in the input)
@@ -189,8 +187,6 @@ typedef Clause* ClauseP;
 typedef std::vector<Clause> Clause_vec;
 typedef std::vector<ClauseP> ClauseP_vec;
 
-Clause_vec clauses;
-
 class Literal_occurrences {
   const ClauseP* b; // array with clause-pointers
   const ClauseP* e; // one past-the-end
@@ -202,12 +198,22 @@ public :
 };
 static_assert(std::is_pod<Literal_occurrences>::value, "Literal_occurrences is not POD.");
 
+typedef std::uint_fast64_t Count_statistics;
+
+
+// --- Basic global variables ---
+
+Clause_vec clauses;
+
 std::vector<std::array<Literal_occurrences,2>> lits;
 // lits[v][pos/neg] for a variable v represents the list of occurrences.
+ClauseP_vec all_lit_occurrences; // the underlying raw storage
 
+Count_clauses n_header_clauses, n_clauses; // r_clauses see above
+Count_clauses n_lit_occurrences;
+Var n_vars;
 Clause_index max_clause_length;
 
-typedef std::uint_fast64_t Count_statistics;
 Count_statistics n_nodes;
 Count_statistics n_backtracks;
 Count_statistics n_units;
@@ -333,8 +339,6 @@ void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
   ++n_clauses;
   n_lit_occurrences += n;
 }
-
-ClauseP_vec all_lit_occurrences;
 
 void set_literal_occurrences(Count_vec& count) {
   if (all_lit_occurrences.empty()) return;
