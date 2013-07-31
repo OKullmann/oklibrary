@@ -84,8 +84,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.3.1";
-const std::string date = "30.7.2013";
+const std::string version = "2.3.2";
+const std::string date = "31.7.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -122,7 +122,7 @@ inline Polarity operator -(const Polarity p) { return (p == pos) ? neg:pos; }
 class Lit {
   Lit_int x;
 public :
-  constexpr Lit() : x(0) {}
+  Lit() = default;
   constexpr explicit Lit(const Lit_int x) : x(x) {}
   constexpr explicit operator bool() const { return x; }
   constexpr Lit operator -() const { return Lit(-x); }
@@ -136,10 +136,12 @@ public :
     return in >> x.x;
   }
 };
+static_assert(std::is_pod<Lit>::value, "Lit is not POD.");
 
 typedef std::vector<Lit> Lit_vec;
 
 typedef double Weight_t; // weights and their sums
+static_assert(std::is_pod<Weight_t>::value, "Weight_t is not POD.");
 typedef std::vector<Weight_t> Weight_vector;
 typedef Var Clause_index;
 static_assert(std::numeric_limits<Clause_index>::max() <= std::numeric_limits<Weight_vector::size_type>::max(), "Type Clause_index too large for weight vector (conversions cost too much time here).");
@@ -180,6 +182,8 @@ public :
   Clause_index length() const { return length_; }
   explicit operator bool() const { return length_; }
 };
+static_assert(std::is_pod<Clause>::value, "Clause is not POD.");
+
 typedef Clause* ClauseP;
 
 typedef std::vector<Clause> Clause_vec;
@@ -196,6 +200,8 @@ public :
    Count_clauses size() const { return e-b; }
    friend void set_literal_occurrences(Count_vec&);
 };
+static_assert(std::is_pod<Literal_occurrences>::value, "Literal_occurrences is not POD.");
+
 std::vector<std::array<Literal_occurrences,2>> lits;
 // lits[v][pos/neg] for a variable v represents the list of occurrences.
 
