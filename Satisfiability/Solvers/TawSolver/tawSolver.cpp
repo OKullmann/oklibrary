@@ -84,7 +84,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.3.2";
+const std::string version = "2.3.3";
 const std::string date = "31.7.2013";
 
 const std::string program = "tawSolver";
@@ -883,26 +883,32 @@ void version_information() {
   ;
 }
 
-}
-
 std::string filename;
 #include <sys/resource.h>
-rusage timing;
-rusage* const ptiming = &timing;
-double current_time() {
-  getrusage(RUSAGE_SELF, ptiming);
-  return timing.ru_utime.tv_sec + timing.ru_utime.tv_usec / 1000000.0;
-}
+class UserTime {
+  rusage timing;
+  rusage* const ptiming;
+public :
+  UserTime() : ptiming(&timing) {}
+  double operator()() {
+    getrusage(RUSAGE_SELF, ptiming);
+    return timing.ru_utime.tv_sec + timing.ru_utime.tv_usec / 1000000.0;
+  }
+};
+UserTime timing;
+
 double t1; // start of SAT solving
 void abortion(const int sig) {
   std::signal(SIGINT, abortion);
-  output(filename, unknown, current_time() - t1);
+  output(filename, unknown, timing() - t1);
   std::exit(unknown);
 }
 void show_statistics(const int sig) {
   signal(SIGUSR1, show_statistics);
-  output(filename, unknown, current_time() - t1);
+  output(filename, unknown, timing() - t1);
 }
+
+} // anonymous namespace
 
 int main(const int argc, const char* const argv[]) {
   if (argc == 1) {
@@ -933,9 +939,9 @@ int main(const int argc, const char* const argv[]) {
      " data structures.\n";
     std::exit(allocation_error);
   }
-  t1 = current_time();
+  t1 = timing();
   const auto result = dll0();
-  const auto t2 = current_time();
+  const auto t2 = timing();
   const auto ires = interprete_run(result);
   output(filename, ires, t2-t1);
   return ires;
