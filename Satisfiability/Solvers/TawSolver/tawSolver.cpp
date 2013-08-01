@@ -636,6 +636,12 @@ static_assert(predetermined_weights[0] == 0, "weights[0] != 0.");
 static_assert(predetermined_weights[2] != 0, "Zero weight.");
 static_assert(predetermined_weights[3] == 1, "weights[3] != 1.");
 static_assert(predetermined_weights[first_open_weight-1] != 0, "Zero weight.");
+/* Remarks:
+    - predetermined_weights[1] is arbitrary (since not used).
+    - If special weights for clause-lengths k = 4,5,... are to be used, then
+      these weights are written into predetermined_weights, and
+      first_open_weight is to be adapted accordingly.
+*/
 
 constexpr Weight_t min_weight = std::numeric_limits<Weight_t>::min();
 static_assert(min_weight != 0, "Error with min_weight.");
@@ -653,12 +659,6 @@ constexpr Weight_t wopen(const Clause_index clause_length) {
 
 // weights[k] is the weight for clause-length k >= 2:
 Weight_vector weights(predetermined_weights.begin(), predetermined_weights.end());
-/* Remarks:
-    - weights[1] is arbitrary (since not used).
-    - If special weights for clause-lengths k = 4,5,... are to be used, then
-      these weights are written into predetermined_weights, and
-      first_open_weight is to be adapted accordingly.
-*/
 void initialise_weights() {
   assert(weights.size() == first_open_weight);
   try { weights.resize(max_clause_length+1); }
