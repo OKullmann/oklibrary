@@ -578,7 +578,11 @@ Lit* Pure_stack::end_;
 #ifdef WEIGHT_2_CLAUSES
   constexpr Weight_t weight_2 = WEIGHT_2_CLAUSES;
 #else
+# ifdef TAU_ITERATION
   constexpr Weight_t weight_2 = 5.0;
+# else
+  constexpr Weight_t weight_2 = 4.85;
+# endif
 #endif
 #ifdef WEIGHT_4_CLAUSES
   constexpr Weight_t weight_4 = WEIGHT_4_CLAUSES;
