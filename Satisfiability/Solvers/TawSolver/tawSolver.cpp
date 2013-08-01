@@ -605,9 +605,9 @@ Lit* Pure_stack::end_;
   constexpr Weight_t weight_6 = WEIGHT_6;
 #else
 # ifdef TAU_ITERATION
-  constexpr Weight_t weight_6 = weight_5 / 1.6;
+  constexpr Weight_t weight_6 = 0.077;
 # else
-  constexpr Weight_t weight_6 = weight_5 / 1.5;
+  constexpr Weight_t weight_6 = 0.069;
 # endif
 #endif
 
