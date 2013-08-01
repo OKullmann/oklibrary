@@ -620,34 +620,45 @@ Lit* Pure_stack::end_;
   constexpr Weight_t basis_open = 1.50;
 # endif
 #endif
-// weights[k] is the weight for clause-length k >= 2:
-Weight_vector weights {0,0, weight_2, 1, weight_4, weight_5, weight_6};
-// Remark: weights[1] is arbitrary (since not used).
-constexpr Clause_index first_open_weight = 7;
-static_assert(first_open_weight >= 4, "Wrong value of first_open_weight.");
-/* If special weights for clause-lengths k = 4,5,... are to be used, then
-   these weights are written into the initialisation of weights, and
-   first_open_weight is to be adapted accordingly.
 
-   The current parameter values have been obtained mainly via optimisation on
+/* The current parameter values have been obtained mainly via optimisation on
    VanDerWaerden_2-3-12_135.cnf (van der Waerden problem with two colours,
    first colour arithmetic progressions of size 3, second colour
    arithmetic progressions of size 12, with n = 135, the first n such that
    every partition of {1,...,n} must contain an arithmetic progression of
    size 3 in the first part or of size 12 in the second part).
 */
+
+constexpr Clause_index first_open_weight = 7;
+static_assert(first_open_weight >= 4, "Wrong value of first_open_weight.");
+constexpr std::array<Weight_t, first_open_weight> predetermined_weights {{0,0, weight_2, 1, weight_4, weight_5, weight_6}};
+static_assert(predetermined_weights[0] == 0, "weights[0] != 0.");
+static_assert(predetermined_weights[2] != 0, "Zero weight.");
+static_assert(predetermined_weights[3] == 1, "weights[3] != 1.");
+static_assert(predetermined_weights[first_open_weight-1] != 0, "Zero weight.");
+
 constexpr Weight_t min_weight = std::numeric_limits<Weight_t>::min();
 static_assert(min_weight != 0, "Error with min_weight.");
 #ifdef TAU_ITERATION
 static_assert(std::numeric_limits<Weight_t>::has_infinity, "Tau-computation needs +inf.");
 constexpr Weight_t inf_weight = std::numeric_limits<Weight_t>::infinity();
 #endif
+
 // the weights for clause of length >= first_open_weight:
 Weight_t wopen(const Clause_index clause_length) {
-  const Weight_t res = weights[first_open_weight-1] *
+  const Weight_t res = predetermined_weights[first_open_weight-1] *
     std::pow(basis_open,-double(clause_length)+first_open_weight-1);
   return (res == 0) ? min_weight : res;
 }
+
+// weights[k] is the weight for clause-length k >= 2:
+Weight_vector weights(predetermined_weights.begin(), predetermined_weights.end());
+/* Remarks:
+    - weights[1] is arbitrary (since not used).
+    - If special weights for clause-lengths k = 4,5,... are to be used, then
+      these weights are written into predetermined_weights, and
+      first_open_weight is to be adapted accordingly.
+*/
 void initialise_weights() {
   assert(weights.size() == first_open_weight);
   try { weights.resize(max_clause_length+1); }
