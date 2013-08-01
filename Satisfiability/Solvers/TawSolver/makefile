@@ -73,9 +73,9 @@ else
 endif
 
 
-allall : all debug
-
 all : $(main_target) $(side_target)
+
+allall : all debug
 
 $(main_target) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $@ $(LFLAGS)
