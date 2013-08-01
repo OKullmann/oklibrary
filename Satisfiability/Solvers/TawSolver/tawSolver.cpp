@@ -42,8 +42,7 @@ for debugging).
 
   There are the following macros to control compilation:
    - LIT_TYPE (default std::int32_t)
-   - WEIGHT_2_CLAUSES, WEIGHT_4_CLAUSES, WEIGHT_5_CLAUSES,
-     and WEIGHT_BASIS_OPEN:
+   - WEIGHT_2, WEIGHT_4, WEIGHT_5, and WEIGHT_BASIS_OPEN:
      the weight for clause-length k=3 is standardised to 1, the weights for
      k = 2, 4, 5 are given by the first three macros, and the
      non-predetermined weights (w.r.t. the initialisation of vector "weights")
@@ -575,8 +574,8 @@ Lit* Pure_stack::end_;
 
 // --- Weight handling ---
 
-#ifdef WEIGHT_2_CLAUSES
-  constexpr Weight_t weight_2 = WEIGHT_2_CLAUSES;
+#ifdef WEIGHT_2
+  constexpr Weight_t weight_2 = WEIGHT_2;
 #else
 # ifdef TAU_ITERATION
   constexpr Weight_t weight_2 = 5.0;
@@ -584,8 +583,8 @@ Lit* Pure_stack::end_;
   constexpr Weight_t weight_2 = 4.85;
 # endif
 #endif
-#ifdef WEIGHT_4_CLAUSES
-  constexpr Weight_t weight_4 = WEIGHT_4_CLAUSES;
+#ifdef WEIGHT_4
+  constexpr Weight_t weight_4 = WEIGHT_4;
 #else
 # ifdef TAU_ITERATION
   constexpr Weight_t weight_4 = 0.295;
@@ -593,8 +592,8 @@ Lit* Pure_stack::end_;
   constexpr Weight_t weight_4 = 0.354;
 # endif
 #endif
-#ifdef WEIGHT_5_CLAUSES
-  constexpr Weight_t weight_5 = WEIGHT_5_CLAUSES;
+#ifdef WEIGHT_5
+  constexpr Weight_t weight_5 = WEIGHT_5;
 #else
 # ifdef TAU_ITERATION
   constexpr Weight_t weight_5 = 0.127;
