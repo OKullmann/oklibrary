@@ -1236,6 +1236,19 @@ TawSolver> ./RunWeights WEIGHT_4_CLAUSES 0.27 0.37 0.001 VanDerWaerden_2-3-12_13
 > E2[E2$nds==min(E2$nds),]
        x  rn   rc mcl     t sat    nds   bnds       r1  pls ptime
 26 0.295 135 5251  12 18.79   0 927705 463852 11007465 1179 0.002
+
+# Value for tawSolver very unclear.
+   \endverbatim
+   </li>
+   <li> Re-examining WEIGHT_5:
+   \verbatim
+TawSolver> ./RunWeights WEIGHT_5_CLAUSES 0.09 0.15 0.001 VanDerWaerden_2-3-12_135.cnf ""
+> E1[E1$nds==min(E1$nds),]
+      x  rn   rc mcl    t sat    nds   bnds       r1 pls ptime
+21 0.11 135 5251  12 10.6   0 962181 481090 11319517   0 0.005
+> E2[E2$nds==min(E2$nds),]
+       x  rn   rc mcl    t sat    nds   bnds       r1  pls ptime
+33 0.122 135 5251  12 18.9   0 927587 463793 11002176 1184 0.004
    \endverbatim
    </li>
   </ul>
