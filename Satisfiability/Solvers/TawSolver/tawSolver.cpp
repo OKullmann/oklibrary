@@ -405,14 +405,14 @@ class ChangeManagement {
   ClauseP_vec changes;
   const ClauseP* begin;
   ClauseP* next;
-public :
-  typedef ClauseP_vec::size_type size_type;
   void init() {
     const auto s = n_lit_occurrences + 3 * n_vars;
     assert(s >= 1);
     changes.resize(s);
     begin = next = &*changes.begin();
   }
+  friend void initialisation();
+public :
   void start_new() { *(next++) = nullptr; }
   void push(const ClauseP C) { *(next++) = C; }
   void reactivate_0() { while (const ClauseP C = *(--next)) C->increment(); }
@@ -432,12 +432,13 @@ class Unit_stack {
   static Lit* end_;
   static Lit* open_;
   const Lit* const begin_;
-public :
   static void init() {
     stack.resize(n_vars);
     assert(n_vars);
     end_ = &stack[0];
   }
+  friend void initialisation();
+public :
   static void push(const Lit x) {
     assert(end_ - &stack[0] < n_vars);
     *(end_++) = x;
@@ -480,7 +481,6 @@ class Unit_stack {
     assert(end_input != begin_input);
     return *(--end_input);
   }
-public :
   static void init() {
     main_stack.resize(n_vars);
     input_stack.resize(n_vars);
@@ -488,6 +488,8 @@ public :
     end_main = &main_stack[0];
     begin_input = end_input = &input_stack[0];
   }
+  friend void initialisation();
+public :
   static void push(const Lit x) {
     assert(end_input - begin_input < n_vars);
     *(end_input++) = x;
@@ -549,12 +551,13 @@ class Pure_stack {
   const Lit* const begin_;
   const Lit* begin() const { return begin_; }
   static const Lit* end() { return end_; }
-public :
   static void init() {
     stack.resize(n_vars);
     assert(n_vars);
     end_ = &stack[0];
   }
+  friend void initialisation();
+public :
   static void clear() { new_begin = end_; }
   static void push(const Lit x) {
     assert(end_ - &stack[0] < n_vars);
@@ -649,7 +652,6 @@ constexpr Weight_t inf_weight = std::numeric_limits<Weight_t>::infinity();
 #endif
 
 // weight[k] is the weight for clause-length k >= 2:
-} int main(int, const char* const*); namespace {
 class Weights {
   constexpr static Weight_t min_weight = std::numeric_limits<Weight_t>::min();
   static_assert(min_weight != 0, "Error with min_weight.");
@@ -663,7 +665,7 @@ class Weights {
   }
 
   Weight_vector weights;
-  void initialise() {
+  void init() {
     assert(weights.size() == first_open_weight);
     try { weights.resize(max_clause_length+1); }
     catch (const std::bad_alloc&) {
@@ -674,7 +676,7 @@ class Weights {
     for (Clause_index i = first_open_weight; i <= max_clause_length; ++i)
       weights[i] = wopen(i);
   }
-  friend int ::main(int, const char* const*);
+  friend void initialisation();
 public :
   Weights() : weights(predetermined_weights.begin(), predetermined_weights.end()) {}
   Weight_t operator[] (const Clause_index i) const { return weights[i]; }
@@ -684,6 +686,16 @@ Weights weight;
 
 
 // --- SAT solving algorithms ---
+
+void initialisation() {
+  pass.resize(n_vars+1);
+  changes.init();
+  Unit_stack::init();
+  weight.init();
+#ifdef PURE_LITERALS
+  Pure_stack::init();
+#endif
+}
 
 inline void assign_0(const Lit x) {
   assert(x);
@@ -984,22 +996,16 @@ int main(const int argc, const char* const argv[]) {
   }
   t0 = timing();
   read_formula(filename);
-  if (n_clauses) try {
-    pass.resize(n_vars+1);
-    changes.init();
-    Unit_stack::init();
-    weight.initialise();
-#ifdef PURE_LITERALS
-    Pure_stack::init();
-#endif
-    std::signal(SIGINT, abortion);
-    std::signal(SIGUSR1, show_statistics);
+  if (n_clauses) {
+    try { initialisation(); }
+    catch (const std::bad_alloc&) {
+      std::cerr << err << "Allocation error with initialisation of algorithmic"
+       " data structures.\n";
+      std::exit(allocation_error);
+    }
   }
-  catch (const std::bad_alloc&) {
-    std::cerr << err << "Allocation error with initialisation of algorithmic"
-     " data structures.\n";
-    std::exit(allocation_error);
-  }
+  std::signal(SIGINT, abortion);
+  std::signal(SIGUSR1, show_statistics);
   t1 = timing();
   const auto result = dll0();
   const auto ires = interprete_run(result);
