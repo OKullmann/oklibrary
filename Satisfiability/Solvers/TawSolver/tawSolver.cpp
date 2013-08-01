@@ -926,6 +926,7 @@ void version_information() {
    " Version: " << version << "\n"
    " Last change date: " << date << "\n"
    " Mapping k -> weight, for clause-lengths k specified at compile-time:\n ";
+   std::cout.precision(4);
    for (Clause_index k = 2; k < first_open_weight; ++k)
      std::cout << "  " << k << "->" << weight[k];
    std::cout << "\n"
