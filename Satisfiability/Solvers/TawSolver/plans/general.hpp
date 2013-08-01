@@ -1262,6 +1262,12 @@ TawSolver> ./RunWeights WEIGHT_6 0.02 0.12 0.001 VanDerWaerden_2-3-12_135.cnf ""
 58 0.077 135 5251  12 18.75   0 927685 463842 11004258 1183 0.004
 
 TawSolver> ./RunWeights WEIGHT_6 0.067 0.08 0.0001 VanDerWaerden_2-3-12_135.cnf ""
+> E1[E1$nds==min(E1$nds),]
+        x  rn   rc mcl     t sat    nds   bnds       r1 pls ptime
+25 0.0694 135 5251  12 10.65   0 962115 481057 11306120   0 0.005
+> E2[E2$nds==min(E2$nds),]
+        x  rn   rc mcl     t sat    nds   bnds       r1  pls ptime
+87 0.0756 135 5251  12 18.84   0 927419 463709 10999237 1174 0.002
    \endverbatim
    <li>
   </ul>
