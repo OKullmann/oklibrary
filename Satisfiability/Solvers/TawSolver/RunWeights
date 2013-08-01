@@ -17,7 +17,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunWeights"
-version_number=0.0.5
+version_number=0.0.6
 
 if ([ $# -ne 6 ]) then
   echo -e "ERROR[${script_name}]: Precisely 6 parameters are needed:\n" \
@@ -64,7 +64,8 @@ ExtractTawSolver header-only >> $result1
 echo -n "x " > $result2
 ExtractTawSolver header-only >> $result2
 
-for ((x=start; x<=end; x+=step)); do
+x=$start
+while [ $(echo "$x <= $end" | bc) -eq 1 ]; do
   make -B all CXXFLAGS="-D${mainm}=$x ${furtherm}"
 
   set +e
@@ -83,6 +84,7 @@ for ((x=start; x<=end; x+=step)); do
   echo -n "$x " >> $result2
   cat $temp | ExtractTawSolver x >> $result2
 
+  x=$(echo "$x + $step" | bc)
 done
 
 exit 0
