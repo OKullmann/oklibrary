@@ -588,7 +588,11 @@ Lit* Pure_stack::end_;
 #ifdef WEIGHT_5_CLAUSES
   constexpr Weight_t weight_5 = WEIGHT_5_CLAUSES;
 #else
-  constexpr Weight_t weight_5 = 0.13;
+# ifdef TAU_ITERATION
+  constexpr Weight_t weight_5 = 0.127;
+# else
+  constexpr Weight_t weight_5 = 0.11;
+# endif
 #endif
 #ifdef WEIGHT_BASIS_OPEN
   constexpr Weight_t basis_open = WEIGHT_BASIS_OPEN;
