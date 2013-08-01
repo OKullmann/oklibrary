@@ -42,9 +42,9 @@ for debugging).
 
   There are the following macros to control compilation:
    - LIT_TYPE (default std::int32_t)
-   - WEIGHT_2, WEIGHT_4, WEIGHT_5, and WEIGHT_BASIS_OPEN:
+   - WEIGHT_2, WEIGHT_4, WEIGHT_5, WEIGHT_6 and WEIGHT_BASIS_OPEN:
      the weight for clause-length k=3 is standardised to 1, the weights for
-     k = 2, 4, 5 are given by the first three macros, and the
+     k = 2, 4, 5, 6 are given by the first four macros, and the
      non-predetermined weights (w.r.t. the initialisation of vector "weights")
      are obtained by repeatedly dividing the last predetermined weight by
      WEIGHT_BASIS_OPEN.
@@ -601,6 +601,16 @@ Lit* Pure_stack::end_;
   constexpr Weight_t weight_5 = 0.11;
 # endif
 #endif
+#ifdef WEIGHT_6
+  constexpr Weight_t weight_6 = WEIGHT_6;
+#else
+# ifdef TAU_ITERATION
+  constexpr Weight_t weight_6 = weight_5 / 1.6;
+# else
+  constexpr Weight_t weight_6 = weight_5 / 1.5;
+# endif
+#endif
+
 #ifdef WEIGHT_BASIS_OPEN
   constexpr Weight_t basis_open = WEIGHT_BASIS_OPEN;
 #else
@@ -611,9 +621,9 @@ Lit* Pure_stack::end_;
 # endif
 #endif
 // weights[k] is the weight for clause-length k >= 2:
-Weight_vector weights {0,0, weight_2, 1, weight_4, weight_5};
+Weight_vector weights {0,0, weight_2, 1, weight_4, weight_5, weight_6};
 // Remark: weights[1] is arbitrary (since not used).
-constexpr Clause_index first_open_weight = 6;
+constexpr Clause_index first_open_weight = 7;
 static_assert(first_open_weight >= 4, "Wrong value of first_open_weight.");
 /* If special weights for clause-lengths k = 4,5,... are to be used, then
    these weights are written into the initialisation of weights, and
