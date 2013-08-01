@@ -63,6 +63,11 @@ for debugging).
   only relevant if they are defined:
    - GIT_ID (for the identity hash-value of the Git repository)
    - OKLIB (with the url (without prefix "http://") for the OKlibrary.
+
+  Remarks on the statistics output:
+   - "running_time" is only solver-time
+   - "running_time + reading-and-set-up_time is total time.
+
 */
 
 #include <limits>
@@ -84,8 +89,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.3.3";
-const std::string date = "31.7.2013";
+const std::string version = "2.3.4";
+const std::string date = "1.8.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -363,6 +368,7 @@ void set_literal_occurrences(Count_vec& count) {
 }
 
 void read_formula(const std::string& filename) {
+  std::ios_base::sync_with_stdio(false);
   std::ifstream f(filename);
   if (not f) {
     std::cerr << err << "Invalid file name.\n";
@@ -803,7 +809,26 @@ bool dll0() { // without unit-clauses
 
 // --- Output ---
 
-void output(const std::string& file, const Result_value result, const Weight_t elapsed) {
+typedef double Time_point;
+
+#include <sys/resource.h>
+class UserTime {
+  rusage timing;
+  rusage* const ptiming;
+public :
+  UserTime() : ptiming(&timing) {}
+  double operator()() {
+    getrusage(RUSAGE_SELF, ptiming);
+    return timing.ru_utime.tv_sec + timing.ru_utime.tv_usec / 1000000.0;
+  }
+};
+UserTime timing;
+
+Time_point t0; // start of computation
+Time_point t1; // start of SAT solving
+
+void output(const std::string& file, const Result_value result) {
+  const Time_point elapsed = timing() - t1;
   std::cout << "s ";
   switch (result) {
     case unknown : std::cout << "UNKNOWN\n"; break;
@@ -811,17 +836,18 @@ void output(const std::string& file, const Result_value result, const Weight_t e
     case sat : std::cout << "SATISFIABLE\n";
   }
   std::cout <<
-         "c number_of_variables                   " << n_vars << "\n" <<
-         "c number_of_clauses                     " << n_clauses << "\n" <<
-         "c maximal_clause_length                 " << max_clause_length << "\n" <<
-         "c number_of_literal_occurrences         " << n_lit_occurrences << "\n" <<
-         "c running_time(sec)                     " << std::setprecision(2) << std::fixed << elapsed << "\n" <<
-         "c number_of_nodes                       " << n_nodes << "\n" <<
-         "c number_of_binary_nodes                " << n_backtracks << "\n" <<
-         "c number_of_1-reductions                " << n_units << "\n" <<
+         "c number_of_variables                   " << n_vars << "\n"
+         "c number_of_clauses                     " << n_clauses << "\n"
+         "c maximal_clause_length                 " << max_clause_length << "\n"
+         "c number_of_literal_occurrences         " << n_lit_occurrences << "\n"
+         "c running_time(sec)                     " << std::setprecision(2) << std::fixed << elapsed << "\n"
+         "c number_of_nodes                       " << n_nodes << "\n"
+         "c number_of_binary_nodes                " << n_backtracks << "\n"
+         "c number_of_1-reductions                " << n_units << "\n"
 #ifdef PURE_LITERALS
-         "c number_of_pure_literals               " << n_pure_literals << "\n" <<
+         "c number_of_pure_literals               " << n_pure_literals << "\n"
 #endif
+         "c reading-and-set-up_time(sec)          " << std::setprecision(3) << t1 - t0 << "\n"
          "c file_name                             " << file << std::endl;
   if (result == sat) {
     std::cout << "v ";
@@ -884,28 +910,15 @@ void version_information() {
 }
 
 std::string filename;
-#include <sys/resource.h>
-class UserTime {
-  rusage timing;
-  rusage* const ptiming;
-public :
-  UserTime() : ptiming(&timing) {}
-  double operator()() {
-    getrusage(RUSAGE_SELF, ptiming);
-    return timing.ru_utime.tv_sec + timing.ru_utime.tv_usec / 1000000.0;
-  }
-};
-UserTime timing;
 
-double t1; // start of SAT solving
 void abortion(const int sig) {
   std::signal(SIGINT, abortion);
-  output(filename, unknown, timing() - t1);
+  output(filename, unknown);
   std::exit(unknown);
 }
 void show_statistics(const int sig) {
   signal(SIGUSR1, show_statistics);
-  output(filename, unknown, timing() - t1);
+  output(filename, unknown);
 }
 
 } // anonymous namespace
@@ -922,6 +935,7 @@ int main(const int argc, const char* const argv[]) {
     version_information();
     return 0;
   }
+  t0 = timing();
   read_formula(filename);
   if (n_clauses) try {
     pass.resize(n_vars+1);
@@ -941,8 +955,7 @@ int main(const int argc, const char* const argv[]) {
   }
   t1 = timing();
   const auto result = dll0();
-  const auto t2 = timing();
   const auto ires = interprete_run(result);
-  output(filename, ires, t2-t1);
+  output(filename, ires);
   return ires;
 }
