@@ -645,10 +645,10 @@ constexpr Weight_t inf_weight = std::numeric_limits<Weight_t>::infinity();
 #endif
 
 // the weights for clause of length >= first_open_weight:
-Weight_t wopen(const Clause_index clause_length) {
-  const Weight_t res = predetermined_weights[first_open_weight-1] *
-    std::pow(basis_open,-double(clause_length)+first_open_weight-1);
-  return (res == 0) ? min_weight : res;
+constexpr Weight_t set_min(const Weight_t w) {return (w == 0)? min_weight : w;}
+constexpr Weight_t wopen(const Clause_index clause_length) {
+  return set_min(predetermined_weights[first_open_weight-1] *
+    std::pow(basis_open,-double(clause_length)+first_open_weight-1));
 }
 
 // weights[k] is the weight for clause-length k >= 2:
