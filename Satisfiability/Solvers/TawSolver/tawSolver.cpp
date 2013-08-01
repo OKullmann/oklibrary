@@ -643,33 +643,44 @@ static_assert(predetermined_weights[first_open_weight-1] != 0, "Zero weight.");
       first_open_weight is to be adapted accordingly.
 */
 
-constexpr Weight_t min_weight = std::numeric_limits<Weight_t>::min();
-static_assert(min_weight != 0, "Error with min_weight.");
 #ifdef TAU_ITERATION
 static_assert(std::numeric_limits<Weight_t>::has_infinity, "Tau-computation needs +inf.");
 constexpr Weight_t inf_weight = std::numeric_limits<Weight_t>::infinity();
 #endif
 
-// the weights for clause of length >= first_open_weight:
-constexpr Weight_t set_min(const Weight_t w) {return (w == 0)? min_weight : w;}
-constexpr Weight_t wopen(const Clause_index clause_length) {
-  return set_min(predetermined_weights[first_open_weight-1] *
-    std::pow(basis_open,-double(clause_length)+first_open_weight-1));
-}
-
-// weights[k] is the weight for clause-length k >= 2:
-Weight_vector weights(predetermined_weights.begin(), predetermined_weights.end());
-void initialise_weights() {
-  assert(weights.size() == first_open_weight);
-  try { weights.resize(max_clause_length+1); }
-  catch (const std::bad_alloc&) {
-    std::cerr << err << "Allocation error for double-vector of size " <<
-       max_clause_length << "+1 (the maximal clause-length).\n";
-    std::exit(allocation_error);
+// weight[k] is the weight for clause-length k >= 2:
+} int main(int, const char* const*); namespace {
+class Weights {
+  constexpr static Weight_t min_weight = std::numeric_limits<Weight_t>::min();
+  static_assert(min_weight != 0, "Error with min_weight.");
+  constexpr static Weight_t set_min(const Weight_t w) {
+    return (w == 0)? min_weight : w;
   }
-  for (Clause_index i = first_open_weight; i <= max_clause_length; ++i)
-    weights[i] = wopen(i);
-}
+  // the weights for clause of length >= first_open_weight:
+  constexpr static Weight_t wopen(const Clause_index clause_length) {
+    return set_min(predetermined_weights[first_open_weight-1] *
+      std::pow(basis_open,-double(clause_length)+first_open_weight-1));
+  }
+
+  Weight_vector weights;
+  void initialise() {
+    assert(weights.size() == first_open_weight);
+    try { weights.resize(max_clause_length+1); }
+    catch (const std::bad_alloc&) {
+      std::cerr << err << "Allocation error for double-vector of size " <<
+         max_clause_length << "+1 (the maximal clause-length).\n";
+      std::exit(allocation_error);
+    }
+    for (Clause_index i = first_open_weight; i <= max_clause_length; ++i)
+      weights[i] = wopen(i);
+  }
+  friend int ::main(int, const char* const*);
+public :
+  Weights() : weights(predetermined_weights.begin(), predetermined_weights.end()) {}
+  Weight_t operator[] (const Clause_index i) const { return weights[i]; }
+};
+constexpr Weight_t Weights::min_weight;
+Weights weight;
 
 
 // --- SAT solving algorithms ---
@@ -764,7 +775,7 @@ inline Lit branching_literal() {
     if (not pass[v]) {
       const auto Occ = lits[v];
       Weight_t ps = 0;
-      for (const auto C : Occ[pos]) ps += weights[C->length()];
+      for (const auto C : Occ[pos]) ps += weight[C->length()];
 #ifdef PURE_LITERALS
       if (ps == 0) {
         const Lit pl = -Lit(v);
@@ -776,7 +787,7 @@ inline Lit branching_literal() {
       }
 #endif
       Weight_t ns = 0;
-      for (const auto C : Occ[neg]) ns += weights[C->length()];
+      for (const auto C : Occ[neg]) ns += weight[C->length()];
 #ifdef PURE_LITERALS
       if (ns == 0) {
         const Lit pl = Lit(v);
@@ -904,7 +915,7 @@ void version_information() {
    " Last change date: " << date << "\n"
    " Mapping k -> weight, for clause-lengths k specified at compile-time:\n ";
    for (Clause_index k = 2; k < first_open_weight; ++k)
-     std::cout << "  " << k << "->" << weights[k];
+     std::cout << "  " << k << "->" << weight[k];
    std::cout << "\n"
    " Divisor for open weights: " << basis_open << "\n"
    " Macro settings:\n"
@@ -977,7 +988,7 @@ int main(const int argc, const char* const argv[]) {
     pass.resize(n_vars+1);
     changes.init();
     Unit_stack::init();
-    initialise_weights();
+    weight.initialise();
 #ifdef PURE_LITERALS
     Pure_stack::init();
 #endif
