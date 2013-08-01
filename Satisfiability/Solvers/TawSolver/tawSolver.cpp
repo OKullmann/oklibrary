@@ -659,7 +659,7 @@ class Weights {
   // the weights for clause of length >= first_open_weight:
   constexpr static Weight_t wopen(const Clause_index clause_length) {
     return set_min(predetermined_weights[first_open_weight-1] *
-      std::pow(basis_open,-double(clause_length)+first_open_weight-1));
+      std::pow(basis_open,-Weight_t(clause_length)+first_open_weight-1));
   }
 
   Weight_vector weights;
@@ -864,7 +864,7 @@ class UserTime {
   rusage* const ptiming;
 public :
   UserTime() : ptiming(&timing) {}
-  double operator()() {
+  Time_point operator()() {
     getrusage(RUSAGE_SELF, ptiming);
     return timing.ru_utime.tv_sec + timing.ru_utime.tv_usec / 1000000.0;
   }
