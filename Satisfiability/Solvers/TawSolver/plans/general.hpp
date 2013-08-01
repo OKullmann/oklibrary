@@ -1201,5 +1201,19 @@ TawSolver> ./RunWeights WEIGHT_5_CLAUSES 0.01 0.30 0.005 VanDerWaerden_2-3-12_13
 # tawsolver: x=0.11, ttawsolver: x=0.127
    \endverbatim
    </li>
+   <li> With updated WEIGHT_2, WEIGHT_BASIS_OPEN, WEIGHT_5:
+   \verbatim
+TawSolver> ./RunWeights WEIGHT_4_CLAUSES 0.15 0.45 0.01 VanDerWaerden_2-3-12_135.cnf ""
+# Multiple optima; rerunning with higher resolution
+TawSolver> ./RunWeights WEIGHT_4_CLAUSES 0.25 0.40 0.001 VanDerWaerden_2-3-12_135.cnf ""
+> E1[E1$nds==min(E1$nds),]
+       x  rn   rc mcl     t sat    nds   bnds       r1 pls ptime
+92 0.341 135 5251  12 10.78   0 962757 481378 11325664   0 0.005
+> E2[E2$nds==min(E2$nds),]
+       x  rn   rc mcl    t sat    nds   bnds       r1  pls ptime
+46 0.295 135 5251  12 18.7   0 927705 463852 11007465 1179 0.002
+
+   \endverbatim
+   </li>
   </ul>
 */
