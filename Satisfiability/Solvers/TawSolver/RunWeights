@@ -17,7 +17,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunWeights"
-version_number=0.0.6
+version_number=0.0.7
 
 if ([ $# -ne 6 ]) then
   echo -e "ERROR[${script_name}]: Precisely 6 parameters are needed:\n" \
@@ -37,7 +37,7 @@ solver2="./ttawSolver"
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
-expdir="Exp_weights_$1_$timestamp"
+expdir="Exp_weights_$1_$2_$3_$4_$5_$timestamp"
 mainlog=$expdir/log
 logfile1=$expdir/log1
 logfile2=$expdir/log2
