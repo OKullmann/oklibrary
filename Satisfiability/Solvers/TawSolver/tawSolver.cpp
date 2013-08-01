@@ -578,7 +578,7 @@ Lit* Pure_stack::end_;
 #ifdef WEIGHT_2_CLAUSES
   constexpr Weight_t weight_2 = WEIGHT_2_CLAUSES;
 #else
-  constexpr Weight_t weight_2 = 5.4;
+  constexpr Weight_t weight_2 = 5.0;
 #endif
 #ifdef WEIGHT_4_CLAUSES
   constexpr Weight_t weight_4 = WEIGHT_4_CLAUSES;
@@ -593,7 +593,11 @@ Lit* Pure_stack::end_;
 #ifdef WEIGHT_BASIS_OPEN
   constexpr Weight_t basis_open = WEIGHT_BASIS_OPEN;
 #else
+# ifdef TAU_ITERATION
   constexpr Weight_t basis_open = 1.60;
+# else
+  constexpr Weight_t basis_open = 1.50;
+# endif
 #endif
 // weights[k] is the weight for clause-length k >= 2:
 Weight_vector weights {0,0, weight_2, 1, weight_4, weight_5};
