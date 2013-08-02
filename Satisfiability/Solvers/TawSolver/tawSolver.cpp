@@ -88,8 +88,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.3.4";
-const std::string date = "1.8.2013";
+const std::string version = "2.4.0";
+const std::string date = "2.8.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
