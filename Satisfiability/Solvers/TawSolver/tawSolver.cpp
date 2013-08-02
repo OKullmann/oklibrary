@@ -88,7 +88,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.4.1";
+const std::string version = "2.4.2";
 const std::string date = "2.8.2013";
 
 const std::string program = "tawSolver";
@@ -430,8 +430,6 @@ public :
 };
 ChangeManagement changes;
 
-bool delete_assignments = true;
-
 #ifndef UCP_STRATEGY
 # define UCP_STRATEGY 1
 #endif
@@ -459,10 +457,8 @@ public :
   }
   Unit_stack() : begin_(end_) { open_ = end_; }
   ~Unit_stack() {
-    if (delete_assignments) {
-      const auto end = end_;
-      for (auto p = begin_; p != end; ++p) pass[var(*p)] = Lit();
-    }
+    const auto end = end_;
+    for (auto p = begin_; p != end; ++p) pass[var(*p)] = Lit();
     end_ = const_cast<Lit*>(begin_);
   }
   explicit operator bool() const { return end_ != open_; }
@@ -507,12 +503,10 @@ public :
   static Lit pop() { return push_main(pop_input()); }
   Unit_stack() : begin_main(end_main) { end_input = begin_input; }
   ~Unit_stack() {
-    if (delete_assignments) {
-      const auto mend = end_main;
-      for (auto p = begin_main; p != mend; ++p) pass[var(*p)] = Lit();
-      const auto iend = end_input;
-      for (auto p = begin_input; p != iend; ++p) pass[var(*p)] = Lit();
-    }
+    const auto mend = end_main;
+    for (auto p = begin_main; p != mend; ++p) pass[var(*p)] = Lit();
+    const auto iend = end_input;
+    for (auto p = begin_input; p != iend; ++p) pass[var(*p)] = Lit();
     end_main = const_cast<Lit*>(begin_main);
   }
   explicit operator bool() const { return end_input != begin_input; }
@@ -575,7 +569,7 @@ public :
   }
   Pure_stack() : begin_(new_begin) {}
   ~Pure_stack() {
-    if (delete_assignments) for (const Lit x : *this) pass[var(x)] = Lit();
+    for (const Lit x : *this) pass[var(x)] = Lit();
     end_ = const_cast<Lit*>(begin_);
   }
 };
@@ -826,6 +820,8 @@ inline Lit branching_literal() {
   return br;
 }
 
+Pass sat_pass;
+
 bool dll(const Lit x) {
   ++n_nodes;
   assert(x);
@@ -841,12 +837,12 @@ bool dll(const Lit x) {
 
   changes.start_new();
   for (const Lit y : unit_stack) assign_1(y);
-  if (not r_clauses) {delete_assignments = false; return true;}
+  if (not r_clauses) {sat_pass = pass; return true;}
 
   {const Lit y = branching_literal();
 #ifdef PURE_LITERALS
    const Pure_stack pure_stack;
-   if (not r_clauses) {delete_assignments = false; return true;}
+   if (not r_clauses) {sat_pass = pass; return true;}
 #endif
    if (dll(y)) return true;
    ++n_backtracks;
@@ -867,7 +863,7 @@ bool dll0() { // without unit-clauses
   if (not n_clauses) return true;
   const Lit x = branching_literal();
 #ifdef PURE_LITERALS
-  if (not r_clauses) {delete_assignments = false; return true;}
+  if (not r_clauses) {sat_pass = pass; return true;}
 #endif
   return dll(x) or (++n_backtracks, dll(-x));
 #ifdef PURE_LITERALS
@@ -976,7 +972,8 @@ void output(const Result_value result) {
          "c file_name                             " << filename << std::endl;
   if (result == sat) {
     std::cout << "v ";
-    for (Var i=1; i <= n_vars; ++i) if (pass[i]) std::cout << pass[i] << " ";
+    for (Var i=1; i <= n_vars; ++i)
+      if (sat_pass[i]) std::cout << sat_pass[i] << " ";
     std::cout << "0" << std::endl;
   }
 }
