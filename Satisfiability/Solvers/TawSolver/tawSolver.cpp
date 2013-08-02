@@ -88,7 +88,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.4.0";
+const std::string version = "2.4.1";
 const std::string date = "2.8.2013";
 
 const std::string program = "tawSolver";
@@ -878,53 +878,6 @@ bool dll0() { // without unit-clauses
 
 // --- Output ---
 
-typedef double Time_point;
-
-#include <sys/resource.h>
-class UserTime {
-  rusage timing;
-  rusage* const ptiming;
-public :
-  UserTime() : ptiming(&timing) {}
-  Time_point operator()() {
-    getrusage(RUSAGE_SELF, ptiming);
-    return timing.ru_utime.tv_sec + timing.ru_utime.tv_usec / 1000000.0;
-  }
-};
-UserTime timing;
-
-Time_point t0; // start of computation
-Time_point t1; // start of SAT solving
-
-void output(const std::string& file, const Result_value result) {
-  const Time_point elapsed = timing() - t1;
-  std::cout << "s ";
-  switch (result) {
-    case unknown : std::cout << "UNKNOWN\n"; break;
-    case unsat : std::cout << "UN";
-    case sat : std::cout << "SATISFIABLE\n";
-  }
-  std::cout <<
-         "c number_of_variables                   " << n_vars << "\n"
-         "c number_of_clauses                     " << n_clauses << "\n"
-         "c maximal_clause_length                 " << max_clause_length << "\n"
-         "c number_of_literal_occurrences         " << n_lit_occurrences << "\n"
-         "c running_time(sec)                     " << std::setprecision(2) << std::fixed << elapsed << "\n"
-         "c number_of_nodes                       " << n_nodes << "\n"
-         "c number_of_binary_nodes                " << n_backtracks << "\n"
-         "c number_of_1-reductions                " << n_units << "\n"
-#ifdef PURE_LITERALS
-         "c number_of_pure_literals               " << n_pure_literals << "\n"
-#endif
-         "c reading-and-set-up_time(sec)          " << std::setprecision(3) << t1 - t0 << "\n"
-         "c file_name                             " << file << std::endl;
-  if (result == sat) {
-    std::cout << "v ";
-    for (Var i=1; i <= n_vars; ++i) if (pass[i]) std::cout << pass[i] << " ";
-    std::cout << "0" << std::endl;
-  }
-}
-
 #define S(x) #x
 #define STR(x) S(x)
 void version_information() {
@@ -979,16 +932,64 @@ void version_information() {
   ;
 }
 
+typedef double Time_point;
+
+#include <sys/resource.h>
+class UserTime {
+  rusage timing;
+  rusage* const ptiming;
+public :
+  UserTime() : ptiming(&timing) {}
+  Time_point operator()() {
+    getrusage(RUSAGE_SELF, ptiming);
+    return timing.ru_utime.tv_sec + timing.ru_utime.tv_usec / 1000000.0;
+  }
+};
+UserTime timing;
+
+Time_point t0; // start of computation
+Time_point t1; // start of SAT solving
+
 std::string filename;
+
+void output(const Result_value result) {
+  const Time_point elapsed = timing() - t1;
+  std::cout << "s ";
+  switch (result) {
+    case unknown : std::cout << "UNKNOWN\n"; break;
+    case unsat : std::cout << "UN";
+    case sat : std::cout << "SATISFIABLE\n";
+  }
+  std::cout <<
+         "c number_of_variables                   " << n_vars << "\n"
+         "c number_of_clauses                     " << n_clauses << "\n"
+         "c maximal_clause_length                 " << max_clause_length << "\n"
+         "c number_of_literal_occurrences         " << n_lit_occurrences << "\n"
+         "c running_time(sec)                     " << std::setprecision(2) << std::fixed << elapsed << "\n"
+         "c number_of_nodes                       " << n_nodes << "\n"
+         "c number_of_binary_nodes                " << n_backtracks << "\n"
+         "c number_of_1-reductions                " << n_units << "\n"
+#ifdef PURE_LITERALS
+         "c number_of_pure_literals               " << n_pure_literals << "\n"
+#endif
+         "c reading-and-set-up_time(sec)          " << std::setprecision(3) << t1 - t0 << "\n"
+         "c file_name                             " << filename << std::endl;
+  if (result == sat) {
+    std::cout << "v ";
+    for (Var i=1; i <= n_vars; ++i) if (pass[i]) std::cout << pass[i] << " ";
+    std::cout << "0" << std::endl;
+  }
+}
+
 
 void abortion(const int sig) {
   std::signal(SIGINT, abortion);
-  output(filename, unknown);
+  output(unknown);
   std::exit(unknown);
 }
 void show_statistics(const int sig) {
   signal(SIGUSR1, show_statistics);
-  output(filename, unknown);
+  output(unknown);
 }
 
 } // anonymous namespace
@@ -1020,6 +1021,6 @@ int main(const int argc, const char* const argv[]) {
   t1 = timing();
   const auto result = dll0();
   const auto ires = interprete_run(result);
-  output(filename, ires);
+  output(ires);
   return ires;
 }
