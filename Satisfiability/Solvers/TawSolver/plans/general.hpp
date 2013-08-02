@@ -1270,5 +1270,16 @@ TawSolver> ./RunWeights WEIGHT_6 0.067 0.08 0.0001 VanDerWaerden_2-3-12_135.cnf 
 87 0.0756 135 5251  12 18.84   0 927419 463709 10999237 1174 0.002
    \endverbatim
    <li>
+   <li> Determine WEIGHT_BASIS_OPEN:
+   \verbatim
+TawSolver> ./RunWeights WEIGHT_BASIS_OPEN 1.3 1.8 0.01 VanDerWaerden_2-3-12_135.cnf ""
+> E1[E1$nds==min(E1$nds),]
+      x  rn   rc mcl     t sat    nds   bnds       r1 pls ptime
+17 1.46 135 5251  12 10.54   0 961949 480974 11312180   0 0.005
+> E2[E2$nds==min(E2$nds),]
+     x  rn   rc mcl     t sat    nds   bnds       r1  pls ptime
+31 1.6 135 5251  12 18.76   0 927419 463709 10999237 1174 0.002
+   \endverbatim
+   </li>
   </ul>
 */

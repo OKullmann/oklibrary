@@ -620,7 +620,7 @@ Lit* Pure_stack::end_;
 # ifdef TAU_ITERATION
   constexpr Weight_t basis_open = 1.60;
 # else
-  constexpr Weight_t basis_open = 1.50;
+  constexpr Weight_t basis_open = 1.46;
 # endif
 #endif
 
