@@ -57,6 +57,8 @@ for debugging).
      but also more costly tau-function as projection (instead of the product);
      if TAU_ITERATION, then a reasonable default seems the value 5.
      TAU_ITERATION implies PURE_LITERALS.
+     And if TAU_ITERATION, then TWEIGHT_2, TWEIGHT_4, TWEIGHT_5, TWEIGHT_6 and
+     TWEIGHT_BASIS_OPEN are used.
 
   To provide further versioning-information, there are two macros, which are
   only relevant if they are defined:
@@ -88,8 +90,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.4.2";
-const std::string date = "2.8.2013";
+const std::string version = "2.4.3";
+const std::string date = "3.8.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -581,51 +583,61 @@ Lit* Pure_stack::end_;
 
 // --- Weight handling ---
 
-#ifdef WEIGHT_2
-  constexpr Weight_t weight_2 = WEIGHT_2;
-#else
-# ifdef TAU_ITERATION
+#ifdef TAU_ITERATION
+# ifdef TWEIGHT_2
+  constexpr Weight_t weight_2 = TWEIGHT_2;
+# else
   constexpr Weight_t weight_2 = 5.0;
+# endif
+# ifdef TWEIGHT_4
+  constexpr Weight_t weight_4 = TWEIGHT_4;
+# else
+  constexpr Weight_t weight_4 = 0.295;
+# endif
+# ifdef TWEIGHT_5
+  constexpr Weight_t weight_5 = TWEIGHT_5;
+# else
+  constexpr Weight_t weight_5 = 0.122;
+# endif
+# ifdef TWEIGHT_6
+  constexpr Weight_t weight_6 = TWEIGHT_6;
+# else
+  constexpr Weight_t weight_6 = 0.0756;
+# endif
+# ifdef TWEIGHT_BASIS_OPEN
+  constexpr Weight_t basis_open = TWEIGHT_BASIS_OPEN;
+# else
+  constexpr Weight_t basis_open = 1.60;
+# endif
+
+#else
+
+# ifdef WEIGHT_2
+  constexpr Weight_t weight_2 = WEIGHT_2;
 # else
   constexpr Weight_t weight_2 = 4.85;
 # endif
-#endif
-#ifdef WEIGHT_4
+# ifdef WEIGHT_4
   constexpr Weight_t weight_4 = WEIGHT_4;
-#else
-# ifdef TAU_ITERATION
-  constexpr Weight_t weight_4 = 0.295;
 # else
   constexpr Weight_t weight_4 = 0.354;
 # endif
-#endif
-#ifdef WEIGHT_5
+# ifdef WEIGHT_5
   constexpr Weight_t weight_5 = WEIGHT_5;
-#else
-# ifdef TAU_ITERATION
-  constexpr Weight_t weight_5 = 0.122;
 # else
   constexpr Weight_t weight_5 = 0.11;
 # endif
-#endif
-#ifdef WEIGHT_6
+# ifdef WEIGHT_6
   constexpr Weight_t weight_6 = WEIGHT_6;
-#else
-# ifdef TAU_ITERATION
-  constexpr Weight_t weight_6 = 0.0756;
 # else
   constexpr Weight_t weight_6 = 0.0694;
 # endif
-#endif
-
-#ifdef WEIGHT_BASIS_OPEN
+# ifdef WEIGHT_BASIS_OPEN
   constexpr Weight_t basis_open = WEIGHT_BASIS_OPEN;
-#else
-# ifdef TAU_ITERATION
-  constexpr Weight_t basis_open = 1.60;
 # else
   constexpr Weight_t basis_open = 1.46;
 # endif
+
 #endif
 
 /* The current parameter values have been obtained mainly via optimisation on
