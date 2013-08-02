@@ -398,8 +398,18 @@ void read_formula(const std::string& filename) {
 
 // --- SAT solving data structures ---
 
-Lit_vec pass; /* the current assignment: pass[v] is 0 iff variable
- v is unassigned, otherwise it is v in case v->true and else -v. */
+/* The current assignment: pass[v] is 0 iff variable
+   v is unassigned, otherwise it is v in case v->true and else -v.
+*/
+class Pass {
+  Lit_vec pass;
+  void init() { pass.resize(n_vars+1); }
+  friend void initialisation();
+public :
+  Lit operator[] (const Var v) const { return pass[v]; }
+  Lit& operator[] (const Var v) { return pass[v]; }
+};
+Pass pass;
 
 class ChangeManagement {
   ClauseP_vec changes;
@@ -688,7 +698,7 @@ Weights weight;
 // --- SAT solving algorithms ---
 
 void initialisation() {
-  pass.resize(n_vars+1);
+  pass.init();
   changes.init();
   Unit_stack::init();
   weight.init();
