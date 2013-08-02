@@ -800,6 +800,72 @@ ttawSolver VanDerWaerden_2-3-12_135.cnf
 19.15 19.26 19.13 19.13 19.09
 
 # Speed seems to have improved a bit: the improved organisation? Lit now POD?
+
+# ID 301618c09a0a1add42a0e4f54a038f2dd457be66
+# Version 2.4
+# New weights.
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     8.78
+c number_of_nodes                       808309
+c number_of_binary_nodes                404147
+c number_of_1-reductions                9437027
+c reading-and-set-up_time(sec)          0.001
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     10.62
+c number_of_nodes                       961949
+c number_of_binary_nodes                480974
+c number_of_1-reductions                11312180
+c reading-and-set-up_time(sec)          0.001
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     18.70
+c number_of_nodes                       916211
+c number_of_binary_nodes                458098
+c number_of_1-reductions                10819512
+c number_of_pure_literals               1311
+c reading-and-set-up_time(sec)          0.004
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     19.18
+c number_of_nodes                       927419
+c number_of_binary_nodes                463709
+c number_of_1-reductions                10999237
+c number_of_pure_literals               1174
+c reading-and-set-up_time(sec)          0.002
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+8.78 8.69 8.69 8.74 8.69
+tawSolver VanDerWaerden_2-3-12_135.cnf
+10.62 10.70 10.57 10.61 10.60
+ttawSolver VanDerWaerden_2-3-12_134.cnf
+18.56 18.57 18.58 18.65 18.70
+ttawSolver VanDerWaerden_2-3-12_135.cnf
+19.18 19.18 19.18 19.14 19.23
    \endverbatim
    </li>
   </ul>
