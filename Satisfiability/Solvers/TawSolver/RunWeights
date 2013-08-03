@@ -6,22 +6,22 @@
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
+# Solver-argument should be either "tawSolver" or "ttawSolver".
 # To be run in directory OKlib/Satisfiability/Solvers/TawSolver .
 # To analyse results, go into the experiment-directory, and run
 # oklib --R
 # > oklib_load_all()
-# > E1=read_satstat("Result_tawSolver")
-# > E2=read_satstat("Result_ttawSolver")
+# > E=read_satstat("Result")
 
 set -o errexit
 set -o nounset
 
 script_name="RunWeights"
-version_number=0.0.7
+version_number=0.0.8
 
-if ([ $# -ne 6 ]) then
+if ([ $# -ne 7 ]) then
   echo -e "ERROR[${script_name}]: Precisely 6 parameters are needed:\n" \
-    " the main macro, start-, end- and step-value, the CNF-file, and further options."
+    " the main macro, start-, end- and step-value, the CNF-file, further options, and the solver."
   exit 1
 fi
 
@@ -31,16 +31,13 @@ end=$3
 step=$4
 file=$5
 furtherm=$6
-
-solver1="./tawSolver"
-solver2="./ttawSolver"
+solver=$7
 
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
-expdir="Exp_weights_$1_$2_$3_$4_$5_$timestamp"
+expdir="Exp_weights_$1_$2_$3_$4_$5_$7_$timestamp"
 mainlog=$expdir/log
-logfile1=$expdir/log1
-logfile2=$expdir/log2
+logfile=$expdir/log
 
 echo "Experiment directory: $expdir"
 mkdir $expdir
@@ -50,39 +47,28 @@ echo -ne "\nMain macro: \"$mainm\"\n" >> $mainlog
 echo -ne "Start, end, and step values: $start $end $step\n" >> $mainlog
 echo -ne "File: $file\n" >> $mainlog
 echo -ne "Further macros: \"$furtherm\"\n" >> $mainlog
+echo -ne "Solver: \"$solver\"\n" >> $mainlog
 
-make -B all
-${solver1} -v > $logfile1
-${solver2} -v > $logfile2
+make -B $solver
+$solver -v > $logfile
 
-result1=$expdir/Result_tawSolver
-result2=$expdir/Result_ttawSolver
+result=$expdir/Result
 temp=$expdir/tempout
 
-echo -n "x " > $result1
-ExtractTawSolver header-only >> $result1
-echo -n "x " > $result2
-ExtractTawSolver header-only >> $result2
+echo -n "x " > $result
+ExtractTawSolver header-only >> $result
 
 x=$start
 while [ $(echo "$x <= $end" | bc) -eq 1 ]; do
-  make -B all CXXFLAGS="-D${mainm}=$x ${furtherm}"
+  make -B $solver CXXFLAGS="-D${mainm}=$x ${furtherm}"
 
   set +e
-  ${solver1} $file > $temp
+  $solver $file > $temp
   set -e
-  echo -e "\nx=$x" >> $logfile1
-  cat $temp >> $logfile1
-  echo -n "$x " >> $result1
-  cat $temp | ExtractTawSolver x >> $result1
-
-  set +e
-  ${solver2} $file > $temp
-  set -e
-  echo -e "\nx=$x" >> $logfile2
-  cat $temp >> $logfile2
-  echo -n "$x " >> $result2
-  cat $temp | ExtractTawSolver x >> $result2
+  echo -e "\nx=$x" >> $logfile
+  cat $temp >> $logfile
+  echo -n "$x " >> $result
+  cat $temp | ExtractTawSolver x >> $result
 
   x=$(echo "$x + $step" | bc)
 done
