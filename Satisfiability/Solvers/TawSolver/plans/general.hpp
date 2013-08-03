@@ -1157,6 +1157,7 @@ constexpr unsigned int log2sc(const unsigned int v) {
 
   \todo Optimising weights
   <ul>
+   <li> First considering VanDerWaerden_2-3-12_135.cnf. </li>
    <li> Start with current weights:
    \verbatim
 TawSolver> ./RunWeights WEIGHT_2_CLAUSES 2 10 0.1 VanDerWaerden_2-3-12_135.cnf ""
@@ -1347,5 +1348,145 @@ TawSolver> ./RunWeights WEIGHT_BASIS_OPEN 1.3 1.8 0.01 VanDerWaerden_2-3-12_135.
 31 1.6 135 5251  12 18.76   0 927419 463709 10999237 1174 0.002
    \endverbatim
    </li>
+   <li> The weights we got are:
+   \verbatim
+tawSolver:
+4.85 0.354 0.11 0.0694; 1.46
+ttawSolver:
+5 0.295 0.122 0.0756; 1.6
+   \endverbatim
+   Apparently these new settings do not improve node-counts for k >= 13. </li>
+   <li> Now considering VanDerWaerden_2-3-13_160.cnf. Currently we have
+   \verbatim
+c number_of_variables                   160
+c number_of_clauses                     7308
+c maximal_clause_length                 13
+c number_of_literal_occurrences         31804
+c running_time(sec)                     83.33
+c number_of_nodes                       5638667
+c number_of_binary_nodes                2819333
+c number_of_1-reductions                71942645
+c reading-and-set-up_time(sec)          0.006
+
+c running_time(sec)                     148.86
+c number_of_nodes                       5824621
+c number_of_binary_nodes                2912310
+c number_of_1-reductions                74713798
+c number_of_pure_literals               7371
+c reading-and-set-up_time(sec)          0.002
+   \endverbatim
+   </li>
+   <li> Optimising WEIGHT_2 (alone):
+   \verbatim
+TawSolver> ./RunWeights WEIGHT_2 4 6 0.1 VanDerWaerden_2-3-13_160.cnf ""
+> E1[E1$nds==min(E1$nds),]
+     x  rn   rc mcl     t sat     nds    bnds       r1 pls ptime
+18 5.7 160 7308  13 87.11   0 5633957 2816978 71929506   0 0.002
+> E2[E2$nds==min(E2$nds),]
+     x  rn   rc mcl      t sat     nds    bnds       r1  pls ptime
+12 5.1 160 7308  13 144.86   0 5819401 2909700 74659091 7424 0.003
+   \endverbatim
+   </li>
+   <li> Optimising WEIGHT_4 (alone):
+   \verbatim
+TawSolver> ./RunWeights WEIGHT_4 0.2 0.5 0.01 VanDerWaerden_2-3-13_160.cnf ""
+> E1[E1$nds==min(E1$nds),]
+      x  rn   rc mcl     t sat     nds    bnds       r1 pls ptime
+13 0.32 160 7308  13 90.13   0 5637911 2818955 71955323   0 0.003
+> E2[E2$nds==min(E2$nds),]
+      x  rn   rc mcl      t sat     nds    bnds       r1  pls ptime
+14 0.33 160 7308  13 154.98   0 5822929 2911464 74662535 7316 0.003
+   \endverbatim
+   </li>
+   <li> Optimising WEIGHT_5 (alone):
+   \verbatim
+TawSolver> ./RunWeights WEIGHT_5 0.08 0.15 0.002 VanDerWaerden_2-3-13_160.cnf ""
+> E1[E1$nds==min(E1$nds),]
+       x  rn   rc mcl     t sat     nds    bnds       r1 pls ptime
+34 0.146 160 7308  13 90.03   0 5619049 2809524 71690988   0 0.002
+> E2[E2$nds==min(E2$nds),]
+       x  rn   rc mcl      t sat     nds    bnds       r1  pls ptime
+14 0.106 160 7308  13 157.76   0 5821811 2910905 74693913 7438 0.002
+TawSolver> ./RunWeights WEIGHT_5 0.08 0.19 0.001 VanDerWaerden_2-3-13_160.cnf ""
+XXX
+   \endverbatim
+   </li>
+   <li> Now considering VanDerWaerden_pd_2-3-21_405.cnf Currently we have
+   \verbatim
+s UNSATISFIABLE
+c number_of_variables                   203
+c number_of_clauses                     21950
+c maximal_clause_length                 21
+c number_of_literal_occurrences         96305
+c running_time(sec)                     101.82
+c number_of_nodes                       2239371
+c number_of_binary_nodes                1119685
+c number_of_1-reductions                32017061
+c reading-and-set-up_time(sec)          0.009
+c file_name                             VanDerWaerden_pd_2-3-21_405.cnf
+
+c running_time(sec)                     136.52
+c number_of_nodes                       2124123
+c number_of_binary_nodes                1062061
+c number_of_1-reductions                31939538
+c number_of_pure_literals               127
+c reading-and-set-up_time(sec)          0.009
+   \endverbatim
+   </li>
+   <li> Optimising WEIGHTs for ttawSolver (basically ignoring E1):
+   \verbatim
+TawSolver> ./RunWeights WEIGHT_2 4 6 0.1 VanDerWaerden_pd_2-3-21_405.cnf ""
+> E1[E1$nds==min(E1$nds),]
+     x  rn    rc mcl     t sat     nds    bnds       r1 pls ptime
+19 5.8 203 21950  21 96.35   0 2204753 1102376 31621828   0 0.009
+> E2[E2$nds==min(E2$nds),]
+     x  rn    rc mcl      t sat     nds    bnds       r1 pls ptime
+16 5.5 203 21950  21 122.86   0 2109955 1054977 31725127 119 0.009
+
+TawSolver> ./RunWeights WEIGHT_4 0.2 0.4 0.01 VanDerWaerden_pd_2-3-21_405.cnf "-DWEIGHT_2=5.5"
+> E1[E1$nds==min(E1$nds),]
+     x  rn    rc mcl     t sat     nds    bnds       r1 pls ptime
+2 0.21 203 21950  21 96.09   0 2204367 1102183 31825416   0 0.011
+> E2[E2$nds==min(E2$nds),]
+      x  rn    rc mcl      t sat     nds    bnds       r1 pls ptime
+12 0.31 203 21950  21 121.91   0 2109419 1054709 31684244 121  0.01
+
+TawSolver> ./RunWeights WEIGHT_5 0.1 0.15 0.002 VanDerWaerden_pd_2-3-21_405.cnf "-DWEIGHT_2=5.5 -DWEIGHT_4=0.31"
+> E1[E1$nds==min(E1$nds),]
+      x  rn    rc mcl     t sat     nds    bnds       r1 pls ptime
+5 0.108 203 21950  21 92.94   0 2206953 1103476 31704707   0 0.009
+> E2[E2$nds==min(E2$nds),]
+       x  rn    rc mcl     t sat     nds    bnds       r1 pls ptime
+12 0.122 203 21950  21 117.3   0 2109419 1054709 31684244 121  0.01
+
+TawSolver> ./RunWeights WEIGHT_6 0.05 0.09 0.001 VanDerWaerden_pd_2-3-21_405.cnf "-DWEIGHT_2=5.5 -DWEIGHT_4=0.31 -DWEIGHT_5=0.122"
+> E1[E1$nds==min(E1$nds),]
+       x  rn    rc mcl     t sat     nds    bnds       r1 pls ptime
+15 0.064 203 21950  21 89.23   0 2200497 1100248 31525253   0 0.015
+> E2[E2$nds==min(E2$nds),]
+      x  rn    rc mcl      t sat     nds    bnds       r1 pls ptime
+7 0.056 203 21950  21 111.81   0 2108175 1054087 31297261 139  0.01
+TawSolver> ./RunWeights WEIGHT_6 0.03 0.06 0.0005 VanDerWaerden_pd_2-3-21_405.cnf "-DWEIGHT_2=5.5 -DWEIGHT_4=0.31 -DWEIGHT_5=0.122"
+> E1[E1$nds==min(E1$nds),]
+       x  rn    rc mcl     t sat     nds    bnds       r1 pls ptime
+55 0.057 203 21950  21 89.83   0 2206717 1103358 31532243   0 0.013
+> E2[E2$nds==min(E2$nds),]
+        x  rn    rc mcl      t sat     nds    bnds       r1 pls ptime
+32 0.0455 203 21950  21 111.06   0 2093661 1046830 30867447 154 0.011
+
+TawSolver> ./RunWeights WEIGHT_BASIS_OPEN 1.2 2.0 0.01 VanDerWaerden_pd_2-3-21_405.cnf "-DWEIGHT_2=5.5 -DWEIGHT_4=0.31 -DWEIGHT_5=0.122 -DWEIGHT_6=0.0455"
+> E1[E1$nds==min(E1$nds),]
+      x  rn    rc mcl     t sat     nds    bnds       r1 pls ptime
+23 1.42 203 21950  21 87.84   0 2154305 1077152 30949526   0 0.015
+                              file
+23 VanDerWaerden_pd_2-3-21_405.cnf
+> E2[E2$nds==min(E2$nds),]
+     x  rn    rc mcl      t sat     nds    bnds       r1 pls ptime
+41 1.6 203 21950  21 110.35   0 2093661 1046830 30867447 154  0.01
+   \endverbatim
+   So the result of this first run is 5.5, 0.31, 0.122, 0.0455, 1.6.
+   </li>
+   <li> Let's use that as a first attempt at improved weights for the
+   tau-heuristics. </li>
   </ul>
 */
