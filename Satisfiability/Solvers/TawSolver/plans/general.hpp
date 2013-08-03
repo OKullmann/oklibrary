@@ -866,6 +866,51 @@ ttawSolver VanDerWaerden_2-3-12_134.cnf
 18.56 18.57 18.58 18.65 18.70
 ttawSolver VanDerWaerden_2-3-12_135.cnf
 19.18 19.18 19.18 19.14 19.23
+
+# ID cf10158af74f7190c8a5cf4ed835e23c8203e499
+# Version 2.4.4
+# New weights for tau-heuristics.
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     18.35
+c number_of_nodes                       917019
+c number_of_binary_nodes                458502
+c number_of_1-reductions                10817107
+c number_of_pure_literals               1444
+c reading-and-set-up_time(sec)          0.002
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     18.84
+c number_of_nodes                       937159
+c number_of_binary_nodes                468579
+c number_of_1-reductions                11110741
+c number_of_pure_literals               1184
+c reading-and-set-up_time(sec)          0.002
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+8.79 8.77 8.73 8.77 8.74
+tawSolver VanDerWaerden_2-3-12_135.cnf
+10.60 10.64 10.68 10.58 10.60
+ttawSolver VanDerWaerden_2-3-12_134.cnf
+18.35 18.11 18.09 18.06 19.02
+ttawSolver VanDerWaerden_2-3-12_135.cnf
+18.84 18.77 18.73 18.74 18.84
+
+# It appears that the implementation got a tiny bit faster w.r.t. the tau-
+# heuristics (times slightly decreased despite slightly higher node-counts).
    \endverbatim
    </li>
   </ul>
@@ -1488,5 +1533,10 @@ TawSolver> ./RunWeights WEIGHT_BASIS_OPEN 1.2 2.0 0.01 VanDerWaerden_pd_2-3-21_4
    </li>
    <li> Let's use that as a first attempt at improved weights for the
    tau-heuristics. </li>
+   <li> Second round of optimisation:
+   \verbatim
+
+   \endverbatim
+   </li>
   </ul>
 */
