@@ -17,7 +17,7 @@ set -o errexit
 set -o nounset
 
 script_name="RunWeights"
-version_number=0.0.8
+version_number=0.0.9
 
 if ([ $# -ne 7 ]) then
   echo -e "ERROR[${script_name}]: Precisely 6 parameters are needed:\n" \
@@ -36,7 +36,7 @@ solver=$7
 timestamp=$(date +"%Y-%m-%d-%H%M%S")
 
 expdir="Exp_weights_$1_$2_$3_$4_$5_$7_$timestamp"
-mainlog=$expdir/log
+mainlog=$expdir/Parameters
 logfile=$expdir/log
 
 echo "Experiment directory: $expdir"
@@ -50,7 +50,7 @@ echo -ne "Further macros: \"$furtherm\"\n" >> $mainlog
 echo -ne "Solver: \"$solver\"\n" >> $mainlog
 
 make -B $solver
-$solver -v > $logfile
+./$solver -v > $logfile
 
 result=$expdir/Result
 temp=$expdir/tempout
@@ -63,7 +63,7 @@ while [ $(echo "$x <= $end" | bc) -eq 1 ]; do
   make -B $solver CXXFLAGS="-D${mainm}=$x ${furtherm}"
 
   set +e
-  $solver $file > $temp
+  ./$solver $file > $temp
   set -e
   echo -e "\nx=$x" >> $logfile
   cat $temp >> $logfile
