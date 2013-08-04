@@ -1533,9 +1533,61 @@ TawSolver> ./RunWeights WEIGHT_BASIS_OPEN 1.2 2.0 0.01 VanDerWaerden_pd_2-3-21_4
    </li>
    <li> Let's use that as a first attempt at improved weights for the
    tau-heuristics. </li>
-   <li> Second round of optimisation:
+   <li> Second round of optimisations:
    \verbatim
+TawSolver> ./RunWeights TWEIGHT_2 5 6 0.01 VanDerWaerden_pd_2-3-21_405.cnf "" ttawSolver
+> E[E$nds==min(E$nds),]
+     x  rn    rc mcl      t sat     nds    bnds       r1 pls ptime
+91 5.9 203 21950  21 117.73   0 2091279 1045639 30791742 134  0.01
+   \endverbatim
+   No clear minimum.
+   </li>
+   <li> Perhaps the palindromic instances are not good for optimising the
+   general constants, since they are already "too special" ? </li>
+   <li> Thus now optimising the tau-weights for VanDerWaerden_2-3-13_160.cnf.
+   Currently we have:
+   \verbatim
+s UNSATISFIABLE
+c number_of_variables                   160
+c number_of_clauses                     7308
+c maximal_clause_length                 13
+c number_of_literal_occurrences         31804
+c running_time(sec)                     146.12
+c number_of_nodes                       5862905
+c number_of_binary_nodes                2931452
+c number_of_1-reductions                75076427
+c number_of_pure_literals               7717
+c reading-and-set-up_time(sec)          0.003
+c file_name                             VanDerWaerden_2-3-13_160.cnf
+   \endverbatim
+   </li>
+   <li> Complete round of optimisations:
+   \verbatim
+TawSolver> ./RunWeights TWEIGHT_2 4 7 0.05 VanDerWaerden_2-3-13_160.cnf "" ttawSolver
+> E[E$nds==min(E$nds),]
+      x  rn   rc mcl      t sat     nds    bnds       r1  pls ptime
+24 5.15 160 7308  13 144.51   0 5851899 2925949 74933775 7568 0.001
 
+TawSolver> ./RunWeights TWEIGHT_4 0.2 0.4 0.005 VanDerWaerden_2-3-13_160.cnf "-DTWEIGHT_2=5.15" ttawSolver
+> E[E$nds==min(E$nds),]
+       x  rn   rc mcl      t sat     nds    bnds       r1  pls ptime
+22 0.305 160 7308  13 144.65   0 5851469 2925734 74929246 7574 0.003
+
+TawSolver> ./RunWeights TWEIGHT_5 0.1 0.15 0.001 VanDerWaerden_2-3-13_160.cnf "-DTWEIGHT_2=5.15 -DTWEIGHT_4=0.305" ttawSolver
+> E[E$nds==min(E$nds),]
+       x  rn   rc mcl      t sat     nds    bnds       r1  pls ptime
+18 0.117 160 7308  13 144.74   0 5851209 2925604 74917730 7585 0.003
+
+TawSolver> ./RunWeights TWEIGHT_6 0.03 0.08 0.001 VanDerWaerden_2-3-13_160.cnf "-DTWEIGHT_2=5.15 -DTWEIGHT_4=0.305 -DTWEIGHT_5=0.117" ttawSolver
+> E[E$nds==min(E$nds),]
+       x  rn   rc mcl      t sat     nds    bnds       r1  pls ptime
+27 0.056 160 7308  13 139.33   0 5776755 2888377 73878997 7414 0.007
+
+TawSolver> ./RunWeights TWEIGHT_BASIS_OPEN 1.3 1.9 0.01 VanDerWaerden_2-3-13_160.cnf "-DTWEIGHT_2=5.15 -DTWEIGHT_4=0.305 -DTWEIGHT_5=0.117 -DTWEIGHT_6=0.056" ttawSolver
+> E[E$nds==min(E$nds),]
+     x  rn   rc mcl      t sat     nds    bnds       r1  pls ptime
+31 1.6 160 7308  13 138.69   0 5776755 2888377 73878997 7414 0.006
+XXX
    \endverbatim
    </li>
   </ul>
