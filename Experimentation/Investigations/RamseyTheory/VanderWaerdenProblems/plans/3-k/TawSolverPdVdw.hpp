@@ -1262,10 +1262,156 @@ c file_name                             VanDerWaerden_pd_2-3-25_607.cnf
    up to 50%; not taking "disastreous weights" into account), while the
    current way of optimisation doesn't seem right. Perhaps optimising on
    palindromic instances is "too special", doesn't generalise? </li>
+   <li> After optimisation on VanDerWaerden_2-3-13_160.cnf:
+   \verbatim
+tawSolver:
+ authors: Tanbir Ahmed and Oliver Kullmann
+ url's:
+  http://sourceforge.net/projects/tawsolver/
+  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp
+ Version: 2.4.5
+ Last change date: 4.8.2013
+ Mapping k -> weight, for clause-lengths k specified at compile-time:
+   2->5.15  3->1  4->0.305  5->0.117  6->0.056
+ Divisor for open weights: 1.6
+ Macro settings:
+  LIT_TYPE = std::int32_t (with 31 binary digits)
+  UCP_STRATEGY = 1
+  TAU_ITERATION = 5
+ Compiled with PURE_LITERALS
+ Compiled with NDEBUG
+ Compiled with optimisation options
+ Compilation date: Aug  4 2013 22:11:31
+ Compiler: g++, version 4.7.3
+ Provided in the OKlibrary http://www.ok-sat-library.org
+ Git ID = 57bf2f09e14dd502547ca22e07adc31eb1d03e19
+s UNSATISFIABLE
+c number_of_variables                   140
+c number_of_clauses                     10536
+c maximal_clause_length                 17
+c number_of_literal_occurrences         45139
+c running_time(sec)                     1.08
+c number_of_nodes                       32011
+c number_of_binary_nodes                16005
+c number_of_1-reductions                396129
+c number_of_pure_literals               2
+c reading-and-set-up_time(sec)          0.005
+c file_name                             VanDerWaerden_pd_2-3-17_279.cnf
+s UNSATISFIABLE
+c number_of_variables                   156
+c number_of_clauses                     13277
+c maximal_clause_length                 18
+c number_of_literal_occurrences         58763
+c running_time(sec)                     10.05
+c number_of_nodes                       263293
+c number_of_binary_nodes                131646
+c number_of_1-reductions                3374489
+c number_of_pure_literals               13
+c reading-and-set-up_time(sec)          0.010
+c file_name                             VanDerWaerden_pd_2-3-18_312.cnf
+s UNSATISFIABLE
+c number_of_variables                   174
+c number_of_clauses                     16208
+c maximal_clause_length                 19
+c number_of_literal_occurrences         70414
+c running_time(sec)                     12.43
+c number_of_nodes                       276897
+c number_of_binary_nodes                138448
+c number_of_1-reductions                3860839
+c number_of_pure_literals               7
+c reading-and-set-up_time(sec)          0.008
+c file_name                             VanDerWaerden_pd_2-3-19_347.cnf
+s UNSATISFIABLE
+c number_of_variables                   195
+c number_of_clauses                     20327
+c maximal_clause_length                 20
+c number_of_literal_occurrences         88944
+c running_time(sec)                     46.51
+c number_of_nodes                       875083
+c number_of_binary_nodes                437541
+c number_of_1-reductions                13027439
+c number_of_pure_literals               17
+c reading-and-set-up_time(sec)          0.012
+c file_name                             VanDerWaerden_pd_2-3-20_389.cnf
+s UNSATISFIABLE
+c number_of_variables                   203
+c number_of_clauses                     21950
+c maximal_clause_length                 21
+c number_of_literal_occurrences         96305
+c running_time(sec)                     113.17
+c number_of_nodes                       2116911
+c number_of_binary_nodes                1058455
+c number_of_1-reductions                31436580
+c number_of_pure_literals               134
+c reading-and-set-up_time(sec)          0.015
+c file_name                             VanDerWaerden_pd_2-3-21_405.cnf
+s UNSATISFIABLE
+c number_of_variables                   232
+c number_of_clauses                     28650
+c maximal_clause_length                 22
+c number_of_literal_occurrences         126560
+c running_time(sec)                     559.30
+c number_of_nodes                       8331157
+c number_of_binary_nodes                4165578
+c number_of_1-reductions                134582107
+c number_of_pure_literals               306
+c reading-and-set-up_time(sec)          0.019
+c file_name                             VanDerWaerden_pd_2-3-22_463.cnf
+s UNSATISFIABLE
+c number_of_variables                   254
+c number_of_clauses                     34289
+c maximal_clause_length                 23
+c number_of_literal_occurrences         152236
+c running_time(sec)                     1513.93
+c number_of_nodes                       19522233
+c number_of_binary_nodes                9761116
+c number_of_1-reductions                334565286
+c number_of_pure_literals               592
+c reading-and-set-up_time(sec)          0.018
+c file_name                             VanDerWaerden_pd_2-3-23_507.cnf
+s UNSATISFIABLE
+c number_of_variables                   297
+c number_of_clauses                     46881
+c maximal_clause_length                 24
+c number_of_literal_occurrences         209792
+c running_time(sec)                     12360.94
+c number_of_nodes                       114347277
+c number_of_binary_nodes                57173638
+c number_of_1-reductions                2087185157
+c number_of_pure_literals               729
+c reading-and-set-up_time(sec)          0.022
+c file_name                             VanDerWaerden_pd_2-3-24_593.cnf
+s UNSATISFIABLE
+c number_of_variables                   304
+c number_of_clauses                     48979
+c maximal_clause_length                 25
+c number_of_literal_occurrences         219525
+c running_time(sec)                     24250.43
+c number_of_nodes                       230372423
+c number_of_binary_nodes                115186211
+c number_of_1-reductions                4300321002
+c number_of_pure_literals               3724
+c reading-and-set-up_time(sec)          0.022
+c file_name                             VanDerWaerden_pd_2-3-25_607.cnf
+   \endverbatim
+   An improvement over the previous weights, and for k <= 23 also (small)
+   improvements over the original node-count (for version 2.1.2), but for
+   k=24,25 still quite substantially worse. </li>
+   <li> Thus for now we reset the weights for the tau-heuristic to the
+   original values.
+    <ol>
+     <li> Optimisation on ordinary vdW-problems seems superior to optimisation
+     on palindromic problems, since the latter instances have too many
+     "peculiarities". </li>
+     <li> But still, apparently from a certain size on the
+     optimisation-results do not generalise. </li>
+    </ol>
+   </li>
   </ul>
 
 
   \todo Performance evaluation
+  <ul>
    <li> From version 1.0 to version 1.8 an enormous improvement; when
    comparing the run-times and node-counts:
    \verbatim

@@ -90,8 +90,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.4.5";
-const std::string date = "4.8.2013";
+const std::string version = "2.5.0";
+const std::string date = "5.8.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -587,27 +587,27 @@ Lit* Pure_stack::end_;
 # ifdef TWEIGHT_2
   constexpr Weight_t weight_2 = TWEIGHT_2;
 # else
-  constexpr Weight_t weight_2 = 5.15;
+  constexpr Weight_t weight_2 = 7.0;
 # endif
 # ifdef TWEIGHT_4
   constexpr Weight_t weight_4 = TWEIGHT_4;
 # else
-  constexpr Weight_t weight_4 = 0.305;
+  constexpr Weight_t weight_4 = 0.31;
 # endif
 # ifdef TWEIGHT_5
   constexpr Weight_t weight_5 = TWEIGHT_5;
 # else
-  constexpr Weight_t weight_5 = 0.117;
+  constexpr Weight_t weight_5 = 0.19;
 # endif
 # ifdef TWEIGHT_6
   constexpr Weight_t weight_6 = TWEIGHT_6;
 # else
-  constexpr Weight_t weight_6 = 0.056;
+  constexpr Weight_t weight_6 = 0.19/1.7;
 # endif
 # ifdef TWEIGHT_BASIS_OPEN
   constexpr Weight_t basis_open = TWEIGHT_BASIS_OPEN;
 # else
-  constexpr Weight_t basis_open = 1.60;
+  constexpr Weight_t basis_open = 1.70;
 # endif
 
 #else
