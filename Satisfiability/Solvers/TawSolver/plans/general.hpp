@@ -911,6 +911,94 @@ ttawSolver VanDerWaerden_2-3-12_135.cnf
 
 # It appears that the implementation got a tiny bit faster w.r.t. the tau-
 # heuristics (times slightly decreased despite slightly higher node-counts).
+
+# ID 57bf2f09e14dd502547ca22e07adc31eb1d03e19
+# Version 2.4.5
+# New weights for tau-heuristic.
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     18.14
+c number_of_nodes                       915855
+c number_of_binary_nodes                457920
+c number_of_1-reductions                10800353
+c number_of_pure_literals               1332
+c reading-and-set-up_time(sec)          0.004
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     18.78
+c number_of_nodes                       933771
+c number_of_binary_nodes                466885
+c number_of_1-reductions                11068328
+c number_of_pure_literals               1165
+c reading-and-set-up_time(sec)          0.001
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+8.71 8.72 8.73 8.72 8.76
+tawSolver VanDerWaerden_2-3-12_135.cnf
+10.60 10.70 10.57 10.65 10.58
+ttawSolver VanDerWaerden_2-3-12_134.cnf
+18.14 18.05 18.13 18.13 18.05
+ttawSolver VanDerWaerden_2-3-12_135.cnf
+18.78 18.64 18.75 18.73 18.70
+
+# ID 5e3725b28352317046065aaf450812d45fb521e4
+# Version 2.5
+# New weights for tau-heuristic.
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     18.74
+c number_of_nodes                       936151
+c number_of_binary_nodes                468068
+c number_of_1-reductions                11031117
+c number_of_pure_literals               1492
+c reading-and-set-up_time(sec)          0.002
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     19.30
+c number_of_nodes                       953179
+c number_of_binary_nodes                476589
+c number_of_1-reductions                11285634
+c number_of_pure_literals               1317
+c reading-and-set-up_time(sec)          0.001
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+8.71 8.72 8.73 8.72 8.76
+tawSolver VanDerWaerden_2-3-12_135.cnf
+10.60 10.70 10.57 10.65 10.58
+ttawSolver VanDerWaerden_2-3-12_134.cnf
+18.14 18.05 18.13 18.13 18.05
+ttawSolver VanDerWaerden_2-3-12_135.cnf
+18.78 18.64 18.75 18.73 18.70
+
+# An increase in node-counts, however for ordinary vdW-problems this seems
+# random, while for bigger palindromic vdW-problems in this way we gain a lot.
    \endverbatim
    </li>
   </ul>

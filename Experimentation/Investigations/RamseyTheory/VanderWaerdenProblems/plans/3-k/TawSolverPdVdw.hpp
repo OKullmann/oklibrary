@@ -1407,6 +1407,142 @@ c file_name                             VanDerWaerden_pd_2-3-25_607.cnf
      optimisation-results do not generalise. </li>
     </ol>
    </li>
+   <li> Old weights (but chi-comparison now):
+   \verbatim
+tawSolver:
+ authors: Tanbir Ahmed and Oliver Kullmann
+ url's:
+  http://sourceforge.net/projects/tawsolver/
+  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp
+ Version: 2.5.0
+ Last change date: 5.8.2013
+ Mapping k -> weight, for clause-lengths k specified at compile-time:
+   2->7  3->1  4->0.31  5->0.19  6->0.1118
+ Divisor for open weights: 1.7
+ Macro settings:
+  LIT_TYPE = std::int32_t (with 31 binary digits)
+  UCP_STRATEGY = 1
+  TAU_ITERATION = 5
+ Compiled with PURE_LITERALS
+ Compiled with NDEBUG
+ Compiled with optimisation options
+ Compilation date: Aug  5 2013 11:02:19
+ Compiler: g++, version 4.7.3
+ Provided in the OKlibrary http://www.ok-sat-library.org
+ Git ID = 5e3725b28352317046065aaf450812d45fb521e4
+s UNSATISFIABLE
+c number_of_variables                   140
+c number_of_clauses                     10536
+c maximal_clause_length                 17
+c number_of_literal_occurrences         45139
+c running_time(sec)                     1.12
+c number_of_nodes                       32855
+c number_of_binary_nodes                16427
+c number_of_1-reductions                407450
+c number_of_pure_literals               2
+c reading-and-set-up_time(sec)          0.005
+c file_name                             VanDerWaerden_pd_2-3-17_279.cnf
+s UNSATISFIABLE
+c number_of_variables                   156
+c number_of_clauses                     13277
+c maximal_clause_length                 18
+c number_of_literal_occurrences         58763
+c running_time(sec)                     10.60
+c number_of_nodes                       276249
+c number_of_binary_nodes                138124
+c number_of_1-reductions                3498196
+c number_of_pure_literals               16
+c reading-and-set-up_time(sec)          0.010
+c file_name                             VanDerWaerden_pd_2-3-18_312.cnf
+s UNSATISFIABLE
+c number_of_variables                   174
+c number_of_clauses                     16208
+c maximal_clause_length                 19
+c number_of_literal_occurrences         70414
+c running_time(sec)                     12.77
+c number_of_nodes                       283229
+c number_of_binary_nodes                141614
+c number_of_1-reductions                3918675
+c number_of_pure_literals               8
+c reading-and-set-up_time(sec)          0.012
+c file_name                             VanDerWaerden_pd_2-3-19_347.cnf
+s UNSATISFIABLE
+c number_of_variables                   195
+c number_of_clauses                     20327
+c maximal_clause_length                 20
+c number_of_literal_occurrences         88944
+c running_time(sec)                     47.91
+c number_of_nodes                       894777
+c number_of_binary_nodes                447388
+c number_of_1-reductions                13208849
+c number_of_pure_literals               25
+c reading-and-set-up_time(sec)          0.008
+c file_name                             VanDerWaerden_pd_2-3-20_389.cnf
+s UNSATISFIABLE
+c number_of_variables                   203
+c number_of_clauses                     21950
+c maximal_clause_length                 21
+c number_of_literal_occurrences         96305
+c running_time(sec)                     115.04
+c number_of_nodes                       2144743
+c number_of_binary_nodes                1072371
+c number_of_1-reductions                31832521
+c number_of_pure_literals               153
+c reading-and-set-up_time(sec)          0.014
+c file_name                             VanDerWaerden_pd_2-3-21_405.cnf
+s UNSATISFIABLE
+c number_of_variables                   232
+c number_of_clauses                     28650
+c maximal_clause_length                 22
+c number_of_literal_occurrences         126560
+c running_time(sec)                     564.53
+c number_of_nodes                       8427503
+c number_of_binary_nodes                4213751
+c number_of_1-reductions                136105044
+c number_of_pure_literals               278
+c reading-and-set-up_time(sec)          0.015
+c file_name                             VanDerWaerden_pd_2-3-22_463.cnf
+s UNSATISFIABLE
+c number_of_variables                   254
+c number_of_clauses                     34289
+c maximal_clause_length                 23
+c number_of_literal_occurrences         152236
+c running_time(sec)                     1547.29
+c number_of_nodes                       19858971
+c number_of_binary_nodes                9929485
+c number_of_1-reductions                338217159
+c number_of_pure_literals               632
+c reading-and-set-up_time(sec)          0.016
+c file_name                             VanDerWaerden_pd_2-3-23_507.cnf
+s UNSATISFIABLE
+c number_of_variables                   297
+c number_of_clauses                     46881
+c maximal_clause_length                 24
+c number_of_literal_occurrences         209792
+c running_time(sec)                     8558.83
+c number_of_nodes                       79790419
+c number_of_binary_nodes                39895209
+c number_of_1-reductions                1490889127
+c number_of_pure_literals               271
+c reading-and-set-up_time(sec)          0.022
+c file_name                             VanDerWaerden_pd_2-3-24_593.cnf
+s UNSATISFIABLE
+c number_of_variables                   304
+c number_of_clauses                     48979
+c maximal_clause_length                 25
+c number_of_literal_occurrences         219525
+c running_time(sec)                     22841.09
+c number_of_nodes                       219575127
+c number_of_binary_nodes                109787563
+c number_of_1-reductions                4093846609
+c number_of_pure_literals               3846
+c reading-and-set-up_time(sec)          0.027
+c file_name                             VanDerWaerden_pd_2-3-25_607.cnf
+   \endverbatim
+   For k>=23 the node-count is a 5-10% (increasing with k) higher than the old
+   version (2.1.2) --- that must be due to the fact, that comparison now
+   is handled via the chi-criterion; strange, since the chi-criterion should
+   be more precise. Might this be the problem? </li>
   </ul>
 
 
