@@ -90,8 +90,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.5.0";
-const std::string date = "5.8.2013";
+const std::string version = "2.5.1";
+const std::string date = "7.8.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -230,7 +230,7 @@ Count_statistics n_pure_literals;
 
 // --- Input and initialisation ---
 
-void read_formula_header(std::ifstream& f) {
+void read_formula_header(std::istream& f) {
   std::string line;
   while (true) {
     std::getline(f, line);
@@ -238,7 +238,12 @@ void read_formula_header(std::ifstream& f) {
       std::cerr << err << "Reading error (possibly no line starting with \"p\").\n";
       std::exit(file_reading_error);
     }
-    if (line[0] == 'p') break;
+    const auto c = line[0];
+    if (c == 'p') break;
+    if (c != 'c') {
+      std::cerr << err << "Comment lines must start with \"c\".\n";
+      std::exit(file_reading_error);
+    }
   }
   std::stringstream s(line);
   {std::string inp; s >> inp;
@@ -284,7 +289,7 @@ void read_formula_header(std::ifstream& f) {
   }
 }
 
-bool read_a_clause_from_file(std::ifstream& f, Lit_vec& C) {
+bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
   static Lit_vec literal_table;
   C.clear();
   literal_table.assign(n_vars+1,Lit());
