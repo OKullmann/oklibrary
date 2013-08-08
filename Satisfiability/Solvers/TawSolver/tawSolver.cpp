@@ -705,7 +705,7 @@ class Weights {
   constexpr static Weight_t min_weight = std::numeric_limits<Weight_t>::min();
   static_assert(min_weight != 0, "Error with min_weight.");
   constexpr static Weight_t set_min(const Weight_t w) {
-    return (w == 0)? min_weight : w;
+    return (w == 0) ? min_weight : w;
   }
   // the weights for clause of length >= first_open_weight:
   constexpr static Weight_t wopen(const Clause_index clause_length) {
