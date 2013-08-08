@@ -90,7 +90,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.5.3";
+const std::string version = "2.5.4";
 const std::string date = "8.8.2013";
 
 const std::string program = "tawSolver";
@@ -582,7 +582,8 @@ public :
 Push_unit_clause push_unit_clause;
 
 #ifdef PURE_LITERALS
-class Pure_stack {
+void assign_1(Lit);
+class PureLiterals {
   typedef Lit_vec stack_t;
   static stack_t stack;
   static const Lit* new_begin;
@@ -590,6 +591,10 @@ class Pure_stack {
   const Lit* const begin_;
   const Lit* begin() const { return begin_; }
   static const Lit* end() { return end_; }
+  static void push(const Lit x) {
+    assert(end_ - &stack[0] < n_vars);
+    *(end_++) = x;
+  }
   static void init() {
     stack.resize(n_vars);
     assert(n_vars);
@@ -598,19 +603,23 @@ class Pure_stack {
   friend void initialisation();
 public :
   static void clear() { new_begin = end_; }
-  static void push(const Lit x) {
-    assert(end_ - &stack[0] < n_vars);
-    *(end_++) = x;
+  static bool set(const Var v, const Polarity s) {
+    const Lit pl = (s == pos) ? Lit(v) : -Lit(v);
+    pass[v] = pl;
+    push(pl);
+    assign_1(pl);
+    ++n_pure_literals;
+    return r_clauses == 0;
   }
-  Pure_stack() : begin_(new_begin) {}
-  ~Pure_stack() {
+  PureLiterals() : begin_(new_begin) {}
+  ~PureLiterals() {
     for (const Lit x : *this) pass[var(x)] = Lit();
     end_ = const_cast<Lit*>(begin_);
   }
 };
-Pure_stack::stack_t Pure_stack::stack;
-const Lit* Pure_stack::new_begin;
-Lit* Pure_stack::end_;
+PureLiterals::stack_t PureLiterals::stack;
+const Lit* PureLiterals::new_begin;
+Lit* PureLiterals::end_;
 #endif
 
 
@@ -742,7 +751,7 @@ void initialisation() {
   Unit_stack::init();
   weight.init();
 #ifdef PURE_LITERALS
-  Pure_stack::init();
+  PureLiterals::init();
 #endif
 }
 
@@ -836,7 +845,7 @@ typedef Branching_product Best_branching;
 inline Lit branching_literal() {
   Best_branching br;
 #ifdef PURE_LITERALS
-  Pure_stack::clear(); changes.start_new();
+  PureLiterals::clear(); changes.start_new();
 #endif
   const auto nvar = n_vars;
   for (Var v = 1; v <= nvar; ++v) {
@@ -845,26 +854,12 @@ inline Lit branching_literal() {
       Weight_t ps = 0;
       for (const auto C : Occ[pos]) ps += weight[C->length()];
 #ifdef PURE_LITERALS
-      if (ps == 0) {
-        const Lit pl = -Lit(v);
-        pass[v] = pl;
-        Pure_stack::push(pl);
-        assign_1(pl);
-        ++n_pure_literals;
-        if (not r_clauses) return Lit(); else continue;
-      }
+      if (ps == 0) {if (PureLiterals::set(v,neg)) return Lit(); else continue;}
 #endif
       Weight_t ns = 0;
       for (const auto C : Occ[neg]) ns += weight[C->length()];
 #ifdef PURE_LITERALS
-      if (ns == 0) {
-        const Lit pl = Lit(v);
-        pass[v] = pl;
-        Pure_stack::push(pl);
-        assign_1(pl);
-        ++n_pure_literals;
-       if (not r_clauses) return Lit(); else continue;
-      }
+      if (ns == 0) {if (PureLiterals::set(v,pos)) return Lit(); else continue;}
 #endif
       br(ps, ns, v);
     }
@@ -896,7 +891,7 @@ bool dll(const Lit x) {
 
   {const Lit y = branching_literal();
 #ifdef PURE_LITERALS
-   const Pure_stack pure_stack;
+   const PureLiterals pure_stack;
    if (not r_clauses) {sat_pass = pass; return true;}
 #endif
    if (dll(y)) return true;
