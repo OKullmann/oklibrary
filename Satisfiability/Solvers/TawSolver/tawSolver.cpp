@@ -90,8 +90,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.5.1";
-const std::string date = "7.8.2013";
+const std::string version = "2.5.2";
+const std::string date = "8.8.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -193,16 +193,54 @@ typedef Clause* ClauseP;
 typedef std::vector<Clause> Clause_vec;
 typedef std::vector<ClauseP> ClauseP_vec;
 
-class Literal_occurrences {
-  const ClauseP* b; // array with clause-pointers
-  const ClauseP* e; // one past-the-end
-public :
-   const ClauseP* begin() const { return b; }
-   const ClauseP* end() const { return e; }
-   Count_clauses size() const { return e-b; }
-   friend void set_literal_occurrences(Count_vec&);
-};
+class LiteralOccurrences {
+  class Literal_occurrences {
+    const ClauseP* b; // array with clause-pointers
+    const ClauseP* e; // one past-the-end
+    friend class LiteralOccurrences;
+  public :
+    const ClauseP* begin() const { return b; }
+    const ClauseP* end() const { return e; }
+  };
 static_assert(std::is_pod<Literal_occurrences>::value, "Literal_occurrences is not POD.");
+
+  typedef std::array<Literal_occurrences,2> Variable_occurrences;
+  typedef std::vector<Variable_occurrences> vec_varocc;
+  typedef vec_varocc::size_type size_type;
+
+  vec_varocc varocc;
+  ClauseP_vec all_lit_occurrences;
+
+  void init(const size_type s, const Var n, const Clause_vec& clauses, Count_vec& count) {
+    if (s == 0) return;
+    varocc.resize(n+1);
+    all_lit_occurrences.resize(s);
+    const ClauseP* pointer = &all_lit_occurrences[0];
+    for (Var v = 1; v <= n; ++v)
+      for (int p = 0; p <= 1; ++p) {
+        auto& L = varocc[v][p];
+        L.b = pointer;
+        pointer += count[v][p];
+        L.e = pointer;
+      }
+    assert(pointer == &all_lit_occurrences[0] + s);
+    {const auto clend = clauses.cend();
+     for (auto i = clauses.cbegin(); i != clend; ++i) {
+       for (const Lit x : *i) {
+         const Var v = var(x); const Polarity p = sign(x);
+         *const_cast<ClauseP*>(varocc[v][p].e - count[v][p]--) =
+           const_cast<ClauseP>(&*i);
+       }
+     }
+    }
+  }
+  friend void read_formula(const std::string&);
+
+public :
+  const Variable_occurrences& operator[](const Var i) const {
+    return varocc[i];
+  }
+};
 
 typedef std::uint_fast64_t Count_statistics;
 
@@ -211,9 +249,8 @@ typedef std::uint_fast64_t Count_statistics;
 
 Clause_vec clauses;
 
-std::vector<std::array<Literal_occurrences,2>> lits;
-// lits[v][pos/neg] for a variable v represents the list of occurrences.
-ClauseP_vec all_lit_occurrences; // the underlying raw storage
+LiteralOccurrences lits;
+// via lits[v][pos/neg] the sequence of literal-ccurrences is obtained
 
 Count_clauses n_header_clauses, n_clauses; // r_clauses see above
 Count_clauses n_lit_occurrences;
@@ -274,12 +311,6 @@ void read_formula_header(std::istream& f) {
     std::cerr << err << "Reading error with parameter number-of-clauses "
       "(too big or not-a-number).\n";
     std::exit(file_pline_error);
-  }
-  try { lits.resize(n_vars+1); }
-  catch (const std::bad_alloc&) {
-    std::cerr << err << "Allocation error for lits-vector of size " <<
-      n_vars << " (the maximal-variable-index).\n";
-    std::exit(allocation_error);
   }
   try { clauses.resize(n_header_clauses); }
   catch (const std::bad_alloc&) {
@@ -351,28 +382,6 @@ void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
   n_lit_occurrences += n;
 }
 
-void set_literal_occurrences(Count_vec& count) {
-  if (all_lit_occurrences.empty()) return;
-  const ClauseP* pointer = &all_lit_occurrences[0];
-  for (Var v = 1; v <= n_vars; ++v)
-    for (int p = 0; p <= 1; ++p) {
-      auto& L = lits[v][p];
-      L.b = pointer;
-      pointer += count[v][p];
-      L.e = pointer;
-    }
-  assert(pointer == &all_lit_occurrences[0] + n_lit_occurrences);
-  {const auto clend = clauses.cend();
-   for (auto i = clauses.cbegin(); i != clend; ++i) {
-     for (const Lit x : *i) {
-       const Var v = var(x); const Polarity p = sign(x);
-       *const_cast<ClauseP*>(lits[v][p].end() - count[v][p]--) =
-         const_cast<ClauseP>(&*i);
-     }
-   }
-  }
-}
-
 void read_formula(const std::string& filename) {
   std::ios_base::sync_with_stdio(false);
   std::ifstream f(filename);
@@ -393,13 +402,12 @@ void read_formula(const std::string& filename) {
    while (read_a_clause_from_file(f,C)) add_a_clause_to_formula(C,count);
   }
   if (not (r_clauses = n_clauses)) return;
-  try { all_lit_occurrences.resize(n_lit_occurrences); }
+  try { lits.init(n_lit_occurrences, n_vars, clauses, count); }
   catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error for ClauseP-vector of size " <<
        n_lit_occurrences << " (the number of literal occurrences).\n";
     std::exit(allocation_error);
   }
-  set_literal_occurrences(count);
 }
 
 
