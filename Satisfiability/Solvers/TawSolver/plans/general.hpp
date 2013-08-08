@@ -988,17 +988,23 @@ c file_name                             VanDerWaerden_2-3-12_135.cnf
 > oklib timing
 # cswsok (no other process running)
 
-tawSolver VanDerWaerden_2-3-12_134.cnf
-8.71 8.72 8.73 8.72 8.76
-tawSolver VanDerWaerden_2-3-12_135.cnf
-10.60 10.70 10.57 10.65 10.58
-ttawSolver VanDerWaerden_2-3-12_134.cnf
-18.14 18.05 18.13 18.13 18.05
-ttawSolver VanDerWaerden_2-3-12_135.cnf
-18.78 18.64 18.75 18.73 18.70
-
 # An increase in node-counts, however for ordinary vdW-problems this seems
 # random, while for bigger palindromic vdW-problems in this way we gain a lot.
+
+# ID b0dbedb2dbad268c0185d125fb5bec242c64772d
+# Version 2.5.2
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+8.77 8.72 8.78 8.65 8.72
+tawSolver VanDerWaerden_2-3-12_135.cnf
+10.51 10.57 10.70 10.60 10.66
+ttawSolver VanDerWaerden_2-3-12_134.cnf
+18.67 18.81 18.52 18.67 18.48
+ttawSolver VanDerWaerden_2-3-12_135.cnf
+19.22 19.19 19.17 19.17 19.16
    \endverbatim
    </li>
   </ul>
