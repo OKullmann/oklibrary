@@ -90,7 +90,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.5.2";
+const std::string version = "2.5.3";
 const std::string date = "8.8.2013";
 
 const std::string program = "tawSolver";
@@ -108,11 +108,11 @@ enum Error_codes {
   unit_clause_error=9
 };
 
-
-// --- Data structures for literals and clauses ---
-
 enum Result_value { unsat=20, sat=10, unknown=0 };
 Result_value interprete_run(const bool result) { return result ? sat : unsat; }
+
+
+// --- Data structures for literals and variables ---
 
 #ifndef LIT_TYPE
 # define LIT_TYPE std::int32_t
@@ -145,6 +145,9 @@ public :
 static_assert(std::is_pod<Lit>::value, "Lit is not POD.");
 
 typedef std::vector<Lit> Lit_vec;
+
+
+// --- Data structures for clauses ---
 
 typedef double Weight_t; // weights and their sums
 static_assert(std::is_pod<Weight_t>::value, "Weight_t is not POD.");
@@ -193,6 +196,20 @@ typedef Clause* ClauseP;
 typedef std::vector<Clause> Clause_vec;
 typedef std::vector<ClauseP> ClauseP_vec;
 
+class Clauses {
+  Clause_vec cl;
+  friend void read_formula_header(std::istream&);
+  friend void add_a_clause_to_formula(const Lit_vec&, Count_vec&);
+  friend void read_formula(const std::string&);
+  Clauses(const Clauses&) = delete;
+  Clauses(Clauses&&) = delete;
+public :
+  Clauses() = default;
+};
+
+
+// --- Data structures for literal occurrences ---
+
 class LiteralOccurrences {
   class Literal_occurrences {
     const ClauseP* b; // array with clause-pointers
@@ -234,20 +251,21 @@ static_assert(std::is_pod<Literal_occurrences>::value, "Literal_occurrences is n
      }
     }
   }
+  LiteralOccurrences(const LiteralOccurrences&) = delete;
+  LiteralOccurrences(const LiteralOccurrences&&) = delete;
   friend void read_formula(const std::string&);
 
 public :
+  LiteralOccurrences() = default;
   const Variable_occurrences& operator[](const Var i) const {
     return varocc[i];
   }
 };
 
-typedef std::uint_fast64_t Count_statistics;
-
 
 // --- Basic global variables ---
 
-Clause_vec clauses;
+Clauses clauses; // after construction no direct access anymore
 
 LiteralOccurrences lits;
 // via lits[v][pos/neg] the sequence of literal-ccurrences is obtained
@@ -257,6 +275,8 @@ Count_clauses n_lit_occurrences;
 Var n_vars;
 Clause_index max_clause_length;
 
+typedef std::uint_fast64_t Count_statistics;
+
 Count_statistics n_nodes;
 Count_statistics n_backtracks;
 Count_statistics n_units;
@@ -265,7 +285,7 @@ Count_statistics n_pure_literals;
 #endif
 
 
-// --- Input and initialisation ---
+// --- Input ---
 
 void read_formula_header(std::istream& f) {
   std::string line;
@@ -312,7 +332,7 @@ void read_formula_header(std::istream& f) {
       "(too big or not-a-number).\n";
     std::exit(file_pline_error);
   }
-  try { clauses.resize(n_header_clauses); }
+  try { clauses.cl.resize(n_header_clauses); }
   catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error for clauses-vector of size " <<
       n_header_clauses << " (the number-of-clauses).\n";
@@ -368,7 +388,7 @@ void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
     std::cerr << err << "More than " << n_header_clauses << " clauses, contradicting cnf-header.\n";
     std::exit(number_clauses_error);
   }
-  auto& C = clauses[n_clauses];
+  auto& C = clauses.cl[n_clauses];
   C.length_ = n;
   C.b = new Lit[n];
   C.e = C.b + n;
@@ -402,7 +422,7 @@ void read_formula(const std::string& filename) {
    while (read_a_clause_from_file(f,C)) add_a_clause_to_formula(C,count);
   }
   if (not (r_clauses = n_clauses)) return;
-  try { lits.init(n_lit_occurrences, n_vars, clauses, count); }
+  try { lits.init(n_lit_occurrences, n_vars, clauses.cl, count); }
   catch (const std::bad_alloc&) {
     std::cerr << err << "Allocation error for ClauseP-vector of size " <<
        n_lit_occurrences << " (the number of literal occurrences).\n";
@@ -411,7 +431,7 @@ void read_formula(const std::string& filename) {
 }
 
 
-// --- SAT solving data structures ---
+// --- Data structures for partial assignments and unit-clause propagation ---
 
 /* The current assignment: pass[v] is 0 iff variable
    v is unassigned, otherwise it is v in case v->true and else -v.
@@ -714,7 +734,7 @@ constexpr Weight_t Weights::min_weight;
 Weights weight;
 
 
-// --- SAT solving algorithms ---
+// --- Initialisation of algorithmic data structures ---
 
 void initialisation() {
   pass.init();
@@ -725,6 +745,9 @@ void initialisation() {
   Pure_stack::init();
 #endif
 }
+
+
+// --- Assignments to variables ---
 
 inline void assign_0(const Lit x) {
   assert(x);
@@ -739,6 +762,7 @@ inline void assign_0(const Lit x) {
     if (C->length() == 1 and not push_unit_clause(*C)) return;
   }
 }
+
 inline void assign_1(const Lit x) {
   assert(x);
   const Var v = var(x);
@@ -750,6 +774,9 @@ inline void assign_1(const Lit x) {
     changes.push(C);
   }
 }
+
+
+// --- Branching heuristics ---
 
 inline Lit first_branch(const Weight_t pd, const Weight_t nd, const Var v) {
   return (pd>=nd) ? Lit(v) : -Lit(v);
@@ -844,6 +871,9 @@ inline Lit branching_literal() {
   }
   return br;
 }
+
+
+// --- The main (backtracking) algorithm ---
 
 Pass sat_pass;
 
