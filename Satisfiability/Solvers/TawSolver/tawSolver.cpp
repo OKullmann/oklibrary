@@ -816,7 +816,7 @@ public :
     const Weight_t sum = pd + nd;
     if (chi==0) { if ((min1=tau(pd,nd))==inf_weight and sum<=max2) return; }
     else if (chi==1) { if (sum<=max2) return; }
-    else if (chi<1) min1=tau(pd,nd);
+    else min1=tau(pd,nd);
     max2=sum;
     x = first_branch(pd,nd,v);
   }
