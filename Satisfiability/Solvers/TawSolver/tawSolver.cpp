@@ -90,8 +90,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.5.4";
-const std::string date = "8.8.2013";
+const std::string version = "2.5.5";
+const std::string date = "9.8.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -152,6 +152,7 @@ typedef std::vector<Lit> Lit_vec;
 typedef double Weight_t; // weights and their sums
 static_assert(std::is_pod<Weight_t>::value, "Weight_t is not POD.");
 typedef std::vector<Weight_t> Weight_vector;
+
 typedef Var Clause_index;
 static_assert(std::numeric_limits<Clause_index>::max() <= std::numeric_limits<Weight_vector::size_type>::max(), "Type Clause_index too large for weight vector (conversions cost too much time here).");
 
