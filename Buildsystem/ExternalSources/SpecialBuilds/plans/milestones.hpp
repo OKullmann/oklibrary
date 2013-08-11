@@ -321,6 +321,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/RamseyTheory.hpp
    the following topics are handled:
+    - Software by Pascal Schweitzer
     - Software by Aaron Robertson
 
 
