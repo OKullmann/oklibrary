@@ -26,7 +26,7 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all check new_check app_tests timing cleanall debug debug_main debug_side allall
+.PHONY : all check new_check app_tests timing cleanall debug allall
 
 ifeq ($(gpp_call_okl),)
   CXX = g++
@@ -57,13 +57,17 @@ tau_iteration = 5
 ifeq ($(bin_dir),)
   main_target = tawSolver
   side_target = ttawSolver
+  side2_target = ctawSolver
   debug_main = tawSolver_debug
   debug_side = ttawSolver_debug
+  debug_side2 = ctawSolver_debug
 else
   main_target = $(bin_dir)/tawSolver
   side_target = $(bin_dir)/ttawSolver
+  side2_target = $(bin_dir)/ctawSolver
   debug_main = $(bin_dir)/tawSolver_debug
   debug_side = $(bin_dir)/ttawSolver_debug
+  debug_side2 = $(bin_dir)/ctawSolver_debug
 endif
 
 ifeq ($(log_dir),)
@@ -73,7 +77,7 @@ else
 endif
 
 
-all : $(main_target) $(side_target)
+all : $(main_target) $(side_target) $(side2_target)
 
 allall : all debug
 
@@ -83,7 +87,11 @@ $(main_target) : tawSolver.cpp
 $(side_target) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options_tau) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DPURE_LITERALS -DTAU_ITERATION=$(tau_iteration) tawSolver.cpp -o $@ $(LFLAGS)
 
-debug : $(debug_main) $(debug_side)
+$(side2_target) : tawSolver.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DALL_SOLUTIONS tawSolver.cpp -o $@ $(LFLAGS)
+
+
+debug : $(debug_main) $(debug_side) $(debug_side2)
 
 $(debug_main) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $@ $(LFLAGS)
@@ -91,6 +99,8 @@ $(debug_main) : tawSolver.cpp
 $(debug_side) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DPURE_LITERALS -DTAU_ITERATION=$(tau_iteration) tawSolver.cpp -o $@ $(LFLAGS)
 
+$(debug_side2) : tawSolver.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DALL_SOLUTIONS tawSolver.cpp -o $@ $(LFLAGS)
 
 
 repeat := 5
@@ -122,4 +132,4 @@ app_tests :
 
 
 cleanall :
-	- rm $(main_target) $(side_target) $(debug_main) $(debug_side)
+	- rm $(main_target) $(side_target) $(debug_main) $(debug_side) $(side2_target) $(debug_side2)
