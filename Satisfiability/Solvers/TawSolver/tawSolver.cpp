@@ -147,13 +147,11 @@ public :
 };
 static_assert(std::is_pod<Lit>::value, "Lit is not POD.");
 
-// enabling literal-literals, e.g. "0_l", "1_l", "-1_l":
-constexpr Lit_int check_lit(const unsigned long long x) {
-  return (x > (unsigned long long)max_lit) ? throw std::exception() : x;
-}
-constexpr Lit operator"" _l(const unsigned long long x) {
-  return check_lit(x), Lit(x);
-}
+inline constexpr Lit operator"" _l(const unsigned long long x) {return Lit(x);}
+static_assert(0_l == Lit(), "Problem with default construction of Lit.");
+// Remark: As usual, as a local variable, the declaration "Lit x;" does not
+// initialise x.
+static_assert(1_l==Lit(1) and -1_l==Lit(-1), "Problem with construction of Lit.");
 static_assert(not 0_l, "Problem with conversion of singular literal to bool.");
 static_assert(1_l and -1_l, "Problem with conversion of valid literal to bool.");
 static_assert(1_l != -1_l, "Problem with negation and/or inequality.");
