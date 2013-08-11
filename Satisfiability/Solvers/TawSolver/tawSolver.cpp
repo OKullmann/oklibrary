@@ -59,6 +59,9 @@ for debugging).
      TAU_ITERATION implies PURE_LITERALS.
      And if TAU_ITERATION, then TWEIGHT_2, TWEIGHT_4, TWEIGHT_5, TWEIGHT_6 and
      TWEIGHT_BASIS_OPEN are used.
+   - ALL_SOLUTIONS: if defined (default is undefined), then all solutions are
+     computed and output as when they are found; incompatible with
+     PURE_LITERALS.
 
   To provide further versioning-information, there are two macros, which are
   only relevant if they are defined:
@@ -90,7 +93,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.5.7";
+const std::string version = "2.6.0";
 const std::string date = "11.8.2013";
 
 const std::string program = "tawSolver";
@@ -109,6 +112,14 @@ enum Error_codes {
 };
 
 enum Result_value { unsat=20, sat=10, unknown=0 };
+
+#ifdef ALL_SOLUTIONS
+# ifdef PURE_LITERALS
+#  error "ALL_SOLUTIONS not compatible with PURE_LITERALS."
+# endif
+typedef std::uint_fast64_t Count_solutions;
+Count_solutions n_solutions;
+#endif
 typedef bool DLL_return_t;
 inline Result_value interprete_run(const DLL_return_t result) {
   return result ? sat : unsat;
@@ -216,6 +227,11 @@ public :
 };
 static_assert(std::is_pod<Clause>::value, "Clause is not POD.");
 
+std::ostream& operator <<(std::ostream& out, const Clause& C) {
+  for (const Lit x : C) out << x << " ";
+  return out << "0\n";
+}
+
 typedef Clause* ClauseP;
 
 typedef std::vector<Clause> Clause_vec;
@@ -230,6 +246,10 @@ class Clauses {
   Clauses(Clauses&&) = delete;
 public :
   Clauses() = default;
+  friend std::ostream& operator <<(std::ostream& out, const Clauses& F) {
+    for (const Clause& C : F.cl) out << C;
+    return out;
+  }
 };
 
 
@@ -466,6 +486,18 @@ class Pass {
 public :
   Lit operator[] (const Var v) const { return pass[v]; }
   Lit& operator[] (const Var v) { return pass[v]; }
+  Lit_vec::size_type size() const { return pass.size(); }
+  Var n() const {
+    Var res = 0;
+    assert(pass[0] == 0_l);
+    for (auto x : pass) res += bool(x);
+    return res;
+  }
+  friend std::ostream& operator <<(std::ostream& out, const Pass& p) {
+    out << "v ";
+    for (Var i=1; i < p.size(); ++i) if (p[i]) out << p[i] << " ";
+    return out << "0" << std::endl;
+  }
 };
 Pass pass;
 
@@ -898,47 +930,77 @@ Pass sat_pass;
 DLL_return_t dll(const Lit x) {
   ++n_nodes;
   assert(x);
+  DLL_return_t result = false;
+
   changes.start_new();
   const Unit_stack unit_stack;
   Unit_stack::push(x);
   assign_0(Unit_stack::pop());
   while (unit_stack) { // unit-clause propagation
+    if (push_unit_clause.contradiction()) goto only_neg_units;
     ++n_units;
     assign_0(Unit_stack::pop());
-    if (push_unit_clause.contradiction()) goto only_units;
   }
 
   changes.start_new();
   for (const Lit y : unit_stack) assign_1(y);
-  if (not r_clauses) {sat_pass = pass; return true;}
+  if (not r_clauses) {
+#ifdef ALL_SOLUTIONS
+    std::cout << pass;
+    n_solutions += std::pow(2, n_vars - pass.n());
+    goto only_units;
+#else
+    sat_pass = pass;
+    return true;
+#endif
+  }
 
   {const Lit y = branching_literal();
 #ifdef PURE_LITERALS
    const PureLiterals pure_stack;
    if (not r_clauses) {sat_pass = pass; return true;}
 #endif
+#ifdef ALL_SOLUTIONS
+   result = dll(y);
+   ++n_backtracks;
+   result = dll(-y) or result;
+#else
    if (dll(y)) return true;
    ++n_backtracks;
    if (dll(-y)) return true;
+#endif
 #ifdef PURE_LITERALS
    changes.reactivate_1();
 #endif
   }
 
-  changes.reactivate_1();
+#ifdef ALL_SOLUTIONS
 only_units :
+#endif
+  changes.reactivate_1();
+only_neg_units :
   changes.reactivate_0();
-  return false;
+  return result;
 }
 
 DLL_return_t dll0() { // without unit-clauses
   ++n_nodes;
+#ifdef ALL_SOLUTIONS
+  if (not n_clauses) {n_solutions = std::pow(2,n_vars); return true;}
+#else
   if (not n_clauses) return true;
+#endif
   const Lit x = branching_literal();
 #ifdef PURE_LITERALS
   if (not r_clauses) {sat_pass = pass; return true;}
 #endif
-  return dll(x) or (++n_backtracks, dll(-x));
+  const DLL_return_t res1 = dll(x);
+#ifndef ALL_SOLUTIONS
+  if (res1) return true;
+#endif
+  ++n_backtracks;
+  const DLL_return_t res2 = dll(-x);
+  return res1 or res2;
 #ifdef PURE_LITERALS
   // pure_stack and changes.reactivate_1() superfluous here, since no backtrack
 #endif
@@ -970,6 +1032,11 @@ void version_information() {
    "  TAU_ITERATION = " << TAU_ITERATION << "\n"
 #else
    " Compiled without TAU_ITERATION\n"
+#endif
+#ifdef ALL_SOLUTIONS
+   " Compiled with ALL_SOLUTIONS\n"
+#else
+   " Compiled without ALL_SOLUTIONS\n"
 #endif
 #ifdef PURE_LITERALS
    " Compiled with PURE_LITERALS\n"
@@ -1041,14 +1108,14 @@ void output(const Result_value result) {
 #ifdef PURE_LITERALS
          "c number_of_pure_literals               " << n_pure_literals << "\n"
 #endif
+#ifdef ALL_SOLUTIONS
+         "c number_of_solutions                   " << n_solutions << "\n"
+#endif
          "c reading-and-set-up_time(sec)          " << std::setprecision(3) << t1 - t0 << "\n"
          "c file_name                             " << filename << std::endl;
-  if (result == sat) {
-    std::cout << "v ";
-    for (Var i=1; i <= n_vars; ++i)
-      if (sat_pass[i]) std::cout << sat_pass[i] << " ";
-    std::cout << "0" << std::endl;
-  }
+#ifndef ALL_SOLUTIONS
+  if (result == sat) std::cout << sat_pass;
+#endif
 }
 
 
