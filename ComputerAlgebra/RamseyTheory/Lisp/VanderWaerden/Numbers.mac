@@ -252,11 +252,12 @@ vanderwaerdend2_a(L) := if length(L)=2 and lconstant_p(L) then first(L)
 /* The diagonal cases with three parts: */
 vanderwaerdend3(k) :=
  if k <= 9 then [
-  1,4,27,[292+1,inf-1],[2173+1,inf-1],[11191+1,inf-1],[48811+1,inf-1],[238400+1,inf-1],[932745+1,inf-1]
+  1,4,27,293,[2173+1,inf-1],[11191+1,inf-1],[48811+1,inf-1],[238400+1,inf-1],[932745+1,inf-1]
  ][k]
  else [max(932745+1,ceiling(3^(k-1)/(4*k))),inf-1]$
 /* Remark: The precise numbers have been verified/computed by SAT solving
-   methods. The bounds for k=5,6 are in [Herwig, Heule, Lambalgen, Maaren,
+   methods (where k=4 is from [Kouril 2012]).
+   The bounds for k=5,6 are in [Herwig, Heule, Lambalgen, Maaren,
    2007], for k=7 in [Heule, Walsh, 2010], and for k=4,8,9 using the method of
    [Rabung, 1979] (improving the numerical values of the paper for k=8,9; see
    rabung_search).
@@ -432,16 +433,16 @@ vanderwaerdents(m,S,k) :=
     72,83,88
    ][m] else unknown
  elseif S=[3] and k=9 then
-   if m <= 2 then [
-    90,99
+   if m <= 3 then [
+    90,99,107 /* for 107 see [Kouril 2012] */
    ][m] else unknown
  elseif S=[3] and k=10 then
    if m <= 2 then [
     108,119
    ][m] else unknown
  elseif S=[3] and k=11 then
-   if m <= 1 then [
-    129
+   if m <= 2 then [
+    129, 141 /* for 141 see [Schweitzer 2009] */
    ][m] else unknown
  elseif S=[3] and k=12 then
    if m <= 1 then [
@@ -450,6 +451,10 @@ vanderwaerdents(m,S,k) :=
  elseif S=[3] and k=13 then
    if m <= 1 then [
     171
+   ][m] else unknown
+ elseif S=[3] and k=14 then
+   if m <= 1 then [
+    202 /* for 202 see [Kouril 2012] */
    ][m] else unknown
   elseif S=[4] and k=4 then
    if m <= 4 then [
@@ -460,20 +465,24 @@ vanderwaerdents(m,S,k) :=
     71,75,79
    ][m] else unknown
   elseif S=[4] and k=6 then
-   if m <= 2 then [
-    83,93
+   if m <= 3 then [
+    83,93,101 /* for 101 see [Kouril 2012] */
    ][m] else unknown
   elseif S=[4] and k=7 then
-   if m <= 1 then [
-    119
+   if m <= 2 then [
+    119,143 /* for 143 see [Kouril 2012] */
    ][m] else unknown
   elseif S=[4] and k=8 then
    if m <= 1 then [
-    [155+1,inf-1]
+    157 /* for 157 see [Kouril 2012] */
    ][m] else unknown
   elseif S=[5] and k=5 then
    if m <= 1 then [
     180
+   ][m] else unknown
+  elseif S=[5] and k=6 then
+   if m <= 1 then [
+    246 /* for 246 see [Kouril 2012] */
    ][m] else unknown
   elseif S=[3,3] and k=3 then
    if m <= 3 then [
