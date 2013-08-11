@@ -109,7 +109,10 @@ enum Error_codes {
 };
 
 enum Result_value { unsat=20, sat=10, unknown=0 };
-Result_value interprete_run(const bool result) { return result ? sat : unsat; }
+typedef bool DLL_return_t;
+inline Result_value interprete_run(const DLL_return_t result) {
+  return result ? sat : unsat;
+}
 
 
 // --- Data structures for literals and variables ---
@@ -892,7 +895,7 @@ inline Lit branching_literal() {
 
 Pass sat_pass;
 
-bool dll(const Lit x) {
+DLL_return_t dll(const Lit x) {
   ++n_nodes;
   assert(x);
   changes.start_new();
@@ -928,7 +931,7 @@ only_units :
   return false;
 }
 
-bool dll0() { // without unit-clauses
+DLL_return_t dll0() { // without unit-clauses
   ++n_nodes;
   if (not n_clauses) return true;
   const Lit x = branching_literal();
