@@ -90,7 +90,7 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.5.6";
+const std::string version = "2.5.7";
 const std::string date = "11.8.2013";
 
 const std::string program = "tawSolver";
@@ -121,8 +121,12 @@ typedef LIT_TYPE Lit_int;
 static_assert(std::is_signed<Lit_int>::value, "Type \"Lit_int\" must be signed integral.");
 static_assert(sizeof(Lit_int) != 1, "Lit_int = char (or int8_t) doesn't work with reading (since not numbers are read, but characters).");
 constexpr Lit_int max_lit = std::numeric_limits<Lit_int>::max();
+static_assert(- -max_lit == max_lit, "Problem with negating max_lit.");
 
 typedef std::make_unsigned<Lit_int>::type Var;
+static_assert(Lit_int(Var(max_lit)) == max_lit, "Problem with Var and Lit_int.");
+inline constexpr bool valid(const Var v) { return v <= Var(max_lit); }
+
 enum Polarity { pos=0, neg=1 };
 inline Polarity operator -(const Polarity p) { return (p == pos) ? neg:pos; }
 
@@ -337,7 +341,7 @@ void read_formula_header(std::istream& f) {
       "(too big or not-a-number).\n";
     std::exit(file_pline_error);
   }
-  if (n_vars > Var(max_lit)) {
+  if (not valid(n_vars)) {
     std::cerr << err << "Parameter maximal-variable-index n=" << n_vars <<
       " is too big for numeric_limits<Lit_int>::max=" << max_lit << ".\n";
     std::exit(num_vars_error);
