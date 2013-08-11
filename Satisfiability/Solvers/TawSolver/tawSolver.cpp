@@ -90,8 +90,8 @@ for debugging).
 
 namespace {
 
-const std::string version = "2.5.5";
-const std::string date = "9.8.2013";
+const std::string version = "2.5.6";
+const std::string date = "11.8.2013";
 
 const std::string program = "tawSolver";
 const std::string err = "ERROR[" + program + "]: ";
@@ -120,6 +120,7 @@ Result_value interprete_run(const bool result) { return result ? sat : unsat; }
 typedef LIT_TYPE Lit_int;
 static_assert(std::is_signed<Lit_int>::value, "Type \"Lit_int\" must be signed integral.");
 static_assert(sizeof(Lit_int) != 1, "Lit_int = char (or int8_t) doesn't work with reading (since not numbers are read, but characters).");
+constexpr Lit_int max_lit = std::numeric_limits<Lit_int>::max();
 
 typedef std::make_unsigned<Lit_int>::type Var;
 enum Polarity { pos=0, neg=1 };
@@ -130,9 +131,11 @@ class Lit {
 public :
   Lit() = default;
   constexpr explicit Lit(const Lit_int x) : x(x) {}
+  constexpr Lit(const Var v, const Polarity p) : x(p==pos?v:-Lit_int(v)) {}
   constexpr explicit operator bool() const { return x; }
   constexpr Lit operator -() const { return Lit(-x); }
   constexpr bool operator ==(const Lit y) const { return x == y.x; }
+  constexpr bool operator !=(const Lit y) const { return x != y.x; }
   friend constexpr Var var(const Lit x) { return std::abs(x.x); }
   friend constexpr Polarity sign(const Lit x) {return (x.x >= 0) ? pos : neg;}
   friend std::ostream& operator <<(std::ostream& out, const Lit x) {
@@ -143,6 +146,22 @@ public :
   }
 };
 static_assert(std::is_pod<Lit>::value, "Lit is not POD.");
+
+// enabling literal-literals, e.g. "0_l", "1_l", "-1_l":
+constexpr Lit_int check_lit(const unsigned long long x) {
+  return (x > (unsigned long long)max_lit) ? throw std::exception() : x;
+}
+constexpr Lit operator"" _l(const unsigned long long x) {
+  return check_lit(x), Lit(x);
+}
+static_assert(not 0_l, "Problem with conversion of singular literal to bool.");
+static_assert(1_l and -1_l, "Problem with conversion of valid literal to bool.");
+static_assert(1_l != -1_l, "Problem with negation and/or inequality.");
+static_assert(- -1_l == 1_l, "Problem with double negation.");
+static_assert(0_l == -0_l, "Problem with negation of singular literal.");
+static_assert(var(-1_l) == 1, "Problem with var().");
+static_assert(sign(-1_l) == neg, "Problem with sign().");
+static_assert(1_l == Lit(1,pos) and -1_l == Lit(1,neg), "Problem with polarity.");
 
 typedef std::vector<Lit> Lit_vec;
 
@@ -212,6 +231,7 @@ public :
 // --- Data structures for literal occurrences ---
 
 class LiteralOccurrences {
+
   class Literal_occurrences {
     const ClauseP* b; // array with clause-pointers
     const ClauseP* e; // one past-the-end
@@ -258,9 +278,7 @@ static_assert(std::is_pod<Literal_occurrences>::value, "Literal_occurrences is n
 
 public :
   LiteralOccurrences() = default;
-  const Variable_occurrences& operator[](const Var i) const {
-    return varocc[i];
-  }
+  const Variable_occurrences& operator[](const Var i) const {return varocc[i];}
 };
 
 
@@ -321,10 +339,9 @@ void read_formula_header(std::istream& f) {
       "(too big or not-a-number).\n";
     std::exit(file_pline_error);
   }
-  if (n_vars > Var(std::numeric_limits<Lit_int>::max())) {
+  if (n_vars > Var(max_lit)) {
     std::cerr << err << "Parameter maximal-variable-index n=" << n_vars <<
-      " is too big for numeric_limits<Lit_int>::max=" <<
-      std::numeric_limits<Lit_int>::max() << ".\n";
+      " is too big for numeric_limits<Lit_int>::max=" << max_lit << ".\n";
     std::exit(num_vars_error);
   }
   s >> n_header_clauses;
@@ -344,7 +361,7 @@ void read_formula_header(std::istream& f) {
 bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
   static Lit_vec literal_table;
   C.clear();
-  literal_table.assign(n_vars+1,Lit());
+  literal_table.assign(n_vars+1,0_l);
   bool tautology = false;
   Lit x;
   f >> x;
@@ -494,7 +511,7 @@ public :
   Unit_stack() : begin_(end_) { open_ = end_; }
   ~Unit_stack() {
     const auto end = end_;
-    for (auto p = begin_; p != end; ++p) pass[var(*p)] = Lit();
+    for (auto p = begin_; p != end; ++p) pass[var(*p)] = 0_l;
     end_ = const_cast<Lit*>(begin_);
   }
   explicit operator bool() const { return end_ != open_; }
@@ -540,9 +557,9 @@ public :
   Unit_stack() : begin_main(end_main) { end_input = begin_input; }
   ~Unit_stack() {
     const auto mend = end_main;
-    for (auto p = begin_main; p != mend; ++p) pass[var(*p)] = Lit();
+    for (auto p = begin_main; p != mend; ++p) pass[var(*p)] = 0_l;
     const auto iend = end_input;
-    for (auto p = begin_input; p != iend; ++p) pass[var(*p)] = Lit();
+    for (auto p = begin_input; p != iend; ++p) pass[var(*p)] = 0_l;
     end_main = const_cast<Lit*>(begin_main);
   }
   explicit operator bool() const { return end_input != begin_input; }
@@ -605,7 +622,7 @@ class PureLiterals {
 public :
   static void clear() { new_begin = end_; }
   static bool set(const Var v, const Polarity s) {
-    const Lit pl = (s == pos) ? Lit(v) : -Lit(v);
+    const Lit pl{v,s};
     pass[v] = pl;
     push(pl);
     assign_1(pl);
@@ -614,7 +631,7 @@ public :
   }
   PureLiterals() : begin_(new_begin) {}
   ~PureLiterals() {
-    for (const Lit x : *this) pass[var(x)] = Lit();
+    for (const Lit x : *this) pass[var(x)] = 0_l;
     end_ = const_cast<Lit*>(begin_);
   }
 };
@@ -855,12 +872,12 @@ inline Lit branching_literal() {
       Weight_t ps = 0;
       for (const auto C : Occ[pos]) ps += weight[C->length()];
 #ifdef PURE_LITERALS
-      if (ps == 0) {if (PureLiterals::set(v,neg)) return Lit(); else continue;}
+      if (ps == 0) {if (PureLiterals::set(v,neg)) return 0_l; else continue;}
 #endif
       Weight_t ns = 0;
       for (const auto C : Occ[neg]) ns += weight[C->length()];
 #ifdef PURE_LITERALS
-      if (ns == 0) {if (PureLiterals::set(v,pos)) return Lit(); else continue;}
+      if (ns == 0) {if (PureLiterals::set(v,pos)) return 0_l; else continue;}
 #endif
       br(ps, ns, v);
     }
