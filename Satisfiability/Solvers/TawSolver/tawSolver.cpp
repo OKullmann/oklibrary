@@ -93,6 +93,8 @@ for debugging).
 
 namespace {
 
+// --- General input and output ---
+
 const std::string version = "2.6.0";
 const std::string date = "11.8.2013";
 
@@ -113,13 +115,6 @@ enum Error_codes {
 
 enum Result_value { unsat=20, sat=10, unknown=0 };
 
-#ifdef ALL_SOLUTIONS
-# ifdef PURE_LITERALS
-#  error "ALL_SOLUTIONS not compatible with PURE_LITERALS."
-# endif
-typedef std::uint_fast64_t Count_solutions;
-Count_solutions n_solutions;
-#endif
 typedef bool DLL_return_t;
 inline Result_value interprete_run(const DLL_return_t result) {
   return result ? sat : unsat;
@@ -326,6 +321,14 @@ Count_statistics n_backtracks;
 Count_statistics n_units;
 #ifdef PURE_LITERALS
 Count_statistics n_pure_literals;
+#endif
+
+#ifdef ALL_SOLUTIONS
+# ifdef PURE_LITERALS
+#  error "ALL_SOLUTIONS not compatible with PURE_LITERALS."
+# endif
+typedef std::uint_fast64_t Count_solutions;
+Count_solutions n_solutions;
 #endif
 
 
