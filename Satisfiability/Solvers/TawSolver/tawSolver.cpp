@@ -29,11 +29,16 @@ for debugging).
 
   Usage:
 
-> tawSolver [argument]
+> tawSolver [argument1] [argument2]
 
-   - without argument shows usage
-   - with argument= "-v" or "--version" shows information
-   - with argument=filename runs the SAT solver.
+   - without arguments shows usage and exits with 0
+   - with argument1= "-v" or "--version" shows information and exits with 0;
+   - with argument1=filename or "-cin" runs the SAT solver, with input from
+     file or standard input; a satisfying assignment is appended to the
+     statistics output in case ALL_SOLUTIONS is not set, while otherwise
+     solutions are only counted;
+   - with argument2=filename or "-cout" or "-cerr" or "-nil" the solutions
+     are output to file, standard output, standard error or are ignored.
 
   When sending SIGINT to the program (for example via CTRL-C from the calling
   terminal), then the current state of statistics is output, and computation
@@ -95,22 +100,22 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.6.0";
-const std::string date = "11.8.2013";
+const std::string version = "2.6.1";
+const std::string date = "13.8.2013";
 
 const std::string program = "tawSolver";
-const std::string err = "ERROR[" + program + "]: ";
 
 enum Error_codes {
   file_reading_error=1,
-  file_pline_error=2,
-  num_vars_error=3,
-  allocation_error=4,
-  literal_read_error=5,
-  variable_value_error=6,
-  number_clauses_error=7,
-  empty_clause_error=8,
-  unit_clause_error=9
+  file_writing_error=2,
+  file_pline_error=3,
+  num_vars_error=4,
+  allocation_error=5,
+  literal_read_error=6,
+  variable_value_error=7,
+  number_clauses_error=8,
+  empty_clause_error=9,
+  unit_clause_error=11
 };
 
 enum Result_value { unsat=20, sat=10, unknown=0 };
@@ -119,6 +124,30 @@ typedef bool DLL_return_t;
 inline Result_value interprete_run(const DLL_return_t result) {
   return result ? sat : unsat;
 }
+
+class Output {
+  std::ostream* p = nullptr;
+  bool del = false;
+  friend void set_output(const int, const char* const*);
+  friend class Outputerr;
+public :
+  ~Output() { if (del) delete p; }
+  template <typename T>
+  const Output& operator <<(const T& x) const { if (p) *p << x; return *this; }
+  void endl() const { if (p) {*p << "\n"; p->flush();} }
+};
+Output logout;
+Output solout;
+
+struct Outputerr : Output {
+  const std::string e = "ERROR[" + program + "]: ";
+  template <typename T>
+  const Outputerr& operator <<(const T& x) const {
+    if (p) *p << e << x << "\n";
+    return *this;
+  }
+};
+Outputerr errout;
 
 
 // --- Data structures for literals and variables ---
@@ -339,49 +368,49 @@ void read_formula_header(std::istream& f) {
   while (true) {
     std::getline(f, line);
     if (not f) {
-      std::cerr << err << "Reading error (possibly no line starting with \"p\").\n";
+      errout << "Reading error (possibly no line starting with \"p\").";
       std::exit(file_reading_error);
     }
     const auto c = line[0];
     if (c == 'p') break;
     if (c != 'c') {
-      std::cerr << err << "Comment lines must start with \"c\".\n";
+      errout << "Comment lines must start with \"c\".";
       std::exit(file_reading_error);
     }
   }
   std::stringstream s(line);
   {std::string inp; s >> inp;
    if (inp != "p") {
-     std::cerr << err << "Syntax error in parameter line (\"p\" not followed by space).\n";
+     errout << "Syntax error in parameter line (\"p\" not followed by space).";
      std::exit(file_pline_error);
    }
    s >> inp;
    if (inp != "cnf") {
-     std::cerr << err << "Syntax error in parameter line (no \"cnf\").\n";
+     errout << "Syntax error in parameter line (no \"cnf\").";
      std::exit(file_pline_error);
    }
   }
   s >> n_vars;
   if (not s) {
-    std::cerr << err << "Reading error with parameter maximal-variable-index "
-      "(too big or not-a-number).\n";
+    errout << "Reading error with parameter maximal-variable-index "
+      "(too big or not-a-number).";
     std::exit(file_pline_error);
   }
   if (not valid(n_vars)) {
-    std::cerr << err << "Parameter maximal-variable-index n=" << n_vars <<
-      " is too big for numeric_limits<Lit_int>::max=" << max_lit << ".\n";
+    errout << "Parameter maximal-variable-index n=" << n_vars <<
+      " is too big for numeric_limits<Lit_int>::max=" << max_lit << ".";
     std::exit(num_vars_error);
   }
   s >> n_header_clauses;
   if (not s) {
-    std::cerr << err << "Reading error with parameter number-of-clauses "
-      "(too big or not-a-number).\n";
+    errout << "Reading error with parameter number-of-clauses "
+      "(too big or not-a-number).";
     std::exit(file_pline_error);
   }
   try { clauses.cl.resize(n_header_clauses); }
   catch (const std::bad_alloc&) {
-    std::cerr << err << "Allocation error for clauses-vector of size " <<
-      n_header_clauses << " (the number-of-clauses).\n";
+    errout << "Allocation error for clauses-vector of size " <<
+      n_header_clauses << " (the number-of-clauses).";
     std::exit(allocation_error);
   }
 }
@@ -396,13 +425,13 @@ bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
   if (f.eof()) return false;
   while (true) {
     if (not f) {
-      std::cerr << err << "Invalid literal-read.\n";
+      errout << "Invalid literal-read.";
       std::exit(literal_read_error);
     }
     if (not x) break;
     const Var v = var(x);
     if (v > n_vars) {
-      std::cerr << err << "Literal " << x << " contradicts n=" << n_vars << ".\n";
+      errout << "Literal " << x << " contradicts n=" << n_vars << ".";
       std::exit(variable_value_error);
     }
     if (not literal_table[v]) {
@@ -417,11 +446,11 @@ bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
     return true;
   }
   if (C.empty()) {
-    std::cerr << err << "Found empty clause in input.\n";
+    errout << "Found empty clause in input.";
     std::exit(empty_clause_error);
   }
   if (C.size() == 1) {
-    std::cerr << err << "Found unit-clause in input.\n";
+    errout << "Found unit-clause in input.";
     std::exit(unit_clause_error);
   }
   return true;
@@ -431,7 +460,7 @@ void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
   const auto n = D.size();
   if (n == 0) return; // means tautology here
   if (n_clauses >= n_header_clauses) {
-    std::cerr << err << "More than " << n_header_clauses << " clauses, contradicting cnf-header.\n";
+    errout << "More than " << n_header_clauses << " clauses, contradicting cnf-header.";
     std::exit(number_clauses_error);
   }
   auto& C = clauses.cl[n_clauses];
@@ -449,29 +478,39 @@ void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
 }
 
 void read_formula(const std::string& filename) {
-  std::ios_base::sync_with_stdio(false);
-  std::ifstream f(filename);
-  if (not f) {
-    std::cerr << err << "Invalid file name.\n";
-    std::exit(file_reading_error);
-  }
-  read_formula_header(f);
+  class Input {
+    std::istream* const p;
+    const bool del;
+    Input(const Input&) = delete;
+    Input(Input&&) = delete;
+  public :
+    Input(const std::string& f) : p(f == "-cin" ? &std::cin : new std::ifstream(f)), del(f != "-cin") {
+      if (not *p) {
+        errout << "Invalid input filename.";
+        std::exit(file_reading_error);
+      }
+    }
+    ~Input() { if (del) delete p; }
+    std::istream& operator *() const { return *p; }
+  };
+  const Input in(filename);
+  read_formula_header(*in);
   Count_vec count;
   try { count.resize(n_vars+1); }
   catch (const std::bad_alloc&) {
-    std::cerr << err << "Allocation error for counting-vector of size " <<
-      n_vars << " (the maximal-variable-index).\n";
+    errout << "Allocation error for counting-vector of size " <<
+      n_vars << " (the maximal-variable-index).";
     std::exit(allocation_error);
   }
   n_clauses = 0;
   {Lit_vec C;
-   while (read_a_clause_from_file(f,C)) add_a_clause_to_formula(C,count);
+   while (read_a_clause_from_file(*in,C)) add_a_clause_to_formula(C,count);
   }
   if (not (r_clauses = n_clauses)) return;
   try { lits.init(n_lit_occurrences, n_vars, clauses.cl, count); }
   catch (const std::bad_alloc&) {
-    std::cerr << err << "Allocation error for ClauseP-vector of size " <<
-       n_lit_occurrences << " (the number of literal occurrences).\n";
+    errout << "Allocation error for ClauseP-vector of size " <<
+       n_lit_occurrences << " (the number of literal occurrences).";
     std::exit(allocation_error);
   }
 }
@@ -785,8 +824,8 @@ class Weights {
     assert(weights.size() == first_open_weight);
     try { weights.resize(max_clause_length+1); }
     catch (const std::bad_alloc&) {
-      std::cerr << err << "Allocation error for double-vector of size " <<
-         max_clause_length << "+1 (the maximal clause-length).\n";
+      errout << "Allocation error for double-vector of size " <<
+         max_clause_length << "+1 (the maximal clause-length).";
       std::exit(allocation_error);
     }
     for (Clause_index i = first_open_weight; i <= max_clause_length; ++i)
@@ -949,8 +988,9 @@ DLL_return_t dll(const Lit x) {
   for (const Lit y : unit_stack) assign_1(y);
   if (not r_clauses) {
 #ifdef ALL_SOLUTIONS
-    std::cout << pass;
+    solout << pass;
     n_solutions += std::pow(2, n_vars - pass.n());
+    result = true;
     goto only_units;
 #else
     sat_pass = pass;
@@ -1012,6 +1052,17 @@ DLL_return_t dll0() { // without unit-clauses
 
 // --- Output ---
 
+void show_usage() {
+  std::cout << "Usage:\n"
+    "> " << program << " (-v | --version)\n"
+    " shows version informations and exits.\n"
+    "> " << program << " (-cin | filename)\n"
+    " runs the solver with input from standard input or filename.\n"
+    "> " << program << " (-cin | filename) (-cout | -cerr | filename2 | -nil)\n"
+      " outputs satisfying assignments to standard output, standard error, filename2, or ignores them.\n";
+  std::exit(0);
+}
+
 #define S(x) #x
 #define STR(x) S(x)
 void version_information() {
@@ -1023,7 +1074,7 @@ void version_information() {
    " Version: " << version << "\n"
    " Last change date: " << date << "\n"
    " Mapping k -> weight, for clause-lengths k specified at compile-time:\n ";
-   std::cout.precision(4);
+   std::cout << std::setprecision(4);
    for (Clause_index k = 2; k < first_open_weight; ++k)
      std::cout << "  " << k << "->" << weight[k];
    std::cout << "\n"
@@ -1069,6 +1120,7 @@ void version_information() {
    " Git ID = " STR(GIT_ID) "\n"
 #endif
   ;
+  std::exit(0);
 }
 
 typedef double Time_point;
@@ -1093,13 +1145,13 @@ std::string filename;
 
 void output(const Result_value result) {
   const Time_point elapsed = timing() - t1;
-  std::cout << "s ";
+  logout << "s ";
   switch (result) {
-    case unknown : std::cout << "UNKNOWN\n"; break;
-    case unsat : std::cout << "UN";
-    case sat : std::cout << "SATISFIABLE\n";
+    case unknown : logout << "UNKNOWN\n"; break;
+    case unsat : logout << "UN";
+    case sat : logout << "SATISFIABLE\n";
   }
-  std::cout <<
+  logout <<
          "c number_of_variables                   " << n_vars << "\n"
          "c number_of_clauses                     " << n_clauses << "\n"
          "c maximal_clause_length                 " << max_clause_length << "\n"
@@ -1115,12 +1167,39 @@ void output(const Result_value result) {
          "c number_of_solutions                   " << n_solutions << "\n"
 #endif
          "c reading-and-set-up_time(sec)          " << std::setprecision(3) << t1 - t0 << "\n"
-         "c file_name                             " << filename << std::endl;
+         "c file_name                             " << filename;
+  logout.endl();
 #ifndef ALL_SOLUTIONS
-  if (result == sat) std::cout << sat_pass;
+  if (result == sat) solout << sat_pass;
 #endif
 }
 
+void set_output(const int argc, const char* const argv[]) {
+  std::ios_base::sync_with_stdio(false);
+  logout.p = &std::cout;
+  errout.p = &std::cerr;
+  if (argc == 2) {
+#ifndef ALL_SOLUTIONS
+    solout.p = &std::cout;
+#endif
+    return;
+  }
+  const std::string solname(argv[2]);
+  if (solname == "-cout") solout.p = &std::cout;
+  else if (solname == "-cerr") solout.p = &std::cerr;
+  else if (solname != "-nil") {
+    if (solname == filename and filename != "-cin") {
+      errout << ("Invalid output filename: \"" + solname + "\".");
+      std::exit(file_writing_error);
+    }
+    solout.p = new std::ofstream(solname);
+    if (not *solout.p) {
+        errout << ("Invalid output file: \"" + solname + "\".");
+        std::exit(file_writing_error);
+      }
+    solout.del = true;
+  }
+}
 
 void abortion(const int sig) {
   std::signal(SIGINT, abortion);
@@ -1135,25 +1214,20 @@ void show_statistics(const int sig) {
 } // anonymous namespace
 
 int main(const int argc, const char* const argv[]) {
-  if (argc == 1) {
-    std::cout << "Usage:\n"
-      "> " << program << " argument\n"
-      " where argument is one of \"-v\", \"--version\", or a filename.\n";
-    return 0;
-  }
+  if (argc == 1) show_usage();
   filename = argv[1];
-  if (filename == "-v" or filename == "--version") {
-    version_information();
-    return 0;
-  }
+  if (filename == "-v" or filename == "--version") version_information();
+
+  set_output(argc, argv);
+
   t0 = timing();
   read_formula(filename);
   if (n_clauses) {
     try { initialisation(); }
     catch (const std::bad_alloc&) {
-      std::cerr << err << "Allocation error with initialisation of algorithmic"
-       " data structures.\n";
-      std::exit(allocation_error);
+      errout << "Allocation error with initialisation of algorithmic"
+       " data structures.";
+      return allocation_error;
     }
   }
   std::signal(SIGINT, abortion);
