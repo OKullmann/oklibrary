@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 11.1.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -228,6 +228,7 @@ certificates_vdw_3k : [
 /* The "full certificates" (as partitions) for vdw_2(3,k): */
 full_certificate_vdw_3k(k) := block([lb : vanderwaerden3k(k)],
  if listp(lb) then lb : first(lb),
+ lb : lb-1,
  map(lambda([S], create_certificate2_vdw(S,lb)), certificates_vdw_3k[k]))$
 
 /* The certificates as lists resp. strings: */
