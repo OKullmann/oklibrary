@@ -1690,6 +1690,42 @@ c file_name                             VanDerWaerden_2-3-16_238.cnf
    \endverbatim
    Consistently somewhat worse than the last version. Basically the same
    node-counts than version 2.1.2 (with the same weights). </li>
+   <li> Newer measurements, now also for k=17:
+   \verbatim
+tawSolver:
+ authors: Tanbir Ahmed and Oliver Kullmann
+ url's:
+  http://sourceforge.net/projects/tawsolver/
+  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp
+ Version: 2.5.4
+ Last change date: 8.8.2013
+ Mapping k -> weight, for clause-lengths k specified at compile-time:
+   2->4.85  3->1  4->0.354  5->0.11  6->0.0694
+ Divisor for open weights: 1.46
+ Macro settings:
+  LIT_TYPE = std::int32_t (with 31 binary digits)
+  UCP_STRATEGY = 1
+ Compiled without TAU_ITERATION
+ Compiled without PURE_LITERALS
+ Compiled with NDEBUG
+ Compiled with optimisation options
+ Compilation date: Aug  8 2013 10:23:27
+ Compiler: g++, version 4.7.3
+ Provided in the OKlibrary http://www.ok-sat-library.org
+ Git ID = 7de3efdedfb31fbbc0b78455f7a63b52c9562508
+s UNSATISFIABLE
+c number_of_variables                   279
+c number_of_clauses                     21616
+c maximal_clause_length                 17
+c number_of_literal_occurrences         96978
+c running_time(sec)                     401940.17
+c number_of_nodes                       10258378909
+c number_of_binary_nodes                5129189454
+c number_of_1-reductions                180957937356
+c reading-and-set-up_time(sec)          0.010
+c file_name                             VanDerWaerden_2-3-17_279.cnf
+   \endverbatim
+   </li>
   </ul>
 
 
