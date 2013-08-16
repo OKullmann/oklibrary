@@ -1005,6 +1005,51 @@ ttawSolver VanDerWaerden_2-3-12_134.cnf
 18.67 18.81 18.52 18.67 18.48
 ttawSolver VanDerWaerden_2-3-12_135.cnf
 19.22 19.19 19.17 19.17 19.16
+
+# ID 4384d4de12f8b496f52f0a708da10c0b776bbf04
+# Version 2.6.3
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     10.45
+c number_of_nodes                       968509
+c number_of_binary_nodes                484254
+c number_of_1-reductions                11308431
+c number_of_solutions                   1
+c reading-and-set-up_time(sec)          0.002
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     10.53
+c number_of_nodes                       961949
+c number_of_binary_nodes                480974
+c number_of_1-reductions                11312180
+c number_of_solutions                   0
+c reading-and-set-up_time(sec)          0.002
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+8.62 8.73 8.79 8.69 8.74
+tawSolver VanDerWaerden_2-3-12_135.cnf
+10.65 10.53 10.53 10.56 10.49
+ttawSolver VanDerWaerden_2-3-12_134.cnf
+18.57 18.60 18.62 18.54 18.58
+ttawSolver VanDerWaerden_2-3-12_135.cnf
+19.25 19.31 19.20 19.29 19.19
+ctawSolver VanDerWaerden_2-3-12_134.cnf
+10.45 10.43 10.49 10.36 10.54
+ctawSolver VanDerWaerden_2-3-12_135.cnf
+10.53 10.55 10.56 10.58 10.50
    \endverbatim
    </li>
   </ul>
