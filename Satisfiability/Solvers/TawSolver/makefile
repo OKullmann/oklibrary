@@ -72,8 +72,10 @@ endif
 
 ifeq ($(log_dir),)
   outputfile = Output_timing_tawSolver
+  logfile = Output_log_tawSolver
 else
   outputfile = $(log_dir)/Output_timing_tawSolver
+  logfile = $(log_dir)/Output_log_tawSolver
 endif
 
 
@@ -107,23 +109,37 @@ repeat := 5
 time := /usr/bin/time -f "%U %M" -o $(outputfile) -a
 input1 := VanDerWaerden_2-3-12_134.cnf
 input2 := VanDerWaerden_2-3-12_135.cnf
+ifeq ($(log_dir),)
+  solver1 = ./tawSolver
+  solver2 = ./ttawSolver
+  solver3 = ./ctawSolver
+else
+  solver1 = tawSolver
+  solver2 = ttawSolver
+  solver3 = ctawSolver
+endif
+
 timing :
 	VanderWaerdenCNF-O3-DNDEBUG 3 12 134
-	tawSolver -v > $(outputfile)
-	date >> $(outputfile); echo >> $(outputfile)
-	echo "tawSolver $(input1)" >> $(outputfile)
-	- for ((i=0; i<$(repeat); ++i)); do $(time) tawSolver $(input1); done; echo >> $(outputfile)
 	VanderWaerdenCNF-O3-DNDEBUG 3 12 135
-	echo "tawSolver $(input2)" >> $(outputfile)
-	for ((i=0; i<$(repeat); ++i)); do $(time) tawSolver $(input2); done; echo >> $(outputfile)
-	ttawSolver -v >> $(outputfile)
-	echo "ttawSolver $(input1)" >> $(outputfile)
-	- for ((i=0; i<$(repeat); ++i)); do $(time) ttawSolver $(input1); done; echo >> $(outputfile)
-	VanderWaerdenCNF-O3-DNDEBUG 3 12 135
-	echo "ttawSolver $(input2)" >> $(outputfile)
-	for ((i=0; i<$(repeat); ++i)); do $(time) ttawSolver $(input2); done; echo >> $(outputfile)
+	date > $(outputfile); echo >> $(outputfile)
+	echo >> $(logfile); date >> $(logfile); echo >> $(logfile)
+	$(solver1) -v >> $(outputfile); $(solver1) -v >> $(logfile)
+	echo "$(solver1) $(input1)" >> $(outputfile)
+	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver1) $(input1) $(logfile) $(logfile); done; echo >> $(outputfile)
+	echo "$(solver1) $(input2)" >> $(outputfile)
+	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver1) $(input2) $(logfile) $(logfile); done; echo >> $(outputfile)
+	$(solver2) -v >> $(outputfile); $(solver2) -v >> $(logfile)
+	echo "$(solver2) $(input1)" >> $(outputfile)
+	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver2) $(input1) $(logfile) $(logfile); done; echo >> $(outputfile)
+	echo "$(solver2) $(input2)" >> $(outputfile)
+	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver2) $(input2) $(logfile) $(logfile); done; echo >> $(outputfile)
+	$(solver3) -v >> $(outputfile); $(solver3) -v >> $(logfile)
+	echo "$(solver3) $(input1)" >> $(outputfile)
+	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver3) $(input1) $(logfile) $(logfile); done; echo >> $(outputfile)
+	echo "$(solver3) $(input2)" >> $(outputfile)
+	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver3) $(input2) $(logfile) $(logfile); done; echo >> $(outputfile)
 	rm $(input1) $(input2)
-
 
 
 check :
