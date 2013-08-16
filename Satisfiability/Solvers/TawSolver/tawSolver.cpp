@@ -64,8 +64,7 @@ for debugging).
      is the number of iterations for computing the in principle more accurate,
      but also more costly tau-function as projection (instead of the product);
      if TAU_ITERATION, then a reasonable default seems the value 5.
-     TAU_ITERATION implies PURE_LITERALS.
-     And if TAU_ITERATION, then TWEIGHT_2, TWEIGHT_4, TWEIGHT_5, TWEIGHT_6 and
+     If TAU_ITERATION, then TWEIGHT_2, TWEIGHT_4, TWEIGHT_5, TWEIGHT_6 and
      TWEIGHT_BASIS_OPEN are used.
    - ALL_SOLUTIONS: if defined (default is undefined), then all solutions are
      computed and output as when they are found; incompatible with
@@ -103,8 +102,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.6.3";
-const std::string date = "16.8.2013";
+const std::string version = "2.6.4";
+const std::string date = "17.8.2013";
 
 const std::string program = "tawSolver";
 
@@ -891,9 +890,6 @@ inline Lit first_branch(const Weight_t pd, const Weight_t nd, const Var v) {
   return (pd>=nd) ? Lit(v) : -Lit(v);
 }
 #ifdef TAU_ITERATION
-# ifndef PURE_LITERALS
-#  error "TAU_ITERATION requires PURE_LITERALS"
-# endif
 class Branching_tau {
   Lit x;
   Weight_t min1, max2;
@@ -910,6 +906,16 @@ public :
   Branching_tau() : x{}, min1(inf_weight), max2(0) {}
   operator Lit() const { return x; }
   void operator()(const Weight_t pd, const Weight_t nd, const Var v) {
+#ifndef PURE_LITERALS
+    if (pd == 0 or nd == 0) {
+      if (min1 < inf_weight) return;
+      const Weight_t sum = pd + nd;
+      if (sum <= max2) return;
+      max2=sum;
+      x = first_branch(pd,nd,v);
+      return;
+    }
+#endif
     assert(pd > 0); assert(nd > 0);
     const Weight_t chi = std::pow(min1,-pd) + std::pow(min1,-nd);
     if (chi>1) return;

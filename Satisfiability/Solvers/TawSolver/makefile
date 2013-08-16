@@ -58,16 +58,20 @@ ifeq ($(bin_dir),)
   main_target = tawSolver
   side_target = ttawSolver
   side2_target = ctawSolver
+  side3_target = cttawSolver
   debug_main = tawSolver_debug
   debug_side = ttawSolver_debug
   debug_side2 = ctawSolver_debug
+  debug_side3 = cttawSolver_debug
 else
   main_target = $(bin_dir)/tawSolver
   side_target = $(bin_dir)/ttawSolver
   side2_target = $(bin_dir)/ctawSolver
+  side3_target = $(bin_dir)/cttawSolver
   debug_main = $(bin_dir)/tawSolver_debug
   debug_side = $(bin_dir)/ttawSolver_debug
   debug_side2 = $(bin_dir)/ctawSolver_debug
+  debug_side3 = $(bin_dir)/cttawSolver_debug
 endif
 
 ifeq ($(log_dir),)
@@ -79,7 +83,7 @@ else
 endif
 
 
-all : $(main_target) $(side_target) $(side2_target)
+all : $(main_target) $(side_target) $(side2_target) $(side3_target)
 
 allall : all debug
 
@@ -92,8 +96,11 @@ $(side_target) : tawSolver.cpp
 $(side2_target) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DALL_SOLUTIONS tawSolver.cpp -o $@ $(LFLAGS)
 
+$(side3_target) : tawSolver.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options_tau) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DTAU_ITERATION=$(tau_iteration) -DALL_SOLUTIONS tawSolver.cpp -o $@ $(LFLAGS)
 
-debug : $(debug_main) $(debug_side) $(debug_side2)
+
+debug : $(debug_main) $(debug_side) $(debug_side2) $(debug_side3)
 
 $(debug_main) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $@ $(LFLAGS)
@@ -104,6 +111,9 @@ $(debug_side) : tawSolver.cpp
 $(debug_side2) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DALL_SOLUTIONS tawSolver.cpp -o $@ $(LFLAGS)
 
+$(debug_side3) : tawSolver.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DTAU_ITERATION=$(tau_iteration) -DALL_SOLUTIONS tawSolver.cpp -o $@ $(LFLAGS)
+
 
 repeat := 5
 time := /usr/bin/time -f "%U %M" -o $(outputfile) -a
@@ -113,10 +123,12 @@ ifeq ($(log_dir),)
   solver1 = ./tawSolver
   solver2 = ./ttawSolver
   solver3 = ./ctawSolver
+  solver4 = ./cttawSolver
 else
   solver1 = tawSolver
   solver2 = ttawSolver
   solver3 = ctawSolver
+  solver4 = cttawSolver
 endif
 
 timing :
@@ -139,6 +151,11 @@ timing :
 	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver3) $(input1) $(logfile) $(logfile); done; echo >> $(outputfile)
 	echo "$(solver3) $(input2)" >> $(outputfile)
 	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver3) $(input2) $(logfile) $(logfile); done; echo >> $(outputfile)
+	$(solver4) -v >> $(outputfile); $(solver4) -v >> $(logfile)
+	echo "$(solver4) $(input1)" >> $(outputfile)
+	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver4) $(input1) $(logfile) $(logfile); done; echo >> $(outputfile)
+	echo "$(solver4) $(input2)" >> $(outputfile)
+	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver4) $(input2) $(logfile) $(logfile); done; echo >> $(outputfile)
 	rm $(input1) $(input2)
 
 
@@ -148,4 +165,4 @@ app_tests :
 
 
 cleanall :
-	- rm $(main_target) $(side_target) $(debug_main) $(debug_side) $(side2_target) $(debug_side2)
+	- rm $(main_target) $(side_target) $(debug_main) $(debug_side) $(side2_target) $(debug_side2) $(side3_target) $(debug_side3)
