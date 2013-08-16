@@ -189,6 +189,39 @@ c maximal_number_of_added_2-clauses     0
 c file_name                             VanDerWaerden_2-3-14_186.cnf
    \endverbatim
    </li>
+   <li> Disastreous performance on redundant instances:
+   \verbatim
+s UNKNOWN
+c sat_status                            2
+c initial_maximal_clause_length         12
+c initial_number_of_variables           1000
+c initial_number_of_clauses             294455
+c initial_number_of_literal_occurrences 1287960
+c number_of_initial_unit-eliminations   0
+c reddiff_maximal_clause_length         0
+c reddiff_number_of_variables           0
+c reddiff_number_of_clauses             0
+c reddiff_number_of_literal_occurrences 0
+c number_of_2-clauses_after_reduction   0
+c running_time(sec)                     657647.7
+c number_of_nodes                       603177
+c number_of_single_nodes                2
+c number_of_quasi_single_nodes          0
+c number_of_2-reductions                5862756
+c number_of_pure_literals               0
+c number_of_autarkies                   0
+c number_of_missed_single_nodes         3
+c max_tree_depth                        45
+c proportion_searched                   4.919182e-01
+c proportion_single                     1.117587e-08
+c total_proportion                      0.4919182602316141
+c number_of_table_enlargements          0
+c number_of_1-autarkies                 0
+c number_of_new_2-clauses               0
+c maximal_number_of_added_2-clauses     0
+c file_name                             VanDerWaerden_2-3-12_1000.cnf
+   \endverbatim
+   </li>
   </ul>
 
 
