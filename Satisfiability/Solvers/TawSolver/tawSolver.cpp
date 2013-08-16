@@ -29,16 +29,19 @@ for debugging).
 
   Usage:
 
-> tawSolver [argument1] [argument2]
+> tawSolver [argument1] [argument2] [argument3]
 
    - without arguments shows usage and exits with 0
    - with argument1= "-v" or "--version" shows information and exits with 0;
    - with argument1=filename or "-cin" runs the SAT solver, with input from
-     file or standard input; a satisfying assignment is appended to the
-     statistics output in case ALL_SOLUTIONS is not set, while otherwise
-     solutions are only counted;
+     file or standard input;
    - with argument2=filename or "-cout" or "-cerr" or "-nil" the solutions
-     are output to file, standard output, standard error or are ignored.
+     are output to file, standard output, standard error or are ignored;
+     if argument2 is not given, then the default is -cout if ALL_SOLUTIONS
+     is not set, while otherwise it is -nil;
+   - with argument3=filename or "-cout" or "-cerr" or "-nil" the statistics
+     are output to file, standard output, standard error or are ignored;
+     if argument3 is not given, then the default is -cout.
 
   When sending SIGINT to the program (for example via CTRL-C from the calling
   terminal), then the current state of statistics is output, and computation
@@ -100,8 +103,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.6.1";
-const std::string date = "13.8.2013";
+const std::string version = "2.6.3";
+const std::string date = "16.8.2013";
 
 const std::string program = "tawSolver";
 
@@ -136,8 +139,8 @@ public :
   const Output& operator <<(const T& x) const { if (p) *p << x; return *this; }
   void endl() const { if (p) {*p << "\n"; p->flush();} }
 };
-Output logout;
 Output solout;
+Output logout;
 
 struct Outputerr : Output {
   const std::string e = "ERROR[" + program + "]: ";
@@ -1192,12 +1195,31 @@ void set_output(const int argc, const char* const argv[]) {
       errout << ("Invalid output filename: \"" + solname + "\".");
       std::exit(file_writing_error);
     }
-    solout.p = new std::ofstream(solname);
+    solout.p = new std::ofstream(solname, std::ios::app);
     if (not *solout.p) {
-        errout << ("Invalid output file: \"" + solname + "\".");
+      errout << ("Invalid output file: \"" + solname + "\".");
+      std::exit(file_writing_error);
+    }
+    solout.del = true;
+  }
+  if (argc == 3) return;
+  const std::string logname(argv[3]);
+  if (logname == "-cerr") logout.p = &std::cerr;
+  else if (logname == "-nil") logout.p = nullptr;
+  else if (logname != "-cout") {
+    if (logname == filename and filename != "-cin") {
+      errout << ("Invalid output filename: \"" + logname + "\".");
+      std::exit(file_writing_error);
+    }
+    if (logname == solname) logout.p = solout.p;
+    else {
+      logout.p = new std::ofstream(logname, std::ios::app);
+      if (not *logout.p) {
+        errout << ("Invalid output file: \"" + logname + "\".");
         std::exit(file_writing_error);
       }
-    solout.del = true;
+      logout.del = true;
+    }
   }
 }
 
