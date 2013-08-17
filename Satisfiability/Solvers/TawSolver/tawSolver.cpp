@@ -69,6 +69,11 @@ for debugging).
    - ALL_SOLUTIONS: if defined (default is undefined), then all solutions are
      computed and output as when they are found; incompatible with
      PURE_LITERALS.
+   - COUNT_T: the count-type in case of ALL_SOLUTIONS; by default an unsigned
+     integral type with at least 64 bits (so modular arithmetic is performed,
+     namely modulo 2^count_bits);
+     can also be defined as e.g. "double" or "long double", in which case the
+     result may become "inf".
 
   To provide further versioning-information, there are two macros, which are
   only relevant if they are defined:
@@ -102,7 +107,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.6.4";
+const std::string version = "2.6.5";
 const std::string date = "17.8.2013";
 
 const std::string program = "tawSolver";
@@ -358,7 +363,22 @@ Count_statistics n_pure_literals;
 # ifdef PURE_LITERALS
 #  error "ALL_SOLUTIONS not compatible with PURE_LITERALS."
 # endif
-typedef std::uint_fast64_t Count_solutions;
+# ifndef COUNT_T
+#  define COUNT_T std::uint_fast64_t
+# endif
+typedef COUNT_T Count_solutions;
+constexpr bool floating_count = std::is_floating_point<Count_solutions>::value;
+static_assert(floating_count or std::is_unsigned<Count_solutions>::value, "If using an integral type for counting, it must be unsigned.");
+constexpr Var count_bits = std::numeric_limits<Count_solutions>::digits;
+constexpr int count_digits = std::numeric_limits<Count_solutions>::digits10;
+template <typename CT, bool IS_FLOATING_TYPE> struct Pow2;
+template <typename CT> struct Pow2<CT,true> {
+  constexpr CT operator()(const Var n) { return std::pow(2,n); }
+};
+template <typename CT> struct Pow2<CT,false> {
+  constexpr CT operator()(const Var n) {return n<count_bits ? CT(1) << n : 0;}
+};
+Pow2<Count_solutions,floating_count> pow2;
 Count_solutions n_solutions;
 #endif
 
@@ -998,7 +1018,7 @@ DLL_return_t dll(const Lit x) {
   if (not r_clauses) {
 #ifdef ALL_SOLUTIONS
     solout << pass;
-    n_solutions += std::pow(2, n_vars - pass.n());
+    n_solutions += pow2(n_vars - pass.n());
     result = true;
     goto only_units;
 #else
@@ -1038,7 +1058,7 @@ only_neg_units :
 DLL_return_t dll0() { // without unit-clauses
   ++n_nodes;
 #ifdef ALL_SOLUTIONS
-  if (not n_clauses) {n_solutions = std::pow(2,n_vars); return true;}
+  if (not n_clauses) {n_solutions = pow2(n_vars); return true;}
 #else
   if (not n_clauses) return true;
 #endif
@@ -1098,6 +1118,11 @@ void version_information() {
 #endif
 #ifdef ALL_SOLUTIONS
    " Compiled with ALL_SOLUTIONS\n"
+   "  COUNT_T = " STR(COUNT_T) " (with " << count_bits << " binary digits)\n"
+   "   ";
+   if (floating_count) std::cout << "a floating-point type";
+   else std::cout << "an unsigned integral type";
+   std::cout << " with " << count_digits << " decimal digits\n"
 #else
    " Compiled without ALL_SOLUTIONS\n"
 #endif
@@ -1173,9 +1198,9 @@ void output(const Result_value result) {
          "c number_of_pure_literals               " << n_pure_literals << "\n"
 #endif
 #ifdef ALL_SOLUTIONS
-         "c number_of_solutions                   " << n_solutions << "\n"
+         "c number_of_solutions                   " << std::scientific << std::setprecision(count_digits) << n_solutions << "\n"
 #endif
-         "c reading-and-set-up_time(sec)          " << std::setprecision(3) << t1 - t0 << "\n"
+         "c reading-and-set-up_time(sec)          " << std::setprecision(3) << std::fixed << t1 - t0 << "\n"
          "c file_name                             " << filename;
   logout.endl();
 #ifndef ALL_SOLUTIONS
