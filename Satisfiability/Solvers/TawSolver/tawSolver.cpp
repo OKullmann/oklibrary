@@ -82,7 +82,13 @@ for debugging).
 
   Remarks on the statistics output:
    - "running_time" is only solver-time
-   - "running_time + reading-and-set-up_time is total time.
+   - "running_time + reading-and-set-up_time is total time
+   - "options" yields a summary of the main options:
+    - "B" for UCP_STRATEGY = 0
+    - "P" for PURE_LITERALS
+    - "T" followed with its value if defined
+    - "A" for ALL_SOLUTIONS, with "F" in case of floating-point counting, and
+      followed by the number of (decimal) digits.
 
 */
 
@@ -107,7 +113,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.6.5";
+const std::string version = "2.6.6";
 const std::string date = "17.8.2013";
 
 const std::string program = "tawSolver";
@@ -1093,6 +1099,22 @@ void show_usage() {
 
 #define S(x) #x
 #define STR(x) S(x)
+
+const std::string options = ""
+#if UCP_STRATEGY == 0
+"B"
+#endif
+#ifdef PURE_LITERALS
+"P"
+#endif
+#ifdef TAU_ITERATION
+"T" STR(TAU_ITERATION)
+#endif
+#ifdef ALL_SOLUTIONS
+"A"  + std::string(floating_count ? "F" : "") + std::to_string(count_digits)
+#endif
+;
+
 void version_information() {
   std::cout << program << ":\n"
    " authors: Tanbir Ahmed and Oliver Kullmann\n"
@@ -1107,6 +1129,7 @@ void version_information() {
      std::cout << "  " << k << "->" << weight[k];
    std::cout << "\n"
    " Divisor for open weights: " << basis_open << "\n"
+   " Option summary = \"" << options << "\"\n"
    " Macro settings:\n"
    "  LIT_TYPE = " STR(LIT_TYPE) " (with " << std::numeric_limits<Lit_int>::digits << " binary digits)\n"
    "  UCP_STRATEGY = " << UCP_STRATEGY << "\n"
@@ -1200,7 +1223,8 @@ void output(const Result_value result) {
          "c number_of_solutions                   " << std::scientific << std::setprecision(count_digits) << n_solutions << "\n"
 #endif
          "c reading-and-set-up_time(sec)          " << std::setprecision(3) << std::fixed << t1 - t0 << "\n"
-         "c file_name                             " << filename;
+         "c file_name                             " << filename << "\n"
+         "c options                               \"" << options << "\"";
   logout.endl();
 #ifndef ALL_SOLUTIONS
   if (result == sat) solout << sat_pass;
