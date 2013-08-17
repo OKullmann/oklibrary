@@ -975,20 +975,19 @@ inline Lit branching_literal() {
 #endif
   const auto nvar = n_vars;
   for (Var v = 1; v <= nvar; ++v) {
-    if (not pass[v]) {
-      const auto Occ = lits[v];
-      Weight_t ps = 0;
-      for (const auto C : Occ[pos]) ps += weight[C->length()];
+    if (pass[v]) continue;
+    const auto Occ = lits[v];
+    Weight_t ps = 0;
+    for (const auto C : Occ[pos]) ps += weight[C->length()];
 #ifdef PURE_LITERALS
-      if (ps == 0) {if (PureLiterals::set(v,neg)) return 0_l; else continue;}
+    if (ps == 0) {if (PureLiterals::set(v,neg)) return 0_l; else continue;}
 #endif
-      Weight_t ns = 0;
-      for (const auto C : Occ[neg]) ns += weight[C->length()];
+    Weight_t ns = 0;
+    for (const auto C : Occ[neg]) ns += weight[C->length()];
 #ifdef PURE_LITERALS
-      if (ns == 0) {if (PureLiterals::set(v,pos)) return 0_l; else continue;}
+    if (ns == 0) {if (PureLiterals::set(v,pos)) return 0_l; else continue;}
 #endif
-      br(ps, ns, v);
-    }
+    br(ps, ns, v);
   }
   return br;
 }
