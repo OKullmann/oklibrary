@@ -1050,6 +1050,144 @@ ctawSolver VanDerWaerden_2-3-12_134.cnf
 10.45 10.43 10.49 10.36 10.54
 ctawSolver VanDerWaerden_2-3-12_135.cnf
 10.53 10.55 10.56 10.58 10.50
+
+# ID 237cbfc4d9b772a29e125928959af14cb4495d3e
+# Version 2.6.6
+# Improved output, and combination of tau-heuristic with counting
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     8.82
+c number_of_nodes                       808309
+c number_of_binary_nodes                404147
+c number_of_1-reductions                9437027
+c reading-and-set-up_time(sec)          0.002
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+c options                               ""
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     10.78
+c number_of_nodes                       961949
+c number_of_binary_nodes                480974
+c number_of_1-reductions                11312180
+c reading-and-set-up_time(sec)          0.003
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+c options                               ""
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     18.72
+c number_of_nodes                       936151
+c number_of_binary_nodes                468068
+c number_of_1-reductions                11031117
+c number_of_pure_literals               1492
+c reading-and-set-up_time(sec)          0.002
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+c options                               "PT5"
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     19.37
+c number_of_nodes                       953179
+c number_of_binary_nodes                476589
+c number_of_1-reductions                11285634
+c number_of_pure_literals               1317
+c reading-and-set-up_time(sec)          0.001
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+c options                               "PT5"
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     10.61
+c number_of_nodes                       968509
+c number_of_binary_nodes                484254
+c number_of_1-reductions                11308431
+c number_of_solutions                   1
+c reading-and-set-up_time(sec)          0.001
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+c options                               "A19"
+
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     10.70
+c number_of_nodes                       961949
+c number_of_binary_nodes                480974
+c number_of_1-reductions                11312180
+c number_of_solutions                   0
+c reading-and-set-up_time(sec)          0.001
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+c options                               "A19"
+
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     19.20
+c number_of_nodes                       969297
+c number_of_binary_nodes                484648
+c number_of_1-reductions                11427083
+c number_of_solutions                   1
+c reading-and-set-up_time(sec)          0.002
+c file_name                             VanDerWaerden_2-3-12_134.cnf
+c options                               "T5A19"
+
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     19.23
+c number_of_nodes                       953175
+c number_of_binary_nodes                476587
+c number_of_1-reductions                11286127
+c number_of_solutions                   0
+c reading-and-set-up_time(sec)          0.001
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+c options                               "T5A19"
+
+> oklib timing
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+8.81 8.88 8.81 8.87 8.93
+tawSolver VanDerWaerden_2-3-12_135.cnf
+10.78 10.65 10.70 10.65 10.73
+ttawSolver VanDerWaerden_2-3-12_134.cnf
+18.72 18.68 18.63 18.74 18.72
+ttawSolver VanDerWaerden_2-3-12_135.cnf
+19.36 19.35 19.39 19.45 19.23
+ctawSolver VanDerWaerden_2-3-12_134.cnf
+10.61 10.45 10.68 10.54 10.48
+ctawSolver VanDerWaerden_2-3-12_135.cnf
+10.70 10.67 10.64 10.64 10.63
+cttawSolver VanDerWaerden_2-3-12_134.cnf
+19.20 19.16 19.17 19.26 19.14
+cttawSolver VanDerWaerden_2-3-12_135.cnf
+19.23 19.16 19.17 19.15 19.23
+
+# There seems to be an overall small increase in run-time. This appears to
+# be due to the replacement of the if-guard in the loop of branching_literal()
+# by the continue-statement; since this should be a weakness of the optimiser,
+# we ignore it.
+# It also appears that cttawSolver is slightly faster than ttawSolver;
+# this is likely due to not eliminating pure literals.
    \endverbatim
    </li>
   </ul>
