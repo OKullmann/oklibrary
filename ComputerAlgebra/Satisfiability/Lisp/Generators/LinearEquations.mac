@@ -13,6 +13,8 @@ Use by
 
 oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/LinearEquations.mac");
 
+TODO: Move to ComputerAlgebra/Satisfiability/Lisp/LinearConditions.
+
 */
 
 /*!

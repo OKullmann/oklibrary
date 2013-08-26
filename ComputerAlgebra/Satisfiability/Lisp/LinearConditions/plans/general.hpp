@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.3.2011 (Swansea)
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2013 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,8 +12,11 @@ License, or any later version. */
 
   \todo Connections
   <ul>
+   <li> See Satisfiability/Lisp/Generators/LinearEquations.mac; that file
+   likely should be moved here. </li>
    <li> AES involves several linear maps; see
-   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/general.hpp. </li>
+   Investigations/Cryptography/AdvancedEncryptionStandard/plans/Representations/general.hpp.
+   </li>
    <li> See Investigations/BooleanFunctions/plans/Permutations/Linear.hpp
    for investigations into linear maps as boolean functions. </li>
   </ul>
@@ -21,6 +24,8 @@ License, or any later version. */
 
   \todo The notion of a "linear constraint"
   <ul>
+   <li> Update needed; see Satisfiability/Lisp/Generators/LinearEquations.mac.
+   </li>
    <li> Consider an mxn matrix A of ZZ_2 and two vectors x, b of length n,
    with entries either literals or from ZZ_2 (the latter not for x). </li>
    <li> The condition to be modelled is "A * x = b". </li>

@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Investigations regarding hardness of representations of systems of linear equations
 
 
+  \todo Connections
+  <ul>
+   <li> Currently the functions are in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/LinearEquations.mac. </li>
+  </ul>
+
+
   \todo gen_2xor_fcl
   <ul>
    <li> Creation:
@@ -86,8 +93,8 @@ for k : 0 thru 10 do print(k, min_bresolution_closure_cs(fcl2cs(gen_2xor_fcl(k))
   \todo Translating two xor-clauses
   <ul>
    <li> The conjecture is that in general the translation gprt2s2cl_aux_2
-   achieves relative hardness at most 2, while (absolute) hardness is
-   unbounded:
+   (which translates two XOR-clauses via adding the derived XOR-clause)
+   achieves relative p-hardness 1, while (absolute) hardness is unbounded:
    \verbatim
 F1 : gprt2s2cl_aux_2([[1,2,3,10,7,14],0],[4,8,11,15],[[2,3,5,7,10],0],[6,9,12],[13,16]);
   [{-4,-2,-1},{-4,1,2},{-2,1,4},{-1,2,4},{-8,-4,-3},{-8,3,4},{-4,3,8},{-3,4,8},{-11,-8,-7},{-11,7,8},{-8,7,11},{-7,8,11},{-15,-11,-10},{-15,10,11},{-11,10,15},{-10,11,15},{-15,14},{-14,15},{-6,-3,-2},{-6,2,3},{-3,2,6},{-2,3,6},{-9,-6,-5},{-9,5,6},{-6,5,9},{-5,6,9},{-12,-9,-7},{-12,7,9},{-9,7,12},{-7,9,12},{-12,10},{-10,12},{-13,-5,-1},{-13,1,5},{-5,1,13},{-1,5,13},{-14,13},{-13,14}]
