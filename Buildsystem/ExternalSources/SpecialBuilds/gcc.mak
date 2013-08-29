@@ -38,19 +38,19 @@ gcc412 : $(gcc_base_installation_dir_okl) $(gcc412_build_dir_okl) $(gcc412_doc_d
 
 gcc : $(gcc_directories_okl)
 	$(call unarchive,$(gcc_source_okl),$(gcc_base_build_dir_okl))
-	$(call unarchive,$(gmp_source_okl),$(gcc_unarchived_source_okl))
-	mv $(gcc_unarchived_source_okl)/$(gmp_recommended_okl) $(gcc_unarchived_source_okl)/gmp
-	$(call unarchive,$(mpfr_source_okl),$(gcc_unarchived_source_okl))
-	mv $(gcc_unarchived_source_okl)/$(mpfr_recommended_okl) $(gcc_unarchived_source_okl)/mpfr
-	$(call unarchive,$(mpc_source_okl),$(gcc_unarchived_source_okl))
-	mv $(gcc_unarchived_source_okl)/$(mpc_recommended_okl) $(gcc_unarchived_source_okl)/mpc
+	$(call unarchive,$(gmpgcc_source_okl),$(gcc_unarchived_source_okl))
+	mv $(gcc_unarchived_source_okl)/$(gmpgcc_name_okl) $(gcc_unarchived_source_okl)/gmp
+	$(call unarchive,$(mpfrgcc_source_okl),$(gcc_unarchived_source_okl))
+	mv $(gcc_unarchived_source_okl)/$(mpfrgcc_name_okl) $(gcc_unarchived_source_okl)/mpfr
+	$(call unarchive,$(mpcgcc_source_okl),$(gcc_unarchived_source_okl))
+	mv $(gcc_unarchived_source_okl)/$(mpcgcc_name_okl) $(gcc_unarchived_source_okl)/mpc
 	cp $(gcc_source_base_okl)/copying-lib.texi $(gcc_unarchived_source_okl)/libiberty
 	cp $(gcc_source_base_okl)/gpl.texi $(gcc_unarchived_source_okl)/gcc/doc/include
 	cd $(gcc_build_dir_okl); $(postcondition) \
 	$(gcc_unarchived_source_okl)/configure --prefix=$(gcc_installation_dir_okl) --enable-languages=$(gcc_enable_languages_okl) --enable-threads=$(gcc_threads_okl) --with-system-zlib $(gcc_other_options_okl) $(gcc_user_options_okl); $(postcondition) \
 	make; $(postcondition) \
 	make html dvi; $(postcondition) \
-	make install install-html; $(postcondition) \
+	make install; $(postcondition) \
 	cp -fr $(gcc_installation_dir_okl)/share/doc $(gcc_doc_dir_okl); $(postcondition) \
 	mv -f $(gcc_doc_dir_okl)/doc $(gcc_doc_dir_okl)/html; $(postcondition) \
 	cp -fr gcc/doc $(gcc_doc_dir_okl); $(postcondition)

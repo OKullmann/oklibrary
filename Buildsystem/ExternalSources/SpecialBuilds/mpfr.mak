@@ -1,5 +1,5 @@
 # Matthew Henderson, 25.6.2007 (Swansea)
-# Copyright 2007, 2008, 2010 Oliver Kullmann
+# Copyright 2007, 2008, 2010, 2013 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -27,7 +27,7 @@ mpfr : $(mpfr_directories_okl)
 	make; $(postcondition) \
 	make check; $(postcondition) \
 	make html; $(postcondition) \
-	cp -r mpfr.html $(mpfr_doc_dir_okl); $(postcondition) \
+	cp -r doc/* $(mpfr_doc_dir_okl); $(postcondition) \
 	$(mpfr_install_command_okl)
 
 

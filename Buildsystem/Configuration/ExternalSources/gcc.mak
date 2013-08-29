@@ -14,6 +14,17 @@ gcc_prefix_okl ?= gcc
 
 gcc_recommended_package_name_okl ?= $(gcc_prefix_okl)-$(gcc_recommended_version_number_okl)
 
+gmpgcc_version_okl = 4.3.2
+gmpgcc_name_okl := gmp-$(gmpgcc_version_okl)
+gmpgcc_source_okl := $(ExternalSources)/sources/Gmp/$(gmpgcc_name_okl)
+mpfrgcc_version_okl = 2.4.2
+mpfrgcc_name_okl := mpfr-$(mpfrgcc_version_okl)
+mpfrgcc_source_okl := $(ExternalSources)/sources/Gmp/$(mpfrgcc_name_okl)
+mpcgcc_version_okl = 0.8.1
+mpcgcc_name_okl := mpc-$(mpcgcc_version_okl)
+mpcgcc_source_okl := $(ExternalSources)/sources/Gmp/$(mpcgcc_name_okl)
+
+
 gcc_html_template_okl ?= $(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentation/Gcc.html
 gcc_html_output_okl ?= $(local_html_dir)/Gcc.html
 gcc_html_documentation_index_location_okl ?= Gcc.html

@@ -1,5 +1,5 @@
 # Oliver Kullmann, 24.2.2010 (Swansea)
-# Copyright 2010 Oliver Kullmann
+# Copyright 2010, 2013 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -7,8 +7,8 @@
 
 # Settings for building and using the Mpfr library
 
-mpfr_recommended_version_number_okl ?= 3.0.0
-mpfr_other_versions_okl ?= 2.4.2
+mpfr_recommended_version_number_okl ?= 3.1.2
+mpfr_other_versions_okl ?= 3.0.0
 
 mpfr_prefix_okl ?= mpfr
 
@@ -50,8 +50,8 @@ mpfr_documentation_url_okl := http://www.mpfr.org/mpfr-current/mpfr.html
 
 # Mpc
 
-mpc_recommended_version_number_okl ?= 0.8.2
-mpc_other_versions_okl ?= 
+mpc_recommended_version_number_okl ?= 1.0.1
+mpc_other_versions_okl ?= 0.8.2
 
 mpc_prefix_okl ?= mpc
 
