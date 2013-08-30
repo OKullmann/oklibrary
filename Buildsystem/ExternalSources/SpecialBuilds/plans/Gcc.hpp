@@ -10,6 +10,17 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
+  \todo Documentation
+  <ul>
+   <li> Apparently with "install-html" we got more html-documentation (also
+   for the various libraries). </li>
+   <li> But apparently now "install-html" is no longer supported? </li>
+   <li> This might have to do that we are using old versions of gmp etc.;
+   once that has been updated in Gcc itself, then we should try "install-html"
+   again (also asking at the mailing list). </li>
+  </ul>
+
+
   \todo Problems building 4.6.4
   <ul>
    <li>

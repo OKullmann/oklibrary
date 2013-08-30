@@ -19,7 +19,7 @@ $(gcc_directories_okl) : % :
 # The main targets for making gcc
 # ####################################
 
-.PHONY : gcc gcc412 cleangcc cleanallgcc
+.PHONY : gcc gcc_core gcc_doc gcc412 cleangcc cleanallgcc
 
 gcc412 : $(gcc_base_installation_dir_okl) $(gcc412_build_dir_okl) $(gcc412_doc_dir_okl)
 	$(call unarchive,$(gcc412_source_okl),$(gcc_base_build_dir_okl))
@@ -36,7 +36,9 @@ gcc412 : $(gcc_base_installation_dir_okl) $(gcc412_build_dir_okl) $(gcc412_doc_d
 	cp -r gcc/HTML/gcc-4.1.2 $(gcc412_doc_dir_okl)/html; $(postcondition)
 
 
-gcc : $(gcc_directories_okl)
+gcc : gcc_core gcc_doc
+
+gcc_core : $(gcc_directories_okl)
 	$(call unarchive,$(gcc_source_okl),$(gcc_base_build_dir_okl))
 	$(call unarchive,$(gmpgcc_source_okl),$(gcc_unarchived_source_okl))
 	mv $(gcc_unarchived_source_okl)/$(gmpgcc_name_okl) $(gcc_unarchived_source_okl)/gmp
@@ -50,9 +52,12 @@ gcc : $(gcc_directories_okl)
 	$(gcc_unarchived_source_okl)/configure --prefix=$(gcc_installation_dir_okl) --enable-languages=$(gcc_enable_languages_okl) --enable-threads=$(gcc_threads_okl) --with-system-zlib $(gcc_other_options_okl) $(gcc_user_options_okl); $(postcondition) \
 	make; $(postcondition) \
 	make html dvi; $(postcondition) \
-	make install; $(postcondition) \
-	cp -fr $(gcc_installation_dir_okl)/share/doc $(gcc_doc_dir_okl); $(postcondition) \
-	mv -f $(gcc_doc_dir_okl)/doc $(gcc_doc_dir_okl)/html; $(postcondition) \
+	make install; $(postcondition)
+
+gcc_doc :
+	cd $(gcc_build_dir_okl); $(postcondition) \
+	cp -fr gcc/HTML $(gcc_doc_dir_okl); $(postcondition) \
+	mv -f $(gcc_doc_dir_okl)/$(gcc_name_okl) $(gcc_doc_dir_okl)/html; $(postcondition) \
 	cp -fr gcc/doc $(gcc_doc_dir_okl); $(postcondition)
 
 # Remark: Correction of copying-lib.texi, gpl.texi should be removed for
