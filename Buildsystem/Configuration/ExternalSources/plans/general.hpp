@@ -21,7 +21,7 @@ License, or any later version. */
    <li> And e.g. "gcc_recommended_version_number_okl" should become
    "gcc_version_okl". </li>
    <li> E.g. "gcc_recommended_package_name_okl" should become
-   "gcc_package_name_okl". </li>
+   "gcc_name_okl". </li>
    <li> And all other uses of "recommended" should be eliminated. </li>
   </ul>
 

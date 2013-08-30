@@ -12,7 +12,7 @@ gcc_other_versions_okl ?= 4.6.4
 
 gcc_prefix_okl ?= gcc
 
-gcc_recommended_package_name_okl ?= $(gcc_prefix_okl)-$(gcc_recommended_version_number_okl)
+gcc_name_okl ?= $(gcc_prefix_okl)-$(gcc_recommended_version_number_okl)
 
 gmpgcc_version_okl = 4.3.2
 gmpgcc_name_okl := gmp-$(gmpgcc_version_okl)
@@ -32,11 +32,11 @@ gcc_html_documentation_index_location_okl ?= Gcc.html
 gcc_base_installation_dir_okl ?= $(ExternalSources_installations)/Gcc
 gcc_installation_dir_okl ?= $(gcc_base_installation_dir_okl)/$(gcc_recommended_version_number_okl)
 gcc_base_build_dir_okl ?= $(ExternalSources_builds)/Gcc
-gcc_unarchived_source_okl ?= $(gcc_base_build_dir_okl)/$(gcc_recommended_package_name_okl)
+gcc_unarchived_source_okl ?= $(gcc_base_build_dir_okl)/$(gcc_name_okl)
 # Since gcc doesn't like very much installation into the extracted source
 # directory (as it is normal otherwise), we have the distinction between
 # "unarchived_source" and "build_dir".
-gcc_build_dir_okl ?= $(gcc_base_build_dir_okl)/$(gcc_recommended_package_name_okl)_build
+gcc_build_dir_okl ?= $(gcc_base_build_dir_okl)/$(gcc_name_okl)_build
 gcc_base_doc_dir_okl ?= $(ExternalSources_doc)/Gcc
 gcc_doc_dir_okl ?= $(gcc_base_doc_dir_okl)/$(gcc_recommended_version_number_okl)
 
@@ -64,7 +64,7 @@ gcc_homepage_url_okl := http://gcc.gnu.org/
 gcc_documentation_url_okl := http://gcc.gnu.org/onlinedocs/
 
 gcc_source_base_okl := $(ExternalSources)/sources/Gcc
-gcc_source_okl := $(gcc_source_base_okl)/$(gcc_recommended_package_name_okl)
+gcc_source_okl := $(gcc_source_base_okl)/$(gcc_name_okl)
 
 gcc_enable_languages_okl ?= c,c++,fortran,java,objc
 gcc_threads_okl ?= posix
