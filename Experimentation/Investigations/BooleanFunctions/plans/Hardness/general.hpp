@@ -119,4 +119,20 @@ hardness_cs(dualts_cs({{1,2,3},{2,3,4}});
    <li> For this we need hardness-computation at C++ level. </li>
   </ul>
 
+
+  \todo Relation of whardness=2 and hardness
+  <ul>
+   <li> Example for whardness=2 and hardness=3:
+   \verbatim
+F : {{2,3,4},{-4,2},{-2,1,5},{-5,-2},{-3,1,6},{-6,-3},{7,8,9},{-9,7},{-7,-1,10},{-10,-7},{-8,-1,11},{-11,-8}};
+current_satsolver(cs2fcs(F));
+  false
+hardness_u_cs(F);
+  3
+whardness_u_cs(F);
+  2
+   \endverbatim
+   </li>
+  </ul>
+
 */
