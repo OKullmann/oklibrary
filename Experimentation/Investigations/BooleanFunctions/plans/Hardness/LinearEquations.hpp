@@ -34,27 +34,49 @@ output_gen_2xor_stdname(n);
      <li> number_of_nodes = 2^(n-1) - 1 </li>
      <li> number_of_quasi_single_nodes = 2^(n-3) </li>
      <li> number_of_2-reductions = 2^(n-2) </li>
+     <li> data: n=2 (here quasi-singles = 0) correct, n=20 correct, 0.4 sec,
+     n=25 correct, 13.7 sec, n=30 correct, 411.6 sec. </li>
     </ol>
    </li>
    <li> satz215 behaves completely predictable:
     <ol>
-     <li> NB_BACK = 2^(n-3) </li>
-     <li> NB_BRANCHE = 2^(n-2) - 1 </li>
+     <li> number_of_nodes = 2^(n-2) - 1 </li>
+     <li> n=20: 1.53 sec </li>
+     <li> n=25: 40.16 sec </li>
+     <li> n=30: 1469.40 sec </li>
     </ol>
-    satz215 seems slower than the OKsolver.
+    satz215 slower than the OKsolver.
    </li>
-   <li> march_pl solves these instances quickly via equivalence-reasoning.
+   <li> tawSolver: for n >= 2 (otherwise unit-clauses in input)
+    <ol>
+     <li> n=20 -> 1048575 = 2^n-1 nodes, 0.18 sec </li>
+     <li> n=25 -> 33554431 = 2^n-1 nodes, 5.88 sec </li>
+     <li> n=30 -> 1073741823 = 2^n-1 nodes, 197.88 sec </li>
+    </ol>
+    The fastest solver from the three look-aheads without preprocessing.
    </li>
-   <li> minisat also solves all instances via (quick) preprocessing. Would be
+   <li> march_pl solves these instances quickly via equivalence-reasoning,
+   however it is buggy, and thus should not be used anymore. The successor
+   seems to be march_rw http://www.st.ewi.tudelft.nl/~marijn/sat/download.php ,
+   which again solves all instances quickly by equivalence-reasoning,
+   except for TwoXORclauses-10000.cnf, where it took 102 sec (csltok).
+   </li>
+   <li> minisat also solves all instances via (quick) preprocessing (largst
+   TwoXORclauses-10000.cnf in 0.5 sec (csltok). Would be
    interesting to find it what happens here. </li>
    <li> Also minisat-no-pre solves large instances very quickly (for example
-   n=10000 in 15 sec; now of course based on splitting). </li>
+   n=10000 in 15 sec (csltok); now of course based on splitting). </li>
    <li> Picosat913 has problems already with n=1000 (aborted after 180 sec,
    apparently without progress). </li>
    <li> Precosat-570 solves instances quickly by preprocessing. </li>
    <li> lingelingala-b02aa1a-121013 solves instances even more quickly than
    minisat-no-pre. </li>
-   <li> Also glucose-2.0 seems faster then minisat-no-pre. </li>
+   <li> Also glucose-2.0 seems faster then minisat-no-pre. glucose-2.2-no-pre
+   solves TwoXORclauses-10000.cnf in 14 sec (csltok; with preprocessing in
+   0.5 sec). </li>
+   <li> However glucose-3.0 is worse: 30 sec (csltok, in core-version), while
+   the preprocessing-version still uses 0.5 sec.
+   http://www.labri.fr/perso/lsimon/glucose/ </li>
    <li> cryptominisat-296 uses apparently a mixture of splitting and
    xor-reasoning (very quick). </li>
    <li> The w-hardness of these instances seems to be 3:
@@ -215,6 +237,7 @@ whardness_wpi_cs(F5,P5);
   <ul>
    <li> In ComputerAlgebra/Satisfiability/Lisp/Generators/LinearEquations.mac
    </li>
+   <li> Experimental data, on cswsok, is in data/ . </li>
    <li> The idea is to consider weak_php(n+1,n), and to remove the long
    positive clause {php(1,1), ... php(1,n)}, obtaining a uniquely satisfiable
    problem with the unique solution php(1,1) = ... = php(1,n) = 0). </li>
