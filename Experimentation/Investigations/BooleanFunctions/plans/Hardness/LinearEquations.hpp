@@ -237,7 +237,7 @@ whardness_wpi_cs(F5,P5);
   <ul>
    <li> In ComputerAlgebra/Satisfiability/Lisp/Generators/LinearEquations.mac
    </li>
-   <li> Experimental data, performed on cswsok, is in data/ . </li>
+   <li> Experimental data, performed on cswsok, is in data/ParityPHP . </li>
    <li> The idea is to consider weak_php(n+1,n), and to remove the long
    positive clause {php(1,1), ... php(1,n)}, obtaining a uniquely satisfiable
    problem with the unique solution php(1,1) = ... = php(1,n) = 0). </li>
