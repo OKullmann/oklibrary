@@ -1,0 +1,12 @@
+# instances created by
+# output_gen_2xor_stdname(m).
+m           n           c           l           name
+
+20          56          148         440         "TwoXORclauses-20.cnf"
+25          71          188         560         "TwoXORclauses-25.cnf"
+30          86          228         680         "TwoXORclauses-30.cnf"
+35          101         268         800         "TwoXORclauses-35.cnf"
+100         296         788         2360        "TwoXORclauses-100.cnf"
+1000        2996        7988        23960       "TwoXORclauses-1000.cnf"
+5000        14996       39988       119960      "TwoXORclauses-5000.cnf"
+10000       29996       79988       239960      "TwoXORclauses-10000.cnf"
