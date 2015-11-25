@@ -1,3 +1,5 @@
+# "tra" = "translation"; instances created by
+# output_parityphp_stdname(p,q,tra).
 tra   q     p           n           c           l           name
 
 0     4     1           79          324         720         "ParityPHP-1_4_0.cnf"

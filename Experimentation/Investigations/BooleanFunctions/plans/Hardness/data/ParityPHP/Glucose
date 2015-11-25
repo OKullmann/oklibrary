@@ -1,3 +1,5 @@
+# "ver" = "version"
+# "pre": yes or no, with preprocessing or without
 ver   pre   tra   q     p           t
 2.2   y     0     4     1           0.8
             1                       0.8
