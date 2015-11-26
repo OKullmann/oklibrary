@@ -10,3 +10,6 @@ m           n           c           l           name
 1000        2996        7988        23960       "TwoXORclauses-1000.cnf"
 5000        14996       39988       119960      "TwoXORclauses-5000.cnf"
 10000       29996       79988       239960      "TwoXORclauses-10000.cnf"
+20000       59996       159988      479960      "TwoXORclauses-20000.cnf"
+40000       119996      319988      959960      "TwoXORclauses-40000.cnf"
+80000       239996      639988      1919960     "TwoXORclauses-80000.cnf"
