@@ -233,9 +233,8 @@ void remove_clauses(register int *clauses) {
   }
 }
 
-int manage_clauses(register int *clauses) {
-   register int clause;
-   for(clause=*clauses; clause!=NONE; clause=*(++clauses)) {
+int manage_clauses(const int* clauses) {
+   for (int clause=*clauses; clause!=NONE; clause=*(++clauses)) {
       if (clause_state[clause] == ACTIVE) {
          switch (clause_length[clause]) {
          case 1: return FALSE;
@@ -250,9 +249,8 @@ int manage_clauses(register int *clauses) {
    return TRUE;
 }
 
-void simple_manage_clauses(register int *clauses) {
-   register int clause;
-   for(clause=*clauses; clause!=NONE; clause=*(++clauses)) {
+void simple_manage_clauses(const int* clauses) {
+   for (int clause=*clauses; clause!=NONE; clause=*(++clauses)) {
      if (clause_state[clause] == ACTIVE) {
        switch (clause_length[clause]) {
        case 2: push(clause, UNITCLAUSE_STACK);
@@ -265,9 +263,8 @@ void simple_manage_clauses(register int *clauses) {
    }
 }
 
-void my_simple_manage_clauses(register int *clauses) {
-   register int clause;
-   for(clause=*clauses; clause!=NONE; clause=*(++clauses)) {
+void my_simple_manage_clauses(const int* clauses) {
+   for (int clause=*clauses; clause!=NONE; clause=*(++clauses)) {
      if (clause_state[clause] == ACTIVE) {
        switch (clause_length[clause]) {
        case 2: push(clause, UNITCLAUSE_STACK);
@@ -279,9 +276,8 @@ void my_simple_manage_clauses(register int *clauses) {
    }
 }
 
-int my_manage_clauses(register int *clauses) {
-  register int clause;
-  for(clause=*clauses; clause!=NONE; clause=*(++clauses)) {
+int my_manage_clauses(const int* clauses) {
+  for(int clause=*clauses; clause!=NONE; clause=*(++clauses)) {
     if (clause_state[clause] == ACTIVE) {
       switch (clause_length[clause]) {
       case 1: return FALSE;
@@ -295,11 +291,10 @@ int my_manage_clauses(register int *clauses) {
   return TRUE;
 }
 
-void print_values(int nb_var) {
+void print_values(const int nb_var) {
     FILE* fp_out;
-    int i;
     fp_out = fopen("satx.sol", "w");
-    for (i=0; i<nb_var; i++) {
+    for (int i=0; i<nb_var; i++) {
        if (var_current_value[i] == 1)
           fprintf(fp_out, "%d ", i+1);
        else
@@ -354,12 +349,12 @@ int backtracking() {
 #define OLD_CLAUSE_REDUNDANT 77
 #define NEW_CLAUSE_REDUNDANT 7
 
-int smaller_than(int lit1, int lit2) {
+int smaller_than(const int lit1, const int lit2) {
     return ((lit1<NB_VAR) ? lit1 : lit1-NB_VAR) <
         ((lit2<NB_VAR) ? lit2 : lit2-NB_VAR);
 }
 
-my_type redundant(int *new_clause, int *old_clause) {
+my_type redundant(const int* new_clause, const int* old_clause) {
     int lit1, lit2, old_clause_diff=0, new_clause_diff=0;
 
     lit1=*old_clause; lit2=*new_clause;
@@ -388,7 +383,7 @@ my_type redundant(int *new_clause, int *old_clause) {
     return FALSE;
 }
 
-my_type get_resolvant(int *clause1, int *clause2, int *resolvant) {
+my_type get_resolvant(const int* const clause1, const int* const clause2, int* const resolvant) {
     int lit1, lit2, nb_diff1=0,  nb_diff2=0,
       nb_iden=0, nb_opps=0, j1=0, j2=0, j, limited_length;
 
@@ -450,14 +445,13 @@ my_type get_resolvant(int *clause1, int *clause2, int *resolvant) {
     return FALSE;
 }
 
-void remove_link(int clause) {
-   int lit;
+void remove_link(const int clause) {
    int *lits;
    struct node *pnode1, *pnode2, *pnode;
 
    lits = sat[clause];
 
-   for (lit=*lits; lit != NONE; lit=*(++lits)) {
+   for (int lit=*lits; lit != NONE; lit=*(++lits)) {
        pnode = (positive(lit) ? node_pos_in[lit] :
                                 node_neg_in[get_var_from_lit(lit)]);
        if (pnode == NULL) return;
@@ -478,13 +472,12 @@ void remove_link(int clause) {
    }
 }
 
-void set_link(int clause) {
-   int lit;
+void set_link(const int clause) {
    int *lits;
    struct node *pnode;
 
    lits = sat[clause];
-   for (lit=*lits; lit != NONE; lit=*(++lits)) {
+   for (int lit=*lits; lit != NONE; lit=*(++lits)) {
        pnode = allocate_node();
        pnode->clause = clause;
        if (positive(lit)) {
@@ -498,11 +491,10 @@ void set_link(int clause) {
    }
 }
 
-void set_link_for_resolv(int resolv) {
-   int lit, *lits;
-   struct node *pnode;
-   lits=sat[resolv];
-   for (lit=*lits; lit != NONE; lit=*(++lits)) {
+void set_link_for_resolv(const int resolv) {
+   struct node* pnode;
+   const int* lits=sat[resolv];
+   for (int lit=*lits; lit != NONE; lit=*(++lits)) {
        pnode = allocate_node();
        pnode->clause = resolv;
            pnode->next=in_resolv[lit];
@@ -510,12 +502,11 @@ void set_link_for_resolv(int resolv) {
    }
 }
 
-void remove_link_for_resolv(int resolv) {
-        int lit, *lits;
+void remove_link_for_resolv(const int resolv) {
    struct node *pnode1, *pnode2, *pnode;
 
-   lits = sat[resolv];
-   for (lit=*lits; lit != NONE; lit=*(++lits)) {
+   const int* lits = sat[resolv];
+   for (int lit=*lits; lit != NONE; lit=*(++lits)) {
        pnode = in_resolv[lit];
        if (pnode == NULL) return;
        if (pnode->clause == resolv)
@@ -537,11 +528,11 @@ int INVOLVED_CLAUSE_STACK[tab_clause_size];
 int INVOLVED_CLAUSE_STACK_fill_pointer=0;
 int CLAUSE_INVOLVED[tab_clause_size];
 
-int already_present(int *resolvant) {
-  int lit, *lits, clause, length=0, i;
+int already_present(int* const resolvant) {
+  int clause, length=0;
   struct node *pnode;
-  lits=resolvant;
-  for (lit=*lits; lit != NONE; lit=*(++lits)) {
+  const int* lits=resolvant;
+  for (int lit=*lits; lit != NONE; lit=*(++lits)) {
     length++;
     for (pnode=in_resolv[lit]; pnode != NULL; pnode=pnode->next) {
       clause=pnode->clause;
@@ -549,14 +540,14 @@ int already_present(int *resolvant) {
       if (CLAUSE_INVOLVED[clause]==1)
         push(clause, INVOLVED_CLAUSE_STACK);
       if (clause_length[clause]==CLAUSE_INVOLVED[clause]) {
-        for(i=0; i<INVOLVED_CLAUSE_STACK_fill_pointer; i++)
+        for(int i=0; i<INVOLVED_CLAUSE_STACK_fill_pointer; ++i)
           CLAUSE_INVOLVED[INVOLVED_CLAUSE_STACK[i]]=0;
         INVOLVED_CLAUSE_STACK_fill_pointer=0;
         return NEW_CLAUSE_REDUNDANT;
       }
     }
   }
-  for(i=0; i<INVOLVED_CLAUSE_STACK_fill_pointer; i++) {
+  for (int i=0; i<INVOLVED_CLAUSE_STACK_fill_pointer; ++i) {
     clause=INVOLVED_CLAUSE_STACK[i];
     if ((length==CLAUSE_INVOLVED[clause]) && (length<clause_length[clause])){
       clause_state[clause] = PASSIVE;
@@ -572,21 +563,19 @@ int already_present(int *resolvant) {
 int OLD_CLAUSE_SUPPRESED;
 #define ACTIVE2 2
 
-int search_redundence(int *lits) {
-  int lit, is_red;
-  int *old_lits, *new_lits;
+int search_redundence(int* lits) {
   struct node *pnode, *pnode1;
 
   /* if lits is unit, all clauses in the pnode list become redundant and
      will be deleted, so that pnode=pnode->next is not good */
-  new_lits = lits; OLD_CLAUSE_SUPPRESED=FALSE;
-  for (lit=*lits; lit != NONE; lit=*(++lits)) {
+  const int* const new_lits = lits; OLD_CLAUSE_SUPPRESED=FALSE;
+  for (int lit=*lits; lit != NONE; lit=*(++lits)) {
     for (pnode = (positive(lit) ? node_pos_in[lit] :
                   node_neg_in[get_var_from_lit(lit)]);
          pnode != NULL; pnode = pnode1) {
       pnode1=pnode->next;
-      old_lits = sat[pnode->clause];
-      is_red = redundant(new_lits, old_lits);
+      const int* const old_lits = sat[pnode->clause];
+      const int is_red = redundant(new_lits, old_lits);
       if (is_red == OLD_CLAUSE_REDUNDANT) {
         /*          printf("old clause %d is redundant\n",
                     pnode->clause);
@@ -604,34 +593,32 @@ int search_redundence(int *lits) {
   return OLD_CLAUSE_SUPPRESED;
 }
 
-int add_resolvant(int *lits) {
-  int j, lit, is_red, resolvant[RESOLVANT_LENGTH+1];
-  my_type is_res;
-  int *old_lits, *new_lits, *res;
+int add_resolvant(int* lits) {
+  int resolvant[RESOLVANT_LENGTH+1];
   struct node *pnode, *pnode1;
 
   /* if lits is unit, all clauses in the pnode list become redundant and
      will be deleted, so that pnode=pnode->next is not good */
-  new_lits = lits;
-  for (lit=*lits; lit != NONE; lit=*(++lits))
+  const int* const new_lits = lits;
+  for (int lit=*lits; lit != NONE; lit=*(++lits))
     for (pnode = (positive(lit) ?
                   node_neg_in[lit] :
                   node_pos_in[get_var_from_lit(lit)]);
          pnode != NULL; pnode = pnode1) {
       pnode1=pnode->next;
-      old_lits = sat[pnode->clause];
-      is_res = get_resolvant(new_lits, old_lits, resolvant);
+      const int* const old_lits = sat[pnode->clause];
+      const my_type is_res = get_resolvant(new_lits, old_lits, resolvant);
       if (is_res == NONE) return NONE;
       if (is_res != FALSE) {
-        is_red=search_redundence(resolvant);
+        const int is_red=search_redundence(resolvant);
         if (is_red != NEW_CLAUSE_REDUNDANT) {
           if (already_present(resolvant) == FALSE) {
-            res=(int *)malloc((RESOLVANT_LENGTH+1)*sizeof(int));
+            int* const res=(int *)malloc((RESOLVANT_LENGTH+1)*sizeof(int));
             if (OLD_CLAUSE_SUPPRESED==TRUE)
               clause_state[NB_CLAUSE]=ACTIVE2;
             else
               clause_state[NB_CLAUSE]=ACTIVE;
-            j=0;
+            int j=0;
             while ((res[j]=resolvant[j]) != NONE) ++j;
             if (j==0) return NONE;
             sat[NB_CLAUSE] = res;
@@ -646,19 +633,21 @@ int add_resolvant(int *lits) {
   return TRUE;
 }
 
-int* copy_clauses(struct node *node_in) {
-    int j=0, *in; struct node *pnode;
-
-    pnode=node_in;
-    while (pnode != NULL) {
-      if (clause_state[pnode->clause]==ACTIVE) j++;
-      pnode = pnode->next;
+int* copy_clauses(struct node* const node_in) {
+    int* in;
+    struct node *pnode;
+    {int j=0;
+     pnode=node_in;
+     while (pnode != NULL) {
+       if (clause_state[pnode->clause]==ACTIVE) ++j;
+       pnode = pnode->next;
+     }
+     in = (int *)malloc((j+1)*sizeof(int));
     }
-    in = (int *)malloc((j+1)*sizeof(int));
-    j=0; pnode=node_in;
+    int j=0; pnode=node_in;
     while (pnode != NULL) {
       if (clause_state[pnode->clause]==ACTIVE) {
-        in[j] = pnode->clause; j++;
+        in[j] = pnode->clause; ++j;
       }
       pnode = pnode->next;
     }
@@ -669,7 +658,7 @@ int* copy_clauses(struct node *node_in) {
 int unitclause_process();
 
 
-my_type build_sat_instance(char* const input_file) {
+my_type build_sat_instance(const char* const input_file) {
    FILE* const fp_in=fopen(input_file, "r");
    if (fp_in==NULL) return FALSE;
 
