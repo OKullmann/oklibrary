@@ -1,5 +1,8 @@
 # "tra" = "translation"; instances created by
 # output_parityphp_stdname(p,q,tra).
+# tra=0: n=4q^2+4q+3p-4, c=4*q^3+2*q^2+10*q+8*p-12
+# tra=1: n=4q^2+4q+2p-3, c=4*q^3+2*q^2+10*q+4*p-8
+
 tra   q     p           n           c           l           name
 
 0     4     1           79          324         720         "ParityPHP-1_4_0.cnf"
