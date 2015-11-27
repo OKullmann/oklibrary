@@ -1,4 +1,5 @@
 /* Copyright 2001 Chu Min Li
+Copyright 2009-2015 Oliver Kullmann
 Satz215 is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in the OKlibrary;
@@ -7,6 +8,10 @@ either version 3 of the License, or any later version. */
 /*!
   \file Satisfiability/Solvers/Satz/satz215.2.c
   \brief Updated and corrected version
+  https://en.wikipedia.org/wiki/Satz_(SAT_solver)
+  Compile with
+
+  gcc -Wall -Wno-parentheses -std=c99 -Ofast -o satz satz215.2.c
 
   <ul>
    <li> Safer input handling. </li>
