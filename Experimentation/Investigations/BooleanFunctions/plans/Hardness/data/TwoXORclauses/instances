@@ -1,5 +1,7 @@
 # instances created by
 # output_gen_2xor_stdname(m).
+# n=3m-4, c=8m-12, l=24m-40
+
 m           n           c           l           name
 
 20          56          148         440         "TwoXORclauses-20.cnf"
