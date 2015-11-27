@@ -1035,26 +1035,22 @@ int examine(int tested_var) {
    return TRUE;
 }
 
-int get_nb(int saved_managedclause_fill_pointer) {
-  int i, clause, *lits, lit, var, nb=0;
+int get_nb(const int saved_managedclause_fill_pointer) {
+  int nb=0;
 
-  for(i=saved_managedclause_fill_pointer;
-      i<MANAGEDCLAUSE_STACK_fill_pointer; i++) {
-    clause=MANAGEDCLAUSE_STACK[i];
+  for (int i=saved_managedclause_fill_pointer;
+      i<MANAGEDCLAUSE_STACK_fill_pointer; ++i) {
+    const int clause=MANAGEDCLAUSE_STACK[i];
     if (clause_length[clause] == 2) {
-      lits = sat[clause];
-      for(lit=*lits; lit!=NONE; lit=*(++lits)) {
+      const int* lits = sat[clause];
+      for (int lit=*lits; lit!=NONE; lit=*(++lits)) {
         if (negative(lit)) {
-          var=get_var_from_lit(lit);
-          if (var_state[var] == ACTIVE) {
-            nb+=nb_pos_clause_of_length2[var];
-          }
+          const int var=get_var_from_lit(lit);
+          if (var_state[var] == ACTIVE) nb+=nb_pos_clause_of_length2[var];
         }
         else {
-          var=lit;
-          if (var_state[var] == ACTIVE) {
-            nb+=nb_neg_clause_of_length2[var];
-          }
+          const int var=lit;
+          if (var_state[var] == ACTIVE) nb+=nb_neg_clause_of_length2[var];
         }
       }
     }
@@ -1062,14 +1058,9 @@ int get_nb(int saved_managedclause_fill_pointer) {
   return nb;
 }
 
-int examine2(int tested_var) {
-  int generating_fixed_variables_if_positif = 0,
-    generating_fixed_variables_if_negatif = 0,
-    saved_var_stack_fill_pointer,
-    saved_managedclause_fill_pointer;
-
-   saved_var_stack_fill_pointer=VARIABLE_STACK_fill_pointer;
-   saved_managedclause_fill_pointer=
+int examine2(const int tested_var) {;
+   const int saved_var_stack_fill_pointer=VARIABLE_STACK_fill_pointer;
+   const int saved_managedclause_fill_pointer=
      MANAGEDCLAUSE_STACK_fill_pointer;
 
    var_current_value[tested_var] = TRUE;
@@ -1077,7 +1068,7 @@ int examine2(int tested_var) {
    var_state[tested_var] = PASSIVE;
    push(tested_var, VARIABLE_STACK);
    my_simple_manage_clauses(neg_in[tested_var]);
-   generating_fixed_variables_if_positif = branch();
+   const int generating_fixed_variables_if_positif = branch();
 
    if (generating_fixed_variables_if_positif == NONE) {
      reset_context(saved_var_stack_fill_pointer,
@@ -1103,7 +1094,7 @@ int examine2(int tested_var) {
    var_state[tested_var] = PASSIVE;
    push(tested_var, VARIABLE_STACK);
    my_simple_manage_clauses(pos_in[tested_var]);
-   generating_fixed_variables_if_negatif = branch();
+   const int generating_fixed_variables_if_negatif = branch();
 
    if (generating_fixed_variables_if_negatif == NONE) {
      reset_context(saved_var_stack_fill_pointer,
@@ -1132,45 +1123,44 @@ int IMPLIED_LITS[tab_variable_size];
 int LIT_IMPLIED[tab_variable_size];
 
 int branch() {
-   int var, lit, *lits, unitclause, unitclause_position;
-   NB_SEARCH++;
-   for (unitclause_position = 0;
+   ++NB_SEARCH;
+   for (int unitclause_position = 0;
         unitclause_position != UNITCLAUSE_STACK_fill_pointer;
-        unitclause_position++) {
-       unitclause = UNITCLAUSE_STACK[unitclause_position];
+        ++unitclause_position) {
+       const int unitclause = UNITCLAUSE_STACK[unitclause_position];
        if (clause_state[unitclause] == ACTIVE) {
-          lits = sat[unitclause];
-          for(lit=*lits; lit!=NONE; lit=*(++lits)) {
+          const int* lits = sat[unitclause];
+          for(int lit=*lits; lit!=NONE; lit=*(++lits)) {
               if (positive(lit)) {
-                 var = lit;
+                 const int var = lit;
                  if (var_state[var] == ACTIVE) {
                     var_current_value[var] = TRUE;
                     if (my_manage_clauses(neg_in[var]) == TRUE) {
                       if (LIT_IMPLIED[lit]==0) push(lit, IMPLIED_LITS);
-                      LIT_IMPLIED[lit]++;
+                      ++LIT_IMPLIED[lit];
                       var_state[var] = PASSIVE;
                       push(var, VARIABLE_STACK);
                       break;
                     }
                     else {
-                       NB_FIXED++;
+                       ++NB_FIXED;
                        return NONE;
                     }
                  }
               }
               else {
-                 var = get_var_from_lit(lit);
+                 const int var = get_var_from_lit(lit);
                  if (var_state[var] == ACTIVE) {
                     var_current_value[var] = FALSE;
                     if (my_manage_clauses(pos_in[var]) == TRUE) {
                       if (LIT_IMPLIED[lit]==0) push(lit, IMPLIED_LITS);
-                      LIT_IMPLIED[lit]++;
+                      ++LIT_IMPLIED[lit];
                       var_state[var] = PASSIVE;
                       push(var, VARIABLE_STACK);
                       break;
                     }
                     else {
-                      NB_FIXED++;
+                      ++NB_FIXED;
                       return NONE;
                     }
                  }
@@ -1181,8 +1171,7 @@ int branch() {
    return MANAGEDCLAUSE_STACK_fill_pointer;
 }
 
-int satisfy_literal(int lit) {
-  int var;
+int satisfy_literal(const int lit) {
   if (positive(lit)) {
     if (var_state[lit]==ACTIVE) {
       if (manage_clauses(neg_in[lit])==FALSE) return NONE;
@@ -1196,7 +1185,7 @@ int satisfy_literal(int lit) {
       if (var_current_value[lit]==FALSE) return NONE;
   }
   else {
-    var = get_var_from_lit(lit);
+    const int var = get_var_from_lit(lit);
     if (var_state[var]==ACTIVE) {
       if (manage_clauses(pos_in[var])==FALSE) return NONE;
       var_current_value[var] = FALSE;
@@ -1214,63 +1203,58 @@ int satisfy_literal(int lit) {
 }
 
 int treat_implied_lits() {
-  int i, lit;
-  for (i=0; i<IMPLIED_LITS_fill_pointer; i++) {
-    lit=IMPLIED_LITS[i];
-    if (LIT_IMPLIED[lit]==2)
-      if (satisfy_literal(lit)==NONE)
-        return NONE;
+  for (int i=0; i<IMPLIED_LITS_fill_pointer; ++i) {
+    const int lit=IMPLIED_LITS[i];
+    if (LIT_IMPLIED[lit]==2) if (satisfy_literal(lit)==NONE) return NONE;
   }
   return TRUE;
 }
 
-int get_complement(int lit) {
+int get_complement(const int lit) {
    if (positive(lit)) return lit+NB_VAR;
    else return lit-NB_VAR;
 }
 
-int insert_var_if_necessary1(int var) {
-  int weight, nb;
-  struct var_node *pvar_node, *pvar_node1, *pvar_node2;
-
-  weight=reduce_if_positive_nb[var]*reduce_if_negative_nb[var]*1024
+int insert_var_if_necessary1(const int var) {
+  const int weight=reduce_if_positive_nb[var]*reduce_if_negative_nb[var]*1024
          + reduce_if_positive_nb[var]
          + reduce_if_negative_nb[var]+1;
 
   if ((VAR_FOR_TEST1==NULL) ||
       ((VAR_FOR_TEST1 != NULL) && (weight>VAR_FOR_TEST1->weight))) {
-     pvar_node=allocate_var_node1();
+     struct var_node* const pvar_node=allocate_var_node1();
      pvar_node->var=var; pvar_node->weight=weight;
      pvar_node->next=VAR_FOR_TEST1; VAR_FOR_TEST1=pvar_node;
   }
   else {
-    nb=1; pvar_node1=VAR_FOR_TEST1; pvar_node2=pvar_node1->next;
+    int nb=1;
+    struct var_node* pvar_node1=VAR_FOR_TEST1;
+    struct var_node* pvar_node2=pvar_node1->next;
     while (nb<VAR_NODES1_nb) {
       if ((pvar_node2==NULL) ||
           ((pvar_node2!=NULL) && (weight>pvar_node2->weight))) {
-        pvar_node=allocate_var_node1();
+        struct var_node* const pvar_node=allocate_var_node1();
         pvar_node->var=var; pvar_node->weight=weight;
         pvar_node->next=pvar_node1->next; pvar_node1->next=pvar_node;
         break;
       }
-      nb++; pvar_node1=pvar_node2; pvar_node2=pvar_node1->next;
+      ++nb; pvar_node1=pvar_node2; pvar_node2=pvar_node1->next;
     }
   }
   return TRUE;
 }
 
 int branch1() {
-   int var, lit, *lits, unitclause, unitclause_position;
-   NB_SEARCH++;
-   for (unitclause_position = 0;
+   ++NB_SEARCH;
+   for (int unitclause_position = 0;
         unitclause_position != UNITCLAUSE_STACK_fill_pointer;
-        unitclause_position++) {
-       unitclause = UNITCLAUSE_STACK[unitclause_position];
+        ++unitclause_position) {
+       const int unitclause = UNITCLAUSE_STACK[unitclause_position];
        if (clause_state[unitclause] == ACTIVE) {
-          lits = sat[unitclause];
-          for(lit=*lits; lit!=NONE; lit=*(++lits)) {
+          const int* lits = sat[unitclause];
+          for (int lit=*lits; lit!=NONE; lit=*(++lits)) {
               if (positive(lit)) {
-                 var = lit;
+                 const int var = lit;
                  if (var_state[var] == ACTIVE) {
                     var_current_value[var] = TRUE;
                     if (my_manage_clauses(neg_in[var]) == TRUE) {
@@ -1281,13 +1265,13 @@ int branch1() {
                       break;
                     }
                     else {
-                       NB_FIXED++;
+                       ++NB_FIXED;
                        return NONE;
                     }
                  }
               }
               else {
-                 var = get_var_from_lit(lit);
+                 const int var = get_var_from_lit(lit);
                  if (var_state[var] == ACTIVE) {
                     var_current_value[var] = FALSE;
                     if (my_manage_clauses(pos_in[var]) == TRUE) {
@@ -1298,7 +1282,7 @@ int branch1() {
                       break;
                     }
                     else {
-                      NB_FIXED++;
+                      ++NB_FIXED;
                       return NONE;
                     }
                  }
@@ -1310,82 +1294,71 @@ int branch1() {
 }
 
 
-int further_examin_var_if_positive(int var) {
-  int  lit, nb_reduced_clauses_if_further_positif,
-         saved_var_stack_fill_pointer,
-     saved_managedclause_fill_pointer;
+int further_examin_var_if_positive(const int var) {
+  const int saved_var_stack_fill_pointer=VARIABLE_STACK_fill_pointer;
+  const int saved_managedclause_fill_pointer=
+     MANAGEDCLAUSE_STACK_fill_pointer;
 
-     saved_var_stack_fill_pointer=VARIABLE_STACK_fill_pointer;
-     saved_managedclause_fill_pointer=
-       MANAGEDCLAUSE_STACK_fill_pointer;
+  var_current_value[var] = TRUE;
+  var_state[var] = PASSIVE;
+  push(var, VARIABLE_STACK);
+  my_simple_manage_clauses(neg_in[var]);
+  ++NB_SECOND_SEARCH;
+  const int nb_reduced_clauses_if_further_positif = branch1();
+  reset_context(saved_var_stack_fill_pointer,
+                saved_managedclause_fill_pointer);
 
-    var_current_value[var] = TRUE;
+  if (nb_reduced_clauses_if_further_positif == NONE) {
+    ++NB_SECOND_FIXED;
+    var_current_value[var] = FALSE;
     var_state[var] = PASSIVE;
     push(var, VARIABLE_STACK);
-    my_simple_manage_clauses(neg_in[var]);
-    NB_SECOND_SEARCH++;
-    nb_reduced_clauses_if_further_positif = branch1();
-    reset_context(saved_var_stack_fill_pointer,
-                  saved_managedclause_fill_pointer);
-
-    if (nb_reduced_clauses_if_further_positif == NONE) {
-      NB_SECOND_FIXED++;
-      var_current_value[var] = FALSE;
-      var_state[var] = PASSIVE;
-      push(var, VARIABLE_STACK);
-      my_simple_manage_clauses(pos_in[var]);
-      if (branch() == NONE) return NONE;
-      lit=get_complement(var);
-      if (LIT_IMPLIED[lit]==0) push(lit, IMPLIED_LITS);
-      LIT_IMPLIED[lit]++;
-    }
-    else  NB_SEARCH--;
+    my_simple_manage_clauses(pos_in[var]);
+    if (branch() == NONE) return NONE;
+    const int lit=get_complement(var);
+    if (LIT_IMPLIED[lit]==0) push(lit, IMPLIED_LITS);
+    ++LIT_IMPLIED[lit];
+  }
+  else  --NB_SEARCH;
   return TRUE;
 }
 
-int further_examin_var_if_negative(int var) {
-  int  nb_reduced_clauses_if_further_negatif,
-     saved_var_stack_fill_pointer,
-     saved_managedclause_fill_pointer;
-
-  saved_var_stack_fill_pointer=VARIABLE_STACK_fill_pointer;
-  saved_managedclause_fill_pointer=
-    MANAGEDCLAUSE_STACK_fill_pointer;
+int further_examin_var_if_negative(const int var) {
+  const int saved_var_stack_fill_pointer=VARIABLE_STACK_fill_pointer;
+  const int saved_managedclause_fill_pointer= MANAGEDCLAUSE_STACK_fill_pointer;
 
   var_current_value[var] = FALSE;
   var_state[var] = PASSIVE;
   push(var, VARIABLE_STACK);
   my_simple_manage_clauses(pos_in[var]);
-  NB_SECOND_SEARCH++;
-  nb_reduced_clauses_if_further_negatif = branch1();
+  ++NB_SECOND_SEARCH;
+  const int nb_reduced_clauses_if_further_negatif = branch1();
   reset_context(saved_var_stack_fill_pointer,
                 saved_managedclause_fill_pointer);
 
   if (nb_reduced_clauses_if_further_negatif == NONE) {
-    NB_SECOND_FIXED++;
+    ++NB_SECOND_FIXED;
     var_current_value[var] = TRUE;
     var_state[var] = PASSIVE;
     push(var, VARIABLE_STACK);
     my_simple_manage_clauses(neg_in[var]);
     if (branch() == NONE) return NONE;
     if (LIT_IMPLIED[var]==0) push(var, IMPLIED_LITS);
-    LIT_IMPLIED[var]++;
+    ++LIT_IMPLIED[var];
   }
-  else  NB_SEARCH--;
+  else  --NB_SEARCH;
   return TRUE;
 }
 
-int further_examin(int saved_managedclause_fill_pointer) {
-   int var, i, *lits, lit, clause;
-
-   for(i=saved_managedclause_fill_pointer;
-       i<MANAGEDCLAUSE_STACK_fill_pointer; i++) {
-     clause=MANAGEDCLAUSE_STACK[i];
+int further_examin(const int saved_managedclause_fill_pointer) {
+   for (int i=saved_managedclause_fill_pointer;
+       i<MANAGEDCLAUSE_STACK_fill_pointer; ++i) {
+     const int clause=MANAGEDCLAUSE_STACK[i];
      if (clause_length[clause] == 2) {
-       lits = sat[clause];
-       for(lit=*lits; lit!=NONE; lit=*(++lits)) {
+       const int* lits = sat[clause];
+       for (int lit=*lits; lit!=NONE; lit=*(++lits)) {
          if (positive(lit)) {
-           var = lit;
+           const int var = lit;
            if ((var_state[var] == ACTIVE) &&
                (test_flag[var] < NB_SEARCH)) {
              test_flag[var] = NB_SEARCH;
@@ -1398,7 +1371,7 @@ int further_examin(int saved_managedclause_fill_pointer) {
            }
          }
          else {
-           var = get_var_from_lit(lit);
+           const int var = get_var_from_lit(lit);
            if ((var_state[var] == ACTIVE) &&
                (test_flag[var] < NB_SEARCH))  {
              test_flag[var] = NB_SEARCH;
@@ -1495,47 +1468,36 @@ int examine3(const int tested_var) {
 int get_neg_clause_nb(const int var) {
     my_type neg_clause3_nb = 0, neg_clause2_nb = 0;
     const int* clauses = neg_in[var];
-
-    for(int clause=*clauses; clause!=NONE; clause=*(++clauses))
-     if (clause_state[clause] == ACTIVE)
-       if (clause_length[clause] == 2) ++neg_clause2_nb;
-       else ++neg_clause3_nb;
-
+    for (int clause=*clauses; clause!=NONE; clause=*(++clauses))
+      if (clause_state[clause] == ACTIVE)
+        if (clause_length[clause] == 2) ++neg_clause2_nb;
+        else ++neg_clause3_nb;
     nb_neg_clause_of_length2[var] = neg_clause2_nb;
     nb_neg_clause_of_length3[var] = neg_clause3_nb;
     return neg_clause2_nb + neg_clause3_nb;
 }
 
 int get_pos_clause_nb(const int var) {
-
     my_type pos_clause3_nb = 0, pos_clause2_nb = 0;
-    int *clauses, clause;
-    clauses = pos_in[var];
-
-    for(clause=*clauses; clause!=NONE; clause=*(++clauses)) {
-        if (clause_state[clause] == ACTIVE) {
-            if (clause_length[clause] == 2)
-                pos_clause2_nb++;
-            else
-                pos_clause3_nb++;
-        }
-    }
+    const int* clauses = pos_in[var];
+    for (int clause=*clauses; clause!=NONE; clause=*(++clauses))
+      if (clause_state[clause] == ACTIVE)
+        if (clause_length[clause] == 2) ++pos_clause2_nb;
+        else ++pos_clause3_nb;
     nb_pos_clause_of_length2[var] = pos_clause2_nb;
     nb_pos_clause_of_length3[var] = pos_clause3_nb;
     return pos_clause2_nb + pos_clause3_nb;
 }
 
 int choose_and_instantiate_variable_in_clause() {
-    int var, chosen_var=NONE;
-    long  i, posi, nega;
-    unsigned long nb_clauses, max_nb_clauses = 0;
-    my_type pos2, neg2;
+    int chosen_var=NONE;
+    unsigned long max_nb_clauses = 0;
 
     ++NB_BRANCHE;
     TESTED_VAR_STACK_fill_pointer=0;
     VAR_FOR_TEST1=NULL; VAR_NODES1_index=0; MAX_REDUCED=-1;
 
-    for (var = 0; var < NB_VAR; var++) {
+    for (int var = 0; var < NB_VAR; ++var) {
        if (var_state[var] == ACTIVE) {
            reduce_if_negative_nb[var]=0;
            reduce_if_positive_nb[var]=0;
@@ -1558,10 +1520,10 @@ int choose_and_instantiate_variable_in_clause() {
                remove_clauses(neg_in[var]);
            }
            else {
-              pos2 = nb_pos_clause_of_length2[var];
-              neg2 = nb_neg_clause_of_length2[var];
+              const my_type pos2 = nb_pos_clause_of_length2[var];
+              const my_type neg2 = nb_neg_clause_of_length2[var];
               if ((neg2>0) && (pos2>0) && ((neg2+pos2)>3) ) {
-                for(i=0; i<IMPLIED_LITS_fill_pointer; i++)
+                for(int i=0; i<IMPLIED_LITS_fill_pointer; ++i)
                   LIT_IMPLIED[IMPLIED_LITS[i]]=0;
                 IMPLIED_LITS_fill_pointer=0;
                 if (examine3(var) == NONE) {
@@ -1575,13 +1537,13 @@ int choose_and_instantiate_variable_in_clause() {
     }
     if (TESTED_VAR_STACK_fill_pointer < T) {
       TESTED_VAR_STACK_fill_pointer=0;
-      for (var=0; var<NB_VAR; var++)
+      for (int var=0; var<NB_VAR; ++var)
         if (var_state[var] == ACTIVE) {
-          pos2 = nb_pos_clause_of_length2[var];
-          neg2 = nb_neg_clause_of_length2[var];
+          const my_type pos2 = nb_pos_clause_of_length2[var];
+          const my_type neg2 = nb_neg_clause_of_length2[var];
           if ((neg2>0) && (pos2 > 0) &&
               ((neg2 > 1) || (pos2 > 1) ) ) {
-            for(i=0; i<IMPLIED_LITS_fill_pointer; i++)
+            for(int i=0; i<IMPLIED_LITS_fill_pointer; ++i)
               LIT_IMPLIED[IMPLIED_LITS[i]]=0;
             IMPLIED_LITS_fill_pointer=0;
             if (examine2(var) == NONE) {
@@ -1594,9 +1556,9 @@ int choose_and_instantiate_variable_in_clause() {
 
       if (TESTED_VAR_STACK_fill_pointer < T) {
         TESTED_VAR_STACK_fill_pointer = 0;
-        for (var=0; var<NB_VAR; var++)
+        for (int var=0; var<NB_VAR; ++var)
           if (var_state[var] == ACTIVE) {
-            for(i=0; i<IMPLIED_LITS_fill_pointer; i++)
+            for(int i=0; i<IMPLIED_LITS_fill_pointer; ++i)
               LIT_IMPLIED[IMPLIED_LITS[i]]=0;
             IMPLIED_LITS_fill_pointer=0;
             if (examine1(var) == NONE) {
@@ -1607,12 +1569,12 @@ int choose_and_instantiate_variable_in_clause() {
           }
       }
     }
-    for (i=0; i<TESTED_VAR_STACK_fill_pointer; i++) {
-      var=TESTED_VAR_STACK[i];
+    for (int i=0; i<TESTED_VAR_STACK_fill_pointer; ++i) {
+      const int var=TESTED_VAR_STACK[i];
       if (var_state[var] == ACTIVE) {
-        posi=reduce_if_positive_nb[var];
-        nega=reduce_if_negative_nb[var];
-        nb_clauses = posi*nega*128 + posi + nega +1;
+        const int posi=reduce_if_positive_nb[var];
+        const int nega=reduce_if_negative_nb[var];
+        const unsigned long nb_clauses = posi*nega*128 + posi + nega +1;
         if (nb_clauses > max_nb_clauses) {
           chosen_var = var;
           max_nb_clauses = nb_clauses;
@@ -1634,27 +1596,25 @@ int choose_and_instantiate_variable_in_clause() {
 
 
 void reset_all() {
-   int index;
-
    UNITCLAUSE_STACK_fill_pointer = 0; NB_BACK=0; NB_BRANCHE=0;
    NB_MONO=0; NB_UNIT=0;  NB_SEARCH=0; NB_FIXED=0;
    NB_SECOND_SEARCH=0; NB_SECOND_FIXED=0;
-   for (index=0; index<VARIABLE_STACK_fill_pointer; index++)
+   for (int index=0; index<VARIABLE_STACK_fill_pointer; ++index)
      var_state[VARIABLE_STACK[index]] = ACTIVE;
    VARIABLE_STACK_fill_pointer = 0;
 
-   for (index = 0; index < CLAUSE_STACK_fill_pointer; index++)
+   for (int index = 0; index < CLAUSE_STACK_fill_pointer; ++index)
      clause_state[CLAUSE_STACK[index]] = ACTIVE;
    CLAUSE_STACK_fill_pointer = 0;
 
-   for (index = 0; index < MANAGEDCLAUSE_STACK_fill_pointer; index++)
+   for (int index = 0; index < MANAGEDCLAUSE_STACK_fill_pointer; ++index)
      clause_length[MANAGEDCLAUSE_STACK[index]]++;
    MANAGEDCLAUSE_STACK_fill_pointer = 0;
 }
 
 void dpl() {
   reset_all();
-  for(int var=0; var<NB_VAR; ++var) test_flag[var]=0;
+  for (int var=0; var<NB_VAR; ++var) test_flag[var]=0;
   do {
     if (UNITCLAUSE_STACK_fill_pointer==0)
       if (choose_and_instantiate_variable_in_clause()==NONE) backtracking();
@@ -1663,7 +1623,7 @@ void dpl() {
 }
 
 
-int main(const int argc, char* const argv[]) {
+int main(const int argc, const char* const argv[]) {
    if (argc!=2) {
       printf("Usage format: \"satz215 input_instance\"\n");
       return EXITCODE_PARAMETER_FAILURE;
