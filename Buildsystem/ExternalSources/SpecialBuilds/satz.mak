@@ -25,7 +25,7 @@ $(satz_directories_okl) : % :
 satz : $(satz_directories_okl)
 	cp $(satz_corrected_src_okl) $(satz_build_dir_okl)
 	cd $(satz_build_dir_okl); $(postcondition) \
-	gcc -Wall -Wno-parentheses -std=c99 -Ofast -fno-align-functions -fno-align-loops -o satz $(CPPFLAGS) $(CFLAGS) $(satz_corrected_src_base_okl); $(postcondition) \
+	gcc -Wall -Wno-parentheses -std=c99 -Ofast -funroll-loops -fwhole-program -o satz $(CPPFLAGS) $(CFLAGS) $(satz_corrected_src_base_okl); $(postcondition) \
 	cp satz $(satz_call_okl); $(postcondition) \
 	ln -s --force $(satz_call_okl) $(public_bin_dir_okl)/$(satz_public_call_okl); $(postcondition)
 # Options concerning aligning need to be tested; currently on OK's two machines

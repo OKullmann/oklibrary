@@ -11,7 +11,7 @@ either version 3 of the License, or any later version. */
   https://en.wikipedia.org/wiki/Satz_(SAT_solver)
   Compile with
 
-  gcc -Wall -Wno-parentheses -std=c99 -Ofast -o satz satz215.2.c
+  gcc -Wall -Wno-parentheses -std=c99 -Ofast -funroll-loops -fwhole-program -o satz satz215.2.c
 
   <ul>
    <li> Safer input handling. </li>
