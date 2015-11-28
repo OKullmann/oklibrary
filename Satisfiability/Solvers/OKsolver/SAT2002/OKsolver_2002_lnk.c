@@ -1176,8 +1176,6 @@ static FILE* fp = NULL; /* die aktuelle Eingabedatei */
 static unsigned int Groesse;
 static FILE* fppa = NULL; /* fuer die Ausgabe einer erfuellenden Belegung */
 
-static unsigned int Argument;
-
 static char* NameBel = NULL; char* NameMon = NULL;
 
 
@@ -1206,7 +1204,7 @@ int main(const int argc, const char* const argv[]) {
 
   setzenStandard();
 
-  for (Argument = 1; Argument < argc; ++Argument) {
+  for (int Argument = 1; Argument < argc; ++Argument) {
     if (strcmp("--version", argv[Argument]) == 0) {
       printf("%s %s; %s %s\n%s: %s, %s\n", Meldung(24), DATUM, Meldung(2), Version, Meldung(6), __DATE__, __TIME__);
       printf("%s", Meldung(44));
