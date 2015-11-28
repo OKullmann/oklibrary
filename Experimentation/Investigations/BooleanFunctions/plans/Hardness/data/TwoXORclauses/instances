@@ -1,6 +1,7 @@
-# instances created by
+# Instances created by
 # output_gen_2xor_stdname(m).
-# n=3m-4, c=8m-12, l=24m-40
+# n is number of variables, c number of clauses, l number of literal occurrences.
+# n=3m-4, c=8m-12, l=24m-40.
 
 m           n           c           l           name
 

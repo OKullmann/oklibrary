@@ -1,3 +1,9 @@
+# "ver" is version, which is 2.2 or 3.0, "pre" means "preprocessing",
+# which is "yes" or "no"; for version 2.2 that means using option "-no-pre",
+# while for version 3.0 there are two versions of glucose in the package
+# glucose-3.0.tgz (md5sum = 96fe40e5f2b85bf2b22b8c88cd0b1be1).
+# t is time in seconds.
+
 m           ver   pre   t
 20          2.2   y     0.000999
 25                      0.000999

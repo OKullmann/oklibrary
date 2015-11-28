@@ -1,3 +1,8 @@
+# nds is number of nodes, r1 number of unit-clause eliminations,
+# r2 number of failed-literal-eliminations, t time in seconds.
+# Version 7baff494e7e9e1bf838bb9e6ef46e8d8c31644bc (ID in OKlibrary).
+# nds=2^(m-2)-1, r2=2^(m-3).
+
 m     nds         r1          r2          t
 20    262143      1511682     131072      1.07
 25    8388607     38867202    4194304     26.69

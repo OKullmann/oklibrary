@@ -1,3 +1,14 @@
+# Version information:
+# > OKsolver_2002-O3-DNDEBUG --version
+#  OKsolver: 5.3.1998 - 18.12.2011; version 1.51
+#  Date of compilation: Jun 22 2013, 19:07:02
+#  Compiler options: LITTAB STANDARD=1
+#  File with distance function: Abstand_nKaZ.c
+#  File with projection function: Projektion_Prod.c
+
+# nds is number of nodes, r2 number of failed-literal-elimination, d height of search-tree, t time in seconds.
+# nds=2^(m-1)-1, r2=2^(m-2), d=m-2.
+
 m     nds         r2          d     t
 20    524287      262144      18    0.4
 25    16777215    8388608     23    10.4

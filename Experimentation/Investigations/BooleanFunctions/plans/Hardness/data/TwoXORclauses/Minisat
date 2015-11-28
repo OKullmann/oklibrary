@@ -1,3 +1,6 @@
+# "pre" means "preprocessing", which is "yes" or "no" (that is, using
+# option "-no-pre"), t is time in seconds.
+
 m           pre         t
 20          y           0
 25                      0
