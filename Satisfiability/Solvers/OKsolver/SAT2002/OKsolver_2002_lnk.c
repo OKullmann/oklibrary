@@ -792,6 +792,7 @@ alleReduktionen:
 
   /* First optZweig: */
 
+  {
   const unsigned int DN = DeltaN[optZweig][! Schalter];
   const unsigned int DN2 = DeltaN[! optZweig][! Schalter];
 #ifdef LOKALLERNEN
@@ -824,6 +825,7 @@ alleReduktionen:
   }
   memcpy((void*)(zweiteBel + Zeiger2), (void*)(Huelle[! optZweig][! Schalter]), DN2 * sizeof(StapeleintragF));
   Zeiger2 += DN2;
+  } // removal for DN, DN2
   
   if (SatVar -> danach == NULL) {
     struct Sammlung* Z;
