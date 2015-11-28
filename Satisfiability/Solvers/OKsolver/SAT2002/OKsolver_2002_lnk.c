@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.1998 (Frankfurt)
-/* Copyright 1998 - 2007, 2008, 2009, 2011 Oliver Kullmann
+/* Copyright 1998 - 2007, 2008, 2009, 2011, 2015 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -419,7 +419,7 @@ __inline__ static void output_decision_levels(FILE* const fp) {
   assert(fp);
   fprintf(fp, "%d ", Rekursionstiefe);
   for (struct {const struct Sammlung* i; ptrdiff_t c;} l = {SatVar0, 0}; l.c !=  (ptrdiff_t) Rekursionstiefe; l.i=l.i->danach, ++l.c)
-    fprintf(fp, "%d ", l.i->altTiefe - Pfad);
+    fprintf(fp, "%ld ", l.i->altTiefe - Pfad);
   fprintf(fp, "\n");
 }
 
