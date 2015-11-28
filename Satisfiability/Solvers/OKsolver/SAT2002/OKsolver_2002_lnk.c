@@ -1180,7 +1180,6 @@ static FILE* fppa = NULL; /* fuer die Ausgabe einer erfuellenden Belegung */
 
 static char* NameBel = NULL; char* NameMon = NULL;
 
-
 int main(const int argc, const char* const argv[]) {
   const char* const Ausgabedatei = "OKs" VERSIONSNUMMER1 "_" VERSIONSNUMMER2 "_" OPTIONENKENNUNG5 OPTIONENKENNUNG6 OPTIONENKENNUNG7 OPTIONENKENNUNG1 OPTIONENKENNUNG2 OPTIONENKENNUNG3 OPTIONENKENNUNG4".res";
   const char* const Version = VERSIONSNUMMER1 "." VERSIONSNUMMER2;
@@ -1192,6 +1191,7 @@ int main(const int argc, const char* const argv[]) {
   signal(SIGUSR1, Zustandsanzeige);
   signal(SIGINT, Abbruch);
   signal(SIGALRM, Abbruch);
+  int Argument; // defined here because of goto
   if (setjmp(Ausgabepunkt)) goto Ausgabe;
 
   if (Konstantenfehler()) {
@@ -1206,7 +1206,7 @@ int main(const int argc, const char* const argv[]) {
 
   setzenStandard();
 
-  for (int Argument = 1; Argument < argc; ++Argument) {
+  for (Argument = 1; Argument < argc; ++Argument) {
     if (strcmp("--version", argv[Argument]) == 0) {
       printf("%s %s; %s %s\n%s: %s, %s\n", Meldung(24), DATUM, Meldung(2), Version, Meldung(6), __DATE__, __TIME__);
       printf("%s", Meldung(44));
