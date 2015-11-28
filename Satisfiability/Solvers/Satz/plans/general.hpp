@@ -43,8 +43,8 @@ License, or any later version. */
   <ul>
    <li> Improve naming (functions, variables, types, macros). </li>
    <li> Improve comments. </li>
-   <li> Introduce const. </li>
-   <li> Make variables more local. </li>
+   <li> Introduce const (possibly completed). </li>
+   <li> Make variables more local (possibly completed). </li>
    <li> Use type bool. </li>
    <li> At least some macros can be replaced by constants. </li>
   </ul>

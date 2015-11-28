@@ -305,25 +305,23 @@ void print_values(const int nb_var) {
 }
 
 int backtracking() {
-   int var, index;
-
    UNITCLAUSE_STACK_fill_pointer = 0;
    ++NB_BACK;
 
    do {
-      var = pop(VARIABLE_STACK);
+      const int var = pop(VARIABLE_STACK);
       if (var_rest_value[var] == NONE)
           var_state[var] = ACTIVE;
       else {
-          for (index = saved_clause_stack[var];
+          for (int index = saved_clause_stack[var];
                index < CLAUSE_STACK_fill_pointer;
-               index++)
+               ++index)
              clause_state[CLAUSE_STACK[index]] = ACTIVE;
           CLAUSE_STACK_fill_pointer = saved_clause_stack[var];
 
-          for (index = saved_managedclause_stack[var];
+          for (int index = saved_managedclause_stack[var];
                index < MANAGEDCLAUSE_STACK_fill_pointer;
-               index++)
+               ++index)
              clause_length[MANAGEDCLAUSE_STACK[index]]++;
           MANAGEDCLAUSE_STACK_fill_pointer = saved_managedclause_stack[var];
 
@@ -367,9 +365,8 @@ my_type redundant(const int* new_clause, const int* old_clause) {
           lit2=*(++new_clause); new_clause_diff++;
        }
        else
-       if (complement(lit1, lit2)) {
-           return FALSE; /* old_clause_diff++; new_clause_diff++; j1++; j2++; */
-       }
+       if (complement(lit1, lit2))
+           return FALSE;
        else {
           lit1=*(++old_clause);  lit2=*(++new_clause);
        }
@@ -388,31 +385,16 @@ my_type get_resolvant(const int* const clause1, const int* const clause2, int* c
       nb_iden=0, nb_opps=0, j1=0, j2=0, j, limited_length;
 
     while (((lit1=clause1[j1])!=NONE) && ((lit2=clause2[j2]) != NONE)) {
-       if (complement(lit1, lit2)) {
-          j1++; j2++; nb_opps++;
-       }
-       else
-       if (lit1 == lit2) {
-          j1++; j2++; nb_iden++;
-       }
-       else
-       if (smaller_than(lit1, lit2)) {
-          nb_diff1++; j1++;
-       }
-       else {
-          nb_diff2++; j2++;
-       }
+       if (complement(lit1, lit2)) { ++j1; ++j2; ++nb_opps; }
+       else if (lit1 == lit2) { ++j1; ++j2; ++nb_iden; }
+       else if (smaller_than(lit1, lit2)) { ++nb_diff1; ++j1; }
+       else { ++nb_diff2; ++j2; }
     }
     if (nb_opps ==1) {
-       if (clause1[j1] ==NONE) {
-          for (; clause2[j2]!= NONE; j2++) nb_diff2++;
-       }
-       else {
-          for (; clause1[j1]!= NONE; j1++) nb_diff1++;
-       }
-       if ((j1==1) || (j2==1))  limited_length=RESOLVANT_LENGTH;
-       else
-       if ((j1==2) && (j2==2))  limited_length=1;
+       if (clause1[j1] ==NONE) for (; clause2[j2]!= NONE; ++j2) ++nb_diff2;
+       else for (; clause1[j1]!= NONE; j1++) ++nb_diff1;
+       if ((j1==1) || (j2==1)) limited_length=RESOLVANT_LENGTH;
+       else if ((j1==2) && (j2==2))  limited_length=1;
        else
        if (j1<j2) limited_length=((j1<RESOLVANT_LENGTH) ? j1 : RESOLVANT_LENGTH);
        else  limited_length=((j2<RESOLVANT_LENGTH) ? j2 : RESOLVANT_LENGTH);
@@ -420,20 +402,11 @@ my_type get_resolvant(const int* const clause1, const int* const clause2, int* c
        if (nb_diff1 + nb_diff2 + nb_iden <= limited_length) {
           j1=0; j2=0; j=0;
           while (((lit1 = clause1[j1])!=NONE) && ((lit2 = clause2[j2]) != NONE)) {
-             if (lit1 == lit2) {
-                resolvant[j] = lit1; j1++; j2++; j++;
-             }
+             if (lit1 == lit2) { resolvant[j] = lit1; ++j1; ++j2; ++j; }
+             else if (smaller_than(lit1, lit2)) {resolvant[j] = lit1; ++j1; ++j;}
              else
-             if (smaller_than(lit1, lit2)) {
-                resolvant[j] = lit1; j1++; j++;
-             }
-             else
-             if (smaller_than(lit2, lit1)) {
-                resolvant[j] = lit2; j2++; j++;
-             }
-             else {
-                j1++; j2++;
-             }
+             if (smaller_than(lit2, lit1)) { resolvant[j] = lit2; ++j2; ++j; }
+             else { ++j1; ++j2; }
           }
           if (clause1[j1] ==NONE) while ((resolvant[j++] = clause2[j2++]) != NONE);
           else while ((resolvant[j++] = clause1[j1++]) != NONE);
@@ -446,39 +419,29 @@ my_type get_resolvant(const int* const clause1, const int* const clause2, int* c
 }
 
 void remove_link(const int clause) {
-   int *lits;
-   struct node *pnode1, *pnode2, *pnode;
-
-   lits = sat[clause];
-
+   const int* lits = sat[clause];
    for (int lit=*lits; lit != NONE; lit=*(++lits)) {
-       pnode = (positive(lit) ? node_pos_in[lit] :
+       struct node* const pnode = (positive(lit) ? node_pos_in[lit] :
                                 node_neg_in[get_var_from_lit(lit)]);
        if (pnode == NULL) return;
-       if (pnode->clause == clause) {
+       if (pnode->clause == clause)
           if (positive(lit)) node_pos_in[lit] = pnode->next;
           else node_neg_in[get_var_from_lit(lit)] = pnode->next;
-       }
        else
-       for (pnode1 = pnode, pnode2 = pnode->next;
-            pnode2 != NULL; pnode2=pnode2->next) {
+       for (struct node *pnode1 = pnode, *pnode2 = pnode->next;
+            pnode2 != NULL; pnode2=pnode2->next)
          if (pnode2->clause == clause) {
             pnode1->next = pnode2->next;
             break;
          }
-         else
-            pnode1 = pnode2;
-       }
+         else pnode1 = pnode2;
    }
 }
 
 void set_link(const int clause) {
-   int *lits;
-   struct node *pnode;
-
-   lits = sat[clause];
+   const int* lits = sat[clause];
    for (int lit=*lits; lit != NONE; lit=*(++lits)) {
-       pnode = allocate_node();
+       struct node* const pnode = allocate_node();
        pnode->clause = clause;
        if (positive(lit)) {
           pnode->next = node_pos_in[lit];
@@ -492,10 +455,9 @@ void set_link(const int clause) {
 }
 
 void set_link_for_resolv(const int resolv) {
-   struct node* pnode;
    const int* lits=sat[resolv];
    for (int lit=*lits; lit != NONE; lit=*(++lits)) {
-       pnode = allocate_node();
+       struct node* const pnode = allocate_node();
        pnode->clause = resolv;
            pnode->next=in_resolv[lit];
            in_resolv[lit]=pnode;
@@ -503,23 +465,19 @@ void set_link_for_resolv(const int resolv) {
 }
 
 void remove_link_for_resolv(const int resolv) {
-   struct node *pnode1, *pnode2, *pnode;
-
    const int* lits = sat[resolv];
    for (int lit=*lits; lit != NONE; lit=*(++lits)) {
-       pnode = in_resolv[lit];
+       struct node* const pnode = in_resolv[lit];
        if (pnode == NULL) return;
-       if (pnode->clause == resolv)
-                  in_resolv[lit] = pnode->next;
+       if (pnode->clause == resolv) in_resolv[lit] = pnode->next;
        else
-       for (pnode1 = pnode, pnode2 = pnode->next;
+       for (struct node *pnode1 = pnode, *pnode2 = pnode->next;
             pnode2 != NULL; pnode2=pnode2->next) {
          if (pnode2->clause == resolv) {
             pnode1->next = pnode2->next;
             break;
          }
-         else
-            pnode1 = pnode2;
+         else pnode1 = pnode2;
        }
    }
 }
@@ -529,13 +487,12 @@ int INVOLVED_CLAUSE_STACK_fill_pointer=0;
 int CLAUSE_INVOLVED[tab_clause_size];
 
 int already_present(int* const resolvant) {
-  int clause, length=0;
-  struct node *pnode;
+  int length=0;
   const int* lits=resolvant;
   for (int lit=*lits; lit != NONE; lit=*(++lits)) {
     length++;
-    for (pnode=in_resolv[lit]; pnode != NULL; pnode=pnode->next) {
-      clause=pnode->clause;
+    for (struct node* pnode=in_resolv[lit]; pnode != NULL; pnode=pnode->next) {
+      const int clause=pnode->clause;
       CLAUSE_INVOLVED[clause]++;
       if (CLAUSE_INVOLVED[clause]==1)
         push(clause, INVOLVED_CLAUSE_STACK);
@@ -548,7 +505,7 @@ int already_present(int* const resolvant) {
     }
   }
   for (int i=0; i<INVOLVED_CLAUSE_STACK_fill_pointer; ++i) {
-    clause=INVOLVED_CLAUSE_STACK[i];
+    const int clause=INVOLVED_CLAUSE_STACK[i];
     if ((length==CLAUSE_INVOLVED[clause]) && (length<clause_length[clause])){
       clause_state[clause] = PASSIVE;
       remove_link(clause);
@@ -563,47 +520,36 @@ int already_present(int* const resolvant) {
 int OLD_CLAUSE_SUPPRESED;
 #define ACTIVE2 2
 
-int search_redundence(int* lits) {
-  struct node *pnode, *pnode1;
-
+int search_redundence(const int* lits) {
   /* if lits is unit, all clauses in the pnode list become redundant and
      will be deleted, so that pnode=pnode->next is not good */
   const int* const new_lits = lits; OLD_CLAUSE_SUPPRESED=FALSE;
-  for (int lit=*lits; lit != NONE; lit=*(++lits)) {
-    for (pnode = (positive(lit) ? node_pos_in[lit] :
-                  node_neg_in[get_var_from_lit(lit)]);
+  for (int lit=*lits; lit != NONE; lit=*(++lits))
+    for (struct node *pnode = (positive(lit) ? node_pos_in[lit] :
+                  node_neg_in[get_var_from_lit(lit)]), *pnode1;
          pnode != NULL; pnode = pnode1) {
       pnode1=pnode->next;
       const int* const old_lits = sat[pnode->clause];
       const int is_red = redundant(new_lits, old_lits);
       if (is_red == OLD_CLAUSE_REDUNDANT) {
-        /*          printf("old clause %d is redundant\n",
-                    pnode->clause);
-        */
         OLD_CLAUSE_SUPPRESED=TRUE;
         clause_state[pnode->clause] = PASSIVE;
         remove_link(pnode->clause);
       }
-      else
-        if (is_red == NEW_CLAUSE_REDUNDANT) {
-          return NEW_CLAUSE_REDUNDANT;
-        }
+      else if (is_red == NEW_CLAUSE_REDUNDANT) return NEW_CLAUSE_REDUNDANT;
     }
-  }
   return OLD_CLAUSE_SUPPRESED;
 }
 
-int add_resolvant(int* lits) {
+int add_resolvant(const int* lits) {
   int resolvant[RESOLVANT_LENGTH+1];
-  struct node *pnode, *pnode1;
-
   /* if lits is unit, all clauses in the pnode list become redundant and
      will be deleted, so that pnode=pnode->next is not good */
   const int* const new_lits = lits;
   for (int lit=*lits; lit != NONE; lit=*(++lits))
-    for (pnode = (positive(lit) ?
+    for (struct node *pnode = (positive(lit) ?
                   node_neg_in[lit] :
-                  node_pos_in[get_var_from_lit(lit)]);
+                  node_pos_in[get_var_from_lit(lit)]), *pnode1;
          pnode != NULL; pnode = pnode1) {
       pnode1=pnode->next;
       const int* const old_lits = sat[pnode->clause];
@@ -614,10 +560,8 @@ int add_resolvant(int* lits) {
         if (is_red != NEW_CLAUSE_REDUNDANT) {
           if (already_present(resolvant) == FALSE) {
             int* const res=(int *)malloc((RESOLVANT_LENGTH+1)*sizeof(int));
-            if (OLD_CLAUSE_SUPPRESED==TRUE)
-              clause_state[NB_CLAUSE]=ACTIVE2;
-            else
-              clause_state[NB_CLAUSE]=ACTIVE;
+            if (OLD_CLAUSE_SUPPRESED==TRUE) clause_state[NB_CLAUSE]=ACTIVE2;
+            else clause_state[NB_CLAUSE]=ACTIVE;
             int j=0;
             while ((res[j]=resolvant[j]) != NONE) ++j;
             if (j==0) return NONE;
@@ -785,12 +729,10 @@ my_type build_sat_instance(const char* const input_file) {
 
 
 int verify_solution() {
-   int i, lit, *lits, clause_truth;
-
-   for (i=0; i<NB_CLAUSE; i++) {
-      clause_truth = FALSE;
-      lits = sat[i];
-      for(lit=*lits; lit!=NONE; lit=*(++lits))
+   for (int i=0; i<NB_CLAUSE; ++i) {
+      int clause_truth = FALSE;
+      const int* lits = sat[i];
+      for(int lit=*lits; lit!=NONE; lit=*(++lits))
          if (((negative(lit)) &&
               (var_current_value[get_var_from_lit(lit)] == FALSE)) ||
              ((positive(lit)) &&
@@ -800,25 +742,22 @@ int verify_solution() {
          }
       if (clause_truth == FALSE) return FALSE;
    }
-
    return TRUE;
 }
 
 long NB_SEARCH = 0; long NB_FIXED = 0;
 
 int unitclause_process() {
-  int var, unitclause, lit, *lits, unitclause_position;
-
-  for (unitclause_position = 0;
+  for (int unitclause_position = 0;
        unitclause_position < UNITCLAUSE_STACK_fill_pointer;
-       unitclause_position++) {
-     unitclause = UNITCLAUSE_STACK[unitclause_position];
+       ++unitclause_position) {
+     const int unitclause = UNITCLAUSE_STACK[unitclause_position];
      if (clause_state[unitclause] == ACTIVE) {
        ++NB_UNIT;
-       lits = sat[unitclause];
-       for(lit=*lits; lit!=NONE; lit=*(++lits)) {
+       const int* lits = sat[unitclause];
+       for(int lit=*lits; lit!=NONE; lit=*(++lits)) {
           if (positive(lit)) {
-             var = lit;
+             const int var = lit;
              if (var_state[var] == ACTIVE) {
                 var_current_value[var] = TRUE;
                 var_rest_value[var] = NONE;
@@ -828,13 +767,11 @@ int unitclause_process() {
                    remove_clauses(pos_in[var]);
                    break;
                 }
-                else {
-                   return NONE;
-                }
+                else return NONE;
              }
           }
           else {
-             var = get_var_from_lit(lit);
+             const int var = get_var_from_lit(lit);
              if (var_state[var] == ACTIVE) {
                 var_current_value[var] = FALSE;
                 var_rest_value[var] = NONE;
@@ -844,9 +781,7 @@ int unitclause_process() {
                    remove_clauses(neg_in[var]);
                     break;
                 }
-                else {
-                   return NONE;
-                }
+                else return NONE;
              }
           }
        }
@@ -856,71 +791,58 @@ int unitclause_process() {
    return TRUE;
 }
 
-int get_nb_clauses(int var) {
+int get_nb_clauses(const int var) {
    return ((nb_neg_clause_of_length2[var] +
             nb_pos_clause_of_length2[var]) * WEIGTH) +
            nb_neg_clause_of_length3[var] +
            nb_pos_clause_of_length3[var];
 }
 
-int get_resolvant_nb(int saved_managedclause_fill_pointer) {
-  int *lits;
-  int lit, var, i, clause, resolvant_nb=0;
-
-  for (i=saved_managedclause_fill_pointer;
-       i<MANAGEDCLAUSE_STACK_fill_pointer; i++) {
-    clause = MANAGEDCLAUSE_STACK[i];
+int get_resolvant_nb(const int saved_managedclause_fill_pointer) {
+  int resolvant_nb=0;
+  for (int i=saved_managedclause_fill_pointer;
+       i<MANAGEDCLAUSE_STACK_fill_pointer; ++i) {
+    const int clause = MANAGEDCLAUSE_STACK[i];
     if (clause_length[clause] == 2) {
-      lits = sat[clause];
-      for(lit=*lits; lit!=NONE; lit=*(++lits)) {
+      const int* lits = sat[clause];
+      for (int lit=*lits; lit!=NONE; lit=*(++lits))
         if (positive(lit)) {
-          var = lit;
+          const int var = lit;
           if (var_state[var] == ACTIVE)
             resolvant_nb += (nb_neg_clause_of_length2[var] * WEIGTH)
               +nb_neg_clause_of_length3[var];
         }
         else {
-          var = get_var_from_lit(lit);
+          const int var = get_var_from_lit(lit);
           if (var_state[var] == ACTIVE)
             resolvant_nb += (nb_pos_clause_of_length2[var] * WEIGTH)
               +nb_pos_clause_of_length3[var];
         }
-      }
     }
   }
   return resolvant_nb;
 }
 
-void reset_context(int saved_var_stack_fill_pointer,
-                   int saved_managedclause_fill_pointer) {
-   int i;
-
-   for (i=0; i<UNITCLAUSE_STACK_fill_pointer; i++)
-      clause_length[UNITCLAUSE_STACK[i]]++;
+void reset_context(const int saved_var_stack_fill_pointer,
+                   const int saved_managedclause_fill_pointer) {
+   for (int i=0; i<UNITCLAUSE_STACK_fill_pointer; ++i)
+     ++clause_length[UNITCLAUSE_STACK[i]];
    UNITCLAUSE_STACK_fill_pointer = 0;
 
-   for (i=saved_var_stack_fill_pointer;
-        i<VARIABLE_STACK_fill_pointer; i++)
+   for (int i=saved_var_stack_fill_pointer; i<VARIABLE_STACK_fill_pointer; ++i)
        var_state[VARIABLE_STACK[i]] = ACTIVE;
    VARIABLE_STACK_fill_pointer = saved_var_stack_fill_pointer;
 
-   for (i=saved_managedclause_fill_pointer;
-        i<MANAGEDCLAUSE_STACK_fill_pointer; i++)
-         clause_length[MANAGEDCLAUSE_STACK[i]]++;
-   MANAGEDCLAUSE_STACK_fill_pointer =
-     saved_managedclause_fill_pointer;
+   for (int i=saved_managedclause_fill_pointer; i<MANAGEDCLAUSE_STACK_fill_pointer; ++i)
+         ++clause_length[MANAGEDCLAUSE_STACK[i]];
+   MANAGEDCLAUSE_STACK_fill_pointer = saved_managedclause_fill_pointer;
 }
 
 int branch();
 
-int examine1(int tested_var) {
-  int generating_fixed_variables_if_positif,
-     generating_fixed_variables_if_negatif,
-     saved_var_stack_fill_pointer,
-     saved_managedclause_fill_pointer;
-
-   saved_var_stack_fill_pointer=VARIABLE_STACK_fill_pointer;
-   saved_managedclause_fill_pointer=
+int examine1(const int tested_var) {
+   const int saved_var_stack_fill_pointer=VARIABLE_STACK_fill_pointer;
+   const int saved_managedclause_fill_pointer=
      MANAGEDCLAUSE_STACK_fill_pointer;
 
    var_current_value[tested_var] = TRUE;
@@ -928,7 +850,7 @@ int examine1(int tested_var) {
    push(tested_var, VARIABLE_STACK);
    my_simple_manage_clauses(neg_in[tested_var]);
 
-   generating_fixed_variables_if_positif = branch();
+   const int generating_fixed_variables_if_positif = branch();
 
    if (generating_fixed_variables_if_positif == NONE) {
      reset_context(saved_var_stack_fill_pointer,
@@ -953,7 +875,7 @@ int examine1(int tested_var) {
    push(tested_var, VARIABLE_STACK);
    my_simple_manage_clauses(pos_in[tested_var]);
 
-   generating_fixed_variables_if_negatif = branch();
+   const int generating_fixed_variables_if_negatif = branch();
 
    if (generating_fixed_variables_if_negatif == NONE) {
      reset_context(saved_var_stack_fill_pointer,
@@ -976,14 +898,9 @@ int examine1(int tested_var) {
    return TRUE;
 }
 
-int examine(int tested_var) {
-   int generating_fixed_variables_if_positif = 0,
-     generating_fixed_variables_if_negatif = 0,
-     saved_var_stack_fill_pointer,
-     saved_managedclause_fill_pointer;
-
-     saved_var_stack_fill_pointer=VARIABLE_STACK_fill_pointer;
-     saved_managedclause_fill_pointer=
+int examine(const int tested_var) {
+     const int saved_var_stack_fill_pointer=VARIABLE_STACK_fill_pointer;
+     const int saved_managedclause_fill_pointer=
        MANAGEDCLAUSE_STACK_fill_pointer;
 
       var_current_value[tested_var] = TRUE;
@@ -992,7 +909,7 @@ int examine(int tested_var) {
       push(tested_var, VARIABLE_STACK);
       my_simple_manage_clauses(neg_in[tested_var]);
 
-      generating_fixed_variables_if_positif = branch();
+      const int generating_fixed_variables_if_positif = branch();
       reduce_if_positive_nb[tested_var]=
         MANAGEDCLAUSE_STACK_fill_pointer-
         saved_managedclause_fill_pointer;
@@ -1015,7 +932,7 @@ int examine(int tested_var) {
       push(tested_var, VARIABLE_STACK);
       my_simple_manage_clauses(pos_in[tested_var]);
 
-      generating_fixed_variables_if_negatif = branch();
+      const int generating_fixed_variables_if_negatif = branch();
       reduce_if_negative_nb[tested_var]=
         MANAGEDCLAUSE_STACK_fill_pointer-
         saved_managedclause_fill_pointer;
@@ -1037,7 +954,6 @@ int examine(int tested_var) {
 
 int get_nb(const int saved_managedclause_fill_pointer) {
   int nb=0;
-
   for (int i=saved_managedclause_fill_pointer;
       i<MANAGEDCLAUSE_STACK_fill_pointer; ++i) {
     const int clause=MANAGEDCLAUSE_STACK[i];
@@ -1319,7 +1235,7 @@ int further_examin_var_if_positive(const int var) {
     if (LIT_IMPLIED[lit]==0) push(lit, IMPLIED_LITS);
     ++LIT_IMPLIED[lit];
   }
-  else  --NB_SEARCH;
+  else --NB_SEARCH;
   return TRUE;
 }
 
@@ -1346,7 +1262,7 @@ int further_examin_var_if_negative(const int var) {
     if (LIT_IMPLIED[var]==0) push(var, IMPLIED_LITS);
     ++LIT_IMPLIED[var];
   }
-  else  --NB_SEARCH;
+  else --NB_SEARCH;
   return TRUE;
 }
 
@@ -1429,10 +1345,9 @@ int examine3(const int tested_var) {
     remove_clauses(neg_in[tested_var]);
     return NONE;
   }
-  else {
+  else
     reset_context(saved_var_stack_fill_pointer,
                   saved_managedclause_fill_pointer);
-  }
 
   var_current_value[tested_var] = FALSE;
 
@@ -1561,11 +1476,9 @@ int choose_and_instantiate_variable_in_clause() {
             for(int i=0; i<IMPLIED_LITS_fill_pointer; ++i)
               LIT_IMPLIED[IMPLIED_LITS[i]]=0;
             IMPLIED_LITS_fill_pointer=0;
-            if (examine1(var) == NONE) {
+            if (examine1(var) == NONE)
               if (unitclause_process() == NONE) return NONE;
-            }
-            else
-              if (treat_implied_lits()==NONE) return NONE;
+            else if (treat_implied_lits()==NONE) return NONE;
           }
       }
     }
