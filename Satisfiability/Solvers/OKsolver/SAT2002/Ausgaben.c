@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.1.2001 (Toronto)
-/* Copyright 2001 - 2007, 2008, 2009, 2011 Oliver Kullmann
+/* Copyright 2001 - 2007, 2008, 2009, 2011, 2015 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,6 +22,7 @@ License, or any later version. */
 /* Ausgaben (Fehler, Ergebnisse und Zustandsmeldungen) */
 
 #include <stdio.h>
+#include <assert.h>
 
 #include "OK.h"
 #include "Ausgaben.h"
@@ -157,13 +158,16 @@ const char* Meldungen[ANZSPRACHEN][63] =
    "Could not create file with splitting-instance.", /* 59 */
    "Could not create the file for the splitting-instance:", /* 60 */
    "Abortion of splitting computation.", /* 61 */
-   "Could not create the file for the deicisions of the splitting-instance:", /* 62 */
+   "Could not create the file for the decisions of the splitting-instance:", /* 62 */
   },
 };
 
 
 //! helper function for the messsage depending on the current language
-const char* Meldung(const unsigned int i) { return Meldungen[Sprache][i]; }
+const char* Meldung(const unsigned int i) {
+  assert(i < 63);
+  return Meldungen[Sprache][i];
+}
 
 //! checking the text messages
 char Konstantenfehler() {
