@@ -10,7 +10,9 @@ License, or any later version. */
   \brief Complete program of the old OKsolver where everything is included (for
   better inlining)
 
-  No linking needed here.
+  No linking needed here. Compile with
+
+  g++ -Wall -Wno-parentheses -Wno-return-type -std=c++11 -DNDEBUG -Ofast -funsafe-loop-optimizations -o OKsolver_2002-fast OKsolver_2002.c
 */
 
                        /* OKsolver; 5.3.1998 */
