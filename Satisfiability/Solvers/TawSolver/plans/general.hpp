@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.6.2013 (Swansea)
-/* Copyright 2013 Oliver Kullmann
+/* Copyright 2013, 2015 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -1868,4 +1868,14 @@ XXX
    \endverbatim
    </li>
   </ul>
+
+
+  \todo Considering XOR-instances
+  <ul>
+   <li> On the instances TwoXORclauses-20.cnf etc. (see
+   Experimentation/Investigations/BooleanFunctions/plans/Hardness/data/TwoXORclauses/Tawsolver )
+   the optimisation-options behave differently, and also UCP-strategy 0 is now
+   faster. </li>
+  </ul
+
 */

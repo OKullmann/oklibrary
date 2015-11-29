@@ -1,3 +1,4 @@
+# File Experimentation/Investigations/BooleanFunctions/plans/Hardness/data/TwoXORclauses/Tawsolver
 # Version information:
 # > tawSolver --version
 #  tawSolver:
@@ -32,3 +33,23 @@ m     nds               r1                t
 25    33554431          33554428          4.41
 30    1073741823        1073741820        148.18
 35    34359738367       34359738364       5015.46
+
+
+# In *this* case, leaving out the optimisation-options
+# -funroll-loops -funroll-loops
+# makes the executable faster, and also UCP_STRATEGY=0 is better *here*.
+# So now using
+# g++ --std=c++11 -Wall -Ofast -funsafe-loop-optimizations -fno-math-errno -funsafe-math-optimizations -DNDEBUG -DUCP_STRATEGY=0  -o tawSolver tawSolver.cpp
+
+# tawSolver:
+# Version: 2.6.6
+# Last change date: 17.8.2013
+# Option summary = "B"
+# Compilation date: Nov 29 2015 14:10:30
+# Compiler: g++, version 4.7.1 20120723 [gcc-4_7-branch revision 189773]
+
+m     t
+20    0.12
+25    3.89
+30    129.99
+35    4476.45
