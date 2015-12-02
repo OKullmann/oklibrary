@@ -1,5 +1,5 @@
 # Oliver Kullmann, 3.6.2013 (Swansea)
-# Copyright 2013 Oliver Kullmann
+# Copyright 2013, 2015 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -11,13 +11,13 @@
 # in this directory, using system-g++; when called by the recursive makefile,
 # then in bin_dir, using the OKlibrary-g++.
 
-# If the Oklibrar-g++ shall be used, but the executable shall be produced in
+# If the Oklibrary-g++ shall be used, but the executable shall be produced in
 # this directory (Solvers/TawSolver), then run one level up:
 # Solvers> make all sub_make_directories="TawSolver" bin_dir=""
 
 # The macro LIT_TYPE can be used to redefine the literal-type (default is int).
 
-# When calling from the OKlibrary, e.g.:
+# When calling from the OKlibrary, three examples:
 # CXXFLAGS="-DLIT_TYPE=int16_t" oklib all
 # oklib all tau_iteration=6
 # CXXFLAGS="-DLIT_TYPE=int64_t" oklib all Optimisation_options="-g" sub_make_directories="TawSolver"
