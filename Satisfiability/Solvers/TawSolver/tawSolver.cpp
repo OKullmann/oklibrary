@@ -1,7 +1,7 @@
 /*********************************************************************
 tawSolver -- A basic and efficient DLL SAT solver
 Copyright (c) 2007-2013 Tanbir Ahmed http://users.encs.concordia.ca/~ta_ahmed/
-Copyright 2013 Oliver Kullmann http://www.cs.swan.ac.uk/~csoliver/
+Copyright 2013, 2015 Oliver Kullmann http://www.cs.swan.ac.uk/~csoliver/
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -22,10 +22,40 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 /*
   Compile with
 
-> g++ --std=c++11 -Wall -Ofast -funroll-loops -funsafe-loop-optimizations -fno-math-errno -funsafe-math-optimizations -fwhole-program -DNDEBUG -o tawSolver tawSolver.cpp
+> g++ --std=c++11 -Wall -Ofast -DNDEBUG -o tawSolver tawSolver.cpp
 
-(or with "g++ --std=c++11 -Wall -g -o tawSolver tawSolver.cpp"
-for debugging).
+  possibly with additional optimisation-options
+
+    -funroll-loops -funsafe-loop-optimizations -fno-math-errno
+    -funsafe-math-optimizations -fwhole-program
+
+  or with
+
+> g++ --std=c++11 -Wall -g -o tawSolver_debug tawSolver.cpp
+
+  for debugging. Alternatively the makefile (called "makefile") in this
+  directory can be used: it contains various options, but with
+
+> make all
+
+  it creates the four versions
+
+    tawSolver, ttawSolver, ctawSolver, cttawSolver
+
+  where prefix "t" stands for "tau", the alternative heuristics, while "c"
+  stands for "counting". With
+
+> make allall
+
+  four additional debug-versions (named "*_debug") are created. With
+
+> make clean
+
+  the debug-versions are removed, and with
+
+> make cleanall
+
+  additionally also the four (optimised) programs.
 
   Usage:
 

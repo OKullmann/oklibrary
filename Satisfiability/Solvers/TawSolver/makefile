@@ -26,7 +26,7 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all check new_check app_tests timing clean cleanall debug allall
+.PHONY : all check new_check app_tests timing clean cleanall debug allall local
 
 ifeq ($(gpp_call_okl),)
   CXX = g++
@@ -83,9 +83,11 @@ else
 endif
 
 
-all : $(main_target) $(side_target) $(side2_target) $(side3_target) Tau
+all : $(main_target) $(side_target) $(side2_target) $(side3_target)
 
-allall : all debug Tau_debug
+allall : all debug
+
+local : Tau Tau_debug
 
 $(main_target) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $@ $(LFLAGS)
