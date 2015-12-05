@@ -26,7 +26,7 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all check new_check app_tests timing cleanall debug allall
+.PHONY : all check new_check app_tests timing clean cleanall debug allall
 
 ifeq ($(gpp_call_okl),)
   CXX = g++
@@ -83,12 +83,15 @@ else
 endif
 
 
-all : $(main_target) $(side_target) $(side2_target) $(side3_target)
+all : $(main_target) $(side_target) $(side2_target) $(side3_target) Tau
 
-allall : all debug
+allall : all debug Tau_debug
 
 $(main_target) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $@ $(LFLAGS)
+
+Tau : Tau.cpp Tau.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) Tau.cpp -o $@ $(LFLAGS)
 
 $(side_target) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options_tau) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DPURE_LITERALS -DTAU_ITERATION=$(tau_iteration) tawSolver.cpp -o $@ $(LFLAGS)
@@ -104,6 +107,9 @@ debug : $(debug_main) $(debug_side) $(debug_side2) $(debug_side3)
 
 $(debug_main) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $@ $(LFLAGS)
+
+Tau_debug : Tau.cpp Tau.hpp
+	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) Tau.cpp -o $@ $(LFLAGS)
 
 $(debug_side) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DPURE_LITERALS -DTAU_ITERATION=$(tau_iteration) tawSolver.cpp -o $@ $(LFLAGS)
@@ -159,10 +165,12 @@ timing :
 	rm $(input1) $(input2)
 
 
-check :
-new_check :
+check : Tau_debug
+	./Tau_debug
 app_tests :
 
+clean :
+	- rm $(debug_main) $(debug_side) $(debug_side2) $(debug_side3) Tau_debug
 
-cleanall :
-	- rm $(main_target) $(side_target) $(debug_main) $(debug_side) $(side2_target) $(debug_side2) $(side3_target) $(debug_side3)
+cleanall : clean
+	- rm $(main_target) $(side_target) $(side2_target) $(side3_target) Tau
