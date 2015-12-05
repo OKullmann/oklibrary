@@ -36,8 +36,9 @@ m     nds               r1                t
 
 
 # In *this* case, leaving out the optimisation-options
-# -funroll-loops -funroll-loops
-# makes the executable faster, and also UCP_STRATEGY=0 is better *here*.
+# -funroll-loops -fwhole-program
+# makes the executable faster, and also UCP_STRATEGY=0 is better *here*
+# (that is, using breadth-first instead of depth-first).
 # So now using
 # g++ --std=c++11 -Wall -Ofast -funsafe-loop-optimizations -fno-math-errno -funsafe-math-optimizations -DNDEBUG -DUCP_STRATEGY=0  -o tawSolver tawSolver.cpp
 
@@ -53,3 +54,31 @@ m     t
 25    3.89
 30    129.99
 35    4476.45
+
+
+# The ttawSolver:
+
+# Version: 2.6.6
+#  Last change date: 17.8.2013
+#  Mapping k -> weight, for clause-lengths k specified at compile-time:
+#    2->7  3->1  4->0.31  5->0.19  6->0.1118
+#  Divisor for open weights: 1.7
+#  Option summary = "PT5"
+#  Macro settings:
+#   LIT_TYPE = std::int32_t (with 31 binary digits)
+#   UCP_STRATEGY = 1
+#   TAU_ITERATION = 5
+#  Compiled without ALL_SOLUTIONS
+#  Compiled with PURE_LITERALS
+#  Compiled with NDEBUG
+#  Compiled with optimisation options
+#  Compilation date: Aug 17 2013 21:38:44
+#  Compiler: g++, version 4.7.3
+
+# Never any pure literals are found:
+
+m     t
+20    1.28
+25    41.21
+30    1336.08
+35    42800.00
