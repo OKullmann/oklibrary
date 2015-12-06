@@ -1188,6 +1188,39 @@ cttawSolver VanDerWaerden_2-3-12_135.cnf
 # we ignore it.
 # It also appears that cttawSolver is slightly faster than ttawSolver;
 # this is likely due to not eliminating pure literals.
+
+
+# ID 4a74a73e720d378ba92dac09e95d9b76b46878db
+# Version 2.6.7
+> make timing
+# (system-gcc 4.7.1) versus
+> oklib timing (one directory up, with oklib-gcc 4.7.3).
+# cswsok (no other process running)
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+8.71 8.67 8.70 8.75 8.76
+8.87 8.77 8.81 8.89 8.91
+tawSolver VanDerWaerden_2-3-12_135.cnf
+10.64 10.56 10.60 10.65 10.57
+10.90 10.74 10.76 10.70 10.81
+ttawSolver VanDerWaerden_2-3-12_134.cnf
+18.74 18.65 18.66 18.67 18.65
+18.86 18.81 18.82 18.74 18.82
+ttawSolver VanDerWaerden_2-3-12_135.cnf
+19.23 19.25 19.22 19.25 19.25
+19.45 19.41 19.35 19.38 19.45
+ctawSolver VanDerWaerden_2-3-12_134.cnf
+10.76 10.76 10.65 10.71 10.71
+10.63 10.65 10.53 10.54 10.56
+ctawSolver VanDerWaerden_2-3-12_135.cnf
+10.84 10.92 10.98 10.84 10.85
+10.72 10.72 10.69 10.71 10.69
+cttawSolver VanDerWaerden_2-3-12_134.cnf
+19.53 19.57 19.53 19.55 19.53
+19.20 19.26 19.39 19.41 19.29
+cttawSolver VanDerWaerden_2-3-12_135.cnf
+19.47 19.54 19.47 19.43 19.47
+19.20 19.18 19.30 19.25 19.26
    \endverbatim
    </li>
   </ul>
