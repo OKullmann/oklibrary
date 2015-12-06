@@ -1226,7 +1226,7 @@ cttawSolver VanDerWaerden_2-3-12_135.cnf
   </ul>
 
 
-  \todo Using the tau-function
+  \todo Using the tau-function : DONE
   <ul>
    <li> It is interesting to replace the product as projection by the
    tau-function. </li>
@@ -1909,6 +1909,6 @@ XXX
    Experimentation/Investigations/BooleanFunctions/plans/Hardness/data/TwoXORclauses/Tawsolver )
    the optimisation-options behave differently, and also UCP-strategy 0 is now
    faster. </li>
-  </ul
+  </ul>
 
 */
