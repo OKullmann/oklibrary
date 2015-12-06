@@ -79,6 +79,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
   computation is continued.
 
   There are the following macros to control compilation:
+
    - LIT_TYPE (default std::int32_t)
    - WEIGHT_2, WEIGHT_4, WEIGHT_5, WEIGHT_6 and WEIGHT_BASIS_OPEN:
      the weight for clause-length k=3 is standardised to 1, the weights for
@@ -161,6 +162,7 @@ enum Error_codes {
   unit_clause_error=11
 };
 
+// The following three return-values are not errors:
 enum Result_value { unsat=20, sat=10, unknown=0 };
 
 typedef bool DLL_return_t;
@@ -946,13 +948,14 @@ inline Lit first_branch(const Weight_t pd, const Weight_t nd, const Var v) {
   return (pd>=nd) ? Lit(v) : -Lit(v);
 }
 #ifdef TAU_ITERATION
+static_assert(TAU_ITERATION >= 0, "Negative value of TAU_ITERATION.");
 class Branching_tau {
   Lit x;
   Weight_t min1, max2;
   static Weight_t tau(const Weight_t a, const Weight_t b) {
     constexpr int iterations = TAU_ITERATION;
     Weight_t x = std::pow(4,1/(a+b));
-    for (int i = 0; i < iterations; ++i) {
+    for (int i = 0; i != iterations; ++i) {
       const Weight_t pa = std::pow(x,-a), pb = std::pow(x,-b);
       x *= 1 + (pa + pb - 1) / (a*pa + b*pb);
     }
