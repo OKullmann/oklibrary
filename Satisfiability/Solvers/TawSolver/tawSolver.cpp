@@ -144,8 +144,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.6.6";
-const std::string date = "17.8.2013";
+const std::string version = "2.6.7";
+const std::string date = "6.12.2015";
 
 const std::string program = "tawSolver";
 
