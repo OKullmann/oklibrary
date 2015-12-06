@@ -1012,8 +1012,8 @@ inline Lit branching_literal() {
 #ifdef PURE_LITERALS
   PureLiterals::clear(); changes.start_new();
 #endif
-  const auto nvar = n_vars;
-  for (Var v = 1; v <= nvar; ++v) {
+  const auto nvar = n_vars+1;
+  for (Var v = 1; v != nvar; ++v) {
     if (pass[v]) continue;
     const auto Occ = lits[v];
     Weight_t ps = 0;
