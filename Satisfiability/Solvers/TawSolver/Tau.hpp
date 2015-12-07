@@ -45,6 +45,29 @@ namespace OKlib {
      template <int TAU_IT = 5, typename D>
      D tau(const D a, const D b) { return Tau<D,TAU_IT>()(a,b); }
 
+
+     /*! Computing tau(a,b) with fixed number of Newton-iterations: */
+     template <typename D = double, int TAU_IT = 5>
+     struct LnTau {
+       static_assert(std::is_floating_point<D>::value, "Template parameter D must be floating-point.");
+       typedef D fp_type;
+       constexpr static int iterations = TAU_IT;
+       fp_type operator() (const fp_type a, const fp_type b) const {
+         fp_type x = std::log(4) / (a+b);
+         for (int i = 0; i < iterations; ++i) {
+           const fp_type pa = std::exp(-a*x), pb = std::exp(-b*x);
+           x += (pa + pb - 1) / (a*pa + b*pb);
+         }
+         return x;
+       }
+     };
+
+     template <typename D> using LnTau5 = LnTau<D,5>;
+     template <int T> using LnTaud = Projections::LnTau<double, T>;
+     template <int TAU_IT = 5, typename D>
+     D lntau(const D a, const D b) { return LnTau<D,TAU_IT>()(a,b); }
+
+
      template <typename D=double, int TAU_IT=5, typename IND = unsigned int>
      class Min_tau {
      public :

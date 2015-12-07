@@ -16,6 +16,7 @@ License, or any later version. */
 #include <iomanip>
 
 #include <cassert>
+#include <cmath>
 
 #include "Tau.hpp"
 // Remark: Not as otherwise in the OKlibrary, since not using standard-build yet.
@@ -23,29 +24,46 @@ License, or any later version. */
 namespace {
 
 const std::string program = "Tau";
-const std::string version = "0.0.8";
+const std::string version = "0.0.9";
 
-using namespace OKlib::Satisfiability::Heuristics;
+using namespace OKlib::Satisfiability::Heuristics::Projections;
 
 }
 
 
 int main(const int argc, const char* const argv[]) {
   {std::cout << std::setprecision(20);
-  std::cout << Projections::tau<6,double>(1,2) << "\n";
-  std::cout << Projections::tau(1.0,2.0) << "\n";
-  std::cout << Projections::tau(double(1),double(2)) << "\n";
-  std::cout << Projections::tau<2>(1.0,2.0) << "\n";
-  Projections::Taud<1> tau1;
+  std::cout << "Projections::tau\n";
+  std::cout << tau<6,double>(1,2) << "\n";
+  std::cout << tau(1.0,2.0) << "\n";
+  std::cout << tau(double(1),double(2)) << "\n";
+  std::cout << tau<2>(1.0,2.0) << "\n";
+  Taud<1> tau1;
   std::cout << tau1(1,2) << "\n";
-  Projections::Taud<0> tau0;
+  Taud<0> tau0;
   std::cout << tau0(1,2) << "\n";
-  Projections::Tau<> tau;
+  Tau<> tau;
   std::cout << tau(1,2) << "\n";
-  Projections::Tau5<float> tauf;
+  Tau5<float> tauf;
   std::cout << tauf(1,2) << "\n";}
 
-  Projections::Min_tau<> mtau;
+  {std::cout << std::setprecision(20);
+  std::cout << "std::exp(Projections::lntau)\n";
+  std::cout << std::exp(lntau<6,double>(1,2)) << "\n";
+  std::cout << std::exp(lntau(1.0,2.0)) << "\n";
+  std::cout << std::exp(lntau(double(1),double(2))) << "\n";
+  std::cout << std::exp(lntau<2>(1.0,2.0)) << "\n";
+  LnTaud<1> lntau1;
+  std::cout << std::exp(lntau1(1,2)) << "\n";
+  LnTaud<0> lntau0;
+  std::cout << std::exp(lntau0(1,2)) << "\n";
+  LnTau<> lntau;
+  std::cout << std::exp(lntau(1,2)) << "\n";
+  LnTau5<float> lntauf;
+  std::cout << std::exp(lntauf(1,2)) << "\n";}
+
+  std::cout << "Projections::Min_tau\n";
+  Min_tau<> mtau;
   assert(mtau.index() == 0);
   mtau(1,2);
   assert(mtau.index() == 1);
