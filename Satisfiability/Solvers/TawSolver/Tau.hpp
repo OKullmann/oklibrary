@@ -46,7 +46,7 @@ namespace OKlib {
      D tau(const D a, const D b) { return Tau<D,TAU_IT>()(a,b); }
 
 
-     /*! Computing tau(a,b) with fixed number of Newton-iterations: */
+     /*! Computing ln(tau(a,b)) with fixed number of Newton-iterations: */
      template <typename D = double, int TAU_IT = 5>
      struct LnTau {
        static_assert(std::is_floating_point<D>::value, "Template parameter D must be floating-point.");
