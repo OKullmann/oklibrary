@@ -1,0 +1,61 @@
+#!/bin/bash
+# Oliver Kullmann, 23.12.2015 (Swansea)
+# Copyright 2007, 2008, 2009, 2011 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
+# Run through all forms of executables for the tawSolver and
+# through all available test formulas, and check the output.
+
+set -o errexit
+set -o nounset
+
+list_solvers="../tawSolver ../ttawSolver ../ctawSolver ../cttawSolver"
+
+echo -e "SOLVERS FOUND:\n" ${list_solvers}
+
+test_level=$1
+
+case ${test_level} in
+basic) list_test_cases="$(find test_cases/basic -name '*.cnf')"
+    ;;
+full) list_test_cases="$(find test_cases/basic -name '*.cnf') $(find test_cases/full -name '*.cnf')"
+    ;;
+# extensive) list_test_cases="$(find test_cases/basic -name '*.cnf') $(find test_cases/full -name '*.cnf') $(find test_cases/extensive -name '*.cnf')" ;;
+esac
+
+echo -e "TEST FORMULAS FOUND:\n" ${list_test_cases}
+
+echo "EXECUTION OF SOLVERS:"
+
+for S in ${list_solvers}; do
+  echo
+  for P in ${list_test_cases}; do
+    echo "Task: ${S} ${P}"
+set +e
+    output="$(${S} ${P})"
+    estatus=$?
+set -e
+echo "RETURN VALUE: $estatus"
+    case ${S} in
+    *_osa*) template_file=$(dirname ${P})/dimacs_output/osa/$(basename ${P} .cnf)
+        ;;
+    *) template_file=$(dirname ${P})/dimacs_output/$(basename ${P} .cnf)
+        ;;
+    esac
+    template=$(cat $template_file)
+set +e
+    if [[ "${output}" =~ ${template} ]]; then result=0; else result=1; fi
+set -e
+    if [[ ${result} != 0 ]]; then
+      echo -e "ERROR: OUTPUT of solver is\n${output}\n, while TEMPLATE is"
+      echo "${template}"
+      echo
+      exit 1
+    fi;
+  done;
+done
+
+exit 0
