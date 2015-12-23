@@ -13,6 +13,16 @@ License, or any later version. */
   \todo Create milestones
 
 
+  \todo Create tests
+  <ul>
+   <li> Only applications tests. </li>
+   <li> As many variations of the tawSolver as possible should be tested. </li>
+   <li> As usual, in directory app_tests one shall find the bash-script,
+   which runs the solver on test-examples found in that directory (see
+   Satisfiability/Solvers/OKsolver/SAT2002 for an example). </li>
+  </ul>
+
+
   \todo Provide information
   <ul>
    <li> On the ExternalSources page the data needs to be entered. </li>
