@@ -10,6 +10,14 @@ License, or any later version. */
   \brief Plans regarding the tau-heuristics in the context of the TawSolver
 
 
+  \todo Test cases (benchmarks)
+  <ul>
+   <li> We have now stored the two "default" benchmarks/testcases. </li>
+   <li> More are needed. </li>
+   <li> Especially we need cases of success! </li>
+  </ul>
+
+
   \todo Documenting tau-computation in version 2.6
   <ul>
    <li> That is essentially the same as Projections::Tau and
