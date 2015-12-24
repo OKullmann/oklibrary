@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding the tau-heuristics in the context of the TawSolver
 
 
-  \todo Test cases (benchmarks)
+  \todo Test cases (benchmarks) (JPY)
   <ul>
    <li> We have now stored the two "default" benchmarks/testcases. </li>
    <li> More are needed. </li>
@@ -18,7 +18,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Documenting tau-computation in version 2.6
+  \todo Documenting tau-computation in version 2.6 (JPY)
   <ul>
    <li> That is essentially the same as Projections::Tau and
    Projections::Min_Tau in
@@ -31,7 +31,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Implementing LnTau and Min_lntau
+  \todo Implementing LnTau and Min_lntau (JPY)
   <ul>
    <li> As Projections::Tau, but using ln(tau(a,b)). </li>
    <li> Hopefully this has computational advantages. </li>
@@ -48,7 +48,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Benchmarks
+  \todo Benchmarks (JPY)
   <ul>
    <li> We need a couple of benchmarks for the tawSolver, so that we can check
    the effect on run-times (hopefully improvements) and the search-statistics

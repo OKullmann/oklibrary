@@ -13,11 +13,12 @@ License, or any later version. */
   \todo Create milestones
 
 
-  \todo Create tests
+  \todo Create tests (JPY)
   <ul>
    <li> Only applications tests. </li>
-   <li> As many variations of the tawSolver as possible should be tested. </li>
-   <li> As usual, in directory app_tests one shall find the bash-script,
+   <li> As many variations of the tawSolver as possible should be tested;
+   for the beginning at least the four "official versions". </li>
+   <li> As usual, in directory app_tests one finds the bash-script,
    which runs the solver on test-examples found in that directory (see
    Satisfiability/Solvers/OKsolver/SAT2002 for an example). </li>
   </ul>
@@ -1520,7 +1521,7 @@ constexpr unsigned int log2sc(const unsigned int v) {
   </ul>
 
 
-  \todo Optimising weights
+  \todo Optimising weights (JPY)
   <ul>
    <li> First considering VanDerWaerden_2-3-12_135.cnf. </li>
    <li> Start with current weights:
