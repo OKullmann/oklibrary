@@ -10,7 +10,7 @@ then
     for i in $(cat temp.log)
     do
     	str1=`echo $i | cut -d "." -f 1`  
-        ./cttawSolver $i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/cattawSolver_$str1$txt
+        ./cttawSolver ~/TawSolver/app_tests/test_cases/basic/$i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/cattawSolver_$str1$txt
     done
 fi
 
@@ -22,7 +22,7 @@ then
     for i in $(cat temp.log)
     do
     	str1=`echo $i | cut -d "." -f 1` 
-        ./cttawSolver $i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/cattawSolver_$str1$txt
+        ./cttawSolver ~/TawSolver/app_tests/test_cases/full/$i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/cattawSolver_$str1$txt
     done
 fi
 
@@ -37,7 +37,7 @@ then
     for i in $(cat temp.log)
     do
     	str1=`echo $i | cut -d "." -f 1`
-        ./ctawSolver $i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/ctawSolver_$str1$txt
+        ./ctawSolver ~/TawSolver/app_tests/test_cases/basic/$i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/ctawSolver_$str1$txt
     done
 fi
 rm -rf temp.log
@@ -48,7 +48,7 @@ then
     for i in $(cat temp.log)
     do
     	str1=`echo $i | cut -d "." -f 1` 
-        ./ctawSolver $i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/ctawSolver_$str1$txt
+        ./ctawSolver ~/TawSolver/app_tests/test_cases/full/$i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/ctawSolver_$str1$txt
     done
 fi
 rm -rf temp.log
@@ -61,7 +61,7 @@ then
     for i in $(cat temp.log)
     do
     	str1=`echo $i | cut -d "." -f 1` 
-        ./tawSolver $i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/tawSolver_$str1$txt
+        ./tawSolver ~/TawSolver/app_tests/test_cases/basic/$i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/tawSolver_$str1$txt
     done
 fi
 rm -rf temp.log
@@ -72,7 +72,7 @@ then
     for i in $(cat temp.log)
     do
     	str1=`echo $i | cut -d "." -f 1` 
-        ./tawSolver $i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/tawSolver_$str1$txt
+        ./tawSolver ~/TawSolver/app_tests/test_cases/full/$i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/tawSolver_$str1$txt
     done
 fi
 rm -rf temp.log
@@ -84,7 +84,7 @@ then
     for i in $(cat temp.log)
     do
     	str1=`echo $i | cut -d "." -f 1` 
-        ./ttawSolver $i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/ttawSolver_$str1$txt
+        ./ttawSolver ~/TawSolver/app_tests/test_cases/basic/$i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/ttawSolver_$str1$txt
     done
 fi
 rm -rf temp.log
@@ -95,7 +95,7 @@ then
     for i in $(cat temp.log)
     do
     	str1=`echo $i | cut -d "." -f 1`
-        ./ttawSolver $i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/ttawSolver_$str1$txt
+        ./ttawSolver ~/TawSolver/app_tests/test_cases/full/$i > ~/TawSolver/app_tests/test_cases/basic/dimacs_output/ttawSolver_$str1$txt
     done
 fi
 rm -rf temp.log
