@@ -21,11 +21,6 @@ for bin in ${bin_list}; do
 			echo "The output is the same as template file"
 		else
 			echo "Error: the output is different from template file"
-			#echo "Output:"
-			#cat ${output}
-			#echo
-			#echo "Template:"
-			#cat ${template_file}
 		fi
 		echo
 	done
