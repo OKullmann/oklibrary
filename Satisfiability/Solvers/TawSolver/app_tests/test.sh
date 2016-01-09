@@ -17,22 +17,8 @@ for bin in ${bin_list}; do
 	for test in ${list_test_cases}; do
 		mkdir $(dirname ${test})/dimacs_output
 		output=$(dirname ${test})/dimacs_output/$(basename ${bin})_$(basename ${test} .cnf)
-		echo -e ${bin} ${test} ${output}
-		${bin} ${test} ${output}
-		#template_file=$(dirname ${test})/dimacs_output/$(basename ${test} .cnf)
-		
-		#output_text=$(cat ${output})
-		#template_text=$(cat ${template_file})
-		#if [[ "${output_text}" =~ ${template_text} ]]; then 
-		#	echo "The output is the same as template file"
-		#else
-		#	echo "Error: the output is different from template file"
-			#echo "Output:"
-			#cat ${output}
-			#echo
-			#echo "Template:"
-			#cat ${template_file}
-		#fi
+		echo -e ${bin} ${test}
+		${bin} ${test} > ${output}
 		echo
 	done
 done
