@@ -3,7 +3,7 @@
 #newest version of testing shell.
 #testing all veriations of TawSolver by the cases in app_tests/test_cases.
 #create directory dimacs_output to store the outputs when doing the execution of this test bash.
-#testing results are showing on console.
+#testing results are showing in diamacs_output.
 
 bin_dir=..
 input_dir=.
