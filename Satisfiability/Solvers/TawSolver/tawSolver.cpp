@@ -1,7 +1,7 @@
 /*********************************************************************
 tawSolver -- A basic and efficient DLL SAT solver
 Copyright (c) 2007-2013 Tanbir Ahmed http://users.encs.concordia.ca/~ta_ahmed/
-Copyright 2013, 2015 Oliver Kullmann http://www.cs.swan.ac.uk/~csoliver/
+Copyright 2013, 2015, 2016 Oliver Kullmann http://www.cs.swan.ac.uk/~csoliver/
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -144,8 +144,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.6.7";
-const std::string date = "6.12.2015";
+const std::string version = "2.6.8";
+const std::string date = "9.1.2016";
 
 const std::string program = "tawSolver";
 
@@ -166,7 +166,7 @@ enum Error_codes {
 enum Result_value { unsat=20, sat=10, unknown=0 };
 
 typedef bool DLL_return_t;
-inline Result_value interprete_run(const DLL_return_t result) {
+inline constexpr Result_value interprete_run(const DLL_return_t result) {
   return result ? sat : unsat;
 }
 
@@ -211,7 +211,9 @@ static_assert(Lit_int(Var(max_lit)) == max_lit, "Problem with Var and Lit_int.")
 inline constexpr bool valid(const Var v) { return v <= Var(max_lit); }
 
 enum Polarity { pos=0, neg=1 };
-inline Polarity operator -(const Polarity p) { return (p == pos) ? neg:pos; }
+inline constexpr Polarity operator -(const Polarity p) {
+  return (p==pos) ? neg:pos;
+}
 
 class Lit {
   Lit_int x;
