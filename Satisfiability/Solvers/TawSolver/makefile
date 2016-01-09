@@ -1,26 +1,51 @@
 # Oliver Kullmann, 3.6.2013 (Swansea)
-# Copyright 2013, 2015 Oliver Kullmann
+# Copyright 2013, 2015, 2016 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
-# Temporary makefile, as long as the default C++ compiler is 4.1.2.
-# When called directly in this directory, produces executables
-#   tawSolver, ttawSolver
-# in this directory, using system-g++; when called by the recursive makefile,
-# then in bin_dir, using the OKlibrary-g++.
+# Temporary makefile, as long as the default C++ compiler of the OKlibrary
+# is 4.1.2 (which can not be used here). Can also be used on its own.
 
+# When called directly in this directory, that is, using
+#   tawSolver> make
+# or
+#   tawSolver> make all
+# produces executables
+#   tawSolver, ttawSolver, ctawSolver, cttawSolver
+# in this directory, using system-g++.
+# Target "allall" also creates the debug-versions (with suffix "_debug").
+
+# The macro LIT_TYPE can be used to redefine the literal-type (default is int).
+
+# When called by the recursive makefile of the OKlibrary, then these
+# executables are in bin_dir, using the OKlibrary-g++.
 # If the Oklibrary-g++ shall be used, but the executable shall be produced in
 # this directory (Solvers/TawSolver), then run one level up:
 # Solvers> make all sub_make_directories="TawSolver" bin_dir=""
 
-# The macro LIT_TYPE can be used to redefine the literal-type (default is int).
-
-# When calling from the OKlibrary, three examples:
+# Three examples for calling from the OKlibrary:
 # CXXFLAGS="-DLIT_TYPE=int16_t" oklib all
 # oklib all tau_iteration=6
 # CXXFLAGS="-DLIT_TYPE=int64_t" oklib all Optimisation_options="-g" sub_make_directories="TawSolver"
+
+
+
+# Additional targets:
+
+# Target "clean" removes the debug-versions, and "cleanall" removes also
+# the normal executables.
+
+# Target "timing" runs the four default solvers on two instances from
+# Ramsey-theory, and creates the log-file "Output_log_tawSolver", while
+# the timing results are in "Output_timing_tawSolver".
+
+# Via the target "local" (not included in "allall") the executables "Tau"
+# and "Tau_debug" are produced (for experimentation with tau-computation).
+# Cleaning here is included in "clean" resp. "cleanall".
+
+
 
 
 SHELL = /bin/bash
@@ -33,8 +58,8 @@ ifeq ($(gpp_call_okl),)
 else
   CXX = $(gpp_call_okl)
 endif
-# Remark: if using the standard library, then also LFLAGS="$(gcc_linking_okl)
-# needs to be set.
+# Remark: if using the standard library (in the future), then also
+# LFLAGS="$(gcc_linking_okl) needs to be set.
 
 Standard_options = --std=c++11 -pedantic
 Warning_options = -Wall
@@ -125,8 +150,12 @@ $(debug_side3) : tawSolver.cpp
 
 repeat := 5
 time := /usr/bin/time -f "%U %M" -o $(outputfile) -a
-input1 := VanDerWaerden_2-3-12_134.cnf
-input2 := VanDerWaerden_2-3-12_135.cnf
+test_directory := app_tests/test_cases/full
+input1 := $(test_directory)/VanDerWaerden_2-3-12_134.cnf
+input2 := $(test_directory)/VanDerWaerden_2-3-12_135.cnf
+# Those were created by
+# VanderWaerdenCNF-O3-DNDEBUG 3 12 134
+# VanderWaerdenCNF-O3-DNDEBUG 3 12 135
 ifeq ($(log_dir),)
   solver1 = ./tawSolver
   solver2 = ./ttawSolver
@@ -140,8 +169,6 @@ else
 endif
 
 timing :
-	VanderWaerdenCNF-O3-DNDEBUG 3 12 134
-	VanderWaerdenCNF-O3-DNDEBUG 3 12 135
 	date > $(outputfile); echo >> $(outputfile)
 	echo >> $(logfile); date >> $(logfile); echo >> $(logfile)
 	$(solver1) -v >> $(outputfile); $(solver1) -v >> $(logfile)
@@ -164,7 +191,6 @@ timing :
 	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver4) $(input1) $(logfile) $(logfile); done; echo >> $(outputfile)
 	echo "$(solver4) $(input2)" >> $(outputfile)
 	for ((i=0; i<$(repeat); ++i)); do $(time) $(solver4) $(input2) $(logfile) $(logfile); done; echo >> $(outputfile)
-	rm $(input1) $(input2)
 
 
 check : Tau_debug
