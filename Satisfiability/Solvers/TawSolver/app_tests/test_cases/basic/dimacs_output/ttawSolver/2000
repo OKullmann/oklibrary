@@ -1,0 +1,14 @@
+s SATISFIABLE
+c number_of_variables                   2000
+c number_of_clauses                     0
+c maximal_clause_length                 0
+c number_of_literal_occurrences         0
+c running_time(sec)                     0.00
+c number_of_nodes                       1
+c number_of_binary_nodes                0
+c number_of_1-reductions                0
+c number_of_pure_literals               0
+c reading-and-set-up_time(sec)          0.000
+c file_name                             test_cases/basic/2000.cnf
+c options                               "PT5"
+v 0
