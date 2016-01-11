@@ -1,0 +1,13 @@
+s UNSATISFIABLE
+c number_of_variables                   7
+c number_of_clauses                     10
+c maximal_clause_length                 4
+c number_of_literal_occurrences         28
+c running_time(sec)                     0.00
+c number_of_nodes                       7
+c number_of_binary_nodes                3
+c number_of_1-reductions                4
+c number_of_pure_literals               2
+c reading-and-set-up_time(sec)          0.000
+c file_name                             test_cases/basic/DHNExample.cnf
+c options                               "PT5"
