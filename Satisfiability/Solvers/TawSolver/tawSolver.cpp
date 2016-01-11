@@ -288,6 +288,47 @@ typedef std::vector<Lit> Lit_vec;
 
 // --- Data structures for clauses ---
 
+/*
+  Clauses have
+    - static weights of type Weight_t
+    - and static indices of type Clause_index.
+
+  Counting clauses happens via unsigned integer type Count_clauses, with
+  the global variable r_clauses gives the current number of still active
+  clauses.
+
+  Clauses are static except of that their
+   - current status (satisfied or still active of length >= 1)
+   - and their current length, if active,
+  is maintained.
+
+  So the main data structure is "mostly lazy". To see what a clause currently
+  really is, one has to consider the static (original) clause plus the current
+  partial assignment -- except of that length and satisfaction are handled
+  "eagerly", that is, are kept current.
+
+  Class Clause represents a single clause, as a range via
+   - begin() and
+   - end().
+  The other public members are
+   - length() of type Clause_index,
+   - and the explicit conversion bool() for being active (true) or satisfied,
+     i.e., inactive (false).
+
+  For changes there are the private member functions
+   - decrement() ("removal" of a falsified literal)
+   - increment() (undoing the "removal" of a falsified literal)
+   - deactivate() (has been satisfied)
+   - activate() (undoing the deactivation).
+  Note that they just affect length and status (for the latter two functions).
+
+  Output of clauses via <<.
+
+  Clauses are typically handled via pointers, and ClauseP is the typedef
+  for pointers to Clause.
+
+*/
+
 typedef double Weight_t; // weights and their sums
 static_assert(std::is_pod<Weight_t>::value, "Weight_t is not POD.");
 typedef std::vector<Weight_t> Weight_vector;
@@ -296,6 +337,8 @@ typedef Var Clause_index;
 static_assert(std::numeric_limits<Clause_index>::max() <= std::numeric_limits<Weight_vector::size_type>::max(), "Type Clause_index too large for weight vector (conversions cost too much time here).");
 
 typedef std::uint_fast64_t Count_clauses;
+
+// Used for input-reading and initialisation:
 typedef std::vector<std::array<Count_clauses,2>> Count_vec;
 
 Count_clauses r_clauses; // "r" = "remaining"
@@ -304,9 +347,15 @@ class Clause {
   const Lit* b; // the array of literals in the clause (as in the input)
   const Lit* e; // one past-the-end
   Clause_index length_; // the current length, or 0 iff clause is satisfied
-  Clause_index old_length;
-  void increment() { assert(length_ >= 1); ++length_; }
+  Clause_index old_length; // if satisfied, the length before satisfaction
+  // The following function (for initialisation) sets these data members
+  // (while not using the private member functions below):
+  friend void add_a_clause_to_formula(const Lit_vec&, Count_vec&);
+
+  // The friends below (for updating the length) only access the following
+  // member functions:
   void decrement() { assert(length_ >= 2); --length_; }
+  void increment() { assert(length_ >= 1); ++length_; }
   void deactivate() {
     assert(length_ >= 1);
     old_length = length_;
@@ -319,7 +368,6 @@ class Clause {
     length_ = old_length;
     ++r_clauses;
   }
-  friend void add_a_clause_to_formula(const Lit_vec&, Count_vec&);
   friend class ChangeManagement;
   friend void assign_0(Lit);
   friend void assign_1(Lit);
@@ -340,21 +388,6 @@ typedef Clause* ClauseP;
 
 typedef std::vector<Clause> Clause_vec;
 typedef std::vector<ClauseP> ClauseP_vec;
-
-class Clauses {
-  Clause_vec cl;
-  friend void read_formula_header(std::istream&);
-  friend void add_a_clause_to_formula(const Lit_vec&, Count_vec&);
-  friend void read_formula(const std::string&);
-  Clauses(const Clauses&) = delete;
-  Clauses(Clauses&&) = delete;
-public :
-  Clauses() = default;
-  friend std::ostream& operator <<(std::ostream& out, const Clauses& F) {
-    for (const Clause& C : F.cl) out << C;
-    return out;
-  }
-};
 
 
 // --- Data structures for literal occurrences ---
@@ -413,6 +446,20 @@ public :
 
 // --- Basic global variables ---
 
+class Clauses {
+  Clause_vec cl;
+  friend void read_formula_header(std::istream&);
+  friend void add_a_clause_to_formula(const Lit_vec&, Count_vec&);
+  friend void read_formula(const std::string&);
+  Clauses(const Clauses&) = delete;
+  Clauses(Clauses&&) = delete;
+public :
+  Clauses() = default;
+  friend std::ostream& operator <<(std::ostream& out, const Clauses& F) {
+    for (const Clause& C : F.cl) out << C;
+    return out;
+  }
+};
 Clauses clauses; // after construction no direct access anymore
 
 LiteralOccurrences lits;
