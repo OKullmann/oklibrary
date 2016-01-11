@@ -1,0 +1,13 @@
+s SATISFIABLE
+c number_of_variables                   134
+c number_of_clauses                     5172
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22266
+c running_time(sec)                     15.23
+c number_of_nodes                       969297
+c number_of_binary_nodes                484648
+c number_of_1-reductions                11427083
+c number_of_solutions                   1
+c reading-and-set-up_time(sec)          0.002
+c file_name                             test_cases/full/VanDerWaerden_2-3-12_134.cnf
+c options                               "T5A19"
