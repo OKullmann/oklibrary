@@ -170,6 +170,15 @@ inline constexpr Result_value interprete_run(const DLL_return_t result) {
   return result ? sat : unsat;
 }
 
+
+/* Class for output-objects solout, logout, errout, which are initialised
+   by function set_output from the command-line parameters. The two
+   public members (besides the constructor) are
+     out << x;
+     out.endl();
+  which send the output to the internally stored ostream *p, if set.
+  The destructor deletes *p iff member del = true.
+*/
 class Output {
   std::ostream* p = nullptr;
   bool del = false;
@@ -184,6 +193,7 @@ public :
 Output solout;
 Output logout;
 
+// Error output with ERROR-prefix, and each on a new line:
 struct Outputerr : Output {
   const std::string e = "ERROR[" + program + "]: ";
   template <typename T>
@@ -1266,6 +1276,9 @@ void output(const Result_value result) {
 #endif
 }
 
+
+// Initialising the output objects solout, logout, errout from the
+// command-line arguments:
 void set_output(const int argc, const char* const argv[]) {
   std::ios_base::sync_with_stdio(false);
   logout.p = &std::cout;
