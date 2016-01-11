@@ -144,8 +144,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.6.8";
-const std::string date = "9.1.2016";
+const std::string version = "2.6.9";
+const std::string date = "11.1.2016";
 
 const std::string program = "tawSolver";
 
@@ -448,19 +448,22 @@ public :
 
 class Clauses {
   Clause_vec cl;
+
   friend void read_formula_header(std::istream&);
   friend void add_a_clause_to_formula(const Lit_vec&, Count_vec&);
   friend void read_formula(const std::string&);
+
   Clauses(const Clauses&) = delete;
   Clauses(Clauses&&) = delete;
 public :
   Clauses() = default;
+  // for debugging:
   friend std::ostream& operator <<(std::ostream& out, const Clauses& F) {
-    for (const Clause& C : F.cl) out << C;
-    return out;
+    for (const Clause& C : F.cl) out << C; return out;
   }
-};
-Clauses clauses; // after construction no direct access anymore
+} clauses; /* After construction no direct access anymore to variable "clauses"
+  (the clauses are handled via pointers to the elements of cl); "clauses" is
+  the only instance of class Clauses. */
 
 LiteralOccurrences lits;
 // via lits[v][pos/neg] the sequence of literal-ccurrences is obtained
