@@ -1,0 +1,12 @@
+s UNSATISFIABLE
+c number_of_variables                   20
+c number_of_clauses                     79
+c maximal_clause_length                 5
+c number_of_literal_occurrences         180
+c running_time(sec)                     0.00
+c number_of_nodes                       47
+c number_of_binary_nodes                23
+c number_of_1-reductions                171
+c reading-and-set-up_time(sec)          0.000
+c file_name                             test_cases/basic/php54_s.cnf
+c options                               ""
