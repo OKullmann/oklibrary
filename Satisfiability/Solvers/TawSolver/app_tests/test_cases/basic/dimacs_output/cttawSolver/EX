@@ -1,0 +1,13 @@
+s SATISFIABLE
+c number_of_variables                   2
+c number_of_clauses                     3
+c maximal_clause_length                 2
+c number_of_literal_occurrences         6
+c running_time(sec)                     0.00
+c number_of_nodes                       3
+c number_of_binary_nodes                1
+c number_of_1-reductions                1
+c number_of_solutions                   1
+c reading-and-set-up_time(sec)          0.000
+c file_name                             test_cases/basic/EX.cnf
+c options                               "T5A19"
