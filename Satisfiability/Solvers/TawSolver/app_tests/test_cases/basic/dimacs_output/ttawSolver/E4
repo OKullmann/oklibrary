@@ -1,0 +1,13 @@
+s UNSATISFIABLE
+c number_of_variables                   2
+c number_of_clauses                     4
+c maximal_clause_length                 2
+c number_of_literal_occurrences         8
+c running_time(sec)                     0.00
+c number_of_nodes                       3
+c number_of_binary_nodes                1
+c number_of_1-reductions                0
+c number_of_pure_literals               0
+c reading-and-set-up_time(sec)          0.000
+c file_name                             test_cases/basic/E4.cnf
+c options                               "PT5"
