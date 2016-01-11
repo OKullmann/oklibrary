@@ -207,6 +207,29 @@ Outputerr errout;
 
 // --- Data structures for literals and variables ---
 
+/*
+  The basic classes are Var (variables) and Lit (literals), where
+  Lit contains Lit_int, "Literals as integers", which are signed integers,
+  while variables are unsigned.
+
+  Polarities pos, neg are expressed via the enumeration-type Polarity.
+
+  Operations for Lit_int x, Lit y,y', Var v, Polarity p:
+
+   - Lit() (the singular literal)
+   - copy-construction, assignment for Lit
+   - Lit(x) (non-converting)
+   - Lit(v, p)
+   - bool(y) (explicit; true iff x is not singular)
+   - -y, -p
+   - y == y', y != y'
+   - var(y) (yields Var)
+   - sign(y) (yields Polarity)
+   - ostream << y, istream >> y
+
+   Lit-literals are constructed by n_l for unsigned long-long n.
+*/
+
 #ifndef LIT_TYPE
 # define LIT_TYPE std::int32_t
 #endif
