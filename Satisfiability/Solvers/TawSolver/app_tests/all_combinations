@@ -9,14 +9,14 @@
 # Run through all forms of executables for the tawSolver and
 # through all available test formulas, and check the output.
 
-set -o errexit
-set -o nounset
+#set -o errexit
+#set -o nounset
 
 list_solvers="../tawSolver ../ttawSolver ../ctawSolver ../cttawSolver"
 
 echo -e "SOLVERS FOUND:\n" ${list_solvers}
 
-test_level=$1
+test_level=full
 
 case ${test_level} in
 basic) list_test_cases="$(find test_cases/basic -name '*.cnf')"
@@ -29,32 +29,36 @@ esac
 echo -e "TEST FORMULAS FOUND:\n" ${list_test_cases}
 
 echo "EXECUTION OF SOLVERS:"
-
+mkdir test_cases/basic/dimacs_output
+mkdir test_cases/full/dimacs_output
 for S in ${list_solvers}; do
   echo
   for P in ${list_test_cases}; do
     echo "Task: ${S} ${P}"
-set +e
-    output="$(${S} ${P})"
-    estatus=$?
-set -e
-echo "RETURN VALUE: $estatus"
-    case ${S} in
-    *_osa*) template_file=$(dirname ${P})/dimacs_output/osa/$(basename ${P} .cnf)
-        ;;
-    *) template_file=$(dirname ${P})/dimacs_output/$(basename ${P} .cnf)
-        ;;
-    esac
-    template=$(cat $template_file)
-set +e
-    if [[ "${output}" =~ ${template} ]]; then result=0; else result=1; fi
-set -e
-    if [[ ${result} != 0 ]]; then
-      echo -e "ERROR: OUTPUT of solver is\n${output}\n, while TEMPLATE is"
-      echo "${template}"
-      echo
-      exit 1
-    fi;
+	mkdir $(dirname ${P})/dimacs_output/$(basename ${S})
+	output=$(dirname ${P})/dimacs_output/$(basename ${S})/$(basename ${P} .cnf)
+	${S} ${P} > ${output}
+#set +e
+#    output="$(${S} ${P})"
+#    estatus=$?
+#set -e
+#echo "RETURN VALUE: $estatus"
+#    case ${S} in
+#    *_osa*) template_file=$(dirname ${P})/dimacs_output/osa/$(basename ${P} .cnf)
+#        ;;
+#    *) template_file=$(dirname ${P})/dimacs_output/$(basename ${P} .cnf)
+#        ;;
+#    esac
+#    template=$(cat $template_file)
+#set +e
+#    if [[ "${output}" =~ ${template} ]]; then result=0; else result=1; fi
+#set -e
+#    if [[ ${result} != 0 ]]; then
+#      echo -e "ERROR: OUTPUT of solver is\n${output}\n, while TEMPLATE is"
+#      echo "${template}"
+#      echo
+#      exit 1
+#    fi;
   done;
 done
 
