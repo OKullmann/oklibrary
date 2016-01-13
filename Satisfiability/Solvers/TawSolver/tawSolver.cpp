@@ -954,13 +954,22 @@ class Branching_tau {
   Weight_t min1, max2;
   static Weight_t tau(const Weight_t a, const Weight_t b) {
     constexpr int iterations = TAU_ITERATION;
-    Weight_t x = std::pow(4,1/(a+b));
-    for (int i = 0; i != iterations; ++i) {
-      const Weight_t pa = std::pow(x,-a), pb = std::pow(x,-b);
-      x *= 1 + (pa + pb - 1) / (a*pa + b*pb);
+//    Weight_t x = std::pow(4,1/(a+b));
+//    for (int i = 0; i != iterations; ++i) {
+//      const Weight_t pa = std::pow(x,-a), pb = std::pow(x,-b);
+//      x *= 1 + (pa + pb - 1) / (a*pa + b*pb);
+      Weight_t x = std::log(4) / (a+b);
+      for (int i = 0; i != iterations; ++i) {
+        const Weight_t pa = std::exp(-a*x), pb = std::exp(-b*x);
+        x += (pa + pb - 1) / (a*pa + b*pb);
     }
     return x;
   }
+/*
+  Remarks:
+    running-times improved on ctawSolver and tawSolver. 
+    The other two which ttawSolver and cttawSolver have running-times sharply increased.
+*/
 public :
   Branching_tau() : x{}, min1(inf_weight), max2(0) {}
   operator Lit() const { return x; }
