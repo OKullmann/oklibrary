@@ -1,7 +1,7 @@
 /*********************************************************************
 tawSolver -- A basic and efficient DLL SAT solver
 Copyright (c) 2007-2013 Tanbir Ahmed http://users.encs.concordia.ca/~ta_ahmed/
-Copyright 2013, 2015 Oliver Kullmann http://www.cs.swan.ac.uk/~csoliver/
+Copyright 2013, 2015, 2016 Oliver Kullmann http://www.cs.swan.ac.uk/~csoliver/
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -144,8 +144,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.6.7";
-const std::string date = "6.12.2015";
+const std::string version = "2.6.9";
+const std::string date = "11.1.2016";
 
 const std::string program = "tawSolver";
 
@@ -166,10 +166,19 @@ enum Error_codes {
 enum Result_value { unsat=20, sat=10, unknown=0 };
 
 typedef bool DLL_return_t;
-inline Result_value interprete_run(const DLL_return_t result) {
+inline constexpr Result_value interprete_run(const DLL_return_t result) {
   return result ? sat : unsat;
 }
 
+
+/* Class for output-objects solout, logout, errout, which are initialised
+   by function set_output from the command-line parameters. The two
+   public members (besides the constructor) are
+     out << x;
+     out.endl();
+  which send the output to the internally stored ostream *p, if set.
+  The destructor deletes *p iff member del = true.
+*/
 class Output {
   std::ostream* p = nullptr;
   bool del = false;
@@ -184,6 +193,7 @@ public :
 Output solout;
 Output logout;
 
+// Error output with ERROR-prefix, and each on a new line:
 struct Outputerr : Output {
   const std::string e = "ERROR[" + program + "]: ";
   template <typename T>
@@ -196,6 +206,29 @@ Outputerr errout;
 
 
 // --- Data structures for literals and variables ---
+
+/*
+  The basic classes are Var (variables) and Lit (literals), where
+  Lit contains Lit_int, "Literals as integers", which are signed integers,
+  while variables are unsigned.
+
+  Polarities pos, neg are expressed via the enumeration-type Polarity.
+
+  Operations for Lit_int x, Lit y,y', Var v, Polarity p:
+
+   - Lit() (the singular literal)
+   - copy-construction, assignment for Lit
+   - Lit(x) (non-converting)
+   - Lit(v, p)
+   - bool(y) (explicit; true iff x is not singular)
+   - -y, -p
+   - y == y', y != y'
+   - var(y) (yields Var)
+   - sign(y) (yields Polarity)
+   - ostream << y, istream >> y
+
+   Lit-literals are constructed by n_l for unsigned long-long n.
+*/
 
 #ifndef LIT_TYPE
 # define LIT_TYPE std::int32_t
@@ -211,7 +244,9 @@ static_assert(Lit_int(Var(max_lit)) == max_lit, "Problem with Var and Lit_int.")
 inline constexpr bool valid(const Var v) { return v <= Var(max_lit); }
 
 enum Polarity { pos=0, neg=1 };
-inline Polarity operator -(const Polarity p) { return (p == pos) ? neg:pos; }
+inline constexpr Polarity operator -(const Polarity p) {
+  return (p==pos) ? neg:pos;
+}
 
 class Lit {
   Lit_int x;
@@ -253,6 +288,47 @@ typedef std::vector<Lit> Lit_vec;
 
 // --- Data structures for clauses ---
 
+/*
+  Clauses have
+    - static weights of type Weight_t
+    - and static indices of type Clause_index.
+
+  Counting clauses happens via unsigned integer type Count_clauses, with
+  the global variable r_clauses gives the current number of still active
+  clauses.
+
+  Clauses are static except of that their
+   - current status (satisfied or still active of length >= 1)
+   - and their current length, if active,
+  is maintained.
+
+  So the main data structure is "mostly lazy". To see what a clause currently
+  really is, one has to consider the static (original) clause plus the current
+  partial assignment -- except of that length and satisfaction are handled
+  "eagerly", that is, are kept current.
+
+  Class Clause represents a single clause, as a range via
+   - begin() and
+   - end().
+  The other public members are
+   - length() of type Clause_index,
+   - and the explicit conversion bool() for being active (true) or satisfied,
+     i.e., inactive (false).
+
+  For changes there are the private member functions
+   - decrement() ("removal" of a falsified literal)
+   - increment() (undoing the "removal" of a falsified literal)
+   - deactivate() (has been satisfied)
+   - activate() (undoing the deactivation).
+  Note that they just affect length and status (for the latter two functions).
+
+  Output of clauses via <<.
+
+  Clauses are typically handled via pointers, and ClauseP is the typedef
+  for pointers to Clause.
+
+*/
+
 typedef double Weight_t; // weights and their sums
 static_assert(std::is_pod<Weight_t>::value, "Weight_t is not POD.");
 typedef std::vector<Weight_t> Weight_vector;
@@ -261,6 +337,8 @@ typedef Var Clause_index;
 static_assert(std::numeric_limits<Clause_index>::max() <= std::numeric_limits<Weight_vector::size_type>::max(), "Type Clause_index too large for weight vector (conversions cost too much time here).");
 
 typedef std::uint_fast64_t Count_clauses;
+
+// Used for input-reading and initialisation:
 typedef std::vector<std::array<Count_clauses,2>> Count_vec;
 
 Count_clauses r_clauses; // "r" = "remaining"
@@ -269,9 +347,15 @@ class Clause {
   const Lit* b; // the array of literals in the clause (as in the input)
   const Lit* e; // one past-the-end
   Clause_index length_; // the current length, or 0 iff clause is satisfied
-  Clause_index old_length;
-  void increment() { assert(length_ >= 1); ++length_; }
+  Clause_index old_length; // if satisfied, the length before satisfaction
+  // The following function (for initialisation) sets these data members
+  // (while not using the private member functions below):
+  friend void add_a_clause_to_formula(const Lit_vec&, Count_vec&);
+
+  // The friends below (for updating the length) only access the following
+  // member functions:
   void decrement() { assert(length_ >= 2); --length_; }
+  void increment() { assert(length_ >= 1); ++length_; }
   void deactivate() {
     assert(length_ >= 1);
     old_length = length_;
@@ -284,7 +368,6 @@ class Clause {
     length_ = old_length;
     ++r_clauses;
   }
-  friend void add_a_clause_to_formula(const Lit_vec&, Count_vec&);
   friend class ChangeManagement;
   friend void assign_0(Lit);
   friend void assign_1(Lit);
@@ -305,21 +388,6 @@ typedef Clause* ClauseP;
 
 typedef std::vector<Clause> Clause_vec;
 typedef std::vector<ClauseP> ClauseP_vec;
-
-class Clauses {
-  Clause_vec cl;
-  friend void read_formula_header(std::istream&);
-  friend void add_a_clause_to_formula(const Lit_vec&, Count_vec&);
-  friend void read_formula(const std::string&);
-  Clauses(const Clauses&) = delete;
-  Clauses(Clauses&&) = delete;
-public :
-  Clauses() = default;
-  friend std::ostream& operator <<(std::ostream& out, const Clauses& F) {
-    for (const Clause& C : F.cl) out << C;
-    return out;
-  }
-};
 
 
 // --- Data structures for literal occurrences ---
@@ -378,7 +446,24 @@ public :
 
 // --- Basic global variables ---
 
-Clauses clauses; // after construction no direct access anymore
+class Clauses {
+  Clause_vec cl;
+
+  friend void read_formula_header(std::istream&);
+  friend void add_a_clause_to_formula(const Lit_vec&, Count_vec&);
+  friend void read_formula(const std::string&);
+
+  Clauses(const Clauses&) = delete;
+  Clauses(Clauses&&) = delete;
+public :
+  Clauses() = default;
+  // for debugging:
+  friend std::ostream& operator <<(std::ostream& out, const Clauses& F) {
+    for (const Clause& C : F.cl) out << C; return out;
+  }
+} clauses; /* After construction no direct access anymore to variable "clauses"
+  (the clauses are handled via pointers to the elements of cl); "clauses" is
+  the only instance of class Clauses. */
 
 LiteralOccurrences lits;
 // via lits[v][pos/neg] the sequence of literal-ccurrences is obtained
@@ -1273,6 +1358,9 @@ void output(const Result_value result) {
 #endif
 }
 
+
+// Initialising the output objects solout, logout, errout from the
+// command-line arguments:
 void set_output(const int argc, const char* const argv[]) {
   std::ios_base::sync_with_stdio(false);
   logout.p = &std::cout;

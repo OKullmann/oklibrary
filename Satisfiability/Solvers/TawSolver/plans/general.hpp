@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.6.2013 (Swansea)
-/* Copyright 2013, 2015 Oliver Kullmann
+/* Copyright 2013, 2015, 2016 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,6 +21,47 @@ License, or any later version. */
    <li> As usual, in directory app_tests one finds the bash-script,
    which runs the solver on test-examples found in that directory (see
    Satisfiability/Solvers/OKsolver/SAT2002 for an example). </li>
+  </ul>
+
+
+  \todo Positive / negative occurrences
+  <ul>
+   <li> A compile-time switch POLARITY (default: 0) is to be created, which
+   when active extends the clause data-structure by not just determining
+   the current total length, but by having, for active clauses, the number
+   of remaining positive and negative literals in it. </li>
+   <li> And there are then global counters for the total counter of positive
+   and negative clauses. If one of them is zero, then the clause-set is
+   satisfiable.
+    <ol>
+     <li> This event should be indicated in the output. </li>
+     <li> Perhaps then the assignment is not extended, since this information
+     is enough. </li>
+     <li> Furthermore information on number of definite Horn (precisely one
+     positive literal) and/or definite dual Horn (precisely one negative
+     literal) are interesting, with the goal to determine the "distance" from
+     a Horn resp. dual Horn clause-set. For this a further compile-time
+     switch, call it BIHORN, is needed. </li>
+    <ol>
+   </li>
+   <li> Change of class Clause:
+    <ol>
+     <li> Instead of data-members length_, old_length we then have length_,
+     npos_, nneg_ (old_length would no longer be needed due to
+     old_length = npos_ + nneg_). </li>
+     <li> Member functions increment, decrement would then be split into two
+     versions each. And there would be the additional member functions npos,
+     nneg. </li>
+    </ol>
+   </li>
+   <li> Apparently the only other changes to the algorithm would be member
+   functions reactivate_0/1 in class ChangeManagement, which for "0" (i.e.,
+     re-activating a literal) needed to distinguish the two polarities.
+    <ol>
+     <li> Where to get this information (to distinguish between the two cases)?
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
