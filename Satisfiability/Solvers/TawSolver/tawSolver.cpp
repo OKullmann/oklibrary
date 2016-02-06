@@ -20,7 +20,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 **********************************************************************/
 
 /*
-  Compile with
+  COMPILE with
 
 > g++ --std=c++11 -Wall -Ofast -DNDEBUG -o tawSolver tawSolver.cpp
 
@@ -33,7 +33,9 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
 > g++ --std=c++11 -Wall -g -o tawSolver_debug tawSolver.cpp
 
-  for debugging. Alternatively the makefile (called "makefile") in this
+  for debugging.
+
+  Alternatively the makefile (called "makefile") in this
   directory can be used: it contains various options, but with
 
 > make all
@@ -57,7 +59,8 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
   additionally also the four (optimised) programs.
 
-  Usage:
+
+  USAGE:
 
 > tawSolver [argument1] [argument2] [argument3]
 
@@ -72,6 +75,8 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
    - with argument3=filename or "-cout" or "-cerr" or "-nil" the statistics
      are output to file, standard output, standard error or are ignored;
      if argument3 is not given, then the default is -cout.
+
+  Output to file means appending.
 
   When sending SIGINT to the program (for example via CTRL-C from the calling
   terminal), then the current state of statistics is output, and computation
@@ -121,6 +126,11 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
     - "A" for ALL_SOLUTIONS, with "F" in case of floating-point counting, and
       followed by the number of (decimal) digits.
 
+  A time-out is currently not provided by the solver, but can be achieved
+  with the tool "timeout" (Linux/Unix), for example a time-out of 0.7s:
+
+> timeout --signal-SIGINT 0.7 tawSolver [options]
+
 */
 
 #include <limits>
@@ -144,8 +154,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.6.9";
-const std::string date = "11.1.2016";
+const std::string version = "2.6.10";
+const std::string date = "6.2.2016";
 
 const std::string program = "tawSolver";
 
@@ -1205,13 +1215,20 @@ DLL_return_t dll0() { // without unit-clauses
 // --- Output ---
 
 void show_usage() {
-  std::cout << "Usage:\n"
+  std::cout << "USAGE:\n"
     "> " << program << " (-v | --version)\n"
     " shows version informations and exits.\n"
     "> " << program << " (-cin | filename)\n"
     " runs the solver with input from standard input or filename.\n"
     "> " << program << " (-cin | filename) (-cout | -cerr | filename2 | -nil)\n"
-      " outputs satisfying assignments to standard output, standard error, filename2, or ignores them.\n";
+      " furthermore appends satisfying assignments to standard output or standard error or filename2, or ignores them\n (default is -cout).\n"
+    "The same redirection can be done with the statistics output (as a third command-argument; default is -cout).\n"
+    "For example, with\n"
+    "> " << program << " -cin Out -nil\n"
+    "input comes from standard input, a satisfying assignment is put to file Out, and the statistics are discarded.\n"
+    "While with\n"
+    "> " << program << " In Out Out\n"
+    "the input comes from file In, and both statistics and assignments are appended to Out (first the statistics).\n";
   std::exit(0);
 }
 
