@@ -31,6 +31,13 @@ License, or any later version. */
    <li> The natural starting point is the SAT competition
    http://www.satcompetition.org/ , and all instances should be run, with
    a time-out of say 3600s (or shorter, if this takes too long). </li>
+   <li> Currently tawSolver does not allow a timeout, but it can be achieved
+   as follows:
+   \verbatim
+> timeout --signal=SIGINT 3600 tawSolver File
+   \endverbatim
+   (interrupted here after 3600s).
+   </li>
   </ul>
 
   \todo Positive / negative occurrences
