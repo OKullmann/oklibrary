@@ -24,6 +24,15 @@ License, or any later version. */
   </ul>
 
 
+  \todo Run benchmarks (JPY)
+  <ul>
+   <li> An overview is needed how the tawSolver (in various configurations)
+   performs. </li>
+   <li> The natural starting point is the SAT competition
+   http://www.satcompetition.org/ , and all instances should be run, with
+   a time-out of say 3600s (or shorter, if this takes too long). </li>
+  </ul>
+
   \todo Positive / negative occurrences
   <ul>
    <li> A compile-time switch POLARITY (default: 0) is to be created, which
