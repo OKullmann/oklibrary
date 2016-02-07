@@ -162,7 +162,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.7.1";
+const std::string version = "2.7.2";
 const std::string date = "7.2.2016";
 
 const std::string program = "tawSolver";
@@ -526,6 +526,10 @@ Count_solutions n_solutions;
 
 // --- Input ---
 
+// Only used in read_formula_header and read_a_clause_from_file:
+typedef std::int_fast64_t Rounds;
+static_assert(std::numeric_limits<Rounds>::digits <= std::numeric_limits<Count_clauses>::digits, "Problem with types Rounds versus Count_clauses.");
+
 void read_formula_header(std::istream& f) {
   std::string line;
   while (true) {
@@ -570,6 +574,10 @@ void read_formula_header(std::istream& f) {
       "(too big or not-a-number).";
     std::exit(file_pline_error);
   }
+  if (n_header_clauses > Count_clauses(std::numeric_limits<Rounds>::max())) {
+    errout << "Parameter number-of-clauses too big for round-counter.";
+    std::exit(file_pline_error);
+  }
   try { clauses.cl.resize(n_header_clauses); }
   catch (const std::bad_alloc&) {
     errout << "Allocation error for clauses-vector of size " <<
@@ -580,15 +588,14 @@ void read_formula_header(std::istream& f) {
 
 // Returns false iff no further clause:
 inline bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
-  {typedef std::int_fast64_t Rounds;
-   static std::vector<Rounds> literal_table(n_vars+1,0);
+  {static std::vector<Rounds> literal_table(n_vars+1,0);
    static Rounds round = 0;
-   assert(round < std::numeric_limits<Rounds>::max());
-   ++round;
-   C.clear();
    Lit x;
    f >> x;
    if (f.eof()) return false;
+   C.clear();
+   assert(round != std::numeric_limits<Rounds>::max());
+   ++round;
    while (true) {
      if (not f) {
        errout << "Invalid literal-read.";
