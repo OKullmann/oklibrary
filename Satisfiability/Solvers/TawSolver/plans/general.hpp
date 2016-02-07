@@ -69,7 +69,18 @@ mkdir Experiment_${Exp}; cd Experiment_${Exp}
 ExtractTawSolver header-only > Table
 for F in ../${Exp}/*; do cp $F .; N=$(basename $F); unlzma $N; N=$(basename $N .lzma); cat $N | UnitClausePropagation-O3-DNDEBUG > $N.UP; echo $N; timeout --signal=SIGINT 600 tawSolver $N.UP -nil Output_t; cat Output_t >> Output; cat Output_t | ExtractTawSolver d | tee -a Table;  rm $N $N.UP Output_t; done
    \endverbatim
-   (running on cs-wsok XXX). </li>
+   (running on cs-wsok; from crafted_n12_d6_c4_num4.cnf on with two processes).
+   </li>
+   <li> Running through the applications-instances from SAT2014, with timeout
+   of 600 sec:
+    \verbatim
+Exp="sc14-app"
+mkdir Experiment_${Exp}; cd Experiment_${Exp}
+ExtractTawSolver header-only > Table
+for F in ../${Exp}/*; do cp $F .; N=$(basename $F); unlzma $N; N=$(basename $N .lzma); cat $N | UnitClausePropagation-O3-DNDEBUG > $N.UP; echo $N; timeout --signal=SIGINT 600 tawSolver $N.UP -nil Output_t; cat Output_t >> Output; cat Output_t | ExtractTawSolver d | tee -a Table;  rm $N $N.UP Output_t; done
+   \endverbatim
+   (running on cs-wsok, with two processes).
+   </li>
   </ul>
 
   \todo Positive / negative occurrences
