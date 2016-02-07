@@ -583,7 +583,7 @@ inline bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
   {typedef std::int_fast64_t Rounds;
    static std::vector<Rounds> literal_table(n_vars+1,0);
    static Rounds round = 0;
-   assert(round < std::numeric_literals<Rounds>::max());
+   assert(round < std::numeric_limits<Rounds>::max());
    ++round;
    C.clear();
    Lit x;
