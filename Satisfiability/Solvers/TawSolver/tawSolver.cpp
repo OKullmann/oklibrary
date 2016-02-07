@@ -154,8 +154,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.6.10";
-const std::string date = "6.2.2016";
+const std::string version = "2.7.0";
+const std::string date = "7.2.2016";
 
 const std::string program = "tawSolver";
 
@@ -570,35 +570,46 @@ void read_formula_header(std::istream& f) {
   }
 }
 
-bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
-  static Lit_vec literal_table;
-  C.clear();
-  literal_table.assign(n_vars+1,0_l);
-  bool tautology = false;
-  Lit x;
-  f >> x;
-  if (f.eof()) return false;
-  while (true) {
-    if (not f) {
-      errout << "Invalid literal-read.";
-      std::exit(literal_read_error);
-    }
-    if (not x) break;
-    const Var v = var(x);
-    if (v > n_vars) {
-      errout << "Literal " << x << " contradicts n=" << n_vars << ".";
-      std::exit(variable_value_error);
-    }
-    if (not literal_table[v]) {
-      C.push_back(x);
-      literal_table[v] = x;
-    }
-    else if (literal_table[v] == -x) tautology = true;
-    f >> x;
-  }
-  if (tautology) {
-    C.clear();
-    return true;
+// Returns false iff no further clause:
+inline bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
+  {typedef std::int_fast64_t Rounds;
+   static std::vector<Rounds> literal_table(n_vars+1,0);
+   static Rounds round = 0;
+   assert(round < std::numeric_literals<Rounds>::max());
+   ++round;
+   C.clear();
+   Lit x;
+   f >> x;
+   if (f.eof()) return false;
+   while (true) {
+     if (not f) {
+       errout << "Invalid literal-read.";
+       std::exit(literal_read_error);
+     }
+     if (not x) break;
+     const Var v = var(x);
+     if (v > n_vars) {
+       errout << "Literal " << x << " contradicts n=" << n_vars << ".";
+       std::exit(variable_value_error);
+     }
+     const auto t = literal_table[v];
+     const auto comp = (sign(x) == pos) ? round : -round;
+     if (t == -comp) { // tautology
+       C.clear();
+       do
+         if (not (f >> x)) {
+           errout << "Invalid literal-read in tautological clause.";
+           std::exit(literal_read_error);
+         }
+       while (x);
+       return true;
+     }
+     else if (t != comp) {
+       C.push_back(x);
+       literal_table[v] = comp;
+     }
+     f >> x;
+   }
   }
   if (C.empty()) {
     errout << "Found empty clause in input.";
@@ -611,7 +622,7 @@ bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
   return true;
 }
 
-void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
+inline void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
   const auto n = D.size();
   if (n == 0) return; // means tautology here
   if (n_clauses >= n_header_clauses) {

@@ -24,6 +24,29 @@ License, or any later version. */
   </ul>
 
 
+  \todo DONE Very slow file-reading for inputs with large number of variables
+  <ul>
+   <li> It seems the problem here is
+   \verbatim
+  literal_table.assign(n_vars+1,0_l);
+   \endverbatim
+   in function read_a_clause_from_file. </li>
+   <li> Instead one should use the counter n_clauses for the number of clauses,
+   s.t. for a literal x +n_clauses means the literal was encountered
+   positively, -n_clauses the literal was encountered negatively, and
+   everything else means the literal was not yet encountered. </li>
+   <li> For that to work, the value n_clauses=0 needs to be avoided; best
+   done by using n_clauses+1. </li>
+   <li> So a signed integral type is needed, which can include Count_clauses.
+   This might be problematic, since Count_clauses is already a 64-bit-type.
+   </li>
+   <li> However in reality, a signed 64-bit-type is definitely enough!
+   So we just use one, and perform a cast. </li>
+   <li> Indeed we can not use n_clauses, since it counts only registered
+   clauses, but we need a round-counter for every encountered clause. </li>
+  </ul>
+
+
   \todo Run benchmarks (JPY)
   <ul>
    <li> An overview is needed how the tawSolver (in various configurations)
