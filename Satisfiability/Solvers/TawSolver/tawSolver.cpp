@@ -117,8 +117,16 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
    - OKLIB (with the url (without prefix "http://") for the OKlibrary.
 
   Remarks on the statistics output:
-   - "running_time" is only solver-time
-   - "running_time + reading-and-set-up_time is total time
+   - The (only) reduction on the input is removal of tautological clauses,
+     and contraction of repeated literals; the reported number_of_clauses,
+     maximal_clause_length and number_of_literal_occurrences refer to the
+     result of this reduction.
+   - number_of_variables is (just) the n-value on the p-line (as an upper
+     bound on the maximal positive value of literals).
+   - "running_time" is only solver-time.
+   - "running_time + reading-and-set-up_time is total time.
+   - A "binary node" is one with (exactly) two children.
+   - A "1-reduction" is an assignment due to unit-clause propagation.
    - "options" yields a summary of the main options:
     - "B" for UCP_STRATEGY = 0
     - "P" for PURE_LITERALS
@@ -154,7 +162,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.7.0";
+const std::string version = "2.7.1";
 const std::string date = "7.2.2016";
 
 const std::string program = "tawSolver";
