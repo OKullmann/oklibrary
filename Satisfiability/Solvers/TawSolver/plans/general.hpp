@@ -62,19 +62,20 @@ License, or any later version. */
    (interrupt here after 3600s).
    </li>
    <li> Running through the crafted instances from SAT2014, with timeout of
-   600sec; data/History (sc14-craftet_600). Now running the same with
-   ttawSolver. XXX
+   600sec; data/History (sc14_craftet_600). Solved instances:
+    <ol>
+     <li> Satisfiable: "289-*", "Chvatal-*", "Composite-*", "mod2-*",
+     "prime-*", "Q3inK11-*", "rbsat-*", "rnd-*", "sgen3-*", "sgen4-*",
+     "toughsat-*" , "VanDerWaerden-*". </li>
+     <li> Unsatisfiable: "edges-*", "sgen6-*". </li>
+    </ol>
+   </li>
+   <li> Now running the same with ttawSolver. XXX
    </li>
    <li> Running through the applications-instances from SAT2014, with timeout
-   of 600 sec:
-    \verbatim
-Exp="sc14-app"
-mkdir Experiment_${Exp}; cd Experiment_${Exp}
-ExtractTawSolver header-only > Table
-for F in ../${Exp}/*; do cp $F .; N=$(basename $F); unlzma $N; N=$(basename $N .lzma); cat $N | UnitClausePropagation-O3-DNDEBUG > $N.UP; echo $N; timeout --signal=SIGINT 600 tawSolver $N.UP -nil Output_t; cat Output_t >> Output; cat Output_t | ExtractTawSolver d | tee -a Table;  rm $N $N.UP Output_t; done
-   \endverbatim
-   (running on cs-wsok, with two processes).
-   </li>
+   of 600 sec (sc14_app_600). Only satisfiable instances solved:
+   "complete-*", "stable-*". </li>
+   <li> Now running the same with ttawSolver. XXX </li>
   </ul>
 
 
