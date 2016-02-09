@@ -62,14 +62,8 @@ License, or any later version. */
    (interrupt here after 3600s).
    </li>
    <li> Running through the crafted instances from SAT2014, with timeout of
-   600sec:
-   \verbatim
-Exp="sc14-crafted"
-mkdir Experiment_${Exp}; cd Experiment_${Exp}
-ExtractTawSolver header-only > Table
-for F in ../${Exp}/*; do cp $F .; N=$(basename $F); unlzma $N; N=$(basename $N .lzma); cat $N | UnitClausePropagation-O3-DNDEBUG > $N.UP; echo $N; timeout --signal=SIGINT 600 tawSolver $N.UP -nil Output_t; cat Output_t >> Output; cat Output_t | ExtractTawSolver d | tee -a Table;  rm $N $N.UP Output_t; done
-   \endverbatim
-   (running on cs-wsok; from crafted_n12_d6_c4_num4.cnf on with two processes).
+   600sec; data/History (sc14-craftet_600). Now running the same with
+   ttawSolver. XXX
    </li>
    <li> Running through the applications-instances from SAT2014, with timeout
    of 600 sec:
@@ -82,6 +76,7 @@ for F in ../${Exp}/*; do cp $F .; N=$(basename $F); unlzma $N; N=$(basename $N .
    (running on cs-wsok, with two processes).
    </li>
   </ul>
+
 
   \todo Positive / negative occurrences
   <ul>
