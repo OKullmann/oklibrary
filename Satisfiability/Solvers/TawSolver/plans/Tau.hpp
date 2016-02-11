@@ -53,6 +53,9 @@ License, or any later version. */
    <li> We need a couple of benchmarks for the tawSolver, so that we can check
    the effect on run-times (hopefully improvements) and the search-statistics
    (hopefully basically no change). </li>
+   <li> There are the SAT2014 benchmarks (in subdirectory data); they show
+   that currently the tau-computation slows down the solver by an order of
+   magnitude. </li>
   </ul>
 
 */
