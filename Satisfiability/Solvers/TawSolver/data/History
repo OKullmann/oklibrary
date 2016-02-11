@@ -40,7 +40,8 @@ tawSolver:
 
 2.
 
-Next experiment started 9.2.2016 on cs-wsok:
+Experiment sc14_craftet_t_600:
+(started 9.2.2016 on cs-wsok)
 
 > ttawSolver -v
 tawSolver:
@@ -74,8 +75,6 @@ Exp="Experiment_t600_${Inst}"
 mkdir ${Exp}; cd ${Exp}
 ExtractTawSolver header-only > Table
 for F in ../${Inst}/*; do cp $F .; N=$(basename $F); unlzma $N; N=$(basename $N .lzma); cat $N | UnitClausePropagation-O3-DNDEBUG > $N.UP; echo $N; timeout --signal=SIGINT 600 ttawSolver $N.UP -nil Output_t; cat Output_t >> Output; cat Output_t | ExtractTawSolver d | tee -a Table;  rm $N $N.UP Output_t; done
-
-XXX
 
 ---
 
