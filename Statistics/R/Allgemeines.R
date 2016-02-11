@@ -1,31 +1,30 @@
 # Oliver Kullmann, 11.8.2002 (Swansea)
-# Copyright 2002-2009, 2011 Oliver Kullmann
+# Copyright 2002-2009, 2011, 2016 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
 # License, or any later version.
 
 
-# find element in vector
+# Find element in vector:
 find.e <- function(e, vec) {
   match(e, vec);
 }
 
-# select element of vectors which are in a list of values
+# Select element of vectors which are in a list of values:
 select.v <- function(vec, val) {
   vec[vec %in% val]
 }
 
-
-# replace substrings
+# Replace substrings:
 replace.substrings <- function(x, a, b) {
   gsub(a,b,x)
 }
 # single substitutions with sub(a,b,x)
 
 
-# radius of the f%-confidence interval with center p for the observed
-# proportion p using N observations
+# Radius of the f%-confidence interval with center p for the observed
+# proportion p using N observations.
 # Usage: radiusconfprop(f, p, N) for
 # 0 <= f <= 100, 0 <= p <= 1, N >= 4
 # f, p, N can be vectors (if the lengths are not the same, then the values
@@ -61,7 +60,7 @@ definetexmacro <- function(val, macro, file) {
   write(noquote(out), file = file, ncolumns = 1, append = TRUE)
 }
 
-# In a string s representing a number, add surrounding $'s, and replace "e" by a tex-representation
+# In a string s representing a number, add surrounding $'s, and replace "e" by a tex-representation:
 texexponent = function(s) {
   if (regexpr("e", s) != -1) { # s contains e
     return(paste("$", sub("e","\\\\cdot 10^{",s), "}", "$", sep=""))
@@ -71,7 +70,7 @@ texexponent = function(s) {
   }
 }
 
-# formatting small numbers;
+# Formatting small numbers:
 smallastex = function(val, dig=-1) {
   if (val < 2*10e-16) {
     return("$<2 \\cdot 10^{-16}$")
@@ -86,13 +85,13 @@ smallastex = function(val, dig=-1) {
   }
 }
 
-# formatting long natural numbers
+# Formatting long natural numbers:
 longintegers = function(n) {
-  return(formatC(n,format="d",big.mark=","))
+  return(formatC(n,format="f",big.mark=",",digits=0))
 }
 
 
-# the residual standard error for objects returned by summary(nlsModel)
+# The residual standard error for objects returned by summary(nlsModel):
 resstderr = function(M) {
   return ((sum(M$residual^2)/M$df[2])^(1/2))
 }
@@ -185,4 +184,7 @@ extract_new_column = function(df,field1,field2,pattern, conversion) {
 # produces a new data.frame df2 with a column "unknown_key_bits" which
 # contains the integer in the string (89 in the example).
 
-
+# Set screen-width (without arguments, to the given width):
+wide_screen = function(wide=Sys.getenv("COLUMNS")) {
+  options(width=as.integer(wide))
+}
