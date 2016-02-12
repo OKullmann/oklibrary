@@ -1,6 +1,6 @@
 # E=read.table("sc14_craftet_t_600", header=TRUE)
 # En=data.frame(E[1:5], lapply(E[6:8], longintegers), E[9:11])
-# wideScreen()
+# wide_screen()
 # En[En$sat!=2,]
 
       rn     rc mcl      t sat        nds       bnds            r1      pls ptime                                              file
