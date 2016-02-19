@@ -1,0 +1,39 @@
+1.
+
+Experiment_OKsolver_sc14-crafted:
+
+> OKsolver_2002-O3-DNDEBUG --version
+OKsolver: 5.3.1998 - 28.11.2015; version 1.54
+Date of compilation: Dec  6 2015, 00:17:54
+Compiler options: LITTAB STANDARD=1
+File with distance function: Abstand_nKaZ.c
+File with projection function: Projektion_Prod.c
+
+Run via
+
+Inst="sc14-crafted"
+Exp="Experiment_OKsolver_600_${Inst}"
+mkdir ${Exp}; cd ${Exp}
+ExtractOKsolver header-only > Table
+for F in ../${Inst}/*; do cp $F .; N=$(basename $F); unlzma $N; N=$(basename $N .lzma); echo $N; OKsolver_2002-O3-DNDEBUG --timeout=600 $N > Output_t; cat Output_t >> Output; cat Output_t | ExtractOKsolver d | tee -a Table;  rm $N Output_t; done
+
+on cs-wsok.
+
+---
+
+2.
+
+Experiment_OKsolver_sc14-app:
+
+> OKsolver_2002-O3-DNDEBUG --version
+as above.
+
+Run via
+
+Inst="sc14-app"
+Exp="Experiment_OKsolver_600_${Inst}"
+mkdir ${Exp}; cd ${Exp}
+ExtractOKsolver header-only > Table
+for F in ../${Inst}/*; do cp $F .; N=$(basename $F); unlzma $N; N=$(basename $N .lzma); echo $N; OKsolver_2002-O3-DNDEBUG --timeout=600 $N > Output_t; cat Output_t >> Output; cat Output_t | ExtractOKsolver d | tee -a Table;  rm $N Output_t; done
+
+on cs-wsok.
