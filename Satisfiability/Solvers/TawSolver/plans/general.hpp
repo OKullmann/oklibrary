@@ -24,29 +24,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo DONE Very slow file-reading for inputs with large number of variables
-  <ul>
-   <li> It seems the problem here is
-   \verbatim
-  literal_table.assign(n_vars+1,0_l);
-   \endverbatim
-   in function read_a_clause_from_file. </li>
-   <li> Instead one should use the counter n_clauses for the number of clauses,
-   s.t. for a literal x +n_clauses means the literal was encountered
-   positively, -n_clauses the literal was encountered negatively, and
-   everything else means the literal was not yet encountered. </li>
-   <li> For that to work, the value n_clauses=0 needs to be avoided; best
-   done by using n_clauses+1. </li>
-   <li> So a signed integral type is needed, which can include Count_clauses.
-   This might be problematic, since Count_clauses is already a 64-bit-type.
-   </li>
-   <li> However in reality, a signed 64-bit-type is definitely enough!
-   So we just use one, and perform a cast. </li>
-   <li> Indeed we can not use n_clauses, since it counts only registered
-   clauses, but we need a round-counter for every encountered clause. </li>
-  </ul>
-
-
   \todo Run benchmarks (JPY)
   <ul>
    <li> An overview is needed how the tawSolver (in various configurations)
@@ -305,181 +282,7 @@ cttawSolver VanDerWaerden_2-3-12_135.cnf
   </ul>
 
 
-  \todo Using the tau-function : DONE
-  <ul>
-   <li> It is interesting to replace the product as projection by the
-   tau-function. </li>
-   <li> For the OKsolver this replacement did not reduce the node-count, but
-   here it might be different? </li>
-   <li> A simple implementation (returning 1/tau(a,b), so that maximisation can
-   still be used):
-   \verbatim
-inline Weight_t tau(const Weight_t a, const Weight_t b) {
-  if (a == 0 or b == 0) return 0;
-  assert(a > 0); assert(b > 0);
-  constexpr Weight_t eps = 1e-12;
-  Weight_t x = std::pow(4,1/(a+b));
-  while (true) {
-    const Weight_t pa = std::pow(x,-a), pb = std::pow(x, -b);
-    const Weight_t dx = x * (pa + pb - 1) / (a*pa + b*pb);
-    if (dx <= eps) return 1 / x;
-    x += dx;
-  }
-}
-   \endverbatim
-   resp.
-   \verbatim
-inline Weight_t tau(const Weight_t a, const Weight_t b) {
-  if (a == 0 or b == 0) return 0;
-  assert(a > 0); assert(b > 0);
-  constexpr int iterations = 5;
-  Weight_t x = std::pow(4,1/(a+b));
-  for (int i = 0; i < iterations; ++i) {
-    const Weight_t pa = std::pow(x,-a), pb = std::pow(x,-b);
-    x += x * (pa + pb - 1) / (a*pa + b*pb);
-  }
-  return 1/x;
-}
-   \endverbatim
-   </li>
-   <li> On csltok (2.7 GHz) we get:
-   \verbatim
-# With termination-condition "dx < 10^-12":
-
-> ./tawSolver VanDerWaerden_2-3-12_135.cnf
-s UNSATISFIABLE
-c number_of_variables                   135
-c number_of_clauses                     5251
-c maximal_clause_length                 12
-c number_of_literal_occurrences         22611
-c running_time(sec)                     57.14
-c number_of_nodes                       953175
-c number_of_binary_nodes                476587
-c number_of_1-reductions                11286082
-c file_name                             VanDerWaerden_2-3-12_135.cnf
-
-> ./tawSolver VanDerWaerden_2-3-13_160.cnf
-s UNSATISFIABLE
-c number_of_variables                   160
-c number_of_clauses                     7308
-c maximal_clause_length                 13
-c number_of_literal_occurrences         31804
-c running_time(sec)                     414.03
-c number_of_nodes                       5868909
-c number_of_binary_nodes                2934454
-c number_of_1-reductions                75157685
-c file_name                             VanDerWaerden_2-3-13_160.cnf
-
-> ./tawSolver VanDerWaerden_pd_2-3-21_405.cnf
-s UNSATISFIABLE
-c number_of_variables                   203
-c number_of_clauses                     21950
-c maximal_clause_length                 21
-c number_of_literal_occurrences         96305
-c running_time(sec)                     290.98
-c number_of_nodes                       2178341
-c number_of_binary_nodes                1089170
-c number_of_1-reductions                32404324
-c file_name                             VanDerWaerden_pd_2-3-21_405.cnf
-
-# With 5 iterations:
-
-s UNSATISFIABLE
-c number_of_variables                   135
-c number_of_clauses                     5251
-c maximal_clause_length                 12
-c number_of_literal_occurrences         22611
-c running_time(sec)                     49.13
-c number_of_nodes                       953175
-c number_of_binary_nodes                476587
-c number_of_1-reductions                11286082
-c file_name                             VanDerWaerden_2-3-12_135.cnf
-
-> ./tawSolver VanDerWaerden_2-3-13_160.cnf
-0.618034
-s UNSATISFIABLE
-c number_of_variables                   160
-c number_of_clauses                     7308
-c maximal_clause_length                 13
-c number_of_literal_occurrences         31804
-c running_time(sec)                     354.67
-c number_of_nodes                       5868893
-c number_of_binary_nodes                2934446
-c number_of_1-reductions                75158028
-c file_name                             VanDerWaerden_2-3-13_160.cnf
-
-> ./tawSolver VanDerWaerden_pd_2-3-21_405.cnf
-s UNSATISFIABLE
-c number_of_variables                   203
-c number_of_clauses                     21950
-c maximal_clause_length                 21
-c number_of_literal_occurrences         96305
-c running_time(sec)                     251.19
-c number_of_nodes                       2229093
-c number_of_binary_nodes                1114546
-c number_of_1-reductions                33402234
-c file_name                             VanDerWaerden_pd_2-3-21_405.cnf
-   \endverbatim
-   </li>
-   <li> 5 Iterations might be sufficient; interestingly, the more iterations
-   the smaller the node-count (with diminishing return). </li>
-   <li> A reduction in node-count (10% for ordinary, and 20% for the
-   palindromic problem) is achieved, but, as expected, a big increase in time. </li>
-   <li> One needed to re-run the optimisation of the weights. </li>
-  </ul>
-
-
-  \todo Handle signals : DONE
-  <ul>
-   <li> As the OKsolver, when interrupted, then the current statistics should
-   be printed (before exit). </li>
-   <li> And SIGUSR1 should result in just printing the statistics (while
-   continuing the computation). </li>
-  </ul>
-
-
   \todo Provide Doxygen documentation
-
-
-  \todo Introduce macros : DONE
-  <ul>
-   <li> DONE (no longer needed)
-   MAX_NUMBER_CLAUSES, MAX_NUMBER_VARIABLES. </li>
-   <li> And GIT_ID. </li>
-   <li> DONE (different design)
-   And CLAUSE_CONTENT (default "unsigned int"). </li>
-   <li> DONE (not needed)
-   Then a static_assert is needed, that the type for CLAUSE_CONTENT
-   is unsigned integral. </li>
-  </ul>
-
-
-  \todo DONE
-  Check number of variables and clauses
-  <ul>
-   <li> Errors must happen if there are too many variables or clauses. </li>
-  </ul>
-
-
-  \todo Version information : DONE
-  <ul>
-   <li> DONE
-   Like the OKsolver, when using command-line argument "-v", the solver
-   should output version information and date of compilation. </li>
-   <li> DONE
-   Let's also handle "--version". </li>
-   <li> Also the value of MAX_CLAUSE_LENGTH, LIT_TYPE and GIT_ID. </li>
-   <li> DONE
-   And the git-ID (this needs to be added for the OKsolver as well). </li>
-   <li> There should be an official version of the tawSolver:
-    <ol>
-     <li> The one on the solver's homepage is 1.0.0. </li>
-     <li> DONE (using 1.3 now)
-     Let's call the current version 1.1 (improved handling of maximal
-     clause-length, improved output, code improvements). </li>
-    </ol>
-   </li>
-  </ul>
 
 
   \todo Improving the clause-bitsets
@@ -988,6 +791,203 @@ XXX
    Experimentation/Investigations/BooleanFunctions/plans/Hardness/data/TwoXORclauses/Tawsolver )
    the optimisation-options behave differently, and also UCP-strategy 0 is now
    faster. </li>
+  </ul>
+
+
+  \todo DONE Very slow file-reading for inputs with large number of variables
+  <ul>
+   <li> It seems the problem here is
+   \verbatim
+  literal_table.assign(n_vars+1,0_l);
+   \endverbatim
+   in function read_a_clause_from_file. </li>
+   <li> Instead one should use the counter n_clauses for the number of clauses,
+   s.t. for a literal x +n_clauses means the literal was encountered
+   positively, -n_clauses the literal was encountered negatively, and
+   everything else means the literal was not yet encountered. </li>
+   <li> For that to work, the value n_clauses=0 needs to be avoided; best
+   done by using n_clauses+1. </li>
+   <li> So a signed integral type is needed, which can include Count_clauses.
+   This might be problematic, since Count_clauses is already a 64-bit-type.
+   </li>
+   <li> However in reality, a signed 64-bit-type is definitely enough!
+   So we just use one, and perform a cast. </li>
+   <li> Indeed we can not use n_clauses, since it counts only registered
+   clauses, but we need a round-counter for every encountered clause. </li>
+  </ul>
+
+
+  \todo Using the tau-function : DONE
+  <ul>
+   <li> It is interesting to replace the product as projection by the
+   tau-function. </li>
+   <li> For the OKsolver this replacement did not reduce the node-count, but
+   here it might be different? </li>
+   <li> A simple implementation (returning 1/tau(a,b), so that maximisation can
+   still be used):
+   \verbatim
+inline Weight_t tau(const Weight_t a, const Weight_t b) {
+  if (a == 0 or b == 0) return 0;
+  assert(a > 0); assert(b > 0);
+  constexpr Weight_t eps = 1e-12;
+  Weight_t x = std::pow(4,1/(a+b));
+  while (true) {
+    const Weight_t pa = std::pow(x,-a), pb = std::pow(x, -b);
+    const Weight_t dx = x * (pa + pb - 1) / (a*pa + b*pb);
+    if (dx <= eps) return 1 / x;
+    x += dx;
+  }
+}
+   \endverbatim
+   resp.
+   \verbatim
+inline Weight_t tau(const Weight_t a, const Weight_t b) {
+  if (a == 0 or b == 0) return 0;
+  assert(a > 0); assert(b > 0);
+  constexpr int iterations = 5;
+  Weight_t x = std::pow(4,1/(a+b));
+  for (int i = 0; i < iterations; ++i) {
+    const Weight_t pa = std::pow(x,-a), pb = std::pow(x,-b);
+    x += x * (pa + pb - 1) / (a*pa + b*pb);
+  }
+  return 1/x;
+}
+   \endverbatim
+   </li>
+   <li> On csltok (2.7 GHz) we get:
+   \verbatim
+# With termination-condition "dx < 10^-12":
+
+> ./tawSolver VanDerWaerden_2-3-12_135.cnf
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     57.14
+c number_of_nodes                       953175
+c number_of_binary_nodes                476587
+c number_of_1-reductions                11286082
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> ./tawSolver VanDerWaerden_2-3-13_160.cnf
+s UNSATISFIABLE
+c number_of_variables                   160
+c number_of_clauses                     7308
+c maximal_clause_length                 13
+c number_of_literal_occurrences         31804
+c running_time(sec)                     414.03
+c number_of_nodes                       5868909
+c number_of_binary_nodes                2934454
+c number_of_1-reductions                75157685
+c file_name                             VanDerWaerden_2-3-13_160.cnf
+
+> ./tawSolver VanDerWaerden_pd_2-3-21_405.cnf
+s UNSATISFIABLE
+c number_of_variables                   203
+c number_of_clauses                     21950
+c maximal_clause_length                 21
+c number_of_literal_occurrences         96305
+c running_time(sec)                     290.98
+c number_of_nodes                       2178341
+c number_of_binary_nodes                1089170
+c number_of_1-reductions                32404324
+c file_name                             VanDerWaerden_pd_2-3-21_405.cnf
+
+# With 5 iterations:
+
+s UNSATISFIABLE
+c number_of_variables                   135
+c number_of_clauses                     5251
+c maximal_clause_length                 12
+c number_of_literal_occurrences         22611
+c running_time(sec)                     49.13
+c number_of_nodes                       953175
+c number_of_binary_nodes                476587
+c number_of_1-reductions                11286082
+c file_name                             VanDerWaerden_2-3-12_135.cnf
+
+> ./tawSolver VanDerWaerden_2-3-13_160.cnf
+0.618034
+s UNSATISFIABLE
+c number_of_variables                   160
+c number_of_clauses                     7308
+c maximal_clause_length                 13
+c number_of_literal_occurrences         31804
+c running_time(sec)                     354.67
+c number_of_nodes                       5868893
+c number_of_binary_nodes                2934446
+c number_of_1-reductions                75158028
+c file_name                             VanDerWaerden_2-3-13_160.cnf
+
+> ./tawSolver VanDerWaerden_pd_2-3-21_405.cnf
+s UNSATISFIABLE
+c number_of_variables                   203
+c number_of_clauses                     21950
+c maximal_clause_length                 21
+c number_of_literal_occurrences         96305
+c running_time(sec)                     251.19
+c number_of_nodes                       2229093
+c number_of_binary_nodes                1114546
+c number_of_1-reductions                33402234
+c file_name                             VanDerWaerden_pd_2-3-21_405.cnf
+   \endverbatim
+   </li>
+   <li> 5 Iterations might be sufficient; interestingly, the more iterations
+   the smaller the node-count (with diminishing return). </li>
+   <li> A reduction in node-count (10% for ordinary, and 20% for the
+   palindromic problem) is achieved, but, as expected, a big increase in time. </li>
+   <li> One needed to re-run the optimisation of the weights. </li>
+  </ul>
+
+
+  \todo Handle signals : DONE
+  <ul>
+   <li> As the OKsolver, when interrupted, then the current statistics should
+   be printed (before exit). </li>
+   <li> And SIGUSR1 should result in just printing the statistics (while
+   continuing the computation). </li>
+  </ul>
+
+
+  \todo Introduce macros : DONE
+  <ul>
+   <li> DONE (no longer needed)
+   MAX_NUMBER_CLAUSES, MAX_NUMBER_VARIABLES. </li>
+   <li> And GIT_ID. </li>
+   <li> DONE (different design)
+   And CLAUSE_CONTENT (default "unsigned int"). </li>
+   <li> DONE (not needed)
+   Then a static_assert is needed, that the type for CLAUSE_CONTENT
+   is unsigned integral. </li>
+  </ul>
+
+
+  \todo DONE
+  Check number of variables and clauses
+  <ul>
+   <li> Errors must happen if there are too many variables or clauses. </li>
+  </ul>
+
+
+  \todo Version information : DONE
+  <ul>
+   <li> DONE
+   Like the OKsolver, when using command-line argument "-v", the solver
+   should output version information and date of compilation. </li>
+   <li> DONE
+   Let's also handle "--version". </li>
+   <li> Also the value of MAX_CLAUSE_LENGTH, LIT_TYPE and GIT_ID. </li>
+   <li> DONE
+   And the git-ID (this needs to be added for the OKsolver as well). </li>
+   <li> There should be an official version of the tawSolver:
+    <ol>
+     <li> The one on the solver's homepage is 1.0.0. </li>
+     <li> DONE (using 1.3 now)
+     Let's call the current version 1.1 (improved handling of maximal
+     clause-length, improved output, code improvements). </li>
+    </ol>
+   </li>
   </ul>
 
 */
