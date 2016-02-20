@@ -24,6 +24,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Compute proportion of search completed
+  <ul>
+   <li> As with the OKsolver, compute how much of the search has been
+   completed. </li>
+  </ul>
+
+
   \todo Run benchmarks (JPY)
   <ul>
    <li> An overview is needed how the tawSolver (in various configurations)
