@@ -63,8 +63,16 @@ pythtripp(a,b,c) := a<b and b<c and every(naturalp, [a,b,c]) and a^2+b^2=c^2$
 /* Now for a list L: */
 pythtriptp(L) := listp(L) and length(L)=3 and pythtripp(first(L),second(L),third(L))$
 
-/* The list of all Pythagorean triples [a,b,c] with c=n: */
+
+/* The list of all Pythagorean triples [a,b,c] with c=n (with ascending
+   second leg): */
 pythtrip_hypo_bydef(n) := block([res : [], bs, b, ns:n^2, upper], upper:isqrt(floor(ns/2)), for a : 3 thru upper do (bs : ns - a^2, b : isqrt(bs), if b^2=bs then res:cons([a,b,n], res)), res)$
+
+/* The list of all Pythagorean triples [a,b,c] with c <= n (first sorted by
+   c, then by b):
+*/
+pythtrip_le_bydef(n) := lappend(create_list(pythtrip_hypo_bydef(i),i,5,n))$
+
 
 /* The number of Pythagorean triples [a,b,c] with c=n:
    (this is https://oeis.org/A046080 )
@@ -73,6 +81,12 @@ count_pythtrip_hypo_bydef(n) := length(pythtrip_hypo_bydef(n))$
 /* Much faster: */
 count_pythtrip_hypo(n) := if n <= 0 then 0 else
  block([P : ifactors(n)], P : 2*map(second,sublist(P, lambda([p], is(mod(first(p),4)=1)))) + 1, (prod_l(P)-1)/2)$
+
+/* The number of Pythagorean triples [a,b,c] with c <= n:
+   (this is https://oeis.org/A224921, starting with 0)
+*/
+count_pythtrip_le_bydef(n) := sum_l(create_list(count_pythtrip_hypo_bydef(i),i,5,n))$
+count_pythtrip_le_byfact(n) := sum_l(create_list(count_pythtrip_hypo(i),i,5,n))$
 
 /*!
 \endhtmlonly

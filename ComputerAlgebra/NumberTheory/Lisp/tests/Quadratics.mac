@@ -89,6 +89,13 @@ okltest_pythtrip_hypo_bydef(f) := (
     assert(length(f(n)) = count_pythtrip_hypo(n)),
   true)$
 
+okltest_pythtrip_le_bydef(f) := (
+  assert(f(-1) = []),
+  assert(f(0) = []),
+  assert(f(5) = [[3,4,5]]),
+  assert(f(25) = [[3,4,5],[6,8,10],[5,12,13],[9,12,15],[8,15,17],[12,16,20],[15,20,25],[7,24,25]]),
+  true)$
+
 okltest_count_pythtrip_hypo_bydef(f) := (
   assert(f(-1) = 0),
   assert(f(50) = 2),
@@ -99,6 +106,19 @@ okltest_count_pythtrip_hypo(f) := (
   assert(f(-1) = 0),
   assert(f(20000) = 4),
   assert(f(4392910636193001837) = 1),
+  true)$
+
+okltest_count_pythtrip_le_bydef(f) := (
+  assert(f(-1) = 0),
+  assert(create_list(f(n),n,1,50) = [0,0,0,0,1,1,1,1,1,2,2,2,3,3,4,4,5,5,5,6,6,6,6,6,8,9,9,9,10,11,11,11,11,12,13,13,14,14,15,16,17,17,17,17,18,18,18,18,18,20]),
+  true)$
+
+okltest_count_pythtrip_le_byfact(f) := (
+  assert(f(-1) = 0),
+  for n : 0 thru 50 do
+    assert(f(n) = count_pythtrip_le_bydef(n)),
+  if oklib_test_level >= 1 then
+    assert(f(7825) = 9472),
   true)$
 
 /*!
