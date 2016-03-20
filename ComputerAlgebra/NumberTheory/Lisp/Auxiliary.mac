@@ -31,6 +31,18 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 naturalp(n) := integerp(n) and is(n >= 1)$
 
 
+/* *****************
+   * Divisors etc. *
+   *****************
+*/
+
+/* For n >= 1 the "right-open initial half" of the set of divisors -- for the
+   other divisors m of n, n/m is in the initial half, except of the case where
+   m = n/m, which is excluded:
+*/
+ohdivisors(n) := subset(divisors(n), lambda([x], is(x^2 < n)))$
+
+
 /* **************
    * Logarithms *
    **************
@@ -76,6 +88,7 @@ possignum(x) := if posp(x) then 1 else 0$
 negsignum(x) := if negp(x) then -1 else 0$
 /* Reminder: signum(x) = +1,0,-1 if resp. posp(x), nullp(x), negp(x) is true.
 */
+
 
 /* ******************************
    * Representations of numbers *

@@ -28,6 +28,13 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/Auxiliary.mac")$
 
 okltest_naturalp(naturalp);
 
+/* *****************
+   * Divisors etc. *
+   *****************
+*/
+
+okltest_ohdivisors(ohdivisors);
+
 /* **************
    * Logarithms *
    **************
