@@ -65,6 +65,17 @@ okltest_isolated_vertices_ses(f) := (
   ),
   true)$
 
+okltest_vertices_bounded_ses(f) := (
+  assert(f({},0) = {}),
+  assert(f({{1,2,3}},0) = {}),
+  assert(okltest_isolated_vertices_ses(buildq([f], lambda([G], f(G,1)))) = true),
+  for n : 2 thru 10 do block([N:setn(n), S],
+    S:powerset(N,2),
+    for k : 2 thru 10 do
+      assert(f(S,k) = if n <= k+1 then N else {})
+  ),
+  true)$
+
 /*!
 \endhtmlonly
 */

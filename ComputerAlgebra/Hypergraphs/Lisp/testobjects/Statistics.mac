@@ -37,6 +37,7 @@ okltest_nhyp_list_ohg(nhyp_list_ohg);
 okltest_vertex_degrees_nhyplist_hg(vertex_degrees_nhyplist_hg);
 
 okltest_isolated_vertices_ses(isolated_vertices_ses);
+okltest_vertices_bounded_ses(vertices_bounded_ses);
 
 /*!
 \endhtmlonly
