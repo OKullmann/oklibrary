@@ -20,7 +20,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 **********************************************************************/
 
 /*
-  Compile with
+  COMPILE with
 
 > g++ --std=c++11 -Wall -Ofast -DNDEBUG -o tawSolver tawSolver.cpp
 
@@ -33,7 +33,9 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
 > g++ --std=c++11 -Wall -g -o tawSolver_debug tawSolver.cpp
 
-  for debugging. Alternatively the makefile (called "makefile") in this
+  for debugging.
+
+  Alternatively the makefile (called "makefile") in this
   directory can be used: it contains various options, but with
 
 > make all
@@ -57,7 +59,8 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
   additionally also the four (optimised) programs.
 
-  Usage:
+
+  USAGE:
 
 > tawSolver [argument1] [argument2] [argument3]
 
@@ -72,6 +75,8 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
    - with argument3=filename or "-cout" or "-cerr" or "-nil" the statistics
      are output to file, standard output, standard error or are ignored;
      if argument3 is not given, then the default is -cout.
+
+  Output to file means appending.
 
   When sending SIGINT to the program (for example via CTRL-C from the calling
   terminal), then the current state of statistics is output, and computation
@@ -112,14 +117,27 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
    - OKLIB (with the url (without prefix "http://") for the OKlibrary.
 
   Remarks on the statistics output:
-   - "running_time" is only solver-time
-   - "running_time + reading-and-set-up_time is total time
+   - The (only) reduction on the input is removal of tautological clauses,
+     and contraction of repeated literals; the reported number_of_clauses,
+     maximal_clause_length and number_of_literal_occurrences refer to the
+     result of this reduction.
+   - number_of_variables is (just) the n-value on the p-line (as an upper
+     bound on the maximal positive value of literals).
+   - "running_time" is only solver-time.
+   - "running_time + reading-and-set-up_time is total time.
+   - A "binary node" is one with (exactly) two children.
+   - A "1-reduction" is an assignment due to unit-clause propagation.
    - "options" yields a summary of the main options:
     - "B" for UCP_STRATEGY = 0
     - "P" for PURE_LITERALS
     - "T" followed with its value if defined
     - "A" for ALL_SOLUTIONS, with "F" in case of floating-point counting, and
       followed by the number of (decimal) digits.
+
+  A time-out is currently not provided by the solver, but can be achieved
+  with the tool "timeout" (Linux/Unix), for example a time-out of 0.7s:
+
+> timeout --signal-SIGINT 0.7 tawSolver [options]
 
 */
 
@@ -144,8 +162,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.6.9";
-const std::string date = "11.1.2016";
+const std::string version = "2.7.2";
+const std::string date = "7.2.2016";
 
 const std::string program = "tawSolver";
 
@@ -508,6 +526,10 @@ Count_solutions n_solutions;
 
 // --- Input ---
 
+// Only used in read_formula_header and read_a_clause_from_file:
+typedef std::int_fast64_t Rounds;
+static_assert(std::numeric_limits<Rounds>::digits <= std::numeric_limits<Count_clauses>::digits, "Problem with types Rounds versus Count_clauses.");
+
 void read_formula_header(std::istream& f) {
   std::string line;
   while (true) {
@@ -552,6 +574,10 @@ void read_formula_header(std::istream& f) {
       "(too big or not-a-number).";
     std::exit(file_pline_error);
   }
+  if (n_header_clauses > Count_clauses(std::numeric_limits<Rounds>::max())) {
+    errout << "Parameter number-of-clauses too big for round-counter.";
+    std::exit(file_pline_error);
+  }
   try { clauses.cl.resize(n_header_clauses); }
   catch (const std::bad_alloc&) {
     errout << "Allocation error for clauses-vector of size " <<
@@ -560,35 +586,45 @@ void read_formula_header(std::istream& f) {
   }
 }
 
-bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
-  static Lit_vec literal_table;
-  C.clear();
-  literal_table.assign(n_vars+1,0_l);
-  bool tautology = false;
-  Lit x;
-  f >> x;
-  if (f.eof()) return false;
-  while (true) {
-    if (not f) {
-      errout << "Invalid literal-read.";
-      std::exit(literal_read_error);
-    }
-    if (not x) break;
-    const Var v = var(x);
-    if (v > n_vars) {
-      errout << "Literal " << x << " contradicts n=" << n_vars << ".";
-      std::exit(variable_value_error);
-    }
-    if (not literal_table[v]) {
-      C.push_back(x);
-      literal_table[v] = x;
-    }
-    else if (literal_table[v] == -x) tautology = true;
-    f >> x;
-  }
-  if (tautology) {
-    C.clear();
-    return true;
+// Returns false iff no further clause:
+inline bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
+  {static std::vector<Rounds> literal_table(n_vars+1,0);
+   static Rounds round = 0;
+   Lit x;
+   f >> x;
+   if (f.eof()) return false;
+   C.clear();
+   assert(round != std::numeric_limits<Rounds>::max());
+   ++round;
+   while (true) {
+     if (not f) {
+       errout << "Invalid literal-read.";
+       std::exit(literal_read_error);
+     }
+     if (not x) break;
+     const Var v = var(x);
+     if (v > n_vars) {
+       errout << "Literal " << x << " contradicts n=" << n_vars << ".";
+       std::exit(variable_value_error);
+     }
+     const auto t = literal_table[v];
+     const auto comp = (sign(x) == pos) ? round : -round;
+     if (t == -comp) { // tautology
+       C.clear();
+       do
+         if (not (f >> x)) {
+           errout << "Invalid literal-read in tautological clause.";
+           std::exit(literal_read_error);
+         }
+       while (x);
+       return true;
+     }
+     else if (t != comp) {
+       C.push_back(x);
+       literal_table[v] = comp;
+     }
+     f >> x;
+   }
   }
   if (C.empty()) {
     errout << "Found empty clause in input.";
@@ -601,7 +637,7 @@ bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
   return true;
 }
 
-void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
+inline void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
   const auto n = D.size();
   if (n == 0) return; // means tautology here
   if (n_clauses >= n_header_clauses) {
@@ -1205,13 +1241,20 @@ DLL_return_t dll0() { // without unit-clauses
 // --- Output ---
 
 void show_usage() {
-  std::cout << "Usage:\n"
+  std::cout << "USAGE:\n"
     "> " << program << " (-v | --version)\n"
     " shows version informations and exits.\n"
     "> " << program << " (-cin | filename)\n"
     " runs the solver with input from standard input or filename.\n"
     "> " << program << " (-cin | filename) (-cout | -cerr | filename2 | -nil)\n"
-      " outputs satisfying assignments to standard output, standard error, filename2, or ignores them.\n";
+      " furthermore appends satisfying assignments to standard output or standard error or filename2, or ignores them\n (default is -cout).\n"
+    "The same redirection can be done with the statistics output (as a third command-argument; default is -cout).\n"
+    "For example, with\n"
+    "> " << program << " -cin Out -nil\n"
+    "input comes from standard input, a satisfying assignment is put to file Out, and the statistics are discarded.\n"
+    "While with\n"
+    "> " << program << " In Out Out\n"
+    "the input comes from file In, and both statistics and assignments are appended to Out (first the statistics).\n";
   std::exit(0);
 }
 

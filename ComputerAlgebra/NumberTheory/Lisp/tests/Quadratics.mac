@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.8.2009 (Swansea) */
-/* Copyright 2009 Oliver Kullmann
+/* Copyright 2009, 2016 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,6 +21,8 @@ oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/tests/Quadratics.mac");
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 
+oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Quadratics.mac")$
+
 kill(f)$
 
 /* ******************************
@@ -38,6 +40,86 @@ okltest_count_quadintsol(f) := block(
   assert(create_list(f(1,n),n,10,20) = [14,15,18,19,21,23,26,27,30,31,34]),
   true)$
 
+
+/* ******************
+   * Square numbers *
+   ******************
+*/
+
+okltest_isquarep(f) := (
+  assert(f(-1) = false),
+  assert(f(0) = true),
+  assert(f(1) = true),
+  assert(f(2) = false),
+  assert(f(4) = true),
+  for n : 2 thru 100 do (
+    assert(f(n^2) = true),
+    assert(f(n^2-1) = false)
+  ),
+  true)$
+
+
+/* *******************
+   * Sums of squares *
+   *******************
+*/
+
+okltest_pythtripp(f) := (
+  assert(f(3,4,5) = true),
+  assert(f(-3,4,5) = false),
+  assert(f(4,3,5) = false),
+  assert(f(3,4,5.0) = false),
+  /* XXX */
+  true)$
+
+okltest_pythtriptp(f) := (
+  assert(f(0) = false),
+  assert(f([3,4,5]) = true),
+  assert(f([5,4,3]) = false),
+  /* XXX */
+  true)$
+
+okltest_pythtrip_hypo_bydef(f) := (
+  assert(f(-1) = []),
+  assert(f(0) = []),
+  assert(f(5) = [[3,4,5]]),
+  assert(f(25) = [[15,20,25],[7,24,25]]),
+  assert(f(5.0) = []),
+  for n : 0 thru (if oklib_test_level=0 then 100 else if oklib_test_level=1 then 200 else 1000) do
+    assert(length(f(n)) = count_pythtrip_hypo(n)),
+  true)$
+
+okltest_pythtrip_le_bydef(f) := (
+  assert(f(-1) = []),
+  assert(f(0) = []),
+  assert(f(5) = [[3,4,5]]),
+  assert(f(25) = [[3,4,5],[6,8,10],[5,12,13],[9,12,15],[8,15,17],[12,16,20],[15,20,25],[7,24,25]]),
+  true)$
+
+okltest_count_pythtrip_hypo_bydef(f) := (
+  assert(f(-1) = 0),
+  assert(f(50) = 2),
+  assert(f(65) = 4),
+  true)$
+
+okltest_count_pythtrip_hypo(f) := (
+  assert(f(-1) = 0),
+  assert(f(20000) = 4),
+  assert(f(4392910636193001837) = 1),
+  true)$
+
+okltest_count_pythtrip_le_bydef(f) := (
+  assert(f(-1) = 0),
+  assert(create_list(f(n),n,1,50) = [0,0,0,0,1,1,1,1,1,2,2,2,3,3,4,4,5,5,5,6,6,6,6,6,8,9,9,9,10,11,11,11,11,12,13,13,14,14,15,16,17,17,17,17,18,18,18,18,18,20]),
+  true)$
+
+okltest_count_pythtrip_le_byfact(f) := (
+  assert(f(-1) = 0),
+  for n : 0 thru 50 do
+    assert(f(n) = count_pythtrip_le_bydef(n)),
+  if oklib_test_level >= 1 then
+    assert(f(7825) = 9472),
+  true)$
 
 /*!
 \endhtmlonly

@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.7.2012 (Swansea) */
-/* Copyright 2012 Oliver Kullmann
+/* Copyright 2012, 2016 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,6 +21,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/tests/Statistics.mac");
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
 kill(f)$
@@ -49,6 +50,19 @@ okltest_vertex_degrees_nhyplist_hg(f) := (
   assert(hm2sm(f([{1},{{}}])) = {[1,[]]}),
   assert(hm2sm(f([{1},{{1}}])) = {[1,[[1,1]]]}),
   assert(hm2sm(f([{1,2},{{1},{1,2}}])) = {[1,[[1,1],[2,1]]],[2,[[2,1]]]}),
+  true)$
+
+okltest_isolated_vertices_ses(f) := (
+  assert(f({}) = {}),
+  for n : 0 thru 10 do block([N:setn(n)],
+    assert(f({N}) = N),
+    assert(f(singletons(N)) = N),
+    assert(f(union({N},singletons(N))) = if n<=1 then N else {}),
+    assert(f(powerset(N,2)) = if n<=1 then {} else if n=2 then N else {})
+  ),
+  for n : 1 thru 10 do block([S:setify(create_list(setn(i),i,0,n))],
+    assert(f(S) = {n})
+  ),
   true)$
 
 /*!

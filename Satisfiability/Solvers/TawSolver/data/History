@@ -1,0 +1,158 @@
+1.
+
+Experiment sc14_craftet_600:
+
+Run via
+
+Exp="sc14-crafted"
+mkdir Experiment_${Exp}; cd Experiment_${Exp}
+ExtractTawSolver header-only > Table
+for F in ../${Exp}/*; do cp $F .; N=$(basename $F); unlzma $N; N=$(basename $N .lzma); cat $N | UnitClausePropagation-O3-DNDEBUG > $N.UP; echo $N; timeout --signal=SIGINT 600 tawSolver $N.UP -nil Output_t; cat Output_t >> Output; cat Output_t | ExtractTawSolver d | tee -a Table;  rm $N $N.UP Output_t; done
+
+on cs-wsok:
+
+> tawSolver -v
+tawSolver:
+ authors: Tanbir Ahmed and Oliver Kullmann
+ url's:
+  http://sourceforge.net/projects/tawsolver/
+  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp
+ Version: 2.7.1
+ Last change date: 7.2.2016
+ Mapping k -> weight, for clause-lengths k specified at compile-time:
+   2->4.85  3->1  4->0.354  5->0.11  6->0.0694
+ Divisor for open weights: 1.46
+ Option summary = ""
+ Macro settings:
+  LIT_TYPE = std::int32_t (with 31 binary digits)
+  UCP_STRATEGY = 1
+ Compiled without TAU_ITERATION
+ Compiled without ALL_SOLUTIONS
+ Compiled without PURE_LITERALS
+ Compiled with NDEBUG
+ Compiled with optimisation options
+ Compilation date: Feb  7 2016 02:23:44
+ Compiler: g++, version 4.7.3
+ Provided in the OKlibrary http://www.ok-sat-library.org
+ Git ID = 0aaac907e833285fac8ffead308ed90575dc974d
+
+---
+
+2.
+
+Experiment sc14_craftet_t_600:
+(started 9.2.2016 on cs-wsok)
+
+> ttawSolver -v
+tawSolver:
+ authors: Tanbir Ahmed and Oliver Kullmann
+ url's:
+  http://sourceforge.net/projects/tawsolver/
+  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp
+ Version: 2.7.2
+ Last change date: 7.2.2016
+ Mapping k -> weight, for clause-lengths k specified at compile-time:
+   2->7  3->1  4->0.31  5->0.19  6->0.1118
+ Divisor for open weights: 1.7
+ Option summary = "PT5"
+ Macro settings:
+  LIT_TYPE = std::int32_t (with 31 binary digits)
+  UCP_STRATEGY = 1
+  TAU_ITERATION = 5
+ Compiled without ALL_SOLUTIONS
+ Compiled with PURE_LITERALS
+ Compiled with NDEBUG
+ Compiled with optimisation options
+ Compilation date: Feb  9 2016 09:12:37
+ Compiler: g++, version 4.7.3
+ Provided in the OKlibrary http://www.ok-sat-library.org
+ Git ID = 5af1eaf6802af8c93d12534e628e8cc0b3db6b1b
+
+Run via
+
+Inst="sc14-crafted"
+Exp="Experiment_t600_${Inst}"
+mkdir ${Exp}; cd ${Exp}
+ExtractTawSolver header-only > Table
+for F in ../${Inst}/*; do cp $F .; N=$(basename $F); unlzma $N; N=$(basename $N .lzma); cat $N | UnitClausePropagation-O3-DNDEBUG > $N.UP; echo $N; timeout --signal=SIGINT 600 ttawSolver $N.UP -nil Output_t; cat Output_t >> Output; cat Output_t | ExtractTawSolver d | tee -a Table;  rm $N $N.UP Output_t; done
+
+---
+
+3.
+
+Experiment sc14_app_600:
+
+Run via
+
+Exp="sc14-app"
+mkdir Experiment_${Exp}; cd Experiment_${Exp}
+ExtractTawSolver header-only > Table
+for F in ../${Exp}/*; do cp $F .; N=$(basename $F); unlzma $N; N=$(basename $N .lzma); cat $N | UnitClausePropagation-O3-DNDEBUG > $N.UP; echo $N; timeout --signal=SIGINT 600 tawSolver $N.UP -nil Output_t; cat Output_t >> Output; cat Output_t | ExtractTawSolver d | tee -a Table;  rm $N $N.UP Output_t; done
+
+on cs-wsok:
+
+> tawSolver -v
+tawSolver:
+ authors: Tanbir Ahmed and Oliver Kullmann
+ url's:
+  http://sourceforge.net/projects/tawsolver/
+  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp
+ Version: 2.7.1
+ Last change date: 7.2.2016
+ Mapping k -> weight, for clause-lengths k specified at compile-time:
+   2->4.85  3->1  4->0.354  5->0.11  6->0.0694
+ Divisor for open weights: 1.46
+ Option summary = ""
+ Macro settings:
+  LIT_TYPE = std::int32_t (with 31 binary digits)
+  UCP_STRATEGY = 1
+ Compiled without TAU_ITERATION
+ Compiled without ALL_SOLUTIONS
+ Compiled without PURE_LITERALS
+ Compiled with NDEBUG
+ Compiled with optimisation options
+ Compilation date: Feb  7 2016 02:23:44
+ Compiler: g++, version 4.7.3
+ Provided in the OKlibrary http://www.ok-sat-library.org
+ Git ID = 0aaac907e833285fac8ffead308ed90575dc974d
+
+---
+
+4.
+
+Experiment sc14_app_t_600:
+(started 9.2.2016 on cs-wsok)
+
+> ttawSolver -v
+tawSolver:                                                                      authors: Tanbir Ahmed and Oliver Kullmann
+ url's:
+  http://sourceforge.net/projects/tawsolver/
+  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp
+ Version: 2.7.2
+ Last change date: 7.2.2016
+ Mapping k -> weight, for clause-lengths k specified at compile-time:
+   2->7  3->1  4->0.31  5->0.19  6->0.1118
+ Divisor for open weights: 1.7
+ Option summary = "PT5"
+ Macro settings:
+  LIT_TYPE = std::int32_t (with 31 binary digits)
+  UCP_STRATEGY = 1
+  TAU_ITERATION = 5
+ Compiled without ALL_SOLUTIONS
+ Compiled with PURE_LITERALS
+ Compiled with NDEBUG
+ Compiled with optimisation options
+ Compilation date: Feb  9 2016 09:12:37
+ Compiler: g++, version 4.7.3
+ Provided in the OKlibrary http://www.ok-sat-library.org
+ Git ID = 5af1eaf6802af8c93d12534e628e8cc0b3db6b1b
+
+Run via
+
+Inst="sc14-app"
+Exp="Experiment_t600_${Inst}"
+mkdir ${Exp}; cd ${Exp}
+ExtractTawSolver header-only > Table
+for F in ../${Inst}/*; do cp $F .; N=$(basename $F); unlzma $N; N=$(basename $N .lzma); cat $N | UnitClausePropagation-O3-DNDEBUG > $N.UP; echo $N; timeout --signal=SIGINT 600 ttawSolver $N.UP -nil Output_t; cat Output_t >> Output; cat Output_t | ExtractTawSolver d | tee -a Table;  rm $N $N.UP Output_t; done
+
+---

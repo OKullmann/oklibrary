@@ -1,0 +1,6 @@
+# E=read.table("sc14_app_600", header=TRUE)
+# wide_screen()
+# E[E$sat!=2,]
+       n     c      l mcl     t sat   nds r1     r2 pls ats   h                                 file n2cr dmcl dn  dc   dl snds qnds mnds           pa           ps           tp tel   oats n2cs m2cs spd spc
+195 7965 59726 232352   6 151.1   1 77917  8 669877   0   0 302                         MD5-27-4.cnf  635    0  8 190 1058   90    0  263 1.087743e-72 4.421718e-74 1.131960e-72   0 151761    0    0  NA  NA
+267  300 17540 282050  49 507.2   1 35338  0 387086   0   0  76 stable-300-0.1-20-98765432130020.cnf 9063    0  0   0    0    0    0    0 7.420645e-01 0.000000e+00 7.420645e-01   0      0    0    0  NA  NA
