@@ -92,8 +92,29 @@ okltest_pythtrip_hypo_bydef(f) := (
 okltest_pythtrip_le_bydef(f) := (
   assert(f(-1) = []),
   assert(f(0) = []),
+  assert(f(4) = []),
   assert(f(5) = [[3,4,5]]),
+  assert(f(9) = [[3,4,5]]),
+  assert(f(10) = [[3,4,5],[6,8,10]]),
   assert(f(25) = [[3,4,5],[6,8,10],[5,12,13],[9,12,15],[8,15,17],[12,16,20],[15,20,25],[7,24,25]]),
+  assert(f(50) = [[3,4,5],[6,8,10],[5,12,13],[9,12,15],[8,15,17],[12,16,20],[15,20,25],[7,24,25],[10,24,26],[20,21,29],[18,24,30],[16,30,34],[21,28,35],[12,35,37],[15,36,39],[24,32,40],[9,40,41],[27,36,45],[30,40,50],[14,48,50]]),
+  true)$
+
+okltest_pythtrip_le_byDickson(f) := (
+  assert(f(-1) = []),
+  assert(f(5) = [[3,4,5]]),
+  assert(f(6) = [[3,4,5]]),
+  assert(f(10) = [[3,4,5],[6,8,10]]),
+  assert(f(25) = [[3,4,5],[5,12,13],[6,8,10],[7,24,25],[8,15,17],[9,12,15],[12,16,20],[15,20,25]]),
+  true)$
+
+okltest_pythtrip_le_byDickson_sorted(f) := (
+  assert(okltest_pythtrip_le_bydef(f) = true),
+  true)$
+
+okltest_pythtripses_le_byDickson(f) := (
+  for n : -1 thru 50 do
+    assert(f(n) = setify(map(setify,pythtrip_le_bydef(n)))),
   true)$
 
 okltest_count_pythtrip_hypo_bydef(f) := (
@@ -104,6 +125,7 @@ okltest_count_pythtrip_hypo_bydef(f) := (
 
 okltest_count_pythtrip_hypo(f) := (
   assert(f(-1) = 0),
+  assert(okltest_count_pythtrip_hypo_bydef(f) = true),
   assert(f(20000) = 4),
   assert(f(4392910636193001837) = 1),
   true)$
@@ -115,8 +137,13 @@ okltest_count_pythtrip_le_bydef(f) := (
 
 okltest_count_pythtrip_le_byfact(f) := (
   assert(f(-1) = 0),
-  for n : 0 thru 50 do
-    assert(f(n) = count_pythtrip_le_bydef(n)),
+  assert(okltest_count_pythtrip_le_bydef(f) = true),
+  if oklib_test_level >= 1 then
+    assert(f(7825) = 9472),
+  true)$
+
+okltest_count_pythtrip_le_byDickson(f) := (
+  assert(okltest_count_pythtrip_le_bydef(f) = true),
   if oklib_test_level >= 1 then
     assert(f(7825) = 9472),
   true)$
