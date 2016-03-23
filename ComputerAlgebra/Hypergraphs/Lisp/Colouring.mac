@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 26.1.2008 (Swansea) */
-/* Copyright 2008, 2009, 2012 Oliver Kullmann
+/* Copyright 2008, 2009, 2012, 2016 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Construction
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Minimal/RecursiveSplitting.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Statistics.mac")$
 
 
 /* *******************************
@@ -177,6 +178,33 @@ allindkcov_hyptrans_hg(G,k,_hyptrans) := block([V : G[1]],
    transversal hypergraph:
 */
 allindkcov_hyptrans_rs_hg(G,k) := allindkcov_hyptrans_hg(G,k,transversal_hg_rs)$
+
+
+/* **************
+   * Reductions *
+   **************
+*/
+
+/* For a set-system G and k >= 0, remove all hyperedges iteratively containing
+   vertices occurring at most k times (this is (k+1)-colouring-equivalent, if
+   there are no unit-hyperedges):
+*/
+/* First the special case of k = 1: */
+reduce_isolates_ses(G) := block([U],
+  do (
+    U : isolated_vertices_ses(G),
+    if emptyp(U) then return(G),
+    G : remove_non_disjoint(G,U)
+  )
+)$
+/* Now the general case: */
+reduce_bounded_ses(G,k) := block([B],
+  do (
+    B : vertices_bounded_ses(G,k),
+    if emptyp(B) then return(G),
+    G : remove_non_disjoint(G,B)
+  )
+)$
 
 /*!
 \endhtmlonly

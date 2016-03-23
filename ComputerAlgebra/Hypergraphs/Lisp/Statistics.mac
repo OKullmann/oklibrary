@@ -20,6 +20,7 @@ oklib_load("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Statistics.mac");
 */
 
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 
 
 /* ******************
@@ -59,7 +60,7 @@ nhyp_list_hg(G) := nhyp_list_ohg(G)$
    ******************
 */
 
-/* The vertex-degrees of a hypergraph, as hash-map. */
+/* The vertex-degrees of a hypergraph, as hash-map: */
 vertex_degrees_hg(G) := block([h : sm2hm({})],
  for H in G[2] do
   for v in H do enter_new_occurrence(h,v),
@@ -67,7 +68,7 @@ vertex_degrees_hg(G) := block([h : sm2hm({})],
    if ev_hm(h,v)=false then set_hm(h,v,0),
  return(h))$
 vertex_degrees_ohg(G) := vertex_degrees_hg(G)$
-/* The same list, but sorted according to the vertex degrees: */
+/* This hash-map as a list, sorted according to the vertex degrees: */
 sorted_vertex_degrees_hg(G) := sort(hm2osm(vertex_degrees_hg(G)), 
  lambda([p1,p2],is(second(p1) > second(p2))))$
 /* For ordered hypergraphs the sorting is stable w.r.t. the given
@@ -102,6 +103,10 @@ isolated_vertices_ses(G) := block([U:{}, S:{}, N],
       S : union(S,N)
     ),
     U)$
+
+/* The set of vertices of set-system G occuring at most k times: */
+vertices_bounded_ses(G,k) :=
+  map(first,subset(hm2sm(vertex_degrees_hg(ses2hg(G))), lambda([p], is(second(p)<=k))))$
 
 /*!
 \endhtmlonly

@@ -46,11 +46,16 @@ okltest_pythtriptp(pythtriptp);
 okltest_pythtrip_hypo_bydef(pythtrip_hypo_bydef);
 okltest_pythtrip_le_bydef(pythtrip_le_bydef);
 
+okltest_pythtrip_le_byDickson(pythtrip_le_byDickson);
+okltest_pythtrip_le_byDickson_sorted(pythtrip_le_byDickson_sorted);
+okltest_pythtripses_le_byDickson(pythtripses_le_byDickson);
+
 okltest_count_pythtrip_hypo_bydef(count_pythtrip_hypo_bydef);
 okltest_count_pythtrip_hypo(count_pythtrip_hypo);
 
 okltest_count_pythtrip_le_bydef(count_pythtrip_le_bydef);
 okltest_count_pythtrip_le_byfact(count_pythtrip_le_byfact);
+okltest_count_pythtrip_le_byDickson(count_pythtrip_le_byDickson);
 
 /*!
 \endhtmlonly

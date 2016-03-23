@@ -73,6 +73,37 @@ pythtrip_hypo_bydef(n) := block([res : [], bs, b, ns:n^2, upper], upper:isqrt(fl
 */
 pythtrip_le_bydef(n) := lappend(create_list(pythtrip_hypo_bydef(i),i,5,n))$
 
+/* Much faster is Dickson's method:
+   https://en.wikipedia.org/wiki/Formulas_for_generating_Pythagorean_triples#Dickson.27s_method
+   The order is as it comes out of the algorithm, and doesn't seem to have
+   a real meaning; see below for derived methods, which do something about
+   the order (give it a meaningful order, or forget the order).
+*/
+pythtrip_le_byDickson(n) := block([bound : floor(n/(1+sqrt(2))), res:[], rs,t],
+ for r : 2 thru bound step 2 do (
+   rs : r^2/2,
+   for s in ohdivisors(rs) do (
+     t : rs / s,
+     if r+s+t <= n then res : cons([r+s,r+t,r+s+t],res)
+   )
+ ),
+ reverse(res))$
+/* An alternative implementation (same result, somewhat slower):
+alt_D(n) := lappend(
+   map(
+     lambda([r], block([rs:r^2/2],
+       sublist(
+         map(lambda([s], block([t:rs/s], [r+s,r+t,r+s+t])),
+             listify(ohdivisors(rs))),
+       lambda([t], is(third(t) <= n))))),
+     makelist(r,r,2, floor(n/(1+sqrt(2))),2)))$
+*/
+
+/* Sorted first by third component, then by second component: */
+pythtrip_le_byDickson_sorted(n) := map(reverse,sort(map(reverse,pythtrip_le_byDickson(n)), orderlessp))$
+/* Not as a list of lists, but as a set-system: */
+pythtripses_le_byDickson(n) := setify(map(setify,pythtrip_le_byDickson(n)))$
+
 
 /* The number of Pythagorean triples [a,b,c] with c=n:
    (this is https://oeis.org/A046080 )
@@ -83,10 +114,17 @@ count_pythtrip_hypo(n) := if n <= 0 then 0 else
  block([P : ifactors(n)], P : 2*map(second,sublist(P, lambda([p], is(mod(first(p),4)=1)))) + 1, (prod_l(P)-1)/2)$
 
 /* The number of Pythagorean triples [a,b,c] with c <= n:
-   (this is https://oeis.org/A224921, starting with 0)
+   (this is https://oeis.org/A224921, starting with n=0)
 */
 count_pythtrip_le_bydef(n) := sum_l(create_list(count_pythtrip_hypo_bydef(i),i,5,n))$
 count_pythtrip_le_byfact(n) := sum_l(create_list(count_pythtrip_hypo(i),i,5,n))$
+count_pythtrip_le_byDickson(n) := block([bound : floor(n/(1+sqrt(2))), res:0, rs],
+ for r : 2 thru bound step 2 do (
+   rs : r*r/2,
+   for s in ohdivisors(rs) do if r+s+rs/s <= n then res : res+1
+ ),
+ res)$
+/* byfact seems always fastest. */
 
 /*!
 \endhtmlonly
