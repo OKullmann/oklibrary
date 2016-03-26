@@ -185,9 +185,9 @@ allindkcov_hyptrans_rs_hg(G,k) := allindkcov_hyptrans_hg(G,k,transversal_hg_rs)$
    **************
 */
 
-/* For a set-system G and k >= 0, remove all hyperedges iteratively containing
-   vertices occurring at most k times (this is (k+1)-colouring-equivalent, if
-   there are no unit-hyperedges):
+/* For a set-system G and integer k, remove all hyperedges iteratively
+   containing vertices occurring at most k times (this is
+   (k+1)-colouring-equivalent, if there are no unit-hyperedges):
 */
 /* First the special case of k = 1: */
 reduce_isolates_ses(G) := block([U],
@@ -198,7 +198,9 @@ reduce_isolates_ses(G) := block([U],
   )
 )$
 /* Now the general case: */
-reduce_bounded_ses(G,k) := block([B],
+reduce_bounded_ses(G,k) := if k<=0 then G
+ else if k=1 then reduce_isolates_ses(G) else
+ block([B],
   do (
     B : vertices_bounded_ses(G,k),
     if emptyp(B) then return(G),

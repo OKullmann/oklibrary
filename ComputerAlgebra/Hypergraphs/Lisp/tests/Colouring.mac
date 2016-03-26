@@ -235,6 +235,7 @@ okltest_reduce_isolates_ses(f) := (
   true)$
 
 okltest_reduce_bounded_ses(f) := (
+  assert(f({{1,2,3}},-1) = {{1,2,3}}),
   assert(f({},0) = {}),
   assert(f({{1,2,3}},0) = {{1,2,3}}),
   assert(okltest_reduce_isolates_ses(buildq([f], lambda([G], f(G,1)))) = true),
