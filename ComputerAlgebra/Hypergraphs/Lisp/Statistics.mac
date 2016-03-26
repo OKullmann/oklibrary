@@ -98,8 +98,9 @@ vertex_degrees_nhyplist_hg(G) := block([h : sm2hm({}), l],
 /* The set of vertices of set-system G which occur only once: */
 isolated_vertices_ses(G) := block([U:{}, S:{}, N],
   for E in G do (
+    U : setdifference(U,E),
     N : setdifference(E,S),
-    U : union(setdifference(U,E), N),
+    U : union(U, N),
     S : union(S,N)
   ),
   U)$
