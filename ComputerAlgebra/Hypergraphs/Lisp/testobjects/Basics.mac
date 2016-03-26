@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.3.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2016 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -36,30 +36,55 @@ okltest_oghg_p(oghg_p);
    **************
 */
 
+okltest_ses2hg(ses2hg);
+
 okltest_hg2ohg(hg2ohg);
 
+okltest_hg2ghg(hg2ghg);
+
+okltest_ghg2oghg(ghg2oghg);
 
 /* *************
    * Downcasts *
    *************
 */
 
+okltest_ohg2hg(ohg2hg);
+
 okltest_ghg2hg(ghg2hg);
+okltest_oghg2ohg(oghg2ohg);
+
+okltest_hg2ses(hg2ses);
 
 /* ************* **
    * Conversions *
    ***************
 */
 
-okltest_setsystem2hg(setsystem2hg);
 okltest_listsets2hg(listsets2hg);
 okltest_listsets2oghg(listsets2oghg);
+
+/* *******************
+   * Standardisation *
+   *******************
+*/
+
+/* ************
+   * Matrices *
+   ************
+*/
 
 okltest_hypver_hg2com(hypver_hg2com);
 okltest_hypver_ghg2com(hypver_ghg2com);
 
 okltest_edge_int_com_hg(edge_int_com_hg);
 okltest_vertex_int_com_hg(vertex_int_com_hg);
+
+/* *******************
+   * Transformations *
+   *******************
+*/
+
 
 /* *****************
    * Constructions *

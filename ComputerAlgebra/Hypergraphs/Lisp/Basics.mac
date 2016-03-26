@@ -93,11 +93,13 @@ ghg_equalp(G1,G2) := is(G1[1] = G2[1]) and is(G1[2] = G2[2]) and
    **************
 */
 
+ses2hg(S) := [lunion(S), S]$
+
 hg2ohg(G) := map(listify,G)$
 
-/* RENAME: hg2ghg */
-promote_general_hypergraph(G) := [G[1], G[2], identity]$
-hg2ghg(G) := [G[1], G[2], identity]$
+hg2ghg(G) := [first(G), second(G), identity]$
+
+ghg2oghg(G) := [listify(first(G)), listify(second(G)), third(G)]$
 
 
 /* *************
@@ -107,8 +109,10 @@ hg2ghg(G) := [G[1], G[2], identity]$
 
 ohg2hg(G) := map(setify,G)$
 
-ghg2hg(G) := [G[1], map(G[3],G[2])]$
+ghg2hg(G) := [first(G), map(third(G),second(G))]$
 oghg2ohg(G) := [first(G), map(third(G),second(G))]$
+
+hg2ses(G) := second(G)$
 
 
 /* ************* **
@@ -116,13 +120,8 @@ oghg2ohg(G) := [first(G), map(third(G),second(G))]$
    ***************
 */
 
-/* Promotes a set system to a hypergraph: */
-/* RENAME: ses2hg(S) */
-setsystem2hg(S) := [lunion(S), S]$
-ses2hg(S) := setsystem2hg(S)$
-
 /* Converts a list of sets to a hypergraph: */
-listsets2hg(L) := setsystem2hg(setify(L))$
+listsets2hg(L) := ses2hg(setify(L))$
 
 /* Converts a list of sets to an ordered general hypergraph: */
 listsets2oghg(L) := [listify(lunion(L)), L, identity]$
