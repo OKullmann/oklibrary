@@ -244,6 +244,12 @@ okltest_reduce_bounded_ses(f) := (
   assert(f({{1,2},{1,3},{2,3},{2,4},{3,4},{2,3,4}},3) = {}),
   true)$
 
+okltest_reduce_bounded_hg(f) := (
+  assert(f([{1,2},{}],-1) = [{1,2},{}]),
+  assert(f([{1,2},{}],0) = [{},{}]),
+  assert(okltest_reduce_bounded_ses(buildq([f], lambda([S,k], hg2ses(f(ses2hg(S),k))))) = true),
+  true)$
+
 /*!
 \endhtmlonly
 */

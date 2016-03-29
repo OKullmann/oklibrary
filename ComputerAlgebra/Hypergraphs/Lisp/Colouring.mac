@@ -207,6 +207,12 @@ reduce_bounded_ses(G,k) := if k<=0 then G
     G : remove_non_disjoint(G,B)
   )
 )$
+reduce_bounded_hg(G,k) := if k <= -1 then G
+ else block([E:reduce_bounded_ses(second(G),k)],
+   [lunion(E),E])$
+/* Note: the hypergraph-version does nothing for k <= -1, and removes
+   non-occurring vertices for k = 0.
+*/
 
 /*!
 \endhtmlonly

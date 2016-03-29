@@ -59,6 +59,7 @@ okltest_allindkcov_hg(allindkcov_hyptrans_rs_hg);
 
 okltest_reduce_isolates_ses(reduce_isolates_ses);
 okltest_reduce_bounded_ses(reduce_bounded_ses);
+okltest_reduce_bounded_hg(reduce_bounded_hg);
 
 /*!
 \endhtmlonly
