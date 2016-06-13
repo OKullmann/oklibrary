@@ -55,7 +55,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.1.0";
+  const std::string version = "0.1.2";
 
   typedef std::vector<uint_t> tuple_t;
   typedef std::vector<tuple_t> vector_t;
@@ -94,6 +94,7 @@ int main(const int argc, const char* const argv[]) {
     return errcode_too_large;
   }
 
+  // Computing the list of Pythagorean tuples:
   vector_t res;
   
   const uint_t n2 = n*n;
@@ -154,15 +155,22 @@ int main(const int argc, const char* const argv[]) {
     }
   }
 
-  std::sort(res.begin(), res.end(), [](const tuple_t& x, const tuple_t& y) { return std::lexicographical_compare(x.rbegin(), x.rend(), y.rbegin(), y.rend()); } );
+  // removing duplicates:
+  for (auto& x : res) x.erase(std::unique(x.begin(), x.end()), x.end());
 
+  // anti-lexicographical sorting:
+  std::sort(res.begin(), res.end(),
+    [](const tuple_t& x, const tuple_t& y) {
+      return std::lexicographical_compare(x.rbegin(), x.rend(), y.rbegin(), y.rend());
+    }
+  );
+
+  // DIMACS output:
   std::cout << "c Boolean Pythagorean " << K << "-tuples problem, up to n=" << n << ", with minimum-distance between (sorted) components = " << dist << ", yielding " << res.size() << " tuples.\n";
   std::cout << "c OKlibrary, program " << program << " in version " << version << ".\n";
   std::cout << "p cnf " << max << " " << 2*res.size() << "\n";
   for (const auto& x : res) {
-    for (uint_t i = 0; i < K; ++i) std::cout << x[i] << " ";
-    std::cout << "0 ";
-    for (uint_t i = 0; i < K; ++i) std::cout << -int_t(x[i]) << " ";
-    std::cout << "0\n";
+    for (const auto i : x) std::cout << i << " "; std::cout << "0 ";
+    for (const int_t i : x) std::cout << -i << " "; std::cout << "0\n";
   }
 }
