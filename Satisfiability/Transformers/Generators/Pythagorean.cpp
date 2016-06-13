@@ -55,7 +55,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.1.2";
+  const std::string version = "0.1.3";
 
   typedef std::vector<uint_t> tuple_t;
   typedef std::vector<tuple_t> vector_t;
@@ -82,7 +82,7 @@ int main(const int argc, const char* const argv[]) {
     std::cerr << err << "Second input " << K << " currently must be at most 5.\n";
     return errcode_not_yet;
   }
-  const uint_t abs_max = std::sqrt(std::numeric_limits<uint_t>::max()) / K;
+  const uint_t abs_max = uint_t(std::sqrt(std::numeric_limits<uint_t>::max())) / K;
   if (n > abs_max) {
     std::cerr << err << "First input " << n << " larger than maximal allowed value: " << abs_max << ".\n";
     return errcode_too_large;
