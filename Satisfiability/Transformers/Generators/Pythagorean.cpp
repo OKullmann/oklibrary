@@ -43,6 +43,10 @@ License, or any later version. */
 
   > g++ -Wall --std=c++11 -Ofast -o Pythagorean Pythagorean.cpp
 
+  resp.
+
+  > g++ -Wall --std=c++11 -Ofast -DNDEBUG -o Pythagorean Pythagorean.cpp
+
   Pythagorean numbers established:
    - Ptn(3,3) = 7825
    - Ptn(3,3,3) > 800000 (g2wsat)
@@ -82,7 +86,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2";
+  const std::string version = "0.2.1";
 
   const std::string filename = "Pyth_";
 
@@ -90,6 +94,7 @@ namespace {
   typedef std::vector<tuple_t> vector_t;
 
   void oklib_output(std::ostream* const out) {
+    assert(*out);
     *out << "c OKlibrary, program " << program << ".cpp in version " << version << ".\n";
   }
 
@@ -145,7 +150,7 @@ int main(const int argc, const char* const argv[]) {
   class Delete_wrapper {
     const std::ostream* const p;
   public :
-    Delete_wrapper(std::ostream* const out) : p(out) {}
+    Delete_wrapper(const std::ostream* const out) : p(out) {}
     ~Delete_wrapper() {delete p;}
   } const D((del) ? out : nullptr);
   if (not *out) {
