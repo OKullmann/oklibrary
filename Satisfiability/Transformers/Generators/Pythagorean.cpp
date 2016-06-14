@@ -7,15 +7,15 @@ License, or any later version. */
 
 /*!
   \file Satisfiability/Transformers/Generators/Pythagorean.cpp
-  \brief CNF generator for the boolean Pythagorean tuples problem
+  \brief CNF generator for the Pythagorean tuples problem
 
-  For triples, uses
+  For the boolean problems for triples, use
   > Pythagorean n 3 0
   or
   > Pythagorean n 3 1
   (doesn't matter here).
 
-  For quadruples, use
+  For the boolean problem for quadruples, use
   > Pythagorean n 4 0
   while the injective form (all components different) is obtained by
   > Pythagorean n 4 1
@@ -26,6 +26,12 @@ License, or any later version. */
     x_1^2 + ... + x_{K-1}^2 = x_K^2,
 
   that is, x_i + d <= x_{i+1} for 1 <= i <= K-1.
+
+  An optional fourth parameter m >= 0 is the number of colours, with
+   - m = 0: only output the max-occuring vertex and the number of hyperedges
+   - m = 1: output the hypergraph
+   - m = 2: output the boolean problem (the default)
+   - m >= 3: currently uses the strong direct translation.
 
   Requires C++11. Output to standard output. Compile with
 
@@ -39,11 +45,13 @@ License, or any later version. */
 #include <cmath>
 #include <vector>
 #include <algorithm>
+#include <cassert>
 
 namespace {
 
   typedef unsigned long int uint_t;
   typedef long int int_t;
+  typedef unsigned long long int cnum_t;
 
   enum {
     errcode_parameter = 1,
@@ -55,19 +63,30 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.1.3";
+  const std::string version = "0.1.5";
 
   typedef std::vector<uint_t> tuple_t;
   typedef std::vector<tuple_t> vector_t;
 
+  void oklib_output() {
+    std::cout << "c OKlibrary, program " << program << ".cpp in version " << version << ".\n";
+  }
+
+  inline cnum_t var_number(const uint_t i, const uint_t m, const uint_t col) {
+    assert(i >= 1);
+    assert(col < m);
+    return cnum_t(i-1) * m + col + 1;
+  }
+
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (argc != 4) {
-    std::cerr << err << "Exactly three arguments are needed:\n"
-     " - The number of elements.\n"
-     " - The size of the tuple.\n"
-     " - The enforced distance between components.\n";
+  if (argc <= 3 or argc >= 6) {
+    std::cerr << err << "Three or four arguments are needed:\n"
+     " - The number n >= 0 of elements.\n"
+     " - The size K >= 3 of the tuple.\n"
+     " - The enforced distance d >= 0 between components.\n"
+     " - The number m >= 0 of colours (default m=2).\n";
     return errcode_parameter;
   }
 
@@ -94,8 +113,12 @@ int main(const int argc, const char* const argv[]) {
     return errcode_too_large;
   }
 
+  const uint_t m = (argc == 4) ? 2 : std::stoul(argv[4]);
+
+
   // Computing the list of Pythagorean tuples:
   vector_t res;
+  cnum_t hn = 0;
   
   const uint_t n2 = n*n;
   uint_t max = 0;
@@ -111,7 +134,7 @@ int main(const int argc, const char* const argv[]) {
         if (c*c != c2) continue;
         if (c < b+dist) continue;
         if (c > max) max = c;
-        res.push_back({{a,b,c}});
+        ++hn; if (m >= 1) res.push_back({{a,b,c}});
       }
     }
   }
@@ -128,7 +151,7 @@ int main(const int argc, const char* const argv[]) {
           if (d*d != d2) continue;
           if (d < c+dist) continue;
           if (d > max) max = d;
-          res.push_back({{a,b,c,d}});
+          ++hn; if (m >= 1) res.push_back({{a,b,c,d}});
         }
       }
     }
@@ -148,11 +171,16 @@ int main(const int argc, const char* const argv[]) {
             if (e*e != e2) continue;
             if (e < d+dist) continue;
             if (e > max) max = e;
-            res.push_back({{a,b,c,d,e}});
+            ++hn; if (m >= 1) res.push_back({{a,b,c,d,e}});
           }
         }
       }
     }
+  }
+
+  if (m == 0) {
+    std::cout << max << " " << hn << "\n";
+    return 0;
   }
 
   // removing duplicates:
@@ -165,12 +193,87 @@ int main(const int argc, const char* const argv[]) {
     }
   );
 
-  // DIMACS output:
-  std::cout << "c Boolean Pythagorean " << K << "-tuples problem, up to n=" << n << ", with minimum-distance between (sorted) components = " << dist << ", yielding " << res.size() << " tuples.\n";
-  std::cout << "c OKlibrary, program " << program << " in version " << version << ".\n";
-  std::cout << "p cnf " << max << " " << 2*res.size() << "\n";
-  for (const auto& x : res) {
-    for (const auto i : x) std::cout << i << " "; std::cout << "0 ";
-    for (const int_t i : x) std::cout << -i << " "; std::cout << "0\n";
+  std::vector<cnum_t> degree(max, 0);
+  for (const auto& x : res) for (const auto i : x) ++degree[i-1];
+  cnum_t occ_n = 0, min_d = -1, max_d = 0, sum_d = 0;
+  uint_t min_v = 0, max_v = 0;
+  typedef std::vector<cnum_t>::size_type  vs_t;
+  for (vs_t i = 0; i < degree.size(); ++i) {
+    const auto deg = degree[i];
+    if (deg != 0) {
+      ++occ_n; sum_d += deg;
+      if (deg < min_d) {min_d = deg; min_v = i+1;}
+      if (deg > max_d) {max_d = deg; max_v = i+1;}
+    }
+  }
+
+  if (m == 1) {
+    std::cout << "c Hypergraph of Pythagorean " << K << "-tuples, up to n=" << n << ",\n"
+    "c  with minimum-distance between (sorted) components = " << dist << ".\n";
+    oklib_output();
+    std::cout << "c Number of occurring vertices = " << occ_n << ".\n";
+    if (occ_n > 0) {
+      std::cout << "c Minimum degree = " << min_d << ", attained for vertex " << min_v << ".\n";
+      std::cout << "c Maximum degree = " << max_d << ", attained for vertex " << max_v << ".\n";
+      std::cout << "c Average degree = " << double(sum_d) / occ_n << ".\n";
+    }
+    std::cout << "p hyp " << max << " " << hn << "\n";
+    for (const auto& x : res) {
+      for (const auto i : x) std::cout << i << " ";
+      std::cout << "0\n";
+    }
+  }
+  else if (m == 2) {// DIMACS output:
+    std::cout << "c Boolean Pythagorean " << K << "-tuples problem, up to n=" << n << ",\n"
+    "c  with minimum-distance between (sorted) components = " << dist << ",\n"
+    "c  yielding " << hn << " tuples.\n";
+    oklib_output();
+    std::cout << "c Number of occurring variables = " << occ_n << ".\n";
+    if (occ_n > 0) {
+      std::cout << "c Minimum degree = " << 2*min_d << ", attained for variable " << min_v << ".\n";
+      std::cout << "c Maximum degree = " << 2*max_d << ", attained for variable " << max_v << ".\n";
+      std::cout << "c Average degree = " << 2*double(sum_d) / occ_n << ".\n";
+    }
+    const cnum_t cn = 2 * hn;
+    std::cout << "p cnf " << max << " " << cn << "\n";
+    for (const auto& x : res) {
+      for (const auto i : x) std::cout << i << " "; std::cout << "0 ";
+      for (const int_t i : x) std::cout << -i << " "; std::cout << "0\n";
+    }
+  } else {
+    assert(m >= 3);
+    std::cout << "c " << m << "-Colour Pythagorean " << K << "-tuples problem, up to n=" << n << ",\n"
+    "c  with minimum-distance between (sorted) components = " << dist << ",\n"
+    "c  yielding " << hn << " tuples.\n";
+    oklib_output();
+    std::cout << "c Using the strong direct translation.\n";
+    std::cout << "c Number of occurring variables = " << m*occ_n << ".\n";
+    if (occ_n > 0) {
+      std::cout << "c Degrees, ignoring the ALOAMO-clauses:\n";
+      std::cout << "c  Minimum = " << m*min_d << ", attained for variable " << min_v << ".\n";
+      std::cout << "c  Maximum = " << m*max_d << ", attained for variable " << max_v << ".\n";
+      std::cout << "c  Average degree = " << m*double(sum_d) / occ_n << ".\n";
+    }
+    const cnum_t cn = m * hn + occ_n * (1 + (m * (m - 1)) / 2);
+    const cnum_t vn = m * cnum_t(max);
+    std::cout << "p cnf " << vn << " " << cn << "\n";
+    for (const auto& x : res) {
+      for (uint_t col = 0; col < m; ++col) {
+        for (const auto i : x) std::cout << var_number(i,m,col) << " ";
+        std::cout << "0"; if (col != m-1) std::cout << " ";
+      }
+      std::cout << "\n";
+    }
+    for (uint_t i = 0; i < degree.size(); ++i)
+      if (degree[i] != 0) {
+        const uint_t v = i+1;
+        for (uint_t col = 0; col < m; ++col)
+          std::cout << -int_t(var_number(v,m,col)) << " ";
+        std::cout << "0";
+        for (uint_t col1 = 0; col1 < m; ++col1)
+          for (uint_t col2 = col1+1; col2 < m; ++col2)
+            std::cout << " " << var_number(v,m,col1) << " " << var_number(v,m,col2) << " 0";
+        std::cout << "\n";
+      }
   }
 }
