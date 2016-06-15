@@ -49,7 +49,7 @@ License, or any later version. */
 
   Pythagorean numbers established:
    - Ptn(3,3) = 7825
-   - Ptn(3,3,3) > 800000 (g2wsat)
+   - Ptn(3,3,3) > 1000000 (g2wsat)
    - Ptn(4,4) = 105
    - Ptn_i(4,4) = 163
    - Ptn(4,4,4) > 1600 (vw1) (2000 hard to satisfy)
