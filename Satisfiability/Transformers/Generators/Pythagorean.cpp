@@ -63,7 +63,7 @@ License, or any later version. */
    - Ptn(5,5,5) = 191 (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
    - Ptn_i(5,5,5) ?
-   - Ptn(6,6) = ?
+   - Ptn(6,6) = 23
    - Ptn(6,6,6) = ?
    - Ptn(6,6,6,6) = ?
 
@@ -95,7 +95,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2.1";
+  const std::string version = "0.2.3";
 
   const std::string filename = "Pyth_";
 
