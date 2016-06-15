@@ -58,12 +58,12 @@ License, or any later version. */
    - Ptn(3,3,3) > 1000000 (g2wsat)
    - Ptn(4,4) = 105
    - Ptn_i(4,4) = 163
-   - Ptn(4,4,4) > 1600 (vw1) (2000 hard to satisfy; weak conjecture <= 2000)
+   - Ptn(4,4,4) > 1600 (vw1) (1800 hard to satisfy; weak conjecture <= 1800)
    - Ptn(5,5) = 37
    - Ptn_i(5,5) = 75
    - Ptn(5,5,5) = 191 (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 300 (vw1)
+   - Ptn_i(5,5,5) > 300 (vw1, g2wsat; 400 hard to satisfy; weak conjecture <= 400)
    - Ptn(6,6) = 23
    - Ptn(6,6,6) > 111 (vw1); Conjecture: = 112.
    - Ptn(6,6,6,6) = ?
@@ -96,7 +96,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2.3";
+  const std::string version = "0.2.4";
 
   const std::string filename = "Pyth_";
 
@@ -130,8 +130,8 @@ int main(const int argc, const char* const argv[]) {
   const uint_t n = std::stoul(argv[1]);
 
   const uint_t K = std::stoul(argv[2]);
-  if (K <= 2) {
-    std::cerr << err << "Second input " << K << " must be at least 2.\n";
+  if (K < 3) {
+    std::cerr << err << "Second input " << K << " must be at least 3.\n";
     return errcode_too_small;
   }
   if ( K > 6) {
@@ -238,16 +238,16 @@ int main(const int argc, const char* const argv[]) {
           const uint_t c2 = c*c;
           for (uint d = c+dist; d < n; ++d) {
             const uint_t d2 = d*d;
-	    for (uint e = d+dist; e < n; ++e) {
-	      const uint e2 = e*e;
-              const uint_t f2 = a2 + b2 + c2 + d2 + e2;
-              if (f2 > n2) break;
-              const uint_t f = std::sqrt(f2);
-              if (f*f != f2) continue;
-              if (f < e+dist) continue;
-              if (f > max) max = f;
-              ++hn; if (m >= 1) res.push_back({{a,b,c,d,e,f}});
-	    }
+              for (uint e = d+dist; e < n; ++e) {
+                const uint e2 = e*e;
+                const uint_t f2 = a2 + b2 + c2 + d2 + e2;
+                if (f2 > n2) break;
+                const uint_t f = std::sqrt(f2);
+                if (f*f != f2) continue;
+                if (f < e+dist) continue;
+                if (f > max) max = f;
+                ++hn; if (m >= 1) res.push_back({{a,b,c,d,e,f}});
+              }
           }
         }
       }
