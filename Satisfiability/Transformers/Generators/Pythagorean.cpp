@@ -47,6 +47,11 @@ License, or any later version. */
 
   > g++ -Wall --std=c++11 -Ofast -DNDEBUG -o Pythagorean Pythagorean.cpp
 
+  TODO: implement intelligent method at least for K=3.
+  TODO: make subsumption-elimination an option (for K >= 5).
+  TODO: Make iterated elimination of vertices of degree at most m-1 an
+  option.
+
   Pythagorean numbers established:
    - Ptn(3,3) = 7825
    - Ptn(3,3,3) > 1000000 (g2wsat)
@@ -55,8 +60,12 @@ License, or any later version. */
    - Ptn(4,4,4) > 1600 (vw1) (2000 hard to satisfy)
    - Ptn(5,5) = 37
    - Ptn_i(5,5) = 75
-   - Pth(5,5,5) = 191 (vw1 for 190, found easily; SplittingViaOKsolver with
-     D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
+   - Ptn(5,5,5) = 191 (vw1 for 190, found easily; C&C via SplittingViaOKsolver
+     with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
+   - Ptn_i(5,5,5) ?
+   - Ptn(6,6) = ?
+   - Ptn(6,6,6) = ?
+   - Ptn(6,6,6,6) = ?
 
 */
 
