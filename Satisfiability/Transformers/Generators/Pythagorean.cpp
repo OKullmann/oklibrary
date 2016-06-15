@@ -64,7 +64,7 @@ License, or any later version. */
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
    - Ptn_i(5,5,5) ?
    - Ptn(6,6) = 23
-   - Ptn(6,6,6) = ?
+   - Ptn(6,6,6) > 111 (vw1); Conjecture: = 112.
    - Ptn(6,6,6,6) = ?
 
 */
