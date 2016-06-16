@@ -55,7 +55,7 @@ License, or any later version. */
 
   Pythagorean numbers established:
    - Ptn(3,3) = 7825
-   - Ptn(3,3,3) > 1000000 (g2wsat)
+   - Ptn(3,3,3) > 2000000 (g2wsat, first run with cutoff=30000000)
    - Ptn(4,4) = 105
    - Ptn_i(4,4) = 163
    - Ptn(4,4,4) > 1600 (vw1) (1800 hard to satisfy; weak conjecture <= 1800)
@@ -63,9 +63,9 @@ License, or any later version. */
    - Ptn_i(5,5) = 75
    - Ptn(5,5,5) = 191 (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 300 (vw1, g2wsat; 400 hard to satisfy; weak conjecture <= 400)
+   - Ptn_i(5,5,5) > 350 (g2wsat; 400 hard to satisfy; weak conjecture <= 400)
    - Ptn(6,6) = 23
-   - Ptn(6,6,6) > 111 (vw1); Conjecture: = 112.
+   - Ptn(6,6,6) > 112 (vw1; for 112 C&C with D=20 as above)
    - Ptn(6,6,6,6) = ?
 
 */
