@@ -53,23 +53,35 @@ License, or any later version. */
   TODO: Make iterated elimination of vertices of degree at most m-1 an
   option.
 
-  Pythagorean numbers established:
-   - Ptn(3,3) = 7825
+  Counting links:
+   - https://oeis.org/A224921 for number of Pythagorean triples (K=3)
+     up to n-1.
+   - Number of Pythagorean quadruples (K=4) or quintuples (K=5) not in OEIS.
+
+  Pythagorean numbers established (in square brackets [h;c], number of
+  hyperedges and number of clauses):
+   - Ptn(3,3) = 7825 [9,472; 18,944]
        http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
-   - Ptn(3,3,3) > 2000000 (g2wsat, first run with cutoff=30000000)
-   - Ptn(4,4) = 105
-   - Ptn_i(4,4) = 163
-   - Ptn(4,4,4) > 1670 (vw1 with "410 1 0 1715914 1998336626"; 1700 hard to
+   - Ptn(3,3,3) > 2000000 [4,181,998; 19,504,238]
+     (g2wsat, first run with cutoff=30000000)
+   - Ptn(4,4) = 105 [639; 1278]
+   - Ptn_i(4,4) = 163 [545; 1090]
+   - Ptn(4,4,4) > 1680 [158,627; 482,601]
+     (vw1 with "2 1 0 6540594 3535491316"; 1700 hard to
      satisfy; weak conjecture <= 1700)
-   - Ptn(5,5) = 37
-   - Ptn_i(5,5) = 75
-   - Ptn(5,5,5) = 191 (vw1 for 190, found easily; C&C via SplittingViaOKsolver
+   - Ptn(5,5) = 37 [404; 808]
+   - Ptn_i(5,5) = 75 [2,276; 4,552]
+   - Ptn(5,5,5) = 191 [46,633; 140,663]
+     (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 365 (g2wsat with "344 1 0 51479 2332803072"; 375 hard to
-     satisfy; weak conjecture <= 375)
-   - Ptn(6,6) = 23
-   - Ptn(6,6,6) > 120 (C&C with D=25 as above)
-   - Ptn(6,6,6,6) = ?
+   - Ptn_i(5,5,5) > 365 [296,612; 891,296]
+     (g2wsat with "344 1 0 51479 2332803072"; 370 hard to
+     satisfy; weak conjecture <= 370)
+   - Ptn(6,6) = 23 [311; 622]
+   - Ptn(6,6,6) > 120 [154,860; 465,060] (C&C with D=25 as above)
+
+   The sequence Ptn(k,k) for k=3,..., (which is 7825, 105, 37, 23) could be
+   sent to OEIS? But likely it is finite (in a sense)?
 
 */
 
