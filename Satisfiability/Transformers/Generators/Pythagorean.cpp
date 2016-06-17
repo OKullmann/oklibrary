@@ -55,17 +55,20 @@ License, or any later version. */
 
   Pythagorean numbers established:
    - Ptn(3,3) = 7825
+       http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
    - Ptn(3,3,3) > 2000000 (g2wsat, first run with cutoff=30000000)
    - Ptn(4,4) = 105
    - Ptn_i(4,4) = 163
-   - Ptn(4,4,4) > 1600 (vw1) (1800 hard to satisfy; weak conjecture <= 1800)
+   - Ptn(4,4,4) > 1670 (vw1 with "410 1 0 1715914 1998336626"; 1700 hard to
+     satisfy; weak conjecture <= 1700)
    - Ptn(5,5) = 37
    - Ptn_i(5,5) = 75
    - Ptn(5,5,5) = 191 (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 350 (g2wsat; 400 hard to satisfy; weak conjecture <= 400)
+   - Ptn_i(5,5,5) > 365 (g2wsat with "344 1 0 51479 2332803072"; 375 hard to
+     satisfy; weak conjecture <= 375)
    - Ptn(6,6) = 23
-   - Ptn(6,6,6) > 112 (vw1; for 112 C&C with D=20 as above)
+   - Ptn(6,6,6) > 120 (C&C with D=25 as above)
    - Ptn(6,6,6,6) = ?
 
 */
@@ -229,7 +232,7 @@ int main(const int argc, const char* const argv[]) {
       }
     }
   }
-  else {
+  else { // K==6
     for (uint_t a = 1; a < n; ++a) {
       const uint_t a2 = a*a;
       for (uint_t b = a+dist; b < n; ++b) {
@@ -238,16 +241,16 @@ int main(const int argc, const char* const argv[]) {
           const uint_t c2 = c*c;
           for (uint d = c+dist; d < n; ++d) {
             const uint_t d2 = d*d;
-              for (uint e = d+dist; e < n; ++e) {
-                const uint e2 = e*e;
-                const uint_t f2 = a2 + b2 + c2 + d2 + e2;
-                if (f2 > n2) break;
-                const uint_t f = std::sqrt(f2);
-                if (f*f != f2) continue;
-                if (f < e+dist) continue;
-                if (f > max) max = f;
-                ++hn; if (m >= 1) res.push_back({{a,b,c,d,e,f}});
-              }
+            for (uint e = d+dist; e < n; ++e) {
+              const uint e2 = e*e;
+              const uint_t f2 = a2 + b2 + c2 + d2 + e2;
+              if (f2 > n2) break;
+              const uint_t f = std::sqrt(f2);
+              if (f*f != f2) continue;
+              if (f < e+dist) continue;
+              if (f > max) max = f;
+              ++hn; if (m >= 1) res.push_back({{a,b,c,d,e,f}});
+            }
           }
         }
       }
