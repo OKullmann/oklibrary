@@ -64,24 +64,33 @@ License, or any later version. */
        http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
    - Ptn(3,3,3) > 2000000 [4,181,998; 19,504,238]
      (g2wsat, first run with cutoff=30000000)
-   - Ptn(4,4) = 105 [639; 1278]
+   - Ptn(4,4) = 105 [639; 1278] (known)
    - Ptn_i(4,4) = 163 [545; 1090]
    - Ptn(4,4,4) > 1680 [158,627; 482,601]
      (vw1 with "2 1 0 6540594 3535491316"; 1700 hard to
      satisfy; weak conjecture <= 1700)
-   - Ptn(5,5) = 37 [404; 808]
+   - Ptn(5,5) = 37 [404; 808] (known)
    - Ptn_i(5,5) = 75 [2,276; 4,552]
    - Ptn(5,5,5) = 191 [46,633; 140,663]
      (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 365 [296,612; 891,296]
-     (g2wsat with "344 1 0 51479 2332803072"; 370 hard to
+   - Ptn_i(5,5,5) > 366 [299,598; 900,258]
+     (g2wsat with "124 1 0 40665 3558472492"; 370 hard to
      satisfy; weak conjecture <= 370)
-   - Ptn(6,6) = 23 [311; 622]
+   - Ptn(6,6) = 23 [311; 622] (known)
+   - Ptn_i(6,6) = 61 [6770; 13540]
    - Ptn(6,6,6) > 120 [154,860; 465,060] (C&C with D=25 as above)
+   - Ptn(7,7) = 18 [306; 612] (known)
+   - Ptn_i(7,7) = 65 [41324; 82648]
 
-   The sequence Ptn(k,k) for k=3,..., (which is 7825, 105, 37, 23) could be
-   sent to OEIS? But likely it is finite (in a sense)?
+   The sequence Ptn(k,k) for k=2,..., (which is 1, 7825, 105, 37, 23, 18, ...)
+   is https://oeis.org/A250026 .
+
+   The sequence Ptn_i(k,k) for k=3,..., is also of interest (7825,163,75,61,
+   65).
+
+   The sequence Ptn(k,k,k) for k=3,... (?,?,191,?) might be a bit doable
+   except of the first two terms.
 
 */
 
@@ -111,7 +120,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2.4";
+  const std::string version = "0.2.5";
 
   const std::string filename = "Pyth_";
 
@@ -149,8 +158,8 @@ int main(const int argc, const char* const argv[]) {
     std::cerr << err << "Second input " << K << " must be at least 3.\n";
     return errcode_too_small;
   }
-  if ( K > 6) {
-    std::cerr << err << "Second input " << K << " currently must be at most 6.\n";
+  if ( K > 7) {
+    std::cerr << err << "Second input " << K << " currently must be at most 7.\n";
     return errcode_not_yet;
   }
   const uint_t abs_max = uint_t(std::sqrt(std::numeric_limits<uint_t>::max())) / K;
@@ -244,7 +253,7 @@ int main(const int argc, const char* const argv[]) {
       }
     }
   }
-  else { // K==6
+  else if (K == 6) {
     for (uint_t a = 1; a < n; ++a) {
       const uint_t a2 = a*a;
       for (uint_t b = a+dist; b < n; ++b) {
@@ -262,6 +271,32 @@ int main(const int argc, const char* const argv[]) {
               if (f < e+dist) continue;
               if (f > max) max = f;
               ++hn; if (m >= 1) res.push_back({{a,b,c,d,e,f}});
+            }
+          }
+        }
+      }
+    }
+  } else {
+    for (uint_t a = 1; a < n; ++a) {
+      const uint_t a2 = a*a;
+      for (uint_t b = a+dist; b < n; ++b) {
+        const uint_t b2 = b*b;
+        for (uint_t c = b+dist; c < n; ++c) {
+          const uint_t c2 = c*c;
+          for (uint d = c+dist; d < n; ++d) {
+            const uint_t d2 = d*d;
+            for (uint e = d+dist; e < n; ++e) {
+              const uint e2 = e*e;
+              for (uint f = e+dist; f < n; ++f) {
+                const uint f2 = f*f;
+                const uint_t g2 = a2 + b2 + c2 + d2 + e2 + f2;
+                if (g2 > n2) break;
+                const uint_t g = std::sqrt(g2);
+                if (g*g != g2) continue;
+                if (g < f+dist) continue;
+                if (g > max) max = g;
+                ++hn; if (m >= 1) res.push_back({{a,b,c,d,e,f,g}});
+              }
             }
           }
         }
