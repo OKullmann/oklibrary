@@ -162,8 +162,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.7.2";
-const std::string date = "7.2.2016";
+const std::string version = "2.7.3";
+const std::string date = "18.6.2016";
 
 const std::string program = "tawSolver";
 
@@ -184,7 +184,7 @@ enum Error_codes {
 enum Result_value { unsat=20, sat=10, unknown=0 };
 
 typedef bool DLL_return_t;
-inline constexpr Result_value interprete_run(const DLL_return_t result) {
+inline constexpr Result_value interprete_run(const DLL_return_t result) noexcept {
   return result ? sat : unsat;
 }
 
@@ -259,10 +259,10 @@ static_assert(- -max_lit == max_lit, "Problem with negating max_lit.");
 
 typedef std::make_unsigned<Lit_int>::type Var;
 static_assert(Lit_int(Var(max_lit)) == max_lit, "Problem with Var and Lit_int.");
-inline constexpr bool valid(const Var v) { return v <= Var(max_lit); }
+inline constexpr bool valid(const Var v) noexcept { return v <= Var(max_lit); }
 
 enum Polarity { pos=0, neg=1 };
-inline constexpr Polarity operator -(const Polarity p) {
+inline constexpr Polarity operator -(const Polarity p) noexcept {
   return (p==pos) ? neg:pos;
 }
 
@@ -270,14 +270,14 @@ class Lit {
   Lit_int x;
 public :
   Lit() = default;
-  constexpr explicit Lit(const Lit_int x) : x(x) {}
-  constexpr Lit(const Var v, const Polarity p) : x(p==pos?v:-Lit_int(v)) {}
-  constexpr explicit operator bool() const { return x; }
-  constexpr Lit operator -() const { return Lit(-x); }
-  constexpr bool operator ==(const Lit y) const { return x == y.x; }
-  constexpr bool operator !=(const Lit y) const { return x != y.x; }
-  friend constexpr Var var(const Lit x) { return std::abs(x.x); }
-  friend constexpr Polarity sign(const Lit x) {return (x.x >= 0) ? pos : neg;}
+  constexpr explicit Lit(const Lit_int x) noexcept : x(x) {}
+  constexpr Lit(const Var v, const Polarity p) noexcept : x(p==pos?v:-Lit_int(v)) {}
+  constexpr explicit operator bool() const noexcept { return x; }
+  constexpr Lit operator -() const noexcept { return Lit(-x); }
+  constexpr bool operator ==(const Lit y) const noexcept { return x == y.x; }
+  constexpr bool operator !=(const Lit y) const noexcept { return x != y.x; }
+  friend constexpr Var var(const Lit x) noexcept { return std::abs(x.x); }
+  friend constexpr Polarity sign(const Lit x) noexcept {return (x.x >= 0) ? pos : neg;}
   friend std::ostream& operator <<(std::ostream& out, const Lit x) {
     return out << x.x;
   }
@@ -287,7 +287,7 @@ public :
 };
 static_assert(std::is_pod<Lit>::value, "Lit is not POD.");
 
-inline constexpr Lit operator"" _l(const unsigned long long x) {return Lit(x);}
+inline constexpr Lit operator"" _l(const unsigned long long x) noexcept {return Lit(x);}
 static_assert(0_l == Lit(), "Problem with default construction of Lit.");
 // Remark: As usual, as a local variable, the declaration "Lit x;" does not
 // initialise x.
@@ -372,28 +372,28 @@ class Clause {
 
   // The friends below (for updating the length) only access the following
   // member functions:
-  void decrement() { assert(length_ >= 2); --length_; }
-  void increment() { assert(length_ >= 1); ++length_; }
-  void deactivate() {
+  void decrement() noexcept { assert(length_ >= 2); --length_; }
+  void increment() noexcept { assert(length_ >= 1); ++length_; }
+  void deactivate() noexcept {
     assert(length_ >= 1);
     old_length = length_;
     length_ = 0;
     assert(r_clauses >= 1);
     --r_clauses;
   }
-  void activate() {
+  void activate() noexcept {
     assert(length_ == 0);
     length_ = old_length;
     ++r_clauses;
   }
   friend class ChangeManagement;
-  friend void assign_0(Lit);
-  friend void assign_1(Lit);
+  friend void assign_0(Lit) noexcept;
+  friend void assign_1(Lit) noexcept;
 public :
-  const Lit* begin() const { return b; }
-  const Lit* end() const { return e; }
-  Clause_index length() const { return length_; }
-  explicit operator bool() const { return length_; }
+  const Lit* begin() const noexcept { return b; }
+  const Lit* end() const noexcept { return e; }
+  Clause_index length() const noexcept { return length_; }
+  explicit operator bool() const noexcept { return length_; }
 };
 static_assert(std::is_pod<Clause>::value, "Clause is not POD.");
 
@@ -417,8 +417,8 @@ class LiteralOccurrences {
     const ClauseP* e; // one past-the-end
     friend class LiteralOccurrences;
   public :
-    const ClauseP* begin() const { return b; }
-    const ClauseP* end() const { return e; }
+    const ClauseP* begin() const noexcept { return b; }
+    const ClauseP* end() const noexcept { return e; }
   };
 static_assert(std::is_pod<Literal_occurrences>::value, "Literal_occurrences is not POD.");
 
@@ -458,7 +458,7 @@ static_assert(std::is_pod<Literal_occurrences>::value, "Literal_occurrences is n
 
 public :
   LiteralOccurrences() = default;
-  const Variable_occurrences& operator[](const Var i) const {return varocc[i];}
+  const Variable_occurrences& operator[](const Var i) const noexcept {return varocc[i];}
 };
 
 
@@ -514,10 +514,12 @@ constexpr Var count_bits = std::numeric_limits<Count_solutions>::digits;
 constexpr int count_digits = std::numeric_limits<Count_solutions>::digits10;
 template <typename CT, bool IS_FLOATING_TYPE> struct Pow2;
 template <typename CT> struct Pow2<CT,true> {
-  constexpr CT operator()(const Var n) { return std::pow(2,n); }
+  constexpr CT operator()(const Var n) noexcept { return std::pow(2,n); }
 };
 template <typename CT> struct Pow2<CT,false> {
-  constexpr CT operator()(const Var n) {return n<count_bits ? CT(1) << n : 0;}
+  constexpr CT operator()(const Var n) noexcept {
+    return n<count_bits ? CT(1) << n : 0;
+  }
 };
 Pow2<Count_solutions,floating_count> pow2;
 Count_solutions n_solutions;
@@ -707,10 +709,10 @@ class Pass {
   void init() { pass.resize(n_vars+1); }
   friend void initialisation();
 public :
-  Lit operator[] (const Var v) const { return pass[v]; }
-  Lit& operator[] (const Var v) { return pass[v]; }
-  Lit_vec::size_type size() const { return pass.size(); }
-  Var n() const {
+  Lit operator[] (const Var v) const noexcept { return pass[v]; }
+  Lit& operator[] (const Var v) noexcept { return pass[v]; }
+  Lit_vec::size_type size() const noexcept { return pass.size(); }
+  Var n() const noexcept {
     Var res = 0;
     assert(pass[0] == 0_l);
     for (auto x : pass) res += bool(x);
@@ -736,10 +738,14 @@ class ChangeManagement {
   }
   friend void initialisation();
 public :
-  void start_new() { *(next++) = nullptr; }
-  void push(const ClauseP C) { *(next++) = C; }
-  void reactivate_0() { while (const ClauseP C = *(--next)) C->increment(); }
-  void reactivate_1() { while (const ClauseP C = *(--next)) C->activate(); }
+  void start_new() noexcept { *(next++) = nullptr; }
+  void push(const ClauseP C) noexcept { *(next++) = C; }
+  void reactivate_0() noexcept {
+    while (const ClauseP C = *(--next)) C->increment();
+  }
+  void reactivate_1() noexcept {
+    while (const ClauseP C = *(--next)) C->activate();
+  }
 };
 ChangeManagement changes;
 
@@ -760,23 +766,23 @@ class Unit_stack {
   }
   friend void initialisation();
 public :
-  static void push(const Lit x) {
+  static void push(const Lit x) noexcept {
     assert(end_ - &stack[0] < n_vars);
     *(end_++) = x;
   }
-  static Lit pop() {
+  static Lit pop() noexcept {
     assert(open_ != end_);
     return *(open_++);
   }
-  Unit_stack() : begin_(end_) { open_ = end_; }
-  ~Unit_stack() {
+  Unit_stack() noexcept : begin_(end_) { open_ = end_; }
+  ~Unit_stack() noexcept {
     const auto end = end_;
     for (auto p = begin_; p != end; ++p) pass[var(*p)] = 0_l;
     end_ = const_cast<Lit*>(begin_);
   }
-  explicit operator bool() const { return end_ != open_; }
-  const Lit* begin() const { return begin_; }
-  static const Lit* end() { return end_; }
+  explicit operator bool() const noexcept { return end_ != open_; }
+  const Lit* begin() const noexcept { return begin_; }
+  static const Lit* end() noexcept { return end_; }
 };
 Unit_stack::stack_t Unit_stack::stack;
 Lit* Unit_stack::end_;
@@ -792,11 +798,11 @@ class Unit_stack {
   static Lit* end_input;
   static Lit* end_main;
   const Lit* const begin_main;
-  static Lit push_main(const Lit x) {
+  static Lit push_main(const Lit x) noexcept {
     assert(end_main - &main_stack[0] < n_vars);
     return *(end_main++) = x;
   }
-  static Lit pop_input() {
+  static Lit pop_input() noexcept {
     assert(end_input != begin_input);
     return *(--end_input);
   }
@@ -809,12 +815,12 @@ class Unit_stack {
   }
   friend void initialisation();
 public :
-  static void push(const Lit x) {
+  static void push(const Lit x) noexcept {
     assert(end_input - begin_input < n_vars);
     *(end_input++) = x;
   }
-  static Lit pop() { return push_main(pop_input()); }
-  Unit_stack() : begin_main(end_main) { end_input = begin_input; }
+  static Lit pop() noexcept { return push_main(pop_input()); }
+  Unit_stack() noexcept : begin_main(end_main) { end_input = begin_input; }
   ~Unit_stack() {
     const auto mend = end_main;
     for (auto p = begin_main; p != mend; ++p) pass[var(*p)] = 0_l;
@@ -822,9 +828,9 @@ public :
     for (auto p = begin_input; p != iend; ++p) pass[var(*p)] = 0_l;
     end_main = const_cast<Lit*>(begin_main);
   }
-  explicit operator bool() const { return end_input != begin_input; }
-  const Lit* begin() const { return begin_main; }
-  static const Lit* end() { return end_main; }
+  explicit operator bool() const noexcept { return end_input != begin_input; }
+  const Lit* begin() const noexcept { return begin_main; }
+  static const Lit* end() noexcept { return end_main; }
 };
 Unit_stack::stack_t Unit_stack::main_stack;
 Unit_stack::stack_t Unit_stack::input_stack;
@@ -837,7 +843,7 @@ class Push_unit_clause {
   bool contradiction_ = false;
 public :
   // returns false iff contradiction found:
-  bool operator() (const Clause& C) {
+  bool operator() (const Clause& C) noexcept {
     assert(C.length() == 1);
     assert(not contradiction_);
     for (const Lit y : C) {
@@ -852,7 +858,7 @@ public :
     contradiction_ = true;
     return false;
   }
-  bool contradiction() {
+  bool contradiction() noexcept {
     if (contradiction_) {contradiction_ = false; return true;}
     else return false;
   }
@@ -860,16 +866,16 @@ public :
 Push_unit_clause push_unit_clause;
 
 #ifdef PURE_LITERALS
-void assign_1(Lit);
+void assign_1(Lit) noexcept;
 class PureLiterals {
   typedef Lit_vec stack_t;
   static stack_t stack;
   static const Lit* new_begin;
   static Lit* end_;
   const Lit* const begin_;
-  const Lit* begin() const { return begin_; }
-  static const Lit* end() { return end_; }
-  static void push(const Lit x) {
+  const Lit* begin() const noexcept { return begin_; }
+  static const Lit* end() noexcept { return end_; }
+  static void push(const Lit x) noexcept {
     assert(end_ - &stack[0] < n_vars);
     *(end_++) = x;
   }
@@ -880,8 +886,8 @@ class PureLiterals {
   }
   friend void initialisation();
 public :
-  static void clear() { new_begin = end_; }
-  static bool set(const Var v, const Polarity s) {
+  static void clear() noexcept { new_begin = end_; }
+  static bool set(const Var v, const Polarity s) noexcept {
     const Lit pl{v,s};
     pass[v] = pl;
     push(pl);
@@ -889,7 +895,7 @@ public :
     ++n_pure_literals;
     return r_clauses == 0;
   }
-  PureLiterals() : begin_(new_begin) {}
+  PureLiterals() noexcept : begin_(new_begin) {}
   ~PureLiterals() {
     for (const Lit x : *this) pass[var(x)] = 0_l;
     end_ = const_cast<Lit*>(begin_);
@@ -991,17 +997,17 @@ constexpr Weight_t inf_weight = std::numeric_limits<Weight_t>::infinity();
 class Weights {
   constexpr static Weight_t min_weight = std::numeric_limits<Weight_t>::min();
   static_assert(min_weight != 0, "Error with min_weight.");
-  constexpr static Weight_t set_min(const Weight_t w) {
+  constexpr static Weight_t set_min(const Weight_t w) noexcept {
     return (w == 0) ? min_weight : w;
   }
   // the weights for clause of length >= first_open_weight:
-  constexpr static Weight_t wopen(const Clause_index clause_length) {
+  constexpr static Weight_t wopen(const Clause_index clause_length) noexcept {
     return set_min(predetermined_weights[first_open_weight-1] *
       std::pow(basis_open,-Weight_t(clause_length)+first_open_weight-1));
   }
 
   Weight_vector weights;
-  void init() {
+  void init() noexcept {
     assert(weights.size() == first_open_weight);
     try { weights.resize(max_clause_length+1); }
     catch (const std::bad_alloc&) {
@@ -1014,8 +1020,8 @@ class Weights {
   }
   friend void initialisation();
 public :
-  Weights() : weights(predetermined_weights.begin(), predetermined_weights.end()) {}
-  Weight_t operator[] (const Clause_index i) const { return weights[i]; }
+  Weights() noexcept : weights(predetermined_weights.begin(), predetermined_weights.end()) {}
+  Weight_t operator[] (const Clause_index i) const noexcept { return weights[i]; }
 };
 constexpr Weight_t Weights::min_weight;
 Weights weight;
@@ -1036,7 +1042,7 @@ void initialisation() {
 
 // --- Assignments to variables ---
 
-inline void assign_0(const Lit x) {
+inline void assign_0(const Lit x) noexcept {
   assert(x);
   const Var v = var(x);
   assert(v <= n_vars);
@@ -1050,7 +1056,7 @@ inline void assign_0(const Lit x) {
   }
 }
 
-inline void assign_1(const Lit x) {
+inline void assign_1(const Lit x) noexcept {
   assert(x);
   const Var v = var(x);
   assert(v <= n_vars);
@@ -1065,7 +1071,7 @@ inline void assign_1(const Lit x) {
 
 // --- Branching heuristics ---
 
-inline Lit first_branch(const Weight_t pd, const Weight_t nd, const Var v) {
+inline Lit first_branch(const Weight_t pd, const Weight_t nd, const Var v) noexcept {
   return (pd>=nd) ? Lit(v) : -Lit(v);
 }
 #ifdef TAU_ITERATION
@@ -1073,7 +1079,7 @@ static_assert(TAU_ITERATION >= 0, "Negative value of TAU_ITERATION.");
 class Branching_tau {
   Lit x;
   Weight_t min1, max2;
-  static Weight_t tau(const Weight_t a, const Weight_t b) {
+  static Weight_t tau(const Weight_t a, const Weight_t b) noexcept {
     constexpr int iterations = TAU_ITERATION;
     Weight_t x = std::pow(4,1/(a+b));
     for (int i = 0; i != iterations; ++i) {
@@ -1083,9 +1089,9 @@ class Branching_tau {
     return x;
   }
 public :
-  Branching_tau() : x{}, min1(inf_weight), max2(0) {}
-  operator Lit() const { return x; }
-  void operator()(const Weight_t pd, const Weight_t nd, const Var v) {
+  Branching_tau() noexcept : x{}, min1(inf_weight), max2(0) {}
+  operator Lit() const noexcept { return x; }
+  void operator()(const Weight_t pd, const Weight_t nd, const Var v) noexcept {
 #ifndef PURE_LITERALS
     if (pd == 0 or nd == 0) {
       if (min1 < inf_weight) return;
@@ -1113,9 +1119,9 @@ class Branching_product {
   Lit x;
   Weight_t max1, max2;
 public :
-  Branching_product() : x{}, max1(0), max2(0) {}
-  operator Lit() const { return x; }
-  void operator()(const Weight_t pd, const Weight_t nd, const Var v) {
+  Branching_product() noexcept : x{}, max1(0), max2(0) {}
+  operator Lit() const noexcept { return x; }
+  void operator()(const Weight_t pd, const Weight_t nd, const Var v) noexcept {
     const Weight_t prod = pd * nd;
     if (prod < max1) return;
     const Weight_t sum = pd + nd;
@@ -1128,7 +1134,7 @@ public :
 typedef Branching_product Best_branching;
 #endif
 
-inline Lit branching_literal() {
+inline Lit branching_literal() noexcept {
   Best_branching br;
 #ifdef PURE_LITERALS
   PureLiterals::clear(); changes.start_new();
