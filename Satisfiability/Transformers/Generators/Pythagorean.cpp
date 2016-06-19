@@ -48,6 +48,11 @@ License, or any later version. */
   > g++ -Wall --std=c++11 -Ofast -DNDEBUG -o Pythagorean Pythagorean.cpp
 
   TODO: implement intelligent method at least for K=3.
+    The problem here is, that apparently all methods need factorisation
+    (or the list of divisors), and thus we get a software dependency on
+    the factorisation library. So well, make it a compile-time option.
+    But apparently only GMP-ECM is available? And this library is not
+    documented, and likely not fast for our relatively small numbers?
   TODO: make subsumption-elimination an option (for K >= 5).
   TODO: implement arbitrary K.
   TODO: Make iterated elimination of vertices of degree at most m-1 an
@@ -67,8 +72,8 @@ License, or any later version. */
    - Ptn(4,4) = 105 [639; 1278] (known)
    - Ptn_i(4,4) = 163 [545; 1090]
    - Ptn(4,4,4) > 1680 [158,627; 482,601]
-     (vw1 with "2 1 0 6540594 3535491316"; 1685 hard to
-     satisfy; weak conjecture <= 1685)
+     (vw1 with "2 1 0 6540594 3535491316"; 1681 [158,837; 483,235] hard to
+     satisfy; weak conjecture = 1681)
    - Ptn(5,5) = 37 [404; 808] (known)
    - Ptn_i(5,5) = 75 [2,276; 4,552]
    - Ptn(5,5,5) = 191 [46,633; 140,663]
@@ -119,7 +124,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.3.0";
+  const std::string version = "0.3.1";
 
   const std::string filename = "Pyth_";
 
@@ -397,9 +402,9 @@ int main(const int argc, const char* const argv[]) {
     if (occ_n > 0) {
       *out << "c Number of occurring variables = " << m*occ_n << ".\n";
       *out << "c Degrees, ignoring the ALOAMO-clauses:\n";
-      *out << "c  Minimum = " << m*min_d << ", attained for variable " << min_v << ".\n";
-      *out << "c  Maximum = " << m*max_d << ", attained for variable " << max_v << ".\n";
-      *out << "c  Average degree = " << m*double(sum_d) / occ_n << ".\n";
+      *out << "c  Minimum = " << min_d << ", attained for variable " << min_v << ".\n";
+      *out << "c  Maximum = " << max_d << ", attained for variable " << max_v << ".\n";
+      *out << "c  Average degree = " << double(sum_d) / occ_n << ".\n";
     }
     const cnum_t cn = m * hn + occ_n * (1 + (m * (m - 1)) / 2);
     const cnum_t vn = m * cnum_t(max);
