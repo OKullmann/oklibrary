@@ -108,6 +108,65 @@ License, or any later version. */
 #include <cassert>
 #include <fstream>
 
+namespace Pythagorean {
+
+  // Counting triples:
+  template <typename C1, typename C2>
+  void triples_c(const C1 n, const C1 m, C1& max, C2& hn) {
+    assert(n >= 1);
+    const C1 n2 = n*n;
+    for (C1 a = 3; a < n-1; ++a) {
+      const C1 a2 = a*a;
+      for (C1 b = a+1; b < n; ++b) {
+        const C1 c2 = a2 + b*b;
+        if (c2 > n2) break;
+        const C1 c = std::sqrt(c2);
+        if (c*c == c2) {
+          max = std::max(max,c);
+          ++hn;
+        }
+      }
+    }
+  }
+  // Counting triples with minimum distance between (sorted) components:
+  template <typename C1, typename C2>
+  void triples_c(const C1 n, const C1 dist, const C1 m, C1& max, C2& hn) {
+    assert(n >= 1);
+    const C1 n2 = n*n;
+    for (C1 a = 3; a < n-1; ++a) {
+      const C1 a2 = a*a;
+      for (C1 b = a+dist; b < n; ++b) {
+        const C1 c2 = a2 + b*b;
+        if (c2 > n2) break;
+        const C1 c = std::sqrt(c2);
+        if (c*c == c2 and c >= b+dist) {
+          max = std::max(max,c);
+          ++hn;
+        }
+      }
+    }
+  }
+  // Enumerating triples:
+  template <typename C, class V>
+  typename V::size_type triples_e(const C n, const C dist, const C m, V& res, C& max) {
+    assert(n >= 1);
+    const C n2 = n*n;
+    for (C a = 3; a < n-1; ++a) {
+      const C a2 = a*a;
+      for (C b = a+dist; b < n; ++b) {
+        const C c2 = a2 + b*b;
+        if (c2 > n2) break;
+        const C c = std::sqrt(c2);
+        if (c*c != c2) continue;
+        if (c < b+dist) continue;
+        if (c > max) max = c;
+        res.push_back({{a,b,c}});
+      }
+    }
+    return res.size();
+  }
+}
+
 namespace {
 
   typedef unsigned long int uint_t; // vertices and variables
@@ -124,7 +183,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.3.2";
+  const std::string version = "0.3.3";
 
   const std::string filename = "Pyth_";
 
@@ -183,7 +242,7 @@ int main(const int argc, const char* const argv[]) {
     return errcode_too_large;
   }
 
-  const uint_t dist = (K == 3) ? std::max(uint_t(1),std::stoul(argv[3])) : std::stoul(argv[3]);
+  const uint_t dist = std::stoul(argv[3]);
   if (dist > abs_max) {
     std::cerr << err << "Third input " << dist << " larger than maximal allowed value: " << abs_max << ".\n";
     return errcode_too_large;
@@ -210,26 +269,17 @@ int main(const int argc, const char* const argv[]) {
   // Computing the list of Pythagorean tuples:
   hypergraph res;
   cnum_t hn = 0;
-  
-  const uint_t n2 = n*n;
   uint_t max = 0;
 
   if (n <= 1) goto Output;
   if (K == 3) {
-    for (uint_t a = 3; a < n-1; ++a) {
-      const uint_t a2 = a*a;
-      for (uint_t b = a+dist; b < n; ++b) {
-        const uint_t c2 = a2 + b*b;
-        if (c2 > n2) break;
-        const uint_t c = std::sqrt(c2);
-        if (c*c != c2) continue;
-        if (c < b+dist) continue;
-        if (c > max) max = c;
-        ++hn; if (m >= 1) res.push_back({{a,b,c}});
-      }
-    }
+    if (m == 0)
+      if (dist <= 1) Pythagorean::triples_c(n, m, max, hn);
+      else Pythagorean::triples_c(n, dist, m, max, hn);
+    else hn = Pythagorean::triples_e(n, dist, m, res, max);
   }
   else if (K == 4) {
+    const uint_t n2 = n*n;
     for (uint_t a = 1; a < n; ++a) {
       const uint_t a2 = a*a;
       for (uint_t b = a+dist; b < n; ++b) {
@@ -248,6 +298,7 @@ int main(const int argc, const char* const argv[]) {
     }
   }
   else if (K == 5) {
+    const uint_t n2 = n*n;
     for (uint_t a = 1; a < n; ++a) {
       const uint_t a2 = a*a;
       for (uint_t b = a+dist; b < n; ++b) {
@@ -269,6 +320,7 @@ int main(const int argc, const char* const argv[]) {
     }
   }
   else if (K == 6) {
+    const uint_t n2 = n*n;
     for (uint_t a = 1; a < n; ++a) {
       const uint_t a2 = a*a;
       for (uint_t b = a+dist; b < n; ++b) {
@@ -292,6 +344,7 @@ int main(const int argc, const char* const argv[]) {
       }
     }
   } else {
+    const uint_t n2 = n*n;
     for (uint_t a = 1; a < n; ++a) {
       const uint_t a2 = a*a;
       for (uint_t b = a+dist; b < n; ++b) {
