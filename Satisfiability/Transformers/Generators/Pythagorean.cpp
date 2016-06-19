@@ -50,6 +50,7 @@ License, or any later version. */
   TODO: implement intelligent method at least for K=3.
   TODO: Add frequency of clause-length counts.
   TODO: make subsumption-elimination an option (for K >= 5).
+  TODO: implement arbitrary K.
   TODO: Make iterated elimination of vertices of degree at most m-1 an
   option.
 
@@ -67,21 +68,21 @@ License, or any later version. */
    - Ptn(4,4) = 105 [639; 1278] (known)
    - Ptn_i(4,4) = 163 [545; 1090]
    - Ptn(4,4,4) > 1680 [158,627; 482,601]
-     (vw1 with "2 1 0 6540594 3535491316"; 1700 hard to
-     satisfy; weak conjecture <= 1700)
+     (vw1 with "2 1 0 6540594 3535491316"; 1685 hard to
+     satisfy; weak conjecture <= 1685)
    - Ptn(5,5) = 37 [404; 808] (known)
    - Ptn_i(5,5) = 75 [2,276; 4,552]
    - Ptn(5,5,5) = 191 [46,633; 140,663]
      (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 366 [299,598; 900,258]
-     (g2wsat with "124 1 0 40665 3558472492"; 370 hard to
-     satisfy; weak conjecture <= 370)
+   - Ptn_i(5,5,5) > 367 [302,343; 908,497]
+     (g2wsat with "752 1 0 86035 3835845193"; 368 hard to
+     satisfy; weak conjecture = 368 [302,367; 908,573])
    - Ptn(6,6) = 23 [311; 622] (known)
    - Ptn_i(6,6) = 61 [6770; 13540]
    - Ptn(6,6,6) > 120 [154,860; 465,060] (C&C with D=25 as above)
    - Ptn(7,7) = 18 [306; 612] (known)
-   - Ptn_i(7,7) = 65 [41324; 82648]
+   - Ptn_i(7,7) = 65 [41,324; 82,648]
 
    The sequence Ptn(k,k) for k=2,..., (which is 1, 7825, 105, 37, 23, 18, ...)
    is https://oeis.org/A250026 .
@@ -105,9 +106,8 @@ License, or any later version. */
 
 namespace {
 
-  typedef unsigned long int uint_t;
-  typedef long int int_t;
-  typedef unsigned long long int cnum_t;
+  typedef unsigned long int uint_t; // vertices and variables
+  typedef unsigned long long int cnum_t; // hyperedge/clause indices/numbers
 
   enum {
     errcode_parameter = 1,
@@ -120,7 +120,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2.5";
+  const std::string version = "0.2.6";
 
   const std::string filename = "Pyth_";
 
@@ -132,7 +132,7 @@ namespace {
     *out << "c OKlibrary, program " << program << ".cpp in version " << version << ".\n";
   }
 
-  inline cnum_t var_number(const uint_t i, const uint_t m, const uint_t col) {
+  inline cnum_t var_number(const uint_t i, const uint_t m, const uint_t col) noexcept {
     assert(i >= 1);
     assert(col < m);
     return cnum_t(i-1) * m + col + 1;
@@ -323,8 +323,7 @@ int main(const int argc, const char* const argv[]) {
   for (const auto& x : res) for (const auto i : x) ++degree[i-1];
   cnum_t occ_n = 0, min_d = -1, max_d = 0, sum_d = 0;
   uint_t min_v = 0, max_v = 0;
-  typedef std::vector<cnum_t>::size_type  vs_t;
-  for (vs_t i = 0; i < degree.size(); ++i) {
+  for (std::vector<cnum_t>::size_type i = 0; i < degree.size(); ++i) {
     const auto deg = degree[i];
     if (deg != 0) {
       ++occ_n; sum_d += deg;
@@ -364,7 +363,7 @@ int main(const int argc, const char* const argv[]) {
     *out << "p cnf " << max << " " << cn << "\n";
     for (const auto& x : res) {
       for (const auto i : x) *out << i << " "; *out << "0 ";
-      for (const int_t i : x) *out << -i << " "; *out << "0\n";
+      for (const auto i : x) *out << "-" << i << " "; *out << "0\n";
     }
   } else {
     assert(m >= 3);
@@ -394,7 +393,7 @@ int main(const int argc, const char* const argv[]) {
       if (degree[i] != 0) {
         const uint_t v = i+1;
         for (uint_t col = 0; col < m; ++col)
-          *out << -int_t(var_number(v,m,col)) << " ";
+          *out << "-" << var_number(v,m,col) << " ";
         *out << "0";
         for (uint_t col1 = 0; col1 < m; ++col1)
           for (uint_t col2 = col1+1; col2 < m; ++col2)
