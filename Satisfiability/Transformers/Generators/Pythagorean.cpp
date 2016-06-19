@@ -72,16 +72,16 @@ License, or any later version. */
    - Ptn(4,4) = 105 [639; 1278] (known)
    - Ptn_i(4,4) = 163 [545; 1090]
    - Ptn(4,4,4) > 1680 [158,627; 482,601]
-     (vw1 with "2 1 0 6540594 3535491316"; 1681 [158,837; 483,235] hard to
-     satisfy; weak conjecture = 1681)
+     (vw1 with "2 1 0 6540594 3535491316"); 1681 [158,837; 483,235] hard to
+     satisfy; weak conjecture = 1681.
    - Ptn(5,5) = 37 [404; 808] (known)
    - Ptn_i(5,5) = 75 [2,276; 4,552]
    - Ptn(5,5,5) = 191 [46,633; 140,663]
      (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
    - Ptn_i(5,5,5) > 367 [302,343; 908,497]
-     (g2wsat with "752 1 0 86035 3835845193"; 368 hard to
-     satisfy; weak conjecture = 368 [302,367; 908,573])
+     g2wsat with "752 1 0 86035 3835845193"; 368 hard to
+     satisfy; weak conjecture = 368 [302,367; 908,573].
    - Ptn(6,6) = 23 [311; 622] (known)
    - Ptn_i(6,6) = 61 [6770; 13540]
    - Ptn(6,6,6) > 120 [154,860; 465,060] (C&C with D=25 as above)
@@ -124,7 +124,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.3.1";
+  const std::string version = "0.3.2";
 
   const std::string filename = "Pyth_";
 
@@ -183,7 +183,7 @@ int main(const int argc, const char* const argv[]) {
     return errcode_too_large;
   }
 
-  const uint_t dist = std::stoul(argv[3]);
+  const uint_t dist = (K == 3) ? std::max(uint_t(1),std::stoul(argv[3])) : std::stoul(argv[3]);
   if (dist > abs_max) {
     std::cerr << err << "Third input " << dist << " larger than maximal allowed value: " << abs_max << ".\n";
     return errcode_too_large;
@@ -214,12 +214,12 @@ int main(const int argc, const char* const argv[]) {
   const uint_t n2 = n*n;
   uint_t max = 0;
 
+  if (n <= 1) goto Output;
   if (K == 3) {
-    for (uint_t a = 1; a < n; ++a) {
+    for (uint_t a = 3; a < n-1; ++a) {
       const uint_t a2 = a*a;
       for (uint_t b = a+dist; b < n; ++b) {
-        const uint_t b2 = b*b;
-        const uint_t c2 = a2 + b2;
+        const uint_t c2 = a2 + b*b;
         if (c2 > n2) break;
         const uint_t c = std::sqrt(c2);
         if (c*c != c2) continue;
@@ -318,6 +318,8 @@ int main(const int argc, const char* const argv[]) {
       }
     }
   }
+
+  Output :
 
   if (m == 0) {
     *out << max << " " << hn << "\n";
