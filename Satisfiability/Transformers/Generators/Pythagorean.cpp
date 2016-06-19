@@ -48,7 +48,6 @@ License, or any later version. */
   > g++ -Wall --std=c++11 -Ofast -DNDEBUG -o Pythagorean Pythagorean.cpp
 
   TODO: implement intelligent method at least for K=3.
-  TODO: Add frequency of clause-length counts.
   TODO: make subsumption-elimination an option (for K >= 5).
   TODO: implement arbitrary K.
   TODO: Make iterated elimination of vertices of degree at most m-1 an
@@ -120,16 +119,27 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.2.6";
+  const std::string version = "0.3.0";
 
   const std::string filename = "Pyth_";
 
   typedef std::vector<uint_t> tuple_t;
-  typedef std::vector<tuple_t> vector_t;
+  typedef std::vector<tuple_t> hypergraph;
 
   void oklib_output(std::ostream* const out) {
     assert(*out);
     *out << "c OKlibrary, program " << program << ".cpp in version " << version << ".\n";
+  }
+
+  template <class Vec>
+  void count_output(std::ostream* const out, const Vec& v) {
+    assert(*out);
+    *out << "c Hyperedge counts:\n";
+    for (typename Vec::size_type k=0; k < v.size(); ++k) {
+      const auto c = v[k];
+      if (c != 0)
+        *out << "c  size " << k << ": " << c << "\n";
+    }
   }
 
   inline cnum_t var_number(const uint_t i, const uint_t m, const uint_t col) noexcept {
@@ -193,7 +203,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   // Computing the list of Pythagorean tuples:
-  vector_t res;
+  hypergraph res;
   cnum_t hn = 0;
   
   const uint_t n2 = n*n;
@@ -319,11 +329,16 @@ int main(const int argc, const char* const argv[]) {
     }
   );
 
-  std::vector<cnum_t> degree(max, 0);
-  for (const auto& x : res) for (const auto i : x) ++degree[i-1];
+  typedef std::vector<cnum_t> stat_vec_t;
+  stat_vec_t degree(max, 0);
+  stat_vec_t counts(K+1,0);
+  for (const auto& x : res) {
+    ++counts[x.size()];
+    for (const auto i : x) ++degree[i-1];
+  }
   cnum_t occ_n = 0, min_d = -1, max_d = 0, sum_d = 0;
   uint_t min_v = 0, max_v = 0;
-  for (std::vector<cnum_t>::size_type i = 0; i < degree.size(); ++i) {
+  for (stat_vec_t::size_type i = 0; i < degree.size(); ++i) {
     const auto deg = degree[i];
     if (deg != 0) {
       ++occ_n; sum_d += deg;
@@ -336,12 +351,13 @@ int main(const int argc, const char* const argv[]) {
     *out << "c Hypergraph of Pythagorean " << K << "-tuples, up to n=" << n << ",\n"
     "c  with minimum-distance between (sorted) components = " << dist << ".\n";
     oklib_output(out);
-    *out << "c Number of occurring vertices = " << occ_n << ".\n";
     if (occ_n > 0) {
+      *out << "c Number of occurring vertices = " << occ_n << ".\n";
       *out << "c Minimum degree = " << min_d << ", attained for vertex " << min_v << ".\n";
       *out << "c Maximum degree = " << max_d << ", attained for vertex " << max_v << ".\n";
       *out << "c Average degree = " << double(sum_d) / occ_n << ".\n";
     }
+    if (hn > 0) count_output(out, counts);
     *out << "p hyp " << max << " " << hn << "\n";
     for (const auto& x : res) {
       for (const auto i : x) *out << i << " ";
@@ -350,11 +366,14 @@ int main(const int argc, const char* const argv[]) {
   }
   else if (m == 2) {// DIMACS output:
     *out << "c Boolean Pythagorean " << K << "-tuples problem, up to n=" << n << ",\n"
-    "c  with minimum-distance between (sorted) components = " << dist << ",\n"
-    "c  yielding " << hn << " tuples.\n";
+    "c  with minimum-distance between (sorted) components = " << dist << ".\n";
     oklib_output(out);
-    *out << "c Number of occurring variables = " << occ_n << ".\n";
+    if (hn > 0) {
+      count_output(out, counts);
+      *out << "c Total = " << hn << ".\n";
+    }
     if (occ_n > 0) {
+      *out << "c Number of occurring variables = " << occ_n << ".\n";
       *out << "c Minimum degree = " << 2*min_d << ", attained for variable " << min_v << ".\n";
       *out << "c Maximum degree = " << 2*max_d << ", attained for variable " << max_v << ".\n";
       *out << "c Average degree = " << 2*double(sum_d) / occ_n << ".\n";
@@ -368,12 +387,15 @@ int main(const int argc, const char* const argv[]) {
   } else {
     assert(m >= 3);
     *out << "c " << m << "-Colour Pythagorean " << K << "-tuples problem, up to n=" << n << ",\n"
-    "c  with minimum-distance between (sorted) components = " << dist << ",\n"
-    "c  yielding " << hn << " tuples.\n";
+    "c  with minimum-distance between (sorted) components = " << dist << ".\n";
     oklib_output(out);
     *out << "c Using the strong direct translation.\n";
-    *out << "c Number of occurring variables = " << m*occ_n << ".\n";
+    if (hn > 0) {
+      count_output(out, counts);
+      *out << "c Total = " << hn << ".\n";
+    }
     if (occ_n > 0) {
+      *out << "c Number of occurring variables = " << m*occ_n << ".\n";
       *out << "c Degrees, ignoring the ALOAMO-clauses:\n";
       *out << "c  Minimum = " << m*min_d << ", attained for variable " << min_v << ".\n";
       *out << "c  Maximum = " << m*max_d << ", attained for variable " << max_v << ".\n";
