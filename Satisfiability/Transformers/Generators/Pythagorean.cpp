@@ -147,23 +147,21 @@ namespace Pythagorean {
     }
   }
   // Enumerating triples:
-  template <typename C, class V>
-  typename V::size_type triples_e(const C n, const C dist, V& res, C& max) {
+  template <class V, typename C1>
+  V triples_e(const C1 n, const C1 dist) {
     assert(n >= 1);
-    const C n2 = n*n;
-    for (C a = 3; a < n-1; ++a) {
-      const C a2 = a*a;
-      for (C b = a+dist; b < n; ++b) {
-        const C c2 = a2 + b*b;
+    const C1 n2 = n*n;
+    V res;
+    for (C1 a = 3; a < n-1; ++a) {
+      const C1 a2 = a*a;
+      for (C1 b = a+dist; b < n; ++b) {
+        const C1 c2 = a2 + b*b;
         if (c2 > n2) break;
-        const C c = std::sqrt(c2);
-        if (c*c != c2) continue;
-        if (c < b+dist) continue;
-        if (c > max) max = c;
-        res.push_back({{a,b,c}});
+        const C1 c = std::sqrt(c2);
+        if (c*c == c2 and c >= b+dist) res.push_back({{a,b,c}});
       }
     }
-    return res.size();
+    return res;
   }
 }
 
@@ -183,7 +181,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.3.3";
+  const std::string version = "0.3.5";
 
   const std::string filename = "Pyth_";
 
@@ -276,7 +274,7 @@ int main(const int argc, const char* const argv[]) {
     if (m == 0)
       if (dist <= 1) Pythagorean::triples_c(n, max, hn);
       else Pythagorean::triples_c(n, dist, max, hn);
-    else hn = Pythagorean::triples_e(n, dist, res, max);
+    else res = Pythagorean::triples_e<hypergraph>(n, dist);
   }
   else if (K == 4) {
     const uint_t n2 = n*n;
@@ -291,8 +289,11 @@ int main(const int argc, const char* const argv[]) {
           const uint_t d = std::sqrt(d2);
           if (d*d != d2) continue;
           if (d < c+dist) continue;
-          if (d > max) max = d;
-          ++hn; if (m >= 1) res.push_back({{a,b,c,d}});
+          if (m == 0) {
+            max = std::max(max,d);
+            ++hn;
+          }
+          else res.push_back({{a,b,c,d}});
         }
       }
     }
@@ -312,8 +313,11 @@ int main(const int argc, const char* const argv[]) {
             const uint_t e = std::sqrt(e2);
             if (e*e != e2) continue;
             if (e < d+dist) continue;
-            if (e > max) max = e;
-            ++hn; if (m >= 1) res.push_back({{a,b,c,d,e}});
+            if (m == 0) {
+              max = std::max(max,e);
+              ++hn;
+            }
+            else res.push_back({{a,b,c,d,e}});
           }
         }
       }
@@ -336,8 +340,11 @@ int main(const int argc, const char* const argv[]) {
               const uint_t f = std::sqrt(f2);
               if (f*f != f2) continue;
               if (f < e+dist) continue;
-              if (f > max) max = f;
-              ++hn; if (m >= 1) res.push_back({{a,b,c,d,e,f}});
+              if (m == 0) {
+                max = std::max(max,f);
+                ++hn;
+              }
+              else res.push_back({{a,b,c,d,e,f}});
             }
           }
         }
@@ -362,8 +369,11 @@ int main(const int argc, const char* const argv[]) {
                 const uint_t g = std::sqrt(g2);
                 if (g*g != g2) continue;
                 if (g < f+dist) continue;
-                if (g > max) max = g;
-                ++hn; if (m >= 1) res.push_back({{a,b,c,d,e,f,g}});
+                if (m == 0) {
+                  max = std::max(max,g);
+                  ++hn;
+                }
+                else res.push_back({{a,b,c,d,e,f,g}});
               }
             }
           }
@@ -379,6 +389,8 @@ int main(const int argc, const char* const argv[]) {
     return 0;
   }
 
+  hn = res.size();
+
   // removing duplicates:
   for (auto& x : res) x.erase(std::unique(x.begin(), x.end()), x.end());
 
@@ -388,6 +400,8 @@ int main(const int argc, const char* const argv[]) {
       return std::lexicographical_compare(x.rbegin(), x.rend(), y.rbegin(), y.rend());
     }
   );
+
+  if (not res.empty()) max = res.back().back();
 
   typedef std::vector<cnum_t> stat_vec_t;
   stat_vec_t degree(max, 0);
