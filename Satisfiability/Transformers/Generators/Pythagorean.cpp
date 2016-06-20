@@ -79,9 +79,9 @@ License, or any later version. */
    - Ptn(5,5,5) = 191 [46,633; 140,663]
      (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 367 [302,343; 908,497]
-     g2wsat with "752 1 0 86035 3835845193"; 368 hard to
-     satisfy; weak conjecture = 368 [302,367; 908,573].
+   - Ptn_i(5,5,5) > 368 [302,367; 908,573]
+     g2wsat with "1367 1 0 444418 1655836749"; 370 hard to
+     satisfy; weak conjecture <= 370.
    - Ptn(6,6) = 23 [311; 622] (known)
    - Ptn_i(6,6) = 61 [6770; 13540]
    - Ptn(6,6,6) > 120 [154,860; 465,060] (C&C with D=25 as above)
@@ -112,7 +112,7 @@ namespace Pythagorean {
 
   // Counting triples:
   template <typename C1, typename C2>
-  void triples_c(const C1 n, const C1 m, C1& max, C2& hn) {
+  void triples_c(const C1 n, C1& max, C2& hn) {
     assert(n >= 1);
     const C1 n2 = n*n;
     for (C1 a = 3; a < n-1; ++a) {
@@ -130,7 +130,7 @@ namespace Pythagorean {
   }
   // Counting triples with minimum distance between (sorted) components:
   template <typename C1, typename C2>
-  void triples_c(const C1 n, const C1 dist, const C1 m, C1& max, C2& hn) {
+  void triples_c(const C1 n, const C1 dist, C1& max, C2& hn) {
     assert(n >= 1);
     const C1 n2 = n*n;
     for (C1 a = 3; a < n-1; ++a) {
@@ -148,7 +148,7 @@ namespace Pythagorean {
   }
   // Enumerating triples:
   template <typename C, class V>
-  typename V::size_type triples_e(const C n, const C dist, const C m, V& res, C& max) {
+  typename V::size_type triples_e(const C n, const C dist, V& res, C& max) {
     assert(n >= 1);
     const C n2 = n*n;
     for (C a = 3; a < n-1; ++a) {
@@ -274,9 +274,9 @@ int main(const int argc, const char* const argv[]) {
   if (n <= 1) goto Output;
   if (K == 3) {
     if (m == 0)
-      if (dist <= 1) Pythagorean::triples_c(n, m, max, hn);
-      else Pythagorean::triples_c(n, dist, m, max, hn);
-    else hn = Pythagorean::triples_e(n, dist, m, res, max);
+      if (dist <= 1) Pythagorean::triples_c(n, max, hn);
+      else Pythagorean::triples_c(n, dist, max, hn);
+    else hn = Pythagorean::triples_e(n, dist, res, max);
   }
   else if (K == 4) {
     const uint_t n2 = n*n;
