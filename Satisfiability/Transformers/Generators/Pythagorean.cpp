@@ -119,11 +119,12 @@ namespace Pythagorean {
       const C1 a2 = a*a;
       for (C1 b = a+1; b < n; ++b) {
         const C1 c2 = a2 + b*b;
-        if (c2 > n2) break;
-        const C1 c = std::sqrt(c2);
-        if (c*c == c2) {
-          max = std::max(max,c);
-          ++hn;
+        if (c2 < n2) {
+          const C1 c = std::sqrt(c2);
+          if (c*c == c2) { max = std::max(max,c); ++hn; }
+        } else {
+          if (c2 == n2) { max = n; ++hn; }
+          break;
         }
       }
     }
@@ -181,7 +182,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.3.5";
+  const std::string version = "0.3.6";
 
   const std::string filename = "Pyth_";
 
