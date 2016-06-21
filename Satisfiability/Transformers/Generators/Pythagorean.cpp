@@ -79,12 +79,12 @@ License, or any later version. */
    - Ptn(5,5,5) = 191 [46,633; 140,663]
      (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 368 [302,367; 908,573]
-     g2wsat with "1367 1 0 444418 1655836749"; 370 hard to
-     satisfy; weak conjecture <= 370.
+   - Ptn_i(5,5,5) > 370 [309,239; 929,197]
+     g2wsat with "900 1 0 131253 3996273475".
    - Ptn(6,6) = 23 [311; 622] (known)
-   - Ptn_i(6,6) = 61 [6770; 13540]
+   - Ptn_i(6,6) = 61 [6,770; 13,540]
    - Ptn(6,6,6) > 120 [154,860; 465,060] (C&C with D=25 as above)
+     <= 130 [211,645; 635,455] (C&C with D=25, 7,000 min).
    - Ptn(7,7) = 18 [306; 612] (known)
    - Ptn_i(7,7) = 65 [41,324; 82,648]
 
