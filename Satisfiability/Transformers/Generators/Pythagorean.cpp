@@ -47,12 +47,7 @@ License, or any later version. */
 
   > g++ -Wall --std=c++11 -Ofast -DNDEBUG -o Pythagorean Pythagorean.cpp
 
-  TODO: implement intelligent method at least for K=3.
-    The problem here is, that apparently all methods need factorisation
-    (or the list of divisors), and thus we get a software dependency on
-    the factorisation library. So well, make it a compile-time option.
-    But apparently only GMP-ECM is available? And this library is not
-    documented, and likely not fast for our relatively small numbers?
+  TODO: implement intelligent method for K>3.
   TODO: make subsumption-elimination an option (for K >= 5).
   TODO: implement arbitrary K.
   TODO: Make iterated elimination of vertices of degree at most m-1 an
@@ -114,53 +109,67 @@ namespace Pythagorean {
   template <typename C1, typename C2>
   void triples_c(const C1 n, C1& max, C2& hn) {
     assert(n >= 1);
-    const C1 n2 = n*n;
-    for (C1 a = 3; a < n-1; ++a) {
-      const C1 a2 = a*a;
-      for (C1 b = a+1; b < n; ++b) {
-        const C1 c2 = a2 + b*b;
-        if (c2 < n2) {
-          const C1 c = std::sqrt(c2);
-          if (c*c == c2) { max = std::max(max,c); ++hn; }
-        } else {
-          if (c2 == n2) { max = n; ++hn; }
-          break;
+    for (C1 r = 2; r <= C1(n/(1+std::sqrt(2))); r+=2) {
+      const C1 rs = r*r/2;
+      for (C1 s = 1; s <= C1(std::sqrt(rs)); ++s)
+        if (rs % s == 0) {
+          const C1 t = rs / s;
+          const C1 c = r+s+t;
+          if (c <= n) {
+            max = std::max(max,c);
+            ++hn;
+          }
         }
-      }
     }
   }
+
   // Counting triples with minimum distance between (sorted) components:
   template <typename C1, typename C2>
   void triples_c(const C1 n, const C1 dist, C1& max, C2& hn) {
     assert(n >= 1);
-    const C1 n2 = n*n;
-    for (C1 a = 3; a < n-1; ++a) {
-      const C1 a2 = a*a;
-      for (C1 b = a+dist; b < n; ++b) {
-        const C1 c2 = a2 + b*b;
-        if (c2 > n2) break;
-        const C1 c = std::sqrt(c2);
-        if (c*c == c2 and c >= b+dist) {
-          max = std::max(max,c);
-          ++hn;
+    assert(dist >= 2);
+    for (C1 r = 2; r <= C1(n/(1+std::sqrt(2))); r+=2) {
+      const C1 rs = r*r/2;
+      for (C1 s = dist; s <= C1(std::sqrt(rs)); ++s)
+        if (rs % s == 0) {
+          const C1 t = rs / s;
+          const C1 c = r+s+t;
+          if (c <= n and s+dist <= t) {
+            max = std::max(max,c);
+            ++hn;
+          }
         }
-      }
     }
   }
   // Enumerating triples:
   template <class V, typename C1>
+  V triples_e(const C1 n) {
+    assert(n >= 1);
+    V res;
+    for (C1 r = 2; r <= C1(n/(1+std::sqrt(2))); r+=2) {
+      const C1 rs = r*r/2;
+      for (C1 s = 1; s <= C1(std::sqrt(rs)); ++s)
+        if (rs % s == 0) {
+          const C1 t = rs / s;
+          const C1 c = r+s+t;
+          if (c <= n) res.push_back({{r+s,r+t,c}});
+        }
+    }
+    return res;
+  }
+  template <class V, typename C1>
   V triples_e(const C1 n, const C1 dist) {
     assert(n >= 1);
-    const C1 n2 = n*n;
+    assert(dist >= 2);
     V res;
-    for (C1 a = 3; a < n-1; ++a) {
-      const C1 a2 = a*a;
-      for (C1 b = a+dist; b < n; ++b) {
-        const C1 c2 = a2 + b*b;
-        if (c2 > n2) break;
-        const C1 c = std::sqrt(c2);
-        if (c*c == c2 and c >= b+dist) res.push_back({{a,b,c}});
-      }
+    for (C1 r = 2; r <= C1(n/(1+std::sqrt(2))); r+=2) {
+      const C1 rs = r*r/2;
+      for (C1 s = dist; s <= C1(std::sqrt(rs)); ++s)
+        if (rs % s == 0) {
+          const C1 t = rs / s;
+          const C1 c = r+s+t;
+          if (c <= n and s+dist <= t) res.push_back({{r+s,r+t,c}});
+        }
     }
     return res;
   }
@@ -182,7 +191,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.3.6";
+  const std::string version = "0.4";
 
   const std::string filename = "Pyth_";
 
@@ -275,7 +284,9 @@ int main(const int argc, const char* const argv[]) {
     if (m == 0)
       if (dist <= 1) Pythagorean::triples_c(n, max, hn);
       else Pythagorean::triples_c(n, dist, max, hn);
-    else res = Pythagorean::triples_e<hypergraph>(n, dist);
+    else
+      if (dist <= 1) res = Pythagorean::triples_e<hypergraph>(n);
+      else res = Pythagorean::triples_e<hypergraph>(n, dist);
   }
   else if (K == 4) {
     const uint_t n2 = n*n;
