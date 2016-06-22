@@ -189,7 +189,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.4.1";
+  const std::string version = "0.4.2";
 
   const std::string filename = "Pyth_";
 
@@ -480,8 +480,12 @@ int main(const int argc, const char* const argv[]) {
     if (occ_n > 0) {
       *out << "c Number of occurring variables = " << m*occ_n << ".\n";
       *out << "c Degrees, ignoring the ALOAMO-clauses:\n";
-      *out << "c  Minimum = " << min_d << ", attained for variable " << min_v << ".\n";
-      *out << "c  Maximum = " << max_d << ", attained for variable " << max_v << ".\n";
+      *out << "c  Minimum = " << min_d << ", attained for vertex " << min_v << " (variables";
+      for (uint_t col = 0; col < m; ++col) *out << " " << var_number(min_v,m,col);
+      *out << ").\n";
+      *out << "c  Maximum = " << max_d << ", attained for vertex " << max_v << " (variables";
+      for (uint_t col = 0; col < m; ++col) *out << " " << var_number(max_v,m,col);
+      *out << ").\n";
       *out << "c  Average degree = " << double(sum_d) / occ_n << ".\n";
     }
     const cnum_t cn = m * hn + occ_n * (1 + (m * (m - 1)) / 2);
