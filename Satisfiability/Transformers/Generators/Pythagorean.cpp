@@ -7,7 +7,9 @@ License, or any later version. */
 
 /*!
   \file Satisfiability/Transformers/Generators/Pythagorean.cpp
-  \brief CNF generator for the Pythagorean tuples problem
+  \brief CNF generator for the Pythagorean triples/tuples problem
+
+  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Pythagorean.cpp
 
   For the boolean problems for triples, use
   > Pythagorean n 3 0 2
@@ -47,7 +49,7 @@ License, or any later version. */
 
   > g++ -Wall --std=c++11 -Ofast -DNDEBUG -o Pythagorean Pythagorean.cpp
 
-  TODO: implement intelligent method for K>3.
+  TODO: implement intelligent methods for K>3.
   TODO: make subsumption-elimination an option (for K >= 5).
   TODO: implement arbitrary K.
   TODO: Make iterated elimination of vertices of degree at most m-1 an
@@ -107,8 +109,7 @@ namespace Pythagorean {
 
   // Counting triples:
   template <typename C1, typename C2>
-  void triples_c(const C1 n, C1& max, C2& hn) {
-    assert(n >= 1);
+  void triples_c(const C1 n, C1& max, C2& hn) noexcept {
     for (C1 r = 2; r <= C1(n/(1+std::sqrt(2))); r+=2) {
       const C1 rs = r*r/2;
       for (C1 s = 1; s <= C1(std::sqrt(rs)); ++s)
@@ -125,8 +126,7 @@ namespace Pythagorean {
 
   // Counting triples with minimum distance between (sorted) components:
   template <typename C1, typename C2>
-  void triples_c(const C1 n, const C1 dist, C1& max, C2& hn) {
-    assert(n >= 1);
+  void triples_c(const C1 n, const C1 dist, C1& max, C2& hn) noexcept {
     assert(dist >= 2);
     for (C1 r = 2; r <= C1(n/(1+std::sqrt(2))); r+=2) {
       const C1 rs = r*r/2;
@@ -144,7 +144,6 @@ namespace Pythagorean {
   // Enumerating triples:
   template <class V, typename C1>
   V triples_e(const C1 n) {
-    assert(n >= 1);
     V res;
     for (C1 r = 2; r <= C1(n/(1+std::sqrt(2))); r+=2) {
       const C1 rs = r*r/2;
@@ -159,7 +158,6 @@ namespace Pythagorean {
   }
   template <class V, typename C1>
   V triples_e(const C1 n, const C1 dist) {
-    assert(n >= 1);
     assert(dist >= 2);
     V res;
     for (C1 r = 2; r <= C1(n/(1+std::sqrt(2))); r+=2) {
@@ -191,7 +189,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.4";
+  const std::string version = "0.4.1";
 
   const std::string filename = "Pyth_";
 
@@ -279,7 +277,6 @@ int main(const int argc, const char* const argv[]) {
   cnum_t hn = 0;
   uint_t max = 0;
 
-  if (n <= 1) goto Output;
   if (K == 3) {
     if (m == 0)
       if (dist <= 1) Pythagorean::triples_c(n, max, hn);
@@ -394,8 +391,6 @@ int main(const int argc, const char* const argv[]) {
     }
   }
 
-  Output :
-
   if (m == 0) {
     *out << max << " " << hn << "\n";
     return 0;
@@ -432,6 +427,8 @@ int main(const int argc, const char* const argv[]) {
       if (deg > max_d) {max_d = deg; max_v = i+1;}
     }
   }
+
+  // Output:
 
   if (m == 1) {
     *out << "c Hypergraph of Pythagorean " << K << "-tuples, up to n=" << n << ",\n"
