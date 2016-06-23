@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.11.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2016 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -374,6 +374,20 @@ min_elements_unique_l(S) := block(
    A all subsets B with A <= B, now for a given B we test for A <= B,
    considering only relevant A).
    choose_element_(x) for a non-emtpy set x chooses some element.
+   According to the above specification, i.e., input list S, output the list
+   sorted (stably) by length, with subsumed elements removed.
+
+   The idea is as follows: "result" is the initial part of the final result.
+   For every currently established set in result, represented by index i into
+   result, an element s of result[i] is chosen, and the map h contains the
+   mapping
+     s -> h(s) = list of i's encountered so far.
+   For a new set x, to be checked whether one of the elements of result
+   subsume x, on runs through the elements s of x, and through the i in
+   h(s), whether result[i] <= x -- if yes, a subsumption was found, while
+   if none is found in this way, then there is none at all: if there would be
+   i with A[i] <= x, then for the chosen element s of A[i] we have s in x,
+   and thus i would have been encountered.
 */
 min_elements_unique_fast_l_(S, choose_element_) := block(
  [l : length(S),
@@ -382,13 +396,21 @@ min_elements_unique_fast_l_(S, choose_element_) := block(
   h],
   if l <= 1 then return(S),
   A : sort_length_part_ary(S),
+  /* A is a list of lists (as okl-array), first the smallest .. */
   if emptyp(first(A[1])) then return([{}]),
   h : sm2hm({}),
+  /* h(s) is a list of already established (non-subsumed) indices (in result)
+     of sets containing s. s is a chosen element from these sets.
+  */
   number_blocks : A[0],
   result : okl_make_array(any,l),
+  /* The result internally as okl-array; index is the next element to be
+     filled. */
   old_index : index,
+  /* For the first block there can't be subsumptions: */
   for x in A[current_block] do (result[index] : x, index : index + 1),
   while current_block < number_blocks do block([s, L, subsumption],
+    /* Enter the new elements into the hash-map: */
     for i : old_index thru index-1 do (
       s : choose_element_(result[i]),
       L : ev_hm(h,s),
