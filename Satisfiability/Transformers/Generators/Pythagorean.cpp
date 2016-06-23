@@ -78,10 +78,12 @@ License, or any later version. */
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
    - Ptn_i(5,5,5) > 370 [309,239; 929,197]
      g2wsat with "900 1 0 131253 3996273475".
+     380 [334,548; 1,005,164] hard to satisfy (-cutoff 800000 -runs 2000).
    - Ptn(6,6) = 23 [311; 622] (known)
    - Ptn_i(6,6) = 61 [6,770; 13,540]
    - Ptn(6,6,6) > 120 [154,860; 465,060] (C&C with D=25 as above)
-     <= 130 [211,645; 635,455] (C&C with D=25, 7,000 min).
+     <= 125 [181,528; 545,084] (C&C with D=25 and solver=
+     "lingelingala-b02aa1a-121013", 2,070 min).
    - Ptn(7,7) = 18 [306; 612] (known)
    - Ptn_i(7,7) = 65 [41,324; 82,648]
 
