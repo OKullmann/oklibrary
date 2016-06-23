@@ -50,7 +50,7 @@ License, or any later version. */
   > g++ -Wall --std=c++11 -Ofast -DNDEBUG -o Pythagorean Pythagorean.cpp
 
   TODO: implement intelligent methods for K>3.
-  TODO: make subsumption-elimination an option (for K >= 5).
+  TODO: prove that subsumption-elimination does not happen for K=4.
   TODO: implement arbitrary K.
   TODO: Make iterated elimination of vertices of degree at most m-1 an
   option.
@@ -106,6 +106,7 @@ License, or any later version. */
 #include <algorithm>
 #include <cassert>
 #include <fstream>
+#include <forward_list>
 
 namespace Pythagorean {
 
@@ -175,6 +176,50 @@ namespace Pythagorean {
   }
 }
 
+namespace Subsumption {
+
+  template <class V>
+  inline typename V::value_type select(const V& t) {
+    return t[0];
+  }
+
+  template <class V, typename C1>
+  void min_elements(V& v, const C1 max) {
+    if (v.empty()) return;
+    typedef typename V::value_type tuple_t;
+    const auto end = v.end();
+    std::sort(v.begin(), end,
+      [](const tuple_t& x, const tuple_t& y) {return x.size() < y.size();});
+    typedef typename V::iterator it_t;
+    typedef std::vector<std::forward_list<it_t>> occ_t;
+    occ_t occ(max+1);
+    typedef typename tuple_t::size_type size_t;
+    size_t size = v[0].size();
+    it_t i = v.begin();
+    for (; i < end and i->size()==size; ++i) occ[select(*i)].push_front(i);
+    if (i == end) return;
+    Loop :
+    size = i->size();
+    const it_t old_i = i;
+    for (; i < end and i->size()==size; ++i) {
+      for (const auto x : *i)
+        for (const auto j : occ[x])
+          if (std::includes(i->begin(),i->end(), j->begin(),j->end())) {
+            i->clear();
+            goto Outer;
+          }
+      Outer :;
+    }
+    if (i == end) goto Cleanup;
+    for (auto j = old_i; j < i; ++j) occ[select(*j)].push_front(j);
+    goto Loop;
+
+    Cleanup :
+    v.erase(std::remove_if(v.begin(), end, [](const tuple_t& x){return x.empty();}), end);
+  }
+
+}
+
 namespace {
 
   typedef unsigned long int uint_t; // vertices and variables
@@ -191,7 +236,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.4.2";
+  const std::string version = "0.5";
 
   const std::string filename = "Pyth_";
 
@@ -204,8 +249,9 @@ namespace {
   }
 
   template <class Vec>
-  void count_output(std::ostream* const out, const Vec& v) {
+  void count_output(std::ostream* const out, const cnum_t diff, const Vec& v) {
     assert(*out);
+    *out << "c Subsumption elimination removed " << diff << " hyperedges.\n";
     *out << "c Hyperedge counts:\n";
     for (typename Vec::size_type k=0; k < v.size(); ++k) {
       const auto c = v[k];
@@ -398,10 +444,12 @@ int main(const int argc, const char* const argv[]) {
     return 0;
   }
 
-  hn = res.size();
+  const cnum_t old_hn = res.size();
 
   // removing duplicates:
   for (auto& x : res) x.erase(std::unique(x.begin(), x.end()), x.end());
+
+  if (K >= 5) Subsumption::min_elements(res,n);
 
   // anti-lexicographical sorting:
   std::sort(res.begin(), res.end(),
@@ -410,6 +458,7 @@ int main(const int argc, const char* const argv[]) {
     }
   );
 
+  hn = res.size();
   if (not res.empty()) max = res.back().back();
 
   typedef std::vector<cnum_t> stat_vec_t;
@@ -442,7 +491,7 @@ int main(const int argc, const char* const argv[]) {
       *out << "c Maximum degree = " << max_d << ", attained for vertex " << max_v << ".\n";
       *out << "c Average degree = " << double(sum_d) / occ_n << ".\n";
     }
-    if (hn > 0) count_output(out, counts);
+    if (hn > 0) count_output(out, old_hn-hn, counts);
     *out << "p hyp " << max << " " << hn << "\n";
     for (const auto& x : res) {
       for (const auto i : x) *out << i << " ";
@@ -454,7 +503,7 @@ int main(const int argc, const char* const argv[]) {
     "c  with minimum-distance between (sorted) components = " << dist << ".\n";
     oklib_output(out);
     if (hn > 0) {
-      count_output(out, counts);
+      count_output(out, old_hn-hn, counts);
       *out << "c Total = " << hn << ".\n";
     }
     if (occ_n > 0) {
@@ -476,7 +525,7 @@ int main(const int argc, const char* const argv[]) {
     oklib_output(out);
     *out << "c Using the strong direct translation.\n";
     if (hn > 0) {
-      count_output(out, counts);
+      count_output(out, old_hn - hn, counts);
       *out << "c Total = " << hn << ".\n";
     }
     if (occ_n > 0) {
