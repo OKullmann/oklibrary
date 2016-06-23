@@ -85,7 +85,7 @@ License, or any later version. */
      <= 125 [181,528; 545,084] (C&C with D=25 and solver=
      "lingelingala-b02aa1a-121013", 2,070 min).
    - Ptn(7,7) = 18 [306; 612] (known)
-   - Ptn_i(7,7) = 65 [41,324; 82,648]
+   - Ptn_i(7,7) = 65 [44,589; 89,178]
 
    The sequence Ptn(k,k) for k=2,..., (which is 1, 7825, 105, 37, 23, 18, ...)
    is https://oeis.org/A250026 .
@@ -234,7 +234,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.5.2";
+  const std::string version = "0.5.3";
 
   const std::string filename = "Pyth_";
 
@@ -447,7 +447,7 @@ int main(const int argc, const char* const argv[]) {
   // removing duplicates:
   for (auto& x : res) x.erase(std::unique(x.begin(), x.end()), x.end());
 
-  if (K >= 5) Subsumption::min_elements(res,n);
+  if (K >= 5 and dist == 0) Subsumption::min_elements(res,n);
 
   // anti-lexicographical sorting:
   std::sort(res.begin(), res.end(),
