@@ -180,22 +180,22 @@ namespace Subsumption {
 
   template <class V>
   inline typename V::value_type select(const V& t) {
+    assert(not t.empty());
     return t[0];
   }
 
   template <class V, typename C1>
   void min_elements(V& v, const C1 max) {
     if (v.empty()) return;
-    typedef typename V::value_type tuple_t;
     const auto begin = v.begin(), end = v.end();
+    typedef typename V::value_type tuple_t;
     std::sort(begin, end,
       [](const tuple_t& x, const tuple_t& y) {return x.size() < y.size();});
     typedef typename V::iterator it_t;
     std::vector<std::forward_list<it_t>> occ(max+1);
     it_t i = begin;
-    {const auto size = v[0].size();
-     for (; i < end and i->size()==size; ++i) occ[select(*i)].push_front(i);
-    }
+    for (const auto size = begin->size(); i != end and i->size()==size; ++i)
+      occ[select(*i)].push_front(i);
     if (i == end) return;
     while (true) {
       const auto size = i->size();
@@ -210,9 +210,9 @@ namespace Subsumption {
         Outer :;
       }
       if (i == end) break;
-      for (auto j = old_i; j < i; ++j) occ[select(*j)].push_front(j);
+      for (auto j = old_i; j != i; ++j)
+        if (not j->empty()) occ[select(*j)].push_front(j);
     }
-
     v.erase(std::remove_if(begin, end, [](const tuple_t& x){return x.empty();}), end);
   }
 
@@ -234,7 +234,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.5.1";
+  const std::string version = "0.5.2";
 
   const std::string filename = "Pyth_";
 
