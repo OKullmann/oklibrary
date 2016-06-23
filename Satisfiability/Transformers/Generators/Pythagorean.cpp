@@ -187,35 +187,33 @@ namespace Subsumption {
   void min_elements(V& v, const C1 max) {
     if (v.empty()) return;
     typedef typename V::value_type tuple_t;
-    const auto end = v.end();
-    std::sort(v.begin(), end,
+    const auto begin = v.begin(), end = v.end();
+    std::sort(begin, end,
       [](const tuple_t& x, const tuple_t& y) {return x.size() < y.size();});
     typedef typename V::iterator it_t;
-    typedef std::vector<std::forward_list<it_t>> occ_t;
-    occ_t occ(max+1);
-    typedef typename tuple_t::size_type size_t;
-    size_t size = v[0].size();
-    it_t i = v.begin();
-    for (; i < end and i->size()==size; ++i) occ[select(*i)].push_front(i);
-    if (i == end) return;
-    Loop :
-    size = i->size();
-    const it_t old_i = i;
-    for (; i < end and i->size()==size; ++i) {
-      for (const auto x : *i)
-        for (const auto j : occ[x])
-          if (std::includes(i->begin(),i->end(), j->begin(),j->end())) {
-            i->clear();
-            goto Outer;
-          }
-      Outer :;
+    std::vector<std::forward_list<it_t>> occ(max+1);
+    it_t i = begin;
+    {const auto size = v[0].size();
+     for (; i < end and i->size()==size; ++i) occ[select(*i)].push_front(i);
     }
-    if (i == end) goto Cleanup;
-    for (auto j = old_i; j < i; ++j) occ[select(*j)].push_front(j);
-    goto Loop;
+    if (i == end) return;
+    while (true) {
+      const auto size = i->size();
+      const it_t old_i = i;
+      for (; i < end and i->size()==size; ++i) {
+        for (const auto x : *i)
+          for (const auto j : occ[x])
+            if (std::includes(i->begin(),i->end(), j->begin(),j->end())) {
+              i->clear();
+              goto Outer;
+            }
+        Outer :;
+      }
+      if (i == end) break;
+      for (auto j = old_i; j < i; ++j) occ[select(*j)].push_front(j);
+    }
 
-    Cleanup :
-    v.erase(std::remove_if(v.begin(), end, [](const tuple_t& x){return x.empty();}), end);
+    v.erase(std::remove_if(begin, end, [](const tuple_t& x){return x.empty();}), end);
   }
 
 }
@@ -236,7 +234,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.5";
+  const std::string version = "0.5.1";
 
   const std::string filename = "Pyth_";
 
