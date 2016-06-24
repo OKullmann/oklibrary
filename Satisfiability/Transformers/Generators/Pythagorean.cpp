@@ -176,14 +176,30 @@ namespace Pythagorean {
   }
 }
 
+namespace Container {
+
+  template <class C>
+  void remove_empty_elements(C& v) noexcept {
+    typedef typename C::value_type val_t;
+    v.erase(std::remove_if(v.begin(), v.end(),
+              [](const val_t& x){return x.empty();}), v.end());
+  }
+
+}
+
 namespace Subsumption {
 
+  // Selecting some element from a non-empty sequence:
   template <class V>
-  inline typename V::value_type select(const V& t) {
+  inline typename V::value_type select(const V& t) noexcept {
     assert(not t.empty());
     return t[0];
   }
+  // In general a random choice is better for algorithm min_elements, however
+  // here it is not worth the effort.
 
+  // Remove subsumed elements from vector v, where the elements of v are
+  // ordered sequences of unsigned integral type C1, with maximal value max:
   template <class V, typename C1>
   void min_elements(V& v, const C1 max) {
     if (v.empty()) return;
@@ -213,13 +229,15 @@ namespace Subsumption {
       for (auto j = old_i; j != i; ++j)
         if (not j->empty()) occ[select(*j)].push_front(j);
     }
-    v.erase(std::remove_if(begin, end, [](const tuple_t& x){return x.empty();}), end);
+    Container::remove_empty_elements(v);
   }
 
 }
 
 namespace Reduction {
 
+  // Iteratively removing all hyperedges containing some vertex occurring
+  // at most m-1 time:
   template <class V, class SV, typename C1>
   void basic_colour_red(V& hyp, SV& deg, const C1 m) noexcept {
     for (const auto& h : hyp) for (const auto v : h) ++deg[v];
@@ -236,7 +254,7 @@ namespace Reduction {
           h.clear();
         }
     } while (changed);
-    hyp.erase(std::remove_if(hyp.begin(), hyp.end(), [](const tuple_t& h){return h.empty();}), hyp.end());
+    Container::remove_empty_elements(hyp);
   }
 
 }
@@ -257,7 +275,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.5.5";
+  const std::string version = "0.5.6";
 
   const std::string filename = "Pyth_";
 
