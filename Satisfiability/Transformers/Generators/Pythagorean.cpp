@@ -218,6 +218,29 @@ namespace Subsumption {
 
 }
 
+namespace Reduction {
+
+  template <class V, class SV, typename C1>
+  void basic_colour_red(V& hyp, SV& deg, const C1 m) noexcept {
+    for (const auto& h : hyp) for (const auto v : h) ++deg[v];
+    if (m <= 1) return;
+    typedef typename V::value_type tuple_t;
+    typedef typename tuple_t::value_type vert_t;
+    bool changed;
+    do {
+      changed = false;
+      for (auto& h : hyp)
+        if (std::find_if(h.begin(), h.end(), [&](const vert_t v){return deg[v] < m;}) != h.end()) {
+          changed = true;
+          for (const auto v : h) --deg[v];
+          h.clear();
+        }
+    } while (changed);
+    hyp.erase(std::remove_if(hyp.begin(), hyp.end(), [](const tuple_t& h){return h.empty();}), hyp.end());
+  }
+
+}
+
 namespace {
 
   typedef unsigned long int uint_t; // vertices and variables
@@ -234,7 +257,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.5.3";
+  const std::string version = "0.5.5";
 
   const std::string filename = "Pyth_";
 
@@ -444,6 +467,8 @@ int main(const int argc, const char* const argv[]) {
 
   const cnum_t old_hn = res.size();
 
+  if (old_hn == 0) std::exit(127);
+
   // removing duplicates:
   for (auto& x : res) x.erase(std::unique(x.begin(), x.end()), x.end());
 
@@ -456,28 +481,31 @@ int main(const int argc, const char* const argv[]) {
     }
   );
 
-  hn = res.size();
-  if (not res.empty()) max = res.back().back();
+  const cnum_t old2_hn = res.size();
+  const cnum_t old2_max = res.back().back();
 
   typedef std::vector<cnum_t> stat_vec_t;
-  stat_vec_t degree(max, 0);
+  stat_vec_t degree(old2_max+1, 0);
+  Reduction::basic_colour_red(res, degree, m);
+
+  hn = res.size();
+  if (hn == 0) std::exit(129);
+  max = res.back().back();
+
   stat_vec_t counts(K+1,0);
-  for (const auto& x : res) {
-    ++counts[x.size()];
-    for (const auto i : x) ++degree[i-1];
-  }
+  for (const auto& x : res) ++counts[x.size()];
   cnum_t occ_n = 0, min_d = -1, max_d = 0, sum_d = 0;
   uint_t min_v = 0, max_v = 0;
-  for (stat_vec_t::size_type i = 0; i < degree.size(); ++i) {
+  for (stat_vec_t::size_type i = 1; i < degree.size(); ++i) {
     const auto deg = degree[i];
     if (deg != 0) {
       ++occ_n; sum_d += deg;
-      if (deg < min_d) {min_d = deg; min_v = i+1;}
-      if (deg > max_d) {max_d = deg; max_v = i+1;}
+      if (deg < min_d) {min_d = deg; min_v = i;}
+      if (deg > max_d) {max_d = deg; max_v = i;}
     }
   }
 
-  // Output:
+  Output:
 
   if (m == 1) {
     *out << "c Hypergraph of Pythagorean " << K << "-tuples, up to n=" << n << ",\n"
