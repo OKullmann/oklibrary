@@ -312,7 +312,8 @@ namespace Reduction {
     do {
       changed = false;
       for (auto& h : hyp)
-        if (std::find_if(h.begin(), h.end(), [&](const vert_t v){return deg[v] < m;}) != h.end()) {
+        if (std::find_if(h.begin(), h.end(),
+            [&](const vert_t v){return deg[v] < m;}) != h.end()) {
           changed = true;
           for (const auto v : h) --deg[v];
           h.clear();
@@ -340,7 +341,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.6.7";
+  const std::string version = "0.6.8";
 
   const std::string filename = "Pyth_";
 
@@ -349,30 +350,39 @@ namespace {
 
   void oklib_output(std::ostream* const out) {
     assert(*out);
-    *out << "c OKlibrary http://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Pythagorean.cpp\n"
-    "c  Program " << program << ".cpp in version " << version << ", timestamp " << std::time(nullptr) << ".\n";
+    *out << "c OKlibrary http://github.com/OKullmann/oklibrary/blob/"
+      "master/Satisfiability/Transformers/Generators/Pythagorean.cpp\n"
+      "c  Program " << program << ".cpp in version " << version <<
+      ", timestamp " << std::time(nullptr) << ".\n";
   }
 
-  void header_output(std::ostream* const out, const uint_t n, const uint_t K, const uint_t dist, const uint_t m, const std::string& file) {
+  void header_output(std::ostream* const out, const uint_t n, const uint_t K,
+  const uint_t dist, const uint_t m, const std::string& file) {
     assert(*out);
     assert(m >= 1);
     oklib_output(out);
-    *out << "c Parameters: " << n << " " << K << " " << dist << " " << m << " \"" << file << "\"\n";
+    *out << "c Parameters: " << n << " " << K << " " << dist << " " << m <<
+      " \"" << file << "\"\n";
     switch (m) {
     case 1 :
-      *out << "c Hypergraph of Pythagorean " << K << "-tuples, up to n=" << n << ".\n";
+      *out << "c Hypergraph of Pythagorean " << K << "-tuples, up to n=" <<
+        n << ".\n";
       break;
     case 2 :
-      *out << "c Boolean Pythagorean " << K << "-tuples problem, up to n=" << n << ".\n";
+      *out << "c Boolean Pythagorean " << K << "-tuples problem, up to n=" <<
+        n << ".\n";
       break;
     default :
-      *out << "c " << m << "-Colour Pythagorean " << K << "-tuples problem, up to n=" << n << ".\n";
+      *out << "c " << m << "-Colour Pythagorean " << K << "-tuples problem, "
+        "up to n=" << n << ".\n";
     }
     if (dist > 0)
-      *out << "c  Minimum-distance between (sorted) tuple-components = " << dist << ".\n";
+      *out << "c  Minimum-distance between (sorted) tuple-components = " <<
+        dist << ".\n";
   }
 
-  void pline_output(std::ostream* const out, const uint_t n, const cnum_t c, const uint_t m) {
+  void pline_output(std::ostream* const out, const uint_t n, const cnum_t c,
+  const uint_t m) {
     assert(*out);
     assert(m >= 1);
     switch (m) {
@@ -383,15 +393,17 @@ namespace {
     }
   }
 
-  void hn_output(std::ostream* const out, const cnum_t h0, const cnum_t h1, const cnum_t h2, const uint_t m) {
+  void hn_output(std::ostream* const out, const cnum_t h0, const cnum_t h1,
+  const cnum_t h2, const uint_t m) {
     assert(*out);
     assert(h0 >= 1);
     if (m == 1)
-      *out << "c Number of hyperedges (tuples) originally and after subsumption:\nc  "
-        << h0 << " " << h1 << "\n";
+      *out << "c Number of hyperedges (tuples) originally and after "
+        "subsumption:\nc  " << h0 << " " << h1 << "\n";
     else
-      *out << "c Number of hyperedges (tuples) originally, after subsumption, and after further colour-reduction:\nc  "
-        << h0 << " " << h1 << " " << h2 << "\n";
+      *out << "c Number of hyperedges (tuples) originally, after subsumption,"
+        " and after further colour-reduction:\nc  " << h0 << " " << h1 <<
+        " " << h2 << "\n";
   }
 
   template <class Vec>
@@ -445,18 +457,21 @@ int main(const int argc, const char* const argv[]) {
 
   const uint_t dist = std::stoul(argv[3]);
   if (dist > abs_max) {
-    std::cerr << err << "Third input " << dist << " larger than maximal allowed value: " << abs_max << ".\n";
+    std::cerr << err << "Third input " << dist << " larger than maximal "
+      "allowed value: " << abs_max << ".\n";
     return errcode_too_large;
   }
 
   const uint_t m = std::stoul(argv[4]);
-  if (m == 0 and dist == 0 and n >= std::numeric_limits<Factorisation::base_t>::max()/2) {
-    std::cerr << err << "First input " << n << " too large for the factorisation table.\n";
+  if (m==0 and dist==0 and n>=std::numeric_limits<Factorisation::base_t>::max()/2) {
+    std::cerr << err << "First input " << n << " too large for the "
+      "factorisation table.\n";
     return errcode_size;
   }
 
   const std::string file = (argc == 5) ?
-    filename + std::to_string(n) + "-" + std::to_string(K) + "-" + std::to_string(dist) + "-" + std::to_string(m) + ".cnf"
+    filename + std::to_string(n) + "-" + std::to_string(K) + "-" +
+      std::to_string(dist) + "-" + std::to_string(m) + ".cnf"
     : argv[5];
   const bool del = (file != "-");
   std::ostream* const out = (del) ? new std::ofstream(file) : &std::cout;
@@ -648,8 +663,10 @@ int main(const int argc, const char* const argv[]) {
 
   if (m == 1) {
     *out << "c Number of occurring vertices = " << occ_n << ".\n";
-    *out << "c Minimum degree = " << min_d << ", attained for vertex " << min_v << ".\n";
-    *out << "c Maximum degree = " << max_d << ", attained for vertex " << max_v << ".\n";
+    *out << "c Minimum degree = " << min_d << ", attained for vertex " <<
+      min_v << ".\n";
+    *out << "c Maximum degree = " << max_d << ", attained for vertex " <<
+      max_v << ".\n";
     *out << "c Average degree = " << double(sum_d) / occ_n << ".\n";
     pline_output(out, max, hn, m);
     for (const auto& x : res) {
@@ -659,8 +676,10 @@ int main(const int argc, const char* const argv[]) {
   }
   else if (m == 2) {// DIMACS output:
     *out << "c Number of occurring variables = " << occ_n << ".\n";
-    *out << "c Minimum degree = " << 2*min_d << ", attained for variable " << min_v << ".\n";
-    *out << "c Maximum degree = " << 2*max_d << ", attained for variable " << max_v << ".\n";
+    *out << "c Minimum degree = " << 2*min_d << ", attained for variable " <<
+      min_v << ".\n";
+    *out << "c Maximum degree = " << 2*max_d << ", attained for variable " <<
+      max_v << ".\n";
     *out << "c Average degree = " << 2*double(sum_d) / occ_n << ".\n";
     const cnum_t cn = 2 * hn;
     pline_output(out, max, cn, m);
@@ -673,10 +692,12 @@ int main(const int argc, const char* const argv[]) {
     *out << "c Using the strong direct translation.\n";
     *out << "c Number of occurring variables = " << m*occ_n << ".\n";
     *out << "c Degrees, ignoring the ALOAMO-clauses:\n";
-    *out << "c  Minimum = " << min_d << ", attained for vertex " << min_v << " (variables";
+    *out << "c  Minimum = " << min_d << ", attained for vertex " << min_v <<
+      " (variables";
     for (uint_t col = 0; col < m; ++col) *out << " " << var_number(min_v,m,col);
     *out << ").\n";
-    *out << "c  Maximum = " << max_d << ", attained for vertex " << max_v << " (variables";
+    *out << "c  Maximum = " << max_d << ", attained for vertex " << max_v <<
+      " (variables";
     for (uint_t col = 0; col < m; ++col) *out << " " << var_number(max_v,m,col);
     *out << ").\n";
     *out << "c  Average degree = " << double(sum_d) / occ_n << ".\n";
@@ -697,7 +718,8 @@ int main(const int argc, const char* const argv[]) {
         *out << "0";
         for (uint_t col1 = 0; col1 < m; ++col1)
           for (uint_t col2 = col1+1; col2 < m; ++col2)
-            *out << " " << var_number(i,m,col1) << " " << var_number(i,m,col2) << " 0";
+            *out << " " << var_number(i,m,col1) << " " << var_number(i,m,col2)
+              << " 0";
         *out << "\n";
       }
   }
