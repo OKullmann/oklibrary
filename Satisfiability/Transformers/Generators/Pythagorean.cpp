@@ -15,12 +15,14 @@ License, or any later version. */
   > Pythagorean n 3 0 2
   or
   > Pythagorean n 3 1 2
-  (doesn't matter here).
+  (doesn't matter here), which creates files "Pyth_n-3-0-2.cnf" resp.
+  "Pyth_n-3-1-2.cnf".
 
   For the boolean problem for quadruples, use
   > Pythagorean n 4 0 2
   while the injective form (all components different) is obtained by
   > Pythagorean n 4 1 2
+  creating files Pyth_n-4-0-2.cnf resp. Pyth_n-4-1-2.cnf.
 
   The second parameter is K >= 3, the length of the Pythagorean tuple.
 
@@ -34,12 +36,13 @@ License, or any later version. */
   The fourth parameter m >= 0 is the number of colours, with
    - m = 0: only output the max-occuring vertex and the number of hyperedges
    - m = 1: output the hypergraph
-   - m = 2: output the boolean problem (the default)
+   - m = 2: output the boolean problem
    - m >= 3: currently uses the strong direct translation.
 
   In case of m=0, K=3, dist=0, the computation of the count uses a
   factorisation table for the natural numbers until n: This is much faster,
-  but uses memory, and the max-occuring vertex is not computed here.
+  but uses memory (for n=10^8: 19 GB), and the max-occuring vertex is not
+  computed here.
 
   An optional fifth parameter can be "-", in which case output is put to
   standard output, or "filename", in which case a file is created.
@@ -73,32 +76,33 @@ License, or any later version. */
      up to n-1.
    - Number of Pythagorean quadruples (K=4) or quintuples (K=5) not in OEIS.
 
-  Pythagorean numbers established (in square brackets [h;c], number of
-  hyperedges and number of clauses, without reductions):
-   - Ptn(3,3) = 7825 [9,472; 18,944]
+  Pythagorean numbers established (in square brackets [h;h';c], number of
+  hyperedges before/after reduction and number of clauses; if "=" is used,
+  then the reductions don't do anything here):
+   - Ptn(3,3) = 7825 [9,472; 7,336; 14,672]
        http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
-   - Ptn(3,3,3) > 2000000 [4,181,998; 19,504,238]
+   - Ptn(3,3,3) > 2000000 [4,181,998; 3,157,656; 12,721,692]
      (g2wsat, first run with cutoff=30000000)
-   - Ptn(4,4) = 105 [639; 1278] (known)
-   - Ptn_i(4,4) = 163 [545; 1090]
-   - Ptn(4,4,4) > 1680 [158,627; 482,601]
-     (vw1 with "2 1 0 6540594 3535491316"); 1681 [158,837; 483,235] hard to
+   - Ptn(4,4) = 105 [639; 638; 1276] (known)
+   - Ptn_i(4,4) = 163 [545; 544; 1088]
+   - Ptn(4,4,4) > 1680 [158,627; =; 482,601]
+     (vw1 with "2 1 0 6540594 3535491316"); 1681 [158,837; =; 483,235] hard to
      satisfy; weak conjecture = 1681.
-   - Ptn(5,5) = 37 [404; 808] (known)
-   - Ptn_i(5,5) = 75 [2,276; 4,552]
-   - Ptn(5,5,5) = 191 [46,633; 140,663]
+   - Ptn(5,5) = 37 [404; 254; 508] (known)
+   - Ptn_i(5,5) = 75 [2,276; =; 4,552]
+   - Ptn(5,5,5) = 191 [46,633; 41,963; 126,653]
      (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 370 [309,239; 929,197]
+   - Ptn_i(5,5,5) > 370 [309,239; =; 929,197]
      g2wsat with "900 1 0 131253 3996273475".
-     375 [323,798; 972,894] hard to satisfy (-cutoff 800000 -runs 2000).
-   - Ptn(6,6) = 23 [311; 622] (known)
-   - Ptn_i(6,6) = 61 [6,770; 13,540]
-   - Ptn(6,6,6) > 120 [154,860; 465,060] (C&C with D=25 as above)
-     <= 122 [165,477; 496,919] (C&C with D=25 and solver=
+     375 [323,798; =; 972,894] hard to satisfy (-cutoff 800000 -runs 2000).
+   - Ptn(6,6) = 23 [311; 267; 534] (known)
+   - Ptn_i(6,6) = 61 [6,770; =; 13,540]
+   - Ptn(6,6,6) > 120 [154,860; 151,105; 453,795] (C&C with D=25 as above)
+     <= 122 [165,477; 161,564; 485,180] (C&C with D=25 and solver=
      "lingelingala-b02aa1a-121013", 2,000 min).
-   - Ptn(7,7) = 18 [306; 612] (known)
-   - Ptn_i(7,7) = 65 [44,589; 89,178]
+   - Ptn(7,7) = 18 [306; 159; 318] (known)
+   - Ptn_i(7,7) = 65 [44,589; =; 89,178]
 
    The sequence Ptn(k,k) for k=2,..., (which is 1, 7825, 105, 37, 23, 18, ...)
    is https://oeis.org/A250026 .
@@ -147,7 +151,7 @@ namespace Factorisation {
 
 namespace Pythagorean {
 
-  constexpr auto factor = 0.146;
+  constexpr auto factor = 0.1474; // yields an upper bound for n <= 10^8
   template <typename C>
   constexpr double estimating_triples(const C n) {
     return factor * n * std::log(n);
@@ -313,7 +317,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.6.5";
+  const std::string version = "0.6.6";
 
   const std::string filename = "Pyth_";
 
