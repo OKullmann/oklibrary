@@ -7,9 +7,20 @@ License, or any later version. */
 
 /*!
   \file Satisfiability/Transformers/Generators/Pythagorean.cpp
-  \brief CNF generator for the Pythagorean triples/tuples problem
+  \brief Generator for Pythagorean triples and tuples, and the related
+  SAT problems (as CNFs in DIMACS format). The SAT-problems formulate the
+  m-colouring of the hypergraph of tuples.
 
+  See https://en.wikipedia.org/wiki/Pythagorean_triple for explanations on
+  triples/tuples, and see
+  https://en.wikipedia.org/wiki/Boolean_satisfiability_problem#SAT_problem_format
+  for the DIMACS format. The 2-colouring (boolean) problem is discussed at
+  https://en.wikipedia.org/wiki/Boolean_Pythagorean_triples_problem
+
+  This program is available at
   https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Pythagorean.cpp
+
+  USAGE:
 
   For the boolean problems for triples, use
   > Pythagorean n 3 0 2
@@ -65,6 +76,12 @@ License, or any later version. */
 
   > g++ -Wall --std=c++11 -Ofast -DNDEBUG -o Pythagorean Pythagorean.cpp
 
+  The CNF-output puts related clauses on the same line (note that in DIMACS,
+  a clause is completed by "0", and thus you can have as many clauses on a
+  line as you like).
+
+  FURTHER DISCUSSIONS:
+
 
   TODO: implement intelligent methods for K>3.
   TODO: prove that subsumption-elimination does not happen for K=4.
@@ -74,11 +91,17 @@ License, or any later version. */
   Hyperedge-counting links:
    - https://oeis.org/A224921 for number of Pythagorean triples (K=3)
      up to n-1.
-   - Number of Pythagorean quadruples (K=4) or quintuples (K=5) not in OEIS.
+   - Number of Pythagorean quadruples (K=4) or quintuples (K=5) not yet
+     in OEIS.
 
-  Pythagorean numbers established (in square brackets [h;h';c], number of
-  hyperedges before/after reduction and number of clauses; if "=" is used,
-  then the reductions don't do anything here):
+  Pythagorean numbers established, as in
+    http://link.springer.com/chapter/10.1007%2F978-3-319-40970-2_15
+    https://arxiv.org/abs/1605.00723
+    Solving and Verifying the boolean Pythagorean Triples problem via Cube-and-Conquer
+
+  In square brackets [h;h';c], number of hyperedges before/after reduction and
+  number of clauses; if "=" is used, then the reductions don't do anything
+  here:
    - Ptn(3,3) = 7825 [9,472; 7,336; 14,672]
        http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
    - Ptn(3,3,3) > 2000000 [4,181,998; 3,157,656; 12,721,692]
@@ -317,7 +340,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.6.6";
+  const std::string version = "0.6.7";
 
   const std::string filename = "Pyth_";
 
