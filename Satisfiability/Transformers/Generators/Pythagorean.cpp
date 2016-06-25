@@ -89,8 +89,8 @@ License, or any later version. */
    - Ptn(6,6) = 23 [311; 622] (known)
    - Ptn_i(6,6) = 61 [6,770; 13,540]
    - Ptn(6,6,6) > 120 [154,860; 465,060] (C&C with D=25 as above)
-     <= 125 [181,528; 545,084] (C&C with D=25 and solver=
-     "lingelingala-b02aa1a-121013", 2,070 min).
+     <= 122 [165,477; 496,919] (C&C with D=25 and solver=
+     "lingelingala-b02aa1a-121013", 2,000 min).
    - Ptn(7,7) = 18 [306; 612] (known)
    - Ptn_i(7,7) = 65 [44,589; 89,178]
 
@@ -284,7 +284,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.6";
+  const std::string version = "0.6.1";
 
   const std::string filename = "Pyth_";
 
@@ -629,15 +629,14 @@ int main(const int argc, const char* const argv[]) {
       }
       *out << "\n";
     }
-    for (uint_t i = 0; i < degree.size(); ++i)
+    for (uint_t i = 1; i < degree.size(); ++i)
       if (degree[i] != 0) {
-        const uint_t v = i+1;
         for (uint_t col = 0; col < m; ++col)
-          *out << "-" << var_number(v,m,col) << " ";
+          *out << "-" << var_number(i,m,col) << " ";
         *out << "0";
         for (uint_t col1 = 0; col1 < m; ++col1)
           for (uint_t col2 = col1+1; col2 < m; ++col2)
-            *out << " " << var_number(v,m,col1) << " " << var_number(v,m,col2) << " 0";
+            *out << " " << var_number(i,m,col1) << " " << var_number(i,m,col2) << " 0";
         *out << "\n";
       }
   }
