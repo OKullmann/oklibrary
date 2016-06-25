@@ -58,9 +58,18 @@ License, or any later version. */
 
   > g++ -Wall --std=c++11 -Ofast -DNDEBUG -o Pythagorean Pythagorean.cpp
 
+
   TODO: implement intelligent methods for K>3.
   TODO: prove that subsumption-elimination does not happen for K=4.
   TODO: implement arbitrary K.
+  TODO: implement more intelligent counting for triples.
+       A faster method needs to determine the prime-factorisations of
+       all 1 <= k <= n (for each i then via a simple computation the number
+       of triples with last part = i can be computed. There doesn't seem to
+       be a library for doing that, but via a simple sieve it should be
+       possible to quickly compute the factorisations. This is discussed at
+       http://codereview.stackexchange.com/questions/9052/optimization-prime-factorizations-of-numbers-107
+
 
   Hyperedge-counting links:
    - https://oeis.org/A224921 for number of Pythagorean triples (K=3)
@@ -85,7 +94,7 @@ License, or any later version. */
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
    - Ptn_i(5,5,5) > 370 [309,239; 929,197]
      g2wsat with "900 1 0 131253 3996273475".
-     380 [334,548; 1,005,164] hard to satisfy (-cutoff 800000 -runs 2000).
+     375 [323,798; 972,894] hard to satisfy (-cutoff 800000 -runs 2000).
    - Ptn(6,6) = 23 [311; 622] (known)
    - Ptn_i(6,6) = 61 [6,770; 13,540]
    - Ptn(6,6,6) > 120 [154,860; 465,060] (C&C with D=25 as above)
@@ -118,6 +127,12 @@ License, or any later version. */
 
 
 namespace Pythagorean {
+
+  constexpr auto factor = 0.146;
+  template <typename C>
+  constexpr double estimating_triples(const C n) {
+    return factor * n * std::log(n);
+  }
 
   // Counting triples:
   template <typename C1, typename C2>
@@ -156,7 +171,7 @@ namespace Pythagorean {
   // Enumerating triples:
   template <class V, typename C1>
   V triples_e(const C1 n) {
-    V res;
+    V res; res.reserve(Pythagorean::estimating_triples(n));
     for (C1 r = 2; r <= C1(n/(1+std::sqrt(2))); r+=2) {
       const C1 rs = r*r/2;
       for (C1 s = 1; s <= C1(std::sqrt(rs)); ++s)
@@ -171,7 +186,7 @@ namespace Pythagorean {
   template <class V, typename C1>
   V triples_e(const C1 n, const C1 dist) {
     assert(dist >= 2);
-    V res;
+    V res; res.reserve(Pythagorean::estimating_triples(n));
     for (C1 r = 2; r <= C1(n/(1+std::sqrt(2))); r+=2) {
       const C1 rs = r*r/2;
       for (C1 s = dist; s <= C1(std::sqrt(rs)); ++s)
@@ -284,7 +299,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.6.1";
+  const std::string version = "0.6.2";
 
   const std::string filename = "Pyth_";
 
@@ -366,7 +381,7 @@ int main(const int argc, const char* const argv[]) {
      " - The size K >= 3 of the tuple.\n"
      " - The enforced distance d >= 0 between components.\n"
      " - The number m >= 0 of colours.\n"
-     " - The filename or \"-\" for standard output.";
+     " - The filename or \"-\" for standard output.\n";
     return errcode_parameter;
   }
 
