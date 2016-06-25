@@ -37,6 +37,10 @@ License, or any later version. */
    - m = 2: output the boolean problem (the default)
    - m >= 3: currently uses the strong direct translation.
 
+  In case of m=0, K=3, dist=0, the computation of the count uses a
+  factorisation table for the natural numbers until n: This is much faster,
+  but uses memory, and the max-occuring vertex is not computed here.
+
   An optional fifth parameter can be "-", in which case output is put to
   standard output, or "filename", in which case a file is created.
   Default output is to file "Pyth_n_K_d_m.cnf".
@@ -62,13 +66,6 @@ License, or any later version. */
   TODO: implement intelligent methods for K>3.
   TODO: prove that subsumption-elimination does not happen for K=4.
   TODO: implement arbitrary K.
-  TODO: implement more intelligent counting for triples.
-       A faster method needs to determine the prime-factorisations of
-       all 1 <= k <= n (for each i then via a simple computation the number
-       of triples with last part = i can be computed. There doesn't seem to
-       be a library for doing that, but via a simple sieve it should be
-       possible to quickly compute the factorisations. This is discussed at
-       http://codereview.stackexchange.com/questions/9052/optimization-prime-factorizations-of-numbers-107
 
 
   Hyperedge-counting links:
@@ -124,7 +121,29 @@ License, or any later version. */
 #include <fstream>
 #include <forward_list>
 #include <ctime>
+#include <map>
+#include <cstdint>
 
+namespace Factorisation {
+
+  typedef std::uint_least32_t base_t;
+
+  // Compute table T, such that for 1 <= i <= n, T[i] is the
+  // prime-factorisation of i, in map-form (basis -> exponent):
+  template <typename E = std::uint_least8_t>
+  std::vector<std::map<base_t,E>> table_factorisations(const base_t n) {
+    std::vector<std::map<base_t,E>> T(n+1);
+    std::vector<base_t> rem; rem.reserve(n+1);
+    for (base_t i = 2; i <= n; ++i) rem[i] = i;
+    for (base_t i = 2; i <= n; ++i)
+      if (rem[i] != 1) {
+        const base_t b = (T[i].empty()) ? i : T[i].begin()->first;
+        for (base_t j = i; j <= n; j+=i) { ++T[j][b]; rem[j] /= b; }
+      }
+    return T;
+  }
+
+}
 
 namespace Pythagorean {
 
@@ -136,25 +155,19 @@ namespace Pythagorean {
 
   // Counting triples:
   template <typename C1, typename C2>
-  void triples_c(const C1 n, C1& max, C2& hn) noexcept {
-    for (C1 r = 2; r <= C1(n/(1+std::sqrt(2))); r+=2) {
-      const C1 rs = r*r/2;
-      for (C1 s = 1; s <= C1(std::sqrt(rs)); ++s)
-        if (rs % s == 0) {
-          const C1 t = rs / s;
-          const C1 c = r+s+t;
-          if (c <= n) {
-            max = std::max(max,c);
-            ++hn;
-          }
-        }
+  void triples_c(const C1 n, C1& max, C2& hn) {
+    const auto T = Factorisation::table_factorisations(n);
+    for (C1 i = 5; i <= n; ++i) {
+      C2 prod = 1;
+      for (const auto p : T[i]) if (p.first % 4 == 1) prod *= 2 * p.second + 1;
+      hn += (prod-1)/2;
     }
   }
 
   // Counting triples with minimum distance between (sorted) components:
   template <typename C1, typename C2>
   void triples_c(const C1 n, const C1 dist, C1& max, C2& hn) noexcept {
-    assert(dist >= 2);
+    assert(dist >= 1);
     for (C1 r = 2; r <= C1(n/(1+std::sqrt(2))); r+=2) {
       const C1 rs = r*r/2;
       for (C1 s = dist; s <= C1(std::sqrt(rs)); ++s)
@@ -293,13 +306,14 @@ namespace {
     errcode_too_large = 2,
     errcode_too_small = 3,
     errcode_not_yet = 4,
-    errcode_file = 5
+    errcode_file = 5,
+    errcode_size = 6
   };
 
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.6.2";
+  const std::string version = "0.6.5";
 
   const std::string filename = "Pyth_";
 
@@ -409,6 +423,10 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const uint_t m = std::stoul(argv[4]);
+  if (m == 0 and dist == 0 and n >= std::numeric_limits<Factorisation::base_t>::max()/2) {
+    std::cerr << err << "First input " << n << " too large for the factorisation table.\n";
+    return errcode_size;
+  }
 
   const std::string file = (argc == 5) ?
     filename + std::to_string(n) + "-" + std::to_string(K) + "-" + std::to_string(dist) + "-" + std::to_string(m) + ".cnf"
@@ -433,7 +451,7 @@ int main(const int argc, const char* const argv[]) {
 
   if (K == 3) {
     if (m == 0)
-      if (dist <= 1) Pythagorean::triples_c(n, max, hn);
+      if (dist == 0) Pythagorean::triples_c(n, max, hn);
       else Pythagorean::triples_c(n, dist, max, hn);
     else
       if (dist <= 1) res = Pythagorean::triples_e<hypergraph>(n);
@@ -546,7 +564,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   if (m == 0) {
-    *out << max << " " << hn << "\n";
+    if (K == 3 and dist == 0) *out << hn << "\n";
+    else *out << max << " " << hn << "\n";
     return 0;
   }
   header_output(out, n, K, dist, m, file);
