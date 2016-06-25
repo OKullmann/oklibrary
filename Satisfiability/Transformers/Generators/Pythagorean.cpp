@@ -41,6 +41,15 @@ License, or any later version. */
   standard output, or "filename", in which case a file is created.
   Default output is to file "Pyth_n_K_d_m.cnf".
 
+  Subsumption-elimination is first applied, and then for m >= 2 elimination
+  of hyperedges containing a vertex occurring at most m-1 times (repeatedly).
+
+  The output contains additional information for m >= 1:
+   - Library and version information.
+   - Information on parameters.
+   - Information on number of hyperedges.
+   - Information on vertex-degrees (m=1) resp. variable-degrees (m >= 2).
+
   Requires C++11. Compile with
 
   > g++ -Wall --std=c++11 -Ofast -o Pythagorean Pythagorean.cpp
@@ -52,16 +61,14 @@ License, or any later version. */
   TODO: implement intelligent methods for K>3.
   TODO: prove that subsumption-elimination does not happen for K=4.
   TODO: implement arbitrary K.
-  TODO: Make iterated elimination of vertices of degree at most m-1 an
-  option.
 
-  Counting links:
+  Hyperedge-counting links:
    - https://oeis.org/A224921 for number of Pythagorean triples (K=3)
      up to n-1.
    - Number of Pythagorean quadruples (K=4) or quintuples (K=5) not in OEIS.
 
   Pythagorean numbers established (in square brackets [h;c], number of
-  hyperedges and number of clauses):
+  hyperedges and number of clauses, without reductions):
    - Ptn(3,3) = 7825 [9,472; 18,944]
        http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
    - Ptn(3,3,3) > 2000000 [4,181,998; 19,504,238]
@@ -107,6 +114,8 @@ License, or any later version. */
 #include <cassert>
 #include <fstream>
 #include <forward_list>
+#include <ctime>
+
 
 namespace Pythagorean {
 
@@ -237,7 +246,7 @@ namespace Subsumption {
 namespace Reduction {
 
   // Iteratively removing all hyperedges containing some vertex occurring
-  // at most m-1 time:
+  // at most m-1 time, computing the (final) vertex-degrees in deg:
   template <class V, class SV, typename C1>
   void basic_colour_red(V& hyp, SV& deg, const C1 m) noexcept {
     for (const auto& h : hyp) for (const auto v : h) ++deg[v];
@@ -275,7 +284,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.5.6";
+  const std::string version = "0.6";
 
   const std::string filename = "Pyth_";
 
@@ -284,13 +293,56 @@ namespace {
 
   void oklib_output(std::ostream* const out) {
     assert(*out);
-    *out << "c OKlibrary, program " << program << ".cpp in version " << version << ".\n";
+    *out << "c OKlibrary http://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Pythagorean.cpp\n"
+    "c  Program " << program << ".cpp in version " << version << ", timestamp " << std::time(nullptr) << ".\n";
+  }
+
+  void header_output(std::ostream* const out, const uint_t n, const uint_t K, const uint_t dist, const uint_t m, const std::string& file) {
+    assert(*out);
+    assert(m >= 1);
+    oklib_output(out);
+    *out << "c Parameters: " << n << " " << K << " " << dist << " " << m << " \"" << file << "\"\n";
+    switch (m) {
+    case 1 :
+      *out << "c Hypergraph of Pythagorean " << K << "-tuples, up to n=" << n << ".\n";
+      break;
+    case 2 :
+      *out << "c Boolean Pythagorean " << K << "-tuples problem, up to n=" << n << ".\n";
+      break;
+    default :
+      *out << "c " << m << "-Colour Pythagorean " << K << "-tuples problem, up to n=" << n << ".\n";
+    }
+    if (dist > 0)
+      *out << "c  Minimum-distance between (sorted) tuple-components = " << dist << ".\n";
+  }
+
+  void pline_output(std::ostream* const out, const uint_t n, const cnum_t c, const uint_t m) {
+    assert(*out);
+    assert(m >= 1);
+    switch (m) {
+    case 1 :
+      *out << "p hyp " << n << " " << c << "\n"; break;
+    default :
+      *out << "p cnf " << n << " " << c << "\n";
+    }
+  }
+
+  void hn_output(std::ostream* const out, const cnum_t h0, const cnum_t h1, const cnum_t h2, const uint_t m) {
+    assert(*out);
+    assert(h0 >= 1);
+    if (m == 1)
+      *out << "c Number of hyperedges (tuples) originally and after subsumption:\nc  "
+        << h0 << " " << h1 << "\n";
+    else
+      *out << "c Number of hyperedges (tuples) originally, after subsumption, and after further colour-reduction:\nc  "
+        << h0 << " " << h1 << " " << h2 << "\n";
   }
 
   template <class Vec>
-  void count_output(std::ostream* const out, const cnum_t diff, const Vec& v) {
+  void count_output(std::ostream* const out, const cnum_t diff, const Vec& v, const uint_t K) {
     assert(*out);
-    *out << "c Subsumption elimination removed " << diff << " hyperedges.\n";
+    *out << "c Removed " << diff << " hyperedges.\n";
+    if (K == 3) return;
     *out << "c Hyperedge counts:\n";
     for (typename Vec::size_type k=0; k < v.size(); ++k) {
       const auto c = v[k];
@@ -482,10 +534,13 @@ int main(const int argc, const char* const argv[]) {
     *out << max << " " << hn << "\n";
     return 0;
   }
+  header_output(out, n, K, dist, m, file);
 
-  const cnum_t old_hn = res.size();
-
-  if (old_hn == 0) std::exit(127);
+  const cnum_t orig_hn = res.size();
+  if (orig_hn == 0) {
+    pline_output(out, 0, 0, m);
+    return 0;
+  }
 
   // removing duplicates:
   for (auto& x : res) x.erase(std::unique(x.begin(), x.end()), x.end());
@@ -499,15 +554,19 @@ int main(const int argc, const char* const argv[]) {
     }
   );
 
-  const cnum_t old2_hn = res.size();
-  const cnum_t old2_max = res.back().back();
+  const cnum_t after_subs_hn = res.size();
+  const cnum_t after_subs_max = res.back().back();
 
   typedef std::vector<cnum_t> stat_vec_t;
-  stat_vec_t degree(old2_max+1, 0);
+  stat_vec_t degree(after_subs_max+1, 0);
   Reduction::basic_colour_red(res, degree, m);
 
   hn = res.size();
-  if (hn == 0) std::exit(129);
+  hn_output(out, orig_hn, after_subs_hn, hn, m);
+  if (hn == 0) {
+    pline_output(out, 0, 0, m);
+    return 0;
+  }
   max = res.back().back();
 
   stat_vec_t counts(K+1,0);
@@ -522,70 +581,47 @@ int main(const int argc, const char* const argv[]) {
       if (deg > max_d) {max_d = deg; max_v = i;}
     }
   }
+  assert(occ_n >= 1);
 
-  Output:
+  count_output(out, orig_hn-hn, counts, K);
 
   if (m == 1) {
-    *out << "c Hypergraph of Pythagorean " << K << "-tuples, up to n=" << n << ",\n"
-    "c  with minimum-distance between (sorted) components = " << dist << ".\n";
-    oklib_output(out);
-    if (occ_n > 0) {
-      *out << "c Number of occurring vertices = " << occ_n << ".\n";
-      *out << "c Minimum degree = " << min_d << ", attained for vertex " << min_v << ".\n";
-      *out << "c Maximum degree = " << max_d << ", attained for vertex " << max_v << ".\n";
-      *out << "c Average degree = " << double(sum_d) / occ_n << ".\n";
-    }
-    if (hn > 0) count_output(out, old_hn-hn, counts);
-    *out << "p hyp " << max << " " << hn << "\n";
+    *out << "c Number of occurring vertices = " << occ_n << ".\n";
+    *out << "c Minimum degree = " << min_d << ", attained for vertex " << min_v << ".\n";
+    *out << "c Maximum degree = " << max_d << ", attained for vertex " << max_v << ".\n";
+    *out << "c Average degree = " << double(sum_d) / occ_n << ".\n";
+    pline_output(out, max, hn, m);
     for (const auto& x : res) {
       for (const auto i : x) *out << i << " ";
       *out << "0\n";
     }
   }
   else if (m == 2) {// DIMACS output:
-    *out << "c Boolean Pythagorean " << K << "-tuples problem, up to n=" << n << ",\n"
-    "c  with minimum-distance between (sorted) components = " << dist << ".\n";
-    oklib_output(out);
-    if (hn > 0) {
-      count_output(out, old_hn-hn, counts);
-      *out << "c Total = " << hn << ".\n";
-    }
-    if (occ_n > 0) {
-      *out << "c Number of occurring variables = " << occ_n << ".\n";
-      *out << "c Minimum degree = " << 2*min_d << ", attained for variable " << min_v << ".\n";
-      *out << "c Maximum degree = " << 2*max_d << ", attained for variable " << max_v << ".\n";
-      *out << "c Average degree = " << 2*double(sum_d) / occ_n << ".\n";
-    }
+    *out << "c Number of occurring variables = " << occ_n << ".\n";
+    *out << "c Minimum degree = " << 2*min_d << ", attained for variable " << min_v << ".\n";
+    *out << "c Maximum degree = " << 2*max_d << ", attained for variable " << max_v << ".\n";
+    *out << "c Average degree = " << 2*double(sum_d) / occ_n << ".\n";
     const cnum_t cn = 2 * hn;
-    *out << "p cnf " << max << " " << cn << "\n";
+    pline_output(out, max, cn, m);
     for (const auto& x : res) {
       for (const auto i : x) *out << i << " "; *out << "0 ";
       for (const auto i : x) *out << "-" << i << " "; *out << "0\n";
     }
   } else {
     assert(m >= 3);
-    *out << "c " << m << "-Colour Pythagorean " << K << "-tuples problem, up to n=" << n << ",\n"
-    "c  with minimum-distance between (sorted) components = " << dist << ".\n";
-    oklib_output(out);
     *out << "c Using the strong direct translation.\n";
-    if (hn > 0) {
-      count_output(out, old_hn - hn, counts);
-      *out << "c Total = " << hn << ".\n";
-    }
-    if (occ_n > 0) {
-      *out << "c Number of occurring variables = " << m*occ_n << ".\n";
-      *out << "c Degrees, ignoring the ALOAMO-clauses:\n";
-      *out << "c  Minimum = " << min_d << ", attained for vertex " << min_v << " (variables";
-      for (uint_t col = 0; col < m; ++col) *out << " " << var_number(min_v,m,col);
-      *out << ").\n";
-      *out << "c  Maximum = " << max_d << ", attained for vertex " << max_v << " (variables";
-      for (uint_t col = 0; col < m; ++col) *out << " " << var_number(max_v,m,col);
-      *out << ").\n";
-      *out << "c  Average degree = " << double(sum_d) / occ_n << ".\n";
-    }
+    *out << "c Number of occurring variables = " << m*occ_n << ".\n";
+    *out << "c Degrees, ignoring the ALOAMO-clauses:\n";
+    *out << "c  Minimum = " << min_d << ", attained for vertex " << min_v << " (variables";
+    for (uint_t col = 0; col < m; ++col) *out << " " << var_number(min_v,m,col);
+    *out << ").\n";
+    *out << "c  Maximum = " << max_d << ", attained for vertex " << max_v << " (variables";
+    for (uint_t col = 0; col < m; ++col) *out << " " << var_number(max_v,m,col);
+    *out << ").\n";
+    *out << "c  Average degree = " << double(sum_d) / occ_n << ".\n";
     const cnum_t cn = m * hn + occ_n * (1 + (m * (m - 1)) / 2);
     const cnum_t vn = m * cnum_t(max);
-    *out << "p cnf " << vn << " " << cn << "\n";
+    pline_output(out, vn, cn, m);
     for (const auto& x : res) {
       for (uint_t col = 0; col < m; ++col) {
         for (const auto i : x) *out << var_number(i,m,col) << " ";
