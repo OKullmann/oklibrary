@@ -52,8 +52,11 @@ License, or any later version. */
 
   In case of m=0, K=3, dist=0, the computation of the count uses a
   factorisation table for the natural numbers until n: This is much faster,
-  but uses memory (4 bytes * n), and the max-occuring vertex is not
-  computed here.
+  but uses more memory (4 bytes * n).
+  The 4-bytes-size comes from the 32-bit type Factorisation::base_t, which
+  restricts the maximal n here to roughly 2*10^9. When using a 64-bit type
+  instead, then this restrictions goes away, but then 8 bytes are used
+  "per vertex".
 
   An optional fifth parameter can be "-", in which case output is put to
   standard output, or "filename", in which case a file is created.
@@ -170,6 +173,8 @@ namespace Factorisation {
       }
     return T;
   }
+  // This function is not used here, since the following implicit
+  // representation is faster and uses less memory.
 
   // Now the table T only contains one prime factor (the largest):
   template <typename B = base_t>
@@ -188,8 +193,7 @@ namespace Factorisation {
     typedef typename V::value_type B;
     typedef std::vector<B> R;
     R res;
-    typedef typename R::size_type size_t;
-    size_t next = 0;
+    typename R::size_type next = 0;
     B old_f = 0;
     do {
       const B f = T[n];
@@ -208,19 +212,21 @@ namespace Pythagorean {
 
   constexpr auto factor = 0.1474; // yields an upper bound for n <= 10^8
   template <typename C>
-  constexpr double estimating_triples(const C n) {
+  constexpr double estimating_triples(const C n) noexcept {
     return factor * n * std::log(n);
   }
 
   // Counting triples:
   template <typename C1, typename C2>
-  void triples_c(const C1 n, C2& hn) {
+  void triples_c(const C1 n, C1& max, C2& hn) {
     const auto T = Factorisation::table_factor(n);
     assert(T.size() == n+1);
     for (C1 i = 5; i <= n; ++i) {
       C2 prod = 1;
       for (const auto e : Factorisation::extract_exponents_1m4(T,i))
         prod *= 2 * e + 1;
+      if (prod == 1) continue;
+      max = std::max(max, i);
       hn += (prod-1)/2;
     }
   }
@@ -374,7 +380,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.6.10";
+  const std::string version = "0.6.11";
 
   const std::string filename = "Pyth_";
 
@@ -522,7 +528,7 @@ int main(const int argc, const char* const argv[]) {
 
   if (K == 3) {
     if (m == 0)
-      if (dist == 0) Pythagorean::triples_c(n, hn);
+      if (dist == 0) Pythagorean::triples_c(n, max, hn);
       else Pythagorean::triples_c(n, dist, max, hn);
     else
       if (dist <= 1) res = Pythagorean::triples_e<hypergraph>(n);
@@ -635,8 +641,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   if (m == 0) {
-    if (K == 3 and dist == 0) *out << hn << "\n";
-    else *out << max << " " << hn << "\n";
+    *out << max << " " << hn << "\n";
     return 0;
   }
   header_output(out, n, K, dist, m, file);
