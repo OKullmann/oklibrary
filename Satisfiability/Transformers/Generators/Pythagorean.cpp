@@ -115,12 +115,16 @@ License, or any later version. */
 
   Hyperedge-counting links:
 
-   - https://oeis.org/A224921 for number of Pythagorean triples (K=3)
+   - https://oeis.org/A224921 for the number of Pythagorean triples (K=3)
      up to n-1.
-     This sequence is obtained for, say, up to 72 elements on the command-line
-     via (using Bash)
+     This sequence is obtained for, say, the first 73 elements, on the
+     command-line via (using Bash)
 
    > for ((n=0; n<=72; ++n)); do ./Pythagorean $n 3 0 0 - | cut -f2 -d" " | tr "\n" ","; done; echo
+
+     Another examples: The number of triples up to 2*10^9 is 6,380,787,008,
+     obtained by "./Pythagorean 2000000000 3 0 0" in 335 sec, using 7.5 GB
+     (on a standard 64-bit machine with 32 GB RAM).
 
    - Number of Pythagorean quadruples (K=4) or quintuples (K=5): not yet
      in OEIS.
@@ -145,8 +149,8 @@ License, or any later version. */
 
    - Ptn(3,3) = 7825 [9,472; 7,336; 14,672]
        http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
-   - Ptn(3,3,3) > 4000000 [8,805,198; 6,784,681; 27,022,475], with 5,001,324
-     occurring variables (g2wsat, second run with cutoff=13,000000,
+   - Ptn(3,3,3) > 4*10^6 [8,805,198; 6,784,681; 27,022,475], with 5,001,324
+     occurring variables (g2wsat, second run with cutoff=13,000,000,
      "2 1 0 107952803 3471553506")
    - Ptn(4,4) = 105 [639; 638; 1276] (known)
    - Ptn_i(4,4) = 163 [545; 544; 1088]
@@ -258,10 +262,10 @@ namespace Factorisation {
 
 namespace Pythagorean {
 
-  constexpr auto factor = 0.1474; // yields an upper bound for n <= 10^8
+  constexpr auto factor3 = 0.149; // yields an upper bound for n <= 2*10^9
   template <typename C>
   constexpr double estimating_triples(const C n) noexcept {
-    return factor * n * std::log(n);
+    return factor3 * n * std::log(n);
   }
 
   // Counting triples:
@@ -427,7 +431,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.7";
+  const std::string version = "0.7.1";
 
   const std::string filename = "Pyth_";
 
