@@ -167,9 +167,10 @@ License, or any later version. */
      375 [323,798; =; 972,894] hard to satisfy (-cutoff 800000 -runs 2000).
    - Ptn(6,6) = 23 [311; 267; 534] (known)
    - Ptn_i(6,6) = 61 [6,770; =; 13,540]
-   - Ptn(6,6,6) > 120 [154,860; 151,105; 453,795] (C&C with D=25 as above)
-     <= 122 [165,477; 161,564; 485,180] (C&C with D=25 and solver=
-     "lingelingala-b02aa1a-121013", 2,000 min).
+   - Ptn(6,6,6) = 121; 120 [154,860; 151,105; 453,795] found satisfiable with
+     C&C and D=25 as above, while 121 [159,697; 155,857; 468,055] found
+     unsatisfiable with C&C and D=25 and solver="lingelingala-b02aa1a-121013",
+     1,867 min.
    - Ptn(7,7) = 18 [306; 159; 318] (known)
    - Ptn_i(7,7) = 65 [44,589; =; 89,178]
 
@@ -199,22 +200,20 @@ License, or any later version. */
 
 namespace {
 
-  template <class C>
-  using val_t = typename C::value_type;
-  template <class C>
-  using siz_t = typename C::size_type;
-  template <class C>
-  using it_t = typename C::iterator;
+  template <class C> using val_t = typename C::value_type;
+  template <class C> using siz_t = typename C::size_type;
+  template <class C> using it_t = typename C::iterator;
 
 }
 
 namespace Factorisation {
 
   typedef std::uint_least32_t base_t;
+  typedef std::uint_least8_t exponent_t;
 
   // Compute table T, such that for 1 <= i <= n, T[i] is the
   // prime-factorisation of i, in map-form (basis -> exponent):
-  template <typename E = std::uint_least8_t>
+  template <typename E = exponent_t>
   std::vector<std::map<base_t,E>> table_factorisations(const base_t n) {
     std::vector<std::map<base_t,E>> T(n+1);
     std::vector<base_t> rem; rem.reserve(n+1);
@@ -257,7 +256,47 @@ namespace Factorisation {
     } while (n != 1);
     return res;
   }
-
+  // Extracting the prime factorisation:
+  template <class V, typename B, typename E = exponent_t>
+  inline std::map<B,E> extract_factorisation(const V& T, B n) {
+    assert(n >= 2);
+    assert(n < T.size());
+    std::map<B,E> res;
+    do {
+      const B f = T[n];
+      ++res[f];
+      n /= f;
+    } while (n != 1);
+    return res;
+  }
+  // The first "half" of the list of factors, given factorisation F:
+  template <class V, typename B>
+  inline std::vector<B> half_factors(const V& F, const B bound) {
+    typedef std::vector<B> R;
+    R res;
+    typedef siz_t<R> size_t;
+    size_t num_factors = 1;
+    for (const auto& p : F) num_factors *= p.second+1;
+    res.reserve(num_factors);
+    const auto begin = res.cbegin();
+    res.push_back(1);
+    for (const auto p : F) {
+      const auto end = res.cend();
+      const B b = p.first;
+      const auto max_e = p.second;
+      for (auto i = begin; i != end; ++i) {
+        const auto f = *i;
+        B power = 1;
+        for (decltype(p.second) e = 0; e < max_e; ++e) {
+          power *= b;
+          const auto new_f = f*power;
+          if (new_f > bound) break;
+          else res.push_back(new_f);
+        }
+      }
+    }
+    return res;
+  }
 }
 
 namespace Pythagorean {
@@ -300,33 +339,24 @@ namespace Pythagorean {
         }
     }
   }
-  // Enumerating triples:
-  template <class V, typename C1>
-  V triples_e(const C1 n) {
-    V res; res.reserve(Pythagorean::estimating_triples(n));
-    for (C1 r = 2; r <= C1(n/(1+std::sqrt(2))); r+=2) {
-      const C1 rs = r*r/2;
-      for (C1 s = 1; s <= C1(std::sqrt(rs)); ++s)
-        if (rs % s == 0) {
-          const C1 t = rs / s;
-          const C1 c = r+s+t;
-          if (c <= n) res.push_back({{r+s,r+t,c}});
-        }
-    }
-    return res;
-  }
   template <class V, typename C1>
   V triples_e(const C1 n, const C1 dist) {
-    assert(dist >= 2);
     V res; res.reserve(Pythagorean::estimating_triples(n));
-    for (C1 r = 2; r <= C1(n/(1+std::sqrt(2))); r+=2) {
+    const C1 max_r = n/(1+std::sqrt(2));
+    const auto T = Factorisation::table_factor(max_r);
+    assert(T.size() == n+1);
+    for (C1 r = 2; r <= max_r; r+=2) {
+      auto F = Factorisation::extract_factorisation(T, r);
+      for (auto& p : F) p.second *= 2;
+      --F[2];
       const C1 rs = r*r/2;
-      for (C1 s = dist; s <= C1(std::sqrt(rs)); ++s)
-        if (rs % s == 0) {
-          const C1 t = rs / s;
-          const C1 c = r+s+t;
-          if (c <= n and s+dist <= t) res.push_back({{r+s,r+t,c}});
-        }
+      const C1 bound = std::sqrt(rs);
+      for (const C1 s : Factorisation::half_factors(F,bound)) {
+        if (s < dist) continue;
+        const C1 t = rs / s;
+        const C1 c = r+s+t;
+        if (c <= n and s+dist <= t) res.push_back({{r+s,r+t,c}});
+      }
     }
     return res;
   }
@@ -431,7 +461,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.7.1";
+  const std::string version = "0.7.3";
 
   const std::string filename = "Pyth_";
 
@@ -582,8 +612,7 @@ int main(const int argc, const char* const argv[]) {
       if (dist == 0) Pythagorean::triples_c(n, max, hn);
       else Pythagorean::triples_c(n, dist, max, hn);
     else
-      if (dist <= 1) res = Pythagorean::triples_e<hypergraph>(n);
-      else res = Pythagorean::triples_e<hypergraph>(n, dist);
+      res = Pythagorean::triples_e<hypergraph>(n, dist);
   }
   else if (K == 4) {
     const uint_t n2 = n*n;
