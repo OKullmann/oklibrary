@@ -164,7 +164,7 @@ License, or any later version. */
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
    - Ptn_i(5,5,5) > 370 [309,239; =; 929,197]
      g2wsat with "900 1 0 131253 3996273475".
-     375 [323,798; =; 972,894] hard to satisfy (-cutoff 800000 -runs 2000).
+     371 [312,548; =; 939,128] hard to satisfy (-cutoff 800000 -runs 2000).
    - Ptn(6,6) = 23 [311; 267; 534] (known)
    - Ptn_i(6,6) = 61 [6,770; =; 13,540]
    - Ptn(6,6,6) = 121; 120 [154,860; 151,105; 453,795] found satisfiable with
@@ -269,7 +269,7 @@ namespace Factorisation {
     } while (n != 1);
     return res;
   }
-  // The first "half" of the list of factors, given factorisation F:
+  // The list of factors <= bound, given factorisation F:
   template <class V, typename B>
   inline std::vector<B> half_factors(const V& F, const B bound) {
     typedef std::vector<B> R;
@@ -315,14 +315,15 @@ namespace Pythagorean {
     for (C1 i = 5; i <= n; ++i) {
       C2 prod = 1;
       for (const auto e : Factorisation::extract_exponents_1m4(T,i))
-        prod *= 2 * e + 1;
+        prod *= 2*e + 1;
       if (prod == 1) continue;
       max = std::max(max, i);
       hn += (prod-1)/2;
     }
   }
 
-  // Counting triples with minimum distance between (sorted) components:
+  // Counting triples with minimum distance between (sorted) components
+  // (slower than above, but minimal space usage):
   template <typename C1, typename C2>
   void triples_c(const C1 n, const C1 dist, C1& max, C2& hn) noexcept {
     assert(dist >= 1);
@@ -339,6 +340,8 @@ namespace Pythagorean {
         }
     }
   }
+
+  // Generating triples:
   template <class V, typename C1>
   V triples_e(const C1 n, const C1 dist) {
     V res; res.reserve(Pythagorean::estimating_triples(n));
@@ -461,7 +464,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.7.3";
+  const std::string version = "0.7.4";
 
   const std::string filename = "Pyth_";
 
@@ -514,16 +517,24 @@ namespace {
   }
 
   void hn_output(std::ostream* const out, const cnum_t h0, const cnum_t h1,
-  const cnum_t h2, const uint_t m) {
+  const cnum_t h2, const uint_t m, const uint_t K, const uint_t dist) {
     assert(*out);
     assert(h0 >= 1);
     if (m == 1)
-      *out << "c Number of hyperedges (tuples) originally and after "
-        "subsumption:\nc  " << h0 << " " << h1 << "\n";
+      if (K <= 4 or dist >= 1)
+        *out << "c Number of hyperedges (tuples):\nc  "
+          << h0 << "\n";
+      else
+        *out << "c Number of hyperedges (tuples) originally and after "
+          "subsumption:\nc  " << h0 << " " << h1 << "\n";
     else
-      *out << "c Number of hyperedges (tuples) originally, after subsumption,"
-        " and after further colour-reduction:\nc  " << h0 << " " << h1 <<
-        " " << h2 << "\n";
+      if (K <= 4 or dist >= 1)
+        *out << "c Number of hyperedges (tuples) originally and after"
+          " colour-reduction:\nc  " << h0 << " " << h2 << "\n";
+      else
+        *out << "c Number of hyperedges (tuples) originally, after "
+          "subsumption, and after further colour-reduction:\nc  " << h0 <<
+          " " << h1 << " " << h2 << "\n";
   }
 
   template <class Vec>
@@ -752,7 +763,7 @@ int main(const int argc, const char* const argv[]) {
   Reduction::basic_colour_red(res, degree, m);
 
   hn = res.size();
-  hn_output(out, orig_hn, after_subs_hn, hn, m);
+  hn_output(out, orig_hn, after_subs_hn, hn, m, K, dist);
   if (hn == 0) {
     pline_output(out, 0, 0, m);
     return 0;
