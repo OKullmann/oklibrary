@@ -20,19 +20,24 @@ License, or any later version. */
   This program is available at
   https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Transformers/Generators/Pythagorean.cpp
 
+
   USAGE:
 
   For the boolean problems for triples, use
-  > Pythagorean n 3 0 2
+  > ./Pythagorean n 3 0 2
   or
-  > Pythagorean n 3 1 2
+  > ./Pythagorean n 3 1 2
   (doesn't matter here), which creates files "Pyth_n-3-0-2.cnf" resp.
   "Pyth_n-3-1-2.cnf".
 
+  (Note that ">" denotes the command-line prompt, and that the command is
+  issued in the same directory where the executable "Pythagorean" has been
+  compiled.)
+
   For the boolean problem for quadruples, use
-  > Pythagorean n 4 0 2
+  > ./Pythagorean n 4 0 2
   while the injective form (all components different) is obtained by
-  > Pythagorean n 4 1 2
+  > ./Pythagorean n 4 1 2
   creating files Pyth_n-4-0-2.cnf resp. Pyth_n-4-1-2.cnf.
 
   The second parameter is K >= 3, the length of the Pythagorean tuple.
@@ -45,7 +50,7 @@ License, or any later version. */
   that is, x_i + d <= x_{i+1} for 1 <= i <= K-1.
 
   The fourth parameter m >= 0 is the number of colours, with
-   - m = 0: only output the max-occuring vertex and the number of hyperedges
+   - m = 0: only output the max-occurring vertex and the number of hyperedges
    - m = 1: output the hypergraph
    - m = 2: output the boolean problem
    - m >= 3: currently uses the strong direct translation.
@@ -63,7 +68,8 @@ License, or any later version. */
   Default output is to file "Pyth_n_K_d_m.cnf".
 
   Subsumption-elimination is first applied, and then for m >= 2 elimination
-  of hyperedges containing a vertex occurring at most m-1 times (repeatedly).
+  of hyperedges containing a vertex occurring at most m-1 times (repeatedly),
+  referred to as "colour-reduction".
 
   The output contains additional information for m >= 1:
    - Library and version information.
@@ -71,44 +77,76 @@ License, or any later version. */
    - Information on number of hyperedges.
    - Information on vertex-degrees (m=1) resp. variable-degrees (m >= 2).
 
+   After the comments (started with "c ") then comes the parameter line:
+    - for SAT problems "p cnf max c", with "max" the maximal occurring
+      variable-index, and with "c" the number of clauses;
+    - for the hypergraph (m=1) "p hyp max h", with "max" the maximal occurring
+      vertex (the largest hypotenuse), and with "h" the number of hyperedges.
+
+
+  COMPILATION:
+
   Requires C++11. Compile with
 
   > g++ -Wall --std=c++11 -Ofast -o Pythagorean Pythagorean.cpp
 
-  resp.
+  resp. (now asserts disabled)
 
   > g++ -Wall --std=c++11 -Ofast -DNDEBUG -o Pythagorean Pythagorean.cpp
+
+  resp. (fastest, and without superfluous warnings)
+
+  > g++ -Wall -Wno-parentheses --std=c++11 -Ofast -funroll-loops -DNDEBUG -o Pythagorean Pythagorean.cpp
+
+  If on the other hand a debugging version is needed, use:
+
+  > g++ -Wall --std=c++11 -g -o Pythagorean Pythagorean.cpp
 
   The CNF-output puts related clauses on the same line (note that in DIMACS,
   a clause is completed by "0", and thus you can have as many clauses on a
   line as you like).
 
-  FURTHER DISCUSSIONS:
 
+  FURTHER DISCUSSIONS:
 
   TODO: implement intelligent methods for K>3.
   TODO: prove that subsumption-elimination does not happen for K=4.
   TODO: implement arbitrary K.
 
-
   Hyperedge-counting links:
+
    - https://oeis.org/A224921 for number of Pythagorean triples (K=3)
      up to n-1.
-   - Number of Pythagorean quadruples (K=4) or quintuples (K=5) not yet
+     This sequence is obtained for, say, up to 72 elements on the command-line
+     via (using Bash)
+
+   > for ((n=0; n<=72; ++n)); do ./Pythagorean $n 3 0 0 - | cut -f2 -d" " | tr "\n" ","; done; echo
+
+   - Number of Pythagorean quadruples (K=4) or quintuples (K=5): not yet
      in OEIS.
 
-  Pythagorean numbers established, as in
+  Pythagorean numbers established, generalising
     http://link.springer.com/chapter/10.1007%2F978-3-319-40970-2_15
     https://arxiv.org/abs/1605.00723
-    Solving and Verifying the boolean Pythagorean Triples problem via Cube-and-Conquer
+    Solving and Verifying the boolean Pythagorean Triples problem
+      via Cube-and-Conquer
+
+  Ptn(k_1, ..., k_m) is the smallest n >= 1 (if it exists, otherwise infinity),
+  such that for every partition of {1,...,n} into m parts A_1, ..., A_m, there
+  is 1 <= i <= m such that A_i contains a Pythagorean k_i-tuple.
+
+  Experimental results are as follows.
 
   In square brackets [h;h';c], number of hyperedges before/after reduction and
   number of clauses; if "=" is used, then the reductions don't do anything
-  here:
+  here; algorithms "vw1" and "g2wsat" are from the UBCSAT suite of local-search
+  algorithms, while "SplittingViaOKsolver" is the basic C&C-implementation in
+  the OKlibrary:
+
    - Ptn(3,3) = 7825 [9,472; 7,336; 14,672]
        http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
    - Ptn(3,3,3) > 4000000 [8,805,198; 6,784,681; 27,022,475], with 5,001,324
-     occuring variables (g2wsat, second run with cutoff=13,000000,
+     occurring variables (g2wsat, second run with cutoff=13,000000,
      "2 1 0 107952803 3471553506")
    - Ptn(4,4) = 105 [639; 638; 1276] (known)
    - Ptn_i(4,4) = 163 [545; 544; 1088]
@@ -155,6 +193,17 @@ License, or any later version. */
 #include <map>
 #include <cstdint>
 
+namespace {
+
+  template <class C>
+  using val_t = typename C::value_type;
+  template <class C>
+  using siz_t = typename C::size_type;
+  template <class C>
+  using it_t = typename C::iterator;
+
+}
+
 namespace Factorisation {
 
   typedef std::uint_least32_t base_t;
@@ -186,14 +235,13 @@ namespace Factorisation {
   }
   // Extracting the exponents of prime factors congruent 1 mod 4:
   template <class V>
-  inline std::vector<typename V::value_type> extract_exponents_1m4(
-    const V& T, typename V::value_type n) {
+  inline std::vector<val_t<V>> extract_exponents_1m4(const V& T, val_t<V> n) {
     assert(n >= 2);
     assert(n < T.size());
-    typedef typename V::value_type B;
+    typedef val_t<V> B;
     typedef std::vector<B> R;
     R res;
-    typename R::size_type next = 0;
+    siz_t<R> next = 0;
     B old_f = 0;
     do {
       const B f = T[n];
@@ -284,9 +332,8 @@ namespace Container {
 
   template <class C>
   void remove_empty_elements(C& v) noexcept {
-    typedef typename C::value_type val_t;
     v.erase(std::remove_if(v.begin(), v.end(),
-              [](const val_t& x){return x.empty();}), v.end());
+              [](const val_t<C>& x){return x.empty();}), v.end());
   }
 
 }
@@ -295,7 +342,7 @@ namespace Subsumption {
 
   // Selecting some element from a non-empty sequence:
   template <class V>
-  inline typename V::value_type select(const V& t) noexcept {
+  inline val_t<V> select(const V& t) noexcept {
     assert(not t.empty());
     return t[0];
   }
@@ -308,10 +355,10 @@ namespace Subsumption {
   void min_elements(V& v, const C1 max) {
     if (v.empty()) return;
     const auto begin = v.begin(), end = v.end();
-    typedef typename V::value_type tuple_t;
+    typedef val_t<V> tuple_t;
     std::sort(begin, end,
       [](const tuple_t& x, const tuple_t& y) {return x.size() < y.size();});
-    typedef typename V::iterator it_t;
+    typedef it_t<V> it_t;
     std::vector<std::forward_list<it_t>> occ(max+1);
     it_t i = begin;
     for (const auto size = begin->size(); i != end and i->size()==size; ++i)
@@ -346,8 +393,8 @@ namespace Reduction {
   void basic_colour_red(V& hyp, SV& deg, const C1 m) noexcept {
     for (const auto& h : hyp) for (const auto v : h) ++deg[v];
     if (m <= 1) return;
-    typedef typename V::value_type tuple_t;
-    typedef typename tuple_t::value_type vert_t;
+    typedef val_t<V> tuple_t;
+    typedef val_t<tuple_t> vert_t;
     bool changed;
     do {
       changed = false;
@@ -380,7 +427,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.6.11";
+  const std::string version = "0.7";
 
   const std::string filename = "Pyth_";
 
@@ -451,7 +498,7 @@ namespace {
     *out << "c Removed " << diff << " hyperedges.\n";
     if (K == 3) return;
     *out << "c Hyperedge counts:\n";
-    for (typename Vec::size_type k=0; k < v.size(); ++k) {
+    for (siz_t<Vec> k=0; k < v.size(); ++k) {
       const auto c = v[k];
       if (c != 0)
         *out << "c  size " << k << ": " << c << "\n";
