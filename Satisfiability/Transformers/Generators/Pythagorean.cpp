@@ -52,7 +52,7 @@ License, or any later version. */
 
   In case of m=0, K=3, dist=0, the computation of the count uses a
   factorisation table for the natural numbers until n: This is much faster,
-  but uses memory (for n=10^8: 19 GB), and the max-occuring vertex is not
+  but uses memory (for n=10^8: 4 GB), and the max-occuring vertex is not
   computed here.
 
   An optional fifth parameter can be "-", in which case output is put to
@@ -104,8 +104,9 @@ License, or any later version. */
   here:
    - Ptn(3,3) = 7825 [9,472; 7,336; 14,672]
        http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
-   - Ptn(3,3,3) > 2000000 [4,181,998; 3,157,656; 12,721,692]
-     (g2wsat, first run with cutoff=30000000)
+   - Ptn(3,3,3) > 4000000 [8,805,198; 6,784,681; 27,022,475], with 5,001,324
+     occuring variables (g2wsat, second run with cutoff=13,000000,
+     "2 1 0 107952803 3471553506")
    - Ptn(4,4) = 105 [639; 638; 1276] (known)
    - Ptn_i(4,4) = 163 [545; 544; 1088]
    - Ptn(4,4,4) > 1680 [158,627; =; 482,601]
@@ -170,6 +171,36 @@ namespace Factorisation {
     return T;
   }
 
+  // Now the table T only contains one prime factor (the largest):
+  template <typename B = base_t>
+  std::vector<B> table_factor(const base_t n) {
+    std::vector<B> T(n+1);
+    for (B i = 2; i <= n; ++i)
+      if (T[i] == 0) for (B j = i; j <= n; j+=i) T[j] = i;
+    return T;
+  }
+  template <class V>
+  inline std::vector<typename V::value_type> extract_exponents_1m4(
+    const V& T, typename V::value_type n) {
+    assert(n >= 2);
+    assert(n < T.size());
+    typedef typename V::value_type B;
+    typedef std::vector<B> R;
+    R res;
+    typedef typename R::size_type size_t;
+    size_t next = 0;
+    B old_f = 0;
+    do {
+      const B f = T[n];
+      if (f % 4 == 1)
+        if (f == old_f) ++res[next-1];
+        else { res.push_back(1); ++next; }
+      n /= f;
+      old_f = f;
+    } while (n != 1);
+    return res;
+  }
+
 }
 
 namespace Pythagorean {
@@ -182,11 +213,13 @@ namespace Pythagorean {
 
   // Counting triples:
   template <typename C1, typename C2>
-  void triples_c(const C1 n, C1& max, C2& hn) {
-    const auto T = Factorisation::table_factorisations(n);
+  void triples_c(const C1 n, C2& hn) {
+    const auto T = Factorisation::table_factor(n);
+    assert(T.size() == n+1);
     for (C1 i = 5; i <= n; ++i) {
       C2 prod = 1;
-      for (const auto p : T[i]) if (p.first % 4 == 1) prod *= 2 * p.second + 1;
+      for (const auto e : Factorisation::extract_exponents_1m4(T,i))
+        prod *= 2 * e + 1;
       hn += (prod-1)/2;
     }
   }
@@ -341,7 +374,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.6.8";
+  const std::string version = "0.6.9";
 
   const std::string filename = "Pyth_";
 
@@ -493,7 +526,7 @@ int main(const int argc, const char* const argv[]) {
 
   if (K == 3) {
     if (m == 0)
-      if (dist == 0) Pythagorean::triples_c(n, max, hn);
+      if (dist == 0) Pythagorean::triples_c(n, hn);
       else Pythagorean::triples_c(n, dist, max, hn);
     else
       if (dist <= 1) res = Pythagorean::triples_e<hypergraph>(n);
