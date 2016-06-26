@@ -52,7 +52,7 @@ License, or any later version. */
 
   In case of m=0, K=3, dist=0, the computation of the count uses a
   factorisation table for the natural numbers until n: This is much faster,
-  but uses memory (for n=10^8: 4 GB), and the max-occuring vertex is not
+  but uses memory (4 bytes * n), and the max-occuring vertex is not
   computed here.
 
   An optional fifth parameter can be "-", in which case output is put to
@@ -179,6 +179,7 @@ namespace Factorisation {
       if (T[i] == 0) for (B j = i; j <= n; j+=i) T[j] = i;
     return T;
   }
+  // Extracting the exponents of prime factors congruent 1 mod 4:
   template <class V>
   inline std::vector<typename V::value_type> extract_exponents_1m4(
     const V& T, typename V::value_type n) {
@@ -367,14 +368,13 @@ namespace {
     errcode_too_large = 2,
     errcode_too_small = 3,
     errcode_not_yet = 4,
-    errcode_file = 5,
-    errcode_size = 6
+    errcode_file = 5
   };
 
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.6.9";
+  const std::string version = "0.6.10";
 
   const std::string filename = "Pyth_";
 
@@ -482,24 +482,20 @@ int main(const int argc, const char* const argv[]) {
     std::cerr << err << "Second input " << K << " currently must be at most 7.\n";
     return errcode_not_yet;
   }
-  const uint_t abs_max = uint_t(std::sqrt(std::numeric_limits<uint_t>::max())) / K;
+
+  const uint_t dist = std::stoul(argv[3]);
+
+  const uint_t m = std::stoul(argv[4]);
+
+  const uint_t abs_max = (K==3 and dist==0 and m==0) ? std::numeric_limits<Factorisation::base_t>::max()/2 : uint_t(std::sqrt(std::numeric_limits<uint_t>::max())) / K;
   if (n > abs_max) {
     std::cerr << err << "First input " << n << " larger than maximal allowed value: " << abs_max << ".\n";
     return errcode_too_large;
   }
-
-  const uint_t dist = std::stoul(argv[3]);
   if (dist > abs_max) {
     std::cerr << err << "Third input " << dist << " larger than maximal "
       "allowed value: " << abs_max << ".\n";
     return errcode_too_large;
-  }
-
-  const uint_t m = std::stoul(argv[4]);
-  if (m==0 and dist==0 and n>=std::numeric_limits<Factorisation::base_t>::max()/2) {
-    std::cerr << err << "First input " << n << " too large for the "
-      "factorisation table.\n";
-    return errcode_size;
   }
 
   const std::string file = (argc == 5) ?
