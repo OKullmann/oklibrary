@@ -452,23 +452,52 @@ namespace Reduction {
 
 }
 
+namespace Translation {
+
+  enum class Type {
+    direct_strong,
+    direct_weak,
+    none,
+    failure
+  };
+
+  std::ostream& operator <<(std::ostream& out, const Type t) {
+    switch (t) {
+    case Type::direct_strong : out << "direct-strong"; break;
+    case Type::direct_weak : out << "direct-weak"; break;
+    case Type::none : out << "no-translation"; break;
+    case Type::failure : out << "FAILURE"; break;
+    }
+    return out;
+  }
+
+  Type get_type(const std::string& arg) {
+    if (arg == "S") return Type::direct_strong;
+    if (arg == "W") return Type::direct_weak;
+    return Type::failure;
+  }
+
+}
+
 namespace {
 
   typedef unsigned long int uint_t; // vertices and variables
   typedef unsigned long long int cnum_t; // hyperedge/clause indices/numbers
 
-  enum {
-    errcode_parameter = 1,
-    errcode_too_large = 2,
-    errcode_too_small = 3,
-    errcode_not_yet = 4,
-    errcode_file = 5
+  enum class Error {
+    parameter = 1,
+    too_large = 2,
+    too_small = 3,
+    not_yet = 4,
+    file = 5,
+    translation = 6
   };
+  int v(Error e) {return static_cast<int>(e);}
 
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.7.5";
+  const std::string version = "0.7.6";
 
   const std::string filename = "Pyth_";
 
@@ -484,12 +513,13 @@ namespace {
   }
 
   void header_output(std::ostream* const out, const uint_t n, const uint_t K,
-  const uint_t dist, const uint_t m, const std::string& file) {
+      const uint_t dist, const uint_t m, const Translation::Type t,
+      const std::string& file) {
     assert(*out);
     assert(m >= 1);
     oklib_output(out);
     *out << "c Parameters: " << n << " " << K << " " << dist << " " << m <<
-      " \"" << file << "\"\n";
+      " " << t << " \"" << file << "\"\n";
     switch (m) {
     case 1 :
       *out << "c Hypergraph of Pythagorean " << K << "-tuples, up to n=" <<
@@ -601,14 +631,15 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (argc <= 4 or argc >= 7) {
-    std::cerr << err << "Four or five arguments are needed:\n"
+  if (argc <= 4 or argc >= 8) {
+    std::cerr << err << "Four to six arguments are needed:\n"
      " - The number n >= 0 of elements.\n"
      " - The size K >= 3 of the tuple.\n"
      " - The enforced distance d >= 0 between components.\n"
      " - The number m >= 0 of colours.\n"
-     " - The filename or \"-\" for standard output.\n";
-    return errcode_parameter;
+     " - The translation type for m >= 3.\n"
+     " - Optional: The filename or \"-\" for standard output.\n";
+    return v(Error::parameter);
   }
 
   const uint_t n = std::stoul(argv[1]);
@@ -616,11 +647,11 @@ int main(const int argc, const char* const argv[]) {
   const uint_t K = std::stoul(argv[2]);
   if (K < 3) {
     std::cerr << err << "Second input " << K << " must be at least 3.\n";
-    return errcode_too_small;
+    return v(Error::too_small);
   }
   if ( K > 7) {
     std::cerr << err << "Second input " << K << " currently must be at most 7.\n";
-    return errcode_not_yet;
+    return v(Error::not_yet);
   }
 
   const uint_t dist = std::stoul(argv[3]);
@@ -630,18 +661,33 @@ int main(const int argc, const char* const argv[]) {
   const uint_t abs_max = (K==3 and dist==0 and m==0) ? std::numeric_limits<Factorisation::base_t>::max()/2 : uint_t(std::sqrt(std::numeric_limits<uint_t>::max())) / K;
   if (n > abs_max) {
     std::cerr << err << "First input " << n << " larger than maximal allowed value: " << abs_max << ".\n";
-    return errcode_too_large;
+    return v(Error::too_large);
   }
   if (dist > abs_max) {
     std::cerr << err << "Third input " << dist << " larger than maximal "
       "allowed value: " << abs_max << ".\n";
-    return errcode_too_large;
+    return v(Error::too_large);
   }
 
-  const std::string file = (argc == 5) ?
+  if (m == 3) {
+    if (argc == 5) {
+      std::cerr << err << "In case of m >= 3 the translation type is required.\n";
+      return v(Error::parameter);
+    }
+    if (Translation::get_type(argv[5]) == Translation::Type::failure) {
+      std::cerr << err << "The fifth input \"" << argv[5] << "\" must be a "
+        "valid acronym for the translation type (S, W).\n";
+      return v(Error::translation);
+    }
+  }
+  const Translation::Type translation = (m <= 2) ?
+    Translation::Type::none : Translation::get_type(argv[5]);
+
+  const int file_param_position = (m >= 3) ? 6 : 5;
+  const std::string file = (argc == file_param_position) ?
     filename + std::to_string(n) + "-" + std::to_string(K) + "-" +
       std::to_string(dist) + "-" + std::to_string(m) + ".cnf"
-    : argv[5];
+    : argv[file_param_position];
   const bool del = (file != "-");
   std::ostream* const out = (del) ? new std::ofstream(file) : &std::cout;
   class Delete_wrapper {
@@ -652,7 +698,7 @@ int main(const int argc, const char* const argv[]) {
   } const D((del) ? out : nullptr);
   if (not *out) {
     std::cerr << err << "Couldn't open file " << file << " for writing.\n";
-    return errcode_file;
+    return v(Error::file);
   }
 
   // Computing the list of Pythagorean tuples:
@@ -777,7 +823,7 @@ int main(const int argc, const char* const argv[]) {
     *out << max << " " << hn << "\n";
     return 0;
   }
-  header_output(out, n, K, dist, m, file);
+  header_output(out, n, K, dist, m, translation, file);
 
   const cnum_t orig_hn = res.size();
   if (orig_hn == 0) {
