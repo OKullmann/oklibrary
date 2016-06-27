@@ -63,9 +63,16 @@ License, or any later version. */
   instead, then this restrictions goes away, but then 8 bytes are used
   "per vertex".
 
-  An optional fifth parameter can be "-", in which case output is put to
+  In case of m >= 3, the fifth parameter specifies the translation to a
+  boolean clause-set; currently we have the following possibilities:
+   - "S" the strong direct translation (with ALOAMO-clauses)
+   - "W" the weak direct translation (only with ALO-clauses).
+
+  An optional fifth/sixth parameter can be "-", in which case output is put to
   standard output, or "filename", in which case a file is created.
-  Default output is to file "Pyth_n_K_d_m.cnf".
+  Default output is to file "Pyth_n-K-d-m.cnf" for 1 <= m <= 2 resp.
+  "Pyth_n-K-d-m-T.cnf" for m >= 3, where T is the acronym for the
+  translation-type.
 
   Subsumption-elimination is first applied, and then for m >= 2 elimination
   of hyperedges containing a vertex occurring at most m-1 times (repeatedly),
@@ -497,7 +504,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.7.6";
+  const std::string version = "0.7.7";
 
   const std::string filename = "Pyth_";
 
@@ -594,7 +601,7 @@ namespace {
   void degree_output(std::ostream* const out,
       const cnum_t occ_n, const cnum_t min_d, const cnum_t max_d,
       const uint_t min_v, const uint_t max_v, const cnum_t sum_d,
-      const uint_t m) {
+      const uint_t m, const Translation::Type t) {
     assert(*out);
     assert(m >= 1);
     if (m == 1) {
@@ -614,8 +621,11 @@ namespace {
       *out << "c Average degree = " << 2*double(sum_d) / occ_n << ".\n";
     }
     else {
-      *out << "c Number of occurring variables = " << m*occ_n << ".\n";
-      *out << "c Degrees, ignoring the ALOAMO-clauses:\n";
+      *out << "c Number of occurring variables = " << m << " * " << occ_n
+        << " = " << m*occ_n << ".\n";
+      *out << "c Degrees, ignoring the ALO";
+      if (t == Translation::Type::direct_strong) *out << "AMO";
+      *out << "-clauses:\n";
       *out << "c  Minimum = " << min_d << ", attained for vertex " << min_v <<
         " (variables";
       for (uint_t col = 0; col < m; ++col) *out << " " << var_number(min_v,m,col);
@@ -686,7 +696,9 @@ int main(const int argc, const char* const argv[]) {
   const int file_param_position = (m >= 3) ? 6 : 5;
   const std::string file = (argc == file_param_position) ?
     filename + std::to_string(n) + "-" + std::to_string(K) + "-" +
-      std::to_string(dist) + "-" + std::to_string(m) + ".cnf"
+      std::to_string(dist) + "-" + std::to_string(m) +
+      ((translation==Translation::Type::none) ? std::string() : (std::string("-") + argv[5]))
+      + ".cnf"
     : argv[file_param_position];
   const bool del = (file != "-");
   std::ostream* const out = (del) ? new std::ofstream(file) : &std::cout;
@@ -875,7 +887,7 @@ int main(const int argc, const char* const argv[]) {
   count_output(out, orig_hn-hn, counts, K);
 
   if (m == 1) {
-    degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m);
+    degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation);
     pline_output(out, max, hn, m);
     for (const auto& x : res) {
       for (const auto i : x) *out << i << " ";
@@ -883,7 +895,7 @@ int main(const int argc, const char* const argv[]) {
     }
   }
   else if (m == 2) {// DIMACS output:
-    degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m);
+    degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation);
     const cnum_t cn = 2 * hn;
     pline_output(out, max, cn, m);
     for (const auto& x : res) {
@@ -892,9 +904,11 @@ int main(const int argc, const char* const argv[]) {
     }
   } else {
     assert(m >= 3);
-    *out << "c Using the strong direct translation.\n";
-    degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m);
-    const cnum_t cn = m * hn + occ_n * (1 + (m * (m - 1)) / 2);
+    *out << "c Using translation " << translation << ".\n";
+    degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation);
+    const cnum_t cn = m * hn + occ_n +
+      ((translation==Translation::Type::direct_strong) ? occ_n*(m*(m - 1)) / 2
+        : 0);
     const cnum_t vn = m * cnum_t(max);
     pline_output(out, vn, cn, m);
     for (const auto& x : res) {
@@ -909,10 +923,11 @@ int main(const int argc, const char* const argv[]) {
         for (uint_t col = 0; col < m; ++col)
           *out << "-" << var_number(i,m,col) << " ";
         *out << "0";
-        for (uint_t col1 = 0; col1 < m; ++col1)
-          for (uint_t col2 = col1+1; col2 < m; ++col2)
-            *out << " " << var_number(i,m,col1) << " " << var_number(i,m,col2)
-              << " 0";
+        if (translation == Translation::Type::direct_strong)
+          for (uint_t col1 = 0; col1 < m; ++col1)
+            for (uint_t col2 = col1+1; col2 < m; ++col2)
+              *out << " " << var_number(i,m,col1) << " " <<
+                var_number(i,m,col2) << " 0";
         *out << "\n";
       }
   }
