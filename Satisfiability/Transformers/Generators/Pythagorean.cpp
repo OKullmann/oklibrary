@@ -150,13 +150,13 @@ License, or any later version. */
    - Ptn(3,3) = 7825 [9,472; 7,336; 14,672]
        http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
    - Ptn(3,3,3) > 4*10^6 [8,805,198; 6,784,681; 27,022,475], with 5,001,324
-     occurring variables (g2wsat, second run with cutoff=13,000,000,
+     occurring variables (g2wsat, second run with cutoff=130,000,000,
      "2 1 0 107952803 3471553506")
    - Ptn(4,4) = 105 [639; 638; 1276] (known)
    - Ptn_i(4,4) = 163 [545; 544; 1088]
    - Ptn(4,4,4) > 1680 [158,627; =; 482,601]
      (vw1 with "2 1 0 6540594 3535491316"); 1681 [158,837; =; 483,235] hard to
-     satisfy; weak conjecture = 1681.
+     satisfy; conjecture Ptn(4,4,4) = 1681.
    - Ptn(5,5) = 37 [404; 254; 508] (known)
    - Ptn_i(5,5) = 75 [2,276; =; 4,552]
    - Ptn(5,5,5) = 191 [46,633; 41,963; 126,653]
@@ -164,7 +164,8 @@ License, or any later version. */
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
    - Ptn_i(5,5,5) > 370 [309,239; =; 929,197]
      g2wsat with "900 1 0 131253 3996273475".
-     371 [312,548; =; 939,128] hard to satisfy (-cutoff 800000 -runs 2000).
+     371 [312,548; =; 939,128] hard to satisfy (-cutoff 800000 -runs 2000),
+     conjecture Ptn_i(5,5,5) = 371.
    - Ptn(6,6) = 23 [311; 267; 534] (known)
    - Ptn_i(6,6) = 61 [6,770; =; 13,540]
    - Ptn(6,6,6) = 121; 120 [154,860; 151,105; 453,795] found satisfiable with
@@ -236,6 +237,9 @@ namespace Factorisation {
       if (T[i] == 0) for (B j = i; j <= n; j+=i) T[j] = i;
     return T;
   }
+
+  // Various functions for working with tables produced by table_factor:
+
   // Extracting the exponents of prime factors congruent 1 mod 4:
   template <class V>
   inline std::vector<val_t<V>> extract_exponents_1m4(const V& T, val_t<V> n) {
@@ -271,7 +275,7 @@ namespace Factorisation {
   }
   // The list of factors <= bound, given factorisation F:
   template <class V, typename B>
-  inline std::vector<B> half_factors(const V& F, const B bound) {
+  inline std::vector<B> bounded_factors(const V& F, const B bound) {
     typedef std::vector<B> R;
     R res;
     typedef siz_t<R> size_t;
@@ -347,14 +351,14 @@ namespace Pythagorean {
     V res; res.reserve(Pythagorean::estimating_triples(n));
     const C1 max_r = n/(1+std::sqrt(2));
     const auto T = Factorisation::table_factor(max_r);
-    assert(T.size() == n+1);
+    assert(T.size() == max_r+1);
     for (C1 r = 2; r <= max_r; r+=2) {
       auto F = Factorisation::extract_factorisation(T, r);
       for (auto& p : F) p.second *= 2;
       --F[2];
       const C1 rs = r*r/2;
       const C1 bound = std::sqrt(rs);
-      for (const C1 s : Factorisation::half_factors(F,bound)) {
+      for (const C1 s : Factorisation::bounded_factors(F,bound)) {
         if (s < dist) continue;
         const C1 t = rs / s;
         const C1 c = r+s+t;
@@ -464,7 +468,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.7.4";
+  const std::string version = "0.7.5";
 
   const std::string filename = "Pyth_";
 
@@ -520,6 +524,7 @@ namespace {
   const cnum_t h2, const uint_t m, const uint_t K, const uint_t dist) {
     assert(*out);
     assert(h0 >= 1);
+    assert(m >= 1);
     if (m == 1)
       if (K <= 4 or dist >= 1)
         *out << "c Number of hyperedges (tuples):\nc  "
@@ -554,6 +559,43 @@ namespace {
     assert(i >= 1);
     assert(col < m);
     return cnum_t(i-1) * m + col + 1;
+  }
+
+  void degree_output(std::ostream* const out,
+      const cnum_t occ_n, const cnum_t min_d, const cnum_t max_d,
+      const uint_t min_v, const uint_t max_v, const cnum_t sum_d,
+      const uint_t m) {
+    assert(*out);
+    assert(m >= 1);
+    if (m == 1) {
+      *out << "c Number of occurring vertices = " << occ_n << ".\n";
+      *out << "c Minimum degree = " << min_d << ", attained for vertex " <<
+      min_v << ".\n";
+      *out << "c Maximum degree = " << max_d << ", attained for vertex " <<
+      max_v << ".\n";
+      *out << "c Average degree = " << double(sum_d) / occ_n << ".\n";
+    }
+    else if (m == 2) {
+      *out << "c Number of occurring variables = " << occ_n << ".\n";
+      *out << "c Minimum degree = " << 2*min_d << ", attained for variable " <<
+        min_v << ".\n";
+      *out << "c Maximum degree = " << 2*max_d << ", attained for variable " <<
+        max_v << ".\n";
+      *out << "c Average degree = " << 2*double(sum_d) / occ_n << ".\n";
+    }
+    else {
+      *out << "c Number of occurring variables = " << m*occ_n << ".\n";
+      *out << "c Degrees, ignoring the ALOAMO-clauses:\n";
+      *out << "c  Minimum = " << min_d << ", attained for vertex " << min_v <<
+        " (variables";
+      for (uint_t col = 0; col < m; ++col) *out << " " << var_number(min_v,m,col);
+      *out << ").\n";
+      *out << "c  Maximum = " << max_d << ", attained for vertex " << max_v <<
+        " (variables";
+      for (uint_t col = 0; col < m; ++col) *out << " " << var_number(max_v,m,col);
+      *out << ").\n";
+      *out << "c  Average degree = " << double(sum_d) / occ_n << ".\n";
+    }
   }
 
 }
@@ -787,12 +829,7 @@ int main(const int argc, const char* const argv[]) {
   count_output(out, orig_hn-hn, counts, K);
 
   if (m == 1) {
-    *out << "c Number of occurring vertices = " << occ_n << ".\n";
-    *out << "c Minimum degree = " << min_d << ", attained for vertex " <<
-      min_v << ".\n";
-    *out << "c Maximum degree = " << max_d << ", attained for vertex " <<
-      max_v << ".\n";
-    *out << "c Average degree = " << double(sum_d) / occ_n << ".\n";
+    degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m);
     pline_output(out, max, hn, m);
     for (const auto& x : res) {
       for (const auto i : x) *out << i << " ";
@@ -800,12 +837,7 @@ int main(const int argc, const char* const argv[]) {
     }
   }
   else if (m == 2) {// DIMACS output:
-    *out << "c Number of occurring variables = " << occ_n << ".\n";
-    *out << "c Minimum degree = " << 2*min_d << ", attained for variable " <<
-      min_v << ".\n";
-    *out << "c Maximum degree = " << 2*max_d << ", attained for variable " <<
-      max_v << ".\n";
-    *out << "c Average degree = " << 2*double(sum_d) / occ_n << ".\n";
+    degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m);
     const cnum_t cn = 2 * hn;
     pline_output(out, max, cn, m);
     for (const auto& x : res) {
@@ -815,17 +847,7 @@ int main(const int argc, const char* const argv[]) {
   } else {
     assert(m >= 3);
     *out << "c Using the strong direct translation.\n";
-    *out << "c Number of occurring variables = " << m*occ_n << ".\n";
-    *out << "c Degrees, ignoring the ALOAMO-clauses:\n";
-    *out << "c  Minimum = " << min_d << ", attained for vertex " << min_v <<
-      " (variables";
-    for (uint_t col = 0; col < m; ++col) *out << " " << var_number(min_v,m,col);
-    *out << ").\n";
-    *out << "c  Maximum = " << max_d << ", attained for vertex " << max_v <<
-      " (variables";
-    for (uint_t col = 0; col < m; ++col) *out << " " << var_number(max_v,m,col);
-    *out << ").\n";
-    *out << "c  Average degree = " << double(sum_d) / occ_n << ".\n";
+    degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m);
     const cnum_t cn = m * hn + occ_n * (1 + (m * (m - 1)) / 2);
     const cnum_t vn = m * cnum_t(max);
     pline_output(out, vn, cn, m);
