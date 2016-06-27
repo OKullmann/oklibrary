@@ -169,10 +169,8 @@ License, or any later version. */
    - Ptn(5,5,5) = 191 [46,633; 41,963; 126,653]
      (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 370 [309,239; =; 929,197]
-     g2wsat with "900 1 0 131253 3996273475".
-     371 [312,548; =; 939,128] hard to satisfy (-cutoff 800000 -runs 2000),
-     conjecture Ptn_i(5,5,5) = 371.
+   - Ptn_i(5,5,5) > 371 [312,548; =; 939,128]
+     g2wsat with "51 1 0 3268756 2619231264".
    - Ptn(6,6) = 23 [311; 267; 534] (known)
    - Ptn_i(6,6) = 61 [6,770; =; 13,540]
    - Ptn(6,6,6) = 121; 120 [154,860; 151,105; 453,795] found satisfiable with
@@ -478,10 +476,70 @@ namespace Translation {
     return out;
   }
 
-  Type get_type(const std::string& arg) {
+  Type get_type(const std::string& arg) noexcept {
     if (arg == "S") return Type::direct_strong;
     if (arg == "W") return Type::direct_weak;
     return Type::failure;
+  }
+
+  template <typename C1, typename C2>
+  void pline_output(std::ostream* const out, const C2 n, const C2 c,
+      const C1 m) {
+    assert(*out);
+    assert(m >= 1);
+    switch (m) {
+    case 1 :
+      *out << "p hyp " << n << " " << c << "\n"; break;
+    default :
+      *out << "p cnf " << n << " " << c << "\n";
+    }
+  }
+
+  template <typename C2, typename C1>
+  inline C2 var_number(const C1 i, const C1 m, const C1 col) noexcept {
+    assert(i >= 1);
+    assert(col < m);
+    return C2(i-1) * m + col + 1;
+  }
+
+  template <class Hyp, typename C1, typename C2, class Deg>
+  void output_colouring_problem(std::ostream* out, const Hyp& G, const C1 m,
+      const C2 max, const C2 c, const Deg deg, const Type t) {
+    assert(m >= 1);
+    pline_output(out, max, c, m);
+    if (m == 1) {
+      for (const auto& H : G) {
+        for (const auto v : H) *out << v << " ";
+        *out << "0\n";
+      }
+    }
+    else if (m == 2) {
+      for (const auto& H : G) {
+        for (const auto v : H) *out << v << " "; *out << "0 ";
+        for (const auto v : H) *out << "-" << v << " "; *out << "0\n";
+      }
+    }
+    else {
+      for (const auto& H : G) {
+        for (C1 col = 0; col < m; ++col) {
+          for (const auto v : H) *out << var_number<C2>(v,m,col) << " ";
+          *out << "0"; if (col != m-1) *out << " ";
+        }
+        *out << "\n";
+      }
+      for (C1 i = 1; i < deg.size(); ++i)
+        if (deg[i] != 0) {
+          for (C1 col = 0; col < m; ++col)
+            *out << "-" << var_number<C2>(i,m,col) << " ";
+          *out << "0";
+          if (t == Type::direct_strong)
+            for (C1 col1 = 0; col1 < m; ++col1)
+              for (C1 col2 = col1+1; col2 < m; ++col2)
+                *out << " " << var_number<C2>(i,m,col1) << " " <<
+                  var_number<C2>(i,m,col2) << " 0";
+          *out << "\n";
+        }
+    }
   }
 
 }
@@ -504,7 +562,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.7.7";
+  const std::string version = "0.7.8";
 
   const std::string filename = "Pyth_";
 
@@ -545,18 +603,6 @@ namespace {
         dist << ".\n";
   }
 
-  void pline_output(std::ostream* const out, const uint_t n, const cnum_t c,
-  const uint_t m) {
-    assert(*out);
-    assert(m >= 1);
-    switch (m) {
-    case 1 :
-      *out << "p hyp " << n << " " << c << "\n"; break;
-    default :
-      *out << "p cnf " << n << " " << c << "\n";
-    }
-  }
-
   void hn_output(std::ostream* const out, const cnum_t h0, const cnum_t h1,
   const cnum_t h2, const uint_t m, const uint_t K, const uint_t dist) {
     assert(*out);
@@ -592,12 +638,6 @@ namespace {
     }
   }
 
-  inline cnum_t var_number(const uint_t i, const uint_t m, const uint_t col) noexcept {
-    assert(i >= 1);
-    assert(col < m);
-    return cnum_t(i-1) * m + col + 1;
-  }
-
   void degree_output(std::ostream* const out,
       const cnum_t occ_n, const cnum_t min_d, const cnum_t max_d,
       const uint_t min_v, const uint_t max_v, const cnum_t sum_d,
@@ -628,11 +668,14 @@ namespace {
       *out << "-clauses:\n";
       *out << "c  Minimum = " << min_d << ", attained for vertex " << min_v <<
         " (variables";
-      for (uint_t col = 0; col < m; ++col) *out << " " << var_number(min_v,m,col);
+      using namespace Translation;
+      for (uint_t col = 0; col < m; ++col) *out << " " <<
+        var_number<cnum_t>(min_v,m,col);
       *out << ").\n";
       *out << "c  Maximum = " << max_d << ", attained for vertex " << max_v <<
         " (variables";
-      for (uint_t col = 0; col < m; ++col) *out << " " << var_number(max_v,m,col);
+      for (uint_t col = 0; col < m; ++col) *out << " " <<
+        var_number<cnum_t>(max_v,m,col);
       *out << ").\n";
       *out << "c  Average degree = " << double(sum_d) / occ_n << ".\n";
     }
@@ -667,6 +710,11 @@ int main(const int argc, const char* const argv[]) {
   const uint_t dist = std::stoul(argv[3]);
 
   const uint_t m = std::stoul(argv[4]);
+
+  if (m <= 2 and argc >= 7) {
+    std::cerr << err << "In case of <= 2 colours only at most 5 arguments are allowed.\n";
+    return v(Error::parameter);
+  }
 
   const uint_t abs_max = (K==3 and dist==0 and m==0) ? std::numeric_limits<Factorisation::base_t>::max()/2 : uint_t(std::sqrt(std::numeric_limits<uint_t>::max())) / K;
   if (n > abs_max) {
@@ -839,7 +887,7 @@ int main(const int argc, const char* const argv[]) {
 
   const cnum_t orig_hn = res.size();
   if (orig_hn == 0) {
-    pline_output(out, 0, 0, m);
+    Translation::pline_output(out, 0, 0, m);
     return 0;
   }
 
@@ -865,7 +913,7 @@ int main(const int argc, const char* const argv[]) {
   hn = res.size();
   hn_output(out, orig_hn, after_subs_hn, hn, m, K, dist);
   if (hn == 0) {
-    pline_output(out, 0, 0, m);
+    Translation::pline_output(out, 0, 0, m);
     return 0;
   }
   max = res.back().back();
@@ -888,21 +936,13 @@ int main(const int argc, const char* const argv[]) {
 
   if (m == 1) {
     degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation);
-    pline_output(out, max, hn, m);
-    for (const auto& x : res) {
-      for (const auto i : x) *out << i << " ";
-      *out << "0\n";
-    }
+    Translation::output_colouring_problem(out, res, m, cnum_t(max), hn, degree, translation);
   }
   else if (m == 2) {// DIMACS output:
     degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation);
     const cnum_t cn = 2 * hn;
-    pline_output(out, max, cn, m);
-    for (const auto& x : res) {
-      for (const auto i : x) *out << i << " "; *out << "0 ";
-      for (const auto i : x) *out << "-" << i << " "; *out << "0\n";
-    }
-  } else {
+    Translation::output_colouring_problem(out, res, m, cnum_t(max), cn, degree, translation);
+ } else {
     assert(m >= 3);
     *out << "c Using translation " << translation << ".\n";
     degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation);
@@ -910,25 +950,6 @@ int main(const int argc, const char* const argv[]) {
       ((translation==Translation::Type::direct_strong) ? occ_n*(m*(m - 1)) / 2
         : 0);
     const cnum_t vn = m * cnum_t(max);
-    pline_output(out, vn, cn, m);
-    for (const auto& x : res) {
-      for (uint_t col = 0; col < m; ++col) {
-        for (const auto i : x) *out << var_number(i,m,col) << " ";
-        *out << "0"; if (col != m-1) *out << " ";
-      }
-      *out << "\n";
-    }
-    for (uint_t i = 1; i < degree.size(); ++i)
-      if (degree[i] != 0) {
-        for (uint_t col = 0; col < m; ++col)
-          *out << "-" << var_number(i,m,col) << " ";
-        *out << "0";
-        if (translation == Translation::Type::direct_strong)
-          for (uint_t col1 = 0; col1 < m; ++col1)
-            for (uint_t col2 = col1+1; col2 < m; ++col2)
-              *out << " " << var_number(i,m,col1) << " " <<
-                var_number(i,m,col2) << " 0";
-        *out << "\n";
-      }
+    Translation::output_colouring_problem(out, res, m, vn, cn, degree, translation);
   }
 }
