@@ -569,7 +569,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.7.9";
+  const std::string version = "0.7.10";
 
   const std::string filename = "Pyth_";
 
@@ -580,7 +580,7 @@ namespace {
     assert(*out);
     *out << "c OKlibrary http://github.com/OKullmann/oklibrary/blob/"
       "master/Satisfiability/Transformers/Generators/Pythagorean.cpp\n"
-      "c  Program " << program << ".cpp in version " << version <<
+      "c   Program " << program << ".cpp in version " << version <<
       ", timestamp " << std::time(nullptr) << ".\n";
   }
 
@@ -590,8 +590,8 @@ namespace {
     assert(*out);
     assert(m >= 1);
     oklib_output(out);
-    *out << "c Parameters: " << n << " " << K << " " << dist << " " << m <<
-      " " << t << " \"" << file << "\"\n";
+    *out << "c Parameters (expanded): " << n << " " << K << " " << dist <<
+      " " << m << " " << t << " \"" << file << "\"\n";
     switch (m) {
     case 1 :
       *out << "c Hypergraph of Pythagorean " << K << "-tuples, up to n=" <<
@@ -606,7 +606,7 @@ namespace {
         "up to n=" << n << ".\n";
     }
     if (dist > 0)
-      *out << "c  Minimum-distance between (sorted) tuple-components = " <<
+      *out << "c   Minimum-distance between (sorted) tuple-components = " <<
         dist << ".\n";
   }
 
@@ -617,18 +617,18 @@ namespace {
     assert(m >= 1);
     if (m == 1)
       if (K <= 4 or dist >= 1)
-        *out << "c Number of hyperedges (tuples):\nc  "
+        *out << "c Number of hyperedges (tuples):\nc   "
           << h0 << "\n";
       else
         *out << "c Number of hyperedges (tuples) originally and after "
-          "subsumption:\nc  " << h0 << " " << h1 << "\n";
+          "subsumption:\nc   " << h0 << " " << h1 << "\n";
     else
       if (K <= 4 or dist >= 1)
         *out << "c Number of hyperedges (tuples) originally and after"
-          " colour-reduction:\nc  " << h0 << " " << h2 << "\n";
+          " colour-reduction:\nc   " << h0 << " " << h2 << "\n";
       else
         *out << "c Number of hyperedges (tuples) originally, after "
-          "subsumption, and after further colour-reduction:\nc  " << h0 <<
+          "subsumption, and after further colour-reduction:\nc   " << h0 <<
           " " << h1 << " " << h2 << "\n";
   }
 
@@ -641,7 +641,7 @@ namespace {
     for (siz_t<Vec> k=0; k < v.size(); ++k) {
       const auto c = v[k];
       if (c != 0)
-        *out << "c  size " << k << ": " << c << "\n";
+        *out << "c   size " << k << ": " << c << "\n";
     }
   }
 
@@ -673,18 +673,18 @@ namespace {
       *out << "c Degrees, ignoring the ALO";
       if (t == Translation::Type::direct_strong) *out << "AMO";
       *out << "-clauses:\n";
-      *out << "c  Minimum = " << min_d << ", attained for vertex " << min_v <<
+      *out << "c   Minimum = " << min_d << ", attained for vertex " << min_v <<
         " (variables";
       using namespace Translation;
       for (uint_t col = 0; col < m; ++col) *out << " " <<
         var<cnum_t>(min_v,m,col);
       *out << ").\n";
-      *out << "c  Maximum = " << max_d << ", attained for vertex " << max_v <<
+      *out << "c   Maximum = " << max_d << ", attained for vertex " << max_v <<
         " (variables";
       for (uint_t col = 0; col < m; ++col) *out << " " <<
         var<cnum_t>(max_v,m,col);
       *out << ").\n";
-      *out << "c  Average degree = " << double(sum_d) / occ_n << ".\n";
+      *out << "c   Average degree = " << double(sum_d) / occ_n << ".\n";
     }
   }
 
@@ -943,22 +943,22 @@ int main(const int argc, const char* const argv[]) {
 
   count_output(out, orig_hn-hn, counts, K);
 
+  using namespace Translation;
   if (m == 1) {
     degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation);
-    Translation::output_colouring_problem(out, res, m, cnum_t(max), hn, degree, translation);
+    output_colouring_problem(out, res, m, cnum_t(max), hn, degree, translation);
   }
   else if (m == 2) {// DIMACS output:
     degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation);
     const cnum_t cn = 2 * hn;
-    Translation::output_colouring_problem(out, res, m, cnum_t(max), cn, degree, translation);
+    output_colouring_problem(out, res, m, cnum_t(max), cn, degree, translation);
  } else {
     assert(m >= 3);
     *out << "c Using translation " << translation << ".\n";
     degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation);
     const cnum_t cn = m * hn + occ_n +
-      ((translation==Translation::Type::direct_strong) ? occ_n*(m*(m - 1)) / 2
-        : 0);
+      ((translation==Type::direct_strong) ? occ_n*(m*(m - 1)) / 2 : 0);
     const cnum_t vn = m * cnum_t(max);
-    Translation::output_colouring_problem(out, res, m, vn, cn, degree, translation);
+    output_colouring_problem(out, res, m, vn, cn, degree, translation);
   }
 }
