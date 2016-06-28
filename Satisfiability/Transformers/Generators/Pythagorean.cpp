@@ -119,6 +119,13 @@ License, or any later version. */
   TODO: implement intelligent methods for K>3.
   TODO: prove that subsumption-elimination does not happen for K=4.
   TODO: implement arbitrary K.
+  TODO: implement output of additional symmetry-breaking clauses.
+        m-1 clauses of length 1,2,...,m-1. Just using the m-1 vertices with
+        highest degrees.
+  TODO: implement multi-threaded computation.
+        Easy with std::async, just dividing up the outer loops for computing
+        the tuples (enumeration or counting). Since smaller numbers are easier,
+        a bit of thought on an equal splitting is needed.
 
   Hyperedge-counting links:
 
