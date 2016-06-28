@@ -90,6 +90,10 @@ License, or any later version. */
     - for the hypergraph (m=1) "p hyp max h", with "max" the maximal occurring
       vertex (the largest hypotenuse), and with "h" the number of hyperedges.
 
+  The CNF-output puts related clauses on the same line (note that in DIMACS,
+  a clause is completed by "0", and thus you can have as many clauses on a
+  line as you like).
+
 
   COMPILATION:
 
@@ -108,10 +112,6 @@ License, or any later version. */
   If on the other hand a debugging version is needed, use:
 
   > g++ -Wall --std=c++11 -g -o Pythagorean Pythagorean.cpp
-
-  The CNF-output puts related clauses on the same line (note that in DIMACS,
-  a clause is completed by "0", and thus you can have as many clauses on a
-  line as you like).
 
 
   FURTHER DISCUSSIONS:
@@ -136,7 +136,7 @@ License, or any later version. */
 
    > for ((n=0; n<=72; ++n)); do ./Pythagorean $n 3 0 0 - | cut -f2 -d" " | tr "\n" ","; done; echo
 
-     Another examples: The number of triples up to 2*10^9 is 6,380,787,008,
+     Another example: The number of triples up to 2*10^9 is 6,380,787,008,
      obtained by "./Pythagorean 2000000000 3 0 0" in 335 sec, using 7.5 GB
      (on a standard 64-bit machine with 32 GB RAM).
 
@@ -503,7 +503,7 @@ namespace Translation {
   }
 
   template <typename C2, typename C1>
-  inline C2 var_number(const C1 i, const C1 m, const C1 col) noexcept {
+  inline C2 var(const C1 i, const C1 m, const C1 col) noexcept {
     assert(i >= 1);
     assert(col < m);
     return C2(i-1) * m + col + 1;
@@ -529,7 +529,7 @@ namespace Translation {
     else {
       for (const auto& H : G) {
         for (C1 col = 0; col < m; ++col) {
-          for (const auto v : H) *out << var_number<C2>(v,m,col) << " ";
+          for (const auto v : H) *out << var<C2>(v,m,col) << " ";
           *out << "0"; if (col != m-1) *out << " ";
         }
         *out << "\n";
@@ -537,13 +537,13 @@ namespace Translation {
       for (C1 i = 1; i < deg.size(); ++i)
         if (deg[i] != 0) {
           for (C1 col = 0; col < m; ++col)
-            *out << "-" << var_number<C2>(i,m,col) << " ";
+            *out << "-" << var<C2>(i,m,col) << " ";
           *out << "0";
           if (t == Type::direct_strong)
             for (C1 col1 = 0; col1 < m; ++col1)
               for (C1 col2 = col1+1; col2 < m; ++col2)
-                *out << " " << var_number<C2>(i,m,col1) << " " <<
-                  var_number<C2>(i,m,col2) << " 0";
+                *out << " " << var<C2>(i,m,col1) << " " <<
+                  var<C2>(i,m,col2) << " 0";
           *out << "\n";
         }
     }
@@ -569,7 +569,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.7.8";
+  const std::string version = "0.7.9";
 
   const std::string filename = "Pyth_";
 
@@ -677,12 +677,12 @@ namespace {
         " (variables";
       using namespace Translation;
       for (uint_t col = 0; col < m; ++col) *out << " " <<
-        var_number<cnum_t>(min_v,m,col);
+        var<cnum_t>(min_v,m,col);
       *out << ").\n";
       *out << "c  Maximum = " << max_d << ", attained for vertex " << max_v <<
         " (variables";
       for (uint_t col = 0; col < m; ++col) *out << " " <<
-        var_number<cnum_t>(max_v,m,col);
+        var<cnum_t>(max_v,m,col);
       *out << ").\n";
       *out << "c  Average degree = " << double(sum_d) / occ_n << ".\n";
     }
@@ -723,7 +723,9 @@ int main(const int argc, const char* const argv[]) {
     return v(Error::parameter);
   }
 
-  const uint_t abs_max = (K==3 and dist==0 and m==0) ? std::numeric_limits<Factorisation::base_t>::max()/2 : uint_t(std::sqrt(std::numeric_limits<uint_t>::max())) / K;
+  const uint_t abs_max = (K==3 and dist==0 and m==0) ?
+    std::numeric_limits<Factorisation::base_t>::max()/2 :
+    uint_t(std::sqrt(std::numeric_limits<uint_t>::max())) / K;
   if (n > abs_max) {
     std::cerr << err << "First input " << n << " larger than maximal allowed value: " << abs_max << ".\n";
     return v(Error::too_large);
@@ -741,7 +743,7 @@ int main(const int argc, const char* const argv[]) {
     }
     if (Translation::get_type(argv[5]) == Translation::Type::failure) {
       std::cerr << err << "The fifth input \"" << argv[5] << "\" must be a "
-        "valid acronym for the translation type (S, W).\n";
+        "valid acronym for the translation type (i.e., \"S\" or \"W\").\n";
       return v(Error::translation);
     }
   }
