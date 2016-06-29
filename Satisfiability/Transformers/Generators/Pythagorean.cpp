@@ -126,6 +126,14 @@ License, or any later version. */
         Easy with std::async, just dividing up the outer loops for computing
         the tuples (enumeration or counting). Since smaller numbers are easier,
         a bit of thought on an equal splitting is needed.
+        The solution for splitting is, not to split the load into contiguous
+        blocks, but to use "slicing": for the number nt >= 1 of threads,
+        just use the congruence classes {1,...,n} mod i, i = 0,...,nt-1
+        for the threads.
+        nt=0 can be used for outputting just the header.
+        It seems then that nt should become another compulsory parameter
+        (the alternative is do use named parameters on the command-line).
+        nt should not become part of the default filename.
 
   Hyperedge-counting links:
 
