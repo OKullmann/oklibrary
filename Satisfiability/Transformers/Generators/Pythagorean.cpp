@@ -357,8 +357,9 @@ namespace Pythagorean {
       for (C1 s = dist; s <= C1(std::sqrt(rs)); ++s)
         if (rs % s == 0) {
           const C1 t = rs / s;
+          if (t >= n or t < s+dist) continue;
           const C1 c = r+s+t;
-          if (c <= n and s+dist <= t) {
+          if (c <= n) {
             max = std::max(max,c);
             ++hn;
           }
@@ -382,6 +383,7 @@ namespace Pythagorean {
       for (const C1 s : Factorisation::bounded_factors(F,bound)) {
         if (s < dist) continue;
         const C1 t = rs / s;
+        if (t >= n or t < s+dist) continue;
         const C1 c = r+s+t;
         if (c <= n and s+dist <= t) res.push_back({{r+s,r+t,c}});
       }
@@ -578,7 +580,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.7.11";
+  const std::string version = "0.7.12";
 
   const std::string filename = "Pyth_";
 
@@ -586,9 +588,10 @@ namespace {
   typedef std::vector<tuple_t> hypergraph;
 
   constexpr uint_t max_n(const uint_t K, const uint_t dist, const uint_t m) noexcept {
-    return (K==3 and dist==0 and m==0) ?
-      std::numeric_limits<Factorisation::base_t>::max()/2 :
-      uint_t(std::sqrt(std::numeric_limits<uint_t>::max())) / K;
+    return (K==3) ?
+    ((m>=1 or dist>=1) ? 2*std::sqrt(std::numeric_limits<uint_t>::max()) :
+                         std::numeric_limits<Factorisation::base_t>::max()/2) :
+    uint_t(std::sqrt(std::numeric_limits<uint_t>::max())) / K;
   }
 
   void oklib_output(std::ostream* const out) {
