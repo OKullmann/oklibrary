@@ -167,13 +167,14 @@ License, or any later version. */
   number of clauses; if "=" is used, then the reductions don't do anything
   here; algorithms "vw1" and "g2wsat" are from the UBCSAT suite of local-search
   algorithms, while "SplittingViaOKsolver" is the basic C&C-implementation in
-  the OKlibrary:
+  the OKlibrary; except for Ptn(3,3,3) the strong direction translation is
+  used for >= 3 colours:
 
    - Ptn(3,3) = 7825 [9,472; 7,336; 14,672]
        http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
-   - Ptn(3,3,3) > 4*10^6 [8,805,198; 6,784,681; 27,022,475], with 5,001,324
-     occurring variables (g2wsat, second run with cutoff=130,000,000,
-     "2 1 0 107952803 3471553506")
+   - Ptn(3,3,3) > 6*10^6 [13,595,129; 10,583,938; 34,285,861], with 7,602,141
+     occurring variables (g2wsat, second run with cutoff=150,000,000,
+     "1 1 0 145820710 145820710 168201051")
    - Ptn(4,4) = 105 [639; 638; 1276] (known)
    - Ptn_i(4,4) = 163 [545; 544; 1088]
    - Ptn(4,4,4) > 1680 [158,627; =; 482,601]
@@ -347,12 +348,12 @@ namespace Pythagorean {
   }
 
   // Counting triples with minimum distance between (sorted) components
-  // (slower than above, but minimal space usage):
+  // (much slower than above, but minimal space usage):
   template <typename C1, typename C2>
   void triples_c(const C1 n, const C1 dist, C1& max, C2& hn) noexcept {
     assert(dist >= 1);
     for (C1 r = 2; r <= C1(n/(1+std::sqrt(2))); r+=2) {
-      const C1 rs = r*r/2;
+      const C1 rs = r*(r/2);
       for (C1 s = dist; s <= C1(std::sqrt(rs)); ++s)
         if (rs % s == 0) {
           const C1 t = rs / s;
@@ -376,7 +377,7 @@ namespace Pythagorean {
       auto F = Factorisation::extract_factorisation(T, r);
       for (auto& p : F) p.second *= 2;
       --F[2];
-      const C1 rs = r*r/2;
+      const C1 rs = r*(r/2);
       const C1 bound = std::sqrt(rs);
       for (const C1 s : Factorisation::bounded_factors(F,bound)) {
         if (s < dist) continue;
@@ -577,12 +578,18 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.7.10";
+  const std::string version = "0.7.11";
 
   const std::string filename = "Pyth_";
 
   typedef std::vector<uint_t> tuple_t;
   typedef std::vector<tuple_t> hypergraph;
+
+  constexpr uint_t max_n(const uint_t K, const uint_t dist, const uint_t m) noexcept {
+    return (K==3 and dist==0 and m==0) ?
+      std::numeric_limits<Factorisation::base_t>::max()/2 :
+      uint_t(std::sqrt(std::numeric_limits<uint_t>::max())) / K;
+  }
 
   void oklib_output(std::ostream* const out) {
     assert(*out);
@@ -731,9 +738,7 @@ int main(const int argc, const char* const argv[]) {
     return v(Error::parameter);
   }
 
-  const uint_t abs_max = (K==3 and dist==0 and m==0) ?
-    std::numeric_limits<Factorisation::base_t>::max()/2 :
-    uint_t(std::sqrt(std::numeric_limits<uint_t>::max())) / K;
+  const uint_t abs_max = max_n(K,dist,m);
   if (n > abs_max) {
     std::cerr << err << "First input " << n << " larger than maximal allowed value: " << abs_max << ".\n";
     return v(Error::too_large);
