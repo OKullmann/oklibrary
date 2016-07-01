@@ -134,6 +134,11 @@ License, or any later version. */
         It seems then that nt should become another compulsory parameter
         (the alternative is do use named parameters on the command-line).
         nt should not become part of the default filename.
+  TODO: implement mixed k_i.
+        Likely best here to use for example "[3,4]", that is, enclosing the
+        list into square brackets on the parameter line; and demanding, that
+        this is one parameter, so that when spaces are used, then the whole
+        must be quoted.
 
   Hyperedge-counting links:
 
@@ -167,12 +172,12 @@ License, or any later version. */
   number of clauses; if "=" is used, then the reductions don't do anything
   here; algorithms "vw1" and "g2wsat" are from the UBCSAT suite of local-search
   algorithms, while "SplittingViaOKsolver" is the basic C&C-implementation in
-  the OKlibrary; except for Ptn(3,3,3) the strong direction translation is
+  the OKlibrary; except where stated "W", the strong direction translation is
   used for >= 3 colours:
 
    - Ptn(3,3) = 7825 [9,472; 7,336; 14,672]
        http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
-   - Ptn(3,3,3) > 6*10^6 [13,595,129; 10,583,938; 34,285,861], with 7,602,141
+   - Ptn(3,3,3) > 6*10^6 W [13,595,129; 10,583,938; 34,285,861], with 7,602,141
      occurring variables (g2wsat, second run with cutoff=150,000,000,
      "1 1 0 145820710 145820710 168201051")
    - Ptn(4,4) = 105 [639; 638; 1276] (known)
@@ -185,8 +190,8 @@ License, or any later version. */
    - Ptn(5,5,5) = 191 [46,633; 41,963; 126,653]
      (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 371 [312,548; =; 939,128]
-     g2wsat with "51 1 0 3268756 2619231264".
+   - Ptn_i(5,5,5) > 373 W [316,146; =; 948,811]
+     vw1 with "3574 1 0 86993 1532433640" (cutoff = 100000).
    - Ptn(6,6) = 23 [311; 267; 534] (known)
    - Ptn_i(6,6) = 61 [6,770; =; 13,540]
    - Ptn(6,6,6) = 121; 120 [154,860; 151,105; 453,795] found satisfiable with
