@@ -153,6 +153,8 @@ License, or any later version. */
      Another example: The number of triples up to 2*10^9 is 6,380,787,008,
      obtained by "./Pythagorean 2000000000 3 0 0" in 335 sec, using 7.5 GB
      (on a standard 64-bit machine with 32 GB RAM).
+     While the number of triples for n=4294967294=2^32-2 is 14,225,080,520
+     obtained by "./Pythagorean 4294967294 3 0 0" in 960 sec, using 16 GB.
 
    - Number of Pythagorean quadruples (K=4) or quintuples (K=5): not yet
      in OEIS.
@@ -334,7 +336,7 @@ namespace Factorisation {
 
 namespace Pythagorean {
 
-  constexpr auto factor3 = 0.149; // yields an upper bound for n <= 2*10^9
+  constexpr auto factor3 = 0.1494; // yields an upper bound for n <= 2^32-2.
   template <typename C>
   constexpr double estimating_triples(const C n) noexcept {
     return factor3 * n * std::log(n);
@@ -588,7 +590,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.7.14";
+  const std::string version = "0.7.15";
 
   const std::string filename = "Pyth_";
 
