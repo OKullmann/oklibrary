@@ -53,7 +53,7 @@ License, or any later version. */
    - m = 0: only output the max-occurring vertex and the number of hyperedges
    - m = 1: output the hypergraph
    - m = 2: output the boolean problem
-   - m >= 3: currently uses the strong direct translation.
+   - m >= 3: currently strong or weak direct translation available.
 
   In case of m=0, K=3, dist=0, the computation of the count uses a
   factorisation table for the natural numbers until n: This is much faster,
@@ -139,6 +139,7 @@ License, or any later version. */
         list into square brackets on the parameter line; and demanding, that
         this is one parameter, so that when spaces are used, then the whole
         must be quoted.
+  TODO: implement the nested translation. Acronym "N".
 
   Hyperedge-counting links:
 
@@ -190,8 +191,8 @@ License, or any later version. */
    - Ptn(5,5,5) = 191 [46,633; 41,963; 126,653]
      (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 373 W [316,146; =; 948,811]
-     vw1 with "3574 1 0 86993 1532433640" (cutoff = 100000).
+   - Ptn_i(5,5,5) > 374 W [318,616; =; 956,222]
+     vw1 with "5293 1 0 31031 639511935" (cutoff = 100000).
    - Ptn(6,6) = 23 [311; 267; 534] (known)
    - Ptn_i(6,6) = 61 [6,770; =; 13,540]
    - Ptn(6,6,6) = 121; 120 [154,860; 151,105; 453,795] found satisfiable with
@@ -258,9 +259,10 @@ namespace Factorisation {
   // Now the table T only contains one prime factor (the largest):
   template <typename B = base_t>
   std::vector<B> table_factor(const base_t n) {
+    assert(n <= std::numeric_limits<siz_t<std::vector<B>>>::max() / 2);
     std::vector<B> T(n+1);
     for (B i = 2; i <= n; ++i)
-      if (T[i] == 0) for (B j = i; j <= n; j+=i) T[j] = i;
+      if (T[i] == 0) for (siz_t<std::vector<B>> j = i; j <= n; j+=i) T[j] = i;
     return T;
   }
 
@@ -585,7 +587,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.7.12";
+  const std::string version = "0.7.13";
 
   const std::string filename = "Pyth_";
 
@@ -595,7 +597,7 @@ namespace {
   constexpr uint_t max_n(const uint_t K, const uint_t dist, const uint_t m) noexcept {
     return (K==3) ?
     ((m>=1 or dist>=1) ? 2*std::sqrt(std::numeric_limits<uint_t>::max()) :
-                         std::numeric_limits<Factorisation::base_t>::max()/2) :
+                         std::numeric_limits<Factorisation::base_t>::max()) :
     uint_t(std::sqrt(std::numeric_limits<uint_t>::max())) / K;
   }
 
