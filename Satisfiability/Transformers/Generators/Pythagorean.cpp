@@ -259,10 +259,11 @@ namespace Factorisation {
   // Now the table T only contains one prime factor (the largest):
   template <typename B = base_t>
   std::vector<B> table_factor(const base_t n) {
-    assert(n <= std::numeric_limits<siz_t<std::vector<B>>>::max() / 2);
-    std::vector<B> T(n+1);
+    typedef siz_t<std::vector<B>> size_t;
+    assert(n <= std::numeric_limits<size_t>::max() / 2);
+    std::vector<B> T(size_t(n)+1);
     for (B i = 2; i <= n; ++i)
-      if (T[i] == 0) for (siz_t<std::vector<B>> j = i; j <= n; j+=i) T[j] = i;
+      if (T[i] == 0) for (size_t j = i; j <= n; j+=i) T[j] = i;
     return T;
   }
 
@@ -587,7 +588,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.7.13";
+  const std::string version = "0.7.14";
 
   const std::string filename = "Pyth_";
 
@@ -597,7 +598,7 @@ namespace {
   constexpr uint_t max_n(const uint_t K, const uint_t dist, const uint_t m) noexcept {
     return (K==3) ?
     ((m>=1 or dist>=1) ? 2*std::sqrt(std::numeric_limits<uint_t>::max()) :
-                         std::numeric_limits<Factorisation::base_t>::max()) :
+                         std::numeric_limits<Factorisation::base_t>::max()-1) :
     uint_t(std::sqrt(std::numeric_limits<uint_t>::max())) / K;
   }
 
