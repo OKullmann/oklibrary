@@ -116,6 +116,14 @@ License, or any later version. */
 
   FURTHER DISCUSSIONS:
 
+  TODO: implement "strict" DIMACS output, i.e., all clauses on its own
+        line, and removing gaps in variable-numbers; optionally in the
+        comments the "dictionary". Options "D" (DIMACS as is), "SD"
+        (strict DIMACS), "SDD" (plus dictionary). Needs to become another
+        compulsory parameter.
+
+        Perhaps this becomes now too much, and named parameters are needed.
+        "N=", "K=", "d=", "m=", "trans=", "file=", "format=".
   TODO: implement intelligent methods for K>3.
   TODO: prove that subsumption-elimination does not happen for K=4.
   TODO: implement arbitrary K.
@@ -193,8 +201,8 @@ License, or any later version. */
    - Ptn(5,5,5) = 191 [46,633; 41,963; 126,653]
      (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 374 W [318,616; =; 956,222]
-     vw1 with "5293 1 0 31031 639511935" (cutoff = 100000).
+   - Ptn_i(5,5,5) > 381 W [338,863; =; 1,016,970]
+     vw1 with "1763 1 0 325118 959259594" (cutoff = 400000).
    - Ptn(6,6) = 23 [311; 267; 534] (known)
    - Ptn_i(6,6) = 61 [6,770; =; 13,540]
    - Ptn(6,6,6) = 121; 120 [154,860; 151,105; 453,795] found satisfiable with
