@@ -188,7 +188,7 @@ License, or any later version. */
 
    - Ptn(3,3) = 7825 [9,472; 7,336; 14,672]
        http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
-   - Ptn(3,3,3) > 8*10^6 W [18,492,885; 1,449,4738; 46,893,783], with
+   - Ptn(3,3,3) > 8*10^6 W [18,492,885; 14,494,738; 46,893,783], with
      10,228,707 occurring variables (g2wsat, second run with
      cutoff=300,000,000, "2 1 0 230932550 3089249330").
    - Ptn(4,4) = 105 [639; 638; 1276] (known)
@@ -201,8 +201,8 @@ License, or any later version. */
    - Ptn(5,5,5) = 191 [46,633; 41,963; 126,653]
      (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 382 W [341,071; =; 1,023,595]
-     vw1 with "3242 1 0 81315 1663025887" (cutoff = 400000).
+   - Ptn_i(5,5,5) > 384 W [344,063; =; 1,032,572]
+     vw1 with "478 1 0 306818 415407342" (cutoff = 400000).
    - Ptn(6,6) = 23 [311; 267; 534] (known)
    - Ptn_i(6,6) = 61 [6,770; =; 13,540]
    - Ptn(6,6,6) = 121; 120 [154,860; 151,105; 453,795] found satisfiable with
