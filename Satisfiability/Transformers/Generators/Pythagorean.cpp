@@ -124,12 +124,19 @@ License, or any later version. */
 
         Perhaps this becomes now too much, and named parameters are needed.
         "N=", "K=", "d=", "m=", "trans=", "file=", "format=".
+
+        When renumbering, then one could also sort the vertices according to
+        degree, descending; option "SDDS" (plus sorting).
   TODO: implement intelligent methods for K>3.
   TODO: prove that subsumption-elimination does not happen for K=4.
   TODO: implement arbitrary K.
   TODO: implement output of additional symmetry-breaking clauses.
         m-1 clauses of length 1,2,...,m-1. Just using the m-1 vertices with
         highest degrees.
+
+        Question: just simple sorting of all variables according to degree?
+        Perhaps we can do other stuff with it (for example renumbering, as
+        for "strict DIMACS".
   TODO: implement multi-threaded computation.
         Easy with std::async, just dividing up the outer loops for computing
         the tuples (enumeration or counting). Since smaller numbers are easier,
@@ -147,7 +154,10 @@ License, or any later version. */
         list into square brackets on the parameter line; and demanding, that
         this is one parameter, so that when spaces are used, then the whole
         must be quoted.
-  TODO: implement the nested translation. Acronym "N".
+  TODO: implement the nested translation. Acronym "N". Since all colours are
+        "the same", no need for any sophistication here.
+  TODO: Check that the translations are in line with the OKlibrary at Maxima
+        level.
 
   Hyperedge-counting links:
 
@@ -201,8 +211,8 @@ License, or any later version. */
    - Ptn(5,5,5) = 191 [46,633; 41,963; 126,653]
      (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 384 W [344,063; =; 1,032,572]
-     vw1 with "478 1 0 306818 415407342" (cutoff = 400000).
+   - Ptn_i(5,5,5) > 390 W [363,890; =; 1,092,060]
+     vw1 with "1809 1 0 99747 4089148812" (cutoff = 400000).
    - Ptn(6,6) = 23 [311; 267; 534] (known)
    - Ptn_i(6,6) = 61 [6,770; =; 13,540]
    - Ptn(6,6,6) = 121; 120 [154,860; 151,105; 453,795] found satisfiable with
@@ -211,6 +221,7 @@ License, or any later version. */
      1,867 min.
    - Ptn(7,7) = 18 [306; 159; 318] (known)
    - Ptn_i(7,7) = 65 [44,589; =; 89,178]
+   - Ptn(7,7,7) > 94 (g2wsat, cutoff=10^5); 100 hard to satisfy.
 
    The sequence Ptn(k,k) for k=2,..., (which is 1, 7825, 105, 37, 23, 18, ...)
    is https://oeis.org/A250026 .
