@@ -58,7 +58,8 @@ License, or any later version. */
   that is, x_i + d <= x_{i+1} for 1 <= i <= K-1.
 
   The fourth parameter m >= 0 is the number of colours, with
-   - m = 0: only output the max-occurring vertex and the number of hyperedges
+   - m = 0: only output the max-occurring vertex, the number hn of hyperedges,
+     and hn / (n^(K-2) * log(n)) (the factor in the estimation).
    - m = 1: output the hypergraph
    - m = 2: output the boolean problem
    - m >= 3: currently strong or weak direct translation available.
@@ -133,18 +134,28 @@ License, or any later version. */
 
   FURTHER DISCUSSIONS:
 
+  TODO: implement the nested translation. Acronym "N". Since all colours are
+        "the same", no need for any sophistication here concerning the
+        asymmetric treatmeant of values. But we have weak and strong version,
+        called "NW" and "NS".
+
+        What about symmetry breaking? It seems, only the symmetry between the
+        penultimate and the ultimate colour is left, when using only
+        symmetries based on mapping literals? This doesn't stop one to assert
+        the same underlying symmetries nonetheless (on the non-boolean cls).
   TODO: implement "strict" DIMACS output, i.e., all clauses on its own
         line, and removing gaps in variable-numbers; optionally in the
         comments the "dictionary". Options "D" (DIMACS as is), "SD"
         (strict DIMACS), "SDD" (plus dictionary). Needs to become another
-        compulsory parameter.
+        optional parameter "format=..".
 
         Perhaps this becomes now too much, and named parameters are needed.
         "N=", "K=", "d=", "m=", "trans=", "file=", "format=".
 
         When renumbering, then one could also sort the vertices according to
         degree, descending; option "SDDS" (plus sorting).
-  TODO: implement intelligent methods for K>3.
+  TODO: Symmetry-breaking for the direct translation: for the weak form,
+        the additional assignments should be introduced?
   TODO: prove that subsumption-elimination does not happen for K=4.
   TODO: implement arbitrary K.
   TODO: implement multi-threaded computation.
@@ -154,20 +165,28 @@ License, or any later version. */
         The solution for splitting is, not to split the load into contiguous
         blocks, but to use "slicing": for the number nt >= 1 of threads,
         just use the congruence classes {1,...,n} mod i, i = 0,...,nt-1
-        for the threads.
-        nt=0 can be used for outputting just the header.
-        It seems then that nt should become another compulsory parameter
-        (the alternative is do use named parameters on the command-line).
+        for the threads. It seems the computation of the factorisation-table
+        can not be parallelised.
+        nt=0 could be used for outputting just the header? Or just the
+        estimation?!
+        It seems then that "nt=.." should become another optional parameter
+        (default-value 1).
         nt should not become part of the default filename.
   TODO: implement mixed k_i.
         Likely best here to use for example "[3,4]", that is, enclosing the
         list into square brackets on the parameter line; and demanding, that
         this is one parameter, so that when spaces are used, then the whole
         must be quoted.
-  TODO: implement the nested translation. Acronym "N". Since all colours are
-        "the same", no need for any sophistication here.
   TODO: Check that the translations are in line with the OKlibrary at Maxima
         level.
+  TODO: Estimate number of tuples for arbitrary K; the conjecture is
+          factor_K * n^(k-2) * log(n).
+        factor3 ~ 0.1494 (n <= 2^32-2)
+        factor4 ~ 0.006096 (n <= 10^4)
+        factor5 ~ 0.000864 (n <= 1600)
+        While for K=3 the factor seems to be increasing, for K >= 4 it seems
+        decreasing, and they seem to converge.
+  TODO: implement intelligent methods for K>3.
 
   Hyperedge-counting links:
 
@@ -204,7 +223,7 @@ License, or any later version. */
   here; algorithms "vw1" and "g2wsat" are from the UBCSAT suite of local-search
   algorithms, while "SplittingViaOKsolver" is the basic C&C-implementation in
   the OKlibrary; except where stated "W", the strong direction translation is
-  used for >= 3 colours:
+  used for >= 3 colours, and symmetry-breaking is used iff stated:
 
    - Ptn(3,3) = 7825 [9,472; 7,336; 14,672]
        http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
@@ -220,13 +239,14 @@ License, or any later version. */
    - Ptn(4,4,4) > 1680 [158,627; =; 482,601]
      (vw1 with "2 1 0 6540594 3535491316"); 1681 [158,837; =; 483,235] hard to
      satisfy; conjecture Ptn(4,4,4) = 1681.
+     Seems to be a very hard problem, too hard for current methods.
    - Ptn(5,5) = 37 [404; 254; 508] (known)
    - Ptn_i(5,5) = 75 [2,276; =; 4,552]
    - Ptn(5,5,5) = 191 [46,633; 41,963; 126,653]
      (vw1 for 190, found easily; C&C via SplittingViaOKsolver
      with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
-   - Ptn_i(5,5,5) > 400 W [390,802; =; 1,172,806]
-     vw1 with "3925 1 0 197610 614378671" (cutoff = 400000).
+   - Ptn_i(5,5,5) > 410 W [421,895; =; 1,266,095]
+     vw1 with "3663 1 0 134367 3310408999" (cutoff = 400000).
    - Ptn(6,6) = 23 [311; 267; 534] (known)
    - Ptn_i(6,6) = 61 [6,770; =; 13,540]
    - Ptn(6,6,6) = 121; 120 [154,860; 151,105; 453,795] found satisfiable with
@@ -235,7 +255,7 @@ License, or any later version. */
      1,867 min.
    - Ptn(7,7) = 18 [306; 159; 318] (known)
    - Ptn_i(7,7) = 65 [44,589; =; 89,178]
-   - Ptn(7,7,7) > 101 W (until 100 g2wsat, cutoff=10^5, run=10^2; for 101
+   - Ptn(7,7,7) > 101 S SB (until 100 g2wsat, cutoff=10^5, run=10^2; for 101
      C&C with D=20 and glucose-2.2, splitting into ~ 1500 instances, instance
      151 satisfiable).
 
@@ -376,6 +396,10 @@ namespace Pythagorean {
   template <typename C>
   constexpr double estimating_triples(const C n) noexcept {
     return factor3 * n * std::log(n);
+  }
+  template <typename C1, typename C2>
+  constexpr long double estimating_tuples_factor(const C1 n, const C1 K, const C2 N) noexcept {
+    return N / (std::pow((long double)n,K-2) * std::log((long double)n));
   }
 
   // Counting triples:
@@ -667,7 +691,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.8.0";
+  const std::string version = "0.8.1";
 
   const std::string file_prefix = "Pyth_";
 
@@ -1035,7 +1059,8 @@ int main(const int argc, const char* const argv[]) {
   }
 
   if (m == 0) {
-    *out << max << " " << hn << "\n";
+    *out << max << " " << hn << " " <<
+      Pythagorean::estimating_tuples_factor(n,K,hn) << "\n";
     return 0;
   }
   header_output(out, n, K, dist, m, translation, symm_break, file);
