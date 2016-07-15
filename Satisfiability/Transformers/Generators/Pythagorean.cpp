@@ -132,7 +132,7 @@ License, or any later version. */
   > g++ -Wall --std=c++11 -g -o Pythagorean Pythagorean.cpp
 
 
-  FURTHER DISCUSSIONS:
+  FURTHER WORK:
 
   TODO: implement the nested translation. Acronym "N". Since all colours are
         "the same", no need for any sophistication here concerning the
@@ -156,7 +156,7 @@ License, or any later version. */
         degree, descending; option "SDDS" (plus sorting).
   TODO: Symmetry-breaking for the direct translation: for the weak form,
         the additional assignments should be introduced?
-  TODO: prove that subsumption-elimination does not happen for K=4.
+  TODO: prove that subsumption does not happen for K=4.
   TODO: implement arbitrary K.
   TODO: implement multi-threaded computation.
         Easy with std::async, just dividing up the outer loops for computing
@@ -183,10 +183,15 @@ License, or any later version. */
           factor_K * n^(k-2) * log(n).
         factor3 ~ 0.1494 (n <= 2^32-2)
         factor4 ~ 0.006096 (n <= 10^4)
-        factor5 ~ 0.000864 (n <= 1600)
+        factor5 ~ 0.000788 (n <= 3200)
         While for K=3 the factor seems to be increasing, for K >= 4 it seems
-        decreasing, and they seem to converge.
+        decreasing, and they seem to converge. Would be good to have a more
+        precise approximation (perhap having another term "+n^(k-2)" ?).
+        And would be good to have for K>3 faster computation.
   TODO: implement intelligent methods for K>3.
+
+
+  FURTHER DISCUSSIONS:
 
   Hyperedge-counting links:
 
@@ -197,11 +202,30 @@ License, or any later version. */
 
    > for ((n=0; n<=72; ++n)); do ./Pythagorean $n 3 0 0 - | cut -f2 -d" " | tr "\n" ","; done; echo
 
+     (This computation is rather wasteful, since instead of running just once
+     through n=1,...,72, computing the triples with hypotenuse =n, and adding
+     tehm up, it uses a quadratic effort, by starting again and again at the
+     beginning. One could easily add a special output mode, which avoids this,
+     if needed. But for small numbers it is very fast anyway. For example
+
+   > for ((n=1000000; n<=1000010; ++n)); do ./Pythagorean $n 3 0 0 - | cut -f2 -d" " | tr "\n" ","; done; echo
+
+     which produces
+
+     23471475,23471475,23471476,23471477,23471478,23471479,23471479,23471480,
+     23471481,23471481,23471494,
+
+     takes 16s on an older 2.4 GHz machine.)
+
      Another example: The number of triples up to 2*10^9 is 6,380,787,008,
      obtained by "./Pythagorean 2000000000 3 0 0" in 335 sec, using 7.5 GB
      (on a standard 64-bit machine with 32 GB RAM).
      While the number of triples for n=4294967294=2^32-2 is 14,225,080,520
      obtained by "./Pythagorean 4294967294 3 0 0" in 960 sec, using 16 GB.
+
+     The number of quintuples up to 3200 is 208,319,099, obtained by
+     "./Pythagorean 3200 5 0 0" in 258m42s (2.4 GHz) (using very
+     little memory; faster methods are needed here).
 
    - Number of Pythagorean quadruples (K=4) or quintuples (K=5): not yet
      in OEIS.
