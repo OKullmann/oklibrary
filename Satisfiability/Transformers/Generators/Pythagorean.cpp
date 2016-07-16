@@ -179,11 +179,33 @@ License, or any later version. */
         must be quoted.
   TODO: Check that the translations are in line with the OKlibrary at Maxima
         level.
-  TODO: Estimate number of tuples for arbitrary K; the conjecture is
-          factor_K * n^(k-2) * log(n).
-        factor3 ~ 0.1494 (n <= 2^32-2)
-        factor4 ~ 0.006096 (n <= 10^4)
+  TODO: Estimate number N of tuples for arbitrary K; the conjecture is
+          N ~ factor_K * n^(k-2) * log(n).
+
+        factor3 ~ 0.1494 (n <= 2^32-2); The Sierpinski formula yields for
+          factor3 = 1/2pi = 0.15915494309189533.., with two additional terms
+          "+ B n" with B as below, and "+ O(n^(1/2))" (using newer estimates).
+          However this is quite a bit bigger than the above factor -- our n's
+          are "too small".
+          The original Sierpinski-formula needs to be divided by 8=2^3, since
+          it considers a^2+b^2=c^2 with a,b arbitrary integers, and thus we
+          have 2^2 sign-possibilities, and the swap a <-> b.
+
+According to "Mathematical Constants By Steven R. Finch", in Maxima-code:
+
+G : 1/2/%pi*beta(1/4,1/2); // https://en.wikipedia.org/wiki/Gauss%27s_constant
+S : log(exp(2*%gamma)/2/G^2); // K / pi for https://en.wikipedia.org/wiki/Sierpi%C5%84ski%27s_constant
+A : 1.2824271291006226368753425688; // http://mathworld.wolfram.com/Glaisher-KinkelinConstant.html http://oeis.org/A074962
+zp2 : 1/6*%pi^2*(%gamma + log(2*%pi) - 12*log(A)); // zeta'(2) http://mathworld.wolfram.com/RiemannZetaFunction.html
+Sh : %gamma + S + 12 / %pi^2 * zp2 + log(2)/3 - 1/%pi;
+B : Sh / 2 / %pi;
+float(B);
+  .027511221451371352
+
+        factor4 ~ 0.005668 (n <= 2*10^4)
         factor5 ~ 0.000788 (n <= 3200)
+        factor6 ~ 0.00010193 (n <= 800)
+        factor7 ~ 1.0329e-05 (n <= 400)
         While for K=3 the factor seems to be increasing, for K >= 4 it seems
         decreasing, and they seem to converge. Would be good to have a more
         precise approximation (perhap having another term "+n^(k-2)" ?).
@@ -220,17 +242,27 @@ License, or any later version. */
      Another example: The number of triples up to 2*10^9 is 6,380,787,008,
      obtained by "./Pythagorean 2000000000 3 0 0" in 335 sec, using 7.5 GB
      (on a standard 64-bit machine with 32 GB RAM).
-     While the number of triples for n=4294967294=2^32-2 is 14,225,080,520
+     While the number of triples for n=4,294,967,294=2^32-2 is 14,225,080,520
      obtained by "./Pythagorean 4294967294 3 0 0" in 960 sec, using 16 GB.
-
-     The number of quintuples up to 3200 is 208,319,099, obtained by
-     "./Pythagorean 3200 5 0 0" in 258m42s (2.4 GHz) (using very
-     little memory; faster methods are needed here).
 
    - Number of Pythagorean quadruples (K=4) or quintuples (K=5): not yet
      in OEIS.
 
-  Pythagorean numbers established, generalising
+     The number of quadruples up to 20000 is 22,452,483, obtained by
+     "./Pythagorean 20000 4 0 0" in 134m10s (2.4 GHz) (using very
+     little memory; faster methods are needed here).
+
+     The number of quintuples up to 3200 is 208,319,099, obtained by
+     "./Pythagorean 3200 5 0 0" in 258m42s (as above).
+
+     The number of sixtuples up to 800 is 279,072,340, obtained by
+     "./Pythagorean 800 6 0 0" in 87m52s (as above).
+
+     The number of seventuples up to 400 is 633,708,884, obtained by
+     "./Pythagorean 400 7 0 0" in 96m38s (as above).
+
+
+  Pythagorean numbers Ptn(...) established, generalising
     http://link.springer.com/chapter/10.1007%2F978-3-319-40970-2_15
     https://arxiv.org/abs/1605.00723
     Solving and Verifying the boolean Pythagorean Triples problem
