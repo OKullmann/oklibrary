@@ -683,21 +683,28 @@ namespace Translation {
     assert(col < m);
     return C2(v-1) * m + col + 1;
   }
+  // The variables related to vertex v for the nested translation:
+  template <typename C2, typename C1>
+  inline C2 var_n(const C1 v, const C1 m, const C1 i) noexcept {
+    assert(v >= 1);
+    assert(m >= 3);
+    assert(i < m-1);
+    return C2(v-1) * (m-1) + i + 1;
+  }
 
   // Output the literals for the nested translation; the UHIT(1) clause-set is
   // {-v_1}, {v_1,-v_2}, {v_1,v_2,-v_3}, ..., {v_1,...,v_{m-2},-v_{m-1}},
-  // {v_1,...,v_{m-1}} (flipped literals compared to literature, due to
+  // {v_1,...,v_{m-1}} (all literals flipped, compared to literature, due to
   // minimising "-"-symbols in output).
   template <typename C2, typename C1>
   inline void lits_n(const C1 v, const C1 m, const C1 col, std::ostream* const out) {
     assert(v >= 1);
     assert(col < m);
-    if (col == 0) *out << "-" << C2(v-1) * (m-1) + 1;
+    if (col == 0) *out << "-" << var_n<C2,C1>(v,m,0);
     else {
-      *out << C2(v-1) * (m-1) + 1;
-      for (C1 col2 = 1; col2 < col; ++col2)
-        *out << " " << C2(v-1) * (m-1) + col2 + 1;
-      if (col < m-1) *out << " -" << C2(v-1) * (m-1) + col + 1;
+      *out << var_n<C2,C1>(v,m,0);
+      for (C1 col2 = 1; col2 < col; ++col2) *out << " " << var_n<C2>(v,m,col2);
+      if (col < m-1) *out << " -" << var_n<C2>(v,m,col);
     }
   }
 
@@ -808,7 +815,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.8.7";
+  const std::string version = "0.8.8";
 
   const std::string file_prefix = "Pyth_";
 
@@ -963,11 +970,11 @@ namespace {
           << " = " << (m2-1)*occ_n << ".\n";
         *out << "c Degrees (only considering the core clauses):\n";
         *out << "c   Minimum = " << min_d << ", attained for vertex " << min_v <<
-          " (variable " << (min_v-1)*(m2-1) + 1 + (m2-2) << ", degree " <<
-          2*min_d << ").\n";
+          " (variable " << var_n<cnum_t>(min_v,m,m-2) << ", degree " <<
+            2*min_d << ").\n";
          *out << "c   Maximum = " << max_d << ", attained for vertex " << max_v <<
-          " (variable " << (max_v-1)*(m2-1) + 1 << ", degree " <<
-          m2*max_d << ").\n";
+          " (variable " << var_n<cnum_t,uint_t>(max_v, m, 0) << ", degree " <<
+            m2*max_d << ").\n";
       }
     }
   }
