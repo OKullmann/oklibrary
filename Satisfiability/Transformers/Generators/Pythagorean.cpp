@@ -62,7 +62,7 @@ License, or any later version. */
      and hn / (n^(K-2) * log(n)) (the factor in the estimation).
    - m = 1: output the hypergraph
    - m = 2: output the boolean problem
-   - m >= 3: currently strong or weak direct translation available.
+   - m >= 3: currently strong or weak direct and nested translation available.
 
   In case of m=0, K=3, dist=0, the computation of the count uses a
   factorisation table for the natural numbers until n: This is much faster,
@@ -75,7 +75,8 @@ License, or any later version. */
   In case of m >= 3, the fifth parameter specifies the translation to a
   boolean clause-set; currently we have the following possibilities:
    - "S" the strong direct translation (with ALOAMO-clauses)
-   - "W" the weak direct translation (only with ALO-clauses).
+   - "W" the weak direct translation (only with ALO-clauses)
+   - "N" the (weak) nested translation (no AMO-clauses).
 
   An optional fifth/sixth parameter can be "sb=on", which activates
   symmetry-breaking (while "sb=..." with "..." anything else than "on"
@@ -134,12 +135,8 @@ License, or any later version. */
 
   FURTHER WORK:
 
-  TODO: implement the nested translation. Acronym "N". Since all colours are
-        "the same", no need for any sophistication here concerning the
-        asymmetric treatmeant of values. But we have weak and strong version,
-        called "NW" and "NS".
-
-        What about symmetry breaking? It seems, only the symmetry between the
+  TODO: implement symmetry breaking for the nested translation.
+        It seems, only the symmetry between the
         penultimate and the ultimate colour is left, when using only
         symmetries based on mapping literals? This doesn't stop one to assert
         the same underlying symmetries nonetheless (on the non-boolean cls).
@@ -287,9 +284,9 @@ float(B);
      cutoff=4*10^6 in 100 runs finds 5 solutions, with cutoff=10^7 finds 11,
      and with cutoff=10^8 finds 49.
      For 7825, maxsat is all-except-of-one-clause.
-   - Ptn(3,3,3) > 8*10^6 W [18,492,885; 14,494,738; 46,893,783], with
-     10,228,707 occurring variables (g2wsat, second run with
-     cutoff=300,000,000, "2 1 0 230932550 3089249330").
+   - Ptn(3,3,3) > 10^7 W [23,471,475; 18,484,286; 59,740,721], with
+     12,863,589 occurring variables (g2wsat, second run with
+     cutoff=600,000,000, "2 1 0 585040097 3669266690").
    - Ptn(4,4) = 105 [639; 638; 1276] (known)
    - Ptn_i(4,4) = 163 [545; 544; 1088]
    - Ptn(4,4,4) > 1680 [158,627; =; 482,601]
@@ -606,6 +603,7 @@ namespace Translation {
   enum class Type {
     direct_strong,
     direct_weak,
+    nested,
     none,
     failure
   };
@@ -615,6 +613,7 @@ namespace Translation {
     switch (t) {
     case Type::direct_strong : out << "direct-strong"; break;
     case Type::direct_weak : out << "direct-weak"; break;
+    case Type::nested : out << "nested"; break;
     case Type::none : out << "no-translation"; break;
     case Type::failure : out << "FAILURE"; break;
     }
@@ -625,14 +624,16 @@ namespace Translation {
   Type get_type(const std::string& arg) noexcept {
     if (arg == "S") return Type::direct_strong;
     else if (arg == "W") return Type::direct_weak;
+    else if (arg == "N") return Type::nested;
     else return Type::failure;
   }
   std::string type_abbr(const Type t) noexcept {
     if (t==Type::direct_strong) return "S";
     else if (t==Type::direct_weak) return "W";
+    else if (t==Type::nested) return "N";
     else return "";
   }
-  std::string list_abbr() noexcept { return "\"S\" or \"W\""; }
+  std::string list_abbr() noexcept { return "\"S\", \"W\" or \"N\""; }
 
   template <typename C1, typename C2>
   void pline_output(std::ostream* const out, const C2 n, const C2 c,
@@ -647,17 +648,60 @@ namespace Translation {
     }
   }
 
-  // Translate vertex i and colour col into non-boolean variable var(i,m,col),
+  template <typename C2, typename C1>
+  inline C2 num_var(const C1 max, const C1 m, const Type t) noexcept {
+    assert(m >= 2);
+    assert(t != Type::failure);
+    switch (t) {
+    case Type::direct_strong : return C2(m) * max;
+    case Type::direct_weak : return C2(m) * max;
+    case Type::nested : return C2(m-1) * max;
+    default : return max;
+    }
+  }
+  template <typename C1, typename C2>
+  inline C2 num_cl(const C1 occ_n, const C1 m, const C2 hn, const Type t, const bool sb) noexcept {
+    assert(m >= 2);
+    assert(t != Type::failure);
+    const C2 m2 = m;
+    const C2 sbc = (sb) ? m2-1 : 0;
+    switch (t) {
+    case Type::direct_weak : return m2 * hn + occ_n + sbc;
+    case Type::direct_strong :
+      return m2 * hn + occ_n + occ_n*(m2*(m2 - 1)) / 2 + sbc;
+    default : return m2 * hn + sbc;
+    }
+  }
+
+  // For the direct translation (strong or weak), translate vertex v and
+  // colour col into non-boolean variable var(i,m,col),
   // expressing that i does not get colour col:
   template <typename C2, typename C1>
-  inline C2 var(const C1 i, const C1 m, const C1 col) noexcept {
-    assert(i >= 1);
+  inline C2 var(const C1 v, const C1 m, const C1 col) noexcept {
+    assert(v >= 1);
     assert(col < m);
-    return C2(i-1) * m + col + 1;
+    return C2(v-1) * m + col + 1;
+  }
+
+  // Output the literals for the nested translation; the UHIT(1) clause-set is
+  // {-v_1}, {v_1,-v_2}, {v_1,v_2,-v_3}, ..., {v_1,...,v_{m-2},-v_{m-1}},
+  // {v_1,...,v_{m-1}} (flipped literals compared to literature, due to
+  // minimising "-"-symbols in output).
+  template <typename C2, typename C1>
+  inline void lits_n(const C1 v, const C1 m, const C1 col, std::ostream* const out) {
+    assert(v >= 1);
+    assert(col < m);
+    if (col == 0) *out << "-" << C2(v-1) * (m-1) + 1;
+    else {
+      *out << C2(v-1) * (m-1) + 1;
+      for (C1 col2 = 1; col2 < col; ++col2)
+        *out << " " << C2(v-1) * (m-1) + col2 + 1;
+      if (col < m-1) *out << " -" << C2(v-1) * (m-1) + col + 1;
+    }
   }
 
   template <class Hyp, typename C1, typename C2, class Deg>
-  void output_colouring_problem(std::ostream* out, const Hyp& G, const C1 m,
+  void output_colouring_problem(std::ostream* const out, const Hyp& G, const C1 m,
       const C2 max, const C2 c, const Deg deg, const C1 md_v,
       const Type t, const bool sb) {
     assert(m >= 1);
@@ -678,6 +722,7 @@ namespace Translation {
     }
     else {
       if (sb) {
+        assert(t != Type::nested);
         *out << "-" << var<C2>(md_v,m,C1(0)) << " 0";
         // Find the other m-2 vertices of highest degree:
         std::set<C1> avoid; avoid.insert(md_v);
@@ -704,13 +749,27 @@ namespace Translation {
         }
         *out << "\n";
       }
-      for (const auto& H : G) {
-        for (C1 col = 0; col < m; ++col) {
-          for (const auto v : H) *out << var<C2>(v,m,col) << " ";
-          *out << "0"; if (col != m-1) *out << " ";
+      // Translating the clauses:
+      if (t == Type::direct_strong or t == Type::direct_weak)
+        for (const auto& H : G) {
+          for (C1 col = 0; col < m; ++col) {
+            for (const auto v : H) *out << var<C2>(v,m,col) << " ";
+            *out << "0"; if (col != m-1) *out << " ";
+          }
+          *out << "\n";
         }
-        *out << "\n";
+      else {
+        assert(t == Type::nested);
+         for (const auto& H : G) {
+          for (C1 col = 0; col < m; ++col) {
+            for (const auto v : H) {lits_n<C2>(v,m,col,out); *out << " ";}
+            *out << "0"; if (col != m-1) *out << " ";
+          }
+          *out << "\n";
+        }
       }
+      // Adding the support-clauses:
+      if (t == Type::nested) return;
       for (C1 i = 1; i < deg.size(); ++i)
         if (deg[i] != 0) {
           for (C1 col = 0; col < m; ++col)
@@ -747,7 +806,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.8.1";
+  const std::string version = "0.8.3";
 
   const std::string file_prefix = "Pyth_";
 
@@ -878,23 +937,38 @@ namespace {
       *out << "c Average degree = " << 2*double(sum_d) / occ_n << ".\n";
     }
     else {
-      *out << "c Number of occurring variables = " << m << " * " << occ_n
-        << " = " << m*occ_n << ".\n";
-      *out << "c Degrees, ignoring the ALO";
-      if (t == Translation::Type::direct_strong) *out << "AMO";
-      *out << "-clauses:\n";
-      *out << "c   Minimum = " << min_d << ", attained for vertex " << min_v <<
-        " (variables";
       using namespace Translation;
-      for (uint_t col = 0; col < m; ++col) *out << " " <<
-        var<cnum_t>(min_v,m,col);
-      *out << ").\n";
-      *out << "c   Maximum = " << max_d << ", attained for vertex " << max_v <<
-        " (variables";
-      for (uint_t col = 0; col < m; ++col) *out << " " <<
-        var<cnum_t>(max_v,m,col);
-      *out << ").\n";
-      *out << "c   Average degree = " << double(sum_d) / occ_n << ".\n";
+      const cnum_t m2 = m;
+      if (t == Type::direct_strong or t == Type::direct_weak) {
+        *out << "c Number of occurring variables = " << m2 << " * " << occ_n
+          << " = " << m2*occ_n << ".\n";
+        *out << "c Degrees, ignoring the ALO";
+        if (t == Type::direct_strong) *out << "AMO";
+        *out << "-clauses:\n";
+        *out << "c   Minimum = " << min_d << ", attained for vertex " << min_v <<
+          " (variables";
+        for (uint_t col = 0; col < m; ++col) *out << " " <<
+          var<cnum_t>(min_v,m,col);
+        *out << ").\n";
+        *out << "c   Maximum = " << max_d << ", attained for vertex " << max_v <<
+          " (variables";
+        for (uint_t col = 0; col < m; ++col) *out << " " <<
+          var<cnum_t>(max_v,m,col);
+        *out << ").\n";
+        *out << "c   Average degree = " << double(sum_d) / occ_n << ".\n";
+      }
+      else {
+        assert(t == Type::nested);
+        *out << "c Number of occurring variables = " << m2-1 << " * " << occ_n
+          << " = " << (m2-1)*occ_n << ".\n";
+        *out << "c Degrees:\n";
+        *out << "c   Minimum = " << min_d << ", attained for vertex " << min_v <<
+          " (variable " << (min_v-1)*(m2-1) + 1 + (m2-2) << ", degree " <<
+          2*min_d << ").\n";
+         *out << "c   Maximum = " << max_d << ", attained for vertex " << max_v <<
+          " (variable " << (min_v-1)*(m2-1) + 1 << ", degree " <<
+          m2*min_d << ").\n";
+      }
     }
   }
 
@@ -972,11 +1046,15 @@ int main(const int argc, const char* const argv[]) {
   }
   if (not with_sb_argument and argc == argc_max) {
     std::cerr << err << "Without using the optional argument \"sb=...\", "
-      "then only " << argc_max - 2 << " arguments are allowed.\n";
+      "only " << argc_max - 2 << " arguments are allowed.\n";
     return v(Error::parameter);
   }
   const bool symm_break = (with_sb_argument) ?
     symmetry_breaking(argv[optional_position]) : false;
+  if (symm_break and translation == Translation::Type::nested) {
+    std::cerr << err << "Currently no symmetry-breaking for the nested translation.\n";
+    return v(Error::not_yet);
+  }
 
   const int file_position = (with_sb_argument) ?
     optional_position+1 : optional_position;
@@ -1156,8 +1234,8 @@ int main(const int argc, const char* const argv[]) {
 
   stat_vec_t counts(K+1,0);
   for (const auto& x : res) ++counts[x.size()];
-  cnum_t occ_n = 0, min_d = -1, max_d = 0, sum_d = 0;
-  uint_t min_v = 0, max_v = 0;
+  uint_t occ_n = 0, min_v = 0, max_v = 0;
+  cnum_t min_d = -1, max_d = 0, sum_d = 0;
   for (stat_vec_t::size_type i = 1; i < degree.size(); ++i) {
     const auto deg = degree[i];
     if (deg != 0) {
@@ -1177,16 +1255,14 @@ int main(const int argc, const char* const argv[]) {
   }
   else if (m == 2) {// DIMACS output:
     degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation);
-    const cnum_t cn = 2 * hn + ((symm_break) ? 1 : 0);
+    const cnum_t cn = num_cl(max,m,hn,translation,symm_break);
     output_colouring_problem(out, res, m, cnum_t(max), cn, degree, max_v, translation, symm_break);
  } else {
     assert(m >= 3);
     *out << "c Using translation " << translation << ".\n";
     degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation);
-    const cnum_t cn = m * hn + occ_n +
-      ((translation==Type::direct_strong) ? occ_n*(m*(m - 1)) / 2 : 0) +
-      ((symm_break) ? m-1 : 0);
-    const cnum_t vn = m * cnum_t(max);
+    const cnum_t vn = num_var<cnum_t>(max,m,translation);
+    const cnum_t cn = num_cl(occ_n, m, hn, translation, symm_break);
     output_colouring_problem(out, res, m, vn, cn, degree, max_v, translation, symm_break);
   }
 }
