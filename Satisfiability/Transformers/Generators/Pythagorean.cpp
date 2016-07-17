@@ -677,8 +677,9 @@ namespace Translation {
   // colour col into non-boolean variable var(i,m,col),
   // expressing that i does not get colour col:
   template <typename C2, typename C1>
-  inline C2 var(const C1 v, const C1 m, const C1 col) noexcept {
+  inline C2 var_d(const C1 v, const C1 m, const C1 col) noexcept {
     assert(v >= 1);
+    assert(m >= 3);
     assert(col < m);
     return C2(v-1) * m + col + 1;
   }
@@ -724,7 +725,7 @@ namespace Translation {
       if (sb) { // Symmetry breaking
         assert(t != Type::nested);
         for (C1 col = 1; col < m; ++col)
-          *out << var<C2>(md_v,m,col) << ((col==m-1) ? std::string(" 0") : std::string(" 0 "));
+          *out << var_d<C2>(md_v,m,col) << ((col==m-1) ? std::string(" 0") : std::string(" 0 "));
         // Find the other m-2 vertices of highest degree and put into "store":
         std::vector<C1> store; store.reserve(m-2);
         {std::set<C1> avoid; avoid.insert(md_v);
@@ -745,7 +746,7 @@ namespace Translation {
         C1 exclude_col = 2;
         for (const auto v : store) {
           for (C1 col = exclude_col; col < m; ++col)
-            *out << " " << var<C2>(v,m,col) << " 0";
+            *out << " " << var_d<C2>(v,m,col) << " 0";
           ++exclude_col;
         }
         *out << "\n";
@@ -754,7 +755,7 @@ namespace Translation {
       if (t == Type::direct_strong or t == Type::direct_weak)
         for (const auto& H : G) {
           for (C1 col = 0; col < m; ++col) {
-            for (const auto v : H) *out << var<C2>(v,m,col) << " ";
+            for (const auto v : H) *out << var_d<C2>(v,m,col) << " ";
             *out << "0"; if (col != m-1) *out << " ";
           }
           *out << "\n";
@@ -774,13 +775,13 @@ namespace Translation {
       for (C1 i = 1; i < deg.size(); ++i)
         if (deg[i] != 0) {
           for (C1 col = 0; col < m; ++col)
-            *out << "-" << var<C2>(i,m,col) << " ";
+            *out << "-" << var_d<C2>(i,m,col) << " ";
           *out << "0";
           if (t == Type::direct_strong)
             for (C1 col1 = 0; col1 < m; ++col1)
               for (C1 col2 = col1+1; col2 < m; ++col2)
-                *out << " " << var<C2>(i,m,col1) << " " <<
-                  var<C2>(i,m,col2) << " 0";
+                *out << " " << var_d<C2>(i,m,col1) << " " <<
+                  var_d<C2>(i,m,col2) << " 0";
           *out << "\n";
         }
     }
@@ -807,7 +808,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.8.6";
+  const std::string version = "0.8.7";
 
   const std::string file_prefix = "Pyth_";
 
@@ -947,12 +948,12 @@ namespace {
         *out << "c   Minimum = " << min_d << ", attained for vertex " << min_v <<
           " (variables";
         for (uint_t col = 0; col < m; ++col) *out << " " <<
-          var<cnum_t>(min_v,m,col);
+          var_d<cnum_t>(min_v,m,col);
         *out << ").\n";
         *out << "c   Maximum = " << max_d << ", attained for vertex " << max_v <<
           " (variables";
         for (uint_t col = 0; col < m; ++col) *out << " " <<
-          var<cnum_t>(max_v,m,col);
+          var_d<cnum_t>(max_v,m,col);
         *out << ").\n";
         *out << "c   Average degree = " << double(sum_d) / occ_n << ".\n";
       }
