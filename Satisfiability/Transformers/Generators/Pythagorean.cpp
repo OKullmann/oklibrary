@@ -62,7 +62,7 @@ License, or any later version. */
      and hn / (n^(K-2) * log(n)) (the factor in the estimation).
    - m = 1: output the hypergraph
    - m = 2: output the boolean problem
-   - m >= 3: currently strong or weak direct and nested translation available.
+   - m >= 3: currently strong or weak direct/nested translation available.
 
   In case of m=0, K=3, dist=0, the computation of the count uses a
   factorisation table for the natural numbers until n: This is much faster,
@@ -76,7 +76,8 @@ License, or any later version. */
   boolean clause-set; currently we have the following possibilities:
    - "S" the strong direct translation (with ALOAMO-clauses)
    - "W" the weak direct translation (only with ALO-clauses)
-   - "N" the (weak) nested translation (no AMO-clauses).
+   - "N" the (weak) nested translation (no AMO-clauses)
+   - "NS" the strong nested translation (with AMO-clauses)
 
   An optional fifth/sixth parameter can be "sb=on", which activates
   symmetry-breaking (while "sb=..." with "..." anything else than "on"
@@ -139,13 +140,16 @@ License, or any later version. */
         line, and removing gaps in variable-numbers; optionally in the
         comments the "dictionary". Options "D" (DIMACS as is), "SD"
         (strict DIMACS), "SDD" (plus dictionary). Needs to become another
-        optional parameter "format=..".
+        optional parameter "format=..", before the file-name.
 
         Perhaps this becomes now too much, and named parameters are needed.
-        "N=", "K=", "d=", "m=", "trans=", "file=", "format=".
+        "n=", "K=", "d=", "m=", "trans=", "file=", "format=" ?
+        So well, seems alright with the current mix.
 
         When renumbering, then one could also sort the vertices according to
-        degree, descending; option "SDDS" (plus sorting).
+        degree, descending; option "SDDS" (plus sorting). But perhaps better
+        NOT -- that would garble too much, and if done, should be up to
+        the SAT solver.
   TODO: prove that subsumption does not happen for K=4.
   TODO: implement arbitrary K.
   TODO: implement multi-threaded computation.
@@ -272,7 +276,7 @@ float(B);
   here; algorithms "vw1" and "g2wsat" are from the UBCSAT suite of local-search
   algorithms, while "SplittingViaOKsolver" is the basic C&C-implementation in
   the OKlibrary; except where stated "W", the strong direction translation is
-  used for >= 3 colours, and symmetry-breaking is used iff stated:
+  used for >= 3 colours, and symmetry-breaking is used iff stated ("SB"):
 
    - Ptn(3,3) = 7825 [9,472; 7,336; 14,672]
        http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
@@ -283,11 +287,13 @@ float(B);
    - Ptn(3,3,3) > 10^7 W [23,471,475; 18,484,286; 59,740,721], with
      12,863,589 occurring variables (g2wsat, second run with
      cutoff=600,000,000, "2 1 0 585040097 3669266690").
+     It seems this lower bound is still far away from the truth. So this
+     problem is excessively hard.
    - Ptn(4,4) = 105 [639; 638; 1276] (known)
    - Ptn_i(4,4) = 163 [545; 544; 1088]
    - Ptn(4,4,4) > 1680 [158,627; =; 482,601]
      (vw1 with "2 1 0 6540594 3535491316"); 1681 [158,837; =; 483,235] hard to
-     satisfy; conjecture Ptn(4,4,4) = 1681.
+     satisfy; weak conjecture Ptn(4,4,4) = 1681.
      Seems to be a very hard problem, too hard for current methods.
    - Ptn(5,5) = 37 [404; 254; 508] (known)
    - Ptn_i(5,5) = 75 [2,276; =; 4,552]
@@ -296,8 +302,8 @@ float(B);
      (where, as often observed, symmetry-breaking, especially with UCP, has
      a negative effect; perhaps reordering has also an influence here);
      C&C via SplittingViaOKsolver, S-SB, with D=20 and minisat-2.2.0 for 191:
-     total run-time around 15 min, while for D=30 around XXX min;
-     for N-SB around 26 min).
+     total run-time around 15 min (while for D=30 around 54 min);
+     for N-SB, D=20, around 26 min, and for NS-SB around 36 min).
    - Ptn_i(5,5,5) > 410 W [421,895; =; 1,266,095]
      vw1 with "3663 1 0 134367 3310408999" (cutoff = 400000).
    - Ptn(6,6) = 23 [311; 267; 534] (known)
@@ -308,18 +314,19 @@ float(B);
      1,867 min.
    - Ptn(7,7) = 18 [306; 159; 318] (known)
    - Ptn_i(7,7) = 65 [44,589; =; 89,178]
-   - Ptn(7,7,7) > 101 S SB (until 100 g2wsat, cutoff=10^5, run=10^2; for 101
-     C&C with D=20 and glucose-2.2, splitting into ~ 1500 instances, instance
-     151 satisfiable).
+   - Ptn(7,7,7) = 102 SB [789,310; 694,898; 2,085,104]; for 101 C&C with D=20
+     and glucose-2.2, splitting into ~ 1500 instances, instance 151
+     satisfiable; also D=20 for 102, same C&C, 4,390 min.
 
    The sequence Ptn(k,k) for k=2,..., (which is 1, 7825, 105, 37, 23, 18, ...)
    is https://oeis.org/A250026 .
 
    The sequence Ptn_i(k,k) for k=3,..., is also of interest (7825,163,75,61,
-   65).
+   65). This can be further extended.
 
-   The sequence Ptn(k,k,k) for k=3,... (?,?,191,121,?) might be a bit doable
-   except of the first two terms.
+   The sequence Ptn(k,k,k) for k=3,... (?,?,191,121,102) is of interest, since
+   these are the only 3-colour-problems solved until now. Can likely be further
+   extended (with good effort).
 
 */
 
@@ -686,8 +693,8 @@ namespace Translation {
   }
 
   // For the direct translation (strong or weak), translate vertex v and
-  // colour col into non-boolean variable var(i,m,col),
-  // expressing that i does not get colour col:
+  // colour col into non-boolean variable var(v,m,col),
+  // expressing that v does not get colour col:
   template <typename C2, typename C1>
   inline C2 var_d(const C1 v, const C1 m, const C1 col) noexcept {
     assert(v >= 1);
@@ -854,7 +861,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.8.10";
+  const std::string version = "0.8.11";
 
   const std::string file_prefix = "Pyth_";
 
@@ -957,8 +964,7 @@ namespace {
     *out << "c Hyperedge counts:\n";
     for (siz_t<Vec> k=0; k < v.size(); ++k) {
       const auto c = v[k];
-      if (c != 0)
-        *out << "c   size " << k << ": " << c << "\n";
+      if (c != 0) *out << "c   size " << k << ": " << c << "\n";
     }
   }
 
