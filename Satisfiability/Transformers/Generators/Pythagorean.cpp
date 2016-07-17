@@ -806,7 +806,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.8.3";
+  const std::string version = "0.8.4";
 
   const std::string file_prefix = "Pyth_";
 
@@ -967,7 +967,7 @@ namespace {
           2*min_d << ").\n";
          *out << "c   Maximum = " << max_d << ", attained for vertex " << max_v <<
           " (variable " << (min_v-1)*(m2-1) + 1 << ", degree " <<
-          m2*min_d << ").\n";
+          m2*max_d << ").\n";
       }
     }
   }
