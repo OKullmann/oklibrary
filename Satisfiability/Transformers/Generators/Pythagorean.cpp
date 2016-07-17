@@ -151,8 +151,6 @@ License, or any later version. */
 
         When renumbering, then one could also sort the vertices according to
         degree, descending; option "SDDS" (plus sorting).
-  TODO: Symmetry-breaking for the direct translation: for the weak form,
-        the additional assignments should be introduced?
   TODO: prove that subsumption does not happen for K=4.
   TODO: implement arbitrary K.
   TODO: implement multi-threaded computation.
@@ -296,8 +294,9 @@ float(B);
    - Ptn(5,5) = 37 [404; 254; 508] (known)
    - Ptn_i(5,5) = 75 [2,276; =; 4,552]
    - Ptn(5,5,5) = 191 [46,633; 41,963; 126,653]
-     (vw1 for 190, found easily; C&C via SplittingViaOKsolver
-     with D=20 and minisat-2.2.0 for 191: total run-time around 46 min).
+     (vw1 for 190, found easily (W), indeed walksat-tabu with N might be best;
+     C&C via SplittingViaOKsolver with D=20 and minisat-2.2.0 for 191: total
+     run-time around 46 min).
    - Ptn_i(5,5,5) > 410 W [421,895; =; 1,266,095]
      vw1 with "3663 1 0 134367 3310408999" (cutoff = 400000).
    - Ptn(6,6) = 23 [311; 267; 534] (known)
@@ -664,7 +663,8 @@ namespace Translation {
     assert(m >= 2);
     assert(t != Type::failure);
     const C2 m2 = m;
-    const C2 sbc = (sb) ? m2-1 : 0;
+    assert(not sb or t != Type::nested);
+    const C2 sbc = (sb) ? (m2*(m2-1))/2 : 0;
     switch (t) {
     case Type::direct_weak : return m2 * hn + occ_n + sbc;
     case Type::direct_strong :
@@ -721,12 +721,13 @@ namespace Translation {
       }
     }
     else {
-      if (sb) {
+      if (sb) { // Symmetry breaking
         assert(t != Type::nested);
-        *out << "-" << var<C2>(md_v,m,C1(0)) << " 0";
-        // Find the other m-2 vertices of highest degree:
-        std::set<C1> avoid; avoid.insert(md_v);
+        for (C1 col = 1; col < m; ++col)
+          *out << var<C2>(md_v,m,col) << ((col==m-1) ? std::string(" 0") : std::string(" 0 "));
+        // Find the other m-2 vertices of highest degree and put into "store":
         std::vector<C1> store; store.reserve(m-2);
+        {std::set<C1> avoid; avoid.insert(md_v);
         const auto size = deg.size();
         for (C1 i = 0; i < m-2; ++i) {
           C2 max_d = 0; C1 max_v = 0;
@@ -739,13 +740,13 @@ namespace Translation {
           }
           avoid.insert(max_v);
           store.push_back(max_v);
-        }
-        C1 max_col = 1;
+        }}
+        // Output the other positive unit-clauses:
+        C1 exclude_col = 2;
         for (const auto v : store) {
-          for (C1 col = 0; col <= max_col; ++col)
-            *out << " -" << var<C2>(v,m,col);
-          *out << " 0";
-          ++max_col;
+          for (C1 col = exclude_col; col < m; ++col)
+            *out << " " << var<C2>(v,m,col) << " 0";
+          ++exclude_col;
         }
         *out << "\n";
       }
@@ -806,7 +807,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.8.4";
+  const std::string version = "0.8.6";
 
   const std::string file_prefix = "Pyth_";
 
@@ -942,9 +943,7 @@ namespace {
       if (t == Type::direct_strong or t == Type::direct_weak) {
         *out << "c Number of occurring variables = " << m2 << " * " << occ_n
           << " = " << m2*occ_n << ".\n";
-        *out << "c Degrees, ignoring the ALO";
-        if (t == Type::direct_strong) *out << "AMO";
-        *out << "-clauses:\n";
+        *out << "c Degrees (only considering the core clauses):\n";
         *out << "c   Minimum = " << min_d << ", attained for vertex " << min_v <<
           " (variables";
         for (uint_t col = 0; col < m; ++col) *out << " " <<
@@ -961,12 +960,12 @@ namespace {
         assert(t == Type::nested);
         *out << "c Number of occurring variables = " << m2-1 << " * " << occ_n
           << " = " << (m2-1)*occ_n << ".\n";
-        *out << "c Degrees:\n";
+        *out << "c Degrees (only considering the core clauses):\n";
         *out << "c   Minimum = " << min_d << ", attained for vertex " << min_v <<
           " (variable " << (min_v-1)*(m2-1) + 1 + (m2-2) << ", degree " <<
           2*min_d << ").\n";
          *out << "c   Maximum = " << max_d << ", attained for vertex " << max_v <<
-          " (variable " << (min_v-1)*(m2-1) + 1 << ", degree " <<
+          " (variable " << (max_v-1)*(m2-1) + 1 << ", degree " <<
           m2*max_d << ").\n";
       }
     }
