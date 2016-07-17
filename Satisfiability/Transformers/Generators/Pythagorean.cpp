@@ -135,11 +135,6 @@ License, or any later version. */
 
   FURTHER WORK:
 
-  TODO: implement symmetry breaking for the nested translation.
-        It seems, only the symmetry between the
-        penultimate and the ultimate colour is left, when using only
-        symmetries based on mapping literals? This doesn't stop one to assert
-        the same underlying symmetries nonetheless (on the non-boolean cls).
   TODO: implement "strict" DIMACS output, i.e., all clauses on its own
         line, and removing gaps in variable-numbers; optionally in the
         comments the "dictionary". Options "D" (DIMACS as is), "SD"
@@ -203,9 +198,12 @@ float(B);
         factor7 ~ 1.0329e-05 (n <= 400)
         While for K=3 the factor seems to be increasing, for K >= 4 it seems
         decreasing, and they seem to converge. Would be good to have a more
-        precise approximation (perhap having another term "+n^(k-2)" ?).
+        precise approximation (perhaps having another term "+n^(k-2)" ?).
         And would be good to have for K>3 faster computation.
   TODO: implement intelligent methods for K>3.
+  TODO: Implement reductions triggered by the symmetry-breaking clauses.
+        We have unit-clause propagation and subsumption. Possibly this enables
+        further colour-reduction (if correct?)?
 
 
   FURTHER DISCUSSIONS:
@@ -294,9 +292,12 @@ float(B);
    - Ptn(5,5) = 37 [404; 254; 508] (known)
    - Ptn_i(5,5) = 75 [2,276; =; 4,552]
    - Ptn(5,5,5) = 191 [46,633; 41,963; 126,653]
-     (vw1 for 190, found easily (W), indeed walksat-tabu with N might be best;
-     C&C via SplittingViaOKsolver with D=20 and minisat-2.2.0 for 191: total
-     run-time around 46 min).
+     (vw1 for 190, found easily (W), indeed walksat-tabu with N might be best
+     (where, as often observed, symmetry-breaking, especially with UCP, has
+     a negative effect; perhaps reordering has also an influence here);
+     C&C via SplittingViaOKsolver, S-SB, with D=20 and minisat-2.2.0 for 191:
+     total run-time around 15 min, while for D=30 around XXX min;
+     for N-SB around 26 min).
    - Ptn_i(5,5,5) > 410 W [421,895; =; 1,266,095]
      vw1 with "3663 1 0 134367 3310408999" (cutoff = 400000).
    - Ptn(6,6) = 23 [311; 267; 534] (known)
@@ -391,11 +392,8 @@ namespace Factorisation {
     B old_f = 0;
     do {
       const B f = T[n];
-      if (f % 4 == 1)
-        if (f == old_f) ++res[next-1];
-        else { res.push_back(1); ++next; }
-      n /= f;
-      old_f = f;
+      if (f%4==1) if (f==old_f) ++res[next-1]; else {res.push_back(1); ++next;}
+      n /= f; old_f = f;
     } while (n != 1);
     return res;
   }
@@ -603,6 +601,7 @@ namespace Translation {
     direct_strong,
     direct_weak,
     nested,
+    nested_strong,
     none,
     failure
   };
@@ -613,6 +612,7 @@ namespace Translation {
     case Type::direct_strong : out << "direct-strong"; break;
     case Type::direct_weak : out << "direct-weak"; break;
     case Type::nested : out << "nested"; break;
+    case Type::nested_strong : out << "nested-strong"; break;
     case Type::none : out << "no-translation"; break;
     case Type::failure : out << "FAILURE"; break;
     }
@@ -624,15 +624,23 @@ namespace Translation {
     if (arg == "S") return Type::direct_strong;
     else if (arg == "W") return Type::direct_weak;
     else if (arg == "N") return Type::nested;
+    else if (arg == "NS") return Type::nested_strong;
     else return Type::failure;
   }
   std::string type_abbr(const Type t) noexcept {
     if (t==Type::direct_strong) return "S";
     else if (t==Type::direct_weak) return "W";
     else if (t==Type::nested) return "N";
+    else if (t==Type::nested_strong) return "NS";
     else return "";
   }
-  std::string list_abbr() noexcept { return "\"S\", \"W\" or \"N\""; }
+  std::string list_abbr() noexcept { return "\"S\", \"W\", \"N\" or \"NS\""; }
+  constexpr bool is_direct(const Type t) noexcept {
+    return t == Type::direct_weak or t == Type::direct_strong;
+  }
+  constexpr bool is_nested(const Type t) noexcept {
+    return t == Type::nested or t == Type::nested_strong;
+  }
 
   template <typename C1, typename C2>
   void pline_output(std::ostream* const out, const C2 n, const C2 c,
@@ -655,6 +663,7 @@ namespace Translation {
     case Type::direct_strong : return C2(m) * max;
     case Type::direct_weak : return C2(m) * max;
     case Type::nested : return C2(m-1) * max;
+    case Type::nested_strong : return C2(m-1) * max;
     default : return max;
     }
   }
@@ -662,13 +671,16 @@ namespace Translation {
   inline C2 num_cl(const C1 occ_n, const C1 m, const C2 hn, const Type t, const bool sb) noexcept {
     assert(m >= 2);
     assert(t != Type::failure);
+    assert(not sb or t != Type::none);
     const C2 m2 = m;
-    assert(not sb or t != Type::nested);
-    const C2 sbc = (sb) ? (m2*(m2-1))/2 : 0;
+    const C2 sbc = (not sb) ? 0 :
+      ((is_nested(t)) ? m2-1 : (m2*(m2-1))/2);
     switch (t) {
     case Type::direct_weak : return m2 * hn + occ_n + sbc;
     case Type::direct_strong :
       return m2 * hn + occ_n + occ_n*(m2*(m2 - 1)) / 2 + sbc;
+    case Type::nested_strong :
+      return m2 * hn + occ_n*((m2-1)*(m2 - 2)) / 2 + sbc;
     default : return m2 * hn + sbc;
     }
   }
@@ -729,10 +741,12 @@ namespace Translation {
       }
     }
     else {
-      if (sb) { // Symmetry breaking
-        assert(t != Type::nested);
-        for (C1 col = 1; col < m; ++col)
-          *out << var_d<C2>(md_v,m,col) << ((col==m-1) ? std::string(" 0") : std::string(" 0 "));
+      if (sb) {
+        // First handling of the max-vertex:
+        if (is_direct(t))
+          for (C1 col = 1; col < m; ++col)
+            *out << var_d<C2>(md_v,m,col) << ((col==m-1) ? std::string(" 0") : std::string(" 0 "));
+        else *out << var_n<C2,C1>(md_v,m,0) << " 0";
         // Find the other m-2 vertices of highest degree and put into "store":
         std::vector<C1> store; store.reserve(m-2);
         {std::set<C1> avoid; avoid.insert(md_v);
@@ -749,17 +763,28 @@ namespace Translation {
           avoid.insert(max_v);
           store.push_back(max_v);
         }}
-        // Output the other positive unit-clauses:
-        C1 exclude_col = 2;
-        for (const auto v : store) {
-          for (C1 col = exclude_col; col < m; ++col)
-            *out << " " << var_d<C2>(v,m,col) << " 0";
-          ++exclude_col;
+        // Finally handling of the other vertices:
+        if (is_direct(t)) {
+          C1 exclude_col = 2;
+          for (const auto v : store) {
+            for (C1 col = exclude_col; col < m; ++col)
+              *out << " " << var_d<C2>(v,m,col) << " 0";
+            ++exclude_col;
+          }
+          *out << "\n";
+        } else {
+          C1 include_col = 1;
+          for (const auto v : store) {
+            for (C1 col = 0; col <= include_col; ++col)
+              *out << " " << var_n<C2>(v,m,col);
+            *out << " 0";
+            ++include_col;
+          }
+          *out << "\n";
         }
-        *out << "\n";
       }
       // Translating the clauses:
-      if (t == Type::direct_strong or t == Type::direct_weak)
+      if (is_direct(t))
         for (const auto& H : G) {
           for (C1 col = 0; col < m; ++col) {
             for (const auto v : H) *out << var_d<C2>(v,m,col) << " ";
@@ -768,7 +793,6 @@ namespace Translation {
           *out << "\n";
         }
       else {
-        assert(t == Type::nested);
          for (const auto& H : G) {
           for (C1 col = 0; col < m; ++col) {
             for (const auto v : H) {lits_n<C2>(v,m,col,out); *out << " ";}
@@ -778,19 +802,34 @@ namespace Translation {
         }
       }
       // Adding the support-clauses:
-      if (t == Type::nested) return;
-      for (C1 i = 1; i < deg.size(); ++i)
-        if (deg[i] != 0) {
-          for (C1 col = 0; col < m; ++col)
-            *out << "-" << var_d<C2>(i,m,col) << " ";
-          *out << "0";
-          if (t == Type::direct_strong)
-            for (C1 col1 = 0; col1 < m; ++col1)
-              for (C1 col2 = col1+1; col2 < m; ++col2)
-                *out << " " << var_d<C2>(i,m,col1) << " " <<
-                  var_d<C2>(i,m,col2) << " 0";
-          *out << "\n";
-        }
+      if (is_direct(t)) {
+        for (C1 i = 1; i < deg.size(); ++i)
+          if (deg[i] != 0) {
+            // ALO:
+            for (C1 col = 0; col < m; ++col)
+              *out << "-" << var_d<C2>(i,m,col) << " ";
+            *out << "0";
+            // AMO:
+            if (t == Type::direct_strong)
+              for (C1 col1 = 0; col1 < m; ++col1)
+                for (C1 col2 = col1+1; col2 < m; ++col2)
+                  *out << " " << var_d<C2>(i,m,col1) << " " <<
+                    var_d<C2>(i,m,col2) << " 0";
+            *out << "\n";
+          }
+      }
+      else if (t == Type::nested_strong) {
+        // AMO:
+        for (C1 i = 1; i < deg.size(); ++i)
+          if (deg[i] != 0) {
+            for (C1 col1 = 0; col1 < m-2; ++col1)
+              for (C1 col2 = col1+1; col2 < m-1; ++col2)
+                *out << "-" << var_n<C2>(i,m,col1) << " -" <<
+                  var_n<C2>(i,m,col2) <<
+                  ((col1==m-3 and col2==m-2) ? std::string(" 0") : std::string(" 0 "));
+            *out << "\n";
+          }
+      }
     }
   }
 
@@ -815,7 +854,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.8.8";
+  const std::string version = "0.8.10";
 
   const std::string file_prefix = "Pyth_";
 
@@ -948,7 +987,7 @@ namespace {
     else {
       using namespace Translation;
       const cnum_t m2 = m;
-      if (t == Type::direct_strong or t == Type::direct_weak) {
+      if (is_direct(t)) {
         *out << "c Number of occurring variables = " << m2 << " * " << occ_n
           << " = " << m2*occ_n << ".\n";
         *out << "c Degrees (only considering the core clauses):\n";
@@ -965,7 +1004,6 @@ namespace {
         *out << "c   Average degree = " << double(sum_d) / occ_n << ".\n";
       }
       else {
-        assert(t == Type::nested);
         *out << "c Number of occurring variables = " << m2-1 << " * " << occ_n
           << " = " << (m2-1)*occ_n << ".\n";
         *out << "c Degrees (only considering the core clauses):\n";
@@ -1058,10 +1096,6 @@ int main(const int argc, const char* const argv[]) {
   }
   const bool symm_break = (with_sb_argument) ?
     symmetry_breaking(argv[optional_position]) : false;
-  if (symm_break and translation == Translation::Type::nested) {
-    std::cerr << err << "Currently no symmetry-breaking for the nested translation.\n";
-    return v(Error::not_yet);
-  }
 
   const int file_position = (with_sb_argument) ?
     optional_position+1 : optional_position;
