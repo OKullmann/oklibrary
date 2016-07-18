@@ -456,15 +456,13 @@ namespace Pythagorean {
   // Counting triples:
   template <typename C1, typename C2>
   void triples_c(const C1 n, C1& max, C2& hn) {
-    const auto T = Factorisation::table_factor(n);
+    using namespace Factorisation;
+    const auto T = table_factor(n);
     assert(T.size() == n+1);
     for (C1 i = 5; i <= n; ++i) {
       C2 prod = 1;
-      for (const auto e : Factorisation::extract_exponents_1m4(T,i))
-        prod *= 2*e + 1;
-      if (prod == 1) continue;
-      max = std::max(max, i);
-      hn += (prod-1)/2;
+      for (const auto e : extract_exponents_1m4(T,i)) prod *= 2*e + 1;
+      if (prod != 1) {max = std::max(max, i); hn += (prod-1)/2;}
     }
   }
 
@@ -480,10 +478,7 @@ namespace Pythagorean {
           const C1 t = rs / s;
           if (t >= n or t < s+dist) continue;
           const C1 c = r+s+t;
-          if (c <= n) {
-            max = std::max(max,c);
-            ++hn;
-          }
+          if (c <= n) {max = std::max(max,c); ++hn;}
         }
     }
   }
