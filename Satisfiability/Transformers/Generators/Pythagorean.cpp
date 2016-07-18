@@ -518,11 +518,12 @@ namespace Pythagorean {
     const C1 n2 = n*n;
     for (C1 a = 1; a < n; ++a) {
       const C1 a2 = a*a;
-      for (C1 b = a+dist; b < n; ++b) {
+      const C1 bbound = std::sqrt(n2-a2);
+      for (C1 b = a+dist; b <= bbound; ++b) {
         const C1 b2 = a2+b*b;
-        for (C1 c = b+dist; c < n; ++c) {
+        const C1 cbound = std::sqrt(n2-b2);
+        for (C1 c = b+dist; c <= cbound; ++c) {
           const C1 d2 = b2 + c*c;
-          if (d2 > n2) break;
           const C1 d = std::sqrt(d2);
           if (d*d == d2 and d >= c+dist) {max = std::max(max,d); ++hn;}
         }
@@ -537,11 +538,12 @@ namespace Pythagorean {
     const C1 n2 = n*n;
     for (C1 a = 1; a < n; ++a) {
       const C1 a2 = a*a;
-      for (C1 b = a+dist; b < n; ++b) {
+      const C1 bbound = std::sqrt(n2-a2);
+      for (C1 b = a+dist; b <= bbound; ++b) {
         const C1 b2 = a2+b*b;
-        for (C1 c = b+dist; c < n; ++c) {
+        const C1 cbound = std::sqrt(n2-b2);
+        for (C1 c = b+dist; c <= cbound; ++c) {
           const C1 d2 = b2 + c*c;
-          if (d2 > n2) break;
           const C1 d = std::sqrt(d2);
           if (d*d == d2 and d >= c+dist) res.push_back({{a,b,c,d}});
         }
@@ -896,7 +898,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.9.3";
+  const std::string version = "0.9.4";
 
   const std::string file_prefix = "Pyth_";
 
