@@ -196,7 +196,8 @@ float(B);
         decreasing, and they seem to converge. Would be good to have a more
         precise approximation (perhaps having another term "+n^(k-2)" ?).
         And would be good to have for K>3 faster computation.
-  TODO: implement intelligent methods for K>3.
+  TODO: implement intelligent methods for K>3. Start with the generalised
+        Dickson-method for K=4.
   TODO: Implement reductions triggered by the symmetry-breaking clauses.
         We have unit-clause propagation and subsumption. Possibly this enables
         further colour-reduction (if correct?)?
@@ -506,6 +507,51 @@ namespace Pythagorean {
         if (t >= n or t < s+dist) continue;
         const C1 c = r+s+t;
         if (c <= n and s+dist <= t) res.push_back({{r+s,r+t,c}});
+      }
+    }
+    return res;
+  }
+
+  // Counting quadruples :
+  template <typename C1, typename C2>
+  void quadruples_c(const C1 n, const C1 dist, C1& max, C2& hn) noexcept {
+    const C1 n2 = n*n;
+    for (C1 a = 1; a < n; ++a) {
+      const C1 a2 = a*a;
+      for (C1 b = a+dist; b < n; ++b) {
+        const C1 b2 = b*b;
+        for (C1 c = b+dist; c < n; ++c) {
+          const C1 c2 = c*c;
+          const C1 d2 = a2 + b2 + c2;
+          if (d2 > n2) break;
+          const C1 d = std::sqrt(d2);
+          if (d*d != d2) continue;
+          if (d < c+dist) continue;
+          max = std::max(max,d);
+          ++hn;
+        }
+      }
+    }
+  }
+
+  // Generating quadruples:
+  template <class V, typename C1>
+  V quadruples_e(const C1 n, const C1 dist) {
+    V res;
+    const C1 n2 = n*n;
+    for (C1 a = 1; a < n; ++a) {
+      const C1 a2 = a*a;
+      for (C1 b = a+dist; b < n; ++b) {
+        const C1 b2 = b*b;
+        for (C1 c = b+dist; c < n; ++c) {
+          const C1 c2 = c*c;
+          const C1 d2 = a2 + b2 + c2;
+          if (d2 > n2) break;
+          const C1 d = std::sqrt(d2);
+          if (d*d != d2) continue;
+          if (d < c+dist) continue;
+          res.push_back({{a,b,c,d}});
+        }
       }
     }
     return res;
@@ -857,7 +903,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.9.1";
+  const std::string version = "0.9.2";
 
   const std::string file_prefix = "Pyth_";
 
@@ -1199,26 +1245,8 @@ int main(const int argc, const char* const argv[]) {
       res = Pythagorean::triples_e<hypergraph>(n, dist);
   }
   else if (K == 4) {
-    const uint_t n2 = n*n;
-    for (uint_t a = 1; a < n; ++a) {
-      const uint_t a2 = a*a;
-      for (uint_t b = a+dist; b < n; ++b) {
-        const uint_t b2 = b*b;
-        for (uint_t c = b+dist; c < n; ++c) {
-          const uint_t c2 = c*c;
-          const uint_t d2 = a2 + b2 + c2;
-          if (d2 > n2) break;
-          const uint_t d = std::sqrt(d2);
-          if (d*d != d2) continue;
-          if (d < c+dist) continue;
-          if (m == 0) {
-            max = std::max(max,d);
-            ++hn;
-          }
-          else res.push_back({{a,b,c,d}});
-        }
-      }
-    }
+    if (m == 0) Pythagorean::quadruples_c(n, dist, max, hn);
+    else res = Pythagorean::quadruples_e<hypergraph>(n, dist);
   }
   else if (K == 5) {
     const uint_t n2 = n*n;
