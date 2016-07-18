@@ -519,16 +519,12 @@ namespace Pythagorean {
     for (C1 a = 1; a < n; ++a) {
       const C1 a2 = a*a;
       for (C1 b = a+dist; b < n; ++b) {
-        const C1 b2 = b*b;
+        const C1 b2 = a2+b*b;
         for (C1 c = b+dist; c < n; ++c) {
-          const C1 c2 = c*c;
-          const C1 d2 = a2 + b2 + c2;
+          const C1 d2 = b2 + c*c;
           if (d2 > n2) break;
           const C1 d = std::sqrt(d2);
-          if (d*d != d2) continue;
-          if (d < c+dist) continue;
-          max = std::max(max,d);
-          ++hn;
+          if (d*d == d2 and d >= c+dist) {max = std::max(max,d); ++hn;}
         }
       }
     }
@@ -542,15 +538,12 @@ namespace Pythagorean {
     for (C1 a = 1; a < n; ++a) {
       const C1 a2 = a*a;
       for (C1 b = a+dist; b < n; ++b) {
-        const C1 b2 = b*b;
+        const C1 b2 = a2+b*b;
         for (C1 c = b+dist; c < n; ++c) {
-          const C1 c2 = c*c;
-          const C1 d2 = a2 + b2 + c2;
+          const C1 d2 = b2 + c*c;
           if (d2 > n2) break;
           const C1 d = std::sqrt(d2);
-          if (d*d != d2) continue;
-          if (d < c+dist) continue;
-          res.push_back({{a,b,c,d}});
+          if (d*d == d2 and d >= c+dist) res.push_back({{a,b,c,d}});
         }
       }
     }
@@ -903,7 +896,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.9.2";
+  const std::string version = "0.9.3";
 
   const std::string file_prefix = "Pyth_";
 
@@ -1237,17 +1230,15 @@ int main(const int argc, const char* const argv[]) {
   cnum_t hn = 0;
   uint_t max = 0;
 
-  if (K == 3) {
+  if (K == 3)
     if (m == 0)
       if (dist == 0) Pythagorean::triples_c(n, max, hn);
       else Pythagorean::triples_c(n, dist, max, hn);
     else
       res = Pythagorean::triples_e<hypergraph>(n, dist);
-  }
-  else if (K == 4) {
+  else if (K == 4)
     if (m == 0) Pythagorean::quadruples_c(n, dist, max, hn);
     else res = Pythagorean::quadruples_e<hypergraph>(n, dist);
-  }
   else if (K == 5) {
     const uint_t n2 = n*n;
     for (uint_t a = 1; a < n; ++a) {
