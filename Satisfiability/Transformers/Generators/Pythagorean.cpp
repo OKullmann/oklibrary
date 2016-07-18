@@ -27,13 +27,13 @@ License, or any later version. */
   > ./Pythagorean n 3 0 2
   or
   > ./Pythagorean n 3 1 2
-  (doesn't matter here), which creates files "Pyth_n-3-0-2.cnf" resp.
-  "Pyth_n-3-1-2.cnf". This is without symmetry-breaking, but if it shall be
-  included, use
-  > ./Pythagorean n 3 0 2 sb=on
+  (doesn't matter here), which creates files "Pyth_n-3-0-2-SB.cnf" resp.
+  "Pyth_n-3-1-2-SB.cnf". This is with symmetry-breaking, but if it shall be
+  excluded, use
+  > ./Pythagorean n 3 0 2 sb=off
   or
-  > ./Pythagorean n 3 1 2 sb=on
-  , creating files "Pyth_n-3-0-2-SB.cnf" resp. "Pyth_n-3-1-2-SB.cnf"
+  > ./Pythagorean n 3 1 2 sb=off
+  , creating files "Pyth_n-3-0-2.cnf" resp. "Pyth_n-3-1-2.cnf"
 
   (Note that ">" denotes the command-line prompt, and that the command is
   issued in the same directory where the executable "Pythagorean" has been
@@ -43,10 +43,10 @@ License, or any later version. */
   > ./Pythagorean n 4 0 2
   while the injective form (all components different) is obtained by
   > ./Pythagorean n 4 1 2
-  creating files Pyth_n-4-0-2.cnf resp. Pyth_n-4-1-2.cnf.
-  To activate symmetry-breaking, use e.g.
-  > ./Pythagorean n 4 0 2 sb=on
-  creating file Pyth_n-4-0-2-SB.cnf
+  creating files Pyth_n-4-0-2-SB.cnf resp. Pyth_n-4-1-2-SB.cnf.
+  To deactivate symmetry-breaking, use e.g.
+  > ./Pythagorean n 4 0 2 sb=off
+  creating file Pyth_n-4-0-2.cnf
 
   The second parameter is K >= 3, the length of the Pythagorean tuple.
 
@@ -57,7 +57,11 @@ License, or any later version. */
 
   that is, x_i + d <= x_{i+1} for 1 <= i <= K-1.
 
-  The fourth parameter m >= 0 is the number of colours, with
+  An optional fourth parameter is "format=SD" (the default) resp.
+  "format=D" (for "strict DIMACS" versus "DIMACS"): in the former case,
+  variables are renamed, so that they start with 1, without gaps.
+
+  The fourth/fifth parameter m >= 0 is the number of colours, with
    - m = 0: only output the max-occurring vertex, the number hn of hyperedges,
      and hn / (n^(K-2) * log(n)) (the factor in the estimation).
    - m = 1: output the hypergraph
@@ -72,23 +76,22 @@ License, or any later version. */
   instead, then this restrictions goes away, but then 8 bytes are used
   "per vertex".
 
-  In case of m >= 3, the fifth parameter specifies the translation to a
+  In case of m >= 3, the fifth/sixth parameter specifies the translation to a
   boolean clause-set; currently we have the following possibilities:
    - "S" the strong direct translation (with ALOAMO-clauses)
    - "W" the weak direct translation (only with ALO-clauses)
    - "N" the (weak) nested translation (no AMO-clauses)
    - "NS" the strong nested translation (with AMO-clauses)
 
-  An optional fifth/sixth parameter can be "sb=on", which activates
-  symmetry-breaking (while "sb=..." with "..." anything else than "on"
-  just stays with the default, without symmetry-breaking).
+  An optional fifth/sixth/seventh parameter can be "sb=off", which deactivates
+  symmetry-breaking, while "sb=on" is the default.
 
   A further optional parameter can be "-", in which case output is put to
   standard output, or "filename", in which case a file is created.
   Default output is to file "Pyth_n-K-d-m.cnf" for 1 <= m <= 2 resp.
   "Pyth_n-K-d-m-T.cnf" for m >= 3, where T is the acronym for the
   translation-type, in both cases without symmetry-breaking, while with
-  we get "Pyth_n-K-d-m-SB.cnf" resp. "Pyth_n-K-d-m-T-SB.cnf"
+  we get "Pyth_n-K-d-m-SB.cnf" resp. "Pyth_n-K-d-m-T-SB.cnf".
 
   Subsumption-elimination is first applied, and then for m >= 2 elimination
   of hyperedges containing a vertex occurring at most m-1 times (repeatedly),
@@ -136,20 +139,9 @@ License, or any later version. */
 
   FURTHER WORK:
 
-  TODO: implement "strict" DIMACS output, i.e., all clauses on its own
-        line, and removing gaps in variable-numbers; optionally in the
-        comments the "dictionary". Options "D" (DIMACS as is), "SD"
-        (strict DIMACS), "SDD" (plus dictionary). Needs to become another
-        optional parameter "format=..", before the file-name.
-
-        Perhaps this becomes now too much, and named parameters are needed.
-        "n=", "K=", "d=", "m=", "trans=", "file=", "format=" ?
-        So well, seems alright with the current mix.
-
-        When renumbering, then one could also sort the vertices according to
-        degree, descending; option "SDDS" (plus sorting). But perhaps better
-        NOT -- that would garble too much, and if done, should be up to
-        the SAT solver.
+  TODO: implement "super-strict" DIMACS output, with all clauses on their own
+        line.
+  TODO: add argument checks, so that no exceptions get thrown.
   TODO: prove that subsumption does not happen for K=4.
   TODO: implement arbitrary K.
   TODO: implement multi-threaded computation.
@@ -306,6 +298,7 @@ float(B);
      for N-SB, D=20, around 26 min, and for NS-SB around 36 min).
    - Ptn_i(5,5,5) > 410 W [421,895; =; 1,266,095]
      vw1 with "3663 1 0 134367 3310408999" (cutoff = 400000).
+     420 W [453328; =; 1360404] hard to satisfy (cutoff 400000, runs 10000).
    - Ptn(6,6) = 23 [311; 267; 534] (known)
    - Ptn_i(6,6) = 61 [6,770; =; 13,540]
    - Ptn(6,6,6) = 121; 120 [154,860; 151,105; 453,795] found satisfiable with
@@ -678,7 +671,6 @@ namespace Translation {
   inline C2 num_cl(const C1 occ_n, const C1 m, const C2 hn, const Type t, const bool sb) noexcept {
     assert(m >= 2);
     assert(t != Type::failure);
-    assert(not sb or t != Type::none);
     const C2 m2 = m;
     const C2 sbc = (not sb) ? 0 :
       ((is_nested(t)) ? m2-1 : (m2*(m2-1))/2);
@@ -727,24 +719,25 @@ namespace Translation {
     }
   }
 
-  template <class Hyp, typename C1, typename C2, class Deg>
+  template <class Hyp, typename C1, typename C2, class Deg, class T>
   void output_colouring_problem(std::ostream* const out, const Hyp& G, const C1 m,
       const C2 max, const C2 c, const Deg deg, const C1 md_v,
-      const Type t, const bool sb) {
+      const Type t, const bool sb, const T& re) {
     assert(m >= 1);
+    bool r = not re.empty();
     pline_output(out, max, c, m);
     if (m == 1) {
       assert(not sb);
       for (const auto& H : G) {
-        for (const auto v : H) *out << v << " ";
+        for (const auto v : H) *out << ((r)?re[v]:v) << " ";
         *out << "0\n";
       }
     }
     else if (m == 2) {
-      if (sb) *out << md_v << " 0\n";
+      if (sb) *out << ((r)?re[md_v]:md_v) << " 0\n";
       for (const auto& H : G) {
-        for (const auto v : H) *out << v << " "; *out << "0 ";
-        for (const auto v : H) *out << "-" << v << " "; *out << "0\n";
+        for (const auto v : H) *out << ((r)?re[v]:v) << " "; *out << "0 ";
+        for (const auto v : H) *out << "-" << ((r)?re[v]:v) << " "; *out << "0\n";
       }
     }
     else {
@@ -752,8 +745,8 @@ namespace Translation {
         // First handling of the max-vertex:
         if (is_direct(t))
           for (C1 col = 1; col < m; ++col)
-            *out << var_d<C2>(md_v,m,col) << ((col==m-1) ? std::string(" 0") : std::string(" 0 "));
-        else *out << var_n<C2,C1>(md_v,m,0) << " 0";
+            *out << var_d<C2>((r)?re[md_v]:md_v,m,col) << ((col==m-1) ? std::string(" 0") : std::string(" 0 "));
+        else *out << var_n<C2,C1>((r)?re[md_v]:md_v,m,0) << " 0";
         // Find the other m-2 vertices of highest degree and put into "store":
         std::vector<C1> store; store.reserve(m-2);
         {std::set<C1> avoid; avoid.insert(md_v);
@@ -768,7 +761,7 @@ namespace Translation {
             }
           }
           avoid.insert(max_v);
-          store.push_back(max_v);
+          store.push_back((r)?re[max_v]:max_v);
         }}
         // Finally handling of the other vertices:
         if (is_direct(t)) {
@@ -794,7 +787,7 @@ namespace Translation {
       if (is_direct(t))
         for (const auto& H : G) {
           for (C1 col = 0; col < m; ++col) {
-            for (const auto v : H) *out << var_d<C2>(v,m,col) << " ";
+            for (const auto v : H) *out << var_d<C2>((r)?re[v]:v,m,col) << " ";
             *out << "0"; if (col != m-1) *out << " ";
           }
           *out << "\n";
@@ -802,7 +795,7 @@ namespace Translation {
       else {
          for (const auto& H : G) {
           for (C1 col = 0; col < m; ++col) {
-            for (const auto v : H) {lits_n<C2>(v,m,col,out); *out << " ";}
+            for (const auto v : H) {lits_n<C2>((r)?re[v]:v,m,col,out); *out << " ";}
             *out << "0"; if (col != m-1) *out << " ";
           }
           *out << "\n";
@@ -812,16 +805,17 @@ namespace Translation {
       if (is_direct(t)) {
         for (C1 i = 1; i < deg.size(); ++i)
           if (deg[i] != 0) {
+            const auto ir = (r)?re[i]:i;
             // ALO:
             for (C1 col = 0; col < m; ++col)
-              *out << "-" << var_d<C2>(i,m,col) << " ";
+              *out << "-" << var_d<C2>(ir,m,col) << " ";
             *out << "0";
             // AMO:
             if (t == Type::direct_strong)
               for (C1 col1 = 0; col1 < m; ++col1)
                 for (C1 col2 = col1+1; col2 < m; ++col2)
-                  *out << " " << var_d<C2>(i,m,col1) << " " <<
-                    var_d<C2>(i,m,col2) << " 0";
+                  *out << " " << var_d<C2>(ir,m,col1) << " " <<
+                    var_d<C2>(ir,m,col2) << " 0";
             *out << "\n";
           }
       }
@@ -829,10 +823,11 @@ namespace Translation {
         // AMO:
         for (C1 i = 1; i < deg.size(); ++i)
           if (deg[i] != 0) {
+            const auto ir = (r)?re[i]:i;
             for (C1 col1 = 0; col1 < m-2; ++col1)
               for (C1 col2 = col1+1; col2 < m-1; ++col2)
-                *out << "-" << var_n<C2>(i,m,col1) << " -" <<
-                  var_n<C2>(i,m,col2) <<
+                *out << "-" << var_n<C2>(ir,m,col1) << " -" <<
+                  var_n<C2>(ir,m,col2) <<
                   ((col1==m-3 and col2==m-2) ? std::string(" 0") : std::string(" 0 "));
             *out << "\n";
           }
@@ -854,14 +849,15 @@ namespace {
     not_yet = 4,
     file = 5,
     translation = 6,
-    symmetry = 7
+    symmetry = 7,
+    format = 8
   };
   int v(Error e) {return static_cast<int>(e);}
 
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.8.11";
+  const std::string version = "0.9.1";
 
   const std::string file_prefix = "Pyth_";
 
@@ -876,16 +872,47 @@ namespace {
     uint_t(std::sqrt(std::numeric_limits<uint_t>::max())) / K;
   }
 
+  enum class Format {
+    dimacs,
+    strict_dimacs,
+    failure
+  };
+
+  std::ostream& operator <<(std::ostream& out, const Format f) {
+    switch (f) {
+    case Format::dimacs : out << "DIMACS"; break;
+    case Format::strict_dimacs : out << "strict-DIMACS"; break;
+    case Format::failure : out << "FAILURE"; break;
+    }
+    return out;
+  }
+  Format get_format(const std::string& arg) noexcept {
+    if (arg == "D") return Format::dimacs;
+    else if (arg == "SD") return Format::strict_dimacs;
+    else return Format::failure;
+  }
+  std::string format_abbr(const Format f) noexcept {
+    assert(f != Format::failure);
+    if (f == Format::dimacs) return "D"; else return "SD";
+  }
+  std::string list_format_abbr() noexcept { return "\"D\" or \"SD\""; }
+  bool check_format_arg(const std::string& arg) noexcept {
+    return arg.find("format=") == 0;
+  }
+
   bool check_sb_arg(const std::string& arg) noexcept {
     return arg.find("sb=") == 0;
   }
-  // assuming check_sb_arg yields true:
+  bool test_sb_arg(const std::string& arg) noexcept {
+    return arg == "on" or arg == "off";
+  }
+  // assuming test_sb_arg yields true:
   bool symmetry_breaking(const std::string& arg) noexcept {
     return arg.find("on", 3) == 3;
   }
   std::string expand_sb_arg(const bool sb) {
-    if (sb) return "symmetry-breaking";
-    else return "no-symmetry-breaking";
+    if (sb) return "on";
+    else return "off";
   }
 
   std::string default_filename(const std::string& f, const uint_t n,
@@ -909,13 +936,14 @@ namespace {
 
   void header_output(std::ostream* const out, const uint_t n, const uint_t K,
       const uint_t dist, const uint_t m, const Translation::Type t,
-      const bool sb, const std::string& file) {
+      const bool sb, const std::string& file, const Format f) {
     assert(*out);
     assert(m >= 1);
     oklib_output(out);
-    *out << "c Parameters (expanded): " << n << " " << K << " " << dist <<
-      " " << m << " " << t << " " << expand_sb_arg(sb) << " \"" << file <<
-      "\"\n";
+    *out << "c Parameters (expanded):\nc   n=" << n << ", K=" << K <<
+      ", d=" << dist << ", format=" << f << ", m=" << m << ", translation="
+      << t << ", symmetry-breaking=" << expand_sb_arg(sb) << ", file=\""
+      << file << "\".\n";
     switch (m) {
     case 1 :
       *out << "c Hypergraph of Pythagorean " << K << "-tuples, up to n=" <<
@@ -971,24 +999,30 @@ namespace {
   void degree_output(std::ostream* const out,
       const cnum_t occ_n, const cnum_t min_d, const cnum_t max_d,
       const uint_t min_v, const uint_t max_v, const cnum_t sum_d,
-      const uint_t m, const Translation::Type t) {
+      const uint_t m, const Translation::Type t,
+      const std::vector<uint_t>& re) {
     assert(*out);
     assert(m >= 1);
+    const bool r = not re.empty();
     if (m == 1) {
       *out << "c Number of occurring vertices = " << occ_n << ".\n";
-      *out << "c Minimum degree = " << min_d << ", attained for vertex " <<
-      min_v << ".\n";
-      *out << "c Maximum degree = " << max_d << ", attained for vertex " <<
-      max_v << ".\n";
-      *out << "c Average degree = " << double(sum_d) / occ_n << ".\n";
+      *out << "c Minimum degree = " << min_d << ", attained for vertex "
+        << min_v;
+      if (r) *out << " (-> " << re[min_v] << ")";
+      *out << ".\nc Maximum degree = " << max_d << ", attained for vertex " <<
+      max_v;
+      if (r) *out << " (-> " << re[max_v] << ")";
+      *out << ".\nc Average degree = " << double(sum_d) / occ_n << ".\n";
     }
     else if (m == 2) {
       *out << "c Number of occurring variables = " << occ_n << ".\n";
       *out << "c Minimum degree = " << 2*min_d << ", attained for variable " <<
-        min_v << ".\n";
-      *out << "c Maximum degree = " << 2*max_d << ", attained for variable " <<
-        max_v << ".\n";
-      *out << "c Average degree = " << 2*double(sum_d) / occ_n << ".\n";
+        min_v;
+      if (r) *out << " (-> " << re[min_v] << ")";
+      *out << ".\nc Maximum degree = " << 2*max_d << ", attained for variable "
+        << max_v;
+      if (r) *out << " (-> " << re[max_v] << ")";
+      *out << ".\nc Average degree = " << 2*double(sum_d) / occ_n << ".\n";
     }
     else {
       using namespace Translation;
@@ -999,13 +1033,13 @@ namespace {
         *out << "c Degrees (only considering the core clauses):\n";
         *out << "c   Minimum = " << min_d << ", attained for vertex " << min_v <<
           " (variables";
-        for (uint_t col = 0; col < m; ++col) *out << " " <<
-          var_d<cnum_t>(min_v,m,col);
+        for (uint_t col=0; col<m; ++col)
+          *out << " " << var_d<cnum_t>((r)?re[min_v]:min_v,m,col);
         *out << ").\n";
         *out << "c   Maximum = " << max_d << ", attained for vertex " << max_v <<
           " (variables";
-        for (uint_t col = 0; col < m; ++col) *out << " " <<
-          var_d<cnum_t>(max_v,m,col);
+        for (uint_t col=0; col<m; ++col)
+          *out << " " << var_d<cnum_t>((r)?re[max_v]:max_v,m,col);
         *out << ").\n";
         *out << "c   Average degree = " << double(sum_d) / occ_n << ".\n";
       }
@@ -1014,10 +1048,10 @@ namespace {
           << " = " << (m2-1)*occ_n << ".\n";
         *out << "c Degrees (only considering the core clauses):\n";
         *out << "c   Minimum = " << min_d << ", attained for vertex " << min_v <<
-          " (variable " << var_n<cnum_t>(min_v,m,m-2) << ", degree " <<
+          " (variable " << var_n<cnum_t>((r)?re[min_v]:min_v,m,m-2) << ", degree " <<
             2*min_d << ").\n";
          *out << "c   Maximum = " << max_d << ", attained for vertex " << max_v <<
-          " (variable " << var_n<cnum_t,uint_t>(max_v, m, 0) << ", degree " <<
+          " (variable " << var_n<cnum_t,uint_t>((r)?re[max_v]:max_v, m, 0) << ", degree " <<
             m2*max_d << ").\n";
       }
     }
@@ -1026,16 +1060,17 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  const int argc_min = 5, argc_max = 8;
+  const int argc_min = 5, argc_max = 9;
   const uint_t K_max = 7;
   if (argc < argc_min or argc > argc_max) {
     std::cerr << err << argc_min-1 << " to " << argc_max-1 << " arguments are needed:\n"
      " - The number n >= 0 of elements.\n"
      " - The size K >= 3 of the tuple.\n"
      " - The enforced distance d >= 0 between components.\n"
+     " - Optional: \"format=D\" or \"format=SD\" (the default).\n"
      " - The number m >= 0 of colours.\n"
      " - The translation type in case of m >= 3.\n"
-     " - Optional symmetry-breaking: \"sb=on\" or \"sb=off\" (the default).\n"
+     " - Optional: symmetry-breaking \"sb=on\" (the default) or \"sb=off\".\n"
      " - Optional: The filename or \"-\" for standard output.\n";
     return v(Error::parameter);
   }
@@ -1044,7 +1079,7 @@ int main(const int argc, const char* const argv[]) {
 
   const uint_t K = std::stoul(argv[2]);
   if (K < 3) {
-    std::cerr << err << "Second input " << K << " must be at least 3.\n";
+    std::cerr << err << "Second input \"" << K << "\" must be at least 3.\n";
     return v(Error::too_small);
   }
   if ( K > K_max) {
@@ -1054,10 +1089,29 @@ int main(const int argc, const char* const argv[]) {
 
   const uint_t dist = std::stoul(argv[3]);
 
-  const uint_t m = std::stoul(argv[4]);
+  const bool with_format_argument = check_format_arg(argv[4]);
+  const Format format = (with_format_argument) ?
+    get_format(std::string(argv[4]).substr(7)) : Format::strict_dimacs;
+  if (format == Format::failure) {
+    std::cerr << err << "Fourth input \"" << argv[4] << "\" must use a valid "
+      "format acronym (" << list_format_abbr() << ").\n";
+    return v(Error::format);
+  }
+  if (with_format_argument and argc == argc_min) {
+    std::cerr << err << "The number of colours is missing.\n";
+    return v(Error::parameter);
+  }
+  const int next_position = (with_format_argument) ? 5 : 4;
 
-  if (m <= 2 and argc > argc_max-1) {
-    std::cerr << err << "In case of <= 2 colours only at most " << argc_max-2 << " arguments are allowed.\n";
+  const uint_t m = std::stoul(argv[next_position]);
+
+  const int new_argc_max = (with_format_argument) ?
+    ((m >= 3) ? argc_max : argc_max-1) :
+    ((m >= 3) ? argc_max-1 : argc_max-2);
+  const int new_argc_min = (with_format_argument) ? argc_min+1 : argc_min;
+  if (m <= 2 and argc > new_argc_max) {
+    std::cerr << err << "Only " << new_argc_max-1 << " arguments allowed "
+      "for <= 2 colours.\n";
     return v(Error::parameter);
   }
 
@@ -1073,35 +1127,46 @@ int main(const int argc, const char* const argv[]) {
   }
 
   if (m >= 3) {
-    if (argc == 5) {
+    if (argc == new_argc_min) {
       std::cerr << err << "In case of m >= 3 the translation type is required.\n";
       return v(Error::parameter);
     }
-    if (Translation::get_type(argv[5]) == Translation::Type::failure) {
-      std::cerr << err << "The fifth input \"" << argv[5] << "\" must be a "
+    if (Translation::get_type(argv[next_position+1]) == Translation::Type::failure) {
+      std::cerr << err << "The input \"" << argv[next_position+1] << "\" must be a "
         "valid acronym for the translation type (i.e., " <<
         Translation::list_abbr() << ").\n";
       return v(Error::translation);
     }
   }
   const Translation::Type translation = (m <= 2) ?
-    Translation::Type::none : Translation::get_type(argv[5]);
+    Translation::Type::none : Translation::get_type(argv[next_position+1]);
 
-  const int optional_position = (m >= 3) ? 6 : 5;
+  const int optional_position = (m >= 3) ? next_position+2 : next_position+1;
 
   const bool with_sb_argument = (argc == optional_position) ?
     false : check_sb_arg(argv[optional_position]);
-  if (with_sb_argument and m <= 1) {
-    std::cerr << err << "Symmetry breaking only with at least 2 colours.\n";
+  if (with_sb_argument and not test_sb_arg(std::string(argv[optional_position]).substr(3))) {
+    std::cerr << err << "Symmetry breaking: after \"sb=\" must come \"on\" "
+      "or \"off\".\n";
     return v(Error::symmetry);
   }
-  if (not with_sb_argument and argc == argc_max) {
-    std::cerr << err << "Without using the optional argument \"sb=...\", "
-      "only " << argc_max - 2 << " arguments are allowed.\n";
+  if (not with_sb_argument and argc == new_argc_max) {
+    std::cerr << err << "Too many arguments, when not using the optional argument \"sb=..\".\n";
     return v(Error::parameter);
   }
   const bool symm_break = (with_sb_argument) ?
-    symmetry_breaking(argv[optional_position]) : false;
+    symmetry_breaking(argv[optional_position]) : (m >= 2);
+  if (symm_break and m <= 1) {
+    std::cerr << err << "Symmetry breaking only with at least 2 colours.\n";
+    return v(Error::symmetry);
+  }
+
+  const int final_argc_max = (with_sb_argument) ? new_argc_max : new_argc_max-1;
+  if (argc > final_argc_max) {
+    std::cerr << err << "Too many arguments (namely " << argc-1 << "), while "
+      "only " << final_argc_max-1 << " are allowed here.\n";
+    return v(Error::parameter);
+  }
 
   const int file_position = (with_sb_argument) ?
     optional_position+1 : optional_position;
@@ -1244,7 +1309,7 @@ int main(const int argc, const char* const argv[]) {
       Pythagorean::estimating_tuples_factor(n,K,hn) << "\n";
     return 0;
   }
-  header_output(out, n, K, dist, m, translation, symm_break, file);
+  header_output(out, n, K, dist, m, translation, symm_break, file, format);
 
   const cnum_t orig_hn = res.size();
   if (orig_hn == 0) {
@@ -1295,21 +1360,30 @@ int main(const int argc, const char* const argv[]) {
 
   count_output(out, orig_hn-hn, counts, K);
 
+  std::vector<uint_t> renaming;
+  if (format == Format::strict_dimacs) {
+    renaming.resize(max+1);
+    uint_t index = 0;
+    for (uint_t v = 1; v <= max; ++v)
+      if (degree[v] != 0) renaming[v] = ++index;
+  }
+
   using namespace Translation;
+  if (format == Format::strict_dimacs) max = occ_n;
   if (m == 1) {
-    degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation);
-    output_colouring_problem(out, res, m, cnum_t(max), hn, degree, max_v, translation, symm_break);
+    degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation, renaming);
+    output_colouring_problem(out, res, m, cnum_t(max), hn, degree, max_v, translation, symm_break, renaming);
   }
   else if (m == 2) {// DIMACS output:
-    degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation);
+    degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation, renaming);
     const cnum_t cn = num_cl(max,m,hn,translation,symm_break);
-    output_colouring_problem(out, res, m, cnum_t(max), cn, degree, max_v, translation, symm_break);
+    output_colouring_problem(out, res, m, cnum_t(max), cn, degree, max_v, translation, symm_break, renaming);
  } else {
     assert(m >= 3);
     *out << "c Using translation " << translation << ".\n";
-    degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation);
+    degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation, renaming);
     const cnum_t vn = num_var<cnum_t>(max,m,translation);
     const cnum_t cn = num_cl(occ_n, m, hn, translation, symm_break);
-    output_colouring_problem(out, res, m, vn, cn, degree, max_v, translation, symm_break);
+    output_colouring_problem(out, res, m, vn, cn, degree, max_v, translation, symm_break, renaming);
   }
 }
