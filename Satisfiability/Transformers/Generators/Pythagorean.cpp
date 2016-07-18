@@ -910,7 +910,7 @@ namespace {
   bool symmetry_breaking(const std::string& arg) noexcept {
     return arg.find("on", 3) == 3;
   }
-  std::string expand_sb_arg(const bool sb) {
+  std::string expand_sb_arg(const bool sb) noexcept {
     if (sb) return "on";
     else return "off";
   }
@@ -1060,8 +1060,8 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  const int argc_min = 5, argc_max = 9;
-  const uint_t K_max = 7;
+  constexpr int argc_min = 5, argc_max = 9;
+  constexpr uint_t K_max = 7;
   if (argc < argc_min or argc > argc_max) {
     std::cerr << err << argc_min-1 << " to " << argc_max-1 << " arguments are needed:\n"
      " - The number n >= 0 of elements.\n"
