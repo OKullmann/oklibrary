@@ -141,7 +141,6 @@ License, or any later version. */
 
   TODO: implement "super-strict" DIMACS output, with all clauses on their own
         line.
-  TODO: add argument checks, so that no exceptions get thrown.
   TODO: prove that subsumption does not happen for K=4.
   TODO: implement arbitrary K.
   TODO: implement multi-threaded computation.
@@ -280,11 +279,14 @@ float(B);
    - Ptn(3,3,3) > 10^7 W [23,471,475; 18,484,286; 59,740,721], with
      12,863,589 occurring variables (g2wsat, second run with
      cutoff=600,000,000, "2 1 0 585040097 3669266690").
+     Strict-Dimacs helps a lot with Ubcsat, and SD-N (apparently best)
+     [23,471,475; 18,484,286; 55,452,858], 8,575,726 variables, seems to have
+     100% success rate with cutoff=600,000,000.
      It seems this lower bound is still far away from the truth. So this
      problem is excessively hard.
    - Ptn(4,4) = 105 [639; 638; 1276] (known)
    - Ptn_i(4,4) = 163 [545; 544; 1088]
-   - Ptn(4,4,4) > 1680 [158,627; =; 482,601]
+   - Ptn(4,4,4) > 1680 D-W [158,627; =; 482,601]
      (vw1 with "2 1 0 6540594 3535491316"); 1681 [158,837; =; 483,235] hard to
      satisfy; weak conjecture Ptn(4,4,4) = 1681.
      Seems to be a very hard problem, too hard for current methods.
@@ -337,6 +339,8 @@ float(B);
 #include <map>
 #include <cstdint>
 #include <set>
+#include <utility>
+#include <stdexcept>
 
 namespace {
 
@@ -443,7 +447,9 @@ namespace Factorisation {
 
 namespace Pythagorean {
 
-  constexpr auto factor3 = 0.1494; // yields an upper bound for n <= 2^32-2.
+  constexpr double factor3 = 0.1494; // yields an upper bound for n <= 2^32-2.
+  constexpr double pi = 2 * std::asin(1);
+  constexpr double factor3_theory = 1.0 / 2 / pi;
   template <typename C>
   constexpr double estimating_triples(const C n) noexcept {
     return factor3 * n * std::log(n);
@@ -886,19 +892,28 @@ namespace {
     file = 5,
     translation = 6,
     symmetry = 7,
-    format = 8
+    format = 8,
+    parse = 9
   };
   int v(Error e) {return static_cast<int>(e);}
 
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.9.4";
+  const std::string version = "0.9.5";
 
   const std::string file_prefix = "Pyth_";
 
   typedef std::vector<uint_t> tuple_t;
   typedef std::vector<tuple_t> hypergraph;
+
+  std::pair<bool, uint_t> read_uint(const std::string a) noexcept {
+    uint_t n = 0;
+    bool success = true;
+    try { n = std::stoul(a); }
+    catch(std::exception) { success = false; }
+    return {success, n};
+  }
 
   // Maximal value for n:
   constexpr uint_t max_n(const uint_t K, const uint_t dist, const uint_t m) noexcept {
@@ -1111,19 +1126,37 @@ int main(const int argc, const char* const argv[]) {
     return v(Error::parameter);
   }
 
-  const uint_t n = std::stoul(argv[1]);
+  const auto p1 = read_uint(argv[1]);
+  if (not p1.first) {
+     std::cerr << err << "First input \"" << argv[1] << "\" must be an unsigned "
+       "integer from 0 to " << std::numeric_limits<unsigned long>::max() << ".\n";
+     return v(Error::parse);
+  }
+  const uint_t n = p1.second;
 
-  const uint_t K = std::stoul(argv[2]);
+  const auto p2 = read_uint(argv[2]);
+  if (not p2.first) {
+     std::cerr << err << "Second input \"" << argv[2] << "\" must be an unsigned "
+       "integer from 0 to " << std::numeric_limits<unsigned long>::max() << ".\n";
+     return v(Error::parse);
+  }
+  const uint_t K = p2.second;
   if (K < 3) {
     std::cerr << err << "Second input \"" << K << "\" must be at least 3.\n";
     return v(Error::too_small);
   }
   if ( K > K_max) {
-    std::cerr << err << "Second input \"" << K << "\" currently must be at most " << K_max << ".\n";
+    std::cerr << err << "Second input \"" << K << "\" currently can be at most " << K_max << ".\n";
     return v(Error::not_yet);
   }
 
-  const uint_t dist = std::stoul(argv[3]);
+  const auto p3 = read_uint(argv[3]);
+  if (not p3.first) {
+     std::cerr << err << "Third input \"" << argv[3] << "\" must be an unsigned "
+       "integer from 0 to " << std::numeric_limits<unsigned long>::max() << ".\n";
+     return v(Error::parse);
+  }
+  const uint_t dist = p3.second;
 
   const bool with_format_argument = check_format_arg(argv[4]);
   const Format format = (with_format_argument) ?
@@ -1139,7 +1172,14 @@ int main(const int argc, const char* const argv[]) {
   }
   const int next_position = (with_format_argument) ? 5 : 4;
 
-  const uint_t m = std::stoul(argv[next_position]);
+  const auto pnext = read_uint(argv[next_position]);
+  if (not pnext.first) {
+     std::cerr << err << "The input at position " << next_position << " with "
+       "value \"" << argv[next_position] << "\" must be an unsigned "
+       "integer from 0 to " << std::numeric_limits<unsigned long>::max() << ".\n";
+     return v(Error::parse);
+  }
+  const uint_t m = pnext.second;
 
   const int new_argc_max = (with_format_argument) ?
     ((m >= 3) ? argc_max : argc_max-1) :
