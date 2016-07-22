@@ -270,47 +270,55 @@ float(B);
   the OKlibrary; except where stated "W", the strong direction translation is
   used for >= 3 colours, and symmetry-breaking is used iff stated ("SB"):
 
-   - Ptn(3,3) = 7825 [9,472; 7,336; 14,672]
+   - Ptn(3,3) = 7825 SB [9,472; 7,336; 14,673]
        http://cs.swan.ac.uk/~csoliver/papers.html#PYTHAGOREAN2016C
-     Finding a solution for 7824: strongest seems ddfw from ubcsat, which with
-     cutoff=4*10^6 in 100 runs finds 5 solutions, with cutoff=10^7 finds 11,
-     and with cutoff=10^8 finds 49.
-     For 7825, maxsat is all-except-of-one-clause.
-   - Ptn(3,3,3) > 10^7 W [23,471,475; 18,484,286; 59,740,721], with
-     12,863,589 occurring variables (g2wsat, second run with
-     cutoff=600,000,000, "2 1 0 585040097 3669266690").
-     Strict-Dimacs helps a lot with Ubcsat, and SD-N (apparently best)
-     [23,471,475; 18,484,286; 55,452,858], 8,575,726 variables, seems to have
-     100% success rate with cutoff=600,000,000.
+     Finding a solution for 7824 SB [9,465; 7,326; 14,653]: strongest seems
+     ddfw from ubcsat, with the following success-rate for the cutoff-values:
+     10^6 -> 2%, 5*10^6 -> 12%, 10^7 -> 21%, 10^8 -> 49%.
+     Without SB:
+     10^6 -> 0%, 5*10^6 -> 10%, 10^7 -> 15%, 10^8 -> 60%.
+     For 7825, maxsat is all-except-of-one-clause (with and without SB).
+   - Ptn(3,3,3) > 10^7 N [23,471,475; 18,484,286; 55,452,858], with
+     8,575,726 occurring variables: g2wsat, runs with cutoff=600,000,000
+     seems to have 100% success-rate.
      It seems this lower bound is still far away from the truth. So this
      problem is excessively hard.
-   - Ptn(4,4) = 105 [639; 638; 1276] (known)
-   - Ptn_i(4,4) = 163 [545; 544; 1088]
-   - Ptn(4,4,4) > 1680 D-W [158,627; =; 482,601]
-     (vw1 with "2 1 0 6540594 3535491316"); 1681 [158,837; =; 483,235] hard to
-     satisfy; weak conjecture Ptn(4,4,4) = 1681.
+   - Ptn(4,4) = 105 SB [639; 638; 1277] (known)
+   - Ptn_i(4,4) = 163 SB [545; 544; 1089]
+   - Ptn(4,4,4) > 1715
+     Best seems saps with S-SB.
+     1680: S-SB [158,627; =; 482,604], cutoff=10^7 has success rate 17%, and
+     5*10^7 has 28%.
+     1687: S-SB 10^7 -> 10%, 1710: S-SB 10^7 -> 1%.
+     1720: S-SB 10^7 -> 0%.
      Seems to be a very hard problem, too hard for current methods.
-   - Ptn(5,5) = 37 [404; 254; 508] (known)
-   - Ptn_i(5,5) = 75 [2,276; =; 4,552]
-   - Ptn(5,5,5) = 191 [46,633; 41,963; 126,653]
-     (vw1 for 190, found easily (W), indeed walksat-tabu with N might be best
-     (where, as often observed, symmetry-breaking, especially with UCP, has
-     a negative effect; perhaps reordering has also an influence here);
+   - Ptn(5,5) = 37 SB [404; 254; 509] (known)
+   - Ptn_i(5,5) = 75 SB [2,276; =; 4,553]
+   - Ptn(5,5,5) = 191 S-SB [46,633; 41,963; 126,656]
+     Satisfying for 190, cutoff=10^5, success-rate:
+     vw1 for S: 15%, S-SB: 5%;
+     vw1 for W: 14%, for W-SB: 8%;
+     walksat-tabu N: 8%, N-SB: 1%;
+     walksat-tabu NS: 47%, NS-SB: 36%.
      C&C via SplittingViaOKsolver, S-SB, with D=20 and minisat-2.2.0 for 191:
      total run-time around 15 min (while for D=30 around 54 min);
      for N-SB, D=20, around 26 min, and for NS-SB around 36 min).
-   - Ptn_i(5,5,5) > 410 W [421,895; =; 1,266,095]
-     vw1 with "3663 1 0 134367 3310408999" (cutoff = 400000).
-     420 W [453328; =; 1360404] hard to satisfy (cutoff 400000, runs 10000).
-   - Ptn(6,6) = 23 [311; 267; 534] (known)
-   - Ptn_i(6,6) = 61 [6,770; =; 13,540]
-   - Ptn(6,6,6) = 121; 120 [154,860; 151,105; 453,795] found satisfiable with
-     C&C and D=25 as above, while 121 [159,697; 155,857; 468,055] found
-     unsatisfiable with C&C and D=25 and solver="lingelingala-b02aa1a-121013",
-     1,867 min.
-   - Ptn(7,7) = 18 [306; 159; 318] (known)
-   - Ptn_i(7,7) = 65 [44,589; =; 89,178]
-   - Ptn(7,7,7) = 102 SB [789,310; 694,898; 2,085,104]; for 101 C&C with D=20
+   - Ptn_i(5,5,5) > 460
+     saps with S-SB seems best:
+     410 NS with g2wsat, cutoff=10^6: 18% success.
+     410 W with vw1, cutoff=10^6: 0% success.
+     410 S-SB with saps, cutoff=10^6: 31% success.
+   - Ptn(6,6) = 23 SB [311; 267; 535] (known)
+   - Ptn_i(6,6) = 61 SB [6,770; =; 13,541]
+   - Ptn(6,6,6) = 121;
+     120 S-SB [154,860; 151,105; 453,798] found satisfiable with saps:
+     cutoff=10^5 has success-rate 2%.
+     121 [159,697; 155,857; 468,058] found
+     unsatisfiable with C&C and D=20 and solver="lingelingala-b02aa1a-121013",
+     XXX min.
+   - Ptn(7,7) = 18 SB [306; 159; 319] (known)
+   - Ptn_i(7,7) = 65 SB [44,589; =; 89,179]
+   - Ptn(7,7,7) = 102 S-SB [789,310; 694,898; 2,085,104]; for 101 C&C with D=20
      and glucose-2.2, splitting into ~ 1500 instances, instance 151
      satisfiable; also D=20 for 102, same C&C, 4,390 min.
 
@@ -572,8 +580,8 @@ namespace Subsumption {
     assert(not t.empty());
     return t[0];
   }
-  // In general a random choice is better for algorithm min_elements, however
-  // here it is not worth the effort.
+  // In general a random choice is better for algorithm min_elements, and best
+  // should be a choice of minimum degree, however here it is not worth the effort.
 
   // Remove subsumed elements from vector v, where the elements of v are
   // ordered sequences of unsigned integral type C1, with maximal value max:
@@ -670,11 +678,13 @@ namespace Translation {
     else return Type::failure;
   }
   std::string type_abbr(const Type t) noexcept {
-    if (t==Type::direct_strong) return "S";
-    else if (t==Type::direct_weak) return "W";
-    else if (t==Type::nested) return "N";
-    else if (t==Type::nested_strong) return "NS";
-    else return "";
+    switch (t) {
+    case Type::direct_strong :  return "S";
+    case Type::direct_weak : return "W";
+    case Type::nested : return "N";
+    case Type::nested_strong : return "NS";
+    default : return "";
+    }
   }
   std::string list_abbr() noexcept { return "\"S\", \"W\", \"N\" or \"NS\""; }
   constexpr bool is_direct(const Type t) noexcept {
@@ -900,14 +910,14 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.9.5";
+  const std::string version = "0.9.6";
 
   const std::string file_prefix = "Pyth_";
 
   typedef std::vector<uint_t> tuple_t;
   typedef std::vector<tuple_t> hypergraph;
 
-  std::pair<bool, uint_t> read_uint(const std::string a) noexcept {
+  std::pair<bool, uint_t> read_uint(const std::string& a) noexcept {
     uint_t n = 0;
     bool success = true;
     try { n = std::stoul(a); }
@@ -1430,7 +1440,7 @@ int main(const int argc, const char* const argv[]) {
     degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation, renaming);
     output_colouring_problem(out, res, m, cnum_t(max), hn, degree, max_v, translation, symm_break, renaming);
   }
-  else if (m == 2) {// DIMACS output:
+  else if (m == 2) {
     degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation, renaming);
     const cnum_t cn = num_cl(max,m,hn,translation,symm_break);
     output_colouring_problem(out, res, m, cnum_t(max), cn, degree, max_v, translation, symm_break, renaming);
