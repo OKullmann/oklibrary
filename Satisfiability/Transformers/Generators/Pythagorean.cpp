@@ -95,7 +95,7 @@ License, or any later version. */
 
   Subsumption-elimination is first applied, and then for m >= 2 elimination
   of hyperedges containing a vertex occurring at most m-1 times (repeatedly),
-  referred to as "colour-reduction".
+  that is, the "m-core" of the hypergraph is computed.
 
   The output contains additional information for m >= 1:
    - Library and version information.
@@ -199,7 +199,7 @@ float(B);
         Dickson-method for K=4.
   TODO: Implement reductions triggered by the symmetry-breaking clauses.
         We have unit-clause propagation and subsumption. Possibly this enables
-        further colour-reduction (if correct?)?
+        further m-core-reductions (if correct?)?
 
 
   FURTHER DISCUSSIONS:
@@ -278,19 +278,20 @@ float(B);
      Without SB:
      10^6 -> 0%, 5*10^6 -> 10%, 10^7 -> 15%, 10^8 -> 60%.
      For 7825, maxsat is all-except-of-one-clause (with and without SB).
-   - Ptn(3,3,3) > 10^7 N [23,471,475; 18,484,286; 55,452,858], with
-     8,575,726 occurring variables: g2wsat, runs with cutoff=600,000,000
-     seems to have 100% success-rate.
+   - Ptn(3,3,3) > 1.2 * 10^7 N [28,513,855; 22,539,999; 67,619,997], with
+     10,342,796 occurring variables: g2wsat, runs with cutoff=1,500,000,000
+     success at run 3.
      It seems this lower bound is still far away from the truth. So this
      problem is excessively hard.
    - Ptn(4,4) = 105 SB [639; 638; 1277] (known)
    - Ptn_i(4,4) = 163 SB [545; 544; 1089]
-   - Ptn(4,4,4) > 1715
+   - Ptn(4,4,4) > 1723 (using cutoff=2*10^7).
      Best seems saps with S-SB.
      1680: S-SB [158,627; =; 482,604], cutoff=10^7 has success rate 17%, and
      5*10^7 has 28%.
      1687: S-SB 10^7 -> 10%, 1710: S-SB 10^7 -> 1%.
-     1720: S-SB 10^7 -> 0%.
+     1718: S-SB 2*10^7 -> 1%.
+     1719: S-SB 2*10^7 -> 1%, 200 runs.
      Seems to be a very hard problem, too hard for current methods.
    - Ptn(5,5) = 37 SB [404; 254; 509] (known)
    - Ptn_i(5,5) = 75 SB [2,276; =; 4,553]
@@ -303,11 +304,14 @@ float(B);
      C&C via SplittingViaOKsolver, S-SB, with D=20 and minisat-2.2.0 for 191:
      total run-time around 15 min (while for D=30 around 54 min);
      for N-SB, D=20, around 26 min, and for NS-SB around 36 min).
-   - Ptn_i(5,5,5) > 460
+   - Ptn_i(5,5,5) > 468
      saps with S-SB seems best:
      410 NS with g2wsat, cutoff=10^6: 18% success.
      410 W with vw1, cutoff=10^6: 0% success.
      410 S-SB with saps, cutoff=10^6: 31% success.
+     467: cutoff=10^6: 7% success.
+     469: cutoff=10^6: 300 runs, 0% success. 2*10^6, 200 runs: 0%.
+     470: cutoff=10^6, 0% success.
    - Ptn(6,6) = 23 SB [311; 267; 535] (known)
    - Ptn_i(6,6) = 61 SB [6,770; =; 13,541]
    - Ptn(6,6,6) = 121;
@@ -315,7 +319,7 @@ float(B);
      cutoff=10^5 has success-rate 2%.
      121 [159,697; 155,857; 468,058] found
      unsatisfiable with C&C and D=20 and solver="lingelingala-b02aa1a-121013",
-     XXX min.
+     370 min.
    - Ptn(7,7) = 18 SB [306; 159; 319] (known)
    - Ptn_i(7,7) = 65 SB [44,589; =; 89,179]
    - Ptn(7,7,7) = 102 S-SB [789,310; 694,898; 2,085,104]; for 101 C&C with D=20
@@ -624,7 +628,7 @@ namespace Reduction {
   // Iteratively removing all hyperedges containing some vertex occurring
   // at most m-1 time, computing the (final) vertex-degrees in deg:
   template <class V, class SV, typename C1>
-  void basic_colour_red(V& hyp, SV& deg, const C1 m) noexcept {
+  void core_red(V& hyp, SV& deg, const C1 m) noexcept {
     for (const auto& h : hyp) for (const auto v : h) ++deg[v];
     if (m <= 1) return;
     typedef val_t<V> tuple_t;
@@ -910,7 +914,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.9.6";
+  const std::string version = "0.9.7";
 
   const std::string file_prefix = "Pyth_";
 
@@ -1400,7 +1404,7 @@ int main(const int argc, const char* const argv[]) {
 
   typedef std::vector<cnum_t> stat_vec_t;
   stat_vec_t degree(after_subs_max+1, 0);
-  Reduction::basic_colour_red(res, degree, m);
+  Reduction::core_red(res, degree, m);
 
   hn = res.size();
   hn_output(out, orig_hn, after_subs_hn, hn, m, K, dist);
