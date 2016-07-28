@@ -101,7 +101,7 @@ License, or any later version. */
    - Library and version information.
    - Information on parameters.
    - Information on number of hyperedges.
-   - Information on vertex-degrees (m=1) resp. variable-degrees (m >= 2).
+   - Information on vertex-degrees (m >= 1) and variable-degrees (m >= 2).
      The variable-degrees ignore additional clauses by symmetry-breaking or
      the non-boolean translation.
 
@@ -285,13 +285,14 @@ float(B);
      problem is excessively hard.
    - Ptn(4,4) = 105 SB [639; 638; 1277] (known)
    - Ptn_i(4,4) = 163 SB [545; 544; 1089]
-   - Ptn(4,4,4) > 1723 (using cutoff=2*10^7).
+   - Ptn(4,4,4) > 1724 (using cutoff=2*10^7).
      Best seems saps with S-SB.
      1680: S-SB [158,627; =; 482,604], cutoff=10^7 has success rate 17%, and
      5*10^7 has 28%.
      1687: S-SB 10^7 -> 10%, 1710: S-SB 10^7 -> 1%.
      1718: S-SB 2*10^7 -> 1%.
      1719: S-SB 2*10^7 -> 1%, 200 runs.
+     1724: S-SB 2*10^7 -> 0.2%, 500 runs.
      Seems to be a very hard problem, too hard for current methods.
    - Ptn(5,5) = 37 SB [404; 254; 509] (known)
    - Ptn_i(5,5) = 75 SB [2,276; =; 4,553]
@@ -310,8 +311,9 @@ float(B);
      410 W with vw1, cutoff=10^6: 0% success.
      410 S-SB with saps, cutoff=10^6: 31% success.
      467: cutoff=10^6: 7% success.
-     469: cutoff=10^6: 300 runs, 0% success. 2*10^6, 200 runs: 0%.
-     470: cutoff=10^6, 0% success.
+     468: XXX
+     469: cutoff=10^6: 300 runs, 0% success. 2*10^6, 700 runs: 0%.
+     Conjecture: Ptn_i(5,5,5) = 469.
    - Ptn(6,6) = 23 SB [311; 267; 535] (known)
    - Ptn_i(6,6) = 61 SB [6,770; =; 13,541]
    - Ptn(6,6,6) = 121;
@@ -353,6 +355,7 @@ float(B);
 #include <set>
 #include <utility>
 #include <stdexcept>
+#include <iomanip>
 
 namespace {
 
@@ -914,7 +917,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.9.7";
+  const std::string version = "0.9.8";
 
   const std::string file_prefix = "Pyth_";
 
@@ -1041,24 +1044,41 @@ namespace {
           "subsumption:\nc   " << h0 << " " << h1 << "\n";
     else
       if (K <= 4 or dist >= 1)
-        *out << "c Number of hyperedges (tuples) originally and after"
-          " colour-reduction:\nc   " << h0 << " " << h2 << "\n";
+        *out << "c Number of hyperedges (tuples) originally and after " <<
+          m << "-core-reduction:\nc   " << h0 << " " << h2 << "\n";
       else
         *out << "c Number of hyperedges (tuples) originally, after "
-          "subsumption, and after further colour-reduction:\nc   " << h0 <<
-          " " << h1 << " " << h2 << "\n";
+          "subsumption, and after further " << m << "-core-reduction:\nc   "
+          << h0 << " " << h1 << " " << h2 << "\n";
   }
 
-  template <class Vec>
-  void count_output(std::ostream* const out, const cnum_t diff, const Vec& v, const uint_t K) {
+  uint_t num_decdigits(const uint_t x) {
+    return std::log10(x)+1;
+  }
+
+  template <class Vec, class Map>
+  void count_output(std::ostream* const out, const cnum_t diff, const Vec& v, const uint_t K, const Map& M, const cnum_t maxd) {
+    // v and M contain size/degree -> frequency, as a vector/map.
+    assert(K >= 3);
+    assert(not v.empty());
+    assert(not M.empty());
+    assert(maxd >= 1);
     assert(*out);
     *out << "c Removed " << diff << " hyperedges.\n";
-    if (K == 3) return;
-    *out << "c Hyperedge counts:\n";
-    for (siz_t<Vec> k=0; k < v.size(); ++k) {
-      const auto c = v[k];
-      if (c != 0) *out << "c   size " << k << ": " << c << "\n";
+    if (K != 3) {
+      const auto num_dig_length = num_decdigits(v.size());
+      *out << "c Hyperedge counts:\n";
+      for (siz_t<Vec> k=0; k < v.size(); ++k) {
+        const auto c = v[k];
+        if (c != 0) *out << "c   size " << std::setw(num_dig_length) <<
+          k << ": " << c << "\n";
+      }
     }
+    *out << "c Degree counts (for the hypergraph):\n";
+    const auto num_dig_degree = num_decdigits(maxd);
+    for (const auto& p : M)
+      if (p.first != 0) *out << "c  " << std::setw(num_dig_degree) <<
+        p.first << " : " << p.second << "\n";
   }
 
   void degree_output(std::ostream* const out,
@@ -1414,8 +1434,6 @@ int main(const int argc, const char* const argv[]) {
   }
   max = res.back().back();
 
-  stat_vec_t counts(K+1,0);
-  for (const auto& x : res) ++counts[x.size()];
   uint_t occ_n = 0, min_v = 0, max_v = 0;
   cnum_t min_d = -1, max_d = 0, sum_d = 0;
   for (stat_vec_t::size_type i = 1; i < degree.size(); ++i) {
@@ -1428,7 +1446,11 @@ int main(const int argc, const char* const argv[]) {
   }
   assert(occ_n >= 1);
 
-  count_output(out, orig_hn-hn, counts, K);
+  {stat_vec_t h_counts(K+1,0);
+   for (const auto& h : res) ++h_counts[h.size()];
+   std::map<cnum_t, cnum_t> v_counts;
+   for (uint_t v = 1; v <= max; ++v) ++v_counts[degree[v]];
+   count_output(out, orig_hn-hn, h_counts, K, v_counts, max_d);}
 
   std::vector<uint_t> renaming;
   if (format == Format::strict_dimacs) {
