@@ -112,7 +112,7 @@ License, or any later version. */
      <li> n=10^5: before 161436, after 135608, quotient 1.19.. </li>
      <li> n=10^6: before 1980642, after 1735281, quotient 1.14. </li>
      <li> n=10^7: before 23471475, after 21134845, quotient 1.11. </li>
-     <li> n=10^8: before XXX, after XXX, quotient XXX. </li>
+     <li> n=10^8: before 271360653, after 248990796, quotient 1.09. </li>
     </ol>
    </li>
    <li> It seems clear that the quotient is going down, asymptotically --
