@@ -60,6 +60,9 @@ License, or any later version. */
   An optional fourth parameter is "format=SD" (the default) resp.
   "format=D" (for "strict DIMACS" versus "DIMACS"): in the former case,
   variables are renamed, so that they start with 1, without gaps.
+  Furthermore, "format=R" is possible, which replaces the hypergraph
+  with a random hypergraph having the same hyperedge-sizes and vertex-degrees
+  (after subsumptiion-elimination, and for m >= 2 after core-reduction).
 
   The fourth/fifth parameter m >= 0 is the number of colours, with
    - m = 0: only output the max-occurring vertex, the number hn of hyperedges,
@@ -139,6 +142,10 @@ License, or any later version. */
 
   FURTHER WORK:
 
+  TODO: Implement output-"format" "R", which replaces the hypergraph with
+        a random hypergraph with the given hypergraph-edge-sizes and
+        -vertex-degrees. The seed should also be an input; perhaps here
+        "R0", "R177" etc.
   TODO: implement "super-strict" DIMACS output, with all clauses on their own
         line.
   TODO: prove that subsumption does not happen for K=4.
@@ -293,6 +300,7 @@ float(B);
      1718: S-SB 2*10^7 -> 1%.
      1719: S-SB 2*10^7 -> 1%, 200 runs.
      1724: S-SB 2*10^7 -> 0.2%, 500 runs.
+     1725: S-SB 2*10^7 -> 0%, 500 runs.
      Seems to be a very hard problem, too hard for current methods.
    - Ptn(5,5) = 37 SB [404; 254; 509] (known)
    - Ptn_i(5,5) = 75 SB [2,276; =; 4,553]
@@ -311,7 +319,7 @@ float(B);
      410 W with vw1, cutoff=10^6: 0% success.
      410 S-SB with saps, cutoff=10^6: 31% success.
      467: cutoff=10^6: 7% success.
-     468: XXX
+     468: cutoff=2*10^6: 500 runs, 8.4% success.
      469: cutoff=10^6: 300 runs, 0% success. 2*10^6, 700 runs: 0%.
      Conjecture: Ptn_i(5,5,5) = 469.
    - Ptn(6,6) = 23 SB [311; 267; 535] (known)
@@ -349,13 +357,14 @@ float(B);
 #include <cassert>
 #include <fstream>
 #include <forward_list>
-#include <ctime>
+#include <chrono>
 #include <map>
 #include <cstdint>
 #include <set>
 #include <utility>
 #include <stdexcept>
 #include <iomanip>
+#include <random>
 
 namespace {
 
@@ -506,7 +515,7 @@ namespace Pythagorean {
 
   // Generating triples:
   template <class V, typename C1>
-  V triples_e(const C1 n, const C1 dist) {
+  V triples_e(const C1 n, const C1 dist, C1& max) {
     V res; res.reserve(Pythagorean::estimating_triples(n));
     const C1 max_r = n/(1+std::sqrt(2));
     const auto T = Factorisation::table_factor(max_r);
@@ -522,7 +531,10 @@ namespace Pythagorean {
         const C1 t = rs / s;
         if (t >= n or t < s+dist) continue;
         const C1 c = r+s+t;
-        if (c <= n and s+dist <= t) res.push_back({{r+s,r+t,c}});
+        if (c <= n and s+dist <= t) {
+          res.push_back({{r+s,r+t,c}});
+          max = std::max(max,c);
+        }
       }
     }
     return res;
@@ -549,7 +561,7 @@ namespace Pythagorean {
 
   // Generating quadruples:
   template <class V, typename C1>
-  V quadruples_e(const C1 n, const C1 dist) {
+  V quadruples_e(const C1 n, const C1 dist, C1& max) {
     V res;
     const C1 n2 = n*n;
     for (C1 a = 1; a < n; ++a) {
@@ -561,7 +573,10 @@ namespace Pythagorean {
         for (C1 c = b+dist; c <= cbound; ++c) {
           const C1 d2 = b2 + c*c;
           const C1 d = std::sqrt(d2);
-          if (d*d == d2 and d >= c+dist) res.push_back({{a,b,c,d}});
+          if (d*d == d2 and d >= c+dist) {
+            res.push_back({{a,b,c,d}});
+            max = std::max(max,d);
+          }
         }
       }
     }
@@ -648,6 +663,29 @@ namespace Reduction {
         }
     } while (changed);
     Container::remove_empty_elements(hyp);
+  }
+
+}
+
+namespace Random {
+
+  template <class Hyp, class LDist, class DDist, typename vertex_t, class Gen, typename S>
+  void randomise(Hyp& hyp, const LDist& hc, const DDist& vc, const vertex_t max, Gen& rgen, const S seed) {
+    assert(not hyp.empty());
+    assert(not hc.empty());
+    assert(not vc.empty());
+    typedef val_t<LDist> count_t;
+    using gen_uint_t = S;
+    rgen.seed(seed);
+    typedef std::uniform_int_distribution<gen_uint_t> dist_t;
+    typedef std::map<vertex_t, count_t> deg_map;
+    typedef std::vector<deg_map> vec_deg_map;
+    vec_deg_map enh_deg(max+1);
+    for (const auto& h : hyp) {
+      const vertex_t size = h.size();
+      for (const auto v : h) ++enh_deg[v][size];
+    }
+    
   }
 
 }
@@ -917,9 +955,15 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.9.8";
+  const std::string version = "0.10.0";
 
   const std::string file_prefix = "Pyth_";
+
+  const auto timestamp = std::chrono::system_clock::now().time_since_epoch().count();
+  typedef decltype(timestamp) time_t;
+
+  std::mt19937_64 rgen;
+  typedef std::mt19937_64::result_type gen_uint_t;
 
   typedef std::vector<uint_t> tuple_t;
   typedef std::vector<tuple_t> hypergraph;
@@ -943,13 +987,23 @@ namespace {
   enum class Format {
     dimacs,
     strict_dimacs,
+    random,
+    random_ts,
     failure
   };
+  inline constexpr bool is_random(const Format f) noexcept {
+    return f == Format::random or f == Format::random_ts;
+  }
+  inline constexpr bool is_strict(const Format f) noexcept {
+    return f == Format::strict_dimacs or is_random(f);
+  }
 
   std::ostream& operator <<(std::ostream& out, const Format f) {
     switch (f) {
     case Format::dimacs : out << "DIMACS"; break;
     case Format::strict_dimacs : out << "strict-DIMACS"; break;
+    case Format::random : out << "Random"; break;
+    case Format::random_ts : out << "Random_timestamp"; break;
     case Format::failure : out << "FAILURE"; break;
     }
     return out;
@@ -957,15 +1011,29 @@ namespace {
   Format get_format(const std::string& arg) noexcept {
     if (arg == "D") return Format::dimacs;
     else if (arg == "SD") return Format::strict_dimacs;
-    else return Format::failure;
+    else if (arg == "RT") return Format::random_ts;
+    else if (arg.find("R") != 0) return Format::failure;
+    if (arg.size() != 1) {
+      try { std::stoull(arg.substr(1)); }
+      catch(std::exception) { return Format::failure; }
+    }
+    return Format::random;
   }
   std::string format_abbr(const Format f) noexcept {
     assert(f != Format::failure);
-    if (f == Format::dimacs) return "D"; else return "SD";
+    if (f == Format::dimacs) return "D";
+    else if (f == Format::strict_dimacs) return "SD";
+    else if (f == Format::random) return "R";
+    else return "RT";
   }
-  std::string list_format_abbr() noexcept { return "\"D\" or \"SD\""; }
+  std::string list_format_abbr() noexcept { return "\"D\", \"SD\", \"R\", or \"RT\""; }
   bool check_format_arg(const std::string& arg) noexcept {
     return arg.find("format=") == 0;
+  }
+  // Assume get_format(arg) == Format::random:
+  gen_uint_t extract_seed(const std::string& arg) {
+    if (arg.size() == 1) return 0;
+    else return std::stoull(arg.substr(1));
   }
 
   bool check_sb_arg(const std::string& arg) noexcept {
@@ -984,32 +1052,39 @@ namespace {
   }
 
   std::string default_filename(const std::string& f, const uint_t n,
-      const uint_t K, const uint_t dist, const uint_t m,
+      const uint_t K, const uint_t dist, const Format format, const uint_t m,
       const Translation::Type t, const bool sb) noexcept {
-    return f + std::to_string(n) + "-" + std::to_string(K) + "-" +
-      std::to_string(dist) + "-" + std::to_string(m) +
+    return f +
+      std::to_string(n) +
+      "-" + std::to_string(K) +
+      "-" + std::to_string(dist) +
+      ((format==Format::strict_dimacs) ? std::string() :
+              (std::string("-") + format_abbr(format))) +
+      "-" + std::to_string(m) +
       ((t==Translation::Type::none) ? std::string() :
-                           (std::string("-") + Translation::type_abbr(t))) +
+              (std::string("-") + Translation::type_abbr(t))) +
       ((sb) ? std::string("-SB") : std::string()) +
       + ".cnf";
   }
 
-  void oklib_output(std::ostream* const out) {
+  void oklib_output(std::ostream* const out, const time_t ts) {
     assert(*out);
     *out << "c OKlibrary http://github.com/OKullmann/oklibrary/blob/"
       "master/Satisfiability/Transformers/Generators/Pythagorean.cpp\n"
       "c   Program " << program << ".cpp in version " << version <<
-      ", timestamp " << std::time(nullptr) << ".\n";
+      ", timestamp " << ts << ".\n";
   }
 
   void header_output(std::ostream* const out, const uint_t n, const uint_t K,
       const uint_t dist, const uint_t m, const Translation::Type t,
-      const bool sb, const std::string& file, const Format f) {
+      const bool sb, const std::string& file, const Format f, const time_t ts, const gen_uint_t seed) {
     assert(*out);
     assert(m >= 1);
-    oklib_output(out);
+    oklib_output(out, ts);
     *out << "c Parameters (expanded):\nc   n=" << n << ", K=" << K <<
-      ", d=" << dist << ", format=" << f << ", m=" << m << ", translation="
+      ", d=" << dist << ", format=" << f;
+      if (is_random(f)) *out << ", seed=" << seed;
+      *out << ", m=" << m << ", translation="
       << t << ", symmetry-breaking=" << expand_sb_arg(sb) << ", file=\""
       << file << "\".\n";
     switch (m) {
@@ -1192,14 +1267,17 @@ int main(const int argc, const char* const argv[]) {
   }
   const uint_t dist = p3.second;
 
-  const bool with_format_argument = check_format_arg(argv[4]);
+  const std::string arg4 = argv[4];
+  const bool with_format_argument = check_format_arg(arg4);
   const Format format = (with_format_argument) ?
-    get_format(std::string(argv[4]).substr(7)) : Format::strict_dimacs;
+    get_format(arg4.substr(7)) : Format::strict_dimacs;
   if (format == Format::failure) {
-    std::cerr << err << "Fourth input \"" << argv[4] << "\" must use a valid "
+    std::cerr << err << "Fourth input \"" << arg4 << "\" must use a valid "
       "format acronym (" << list_format_abbr() << ").\n";
     return v(Error::format);
   }
+  const gen_uint_t seed = is_random(format) ?
+    ((format==Format::random) ? extract_seed(arg4.substr(7)) : timestamp) : 0;
   if (with_format_argument and argc == argc_min) {
     std::cerr << err << "The number of colours is missing.\n";
     return v(Error::parameter);
@@ -1281,7 +1359,7 @@ int main(const int argc, const char* const argv[]) {
   const int file_position = (with_sb_argument) ?
     optional_position+1 : optional_position;
   const std::string file = (argc == file_position) ?
-    default_filename(file_prefix, n, K, dist, m, translation, symm_break) :
+    default_filename(file_prefix, n, K, dist, format, m, translation, symm_break) :
     argv[file_position];
   const bool del = (file != "-");
   std::ostream* const out = (del) ? new std::ofstream(file) : &std::cout;
@@ -1306,10 +1384,10 @@ int main(const int argc, const char* const argv[]) {
       if (dist == 0) Pythagorean::triples_c(n, max, hn);
       else Pythagorean::triples_c(n, dist, max, hn);
     else
-      res = Pythagorean::triples_e<hypergraph>(n, dist);
+      res = Pythagorean::triples_e<hypergraph>(n, dist, max);
   else if (K == 4)
     if (m == 0) Pythagorean::quadruples_c(n, dist, max, hn);
-    else res = Pythagorean::quadruples_e<hypergraph>(n, dist);
+    else res = Pythagorean::quadruples_e<hypergraph>(n, dist, max);
   else if (K == 5) {
     const uint_t n2 = n*n;
     for (uint_t a = 1; a < n; ++a) {
@@ -1325,10 +1403,8 @@ int main(const int argc, const char* const argv[]) {
             const uint_t e = std::sqrt(e2);
             if (e*e != e2) continue;
             if (e < d+dist) continue;
-            if (m == 0) {
-              max = std::max(max,e);
-              ++hn;
-            }
+            max = std::max(max,e);
+            if (m == 0) ++hn;
             else res.push_back({{a,b,c,d,e}});
           }
         }
@@ -1352,10 +1428,8 @@ int main(const int argc, const char* const argv[]) {
               const uint_t f = std::sqrt(f2);
               if (f*f != f2) continue;
               if (f < e+dist) continue;
-              if (m == 0) {
-                max = std::max(max,f);
-                ++hn;
-              }
+              max = std::max(max,f);
+              if (m == 0) ++hn;
               else res.push_back({{a,b,c,d,e,f}});
             }
           }
@@ -1381,10 +1455,8 @@ int main(const int argc, const char* const argv[]) {
                 const uint_t g = std::sqrt(g2);
                 if (g*g != g2) continue;
                 if (g < f+dist) continue;
-                if (m == 0) {
-                  max = std::max(max,g);
-                  ++hn;
-                }
+                max = std::max(max,g);
+                if (m == 0) ++hn;
                 else res.push_back({{a,b,c,d,e,f,g}});
               }
             }
@@ -1399,7 +1471,7 @@ int main(const int argc, const char* const argv[]) {
       Pythagorean::estimating_tuples_factor(n,K,hn) << "\n";
     return 0;
   }
-  header_output(out, n, K, dist, m, translation, symm_break, file, format);
+  header_output(out, n, K, dist, m, translation, symm_break, file, format, timestamp, seed);
 
   const cnum_t orig_hn = res.size();
   if (orig_hn == 0) {
@@ -1410,20 +1482,12 @@ int main(const int argc, const char* const argv[]) {
   // removing duplicates:
   for (auto& x : res) x.erase(std::unique(x.begin(), x.end()), x.end());
 
-  if (K >= 5 and dist == 0) Subsumption::min_elements(res,n);
-
-  // anti-lexicographical sorting:
-  std::sort(res.begin(), res.end(),
-    [](const tuple_t& x, const tuple_t& y) {
-      return std::lexicographical_compare(x.rbegin(), x.rend(), y.rbegin(), y.rend());
-    }
-  );
+  if (K >= 5 and dist == 0) Subsumption::min_elements(res,max);
 
   const cnum_t after_subs_hn = res.size();
-  const cnum_t after_subs_max = res.back().back();
-
+  // Core-reduction and vertex-degrees:
   typedef std::vector<cnum_t> stat_vec_t;
-  stat_vec_t degree(after_subs_max+1, 0);
+  stat_vec_t degree(max+1, 0);
   Reduction::core_red(res, degree, m);
 
   hn = res.size();
@@ -1432,8 +1496,8 @@ int main(const int argc, const char* const argv[]) {
     Translation::pline_output(out, 0, 0, m);
     return 0;
   }
-  max = res.back().back();
 
+  // Extremal degrees:
   uint_t occ_n = 0, min_v = 0, max_v = 0;
   cnum_t min_d = -1, max_d = 0, sum_d = 0;
   for (stat_vec_t::size_type i = 1; i < degree.size(); ++i) {
@@ -1446,14 +1510,27 @@ int main(const int argc, const char* const argv[]) {
   }
   assert(occ_n >= 1);
 
+  // Counts of lengths and degrees:
   {stat_vec_t h_counts(K+1,0);
    for (const auto& h : res) ++h_counts[h.size()];
    std::map<cnum_t, cnum_t> v_counts;
    for (uint_t v = 1; v <= max; ++v) ++v_counts[degree[v]];
-   count_output(out, orig_hn-hn, h_counts, K, v_counts, max_d);}
+   count_output(out, orig_hn-hn, h_counts, K, v_counts, max_d);
+   if (format == Format::random)
+     Random::randomise(res, h_counts, v_counts, max, rgen, seed);
+  }
+
+  // anti-lexicographical sorting:
+  std::sort(res.begin(), res.end(),
+    [](const tuple_t& x, const tuple_t& y) {
+      return std::lexicographical_compare(x.rbegin(), x.rend(), y.rbegin(), y.rend());
+    }
+  );
+
+  max = res.back().back();
 
   std::vector<uint_t> renaming;
-  if (format == Format::strict_dimacs) {
+  if (is_strict(format)) {
     renaming.resize(max+1);
     uint_t index = 0;
     for (uint_t v = 1; v <= max; ++v)
@@ -1461,7 +1538,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   using namespace Translation;
-  if (format == Format::strict_dimacs) max = occ_n;
+  if (is_strict(format)) max = occ_n;
   if (m == 1) {
     degree_output(out, occ_n, min_d, max_d, min_v, max_v, sum_d, m, translation, renaming);
     output_colouring_problem(out, res, m, cnum_t(max), hn, degree, max_v, translation, symm_break, renaming);
