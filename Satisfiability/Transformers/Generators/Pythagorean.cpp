@@ -292,7 +292,7 @@ float(B);
      problem is excessively hard.
    - Ptn(4,4) = 105 SB [639; 638; 1277] (known)
    - Ptn_i(4,4) = 163 SB [545; 544; 1089]
-   - Ptn(4,4,4) > 1724 (using cutoff=2*10^7).
+   - Ptn(4,4,4) > 1724 SB [167,077; =; 508130]; n= 3 * 1724 = 5172.
      Best seems saps with S-SB.
      1680: S-SB [158,627; =; 482,604], cutoff=10^7 has success rate 17%, and
      5*10^7 has 28%.
@@ -669,23 +669,43 @@ namespace Reduction {
 
 namespace Random {
 
-  template <class Hyp, class LDist, class DDist, typename vertex_t, class Gen, typename S>
-  void randomise(Hyp& hyp, const LDist& hc, const DDist& vc, const vertex_t max, Gen& rgen, const S seed) {
+  template <class Hyp, class LDist, typename vertex_t, class Gen>
+  void randomise(Hyp& hyp, const LDist& hc, const vertex_t max, Gen& rgen) {
     assert(not hyp.empty());
     assert(not hc.empty());
-    assert(not vc.empty());
+    assert(max >= 1);
     typedef val_t<LDist> count_t;
-    using gen_uint_t = S;
-    rgen.seed(seed);
-    typedef std::uniform_int_distribution<gen_uint_t> dist_t;
-    typedef std::map<vertex_t, count_t> deg_map;
-    typedef std::vector<deg_map> vec_deg_map;
-    vec_deg_map enh_deg(max+1);
-    for (const auto& h : hyp) {
-      const vertex_t size = h.size();
-      for (const auto v : h) ++enh_deg[v][size];
+    std::vector<std::map<vertex_t, count_t>> enh_deg(max+1);
+    for (const auto& h : hyp)
+      for (const auto v : h) ++enh_deg[v][h.size()];
+    const auto K = hc.size()-1;
+    typedef std::pair<count_t,count_t> range_t;
+    std::vector<range_t> length_ranges(K+1);
+    {count_t next = 0;
+     for (vertex_t k = 0; k <= K; ++k)
+       if (hc[k] != 0) {
+         const auto new_next = next + hc[k];
+         length_ranges[k] = {next, new_next};
+         next = new_next;
+       }
+     assert(next == hyp.size());
     }
-    
+    for (auto& h : hyp) h.clear();
+    for (vertex_t v = 1; v <= max; ++v) {
+      const auto& deg_m = enh_deg[v];
+      for (const auto& deg_p : deg_m) {
+        const auto k = deg_p.first;
+        const auto count = deg_p.second;
+        auto& range = length_ranges[k];
+        const auto begin = range.first;
+        auto& end = range.second;
+        for (count_t i = 0; i < count; ++i) {
+          const auto r = std::uniform_int_distribution<typename Gen::result_type>(begin, end-1)(rgen);
+          hyp[r].push_back(v);
+          if (hyp[r].size() == k) std::swap(hyp[r], hyp[--end]);
+        }
+      }
+    }
   }
 
 }
@@ -955,7 +975,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.10.0";
+  const std::string version = "0.10.1";
 
   const std::string file_prefix = "Pyth_";
 
@@ -1276,12 +1296,14 @@ int main(const int argc, const char* const argv[]) {
       "format acronym (" << list_format_abbr() << ").\n";
     return v(Error::format);
   }
-  const gen_uint_t seed = is_random(format) ?
-    ((format==Format::random) ? extract_seed(arg4.substr(7)) : timestamp) : 0;
+  const gen_uint_t seed = (not is_random(format)) ? 0 :
+    ((format==Format::random) ? extract_seed(arg4.substr(7)) : (timestamp % std::numeric_limits<gen_uint_t>::max()));
   if (with_format_argument and argc == argc_min) {
     std::cerr << err << "The number of colours is missing.\n";
     return v(Error::parameter);
   }
+  rgen.seed(seed);
+
   const int next_position = (with_format_argument) ? 5 : 4;
 
   const auto pnext = read_uint(argv[next_position]);
@@ -1516,8 +1538,8 @@ int main(const int argc, const char* const argv[]) {
    std::map<cnum_t, cnum_t> v_counts;
    for (uint_t v = 1; v <= max; ++v) ++v_counts[degree[v]];
    count_output(out, orig_hn-hn, h_counts, K, v_counts, max_d);
-   if (format == Format::random)
-     Random::randomise(res, h_counts, v_counts, max, rgen, seed);
+   if (is_random(format))
+     Random::randomise(res, h_counts, max, rgen);
   }
 
   // anti-lexicographical sorting:
