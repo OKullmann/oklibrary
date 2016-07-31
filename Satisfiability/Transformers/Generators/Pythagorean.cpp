@@ -292,7 +292,7 @@ float(B);
      problem is excessively hard.
    - Ptn(4,4) = 105 SB [639; 638; 1277] (known)
    - Ptn_i(4,4) = 163 SB [545; 544; 1089]
-   - Ptn(4,4,4) > 1724 SB [167,077; =; 508130]; n= 3 * 1724 = 5172.
+   - Ptn(4,4,4) > 1724 SB [167,077; =; 508130]; n = 3 * 1724 = 5172.
      Best seems saps with S-SB.
      1680: S-SB [158,627; =; 482,604], cutoff=10^7 has success rate 17%, and
      5*10^7 has 28%.
@@ -669,6 +669,30 @@ namespace Reduction {
 
 namespace Random {
 
+  // Choose randomly k elements, strictly ascending, from the range
+  // begin to end:
+  template <typename UInt, class RGen>
+  std::vector<UInt> random_choice(const UInt begin, UInt end, const UInt k, RGen& rgen) {
+    assert(k <= end-begin);
+    std::vector<UInt> res;
+    res.reserve(k);
+    const auto vbegin = res.begin();
+    for (UInt i = 0; i < k; ++i) {
+      const auto vend = res.end();
+      auto r = std::uniform_int_distribution<typename RGen::result_type>(begin, end-1)(rgen);
+      auto prev = vbegin;
+      {auto it = std::upper_bound(prev, vend, r);
+       while (it != prev) {
+         r += it - prev;
+         prev = it;
+         it = std::upper_bound(prev, vend, r);
+      }}
+      res.insert(prev,r);
+      --end;
+    }
+    return res;
+  }
+
   template <class Hyp, class LDist, typename vertex_t, class Gen>
   void randomise(Hyp& hyp, const LDist& hc, const vertex_t max, Gen& rgen) {
     assert(not hyp.empty());
@@ -681,6 +705,7 @@ namespace Random {
     const auto K = hc.size()-1;
     typedef std::pair<count_t,count_t> range_t;
     std::vector<range_t> length_ranges(K+1);
+    Begin :
     {count_t next = 0;
      for (vertex_t k = 0; k <= K; ++k)
        if (hc[k] != 0) {
@@ -699,9 +724,11 @@ namespace Random {
         auto& range = length_ranges[k];
         const auto begin = range.first;
         auto& end = range.second;
-        for (count_t i = 0; i < count; ++i) {
-          const auto r = std::uniform_int_distribution<typename Gen::result_type>(begin, end-1)(rgen);
-          hyp[r].push_back(v);
+        if (count > end-begin) goto Begin;
+        const auto rvec = random_choice(begin, end, count, rgen);
+        for (const auto r : rvec) hyp[r].push_back(v);
+        for (auto it = rvec.crbegin(); it != rvec.crend(); ++it) {
+          const auto r = *it;
           if (hyp[r].size() == k) std::swap(hyp[r], hyp[--end]);
         }
       }
@@ -975,7 +1002,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.10.1";
+  const std::string version = "0.10.3";
 
   const std::string file_prefix = "Pyth_";
 
