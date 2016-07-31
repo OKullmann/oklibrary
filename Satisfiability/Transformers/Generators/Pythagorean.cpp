@@ -1002,7 +1002,7 @@ namespace {
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
 
-  const std::string version = "0.10.3";
+  const std::string version = "0.10.4";
 
   const std::string file_prefix = "Pyth_";
 
@@ -1100,13 +1100,14 @@ namespace {
 
   std::string default_filename(const std::string& f, const uint_t n,
       const uint_t K, const uint_t dist, const Format format, const uint_t m,
-      const Translation::Type t, const bool sb) noexcept {
+      const Translation::Type t, const bool sb, const gen_uint_t seed) noexcept {
     return f +
       std::to_string(n) +
       "-" + std::to_string(K) +
       "-" + std::to_string(dist) +
       ((format==Format::strict_dimacs) ? std::string() :
-              (std::string("-") + format_abbr(format))) +
+              (std::string("-") + format_abbr(format)) +
+              ((is_random(format)) ? std::to_string(seed) : std::string())) +
       "-" + std::to_string(m) +
       ((t==Translation::Type::none) ? std::string() :
               (std::string("-") + Translation::type_abbr(t))) +
@@ -1408,7 +1409,7 @@ int main(const int argc, const char* const argv[]) {
   const int file_position = (with_sb_argument) ?
     optional_position+1 : optional_position;
   const std::string file = (argc == file_position) ?
-    default_filename(file_prefix, n, K, dist, format, m, translation, symm_break) :
+    default_filename(file_prefix, n, K, dist, format, m, translation, symm_break, seed) :
     argv[file_position];
   const bool del = (file != "-");
   std::ostream* const out = (del) ? new std::ofstream(file) : &std::cout;
