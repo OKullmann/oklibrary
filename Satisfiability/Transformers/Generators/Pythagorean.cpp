@@ -285,9 +285,9 @@ float(B);
      Without SB:
      10^6 -> 0%, 5*10^6 -> 10%, 10^7 -> 15%, 10^8 -> 60%.
      For 7825, maxsat is all-except-of-one-clause (with and without SB).
-   - Ptn(3,3,3) > 1.2 * 10^7 N [28,513,855; 22,539,999; 67,619,997], with
-     10,342,796 occurring variables: g2wsat, runs with cutoff=1,500,000,000
-     success at run 3.
+   - Ptn(3,3,3) > 1.4 * 10^7 N [33,609,851; 26,652,251; 79,956,753], with
+     12,121,598 occurring variables: g2wsat, runs with cutoff=6*10^9
+     success at run 2 (seed 2950083789, steps 3917132950).
      It seems this lower bound is still far away from the truth. So this
      problem is excessively hard.
    - Ptn(4,4) = 105 SB [639; 638; 1277] (known)
@@ -299,8 +299,10 @@ float(B);
      1687: S-SB 10^7 -> 10%, 1710: S-SB 10^7 -> 1%.
      1718: S-SB 2*10^7 -> 1%.
      1719: S-SB 2*10^7 -> 1%, 200 runs.
-     1724: S-SB 2*10^7 -> 0.2%, 500 runs.
-     1725: S-SB 2*10^7 -> 0%, 500 runs.
+     1724: S-SB 2*10^7 -> 0.2%, 500 runs; 5*10^7 -> 0.3%, 1000 runs
+     1725: S-SB 2*10^7 -> 0%, 500 runs; 5*10^7 -> 0%, 1000 runs.
+       W-SB: 5*10^7 -> 0%, walksat-tabu, 20000 runs (min = 6).
+     Conjecture: Ptn(4,4,4) = 1725.
      Seems to be a very hard problem, too hard for current methods.
    - Ptn(5,5) = 37 SB [404; 254; 509] (known)
    - Ptn_i(5,5) = 75 SB [2,276; =; 4,553]
@@ -1560,7 +1562,7 @@ int main(const int argc, const char* const argv[]) {
   }
   assert(occ_n >= 1);
 
-  // Counts of lengths and degrees:
+  // Counts of lengths and degrees, and randomisation accordingly:
   {stat_vec_t h_counts(K+1,0);
    for (const auto& h : res) ++h_counts[h.size()];
    std::map<cnum_t, cnum_t> v_counts;
@@ -1587,6 +1589,7 @@ int main(const int argc, const char* const argv[]) {
       if (degree[v] != 0) renaming[v] = ++index;
   }
 
+  // Output:
   using namespace Translation;
   if (is_strict(format)) max = occ_n;
   if (m == 1) {
