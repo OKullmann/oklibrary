@@ -999,7 +999,7 @@ namespace {
     format = 8,
     parse = 9
   };
-  int v(Error e) {return static_cast<int>(e);}
+  constexpr int v(const Error e) noexcept {return static_cast<int>(e);}
 
   const std::string program = "Pythagorean";
   const std::string err = "ERROR[" + program + "]: ";
