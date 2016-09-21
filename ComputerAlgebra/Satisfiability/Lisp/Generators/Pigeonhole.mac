@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 26.8.2011 (Swansea) */
-/* Copyright 2011, 2012, 2013 Oliver Kullmann
+/* Copyright 2011, 2012, 2013, 2016 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,7 +23,8 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac")$
-
+oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/NonBooleanTranslations.mac")$
 
 
 /* ************************
@@ -34,6 +35,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitution
 /* TODO: The following needs to be updated, so that the list-forms
    are the basic forms, and the set-forms are derived. See todo
    "Update the php-functions" in the plans-file.
+   See also the non-boolean list form below for the order-issue.
+   Also the improved output-functions should be used.
 */
 
 /* Encoding all injective maps from {1,...,m} to {1,...,n}
@@ -65,6 +68,10 @@ pigeons_different_holes_cs(m,n) := setify(pigeons_different_holes_cl(m,n))$
 pigeons_in_holes_cl(m,n) :=
  create_list(setify(create_list(php_var(i,j), j,1,n)), i,1,m)$
 pigeons_in_holes_cs(m,n) := setify(pigeons_in_holes_cl(m,n))$
+
+/* In the following, "weak" refers to not using the AMO-constraints for the
+   pigeons.
+*/
 
 /* The weak pigeon formula as formal clause-set: */
 weak_php_fcs(m,n) := [var_php(m,n),
@@ -151,6 +158,11 @@ output_special_php_stdname(m,n) := output_special_php(m,n,
   sconcat("PHP_special_",m,"_",n,".cnf"))$
 
 
+/* Standardisation:
+   One can just use standardise_fcs (resp. standardise_fcl).
+   TODO: provide explicit standardisation (that is faster).
+*/
+
 /* Measures */
 
 nvar_php(m,n) := m * n$
@@ -170,6 +182,74 @@ deficiency_weak_php(m,n) := ncl_weak_php(m,n) - nvar_php(m,n)$
 
 /* The probability that a random assignment is satisfiable: */
 satprob_weak_php(m,n) := sum(binomial(n,i) * stirling2(i,m) * m! ,i,m,n) / 2^nvar_php(m,n)$
+
+
+/* *********************
+   * Non-boolean forms *
+   *********************
+*/
+
+/*
+   The non-boolean forms just states the AMO-constraint for the n holes via
+   binary clauses.
+   Expressing the ALO-constraint for the m pigeons, and possibly the
+   AMO-constraint for them is up to the translation (while the ALO-constraint
+   for the holes in case of m > n is an infererence-problem).
+
+   Variables are 1,...,m, values are 1,...,n. The order of the binary
+   clauses is anti-lexicographic, so that the list is monotonic in m.
+*/
+
+php_nbfclud(m,n) := [
+ create_list(i,i,1,m),
+ create_list({[i,e],[j,e]}, j,2,m, i,1,j-1, e,1,n),
+ create_list(i,i,1,n)
+]$
+
+/* The translations: */
+
+/* The direct (or standard) translations (using variables nbv(i,j), which
+   correspond to php(i,j)):
+*/
+php_alo_fcl(m,n) :=
+  nbfclud2fcl_alo(php_nbfclud(m,n))$
+php_aloamo_fcl(m,n) :=
+  nbfclud2fcl_aloamo(php_nbfclud(m,n))$
+
+/* We have
+  standardise_fcs(weak_php_fcs(m,n))[1] = fcl2fcs(standardise_fcl(php_alo_fcl(m,n))[1]))
+  standardise_fcs(strong_php_fcs(m,n))[1] = fcl2fcs(standardise_fcl(php_aloamo_fcl(m,n))[1]))
+
+TODO: Provide explicit standardisation.
+TODO: Provide output-functions.
+
+*/
+
+/* The nested translations:
+*/
+
+php_standnest_fcl(m,n) :=
+  nbfclud2fcl_standnest(php_nbfclud(m,n))$
+php_standnest_strong_fcl(m,n) :=
+  nbfclud2fcl_standnest_strong(php_nbfclud(m,n))$
+
+/*
+TODO: Provide explicit standardisation.
+TODO: Provide output-functions.
+*/
+
+/* The dual form, using positive non-boolean literals, with holes as variables
+   and pigeons as values, with the clauses stating that every pigeon i sits
+   in some hole (i.e., the mapping is surjective, while the standard form, from
+   pigeons to holes, states the injectivity of the mapping).
+*/
+dualphp_snbfclud(m,n) := [
+ create_list(j,j,1,n),
+ create_list(setify(create_list([j,i,+1],j,1,n)), i,1,m),
+ create_list(i,i,1,m)
+]$
+
+
 
 
 /* *********************************

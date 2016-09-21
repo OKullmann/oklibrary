@@ -1,5 +1,5 @@
 // Matthew Gwynne, 26.8.2011 (Swansea)
-/* Copyright 2011, 2012, 2013 Oliver Kullmann
+/* Copyright 2011, 2012, 2013, 2016 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,16 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Generators/plans/Pigeonhole.hpp
   \brief Plans for Maxima-generators of pigeonhole formulas
+
+
+  \todo Update the php-functions
+  <ul>
+   <li> All functions need to be based on the list-forms ("fcl" etc.), not
+   on the set-form (this is then derived). </li>
+   <li> At the same time, we should add tests for all these functions
+   (we don't have tests for weak_php_fcs etc). </li>
+   <li> See further comments in the file. </li>
+  </ul>
 
 
   \todo Standard variable ordering for extended-pigeon-hole formulas
@@ -73,15 +83,6 @@ ev(float(floor((sqrt(243*t^2-486*t+239)/(2*3^(3/2))+(3*t-3)/2)^(1/3)
      found. </li>
     </ol>
    </li>
-  </ul>
-
-
-  \todo Update the php-functions
-  <ul>
-   <li> All functions need to be based on the list-forms ("fcl" etc.), not
-   on the set-form (this is then derived). </li>
-   <li> At the same time, we should add tests for all these functions
-   (we don't have tests for weak_php_fcs etc). </li>
   </ul>
 
 
