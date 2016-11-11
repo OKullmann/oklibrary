@@ -299,8 +299,10 @@ float(B);
      1687: S-SB 10^7 -> 10%, 1710: S-SB 10^7 -> 1%.
      1718: S-SB 2*10^7 -> 1%.
      1719: S-SB 2*10^7 -> 1%, 200 runs.
-     1724: S-SB 2*10^7 -> 0.2%, 500 runs; 5*10^7 -> 0.3%, 1000 runs
-     1725: S-SB 2*10^7 -> 0%, 500 runs; 5*10^7 -> 0%, 1000 runs.
+     1724: S-SB 2*10^7 -> 0.2%, 500 runs; 5*10^7 -> 0.3%, 1000 runs;
+     10^8 -> 0.6%, 500 runs.
+     1725: S-SB 2*10^7 -> 0%, 500 runs; 5*10^7 -> 0%, 1000 runs,
+       10^8 -> 0%, 1000 runs.
        W-SB: 5*10^7 -> 0%, walksat-tabu, 20000 runs (min = 6).
      Conjecture: Ptn(4,4,4) = 1725.
      Seems to be a very hard problem, too hard for current methods.
