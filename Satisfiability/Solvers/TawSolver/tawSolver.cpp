@@ -20,6 +20,24 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 **********************************************************************/
 
 /*
+  An efficient implementation of the original DLL agorithm, using the
+  theory of look-ahead heuristics as developed in
+
+  Fundaments of Branching Heuristics, Handbook of Satisfiability, Chapter 7
+  http://cs.swan.ac.uk/~csoliver/papers.html#Handbook2009Fundaments
+  https://doi.org/10.3233/978-1-58603-929-5-205
+
+  The original DLL algorithm is from
+
+  A machine program for theorem-proving
+  https://doi.org/10.1145/368273.368557
+
+  The Wikipedia page
+  https://en.wikipedia.org/wiki/DPLL_algorithm
+  contains some historical inaccuracies (e.g., "DLL" is the only correct name
+  for this special algorithm), but is otherwise reasonable.
+
+
   COMPILE with
 
 > g++ --std=c++11 -Wall -Ofast -DNDEBUG -o tawSolver tawSolver.cpp
@@ -35,8 +53,16 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
   for debugging.
 
+  Using the macros below, many compilation-variations are possible; the main
+  alternative is to compute all solutions (represented by partial assignments),
+  which is obtained (similar to above) via
+
+> g++ --std=c++11 -Wall -Ofast -DNDEBUG -DALL_SOLUTIONS -o ctawSolver tawSolver.cpp
+
+
   Alternatively the makefile (called "makefile") in this
-  directory can be used: it contains various options, but with
+  directory (of the OKlibrary https://github.com/OKullmann/oklibrary )
+  can be used: it contains various options, but with
 
 > make all
 
@@ -70,8 +96,8 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
      file or standard input;
    - with argument2=filename or "-cout" or "-cerr" or "-nil" the solutions
      are output to file, standard output, standard error or are ignored;
-     if argument2 is not given, then the default is -cout if ALL_SOLUTIONS
-     is not set, while otherwise it is -nil;
+     if argument2 is not given, then the default is -cout, except for
+     ALL_SOLUTIONS is defined, where then the default is -nil;
    - with argument3=filename or "-cout" or "-cerr" or "-nil" the statistics
      are output to file, standard output, standard error or are ignored;
      if argument3 is not given, then the default is -cout.
@@ -103,8 +129,8 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
      If TAU_ITERATION, then TWEIGHT_2, TWEIGHT_4, TWEIGHT_5, TWEIGHT_6 and
      TWEIGHT_BASIS_OPEN are used.
    - ALL_SOLUTIONS: if defined (default is undefined), then all solutions are
-     computed and output as when they are found; incompatible with
-     PURE_LITERALS.
+     computed, and they are output as soon as when they are found;
+     incompatible with PURE_LITERALS.
    - COUNT_T: the count-type in case of ALL_SOLUTIONS; by default an unsigned
      integral type with at least 64 bits (so modular arithmetic is performed,
      namely modulo 2^count_bits);
@@ -134,6 +160,10 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
     - "A" for ALL_SOLUTIONS, with "F" in case of floating-point counting, and
       followed by the number of (decimal) digits.
 
+  If solutions-output is cout, then it comes after the statistics, except for
+  the case where ALL_SOLUTIONS is defined, where then naturally the solutions
+  come before the (final) statistics.
+
   A time-out is currently not provided by the solver, but can be achieved
   with the tool "timeout" (Linux/Unix), for example a time-out of 0.7s:
 
@@ -162,8 +192,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.7.3";
-const std::string date = "18.6.2016";
+const std::string version = "2.7.4";
+const std::string date = "11.11.2016";
 
 const std::string program = "tawSolver";
 
@@ -749,6 +779,11 @@ public :
 };
 ChangeManagement changes;
 
+/* Buffers for unit-clauses (to be processed), either
+    - first-in first-out (BFS), or
+    - last-in first-out (DFS).
+*/
+
 #ifndef UCP_STRATEGY
 # define UCP_STRATEGY 1
 #endif
@@ -1253,14 +1288,24 @@ void show_usage() {
     "> " << program << " (-cin | filename)\n"
     " runs the solver with input from standard input or filename.\n"
     "> " << program << " (-cin | filename) (-cout | -cerr | filename2 | -nil)\n"
-      " furthermore appends satisfying assignments to standard output or standard error or filename2, or ignores them\n (default is -cout).\n"
+      " furthermore appends satisfying assignments to standard output or standard error or filename2, or ignores them\n "
+#ifndef ALL_SOLUTIONS
+      "(default is -cout).\n"
+#else
+      "(default is -nil).\n"
+#endif
     "The same redirection can be done with the statistics output (as a third command-argument; default is -cout).\n"
     "For example, with\n"
     "> " << program << " -cin Out -nil\n"
     "input comes from standard input, a satisfying assignment is put to file Out, and the statistics are discarded.\n"
     "While with\n"
     "> " << program << " In Out Out\n"
-    "the input comes from file In, and both statistics and assignments are appended to Out (first the statistics).\n";
+    "the input comes from file In, and both statistics and assignments are appended to Out "
+#ifndef ALL_SOLUTIONS
+      "(first the statistics).\n";
+#else
+      "(first the solutions).\n";
+#endif
   std::exit(0);
 }
 
