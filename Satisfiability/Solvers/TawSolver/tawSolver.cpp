@@ -196,7 +196,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.7.6";
+const std::string version = "2.7.7";
 const std::string date = "13.11.2016";
 
 const std::string program = "tawSolver";
@@ -652,22 +652,25 @@ void read_formula_header(std::istream& f) {
   }
 }
 
-// Returns false iff no further clause:
+// Returns false iff no (further) clause was found;
+// reference-parameter C is empty iff a tautological clause was found:
 inline bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
   {static std::vector<Rounds> literal_table(n_vars+1,0);
    static Rounds round = 0;
    Lit x;
+   assert(f.good());
    f >> x;
    if (f.eof()) return false;
    C.clear();
    assert(round != std::numeric_limits<Rounds>::max());
    ++round;
-   while (true) {
+   while (true) { // reading literals into C
      if (not f) {
        errout << "Invalid literal-read.";
        std::exit(literal_read_error);
      }
-     if (not x) break;
+     assert(f.good());
+     if (not x) break; // end of clause
      const Var v = var(x);
      if (v > n_vars) {
        errout << "Literal " << x << " contradicts n=" << n_vars << ".";
