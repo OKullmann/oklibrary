@@ -104,6 +104,10 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
   Output to file means appending.
 
+  Empty clauses or unit-clauses in the input are errors.
+  The parameters in the p-line are considered as upper bounds (so not reaching
+  them is not considered an error).
+
   When sending SIGINT to the program (for example via CTRL-C from the calling
   terminal), then the current state of statistics is output, and computation
   is aborted. When sending SIGUSR1, then the statistics is output, and the
@@ -192,8 +196,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.7.4";
-const std::string date = "11.11.2016";
+const std::string version = "2.7.5";
+const std::string date = "13.11.2016";
 
 const std::string program = "tawSolver";
 
@@ -562,32 +566,50 @@ Count_solutions n_solutions;
 typedef std::int_fast64_t Rounds;
 static_assert(std::numeric_limits<Rounds>::digits <= std::numeric_limits<Count_clauses>::digits, "Problem with types Rounds versus Count_clauses.");
 
+// Sets n_vars and n_header_clauses, and calls
+// clauses.cl.resize(n_header_clauses); aborts via std::exit in case of
+// input-errors:
 void read_formula_header(std::istream& f) {
   std::string line;
   while (true) {
     std::getline(f, line);
     if (not f) {
-      errout << "Reading error (possibly no line starting with \"p\").";
+      errout << "Reading error.";
       std::exit(file_reading_error);
     }
+    assert(not f.eof());
     const auto c = line[0];
+    if (c == '\0') {
+      errout << "No p-line found.";
+      std::exit(file_reading_error);
+    }
     if (c == 'p') break;
     if (c != 'c') {
       errout << "Comment lines must start with \"c\".";
       std::exit(file_reading_error);
     }
   }
+  assert(line[0] == 'p');
   std::stringstream s(line);
   {std::string inp; s >> inp;
    if (inp != "p") {
      errout << "Syntax error in parameter line (\"p\" not followed by space).";
      std::exit(file_pline_error);
    }
+   assert(s);
+   if (s.eof()) {
+     errout << "Syntax error in parameter line (p-line ends after \"p\").";
+     std::exit(file_pline_error);
+   }
    s >> inp;
-   if (inp != "cnf") {
+   if (not s or inp != "cnf") {
      errout << "Syntax error in parameter line (no \"cnf\").";
      std::exit(file_pline_error);
    }
+  }
+  if (s.eof()) {
+    errout << "Syntax error in parameter line (nothing after \"cnf\").";
+    std::exit(file_pline_error);
   }
   s >> n_vars;
   if (not s) {
@@ -600,10 +622,18 @@ void read_formula_header(std::istream& f) {
       " is too big for numeric_limits<Lit_int>::max=" << max_lit << ".";
     std::exit(num_vars_error);
   }
+  if (s.eof()) {
+    errout << "Syntax error in parameter line (nothing after n-parameter).";
+    std::exit(file_pline_error);
+  }
   s >> n_header_clauses;
   if (not s) {
     errout << "Reading error with parameter number-of-clauses "
       "(too big or not-a-number).";
+    std::exit(file_pline_error);
+  }
+  if (not s.eof()) {
+    errout << "Syntax error in parameter line (something after c-parameter).";
     std::exit(file_pline_error);
   }
   if (n_header_clauses > Count_clauses(std::numeric_limits<Rounds>::max())) {
@@ -669,6 +699,7 @@ inline bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
   return true;
 }
 
+// Error only if announced number of clauses too small (but may be too big):
 inline void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
   const auto n = D.size();
   if (n == 0) return; // means tautology here
