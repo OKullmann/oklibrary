@@ -196,7 +196,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.7.7";
+const std::string version = "2.7.8";
 const std::string date = "13.11.2016";
 
 const std::string program = "tawSolver";
@@ -571,17 +571,29 @@ static_assert(std::numeric_limits<Rounds>::digits <= std::numeric_limits<Count_c
 // input-errors:
 void read_formula_header(std::istream& f) {
   std::string line;
+  assert(f.good());
   while (true) { // skipping comments
-    assert(f.good());
     std::getline(f, line);
+    if (f.bad()) {
+      errout << "System failure causing reading error.";
+      std::exit(file_reading_error);
+    }
     if (f.eof()) {
-      errout << "End of file encountered while reading comment.";
-      std::exit(file_reading_error);
+      if (not f.fail()) {
+        const auto c = line[0];
+        assert(c != '\0');
+        if (c != 'p')
+          errout << "End of file encountered while attempting to read comment.";
+        else
+          errout << "End of file encountered while attempting to read p-line.";
+        std::exit(file_reading_error);
+      }
+      else {
+        errout << "Empty line at end of file (no p-line found).";
+        std::exit(file_reading_error);
+      }
     }
-    if (not f) {
-      errout << "Reading error.";
-      std::exit(file_reading_error);
-    }
+    assert(f.good());
     const auto c = line[0];
     if (c == '\0') { // empty line
       errout << "Empty line (no p-line found).";
