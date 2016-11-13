@@ -27,6 +27,12 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
   http://cs.swan.ac.uk/~csoliver/papers.html#Handbook2009Fundaments
   https://doi.org/10.3233/978-1-58603-929-5-205
 
+  This implementation is discussed in
+
+  On the van der Waerden numbers w(2;3,t)
+  http://www.cs.swan.ac.uk/~csoliver/papers.html#VDW232011
+  http://dx.doi.org/10.1016/j.dam.2014.05.007
+
   The original DLL algorithm is from
 
   A machine program for theorem-proving
