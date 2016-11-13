@@ -196,7 +196,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.7.5";
+const std::string version = "2.7.6";
 const std::string date = "13.11.2016";
 
 const std::string program = "tawSolver";
@@ -571,16 +571,20 @@ static_assert(std::numeric_limits<Rounds>::digits <= std::numeric_limits<Count_c
 // input-errors:
 void read_formula_header(std::istream& f) {
   std::string line;
-  while (true) {
+  while (true) { // skipping comments
+    assert(f.good());
     std::getline(f, line);
+    if (f.eof()) {
+      errout << "End of file encountered while reading comment.";
+      std::exit(file_reading_error);
+    }
     if (not f) {
       errout << "Reading error.";
       std::exit(file_reading_error);
     }
-    assert(not f.eof());
     const auto c = line[0];
-    if (c == '\0') {
-      errout << "No p-line found.";
+    if (c == '\0') { // empty line
+      errout << "Empty line (no p-line found).";
       std::exit(file_reading_error);
     }
     if (c == 'p') break;
