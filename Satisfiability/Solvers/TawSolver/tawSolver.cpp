@@ -112,7 +112,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
   Empty clauses or unit-clauses in the input are errors.
   The parameters in the p-line are considered as upper bounds (so not reaching
-  them is not considered an error).
+  them is not considered an error), where tautological clauses are ignored.
 
   When sending SIGINT to the program (for example via CTRL-C from the calling
   terminal), then the current state of statistics is output, and computation
@@ -191,6 +191,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include <type_traits>
 #include <iomanip>
 #include <exception>
+#include <algorithm>
 
 #include <cstdlib>
 #include <cmath>
@@ -202,8 +203,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.7.8";
-const std::string date = "13.11.2016";
+const std::string version = "2.7.9";
+const std::string date = "14.11.2016";
 
 const std::string program = "tawSolver";
 
@@ -526,9 +527,9 @@ public :
 LiteralOccurrences lits;
 // via lits[v][pos/neg] the sequence of literal-ccurrences is obtained
 
-Count_clauses n_header_clauses, n_clauses; // r_clauses see above
+Count_clauses n_header_clauses, n_clauses, n_taut; // r_clauses see above
 Count_clauses n_lit_occurrences;
-Var n_vars;
+Var n_vars, max_occ_var;
 Clause_index max_clause_length;
 
 typedef std::uint_fast64_t Count_statistics;
@@ -727,7 +728,10 @@ inline bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
 // Error only if announced number of clauses too small (but may be too big):
 inline void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
   const auto n = D.size();
-  if (n == 0) return; // means tautology here
+  if (n == 0) { // means tautology here
+    ++n_taut;
+    return;
+  }
   if (n_clauses >= n_header_clauses) {
     errout << "More than " << n_header_clauses << " clauses, contradicting cnf-header.";
     std::exit(number_clauses_error);
@@ -740,7 +744,9 @@ inline void add_a_clause_to_formula(const Lit_vec& D, Count_vec& count) {
   for (Clause_index i = 0; i < n; ++i) {
     const Lit x = D[i];
     const_cast<Lit*>(C.b)[i] = x;
-    ++count[var(x)][sign(x)];
+    const Var v = var(x);
+    ++count[v][sign(x)];
+    max_occ_var = std::max(v, max_occ_var);
   }
   ++n_clauses;
   n_lit_occurrences += n;
@@ -776,7 +782,7 @@ void read_formula(const std::string& filename) {
    while (read_a_clause_from_file(*in,C)) add_a_clause_to_formula(C,count);
   }
   if (not (r_clauses = n_clauses)) return;
-  try { lits.init(n_lit_occurrences, n_vars, clauses.cl, count); }
+  try { lits.init(n_lit_occurrences, max_occ_var, clauses.cl, count); }
   catch (const std::bad_alloc&) {
     errout << "Allocation error for ClauseP-vector of size " <<
        n_lit_occurrences << " (the number of literal occurrences).";
@@ -792,7 +798,7 @@ void read_formula(const std::string& filename) {
 */
 class Pass {
   Lit_vec pass;
-  void init() { pass.resize(n_vars+1); }
+  void init() { pass.resize(max_occ_var+1); }
   friend void initialisation();
 public :
   Lit operator[] (const Var v) const noexcept { return pass[v]; }
@@ -817,7 +823,7 @@ class ChangeManagement {
   const ClauseP* begin;
   ClauseP* next;
   void init() {
-    const auto s = n_lit_occurrences + 3 * n_vars;
+    const auto s = n_lit_occurrences + 3 * max_occ_var;
     assert(s >= 1);
     changes.resize(s);
     begin = next = &*changes.begin();
@@ -851,14 +857,14 @@ class Unit_stack {
   static Lit* open_;
   const Lit* const begin_;
   static void init() {
-    stack.resize(n_vars);
-    assert(n_vars);
+    stack.resize(max_occ_var);
+    assert(max_occ_var);
     end_ = &stack[0];
   }
   friend void initialisation();
 public :
   static void push(const Lit x) noexcept {
-    assert(end_ - &stack[0] < n_vars);
+    assert(end_ - &stack[0] < max_occ_var);
     *(end_++) = x;
   }
   static Lit pop() noexcept {
@@ -890,7 +896,7 @@ class Unit_stack {
   static Lit* end_main;
   const Lit* const begin_main;
   static Lit push_main(const Lit x) noexcept {
-    assert(end_main - &main_stack[0] < n_vars);
+    assert(end_main - &main_stack[0] < max_occ_var);
     return *(end_main++) = x;
   }
   static Lit pop_input() noexcept {
@@ -898,16 +904,16 @@ class Unit_stack {
     return *(--end_input);
   }
   static void init() {
-    main_stack.resize(n_vars);
-    input_stack.resize(n_vars);
-    assert(n_vars);
+    main_stack.resize(max_occ_var);
+    input_stack.resize(max_occ_var);
+    assert(max_occ_var);
     end_main = &main_stack[0];
     begin_input = end_input = &input_stack[0];
   }
   friend void initialisation();
 public :
   static void push(const Lit x) noexcept {
-    assert(end_input - begin_input < n_vars);
+    assert(end_input - begin_input < max_occ_var);
     *(end_input++) = x;
   }
   static Lit pop() noexcept { return push_main(pop_input()); }
@@ -967,12 +973,12 @@ class PureLiterals {
   const Lit* begin() const noexcept { return begin_; }
   static const Lit* end() noexcept { return end_; }
   static void push(const Lit x) noexcept {
-    assert(end_ - &stack[0] < n_vars);
+    assert(end_ - &stack[0] < max_occ_var);
     *(end_++) = x;
   }
   static void init() {
-    stack.resize(n_vars);
-    assert(n_vars);
+    stack.resize(max_occ_var);
+    assert(max_occ_var);
     end_ = &stack[0];
   }
   friend void initialisation();
@@ -1136,7 +1142,7 @@ void initialisation() {
 inline void assign_0(const Lit x) noexcept {
   assert(x);
   const Var v = var(x);
-  assert(v <= n_vars);
+  assert(v <= max_occ_var);
   assert(not(pass[v] == -x));
   pass[v] = x;
   for (auto C : lits[v][-sign(x)]) {
@@ -1150,7 +1156,7 @@ inline void assign_0(const Lit x) noexcept {
 inline void assign_1(const Lit x) noexcept {
   assert(x);
   const Var v = var(x);
-  assert(v <= n_vars);
+  assert(v <= max_occ_var);
   assert(pass[v] == x);
   for (auto C : lits[v][sign(x)]) {
     if (not *C) continue;
@@ -1230,7 +1236,7 @@ inline Lit branching_literal() noexcept {
 #ifdef PURE_LITERALS
   PureLiterals::clear(); changes.start_new();
 #endif
-  const auto nvar = n_vars+1;
+  const auto nvar = max_occ_var+1;
   for (Var v = 1; v != nvar; ++v) {
     if (pass[v]) continue;
     const auto Occ = lits[v];
@@ -1476,7 +1482,7 @@ void output(const Result_value result) {
     case sat : logout << "SATISFIABLE\n";
   }
   logout <<
-         "c number_of_variables                   " << n_vars << "\n"
+         "c max_occurring_variable                " << max_occ_var << "\n"
          "c number_of_clauses                     " << n_clauses << "\n"
          "c maximal_clause_length                 " << max_clause_length << "\n"
          "c number_of_literal_occurrences         " << n_lit_occurrences << "\n"
@@ -1491,6 +1497,9 @@ void output(const Result_value result) {
          "c number_of_solutions                   " << std::scientific << std::setprecision(count_digits) << n_solutions << "\n"
 #endif
          "c reading-and-set-up_time(sec)          " << std::setprecision(3) << std::fixed << t1 - t0 << "\n"
+         "c p_param_variables                     " << n_vars << "\n"
+         "c p_param_clauses                       " << n_header_clauses << "\n"
+         "c number_tautologies                    " << n_taut << "\n"
          "c file_name                             " << filename << "\n"
          "c options                               \"" << options << "\"";
   logout.endl();
