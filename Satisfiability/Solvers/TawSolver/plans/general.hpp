@@ -284,6 +284,31 @@ cttawSolver VanDerWaerden_2-3-12_134.cnf
 cttawSolver VanDerWaerden_2-3-12_135.cnf
 19.47 19.54 19.47 19.43 19.47
 19.20 19.18 19.30 19.25 19.26
+
+# ID 4c72e7630862d70972c9c74636a4a328a45c39b7
+# Version 2.7.9
+> make timing
+# (system-gcc 4.7.1)
+# cswsok (one other process running (low memory usage))
+
+tawSolver VanDerWaerden_2-3-12_134.cnf
+8.98 8.94 9.04 8.98 9.02
+tawSolver VanDerWaerden_2-3-12_135.cnf
+10.97 10.96 10.96 10.99 10.93
+ttawSolver VanDerWaerden_2-3-12_134.cnf
+19.26 19.13 19.11 19.08 19.13
+ttawSolver VanDerWaerden_2-3-12_135.cnf
+19.74 19.72 19.72 19.66 19.73
+ctawSolver VanDerWaerden_2-3-12_134.cnf
+11.16 11.24 11.19 11.12 11.22
+ctawSolver VanDerWaerden_2-3-12_135.cnf
+11.31 11.26 11.34 11.25 11.34
+cttawSolver VanDerWaerden_2-3-12_134.cnf
+20.00 19.91 20.04 19.94 19.97
+cttawSolver VanDerWaerden_2-3-12_135.cnf
+19.98 20.05 20.01 19.90 19.96
+
+Consistently slower than before; need to re-run without other process.
    \endverbatim
    </li>
   </ul>
