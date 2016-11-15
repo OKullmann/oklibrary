@@ -203,8 +203,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.7.9";
-const std::string date = "14.11.2016";
+const std::string version = "2.7.10";
+const std::string date = "15.11.2016";
 
 const std::string program = "tawSolver";
 
@@ -679,7 +679,10 @@ inline bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
    Lit x;
    assert(f.good());
    f >> x;
-   if (f.eof()) return false;
+   if (f.eof()) {
+     literal_table.clear(); literal_table.shrink_to_fit();
+     return false;
+   }
    C.clear();
    assert(round != std::numeric_limits<Rounds>::max());
    ++round;
