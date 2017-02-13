@@ -253,7 +253,6 @@ is(Csa);
      by the clauses L(n):
       <ol>
        <li> x_i -> s_i for 1 <= i <= n-1 </li>
-       <li> x_n -> -s_{n-1} </li>
        <li> s_i -> s_{i+1} for 1 <= i <= n-2 </li>
        <li> s_i -> -x_{i+1} for 1 <= i <= n-1. </li>
       </ol>
@@ -281,7 +280,36 @@ is(Csa);
      assignments). </li>
      <li> And the hardness of L(n) is 1 (it is satisfiable, while not
      containing all prime implicates). </li>
-     <li> Is L(n) also a 1-base, that is, is L(n) irredundant? </li>
+     <li> Is L(n) also a 1-base, that is, is L(n) irredundant?
+      <ul>
+       <li> L(n) is irredundant:
+       \verbatim
+# Checking that amo_sc_fcl(0,[1,..,i],1) is irredundant:
+for i : 2 thru 10 do block([L,F],
+  L : create_list(j,j,1,i),
+  F : amo_sc_fcl([0,L,1]),
+  irredundant_bydef_fcs(fcl2fcs(F)));
+# Returns without error
+       \endverbatim
+       </li>
+       <li> Checking whether L(n) is a 1-base w.r.t AMO:
+       \verbatim
+amo_primes_cs(L) := setify(create_list({-L[i],-L[j]}, i, 1, length(L), j, 1, i -1))$
+primes_on_V_cs(F,V) := subset(min_resolution_closure_cs(F)[1],lambda([C], subsetp(var_c(C),V)))$
+
+# Checking that F is a representation of the AMO constraint and that
+# it is irredundant w.r.t being a representation of AMO:
+for i : 1 thru 10 do block([L,F_amo,F_amo_sc],
+  L : create_list(j,j,1,i),
+  F_amo : amo_primes_cs(L),
+  F_amo_sc : cl2cs(amo_sc_fcl([0,L,1])[2]),
+  assert(primes_on_V_cs(F_amo_sc,setify(L)) = F_amo),
+  for C in F_amo_sc do
+    assert(not(primes_on_V_cs(disjoin(C,F_amo_sc),setify(L)) = F_amo)));
+       \endverbatim
+       </li>
+      </ul>
+     </li>
      <li> And is L(n) actually the shortest (2-)CNF equivalent to L(n)? </li>
      <li> L(n) is mentioned in [Towards an optimal CNF encoding of
      Boolean cardinality constraints; Carsten Sinz, 2005, bottom of page 2],
