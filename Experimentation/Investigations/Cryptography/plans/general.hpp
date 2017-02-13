@@ -35,6 +35,30 @@ License, or any later version. */
   </ul>
 
 
+  \todo SplittingViaOKsolver
+  <ul>
+   <li> We want to investigate the benefits on using the "Cube and Conquer"
+   technique as described in
+   [Cube and Conquer: Guiding CDCL SAT Solvers by Lookaheads;
+    Heule, Kullmann, Wieringa, and Biere], on hard cryptographic instances. </li>
+   <li> We use SplittingViaOKsolver here. </li>
+   <li> For the individual ciphers, we have the following investigations:
+    <ul>
+     <li> DES: "SplittingViaOKsolver" in
+     Investigations/Cryptography/DataEncryptionStandard/plans/general.hpp.
+     </li>
+     <li> AES: "SplittingViaOKsolver" in
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp.
+     </li>
+     <li> KeeLoq: "SplittingViaOKsolver" in
+     Investigations/Cryptography/AdvancedEncryptionStandard/plans/general.hpp.
+     </li>
+    </ul>
+   </li>
+   <li> We need an overview on such investigations at this level. </li>
+  </ul>
+
+
   \todo Translating stream ciphers using our translations
   <ul>
    <li> We already offer translations of DES and AES into SAT
