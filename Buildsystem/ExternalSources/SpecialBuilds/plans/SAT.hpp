@@ -10,6 +10,22 @@ License, or any later version. */
   \brief Plans regarding building of SAT solvers and libraries
 
 
+  \todo Building CryptoMinisat-3.1 using perftools
+  <ul>
+   <li> Currently cryptominisat-3.1 builds, but with the following warning:
+   \verbatim
+ExternalSources> oklib cryptominisat3
+...
+CMake Warning at CMakeLists.txt:111 (MESSAGE):
+  Did NOT find Perftools, memory allocation will be terrible
+...
+   \endverbatim
+   </li>
+   <li> Perftools should be installed and linked against cryptominisat-3.1
+   (see http://code.google.com/p/gperftools/). </li>
+  </ul>
+
+
   \todo Parallel SAT solvers
   <ul>
    <li> See "ParaSatz" below. </li>
