@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 14.6.2008 (Swansea) */
-/* Copyright 2008, 2009, 2012, 2013 Oliver Kullmann
+/* Copyright 2008, 2009, 2012, 2013, 2017 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -38,6 +38,12 @@ okltest_new_var_fcs(f) := (
   assert(f([{},{{}}]) = 1),
   assert(f([{1},{}]) = 2),
   assert(f([{3},{{}}]) = 4),
+  assert(okltest_new_var_cs(buildq([f], lambda([FF], f(cs2fcs(FF))))) = true),
+  true)$
+
+okltest_new_var_cs(f) := (
+  assert(f({{1},{-3}}) = 4),
+  assert(f({{1,2,-3,4}}) = 5),
   true)$
 
 okltest_random_sublist(f) := (
