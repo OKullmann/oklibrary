@@ -1,5 +1,5 @@
 // Oliver Kullmann, 4.8.2009 (Swansea)
-/* Copyright 2009, 2011, 2012, 2013 Oliver Kullmann
+/* Copyright 2009, 2011, 2012, 2013, 2017 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -302,6 +302,7 @@ License, or any later version. */
      <li> pls : double, number of pure literals. </li>
      <li> ats : double, number of autarkies (not pure literals). </li>
      <li> h : integer, height of search-tree for look-ahead solvers. </li>
+     <li> nsol : integer, number of solutions. </li>
      <li> mem : double, in MB. </li>
      <li> ptime : double, parse time (in seconds). </li>
      <li> file : string. </li>
