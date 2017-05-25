@@ -780,7 +780,6 @@ void read_formula(const std::string& filename) {
       n_vars << " (the maximal-variable-index).";
     std::exit(allocation_error);
   }
-  n_clauses = 0;
   {Lit_vec C;
    while (read_a_clause_from_file(*in,C)) add_a_clause_to_formula(C,count);
   }
