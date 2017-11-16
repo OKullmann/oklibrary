@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.6.2016 (Swansea)
-/* Copyright 2016 Oliver Kullmann
+/* Copyright 2016, 2017 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,6 +22,8 @@ License, or any later version. */
 
 
   USAGE:
+
+  In the following, tuples are considered with components from 1 to n.
 
   For the boolean problems for triples, use
   > ./Pythagorean n 3 0 2
@@ -96,11 +98,19 @@ License, or any later version. */
   translation-type, in both cases without symmetry-breaking, while with
   we get "Pyth_n-K-d-m-SB.cnf" resp. "Pyth_n-K-d-m-T-SB.cnf".
 
+  So the complete usage-description is
+
+Pythagorean n K d [format=SD|D] m [S|W|N|NS] [sb=on|off] [-|filename]
+
+  where the parameter after m is needed if m >= 3, while for m <= 2 this
+  parameter can not be used. As usual, square-brackets mean optional
+  arguments, while "|" means an alternative.
+
   Subsumption-elimination is first applied, and then for m >= 2 elimination
   of hyperedges containing a vertex occurring at most m-1 times (repeatedly),
   that is, the "m-core" of the hypergraph is computed.
 
-  The output contains additional information for m >= 1:
+  The output contains additional information for m >= 1 (as comments):
    - Library and version information.
    - Information on parameters.
    - Information on number of hyperedges.
@@ -142,6 +152,9 @@ License, or any later version. */
 
   FURTHER WORK:
 
+  TODO: Enable to consider large n (64 bits), at least for counting.
+        On a 64-bit machine, just using std::uint_least64_t for base_t
+        does the job. But this needs to be made consistent.
   TODO: Implement output-"format" "R", which replaces the hypergraph with
         a random hypergraph with the given hypergraph-edge-sizes and
         -vertex-degrees. The seed should also be an input; perhaps here
@@ -183,7 +196,8 @@ License, or any later version. */
           it considers a^2+b^2=c^2 with a,b arbitrary integers, and thus we
           have 2^2 sign-possibilities, and the swap a <-> b.
 
-According to "Mathematical Constants By Steven R. Finch", in Maxima-code:
+According to "Mathematical Constants By Steven R. Finch", in Maxima-code the
+computation of B:
 
 G : 1/2/%pi*beta(1/4,1/2); // https://en.wikipedia.org/wiki/Gauss%27s_constant
 S : log(exp(2*%gamma)/2/G^2); // K / pi for https://en.wikipedia.org/wiki/Sierpi%C5%84ski%27s_constant
@@ -235,11 +249,21 @@ float(B);
 
      takes 16s on an older 2.4 GHz machine.)
 
-     Another example: The number of triples up to 2*10^9 is 6,380,787,008,
-     obtained by "./Pythagorean 2000000000 3 0 0" in 335 sec, using 7.5 GB
-     (on a standard 64-bit machine with 32 GB RAM).
-     While the number of triples for n=4,294,967,294=2^32-2 is 14,225,080,520
-     obtained by "./Pythagorean 4294967294 3 0 0" in 960 sec, using 16 GB.
+     Bigger examples:
+
+      - The number of triples up to 2*10^9 is 6,380,787,008,
+        obtained by "./Pythagorean 2000000000 3 0 0" in 335 sec, using 7.5 GB
+        (on a standard 64-bit machine with 32 GB RAM). This yields factor3 =
+        0.14897 (see above).
+      - While the number of triples for n=4,294,967,294=2^32-2 is
+        14,225,080,520, obtained by "./Pythagorean 4294967294 3 0 0" in
+        960 sec (same machine), using 16 GB. factor3 = 0.14932.
+      - Using std::uint_least64_t for base_t, n=10*10^9 yields
+        34,465,432,859, using 74.5 GB and 22m13s. factor3 = 0.149681.
+      - And n=20*10^9 yields 71,137,221,952, using 150 GB and 44m47s.
+        factor3 = 0.149958.
+      - n=30*10^9 yields 108,641,785,354, using 220 GB and 68m6s.
+        factor3 = 0.150113.
 
    - Number of Pythagorean quadruples (K=4) or quintuples (K=5): not yet
      in OEIS.
@@ -274,7 +298,7 @@ float(B);
   number of clauses; if "=" is used, then the reductions don't do anything
   here; algorithms "vw1" and "g2wsat" are from the UBCSAT suite of local-search
   algorithms, while "SplittingViaOKsolver" is the basic C&C-implementation in
-  the OKlibrary; except where stated "W", the strong direction translation is
+  the OKlibrary; except where stated "W", the strong direct translation is
   used for >= 3 colours, and symmetry-breaking is used iff stated ("SB"):
 
    - Ptn(3,3) = 7825 SB [9,472; 7,336; 14,673]
