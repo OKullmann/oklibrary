@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 24.12.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2010, 2011, 2012 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -29,6 +29,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclu
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Trees/Lisp/Basics.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac")$
 
 
 /* **********************************
@@ -602,6 +603,10 @@ locallemmasum_satapprox(F) := if F = {} then inf else
 current_satsolver : dll_simplest_first_shortest_clause$
 /* Now returning a (complete) splitting tree: */
 current_satsolver_st : dll_simplest_st_max_lit$
+/* The corresponding enumeration of all solutions (a hitting DNF): */
+current_satsolver_enumerate(F) := sat_pass_st(current_satsolver_st(F))$
+/* Just counting the solutions: */
+current_satsolver_count(F) := count_sat_st(current_satsolver_st(F), var_fcs(F))$
 
 /*!
 \endhtmlonly
