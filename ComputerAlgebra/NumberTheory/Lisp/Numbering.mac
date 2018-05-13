@@ -104,7 +104,33 @@ queenscl2m(C,N) := scom2m(queenscl2scom(C,N))$
 isrowcolumn_p(C) := block([V:var_c(C)], is(length(map(first,V))=1) or is(length(map(second,V))=1))$
 isnotrowcolumn_p(C) := not isrowcolumn_p(C)$
 
+/* The eight standard symmetries: */
+/* First the two generating symmetries: */
+nqueens_rotate(i,j,N) := [N-j+1,i]$
+/* For a point p: */
+nqueens_rotate_p(p,N) := nqueens_rotate(first(p),second(p),N)$
+nqueens_hmirror(i,j,N) := [N-i+1,j]$
+nqueens_hmirror_p(p,N) := nqueens_hmirror(first(p),second(p),N)$
+/* Now the m-times rotated versions ("iterated"): */
+/* Rotation by m*90 degrees: */
+nqueens_irotate(i,j,N,m) := block([p:[i,j]], thru mod(m,N) do p : nqueens_rotate(first(p),second(p),N), p)$
+nqueens_irotate_p(p,N,m) := (thru mod(m,N) do p : nqueens_rotate_p(p,N), p)$
+/* Mirroring at horizontal midline, antidiagonal, vertical midline, diagonal: */
+nqueens_ihmirror(i,j,N,m) := block([p:nqueens_hmirror(i,j,N)], nqueens_irotate(first(p),second(p),N,m))$
+nqueens_ihmirror_p(p,N,m) := (p:nqueens_hmirror_p(p,N), nqueens_irotate_p(p,N,m))$
+/* Versions for sets S of points: */
+nqueens_irotate_s(S,N,m) := map(lambda([p],nqueens_irotate_p(p,N,m)), S)$
+nqueens_ihmirror_s(S,N,m) := map(lambda([p],nqueens_ihmirror_p(p,N,m)), S)$
+/* The orbit of point [i,j]: */
+nqueens_orbit(i,j,N) := setify(append(create_list(nqueens_irotate(i,j,N,m),m,0,3), create_list(nqueens_ihmirror(i,j,N,m),m,0,3)))$
+nqueens_orbit_p(p,N) := setify(append(create_list(nqueens_irotate_p(p,N,m),m,0,3), create_list(nqueens_ihmirror_p(p,N,m),m,0,3)))$
+/* The orbit of a set S of points: */
+nqueens_orbit_s(S,N) := setify(append(create_list(nqueens_irotate_s(S,N,m),m,0,3), create_list(nqueens_ihmirror_s(S,N,m),m,0,3)))$
+
+
+/* The total number of solutions for N: */
+nqueens_counts : [1,0,0,2,10,4,40,92,352,724,2680,14200,73712,365596,2279184,14772512,95815104,666090624,4968057848,39029188884,314666222712,2691008701644,24233937684440,227514171973736,2207893435808352,22317699616364044,234907967154122528]$ /* https://oeis.org/A000170 */
+
 /*!
 \endhtmlonly
 */
-
