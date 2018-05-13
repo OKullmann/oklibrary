@@ -94,6 +94,16 @@ nqueens_fcs(N,M) := block([SQ : qvmap(cartesian_product(setn(N),setn(M)))],
      equiv_classes(SQ, samecolumn_p))])$
 nqueens_cs(N,M) := fcs2cs(nqueens_fcs(N,M))$
 
+/* Transforming an N-queens-clause C into a square combinatorial matrix: */
+queenscl2scom(C,N) := [setn(N), lambda([i,j], if elementp(qv_var(i,j),C) then +1 elseif elementp(-qv_var(i,j),C) then -1 else 0)]$
+/* Now into a Maxima matrix: (to "see" these matrices, temporarily one might
+   set display2d to true) */
+queenscl2m(C,N) := scom2m(queenscl2scom(C,N))$
+
+/* Checking whether a clause lies completely in some row or column: */
+isrowcolumn_p(C) := block([V:var_c(C)], is(length(map(first,V))=1) or is(length(map(second,V))=1))$
+isnotrowcolumn_p(C) := not isrowcolumn_p(C)$
+
 /*!
 \endhtmlonly
 */
