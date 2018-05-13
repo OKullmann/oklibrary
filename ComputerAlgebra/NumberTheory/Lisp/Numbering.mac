@@ -45,7 +45,9 @@ by XXX
 
 */
 
-squarenumbering_orderlessp(x,y) := lmax(x)<lmax(y) or (lmax(x)=lmax(y) and second(x)<second(y)) or (lmax(x)=lmax(y) and second(x)=second(y) and first(x)>first(y))$
+squarenumbering_orderlessp(x,y) := lmax(x)<lmax(y) or
+  (lmax(x)=lmax(y) and second(x)<second(y)) or
+  (lmax(x)=lmax(y) and second(x)=second(y) and first(x)>first(y))$
 
 /*
 sort(all_tuples_l([1,2,3,4,5],2),squarenumbering_orderlessp);
@@ -61,13 +63,18 @@ declare(qv, noun)$
 declare(qv, posfun)$
 qv_var([x]) := apply(nounify(qv),x)$
 
-partialsol_nqueens_p(S) := setp(S) and every_s(lambda([p], listp(p) and length(p)=2 and naturalp(first(p)) and naturalp(second(p))), S) and every_s(lambda([P], block([p1:first(P),p2:second(P)], first(p1)#first(p2) and second(p1)#second(p2) and abs(first(p1)-first(p2))#abs(second(p1)-second(p2)))), powerset(S,2))$
+partialsol_nqueens_p(S) := setp(S) and every_s(lambda([p], listp(p) and
+  length(p)=2 and naturalp(first(p)) and naturalp(second(p))), S) and
+  every_s(lambda([P], block([p1:first(P),p2:second(P)], first(p1)#first(p2)
+    and second(p1)#second(p2) and
+    abs(first(p1)-first(p2))#abs(second(p1)-second(p2)))), powerset(S,2))$
 
 /* Translate a set of pairs [i,j] into variables qv(i,j): */
 qvmap(SP) := map(lambda([p], apply(qv_var,p)), SP)$
 
 /* Translate a solution as a set of pairs into a DNF-clause: */
-extendsol_nqueens(S) := block([N:lmax(map(first,S)),D], D : setdifference(all_tuples(setn(N),2),S), union(qvmap(S), comp_sl(qvmap(D))))$
+extendsol_nqueens(S) := block([N:lmax(map(first,S)),D],
+  D : setdifference(all_tuples(setn(N),2),S), union(qvmap(S), comp_sl(qvmap(D))))$
 /* The inverse, just keeping the positive literals: */
 shrinksol_nqueens(S) := pospart_c(S)$
 
@@ -101,7 +108,8 @@ queenscl2scom(C,N) := [setn(N), lambda([i,j], if elementp(qv_var(i,j),C) then +1
 queenscl2m(C,N) := scom2m(queenscl2scom(C,N))$
 
 /* Checking whether a clause lies completely in some row or column: */
-isrowcolumn_p(C) := block([V:var_c(C)], is(length(map(first,V))=1) or is(length(map(second,V))=1))$
+isrowcolumn_p(C) := block([V:var_c(C)], is(length(map(first,V))=1) or
+  is(length(map(second,V))=1))$
 isnotrowcolumn_p(C) := not isrowcolumn_p(C)$
 
 /* The eight standard symmetries: */
@@ -116,16 +124,23 @@ nqueens_hmirror_p(p,N) := nqueens_hmirror(first(p),second(p),N)$
 nqueens_irotate(i,j,N,m) := block([p:[i,j]], thru mod(m,N) do p : nqueens_rotate(first(p),second(p),N), p)$
 nqueens_irotate_p(p,N,m) := (thru mod(m,N) do p : nqueens_rotate_p(p,N), p)$
 /* Mirroring at horizontal midline, antidiagonal, vertical midline, diagonal: */
-nqueens_ihmirror(i,j,N,m) := block([p:nqueens_hmirror(i,j,N)], nqueens_irotate(first(p),second(p),N,m))$
+nqueens_ihmirror(i,j,N,m) := block([p:nqueens_hmirror(i,j,N)],
+  nqueens_irotate(first(p),second(p),N,m))$
 nqueens_ihmirror_p(p,N,m) := (p:nqueens_hmirror_p(p,N), nqueens_irotate_p(p,N,m))$
 /* Versions for sets S of points: */
 nqueens_irotate_s(S,N,m) := map(lambda([p],nqueens_irotate_p(p,N,m)), S)$
 nqueens_ihmirror_s(S,N,m) := map(lambda([p],nqueens_ihmirror_p(p,N,m)), S)$
 /* The orbit of point [i,j]: */
-nqueens_orbit(i,j,N) := setify(append(create_list(nqueens_irotate(i,j,N,m),m,0,3), create_list(nqueens_ihmirror(i,j,N,m),m,0,3)))$
-nqueens_orbit_p(p,N) := setify(append(create_list(nqueens_irotate_p(p,N,m),m,0,3), create_list(nqueens_ihmirror_p(p,N,m),m,0,3)))$
+nqueens_orbit(i,j,N) := setify(append(
+  create_list(nqueens_irotate(i,j,N,m),m,0,3),
+  create_list(nqueens_ihmirror(i,j,N,m),m,0,3)))$
+nqueens_orbit_p(p,N) := setify(append(
+  create_list(nqueens_irotate_p(p,N,m),m,0,3),
+  create_list(nqueens_ihmirror_p(p,N,m),m,0,3)))$
 /* The orbit of a set S of points: */
-nqueens_orbit_s(S,N) := setify(append(create_list(nqueens_irotate_s(S,N,m),m,0,3), create_list(nqueens_ihmirror_s(S,N,m),m,0,3)))$
+nqueens_orbit_s(S,N) := setify(append(
+  create_list(nqueens_irotate_s(S,N,m),m,0,3),
+  create_list(nqueens_ihmirror_s(S,N,m),m,0,3)))$
 
 
 /* The total number of solutions for 1 <= N <= 27: */
