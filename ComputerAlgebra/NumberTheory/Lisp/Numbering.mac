@@ -103,8 +103,7 @@ nqueens_cs(N,M) := fcs2cs(nqueens_fcs(N,M))$
 
 /* Transforming an N-queens-clause C into a square combinatorial matrix: */
 queenscl2scom(C,N) := [setn(N), lambda([i,j], if elementp(qv_var(i,j),C) then +1 elseif elementp(-qv_var(i,j),C) then -1 else 0)]$
-/* Now into a Maxima matrix: (to "see" these matrices, temporarily one might
-   set display2d to true) */
+/* Now into a Maxima matrix: */
 queenscl2m(C,N) := scom2m(queenscl2scom(C,N))$
 
 /* Checking whether a clause lies completely in some row or column: */
