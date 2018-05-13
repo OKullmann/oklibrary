@@ -127,7 +127,9 @@ nqueens_ihmirror(i,j,N,m) := block([p:nqueens_hmirror(i,j,N)],
   nqueens_irotate(first(p),second(p),N,m))$
 nqueens_ihmirror_p(p,N,m) := (p:nqueens_hmirror_p(p,N), nqueens_irotate_p(p,N,m))$
 /* Versions for sets S of points: */
+nqueens_rotate_s(S,N) := map(lambda([p],nqueens_rotate_p(p,N)), S)$
 nqueens_irotate_s(S,N,m) := map(lambda([p],nqueens_irotate_p(p,N,m)), S)$
+nqueens_hmirror_s(S,N) := map(lambda([p],nqueens_hmirror_p(p,N)), S)$
 nqueens_ihmirror_s(S,N,m) := map(lambda([p],nqueens_ihmirror_p(p,N,m)), S)$
 /* The orbit of point [i,j]: */
 nqueens_orbit(i,j,N) := setify(append(
@@ -141,14 +143,41 @@ nqueens_orbit_s(S,N) := setify(append(
   create_list(nqueens_irotate_s(S,N,m),m,0,3),
   create_list(nqueens_ihmirror_s(S,N,m),m,0,3)))$
 
+/* Extend map f_(i,j), implicitly defined on variables qv(i,j), to literals: */
+nqueens_extvarlit(f_,x) := block([i,j,p], if posp(x) then (i:first(x),j:second(x),p:f_(i,j),qv_var(first(p),second(p))) else (i:first(-x),j:seccond(-x),p:f_(i,j),-qv_var(first(p),second(p))))$
+
+/* Transform a set V of variables qv(i,j) in the corresponding set of pairs [i,j]: */
+nqueens_extrpairs(V) := map(lambda([v], [first(v),second(v)]), V)$
+
+/* Testing whether clauses C, D are isomorphic (there is a symmetry mapping, which transforms C to D): */
+nqueens_isoc_p(C,D,N) := block(
+ [PC:nqueens_extrpairs(pospart_c(C)), NC:nqueens_extrpairs(comp_sl(negpart_c(C))),
+  PD:nqueens_extrpairs(pospart_c(D)), ND:nqueens_extrpairs(comp_sl(negpart_c(D))),
+  solved:false],
+  if length(PC)#length(PD) or length(NC)#length(ND) then return(false),
+  thru 4 do (PC:nqueens_rotate_s(PC,N), NC:nqueens_rotate_s(NC,N),
+    if PC=PD and NC=ND then (solved:true, return(true))),
+  if solved then return(true),
+  PC:nqueens_hmirror_s(PC,N), NC:nqueens_hmirror_s(NC,N),
+  thru 4 do (PC:nqueens_rotate_s(PC,N), NC:nqueens_rotate_s(NC,N),
+    if PC=PD and NC=ND then (solved:true, return(true))),
+  if solved then return(true) else return(false))$
+
 
 /* The total number of solutions for 1 <= N <= 27: */
 nqueens_counts : [1,0,0,2,10,4,40,92,352,724,
-2680,14200,73712,365596,2279184,14772512,95815104,666090624,4968057848,39029188884,
-314666222712,2691008701644,24233937684440,227514171973736,2207893435808352,22317699616364044,234907967154122528]$ /* https://oeis.org/A000170 */
+ 2680,14200,73712,365596,2279184,14772512,95815104,666090624,4968057848,39029188884,
+ 314666222712,2691008701644,24233937684440,227514171973736,2207893435808352,22317699616364044,234907967154122528]$
+/* https://oeis.org/A000170 */
 /* The maximal entry is ~ 2.35*10^17. */
 /* Approximation formula (according to https://oeis.org/A000170): */
 nqueens_approx_count(N) := N! / 2.54^N$
+/* The number of isomorphism classes of solutions (classes of symmetric solutions) for 1 <= N <= 27: */
+iso_nqueens_counts : [1,0,0,1,2,1,6,12,46,92,
+ 341,1787,9233,45752,285053,1846955,11977939,83263591,621012754,4878666808,
+ 39333324973,336376244042,3029242658210,28439272956934,275986683743434,2789712466510289,29363495934315694]$
+/* https://oeis.org/A002562 */
+
 
 /*!
 \endhtmlonly
