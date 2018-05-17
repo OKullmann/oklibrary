@@ -1,5 +1,5 @@
 # Oliver Kullmann, 20.9.2011 (Swansea)
-# Copyright 2011, 2013 Oliver Kullmann
+# Copyright 2011, 2013, 2018 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -121,7 +121,10 @@ lexico_col_dec = function(X) {
 # #################
 
 # Converts x (in seconds) into a string using seconds, minutes, hours, days
-# or years appropriately:
+# or years appropriately (exactly one, with decimal fraction, rounded to
+# two digits for seconds and minutes, to three for hours and days, and four
+# for years); the year is a Julian year of 365.25 days, and denoted by "a"
+# (as Latin "annus"):
 display_seconds = function(x) {
   if (x <= 60) return(paste(round(x,2),"s",sep=""))
   x = x / 60
@@ -130,9 +133,15 @@ display_seconds = function(x) {
   if (x <= 24) return(paste(round(x,3),"h",sep=""))
   x = x / 24
   if (x <= 365) return(paste(round(x,3),"d",sep=""))
-  x = x / 365
-  paste(round(x,4),"y")
+  x = x / 365.25
+  paste(round(x,4),"a",sep="")
 }
+# Examples:
+#  display_seconds(70): "1.17m"
+#  display_seconds(10^9): "31.6881a"
+# To apply to a vector T of seconds, use sapply(T, display_seconds).
+# The standard symbol for the unit "year" is indeed "a" (according to
+# https://en.wikipedia.org/wiki/Year#Julian_year ).
 
 
 # ###################
