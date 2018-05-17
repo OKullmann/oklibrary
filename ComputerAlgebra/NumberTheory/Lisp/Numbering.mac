@@ -141,7 +141,7 @@ nqueens_hmirror_p(p,N) := nqueens_hmirror(first(p),second(p),N)$
 /* Now the m-times rotated versions ("iterated"): */
 /* Rotation by m*90 degrees: */
 nqueens_irotate(i,j,N,m) := block([p:[i,j]], thru mod(m,4) do p : nqueens_rotate(first(p),second(p),N), p)$
-nqueens_irotate_p(p,N,m) := (thru mod(m,N) do p : nqueens_rotate_p(p,N), p)$
+nqueens_irotate_p(p,N,m) := (thru mod(m,4) do p : nqueens_rotate_p(p,N), p)$
 /* Mirroring at horizontal midline, antidiagonal, vertical midline, diagonal: */
 nqueens_ihmirror(i,j,N,m) := block([p:nqueens_hmirror(i,j,N)],
   nqueens_irotate(first(p),second(p),N,m))$
