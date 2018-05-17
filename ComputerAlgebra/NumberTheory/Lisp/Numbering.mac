@@ -31,7 +31,6 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
 */
 
 /* First all pairs [i,j] with max = 1, then max = 2, ..., each part sorted
-by XXX
 
 1. by max (increasing)
 2. by second component (increasing)
@@ -50,13 +49,34 @@ squarenumbering_orderlessp(x,y) := lmax(x)<lmax(y) or
   (lmax(x)=lmax(y) and second(x)=second(y) and first(x)>first(y))$
 
 /*
-sort(all_tuples_l([1,2,3,4,5],2),squarenumbering_orderlessp);
+L : sort(all_tuples_l([1,2,3,4,5],2),squarenumbering_orderlessp);
  [[1,1],
   [2,1],[2,2],[1,2],
   [3,1],[3,2],[3,3],[2,3],[1,3],
   [4,1],[4,2],[4,3],[4,4],[3,4],[2,4],[1,4],
   [5,1],[5,2],[5,3],[5,4],[5,5],[4,5],[3,5],[2,5],[1,5]]
 */
+
+rank_squarenumbering(x,y) := block([m:max(x,y), s],
+  s : (m-1)^2,
+  if m=x then s+y else s+2*m-x)$
+rank_squarenumbering_p(p) := apply(rank_squarenumbering, p)$
+
+/*
+map(rank_squarenumbering_p, L);
+  [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+*/
+
+enum_squarenumbering(n) := block([r:ceiling(n^(1/2)), d],
+  d : r^2-n,
+  if d<r then [d+1,r] else [r,2*r-d-1])$
+
+/* is(create_list(enum_squarenumbering(n),n,1,25) = L);
+  true
+*/
+
+
+/* The N-Queens graph and SAT-representation */
 
 kill(qv)$
 declare(qv, noun)$
