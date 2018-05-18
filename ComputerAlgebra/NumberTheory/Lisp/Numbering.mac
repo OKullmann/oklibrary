@@ -119,12 +119,6 @@ shrinksol_nqueens(extendsol_nqueens({[1,2],[2,4],[3,1],[4,3]}));
   {qv(1,2),qv(2,4),qv(3,1),qv(4,3)}
 */
 
-nqueens_amo_row_cl(N,i) := create_list({-qv_var(i,j1),-qv_var(i,j2)}, j1,1,N-1, j2,j1+1,N)$
-nqueens_amo_rows_cl(N) := lappend(create_list(nqueens_amo_row_cl(N,i), i,1,N))$
-
-nqueens_amo_column_cl(N,j) := create_list({-qv_var(i1,j),-qv_var(i2,j)}, i1,1,N-1, i2,i1+1,N)$
-nqueens_amo_columns_cl(N) := lappend(create_list(nqueens_amo_column_cl(N,j), j,1,N))$
-
 amo_cs(V) := map(comp_sl, powerset(V,2))$
 
 samerow_p(p1,p2) := is(first(p1) = first(p2))$
