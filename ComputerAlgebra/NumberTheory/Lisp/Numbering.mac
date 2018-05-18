@@ -83,11 +83,22 @@ declare(qv, noun)$
 declare(qv, posfun)$
 qv_var([x]) := apply(nounify(qv),x)$
 
+/* Whether there is some N >= 0 such that S is a partial solution of the
+   N-queens problem for N, using pairs [i,j] for queens-positions:
+*/
 partialsol_nqueens_p(S) := setp(S) and every_s(lambda([p], listp(p) and
   length(p)=2 and naturalp(first(p)) and naturalp(second(p))), S) and
   every_s(lambda([P], block([p1:first(P),p2:second(P)], first(p1)#first(p2)
     and second(p1)#second(p2) and
     abs(first(p1)-first(p2))#abs(second(p1)-second(p2)))), powerset(S,2))$
+/*
+partialsol_nqueens_p({[1,1],[3,2]});
+  true
+partialsol_nqueens_p({[1,1],[3,3]});
+  false
+partialsol_nqueens_p({[1,2],[2,4],[3,1],[4,3]});
+  true
+*/
 
 /* Translate a set of pairs [i,j] into variables qv(i,j): */
 qvmap(SP) := map(lambda([p], apply(qv_var,p)), SP)$
@@ -95,8 +106,18 @@ qvmap(SP) := map(lambda([p], apply(qv_var,p)), SP)$
 /* Translate a solution as a set of pairs into a DNF-clause: */
 extendsol_nqueens(S) := block([N:lmax(map(first,S)),D],
   D : setdifference(all_tuples(setn(N),2),S), union(qvmap(S), comp_sl(qvmap(D))))$
-/* The inverse, just keeping the positive literals: */
+/*
+extendsol_nqueens({[1,2],[2,4],[3,1],[4,3]});
+  {-qv(1,1),qv(1,2),-qv(1,3),-qv(1,4),-qv(2,1),-qv(2,2),-qv(2,3),qv(2,4),
+   qv(3,1),-qv(3,2),-qv(3,3),-qv(3,4),-qv(4,1),-qv(4,2),qv(4,3),-qv(4,4)}
+*/
+/* The inverse, just keeping the positive literals (but as variables qv(i,j),
+   not as pairs [i,j]): */
 shrinksol_nqueens(S) := pospart_c(S)$
+/*
+shrinksol_nqueens(extendsol_nqueens({[1,2],[2,4],[3,1],[4,3]}));
+  {qv(1,2),qv(2,4),qv(3,1),qv(4,3)}
+*/
 
 nqueens_amo_row_cl(N,i) := create_list({-qv_var(i,j1),-qv_var(i,j2)}, j1,1,N-1, j2,j1+1,N)$
 nqueens_amo_rows_cl(N) := lappend(create_list(nqueens_amo_row_cl(N,i), i,1,N))$
