@@ -119,12 +119,32 @@ shrinksol_nqueens(extendsol_nqueens({[1,2],[2,4],[3,1],[4,3]}));
   {qv(1,2),qv(2,4),qv(3,1),qv(4,3)}
 */
 
-amo_cs(V) := map(comp_sl, powerset(V,2))$
+/* For a set V of variables, the clause expressing "at most one (AMO) of them":
+*/
+amo_cs(V) := comp_cs(powerset(V,2))$
+/*
+amo_cs({});
+  {}
+amo_cs({1,2});
+  {{-2,-1}}
+amo_cs({1,2,3});
+  {{-3,-2},{-3,-1},{-2,-1}}
+*/
 
+/* The equivalence relations on the pairs [i,j] as well as on variables
+   qv(i,j) as fundamental for the Queens-graph and Queens-constraints:
+*/
 samerow_p(p1,p2) := is(first(p1) = first(p2))$
 samecolumn_p(p1,p2) := is(second(p1) = second(p2))$
 samediag_p(p1,p2) := is(second(p1)-first(p1) = second(p2)-first(p2))$
 sameantidiag_p(p1,p2) := is(second(p1)+first(p1) = second(p2)+first(p2))$
+
+nqueens_g(N,M) :=  block([SQ : cartesian_product(setn(N),setn(M))],
+  [SQ, union(
+     lunion(map(lambda([K],powerset(K,2)),equiv_classes(SQ, samerow_p))),
+     lunion(map(lambda([K],powerset(K,2)),equiv_classes(SQ, samecolumn_p))),
+     lunion(map(lambda([K],powerset(K,2)),equiv_classes(SQ, samediag_p))),
+     lunion(map(lambda([K],powerset(K,2)),equiv_classes(SQ, sameantidiag_p))))])$
 
 nqueens_fcs(N,M) := block([SQ : qvmap(cartesian_product(setn(N),setn(M)))],
   [SQ, union(
@@ -132,8 +152,9 @@ nqueens_fcs(N,M) := block([SQ : qvmap(cartesian_product(setn(N),setn(M)))],
      lunion(map(amo_cs, equiv_classes(SQ, samecolumn_p))),
      lunion(map(amo_cs, equiv_classes(SQ, samediag_p))),
      lunion(map(amo_cs, equiv_classes(SQ, sameantidiag_p))),
-     equiv_classes(SQ, samerow_p),
-     equiv_classes(SQ, samecolumn_p))])$
+     if N<=M then equiv_classes(SQ, samerow_p) else {},
+     if M<=N then equiv_classes(SQ, samecolumn_p) else {}
+   )])$
 nqueens_cs(N,M) := fcs2cs(nqueens_fcs(N,M))$
 
 /* Transforming an N-queens-clause C into a square combinatorial matrix: */
