@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 9.2.2008 (Swansea) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -37,13 +37,14 @@ independentset_p(I,S) := every_s(lambda([H], not subsetp(H,I)), S)$
 */
 
 /* The hypergraph of maximal independent sets of a hypergraph G, via
-   hypergraph-transversals: */
+   hypergraph-transversals, first using generic function Tr: */
 /* RENAME: independence_hg_tr */
 independence_hyp_tr(G, Tr) := ecomp_hyp(Tr(G))$
 independence_hg_tr(G, Tr) := independence_hyp_tr(G, Tr)$
+/* Now using the recursive-splitting method ("rs"): */
 /* RENAME: independence_hg_trrs */
 independence_hyp_trrs(G) := independence_hyp_tr(G, transversal_hyp_rs)$
-independence_hg_trrs() := independence_hyp_trrs(G)$
+independence_hg_trrs(G) := independence_hyp_trrs(G)$
 
 /*!
 \endhtmlonly
