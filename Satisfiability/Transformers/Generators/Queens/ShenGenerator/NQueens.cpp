@@ -21,7 +21,7 @@ void aloamo(const cl_t& variables, cls_t& cnf) {
   const size_t N = variables.size();
   cnf.push_back(variables);
   if (N <= 1) return;
-  cl_t clause;
+  cl_t clause; clause.reserve(2);
   for (coord_t j=0; j<N-1; ++j)
     for (coord_t k=j+1; k<N; ++k) {
       clause.push_back(-variables[j]);
@@ -34,7 +34,7 @@ void aloamo(const cl_t& variables, cls_t& cnf) {
 void amo(const cl_t& variables, cls_t& cnf) {
   const size_t N = variables.size();
   if (N <= 1) return;
-  cl_t clause;
+  cl_t clause; clause.reserve(2);
   for (coord_t j=0; j<N-1; ++j)
     for (coord_t k=j+1; k<N; ++k) {
       clause.push_back(-variables[j]);
@@ -69,7 +69,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   cls_t cnf;
-  cl_t vars;
+  cl_t vars; vars.reserve(N);
 
   for (coord_t i=0; i<N; ++i) {
     // row constraints
