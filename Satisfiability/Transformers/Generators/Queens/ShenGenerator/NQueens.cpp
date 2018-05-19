@@ -117,7 +117,7 @@ int main(const int argc, const char* const argv[]) {
   fout << "p cnf " << numVars << " " << cnf.size() << "\n";
   for (const cl_t& C : cnf) {
     for (const lit_t x : C) fout << x << " ";
-    fout << " 0" << "\n";
+    fout << "0" << "\n";
   }
   fout << "\n";
 }
