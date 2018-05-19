@@ -5,99 +5,107 @@
 #include <iostream>
 #include <fstream>
 
-void EqualOneToCNF(const std::vector<int>& literals, std::vector<std::vector<int>>& cnf){
-  const unsigned int N = literals.size();
-  cnf.push_back(literals);
-  if (N <= 1) return;
+namespace {
 
-  std::vector<int> dnf;
-  // this one is a->~b, a->~c, ...
-  for (unsigned int j=0; j<N-1; ++j)
-    for (unsigned int k=j+1; k<N; ++k) {
-      dnf.push_back(-literals[j]);
-      dnf.push_back(-literals[k]);
-      cnf.push_back(dnf);
-      dnf.clear();
+typedef int lit_t; // literals
+typedef std::vector<lit_t> cl_t; // clauses
+typedef std::vector<cl_t> cls_t; // clause-sets
+
+typedef unsigned int coord_t; // coordinates
+typedef cl_t::size_type size_t;
+
+// One alo (at-least-one) constraint, then the amo (at-most-one) constraints:
+void aloamo(const cl_t& variables, cls_t& cnf) {
+  const size_t N = variables.size();
+  cnf.push_back(variables);
+  if (N <= 1) return;
+  cl_t clause;
+  for (coord_t j=0; j<N-1; ++j)
+    for (coord_t k=j+1; k<N; ++k) {
+      clause.push_back(-variables[j]);
+      clause.push_back(-variables[k]);
+      cnf.push_back(clause);
+      clause.clear();
     }
 }
 
-void LessEqualOneToCNF(const std::vector<int>& literals, std::vector<std::vector<int>> & cnf){
-  const unsigned int N = literals.size();
+void amo(const cl_t& variables, cls_t& cnf) {
+  const size_t N = variables.size();
   if (N <= 1) return;
-  std::vector<int> dnf;
-  // this one is a->~b, a->~c, ...
-  for (unsigned int j=0; j<N-1; ++j)
-    for (unsigned int k=j+1; k<N; ++k) {
-      dnf.push_back(-literals[j]);
-      dnf.push_back(-literals[k]);
-      cnf.push_back(dnf);
-      dnf.clear();
+  cl_t clause;
+  for (coord_t j=0; j<N-1; ++j)
+    for (coord_t k=j+1; k<N; ++k) {
+      clause.push_back(-variables[j]);
+      clause.push_back(-variables[k]);
+      cnf.push_back(clause);
+      clause.clear();
     }
 }
 
-int main(const int argc, const char* const argv[]){
+}
+
+int main(const int argc, const char* const argv[]) {
 
   if (argc != 3) {
     std::cout << "Usage[NQueens]: N filename\n";
     return 0;
   }
 
-  const unsigned int N = std::stoul(argv[1]);
-  const unsigned int numVars = N*N;
-  int** const VarName = new int* [N];
-  {int kk=0;
-   for (unsigned int i=0; i<N; ++i) {
-     VarName[i] = new int [N];
-     for (unsigned int j=0; j<N; ++j) VarName[i][j] = ++kk;
+  const coord_t N = std::stoul(argv[1]);
+  const lit_t numVars = N*N;
+  lit_t** const VarName = new lit_t*[N];
+  {lit_t kk=0;
+   for (coord_t i=0; i<N; ++i) {
+     VarName[i] = new lit_t[N];
+     for (coord_t j=0; j<N; ++j) VarName[i][j] = ++kk;
    }
   }
 
-  std::vector<std::vector<int>> cnf;
+  cls_t cnf;
+  cl_t vars;
 
-  std::vector<int> vars;
-
-  for (unsigned int i=0; i<N; ++i) {
+  for (coord_t i=0; i<N; ++i) {
     // row constraints
-    for (unsigned int j=0; j<N; ++j) vars.push_back(VarName[i][j]);
-    EqualOneToCNF(vars, cnf);
+    for (coord_t j=0; j<N; ++j) vars.push_back(VarName[i][j]);
+    aloamo(vars, cnf);
     vars.clear();
   }
 
-  for (unsigned int i=0; i<N; ++i) {
+  for (coord_t i=0; i<N; ++i) {
     // column constraints
-    for (unsigned int j=0; j<N; ++j) vars.push_back(VarName[j][i]);
-    EqualOneToCNF(vars, cnf);
+    for (coord_t j=0; j<N; ++j) vars.push_back(VarName[j][i]);
+    aloamo(vars, cnf);
     vars.clear();
   }
 
   if (N >= 2) {
     // diagonal constraints
-    for (unsigned int i=0; i<N-1; ++i) {
-      for (unsigned int j=0; j<N-i; ++j) vars.push_back(VarName[j][i+j]);
-      LessEqualOneToCNF(vars, cnf);
+    for (coord_t i=0; i<N-1; ++i) {
+      for (coord_t j=0; j<N-i; ++j) vars.push_back(VarName[j][i+j]);
+      amo(vars, cnf);
       vars.clear();
     }
-    for (unsigned int i=1; i<N-1; ++i) {
-      for (unsigned int j=0; j<N-i; ++j) vars.push_back(VarName[j+i][j]);
-      LessEqualOneToCNF(vars, cnf);
+    for (coord_t i=1; i<N-1; ++i) {
+      for (coord_t j=0; j<N-i; ++j) vars.push_back(VarName[j+i][j]);
+      amo(vars, cnf);
       vars.clear();
     }
-    for (unsigned int i=0; i<N-1; ++i) {
-      for (unsigned int j=0; j<N-i; ++j) vars.push_back(VarName[j][N-1 - (i+j)]);
-      LessEqualOneToCNF(vars, cnf);
+    for (coord_t i=0; i<N-1; ++i) {
+      for (coord_t j=0; j<N-i; ++j) vars.push_back(VarName[j][N-1 - (i+j)]);
+      amo(vars, cnf);
       vars.clear();
     }
-    for (unsigned int i=1; i<N-1; ++i) {
-      for (unsigned int j=0; j<N-i; ++j) vars.push_back(VarName[j+i][N-1-j]);
-      LessEqualOneToCNF(vars, cnf);
+    for (coord_t i=1; i<N-1; ++i) {
+      for (coord_t j=0; j<N-i; ++j) vars.push_back(VarName[j+i][N-1-j]);
+      amo(vars, cnf);
       vars.clear();
     }
   }
 
   std::ofstream fout(argv[2]);
   fout << "p cnf " << numVars << " " << cnf.size() << "\n";
-  for (unsigned int i=0; i<cnf.size(); ++i) {
-    for (unsigned int j=0; j<cnf[i].size(); ++j) fout << cnf[i][j] << " ";
+  for (const cl_t& C : cnf) {
+    for (const lit_t x : C) fout << x << " ";
     fout << " 0" << "\n";
   }
   fout << "\n";
