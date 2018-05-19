@@ -4,14 +4,16 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <cstdint>
+#include <limits>
 
 namespace {
 
-typedef int lit_t; // literals
+typedef std::int64_t lit_t; // literals
 typedef std::vector<lit_t> cl_t; // clauses
 typedef std::vector<cl_t> cls_t; // clause-sets
 
-typedef unsigned int coord_t; // coordinates
+typedef std::uint32_t coord_t; // coordinates
 typedef cl_t::size_type size_t;
 
 // One alo (at-least-one) constraint, then the amo (at-most-one) constraints:
@@ -51,7 +53,12 @@ int main(const int argc, const char* const argv[]) {
     return 0;
   }
 
-  const coord_t N = std::stoul(argv[1]);
+  const unsigned long arg1 = std::stoul(argv[1]);
+  if (arg1 > std::numeric_limits<coord_t>::max()) {
+    std::cerr << "First argument (N) too large.\n";
+    return 1;
+  }
+  const coord_t N = arg1;
   const lit_t numVars = N*N;
   lit_t** const VarName = new lit_t*[N];
   {lit_t kk=0;
@@ -103,6 +110,10 @@ int main(const int argc, const char* const argv[]) {
   }
 
   std::ofstream fout(argv[2]);
+  if (not fout) {
+    std::cerr << "Error opening file \"" << argv[2] << "\".\n";
+    return 1;
+  }
   fout << "p cnf " << numVars << " " << cnf.size() << "\n";
   for (const cl_t& C : cnf) {
     for (const lit_t x : C) fout << x << " ";
