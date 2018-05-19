@@ -91,7 +91,7 @@ int main(const int argc, const char* const argv[]) {
       vars.clear();
     }
     for (coord_t i=0; i<N-1; ++i) {
-      for (coord_t j=0; j<N-i; ++j) vars.push_back(VarName[j][N-1 - (i+j)]);
+      for (coord_t j=0; j<N-i; ++j) vars.push_back(VarName[j][N-1-i-j]);
       amo(vars, cnf);
       vars.clear();
     }
