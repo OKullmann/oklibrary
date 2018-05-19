@@ -53,7 +53,6 @@ int main(int argc, char * argv[]){
     }
   }
 
-  int numFormula = 0;
   vector< vector<int> > cnf;
 
   vector<int> vars;
@@ -116,8 +115,8 @@ int main(int argc, char * argv[]){
 
   fout << "p cnf " << numVars << " " << cnf.size() << endl;
 
-  for (int i=0; i<cnf.size(); i++){
-    for (int j=0; j<cnf[i].size(); j++){
+  for (unsigned int i=0; i<cnf.size(); i++){
+    for (unsigned int j=0; j<cnf[i].size(); j++){
       fout << cnf[i][j] << " ";
     }
     fout << " 0" << endl;
