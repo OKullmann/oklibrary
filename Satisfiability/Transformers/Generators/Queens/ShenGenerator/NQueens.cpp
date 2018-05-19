@@ -8,13 +8,11 @@
 #include <cstdio>
 #include <cstdlib>
 
-using namespace std;
-
-void EqualOneToCNF(vector<int> literals, vector< vector<int> > & cnf){
+void EqualOneToCNF(std::vector<int> literals, std::vector<std::vector<int>> & cnf){
   int N = literals.size();
   cnf.push_back(literals);
 
-  vector<int> dnf;
+  std::vector<int> dnf;
   // this one is a->~b, a->~c, ...
   for (int j=0; j<N-1; j++){
     for (int k=j+1; k<N; k++){
@@ -26,9 +24,9 @@ void EqualOneToCNF(vector<int> literals, vector< vector<int> > & cnf){
   }
 }
 
-void LessEqualOneToCNF(vector<int> literals, vector< vector<int> > & cnf){
+void LessEqualOneToCNF(std::vector<int> literals, std::vector<std::vector<int>> & cnf){
   int N = literals.size();
-  vector<int> dnf;
+  std::vector<int> dnf;
   // this one is a->~b, a->~c, ...
   for (int j=0; j<N-1; j++){
     for (int k=j+1; k<N; k++){
@@ -42,7 +40,7 @@ void LessEqualOneToCNF(vector<int> literals, vector< vector<int> > & cnf){
 
 int main(int argc, char * argv[]){
 
-  int N = atoi(argv[1]);
+  int N = std::atoi(argv[1]);
   int numVars = N*N;
   int kk=1;
   int ** VarName = new int * [N];
@@ -53,9 +51,9 @@ int main(int argc, char * argv[]){
     }
   }
 
-  vector< vector<int> > cnf;
+  std::vector<std::vector<int>> cnf;
 
-  vector<int> vars;
+  std::vector<int> vars;
 
   for (int i=0; i<N; i++){
     // generator formula per row
@@ -110,18 +108,18 @@ int main(int argc, char * argv[]){
     vars.clear();
   }
 
-  ofstream fout;
-  fout.open(argv[2], ofstream::out);
+  std::ofstream fout;
+  fout.open(argv[2], std::ofstream::out);
 
-  fout << "p cnf " << numVars << " " << cnf.size() << endl;
+  fout << "p cnf " << numVars << " " << cnf.size() << std::endl;
 
   for (unsigned int i=0; i<cnf.size(); i++){
     for (unsigned int j=0; j<cnf[i].size(); j++){
       fout << cnf[i][j] << " ";
     }
-    fout << " 0" << endl;
+    fout << " 0" << std::endl;
   }
-  fout << endl;
+  fout << std::endl;
 
   return 0;
 }
