@@ -1,5 +1,21 @@
 // https://sites.google.com/site/haioushen/search-algorithm/solvean-queensproblemusingsatsolver
 
+/*
+
+  Usage:
+
+> ./qgen N filename
+
+creates the standard CNF-representation of the N-Queens problem
+
+> ./qgen N filename x
+
+where x is anything, does not include the 2N "long" ALO-clauses
+(so this is effectively the N-Queens graph, and solution-counting yields
+the vertex-cover count of the N-Queens graph.
+
+*/
+
 #include <vector>
 #include <string>
 #include <iostream>
@@ -48,10 +64,12 @@ void amo(const cl_t& variables, cls_t& cnf) {
 
 int main(const int argc, const char* const argv[]) {
 
-  if (argc != 3) {
+  if (argc < 3) {
     std::cout << "Usage[NQueens]: N filename\n";
     return 0;
   }
+
+  const bool no_ALO = (argc == 4) ? true : false;
 
   const unsigned long arg1 = std::stoul(argv[1]);
   if (arg1 > std::numeric_limits<coord_t>::max()) {
@@ -74,14 +92,14 @@ int main(const int argc, const char* const argv[]) {
   for (coord_t i=0; i<N; ++i) {
     // row constraints
     for (coord_t j=0; j<N; ++j) vars.push_back(VarName[i][j]);
-    aloamo(vars, cnf);
+    if (no_ALO) amo(vars,cnf); else aloamo(vars, cnf);
     vars.clear();
   }
 
   for (coord_t i=0; i<N; ++i) {
     // column constraints
     for (coord_t j=0; j<N; ++j) vars.push_back(VarName[j][i]);
-    aloamo(vars, cnf);
+    if (no_ALO) amo(vars,cnf); else aloamo(vars, cnf);
     vars.clear();
   }
 
