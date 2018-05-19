@@ -1,3 +1,7 @@
+// Oliver Kullmann, 19.5.2018 (Swansea)
+// Copyright 2011 Haiou Shen
+// Copyright 2018 Oliver Kullmann
+// Started as a copy of the site
 // https://sites.google.com/site/haioushen/search-algorithm/solvean-queensproblemusingsatsolver
 
 /*
@@ -6,13 +10,13 @@
 
 > ./qgen N filename
 
-creates the standard CNF-representation of the N-Queens problem
+creates the standard CNF-representation of the N-Queens problem.
 
 > ./qgen N filename x
 
 where x is anything, does not include the 2N "long" ALO-clauses
 (so this is effectively the N-Queens graph, and solution-counting yields
-the vertex-cover count of the N-Queens graph.
+the vertex-cover count of the N-Queens graph).
 
 */
 
