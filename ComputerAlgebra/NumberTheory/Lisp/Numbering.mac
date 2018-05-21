@@ -189,6 +189,7 @@ nqueens_rotate_s(S,N) := map(lambda([p],nqueens_rotate_p(p,N)), S)$
 nqueens_irotate_s(S,N,m) := map(lambda([p],nqueens_irotate_p(p,N,m)), S)$
 nqueens_hmirror_s(S,N) := map(lambda([p],nqueens_hmirror_p(p,N)), S)$
 nqueens_ihmirror_s(S,N,m) := map(lambda([p],nqueens_ihmirror_p(p,N,m)), S)$
+
 /* The orbit of point [i,j]: */
 nqueens_orbit(i,j,N) := setify(append(
   create_list(nqueens_irotate(i,j,N,m),m,0,3),
@@ -196,6 +197,16 @@ nqueens_orbit(i,j,N) := setify(append(
 nqueens_orbit_p(p,N) := setify(append(
   create_list(nqueens_irotate_p(p,N,m),m,0,3),
   create_list(nqueens_ihmirror_p(p,N,m),m,0,3)))$
+/* The orbit under the four rotations: */
+nqueens_orbit_rot(i,j,N) := setify(
+  create_list(nqueens_irotate(i,j,N,m),m,0,3))$
+nqueens_orbit_rot_p(p,N) := setify(
+  create_list(nqueens_irotate_p(p,N,m),m,0,3))$
+/* The orbit under the rotation by 180 degrees ("point-symmetry"): */
+nqueens_orbit_psym(i,j,N) := setify(
+  create_list(nqueens_irotate(i,j,N,m),m,[0,2]))$
+nqueens_orbit_psym_p(p,N) := setify(
+  create_list(nqueens_irotate_p(p,N,m),m,[0,2]))$
 /* The orbit of a set S of points: */
 nqueens_orbit_s(S,N) := setify(append(
   create_list(nqueens_irotate_s(S,N,m),m,0,3),
