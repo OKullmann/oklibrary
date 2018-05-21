@@ -9,6 +9,8 @@ License, or any later version. */
   \file ComputerAlgebra/NumberTheory/Lisp/Numbering.mac
   \brief Numbering pairs of integers etc.
 
+XXX Currently also functions concerning N-Queens
+
 Use by
 
 oklib_load("OKlib/ComputerAlgebra/NumberTheory/Lisp/Numbering.mac");
@@ -139,7 +141,7 @@ samecolumn_p(p1,p2) := is(second(p1) = second(p2))$
 samediag_p(p1,p2) := is(second(p1)-first(p1) = second(p2)-first(p2))$
 sameantidiag_p(p1,p2) := is(second(p1)+first(p1) = second(p2)+first(p2))$
 
-nqueens_g(N,M) :=  block([SQ : cartesian_product(setn(N),setn(M))],
+queens_g(N,M) :=  block([SQ : cartesian_product(setn(N),setn(M))],
   [SQ, union(
      lunion(map(lambda([K],powerset(K,2)),equiv_classes(SQ, samerow_p))),
      lunion(map(lambda([K],powerset(K,2)),equiv_classes(SQ, samecolumn_p))),
