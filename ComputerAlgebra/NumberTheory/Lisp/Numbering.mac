@@ -182,6 +182,26 @@ nqueens_psym_fcs(N) := block([F : nqueens_fcs(N,N),
   SQ : map(qvmap, SQ),
  [first(F), union(second(F), lunion(map(allequal_cs, SQ)))])$
 
+standardise_qv(T) := block(
+ ev(T, qv(i,j) := rank_squarenumbering(i,j), qv))$
+invstandardise_qv(n) := enum_squarenumbering(n)$
+
+nqueens_rot_stdfcs(N) := standardise_qv(nqueens_rot_fcs(N))$
+nqueens_psym_stdfcs(N) := standardise_qv(nqueens_psym_fcs(N))$
+
+/* Output the direct translation to a file: */
+output_nqueens_rot(N,filename) := block(
+ [FF : nqueens_rot_stdfcs(N)],
+  output_fcs_v(
+    sconcat("N-Queens SAT with rotational symmetry and N = ", N, ".", newline, "c ", "Created by output_nqueens_rot(", N, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF,
+    filename,
+    []))$
+/* Providing a standard name: "NQueens_rot_N.cnf": */
+output_nqueens_rot_stdname(N) := output_nqueens_rot(N,
+  sconcat("NQueens_rot_",N,".cnf"))$
+
+
 /* Transforming an N-queens-clause C into a square combinatorial matrix: */
 queenscl2scom(C,N) := [setn(N), lambda([i,j], if elementp(qv_var(i,j),C) then +1 elseif elementp(-qv_var(i,j),C) then -1 else 0)]$
 /* Now into a Maxima matrix: */
