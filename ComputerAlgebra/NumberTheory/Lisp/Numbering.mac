@@ -136,6 +136,14 @@ amo_cs({1,2,3});
   {{-3,-2},{-3,-1},{-2,-1}}
 */
 
+/* For a lset V of variables the clauses expressing "all or none of them": */
+allequal_cs(V) := if length(V) <= 1 then {} else block([res:[], L:listify(V)],
+  for i : 1 thru length(L)-1 do res:cons({-L[i],L[i+1]},res),
+  res:cons({-last(L),first(L)},res), setify(res))$
+/* This can be established by an SD (strong digraph) between
+   the elements of V. The cycle uses the minimal number of arcs.
+*/
+
 /* The equivalence relations on the pairs [i,j] as well as on variables
    qv(i,j) as fundamental for the Queens-graph and Queens-constraints:
 */
@@ -161,6 +169,18 @@ nqueens_fcs(N,M) := block([SQ : qvmap(cartesian_product(setn(N),setn(M)))],
      if M<=N then equiv_classes(SQ, samecolumn_p) else {}
    )])$
 nqueens_cs(N,M) := fcs2cs(nqueens_fcs(N,M))$
+
+/* Now forcing the rotational resp. just the point-symmetries: */
+nqueens_rot_fcs(N) := block([F : nqueens_fcs(N,N),
+  SQ : cartesian_product(setn(N),setn(N))],
+  SQ : equiv_classes(SQ, lambda([x,y],nqueens_rot_p(x,y,N))),
+  SQ : map(qvmap, SQ),
+ [first(F), union(second(F), lunion(map(allequal_cs, SQ)))])$
+nqueens_psym_fcs(N) := block([F : nqueens_fcs(N,N),
+  SQ : cartesian_product(setn(N),setn(N))],
+  SQ : equiv_classes(SQ, lambda([x,y],nqueens_psym_p(x,y,N))),
+  SQ : map(qvmap, SQ),
+ [first(F), union(second(F), lunion(map(allequal_cs, SQ)))])$
 
 /* Transforming an N-queens-clause C into a square combinatorial matrix: */
 queenscl2scom(C,N) := [setn(N), lambda([i,j], if elementp(qv_var(i,j),C) then +1 elseif elementp(-qv_var(i,j),C) then -1 else 0)]$
