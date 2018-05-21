@@ -218,6 +218,11 @@ nqueens_orbit_s(S,N) := setify(append(
 /* Extend map f_(i,j), implicitly defined on variables qv(i,j), to literals: */
 nqueens_extvarlit(f_,x) := block([i,j,p], if posp(x) then (i:first(x),j:second(x),p:f_(i,j),qv_var(first(p),second(p))) else (i:first(-x),j:seccond(-x),p:f_(i,j),-qv_var(first(p),second(p))))$
 
+/* Testing whether points p1, p2 are equivalent due to point-symmetry: */
+nqueens_psym_p(p1,p2,N) := p1=p2 or nqueens_irotate_p(p1,N,2)=p2$
+/* Now under rotational symmetry: */
+nqueens_rot_p(p1,p2,N) := elementp(p2, nqueens_orbit_rot_p(p1,N))$
+
 /* Testing whether clauses C, D are isomorphic (there is a symmetry mapping, which transforms C to D): */
 nqueens_isoc_p(C,D,N) := block(
  [PC:nqueens_extrpairs(pospart_c(C)), NC:nqueens_extrpairs(comp_sl(negpart_c(C))),
