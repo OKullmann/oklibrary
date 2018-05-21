@@ -105,6 +105,9 @@ partialsol_nqueens_p({[1,2],[2,4],[3,1],[4,3]});
 /* Translate a set of pairs [i,j] into variables qv(i,j): */
 qvmap(SP) := map(lambda([p], apply(qv_var,p)), SP)$
 
+/* Transform a set V of variables qv(i,j) in the corresponding set of pairs [i,j]: */
+nqueens_extrpairs(V) := map(lambda([v], [first(v),second(v)]), V)$
+
 /* Translate a solution as a set of pairs into a DNF-clause: */
 extendsol_nqueens(S) := block([N:lmax(map(first,S)),D],
   D : setdifference(all_tuples(setn(N),2),S), union(qvmap(S), comp_sl(qvmap(D))))$
@@ -214,9 +217,6 @@ nqueens_orbit_s(S,N) := setify(append(
 
 /* Extend map f_(i,j), implicitly defined on variables qv(i,j), to literals: */
 nqueens_extvarlit(f_,x) := block([i,j,p], if posp(x) then (i:first(x),j:second(x),p:f_(i,j),qv_var(first(p),second(p))) else (i:first(-x),j:seccond(-x),p:f_(i,j),-qv_var(first(p),second(p))))$
-
-/* Transform a set V of variables qv(i,j) in the corresponding set of pairs [i,j]: */
-nqueens_extrpairs(V) := map(lambda([v], [first(v),second(v)]), V)$
 
 /* Testing whether clauses C, D are isomorphic (there is a symmetry mapping, which transforms C to D): */
 nqueens_isoc_p(C,D,N) := block(
