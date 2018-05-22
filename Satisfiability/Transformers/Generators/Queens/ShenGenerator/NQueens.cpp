@@ -69,7 +69,7 @@ void amo(const cl_t& variables, cls_t& cnf) {
 int main(const int argc, const char* const argv[]) {
 
   if (argc < 3) {
-    std::cout << "Usage[NQueens]: N filename\n";
+    std::cout << "Usage[qgen]: N filename [x]\n";
     return 0;
   }
 
