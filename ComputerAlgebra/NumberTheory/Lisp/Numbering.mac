@@ -200,6 +200,17 @@ output_nqueens_rot(N,filename) := block(
 /* Providing a standard name: "NQueens_rot_N.cnf": */
 output_nqueens_rot_stdname(N) := output_nqueens_rot(N,
   sconcat("NQueens_rot_",N,".cnf"))$
+output_nqueens_psym(N,filename) := block(
+ [FF : nqueens_psym_stdfcs(N)],
+  output_fcs_v(
+    sconcat("N-Queens SAT with point-symmetry and N = ", N, ".", newline, "c ", "Created by output_nqueens_psym(", N, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF,
+    filename,
+    []))$
+/* Providing a standard name: "NQueens_psym_N.cnf": */
+output_nqueens_psym_stdname(N) := output_nqueens_psym(N,
+  sconcat("NQueens_psym_",N,".cnf"))$
+
 
 
 /* Transforming an N-queens-clause C into a square combinatorial matrix: */
@@ -286,12 +297,14 @@ nqueens_counts : [1,0,0,2,10,4,40,92,352,724,
 /* The maximal entry is ~ 2.35*10^17. */
 /* Approximation formula (according to https://oeis.org/A000170): */
 nqueens_approx_count(N) := N! / 2.54^N$
+
 /* The number of isomorphism classes of solutions (classes of symmetric solutions) for 1 <= N <= 27: */
 iso_nqueens_counts : [1,0,0,1,2,1,6,12,46,92,
  341,1787,9233,45752,285053,1846955,11977939,83263591,621012754,4878666808,
  39333324973,336376244042,3029242658210,28439272956934,275986683743434,2789712466510289,29363495934315694]$
 /* https://oeis.org/A002562 */
-/* The number of rotational-symmetry solusions for 1 <= N <= 63: */
+
+/* The number of rotational-symmetry solutions for 1 <= N <= 63: */
 rot_nqueens_counts : [1,0,0,2,2,0,0,0,0,0,
  0,8,8,0,0,64,128,0,0,480,
  704,0,0,3328,3264,0,0,32896,43776,0,
@@ -303,6 +316,13 @@ rot_nqueens_counts : [1,0,0,2,2,0,0,0,0,0,
 /* According to there: count = 0 for mod(N,4) in {2,3}.
    In case of mod(N,4) = 1, the count is a multiple of 2^((N-1)/4).
 */
+
+/* The number of point-symmetric solutions for 1 <= N <= 40: */
+psym_nqueens_counts : [1,0,0,2,2,4,8,4,16,12,
+ 48,80,136,420,1240,3000,8152,18104,44184,144620,
+ 375664,1250692,3581240,11675080,34132592,115718268,320403024,1250901440,3600075088,14589438024,
+43266334696,181254386312,533869114600,2419751731604,6905549827664,33686204023352,97762487422768,496654774712700,1472761266426976,7715290606371500]$
+/* https://oeis.org/A032522 */
 
 /*!
 \endhtmlonly
