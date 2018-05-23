@@ -98,10 +98,9 @@ inline void amo(const cl_t& variables, cls_t& F) {
       clause.clear();
     }
 }
-// One alo (at-least-one) constraint, then the amo-constraints:
-inline void aloamo(const cl_t& variables, cls_t& F) {
+// At-least-one constraint:
+inline void alo(const cl_t& variables, cls_t& F) {
   F.push_back(variables);
-  amo(variables, F);
 }
 
 }
@@ -130,7 +129,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const ConstraintType con_t = translate(arg3);
-  const bool no_ALO = arg3=="g" or arg4=="g";
+  const bool ALO = arg3!="g" and arg4!="g";
 
   std::ofstream fout(argv[2]);
   if (not fout) {
@@ -155,13 +154,15 @@ int main(const int argc, const char* const argv[]) {
     for (coord_t i=0; i<N; ++i) {
       // row constraints
       for (coord_t j=0; j<N; ++j) vars.push_back(var[i][j]);
-      if (no_ALO) amo(vars,F); else aloamo(vars, F);
+      if (ALO) alo(vars,F);
+      amo(vars,F);
       vars.clear();
     }
     for (coord_t i=0; i<N; ++i) {
       // column constraints
       for (coord_t j=0; j<N; ++j) vars.push_back(var[j][i]);
-      if (no_ALO) amo(vars,F); else aloamo(vars, F);
+      if (ALO) alo(vars,F);
+      amo(vars,F);
       vars.clear();
     }
   }
@@ -171,26 +172,26 @@ int main(const int argc, const char* const argv[]) {
       // diagonal constraints
       for (coord_t i=0; i<N-1; ++i) {
         for (coord_t j=0; j<N-i; ++j) vars.push_back(var[j][i+j]);
-        if (no_ALO or con_t != ConstraintType::B) amo(vars, F);
-        else aloamo(vars,F);
+        if (ALO and con_t == ConstraintType::B) alo(vars,F);
+        amo(vars, F);
         vars.clear();
       }
       for (coord_t i=1; i<N-1; ++i) {
         for (coord_t j=0; j<N-i; ++j) vars.push_back(var[j+i][j]);
-        if (no_ALO or con_t != ConstraintType::B) amo(vars, F);
-        else aloamo(vars,F);
+        if (ALO and con_t == ConstraintType::B) alo(vars,F);
+        amo(vars, F);
         vars.clear();
       }
       for (coord_t i=0; i<N-1; ++i) {
         for (coord_t j=0; j<N-i; ++j) vars.push_back(var[j][N-1-i-j]);
-        if (no_ALO or con_t != ConstraintType::B) amo(vars, F);
-        else aloamo(vars,F);
+        if (ALO and con_t == ConstraintType::B) alo(vars,F);
+        amo(vars, F);
         vars.clear();
       }
       for (coord_t i=1; i<N-1; ++i) {
         for (coord_t j=0; j<N-i; ++j) vars.push_back(var[j+i][N-1-j]);
-        if (no_ALO or con_t != ConstraintType::B) amo(vars, F);
-        else aloamo(vars,F);
+        if (ALO and con_t == ConstraintType::B) alo(vars,F);
+        amo(vars, F);
         vars.clear();
       }
     }
