@@ -139,7 +139,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const coord_t N = arg1;
-  const lit_t numVars = N*N;
+  const lit_t nvar = N*N;
   lit_t** const VarName = new lit_t*[N];
   {lit_t kk=0;
    for (coord_t i=0; i<N; ++i) {
@@ -196,7 +196,7 @@ int main(const int argc, const char* const argv[]) {
     }
   }
 
-  fout << "p cnf " << numVars << " " << cnf.size() << "\n";
+  fout << "p cnf " << nvar << " " << cnf.size() << "\n";
   for (const cl_t& C : cnf) {
     for (const lit_t x : C) fout << x << " ";
     fout << "0" << "\n";
