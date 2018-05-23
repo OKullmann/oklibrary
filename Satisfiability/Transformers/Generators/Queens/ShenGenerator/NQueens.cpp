@@ -58,6 +58,7 @@ number), whose count is 2^N.
 
 6. Partial solutions for the N-Bishops problem (https://oeis.org/A201862):
 > ./qgen N filename B g
+
 */
 
 #include <vector>
@@ -84,11 +85,9 @@ ConstraintType translate(const std::string& inp) {
   return ConstraintType::Q;
 }
 
-
-// One alo (at-least-one) constraint, then the amo (at-most-one) constraints:
-void aloamo(const cl_t& variables, cls_t& cnf) {
+// At-most-one constraints:
+inline void amo(const cl_t& variables, cls_t& cnf) {
   const size_t N = variables.size();
-  cnf.push_back(variables);
   if (N <= 1) return;
   cl_t clause; clause.reserve(2);
   for (coord_t j=0; j<N-1; ++j)
@@ -99,18 +98,10 @@ void aloamo(const cl_t& variables, cls_t& cnf) {
       clause.clear();
     }
 }
-
-void amo(const cl_t& variables, cls_t& cnf) {
-  const size_t N = variables.size();
-  if (N <= 1) return;
-  cl_t clause; clause.reserve(2);
-  for (coord_t j=0; j<N-1; ++j)
-    for (coord_t k=j+1; k<N; ++k) {
-      clause.push_back(-variables[j]);
-      clause.push_back(-variables[k]);
-      cnf.push_back(clause);
-      clause.clear();
-    }
+// One alo (at-least-one) constraint, then the amo-constraints:
+inline void aloamo(const cl_t& variables, cls_t& cnf) {
+  cnf.push_back(variables);
+  amo(variables, cnf);
 }
 
 }
