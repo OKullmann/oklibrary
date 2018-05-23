@@ -86,7 +86,7 @@ ConstraintType translate(const std::string& inp) {
 }
 
 // At-most-one constraints:
-inline void amo(const cl_t& variables, cls_t& cnf) {
+inline void amo(const cl_t& variables, cls_t& F) {
   const size_t N = variables.size();
   if (N <= 1) return;
   cl_t clause; clause.reserve(2);
@@ -94,14 +94,14 @@ inline void amo(const cl_t& variables, cls_t& cnf) {
     for (coord_t k=j+1; k<N; ++k) {
       clause.push_back(-variables[j]);
       clause.push_back(-variables[k]);
-      cnf.push_back(clause);
+      F.push_back(clause);
       clause.clear();
     }
 }
 // One alo (at-least-one) constraint, then the amo-constraints:
-inline void aloamo(const cl_t& variables, cls_t& cnf) {
-  cnf.push_back(variables);
-  amo(variables, cnf);
+inline void aloamo(const cl_t& variables, cls_t& F) {
+  F.push_back(variables);
+  amo(variables, F);
 }
 
 }
@@ -140,28 +140,28 @@ int main(const int argc, const char* const argv[]) {
 
   const coord_t N = arg1;
   const lit_t nvar = N*N;
-  lit_t** const VarName = new lit_t*[N];
-  {lit_t kk=0;
+  lit_t** const var = new lit_t*[N];
+  {lit_t v=0;
    for (coord_t i=0; i<N; ++i) {
-     VarName[i] = new lit_t[N];
-     for (coord_t j=0; j<N; ++j) VarName[i][j] = ++kk;
+     var[i] = new lit_t[N];
+     for (coord_t j=0; j<N; ++j) var[i][j] = ++v;
    }
   }
 
-  cls_t cnf;
+  cls_t F;
   cl_t vars; vars.reserve(N);
 
   if (con_t != ConstraintType::B) {
     for (coord_t i=0; i<N; ++i) {
       // row constraints
-      for (coord_t j=0; j<N; ++j) vars.push_back(VarName[i][j]);
-      if (no_ALO) amo(vars,cnf); else aloamo(vars, cnf);
+      for (coord_t j=0; j<N; ++j) vars.push_back(var[i][j]);
+      if (no_ALO) amo(vars,F); else aloamo(vars, F);
       vars.clear();
     }
     for (coord_t i=0; i<N; ++i) {
       // column constraints
-      for (coord_t j=0; j<N; ++j) vars.push_back(VarName[j][i]);
-      if (no_ALO) amo(vars,cnf); else aloamo(vars, cnf);
+      for (coord_t j=0; j<N; ++j) vars.push_back(var[j][i]);
+      if (no_ALO) amo(vars,F); else aloamo(vars, F);
       vars.clear();
     }
   }
@@ -170,34 +170,34 @@ int main(const int argc, const char* const argv[]) {
     if (N >= 2) {
       // diagonal constraints
       for (coord_t i=0; i<N-1; ++i) {
-        for (coord_t j=0; j<N-i; ++j) vars.push_back(VarName[j][i+j]);
-        if (no_ALO or con_t != ConstraintType::B) amo(vars, cnf);
-        else aloamo(vars,cnf);
+        for (coord_t j=0; j<N-i; ++j) vars.push_back(var[j][i+j]);
+        if (no_ALO or con_t != ConstraintType::B) amo(vars, F);
+        else aloamo(vars,F);
         vars.clear();
       }
       for (coord_t i=1; i<N-1; ++i) {
-        for (coord_t j=0; j<N-i; ++j) vars.push_back(VarName[j+i][j]);
-        if (no_ALO or con_t != ConstraintType::B) amo(vars, cnf);
-        else aloamo(vars,cnf);
+        for (coord_t j=0; j<N-i; ++j) vars.push_back(var[j+i][j]);
+        if (no_ALO or con_t != ConstraintType::B) amo(vars, F);
+        else aloamo(vars,F);
         vars.clear();
       }
       for (coord_t i=0; i<N-1; ++i) {
-        for (coord_t j=0; j<N-i; ++j) vars.push_back(VarName[j][N-1-i-j]);
-        if (no_ALO or con_t != ConstraintType::B) amo(vars, cnf);
-        else aloamo(vars,cnf);
+        for (coord_t j=0; j<N-i; ++j) vars.push_back(var[j][N-1-i-j]);
+        if (no_ALO or con_t != ConstraintType::B) amo(vars, F);
+        else aloamo(vars,F);
         vars.clear();
       }
       for (coord_t i=1; i<N-1; ++i) {
-        for (coord_t j=0; j<N-i; ++j) vars.push_back(VarName[j+i][N-1-j]);
-        if (no_ALO or con_t != ConstraintType::B) amo(vars, cnf);
-        else aloamo(vars,cnf);
+        for (coord_t j=0; j<N-i; ++j) vars.push_back(var[j+i][N-1-j]);
+        if (no_ALO or con_t != ConstraintType::B) amo(vars, F);
+        else aloamo(vars,F);
         vars.clear();
       }
     }
   }
 
-  fout << "p cnf " << nvar << " " << cnf.size() << "\n";
-  for (const cl_t& C : cnf) {
+  fout << "p cnf " << nvar << " " << F.size() << "\n";
+  for (const cl_t& C : F) {
     for (const lit_t x : C) fout << x << " ";
     fout << "0" << "\n";
   }
