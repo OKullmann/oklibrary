@@ -10,13 +10,13 @@
 
 > ./qgen N
 
-creates the standard CNF-representation of the N-Queens problem.
+creates the standard CNF-SAT-representation of the N-Queens problem.
 Here and for the other options, the output is always to the file with
 standard-name
 
   (Queens|Rooks|Bishops)(Problem|Graph)_N.cnf
 
-where N case N has 1 or 2 digits, 2 resp. 1 zero is padded to the left.
+where in case N has 1 or 2 digits, 2 resp. 1 zeros are padded to the left.
 
 > ./qgen N "Q"|"R"|"B"
 
@@ -31,8 +31,11 @@ the vertex-cover count of the N-Queens graph).
 
 > ./qgen N "Q"|"R"|"B" "g"|"S"
 
-now allows also the graph-versions (without ALO-clauses) for Rooks- and
+finally allows also the graph-versions (without ALO-clauses) for Rooks- and
 Bishops-versions; "S" stands for "SAT".
+
+For compilation the Makefile in the same directory as this file can
+be used (standard C++11).
 
 The NxN fields of the chess board have coordinates (indices) as follows
 (using N=4):
@@ -42,7 +45,7 @@ The NxN fields of the chess board have coordinates (indices) as follows
  (1,0) (1,1) (1,2) (1,3)
  (0,0) (0,1) (0,2) (0,3)
 
-The number of variables is row-wise, starting at the bottom row (using
+The numbering of variables is row-wise, starting at the bottom row (using
 again N=4):
 
  13 14 15 16
@@ -54,7 +57,7 @@ Examples:
 
 > ./qgen 8
 creates the problem, in file "QueensProblem_008.cnf", whose 92 solutions
-represent the nonattacking placements of 8 queens on an 8X8 chess board.
+represent the nonattacking placements of 8 queens on an 8x8 chess board.
 The same is obtained by
 > ./qgen 8 Q
 or
@@ -62,30 +65,30 @@ or
 
 > ./qgen 8 g
 creates the problem, in file "QueensGraph_008.cnf", whose 118969 solutions
-represent all nonattacking placements of queens on an 8X8 chess board.
+represent all nonattacking placements of queens on an 8x8 chess board.
 The same is obtained by
 > ./qgen 8 Q g
 
-> .qgen 8 R
+> ./qgen 8 R
 creates the problem, in file "RooksProblem_008.cnf", whose 40320 solutions
-represent the nonattacking placements of 8 rooks on an 8X8 chess board.
+represent the nonattacking placements of 8 rooks on an 8x8 chess board.
 The same is obtained by
 > ./qgen 8 R S
 
 > ./qgen 8 R g
 creates the problem, in file "RooksGraph_008.cnf", whose 1441729 solutions
-represent all nonattacking placements of rooks on an 8X8 chess board.
+represent all nonattacking placements of rooks on an 8x8 chess board.
 
-> qgen 8 B
+> ./qgen 8 B
 creates the problem, in file "BishopsProblem_008.cnf", whose 256 solutions
-represent the nonattacking maximal placements of bishops on an 8X8 chess board.
+represent the nonattacking maximal placements of bishops on an 8x8 chess board.
 (This is the same here as all nonattacking placements of 14 bishops.)
 The same is obtained by
 > ./qgen 8 B S
 
 > ./qgen 8 B g
 creates the problem, in file "BishopsGraph_008.cnf", whose 82609921 solutions
-represent all nonattacking placements of bishops on an 8X8 chess board.
+represent all nonattacking placements of bishops on an 8x8 chess board.
 
 
 Altogether there are 6 problem-types, which, with links to the
@@ -116,7 +119,7 @@ This is the number of independent sets in the Rooks-graph.
    and antidiagonals:
 > ./qgen N filename B
 > ./qgen N filename B S
-This variation sems not to have been considered yet; counts for 1<=N<=10 are:
+This variation seems not to have been considered yet; counts for 1<=N<=10 are:
 1 4 10 16 56 64 416 256 3968 1024
 For even N this is the problem of placing 2N-2 bishops (the maximum
 number), whose count is 2^N.
