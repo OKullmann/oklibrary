@@ -117,12 +117,12 @@ This is the number of independent sets in the Rooks-graph.
 > ./qgen N filename B
 > ./qgen N filename B S
 This variation sems not to have been considered yet; counts for 1<=N<=10 are:
-2 4 10 16 56 64 416 256 3968 1024
+1 4 10 16 56 64 416 256 3968 1024
 For even N this is the problem of placing 2N-2 bishops (the maximum
 number), whose count is 2^N.
-In general for N>=2 this is the number of nonattacking bishop-placements
+In general this is the number of nonattacking bishop-placements
 covering all fields, or, equivalently, the number of maximal independent
-sets in the Bishops-graph (for odd N they don't need to be maximum).
+sets in the Bishops-graph (for odd N >= 3 they don't need to be maximum).
 
 6. Partial solutions for the N-Bishops problem (https://oeis.org/A201862):
 > ./qgen N filename B g
@@ -253,7 +253,8 @@ int main(const int argc, const char* const argv[]) {
 
   if (con_t != ConstraintType::R) {
     // diagonal constraints
-    if (N >= 2) {
+    if (N == 1 and ALO and con_t == ConstraintType::B) alo(cl_t{1},F);
+    else if (N >= 2) {
       // N-1 diags of length N, N-1, ..., 2, starting with main diagonal,
       // each starting at field (0,i) for 0 <= i <= N-2:
       for (coord_t i=0; i<N-1; ++i) {
