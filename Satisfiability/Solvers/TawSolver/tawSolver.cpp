@@ -20,7 +20,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 **********************************************************************/
 
 /*
-  An efficient implementation of the original DLL agorithm, using the
+  An efficient implementation of the original DLL algorithm, using the
   theory of look-ahead heuristics as developed in
 
   Fundaments of Branching Heuristics, Handbook of Satisfiability, Chapter 7
@@ -131,7 +131,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
    - UCP_STRATEGY (default 1): 0 means BFS-processing, 1 means DFS-processing
      of unit-clauses.
    - PURE_LITERALS: if defined (default is undefined), then pure literals are
-     eliminated (as they are encountered, not iteratedly).
+     eliminated (as they are encountered, not iteratively).
    - TAU_ITERATION: if defined (default is undefined), then this natural number
      is the number of iterations for computing the in principle more accurate,
      but also more costly tau-function as projection (instead of the product);
@@ -147,7 +147,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
      can also be defined as e.g. "double" or "long double", in which case the
      result may become "inf".
 
-  To provide further versioning-information, there are two macros, which are
+  To provide further version-information, there are two macros, which are
   only relevant if they are defined:
    - GIT_ID (for the identity hash-value of the Git repository)
    - OKLIB (with the url (without prefix "http://") for the OKlibrary.
@@ -197,10 +197,10 @@ c number_tautologies                    0
 c file_name                             -cin
 c options                               "A19"
 
-that is, we have zero clauses, but 2^63 solutions: the point is that
-the input specified there are 63 variables (which here are merely "formal",
-they do not occur in the input), and since there are no clauses, there
-are no restrictions on them.
+  that is, we have zero clauses, but 2^63 solutions: the point is that
+  the input specified there are 63 variables (which here are merely "formal",
+  they do not occur in the input), and since there are no clauses, there
+  are no restrictions on them.
 
   A time-out is currently not provided by the solver, but can be achieved
   with the tool "timeout" (Linux/Unix), for example a time-out of 0.7s:
@@ -553,7 +553,7 @@ public :
   the only instance of class Clauses. */
 
 LiteralOccurrences lits;
-// via lits[v][pos/neg] the sequence of literal-ccurrences is obtained
+// via lits[v][pos/neg] the sequence of literal-occurrences is obtained
 
 Count_clauses n_header_clauses, n_clauses, n_taut; // r_clauses see above
 Count_clauses n_lit_occurrences;
