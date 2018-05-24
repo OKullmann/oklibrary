@@ -159,26 +159,34 @@ int main(const int argc, const char* const argv[]) {
   }
 
   if (con_t != ConstraintType::R) {
+    // diagonal constraints
     if (N >= 2) {
-      // diagonal constraints
+      // N-1 diags of length N, N-1, ..., 2, starting with main diagonal,
+      // each starting at field (0,i) for 0 <= i <= N-2:
       for (coord_t i=0; i<N-1; ++i) {
         for (coord_t j=0; j<N-i; ++j) vars.push_back(var(j,i+j,N));
         if (ALO and con_t == ConstraintType::B) alo(vars,F);
         amo(vars, F);
         vars.clear();
       }
+      // N-2 diags of length N-1, ..., 2, each starting at (i,0) for
+      // 1 <= i <= N-2:
       for (coord_t i=1; i<N-1; ++i) {
         for (coord_t j=0; j<N-i; ++j) vars.push_back(var(j+i,j,N));
         if (ALO and con_t == ConstraintType::B) alo(vars,F);
         amo(vars, F);
         vars.clear();
       }
+      // N-1 antidiags of length N, N-1, ..., 2, starting with main antidiag,
+      // each starting at field (0,N-1-i) for 0 <= i <= N-2:
       for (coord_t i=0; i<N-1; ++i) {
         for (coord_t j=0; j<N-i; ++j) vars.push_back(var(j,N-1-i-j,N));
         if (ALO and con_t == ConstraintType::B) alo(vars,F);
         amo(vars, F);
         vars.clear();
       }
+      // N-2 antidiags of length N-1, ..., 2, each starting at (i,N-1) for
+      // 1 <= i <= N-2:
       for (coord_t i=1; i<N-1; ++i) {
         for (coord_t j=0; j<N-i; ++j) vars.push_back(var(j+i,N-1-j,N));
         if (ALO and con_t == ConstraintType::B) alo(vars,F);
