@@ -103,6 +103,11 @@ inline void alo(const cl_t& variables, cls_t& F) {
   F.push_back(variables);
 }
 
+// The variables var(i,j), 0 <= i,j < N, are indexed 1, ..., N^2 row-wise:
+inline constexpr lit_t var(const coord_t i, const coord_t j, const coord_t N) noexcept {
+  return i*N + j + 1;
+}
+
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -139,28 +144,20 @@ int main(const int argc, const char* const argv[]) {
 
   const coord_t N = arg1;
   const lit_t nvar = N*N;
-  lit_t** const var = new lit_t*[N];
-  {lit_t v=0;
-   for (coord_t i=0; i<N; ++i) {
-     var[i] = new lit_t[N];
-     for (coord_t j=0; j<N; ++j) var[i][j] = ++v;
-   }
-  }
-
   cls_t F;
   cl_t vars; vars.reserve(N);
 
   if (con_t != ConstraintType::B) {
     for (coord_t i=0; i<N; ++i) {
       // row constraints
-      for (coord_t j=0; j<N; ++j) vars.push_back(var[i][j]);
+      for (coord_t j=0; j<N; ++j) vars.push_back(var(i,j,N));
       if (ALO) alo(vars,F);
       amo(vars,F);
       vars.clear();
     }
     for (coord_t i=0; i<N; ++i) {
       // column constraints
-      for (coord_t j=0; j<N; ++j) vars.push_back(var[j][i]);
+      for (coord_t j=0; j<N; ++j) vars.push_back(var(j,i,N));
       if (ALO) alo(vars,F);
       amo(vars,F);
       vars.clear();
@@ -171,25 +168,25 @@ int main(const int argc, const char* const argv[]) {
     if (N >= 2) {
       // diagonal constraints
       for (coord_t i=0; i<N-1; ++i) {
-        for (coord_t j=0; j<N-i; ++j) vars.push_back(var[j][i+j]);
+        for (coord_t j=0; j<N-i; ++j) vars.push_back(var(j,i+j,N));
         if (ALO and con_t == ConstraintType::B) alo(vars,F);
         amo(vars, F);
         vars.clear();
       }
       for (coord_t i=1; i<N-1; ++i) {
-        for (coord_t j=0; j<N-i; ++j) vars.push_back(var[j+i][j]);
+        for (coord_t j=0; j<N-i; ++j) vars.push_back(var(j+i,j,N));
         if (ALO and con_t == ConstraintType::B) alo(vars,F);
         amo(vars, F);
         vars.clear();
       }
       for (coord_t i=0; i<N-1; ++i) {
-        for (coord_t j=0; j<N-i; ++j) vars.push_back(var[j][N-1-i-j]);
+        for (coord_t j=0; j<N-i; ++j) vars.push_back(var(j,N-1-i-j,N));
         if (ALO and con_t == ConstraintType::B) alo(vars,F);
         amo(vars, F);
         vars.clear();
       }
       for (coord_t i=1; i<N-1; ++i) {
-        for (coord_t j=0; j<N-i; ++j) vars.push_back(var[j+i][N-1-j]);
+        for (coord_t j=0; j<N-i; ++j) vars.push_back(var(j+i,N-1-j,N));
         if (ALO and con_t == ConstraintType::B) alo(vars,F);
         amo(vars, F);
         vars.clear();
