@@ -13,7 +13,7 @@ SHELL = /bin/bash
 CXX = g++
 
 Standard_options = --std=c++11 -pedantic
-Warning_options = -Wall
+Warning_options = -Wall -Wno-return-type
 Optimisation_options = -Ofast -DNDEBUG
 
 all : qgen

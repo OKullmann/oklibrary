@@ -8,56 +8,109 @@
 
   Usage:
 
-> ./qgen N filename
+> ./qgen N
 
 creates the standard CNF-representation of the N-Queens problem.
+Here and for the other options, the output is always to the file with
+standard-name
 
-> ./qgen N filename "Q"|"R"|"B"
+  (Queens|Rooks|Bishops)(Problem|Graph)_N.cnf
 
-for third argument "R" or "B" creates the standard CNF-representation for
-the N-Rooks resp. 2N-2-Bishops problem.
+where N case N has 1 or 2 digits, 2 resp. 1 zero is padded to the left.
 
-> ./qgen N filename "g"
+> ./qgen N "Q"|"R"|"B"
+
+with second argument "R" or "B" creates the standard CNF-representation for
+the N-Rooks resp. Maximal-Bishops problem.
+
+> ./qgen N "g"
 
 create the N-Queens problem, but does not include the 2N "long" ALO-clauses
 (so this is effectively the N-Queens graph, and solution-counting yields
 the vertex-cover count of the N-Queens graph).
 
-> ./qgen N filename "Q"|"R"|"B" "g"|"S"
+> ./qgen N "Q"|"R"|"B" "g"|"S"
 
 now allows also the graph-versions (without ALO-clauses) for Rooks- and
 Bishops-versions; "S" stands for "SAT".
 
-So we get 6 problem-types, which for the solution-counts are as follows:
+Examples:
+
+> ./qgen 8
+creates the problem, in file "QueensProblem_008.cnf", whose 92 solutions
+represent the nonattacking placements of 8 queens on an 8X8 chess board.
+The same is obtained by
+> ./qgen 8 Q
+or
+> ./qgen 8 Q S
+
+> ./qgen 8 g
+creates the problem, in file "QueensGraph_008.cnf", whose 118969 solutions
+represent all nonattacking placements of queens on an 8X8 chess board.
+The same is obtained by
+> ./qgen 8 Q g
+
+> .qgen 8 R
+creates the problem, in file "RooksProblem_008.cnf", whose 40320 solutions
+represent the nonattacking placements of 8 rooks on an 8X8 chess board.
+The same is obtained by
+> ./qgen 8 R S
+
+> ./qgen 8 R g
+creates the problem, in file "RooksGraph_008.cnf", whose 1441729 solutions
+represent all nonattacking placements of rooks on an 8X8 chess board.
+
+> qgen 8 B
+creates the problem, in file "BishopsProblem_008.cnf", whose 256 solutions
+represent the nonattacking maximal placements of bishops on an 8X8 chess board.
+(This is the same here as all nonattacking placements of 14 bishops.)
+The same is obtained by
+> ./qgen 8 B S
+
+> ./qgen 8 B g
+creates the problem, in file "BishopsGraph_008.cnf", whose 82609921 solutions
+represent all nonattacking placements of bishops on an 8X8 chess board.
+
+
+Altogether there are 6 problem-types, which, with links to the
+solution-counts, are as follows:
 
 1. Solutions for the N-Queens problem (https://oeis.org/A000170):
 > ./qgen N filename
 > ./qgen N filename Q
 > ./qgen N filename Q S
+For N#2,3 this is the number of maximum independent sets in the Queens-graph.
 
 2. Partial solutions for the N-Queens problem (https://oeis.org/A287227):
 > ./qgen N filename g
 > ./qgen N filename Q g
+This is the number of independent sets in the Queens-graph.
 
 3. Solutions for the N-Rooks problem (this is N!):
 > ./qgen N filename R
 > ./qgen N filename R S
+This is the number of maximum (here equivalently: maximal) independent sets
+in the Rooks-graph.
 
 4. Partial solutions for the N-Rooks problem (https://oeis.org/A002720):
 > ./qgen N filename R g
+This is the number of independent sets in the Rooks-graph.
 
 5. Solutions for the Bishops-problem, with ALO for the nontrivial diagonals
    and antidiagonals:
 > ./qgen N filename B
 > ./qgen N filename B S
-
 This variation sems not to have been considered yet; counts for 1<=N<=10 are:
 2 4 10 16 56 64 416 256 3968 1024
-For even N this appears the problem of placing 2N-2 bishops (the maximum
+For even N this is the problem of placing 2N-2 bishops (the maximum
 number), whose count is 2^N.
+In general for N>=2 this is the number of nonattacking bishop-placements
+covering all fields, or, equivalently, the number of maximal independent
+sets in the Bishops-graph (for odd N they don't need to be maximum).
 
 6. Partial solutions for the N-Bishops problem (https://oeis.org/A201862):
 > ./qgen N filename B g
+This is the number of independent sets in the Bishops-graph.
 
 */
 
@@ -67,8 +120,11 @@ number), whose count is 2^N.
 #include <fstream>
 #include <cstdint>
 #include <limits>
+#include <algorithm>
 
 namespace {
+
+constexpr unsigned int number_field_size = 3;
 
 typedef std::int64_t lit_t; // literals
 typedef std::vector<lit_t> cl_t; // clauses
@@ -79,10 +135,20 @@ typedef cl_t::size_type size_t;
 
 enum class ConstraintType { Q, R, B };
 
-ConstraintType translate(const std::string& inp) {
+ConstraintType translate(const std::string& inp) noexcept {
   if (inp=="R") return ConstraintType::R;
   if (inp=="B") return ConstraintType::B;
   return ConstraintType::Q;
+}
+std::string translate(const ConstraintType ct) {
+  switch (ct) {
+    case ConstraintType::Q : return "Queens";
+    case ConstraintType::R : return "Rooks";
+    case ConstraintType::B : return "Bishops";
+  }
+}
+std::string problem_form(const bool alo) {
+  return (alo) ? "Problem" : "Graph";
 }
 
 // At-most-one constraints:
@@ -102,12 +168,22 @@ inline constexpr lit_t var(const coord_t i, const coord_t j, const coord_t N) no
   return i*N + j + 1;
 }
 
+std::string translate(const coord_t N) {
+  const std::string res = std::to_string(N);
+  typedef std::string::size_type size_t;
+  const size_t l = res.length();
+  return std::string(std::max<size_t>(l, number_field_size) - l, '0') + res;
+}
+std::string filename(const coord_t N, const ConstraintType ct, const bool alo) {
+  return translate(ct) + problem_form(alo) + "_" + translate(N) + ".cnf";
+}
+
 }
 
 int main(const int argc, const char* const argv[]) {
 
-  if (argc < 3 or argc > 5) {
-    std::cout << "Usage[qgen]: N filename [Q|R|B] [S|g]\n";
+  if (argc < 2 or argc > 4) {
+    std::cout << "Usage[qgen]: N [Q|R|B] [S|g]\n";
     return 0;
   }
 
@@ -116,28 +192,29 @@ int main(const int argc, const char* const argv[]) {
     std::cerr << " First argument (N) too large.\n";
     return 1;
   }
-
-  const std::string arg3 = (argc < 4) ? "Q" : argv[3];
-  const std::string arg4 = (argc < 5) ? "S" : argv[4];
-
-  if (not ((argc == 3) or
-       (argc == 4 and (arg3=="Q" or arg3=="R" or arg3=="B" or arg3=="g")) or
-       (argc == 5 and (arg3=="Q" or arg3=="R" or arg3=="B") and (arg4=="g" or arg4=="S")))) {
-    std::cerr << "Wrong third or fourth argument.\n";
-    return 1;
-  }
-
-  const ConstraintType con_t = translate(arg3);
-  const bool ALO = arg3!="g" and arg4!="g";
-
-  std::ofstream fout(argv[2]);
-  if (not fout) {
-    std::cerr << "Error opening file \"" << argv[2] << "\".\n";
-    return 1;
-  }
-
   const coord_t N = arg1;
   const lit_t nvar = N*N;
+
+  const std::string arg2 = (argc < 3) ? "Q" : argv[2];
+  const std::string arg3 = (argc < 4) ? "S" : argv[3];
+
+  if (not ((argc == 2) or
+       (argc == 3 and (arg2=="Q" or arg2=="R" or arg2=="B" or arg2=="g")) or
+       (argc == 4 and (arg2=="Q" or arg2=="R" or arg2=="B") and (arg3=="g" or arg3=="S")))) {
+    std::cerr << "Wrong second or third argument.\n";
+    return 1;
+  }
+
+  const ConstraintType con_t = translate(arg2);
+  const bool ALO = arg2!="g" and arg3!="g";
+
+  const std::string name = filename(N,con_t,ALO);
+  std::ofstream fout(name);
+  if (not fout) {
+    std::cerr << "Error opening file \"" << name << "\".\n";
+    return 1;
+  }
+
   cls_t F;
   cl_t vars; vars.reserve(N);
 
