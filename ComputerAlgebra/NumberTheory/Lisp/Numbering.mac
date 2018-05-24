@@ -170,6 +170,27 @@ nqueens_fcs(N,M) := block([SQ : qvmap(cartesian_product(setn(N),setn(M)))],
    )])$
 nqueens_cs(N,M) := fcs2cs(nqueens_fcs(N,M))$
 
+standardise_qv(T) := block(
+ ev(T, qv(i,j) := rank_squarenumbering(i,j), qv))$
+invstandardise_qv(n) := enum_squarenumbering(n)$
+
+/* For N#M we allow gaps: */
+nqueens_stdfcs(N,M) := standardise_qv(nqueens_fcs(N,M))$
+
+/* Output the direct translation to a file (now without gaps for the
+   variable-numbering): */
+output_nqueens(N,M,filename) := block(
+ [FF : standardise_fcs(nqueens_stdfcs(N,M))[1]],
+  output_fcs_v(
+    sconcat("N-Queens SAT with N = ", N, " and M = ", M, ".", newline, "c ", "Created by output_nqueens(", N, ",", M, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF,
+    filename,
+    []))$
+/* Providing a standard name: "NQueens_N_M.cnf": */
+output_nqueens_stdname(N,M) := output_nqueens(N,M,
+  sconcat("NQueens_",N,"_",M,".cnf"))$
+
+
 /* Now forcing the rotational resp. just the point-symmetries: */
 nqueens_rot_fcs(N) := block([F : nqueens_fcs(N,N),
   SQ : cartesian_product(setn(N),setn(N))],
@@ -181,10 +202,6 @@ nqueens_psym_fcs(N) := block([F : nqueens_fcs(N,N),
   SQ : equiv_classes(SQ, lambda([x,y],nqueens_psym_p(x,y,N))),
   SQ : map(qvmap, SQ),
  [first(F), union(second(F), lunion(map(allequal_cs, SQ)))])$
-
-standardise_qv(T) := block(
- ev(T, qv(i,j) := rank_squarenumbering(i,j), qv))$
-invstandardise_qv(n) := enum_squarenumbering(n)$
 
 nqueens_rot_stdfcs(N) := standardise_qv(nqueens_rot_fcs(N))$
 nqueens_psym_stdfcs(N) := standardise_qv(nqueens_psym_fcs(N))$
