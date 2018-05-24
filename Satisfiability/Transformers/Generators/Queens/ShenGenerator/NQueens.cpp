@@ -235,17 +235,17 @@ int main(const int argc, const char* const argv[]) {
   cl_t vars; vars.reserve(N);
 
   if (con_t != ConstraintType::B) {
+    // Row constraints:
     for (coord_t i=0; i<N; ++i) {
-      // row constraints
       for (coord_t j=0; j<N; ++j) vars.push_back(var(i,j,N));
       if (ALO) alo(vars,F);
       amo(vars,F);
       vars.clear();
     }
+    // Column constraints:
     for (coord_t i=0; i<N; ++i) {
-      // column constraints
       for (coord_t j=0; j<N; ++j) vars.push_back(var(j,i,N));
-      if (ALO) alo(vars,F);
+      if (ALO and N >= 2) alo(vars,F);
       amo(vars,F);
       vars.clear();
     }
