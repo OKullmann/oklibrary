@@ -1,7 +1,7 @@
 /*********************************************************************
 tawSolver -- A basic and efficient DLL SAT solver
 Copyright (c) 2007-2013 Tanbir Ahmed http://users.encs.concordia.ca/~ta_ahmed/
-Copyright 2013, 2015, 2016, 2017 Oliver Kullmann http://www.cs.swan.ac.uk/~csoliver/
+Copyright 2013, 2015, 2016, 2017, 2018 Oliver Kullmann http://www.cs.swan.ac.uk/~csoliver/
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -157,10 +157,12 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
      and contraction of repeated literals; the reported number_of_clauses,
      maximal_clause_length and number_of_literal_occurrences refer to the
      result of this reduction.
-   - number_of_variables is (just) the n-value on the p-line (as an upper
-     bound on the maximal positive value of literals).
-   - "running_time" is only solver-time.
-   - "running_time + reading-and-set-up_time is total time.
+   - p_param_variables is the n-value on the p-line (as an upper
+     bound on the maximal absolute value of literals in the input).
+   - max_occurring_variable is the maximum of absolute values of literals in
+     the input.
+   - "running_time(sec)" is only solver-time.
+   - running_time + reading-and-set-up_time is total time.
    - A "binary node" is one with (exactly) two children.
    - A "1-reduction" is an assignment due to unit-clause propagation.
    - "options" yields a summary of the main options:
@@ -173,6 +175,32 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
   If solutions-output is cout, then it comes after the statistics, except for
   the case where ALL_SOLUTIONS is defined, where then naturally the solutions
   come before the (final) statistics.
+
+  For counting of solutions, the value reported in p_param_variables is used
+  as the number of variables. So for example we have
+
+> echo "p cnf 63 0" | ctawSolver -cin
+s SATISFIABLE
+c max_occurring_variable                0
+c number_of_clauses                     0
+c maximal_clause_length                 0
+c number_of_literal_occurrences         0
+c running_time(sec)                     0.00
+c number_of_nodes                       1
+c number_of_binary_nodes                0
+c number_of_1-reductions                0
+c number_of_solutions                   9223372036854775808
+c reading-and-set-up_time(sec)          0.000
+c p_param_variables                     63
+c p_param_clauses                       0
+c number_tautologies                    0
+c file_name                             -cin
+c options                               "A19"
+
+that is, we have zero clauses, but 2^63 solutions: the point is that
+the input specified there are 63 variables (which here are merely "formal",
+they do not occur in the input), and since there are no clauses, there
+are no restrictions on them.
 
   A time-out is currently not provided by the solver, but can be achieved
   with the tool "timeout" (Linux/Unix), for example a time-out of 0.7s:
