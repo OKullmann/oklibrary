@@ -89,13 +89,8 @@ ConstraintType translate(const std::string& inp) {
 inline void amo(const cl_t& v, cls_t& F) {
   const size_t N = v.size();
   if (N <= 1) return;
-  cl_t C; C.reserve(2);
   for (coord_t i=0; i<N-1; ++i)
-    for (coord_t j=i+1; j<N; ++j) {
-      C.push_back(-v[i]); C.push_back(-v[j]);
-      F.push_back(C);
-      C.clear();
-    }
+    for (coord_t j=i+1; j<N; ++j) F.push_back(cl_t{-v[i],-v[j]});
 }
 // At-least-one constraint:
 inline void alo(const cl_t& v, cls_t& F) {
