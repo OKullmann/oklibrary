@@ -86,21 +86,20 @@ ConstraintType translate(const std::string& inp) {
 }
 
 // At-most-one constraints:
-inline void amo(const cl_t& variables, cls_t& F) {
-  const size_t N = variables.size();
+inline void amo(const cl_t& v, cls_t& F) {
+  const size_t N = v.size();
   if (N <= 1) return;
-  cl_t clause; clause.reserve(2);
-  for (coord_t j=0; j<N-1; ++j)
-    for (coord_t k=j+1; k<N; ++k) {
-      clause.push_back(-variables[j]);
-      clause.push_back(-variables[k]);
-      F.push_back(clause);
-      clause.clear();
+  cl_t C; C.reserve(2);
+  for (coord_t i=0; i<N-1; ++i)
+    for (coord_t j=i+1; j<N; ++j) {
+      C.push_back(-v[i]); C.push_back(-v[j]);
+      F.push_back(C);
+      C.clear();
     }
 }
 // At-least-one constraint:
-inline void alo(const cl_t& variables, cls_t& F) {
-  F.push_back(variables);
+inline void alo(const cl_t& v, cls_t& F) {
+  F.push_back(v);
 }
 
 // The variables var(i,j), 0 <= i,j < N, are indexed 1, ..., N^2 row-wise:
