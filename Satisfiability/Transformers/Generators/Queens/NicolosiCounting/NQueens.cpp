@@ -26,52 +26,56 @@ SOFTWARE.
   ID f50264291093fe8529d143995ae9784f097d7ebf.
 */
 
-#include <stdio.h>
+#include <cstdint>
+#include <iostream>
+#include <string>
 
-int mask;
-unsigned long long sol = 0;
+namespace {
 
-void nqueens_backtracking(int pos, int r, int d1, int d2) {
-  int c = ~pos & mask;
-  while(c) {
-    int i = -c & c, newd1, newd2;
-      if (r+i == mask) {
-        ++sol;
-        return;
-      }
-      newd1 = (d1 + i) >> 1,
-      newd2 = (d2 + i) << 1;
-      nqueens_backtracking(((r+i) | newd1 | newd2), r+i ,newd1, newd2);
-      c -= i;
+typedef std::uint64_t count_t;
+typedef std::int32_t queen_t;
+
+count_t count = 0;
+
+inline void backtracking(const queen_t mask, const queen_t pos, const queen_t r, const queen_t d1, const queen_t d2) noexcept {
+  queen_t c = ~pos & mask;
+  while (c) {
+    const queen_t i = -c & c;
+    if (r+i == mask) {++count; return;}
+    const queen_t newd1 = (d1 + i) >> 1;
+    const queen_t newd2 = (d2 + i) << 1;
+    backtracking(mask, (r+i) | newd1 | newd2, r+i , newd1, newd2);
+    c -= i;
    }
 }
 
-int main(int argc, char **argv)
+}
+
+int main(const int argc, const char* const argv[])
 {
-  int N;
-
-  printf("Insert the dimension of chekboard: ");
-  scanf("%d", &N);
-
-  if(N < 0 || N > 32) {
-    printf("Error: N must be an integer between 0 and 32\n");
-    return -1;
+  if (argc != 2) {
+    std::cout << "Usage[qcount]: N\n";
+    return 0;
   }
-
-  mask = (1 << N) - 1;
-
-  if (N % 2 == 0)
-  {
-    nqueens_backtracking((1 << (N / 2)) - 1, 0, 0, 0);
-    printf("Number of all solutions: %llu\n", 2*sol);
+  const unsigned long arg1 = std::stoul(argv[1]);
+  if (arg1 == 0) {
+    std::cout << 1 << "\n";
+    return 0;
+  }
+  if (arg1 > 32) {
+    std::cerr << " N <= 32 required.\n";
+    return 1;
+  }
+  const queen_t N = arg1;
+  const queen_t mask = (1 << N) - 1;
+  if (N % 2 == 0) {
+    backtracking(mask, (1 << (N / 2)) - 1, 0, 0, 0);
+    std::cout << 2*count;
   } else {
-    unsigned long long sol1;
-    nqueens_backtracking((1 << ((N / 2) + 1)) - 1, 0, 0, 0);
-    sol1 = sol;
-    sol = 0;
-    nqueens_backtracking(~(1 << (N / 2)), 0, 0, 0);
-    printf("Number of all solutions: %llu\n", 2*sol1 + sol);
+    backtracking(mask, (1 << ((N / 2) + 1)) - 1, 0, 0, 0);
+    const count_t count1 = count;
+    count = 0;
+    backtracking(mask, ~(1 << (N / 2)), 0, 0, 0);
+    std::cout << 2*count1 + count;
   }
-
-  return 0;
 }
