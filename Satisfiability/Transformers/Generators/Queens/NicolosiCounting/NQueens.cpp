@@ -38,15 +38,14 @@ typedef std::int32_t queen_t;
 count_t count = 0;
 
 inline void backtracking(const queen_t mask, const queen_t pos, const queen_t r, const queen_t d1, const queen_t d2) noexcept {
-  queen_t c = ~pos & mask;
-  while (c) {
+  for (queen_t c = ~pos & mask; c;) {
     const queen_t i = -c & c;
     if (r+i == mask) {++count; return;}
     const queen_t newd1 = (d1 + i) >> 1;
     const queen_t newd2 = (d2 + i) << 1;
     backtracking(mask, (r+i) | newd1 | newd2, r+i , newd1, newd2);
     c -= i;
-   }
+  }
 }
 
 }
