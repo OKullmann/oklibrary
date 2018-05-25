@@ -27,7 +27,6 @@ SOFTWARE.
 */
 
 #include <stdio.h>
-#include <time.h>
 
 int mask;
 unsigned long long sol = 0;
@@ -50,7 +49,6 @@ void nqueens_backtracking(int pos, int r, int d1, int d2) {
 int main(int argc, char **argv)
 {
   int N;
-  double tb, te;
 
   printf("Insert the dimension of chekboard: ");
   scanf("%d", &N);
@@ -61,8 +59,6 @@ int main(int argc, char **argv)
   }
 
   mask = (1 << N) - 1;
-
-  tb = clock();
 
   if (N % 2 == 0)
   {
@@ -77,8 +73,5 @@ int main(int argc, char **argv)
     printf("Number of all solutions: %llu\n", 2*sol1 + sol);
   }
 
-  te = clock();
-
-  printf("Time: %f\n" , (te - tb) / CLOCKS_PER_SEC);
   return 0;
 }
