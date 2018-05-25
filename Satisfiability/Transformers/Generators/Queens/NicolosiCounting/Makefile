@@ -10,16 +10,16 @@ SHELL = /bin/bash
 
 .PHONY : all clean
 
-CC = gcc
+CXX = g++
 
-Standard_options = # --std=c++11 -pedantic
+Standard_options = --std=c++11 -pedantic
 Warning_options = -Wall
 Optimisation_options = -Ofast -DNDEBUG
 
 all : qcount
 
-qcount : NQueens.c
-	$(CC) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CCFLAGS) $< -o $@
+qcount : NQueens.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 clean :
 	- rm qcount
