@@ -31,12 +31,9 @@ SOFTWARE.
 #include <string>
 
 namespace {
-
 typedef std::uint_fast64_t count_t;
 typedef std::uint32_t queen_t;
-
 count_t count = 0;
-
 inline void backtracking(const queen_t mask, const queen_t pos, const queen_t r, const queen_t d1, const queen_t d2) noexcept {
   for (queen_t c = ~pos & mask; c;) {
     const queen_t i = -c & c;
@@ -48,7 +45,6 @@ inline void backtracking(const queen_t mask, const queen_t pos, const queen_t r,
     }
   }
 }
-
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -63,8 +59,7 @@ int main(const int argc, const char* const argv[]) {
     std::cout << 2*count;
   } else {
     backtracking(mask, (1 << ((N / 2) + 1)) - 1, 0, 0, 0);
-    const count_t count1 = count;
-    count = 0;
+    const count_t count1 = count; count = 0;
     backtracking(mask, ~(1 << (N / 2)), 0, 0, 0);
     std::cout << 2*count1 + count;
   }
