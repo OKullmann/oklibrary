@@ -32,7 +32,7 @@ SOFTWARE.
 
 namespace {
 
-typedef std::uint64_t count_t;
+typedef std::uint_fast64_t count_t;
 typedef std::uint32_t queen_t;
 
 count_t count = 0;
@@ -40,30 +40,22 @@ count_t count = 0;
 inline void backtracking(const queen_t mask, const queen_t pos, const queen_t r, const queen_t d1, const queen_t d2) noexcept {
   for (queen_t c = ~pos & mask; c;) {
     const queen_t i = -c & c;
-    if (r+i == mask) {++count; return;}
-    const queen_t newd1 = (d1 + i) >> 1, newd2 = (d2 + i) << 1;
-    backtracking(mask, (r+i) | newd1 | newd2, r+i , newd1, newd2);
-    c -= i;
+    const queen_t rpi = r + i;
+    if (rpi == mask) {++count; return;} else {
+      const queen_t newd1 = (d1+i) >> 1, newd2 = (d2+i) << 1;
+      backtracking(mask, rpi|newd1|newd2, rpi, newd1, newd2);
+      c -= i;
+    }
   }
 }
 
 }
 
-int main(const int argc, const char* const argv[])
-{
-  if (argc != 2) {
-    std::cout << "Usage[qcount]: N\n";
-    return 0;
-  }
+int main(const int argc, const char* const argv[]) {
+  if (argc != 2) { std::cout << "Usage[qcount]: N\n"; return 0; }
   const unsigned long arg1 = std::stoul(argv[1]);
-  if (arg1 == 0) {
-    std::cout << 1 << "\n";
-    return 0;
-  }
-  if (arg1 > 32) {
-    std::cerr << " N <= 32 required.\n";
-    return 1;
-  }
+  if (arg1 == 0) { std::cout << 1 << "\n"; return 0; }
+  if (arg1 > 32) { std::cerr << " N <= 32 required.\n"; return 1; }
   const queen_t N = arg1;
   const queen_t mask = (1 << N) - 1;
   if (N % 2 == 0) {
