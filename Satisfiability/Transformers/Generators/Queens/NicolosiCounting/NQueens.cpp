@@ -33,7 +33,7 @@ SOFTWARE.
 namespace {
 
 typedef std::uint64_t count_t;
-typedef std::int32_t queen_t;
+typedef std::uint32_t queen_t;
 
 count_t count = 0;
 
@@ -41,8 +41,7 @@ inline void backtracking(const queen_t mask, const queen_t pos, const queen_t r,
   for (queen_t c = ~pos & mask; c;) {
     const queen_t i = -c & c;
     if (r+i == mask) {++count; return;}
-    const queen_t newd1 = (d1 + i) >> 1;
-    const queen_t newd2 = (d2 + i) << 1;
+    const queen_t newd1 = (d1 + i) >> 1, newd2 = (d2 + i) << 1;
     backtracking(mask, (r+i) | newd1 | newd2, r+i , newd1, newd2);
     c -= i;
   }
