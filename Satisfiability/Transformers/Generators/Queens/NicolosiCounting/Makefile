@@ -14,7 +14,7 @@ CXX = g++
 
 Standard_options = --std=c++11 -pedantic
 Warning_options = -Wall
-Optimisation_options = -Ofast -DNDEBUG
+Optimisation_options = -Ofast -DNDEBUG -funroll-loops -fno-math-errno -ffinite-math-only -fwhole-program
 
 all : qcount
 
