@@ -24,6 +24,19 @@ SOFTWARE.
   Started as copy from
   https://github.com/alenic/nqueens/commits/master
   ID f50264291093fe8529d143995ae9784f097d7ebf.
+
+  Usage:
+
+> ./qcount N
+
+Output of the solution count and the number of nodes; e.g.
+
+> ./qcount 8
+92 983
+
+That is, 92 solutions (nonattacking placements of 8 queens on the 8x8 board),
+using 983 nodes in the backtracking tree.
+
 */
 
 #include <cstdint>
