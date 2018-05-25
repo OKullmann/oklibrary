@@ -37,6 +37,8 @@ Output of the solution count and the number of nodes; e.g.
 That is, 92 solutions (nonattacking placements of 8 queens on the 8x8 board),
 using 983 nodes in the backtracking tree.
 
+For compilation the Makefile in the same directory as this file can be used.
+
 */
 
 #include <cstdint>
