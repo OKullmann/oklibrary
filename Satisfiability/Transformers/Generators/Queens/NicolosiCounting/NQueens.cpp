@@ -51,7 +51,7 @@ typedef std::uint32_t queen_t;
 count_t count = 0, nodes = 0;
 inline void backtracking(const queen_t mask, const queen_t pos, const queen_t r, const queen_t d1, const queen_t d2) noexcept {
   ++nodes;
-  for (queen_t c = ~pos & mask; c;) {
+  for (queen_t c = ~pos & mask; c != 0;) {
     const queen_t i = -c & c;
     const queen_t rpi = r + i;
     if (rpi == mask) {++count; return;} else {
