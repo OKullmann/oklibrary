@@ -55,9 +55,7 @@ namespace {
 
 typedef std::uint8_t input_t;
 typedef std::uint_fast64_t count_t;
-typedef std::uint_fast64_t queen_t;
-
-count_t count = 0, nodes = 0;
+typedef std::uint_fast64_t queen_t; // for 64 < N <= 128, use queen_t = std::uint_fast128_t (and appropriate count_t)
 
 // N 1's from the right, the rest 0:
 constexpr queen_t setrightmostbits(const input_t N) noexcept {
@@ -73,6 +71,7 @@ inline constexpr queen_t keeprightmostbit(const queen_t x) noexcept {
   return -x & x;
 }
 
+count_t count = 0, nodes = 0;
 queen_t all_columns;
 input_t N;
 inline void backtracking(queen_t avail,
@@ -105,7 +104,7 @@ int main(const int argc, const char* const argv[]) {
   if (argc != 2) { std::cout << "Usage[qcount]: N\n"; return 0; }
   const unsigned long arg1 = std::stoul(argv[1]);
   if (arg1 <= 1) { std::cout << 1 << " " << nodes << "\n"; return 0; }
-  if (arg1 > 64) { std::cerr << " N <= 64 required.\n"; return 1; } // for 64 < N <= 128, use queen_t = std::uint_fast128_t
+  if (arg1 > 64) { std::cerr << " N <= 64 required.\n"; return 1; }
   N = arg1;
   all_columns = setrightmostbits(N);
   // Using rotation-symmetry around vertical axis:
