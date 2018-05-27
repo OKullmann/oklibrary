@@ -73,9 +73,11 @@ inline constexpr queen_t keeprightmostbit(const queen_t x) noexcept {
   return -x & x;
 }
 
-inline void backtracking(const queen_t all_columns, queen_t avail,
+queen_t all_columns;
+input_t N;
+inline void backtracking(queen_t avail,
   const queen_t columns, const queen_t fdiag, const queen_t fantid,
-  input_t size, const input_t N) noexcept {
+  input_t size) noexcept {
   // avail: columns available for this invocation (only), via their column positions (bit-positions 0, ..., N-1)
   // columns: the current placement of queens
   // fdiag: forbidden columns due to diagonal constraints
@@ -94,7 +96,7 @@ inline void backtracking(const queen_t all_columns, queen_t avail,
         newavail = ~(newcolumns|newdiag|newantid) & all_columns;
     if (newavail)
       if (size+1 == N) ++count; else
-      backtracking(all_columns,newavail,newcolumns,newdiag,newantid,size,N);
+      backtracking(newavail,newcolumns,newdiag,newantid,size);
   } while (next = keeprightmostbit(avail^=next));
 }
 }
@@ -104,16 +106,16 @@ int main(const int argc, const char* const argv[]) {
   const unsigned long arg1 = std::stoul(argv[1]);
   if (arg1 <= 1) { std::cout << 1 << " " << nodes << "\n"; return 0; }
   if (arg1 > 64) { std::cerr << " N <= 64 required.\n"; return 1; } // for 64 < N <= 128, use queen_t = std::uint_fast128_t
-  const input_t N = arg1;
-  const queen_t all_columns = setrightmostbits(N);
+  N = arg1;
+  all_columns = setrightmostbits(N);
   // Using rotation-symmetry around vertical axis:
   if (N % 2 == 0) {
-    backtracking(all_columns, setrightmostbits(N/2), 0, 0, 0, 0,N);
+    backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
     std::cout << 2*count << " " << nodes << "\n";
   } else {
-    backtracking(all_columns, setrightmostbits(N/2), 0, 0, 0, 0,N);
+    backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
     const count_t half = count; count = 0;
-    backtracking(all_columns, one(N/2), 0, 0, 0, 0,N);
+    backtracking(one(N/2), 0, 0, 0, 0);
     std::cout << 2*half + count << " " << nodes << "\n";
   }
 }
