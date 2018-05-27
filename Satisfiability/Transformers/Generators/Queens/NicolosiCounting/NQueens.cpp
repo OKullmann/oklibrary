@@ -53,7 +53,7 @@ namespace {
 
 typedef std::uint8_t input_t;
 typedef std::uint_fast64_t count_t;
-typedef std::uint_fast64_t queen_t;
+typedef std::uint_fast32_t queen_t;
 
 count_t count = 0, nodes = 0;
 
@@ -72,18 +72,19 @@ inline constexpr queen_t keeprightmostbit(const queen_t x) noexcept {
   return -x & x;
 }
 
-inline void backtracking(const queen_t all_columns, const queen_t forbidden, const queen_t columns, const queen_t fdiag, const queen_t fantid) noexcept {
+inline void backtracking(const queen_t all_columns, const queen_t forbidden, const queen_t columns, const queen_t fdiag, const queen_t fantid, const input_t size, const input_t N) noexcept {
   // forbidden: columns forbidden for this invocation (only)
   // columns: the current placement of queens, via their column positions (bit-positions 0, ..., N-1)
   // fdiag: forbidden column positions due to diagonal constraints
   // fantid: forbidden column positions due to antidiagonal constraints
+  // size-many rows (from bottom) have been processed, now consider the next
+  // row, and try to place a queen in some column.
   ++nodes;
   for (queen_t avail = ~forbidden & all_columns; avail != 0;) {
     const queen_t next = keeprightmostbit(avail);
-    const queen_t newcolumns = columns | next;
-    if (newcolumns == all_columns) {++count; return;} else {
-      const queen_t newdiag = (fdiag|next) >> 1, newantid = (fantid|next) << 1;
-      backtracking(all_columns, newcolumns|newdiag|newantid, newcolumns, newdiag, newantid);
+    if (size+1 == N) {++count; return;} else {
+      const queen_t newcolumns = columns | next, newdiag = (fdiag|next) >> 1, newantid = (fantid|next) << 1;
+      backtracking(all_columns, newcolumns|newdiag|newantid, newcolumns, newdiag, newantid, size+1,N);
       avail ^= next;
     }
   }
@@ -98,12 +99,12 @@ int main(const int argc, const char* const argv[]) {
   const input_t N = arg1;
   const queen_t all_columns = setrightmostbits(N);
   if (N % 2 == 0) {
-    backtracking(all_columns, setrightmostbits(N/2), 0, 0, 0);
+    backtracking(all_columns, setrightmostbits(N/2), 0, 0, 0, 0,N);
     std::cout << 2*count << " " << nodes << "\n";
   } else {
-    backtracking(all_columns, setrightmostbits(N/2+1), 0, 0, 0);
+    backtracking(all_columns, setrightmostbits(N/2+1), 0, 0, 0, 0,N);
     const count_t half = count; count = 0;
-    backtracking(all_columns, exactlyonezero(N/2), 0, 0, 0);
+    backtracking(all_columns, exactlyonezero(N/2), 0, 0, 0, 0,N);
     std::cout << 2*half + count << " " << nodes << "\n";
   }
 }
