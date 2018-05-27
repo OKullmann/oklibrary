@@ -14,12 +14,16 @@ CXX = g++
 
 Standard_options = --std=c++11 -pedantic
 Warning_options = -Wall
-Optimisation_options = -Ofast -DNDEBUG -funroll-loops -fno-math-errno -ffinite-math-only -fwhole-program
+Optimisation_options = -Ofast -DNDEBUG -funroll-loops -fno-math-errno -ffinite-math-only -fwhole-program -funsafe-loop-optimizations -funroll-loops
+Debug_options = -g
 
-all : qcount
+all : qcount qcount_debug
 
 qcount : NQueens.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
+qcount_debug : NQueens.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
 clean :
-	- rm qcount
+	- rm qcount qcount_debug
