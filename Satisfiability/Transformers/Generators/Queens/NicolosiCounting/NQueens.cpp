@@ -55,7 +55,7 @@ namespace {
 
 typedef std::uint8_t input_t;
 typedef std::uint_fast64_t count_t;
-typedef std::uint_fast32_t queen_t;
+typedef std::uint_fast64_t queen_t;
 
 count_t count = 0, nodes = 0;
 
@@ -85,17 +85,16 @@ inline void backtracking(const queen_t all_columns, queen_t avail,
   assert(size == 0 or avail == (~(columns|fdiag|fantid) & all_columns));
   ++nodes;
   assert(avail);
-  ++size;
+  ++size; // due to the placement of next
   assert(size < N);
-  queen_t next = keeprightmostbit(avail);
+  queen_t next = keeprightmostbit(avail); // could be any bit, but that seems fastest
   assert(next);
-  do {
-    const queen_t newcolumns = columns|next,
-          newdiag = (fdiag|next) >> 1, newantid = (fantid|next) << 1,
-          newavail = ~(newcolumns|newdiag|newantid) & all_columns;
+  do {const queen_t newcolumns = columns|next,
+        newdiag = (fdiag|next) >> 1, newantid = (fantid|next) << 1,
+        newavail = ~(newcolumns|newdiag|newantid) & all_columns;
     if (newavail)
       if (size+1 == N) ++count; else
-      backtracking(all_columns, newavail, newcolumns, newdiag, newantid, size,N);
+      backtracking(all_columns,newavail,newcolumns,newdiag,newantid,size,N);
   } while (next = keeprightmostbit(avail^=next));
 }
 }
@@ -104,9 +103,10 @@ int main(const int argc, const char* const argv[]) {
   if (argc != 2) { std::cout << "Usage[qcount]: N\n"; return 0; }
   const unsigned long arg1 = std::stoul(argv[1]);
   if (arg1 <= 1) { std::cout << 1 << " " << nodes << "\n"; return 0; }
-  if (arg1 > 32) { std::cerr << " N <= 32 required.\n"; return 1; } // for larger N, use larger queen_t
+  if (arg1 > 64) { std::cerr << " N <= 64 required.\n"; return 1; } // for 64 < N <= 128, use queen_t = std::uint_fast128_t
   const input_t N = arg1;
   const queen_t all_columns = setrightmostbits(N);
+  // Using rotation-symmetry around vertical axis:
   if (N % 2 == 0) {
     backtracking(all_columns, setrightmostbits(N/2), 0, 0, 0, 0,N);
     std::cout << 2*count << " " << nodes << "\n";
