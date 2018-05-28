@@ -63,15 +63,17 @@ inline void backtracking(const queen_t avail,
   const queen_t columns, const queen_t fdiag, const queen_t fantid,
   size_t size) noexcept {
   assert(avail.any());
+  assert(columns.count() == size);
   ++nodes;
   const size_t sp1 = size+1;
   assert(sp1 < n);
   const queen_t sdiag = fdiag >> 1;
   const queen_t santid = fantid << 1;
+  const queen_t forb0(columns | sdiag | santid);
+  if (forb0.all()) return;
   if (sp1+1 == n) {
-    const queen_t forb(columns | sdiag | santid);
     for (size_t i = 0; i < n; ++i)
-      count += bool(avail[i] and not setneighbours(forb,i).all());
+      count += bool(avail[i] and not setneighbours(forb0,i).all());
   }
   else
     for (size_t i = 0; i < n; ++i) {
