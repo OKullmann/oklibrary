@@ -1,8 +1,8 @@
 // Oliver Kullmann 27.5.2018 (Swansea)
 
 /*
-  Computes the N-Queens count for N given as macro, e.g. for N=16:
-> make SETN=-DN=16
+  Computes the N-Queens count for N given as macro NN, e.g. for N=16:
+> make SETN=-DNN=16
 > ./qcount_ct
 
 */
@@ -15,10 +15,10 @@
 namespace {
 
 typedef std::size_t size_t;
-#ifndef N
-# error "N must be defined."
+#ifndef NN
+# error "NN must be defined."
 #endif
-constexpr size_t n=N;
+constexpr size_t n=NN;
 
 typedef std::uint_fast64_t count_t; // counting solutions
 typedef std::bitset<n> queen_t;
