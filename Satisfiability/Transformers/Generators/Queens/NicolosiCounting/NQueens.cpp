@@ -112,7 +112,8 @@ inline void backtracking(queen_t avail,
   //assert(std::bitset<N>(columns).count() == size);
   ++nodes;
   assert(avail);
-  const queen_t newavail0 = ~(columns | fdiag>>1 | fantid<<1) & all_columns;
+  const queen_t sdiag = fdiag>>1, santid = fantid<<1;
+  const queen_t newavail0 = ~(columns | sdiag | santid) & all_columns;
   if (not newavail0) return;
   queen_t next = keeprightmostbit(avail); // could be any bit, but that seems fastest
   const input_t sp1 = size+1; // due to the placement of next
@@ -124,8 +125,9 @@ inline void backtracking(queen_t avail,
   }
   else
     do {const queen_t newcolumns = columns|next,
-          newdiag = (fdiag|next) >> 1, newantid = (fantid|next) << 1,
-          newavail = newavail0 & ~(next | next>>1 | next<<1);
+          nextrs = next>>1, nextls = next<<1,
+          newdiag = sdiag | nextrs, newantid = santid | nextls,
+          newavail = newavail0 & ~(next | nextrs | nextls);
       if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1);
     } while (next = keeprightmostbit(avail^=next));
 }
