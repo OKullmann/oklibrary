@@ -2,7 +2,7 @@
 
 /*
   Computes the N-Queens count for N given as macro, e.g. for N=16:
-> make CXXFLAGS=-DN=16
+> make SETN=-DN=16
 > ./qcount_ct
 
 */
@@ -37,18 +37,26 @@ inline void backtracking(const queen_t avail,
   size_t size) noexcept {
   assert(avail.any());
   ++nodes;
-  ++size;
-  assert(size < n);
-  for (size_t i = 0; i < n; ++i) {
-    if (not avail[i]) continue;
-    queen_t newcolumns(columns); newcolumns[i] = true;
-    queen_t ndiag(fdiag); ndiag[i] = true; ndiag >>= 1;
-    queen_t nantid(fantid); nantid[i] = true; nantid <<= 1;
-    const queen_t newavail(~(newcolumns | ndiag | nantid));
-    if (newavail.none()) continue;
-    if (size+1 == n) ++count; else
-    backtracking(newavail,newcolumns,ndiag,nantid,size);
-  }
+  const size_t sp1 = size+1;
+  assert(sp1 < n);
+  if (sp1+1 == n)
+    for (size_t i = 0; i < n; ++i) {
+      if (not avail[i]) continue;
+      queen_t forb(columns);
+      forb[i] = true;
+      {queen_t ndiag(fdiag); ndiag[i]=true; ndiag>>=1; forb |= ndiag;}
+      {queen_t nantid(fantid); nantid[i]=true; nantid<<=1; forb |= nantid;}
+      if (not forb.all()) ++count;
+    }
+  else
+    for (size_t i = 0; i < n; ++i) {
+      if (not avail[i]) continue;
+      queen_t newcolumns(columns); newcolumns[i] = true;
+      queen_t ndiag(fdiag); ndiag[i] = true; ndiag >>= 1;
+      queen_t nantid(fantid); nantid[i] = true; nantid <<= 1;
+      const queen_t newavail(~(newcolumns | ndiag | nantid));
+      if (newavail.any()) backtracking(newavail,newcolumns,ndiag,nantid,sp1);
+    }
 }
 
 }

@@ -103,7 +103,7 @@ input_t N;
 // next row, and try to place the next queen in some column.
 inline void backtracking(queen_t avail,
   const queen_t columns, const queen_t fdiag, const queen_t fantid,
-  input_t size) noexcept {
+  const input_t size) noexcept {
   // avail: columns available (set to 1) for this invocation (only)
   // columns: the current placement of queens
   // fdiag: forbidden columns due to diagonal constraints
@@ -111,17 +111,22 @@ inline void backtracking(queen_t avail,
   assert(size == 0 or avail == (~(columns|fdiag|fantid) & all_columns));
   ++nodes;
   assert(avail);
-  ++size; // due to the placement of next
-  assert(size < N);
+  const input_t sp1 = size+1; // due to the placement of next
+  assert(sp1 < N);
   queen_t next = keeprightmostbit(avail); // could be any bit, but that seems fastest
   assert(next);
-  do {const queen_t newcolumns = columns|next,
-        newdiag = (fdiag|next) >> 1, newantid = (fantid|next) << 1,
-        newavail = ~(newcolumns|newdiag|newantid) & all_columns;
-    if (newavail)
-      if (size+1 == N) ++count; else
-      backtracking(newavail,newcolumns,newdiag,newantid,size);
-  } while (next = keeprightmostbit(avail^=next));
+  if (sp1+1 == N) {
+    const queen_t forb = columns | fdiag>>1 | fantid<<1 | ~all_columns;
+    do
+      count += bool(~(forb | next | next>>1 | next<<1));
+    while (next = keeprightmostbit(avail^=next));
+  }
+  else
+    do {const queen_t newcolumns = columns|next,
+          newdiag = (fdiag|next) >> 1, newantid = (fantid|next) << 1,
+          newavail = ~(newcolumns|newdiag|newantid) & all_columns;
+      if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1);
+    } while (next = keeprightmostbit(avail^=next));
 }
 }
 
