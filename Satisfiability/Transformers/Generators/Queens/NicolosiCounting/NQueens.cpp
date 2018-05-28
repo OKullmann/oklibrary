@@ -29,6 +29,8 @@ The basic idea is the same as explained at
 
   https://helloacm.com/n-queen-problem-in-back-tracing-bit-logics/
 
+  Version 1.0, 28.5.2018.
+
   Usage:
 
 > ./qcount N

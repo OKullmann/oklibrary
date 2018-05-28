@@ -1,13 +1,21 @@
 // Oliver Kullmann 27.5.2018 (Swansea)
+/* Copyright 2018 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
 
 /*
-  Computes the N-Queens count for N given as macro NN, e.g. for N=16:
+  Computes the N-Queens count for N given as macro NN, e.g. for N=16, using
+  the makefile in the same directory as this file:
+
 > make SETN=-DNN=16
 > ./qcount_ct
 
   "ct" stands for "compile-time".
-
   The same basic algorithm as NQueens.cpp, but using std::bitset<N>.
+
+  Version 1.0, 28.5.2018.
 
 */
 
@@ -56,8 +64,6 @@ inline queen_t setleftneighbour(queen_t x, const size_t i) noexcept {
   if (i+1 != n) x[i+1] = true;
   return x;
 }
-
-
 
 count_t count=0, nodes=0;
 
