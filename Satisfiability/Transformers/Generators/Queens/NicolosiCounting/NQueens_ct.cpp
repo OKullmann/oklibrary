@@ -7,6 +7,8 @@
 
   "ct" stands for "compile-time".
 
+  The same basic algorithm as NQueens.cpp, but using std::bitset<N>.
+
 */
 
 
@@ -61,7 +63,7 @@ count_t count=0, nodes=0;
 
 inline void backtracking(const queen_t avail,
   const queen_t columns, const queen_t fdiag, const queen_t fantid,
-  size_t size) noexcept {
+  const size_t size) noexcept {
   assert(avail.any());
   assert(columns.count() == size);
   ++nodes;
