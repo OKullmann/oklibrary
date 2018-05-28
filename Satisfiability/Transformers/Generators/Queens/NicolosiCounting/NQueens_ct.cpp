@@ -5,6 +5,8 @@
 > make SETN=-DNN=16
 > ./qcount_ct
 
+  "ct" stands for "compile-time".
+
 */
 
 
@@ -30,6 +32,31 @@ queen_t setbits(const size_t m) {
   return res;
 }
 
+inline queen_t setneighbours(queen_t x, const size_t i) noexcept {
+  assert(i < n);
+  x[i] = true;
+  if (i != 0) x[i-1] = true;
+  if (i+1 != n) x[i+1] = true;
+  return x;
+}
+inline queen_t set(queen_t x, const size_t i) noexcept {
+  assert(i < n);
+  x[i] = true;
+  return x;
+}
+inline queen_t setrightneighbour(queen_t x, const size_t i) noexcept {
+  assert(i < n);
+  if (i != 0) x[i-1] = true;
+  return x;
+}
+inline queen_t setleftneighbour(queen_t x, const size_t i) noexcept {
+  assert(i < n);
+  if (i+1 != n) x[i+1] = true;
+  return x;
+}
+
+
+
 count_t count=0, nodes=0;
 
 inline void backtracking(const queen_t avail,
@@ -39,21 +66,19 @@ inline void backtracking(const queen_t avail,
   ++nodes;
   const size_t sp1 = size+1;
   assert(sp1 < n);
-  if (sp1+1 == n)
-    for (size_t i = 0; i < n; ++i) {
-      if (not avail[i]) continue;
-      queen_t forb(columns);
-      forb[i] = true;
-      {queen_t ndiag(fdiag); ndiag[i]=true; ndiag>>=1; forb |= ndiag;}
-      {queen_t nantid(fantid); nantid[i]=true; nantid<<=1; forb |= nantid;}
-      if (not forb.all()) ++count;
-    }
+  const queen_t sdiag = fdiag >> 1;
+  const queen_t santid = fantid << 1;
+  if (sp1+1 == n) {
+    const queen_t forb(columns | sdiag | santid);
+    for (size_t i = 0; i < n; ++i)
+      count += bool(avail[i] and not setneighbours(forb,i).all());
+  }
   else
     for (size_t i = 0; i < n; ++i) {
       if (not avail[i]) continue;
-      queen_t newcolumns(columns); newcolumns[i] = true;
-      queen_t ndiag(fdiag); ndiag[i] = true; ndiag >>= 1;
-      queen_t nantid(fantid); nantid[i] = true; nantid <<= 1;
+      const queen_t newcolumns(set(columns,i));
+      const queen_t ndiag(setrightneighbour(sdiag,i));
+      const queen_t nantid(setleftneighbour(santid,i));
       const queen_t newavail(~(newcolumns | ndiag | nantid));
       if (newavail.any()) backtracking(newavail,newcolumns,ndiag,nantid,sp1);
     }
