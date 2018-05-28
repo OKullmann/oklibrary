@@ -128,7 +128,7 @@ inline void backtracking(queen_t avail,
   // fdiag: forbidden columns due to diagonal constraints
   // fantid: forbidden columns due to antidiagonal constraints
   assert(size == 0 or avail == (~(columns|fdiag|fantid) & all_columns));
-  //assert(std::bitset<N>(columns).count() == size);
+  //assert(std::bitset<maxN>(columns).count() == size);
   ++nodes;
   assert(avail);
   const queen_t sdiag = fdiag>>1, santid = fantid<<1;
