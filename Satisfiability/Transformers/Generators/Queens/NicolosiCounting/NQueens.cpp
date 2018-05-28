@@ -125,7 +125,7 @@ inline void backtracking(queen_t avail,
   else
     do {const queen_t newcolumns = columns|next,
           newdiag = (fdiag|next) >> 1, newantid = (fantid|next) << 1,
-          newavail = ~(newcolumns|newdiag|newantid) & all_columns;
+          newavail = newavail0 & ~(next | next>>1 | next<<1);
       if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1);
     } while (next = keeprightmostbit(avail^=next));
 }
