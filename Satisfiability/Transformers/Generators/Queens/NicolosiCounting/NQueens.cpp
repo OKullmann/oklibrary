@@ -46,10 +46,29 @@ It produces also the debugging-version "qcount_debug".
 To set NMAX (maximal allowed value of N; default 64), use e.g.
 > CXXFLAGS="-DNMAX=32" make
 
+For timing-output, the gnu-tool /usr/bin/time is recommended.
+For example, output to file Out, first current date and time, then the output
+of this program, then the command itself, then the time measurements,
+first user-time (most important), then total-time, then system-time,
+always appending to Out:
+> date >> Out; /usr/bin/time -ao Out -f "%C\n%U %e %S" ./qcount 16 >>Out
+> cat Out
+Mon May 28 21:07:52 BST 2018
+14772512 355451208
+./qcount 16
+5.41 5.43 0.00
+
+A simple experiment in Bash then, running N=0,...,20, and collecting the data
+in file NQ_out:
+
+> OUT="NQ_out"; for ((N=0; N<=20; ++N)); do echo "N=$N" | tee -a $OUT;
+   date >> $OUT; /usr/bin/time -ao $OUT -f "%C\n%U %e %S" ./qcount $N >> $OUT;
+   done
+
 TODOS:
 
 1. Use signals (like the tawSolver), to show current counts.
-2. Use futures for paralelisation.
+2. Use futures for parallelisation.
 
 */
 
