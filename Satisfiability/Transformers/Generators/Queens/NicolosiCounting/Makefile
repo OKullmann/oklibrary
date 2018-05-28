@@ -13,17 +13,25 @@ SHELL = /bin/bash
 CXX = g++
 
 Standard_options = --std=c++11 -pedantic
-Warning_options = -Wall -Wno-parentheses
-Optimisation_options = -Ofast -DNDEBUG # -ffinite-math-only -funroll-loops -fwhole-program # -fno-math-errno -funsafe-loop-optimizations
+Warning_options = -Wall
+Optimisation_options = -Ofast -DNDEBUG
+Optimisation_options_full = -Ofast -DNDEBUG -ffinite-math-only -funroll-loops -fwhole-program -fno-math-errno -funsafe-loop-optimizations
 Debug_options = -g
 
-all : qcount qcount_debug
+all : qcount qcount_debug qcount_ct qcount_ct_debug
 
 qcount : NQueens.cpp
-	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 qcount_debug : NQueens.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
+qcount_ct : NQueens_ct.cpp
+	$(CXX) $(SETN) $(Standard_options) $(Warning_options) $(Optimisation_options_full) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+qcount_ct_debug : NQueens_ct.cpp
+	$(CXX) $(SETN) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+
 clean :
-	- rm qcount qcount_debug
+	- rm qcount qcount_debug qcount_ct qcount_ct_debug
