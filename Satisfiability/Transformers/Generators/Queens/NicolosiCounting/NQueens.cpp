@@ -98,6 +98,7 @@ inline constexpr queen_t keeprightmostbit(const queen_t x) noexcept {
 
 count_t count = 0, nodes = 0;
 queen_t all_columns; // the first N bits 1, the rest 0
+queen_t non_columns; // bits set 1 which aren't of any concern
 input_t N;
 // Idea: size-many rows (from bottom) have been processed, now consider the
 // next row, and try to place the next queen in some column.
@@ -111,12 +112,11 @@ inline void backtracking(queen_t avail,
   assert(size == 0 or avail == (~(columns|fdiag|fantid) & all_columns));
   ++nodes;
   assert(avail);
+  queen_t next = keeprightmostbit(avail); // could be any bit, but that seems fastest
   const input_t sp1 = size+1; // due to the placement of next
   assert(sp1 < N);
-  queen_t next = keeprightmostbit(avail); // could be any bit, but that seems fastest
-  assert(next);
   if (sp1+1 == N) {
-    const queen_t forb = columns | fdiag>>1 | fantid<<1 | ~all_columns;
+    const queen_t forb = columns | fdiag>>1 | fantid<<1 | non_columns;
     do
       count += bool(~(forb | next | next>>1 | next<<1));
     while (next = keeprightmostbit(avail^=next));
@@ -137,6 +137,7 @@ int main(const int argc, const char* const argv[]) {
   if (arg1 > maxN) { std::cerr << " N <= " << int(maxN) << " required.\n"; return 1; }
   N = arg1;
   all_columns = setrightmostbits(N);
+  non_columns = ~all_columns;
   // Using rotation-symmetry around vertical axis:
   if (N % 2 == 0) {
     backtracking(setrightmostbits(N/2), 0, 0, 0, 0);
