@@ -34,7 +34,7 @@ count_t count=0, nodes=0;
 
 inline void backtracking(const queen_t avail,
   const queen_t columns, const queen_t fdiag, const queen_t fantid,
-  size_t size) {
+  size_t size) noexcept {
   assert(avail.any());
   ++nodes;
   ++size;
