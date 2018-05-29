@@ -1,5 +1,5 @@
 # Oliver Kullmann, 3.6.2013 (Swansea)
-# Copyright 2013, 2015, 2016 Oliver Kullmann
+# Copyright 2013, 2015, 2016, 2018 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the
@@ -14,8 +14,8 @@
 #   tawSolver> make all
 # produces executables
 #   tawSolver, ttawSolver, ctawSolver, cttawSolver
-# in this directory, using system-g++.
-# Target "allall" also creates the debug-versions (with suffix "_debug").
+# in this directory, using system-g++,
+# plus the debug-versions (with suffix "_debug").
 
 # The macro LIT_TYPE can be used to redefine the literal-type (default is int).
 
@@ -41,7 +41,7 @@
 # Ramsey-theory, and creates the log-file "Output_log_tawSolver", while
 # the timing results are in "Output_timing_tawSolver".
 
-# Via the target "local" (not included in "allall") the executables "Tau"
+# Via the target "local" (not included in "all") the executables "Tau"
 # and "Tau_debug" are produced (for experimentation with tau-computation).
 # Cleaning here is included in "clean" resp. "cleanall".
 
@@ -51,7 +51,7 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all check new_check app_tests timing clean cleanall debug allall local
+.PHONY : all check new_check app_tests timing clean cleanall debug optimised local
 
 ifeq ($(gpp_call_okl),)
   CXX = g++
@@ -84,19 +84,27 @@ ifeq ($(bin_dir),)
   side_target = ttawSolver
   side2_target = ctawSolver
   side3_target = cttawSolver
+  side4_target = mtawSolver
+  side5_target = mttawSolver
   debug_main = tawSolver_debug
   debug_side = ttawSolver_debug
   debug_side2 = ctawSolver_debug
   debug_side3 = cttawSolver_debug
+  debug_side4 = mtawSolver_debug
+  debug_side5 = mttawSolver_debug
 else
   main_target = $(bin_dir)/tawSolver
   side_target = $(bin_dir)/ttawSolver
   side2_target = $(bin_dir)/ctawSolver
   side3_target = $(bin_dir)/cttawSolver
+  side4_target = $(bin_dir)/mtawSolver
+  side5_target = $(bin_dir)/mttawSolver
   debug_main = $(bin_dir)/tawSolver_debug
   debug_side = $(bin_dir)/ttawSolver_debug
   debug_side2 = $(bin_dir)/ctawSolver_debug
   debug_side3 = $(bin_dir)/cttawSolver_debug
+  debug_side4 = $(bin_dir)/mtawSolver_debug
+  debug_side5 = $(bin_dir)/mttawSolver_debug
 endif
 
 ifeq ($(log_dir),)
@@ -108,9 +116,9 @@ else
 endif
 
 
-all : $(main_target) $(side_target) $(side2_target) $(side3_target)
+all : optimised debug
 
-allall : all debug
+optimised : $(main_target) $(side_target) $(side2_target) $(side3_target) $(side4_target) $(side5_target)
 
 local : Tau Tau_debug
 
@@ -129,8 +137,14 @@ $(side2_target) : tawSolver.cpp
 $(side3_target) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options_tau) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DTAU_ITERATION=$(tau_iteration) -DALL_SOLUTIONS tawSolver.cpp -o $@ $(LFLAGS)
 
+$(side4_target) : tawSolver.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DVAR_MARGINALS tawSolver.cpp -o $@ $(LFLAGS)
 
-debug : $(debug_main) $(debug_side) $(debug_side2) $(debug_side3)
+$(side5_target) : tawSolver.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options_tau) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DTAU_ITERATION=$(tau_iteration) -DVAR_MARGINALS tawSolver.cpp -o $@ $(LFLAGS)
+
+
+debug : $(debug_main) $(debug_side) $(debug_side2) $(debug_side3) $(debug_side4) $(debug_side5)
 
 $(debug_main) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) tawSolver.cpp -o $@ $(LFLAGS)
@@ -147,6 +161,12 @@ $(debug_side2) : tawSolver.cpp
 $(debug_side3) : tawSolver.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DTAU_ITERATION=$(tau_iteration) -DALL_SOLUTIONS tawSolver.cpp -o $@ $(LFLAGS)
 
+$(debug_side4) : tawSolver.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DVAR_MARGINALS tawSolver.cpp -o $@ $(LFLAGS)
+
+$(debug_side5) : tawSolver.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(Other_options) $(CPPFLAGS) $(CXXFLAGS) -DTAU_ITERATION=$(tau_iteration) -DVAR_MARGINALS tawSolver.cpp -o $@ $(LFLAGS)
+
 
 repeat := 5
 time := /usr/bin/time -f "%U %M" -o $(outputfile) -a
@@ -161,11 +181,15 @@ ifeq ($(log_dir),)
   solver2 = ./ttawSolver
   solver3 = ./ctawSolver
   solver4 = ./cttawSolver
+  solver5 = ./mtawSolver
+  solver6 = ./mttawSolver
 else
   solver1 = tawSolver
   solver2 = ttawSolver
   solver3 = ctawSolver
   solver4 = cttawSolver
+  solver5 = mtawSolver
+  solver6 = mttawSolver
 endif
 
 timing :
@@ -198,7 +222,7 @@ check : Tau_debug
 app_tests :
 
 clean :
-	- rm $(debug_main) $(debug_side) $(debug_side2) $(debug_side3) Tau_debug
+	- rm $(debug_main) $(debug_side) $(debug_side2) $(debug_side3) $(debug_side4) $(debug_side5) Tau_debug
 
 cleanall : clean
-	- rm $(main_target) $(side_target) $(side2_target) $(side3_target) Tau
+	- rm $(main_target) $(side_target) $(side2_target) $(side3_target) $(side4_target) $(side5_target) Tau

@@ -106,6 +106,9 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
      ALL_SOLUTIONS is defined, where then the default is -nil;
    - with argument3=filename or "-cout" or "-cerr" or "-nil" the statistics
      are output to file, standard output, standard error or are ignored;
+     if VAR_MARGINALS is defined (which includes ALL_SOLUTIONS), then at
+     the end of the statistics for the variables the pairs "v:count" are
+     output, where count is the number of satisfying assignments with v=true;
      if argument3 is not given, then the default is -cout.
 
   Output to file means appending.
@@ -141,6 +144,9 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
    - ALL_SOLUTIONS: if defined (default is undefined), then all solutions are
      computed, and they are output as soon as when they are found;
      incompatible with PURE_LITERALS.
+   - VAR_MARGINALS, which implies ALL_SOLUTIONS means that the statistics
+     list at the end for each variable the number of satisfying assignments
+     where this variable is set to true.
    - COUNT_T: the count-type in case of ALL_SOLUTIONS; by default an unsigned
      integral type with at least 64 bits (so modular arithmetic is performed,
      namely modulo 2^count_bits);
@@ -169,8 +175,9 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
     - "B" for UCP_STRATEGY = 0
     - "P" for PURE_LITERALS
     - "T" followed with its value if defined
-    - "A" for ALL_SOLUTIONS, with "F" in case of floating-point counting, and
+    - "A" for ALL_SOLUTIONS, plus "F" in case of floating-point counting, and
       followed by the number of (decimal) digits.
+    - If VAR_MARGINALS is defined, then instead of "A" there is "M".
 
   If solutions-output is cout, then it comes after the statistics, except for
   the case where ALL_SOLUTIONS is defined, where then naturally the solutions
@@ -231,8 +238,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.7.10";
-const std::string date = "15.11.2016";
+const std::string version = "2.8.0";
+const std::string date = "29.5.2018";
 
 const std::string program = "tawSolver";
 
@@ -569,6 +576,9 @@ Count_statistics n_units;
 Count_statistics n_pure_literals;
 #endif
 
+#ifdef VAR_MARGINALS
+# define ALL_SOLUTIONS
+#endif
 #ifdef ALL_SOLUTIONS
 # ifdef PURE_LITERALS
 #  error "ALL_SOLUTIONS not compatible with PURE_LITERALS."
@@ -592,6 +602,9 @@ template <typename CT> struct Pow2<CT,false> {
 };
 Pow2<Count_solutions,floating_count> pow2;
 Count_solutions n_solutions;
+#endif
+#ifdef VAR_MARGINALS
+typedef std::vector<Count_solutions> SolCount_vec;
 #endif
 
 
@@ -847,6 +860,24 @@ public :
   }
 };
 Pass pass;
+#ifdef VAR_MARGINALS
+class VarMarginals {
+  SolCount_vec sc;
+  void init() { sc.resize(n_vars+1); }
+  friend void initialisation();
+  friend DLL_return_t dll0();
+public :
+  Count_solutions operator[] (const Var v) const noexcept { return sc[v]; }
+  Count_solutions& operator[] (const Var v) noexcept { return sc[v]; }
+  SolCount_vec::size_type size() const noexcept { return sc.size(); }
+  friend std::ostream& operator <<(std::ostream& out, const VarMarginals& M) {
+    for (Var i=1; i < M.size(); ++i)
+      out << " " << i << ":" << M[i];
+    return out << std::endl;
+  }
+};
+VarMarginals marginals;
+#endif
 
 class ChangeManagement {
   ClauseP_vec changes;
@@ -1158,6 +1189,9 @@ Weights weight;
 
 void initialisation() {
   pass.init();
+#ifdef VAR_MARGINALS
+  marginals.init();
+#endif
   changes.init();
   Unit_stack::init();
   weight.init();
@@ -1310,8 +1344,28 @@ DLL_return_t dll(const Lit x) {
   if (not r_clauses) {
 #ifdef ALL_SOLUTIONS
     solout << pass;
-    n_solutions += pow2(n_vars - pass.n());
     result = true;
+# ifndef VAR_MARGINALS
+    n_solutions += pow2(n_vars - pass.n());
+# else
+    const Var rem_n = n_vars - pass.n();
+    assert(marginals.size() == n_vars+1);
+    if (rem_n == 0) {
+      ++n_solutions;
+      for (Var i=1; i <= n_vars; ++i)
+        marginals[i] += sign(pass[i]) == Polarity::pos;
+    } else {
+      const auto total = pow2(rem_n);
+      n_solutions += total;
+      const auto totald2 = total / 2;
+      for (Var i=1; i <= n_vars; ++i) {
+        const Lit x = pass[i];
+        Count_solutions& m = marginals[i];
+        if (not x) m += totald2;
+        else if (sign(x) == Polarity::pos) m += total;
+      }
+    }
+# endif
     goto only_units;
 #else
     sat_pass = pass;
@@ -1350,7 +1404,20 @@ only_neg_units :
 DLL_return_t dll0() { // without unit-clauses
   ++n_nodes;
 #ifdef ALL_SOLUTIONS
-  if (not n_clauses) {n_solutions = pow2(n_vars); return true;}
+  if (not n_clauses) {
+# ifndef VAR_MARGINALS
+    n_solutions = pow2(n_vars); return true;
+# else
+    if (n_vars != 0) {
+       marginals.init();
+       const auto totald2 = pow2(n_vars-1);
+       for (Var i=1; i <= n_vars; ++i) marginals[i] = totald2;
+       n_solutions = 2*totald2;
+    }
+    else n_solutions = 1;
+    return true;
+#endif
+  }
 #else
   if (not n_clauses) return true;
 #endif
@@ -1415,7 +1482,12 @@ const std::string options = ""
 "T" STR(TAU_ITERATION)
 #endif
 #ifdef ALL_SOLUTIONS
-"A"  + std::string(floating_count ? "F" : "") + std::to_string(count_digits)
+# ifdef VAR_MARGINALS
+"M"
+# else
+"A"
+#endif
+    + std::string(floating_count ? "F" : "") + std::to_string(count_digits)
 #endif
 ;
 
@@ -1535,6 +1607,9 @@ void output(const Result_value result) {
   logout.endl();
 #ifndef ALL_SOLUTIONS
   if (result == sat) solout << sat_pass;
+#endif
+#ifdef VAR_MARGINALS
+  logout << marginals;
 #endif
 }
 
