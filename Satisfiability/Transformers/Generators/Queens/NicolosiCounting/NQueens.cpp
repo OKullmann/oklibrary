@@ -26,8 +26,15 @@ SOFTWARE.
   ID f50264291093fe8529d143995ae9784f097d7ebf.
 
 The basic idea is the same as explained at
-
   https://helloacm.com/n-queen-problem-in-back-tracing-bit-logics/
+and indeed the same as the program from 2002 by Jeff Somers
+  http://users.rcn.com/liusomers/nqueen_demo/nqueens.html
+
+Variable numrows there is our size, lsb is next, bitfield is avail, mask
+is all_columns. The array aQueenBitCol contains the values of our variable
+column, aQueenBitPosDiag of fdiag, aQueenBitNegDiag of fantid.
+An array is used there to simulate the recursion.
+The additional aQueenBitRes there just represents the solution for printing.
 
   Version 1.0, 28.5.2018.
 
@@ -71,6 +78,9 @@ TODOS:
 
 1. Use signals (like the tawSolver), to show current counts.
 2. Use futures for parallelisation.
+3. Simulate the recursion by a stack (as done in Jeff Somers's original
+   program, whose runtime is very similar to the runtime of this program
+   (version 1.0)). OK doesn't expect a speed-up, but one can try.
 
 */
 
