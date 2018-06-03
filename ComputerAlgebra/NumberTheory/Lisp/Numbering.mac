@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/LinearEquations.mac")$
 
 
 /* ****************************
@@ -304,6 +305,111 @@ nqueens_isoc_p(C,D,N) := block(
   thru 4 do (PC:nqueens_rotate_s(PC,N), NC:nqueens_rotate_s(NC,N),
     if PC=PD and NC=ND then (solved:true, return(true))),
   if solved then return(true) else return(false))$
+
+/* White and black squares (vertices/variables): */
+blacksq_p(p) := evenp(first(p) + second(p))$
+whitesq_p(p) := oddp(first(p) + second(p))$
+
+/* The constraint that the number of white queens is odd/even, using variables
+   max(N,M)^2+1, ..., as auxiliary variables:
+*/
+oddwhitequeens_fcs(N,M) := if N*M <= 1 then [{},{{}}] else block(
+ [n : max(N,M)^2,
+  W : qvmap(cartesian_product(setn(N), setn(M))), X, s, V],
+  W : subset(W, whitesq_p),
+  s : first(W), X : disjoin(s,W), X : adjoin(-s,X),
+  V : create_list(n+i,i,1,length(W)-2),
+  [union(W,setify(V)), setify(prt2cl_aux_1(listify(X), V))])$
+evenwhitequeens_fcs(N,M) := if N*M <= 1 then [{},{}] else block(
+ [n : max(N,M)^2,
+  W : qvmap(cartesian_product(setn(N), setn(M))), V],
+  W : subset(W, whitesq_p),
+  V : create_list(n+i,i,1,length(W)-2),
+  [union(W,setify(V)), setify(prt2cl_aux_1(listify(W), V))])$
+oddblackqueens_fcs(N,M,offset) := if N*M = 0 then [{},{{}}] else block(
+ [B : qvmap(cartesian_product(setn(N), setn(M))), X, s, V],
+  B : subset(B, blacksq_p),
+  s : first(B), X : disjoin(s,B), X : adjoin(-s,X),
+  V : create_list(offset+i,i,1,length(B)-2),
+  [union(B,setify(V)), setify(prt2cl_aux_1(listify(X), V))])$
+evenblackqueens_fcs(N,M,offset) := if N*M = 0 then [{},{}] else block(
+ [B : qvmap(cartesian_product(setn(N), setn(M))), V],
+  B : subset(B, blacksq_p),
+  V : create_list(offset+i,i,1,length(B)-2),
+  [union(B,setify(V)), setify(prt2cl_aux_1(listify(B), V))])$
+
+nqueens_oddwhite_stdfcs(N,M) := block(
+ [F1 : nqueens_stdfcs(N,M), F2 : standardise_qv(oddwhitequeens_fcs(N,M))],
+ [union(first(F1), first(F2)), union(second(F1), second(F2))])$
+nqueens_evenwhite_stdfcs(N,M) := block(
+ [F1 : nqueens_stdfcs(N,M), F2 : standardise_qv(evenwhitequeens_fcs(N,M))],
+ [union(first(F1), first(F2)), union(second(F1), second(F2))])$
+/* The derived number of black queens also required: */
+nqueens_oddwhiteplus_stdfcs(N,M) := block(
+ [F1 : nqueens_stdfcs(N,M), F2 : standardise_qv(oddwhitequeens_fcs(N,M)),
+  V, F3, n],
+  V : union(first(F1), first(F2)), n : lmax(V),
+  F3 : standardise_qv(if oddp(min(N,M)) then evenblackqueens_fcs(N,M,n)
+       else oddblackqueens_fcs(N,M,n)),
+ [union(V,first(F3)), union(second(F1),second(F2),second(F3))])$
+nqueens_evenwhiteplus_stdfcs(N,M) := block(
+ [F1 : nqueens_stdfcs(N,M), F2 : standardise_qv(evenwhitequeens_fcs(N,M)),
+  V, F3, n],
+  V : union(first(F1), first(F2)), n : lmax(V),
+  F3 : standardise_qv(if evenp(min(N,M)) then evenblackqueens_fcs(N,M,n)
+       else oddblackqueens_fcs(N,M,n)),
+ [union(V,first(F3)), union(second(F1),second(F2),second(F3))])$
+
+
+/* Output the direct translation to a file (now without gaps for the
+   variable-numbering): */
+output_nqueens_oddwhite(N,M,filename) := block(
+ [FF : standardise_fcs(nqueens_oddwhite_stdfcs(N,M))[1]],
+  output_fcs_v(
+    sconcat("N-Queens SAT, odd number of white queens, with N = ", N, " and M = ", M, ".", newline, "c ", "Created by output_nqueens_oddwhite(", N, ",", M, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF,
+    filename,
+    []))$
+/* Providing a standard name: "NQueens_oddwhite_N_M.cnf": */
+output_nqueens_oddwhite_stdname(N,M) := output_nqueens_oddwhite(N,M,
+  sconcat("NQueens_oddwhite_",N,"_",M,".cnf"))$
+
+output_nqueens_oddwhiteplus(N,M,filename) := block(
+ [FF : standardise_fcs(nqueens_oddwhiteplus_stdfcs(N,M))[1]],
+  output_fcs_v(
+    sconcat("N-Queens SAT, odd number of white queens, even/odd number of black queens, with N = ", N, " and M = ", M, ".", newline, "c ", "Created by output_nqueens_oddwhiteplus(", N, ",", M, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF,
+    filename,
+    []))$
+/* Providing a standard name: "NQueens_oddwhiteplus_N_M.cnf": */
+output_nqueens_oddwhiteplus_stdname(N,M) :=
+ output_nqueens_oddwhiteplus(N,M,
+   sconcat("NQueens_oddwhiteplus_",N,"_",M,".cnf"))$
+
+/* Output the direct translation to a file (now without gaps for the
+   variable-numbering): */
+output_nqueens_evenwhite(N,M,filename) := block(
+ [FF : standardise_fcs(nqueens_evenwhite_stdfcs(N,M))[1]],
+  output_fcs_v(
+    sconcat("N-Queens SAT, even number of white queens, with N = ", N, " and M = ", M, ".", newline, "c ", "Created by output_nqueens_evenwhite(", N, ",", M, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF,
+    filename,
+    []))$
+/* Providing a standard name: "NQueens_evenwhite_N_M.cnf": */
+output_nqueens_evenwhite_stdname(N,M) := output_nqueens_evenwhite(N,M,
+  sconcat("NQueens_evenwhite_",N,"_",M,".cnf"))$
+
+output_nqueens_evenwhiteplus(N,M,filename) := block(
+ [FF : standardise_fcs(nqueens_evenwhiteplus_stdfcs(N,M))[1]],
+  output_fcs_v(
+    sconcat("N-Queens SAT, even number of white queens, even/odd number of black queens, with N = ", N, " and M = ", M, ".", newline, "c ", "Created by output_nqueens_evenwhiteplus(", N, ",", M, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF,
+    filename,
+    []))$
+/* Providing a standard name: "NQueens_evenwhiteplus_N_M.cnf": */
+output_nqueens_evenwhiteplus_stdname(N,M) :=
+ output_nqueens_evenwhiteplus(N,M,
+   sconcat("NQueens_evenwhiteplus_",N,"_",M,".cnf"))$
 
 
 /* The total number of solutions for 1 <= N <= 27: */
