@@ -31,6 +31,17 @@ concom_g(G) := block([mg : g2mg(G)], setify(map(setify,
  map(lambda([C], map(lambda([v], get_vertex_label(v,mg)), C)), 
      connected_components(mg)))))$
 
+/* The set of all paths from a to b in digraph G, representing the paths
+   as arc-sets (without repetated vertices):
+*/
+allpaths_dg(G,a,b) := if a=b then {{}} else
+ block([N : subset(second(G), lambda([e], is(first(e)=a))), NG],
+  NG : [disjoin(a, first(G)), setdifference(second(G), N)],
+  lunion(create_list([a,x]+allpaths_dg(NG,x,b), x,listify(map(second,N)))))$
+
+/* The set of all cycles in digraph G, as arc-sets: */
+allcycles_dg(G) := 0$
+
 /*!
 \endhtmlonly
 */
