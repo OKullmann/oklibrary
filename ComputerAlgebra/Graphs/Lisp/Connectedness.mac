@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 27.11.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -31,16 +31,38 @@ concom_g(G) := block([mg : g2mg(G)], setify(map(setify,
  map(lambda([C], map(lambda([v], get_vertex_label(v,mg)), C)), 
      connected_components(mg)))))$
 
+/* Paths and cycles */
+
 /* The set of all paths from a to b in digraph G, representing the paths
-   as arc-sets (without repetated vertices):
+   as arc-sets (without repeated vertices):
 */
 allpaths_dg(G,a,b) := if a=b then {{}} else
- block([N : subset(second(G), lambda([e], is(first(e)=a))), NG],
-  NG : [disjoin(a, first(G)), setdifference(second(G), N)],
-  lunion(create_list([a,x]+allpaths_dg(NG,x,b), x,listify(map(second,N)))))$
+ block(
+  [outa : subset(second(G), lambda([e], is(first(e)=a))),
+   ina : subset(second(G), lambda([e], is(second(e)=a))),
+   NG],
+  NG : [disjoin(a, first(G)), setdifference(second(G), union(ina,outa))],
+  lunion(create_list(
+    map(lambda([P], adjoin([a,x],P)), allpaths_dg(NG,x,b)),
+    x, listify(map(second,outa)))))$
 
 /* The set of all cycles in digraph G, as arc-sets: */
-allcycles_dg(G) := 0$
+allcycles_dg(G) := if length(second(G)) <= 1 then {} else
+ block(
+  [a : first(first(G)), outa, ina],
+  outa : subset(second(G), lambda([e], is(first(e)=a))),
+  ina : subset(second(G), lambda([e], is(second(e)=a))),
+  union(
+   lunion(create_list(
+             map(lambda([P], adjoin([a,x],P)),
+                 allpaths_dg([first(G), setdifference(second(G),outa)],x,a)),
+             x, listify(map(second,outa)))),
+    allcycles_dg([disjoin(a,first(G)),
+                  setdifference(second(G), union(ina,outa))])))$
+/* Remark: A discussion can be found at
+   https://stackoverflow.com/questions/546655/finding-all-cycles-in-a-directed-graph
+*/
+
 
 /*!
 \endhtmlonly
