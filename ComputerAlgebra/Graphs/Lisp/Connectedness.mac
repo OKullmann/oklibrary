@@ -43,7 +43,7 @@ allpaths_dg(G,a,b) := if a=b then {{}} else
    NG],
   NG : [disjoin(a, first(G)), setdifference(second(G), union(ina,outa))],
   lunion(create_list(
-    map(lambda([P], adjoin([a,x],P)), allpaths_dg(NG,x,b)),
+    add_element([a,x], allpaths_dg(NG,x,b)),
     x, listify(map(second,outa)))))$
 
 /* The set of all cycles in digraph G, as arc-sets: */
@@ -53,10 +53,11 @@ allcycles_dg(G) := if length(second(G)) <= 1 then {} else
   outa : subset(second(G), lambda([e], is(first(e)=a))),
   ina : subset(second(G), lambda([e], is(second(e)=a))),
   union(
-   lunion(create_list(
-             map(lambda([P], adjoin([a,x],P)),
-                 allpaths_dg([first(G), setdifference(second(G),outa)],x,a)),
-             x, listify(map(second,outa)))),
+   lunion(
+     create_list(
+       add_element([a,x],
+                   allpaths_dg([first(G), setdifference(second(G),outa)],x,a)),
+       x, listify(map(second,outa)))),
     allcycles_dg([disjoin(a,first(G)),
                   setdifference(second(G), union(ina,outa))])))$
 /* Remark: A discussion can be found at
