@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.11.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2016 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2016, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -95,11 +95,10 @@ set_sumn([L]) := set_sum(L)$
 
 /* Complex-union (pairwise union): */
 cunion(A,B) := setify(map(lambda([P],apply(union,P)),cartesian_product_l([listify(A),listify(B)])))$
-/* The special case of adding some set to all elements of
-   a set system. */
-add_elements(a,B) := cunion({a},B)$
-/* Further specialised to adjoining a single element. */
-add_element(x,B) := add_elements({x},B)$
+/* The special case of adding some set to all elements of a set system: */
+add_elements(a,B) := map(lambda([S], union(a,S)), B)$
+/* Further specialised to adjoining a single element: */
+add_element(x,B) := map(lambda([b],adjoin(x,b)),B)$
 /* The same functionality, but for lists of sets: */
 cunion_l(A,B) := map(lambda([P],apply(union,P)),cartesian_product_l([A,B]))$
 add_elements_l(a,B) := map(lambda([S],union(a,S)),B)$
