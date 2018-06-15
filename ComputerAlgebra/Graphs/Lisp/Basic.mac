@@ -354,6 +354,12 @@ edge_induced_subgraph_mudg(E,G) := [lunion(map(setify,E)),E,G[3]]$
 edge_induced_subgraph_mudgl(E,G) := edge_induced_subgraph_mudg(E,G)$
 edge_induced_subgraph_gdg(E,G) := [lunion(map(setify,(map(G[3],E)))),E,G[3]]$
 
+/* The ordinary vertex-induced subgraphs: */
+induced_subgraph_g(V,G) := [V,subset(G[2], lambda([e], subsetp(e,V)))]$
+induced_subgraph_gl(V,G) := induced_subgraph_g(V,G)$
+induced_subgraph_dg(V,G) := [V, subset(G[2], lambda([e], subsetp(setify(e),V)))]$
+induced_subgraph_dgl(V,G) := induced_subgraph_dg(V,G) $
+
 /* The complement-graph of a graph: */
 /* RENAME to "complement_g". */
 comp_graph(G) := [G[1], setdifference(powerset(G[1],2),G[2])]$

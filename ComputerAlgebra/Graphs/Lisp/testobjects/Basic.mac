@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 30.4.2008 (Guangzhou) */
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -192,6 +192,11 @@ okltest_edge_induced_subgraph_dgl(edge_induced_subgraph_dgl);
 okltest_edge_induced_subgraph_mudg(edge_induced_subgraph_mudg);
 okltest_edge_induced_subgraph_mudgl(edge_induced_subgraph_mudgl);
 okltest_edge_induced_subgraph_gdg(edge_induced_subgraph_gdg);
+
+okltest_induced_subgraph_g(induced_subgraph_g);
+okltest_induced_subgraph_gl(induced_subgraph_gl);
+okltest_induced_subgraph_dg(induced_subgraph_dg);
+okltest_induced_subgraph_dgl(induced_subgraph_dgl);
 
 okltest_complement_g(complement_g);
 
