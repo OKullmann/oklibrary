@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 16.1.2009 (Swansea) */
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -69,10 +69,8 @@ vbc_dgl_p(B,G) := listp(B) and is(length(B)=2) and
    An "ordered edge-biclique" ("oebc") uses lists of edges instead.
 */
 
-/* The following tests assume that G is a well-formed graph
-   (of its type).
+/* The following tests assume that G is a well-formed graph (of its type):
 */
-
 ebc_gg_p(B,G) := setp(B) and subsetp(B,G[2]) and
  block([S : edge_induced_subgraph_gg(B,G)],
   not parallel_edges_gg_p(S) and completebipartite_gg_p(S))$
