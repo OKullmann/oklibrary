@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 5.1.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -338,18 +338,21 @@ remove_vertices_gl(V,G) := remove_vertices_graph(V,G)$
    *****************************
 */
 
-/* The induced subgraph of a graph, given by an edge-set: */
+/* The induced subgraph of a graph G, given by an edge-set , using precisely
+   the edges in E, and their endpoints as vertices; it is assumed that
+   E is a subset of the edge-set of the graph; of for multi-graphs is their
+   a real dependency on G, namely the multiplicites are taken over: */
 
 edge_induced_subgraph_g(E,G) := [lunion(E),E]$
 edge_induced_subgraph_gl(E,G) := edge_induced_subgraph_g(E,G)$
-edge_induced_subgraph_mug(E,G) := [lunion(subset(E,lambda([e],is(G[3](e) > 0)))),E,buildq([E,G3:G[3]], lambda([e],if elementp(e,E) then G3(e)))]$
+edge_induced_subgraph_mug(E,G) := [lunion(E),E,G[3]]$
 edge_induced_subgraph_mugl(E,G) := edge_induced_subgraph_mug(E,G)$
 edge_induced_subgraph_gg(E,G) := [lunion(map(G[3],E)),E,G[3]]$
 edge_induced_subgraph_dg(E,G) := [lunion(map(setify,E)),E]$
 edge_induced_subgraph_dgl(E,G) := edge_induced_subgraph_dg(E,G)$
-edge_induced_subgraph_mudg(E,G) := [lunion(map(setify,E)),E,buildq([E,G3:G[3]],lambda([e],if elementp(e,E) then G3(e)))]$
+edge_induced_subgraph_mudg(E,G) := [lunion(map(setify,E)),E,G[3]]$
 edge_induced_subgraph_mudgl(E,G) := edge_induced_subgraph_mudg(E,G)$
-edge_induced_subgraph_gdg(E,G) := [lunion(map(setify,(map(G[3],E)))),E,buildq([E,G3:G[3]],lambda([e],if elementp(e,E) then G3(e)))]$
+edge_induced_subgraph_gdg(E,G) := [lunion(map(setify,(map(G[3],E)))),E,G[3]]$
 
 /* The complement-graph of a graph: */
 /* RENAME to "complement_g". */
