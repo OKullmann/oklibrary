@@ -64,6 +64,17 @@ allcycles_dg(G) := if length(second(G)) <= 1 then {} else
    https://stackoverflow.com/questions/546655/finding-all-cycles-in-a-directed-graph
 */
 
+/* For a cycle C in digraph G, whether C is cordless; indeed C can be any
+  set of arcs, and true is returned iff the arcs in G connecting any vertices
+  from C are precisely those in C):
+*/
+chordless_dg_p(C,G) := block([V : map(first,C), I],
+ I : subset(second(G), lambda([e], is(subsetp(setify(e),V)))),
+ is(I = C))$
+
+/* Convenience instantiation: */
+all_chordless_cycles_dg(G) := subset(allcycles_dg(G), lambda([C], chordless_dg_p(C,G)))$
+
 
 /*!
 \endhtmlonly
