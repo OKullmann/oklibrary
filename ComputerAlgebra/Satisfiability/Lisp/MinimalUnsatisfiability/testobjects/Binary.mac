@@ -21,6 +21,22 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/te
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Binary.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/Binary.mac")$
 
+/* ******************************
+   * Some small auxiliary 2-CNF *
+   ******************************
+*/
+
+okltest_impl_cl(impl_cl);
+okltest_impl_cs(impl_cs);
+
+/* ***********************
+   * The nonsingular B_n *
+   ***********************
+*/
+
+okltest_nonsing_bmu_cl(nonsing_bmu_cl);
+
+
 /* **********************
    * Cycle descriptions *
    **********************
@@ -29,9 +45,8 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
 okltest_valid_triple_bmu(valid_triple_bmu);
 okltest_valid_cycledesc_bmu(valid_cycledesc_bmu);
 
-okltest_impl_cl(impl_cl);
-
 okltest_cycledesc2bmu_fcl(cycledesc2bmu_fcl);
+okltest_cycledesc2bmu_cs(cycledesc2bmu_cs);
 
 /*!
 \endhtmlonly

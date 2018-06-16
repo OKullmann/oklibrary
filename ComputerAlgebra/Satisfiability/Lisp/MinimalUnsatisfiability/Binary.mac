@@ -19,8 +19,42 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Bi
 \htmlonly
 */
 
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
+/* ******************************
+   * Some small auxiliary 2-CNF *
+   ******************************
+*/
+
+/* The equivalence of literals x, y: */
+equiv_cl(x,y) := [{-x,y}, {-y,x}]$
+equiv_cs(x,y) := setify(equiv_cl(x,y))$
+
+/* The list of implications from a to b (natural numbers >= 1): */
+impl_cl(a,b) := create_list({-i,i+1},i,a,b-1)$
+impl_cs(a,b) := setify(impl_cl(a,b))$
+/* The implications b -> b-1 -> ... -> 1 are given by
+   comp_cl(impl_cl(a,b)).
+*/
+
+
+/* ***********************
+   * The nonsingular B_n *
+   ***********************
+*/
+
+nonsing_bmu_cl(n) := if n = 0 then [{}] else
+ append(lappend(create_list(equiv_cl(i,i+1),i,1,n-1)), equiv_cl(1,-n))$
+nonsing_bmu_cs(n) := setify(nonsing_bmu_cl(n))$
+nonsing_bmu_fcl(n) := [create_list(i,i,1,n), nonsing_bmu_cl(n)]$
+nonsing_bmu_fcs(n) := map(setify,nonsing_bmu_fcl(n))$
+/* We have
+  nonsing_bmu_cs(n) = union(impl_cs(1,n), comp_cs(impl_cs(1,n)),
+                            equiv_cs(1,-n)).
+*/
 
 
 /* **********************
@@ -34,10 +68,9 @@ valid_triple_bmu(T) := listp(T) and length(T)=3 and naturalp(T[1])
 valid_cycledesc_bmu(T) := listp(T) and length(T) >= 2
  and every_s(valid_triple_bmu, T)$
 
-/* The list of implications from a to b (natural numbers >= 1), as a list
-   of binary clauses:
-*/
-impl_cl(a,b) := create_list({-i,i+1},i,a,b-1)$
+deficiency_cycledesc(T) := length(T)$
+ncl_cycledesc(T) := sum_l(map(sum_l,T))$
+nlitocc_cycledesc(T) := 2 * ncl_cycledesc(T)$
 
 /* For inputs T which fulfill valid_cycledesc_bmu(T): */
 cycledesc2bmu_fcl(T) := block([c:sum_l(lappend(T)), k:length(T), n, F:[],
@@ -65,7 +98,7 @@ cycledesc2bmu_fcl(T) := block([c:sum_l(lappend(T)), k:length(T), n, F:[],
  ) else F:endcons({if T[k][2]=0 then 1 else S[1]+1,beg_int},F),
  [create_list(i,i,1,n),F])$
 
-cisot2bmu_cs(T) := fcl2cs(cycledesc2bmu_fcl(T))$
+cycledesc2bmu_cs(T) := fcl2cs(cycledesc2bmu_fcl(T))$
 
 
 /*!

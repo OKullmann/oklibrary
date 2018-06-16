@@ -20,8 +20,40 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/te
 */
 
 oklib_include("OKlib/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Binary.mac")$
 
 kill(f)$
+
+/* ******************************
+   * Some small auxiliary 2-CNF *
+   ******************************
+*/
+
+okltest_impl_cl(f) := (
+  assert(f(1,1) = []),
+  assert(f(1,2) = [{-1,2}]),
+  assert(f(1,3) = [{-1,2},{-2,3}]),
+  assert(f(4,5) = [{-4,5}]),
+  true)$
+
+okltest_impl_cs(f) := (
+  assert(f(2,1) = {}),
+  assert(f(6,7) = {{-6,7}}),
+  true)$
+
+
+/* ***********************
+   * The nonsingular B_n *
+   ***********************
+*/
+
+okltest_nonsing_bmu_cl(f) := (
+  assert(f(0) = [{}]),
+  assert(f(1) = [{-1},{1}]),
+  assert(f(2) = [{-1,2},{1,-2},{-1,-2},{1,2}]),
+
+  true)$
+
 
 /* **********************
    * Cycle descriptions *
@@ -41,16 +73,15 @@ okltest_valid_cycledesc_bmu(f) := (
   assert(f([[1,0,1],[1,0,1]]) = true),
   true)$
 
-okltest_impl_cl(f) := (
-  assert(f(1,1) = []),
-  assert(f(1,2) = [{-1,2}]),
-  assert(f(1,3) = [{-1,2},{-2,3}]),
-  assert(f(4,5) = [{-4,5}]),
-  true)$
-
 okltest_cycledesc2bmu_fcl(f) := (
 
   true)$
+
+okltest_cycledesc2bmu_cs(f) := (
+  for n : 2 thru 6 do
+    assert(f(create_list([1,0,1],i,1,n)) = nonsing_bmu_cs(n)),
+  true)$
+
 
 /*!
 \endhtmlonly
