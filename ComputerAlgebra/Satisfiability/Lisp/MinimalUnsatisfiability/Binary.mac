@@ -28,12 +28,44 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    **********************
 */
 
-valid_triple_2mu(T) := listp(T) and length(T)=3 and naturalp(T[1])
+/* The valid cycle descriptions: */
+valid_triple_bmu(T) := listp(T) and length(T)=3 and naturalp(T[1])
  and naturalp(T[3]) and naturalzp(T[2])$
-valid_cycledesc_2mu(T) := listp(T) and length(T) >= 2
- and every_s(valid_triple_2mu, T)$
+valid_cycledesc_bmu(T) := listp(T) and length(T) >= 2
+ and every_s(valid_triple_bmu, T)$
 
+/* The list of implications from a to b (natural numbers >= 1), as a list
+   of binary clauses:
+*/
+impl_cl(a,b) := create_list({-i,i+1},i,a,b-1)$
 
+/* For inputs T which fulfill valid_cycledesc_bmu(T): */
+cycledesc2bmu_fcl(T) := block([c:sum_l(lappend(T)), k:length(T), n, F:[],
+ S:map(sum_l,T), max, old_max, beg_int, end_int],
+ n:c-k, max:S[1]+T[k][2],
+ beg_int : T[1][1]+1, end_int : beg_int + T[1][2],
+ F:impl_cl(1,max), F:endcons({-max,1},F),
+ for i : 2 thru k-1 do (
+   F:endcons({-end_int,max+1}, F),
+   F:append(F,impl_cl(max+1,max+S[i]-1)),
+   old_max:max, max:max+S[i]-1,
+   F:endcons({-max,beg_int},F),
+   beg_int:old_max+T[i][1],
+   end_int:beg_int+T[i][2]
+ ),
+ if T[k][1] > 1 then (
+   F:endcons({-end_int,max+1},F),
+   F:append(F,impl_cl(max+1,max+T[k][1]-1)),
+   F:endcons({-(max+T[k][1]-1), -1},F)
+ ) else F:endcons({-end_int,-1},F),
+ if T[k][3] > 1 then (
+   F:endcons({if T[k][2]=0 then 1 else 1+S[1],max+T[k][1]},F),
+   F:append(F,impl_cl(max+T[k][1],max+T[k][1]+T[k][3]-2)),
+   F:endcons({-(max+T[k][1]+T[k][3]-2), beg_int},F)
+ ) else F:endcons({if T[k][2]=0 then 1 else S[1]+1,beg_int},F),
+ [create_list(i,i,1,n),F])$
+
+cisot2bmu_cs(T) := fcl2cs(cycledesc2bmu_fcl(T))$
 
 
 /*!

@@ -26,8 +26,12 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
    **********************
 */
 
-okltest_valid_triple_2mu(valid_triple_2mu);
-okltest_valid_cycledesc_2mu(valid_cycledesc_2mu);
+okltest_valid_triple_bmu(valid_triple_bmu);
+okltest_valid_cycledesc_bmu(valid_cycledesc_bmu);
+
+okltest_impl_cl(impl_cl);
+
+okltest_cycledesc2bmu_fcl(cycledesc2bmu_fcl);
 
 /*!
 \endhtmlonly
