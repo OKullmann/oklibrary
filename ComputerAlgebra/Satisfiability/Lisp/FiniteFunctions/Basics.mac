@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 17.1.2011 (Swansea) */
-/* Copyright 2011 Oliver Kullmann
+/* Copyright 2011, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -36,7 +36,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperati
   A "boolean value" is either 0 or 1.
 */
 
-boolval_p(v) := is(v=0) or is(v=1)$
+boolval_p(v) := v=0 or v=1$
 
 /* Translating Maxima-truth-values into boolean values: */
 tv2boolval(t) := if t then 1 else 0$
@@ -80,11 +80,16 @@ bv2he(v) := setify(sublist_indices(v,lambda([x],x=1)))$
 */
 
 /*
+
+  The basic idea is that a "boolean function" is just some function f,
+  which can be applied to boolean vectors b, and such that f(b) is
+  a boolean vector.
+
   A "boolean function" ("bf") is a function with the following properties:
 
    - implicitly a size-domain S <= NN_0 is given
    - for every n in S there is an m_n in NN_0 such that for all boolean vectors
-     x of length n the term f(x) is a boolean vector of length m_m.
+     x of length n the term f(x) is a boolean vector of length m_n.
 
   f is an "n x m bf" if n in S and m_n = m.
 */
