@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 4.5.2008 (Guangzhou) */
-/* Copyright 2008, 2009, 2010, 2012 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2012, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -32,9 +32,8 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    whose setification is a set-map.
 */
 
-/* Checks whether M is a set-map. */
-/* RENAME: sm_p */
-setmapp(M) := if not setp(M) then false else block([is_setm : true],
+/* Checks whether M is a set-map: */
+sm_p(M) := if not setp(M) then false else block([is_setm : true],
   for p in M while is_setm do
     if not listp(p) or length(p) # 2 then is_setm : false,
   return(is_setm and length(map(first,M)) = length(M)))$

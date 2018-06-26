@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 4.5.2008 (Guangzhou) */
-/* Copyright 2008, 2009 Oliver Kullmann
+/* Copyright 2008, 2009, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -31,7 +31,7 @@ kill(f)$
    ************************
 */
 
-okltest_setmapp(f) := (
+okltest_sm_p(f) := (
   assert(f(1) = false),
   assert(f([]) = false),
   assert(f({}) = true),
@@ -43,7 +43,7 @@ okltest_setmapp(f) := (
   true)$
 
 okltest_osm_p(f) := block(
-  okltest_setmapp(buildq([f],lambda([M],setp(M) and f(listify(M))))),
+  okltest_sm_p(buildq([f],lambda([M],setp(M) and f(listify(M))))),
   assert(f(1) = false),
   assert(f([[1,1],[1,2]]) = false),
   true)$
@@ -128,7 +128,7 @@ okltest_allinj_sm(f) := (
 /* A tool for checking whether an original hash-map and a set-map are identical
    as mathematical functions (this is only useful for compatibility
    reasons). */
-eq_ohmsm_p(h,M) := if not setmapp(M) then
+eq_ohmsm_p(h,M) := if not sm_p(M) then
   error("eq_ohmsm_p: the alleged set-map is not a set-map")
   else is(create_set_map(h) = M)$
 
@@ -186,7 +186,7 @@ eq_hmsm_p(h,M) := (
      print("The set-map is:"),
      print(M))
  ),
- if not setmapp(M) then
+ if not sm_p(M) then
    error("eq_hmsm_p: the alleged set-map is not a set-map")
  elseif not is(hm2sm(h) = M) then (
      if not oklib_monitor then false else (
