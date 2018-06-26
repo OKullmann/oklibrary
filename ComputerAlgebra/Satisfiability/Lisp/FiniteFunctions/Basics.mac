@@ -85,7 +85,7 @@ bv2he(v) := setify(sublist_indices(v,lambda([x],x=1)))$
   which can be applied to boolean vectors b, and such that f(b) is
   a boolean vector.
 
-  A "boolean function" ("bf") is a function with the following properties:
+  A "boolean function" ("bf") is a function f with the following properties:
 
    - implicitly a size-domain S <= NN_0 is given
    - for every n in S there is an m_n in NN_0 such that for all boolean vectors
@@ -96,7 +96,7 @@ bv2he(v) := setify(sublist_indices(v,lambda([x],x=1)))$
 
 /* Testing whether f is a n x m boolean function: */
 bf_nm_p(f,n,m) :=
- every_s(lambda([x], 
+ every_s(lambda([x],
            block([y:f(x)], listp(y) and is(length(y)=m) and bv_p(y))),
          all_bv(n))$
 
@@ -138,7 +138,7 @@ xor_ibo(x,y):=?boole(?boole\-xor,x,y)$
 */
 
 /* The "bit-vector presentation" of an n x 1 boolean function f is the boolean
-   vector of length 2^n containing all values of f, applied to the 
+   vector of length 2^n containing all values of f, applied to the
    lexicographical ordering of inputs:
 */
 bf2bv(f_, n) := map(lambda([x], first(f_(x))), lex_bv_l(n))$
@@ -191,6 +191,110 @@ bf2relation_fullcnf_fcs(f,n) := block(
 /* The boolean n x 1 function giving the i-th output bit of the boolean n x m
    function f: */
 bfnm2n1(f,i) := buildq([f,n,i], lambda([x], [f(x)[i]]))$
+
+
+/* *****************************
+   * Wrapped boolean functions *
+   *****************************
+*/
+
+/* A "wrapped boolean function" ("wbf") is a pair [V,f], such that V is a
+   set of variables, and f maps every total assignment over V (i.e., all
+   full clauses over V) to 0 or 1.
+*/
+
+/* Testing whether f is a wrapped boolean function: */
+wbf_p(f) := listp(f) and length(f)=2 and setp(first(f)) and block(
+ [V : first(f)],
+  every_s(v_p, V) and every_s(boolval_p, map(second(f),all_tass(V))))$
+
+equalp_wbf(f,g) := first(f)=first(g) and block([V:first(f)],
+  every_s(lambda([phi], is(second(f)(phi)=second(g)(phi))), all_tass(V)))$
+
+essentialvar_wbf(v,f) := elementp(v,first(f)) and block(
+ [V:first(f), f2:second(f), V2],
+  V2 : disjoin(v,V),
+  some_s(lambda([phi], is(f2(adjoin(v,phi)) # f2(adjoin(-v,phi)))),
+         all_tass(V2)))$
+
+essentialcore_wbf(f) := block([V : first(f), V2, VD, f2 : second(f)],
+  V2 : subset(V, lambda([v], essentialvar_wbf(v,f))),
+  VD : setdifference(V,V2),
+  [V2, buildq([VD,f2], lambda([phi], f2(union(phi, VD))))])$
+
+freewbf_p(f) := every_s(lambda([v], essentialvar_wbf(v,f)), first(f))$
+
+
+/* ****************
+   * Special wbfs *
+   ****************
+*/
+
+zero_wbf : [{}, lambda([phi], 0)]$
+one_wbf : [{}, lambda([phi], 1)]$
+
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+lit2wbf(x) := [{var_l(x)}, buildq([x],
+  lambda([phi], if phi={x} then 1 else 0))]$
+
+cnfcl2wbf(C) := [var_c(C), buildq([C], lambda([phi],
+                 if emptyp(intersection(phi,C)) then 0 else 1))]$
+
+cnffcs2wbf(FF) := [first(FF), buildq([F:second(FF)], lambda([phi],
+  if every_s(lambda([C], not emptyp(intersection(phi,C))), F) then 1 else 0))]$
+
+dnffcs2wbf(FF) := [first(FF), buildq([F:second(FF)], lambda([phi],
+  if some_s(lambda([C], subsetp(C,phi)), F) then 1 else 0))]$
+
+/* Note that the CNFs FF1, FF2 are logically equivalent iff
+   equalp_wbf(essentialcore_wbf(cnffcs2wbf(FF1)), essentialcore_wbf(cnffcs2wbf(FF2))),
+   and the CNF FF1 is logically equivalent to the DNF FF2 iff
+   equalp_wbf(essentialcore_wbf(cnffcs2wbf(FF1)), essentialcore_wbf(dnffcs2wbf(FF2))).
+*/
+
+all_wbf(V) := map(cnffcs2wbf, map(lambda([F], [V,F]), powerset(all_tass(V))))$
+/* Recall that |all_wbf(V)| = 2^(2^|V|), and thus incrementing the size of V
+   by 1 means (precisely) squaring the setsize.
+   So |V|=4 yields 65536, which is still (kind of) feasible, while |V|=5
+   yields 2^32, which needed a very big machine -- |V|=6 yields 2^64, which
+   definitely is beyond.
+*/
+
+
+/* ***********************
+   * Operations for wbfs *
+   ***********************
+*/
+
+/* The disjunction of two wbfs: */
+or_wbf(f1,f2) := block(
+ [V1:first(f1),V2:first(f2), f:second(f1), g:second(f2), L1,L2],
+  L1 : literals_v(V1), L2 : literals_v(V2),
+  [union(V1,V2), buildq([L1,L2,f,g], lambda([phi],
+    block([phi1:intersection(phi,L1), phi2:intersection(phi,L2)],
+           min(1, f(phi1) + g(phi2)))))])$
+/* The disjunction of set of wbfs: */
+or_swbf(S) := block([L:listify(S)],
+ [lunion(map(first,L)), buildq([L], lambda([phi],
+    if some_s(lambda([wbf],
+              is(second(wbf)(intersection(phi,literals_v(first(wbf))))=1)), L)
+    then 1 else 0))])$
+
+and_wbf(f1,f2) := block(
+ [V1:first(f1),V2:first(f2), f:second(f1), g:second(f2), L1,L2],
+  L1 : literals_v(V1), L2 : literals_v(V2),
+  [union(V1,V2), buildq([L1,L2,f,g], lambda([phi],
+    block([phi1:intersection(phi,L1), phi2:intersection(phi,L2)],
+           f(phi1) * g(phi2))))])$
+
+neg_wbf(f) := block([f2 : second(f)],
+ [first(f), buildq([f2], lambda([phi], 1-f2(phi)))])$
+
 
 /*!
 \endhtmlonly
