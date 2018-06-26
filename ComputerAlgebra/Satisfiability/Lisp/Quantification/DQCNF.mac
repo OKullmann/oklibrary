@@ -32,7 +32,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.
 
 /* A dqcs is a four-tuple [A,E,F,D], where A is the set of universal variables,
    E the set of existential variables, F a clause-set with variables from
-   A and E, and D a set-theoretical from E to subsets of A:
+   A and E, and D a set-theoretical map from E to subsets of A:
 */
 dqcs_p(DF) := listp(DF) and length(DF)=4 and
  block([A:first(DF), E:second(DF), F:third(DF), D:fourth(DF)],
@@ -47,8 +47,8 @@ dqcs_p(DF) := listp(DF) and length(DF)=4 and
 
 */
 
-/* A DQCNF-partial-assignment is a set-theoretical map phi from some variables
-   to wrapped boolean functions, such that the variables used for the
+/* A dqcn-partial-assignment (dqpa) is a set-theoretical map phi from some
+   variables to wrapped boolean functions, such that the variables used for the
    wrapped boolean functions are not used in the domain of phi:
 */
 dqpa_p(phi) := sm_p(phi) and block([V:map(first,phi), B:map(second,phi)],
@@ -82,16 +82,17 @@ dqpafordqcs(phi,F) := block([D:sm2hm(fourth(F))],
   {[1,zero_wbf],[2,lit2wbf(3)]} for [{3,4},{1,2},{},{[1,{}],[2,{3}]}]
 */
 
-/* All total dqpa for dependency-scheme D (which includes E): */
-all_tdqpa(D) := block([L : listify(D), V],
- V : map(first,L),
- setify(map(lambda([t], setify(maplist("[", V,t))),
+/* All total dqpa's for dependency-scheme D (which includes E): */
+all_tdqpa(D) := block([L : listify(D), E],
+ E : map(first,L),
+ setify(map(lambda([t], setify(maplist("[", E,t))),
      cartesian_product_l(create_list(listify(all_wbf(second(p))), p,L)))))$
 
 all_dqpa(D) := lunion(map(all_tdqpa, powerset(D)))$
 
 /* Whether a dqpa phi satisfies a clause C=union(A,E): */
-satisfyp_dqpac(phi,A,E) := block([E0:intersection(literals_v(var_dqpa(phi)), E), C],
+satisfyp_dqpac(phi,A,E) := block(
+ [E0:intersection(literals_v(var_dqpa(phi)), E), C],
   C : union(map(lambda([x], apply_dqpa(phi,x)), E0), map(lit2wbf, A)),
   equalp_wbf(essentialcore_wbf(or_swbf(C)), one_wbf))$
 
