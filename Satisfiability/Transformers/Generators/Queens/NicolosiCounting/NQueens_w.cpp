@@ -25,15 +25,6 @@ SOFTWARE.
   https://github.com/OKullmann/oklibrary/commits/master/Satisfiability
   ID 3d8d9e84ec1154cf6773dfc71b1c3cec5a1f0be4.
 
-The basic idea is the same as explained at
-  https://helloacm.com/n-queen-problem-in-back-tracing-bit-logics/
-and indeed the same as the program from 2002 by Jeff Somers
-  http://users.rcn.com/liusomers/nqueen_demo/nqueens.html
-
-Variable numrows there is our size, lsb is next, bitfield is avail, mask
-is all_columns. The array aQueenBitCol contains the values of our variable
-column, aQueenBitPosDiag of fdiag, aQueenBitNegDiag of fantid.
-
 A white queen is a queen placed on a white square (chessboard) or a white vertex (Queens graph).
 A square/vertex (x,y) where x is row value and y is column value is considered white iff (x+y) is odd.
 
