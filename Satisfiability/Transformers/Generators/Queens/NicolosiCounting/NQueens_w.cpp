@@ -104,7 +104,7 @@ constexpr queen_t one(const input_t position) noexcept {
   return queen_t(1) << position;
 }
 
-// sets alternate bits to one.
+// Sets alternate bits to one:
 inline queen_t column(const input_t N) noexcept {
   queen_t wbref = 1;
   for (input_t i = 0; i<N-1 ; ++i) { wbref <<= 1; if ((i%2) == 1) wbref += 1;}
@@ -116,8 +116,8 @@ inline constexpr queen_t keeprightmostbit(const queen_t x) noexcept {
   return -x & x;
 }
 
-//Checks if the queen is white using wbref.
-inline constexpr bool queen_w(bool qr, const queen_t wbref, const queen_t next) noexcept {
+// Checks if the queen is white using wbref:
+inline constexpr bool queen_w(const bool qr, const queen_t wbref, const queen_t next) noexcept {
   return qr ^ bool(wbref & next);
 }
 
