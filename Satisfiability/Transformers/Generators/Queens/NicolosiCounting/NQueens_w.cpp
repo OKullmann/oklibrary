@@ -30,11 +30,11 @@ A square/vertex (x,y) where x is row value and y is column value is considered w
 
   Version 0.5, 26.6.2018.
   Usage:
-> ./qcount_w N
+> ./wqcount N
 
 Output of the solution count; e.g.
 
-> ./qcount_w 9
+> ./wqcount 9
 4 304
 6 48
 
@@ -43,14 +43,14 @@ That is, 304 solutions with 4 white queens and 48 solutions with 6 white queens 
 
 For compilation use,
 
->g++ --std=c++11 -pedantic -Wall -Wno-parentheses -Ofast -DNDEBUG   NQueens_w.cpp -o qcount_w
+>g++ --std=c++11 -pedantic -Wall -Wno-parentheses -Ofast -DNDEBUG   NQueens_w.cpp -o wqcount
 
 For timing-output, the gnu-tool /usr/bin/time is recommended.
 For example, output to file Out, first current date and time, then the output
 of this program, then the command itself, then the time measurements,
 first user-time (most important), then total-time, then system-time,
 always appending to Out:
-> date >> Out; /usr/bin/time -ao Out -f "%C\n%U %e %S" ./qcount_w 16 >>Out
+> date >> Out; /usr/bin/time -ao Out -f "%C\n%U %e %S" ./wqcount 16 >>Out
 > cat Out
 Tue 26 Jun 11:42:57 BST 2018
 4 76
@@ -58,12 +58,12 @@ Tue 26 Jun 11:42:57 BST 2018
 8 12486228
 10 1143066
 12 76
-./qcount_w 16
+./wqcount 16
 5.34 5.34 0.00
 A simple experiment in Bash then, running N=0,...,20, and collecting the data
 in file NQ_out:
 > OUT="NQ_out"; for ((N=0; N<=20; ++N)); do echo "N=$N" | tee -a $OUT;
-   date >> $OUT; /usr/bin/time -ao $OUT -f "%C\n%U %e %S" ./qcount_w $N >> $OUT;
+   date >> $OUT; /usr/bin/time -ao $OUT -f "%C\n%U %e %S" ./wqcount $N >> $OUT;
    done
 */
 
