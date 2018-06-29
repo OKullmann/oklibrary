@@ -76,6 +76,7 @@ in file NQ_out:
 #include <cassert>
 #include <limits>
 #include <vector>
+#include <iomanip>
 
 namespace {
 
@@ -130,13 +131,13 @@ inline constexpr queen_t keeprightmostbit(const queen_t x) noexcept {
 // The recursive counting-function;
 // using bit-positions 0, ..., N-1 for the columns 1, ..., N:
 input_t N;
-std::vector<count_t> wcount; // global white queens count.
+std::vector<count_t> wcount; // wcount[i] is the number of solutions with precisely i+1 white queens
 
 // Idea: size-many rows (from bottom) have been processed, now consider the
 // next row, and try to place the next queen in some column.
 inline void backtracking(queen_t avail,
   const queen_t columns, const queen_t fdiag, const queen_t fantid,
-  const input_t size,count_t lwcount) noexcept {
+  const input_t size, input_t numw) noexcept {
   // avail: columns available (set to 1) for this invocation (only)
   // columns: the current placement of queens
   // fdiag: forbidden columns due to diagonal constraints
@@ -156,17 +157,17 @@ inline void backtracking(queen_t avail,
     const bool slr = parity_pos(next,odd_row); // checks and assigns 1 if second last row has a white queen.
     const queen_t lravail = newavail0 & ~(next | next>>1 | next<<1); // lravail is available position in last row
     const bool lr = parity_pos(lravail, !odd_row); // checks and assigns 1 if last row has a white queen.
-    if(bool(lravail)) ++wcount[lwcount+slr+lr-1]; // increments the count if it is a valid soluion.
+    if(bool(lravail)) ++wcount[numw+slr+lr-1];
     } while (next = keeprightmostbit(avail^=next));
   else
     do {const queen_t newcolumns = columns|next,
           nextrs = next>>1, nextls = next<<1,
           newdiag = sdiag | nextrs, newantid = santid | nextls,
           newavail = newavail0 & ~(next | nextrs | nextls);
-        bool flag = 0;
-	if (parity_pos(next,odd_row)) { lwcount += 1; flag = 1; }
-        if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1,lwcount);
-        if (flag) lwcount -= 1;
+        bool flag = false; // needs to be changed XXX
+	if (parity_pos(next,odd_row)) { ++numw; flag = true; }
+        if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1,numw);
+        if (flag) --numw;
     } while (next = keeprightmostbit(avail^=next));
 }
 }
@@ -177,18 +178,20 @@ int main(const int argc, const char* const argv[]) {
   if (arg1 <= 3) { std::cout << 0 << " " << 0 << "\n"; return 0; }
   if (arg1 > maxN) { std::cerr << " N <= " << int(maxN) << " required.\n"; return 1; }
   N = arg1;
-  wcount.resize(N);
+  wcount.resize(N); // should be N+1 XXX
   all_columns = setrightmostbits(N);
-  // Using rotation-symmetry around vertical axis:
+  // Using mirror-symmetry around vertical axis:
   if (N % 2 == 0) {
     backtracking(setrightmostbits(N/2), 0, 0, 0, 0, 0);
-    // due to vertical flip number of white queens count become black queen count for mirror solutions.
-    for (input_t i = 0; i < wcount.size()/2; ++i) wcount[i] = wcount[N-i-2] = wcount[i] + wcount[N-i-2];
+    // Due to vertical flip number of white queens count become black queen count for mirror solutions:
+    for (input_t i = 0; i < N/2; ++i)
+      wcount[i] = wcount[N-i-2] = wcount[i] + wcount[N-i-2];
   } else {
     backtracking(setrightmostbits(N/2), 0, 0, 0, 0, 0);
-    for(auto& i : wcount) i <<= 1; //doubling white queen counts for symmetry around vertical axis.
+    for(count_t& c : wcount) c *= 2;
     backtracking(one(N/2), 0, 0, 0, 0, 0);
   }
 
-  for (input_t i = 0; i != wcount.size(); ++i) if (wcount[i] != 0) std::cout<<i+1<<" "<<wcount[i]<<std::endl;
+  for (input_t i = 0; i != wcount.size(); ++i)
+    if (wcount[i] != 0) std::cout << std::setw(2) << i+1 << " " << wcount[i] << "\n";
 }
