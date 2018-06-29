@@ -25,8 +25,8 @@ SOFTWARE.
   https://github.com/OKullmann/oklibrary/commits/master/Satisfiability
   ID 3d8d9e84ec1154cf6773dfc71b1c3cec5a1f0be4.
 
-A white queen is a queen placed on a white square (chessboard) or a white vertex (Queens graph).
-A square/vertex (x,y) where x is row value and y is column value is considered white iff (x+y) is odd.
+A "white queen" is a queen placed on a white square (chessboard) or a white vertex (Queens graph).
+A square/vertex (x,y), where x is the row-index and y is the column-index, is considered white iff x+y is odd.
 
   Version 0.5, 26.6.2018.
   Usage:
@@ -99,6 +99,8 @@ static_assert(std::numeric_limits<queen_t>::digits >= maxN, "Problem with queen_
 constexpr queen_t setrightmostbits(const input_t N) noexcept {
   return (N>=maxN) ? queen_t(-1) : (queen_t(1) << N) - 1;
 }
+queen_t all_columns; // set by setrightmostbits
+
 // 1 at position+1 (from right), the rest 0:
 constexpr queen_t one(const input_t position) noexcept {
   return queen_t(1) << position;
@@ -112,18 +114,18 @@ inline constexpr queen_t keeprightmostbit(const queen_t x) noexcept {
 // Sets alternate bits to 1, starting with 1:
 inline queen_t alternatebits(const input_t N) noexcept {
   queen_t wbref = 1;
-  for (input_t i = 0; i<N-1 ; ++i) { wbref <<= 1; if ((i%2) == 1) wbref += 1;}
+  for (input_t i = 0; i<N-1 ; ++i) {wbref <<= 1; if ((i%2) == 1) wbref += 1;}
   return wbref;
 }
+queen_t wbref; // set by alternatebits
 
-// Checks if the queen is white using wbref:
-inline constexpr bool queen_w(const bool parity_qr, const queen_t wbref, const queen_t next) noexcept {
-  return parity_qr ^ bool(wbref & next);
+// Checks if the queen is white using wbref, where a field (i,j):
+inline bool queen_w(const bool parity_row, const queen_t next) noexcept {
+  return parity_row ^ bool(wbref & next);
 }
 
 // The recursive counting-function;
 // using bit-positions 0, ..., N-1 for the columns 1, ..., N:
-queen_t all_columns, wbref; // all_columns has the first N bits 1, the rest 0, wbref has alternate bits 1.
 input_t N;
 std::vector<count_t> wcount; // global white queens count.
 bool slr = 0; // represents if second last row queen is white. 1 is white queen, 0 is not.
@@ -151,9 +153,9 @@ inline void backtracking(queen_t avail,
   const input_t sp1 = size+1; // due to the placement of next
   assert(sp1 < N);
   if (sp1+1 == N) {
-    do{slr = queen_w(o_r,wbref,next); // checks and assigns 1 if second last row has a white queen.
+    do{slr = queen_w(o_r,next); // checks and assigns 1 if second last row has a white queen.
       const queen_t lravail = newavail0 & ~(next | next>>1 | next<<1); // lravail is available position in last row
-      lr = queen_w(!o_r,wbref,lravail); // checks and assigns 1 if last row has a white queen.
+      lr = queen_w(!o_r,lravail); // checks and assigns 1 if last row has a white queen.
       if(bool(lravail)) ++wcount[lwcount+slr+lr-1]; // increments the count if it is a valid soluion.
     } while (next = keeprightmostbit(avail^=next));
   }
@@ -163,7 +165,7 @@ inline void backtracking(queen_t avail,
           newdiag = sdiag | nextrs, newantid = santid | nextls,
           newavail = newavail0 & ~(next | nextrs | nextls);
         bool flag = 0;
-	if (queen_w(o_r,wbref,next)) { lwcount += 1; flag = 1; }
+	if (queen_w(o_r,next)) { lwcount += 1; flag = 1; }
         if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1,lwcount,o_r);
         if (flag) lwcount -= 1;
     } while (next = keeprightmostbit(avail^=next));
