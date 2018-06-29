@@ -131,8 +131,6 @@ inline constexpr queen_t keeprightmostbit(const queen_t x) noexcept {
 // using bit-positions 0, ..., N-1 for the columns 1, ..., N:
 input_t N;
 std::vector<count_t> wcount; // global white queens count.
-bool slr = 0; // represents if second last row queen is white. 1 is white queen, 0 is not.
-bool lr = 0; // represents if last row queen is white. 1 is white queen, 0 is not.
 
 // Idea: size-many rows (from bottom) have been processed, now consider the
 // next row, and try to place the next queen in some column.
@@ -154,13 +152,12 @@ inline void backtracking(queen_t avail,
   queen_t next = keeprightmostbit(avail); // could be any bit, but that seems fastest
   const input_t sp1 = size+1; // due to the placement of next
   assert(sp1 < N);
-  if (sp1+1 == N) {
-    do{slr = parity_pos(next,odd_row); // checks and assigns 1 if second last row has a white queen.
-      const queen_t lravail = newavail0 & ~(next | next>>1 | next<<1); // lravail is available position in last row
-      lr = parity_pos(lravail, !odd_row); // checks and assigns 1 if last row has a white queen.
-      if(bool(lravail)) ++wcount[lwcount+slr+lr-1]; // increments the count if it is a valid soluion.
+  if (sp1+1 == N) do {
+    const bool slr = parity_pos(next,odd_row); // checks and assigns 1 if second last row has a white queen.
+    const queen_t lravail = newavail0 & ~(next | next>>1 | next<<1); // lravail is available position in last row
+    const bool lr = parity_pos(lravail, !odd_row); // checks and assigns 1 if last row has a white queen.
+    if(bool(lravail)) ++wcount[lwcount+slr+lr-1]; // increments the count if it is a valid soluion.
     } while (next = keeprightmostbit(avail^=next));
-  }
   else
     do {const queen_t newcolumns = columns|next,
           nextrs = next>>1, nextls = next<<1,
