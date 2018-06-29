@@ -157,7 +157,7 @@ inline void backtracking(queen_t avail,
     const bool slr = parity_pos(next,odd_row); // true iff second last row has a white queen
     const queen_t lravail = newavail0 & ~(next | next>>1 | next<<1); // lravail is available position in last row
     const bool lr = parity_pos(lravail, !odd_row); // true iff last row has a white queen
-    if (bool(lravail)) ++wcount[numw+slr+lr];
+    wcount[numw+slr+lr] += bool(lravail);
     } while (next = keeprightmostbit(avail^=next));
   else
     do {const queen_t newcolumns = columns|next,
