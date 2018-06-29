@@ -35,6 +35,7 @@ License, or any later version. */
 #include <exception>
 #include <algorithm>
 #include <set>
+#include <array>
 
 #include <cstdlib>
 #include <cstdint>
@@ -165,9 +166,9 @@ public :
   Lit contains Lit_int, "Literals as integers", which are signed integers,
   while variables are unsigned.
 
-  Polarities pos, neg are expressed via the enumeration-type Polarity.
+  Polarities pos, neg are expressed via the enumeration-type Pol.
 
-  Operations for Lit_int x, Lit y,y', Var v, Polarity p:
+  Operations for Lit_int x, Lit y,y', Var v, Pol p:
 
    - Lit() (the singular literal)
    - copy-construction, assignment for Lit
@@ -196,23 +197,33 @@ typedef std::make_unsigned<Lit_int>::type Var;
 static_assert(Lit_int(Var(max_lit)) == max_lit, "Problem with Var and Lit_int.");
 inline constexpr bool valid(const Var v) noexcept { return v <= Var(max_lit); }
 
-enum Polarity { pos=0, neg=1 };
-inline constexpr Polarity operator -(const Polarity p) noexcept {
-  return (p==pos) ? neg:pos;
+enum class Pol { n, p };
+inline constexpr Pol operator -(const Pol p) noexcept {
+  return (p==Pol::p) ? Pol::n : Pol::p;
 }
+constexpr std::array<Pol,2> Polarities {{Pol::n, Pol::p}};
+
+static_assert(std::is_pod<Pol>::value, "Pol is not POD.");
+static_assert(static_cast<int>(Pol::n) == 0, "Pol::n != 0.");
+static_assert(static_cast<int>(Pol::p) == 1, "Pol::p != 1.");
+static_assert(Pol::n < Pol::p, "Order problem with Pol.");
+static_assert(-Pol::n == Pol::p and -Pol::p == Pol::n, "Negation problem with Pol.");
+static_assert(Pol(false) == Pol::n and Pol(true) == Pol::p, "Conversion problem from bool to Pol.");
+static_assert(Pol(0) == Pol::n and Pol(1) == Pol::p, "Conversion problem from int to Pol.");
+static_assert(Polarities.size() == 2 and Polarities[0] == Pol::n and Polarities[1] == Pol::p, "Problem with array Polarities");
 
 class Lit {
   Lit_int x;
 public :
   Lit() = default;
   constexpr explicit Lit(const Lit_int x) noexcept : x(x) {}
-  constexpr Lit(const Var v, const Polarity p) noexcept : x(p==pos?v:-Lit_int(v)) {}
+  constexpr Lit(const Var v, const Pol p) noexcept : x(p==Pol::p?v:-Lit_int(v)) {}
   constexpr explicit operator bool() const noexcept { return x; }
   constexpr Lit operator -() const noexcept { return Lit(-x); }
   constexpr bool operator ==(const Lit y) const noexcept { return x == y.x; }
   constexpr bool operator !=(const Lit y) const noexcept { return x != y.x; }
   friend constexpr Var var(const Lit x) noexcept { return std::abs(x.x); }
-  friend constexpr Polarity sign(const Lit x) noexcept {return (x.x >= 0) ? pos : neg;}
+  friend constexpr Pol sign(const Lit x) noexcept {return Pol(x.x >= 0);}
   friend std::ostream& operator <<(std::ostream& out, const Lit x) {
     return out << x.x;
   }
@@ -233,8 +244,8 @@ static_assert(1_l != -1_l, "Problem with negation and/or inequality.");
 static_assert(- -1_l == 1_l, "Problem with double negation.");
 static_assert(0_l == -0_l, "Problem with negation of singular literal.");
 static_assert(var(-1_l) == 1, "Problem with var().");
-static_assert(sign(-1_l) == neg, "Problem with sign().");
-static_assert(1_l == Lit(1,pos) and -1_l == Lit(1,neg), "Problem with polarity.");
+static_assert(sign(-1_l) == Pol::n, "Problem with sign().");
+static_assert(1_l == Lit(1,Pol::p) and -1_l == Lit(1,Pol::n), "Problem with polarity.");
 
 typedef std::vector<Lit> Lit_vec;
 
@@ -319,7 +330,7 @@ InputParameter read_header(std::istream& f) noexcept {
   if (not valid(ip.n)) {
     errout << "Parameter maximal-variable-index n=" << ip.n <<
       " is too big for numeric_limits<Lit_int>::max=" << max_lit << ".";
-    std::exit(num_vars_error);
+    std::exit(code(Error::num_vars));
   }
   s >> ip.c;
   if (not s) {
@@ -370,7 +381,7 @@ inline bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
        std::exit(code(Error::variable_value));
      }
      const auto t = literal_table[v];
-     const auto comp = (sign(x) == pos) ? round : -round;
+     const auto comp = (sign(x) == Pol::p) ? round : -round;
      if (t == -comp) { // tautology
        C.clear();
        do
