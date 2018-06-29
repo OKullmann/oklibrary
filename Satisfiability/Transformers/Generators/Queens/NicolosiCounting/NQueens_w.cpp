@@ -137,12 +137,12 @@ std::vector<count_t> wcount; // wcount[i] is the number of solutions with precis
 // next row, and try to place the next queen in some column.
 inline void backtracking(queen_t avail,
   const queen_t columns, const queen_t fdiag, const queen_t fantid,
-  const input_t size, input_t numw) noexcept {
+  const input_t size, const input_t numw) noexcept {
   // avail: columns available (set to 1) for this invocation (only)
   // columns: the current placement of queens
   // fdiag: forbidden columns due to diagonal constraints
   // fantid: forbidden columns due to antidiagonal constraints
-  // lwcount: white queens count for each solution
+  // numw: number of white queens
   const bool odd_row = size % 2 == 1;
   assert(size == 0 or avail == (~(columns|fdiag|fantid) & all_columns));
   //assert(std::bitset<maxN>(columns).count() == size);
@@ -164,10 +164,7 @@ inline void backtracking(queen_t avail,
           nextrs = next>>1, nextls = next<<1,
           newdiag = sdiag | nextrs, newantid = santid | nextls,
           newavail = newavail0 & ~(next | nextrs | nextls);
-        bool flag = false; // needs to be changed XXX
-	if (parity_pos(next,odd_row)) { ++numw; flag = true; }
-        if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1,numw);
-        if (flag) --numw;
+        if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1,(parity_pos(next,odd_row)) ? numw+1 : numw);
     } while (next = keeprightmostbit(avail^=next));
 }
 }
