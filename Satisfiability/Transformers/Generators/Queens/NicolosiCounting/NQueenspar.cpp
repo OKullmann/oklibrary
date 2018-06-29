@@ -2,7 +2,6 @@
 /*
   Copyright Alessandro Nicolosi 2016, 2017
   Copyright Oliver Kullmann 2018
-  Copyright Irfansha Shaik 2018
 
 MIT License
 
@@ -26,22 +25,12 @@ SOFTWARE.
   https://github.com/OKullmann/oklibrary/commits/master/Satisfiability
   ID 3d8d9e84ec1154cf6773dfc71b1c3cec5a1f0be4.
 
-The basic idea is the same as explained at
-  https://helloacm.com/n-queen-problem-in-back-tracing-bit-logics/
-and indeed the same as the program from 2002 by Jeff Somers
-  http://users.rcn.com/liusomers/nqueen_demo/nqueens.html
+std::future is used for parallel computation, using N/2 parallel threads.
 
-Variable numrows there is our size, lsb is next, bitfield is avail, mask
-is all_columns. The array aQueenBitCol contains the values of our variable
-column, aQueenBitPosDiag of fdiag, aQueenBitNegDiag of fantid.
-
-Additionally future is used to calculate the count parallely.
-Each thread is given a different placement in the first row and counts are calculated parallely.
-
-  Version 0.6, 26.6.2018.
+  Version 0.7, 28.6.2018.
 
   Usage:
->g++ --std=c++11 -pthread -pedantic -Wall -Wno-parentheses -Ofast -DNDEBUG   NQueenspar.cpp -o qcount_p
+> g++ --std=c++11 -pthread -pedantic -Wall -Wno-parentheses -Ofast -DNDEBUG   NQueenspar.cpp -o qcount_p
 
 > ./qcount_p N
 
@@ -82,8 +71,6 @@ in file NQ_out:
 #include <limits>
 #include <vector>
 #include <future>
-
-using namespace std;
 
 namespace {
 
@@ -172,11 +159,11 @@ int main(const int argc, const char* const argv[]) {
   all_columns = setrightmostbits(N);
   // Using mirror-symmetry around vertical axis:
   if (N % 2 == 0) {
-    for (int i = 0; i < N/2; ++i) futures.push_back(async(backtracking, one(i), 0, 0, 0, 0));
+    for (int i = 0; i < N/2; ++i) futures.push_back(std::async(std::launch::async, backtracking, one(i), 0, 0, 0, 0));
     for (auto& e : futures) count += e.get();
     std::cout << 2*count << "\n";
   } else {
-    for(int i = 0; i < N/2; ++i) futures.push_back(async(backtracking, one(i), 0, 0, 0, 0));
+    for(int i = 0; i < N/2; ++i) futures.push_back(std::async(std::launch::async, backtracking, one(i), 0, 0, 0, 0));
     for (auto& e : futures) count += e.get();
     const count_t half = count;
     count = backtracking(one(N/2), 0, 0, 0, 0);
