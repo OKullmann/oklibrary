@@ -120,6 +120,9 @@ satisfyp_dqpacs(phi,DF) := block(
 
 all_satisfying_tdqpa_bydef(F) := block([Fr : rest(F,-1)],
  subset(all_tdqpa(fourth(F)), lambda([phi], satisfyp_dqpacs(phi, Fr))))$
+all_satisfying_tdqpa_bydef_mincnfdnf(F) :=
+  map2(lambda([P], [first(P), wbf2mincnfdnfcs(second(P))]),
+       all_satisfying_tdqpa_bydef(F))$
 
 
 /* Whether the partial assignment phi is an autarky for F: */
@@ -129,6 +132,9 @@ autarky_dqpacs(phi,DF) := block(
 
 all_autarkies_dqcs_bydef(F) := block([Fr : rest(F,-1)],
  subset(all_dqpa(fourth(F)), lambda([phi], autarky_dqpacs(phi, Fr))))$
+all_autarkies_dqcs_bydef_mincnfdnf(F) :=
+  map2(lambda([P], [first(P), wbf2mincnfdnfcs(second(P))]),
+       all_autarkies_dqcs_bydef(F))$
 
 /*!
 \endhtmlonly
