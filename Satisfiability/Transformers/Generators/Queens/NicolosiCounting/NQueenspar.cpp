@@ -27,7 +27,7 @@ SOFTWARE.
 
 std::future is used for parallel computation, using N/2 parallel threads.
 
-  Version 0.7, 28.6.2018.
+  Version 0.7, 29.6.2018.
 
   Usage:
 > g++ --std=c++11 -pthread -pedantic -Wall -Wno-parentheses -Ofast -DNDEBUG   NQueenspar.cpp -o qcount_p
