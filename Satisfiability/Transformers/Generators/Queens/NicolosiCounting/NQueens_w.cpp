@@ -104,21 +104,21 @@ constexpr queen_t one(const input_t position) noexcept {
   return queen_t(1) << position;
 }
 
-// Sets alternate bits to one:
-inline queen_t column(const input_t N) noexcept {
-  queen_t wbref = 1;
-  for (input_t i = 0; i<N-1 ; ++i) { wbref <<= 1; if ((i%2) == 1) wbref += 1;}
-  return wbref;
-}
-
 // Set all bits in x to 0 except of rightmost one (if exists):
 inline constexpr queen_t keeprightmostbit(const queen_t x) noexcept {
   return -x & x;
 }
 
+// Sets alternate bits to 1, starting with 1:
+inline queen_t alternatebits(const input_t N) noexcept {
+  queen_t wbref = 1;
+  for (input_t i = 0; i<N-1 ; ++i) { wbref <<= 1; if ((i%2) == 1) wbref += 1;}
+  return wbref;
+}
+
 // Checks if the queen is white using wbref:
-inline constexpr bool queen_w(const bool qr, const queen_t wbref, const queen_t next) noexcept {
-  return qr ^ bool(wbref & next);
+inline constexpr bool queen_w(const bool parity_qr, const queen_t wbref, const queen_t next) noexcept {
+  return parity_qr ^ bool(wbref & next);
 }
 
 // The recursive counting-function;
@@ -176,7 +176,7 @@ int main(const int argc, const char* const argv[]) {
   if (arg1 <= 3) { std::cout << 0 << " " << 0 << "\n"; return 0; }
   if (arg1 > maxN) { std::cerr << " N <= " << int(maxN) << " required.\n"; return 1; }
   N = arg1;
-  wbref = column(N); // sets alternate bits to 1 as a reference to check if it is a white queen.
+  wbref = alternatebits(N);
   wcount.resize(N);
   all_columns = setrightmostbits(N);
   // Using rotation-symmetry around vertical axis:
