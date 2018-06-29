@@ -342,14 +342,20 @@ InputParameter read_header(std::istream& f) noexcept {
     errout << "Syntax error in parameter line (something after c-parameter).";
     std::exit(code(Error::file_pline));
   }
-  try { clauses.cl.resize(n_header_clauses); }
-  catch (const std::bad_alloc&) {
-    errout << "Allocation error for clauses-vector of size " <<
-      n_header_clauses << " (the number-of-clauses).";
-    std::exit(code(Error::allocation));
-  }
   return ip;
 }
+
+VarManagement read_dependencies(std::istream& f, const InputParameter& ip) noexcept {
+  VarManagement V;
+  try { V.D.resize(ip.n); }
+  catch (const std::bad_alloc&) {
+    errout << "Allocation error for dependency-vector of size " <<
+      ip.n << ".";
+    std::exit(code(Error::allocation));
+  }
+  return V;
+}
+
 
 typedef std::int_fast64_t Rounds;
 
@@ -534,6 +540,6 @@ int main(const int argc, const char* const argv[]) {
   set_output(argc, argv);
 
   const InputParameter ip = read_header(*in);
-  const VarManagement V = read_dependencies(*in);
+  const VarManagement V = read_dependencies(*in, ip);
   const ClauseSet F = read_clauses(*in, ip, V);
 }
