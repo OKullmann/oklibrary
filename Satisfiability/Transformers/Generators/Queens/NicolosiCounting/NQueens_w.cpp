@@ -30,7 +30,7 @@ vertex (Queens graph).
 A square/vertex (x,y), where x is the row-index and y is the column-index, is
 considered white iff x+y is odd; x,y are either both 0-based or both 1-based.
 
-  Version 0.5, 26.6.2018.
+  Version 0.6.1, 29.6.2018.
   Usage:
 > ./wqcount N
 
@@ -172,7 +172,7 @@ inline void backtracking(queen_t avail,
 int main(const int argc, const char* const argv[]) {
   if (argc != 2) { std::cout << "Usage[qcount]: N\n"; return 0; }
   const unsigned long arg1 = std::stoul(argv[1]);
-  if (arg1 <= 3) { std::cout << 0 << " " << 0 << "\n"; return 0; }
+  if (arg1 <= 1) { std::cout << std::setw(2) << 0 << " " << 1 << "\n"; return 0; }
   if (arg1 > maxN) { std::cerr << " N <= " << int(maxN) << " required.\n"; return 1; }
   N = arg1;
   wcount.resize(N+1);
