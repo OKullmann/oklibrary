@@ -131,7 +131,7 @@ inline constexpr queen_t keeprightmostbit(const queen_t x) noexcept {
 // The recursive counting-function;
 // using bit-positions 0, ..., N-1 for the columns 1, ..., N:
 input_t N;
-std::vector<count_t> wcount; // wcount[i] is the number of solutions with precisely i+1 white queens
+std::vector<count_t> wcount; // wcount[i] is the number of solutions with precisely i white queens
 
 // Idea: size-many rows (from bottom) have been processed, now consider the
 // next row, and try to place the next queen in some column.
@@ -157,7 +157,7 @@ inline void backtracking(queen_t avail,
     const bool slr = parity_pos(next,odd_row); // true iff second last row has a white queen
     const queen_t lravail = newavail0 & ~(next | next>>1 | next<<1); // lravail is available position in last row
     const bool lr = parity_pos(lravail, !odd_row); // true iff last row has a white queen
-    if (bool(lravail)) ++wcount[numw+slr+lr-1];
+    if (bool(lravail)) ++wcount[numw+slr+lr];
     } while (next = keeprightmostbit(avail^=next));
   else
     do {const queen_t newcolumns = columns|next,
@@ -175,20 +175,20 @@ int main(const int argc, const char* const argv[]) {
   if (arg1 <= 3) { std::cout << 0 << " " << 0 << "\n"; return 0; }
   if (arg1 > maxN) { std::cerr << " N <= " << int(maxN) << " required.\n"; return 1; }
   N = arg1;
-  wcount.resize(N); // should be N+1 XXX
+  wcount.resize(N+1);
   all_columns = setrightmostbits(N);
   // Using mirror-symmetry around vertical axis:
   if (N % 2 == 0) {
     backtracking(setrightmostbits(N/2), 0, 0, 0, 0, 0);
     // Due to vertical flip number of white queens count become black queen count for mirror solutions:
-    for (input_t i = 0; i < N/2; ++i)
-      wcount[i] = wcount[N-i-2] = wcount[i] + wcount[N-i-2];
+    for (input_t i = 0; i <= N/2; ++i)
+      wcount[i] = wcount[N-i] = wcount[i] + wcount[N-i];
   } else {
     backtracking(setrightmostbits(N/2), 0, 0, 0, 0, 0);
     for(count_t& c : wcount) c *= 2;
     backtracking(one(N/2), 0, 0, 0, 0, 0);
   }
 
-  for (input_t i = 0; i != wcount.size(); ++i)
-    if (wcount[i] != 0) std::cout << std::setw(2) << i+1 << " " << wcount[i] << "\n";
+  for (input_t i = 0; i <= N; ++i)
+    if (wcount[i] != 0) std::cout << std::setw(2) << unsigned(i) << " " << wcount[i] << "\n";
 }
