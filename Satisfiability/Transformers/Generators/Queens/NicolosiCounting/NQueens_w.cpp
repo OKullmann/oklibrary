@@ -124,7 +124,7 @@ inline constexpr queen_t keeprightmostbit(const queen_t x) noexcept {
    parity of j is as given by parameter even:
 */
   inline constexpr bool parity_pos(const queen_t bit, const bool even) noexcept {
-    return even ^ bool(wbref & bit);
+    return unsigned(even) ^ unsigned(bool(wbref & bit));
 }
 
 // The recursive counting-function;
