@@ -128,7 +128,7 @@ input_t N;
 // next row, and try to place the next queen in some column.
 inline count_t backtracking(queen_t avail,
   const queen_t columns, const queen_t fdiag, const queen_t fantid,
-  const input_t size, const int i, count_t& count) {
+  const input_t size) {
   // avail: columns available (set to 1) for this invocation (only)
   // columns: the current placement of queens
   // fdiag: forbidden columns due to diagonal constraints
@@ -136,6 +136,7 @@ inline count_t backtracking(queen_t avail,
   assert(size == 0 or avail == (~(columns|fdiag|fantid) & all_columns));
   //assert(std::bitset<maxN>(columns).count() == size);
   assert(avail);
+  count_t count = 0;
   const queen_t sdiag = fdiag>>1, santid = fantid<<1;
   const queen_t newavail0 = ~(columns | sdiag | santid) & all_columns;
   if (not newavail0) return count;
@@ -152,22 +153,16 @@ inline count_t backtracking(queen_t avail,
           nextrs = next>>1, nextls = next<<1,
           newdiag = sdiag | nextrs, newantid = santid | nextls,
           newavail = newavail0 & ~(next | nextrs | nextls);
-      if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1,i,count);
+      if (newavail)
+	count += backtracking(newavail,newcolumns,newdiag,newantid,sp1);
     } while (next = keeprightmostbit(avail^=next));
   return count;
 }
 
-inline count_t parallel(queen_t avail,
-  const queen_t columns, const queen_t fdiag, const queen_t fantid,
-  const input_t size, const int i) {
-  count_t local_count = 0;
-  return backtracking(avail,columns,fdiag,fantid,size,i,std::ref(local_count));
-  }
-
 }
 
 int main(const int argc, const char* const argv[]) {
-  if (argc != 2) { std::cout << "Usage[qcount]: N\n"; return 0; }
+  if (argc != 2) { std::cout << "Usage[pqcount]: N\n"; return 0; }
   count_t count = 0;
   std::vector<std::future<count_t>> futures;
   const unsigned long arg1 = std::stoul(argv[1]);
@@ -175,16 +170,16 @@ int main(const int argc, const char* const argv[]) {
   if (arg1 > maxN) { std::cerr << " N <= " << int(maxN) << " required.\n"; return 1; }
   N = arg1;
   all_columns = setrightmostbits(N);
-  // Using rotation-symmetry around vertical axis:
+  // Using mirror-symmetry around vertical axis:
   if (N % 2 == 0) {
-    for(int i = 0; i < N/2; ++i) futures.push_back (async(parallel, one(i), 0, 0, 0, 0, i));
-    for(auto& e : futures) count += e.get();
+    for (int i = 0; i < N/2; ++i) futures.push_back(async(backtracking, one(i), 0, 0, 0, 0));
+    for (auto& e : futures) count += e.get();
     std::cout << 2*count << "\n";
   } else {
-    for(int i = 0; i < N/2; ++i) futures.push_back (async(parallel, one(i), 0, 0, 0, 0, i));
-    for(auto& e : futures) count += e.get();
+    for(int i = 0; i < N/2; ++i) futures.push_back(async(backtracking, one(i), 0, 0, 0, 0));
+    for (auto& e : futures) count += e.get();
     const count_t half = count;
-    count = parallel(one(N/2), 0, 0, 0, 0, N/2);
+    count = backtracking(one(N/2), 0, 0, 0, 0);
     std::cout << 2*half + count << "\n";
   }
 }
