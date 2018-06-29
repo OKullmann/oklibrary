@@ -128,7 +128,7 @@ input_t N;
 // next row, and try to place the next queen in some column.
 inline count_t backtracking(queen_t avail,
   const queen_t columns, const queen_t fdiag, const queen_t fantid,
-  const input_t size, const int i, count_t& local_count) {
+  const input_t size, const int i, count_t& count) {
   // avail: columns available (set to 1) for this invocation (only)
   // columns: the current placement of queens
   // fdiag: forbidden columns due to diagonal constraints
@@ -138,13 +138,13 @@ inline count_t backtracking(queen_t avail,
   assert(avail);
   const queen_t sdiag = fdiag>>1, santid = fantid<<1;
   const queen_t newavail0 = ~(columns | sdiag | santid) & all_columns;
-  if (not newavail0) return local_count;
+  if (not newavail0) return count;
   queen_t next = keeprightmostbit(avail); // could be any bit, but that seems fastest
   const input_t sp1 = size+1; // due to the placement of next
   assert(sp1 < N);
   if (sp1+1 == N) {
     do
-      local_count += bool(newavail0 & ~(next | next>>1 | next<<1));
+      count += bool(newavail0 & ~(next | next>>1 | next<<1));
     while (next = keeprightmostbit(avail^=next));
   }
   else
@@ -152,9 +152,9 @@ inline count_t backtracking(queen_t avail,
           nextrs = next>>1, nextls = next<<1,
           newdiag = sdiag | nextrs, newantid = santid | nextls,
           newavail = newavail0 & ~(next | nextrs | nextls);
-      if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1,i,local_count);
+      if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1,i,count);
     } while (next = keeprightmostbit(avail^=next));
-return local_count;
+  return count;
 }
 
 inline count_t parallel(queen_t avail,
