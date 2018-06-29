@@ -26,7 +26,7 @@ qcount : NQueens.cpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 qcount_debug : NQueens.cpp
-	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 qcount_ct : NQueens_ct.cpp
 	$(CXX) $(SETN) $(Standard_options) $(Warning_options) $(Optimisation_options_full) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
@@ -38,7 +38,7 @@ wqcount : NQueens_w.cpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 wqcount_debug : NQueens_w.cpp
-	$(CXX) $(Standard_options) $(Warning_options) $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 clean :
 	- rm qcount qcount_debug qcount_ct qcount_ct_debug wqcount wqcount_debug
