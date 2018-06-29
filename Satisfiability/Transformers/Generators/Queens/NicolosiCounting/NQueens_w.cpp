@@ -25,8 +25,10 @@ SOFTWARE.
   https://github.com/OKullmann/oklibrary/commits/master/Satisfiability
   ID 3d8d9e84ec1154cf6773dfc71b1c3cec5a1f0be4.
 
-A "white queen" is a queen placed on a white square (chessboard) or a white vertex (Queens graph).
-A square/vertex (x,y), where x is the row-index and y is the column-index, is considered white iff x+y is odd.
+A "white queen" is a queen placed on a white square (chessboard) or a white
+vertex (Queens graph).
+A square/vertex (x,y), where x is the row-index and y is the column-index, is
+considered white iff x+y is odd; x,y are either both 0-based or both 1-based.
 
   Version 0.5, 26.6.2018.
   Usage:
@@ -38,7 +40,8 @@ Output of the solution count; e.g.
 4 304
 6 48
 
-That is, 304 solutions with 4 white queens and 48 solutions with 6 white queens in each solution,
+That is, 304 solutions with 4 white queens and 48 solutions with 6 white
+queens in each solution,
 (nonattacking placements of 9 queens on the 8x8 board).
 
 For compilation use,
@@ -111,17 +114,17 @@ inline constexpr queen_t keeprightmostbit(const queen_t x) noexcept {
   return -x & x;
 }
 
-// Sets alternate bits to 1, starting with 1:
-inline queen_t alternatebits(const input_t N) noexcept {
-  queen_t wbref = 1;
-  for (input_t i = 0; i<N-1 ; ++i) {wbref <<= 1; if ((i%2) == 1) wbref += 1;}
-  return wbref;
-}
-queen_t wbref; // set by alternatebits
-
-// Checks if the queen is white using wbref, where a field (i,j):
-inline bool queen_w(const bool parity_row, const queen_t next) noexcept {
-  return parity_row ^ bool(wbref & next);
+// Repeating the bit-pattern 1010:
+#if maxN == 32
+  constexpr queen_t wbref = 0xAAAAAAAA;
+#else
+  constexpr queen_t wbref = 0xAAAAAAAAAAAAAAAA;
+#endif
+/* Variable bit is a single bit at position j >= 0 -- return true if the
+   parity of j is as given by parameter even:
+*/
+  inline constexpr bool parity_pos(const queen_t bit, const bool even) noexcept {
+    return even ^ bool(wbref & bit);
 }
 
 // The recursive counting-function;
@@ -135,14 +138,13 @@ bool lr = 0; // represents if last row queen is white. 1 is white queen, 0 is no
 // next row, and try to place the next queen in some column.
 inline void backtracking(queen_t avail,
   const queen_t columns, const queen_t fdiag, const queen_t fantid,
-  const input_t size,count_t lwcount, bool o_r) noexcept {
+  const input_t size,count_t lwcount) noexcept {
   // avail: columns available (set to 1) for this invocation (only)
   // columns: the current placement of queens
   // fdiag: forbidden columns due to diagonal constraints
   // fantid: forbidden columns due to antidiagonal constraints
   // lwcount: white queens count for each solution
-  // o_r: a single bit representing odd/even row. 1 is odd row and 0 is even row.
-  o_r = !o_r;
+  const bool odd_row = size % 2 == 1;
   assert(size == 0 or avail == (~(columns|fdiag|fantid) & all_columns));
   //assert(std::bitset<maxN>(columns).count() == size);
   assert(avail);
@@ -153,9 +155,9 @@ inline void backtracking(queen_t avail,
   const input_t sp1 = size+1; // due to the placement of next
   assert(sp1 < N);
   if (sp1+1 == N) {
-    do{slr = queen_w(o_r,next); // checks and assigns 1 if second last row has a white queen.
+    do{slr = parity_pos(next,odd_row); // checks and assigns 1 if second last row has a white queen.
       const queen_t lravail = newavail0 & ~(next | next>>1 | next<<1); // lravail is available position in last row
-      lr = queen_w(!o_r,lravail); // checks and assigns 1 if last row has a white queen.
+      lr = parity_pos(lravail, !odd_row); // checks and assigns 1 if last row has a white queen.
       if(bool(lravail)) ++wcount[lwcount+slr+lr-1]; // increments the count if it is a valid soluion.
     } while (next = keeprightmostbit(avail^=next));
   }
@@ -165,8 +167,8 @@ inline void backtracking(queen_t avail,
           newdiag = sdiag | nextrs, newantid = santid | nextls,
           newavail = newavail0 & ~(next | nextrs | nextls);
         bool flag = 0;
-	if (queen_w(o_r,next)) { lwcount += 1; flag = 1; }
-        if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1,lwcount,o_r);
+	if (parity_pos(next,odd_row)) { lwcount += 1; flag = 1; }
+        if (newavail) backtracking(newavail,newcolumns,newdiag,newantid,sp1,lwcount);
         if (flag) lwcount -= 1;
     } while (next = keeprightmostbit(avail^=next));
 }
@@ -178,18 +180,17 @@ int main(const int argc, const char* const argv[]) {
   if (arg1 <= 3) { std::cout << 0 << " " << 0 << "\n"; return 0; }
   if (arg1 > maxN) { std::cerr << " N <= " << int(maxN) << " required.\n"; return 1; }
   N = arg1;
-  wbref = alternatebits(N);
   wcount.resize(N);
   all_columns = setrightmostbits(N);
   // Using rotation-symmetry around vertical axis:
   if (N % 2 == 0) {
-    backtracking(setrightmostbits(N/2), 0, 0, 0, 0, 0, 0);
+    backtracking(setrightmostbits(N/2), 0, 0, 0, 0, 0);
     // due to vertical flip number of white queens count become black queen count for mirror solutions.
     for (input_t i = 0; i < wcount.size()/2; ++i) wcount[i] = wcount[N-i-2] = wcount[i] + wcount[N-i-2];
   } else {
-    backtracking(setrightmostbits(N/2), 0, 0, 0, 0, 0, 0);
+    backtracking(setrightmostbits(N/2), 0, 0, 0, 0, 0);
     for(auto& i : wcount) i <<= 1; //doubling white queen counts for symmetry around vertical axis.
-    backtracking(one(N/2), 0, 0, 0, 0, 0, 0);
+    backtracking(one(N/2), 0, 0, 0, 0, 0);
   }
 
   for (input_t i = 0; i != wcount.size(); ++i) if (wcount[i] != 0) std::cout<<i+1<<" "<<wcount[i]<<std::endl;
