@@ -2,7 +2,6 @@
 /*
   Copyright Alessandro Nicolosi 2016, 2017
   Copyright Oliver Kullmann 2018
-  Copyright Irfansha Shaik 2018
 
 MIT License
 
