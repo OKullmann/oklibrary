@@ -20,7 +20,7 @@ Debug_options = -g
 
 SETN=-DNN=15
 
-all : qcount qcount_debug qcount_ct qcount_ct_debug wqcount wqcount_debug
+all : qcount qcount_debug qcount_ct qcount_ct_debug wqcount wqcount_debug pqcount pqcount_debug
 
 qcount : NQueens.cpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
@@ -40,5 +40,12 @@ wqcount : NQueens_w.cpp
 wqcount_debug : NQueens_w.cpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
+pqcount : NQueenspar.cpp
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -lpthread $< -o $@
+
+pqcount_debug : NQueenspar.cpp
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -lpthread $< -o $@
+
+
 clean :
-	- rm qcount qcount_debug qcount_ct qcount_ct_debug wqcount wqcount_debug
+	- rm qcount qcount_debug qcount_ct qcount_ct_debug wqcount wqcount_debug pqcount pqcount_debug
