@@ -395,11 +395,17 @@ struct VarManagement {
 };
 
 typedef std::set<Lit> Clause;
-typedef std::pair<Clause,Clause> DClause;
+typedef std::pair<Clause,Clause> DClause; // for-all exists
 typedef std::set<DClause> DCLS;
 
 struct ClauseSet {
   DCLS F;
+  VTvector vt;
+  Dvector D;
+  // From the parameter line:
+  Var n_pl;
+  Count_t c_pl;
+  // Actually occurring (with tautological clauses removed):
   Var max_index; // maximal occurring variable-index
   Var na, ne, n; // number occurring e/a/both variables
   Var max_a_length, max_e_length, max_c_length; // max number of a/e/both literals in clauses
@@ -414,15 +420,18 @@ typedef std::set<Pass> PassSet;
 
 // --- Input ---
 
+class ReadDimacs {
+
+std::istream& in;
+ClauseSet F;
 
 // Aborts via std::exit in case of input-errors:
-InputParameter read_header(std::istream& f) noexcept {
-  assert(f.exceptions() == 0);
-  assert(f.good());
-  InputParameter ip;
+void read_header(std::istream& in) noexcept {
+  assert(in.exceptions() == 0);
+  assert(in.good());
   std::string line;
   while (true) {
-    std::getline(f, line);
+    std::getline(in, line);
     assert(not line.empty());
     const auto c = line[0];
     if (c == '\0') { // empty line
@@ -453,18 +462,18 @@ InputParameter read_header(std::istream& f) noexcept {
      std::exit(code(Error::file_pline));
    }
   }
-  s >> ip.n;
+  s >> F.n_pl;
   if (not s) {
     errout << "Reading error with parameter maximal-variable-index "
       "(too big or not-a-number).";
     std::exit(code(Error::file_pline));
   }
-  if (not valid(ip.n)) {
-    errout << "Parameter maximal-variable-index n=" << ip.n <<
+  if (not valid(F.n_pl)) {
+    errout << "Parameter maximal-variable-index n=" << F.n_pl <<
       " is too big for numeric_limits<Lit_int>::max=" << max_lit << ".";
     std::exit(code(Error::num_vars));
   }
-  s >> ip.c;
+  s >> F.c_pl;
   if (not s) {
     errout << "Reading error with parameter number-of-clauses "
       "(too big or not-a-number).";
@@ -474,20 +483,17 @@ InputParameter read_header(std::istream& f) noexcept {
     errout << "Syntax error in parameter line (something after c-parameter).";
     std::exit(code(Error::file_pline));
   }
-  return ip;
 }
 
-VarManagement read_dependencies(std::istream& f, const InputParameter& ip) noexcept {
+void read_dependencies(std::istream& f) noexcept {
   assert(f.exceptions() == 0);
   assert(f.good());
-  VarManagement V;
-  try { V.D.resize(ip.n); }
+  try { F.D.resize(F.n_pl); }
   catch (const std::bad_alloc&) {
     errout << "Allocation error for dependency-vector of size " <<
-      ip.n << ".";
+      F.n_pl << ".";
     std::exit(code(Error::allocation));
   }
-  return V;
 }
 
 
@@ -495,9 +501,9 @@ typedef std::int_fast64_t Rounds;
 
 // Returns false iff no (further) clause was found;
 // reference-parameter C is empty iff a tautological clause was found:
-inline bool read_clause(std::istream& f, Lit_vec& C, const InputParameter& ip) noexcept {
+bool read_clause(std::istream& f, Lit_vec& C) const noexcept {
   assert(f.exceptions() == 0);
-  {static std::vector<Rounds> literal_table(ip.n+1,0);
+  {static std::vector<Rounds> literal_table(F.n_pl+1,0);
    static Rounds round = 0;
    Lit x;
    assert(f.good());
@@ -517,8 +523,8 @@ inline bool read_clause(std::istream& f, Lit_vec& C, const InputParameter& ip) n
      assert(f.good());
      if (not x) break; // end of clause
      const Var v = var(x);
-     if (v > ip.n) {
-       errout << "Literal " << x << " contradicts n=" << ip.n << ".";
+     if (v > F.n_pl) {
+       errout << "Literal " << x << " contradicts n=" << F.n_pl << ".";
        std::exit(code(Error::variable_value));
      }
      const auto t = literal_table[v];
@@ -548,14 +554,14 @@ inline bool read_clause(std::istream& f, Lit_vec& C, const InputParameter& ip) n
 }
 
 // Error only if announced number of clauses too small (but may be too big):
-inline void add_clause(const Lit_vec& C, ClauseSet& F, const InputParameter& ip, const VarManagement& V) {
+inline void add_clause(const Lit_vec& C) {
   const auto n = C.size();
   if (n == 0) { // means tautology here
     ++F.t;
     return;
   }
-  if (F.c >= ip.c) {
-    errout << "More than " << ip.c << " clauses, contradicting cnf-header.";
+  if (F.c >= F.c_pl) {
+    errout << "More than " << F.c_pl << " clauses, contradicting cnf-header.";
     std::exit(code(Error::number_clauses));
   }
   typedef Clause::const_iterator iterator_t;
@@ -564,17 +570,24 @@ inline void add_clause(const Lit_vec& C, ClauseSet& F, const InputParameter& ip,
   F.l += n;
 }
 
-ClauseSet read_clauses(std::istream& in, const InputParameter& ip, const VarManagement& V) {
-  ClauseSet F;
+public :
+
+ReadDimacs(std::istream& in) noexcept : in(in) {}
+
+ClauseSet operator()() {
+  read_header(in);
+  read_dependencies(in);
   {Lit_vec C;
-   while (read_clause(in,C,ip)) {
-     add_clause(C,F,ip,V);
+   while (read_clause(in,C)) {
+     add_clause(C);
    }
   }
   F.n = F.na + F.ne;
   assert(F.c == F.F.size());
   return F;
 }
+
+}; // class ReadDimacs
 
 
 // --- Output ---
@@ -669,10 +682,8 @@ int main(const int argc, const char* const argv[]) {
       std::exit(code(Error::file_writing));
   }
 
-  const Input in(filename);
   set_output(argc, argv);
-
-  const InputParameter ip = read_header(*in);
-  const VarManagement V = read_dependencies(*in, ip);
-  const ClauseSet F = read_clauses(*in, ip, V);
+  const Input in(filename);
+  ReadDimacs rd(*in);
+  const ClauseSet F = rd();
 }
