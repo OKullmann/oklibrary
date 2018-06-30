@@ -223,10 +223,11 @@ public :
 
   constexpr explicit operator bool() const noexcept { return x; }
   constexpr Lit_int index() const noexcept {return x;}
-  constexpr bool pos() const noexcept { return x > 0; }
-  constexpr bool neg() const noexcept { return x < 0; }
+  constexpr bool posi() const noexcept { return x > 0; }
+  constexpr bool negi() const noexcept { return x < 0; }
 
   constexpr Lit operator -() const noexcept { return Lit(-x); }
+  void neg() noexcept { x=-x; }
 
   constexpr bool operator ==(const Lit y) const noexcept { return x == y.x; }
   constexpr bool operator !=(const Lit y) const noexcept { return x != y.x; }
@@ -267,12 +268,20 @@ static_assert(0_l < 1_l, "Singular literal is not smallest.");
 static_assert(-1_l < 1_l, "Negation is not smaller than unnegated.");
 static_assert((1_l).index() == 1, "Index extraction wrong.");
 static_assert((-1_l).index() == -1, "Index extraction wrong.");
-static_assert((1_l).pos(), "Positivity determination wrong.");
-static_assert((-1_l).neg(), "Negativity determination wrong.");
+static_assert((1_l).posi(), "Positivity determination wrong.");
+static_assert((-1_l).negi(), "Negativity determination wrong.");
 
 
 // Boolean function type (nonconstant, false, or true):
 enum class BFt { nc=0, f, t };
+inline constexpr BFt operator -(const BFt t) noexcept {
+  return (t==BFt::nc) ? t : ((t==BFt::f) ? BFt::t : BFt::f);
+}
+static_assert(code(BFt::nc) == 0, "Underlying integer of nc is not zero.");
+static_assert(-BFt::nc == BFt::nc, "Problem with negating BFt.");
+static_assert(-BFt::t == BFt::f, "Problem with negating BFt.");
+static_assert(-BFt::f == BFt::t, "Problem with negating BFt.");
+
 
 /* Literals plus true/false (the boolean functions with at most one var);
    the linear order is 0,false,true,-1,1,-2,2, ... .
@@ -282,6 +291,9 @@ enum class BFt { nc=0, f, t };
     - lit_tf(t) for BFt t
    And bf(b) for bool b yields Litc.
    Exactly one of x.sing(), x.constant(), x.variable() is true for Litc x.
+   Operations:
+    - explicit conversions to Lit and BFt
+    - negation (operator - and in-place member neg()).
 */
 class Litc  {
   Lit x;
@@ -290,15 +302,22 @@ class Litc  {
       - assert(t==BFt::nc or not x;);
       - exactly one of sing(), constant() or variable() is true.
   */
+  constexpr Litc(const Lit x, const BFt t) noexcept : x(x), t(t) {}
 public :
   Litc() = default;
   constexpr explicit Litc(const Lit x) noexcept : x(x), t(BFt::nc) {}
   constexpr explicit Litc(const BFt t) noexcept : x(0), t(t) {}
+
   constexpr explicit operator BFt() const noexcept { return t; }
   constexpr explicit operator Lit() const noexcept { return x; }
+
+  constexpr Litc operator -() const noexcept { return Litc(-x,-t); }
+  void neg() noexcept { x = -x; t = -t; }
+
   constexpr bool sing() const noexcept { return not x and t==BFt::nc; }
   constexpr bool constant() const noexcept { return not x and t!=BFt::nc; }
   constexpr bool variable() const noexcept { return bool(x); }
+
   constexpr bool operator ==(const Litc y) noexcept {
     return x==y.x and t==y.t;
   }
@@ -327,6 +346,11 @@ static_assert(Lit(bf(true)) == 0_l, "Construction of Litc with constant does not
 static_assert(BFt(bf(true)) == BFt::t, "Construction of Litc with false does not yield false.");
 static_assert(Litc() == Litc(0_l), "Default construction not equal to explicit construction.");
 static_assert(Litc() != bf(false), "Default construction equal to constant function.");
+static_assert(-Litc() == Litc(), "Problem with negation.");
+static_assert(-bf(true) == bf(false), "Problem with negation.");
+static_assert(-bf(false) == bf(true), "Problem with negation.");
+static_assert(-Litc(1_l) == Litc(-1_l), "Problem with negation.");
+static_assert(-Litc(-1_l) == Litc(1_l), "Problem with negation.");
 static_assert(Litc(0_l) < bf(false), "Singular literal is not smallest.");
 static_assert(bf(false) < bf(true), "False is not smaller than true.");
 static_assert(bf(true) < Litc(-1_l), "Constant literal true is not smaller than nonconstant.");
