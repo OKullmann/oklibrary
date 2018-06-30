@@ -219,18 +219,27 @@ public :
   Lit() = default;
   constexpr explicit Lit(const Lit_int x) noexcept : x(x) {}
   constexpr Lit(const Var v, const Pol p) noexcept : x(p==Pol::p?v:-Lit_int(v)) {}
+
   constexpr explicit operator bool() const noexcept { return x; }
+  constexpr Lit_int index() const noexcept {return x;}
+  constexpr bool pos() const noexcept { return x > 0; }
+  constexpr bool neg() const noexcept { return x < 0; }
+
   constexpr Lit operator -() const noexcept { return Lit(-x); }
+
   constexpr bool operator ==(const Lit y) const noexcept { return x == y.x; }
   constexpr bool operator !=(const Lit y) const noexcept { return x != y.x; }
+
   friend constexpr Var var(const Lit x) noexcept { return std::abs(x.x); }
   friend constexpr Pol sign(const Lit x) noexcept {return Pol(x.x >= 0);}
+
   friend constexpr bool operator <(const Lit a, const Lit b) noexcept {
     return var(a)<var(b) or (var(a)==var(b) and sign(a)<sign(b));
   }
   friend constexpr bool operator <=(const Lit a, const Lit b) noexcept {
     return a<b or a==b;
   }
+
   friend std::ostream& operator <<(std::ostream& out, const Lit x) {
     return out << x.x;
   }
@@ -255,11 +264,15 @@ static_assert(sign(-1_l) == Pol::n, "Problem with sign().");
 static_assert(1_l == Lit(1,Pol::p) and -1_l == Lit(1,Pol::n), "Problem with polarity.");
 static_assert(0_l < 1_l, "Singular literal is not smallest.");
 static_assert(-1_l < 1_l, "Negation is not smaller than unnegated.");
+static_assert((1_l).index() == 1, "Index extraction wrong.");
+static_assert((-1_l).index() == -1, "Index extraction wrong.");
+static_assert((1_l).pos(), "Positivity determination wrong.");
+static_assert((-1_l).neg(), "Negativity determination wrong.");
 
 
 // Boolean function type (nonconstant, false, or true):
 enum class BFt { nc=0, f, t };
-inline constexpr BFt b2bft(const bool b) { return (b) ? BFt::t : BFt::f; }
+inline constexpr BFt b2bf(const bool b) { return (b) ? BFt::t : BFt::f; }
 
 /* Literals plus true/false (the boolean functions with at most one var);
    the linear order is 0,false,true,-1,1,-2,2, ... .
@@ -267,13 +280,19 @@ inline constexpr BFt b2bft(const bool b) { return (b) ? BFt::t : BFt::f; }
 class Lit_tf  {
   Lit x;
   BFt t;
-  // Class invariant: assert(t==BFt::nc or not x;);
+  /* Class invariants:
+      - assert(t==BFt::nc or not x;);
+      - exactly one of sing(), constant(), variable() is true.
+  */
 public :
   Lit_tf() = default;
-  constexpr Lit_tf(const Lit x) noexcept : x(x), t(BFt::nc) {}
-  constexpr Lit_tf(const bool b) noexcept : x(0), t(b2bft(b)) {}
-  constexpr operator BFt() const noexcept { return t; }
-  constexpr operator Lit() const noexcept { return x; }
+  constexpr explicit Lit_tf(const Lit x) noexcept : x(x), t(BFt::nc) {}
+  constexpr explicit Lit_tf(const BFt t) noexcept : x(0), t(t) {}
+  constexpr explicit operator BFt() const noexcept { return t; }
+  constexpr explicit operator Lit() const noexcept { return x; }
+  constexpr bool sing() const noexcept { return not x and t==BFt::nc; }
+  constexpr bool constant() const noexcept { return not x and t!=BFt::nc; }
+  constexpr bool variable() const noexcept { return bool(x); }
   constexpr bool operator ==(const Lit_tf y) noexcept {
     return x==y.x and t==y.t;
   }
@@ -294,17 +313,29 @@ static_assert(BFt(Lit_tf()) == BFt::nc, "Default construction of Lit_tf is not n
 // initialise x.
 static_assert(Lit(Lit_tf(1_l)) == 1_l, "Construction of Lit_tf does not pass literal.");
 static_assert(BFt(Lit_tf(1_l)) == BFt::nc, "Construction of Lit_tf with literal is constant.");
-static_assert(Lit(Lit_tf(false)) == 0_l, "Construction of Lit_tf with constant does not make literal singular.");
-static_assert(BFt(Lit_tf(false)) == BFt::f, "Construction of Lit_tf with false does not yield false.");
-static_assert(Lit(Lit_tf(true)) == 0_l, "Construction of Lit_tf with constant does not make literal singular.");
-static_assert(BFt(Lit_tf(true)) == BFt::t, "Construction of Lit_tf with false does not yield false.");
+static_assert(Lit(Lit_tf(b2bf(false))) == 0_l, "Construction of Lit_tf with constant does not make literal singular.");
+static_assert(BFt(Lit_tf(b2bf(false))) == BFt::f, "Construction of Lit_tf with false does not yield false.");
+static_assert(Lit(Lit_tf(b2bf(true))) == 0_l, "Construction of Lit_tf with constant does not make literal singular.");
+static_assert(BFt(Lit_tf(b2bf(true))) == BFt::t, "Construction of Lit_tf with false does not yield false.");
 static_assert(Lit_tf() == Lit_tf(0_l), "Default construction not equal to explicit construction.");
-static_assert(Lit_tf() != Lit_tf(false), "Default construction equal to constant function.");
-static_assert(Lit_tf(0_l) < Lit_tf(false), "Singular literal is not smallest.");
-static_assert(Lit_tf(false) < Lit_tf(true), "False is not smaller than true.");
-static_assert(Lit_tf(true) < Lit_tf(-1_l), "Constant literal true is not smaller than nonconstant.");
-static_assert(Lit_tf(false) < Lit_tf(-1_l), "Constant literal false is not smaller than nonconstant.");
+static_assert(Lit_tf() != Lit_tf(b2bf(false)), "Default construction equal to constant function.");
+static_assert(Lit_tf(0_l) < Lit_tf(b2bf(false)), "Singular literal is not smallest.");
+static_assert(Lit_tf(b2bf(false)) < Lit_tf(b2bf(true)), "False is not smaller than true.");
+static_assert(Lit_tf(b2bf(true)) < Lit_tf(-1_l), "Constant literal true is not smaller than nonconstant.");
+static_assert(Lit_tf(b2bf(false)) < Lit_tf(-1_l), "Constant literal false is not smaller than nonconstant.");
 static_assert(Lit_tf(-1_l) < Lit_tf(1_l), "Lit_tf with literal -1 is not smaller than with literal 1.");
+static_assert(Lit_tf().sing(), "Problem with singularity determination.");
+static_assert(not Lit_tf(1_l).sing(), "Problem with singularity determination.");
+static_assert(not Lit_tf(b2bf(true)).sing(), "Problem with singularity determination.");
+static_assert(not Lit_tf(b2bf(false)).sing(), "Problem with singularity determination.");
+static_assert(not Lit_tf().constant(), "Problem with constancy determination.");
+static_assert(Lit_tf(b2bf(true)).constant(), "Problem with constancy determination.");
+static_assert(Lit_tf(b2bf(false)).constant(), "Problem with constancy determination.");
+static_assert(not Lit_tf(1_l).constant(), "Problem with constancy determination.");
+static_assert(not Lit_tf().variable(), "Problem with variability determination.");
+static_assert(not Lit_tf(BFt::f).variable(), "Problem with variability determination.");
+static_assert(not Lit_tf(BFt::t).variable(), "Problem with variability determination.");
+static_assert(Lit_tf(1_l).variable(), "Problem with variability determination.");
 
 
 // --- Data structures for clause and clause-sets ---
