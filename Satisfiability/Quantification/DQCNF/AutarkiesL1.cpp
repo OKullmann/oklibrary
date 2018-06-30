@@ -36,6 +36,7 @@ License, or any later version. */
 #include <algorithm>
 #include <set>
 #include <array>
+#include <map>
 
 #include <cstdlib>
 #include <cstdint>
@@ -252,11 +253,63 @@ static_assert(0_l == -0_l, "Problem with negation of singular literal.");
 static_assert(var(-1_l) == 1, "Problem with var().");
 static_assert(sign(-1_l) == Pol::n, "Problem with sign().");
 static_assert(1_l == Lit(1,Pol::p) and -1_l == Lit(1,Pol::n), "Problem with polarity.");
+static_assert(0_l < 1_l, "Singular literal is not smallest.");
+static_assert(-1_l < 1_l, "Negation is not smaller than unnegated.");
 
-typedef std::vector<Lit> Lit_vec;
+
+// Boolean function type (nonconstant, false, or true):
+enum class BFt { nc=0, f, t };
+inline constexpr BFt b2bft(const bool b) { return (b) ? BFt::t : BFt::f; }
+
+/* Literals plus true/false (the boolean functions with at most one var);
+   the linear order is 0,false,true,-1,1,-2,2, ... .
+*/
+class Lit_tf  {
+  Lit x;
+  BFt t;
+  // Class invariant: assert(t==BFt::nc or not x;);
+public :
+  Lit_tf() = default;
+  constexpr Lit_tf(const Lit x) noexcept : x(x), t(BFt::nc) {}
+  constexpr Lit_tf(const bool b) noexcept : x(0), t(b2bft(b)) {}
+  constexpr operator BFt() const noexcept { return t; }
+  constexpr operator Lit() const noexcept { return x; }
+  constexpr bool operator ==(const Lit_tf y) noexcept {
+    return x==y.x and t==y.t;
+  }
+  constexpr bool operator !=(const Lit_tf y) noexcept {
+    return not (*this == y);
+  }
+  friend constexpr bool operator<(const Lit_tf x, const Lit_tf y) {
+    return x.x < y.x or (BFt(x) != BFt::nc and BFt(y) == BFt::nc) or
+      (BFt(x) != BFt::nc and BFt(y) != BFt::nc and BFt(x) < BFt(y)) or
+      (not bool(Lit(x)) and BFt(y) != BFt::nc);
+  }
+};
+static_assert(std::is_pod<Lit_tf>::value, "Lit_tf is not POD.");
+
+static_assert(Lit(Lit_tf()) == 0_l, "Default construction of Lit_tf does not yield singular literal.");
+static_assert(BFt(Lit_tf()) == BFt::nc, "Default construction of Lit_tf is not nonconstant.");
+// Remark: As usual, as a local variable, the declaration "Lit_tf x;" does not
+// initialise x.
+static_assert(Lit(Lit_tf(1_l)) == 1_l, "Construction of Lit_tf does not pass literal.");
+static_assert(BFt(Lit_tf(1_l)) == BFt::nc, "Construction of Lit_tf with literal is constant.");
+static_assert(Lit(Lit_tf(false)) == 0_l, "Construction of Lit_tf with constant does not make literal singular.");
+static_assert(BFt(Lit_tf(false)) == BFt::f, "Construction of Lit_tf with false does not yield false.");
+static_assert(Lit(Lit_tf(true)) == 0_l, "Construction of Lit_tf with constant does not make literal singular.");
+static_assert(BFt(Lit_tf(true)) == BFt::t, "Construction of Lit_tf with false does not yield false.");
+static_assert(Lit_tf() == Lit_tf(0_l), "Default construction not equal to explicit construction.");
+static_assert(Lit_tf() != Lit_tf(false), "Default construction equal to constant function.");
+static_assert(Lit_tf(0_l) < Lit_tf(false), "Singular literal is not smallest.");
+static_assert(Lit_tf(false) < Lit_tf(true), "False is not smaller than true.");
+static_assert(Lit_tf(true) < Lit_tf(-1_l), "Constant literal true is not smaller than nonconstant.");
+static_assert(Lit_tf(false) < Lit_tf(-1_l), "Constant literal false is not smaller than nonconstant.");
+static_assert(Lit_tf(-1_l) < Lit_tf(1_l), "Lit_tf with literal -1 is not smaller than with literal 1.");
 
 
 // --- Data structures for clause and clause-sets ---
+
+typedef std::vector<Lit> Lit_vec;
 
 typedef std::uint_fast64_t Count_t;
 
@@ -270,8 +323,11 @@ typedef std::set<Varset> VarSetsystem;
 typedef std::set<VarSetsystem>::const_iterator Dependency;
 typedef std::vector<Dependency> Dvector;
 
+enum class VT { und=0, fa, fe, a, e }; // variable types
+typedef std::vector<VT> VTvector;
+
 struct VarManagement {
-  Varset A, E;
+  VTvector vt;
   Dvector D;
 };
 
@@ -281,7 +337,6 @@ typedef std::set<DClause> DCLS;
 
 struct ClauseSet {
   DCLS F;
-  Varset A, E; // only the variable occurring in F
   Var max_index; // maximal occurring variable-index
   Var na, ne, n; // number occurring e/a/both variables
   Var max_a_length, max_e_length, max_c_length; // max number of a/e/both literals in clauses
@@ -289,6 +344,9 @@ struct ClauseSet {
   Count_t l; // number of literal occurrences
   Count_t t; // number of tautological clauses
 };
+
+typedef std::map<Var,Lit_tf> Pass;
+typedef std::set<Pass> PassSet;
 
 
 // --- Input ---
@@ -450,8 +508,6 @@ ClauseSet read_clauses(std::istream& in, const InputParameter& ip, const VarMana
      add_clause(C,F,ip,V);
    }
   }
-  F.na = F.A.size();
-  F.ne = F.E.size();
   F.n = F.na + F.ne;
   assert(F.c == F.F.size());
   return F;
