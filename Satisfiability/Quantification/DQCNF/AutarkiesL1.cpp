@@ -224,6 +224,12 @@ public :
   constexpr bool operator !=(const Lit y) const noexcept { return x != y.x; }
   friend constexpr Var var(const Lit x) noexcept { return std::abs(x.x); }
   friend constexpr Pol sign(const Lit x) noexcept {return Pol(x.x >= 0);}
+  friend constexpr bool operator <(const Lit a, const Lit b) noexcept {
+    return var(a)<var(b) or (var(a)==var(b) and sign(a)<sign(b));
+  }
+  friend constexpr bool operator <=(const Lit a, const Lit b) noexcept {
+    return a<b or a==b;
+  }
   friend std::ostream& operator <<(std::ostream& out, const Lit x) {
     return out << x.x;
   }
@@ -275,11 +281,13 @@ typedef std::set<DClause> DCLS;
 
 struct ClauseSet {
   DCLS F;
-  Varset A, E;
-  Var na, ne, n;
+  Varset A, E; // only the variable occurring in F
+  Var max_index; // maximal occurring variable-index
+  Var na, ne, n; // number occurring e/a/both variables
+  Var max_a_length, max_e_length, max_c_length; // max number of a/e/both literals in clauses
+  Count_t c; // number of occurring clauses (without tautologies)
+  Count_t l; // number of literal occurrences
   Count_t t; // number of tautological clauses
-  Count_t c;
-  Count_t l;
 };
 
 
@@ -419,7 +427,7 @@ inline bool read_clause(std::istream& f, Lit_vec& C, const InputParameter& ip) n
 }
 
 // Error only if announced number of clauses too small (but may be too big):
-inline void add_clause(const Lit_vec& C, ClauseSet& F, const InputParameter& ip) {
+inline void add_clause(const Lit_vec& C, ClauseSet& F, const InputParameter& ip, const VarManagement& V) {
   const auto n = C.size();
   if (n == 0) { // means tautology here
     ++F.t;
@@ -429,6 +437,7 @@ inline void add_clause(const Lit_vec& C, ClauseSet& F, const InputParameter& ip)
     errout << "More than " << ip.c << " clauses, contradicting cnf-header.";
     std::exit(code(Error::number_clauses));
   }
+  typedef Clause::const_iterator iterator_t;
   // XXX
   ++F.c;
   F.l += n;
@@ -437,8 +446,14 @@ inline void add_clause(const Lit_vec& C, ClauseSet& F, const InputParameter& ip)
 ClauseSet read_clauses(std::istream& in, const InputParameter& ip, const VarManagement& V) {
   ClauseSet F;
   {Lit_vec C;
-   while (read_clause(in,C,ip)) add_clause(C,F,ip);
+   while (read_clause(in,C,ip)) {
+     add_clause(C,F,ip,V);
+   }
   }
+  F.na = F.A.size();
+  F.ne = F.E.size();
+  F.n = F.na + F.ne;
+  assert(F.c == F.F.size());
   return F;
 }
 
@@ -504,18 +519,17 @@ void version_information() {
 }
 
 
-void output(const std::string filename) {
+void output(const std::string filename, const InputParameter& ip, const ClauseSet& F) {
   logout << "s ";
   logout <<
-         "c max_occurring_variable                " << max_occ_var << "\n"
-         "c number_of_clauses                     " << n_clauses << "\n"
-         "c maximal_clause_length                 " << max_clause_length << "\n"
-         "c number_of_literal_occurrences         " << n_lit_occurrences << "\n"
-         "c p_param_variables                     " << n_vars << "\n"
-         "c p_param_clauses                       " << n_header_clauses << "\n"
-         "c number_tautologies                    " << n_taut << "\n"
-         "c file_name                             " << filename << "\n"
-         "c options                               \"" << options << "\"";
+         "c max_occurring_variable                " << F.max_index << "\n"
+         "c number_of_clauses                     " << F.c << "\n"
+         "c maximal_clause_length                 " << F.max_c_length << "\n"
+         "c number_of_literal_occurrences         " << F.l << "\n"
+         "c p_param_variables                     " << ip.c << "\n"
+         "c p_param_clauses                       " << ip.c << "\n"
+         "c number_tautologies                    " << F.t << "\n"
+         "c file_name                             " << filename << "\n";
   logout.endl();
 }
 
