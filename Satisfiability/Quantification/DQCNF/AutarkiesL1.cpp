@@ -376,11 +376,6 @@ typedef std::vector<Lit> Lit_vec;
 
 typedef std::uint_fast64_t Count_t;
 
-struct InputParameter {
-  Var n;
-  Count_t c;
-};
-
 typedef std::set<Var> Varset;
 typedef std::set<Varset> VarSetsystem;
 typedef std::set<VarSetsystem>::const_iterator Dependency;
@@ -388,11 +383,6 @@ typedef std::vector<Dependency> Dvector;
 
 enum class VT { und=0, fa, fe, a, e }; // variable types
 typedef std::vector<VT> VTvector;
-
-struct VarManagement {
-  VTvector vt;
-  Dvector D;
-};
 
 typedef std::set<Lit> Clause;
 typedef std::pair<Clause,Clause> DClause; // for-all exists
@@ -651,15 +641,15 @@ void version_information() {
 }
 
 
-void output(const std::string filename, const InputParameter& ip, const ClauseSet& F) {
+void output(const std::string filename, const ClauseSet& F) {
   logout << "s ";
   logout <<
          "c max_occurring_variable                " << F.max_index << "\n"
          "c number_of_clauses                     " << F.c << "\n"
          "c maximal_clause_length                 " << F.max_c_length << "\n"
          "c number_of_literal_occurrences         " << F.l << "\n"
-         "c p_param_variables                     " << ip.c << "\n"
-         "c p_param_clauses                       " << ip.c << "\n"
+         "c p_param_variables                     " << F.c_pl << "\n"
+         "c p_param_clauses                       " << F.c_pl << "\n"
          "c number_tautologies                    " << F.t << "\n"
          "c file_name                             " << filename << "\n";
   logout.endl();
