@@ -279,6 +279,7 @@ struct ClauseSet {
   Var na, ne, n;
   Count_t t; // number of tautological clauses
   Count_t c;
+  Count_t l;
 };
 
 
@@ -287,11 +288,13 @@ struct ClauseSet {
 
 // Aborts via std::exit in case of input-errors:
 InputParameter read_header(std::istream& f) noexcept {
+  assert(f.exceptions() == 0);
+  assert(f.good());
   InputParameter ip;
   std::string line;
-  assert(f.good());
   while (true) {
     std::getline(f, line);
+    assert(not line.empty());
     const auto c = line[0];
     if (c == '\0') { // empty line
       errout << "Empty line (no p-line found).";
@@ -346,6 +349,8 @@ InputParameter read_header(std::istream& f) noexcept {
 }
 
 VarManagement read_dependencies(std::istream& f, const InputParameter& ip) noexcept {
+  assert(f.exceptions() == 0);
+  assert(f.good());
   VarManagement V;
   try { V.D.resize(ip.n); }
   catch (const std::bad_alloc&) {
@@ -361,8 +366,9 @@ typedef std::int_fast64_t Rounds;
 
 // Returns false iff no (further) clause was found;
 // reference-parameter C is empty iff a tautological clause was found:
-inline bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
-  {static std::vector<Rounds> literal_table(n_vars+1,0);
+inline bool read_clause(std::istream& f, Lit_vec& C, const InputParameter& ip) noexcept {
+  assert(f.exceptions() == 0);
+  {static std::vector<Rounds> literal_table(ip.n+1,0);
    static Rounds round = 0;
    Lit x;
    assert(f.good());
@@ -382,8 +388,8 @@ inline bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
      assert(f.good());
      if (not x) break; // end of clause
      const Var v = var(x);
-     if (v > n_vars) {
-       errout << "Literal " << x << " contradicts n=" << n_vars << ".";
+     if (v > ip.n) {
+       errout << "Literal " << x << " contradicts n=" << ip.n << ".";
        std::exit(code(Error::variable_value));
      }
      const auto t = literal_table[v];
@@ -413,31 +419,25 @@ inline bool read_a_clause_from_file(std::istream& f, Lit_vec& C) {
 }
 
 // Error only if announced number of clauses too small (but may be too big):
-inline void add_a_clause_to_formula(const Lit_vec& D) {
-  const auto n = D.size();
+inline void add_clause(const Lit_vec& C, ClauseSet& F, const InputParameter& ip) {
+  const auto n = C.size();
   if (n == 0) { // means tautology here
-    ++n_taut;
+    ++F.t;
     return;
   }
-  if (n_clauses >= n_header_clauses) {
-    errout << "More than " << n_header_clauses << " clauses, contradicting cnf-header.";
-    std::exit(number_clauses_error);
+  if (F.c >= ip.c) {
+    errout << "More than " << ip.c << " clauses, contradicting cnf-header.";
+    std::exit(code(Error::number_clauses));
   }
   // XXX
-  ++n_clauses;
-  n_lit_occurrences += n;
+  ++F.c;
+  F.l += n;
 }
 
 ClauseSet read_clauses(std::istream& in, const InputParameter& ip, const VarManagement& V) {
   ClauseSet F;
   {Lit_vec C;
-   while (read_a_clause_from_file(in,C)) add_a_clause_to_formula(C);
-  }
-  try { lits.init(n_lit_occurrences, max_occ_var, clauses.cl, count); }
-  catch (const std::bad_alloc&) {
-    errout << "Allocation error for ClauseP-vector of size " <<
-       n_lit_occurrences << " (the number of literal occurrences).";
-    std::exit(code(Error::allocation));
+   while (read_clause(in,C,ip)) add_clause(C,F,ip);
   }
   return F;
 }
