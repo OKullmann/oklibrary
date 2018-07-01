@@ -21,7 +21,7 @@ License, or any later version. */
 
   USAGE:
 
-> autL1 [input] [output] [log]
+> autL1 input [output] [log]
 
 */
 
@@ -46,8 +46,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.0.9";
-const std::string date = "29.6.2018";
+const std::string version = "0.2.1";
+const std::string date = "1.7.2018";
 
 const std::string program = "autL1";
 
@@ -70,7 +70,7 @@ enum class Error {
   a_line_read=17,
   e_line_read=18,
   a_empty=19,
-  e_empty=20,
+  e_empty=21,
   d_empty=22,
   d_bada=23,
 };
@@ -188,11 +188,14 @@ public :
    - Lit(x) (non-converting)
    - Lit(v, p)
    - bool(y) (explicit; true iff x is not singular)
-   - -y, -p
+   - -y, -p, and y.neg() (negation in-place)
    - y == y', y != y'
+   - y < y', p < p'
    - var(y) (yields Var)
    - sign(y) (yields Polarity)
-   - y.pos(), y.neg(), y.index()
+   - y.posi(), y.negi() (properties)
+   - y.index() (yields Lit_int)
+   - for (Pol p : Polarities)
    - ostream << y, istream >> y
 
    Lit-literals are constructed by n_l for unsigned long-long n.
@@ -634,7 +637,7 @@ void read_dependencies() noexcept {
           errout << "Bad a-read in d-line."; std::exit(code(Error::a_read));
         };
         if (w > F.n_pl) {
-          errout << "a-variable " << v << " contradicts n=" << F.n_pl << ".";
+          errout << "a-variable " << w << " contradicts n=" << F.n_pl << ".";
           std::exit(code(Error::variable_value));
         }
         if (w == 0) break;
@@ -794,7 +797,7 @@ void version_information() {
   std::cout << program << ":\n"
    " author: Oliver Kullmann\n"
    " url:\n"
-   "  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Solvers/TawSolver/tawSolver.cpp\n"
+   "  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/DQCNF/AutarkiesL1.cpp\n"
    " Version: " << version << "\n"
    " Last change date: " << date << "\n"
    " Macro settings:\n"
