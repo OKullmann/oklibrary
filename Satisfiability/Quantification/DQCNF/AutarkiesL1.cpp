@@ -71,7 +71,8 @@ enum class Error {
   e_line_read=18,
   a_empty=19,
   e_empty=20,
-
+  d_empty=22,
+  d_bada=23,
 };
 /* Extracting the underlying code of enum-classes (scoped enums) */
 template <typename EC>
@@ -407,6 +408,7 @@ struct ClauseSet {
   // Statistics:
   //   from the parameter line:
   Var n_pl;
+  Var na_d, ne_d; // a/e variables according to dependency-specification
   Count_t c_pl;
   //   actually occurring (with tautological clauses removed):
   Var max_index; // maximal occurring variable-index
@@ -528,7 +530,7 @@ void read_dependencies() noexcept {
           errout << "Repeated a-read."; std::exit(code(Error::a_rep));
         }
         F.vt[v] = VT::fa;
-        A.insert(v); ++num_a; ++F.na;
+        A.insert(v); ++num_a; ++F.na_d;
       } while (true);
       if (not s) {
         errout << "Bad a-line read."; std::exit(code(Error::a_line_read));
@@ -560,7 +562,7 @@ void read_dependencies() noexcept {
           errout << "Repeated e-read."; std::exit(code(Error::e_rep));
         }
         F.vt[v] = VT::fe;
-        F.D[v] = dep; ++num_e; ++F.ne;
+        F.D[v] = dep; ++num_e; ++F.ne_d;
       } while (true);
       if (not s) {
         errout << "Bad e-line read."; std::exit(code(Error::e_line_read));
@@ -570,15 +572,53 @@ void read_dependencies() noexcept {
       }
       last_line = lt::e;
     } else {
-      
+      std::stringstream s(line);
+      Var v;
+      if (not (s >> v)) {
+        errout << "Bad e-read in d-line."; std::exit(code(Error::e_read));
+      };
+      if (v > F.n_pl) {
+        errout << "e-variable " << v << " contradicts n=" << F.n_pl << ".";
+        std::exit(code(Error::variable_value));
+      }
+      if (v == 0) {
+        errout << "Empty d-line."; std::exit(code(Error::d_empty));
+      }
+      if (F.vt[v] != VT::und) {
+        errout << "Repeated e-read in d-line."; std::exit(code(Error::e_rep));
+      }
+      F.vt[v] = VT::fe;
+      ++F.ne_d;
+      Varset A;
+      do {
+        Var w;
+        if (not (s >> w)) {
+          errout << "Bad a-read in d-line."; std::exit(code(Error::a_read));
+        };
+        if (w > F.n_pl) {
+          errout << "a-variable " << v << " contradicts n=" << F.n_pl << ".";
+          std::exit(code(Error::variable_value));
+        }
+        if (w == 0) break;
+        if (F.vt[v] != VT::fa) {
+          errout << "Not defined a."; std::exit(code(Error::d_bada));
+        }
+        const auto insert = A.insert(w);
+        if (not insert.second) {
+          errout << "Repeated a-read in d-line.";
+          std::exit(code(Error::a_rep));
+        }
+      } while (true);
+      F.D[v] = F.dep_sets.insert(A).first;
     }
   }
   const Dependency emptyset = F.dep_sets.find(Varset());
   for (Var v = 1; v <= F.n_pl; ++v)
     if (F.vt[v] == VT::und) {
-      F.vt[v] = VT::e;
+      F.vt[v] = VT::e; ++F.ne_d;
       F.D[v] = emptyset;
     }
+  assert(F.n_pl == F.na_d + F.ne_d);
 }
 
 
