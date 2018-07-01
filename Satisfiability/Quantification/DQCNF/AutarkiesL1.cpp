@@ -60,7 +60,18 @@ enum class Error {
   literal_read=6,
   variable_value=7,
   number_clauses=8,
-  empty_clause=9
+  empty_clause=9,
+  a_rep_line=11,
+  e_rep_line=12,
+  a_read=13,
+  e_read=14,
+  a_rep=15,
+  e_rep=16,
+  a_line_read=17,
+  e_line_read=18,
+  a_empty=19,
+  e_empty=20,
+
 };
 /* Extracting the underlying code of enum-classes (scoped enums) */
 template <typename EC>
@@ -376,13 +387,13 @@ typedef std::vector<Lit> Lit_vec;
 
 typedef std::uint_fast64_t Count_t;
 
-typedef std::set<Var> Varset;
-typedef std::set<Varset> VarSetsystem;
-typedef std::set<VarSetsystem>::const_iterator Dependency;
-typedef std::vector<Dependency> Dvector;
-
 enum class VT { und=0, fa, fe, a, e }; // variable types
 typedef std::vector<VT> VTvector;
+
+typedef std::set<Var> Varset;
+typedef std::set<Varset> VarSetsystem;
+typedef VarSetsystem::const_iterator Dependency;
+typedef std::vector<Dependency> Dvector;
 
 typedef std::set<Lit> Clause;
 typedef std::pair<Clause,Clause> DClause; // for-all exists
@@ -391,11 +402,13 @@ typedef std::set<DClause> DCLS;
 struct ClauseSet {
   DCLS F;
   VTvector vt;
+  VarSetsystem dep_sets;
   Dvector D;
-  // From the parameter line:
+  // Statistics:
+  //   from the parameter line:
   Var n_pl;
   Count_t c_pl;
-  // Actually occurring (with tautological clauses removed):
+  //   actually occurring (with tautological clauses removed):
   Var max_index; // maximal occurring variable-index
   Var na, ne, n; // number occurring e/a/both variables
   Var max_a_length, max_e_length, max_c_length; // max number of a/e/both literals in clauses
@@ -416,7 +429,7 @@ std::istream& in;
 ClauseSet F;
 
 // Aborts via std::exit in case of input-errors:
-void read_header(std::istream& in) noexcept {
+void read_header() noexcept {
   assert(in.exceptions() == 0);
   assert(in.good());
   std::string line;
@@ -475,15 +488,97 @@ void read_header(std::istream& in) noexcept {
   }
 }
 
-void read_dependencies(std::istream& f) noexcept {
-  assert(f.exceptions() == 0);
-  assert(f.good());
-  try { F.D.resize(F.n_pl); }
+void read_dependencies() noexcept {
+  assert(in.exceptions() == 0);
+  assert(in.good());
+  try { F.vt.resize(F.n_pl+1); F.D.resize(F.n_pl+1); }
   catch (const std::bad_alloc&) {
-    errout << "Allocation error for dependency-vector of size " <<
-      F.n_pl << ".";
+    errout << "Allocation error for dependency-vector of size "<<F.n_pl<<".";
     std::exit(code(Error::allocation));
   }
+  if (in.eof()) return;
+  Varset A;
+  std::string line;
+  enum class lt { begin, e, a }; // line type
+  lt last_line = lt::begin;
+  Dependency dep = F.dep_sets.insert(A).first;
+  while (true) {
+    std::getline(in, line);
+    assert(not line.empty());
+    const auto c = line[0];
+    if (c == '\0') return;
+    if (c != 'a' and c != 'e' and c != 'd') return;
+    if (c == 'a') {
+      if (last_line == lt::a) {
+         errout << "Repeated a-line."; std::exit(code(Error::a_rep_line));
+      }
+      Count_t num_a = 0;
+      std::stringstream s(line);
+      do {
+        Var v;
+        if (not (s >> v)) {
+          errout << "Bad a-read."; std::exit(code(Error::a_read));
+        };
+        if (v > F.n_pl) {
+          errout << "a-variable " << v << " contradicts n=" << F.n_pl << ".";
+          std::exit(code(Error::variable_value));
+        }
+        if (v == 0) break;
+        if (F.vt[v] != VT::und) {
+          errout << "Repeated a-read."; std::exit(code(Error::a_rep));
+        }
+        F.vt[v] = VT::fa;
+        A.insert(v); ++num_a; ++F.na;
+      } while (true);
+      if (not s) {
+        errout << "Bad a-line read."; std::exit(code(Error::a_line_read));
+      }
+      if (num_a == 0) {
+        errout << "Empty a-line."; std::exit(code(Error::a_empty));
+      }
+      last_line = lt::a;
+      const auto insert = F.dep_sets.insert(A);
+      assert(insert.second);
+      dep = insert.first;
+    } else if (c == 'e') {
+      if (last_line == lt::e) {
+        errout << "Repeated e-line."; std::exit(code(Error::e_rep_line));
+      }
+      Count_t num_e = 0;
+      std::stringstream s(line);
+      do {
+        Var v;
+        if (not (s >> v)) {
+          errout << "Bad e-read."; std::exit(code(Error::e_read));
+        };
+        if (v > F.n_pl) {
+          errout << "e-variable " << v << " contradicts n=" << F.n_pl << ".";
+          std::exit(code(Error::variable_value));
+        }
+        if (v == 0) break;
+        if (F.vt[v] != VT::und) {
+          errout << "Repeated e-read."; std::exit(code(Error::e_rep));
+        }
+        F.vt[v] = VT::fe;
+        F.D[v] = dep; ++num_e; ++F.ne;
+      } while (true);
+      if (not s) {
+        errout << "Bad e-line read."; std::exit(code(Error::e_line_read));
+      }
+      if (num_e == 0) {
+        errout << "Empty e-line."; std::exit(code(Error::e_empty));
+      }
+      last_line = lt::e;
+    } else {
+      
+    }
+  }
+  const Dependency emptyset = F.dep_sets.find(Varset());
+  for (Var v = 1; v <= F.n_pl; ++v)
+    if (F.vt[v] == VT::und) {
+      F.vt[v] = VT::e;
+      F.D[v] = emptyset;
+    }
 }
 
 
@@ -491,14 +586,14 @@ typedef std::int_fast64_t Rounds;
 
 // Returns false iff no (further) clause was found;
 // reference-parameter C is empty iff a tautological clause was found:
-bool read_clause(std::istream& f, Lit_vec& C) const noexcept {
-  assert(f.exceptions() == 0);
+bool read_clause(Lit_vec& C) const noexcept {
+  assert(in.exceptions() == 0);
   {static std::vector<Rounds> literal_table(F.n_pl+1,0);
    static Rounds round = 0;
    Lit x;
-   assert(f.good());
-   f >> x;
-   if (f.eof()) {
+   assert(in.good());
+   in >> x;
+   if (in.eof()) {
      literal_table.clear(); literal_table.shrink_to_fit();
      return false;
    }
@@ -506,11 +601,11 @@ bool read_clause(std::istream& f, Lit_vec& C) const noexcept {
    assert(round != std::numeric_limits<Rounds>::max());
    ++round;
    while (true) { // reading literals into C
-     if (not f) {
+     if (not in) {
        errout << "Invalid literal-read.";
        std::exit(code(Error::literal_read));
      }
-     assert(f.good());
+     assert(in.good());
      if (not x) break; // end of clause
      const Var v = var(x);
      if (v > F.n_pl) {
@@ -522,7 +617,7 @@ bool read_clause(std::istream& f, Lit_vec& C) const noexcept {
      if (t == -comp) { // tautology
        C.clear();
        do
-         if (not (f >> x)) {
+         if (not (in >> x)) {
            errout << "Invalid literal-read in tautological clause.";
            std::exit(code(Error::literal_read));
          }
@@ -533,7 +628,7 @@ bool read_clause(std::istream& f, Lit_vec& C) const noexcept {
        C.push_back(x);
        literal_table[v] = comp;
      }
-     f >> x;
+     in >> x;
    }
   }
   if (C.empty()) {
@@ -565,10 +660,10 @@ public :
 ReadDimacs(std::istream& in) noexcept : in(in) {}
 
 ClauseSet operator()() {
-  read_header(in);
-  read_dependencies(in);
+  read_header();
+  read_dependencies();
   {Lit_vec C;
-   while (read_clause(in,C)) {
+   while (read_clause(C)) {
      add_clause(C);
    }
   }
