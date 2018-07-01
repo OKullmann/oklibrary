@@ -420,14 +420,14 @@ struct ClauseSet {
   Var n_pl;
   Count_t c_pl;
   //   from dependency-specification:
-  Var na_d, ne_d;
+  Var na_d = 0, ne_d = 0;
   //   actually occurring in clauses (with tautological clauses removed):
-  Var max_a_index, max_e_index, max_index; // maximal occurring variable-index
-  Var na, ne, n; // number occurring e/a/both variables
-  Var max_a_length, max_e_length, max_c_length; // max number of a/e/both literals in clauses
-  Count_t c; // number of clauses (without tautologies)
-  Count_t la, le, l; // number of a/e/both literal occurrences
-  Count_t t; // number of tautological clauses
+  Var max_a_index=0, max_e_index=0, max_index=0; // maximal occurring variable-index
+  Var na=0, ne=0, n=0; // number occurring e/a/both variables
+  Var max_a_length=0, max_e_length=0, max_c_length=0; // max number of a/e/both literals in clauses
+  Count_t c=0; // number of clauses (without tautologies)
+  Count_t la=0, le=0, l=0; // number of a/e/both literal occurrences
+  Count_t t=0; // number of tautological clauses
 };
 
 typedef std::map<Var,Litc> Pass;
@@ -517,7 +517,7 @@ void read_dependencies() noexcept {
   Dependency dep = F.dep_sets.insert(A).first;
   while (true) {
     std::getline(in, line);
-    assert(not line.empty());
+    if(line.empty()) return;
     const auto c = line[0];
     if (c == '\0') return;
     if (c != 'a' and c != 'e' and c != 'd') return;
@@ -704,6 +704,7 @@ inline void add_clause(const DClause& C) {
     F.la += sa; F.le += se;
     F.max_a_length = std::max(sa, F.max_a_length);
     F.max_e_length = std::max(se, F.max_e_length);
+    F.max_c_length = std::max(sa+se, F.max_c_length);
     for (const Lit x : C.P.first) {
       const Var v = var(x);
       if (F.vt[v] != VT::fa) continue;
@@ -725,7 +726,9 @@ ReadDimacs(std::istream& in) noexcept : in(in) {}
 
 ClauseSet operator()() {
   read_header();
+  if (in.eof()) return F;
   read_dependencies();
+  if (in.eof()) return F;
   {DClause C;
    while (read_clause(C)) {
      add_clause(C);
@@ -801,16 +804,25 @@ void version_information() {
   std::exit(0);
 }
 
-
 void output(const std::string filename, const ClauseSet& F) {
-  logout << "s ";
   logout <<
-         "c max_occurring_variable                " << F.max_index << "\n"
-         "c number_of_clauses                     " << F.c << "\n"
-         "c maximal_clause_length                 " << F.max_c_length << "\n"
-         "c number_of_literal_occurrences         " << F.l << "\n"
          "c p_param_variables                     " << F.c_pl << "\n"
          "c p_param_clauses                       " << F.c_pl << "\n"
+         "c d_a_variables                         " << F.na_d << "\n"
+         "c d_e_variables                         " << F.ne_d << "\n"
+         "c max_occurring_a_variable              " << F.max_a_index << "\n"
+         "c max_occurring_e_variable              " << F.max_e_index << "\n"
+         "c max_occurring_variable                " << F.max_index << "\n"
+         "c num_occurring_a_variables             " << F.na << "\n"
+         "c num_occurring_e_variables             " << F.ne << "\n"
+         "c num_occurring_variables               " << F.n << "\n"
+         "c number_of_clauses                     " << F.c << "\n"
+         "c maximal_a_clause_length               " << F.max_a_length << "\n"
+         "c maximal_e_clause_length               " << F.max_e_length << "\n"
+         "c maximal_clause_length                 " << F.max_c_length << "\n"
+         "c number_of_a_literal_occurrences       " << F.la << "\n"
+         "c number_of_e_literal_occurrences       " << F.le << "\n"
+         "c number_of_literal_occurrences         " << F.l << "\n"
          "c number_tautologies                    " << F.t << "\n"
          "c file_name                             " << filename << "\n";
   logout.endl();
@@ -837,4 +849,5 @@ int main(const int argc, const char* const argv[]) {
   const Input in(filename);
   ReadDimacs rd(*in);
   const ClauseSet F = rd();
+  output(filename, F);
 }
