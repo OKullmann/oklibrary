@@ -516,17 +516,17 @@ void read_dependencies() noexcept {
   lt last_line = lt::begin;
   Dependency dep = F.dep_sets.insert(A).first;
   while (true) {
+    const int peek = in.peek();
+    if (peek == std::char_traits<char>::eof()) return;
+    if (peek != 'a' and peek != 'e' and peek != 'd') return;
     std::getline(in, line);
-    if(line.empty()) return;
-    const auto c = line[0];
-    if (c == '\0') return;
-    if (c != 'a' and c != 'e' and c != 'd') return;
-    if (c == 'a') {
+    std::stringstream s(line);
+    {std::string skip; s >> skip;}
+    if (peek == 'a') {
       if (last_line == lt::a) {
          errout << "Repeated a-line."; std::exit(code(Error::a_rep_line));
       }
       Count_t num_a = 0;
-      std::stringstream s(line);
       do {
         Var v;
         if (not (s >> v)) {
@@ -553,12 +553,11 @@ void read_dependencies() noexcept {
       const auto insert = F.dep_sets.insert(A);
       assert(insert.second);
       dep = insert.first;
-    } else if (c == 'e') {
+    } else if (peek == 'e') {
       if (last_line == lt::e) {
         errout << "Repeated e-line."; std::exit(code(Error::e_rep_line));
       }
       Count_t num_e = 0;
-      std::stringstream s(line);
       do {
         Var v;
         if (not (s >> v)) {
@@ -583,7 +582,6 @@ void read_dependencies() noexcept {
       }
       last_line = lt::e;
     } else {
-      std::stringstream s(line);
       Var v;
       if (not (s >> v)) {
         errout << "Bad e-read in d-line."; std::exit(code(Error::e_read));
@@ -611,7 +609,7 @@ void read_dependencies() noexcept {
           std::exit(code(Error::variable_value));
         }
         if (w == 0) break;
-        if (F.vt[v] != VT::fa) {
+        if (F.vt[w] != VT::fa) {
           errout << "Not defined a."; std::exit(code(Error::d_bada));
         }
         const auto insert = A.insert(w);
@@ -806,7 +804,7 @@ void version_information() {
 
 void output(const std::string filename, const ClauseSet& F) {
   logout <<
-         "c p_param_variables                     " << F.c_pl << "\n"
+         "c p_param_variables                     " << F.n_pl << "\n"
          "c p_param_clauses                       " << F.c_pl << "\n"
          "c d_a_variables                         " << F.na_d << "\n"
          "c d_e_variables                         " << F.ne_d << "\n"
