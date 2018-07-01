@@ -384,12 +384,12 @@ static_assert(Litc(1_l).variable(), "Problem with variability determination.");
 
 // --- Data structures for clause and clause-sets ---
 
-typedef std::vector<Lit> Lit_vec;
-
 typedef std::uint_fast64_t Count_t;
 
-enum class VT { und=0, fa, fe, a, e }; // variable types
+enum class VT { und=0, fa, fe, a, e }; // variable types, with "f" for "formal"
 typedef std::vector<VT> VTvector;
+inline constexpr bool et(const VT t) noexcept {return t==VT::fe or t==VT::e;}
+inline constexpr bool at(const VT t) noexcept {return t==VT::fa or t==VT::a;}
 
 typedef std::set<Var> Varset;
 typedef std::set<Varset> VarSetsystem;
@@ -397,7 +397,17 @@ typedef VarSetsystem::const_iterator Dependency;
 typedef std::vector<Dependency> Dvector;
 
 typedef std::set<Lit> Clause;
-typedef std::pair<Clause,Clause> DClause; // for-all exists
+typedef std::pair<Clause,Clause> PairClause; // all-exists
+struct DClause {
+  PairClause P;
+  void clear() noexcept {P.first.clear(); P.second.clear();}
+  bool empty() const noexcept {return P.first.empty() and P.second.empty();}
+  bool operator ==(const DClause C) const noexcept {return P == C.P;}
+  bool operator !=(const DClause C) const noexcept {return P != C.P;}
+  friend bool operator <(const DClause& C, const DClause& D) noexcept {
+    return C < D;
+  }
+};
 typedef std::set<DClause> DCLS;
 
 struct ClauseSet {
@@ -408,14 +418,15 @@ struct ClauseSet {
   // Statistics:
   //   from the parameter line:
   Var n_pl;
-  Var na_d, ne_d; // a/e variables according to dependency-specification
   Count_t c_pl;
-  //   actually occurring (with tautological clauses removed):
-  Var max_index; // maximal occurring variable-index
+  //   from dependency-specification:
+  Var na_d, ne_d;
+  //   actually occurring in clauses (with tautological clauses removed):
+  Var max_a_index, max_e_index, max_index; // maximal occurring variable-index
   Var na, ne, n; // number occurring e/a/both variables
   Var max_a_length, max_e_length, max_c_length; // max number of a/e/both literals in clauses
-  Count_t c; // number of occurring clauses (without tautologies)
-  Count_t l; // number of literal occurrences
+  Count_t c; // number of clauses (without tautologies)
+  Count_t la, le, l; // number of a/e/both literal occurrences
   Count_t t; // number of tautological clauses
 };
 
@@ -622,77 +633,90 @@ void read_dependencies() noexcept {
 }
 
 
-typedef std::int_fast64_t Rounds;
-
 // Returns false iff no (further) clause was found;
 // reference-parameter C is empty iff a tautological clause was found:
-bool read_clause(Lit_vec& C) const noexcept {
+bool read_clause(DClause& C) const noexcept {
   assert(in.exceptions() == 0);
-  {static std::vector<Rounds> literal_table(F.n_pl+1,0);
-   static Rounds round = 0;
-   Lit x;
-   assert(in.good());
-   in >> x;
-   if (in.eof()) {
-     literal_table.clear(); literal_table.shrink_to_fit();
-     return false;
-   }
-   C.clear();
-   assert(round != std::numeric_limits<Rounds>::max());
-   ++round;
-   while (true) { // reading literals into C
-     if (not in) {
-       errout << "Invalid literal-read.";
-       std::exit(code(Error::literal_read));
-     }
-     assert(in.good());
-     if (not x) break; // end of clause
-     const Var v = var(x);
-     if (v > F.n_pl) {
-       errout << "Literal " << x << " contradicts n=" << F.n_pl << ".";
-       std::exit(code(Error::variable_value));
-     }
-     const auto t = literal_table[v];
-     const auto comp = (sign(x) == Pol::p) ? round : -round;
-     if (t == -comp) { // tautology
-       C.clear();
-       do
-         if (not (in >> x)) {
-           errout << "Invalid literal-read in tautological clause.";
-           std::exit(code(Error::literal_read));
-         }
-       while (x);
-       return true;
-     }
-     else if (t != comp) {
-       C.push_back(x);
-       literal_table[v] = comp;
-     }
-     in >> x;
-   }
+  Lit x;
+  assert(in.good());
+  in >> x;
+  if (in.eof()) return false;
+  C.clear();
+  Clause CA, CE; // complemented clauses
+  while (true) { // reading literals into C
+    if (not in) {
+      errout << "Invalid literal-read."; std::exit(code(Error::literal_read));
+    }
+    assert(in.good());
+    if (not x) break; // end of clause
+    const Var v = var(x);
+    if (v > F.n_pl) {
+      errout << "Literal " << x << " contradicts n=" << F.n_pl << ".";
+      std::exit(code(Error::variable_value));
+    }
+    if (at(F.vt[v]))
+      if (CA.find(x) != CA.end()) { // tautology
+        C.clear();
+        do
+          if (not (in >> x)) {
+            errout << "Invalid literal-read in tautological a-clause.";
+            std::exit(code(Error::literal_read));
+          }
+        while (x);
+        return true;
+      }
+      else {C.P.first.insert(x); CA.insert(-x);}
+    else {
+      assert(et(F.vt[v]));
+      if (CE.find(x) != CE.end()) { // tautology
+        C.clear();
+        do
+          if (not (in >> x)) {
+            errout << "Invalid literal-read in tautological e-clause.";
+            std::exit(code(Error::literal_read));
+          }
+        while (x);
+        return true;
+      }
+      else {C.P.second.insert(x); CE.insert(-x);}
+    }
+    in >> x;
   }
   if (C.empty()) {
-    errout << "Found empty clause in input.";
-    std::exit(code(Error::empty_clause));
+    errout << "Empty clause in input."; std::exit(code(Error::empty_clause));
   }
   return true;
 }
 
 // Error only if announced number of clauses too small (but may be too big):
-inline void add_clause(const Lit_vec& C) {
-  const auto n = C.size();
-  if (n == 0) { // means tautology here
-    ++F.t;
-    return;
-  }
-  if (F.c >= F.c_pl) {
+inline void add_clause(const DClause& C) {
+  if (F.c + F.t >= F.c_pl) {
     errout << "More than " << F.c_pl << " clauses, contradicting cnf-header.";
     std::exit(code(Error::number_clauses));
   }
-  typedef Clause::const_iterator iterator_t;
-  // XXX
-  ++F.c;
-  F.l += n;
+  if (C.empty()) { // means tautology here
+    ++F.t; return;
+  }
+  const auto insert = F.F.insert(C);
+  if (insert.second) {
+    ++F.c;
+    const Var sa = C.P.first.size(), se = C.P.second.size();
+    F.la += sa; F.le += se;
+    F.max_a_length = std::max(sa, F.max_a_length);
+    F.max_e_length = std::max(se, F.max_e_length);
+    for (const Lit x : C.P.first) {
+      const Var v = var(x);
+      if (F.vt[v] != VT::fa) continue;
+      F.max_a_index = std::max(v, F.max_a_index);
+      F.vt[v] = VT::a; ++F.na;
+    }
+    for (const Lit x : C.P.second) {
+      const Var v = var(x);
+      if (F.vt[v] != VT::fe) continue;
+      F.max_e_index = std::max(v, F.max_e_index);
+      F.vt[v] = VT::e; ++F.ne;
+    }
+  }
 }
 
 public :
@@ -702,12 +726,14 @@ ReadDimacs(std::istream& in) noexcept : in(in) {}
 ClauseSet operator()() {
   read_header();
   read_dependencies();
-  {Lit_vec C;
+  {DClause C;
    while (read_clause(C)) {
      add_clause(C);
    }
   }
+  F.max_index = std::max(F.max_a_index, F.max_e_index);
   F.n = F.na + F.ne;
+  F.l = F.la + F.le;
   assert(F.c == F.F.size());
   return F;
 }
