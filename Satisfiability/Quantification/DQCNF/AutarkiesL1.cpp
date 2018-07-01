@@ -425,6 +425,7 @@ struct ClauseSet {
   Var max_a_index=0, max_e_index=0, max_index=0; // maximal occurring variable-index
   Var na=0, ne=0, n=0; // number occurring e/a/both variables
   Var max_a_length=0, max_e_length=0, max_c_length=0; // max number of a/e/both literals in clauses
+  Var max_s_dep=0, min_s_dep=max_lit, count_dep=0;
   Count_t c=0; // number of clauses (without tautologies)
   Count_t la=0, le=0, l=0; // number of a/e/both literal occurrences
   Count_t t=0; // number of tautological clauses
@@ -515,18 +516,31 @@ void read_dependencies() noexcept {
     ~Finish() {
       const Dependency emptyset = F0.dep_sets.find(Varset());
       assert(emptyset != F0.dep_sets.end());
-      for (Var v = 1; v <= F0.n_pl; ++v)
+      bool found_emptyset = false;
+      for (Var v = 1; v <= F0.n_pl; ++v) {
         if (F0.vt[v] == VT::und) {
           F0.vt[v] = VT::fe; ++F0.ne_d;
+          found_emptyset = true;
+          F0.min_s_dep = 0;
           F0.D[v] = emptyset;
+          continue;
         }
+        if (at(F0.vt[v])) continue;
+        assert(et(F0.vt[v]));
+        const Var size = F0.D[v]->size();
+        if (size == 0) found_emptyset = true;
+        F0.max_s_dep = std::max(size, F0.max_s_dep);
+        F0.min_s_dep = std::min(size, F0.min_s_dep);
+      }
+      if (not found_emptyset) F0.dep_sets.erase(emptyset);
+      F0.count_dep = F0.dep_sets.size();
       assert(F0.n_pl == F0.na_d + F0.ne_d);
     }
   } finish(F);
   Varset A;
   Dependency dep = F.dep_sets.insert(A).first;
   std::string line;
-  enum class lt { begin, e, a }; // line type
+  enum class lt { begin, e, a, d }; // line type
   lt last_line = lt::begin;
   if (in.eof()) return;
   while (true) {
@@ -596,6 +610,7 @@ void read_dependencies() noexcept {
       }
       last_line = lt::e;
     } else {
+      assert(peek == 'd');
       Var v;
       if (not (s >> v)) {
         errout << "Bad e-read in d-line."; std::exit(code(Error::e_read));
@@ -633,6 +648,7 @@ void read_dependencies() noexcept {
         }
       } while (true);
       F.D[v] = F.dep_sets.insert(A).first;
+      last_line = lt::d;
     }
   }
 }
@@ -825,6 +841,9 @@ void output(const std::string filename, const ClauseSet& F) {
          "c maximal_a_clause_length               " << F.max_a_length << "\n"
          "c maximal_e_clause_length               " << F.max_e_length << "\n"
          "c maximal_clause_length                 " << F.max_c_length << "\n"
+         "c min_dep_size                          " << F.min_s_dep << "\n"
+         "c max_dep_size                          " << F.max_s_dep << "\n"
+         "c count_deps                            " << F.count_dep << "\n"
          "c number_of_a_literal_occurrences       " << F.la << "\n"
          "c number_of_e_literal_occurrences       " << F.le << "\n"
          "c number_of_literal_occurrences         " << F.l << "\n"
