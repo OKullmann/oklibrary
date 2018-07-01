@@ -405,7 +405,7 @@ struct DClause {
   bool operator ==(const DClause C) const noexcept {return P == C.P;}
   bool operator !=(const DClause C) const noexcept {return P != C.P;}
   friend bool operator <(const DClause& C, const DClause& D) noexcept {
-    return C < D;
+    return C.P < D.P;
   }
 };
 typedef std::set<DClause> DCLS;
