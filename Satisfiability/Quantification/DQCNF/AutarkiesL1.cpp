@@ -509,12 +509,26 @@ void read_dependencies() noexcept {
     errout << "Allocation error for dependency-vector of size "<<F.n_pl<<".";
     std::exit(code(Error::allocation));
   }
-  if (in.eof()) return;
+  struct Finish {
+    ClauseSet& F0;
+    Finish(ClauseSet& F) : F0(F) {}
+    ~Finish() {
+      const Dependency emptyset = F0.dep_sets.find(Varset());
+      assert(emptyset != F0.dep_sets.end());
+      for (Var v = 1; v <= F0.n_pl; ++v)
+        if (F0.vt[v] == VT::und) {
+          F0.vt[v] = VT::fe; ++F0.ne_d;
+          F0.D[v] = emptyset;
+        }
+      assert(F0.n_pl == F0.na_d + F0.ne_d);
+    }
+  } finish(F);
   Varset A;
+  Dependency dep = F.dep_sets.insert(A).first;
   std::string line;
   enum class lt { begin, e, a }; // line type
   lt last_line = lt::begin;
-  Dependency dep = F.dep_sets.insert(A).first;
+  if (in.eof()) return;
   while (true) {
     const int peek = in.peek();
     if (peek == std::char_traits<char>::eof()) return;
@@ -621,13 +635,6 @@ void read_dependencies() noexcept {
       F.D[v] = F.dep_sets.insert(A).first;
     }
   }
-  const Dependency emptyset = F.dep_sets.find(Varset());
-  for (Var v = 1; v <= F.n_pl; ++v)
-    if (F.vt[v] == VT::und) {
-      F.vt[v] = VT::e; ++F.ne_d;
-      F.D[v] = emptyset;
-    }
-  assert(F.n_pl == F.na_d + F.ne_d);
 }
 
 
