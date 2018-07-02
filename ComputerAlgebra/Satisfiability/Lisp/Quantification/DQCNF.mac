@@ -87,8 +87,13 @@ all_tdqpa(D) := block([L : listify(D), E],
  E : map(first,L),
  setify(map(lambda([t], setify(maplist("[", E,t))),
      cartesian_product_l(create_list(listify(all_wbf(second(p))), p,L)))))$
+all_1tdqpa(D) := block([L : listify(D), E],
+ E : map(first,L),
+ setify(map(lambda([t], setify(maplist("[", E,t))),
+     cartesian_product_l(create_list(listify(all_1wbf(second(p))), p,L)))))$
 
 all_dqpa(D) := lunion(map(all_tdqpa, powerset(D)))$
+all_1dqpa(D) := lunion(map(all_1tdqpa, powerset(D)))$
 
 /* Whether a dqpa phi satisfies a clause C=union(A,E): */
 satisfyp_dqpac(phi,A,E) := block(
@@ -123,6 +128,11 @@ all_satisfying_tdqpa_bydef(F) := block([Fr : rest(F,-1)],
 all_satisfying_tdqpa_bydef_mincnfdnf(F) :=
   map2(lambda([P], [first(P), wbf2mincnfdnfcs(second(P))]),
        all_satisfying_tdqpa_bydef(F))$
+all_satisfying_1tdqpa_bydef(F) := block([Fr : rest(F,-1)],
+ subset(all_1tdqpa(fourth(F)), lambda([phi], satisfyp_dqpacs(phi, Fr))))$
+all_satisfying_1tdqpa_bydef_mincnfdnf(F) :=
+  map2(lambda([P], [first(P), wbf2mincnfdnfcs(second(P))]),
+       all_satisfying_1tdqpa_bydef(F))$
 
 
 /* Whether the partial assignment phi is an autarky for F: */
@@ -135,6 +145,12 @@ all_autarkies_dqcs_bydef(F) := block([Fr : rest(F,-1)],
 all_autarkies_dqcs_bydef_mincnfdnf(F) :=
   map2(lambda([P], [first(P), wbf2mincnfdnfcs(second(P))]),
        all_autarkies_dqcs_bydef(F))$
+all_autarkies_1dqcs_bydef(F) := block([Fr : rest(F,-1)],
+ subset(all_1dqpa(fourth(F)), lambda([phi], autarky_dqpacs(phi, Fr))))$
+all_autarkies_1dqcs_bydef_mincnfdnf(F) :=
+  map2(lambda([P], [first(P), wbf2mincnfdnfcs(second(P))]),
+       all_autarkies_1dqcs_bydef(F))$
+
 
 /*!
 \endhtmlonly
