@@ -746,6 +746,18 @@ inline void add_clause(const DClause& C) {
   }
 }
 
+// Removing such a-variables from clauses, which aren't in a dependency of
+// some e-variable in that clause; degrade a-variables for formal a-variables
+// at the end accordingly:
+void cleanup_clauses() noexcept {
+
+}
+
+// Shrink dependencies by removing formal a-variables:
+void cleanup_dependencies() noexcept {
+
+}
+
 public :
 
 ReadDimacs(std::istream& in) noexcept : in(in) {}
@@ -764,6 +776,10 @@ ClauseSet operator()() {
   F.n = F.na + F.ne;
   F.l = F.la + F.le;
   assert(F.c == F.F.size());
+
+  cleanup_clauses();
+  cleanup_dependencies();
+
   return F;
 }
 
