@@ -41,10 +41,10 @@ wqcount_debug : NQueens_w.cpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 pqcount : NQueenspar.cpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -lpthread $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -pthread $< -o $@
 
 pqcount_debug : NQueenspar.cpp
-	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -lpthread $< -o $@
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -pthread $< -o $@
 
 
 clean :
