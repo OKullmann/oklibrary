@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 
 
 /* *******************
@@ -251,6 +252,13 @@ cnffcs2wbf(FF) := [first(FF), buildq([F:second(FF)], lambda([phi],
 dnffcs2wbf(FF) := [first(FF), buildq([F:second(FF)], lambda([phi],
   if some_s(lambda([C], subsetp(C,phi)), F) then 1 else 0))]$
 
+wbf2fullcnfdnffcs(f) := block([V : first(f), T0:[], T1:[], f2:second(f)],
+  for phi in all_tass(V) do
+    if f2(phi) = 0 then T0:cons(phi,T0) else T1:cons(phi,T1),
+  [[V,comp_cs(setify(T0))], [V,setify(T1)]])$
+
+wbf2mincnfdnfcs(f) := map(all_minequiv_bvsr_fcs, wbf2fullcnfdnffcs(f))$
+
 /* Note that the CNFs FF1, FF2 are logically equivalent iff
    equalp_wbf(essentialcore_wbf(cnffcs2wbf(FF1)), essentialcore_wbf(cnffcs2wbf(FF2))),
    and the CNF FF1 is logically equivalent to the DNF FF2 iff
@@ -264,6 +272,8 @@ all_wbf(V) := map(cnffcs2wbf, map(lambda([F], [V,F]), powerset(all_tass(V))))$
    yields 2^32, which needed a very big machine -- |V|=6 yields 2^64, which
    definitely is beyond.
 */
+
+all_1wbf(V) := union(map(lit2wbf,literals_v(V)), {zero_wbf, one_wbf})$
 
 
 /* ***********************
