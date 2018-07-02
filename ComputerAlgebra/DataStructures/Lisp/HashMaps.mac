@@ -58,6 +58,7 @@ define_set_map(M,x,y) := block([found : false],
    If x is not in the domain, then "done" is returned. */
 /* RENAME: ev_sm */
 evaluate_set_map(M,x) := for p in M do if p[1] = x then return(p[2])$
+ev_sm(M,x) := evaluate_set_map(M,x)$
 /* Use a default value if undefined. */
 /* RENAME: ev_sm_d */
 evaluate_set_map_d(M,x,y) := block([found : false, val],

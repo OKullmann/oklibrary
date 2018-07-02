@@ -1,0 +1,141 @@
+/* Oliver Kullmann, 26.6.2018 (Swansea) */
+/* Copyright 2018 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Quantification/DQCNF.mac
+  \brief Basic definitions concerning dependency-quantified CNFs
+
+Use by
+
+oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/Quantification/DQCNF.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/FiniteFunctions/Basics.mac")$
+
+
+/* *********************
+   * Basic definitions *
+   *********************
+*/
+
+/* A dqcs is a four-tuple [A,E,F,D], where A is the set of universal variables,
+   E the set of existential variables, F a clause-set with variables from
+   A and E, and D a set-theoretical map from E to subsets of A:
+*/
+dqcs_p(DF) := listp(DF) and length(DF)=4 and
+ block([A:first(DF), E:second(DF), F:third(DF), D:fourth(DF)],
+  setp(A) and setp(E) and fcs_p([union(A,E), F]) and sm_p(D)
+  and map(first,D)=E and every_s(lambda([p], setp(second(p))), D) and
+  subsetp(lunion(map(second,D)), A))$
+
+/* Examples:
+   [{},{},{},{}]
+   [{1,2},{},{{1,2},{2}},{}]
+   [{1,2},{3},{{1,2},{2}},{[3,{}]}]
+
+*/
+
+/* A dqcn-partial-assignment (dqpa) is a set-theoretical map phi from some
+   variables to wrapped boolean functions, such that the variables used for the
+   wrapped boolean functions are not used in the domain of phi:
+*/
+dqpa_p(phi) := sm_p(phi) and block([V:map(first,phi), B:map(second,phi)],
+  every_s(v_p,V) and every_s(wbf_p,B) and
+  disjointp(V, lunion(map(first,B))))$
+
+var_dqpa(phi) := map(first,phi)$
+
+/* Examples:
+   {} : var = {}
+   {[1,zero_wbf]} : var = {1}
+   {[1,zero_wbf],[2,lit2wbf(3)]} : var = {1,2}
+*/
+
+/* Apply the dqpa phi to a literal x, with var(x) in var(phi): */
+apply_dqpa(phi,x) := if pos_l(x) then ev_sm(phi,x) else neg_wbf(ev_sm(phi,-x))$
+
+/* Whether a dqpa phi touches a clauses C: */
+touches_dqpac(phi, C) := not disjointp(var_dqpa(phi), var_c(C))$
+/* The clauses of a clause-set F touched by phi: */
+touched_dqpacs(phi,F) := block([V:var_dqpa(phi)],
+ subset(F, lambda([C], not disjointp(V, var_c(C)))))$
+
+
+/* Whether a dqpa for a dqcs F fulfills the dependencies: */
+dqpafordqcs(phi,F) := block([D:sm2hm(fourth(F))],
+  every_s(lambda([p], subsetp(first(second(p)), ev_hm(D, first(p)))), phi))$
+
+/* Examples:
+  {} for [{},{},{},{}]
+  {[1,zero_wbf],[2,lit2wbf(3)]} for [{3,4},{1,2},{},{[1,{}],[2,{3}]}]
+*/
+
+/* All total dqpa's for dependency-scheme D (which includes E): */
+all_tdqpa(D) := block([L : listify(D), E],
+ E : map(first,L),
+ setify(map(lambda([t], setify(maplist("[", E,t))),
+     cartesian_product_l(create_list(listify(all_wbf(second(p))), p,L)))))$
+
+all_dqpa(D) := lunion(map(all_tdqpa, powerset(D)))$
+
+/* Whether a dqpa phi satisfies a clause C=union(A,E): */
+satisfyp_dqpac(phi,A,E) := block(
+ [E0:intersection(literals_v(var_dqpa(phi)), E), C],
+  C : union(map(lambda([x], apply_dqpa(phi,x)), E0), map(lit2wbf, A)),
+  equalp_wbf(essentialcore_wbf(or_swbf(C)), one_wbf))$
+
+/* Examples:
+ {} does not satisfies {},{}
+ {[1,zero_wbf]} satisfies {},{-1}
+ {[1,lit2wbf(2)]} satisfies {-2},{1}
+*/
+
+/* Whether the partial assignment phi satisfies F (the dependencies of F
+   are not used, and so a triple is enough for F):
+*/
+satisfyp_dqpacs(phi,DF) := block(
+ [A:first(DF),E:second(DF),F:third(DF)],
+  every_s(lambda([C], block([CA:intersection(C,literals_v(A))],
+                 satisfyp_dqpac(phi,CA,setdifference(C,CA)))),
+          F))$
+
+/* Examples:
+ {} satisfies [{},{},{}]
+    does not satisfies [{},{},{{}}]
+ {[1,zero_wbf]} satisfies [{},{1},{{-1}}]
+ {[1,lit2wbf(2)]} satisfies [{2},{1},{{-2,1}}]
+*/
+
+all_satisfying_tdqpa_bydef(F) := block([Fr : rest(F,-1)],
+ subset(all_tdqpa(fourth(F)), lambda([phi], satisfyp_dqpacs(phi, Fr))))$
+all_satisfying_tdqpa_bydef_mincnfdnf(F) :=
+  map2(lambda([P], [first(P), wbf2mincnfdnfcs(second(P))]),
+       all_satisfying_tdqpa_bydef(F))$
+
+
+/* Whether the partial assignment phi is an autarky for F: */
+autarky_dqpacs(phi,DF) := block(
+ [A:first(DF),E:second(DF),F:third(DF)],
+  satisfyp_dqpacs(phi,[A,E,touched_dqpacs(phi,F)]))$
+
+all_autarkies_dqcs_bydef(F) := block([Fr : rest(F,-1)],
+ subset(all_dqpa(fourth(F)), lambda([phi], autarky_dqpacs(phi, Fr))))$
+all_autarkies_dqcs_bydef_mincnfdnf(F) :=
+  map2(lambda([P], [first(P), wbf2mincnfdnfcs(second(P))]),
+       all_autarkies_dqcs_bydef(F))$
+
+/*!
+\endhtmlonly
+*/
