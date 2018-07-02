@@ -46,8 +46,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.2.1";
-const std::string date = "1.7.2018";
+const std::string version = "0.2.3";
+const std::string date = "2.7.2018";
 
 const std::string program = "autL1";
 
@@ -73,6 +73,7 @@ enum class Error {
   e_empty=21,
   d_empty=22,
   d_bada=23,
+  pseudoempty_clause=24,
 };
 /* Extracting the underlying code of enum-classes (scoped enums) */
 template <typename EC>
@@ -402,8 +403,9 @@ typedef std::vector<Dependency> Dvector;
 typedef std::set<Lit> Clause;
 typedef std::pair<Clause,Clause> PairClause; // all-exists
 struct DClause {
-  PairClause P;
+  PairClause P; // A-E
   void clear() noexcept {P.first.clear(); P.second.clear();}
+  bool pseudoempty() const noexcept {return P.second.empty();}
   bool empty() const noexcept {return P.first.empty() and P.second.empty();}
   bool operator ==(const DClause C) const noexcept {return P == C.P;}
   bool operator !=(const DClause C) const noexcept {return P != C.P;}
@@ -442,10 +444,30 @@ typedef std::set<Pass> PassSet;
 
 // --- Input ---
 
+enum class ConformityLevel {normal=0, strict, verystrict, general};
+/* "Strict" yields error on pseudoempty clauses (without existential
+    variables); having such clauses can make sense for autarky search.
+*/
+std::ostream& operator <<(std::ostream& out, const ConformityLevel cl) noexcept {
+  switch (cl) {
+  case ConformityLevel::general : return out << "general";
+  case ConformityLevel::normal : return out << "normal";
+  case ConformityLevel::strict : return out << "strict";
+  case ConformityLevel::verystrict : return out << "verystrict";
+  default : return out << "normal";
+  }
+}
+// String to ConformityLevel:
+ConformityLevel s2conlev(const std::string& s) {
+  if (s == "s") return ConformityLevel::strict;
+  else return ConformityLevel::normal;
+}
+
 class ReadDimacs {
 
 std::istream& in;
 ClauseSet F;
+ConformityLevel conlev;
 
 // Aborts via std::exit in case of input-errors:
 void read_header() noexcept {
@@ -708,8 +730,19 @@ bool read_clause(DClause& C) const noexcept {
     }
     in >> x;
   }
-  if (C.empty()) {
-    errout << "Empty clause in input."; std::exit(code(Error::empty_clause));
+  switch (conlev) {
+  case ConformityLevel::general : ;
+  case ConformityLevel::normal :
+    if (C.empty()) {
+      errout << "Empty clause.";
+      std::exit(code(Error::empty_clause));
+    }
+    break;
+  default :
+    if (C.pseudoempty()) {
+      errout << "Clause without existential variables.";
+      std::exit(code(Error::pseudoempty_clause));
+    }
   }
   return true;
 }
@@ -760,7 +793,8 @@ void cleanup_dependencies() noexcept {
 
 public :
 
-ReadDimacs(std::istream& in) noexcept : in(in) {}
+ReadDimacs(std::istream& in, const ConformityLevel cl) noexcept :
+  in(in), conlev(cl) {}
 
 ClauseSet operator()() {
   read_header();
@@ -889,7 +923,7 @@ void version_information() {
   std::exit(0);
 }
 
-void output(const std::string filename, const ClauseSet& F) {
+void output(const std::string filename, const ConformityLevel cl, const ClauseSet& F) {
   logout <<
          "c p_param_variables                     " << F.n_pl << "\n"
          "c p_param_clauses                       " << F.c_pl << "\n"
@@ -912,6 +946,7 @@ void output(const std::string filename, const ClauseSet& F) {
          "c number_of_e_literal_occurrences       " << F.le << "\n"
          "c number_of_literal_occurrences         " << F.l << "\n"
          "c number_tautologies                    " << F.t << "\n"
+         "c conformity_level                      " << cl << "\n"
          "c file_name                             " << filename << "\n";
   logout.endl();
 }
@@ -932,13 +967,14 @@ int main(const int argc, const char* const argv[]) {
       errout << "Log filename: \"" << argv[3]  << "\" identical with input filename.";
       std::exit(code(Error::file_writing));
   }
+  const ConformityLevel conlev = (argc >= 5) ? s2conlev(argv[4]) : ConformityLevel::normal;
 
   set_output(argc, argv);
   const Input in(filename);
-  ReadDimacs rd(*in);
+  ReadDimacs rd(*in, conlev);
   const ClauseSet F = rd();
 
   const Encoding enc(F);
 
-  output(filename, F);
+  output(filename, conlev, F);
 }
