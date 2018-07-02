@@ -46,7 +46,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.2.3";
+const std::string version = "0.2.4";
 const std::string date = "2.7.2018";
 
 const std::string program = "autL1";
@@ -925,29 +925,32 @@ void version_information() {
 
 void output(const std::string filename, const ConformityLevel cl, const ClauseSet& F) {
   logout <<
-         "c p_param_variables                     " << F.n_pl << "\n"
-         "c p_param_clauses                       " << F.c_pl << "\n"
-         "c d_a_variables                         " << F.na_d << "\n"
-         "c d_e_variables                         " << F.ne_d << "\n"
-         "c max_occurring_a_variable              " << F.max_a_index << "\n"
-         "c max_occurring_e_variable              " << F.max_e_index << "\n"
-         "c max_occurring_variable                " << F.max_index << "\n"
-         "c num_occurring_a_variables             " << F.na << "\n"
-         "c num_occurring_e_variables             " << F.ne << "\n"
-         "c num_occurring_variables               " << F.n << "\n"
-         "c number_of_clauses                     " << F.c << "\n"
-         "c maximal_a_clause_length               " << F.max_a_length << "\n"
-         "c maximal_e_clause_length               " << F.max_e_length << "\n"
-         "c maximal_clause_length                 " << F.max_c_length << "\n"
+         "c Parameter (command line, file):\n"
+         "c file_name                             " << filename << "\n"
+         "c conformity_level                      " << cl << "\n"
+         "c maximal_index_variables               " << F.n_pl << "\n"
+         "c number_clauses                        " << F.c_pl << "\n"
+         "c number_a_variables                    " << F.na_d << "\n"
+         "c number_e_variables                    " << F.ne_d << "\n"
+         "c number_tautological clauses           " << F.t << "\n"
+         "c Actually occurring:\n"
+         "c max_index_variable                    " << F.max_index << "\n"
+         "c num_variables                         " << F.n << "\n"
+         "c num_clauses                           " << F.c << "\n"
+         "c num_a_variables                       " << F.na << "\n"
+         "c num_e_variables                       " << F.ne << "\n"
+         "c Additional statistics:\n"
+         "c max_index_a_variable                  " << F.max_a_index << "\n"
+         "c max_index_e_variable                  " << F.max_e_index << "\n"
+         "c max_a_clause_length                   " << F.max_a_length << "\n"
+         "c max_e_clause_length                   " << F.max_e_length << "\n"
+         "c max_clause_length                     " << F.max_c_length << "\n"
          "c min_dep_size                          " << F.min_s_dep << "\n"
          "c max_dep_size                          " << F.max_s_dep << "\n"
-         "c count_deps                            " << F.count_dep << "\n"
-         "c number_of_a_literal_occurrences       " << F.la << "\n"
-         "c number_of_e_literal_occurrences       " << F.le << "\n"
-         "c number_of_literal_occurrences         " << F.l << "\n"
-         "c number_tautologies                    " << F.t << "\n"
-         "c conformity_level                      " << cl << "\n"
-         "c file_name                             " << filename << "\n";
+         "c num_different_dep_sets                " << F.count_dep << "\n"
+         "c num_literal_occurrences               " << F.la << "\n"
+         "c num_e_literal_occurrences             " << F.le << "\n"
+         "c num_a_literal_occurrences             " << F.l << "\n";
   logout.endl();
 }
 
