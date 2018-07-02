@@ -411,7 +411,9 @@ struct DClause {
     return C.P < D.P;
   }
 };
+
 typedef std::set<DClause> DCLS;
+typedef DCLS::const_iterator dclause_it;
 
 struct ClauseSet {
   DCLS F;
@@ -768,6 +770,49 @@ ClauseSet operator()() {
 }; // class ReadDimacs
 
 
+// --- Translation ---
+
+struct Encoding {
+
+  const ClauseSet& F;
+
+  // Vector of existential variables:
+  typedef std::vector<Var> Evar_vec;
+  const Evar_vec E;
+
+  // Vector of Dclause-iterators:
+  typedef std::vector<dclause_it> Dclause_vec;
+  typedef Dclause_vec::size_type clause_index_t;
+  const Dclause_vec dclauses;
+
+  Encoding(const ClauseSet& F) :
+    F(F), E(extract_evar()), dclauses(list_iterators()) {}
+
+  Var csvar(const clause_index_t C) const noexcept {
+    assert(C >= 1);
+    return C+1;
+  }
+
+private :
+
+  Evar_vec extract_evar() const {
+    Evar_vec e;
+    e.reserve(F.ne);
+    for (Var v = 1; v <= F.max_e_index; ++v)
+      if (F.vt[v] == VT::e) e.push_back(v);
+    return e;
+  }
+
+  Dclause_vec list_iterators() const {
+    Dclause_vec dc;
+    dc.reserve(F.c);
+    for (dclause_it it = F.F.begin(); it != F.F.end(); ++it) dc.push_back(it);
+    return dc;
+  }
+
+};
+
+
 // --- Output ---
 
 void show_usage() {
@@ -876,5 +921,8 @@ int main(const int argc, const char* const argv[]) {
   const Input in(filename);
   ReadDimacs rd(*in);
   const ClauseSet F = rd();
+
+  const Encoding enc(F);
+
   output(filename, F);
 }
