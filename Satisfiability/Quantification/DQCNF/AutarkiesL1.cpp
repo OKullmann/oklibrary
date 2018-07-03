@@ -47,7 +47,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.3";
+const std::string version = "0.3.1";
 const std::string date = "3.7.2018";
 
 const std::string program = "autL1";
@@ -879,17 +879,19 @@ struct Encoding {
   const Var_vec bfvar_indices;
 
   // The set of all partial assignments occurring:
-  typedef PassSet::const_iterator Pass_it;
   typedef PassSet::const_pointer Pass_p;
   typedef std::set<Pass_p> Solution_set;
   typedef std::vector<Solution_set> Solset_vec;
   typedef std::pair<PassSet, Solset_vec> All_solutions;
   const All_solutions all_solutions;
 
-  const Var ncs, nbf, npa;
+  const Var ncs, nbf, npa, n;
+
+  typedef std::map<Pass_p,Var> EncodingPass;
+  const EncodingPass enc_pass;
 
   Encoding(const ClauseSet& F) :
-    F(F), E(extract_evar()), E_index(extract_eindices()), dep(convert_dependencies()), dclauses(list_iterators()), bfvar_indices(set_bfvar_indices()), all_solutions(set_all_solutions()), ncs(F.c), nbf(bfvar_indices.back() - F.c), npa(all_solutions.first.size()) {}
+    F(F), E(extract_evar()), E_index(extract_eindices()), dep(convert_dependencies()), dclauses(list_iterators()), bfvar_indices(set_bfvar_indices()), all_solutions(set_all_solutions()), ncs(F.c), nbf(bfvar_indices.back() - F.c), npa(all_solutions.first.size()), n(ncs+nbf+npa), enc_pass(set_pass_encoding()) {}
 
   Var csvar(const clause_index_t C) const noexcept {
     assert(C < F.c);
@@ -911,6 +913,12 @@ struct Encoding {
     assert(*w_it == w);
     const Var j = base_index + 2 + 2 * (w_it - dep[i].begin());
     return (x.negi()) ? j : j+1;
+  }
+
+  Var pavar(const Pass_p phi) const noexcept {
+    const auto find = enc_pass.find(phi);
+    assert(find != enc_pass.end());
+    return find->second;
   }
 
 private :
@@ -1002,6 +1010,15 @@ private :
       }
     }
     return all_sol;
+  }
+
+  EncodingPass set_pass_encoding() const {
+    EncodingPass ep;
+    Var v = ncs + nbf;
+    for (auto phi_it = all_solutions.first.begin(); phi_it != all_solutions.first.end(); ++phi_it)
+      ep[&*phi_it] = ++v;
+    assert(v == ncs+nbf+npa);
+    return ep;
   }
 
 };
@@ -1098,7 +1115,8 @@ void output(const std::string filename, const ConformityLevel cl, const ClauseSe
          "c Encoding:\n"
          "c ncs                                   " << enc.ncs << "\n"
          "c nbf                                   " << enc.nbf << "\n"
-         "c npa                                   " << enc.npa << "\n";
+         "c npa                                   " << enc.npa << "\n"
+         "c n                                     " << enc.n << "\n";
   logout.endl();
 }
 
