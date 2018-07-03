@@ -46,7 +46,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.2.6";
+const std::string version = "0.2.7";
 const std::string date = "3.7.2018";
 
 const std::string program = "autL1";
@@ -399,6 +399,8 @@ typedef std::set<Var> Varset;
 typedef std::set<Varset> VarSetsystem;
 typedef VarSetsystem::const_iterator Dependency;
 typedef std::vector<Dependency> Dvector;
+typedef VarSetsystem::const_pointer Dependency_p;
+typedef std::map<Dependency_p, Count_t> DepCounts;
 
 typedef std::set<Lit> Clause;
 typedef std::pair<Clause,Clause> PairClause; // all-exists
@@ -424,6 +426,7 @@ struct ClauseSet {
   VTvector vt;
   VarSetsystem dep_sets;
   Dvector D;
+  DepCounts dc;
   // Statistics:
   //   from the parameter line:
   Var n_pl;
@@ -540,30 +543,17 @@ void read_dependencies() noexcept {
     errout << "Allocation error for dependency-vector of size "<<F.n_pl<<".";
     std::exit(code(Error::allocation));
   }
-  struct Finish {
+  struct Finish { // marking unset variables as fe with empty domain
     ClauseSet& F0;
     Finish(ClauseSet& F) : F0(F) {}
     ~Finish() {
       const Dependency emptyset = F0.dep_sets.find(Varset());
       assert(emptyset != F0.dep_sets.end());
-      bool found_emptyset = false;
-      for (Var v = 1; v <= F0.n_pl; ++v) {
+      for (Var v = 1; v <= F0.n_pl; ++v)
         if (F0.vt[v] == VT::und) {
           F0.vt[v] = VT::fe; ++F0.ne_d;
-          found_emptyset = true;
-          F0.min_s_dep = 0;
           F0.D[v] = emptyset;
-          continue;
         }
-        if (at(F0.vt[v])) continue;
-        assert(et(F0.vt[v]));
-        const Var size = F0.D[v]->size();
-        if (size == 0) found_emptyset = true;
-        F0.max_s_dep = std::max(size, F0.max_s_dep);
-        F0.min_s_dep = std::min(size, F0.min_s_dep);
-      }
-      if (not found_emptyset) F0.dep_sets.erase(emptyset);
-      F0.count_dep = F0.dep_sets.size();
       assert(F0.n_pl == F0.na_d + F0.ne_d);
     }
   } finish(F);
@@ -784,6 +774,22 @@ inline void add_clause(const DClause& C) {
   }
 }
 
+// Counting dependency-sets, and removing unused ones:
+void count_dependencies() {
+  for (Var v = 1; v <= F.max_e_index; ++v) {
+    if (F.vt[v] != VT::e) continue;
+    const Dependency_p dp = &*F.D[v];
+    ++F.dc[dp];
+  }
+  for (auto i = F.dep_sets.begin(); i != F.dep_sets.end();) {
+    const Dependency_p dp = &*i;
+    const auto find = F.dc.find(dp);
+    auto j = i; ++j;
+    if (find == F.dc.end()) F.dep_sets.erase(i);
+    i = j;
+  }
+}
+
 // Removing such a-variables from clauses, which aren't in a dependency of
 // some e-variable in that clause; degrade a-variables to formal a-variables
 // at the end accordingly:
@@ -820,6 +826,14 @@ ClauseSet operator()() {
   F.n = F.na + F.ne;
   F.l = F.la + F.le;
   assert(F.c == F.F.size());
+
+  count_dependencies();
+  F.count_dep = F.dep_sets.size();
+  for (const Varset& D : F.dep_sets) {
+    const Var size = D.size();
+    F.max_s_dep = std::max(size, F.max_s_dep);
+    F.min_s_dep = std::min(size, F.min_s_dep);
+  }
 
   cleanup_clauses();
   cleanup_dependencies();
