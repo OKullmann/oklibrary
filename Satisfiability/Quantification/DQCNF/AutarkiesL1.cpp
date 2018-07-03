@@ -46,8 +46,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.2.4";
-const std::string date = "2.7.2018";
+const std::string version = "0.2.5";
+const std::string date = "3.7.2018";
 
 const std::string program = "autL1";
 
