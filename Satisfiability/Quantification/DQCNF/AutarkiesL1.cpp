@@ -46,7 +46,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.2.7";
+const std::string version = "0.2.8";
 const std::string date = "3.7.2018";
 
 const std::string program = "autL1";
@@ -866,12 +866,15 @@ struct Encoding {
   typedef Dclause_vec::size_type clause_index_t;
   const Dclause_vec dclauses;
 
-  // Vector of bf-indices (for given e-index the starting point):
+  // Vector of bf-indices (for given e-index the starting point, plus at the
+  // last position the one index "past-the-end"):
   typedef std::vector<Var> Var_vec;
   const Var_vec bfvar_indices;
 
+  const Var ncs, nbf;
+
   Encoding(const ClauseSet& F) :
-    F(F), E(extract_evar()), E_index(extract_eindices()), dep(convert_dependencies()), dclauses(list_iterators()), bfvar_indices(set_bfvar_indices()) {}
+    F(F), E(extract_evar()), E_index(extract_eindices()), dep(convert_dependencies()), dclauses(list_iterators()), bfvar_indices(set_bfvar_indices()), ncs(F.c), nbf(bfvar_indices.back() - F.c) {}
 
   Var csvar(const clause_index_t C) const noexcept {
     assert(C < F.c);
@@ -932,12 +935,13 @@ private :
 
   Var_vec set_bfvar_indices() const {
     Var_vec ind;
-    ind.reserve(F.ne);
-    Var current = F.c + 1;
+    ind.resize(F.ne+1);
+    Var current = F.c;
     for (Var i = 0; i < F.ne; ++i) {
       ind[i] = current;
       current += 2*F.D[E[i]]->size() + 2;
     }
+    ind[F.ne] = current;
     return ind;
   }
 
@@ -1004,7 +1008,7 @@ void version_information() {
   std::exit(0);
 }
 
-void output(const std::string filename, const ConformityLevel cl, const ClauseSet& F) {
+void output(const std::string filename, const ConformityLevel cl, const ClauseSet& F, const Encoding& enc) {
   logout <<
          "c Parameter (command line, file):\n"
          "c file_name                             " << filename << "\n"
@@ -1031,7 +1035,10 @@ void output(const std::string filename, const ConformityLevel cl, const ClauseSe
          "c num_different_dep_sets                " << F.count_dep << "\n"
          "c num_literal_occurrences               " << F.la << "\n"
          "c num_e_literal_occurrences             " << F.le << "\n"
-         "c num_a_literal_occurrences             " << F.l << "\n";
+         "c num_a_literal_occurrences             " << F.l << "\n"
+         "c Encoding:\n"
+         "c ncs                                   " << enc.ncs << "\n"
+         "c nbf                                   " << enc.nbf << "\n";
   logout.endl();
 }
 
@@ -1060,5 +1067,5 @@ int main(const int argc, const char* const argv[]) {
 
   const Encoding enc(F);
 
-  output(filename, conlev, F);
+  output(filename, conlev, F, enc);
 }
