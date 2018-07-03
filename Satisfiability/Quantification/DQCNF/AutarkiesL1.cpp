@@ -47,7 +47,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.2.11";
+const std::string version = "0.3";
 const std::string date = "3.7.2018";
 
 const std::string program = "autL1";
@@ -345,7 +345,7 @@ public :
   friend constexpr bool operator<(const Litc x, const Litc y) {
     return x.x < y.x or (BFt(x) != BFt::nc and BFt(y) == BFt::nc) or
       (BFt(x) != BFt::nc and BFt(y) != BFt::nc and BFt(x) < BFt(y)) or
-      (not bool(Lit(x)) and BFt(y) != BFt::nc);
+      (not bool(Lit(x)) and BFt(x) == BFt::nc and BFt(y) != BFt::nc);
   }
 };
 static_assert(std::is_pod<Litc>::value, "Litc is not POD.");
@@ -387,6 +387,10 @@ static_assert(not Litc(BFt::f).variable(), "Problem with variability determinati
 static_assert(not Litc(BFt::t).variable(), "Problem with variability determination.");
 static_assert(Litc(1_l).variable(), "Problem with variability determination.");
 static_assert(Litc(bf(true)) == bf(true), "Problem with copy-construction.");
+static_assert(not (Litc(bf(true)) < Litc(bf(true))), "Problem with < for Litc.");
+static_assert(not (Litc(bf(false)) < Litc(bf(false))), "Problem with < for Litc.");
+static_assert(not (Litc() < Litc()), "Problem with < for Litc.");
+static_assert(not (Litc(Lit(1)) < Litc(Lit(1))), "Problem with < for Litc.");
 
 
 // --- Data structures for clause and clause-sets ---
