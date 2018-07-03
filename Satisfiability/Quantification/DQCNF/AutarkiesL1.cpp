@@ -414,6 +414,8 @@ struct DClause {
   }
 };
 
+typedef std::vector<Count_t> Degree_vec;
+
 typedef std::set<DClause> DCLS;
 typedef DCLS::const_iterator dclause_it;
 
@@ -429,6 +431,7 @@ struct ClauseSet {
   //   from dependency-specification:
   Var na_d = 0, ne_d = 0;
   //   actually occurring in clauses (with tautological clauses removed):
+  Degree_vec vardeg;
   Var max_a_index=0, max_e_index=0, max_index=0; // maximal occurring variable-index
   Var na=0, ne=0, n=0; // number occurring e/a/both variables
   Var max_a_length=0, max_e_length=0, max_c_length=0; // max number of a/e/both literals in clauses
@@ -766,12 +769,14 @@ inline void add_clause(const DClause& C) {
     F.max_c_length = std::max(sa+se, F.max_c_length);
     for (const Lit x : C.P.first) {
       const Var v = var(x);
+      ++F.vardeg[v];
       if (F.vt[v] != VT::fa) continue;
       F.max_a_index = std::max(v, F.max_a_index);
       F.vt[v] = VT::a; ++F.na;
     }
     for (const Lit x : C.P.second) {
       const Var v = var(x);
+      ++F.vardeg[v];
       if (F.vt[v] != VT::fe) continue;
       F.max_e_index = std::max(v, F.max_e_index);
       F.vt[v] = VT::e; ++F.ne;
@@ -780,7 +785,7 @@ inline void add_clause(const DClause& C) {
 }
 
 // Removing such a-variables from clauses, which aren't in a dependency of
-// some e-variable in that clause; degrade a-variables for formal a-variables
+// some e-variable in that clause; degrade a-variables to formal a-variables
 // at the end accordingly:
 void cleanup_clauses() noexcept {
 
@@ -801,6 +806,11 @@ ClauseSet operator()() {
   if (in.eof()) return F;
   read_dependencies();
   if (in.eof()) return F;
+  try { F.vardeg.resize(F.n_pl+1); }
+  catch (const std::bad_alloc&) {
+    errout << "Allocation error for degree-vector of size "<<F.n_pl<<".";
+    std::exit(code(Error::allocation));
+  }
   {DClause C;
    while (read_clause(C)) {
      add_clause(C);
