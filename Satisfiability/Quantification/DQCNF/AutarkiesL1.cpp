@@ -47,7 +47,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.2.10";
+const std::string version = "0.2.11";
 const std::string date = "3.7.2018";
 
 const std::string program = "autL1";
@@ -1088,9 +1088,9 @@ void output(const std::string filename, const ConformityLevel cl, const ClauseSe
          "c min_dep_size                          " << F.min_s_dep << "\n"
          "c max_dep_size                          " << F.max_s_dep << "\n"
          "c num_different_dep_sets                " << F.count_dep << "\n"
-         "c num_literal_occurrences               " << F.la << "\n"
+         "c num_a_literal_occurrences             " << F.la << "\n"
          "c num_e_literal_occurrences             " << F.le << "\n"
-         "c num_a_literal_occurrences             " << F.l << "\n"
+         "c num_literal_occurrences               " << F.l << "\n"
          "c Encoding:\n"
          "c ncs                                   " << enc.ncs << "\n"
          "c nbf                                   " << enc.nbf << "\n"
