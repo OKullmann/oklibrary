@@ -37,6 +37,7 @@ License, or any later version. */
 #include <set>
 #include <array>
 #include <map>
+#include <iterator>
 
 #include <cstdlib>
 #include <cstdint>
@@ -46,7 +47,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.2.8";
+const std::string version = "0.2.10";
 const std::string date = "3.7.2018";
 
 const std::string program = "autL1";
@@ -286,6 +287,7 @@ static_assert((1_l).index() == 1, "Index extraction wrong.");
 static_assert((-1_l).index() == -1, "Index extraction wrong.");
 static_assert((1_l).posi(), "Positivity determination wrong.");
 static_assert((-1_l).negi(), "Negativity determination wrong.");
+static_assert(Lit(1_l) == 1_l, "Problem with copy-construction.");
 
 
 // Boolean function type (nonconstant, false, or true):
@@ -384,6 +386,7 @@ static_assert(not Litc().variable(), "Problem with variability determination.");
 static_assert(not Litc(BFt::f).variable(), "Problem with variability determination.");
 static_assert(not Litc(BFt::t).variable(), "Problem with variability determination.");
 static_assert(Litc(1_l).variable(), "Problem with variability determination.");
+static_assert(Litc(bf(true)) == bf(true), "Problem with copy-construction.");
 
 
 // --- Data structures for clause and clause-sets ---
@@ -871,10 +874,18 @@ struct Encoding {
   typedef std::vector<Var> Var_vec;
   const Var_vec bfvar_indices;
 
-  const Var ncs, nbf;
+  // The set of all partial assignments occurring:
+  typedef PassSet::const_iterator Pass_it;
+  typedef PassSet::const_pointer Pass_p;
+  typedef std::set<Pass_p> Solution_set;
+  typedef std::vector<Solution_set> Solset_vec;
+  typedef std::pair<PassSet, Solset_vec> All_solutions;
+  const All_solutions all_solutions;
+
+  const Var ncs, nbf, npa;
 
   Encoding(const ClauseSet& F) :
-    F(F), E(extract_evar()), E_index(extract_eindices()), dep(convert_dependencies()), dclauses(list_iterators()), bfvar_indices(set_bfvar_indices()), ncs(F.c), nbf(bfvar_indices.back() - F.c) {}
+    F(F), E(extract_evar()), E_index(extract_eindices()), dep(convert_dependencies()), dclauses(list_iterators()), bfvar_indices(set_bfvar_indices()), all_solutions(set_all_solutions()), ncs(F.c), nbf(bfvar_indices.back() - F.c), npa(all_solutions.first.size()) {}
 
   Var csvar(const clause_index_t C) const noexcept {
     assert(C < F.c);
@@ -943,6 +954,50 @@ private :
     }
     ind[F.ne] = current;
     return ind;
+  }
+
+  All_solutions set_all_solutions() const {
+    All_solutions all_sol;
+    all_sol.second.resize(F.c);
+    for (Count_t ci = 0; ci < F.c; ++ci) {
+      const DClause& C(*dclauses[ci]);
+      Solution_set& pas(all_sol.second[ci]);
+      for (const Lit x : C.P.second) {
+        const Var v = var(x);
+        Pass pa; pa[v] = bf(x.posi());
+        pas.insert(&*all_sol.first.insert(pa).first);
+      }
+      for (const Lit x : C.P.first) {
+        const Var v = var(x);
+        for (const Lit y : C.P.second) {
+          const Var w = var(y);;
+          if (F.D[w]->find(v) != F.D[w]->end()) {
+            Pass pa; pa[w] = Litc( (sign(x)==sign(y)) ? -x : x);
+            pas.insert(&*all_sol.first.insert(pa).first);
+          }
+        }
+      }
+      for (const Lit x : C.P.second) {
+        const Var v = var(x);
+        const auto begx = F.D[v]->begin();
+        const auto endx = F.D[v]->end();
+        for (const Lit y : C.P.second) {
+          if (not (x < y)) continue;
+          const Var w = var(y);
+          assert(v != w);
+          std::vector<Var> I;
+          std::set_intersection(begx,endx,F.D[w]->begin(),F.D[w]->end(),std::back_inserter(I));
+          for (const Var u : I) {
+            const Litc u1{Lit(u)}, u2{(sign(x)==sign(y))?-u1:u1};
+            Pass pa; pa[v]=u1, pa[w]=u2;
+            pas.insert(&*all_sol.first.insert(pa).first);
+            pa.clear(); pa[v]=-u1, pa[w]=-u2;
+            pas.insert(&*all_sol.first.insert(pa).first);
+          }
+        }
+      }
+    }
+    return all_sol;
   }
 
 };
@@ -1038,7 +1093,8 @@ void output(const std::string filename, const ConformityLevel cl, const ClauseSe
          "c num_a_literal_occurrences             " << F.l << "\n"
          "c Encoding:\n"
          "c ncs                                   " << enc.ncs << "\n"
-         "c nbf                                   " << enc.nbf << "\n";
+         "c nbf                                   " << enc.nbf << "\n"
+         "c npa                                   " << enc.npa << "\n";
   logout.endl();
 }
 
