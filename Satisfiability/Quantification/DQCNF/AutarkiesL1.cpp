@@ -46,7 +46,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.2.5";
+const std::string version = "0.2.6";
 const std::string date = "3.7.2018";
 
 const std::string program = "autL1";
@@ -304,7 +304,7 @@ static_assert(-BFt::f == BFt::t, "Problem with negating BFt.");
    Constructors:
     - Litc() (singular)
     - Litc(x) for Lit x
-    - lit_tf(t) for BFt t
+    - Litc(t) for BFt t
    And bf(b) for bool b yields Litc.
    Exactly one of x.sing(), x.constant(), x.variable() is true for Litc x.
    Operations:
@@ -839,18 +839,46 @@ struct Encoding {
   // Vector of existential variables:
   typedef std::vector<Var> Evar_vec;
   const Evar_vec E;
+  // For each e-var its index in E;
+  const Evar_vec E_index;
+
+  // Vector of dependencies as vectors:
+  typedef std::vector<Var> Avar_vec;
+  typedef std::vector<Avar_vec> Dep_vec;
+  const Dep_vec dep;
 
   // Vector of Dclause-iterators:
   typedef std::vector<dclause_it> Dclause_vec;
   typedef Dclause_vec::size_type clause_index_t;
   const Dclause_vec dclauses;
 
+  // Vector of bf-indices (for given e-index the starting point):
+  typedef std::vector<Var> Var_vec;
+  const Var_vec bfvar_indices;
+
   Encoding(const ClauseSet& F) :
-    F(F), E(extract_evar()), dclauses(list_iterators()) {}
+    F(F), E(extract_evar()), E_index(extract_eindices()), dep(convert_dependencies()), dclauses(list_iterators()), bfvar_indices(set_bfvar_indices()) {}
 
   Var csvar(const clause_index_t C) const noexcept {
-    assert(C >= 1);
+    assert(C < F.c);
     return C+1;
+  }
+
+  Var bfvar(const Var v, const Litc f) const noexcept {
+    const Var i = E_index[v];
+    assert(i < F.ne);
+    const Var base_index = bfvar_indices[i];
+    const Lit x{f};
+    const Var w = var(Lit(f));
+    assert(w == 0 or F.D[w]->find(w) != F.D[w]->end());
+    if (w == 0) {
+      assert(f.constant());
+      return (f == bf(false)) ? base_index : base_index + 1;
+    }
+    const auto w_it = std::lower_bound(dep[i].begin(), dep[i].end(), w);
+    assert(*w_it == w);
+    const Var j = base_index + 2 + 2 * (w_it - dep[i].begin());
+    return (x.negi()) ? j : j+1;
   }
 
 private :
@@ -860,7 +888,15 @@ private :
     e.reserve(F.ne);
     for (Var v = 1; v <= F.max_e_index; ++v)
       if (F.vt[v] == VT::e) e.push_back(v);
+    assert(e.size() == F.ne);
     return e;
+  }
+
+  Evar_vec extract_eindices() const {
+    Evar_vec ei;
+    ei.reserve(F.max_e_index+1);
+    for (Var i = 0; i < F.ne; ++i) ei[E[i]] = i;
+    return ei;
   }
 
   Dclause_vec list_iterators() const {
@@ -868,6 +904,27 @@ private :
     dc.reserve(F.c);
     for (dclause_it it = F.F.begin(); it != F.F.end(); ++it) dc.push_back(it);
     return dc;
+  }
+
+  Dep_vec convert_dependencies() const {
+    Dep_vec d;
+    d.resize(F.ne);
+    for (Var i = 0; i < F.ne; ++i) {
+      const Var v = E[i];
+      d[i].assign(F.D[v]->begin(), F.D[v]->end());
+    }
+    return d;
+  }
+
+  Var_vec set_bfvar_indices() const {
+    Var_vec ind;
+    ind.reserve(F.ne);
+    Var current = F.c + 1;
+    for (Var i = 0; i < F.ne; ++i) {
+      ind[i] = current;
+      current += 2*F.D[E[i]]->size() + 2;
+    }
+    return ind;
   }
 
 };
