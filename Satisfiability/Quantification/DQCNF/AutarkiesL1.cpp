@@ -50,7 +50,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.3.2";
+const std::string version = "0.4";
 const std::string date = "4.7.2018";
 
 const std::string program = "autL1";
@@ -427,6 +427,8 @@ struct DClause {
 };
 
 typedef std::vector<Count_t> Degree_vec;
+
+typedef std::vector<Clause> CLS;
 
 typedef std::set<DClause> DCLS;
 typedef DCLS::const_iterator dclause_it;
@@ -896,7 +898,12 @@ struct Encoding {
   const EncodingPass enc_pass;
 
   Encoding(const DClauseSet& F) :
-    F(F), E(extract_evar()), E_index(extract_eindices()), dep(convert_dependencies()), dclauses(list_iterators()), bfvar_indices(set_bfvar_indices()), all_solutions(set_all_solutions()), ncs(F.c), nbf(bfvar_indices.back() - F.c), npa(all_solutions.first.size()), n(ncs+nbf+npa), enc_pass(set_pass_encoding()) {}
+    F(F), E(extract_evar()), E_index(extract_eindices()), dep(convert_dependencies()), dclauses(list_iterators()), bfvar_indices(set_bfvar_indices()), all_solutions(set_all_solutions()), ncs(F.c), nbf(bfvar_indices.back() - F.c - 1), npa(all_solutions.first.size()), n(ncs+nbf+npa), enc_pass(set_pass_encoding()) {
+#if not NDEBUG
+    for (auto it = all_solutions.first.begin(); it != all_solutions.first.end(); ++it)
+      assert(enc_pass.find(&*it) != enc_pass.end());
+#endif
+  }
 
   Var csvar(const clause_index_t C) const noexcept {
     assert(C < F.c);
@@ -908,8 +915,8 @@ struct Encoding {
     assert(i < F.ne);
     const Var base_index = bfvar_indices[i];
     const Lit x{f};
-    const Var w = var(Lit(f));
-    assert(w == 0 or F.D[w]->find(w) != F.D[w]->end());
+    const Var w = var(x);
+    assert(w == 0 or F.D[v]->find(w) != F.D[v]->end());
     if (w == 0) {
       assert(f.constant());
       return (f == bf(false)) ? base_index : base_index + 1;
@@ -964,7 +971,7 @@ private :
   Var_vec set_bfvar_indices() const {
     Var_vec ind;
     ind.resize(F.ne+1);
-    Var current = F.c;
+    Var current = F.c+1;
     for (Var i = 0; i < F.ne; ++i) {
       ind[i] = current;
       current += 2*F.D[E[i]]->size() + 2;
@@ -978,11 +985,12 @@ private :
     all_sol.second.resize(F.c);
     for (Count_t ci = 0; ci < F.c; ++ci) {
       const DClause& C(*dclauses[ci]);
+      assert(ci < all_sol.second.size());
       Solution_set& pas(all_sol.second[ci]);
       for (const Lit x : C.P.second) {
         const Var v = var(x);
         Pass pa; pa[v] = bf(x.posi());
-        pas.insert(&*all_sol.first.insert(pa).first);
+        pas.insert(&*all_sol.first.insert(std::move(pa)).first);
       }
       for (const Lit x : C.P.first) {
         const Var v = var(x);
@@ -990,7 +998,7 @@ private :
           const Var w = var(y);;
           if (F.D[w]->find(v) != F.D[w]->end()) {
             Pass pa; pa[w] = Litc( (sign(x)==sign(y)) ? -x : x);
-            pas.insert(&*all_sol.first.insert(pa).first);
+            pas.insert(&*all_sol.first.insert(std::move(pa)).first);
           }
         }
       }
@@ -1009,12 +1017,12 @@ private :
             Pass pa; pa[v]=u1, pa[w]=u2;
             pas.insert(&*all_sol.first.insert(pa).first);
             pa.clear(); pa[v]=-u1, pa[w]=-u2;
-            pas.insert(&*all_sol.first.insert(pa).first);
+            pas.insert(&*all_sol.first.insert(std::move(pa)).first);
           }
         }
       }
     }
-    return all_sol;
+    return std::move(all_sol); // to emphasise the necessity (maintaining pointers)
   }
 
   EncodingPass set_pass_encoding() const {
@@ -1034,9 +1042,67 @@ private :
 struct Translation {
 
   const DClauseSet& F;
-  const Encoding enc;
+  const Encoding& enc;
+
+  mutable Count_t c_cs=0, c_palr=0, c_parl=0, c_P=0, c_N=0, c_amo=0;
 
   Translation(const DClauseSet& F, const Encoding& enc) noexcept : F(F), enc(enc) {}
+
+  CLS operator()() const {
+    CLS G;
+    {Clause C;
+     for (Encoding::clause_index_t i = 0; i < enc.ncs; ++i)
+       C.insert(Lit(enc.csvar(i),Pol::p));
+     G.push_back(std::move(C)); ++c_cs;
+    }
+    {for (auto it = enc.all_solutions.first.begin(); it != enc.all_solutions.first.end(); ++it) {
+      const Encoding::Pass_p phi_p = &*it;
+      const Pass& phi = *it;
+      const Var tphi = enc.pavar(phi_p);
+      {const Lit negtphi = Lit(tphi,Pol::n);
+       for (const auto& pair : phi) {
+         Clause C; C.insert(negtphi);
+         C.insert(Lit(enc.bfvar(pair.first, pair.second), Pol::p));
+         G.push_back(std::move(C)); ++c_palr;
+       }
+      }
+      {Clause C; C.insert(Lit(tphi,Pol::p));
+       for (const auto& pair : phi)
+         C.insert(Lit(enc.bfvar(pair.first, pair.second), Pol::n));
+       G.push_back(std::move(C)); ++c_parl;
+      }
+     }
+    }
+    {
+     for (Encoding::clause_index_t i = 0; i < enc.ncs; ++i) {
+       const Var tc = enc.csvar(i);
+       {Clause C; C.insert(Lit(tc,Pol::n));
+        for (const Encoding::Pass_p phi_p : enc.all_solutions.second[i])
+          C.insert(Lit(enc.pavar(phi_p),Pol::p));
+        G.push_back(std::move(C)); ++c_P;
+       }
+       for (const Lit x : enc.dclauses[i]->P.second) {
+         const Var v = enc.E_index[var(x)];
+         assert(v < F.ne);
+         for (Var bfi = enc.bfvar_indices[v]; bfi < enc.bfvar_indices[v+1]; ++bfi) {
+           Clause C; C.insert(Lit(tc,Pol::p)); C.insert(Lit(bfi,Pol::n));
+           G.push_back(std::move(C)); ++c_N;
+         }
+       }
+     }
+    }
+    {
+     for (Var i = 0; i < F.ne; ++i) {
+       const Var beg = enc.bfvar_indices[i], end = enc.bfvar_indices[i+1];
+       for (Var v = beg; v < end; ++v)
+         for (Var w = v+1; w < end; ++w) {
+           Clause C; C.insert(Lit(v,Pol::n)), C.insert(Lit(w,Pol::n));
+           G.push_back(std::move(C)); ++c_amo;
+         }
+     }
+    }
+    return G;
+  }
 
 };
 
@@ -1101,7 +1167,7 @@ void version_information() {
   std::exit(0);
 }
 
-void output(const std::string filename, const ConformityLevel cl, const DClauseSet& F, const Encoding& enc) {
+void output(const std::string filename, const ConformityLevel cl, const DClauseSet& F, const Encoding& enc, const Translation& trans, const CLS& G) {
   logout <<
          "c Parameter (command line, file):\n"
          "c file_name                             " << filename << "\n"
@@ -1133,8 +1199,23 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c ncs                                   " << enc.ncs << "\n"
          "c nbf                                   " << enc.nbf << "\n"
          "c npa                                   " << enc.npa << "\n"
-         "c n                                     " << enc.n << "\n";
+         "c n                                     " << enc.n << "\n"
+         "c Translation:\n"
+         "c c                                     " << G.size() << "\n"
+         "c c_cs                                  " << trans.c_cs << "\n"
+         "c c_palr                                " << trans.c_palr << "\n"
+         "c c_parl                                " << trans.c_parl << "\n"
+         "c c_P                                   " << trans.c_P << "\n"
+         "c c_N                                   " << trans.c_N << "\n"
+         "c c_amo                                 " << trans.c_amo << "\n";
   logout.endl();
+
+  solout << "p cnf " << enc.n << " " << G.size() << "\n";
+  for (const Clause& C : G) {
+    for (const Lit x : C)
+      solout << x << " ";
+    solout << "0\n";
+  }
 }
 
 
@@ -1163,6 +1244,7 @@ int main(const int argc, const char* const argv[]) {
   const Encoding enc(F);
 
   Translation trans(F,enc);
+  const CLS G = trans();
 
-  output(filename, conlev, F, enc);
+  output(filename, conlev, F, enc, trans, G);
 }
