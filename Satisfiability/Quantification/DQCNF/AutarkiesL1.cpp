@@ -431,7 +431,7 @@ typedef std::vector<Count_t> Degree_vec;
 typedef std::set<DClause> DCLS;
 typedef DCLS::const_iterator dclause_it;
 
-struct ClauseSet {
+struct DClauseSet {
   DCLS F;
   VTvector vt;
   VarSetsystem dep_sets;
@@ -484,7 +484,7 @@ ConformityLevel s2conlev(const std::string& s) {
 class ReadDimacs {
 
 std::istream& in;
-ClauseSet F;
+DClauseSet F;
 ConformityLevel conlev;
 
 // Aborts via std::exit in case of input-errors:
@@ -556,8 +556,8 @@ void read_dependencies() noexcept {
     std::exit(code(Error::allocation));
   }
   struct Finish { // marking unset variables as fe with empty domain
-    ClauseSet& F0;
-    Finish(ClauseSet& F) : F0(F) {}
+    DClauseSet& F0;
+    Finish(DClauseSet& F) : F0(F) {}
     ~Finish() {
       const Dependency emptyset = F0.dep_sets.find(Varset());
       assert(emptyset != F0.dep_sets.end());
@@ -819,7 +819,7 @@ public :
 ReadDimacs(std::istream& in, const ConformityLevel cl) noexcept :
   in(in), conlev(cl) {}
 
-ClauseSet operator()() {
+DClauseSet operator()() {
   read_header();
   if (in.eof()) return F;
   read_dependencies();
@@ -860,7 +860,7 @@ ClauseSet operator()() {
 
 struct Encoding {
 
-  const ClauseSet& F;
+  const DClauseSet& F;
 
   // Vector of existential variables:
   typedef std::vector<Var> Evar_vec;
@@ -895,7 +895,7 @@ struct Encoding {
   typedef std::map<Pass_p,Var> EncodingPass;
   const EncodingPass enc_pass;
 
-  Encoding(const ClauseSet& F) :
+  Encoding(const DClauseSet& F) :
     F(F), E(extract_evar()), E_index(extract_eindices()), dep(convert_dependencies()), dclauses(list_iterators()), bfvar_indices(set_bfvar_indices()), all_solutions(set_all_solutions()), ncs(F.c), nbf(bfvar_indices.back() - F.c), npa(all_solutions.first.size()), n(ncs+nbf+npa), enc_pass(set_pass_encoding()) {}
 
   Var csvar(const clause_index_t C) const noexcept {
@@ -1033,10 +1033,10 @@ private :
 
 struct Translation {
 
-  const ClauseSet& F;
+  const DClauseSet& F;
   const Encoding enc;
 
-  Translation(const ClauseSet& F, const Encoding& enc) noexcept : F(F), enc(enc) {}
+  Translation(const DClauseSet& F, const Encoding& enc) noexcept : F(F), enc(enc) {}
 
 };
 
@@ -1101,7 +1101,7 @@ void version_information() {
   std::exit(0);
 }
 
-void output(const std::string filename, const ConformityLevel cl, const ClauseSet& F, const Encoding& enc) {
+void output(const std::string filename, const ConformityLevel cl, const DClauseSet& F, const Encoding& enc) {
   logout <<
          "c Parameter (command line, file):\n"
          "c file_name                             " << filename << "\n"
@@ -1158,7 +1158,7 @@ int main(const int argc, const char* const argv[]) {
   set_output(argc, argv);
   const Input in(filename);
   ReadDimacs rd(*in, conlev);
-  const ClauseSet F = rd();
+  const DClauseSet F = rd();
 
   const Encoding enc(F);
 
