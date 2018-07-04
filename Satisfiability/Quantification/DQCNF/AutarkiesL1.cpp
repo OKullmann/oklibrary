@@ -21,10 +21,20 @@ License, or any later version. */
 
   USAGE:
 
-> autL1 input [output] [log] [conformity-level]
+> autL1 input [file-output] [log] [conformity-level]
 
 A parameter can only be used iff all parameters to the left of it are
 specified.
+
+For the input, either a filename or "-cin" (standard input) can be used.
+
+For the two outputs, file-output and log, the default is standard output.
+Other possibilities are:
+ - a filename (possible equal for both)
+ - "-cout" for standard output
+ - "-cerr" for standard error
+ - "-clog" for standard log
+ - "-nil" for no output.
 
 */
 
@@ -50,7 +60,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.4.1";
+const std::string version = "0.4.2";
 const std::string date = "4.7.2018";
 
 const std::string program = "autL1"
@@ -191,6 +201,8 @@ public :
   while variables are unsigned.
 
   Polarities pos, neg are expressed via the enumeration-type Pol.
+
+  Var is just a typedef of an unsigned integral type.
 
   Operations for Lit_int x, Lit y,y', Var v, Pol p:
 
@@ -1116,22 +1128,22 @@ struct Translation {
 
 void show_usage() {
   std::cout << "USAGE:\n"
-    "> " << program << " (-v | --version)\n"
+    "> " << program << " [-v | --version]\n"
     " shows version informations and exits.\n"
-    "> " << program << " (-cin | filename)\n"
+    "> " << program << " [-cin | filename]\n"
     " runs the translator with input from standard input or filename.\n"
-    "> " << program << " (-cin | filename) (-cout | -cerr | filename2 | -nil)\n"
+    "> " << program << " [-cin | filename] [-cout | -cerr | filename2 | -nil]\n"
       " furthermore appends the DIMACS-output to standard output or standard error or filename2, or ignores it\n "
       "(default is -cout).\n"
-    "The same redirection can be done with the statistics output (as a third command-argument; default is -cout).\n"
-    "For example, with\n"
+    "The same redirection can be done with the log-output, as a third command-argument; default is -cout.\n"
+    "If DIMACS- and log-output are equal, then first comes the log-output (as DIMACS-comment).\n"
+    "A fourth optional argument is the conformity-level: g, n, s, vs.\n"
+    "\nFor example, with\n"
     "> " << program << " -cin Out -nil\n"
-    "input comes from standard input, the translation is put to file Out, and the statistics are discarded.\n"
+    "input comes from standard input, the translation is put to file Out, and the log is discarded.\n"
     "While with\n"
     "> " << program << " In Out Out\n"
-    "the input comes from file In, and both translations and statistics are appended to Out "
-      "(first the statistics).\n"
-      "A fourth optional argument is the conformity-level: g, n, s, vs.\n";
+    "the input comes from file In, and both translation and log are appended to Out.\n";
   std::exit(0);
 }
 
