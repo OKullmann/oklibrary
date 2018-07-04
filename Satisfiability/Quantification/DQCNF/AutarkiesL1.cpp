@@ -856,7 +856,7 @@ ClauseSet operator()() {
 }; // class ReadDimacs
 
 
-// --- Translation ---
+// --- Encoding (of variables) ---
 
 struct Encoding {
 
@@ -1029,6 +1029,17 @@ private :
 };
 
 
+// --- Translation ---
+
+struct Translation {
+
+  const ClauseSet& F;
+  const Encoding enc;
+
+  Translation(const ClauseSet& F, const Encoding& enc) noexcept : F(F), enc(enc) {}
+
+};
+
 // --- Output ---
 
 void show_usage() {
@@ -1150,6 +1161,8 @@ int main(const int argc, const char* const argv[]) {
   const ClauseSet F = rd();
 
   const Encoding enc(F);
+
+  Translation trans(F,enc);
 
   output(filename, conlev, F, enc);
 }
