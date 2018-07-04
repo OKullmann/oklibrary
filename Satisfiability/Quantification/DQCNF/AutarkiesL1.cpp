@@ -50,10 +50,16 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.4";
+const std::string version = "0.4.1";
 const std::string date = "4.7.2018";
 
-const std::string program = "autL1";
+const std::string program = "autL1"
+#ifndef NDEBUG
+  "_debug"
+#endif
+;
+const std::string author = "\"Oliver Kullmann\"";
+const std::string url = "\"https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/DQCNF/AutarkiesL1.cpp\"";
 
 enum class Error {
   file_reading=1,
@@ -1134,9 +1140,8 @@ void show_usage() {
 
 void version_information() {
   std::cout << program << ":\n"
-   " author: Oliver Kullmann\n"
-   " url:\n"
-   "  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/DQCNF/AutarkiesL1.cpp\n"
+   " author: " << author << "\n"
+   " url:\n  " << url << "\n"
    " Version: " << version << "\n"
    " Last change date: " << date << "\n"
    " Macro settings:\n"
@@ -1169,8 +1174,13 @@ void version_information() {
 
 void output(const std::string filename, const ConformityLevel cl, const DClauseSet& F, const Encoding& enc, const Translation& trans, const CLS& G) {
   logout <<
+         "c Program information:\n"
+         "c created_by                            " << program << "\n"
+         "c version                               " << version << "\n"
+         "c author                                " << author << "\n"
+         "c url                                   " << url << "\n"
          "c Parameter (command line, file):\n"
-         "c file_name                             " << filename << "\n"
+         "c file_name                             " "\"" << filename << "\"\n"
          "c conformity_level                      " << cl << "\n"
          "c maximal_index_variables               " << F.n_pl << "\n"
          "c number_clauses                        " << F.c_pl << "\n"
@@ -1208,12 +1218,10 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c c_P                                   " << trans.c_P << "\n"
          "c c_N                                   " << trans.c_N << "\n"
          "c c_amo                                 " << trans.c_amo << "\n";
-  logout.endl();
 
   solout << "p cnf " << enc.n << " " << G.size() << "\n";
   for (const Clause& C : G) {
-    for (const Lit x : C)
-      solout << x << " ";
+    for (const Lit x : C) solout << x << " ";
     solout << "0\n";
   }
 }
