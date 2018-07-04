@@ -21,7 +21,10 @@ License, or any later version. */
 
   USAGE:
 
-> autL1 input [output] [log]
+> autL1 input [output] [log] [conformity-level]
+
+A parameter can only be used iff all parameters to the left of it are
+specified.
 
 */
 
@@ -47,8 +50,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.3.1";
-const std::string date = "3.7.2018";
+const std::string version = "0.3.2";
+const std::string date = "4.7.2018";
 
 const std::string program = "autL1";
 
@@ -472,7 +475,9 @@ std::ostream& operator <<(std::ostream& out, const ConformityLevel cl) noexcept 
 }
 // String to ConformityLevel:
 ConformityLevel s2conlev(const std::string& s) {
-  if (s == "s") return ConformityLevel::strict;
+  if (s == "g") return ConformityLevel::general;
+  else if (s == "s") return ConformityLevel::strict;
+  else if (s == "vs") return ConformityLevel::verystrict;
   else return ConformityLevel::normal;
 }
 
@@ -1042,7 +1047,8 @@ void show_usage() {
     "While with\n"
     "> " << program << " In Out Out\n"
     "the input comes from file In, and both translations and statistics are appended to Out "
-      "(first the statistics).\n";
+      "(first the statistics).\n"
+      "A fourth optional argument is the conformity-level: g, n, s, vs.\n";
   std::exit(0);
 }
 
