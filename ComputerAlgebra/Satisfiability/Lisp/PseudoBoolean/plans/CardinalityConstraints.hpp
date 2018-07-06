@@ -1,5 +1,5 @@
 // Matthew Gwynne, 16.7.2009 (Swansea)
-/* Copyright 2009, 2010, 2011, 2012 Oliver Kullmann
+/* Copyright 2009, 2010, 2011, 2012, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -253,7 +253,6 @@ is(Csa);
      by the clauses L(n):
       <ol>
        <li> x_i -> s_i for 1 <= i <= n-1 </li>
-       <li> x_n -> -s_{n-1} </li>
        <li> s_i -> s_{i+1} for 1 <= i <= n-2 </li>
        <li> s_i -> -x_{i+1} for 1 <= i <= n-1. </li>
       </ol>
@@ -261,18 +260,27 @@ is(Csa);
      <li> The meaning of the equivalent boolean function
      f(x_1,...,x_n, s_1,...,s_{n-1}) is
       <ol>
-       <li> The s_i are defined from the x_j by: s_i is true iff some
-       x_j for j <= i is true. </li>
-       <li> f is true iff at most one of the x_i is true. </li>
-       <li> Actually, this function f is not equivalent to L(n), for
-       example L(n) allows to set all x_i to false while setting all
-       s_i to true (while one could also set all s_i to false here). </li>
-       <li> The above L(n) does not have the unique-extension-property (uep).
+       <li> The s_i are obtained from the x_j by:
+         s_i >= x_1 v ... v x_i
+         s_1 <= s_2 <= ... <= s_{n-1}
+         (by the first two conditions)
+         s_i=1 implies x_{i+1}=0 (third condition).
        </li>
-       <li> The correct explanations of the s_i is that setting one x_i to
-       true forces all s_j for i <= j <= n-1 to be true, while otherwise they
-       are undetermined. </li>
-       <li> Making it uep, by actually implementing f, doesn't seem so cheap?
+       <li> f is true iff at most one of the x_i is true. </li>
+       <li> L(n) allows to set all x_i to false while setting all
+       s_i to true (while one could also set all s_i to false here). </li>
+       <li> So L(n) does not have the unique-extension-property (uep).
+       </li>
+       <li> So setting one x_i to true forces all s_j for i <= j <= n-1 to be
+       true, while otherwise they are undetermined (up to monotonicity). </li>
+       <li> Making it uep: for counting this is needed. Can happen by using
+         s_{i+1} = s_i v x_i, that is, adding the clauses
+         -s_{i+1} v s_i v x_i for (i <= i <= n-1).
+       </li>
+       <li> One can save s_1, instead having
+         -x_1 v -x_2
+         x_1 -> s_2, x_2 -> s_2 (for n >= 3)
+         plus -s_2 v x_1 v x_2 for uep.
        </li>
       </ol>
      </li>

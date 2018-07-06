@@ -21,7 +21,20 @@ License, or any later version. */
 
   USAGE:
 
-> autL1 input [output] [log]
+> autL1 input [file-output] [log] [conformity-level]
+
+A parameter can only be used iff all parameters to the left of it are
+specified.
+
+For the input, either a filename or "-cin" (standard input) can be used.
+
+For the two outputs, file-output and log, the default is standard output.
+Other possibilities are:
+ - a filename (possible equal for both)
+ - "-cout" for standard output
+ - "-cerr" for standard error
+ - "-clog" for standard log
+ - "-nil" for no output.
 
 */
 
@@ -47,10 +60,16 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.3.1";
-const std::string date = "3.7.2018";
+const std::string version = "0.4.2";
+const std::string date = "4.7.2018";
 
-const std::string program = "autL1";
+const std::string program = "autL1"
+#ifndef NDEBUG
+  "_debug"
+#endif
+;
+const std::string author = "\"Oliver Kullmann\"";
+const std::string url = "\"https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/DQCNF/AutarkiesL1.cpp\"";
 
 enum class Error {
   file_reading=1,
@@ -182,6 +201,8 @@ public :
   while variables are unsigned.
 
   Polarities pos, neg are expressed via the enumeration-type Pol.
+
+  Var is just a typedef of an unsigned integral type.
 
   Operations for Lit_int x, Lit y,y', Var v, Pol p:
 
@@ -425,10 +446,12 @@ struct DClause {
 
 typedef std::vector<Count_t> Degree_vec;
 
+typedef std::vector<Clause> CLS;
+
 typedef std::set<DClause> DCLS;
 typedef DCLS::const_iterator dclause_it;
 
-struct ClauseSet {
+struct DClauseSet {
   DCLS F;
   VTvector vt;
   VarSetsystem dep_sets;
@@ -472,14 +495,16 @@ std::ostream& operator <<(std::ostream& out, const ConformityLevel cl) noexcept 
 }
 // String to ConformityLevel:
 ConformityLevel s2conlev(const std::string& s) {
-  if (s == "s") return ConformityLevel::strict;
+  if (s == "g") return ConformityLevel::general;
+  else if (s == "s") return ConformityLevel::strict;
+  else if (s == "vs") return ConformityLevel::verystrict;
   else return ConformityLevel::normal;
 }
 
 class ReadDimacs {
 
 std::istream& in;
-ClauseSet F;
+DClauseSet F;
 ConformityLevel conlev;
 
 // Aborts via std::exit in case of input-errors:
@@ -551,8 +576,8 @@ void read_dependencies() noexcept {
     std::exit(code(Error::allocation));
   }
   struct Finish { // marking unset variables as fe with empty domain
-    ClauseSet& F0;
-    Finish(ClauseSet& F) : F0(F) {}
+    DClauseSet& F0;
+    Finish(DClauseSet& F) : F0(F) {}
     ~Finish() {
       const Dependency emptyset = F0.dep_sets.find(Varset());
       assert(emptyset != F0.dep_sets.end());
@@ -814,7 +839,7 @@ public :
 ReadDimacs(std::istream& in, const ConformityLevel cl) noexcept :
   in(in), conlev(cl) {}
 
-ClauseSet operator()() {
+DClauseSet operator()() {
   read_header();
   if (in.eof()) return F;
   read_dependencies();
@@ -851,11 +876,11 @@ ClauseSet operator()() {
 }; // class ReadDimacs
 
 
-// --- Translation ---
+// --- Encoding (of variables) ---
 
 struct Encoding {
 
-  const ClauseSet& F;
+  const DClauseSet& F;
 
   // Vector of existential variables:
   typedef std::vector<Var> Evar_vec;
@@ -890,8 +915,13 @@ struct Encoding {
   typedef std::map<Pass_p,Var> EncodingPass;
   const EncodingPass enc_pass;
 
-  Encoding(const ClauseSet& F) :
-    F(F), E(extract_evar()), E_index(extract_eindices()), dep(convert_dependencies()), dclauses(list_iterators()), bfvar_indices(set_bfvar_indices()), all_solutions(set_all_solutions()), ncs(F.c), nbf(bfvar_indices.back() - F.c), npa(all_solutions.first.size()), n(ncs+nbf+npa), enc_pass(set_pass_encoding()) {}
+  Encoding(const DClauseSet& F) :
+    F(F), E(extract_evar()), E_index(extract_eindices()), dep(convert_dependencies()), dclauses(list_iterators()), bfvar_indices(set_bfvar_indices()), all_solutions(set_all_solutions()), ncs(F.c), nbf(bfvar_indices.back() - F.c - 1), npa(all_solutions.first.size()), n(ncs+nbf+npa), enc_pass(set_pass_encoding()) {
+#if not NDEBUG
+    for (auto it = all_solutions.first.begin(); it != all_solutions.first.end(); ++it)
+      assert(enc_pass.find(&*it) != enc_pass.end());
+#endif
+  }
 
   Var csvar(const clause_index_t C) const noexcept {
     assert(C < F.c);
@@ -903,8 +933,8 @@ struct Encoding {
     assert(i < F.ne);
     const Var base_index = bfvar_indices[i];
     const Lit x{f};
-    const Var w = var(Lit(f));
-    assert(w == 0 or F.D[w]->find(w) != F.D[w]->end());
+    const Var w = var(x);
+    assert(w == 0 or F.D[v]->find(w) != F.D[v]->end());
     if (w == 0) {
       assert(f.constant());
       return (f == bf(false)) ? base_index : base_index + 1;
@@ -959,7 +989,7 @@ private :
   Var_vec set_bfvar_indices() const {
     Var_vec ind;
     ind.resize(F.ne+1);
-    Var current = F.c;
+    Var current = F.c+1;
     for (Var i = 0; i < F.ne; ++i) {
       ind[i] = current;
       current += 2*F.D[E[i]]->size() + 2;
@@ -973,11 +1003,12 @@ private :
     all_sol.second.resize(F.c);
     for (Count_t ci = 0; ci < F.c; ++ci) {
       const DClause& C(*dclauses[ci]);
+      assert(ci < all_sol.second.size());
       Solution_set& pas(all_sol.second[ci]);
       for (const Lit x : C.P.second) {
         const Var v = var(x);
         Pass pa; pa[v] = bf(x.posi());
-        pas.insert(&*all_sol.first.insert(pa).first);
+        pas.insert(&*all_sol.first.insert(std::move(pa)).first);
       }
       for (const Lit x : C.P.first) {
         const Var v = var(x);
@@ -985,7 +1016,7 @@ private :
           const Var w = var(y);;
           if (F.D[w]->find(v) != F.D[w]->end()) {
             Pass pa; pa[w] = Litc( (sign(x)==sign(y)) ? -x : x);
-            pas.insert(&*all_sol.first.insert(pa).first);
+            pas.insert(&*all_sol.first.insert(std::move(pa)).first);
           }
         }
       }
@@ -1004,12 +1035,12 @@ private :
             Pass pa; pa[v]=u1, pa[w]=u2;
             pas.insert(&*all_sol.first.insert(pa).first);
             pa.clear(); pa[v]=-u1, pa[w]=-u2;
-            pas.insert(&*all_sol.first.insert(pa).first);
+            pas.insert(&*all_sol.first.insert(std::move(pa)).first);
           }
         }
       }
     }
-    return all_sol;
+    return std::move(all_sol); // to emphasise the necessity (maintaining pointers)
   }
 
   EncodingPass set_pass_encoding() const {
@@ -1024,25 +1055,95 @@ private :
 };
 
 
+// --- Translation ---
+
+struct Translation {
+
+  const DClauseSet& F;
+  const Encoding& enc;
+
+  mutable Count_t c_cs=0, c_palr=0, c_parl=0, c_P=0, c_N=0, c_amo=0;
+
+  Translation(const DClauseSet& F, const Encoding& enc) noexcept : F(F), enc(enc) {}
+
+  CLS operator()() const {
+    CLS G;
+    {Clause C;
+     for (Encoding::clause_index_t i = 0; i < enc.ncs; ++i)
+       C.insert(Lit(enc.csvar(i),Pol::p));
+     G.push_back(std::move(C)); ++c_cs;
+    }
+    {for (auto it = enc.all_solutions.first.begin(); it != enc.all_solutions.first.end(); ++it) {
+      const Encoding::Pass_p phi_p = &*it;
+      const Pass& phi = *it;
+      const Var tphi = enc.pavar(phi_p);
+      {const Lit negtphi = Lit(tphi,Pol::n);
+       for (const auto& pair : phi) {
+         Clause C; C.insert(negtphi);
+         C.insert(Lit(enc.bfvar(pair.first, pair.second), Pol::p));
+         G.push_back(std::move(C)); ++c_palr;
+       }
+      }
+      {Clause C; C.insert(Lit(tphi,Pol::p));
+       for (const auto& pair : phi)
+         C.insert(Lit(enc.bfvar(pair.first, pair.second), Pol::n));
+       G.push_back(std::move(C)); ++c_parl;
+      }
+     }
+    }
+    {
+     for (Encoding::clause_index_t i = 0; i < enc.ncs; ++i) {
+       const Var tc = enc.csvar(i);
+       {Clause C; C.insert(Lit(tc,Pol::n));
+        for (const Encoding::Pass_p phi_p : enc.all_solutions.second[i])
+          C.insert(Lit(enc.pavar(phi_p),Pol::p));
+        G.push_back(std::move(C)); ++c_P;
+       }
+       for (const Lit x : enc.dclauses[i]->P.second) {
+         const Var v = enc.E_index[var(x)];
+         assert(v < F.ne);
+         for (Var bfi = enc.bfvar_indices[v]; bfi < enc.bfvar_indices[v+1]; ++bfi) {
+           Clause C; C.insert(Lit(tc,Pol::p)); C.insert(Lit(bfi,Pol::n));
+           G.push_back(std::move(C)); ++c_N;
+         }
+       }
+     }
+    }
+    {
+     for (Var i = 0; i < F.ne; ++i) {
+       const Var beg = enc.bfvar_indices[i], end = enc.bfvar_indices[i+1];
+       for (Var v = beg; v < end; ++v)
+         for (Var w = v+1; w < end; ++w) {
+           Clause C; C.insert(Lit(v,Pol::n)), C.insert(Lit(w,Pol::n));
+           G.push_back(std::move(C)); ++c_amo;
+         }
+     }
+    }
+    return G;
+  }
+
+};
+
 // --- Output ---
 
 void show_usage() {
   std::cout << "USAGE:\n"
-    "> " << program << " (-v | --version)\n"
+    "> " << program << " [-v | --version]\n"
     " shows version informations and exits.\n"
-    "> " << program << " (-cin | filename)\n"
+    "> " << program << " [-cin | filename]\n"
     " runs the translator with input from standard input or filename.\n"
-    "> " << program << " (-cin | filename) (-cout | -cerr | filename2 | -nil)\n"
+    "> " << program << " [-cin | filename] [-cout | -cerr | filename2 | -nil]\n"
       " furthermore appends the DIMACS-output to standard output or standard error or filename2, or ignores it\n "
       "(default is -cout).\n"
-    "The same redirection can be done with the statistics output (as a third command-argument; default is -cout).\n"
-    "For example, with\n"
+    "The same redirection can be done with the log-output, as a third command-argument; default is -cout.\n"
+    "If DIMACS- and log-output are equal, then first comes the log-output (as DIMACS-comment).\n"
+    "A fourth optional argument is the conformity-level: g, n, s, vs.\n"
+    "\nFor example, with\n"
     "> " << program << " -cin Out -nil\n"
-    "input comes from standard input, the translation is put to file Out, and the statistics are discarded.\n"
+    "input comes from standard input, the translation is put to file Out, and the log is discarded.\n"
     "While with\n"
     "> " << program << " In Out Out\n"
-    "the input comes from file In, and both translations and statistics are appended to Out "
-      "(first the statistics).\n";
+    "the input comes from file In, and both translation and log are appended to Out.\n";
   std::exit(0);
 }
 
@@ -1051,9 +1152,8 @@ void show_usage() {
 
 void version_information() {
   std::cout << program << ":\n"
-   " author: Oliver Kullmann\n"
-   " url:\n"
-   "  https://github.com/OKullmann/oklibrary/blob/master/Satisfiability/Quantification/DQCNF/AutarkiesL1.cpp\n"
+   " author: " << author << "\n"
+   " url:\n  " << url << "\n"
    " Version: " << version << "\n"
    " Last change date: " << date << "\n"
    " Macro settings:\n"
@@ -1084,10 +1184,15 @@ void version_information() {
   std::exit(0);
 }
 
-void output(const std::string filename, const ConformityLevel cl, const ClauseSet& F, const Encoding& enc) {
+void output(const std::string filename, const ConformityLevel cl, const DClauseSet& F, const Encoding& enc, const Translation& trans, const CLS& G) {
   logout <<
+         "c Program information:\n"
+         "c created_by                            " << program << "\n"
+         "c version                               " << version << "\n"
+         "c author                                " << author << "\n"
+         "c url                                   " << url << "\n"
          "c Parameter (command line, file):\n"
-         "c file_name                             " << filename << "\n"
+         "c file_name                             " "\"" << filename << "\"\n"
          "c conformity_level                      " << cl << "\n"
          "c maximal_index_variables               " << F.n_pl << "\n"
          "c number_clauses                        " << F.c_pl << "\n"
@@ -1116,8 +1221,21 @@ void output(const std::string filename, const ConformityLevel cl, const ClauseSe
          "c ncs                                   " << enc.ncs << "\n"
          "c nbf                                   " << enc.nbf << "\n"
          "c npa                                   " << enc.npa << "\n"
-         "c n                                     " << enc.n << "\n";
-  logout.endl();
+         "c n                                     " << enc.n << "\n"
+         "c Translation:\n"
+         "c c                                     " << G.size() << "\n"
+         "c c_cs                                  " << trans.c_cs << "\n"
+         "c c_palr                                " << trans.c_palr << "\n"
+         "c c_parl                                " << trans.c_parl << "\n"
+         "c c_P                                   " << trans.c_P << "\n"
+         "c c_N                                   " << trans.c_N << "\n"
+         "c c_amo                                 " << trans.c_amo << "\n";
+
+  solout << "p cnf " << enc.n << " " << G.size() << "\n";
+  for (const Clause& C : G) {
+    for (const Lit x : C) solout << x << " ";
+    solout << "0\n";
+  }
 }
 
 
@@ -1141,9 +1259,12 @@ int main(const int argc, const char* const argv[]) {
   set_output(argc, argv);
   const Input in(filename);
   ReadDimacs rd(*in, conlev);
-  const ClauseSet F = rd();
+  const DClauseSet F = rd();
 
   const Encoding enc(F);
 
-  output(filename, conlev, F, enc);
+  Translation trans(F,enc);
+  const CLS G = trans();
+
+  output(filename, conlev, F, enc, trans, G);
 }

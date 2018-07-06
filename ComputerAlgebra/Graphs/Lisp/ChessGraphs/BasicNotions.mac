@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/LinearEquations.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Numbering.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/ChessGraphs/BasicNotions.mac")$
 
 
 /* The N-Queens graph and SAT-representation */
@@ -411,8 +412,29 @@ partial_nqueens_counts : [2,5,18,87,462,2635,16870,118969,915442,7535369,
 /*
 
   https://en.wikipedia.org/wiki/Knight's_graph
+  Vertices: M*N
+  Edges   :  4*M*N − 6*(M+N) + 8 for N,M >= 2
 
 */
+
+knightjump_unbound_p(p1,p2) :=
+  (abs(first(p1)-first(p2)) = 1 and abs(second(p1)-second(p2)) = 2) or
+  (abs(first(p1)-first(p2)) = 2 and abs(second(p1)-second(p2)) = 1)$
+
+knightjumps_bound(p1,N,M) := subset(cartesian_product(setn(N),setn(M)),
+  lambda([p2], knightjump_unbound_p(p1,p2)))$
+
+knights_g(N,M) := block([SQ : cartesian_product(setn(N),setn(M))],
+  [SQ, subset(powerset(SQ,2), lambda([e], knightjump_unbound_p(first(e),second(e))))])$
+
+knights_g_numver(N,M) := N*M$
+knights_g_numedg(N,M) := if min(N,M) <= 1 then 0 else 4*N*M - 6*(N+M) + 8$
+
+knights_mg(N,M) := g2mg(knights_g(N,M))$
+
+one_hamilt_knights_path(N,M) := hamilton_path(knights_mg(N,M))$
+one_hamilt_knights_tour(N,M) := hamilton_cycle(knights_mg(N,M))$
+/* https://en.wikipedia.org/wiki/Knight%27s_tour#Existence */
 
 /*!
 \endhtmlonly
