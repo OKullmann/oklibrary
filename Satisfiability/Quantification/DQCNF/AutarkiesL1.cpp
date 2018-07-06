@@ -36,6 +36,36 @@ Other possibilities are:
  - "-clog" for standard log
  - "-nil" for no output.
 
+TODOS:
+
+1. Clean-up handling of statistics
+
+   And a more systematic treatment is needed, perhaps computing bundles
+   of connected statistics all at once, and after the basic data (clauses,
+   dependencies etc.) are established.
+
+2. More statistics on dependencies:
+    - average size
+    - number of maximal and minimal elements
+    - maximum length of a chain (height)
+    - width (maximum length of an antichain)
+
+3. Implementing linear-size version of amo (using auxiliary variables)
+    - A command-line variables specifies the number of variables from which
+      on that version of amo is used.
+    - See
+      ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
+    - Two versions: with and without unique-extension-property (the former
+      when we want to count solutions); again a command-line parameter is
+      needed.
+
+4. Implement
+    - cleanup_clauses()
+    - cleanup_dependencies()
+
+5. Determine the main parameters like number of pa-variables etc. from the
+   parameters of the DQCNF.
+
 */
 
 #include <limits>
