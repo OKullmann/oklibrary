@@ -1,0 +1,10 @@
+#!/bin/bash
+for F in $(find * \( -iname "*.qdimacs" -o -iname "*.dqdimacs" \) -print); do
+set +e
+  ./autL1_debug $F -nil -nil $1
+  result=$?
+  if [[ $result != 0 ]]; then
+    echo $result $F
+  fi
+done
+
