@@ -40,18 +40,7 @@ BUGS:
 
 1. app_tests/Maxima_271.dqdimacs
 
-The current encoding data is
-
-c ncs                                   5
-c nbf                                   38
-c npa                                   30
-c n                                     73
-
-which has npa apparently having 7 superfluous partial assignments:
- - The count in Maxima_271.dqdimacs says 23, but one needs to check this.
- - Definitely currently we have partial assignments with two variables, which
-   aren't minimal.
-Then tawSolver counts 137 solutions, while there should be 270.
+tawSolver counts 137 solutions, while there should be 270.
 For the latter count we also need to check the Maxima-level, whether the
 handling of equality of wbf's is correct (it seems that actually for these
 special functions no logical-equivalence-handling is needed).
@@ -110,8 +99,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.4.2";
-const std::string date = "4.7.2018";
+const std::string version = "0.4.3";
+const std::string date = "7.7.2018";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -1055,13 +1044,15 @@ private :
       const DClause& C(*dclauses[ci]);
       assert(ci < all_sol.second.size());
       Solution_set& pas(all_sol.second[ci]);
-      for (const Lit x : C.P.second) {
+      for (const Lit x : C.P.second) { // setting e-literals to true
         const Var v = var(x);
         Pass pa; pa[v] = bf(x.posi());
         pas.insert(&*all_sol.first.insert(std::move(pa)).first);
       }
-      for (const Lit x : C.P.first) {
+      Varset V;
+      for (const Lit x : C.P.first) { // e-literals as negations of a-literals
         const Var v = var(x);
+        V.insert(v);
         for (const Lit y : C.P.second) {
           const Var w = var(y);;
           if (F.D[w]->find(v) != F.D[w]->end()) {
@@ -1070,7 +1061,7 @@ private :
           }
         }
       }
-      for (const Lit x : C.P.second) {
+      for (const Lit x : C.P.second) { // two e-literals negating each other
         const Var v = var(x);
         const auto begx = F.D[v]->begin();
         const auto endx = F.D[v]->end();
@@ -1081,6 +1072,7 @@ private :
           std::vector<Var> I;
           std::set_intersection(begx,endx,F.D[w]->begin(),F.D[w]->end(),std::back_inserter(I));
           for (const Var u : I) {
+            if (V.find(u) != V.end()) continue;
             const Litc u1{Lit(u)}, u2{(sign(x)==sign(y))?-u1:u1};
             Pass pa; pa[v]=u1, pa[w]=u2;
             pas.insert(&*all_sol.first.insert(pa).first);
