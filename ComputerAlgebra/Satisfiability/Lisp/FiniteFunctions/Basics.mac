@@ -209,6 +209,7 @@ wbf_p(f) := listp(f) and length(f)=2 and setp(first(f)) and block(
  [V : first(f)],
   every_s(v_p, V) and every_s(boolval_p, map(second(f),all_tass(V))))$
 
+/* Whether two wbf's are equal (for the given domains): */
 equalp_wbf(f,g) := first(f)=first(g) and block([V:first(f)],
   every_s(lambda([phi], is(second(f)(phi)=second(g)(phi))), all_tass(V)))$
 
@@ -224,6 +225,9 @@ essentialcore_wbf(f) := block([V : first(f), V2, VD, f2 : second(f)],
   [V2, buildq([VD,f2], lambda([phi], f2(union(phi, VD))))])$
 
 freewbf_p(f) := every_s(lambda([v], essentialvar_wbf(v,f)), first(f))$
+
+/* Whether two wbf's are equal as elements of the free boolean algebra: */
+equalp_fwbf(f,g) := equalp_wbf(essentialcore_wbf(f), essentialcore_wbf(g))$
 
 
 /* ****************
