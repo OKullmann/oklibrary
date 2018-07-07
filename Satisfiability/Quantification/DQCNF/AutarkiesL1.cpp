@@ -36,6 +36,26 @@ Other possibilities are:
  - "-clog" for standard log
  - "-nil" for no output.
 
+BUGS:
+
+1. app_tests/Maxima_271.dqdimacs
+
+The current encoding data is
+
+c ncs                                   5
+c nbf                                   38
+c npa                                   30
+c n                                     73
+
+which has npa apparently having 7 superfluous partial assignments:
+ - The count in Maxima_271.dqdimacs says 23, but one needs to check this.
+ - Definitely currently we have partial assignments with two variables, which
+   aren't minimal.
+Then tawSolver counts 137 solutions, while there should be 270.
+For the latter count we also need to check the Maxima-level, whether the
+handling of equality of wbf's is correct (it seems that actually for these
+special functions no logical-equivalence-handling is needed).
+
 TODOS:
 
 1. Clean-up handling of statistics
