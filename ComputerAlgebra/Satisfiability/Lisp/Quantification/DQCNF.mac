@@ -63,6 +63,12 @@ var_dqpa(phi) := map(first,phi)$
    {[1,zero_wbf],[2,lit2wbf(3)]} : var = {1,2}
 */
 
+/* Whether two dqpa's phi1, phi2 are equal: */
+equalp_dqpa(phi1,phi2) := block([V1:var_dqpa(phi1)],
+  is(V1 = var_dqpa(phi2)) and
+  every_s(lambda([v],
+    equalp_fwbf(apply_dqpa(phi1,v), apply_dqpa(phi2,v))), V1))$
+
 /* Apply the dqpa phi to a literal x, with var(x) in var(phi): */
 apply_dqpa(phi,x) := if pos_l(x) then ev_sm(phi,x) else neg_wbf(ev_sm(phi,-x))$
 
