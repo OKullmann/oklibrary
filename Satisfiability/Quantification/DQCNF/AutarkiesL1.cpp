@@ -45,6 +45,9 @@ For the latter count we also need to check the Maxima-level, whether the
 handling of equality of wbf's is correct (it seems that actually for these
 special functions no logical-equivalence-handling is needed).
 
+It seems that for example the four autarkies with e-var-set {6,7,9,10}
+are missing.
+
 TODOS:
 
 1. Clean-up handling of statistics
@@ -1064,7 +1067,7 @@ private :
         const AVar v = var(x);
         V.insert(v);
         for (const ELit y : C.P.second) {
-          const Var w = var(y);
+          const EVar w = var(y);
           if (F.D[w]->find(v) != F.D[w]->end()) {
             Pass pa; pa[w] = Litc( (sign(x)==sign(y)) ? -x : x);
             pas.insert(&*all_sol.first.insert(std::move(pa)).first);
