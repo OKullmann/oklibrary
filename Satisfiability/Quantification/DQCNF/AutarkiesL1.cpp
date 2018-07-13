@@ -46,7 +46,8 @@ handling of equality of wbf's is correct (it seems that actually for these
 special functions no logical-equivalence-handling is needed).
 
 It seems that for example the four autarkies with e-var-set {6,7,9,10}
-are missing.
+are missing. Wrongly, setting variable variables 1 - 6 to true yields
+an unsatisfiable instance.
 
 TODOS:
 
