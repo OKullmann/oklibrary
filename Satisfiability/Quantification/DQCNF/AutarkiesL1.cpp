@@ -276,6 +276,9 @@ typedef std::make_unsigned<Lit_int>::type Var;
 static_assert(Lit_int(Var(max_lit)) == max_lit, "Problem with Var and Lit_int.");
 inline constexpr bool valid(const Var v) noexcept { return v <= Var(max_lit); }
 
+typedef Var AVar;
+typedef Var EVar;
+
 enum class Pol { n, p };
 inline constexpr Pol operator -(const Pol p) noexcept {
   return (p==Pol::p) ? Pol::n : Pol::p;
@@ -360,6 +363,9 @@ static_assert(-BFt::nc == BFt::nc, "Problem with negating BFt.");
 static_assert(-BFt::t == BFt::f, "Problem with negating BFt.");
 static_assert(-BFt::f == BFt::t, "Problem with negating BFt.");
 
+typedef Lit ALit;
+typedef Lit ELit;
+
 
 /* Literals plus true/false (the boolean functions with at most one var);
    the linear order is 0,false,true,-1,1,-2,2, ... .
@@ -374,20 +380,20 @@ static_assert(-BFt::f == BFt::t, "Problem with negating BFt.");
     - negation (operator - and in-place member neg()).
 */
 class Litc  {
-  Lit x;
+  ALit x;
   BFt t;
   /* Class invariants:
       - assert(t==BFt::nc or not x;);
       - exactly one of sing(), constant() or variable() is true.
   */
-  constexpr Litc(const Lit x, const BFt t) noexcept : x(x), t(t) {}
+  constexpr Litc(const ALit x, const BFt t) noexcept : x(x), t(t) {}
 public :
   Litc() = default;
-  constexpr explicit Litc(const Lit x) noexcept : x(x), t(BFt::nc) {}
+  constexpr explicit Litc(const ALit x) noexcept : x(x), t(BFt::nc) {}
   constexpr explicit Litc(const BFt t) noexcept : x(0), t(t) {}
 
   constexpr explicit operator BFt() const noexcept { return t; }
-  constexpr explicit operator Lit() const noexcept { return x; }
+  constexpr explicit operator ALit() const noexcept { return x; }
 
   constexpr Litc operator -() const noexcept { return Litc(-x,-t); }
   void neg() noexcept { x = -x; t = -t; }
@@ -412,15 +418,15 @@ static_assert(std::is_pod<Litc>::value, "Litc is not POD.");
 
 inline constexpr Litc bf(const bool b) { return (b) ? Litc(BFt::t) : Litc(BFt::f); }
 
-static_assert(Lit(Litc()) == 0_l, "Default construction of Litc does not yield singular literal.");
+static_assert(ALit(Litc()) == 0_l, "Default construction of Litc does not yield singular literal.");
 static_assert(BFt(Litc()) == BFt::nc, "Default construction of Litc is not nonconstant.");
 // Remark: As usual, as a local variable, the declaration "Litc x;" does not
 // initialise x.
-static_assert(Lit(Litc(1_l)) == 1_l, "Construction of Litc does not pass literal.");
+static_assert(ALit(Litc(1_l)) == 1_l, "Construction of Litc does not pass literal.");
 static_assert(BFt(Litc(1_l)) == BFt::nc, "Construction of Litc with literal is constant.");
-static_assert(Lit(bf(false)) == 0_l, "Construction of Litc with constant does not make literal singular.");
+static_assert(ALit(bf(false)) == 0_l, "Construction of Litc with constant does not make literal singular.");
 static_assert(BFt(bf(false)) == BFt::f, "Construction of Litc with false does not yield false.");
-static_assert(Lit(bf(true)) == 0_l, "Construction of Litc with constant does not make literal singular.");
+static_assert(ALit(bf(true)) == 0_l, "Construction of Litc with constant does not make literal singular.");
 static_assert(BFt(bf(true)) == BFt::t, "Construction of Litc with false does not yield false.");
 static_assert(Litc() == Litc(0_l), "Default construction not equal to explicit construction.");
 static_assert(Litc() != bf(false), "Default construction equal to constant function.");
@@ -463,14 +469,18 @@ inline constexpr bool et(const VT t) noexcept {return t==VT::fe or t==VT::e;}
 inline constexpr bool at(const VT t) noexcept {return t==VT::fa or t==VT::a;}
 
 typedef std::set<Var> Varset;
-typedef std::set<Varset> VarSetsystem;
+typedef Varset AVarset;
+typedef Varset EVarset;
+typedef std::set<AVarset> VarSetsystem;
 typedef VarSetsystem::const_iterator Dependency;
 typedef std::vector<Dependency> Dvector;
 typedef VarSetsystem::const_pointer Dependency_p;
 typedef std::map<Dependency_p, Count_t> DepCounts;
 
 typedef std::set<Lit> Clause;
-typedef std::pair<Clause,Clause> PairClause; // all-exists
+typedef Clause AClause;
+typedef Clause EClause;
+typedef std::pair<AClause,EClause> PairClause; // all-exists
 struct DClause {
   PairClause P; // A-E
   void clear() noexcept {P.first.clear(); P.second.clear();}
@@ -513,7 +523,7 @@ struct DClauseSet {
   Count_t t=0; // number of tautological clauses
 };
 
-typedef std::map<Var,Litc> Pass;
+typedef std::map<EVar,Litc> Pass;
 typedef std::set<Pass> PassSet;
 
 
@@ -628,7 +638,7 @@ void read_dependencies() noexcept {
       assert(F0.n_pl == F0.na_d + F0.ne_d);
     }
   } finish(F);
-  Varset A;
+  AVarset A;
   Dependency dep = F.dep_sets.insert(A).first;
   std::string line;
   enum class lt { begin, e, a, d }; // line type
@@ -754,7 +764,7 @@ bool read_clause(DClause& C) const noexcept {
   in >> x;
   if (in.eof()) return false;
   C.clear();
-  Clause CA, CE; // complemented clauses
+  AClause CA; EClause CE; // complemented clauses
   while (true) { // reading literals into C
     if (not in) {
       errout << "Invalid literal-read."; std::exit(code(Error::literal_read));
@@ -828,14 +838,14 @@ inline void add_clause(const DClause& C) {
     F.max_a_length = std::max(sa, F.max_a_length);
     F.max_e_length = std::max(se, F.max_e_length);
     F.max_c_length = std::max(sa+se, F.max_c_length);
-    for (const Lit x : C.P.first) {
+    for (const ALit x : C.P.first) {
       const Var v = var(x);
       ++F.vardeg[v];
       if (F.vt[v] != VT::fa) continue;
       F.max_a_index = std::max(v, F.max_a_index);
       F.vt[v] = VT::a; ++F.na;
     }
-    for (const Lit x : C.P.second) {
+    for (const ELit x : C.P.second) {
       const Var v = var(x);
       ++F.vardeg[v];
       if (F.vt[v] != VT::fe) continue;
@@ -900,7 +910,7 @@ DClauseSet operator()() {
 
   count_dependencies();
   F.count_dep = F.dep_sets.size();
-  for (const Varset& D : F.dep_sets) {
+  for (const AVarset& D : F.dep_sets) {
     const Var size = D.size();
     F.max_s_dep = std::max(size, F.max_s_dep);
     F.min_s_dep = std::min(size, F.min_s_dep);
@@ -922,13 +932,13 @@ struct Encoding {
   const DClauseSet& F;
 
   // Vector of existential variables:
-  typedef std::vector<Var> Evar_vec;
+  typedef std::vector<EVar> Evar_vec;
   const Evar_vec E;
   // For each e-var its index in E;
   const Evar_vec E_index;
 
   // Vector of dependencies as vectors:
-  typedef std::vector<Var> Avar_vec;
+  typedef std::vector<AVar> Avar_vec;
   typedef std::vector<Avar_vec> Dep_vec;
   const Dep_vec dep;
 
@@ -967,12 +977,12 @@ struct Encoding {
     return C+1;
   }
 
-  Var bfvar(const Var v, const Litc f) const noexcept {
+  Var bfvar(const EVar v, const Litc f) const noexcept {
     const Var i = E_index[v];
     assert(i < F.ne);
     const Var base_index = bfvar_indices[i];
-    const Lit x{f};
-    const Var w = var(x);
+    const ALit x{f};
+    const AVar w = var(x);
     assert(w == 0 or F.D[v]->find(w) != F.D[v]->end());
     if (w == 0) {
       assert(f.constant());
@@ -1019,7 +1029,7 @@ private :
     Dep_vec d;
     d.resize(F.ne);
     for (Var i = 0; i < F.ne; ++i) {
-      const Var v = E[i];
+      const EVar v = E[i];
       d[i].assign(F.D[v]->begin(), F.D[v]->end());
     }
     return d;
@@ -1044,36 +1054,36 @@ private :
       const DClause& C(*dclauses[ci]);
       assert(ci < all_sol.second.size());
       Solution_set& pas(all_sol.second[ci]);
-      for (const Lit x : C.P.second) { // setting e-literals to true
-        const Var v = var(x);
+      for (const ELit x : C.P.second) { // setting e-literals to true
+        const EVar v = var(x);
         Pass pa; pa[v] = bf(x.posi());
         pas.insert(&*all_sol.first.insert(std::move(pa)).first);
       }
-      Varset V;
-      for (const Lit x : C.P.first) { // e-literals as negations of a-literals
-        const Var v = var(x);
+      AVarset V;
+      for (const ALit x : C.P.first) { // e-literals as negations of a-literals
+        const AVar v = var(x);
         V.insert(v);
-        for (const Lit y : C.P.second) {
-          const Var w = var(y);;
+        for (const ELit y : C.P.second) {
+          const Var w = var(y);
           if (F.D[w]->find(v) != F.D[w]->end()) {
             Pass pa; pa[w] = Litc( (sign(x)==sign(y)) ? -x : x);
             pas.insert(&*all_sol.first.insert(std::move(pa)).first);
           }
         }
       }
-      for (const Lit x : C.P.second) { // two e-literals negating each other
-        const Var v = var(x);
+      for (const ELit x : C.P.second) { // two e-literals negating each other
+        const EVar v = var(x);
         const auto begx = F.D[v]->begin();
         const auto endx = F.D[v]->end();
-        for (const Lit y : C.P.second) {
+        for (const ELit y : C.P.second) {
           if (not (x < y)) continue;
-          const Var w = var(y);
+          const EVar w = var(y);
           assert(v != w);
-          std::vector<Var> I;
+          std::vector<AVar> I;
           std::set_intersection(begx,endx,F.D[w]->begin(),F.D[w]->end(),std::back_inserter(I));
-          for (const Var u : I) {
+          for (const AVar u : I) {
             if (V.find(u) != V.end()) continue;
-            const Litc u1{Lit(u)}, u2{(sign(x)==sign(y))?-u1:u1};
+            const Litc u1{ALit(u)}, u2{(sign(x)==sign(y))?-u1:u1};
             Pass pa; pa[v]=u1, pa[w]=u2;
             pas.insert(&*all_sol.first.insert(pa).first);
             pa.clear(); pa[v]=-u1, pa[w]=-u2;
