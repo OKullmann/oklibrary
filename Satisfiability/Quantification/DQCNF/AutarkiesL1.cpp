@@ -99,8 +99,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.4.3";
-const std::string date = "7.7.2018";
+const std::string version = "0.4.4";
+const std::string date = "13.7.2018";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -1120,15 +1120,18 @@ struct Translation {
 
   CLS operator()() const {
     CLS G;
+    // Non-triviality clause:
     {Clause C;
      for (Encoding::clause_index_t i = 0; i < enc.ncs; ++i)
        C.insert(Lit(enc.csvar(i),Pol::p));
      G.push_back(std::move(C)); ++c_cs;
     }
+    // Defining the pass's:
     {for (auto it = enc.all_solutions.first.begin(); it != enc.all_solutions.first.end(); ++it) {
       const Encoding::Pass_p phi_p = &*it;
       const Pass& phi = *it;
       const Var tphi = enc.pavar(phi_p);
+      // from left to right, i.e., t(phi) -> and_{v in var(phi)} t(v,phi(v)):
       {const Lit negtphi = Lit(tphi,Pol::n);
        for (const auto& pair : phi) {
          Clause C; C.insert(negtphi);
@@ -1136,6 +1139,7 @@ struct Translation {
          G.push_back(std::move(C)); ++c_palr;
        }
       }
+      // from right to left, i.e., (and_{v in var(phi)} t(v,phi(v))) -> t(phi):
       {Clause C; C.insert(Lit(tphi,Pol::p));
        for (const auto& pair : phi)
          C.insert(Lit(enc.bfvar(pair.first, pair.second), Pol::n));
@@ -1143,14 +1147,15 @@ struct Translation {
       }
      }
     }
-    {
-     for (Encoding::clause_index_t i = 0; i < enc.ncs; ++i) {
+    {for (Encoding::clause_index_t i = 0; i < enc.ncs; ++i) {
+       // t(C) -> P(C):
        const Var tc = enc.csvar(i);
        {Clause C; C.insert(Lit(tc,Pol::n));
         for (const Encoding::Pass_p phi_p : enc.all_solutions.second[i])
           C.insert(Lit(enc.pavar(phi_p),Pol::p));
         G.push_back(std::move(C)); ++c_P;
        }
+       // -t(C) -> N(C):
        for (const Lit x : enc.dclauses[i]->P.second) {
          const Var v = enc.E_index[var(x)];
          assert(v < F.ne);
@@ -1161,8 +1166,8 @@ struct Translation {
        }
      }
     }
-    {
-     for (Var i = 0; i < F.ne; ++i) {
+    // Amo-clauses for bf-variables:
+    {for (Var i = 0; i < F.ne; ++i) {
        const Var beg = enc.bfvar_indices[i], end = enc.bfvar_indices[i+1];
        for (Var v = beg; v < end; ++v)
          for (Var w = v+1; w < end; ++w) {
