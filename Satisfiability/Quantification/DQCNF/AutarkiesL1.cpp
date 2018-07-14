@@ -103,7 +103,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.4.5";
+const std::string version = "0.4.6";
 const std::string date = "14.7.2018";
 
 const std::string program = "autL1"
@@ -997,7 +997,7 @@ struct Encoding {
   typedef std::vector<Avar_vec> Dep_vec;
   const Dep_vec dep;
 
-  // Vector of Dclause-iterators:
+  // Vector of Dclause-iterators for e-var-indices:
   typedef std::vector<dclause_it> Dclause_vec;
   typedef Dclause_vec::size_type clause_index_t;
   const Dclause_vec dclauses;
@@ -1007,10 +1007,10 @@ struct Encoding {
   typedef std::vector<Var> Var_vec;
   const Var_vec bfvar_indices;
 
-  // The set of all partial assignments (satisfying clauses) occurring:
+  // The set of all occurring partial assignments (satisfying clauses):
   typedef PassSet::const_pointer Pass_p;
-  typedef std::set<Pass_p> Solution_set;
-  typedef std::vector<Solution_set> Solset_vec;
+  typedef std::set<Pass_p> Solution_set; // yields the pa-variables
+  typedef std::vector<Solution_set> Solset_vec; // for each clause-index the set of pointers to solution-pass's
   typedef std::pair<PassSet, Solset_vec> All_solutions;
   const All_solutions all_solutions;
 
@@ -1053,6 +1053,42 @@ struct Encoding {
     const auto find = enc_pass.find(phi);
     assert(find != enc_pass.end());
     return find->second;
+  }
+
+  friend std::ostream& operator <<(std::ostream& out, const Encoding& enc) {
+    out << "c cs-variables and their clauses: ncs = " << enc.ncs << "\n";
+    for (clause_index_t i = 0; i < enc.ncs; ++i)
+      out << "c " << enc.csvar(i) << ": " << *enc.dclauses[i] << "\n";
+    out << "c bf-variables and their boolean functions: nbf = " << enc.nbf << "\n";
+    for (Var vi = 0; vi < enc.F.ne; ++vi) {
+      const EVar v = enc.E[vi];
+      out << "c  e-var " << v << " with ";
+      const Var begin = enc.bfvar_indices[vi], end = enc.bfvar_indices[vi+1];
+      out << (end-begin) << " bfs from " << begin << " to " << (end-1) << ":\nc   ";
+      Var j = begin;
+      out << j++ << ":" << bf(false) << ", ";
+      out << j++ << ":" << bf(true);
+      for (const AVar v : enc.dep[vi]) {
+        out << ", " << j++ << ":" << Litc(Lit(v,Pol::n)) << ", ";
+        out << j++ << ":" << Litc(Lit(v,Pol::p));
+      }
+      out << "\n";
+    }
+    out << "c pa-variables and their partial assignments: npa = " << enc.npa << "\n";
+    {Var v = enc.ncs+enc.nbf;
+     for (const Pass& phi : enc.all_solutions.first)
+       out << "c  " << ++v << ":" << phi << "\n";
+    }
+    out << "c The clauses and their solution-sets (as pa-variables):\n";
+    for (clause_index_t ci = 0; ci < enc.ncs; ++ci) {
+      out << "c  " << enc.csvar(ci) << ":";
+      const Solution_set& ss = enc.all_solutions.second[ci];
+      std::vector<Var> v; v.reserve(ss.size());
+      for (Pass_p p : ss) v.push_back(enc.enc_pass.find(p)->second);
+      std::sort(v.begin(),v.end());
+      out << v << "\n";
+    }
+    return out;
   }
 
 private :
@@ -1360,6 +1396,9 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
 
   if (ll == LogLevel::withinput) logout << "c Input:\n" << F;
 
+  solout << "c Program " << program << ": version " << version << ", " << date << ".\n";
+  solout << "c Input: " << filename << "\n";
+  solout << enc;
   solout << "p cnf " << enc.n << " " << G.size() << "\n";
   for (const Clause& C : G) {
     for (const Lit x : C) solout << x << " ";
