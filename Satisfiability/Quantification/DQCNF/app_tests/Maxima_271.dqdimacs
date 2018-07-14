@@ -5,7 +5,7 @@ c length(allequiv1aut_55);
 c 271
 c map(var_dqpa,all1aut_55);
 c {{},{6,7},{6,7,8},{6,7,8,9},{6,7,8,9,10},{6,7,9},{6,7,9,10},{6,8},{7},{7,8},{7,8,9},{7,8,9,10},{7,9},{7,9,10},{8}}
-c arequiv_55 : equiv_classes(all1aut_55, lambda([phi,psi], is(var_dqpa(phi)=var_dqpa(psi))))$
+c varequiv_55 : equiv_classes(all1aut_55, lambda([phi,psi], is(var_dqpa(phi)=var_dqpa(psi))))$
 c map(lambda([C], [var_dqpa(first(C)),length(C)]), varequiv_55);
 c {[{},1],[{6,7},1],[{6,7,8},33],[{6,7,8,9},66],[{6,7,8,9,10},132],[{6,7,9},2],[{6,7,9,10},4],[{6,8},9],[{7},1],[{7,8},2],[{7,8,9},4],[{7,8,9,10},8],[{7,9},2],[{7,9,10},4],[{8},2]}
 c Satisfying: 132+4+8=144.
