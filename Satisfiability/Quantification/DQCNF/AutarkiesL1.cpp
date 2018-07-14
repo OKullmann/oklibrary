@@ -38,17 +38,6 @@ Other possibilities are:
 
 BUGS:
 
-1. app_tests/Maxima_271.dqdimacs
-
-tawSolver counts 137 solutions, while there should be 270.
-For the latter count we also need to check the Maxima-level, whether the
-handling of equality of wbf's is correct (it seems that actually for these
-special functions no logical-equivalence-handling is needed).
-
-It seems that for example the four autarkies with e-var-set {6,7,9,10}
-are missing. Wrongly, setting variable variables 1 - 6 to true yields
-an unsatisfiable instance.
-
 TODOS:
 
 1. Clean-up handling of statistics
@@ -103,7 +92,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.4.6";
+const std::string version = "0.5.0";
 const std::string date = "14.7.2018";
 
 const std::string program = "autL1"
@@ -1157,7 +1146,7 @@ private :
         for (const ELit y : C.P.second) {
           const EVar w = var(y);
           if (F.D[w]->find(v) != F.D[w]->end()) {
-            Pass pa; pa[w] = Litc( (sign(x)==sign(y)) ? -x : x);
+            Pass pa; pa[w] = Litc( (y.posi()) ? -x : x);
             pas.insert(&*all_sol.first.insert(std::move(pa)).first);
           }
         }
