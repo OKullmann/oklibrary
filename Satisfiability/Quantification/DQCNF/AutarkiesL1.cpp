@@ -21,7 +21,7 @@ License, or any later version. */
 
   USAGE:
 
-> autL1 input [file-output] [log] [conformity-level]
+> autL1 input [file-output] [log] [conformity-level] [log-level]
 
 A parameter can only be used iff all parameters to the left of it are
 specified.
@@ -103,8 +103,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.4.4";
-const std::string date = "13.7.2018";
+const std::string version = "0.4.5";
+const std::string date = "14.7.2018";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -236,6 +236,23 @@ public :
 };
 
 
+template <typename T>
+std::ostream& operator <<(std::ostream& out, const std::set<T>& S) {
+  for (const T& x : S) out << " " << x;
+  return out;
+}
+template <typename T>
+std::ostream& operator <<(std::ostream& out, const std::vector<T>& v) {
+  for (const T& x : v) out << " " << x;
+  return out;
+}
+template <typename A, typename V>
+std::ostream& operator <<(std::ostream& out, const std::map<A,V>& M) {
+  for (const auto& p : M) out << " (" << p.first << "," << p.second << ")";
+  return out;
+}
+
+
 // --- Data structures for literals and variables ---
 
 /*
@@ -259,9 +276,9 @@ public :
    - y < y', p < p'
    - var(y) (yields Var)
    - sign(y) (yields Polarity)
-   - y.posi(), y.negi() (properties)
+   - y.posi(), y.negi() (whether y is positive resp. negative)
    - y.index() (yields Lit_int)
-   - for (Pol p : Polarities)
+   - for-each loop: for (Pol p : Polarities)
    - ostream << y, istream >> y
 
    Lit-literals are constructed by n_l for unsigned long-long n.
@@ -326,10 +343,10 @@ public :
     return a<b or a==b;
   }
 
-  friend std::ostream& operator <<(std::ostream& out, const Lit x) {
+  friend std::ostream& operator <<(std::ostream& out, const Lit x) noexcept {
     return out << x.x;
   }
-  friend std::istream& operator >>(std::istream& in, Lit& x) {
+  friend std::istream& operator >>(std::istream& in, Lit& x) noexcept {
     return in >> x.x;
   }
 };
@@ -373,7 +390,7 @@ typedef Lit ELit;
 
 /* Literals plus true/false (the boolean functions with at most one var);
    the linear order is 0,false,true,-1,1,-2,2, ... .
-   Constructors:
+   Constructors (non-converting):
     - Litc() (singular)
     - Litc(x) for Lit x
     - Litc(t) for BFt t
@@ -381,7 +398,10 @@ typedef Lit ELit;
    Exactly one of x.sing(), x.constant(), x.variable() is true for Litc x.
    Operations:
     - explicit conversions to Lit and BFt
-    - negation (operator - and in-place member neg()).
+    - negation (operator - and in-place member neg())
+    - boolean member functions sing(), constant(), variable()
+    - ==, !=, <
+    - output-streaming.
 */
 class Litc  {
   ALit x;
@@ -417,6 +437,15 @@ public :
       (BFt(x) != BFt::nc and BFt(y) != BFt::nc and BFt(x) < BFt(y)) or
       (not bool(Lit(x)) and BFt(x) == BFt::nc and BFt(y) != BFt::nc);
   }
+
+  friend std::ostream& operator <<(std::ostream& out, const Litc x) noexcept {
+    switch (x.t) {
+    case BFt::f : return out << "bf(f)";
+    case BFt::t : return out << "bf(t)";
+    default : return out << "bf(" << x.x << ")";
+    }
+  }
+
 };
 static_assert(std::is_pod<Litc>::value, "Litc is not POD.");
 
@@ -468,6 +497,15 @@ static_assert(not (Litc(Lit(1)) < Litc(Lit(1))), "Problem with < for Litc.");
 typedef std::uint_fast64_t Count_t;
 
 enum class VT { und=0, fa, fe, a, e }; // variable types, with "f" for "formal"
+std::ostream& operator <<(std::ostream& out, const VT t) noexcept {
+  switch (t) {
+  case VT::fa : return out << "fa";
+  case VT::fe : return out << "fe";
+  case VT::a : return out << "a";
+  case VT::e : return out << "e";
+  default : return out << "und";
+  }
+}
 typedef std::vector<VT> VTvector;
 inline constexpr bool et(const VT t) noexcept {return t==VT::fe or t==VT::e;}
 inline constexpr bool at(const VT t) noexcept {return t==VT::fa or t==VT::a;}
@@ -495,6 +533,9 @@ struct DClause {
   friend bool operator <(const DClause& C, const DClause& D) noexcept {
     return C.P < D.P;
   }
+  friend std::ostream& operator <<(std::ostream& out, const DClause& C) {
+    return out << "E:" << C.P.second << "; A:" << C.P.first;
+  }
 };
 
 typedef std::vector<Count_t> Degree_vec;
@@ -507,9 +548,9 @@ typedef DCLS::const_iterator dclause_it;
 struct DClauseSet {
   DCLS F;
   VTvector vt;
-  VarSetsystem dep_sets;
-  Dvector D;
-  DepCounts dc;
+  VarSetsystem dep_sets; // the occurring d-sets
+  Dvector D; // for each variable its d-set
+  DepCounts dc; // how often each d-set occurs
   // Statistics:
   //   from the parameter line:
   Var n_pl;
@@ -525,6 +566,16 @@ struct DClauseSet {
   Count_t c=0; // number of clauses (without tautologies)
   Count_t la=0, le=0, l=0; // number of a/e/both literal occurrences
   Count_t t=0; // number of tautological clauses
+
+  friend std::ostream& operator <<(std::ostream& out, const DClauseSet& F) {
+    out << "c Variables: ";
+    for (Var v = 1; v < F.vt.size(); ++v) out << " " << v << ":" << F.vt[v];
+    out << "\nc p cnf " << F.max_index << " " << F.c << "\n";
+    for (Var v = 1; v < F.vt.size(); ++v)
+      if (F.vt[v] == VT::e) out << "c d " << v << *F.D[v] << " 0\n";
+    for (const auto& C : F.F) out << "c " << C << "\n";
+    return out;
+  }
 };
 
 typedef std::map<EVar,Litc> Pass;
@@ -941,7 +992,7 @@ struct Encoding {
   // For each e-var its index in E;
   const Evar_vec E_index;
 
-  // Vector of dependencies as vectors:
+  // Vector of dependencies as sorted vectors:
   typedef std::vector<AVar> Avar_vec;
   typedef std::vector<Avar_vec> Dep_vec;
   const Dep_vec dep;
@@ -952,11 +1003,11 @@ struct Encoding {
   const Dclause_vec dclauses;
 
   // Vector of bf-indices (for given e-index the starting point, plus at the
-  // last position the one index "past-the-end"):
+  // last position the "past-the-end"-index):
   typedef std::vector<Var> Var_vec;
   const Var_vec bfvar_indices;
 
-  // The set of all partial assignments occurring:
+  // The set of all partial assignments (satisfying clauses) occurring:
   typedef PassSet::const_pointer Pass_p;
   typedef std::set<Pass_p> Solution_set;
   typedef std::vector<Solution_set> Solset_vec;
@@ -987,7 +1038,7 @@ struct Encoding {
     const Var base_index = bfvar_indices[i];
     const ALit x{f};
     const AVar w = var(x);
-    assert(w == 0 or F.D[v]->find(w) != F.D[v]->end());
+    assert(w == 0 or (F.vt[w] == VT::a and F.D[v]->find(w) != F.D[v]->end()));
     if (w == 0) {
       assert(f.constant());
       return (f == bf(false)) ? base_index : base_index + 1;
@@ -1187,6 +1238,20 @@ struct Translation {
 
 // --- Output ---
 
+enum class LogLevel {normal=0, withinput};
+std::ostream& operator <<(std::ostream& out, const LogLevel l) noexcept {
+  switch (l) {
+  case LogLevel::withinput : return out << "with_input";
+  default : return out << "default";
+  }
+}
+// String to LogLevel:
+LogLevel s2loglev(const std::string& s) {
+  if (s == "1") return LogLevel::withinput;
+  else return LogLevel::normal;
+}
+
+
 void show_usage() {
   std::cout << "USAGE:\n"
     "> " << program << " [-v | --version]\n"
@@ -1198,7 +1263,8 @@ void show_usage() {
       "(default is -cout).\n"
     "The same redirection can be done with the log-output, as a third command-argument; default is -cout.\n"
     "If DIMACS- and log-output are equal, then first comes the log-output (as DIMACS-comment).\n"
-    "A fourth optional argument is the conformity-level: g, n, s, vs.\n"
+    "A fourth optional argument is the conformity-level: g (general), n (normal), s (strict), vs (very strict).\n"
+    "A fifth optional argument is the log-level: \"1\" means with input.\n"
     "\nFor example, with\n"
     "> " << program << " -cin Out -nil\n"
     "input comes from standard input, the translation is put to file Out, and the log is discarded.\n"
@@ -1245,7 +1311,7 @@ void version_information() {
   std::exit(0);
 }
 
-void output(const std::string filename, const ConformityLevel cl, const DClauseSet& F, const Encoding& enc, const Translation& trans, const CLS& G) {
+void output(const std::string filename, const ConformityLevel cl, const DClauseSet& F, const Encoding& enc, const Translation& trans, const CLS& G, const LogLevel ll) {
   logout <<
          "c Program information:\n"
          "c created_by                            " << program << "\n"
@@ -1292,6 +1358,8 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c c_N                                   " << trans.c_N << "\n"
          "c c_amo                                 " << trans.c_amo << "\n";
 
+  if (ll == LogLevel::withinput) logout << "c Input:\n" << F;
+
   solout << "p cnf " << enc.n << " " << G.size() << "\n";
   for (const Clause& C : G) {
     for (const Lit x : C) solout << x << " ";
@@ -1316,6 +1384,7 @@ int main(const int argc, const char* const argv[]) {
       std::exit(code(Error::file_writing));
   }
   const ConformityLevel conlev = (argc >= 5) ? s2conlev(argv[4]) : ConformityLevel::normal;
+  const LogLevel loglev = (argc >= 6) ? s2loglev(argv[5]) : LogLevel::normal;
 
   set_output(argc, argv);
   const Input in(filename);
@@ -1327,5 +1396,5 @@ int main(const int argc, const char* const argv[]) {
   Translation trans(F,enc);
   const CLS G = trans();
 
-  output(filename, conlev, F, enc, trans, G);
+  output(filename, conlev, F, enc, trans, G, loglev);
 }
