@@ -46,6 +46,10 @@ TODOS:
    of connected statistics all at once, and after the basic data (clauses,
    dependencies etc.) are established.
 
+   Also e.g.
+c min_dep_size                          2147483647
+   needs to be handled.
+
 2. More statistics on dependencies:
     - average size
     - number of maximal and minimal elements
@@ -92,7 +96,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.5.0";
+const std::string version = "0.5.1";
 const std::string date = "14.7.2018";
 
 const std::string program = "autL1"
@@ -645,7 +649,7 @@ void read_header() noexcept {
   }
   if (not valid(F.n_pl)) {
     errout << "Parameter maximal-variable-index n=" << F.n_pl <<
-      " is too big for numeric_limits<Lit_int>::max=" << max_lit << ".";
+      " is too big for numeric_limits<Lit_int>::max=" << max_lit;
     std::exit(code(Error::num_vars));
   }
   s >> F.c_pl;
@@ -665,7 +669,7 @@ void read_dependencies() noexcept {
   assert(in.good());
   try { F.vt.resize(F.n_pl+1); F.D.resize(F.n_pl+1); }
   catch (const std::bad_alloc&) {
-    errout << "Allocation error for dependency-vector of size "<<F.n_pl<<".";
+    errout << "Allocation error for dependency-vector of size " << F.n_pl;
     std::exit(code(Error::allocation));
   }
   struct Finish { // marking unset variables as fe with empty domain
@@ -706,7 +710,7 @@ void read_dependencies() noexcept {
           errout << "Bad a-read."; std::exit(code(Error::a_read));
         };
         if (v > F.n_pl) {
-          errout << "a-variable " << v << " contradicts n=" << F.n_pl << ".";
+          errout << "a-variable " << v << " contradicts n=" << F.n_pl;
           std::exit(code(Error::variable_value));
         }
         if (v == 0) break;
@@ -737,7 +741,7 @@ void read_dependencies() noexcept {
           errout << "Bad e-read."; std::exit(code(Error::e_read));
         };
         if (v > F.n_pl) {
-          errout << "e-variable " << v << " contradicts n=" << F.n_pl << ".";
+          errout << "e-variable" << v << "contradicts n=" << F.n_pl;
           std::exit(code(Error::variable_value));
         }
         if (v == 0) break;
@@ -761,14 +765,14 @@ void read_dependencies() noexcept {
         errout << "Bad e-read in d-line."; std::exit(code(Error::e_read));
       };
       if (v > F.n_pl) {
-        errout << "e-variable " << v << " contradicts n=" << F.n_pl << ".";
+        errout << "e-variable" << v << "contradicts n=" << F.n_pl;
         std::exit(code(Error::variable_value));
       }
       if (v == 0) {
         errout << "Empty d-line."; std::exit(code(Error::d_empty));
       }
       if (F.vt[v] != VT::und) {
-        errout << "Repeated e-read in d-line."; std::exit(code(Error::e_rep));
+        errout << "Repeated e-read" << v << "in d-line."; std::exit(code(Error::e_rep));
       }
       F.vt[v] = VT::fe;
       ++F.ne_d;
@@ -779,12 +783,12 @@ void read_dependencies() noexcept {
           errout << "Bad a-read in d-line."; std::exit(code(Error::a_read));
         };
         if (w > F.n_pl) {
-          errout << "a-variable " << w << " contradicts n=" << F.n_pl << ".";
+          errout << "a-variable " << w << " contradicts n=" << F.n_pl;
           std::exit(code(Error::variable_value));
         }
         if (w == 0) break;
         if (F.vt[w] != VT::fa) {
-          errout << "Not defined a."; std::exit(code(Error::d_bada));
+          errout << "Undefined a-variable" << w; std::exit(code(Error::d_bada));
         }
         const auto insert = A.insert(w);
         if (not insert.second) {
@@ -811,7 +815,7 @@ bool read_clause(DClause& C) const noexcept {
   AClause CA; EClause CE; // complemented clauses
   while (true) { // reading literals into C
     if (not in) {
-      errout << "Invalid literal-read."; std::exit(code(Error::literal_read));
+      errout << "Invalid literal-read at beginning of clause."; std::exit(code(Error::literal_read));
     }
     assert(in.good());
     if (not x) break; // end of clause
