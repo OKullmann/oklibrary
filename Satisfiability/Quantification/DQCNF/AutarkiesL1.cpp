@@ -36,8 +36,8 @@ Other possibilities are:
  - "-clog" for standard log
  - "-nil" for no output.
 
-Conformity-level "g" (for "general") admits c-lines and repeated a-lines in
-the dependency-section, and allows empty clauses.
+Conformity-level "g" (for "general") admits c-lines and repeated/empty a-lines
+in the dependency-section, and also allows empty clauses.
 Level "s" (for "strict") disallows clauses without existential variables
 ("pseudo-empty" clauses).
 
@@ -171,7 +171,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.5.4";
+const std::string version = "0.5.5";
 const std::string date = "15.7.2018";
 
 const std::string program = "autL1"
@@ -802,13 +802,16 @@ void read_dependencies() noexcept {
       if (not s) {
         errout << "Bad a-line read."; std::exit(code(Error::a_line_read));
       }
-      if (num_a == 0) {
-        errout << "Empty a-line."; std::exit(code(Error::a_empty));
+      if (num_a != 0) {
+        last_line = lt::a;
+        const auto insert = F.dep_sets.insert(A);
+        assert(insert.second);
+        dep = insert.first;
+      } else {
+      if (conlev != ConformityLevel::general) {
+          errout << "Empty a-line."; std::exit(code(Error::a_empty));
+        }
       }
-      last_line = lt::a;
-      const auto insert = F.dep_sets.insert(A);
-      assert(insert.second);
-      dep = insert.first;
     } else if (peek == 'e') {
       if (last_line == lt::e) {
         errout << "Repeated e-line."; std::exit(code(Error::e_rep_line));
