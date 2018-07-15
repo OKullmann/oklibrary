@@ -1,10 +1,22 @@
 #!/bin/bash
-for F in $(find * \( -iname "*.qdimacs" -o -iname "*.dqdimacs" \) -print); do
+set -o errexit
+set -o nounset
+
+numargs=$#
+if (( numargs == 0 )); then
+  echo "USAGE: program directory [options]"
+  exit 0
+fi
+program="$1"
+directory="$2"
+options="$3"
+for F in $(find ${directory} \( -iname "*.qdimacs" -o -iname "*.dqdimacs" \) -print); do
 set +e
-  ./autL1_debug $F -nil -nil $1
+  ${program} $F -nil -nil $3
   result=$?
   if [[ $result != 0 ]]; then
     echo $result $F
   fi
 done
 
+exit 0
