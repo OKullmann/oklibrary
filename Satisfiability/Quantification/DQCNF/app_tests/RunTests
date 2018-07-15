@@ -1,0 +1,96 @@
+#!/bin/bash
+set -o errexit
+set -o nounset
+
+testdir="app_tests"
+
+tempfile="RunTests_$$"
+
+# solver1="valgrind -q --exit-on-first-error=yes ./autL1_debug"
+translator1="valgrind -q ./autL1_debug"
+translator2="./autL1"
+declare -a translators=("${translator1}" "${translator2}")
+
+
+for S in "${translators[@]}"; do
+
+  file="${testdir}/Maxima_2903.qdimacs"
+set +e
+  $S ${file} ${tempfile} ${tempfile} vs 1
+  returncode=$?
+set -e
+  if (( returncode != 0 )); then
+    echo "ERROR with translator \"${S}\" on ${file}."
+    exit 1
+  fi
+  result=$(ctawSolver ${tempfile} | awk '/number_of_solutions/{print $3}')
+  if (( result != 2903 )); then
+    echo -e "Wrong count with translator \"${S}\" on ${file}."
+    exit 2
+  fi
+  rm ${tempfile}
+
+  file="${testdir}/Maxima_271.dqdimacs"
+set +e
+  $S ${file} ${tempfile} ${tempfile} vs 1
+  returncode=$?
+set -e
+  if (( returncode != 0 )); then
+    echo "ERROR with translator \"${S}\" on ${file}."
+    exit 3
+  fi
+  result=$(ctawSolver ${tempfile} | awk '/number_of_solutions/{print $3}')
+  if (( result != 270 )); then
+    echo -e "Wrong count with translator \"${S}\" on ${file}."
+    exit 4
+  fi
+  rm ${tempfile}
+
+   file="${testdir}/bloem_ex2.dqdimacs"
+set +e
+  $S ${file} ${tempfile} ${tempfile} g 1
+  returncode=$?
+set -e
+  if (( returncode != 0 )); then
+    echo "ERROR with translator \"${S}\" on ${file}."
+    exit 5
+  fi
+set +e
+  tawSolver ${tempfile} -nil -nil
+  returncode=$?
+set -e
+  if (( returncode != 10 )); then
+    echo "ERROR with tawsolver on ${file}."
+    exit 6
+  fi
+  rm ${tempfile}
+set +e
+  $S ${file} ${tempfile} ${tempfile} n 1 2> /dev/null
+  returncode=$?
+set -e
+  if (( returncode != 6 )); then
+    echo "ERROR with translator \"${S}\" on ${file}."
+    exit 7
+  fi
+  rm ${tempfile}
+
+   file="${testdir}/bloem_sh_u.dqdimacs"
+set +e
+  $S ${file} ${tempfile} ${tempfile} g 1
+  returncode=$?
+set -e
+  if (( returncode != 0 )); then
+    echo "ERROR with translator \"${S}\" on ${file}."
+    exit 8
+  fi
+set +e
+  OKsolver_2002-O3-DNDEBUG ${tempfile} > /dev/null
+  returncode=$?
+set -e
+  if (( returncode != 20 )); then
+    echo "ERROR with OKsolver_2002-O3-DNDEBUG on ${file}."
+    exit 9
+  fi
+  rm ${tempfile}
+
+done

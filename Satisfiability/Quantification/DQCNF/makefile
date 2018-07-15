@@ -8,7 +8,7 @@
 SHELL = /bin/bash
 .SUFFIXES :
 
-.PHONY : all clean cleanall debug optimised
+.PHONY : all clean cleanall debug optimised test
 
 CXX = g++
 
@@ -33,6 +33,9 @@ debug : $(debug_main)
 $(debug_main) : AutarkiesL1.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@ $(LFLAGS)
 
+
+test :
+	app_tests/RunTests
 
 clean :
 	- rm $(debug_main)
