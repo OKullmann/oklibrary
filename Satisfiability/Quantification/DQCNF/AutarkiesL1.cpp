@@ -91,6 +91,8 @@ c min_dep_size                          2147483647
    certain information.
    And if we discard output, then likely the information on the translation
    is nevertheless needed.
+   While we need also a possibility to discard that information on the
+   translation.
 
 */
 
