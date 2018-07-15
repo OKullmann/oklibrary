@@ -79,6 +79,7 @@ TODOS:
     - width (maximum length of an antichain)
 
 3. Implementing linear-size version of amo (using auxiliary variables)
+
     - A command-line variables specifies the number of variables from which
       on that version of amo is used.
     - See
@@ -92,11 +93,11 @@ TODOS:
     - cleanup_dependencies()
 
 Once done, the assert
-assert(w == 0 or F.vt[w] == VT::a or F.vt[w] == VT::fa);
+  assert(w == 0 or F.vt[w] == VT::a or F.vt[w] == VT::fa);
 in function bfvar needs to be updated.
 
 Three steps:
-  (a) First removed universal literals from clauses, where they are not
+  (a) First remove universal literals from clauses, where they are not
       part of any dependency.
   (b) Now a-variables may have become fa-variables, and that needs to be
       updated.
@@ -110,6 +111,8 @@ Three steps:
 6. Test and improve error-handling
 
    Give the line-numbers with the errors.
+
+   More information should be given in case of out-of-memory.
 
 7. Improve merging output
 
