@@ -36,6 +36,13 @@ Other possibilities are:
  - "-clog" for standard log
  - "-nil" for no output.
 
+Conformity-level "g" (for "general") admits c-lines and repeated a-lines in
+the dependency-section.
+
+Log-level "1" has the original input and information on the encoding in
+the comments-section of the translated problem.
+
+
 BUGS:
 
 TODOS:
@@ -96,8 +103,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.5.1";
-const std::string date = "14.7.2018";
+const std::string version = "0.5.2";
+const std::string date = "15.7.2018";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -695,12 +702,16 @@ void read_dependencies() noexcept {
   while (true) {
     const int peek = in.peek();
     if (peek == std::char_traits<char>::eof()) return;
+    if (conlev == ConformityLevel::general and peek == 'c') {
+      std::getline(in, line);
+      continue;
+    }
     if (peek != 'a' and peek != 'e' and peek != 'd') return;
     std::getline(in, line);
     std::stringstream s(line);
     {std::string skip; s >> skip;}
     if (peek == 'a') {
-      if (last_line == lt::a) {
+      if (conlev != ConformityLevel::general and last_line == lt::a) {
          errout << "Repeated a-line."; std::exit(code(Error::a_rep_line));
       }
       Count_t num_a = 0;
@@ -798,8 +809,8 @@ void read_dependencies() noexcept {
       } while (true);
       F.D[v] = F.dep_sets.insert(A).first;
       last_line = lt::d;
-    }
-  }
+    } // end of main if-then-else
+  } // main loop
 }
 
 
