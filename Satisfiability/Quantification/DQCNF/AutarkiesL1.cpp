@@ -89,6 +89,8 @@ c min_dep_size                          2147483647
 
    The current form of putting log- and solution-output into one file repeats
    certain information.
+   And if we discard output, then likely the information on the translation
+   is nevertheless needed.
 
 */
 
