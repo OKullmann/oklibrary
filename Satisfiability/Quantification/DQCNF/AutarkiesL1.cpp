@@ -69,9 +69,8 @@ TODOS:
    of connected statistics all at once, and after the basic data (clauses,
    dependencies etc.) are established.
 
-   Also e.g.
-c min_dep_size                          2147483647
-   needs to be handled.
+   For the handling of minima perhaps some helper-function is used, which
+   writes "inf" under appropriate circumstances.
 
 2. More statistics on dependencies:
     - average size
@@ -145,7 +144,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.5.5";
+const std::string version = "0.5.6";
 const std::string date = "15.7.2018";
 
 const std::string program = "autL1"
@@ -1441,7 +1440,9 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c max_a_clause_length                   " << F.max_a_length << "\n"
          "c max_e_clause_length                   " << F.max_e_length << "\n"
          "c max_clause_length                     " << F.max_c_length << "\n"
-         "c min_dep_size                          " << F.min_s_dep << "\n"
+         "c min_dep_size                          ";
+          if (F.count_dep!=0) logout<<F.min_s_dep; else logout<<"inf";
+          logout << "\n"
          "c max_dep_size                          " << F.max_s_dep << "\n"
          "c num_different_dep_sets                " << F.count_dep << "\n"
          "c num_a_literal_occurrences             " << F.la << "\n"
