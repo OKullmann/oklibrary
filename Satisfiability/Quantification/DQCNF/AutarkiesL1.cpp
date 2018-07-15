@@ -47,38 +47,12 @@ the comments-section of the translated problem.
 
 BUGS:
 
-Running on the DQBF-instances from QBFEVAL18:
+Running on the DQBF-instances from QBFEVAL18 (cswsok):
 
 DQCNF> time ./Run ./autL1 ~/OKplatform/QBF/EVAL18/QBFEVAL_18_DATASET/dqbf18/ g
-real    8m47.631s
-user    7m28.422s
-sys     1m18.236s
-
-Asserts:
-
-autL1_debug: AutarkiesL1.cpp:1071: {anonymous}::Var {anonymous}::Encoding::bfvar({anonymous}::EVar, {anonymous}::Litc) const: Assertion `w == 0 or (F.vt[w] == VT::a and F.D[v]->find(w) != F.D[v]->end())' failed.
-./Run: line 13:  4440 Aborted                 ${program} $F -nil -nil $3
-134 /home/csoliver/OKplatform/QBF/EVAL18/QBFEVAL_18_DATASET/dqbf18/bloem_sh_u.dqdimacs
-
-autL1_debug: AutarkiesL1.cpp:1071: {anonymous}::Var {anonymous}::Encoding::bfvar({anonymous}::EVar, {anonymous}::Litc) const: Assertion `w == 0 or (F.vt[w] == VT::a and F.D[v]->find(w) != F.D[v]->end())' failed.
-./Run: line 13:  4543 Aborted                 ${program} $F -nil -nil $3
-134 /home/csoliver/OKplatform/QBF/EVAL18/QBFEVAL_18_DATASET/dqbf18/bloem_bs8y.dqdimacs
-
-autL1_debug: AutarkiesL1.cpp:1071: {anonymous}::Var {anonymous}::Encoding::bfvar({anonymous}::EVar, {anonymous}::Litc) const: Assertion `w == 0 or (F.vt[w] == VT::a and F.D[v]->find(w) != F.D[v]->end())' failed.
-./Run: line 13:  4666 Aborted                 ${program} $F -nil -nil $3
-134 /home/csoliver/OKplatform/QBF/EVAL18/QBFEVAL_18_DATASET/dqbf18/bloem_cnt2unrealy.dqdimacs
-
-The problem seems to be using formal a-variables for boolean functions.
-Currently they are not removed. So the assert needs to be updated.
-
-Empty a-lines:
-
-bloem_mult2.dqdimacs
-bloem_mult4.dqdimacs
-bloem_eq1.dqdimacs
-bloem_mult11.dqdimacs
-bloem_mult6.dqdimacs
-bloem_mult9.dqdimacs
+real    8m58.213s
+user    7m32.069s
+sys     1m25.115s
 
 Out of memory:
 
