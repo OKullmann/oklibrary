@@ -81,6 +81,8 @@ c min_dep_size                          2147483647
 5. Determine the main parameters like number of pa-variables etc. from the
    parameters of the DQCNF.
 
+   Use this for reserve-statements.
+
 6. Test and improve error-handling
 
    Give the line-numbers with the errors.
@@ -1464,7 +1466,7 @@ int main(const int argc, const char* const argv[]) {
 
   const Encoding enc(F);
 
-  Translation trans(F,enc);
+  const Translation trans(F,enc);
   const CLS G = trans();
 
   output(filename, conlev, F, enc, trans, G, loglev);
