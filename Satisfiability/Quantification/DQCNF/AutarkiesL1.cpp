@@ -68,6 +68,9 @@ autL1_debug: AutarkiesL1.cpp:1071: {anonymous}::Var {anonymous}::Encoding::bfvar
 ./Run: line 13:  4666 Aborted                 ${program} $F -nil -nil $3
 134 /home/csoliver/OKplatform/QBF/EVAL18/QBFEVAL_18_DATASET/dqbf18/bloem_cnt2unrealy.dqdimacs
 
+The problem seems to be using formal a-variables for boolean functions.
+Currently they are not removed. So the assert needs to be updated.
+
 Empty a-lines:
 
 bloem_mult2.dqdimacs
@@ -115,6 +118,17 @@ c min_dep_size                          2147483647
     - cleanup_clauses()
     - cleanup_dependencies()
 
+Once done, the assert
+assert(w == 0 or F.vt[w] == VT::a or F.vt[w] == VT::fa);
+in function bfvar needs to be updated.
+
+Three steps:
+  (a) First removed universal literals from clauses, where they are not
+      part of any dependency.
+  (b) Now a-variables may have become fa-variables, and that needs to be
+      updated.
+  (c) Finally remove all fa-variables from dependency-sets.
+
 5. Determine the main parameters like number of pa-variables etc. from the
    parameters of the DQCNF.
 
@@ -157,7 +171,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.5.3";
+const std::string version = "0.5.4";
 const std::string date = "15.7.2018";
 
 const std::string program = "autL1"
@@ -1102,12 +1116,17 @@ struct Encoding {
   }
 
   Var bfvar(const EVar v, const Litc f) const noexcept {
+    assert(v >= 1);
+    assert(v <= F.max_e_index);
+    assert(not f.sing());
     const Var i = E_index[v];
     assert(i < F.ne);
-    const Var base_index = bfvar_indices[i];
     const ALit x{f};
     const AVar w = var(x);
-    assert(w == 0 or (F.vt[w] == VT::a and F.D[v]->find(w) != F.D[v]->end()));
+    assert(w <= F.max_a_index);
+    assert(w == 0 or F.vt[w] == VT::a or F.vt[w] == VT::fa);
+    assert(w == 0 or F.D[v]->find(w) != F.D[v]->end());
+    const Var base_index = bfvar_indices[i];
     if (w == 0) {
       assert(f.constant());
       return (f == bf(false)) ? base_index : base_index + 1;
