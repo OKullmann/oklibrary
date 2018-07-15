@@ -37,7 +37,9 @@ Other possibilities are:
  - "-nil" for no output.
 
 Conformity-level "g" (for "general") admits c-lines and repeated a-lines in
-the dependency-section.
+the dependency-section, and allows empty clauses.
+Level "s" (for "strict") disallows clauses without existential variables
+("pseudo-empty" clauses).
 
 Log-level "1" has the original input and information on the encoding in
 the comments-section of the translated problem.
@@ -79,6 +81,15 @@ c min_dep_size                          2147483647
 5. Determine the main parameters like number of pa-variables etc. from the
    parameters of the DQCNF.
 
+6. Test and improve error-handling
+
+   Give the line-numbers with the errors.
+
+7. Improve merging output
+
+   The current form of putting log- and solution-output into one file repeats
+   certain information.
+
 */
 
 #include <limits>
@@ -103,7 +114,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.5.2";
+const std::string version = "0.5.3";
 const std::string date = "15.7.2018";
 
 const std::string program = "autL1"
@@ -565,7 +576,7 @@ struct DClauseSet {
   Var max_s_dep=0, min_s_dep=max_lit, count_dep=0;
   Count_t c=0; // number of clauses (without tautologies)
   Count_t la=0, le=0, l=0; // number of a/e/both literal occurrences
-  Count_t t=0; // number of tautological clauses
+  Count_t t=0, empty=0, pempty=0; // number of tautological/empty/pseudoempty clauses
 
   friend std::ostream& operator <<(std::ostream& out, const DClauseSet& F) {
     out << "c Variables: ";
@@ -813,30 +824,31 @@ void read_dependencies() noexcept {
   } // main loop
 }
 
+enum class RS { clause, none, empty, tautology, pseudoempty }; // read-status
 
-// Returns false iff no (further) clause was found;
-// reference-parameter C is empty iff a tautological clause was found:
-bool read_clause(DClause& C) const noexcept {
+// Reference-parameter C is empty if no or a tautological clause was found:
+RS read_clause(DClause& C) const noexcept {
   assert(in.exceptions() == 0);
-  Lit x;
   assert(in.good());
-  in >> x;
-  if (in.eof()) return false;
   C.clear();
+  Lit x;
+  in >> x;
+  if (in.eof()) return RS::none;
   AClause CA; EClause CE; // complemented clauses
   while (true) { // reading literals into C
     if (not in) {
-      errout << "Invalid literal-read at beginning of clause."; std::exit(code(Error::literal_read));
+      errout << "Invalid literal-read at beginning of clause.";
+      std::exit(code(Error::literal_read));
     }
     assert(in.good());
     if (not x) break; // end of clause
     const Var v = var(x);
     if (v > F.n_pl) {
-      errout << "Literal " << x << " contradicts n=" << F.n_pl << ".";
+      errout << "Literal " << x << " contradicts n=" << F.n_pl;
       std::exit(code(Error::variable_value));
     }
     if (at(F.vt[v]))
-      if (CA.find(x) != CA.end()) { // tautology
+      if (CA.find(x) != CA.end()) { // tautology via universal literals
         C.clear();
         do
           if (not (in >> x)) {
@@ -844,12 +856,12 @@ bool read_clause(DClause& C) const noexcept {
             std::exit(code(Error::literal_read));
           }
         while (x);
-        return true;
+        return RS::tautology;
       }
       else {C.P.first.insert(x); CA.insert(-x);}
     else {
       assert(et(F.vt[v]));
-      if (CE.find(x) != CE.end()) { // tautology
+      if (CE.find(x) != CE.end()) { // tautology via existential literals
         C.clear();
         do
           if (not (in >> x)) {
@@ -857,27 +869,35 @@ bool read_clause(DClause& C) const noexcept {
             std::exit(code(Error::literal_read));
           }
         while (x);
-        return true;
+        return RS::tautology;
       }
       else {C.P.second.insert(x); CE.insert(-x);}
     }
     in >> x;
   }
   switch (conlev) {
-  case ConformityLevel::general : ;
+  case ConformityLevel::general :
+    if (C.empty()) return RS::empty;
+    if (C.pseudoempty()) return RS::pseudoempty;
+    break;
   case ConformityLevel::normal :
     if (C.empty()) {
       errout << "Empty clause.";
       std::exit(code(Error::empty_clause));
     }
+    if (C.pseudoempty()) return RS::pseudoempty;
     break;
   default :
+    if (C.empty()) {
+      errout << "Empty clause.";
+      std::exit(code(Error::empty_clause));
+    }
     if (C.pseudoempty()) {
       errout << "Clause without existential variables.";
       std::exit(code(Error::pseudoempty_clause));
     }
   }
-  return true;
+  return RS::clause;
 }
 
 // Error only if announced number of clauses too small (but may be too big):
@@ -885,9 +905,6 @@ inline void add_clause(const DClause& C) {
   if (F.c + F.t >= F.c_pl) {
     errout << "More than " << F.c_pl << " clauses, contradicting cnf-header.";
     std::exit(code(Error::number_clauses));
-  }
-  if (C.empty()) { // means tautology here
-    ++F.t; return;
   }
   const auto insert = F.F.insert(C);
   if (insert.second) {
@@ -957,9 +974,14 @@ DClauseSet operator()() {
     errout << "Allocation error for degree-vector of size "<<F.n_pl<<".";
     std::exit(code(Error::allocation));
   }
-  {DClause C;
-   while (read_clause(C)) {
-     add_clause(C);
+  {DClause C; RS status;
+   while ((status = read_clause(C)) != RS::none) {
+     switch (status) {
+     case RS::tautology : ++F.t; break;
+     case RS::empty : ++F.empty; add_clause(C); break;
+     case RS::pseudoempty : ++F.pempty; add_clause(C); break;
+     default : add_clause(C);
+     }
    }
   }
   F.max_index = std::max(F.max_a_index, F.max_e_index);
@@ -1366,6 +1388,8 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c number_a_variables                    " << F.na_d << "\n"
          "c number_e_variables                    " << F.ne_d << "\n"
          "c number_tautological clauses           " << F.t << "\n"
+         "c number_empty_clauses                  " << F.empty << "\n"
+         "c number_pseudo_empty_clauses           " << F.pempty << "\n"
          "c Actually occurring:\n"
          "c max_index_variable                    " << F.max_index << "\n"
          "c num_variables                         " << F.n << "\n"
