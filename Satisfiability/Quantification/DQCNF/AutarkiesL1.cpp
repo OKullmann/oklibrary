@@ -113,12 +113,11 @@ Three steps:
 
 7. Improve merging output
 
-   The current form of putting log- and solution-output into one file repeats
-   certain information.
-   And if we discard output, then likely the information on the translation
-   is nevertheless needed.
-   While we need also a possibility to discard that information on the
-   translation.
+   We need a possibility to discard the information on the translation-
+   variables (it can be big).
+
+   Perhaps the repetition of the input should come last (before the real
+   output)?
 
 */
 
@@ -144,7 +143,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.5.6";
+const std::string version = "0.5.8";
 const std::string date = "15.7.2018";
 
 const std::string program = "autL1"
@@ -196,12 +195,16 @@ struct Outputerr {
 Outputerr errout;
 
 /* Class for output-objects solout and logout, which are initialised
-   by function set_output from the command-line parameters. The two
+   by function set_output from the command-line parameters.
+   In general this class wrappes output-streams. The two
    public members (besides the constructor) are
      out << x;
      out.endl();
   which send the output to the internally stored ostream *p, if set.
+  Via out.nil() it can be checked, whether p has been set.
   The destructor deletes *p iff member del = true.
+  Furthermore Output-objects can be compared for equality (which refers to
+  the underlying pointers).
 */
 class Output {
   std::ostream* p = nullptr;
@@ -212,6 +215,13 @@ public :
   template <typename T>
   const Output& operator <<(const T& x) const { if (p) *p << x; return *this; }
   void endl() const { if (p) {*p << "\n"; p->flush();} }
+  bool nil() const noexcept { return p == nullptr; }
+  friend bool operator ==(const Output& lhs, const Output& rhs) noexcept {
+    return lhs.p == rhs.p;
+  }
+  friend bool operator !=(const Output& lhs, const Output& rhs) noexcept {
+    return lhs.p != rhs.p;
+  }
 };
 Output solout;
 Output logout;
@@ -609,12 +619,12 @@ struct DClauseSet {
   Count_t t=0, empty=0, pempty=0; // number of tautological/empty/pseudoempty clauses
 
   friend std::ostream& operator <<(std::ostream& out, const DClauseSet& F) {
-    out << "c Variables: ";
+    out << "c  Variables:\nc  ";
     for (Var v = 1; v < F.vt.size(); ++v) out << " " << v << ":" << F.vt[v];
-    out << "\nc p cnf " << F.max_index << " " << F.c << "\n";
+    out << "\nc  p cnf " << F.max_index << " " << F.c << "\n";
     for (Var v = 1; v < F.vt.size(); ++v)
-      if (F.vt[v] == VT::e) out << "c d " << v << *F.D[v] << " 0\n";
-    for (const auto& C : F.F) out << "c " << C << "\n";
+      if (F.vt[v] == VT::e) out << "c  d " << v << *F.D[v] << " 0\n";
+    for (const auto& C : F.F) out << "c  " << C << "\n";
     return out;
   }
 };
@@ -1122,7 +1132,7 @@ struct Encoding {
   friend std::ostream& operator <<(std::ostream& out, const Encoding& enc) {
     out << "c cs-variables and their clauses: ncs = " << enc.ncs << "\n";
     for (clause_index_t i = 0; i < enc.ncs; ++i)
-      out << "c " << enc.csvar(i) << ": " << *enc.dclauses[i] << "\n";
+      out << "c  " << enc.csvar(i) << ": " << *enc.dclauses[i] << "\n";
     out << "c bf-variables and their boolean functions: nbf = " << enc.nbf << "\n";
     for (Var vi = 0; vi < enc.F.ne; ++vi) {
       const EVar v = enc.E[vi];
@@ -1416,6 +1426,7 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c Program information:\n"
          "c created_by                            " << program << "\n"
          "c version                               " << version << "\n"
+         "c date                                  " << date << "\n"
          "c author                                " << author << "\n"
          "c url                                   " << url << "\n"
          "c Parameter (command line, file):\n"
@@ -1454,19 +1465,27 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c npa                                   " << enc.npa << "\n"
          "c n                                     " << enc.n << "\n"
          "c Translation:\n"
-         "c c                                     " << G.size() << "\n"
          "c c_cs                                  " << trans.c_cs << "\n"
          "c c_palr                                " << trans.c_palr << "\n"
          "c c_parl                                " << trans.c_parl << "\n"
          "c c_P                                   " << trans.c_P << "\n"
          "c c_N                                   " << trans.c_N << "\n"
-         "c c_amo                                 " << trans.c_amo << "\n";
+         "c c_amo                                 " << trans.c_amo << "\n"
+         "c c                                     " << G.size() << "\n";
 
-  if (ll == LogLevel::withinput) logout << "c Input:\n" << F;
+  if (ll == LogLevel::withinput) logout << "c Input DCNF (list of variables, then list of clauses, as pairs \"E;A\"):\n" << F;
 
-  solout << "c Program " << program << ": version " << version << ", " << date << ".\n";
-  solout << "c Input: " << filename << "\n";
-  solout << enc;
+  if (solout != logout) {
+    solout << "c Program " << program << ": version " << version << ", " << date << ".\n";
+    solout << "c Input: " << filename << "\n";
+  }
+  if (not solout.nil()) {
+    solout << "c Information on the meaning of translation-variables:\n";
+    solout << enc;
+  } else {
+    logout << "c The meaning of translation-variables:\n";
+    logout << enc;
+  }
   solout << "p cnf " << enc.n << " " << G.size() << "\n";
   for (const Clause& C : G) {
     for (const Lit x : C) solout << x << " ";
