@@ -4,7 +4,7 @@ set -o nounset
 
 numargs=$#
 if (( numargs == 0 )); then
-  echo "USAGE: program directory [options]"
+  echo -e "USAGE:\n Run program directory options"
   exit 0
 fi
 program="$1"
