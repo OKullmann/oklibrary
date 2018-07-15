@@ -1,4 +1,5 @@
 c Needs conformity-level g.
+c Has exactly four non-trivial level-1 autarkies.
 p cnf 60 139
 c uncontrollable inputs:
 a 1 3 0
