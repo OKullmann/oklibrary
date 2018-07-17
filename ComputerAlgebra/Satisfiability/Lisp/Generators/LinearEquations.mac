@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 11.5.2013 (Swansea) */
-/* Copyright 2013 Oliver Kullmann
+/* Copyright 2013, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -75,7 +75,7 @@ odd_parity_fcl(n) := [create_list(i,i,1,n),odd_parity_cl(n)]$
   is xor).
   A "general (boolean) parity-constraint" ("gprt") is a pair [L,e], where
   L is a list of literals (arbitrary) and e in {0,1}. Again, the meaning is
-  "sum_{x in L} x = 0".
+  "sum_{x in L} x = e".
 */
 
 prt2gprt(P) := [P,0]$
@@ -120,15 +120,18 @@ addprt2prt(L) := addgprt2prt(map(prt2gprt,L))$
    **********************************
 */
 
-/* Direct translation: */
+/* Translation without new variables (P is a list of literals, the xor-sum
+   shall be 0): */
 prt2cl_0(P) :=
  if evenp(sum_l(map(negsignum, listify(P)))) then
    even_parity_wv_cl(map(var_l,P))
  else odd_parity_wv_cl(map(var_l,P))$
+/* TODO: likely "listify(P)" can be replaced by "P". */
 /* Remark: this directly generalises even_parity_wv_cl(V). */
 
 /* Translating the sequence of partial equations, using the list aux of
-   auxiliary variables fulfilling length(aux) >= length(P)-2:
+   auxiliary variables fulfilling length(aux) >= length(P)-2; result
+   is a list of clauses expressing that P has even parity:
 */
 prt2cl_aux_1(P,aux) := if length(P) <= 2 then prt2cl_0(P)
  else block([F : prt2cl_0([P[1],P[2],aux[1]])],
