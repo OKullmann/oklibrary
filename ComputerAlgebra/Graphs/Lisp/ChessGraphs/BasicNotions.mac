@@ -295,6 +295,9 @@ oddwhitequeens_fcs(N,M) := if N*M <= 1 then [{},{{}}] else block(
   V : create_list(n+i,i,1,length(W)-2),
   [union(W,setify(V)), setify(prt2cl_aux_1(listify(X), V))])$
 
+/* Literal x is equivalent to clause C: */
+equiv_litcl_cs(x,C) := adjoin(adjoin(-x,C), setify(create_list({x,-y},y,listify(C))))$
+
 /* Directly using the standard numbering: */
 oddwhiterooks_stdfcs(N) := if N<=1 then [{},{{}}] else block(
  [n : N^2,
@@ -302,6 +305,18 @@ oddwhiterooks_stdfcs(N) := if N<=1 then [{},{{}}] else block(
   s : first(W), X : disjoin(s,W), X : adjoin(-s,X),
   V : create_list(n+i,i,1,length(W)-2),
   [union(W,setify(V)), setify(prt2cl_aux_1(listify(X), V))])$
+/* Using fewer variables, due to amo for the columns, i.e., variable N^2+i
+   is true iff column i contains a white rook: */
+oddwhiterooks_amo_fcs(N) := if N<=1 then [{},{{}}] else block(
+ [n : N^2,
+  SQ : subset(qvmap(cartesian_product(setn(N),setn(N))), whitesq_p),
+  columns, V1, V2],
+  columns :  sort(listify(equiv_classes(SQ, samecolumn_p)), lambda([C1,C2],is(second(first(C1)) < second(first(C2))))),
+  V1 : create_list(n+i,i,1,N),
+  V2 : create_list(n+N+i,i,1,N-2),
+  [setify(append(V1,V2)), union(
+     lunion(create_list(equiv_litcl_cs(V1[i],columns[i]),i,1,N)),
+     setify(prt2cl_aux_1(cons(-(n+1),rest(V1)),V2)))])$
 
 evenwhitequeens_fcs(N,M) := if N*M <= 1 then [{},{}] else block(
  [n : max(N,M)^2,
@@ -332,6 +347,11 @@ nqueens_evenwhite_stdfcs(N,M) := block(
 nrooks_weak_oddwhite_stdfcs(N,M) := block(
  [F1 : nrooks_weak_stdfcs(N,M), F2 : standardise_qv(oddwhitequeens_fcs(N,M))],
  [union(first(F1), first(F2)), union(second(F1), second(F2))])$
+/* Seems to be MU for N notin {1,3}: */
+nrooks_weak_oddwhite_amo_stdfcs(N) := block(
+ [F1 : nrooks_weak_stdfcs(N,N), F2 : standardise_qv(oddwhiterooks_amo_fcs(N))],
+ [union(first(F1), first(F2)), union(second(F1), second(F2))])$
+
 /* Using the natural order on the white fields: */
 nrooks_weakd_oddwhite_stdfcs(N) := block(
  [F1 : nrooks_weak_stdfcs(N,N), F2 : oddwhiterooks_stdfcs(N)],
@@ -369,6 +389,7 @@ output_nqueens_oddwhite(N,M,filename) := block(
 /* Providing a standard name: "NQueens_oddwhite_N_M.cnf": */
 output_nqueens_oddwhite_stdname(N,M) := output_nqueens_oddwhite(N,M,
   sconcat("NQueens_oddwhite_",N,"_",M,".cnf"))$
+
 output_nrooks_weak_oddwhite(N,M,filename) := block(
  [FF : standardise_fcs(nrooks_weak_oddwhite_stdfcs(N,M))[1]],
   output_fcs_v(
@@ -379,6 +400,17 @@ output_nrooks_weak_oddwhite(N,M,filename) := block(
 /* Providing a standard name: "NRooks_weak_oddwhite_N_M.cnf": */
 output_nrooks_weak_oddwhite_stdname(N,M) := output_nrooks_weak_oddwhite(N,M,
   sconcat("NRooks_weak_oddwhite_",N,"_",M,".cnf"))$
+
+output_nrooks_weak_oddwhite_amo(N,filename) := block(
+ [FF : standardise_fcs(nrooks_weak_oddwhite_amo_stdfcs(N))[1]],
+  output_fcs_v(
+    sconcat("N-Rooks weak SAT, odd number of white queens, with N = ", N, " and M = ", M, ".", newline, "c ", "Created by output_nrooks_weak_oddwhite_amo(", N, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF,
+    filename,
+    []))$
+/* Providing a standard name: "NRooks_weak_oddwhite_amo_N.cnf": */
+output_nrooks_weak_oddwhite_amo_stdname(N) := output_nrooks_weak_oddwhite_amo(N,
+  sconcat("NRooks_weak_oddwhite_amo_",N,".cnf"))$
 
 /* Directly using the standard numbering (easier for the SAT-solver): */
 output_nrooks_weakd_oddwhite(N,filename) := block(
