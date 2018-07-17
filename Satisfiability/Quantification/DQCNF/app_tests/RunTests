@@ -14,7 +14,7 @@ declare -a translators=("${translator1}" "${translator2}")
 
 for S in "${translators[@]}"; do
 
-  file="${testdir}/Maxima_2903.qdimacs"
+  file="${testdir}/Maxima_2903.dqdimacs"
 set +e
   $S ${file} ${tempfile} ${tempfile} vs 1
   returncode=$?
