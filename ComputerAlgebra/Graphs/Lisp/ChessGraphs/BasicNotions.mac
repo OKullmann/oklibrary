@@ -317,6 +317,25 @@ oddwhiterooks_amo_fcs(N) := if N<=1 then [{},{{}}] else block(
   [setify(append(V1,V2)), union(
      lunion(create_list(equiv_litcl_cs(V1[i],columns[i]),i,1,N)),
      setify(prt2cl_aux_1(cons(-(n+1),rest(V1)),V2)))])$
+oddblackrooks_amo_fcs(N,offset) := if N<=1 then [{},{{}}] else block(
+ [SQ : subset(qvmap(cartesian_product(setn(N),setn(N))), blacksq_p),
+  columns, V1, V2],
+  columns :  sort(listify(equiv_classes(SQ, samecolumn_p)), lambda([C1,C2],is(second(first(C1)) < second(first(C2))))),
+  V1 : create_list(offset+i,i,1,N),
+  V2 : create_list(offset+N+i,i,1,N-2),
+  [setify(append(V1,V2)), union(
+     lunion(create_list(equiv_litcl_cs(V1[i],columns[i]),i,1,N)),
+     setify(prt2cl_aux_1(cons(-(offset+1),rest(V1)),V2)))])$
+evenblackrooks_amo_fcs(N,offset) := if N<=1 then [{},{{}}] else block(
+ [n : N^2,
+  SQ : subset(qvmap(cartesian_product(setn(N),setn(N))), blacksq_p),
+  columns, V1, V2],
+  columns :  sort(listify(equiv_classes(SQ, samecolumn_p)), lambda([C1,C2],is(second(first(C1)) < second(first(C2))))),
+  V1 : create_list(offset+i,i,1,N),
+  V2 : create_list(offset+N+i,i,1,N-2),
+  [setify(append(V1,V2)), union(
+     lunion(create_list(equiv_litcl_cs(V1[i],columns[i]),i,1,N)),
+     setify(prt2cl_aux_1(V1,V2)))])$
 
 evenwhitequeens_fcs(N,M) := if N*M <= 1 then [{},{}] else block(
  [n : max(N,M)^2,
@@ -367,6 +386,13 @@ nqueens_oddwhiteplus_stdfcs(N,M) := block(
   V : union(first(F1), first(F2)), n : lmax(V),
   F3 : standardise_qv(if oddp(min(N,M)) then evenblackqueens_fcs(N,M,n)
        else oddblackqueens_fcs(N,M,n)),
+ [union(V,first(F3)), union(second(F1),second(F2),second(F3))])$
+nqueens_oddwhiteplus_amo_stdfcs(N) := block(
+ [F1 : nqueens_stdfcs(N,N), F2 : standardise_qv(oddwhiterooks_amo_fcs(N)),
+  V, F3, n],
+  V : union(first(F1), first(F2)), n : lmax(V),
+  F3 : standardise_qv(if oddp(N) then evenblackrooks_amo_fcs(N,n)
+       else oddblackrooks_amo_fcs(N,n)),
  [union(V,first(F3)), union(second(F1),second(F2),second(F3))])$
 nqueens_evenwhiteplus_stdfcs(N,M) := block(
  [F1 : nqueens_stdfcs(N,M), F2 : standardise_qv(evenwhitequeens_fcs(N,M)),
@@ -435,6 +461,19 @@ output_nqueens_oddwhiteplus(N,M,filename) := block(
 output_nqueens_oddwhiteplus_stdname(N,M) :=
  output_nqueens_oddwhiteplus(N,M,
    sconcat("NQueens_oddwhiteplus_",N,"_",M,".cnf"))$
+
+output_nqueens_oddwhiteplus_amo(N,filename) := block(
+ [FF : standardise_fcs(nqueens_oddwhiteplus_amo_stdfcs(N))[1]],
+  output_fcs_v(
+    sconcat("N-Queens SAT, odd number of white queens, even/odd number of black queens, with N = ", N, ".", newline, "c ", "Created by output_nqueens_oddwhiteplus_amo(", N, ",\"", filename, "\").", newline, "c ", created_by_OKlib()),
+    FF,
+    filename,
+    []))$
+/* Providing a standard name: "NQueens_oddwhiteplus_amo_N.cnf": */
+output_nqueens_oddwhiteplus_amo_stdname(N) :=
+ output_nqueens_oddwhiteplus_amo(N,
+   sconcat("NQueens_oddwhiteplus_amo_",N,".cnf"))$
+
 
 /* Output the direct translation to a file (now without gaps for the
    variable-numbering): */
