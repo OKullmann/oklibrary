@@ -1,10 +1,9 @@
-// Oliver Kullmann, 6.7.2018 (Swansea)
+// Oliver Kullmann, 23.7.2018 (Swansea)
 
 #include <iostream>
 
 #include "Backtracking.hpp"
 #include "NQueens.hpp"
-#include "NQueensPartial.hpp"
 
 namespace {
 
@@ -14,11 +13,10 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  typedef Backtracking::CountSat<NQueens::BasicACLS, NQueens::BasicBranching, ChessBoard::Count_t> Backtracking_q;
+  typedef Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::GreedyAmo, ChessBoard::Count_t> Backtracking_q;
 
   const ChessBoard::coord_t N = interprete(argc, argv);
-  NQueens::BasicACLS Fq(N);
-  NQueensPartial::BasicACLS Fqp(N);
+  NQueens::AmoAlo_board Fq(N);
 
   const auto cFq = Backtracking_q()(Fq);
 

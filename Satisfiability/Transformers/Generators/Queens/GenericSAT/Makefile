@@ -13,7 +13,7 @@ Optimisation_options = -Ofast -DNDEBUG
 Optimisation_options_full = -Ofast -DNDEBUG
 Debug_options = -g
 
-all : program program_debug
+all : program program_debug SimTaw SimTaw_debug
 
 program : Program.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp NQueensPartial.hpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
@@ -21,5 +21,12 @@ program : Program.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp NQueensPartial
 program_debug : Program.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp NQueensPartial.hpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
+SimTaw : SimTaw.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp NQueensPartial.hpp
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+SimTaw_debug : SimTaw.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp NQueensPartial.hpp
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+
 clean :
-	- rm program program_debug
+	- rm program program_debug SimTaw SimTaw_debug

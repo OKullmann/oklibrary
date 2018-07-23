@@ -6,9 +6,9 @@ namespace NQueensPartial {
 
   struct BasicACLS {
 
-    void init(const int argc, const char* const argv[]) {
+    const ChessBoard::coord_t N;
 
-    }
+    explicit BasicACLS(const ChessBoard::coord_t N) : N(N) {}
 
   };
 
