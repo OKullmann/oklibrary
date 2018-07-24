@@ -170,7 +170,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.5.8.1";
+const std::string version = "0.5.9";
 const std::string date = "24.7.2018";
 
 const std::string program = "autL1"
@@ -1306,7 +1306,7 @@ struct Translation {
   const DClauseSet& F;
   const Encoding& enc;
 
-  mutable Count_t c_cs=0, c_palr=0, c_parl=0, c_P=0, c_N=0, c_amo=0;
+  mutable Count_t c_cs=0, c_palr=0, c_parl=0, c_P=0, c_N=0, c_amo=0, litocc=0;
 
   Translation(const DClauseSet& F, const Encoding& enc) noexcept : F(F), enc(enc) {}
 
@@ -1316,7 +1316,8 @@ struct Translation {
     {Clause C;
      for (Encoding::clause_index_t i = 0; i < enc.ncs; ++i)
        C.insert(Lit(enc.csvar(i),Pol::p));
-     G.push_back(std::move(C)); ++c_cs;
+     assert(C.size() == enc.ncs);
+     G.push_back(std::move(C)); ++c_cs; litocc += enc.ncs;
     }
     // Defining the pass's:
     {for (auto it = enc.all_solutions.first.begin(); it != enc.all_solutions.first.end(); ++it) {
@@ -1328,14 +1329,16 @@ struct Translation {
        for (const auto& pair : phi) {
          Clause C; C.insert(negtphi);
          C.insert(Lit(enc.bfvar(pair.first, pair.second), Pol::p));
-         G.push_back(std::move(C)); ++c_palr;
+         assert(C.size() == 2);
+         G.push_back(std::move(C)); ++c_palr; litocc += 2;
        }
       }
       // from right to left, i.e., (and_{v in var(phi)} t(v,phi(v))) -> t(phi):
       {Clause C; C.insert(Lit(tphi,Pol::p));
        for (const auto& pair : phi)
          C.insert(Lit(enc.bfvar(pair.first, pair.second), Pol::n));
-       G.push_back(std::move(C)); ++c_parl;
+       assert(C.size() ==  1 + phi.size());
+       G.push_back(std::move(C)); ++c_parl; litocc += 1 + phi.size();
       }
      }
     }
@@ -1343,9 +1346,11 @@ struct Translation {
        // t(C) -> P(C):
        const Var tc = enc.csvar(i);
        {Clause C; C.insert(Lit(tc,Pol::n));
-        for (const Encoding::Pass_p phi_p : enc.all_solutions.second[i])
+        const auto& S = enc.all_solutions.second[i];
+        for (const Encoding::Pass_p& phi_p : S)
           C.insert(Lit(enc.pavar(phi_p),Pol::p));
-        G.push_back(std::move(C)); ++c_P;
+        assert(C.size() == 1 + S.size());
+        G.push_back(std::move(C)); ++c_P; litocc += 1 + S.size();
        }
        // -t(C) -> N(C):
        for (const Lit x : enc.dclauses[i]->P.second) {
@@ -1353,7 +1358,8 @@ struct Translation {
          assert(v < F.ne);
          for (Var bfi = enc.bfvar_indices[v]; bfi < enc.bfvar_indices[v+1]; ++bfi) {
            Clause C; C.insert(Lit(tc,Pol::p)); C.insert(Lit(bfi,Pol::n));
-           G.push_back(std::move(C)); ++c_N;
+           assert(C.size() == 2);
+           G.push_back(std::move(C)); ++c_N; litocc += 2;
          }
        }
      }
@@ -1364,7 +1370,8 @@ struct Translation {
        for (Var v = beg; v < end; ++v)
          for (Var w = v+1; w < end; ++w) {
            Clause C; C.insert(Lit(v,Pol::n)), C.insert(Lit(w,Pol::n));
-           G.push_back(std::move(C)); ++c_amo;
+           assert(C.size() == 2);
+           G.push_back(std::move(C)); ++c_amo; litocc += 2;
          }
      }
     }
@@ -1488,7 +1495,7 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c num_different_dep_sets                " << F.count_dep << "\n"
          "c num_a_literal_occurrences             " << F.la << "\n"
          "c num_e_literal_occurrences             " << F.le << "\n"
-         "c num_literal_occurrences               " << F.l << "\n"
+         "c num_ae_literal_occurrences            " << F.l << "\n"
          "c Encoding:\n"
          "c ncs                                   " << enc.ncs << "\n"
          "c nbf                                   " << enc.nbf << "\n"
@@ -1501,7 +1508,8 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c c_P                                   " << trans.c_P << "\n"
          "c c_N                                   " << trans.c_N << "\n"
          "c c_amo                                 " << trans.c_amo << "\n"
-         "c c                                     " << G.size() << "\n";
+         "c c                                     " << G.size() << "\n"
+         "c num_literal_occurrences               " << trans.litocc << "\n";
 
   if (code(ll) >= 1) logout << "c Input DCNF (list of variables, then list of clauses, as pairs \"E;A\"):\n" << F;
 
