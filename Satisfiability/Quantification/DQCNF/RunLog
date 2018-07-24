@@ -3,11 +3,11 @@ set -o errexit
 set -o nounset
 
 program="RunLog"
-version="0.2.1"
+version="0.2.2"
 
 numargs=$#
 if (( numargs == 0 )); then
-  echo -e "USAGE:\n Run executable options directory"
+  echo -e "USAGE:\n ${program} executable options directory"
   exit 0
 fi
 executable="$1"
@@ -15,7 +15,7 @@ options="$2"
 directory="$3"
 
 timestamp=$(date "+%F_%H-%M-%S")
-logfile="RunLog_${timestamp}"
+logfile="${program}_${timestamp}"
 
 echo "${program} in version ${version}, logfile = ${logfile}"
 
@@ -30,7 +30,7 @@ ${executable} -v >> ${logfile}
 echo >> ${logfile}
 
 for F in $(find ${directory} \( -iname "*.qdimacs" -o -iname "*.dqdimacs" \) -print); do
-echo >> ${logfile}
+  echo >> ${logfile}
 set +e
   ${executable} $F -nil ${logfile} ${options}
   result=$?
