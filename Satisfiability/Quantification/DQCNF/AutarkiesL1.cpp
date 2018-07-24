@@ -94,7 +94,7 @@ TODOS:
    dependencies etc.) are established.
 
    For the handling of minima perhaps some helper-function is used, which
-   writes "inf" under appropriate circumstances.
+   writes "NaN" under appropriate circumstances.
 
 2. More statistics on dependencies:
     - average size
@@ -170,7 +170,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.5.9";
+const std::string version = "0.5.10";
 const std::string date = "24.7.2018";
 
 const std::string program = "autL1"
@@ -1489,9 +1489,11 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c max_e_clause_length                   " << F.max_e_length << "\n"
          "c max_clause_length                     " << F.max_c_length << "\n"
          "c min_dep_size                          ";
-          if (F.count_dep!=0) logout<<F.min_s_dep; else logout<<"inf";
+          if (F.count_dep!=0) logout<<F.min_s_dep; else logout<<"NaN";
           logout << "\n"
-         "c max_dep_size                          " << F.max_s_dep << "\n"
+         "c max_dep_size                          ";
+          if (F.count_dep!=0) logout<<F.max_s_dep; else logout<<"NaN";
+          logout << "\n"
          "c num_different_dep_sets                " << F.count_dep << "\n"
          "c num_a_literal_occurrences             " << F.la << "\n"
          "c num_e_literal_occurrences             " << F.le << "\n"
