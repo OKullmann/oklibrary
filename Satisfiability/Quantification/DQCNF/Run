@@ -2,17 +2,22 @@
 set -o errexit
 set -o nounset
 
+program="Run"
+version="0.2.1"
+
 numargs=$#
 if (( numargs == 0 )); then
-  echo -e "USAGE:\n Run program directory options"
+  echo -e "USAGE ${program}:\n Run executable options directory"
   exit 0
 fi
-program="$1"
-directory="$2"
-options="$3"
+
+executable="$1"
+options="$2"
+directory="$3"
+
 for F in $(find ${directory} \( -iname "*.qdimacs" -o -iname "*.dqdimacs" \) -print); do
 set +e
-  ${program} $F -nil -nil $3
+  ${executable} $F -nil -nil ${options}
   result=$?
 set -e
   if [[ $result != 0 ]]; then
