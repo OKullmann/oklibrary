@@ -51,7 +51,7 @@ BUGS:
 
 Running on the DQBF-instances from QBFEVAL18 (cswsok):
 
-DQCNF> time ./Run ./autL1 "g" ~/OKplatform/QBF/EVAL18/QBFEVAL_18_DATASET/dqbf18/
+DQCNF> time ./Run ./autL1 "g" ~/OKplatform/QBF/EVAL18/QBFEVAL_18_DATASET/dqbf18
 real    8m58.213s
 user    7m32.069s
 sys     1m25.115s
@@ -61,6 +61,28 @@ Out of memory:
 bloem_ifm_genbuf16n.dqdimacs
 bloem_ifm_genbuf16y.dqdimacs
 
+
+RESULTS:
+
+DQCNF> time ./RunLog ./autL1_debug "g" ~/OKplatform/QBF/EVAL18/QBFEVAL_18_DATASET/dqbf18
+real    38m3.670s
+user    36m28.088s
+sys     1m33.058s
+
+Same two out-of-memory instances as above.
+
+DQCNF> cat RunLog_2018-07-24_02-48-25 | ./ExtractAutL1 > RunLog_2018-07-24_02-48-25.R
+
+In R:
+> E=read.table("RunLog_2018-07-24_02-48-25.R", header=TRUE)
+> summary(E)
+       n                 c
+ Min.   :     77   Min.   :     255
+ 1st Qu.:  10528   1st Qu.:  136976
+ Median :  79014   Median : 1435640
+ Mean   : 212198   Mean   : 5124319
+ 3rd Qu.: 240016   3rd Qu.: 5240062
+ Max.   :5273364   Max.   :83767585
 
 
 TODOS:
