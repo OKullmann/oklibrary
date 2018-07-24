@@ -2,11 +2,14 @@
 set -o errexit
 set -o nounset
 
+program="RunTests"
+version="0.1"
+
 testdir="app_tests"
 
-tempfile="RunTests_$$"
+tempfile="${program}_$$"
 
-# solver1="valgrind -q --exit-on-first-error=yes ./autL1_debug"
+# translator1="valgrind -q --exit-on-first-error=yes ./autL1_debug"
 translator1="valgrind -q ./autL1_debug"
 translator2="./autL1"
 declare -a translators=("${translator1}" "${translator2}")
