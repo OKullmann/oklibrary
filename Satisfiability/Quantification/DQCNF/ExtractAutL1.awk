@@ -13,8 +13,8 @@ BEGIN {
   n=0; c=0
 }
 
-/^c \<n\> / { n = $3 }
-/^c \<c\> / { c = $3; print n " " c }
+/^c n / { n = $3 }
+/^c c / { c = $3; print n " " c }
 
 END { 
   
