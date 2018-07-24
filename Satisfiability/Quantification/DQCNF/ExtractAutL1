@@ -21,7 +21,7 @@ set -o errexit
 set -o nounset
 
 script_name="ExtractAutL1"
-version_number=0.0.7
+version_number=0.0.8
 
 if ([ $# -ge 2 ]) then
   echo -e "ERROR[${script_name}]: At most one parameter is allowed,\n" \
@@ -30,7 +30,7 @@ if ([ $# -ge 2 ]) then
 fi
 
 if ([ $# -eq 1 ]) then
-  if ([ $1 == header-only ]) then
+  if ([ $1 == "header-only" ]) then
     mode=header-file
   else
     mode=data-file
@@ -39,18 +39,18 @@ else
   mode=both-file
 fi
 
-header="n c"
-extract_awk=./ExtractAutL1.awk
+header="no co na ne mind maxd nd lo n c l"
+extract_awk="./ExtractAutL1.awk"
 
 if ([ ${mode} == header-file ]) then
   echo "${header}"
   exit 0
 elif ([ ${mode} == data-file ]) then
-  gawk -f ${extract_awk}
+  awk -f ${extract_awk}
   exit 0
 fi
 
 echo "${header}"
-gawk -f ${extract_awk}
+awk -f ${extract_awk}
 
 exit 0
