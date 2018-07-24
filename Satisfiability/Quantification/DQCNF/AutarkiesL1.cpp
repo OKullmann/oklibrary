@@ -51,31 +51,10 @@ BUGS:
 
 Running on the DQBF-instances from QBFEVAL18 (cswsok):
 
-DQCNF> time ./Run ./autL1 "g" ~/OKplatform/QBF/EVAL18/QBFEVAL_18_DATASET/dqbf18
-real    8m58.213s
-user    7m32.069s
-sys     1m25.115s
-
-Out of memory:
-
-bloem_ifm_genbuf16n.dqdimacs
-bloem_ifm_genbuf16y.dqdimacs
-
-Below, when running not with output=-nil, but into a file, there was no
-OOM?
-
-
 RESULTS:
 
-On cswsok:
-DQCNF> time ./RunLog ./autL1 "g" ~/OKplatform/QBF/EVAL18/QBFEVAL_18_DATASET/dqbf18
-real    8m50.912s
-user    7m32.028s
-sys     1m17.898s
-
-Here the same two OOM as above.
-
-On csverify, also solving the instances, and now without OOM:
+On csverify, also solving the instances (all; here due to more memory without
+OOMs):
 
 DQCNF> time ./RunRun ./autL1 "g" ~/QBF/QBFEVAL/dqbf18
 RunRun in version 0.1.1, logfile = RunRun_2018-07-24_14-59-28
