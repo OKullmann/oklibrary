@@ -1,0 +1,43 @@
+#!/bin/bash
+set -o errexit
+set -o nounset
+
+program="RunLog"
+version="0.2.1"
+
+numargs=$#
+if (( numargs == 0 )); then
+  echo -e "USAGE:\n Run executable options directory"
+  exit 0
+fi
+executable="$1"
+options="$2"
+directory="$3"
+
+timestamp=$(date "+%F_%H-%M-%S")
+logfile="RunLog_${timestamp}"
+
+echo "${program} in version ${version}, logfile = ${logfile}"
+
+echo "${program} in version ${version}" > ${logfile}
+
+echo "Parameters:" >> ${logfile}
+echo "\$1 (executable): \"${executable}\"" >> ${logfile}
+echo "\$2 (options)   : \"${options}\"" >> ${logfile}
+echo "\$3 (directory) : \"${directory}\"" >> ${logfile}
+
+${executable} -v >> ${logfile}
+echo >> ${logfile}
+
+for F in $(find ${directory} \( -iname "*.qdimacs" -o -iname "*.dqdimacs" \) -print); do
+echo >> ${logfile}
+set +e
+  ${executable} $F -nil ${logfile} ${options}
+  result=$?
+set -e
+  if [[ $result != 0 ]]; then
+    echo "ERROR: $result $F" >> ${logfile}
+  fi
+done
+
+exit 0
