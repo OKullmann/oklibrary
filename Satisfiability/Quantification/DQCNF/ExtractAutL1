@@ -1,0 +1,56 @@
+#!/bin/bash
+# Oliver Kullmann, 24.7.2018 (Swansea)
+# Copyright 2018 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the
+# License, or any later version.
+
+# Reads autL1-output from standard input, printing the extracted numerical
+# data together with a header (R table-style) to standard output.
+
+# Read into R with e.g.
+# E=read.table("File",header=TRUE)
+
+# One optional argument is allowed:
+# - if it is "header-only" then only the header is printed
+# - otherwise (with one argument) only the data is printed.
+# (If there is no argument, then both header and data are printed.)
+
+set -o errexit
+set -o nounset
+
+script_name="ExtractAutL1"
+version_number=0.0.7
+
+if ([ $# -ge 2 ]) then
+  echo -e "ERROR[${script_name}]: At most one parameter is allowed,\n" \
+    " either string \"header-only\" or string \"data-only\"."
+  exit 1
+fi
+
+if ([ $# -eq 1 ]) then
+  if ([ $1 == header-only ]) then
+    mode=header-file
+  else
+    mode=data-file
+  fi
+else
+  mode=both-file
+fi
+
+header="n c"
+extract_awk=./ExtractAutL1.awk
+
+if ([ ${mode} == header-file ]) then
+  echo "${header}"
+  exit 0
+elif ([ ${mode} == data-file ]) then
+  gawk -f ${extract_awk}
+  exit 0
+fi
+
+echo "${header}"
+gawk -f ${extract_awk}
+
+exit 0
