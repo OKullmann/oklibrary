@@ -39,7 +39,7 @@ else
   mode=both-file
 fi
 
-header="no co na ne mind maxd nd lo n c l"
+header="name no co na ne mind maxd nd lo n c l sat t"
 extract_awk="./ExtractAutL1.awk"
 
 if ([ ${mode} == header-file ]) then

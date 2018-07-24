@@ -11,9 +11,10 @@
 # order of lines is as below.
 
 BEGIN {
-  no=0; co=0; na=0; ne=0; mind=0; maxd=0; nd=0; lo=0; n=0; c=0; l=0
+  filename=""; no=0; co=0; na=0; ne=0; mind=0; maxd=0; nd=0; lo=0; n=0; c=0; l=0; sat="NaN"; t="NaN"
 }
 
+/^c file_name / { filename = $3 }
 /^c num_variables / { no = $3 }
 /^c num_clauses / { co = $3 }
 /^c number_a_variables / { na = $3 }
@@ -24,8 +25,12 @@ BEGIN {
 /^c num_ae_literal_occurrences / { lo = $3 }
 /^c n / { n = $3 }
 /^c c / { c = $3 }
-/^c num_literal_occurrences / {l = $3;
-   print no " " co " " na " " ne " " mind " " maxd " " nd " " lo " " n " " c " " l}
+/^c num_literal_occurrences / { l = $3 }
+/ SATISFIABLE / { sat = 1 }
+/^SATISFIABLE/ { sat = 1 }
+/UNSATISFIABLE/ { sat = 0 }
+/^user / { t = $2 }
+/^BLOCKEND / { print filename " " no " " co " " na " " ne " " mind " " maxd " " nd " " lo " " n " " c " " l " " sat " " t; sat="NaN"; t="NaN"}
 
 END { 
   
