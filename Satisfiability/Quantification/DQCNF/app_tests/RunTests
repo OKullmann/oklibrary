@@ -3,7 +3,7 @@ set -o errexit
 set -o nounset
 
 program="RunTests"
-version="0.1"
+version="0.1.1"
 
 testdir="app_tests"
 
@@ -14,6 +14,9 @@ translator1="valgrind -q ./autL1_debug"
 translator2="./autL1"
 declare -a translators=("${translator1}" "${translator2}")
 
+countsolver1=${1:-"ctawSolver"}
+satsolver1=${2:-"tawSolver"}
+satsolver2=${3:-"OKsolver_2002-O3-DNDEBUG"}
 
 for S in "${translators[@]}"; do
 
@@ -26,7 +29,7 @@ set -e
     echo "ERROR with translator \"${S}\" on ${file}."
     exit 1
   fi
-  result=$(ctawSolver ${tempfile} | awk '/number_of_solutions/{print $3}')
+  result=$(${countsolver1} ${tempfile} | awk '/number_of_solutions/{print $3}')
   if (( result != 2903 )); then
     echo -e "Wrong count with translator \"${S}\" on ${file}."
     exit 2
@@ -42,7 +45,7 @@ set -e
     echo "ERROR with translator \"${S}\" on ${file}."
     exit 3
   fi
-  result=$(ctawSolver ${tempfile} | awk '/number_of_solutions/{print $3}')
+  result=$(${countsolver1} ${tempfile} | awk '/number_of_solutions/{print $3}')
   if (( result != 270 )); then
     echo -e "Wrong count with translator \"${S}\" on ${file}."
     exit 4
@@ -59,11 +62,11 @@ set -e
     exit 5
   fi
 set +e
-  tawSolver ${tempfile} -nil -nil
+  ${satsolver1} ${tempfile} -nil -nil
   returncode=$?
 set -e
   if (( returncode != 10 )); then
-    echo "ERROR with tawsolver on ${file}."
+    echo "ERROR with ${satsolver1} on ${file}."
     exit 6
   fi
   rm ${tempfile}
@@ -87,11 +90,11 @@ set -e
     exit 8
   fi
 set +e
-  OKsolver_2002-O3-DNDEBUG ${tempfile} > /dev/null
+  ${satsolver2} ${tempfile} > /dev/null
   returncode=$?
 set -e
   if (( returncode != 20 )); then
-    echo "ERROR with OKsolver_2002-O3-DNDEBUG on ${file}."
+    echo "ERROR with ${satsolver2} on ${file}."
     exit 9
   fi
   rm ${tempfile}
