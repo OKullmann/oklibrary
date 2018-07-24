@@ -3,7 +3,7 @@ set -o errexit
 set -o nounset
 
 program="RunLog"
-version="0.2.2"
+version="0.2.3"
 
 numargs=$#
 if (( numargs == 0 )); then
@@ -38,6 +38,7 @@ set -e
   if [[ $result != 0 ]]; then
     echo "ERROR: $result $F" >> ${logfile}
   fi
+  echo "BLOCKEND ${F}" >> ${logfile}
 done
 
 exit 0
