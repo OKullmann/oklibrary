@@ -1,0 +1,53 @@
+#!/bin/bash
+set -o errexit
+set -o nounset
+
+program="RunRun"
+version="0.1.1"
+
+numargs=$#
+if (( numargs == 0 )); then
+  echo -e "USAGE:\n ${program} executable options directory [solver]"
+  exit 0
+fi
+executable="$1"
+options="$2"
+directory="$3"
+satsolver=${4:-"minisat-2.2.0 -verb=0"}
+
+
+timestamp=$(date "+%F_%H-%M-%S")
+logfile="${program}_${timestamp}"
+translation="${logfile}_translation"
+
+echo "${program} in version ${version}, logfile = ${logfile}"
+
+echo "${program} in version ${version}" > ${logfile}
+
+echo "Parameters:" >> ${logfile}
+echo "\$1 (executable): \"${executable}\"" >> ${logfile}
+echo "\$2 (options)   : \"${options}\"" >> ${logfile}
+echo "\$3 (directory) : \"${directory}\"" >> ${logfile}
+echo "\$4 (satsolver) : \"${satsolver}\"" >> ${logfile}
+
+${executable} -v >> ${logfile}
+echo >> ${logfile}
+
+for F in $(find ${directory} \( -iname "*.qdimacs" -o -iname "*.dqdimacs" \) -print); do
+  echo >> ${logfile}
+set +e
+  ${executable} $F ${translation} ${logfile} ${options}
+  result=$?
+set -e
+  if [[ $result != 0 ]]; then
+    echo "ERROR: $result $F" >> ${logfile}
+  else
+set +e
+    /usr/bin/time --portability --output ${logfile} --append ${satsolver} ${translation} >> ${logfile}
+set -e
+  fi
+  echo "BLOCKEND ${F}" >> ${logfile}
+  rm ${translation}
+done
+
+exit 0
