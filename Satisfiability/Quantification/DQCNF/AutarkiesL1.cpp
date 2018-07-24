@@ -21,7 +21,7 @@ License, or any later version. */
 
   USAGE:
 
-> autL1 input [file-output] [log] [conformity-level] [log-level]
+> autL1 input [file-output] [log] [conformity-level=n] [log-level=0]
 
 A parameter can only be used iff all parameters to the left of it are
 specified.
@@ -41,7 +41,9 @@ in the dependency-section, and also allows empty clauses.
 Level "s" (for "strict") disallows clauses without existential variables
 ("pseudo-empty" clauses).
 
-Log-level "1" has the original input and information on the encoding in
+The default of log-level is 0, while
+log-level "1" has the original input shown, and
+log-level "2" has additionally information on the encoding in
 the comments-section of the translated problem.
 
 
@@ -49,7 +51,7 @@ BUGS:
 
 Running on the DQBF-instances from QBFEVAL18 (cswsok):
 
-DQCNF> time ./Run ./autL1 ~/OKplatform/QBF/EVAL18/QBFEVAL_18_DATASET/dqbf18/ g
+DQCNF> time ./Run ./autL1 "g" ~/OKplatform/QBF/EVAL18/QBFEVAL_18_DATASET/dqbf18/
 real    8m58.213s
 user    7m32.069s
 sys     1m25.115s
@@ -146,8 +148,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.5.8";
-const std::string date = "15.7.2018";
+const std::string version = "0.5.8.1";
+const std::string date = "24.7.2018";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -1351,16 +1353,18 @@ struct Translation {
 
 // --- Output ---
 
-enum class LogLevel {normal=0, withinput};
+enum class LogLevel {normal=0, withinput=1, withmeaning=2};
 std::ostream& operator <<(std::ostream& out, const LogLevel l) noexcept {
   switch (l) {
   case LogLevel::withinput : return out << "with_input";
-  default : return out << "default";
+  case LogLevel::withmeaning : return out << "with_var_interpretations";
+  default : return out << "normal";
   }
 }
 // String to LogLevel:
 LogLevel s2loglev(const std::string& s) {
   if (s == "1") return LogLevel::withinput;
+  else if (s == "2") return LogLevel::withmeaning;
   else return LogLevel::normal;
 }
 
@@ -1435,6 +1439,7 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c Parameter (command line, file):\n"
          "c file_name                             " "\"" << filename << "\"\n"
          "c conformity_level                      " << cl << "\n"
+         "c log_level                             " << ll << "\n"
          "c maximal_index_variables               " << F.n_pl << "\n"
          "c number_clauses                        " << F.c_pl << "\n"
          "c number_a_variables                    " << F.na_d << "\n"
@@ -1476,19 +1481,23 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c c_amo                                 " << trans.c_amo << "\n"
          "c c                                     " << G.size() << "\n";
 
-  if (ll == LogLevel::withinput) logout << "c Input DCNF (list of variables, then list of clauses, as pairs \"E;A\"):\n" << F;
+  if (code(ll) >= 1) logout << "c Input DCNF (list of variables, then list of clauses, as pairs \"E;A\"):\n" << F;
 
   if (solout != logout) {
     solout << "c Program " << program << ": version " << version << ", " << date << ".\n";
     solout << "c Input: " << filename << "\n";
   }
-  if (not solout.nil()) {
-    solout << "c Information on the meaning of translation-variables:\n";
-    solout << enc;
-  } else {
-    logout << "c The meaning of translation-variables:\n";
-    logout << enc;
+
+  if (code(ll) >= 2) {
+    if (not solout.nil()) {
+      solout << "c Information on the meaning of translation-variables:\n";
+      solout << enc;
+    } else {
+      logout << "c The meaning of translation-variables:\n";
+      logout << enc;
+    }
   }
+
   solout << "p cnf " << enc.n << " " << G.size() << "\n";
   for (const Clause& C : G) {
     for (const Lit x : C) solout << x << " ";
