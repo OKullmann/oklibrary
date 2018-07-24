@@ -64,25 +64,39 @@ bloem_ifm_genbuf16y.dqdimacs
 
 RESULTS:
 
-DQCNF> time ./RunLog ./autL1_debug "g" ~/OKplatform/QBF/EVAL18/QBFEVAL_18_DATASET/dqbf18
-real    38m3.670s
-user    36m28.088s
-sys     1m33.058s
+DQCNF> time ./RunLog ./autL1 "g" ~/OKplatform/QBF/EVAL18/QBFEVAL_18_DATASET/dqbf18
+real    8m50.912s
+user    7m32.028s
+sys     1m17.898s
 
 Same two out-of-memory instances as above.
 
-DQCNF> cat RunLog_2018-07-24_02-48-25 | ./ExtractAutL1 > RunLog_2018-07-24_02-48-25.R
+DQCNF> cat RunLog_2018-07-24_09-13-11 | ./ExtractAutL1 > RunLog_2018-07-24_09-13-11.R
 
 In R:
-> E=read.table("RunLog_2018-07-24_02-48-25.R", header=TRUE)
+> E=read.table("RunLog_2018-07-24_09-13-11.R", header=TRUE)
 > summary(E)
-       n                 c
- Min.   :     77   Min.   :     255
- 1st Qu.:  10528   1st Qu.:  136976
- Median :  79014   Median : 1435640
- Mean   : 212198   Mean   : 5124319
- 3rd Qu.: 240016   3rd Qu.: 5240062
- Max.   :5273364   Max.   :83767585
+       no                co               na               ne
+ Min.   :    9.0   Min.   :    16   Min.   :  1.00   Min.   :    3.0
+ 1st Qu.:  137.5   1st Qu.:   853   1st Qu.: 15.00   1st Qu.:  124.2
+ Median :  521.0   Median :  1548   Median : 44.00   Median :  431.0
+ Mean   :  811.2   Mean   :  3644   Mean   : 56.09   Mean   :  755.3
+ 3rd Qu.:  878.0   3rd Qu.:  2364   3rd Qu.: 81.00   3rd Qu.:  710.0
+ Max.   :19096.0   Max.   :151339   Max.   :203.00   Max.   :19086.0
+      mind            maxd              nd               lo
+ Min.   : 0.00   Min.   :  1.00   Min.   :  2.00   Min.   :    36
+ 1st Qu.: 2.00   1st Qu.: 11.00   1st Qu.:  4.00   1st Qu.:  2090
+ Median : 3.00   Median : 44.00   Median :  4.00   Median :  3758
+ Mean   :10.06   Mean   : 55.12   Mean   : 69.98   Mean   : 17589
+ 3rd Qu.:11.00   3rd Qu.: 81.00   3rd Qu.:  7.00   3rd Qu.:  6400
+ Max.   :76.00   Max.   :203.00   Max.   :578.00   Max.   :421239
+       n                 c                  l
+ Min.   :     77   Min.   :     255   Min.   :      582
+ 1st Qu.:  10528   1st Qu.:  136976   1st Qu.:   316480
+ Median :  79014   Median : 1435640   Median :  3240581
+ Mean   : 212198   Mean   : 5124319   Mean   : 10651210
+ 3rd Qu.: 240016   3rd Qu.: 5240062   3rd Qu.: 10680255
+ Max.   :5273364   Max.   :83767585   Max.   :169772211
 
 
 TODOS:
