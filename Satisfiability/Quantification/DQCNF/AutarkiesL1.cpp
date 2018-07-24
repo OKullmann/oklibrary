@@ -61,42 +61,77 @@ Out of memory:
 bloem_ifm_genbuf16n.dqdimacs
 bloem_ifm_genbuf16y.dqdimacs
 
+Below, when running not with output=-nil, but into a file, there was no
+OOM?
+
 
 RESULTS:
 
+On cswsok:
 DQCNF> time ./RunLog ./autL1 "g" ~/OKplatform/QBF/EVAL18/QBFEVAL_18_DATASET/dqbf18
 real    8m50.912s
 user    7m32.028s
 sys     1m17.898s
 
-Same two out-of-memory instances as above.
+Here the same two OOM as above.
 
-DQCNF> cat RunLog_2018-07-24_09-13-11 | ./ExtractAutL1 > RunLog_2018-07-24_09-13-11.R
+On csverify, also solving the instances, and now without OOM:
+
+DQCNF> time ./RunRun ./autL1 "g" ~/QBF/QBFEVAL/dqbf18
+RunRun in version 0.1.1, logfile = RunRun_2018-07-24_14-59-28
+real    110m42.822s
+user    107m49.960s
+sys     2m50.464s
+
+DQCNF> cat RunRun_2018-07-24_14-59-28 | ./ExtractAutL1 > RunRun_2018-07-24_14-59-28.R
 
 In R:
-> E=read.table("RunLog_2018-07-24_09-13-11.R", header=TRUE)
-> summary(E)
-       no                co               na               ne
+> E=read.table("RunRun_2018-07-24_14-59-28.R", header=TRUE)
+> summary(subset(E, select=-name))
+      no                co               na               ne
  Min.   :    9.0   Min.   :    16   Min.   :  1.00   Min.   :    3.0
- 1st Qu.:  137.5   1st Qu.:   853   1st Qu.: 15.00   1st Qu.:  124.2
- Median :  521.0   Median :  1548   Median : 44.00   Median :  431.0
- Mean   :  811.2   Mean   :  3644   Mean   : 56.09   Mean   :  755.3
- 3rd Qu.:  878.0   3rd Qu.:  2364   3rd Qu.: 81.00   3rd Qu.:  710.0
- Max.   :19096.0   Max.   :151339   Max.   :203.00   Max.   :19086.0
-      mind            maxd              nd               lo
- Min.   : 0.00   Min.   :  1.00   Min.   :  2.00   Min.   :    36
- 1st Qu.: 2.00   1st Qu.: 11.00   1st Qu.:  4.00   1st Qu.:  2090
- Median : 3.00   Median : 44.00   Median :  4.00   Median :  3758
- Mean   :10.06   Mean   : 55.12   Mean   : 69.98   Mean   : 17589
- 3rd Qu.:11.00   3rd Qu.: 81.00   3rd Qu.:  7.00   3rd Qu.:  6400
- Max.   :76.00   Max.   :203.00   Max.   :578.00   Max.   :421239
-       n                 c                  l
- Min.   :     77   Min.   :     255   Min.   :      582
- 1st Qu.:  10528   1st Qu.:  136976   1st Qu.:   316480
- Median :  79014   Median : 1435640   Median :  3240581
- Mean   : 212198   Mean   : 5124319   Mean   : 10651210
- 3rd Qu.: 240016   3rd Qu.: 5240062   3rd Qu.: 10680255
- Max.   :5273364   Max.   :83767585   Max.   :169772211
+ 1st Qu.:  139.0   1st Qu.:   853   1st Qu.: 15.00   1st Qu.:  127.2
+ Median :  521.5   Median :  1551   Median : 45.50   Median :  431.0
+ Mean   :  818.2   Mean   :  3654   Mean   : 57.09   Mean   :  761.3
+ 3rd Qu.:  878.8   3rd Qu.:  2406   3rd Qu.: 81.75   3rd Qu.:  710.0
+ Max.   :19096.0   Max.   :151339   Max.   :222.00   Max.   :19086.0
+      mind             maxd              nd               lo
+ Min.   :  0.00   Min.   :  1.00   Min.   :  2.00   Min.   :    36
+ 1st Qu.:  2.00   1st Qu.: 11.00   1st Qu.:  4.00   1st Qu.:  2094
+ Median :  3.00   Median : 45.50   Median :  4.00   Median :  3767
+ Mean   : 10.61   Mean   : 56.12   Mean   : 69.58   Mean   : 17556
+ 3rd Qu.: 11.00   3rd Qu.: 81.75   3rd Qu.:  7.00   3rd Qu.:  6600
+ Max.   :101.00   Max.   :222.00   Max.   :578.00   Max.   :421239
+       n                 c                   l                  sat
+ Min.   :     77   Min.   :      255   Min.   :      582   Min.   :0.00000
+ 1st Qu.:  10652   1st Qu.:   138114   1st Qu.:   319876   1st Qu.:0.00000
+ Median :  80162   Median :  1541718   Median :  3323704   Median :0.00000
+ Mean   : 224072   Mean   :  6183005   Mean   : 12789023   Mean   :0.01198
+ 3rd Qu.: 241889   3rd Qu.:  5275142   3rd Qu.: 10709316   3rd Qu.:0.00000
+ Max.   :5273364   Max.   :185447922   Max.   :374806131   Max.   :1.00000
+       t
+ Min.   :   0.00
+ 1st Qu.:   0.11
+ Median :   1.10
+ Mean   :  17.52
+ 3rd Qu.:   5.24
+ Max.   :1315.18
+> nrow(E)
+[1] 334
+
+There are four instances with level-1-autarkies:
+
+> E[E$sat==1,]
+                                                     name  no  co na  ne mind
+64                              dqbf18/bloem_ex2.dqdimacs  60 139 10  50    4
+187 dqbf18/tentrup17_ltl2dba_theta_environment_1.dqdimacs 248 732  3 246    1
+234                             dqbf18/bloem_eq1.dqdimacs   9  16  1   8    0
+300                             dqbf18/bloem_ex1.dqdimacs  23  52  3  20    1
+    maxd nd   lo    n     c     l sat    t
+64    10  4  323 2787 20920 46047   1 0.01
+187    3  4 1910 6864 30619 72436   1 0.14
+234    1  2   36   77   255   582   1 0.00
+300    3  4  120  422  1912  4394   1 0.00
 
 
 TODOS:
