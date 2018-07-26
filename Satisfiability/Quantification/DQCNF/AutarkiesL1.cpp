@@ -8,7 +8,8 @@ License, or any later version. */
 /*!
   \file Satisfiability/Quantification/DQCNF/AutarkiesL1.cpp
   \brief A simple translation of the level-1 autarky problem for DQCNFs
-  to SAT, using the direct encoding.
+  to SAT, using the direct encoding. The special feature of this translation
+  is that it allows counting the number of level-1-autarkies.
 
   COMPILE with
 
@@ -49,12 +50,10 @@ the comments-section of the translated problem.
 
 BUGS:
 
-Running on the DQBF-instances from QBFEVAL18 (cswsok):
-
 RESULTS:
 
-On csverify, also solving the instances (all; here due to more memory without
-OOMs):
+Running on the DQBF-instances from QBFEVAL18 on csverify, also solving the
+instances (using minsat-2.2.; succesful on all instances, due to more memory):
 
 DQCNF> time ./RunRun ./autL1 "g" ~/QBF/QBFEVAL/dqbf18
 RunRun in version 0.1.1, logfile = RunRun_2018-07-24_14-59-28
@@ -112,6 +111,53 @@ There are four instances with level-1-autarkies:
 234    1  2   36   77   255   582   1 0.00
 300    3  4  120  422  1912  4394   1 0.00
 
+Autarkie-counts by sharpSAT:
+
+bloem_ex2.dqdimacs:                                4
+tentrup17_ltl2dba_theta_environment_1.dqdimacs:    256
+bloem_eq1.dqdimacs:                                1     (also ctawSolver)
+bloem_ex1.dqdimacs:                                2     (also ctawSolver)
+
+
+The linear regression on no versus ne says that we can well approximate ne
+by just subtracting 57 from no:
+> modne = lm(E$ne ~ E$no)
+> summary(modne)
+Residuals:
+    Min      1Q  Median      3Q     Max
+-165.36  -24.80   11.44   42.10   56.12
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) -57.11904    3.16767  -18.03   <2e-16 ***
+E$no          1.00024    0.00155  645.26   <2e-16 ***
+Residual standard error: 53.05 on 332 degrees of freedom
+Multiple R-squared:  0.9992,    Adjusted R-squared:  0.9992
+F-statistic: 4.164e+05 on 1 and 332 DF,  p-value: < 2.2e-16
+> plot(E$no, E$ne)
+> abline(modne)
+
+For maxd we have two families, as the plot shows: one where maxd is just na,
+this is the largest family, and a small family with a smaller coefficient, but
+still perfect linear behaviour:
+> modmaxd = lm(E$maxd ~ E$na)
+> summary(modmaxd)
+Residuals:
+     Min       1Q   Median       3Q      Max
+-10.6054   0.3039   0.9712   1.5101   1.6898
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) -1.702632   0.228794  -7.442 8.59e-13 ***
+E$na         1.012833   0.002944 344.042  < 2e-16 ***
+Residual standard error: 2.837 on 332 degrees of freedom
+Multiple R-squared:  0.9972,    Adjusted R-squared:  0.9972
+F-statistic: 1.184e+05 on 1 and 332 DF,  p-value: < 2.2e-16
+> plot(E$na, E$maxd)
+> abline(modmaxd)
+
+Concerning nd, the plot suggest that there are five families, the largest one
+with constant (small) nd, the other four with linear behaviour:
+> plot(E$na, E$nd)
+
 
 TODOS:
 
@@ -138,7 +184,9 @@ TODOS:
       ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/plans/CardinalityConstraints.hpp
     - Two versions: with and without unique-extension-property (the former
       when we want to count solutions); again a command-line parameter is
-      needed.
+      needed -- or, since the special feature of this translation is the
+      ability to count solutions, we actually implement only the
+      counting-version.
 
 4. Implement
     - cleanup_clauses()
@@ -155,6 +203,8 @@ Three steps:
       updated.
   (c) Finally remove all fa-variables from dependency-sets.
 
+Statistics are needed to report on these reductions.
+
 5. Determine the main parameters like number of pa-variables etc. from the
    parameters of the DQCNF.
 
@@ -165,6 +215,8 @@ Three steps:
    Give the line-numbers with the errors.
 
    More information should be given in case of out-of-memory.
+   And all such errors need to be caught (so that then all functions
+   are noexcept).
 
 7. Improve merging output
 
@@ -173,6 +225,22 @@ Three steps:
 
    Perhaps the repetition of the input should come last (before the real
    output)?
+
+8. Another variation: cut out variables for partial assignments with only
+   one variable.
+
+   Together with cleaning-up-or-not this yields (at least) 4 variations.
+   Should become another command-line parameter.
+
+   Perhaps four levels of preprocessing:
+    - 0 : none (the default)
+    - 1 : only dependency-clean-up
+    - 2 : only pa-variable-clean-up
+    - 3 : both clean-ups.
+
+9. Apply autarkies found to the original problem
+
+   Perhaps just a bash-script?
 
 */
 
@@ -198,8 +266,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.5.10";
-const std::string date = "24.7.2018";
+const std::string version = "0.6";
+const std::string date = "26.7.2018";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -241,8 +309,9 @@ inline constexpr int code(const EC e) noexcept {return static_cast<int>(e);}
 // Error output with ERROR-prefix, and each on a new line:
 struct Outputerr {
   const std::string e = "ERROR[" + program + "]: ";
+  Outputerr() noexcept { std::cerr.exceptions(std::ios::iostate(0)); }
   template <typename T>
-  const Outputerr& operator <<(const T& x) const {
+  const Outputerr& operator <<(const T& x) const noexcept {
     std::cerr << e << x << "\n";
     return *this;
   }
@@ -266,10 +335,12 @@ class Output {
   bool del = false;
   friend void set_output(const int, const char* const*) noexcept;
 public :
-  ~Output() { if (del) delete p; }
+  ~Output() noexcept { if (del) delete p; }
   template <typename T>
-  const Output& operator <<(const T& x) const { if (p) *p << x; return *this; }
-  void endl() const { if (p) {*p << "\n"; p->flush();} }
+  const Output& operator <<(const T& x) const noexcept {
+    if (p) *p << x; return *this;
+  }
+  void endl() const noexcept { if (p) {*p << "\n"; p->flush();} }
   bool nil() const noexcept { return p == nullptr; }
   friend bool operator ==(const Output& lhs, const Output& rhs) noexcept {
     return lhs.p == rhs.p;
@@ -289,6 +360,15 @@ Output logout;
 */
 void set_output(const int argc, const char* const argv[]) noexcept {
   std::ios_base::sync_with_stdio(false);
+  struct NoExceptions {
+    NoExceptions() {}
+    ~NoExceptions() noexcept {
+      if (solout.p != nullptr)
+        solout.p->exceptions(std::ios::iostate(0));
+      if (logout.p != nullptr)
+        logout.p->exceptions(std::ios::iostate(0));
+    }
+  } noexceptions;
   logout.p = &std::cout;
   if (argc == 2) { solout.p = &std::cout; return; }
   const std::string outname(argv[2]);
@@ -343,17 +423,17 @@ public :
 
 
 template <typename T>
-std::ostream& operator <<(std::ostream& out, const std::set<T>& S) {
+std::ostream& operator <<(std::ostream& out, const std::set<T>& S) noexcept {
   for (const T& x : S) out << " " << x;
   return out;
 }
 template <typename T>
-std::ostream& operator <<(std::ostream& out, const std::vector<T>& v) {
+std::ostream& operator <<(std::ostream& out, const std::vector<T>& v) noexcept {
   for (const T& x : v) out << " " << x;
   return out;
 }
 template <typename A, typename V>
-std::ostream& operator <<(std::ostream& out, const std::map<A,V>& M) {
+std::ostream& operator <<(std::ostream& out, const std::map<A,V>& M) noexcept {
   for (const auto& p : M) out << " (" << p.first << "," << p.second << ")";
   return out;
 }
@@ -673,7 +753,7 @@ struct DClauseSet {
   Count_t la=0, le=0, l=0; // number of a/e/both literal occurrences
   Count_t t=0, empty=0, pempty=0; // number of tautological/empty/pseudoempty clauses
 
-  friend std::ostream& operator <<(std::ostream& out, const DClauseSet& F) {
+  friend std::ostream& operator <<(std::ostream& out, const DClauseSet& F) noexcept {
     out << "c  Variables:\nc  ";
     for (Var v = 1; v < F.vt.size(); ++v) out << " " << v << ":" << F.vt[v];
     out << "\nc  p cnf " << F.max_index << " " << F.c << "\n";
@@ -704,7 +784,7 @@ std::ostream& operator <<(std::ostream& out, const ConformityLevel cl) noexcept 
   }
 }
 // String to ConformityLevel:
-ConformityLevel s2conlev(const std::string& s) {
+ConformityLevel s2conlev(const std::string& s) noexcept {
   if (s == "g") return ConformityLevel::general;
   else if (s == "s") return ConformityLevel::strict;
   else if (s == "vs") return ConformityLevel::verystrict;
@@ -777,7 +857,7 @@ void read_header() noexcept {
   }
 }
 
-void read_dependencies() noexcept {
+void read_dependencies() {
   assert(in.exceptions() == 0);
   assert(in.good());
   try { F.vt.resize(F.n_pl+1); F.D.resize(F.n_pl+1); }
@@ -787,8 +867,8 @@ void read_dependencies() noexcept {
   }
   struct Finish { // marking unset variables as fe with empty domain
     DClauseSet& F0;
-    Finish(DClauseSet& F) : F0(F) {}
-    ~Finish() {
+    Finish(DClauseSet& F) noexcept : F0(F) {}
+    ~Finish() noexcept {
       const Dependency emptyset = F0.dep_sets.find(Varset());
       assert(emptyset != F0.dep_sets.end());
       for (Var v = 1; v <= F0.n_pl; ++v)
@@ -1030,7 +1110,7 @@ inline void add_clause(const DClause& C) {
 }
 
 // Counting dependency-sets, and removing unused ones:
-void count_dependencies() {
+void count_dependencies() noexcept {
   for (Var v = 1; v <= F.max_e_index; ++v) {
     if (F.vt[v] != VT::e) continue;
     const Dependency_p dp = &*F.D[v];
@@ -1178,13 +1258,13 @@ struct Encoding {
     return (x.negi()) ? j : j+1;
   }
 
-  Var pavar(const Pass_p phi) const noexcept {
+  Var pavar(const Pass_p& phi) const noexcept {
     const auto find = enc_pass.find(phi);
     assert(find != enc_pass.end());
     return find->second;
   }
 
-  friend std::ostream& operator <<(std::ostream& out, const Encoding& enc) {
+  friend std::ostream& operator <<(std::ostream& out, const Encoding& enc) noexcept {
     out << "c cs-variables and their clauses: ncs = " << enc.ncs << "\n";
     for (clause_index_t i = 0; i < enc.ncs; ++i)
       out << "c  " << enc.csvar(i) << ": " << *enc.dclauses[i] << "\n";
@@ -1419,14 +1499,14 @@ std::ostream& operator <<(std::ostream& out, const LogLevel l) noexcept {
   }
 }
 // String to LogLevel:
-LogLevel s2loglev(const std::string& s) {
+LogLevel s2loglev(const std::string& s) noexcept {
   if (s == "1") return LogLevel::withinput;
   else if (s == "2") return LogLevel::withmeaning;
   else return LogLevel::normal;
 }
 
 
-void show_usage() {
+void show_usage() noexcept {
   std::cout << "USAGE:\n"
     "> " << program << " [-v | --version]\n"
     " shows version informations and exits.\n"
@@ -1451,7 +1531,7 @@ void show_usage() {
 #define S(x) #x
 #define STR(x) S(x)
 
-void version_information() {
+void version_information() noexcept {
   std::cout << program << ":\n"
    " author: " << author << "\n"
    " url:\n  " << url << "\n"
@@ -1485,7 +1565,7 @@ void version_information() {
   std::exit(0);
 }
 
-void output(const std::string filename, const ConformityLevel cl, const DClauseSet& F, const Encoding& enc, const Translation& trans, const CLS& G, const LogLevel ll) {
+void output(const std::string filename, const ConformityLevel cl, const DClauseSet& F, const Encoding& enc, const Translation& trans, const CLS& G, const LogLevel ll) noexcept {
   logout <<
          "c Program information:\n"
          "c created_by                            " << program << "\n"
