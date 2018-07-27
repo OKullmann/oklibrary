@@ -20,8 +20,10 @@ For AmoAlo_board :
   //after this write the propagation.
     1. Handle alo propagation.
        a. Add a stack. //done
-       b. Update set function with stack addition and loop.
-       c. Add new fields into the stack in field_update function.
+       b. Update set function with stack addition and loop.   //done
+       c. Add new fields into the stack in field_update function.  //done
+
+  Add asserts everywhere.
 
 For GreedyAmo:
   XXX
@@ -158,6 +160,13 @@ namespace NQueens {
         --d_rank[std::get<2>(d)];
         --ad_rank[std::get<2>(ad)];
         if (r_rank[v.first] == 0 or c_rank[v.second] == 0) unsatisfiable = true;
+        if (r_rank[v.first] == 1)
+          for (coord_t i = 0; i < N ; ++i)
+            if (v_unset(Var{v.first,i})) var_stack.push(Var{v.first,i});
+
+        if (c_rank[v.second] == 1)
+          for (coord_t i = 0; i < N ; ++i)
+            if (v_unset(Var{i,v.second})) var_stack.push(Var{i,v.second});
         }
       }
 
@@ -175,39 +184,40 @@ namespace NQueens {
     while(!var_stack.empty()) {
       Var cur_v = var_stack.top();
       var_stack.pop();
-      if (val == true) {
-        board[cur_v.first][cur_v.second] = placed;
-        rank_update(cur_v,val);
-        ++placed_count;
-        for (coord_t i=0 ; i < N ; ++i) {
-          Var n_v = Var{cur_v.first,i};
-          field_update(n_v); }
+      if (val == true ) {
+        if (board[cur_v.first][cur_v.second] == forbidden) unsatisfiable = true;
+        else if (v_unset(cur_v)){
+          board[cur_v.first][cur_v.second] = placed;
+          rank_update(cur_v,val);
+          ++placed_count;
+          for (coord_t i=0 ; i < N ; ++i) {
+            Var n_v = Var{cur_v.first,i};
+            field_update(n_v); }
 
-        for (coord_t i=0 ; i < N ; ++i) {
-          Var n_v = Var{i,cur_v.second};
-          field_update(n_v); }
+          for (coord_t i=0 ; i < N ; ++i) {
+            Var n_v = Var{i,cur_v.second};
+            field_update(n_v); }
 
-        diagonal_t d = diagonal(cur_v);
-        Var d_v = std::get<0>(d);
-        for (coord_t i=0 ; i < std::get<1>(d) ; ++i) {
-          Var n_v = Var{d_v.first + i,d_v.second - i};
-          field_update(n_v); }
+          diagonal_t d = diagonal(cur_v);
+          Var d_v = std::get<0>(d);
+          for (coord_t i=0 ; i < std::get<1>(d) ; ++i) {
+            Var n_v = Var{d_v.first + i,d_v.second - i};
+            field_update(n_v); }
 
-        diagonal_t ad = anti_diagonal(cur_v);
-        Var ad_v = std::get<0>(ad);
-        for (coord_t i=0 ; i < std::get<1>(ad) ; ++i) {
-          Var n_v = Var{ad_v.first + i,ad_v.second + i};
-          field_update(n_v); }
+          diagonal_t ad = anti_diagonal(cur_v);
+          Var ad_v = std::get<0>(ad);
+          for (coord_t i=0 ; i < std::get<1>(ad) ; ++i) {
+            Var n_v = Var{ad_v.first + i,ad_v.second + i};
+            field_update(n_v); }
+          }
         }
       else {
-        board[cur_v.first][cur_v.second] = forbidden;
-        rank_update(cur_v,val);
-        val = true;
+          board[cur_v.first][cur_v.second] = forbidden;
+          rank_update(cur_v,val);
+          val = true;
         }
       }
     }
-
-    // XXX
 
   };
 
