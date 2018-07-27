@@ -8,7 +8,7 @@
 namespace {
 
   ChessBoard::coord_t interprete(const int argc, const char* const argv[]) noexcept {
-    return 0;
+    return atoi(argv[1]);
   }
 }
 

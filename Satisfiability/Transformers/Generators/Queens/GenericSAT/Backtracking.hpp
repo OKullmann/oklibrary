@@ -1,6 +1,7 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
 
 #include <utility>
+#include <math.h>
 
 namespace Backtracking {
 
@@ -14,7 +15,7 @@ namespace Backtracking {
 
     count_t operator()(ACLS F) {
       ++num_nodes;
-      if (F.satisfied()) return F.n() - F.nset(); // XXX
+      if (F.satisfied()) return pow(2,F.n() - F.nset());
       if (F.falsified()) return 0;
       const Var bv = Branching(F)();
       ACLS G(F); G.set(bv, false);
