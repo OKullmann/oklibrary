@@ -30,7 +30,7 @@ For GreedyAmo:
   XXX
 
 
-XXX work on state enum declaration and board declaration.
+XXX work on State enum declaration and board declaration.
 
 Question : How do we know that a solution is found other than placing N queens. If that is the only way, then there is no need for n(), nset() functions. All assignments are complete in this problem.
 
@@ -88,8 +88,8 @@ namespace NQueens {
     typedef ChessBoard::Var_uint Var_uint;
     typedef std::vector<Rank> Ranks;
     typedef int diff_t;
-    enum class state { open, placed, forbidden };
-    typedef std::vector<std::vector<state>> Board;
+    enum class State { open, placed, forbidden };
+    typedef std::vector<std::vector<State>> Board;
   //private :
     const coord_t N;
     Board board;
@@ -102,7 +102,7 @@ namespace NQueens {
     bool Falsified = false;
 
     Board b_init(Board board) {
-      board.resize(N, std::vector<state>(N));
+      board.resize(N, std::vector<State>(N));
       return board;
       }
     Ranks r_init (Ranks r_rank) {
@@ -144,7 +144,7 @@ namespace NQueens {
       }
 
     // Checks if the field v is open:
-    bool v_open(Var v) { return (board[v.first][v.second] == state::open); }
+    bool v_open(Var v) { return (board[v.first][v.second] == State::open); }
 
     void placed_rank_update(const Var v) {
       Diagonal ad =   anti_diagonal(v);
@@ -180,7 +180,7 @@ namespace NQueens {
       for (coord_t i=0 ; i < N ; ++i) {
         Var v = Var{cur_v.first,i};
         if (v_open(v)) {
-          board[v.first][v.second] = state::forbidden;
+          board[v.first][v.second] = State::forbidden;
           forbidden_rank_update(v);
           }
         }
@@ -189,7 +189,7 @@ namespace NQueens {
       for (coord_t i=0 ; i < N ; ++i) {
         Var v = Var{i,cur_v.second};
         if (v_open(v)) {
-          board[v.first][v.second] = state::forbidden;
+          board[v.first][v.second] = State::forbidden;
           forbidden_rank_update(v);
           }
         }
@@ -200,7 +200,7 @@ namespace NQueens {
       for (coord_t i=0 ; i < ad.l ; ++i) {
         Var v = Var{ad_v.first + i,ad_v.second - i};
         if (v_open(v)) {
-          board[v.first][v.second] = state::forbidden;
+          board[v.first][v.second] = State::forbidden;
           forbidden_rank_update(v);
           }
         }
@@ -211,7 +211,7 @@ namespace NQueens {
       for (coord_t i=0 ; i < d.l ; ++i) {
         Var v = Var{d_v.first + i,d_v.second + i};
         if (v_open(v)) {
-          board[v.first][v.second] = state::forbidden;
+          board[v.first][v.second] = State::forbidden;
           forbidden_rank_update(v);
           }
         }
@@ -229,9 +229,9 @@ namespace NQueens {
         Var cur_v = Stack.top();
         Stack.pop();
         if (val == true ) {
-          if (board[cur_v.first][cur_v.second] == state::forbidden) Falsified = true;
+          if (board[cur_v.first][cur_v.second] == State::forbidden) Falsified = true;
           else if (v_open(cur_v)) {
-            board[cur_v.first][cur_v.second] = state::placed;
+            board[cur_v.first][cur_v.second] = State::placed;
             placed_rank_update(cur_v);
             ++placed_count;
             r_update(cur_v);
@@ -241,7 +241,7 @@ namespace NQueens {
             }
           }
         else {
-          board[v.first][v.second] = state::forbidden;
+          board[v.first][v.second] = State::forbidden;
           forbidden_rank_update(v);
           val = true;
           }
@@ -276,7 +276,7 @@ namespace NQueens {
     Var operator()() const noexcept {
       for (coord_t i = 0; i < F.N ; ++i)
         for (coord_t j = 0; j < F.N ; ++j)
-          if (F.board[i][j] == F.state::open) return Var{i,j};
+          if (F.board[i][j] == F.State::open) return Var{i,j};
       }
 
     // XXX have to add heuristics
