@@ -24,6 +24,7 @@ For AmoAlo_board :
        c. Add new fields into the stack in field_update function.  //done
 
   Add asserts everywhere.
+  Add const where appropriate.
 
 For GreedyAmo:
   XXX
@@ -37,7 +38,6 @@ Question : How do we know that a solution is found other than placing N queens. 
 
 #include <stack>
 #include <vector>
-#include <tuple>
 #include "ChessBoard.hpp"
 
 #define not_valid 1000            //change this to appropriate value later.
@@ -64,6 +64,14 @@ namespace NQueens {
 
   };
 
+  class Diagonal {
+    public :
+      ChessBoard::Var s;
+      ChessBoard::Var_uint l;
+      ChessBoard::Var_uint i;
+      Diagonal(ChessBoard::Var s,ChessBoard::Var_uint l, ChessBoard::Var_uint i) : s(s),l(l),i(i) {}
+  };
+
   // A concrete instance of BasicACLS:
   class AmoAlo_board {
 
@@ -72,7 +80,6 @@ namespace NQueens {
     typedef ChessBoard::Var Var;
     typedef ChessBoard::Var_uint Var_uint;
     typedef std::vector<Var_uint> Ranks;
-    typedef std::tuple<Var,Var_uint,Var_uint> Diagonal;
     typedef int diff_t;
     std::stack<Var> Stack;
     enum state { unset = 0 , placed, forbidden };
@@ -104,15 +111,15 @@ namespace NQueens {
     // Returns anti_diagonal starting feild, length and index:
     Diagonal anti_diagonal(Var v) const noexcept {
       coord_t c_sum = v.first + v.second;
-      if (c_sum < N) return std::make_tuple(Var{0,c_sum},c_sum+1,c_sum);
-      else return std::make_tuple(Var{c_sum-N+1,N-1},2*N - (c_sum+1),c_sum);
+      if (c_sum < N) return Diagonal{Var{0,c_sum},c_sum+1,c_sum};
+      else return Diagonal{Var{c_sum-N+1,N-1},2*N - (c_sum+1),c_sum};
       }
 
     // Returns diagonal starting feild, length and index:
     Diagonal diagonal(Var v) const noexcept {
       diff_t c_diff = v.first - v.second;
-      if (c_diff > 0) return std::make_tuple(Var{c_diff,0},N - c_diff,(N-1) - c_diff);
-      else return std::make_tuple(Var{0,-c_diff},N + c_diff,(N-1) - c_diff);
+      if (c_diff > 0) return Diagonal{Var{c_diff,0},N - c_diff,(N-1) - c_diff};
+      else return Diagonal{Var{0,-c_diff},N + c_diff,(N-1) - c_diff};
       }
 
     // Checks if the field v is unset:
@@ -131,14 +138,14 @@ namespace NQueens {
       if (val) {
         r_rank[v.first] = not_valid;
         c_rank[v.second] = not_valid;
-        ad_rank[std::get<2>(ad)] = not_valid;
-        d_rank[std::get<2>(d)] = not_valid;
+        ad_rank[ad.i] = not_valid;
+        d_rank[d.i] = not_valid;
         }
       else if (r_rank[v.first] != not_valid) {
         --r_rank[v.first];
         --c_rank[v.second];
-        --ad_rank[std::get<2>(ad)];
-        --d_rank[std::get<2>(d)];
+        --ad_rank[ad.i];
+        --d_rank[d.i];
         if (r_rank[v.first] == 0 or c_rank[v.second] == 0) Falsified = true;
         else {
           if (r_rank[v.first] == 1)
@@ -166,16 +173,16 @@ namespace NQueens {
       }
     void ad_update(const Var cur_v) {
       Diagonal ad = anti_diagonal(cur_v);
-      Var ad_v = std::get<0>(ad);
-      for (coord_t i=0 ; i < std::get<1>(ad) ; ++i) {
+      Var ad_v = ad.s;
+      for (coord_t i=0 ; i < ad.l ; ++i) {
         Var v = Var{ad_v.first + i,ad_v.second - i};
         if (v_unset(v)) field_update(v);
         }
       }
     void d_update(const Var cur_v) {
       Diagonal d = diagonal(cur_v);
-      Var d_v = std::get<0>(d);
-      for (coord_t i=0 ; i < std::get<1>(d) ; ++i) {
+      Var d_v = d.s;
+      for (coord_t i=0 ; i < d.l ; ++i) {
         Var v = Var{d_v.first + i,d_v.second + i};
         if (v_unset(v)) field_update(v);
         }
