@@ -72,6 +72,15 @@ namespace NQueens {
       Diagonal(ChessBoard::Var s,ChessBoard::Var_uint l, ChessBoard::Var_uint i) : s(s),l(l),i(i) {}
   };
 
+  class Rank {
+    public :
+      ChessBoard::Var_uint o_r;
+      ChessBoard::Var_uint p_r;
+      ChessBoard::Var_uint f_r;
+      Rank(ChessBoard::Var_uint o_r,ChessBoard::Var_uint p_r, ChessBoard::Var_uint f_r) : o_r(o_r),p_r(p_r),f_r(f_r) {}
+
+  };
+
   // A concrete instance of BasicACLS:
   class AmoAlo_board {
 
@@ -79,7 +88,7 @@ namespace NQueens {
     typedef ChessBoard::coord_t coord_t;
     typedef ChessBoard::Var Var;
     typedef ChessBoard::Var_uint Var_uint;
-    typedef std::vector<Var_uint> Ranks;
+    typedef std::vector<Rank> Ranks;
     typedef int diff_t;
     enum state { unset = 0 , placed, forbidden };
     typedef std::vector<std::vector<state>> Board;
@@ -99,21 +108,21 @@ namespace NQueens {
       return board;
       }
     Ranks r_init (Ranks r_rank) {
-      for (Var_uint i = 0; i < N ; ++i) r_rank.push_back(N);
+      for (Var_uint i = 0; i < N ; ++i) r_rank.push_back(Rank{N,0,0});
       return r_rank;
       }
     Ranks c_init (Ranks c_rank) {
-      for (Var_uint i = 0; i < N ; ++i) c_rank.push_back(N);
+      for (Var_uint i = 0; i < N ; ++i) c_rank.push_back(Rank{N,0,0});
       return c_rank;
       }
     Ranks ad_init (Ranks ad_rank) {
-      for (Var_uint i = 1; i < N ; ++i) ad_rank.push_back(i);
-      for (Var_uint i = N; i > 0 ; --i) ad_rank.push_back(i);
+      for (Var_uint i = 1; i < N ; ++i) ad_rank.push_back(Rank{i,0,0});
+      for (Var_uint i = N; i > 0 ; --i) ad_rank.push_back(Rank{i,0,0});
       return ad_rank;
       }
     Ranks d_init (Ranks d_rank) {
-      for (Var_uint i = 1; i < N ; ++i) d_rank.push_back(i);
-      for (Var_uint i = N; i > 0 ; --i) d_rank.push_back(i);
+      for (Var_uint i = 1; i < N ; ++i) d_rank.push_back(Rank{i,0,0});
+      for (Var_uint i = N; i > 0 ; --i) d_rank.push_back(Rank{i,0,0});
       return d_rank;
       }
   //public :
@@ -150,23 +159,23 @@ namespace NQueens {
       Diagonal ad =   anti_diagonal(v);
       Diagonal d = diagonal(v);
       if (val) {
-        r_rank[v.first] = not_valid;
-        c_rank[v.second] = not_valid;
-        ad_rank[ad.i] = not_valid;
-        d_rank[d.i] = not_valid;
+        r_rank[v.first].o_r = not_valid;
+        c_rank[v.second].o_r = not_valid;
+        ad_rank[ad.i].o_r = not_valid;
+        d_rank[d.i].o_r = not_valid;
         }
-      else if (r_rank[v.first] != not_valid) {
-        --r_rank[v.first];
-        --c_rank[v.second];
-        --ad_rank[ad.i];
-        --d_rank[d.i];
-        if (r_rank[v.first] == 0 or c_rank[v.second] == 0) Falsified = true;
+      else if (r_rank[v.first].o_r != not_valid) {
+        --r_rank[v.first].o_r;
+        --c_rank[v.second].o_r;
+        --ad_rank[ad.i].o_r;
+        --d_rank[d.i].o_r;
+        if (r_rank[v.first].o_r == 0 or c_rank[v.second].o_r == 0) Falsified = true;
         else {
-          if (r_rank[v.first] == 1)
+          if (r_rank[v.first].o_r == 1)
             for (coord_t i = 0; i < N ; ++i)
               if (v_unset(Var{v.first,i})) { Stack.push(Var{v.first,i}); break; }
 
-          if (c_rank[v.second] == 1)
+          if (c_rank[v.second].o_r == 1)
             for (coord_t i = 0; i < N ; ++i)
               if (v_unset(Var{i,v.second})) { Stack.push(Var{i,v.second}); break; }
           }
