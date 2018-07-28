@@ -186,28 +186,28 @@ namespace NQueens {
 
     // We only set a field if it is unset:
     void set(const Var v, bool val) {
-    var_stack.push(v);
-    while(!var_stack.empty()) {
-      Var cur_v = var_stack.top();
-      var_stack.pop();
-      if (val == true ) {
-        if (board[cur_v.first][cur_v.second] == forbidden) unsatisfiable = true;
-        else if (v_unset(cur_v)) {
-          board[cur_v.first][cur_v.second] = placed;
-          rank_update(cur_v,val);
-          ++placed_count;
-          r_update(cur_v);
-          c_update(cur_v);
-          ad_update(cur_v);
-          d_update(cur_v);
+      var_stack.push(v);
+      while(!var_stack.empty()) {
+        Var cur_v = var_stack.top();
+        var_stack.pop();
+        if (val == true ) {
+          if (board[cur_v.first][cur_v.second] == forbidden) unsatisfiable = true;
+          else if (v_unset(cur_v)) {
+            board[cur_v.first][cur_v.second] = placed;
+            rank_update(cur_v,val);
+            ++placed_count;
+            r_update(cur_v);
+            c_update(cur_v);
+            ad_update(cur_v);
+            d_update(cur_v);
+            }
+          }
+        else {
+          field_update(cur_v);
+          val = true;
           }
         }
-      else {
-        field_update(cur_v);
-        val = true;
-        }
       }
-    }
   };
 
 
