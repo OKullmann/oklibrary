@@ -72,7 +72,7 @@ namespace NQueens {
     typedef ChessBoard::Var Var;
     typedef ChessBoard::Var_uint Var_uint;
     typedef std::vector<Var_uint> rank_t;
-		typedef std::tuple<Var,Var_uint,Var_uint> diagonal_t;
+    typedef std::tuple<Var,Var_uint,Var_uint> diagonal_t;
     typedef int diff_t;
     std::stack<Var> var_stack;
     enum state { unset = 0 , placed, forbidden };
@@ -80,8 +80,8 @@ namespace NQueens {
     std::vector<std::vector<state>> board;
     rank_t r_rank;
     rank_t c_rank;
-		rank_t d_rank;
-		rank_t ad_rank;
+    rank_t d_rank;
+    rank_t ad_rank;
     Var_uint placed_count = 0;
     bool unsatisfiable = false;
 
@@ -103,7 +103,7 @@ namespace NQueens {
     diagonal_t diagonal(Var v) const noexcept {
       coord_t c_sum = v.first + v.second;
       Var new_v;
-			Var_uint len;
+      Var_uint len;
       Var_uint d_index = c_sum;
       if (c_sum < N) {
         new_v.first = 0;
@@ -119,7 +119,7 @@ namespace NQueens {
     diagonal_t anti_diagonal(Var v) const noexcept {
       diff_t c_diff = v.first - v.second;
       Var new_v;
-			Var_uint len;
+      Var_uint len;
       Var_uint d_index;
       if (c_diff > 0) {
         new_v.first = c_diff;
