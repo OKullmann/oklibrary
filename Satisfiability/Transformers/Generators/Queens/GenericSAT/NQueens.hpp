@@ -40,8 +40,6 @@ Question : How do we know that a solution is found other than placing N queens. 
 #include <vector>
 #include "ChessBoard.hpp"
 
-#define not_valid 1000            //change this to appropriate value later.
-
 namespace NQueens {
 
   // The prototype:
@@ -159,12 +157,12 @@ namespace NQueens {
       Diagonal ad =   anti_diagonal(v);
       Diagonal d = diagonal(v);
       if (val) {
-        r_rank[v.first].o_r = not_valid;
-        c_rank[v.second].o_r = not_valid;
-        ad_rank[ad.i].o_r = not_valid;
-        d_rank[d.i].o_r = not_valid;
+        ++r_rank[v.first].p_r;
+        ++c_rank[v.second].p_r;
+        ++ad_rank[ad.i].p_r;
+        ++d_rank[d.i].p_r;
         }
-      else if (r_rank[v.first].o_r != not_valid) {
+      else if (!r_rank[v.first].p_r) {
         --r_rank[v.first].o_r;
         --c_rank[v.second].o_r;
         --ad_rank[ad.i].o_r;
@@ -174,7 +172,6 @@ namespace NQueens {
           if (r_rank[v.first].o_r == 1)
             for (coord_t i = 0; i < N ; ++i)
               if (v_unset(Var{v.first,i})) { Stack.push(Var{v.first,i}); break; }
-
           if (c_rank[v.second].o_r == 1)
             for (coord_t i = 0; i < N ; ++i)
               if (v_unset(Var{i,v.second})) { Stack.push(Var{i,v.second}); break; }
