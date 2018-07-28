@@ -71,17 +71,17 @@ namespace NQueens {
     typedef ChessBoard::coord_t coord_t;
     typedef ChessBoard::Var Var;
     typedef ChessBoard::Var_uint Var_uint;
-    typedef std::vector<Var_uint> rank_t;
+    typedef std::vector<Var_uint> Ranks;
     typedef std::tuple<Var,Var_uint,Var_uint> Diagonal;
     typedef int diff_t;
     std::stack<Var> var_stack;
     enum state { unset = 0 , placed, forbidden };
   //private :
     std::vector<std::vector<state>> board;
-    rank_t r_rank;
-    rank_t c_rank;
-    rank_t ad_rank;
-    rank_t d_rank;
+    Ranks r_rank;
+    Ranks c_rank;
+    Ranks ad_rank;
+    Ranks d_rank;
     Var_uint placed_count = 0;
     bool unsatisfiable = false;
 
