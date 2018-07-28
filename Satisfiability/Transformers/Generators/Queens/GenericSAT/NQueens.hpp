@@ -99,7 +99,7 @@ namespace NQueens {
         ad_rank.push_back(i); }
     }
 
-    //returns diagonal starting feild, len and index :
+    // Returns diagonal starting feild, length and index:
     diagonal_t diagonal(Var v) const noexcept {
       coord_t c_sum = v.first + v.second;
       Var new_v;
@@ -115,7 +115,7 @@ namespace NQueens {
         len = 2*N - (c_sum + 1); }
       return std::make_tuple(new_v,len,d_index); }
 
-    //returns anti_diagonal starting feild, len and index :
+    // Returns anti_diagonal starting feild, length and index:
     diagonal_t anti_diagonal(Var v) const noexcept {
       diff_t c_diff = v.first - v.second;
       Var new_v;
@@ -132,19 +132,19 @@ namespace NQueens {
         d_index = (N-1) - c_diff;
       return std::make_tuple(new_v,len,d_index); }
 
-    //checks if the field v is unset :
+    // Checks if the field v is unset:
     bool v_unset(Var v) {
       if (board[v.first][v.second] == unset) return 1;
       else return 0; }
 
-    //updates the field to forbidden :
+    // Updates the field to forbidden:
     void field_update(Var v) {
       if (v_unset(v)) {
         board[v.first][v.second] = forbidden;
         rank_update(v,false); }
      }
 
-    //when a field is forbidden the ranks are updated and unsatisfiable is updated if found :
+    // When a field is forbidden the ranks are updated and unsatisfiable is updated if found:
     void rank_update(Var v, const bool val) {
       diagonal_t d = diagonal(v);
       diagonal_t ad = anti_diagonal(v);
@@ -178,7 +178,7 @@ namespace NQueens {
     Var_uint n() const noexcept { return N; }
     Var_uint nset() const noexcept { return N; }
 
-    //we only set a field if it is unset
+    // We only set a field if it is unset:
     void set(const Var v, bool val) {
     var_stack.push(v);
     while(!var_stack.empty()) {
