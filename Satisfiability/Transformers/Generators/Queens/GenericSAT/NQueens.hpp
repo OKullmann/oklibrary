@@ -140,13 +140,15 @@ namespace NQueens {
         --ad_rank[std::get<2>(ad)];
         --d_rank[std::get<2>(d)];
         if (r_rank[v.first] == 0 or c_rank[v.second] == 0) unsatisfiable = true;
-        if (r_rank[v.first] == 1)
-          for (coord_t i = 0; i < N ; ++i)
-            if (v_unset(Var{v.first,i})) var_stack.push(Var{v.first,i});
+        else {
+          if (r_rank[v.first] == 1)
+            for (coord_t i = 0; i < N ; ++i)
+              if (v_unset(Var{v.first,i})) { var_stack.push(Var{v.first,i}); break; }
 
-        if (c_rank[v.second] == 1)
-          for (coord_t i = 0; i < N ; ++i)
-            if (v_unset(Var{i,v.second})) var_stack.push(Var{i,v.second});
+          if (c_rank[v.second] == 1)
+            for (coord_t i = 0; i < N ; ++i)
+              if (v_unset(Var{i,v.second})) { var_stack.push(Var{i,v.second}); break; }
+          }
         }
       }
 
@@ -187,7 +189,7 @@ namespace NQueens {
     // We only set a field if it is unset:
     void set(const Var v, bool val) {
       var_stack.push(v);
-      while(!var_stack.empty()) {
+      while(!var_stack.empty() and !falsified()) {
         Var cur_v = var_stack.top();
         var_stack.pop();
         if (val == true ) {
