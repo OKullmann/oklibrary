@@ -88,7 +88,7 @@ namespace NQueens {
     typedef ChessBoard::Var_uint Var_uint;
     typedef std::vector<Rank> Ranks;
     typedef int diff_t;
-    enum class state { unset, placed, forbidden };
+    enum class state { open, placed, forbidden };
     typedef std::vector<std::vector<state>> Board;
   //private :
     const coord_t N;
@@ -143,8 +143,8 @@ namespace NQueens {
       else return Diagonal{Var{0,-c_diff},N + c_diff,(N-1) - c_diff};
       }
 
-    // Checks if the field v is unset:
-    bool v_unset(Var v) { return (board[v.first][v.second] == state::unset); }
+    // Checks if the field v is open:
+    bool v_open(Var v) { return (board[v.first][v.second] == state::open); }
 
     void placed_rank_update(const Var v) {
       Diagonal ad =   anti_diagonal(v);
@@ -168,10 +168,10 @@ namespace NQueens {
         else {
           if (r_rank[v.first].o_r == 1)
             for (coord_t i = 0; i < N ; ++i)
-              if (v_unset(Var{v.first,i})) { Stack.push(Var{v.first,i}); break; }
+              if (v_open(Var{v.first,i})) { Stack.push(Var{v.first,i}); break; }
           if (c_rank[v.second].o_r == 1)
             for (coord_t i = 0; i < N ; ++i)
-              if (v_unset(Var{i,v.second})) { Stack.push(Var{i,v.second}); break; }
+              if (v_open(Var{i,v.second})) { Stack.push(Var{i,v.second}); break; }
           }
         }
       }
@@ -179,7 +179,7 @@ namespace NQueens {
     void r_update(const Var cur_v) {
       for (coord_t i=0 ; i < N ; ++i) {
         Var v = Var{cur_v.first,i};
-        if (v_unset(v)) {
+        if (v_open(v)) {
           board[v.first][v.second] = state::forbidden;
           forbidden_rank_update(v);
           }
@@ -188,7 +188,7 @@ namespace NQueens {
     void c_update(const Var cur_v) {
       for (coord_t i=0 ; i < N ; ++i) {
         Var v = Var{i,cur_v.second};
-        if (v_unset(v)) {
+        if (v_open(v)) {
           board[v.first][v.second] = state::forbidden;
           forbidden_rank_update(v);
           }
@@ -199,7 +199,7 @@ namespace NQueens {
       Var ad_v = ad.s;
       for (coord_t i=0 ; i < ad.l ; ++i) {
         Var v = Var{ad_v.first + i,ad_v.second - i};
-        if (v_unset(v)) {
+        if (v_open(v)) {
           board[v.first][v.second] = state::forbidden;
           forbidden_rank_update(v);
           }
@@ -210,7 +210,7 @@ namespace NQueens {
       Var d_v = d.s;
       for (coord_t i=0 ; i < d.l ; ++i) {
         Var v = Var{d_v.first + i,d_v.second + i};
-        if (v_unset(v)) {
+        if (v_open(v)) {
           board[v.first][v.second] = state::forbidden;
           forbidden_rank_update(v);
           }
@@ -222,7 +222,7 @@ namespace NQueens {
     Var_uint n() const noexcept { return N; }
     Var_uint nset() const noexcept { return N; }
 
-    // We only set a field if it is unset:
+    // We only set a field if it is open:
     void set(const Var v, bool val) {
       Stack.push(v);
       while(!Stack.empty() and !falsified()) {
@@ -230,7 +230,7 @@ namespace NQueens {
         Stack.pop();
         if (val == true ) {
           if (board[cur_v.first][cur_v.second] == state::forbidden) Falsified = true;
-          else if (v_unset(cur_v)) {
+          else if (v_open(cur_v)) {
             board[cur_v.first][cur_v.second] = state::placed;
             placed_rank_update(cur_v);
             ++placed_count;
@@ -276,7 +276,7 @@ namespace NQueens {
     Var operator()() const noexcept {
       for (coord_t i = 0; i < F.N ; ++i)
         for (coord_t j = 0; j < F.N ; ++j)
-          if (F.board[i][j] == F.state::unset) return Var{i,j};
+          if (F.board[i][j] == F.state::open) return Var{i,j};
       }
 
     // XXX have to add heuristics
