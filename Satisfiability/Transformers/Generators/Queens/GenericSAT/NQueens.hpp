@@ -76,7 +76,6 @@ namespace NQueens {
       ChessBoard::Var_uint p_r;
       ChessBoard::Var_uint f_r;
       Rank(ChessBoard::Var_uint o_r,ChessBoard::Var_uint p_r, ChessBoard::Var_uint f_r) : o_r(o_r),p_r(p_r),f_r(f_r) {}
-
   };
 
   // A concrete instance of BasicACLS:
@@ -87,6 +86,7 @@ namespace NQueens {
     typedef ChessBoard::Var Var;
     typedef ChessBoard::Var_uint Var_uint;
     typedef std::vector<Rank> Ranks;
+    typedef std::stack<Var> Stack;
     typedef int diff_t;
     enum class State { open, placed, forbidden };
     typedef std::vector<std::vector<State>> Board;
@@ -97,7 +97,7 @@ namespace NQueens {
     Ranks c_rank;
     Ranks ad_rank;
     Ranks d_rank;
-    std::stack<Var> Stack;
+    Stack stack;
     Var_uint placed_count = 0;
     bool Falsified = false;
 
@@ -168,10 +168,10 @@ namespace NQueens {
         else {
           if (r_rank[v.first].o_r == 1)
             for (coord_t i = 0; i < N ; ++i)
-              if (v_open(Var{v.first,i})) { Stack.push(Var{v.first,i}); break; }
+              if (v_open(Var{v.first,i})) { stack.push(Var{v.first,i}); break; }
           if (c_rank[v.second].o_r == 1)
             for (coord_t i = 0; i < N ; ++i)
-              if (v_open(Var{i,v.second})) { Stack.push(Var{i,v.second}); break; }
+              if (v_open(Var{i,v.second})) { stack.push(Var{i,v.second}); break; }
           }
         }
       }
@@ -224,10 +224,10 @@ namespace NQueens {
 
     // We only set a field if it is open:
     void set(const Var v, bool val) {
-      Stack.push(v);
-      while(!Stack.empty() and !falsified()) {
-        Var cur_v = Stack.top();
-        Stack.pop();
+      stack.push(v);
+      while(!stack.empty() and !falsified()) {
+        Var cur_v = stack.top();
+        stack.pop();
         if (val == true ) {
           if (board[cur_v.first][cur_v.second] == State::forbidden) Falsified = true;
           else if (v_open(cur_v)) {
