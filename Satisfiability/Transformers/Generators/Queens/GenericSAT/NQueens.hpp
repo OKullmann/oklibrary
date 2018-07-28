@@ -104,35 +104,16 @@ namespace NQueens {
     // Returns diagonal starting feild, length and index:
     diagonal_t diagonal(Var v) const noexcept {
       coord_t c_sum = v.first + v.second;
-      Var new_v;
-      Var_uint len;
-      Var_uint d_index = c_sum;
-      if (c_sum < N) {
-        new_v.first = 0;
-        new_v.second = c_sum;
-        len = c_sum + 1; }
-      else {
-        new_v.first = c_sum-N+1;
-        new_v.second = N-1;
-        len = 2*N - (c_sum + 1); }
-      return std::make_tuple(new_v,len,d_index); }
+      if (c_sum < N) return std::make_tuple(Var{0,c_sum},c_sum+1,c_sum);
+      else return std::make_tuple(Var{c_sum-N+1,N-1},2*N - (c_sum+1),c_sum);
+      }
 
     // Returns anti_diagonal starting feild, length and index:
     diagonal_t anti_diagonal(Var v) const noexcept {
       diff_t c_diff = v.first - v.second;
-      Var new_v;
-      Var_uint len;
-      Var_uint d_index;
-      if (c_diff > 0) {
-        new_v.first = c_diff;
-        new_v.second = 0;
-        len = N - c_diff; }
-      else {
-        new_v.first = 0;
-        new_v.second = -1*c_diff;
-        len = N + c_diff; }
-        d_index = (N-1) - c_diff;
-      return std::make_tuple(new_v,len,d_index); }
+      if (c_diff > 0) return std::make_tuple(Var{c_diff,0},N - c_diff,(N-1) - c_diff);
+      else return std::make_tuple(Var{0,-c_diff},N + c_diff,(N-1) - c_diff);
+      }
 
     // Checks if the field v is unset:
     bool v_unset(Var v) {
