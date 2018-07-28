@@ -116,7 +116,7 @@ namespace NQueens {
       }
 
     // Checks if the field v is unset:
-    bool v_unset(Var v) return (board[v.first][v.second] == unset);
+    bool v_unset(Var v) { return (board[v.first][v.second] == unset); }
 
     // Updates the field to forbidden:
     void field_update(Var v) {
