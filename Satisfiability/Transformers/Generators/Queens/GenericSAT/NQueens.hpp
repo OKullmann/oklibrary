@@ -34,11 +34,11 @@ XXX work on state enum declaration and board declaration.
 Question : How do we know that a solution is found other than placing N queens. If that is the only way, then there is no need for n(), nset() functions. All assignments are complete in this problem.
 
 */
-#include "ChessBoard.hpp"
+
+#include <stack>
 #include <vector>
 #include <tuple>
-#include <stdlib.h>
-#include <stack>
+#include "ChessBoard.hpp"
 
 #define not_valid 1000            //change this to appropriate value later.
 
@@ -83,7 +83,7 @@ namespace NQueens {
     Ranks ad_rank;
     Ranks d_rank;
     Var_uint placed_count = 0;
-    bool unsatisfiable = false;
+    bool Falsified = false;
 
   //public :
     const coord_t N;
@@ -124,7 +124,7 @@ namespace NQueens {
         rank_update(v,false);
      }
 
-    // When a field is forbidden the ranks are updated and unsatisfiable is updated if found:
+    // When a field is forbidden the ranks are updated and Falsified is updated if found:
     void rank_update(Var v, const bool val) {
       Diagonal ad =   anti_diagonal(v);
       Diagonal d = diagonal(v);
@@ -139,7 +139,7 @@ namespace NQueens {
         --c_rank[v.second];
         --ad_rank[std::get<2>(ad)];
         --d_rank[std::get<2>(d)];
-        if (r_rank[v.first] == 0 or c_rank[v.second] == 0) unsatisfiable = true;
+        if (r_rank[v.first] == 0 or c_rank[v.second] == 0) Falsified = true;
         else {
           if (r_rank[v.first] == 1)
             for (coord_t i = 0; i < N ; ++i)
@@ -182,7 +182,7 @@ namespace NQueens {
      }
 
     bool satisfied() const noexcept { return (placed_count == N); }
-    bool falsified() const noexcept { return unsatisfiable; }
+    bool falsified() const noexcept { return Falsified; }
     Var_uint n() const noexcept { return N; }
     Var_uint nset() const noexcept { return N; }
 
@@ -193,7 +193,7 @@ namespace NQueens {
         Var cur_v = var_stack.top();
         var_stack.pop();
         if (val == true ) {
-          if (board[cur_v.first][cur_v.second] == forbidden) unsatisfiable = true;
+          if (board[cur_v.first][cur_v.second] == forbidden) Falsified = true;
           else if (v_unset(cur_v)) {
             board[cur_v.first][cur_v.second] = placed;
             rank_update(cur_v,val);
