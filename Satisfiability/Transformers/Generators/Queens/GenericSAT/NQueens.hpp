@@ -72,7 +72,7 @@ namespace NQueens {
     typedef ChessBoard::Var Var;
     typedef ChessBoard::Var_uint Var_uint;
     typedef std::vector<Var_uint> rank_t;
-    typedef std::tuple<Var,Var_uint,Var_uint> diagonal_t;
+    typedef std::tuple<Var,Var_uint,Var_uint> Diagonal;
     typedef int diff_t;
     std::stack<Var> var_stack;
     enum state { unset = 0 , placed, forbidden };
@@ -102,14 +102,14 @@ namespace NQueens {
     }
 
     // Returns anti_diagonal starting feild, length and index:
-    diagonal_t anti_diagonal(Var v) const noexcept {
+    Diagonal anti_diagonal(Var v) const noexcept {
       coord_t c_sum = v.first + v.second;
       if (c_sum < N) return std::make_tuple(Var{0,c_sum},c_sum+1,c_sum);
       else return std::make_tuple(Var{c_sum-N+1,N-1},2*N - (c_sum+1),c_sum);
       }
 
     // Returns diagonal starting feild, length and index:
-    diagonal_t diagonal(Var v) const noexcept {
+    Diagonal diagonal(Var v) const noexcept {
       diff_t c_diff = v.first - v.second;
       if (c_diff > 0) return std::make_tuple(Var{c_diff,0},N - c_diff,(N-1) - c_diff);
       else return std::make_tuple(Var{0,-c_diff},N + c_diff,(N-1) - c_diff);
@@ -126,8 +126,8 @@ namespace NQueens {
 
     // When a field is forbidden the ranks are updated and unsatisfiable is updated if found:
     void rank_update(Var v, const bool val) {
-      diagonal_t ad =   anti_diagonal(v);
-      diagonal_t d = diagonal(v);
+      Diagonal ad =   anti_diagonal(v);
+      Diagonal d = diagonal(v);
       if (val) {
         r_rank[v.first] = not_valid;
         c_rank[v.second] = not_valid;
@@ -175,13 +175,13 @@ namespace NQueens {
             Var n_v = Var{i,cur_v.second};
             if (v_unset(n_v)) field_update(n_v);
             }
-          diagonal_t ad =   anti_diagonal(cur_v);
+          Diagonal ad =   anti_diagonal(cur_v);
           Var d_v = std::get<0>(ad);
           for (coord_t i=0 ; i < std::get<1>(ad) ; ++i) {
             Var n_v = Var{d_v.first + i,d_v.second - i};
             if (v_unset(n_v)) field_update(n_v);
             }
-          diagonal_t d = diagonal(cur_v);
+          Diagonal d = diagonal(cur_v);
           Var ad_v = std::get<0>(d);
           for (coord_t i=0 ; i < std::get<1>(d) ; ++i) {
             Var n_v = Var{ad_v.first + i,ad_v.second + i};
