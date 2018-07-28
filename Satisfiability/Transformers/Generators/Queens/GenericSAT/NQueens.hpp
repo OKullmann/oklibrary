@@ -80,8 +80,8 @@ namespace NQueens {
     std::vector<std::vector<state>> board;
     rank_t r_rank;
     rank_t c_rank;
-    rank_t d_rank;
     rank_t ad_rank;
+    rank_t d_rank;
     Var_uint placed_count = 0;
     bool unsatisfiable = false;
 
@@ -92,24 +92,24 @@ namespace NQueens {
       for (Var_uint i = 0; i < N ; ++i) r_rank.push_back(N);
       for (Var_uint i = 0; i < N ; ++i) c_rank.push_back(N);
       for (Var_uint i = 1; i < N ; ++i) {
-        d_rank.push_back(i);
         ad_rank.push_back(i);
+        d_rank.push_back(i);
         }
       for (Var_uint i = N; i > 0 ; --i) {
-        d_rank.push_back(i);
         ad_rank.push_back(i);
+        d_rank.push_back(i);
         }
     }
 
-    // Returns diagonal starting feild, length and index:
-    diagonal_t diagonal(Var v) const noexcept {
+    // Returns anti_diagonal starting feild, length and index:
+    diagonal_t anti_diagonal(Var v) const noexcept {
       coord_t c_sum = v.first + v.second;
       if (c_sum < N) return std::make_tuple(Var{0,c_sum},c_sum+1,c_sum);
       else return std::make_tuple(Var{c_sum-N+1,N-1},2*N - (c_sum+1),c_sum);
       }
 
-    // Returns anti_diagonal starting feild, length and index:
-    diagonal_t anti_diagonal(Var v) const noexcept {
+    // Returns diagonal starting feild, length and index:
+    diagonal_t diagonal(Var v) const noexcept {
       diff_t c_diff = v.first - v.second;
       if (c_diff > 0) return std::make_tuple(Var{c_diff,0},N - c_diff,(N-1) - c_diff);
       else return std::make_tuple(Var{0,-c_diff},N + c_diff,(N-1) - c_diff);
@@ -129,19 +129,19 @@ namespace NQueens {
 
     // When a field is forbidden the ranks are updated and unsatisfiable is updated if found:
     void rank_update(Var v, const bool val) {
+      diagonal_t ad =   anti_diagonal(v);
       diagonal_t d = diagonal(v);
-      diagonal_t ad = anti_diagonal(v);
       if (val) {
         r_rank[v.first] = not_valid;
         c_rank[v.second] = not_valid;
-        d_rank[std::get<2>(d)] = not_valid;
         ad_rank[std::get<2>(ad)] = not_valid;
+        d_rank[std::get<2>(d)] = not_valid;
         }
       else if (r_rank[v.first] != not_valid) {
         --r_rank[v.first];
         --c_rank[v.second];
-        --d_rank[std::get<2>(d)];
         --ad_rank[std::get<2>(ad)];
+        --d_rank[std::get<2>(d)];
         if (r_rank[v.first] == 0 or c_rank[v.second] == 0) unsatisfiable = true;
         if (r_rank[v.first] == 1)
           for (coord_t i = 0; i < N ; ++i)
@@ -166,7 +166,7 @@ namespace NQueens {
       var_stack.pop();
       if (val == true ) {
         if (board[cur_v.first][cur_v.second] == forbidden) unsatisfiable = true;
-        else if (v_unset(cur_v)){
+        else if (v_unset(cur_v)) {
           board[cur_v.first][cur_v.second] = placed;
           rank_update(cur_v,val);
           ++placed_count;
@@ -178,15 +178,15 @@ namespace NQueens {
             Var n_v = Var{i,cur_v.second};
             field_update(n_v);
             }
-          diagonal_t d = diagonal(cur_v);
-          Var d_v = std::get<0>(d);
-          for (coord_t i=0 ; i < std::get<1>(d) ; ++i) {
+          diagonal_t ad =   anti_diagonal(cur_v);
+          Var d_v = std::get<0>(ad);
+          for (coord_t i=0 ; i < std::get<1>(ad) ; ++i) {
             Var n_v = Var{d_v.first + i,d_v.second - i};
             field_update(n_v);
             }
-          diagonal_t ad = anti_diagonal(cur_v);
-          Var ad_v = std::get<0>(ad);
-          for (coord_t i=0 ; i < std::get<1>(ad) ; ++i) {
+          diagonal_t d = diagonal(cur_v);
+          Var ad_v = std::get<0>(d);
+          for (coord_t i=0 ; i < std::get<1>(d) ; ++i) {
             Var n_v = Var{ad_v.first + i,ad_v.second + i};
             field_update(n_v);
             }
