@@ -150,6 +150,35 @@ namespace NQueens {
         }
       }
 
+    void r_update(const Var cur_v) {
+      for (coord_t i=0 ; i < N ; ++i) {
+        Var v = Var{cur_v.first,i};
+        if (v_unset(v)) field_update(v);
+        }
+      }
+    void c_update(const Var cur_v) {
+      for (coord_t i=0 ; i < N ; ++i) {
+        Var v = Var{i,cur_v.second};
+        if (v_unset(v)) field_update(v);
+        }
+      }
+    void ad_update(const Var cur_v) {
+      Diagonal ad = anti_diagonal(cur_v);
+      Var ad_v = std::get<0>(ad);
+      for (coord_t i=0 ; i < std::get<1>(ad) ; ++i) {
+        Var v = Var{ad_v.first + i,ad_v.second - i};
+        if (v_unset(v)) field_update(v);
+        }
+      }
+    void d_update(const Var cur_v) {
+      Diagonal d = diagonal(cur_v);
+      Var d_v = std::get<0>(d);
+      for (coord_t i=0 ; i < std::get<1>(d) ; ++i) {
+        Var v = Var{d_v.first + i,d_v.second + i};
+        if (v_unset(v)) field_update(v);
+        }
+     }
+
     bool satisfied() const noexcept { return (placed_count == N); }
     bool falsified() const noexcept { return unsatisfiable; }
     Var_uint n() const noexcept { return N; }
@@ -167,26 +196,10 @@ namespace NQueens {
           board[cur_v.first][cur_v.second] = placed;
           rank_update(cur_v,val);
           ++placed_count;
-          for (coord_t i=0 ; i < N ; ++i) {
-            Var n_v = Var{cur_v.first,i};
-            if (v_unset(n_v)) field_update(n_v);
-            }
-          for (coord_t i=0 ; i < N ; ++i) {
-            Var n_v = Var{i,cur_v.second};
-            if (v_unset(n_v)) field_update(n_v);
-            }
-          Diagonal ad =   anti_diagonal(cur_v);
-          Var d_v = std::get<0>(ad);
-          for (coord_t i=0 ; i < std::get<1>(ad) ; ++i) {
-            Var n_v = Var{d_v.first + i,d_v.second - i};
-            if (v_unset(n_v)) field_update(n_v);
-            }
-          Diagonal d = diagonal(cur_v);
-          Var ad_v = std::get<0>(d);
-          for (coord_t i=0 ; i < std::get<1>(d) ; ++i) {
-            Var n_v = Var{ad_v.first + i,ad_v.second + i};
-            if (v_unset(n_v)) field_update(n_v);
-            }
+          r_update(cur_v);
+          c_update(cur_v);
+          ad_update(cur_v);
+          d_update(cur_v);
           }
         }
       else {
