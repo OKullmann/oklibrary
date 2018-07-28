@@ -74,7 +74,7 @@ namespace NQueens {
     typedef std::vector<Var_uint> Ranks;
     typedef std::tuple<Var,Var_uint,Var_uint> Diagonal;
     typedef int diff_t;
-    std::stack<Var> var_stack;
+    std::stack<Var> Stack;
     enum state { unset = 0 , placed, forbidden };
   //private :
     std::vector<std::vector<state>> board;
@@ -143,11 +143,11 @@ namespace NQueens {
         else {
           if (r_rank[v.first] == 1)
             for (coord_t i = 0; i < N ; ++i)
-              if (v_unset(Var{v.first,i})) { var_stack.push(Var{v.first,i}); break; }
+              if (v_unset(Var{v.first,i})) { Stack.push(Var{v.first,i}); break; }
 
           if (c_rank[v.second] == 1)
             for (coord_t i = 0; i < N ; ++i)
-              if (v_unset(Var{i,v.second})) { var_stack.push(Var{i,v.second}); break; }
+              if (v_unset(Var{i,v.second})) { Stack.push(Var{i,v.second}); break; }
           }
         }
       }
@@ -188,10 +188,10 @@ namespace NQueens {
 
     // We only set a field if it is unset:
     void set(const Var v, bool val) {
-      var_stack.push(v);
-      while(!var_stack.empty() and !falsified()) {
-        Var cur_v = var_stack.top();
-        var_stack.pop();
+      Stack.push(v);
+      while(!Stack.empty() and !falsified()) {
+        Var cur_v = Stack.top();
+        Stack.pop();
         if (val == true ) {
           if (board[cur_v.first][cur_v.second] == forbidden) Falsified = true;
           else if (v_unset(cur_v)) {
