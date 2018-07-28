@@ -88,7 +88,7 @@ namespace NQueens {
     typedef ChessBoard::Var_uint Var_uint;
     typedef std::vector<Rank> Ranks;
     typedef int diff_t;
-    enum state { unset = 0 , placed, forbidden };
+    enum class state { unset, placed, forbidden };
     typedef std::vector<std::vector<state>> Board;
   //private :
     const coord_t N;
@@ -144,11 +144,7 @@ namespace NQueens {
       }
 
     // Checks if the field v is unset:
-    bool v_unset(Var v) { return (board[v.first][v.second] == unset); }
-
-    // Updates the field to forbidden:
-    void field_update(Var v) {
-     }
+    bool v_unset(Var v) { return (board[v.first][v.second] == state::unset); }
 
     void placed_rank_update(const Var v) {
       Diagonal ad =   anti_diagonal(v);
@@ -184,7 +180,7 @@ namespace NQueens {
       for (coord_t i=0 ; i < N ; ++i) {
         Var v = Var{cur_v.first,i};
         if (v_unset(v)) {
-          board[v.first][v.second] = forbidden;
+          board[v.first][v.second] = state::forbidden;
           forbidden_rank_update(v);
           }
         }
@@ -193,7 +189,7 @@ namespace NQueens {
       for (coord_t i=0 ; i < N ; ++i) {
         Var v = Var{i,cur_v.second};
         if (v_unset(v)) {
-          board[v.first][v.second] = forbidden;
+          board[v.first][v.second] = state::forbidden;
           forbidden_rank_update(v);
           }
         }
@@ -204,7 +200,7 @@ namespace NQueens {
       for (coord_t i=0 ; i < ad.l ; ++i) {
         Var v = Var{ad_v.first + i,ad_v.second - i};
         if (v_unset(v)) {
-          board[v.first][v.second] = forbidden;
+          board[v.first][v.second] = state::forbidden;
           forbidden_rank_update(v);
           }
         }
@@ -215,7 +211,7 @@ namespace NQueens {
       for (coord_t i=0 ; i < d.l ; ++i) {
         Var v = Var{d_v.first + i,d_v.second + i};
         if (v_unset(v)) {
-          board[v.first][v.second] = forbidden;
+          board[v.first][v.second] = state::forbidden;
           forbidden_rank_update(v);
           }
         }
@@ -233,9 +229,9 @@ namespace NQueens {
         Var cur_v = Stack.top();
         Stack.pop();
         if (val == true ) {
-          if (board[cur_v.first][cur_v.second] == forbidden) Falsified = true;
+          if (board[cur_v.first][cur_v.second] == state::forbidden) Falsified = true;
           else if (v_unset(cur_v)) {
-            board[cur_v.first][cur_v.second] = placed;
+            board[cur_v.first][cur_v.second] = state::placed;
             placed_rank_update(cur_v);
             ++placed_count;
             r_update(cur_v);
@@ -245,7 +241,7 @@ namespace NQueens {
             }
           }
         else {
-          board[v.first][v.second] = forbidden;
+          board[v.first][v.second] = state::forbidden;
           forbidden_rank_update(v);
           val = true;
           }
@@ -280,7 +276,7 @@ namespace NQueens {
     Var operator()() const noexcept {
       for (coord_t i = 0; i < F.N ; ++i)
         for (coord_t j = 0; j < F.N ; ++j)
-          if (F.board[i][j] == F.unset) return Var{i,j};
+          if (F.board[i][j] == F.state::unset) return Var{i,j};
       }
 
     // XXX have to add heuristics
