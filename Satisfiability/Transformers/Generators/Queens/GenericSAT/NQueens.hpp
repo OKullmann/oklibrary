@@ -120,9 +120,8 @@ namespace NQueens {
 
     // Updates the field to forbidden:
     void field_update(Var v) {
-      if (v_unset(v)) {
         board[v.first][v.second] = forbidden;
-        rank_update(v,false); }
+        rank_update(v,false);
      }
 
     // When a field is forbidden the ranks are updated and unsatisfiable is updated if found:
@@ -170,29 +169,28 @@ namespace NQueens {
           ++placed_count;
           for (coord_t i=0 ; i < N ; ++i) {
             Var n_v = Var{cur_v.first,i};
-            field_update(n_v);
+            if (v_unset(n_v)) field_update(n_v);
             }
           for (coord_t i=0 ; i < N ; ++i) {
             Var n_v = Var{i,cur_v.second};
-            field_update(n_v);
+            if (v_unset(n_v)) field_update(n_v);
             }
           diagonal_t ad =   anti_diagonal(cur_v);
           Var d_v = std::get<0>(ad);
           for (coord_t i=0 ; i < std::get<1>(ad) ; ++i) {
             Var n_v = Var{d_v.first + i,d_v.second - i};
-            field_update(n_v);
+            if (v_unset(n_v)) field_update(n_v);
             }
           diagonal_t d = diagonal(cur_v);
           Var ad_v = std::get<0>(d);
           for (coord_t i=0 ; i < std::get<1>(d) ; ++i) {
             Var n_v = Var{ad_v.first + i,ad_v.second + i};
-            field_update(n_v);
+            if (v_unset(n_v)) field_update(n_v);
             }
           }
         }
       else {
-        board[cur_v.first][cur_v.second] = forbidden;
-        rank_update(cur_v,val);
+        field_update(cur_v);
         val = true;
         }
       }
