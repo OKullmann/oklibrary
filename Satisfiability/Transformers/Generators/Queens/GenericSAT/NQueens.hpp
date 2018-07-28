@@ -87,16 +87,18 @@ namespace NQueens {
 
   //public :
     const coord_t N;
-    explicit AmoAlo_board(const coord_t N) : N(N){
+    explicit AmoAlo_board(const coord_t N) : N(N) {
       board.resize(N, std::vector<state>(N));
       for (Var_uint i = 0; i < N ; ++i) r_rank.push_back(N);
       for (Var_uint i = 0; i < N ; ++i) c_rank.push_back(N);
       for (Var_uint i = 1; i < N ; ++i) {
         d_rank.push_back(i);
-        ad_rank.push_back(i); }
+        ad_rank.push_back(i);
+        }
       for (Var_uint i = N; i > 0 ; --i) {
         d_rank.push_back(i);
-        ad_rank.push_back(i); }
+        ad_rank.push_back(i);
+        }
     }
 
     // Returns diagonal starting feild, length and index:
@@ -172,9 +174,11 @@ namespace NQueens {
 
     bool satisfied() const noexcept {
       if (placed_count == N) return true;
-      else return false; }
+      else return false;
+      }
     bool falsified() const noexcept {
-      return unsatisfiable; }
+      return unsatisfiable;
+      }
     Var_uint n() const noexcept { return N; }
     Var_uint nset() const noexcept { return N; }
 
@@ -192,33 +196,33 @@ namespace NQueens {
           ++placed_count;
           for (coord_t i=0 ; i < N ; ++i) {
             Var n_v = Var{cur_v.first,i};
-            field_update(n_v); }
-
+            field_update(n_v);
+            }
           for (coord_t i=0 ; i < N ; ++i) {
             Var n_v = Var{i,cur_v.second};
-            field_update(n_v); }
-
+            field_update(n_v);
+            }
           diagonal_t d = diagonal(cur_v);
           Var d_v = std::get<0>(d);
           for (coord_t i=0 ; i < std::get<1>(d) ; ++i) {
             Var n_v = Var{d_v.first + i,d_v.second - i};
-            field_update(n_v); }
-
+            field_update(n_v);
+            }
           diagonal_t ad = anti_diagonal(cur_v);
           Var ad_v = std::get<0>(ad);
           for (coord_t i=0 ; i < std::get<1>(ad) ; ++i) {
             Var n_v = Var{ad_v.first + i,ad_v.second + i};
-            field_update(n_v); }
+            field_update(n_v);
+            }
           }
         }
       else {
-          board[cur_v.first][cur_v.second] = forbidden;
-          rank_update(cur_v,val);
-          val = true;
+        board[cur_v.first][cur_v.second] = forbidden;
+        rank_update(cur_v,val);
+        val = true;
         }
       }
     }
-
   };
 
 
@@ -248,7 +252,8 @@ namespace NQueens {
     Var operator()() const noexcept {
       for (coord_t i = 0; i < F.N ; ++i)
         for (coord_t j = 0; j < F.N ; ++j)
-          if (F.board[i][j] == F.unset) return Var{i,j}; }
+          if (F.board[i][j] == F.unset) return Var{i,j};
+      }
 
     // XXX have to add heuristics
 
