@@ -148,21 +148,22 @@ namespace NQueens {
 
     // Updates the field to forbidden:
     void field_update(Var v) {
-      board[v.first][v.second] = forbidden;
-      rank_update(v,false);
      }
 
-    // When a field is forbidden the ranks are updated and Falsified is updated if found:
-    void rank_update(Var v, const bool val) {
+    void placed_rank_update(const Var v) {
       Diagonal ad =   anti_diagonal(v);
       Diagonal d = diagonal(v);
-      if (val) {
-        ++r_rank[v.first].p_r;
-        ++c_rank[v.second].p_r;
-        ++ad_rank[ad.i].p_r;
-        ++d_rank[d.i].p_r;
-        }
-      else if (!r_rank[v.first].p_r) {
+      ++r_rank[v.first].p_r;
+      ++c_rank[v.second].p_r;
+      ++ad_rank[ad.i].p_r;
+      ++d_rank[d.i].p_r;
+      }
+    // Forbidden field ranks are updated only if no field is placed in the same r,c,d or ad
+    // and Falsified is updated if found:
+    void forbidden_rank_update(const Var v) {
+      Diagonal ad =   anti_diagonal(v);
+      Diagonal d = diagonal(v);
+      if (!r_rank[v.first].p_r) {
         --r_rank[v.first].o_r;
         --c_rank[v.second].o_r;
         --ad_rank[ad.i].o_r;
@@ -182,13 +183,19 @@ namespace NQueens {
     void r_update(const Var cur_v) {
       for (coord_t i=0 ; i < N ; ++i) {
         Var v = Var{cur_v.first,i};
-        if (v_unset(v)) field_update(v);
+        if (v_unset(v)) {
+          board[v.first][v.second] = forbidden;
+          forbidden_rank_update(v);
+          }
         }
       }
     void c_update(const Var cur_v) {
       for (coord_t i=0 ; i < N ; ++i) {
         Var v = Var{i,cur_v.second};
-        if (v_unset(v)) field_update(v);
+        if (v_unset(v)) {
+          board[v.first][v.second] = forbidden;
+          forbidden_rank_update(v);
+          }
         }
       }
     void ad_update(const Var cur_v) {
@@ -196,7 +203,10 @@ namespace NQueens {
       Var ad_v = ad.s;
       for (coord_t i=0 ; i < ad.l ; ++i) {
         Var v = Var{ad_v.first + i,ad_v.second - i};
-        if (v_unset(v)) field_update(v);
+        if (v_unset(v)) {
+          board[v.first][v.second] = forbidden;
+          forbidden_rank_update(v);
+          }
         }
       }
     void d_update(const Var cur_v) {
@@ -204,7 +214,10 @@ namespace NQueens {
       Var d_v = d.s;
       for (coord_t i=0 ; i < d.l ; ++i) {
         Var v = Var{d_v.first + i,d_v.second + i};
-        if (v_unset(v)) field_update(v);
+        if (v_unset(v)) {
+          board[v.first][v.second] = forbidden;
+          forbidden_rank_update(v);
+          }
         }
      }
 
@@ -223,7 +236,7 @@ namespace NQueens {
           if (board[cur_v.first][cur_v.second] == forbidden) Falsified = true;
           else if (v_unset(cur_v)) {
             board[cur_v.first][cur_v.second] = placed;
-            rank_update(cur_v,val);
+            placed_rank_update(cur_v);
             ++placed_count;
             r_update(cur_v);
             c_update(cur_v);
@@ -232,7 +245,8 @@ namespace NQueens {
             }
           }
         else {
-          field_update(cur_v);
+          board[v.first][v.second] = forbidden;
+          forbidden_rank_update(v);
           val = true;
           }
         }
