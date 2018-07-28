@@ -172,13 +172,8 @@ namespace NQueens {
         }
       }
 
-    bool satisfied() const noexcept {
-      if (placed_count == N) return true;
-      else return false;
-      }
-    bool falsified() const noexcept {
-      return unsatisfiable;
-      }
+    bool satisfied() const noexcept { return (placed_count == N); }
+    bool falsified() const noexcept { return unsatisfiable; }
     Var_uint n() const noexcept { return N; }
     Var_uint nset() const noexcept { return N; }
 
