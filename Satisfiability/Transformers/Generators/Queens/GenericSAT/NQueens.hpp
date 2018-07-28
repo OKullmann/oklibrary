@@ -81,32 +81,46 @@ namespace NQueens {
     typedef ChessBoard::Var_uint Var_uint;
     typedef std::vector<Var_uint> Ranks;
     typedef int diff_t;
-    std::stack<Var> Stack;
     enum state { unset = 0 , placed, forbidden };
+    typedef std::vector<std::vector<state>> Board;
   //private :
-    std::vector<std::vector<state>> board;
+    const coord_t N;
+    Board board;
     Ranks r_rank;
     Ranks c_rank;
     Ranks ad_rank;
     Ranks d_rank;
+    std::stack<Var> Stack;
     Var_uint placed_count = 0;
     bool Falsified = false;
 
-  //public :
-    const coord_t N;
-    explicit AmoAlo_board(const coord_t N) : N(N) {
+    Board b_init(Board board) {
       board.resize(N, std::vector<state>(N));
+      return board;
+      }
+    Ranks r_init (Ranks r_rank) {
       for (Var_uint i = 0; i < N ; ++i) r_rank.push_back(N);
+      return r_rank;
+      }
+    Ranks c_init (Ranks c_rank) {
       for (Var_uint i = 0; i < N ; ++i) c_rank.push_back(N);
-      for (Var_uint i = 1; i < N ; ++i) {
-        ad_rank.push_back(i);
-        d_rank.push_back(i);
-        }
-      for (Var_uint i = N; i > 0 ; --i) {
-        ad_rank.push_back(i);
-        d_rank.push_back(i);
-        }
-    }
+      return c_rank;
+      }
+    Ranks ad_init (Ranks ad_rank) {
+      for (Var_uint i = 1; i < N ; ++i) ad_rank.push_back(i);
+      for (Var_uint i = N; i > 0 ; --i) ad_rank.push_back(i);
+      return ad_rank;
+      }
+    Ranks d_init (Ranks d_rank) {
+      for (Var_uint i = 1; i < N ; ++i) d_rank.push_back(i);
+      for (Var_uint i = N; i > 0 ; --i) d_rank.push_back(i);
+      return d_rank;
+      }
+  //public :
+    explicit AmoAlo_board(const coord_t N, Board board, Ranks r_rank,
+    Ranks c_rank, Ranks ad_rank, Ranks d_rank) :
+    N(N),board(b_init(board)),r_rank(r_init(r_rank)),c_rank(c_init(c_rank)),
+    ad_rank(ad_init(ad_rank)),d_rank(d_init(d_rank)) {}
 
     // Returns anti_diagonal starting feild, length and index:
     Diagonal anti_diagonal(Var v) const noexcept {
@@ -127,8 +141,8 @@ namespace NQueens {
 
     // Updates the field to forbidden:
     void field_update(Var v) {
-        board[v.first][v.second] = forbidden;
-        rank_update(v,false);
+      board[v.first][v.second] = forbidden;
+      rank_update(v,false);
      }
 
     // When a field is forbidden the ranks are updated and Falsified is updated if found:

@@ -14,9 +14,16 @@ namespace {
 
 int main(const int argc, const char* const argv[]) {
   typedef Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::GreedyAmo, ChessBoard::Count_t> Backtracking_q;
+  typedef NQueens::AmoAlo_board::Ranks Ranks;
+  typedef NQueens::AmoAlo_board::Board Board;
 
   const ChessBoard::coord_t N = interprete(argc, argv);
-  NQueens::AmoAlo_board Fq(N);
+  Board board;
+  Ranks r_rank;
+  Ranks c_rank;
+  Ranks ad_rank;
+  Ranks d_rank;
+  NQueens::AmoAlo_board Fq(N,board,r_rank,c_rank,ad_rank,d_rank);
 
   const auto cFq = Backtracking_q()(Fq);
 
