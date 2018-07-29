@@ -242,6 +242,20 @@ namespace NQueens {
     Var_uint n() const noexcept { return N*N; }
     Var_uint nset() const noexcept { return count.placed+count.forbidden; }
 
+    void set_true(const Var v) {
+      board[v.first][v.second] = State::placed;
+      count_update(v);
+      placed_rank_update(v);
+      r_update(v);
+      c_update(v);
+      ad_update(v);
+      d_update(v);
+      }
+    void set_false(const Var v) {
+      board[v.first][v.second] = State::forbidden;
+      count_update(v);
+      forbidden_rank_update(v);
+      }
     // We only set a field if it is open:
     void set(const Var v, bool val) {
       stack.push(v);
@@ -250,22 +264,9 @@ namespace NQueens {
         stack.pop();
         if (val == true ) {
           if (board[cur_v.first][cur_v.second] == State::forbidden) Falsified = true;
-          else if (v_open(cur_v)) {
-            board[cur_v.first][cur_v.second] = State::placed;
-            count_update(cur_v);
-            placed_rank_update(cur_v);
-            r_update(cur_v);
-            c_update(cur_v);
-            ad_update(cur_v);
-            d_update(cur_v);
-            }
+          else if (v_open(cur_v)) set_true(cur_v);
           }
-        else {
-          board[cur_v.first][cur_v.second] = State::forbidden;
-          count_update(cur_v);
-          forbidden_rank_update(cur_v);
-          val = true;
-          }
+        else { set_false(cur_v); val = true; }
         }
       }
   };
