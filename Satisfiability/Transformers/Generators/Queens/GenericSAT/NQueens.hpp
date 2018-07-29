@@ -104,24 +104,24 @@ namespace NQueens {
     Stack stack;
     bool Falsified = false;
 
-    Board b_init(Board board) {
+    Board b_init(Board board) const noexcept {
       board.resize(N, std::vector<State>(N));
       return board;
       }
-    Ranks r_init (Ranks r_rank) {
+    Ranks r_init (Ranks r_rank) const noexcept {
       for (Var_uint i = 0; i < N ; ++i) r_rank.push_back(Rank{N,0,0});
       return r_rank;
       }
-    Ranks c_init (Ranks c_rank) {
+    Ranks c_init (Ranks c_rank) const noexcept {
       for (Var_uint i = 0; i < N ; ++i) c_rank.push_back(Rank{N,0,0});
       return c_rank;
       }
-    Ranks ad_init (Ranks ad_rank) {
+    Ranks ad_init (Ranks ad_rank) const noexcept {
       for (Var_uint i = 1; i < N ; ++i) ad_rank.push_back(Rank{i,0,0});
       for (Var_uint i = N; i > 0 ; --i) ad_rank.push_back(Rank{i,0,0});
       return ad_rank;
       }
-    Ranks d_init (Ranks d_rank) {
+    Ranks d_init (Ranks d_rank) const noexcept {
       for (Var_uint i = 1; i < N ; ++i) d_rank.push_back(Rank{i,0,0});
       for (Var_uint i = N; i > 0 ; --i) d_rank.push_back(Rank{i,0,0});
       return d_rank;
@@ -148,10 +148,10 @@ namespace NQueens {
       }
 
     // Checks if the field v is open:
-    bool v_open(const Var v) { return (board[v.first][v.second] == State::open); }
+    bool v_open(const Var v) const noexcept { return (board[v.first][v.second] == State::open); }
 
     // Updates the placed rank:
-    void placed_rank_update(const Var v) {
+    void placed_rank_update(const Var v) noexcept {
       Diagonal ad =   anti_diagonal(v);
       Diagonal d = diagonal(v);
       ++r_rank[v.first].p_r;
@@ -162,7 +162,7 @@ namespace NQueens {
 
     // Forbidden field ranks are updated only if no field is placed in the same r,c,d or ad
     // and Falsified is updated if found:
-    void forbidden_rank_update(const Var v) {
+    void forbidden_rank_update(const Var v) noexcept {
       Diagonal ad =   anti_diagonal(v);
       Diagonal d = diagonal(v);
       if (!r_rank[v.first].p_r) {
@@ -182,13 +182,13 @@ namespace NQueens {
         }
       }
 
-    void count_update(const Var v) {
+    void count_update(const Var v) noexcept {
       --count.open;
       if (board[v.first][v.second] == State::placed) ++count.placed;
       else ++count.forbidden;
       }
 
-    void r_update(const Var cur_v) {
+    void r_update(const Var cur_v) noexcept {
       for (coord_t i=0 ; i < N ; ++i) {
         Var v = Var{cur_v.first,i};
         if (v_open(v)) {
@@ -198,7 +198,7 @@ namespace NQueens {
           }
         }
       }
-    void c_update(const Var cur_v) {
+    void c_update(const Var cur_v) noexcept {
       for (coord_t i=0 ; i < N ; ++i) {
         Var v = Var{i,cur_v.second};
         if (v_open(v)) {
@@ -208,7 +208,7 @@ namespace NQueens {
           }
         }
       }
-    void ad_update(const Var cur_v) {
+    void ad_update(const Var cur_v) noexcept {
       Diagonal ad = anti_diagonal(cur_v);
       Var ad_v = ad.s;
       for (coord_t i=0 ; i < ad.l ; ++i) {
@@ -220,7 +220,7 @@ namespace NQueens {
           }
         }
       }
-    void d_update(const Var cur_v) {
+    void d_update(const Var cur_v) noexcept {
       Diagonal d = diagonal(cur_v);
       Var d_v = d.s;
       for (coord_t i=0 ; i < d.l ; ++i) {
@@ -238,7 +238,7 @@ namespace NQueens {
     Var_uint n() const noexcept { return N*N; }
     Var_uint nset() const noexcept { return count.placed+count.forbidden; }
 
-    void set_true(const Var v) {
+    void set_true(const Var v) noexcept {
       board[v.first][v.second] = State::placed;
       count_update(v);
       placed_rank_update(v);
@@ -247,13 +247,13 @@ namespace NQueens {
       ad_update(v);
       d_update(v);
       }
-    void set_false(const Var v) {
+    void set_false(const Var v) noexcept {
       board[v.first][v.second] = State::forbidden;
       count_update(v);
       forbidden_rank_update(v);
       }
     // We only set a field if it is open:
-    void set(const Var v,const bool val) {
+    void set(const Var v,const bool val) noexcept {
       if (val) set_true(v);
       else set_false(v);
       while(!stack.empty() and !falsified()) {
