@@ -34,6 +34,7 @@ For GreedyAmo:
 */
 
 #include <cassert>
+#include <cmath>
 #include <stack>
 #include <vector>
 #include "ChessBoard.hpp"
@@ -237,6 +238,12 @@ namespace NQueens {
         }
       }
 
+    Var_uint amo_count(const Var v) {
+      Diagonal ad = AmoAlo_board::anti_diagonal(v);
+      Diagonal d = AmoAlo_board::diagonal(v);
+      return (r_ranks[v.first].o_r + c_ranks[v.second].o_r + ad_ranks[ad.i].o_r + d_ranks[d.i].o_r);
+      }
+
     bool satisfied() const noexcept { return (count.placed == N); }
     bool falsified() const noexcept { return Falsified; }
     Var_uint n() const noexcept { return N*N; }
@@ -287,23 +294,54 @@ namespace NQueens {
 
   };
 
+
   // A concrete instance of BasicBranching:
   struct GreedyAmo {
 
     typedef ChessBoard::Var Var;
     typedef ChessBoard::coord_t coord_t;
+    typedef ChessBoard::Var_uint Var_uint;
+    typedef double Weight_t;
+    typedef std::vector<Weight_t> Weight_vector;
+    Weight_vector weight_vector = {4.85,1,0.354,0.11,0.0694};
+    Var_uint vec_size = weight_vector.size();
+    AmoAlo_board& F;
 
-    const AmoAlo_board& F;
+    GreedyAmo(AmoAlo_board& F) : F(F) {}
 
-    GreedyAmo(const AmoAlo_board& F) : F(F) {}
-
-    Var operator()() const noexcept {
-      for (coord_t i = 0; i < F.N ; ++i)
-        for (coord_t j = 0; j < F.N ; ++j)
-          if (F.board[i][j] == F.State::open) return Var{i,j};
+    inline Weight_t long_cw(const Var_uint long_c) const noexcept {
+      return std::pow(1/1.46,long_c-vec_size)*weight_vector.back();
       }
 
-    // XXX have to add heuristics
+    Weight_t weight(const Var v) noexcept {
+      Var_uint amo_count = F.amo_count(v);
+      Weight_t amo_w = weight_vector[0]*amo_count;
+      Var_uint alo_r_cl = F.r_ranks[v.first].o_r; // alo_r_cl is atleast-one row clause length.
+      Var_uint alo_c_cl = F.c_ranks[v.second].o_r; // alo_c_cl is atleast-one column clause length.
+      Weight_t alo_r_w, alo_c_w;
+      assert(alo_r_cl >= 2);
+      assert(alo_c_cl >= 2);
+      if (alo_r_cl > vec_size + 2) alo_r_w = long_cw(alo_r_cl);
+      else alo_r_w = weight_vector[alo_r_cl-2];
+      if (alo_c_cl > vec_size + 2) alo_c_w = 1 + long_cw(alo_c_cl);
+      else alo_c_w = weight_vector[alo_c_cl-2];
+      return ((1 + amo_w) * ( 1 + alo_r_w + alo_c_w));
+      }
+
+    Var operator()() noexcept {
+      Weight_t max = 0;
+      Var bv;
+      for (coord_t i = 0; i < F.N ; ++i)
+        for (coord_t j = 0; j < F.N ; ++j)
+          if (F.board[i][j] == F.State::open) {
+            Weight_t cur = weight(Var{i,j});
+            if (max < cur) {
+              max = cur;
+              bv = Var{i,j};
+              }
+            }
+      return bv;
+      }
 
   };
 
