@@ -80,10 +80,10 @@ namespace NQueens {
 
   class Count {
     public :
-      ChessBoard::Var_uint o_c;
-      ChessBoard::Var_uint p_c;
-      ChessBoard::Var_uint f_c;
-      Count(ChessBoard::Var_uint o_c,ChessBoard::Var_uint p_c, ChessBoard::Var_uint f_c) : o_c(o_c),p_c(p_c),f_c(f_c) {}
+      ChessBoard::Var_uint open;
+      ChessBoard::Var_uint placed;
+      ChessBoard::Var_uint forbidden;
+      Count(ChessBoard::Var_uint open,ChessBoard::Var_uint placed, ChessBoard::Var_uint forbidden) : open(open),placed(placed),forbidden(forbidden) {}
     };
   // A concrete instance of BasicACLS:
   class AmoAlo_board {
@@ -187,9 +187,9 @@ namespace NQueens {
       }
 
     void count_update(const Var v) {
-      --count.o_c;
-      if (board[v.first][v.second] == State::placed) ++count.p_c;
-      else ++count.f_c;
+      --count.open;
+      if (board[v.first][v.second] == State::placed) ++count.placed;
+      else ++count.forbidden;
       }
 
     void r_update(const Var cur_v) {
@@ -237,10 +237,10 @@ namespace NQueens {
         }
      }
 
-    bool satisfied() const noexcept { return (count.p_c == N); }
+    bool satisfied() const noexcept { return (count.placed == N); }
     bool falsified() const noexcept { return Falsified; }
     Var_uint n() const noexcept { return N*N; }
-    Var_uint nset() const noexcept { return count.p_c+count.f_c; }
+    Var_uint nset() const noexcept { return count.placed+count.forbidden; }
 
     // We only set a field if it is open:
     void set(const Var v, bool val) {
