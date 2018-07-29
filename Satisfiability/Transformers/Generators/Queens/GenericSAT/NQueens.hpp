@@ -134,21 +134,21 @@ namespace NQueens {
     ad_rank(ad_init(ad_rank)),d_rank(d_init(d_rank)),count(Count{N*N,0,0}) {}
 
     // Returns anti_diagonal starting feild, length and index:
-    Diagonal anti_diagonal(Var v) const noexcept {
+    Diagonal anti_diagonal(const Var v) const noexcept {
       coord_t c_sum = v.first + v.second;
       if (c_sum < N) return Diagonal{Var{0,c_sum},c_sum+1,c_sum};
       else return Diagonal{Var{c_sum-N+1,N-1},2*N - (c_sum+1),c_sum};
       }
 
     // Returns diagonal starting feild, length and index:
-    Diagonal diagonal(Var v) const noexcept {
+    Diagonal diagonal(const Var v) const noexcept {
       diff_t c_diff = v.first - v.second;
       if (c_diff > 0) return Diagonal{Var{c_diff,0},N - c_diff,(N-1) - c_diff};
       else return Diagonal{Var{0,-c_diff},N + c_diff,(N-1) - c_diff};
       }
 
     // Checks if the field v is open:
-    bool v_open(Var v) { return (board[v.first][v.second] == State::open); }
+    bool v_open(const Var v) { return (board[v.first][v.second] == State::open); }
 
     // Updates the placed rank:
     void placed_rank_update(const Var v) {
@@ -253,7 +253,7 @@ namespace NQueens {
       forbidden_rank_update(v);
       }
     // We only set a field if it is open:
-    void set(const Var v, bool val) {
+    void set(const Var v,const bool val) {
       if (val) set_true(v);
       else set_false(v);
       while(!stack.empty() and !falsified()) {
