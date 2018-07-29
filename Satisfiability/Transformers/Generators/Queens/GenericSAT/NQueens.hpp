@@ -23,15 +23,17 @@ For AmoAlo_board :
        b. Update set function with stack addition and loop.   //done
        c. Add new fields into the stack in field_update function.  //done
 
-  Add asserts everywhere.
+  Add asserts everywhere.  //done
   Add const where appropriate. //done
+  Have to work on making data private and creating public function to access them.
 
 For GreedyAmo:
-  XXX
+  Only heuristics is remaining.
 
 
 */
 
+#include <cassert>
 #include <stack>
 #include <vector>
 #include "ChessBoard.hpp"
@@ -90,7 +92,7 @@ namespace NQueens {
     typedef ChessBoard::Var_uint Var_uint;
     typedef std::vector<Rank> Ranks;
     typedef std::stack<Var> Stack;
-    typedef int diff_t;
+    typedef std::int32_t diff_t;
     enum class State { open, placed, forbidden };
     typedef std::vector<std::vector<State>> Board;
   //private :
@@ -211,6 +213,7 @@ namespace NQueens {
     void ad_update(const Var cur_v) noexcept {
       Diagonal ad = anti_diagonal(cur_v);
       Var ad_v = ad.s;
+      assert(ad.l < N);
       for (coord_t i = 0 ; i < ad.l ; ++i) {
         Var v = Var{ad_v.first + i,ad_v.second - i};
         if (v_open(v)) {
@@ -223,6 +226,7 @@ namespace NQueens {
     void d_update(const Var cur_v) noexcept {
       Diagonal d = diagonal(cur_v);
       Var d_v = d.s;
+      assert(d.l < N);
       for (coord_t i = 0 ; i < d.l ; ++i) {
         Var v = Var{d_v.first + i,d_v.second + i};
         if (v_open(v)) {
@@ -231,7 +235,7 @@ namespace NQueens {
           forbidden_rank_update(v);
           }
         }
-     }
+      }
 
     bool satisfied() const noexcept { return (count.placed == N); }
     bool falsified() const noexcept { return Falsified; }
@@ -239,6 +243,8 @@ namespace NQueens {
     Var_uint nset() const noexcept { return count.placed+count.forbidden; }
 
     void set_true(const Var v) noexcept {
+      assert(v.first < N);
+      assert(v.second < N);
       board[v.first][v.second] = State::placed;
       count_update(v);
       placed_rank_update(v);
@@ -248,6 +254,8 @@ namespace NQueens {
       d_update(v);
       }
     void set_false(const Var v) noexcept {
+      assert(v.first < N);
+      assert(v.second < N);
       board[v.first][v.second] = State::forbidden;
       count_update(v);
       forbidden_rank_update(v);
