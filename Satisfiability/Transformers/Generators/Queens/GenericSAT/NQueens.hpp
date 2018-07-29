@@ -30,10 +30,6 @@ For GreedyAmo:
   XXX
 
 
-XXX work on State enum declaration and board declaration.
-
-Question : How do we know that a solution is found other than placing N queens. If that is the only way, then there is no need for n(), nset() functions. All assignments are complete in this problem.
-
 */
 
 #include <stack>
