@@ -78,6 +78,13 @@ namespace NQueens {
       Rank(ChessBoard::Var_uint o_r,ChessBoard::Var_uint p_r, ChessBoard::Var_uint f_r) : o_r(o_r),p_r(p_r),f_r(f_r) {}
   };
 
+  class Count {
+    public :
+      ChessBoard::Var_uint o_c;
+      ChessBoard::Var_uint p_c;
+      ChessBoard::Var_uint f_c;
+      Count(ChessBoard::Var_uint o_c,ChessBoard::Var_uint p_c, ChessBoard::Var_uint f_c) : o_c(o_c),p_c(p_c),f_c(f_c) {}
+    };
   // A concrete instance of BasicACLS:
   class AmoAlo_board {
 
@@ -97,8 +104,8 @@ namespace NQueens {
     Ranks c_rank;
     Ranks ad_rank;
     Ranks d_rank;
+    Count count;
     Stack stack;
-    Var_uint placed_count = 0;
     bool Falsified = false;
 
     Board b_init(Board board) {
@@ -123,11 +130,12 @@ namespace NQueens {
       for (Var_uint i = N; i > 0 ; --i) d_rank.push_back(Rank{i,0,0});
       return d_rank;
       }
+
   //public :
     explicit AmoAlo_board(const coord_t N, Board board, Ranks r_rank,
     Ranks c_rank, Ranks ad_rank, Ranks d_rank) :
     N(N),board(b_init(board)),r_rank(r_init(r_rank)),c_rank(c_init(c_rank)),
-    ad_rank(ad_init(ad_rank)),d_rank(d_init(d_rank)) {}
+    ad_rank(ad_init(ad_rank)),d_rank(d_init(d_rank)),count(Count{N*N,0,0}) {}
 
     // Returns anti_diagonal starting feild, length and index:
     Diagonal anti_diagonal(Var v) const noexcept {
@@ -146,6 +154,7 @@ namespace NQueens {
     // Checks if the field v is open:
     bool v_open(Var v) { return (board[v.first][v.second] == State::open); }
 
+    // Updates the placed rank:
     void placed_rank_update(const Var v) {
       Diagonal ad =   anti_diagonal(v);
       Diagonal d = diagonal(v);
@@ -154,6 +163,7 @@ namespace NQueens {
       ++ad_rank[ad.i].p_r;
       ++d_rank[d.i].p_r;
       }
+
     // Forbidden field ranks are updated only if no field is placed in the same r,c,d or ad
     // and Falsified is updated if found:
     void forbidden_rank_update(const Var v) {
@@ -176,11 +186,18 @@ namespace NQueens {
         }
       }
 
+    void count_update(const Var v) {
+      --count.o_c;
+      if (board[v.first][v.second] == State::placed) ++count.p_c;
+      else ++count.f_c;
+      }
+
     void r_update(const Var cur_v) {
       for (coord_t i=0 ; i < N ; ++i) {
         Var v = Var{cur_v.first,i};
         if (v_open(v)) {
           board[v.first][v.second] = State::forbidden;
+          count_update(v);
           forbidden_rank_update(v);
           }
         }
@@ -190,6 +207,7 @@ namespace NQueens {
         Var v = Var{i,cur_v.second};
         if (v_open(v)) {
           board[v.first][v.second] = State::forbidden;
+          count_update(v);
           forbidden_rank_update(v);
           }
         }
@@ -201,6 +219,7 @@ namespace NQueens {
         Var v = Var{ad_v.first + i,ad_v.second - i};
         if (v_open(v)) {
           board[v.first][v.second] = State::forbidden;
+          count_update(v);
           forbidden_rank_update(v);
           }
         }
@@ -212,15 +231,16 @@ namespace NQueens {
         Var v = Var{d_v.first + i,d_v.second + i};
         if (v_open(v)) {
           board[v.first][v.second] = State::forbidden;
+          count_update(v);
           forbidden_rank_update(v);
           }
         }
      }
 
-    bool satisfied() const noexcept { return (placed_count == N); }
+    bool satisfied() const noexcept { return (count.p_c == N); }
     bool falsified() const noexcept { return Falsified; }
-    Var_uint n() const noexcept { return N; }
-    Var_uint nset() const noexcept { return N; }
+    Var_uint n() const noexcept { return N*N; }
+    Var_uint nset() const noexcept { return count.p_c+count.f_c; }
 
     // We only set a field if it is open:
     void set(const Var v, bool val) {
@@ -232,8 +252,8 @@ namespace NQueens {
           if (board[cur_v.first][cur_v.second] == State::forbidden) Falsified = true;
           else if (v_open(cur_v)) {
             board[cur_v.first][cur_v.second] = State::placed;
+            count_update(cur_v);
             placed_rank_update(cur_v);
-            ++placed_count;
             r_update(cur_v);
             c_update(cur_v);
             ad_update(cur_v);
@@ -241,8 +261,9 @@ namespace NQueens {
             }
           }
         else {
-          board[v.first][v.second] = State::forbidden;
-          forbidden_rank_update(v);
+          board[cur_v.first][cur_v.second] = State::forbidden;
+          count_update(cur_v);
+          forbidden_rank_update(cur_v);
           val = true;
           }
         }
