@@ -24,7 +24,7 @@ For AmoAlo_board :
        c. Add new fields into the stack in field_update function.  //done
 
   Add asserts everywhere.
-  Add const where appropriate.
+  Add const where appropriate. //done
 
 For GreedyAmo:
   XXX
@@ -137,14 +137,14 @@ namespace NQueens {
     Diagonal anti_diagonal(const Var v) const noexcept {
       coord_t c_sum = v.first + v.second;
       if (c_sum < N) return Diagonal{Var{0,c_sum},c_sum+1,c_sum};
-      else return Diagonal{Var{c_sum-N+1,N-1},2*N - (c_sum+1),c_sum};
+      else return Diagonal{Var{c_sum-N+1,N-1},2*N-(c_sum+1),c_sum};
       }
 
     // Returns diagonal starting feild, length and index:
     Diagonal diagonal(const Var v) const noexcept {
       diff_t c_diff = v.first - v.second;
-      if (c_diff > 0) return Diagonal{Var{c_diff,0},N - c_diff,(N-1) - c_diff};
-      else return Diagonal{Var{0,-c_diff},N + c_diff,(N-1) - c_diff};
+      if (c_diff > 0) return Diagonal{Var{c_diff,0},N - c_diff,(N-1)-c_diff};
+      else return Diagonal{Var{0,-c_diff},N+c_diff,(N-1)-c_diff};
       }
 
     // Checks if the field v is open:
@@ -189,7 +189,7 @@ namespace NQueens {
       }
 
     void r_update(const Var cur_v) noexcept {
-      for (coord_t i=0 ; i < N ; ++i) {
+      for (coord_t i = 0 ; i < N ; ++i) {
         Var v = Var{cur_v.first,i};
         if (v_open(v)) {
           board[v.first][v.second] = State::forbidden;
@@ -199,7 +199,7 @@ namespace NQueens {
         }
       }
     void c_update(const Var cur_v) noexcept {
-      for (coord_t i=0 ; i < N ; ++i) {
+      for (coord_t i = 0 ; i < N ; ++i) {
         Var v = Var{i,cur_v.second};
         if (v_open(v)) {
           board[v.first][v.second] = State::forbidden;
@@ -211,7 +211,7 @@ namespace NQueens {
     void ad_update(const Var cur_v) noexcept {
       Diagonal ad = anti_diagonal(cur_v);
       Var ad_v = ad.s;
-      for (coord_t i=0 ; i < ad.l ; ++i) {
+      for (coord_t i = 0 ; i < ad.l ; ++i) {
         Var v = Var{ad_v.first + i,ad_v.second - i};
         if (v_open(v)) {
           board[v.first][v.second] = State::forbidden;
@@ -223,7 +223,7 @@ namespace NQueens {
     void d_update(const Var cur_v) noexcept {
       Diagonal d = diagonal(cur_v);
       Var d_v = d.s;
-      for (coord_t i=0 ; i < d.l ; ++i) {
+      for (coord_t i = 0 ; i < d.l ; ++i) {
         Var v = Var{d_v.first + i,d_v.second + i};
         if (v_open(v)) {
           board[v.first][v.second] = State::forbidden;
@@ -259,8 +259,8 @@ namespace NQueens {
       while(!stack.empty() and !falsified()) {
         Var cur_v = stack.top();
         stack.pop();
-          if (board[cur_v.first][cur_v.second] == State::forbidden) Falsified = true;
-          else if (v_open(cur_v)) set_true(cur_v);
+        if (board[cur_v.first][cur_v.second] == State::forbidden) Falsified = true;
+        else if (v_open(cur_v)) set_true(cur_v);
         }
       }
   };
