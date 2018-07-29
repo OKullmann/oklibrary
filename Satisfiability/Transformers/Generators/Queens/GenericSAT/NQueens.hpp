@@ -258,15 +258,13 @@ namespace NQueens {
       }
     // We only set a field if it is open:
     void set(const Var v, bool val) {
-      stack.push(v);
+      if (val) set_true(v);
+      else set_false(v);
       while(!stack.empty() and !falsified()) {
         Var cur_v = stack.top();
         stack.pop();
-        if (val == true ) {
           if (board[cur_v.first][cur_v.second] == State::forbidden) Falsified = true;
           else if (v_open(cur_v)) set_true(cur_v);
-          }
-        else { set_false(cur_v); val = true; }
         }
       }
   };
