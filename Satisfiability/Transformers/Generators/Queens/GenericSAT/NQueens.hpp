@@ -96,10 +96,10 @@ namespace NQueens {
   //private :
     const coord_t N;
     Board board;
-    Ranks r_rank;
-    Ranks c_rank;
-    Ranks ad_rank;
-    Ranks d_rank;
+    Ranks r_ranks;
+    Ranks c_ranks;
+    Ranks ad_ranks;
+    Ranks d_ranks;
     Count count;
     Stack stack;
     bool Falsified = false;
@@ -108,30 +108,30 @@ namespace NQueens {
       board.resize(N, std::vector<State>(N));
       return board;
       }
-    Ranks r_init (Ranks r_rank) const noexcept {
-      for (Var_uint i = 0; i < N ; ++i) r_rank.push_back(Rank{N,0,0});
-      return r_rank;
+    Ranks r_init (Ranks r_ranks) const noexcept {
+      for (Var_uint i = 0; i < N ; ++i) r_ranks.push_back(Rank{N,0,0});
+      return r_ranks;
       }
-    Ranks c_init (Ranks c_rank) const noexcept {
-      for (Var_uint i = 0; i < N ; ++i) c_rank.push_back(Rank{N,0,0});
-      return c_rank;
+    Ranks c_init (Ranks c_ranks) const noexcept {
+      for (Var_uint i = 0; i < N ; ++i) c_ranks.push_back(Rank{N,0,0});
+      return c_ranks;
       }
-    Ranks ad_init (Ranks ad_rank) const noexcept {
-      for (Var_uint i = 1; i < N ; ++i) ad_rank.push_back(Rank{i,0,0});
-      for (Var_uint i = N; i > 0 ; --i) ad_rank.push_back(Rank{i,0,0});
-      return ad_rank;
+    Ranks ad_init (Ranks ad_ranks) const noexcept {
+      for (Var_uint i = 1; i < N ; ++i) ad_ranks.push_back(Rank{i,0,0});
+      for (Var_uint i = N; i > 0 ; --i) ad_ranks.push_back(Rank{i,0,0});
+      return ad_ranks;
       }
-    Ranks d_init (Ranks d_rank) const noexcept {
-      for (Var_uint i = 1; i < N ; ++i) d_rank.push_back(Rank{i,0,0});
-      for (Var_uint i = N; i > 0 ; --i) d_rank.push_back(Rank{i,0,0});
-      return d_rank;
+    Ranks d_init (Ranks d_ranks) const noexcept {
+      for (Var_uint i = 1; i < N ; ++i) d_ranks.push_back(Rank{i,0,0});
+      for (Var_uint i = N; i > 0 ; --i) d_ranks.push_back(Rank{i,0,0});
+      return d_ranks;
       }
 
   //public :
-    explicit AmoAlo_board(const coord_t N, Board board, Ranks r_rank,
-    Ranks c_rank, Ranks ad_rank, Ranks d_rank) :
-    N(N),board(b_init(board)),r_rank(r_init(r_rank)),c_rank(c_init(c_rank)),
-    ad_rank(ad_init(ad_rank)),d_rank(d_init(d_rank)),count(Count{N*N,0,0}) {}
+    explicit AmoAlo_board(const coord_t N, Board board, Ranks r_ranks,
+    Ranks c_ranks, Ranks ad_ranks, Ranks d_ranks) :
+    N(N),board(b_init(board)),r_ranks(r_init(r_ranks)),c_ranks(c_init(c_ranks)),
+    ad_ranks(ad_init(ad_ranks)),d_ranks(d_init(d_ranks)),count(Count{N*N,0,0}) {}
 
     // Returns anti_diagonal starting feild, length and index:
     Diagonal anti_diagonal(const Var v) const noexcept {
@@ -154,10 +154,10 @@ namespace NQueens {
     void placed_rank_update(const Var v) noexcept {
       Diagonal ad =   anti_diagonal(v);
       Diagonal d = diagonal(v);
-      ++r_rank[v.first].p_r;
-      ++c_rank[v.second].p_r;
-      ++ad_rank[ad.i].p_r;
-      ++d_rank[d.i].p_r;
+      ++r_ranks[v.first].p_r;
+      ++c_ranks[v.second].p_r;
+      ++ad_ranks[ad.i].p_r;
+      ++d_ranks[d.i].p_r;
       }
 
     // Forbidden field ranks are updated only if no field is placed in the same r,c,d or ad
@@ -165,17 +165,17 @@ namespace NQueens {
     void forbidden_rank_update(const Var v) noexcept {
       Diagonal ad =   anti_diagonal(v);
       Diagonal d = diagonal(v);
-      if (!r_rank[v.first].p_r) {
-        --r_rank[v.first].o_r;
-        --c_rank[v.second].o_r;
-        --ad_rank[ad.i].o_r;
-        --d_rank[d.i].o_r;
-        if (r_rank[v.first].o_r == 0 or c_rank[v.second].o_r == 0) Falsified = true;
+      if (!r_ranks[v.first].p_r) {
+        --r_ranks[v.first].o_r;
+        --c_ranks[v.second].o_r;
+        --ad_ranks[ad.i].o_r;
+        --d_ranks[d.i].o_r;
+        if (r_ranks[v.first].o_r == 0 or c_ranks[v.second].o_r == 0) Falsified = true;
         else {
-          if (r_rank[v.first].o_r == 1)
+          if (r_ranks[v.first].o_r == 1)
             for (coord_t i = 0; i < N ; ++i)
               if (v_open(Var{v.first,i})) { stack.push(Var{v.first,i}); break; }
-          if (c_rank[v.second].o_r == 1)
+          if (c_ranks[v.second].o_r == 1)
             for (coord_t i = 0; i < N ; ++i)
               if (v_open(Var{i,v.second})) { stack.push(Var{i,v.second}); break; }
           }
