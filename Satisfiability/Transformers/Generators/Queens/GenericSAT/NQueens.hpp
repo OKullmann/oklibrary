@@ -64,31 +64,30 @@ namespace NQueens {
   };
 
   class Diagonal {
-    public :
-      ChessBoard::Var s;
-      ChessBoard::Var_uint l;
-      ChessBoard::Var_uint i;
-      Diagonal(ChessBoard::Var s,ChessBoard::Var_uint l, ChessBoard::Var_uint i) : s(s),l(l),i(i) {}
+  public :
+    ChessBoard::Var s;
+    ChessBoard::Var_uint l;
+    ChessBoard::Var_uint i;
+    Diagonal(ChessBoard::Var s,ChessBoard::Var_uint l, ChessBoard::Var_uint i) : s(s),l(l),i(i) {}
   };
 
   class Rank {
-    public :
-      ChessBoard::Var_uint o_r;
-      ChessBoard::Var_uint p_r;
-      ChessBoard::Var_uint f_r;
-      Rank(ChessBoard::Var_uint o_r,ChessBoard::Var_uint p_r, ChessBoard::Var_uint f_r) : o_r(o_r),p_r(p_r),f_r(f_r) {}
+  public :
+    ChessBoard::Var_uint o_r;
+    ChessBoard::Var_uint p_r;
+    ChessBoard::Var_uint f_r;
+    Rank(ChessBoard::Var_uint o_r,ChessBoard::Var_uint p_r, ChessBoard::Var_uint f_r) : o_r(o_r),p_r(p_r),f_r(f_r) {}
   };
 
   class Count {
-    public :
-      ChessBoard::Var_uint open;
-      ChessBoard::Var_uint placed;
-      ChessBoard::Var_uint forbidden;
-      Count(ChessBoard::Var_uint open,ChessBoard::Var_uint placed, ChessBoard::Var_uint forbidden) : open(open),placed(placed),forbidden(forbidden) {}
+  public :
+    ChessBoard::Var_uint open;
+    ChessBoard::Var_uint placed;
+    ChessBoard::Var_uint forbidden;
+    Count(ChessBoard::Var_uint open,ChessBoard::Var_uint placed, ChessBoard::Var_uint forbidden) : open(open),placed(placed),forbidden(forbidden) {}
     };
   // A concrete instance of BasicACLS:
   class AmoAlo_board {
-
   public :
     typedef ChessBoard::coord_t coord_t;
     typedef ChessBoard::Var Var;
