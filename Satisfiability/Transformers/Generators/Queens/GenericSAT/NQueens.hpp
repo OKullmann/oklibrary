@@ -63,29 +63,27 @@ namespace NQueens {
 
   };
 
-  class Diagonal {
-  public :
+  struct Diagonal {
     ChessBoard::Var s;
     ChessBoard::Var_uint l;
     ChessBoard::Var_uint i;
-    Diagonal(ChessBoard::Var s,ChessBoard::Var_uint l, ChessBoard::Var_uint i) : s(s),l(l),i(i) {}
   };
+  static_assert(std::is_pod<Diagonal>::value, "Diagonal is not POD.");
 
-  class Rank {
-  public :
+  struct Rank {
     ChessBoard::Var_uint o_r;
     ChessBoard::Var_uint p_r;
     ChessBoard::Var_uint f_r;
-    Rank(ChessBoard::Var_uint o_r,ChessBoard::Var_uint p_r, ChessBoard::Var_uint f_r) : o_r(o_r),p_r(p_r),f_r(f_r) {}
   };
+  static_assert(std::is_pod<Rank>::value, "Rank is not POD.");
 
-  class Count {
-  public :
+  struct Count {
     ChessBoard::Var_uint open;
     ChessBoard::Var_uint placed;
     ChessBoard::Var_uint forbidden;
-    Count(ChessBoard::Var_uint open,ChessBoard::Var_uint placed, ChessBoard::Var_uint forbidden) : open(open),placed(placed),forbidden(forbidden) {}
-    };
+  };
+  static_assert(std::is_pod<Count>::value, "Count is not POD.");
+
   // A concrete instance of BasicACLS:
   class AmoAlo_board {
   public :
