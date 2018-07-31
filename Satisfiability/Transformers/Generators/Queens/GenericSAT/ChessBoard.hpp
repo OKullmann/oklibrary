@@ -15,6 +15,7 @@ namespace ChessBoard {
   static_assert(std::is_pod<Var>::value, "Var is not POD.");
 
   typedef std::uint64_t Var_uint;
+  typedef std::int64_t Var_int;
 
   typedef std::uint_fast64_t Count_t;
 
