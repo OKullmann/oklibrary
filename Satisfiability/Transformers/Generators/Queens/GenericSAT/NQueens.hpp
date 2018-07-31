@@ -33,10 +33,12 @@ For GreedyAmo:
 
 */
 
-#include <cassert>
-#include <cmath>
 #include <stack>
 #include <vector>
+
+#include <cassert>
+#include <cmath>
+
 #include "ChessBoard.hpp"
 
 namespace NQueens {
