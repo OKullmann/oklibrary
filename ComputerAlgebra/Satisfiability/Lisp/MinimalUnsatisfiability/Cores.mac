@@ -324,6 +324,9 @@ umu_rs1_rec_cs(F, forced) := block(
 
 /* As rs1, but now stopping if nothing new (using "current umu"): */
 umu_rs2_cs(F) := umu_rs2_rec_cs(F,{},{})$
+/* As with rs1, but not returning clauses which are already in cumu;
+   as always, forced is irredundant, and now forced is contained in cumu:
+*/
 umu_rs2_rec_cs(F, forced,cumu) := block(
  [mus,res,l,C],
   F : first(lean_kernel_tableau_fs_cs(F)),
@@ -346,8 +349,30 @@ umu_rs2_rec_cs(F, forced,cumu) := block(
      umu_rs2_cs(F) := umu_rs2_rec_cs(F,all_irrcl_bydef_cs(F),{})$
 */
 
+/* As rs2, but now using a global cumu: */
+umu_rs3_cs(F0) := block([cumu : {}], umu_rs3_rec_cs(F0,{}), cumu)$
+/* As with rs2, but no return-value now, but just adding to cumu: */
+umu_rs3_rec_cs(F, forced) := block(
+ [mus,l,C],
+  if cumu = F0 then return(done), /* seems to be of minor effect? */
+  F : first(lean_kernel_tableau_fs_cs(F)),
+  if emptyp(F) or not subsetp(forced, F) or subsetp(F,cumu) then return(done),
+  mus : first_mus_bs_cs(F),
+  cumu : union(cumu, mus), /* if not subsetp(forced,mus), then subsetp(mus,cumu) should hold ? */
+  if mus = F then return(done),
+  mus : listify(setdifference(mus,forced)),
+  l : length(mus),
+  for i : 1 thru l do (
+    C : mus[i],
+    umu_rs3_rec_cs(disjoin(C,F), forced),
+    if i # l then (
+      forced : adjoin(C,forced),
+      if not irredundant_bydef_cs(forced) then return(done)
+    )
+  ))$
+
 /* Best selection: */
-current_umu_cs(F) := umu_rs2_cs(F)$
+current_umu_cs(F) := umu_rs3_cs(F)$
 
 
 /*!

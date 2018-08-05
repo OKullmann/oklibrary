@@ -311,6 +311,11 @@ okltest_umu_rs2_cs(f) := (
   assert(all_pass_n(setn(4),2) = all_pass_n(setn(4),2)),
   true)$
 
+okltest_umu_rs3_cs(f) := (
+  assert(f({}) = {}),
+  assert(okltest_umu_rs2_cs(f) = true),
+  assert(f({{1,2},{-1},{-2},{-3,-4},{3},{4},{1,2,3,4}}) = {{1,2},{-1},{-2},{-3,-4},{3},{4}}),
+  true)$
 
 /*!
 \endhtmlonly
