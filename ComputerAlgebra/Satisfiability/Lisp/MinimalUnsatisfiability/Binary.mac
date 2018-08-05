@@ -24,6 +24,33 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
+/*
+
+  All 2-uniform 2-CNF MUs over variables 1,...,n, n >= 2 (possibly not using
+  all variables) are computed by
+
+    all_min_usat_cores_bydef_cs(all_pass_n(setn(n),2));
+
+  Only those with exactly n variables:
+
+    subset(all_min_usat_cores_bydef_cs(all_pass_n(setn(n),2)), lambda([F], is(nvar_cs(F) = n)));
+
+  Now all 2-CNF MUs over variables 1,...,n (including empty and unit-clauses):
+
+    all_min_usat_cores_bydef_cs(union({{}}, all_pass_n(setn(n),1), all_pass_n(setn(n),2)));
+
+  And only those using all variables:
+
+    subset(all_min_usat_cores_bydef_cs(union({{}}, all_pass_n(setn(n),1), all_pass_n(setn(n),2))), lambda([F], is(nvar_cs(F) = n)));
+
+  For all of these sets, representatives of the isomorphism-classes are
+  obtained by using representatives_cs, i.e.
+
+    representatives_cs(subset(all_min_usat_cores_bydef_cs(union({{}}, all_pass_n(setn(n),1), all_pass_n(setn(n),2))), lambda([F], is(nvar_cs(F) = n))));
+
+*/
+
+
 /* ******************************
    * Some small auxiliary 2-CNF *
    ******************************
