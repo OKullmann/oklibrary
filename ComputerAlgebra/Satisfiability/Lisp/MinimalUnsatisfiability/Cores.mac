@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 8.4.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2012 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2012, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Autarkies/TableauAlgorithm.mac");
 
 
 /* *************************************************
@@ -116,9 +117,11 @@ all_forced_irr_cores_bydef(Forced, Possible, S) := block(
 */
 
 /* Returns some minimally unsatisfiable sub-clause-set of input FF,
-   a formal unsatisfiable clause-set (trivial heuristics, removing
-   the first possible clause). */
-/* The set of variables of the result is the original set. */
+   assumed to be unsatisfiable; returns a formal unsatisfiable clause-set,
+   using the trivial heuristics, which just removes always the first possible
+   clause).
+   The set of variables of the result is the original set.
+*/
 /* RENAME: first_mus_fcsss */
 first_mus_fcs(FF, S) := block(
  [V : FF[1], F : FF[2], Core : {}],
@@ -263,6 +266,83 @@ all_max_neq_scs_bydual(F,f_irr_cores,f_hyp_trans) :=
    sub-clause-sets (for a clause-set), compute all irredundant cores. */
 all_irr_cores_bydual(FF,f_all_max_neq,f_hyp_trans) :=
   f_hyp_trans(ecomp_hyp([FF[2],f_all_max_neq(FF[2])]))[2]$
+
+
+/* *****************
+   * Computing UMU *
+   *****************
+*/
+
+/* From the enumeration: */
+umu_enum0_cs(F) := if current_satsolver(cs2fcs(F)) then {}
+  else lunion(all_min_usat_cores_bydef_cs(F))$
+
+/* Simplest recursive splitting: */
+umu_rs0_cs(F) := umu_rs0_rec_cs(F,{})$
+/* The set of C in F such that there is G in mus(F) with C in G and
+   forced <= G:
+*/
+umu_rs0_rec_cs(F, forced) := block([mus,res],
+  if not irredundant_bydef_cs(forced) then return({}),
+  if current_satsolver(cs2fcs(F)) then return({}),
+  mus : first_mus_bs_cs(F),
+  res : if subsetp(forced,mus) then mus else {},
+  if mus = F then return(res),
+  mus : setdifference(mus,forced),
+  for C in mus do (
+    res : union(res, umu_rs0_rec_cs(disjoin(C,F), forced)),
+    forced : adjoin(C,forced)
+  ),
+  res)$
+
+/* Same semantics as rs0, but using the lean kernel for cutting off branches:
+*/
+umu_rs1_cs(F) := umu_rs1_rec_cs(F,{})$
+umu_rs1_rec_cs(F, forced) := block(
+ [LK,mus,res],
+  if not irredundant_bydef_cs(forced) then return({}),
+  LK : first(lean_kernel_tableau_fs_cs(F)),
+  if emptyp(LK) then return({}),
+  if not subsetp(forced, LK) then return({}),
+  F : LK,
+  mus : first_mus_bs_cs(F),
+  res : if subsetp(forced,mus) then mus else {},
+  if mus = F then return(res),
+  mus : setdifference(mus,forced),
+  for C in mus do (
+    res : union(res, umu_rs1_rec_cs(disjoin(C,F), forced)),
+    forced : adjoin(C,forced)
+  ),
+  res)$
+/* To remove some branches, one can use
+     umu_rs1_cs(F) := umu_rs1_rec_cs(F,all_irrcl_bydef_cs(F))$
+*/
+
+/* As rs1, but now stopping if nothing new (using "current umu"): */
+umu_rs2_cs(F) := umu_rs2_rec_cs(F,{},{})$
+umu_rs2_rec_cs(F, forced,cumu) := block(
+ [LK,mus,res],
+  if not irredundant_bydef_cs(forced) then return({}),
+  LK : first(lean_kernel_tableau_fs_cs(F)),
+  if emptyp(LK) then return({}),
+  if not subsetp(forced, LK) then return({}),
+  if subsetp(LK,cumu) then return({}),
+  F : LK,
+  mus : first_mus_bs_cs(F),
+  res : if subsetp(forced,mus) then mus else {},
+  if mus = F then return(res),
+  mus : setdifference(mus,forced),
+  for C in mus do (
+    res : union(res, umu_rs2_rec_cs(disjoin(C,F), forced, union(res,cumu))),
+    forced : adjoin(C,forced)
+  ),
+  res)$
+/* To remove some branches, one can use
+     umu_rs2_cs(F) := umu_rs2_rec_cs(F,all_irrcl_bydef_cs(F))$
+*/
+
+/* Best selection: */
+current_umu_cs(F) := umu_rs2_cs(F)$
 
 
 /*!
