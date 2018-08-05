@@ -277,21 +277,23 @@ all_irr_cores_bydual(FF,f_all_max_neq,f_hyp_trans) :=
 umu_enum0_cs(F) := if current_satsolver(cs2fcs(F)) then {}
   else lunion(all_min_usat_cores_bydef_cs(F))$
 
-/* Simplest recursive splitting: */
+/* Simplest recursive splitting; forced is an irredundant clause-set: */
 umu_rs0_cs(F) := umu_rs0_rec_cs(F,{})$
 /* The set of C in F such that there is G in mus(F) with C in G and
    forced <= G:
 */
 umu_rs0_rec_cs(F, forced) := block([mus,res],
-  if not irredundant_bydef_cs(forced) then return({}),
   if current_satsolver(cs2fcs(F)) then return({}),
   mus : first_mus_bs_cs(F),
   res : if subsetp(forced,mus) then mus else {},
   if mus = F then return(res),
-  mus : setdifference(mus,forced),
+  mus : listify(setdifference(mus,forced)),
   for C in mus do (
     res : union(res, umu_rs0_rec_cs(disjoin(C,F), forced)),
-    forced : adjoin(C,forced)
+    if C # last(mus) then (
+      forced : adjoin(C,forced),
+      if not irredundant_bydef_cs(forced) then return(done)
+    )
   ),
   res)$
 
@@ -300,7 +302,6 @@ umu_rs0_rec_cs(F, forced) := block([mus,res],
 umu_rs1_cs(F) := umu_rs1_rec_cs(F,{})$
 umu_rs1_rec_cs(F, forced) := block(
  [LK,mus,res],
-  if not irredundant_bydef_cs(forced) then return({}),
   LK : first(lean_kernel_tableau_fs_cs(F)),
   if emptyp(LK) then return({}),
   if not subsetp(forced, LK) then return({}),
@@ -308,10 +309,13 @@ umu_rs1_rec_cs(F, forced) := block(
   mus : first_mus_bs_cs(F),
   res : if subsetp(forced,mus) then mus else {},
   if mus = F then return(res),
-  mus : setdifference(mus,forced),
+  mus : listify(setdifference(mus,forced)),
   for C in mus do (
     res : union(res, umu_rs1_rec_cs(disjoin(C,F), forced)),
-    forced : adjoin(C,forced)
+    if C # last(mus) then (
+      forced : adjoin(C,forced),
+      if not irredundant_bydef_cs(forced) then return(done)
+    )
   ),
   res)$
 /* To remove some branches, one can use
@@ -321,20 +325,21 @@ umu_rs1_rec_cs(F, forced) := block(
 /* As rs1, but now stopping if nothing new (using "current umu"): */
 umu_rs2_cs(F) := umu_rs2_rec_cs(F,{},{})$
 umu_rs2_rec_cs(F, forced,cumu) := block(
- [LK,mus,res],
-  if not irredundant_bydef_cs(forced) then return({}),
-  LK : first(lean_kernel_tableau_fs_cs(F)),
-  if emptyp(LK) then return({}),
-  if not subsetp(forced, LK) then return({}),
-  if subsetp(LK,cumu) then return({}),
-  F : LK,
+ [mus,res,l,C],
+  F : first(lean_kernel_tableau_fs_cs(F)),
+  if emptyp(F) or not subsetp(forced, F) or subsetp(F,cumu) then return({}),
   mus : first_mus_bs_cs(F),
   res : if subsetp(forced,mus) then mus else {},
   if mus = F then return(res),
-  mus : setdifference(mus,forced),
-  for C in mus do (
+  mus : listify(setdifference(mus,forced)),
+  l : length(mus),
+  for i : 1 thru l do (
+    C : mus[i],
     res : union(res, umu_rs2_rec_cs(disjoin(C,F), forced, union(res,cumu))),
-    forced : adjoin(C,forced)
+    if i # l then (
+      forced : adjoin(C,forced),
+      if not irredundant_bydef_cs(forced) then return(done)
+    )
   ),
   res)$
 /* To remove some branches, one can use
