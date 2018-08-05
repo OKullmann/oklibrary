@@ -350,24 +350,25 @@ umu_rs2_rec_cs(F, forced,cumu) := block(
 */
 
 /* As rs2, but now using a global cumu: */
-umu_rs3_cs(F0) := block([cumu : {}], umu_rs3_rec_cs(F0,{}), cumu)$
-/* As with rs2, but no return-value now, but just adding to cumu: */
+umu_rs3_cs(F0) := block([cumu : {}, l0 : length(F0)],
+  umu_rs3_rec_cs(F0,{}), cumu)$
+/* As with rs2, but return-value now indicates whether we have reached F0: */
 umu_rs3_rec_cs(F, forced) := block(
  [mus,l,C],
-  if cumu = F0 then return(done), /* seems to be of minor effect? */
+  if length(cumu) = l0 then return(true), /* seems to be of minor effect? */
   F : first(lean_kernel_tableau_fs_cs(F)),
-  if emptyp(F) or not subsetp(forced, F) or subsetp(F,cumu) then return(done),
+  if emptyp(F) or not subsetp(forced, F) or subsetp(F,cumu) then return(false),
   mus : first_mus_bs_cs(F),
   cumu : union(cumu, mus), /* if not subsetp(forced,mus), then subsetp(mus,cumu) should hold ? */
-  if mus = F then return(done),
+  if mus = F then return(false),
   mus : listify(setdifference(mus,forced)),
   l : length(mus),
   for i : 1 thru l do (
     C : mus[i],
-    umu_rs3_rec_cs(disjoin(C,F), forced),
+    if umu_rs3_rec_cs(disjoin(C,F), forced) then return(true),
     if i # l then (
       forced : adjoin(C,forced),
-      if not irredundant_bydef_cs(forced) then return(done)
+      if not irredundant_bydef_cs(forced) then return(false)
     )
   ))$
 
