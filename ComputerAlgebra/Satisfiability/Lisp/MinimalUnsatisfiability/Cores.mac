@@ -273,14 +273,14 @@ all_irr_cores_bydual(FF,f_all_max_neq,f_hyp_trans) :=
    *****************
 */
 
-/* From the enumeration: */
+/* Computing umu(F), the union of mus(F), directly by enumeration: */
 umu_enum0_cs(F) := if current_satsolver(cs2fcs(F)) then {}
   else lunion(all_min_usat_cores_bydef_cs(F))$
 
-/* Simplest recursive splitting; forced is an irredundant clause-set: */
+/* Simplest recursive splitting on some mus: */
 umu_rs0_cs(F) := umu_rs0_rec_cs(F,{})$
 /* The set of C in F such that there is G in mus(F) with C in G and
-   forced <= G:
+   forced <= G, where forced is an irredundant clause-set:
 */
 umu_rs0_rec_cs(F, forced) := block([mus,res],
   if current_satsolver(cs2fcs(F)) then return({}),
@@ -343,7 +343,7 @@ umu_rs2_rec_cs(F, forced,cumu) := block(
   ),
   res)$
 /* To remove some branches, one can use
-     umu_rs2_cs(F) := umu_rs2_rec_cs(F,all_irrcl_bydef_cs(F))$
+     umu_rs2_cs(F) := umu_rs2_rec_cs(F,all_irrcl_bydef_cs(F),{})$
 */
 
 /* Best selection: */
