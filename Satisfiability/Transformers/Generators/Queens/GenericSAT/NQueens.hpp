@@ -92,12 +92,14 @@ namespace NQueens {
   };
   static_assert(std::is_pod<TotalRank>::value, "TotalRank is not POD.");
 
+
   // A concrete instance of BasicACLS:
   class AmoAlo_board {
+    using coord_t = ChessBoard::coord_t;
+    using Var = ChessBoard::Var;
+    using Var_uint = ChessBoard::Var_uint;
+    using Var_int = ChessBoard::Var_int;
   public :
-    typedef ChessBoard::coord_t coord_t;
-    typedef ChessBoard::Var Var;
-    typedef ChessBoard::Var_uint Var_uint;
     typedef std::vector<Rank> Ranks;
     typedef std::stack<Var> Stack;
     enum class State { open, placed, forbidden };
@@ -153,7 +155,7 @@ namespace NQueens {
 
     // Returns diagonal starting field, length and index:
     Diagonal diagonal(const Var v) const noexcept {
-      const ChessBoard::Var_int c_diff = v.first - v.second;
+      const Var_int c_diff = v.first - v.second;
       if (c_diff > 0) return Diagonal{Var{coord_t(c_diff),0},Var_uint(N - c_diff),Var_uint((N-1)-c_diff)};
       else return Diagonal{Var{0,coord_t(-c_diff)},Var_uint(N+c_diff),Var_uint((N-1)-c_diff)};
     }
@@ -302,10 +304,9 @@ namespace NQueens {
 
 
   // The prototype:
-  struct BasicBranching {
-
-    typedef ChessBoard::Var Var;
-
+  class BasicBranching {
+    using Var = ChessBoard::Var;
+  public :
     const BasicACLS& F;
 
     BasicBranching(const BasicACLS& F) : F(F) {}
@@ -316,11 +317,10 @@ namespace NQueens {
 
 
   // A concrete instance of BasicBranching:
-  struct GreedyAmo {
-
-    typedef ChessBoard::Var Var;
-    typedef ChessBoard::coord_t coord_t;
-    typedef ChessBoard::Var_uint Var_uint;
+  class GreedyAmo {
+    using Var = ChessBoard::Var;
+    using Var_uint = ChessBoard::Var_uint;
+  public :
     typedef double Weight_t;
     typedef std::vector<Weight_t> Weight_vector;
     Weight_vector weight_vector = {4.85,1,0.354,0.11,0.0694};
@@ -348,8 +348,8 @@ namespace NQueens {
     Var operator()() const noexcept {
       Weight_t max = 0;
       Var bv{}; // this is NOT correct in general, since a valid value
-      for (coord_t i = 0; i < F.N ; ++i)
-        for (coord_t j = 0; j < F.N ; ++j)
+      for (ChessBoard::coord_t i = 0; i < F.N ; ++i)
+        for (ChessBoard::coord_t j = 0; j < F.N ; ++j)
           if (F.board()[i][j] == F.State::open) {
             const Weight_t w = weight(Var{i,j});
             if (w > max) {
