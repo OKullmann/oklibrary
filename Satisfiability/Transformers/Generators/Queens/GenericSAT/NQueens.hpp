@@ -190,7 +190,7 @@ namespace NQueens {
     }
 
     // Checks if the field v is open:
-    bool v_open(const Var v) const noexcept {
+    bool open(const Var v) const noexcept {
       return (b[v.first][v.second] == State::open);
     }
 
@@ -220,10 +220,10 @@ namespace NQueens {
         else {
           if (r_ranks[v.first].o == 1)
             for (coord_t i = 0; i < N ; ++i)
-              if (v_open(Var{v.first,i})) { stack.push(Var{v.first,i}); break; }
+              if (open(Var{v.first,i})) { stack.push(Var{v.first,i}); break; }
           if (c_ranks[v.second].o == 1)
             for (coord_t i = 0; i < N ; ++i)
-              if (v_open(Var{i,v.second})) { stack.push(Var{i,v.second}); break; }
+              if (open(Var{i,v.second})) { stack.push(Var{i,v.second}); break; }
         }
       }
     }
@@ -237,7 +237,7 @@ namespace NQueens {
     void r_update(const Var cur_v) noexcept {
       for (coord_t i = 0 ; i < N ; ++i) {
         const Var v = Var{cur_v.first,i};
-        if (v_open(v)) {
+        if (open(v)) {
           b[v.first][v.second] = State::forbidden;
           count_update(v);
           forbidden_rank_update(v);
@@ -247,7 +247,7 @@ namespace NQueens {
     void c_update(const Var cur_v) noexcept {
       for (coord_t i = 0 ; i < N ; ++i) {
         const Var v = Var{i,cur_v.second};
-        if (v_open(v)) {
+        if (open(v)) {
           b[v.first][v.second] = State::forbidden;
           count_update(v);
           forbidden_rank_update(v);
@@ -260,7 +260,7 @@ namespace NQueens {
       assert(ad.l < N);
       for (coord_t i = 0 ; i < ad.l ; ++i) {
         const Var v = Var{ad_v.first + i,ad_v.second - i};
-        if (v_open(v)) {
+        if (open(v)) {
           b[v.first][v.second] = State::forbidden;
           count_update(v);
           forbidden_rank_update(v);
@@ -273,7 +273,7 @@ namespace NQueens {
       assert(d.l < N);
       for (coord_t i = 0 ; i < d.l ; ++i) {
         const Var v = Var{d_v.first + i,d_v.second + i};
-        if (v_open(v)) {
+        if (open(v)) {
           b[v.first][v.second] = State::forbidden;
           count_update(v);
           forbidden_rank_update(v);
@@ -324,7 +324,7 @@ namespace NQueens {
         Var cur_v = stack.top();
         stack.pop();
         if (b[cur_v.first][cur_v.second] == State::forbidden) falsified_ = true;
-        else if (v_open(cur_v)) set_true(cur_v);
+        else if (open(cur_v)) set_true(cur_v);
         }
       }
 
