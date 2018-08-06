@@ -85,12 +85,12 @@ namespace NQueens {
   static_assert(std::is_pod<Rank>::value, "Rank is not POD.");
 
   // The same numbers as with Rank, but now for the whole board:
-  struct Count {
+  struct TotalRank {
     ChessBoard::Var_uint o;
     ChessBoard::Var_uint p;
     ChessBoard::Var_uint f;
   };
-  static_assert(std::is_pod<Count>::value, "Count is not POD.");
+  static_assert(std::is_pod<TotalRank>::value, "TotalRank is not POD.");
 
   // A concrete instance of BasicACLS:
   class AmoAlo_board {
@@ -109,7 +109,7 @@ namespace NQueens {
     Ranks c_ranks;
     Ranks ad_ranks;
     Ranks d_ranks;
-    Count count;
+    TotalRank count;
     Stack stack;
     bool falsified_ = false;
 
@@ -141,7 +141,7 @@ namespace NQueens {
     explicit AmoAlo_board(const coord_t N, Board board, Ranks r_ranks,
     Ranks c_ranks, Ranks ad_ranks, Ranks d_ranks) :
       N(N),b(b_init(board)),r_ranks(r_init(r_ranks)),c_ranks(c_init(c_ranks)),
-      ad_ranks(ad_init(ad_ranks)),d_ranks(d_init(d_ranks)),count(Count{N*N,0,0}) {}
+      ad_ranks(ad_init(ad_ranks)),d_ranks(d_init(d_ranks)),count(TotalRank{N*N,0,0}) {}
 
     // Returns anti_diagonal starting field, length and index:
     Diagonal anti_diagonal(const Var v) const noexcept {
