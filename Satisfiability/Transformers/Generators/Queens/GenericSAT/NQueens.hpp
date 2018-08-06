@@ -125,7 +125,7 @@ namespace NQueens {
     Ranks c_ranks;
     Ranks ad_ranks;
     Ranks d_ranks;
-    TotalRank count;
+    TotalRank trank;
     Stack stack;
     bool falsified_ = false;
 
@@ -161,7 +161,7 @@ namespace NQueens {
 
     explicit AmoAlo_board(const coord_t N) :
       N(N), b(b_init()), r_ranks(r_init()), c_ranks(c_init()),
-      ad_ranks(ad_init()), d_ranks(d_init()), count{N*N,0,0} {
+      ad_ranks(ad_init()), d_ranks(d_init()), trank{N*N,0,0} {
         assert(N < std::numeric_limits<coord_t>::max() / 2);
     }
 
@@ -231,10 +231,10 @@ namespace NQueens {
       }
     }
 
-    void count_update(const Var v) noexcept {
-      --count.o;
-      if (b[v.first][v.second] == State::placed) ++count.p;
-      else ++count.f;
+    void trank_update(const Var v) noexcept {
+      --trank.o;
+      if (b[v.first][v.second] == State::placed) ++trank.p;
+      else ++trank.f;
     }
 
     void r_update(const Var cur_v) noexcept {
@@ -242,7 +242,7 @@ namespace NQueens {
         const Var v = Var{cur_v.first,i};
         if (open(v)) {
           b[v.first][v.second] = State::forbidden;
-          count_update(v);
+          trank_update(v);
           forbidden_rank_update(v);
         }
       }
@@ -252,7 +252,7 @@ namespace NQueens {
         const Var v = Var{i,cur_v.second};
         if (open(v)) {
           b[v.first][v.second] = State::forbidden;
-          count_update(v);
+          trank_update(v);
           forbidden_rank_update(v);
         }
       }
@@ -265,7 +265,7 @@ namespace NQueens {
         const Var v = Var{ad_v.first + i,ad_v.second - i};
         if (open(v)) {
           b[v.first][v.second] = State::forbidden;
-          count_update(v);
+          trank_update(v);
           forbidden_rank_update(v);
         }
       }
@@ -278,7 +278,7 @@ namespace NQueens {
         const Var v = Var{d_v.first + i,d_v.second + i};
         if (open(v)) {
           b[v.first][v.second] = State::forbidden;
-          count_update(v);
+          trank_update(v);
           forbidden_rank_update(v);
         }
       }
@@ -292,10 +292,10 @@ namespace NQueens {
       return (r_ranks[v.first].o + c_ranks[v.second].o + ad_ranks[ad.i].o + d_ranks[d.i].o);
     }
 
-    bool satisfied() const noexcept { return (count.p == N); }
+    bool satisfied() const noexcept { return (trank.p == N); }
     bool falsified() const noexcept { return falsified_; }
     Var_uint n() const noexcept { return N*N; }
-    Var_uint nset() const noexcept { return count.p+count.f; }
+    Var_uint nset() const noexcept { return trank.p+trank.f; }
 
     private :
 
@@ -303,7 +303,7 @@ namespace NQueens {
       assert(v.first < N);
       assert(v.second < N);
       b[v.first][v.second] = State::placed;
-      count_update(v);
+      trank_update(v);
       placed_rank_update(v);
       r_update(v);
       c_update(v);
@@ -314,7 +314,7 @@ namespace NQueens {
       assert(v.first < N);
       assert(v.second < N);
       b[v.first][v.second] = State::forbidden;
-      count_update(v);
+      trank_update(v);
       forbidden_rank_update(v);
     }
 
