@@ -170,8 +170,8 @@ namespace NQueens {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       const coord_t c_sum = v.first + v.second;
-      if (c_sum < N) return {Var{0,c_sum}, c_sum+1, c_sum};
-      else return {Var{c_sum-N+1,N-1}, 2*N-(c_sum+1), c_sum};
+      if (c_sum < N) return {{0,c_sum}, c_sum+1, c_sum};
+      else return {{c_sum-N+1,N-1}, 2*N-(c_sum+1), c_sum};
     }
 
     // Returns diagonal starting field, length and index:
@@ -180,12 +180,10 @@ namespace NQueens {
       assert(v.first <= N and v.second <= N);
       const ChessBoard::scoord_t c_diff = v.first - v.second;
       if (c_diff > 0) {
-	const coord_t cd = c_diff;
-	return {Var{cd,0}, N - cd, (N-1)-cd};
+	const coord_t cd = c_diff; return {{cd,0}, N-cd, (N-1)-cd};
       }
       else {
-	const coord_t cd = -c_diff;
-	return {Var{0,coord_t(cd)}, N-cd, (N-1)+cd};
+	const coord_t cd = -c_diff; return {{0,coord_t(cd)}, N-cd, (N-1)+cd};
       }
     }
 
