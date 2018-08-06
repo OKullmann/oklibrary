@@ -108,6 +108,7 @@ namespace NQueens {
 
   enum class State { open=0, placed, forbidden };
 
+
   // A concrete instance of BasicACLS:
   class AmoAlo_board {
     using coord_t = ChessBoard::coord_t;
@@ -115,54 +116,46 @@ namespace NQueens {
     using Var_uint = ChessBoard::Var_uint;
     using Var_int = ChessBoard::Var_int;
   public :
-    typedef std::vector<Rank> Ranks;
-    typedef std::stack<Var> Stack;
-    typedef std::vector<std::vector<State>> Board;
     const coord_t N;
-  private :
-    Board b;
-    Ranks r_ranks;
-    Ranks c_ranks;
-    Ranks ad_ranks;
-    Ranks d_ranks;
-    TotalRank trank;
-    Stack stack;
-    bool falsified_ = false;
-
-    Board b_init() const {
-      Board board;
-      board.resize(N, std::vector<State>(N));
-      return board;
-    }
-    Ranks r_init() const {
-      Ranks r_ranks;
-      for (Var_uint i = 1; i <= N ; ++i) r_ranks.push_back({N,0,0});
-      return r_ranks;
-    }
-    Ranks c_init() const {
-      Ranks c_ranks;
-      for (Var_uint i = 1; i <= N ; ++i) c_ranks.push_back({N,0,0});
-      return c_ranks;
-    }
-    Ranks ad_init() const {
-      Ranks ad_ranks;
-      for (Var_uint i = 1; i < N ; ++i) ad_ranks.push_back({i,0,0});
-      for (Var_uint i = N; i > 0 ; --i) ad_ranks.push_back({i,0,0});
-      return ad_ranks;
-    }
-    Ranks d_init() const {
-      Ranks d_ranks;
-      for (Var_uint i = 1; i < N ; ++i) d_ranks.push_back({i,0,0});
-      for (Var_uint i = N; i > 0 ; --i) d_ranks.push_back({i,0,0});
-      return d_ranks;
-    }
-
-  public :
 
     explicit AmoAlo_board(const coord_t N) :
       N(N), b(b_init()), r_ranks(r_init()), c_ranks(c_init()),
       ad_ranks(ad_init()), d_ranks(d_init()), trank{N*N,0,0} {
         assert(N < std::numeric_limits<coord_t>::max() / 2);
+    }
+
+    bool satisfied() const noexcept { return trank.p == N; }
+    bool falsified() const noexcept { return falsified_; }
+    Var_uint n() const noexcept { return N*N; }
+    Var_uint nset() const noexcept { return trank.p+trank.f; }
+
+    void set(const Var v, const bool val) noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      assert(board(v) == State::open);
+      if (val) set_true(v); else set_false(v);
+      while(not stack.empty() and not falsified()) {
+        const Var cur_v = stack.top(); stack.pop();
+        if (b[cur_v.first][cur_v.second] == State::forbidden)
+	  falsified_ = true;
+        else if (open(cur_v)) set_true(cur_v);
+      }
+    }
+
+    typedef std::vector<Rank> Ranks;
+    typedef std::vector<std::vector<State>> Board;
+    const Ranks& r_rank() const noexcept { return r_ranks; }
+    const Ranks& c_rank() const noexcept { return c_ranks; }
+    const Board& board() const noexcept { return b; }
+    State board(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      return b[v.first][v.second];
+    }
+    bool open(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      return (board(v) == State::open);
     }
 
     // Returns anti_diagonal starting field, length and index:
@@ -173,7 +166,6 @@ namespace NQueens {
       if (c_sum < N) return {{0,c_sum}, c_sum+1, c_sum};
       else return {{c_sum-N+1,N-1}, 2*N-(c_sum+1), c_sum};
     }
-
     // Returns diagonal starting field, length and index:
     Diagonal diagonal(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
@@ -187,11 +179,10 @@ namespace NQueens {
       }
     }
 
-    // Checks if the field v is open:
-    bool open(const Var v) const noexcept {
-      assert(v.first >= 1 and v.second >= 1);
-      assert(v.first <= N and v.second <= N);
-      return (board(v) == State::open);
+    Var_uint amo_count(const Var v) const noexcept {
+      const AntiDiagonal ad = anti_diagonal(v);
+      const Diagonal d = diagonal(v);
+      return r_ranks[v.first].o + c_ranks[v.second].o + ad_ranks[ad.i].o + d_ranks[d.i].o;
     }
 
   private:
@@ -207,8 +198,8 @@ namespace NQueens {
       ++d_ranks[diagonal(v).i].p;
     }
 
-    // Forbidden field ranks are updated only if no field is placed in the same r,c,d or ad,
-    // and falsified_ is updated if found:
+    // Forbidden field ranks are updated only if no field is placed in the
+    // same r,c,d or ad, and falsified_ is updated if found:
     void forbidden_rank_update(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
@@ -298,21 +289,6 @@ namespace NQueens {
       }
     }
 
-  public:
-
-    Var_uint amo_count(const Var v) const noexcept {
-      const AntiDiagonal ad = anti_diagonal(v);
-      const Diagonal d = diagonal(v);
-      return r_ranks[v.first].o + c_ranks[v.second].o + ad_ranks[ad.i].o + d_ranks[d.i].o;
-    }
-
-    bool satisfied() const noexcept { return trank.p == N; }
-    bool falsified() const noexcept { return falsified_; }
-    Var_uint n() const noexcept { return N*N; }
-    Var_uint nset() const noexcept { return trank.p+trank.f; }
-
-  private :
-
     void set_true(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
@@ -334,31 +310,44 @@ namespace NQueens {
       forbidden_rank_update(v);
     }
 
-  public:
+    Board b;
+    Ranks r_ranks;
+    Ranks c_ranks;
+    Ranks ad_ranks;
+    Ranks d_ranks;
+    TotalRank trank;
+    typedef std::stack<Var> Stack;
+    Stack stack;
+    bool falsified_ = false;
 
-    // We only set a field if it is open:
-    void set(const Var v, const bool val) noexcept {
-      assert(v.first >= 1 and v.second >= 1);
-      assert(v.first <= N and v.second <= N);
-      assert(board(v) == State::open);
-      if (val) set_true(v); else set_false(v);
-      while(not stack.empty() and not falsified()) {
-        const Var cur_v = stack.top(); stack.pop();
-        if (b[cur_v.first][cur_v.second] == State::forbidden)
-	  falsified_ = true;
-        else if (open(cur_v)) set_true(cur_v);
-      }
+    Board b_init() const {
+      Board board;
+      board.resize(N, std::vector<State>(N));
+      return board;
+    }
+    Ranks r_init() const {
+      Ranks r_ranks;
+      for (Var_uint i = 1; i <= N ; ++i) r_ranks.push_back({N,0,0});
+      return r_ranks;
+    }
+    Ranks c_init() const {
+      Ranks c_ranks;
+      for (Var_uint i = 1; i <= N ; ++i) c_ranks.push_back({N,0,0});
+      return c_ranks;
+    }
+    Ranks ad_init() const {
+      Ranks ad_ranks;
+      for (Var_uint i = 1; i < N ; ++i) ad_ranks.push_back({i,0,0});
+      for (Var_uint i = N; i > 0 ; --i) ad_ranks.push_back({i,0,0});
+      return ad_ranks;
+    }
+    Ranks d_init() const {
+      Ranks d_ranks;
+      for (Var_uint i = 1; i < N ; ++i) d_ranks.push_back({i,0,0});
+      for (Var_uint i = N; i > 0 ; --i) d_ranks.push_back({i,0,0});
+      return d_ranks;
     }
 
-    const Ranks& r_rank() const noexcept { return r_ranks; }
-    const Ranks& c_rank() const noexcept { return c_ranks; }
-    const Board& board() const noexcept { return b; }
-    State board(const Var v) const noexcept {
-      assert(v.first >= 1 and v.second >= 1);
-      assert(v.first <= N and v.second <= N);
-      return b[v.first][v.second];
-    }
-  private :
     State& board(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
