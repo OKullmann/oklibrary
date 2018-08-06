@@ -67,22 +67,27 @@ namespace NQueens {
   /*
     The decomposition of the NxN field into diagonals (fields with equal
      difference) and antidiagonals (fields with equal sum), where each
-     such diagonal is specified by a value of Diagonal:
+     such line is specified by a value of :
   */
   struct Diagonal {
     ChessBoard::Var s; // start field
     ChessBoard::Var_uint l; // length
     ChessBoard::Var_uint i;
-    /* Diagonal:
-       Field (variable) (x,y) has abstract diagonal-index x-y, which ranges
+    /* Field (variable) (x,y) has abstract diagonal-index x-y, which ranges
        from 1-N to N-1, and then we set i = (x-y) + (N-1) with
        0 <= i <= 2N-2.
-       Antidiagonal:
-       (x,y) has abstract antidiagonal-index x+y, which ranges from 1+1 to
+    */
+  };
+  struct AntiDiagonal {
+    ChessBoard::Var s; // start field
+    ChessBoard::Var_uint l; // length
+    ChessBoard::Var_uint i;
+    /* (x,y) has abstract antidiagonal-index x+y, which ranges from 1+1 to
        N+N, and then we set i = (x+y) - 2.
     */
   };
   static_assert(std::is_pod<Diagonal>::value, "Diagonal is not POD.");
+  static_assert(std::is_pod<AntiDiagonal>::value, "AntiDiagonal is not POD.");
 
   // The number of open, placed and forbidden fields for any line, that is, any
   // row, column, diagonal or antidiagonal:
@@ -153,26 +158,27 @@ namespace NQueens {
     }
 
   public :
+
     explicit AmoAlo_board(const coord_t N) :
       N(N), b(b_init()), r_ranks(r_init()), c_ranks(c_init()),
       ad_ranks(ad_init()), d_ranks(d_init()), count{N*N,0,0} {
         assert(N < std::numeric_limits<coord_t>::max());
     }
 
-  private :
     // Returns anti_diagonal starting field, length and index:
-    Diagonal anti_diagonal(const Var v) const noexcept {
-      // assert missing for v
-      coord_t c_sum = v.first + v.second;
-      if (c_sum < N) return Diagonal{Var{0,c_sum},c_sum+1,c_sum};
-      else return Diagonal{Var{c_sum-N+1,N-1},2*N-(c_sum+1),c_sum};
+    AntiDiagonal anti_diagonal(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      const coord_t c_sum = v.first + v.second;
+      if (c_sum < N) return {Var{0,c_sum}, c_sum+1, c_sum};
+      else return {Var{c_sum-N+1,N-1}, 2*N-(c_sum+1), c_sum};
     }
 
     // Returns diagonal starting field, length and index:
     Diagonal diagonal(const Var v) const noexcept {
       const Var_int c_diff = v.first - v.second;
-      if (c_diff > 0) return Diagonal{Var{coord_t(c_diff),0},Var_uint(N - c_diff),Var_uint((N-1)-c_diff)};
-      else return Diagonal{Var{0,coord_t(-c_diff)},Var_uint(N+c_diff),Var_uint((N-1)-c_diff)};
+      if (c_diff > 0) return {Var{coord_t(c_diff),0},Var_uint(N - c_diff),Var_uint((N-1)-c_diff)};
+      else return {Var{0,coord_t(-c_diff)},Var_uint(N+c_diff),Var_uint((N-1)-c_diff)};
     }
 
     // Checks if the field v is open:
@@ -180,9 +186,11 @@ namespace NQueens {
       return (b[v.first][v.second] == State::open);
     }
 
+  private:
+
     // Updates the placed rank:
     void placed_rank_update(const Var v) noexcept {
-      const Diagonal ad =   anti_diagonal(v);
+      const AntiDiagonal ad =   anti_diagonal(v);
       const Diagonal d = diagonal(v);
       ++r_ranks[v.first].p;
       ++c_ranks[v.second].p;
@@ -193,7 +201,7 @@ namespace NQueens {
     // Forbidden field ranks are updated only if no field is placed in the same r,c,d or ad
     // and falsified_ is updated if found:
     void forbidden_rank_update(const Var v) noexcept {
-      const Diagonal ad = anti_diagonal(v);
+      const AntiDiagonal ad = anti_diagonal(v);
       const Diagonal d = diagonal(v);
       if (!r_ranks[v.first].p) {
         --r_ranks[v.first].o;
@@ -239,7 +247,7 @@ namespace NQueens {
       }
     }
     void ad_update(const Var cur_v) noexcept {
-      const Diagonal ad = anti_diagonal(cur_v);
+      const AntiDiagonal ad = anti_diagonal(cur_v);
       const Var ad_v = ad.s;
       assert(ad.l < N);
       for (coord_t i = 0 ; i < ad.l ; ++i) {
@@ -268,7 +276,7 @@ namespace NQueens {
     public:
 
     Var_uint amo_count(const Var v) const noexcept {
-      const Diagonal ad = AmoAlo_board::anti_diagonal(v);
+      const AntiDiagonal ad = AmoAlo_board::anti_diagonal(v);
       const Diagonal d = AmoAlo_board::diagonal(v);
       return (r_ranks[v.first].o + c_ranks[v.second].o + ad_ranks[ad.i].o + d_ranks[d.i].o);
     }
