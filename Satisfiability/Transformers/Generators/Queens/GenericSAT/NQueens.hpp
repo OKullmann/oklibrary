@@ -121,23 +121,23 @@ namespace NQueens {
       board.resize(N, std::vector<State>(N));
       return board;
     }
-    Ranks r_init () const {
+    Ranks r_init() const {
       Ranks r_ranks;
       for (Var_uint i = 0; i < N ; ++i) r_ranks.push_back(Rank{N,0,0});
       return r_ranks;
     }
-    Ranks c_init () const {
+    Ranks c_init() const {
       Ranks c_ranks;
       for (Var_uint i = 0; i < N ; ++i) c_ranks.push_back(Rank{N,0,0});
       return c_ranks;
     }
-    Ranks ad_init () const {
+    Ranks ad_init() const {
       Ranks ad_ranks;
       for (Var_uint i = 1; i < N ; ++i) ad_ranks.push_back(Rank{i,0,0});
       for (Var_uint i = N; i > 0 ; --i) ad_ranks.push_back(Rank{i,0,0});
       return ad_ranks;
     }
-    Ranks d_init () const {
+    Ranks d_init() const {
       Ranks d_ranks;
       for (Var_uint i = 1; i < N ; ++i) d_ranks.push_back(Rank{i,0,0});
       for (Var_uint i = N; i > 0 ; --i) d_ranks.push_back(Rank{i,0,0});
