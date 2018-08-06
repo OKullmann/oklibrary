@@ -247,7 +247,7 @@ namespace NQueens {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
       for (coord_t i = 0 ; i < N ; ++i) {
-        const Var v = Var{cur_v.first,i};
+        const Var v = {cur_v.first,i};
         if (open(v)) {
           board(v) = State::forbidden;
           trank_update(v);
@@ -259,7 +259,7 @@ namespace NQueens {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
       for (coord_t i = 0 ; i < N ; ++i) {
-        const Var v = Var{i,cur_v.second};
+        const Var v = {i,cur_v.second};
         if (open(v)) {
           board(v) = State::forbidden;
           trank_update(v);
@@ -274,7 +274,7 @@ namespace NQueens {
       const Var ad_v = ad.s;
       assert(ad.l < N);
       for (coord_t i = 0 ; i < ad.l ; ++i) {
-        const Var v = Var{ad_v.first + i,ad_v.second - i};
+        const Var v = {ad_v.first + i,ad_v.second - i};
         if (open(v)) {
           board(v) = State::forbidden;
           trank_update(v);
@@ -289,7 +289,7 @@ namespace NQueens {
       const Var d_v = d.s;
       assert(d.l < N);
       for (coord_t i = 0 ; i < d.l ; ++i) {
-        const Var v = Var{d_v.first + i,d_v.second + i};
+        const Var v = {d_v.first + i,d_v.second + i};
         if (open(v)) {
           board(v) = State::forbidden;
           trank_update(v);
@@ -298,24 +298,25 @@ namespace NQueens {
       }
     }
 
-    public:
+  public:
 
     Var_uint amo_count(const Var v) const noexcept {
-      const AntiDiagonal ad = AmoAlo_board::anti_diagonal(v);
-      const Diagonal d = AmoAlo_board::diagonal(v);
-      return (r_ranks[v.first].o + c_ranks[v.second].o + ad_ranks[ad.i].o + d_ranks[d.i].o);
+      const AntiDiagonal ad = anti_diagonal(v);
+      const Diagonal d = diagonal(v);
+      return r_ranks[v.first].o + c_ranks[v.second].o + ad_ranks[ad.i].o + d_ranks[d.i].o;
     }
 
-    bool satisfied() const noexcept { return (trank.p == N); }
+    bool satisfied() const noexcept { return trank.p == N; }
     bool falsified() const noexcept { return falsified_; }
     Var_uint n() const noexcept { return N*N; }
     Var_uint nset() const noexcept { return trank.p+trank.f; }
 
-    private :
+  private :
 
     void set_true(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
+      assert(board(v) == State::open),
       board(v) = State::placed;
       trank_update(v);
       placed_rank_update(v);
@@ -327,41 +328,42 @@ namespace NQueens {
     void set_false(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
+      assert(board(v) == State::open),
       board(v) = State::forbidden;
       trank_update(v);
       forbidden_rank_update(v);
     }
 
-    public:
+  public:
 
     // We only set a field if it is open:
     void set(const Var v, const bool val) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      if (val) set_true(v);
-      else set_false(v);
-      while(!stack.empty() and !falsified()) {
+      assert(board(v) == State::open);
+      if (val) set_true(v); else set_false(v);
+      while(not stack.empty() and not falsified()) {
         const Var cur_v = stack.top(); stack.pop();
         if (b[cur_v.first][cur_v.second] == State::forbidden)
 	  falsified_ = true;
         else if (open(cur_v)) set_true(cur_v);
-        }
       }
+    }
 
-      const Ranks& r_rank() const noexcept { return r_ranks; }
-      const Ranks& c_rank() const noexcept { return c_ranks; }
-      const Board& board() const noexcept { return b; }
-      State board(const Var v) const noexcept {
-        assert(v.first >= 1 and v.second >= 1);
-        assert(v.first <= N and v.second <= N);
-	return b[v.first][v.second];
-      }
+    const Ranks& r_rank() const noexcept { return r_ranks; }
+    const Ranks& c_rank() const noexcept { return c_ranks; }
+    const Board& board() const noexcept { return b; }
+    State board(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      return b[v.first][v.second];
+    }
   private :
-      State& board(const Var v) noexcept {
-        assert(v.first >= 1 and v.second >= 1);
-        assert(v.first <= N and v.second <= N);
-	return b[v.first][v.second];
-      }
+    State& board(const Var v) noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      return b[v.first][v.second];
+    }
   };
 
 
@@ -373,7 +375,7 @@ namespace NQueens {
 
     BasicBranching(const BasicACLS& F) : F(F) {}
 
-    Var operator()() const noexcept { return Var{0,0}; }
+    Var operator()() const noexcept { return {0,0}; }
 
   };
 
