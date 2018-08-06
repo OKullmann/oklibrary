@@ -162,7 +162,7 @@ namespace NQueens {
     explicit AmoAlo_board(const coord_t N) :
       N(N), b(b_init()), r_ranks(r_init()), c_ranks(c_init()),
       ad_ranks(ad_init()), d_ranks(d_init()), count{N*N,0,0} {
-        assert(N < std::numeric_limits<coord_t>::max());
+        assert(N < std::numeric_limits<coord_t>::max() / 2);
     }
 
     // Returns anti_diagonal starting field, length and index:
@@ -176,9 +176,17 @@ namespace NQueens {
 
     // Returns diagonal starting field, length and index:
     Diagonal diagonal(const Var v) const noexcept {
-      const Var_int c_diff = v.first - v.second;
-      if (c_diff > 0) return {Var{coord_t(c_diff),0},Var_uint(N - c_diff),Var_uint((N-1)-c_diff)};
-      else return {Var{0,coord_t(-c_diff)},Var_uint(N+c_diff),Var_uint((N-1)-c_diff)};
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      const ChessBoard::scoord_t c_diff = v.first - v.second;
+      if (c_diff > 0) {
+	const coord_t cd = c_diff;
+	return {Var{cd,0}, N - cd, (N-1)-cd};
+      }
+      else {
+	const coord_t cd = -c_diff;
+	return {Var{0,coord_t(cd)}, N-cd, (N-1)+cd};
+      }
     }
 
     // Checks if the field v is open:

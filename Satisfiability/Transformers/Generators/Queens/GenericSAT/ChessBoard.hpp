@@ -11,6 +11,7 @@ namespace ChessBoard {
 
   // The coordinates of the field, with valid values >= 1:
   typedef std::uint32_t coord_t;
+  typedef std::int32_t scoord_t;
 
   /*
      Var{i,j} for i, j >= 1 refers to a valid field, while i=0 or j=0
