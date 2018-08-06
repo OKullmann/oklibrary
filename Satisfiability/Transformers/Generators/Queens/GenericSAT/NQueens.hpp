@@ -92,6 +92,7 @@ namespace NQueens {
   };
   static_assert(std::is_pod<TotalRank>::value, "TotalRank is not POD.");
 
+  enum class State { open=0, placed, forbidden };
 
   // A concrete instance of BasicACLS:
   class AmoAlo_board {
@@ -102,7 +103,6 @@ namespace NQueens {
   public :
     typedef std::vector<Rank> Ranks;
     typedef std::stack<Var> Stack;
-    enum class State { open, placed, forbidden };
     typedef std::vector<std::vector<State>> Board;
     const coord_t N;
   private :
@@ -116,35 +116,40 @@ namespace NQueens {
     bool falsified_ = false;
 
     // The following functions are nonsensical:
-    Board b_init(Board board) const noexcept {
+    Board b_init() const {
+      Board board;
       board.resize(N, std::vector<State>(N));
       return board;
     }
-    Ranks r_init (Ranks r_ranks) const noexcept {
+    Ranks r_init () const {
+      Ranks r_ranks;
       for (Var_uint i = 0; i < N ; ++i) r_ranks.push_back(Rank{N,0,0});
       return r_ranks;
     }
-    Ranks c_init (Ranks c_ranks) const noexcept {
+    Ranks c_init () const {
+      Ranks c_ranks;
       for (Var_uint i = 0; i < N ; ++i) c_ranks.push_back(Rank{N,0,0});
       return c_ranks;
     }
-    Ranks ad_init (Ranks ad_ranks) const noexcept {
+    Ranks ad_init () const {
+      Ranks ad_ranks;
       for (Var_uint i = 1; i < N ; ++i) ad_ranks.push_back(Rank{i,0,0});
       for (Var_uint i = N; i > 0 ; --i) ad_ranks.push_back(Rank{i,0,0});
       return ad_ranks;
     }
-    Ranks d_init (Ranks d_ranks) const noexcept {
+    Ranks d_init () const {
+      Ranks d_ranks;
       for (Var_uint i = 1; i < N ; ++i) d_ranks.push_back(Rank{i,0,0});
       for (Var_uint i = N; i > 0 ; --i) d_ranks.push_back(Rank{i,0,0});
       return d_ranks;
     }
 
-    // The following should not exist:
-    explicit AmoAlo_board(const coord_t N, Board board, Ranks r_ranks,
-    Ranks c_ranks, Ranks ad_ranks, Ranks d_ranks) :
-      N(N),b(b_init(board)),r_ranks(r_init(r_ranks)),c_ranks(c_init(c_ranks)),
-      ad_ranks(ad_init(ad_ranks)),d_ranks(d_init(d_ranks)),count(TotalRank{N*N,0,0}) {}
+  public :
+    explicit AmoAlo_board(const coord_t N) :
+      N(N), b(b_init()), r_ranks(r_init()), c_ranks(c_init()),
+      ad_ranks(ad_init()), d_ranks(d_init()), count{N*N,0,0} {}
 
+  private :
     // Returns anti_diagonal starting field, length and index:
     Diagonal anti_diagonal(const Var v) const noexcept {
       // assert missing for v
@@ -350,7 +355,7 @@ namespace NQueens {
       Var bv{}; // this is NOT correct in general, since a valid value
       for (ChessBoard::coord_t i = 0; i < F.N ; ++i)
         for (ChessBoard::coord_t j = 0; j < F.N ; ++j)
-          if (F.board()[i][j] == F.State::open) {
+          if (F.board()[i][j] == State::open) {
             const Weight_t w = weight(Var{i,j});
             if (w > max) {
               max = w;
