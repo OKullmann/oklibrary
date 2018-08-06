@@ -189,6 +189,8 @@ namespace NQueens {
 
     // Checks if the field v is open:
     bool open(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
       return (b[v.first][v.second] == State::open);
     }
 
@@ -196,32 +198,35 @@ namespace NQueens {
 
     // Updates the placed rank:
     void placed_rank_update(const Var v) noexcept {
-      const AntiDiagonal ad =   anti_diagonal(v);
-      const Diagonal d = diagonal(v);
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
       ++r_ranks[v.first].p;
       ++c_ranks[v.second].p;
-      ++ad_ranks[ad.i].p;
-      ++d_ranks[d.i].p;
+      ++ad_ranks[anti_diagonal(v).i].p;
+      ++d_ranks[diagonal(v).i].p;
     }
 
     // Forbidden field ranks are updated only if no field is placed in the same r,c,d or ad
     // and falsified_ is updated if found:
     void forbidden_rank_update(const Var v) noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
       const AntiDiagonal ad = anti_diagonal(v);
       const Diagonal d = diagonal(v);
-      if (!r_ranks[v.first].p) {
+      if (r_ranks[v.first].p != 0) {
         --r_ranks[v.first].o;
         --c_ranks[v.second].o;
         --ad_ranks[ad.i].o;
         --d_ranks[d.i].o;
-        if (r_ranks[v.first].o == 0 or c_ranks[v.second].o == 0) falsified_ = true;
+        if (r_ranks[v.first].o == 0 or c_ranks[v.second].o == 0)
+	  falsified_ = true;
         else {
           if (r_ranks[v.first].o == 1)
-            for (coord_t i = 0; i < N ; ++i)
-              if (open(Var{v.first,i})) { stack.push(Var{v.first,i}); break; }
+            for (coord_t i = 1; i <= N ; ++i)
+              if (open({v.first,i})) {stack.push({v.first,i}); break;}
           if (c_ranks[v.second].o == 1)
-            for (coord_t i = 0; i < N ; ++i)
-              if (open(Var{i,v.second})) { stack.push(Var{i,v.second}); break; }
+            for (coord_t i = 1; i <= N ; ++i)
+              if (open({i,v.second})) {stack.push({i,v.second}); break;}
         }
       }
     }
