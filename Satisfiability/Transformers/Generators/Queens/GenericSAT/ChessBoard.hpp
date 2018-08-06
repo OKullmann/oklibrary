@@ -3,7 +3,7 @@
 #ifndef CHESSBOARD_PjPxE
 #define CHESSBOARD_PjPxE
 
-#include <utility>
+#include <limits>
 
 #include <cstdint>
 
@@ -12,6 +12,7 @@ namespace ChessBoard {
   // The coordinates of the field, with valid values >= 1:
   typedef std::uint32_t coord_t;
   typedef std::int32_t scoord_t;
+  constexpr coord_t max_coord = std::numeric_limits<coord_t>::max() / 2 - 1;
 
   /*
      Var{i,j} for i, j >= 1 refers to a valid field, while i=0 or j=0

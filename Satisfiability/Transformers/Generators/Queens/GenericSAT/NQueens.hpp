@@ -35,7 +35,6 @@ For GreedyAmo:
 
 #include <stack>
 #include <vector>
-#include <limits>
 
 #include <cassert>
 #include <cmath>
@@ -121,7 +120,7 @@ namespace NQueens {
     explicit AmoAlo_board(const coord_t N) :
       N(N), b(b_init()), r_ranks(r_init()), c_ranks(c_init()),
       ad_ranks(ad_init()), d_ranks(d_init()), trank{N*N,0,0} {
-        assert(N < std::numeric_limits<coord_t>::max() / 2);
+        assert(N <= ChessBoard::max_coord);
     }
 
     bool satisfied() const noexcept { return trank.p == N; }
