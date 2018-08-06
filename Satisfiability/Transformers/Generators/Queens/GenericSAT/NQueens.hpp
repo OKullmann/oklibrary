@@ -35,6 +35,7 @@ For GreedyAmo:
 
 #include <stack>
 #include <vector>
+#include <limits>
 
 #include <cassert>
 #include <cmath>
@@ -63,14 +64,22 @@ namespace NQueens {
 
   };
 
-  // The decomposition of the NxN field into diagonals (fields with equal
-  // difference), where each diagonal is specified by a value of Diagonal:
+  /*
+    The decomposition of the NxN field into diagonals (fields with equal
+     difference) and antidiagonals (fields with equal sum), where each
+     such diagonal is specified by a value of Diagonal:
+  */
   struct Diagonal {
     ChessBoard::Var s; // start field
     ChessBoard::Var_uint l; // length
     ChessBoard::Var_uint i;
-    /* Field (variable) (x,y) has abstract diagonal-index x-y, which ranges
-       from 1-N to N-1, and then we set i = (x-y) + (N-1) with 0 <= i <= 2N-2.
+    /* Diagonal:
+       Field (variable) (x,y) has abstract diagonal-index x-y, which ranges
+       from 1-N to N-1, and then we set i = (x-y) + (N-1) with
+       0 <= i <= 2N-2.
+       Antidiagonal:
+       (x,y) has abstract antidiagonal-index x+y, which ranges from 1+1 to
+       N+N, and then we set i = (x+y) - 2.
     */
   };
   static_assert(std::is_pod<Diagonal>::value, "Diagonal is not POD.");
@@ -115,7 +124,6 @@ namespace NQueens {
     Stack stack;
     bool falsified_ = false;
 
-    // The following functions are nonsensical:
     Board b_init() const {
       Board board;
       board.resize(N, std::vector<State>(N));
@@ -123,31 +131,33 @@ namespace NQueens {
     }
     Ranks r_init() const {
       Ranks r_ranks;
-      for (Var_uint i = 0; i < N ; ++i) r_ranks.push_back(Rank{N,0,0});
+      for (Var_uint i = 1; i <= N ; ++i) r_ranks.push_back({N,0,0});
       return r_ranks;
     }
     Ranks c_init() const {
       Ranks c_ranks;
-      for (Var_uint i = 0; i < N ; ++i) c_ranks.push_back(Rank{N,0,0});
+      for (Var_uint i = 1; i <= N ; ++i) c_ranks.push_back({N,0,0});
       return c_ranks;
     }
     Ranks ad_init() const {
       Ranks ad_ranks;
-      for (Var_uint i = 1; i < N ; ++i) ad_ranks.push_back(Rank{i,0,0});
-      for (Var_uint i = N; i > 0 ; --i) ad_ranks.push_back(Rank{i,0,0});
+      for (Var_uint i = 1; i < N ; ++i) ad_ranks.push_back({i,0,0});
+      for (Var_uint i = N; i > 0 ; --i) ad_ranks.push_back({i,0,0});
       return ad_ranks;
     }
     Ranks d_init() const {
       Ranks d_ranks;
-      for (Var_uint i = 1; i < N ; ++i) d_ranks.push_back(Rank{i,0,0});
-      for (Var_uint i = N; i > 0 ; --i) d_ranks.push_back(Rank{i,0,0});
+      for (Var_uint i = 1; i < N ; ++i) d_ranks.push_back({i,0,0});
+      for (Var_uint i = N; i > 0 ; --i) d_ranks.push_back({i,0,0});
       return d_ranks;
     }
 
   public :
     explicit AmoAlo_board(const coord_t N) :
       N(N), b(b_init()), r_ranks(r_init()), c_ranks(c_init()),
-      ad_ranks(ad_init()), d_ranks(d_init()), count{N*N,0,0} {}
+      ad_ranks(ad_init()), d_ranks(d_init()), count{N*N,0,0} {
+        assert(N < std::numeric_limits<coord_t>::max());
+    }
 
   private :
     // Returns anti_diagonal starting field, length and index:
