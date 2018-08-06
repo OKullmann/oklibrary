@@ -1,5 +1,8 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
 
+#ifndef CHESSBOARD_PjPxE
+#define CHESSBOARD_PjPxE
+
 #include <utility>
 
 #include <cstdint>
@@ -27,3 +30,5 @@ namespace ChessBoard {
   typedef std::uint_fast64_t Count_t;
 
 }
+
+#endif

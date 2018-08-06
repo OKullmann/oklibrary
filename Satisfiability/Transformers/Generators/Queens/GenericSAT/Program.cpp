@@ -14,7 +14,7 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  typedef Backtracking::CountSat<NQueens::BasicACLS, NQueens::BasicBranching, ChessBoard::Count_t> Backtracking_q;
+  typedef Backtracking::CountSat<NQueens::BasicACLS, NQueens::BasicBranching> Backtracking_q;
 
   const ChessBoard::coord_t N = interprete(argc, argv);
   NQueens::BasicACLS Fq(N);

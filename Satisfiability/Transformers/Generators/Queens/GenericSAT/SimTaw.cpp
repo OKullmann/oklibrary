@@ -13,7 +13,7 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  typedef Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::GreedyAmo, ChessBoard::Count_t> Backtracking_q;
+  typedef Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::GreedyAmo> Backtracking_q;
 
   const ChessBoard::coord_t N = interprete(argc, argv);
   NQueens::AmoAlo_board Fq(N);
