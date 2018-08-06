@@ -180,10 +180,10 @@ namespace NQueens {
       assert(v.first <= N and v.second <= N);
       const ChessBoard::scoord_t c_diff = v.first - v.second;
       if (c_diff > 0) {
-	const coord_t cd = c_diff; return {{cd,0}, N-cd, (N-1)-cd};
+        const coord_t cd = c_diff; return {{cd,0}, N-cd, (N-1)-cd};
       }
       else {
-	const coord_t cd = -c_diff; return {{0,coord_t(cd)}, N-cd, (N-1)+cd};
+        const coord_t cd = -c_diff; return {{0,coord_t(cd)}, N-cd, (N-1)+cd};
       }
     }
 
