@@ -187,6 +187,8 @@ namespace NQueens {
       assert(board(v) == State::open);
       const AntiDiagonal ad = anti_diagonal(v);
       const Diagonal d = diagonal(v);
+      assert(ad.i < ad_ranks.size());
+      assert(d.i < d_ranks.size());
       return r_ranks[v.first].o + c_ranks[v.second].o + ad_ranks[ad.i].o + d_ranks[d.i].o;
     }
 
