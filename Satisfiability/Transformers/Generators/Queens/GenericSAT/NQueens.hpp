@@ -121,6 +121,7 @@ namespace NQueens {
       N(N), b(b_init()), r_ranks(r_init()), c_ranks(c_init()),
       ad_ranks(ad_init()), d_ranks(d_init()), trank{N*N,0,0} {
         assert(N <= ChessBoard::max_coord);
+	assert(b.size() == N+1);
     }
 
     bool satisfied() const noexcept { return trank.p == N; }
@@ -321,7 +322,7 @@ namespace NQueens {
 
     Board b_init() const {
       Board board;
-      board.resize(N, std::vector<State>(N));
+      board.resize(N+1, std::vector<State>(N+1));
       return board;
     }
     Ranks r_init() const {
