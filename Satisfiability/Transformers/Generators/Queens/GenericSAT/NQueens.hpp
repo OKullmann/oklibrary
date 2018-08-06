@@ -46,9 +46,6 @@ namespace NQueens {
   // The prototype:
   struct BasicACLS {
 
-    typedef ChessBoard::Var Var;
-    typedef ChessBoard::Var_uint Var_uint;
-
     const ChessBoard::coord_t N;
 
     explicit BasicACLS(const ChessBoard::coord_t N) : N(N) {}
@@ -56,31 +53,42 @@ namespace NQueens {
     bool satisfied() const noexcept { return false; }
     bool falsified() const noexcept { return false; }
 
-    Var_uint n() const noexcept { return N; }
-    Var_uint nset() const noexcept { return 0; }
+    // The total number of variables:
+    ChessBoard::Var_uint n() const noexcept { return N*N; }
+    // Number of variables set to true or false:
+    ChessBoard::Var_uint nset() const noexcept { return 0; }
 
-    void set(const Var v, const bool val) {}
+    // Occupy or forbid field v:
+    void set(const ChessBoard::Var v, const bool val) {}
 
   };
 
+  // The decomposition of the NxN field into diagonals (fields with equal
+  // difference), where each diagonal is specified by a value of Diagonal:
   struct Diagonal {
-    ChessBoard::Var s;
-    ChessBoard::Var_uint l;
+    ChessBoard::Var s; // start field
+    ChessBoard::Var_uint l; // length
     ChessBoard::Var_uint i;
+    /* Field (variable) (x,y) has abstract diagonal-index x-y, which ranges
+       from 1-N to N-1, and then we set i = (x-y) + (N-1) with 0 <= i <= 2N-2.
+    */
   };
   static_assert(std::is_pod<Diagonal>::value, "Diagonal is not POD.");
 
+  // The number of open, placed and forbidden fields for any line, that is, any
+  // row, column, diagonal or antidiagonal:
   struct Rank {
-    ChessBoard::Var_uint o_r;
-    ChessBoard::Var_uint p_r;
-    ChessBoard::Var_uint f_r;
+    ChessBoard::Var_uint o;
+    ChessBoard::Var_uint p;
+    ChessBoard::Var_uint f;
   };
   static_assert(std::is_pod<Rank>::value, "Rank is not POD.");
 
+  // The same numbers as with Rank, but now for the whole board:
   struct Count {
-    ChessBoard::Var_uint open;
-    ChessBoard::Var_uint placed;
-    ChessBoard::Var_uint forbidden;
+    ChessBoard::Var_uint o;
+    ChessBoard::Var_uint p;
+    ChessBoard::Var_uint f;
   };
   static_assert(std::is_pod<Count>::value, "Count is not POD.");
 
@@ -159,10 +167,10 @@ namespace NQueens {
     void placed_rank_update(const Var v) noexcept {
       const Diagonal ad =   anti_diagonal(v);
       const Diagonal d = diagonal(v);
-      ++r_ranks[v.first].p_r;
-      ++c_ranks[v.second].p_r;
-      ++ad_ranks[ad.i].p_r;
-      ++d_ranks[d.i].p_r;
+      ++r_ranks[v.first].p;
+      ++c_ranks[v.second].p;
+      ++ad_ranks[ad.i].p;
+      ++d_ranks[d.i].p;
     }
 
     // Forbidden field ranks are updated only if no field is placed in the same r,c,d or ad
@@ -170,17 +178,17 @@ namespace NQueens {
     void forbidden_rank_update(const Var v) noexcept {
       const Diagonal ad = anti_diagonal(v);
       const Diagonal d = diagonal(v);
-      if (!r_ranks[v.first].p_r) {
-        --r_ranks[v.first].o_r;
-        --c_ranks[v.second].o_r;
-        --ad_ranks[ad.i].o_r;
-        --d_ranks[d.i].o_r;
-        if (r_ranks[v.first].o_r == 0 or c_ranks[v.second].o_r == 0) falsified_ = true;
+      if (!r_ranks[v.first].p) {
+        --r_ranks[v.first].o;
+        --c_ranks[v.second].o;
+        --ad_ranks[ad.i].o;
+        --d_ranks[d.i].o;
+        if (r_ranks[v.first].o == 0 or c_ranks[v.second].o == 0) falsified_ = true;
         else {
-          if (r_ranks[v.first].o_r == 1)
+          if (r_ranks[v.first].o == 1)
             for (coord_t i = 0; i < N ; ++i)
               if (v_open(Var{v.first,i})) { stack.push(Var{v.first,i}); break; }
-          if (c_ranks[v.second].o_r == 1)
+          if (c_ranks[v.second].o == 1)
             for (coord_t i = 0; i < N ; ++i)
               if (v_open(Var{i,v.second})) { stack.push(Var{i,v.second}); break; }
         }
@@ -188,9 +196,9 @@ namespace NQueens {
     }
 
     void count_update(const Var v) noexcept {
-      --count.open;
-      if (b[v.first][v.second] == State::placed) ++count.placed;
-      else ++count.forbidden;
+      --count.o;
+      if (b[v.first][v.second] == State::placed) ++count.p;
+      else ++count.f;
     }
 
     void r_update(const Var cur_v) noexcept {
@@ -245,13 +253,13 @@ namespace NQueens {
     Var_uint amo_count(const Var v) const noexcept {
       const Diagonal ad = AmoAlo_board::anti_diagonal(v);
       const Diagonal d = AmoAlo_board::diagonal(v);
-      return (r_ranks[v.first].o_r + c_ranks[v.second].o_r + ad_ranks[ad.i].o_r + d_ranks[d.i].o_r);
+      return (r_ranks[v.first].o + c_ranks[v.second].o + ad_ranks[ad.i].o + d_ranks[d.i].o);
     }
 
-    bool satisfied() const noexcept { return (count.placed == N); }
+    bool satisfied() const noexcept { return (count.p == N); }
     bool falsified() const noexcept { return falsified_; }
     Var_uint n() const noexcept { return N*N; }
-    Var_uint nset() const noexcept { return count.placed+count.forbidden; }
+    Var_uint nset() const noexcept { return count.p+count.f; }
 
     private :
 
@@ -327,8 +335,8 @@ namespace NQueens {
 
     Weight_t weight(const Var v) const noexcept {
       const Weight_t amo_w = weight_vector[0]*F.amo_count(v);
-      const Var_uint alo_r_cl = F.r_rank()[v.first].o_r; // alo_r_cl is at-least-one row clause length.
-      const Var_uint alo_c_cl = F.c_rank()[v.second].o_r; // alo_c_cl is at-least-one column clause length.
+      const Var_uint alo_r_cl = F.r_rank()[v.first].o; // alo_r_cl is at-least-one row clause length.
+      const Var_uint alo_c_cl = F.c_rank()[v.second].o; // alo_c_cl is at-least-one column clause length.
       assert(alo_r_cl >= 2);
       assert(alo_c_cl >= 2);
       const Weight_t
