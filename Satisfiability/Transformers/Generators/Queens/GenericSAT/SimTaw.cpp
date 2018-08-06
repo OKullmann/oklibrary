@@ -4,8 +4,6 @@
 #include <string>
 #include <stdexcept>
 
-#include <cstdlib>
-
 #include "Backtracking.hpp"
 #include "NQueens.hpp"
 
