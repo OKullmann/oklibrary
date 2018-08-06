@@ -121,7 +121,9 @@ namespace NQueens {
       N(N), b(b_init()), r_ranks(r_init()), c_ranks(c_init()),
       ad_ranks(ad_init()), d_ranks(d_init()), trank{N*N,0,0} {
         assert(N <= ChessBoard::max_coord);
-	assert(b.size() == N+1);
+        assert(b.size() == N+1);
+        assert(r_ranks.size() == N+1);
+        assert(c_ranks.size() == N+1);
     }
 
     bool satisfied() const noexcept { return trank.p == N; }
@@ -180,6 +182,9 @@ namespace NQueens {
     }
 
     Var_uint amo_count(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      assert(board(v) == State::open);
       const AntiDiagonal ad = anti_diagonal(v);
       const Diagonal d = diagonal(v);
       return r_ranks[v.first].o + c_ranks[v.second].o + ad_ranks[ad.i].o + d_ranks[d.i].o;
@@ -326,23 +331,25 @@ namespace NQueens {
       return board;
     }
     Ranks r_init() const {
-      Ranks r_ranks;
+      Ranks r_ranks; r_ranks.reserve(N+1);
+      r_ranks.push_back({});
       for (Var_uint i = 1; i <= N ; ++i) r_ranks.push_back({N,0,0});
       return r_ranks;
     }
     Ranks c_init() const {
-      Ranks c_ranks;
+      Ranks c_ranks; c_ranks.reserve(N+1);
+      c_ranks.push_back({});
       for (Var_uint i = 1; i <= N ; ++i) c_ranks.push_back({N,0,0});
       return c_ranks;
     }
     Ranks ad_init() const {
-      Ranks ad_ranks;
+      Ranks ad_ranks; ad_ranks.reserve(2*N-1);
       for (Var_uint i = 1; i < N ; ++i) ad_ranks.push_back({i,0,0});
       for (Var_uint i = N; i > 0 ; --i) ad_ranks.push_back({i,0,0});
       return ad_ranks;
     }
     Ranks d_init() const {
-      Ranks d_ranks;
+      Ranks d_ranks; d_ranks.reserve(2*N-1);
       for (Var_uint i = 1; i < N ; ++i) d_ranks.push_back({i,0,0});
       for (Var_uint i = N; i > 0 ; --i) d_ranks.push_back({i,0,0});
       return d_ranks;

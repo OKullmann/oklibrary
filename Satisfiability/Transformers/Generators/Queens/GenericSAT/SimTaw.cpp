@@ -23,7 +23,8 @@ const std::string error = "ERROR[" + program + "]: ";
 enum class Error {
   missing_argument=1,
   conversion=2,
-  too_big=3
+  too_big=3,
+  too_small=4
 };
 /* Extracting the underlying code of enum-classes (scoped enums) */
 template <typename EC>
@@ -48,6 +49,10 @@ ChessBoard::coord_t interprete(const int argc, const char* const argv[]) noexcep
   if (N > ChessBoard::max_coord) {
     std::cerr << error << "The argument can be at most " << ChessBoard::max_coord << ", but is " << arg1 << ".\n";
     std::exit(code(Error::too_big));
+  }
+  if (N == 0) {
+    std::cerr << error << "The argument is 0.\n";
+    std::exit(code(Error::too_small));
   }
   return N;
 }
