@@ -400,15 +400,12 @@ namespace NQueens {
 
     Var operator()() const noexcept {
       Weight_t max = 0;
-      Var bv{}; // this is NOT correct in general, since a valid value
-      for (ChessBoard::coord_t i = 0; i < F.N ; ++i)
-        for (ChessBoard::coord_t j = 0; j < F.N ; ++j)
-          if (F.board()[i][j] == State::open) {
-            const Weight_t w = weight(Var{i,j});
-            if (w > max) {
-              max = w;
-              bv = Var{i,j};
-            }
+      Var bv{};
+      for (ChessBoard::coord_t i = 1; i <= F.N ; ++i)
+        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j)
+          if (F.board({i,j}) == State::open) {
+            const Weight_t w = weight({i,j});
+            if (w > max) { max = w; bv = Var{i,j}; }
           }
       return bv;
     }
