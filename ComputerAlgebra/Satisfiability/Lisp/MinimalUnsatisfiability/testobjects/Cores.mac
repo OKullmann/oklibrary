@@ -83,6 +83,7 @@ okltest_umu_rs0_cs(umu_rs0_cs);
 okltest_umu_rs1_cs(umu_rs1_cs);
 okltest_umu_rs2_cs(umu_rs2_cs);
 okltest_umu_rs3_cs(umu_rs3_cs);
+okltest_umu_rs4_cs(umu_rs4_cs);
 
 /*!
 \endhtmlonly

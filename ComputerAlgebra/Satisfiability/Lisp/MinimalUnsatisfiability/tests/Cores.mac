@@ -317,6 +317,12 @@ okltest_umu_rs3_cs(f) := (
   assert(f({{1,2},{-1},{-2},{-3,-4},{3},{4},{1,2,3,4}}) = {{1,2},{-1},{-2},{-3,-4},{3},{4}}),
   true)$
 
+okltest_umu_rs4_cs(f) := (
+  assert(f({}) = {}),
+  assert(okltest_umu_rs3_cs(f) = true),
+  true)$
+
+
 /*!
 \endhtmlonly
 */
