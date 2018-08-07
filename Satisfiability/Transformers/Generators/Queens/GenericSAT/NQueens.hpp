@@ -213,11 +213,10 @@ namespace NQueens {
       assert(board(v) == State::forbidden);
       const AntiDiagonal ad = anti_diagonal(v);
       const Diagonal d = diagonal(v);
-      if (r_ranks[v.first].p != 0) {
-        --r_ranks[v.first].o;
-        --c_ranks[v.second].o;
-        --ad_ranks[ad.i].o;
-        --d_ranks[d.i].o;
+      if (r_ranks[v.first].p != 1) --r_ranks[v.first].o;
+      if (c_ranks[v.second].p != 1) --c_ranks[v.second].o;
+      if (ad_ranks[ad.i].p != 1) --ad_ranks[ad.i].o;
+      if (d_ranks[d.i].p != 1) --d_ranks[d.i].o;
         if (r_ranks[v.first].o == 0 or c_ranks[v.second].o == 0)
 	  falsified_ = true;
         else {
@@ -228,7 +227,6 @@ namespace NQueens {
             for (coord_t i = 1; i <= N ; ++i)
               if (open({i,v.second})) {stack.push({i,v.second}); break;}
         }
-      }
     }
 
     // Called if v is set to placed or forbidden:
