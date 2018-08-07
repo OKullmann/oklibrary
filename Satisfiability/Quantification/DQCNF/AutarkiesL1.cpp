@@ -209,10 +209,13 @@ Statistics are needed to report on these reductions.
    parameters of the DQCNF.
 
    Use this for reserve-statements.
+   And have a version which only computes the statistics (see Point 10 below),
+   perhaps just based on output=nil (then actually, different from the current
+   behaviour, nothing should happen).
 
 6. Test and improve error-handling
 
-   Give the line-numbers with the errors.
+   Give the original file-line-numbers with the errors.
 
    More information should be given in case of out-of-memory.
    And all such errors need to be caught (so that then all functions
@@ -241,6 +244,32 @@ Statistics are needed to report on these reductions.
 9. Apply autarkies found to the original problem
 
    Perhaps just a bash-script?
+
+   Or perhaps we actually develop this program, so that all "basic autarkies"
+   can be handled; see Point 11 for autarkies with one e-variable.
+   The SAT-solver name is needed as a command-line parameter, and whether
+   its input is from a file or from standard input.
+   Using std::system and its return-value (10 for an autarky found) should
+   do the job, plus storing the solver-output in a file.
+
+10. No storing of the clauses of the translation
+
+    Currently there is absolutely no need.
+    If Point 9 is applied, then likely still we can just re-output the clauses,
+    using the simple information which clauses have been satisfied.
+
+11. Autarkies using one e-variable
+
+    They are easy to handle directly. Together with a full handling (Point 9
+    above), this needs then a repetition-loop, until no further changes
+    (we have confluence); this includes variable-clean-up (Point 4).
+
+12. Output a transcript of changes to original DQCNF / QCNF
+
+    Using the line-numbers of the original clauses, optionally, in some
+    simple syntax to be developed, the changes concerning deleted clauses,
+    shortened clauses and shortened dependencies are output to a file (so
+    that simple tools can independently apply the changes).
 
 */
 

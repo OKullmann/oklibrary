@@ -33,19 +33,18 @@ For GreedyAmo:
 
 */
 
-#include <cassert>
-#include <cmath>
 #include <stack>
 #include <vector>
+
+#include <cassert>
+#include <cmath>
+
 #include "ChessBoard.hpp"
 
 namespace NQueens {
 
   // The prototype:
   struct BasicACLS {
-
-    typedef ChessBoard::Var Var;
-    typedef ChessBoard::Var_uint Var_uint;
 
     const ChessBoard::coord_t N;
 
@@ -54,243 +53,327 @@ namespace NQueens {
     bool satisfied() const noexcept { return false; }
     bool falsified() const noexcept { return false; }
 
-    Var_uint n() const noexcept { return N; }
-    Var_uint nset() const noexcept { return 0; }
+    // The total number of variables:
+    ChessBoard::Var_uint n() const noexcept { return N*N; }
+    // Number of variables set to true or false:
+    ChessBoard::Var_uint nset() const noexcept { return 0; }
 
-    void set(const Var v, const bool val) {}
+    // Occupy or forbid field v:
+    void set(const ChessBoard::Var v, const bool val) {}
 
   };
 
-  class Diagonal {
-    public :
-      ChessBoard::Var s;
-      ChessBoard::Var_uint l;
-      ChessBoard::Var_uint i;
-      Diagonal(ChessBoard::Var s,ChessBoard::Var_uint l, ChessBoard::Var_uint i) : s(s),l(l),i(i) {}
+  /*
+    The decomposition of the NxN field into diagonals (fields with equal
+     difference) and antidiagonals (fields with equal sum), where each
+     such line is specified by a value of :
+  */
+  struct Diagonal {
+    ChessBoard::Var s; // start field
+    ChessBoard::Var_uint l; // length
+    ChessBoard::Var_uint i;
+    /* Field (variable) (x,y) has abstract diagonal-index x-y, which ranges
+       from 1-N to N-1, and then we set i = (x-y) + (N-1) with
+       0 <= i <= 2N-2.
+    */
   };
-
-  class Rank {
-    public :
-      ChessBoard::Var_uint o_r;
-      ChessBoard::Var_uint p_r;
-      ChessBoard::Var_uint f_r;
-      Rank(ChessBoard::Var_uint o_r,ChessBoard::Var_uint p_r, ChessBoard::Var_uint f_r) : o_r(o_r),p_r(p_r),f_r(f_r) {}
+  struct AntiDiagonal {
+    ChessBoard::Var s; // start field
+    ChessBoard::Var_uint l; // length
+    ChessBoard::Var_uint i;
+    /* (x,y) has abstract antidiagonal-index x+y, which ranges from 1+1 to
+       N+N, and then we set i = (x+y) - 2.
+    */
   };
+  static_assert(std::is_pod<Diagonal>::value, "Diagonal is not POD.");
+  static_assert(std::is_pod<AntiDiagonal>::value, "AntiDiagonal is not POD.");
 
-  class Count {
-    public :
-      ChessBoard::Var_uint open;
-      ChessBoard::Var_uint placed;
-      ChessBoard::Var_uint forbidden;
-      Count(ChessBoard::Var_uint open,ChessBoard::Var_uint placed, ChessBoard::Var_uint forbidden) : open(open),placed(placed),forbidden(forbidden) {}
-    };
+  // The number of open, placed and forbidden fields for any line, that is, any
+  // row, column, diagonal or antidiagonal:
+  struct Rank {
+    ChessBoard::Var_uint o;
+    ChessBoard::Var_uint p;
+    ChessBoard::Var_uint f;
+  };
+  static_assert(std::is_pod<Rank>::value, "Rank is not POD.");
+
+  // The same numbers as with Rank, but now for the whole board:
+  struct TotalRank {
+    ChessBoard::Var_uint o;
+    ChessBoard::Var_uint p;
+    ChessBoard::Var_uint f;
+  };
+  static_assert(std::is_pod<TotalRank>::value, "TotalRank is not POD.");
+
+  enum class State { open=0, placed, forbidden };
+
+
   // A concrete instance of BasicACLS:
   class AmoAlo_board {
-
+    using coord_t = ChessBoard::coord_t;
+    using Var = ChessBoard::Var;
+    using Var_uint = ChessBoard::Var_uint;
+    using Var_int = ChessBoard::Var_int;
   public :
-    typedef ChessBoard::coord_t coord_t;
-    typedef ChessBoard::Var Var;
-    typedef ChessBoard::Var_uint Var_uint;
-    typedef std::vector<Rank> Ranks;
-    typedef std::stack<Var> Stack;
-    typedef std::int32_t diff_t;
-    enum class State { open, placed, forbidden };
-    typedef std::vector<std::vector<State>> Board;
-  //private :
     const coord_t N;
-    Board board;
-    Ranks r_ranks;
-    Ranks c_ranks;
-    Ranks ad_ranks;
-    Ranks d_ranks;
-    Count count;
-    Stack stack;
-    bool Falsified = false;
 
-    Board b_init(Board board) const noexcept {
-      board.resize(N, std::vector<State>(N));
-      return board;
-      }
-    Ranks r_init (Ranks r_ranks) const noexcept {
-      for (Var_uint i = 0; i < N ; ++i) r_ranks.push_back(Rank{N,0,0});
-      return r_ranks;
-      }
-    Ranks c_init (Ranks c_ranks) const noexcept {
-      for (Var_uint i = 0; i < N ; ++i) c_ranks.push_back(Rank{N,0,0});
-      return c_ranks;
-      }
-    Ranks ad_init (Ranks ad_ranks) const noexcept {
-      for (Var_uint i = 1; i < N ; ++i) ad_ranks.push_back(Rank{i,0,0});
-      for (Var_uint i = N; i > 0 ; --i) ad_ranks.push_back(Rank{i,0,0});
-      return ad_ranks;
-      }
-    Ranks d_init (Ranks d_ranks) const noexcept {
-      for (Var_uint i = 1; i < N ; ++i) d_ranks.push_back(Rank{i,0,0});
-      for (Var_uint i = N; i > 0 ; --i) d_ranks.push_back(Rank{i,0,0});
-      return d_ranks;
-      }
+    explicit AmoAlo_board(const coord_t N) :
+      N(N), b(b_init()), r_ranks(r_init()), c_ranks(c_init()),
+      ad_ranks(ad_init()), d_ranks(d_init()), trank{N*N,0,0} {
+        assert(N <= ChessBoard::max_coord);
+        assert(b.size() == N+1);
+        assert(r_ranks.size() == N+1);
+        assert(c_ranks.size() == N+1);
+    }
 
-  //public :
-    explicit AmoAlo_board(const coord_t N, Board board, Ranks r_ranks,
-    Ranks c_ranks, Ranks ad_ranks, Ranks d_ranks) :
-    N(N),board(b_init(board)),r_ranks(r_init(r_ranks)),c_ranks(c_init(c_ranks)),
-    ad_ranks(ad_init(ad_ranks)),d_ranks(d_init(d_ranks)),count(Count{N*N,0,0}) {}
+    bool satisfied() const noexcept { return trank.p == N; }
+    bool falsified() const noexcept { return falsified_; }
+    Var_uint n() const noexcept { return N*N; }
+    Var_uint nset() const noexcept { return trank.p+trank.f; }
 
-    // Returns anti_diagonal starting feild, length and index:
-    Diagonal anti_diagonal(const Var v) const noexcept {
-      coord_t c_sum = v.first + v.second;
-      if (c_sum < N) return Diagonal{Var{0,c_sum},c_sum+1,c_sum};
-      else return Diagonal{Var{c_sum-N+1,N-1},2*N-(c_sum+1),c_sum};
+    void set(const Var v, const bool val) noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      assert(board(v) == State::open);
+      if (val) set_true(v); else set_false(v);
+      while(not stack.empty() and not falsified()) {
+        const Var cur_v = stack.top(); stack.pop();
+        if (b[cur_v.first][cur_v.second] == State::forbidden)
+	  falsified_ = true;
+        else if (open(cur_v)) set_true(cur_v);
       }
+    }
 
-    // Returns diagonal starting feild, length and index:
+    typedef std::vector<Rank> Ranks;
+    typedef std::vector<std::vector<State>> Board;
+    const Ranks& r_rank() const noexcept { return r_ranks; }
+    const Ranks& c_rank() const noexcept { return c_ranks; }
+    const Board& board() const noexcept { return b; }
+    State board(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      return b[v.first][v.second];
+    }
+    bool open(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      return (board(v) == State::open);
+    }
+
+    // Returns anti_diagonal starting field, length and index:
+    AntiDiagonal anti_diagonal(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      const coord_t c_sum = v.first + v.second;
+      if (c_sum < N) return {{0,c_sum}, c_sum+1, c_sum};
+      else return {{c_sum-N+1,N-1}, 2*N-(c_sum+1), c_sum};
+    }
+    // Returns diagonal starting field, length and index:
     Diagonal diagonal(const Var v) const noexcept {
-      diff_t c_diff = v.first - v.second;
-      if (c_diff > 0) return Diagonal{Var{c_diff,0},N - c_diff,(N-1)-c_diff};
-      else return Diagonal{Var{0,-c_diff},N+c_diff,(N-1)-c_diff};
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      const ChessBoard::scoord_t c_diff = v.first - v.second;
+      if (c_diff > 0) {
+        const coord_t cd = c_diff; return {{cd,0}, N-cd, (N-1)-cd};
       }
+      else {
+        const coord_t cd = -c_diff; return {{0,coord_t(cd)}, N-cd, (N-1)+cd};
+      }
+    }
 
-    // Checks if the field v is open:
-    bool v_open(const Var v) const noexcept { return (board[v.first][v.second] == State::open); }
+    Var_uint amo_count(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      assert(board(v) == State::open);
+      const AntiDiagonal ad = anti_diagonal(v);
+      const Diagonal d = diagonal(v);
+      assert(ad.i < ad_ranks.size());
+      assert(d.i < d_ranks.size());
+      return r_ranks[v.first].o + c_ranks[v.second].o + ad_ranks[ad.i].o + d_ranks[d.i].o;
+    }
+
+  private:
 
     // Updates the placed rank:
     void placed_rank_update(const Var v) noexcept {
-      Diagonal ad =   anti_diagonal(v);
-      Diagonal d = diagonal(v);
-      ++r_ranks[v.first].p_r;
-      ++c_ranks[v.second].p_r;
-      ++ad_ranks[ad.i].p_r;
-      ++d_ranks[d.i].p_r;
-      }
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      assert(board(v) == State::placed),
+      ++r_ranks[v.first].p;
+      ++c_ranks[v.second].p;
+      ++ad_ranks[anti_diagonal(v).i].p;
+      ++d_ranks[diagonal(v).i].p;
+    }
 
-    // Forbidden field ranks are updated only if no field is placed in the same r,c,d or ad
-    // and Falsified is updated if found:
+    // Forbidden field ranks are updated only if no field is placed in the
+    // same r,c,d or ad, and falsified_ is updated if found:
     void forbidden_rank_update(const Var v) noexcept {
-      Diagonal ad =   anti_diagonal(v);
-      Diagonal d = diagonal(v);
-      if (!r_ranks[v.first].p_r) {
-        --r_ranks[v.first].o_r;
-        --c_ranks[v.second].o_r;
-        --ad_ranks[ad.i].o_r;
-        --d_ranks[d.i].o_r;
-        if (r_ranks[v.first].o_r == 0 or c_ranks[v.second].o_r == 0) Falsified = true;
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      assert(board(v) == State::forbidden);
+      const AntiDiagonal ad = anti_diagonal(v);
+      const Diagonal d = diagonal(v);
+      if (r_ranks[v.first].p != 0) {
+        --r_ranks[v.first].o;
+        --c_ranks[v.second].o;
+        --ad_ranks[ad.i].o;
+        --d_ranks[d.i].o;
+        if (r_ranks[v.first].o == 0 or c_ranks[v.second].o == 0)
+	  falsified_ = true;
         else {
-          if (r_ranks[v.first].o_r == 1)
-            for (coord_t i = 0; i < N ; ++i)
-              if (v_open(Var{v.first,i})) { stack.push(Var{v.first,i}); break; }
-          if (c_ranks[v.second].o_r == 1)
-            for (coord_t i = 0; i < N ; ++i)
-              if (v_open(Var{i,v.second})) { stack.push(Var{i,v.second}); break; }
-          }
+          if (r_ranks[v.first].o == 1)
+            for (coord_t i = 1; i <= N ; ++i)
+              if (open({v.first,i})) {stack.push({v.first,i}); break;}
+          if (c_ranks[v.second].o == 1)
+            for (coord_t i = 1; i <= N ; ++i)
+              if (open({i,v.second})) {stack.push({i,v.second}); break;}
         }
       }
+    }
 
-    void count_update(const Var v) noexcept {
-      --count.open;
-      if (board[v.first][v.second] == State::placed) ++count.placed;
-      else ++count.forbidden;
-      }
+    // Called if v is set to placed or forbidden:
+    void trank_update(const Var v) noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      assert(board(v) != State::open),
+      --trank.o;
+      if (board(v) == State::placed) ++trank.p;
+      else ++trank.f;
+    }
 
     void r_update(const Var cur_v) noexcept {
+      assert(cur_v.first >= 1 and cur_v.second >= 1);
+      assert(cur_v.first <= N and cur_v.second <= N);
       for (coord_t i = 0 ; i < N ; ++i) {
-        Var v = Var{cur_v.first,i};
-        if (v_open(v)) {
-          board[v.first][v.second] = State::forbidden;
-          count_update(v);
+        const Var v = {cur_v.first,i};
+        if (open(v)) {
+          board(v) = State::forbidden;
+          trank_update(v);
           forbidden_rank_update(v);
-          }
         }
       }
+    }
     void c_update(const Var cur_v) noexcept {
+      assert(cur_v.first >= 1 and cur_v.second >= 1);
+      assert(cur_v.first <= N and cur_v.second <= N);
       for (coord_t i = 0 ; i < N ; ++i) {
-        Var v = Var{i,cur_v.second};
-        if (v_open(v)) {
-          board[v.first][v.second] = State::forbidden;
-          count_update(v);
+        const Var v = {i,cur_v.second};
+        if (open(v)) {
+          board(v) = State::forbidden;
+          trank_update(v);
           forbidden_rank_update(v);
-          }
         }
       }
+    }
     void ad_update(const Var cur_v) noexcept {
-      Diagonal ad = anti_diagonal(cur_v);
-      Var ad_v = ad.s;
+      assert(cur_v.first >= 1 and cur_v.second >= 1);
+      assert(cur_v.first <= N and cur_v.second <= N);
+      const AntiDiagonal ad = anti_diagonal(cur_v);
+      const Var ad_v = ad.s;
       assert(ad.l < N);
       for (coord_t i = 0 ; i < ad.l ; ++i) {
-        Var v = Var{ad_v.first + i,ad_v.second - i};
-        if (v_open(v)) {
-          board[v.first][v.second] = State::forbidden;
-          count_update(v);
+        const Var v = {ad_v.first + i,ad_v.second - i};
+        if (open(v)) {
+          board(v) = State::forbidden;
+          trank_update(v);
           forbidden_rank_update(v);
-          }
         }
       }
+    }
     void d_update(const Var cur_v) noexcept {
-      Diagonal d = diagonal(cur_v);
-      Var d_v = d.s;
+      assert(cur_v.first >= 1 and cur_v.second >= 1);
+      assert(cur_v.first <= N and cur_v.second <= N);
+      const Diagonal d = diagonal(cur_v);
+      const Var d_v = d.s;
       assert(d.l < N);
       for (coord_t i = 0 ; i < d.l ; ++i) {
-        Var v = Var{d_v.first + i,d_v.second + i};
-        if (v_open(v)) {
-          board[v.first][v.second] = State::forbidden;
-          count_update(v);
+        const Var v = {d_v.first + i,d_v.second + i};
+        if (open(v)) {
+          board(v) = State::forbidden;
+          trank_update(v);
           forbidden_rank_update(v);
-          }
         }
       }
-
-    Var_uint amo_count(const Var v) {
-      Diagonal ad = AmoAlo_board::anti_diagonal(v);
-      Diagonal d = AmoAlo_board::diagonal(v);
-      return (r_ranks[v.first].o_r + c_ranks[v.second].o_r + ad_ranks[ad.i].o_r + d_ranks[d.i].o_r);
-      }
-
-    bool satisfied() const noexcept { return (count.placed == N); }
-    bool falsified() const noexcept { return Falsified; }
-    Var_uint n() const noexcept { return N*N; }
-    Var_uint nset() const noexcept { return count.placed+count.forbidden; }
+    }
 
     void set_true(const Var v) noexcept {
-      assert(v.first < N);
-      assert(v.second < N);
-      board[v.first][v.second] = State::placed;
-      count_update(v);
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      assert(board(v) == State::open),
+      board(v) = State::placed;
+      trank_update(v);
       placed_rank_update(v);
       r_update(v);
       c_update(v);
       ad_update(v);
       d_update(v);
-      }
+    }
     void set_false(const Var v) noexcept {
-      assert(v.first < N);
-      assert(v.second < N);
-      board[v.first][v.second] = State::forbidden;
-      count_update(v);
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      assert(board(v) == State::open),
+      board(v) = State::forbidden;
+      trank_update(v);
       forbidden_rank_update(v);
-      }
-    // We only set a field if it is open:
-    void set(const Var v,const bool val) noexcept {
-      if (val) set_true(v);
-      else set_false(v);
-      while(!stack.empty() and !falsified()) {
-        Var cur_v = stack.top();
-        stack.pop();
-        if (board[cur_v.first][cur_v.second] == State::forbidden) Falsified = true;
-        else if (v_open(cur_v)) set_true(cur_v);
-        }
-      }
+    }
+
+    Board b;
+    Ranks r_ranks;
+    Ranks c_ranks;
+    Ranks ad_ranks;
+    Ranks d_ranks;
+    TotalRank trank;
+    typedef std::stack<Var> Stack;
+    Stack stack;
+    bool falsified_ = false;
+
+    Board b_init() const {
+      Board board;
+      board.resize(N+1, std::vector<State>(N+1));
+      return board;
+    }
+    Ranks r_init() const {
+      Ranks r_ranks; r_ranks.reserve(N+1);
+      r_ranks.push_back({});
+      for (Var_uint i = 1; i <= N ; ++i) r_ranks.push_back({N,0,0});
+      return r_ranks;
+    }
+    Ranks c_init() const {
+      Ranks c_ranks; c_ranks.reserve(N+1);
+      c_ranks.push_back({});
+      for (Var_uint i = 1; i <= N ; ++i) c_ranks.push_back({N,0,0});
+      return c_ranks;
+    }
+    Ranks ad_init() const {
+      Ranks ad_ranks; ad_ranks.reserve(2*N-1);
+      for (Var_uint i = 1; i < N ; ++i) ad_ranks.push_back({i,0,0});
+      for (Var_uint i = N; i > 0 ; --i) ad_ranks.push_back({i,0,0});
+      return ad_ranks;
+    }
+    Ranks d_init() const {
+      Ranks d_ranks; d_ranks.reserve(2*N-1);
+      for (Var_uint i = 1; i < N ; ++i) d_ranks.push_back({i,0,0});
+      for (Var_uint i = N; i > 0 ; --i) d_ranks.push_back({i,0,0});
+      return d_ranks;
+    }
+
+    State& board(const Var v) noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      return b[v.first][v.second];
+    }
   };
 
 
   // The prototype:
-  struct BasicBranching {
-
-    typedef ChessBoard::Var Var;
-
+  class BasicBranching {
+    using Var = ChessBoard::Var;
+  public :
     const BasicACLS& F;
 
     BasicBranching(const BasicACLS& F) : F(F) {}
 
-    Var operator()() const noexcept { return Var{0,0}; }
+    Var operator()() const noexcept { return {0,0}; }
 
   };
 

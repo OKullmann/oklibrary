@@ -3,4 +3,6 @@ program
 program_debug
 SimTaw
 SimTaw_debug
+TestSimTaw
+TestSimTaw_debug
 
