@@ -165,8 +165,8 @@ namespace NQueens {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       const coord_t c_sum = v.first + v.second;
-      if (c_sum < N) return {{0,c_sum}, c_sum+1, c_sum};
-      else return {{c_sum-N+1,N-1}, 2*N-(c_sum+1), c_sum};
+      if (c_sum <= N) return {{1,c_sum-1}, c_sum-1, c_sum-2};
+      else return {{c_sum-N,N}, 2*N-(c_sum-1), c_sum-2};
     }
     // Returns diagonal starting field, length and index:
     Diagonal diagonal(const Var v) const noexcept {
@@ -174,10 +174,10 @@ namespace NQueens {
       assert(v.first <= N and v.second <= N);
       const ChessBoard::scoord_t c_diff = v.first - v.second;
       if (c_diff > 0) {
-        const coord_t cd = c_diff; return {{cd,0}, N-cd, (N-1)-cd};
+        const coord_t cd = c_diff; return {{cd+1,1}, N-cd, N-cd-1};
       }
       else {
-        const coord_t cd = -c_diff; return {{0,coord_t(cd)}, N-cd, (N-1)+cd};
+        const coord_t cd = -c_diff; return {{1,cd+1}, N-cd, N+cd-1};
       }
     }
 
@@ -198,7 +198,7 @@ namespace NQueens {
     void placed_rank_update(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      assert(board(v) == State::placed),
+      assert(board(v) == State::placed);
       ++r_ranks[v.first].p;
       ++c_ranks[v.second].p;
       ++ad_ranks[anti_diagonal(v).i].p;
@@ -244,7 +244,7 @@ namespace NQueens {
     void r_update(const Var cur_v) noexcept {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
-      for (coord_t i = 0 ; i < N ; ++i) {
+      for (coord_t i = 1 ; i <= N ; ++i) {
         const Var v = {cur_v.first,i};
         if (open(v)) {
           board(v) = State::forbidden;
@@ -256,7 +256,7 @@ namespace NQueens {
     void c_update(const Var cur_v) noexcept {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
-      for (coord_t i = 0 ; i < N ; ++i) {
+      for (coord_t i = 1 ; i <= N ; ++i) {
         const Var v = {i,cur_v.second};
         if (open(v)) {
           board(v) = State::forbidden;
@@ -299,7 +299,7 @@ namespace NQueens {
     void set_true(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      assert(board(v) == State::open),
+      assert(board(v) == State::open);
       board(v) = State::placed;
       trank_update(v);
       placed_rank_update(v);
@@ -379,52 +379,46 @@ namespace NQueens {
 
 
   // A concrete instance of BasicBranching:
-  struct GreedyAmo {
-
-    typedef ChessBoard::Var Var;
-    typedef ChessBoard::coord_t coord_t;
-    typedef ChessBoard::Var_uint Var_uint;
+  // A concrete instance of BasicBranching:
+  class GreedyAmo {
+    using Var = ChessBoard::Var;
+    using Var_uint = ChessBoard::Var_uint;
+  public :
     typedef double Weight_t;
     typedef std::vector<Weight_t> Weight_vector;
     Weight_vector weight_vector = {4.85,1,0.354,0.11,0.0694};
-    Var_uint vec_size = weight_vector.size();
-    AmoAlo_board& F;
+    const Var_uint vec_size = weight_vector.size();
+    const AmoAlo_board& F;
 
-    GreedyAmo(AmoAlo_board& F) : F(F) {}
+    GreedyAmo(const AmoAlo_board& F) : F(F) {}
 
     inline Weight_t long_cw(const Var_uint long_c) const noexcept {
       return std::pow(1/1.46,long_c-vec_size)*weight_vector.back();
-      }
+    }
 
-    Weight_t weight(const Var v) noexcept {
-      Var_uint amo_count = F.amo_count(v);
-      Weight_t amo_w = weight_vector[0]*amo_count;
-      Var_uint alo_r_cl = F.r_ranks[v.first].o_r; // alo_r_cl is atleast-one row clause length.
-      Var_uint alo_c_cl = F.c_ranks[v.second].o_r; // alo_c_cl is atleast-one column clause length.
-      Weight_t alo_r_w, alo_c_w;
+    Weight_t weight(const Var v) const noexcept {
+      const Weight_t amo_w = weight_vector[0]*F.amo_count(v);
+      const Var_uint alo_r_cl = F.r_rank()[v.first].o; // alo_r_cl is at-least-one row clause length.
+      const Var_uint alo_c_cl = F.c_rank()[v.second].o; // alo_c_cl is at-least-one column clause length.
       assert(alo_r_cl >= 2);
       assert(alo_c_cl >= 2);
-      if (alo_r_cl > vec_size + 2) alo_r_w = long_cw(alo_r_cl);
-      else alo_r_w = weight_vector[alo_r_cl-2];
-      if (alo_c_cl > vec_size + 2) alo_c_w = 1 + long_cw(alo_c_cl);
-      else alo_c_w = weight_vector[alo_c_cl-2];
+      const Weight_t
+        alo_r_w = (alo_r_cl > vec_size + 2) ? long_cw(alo_r_cl) : weight_vector[alo_r_cl-2],
+        alo_c_w = (alo_c_cl > vec_size + 2) ? 1 + long_cw(alo_c_cl) : weight_vector[alo_c_cl-2];
       return ((1 + amo_w) * ( 1 + alo_r_w + alo_c_w));
-      }
+    }
 
-    Var operator()() noexcept {
+    Var operator()() const noexcept {
       Weight_t max = 0;
-      Var bv;
-      for (coord_t i = 0; i < F.N ; ++i)
-        for (coord_t j = 0; j < F.N ; ++j)
-          if (F.board[i][j] == F.State::open) {
-            Weight_t cur = weight(Var{i,j});
-            if (max < cur) {
-              max = cur;
-              bv = Var{i,j};
-              }
-            }
+      Var bv{};
+      for (ChessBoard::coord_t i = 1; i <= F.N ; ++i)
+        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j)
+          if (F.board({i,j}) == State::open) {
+            const Weight_t w = weight({i,j});
+            if (w > max) { max = w; bv = Var{i,j}; }
+          }
       return bv;
-      }
+    }
 
   };
 
