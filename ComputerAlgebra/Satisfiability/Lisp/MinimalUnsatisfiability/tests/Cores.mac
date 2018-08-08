@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Minimal/RecursiveSplitting.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Binary.mac");
 
 
 kill(f)$
@@ -104,6 +105,7 @@ okltest_all_forced_irr_cores(f) := block(
   assert(nf({{1}},{{2},{-2}}) = {}),
   assert(nf({{1}},{{-1},{2},{-2}}) = {{{1},{-1}}}),
   true)$
+
 
 /* *************************************************
    * Heuristical search for some irredundant cores *
@@ -320,6 +322,9 @@ okltest_umu_rs3_cs(f) := (
 okltest_umu_rs4_cs(f) := (
   assert(f({}) = {}),
   assert(okltest_umu_rs3_cs(f) = true),
+  for n : 0 thru 4 do block([F:adjoin(setn(n),nonsing_bmu_cs(n))],
+    assert(f(F) = F)
+  ),
   true)$
 
 
