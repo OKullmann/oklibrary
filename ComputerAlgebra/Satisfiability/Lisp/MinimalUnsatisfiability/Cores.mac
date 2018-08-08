@@ -370,12 +370,27 @@ umu_rs3_rec_cs(F, forced) := block(
   ))$
 
 /* As rs3, but now removing clauses which are redundant together with forced: */
-umu_rs4_cs(F0) := block([cumu : {}], umu_rs4_rec_cs(F0,{}), cumu)$
+umu_rs4_cs(F0) := if current_satsolver(cs2fcs(F0)) then {} else
+ block([cumu : {}], umu_rs4_rec_cs(F0,{}), cumu)$
+/* Invariants for F:
+     - F <= F0
+     - F is unsatisfiable.
+   Invariants for cumu:
+     - cumu <= umu(F0).
+   Invariants for forced:
+     - forced <= F, forced <= cumu
+     - forced is satisfiable and irredundant.
+*/
 umu_rs4_rec_cs(F, forced) := block(
  [mus,l,C],
   if not emptyp(forced) then
-    for C in setdifference(F,forced) do
-      if not irredundant_bydef_cs(adjoin(C,forced)) then F : disjoin(C,F),
+    if length(forced) = 1 then (
+      C : first(forced),
+      for D in disjoin(C,F) do
+        if subsetp(C,D) or subsetp(D,C) then F : disjoin(D,F)
+    ) else
+      for C in setdifference(F,forced) do
+        if not irredundant_bydef_cs(adjoin(C,forced)) then F : disjoin(C,F),
   F : first(lean_kernel_tableau_fs_cs(F)),
   if emptyp(F) or not subsetp(forced, F) or subsetp(F,cumu) then return(false),
   mus : first_mus_bs_cs(F), cumu : union(cumu, mus),
@@ -386,12 +401,13 @@ umu_rs4_rec_cs(F, forced) := block(
     if umu_rs4_rec_cs(disjoin(C,F), forced) then return(true),
     if i # l then (
       forced : adjoin(C,forced),
+      if not current_satsolver(cs2fcs(forced)) then return(false),
       if not irredundant_bydef_cs(forced) then return(false)
     )
   ))$
 
 /* Best selection: */
-current_umu_cs(F) := umu_rs3_cs(F)$
+current_umu_cs(F) := umu_rs4_cs(F)$
 
 
 /*!
