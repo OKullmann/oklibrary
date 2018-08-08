@@ -116,7 +116,7 @@ okltest_all_forced_irr_cores(f) := block(
    clause-set F returns some minimally unsatisfiable core of F:
 */
 okltest_some_mus_cs(f) := (
-  /* Cases where F has exactly one minimally unsatisfiable subset */
+  /* Cases where F has exactly one minimally unsatisfiable subset: */
   assert(f({{}}) = {{}}),
   assert(f({{1},{-1}}) = {{1},{-1}}),
   assert(f({{1},{-1},{2}}) = {{1},{-1}}),
