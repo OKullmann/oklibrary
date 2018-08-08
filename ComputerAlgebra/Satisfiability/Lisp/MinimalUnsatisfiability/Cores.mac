@@ -130,12 +130,21 @@ first_mus_fcs(FF, S) := block(
       else F : disjoin(C,F)),
   return([V,Core]))$
 /* RENAME: first_mus_csss */
-first_mus_cs(FF, S) := fcs2cs(first_mus_fcs(cs2fcs(F),S))$
+first_mus_cs(F, S) := fcs2cs(first_mus_fcs(cs2fcs(F),S))$
+/* Additionally a set of necessary clauses is given: */
+first_mus_fcsssne(FF, S, nec) := block(
+ [V : FF[1], F : FF[2], Core : nec],
+  for C in setdifference(FF[2],nec) do (
+      if S([V, disjoin(C,F)]) then Core : adjoin(C,Core)
+      else F : disjoin(C,F)),
+  return([V,Core]))$
+first_mus_csssne(F, S, nec) := fcs2cs(first_mus_fcsssne(cs2fcs(F), S, nec))$
 
 /* RENAME: first_mus_fcs */
 first_mus_bs_fcs(FF) := first_mus_fcs(FF, current_satsolver)$
 /* RENAME: first_mus_cs */
 first_mus_bs_cs(F) := first_mus_cs(F, current_satsolver)$
+first_mus_csne(F, nec) := first_mus_csssne(F, current_satsolver, nec)$
 
 /* More generally, returns some irredundant core of input FF,
    (trivial heuristics, removing the first possible clause). */
@@ -371,18 +380,26 @@ umu_rs3_rec_cs(F, forced) := block(
 
 /* As rs3, but now removing clauses which are redundant together with forced: */
 umu_rs4_cs(F0) := if current_satsolver(cs2fcs(F0)) then {} else
- block([cumu : {}], umu_rs4_rec_cs(F0,{}), cumu)$
+ block([cumu : all_irrcl_bydef_cs(F0)],
+  if not current_satsolver(cs2fcs(cumu)) then return(cumu),
+  umu_rs4_rec_cs(F0,cumu,cumu), cumu)$
 /* Invariants for F:
      - F <= F0
      - F is unsatisfiable.
    Invariants for cumu:
-     - cumu <= umu(F0).
+     - cumu <= umu(F0),
+     - cumu contains all necessary clauses of F0
+     - cumu only grows, never shrinks.
    Invariants for forced:
+     - nec <= forced
      - forced <= F, forced <= cumu
+     - forced contains all necessary clauses of F0
      - forced is satisfiable and irredundant.
+   Invariants for nec:
+     - nec is a set of necessary clauses for F.
 */
-umu_rs4_rec_cs(F, forced) := block(
- [mus,l,C],
+umu_rs4_rec_cs(F, forced, nec) := block(
+ [mus,l,C,G],
   if not emptyp(forced) then
     if length(forced) = 1 then (
       C : first(forced),
@@ -393,16 +410,23 @@ umu_rs4_rec_cs(F, forced) := block(
         if not irredundant_bydef_cs(adjoin(C,forced)) then F : disjoin(C,F),
   F : first(lean_kernel_tableau_fs_cs(F)),
   if emptyp(F) or not subsetp(forced, F) or subsetp(F,cumu) then return(false),
-  mus : first_mus_bs_cs(F), cumu : union(cumu, mus),
+  mus : first_mus_csne(F, nec), cumu : union(cumu, mus),
   if cumu = F0 then return(true) elseif mus = F then return(false),
   mus : listify(setdifference(mus,forced)), l : length(mus),
   for i : 1 thru l do (
-    C : mus[i],
-    if umu_rs4_rec_cs(disjoin(C,F), forced) then return(true),
-    if i # l then (
+    C : mus[i], G : disjoin(C,F),
+    if current_satsolver(cs2fcs(G)) then (
+      nec : adjoin(C,nec),
       forced : adjoin(C,forced),
-      if not current_satsolver(cs2fcs(forced)) then return(false),
-      if not irredundant_bydef_cs(forced) then return(false)
+      if not current_satsolver(cs2fcs(forced)) then return(false)
+    )
+    else (
+      if umu_rs4_rec_cs(G, forced, nec) then return(true),
+      if i # l then (
+        forced : adjoin(C,forced),
+        if not current_satsolver(cs2fcs(forced)) then return(false),
+        if not irredundant_bydef_cs(forced) then return(false)
+      )
     )
   ))$
 
