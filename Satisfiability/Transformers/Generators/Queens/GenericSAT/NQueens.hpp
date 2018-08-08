@@ -119,7 +119,7 @@ namespace NQueens {
 
     explicit AmoAlo_board(const coord_t N) :
       N(N), b(b_init()), r_ranks(r_init()), c_ranks(c_init()),
-      ad_ranks(ad_init()), d_ranks(d_init()), trank{N*N,0,0} {
+      d_ranks(d_init()), ad_ranks(ad_init()), trank{N*N,0,0} {
         assert(N <= ChessBoard::max_coord);
         assert(b.size() == N+1);
         assert(r_ranks.size() == N+1);
@@ -160,14 +160,7 @@ namespace NQueens {
       return (board(v) == State::open);
     }
 
-    // Returns anti_diagonal starting field, length and index:
-    AntiDiagonal anti_diagonal(const Var v) const noexcept {
-      assert(v.first >= 1 and v.second >= 1);
-      assert(v.first <= N and v.second <= N);
-      const coord_t c_sum = v.first + v.second;
-      if (c_sum <= N) return {{1,c_sum-1}, c_sum-1, c_sum-2};
-      else return {{c_sum-N,N}, 2*N-(c_sum-1), c_sum-2};
-    }
+
     // Returns diagonal starting field, length and index:
     Diagonal diagonal(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
@@ -180,16 +173,24 @@ namespace NQueens {
         const coord_t cd = -c_diff; return {{1,cd+1}, N-cd, N+cd-1};
       }
     }
+    // Returns anti_diagonal starting field, length and index:
+    AntiDiagonal anti_diagonal(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      const coord_t c_sum = v.first + v.second;
+      if (c_sum <= N) return {{1,c_sum-1}, c_sum-1, c_sum-2};
+      else return {{c_sum-N,N}, 2*N-(c_sum-1), c_sum-2};
+    }
 
     Var_uint amo_count(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       assert(board(v) == State::open);
-      const AntiDiagonal ad = anti_diagonal(v);
       const Diagonal d = diagonal(v);
-      assert(ad.i < ad_ranks.size());
+      const AntiDiagonal ad = anti_diagonal(v);
       assert(d.i < d_ranks.size());
-      return r_ranks[v.first].o + c_ranks[v.second].o + ad_ranks[ad.i].o + d_ranks[d.i].o;
+      assert(ad.i < ad_ranks.size());
+      return r_ranks[v.first].o + c_ranks[v.second].o + d_ranks[d.i].o + ad_ranks[ad.i].o;
     }
 
   private:
@@ -201,8 +202,8 @@ namespace NQueens {
       assert(board(v) == State::placed);
       ++r_ranks[v.first].p;
       ++c_ranks[v.second].p;
-      ++ad_ranks[anti_diagonal(v).i].p;
       ++d_ranks[diagonal(v).i].p;
+      ++ad_ranks[anti_diagonal(v).i].p;
     }
 
     // Forbidden field ranks are updated only if no field is placed in the
@@ -211,12 +212,12 @@ namespace NQueens {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       assert(board(v) == State::forbidden);
-      const AntiDiagonal ad = anti_diagonal(v);
-      const Diagonal d = diagonal(v);
       if (r_ranks[v.first].p != 1) --r_ranks[v.first].o;
       if (c_ranks[v.second].p != 1) --c_ranks[v.second].o;
-      if (ad_ranks[ad.i].p != 1) --ad_ranks[ad.i].o;
+      const Diagonal d = diagonal(v);
       if (d_ranks[d.i].p != 1) --d_ranks[d.i].o;
+      const AntiDiagonal ad = anti_diagonal(v);
+      if (ad_ranks[ad.i].p != 1) --ad_ranks[ad.i].o;
         if (r_ranks[v.first].o == 0 or c_ranks[v.second].o == 0)
 	  falsified_ = true;
         else {
@@ -263,21 +264,6 @@ namespace NQueens {
         }
       }
     }
-    void ad_update(const Var cur_v) noexcept {
-      assert(cur_v.first >= 1 and cur_v.second >= 1);
-      assert(cur_v.first <= N and cur_v.second <= N);
-      const AntiDiagonal ad = anti_diagonal(cur_v);
-      const Var ad_v = ad.s;
-      assert(ad.l < N);
-      for (coord_t i = 0 ; i < ad.l ; ++i) {
-        const Var v = {ad_v.first + i,ad_v.second - i};
-        if (open(v)) {
-          board(v) = State::forbidden;
-          trank_update(v);
-          forbidden_rank_update(v);
-        }
-      }
-    }
     void d_update(const Var cur_v) noexcept {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
@@ -286,6 +272,21 @@ namespace NQueens {
       assert(d.l < N);
       for (coord_t i = 0 ; i < d.l ; ++i) {
         const Var v = {d_v.first + i,d_v.second + i};
+        if (open(v)) {
+          board(v) = State::forbidden;
+          trank_update(v);
+          forbidden_rank_update(v);
+        }
+      }
+    }
+    void ad_update(const Var cur_v) noexcept {
+      assert(cur_v.first >= 1 and cur_v.second >= 1);
+      assert(cur_v.first <= N and cur_v.second <= N);
+      const AntiDiagonal ad = anti_diagonal(cur_v);
+      const Var ad_v = ad.s;
+      assert(ad.l < N);
+      for (coord_t i = 0 ; i < ad.l ; ++i) {
+        const Var v = {ad_v.first + i,ad_v.second - i};
         if (open(v)) {
           board(v) = State::forbidden;
           trank_update(v);
@@ -303,8 +304,8 @@ namespace NQueens {
       placed_rank_update(v);
       r_update(v);
       c_update(v);
-      ad_update(v);
       d_update(v);
+      ad_update(v);
     }
     void set_false(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
@@ -318,8 +319,8 @@ namespace NQueens {
     Board b;
     Ranks r_ranks;
     Ranks c_ranks;
-    Ranks ad_ranks;
     Ranks d_ranks;
+    Ranks ad_ranks;
     TotalRank trank;
     typedef std::stack<Var> Stack;
     Stack stack;
@@ -342,17 +343,17 @@ namespace NQueens {
       for (Var_uint i = 1; i <= N ; ++i) c_ranks.push_back({N,0,0});
       return c_ranks;
     }
-    Ranks ad_init() const {
-      Ranks ad_ranks; ad_ranks.reserve(2*N-1);
-      for (Var_uint i = 1; i < N ; ++i) ad_ranks.push_back({i,0,0});
-      for (Var_uint i = N; i > 0 ; --i) ad_ranks.push_back({i,0,0});
-      return ad_ranks;
-    }
     Ranks d_init() const {
       Ranks d_ranks; d_ranks.reserve(2*N-1);
       for (Var_uint i = 1; i < N ; ++i) d_ranks.push_back({i,0,0});
       for (Var_uint i = N; i > 0 ; --i) d_ranks.push_back({i,0,0});
       return d_ranks;
+    }
+    Ranks ad_init() const {
+      Ranks ad_ranks; ad_ranks.reserve(2*N-1);
+      for (Var_uint i = 1; i < N ; ++i) ad_ranks.push_back({i,0,0});
+      for (Var_uint i = N; i > 0 ; --i) ad_ranks.push_back({i,0,0});
+      return ad_ranks;
     }
 
     State& board(const Var v) noexcept {
