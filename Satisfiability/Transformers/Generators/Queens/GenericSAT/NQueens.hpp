@@ -283,7 +283,7 @@ namespace NQueens {
       assert(cur_v.first <= N and cur_v.second <= N);
       const Diagonal d = diagonal(cur_v);
       const Var d_v = d.s;
-      assert(d.l < N);
+      assert(d.l <= N);
       for (coord_t i = 0 ; i < d.l ; ++i) {
         const Var v = {d_v.first + i,d_v.second + i};
         if (open(v)) {
@@ -298,7 +298,7 @@ namespace NQueens {
       assert(cur_v.first <= N and cur_v.second <= N);
       const AntiDiagonal ad = anti_diagonal(cur_v);
       const Var ad_v = ad.s;
-      assert(ad.l < N);
+      assert(ad.l <= N);
       for (coord_t i = 0 ; i < ad.l ; ++i) {
         const Var v = {ad_v.first + i,ad_v.second - i};
         if (open(v)) {
