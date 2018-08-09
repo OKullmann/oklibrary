@@ -124,20 +124,17 @@ all_forced_irr_cores_bydef(Forced, Possible, S) := block(
 */
 /* RENAME: first_mus_fcsss */
 first_mus_fcs(FF, S) := block(
- [V : FF[1], F : FF[2], Core : {}],
-  for C in FF[2] do (
-      if S([V, disjoin(C,F)]) then Core : adjoin(C,Core)
-      else F : disjoin(C,F)),
-  return([V,Core]))$
+ [V : FF[1], F : FF[2]],
+  for C in F do if not S([V, disjoin(C,F)]) then F : disjoin(C,F),
+  return([V,F]))$
 /* RENAME: first_mus_csss */
 first_mus_cs(F, S) := fcs2cs(first_mus_fcs(cs2fcs(F),S))$
 /* Additionally a set of necessary clauses is given: */
 first_mus_fcsssne(FF, S, nec) := block(
- [V : FF[1], F : FF[2], Core : nec],
-  for C in setdifference(FF[2],nec) do (
-      if S([V, disjoin(C,F)]) then Core : adjoin(C,Core)
-      else F : disjoin(C,F)),
-  return([V,Core]))$
+ [V : FF[1], F : FF[2]],
+  for C in setdifference(F,nec) do
+    if not S([V, disjoin(C,F)]) then F : disjoin(C,F),
+  return([V,F]))$
 first_mus_csssne(F, S, nec) := fcs2cs(first_mus_fcsssne(cs2fcs(F), S, nec))$
 
 /* RENAME: first_mus_fcs */
@@ -379,8 +376,10 @@ umu_rs3_rec_cs(F, forced) := block(
   ))$
 
 /* As rs3, but now removing clauses which are redundant together with forced: */
-umu_rs4_cs(F0) := if current_satsolver(cs2fcs(F0)) then {} else
- block([cumu : all_irrcl_bydef_cs(F0)],
+umu_rs4_cs(F0) := block([cumu],
+  F0 : first(lean_kernel_tableau_fs_cs(F0)),
+  if emptyp(F0) then return({}),
+  cumu : all_irrcl_bydef_cs(F0),
   if not current_satsolver(cs2fcs(cumu)) then return(cumu),
   umu_rs4_rec_cs(F0,cumu,cumu), cumu)$
 /* Invariants for F:
@@ -399,7 +398,7 @@ umu_rs4_cs(F0) := if current_satsolver(cs2fcs(F0)) then {} else
      - nec is a set of necessary clauses for F.
 */
 umu_rs4_rec_cs(F, forced, nec) := block(
- [mus,l,C,G],
+ [mus,l,C,G,lVF,VG,Vf,lVf],
   if not emptyp(forced) then
     if length(forced) = 1 then (
       C : first(forced),
@@ -413,21 +412,27 @@ umu_rs4_rec_cs(F, forced, nec) := block(
   mus : first_mus_csne(F, nec), cumu : union(cumu, mus),
   if cumu = F0 then return(true) elseif mus = F then return(false),
   mus : listify(setdifference(mus,forced)), l : length(mus),
+  lVF : length(var_cs(F)), Vf : var_cs(forced), lVf : length(Vf),
   for i : 1 thru l do (
-    C : mus[i], G : disjoin(C,F),
-    if current_satsolver(cs2fcs(G)) then (
+    C : mus[i], G : disjoin(C,F), VG : var_cs(G),
+    if length(VG)=lVF and current_satsolver([VG,G]) then (
+      if i = l then return(false),
       nec : adjoin(C,nec),
-      forced : adjoin(C,forced),
-      if not current_satsolver(cs2fcs(forced)) then return(false)
+      forced : adjoin(C,forced), Vf : union(var_c(C),Vf),
+      if length(Vf)=lVf and not current_satsolver([Vf,forced]) then
+        return(false)
+      else lVf : length(Vf)
     )
     else (
       if umu_rs4_rec_cs(G, forced, nec) then return(true),
-      if i # l then (
-        forced : adjoin(C,forced),
-        if not current_satsolver(cs2fcs(forced)) then return(false),
-        if not irredundant_bydef_cs(forced) then return(false)
-      )
-    )
+      if i = l then return(false),
+      forced : adjoin(C,forced), Vf : union(var_c(C),Vf),
+      if length(Vf)=lVf and not current_satsolver([Vf,forced]) then
+        return(false)
+      else lVf : length(Vf),
+      if not irredundant_bydef_cs(forced) then return(false)
+    ),
+    if subsetp(F,cumu) then return(false)
   ))$
 
 /* Best selection: */
