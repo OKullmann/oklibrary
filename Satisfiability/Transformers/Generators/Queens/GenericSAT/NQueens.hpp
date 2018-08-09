@@ -195,7 +195,7 @@ namespace NQueens {
 
   private:
 
-    // Updates the placed rank:
+    // Updates the corresponding r,c,d and ad ranks of placed field:
     void placed_rank_update(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
@@ -206,8 +206,8 @@ namespace NQueens {
       ++ad_ranks[anti_diagonal(v).i].p;
     }
 
-    // Forbidden field ranks are updated only if no field is placed in the
-    // same r,c,d or ad, and falsified_ is updated if found:
+    // Forbidden field ranks of r,c,d or ad are updated individually
+    // only if no field is placed in them and falsified_ is updated if found:
     void forbidden_rank_update(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
