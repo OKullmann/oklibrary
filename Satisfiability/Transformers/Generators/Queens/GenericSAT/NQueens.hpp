@@ -28,7 +28,7 @@ For AmoAlo_board :
   Have to work on making data private and creating public function to access them.
 
 For GreedyAmo:
-  Only heuristics is remaining.
+  Only heuristics is remaining. //done
 
 
 */
@@ -215,8 +215,10 @@ namespace NQueens {
       if (r_ranks[v.first].p != 1) --r_ranks[v.first].o;
       if (c_ranks[v.second].p != 1) --c_ranks[v.second].o;
       const Diagonal d = diagonal(v);
+      assert(d.i < d_ranks.size());
       if (d_ranks[d.i].p != 1) --d_ranks[d.i].o;
       const AntiDiagonal ad = anti_diagonal(v);
+      assert(ad.i < ad_ranks.size());
       if (ad_ranks[ad.i].p != 1) --ad_ranks[ad.i].o;
         if (r_ranks[v.first].o == 0 or c_ranks[v.second].o == 0)
 	  falsified_ = true;
@@ -310,7 +312,7 @@ namespace NQueens {
     void set_false(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      assert(board(v) == State::open),
+      assert(board(v) == State::open);
       board(v) = State::forbidden;
       trank_update(v);
       forbidden_rank_update(v);
