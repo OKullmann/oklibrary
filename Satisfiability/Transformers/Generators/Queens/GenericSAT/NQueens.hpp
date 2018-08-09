@@ -399,6 +399,10 @@ namespace NQueens {
   public :
     typedef double Weight_t;
     typedef std::vector<Weight_t> Weight_vector;
+    /* Using weights from TawSolver:
+       https://github.com/OKullmann/oklibrary/commits/master/Satisfiability/Solvers/TawSolver
+       ID a227f64a6c66a817e4b53fa4c1a1244d530a25c5
+    */
     Weight_vector weight_vector = {4.85,1,0.354,0.11,0.0694};
     const Var_uint vec_size = weight_vector.size();
     const AmoAlo_board& F;
