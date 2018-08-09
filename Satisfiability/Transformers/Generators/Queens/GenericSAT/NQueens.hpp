@@ -212,14 +212,26 @@ namespace NQueens {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       assert(board(v) == State::forbidden);
-      if (r_ranks[v.first].p != 1) --r_ranks[v.first].o;
-      if (c_ranks[v.second].p != 1) --c_ranks[v.second].o;
+      if (r_ranks[v.first].p != 1) {
+        --r_ranks[v.first].o;
+        ++r_ranks[v.first].f;
+      }
+      if (c_ranks[v.second].p != 1) {
+        --c_ranks[v.second].o;
+        ++c_ranks[v.second].f;
+      }
       const Diagonal d = diagonal(v);
       assert(d.i < d_ranks.size());
-      if (d_ranks[d.i].p != 1) --d_ranks[d.i].o;
+      if (d_ranks[d.i].p != 1) {
+        --d_ranks[d.i].o;
+        ++d_ranks[d.i].f;
+      }
       const AntiDiagonal ad = anti_diagonal(v);
       assert(ad.i < ad_ranks.size());
-      if (ad_ranks[ad.i].p != 1) --ad_ranks[ad.i].o;
+      if (ad_ranks[ad.i].p != 1) {
+        --ad_ranks[ad.i].o;
+        ++ad_ranks[ad.i].f;
+      }
         if (r_ranks[v.first].o == 0 or c_ranks[v.second].o == 0)
 	  falsified_ = true;
         else {
