@@ -135,6 +135,10 @@ namespace NQueens {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       assert(board(v) == State::open);
+      assert(r_ranks[v.first].o >= 2);
+      assert(c_ranks[v.second].o >= 2);
+      assert(d_ranks[diagonal(v).i].o >= 2);
+      assert(ad_ranks[anti_diagonal(v).i].o >= 2);
       if (val) set_true(v); else set_false(v);
       while(not stack.empty() and not falsified()) {
         const Var cur_v = stack.top(); stack.pop();
