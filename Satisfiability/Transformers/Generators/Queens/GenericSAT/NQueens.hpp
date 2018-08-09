@@ -392,14 +392,13 @@ namespace NQueens {
 
 
   // A concrete instance of BasicBranching:
-  // A concrete instance of BasicBranching:
   class GreedyAmo {
     using Var = ChessBoard::Var;
     using Var_uint = ChessBoard::Var_uint;
   public :
     typedef double Weight_t;
     typedef std::vector<Weight_t> Weight_vector;
-    /* Using weights from TawSolver:
+    /* Using weights from TawSolver
        https://github.com/OKullmann/oklibrary/commits/master/Satisfiability/Solvers/TawSolver
        ID a227f64a6c66a817e4b53fa4c1a1244d530a25c5
     */
