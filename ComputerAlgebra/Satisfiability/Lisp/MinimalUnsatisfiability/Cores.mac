@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Autarkies/TableauAlgorithm.mac");
+klib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Minimal/RecursiveSplitting.mac")$
 
 
 /* *************************************************
@@ -124,18 +125,32 @@ all_forced_irr_cores_bydef(Forced, Possible, S) := block(
 */
 /* RENAME: first_mus_fcsss */
 first_mus_fcs(FF, S) := block(
- [V : FF[1], F : FF[2], Core : {}],
-  for C in FF[2] do (
-      if S([V, disjoin(C,F)]) then Core : adjoin(C,Core)
-      else F : disjoin(C,F)),
-  return([V,Core]))$
+ [V : FF[1], F : FF[2]],
+  for C in F do if not S([V, disjoin(C,F)]) then F : disjoin(C,F),
+  return([V,F]))$
 /* RENAME: first_mus_csss */
-first_mus_cs(FF, S) := fcs2cs(first_mus_fcs(cs2fcs(F),S))$
+first_mus_cs(F, S) := fcs2cs(first_mus_fcs(cs2fcs(F),S))$
+/* Additionally a set of necessary clauses is given: */
+first_mus_fcsssne(FF, S, nec) := block(
+ [V : FF[1], F : FF[2]],
+  for C in setdifference(F,nec) do
+    if not S([V, disjoin(C,F)]) then F : disjoin(C,F),
+  return([V,F]))$
+first_mus_csssne(F, S, nec) := fcs2cs(first_mus_fcsssne(cs2fcs(F), S, nec))$
+/* Now FF is a formal clause-list, and that order is used; ouput still fcs: */
+first_mus_fclssne(FF, S, nec) := block(
+  [V : setify(FF[1]), F : setify(FF[2])],
+   for C in FF[2] do
+     if not elementp(C,nec) and not S([V, disjoin(C,F)]) then F : disjoin(C,F),
+  return([V,F]))$
+
 
 /* RENAME: first_mus_fcs */
 first_mus_bs_fcs(FF) := first_mus_fcs(FF, current_satsolver)$
 /* RENAME: first_mus_cs */
 first_mus_bs_cs(F) := first_mus_cs(F, current_satsolver)$
+first_mus_csne(F, nec) := first_mus_csssne(F, current_satsolver, nec)$
+first_mus_fclne(FF, nec) := first_mus_fclssne(FF, current_satsolver, nec)$
 
 /* More generally, returns some irredundant core of input FF,
    (trivial heuristics, removing the first possible clause). */
@@ -237,6 +252,7 @@ all_forced_max_noneq_scs_bydef(Forced,Possible,Removed) := block(
 /* The special case where F is unsatisfiable: */
 all_max_sat_scs_bydef(F,S) :=
  all_max_noneq_scs_bydef(F,buildq([S],lambda([G],not(S(cs_to_fcs(G))))))$
+all_max_sat_scs_bydef_cs(F) := all_max_sat_scs_bydef(F,current_satsolver)$
 
 /* Delivers a generic equivalence-checker for sub-clause-sets: */
 equivalence_checker_scl_bydef(F,S) :=
@@ -245,6 +261,7 @@ equivalence_checker_scl_bydef(F,S) :=
 /* All maximally non-equivalent sub-clause-sets of clause-set F: */
 /* Remark: For unsatisfiable F use all_max_sat_scs_bydef. */
 all_max_neq_scs_bydef(F,S) := all_max_noneq_scs_bydef(F,equivalence_checker_scl_bydef(F,S))$
+all_max_neq_scs_bydef_cs(F) := all_max_neq_scs_bydef(F,current_satsolver)$
 
 
 /* ************************************
@@ -258,14 +275,17 @@ all_max_neq_scs_bydef(F,S) := all_max_noneq_scs_bydef(F,equivalence_checker_scl_
 
 /* Given a function for computing all irredundant cores (from formal
    clause-sets), and a function for computing hypergraph transversals,
-   compute all maximally
-   not-equivalent sub-clause-sets. */
+   compute all maximally not-equivalent sub-clause-sets: */
 all_max_neq_scs_bydual(F,f_irr_cores,f_hyp_trans) :=
-  ecomp_hyp(f_hyp_trans([F,f_irr_cores(cs_to_fcs(F))]))[2]$
+  ecomp_hg(f_hyp_trans([F,f_irr_cores(cs_to_fcs(F))]))[2]$
 /* Given a function for computing all maximally not-equivalent
-   sub-clause-sets (for a clause-set), compute all irredundant cores. */
-all_irr_cores_bydual(FF,f_all_max_neq,f_hyp_trans) :=
-  f_hyp_trans(ecomp_hyp([FF[2],f_all_max_neq(FF[2])]))[2]$
+   sub-clause-sets (for a clause-set), compute all irredundant cores: */
+all_irr_cores_bydual(FF, f_all_max_neq, f_hyp_trans) :=
+  f_hyp_trans(ecomp_hg([FF[2],f_all_max_neq(FF[2])]))[2]$
+
+/* Instantiations: */
+all_min_usat_cores_bydual0_cs(F) :=
+  all_irr_cores_bydual(cs2fcs(F),all_max_sat_scs_bydef_cs,transversal_hg_rs)$
 
 
 /* *****************
@@ -370,19 +390,29 @@ umu_rs3_rec_cs(F, forced) := block(
   ))$
 
 /* As rs3, but now removing clauses which are redundant together with forced: */
-umu_rs4_cs(F0) := if current_satsolver(cs2fcs(F0)) then {} else
- block([cumu : {}], umu_rs4_rec_cs(F0,{}), cumu)$
+umu_rs4_cs(F0) := block([cumu],
+  F0 : first(lean_kernel_tableau_fs_cs(F0)),
+  if emptyp(F0) then return({}),
+  cumu : all_irrcl_bydef_cs(F0),
+  if not current_satsolver(cs2fcs(cumu)) then return(cumu),
+  umu_rs4_rec_cs(F0,cumu,cumu), cumu)$
 /* Invariants for F:
      - F <= F0
      - F is unsatisfiable.
    Invariants for cumu:
-     - cumu <= umu(F0).
+     - cumu <= umu(F0),
+     - cumu contains all necessary clauses of F0
+     - cumu only grows, never shrinks.
    Invariants for forced:
+     - nec <= forced
      - forced <= F, forced <= cumu
+     - forced contains all necessary clauses of F0
      - forced is satisfiable and irredundant.
+   Invariants for nec:
+     - nec is a set of necessary clauses for F.
 */
-umu_rs4_rec_cs(F, forced) := block(
- [mus,l,C],
+umu_rs4_rec_cs(F, forced, nec) := block(
+ [mus,l,C,G,DF,VF,lVF,VG,Vf,lVf],
   if not emptyp(forced) then
     if length(forced) = 1 then (
       C : first(forced),
@@ -392,18 +422,36 @@ umu_rs4_rec_cs(F, forced) := block(
       for C in setdifference(F,forced) do
         if not irredundant_bydef_cs(adjoin(C,forced)) then F : disjoin(C,F),
   F : first(lean_kernel_tableau_fs_cs(F)),
-  if emptyp(F) or not subsetp(forced, F) or subsetp(F,cumu) then return(false),
-  mus : first_mus_bs_cs(F), cumu : union(cumu, mus),
+  if emptyp(F) or not subsetp(forced, F) then return(false),
+  DF : setdifference(F,cumu), if emptyp(DF) then return(false),
+  VF : var_cs(F), lVF : length(VF),
+  mus : first_mus_fclne([listify(VF),
+    append(listify(setdifference(setdifference(F,DF),forced)),
+           listify(forced), listify(DF))], nec)[2],
+  cumu : union(cumu, mus),
   if cumu = F0 then return(true) elseif mus = F then return(false),
   mus : listify(setdifference(mus,forced)), l : length(mus),
+  Vf : var_cs(forced), lVf : length(Vf),
   for i : 1 thru l do (
-    C : mus[i],
-    if umu_rs4_rec_cs(disjoin(C,F), forced) then return(true),
-    if i # l then (
-      forced : adjoin(C,forced),
-      if not current_satsolver(cs2fcs(forced)) then return(false),
-      if not irredundant_bydef_cs(forced) then return(false)
+    C : mus[i], G : disjoin(C,F), VG : var_cs(G),
+    if length(VG)=lVF and current_satsolver([VG,G]) then (
+      if i = l then return(false),
+      nec : adjoin(C,nec),
+      forced : adjoin(C,forced), Vf : union(var_c(C),Vf),
+      if length(Vf)=lVf and not current_satsolver([Vf,forced]) then
+        return(false)
+      else lVf : length(Vf)
     )
+    else (
+      if umu_rs4_rec_cs(G, forced, nec) then return(true),
+      if i = l then return(false),
+      forced : adjoin(C,forced), Vf : union(var_c(C),Vf),
+      if length(Vf)=lVf and not current_satsolver([Vf,forced]) then
+        return(false)
+      else lVf : length(Vf),
+      if not irredundant_bydef_cs(forced) then return(false)
+    ),
+    if subsetp(F,cumu) then return(false)
   ))$
 
 /* Best selection: */

@@ -22,31 +22,51 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Bi
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Cores.mac")$
 
+
+/* ****************************
+   * All 2-MUs by brute force *
+   ****************************
+*/
+
+/* All 2-uniform 2-CNF MUs over variables 1,...,n, n >= 2 (possibly not using
+  all variables):
+*/
+all_ubmu(n) := all_min_usat_cores_bydef_cs(all_ubin_cs(n))$
+/* Only those with exactly n variables: */
+all_ubmue(n) := subset(all_ubmu(n), lambda([F], is(nvar_cs(F) = n)))$
+
+/* All 2-CNF MUs over variables 1,...,n (including empty and unit-clauses): */
+all_bmu(n) := all_min_usat_cores_bydef_cs(all_bin_cs(n))$
+/* Only those using all variables: */
+all_bmue(n) := subset(all_bmu(n), lambda([F], is(nvar_cs(F) = n)))$
 
 /*
-
-  All 2-uniform 2-CNF MUs over variables 1,...,n, n >= 2 (possibly not using
-  all variables) are computed by
-
-    all_min_usat_cores_bydef_cs(all_pass_n(setn(n),2));
-
-  Only those with exactly n variables:
-
-    subset(all_min_usat_cores_bydef_cs(all_pass_n(setn(n),2)), lambda([F], is(nvar_cs(F) = n)));
-
-  Now all 2-CNF MUs over variables 1,...,n (including empty and unit-clauses):
-
-    all_min_usat_cores_bydef_cs(union({{}}, all_pass_n(setn(n),1), all_pass_n(setn(n),2)));
-
-  And only those using all variables:
-
-    subset(all_min_usat_cores_bydef_cs(union({{}}, all_pass_n(setn(n),1), all_pass_n(setn(n),2))), lambda([F], is(nvar_cs(F) = n)));
-
   For all of these sets, representatives of the isomorphism-classes are
   obtained by using representatives_cs, i.e.
 
-    representatives_cs(subset(all_min_usat_cores_bydef_cs(union({{}}, all_pass_n(setn(n),1), all_pass_n(setn(n),2))), lambda([F], is(nvar_cs(F) = n))));
+    representatives_cs(all_bmue(n));
+
+*/
+
+/*
+
+  For 0 <= n <= 4:
+
+  all_ubmu:                         0     0     1     49    1654
+  mod iso:                          0     0     1     5     16    ?
+
+  all_ubmue:                        0     0     1     46    1464
+  mod iso:                          0     0     1     4     11    ?
+
+  all_bmu:                          1     2     12    149   2763
+  mod iso:                          1     2     5     12    27    2^(n+1)-(n+1) ?!
+
+  all_bmue(n):                      1     1     9     118   2232
+  mod iso:                          1     1     3     7     15    2^n-1 ?!
+
 
 */
 

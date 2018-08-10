@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.m
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/Transversals/Minimal/RecursiveSplitting.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Binary.mac");
 
 
 kill(f)$
@@ -105,6 +106,7 @@ okltest_all_forced_irr_cores(f) := block(
   assert(nf({{1}},{{-1},{2},{-2}}) = {{{1},{-1}}}),
   true)$
 
+
 /* *************************************************
    * Heuristical search for some irredundant cores *
    *************************************************
@@ -114,7 +116,7 @@ okltest_all_forced_irr_cores(f) := block(
    clause-set F returns some minimally unsatisfiable core of F:
 */
 okltest_some_mus_cs(f) := (
-  /* Cases where F has exactly one minimally unsatisfiable subset */
+  /* Cases where F has exactly one minimally unsatisfiable subset: */
   assert(f({{}}) = {{}}),
   assert(f({{1},{-1}}) = {{1},{-1}}),
   assert(f({{1},{-1},{2}}) = {{1},{-1}}),
@@ -263,12 +265,12 @@ okltest_all_max_neq_scs(f) := block([S : dll_simplest_trivial1],
    ************************************
 */
 
-okltest_all_max_neq_scs_bydual(f) := block([H : transversal_hyp_rs],
+okltest_all_max_neq_scs_bydual(f) := block([H : transversal_hg_rs],
   okltest_all_max_neq_scs(buildq([f,H],
     lambda([F,S],f(F,lambda([GG],all_irr_cores_bydef(GG,S)),H)))),
   true)$
 
-okltest_all_irr_cores_bydual(f) := block([H : transversal_hyp_rs],
+okltest_all_irr_cores_bydual(f) := block([H : transversal_hg_rs],
   okltest_all_irr_cores(buildq([f,H],
     lambda([F,S],f(F,lambda([G],all_max_neq_scs_bydef(G,S)),H)))),
   true)$
@@ -320,6 +322,9 @@ okltest_umu_rs3_cs(f) := (
 okltest_umu_rs4_cs(f) := (
   assert(f({}) = {}),
   assert(okltest_umu_rs3_cs(f) = true),
+  for n : 0 thru 4 do block([F:adjoin(setn(n),nonsing_bmu_cs(n))],
+    assert(f(F) = F)
+  ),
   true)$
 
 
