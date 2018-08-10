@@ -5,7 +5,6 @@ set -o nounset
 program="RunTests"
 version="0.1.1"
 
-
 # program1="valgrind -q --exit-on-first-error=yes ./SimTaw_debug"
 program1="./SimTaw"
 program2="valgrind -q ./SimTaw_debug"
