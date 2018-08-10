@@ -25,13 +25,13 @@ all : optimised debug
 optimised : $(main_target)
 
 $(main_target) : AutarkiesL1.cpp
-	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@ $(LFLAGS)
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 
 debug : $(debug_main)
 
 $(debug_main) : AutarkiesL1.cpp
-	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@ $(LFLAGS)
+	$(CXX) $(Standard_options) $(Warning_options) $(debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 
 test :
