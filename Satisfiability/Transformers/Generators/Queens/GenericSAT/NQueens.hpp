@@ -2,6 +2,7 @@
 
 #include <stack>
 #include <vector>
+#include <utility>
 
 #include <cassert>
 #include <cmath>
@@ -93,6 +94,7 @@ namespace NQueens {
         assert(c_ranks.size() == N+1);
         assert(d_ranks.size() == 2*N-1);
         assert(ad_ranks.size() == 2*N-1);
+        if (N == 1) set_true({1,1});
     }
 
     bool satisfied() const noexcept { return trank.p == N; }
@@ -110,7 +112,7 @@ namespace NQueens {
       while(not stack.empty() and not falsified()) {
         const Var cur_v = stack.top(); stack.pop();
         if (b[cur_v.first][cur_v.second] == State::forbidden)
-	  falsified_ = true;
+          falsified_ = true;
         else if (open(cur_v)) set_true(cur_v);
       }
     }
@@ -161,7 +163,7 @@ namespace NQueens {
       const AntiDiagonal ad = anti_diagonal(v);
       assert(d.i < d_ranks.size());
       assert(ad.i < ad_ranks.size());
-      return r_ranks[v.first].o + c_ranks[v.second].o + d_ranks[d.i].o + ad_ranks[ad.i].o;
+      return r_ranks[v.first].o + c_ranks[v.second].o + d_ranks[d.i].o + ad_ranks[ad.i].o - 4;
     }
 
   private:
@@ -369,13 +371,15 @@ namespace NQueens {
     using Var_uint = ChessBoard::Var_uint;
   public :
     typedef double Weight_t;
-    typedef std::vector<Weight_t> Weight_vector;
+    typedef std::vector<Weight_t> Weights;
     /* Using weights from TawSolver
        https://github.com/OKullmann/oklibrary/commits/master/Satisfiability/Solvers/TawSolver
        ID a227f64a6c66a817e4b53fa4c1a1244d530a25c5
     */
-    const Weight_vector weights = {0, 0, 4.85, 1, 0.354, 0.11, 0.0694};
+    const Weights weights = {0, 0, 4.85, 1, 0.354, 0.11, 0.0694};
     const Var_uint size = weights.size();
+    typedef std::pair<Weight_t, Weight_t> Bp;
+
     const AmoAlo_board& F;
 
     GreedyAmo(const AmoAlo_board& F) : F(F) {}
@@ -385,7 +389,7 @@ namespace NQueens {
       else return std::pow(1.46, -ChessBoard::Var_int((cl - size) + 1)) * weights.back();
     }
 
-    Weight_t heuristics(const Var v) const noexcept {
+    Bp heuristics(const Var v) const noexcept {
       const Weight_t amo_w = F.amo_count(v) * weight(2);
       const Var_uint alo_r_cl = F.r_rank()[v.first].o;
       const Var_uint alo_c_cl = F.c_rank()[v.second].o;
@@ -394,17 +398,23 @@ namespace NQueens {
       const Weight_t
         alo_r_w = weight(alo_r_cl),
         alo_c_w = weight(alo_c_cl);
-      return (amo_w * (alo_r_w + alo_c_w));
+      return Bp{amo_w, alo_r_w + alo_c_w};
     }
 
     Var operator()() const noexcept {
-      Weight_t max = 0;
+      Weight_t max1 = 0, max2 = 0;
       Var bv{};
       for (ChessBoard::coord_t i = 1; i <= F.N ; ++i)
         for (ChessBoard::coord_t j = 1; j <= F.N ; ++j)
           if (F.board({i,j}) == State::open) {
-            const Weight_t w = heuristics({i,j});
-            if (w > max) { max = w; bv = Var{i,j}; }
+            const Bp h = heuristics({i,j});
+            const Weight_t prod = h.first * h.second;
+            if (prod < max1) continue;
+            const Weight_t sum = h.first + h.second;
+            if (prod > max1) max1 = prod;
+            else if (sum <= max2) continue;
+            max2 = sum;
+            bv = Var{i,j};
           }
       return bv;
     }
