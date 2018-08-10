@@ -124,6 +124,8 @@ namespace NQueens {
         assert(b.size() == N+1);
         assert(r_ranks.size() == N+1);
         assert(c_ranks.size() == N+1);
+        assert(d_ranks.size() == 2*N-1);
+        assert(ad_ranks.size() == 2*N-1);
     }
 
     bool satisfied() const noexcept { return trank.p == N; }
@@ -137,8 +139,6 @@ namespace NQueens {
       assert(board(v) == State::open);
       assert(r_ranks[v.first].o >= 2);
       assert(c_ranks[v.second].o >= 2);
-      assert(d_ranks[diagonal(v).i].o >= 2);
-      assert(ad_ranks[anti_diagonal(v).i].o >= 2);
       if (val) set_true(v); else set_false(v);
       while(not stack.empty() and not falsified()) {
         const Var cur_v = stack.top(); stack.pop();
