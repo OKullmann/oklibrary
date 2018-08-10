@@ -35,7 +35,7 @@ TestSimTaw_debug : TestSimTaw.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp
 
 
 test :
-	./TestSimTaw_debug ./TestSimTaw
+	./TestSimTaw_debug ./TestSimTaw RunTests
 
 clean :
 	- rm program program_debug SimTaw SimTaw_debug TestSimTaw TestSimTaw_debug
