@@ -219,10 +219,20 @@ namespace NQueens {
       if (r_ranks[v.first].p != 1) {
         --r_ranks[v.first].o;
         ++r_ranks[v.first].f;
+        if (r_ranks[v.first].o == 0)
+          falsified_ = true;
+        if (r_ranks[v.first].o == 1)
+          for (coord_t i = 1; i <= N ; ++i)
+            if (open({v.first,i})) {stack.push({v.first,i}); break;}
       }
       if (c_ranks[v.second].p != 1) {
         --c_ranks[v.second].o;
         ++c_ranks[v.second].f;
+        if (c_ranks[v.second].o == 0)
+          falsified_ = true;
+        if (c_ranks[v.second].o == 1)
+          for (coord_t i = 1; i <= N ; ++i)
+            if (open({i,v.second})) {stack.push({i,v.second}); break;}
       }
       const Diagonal d = diagonal(v);
       assert(d.i < d_ranks.size());
@@ -236,23 +246,14 @@ namespace NQueens {
         --ad_ranks[ad.i].o;
         ++ad_ranks[ad.i].f;
       }
-        if (r_ranks[v.first].o == 0 or c_ranks[v.second].o == 0)
-	  falsified_ = true;
-        else {
-          if (r_ranks[v.first].o == 1)
-            for (coord_t i = 1; i <= N ; ++i)
-              if (open({v.first,i})) {stack.push({v.first,i}); break;}
-          if (c_ranks[v.second].o == 1)
-            for (coord_t i = 1; i <= N ; ++i)
-              if (open({i,v.second})) {stack.push({i,v.second}); break;}
-        }
     }
 
     // Called if v is set to placed or forbidden:
     void trank_update(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      assert(board(v) != State::open),
+      assert(board(v) != State::open);
+      assert(trank.o+trank.p+trank.f == n());
       --trank.o;
       if (board(v) == State::placed) ++trank.p;
       else ++trank.f;
