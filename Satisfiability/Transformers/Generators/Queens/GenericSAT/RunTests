@@ -17,8 +17,8 @@ declare -a programs=("${program1}" "${program2}")
 declare -a outcomes=(0 1 0 0 2 10 4 40)
 
 for S in "${programs[@]}"; do
-
   for (( N=1; N<=maxN; ++N )); do
+    echo "Testcase: ${S} ${N}"
     result=$(${S} ${N})
     expected=${outcomes[$N]}
     if (( result != expected )); then
