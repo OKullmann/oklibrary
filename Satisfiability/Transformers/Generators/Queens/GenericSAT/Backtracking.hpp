@@ -1,7 +1,9 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
 
 #include <utility>
-#include <math.h>
+
+#include <cmath>
+#include <cassert>
 
 #include "ChessBoard.hpp"
 
@@ -15,9 +17,10 @@ namespace Backtracking {
 
     ChessBoard::Count_t operator()(ACLS F) {
       ++nodes;
-      if (F.satisfied()) return pow(2,F.n() - F.nset());
+      if (F.satisfied()) return std::pow(2, F.n() - F.nset());
       if (F.falsified()) return 0;
       const ChessBoard::Var bv = Branching(F)();
+      assert(not ChessBoard::singular(bv));
       ACLS G(F); G.set(bv, false);
       const ChessBoard::Count_t count0 = operator()(std::move(G));
       F.set(bv, true);
