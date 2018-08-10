@@ -265,12 +265,12 @@ okltest_all_max_neq_scs(f) := block([S : dll_simplest_trivial1],
    ************************************
 */
 
-okltest_all_max_neq_scs_bydual(f) := block([H : transversal_hyp_rs],
+okltest_all_max_neq_scs_bydual(f) := block([H : transversal_hg_rs],
   okltest_all_max_neq_scs(buildq([f,H],
     lambda([F,S],f(F,lambda([GG],all_irr_cores_bydef(GG,S)),H)))),
   true)$
 
-okltest_all_irr_cores_bydual(f) := block([H : transversal_hyp_rs],
+okltest_all_irr_cores_bydual(f) := block([H : transversal_hg_rs],
   okltest_all_irr_cores(buildq([f,H],
     lambda([F,S],f(F,lambda([G],all_max_neq_scs_bydef(G,S)),H)))),
   true)$
