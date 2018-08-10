@@ -7,14 +7,14 @@ version="0.1.3"
 
 error="ERROR[${program}]: "
 
-maxN=7
+maxN=8
 
 # program1="valgrind -q --exit-on-first-error=yes ./SimTaw_debug"
 program1="./SimTaw"
 program2="valgrind -q ./SimTaw_debug"
 declare -a programs=("${program1}" "${program2}")
 
-declare -a outcomes=(0 1 0 0 2 10 4 40)
+declare -a outcomes=(0 1 0 0 2 10 4 40 92)
 
 for S in "${programs[@]}"; do
   for (( N=1; N<=maxN; ++N )); do
