@@ -3,39 +3,28 @@ set -o errexit
 set -o nounset
 
 program="RunTests"
-version="0.1.1"
+version="0.1.3"
+
+error="ERROR[${program}]: "
+
+maxN=7
 
 # program1="valgrind -q --exit-on-first-error=yes ./SimTaw_debug"
 program1="./SimTaw"
 program2="valgrind -q ./SimTaw_debug"
 declare -a programs=("${program1}" "${program2}")
 
+declare -a outcomes=(0 1 0 0 2 10 4 40)
 
 for S in "${programs[@]}"; do
 
-  N=1
-  result=$(${S} ${N})
-  if (( result != 1 )); then
-    echo -e "Wrong count with program \"${S} ${N}\"."
-    exit 2
-  fi
-  N=2
-  result=$(${S} ${N})
-  if (( result != 0 )); then
-    echo -e "Wrong count with program \"${S} ${N}\"."
-    exit 2
-  fi
-  N=3
-  result=$(${S} ${N})
-  if (( result != 0 )); then
-    echo -e "Wrong count with program \"${S} ${N}\"."
-    exit 2
-  fi
-  N=4
-  result=$(${S} ${N})
-  if (( result != 2 )); then
-    echo -e "Wrong count with program \"${S} ${N}\"."
-    exit 2
-  fi
+  for (( N=1; N<=maxN; ++N )); do
+    result=$(${S} ${N})
+    expected=${outcomes[$N]}
+    if (( result != expected )); then
+      echo -e "${error}\"${S} ${N}\" yields \"${result}\", but should yield ${expected}."
+      exit $N
+    fi
+  done
 
 done
