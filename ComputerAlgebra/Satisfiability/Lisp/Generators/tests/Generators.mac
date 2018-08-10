@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 1.2.2008 (Swansea) */
-/* Copyright 2008, 2009, 2010, 2011, 2013 Oliver Kullmann
+/* Copyright 2008, 2009, 2010, 2011, 2013, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -106,6 +106,23 @@ okltest_deficiency_full_fcs(f) := block(
  true
 )$
 
+
+/* ***********************************
+   * All clauses of a certain length *
+   ***********************************
+*/
+
+okltest_all_bin_cs(f) := (
+  assert(f(-1) = {{}}),
+  assert(f(0) = {{}}),
+  assert(f(1) = {{},{1},{-1}}),
+  assert(f(2) = {{},{1},{-1},{2},{-2},{1,2},{-1,2},{1,-2},{-1,-2}}),
+  true)$
+
+okltest_all_clauses_cs(f) := (
+  assert(okltest_all_bin_cs(buildq([f], lambda([n], f(n,2)))) = true),
+  assert(okltest_full_cs(buildq([f], lambda([n], setdifference(f(n,n), f(n,n-1))))) = true),
+  true)$
 
 
 /* ********************
