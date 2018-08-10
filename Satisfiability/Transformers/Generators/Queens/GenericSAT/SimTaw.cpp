@@ -69,8 +69,9 @@ int main(const int argc, const char* const argv[]) {
 
   NQueens::AmoAlo_board Fq(N);
 
-  const auto cFq = Backtracking_q()(Fq);
+  Backtracking_q B;
+  const auto cFq = B(Fq);
 
-  std::cout << cFq << "\n";
+  std::cout << cFq << " " << B.nodes << "\n";
 
 }

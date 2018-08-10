@@ -19,7 +19,7 @@ declare -a outcomes=(0 1 0 0 2 10 4 40 92)
 for S in "${programs[@]}"; do
   for (( N=1; N<=maxN; ++N )); do
     echo "Testcase: ${S} ${N}"
-    result=$(${S} ${N})
+    result=$(${S} ${N} | cut -d " " -f1)
     expected=${outcomes[$N]}
     if (( result != expected )); then
       echo -e "${error}\"${S} ${N}\" yields \"${result}\", but should yield ${expected}."
