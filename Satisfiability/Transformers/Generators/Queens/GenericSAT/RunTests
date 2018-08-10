@@ -14,14 +14,14 @@ program1="./SimTaw"
 program2="valgrind -q ./SimTaw_debug"
 declare -a programs=("${program1}" "${program2}")
 
-declare -a outcomes=(0 1 0 0 2 10 4 40 92)
+declare -a outcomes=(0 "1 1" "0 3" "0 5" "2 7" "10 19" "4 51" "40 155" "92 453")
 
 for S in "${programs[@]}"; do
   for (( N=1; N<=maxN; ++N )); do
     echo "Testcase: ${S} ${N}"
-    result=$(${S} ${N} | cut -d " " -f1)
-    expected=${outcomes[$N]}
-    if (( result != expected )); then
+    result="$(${S} ${N})"
+    expected="${outcomes[$N]}"
+    if [[ "$result" != "$expected" ]]; then
       echo -e "${error}\"${S} ${N}\" yields \"${result}\", but should yield ${expected}."
       exit $N
     fi
