@@ -374,25 +374,26 @@ namespace NQueens {
        https://github.com/OKullmann/oklibrary/commits/master/Satisfiability/Solvers/TawSolver
        ID a227f64a6c66a817e4b53fa4c1a1244d530a25c5
     */
-    const Weight_vector weight_vector = {0,0, 4.85, 1, 0.354, 0.11, 0.0694};
-    const Var_uint vec_size = weight_vector.size();
+    const Weight_vector weights = {0, 0, 4.85, 1, 0.354, 0.11, 0.0694};
+    const Var_uint size = weights.size();
     const AmoAlo_board& F;
 
     GreedyAmo(const AmoAlo_board& F) : F(F) {}
 
-    inline Weight_t long_cw(const Var_uint long_c) const noexcept {
-      return std::pow(1/1.46, long_c-vec_size) * weight_vector.back();
+    inline Weight_t weight(const Var_uint cl) const noexcept {
+      if (cl < size) return weights[cl];
+      else return std::pow(1/1.46, (cl - size) + 1) * weights.back();
     }
 
-    Weight_t weight(const Var v) const noexcept {
+    Weight_t heuristics(const Var v) const noexcept {
       const Weight_t amo_w = F.amo_count(v);
       const Var_uint alo_r_cl = F.r_rank()[v.first].o;
       const Var_uint alo_c_cl = F.c_rank()[v.second].o;
       assert(alo_r_cl >= 2);
       assert(alo_c_cl >= 2);
       const Weight_t
-        alo_r_w = (alo_r_cl > vec_size) ? long_cw(alo_r_cl) : weight_vector[alo_r_cl],
-        alo_c_w = (alo_c_cl > vec_size) ? 1 + long_cw(alo_c_cl) : weight_vector[alo_c_cl];
+        alo_r_w = weight(alo_r_cl),
+        alo_c_w = weight(alo_c_cl);
       return ((1 + amo_w) * ( 1 + alo_r_w + alo_c_w));
     }
 
@@ -402,7 +403,7 @@ namespace NQueens {
       for (ChessBoard::coord_t i = 1; i <= F.N ; ++i)
         for (ChessBoard::coord_t j = 1; j <= F.N ; ++j)
           if (F.board({i,j}) == State::open) {
-            const Weight_t w = weight({i,j});
+            const Weight_t w = heuristics({i,j});
             if (w > max) { max = w; bv = Var{i,j}; }
           }
       return bv;
