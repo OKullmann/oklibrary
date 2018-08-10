@@ -23,6 +23,9 @@ namespace ChessBoard {
     coord_t second;
   };
   static_assert(std::is_pod<Var>::value, "Var is not POD.");
+  inline constexpr bool singular(const Var v) noexcept {
+    return v.first == 0 or v.second == 0;
+  }
 
   // Values related to encoding the 2-dimensional variables:
   typedef std::uint64_t Var_uint;
