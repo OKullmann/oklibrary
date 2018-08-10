@@ -380,13 +380,13 @@ namespace NQueens {
 
     GreedyAmo(const AmoAlo_board& F) : F(F) {}
 
-    inline Weight_t weight(const Var_uint cl) const noexcept {
+    Weight_t weight(const Var_uint cl) const noexcept {
       if (cl < size) return weights[cl];
-      else return std::pow(1/1.46, (cl - size) + 1) * weights.back();
+      else return std::pow(1.46, -ChessBoard::Var_int((cl - size) + 1)) * weights.back();
     }
 
     Weight_t heuristics(const Var v) const noexcept {
-      const Weight_t amo_w = F.amo_count(v);
+      const Weight_t amo_w = F.amo_count(v) * weight(2);
       const Var_uint alo_r_cl = F.r_rank()[v.first].o;
       const Var_uint alo_c_cl = F.c_rank()[v.second].o;
       assert(alo_r_cl >= 2);
@@ -394,7 +394,7 @@ namespace NQueens {
       const Weight_t
         alo_r_w = weight(alo_r_cl),
         alo_c_w = weight(alo_c_cl);
-      return ((1 + amo_w) * ( 1 + alo_r_w + alo_c_w));
+      return (amo_w * (alo_r_w + alo_c_w));
     }
 
     Var operator()() const noexcept {
