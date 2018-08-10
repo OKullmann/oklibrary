@@ -11,10 +11,10 @@ namespace Backtracking {
   struct CountSat {
     using ACLS = ActiveClauseSet;
 
-    ChessBoard::Count_t num_nodes = 0;
+    ChessBoard::Count_t nodes = 0;
 
     ChessBoard::Count_t operator()(ACLS F) {
-      ++num_nodes;
+      ++nodes;
       if (F.satisfied()) return pow(2,F.n() - F.nset());
       if (F.falsified()) return 0;
       const ChessBoard::Var bv = Branching(F)();
