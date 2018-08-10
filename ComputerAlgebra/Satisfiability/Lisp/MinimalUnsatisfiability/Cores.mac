@@ -137,12 +137,20 @@ first_mus_fcsssne(FF, S, nec) := block(
     if not S([V, disjoin(C,F)]) then F : disjoin(C,F),
   return([V,F]))$
 first_mus_csssne(F, S, nec) := fcs2cs(first_mus_fcsssne(cs2fcs(F), S, nec))$
+/* Now FF is a formal clause-list, and that order is used; ouput still fcs: */
+first_mus_fclssne(FF, S, nec) := block(
+  [V : setify(FF[1]), F : setify(FF[2])],
+   for C in FF[2] do
+     if not elementp(C,nec) and not S([V, disjoin(C,F)]) then F : disjoin(C,F),
+  return([V,F]))$
+
 
 /* RENAME: first_mus_fcs */
 first_mus_bs_fcs(FF) := first_mus_fcs(FF, current_satsolver)$
 /* RENAME: first_mus_cs */
 first_mus_bs_cs(F) := first_mus_cs(F, current_satsolver)$
 first_mus_csne(F, nec) := first_mus_csssne(F, current_satsolver, nec)$
+first_mus_fclne(FF, nec) := first_mus_fclssne(FF, current_satsolver, nec)$
 
 /* More generally, returns some irredundant core of input FF,
    (trivial heuristics, removing the first possible clause). */
@@ -404,7 +412,7 @@ umu_rs4_cs(F0) := block([cumu],
      - nec is a set of necessary clauses for F.
 */
 umu_rs4_rec_cs(F, forced, nec) := block(
- [mus,l,C,G,lVF,VG,Vf,lVf],
+ [mus,l,C,G,DF,VF,lVF,VG,Vf,lVf],
   if not emptyp(forced) then
     if length(forced) = 1 then (
       C : first(forced),
@@ -414,11 +422,16 @@ umu_rs4_rec_cs(F, forced, nec) := block(
       for C in setdifference(F,forced) do
         if not irredundant_bydef_cs(adjoin(C,forced)) then F : disjoin(C,F),
   F : first(lean_kernel_tableau_fs_cs(F)),
-  if emptyp(F) or not subsetp(forced, F) or subsetp(F,cumu) then return(false),
-  mus : first_mus_csne(F, nec), cumu : union(cumu, mus),
+  if emptyp(F) or not subsetp(forced, F) then return(false),
+  DF : setdifference(F,cumu), if emptyp(DF) then return(false),
+  VF : var_cs(F), lVF : length(VF),
+  mus : first_mus_fclne([listify(VF),
+    append(listify(setdifference(setdifference(F,DF),forced)),
+           listify(forced), listify(DF))], nec)[2],
+  cumu : union(cumu, mus),
   if cumu = F0 then return(true) elseif mus = F then return(false),
   mus : listify(setdifference(mus,forced)), l : length(mus),
-  lVF : length(var_cs(F)), Vf : var_cs(forced), lVf : length(Vf),
+  Vf : var_cs(forced), lVf : length(Vf),
   for i : 1 thru l do (
     C : mus[i], G : disjoin(C,F), VG : var_cs(G),
     if length(VG)=lVF and current_satsolver([VG,G]) then (
