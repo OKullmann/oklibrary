@@ -1,38 +1,5 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
 
-/*
-
-For AmoAlo_board :
-
-1. Add vectors for r,c,d,a-d ranks //done
-
-2. Write  a helper function for getting a daig, anti-diag starting vertex and length of it. //done
-
-3. Initialization with length of vectors, just do it. //done
-
-
-  For functions :
-
-  // done
-    1. If a field is set placed then set all other fields(affected by amo) to forbidden.
-    2. Update the rank counts (after setting a field).
-
-  //after this write the propagation.
-    1. Handle alo propagation.
-       a. Add a stack. //done
-       b. Update set function with stack addition and loop.   //done
-       c. Add new fields into the stack in field_update function.  //done
-
-  Add asserts everywhere.  //done
-  Add const where appropriate. //done
-  Have to work on making data private and creating public function to access them.
-
-For GreedyAmo:
-  Only heuristics is remaining. //done
-
-
-*/
-
 #include <stack>
 #include <vector>
 
