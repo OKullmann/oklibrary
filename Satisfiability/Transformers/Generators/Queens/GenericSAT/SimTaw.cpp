@@ -52,10 +52,6 @@ ChessBoard::coord_t interprete(const int argc, const char* const argv[]) noexcep
     std::cerr << error << "The argument is 0.\n";
     std::exit(code(Error::too_small));
   }
-  if (N == 1) {
-    std::cout << "1\n";
-    std::exit(0);
-  }
   return N;
 }
 
