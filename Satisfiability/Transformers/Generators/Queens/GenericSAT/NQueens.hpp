@@ -120,7 +120,9 @@ namespace NQueens {
     typedef std::vector<Rank> Ranks;
     typedef std::vector<std::vector<State>> Board;
     const Ranks& r_rank() const noexcept { return r_ranks; }
+    const Rank& r_rank(const coord_t i) const noexcept { return r_ranks[i]; }
     const Ranks& c_rank() const noexcept { return c_ranks; }
+    const Rank& c_rank(const coord_t j) const noexcept { return c_ranks[j]; }
     const Board& board() const noexcept { return b; }
     State board(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
@@ -404,7 +406,8 @@ namespace NQueens {
     Var operator()() const noexcept {
       Weight_t max1 = 0, max2 = 0;
       Var bv{};
-      for (ChessBoard::coord_t i = 1; i <= F.N ; ++i)
+      for (ChessBoard::coord_t i = 1; i <= F.N ; ++i) {
+        if (F.r_rank(i).p != 0) continue;
         for (ChessBoard::coord_t j = 1; j <= F.N ; ++j)
           if (F.board({i,j}) == State::open) {
             const Bp h = heuristics({i,j});
@@ -414,8 +417,9 @@ namespace NQueens {
             if (prod > max1) max1 = prod;
             else if (sum <= max2) continue;
             max2 = sum;
-            bv = Var{i,j};
+            bv = {i,j};
           }
+      }
       return bv;
     }
 
