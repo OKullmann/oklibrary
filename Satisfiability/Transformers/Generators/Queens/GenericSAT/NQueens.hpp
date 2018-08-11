@@ -388,15 +388,8 @@ namespace NQueens {
     }
 
     Bp heuristics(const Var v) const noexcept {
-      const Weight_t amo_w = F.amo_count(v) * weight(2);
-      const Var_uint alo_r_cl = F.r_rank()[v.first].o;
-      const Var_uint alo_c_cl = F.c_rank()[v.second].o;
-      assert(alo_r_cl >= 2);
-      assert(alo_c_cl >= 2);
-      const Weight_t
-        alo_r_w = weight(alo_r_cl),
-        alo_c_w = weight(alo_c_cl);
-      return Bp{amo_w, alo_r_w + alo_c_w};
+      return {F.amo_count(v) * weight(2),
+              weight(F.r_rank(v.first).o) + weight(F.c_rank(v.second).o)};
     }
 
     Var operator()() const noexcept {
