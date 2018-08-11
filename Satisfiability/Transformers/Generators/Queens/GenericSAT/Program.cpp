@@ -1,6 +1,7 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
 
 #include <iostream>
+#include <string>
 
 #include "Backtracking.hpp"
 #include "NQueens.hpp"
@@ -9,7 +10,7 @@
 namespace {
 
   ChessBoard::coord_t interprete(const int argc, const char* const argv[]) noexcept {
-    return 0;
+    return (argc > 0) ? std::stoul(argv[1]) : 0;
   }
 }
 
