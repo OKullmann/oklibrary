@@ -127,6 +127,7 @@ namespace NQueens {
     const Rank& d_rank(const coord_t i) const noexcept { return d_ranks[i]; }
     const Ranks& ad_rank() const noexcept { return ad_ranks; }
     const Rank& ad_rank(const coord_t i) const noexcept { return ad_ranks[i]; }
+    const TotalRank& t_rank() const noexcept { return trank; }
     const Board& board() const noexcept { return b; }
     State board(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
