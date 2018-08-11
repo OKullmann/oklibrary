@@ -397,19 +397,21 @@ namespace NQueens {
     Var operator()() const noexcept {
       Weight_t max1 = 0, max2 = 0;
       Var bv{};
-      for (ChessBoard::coord_t i = 1; i <= F.N ; ++i) {
+      for (ChessBoard::coord_t i = 1; i <= F.N; ++i) {
         if (F.r_rank(i).p != 0) continue;
-        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j)
-          if (F.board({i,j}) == State::open) {
-            const Bp h = heuristics({i,j});
-            const Weight_t prod = h.first * h.second;
-            if (prod < max1) continue;
-            const Weight_t sum = h.first + h.second;
-            if (prod > max1) max1 = prod;
-            else if (sum <= max2) continue;
-            max2 = sum;
-            bv = {i,j};
-          }
+        Var v; v.first = i;
+        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j) {
+          v.second = j;
+          if (not F.open(v)) continue;
+          const Bp h = heuristics(v);
+          const Weight_t prod = h.first * h.second;
+          if (prod < max1) continue;
+          const Weight_t sum = h.first + h.second;
+          if (prod > max1) max1 = prod;
+          else if (sum <= max2) continue;
+          max2 = sum;
+          bv = v;
+        }
       }
       return bv;
     }
