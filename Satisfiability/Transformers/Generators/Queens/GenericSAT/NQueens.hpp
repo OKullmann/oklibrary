@@ -3,6 +3,7 @@
 #include <stack>
 #include <vector>
 #include <utility>
+#include <array>
 
 #include <cassert>
 #include <cmath>
@@ -377,18 +378,15 @@ namespace NQueens {
     using Var_uint = ChessBoard::Var_uint;
   public :
     typedef double Weight_t;
-    typedef std::vector<Weight_t> Weights;
-    static const Weights weights;
-    static const Var_uint size;
     typedef std::pair<Weight_t, Weight_t> Bp;
 
     const AmoAlo_board& F;
 
     TawHeuristics(const AmoAlo_board& F) noexcept : F(F) {}
 
-    static Weight_t weight(const Var_uint cl) noexcept {
-      if (cl < size) return weights[cl];
-      else return std::pow(1.46, -ChessBoard::Var_int((cl - size) + 1)) * weights.back();
+    constexpr static Weight_t weight(const Var_uint cl) noexcept {
+      return (cl < size) ? weights[cl] :
+        std::pow(basis, -ChessBoard::Var_int((cl-size)+1)) * weights.back();
     }
 
     Bp heuristics(const Var v) const noexcept {
@@ -416,8 +414,23 @@ namespace NQueens {
       return bv;
     }
 
+    private :
+
+    constexpr static Var_uint size{7};
+    typedef std::array<Weight_t,size> Weights;
+    constexpr static Weights weights{0, 0, 4.85, 1, 0.354, 0.11, 0.0694};
+    constexpr static Weight_t basis = 1.46;
+
   };
-  const TawHeuristics::Weights TawHeuristics::weights{0, 0, 4.85, 1, 0.354, 0.11, 0.0694};
-  const TawHeuristics::Var_uint TawHeuristics::size{weights.size()};
+  constexpr TawHeuristics::Weights TawHeuristics::weights;
+  static_assert(TawHeuristics::weight(0) == 0, "TawHeuristics: weight(0)");
+  static_assert(TawHeuristics::weight(1) == 0, "TawHeuristics: weight(1)");
+  static_assert(TawHeuristics::weight(2) == 4.85, "TawHeuristics: weight(2)");
+  static_assert(TawHeuristics::weight(3) == 1, "TawHeuristics: weight(3)");
+  static_assert(TawHeuristics::weight(4) == 0.354, "TawHeuristics: weight(4)");
+  static_assert(TawHeuristics::weight(5) == 0.11, "TawHeuristics: weight(5)");
+  static_assert(TawHeuristics::weight(6) == 0.0694, "TawHeuristics: weight(6)");
+  static_assert(TawHeuristics::weight(7) == 0.0694 * std::pow(1.46,-1), "TawHeuristics: weight(7)");
+  static_assert(TawHeuristics::weight(8) == 0.0694 * std::pow(1.46,-2), "TawHeuristics: weight(7)");
 
 }
