@@ -374,19 +374,15 @@ namespace NQueens {
   public :
     typedef double Weight_t;
     typedef std::vector<Weight_t> Weights;
-    /* Using weights from TawSolver
-       https://github.com/OKullmann/oklibrary/commits/master/Satisfiability/Solvers/TawSolver
-       ID a227f64a6c66a817e4b53fa4c1a1244d530a25c5
-    */
-    const Weights weights = {0, 0, 4.85, 1, 0.354, 0.11, 0.0694};
-    const Var_uint size = weights.size();
+    static const Weights weights;
+    static const Var_uint size;
     typedef std::pair<Weight_t, Weight_t> Bp;
 
     const AmoAlo_board& F;
 
     GreedyAmo(const AmoAlo_board& F) : F(F) {}
 
-    Weight_t weight(const Var_uint cl) const noexcept {
+    static Weight_t weight(const Var_uint cl) noexcept {
       if (cl < size) return weights[cl];
       else return std::pow(1.46, -ChessBoard::Var_int((cl - size) + 1)) * weights.back();
     }
@@ -424,5 +420,11 @@ namespace NQueens {
     }
 
   };
+  /* Using weights from TawSolver
+     https://github.com/OKullmann/oklibrary/commits/master/Satisfiability/Solvers/TawSolver
+     ID a227f64a6c66a817e4b53fa4c1a1244d530a25c5
+  */
+  const GreedyAmo::Weights GreedyAmo::weights{0, 0, 4.85, 1, 0.354, 0.11, 0.0694};
+  const GreedyAmo::Var_uint GreedyAmo::size{weights.size()};
 
 }
