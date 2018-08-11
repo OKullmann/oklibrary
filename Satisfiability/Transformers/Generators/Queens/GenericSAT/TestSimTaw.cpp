@@ -25,15 +25,15 @@ int main() {
       assert(FC.board({1,1}) == State::placed);
     }
     {
-      TawHeuristics ga(F);
-      assert(ga.weight(0) == 0.0);
-      assert(ga.weight(1) == 0.0);
-      assert(ga.weight(2) == 4.85);
-      assert(ga.weight(3) == 1.0);
-      assert(ga.weight(4) == 0.354);
-      assert(ga.weight(5) == 0.11);
-      assert(ga.weight(6) == 0.0694);
-      assert(ga.weight(7) == 0.0694 * std::pow(1.46,-1));
+      TawHeuristics h(F);
+      assert(h.weight(0) == 0.0);
+      assert(h.weight(1) == 0.0);
+      assert(h.weight(2) == 4.85);
+      assert(h.weight(3) == 1.0);
+      assert(h.weight(4) == 0.354);
+      assert(h.weight(5) == 0.11);
+      assert(h.weight(6) == 0.0694);
+      assert(h.weight(7) == 0.0694 * std::pow(1.46,-1));
     }
   }
   {
@@ -41,7 +41,7 @@ int main() {
     assert(F.N == 2);
     const Var v11{1,1};
     assert(F.odegree(v11) == 3);
-    TawHeuristics ga(F);
-    assert(ga.heuristics(v11) == TawHeuristics::Bp(3*4.85, 2*4.85));
+    TawHeuristics h(F);
+    assert(h.heuristics(v11) == TawHeuristics::Bp(3*4.85, 2*4.85));
   }
 }
