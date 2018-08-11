@@ -27,7 +27,7 @@ namespace NQueens {
     ChessBoard::Var_uint nset() const noexcept { return 0; }
 
     // Occupy or forbid field v:
-    void set(const ChessBoard::Var v, const bool val) {}
+    void set(const ChessBoard::Var v, const bool val) noexcept {}
 
   };
 
@@ -360,7 +360,7 @@ namespace NQueens {
   public :
     const BasicACLS& F;
 
-    BasicBranching(const BasicACLS& F) : F(F) {}
+    BasicBranching(const BasicACLS& F) noexcept : F(F) {}
 
     Var operator()() const noexcept { return {0,0}; }
 
@@ -380,7 +380,7 @@ namespace NQueens {
 
     const AmoAlo_board& F;
 
-    GreedyAmo(const AmoAlo_board& F) : F(F) {}
+    GreedyAmo(const AmoAlo_board& F) noexcept : F(F) {}
 
     static Weight_t weight(const Var_uint cl) noexcept {
       if (cl < size) return weights[cl];

@@ -9,8 +9,8 @@
 
 namespace {
 
-const std::string version = "0.3";
-const std::string date = "10.8.2018";
+const std::string version = "0.3.1";
+const std::string date = "11.8.2018";
 const std::string program = "SimTaw"
 #ifndef NDEBUG
   "_debug"
