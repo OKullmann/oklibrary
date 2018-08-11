@@ -28,7 +28,7 @@ namespace NQueens {
     ChessBoard::Var_uint nset() const noexcept { return 0; }
 
     // Occupy or forbid field v:
-    void set(const ChessBoard::Var v, const bool val) noexcept {}
+    void set(const ChessBoard::Var, const bool) noexcept {}
 
   };
 
@@ -324,13 +324,13 @@ namespace NQueens {
     }
     Ranks r_init() const {
       Ranks r_ranks; r_ranks.reserve(N+1);
-      r_ranks.push_back({});
+      r_ranks.push_back({0,0,0});
       for (Var_uint i = 1; i <= N ; ++i) r_ranks.push_back({N,0,0});
       return r_ranks;
     }
     Ranks c_init() const {
       Ranks c_ranks; c_ranks.reserve(N+1);
-      c_ranks.push_back({});
+      c_ranks.push_back({0,0,0});
       for (Var_uint i = 1; i <= N ; ++i) c_ranks.push_back({N,0,0});
       return c_ranks;
     }
@@ -396,7 +396,7 @@ namespace NQueens {
 
     Var operator()() const noexcept {
       Weight_t max1 = 0, max2 = 0;
-      Var bv{};
+      Var bv{0,0};
       for (ChessBoard::coord_t i = 1; i <= F.N; ++i) {
         if (F.r_rank(i).p != 0) continue;
         Var v; v.first = i;
