@@ -12,15 +12,15 @@ SHELL = /bin/bash
 
 CXX = g++
 
-Standard_options = --std=c++11 -pedantic
-Warning_options = -Wall
+Standard_options = --std=c++14 -pedantic
+Warning_options = -Wall -Wextra
 Optimisation_options = -Ofast -DNDEBUG
 debug_options = -g
 
 main_target = autL1
 debug_main = autL1_debug
 
-all : optimised debug
+all : optimised debug test
 
 optimised : $(main_target)
 
