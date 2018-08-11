@@ -7,7 +7,7 @@ SHELL = /bin/bash
 
 CXX = g++
 
-Standard_options = --std=c++11 -pedantic
+Standard_options = --std=c++14 -pedantic
 Warning_options = -Wall
 Optimisation_options = -Ofast -DNDEBUG
 Optimisation_options_full = -Ofast -DNDEBUG
