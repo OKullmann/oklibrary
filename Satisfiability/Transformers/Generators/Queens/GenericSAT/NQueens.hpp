@@ -367,8 +367,12 @@ namespace NQueens {
   };
 
 
-  // A concrete instance of BasicBranching:
-  class GreedyAmo {
+  /* Exactly the heuristics from tawSolver
+     https://github.com/OKullmann/oklibrary/commits/master/Satisfiability/Solvers/TawSolver
+     ID a227f64a6c66a817e4b53fa4c1a1244d530a25c5
+  */
+
+  class TawHeuristics {
     using Var = ChessBoard::Var;
     using Var_uint = ChessBoard::Var_uint;
   public :
@@ -380,7 +384,7 @@ namespace NQueens {
 
     const AmoAlo_board& F;
 
-    GreedyAmo(const AmoAlo_board& F) noexcept : F(F) {}
+    TawHeuristics(const AmoAlo_board& F) noexcept : F(F) {}
 
     static Weight_t weight(const Var_uint cl) noexcept {
       if (cl < size) return weights[cl];
@@ -413,11 +417,7 @@ namespace NQueens {
     }
 
   };
-  /* Using weights from TawSolver
-     https://github.com/OKullmann/oklibrary/commits/master/Satisfiability/Solvers/TawSolver
-     ID a227f64a6c66a817e4b53fa4c1a1244d530a25c5
-  */
-  const GreedyAmo::Weights GreedyAmo::weights{0, 0, 4.85, 1, 0.354, 0.11, 0.0694};
-  const GreedyAmo::Var_uint GreedyAmo::size{weights.size()};
+  const TawHeuristics::Weights TawHeuristics::weights{0, 0, 4.85, 1, 0.354, 0.11, 0.0694};
+  const TawHeuristics::Var_uint TawHeuristics::size{weights.size()};
 
 }

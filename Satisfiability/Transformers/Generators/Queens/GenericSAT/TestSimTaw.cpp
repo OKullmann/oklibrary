@@ -25,7 +25,7 @@ int main() {
       assert(FC.board({1,1}) == State::placed);
     }
     {
-      GreedyAmo ga(F);
+      TawHeuristics ga(F);
       assert(ga.weight(0) == 0.0);
       assert(ga.weight(1) == 0.0);
       assert(ga.weight(2) == 4.85);
@@ -41,7 +41,7 @@ int main() {
     assert(F.N == 2);
     const Var v11{1,1};
     assert(F.odegree(v11) == 3);
-    GreedyAmo ga(F);
-    assert(ga.heuristics(v11) == GreedyAmo::Bp(3*4.85, 2*4.85));
+    TawHeuristics ga(F);
+    assert(ga.heuristics(v11) == TawHeuristics::Bp(3*4.85, 2*4.85));
   }
 }
