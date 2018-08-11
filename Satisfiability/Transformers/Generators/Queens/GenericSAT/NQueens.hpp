@@ -420,7 +420,7 @@ namespace NQueens {
 
     constexpr static Var_uint size{7};
     typedef std::array<Weight_t,size> Weights;
-    constexpr static Weights weights{0, 0, 4.85, 1, 0.354, 0.11, 0.0694};
+    constexpr static Weights weights{{0, 0, 4.85, 1, 0.354, 0.11, 0.0694}};
     constexpr static Weight_t basis = 1.46;
 
   };
