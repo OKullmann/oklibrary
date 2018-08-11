@@ -157,7 +157,7 @@ namespace NQueens {
       else return {{c_sum-N,N}, 2*N-(c_sum-1), c_sum-2};
     }
 
-    Var_uint amo_count(const Var v) const noexcept {
+    Var_uint odegree(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       assert(board(v) == State::open);
@@ -388,7 +388,7 @@ namespace NQueens {
     }
 
     Bp heuristics(const Var v) const noexcept {
-      return {F.amo_count(v) * weight(2),
+      return {F.odegree(v) * weight(2),
               weight(F.r_rank(v.first).o) + weight(F.c_rank(v.second).o)};
     }
 

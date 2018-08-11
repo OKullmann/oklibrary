@@ -40,7 +40,7 @@ int main() {
     NQueens::AmoAlo_board F(2);
     assert(F.N == 2);
     const Var v11{1,1};
-    assert(F.amo_count(v11) == 3);
+    assert(F.odegree(v11) == 3);
     GreedyAmo ga(F);
     assert(ga.heuristics(v11) == GreedyAmo::Bp(3*4.85, 2*4.85));
   }
