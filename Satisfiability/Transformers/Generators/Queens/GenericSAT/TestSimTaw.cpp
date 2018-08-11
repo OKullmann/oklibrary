@@ -43,5 +43,30 @@ int main() {
     assert(F.amo_count(v11) == 3);
     GreedyAmo ga(F);
     assert(ga.heuristics(v11) == GreedyAmo::Bp(3*4.85, 2*4.85));
+    F.set(v11,true);
+    assert(F.t_rank().o == 0);
+    assert(F.t_rank().p == 1);
+    assert(F.t_rank().f == 3);
+    assert(F.falsified());
+    assert(F.r_rank()[1].p == 1);
+    assert(F.c_rank()[1].p == 1);
+    assert(F.d_rank()[F.diagonal(v11).i].p == 1);
+    assert(F.ad_rank()[F.anti_diagonal(v11).i].p == 1);
+  }
+  {
+    NQueens::AmoAlo_board F(2);
+    const Var v11{1,1};
+    F.set(v11,false);
+    assert(F.falsified());
+    assert(F.t_rank().o == 0);
+    assert(F.t_rank().p == 1);
+    assert(F.t_rank().f == 3);
+    const AmoAlo_board::Board b = F.board();
+    assert(b[1][1] == State::forbidden);
+    assert(b[1][2] == State::forbidden);
+    assert(b[2][1] == State::placed);
+    assert(b[2][2] == State::forbidden);
+    assert(F.d_rank()[F.diagonal(v11).i].p == 0);
+    assert(F.ad_rank()[F.anti_diagonal(v11).i].p == 0);
   }
 }
