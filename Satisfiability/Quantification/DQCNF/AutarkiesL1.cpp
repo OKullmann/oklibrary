@@ -641,13 +641,13 @@ public :
   constexpr bool constant() const noexcept { return not x and t!=BFt::nc; }
   constexpr bool variable() const noexcept { return bool(x); }
 
-  constexpr bool operator ==(const Litc y) noexcept {
+  constexpr bool operator ==(const Litc y) const noexcept {
     return x==y.x and t==y.t;
   }
-  constexpr bool operator !=(const Litc y) noexcept {
+  constexpr bool operator !=(const Litc y) const noexcept {
     return not (*this == y);
   }
-  friend constexpr bool operator<(const Litc x, const Litc y) {
+  friend constexpr bool operator<(const Litc x, const Litc y) noexcept {
     return x.x < y.x or (BFt(x) != BFt::nc and BFt(y) == BFt::nc) or
       (BFt(x) != BFt::nc and BFt(y) != BFt::nc and BFt(x) < BFt(y)) or
       (not bool(Lit(x)) and BFt(x) == BFt::nc and BFt(y) != BFt::nc);
