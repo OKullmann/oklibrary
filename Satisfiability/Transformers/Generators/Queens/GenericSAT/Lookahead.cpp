@@ -69,6 +69,6 @@ int main(const int argc, const char* const argv[]) {
   Backtracking_q B;
   const auto cFq = B(Fq);
 
-  std::cout << cFq << " " << B.nodes << "\n";
+  std::cout << cFq << " " << B.stats.nodes << "\n";
 
 }
