@@ -457,25 +457,28 @@ namespace NQueens {
     GreedyAmoAloBranching(const NQueens::AmoAlo_board& F) : F(F) {}
 
     Bp heuristics(const Var v) const noexcept {
-      return Bp{F.amo_count(v),F.r_rank()[v.first].o+F.c_rank()[v.second].o};
+      return Bp{F.odegree(v),F.r_rank()[v.first].o+F.c_rank()[v.second].o};
     }
 
     Var operator()() const noexcept {
       Weight_t max1 = 0, max2 = 0;
-      Var bv{};
-      for (ChessBoard::coord_t i = 1; i <= F.N ; ++i) {
+      Var bv{0,0};
+      for (ChessBoard::coord_t i = 1; i <= F.N; ++i) {
         if (F.r_rank(i).p != 0) continue;
-        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j)
-          if (F.board({i,j}) == State::open) {
-            const Bp h = heuristics({i,j});
-            const Weight_t prod = h.first * h.second;
-            if (prod < max1) continue;
-            const Weight_t sum = h.first + h.second;
-            if (prod > max1) max1 = prod;
-            else if (sum <= max2) continue;
-            max2 = sum;
-            bv = {i,j};
-          }
+        const auto& R = F.board()[i];
+        Var v; v.first = i;
+        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j) {
+          if (R[j] != State::open) continue;
+          v.second = j;
+          const Bp h = heuristics(v);
+          const Weight_t prod = h.first * h.second;
+          if (prod < max1) continue;
+          const Weight_t sum = h.first + h.second;
+          if (prod > max1) max1 = prod;
+          else if (sum <= max2) continue;
+          max2 = sum;
+          bv = v;
+        }
       }
       return bv;
     }
@@ -507,20 +510,23 @@ namespace NQueens {
 
     Var operator()() const noexcept {
       Weight_t max1 = 0, max2 = 0;
-      Var bv{};
-      for (ChessBoard::coord_t i = 1; i <= F.N ; ++i) {
+      Var bv{0,0};
+      for (ChessBoard::coord_t i = 1; i <= F.N; ++i) {
         if (F.r_rank(i).p != 0) continue;
-        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j)
-          if (F.board({i,j}) == State::open) {
-            const Bp h = heuristics({i,j});
-            const Weight_t prod = h.first * h.second;
-            if (prod < max1) continue;
-            const Weight_t sum = h.first + h.second;
-            if (prod > max1) max1 = prod;
-            else if (sum <= max2) continue;
-            max2 = sum;
-            bv = {i,j};
-          }
+        const auto& R = F.board()[i];
+        Var v; v.first = i;
+        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j) {
+          if (R[j] != State::open) continue;
+          v.second = j;
+          const Bp h = heuristics(v);
+          const Weight_t prod = h.first * h.second;
+          if (prod < max1) continue;
+          const Weight_t sum = h.first + h.second;
+          if (prod > max1) max1 = prod;
+          else if (sum <= max2) continue;
+          max2 = sum;
+          bv = v;
+        }
       }
       return bv;
     }
