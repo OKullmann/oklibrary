@@ -400,10 +400,11 @@ namespace NQueens {
       Var bv{0,0};
       for (ChessBoard::coord_t i = 1; i <= F.N; ++i) {
         if (F.r_rank(i).p != 0) continue;
+        const auto& R = F.board()[i];
         Var v; v.first = i;
         for (ChessBoard::coord_t j = 1; j <= F.N ; ++j) {
+          if (R[j] != State::open) continue;
           v.second = j;
-          if (not F.open(v)) continue;
           const Bp h = heuristics(v);
           const Weight_t prod = h.first * h.second;
           if (prod < max1) continue;
