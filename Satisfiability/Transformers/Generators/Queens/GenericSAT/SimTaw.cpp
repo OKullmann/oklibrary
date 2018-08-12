@@ -9,8 +9,8 @@
 
 namespace {
 
-const std::string version = "0.3.1";
-const std::string date = "11.8.2018";
+const std::string version = "0.3.2";
+const std::string date = "12.8.2018";
 const std::string program = "SimTaw"
 #ifndef NDEBUG
   "_debug"
@@ -68,6 +68,6 @@ int main(const int argc, const char* const argv[]) {
   Backtracking_q B;
   const auto cFq = B(Fq);
 
-  std::cout << cFq << " " << B.nodes << "\n";
+  std::cout << cFq << " " << B.stats.nodes << "\n";
 
 }
