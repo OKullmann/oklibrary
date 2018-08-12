@@ -374,8 +374,8 @@ namespace NQueens {
   };
 
 
-  // A concrete instance of BasicBranching:
-  class GreedyAmo {
+  // A concrete instance of BasicBranching with TawSolver heuristics:
+  class TawBranching {
     using Var = ChessBoard::Var;
     using Var_uint = ChessBoard::Var_uint;
   public :
@@ -391,7 +391,7 @@ namespace NQueens {
 
     const AmoAlo_board& F;
 
-    GreedyAmo(const AmoAlo_board& F) : F(F) {}
+    TawBranching(const AmoAlo_board& F) : F(F) {}
 
     Weight_t weight(const Var_uint cl) const noexcept {
       if (cl < size) return weights[cl];

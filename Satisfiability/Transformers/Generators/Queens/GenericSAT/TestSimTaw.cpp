@@ -25,7 +25,7 @@ int main() {
       assert(FC.board({1,1}) == State::placed);
     }
     {
-      GreedyAmo ga(F);
+      TawBranching ga(F);
       assert(ga.weight(0) == 0.0);
       assert(ga.weight(1) == 0.0);
       assert(ga.weight(2) == 4.85);
@@ -41,8 +41,8 @@ int main() {
     assert(F.N == 2);
     const Var v11{1,1};
     assert(F.amo_count(v11) == 3);
-    GreedyAmo ga(F);
-    assert(ga.heuristics(v11) == GreedyAmo::Bp(3*4.85, 2*4.85));
+    TawBranching ga(F);
+    assert(ga.heuristics(v11) == TawBranching::Bp(3*4.85, 2*4.85));
     F.set(v11,true);
     assert(F.t_rank().o == 0);
     assert(F.t_rank().p == 1);
