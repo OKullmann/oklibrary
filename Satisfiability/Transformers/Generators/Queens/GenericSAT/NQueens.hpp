@@ -99,7 +99,9 @@ namespace NQueens {
 
     bool satisfied() const noexcept { return trank.p == N; }
     bool falsified() const noexcept { return falsified_; }
+    // The total number of variables:
     Var_uint n() const noexcept { return N*N; }
+    // Number of variables set to true or false:
     Var_uint nset() const noexcept { return trank.p+trank.f; }
 
     void set(const Var v, const bool val) noexcept {
