@@ -238,10 +238,14 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "2.8.0";
-const std::string date = "29.5.2018";
+const std::string version = "2.8.1";
+const std::string date = "12.8.2018";
 
-const std::string program = "tawSolver";
+const std::string program = "tawSolver"
+#ifndef NDEBUG
+  "_debug"
+#endif
+;
 
 enum Error_codes {
   file_reading_error=1,
@@ -1662,12 +1666,12 @@ void set_output(const int argc, const char* const argv[]) {
   }
 }
 
-void abortion(const int sig) {
+void abortion(const int) {
   std::signal(SIGINT, abortion);
   output(unknown);
   std::exit(unknown);
 }
-void show_statistics(const int sig) {
+void show_statistics(const int) {
   signal(SIGUSR1, show_statistics);
   output(unknown);
 }

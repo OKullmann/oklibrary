@@ -7,10 +7,9 @@ SHELL = /bin/bash
 
 CXX = g++
 
-Standard_options = --std=c++11 -pedantic
-Warning_options = -Wall
-Optimisation_options = -Ofast -DNDEBUG
-Optimisation_options_full = -Ofast -DNDEBUG
+Standard_options = --std=c++14 -pedantic
+Warning_options = -Wall -Wextra
+Optimisation_options = -Ofast -DNDEBUG -faggressive-loop-optimizations -fstrict-aliasing -fwhole-program -funroll-loops -fno-math-errno -funsafe-math-optimizations -freciprocal-math -ffinite-math-only -fno-signed-zeros -fno-trapping-math -funroll-all-loops -funswitch-loops -fmodulo-sched -fmodulo-sched-allow-regmoves -ftree-loop-ivcanon -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity -ftree-loop-distribution -static
 Debug_options = -g
 
 all : program program_debug SimTaw SimTaw_debug GreedyAmoAlo GreedyAmoAlo_debug Lookahead Lookahead_debug TestSimTaw test

@@ -1,6 +1,7 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
 
 #include <utility>
+#include <ostream>
 
 #include <cmath>
 #include <cassert>
@@ -9,14 +10,24 @@
 
 namespace Backtracking {
 
+  struct Statistics {
+    ChessBoard::Count_t nodes;
+    ChessBoard::Var_uint maxdepth;
+  };
+  static_assert(std::is_pod<Statistics>::value, "Statistics is not POD.");
+  std::ostream& operator <<(std::ostream& out, const Statistics& stats) {
+    return out << "c nodes      " << stats.nodes << "\n"
+               << "c maxdepth   " << stats.maxdepth << "\n";
+  }
+
   template <class ActiveClauseSet, class Branching>
   struct CountSat {
     using ACLS = ActiveClauseSet;
 
-    ChessBoard::Count_t nodes = 0;
+    Statistics stats{};
 
     ChessBoard::Count_t operator()(ACLS F) {
-      ++nodes;
+      ++stats.nodes;
       if (F.satisfied()) return std::pow(2, F.n() - F.nset());
       if (F.falsified()) return 0;
       const ChessBoard::Var bv = Branching(F)();

@@ -1,6 +1,9 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
 
+/* A stub for compilation-testing. */
+
 #include <iostream>
+#include <string>
 
 #include "Backtracking.hpp"
 #include "NQueens.hpp"
@@ -9,7 +12,7 @@
 namespace {
 
   ChessBoard::coord_t interprete(const int argc, const char* const argv[]) noexcept {
-    return 0;
+    return (argc > 1) ? std::stoul(argv[1]) : 1;
   }
 }
 
@@ -20,8 +23,8 @@ int main(const int argc, const char* const argv[]) {
   NQueens::BasicACLS Fq(N);
   NQueensPartial::BasicACLS Fqp(N);
 
-  const auto cFq = Backtracking_q()(Fq);
+  Backtracking_q B;
+  const auto cFq = B(Fq);
 
-  std::cout << cFq << "\n";
-
+  std::cout << cFq << "\n" << B.stats;
 }

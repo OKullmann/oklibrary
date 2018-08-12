@@ -3,6 +3,7 @@
 #include <stack>
 #include <vector>
 #include <utility>
+#include <array>
 
 #include <cassert>
 #include <cmath>
@@ -18,7 +19,8 @@ namespace NQueens {
 
     explicit BasicACLS(const ChessBoard::coord_t N) : N(N) {}
 
-    bool satisfied() const noexcept { return false; }
+    // We declare the problem to be satisfied in order to run it without backtracking:
+    bool satisfied() const noexcept { return true; }
     bool falsified() const noexcept { return false; }
 
     // The total number of variables:
@@ -27,7 +29,7 @@ namespace NQueens {
     ChessBoard::Var_uint nset() const noexcept { return 0; }
 
     // Occupy or forbid field v:
-    void set(const ChessBoard::Var v, const bool val) {}
+    void set(const ChessBoard::Var, const bool) noexcept {}
 
   };
 
@@ -164,7 +166,7 @@ namespace NQueens {
       else return {{c_sum-N,N}, 2*N-(c_sum-1), c_sum-2};
     }
 
-    Var_uint amo_count(const Var v) const noexcept {
+    Var_uint odegree(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       assert(board(v) == State::open);
@@ -330,13 +332,13 @@ namespace NQueens {
     }
     Ranks r_init() const {
       Ranks r_ranks; r_ranks.reserve(N+1);
-      r_ranks.push_back({});
+      r_ranks.push_back({0,0,0});
       for (Var_uint i = 1; i <= N ; ++i) r_ranks.push_back({N,0,0});
       return r_ranks;
     }
     Ranks c_init() const {
       Ranks c_ranks; c_ranks.reserve(N+1);
-      c_ranks.push_back({});
+      c_ranks.push_back({0,0,0});
       for (Var_uint i = 1; i <= N ; ++i) c_ranks.push_back({N,0,0});
       return c_ranks;
     }
@@ -367,70 +369,81 @@ namespace NQueens {
   public :
     const BasicACLS& F;
 
-    BasicBranching(const BasicACLS& F) : F(F) {}
+    BasicBranching(const BasicACLS& F) noexcept : F(F) {}
 
     Var operator()() const noexcept { return {0,0}; }
 
   };
 
 
-  // A concrete instance of BasicBranching with TawSolver heuristics:
-  class TawBranching {
+  /* Exactly the heuristics from tawSolver
+     https://github.com/OKullmann/oklibrary/commits/master/Satisfiability/Solvers/TawSolver
+     ID a227f64a6c66a817e4b53fa4c1a1244d530a25c5
+  */
+
+  class TawHeuristics {
     using Var = ChessBoard::Var;
     using Var_uint = ChessBoard::Var_uint;
   public :
     typedef double Weight_t;
-    typedef std::vector<Weight_t> Weights;
-    /* Using weights from TawSolver
-       https://github.com/OKullmann/oklibrary/commits/master/Satisfiability/Solvers/TawSolver
-       ID a227f64a6c66a817e4b53fa4c1a1244d530a25c5
-    */
-    const Weights weights = {0, 0, 4.85, 1, 0.354, 0.11, 0.0694};
-    const Var_uint size = weights.size();
     typedef std::pair<Weight_t, Weight_t> Bp;
 
     const AmoAlo_board& F;
 
-    TawBranching(const AmoAlo_board& F) : F(F) {}
 
-    Weight_t weight(const Var_uint cl) const noexcept {
-      if (cl < size) return weights[cl];
-      else return std::pow(1.46, -ChessBoard::Var_int((cl - size) + 1)) * weights.back();
+    TawHeuristics(const AmoAlo_board& F) noexcept : F(F) {}
+
+    constexpr static Weight_t weight(const Var_uint cl) noexcept {
+      return (cl < size) ? weights[cl] :
+        std::pow(basis, -ChessBoard::Var_int((cl-size)+1)) * weights.back();
     }
 
     Bp heuristics(const Var v) const noexcept {
-      const Weight_t amo_w = F.amo_count(v) * weight(2);
-      const Var_uint alo_r_cl = F.r_rank()[v.first].o;
-      const Var_uint alo_c_cl = F.c_rank()[v.second].o;
-      assert(alo_r_cl >= 2);
-      assert(alo_c_cl >= 2);
-      const Weight_t
-        alo_r_w = weight(alo_r_cl),
-        alo_c_w = weight(alo_c_cl);
-      return Bp{amo_w, alo_r_w + alo_c_w};
+      return {F.odegree(v) * weight(2),
+              weight(F.r_rank(v.first).o) + weight(F.c_rank(v.second).o)};
     }
 
     Var operator()() const noexcept {
       Weight_t max1 = 0, max2 = 0;
-      Var bv{};
-      for (ChessBoard::coord_t i = 1; i <= F.N ; ++i) {
+      Var bv{0,0};
+      for (ChessBoard::coord_t i = 1; i <= F.N; ++i) {
         if (F.r_rank(i).p != 0) continue;
-        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j)
-          if (F.board({i,j}) == State::open) {
-            const Bp h = heuristics({i,j});
-            const Weight_t prod = h.first * h.second;
-            if (prod < max1) continue;
-            const Weight_t sum = h.first + h.second;
-            if (prod > max1) max1 = prod;
-            else if (sum <= max2) continue;
-            max2 = sum;
-            bv = {i,j};
-          }
+        const auto& R = F.board()[i];
+        Var v; v.first = i;
+        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j) {
+          if (R[j] != State::open) continue;
+          v.second = j;
+          const Bp h = heuristics(v);
+          const Weight_t prod = h.first * h.second;
+          if (prod < max1) continue;
+          const Weight_t sum = h.first + h.second;
+          if (prod > max1) max1 = prod;
+          else if (sum <= max2) continue;
+          max2 = sum;
+          bv = v;
+        }
       }
       return bv;
     }
 
+    private :
+
+    constexpr static Var_uint size{7};
+    typedef std::array<Weight_t,size> Weights;
+    constexpr static Weights weights{{0, 0, 4.85, 1, 0.354, 0.11, 0.0694}};
+    constexpr static Weight_t basis = 1.46;
+
   };
+  constexpr TawHeuristics::Weights TawHeuristics::weights;
+  static_assert(TawHeuristics::weight(0) == 0, "TawHeuristics: weight(0)");
+  static_assert(TawHeuristics::weight(1) == 0, "TawHeuristics: weight(1)");
+  static_assert(TawHeuristics::weight(2) == 4.85, "TawHeuristics: weight(2)");
+  static_assert(TawHeuristics::weight(3) == 1, "TawHeuristics: weight(3)");
+  static_assert(TawHeuristics::weight(4) == 0.354, "TawHeuristics: weight(4)");
+  static_assert(TawHeuristics::weight(5) == 0.11, "TawHeuristics: weight(5)");
+  static_assert(TawHeuristics::weight(6) == 0.0694, "TawHeuristics: weight(6)");
+  static_assert(TawHeuristics::weight(7) == 0.0694 * std::pow(1.46,-1), "TawHeuristics: weight(7)");
+  static_assert(TawHeuristics::weight(8) == 0.0694 * std::pow(1.46,-2), "TawHeuristics: weight(7)");
 
   // A concrete instance of BasicBranching with Greedy heuristics without weights:
   class GreedyAmoAloBranching {
