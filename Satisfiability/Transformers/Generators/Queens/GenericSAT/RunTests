@@ -9,6 +9,22 @@ error="ERROR[${program}]: "
 
 maxN=8
 
+S="./program_debug"
+echo "Testcase: $S"
+result="$($S)"
+expected=$'2\nc nodes      1\nc maxdepth   0'
+if [[ "$result" != "$expected" ]]; then
+  echo -e "${error}program_debug without arguments:\n${result}\n${expected}"
+  exit 1
+fi
+echo "Testcase: $S 2"
+result="$($S 2)"
+expected=$'16\nc nodes      1\nc maxdepth   0'
+if [[ "$result" != "$expected" ]]; then
+  echo -e "${error}program_debug with argument 1:\n${result}\n${expected}"
+  exit 1
+fi
+
 # program1="valgrind -q --exit-on-first-error=yes ./SimTaw_debug"
 program1="./SimTaw"
 program2="valgrind -q ./SimTaw_debug"

@@ -19,7 +19,8 @@ namespace NQueens {
 
     explicit BasicACLS(const ChessBoard::coord_t N) : N(N) {}
 
-    bool satisfied() const noexcept { return false; }
+    // We declare the problem to be satisfied in order to run it without backtracking:
+    bool satisfied() const noexcept { return true; }
     bool falsified() const noexcept { return false; }
 
     // The total number of variables:
