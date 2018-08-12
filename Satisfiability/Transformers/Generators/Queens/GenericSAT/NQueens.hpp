@@ -432,4 +432,85 @@ namespace NQueens {
 
   };
 
+  // A concrete instance of BasicBranching with Greedy heuristics without weights:
+  class GreedyAmoAloBranching {
+    using Var = ChessBoard::Var;
+    using Var_uint = ChessBoard::Var_uint;
+  public :
+    const AmoAlo_board& F;
+    typedef double Weight_t;
+    typedef std::pair<Weight_t, Weight_t> Bp;
+
+    GreedyAmoAloBranching(const NQueens::AmoAlo_board& F) : F(F) {}
+
+    Bp heuristics(const Var v) const noexcept {
+      return Bp{F.amo_count(v),F.r_rank()[v.first].o+F.c_rank()[v.second].o};
+    }
+
+    Var operator()() const noexcept {
+      Weight_t max1 = 0, max2 = 0;
+      Var bv{};
+      for (ChessBoard::coord_t i = 1; i <= F.N ; ++i) {
+        if (F.r_rank(i).p != 0) continue;
+        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j)
+          if (F.board({i,j}) == State::open) {
+            const Bp h = heuristics({i,j});
+            const Weight_t prod = h.first * h.second;
+            if (prod < max1) continue;
+            const Weight_t sum = h.first + h.second;
+            if (prod > max1) max1 = prod;
+            else if (sum <= max2) continue;
+            max2 = sum;
+            bv = {i,j};
+          }
+      }
+      return bv;
+    }
+
+  };
+
+
+  // A concrete instance of BasicBranching with Lookahead heuristics
+  // maximising open fields (expecting large trees):
+  class LookaheadBranching {
+    using Var = ChessBoard::Var;
+    using Var_uint = ChessBoard::Var_uint;
+  public :
+    const AmoAlo_board& F;
+    typedef double Weight_t;
+    typedef std::pair<Weight_t, Weight_t> Bp;
+
+    LookaheadBranching(const NQueens::AmoAlo_board& F) : F(F) {}
+
+    Bp heuristics(const Var v) const noexcept {
+      AmoAlo_board la_board1(F); la_board1.set(v, false);
+      Var_uint f_open = la_board1.n()-la_board1.nset();
+      std::move(la_board1);
+      AmoAlo_board la_board2(F); la_board2.set(v, true);
+      Var_uint t_open = la_board2.n()-la_board2.nset();
+      std::move(la_board2);
+      return Bp{1+t_open,1+f_open};
+    }
+
+    Var operator()() const noexcept {
+      Weight_t max1 = 0, max2 = 0;
+      Var bv{};
+      for (ChessBoard::coord_t i = 1; i <= F.N ; ++i) {
+        if (F.r_rank(i).p != 0) continue;
+        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j)
+          if (F.board({i,j}) == State::open) {
+            const Bp h = heuristics({i,j});
+            const Weight_t prod = h.first * h.second;
+            if (prod < max1) continue;
+            const Weight_t sum = h.first + h.second;
+            if (prod > max1) max1 = prod;
+            else if (sum <= max2) continue;
+            max2 = sum;
+            bv = {i,j};
+          }
+      }
+      return bv;
+    }
+
+  };
 }
