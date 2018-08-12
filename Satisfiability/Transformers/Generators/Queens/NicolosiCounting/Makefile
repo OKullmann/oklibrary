@@ -12,8 +12,8 @@ SHELL = /bin/bash
 
 CXX = g++
 
-Standard_options = --std=c++11 -pedantic
-Warning_options = -Wall
+Standard_options = --std=c++14 -pedantic
+Warning_options = -Wall -Wextra
 Optimisation_options = -Ofast -DNDEBUG
 Optimisation_options_full = -Ofast -DNDEBUG -ffinite-math-only -funroll-loops -fwhole-program -fno-math-errno -funsafe-loop-optimizations
 Debug_options = -g
