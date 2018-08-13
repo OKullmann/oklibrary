@@ -88,14 +88,16 @@ namespace NQueens {
     const coord_t N;
 
     explicit AmoAlo_board(const coord_t N) :
-      N(N), b(b_init()), r_ranks(r_init()), c_ranks(c_init()),
-      d_ranks(d_init()), ad_ranks(ad_init()), trank{N*N,0,0} {
+      N(N), b({N+1, std::vector<State>(N+1)}),
+      r_ranks({N+1, {N,0,0}}), c_ranks(r_ranks),
+      d_ranks(dad_init()), ad_ranks(d_ranks), trank{N*N,0,0} {
         assert(N <= ChessBoard::max_coord);
         assert(b.size() == N+1);
         assert(r_ranks.size() == N+1);
         assert(c_ranks.size() == N+1);
         assert(d_ranks.size() == 2*N-1);
         assert(ad_ranks.size() == 2*N-1);
+        r_ranks[0].o = 0; c_ranks[0].o = 0;
         if (N == 1) set_true({1,1});
     }
 
@@ -150,7 +152,7 @@ namespace NQueens {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       const ChessBoard::scoord_t c_diff = v.first - v.second;
-      if (c_diff > 0) {
+      if (c_diff >= 0) {
         const coord_t cd = c_diff; return {{cd+1,1}, N-cd, N-cd-1};
       }
       else {
@@ -325,34 +327,12 @@ namespace NQueens {
     Stack stack;
     bool falsified_ = false;
 
-    Board b_init() const {
-      Board board;
-      board.resize(N+1, std::vector<State>(N+1));
-      return board;
-    }
-    Ranks r_init() const {
-      Ranks r_ranks; r_ranks.reserve(N+1);
-      r_ranks.push_back({0,0,0});
-      for (Var_uint i = 1; i <= N ; ++i) r_ranks.push_back({N,0,0});
-      return r_ranks;
-    }
-    Ranks c_init() const {
-      Ranks c_ranks; c_ranks.reserve(N+1);
-      c_ranks.push_back({0,0,0});
-      for (Var_uint i = 1; i <= N ; ++i) c_ranks.push_back({N,0,0});
-      return c_ranks;
-    }
-    Ranks d_init() const {
-      Ranks d_ranks; d_ranks.reserve(2*N-1);
-      for (Var_uint i = 1; i < N ; ++i) d_ranks.push_back({i,0,0});
-      for (Var_uint i = N; i > 0 ; --i) d_ranks.push_back({i,0,0});
-      return d_ranks;
-    }
-    Ranks ad_init() const {
-      Ranks ad_ranks; ad_ranks.reserve(2*N-1);
-      for (Var_uint i = 1; i < N ; ++i) ad_ranks.push_back({i,0,0});
-      for (Var_uint i = N; i > 0 ; --i) ad_ranks.push_back({i,0,0});
-      return ad_ranks;
+    Ranks dad_init() const {
+      Ranks ranks(2*N-1);
+      Var_uint i = 0;
+      for (Var_uint r = 1; r < N ; ++r) ranks[i++].o = r;
+      for (Var_uint r = N; r > 0 ; --r) ranks[i++].o = r;
+      return ranks;
     }
 
     State& board(const Var v) noexcept {

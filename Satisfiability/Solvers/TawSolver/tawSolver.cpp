@@ -1584,7 +1584,7 @@ void output(const Result_value result) {
   logout << "s ";
   switch (result) {
     case unknown : logout << "UNKNOWN\n"; break;
-    case unsat : logout << "UN";
+    case unsat : logout << "UN"; // FALLTHRU
     case sat : logout << "SATISFIABLE\n";
   }
   logout <<
