@@ -243,14 +243,21 @@ Statistics are needed to report on these reductions.
 
 9. Apply autarkies found to the original problem
 
-   Perhaps just a bash-script?
+   Perhaps just a bash-script? No, we can do a complete package.
 
-   Or perhaps we actually develop this program, so that all "basic autarkies"
+   We develop this program, so that all "basic autarkies"
    can be handled; see Point 11 for autarkies with one e-variable.
    The SAT-solver name is needed as a command-line parameter, and whether
    its input is from a file or from standard input.
    Using std::system and its return-value (10 for an autarky found) should
    do the job, plus storing the solver-output in a file.
+
+   Perhaps we require a "standardised" wrapper for solvers, so that we can
+   assume some standard input- and output-behaviour: input on standard
+   input, output on standard output, one or two lines:
+   s (UN)SATISFIABLE
+   [v solution]
+   Then we just use this fixed wrapper (no further command-line input).
 
 10. No storing of the clauses of the translation
 
@@ -264,12 +271,15 @@ Statistics are needed to report on these reductions.
     above), this needs then a repetition-loop, until no further changes
     (we have confluence); this includes variable-clean-up (Point 4).
 
-12. Output a transcript of changes to original DQCNF / QCNF
+12. Output a transcript of changes to original DQCNF / PQCNF
 
     Using the line-numbers of the original clauses, optionally, in some
     simple syntax to be developed, the changes concerning deleted clauses,
     shortened clauses and shortened dependencies are output to a file (so
     that simple tools can independently apply the changes).
+
+    We should detect whether the input is PQCNF (i.e., no d-lines), and
+    output then accordingly.
 
 */
 
