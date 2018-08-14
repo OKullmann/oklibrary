@@ -27,13 +27,16 @@ namespace Backtracking {
     Count_t nodes;
     Var_uint height;
     Count_t maxusat_nodes; // maximum size of subtree with unsatisfiable root
+    Var_uint hs;
   };
   static_assert(std::is_pod<Statistics>::value, "Statistics is not POD.");
   std::ostream& operator <<(std::ostream& out, const Statistics& stats) {
-    return out << "c solutions  " << stats.solutions << "\n"
-                  "c nodes      " << stats.nodes << "\n"
-                  "c height     " << stats.height << "\n"
-                  "c max_unodes " << stats.maxusat_nodes << "\n";
+    return out <<
+         "c solutions                             " << stats.solutions << "\n"
+         "c nodes                                 " << stats.nodes << "\n"
+         "c height                                " << stats.height << "\n"
+         "c max_unodes                            " << stats.maxusat_nodes << "\n"
+         "c HortonStrahler                        " << stats.hs << "\n";
   }
 
   template <class ActiveClauseSet, class Branching>
@@ -41,7 +44,7 @@ namespace Backtracking {
     using ACLS = ActiveClauseSet;
 
     Statistics operator()(ACLS F) const {
-      Statistics stats{0,1,0,0};
+      Statistics stats{0,1,0,0,0};
       if (F.satisfied()) {
         stats.solutions = std::pow(2, F.n() - F.nset());
         return stats;
@@ -65,6 +68,8 @@ namespace Backtracking {
         stats.maxusat_nodes = 1 + stats0.maxusat_nodes + stats1.maxusat_nodes;
       else
         stats.maxusat_nodes = std::max(stats0.maxusat_nodes, stats1.maxusat_nodes);
+      if (stats0.hs == stats1.hs) stats.hs = stats0.hs + 1;
+      else stats.hs = std::max(stats0.hs, stats1.hs);
       return stats;
     }
 
