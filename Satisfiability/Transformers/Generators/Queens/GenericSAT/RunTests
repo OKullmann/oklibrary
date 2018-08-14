@@ -12,14 +12,14 @@ maxN=8
 S="./program_debug"
 echo "Testcase: $S"
 result="$($S)"
-expected=$'c solutions  2\nc nodes      1\nc height     0'
+expected=$'c solutions  2\nc nodes      1\nc height     0\nc max_unodes 0'
 if [[ "$result" != "$expected" ]]; then
   echo -e "${error}program_debug without arguments:\n${result}\n${expected}"
   exit 1
 fi
 echo "Testcase: $S 2"
 result="$($S 2)"
-expected=$'c solutions  16\nc nodes      1\nc height     0'
+expected=$'c solutions  16\nc nodes      1\nc height     0\nc max_unodes 0'
 if [[ "$result" != "$expected" ]]; then
   echo -e "${error}program_debug with argument 1:\n${result}\n${expected}"
   exit 1
