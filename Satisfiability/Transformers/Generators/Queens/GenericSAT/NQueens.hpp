@@ -445,10 +445,8 @@ namespace NQueens {
     Bp heuristics(const Var v) const noexcept {
       AmoAlo_board la_board1(F); la_board1.set(v, false);
       Var_uint f_open = la_board1.n()-la_board1.nset();
-      std::move(la_board1);
       AmoAlo_board la_board2(F); la_board2.set(v, true);
       Var_uint t_open = la_board2.n()-la_board2.nset();
-      std::move(la_board2);
       return Bp{1+t_open,1+f_open};
     }
 
