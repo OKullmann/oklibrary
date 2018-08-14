@@ -12,7 +12,8 @@ Warning_options = -Wall -Wextra
 Optimisation_options = -Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fmodulo-sched -fmodulo-sched-allow-regmoves -ftree-loop-ivcanon -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity -static
 Debug_options = -g
 
-all : program program_debug SimTaw SimTaw_debug GreedyAmoAlo GreedyAmoAlo_debug Lookahead Lookahead_debug TestSimTaw test
+
+all : program program_debug SimTaw SimTaw_debug TestSimTaw ExpQueens ExpQueens_debug test
 
 program : Program.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp NQueensPartial.hpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
@@ -20,10 +21,10 @@ program : Program.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp NQueensPartial
 program_debug : Program.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp NQueensPartial.hpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-SimTaw : SimTaw.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp
+SimTaw : SimTaw.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp InOut.hpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-SimTaw_debug : SimTaw.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp
+SimTaw_debug : SimTaw.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp InOut.hpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 GreedyAmoAlo : GreedyAmoAlo.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp
@@ -41,9 +42,16 @@ Lookahead_debug : Lookahead.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp
 TestSimTaw : TestSimTaw.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
+ExpQueens : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp InOut.hpp
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+ExpQueens_debug : ExpQueens.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp InOut.hpp
+	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
 
 test :
 	./TestSimTaw; ./RunTests
 
 clean :
-	- rm program program_debug SimTaw SimTaw_debug GreedyAmoAlo GreedyAmoAlo_debug Lookahead Lookahead_debug TestSimTaw
+	- rm program program_debug SimTaw SimTaw_debug TestSimTaw ExpQueens ExpQueens_debug
+
