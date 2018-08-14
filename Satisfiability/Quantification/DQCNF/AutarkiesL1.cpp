@@ -239,7 +239,7 @@ TODOS:
    Give the original file-line-numbers and clause-indices with the errors:
     - original line-numbers for up to (including) the p-line and the
       dependencies;
-    - so the final line-number is the p-line;
+    - so the final line-number is the last dependency (or p-line);
     - then the clause-indices take over;
     - all indices start with 1 (initialised to 0).
 
@@ -362,7 +362,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.1";
+const std::string version = "0.6.2";
 const std::string date = "14.8.2018";
 
 const std::string program = "autL1"
@@ -397,6 +397,8 @@ enum class Error {
   d_bada=23,
   pseudoempty_clause=24,
   empty_line=25,
+  bad_comment=26,
+  num_cls=27,
 };
 /* Extracting the underlying code of enum-classes (scoped enums) */
 template <typename EC>
@@ -893,7 +895,7 @@ class ReadDimacs {
 std::istream& in;
 DClauseSet F;
 const ConformityLevel conlev;
-Count_t current_line_number = 0; // starting with 1; only up to clause-part
+Count_t current_line_number = 0; // starting with 1; final value the last dependency (or p-line, if no dependencies)
 Count_t current_clause_index = 0; // starting with 1
 
 // Reads header-data into F; aborts via std::exit in case of input-errors:
@@ -911,47 +913,47 @@ void read_header() noexcept {
     assert(not line.empty());
     if (c == 'p') break;
     if (c != 'c') {
-      errout << "Comment lines must start with \"c\".";
-      std::exit(code(Error::file_reading));
+      errout << "Line " << current_line_number << "Comment lines must start with \"c\".";
+      std::exit(code(Error::bad_comment));
     }
   }
   assert(line[0] == 'p');
   std::stringstream s(line);
   {std::string inp; s >> inp;
    if (inp != "p") {
-     errout << "Syntax error in parameter line (\"p\" not followed by space).";
+     errout << "Line " << current_line_number << "Syntax error in parameter line (\"p\" not followed by space).";
      std::exit(code(Error::file_pline));
    }
    assert(s);
    if (s.eof()) {
-     errout << "Syntax error in parameter line (p-line ends after \"p\").";
+     errout << "Line " << current_line_number << "Syntax error in parameter line (p-line ends after \"p\").";
      std::exit(code(Error::file_pline));
    }
    s >> inp;
    if (not s or inp != "cnf") {
-     errout << "Syntax error in parameter line (no \"cnf\").";
+     errout << "Line " << current_line_number << "Syntax error in parameter line (no \"cnf\").";
      std::exit(code(Error::file_pline));
    }
   }
   s >> F.n_pl;
   if (not s) {
-    errout << "Reading error with parameter maximal-variable-index "
+    errout << "Line " << current_line_number << "Reading error with parameter maximal-variable-index "
       "(too big or not-a-number).";
     std::exit(code(Error::file_pline));
   }
   if (not valid(F.n_pl)) {
-    errout << "Parameter maximal-variable-index n=" << F.n_pl <<
+    errout << "Line " << current_line_number << "Parameter maximal-variable-index n=" << F.n_pl <<
       " is too big for numeric_limits<Lit_int>::max=" << max_lit;
     std::exit(code(Error::num_vars));
   }
   s >> F.c_pl;
   if (not s) {
-    errout << "Reading error with parameter number-of-clauses "
+    errout << "Line " << current_line_number << "Reading error with parameter number-of-clauses "
       "(too big or not-a-number).";
-    std::exit(code(Error::file_pline));
+    std::exit(code(Error::num_cls));
   }
   if (not s.eof()) {
-    errout << "Syntax error in parameter line (something after c-parameter).";
+    errout << "Line " << current_line_number << "Syntax error in parameter line (something after c-parameter).";
     std::exit(code(Error::file_pline));
   }
 }
