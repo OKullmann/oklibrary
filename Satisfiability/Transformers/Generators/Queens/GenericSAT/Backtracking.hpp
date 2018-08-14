@@ -1,5 +1,14 @@
 // Oliver Kullmann, 6.7.2018 (Swansea)
 
+/* TODOS
+
+1. Add parallelisation
+
+   Simply using powers of 2 as the number of parallel computations, and
+   parallelising by depth accordingly.
+
+*/
+
 #include <utility>
 #include <ostream>
 #include <algorithm>
