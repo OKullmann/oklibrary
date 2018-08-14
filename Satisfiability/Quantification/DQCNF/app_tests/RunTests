@@ -20,6 +20,24 @@ satsolver2=${3:-"OKsolver_2002-O3-DNDEBUG"}
 
 for S in "${translators[@]}"; do
 
+set +e
+  echo "" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 25 )); then
+    echo "ERROR with translator \"${S}\" on empty input: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "c\nc\nc" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 25 )); then
+    echo "ERROR with translator \"${S}\" on empty line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
   file="${testdir}/Maxima_2903.dqdimacs"
 set +e
   $S ${file} ${tempfile} ${tempfile} vs 1

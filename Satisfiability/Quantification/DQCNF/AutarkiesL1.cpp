@@ -236,10 +236,25 @@ TODOS:
 
 6. Test and improve error-handling
 
-   Give the original file-line-numbers with the errors.
-   (So when reading the input clauses, their original line-number needs to be
+   Give the original file-line-numbers and clause-indices with the errors:
+    - original line-numbers for up to (including) the p-line and the
+      dependencies;
+    - so the final line-number is the p-line;
+    - then the clause-indices take over;
+    - all indices start with 1 (initialised to 0).
+
+   So when reading the input clauses, their original line-number needs to be
    stored. Tautological clauses (which are deleted) should also be recorded;
-   see Point 12.)
+   see Point 12:
+    - The class DClause could contain the original clause-index >= 1, or
+      0 if not defined.
+    - There needs then to be a vector with the indices of the deleted
+      tautological clauses.
+    - When showing the original clauses, then the original indices should
+      be shown (in case of repeated clauses, this needs to be indicated).
+    - The map new-clause-index -> old-clause-index should be made available,
+      so that a simple script with inputs (input dqcnf, satisfying assignment
+      for translation, map) can perform the autarky-reduction.
 
    More information should be given in case of out-of-memory.
    And all such errors need to be caught (so that then all functions
@@ -270,6 +285,8 @@ TODOS:
 9. Apply autarkies found to the original problem
 
    Perhaps just a bash-script? No, we can do a complete package.
+   But a bash-script is also useful; see Point 6 above for the information
+   which clauses to remove.
 
    We develop this program, so that all "basic autarkies"
    can be handled; see Point 11 for autarkies with one e-variable.
@@ -345,8 +362,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6";
-const std::string date = "26.7.2018";
+const std::string version = "0.6.1";
+const std::string date = "14.8.2018";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -379,6 +396,7 @@ enum class Error {
   d_empty=22,
   d_bada=23,
   pseudoempty_clause=24,
+  empty_line=25,
 };
 /* Extracting the underlying code of enum-classes (scoped enums) */
 template <typename EC>
@@ -874,21 +892,23 @@ class ReadDimacs {
 
 std::istream& in;
 DClauseSet F;
-ConformityLevel conlev;
+const ConformityLevel conlev;
+Count_t current_line_number = 0; // starting with 1; only up to clause-part
+Count_t current_clause_index = 0; // starting with 1
 
-// Aborts via std::exit in case of input-errors:
+// Reads header-data into F; aborts via std::exit in case of input-errors:
 void read_header() noexcept {
   assert(in.exceptions() == 0);
   assert(in.good());
   std::string line;
   while (true) {
-    std::getline(in, line);
-    assert(not line.empty());
-    const auto c = line[0];
-    if (c == '\0') { // empty line
-      errout << "Empty line (no p-line found).";
-      std::exit(code(Error::file_reading));
+    std::getline(in, line); ++current_line_number;
+    const char c = line[0];
+    if (c == '\0') {
+      errout << "Line " << current_line_number << "Empty line (no p-line found).";
+      std::exit(code(Error::empty_line));
     }
+    assert(not line.empty());
     if (c == 'p') break;
     if (c != 'c') {
       errout << "Comment lines must start with \"c\".";
@@ -936,6 +956,7 @@ void read_header() noexcept {
   }
 }
 
+// Read dependency-data into F:
 void read_dependencies() {
   assert(in.exceptions() == 0);
   assert(in.good());
@@ -968,11 +989,11 @@ void read_dependencies() {
     const int peek = in.peek();
     if (peek == std::char_traits<char>::eof()) return;
     if (conlev == ConformityLevel::general and peek == 'c') {
-      std::getline(in, line);
+      std::getline(in, line); ++current_line_number;
       continue;
     }
     if (peek != 'a' and peek != 'e' and peek != 'd') return;
-    std::getline(in, line);
+    std::getline(in, line); ++current_line_number;
     std::stringstream s(line);
     {std::string skip; s >> skip;}
     if (peek == 'a') {
@@ -1083,14 +1104,17 @@ void read_dependencies() {
 
 enum class RS { clause, none, empty, tautology, pseudoempty }; // read-status
 
-// Reference-parameter C is empty if no or a tautological clause was found:
-RS read_clause(DClause& C) const noexcept {
+/* Attempting to read a single clause; reference-parameter C is empty iff none
+   or a tautological clause or an empty clause was found:
+*/
+RS read_clause(DClause& C) noexcept {
   assert(in.exceptions() == 0);
   assert(in.good());
   C.clear();
   Lit x;
   in >> x;
   if (in.eof()) return RS::none;
+  ++current_clause_index;
   AClause CA; EClause CE; // complemented clauses
   while (true) { // reading literals into C
     if (not in) {
@@ -1157,7 +1181,8 @@ RS read_clause(DClause& C) const noexcept {
   return RS::clause;
 }
 
-// Error only if announced number of clauses too small (but may be too big):
+// Add C to F; error only if announced number of clauses too small (but may be
+// too big):
 inline void add_clause(const DClause& C) {
   if (F.c + F.t >= F.c_pl) {
     errout << "More than " << F.c_pl << " clauses, contradicting cnf-header.";
