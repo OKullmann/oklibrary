@@ -168,13 +168,14 @@ TODOS:
    dependencies etc.) are established.
 
    For the handling of minima perhaps some helper-function is used, which
-   writes "NaN" under appropriate circumstances.
+   writes "NA" under appropriate circumstances.
 
 2. More statistics on dependencies:
     - average size
     - number of maximal and minimal elements
     - maximum length of a chain (height)
-    - width (maximum length of an antichain)
+    - width (maximum length of an antichain); this decides also whether we
+      have a PQCNF.
 
 3. Implementing linear-size version of amo (using auxiliary variables)
 
@@ -188,22 +189,26 @@ TODOS:
       ability to count solutions, we actually implement only the
       counting-version.
 
+    The new variables used here likely should come at the end.
+
 4. Implement
     - cleanup_clauses()
     - cleanup_dependencies()
 
-Once done, the assert
-  assert(w == 0 or F.vt[w] == VT::a or F.vt[w] == VT::fa);
-in function bfvar needs to be updated.
+  Once done, the assert
+    assert(w == 0 or F.vt[w] == VT::a or F.vt[w] == VT::fa);
+  in function bfvar needs to be updated.
 
-Three steps:
-  (a) First remove universal literals from clauses, where they are not
-      part of any dependency.
-  (b) Now a-variables may have become fa-variables, and that needs to be
-      updated.
-  (c) Finally remove all fa-variables from dependency-sets.
+  Three steps:
+    (a) First remove universal literals from clauses, where they are not
+        part of any dependency.
+    (b) Now a-variables may have become fa-variables, and that needs to be
+        updated.
+    (c) Finally remove all fa-variables from dependency-sets.
 
-Statistics are needed to report on these reductions.
+  Statistics are needed to report on these reductions.
+
+  Reductions (b), (c) need to be re-applied after autarky-reductions.
 
 5. Determine the main parameters like number of pa-variables etc. from the
    parameters of the DQCNF.
@@ -213,23 +218,44 @@ Statistics are needed to report on these reductions.
    perhaps just based on output=nil (then actually, different from the current
    behaviour, nothing should happen).
 
+   It seems that the class Encoding should deliver this service:
+    - natural, since only here the minimal solutions per clause are
+      determined;
+    - might take a lot of effort, which is needed for the precise count, taking
+      repetitions of partial assignments into account, but perhaps one might
+      offer an upper bound, which just sums up all the possibilities per
+      clause?
+    - As stated at the beginning of this point, there is also the prospect of
+      what can be done just from the parameters of the DQCNF. Perhaps there are
+      stages of "approximation"? First from the encoding, then roughly taking
+      the clauses into account, and finally the precise numbers from the
+      encoding-dtails.
+
+   First a member-function Encoding::ncl, which returns a structure with the
+   (exact) numbers of clauses, as they appear in the translation.
+
 6. Test and improve error-handling
 
    Give the original file-line-numbers with the errors.
+   (So when reading the input clauses, their original line-number needs to be
+   stored. Tautological clauses (which are deleted) should also be recorded;
+   see Point 12.)
 
    More information should be given in case of out-of-memory.
    And all such errors need to be caught (so that then all functions
    are noexcept).
 
-7. Improve merging output
+7. Distributing comments on the two output-streams (solout and logout)
 
-   We need a possibility to discard the information on the translation-
-   variables (it can be big).
+   Currently we have the log-level (0,1,2), where level-2 actually goes to
+   solout (information on the translation-variables, which can be big).
 
-   Perhaps the repetition of the input should come last (before the real
-   output)?
+   While log-level-1 is the input (in the new order), going to logout.
 
-8. Another variation: cut out variables for partial assignments with only
+   Perhaps we can have a more powerful syntax, which allows to select the
+   various pieces, and where they go, in which order.
+
+8. Another variation: cut out pa-variables for partial assignments with only
    one variable.
 
    Together with cleaning-up-or-not this yields (at least) 4 variations.
@@ -259,11 +285,20 @@ Statistics are needed to report on these reductions.
    [v solution]
    Then we just use this fixed wrapper (no further command-line input).
 
+   Some good command-line syntax is needed, to tell the program whether to
+   perform the autarky-reduction or not (which in the positive case
+   is always applied until completion), and then whether
+    - only 1-var-bfs autarkies
+    - only 1-var autarkies
+    - both types of autarkies.
+
 10. No storing of the clauses of the translation
 
     Currently there is absolutely no need.
     If Point 9 is applied, then likely still we can just re-output the clauses,
     using the simple information which clauses have been satisfied.
+    However, if this program performs the autarky-reductions, then we should
+    keep the clauses.
 
 11. Autarkies using one e-variable
 
@@ -279,7 +314,12 @@ Statistics are needed to report on these reductions.
     that simple tools can independently apply the changes).
 
     We should detect whether the input is PQCNF (i.e., no d-lines), and
-    output then accordingly.
+    output then accordingly. All shortened dependencies are likely optional,
+    and this should be noted.
+
+13. Logarithmic encoding
+
+    To start with, a command-line parameter for the encoding is needed.
 
 */
 
