@@ -69,6 +69,7 @@ namespace NQueens {
     // Number of variables set to true or false:
     Var_uint nset() const noexcept { return trank.p+trank.f; }
 
+
     void set(const Var v, const bool val) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
@@ -430,7 +431,7 @@ namespace NQueens {
 
 
   // A concrete instance of BasicBranching with Lookahead heuristics
-  // maximising open fields (expecting large trees):
+  // maximising delta-open fields:
   class LookaheadBranching {
     using Var = ChessBoard::Var;
     using Var_uint = ChessBoard::Var_uint;
@@ -443,11 +444,12 @@ namespace NQueens {
     LookaheadBranching(const NQueens::AmoAlo_board& F) : F(F) {}
 
     Bp heuristics(const Var v) const noexcept {
-      AmoAlo_board la_board1(F); la_board1.set(v, false);
-      Var_uint f_open = la_board1.n()-la_board1.nset();
-      AmoAlo_board la_board2(F); la_board2.set(v, true);
-      Var_uint t_open = la_board2.n()-la_board2.nset();
-      return Bp{1+t_open,1+f_open};
+      Var_uint init_o = F.n()-F.nset();
+      AmoAlo_board la_b1(F); la_b1.set(v, false);
+      Var_uint f_o = la_b1.n()-la_b1.nset();
+      AmoAlo_board la_b2(F); la_b2.set(v, true);
+      Var_uint t_o = la_b2.n()-la_b2.nset();
+      return Bp{1+(init_o-t_o),1+(init_o-f_o)};
     }
 
     Var operator()() const noexcept {
