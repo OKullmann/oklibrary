@@ -43,7 +43,11 @@ all_bmu(n) := all_min_usat_cores_bydef_cs(all_bin_cs(n))$
 /* Only those using all variables: */
 all_bmue(n) := subset(all_bmu(n), lambda([F], is(nvar_cs(F) = n)))$
 
-/*
+/* To get all p-uniform clause-set in a set S of clause-sets, use
+     subset(S, lambda([F], puniform_csp(F,p))).
+   For the subset of clause-sets of deficiency k:
+     subset(S, lambda([F], is(deficiency_cs(F) = k))).
+
   For all of these sets, representatives of the isomorphism-classes are
   obtained by using representatives_cs, i.e.
 
@@ -53,19 +57,52 @@ all_bmue(n) := subset(all_bmu(n), lambda([F], is(nvar_cs(F) = n)))$
 
 /*
 
-  For 0 <= n <= 4:
+  For 0 <= n <= 5 (as tuples the numbers of elements of deficiency 1, 2, ...)
 
-  all_ubmu:                         0     0     1     49    1654
-  mod iso:                          0     0     1     5     16    ?
+Considering all 2-MUs:
 
-  all_ubmue:                        0     0     1     46    1464
-  mod iso:                          0     0     1     4     11    ?
+  all_bmu:                          1     2     12    149   2763  69268
+                                                                  (17906,32290,15880,3000,192)
+  mod iso:                          1     2     5     12    27    59
+                                                                  (23,21,11,3,1)
 
-  all_bmu:                          1     2     12    149   2763
-  mod iso:                          1     2     5     12    27    2^(n+1)-(n+1) ?!
+  all_bmue(n):                      1     1     9     118   2232  56832
+                                                                  (12480,26880,14400,2880,192)
+  mod iso:                          1     1     3     7     15    32
+                                                                  (9,12,8,2,1)
+Only considering 2-uniform 2-MUs;
 
-  all_bmue(n):                      1     1     9     118   2232
-  mod iso:                          1     1     3     7     15    2^n-1 ?!
+  all_ubmu:                         0     0     1     49    1654  55022
+                                                                  (3660,32290,15880,3000,192)
+  mod iso:                          0     0     1     5     16    43
+                                                                  (7,21,11,3,1)
+
+  all_ubmue:                        0     0     1     46    1464  47232
+                                                                  (2880,26880,14400,2880,192)
+  mod iso:                          0     0     1     4     11    27
+                                                                  (4,12,8,2,1)
+
+Considering only RHO (i.e., the non-2-uniform cases):
+
+  all                               1     2     11    100   1109  14246
+  mod iso                           1     2     4     7     11    16
+
+
+all_bmu(n) = sum(all_bmue(k) * binomial(n,k), k, 0, n)
+E.g., sum_l([1,1,9,118,2232,56832] * [1,5,10,10,5,1]);
+  69268
+all_bmu(n) / iso = sum(all_bmue(k) / iso, k, 0, n)
+E.g., 1+1+3+7+15+32 = 59.
+
+all_ubmu(n) = sum(all_ubmue(k) * binomial(n,k), k, 0, n)
+E.g., sum_l([0,0,1,46,1464,47232] * [1,5,10,10,5,1]);
+  55022
+all_ubmu(n) / iso = sum(all_ubmue(k) / iso, k, 0, n)
+E.g., 0+0+1+4+11+27 = 43.
+
+
+Mod iso we have similar sum-relations, but the factors are one (so the partial
+sums of the all_(u)bmue-sequences are the all_(u)bmu-sequences):
 
 
 */
