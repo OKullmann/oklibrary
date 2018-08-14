@@ -12,12 +12,12 @@ namespace Backtracking {
 
   struct Statistics {
     ChessBoard::Count_t nodes;
-    ChessBoard::Var_uint maxdepth;
+    ChessBoard::Var_uint height;
   };
   static_assert(std::is_pod<Statistics>::value, "Statistics is not POD.");
   std::ostream& operator <<(std::ostream& out, const Statistics& stats) {
     return out << "c nodes      " << stats.nodes << "\n"
-               << "c maxdepth   " << stats.maxdepth << "\n";
+               << "c height     " << stats.height << "\n";
   }
 
   template <class ActiveClauseSet, class Branching>
