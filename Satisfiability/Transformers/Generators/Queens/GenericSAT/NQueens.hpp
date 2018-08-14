@@ -203,6 +203,16 @@ namespace NQueens {
       else ++trank.f;
     }
 
+    void amo(const Var v) noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      assert(board(v) == State::placed);
+      r_update(v);
+      c_update(v);
+      d_update(v);
+      ad_update(v);
+    }
+
     void r_update(const Var cur_v) noexcept {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
@@ -265,10 +275,7 @@ namespace NQueens {
       board(v) = State::placed;
       trank_update(v);
       placed_rank_update(v);
-      r_update(v);
-      c_update(v);
-      d_update(v);
-      ad_update(v);
+      amo(v);
     }
     void set_false(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
