@@ -66,4 +66,15 @@ int main() {
     assert(FC.board({4,1}) == State::forbidden);
     assert(FC.board({4,2}) == State::open);
   }
+  {
+    // Test case for diagonal function with index as argument:
+    NQueens::AmoAlo_board F(4);
+    Diagonal d = F.diagonal(0);
+    const AmoAlo_board FC(F);
+    assert(d.s.first == 4);
+    assert(d.s.second == 1);
+    assert(d.l == 1);
+    assert(d.i == 0);
+  }
+
 }

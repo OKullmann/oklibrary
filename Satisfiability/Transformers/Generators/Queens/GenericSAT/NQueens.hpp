@@ -161,6 +161,11 @@ namespace NQueens {
         const coord_t cd = -c_diff; return {{1,cd+1}, N-cd, N+cd-1};
       }
     }
+    // Returns diagonal starting field, length and index:
+    Diagonal diagonal(const coord_t i) const noexcept {
+      if (i < N) return {{N-i,1}, i+1, i};
+      else return {{1,i-N+2}, 2*N-i-1, i};
+    }
     // Returns anti_diagonal starting field, length and index:
     AntiDiagonal anti_diagonal(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
