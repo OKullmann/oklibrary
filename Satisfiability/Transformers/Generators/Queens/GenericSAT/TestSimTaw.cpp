@@ -98,4 +98,15 @@ int main() {
     assert(FC.board({2,3}) == State::open);
     assert(FC.board({3,2}) == State::open);
   }
+  {
+    // Test case for changed ad_update function:
+    NQueens::AmoAlo_board F(4);
+    const Var v{2,4};
+    F.set(v,true);
+    const AmoAlo_board FC(F);
+    assert(FC.board({3,3}) == State::forbidden);
+    assert(FC.board({4,2}) == State::forbidden);
+    assert(FC.board({4,3}) == State::placed);
+    assert(FC.board({3,2}) == State::forbidden);
+  }
 }

@@ -263,7 +263,7 @@ namespace NQueens {
       r_update();
       c_update();
       d_update();
-      ad_update(v);
+      ad_update();
     }
 
     void r_update() noexcept {
@@ -291,7 +291,7 @@ namespace NQueens {
           }
     }
     void d_update() noexcept {
-      for (coord_t i = 0 ; i < 2*N-1 ; ++i) {
+      for (coord_t i = 0 ; i < 2*N-1 ; ++i)
         if (d_ranks[i].p == 1) {
           const Diagonal d = diagonal(i);
           const Var d_v = d.s;
@@ -305,22 +305,22 @@ namespace NQueens {
             }
           }
         }
-      }
     }
-    void ad_update(const Var cur_v) noexcept {
-      assert(cur_v.first >= 1 and cur_v.second >= 1);
-      assert(cur_v.first <= N and cur_v.second <= N);
-      const AntiDiagonal ad = anti_diagonal(cur_v);
-      const Var ad_v = ad.s;
-      assert(ad.l <= N);
-      for (coord_t i = 0 ; i < ad.l ; ++i) {
-        const Var v = {ad_v.first + i,ad_v.second - i};
-        if (open(v)) {
-          board(v) = State::forbidden;
-          trank_update(v);
-          forbidden_rank_update(v);
+    void ad_update() noexcept {
+      for (coord_t i = 0 ; i < 2*N-1 ; ++i)
+        if (ad_ranks[i].p == 1) {
+          const AntiDiagonal ad = anti_diagonal(i);
+          const Var ad_v = ad.s;
+          assert(ad.l <= N);
+          for (coord_t i = 0 ; i < ad.l ; ++i) {
+            const Var v = {ad_v.first + i,ad_v.second - i};
+            if (open(v)) {
+              board(v) = State::forbidden;
+              trank_update(v);
+              forbidden_rank_update(v);
+            }
+          }
         }
-      }
     }
 
     void set_true(const Var v) noexcept {
