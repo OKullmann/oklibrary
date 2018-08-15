@@ -358,12 +358,14 @@ TODOS:
 
     Possibly unit-clauses are propagated?
 
-14. Conformity-level vs
+14. Conformity-level vs (verystrict)
 
     Here there must be no
      - formal variables
      - repeated literals in clauses
      - tautological clauses
+     - repeated clauses
+     - the number of clauses in the header must match exactly.
 
 15. Logarithmic encoding
 
@@ -393,7 +395,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.6";
+const std::string version = "0.6.7";
 const std::string date = "15.8.2018";
 
 const std::string program = "autL1"
@@ -887,9 +889,9 @@ struct DClauseSet {
   Var na=0, ne=0, n=0; // number occurring e/a/both variables
   Var max_a_length=0, max_e_length=0, max_c_length=0; // max number of a/e/both literals in clauses
   Var max_s_dep=0, min_s_dep=max_lit, count_dep=0;
-  Count_t c=0; // number of clauses (without tautologies)
+  Count_t c=0; // number of clauses (without tautologies or repetitions)
   Count_t la=0, le=0, l=0; // number of a/e/both literal occurrences
-  Count_t t=0, empty=0, pempty=0; // number of tautological/empty/pseudoempty clauses
+  Count_t t=0, empty=0, pempty=0, repeated=0; // number of tautological/empty/pseudoempty/repeated clauses
 
   friend std::ostream& operator <<(std::ostream& out, const DClauseSet& F) noexcept {
     out << "c  Variables:\nc  ";
@@ -1276,35 +1278,36 @@ RS read_clause(DClause& C) noexcept {
   return RS::clause;
 }
 
-// Add C to F; error only if announced number of clauses too small (but may be
-// too big):
-inline void add_clause(const DClause& C) {
-  if (F.c + F.t >= F.c_pl) {
-    errout << "More than " << F.c_pl << " clauses, contradicting cnf-header.";
-    std::exit(code(Error::number_clauses));
+// Add non-tautological C to F (if not already existent):
+void add_clause(const DClause& C) noexcept {
+  try {
+    if (F.F.insert(C).second) {
+      ++F.c;
+      const Var sa = C.P.first.size(), se = C.P.second.size();
+      F.la += sa; F.le += se;
+      F.max_a_length = std::max(sa, F.max_a_length);
+      F.max_e_length = std::max(se, F.max_e_length);
+      F.max_c_length = std::max(sa+se, F.max_c_length);
+      for (const ALit x : C.P.first) {
+        const Var v = var(x);
+        ++F.vardeg[v];
+        if (F.vt[v] != VT::fa) continue;
+        F.max_a_index = std::max(v, F.max_a_index);
+        F.vt[v] = VT::a; ++F.na;
+      }
+      for (const ELit x : C.P.second) {
+        const Var v = var(x);
+        ++F.vardeg[v];
+        if (F.vt[v] != VT::fe) continue;
+        F.max_e_index = std::max(v, F.max_e_index);
+        F.vt[v] = VT::e; ++F.ne;
+      }
+    }
+    else ++F.repeated;
   }
-  const auto insert = F.F.insert(C);
-  if (insert.second) {
-    ++F.c;
-    const Var sa = C.P.first.size(), se = C.P.second.size();
-    F.la += sa; F.le += se;
-    F.max_a_length = std::max(sa, F.max_a_length);
-    F.max_e_length = std::max(se, F.max_e_length);
-    F.max_c_length = std::max(sa+se, F.max_c_length);
-    for (const ALit x : C.P.first) {
-      const Var v = var(x);
-      ++F.vardeg[v];
-      if (F.vt[v] != VT::fa) continue;
-      F.max_a_index = std::max(v, F.max_a_index);
-      F.vt[v] = VT::a; ++F.na;
-    }
-    for (const ELit x : C.P.second) {
-      const Var v = var(x);
-      ++F.vardeg[v];
-      if (F.vt[v] != VT::fe) continue;
-      F.max_e_index = std::max(v, F.max_e_index);
-      F.vt[v] = VT::e; ++F.ne;
-    }
+  catch (const std::bad_alloc&) {
+    errout << "Clause" << current_clause_index << "Allocation error for insertion of clause.";
+    std::exit(code(Error::allocation));
   }
 }
 
@@ -1341,7 +1344,7 @@ public :
 ReadDimacs(std::istream& in, const ConformityLevel cl) noexcept :
   in(in), conlev(cl) {}
 
-DClauseSet operator()() {
+DClauseSet operator()() noexcept {
   read_header();
   if (in.eof()) return F;
   read_dependencies();
@@ -1353,12 +1356,18 @@ DClauseSet operator()() {
   }
   {DClause C; RS status;
    while ((status = read_clause(C)) != RS::none) {
+     bool add = true;
      switch (status) {
-     case RS::tautology : ++F.t; break;
-     case RS::empty : ++F.empty; add_clause(C); break;
-     case RS::pseudoempty : ++F.pempty; add_clause(C); break;
-     default : add_clause(C);
+     case RS::tautology : ++F.t; add = false; break;
+     case RS::empty : ++F.empty; break;
+     case RS::pseudoempty : ++F.pempty; break;
+     default : ;
      }
+     if (F.c + F.repeated + F.t + ((add)?1:0) > F.c_pl) {
+       errout << "Clause" << current_clause_index << "More than " << F.c_pl << "clauses, contradicting cnf-header.";
+       std::exit(code(Error::number_clauses));
+     }
+     if (add) add_clause(C);
    }
   }
   F.max_index = std::max(F.max_a_index, F.max_e_index);
@@ -1780,7 +1789,8 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c number_clauses                        " << F.c_pl << "\n"
          "c number_a_variables                    " << F.na_d << "\n"
          "c number_e_variables                    " << F.ne_d << "\n"
-         "c number_tautological clauses           " << F.t << "\n"
+         "c number_tautological_clauses           " << F.t << "\n"
+         "c number_repeated_clauses               " << F.repeated << "\n"
          "c number_empty_clauses                  " << F.empty << "\n"
          "c number_pseudo_empty_clauses           " << F.pempty << "\n"
          "c Actually occurring:\n"
