@@ -86,4 +86,16 @@ int main() {
     assert(ad.l == 1);
     assert(ad.i == 6);
   }
+  {
+    // Test case for changed d_update function:
+    NQueens::AmoAlo_board F(4);
+    const Var v{1,1};
+    F.set(v,true);
+    const AmoAlo_board FC(F);
+    assert(FC.board({2,2}) == State::forbidden);
+    assert(FC.board({3,3}) == State::forbidden);
+    assert(FC.board({4,4}) == State::forbidden);
+    assert(FC.board({2,3}) == State::open);
+    assert(FC.board({3,2}) == State::open);
+  }
 }

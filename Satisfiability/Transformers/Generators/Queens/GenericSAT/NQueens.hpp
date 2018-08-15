@@ -262,7 +262,7 @@ namespace NQueens {
       assert(board(v) == State::placed);
       r_update();
       c_update();
-      d_update(v);
+      d_update();
       ad_update(v);
     }
 
@@ -290,18 +290,20 @@ namespace NQueens {
             }
           }
     }
-    void d_update(const Var cur_v) noexcept {
-      assert(cur_v.first >= 1 and cur_v.second >= 1);
-      assert(cur_v.first <= N and cur_v.second <= N);
-      const Diagonal d = diagonal(cur_v);
-      const Var d_v = d.s;
-      assert(d.l <= N);
-      for (coord_t i = 0 ; i < d.l ; ++i) {
-        const Var v = {d_v.first + i,d_v.second + i};
-        if (open(v)) {
-          board(v) = State::forbidden;
-          trank_update(v);
-          forbidden_rank_update(v);
+    void d_update() noexcept {
+      for (coord_t i = 0 ; i < 2*N-1 ; ++i) {
+        if (d_ranks[i].p == 1) {
+          const Diagonal d = diagonal(i);
+          const Var d_v = d.s;
+          assert(d.l <= N);
+          for (coord_t j = 0 ; j < d.l ; ++j) {
+            const Var v = {d_v.first + j,d_v.second + j};
+            if (open(v)) {
+              board(v) = State::forbidden;
+              trank_update(v);
+              forbidden_rank_update(v);
+            }
+          }
         }
       }
     }
