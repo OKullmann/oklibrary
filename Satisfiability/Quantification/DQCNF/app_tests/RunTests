@@ -202,6 +202,171 @@ set -e
 
 # XXXXX
 
+set +e
+  echo -e "p cnf 1 0\ne 1 0\ne 0" | $S "-cin" -nil -nil n 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 12 )); then
+    echo "ERROR with translator \"${S}\" on repeated a-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 1 0\ne 1 0\ne 0" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 0 )); then
+    echo "ERROR with translator \"${S}\" on legal repeated (empty) e-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 1 0\ne x 0" | $S "-cin" -nil -nil n 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 14 )); then
+    echo "ERROR with translator \"${S}\" on bad e-read: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 1 0\na 2 0" | $S "-cin" -nil -nil n 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 7 )); then
+    echo "ERROR with translator \"${S}\" on too big e-read: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 1 0\ne 1 1 0" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 16 )); then
+    echo "ERROR with translator \"${S}\" on repeated e-read: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 1 0\ne 0" | $S "-cin" -nil -nil n 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 21 )); then
+    echo "ERROR with translator \"${S}\" on empty e-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 1 0\ne 0" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 0 )); then
+    echo "ERROR with translator \"${S}\" on legal empty e-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 2 0\na 1 0\nd x" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 29 )); then
+    echo "ERROR with translator \"${S}\" on bad e-read in d-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 2 0\na 1 0\nd 3" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 7 )); then
+    echo "ERROR with translator \"${S}\" on too big e-read: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 2 0\na 1 0\nd 0" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 22 )); then
+    echo "ERROR with translator \"${S}\" on empty d-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 2 0\na 1 0\nd 1 0" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 30 )); then
+    echo "ERROR with translator \"${S}\" on repeated e-variable-read in d-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 2 0\na 1 0\nd 2 0" | $S "-cin" -nil -nil vs 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 0 )); then
+    echo "ERROR with translator \"${S}\" on legal DQCNF: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 2 0\na 1 0\nd 2 0\nd 2 0" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 30 )); then
+    echo "ERROR with translator \"${S}\" on repeated e-variable-read in d-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 2 0\na 1 0\nd 2 x 0\n" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 31 )); then
+    echo "ERROR with translator \"${S}\" on bad a-variable-read in d-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 2 0\na 1 0\nd 2 3 0\n" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 7 )); then
+    echo "ERROR with translator \"${S}\" on too big a-read in d-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 2 0\na 1 0\nd 2 1 0" | $S "-cin" -nil -nil vs 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 0 )); then
+    echo "ERROR with translator \"${S}\" on legal DQCNF: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 2 0\na 1 0\nd 2 2 0\n" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 23 )); then
+    echo "ERROR with translator \"${S}\" on non-a-variable-read in d-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 2 0\na 1 0\nd 2 1 1 0" | $S "-cin" -nil -nil vs 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 32 )); then
+    echo "ERROR with translator \"${S}\" on repeated a-variable-read in d-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+
+
+
   file="${testdir}/Maxima_2903.dqdimacs"
 set +e
   $S ${file} ${tempfile} ${tempfile} vs 1

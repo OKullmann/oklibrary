@@ -37,8 +37,24 @@ Other possibilities are:
  - "-clog" for standard log
  - "-nil" for no output.
 
-Conformity-level "g" (for "general") admits c-lines and repeated/empty a-lines
-in the dependency-section, and also allows empty clauses.
+Conformity-level "g" (for "general") admits c-lines and consecutive/empty
+a/e-lines in the dependency-section, and also allows empty clauses.
+
+For example:
+
+> echo -e "p cnf 0 0\na 0\na 0\ne 0\ne 0" | ./autL1_debug -cin -nil -nil g
+> echo $?
+0
+
+while at log-level n for two a-lines and two e-lines we need to have
+four variables:
+
+> echo -e "p cnf 4 0\na 1 0\ne 2 0\na 3 0\ne 4 0" | ./autL1_debug -cin -cout -nil vs
+c Program autL1_debug: version 0.6.4, 15.8.2018.
+c Input: -cin
+p cnf 0 1
+0
+
 Level "s" (for "strict") disallows clauses without existential variables
 ("pseudo-empty" clauses).
 
@@ -334,7 +350,15 @@ TODOS:
     output then accordingly. All shortened dependencies are likely optional,
     and this should be noted.
 
-13. Logarithmic encoding
+13  Report empty and unit-clauses in the translation
+
+    Perhaps we also allow DIMACS-conformity level for the output?
+    "General" allows a unit-clause, while with "normal" we output
+      s UNSATISFIABLE
+
+    Possibly unit-clauses are propagated?
+
+14. Logarithmic encoding
 
     To start with, a command-line parameter for the encoding is needed.
 
@@ -362,7 +386,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.3";
+const std::string version = "0.6.4";
 const std::string date = "15.8.2018";
 
 const std::string program = "autL1"
@@ -400,6 +424,10 @@ enum class Error {
   bad_comment=26,
   num_cls=27,
   illegal_comment=28,
+  e_read_dline=29,
+  e_rep_dline=30,
+  a_read_dline=31,
+  a_rep_dline=32,
 };
 /* Extracting the underlying code of enum-classes (scoped enums) */
 template <typename EC>
@@ -1023,7 +1051,7 @@ void read_dependencies() noexcept {
           std::exit(code(Error::a_read));
         }
         if (v > F.n_pl) {
-          errout << "Line" << current_line_number << "a-variable " << v << "contradicts n=" << F.n_pl;
+          errout << "Line" << current_line_number << "a-variable" << v << "contradicts n=" << F.n_pl;
           std::exit(code(Error::variable_value));
         }
         if (v == 0) break;
@@ -1056,8 +1084,7 @@ void read_dependencies() noexcept {
         }
       }
     } else if (peek == 'e') {
-      // XXXXX
-      if (last_line == lt::e) {
+      if (conlev != ConformityLevel::general and last_line == lt::e) {
         errout << "Line" << current_line_number << "Repeated e-line.";
         std::exit(code(Error::e_rep_line));
       }
@@ -1074,17 +1101,17 @@ void read_dependencies() noexcept {
         }
         if (v == 0) break;
         if (F.vt[v] != VT::und) {
-          errout << "Line" << current_line_number << "Repeated e-read.";
+          errout << "Line" << current_line_number << "Repeated e-variable-read.";
           std::exit(code(Error::e_rep));
         }
         F.vt[v] = VT::fe;
         F.D[v] = dep; ++num_e; ++F.ne_d;
       } while (true);
       if (not s) {
-        errout << "Line" << current_line_number << "Bad e-line read.";
+        errout << "Line" << current_line_number << "Bad e-line read (file corrupted?).";
         std::exit(code(Error::e_line_read));
       }
-      if (num_e == 0) {
+      if (conlev != ConformityLevel::general and num_e == 0) {
         errout << "Line" << current_line_number << "Empty e-line.";
         std::exit(code(Error::e_empty));
       }
@@ -1093,8 +1120,8 @@ void read_dependencies() noexcept {
       assert(peek == 'd');
       Var v;
       if (not (s >> v)) {
-        errout << "Line" << current_line_number << "Bad e-read in d-line.";
-        std::exit(code(Error::e_read));
+        errout << "Line" << current_line_number << "Bad e-variable read in d-line.";
+        std::exit(code(Error::e_read_dline));
       }
       if (v > F.n_pl) {
         errout << "Line" << current_line_number << "e-variable" << v << "contradicts n=" << F.n_pl;
@@ -1106,7 +1133,7 @@ void read_dependencies() noexcept {
       }
       if (F.vt[v] != VT::und) {
         errout << "Line" << current_line_number << "Repeated e-read" << v << "in d-line.";
-        std::exit(code(Error::e_rep));
+        std::exit(code(Error::e_rep_dline));
       }
       F.vt[v] = VT::fe;
       ++F.ne_d;
@@ -1115,22 +1142,22 @@ void read_dependencies() noexcept {
         Var w;
         if (not (s >> w)) {
           errout << "Line" << current_line_number << "Bad a-read in d-line.";
-          std::exit(code(Error::a_read));
+          std::exit(code(Error::a_read_dline));
         }
         if (w > F.n_pl) {
-          errout << "Line" << current_line_number << "a-variable" << w << "contradicts n=" << F.n_pl;
+          errout << "Line" << current_line_number << "a-variable" << w << " in d-line contradicts n=" << F.n_pl;
           std::exit(code(Error::variable_value));
         }
         if (w == 0) break;
         if (F.vt[w] != VT::fa) {
-          errout << "Line" << current_line_number << "Undefined a-variable" << w;
+          errout << "Line" << current_line_number << "Not a-variable" << w << "in d-line.";
           std::exit(code(Error::d_bada));
         }
         try {
           const auto insert = A.insert(w);
           if (not insert.second) {
-            errout << "Line" << current_line_number << "Repeated a-read in d-line.";
-            std::exit(code(Error::a_rep));
+            errout << "Line" << current_line_number << "Repeated a-variable-read in d-line.";
+            std::exit(code(Error::a_rep_dline));
           }
         }
         catch (const std::bad_alloc&) {
@@ -1140,7 +1167,7 @@ void read_dependencies() noexcept {
       } while (true);
       try { F.D[v] = F.dep_sets.insert(A).first; }
       catch (const std::bad_alloc&) {
-        errout << "Line" << current_line_number << "Allocation error for dependency-set.";
+        errout << "Line" << current_line_number << "Allocation error for insertion of dependency-set.";
         std::exit(code(Error::allocation));
       }
       last_line = lt::d;
