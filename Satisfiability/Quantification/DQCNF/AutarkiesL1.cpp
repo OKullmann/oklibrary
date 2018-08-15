@@ -362,8 +362,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.2";
-const std::string date = "14.8.2018";
+const std::string version = "0.6.3";
+const std::string date = "15.8.2018";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -399,6 +399,7 @@ enum class Error {
   empty_line=25,
   bad_comment=26,
   num_cls=27,
+  illegal_comment=28,
 };
 /* Extracting the underlying code of enum-classes (scoped enums) */
 template <typename EC>
@@ -907,13 +908,13 @@ void read_header() noexcept {
     std::getline(in, line); ++current_line_number;
     const char c = line[0];
     if (c == '\0') {
-      errout << "Line " << current_line_number << "Empty line (no p-line found).";
+      errout << "Line" << current_line_number << "Empty line (no p-line found).";
       std::exit(code(Error::empty_line));
     }
     assert(not line.empty());
     if (c == 'p') break;
     if (c != 'c') {
-      errout << "Line " << current_line_number << "Comment lines must start with \"c\".";
+      errout << "Line" << current_line_number << "Comment lines must start with \"c\".";
       std::exit(code(Error::bad_comment));
     }
   }
@@ -921,50 +922,50 @@ void read_header() noexcept {
   std::stringstream s(line);
   {std::string inp; s >> inp;
    if (inp != "p") {
-     errout << "Line " << current_line_number << "Syntax error in parameter line (\"p\" not followed by space).";
+     errout << "Line" << current_line_number << "Syntax error in parameter line (\"p\" not followed by space).";
      std::exit(code(Error::file_pline));
    }
    assert(s);
    if (s.eof()) {
-     errout << "Line " << current_line_number << "Syntax error in parameter line (p-line ends after \"p\").";
+     errout << "Line" << current_line_number << "Syntax error in parameter line (p-line ends after \"p\").";
      std::exit(code(Error::file_pline));
    }
    s >> inp;
    if (not s or inp != "cnf") {
-     errout << "Line " << current_line_number << "Syntax error in parameter line (no \"cnf\").";
+     errout << "Line" << current_line_number << "Syntax error in parameter line (no \"cnf\").";
      std::exit(code(Error::file_pline));
    }
   }
   s >> F.n_pl;
   if (not s) {
-    errout << "Line " << current_line_number << "Reading error with parameter maximal-variable-index "
+    errout << "Line" << current_line_number << "Reading error with parameter maximal-variable-index "
       "(too big or not-a-number).";
     std::exit(code(Error::file_pline));
   }
   if (not valid(F.n_pl)) {
-    errout << "Line " << current_line_number << "Parameter maximal-variable-index n=" << F.n_pl <<
+    errout << "Line" << current_line_number << "Parameter maximal-variable-index n=" << F.n_pl <<
       " is too big for numeric_limits<Lit_int>::max=" << max_lit;
     std::exit(code(Error::num_vars));
   }
   s >> F.c_pl;
   if (not s) {
-    errout << "Line " << current_line_number << "Reading error with parameter number-of-clauses "
+    errout << "Line" << current_line_number << "Reading error with parameter number-of-clauses "
       "(too big or not-a-number).";
     std::exit(code(Error::num_cls));
   }
   if (not s.eof()) {
-    errout << "Line " << current_line_number << "Syntax error in parameter line (something after c-parameter).";
+    errout << "Line" << current_line_number << "Syntax error in parameter line (something after c-parameter).";
     std::exit(code(Error::file_pline));
   }
 }
 
 // Read dependency-data into F:
-void read_dependencies() {
+void read_dependencies() noexcept {
   assert(in.exceptions() == 0);
   assert(in.good());
   try { F.vt.resize(F.n_pl+1); F.D.resize(F.n_pl+1); }
   catch (const std::bad_alloc&) {
-    errout << "Allocation error for dependency-vector of size " << F.n_pl;
+    errout << "Allocation error for vt- + dependency-vector of size " << F.n_pl;
     std::exit(code(Error::allocation));
   }
   struct Finish { // marking unset variables as fe with empty domain
@@ -982,7 +983,12 @@ void read_dependencies() {
     }
   } finish(F);
   AVarset A;
-  Dependency dep = F.dep_sets.insert(A).first;
+  Dependency dep;
+  try { dep = F.dep_sets.insert(A).first; }
+  catch (const std::bad_alloc&) {
+    errout << "Allocation error for first (empty) dependency-set.";
+    std::exit(code(Error::allocation));
+  }
   std::string line;
   enum class lt { begin, e, a, d }; // line type
   lt last_line = lt::begin;
@@ -990,91 +996,117 @@ void read_dependencies() {
   while (true) {
     const int peek = in.peek();
     if (peek == std::char_traits<char>::eof()) return;
-    if (conlev == ConformityLevel::general and peek == 'c') {
-      std::getline(in, line); ++current_line_number;
-      continue;
-    }
+    ++current_line_number;
+    if (peek == 'c')
+      if (conlev == ConformityLevel::general) {
+        std::getline(in, line);
+        continue;
+      }
+      else {
+        errout << "Line" << current_line_number << "Comment after p-line.";
+        std::exit(code(Error::illegal_comment));
+      }
     if (peek != 'a' and peek != 'e' and peek != 'd') return;
-    std::getline(in, line); ++current_line_number;
+    std::getline(in, line);
     std::stringstream s(line);
     {std::string skip; s >> skip;}
     if (peek == 'a') {
       if (conlev != ConformityLevel::general and last_line == lt::a) {
-         errout << "Repeated a-line."; std::exit(code(Error::a_rep_line));
+        errout << "Line" << current_line_number << "Repeated a-line.";
+        std::exit(code(Error::a_rep_line));
       }
       Count_t num_a = 0;
       do {
         Var v;
         if (not (s >> v)) {
-          errout << "Bad a-read."; std::exit(code(Error::a_read));
-        };
+          errout << "Line" << current_line_number << "Bad a-read.";
+          std::exit(code(Error::a_read));
+        }
         if (v > F.n_pl) {
-          errout << "a-variable " << v << " contradicts n=" << F.n_pl;
+          errout << "Line" << current_line_number << "a-variable " << v << "contradicts n=" << F.n_pl;
           std::exit(code(Error::variable_value));
         }
         if (v == 0) break;
         if (F.vt[v] != VT::und) {
-          errout << "Repeated a-read."; std::exit(code(Error::a_rep));
+          errout << "Line" << current_line_number << "Repeated a-variable-read" << v;
+          std::exit(code(Error::a_rep));
         }
         F.vt[v] = VT::fa;
         A.insert(v); ++num_a; ++F.na_d;
       } while (true);
       if (not s) {
-        errout << "Bad a-line read."; std::exit(code(Error::a_line_read));
+        errout << "Line" << current_line_number << "Bad a-line read (file corrupted?).";
+        std::exit(code(Error::a_line_read));
       }
       if (num_a != 0) {
         last_line = lt::a;
-        const auto insert = F.dep_sets.insert(A);
-        assert(insert.second);
-        dep = insert.first;
+        try {
+          const auto insert = F.dep_sets.insert(A);
+          assert(insert.second);
+          dep = insert.first;
+        }
+        catch (const std::bad_alloc&) {
+          errout << "Line" << current_line_number << "Allocation error for dependency-set.";
+          std::exit(code(Error::allocation));
+        }
       } else {
-      if (conlev != ConformityLevel::general) {
-          errout << "Empty a-line."; std::exit(code(Error::a_empty));
+        if (conlev != ConformityLevel::general) {
+          errout << "Line" << current_line_number << "Empty a-line.";
+          std::exit(code(Error::a_empty));
         }
       }
     } else if (peek == 'e') {
+      // XXXXX
       if (last_line == lt::e) {
-        errout << "Repeated e-line."; std::exit(code(Error::e_rep_line));
+        errout << "Line" << current_line_number << "Repeated e-line.";
+        std::exit(code(Error::e_rep_line));
       }
       Count_t num_e = 0;
       do {
         Var v;
         if (not (s >> v)) {
-          errout << "Bad e-read."; std::exit(code(Error::e_read));
-        };
+          errout << "Line" << current_line_number << "Bad e-read.";
+          std::exit(code(Error::e_read));
+        }
         if (v > F.n_pl) {
-          errout << "e-variable" << v << "contradicts n=" << F.n_pl;
+          errout << "Line" << current_line_number << "e-variable" << v << "contradicts n=" << F.n_pl;
           std::exit(code(Error::variable_value));
         }
         if (v == 0) break;
         if (F.vt[v] != VT::und) {
-          errout << "Repeated e-read."; std::exit(code(Error::e_rep));
+          errout << "Line" << current_line_number << "Repeated e-read.";
+          std::exit(code(Error::e_rep));
         }
         F.vt[v] = VT::fe;
         F.D[v] = dep; ++num_e; ++F.ne_d;
       } while (true);
       if (not s) {
-        errout << "Bad e-line read."; std::exit(code(Error::e_line_read));
+        errout << "Line" << current_line_number << "Bad e-line read.";
+        std::exit(code(Error::e_line_read));
       }
       if (num_e == 0) {
-        errout << "Empty e-line."; std::exit(code(Error::e_empty));
+        errout << "Line" << current_line_number << "Empty e-line.";
+        std::exit(code(Error::e_empty));
       }
       last_line = lt::e;
     } else {
       assert(peek == 'd');
       Var v;
       if (not (s >> v)) {
-        errout << "Bad e-read in d-line."; std::exit(code(Error::e_read));
-      };
+        errout << "Line" << current_line_number << "Bad e-read in d-line.";
+        std::exit(code(Error::e_read));
+      }
       if (v > F.n_pl) {
-        errout << "e-variable" << v << "contradicts n=" << F.n_pl;
+        errout << "Line" << current_line_number << "e-variable" << v << "contradicts n=" << F.n_pl;
         std::exit(code(Error::variable_value));
       }
       if (v == 0) {
-        errout << "Empty d-line."; std::exit(code(Error::d_empty));
+        errout << "Line" << current_line_number << "Empty d-line.";
+        std::exit(code(Error::d_empty));
       }
       if (F.vt[v] != VT::und) {
-        errout << "Repeated e-read" << v << "in d-line."; std::exit(code(Error::e_rep));
+        errout << "Line" << current_line_number << "Repeated e-read" << v << "in d-line.";
+        std::exit(code(Error::e_rep));
       }
       F.vt[v] = VT::fe;
       ++F.ne_d;
@@ -1082,23 +1114,35 @@ void read_dependencies() {
       do {
         Var w;
         if (not (s >> w)) {
-          errout << "Bad a-read in d-line."; std::exit(code(Error::a_read));
-        };
+          errout << "Line" << current_line_number << "Bad a-read in d-line.";
+          std::exit(code(Error::a_read));
+        }
         if (w > F.n_pl) {
-          errout << "a-variable " << w << " contradicts n=" << F.n_pl;
+          errout << "Line" << current_line_number << "a-variable" << w << "contradicts n=" << F.n_pl;
           std::exit(code(Error::variable_value));
         }
         if (w == 0) break;
         if (F.vt[w] != VT::fa) {
-          errout << "Undefined a-variable" << w; std::exit(code(Error::d_bada));
+          errout << "Line" << current_line_number << "Undefined a-variable" << w;
+          std::exit(code(Error::d_bada));
         }
-        const auto insert = A.insert(w);
-        if (not insert.second) {
-          errout << "Repeated a-read in d-line.";
-          std::exit(code(Error::a_rep));
+        try {
+          const auto insert = A.insert(w);
+          if (not insert.second) {
+            errout << "Line" << current_line_number << "Repeated a-read in d-line.";
+            std::exit(code(Error::a_rep));
+          }
+        }
+        catch (const std::bad_alloc&) {
+          errout << "Line" << current_line_number << "Allocation error for insertion into dependency-set.";
+          std::exit(code(Error::allocation));
         }
       } while (true);
-      F.D[v] = F.dep_sets.insert(A).first;
+      try { F.D[v] = F.dep_sets.insert(A).first; }
+      catch (const std::bad_alloc&) {
+        errout << "Line" << current_line_number << "Allocation error for dependency-set.";
+        std::exit(code(Error::allocation));
+      }
       last_line = lt::d;
     } // end of main if-then-else
   } // main loop
