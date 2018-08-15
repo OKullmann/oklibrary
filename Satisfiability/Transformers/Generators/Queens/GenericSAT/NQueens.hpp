@@ -4,6 +4,14 @@
 
 1. Good statistics on the inference process
 
+   (a) Improving propagation (in to meaningful phases).
+
+      (i) Change r/c/d/ad update functions from single variable update to general whole board (we update a r/c/d/ad if one field is set to occupied).
+      (ii) Remove stack and set the field to occupied at once (handling if amo constraint is voilated).
+      (iii) Seperate Alo propagation.
+
+   (b) Adding statistics to inference process.
+
 2. Simple heuristics
 
    (a) First open field (this should still have a better q(N) than
