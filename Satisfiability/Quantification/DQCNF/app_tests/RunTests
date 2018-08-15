@@ -119,6 +119,89 @@ set -e
     exit 1
   fi
 
+set +e
+  echo -e "p cnf 0 0\nc" | $S "-cin" -nil -nil n 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 28 )); then
+    echo "ERROR with translator \"${S}\" on illegal comment: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 0 0\nc" | $S "-cin" -nil -nil g 2
+  returncode=$?
+set -e
+  if(( returncode != 0 )); then
+    echo "ERROR with translator \"${S}\" on legal comment: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 1 0\na 1 0\na 0" | $S "-cin" -nil -nil n 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 11 )); then
+    echo "ERROR with translator \"${S}\" on repeated a-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 1 0\na 1 0\na 0" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 0 )); then
+    echo "ERROR with translator \"${S}\" on legal repeated (empty) a-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 1 0\na x 0" | $S "-cin" -nil -nil n 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 13 )); then
+    echo "ERROR with translator \"${S}\" on bad a-read: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 1 0\na 2 0" | $S "-cin" -nil -nil n 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 7 )); then
+    echo "ERROR with translator \"${S}\" on too big a-read: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 1 0\na 1 1 0" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 15 )); then
+    echo "ERROR with translator \"${S}\" on repeated a-read: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 1 0\na 0" | $S "-cin" -nil -nil n 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 19 )); then
+    echo "ERROR with translator \"${S}\" on empty a-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 1 0\na 0" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 0 )); then
+    echo "ERROR with translator \"${S}\" on legal empty a-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+# XXXXX
+
   file="${testdir}/Maxima_2903.dqdimacs"
 set +e
   $S ${file} ${tempfile} ${tempfile} vs 1
@@ -146,7 +229,7 @@ set -e
   fi
   result=$(${countsolver1} ${tempfile} | awk '/number_of_solutions/{print $3}')
   if (( result != 270 )); then
-    echo -e "Wrong count with translator \"${S}\" on ${file}."
+    echo -e "Wrong count ${result} with translator \"${S}\" on ${file}."
     exit 4
   fi
   rm ${tempfile}
@@ -157,7 +240,7 @@ set +e
   returncode=$?
 set -e
   if (( returncode != 0 )); then
-    echo "ERROR with translator \"${S}\" on ${file}."
+    echo "ERROR with translator \"${S}\" on ${file}: return-code ${returncode}."
     exit 5
   fi
 set +e
@@ -165,7 +248,7 @@ set +e
   returncode=$?
 set -e
   if (( returncode != 10 )); then
-    echo "ERROR with ${satsolver1} on ${file}."
+    echo "ERROR with solver ${satsolver1} on ${file}: return-code ${returncode}."
     exit 6
   fi
   rm ${tempfile}
@@ -173,8 +256,8 @@ set +e
   $S ${file} ${tempfile} ${tempfile} n 1 2> /dev/null
   returncode=$?
 set -e
-  if (( returncode != 6 )); then
-    echo "ERROR with translator \"${S}\" on ${file}."
+  if (( returncode != 28 )); then
+    echo "ERROR with translator \"${S}\" on ${file}: return-code ${returncode}."
     exit 7
   fi
   rm ${tempfile}
