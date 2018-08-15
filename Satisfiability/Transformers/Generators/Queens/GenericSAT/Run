@@ -1,0 +1,39 @@
+set -o errexit
+set -o nounset
+
+program="Run"
+version="0.2"
+
+numargs=$#
+if (( numargs == 0 )); then
+  echo -e "USAGE:\n ${program} N"
+  exit 0
+fi
+
+N=$1
+executable="./ExpQueens"
+numlines=6
+
+timestamp=$(date "+%F_%H-%M-%S")
+logfile="${program}_${timestamp}"
+timingtool="/usr/bin/time --portability"
+awkargument="NR > ${numlines} {print \"c \" \$0}; NR <= ${numlines} {print \$0}"
+
+echo "${program} in version ${version}, logfile = ${logfile}"
+
+echo "${program} in version ${version}" > ${logfile}
+
+echo "Parameters:" >> ${logfile}
+echo "N=$N" >> ${logfile}
+echo "Executable: \"${executable}\"" >> ${logfile}
+
+${executable} -v >> ${logfile}
+echo >> ${logfile}
+
+for ((i=1; i<=N; ++i)); do
+  echo "c N $i" >> ${logfile}
+  ${timingtool} ${executable} $i |& awk "${awkargument}" >> ${logfile}
+  echo >> ${logfile}
+done
+
+exit 0
