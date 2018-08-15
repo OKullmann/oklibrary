@@ -350,7 +350,7 @@ TODOS:
     output then accordingly. All shortened dependencies are likely optional,
     and this should be noted.
 
-13  Report empty and unit-clauses in the translation
+13. Report empty and unit-clauses in the translation
 
     Perhaps we also allow DIMACS-conformity level for the output?
     "General" allows a unit-clause, while with "normal" we output
@@ -358,7 +358,14 @@ TODOS:
 
     Possibly unit-clauses are propagated?
 
-14. Logarithmic encoding
+14. Conformity-level vs
+
+    Here there must be no
+     - formal variables
+     - repeated literals in clauses
+     - tautological clauses
+
+15. Logarithmic encoding
 
     To start with, a command-line parameter for the encoding is needed.
 
@@ -386,7 +393,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.5";
+const std::string version = "0.6.6";
 const std::string date = "15.8.2018";
 
 const std::string program = "autL1"
@@ -1213,7 +1220,7 @@ RS read_clause(DClause& C) noexcept {
     if (not x) break; // end of clause
     const Var v = var(x);
     if (v > F.n_pl) {
-      errout << "Literal " << x << " contradicts n=" << F.n_pl;
+      errout << "Clause" << current_clause_index << "Literal" << x << "contradicts n=" << F.n_pl;
       std::exit(code(Error::variable_value));
     }
     if (at(F.vt[v]))
@@ -1221,7 +1228,7 @@ RS read_clause(DClause& C) noexcept {
         C.clear();
         do
           if (not (in >> x)) {
-            errout << "Invalid literal-read in tautological a-clause.";
+            errout << "Clause" << current_clause_index << "Invalid literal-read in a-tautological clause.";
             std::exit(code(Error::literal_read));
           }
         while (x);
@@ -1234,7 +1241,7 @@ RS read_clause(DClause& C) noexcept {
         C.clear();
         do
           if (not (in >> x)) {
-            errout << "Invalid literal-read in tautological e-clause.";
+            errout << "Clause" << current_clause_index << "Invalid literal-read in e-tautological clause.";
             std::exit(code(Error::literal_read));
           }
         while (x);
@@ -1251,18 +1258,18 @@ RS read_clause(DClause& C) noexcept {
     break;
   case ConformityLevel::normal :
     if (C.empty()) {
-      errout << "Empty clause.";
+      errout << "Clause" << current_clause_index << "Empty clause.";
       std::exit(code(Error::empty_clause));
     }
     if (C.pseudoempty()) return RS::pseudoempty;
     break;
   default :
     if (C.empty()) {
-      errout << "Empty clause.";
+      errout << "Clause" << current_clause_index << "Empty clause.";
       std::exit(code(Error::empty_clause));
     }
     if (C.pseudoempty()) {
-      errout << "Clause without existential variables.";
+      errout << "Clause" << current_clause_index << "Clause without existential variables.";
       std::exit(code(Error::pseudoempty_clause));
     }
   }
