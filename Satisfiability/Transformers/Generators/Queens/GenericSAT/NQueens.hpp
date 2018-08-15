@@ -6,7 +6,7 @@
 
    (a) Improving propagation (in to meaningful phases).
 
-      (i) Change r/c/d/ad update functions from single variable update to general whole board (we update a r/c/d/ad if one field is set to occupied).
+      (i) Change r/c/d/ad update functions from single variable update to general whole board. //done
       (ii) Remove stack and set the field to occupied at once (handling if amo constraint is voilated).
       (iii) Seperate Alo propagation.
 
