@@ -168,13 +168,14 @@ TODOS:
    dependencies etc.) are established.
 
    For the handling of minima perhaps some helper-function is used, which
-   writes "NaN" under appropriate circumstances.
+   writes "NA" under appropriate circumstances.
 
 2. More statistics on dependencies:
     - average size
     - number of maximal and minimal elements
     - maximum length of a chain (height)
-    - width (maximum length of an antichain)
+    - width (maximum length of an antichain); this decides also whether we
+      have a PQCNF.
 
 3. Implementing linear-size version of amo (using auxiliary variables)
 
@@ -188,22 +189,26 @@ TODOS:
       ability to count solutions, we actually implement only the
       counting-version.
 
+    The new variables used here likely should come at the end.
+
 4. Implement
     - cleanup_clauses()
     - cleanup_dependencies()
 
-Once done, the assert
-  assert(w == 0 or F.vt[w] == VT::a or F.vt[w] == VT::fa);
-in function bfvar needs to be updated.
+  Once done, the assert
+    assert(w == 0 or F.vt[w] == VT::a or F.vt[w] == VT::fa);
+  in function bfvar needs to be updated.
 
-Three steps:
-  (a) First remove universal literals from clauses, where they are not
-      part of any dependency.
-  (b) Now a-variables may have become fa-variables, and that needs to be
-      updated.
-  (c) Finally remove all fa-variables from dependency-sets.
+  Three steps:
+    (a) First remove universal literals from clauses, where they are not
+        part of any dependency.
+    (b) Now a-variables may have become fa-variables, and that needs to be
+        updated.
+    (c) Finally remove all fa-variables from dependency-sets.
 
-Statistics are needed to report on these reductions.
+  Statistics are needed to report on these reductions.
+
+  Reductions (b), (c) need to be re-applied after autarky-reductions.
 
 5. Determine the main parameters like number of pa-variables etc. from the
    parameters of the DQCNF.
@@ -213,23 +218,59 @@ Statistics are needed to report on these reductions.
    perhaps just based on output=nil (then actually, different from the current
    behaviour, nothing should happen).
 
+   It seems that the class Encoding should deliver this service:
+    - natural, since only here the minimal solutions per clause are
+      determined;
+    - might take a lot of effort, which is needed for the precise count, taking
+      repetitions of partial assignments into account, but perhaps one might
+      offer an upper bound, which just sums up all the possibilities per
+      clause?
+    - As stated at the beginning of this point, there is also the prospect of
+      what can be done just from the parameters of the DQCNF. Perhaps there are
+      stages of "approximation"? First from the encoding, then roughly taking
+      the clauses into account, and finally the precise numbers from the
+      encoding-dtails.
+
+   First a member-function Encoding::ncl, which returns a structure with the
+   (exact) numbers of clauses, as they appear in the translation.
+
 6. Test and improve error-handling
 
-   Give the original file-line-numbers with the errors.
+   Give the original file-line-numbers and clause-indices with the errors:
+    - original line-numbers for up to (including) the p-line and the
+      dependencies;
+    - so the final line-number is the last dependency (or p-line);
+    - then the clause-indices take over;
+    - all indices start with 1 (initialised to 0).
+
+   So when reading the input clauses, their original line-number needs to be
+   stored. Tautological clauses (which are deleted) should also be recorded;
+   see Point 12:
+    - The class DClause could contain the original clause-index >= 1, or
+      0 if not defined.
+    - There needs then to be a vector with the indices of the deleted
+      tautological clauses.
+    - When showing the original clauses, then the original indices should
+      be shown (in case of repeated clauses, this needs to be indicated).
+    - The map new-clause-index -> old-clause-index should be made available,
+      so that a simple script with inputs (input dqcnf, satisfying assignment
+      for translation, map) can perform the autarky-reduction.
 
    More information should be given in case of out-of-memory.
    And all such errors need to be caught (so that then all functions
    are noexcept).
 
-7. Improve merging output
+7. Distributing comments on the two output-streams (solout and logout)
 
-   We need a possibility to discard the information on the translation-
-   variables (it can be big).
+   Currently we have the log-level (0,1,2), where level-2 actually goes to
+   solout (information on the translation-variables, which can be big).
 
-   Perhaps the repetition of the input should come last (before the real
-   output)?
+   While log-level-1 is the input (in the new order), going to logout.
 
-8. Another variation: cut out variables for partial assignments with only
+   Perhaps we can have a more powerful syntax, which allows to select the
+   various pieces, and where they go, in which order.
+
+8. Another variation: cut out pa-variables for partial assignments with only
    one variable.
 
    Together with cleaning-up-or-not this yields (at least) 4 variations.
@@ -244,6 +285,8 @@ Statistics are needed to report on these reductions.
 9. Apply autarkies found to the original problem
 
    Perhaps just a bash-script? No, we can do a complete package.
+   But a bash-script is also useful; see Point 6 above for the information
+   which clauses to remove.
 
    We develop this program, so that all "basic autarkies"
    can be handled; see Point 11 for autarkies with one e-variable.
@@ -259,11 +302,20 @@ Statistics are needed to report on these reductions.
    [v solution]
    Then we just use this fixed wrapper (no further command-line input).
 
+   Some good command-line syntax is needed, to tell the program whether to
+   perform the autarky-reduction or not (which in the positive case
+   is always applied until completion), and then whether
+    - only 1-var-bfs autarkies
+    - only 1-var autarkies
+    - both types of autarkies.
+
 10. No storing of the clauses of the translation
 
     Currently there is absolutely no need.
     If Point 9 is applied, then likely still we can just re-output the clauses,
     using the simple information which clauses have been satisfied.
+    However, if this program performs the autarky-reductions, then we should
+    keep the clauses.
 
 11. Autarkies using one e-variable
 
@@ -279,7 +331,12 @@ Statistics are needed to report on these reductions.
     that simple tools can independently apply the changes).
 
     We should detect whether the input is PQCNF (i.e., no d-lines), and
-    output then accordingly.
+    output then accordingly. All shortened dependencies are likely optional,
+    and this should be noted.
+
+13. Logarithmic encoding
+
+    To start with, a command-line parameter for the encoding is needed.
 
 */
 
@@ -305,8 +362,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6";
-const std::string date = "26.7.2018";
+const std::string version = "0.6.2";
+const std::string date = "14.8.2018";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -339,6 +396,9 @@ enum class Error {
   d_empty=22,
   d_bada=23,
   pseudoempty_clause=24,
+  empty_line=25,
+  bad_comment=26,
+  num_cls=27,
 };
 /* Extracting the underlying code of enum-classes (scoped enums) */
 template <typename EC>
@@ -834,68 +894,71 @@ class ReadDimacs {
 
 std::istream& in;
 DClauseSet F;
-ConformityLevel conlev;
+const ConformityLevel conlev;
+Count_t current_line_number = 0; // starting with 1; final value the last dependency (or p-line, if no dependencies)
+Count_t current_clause_index = 0; // starting with 1
 
-// Aborts via std::exit in case of input-errors:
+// Reads header-data into F; aborts via std::exit in case of input-errors:
 void read_header() noexcept {
   assert(in.exceptions() == 0);
   assert(in.good());
   std::string line;
   while (true) {
-    std::getline(in, line);
-    assert(not line.empty());
-    const auto c = line[0];
-    if (c == '\0') { // empty line
-      errout << "Empty line (no p-line found).";
-      std::exit(code(Error::file_reading));
+    std::getline(in, line); ++current_line_number;
+    const char c = line[0];
+    if (c == '\0') {
+      errout << "Line " << current_line_number << "Empty line (no p-line found).";
+      std::exit(code(Error::empty_line));
     }
+    assert(not line.empty());
     if (c == 'p') break;
     if (c != 'c') {
-      errout << "Comment lines must start with \"c\".";
-      std::exit(code(Error::file_reading));
+      errout << "Line " << current_line_number << "Comment lines must start with \"c\".";
+      std::exit(code(Error::bad_comment));
     }
   }
   assert(line[0] == 'p');
   std::stringstream s(line);
   {std::string inp; s >> inp;
    if (inp != "p") {
-     errout << "Syntax error in parameter line (\"p\" not followed by space).";
+     errout << "Line " << current_line_number << "Syntax error in parameter line (\"p\" not followed by space).";
      std::exit(code(Error::file_pline));
    }
    assert(s);
    if (s.eof()) {
-     errout << "Syntax error in parameter line (p-line ends after \"p\").";
+     errout << "Line " << current_line_number << "Syntax error in parameter line (p-line ends after \"p\").";
      std::exit(code(Error::file_pline));
    }
    s >> inp;
    if (not s or inp != "cnf") {
-     errout << "Syntax error in parameter line (no \"cnf\").";
+     errout << "Line " << current_line_number << "Syntax error in parameter line (no \"cnf\").";
      std::exit(code(Error::file_pline));
    }
   }
   s >> F.n_pl;
   if (not s) {
-    errout << "Reading error with parameter maximal-variable-index "
+    errout << "Line " << current_line_number << "Reading error with parameter maximal-variable-index "
       "(too big or not-a-number).";
     std::exit(code(Error::file_pline));
   }
   if (not valid(F.n_pl)) {
-    errout << "Parameter maximal-variable-index n=" << F.n_pl <<
+    errout << "Line " << current_line_number << "Parameter maximal-variable-index n=" << F.n_pl <<
       " is too big for numeric_limits<Lit_int>::max=" << max_lit;
     std::exit(code(Error::num_vars));
   }
   s >> F.c_pl;
   if (not s) {
-    errout << "Reading error with parameter number-of-clauses "
+    errout << "Line " << current_line_number << "Reading error with parameter number-of-clauses "
       "(too big or not-a-number).";
-    std::exit(code(Error::file_pline));
+    std::exit(code(Error::num_cls));
   }
   if (not s.eof()) {
-    errout << "Syntax error in parameter line (something after c-parameter).";
+    errout << "Line " << current_line_number << "Syntax error in parameter line (something after c-parameter).";
     std::exit(code(Error::file_pline));
   }
 }
 
+// Read dependency-data into F:
 void read_dependencies() {
   assert(in.exceptions() == 0);
   assert(in.good());
@@ -928,11 +991,11 @@ void read_dependencies() {
     const int peek = in.peek();
     if (peek == std::char_traits<char>::eof()) return;
     if (conlev == ConformityLevel::general and peek == 'c') {
-      std::getline(in, line);
+      std::getline(in, line); ++current_line_number;
       continue;
     }
     if (peek != 'a' and peek != 'e' and peek != 'd') return;
-    std::getline(in, line);
+    std::getline(in, line); ++current_line_number;
     std::stringstream s(line);
     {std::string skip; s >> skip;}
     if (peek == 'a') {
@@ -1043,14 +1106,17 @@ void read_dependencies() {
 
 enum class RS { clause, none, empty, tautology, pseudoempty }; // read-status
 
-// Reference-parameter C is empty if no or a tautological clause was found:
-RS read_clause(DClause& C) const noexcept {
+/* Attempting to read a single clause; reference-parameter C is empty iff none
+   or a tautological clause or an empty clause was found:
+*/
+RS read_clause(DClause& C) noexcept {
   assert(in.exceptions() == 0);
   assert(in.good());
   C.clear();
   Lit x;
   in >> x;
   if (in.eof()) return RS::none;
+  ++current_clause_index;
   AClause CA; EClause CE; // complemented clauses
   while (true) { // reading literals into C
     if (not in) {
@@ -1117,7 +1183,8 @@ RS read_clause(DClause& C) const noexcept {
   return RS::clause;
 }
 
-// Error only if announced number of clauses too small (but may be too big):
+// Add C to F; error only if announced number of clauses too small (but may be
+// too big):
 inline void add_clause(const DClause& C) {
   if (F.c + F.t >= F.c_pl) {
     errout << "More than " << F.c_pl << " clauses, contradicting cnf-header.";
