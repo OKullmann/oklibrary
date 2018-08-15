@@ -76,5 +76,14 @@ int main() {
     assert(d.l == 1);
     assert(d.i == 0);
   }
-
+  {
+    // Test case for anti_diagonal function with index as argument:
+    NQueens::AmoAlo_board F(4);
+    AntiDiagonal ad = F.anti_diagonal(6);
+    const AmoAlo_board FC(F);
+    assert(ad.s.first == 4);
+    assert(ad.s.second == 4);
+    assert(ad.l == 1);
+    assert(ad.i == 6);
+  }
 }

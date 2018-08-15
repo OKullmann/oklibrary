@@ -163,9 +163,11 @@ namespace NQueens {
     }
     // Returns diagonal starting field, length and index:
     Diagonal diagonal(const coord_t i) const noexcept {
+      assert(i < 2*N-1);
       if (i < N) return {{N-i,1}, i+1, i};
       else return {{1,i-N+2}, 2*N-i-1, i};
     }
+
     // Returns anti_diagonal starting field, length and index:
     AntiDiagonal anti_diagonal(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
@@ -173,6 +175,12 @@ namespace NQueens {
       const coord_t c_sum = v.first + v.second;
       if (c_sum <= N) return {{1,c_sum-1}, c_sum-1, c_sum-2};
       else return {{c_sum-N,N}, 2*N-(c_sum-1), c_sum-2};
+    }
+    // Returns anti_diagonal starting field, length and index:
+    AntiDiagonal anti_diagonal(const coord_t i) const noexcept {
+      assert(i < 2*N-1);
+      if (i < N) return {{1,i+1}, i+1, i};
+      else return {{i-N+2,N}, 2*N-i-1, i};
     }
 
     Var_uint odegree(const Var v) const noexcept {
