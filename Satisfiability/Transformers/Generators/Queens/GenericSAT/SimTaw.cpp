@@ -26,6 +26,6 @@ int main(const int argc, const char* const argv[]) {
   NQueens::AmoAlo_board Fq(N);
   Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::TawHeuristics> B;
   const auto rFq = B(Fq);
-  std::cout << rFq.solutions << " " << rFq.nodes << "\n";
+  std::cout << rFq;
 
 }
