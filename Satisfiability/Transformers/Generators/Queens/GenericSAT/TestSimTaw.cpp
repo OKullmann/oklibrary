@@ -55,4 +55,15 @@ int main() {
     assert(FC.board({1,4}) == State::forbidden);
     assert(FC.board({2,4}) == State::open);
   }
+  {
+    // Test case for changed c_update function:
+    NQueens::AmoAlo_board F(4);
+    const Var v{1,1};
+    F.set(v,true);
+    const AmoAlo_board FC(F);
+    assert(FC.board({2,1}) == State::forbidden);
+    assert(FC.board({3,1}) == State::forbidden);
+    assert(FC.board({4,1}) == State::forbidden);
+    assert(FC.board({4,2}) == State::open);
+  }
 }
