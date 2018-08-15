@@ -44,4 +44,15 @@ int main() {
     TawHeuristics h(F);
     assert(h.heuristics(v11) == TawHeuristics::Bp(3*4.85, 2*4.85));
   }
+  {
+    // Test case for changed r_update function:
+    NQueens::AmoAlo_board F(4);
+    const Var v{1,1};
+    F.set(v,true);
+    const AmoAlo_board FC(F);
+    assert(FC.board({1,2}) == State::forbidden);
+    assert(FC.board({1,3}) == State::forbidden);
+    assert(FC.board({1,4}) == State::forbidden);
+    assert(FC.board({2,4}) == State::open);
+  }
 }

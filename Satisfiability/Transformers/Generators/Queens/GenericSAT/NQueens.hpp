@@ -247,23 +247,23 @@ namespace NQueens {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       assert(board(v) == State::placed);
-      r_update(v);
+      r_update();
       c_update(v);
       d_update(v);
       ad_update(v);
     }
 
-    void r_update(const Var cur_v) noexcept {
-      assert(cur_v.first >= 1 and cur_v.second >= 1);
-      assert(cur_v.first <= N and cur_v.second <= N);
-      for (coord_t i = 1 ; i <= N ; ++i) {
-        const Var v = {cur_v.first,i};
-        if (open(v)) {
-          board(v) = State::forbidden;
-          trank_update(v);
-          forbidden_rank_update(v);
-        }
-      }
+    void r_update() noexcept {
+      for (coord_t i = 1 ; i <= N ; ++i)
+        if (r_ranks[i].p == 1)
+          for (coord_t j = 1 ; j <= N ; ++j) {
+            const Var v = {i,j};
+            if (open(v)) {
+              board(v) = State::forbidden;
+              trank_update(v);
+              forbidden_rank_update(v);
+            }
+          }
     }
     void c_update(const Var cur_v) noexcept {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
