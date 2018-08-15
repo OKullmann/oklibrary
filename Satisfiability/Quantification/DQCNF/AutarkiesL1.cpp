@@ -386,7 +386,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.4";
+const std::string version = "0.6.5";
 const std::string date = "15.8.2018";
 
 const std::string program = "autL1"
@@ -428,6 +428,9 @@ enum class Error {
   e_rep_dline=30,
   a_read_dline=31,
   a_rep_dline=32,
+  a_line_trail=33,
+  e_line_trail=34,
+  d_line_trail=35,
 };
 /* Extracting the underlying code of enum-classes (scoped enums) */
 template <typename EC>
@@ -1066,6 +1069,10 @@ void read_dependencies() noexcept {
         errout << "Line" << current_line_number << "Bad a-line read (file corrupted?).";
         std::exit(code(Error::a_line_read));
       }
+      if (not s.eof()) {
+        errout << "Line" << current_line_number << "Syntax error in a-line (trailing characters).";
+        std::exit(code(Error::a_line_trail));
+      }
       if (num_a != 0) {
         last_line = lt::a;
         try {
@@ -1110,6 +1117,10 @@ void read_dependencies() noexcept {
       if (not s) {
         errout << "Line" << current_line_number << "Bad e-line read (file corrupted?).";
         std::exit(code(Error::e_line_read));
+      }
+      if (not s.eof()) {
+        errout << "Line" << current_line_number << "Syntax error in e-line (trailing characters).";
+        std::exit(code(Error::e_line_trail));
       }
       if (conlev != ConformityLevel::general and num_e == 0) {
         errout << "Line" << current_line_number << "Empty e-line.";
@@ -1165,6 +1176,10 @@ void read_dependencies() noexcept {
           std::exit(code(Error::allocation));
         }
       } while (true);
+      if (not s.eof()) {
+        errout << "Line" << current_line_number << "Syntax error in d-line (trailing characters).";
+        std::exit(code(Error::d_line_trail));
+      }
       try { F.D[v] = F.dep_sets.insert(A).first; }
       catch (const std::bad_alloc&) {
         errout << "Line" << current_line_number << "Allocation error for insertion of dependency-set.";
@@ -1191,7 +1206,7 @@ RS read_clause(DClause& C) noexcept {
   AClause CA; EClause CE; // complemented clauses
   while (true) { // reading literals into C
     if (not in) {
-      errout << "Invalid literal-read at beginning of clause.";
+      errout << "Clause" << current_clause_index << "Invalid literal-read at beginning of clause.";
       std::exit(code(Error::literal_read));
     }
     assert(in.good());

@@ -364,7 +364,32 @@ set -e
     exit 1
   fi
 
+set +e
+  echo -e "p cnf 1 0\na 1 0K" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 33 )); then
+    echo "ERROR with translator \"${S}\" on trailing characters in a-line: wrong return-code ${returncode}."
+    exit 1
+  fi
 
+set +e
+  echo -e "p cnf 1 0\ne 1 0K" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 34 )); then
+    echo "ERROR with translator \"${S}\" on trailing characters in e-line: wrong return-code ${returncode}."
+    exit 1
+  fi
+
+set +e
+  echo -e "p cnf 1 0\nd 1 0K" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 35 )); then
+    echo "ERROR with translator \"${S}\" on trailing characters in d-line: wrong return-code ${returncode}."
+    exit 1
+  fi
 
 
   file="${testdir}/Maxima_2903.dqdimacs"
