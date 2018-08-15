@@ -8,7 +8,9 @@
 
       (i) Change r/c/d/ad update functions from single variable update to general whole board. //done
       (ii) Remove stack and set the field to occupied at once (handling if amo constraint is voilated).
-      (iii) Seperate Alo propagation.
+
+         (a) Seperate the pushing fields into stack from forbidden_rank_update (loop through all the row and column ranks).
+         (b) Next change it to setting all the fields at once.
 
    (b) Adding statistics to inference process.
 
