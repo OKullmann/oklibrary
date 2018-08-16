@@ -492,7 +492,22 @@ set -e
     echo "ERROR with translator \"${S}\" on legal example (tautological clause): wrong return-code ${returncode}."
     exit 1
   fi
-
+set +e
+  echo -e "p cnf 1 6\n1 -1 0 1 -1 0 1 -1 0 1 0 1 0 -1 0 -1 0" | $S "-cin" -nil -nil g 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 8 )); then
+    echo "ERROR with translator \"${S}\" on too many clauses: wrong return-code ${returncode}."
+    exit 1
+  fi
+set +e
+  echo -e "p cnf 1 7\n1 -1 0 1 -1 0 1 -1 0 1 0 1 0 -1 0 -1 0" | $S "-cin" -nil -nil s 2> /dev/null
+  returncode=$?
+set -e
+  if(( returncode != 0 )); then
+    echo "ERROR with translator \"${S}\" on legal example (tautological and repeated clauses): wrong return-code ${returncode}."
+    exit 1
+  fi
 
 
   file="${testdir}/Maxima_2903.dqdimacs"

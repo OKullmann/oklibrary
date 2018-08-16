@@ -395,8 +395,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.7";
-const std::string date = "15.8.2018";
+const std::string version = "0.6.8";
+const std::string date = "16.8.2018";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -1351,20 +1351,20 @@ DClauseSet operator()() noexcept {
   if (in.eof()) return F;
   try { F.vardeg.resize(F.n_pl+1); }
   catch (const std::bad_alloc&) {
-    errout << "Allocation error for degree-vector of size "<<F.n_pl<<".";
+    errout << "Allocation error for degree-vector of size "<< F.n_pl << ".";
     std::exit(code(Error::allocation));
   }
   {DClause C; RS status;
    while ((status = read_clause(C)) != RS::none) {
      bool add = true;
      switch (status) {
-     case RS::tautology : ++F.t; add = false; break;
-     case RS::empty : ++F.empty; break;
+     case RS::tautology   : ++F.t; add = false; break;
+     case RS::empty       : ++F.empty; break;
      case RS::pseudoempty : ++F.pempty; break;
      default : ;
      }
      if (F.c + F.repeated + F.t + ((add)?1:0) > F.c_pl) {
-       errout << "Clause" << current_clause_index << "More than " << F.c_pl << "clauses, contradicting cnf-header.";
+       errout << "Clause" << current_clause_index << "More than c=" << F.c_pl << "clauses, contradicting cnf-header.";
        std::exit(code(Error::number_clauses));
      }
      if (add) add_clause(C);
