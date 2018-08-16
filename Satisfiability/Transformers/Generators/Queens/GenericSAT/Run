@@ -2,7 +2,7 @@ set -o errexit
 set -o nounset
 
 program="Run"
-version="0.2.1"
+version="0.2.2"
 
 numargs=$#
 if (( numargs == 0 )); then
@@ -23,6 +23,7 @@ awkargument="NR > ${numlines} {print \"c \" \$0}; NR <= ${numlines} {print \$0}"
 echo "${program} in version ${version}, logfile = ${logfile}"
 
 echo "${program} in version ${version}" > ${logfile}
+echo "pid=$$" >> ${logfile}
 
 echo "Parameters:" >> ${logfile}
 echo "  N=$N" >> ${logfile}
