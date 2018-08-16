@@ -121,13 +121,21 @@ namespace NQueens {
       assert(board(v) == State::open);
       assert(r_ranks[v.first].o >= 2);
       assert(c_ranks[v.second].o >= 2);
-      if (val) { set_true(v); board_update(); }
+      if (val) {
+        set_true(v);
+        board_update();
+        alo();
+      }
       else { set_false(v); alo(); }
       while(not stack.empty() and not falsified()) {
         const Var cur_v = stack.top(); stack.pop();
         if (b[cur_v.first][cur_v.second] == State::forbidden)
           falsified_ = true;
-        else if (open(cur_v)) { set_true(cur_v); board_update(); }
+        else if (open(cur_v)) {
+          set_true(cur_v);
+          board_update();
+          alo();
+        }
       }
     }
 
@@ -278,7 +286,7 @@ namespace NQueens {
         if (r_ranks[i].p == 1 and not r_ranks[i].o == 0)
           for (coord_t j = 1 ; j <= N ; ++j) {
             const Var v = {i,j};
-            if (open(v)) { set_false(v); alo(); }
+            if (open(v)) set_false(v);
           }
     }
     void c_update() noexcept {
@@ -286,7 +294,7 @@ namespace NQueens {
         if (c_ranks[i].p == 1 and not c_ranks[i].o == 0)
           for (coord_t j = 1 ; j <= N ; ++j) {
             const Var v = {j,i};
-            if (open(v)) { set_false(v); alo(); }
+            if (open(v)) set_false(v);
           }
     }
     void d_update() noexcept {
@@ -297,7 +305,7 @@ namespace NQueens {
           assert(d.l <= N);
           for (coord_t j = 0 ; j < d.l ; ++j) {
             const Var v = {d_v.first + j,d_v.second + j};
-            if (open(v)) { set_false(v); alo(); }
+            if (open(v)) set_false(v);
           }
         }
     }
@@ -309,7 +317,7 @@ namespace NQueens {
           assert(ad.l <= N);
           for (coord_t j = 0 ; j < ad.l ; ++j) {
             const Var v = {ad_v.first + j,ad_v.second - j};
-            if (open(v)) { set_false(v); alo(); }
+            if (open(v)) set_false(v);
           }
         }
     }
