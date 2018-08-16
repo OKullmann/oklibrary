@@ -7,16 +7,13 @@
    (a) Improving propagation (in to meaningful phases).
 
       (i) Change r/c/d/ad update functions from single variable update to general whole board. //done
-      (ii) Remove stack and set the field to occupied at once (handling if amo constraint is voilated). //done
-
-         (a) Seperate the pushing fields into stack from forbidden_rank_update (loop through all the row and column ranks). //done
-         (b) Next change it to setting all the fields at once. //done
-            (i) Change updating the stack every time a field is set to false. //done
-            (ii) Add an alo_constraint check function for while loop condition. //done
-            (ii) Now set all the fields in stack before calling the amo and board_update functions. //done
-            (iii) Remove the stack by setting all the fields to placed once found. //done
+      (ii) Remove stack and set the field to occupied at once. //done
+      (iii) Clean up code (if any).
 
    (b) Adding statistics to inference process.
+
+      (i) List out which statistics are required.
+      (ii) Investigate the progration.
 
 2. Simple heuristics
 
