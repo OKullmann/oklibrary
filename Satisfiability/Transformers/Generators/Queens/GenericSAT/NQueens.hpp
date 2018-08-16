@@ -210,8 +210,7 @@ namespace NQueens {
       ++ad_ranks[anti_diagonal(v).i].p;
     }
 
-    // Forbidden field ranks of r,c,d or ad are updated individually
-    // only if no field is placed in them and falsified_ is updated if found:
+    // Forbidden field ranks of r,c,d or ad are updated individually only if no field is placed in them.
     void forbidden_rank_update(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
@@ -219,20 +218,10 @@ namespace NQueens {
       if (r_ranks[v.first].p != 1) {
         --r_ranks[v.first].o;
         ++r_ranks[v.first].f;
-        if (r_ranks[v.first].o == 0)
-          falsified_ = true;
-        if (r_ranks[v.first].o == 1)
-          for (coord_t i = 1; i <= N ; ++i)
-            if (open({v.first,i})) {stack.push({v.first,i}); break;}
       }
       if (c_ranks[v.second].p != 1) {
         --c_ranks[v.second].o;
         ++c_ranks[v.second].f;
-        if (c_ranks[v.second].o == 0)
-          falsified_ = true;
-        if (c_ranks[v.second].o == 1)
-          for (coord_t i = 1; i <= N ; ++i)
-            if (open({i,v.second})) {stack.push({i,v.second}); break;}
       }
       const Diagonal d = diagonal(v);
       assert(d.i < d_ranks.size());
@@ -245,6 +234,21 @@ namespace NQueens {
       if (ad_ranks[ad.i].p != 1) {
         --ad_ranks[ad.i].o;
         ++ad_ranks[ad.i].f;
+      }
+    }
+
+    void alo() noexcept {
+      for (coord_t i = 1 ; i <= N ; ++i) {
+        if (r_ranks[i].o == 0 or c_ranks[i].o == 0) {
+          falsified_ = true;
+          return;
+        }
+        if (r_ranks[i].o == 1)
+          for (coord_t j = 1; j <= N ; ++j)
+            if (open({i,j})) { stack.push({i,j}); break; }
+        if (c_ranks[i].o == 1)
+          for (coord_t j = 1; j <= N ; ++j)
+            if (open({j,i})) { stack.push({j,i}); break; }
       }
     }
 
@@ -322,6 +326,7 @@ namespace NQueens {
       board(v) = State::forbidden;
       trank_update(v);
       forbidden_rank_update(v);
+      alo();
     }
 
     Board b;
