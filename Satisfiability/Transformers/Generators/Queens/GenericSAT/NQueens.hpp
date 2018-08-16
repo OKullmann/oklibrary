@@ -125,7 +125,7 @@ namespace NQueens {
       if (val) { set_true(v); board_update(); }
       else set_false(v);
       alo();
-      while(not stack.empty() and not falsified()) {
+      while(not alo_constraints() and not falsified()) {
         const Var cur_v = stack.top(); stack.pop();
         if (b[cur_v.first][cur_v.second] == State::forbidden)
           falsified_ = true;
