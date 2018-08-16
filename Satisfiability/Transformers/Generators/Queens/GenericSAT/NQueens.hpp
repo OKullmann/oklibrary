@@ -127,9 +127,7 @@ namespace NQueens {
       alo();
       while(not alo_constraints() and not falsified()) {
         const Var cur_v = stack.top(); stack.pop();
-        if (b[cur_v.first][cur_v.second] == State::forbidden)
-          falsified_ = true;
-        else if (open(cur_v)) {
+        if (open(cur_v)) {
           set_true(cur_v);
           board_update();
           alo();
@@ -262,16 +260,30 @@ namespace NQueens {
 
     void alo() noexcept {
       for (coord_t i = 1 ; i <= N ; ++i) {
-        if (r_ranks[i].o == 0 or c_ranks[i].o == 0) {
-          falsified_ = true;
-          return;
-        }
         if (r_ranks[i].o == 1)
-          for (coord_t j = 1; j <= N ; ++j)
-            if (open({i,j})) { stack.push({i,j}); break; }
+          for (coord_t j = 1; j <= N ; ++j) {
+            Var v = {i,j};
+            if (open(v)) {
+              if (d_ranks[diagonal(v).i].p == 1 or ad_ranks[anti_diagonal(v).i].p) {
+                falsified_ = true;
+                return;
+              }
+              else stack.push(v);
+              break;
+            }
+          }
         if (c_ranks[i].o == 1)
-          for (coord_t j = 1; j <= N ; ++j)
-            if (open({j,i})) { stack.push({j,i}); break; }
+          for (coord_t j = 1; j <= N ; ++j) {
+            Var v = {j,i};
+            if (open(v)) {
+              if (d_ranks[diagonal(v).i].p == 1 or ad_ranks[anti_diagonal(v).i].p == 1) {
+                falsified_ = true;
+                return;
+              }
+              else stack.push(v);
+              break;
+            }
+          }
       }
     }
 
