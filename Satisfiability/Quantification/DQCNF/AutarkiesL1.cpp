@@ -36,6 +36,7 @@ Other possibilities are:
  - "-cerr" for standard error
  - "-clog" for standard log
  - "-nil" for no output.
+For log also "=" is possible, which is then the same as file-output.
 
 Conformity-level "g" (for "general") admits c-lines and consecutive/empty
 a/e-lines in the dependency-section, and also allows empty clauses.
@@ -396,7 +397,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.10";
+const std::string version = "0.6.11";
 const std::string date = "16.8.2018";
 
 const std::string program = "autL1"
@@ -525,7 +526,7 @@ void set_output(const int argc, const char* const argv[]) noexcept {
     solout.del = true;
   }
   if (argc == 3) return;
-  const std::string logname(argv[3]);
+  const std::string logname = (std::string(argv[3])=="=") ? outname : argv[3];
   if (logname == "-cerr") logout.p = &std::cerr;
   else if (logname == "-clog") logout.p = &std::clog;
   else if (logname == "-nil") logout.p = nullptr;
@@ -1733,16 +1734,22 @@ void show_usage() noexcept {
     "> " << program << " [-cin | filename] [-cout | -cerr | filename2 | -nil]\n"
       " furthermore appends the DIMACS-output to standard output or standard error or filename2, or ignores it\n "
       "(default is -cout).\n"
-    "The same redirection can be done with the log-output, as a third command-argument; default is -cout.\n"
-    "If DIMACS- and log-output are equal, then first comes the log-output (as DIMACS-comment).\n"
-    "A fourth optional argument is the conformity-level: g (general), n (normal), s (strict), vs (very strict).\n"
-    "A fifth optional argument is the log-level: \"1\" means with input.\n"
+    "The same redirections can be done with the log-output (which might be \"=\"),\n"
+    " as a third command-argument; default is -cout.\n"
+    "If DIMACS- and log-output are equal (explicitly or impliclity),\n"
+    " then first comes the log-output (as DIMACS-comment).\n"
+    "A fourth optional argument is the conformity-level:\n"
+    " g (general), n (normal), s (strict), vs (very strict).\n"
+    "A fifth optional argument is the log-level (default \"0\"):\n"
+    " \"1\" means with input, \"2\" has additionally explanations on translation-variables.\n"
     "\nFor example, with\n"
     "> " << program << " -cin Out -nil\n"
     "input comes from standard input, the translation is put to file Out, and the log is discarded.\n"
     "While with\n"
     "> " << program << " In Out Out\n"
-    "the input comes from file In, and both translation and log are appended to Out.\n";
+    "the input comes from file In, and both translation and log are appended to Out.\n"
+    "The same can be achieved with\n"
+    "> " << program << " In Out =\n";
   std::exit(0);
 }
 

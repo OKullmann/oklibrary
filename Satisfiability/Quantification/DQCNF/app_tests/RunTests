@@ -3,7 +3,7 @@ set -o errexit
 set -o nounset
 
 program="RunTests"
-version="0.1.2"
+version="0.1.3"
 
 testdir="app_tests"
 
@@ -501,7 +501,7 @@ set -e
     exit 1
   fi
 set +e
-  echo -e "p cnf 1 7\n1 -1 0 1 -1 0 1 -1 0 1 0 1 0 -1 0 -1 0" | $S "-cin" -nil -nil s
+  echo -e "p cnf 1 7\n1 -1 0 1 -1 0 1 -1 0 1 0 1 0 -1 0 -1 0" | $S "-cin" -nil = s
   returncode=$?
 set -e
   if(( returncode != 0 )); then
