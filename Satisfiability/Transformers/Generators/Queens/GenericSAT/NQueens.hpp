@@ -453,6 +453,7 @@ namespace NQueens {
   // Choosing the first open variable:
     class FirstOpen {
     using Var = ChessBoard::Var;
+    using State = ChessBoard::State;
   public :
     const AmoAlo_board& F;
     FirstOpen(const AmoAlo_board& F) noexcept : F(F) {}
