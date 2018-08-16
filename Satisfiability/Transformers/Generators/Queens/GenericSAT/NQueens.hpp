@@ -449,92 +449,26 @@ namespace NQueens {
   static_assert(TawHeuristics::weight(7) == 0.0694 * std::pow(1.46,-1), "TawHeuristics: weight(7)");
   static_assert(TawHeuristics::weight(8) == 0.0694 * std::pow(1.46,-2), "TawHeuristics: weight(7)");
 
-  // A concrete instance of BasicBranching with Greedy heuristics without weights:
-  class GreedyAmoAloBranching {
+
+  // Choosing the first open variable:
+    class FirstOpen {
     using Var = ChessBoard::Var;
-    using Var_uint = ChessBoard::Var_uint;
-    using State = ChessBoard::State;
   public :
     const AmoAlo_board& F;
-    typedef double Weight_t;
-    typedef std::pair<Weight_t, Weight_t> Bp;
-
-    GreedyAmoAloBranching(const NQueens::AmoAlo_board& F) : F(F) {}
-
-    Bp heuristics(const Var v) const noexcept {
-      return Bp{F.odegree(v),F.r_rank()[v.first].o+F.c_rank()[v.second].o};
-    }
-
+    FirstOpen(const AmoAlo_board& F) noexcept : F(F) {}
     Var operator()() const noexcept {
-      Weight_t max1 = 0, max2 = 0;
-      Var bv{0,0};
       for (ChessBoard::coord_t i = 1; i <= F.N; ++i) {
         if (F.r_rank(i).p != 0) continue;
         const auto& R = F.board()[i];
-        Var v; v.first = i;
         for (ChessBoard::coord_t j = 1; j <= F.N ; ++j) {
           if (R[j] != State::open) continue;
-          v.second = j;
-          const Bp h = heuristics(v);
-          const Weight_t prod = h.first * h.second;
-          if (prod < max1) continue;
-          const Weight_t sum = h.first + h.second;
-          if (prod > max1) max1 = prod;
-          else if (sum <= max2) continue;
-          max2 = sum;
-          bv = v;
+          return {i,j};
         }
       }
-      return bv;
+      assert(false);
+      return {};
     }
 
   };
 
-
-  // A concrete instance of BasicBranching with Lookahead heuristics
-  // maximising delta-open fields:
-  class LookaheadBranching {
-    using Var = ChessBoard::Var;
-    using Var_uint = ChessBoard::Var_uint;
-    using State = ChessBoard::State;
-  public :
-    const AmoAlo_board& F;
-    typedef double Weight_t;
-    typedef std::pair<Weight_t, Weight_t> Bp;
-
-    LookaheadBranching(const NQueens::AmoAlo_board& F) : F(F) {}
-
-    Bp heuristics(const Var v) const noexcept {
-      Var_uint init_o = F.n()-F.nset();
-      AmoAlo_board la_b1(F); la_b1.set(v, false);
-      Var_uint f_o = la_b1.n()-la_b1.nset();
-      AmoAlo_board la_b2(F); la_b2.set(v, true);
-      Var_uint t_o = la_b2.n()-la_b2.nset();
-      return Bp{1+(init_o-t_o),1+(init_o-f_o)};
-    }
-
-    Var operator()() const noexcept {
-      Weight_t max1 = 0, max2 = 0;
-      Var bv{0,0};
-      for (ChessBoard::coord_t i = 1; i <= F.N; ++i) {
-        if (F.r_rank(i).p != 0) continue;
-        const auto& R = F.board()[i];
-        Var v; v.first = i;
-        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j) {
-          if (R[j] != State::open) continue;
-          v.second = j;
-          const Bp h = heuristics(v);
-          const Weight_t prod = h.first * h.second;
-          if (prod < max1) continue;
-          const Weight_t sum = h.first + h.second;
-          if (prod > max1) max1 = prod;
-          else if (sum <= max2) continue;
-          max2 = sum;
-          bv = v;
-        }
-      }
-      return bv;
-    }
-
-  };
 }

@@ -184,7 +184,8 @@ TODOS:
    dependencies etc.) are established.
 
    For the handling of minima perhaps some helper-function is used, which
-   writes "NA" under appropriate circumstances.
+   writes "NA" under appropriate circumstances (or "NaN, which is currently
+   used).
 
 2. More statistics on dependencies:
     - average size
@@ -350,7 +351,7 @@ TODOS:
     output then accordingly. All shortened dependencies are likely optional,
     and this should be noted.
 
-13  Report empty and unit-clauses in the translation
+13. Report empty and unit-clauses in the translation
 
     Perhaps we also allow DIMACS-conformity level for the output?
     "General" allows a unit-clause, while with "normal" we output
@@ -358,7 +359,16 @@ TODOS:
 
     Possibly unit-clauses are propagated?
 
-14. Logarithmic encoding
+14. Conformity-level vs (verystrict)
+
+    Here there must be no
+     - formal variables
+     - repeated literals in clauses
+     - tautological clauses
+     - repeated clauses
+     - the number of clauses in the header must match exactly.
+
+15. Logarithmic encoding
 
     To start with, a command-line parameter for the encoding is needed.
 
@@ -386,8 +396,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.4";
-const std::string date = "15.8.2018";
+const std::string version = "0.6.9";
+const std::string date = "16.8.2018";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -428,6 +438,9 @@ enum class Error {
   e_rep_dline=30,
   a_read_dline=31,
   a_rep_dline=32,
+  a_line_trail=33,
+  e_line_trail=34,
+  d_line_trail=35,
 };
 /* Extracting the underlying code of enum-classes (scoped enums) */
 template <typename EC>
@@ -877,9 +890,9 @@ struct DClauseSet {
   Var na=0, ne=0, n=0; // number occurring e/a/both variables
   Var max_a_length=0, max_e_length=0, max_c_length=0; // max number of a/e/both literals in clauses
   Var max_s_dep=0, min_s_dep=max_lit, count_dep=0;
-  Count_t c=0; // number of clauses (without tautologies)
-  Count_t la=0, le=0, l=0; // number of a/e/both literal occurrences
-  Count_t t=0, empty=0, pempty=0; // number of tautological/empty/pseudoempty clauses
+  Count_t c=0; // number of clauses (without tautologies or repetitions)
+  Count_t la=0, le=0, l=0, lrep=0; // number of a/e/both/repeated literal occurrences
+  Count_t t=0, empty=0, pempty=0, repeated=0; // number of tautological/empty/pseudoempty/repeated clauses
 
   friend std::ostream& operator <<(std::ostream& out, const DClauseSet& F) noexcept {
     out << "c  Variables:\nc  ";
@@ -1066,6 +1079,10 @@ void read_dependencies() noexcept {
         errout << "Line" << current_line_number << "Bad a-line read (file corrupted?).";
         std::exit(code(Error::a_line_read));
       }
+      if (not s.eof()) {
+        errout << "Line" << current_line_number << "Syntax error in a-line (trailing characters).";
+        std::exit(code(Error::a_line_trail));
+      }
       if (num_a != 0) {
         last_line = lt::a;
         try {
@@ -1110,6 +1127,10 @@ void read_dependencies() noexcept {
       if (not s) {
         errout << "Line" << current_line_number << "Bad e-line read (file corrupted?).";
         std::exit(code(Error::e_line_read));
+      }
+      if (not s.eof()) {
+        errout << "Line" << current_line_number << "Syntax error in e-line (trailing characters).";
+        std::exit(code(Error::e_line_trail));
       }
       if (conlev != ConformityLevel::general and num_e == 0) {
         errout << "Line" << current_line_number << "Empty e-line.";
@@ -1165,6 +1186,10 @@ void read_dependencies() noexcept {
           std::exit(code(Error::allocation));
         }
       } while (true);
+      if (not s.eof()) {
+        errout << "Line" << current_line_number << "Syntax error in d-line (trailing characters).";
+        std::exit(code(Error::d_line_trail));
+      }
       try { F.D[v] = F.dep_sets.insert(A).first; }
       catch (const std::bad_alloc&) {
         errout << "Line" << current_line_number << "Allocation error for insertion of dependency-set.";
@@ -1189,16 +1214,17 @@ RS read_clause(DClause& C) noexcept {
   if (in.eof()) return RS::none;
   ++current_clause_index;
   AClause CA; EClause CE; // complemented clauses
+  Count_t lrep = 0;
   while (true) { // reading literals into C
     if (not in) {
-      errout << "Invalid literal-read at beginning of clause.";
+      errout << "Clause" << current_clause_index << "Invalid literal-read at beginning of clause.";
       std::exit(code(Error::literal_read));
     }
     assert(in.good());
     if (not x) break; // end of clause
     const Var v = var(x);
     if (v > F.n_pl) {
-      errout << "Literal " << x << " contradicts n=" << F.n_pl;
+      errout << "Clause" << current_clause_index << "Literal" << x << "contradicts n=" << F.n_pl;
       std::exit(code(Error::variable_value));
     }
     if (at(F.vt[v]))
@@ -1206,29 +1232,36 @@ RS read_clause(DClause& C) noexcept {
         C.clear();
         do
           if (not (in >> x)) {
-            errout << "Invalid literal-read in tautological a-clause.";
+            errout << "Clause" << current_clause_index << "Invalid literal-read in a-tautological clause.";
             std::exit(code(Error::literal_read));
           }
         while (x);
         return RS::tautology;
       }
-      else {C.P.first.insert(x); CA.insert(-x);}
+      else {
+        lrep += not C.P.first.insert(x).second;
+        CA.insert(-x);
+      }
     else {
       assert(et(F.vt[v]));
       if (CE.find(x) != CE.end()) { // tautology via existential literals
         C.clear();
         do
           if (not (in >> x)) {
-            errout << "Invalid literal-read in tautological e-clause.";
+            errout << "Clause" << current_clause_index << "Invalid literal-read in e-tautological clause.";
             std::exit(code(Error::literal_read));
           }
         while (x);
         return RS::tautology;
       }
-      else {C.P.second.insert(x); CE.insert(-x);}
+      else {
+        lrep += not C.P.second.insert(x).second;
+        CE.insert(-x);
+      }
     }
     in >> x;
   }
+  F.lrep += lrep;
   switch (conlev) {
   case ConformityLevel::general :
     if (C.empty()) return RS::empty;
@@ -1236,53 +1269,54 @@ RS read_clause(DClause& C) noexcept {
     break;
   case ConformityLevel::normal :
     if (C.empty()) {
-      errout << "Empty clause.";
+      errout << "Clause" << current_clause_index << "Empty clause.";
       std::exit(code(Error::empty_clause));
     }
     if (C.pseudoempty()) return RS::pseudoempty;
     break;
   default :
     if (C.empty()) {
-      errout << "Empty clause.";
+      errout << "Clause" << current_clause_index << "Empty clause.";
       std::exit(code(Error::empty_clause));
     }
     if (C.pseudoempty()) {
-      errout << "Clause without existential variables.";
+      errout << "Clause" << current_clause_index << "Clause without existential variables.";
       std::exit(code(Error::pseudoempty_clause));
     }
   }
   return RS::clause;
 }
 
-// Add C to F; error only if announced number of clauses too small (but may be
-// too big):
-inline void add_clause(const DClause& C) {
-  if (F.c + F.t >= F.c_pl) {
-    errout << "More than " << F.c_pl << " clauses, contradicting cnf-header.";
-    std::exit(code(Error::number_clauses));
+// Add non-tautological C to F (if not already existent):
+void add_clause(const DClause& C) noexcept {
+  try {
+    if (F.F.insert(C).second) {
+      ++F.c;
+      const Var sa = C.P.first.size(), se = C.P.second.size();
+      F.la += sa; F.le += se;
+      F.max_a_length = std::max(sa, F.max_a_length);
+      F.max_e_length = std::max(se, F.max_e_length);
+      F.max_c_length = std::max(sa+se, F.max_c_length);
+      for (const ALit x : C.P.first) {
+        const Var v = var(x);
+        ++F.vardeg[v];
+        if (F.vt[v] != VT::fa) continue;
+        F.max_a_index = std::max(v, F.max_a_index);
+        F.vt[v] = VT::a; ++F.na;
+      }
+      for (const ELit x : C.P.second) {
+        const Var v = var(x);
+        ++F.vardeg[v];
+        if (F.vt[v] != VT::fe) continue;
+        F.max_e_index = std::max(v, F.max_e_index);
+        F.vt[v] = VT::e; ++F.ne;
+      }
+    }
+    else ++F.repeated;
   }
-  const auto insert = F.F.insert(C);
-  if (insert.second) {
-    ++F.c;
-    const Var sa = C.P.first.size(), se = C.P.second.size();
-    F.la += sa; F.le += se;
-    F.max_a_length = std::max(sa, F.max_a_length);
-    F.max_e_length = std::max(se, F.max_e_length);
-    F.max_c_length = std::max(sa+se, F.max_c_length);
-    for (const ALit x : C.P.first) {
-      const Var v = var(x);
-      ++F.vardeg[v];
-      if (F.vt[v] != VT::fa) continue;
-      F.max_a_index = std::max(v, F.max_a_index);
-      F.vt[v] = VT::a; ++F.na;
-    }
-    for (const ELit x : C.P.second) {
-      const Var v = var(x);
-      ++F.vardeg[v];
-      if (F.vt[v] != VT::fe) continue;
-      F.max_e_index = std::max(v, F.max_e_index);
-      F.vt[v] = VT::e; ++F.ne;
-    }
+  catch (const std::bad_alloc&) {
+    errout << "Clause" << current_clause_index << "Allocation error for insertion of clause.";
+    std::exit(code(Error::allocation));
   }
 }
 
@@ -1319,24 +1353,30 @@ public :
 ReadDimacs(std::istream& in, const ConformityLevel cl) noexcept :
   in(in), conlev(cl) {}
 
-DClauseSet operator()() {
+DClauseSet operator()() noexcept {
   read_header();
   if (in.eof()) return F;
   read_dependencies();
   if (in.eof()) return F;
   try { F.vardeg.resize(F.n_pl+1); }
   catch (const std::bad_alloc&) {
-    errout << "Allocation error for degree-vector of size "<<F.n_pl<<".";
+    errout << "Allocation error for degree-vector of size "<< F.n_pl << ".";
     std::exit(code(Error::allocation));
   }
   {DClause C; RS status;
    while ((status = read_clause(C)) != RS::none) {
+     bool add = true;
      switch (status) {
-     case RS::tautology : ++F.t; break;
-     case RS::empty : ++F.empty; add_clause(C); break;
-     case RS::pseudoempty : ++F.pempty; add_clause(C); break;
-     default : add_clause(C);
+     case RS::tautology   : ++F.t; add = false; break;
+     case RS::empty       : ++F.empty; break;
+     case RS::pseudoempty : ++F.pempty; break;
+     default : ;
      }
+     if (F.c + F.repeated + F.t + ((add)?1:0) > F.c_pl) {
+       errout << "Clause" << current_clause_index << "More than c=" << F.c_pl << "clauses, contradicting cnf-header.";
+       std::exit(code(Error::number_clauses));
+     }
+     if (add) add_clause(C);
    }
   }
   F.max_index = std::max(F.max_a_index, F.max_e_index);
@@ -1758,15 +1798,20 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c number_clauses                        " << F.c_pl << "\n"
          "c number_a_variables                    " << F.na_d << "\n"
          "c number_e_variables                    " << F.ne_d << "\n"
-         "c number_tautological clauses           " << F.t << "\n"
+         "c number_tautological_clauses           " << F.t << "\n"
+         "c number_repeated_clauses               " << F.repeated << "\n"
          "c number_empty_clauses                  " << F.empty << "\n"
          "c number_pseudo_empty_clauses           " << F.pempty << "\n"
+         "c number_repeated_literals              " << F.lrep << "\n"
          "c Actually occurring:\n"
          "c max_index_variable                    " << F.max_index << "\n"
          "c num_variables                         " << F.n << "\n"
          "c num_clauses                           " << F.c << "\n"
          "c num_a_variables                       " << F.na << "\n"
          "c num_e_variables                       " << F.ne << "\n"
+         "c num_a_literal_occurrences             " << F.la << "\n"
+         "c num_e_literal_occurrences             " << F.le << "\n"
+         "c num_ae_literal_occurrences            " << F.l << "\n"
          "c Additional statistics:\n"
          "c max_index_a_variable                  " << F.max_a_index << "\n"
          "c max_index_e_variable                  " << F.max_e_index << "\n"
@@ -1780,9 +1825,6 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
           if (F.count_dep!=0) logout<<F.max_s_dep; else logout<<"NaN";
           logout << "\n"
          "c num_different_dep_sets                " << F.count_dep << "\n"
-         "c num_a_literal_occurrences             " << F.la << "\n"
-         "c num_e_literal_occurrences             " << F.le << "\n"
-         "c num_ae_literal_occurrences            " << F.l << "\n"
          "c Encoding:\n"
          "c ncs                                   " << enc.ncs << "\n"
          "c nbf                                   " << enc.nbf << "\n"
