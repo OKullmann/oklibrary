@@ -124,7 +124,7 @@ namespace NQueens {
         const Var cur_v = stack.top(); stack.pop();
         if (b[cur_v.first][cur_v.second] == State::forbidden)
           falsified_ = true;
-        else if (open(cur_v)) set_true(cur_v);
+        else if (open(cur_v)) { set_true(cur_v); board_update(); }
       }
     }
 
