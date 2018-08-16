@@ -108,7 +108,7 @@ namespace NQueens {
         if (N == 1) set_true({1,1});
     }
 
-    bool satisfied() const noexcept { return trank.p == N; }
+    bool satisfied() const noexcept { return (trank.p == N and not falsified_); }
     bool falsified() const noexcept { return falsified_; }
     // The total number of variables:
     Var_uint n() const noexcept { return N*N; }
@@ -124,14 +124,9 @@ namespace NQueens {
       assert(c_ranks[v.second].o >= 2);
       if (val) { set_true(v); board_update(); }
       else set_false(v);
-      alo();
       while(not alo_constraints() and not falsified()) {
-        const Var cur_v = stack.top(); stack.pop();
-        if (open(cur_v)) {
-          set_true(cur_v);
-          board_update();
           alo();
-        }
+          board_update();
       }
     }
 
@@ -264,11 +259,11 @@ namespace NQueens {
           for (coord_t j = 1; j <= N ; ++j) {
             Var v = {i,j};
             if (open(v)) {
-              if (d_ranks[diagonal(v).i].p == 1 or ad_ranks[anti_diagonal(v).i].p) {
+              if (c_ranks[j].p == 1 or d_ranks[diagonal(v).i].p == 1 or ad_ranks[anti_diagonal(v).i].p == 1) {
                 falsified_ = true;
                 return;
               }
-              else stack.push(v);
+              else set_true(v);
               break;
             }
           }
@@ -276,16 +271,17 @@ namespace NQueens {
           for (coord_t j = 1; j <= N ; ++j) {
             Var v = {j,i};
             if (open(v)) {
-              if (d_ranks[diagonal(v).i].p == 1 or ad_ranks[anti_diagonal(v).i].p == 1) {
+              if (r_ranks[j].p == 1 or d_ranks[diagonal(v).i].p == 1 or ad_ranks[anti_diagonal(v).i].p == 1) {
                 falsified_ = true;
                 return;
               }
-              else stack.push(v);
+              else set_true(v);
               break;
             }
           }
       }
     }
+
 
     // Called if v is set to placed or forbidden:
     void trank_update(const Var v) noexcept {
