@@ -71,61 +71,61 @@ RESULTS:
 Running on the DQBF-instances from QBFEVAL18 on csverify, also solving the
 instances (using minsat-2.2.; succesful on all instances, due to more memory):
 
-DQCNF> time ./RunRun ./autL1 "g" ~/QBF/QBFEVAL/dqbf18
-RunRun in version 0.1.1, logfile = RunRun_2018-07-24_14-59-28
-real    110m42.822s
-user    107m49.960s
-sys     2m50.464s
+DQCNF> time ./RunRun ./autL1 "g" ~/QBF/QBFEVAL/dqbf18                         RunRun in version 0.1.1, logfile = RunRun_2018-08-16_11-30-55
 
-DQCNF> cat RunRun_2018-07-24_14-59-28 | ./ExtractAutL1 > RunRun_2018-07-24_14-59-28.R
+real    108m28.775s
+user    105m48.456s
+sys     2m40.247s
+
+DQCNF> cat RunRun_2018-08-16_11-30-55 | ./ExtractAutL1 > RunRun_2018-08-16_11-30-55.R
 
 In R:
-> E=read.table("RunRun_2018-07-24_14-59-28.R", header=TRUE)
+> E=read.table("RunRun_2018-08-16_11-30-55.R", header=TRUE)
 > summary(subset(E, select=-name))
-      no                co               na               ne
- Min.   :    9.0   Min.   :    16   Min.   :  1.00   Min.   :    3.0
- 1st Qu.:  139.0   1st Qu.:   853   1st Qu.: 15.00   1st Qu.:  127.2
- Median :  521.5   Median :  1551   Median : 45.50   Median :  431.0
- Mean   :  818.2   Mean   :  3654   Mean   : 57.09   Mean   :  761.3
- 3rd Qu.:  878.8   3rd Qu.:  2406   3rd Qu.: 81.75   3rd Qu.:  710.0
- Max.   :19096.0   Max.   :151339   Max.   :222.00   Max.   :19086.0
-      mind             maxd              nd               lo
- Min.   :  0.00   Min.   :  1.00   Min.   :  2.00   Min.   :    36
- 1st Qu.:  2.00   1st Qu.: 11.00   1st Qu.:  4.00   1st Qu.:  2094
- Median :  3.00   Median : 45.50   Median :  4.00   Median :  3767
- Mean   : 10.61   Mean   : 56.12   Mean   : 69.58   Mean   : 17556
- 3rd Qu.: 11.00   3rd Qu.: 81.75   3rd Qu.:  7.00   3rd Qu.:  6600
- Max.   :101.00   Max.   :222.00   Max.   :578.00   Max.   :421239
-       n                 c                   l                  sat
- Min.   :     77   Min.   :      255   Min.   :      582   Min.   :0.00000
- 1st Qu.:  10652   1st Qu.:   138114   1st Qu.:   319876   1st Qu.:0.00000
- Median :  80162   Median :  1541718   Median :  3323704   Median :0.00000
- Mean   : 224072   Mean   :  6183005   Mean   : 12789023   Mean   :0.01198
- 3rd Qu.: 241889   3rd Qu.:  5275142   3rd Qu.: 10709316   3rd Qu.:0.00000
- Max.   :5273364   Max.   :185447922   Max.   :374806131   Max.   :1.00000
-       t
- Min.   :   0.00
- 1st Qu.:   0.11
- Median :   1.10
- Mean   :  17.52
- 3rd Qu.:   5.24
- Max.   :1315.18
+       np                cp               ni                ci
+ Min.   :    9.0   Min.   :    16   Min.   :    9.0   Min.   :    16
+ 1st Qu.:  139.0   1st Qu.:   853   1st Qu.:  139.0   1st Qu.:   853
+ Median :  521.5   Median :  1551   Median :  521.5   Median :  1551
+ Mean   :  818.4   Mean   :  3654   Mean   :  818.2   Mean   :  3654
+ 3rd Qu.:  878.8   3rd Qu.:  2406   3rd Qu.:  878.8   3rd Qu.:  2406
+ Max.   :19097.0   Max.   :151339   Max.   :19096.0   Max.   :151339
+      nai              nei                li              mind
+ Min.   :  1.00   Min.   :    3.0   Min.   :    36   Min.   :  0.00
+ 1st Qu.: 15.00   1st Qu.:  126.5   1st Qu.:  2094   1st Qu.:  2.00
+ Median : 45.50   Median :  430.0   Median :  3767   Median :  3.00
+ Mean   : 57.08   Mean   :  761.2   Mean   : 17556   Mean   : 10.61
+ 3rd Qu.: 81.75   3rd Qu.:  710.0   3rd Qu.:  6600   3rd Qu.: 11.00
+ Max.   :222.00   Max.   :19085.0   Max.   :421239   Max.   :101.00
+      maxd              nd               n                 c
+ Min.   :  1.00   Min.   :  2.00   Min.   :     77   Min.   :      255
+ 1st Qu.: 11.00   1st Qu.:  4.00   1st Qu.:  10652   1st Qu.:   138114
+ Median : 45.50   Median :  4.00   Median :  80162   Median :  1541718
+ Mean   : 56.12   Mean   : 69.58   Mean   : 224072   Mean   :  6183005
+ 3rd Qu.: 81.75   3rd Qu.:  7.00   3rd Qu.: 241889   3rd Qu.:  5275142
+ Max.   :222.00   Max.   :578.00   Max.   :5273364   Max.   :185447922
+       l                  sat                t
+ Min.   :      582   Min.   :0.00000   Min.   :   0.000
+ 1st Qu.:   319876   1st Qu.:0.00000   1st Qu.:   0.060
+ Median :  3323704   Median :0.00000   Median :   0.970
+ Mean   : 12789023   Mean   :0.01198   Mean   :  17.261
+ 3rd Qu.: 10709316   3rd Qu.:0.00000   3rd Qu.:   5.133
+ Max.   :374806131   Max.   :1.00000   Max.   :1326.450
 > nrow(E)
 [1] 334
 
 There are four instances with level-1-autarkies:
 
 > E[E$sat==1,]
-                                                     name  no  co na  ne mind
-64                              dqbf18/bloem_ex2.dqdimacs  60 139 10  50    4
-187 dqbf18/tentrup17_ltl2dba_theta_environment_1.dqdimacs 248 732  3 246    1
-234                             dqbf18/bloem_eq1.dqdimacs   9  16  1   8    0
-300                             dqbf18/bloem_ex1.dqdimacs  23  52  3  20    1
-    maxd nd   lo    n     c     l sat    t
-64    10  4  323 2787 20920 46047   1 0.01
-187    3  4 1910 6864 30619 72436   1 0.14
-234    1  2   36   77   255   582   1 0.00
-300    3  4  120  422  1912  4394   1 0.00
+                                                                                name
+64                              bloem_ex2.dqdimacs
+187                             tentrup17_ltl2dba_theta_environment_1.dqdimacs
+234                             bloem_eq1.dqdimacs
+300                             bloem_ex1.dqdimacs
+     np  cp  ni  ci nai nei   li mind maxd nd    n     c     l sat    t
+64   60 139  60 139  10  50  323    4   10  4 2787 20920 46047   1 0.00
+187 249 732 248 732   3 245 1910    1    3  4 6864 30619 72436   1 0.07
+234   9  16   9  16   1   8   36    0    1  2   77   255   582   1 0.00
+300  23  52  23  52   3  20  120    1    3  4  422  1912  4394   1 0.00
 
 Autarkie-counts by sharpSAT:
 
@@ -135,44 +135,44 @@ bloem_eq1.dqdimacs:                                1     (also ctawSolver)
 bloem_ex1.dqdimacs:                                2     (also ctawSolver)
 
 
-The linear regression on no versus ne says that we can well approximate ne
+The linear regression on ni versus nei says that we can well approximate ne
 by just subtracting 57 from no:
 > modne = lm(E$ne ~ E$no)
 > summary(modne)
 Residuals:
     Min      1Q  Median      3Q     Max
--165.36  -24.80   11.44   42.10   56.12
+-165.12  -24.66   11.59   42.20   56.21
 Coefficients:
-             Estimate Std. Error t value Pr(>|t|)
-(Intercept) -57.11904    3.16767  -18.03   <2e-16 ***
-E$no          1.00024    0.00155  645.26   <2e-16 ***
-Residual standard error: 53.05 on 332 degrees of freedom
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -57.215599   3.158960  -18.11   <2e-16 ***
+E$ni          1.000168   0.001546  647.00   <2e-16 ***
+Residual standard error: 52.9 on 332 degrees of freedom
 Multiple R-squared:  0.9992,    Adjusted R-squared:  0.9992
-F-statistic: 4.164e+05 on 1 and 332 DF,  p-value: < 2.2e-16
-> plot(E$no, E$ne)
+F-statistic: 4.186e+05 on 1 and 332 DF,  p-value: < 2.2e-16
+> plot(E$ni, E$nei)
 > abline(modne)
 
 For maxd we have two families, as the plot shows: one where maxd is just na,
 this is the largest family, and a small family with a smaller coefficient, but
 still perfect linear behaviour:
-> modmaxd = lm(E$maxd ~ E$na)
+> modmaxd = lm(E$maxd ~ E$nai)
 > summary(modmaxd)
 Residuals:
      Min       1Q   Median       3Q      Max
--10.6054   0.3039   0.9712   1.5101   1.6898
+-10.6196   0.3029   0.9621   1.4944   2.6085
 Coefficients:
-             Estimate Std. Error t value Pr(>|t|)
-(Intercept) -1.702632   0.228794  -7.442 8.59e-13 ***
-E$na         1.012833   0.002944 344.042  < 2e-16 ***
-Residual standard error: 2.837 on 332 degrees of freedom
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept) -1.68459    0.22929  -7.347 1.59e-12 ***
+E$nai        1.01268    0.00295 343.241  < 2e-16 ***
+Residual standard error: 2.844 on 332 degrees of freedom
 Multiple R-squared:  0.9972,    Adjusted R-squared:  0.9972
-F-statistic: 1.184e+05 on 1 and 332 DF,  p-value: < 2.2e-16
-> plot(E$na, E$maxd)
+F-statistic: 1.178e+05 on 1 and 332 DF,  p-value: < 2.2e-16
+> plot(E$nai, E$maxd)
 > abline(modmaxd)
 
 Concerning nd, the plot suggest that there are five families, the largest one
 with constant (small) nd, the other four with linear behaviour:
-> plot(E$na, E$nd)
+> plot(E$nai, E$nd)
 
 
 TODOS:
