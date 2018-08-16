@@ -9,8 +9,11 @@
       (i) Change r/c/d/ad update functions from single variable update to general whole board. //done
       (ii) Remove stack and set the field to occupied at once (handling if amo constraint is voilated).
 
-         (a) Seperate the pushing fields into stack from forbidden_rank_update (loop through all the row and column ranks).
+         (a) Seperate the pushing fields into stack from forbidden_rank_update (loop through all the row and column ranks). //done
          (b) Next change it to setting all the fields at once.
+            (i) Change updating the stack every time a field is set to false.
+            (ii) Now set all the fields in stack before calling the amo and board_update functions.
+            (iii) Remove the stack by setting all the fields to placed once found.
 
    (b) Adding statistics to inference process.
 
@@ -304,8 +307,8 @@ namespace NQueens {
           const AntiDiagonal ad = anti_diagonal(i);
           const Var ad_v = ad.s;
           assert(ad.l <= N);
-          for (coord_t i = 0 ; i < ad.l ; ++i) {
-            const Var v = {ad_v.first + i,ad_v.second - i};
+          for (coord_t j = 0 ; j < ad.l ; ++j) {
+            const Var v = {ad_v.first + j,ad_v.second - j};
             if (open(v)) set_false(v);
           }
         }
