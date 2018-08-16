@@ -2,7 +2,7 @@ set -o errexit
 set -o nounset
 
 program="Run"
-version="0.2"
+version="0.2.1"
 
 numargs=$#
 if (( numargs == 0 )); then
@@ -11,6 +11,7 @@ if (( numargs == 0 )); then
 fi
 
 N=$1
+shift
 executable="./ExpQueens"
 numlines=6
 
@@ -24,7 +25,10 @@ echo "${program} in version ${version}, logfile = ${logfile}"
 echo "${program} in version ${version}" > ${logfile}
 
 echo "Parameters:" >> ${logfile}
-echo "N=$N" >> ${logfile}
+echo "  N=$N" >> ${logfile}
+if (( $# > 0 )); then
+  echo "  Further parameters: \"$@\"" >> ${logfile}
+fi
 echo "Executable: \"${executable}\"" >> ${logfile}
 
 ${executable} -v >> ${logfile}
@@ -32,7 +36,7 @@ echo >> ${logfile}
 
 for ((i=1; i<=N; ++i)); do
   echo "c N $i" >> ${logfile}
-  ${timingtool} ${executable} $i |& awk "${awkargument}" >> ${logfile}
+  ${timingtool} ${executable} $i "$@" |& awk "${awkargument}" >> ${logfile}
   echo >> ${logfile}
 done
 
