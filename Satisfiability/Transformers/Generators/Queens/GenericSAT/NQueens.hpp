@@ -267,7 +267,7 @@ namespace NQueens {
 
     void r_update() noexcept {
       for (coord_t i = 1 ; i <= N ; ++i)
-        if (r_ranks[i].p == 1)
+        if (r_ranks[i].p == 1 and not r_ranks[i].o == 0)
           for (coord_t j = 1 ; j <= N ; ++j) {
             const Var v = {i,j};
             if (open(v)) {
@@ -279,7 +279,7 @@ namespace NQueens {
     }
     void c_update() noexcept {
       for (coord_t i = 1 ; i <= N ; ++i)
-        if (c_ranks[i].p == 1)
+        if (c_ranks[i].p == 1 and not c_ranks[i].o == 0)
           for (coord_t j = 1 ; j <= N ; ++j) {
             const Var v = {j,i};
             if (open(v)) {
@@ -291,7 +291,7 @@ namespace NQueens {
     }
     void d_update() noexcept {
       for (coord_t i = 0 ; i < 2*N-1 ; ++i)
-        if (d_ranks[i].p == 1) {
+        if (d_ranks[i].p == 1 and not d_ranks[i].o == 0) {
           const Diagonal d = diagonal(i);
           const Var d_v = d.s;
           assert(d.l <= N);
@@ -307,7 +307,7 @@ namespace NQueens {
     }
     void ad_update() noexcept {
       for (coord_t i = 0 ; i < 2*N-1 ; ++i)
-        if (ad_ranks[i].p == 1) {
+        if (ad_ranks[i].p == 1 and not ad_ranks[i].o == 0) {
           const AntiDiagonal ad = anti_diagonal(i);
           const Var ad_v = ad.s;
           assert(ad.l <= N);
