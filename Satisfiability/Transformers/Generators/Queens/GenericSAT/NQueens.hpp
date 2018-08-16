@@ -449,4 +449,27 @@ namespace NQueens {
   static_assert(TawHeuristics::weight(7) == 0.0694 * std::pow(1.46,-1), "TawHeuristics: weight(7)");
   static_assert(TawHeuristics::weight(8) == 0.0694 * std::pow(1.46,-2), "TawHeuristics: weight(7)");
 
+  // Choosing the first open variable:
+    class FirstOpen {
+    using Var = ChessBoard::Var;
+  public :
+    const AmoAlo_board& F;
+    FirstOpen(const AmoAlo_board& F) noexcept : F(F) {}
+    Var operator()() const noexcept {
+      for (ChessBoard::coord_t i = 1; i <= F.N; ++i) {
+        if (F.r_rank(i).p != 0) continue;
+        const auto& R = F.board()[i];
+        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j) {
+          if (R[j] != State::open) continue;
+          return {i,j};
+        }
+      }
+      assert(false);
+      return {};
+    }
+
+  };
+
+
+
 }
