@@ -395,7 +395,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.8";
+const std::string version = "0.6.9";
 const std::string date = "16.8.2018";
 
 const std::string program = "autL1"
@@ -890,7 +890,7 @@ struct DClauseSet {
   Var max_a_length=0, max_e_length=0, max_c_length=0; // max number of a/e/both literals in clauses
   Var max_s_dep=0, min_s_dep=max_lit, count_dep=0;
   Count_t c=0; // number of clauses (without tautologies or repetitions)
-  Count_t la=0, le=0, l=0; // number of a/e/both literal occurrences
+  Count_t la=0, le=0, l=0, lrep=0; // number of a/e/both/repeated literal occurrences
   Count_t t=0, empty=0, pempty=0, repeated=0; // number of tautological/empty/pseudoempty/repeated clauses
 
   friend std::ostream& operator <<(std::ostream& out, const DClauseSet& F) noexcept {
@@ -1213,6 +1213,7 @@ RS read_clause(DClause& C) noexcept {
   if (in.eof()) return RS::none;
   ++current_clause_index;
   AClause CA; EClause CE; // complemented clauses
+  Count_t lrep = 0;
   while (true) { // reading literals into C
     if (not in) {
       errout << "Clause" << current_clause_index << "Invalid literal-read at beginning of clause.";
@@ -1236,7 +1237,10 @@ RS read_clause(DClause& C) noexcept {
         while (x);
         return RS::tautology;
       }
-      else {C.P.first.insert(x); CA.insert(-x);}
+      else {
+        lrep += not C.P.first.insert(x).second;
+        CA.insert(-x);
+      }
     else {
       assert(et(F.vt[v]));
       if (CE.find(x) != CE.end()) { // tautology via existential literals
@@ -1249,10 +1253,14 @@ RS read_clause(DClause& C) noexcept {
         while (x);
         return RS::tautology;
       }
-      else {C.P.second.insert(x); CE.insert(-x);}
+      else {
+        lrep += not C.P.second.insert(x).second;
+        CE.insert(-x);
+      }
     }
     in >> x;
   }
+  F.lrep += lrep;
   switch (conlev) {
   case ConformityLevel::general :
     if (C.empty()) return RS::empty;
@@ -1793,12 +1801,16 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c number_repeated_clauses               " << F.repeated << "\n"
          "c number_empty_clauses                  " << F.empty << "\n"
          "c number_pseudo_empty_clauses           " << F.pempty << "\n"
+         "c number_repeated_literals              " << F.lrep << "\n"
          "c Actually occurring:\n"
          "c max_index_variable                    " << F.max_index << "\n"
          "c num_variables                         " << F.n << "\n"
          "c num_clauses                           " << F.c << "\n"
          "c num_a_variables                       " << F.na << "\n"
          "c num_e_variables                       " << F.ne << "\n"
+         "c num_a_literal_occurrences             " << F.la << "\n"
+         "c num_e_literal_occurrences             " << F.le << "\n"
+         "c num_ae_literal_occurrences            " << F.l << "\n"
          "c Additional statistics:\n"
          "c max_index_a_variable                  " << F.max_a_index << "\n"
          "c max_index_e_variable                  " << F.max_e_index << "\n"
@@ -1812,9 +1824,6 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
           if (F.count_dep!=0) logout<<F.max_s_dep; else logout<<"NaN";
           logout << "\n"
          "c num_different_dep_sets                " << F.count_dep << "\n"
-         "c num_a_literal_occurrences             " << F.la << "\n"
-         "c num_e_literal_occurrences             " << F.le << "\n"
-         "c num_ae_literal_occurrences            " << F.l << "\n"
          "c Encoding:\n"
          "c ncs                                   " << enc.ncs << "\n"
          "c nbf                                   " << enc.nbf << "\n"
