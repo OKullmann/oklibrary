@@ -396,7 +396,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.9";
+const std::string version = "0.6.10";
 const std::string date = "16.8.2018";
 
 const std::string program = "autL1"
@@ -852,6 +852,7 @@ typedef Clause EClause;
 typedef std::pair<AClause,EClause> PairClause; // all-exists
 struct DClause {
   PairClause P; // A-E
+  const Count_t index = 0;
   void clear() noexcept {P.first.clear(); P.second.clear();}
   bool pseudoempty() const noexcept {return P.second.empty();}
   bool empty() const noexcept {return P.first.empty() and P.second.empty();}
@@ -860,8 +861,8 @@ struct DClause {
   friend bool operator <(const DClause& C, const DClause& D) noexcept {
     return C.P < D.P;
   }
-  friend std::ostream& operator <<(std::ostream& out, const DClause& C) {
-    return out << "E:" << C.P.second << "; A:" << C.P.first;
+  friend std::ostream& operator <<(std::ostream& out, const DClause& C) noexcept {
+    return out << "E:" << C.P.second << "; A:" << C.P.first <<"; " << C.index;
   }
 };
 
@@ -1290,7 +1291,7 @@ RS read_clause(DClause& C) noexcept {
 // Add non-tautological C to F (if not already existent):
 void add_clause(const DClause& C) noexcept {
   try {
-    if (F.F.insert(C).second) {
+    if (F.F.insert({C.P, current_clause_index}).second) {
       ++F.c;
       const Var sa = C.P.first.size(), se = C.P.second.size();
       F.la += sa; F.le += se;
@@ -1840,7 +1841,11 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c c                                     " << G.size() << "\n"
          "c num_literal_occurrences               " << trans.litocc << "\n";
 
-  if (code(ll) >= 1) logout << "c Input DCNF (list of variables, then list of clauses, as pairs \"E;A\"):\n" << F;
+  if (code(ll) >= 1) logout <<
+    "c INPUT DQCNF (without repetitions or tautolocical clauses)\n"
+    "c   as list of variables, followed by list of clauses, as pairs\n"
+    "c   \"E: ;A: ; i\", where i is the index in the input:\n"
+    << F;
 
   if (solout != logout) {
     solout << "c Program " << program << ": version " << version << ", " << date << ".\n";
@@ -1849,10 +1854,10 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
 
   if (code(ll) >= 2) {
     if (not solout.nil()) {
-      solout << "c Information on the meaning of translation-variables:\n";
+      solout << "c Information on the MEANING of translation-variables:\n";
       solout << enc;
     } else {
-      logout << "c The meaning of translation-variables:\n";
+      logout << "c The MEANING of translation-variables:\n";
       logout << enc;
     }
   }
