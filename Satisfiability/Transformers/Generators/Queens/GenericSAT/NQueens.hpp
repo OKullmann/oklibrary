@@ -118,7 +118,8 @@ namespace NQueens {
       assert(board(v) == State::open);
       assert(r_ranks[v.first].o >= 2);
       assert(c_ranks[v.second].o >= 2);
-      if (val) set_true(v); else set_false(v);
+      if (val) { set_true(v); board_update(); }
+      else set_false(v);
       while(not stack.empty() and not falsified()) {
         const Var cur_v = stack.top(); stack.pop();
         if (b[cur_v.first][cur_v.second] == State::forbidden)
@@ -329,7 +330,6 @@ namespace NQueens {
       board(v) = State::placed;
       trank_update(v);
       placed_rank_update(v);
-      board_update();
     }
     void set_false(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
