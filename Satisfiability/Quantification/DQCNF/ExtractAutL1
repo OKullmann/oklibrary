@@ -21,7 +21,7 @@ set -o errexit
 set -o nounset
 
 script_name="ExtractAutL1"
-version_number=0.0.8
+version_number=0.0.9
 
 if ([ $# -ge 2 ]) then
   echo -e "ERROR[${script_name}]: At most one parameter is allowed,\n" \
@@ -39,7 +39,9 @@ else
   mode=both-file
 fi
 
-header="name no co na ne mind maxd nd lo n c l sat t"
+# np, cp: the two values from the parameter line
+# "i" refers to input.
+header="name np cp ni ci nai nei li mind maxd nd n c l sat t"
 extract_awk="./ExtractAutL1.awk"
 
 if ([ ${mode} == header-file ]) then

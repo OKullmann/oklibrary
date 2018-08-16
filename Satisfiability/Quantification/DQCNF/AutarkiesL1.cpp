@@ -184,7 +184,8 @@ TODOS:
    dependencies etc.) are established.
 
    For the handling of minima perhaps some helper-function is used, which
-   writes "NA" under appropriate circumstances.
+   writes "NA" under appropriate circumstances (or "NaN, which is currently
+   used).
 
 2. More statistics on dependencies:
     - average size
