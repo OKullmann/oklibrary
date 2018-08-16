@@ -11,7 +11,8 @@
 
          (a) Seperate the pushing fields into stack from forbidden_rank_update (loop through all the row and column ranks). //done
          (b) Next change it to setting all the fields at once.
-            (i) Change updating the stack every time a field is set to false.
+            (i) Change updating the stack every time a field is set to false. //done
+            (ii) Add a alo_constraint check function for while loop condition.
             (ii) Now set all the fields in stack before calling the amo and board_update functions.
             (iii) Remove the stack by setting all the fields to placed once found.
 
@@ -121,12 +122,9 @@ namespace NQueens {
       assert(board(v) == State::open);
       assert(r_ranks[v.first].o >= 2);
       assert(c_ranks[v.second].o >= 2);
-      if (val) {
-        set_true(v);
-        board_update();
-        alo();
-      }
-      else { set_false(v); alo(); }
+      if (val) { set_true(v); board_update(); }
+      else set_false(v);
+      alo();
       while(not stack.empty() and not falsified()) {
         const Var cur_v = stack.top(); stack.pop();
         if (b[cur_v.first][cur_v.second] == State::forbidden)
