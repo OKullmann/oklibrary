@@ -12,7 +12,7 @@
          (a) Seperate the pushing fields into stack from forbidden_rank_update (loop through all the row and column ranks). //done
          (b) Next change it to setting all the fields at once.
             (i) Change updating the stack every time a field is set to false. //done
-            (ii) Add a alo_constraint check function for while loop condition.
+            (ii) Add an alo_constraint check function for while loop condition.
             (ii) Now set all the fields in stack before calling the amo and board_update functions.
             (iii) Remove the stack by setting all the fields to placed once found.
 
@@ -193,6 +193,20 @@ namespace NQueens {
       assert(i < 2*N-1);
       if (i < N) return {{1,i+1}, i+1, i};
       else return {{i-N+2,N}, 2*N-i-1, i};
+    }
+
+    bool alo_constraints() noexcept {
+      for (coord_t i = 1 ; i <= N ; ++i) {
+        if (r_ranks[i].p == 0) {
+          if (r_ranks[i].o == 0) { falsified_ = true; return false; }
+          if (r_ranks[i].o == 1) return false;
+        }
+        if (c_ranks[i].p == 0) {
+          if (c_ranks[i].o == 0) { falsified_ = true; return false; }
+          if (c_ranks[i].o == 1) return false;
+        }
+      }
+      return true;
     }
 
     Var_uint odegree(const Var v) const noexcept {
