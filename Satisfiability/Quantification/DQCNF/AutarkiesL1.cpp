@@ -36,6 +36,7 @@ Other possibilities are:
  - "-cerr" for standard error
  - "-clog" for standard log
  - "-nil" for no output.
+For log also "=" is possible, which is then the same as file-output.
 
 Conformity-level "g" (for "general") admits c-lines and consecutive/empty
 a/e-lines in the dependency-section, and also allows empty clauses.
@@ -396,7 +397,7 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.9";
+const std::string version = "0.6.11";
 const std::string date = "16.8.2018";
 
 const std::string program = "autL1"
@@ -525,7 +526,7 @@ void set_output(const int argc, const char* const argv[]) noexcept {
     solout.del = true;
   }
   if (argc == 3) return;
-  const std::string logname(argv[3]);
+  const std::string logname = (std::string(argv[3])=="=") ? outname : argv[3];
   if (logname == "-cerr") logout.p = &std::cerr;
   else if (logname == "-clog") logout.p = &std::clog;
   else if (logname == "-nil") logout.p = nullptr;
@@ -852,6 +853,7 @@ typedef Clause EClause;
 typedef std::pair<AClause,EClause> PairClause; // all-exists
 struct DClause {
   PairClause P; // A-E
+  const Count_t index = 0;
   void clear() noexcept {P.first.clear(); P.second.clear();}
   bool pseudoempty() const noexcept {return P.second.empty();}
   bool empty() const noexcept {return P.first.empty() and P.second.empty();}
@@ -860,8 +862,8 @@ struct DClause {
   friend bool operator <(const DClause& C, const DClause& D) noexcept {
     return C.P < D.P;
   }
-  friend std::ostream& operator <<(std::ostream& out, const DClause& C) {
-    return out << "E:" << C.P.second << "; A:" << C.P.first;
+  friend std::ostream& operator <<(std::ostream& out, const DClause& C) noexcept {
+    return out << "E:" << C.P.second << "; A:" << C.P.first <<"; " << C.index;
   }
 };
 
@@ -1290,7 +1292,7 @@ RS read_clause(DClause& C) noexcept {
 // Add non-tautological C to F (if not already existent):
 void add_clause(const DClause& C) noexcept {
   try {
-    if (F.F.insert(C).second) {
+    if (F.F.insert({C.P, current_clause_index}).second) {
       ++F.c;
       const Var sa = C.P.first.size(), se = C.P.second.size();
       F.la += sa; F.le += se;
@@ -1732,16 +1734,22 @@ void show_usage() noexcept {
     "> " << program << " [-cin | filename] [-cout | -cerr | filename2 | -nil]\n"
       " furthermore appends the DIMACS-output to standard output or standard error or filename2, or ignores it\n "
       "(default is -cout).\n"
-    "The same redirection can be done with the log-output, as a third command-argument; default is -cout.\n"
-    "If DIMACS- and log-output are equal, then first comes the log-output (as DIMACS-comment).\n"
-    "A fourth optional argument is the conformity-level: g (general), n (normal), s (strict), vs (very strict).\n"
-    "A fifth optional argument is the log-level: \"1\" means with input.\n"
+    "The same redirections can be done with the log-output (which might be \"=\"),\n"
+    " as a third command-argument; default is -cout.\n"
+    "If DIMACS- and log-output are equal (explicitly or impliclity),\n"
+    " then first comes the log-output (as DIMACS-comment).\n"
+    "A fourth optional argument is the conformity-level:\n"
+    " g (general), n (normal), s (strict), vs (very strict).\n"
+    "A fifth optional argument is the log-level (default \"0\"):\n"
+    " \"1\" means with input, \"2\" has additionally explanations on translation-variables.\n"
     "\nFor example, with\n"
     "> " << program << " -cin Out -nil\n"
     "input comes from standard input, the translation is put to file Out, and the log is discarded.\n"
     "While with\n"
     "> " << program << " In Out Out\n"
-    "the input comes from file In, and both translation and log are appended to Out.\n";
+    "the input comes from file In, and both translation and log are appended to Out.\n"
+    "The same can be achieved with\n"
+    "> " << program << " In Out =\n";
   std::exit(0);
 }
 
@@ -1840,7 +1848,11 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
          "c c                                     " << G.size() << "\n"
          "c num_literal_occurrences               " << trans.litocc << "\n";
 
-  if (code(ll) >= 1) logout << "c Input DCNF (list of variables, then list of clauses, as pairs \"E;A\"):\n" << F;
+  if (code(ll) >= 1) logout <<
+    "c INPUT DQCNF (without repetitions or tautolocical clauses)\n"
+    "c   as list of variables, followed by list of clauses, as pairs\n"
+    "c   \"E: ;A: ; i\", where i is the index in the input:\n"
+    << F;
 
   if (solout != logout) {
     solout << "c Program " << program << ": version " << version << ", " << date << ".\n";
@@ -1849,10 +1861,10 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
 
   if (code(ll) >= 2) {
     if (not solout.nil()) {
-      solout << "c Information on the meaning of translation-variables:\n";
+      solout << "c Information on the MEANING of translation-variables:\n";
       solout << enc;
     } else {
-      logout << "c The meaning of translation-variables:\n";
+      logout << "c The MEANING of translation-variables:\n";
       logout << enc;
     }
   }
