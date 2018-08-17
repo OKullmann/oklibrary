@@ -57,8 +57,13 @@ int main(const int argc, const char* const argv[]) {
     const auto rFq = B(Fq);
     std::cout << rFq;
   }
-  else {
+  if (option == "2"){
     Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpen> B;
+    const auto rFq = B(Fq);
+    std::cout << rFq;
+  }
+  if (option == "3"){
+    Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::MaxODegree> B;
     const auto rFq = B(Fq);
     std::cout << rFq;
   }

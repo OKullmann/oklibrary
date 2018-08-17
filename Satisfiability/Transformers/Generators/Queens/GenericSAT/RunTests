@@ -65,3 +65,22 @@ for S in "${programs[@]}"; do
 
 done
 
+program1="./ExpQueens"
+program2="valgrind -q ./ExpQueens_debug"
+declare -a programs=("${program1}" "${program2}")
+
+declare -a outcomes=(0 "1 1 0 0 1 0" "0 3 1 3 0 1" "0 7 3 7 0 1" "2 11 5 1 3 1" "10 41 15 7 3 2" "4 113 21 15 1 2" "40 417 36 19 3 3" "92 1491 47 45 3 3")
+
+for S in "${programs[@]}"; do
+  for (( N=1; N<=maxN; ++N )); do
+    echo "Testcase: ${S} ${N} 3"
+    result=$(echo "$(${S} ${N} 3)" | grep -o -E '[0-9]+'| tr '\n' ' '| xargs)
+    expected="${outcomes[$N]}"
+    if [[ "$result" != "$expected" ]]; then
+      echo -e "${error}\"${S} ${N}\" yields \"${result}\", but should yield ${expected}."
+      exit $N
+    fi
+  done
+
+done
+

@@ -18,9 +18,9 @@
 2. Simple heuristics
 
    (a) First open field (this should still have a better q(N) than
-       Somers algorithm).
+       Somers algorithm). //done
    (b) Random choice (from all the remaining open fields).
-   (c) Maximum o-degree.
+   (c) Maximum o-degree. //done
 
 3. Optimising heuristics
 
@@ -463,7 +463,7 @@ namespace NQueens {
 
 
   // Choosing the first open variable:
-    class FirstOpen {
+  class FirstOpen {
     using Var = ChessBoard::Var;
     using State = ChessBoard::State;
   public :
@@ -483,5 +483,32 @@ namespace NQueens {
     }
 
   };
+
+  // Choosing the variable with maximum o-degree:
+  class MaxODegree {
+    using Var = ChessBoard::Var;
+    using Var_uint = ChessBoard::Var_uint;
+    using State = ChessBoard::State;
+  public :
+    const AmoAlo_board& F;
+    MaxODegree(const AmoAlo_board& F) noexcept : F(F) {}
+    Var operator()() const noexcept {
+      Var_uint max1 = 0;
+      Var bv{0,0};
+      for (ChessBoard::coord_t i = 1; i <= F.N; ++i) {
+        if (F.r_rank(i).p != 0) continue;
+        const auto& R = F.board()[i];
+        Var v; v.first = i;
+        for (ChessBoard::coord_t j = 1; j <= F.N ; ++j) {
+          if (R[j] != State::open) continue;
+          v.second = j;
+          if (F.odegree(v) < max1) continue;
+          max1 = F.odegree(v);
+          bv = v;
+        }
+      }
+      return bv;
+    }
+    };
 
 }
