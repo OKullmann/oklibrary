@@ -185,7 +185,7 @@ namespace NQueens {
     }
 
     // Returns true if atleast one field is set to placed in corresponding r,c,d and ad:
-    bool placed(const Var v)  const noexcept {
+    bool placed(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       const Diagonal d = diagonal(v);
@@ -300,22 +300,17 @@ namespace NQueens {
       d_amo();
       ad_amo();
     }
-
     void r_amo() noexcept {
       for (coord_t i = 1 ; i <= N ; ++i)
         if (r_ranks[i].p == 1 and not r_ranks[i].o == 0)
-          for (coord_t j = 1 ; j <= N ; ++j) {
-            const Var v = {i,j};
-            if (open(v)) set_false(v);
-          }
+          for (coord_t j = 1 ; j <= N ; ++j)
+            if (open({i,j})) set_false({i,j});
     }
     void c_amo() noexcept {
       for (coord_t i = 1 ; i <= N ; ++i)
         if (c_ranks[i].p == 1 and not c_ranks[i].o == 0)
-          for (coord_t j = 1 ; j <= N ; ++j) {
-            const Var v = {j,i};
-            if (open(v)) set_false(v);
-          }
+          for (coord_t j = 1 ; j <= N ; ++j)
+            if (open({j,i})) set_false({j,i});
     }
     void d_amo() noexcept {
       for (coord_t i = 0 ; i < 2*N-1 ; ++i)
