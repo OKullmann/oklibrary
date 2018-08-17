@@ -184,6 +184,7 @@ namespace NQueens {
       else return {{i-N+2,N}, 2*N-i-1, i};
     }
 
+    // Returns true if all ranks >= 2, falsified_ is updated if found:
     bool alo_constraints() noexcept {
       for (coord_t i = 1 ; i <= N ; ++i) {
         if (r_ranks[i].p == 0) {
@@ -249,6 +250,7 @@ namespace NQueens {
       }
     }
 
+    // Sets all the fields to placed (propagated by alo constraints), falsified_ is updated if found:
     void alo() noexcept {
       for (coord_t i = 1 ; i <= N ; ++i) {
         if (r_ranks[i].o == 1)
@@ -290,6 +292,7 @@ namespace NQueens {
       else ++trank.f;
     }
 
+    // Fields are propagated with amo constraints:
     void amo() noexcept {
       r_amo();
       c_amo();
