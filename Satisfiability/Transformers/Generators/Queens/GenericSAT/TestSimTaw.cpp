@@ -110,10 +110,10 @@ int main() {
     assert(FC.board({3,2}) == State::forbidden);
   }
   {
-    // Test case for alo_constraints:
+    // Test case for alt:
     NQueens::AmoAlo_board F(4);
     const Var v{2,4};
     F.set(v,true);
-    assert(F.alo_constraints()== true);
+    assert(F.alt()== true);
   }
 }

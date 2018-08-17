@@ -120,7 +120,7 @@ namespace NQueens {
       assert(c_ranks[v.second].o >= 2);
       if (val) { set_true(v); amo(); }
       else set_false(v);
-      while(not alo_constraints() and not falsified()) {
+      while(not alt() and not falsified()) {
           alo();
           amo();
       }
@@ -196,7 +196,7 @@ namespace NQueens {
     }
 
     // Returns true if all ranks >= 2, falsified_ is updated if found:
-    bool alo_constraints() noexcept {
+    bool alt() noexcept {
       for (coord_t i = 1 ; i <= N ; ++i) {
         if (r_ranks[i].p == 0) {
           if (r_ranks[i].o == 0) { falsified_ = true; return false; }
