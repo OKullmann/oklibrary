@@ -118,11 +118,11 @@ namespace NQueens {
       assert(board(v) == State::open);
       assert(r_ranks[v.first].o >= 2);
       assert(c_ranks[v.second].o >= 2);
-      if (val) { set_true(v); board_update(); }
+      if (val) { set_true(v); amo(); }
       else set_false(v);
       while(not alo_constraints() and not falsified()) {
           alo();
-          board_update();
+          amo();
       }
     }
 
@@ -290,14 +290,14 @@ namespace NQueens {
       else ++trank.f;
     }
 
-    void board_update() noexcept {
-      r_update();
-      c_update();
-      d_update();
-      ad_update();
+    void amo() noexcept {
+      r_amo();
+      c_amo();
+      d_amo();
+      ad_amo();
     }
 
-    void r_update() noexcept {
+    void r_amo() noexcept {
       for (coord_t i = 1 ; i <= N ; ++i)
         if (r_ranks[i].p == 1 and not r_ranks[i].o == 0)
           for (coord_t j = 1 ; j <= N ; ++j) {
@@ -305,7 +305,7 @@ namespace NQueens {
             if (open(v)) set_false(v);
           }
     }
-    void c_update() noexcept {
+    void c_amo() noexcept {
       for (coord_t i = 1 ; i <= N ; ++i)
         if (c_ranks[i].p == 1 and not c_ranks[i].o == 0)
           for (coord_t j = 1 ; j <= N ; ++j) {
@@ -313,7 +313,7 @@ namespace NQueens {
             if (open(v)) set_false(v);
           }
     }
-    void d_update() noexcept {
+    void d_amo() noexcept {
       for (coord_t i = 0 ; i < 2*N-1 ; ++i)
         if (d_ranks[i].p == 1 and not d_ranks[i].o == 0) {
           const Diagonal d = diagonal(i);
@@ -325,7 +325,7 @@ namespace NQueens {
           }
         }
     }
-    void ad_update() noexcept {
+    void ad_amo() noexcept {
       for (coord_t i = 0 ; i < 2*N-1 ; ++i)
         if (ad_ranks[i].p == 1 and not ad_ranks[i].o == 0) {
           const AntiDiagonal ad = anti_diagonal(i);

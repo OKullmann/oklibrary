@@ -45,7 +45,7 @@ int main() {
     assert(h.heuristics(v11) == TawHeuristics::Bp(3*4.85, 2*4.85));
   }
   {
-    // Test case for changed r_update function:
+    // Test case for changed r_amo function:
     NQueens::AmoAlo_board F(4);
     const Var v{1,1};
     F.set(v,true);
@@ -56,7 +56,7 @@ int main() {
     assert(FC.board({2,4}) == State::open);
   }
   {
-    // Test case for changed c_update function:
+    // Test case for changed c_amo function:
     NQueens::AmoAlo_board F(4);
     const Var v{1,1};
     F.set(v,true);
@@ -87,7 +87,7 @@ int main() {
     assert(ad.i == 6);
   }
   {
-    // Test case for changed d_update function:
+    // Test case for changed d_amo function:
     NQueens::AmoAlo_board F(4);
     const Var v{1,1};
     F.set(v,true);
@@ -99,7 +99,7 @@ int main() {
     assert(FC.board({3,2}) == State::open);
   }
   {
-    // Test case for changed ad_update function:
+    // Test case for changed ad_amo function:
     NQueens::AmoAlo_board F(4);
     const Var v{2,4};
     F.set(v,true);
