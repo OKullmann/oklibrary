@@ -184,6 +184,17 @@ namespace NQueens {
       else return {{i-N+2,N}, 2*N-i-1, i};
     }
 
+    // Returns true if atleast one field is set to placed in corresponding r,c,d and ad:
+    bool placed(const Var v)  const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      const Diagonal d = diagonal(v);
+      const AntiDiagonal ad = anti_diagonal(v);
+      assert(d.i < d_ranks.size());
+      assert(ad.i < ad_ranks.size());
+      return (r_ranks[v.first].p == 1 or c_ranks[v.second].p == 1 or d_ranks[d.i].p == 1 or ad_ranks[ad.i].p == 1);
+    }
+
     // Returns true if all ranks >= 2, falsified_ is updated if found:
     bool alo_constraints() noexcept {
       for (coord_t i = 1 ; i <= N ; ++i) {
@@ -254,29 +265,19 @@ namespace NQueens {
     void alo() noexcept {
       for (coord_t i = 1 ; i <= N ; ++i) {
         if (r_ranks[i].o == 1)
-          for (coord_t j = 1; j <= N ; ++j) {
-            Var v = {i,j};
-            if (open(v)) {
-              if (c_ranks[j].p == 1 or d_ranks[diagonal(v).i].p == 1 or ad_ranks[anti_diagonal(v).i].p == 1) {
-                falsified_ = true;
-                return;
-              }
-              else set_true(v);
+          for (coord_t j = 1; j <= N ; ++j)
+            if (open({i,j})) {
+              if (placed({i,j})) { falsified_ = true; return; }
+              else set_true({i,j});
               break;
             }
-          }
         if (c_ranks[i].o == 1)
-          for (coord_t j = 1; j <= N ; ++j) {
-            Var v = {j,i};
-            if (open(v)) {
-              if (r_ranks[j].p == 1 or d_ranks[diagonal(v).i].p == 1 or ad_ranks[anti_diagonal(v).i].p == 1) {
-                falsified_ = true;
-                return;
-              }
-              else set_true(v);
+          for (coord_t j = 1; j <= N ; ++j)
+            if (open({j,i})) {
+              if (placed({j,i})) { falsified_ = true; return; }
+              else set_true({j,i});
               break;
             }
-          }
       }
     }
 
