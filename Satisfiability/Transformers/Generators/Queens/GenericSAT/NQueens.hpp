@@ -124,8 +124,8 @@ namespace NQueens {
       if (val) { set_true(v); amo(); }
       else set_false(v);
       while(not alt() and not falsified()) {
-          alo();
-          amo();
+        alo();
+        amo();
       }
     }
 
@@ -512,6 +512,7 @@ namespace NQueens {
       }
       return bv;
     }
-    };
+
+  };
 
 }
