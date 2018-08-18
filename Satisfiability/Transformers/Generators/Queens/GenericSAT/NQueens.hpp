@@ -38,6 +38,9 @@
 4. Strengthened inference
 
    (a) Using that a solution has an even number of white fields.
+
+      (i) Investigate if it is possible to set bounds (in advance) on number of white queens (as we observed).
+
    (b) Using that a solution occupies exactly N diagonals and exactly N
        antidiagonals.
 
