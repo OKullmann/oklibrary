@@ -532,12 +532,12 @@ set -e
     echo -e "Wrong repeated-literals count ${result} != 3 with translator \"${S}\"."
     exit 1
   fi
-  result=$(cat ${tempfile} | awk '/c  1: E: -1/{print $6}')
+  result=$(cat ${tempfile} | awk '/c  C\[1\]:/{print $NF}')
   if (( result != 6 )); then
     echo -e "Wrong original-clause-index ${result} != 6 with translator \"${S}\"."
     exit 1
   fi
-  result=$(cat ${tempfile} | awk '/c  2: E: 1/{print $6}')
+  result=$(cat ${tempfile} | awk '/c  C\[2\]:/{print $NF}')
   if (( result != 4 )); then
     echo -e "Wrong original-clause-index ${result} != 4 with translator \"${S}\"."
     exit 1

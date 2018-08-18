@@ -265,11 +265,11 @@ TODOS:
    stored. Tautological clauses (which are deleted) should also be recorded;
    see Point 12:
     - The class DClause could contain the original clause-index >= 1, or
-      0 if not defined.
+      0 if not defined. DONE
     - There needs then to be a vector with the indices of the deleted
       tautological clauses.
     - When showing the original clauses, then the original indices should
-      be shown (in case of repeated clauses, this needs to be indicated).
+      be shown (in case of repeated clauses, this needs to be indicated). DONE
     - The map new-clause-index -> old-clause-index should be made available,
       so that a simple script with inputs (input dqcnf, satisfying assignment
       for translation, map) can perform the autarky-reduction.
@@ -281,12 +281,27 @@ TODOS:
 7. Distributing comments on the two output-streams (solout and logout)
 
    Currently we have the log-level (0,1,2), where level-2 actually goes to
-   solout (information on the translation-variables, which can be big).
+   solout (information on the translation-variables, which can be big), if
+   solout is not nil (in this case it then goes to logout).
 
    While log-level-1 is the input (in the new order), going to logout.
 
    Perhaps we can have a more powerful syntax, which allows to select the
    various pieces, and where they go, in which order.
+
+   Perhaps what is most needed is a way to extract in a simple way the
+   information on the encoding-variables, so that from a solution of
+   the translation, we can compute all necessary information:
+    - The meaning of the variables in the translation is given at
+      log-level 2 in log-output.
+    - Perhaps it should be made more machine-readable.
+    - This is achieved now by using specifications of the form
+      "c  cs[i]" etc. DONE
+
+   It should also be possible to output the cleaned-up original clause-set
+   (as we output it for log-level 1, but here in DQCNF-format).
+   We need to store whether the input-format is DQCNF or PQCNF (and output
+   it accordingly).
 
 8. Another variation: cut out pa-variables for partial assignments with only
    one variable.
@@ -397,8 +412,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.11";
-const std::string date = "16.8.2018";
+const std::string version = "0.6.12";
+const std::string date = "17.8.2018";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -850,6 +865,13 @@ typedef std::map<Dependency_p, Count_t> DepCounts;
 typedef std::set<Lit> Clause;
 typedef Clause AClause;
 typedef Clause EClause;
+// Special output, comma-separated:
+void output_clause(std::ostream& out, const Clause& C) noexcept {
+  const auto begin = C.begin(), end = C.end();
+  for (auto i = begin; i != end; ++i)
+    if (i != begin) out << "," << *i; else out << *i;
+}
+
 typedef std::pair<AClause,EClause> PairClause; // all-exists
 struct DClause {
   PairClause P; // A-E
@@ -863,7 +885,11 @@ struct DClause {
     return C.P < D.P;
   }
   friend std::ostream& operator <<(std::ostream& out, const DClause& C) noexcept {
-    return out << "E:" << C.P.second << "; A:" << C.P.first <<"; " << C.index;
+    out << "E={";
+    output_clause(out, C.P.second);
+    out << "} A={";
+    output_clause(out, C.P.first);
+    return out <<"} " << C.index;
   }
 };
 
@@ -897,12 +923,13 @@ struct DClauseSet {
   Count_t t=0, empty=0, pempty=0, repeated=0; // number of tautological/empty/pseudoempty/repeated clauses
 
   friend std::ostream& operator <<(std::ostream& out, const DClauseSet& F) noexcept {
-    out << "c  Variables:\nc  ";
+    out << "c  List of variables:\nc   ";
     for (Var v = 1; v < F.vt.size(); ++v) out << " " << v << ":" << F.vt[v];
     out << "\nc  p cnf " << F.max_index << " " << F.c << "\n";
     for (Var v = 1; v < F.vt.size(); ++v)
       if (F.vt[v] == VT::e) out << "c  d " << v << *F.D[v] << " 0\n";
-    for (const auto& C : F.F) out << "c  " << C << "\n";
+    Count_t i = 0;
+    for (const auto& C : F.F) out << "c  C[" << ++i << "]: " << C << "\n";
     return out;
   }
 };
@@ -1484,32 +1511,35 @@ struct Encoding {
   }
 
   friend std::ostream& operator <<(std::ostream& out, const Encoding& enc) noexcept {
-    out << "c cs-variables and their clauses: ncs = " << enc.ncs << "\n";
+    out << "c cs-variables and the associated clauses:\n"
+           "c ncs = " << enc.ncs << "\n";
     for (clause_index_t i = 0; i < enc.ncs; ++i)
-      out << "c  " << enc.csvar(i) << ": " << *enc.dclauses[i] << "\n";
-    out << "c bf-variables and their boolean functions: nbf = " << enc.nbf << "\n";
+      out << "c  cs[" << enc.csvar(i) << "]: " << *enc.dclauses[i] << "\n";
+    out << "c bf-variables and the associated 1-variable partial assignments:\n"
+           "c nbf = " << enc.nbf << "\n";
     for (Var vi = 0; vi < enc.F.ne; ++vi) {
       const EVar v = enc.E[vi];
-      out << "c  e-var " << v << " with ";
+      out << "c  evar[" << v << "]: ";
       const Var begin = enc.bfvar_indices[vi], end = enc.bfvar_indices[vi+1];
-      out << (end-begin) << " bfs from " << begin << " to " << (end-1) << ":\nc   ";
+      out << (end-begin) << " bfs from " << begin << " to " << (end-1) << "\nc   ";
       Var j = begin;
-      out << j++ << ":" << bf(false) << ", ";
-      out << j++ << ":" << bf(true);
-      for (const AVar v : enc.dep[vi]) {
-        out << ", " << j++ << ":" << Litc(Lit(v,Pol::n)) << ", ";
-        out << j++ << ":" << Litc(Lit(v,Pol::p));
+      out << "bf[" << j++ << "]:" << Pass{{v,bf(false)}};
+      out << ", bf[" << j++ << "]:" << Pass{{v,bf(true)}};
+      for (const AVar w : enc.dep[vi]) {
+        out << ", bf[" << j++ << "]:" << Pass{{v,Litc(Lit(w,Pol::n))}};
+        out << ", bf[" << j++ << "]:" << Pass{{v,Litc(Lit(w,Pol::p))}};
       }
       out << "\n";
     }
-    out << "c pa-variables and their partial assignments: npa = " << enc.npa << "\n";
+    out << "c pa-variables and their partial assignments:\n"
+           "c npa = " << enc.npa << "\n";
     {Var v = enc.ncs+enc.nbf;
      for (const Pass& phi : enc.all_solutions.first)
-       out << "c  " << ++v << ":" << phi << "\n";
+       out << "c  pa[" << ++v << "]:" << phi << "\n";
     }
-    out << "c The clauses and their solution-sets (as pa-variables):\n";
+    out << "c The clauses (see the cs-variables) and their solution-sets (as pa-variables):\n";
     for (clause_index_t ci = 0; ci < enc.ncs; ++ci) {
-      out << "c  " << enc.csvar(ci) << ":";
+      out << "c  sol[" << enc.csvar(ci) << "]:";
       const Solution_set& ss = enc.all_solutions.second[ci];
       std::vector<Var> v; v.reserve(ss.size());
       for (Pass_p p : ss) v.push_back(enc.enc_pass.find(p)->second);
@@ -1850,8 +1880,10 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
 
   if (code(ll) >= 1) logout <<
     "c INPUT DQCNF (without repetitions or tautolocical clauses)\n"
-    "c   as list of variables, followed by list of clauses, as pairs\n"
-    "c   \"E: ;A: ; i\", where i is the index in the input:\n"
+    "c   as list of variables, followed by p- and d-specifications,\n"
+    "c   and concluded by the list of clauses, in the format\n"
+    "c     C[i]: E={...} A={...} j\n"
+    "c   where i the new and j is the old index (in the input):\n"
     << F;
 
   if (solout != logout) {
@@ -1861,10 +1893,10 @@ void output(const std::string filename, const ConformityLevel cl, const DClauseS
 
   if (code(ll) >= 2) {
     if (not solout.nil()) {
-      solout << "c Information on the MEANING of translation-variables:\n";
+      solout << "c MEANING of translation-variables: cs[i], bf[i], pa[i]\n";
       solout << enc;
     } else {
-      logout << "c The MEANING of translation-variables:\n";
+      logout << "c MEANING of translation-variables: cs[i], bf[i], pa[i]\n";
       logout << enc;
     }
   }
