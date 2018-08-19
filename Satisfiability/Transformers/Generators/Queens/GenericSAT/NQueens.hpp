@@ -36,6 +36,7 @@
 #include <vector>
 #include <utility>
 #include <array>
+#include <type_traits>
 
 #include <cassert>
 #include <cmath>

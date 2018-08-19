@@ -12,6 +12,7 @@
 #include <utility>
 #include <ostream>
 #include <algorithm>
+#include <type_traits>
 
 #include <cmath>
 #include <cassert>

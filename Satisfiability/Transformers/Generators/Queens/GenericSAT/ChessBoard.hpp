@@ -4,6 +4,7 @@
 #define CHESSBOARD_PjPxE
 
 #include <limits>
+#include <type_traits>
 
 #include <cstdint>
 
