@@ -48,7 +48,8 @@ Recursion_debug : Recursion.cpp Recursion.hpp InOut.hpp
 
 
 test :
-	./TestSimTaw; ./RunTests
+	./TestSimTaw
+	./RunTests
 
 clean :
 	- rm program program_debug SimTaw SimTaw_debug TestSimTaw ExpQueens ExpQueens_debug Recursion Recursion_debug
