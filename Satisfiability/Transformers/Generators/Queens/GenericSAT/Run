@@ -2,7 +2,7 @@ set -o errexit
 set -o nounset
 
 program="Run"
-version="0.2.2"
+version="0.2.3"
 
 numargs=$#
 if (( numargs == 0 )); then
@@ -12,7 +12,9 @@ fi
 
 N=$1
 shift
-executable="./ExpQueens"
+
+scriptdir=$(dirname "$0")
+executable="${scriptdir}/ExpQueens"
 numlines=6
 
 timestamp=$(date "+%F_%H-%M-%S")

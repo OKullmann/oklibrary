@@ -21,7 +21,7 @@ set -o errexit
 set -o nounset
 
 script_name="ExtractQueens"
-version_number=0.0.8
+version_number=0.0.9
 
 if ([ $# -ge 2 ]) then
   echo -e "ERROR[${script_name}]: At most one parameter is allowed,\n" \
@@ -40,7 +40,9 @@ else
 fi
 
 header="N sol nds h munds msnds hts t"
-extract_awk="./${script_name}.awk"
+
+scriptdir=$(dirname "$0")
+extract_awk="${scriptdir}/${script_name}.awk"
 
 if ([ ${mode} == header-file ]) then
   echo "${header}"
