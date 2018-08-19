@@ -37,9 +37,12 @@
 #include <utility>
 #include <array>
 #include <type_traits>
+#include <algorithm>
+#include <random>
 
 #include <cassert>
 #include <cmath>
+#include <cstdint>
 
 #include "ChessBoard.hpp"
 
@@ -375,7 +378,7 @@ namespace NQueens {
   public :
     const BasicACLS& F;
 
-    BasicBranching(const BasicACLS& F) noexcept : F(F) {}
+    explicit BasicBranching(const BasicACLS& F) noexcept : F(F) {}
 
     Var operator()() const noexcept { return {0,0}; }
 
@@ -396,7 +399,7 @@ namespace NQueens {
 
     const AmoAlo_board& F;
 
-    TawHeuristics(const AmoAlo_board& F) noexcept : F(F) {}
+    explicit TawHeuristics(const AmoAlo_board& F) noexcept : F(F) {}
 
     constexpr static Weight_t weight(const Var_uint cl) noexcept {
       return (cl < size) ? weights[cl] :
@@ -453,9 +456,9 @@ namespace NQueens {
   // Choosing the first open variable:
     class FirstOpen {
     using Var = ChessBoard::Var;
-  public :
+    public :
     const AmoAlo_board& F;
-    FirstOpen(const AmoAlo_board& F) noexcept : F(F) {}
+    explicit FirstOpen(const AmoAlo_board& F) noexcept : F(F) {}
     Var operator()() const noexcept {
       for (ChessBoard::coord_t i = 1; i <= F.N; ++i) {
         if (F.r_rank(i).p != 0) continue;
@@ -468,9 +471,38 @@ namespace NQueens {
       assert(false);
       return {};
     }
-
   };
 
-
+  // Fixing a random order of fields, and choosing the first open variable:
+    class FirstOpenRandom {
+      using Var = ChessBoard::Var;
+      using coord_t = ChessBoard::coord_t;
+      using Var_uint = ChessBoard::Var_uint;
+      typedef std::vector<Var> varvec_t;
+    public :
+      const AmoAlo_board& F;
+      explicit FirstOpenRandom(const AmoAlo_board& F) noexcept : F(F) {}
+      Var operator()() const noexcept {
+        assert(Var_uint(F.N) * Var_uint(F.N) == random_permutation.size());
+        for (const Var v : random_permutation) if (F.open(v)) return v;
+        assert(false);
+        return {};
+      }
+      typedef std::uint32_t seed_t;
+      typedef std::vector<seed_t> vec_seed_t;
+      static void init(const coord_t N, const vec_seed_t s = vec_seed_t{}) {
+        random_permutation.resize(Var_uint(N) * Var_uint(N));
+        {varvec_t::size_type index = 0;
+         for (coord_t i = 1; i <= N; ++i)
+           for (coord_t j = 1; j <= N; ++j)
+             random_permutation[index++] = {i,j};
+        }
+        std::seed_seq seq(s.begin(), s.end());
+        std::shuffle(random_permutation.begin(), random_permutation.end(), std::mt19937_64(seq));
+      }
+    private :
+      static varvec_t random_permutation;
+    };
+    FirstOpenRandom::varvec_t FirstOpenRandom::random_permutation;
 
 }

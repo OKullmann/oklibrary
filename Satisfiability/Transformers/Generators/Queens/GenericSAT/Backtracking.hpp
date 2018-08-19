@@ -46,6 +46,14 @@ namespace Backtracking {
   struct CountSat {
     using ACLS = ActiveClauseSet;
 
+    CountSat() = default;
+
+    CountSat(const ChessBoard::coord_t N) { Branching::init(N); }
+    template <class Binit>
+    CountSat(const ChessBoard::coord_t N, const Binit& bi) {
+      Branching::init(N,bi);
+    }
+
     Statistics operator()(ACLS F) const {
       Statistics stats{0,1,0,0,0,0};
       if (F.satisfied()) {

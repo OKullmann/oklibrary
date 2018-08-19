@@ -11,8 +11,8 @@
 
 namespace {
 
-const std::string version = "0.2.4";
-const std::string date = "16.8.2018";
+const std::string version = "0.2.5";
+const std::string date = "19.8.2018";
 const std::string program = "ExpQueens"
 #ifndef NDEBUG
   "_debug"
@@ -56,10 +56,28 @@ int main(const int argc, const char* const argv[]) {
     Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::TawHeuristics> B;
     const auto rFq = B(Fq);
     std::cout << rFq;
+    return 0;
   }
-  else {
+  else if (option == "f") {
     Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpen> B;
     const auto rFq = B(Fq);
     std::cout << rFq;
+    return 0;
+  }
+  else {
+    if (argc == 3) {
+      Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpenRandom> B(N);
+      const auto rFq = B(Fq);
+      std::cout << rFq;
+      return 0;
+    } else {
+      typedef NQueens::FirstOpenRandom::seed_t seed_t;
+      const seed_t seed = std::stoul(argv[3]);
+      typedef NQueens::FirstOpenRandom::vec_seed_t vec_seed_t;
+      Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpenRandom> B(N,vec_seed_t{{seed}});
+      const auto rFq = B(Fq);
+      std::cout << rFq;
+      return 0;
+    }
   }
 }
