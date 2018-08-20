@@ -46,6 +46,86 @@ int main() {
     assert(h.heuristics(v11) == TawHeuristics::Bp(3*4.85, 2*4.85));
   }
   {
+    NQueens::AmoAlo_board F(4);
+    const Var v{1,1};
+    F.set(v,true);
+    const AmoAlo_board FC(F);
+    assert(FC.board({1,2}) == State::forbidden);
+    assert(FC.board({1,3}) == State::forbidden);
+    assert(FC.board({1,4}) == State::forbidden);
+    assert(FC.board({2,1}) == State::forbidden);
+    assert(FC.board({2,2}) == State::forbidden);
+    assert(FC.board({2,3}) == State::open);
+    assert(FC.board({2,4}) == State::open);
+    assert(FC.board({3,1}) == State::forbidden);
+    assert(FC.board({3,2}) == State::open);
+    assert(FC.board({3,3}) == State::forbidden);
+    assert(FC.board({4,1}) == State::forbidden);
+    assert(FC.board({4,2}) == State::open);
+    assert(FC.board({4,3}) == State::open);
+    assert(FC.board({4,4}) == State::forbidden);
+  }
+  {
+    // Falsified due to amo propagation:
+    NQueens::AmoAlo_board F(3);
+    const Var v{2,2};
+    F.set(v,true);
+    assert(F.falsified());
+  }
+  {
+    // Satisfied due to alo propagation:
+    NQueens::AmoAlo_board F(4);
+    const Var v{1,2};
+    F.set(v,true);
+    assert(F.satisfied());
+  }
+  {
+    NQueens::AmoAlo_board F(5);
+    ChessBoard::Diagonal d = F.diagonal({1,1});
+    assert(d.s.first == 1);
+    assert(d.s.second == 1);
+    assert(d.l == 5);
+    d = F.diagonal({1,3});
+    assert(d.s.first == 1);
+    assert(d.s.second == 3);
+    assert(d.l == 3);
+    d = F.diagonal({4,2});
+    assert(d.s.first == 3);
+    assert(d.s.second == 1);
+    assert(d.l == 3);
+    d = F.diagonal({2,5});
+    assert(d.s.first == 1);
+    assert(d.s.second == 4);
+    assert(d.l == 2);
+    d = F.diagonal({5,5});
+    assert(d.s.first == 1);
+    assert(d.s.second == 1);
+    assert(d.l == 5);
+  }
+  {
+    NQueens::AmoAlo_board F(5);
+    ChessBoard::AntiDiagonal ad = F.anti_diagonal({1,1});
+    assert(ad.s.first == 1);
+    assert(ad.s.second == 1);
+    assert(ad.l == 1);
+    ad = F.anti_diagonal({1,3});
+    assert(ad.s.first == 1);
+    assert(ad.s.second == 3);
+    assert(ad.l == 3);
+    ad = F.anti_diagonal({4,2});
+    assert(ad.s.first == 1);
+    assert(ad.s.second == 5);
+    assert(ad.l == 5);
+    ad = F.anti_diagonal({2,5});
+    assert(ad.s.first == 2);
+    assert(ad.s.second == 5);
+    assert(ad.l == 4);
+    ad = F.anti_diagonal({5,5});
+    assert(ad.s.first == 5);
+    assert(ad.s.second == 5);
+    assert(ad.l == 1);
+  }
+  {
     const AmoAlo_board F(6);
     assert(F.N == 6);
     const Var v11{1,1};

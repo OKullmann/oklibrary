@@ -69,57 +69,17 @@ namespace NQueens {
 
   };
 
-  /*
-    The decomposition of the NxN field into diagonals (fields with equal
-     difference) and antidiagonals (fields with equal sum), where each
-     such line is specified by a value of :
-  */
-  struct Diagonal {
-    ChessBoard::Var s; // start field
-    ChessBoard::Var_uint l; // length
-    ChessBoard::Var_uint i;
-    /* Field (variable) (x,y) has abstract diagonal-index x-y, which ranges
-       from 1-N to N-1, and then we set i = (x-y) + (N-1) with
-       0 <= i <= 2N-2.
-    */
-  };
-  struct AntiDiagonal {
-    ChessBoard::Var s; // start field
-    ChessBoard::Var_uint l; // length
-    ChessBoard::Var_uint i;
-    /* (x,y) has abstract antidiagonal-index x+y, which ranges from 1+1 to
-       N+N, and then we set i = (x+y) - 2.
-    */
-  };
-  static_assert(std::is_pod<Diagonal>::value, "Diagonal is not POD.");
-  static_assert(std::is_pod<AntiDiagonal>::value, "AntiDiagonal is not POD.");
-
-  // The number of open, placed and forbidden fields for any line, that is, any
-  // row, column, diagonal or antidiagonal:
-  struct Rank {
-    ChessBoard::Var_uint o;
-    ChessBoard::Var_uint p;
-    ChessBoard::Var_uint f;
-  };
-  static_assert(std::is_pod<Rank>::value, "Rank is not POD.");
-
-  // The same numbers as with Rank, but now for the whole board:
-  struct TotalRank {
-    ChessBoard::Var_uint o;
-    ChessBoard::Var_uint p;
-    ChessBoard::Var_uint f;
-  };
-  static_assert(std::is_pod<TotalRank>::value, "TotalRank is not POD.");
-
-  enum class State { open=0, placed, forbidden };
-
-
   // A concrete instance of BasicACLS:
   class AmoAlo_board {
     using coord_t = ChessBoard::coord_t;
     using Var = ChessBoard::Var;
     using Var_uint = ChessBoard::Var_uint;
     using Var_int = ChessBoard::Var_int;
+    using Diagonal = ChessBoard::Diagonal;
+    using AntiDiagonal = ChessBoard::AntiDiagonal;
+    using Rank = ChessBoard::Rank;
+    using TotalRank = ChessBoard::TotalRank;
+    using State = ChessBoard::State;
   public :
     const coord_t N;
 
@@ -393,6 +353,7 @@ namespace NQueens {
   class TawHeuristics {
     using Var = ChessBoard::Var;
     using Var_uint = ChessBoard::Var_uint;
+    using State = ChessBoard::State;
   public :
     typedef double Weight_t;
     typedef std::pair<Weight_t, Weight_t> Bp;
@@ -456,6 +417,7 @@ namespace NQueens {
   // Choosing the first open variable:
     class FirstOpen {
     using Var = ChessBoard::Var;
+    using State = ChessBoard::State;
     public :
     const AmoAlo_board& F;
     explicit FirstOpen(const AmoAlo_board& F) noexcept : F(F) {}
