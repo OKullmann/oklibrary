@@ -38,7 +38,7 @@ namespace ChessBoard {
   /*
     The decomposition of the NxN field into diagonals (fields with equal
      difference) and antidiagonals (fields with equal sum), where each
-     such line is specified by a value of :
+     such line is specified by a value of class Diagonal:
   */
   struct Diagonal {
     Var s; // start field
