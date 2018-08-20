@@ -111,8 +111,7 @@ namespace NQueens {
       if (val) set_true(v); else set_false(v);
       while(not stack.empty() and not falsified()) {
         const Var cur_v = stack.top(); stack.pop();
-        if (b[cur_v.first][cur_v.second] == State::forbidden)
-          falsified_ = true;
+        if (board(cur_v) == State::forbidden) falsified_ = true;
         else if (open(cur_v)) set_true(cur_v);
       }
     }
@@ -190,17 +189,21 @@ namespace NQueens {
       if (r_ranks[v.first].p != 1) {
         --r_ranks[v.first].o;
         ++r_ranks[v.first].f;
-        if (r_ranks[v.first].o == 0)
+        if (r_ranks[v.first].o == 0) {
           falsified_ = true;
+          return;
+        }
         if (r_ranks[v.first].o == 1)
-          for (coord_t i = 1; i <= N ; ++i)
-            if (open({v.first,i})) {stack.push({v.first,i}); break;}
+          for (coord_t j = 1; j <= N ; ++j)
+            if (open({v.first,j})) {stack.push({v.first,j}); break;}
       }
       if (c_ranks[v.second].p != 1) {
         --c_ranks[v.second].o;
         ++c_ranks[v.second].f;
-        if (c_ranks[v.second].o == 0)
+        if (c_ranks[v.second].o == 0) {
           falsified_ = true;
+          return;
+        }
         if (c_ranks[v.second].o == 1)
           for (coord_t i = 1; i <= N ; ++i)
             if (open({i,v.second})) {stack.push({i,v.second}); break;}
@@ -233,12 +236,13 @@ namespace NQueens {
     void r_update(const Var cur_v) noexcept {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
-      for (coord_t i = 1 ; i <= N ; ++i) {
-        const Var v = {cur_v.first,i};
+      for (coord_t j = 1 ; j <= N ; ++j) {
+        const Var v = {cur_v.first,j};
         if (open(v)) {
           board(v) = State::forbidden;
           trank_update(v);
           forbidden_rank_update(v);
+          if (falsified_) return;
         }
       }
     }
@@ -251,6 +255,7 @@ namespace NQueens {
           board(v) = State::forbidden;
           trank_update(v);
           forbidden_rank_update(v);
+          if (falsified_) return;
         }
       }
     }
@@ -261,11 +266,12 @@ namespace NQueens {
       const Var d_v = d.s;
       assert(d.l <= N);
       for (coord_t i = 0 ; i < d.l ; ++i) {
-        const Var v = {d_v.first + i,d_v.second + i};
+        const Var v = {d_v.first + i, d_v.second + i};
         if (open(v)) {
           board(v) = State::forbidden;
           trank_update(v);
           forbidden_rank_update(v);
+          if (falsified_) return;
         }
       }
     }
@@ -276,11 +282,12 @@ namespace NQueens {
       const Var ad_v = ad.s;
       assert(ad.l <= N);
       for (coord_t i = 0 ; i < ad.l ; ++i) {
-        const Var v = {ad_v.first + i,ad_v.second - i};
+        const Var v = {ad_v.first + i, ad_v.second - i};
         if (open(v)) {
           board(v) = State::forbidden;
           trank_update(v);
           forbidden_rank_update(v);
+          if (falsified_) return;
         }
       }
     }
@@ -292,9 +299,9 @@ namespace NQueens {
       board(v) = State::placed;
       trank_update(v);
       placed_rank_update(v);
-      r_update(v);
-      c_update(v);
-      d_update(v);
+      r_update(v); if (falsified_) return;
+      c_update(v); if (falsified_) return;
+      d_update(v); if (falsified_) return;
       ad_update(v);
     }
     void set_false(const Var v) noexcept {

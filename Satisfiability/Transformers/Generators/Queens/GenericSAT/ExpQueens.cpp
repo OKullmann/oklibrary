@@ -11,7 +11,7 @@
 
 namespace {
 
-const std::string version = "0.2.6";
+const std::string version = "0.2.7";
 const std::string date = "20.8.2018";
 const std::string program = "ExpQueens"
 #ifndef NDEBUG
