@@ -84,8 +84,8 @@ namespace NQueens {
     const coord_t N;
 
     explicit AmoAlo_board(const coord_t N) :
-      N(N), b({N+1, std::vector<State>(N+1)}),
-      r_ranks({N+1, {N,0,0}}), c_ranks(r_ranks),
+      N(N), b{N+1, std::vector<State>(N+1)},
+      r_ranks{N+1, {N,0,0}}, c_ranks(r_ranks),
       d_ranks(dad_init()), ad_ranks(d_ranks), trank{N*N,0,0} {
         assert(N <= ChessBoard::max_coord);
         assert(b.size() == N+1);
@@ -110,9 +110,12 @@ namespace NQueens {
       assert(c_ranks[v.second].o >= 2);
       if (val) set_true(v); else set_false(v);
       while (not falsified_ and not stack.empty()) {
-        const Var cur_v = stack.top(); stack.pop();
-        if (board(cur_v) == State::forbidden) falsified_ = true;
-        else if (open(cur_v)) set_true(cur_v);
+        const Var w = stack.top(); stack.pop();
+        switch (board(w)) {
+        case State::forbidden : falsified_ = true; return;
+        case State::open : set_true(w);
+        default:;
+        }
       }
     }
 
