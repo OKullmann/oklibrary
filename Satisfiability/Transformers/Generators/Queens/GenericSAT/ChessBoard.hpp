@@ -60,25 +60,25 @@ namespace ChessBoard {
   static_assert(std::is_pod<Diagonal>::value, "Diagonal is not POD.");
   static_assert(std::is_pod<AntiDiagonal>::value, "AntiDiagonal is not POD.");
 
-  // Returns diagonal starting field, length and index:
   inline constexpr Diagonal diagonal(const Var v, const coord_t N) noexcept {
     assert(v.first >= 1 and v.second >= 1);
     assert(v.first <= N and v.second <= N);
-    const scoord_t c_diff = v.first - v.second;
-    if (c_diff >= 0) {
-      const coord_t cd = c_diff; return {{cd+1,1}, N-cd, N-cd-1};
+    const scoord_t diff = scoord_t(v.first) - scoord_t(v.second);
+    if (diff >= 0) {
+      const coord_t cd = diff;
+      return {{cd+1,1}, N-cd, (N-1)-cd};
     }
     else {
-      const coord_t cd = -c_diff; return {{1,cd+1}, N-cd, N+cd-1};
+      const coord_t cd = -diff;
+      return {{1,cd+1}, N-cd, (N-1)+cd};
     }
   }
-  // Returns anti_diagonal starting field, length and index:
   inline constexpr AntiDiagonal anti_diagonal(const Var v, const coord_t N) noexcept {
     assert(v.first >= 1 and v.second >= 1);
     assert(v.first <= N and v.second <= N);
-    const coord_t c_sum = v.first + v.second;
-    if (c_sum <= N) return {{1,c_sum-1}, c_sum-1, c_sum-2};
-    else return {{c_sum-N,N}, 2*N-(c_sum-1), c_sum-2};
+    const coord_t sum = v.first + v.second;
+    if (sum <= N) return {{1,sum-1}, sum-1, sum-2};
+    else return {{sum-N,N}, 2*N-(sum-1), sum-2};
   }
 
   // The number of open, placed and forbidden fields for any line, that is, any
