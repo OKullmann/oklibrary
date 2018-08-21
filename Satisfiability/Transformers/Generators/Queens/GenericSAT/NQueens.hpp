@@ -186,9 +186,11 @@ namespace NQueens {
           falsified_ = true;
           return;
         }
-        if (r_ranks[v.first].o == 1)
+        if (r_ranks[v.first].o == 1) {
+          const auto& R = b[v.first];
           for (coord_t j = 1; j <= N ; ++j)
-            if (open({v.first,j})) {stack.push({v.first,j}); break;}
+            if (R[j] == State::open) {stack.push({v.first,j}); break;}
+        }
       }
       if (c_ranks[v.second].p != 1) {
         --c_ranks[v.second].o;
