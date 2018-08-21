@@ -134,26 +134,13 @@ namespace NQueens {
       return (board(v) == State::open);
     }
 
-
     // Returns diagonal starting field, length and index:
     Diagonal diagonal(const Var v) const noexcept {
-      assert(v.first >= 1 and v.second >= 1);
-      assert(v.first <= N and v.second <= N);
-      const ChessBoard::scoord_t c_diff = v.first - v.second;
-      if (c_diff >= 0) {
-        const coord_t cd = c_diff; return {{cd+1,1}, N-cd, N-cd-1};
-      }
-      else {
-        const coord_t cd = -c_diff; return {{1,cd+1}, N-cd, N+cd-1};
-      }
+      return ChessBoard::diagonal(v, N);
     }
     // Returns anti_diagonal starting field, length and index:
     AntiDiagonal anti_diagonal(const Var v) const noexcept {
-      assert(v.first >= 1 and v.second >= 1);
-      assert(v.first <= N and v.second <= N);
-      const coord_t c_sum = v.first + v.second;
-      if (c_sum <= N) return {{1,c_sum-1}, c_sum-1, c_sum-2};
-      else return {{c_sum-N,N}, 2*N-(c_sum-1), c_sum-2};
+      return ChessBoard::anti_diagonal(v, N);
     }
 
     Var_uint odegree(const Var v) const noexcept {
