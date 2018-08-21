@@ -163,10 +163,10 @@ namespace NQueens {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       assert(board(v) == State::placed);
-      ++r_ranks[v.first].p;
-      ++c_ranks[v.second].p;
-      ++d_ranks[diagonal(v).i].p;
-      ++ad_ranks[anti_diagonal(v).i].p;
+      r_ranks[v.first] = {0,1,N-1};
+      c_ranks[v.second] = {0,1,N-1};
+      {const auto d = diagonal(v); d_ranks[d.i] = {0,1,d.l-1};}
+      {const auto a = anti_diagonal(v); ad_ranks[a.i] = {0,1,a.l-1};}
     }
 
     // f/o-ranks of forbidden v are updated, with alo-falsification and
