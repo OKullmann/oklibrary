@@ -181,40 +181,38 @@ namespace NQueens {
       assert(v.first <= N and v.second <= N);
       assert(board(v) == State::forbidden);
       if (exclude != Line::r) {
-        --r_ranks[v.first].o;
-        ++r_ranks[v.first].f;
-        if (r_ranks[v.first].o == 0) {
-          falsified_ = true;
-          return;
+        auto& rank = r_ranks[v.first];
+        --rank.o; ++rank.f;
+        if (exclude != Line::none and rank.o == 0) {
+          falsified_ = true; return;
         }
-        if (r_ranks[v.first].o == 1) {
+        else if (rank.o == 1) {
           const auto& R = b[v.first];
           for (coord_t j = 1; j <= N ; ++j)
-            if (R[j] == State::open) {stack.push({v.first,j}); break;}
+            if (R[j] == State::open) {stack.push({v.first, j}); break;}
         }
       }
       if (exclude != Line::c) {
-        --c_ranks[v.second].o;
-        ++c_ranks[v.second].f;
-        if (c_ranks[v.second].o == 0) {
-          falsified_ = true;
-          return;
+        auto& rank = c_ranks[v.second];
+        --rank.o; ++rank.f;
+        if (exclude != Line::none and rank.o == 0) {
+          falsified_ = true; return;
         }
-        if (c_ranks[v.second].o == 1)
+        else if (rank.o == 1)
           for (coord_t i = 1; i <= N ; ++i)
             if (open({i,v.second})) {stack.push({i,v.second}); break;}
       }
       if (exclude != Line::d) {
         const Diagonal d = diagonal(v);
         assert(d.i < d_ranks.size());
-        --d_ranks[d.i].o;
-        ++d_ranks[d.i].f;
+        auto& rank = d_ranks[d.i];
+        --rank.o; ++rank.f;
       }
       if (exclude != Line::ad) {
         const AntiDiagonal ad = anti_diagonal(v);
         assert(ad.i < ad_ranks.size());
-        --ad_ranks[ad.i].o;
-        ++ad_ranks[ad.i].f;
+        auto& rank = ad_ranks[ad.i];
+        --rank.o; ++rank.f;
       }
     }
 
