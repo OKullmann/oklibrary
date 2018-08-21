@@ -173,13 +173,14 @@ namespace NQueens {
        --ar.o; ar.p = 1; ar.f = a.l-1;}
     }
 
-    // f/o-ranks of forbidden v are updated, with alo-falsification and
-    // alo-propagation detected:
-    void forbidden_forank_update(const Var v) noexcept {
+    enum class Line {r,c,d,ad,none};
+    // f/o-ranks of forbidden v are updated for non-occupied lines (given by
+    // parameter exclude), with alo-falsification and alo-propagation detected:
+    void forbidden_forank_update(const Var v, const Line exclude) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       assert(board(v) == State::forbidden);
-      if (r_ranks[v.first].p != 1) {
+      if (exclude != Line::r) {
         --r_ranks[v.first].o;
         ++r_ranks[v.first].f;
         if (r_ranks[v.first].o == 0) {
@@ -192,7 +193,7 @@ namespace NQueens {
             if (R[j] == State::open) {stack.push({v.first,j}); break;}
         }
       }
-      if (c_ranks[v.second].p != 1) {
+      if (exclude != Line::c) {
         --c_ranks[v.second].o;
         ++c_ranks[v.second].f;
         if (c_ranks[v.second].o == 0) {
@@ -203,15 +204,15 @@ namespace NQueens {
           for (coord_t i = 1; i <= N ; ++i)
             if (open({i,v.second})) {stack.push({i,v.second}); break;}
       }
-      const Diagonal d = diagonal(v);
-      assert(d.i < d_ranks.size());
-      if (d_ranks[d.i].p != 1) {
+      if (exclude != Line::d) {
+        const Diagonal d = diagonal(v);
+        assert(d.i < d_ranks.size());
         --d_ranks[d.i].o;
         ++d_ranks[d.i].f;
       }
-      const AntiDiagonal ad = anti_diagonal(v);
-      assert(ad.i < ad_ranks.size());
-      if (ad_ranks[ad.i].p != 1) {
+      if (exclude != Line::ad) {
+        const AntiDiagonal ad = anti_diagonal(v);
+        assert(ad.i < ad_ranks.size());
         --ad_ranks[ad.i].o;
         ++ad_ranks[ad.i].f;
       }
@@ -229,7 +230,7 @@ namespace NQueens {
       for (coord_t j = 1 ; ro != 0 and j <= N ; ++j) {
         if (R[j] == State::open) {
           R[j] = State::forbidden; --ro;
-          forbidden_forank_update({cur_v.first, j});
+          forbidden_forank_update({cur_v.first, j}, Line::r);
           if (falsified_) return;
         }
       }
@@ -244,7 +245,7 @@ namespace NQueens {
         const Var v = {i,cur_v.second};
         if (open(v)) {
           board(v) = State::forbidden; --ro;
-          forbidden_forank_update(v);
+          forbidden_forank_update(v, Line::c);
           if (falsified_) return;
         }
       }
@@ -262,7 +263,7 @@ namespace NQueens {
         const Var v = {d_v.first + i, d_v.second + i};
         if (open(v)) {
           board(v) = State::forbidden; --ro;
-          forbidden_forank_update(v);
+          forbidden_forank_update(v, Line::d);
           if (falsified_) return;
         }
       }
@@ -280,7 +281,7 @@ namespace NQueens {
         const Var v = {ad_v.first + i, ad_v.second - i};
         if (open(v)) {
           board(v) = State::forbidden; --ro;
-          forbidden_forank_update(v);
+          forbidden_forank_update(v, Line::ad);
           if (falsified_) return;
         }
       }
@@ -307,7 +308,7 @@ namespace NQueens {
       assert(trank.o+trank.p+trank.f == n());
       ++trank.f; --trank.o;
       board(v) = State::forbidden;
-      forbidden_forank_update(v);
+      forbidden_forank_update(v,Line::none);
     }
 
     Board b;
