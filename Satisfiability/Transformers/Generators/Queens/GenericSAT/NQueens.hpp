@@ -158,15 +158,19 @@ namespace NQueens {
 
   private:
 
-    // Updates the p-ranks r,c,d for placed field v:
-    void placed_prank_update(const Var v) noexcept {
+    // Fully updating the p/f-ranks for placed field v (anticipating
+    // the propagation), while only locally updating the o-ranks, to be updated
+    // further in the propagation-functions:
+    void placed_rank_update(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       assert(board(v) == State::placed);
-      r_ranks[v.first] = {0,1,N-1};
-      c_ranks[v.second] = {0,1,N-1};
-      {const auto d = diagonal(v); d_ranks[d.i] = {0,1,d.l-1};}
-      {const auto a = anti_diagonal(v); ad_ranks[a.i] = {0,1,a.l-1};}
+      {auto& r = r_ranks[v.first]; --r.o; r.p = 1; r.f = N-1;}
+      {auto& c = c_ranks[v.second]; c.p = 1; c.f = N-1;}
+      {const auto d = diagonal(v); auto& dr = d_ranks[d.i];
+       --dr.o; dr.p = 1; dr.f = d.l-1;}
+      {const auto a = anti_diagonal(v); auto& ar = ad_ranks[a.i];
+       --ar.o; ar.p = 1; ar.f = a.l-1;}
     }
 
     // f/o-ranks of forbidden v are updated, with alo-falsification and
@@ -217,11 +221,13 @@ namespace NQueens {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
       assert(board(cur_v) == State::placed);
-      for (coord_t j = 1 ; j <= N ; ++j) {
-        const Var v = {cur_v.first,j};
-        if (open(v)) {
-          board(v) = State::forbidden;
-          forbidden_forank_update(v);
+      auto& R = b[cur_v.first];
+      assert(r_ranks[cur_v.first].p == 1);
+      auto& ro = r_ranks[cur_v.first].o;
+      for (coord_t j = 1 ; ro != 0 and j <= N ; ++j) {
+        if (R[j] == State::open) {
+          R[j] = State::forbidden; --ro;
+          forbidden_forank_update({cur_v.first, j});
           if (falsified_) return;
         }
       }
@@ -230,10 +236,12 @@ namespace NQueens {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
       assert(board(cur_v) == State::placed);
-      for (coord_t i = 1 ; i <= N ; ++i) {
+      assert(c_ranks[cur_v.second].p == 1);
+      auto& ro = c_ranks[cur_v.second].o;
+      for (coord_t i = 1 ; ro != 0 and i <= N ; ++i) {
         const Var v = {i,cur_v.second};
         if (open(v)) {
-          board(v) = State::forbidden;
+          board(v) = State::forbidden; --ro;
           forbidden_forank_update(v);
           if (falsified_) return;
         }
@@ -246,10 +254,12 @@ namespace NQueens {
       const Diagonal d = diagonal(cur_v);
       const Var d_v = d.s;
       assert(d.l <= N);
-      for (coord_t i = 0 ; i < d.l ; ++i) {
+      assert(d_ranks[d.i].p == 1);
+      auto& ro = d_ranks[d.i].o;
+      for (coord_t i = 0; ro != 0 and i < d.l; ++i) {
         const Var v = {d_v.first + i, d_v.second + i};
         if (open(v)) {
-          board(v) = State::forbidden;
+          board(v) = State::forbidden; --ro;
           forbidden_forank_update(v);
           if (falsified_) return;
         }
@@ -262,10 +272,12 @@ namespace NQueens {
       const AntiDiagonal ad = anti_diagonal(cur_v);
       const Var ad_v = ad.s;
       assert(ad.l <= N);
-      for (coord_t i = 0 ; i < ad.l ; ++i) {
+      assert(ad_ranks[ad.i].p == 1);
+      auto& ro = ad_ranks[ad.i].o;
+      for (coord_t i = 0; ro != 0 and i < ad.l; ++i) {
         const Var v = {ad_v.first + i, ad_v.second - i};
         if (open(v)) {
-          board(v) = State::forbidden;
+          board(v) = State::forbidden; --ro;
           forbidden_forank_update(v);
           if (falsified_) return;
         }
@@ -280,7 +292,7 @@ namespace NQueens {
       ++trank.p; --trank.o;
       {const auto deg = odegree(v); trank.o -= deg; trank.f += deg;}
       board(v) = State::placed;
-      placed_prank_update(v);
+      placed_rank_update(v);
       r_propagate(v); if (falsified_) return;
       c_propagate(v); if (falsified_) return;
       d_propagate(v); if (falsified_) return;
