@@ -18,6 +18,9 @@ int main() {
     assert(not F.falsified());
     assert(F.n() == 1);
     assert(F.nset() == 1);
+    assert(F.t_rank().o == 0);
+    assert(F.t_rank().p == 1);
+    assert(F.t_rank().f == 0);
     assert(not F.open({1,1}));
     const AmoAlo_board::Board b {{State::open, State::open}, {State::open, State::placed}};
     assert(F.board() == b);
@@ -40,6 +43,9 @@ int main() {
   {
     const AmoAlo_board F(2);
     assert(F.N == 2);
+    assert(F.t_rank().o == 4);
+    assert(F.t_rank().p == 0);
+    assert(F.t_rank().f == 0);
     const Var v11{1,1};
     assert(F.odegree(v11) == 3);
     TawHeuristics h(F);
@@ -49,7 +55,11 @@ int main() {
     NQueens::AmoAlo_board F(4);
     const Var v{1,1};
     F.set(v,true);
+    assert(F.t_rank().o == 16 - 4 - 3 - 3);
+    assert(F.t_rank().p == 1);
+    assert(F.t_rank().f == 3 + 3 + 3);
     const AmoAlo_board FC(F);
+    assert(FC.board({1,1}) == State::placed);
     assert(FC.board({1,2}) == State::forbidden);
     assert(FC.board({1,3}) == State::forbidden);
     assert(FC.board({1,4}) == State::forbidden);
@@ -60,6 +70,7 @@ int main() {
     assert(FC.board({3,1}) == State::forbidden);
     assert(FC.board({3,2}) == State::open);
     assert(FC.board({3,3}) == State::forbidden);
+    assert(FC.board({3,4}) == State::open);
     assert(FC.board({4,1}) == State::forbidden);
     assert(FC.board({4,2}) == State::open);
     assert(FC.board({4,3}) == State::open);
