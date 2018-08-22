@@ -145,10 +145,12 @@ namespace NQueens {
       return ChessBoard::anti_diagonal(v, N);
     }
 
+    // The number of open fields on the four lines of v, excluding v;
+    // o-ranks must be correct, except of possibly v having changed before
+    // from open to placed, which then must *not* have been updated:
     Var_uint odegree(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
-      assert(board(v) == State::open);
       const Diagonal d = diagonal(v);
       const AntiDiagonal ad = anti_diagonal(v);
       assert(d.i < d_ranks.size());
@@ -157,21 +159,6 @@ namespace NQueens {
     }
 
   private:
-
-    // Fully updating the p/f-ranks for placed field v (anticipating
-    // the propagation), while only locally updating the o-ranks, to be updated
-    // further in the propagation-functions:
-    void placed_rank_update(const Var v) noexcept {
-      assert(v.first >= 1 and v.second >= 1);
-      assert(v.first <= N and v.second <= N);
-      assert(board(v) == State::placed);
-      {auto& r = r_ranks[v.first]; --r.o; r.p = 1; r.f = N-1;}
-      {auto& c = c_ranks[v.second]; c.p = 1; c.f = N-1;}
-      {const auto d = diagonal(v); auto& dr = d_ranks[d.i];
-       --dr.o; dr.p = 1; dr.f = d.l-1;}
-      {const auto a = anti_diagonal(v); auto& ar = ad_ranks[a.i];
-       --ar.o; ar.p = 1; ar.f = a.l-1;}
-    }
 
     enum class Line {r,c,d,ad,none};
     // f/o-ranks of forbidden v are updated for non-occupied lines (given by
@@ -182,6 +169,7 @@ namespace NQueens {
       assert(board(v) == State::forbidden);
       if (exclude != Line::r) {
         auto& rank = r_ranks[v.first];
+	assert(rank.p == 0);
         --rank.o; ++rank.f;
         if (exclude != Line::none and rank.o == 0) {
           falsified_ = true; return;
@@ -194,6 +182,7 @@ namespace NQueens {
       }
       if (exclude != Line::c) {
         auto& rank = c_ranks[v.second];
+	assert(rank.p == 0);
         --rank.o; ++rank.f;
         if (exclude != Line::none and rank.o == 0) {
           falsified_ = true; return;
@@ -289,11 +278,20 @@ namespace NQueens {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
       assert(board(v) == State::open);
+      board(v) = State::placed;
+      // Update tranks:
       assert(trank.o+trank.p+trank.f == n());
       ++trank.p; --trank.o;
+      // Using the "old" o-degree:
       {const auto deg = odegree(v); trank.o -= deg; trank.f += deg;}
-      board(v) = State::placed;
-      placed_rank_update(v);
+      // Update o/p-ranks (to current state of board), while updating f-rank
+      // in anticipation of amo-propagation:
+      {auto& r = r_ranks[v.first]; --r.o; r.p = 1; r.f = N-1;}
+      {auto& c = c_ranks[v.second]; c.p = 1; c.f = N-1;}
+      {const auto d = diagonal(v); auto& dr = d_ranks[d.i];
+       --dr.o; dr.p = 1; dr.f = d.l-1;}
+      {const auto a = anti_diagonal(v); auto& ar = ad_ranks[a.i];
+       --ar.o; ar.p = 1; ar.f = a.l-1;}
       r_propagate(v); if (falsified_) return;
       c_propagate(v); if (falsified_) return;
       d_propagate(v); if (falsified_) return;
