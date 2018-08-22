@@ -160,4 +160,9 @@ int main() {
     assert(stats3.solutions == 10);
     assert(stats3.nodes == 49);
   }
+  {
+    AmoAlo_board F(9);
+    F.set({5,5}, true);
+    assert(F.c_rank(5).o == 0);
+  }
 }

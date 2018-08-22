@@ -287,7 +287,7 @@ namespace NQueens {
       // Update o/p-ranks (to current state of board), while updating f-rank
       // in anticipation of amo-propagation:
       {auto& r = r_ranks[v.first]; --r.o; r.p = 1; r.f = N-1;}
-      {auto& c = c_ranks[v.second]; c.p = 1; c.f = N-1;}
+      {auto& c = c_ranks[v.second]; --c.o; c.p = 1; c.f = N-1;}
       {const auto d = diagonal(v); auto& dr = d_ranks[d.i];
        --dr.o; dr.p = 1; dr.f = d.l-1;}
       {const auto a = anti_diagonal(v); auto& ar = ad_ranks[a.i];
