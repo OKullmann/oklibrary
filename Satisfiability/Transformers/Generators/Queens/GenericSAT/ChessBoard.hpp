@@ -90,6 +90,12 @@ namespace ChessBoard {
     Var_uint f;
   };
   static_assert(std::is_pod<Rank>::value, "Rank is not POD.");
+  inline constexpr bool operator ==(const Rank& r1, const Rank& r2) noexcept {
+    return r1.o==r2.o and r1.p==r2.p and r1.f==r2.f;
+  }
+  inline constexpr bool operator !=(const Rank& r1, const Rank& r2) noexcept {
+    return not (r1 == r2);
+  }
 
   // The same numbers as with Rank, but now for the whole board:
   struct TotalRank {
@@ -98,6 +104,12 @@ namespace ChessBoard {
     Var_uint f;
   };
   static_assert(std::is_pod<TotalRank>::value, "TotalRank is not POD.");
+  inline constexpr bool operator ==(const TotalRank& r1, const TotalRank& r2) noexcept {
+    return r1.o==r2.o and r1.p==r2.p and r1.f==r2.f;
+  }
+  inline constexpr bool operator !=(const TotalRank& r1, const TotalRank& r2) noexcept {
+    return not (r1 == r2);
+  }
 
   enum class State { open=0, placed, forbidden };
 

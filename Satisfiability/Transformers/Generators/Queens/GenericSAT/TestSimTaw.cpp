@@ -52,7 +52,7 @@ int main() {
     assert(h.heuristics(v11) == TawHeuristics::Bp(3*4.85, 2*4.85));
   }
   {
-    NQueens::AmoAlo_board F(4);
+    AmoAlo_board F(4);
     const Var v{1,1};
     F.set(v,true);
     assert(F.t_rank().o == 16 - 4 - 3 - 3);
@@ -78,20 +78,30 @@ int main() {
   }
   {
     // Falsified due to amo propagation:
-    NQueens::AmoAlo_board F(3);
+    AmoAlo_board F(3);
     const Var v{2,2};
     F.set(v,true);
     assert(F.falsified());
+    assert(((const AmoAlo_board) F).board(v) == State::placed);
+    {const TotalRank t{0,1,8}; assert(F.t_rank() == t);}
+    assert(F.r_rank(2).p == 1);
+    assert(F.r_rank(2).f == 2);
+    assert(F.c_rank(2).p == 1);
+    assert(F.c_rank(2).f == 2);
+    assert(F.d_rank(2).p == 1);
+    assert(F.d_rank(2).f == 2);
+    assert(F.ad_rank(2).p == 1);
+    assert(F.ad_rank(2).f == 2);
   }
   {
     // Satisfied due to alo propagation:
-    NQueens::AmoAlo_board F(4);
+    AmoAlo_board F(4);
     const Var v{1,2};
     F.set(v,true);
     assert(F.satisfied());
   }
   {
-    NQueens::AmoAlo_board F(5);
+    AmoAlo_board F(5);
     ChessBoard::Diagonal d = F.diagonal({1,1});
     assert(d.s.first == 1);
     assert(d.s.second == 1);
