@@ -6,6 +6,7 @@
 #include <limits>
 #include <type_traits>
 
+#include <cassert>
 #include <cstdint>
 
 namespace ChessBoard {
