@@ -125,6 +125,10 @@ namespace NQueens {
     const Rank& r_rank(const coord_t i) const noexcept { return r_ranks[i]; }
     const Ranks& c_rank() const noexcept { return c_ranks; }
     const Rank& c_rank(const coord_t j) const noexcept { return c_ranks[j]; }
+    const Ranks& d_rank() const noexcept { return d_ranks; }
+    const Rank& d_rank(const coord_t i) const noexcept { return d_ranks[i]; }
+    const Ranks& ad_rank() const noexcept { return ad_ranks; }
+    const Rank& ad_rank(const coord_t i) const noexcept { return ad_ranks[i]; }
     const TotalRank& t_rank() const noexcept { return trank; }
     const Board& board() const noexcept { return b; }
     State board(const Var v) const noexcept {
