@@ -51,6 +51,7 @@ License, or any later version. */
 #include <cstdint>
 
 #include "ChessBoard.hpp"
+#include "RandGen.hpp"
 
 namespace NQueens {
 
@@ -460,8 +461,8 @@ namespace NQueens {
         assert(false);
         return {};
       }
-      typedef std::uint32_t seed_t;
-      typedef std::vector<seed_t> vec_seed_t;
+      using seed_t = RandGen::seed_t;
+      using vec_seed_t = RandGen::vec_seed_t;
       static void init(const coord_t N, const vec_seed_t s = vec_seed_t{}) {
         random_permutation.resize(Var_uint(N) * Var_uint(N));
         {varvec_t::size_type index = 0;
@@ -470,7 +471,7 @@ namespace NQueens {
              random_permutation[index++] = {i,j};
         }
         std::seed_seq seq(s.begin(), s.end());
-        std::shuffle(random_permutation.begin(), random_permutation.end(), std::mt19937_64(seq));
+        RandGen::shuffle(random_permutation.begin(), random_permutation.end(), RandGen::randgen_t(seq));
       }
       typedef std::vector<Var> varvec_t;
       static const varvec_t& permutation() noexcept { return random_permutation; }
