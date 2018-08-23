@@ -1,4 +1,9 @@
 // Oliver Kullmann, 19.8.2018 (Swansea)
+/* Copyright 2018 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
 
 /* An attempt to find (simple) recursions which simulate the node-counts
    of backtracking-algorithms.
