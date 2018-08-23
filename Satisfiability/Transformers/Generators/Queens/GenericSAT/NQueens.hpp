@@ -445,7 +445,6 @@ namespace NQueens {
       using Var = ChessBoard::Var;
       using coord_t = ChessBoard::coord_t;
       using Var_uint = ChessBoard::Var_uint;
-      typedef std::vector<Var> varvec_t;
     public :
       const AmoAlo_board& F;
       explicit FirstOpenRandom(const AmoAlo_board& F) noexcept : F(F) {}
@@ -467,6 +466,8 @@ namespace NQueens {
         std::seed_seq seq(s.begin(), s.end());
         std::shuffle(random_permutation.begin(), random_permutation.end(), std::mt19937_64(seq));
       }
+      typedef std::vector<Var> varvec_t;
+      static const varvec_t& permutation() noexcept { return random_permutation; }
     private :
       static varvec_t random_permutation;
     };

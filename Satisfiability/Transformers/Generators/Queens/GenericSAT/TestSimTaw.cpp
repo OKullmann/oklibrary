@@ -154,6 +154,8 @@ int main() {
     CountSat<AmoAlo_board, FirstOpenRandom> B(F.N);
     const auto stats = B(F);
     assert(stats.solutions == 4);
+    {const FirstOpenRandom::varvec_t P{{5,3},{2,6},{3,6},{1,2},{4,6},{1,5},{3,1},{2,1},{6,3},{3,5},{4,4},{3,2},{5,4},{3,3},{5,2},{1,6},{4,5},{2,2},{2,4},{5,5},{6,2},{6,1},{4,3},{5,6},{6,4},{5,1},{4,2},{2,3},{1,3},{1,1},{2,5},{6,6},{1,4},{6,5},{3,4},{4,1}};
+     assert(FirstOpenRandom::permutation() == P);}
     assert(stats.nodes == 141);
     {CountSat<AmoAlo_board, FirstOpenRandom> B2(F.N,FirstOpenRandom::vec_seed_t{{0}});
      const auto stats2 = B(F); // the unique (static) random_permutation has been set

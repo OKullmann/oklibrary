@@ -5,6 +5,7 @@
 
 #include <limits>
 #include <type_traits>
+#include <ostream>
 
 #include <cassert>
 #include <cstdint>
@@ -25,8 +26,17 @@ namespace ChessBoard {
     coord_t second;
   };
   static_assert(std::is_pod<Var>::value, "Var is not POD.");
+  inline constexpr bool operator ==(const Var lhs, const Var rhs) {
+    return lhs.first == rhs.first and lhs.second == rhs.second;
+  }
+  inline constexpr bool operator !=(const Var lhs, const Var rhs) {
+    return not (lhs == rhs);
+  }
   inline constexpr bool singular(const Var v) noexcept {
     return v.first == 0 or v.second == 0;
+  }
+  std::ostream& operator <<(std::ostream& out, const Var v) noexcept {
+    return out << "(" << v.first << "," << v.second << ")";
   }
 
   // Values related to encoding the 2-dimensional variables:
