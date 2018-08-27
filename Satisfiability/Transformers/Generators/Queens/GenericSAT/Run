@@ -2,20 +2,22 @@ set -o errexit
 set -o nounset
 
 program="Run"
-version="0.2.3"
+version="0.2.4"
+
+scriptdir=$(dirname "$0")
+executable="${scriptdir}/ExpQueens"
+numlines=6 # number of c-lines of $executable
 
 numargs=$#
 if (( numargs == 0 )); then
-  echo -e "USAGE:\n ${program} N"
+  echo -e "USAGE:\n ${program} N [...]\n further parameters \"...\" passed to $executable"
   exit 0
 fi
 
 N=$1
 shift
 
-scriptdir=$(dirname "$0")
-executable="${scriptdir}/ExpQueens"
-numlines=6
+
 
 timestamp=$(date "+%F_%H-%M-%S")
 logfile="${program}_${timestamp}"
@@ -42,5 +44,8 @@ for ((i=1; i<=N; ++i)); do
   ${timingtool} ${executable} $i "$@" |& awk "${awkargument}" >> ${logfile}
   echo >> ${logfile}
 done
+
+timestamp2=$(date "+%F_%H-%M-%S")
+echo "Completed $timestamp2" >> ${logfile}
 
 exit 0
