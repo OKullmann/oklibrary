@@ -343,6 +343,14 @@ namespace NQueens {
     }
   };
 
+/*
+Todos for PhasedAmoAlo_board:
+   (1) Have to handle same fields in place vector ( same feild triggered by different alo constraints).
+   (2) Change trank before propagation with odegree.
+   (3) Define invariants properly and add comments on all functions.
+   (4) TawHeuristics class has AmoAlo_board initialized by default discuss if we should add another class or change the existing class.
+*/
+
   // Phased AmoALo propagation:
   class PhasedAmoAlo_board {
     using coord_t = ChessBoard::coord_t;
@@ -382,19 +390,18 @@ namespace NQueens {
       assert(board(v) == State::open);
       assert(r_ranks[v.first].o >= 2);
       assert(c_ranks[v.second].o >= 2);
-      if (val) set_true(v); else set_false(v);
-      while (not falsified_ and not stack.empty()) {
-        const Var w = stack.top(); stack.pop();
-        switch (board(w)) {
-        case State::forbidden : falsified_ = true; return;
-        case State::open : set_true(w);
-        default:;
-        }
+      if (val) { set_true(v); alo(); }
+      else     { set_false(v); alo(v); }
+      while(not place.empty() and not falsified_) {
+        set_true(place);
+        place.clear();
+        alo();
       }
     }
 
     typedef std::vector<Rank> Ranks;
     typedef std::vector<std::vector<State>> Board;
+    typedef std::vector<Var> Place;
     const Ranks& r_rank() const noexcept { return r_ranks; }
     const Rank& r_rank(const coord_t i) const noexcept { return r_ranks[i]; }
     const Ranks& c_rank() const noexcept { return c_ranks; }
@@ -423,9 +430,19 @@ namespace NQueens {
       return ChessBoard::anti_diagonal(v, N);
     }
 
+    // Returns true if atleast one field is set to placed in corresponding r,c,d and ad:
+    bool placed(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      const Diagonal d = diagonal(v);
+      const AntiDiagonal ad = anti_diagonal(v);
+      assert(d.i < d_ranks.size());
+      assert(ad.i < ad_ranks.size());
+      return (r_ranks[v.first].p == 1 or c_ranks[v.second].p == 1 or d_ranks[d.i].p == 1 or ad_ranks[ad.i].p == 1);
+    }
     // The number of open fields on the four lines of v, excluding v;
     // o-ranks must be correct, except of possibly v having changed before
-    // from open to placed, which then must *not* have been updated:
+    // from open to placed, which then must *not* have been updated:     XXX have to reword this.
     Var_uint odegree(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
@@ -447,27 +464,18 @@ namespace NQueens {
       assert(board(v) == State::forbidden);
       if (exclude != Line::r) {
         auto& rank = r_ranks[v.first];
-	assert(rank.p == 0);
+        assert(rank.p == 0);
         --rank.o; ++rank.f;
         if (exclude != Line::none and rank.o == 0) {
           falsified_ = true; return;
-        }
-        else if (rank.o == 1) {
-          const auto& R = b[v.first];
-          for (coord_t j = 1; j <= N ; ++j)
-            if (R[j] == State::open) {stack.push({v.first, j}); break;}
         }
       }
       if (exclude != Line::c) {
         auto& rank = c_ranks[v.second];
-	assert(rank.p == 0);
         --rank.o; ++rank.f;
         if (exclude != Line::none and rank.o == 0) {
           falsified_ = true; return;
         }
-        else if (rank.o == 1)
-          for (coord_t i = 1; i <= N ; ++i)
-            if (open({i,v.second})) {stack.push({i,v.second}); break;}
       }
       if (exclude != Line::d) {
         const Diagonal d = diagonal(v);
@@ -483,6 +491,52 @@ namespace NQueens {
       }
     }
 
+    // All the fields propagated by alo constraints pushed into place vector, falsified_ is updated if found:
+    void alo() noexcept {
+      for (coord_t i = 1 ; i <= N ; ++i) {
+        auto& rank = r_ranks[i];
+        if (rank.p == 0 and rank.o == 0) { falsified_ = true; return; }
+      }
+      for (coord_t i = 1 ; i <= N ; ++i) {
+        auto& rank = c_ranks[i];
+        if (rank.p == 0 and rank.o == 0) { falsified_ = true; return; }
+      }
+
+      for (coord_t i = 1 ; i <= N ; ++i) {
+        auto& rank = r_ranks[i];
+        if (rank.p == 0 and rank.o == 1) {
+          const auto& R = b[i];
+          for (coord_t j = 1; j <= N ; ++j)
+            if (R[j] == State::open) { place.push_back({i,j}); break;}
+        }
+      }
+      for (coord_t j = 1 ; j <= N ; ++j) {
+        auto& rank = c_ranks[j];
+        if (rank.p == 0 and rank.o == 1)
+          for (coord_t i = 1; i <= N ; ++i)
+            if (open({i,j})) { place.push_back({i,j}); break; }
+      }
+    }
+
+    // All the fields propagated by alo constraints (Var v) pushed into placed , falsified_ is updated if found:
+    void alo(const Var v) noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      assert(board(v) == State::forbidden);
+      auto& r_rank = r_ranks[v.first];
+      assert(r_rank.p == 0);
+      if (r_rank.o == 1) {
+        const auto& R = b[v.first];
+        for (coord_t j = 1; j <= N ; ++j)
+          if (R[j] == State::open) {place.push_back({v.first, j}); break;}
+      }
+      auto& c_rank = c_ranks[v.second];
+      assert(c_rank.p == 0);
+      if (c_rank.o == 1) {
+          for (coord_t i = 1; i <= N ; ++i)
+            if (open({i,v.second})) {place.push_back({i,v.second}); break;}
+      }
+    }
     // The following four propagation-functions assume that cur_v is placed,
     // and propagate amo to its row, column, diagonal and antidiagonal.
     void r_propagate(const Var cur_v) noexcept {
@@ -495,6 +549,7 @@ namespace NQueens {
       for (coord_t j = 1 ; ro != 0 and j <= N ; ++j) {
         if (R[j] == State::open) {
           R[j] = State::forbidden; --ro;
+          ++trank.f; --trank.o;
           forbidden_forank_update({cur_v.first, j}, Line::r);
           if (falsified_) return;
         }
@@ -510,6 +565,7 @@ namespace NQueens {
         const Var v = {i,cur_v.second};
         if (open(v)) {
           board(v) = State::forbidden; --ro;
+          ++trank.f; --trank.o;
           forbidden_forank_update(v, Line::c);
           if (falsified_) return;
         }
@@ -528,6 +584,7 @@ namespace NQueens {
         const Var v = {d_v.first + i, d_v.second + i};
         if (open(v)) {
           board(v) = State::forbidden; --ro;
+          ++trank.f; --trank.o;
           forbidden_forank_update(v, Line::d);
           if (falsified_) return;
         }
@@ -546,6 +603,7 @@ namespace NQueens {
         const Var v = {ad_v.first + i, ad_v.second - i};
         if (open(v)) {
           board(v) = State::forbidden; --ro;
+          ++trank.f; --trank.o;
           forbidden_forank_update(v, Line::ad);
           if (falsified_) return;
         }
@@ -561,7 +619,7 @@ namespace NQueens {
       assert(trank.o+trank.p+trank.f == n());
       ++trank.p; --trank.o;
       // Using the "old" o-degree:
-      {const auto deg = odegree(v); trank.o -= deg; trank.f += deg;}
+      //{const auto deg = odegree(v); trank.o -= deg; trank.f += deg;}                XXX have to handle same fields in place vector.
       // Update o/p-ranks (to current state of board), while updating f-rank
       // in anticipation of amo-propagation:
       {auto& r = r_ranks[v.first]; --r.o; r.p = 1; r.f = N-1;}
@@ -575,6 +633,40 @@ namespace NQueens {
       d_propagate(v); if (falsified_) return;
       ad_propagate(v);
     }
+    void set_true(const Place place) noexcept {
+      for (Var v : place) {
+        if(open(v)) {
+          if (placed(v)) { falsified_ = true; return; }
+          else {
+            assert(v.first >= 1 and v.second >= 1);
+            assert(v.first <= N and v.second <= N);
+            assert(board(v) == State::open);
+            board(v) = State::placed;
+            // Update tranks:
+            assert(trank.o+trank.p+trank.f == n());
+            ++trank.p; --trank.o;
+            {auto& r = r_ranks[v.first]; r.p = 1;}
+            {auto& c = c_ranks[v.second]; c.p = 1;}
+            {const auto d = diagonal(v); auto& dr = d_ranks[d.i]; dr.p = 1;}
+            {const auto a = anti_diagonal(v); auto& ar = ad_ranks[a.i]; ar.p = 1;}
+          }
+        }
+      }
+      for (Var v : place) {
+        //{const auto deg = odegree(v); trank.o -= deg; trank.f += deg;}                XXX have to handle same fields in place vector.
+        {auto& r = r_ranks[v.first]; --r.o; r.f = N-1;}
+        {auto& c = c_ranks[v.second]; --c.o; c.f = N-1;}
+        {const auto d = diagonal(v); auto& dr = d_ranks[d.i];
+         --dr.o; dr.f = d.l-1;}
+        {const auto a = anti_diagonal(v); auto& ar = ad_ranks[a.i];
+         --ar.o; ar.f = a.l-1;}
+        r_propagate(v); if (falsified_) return;
+        c_propagate(v); if (falsified_) return;
+        d_propagate(v); if (falsified_) return;
+        ad_propagate(v);
+      }
+    }
+
     void set_false(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
@@ -591,8 +683,7 @@ namespace NQueens {
     Ranks d_ranks;
     Ranks ad_ranks;
     TotalRank trank;
-    typedef std::stack<Var> Stack;
-    Stack stack;
+    Place place;
     bool falsified_ = false;
 
     Ranks dad_init() const {
