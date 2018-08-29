@@ -194,5 +194,7 @@ int main() {
     const Var vmax{two32m1,two32m1};
     assert(not singular(vmax));
     assert(enum_squarenumbering(18446744060824649731ull) == vmax);
+    const varvec_t V{{1,1},{2,1},{2,2},{1,2},{3,1},{3,2},{3,3},{2,3},{1,3}};
+    assert(enum_square(3) == V);
   }
 }

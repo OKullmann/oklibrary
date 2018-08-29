@@ -473,8 +473,11 @@ namespace NQueens {
         std::seed_seq seq(s.begin(), s.end());
         RandGen::shuffle(random_permutation.begin(), random_permutation.end(), RandGen::randgen_t(seq));
       }
-      typedef std::vector<Var> varvec_t;
+      using varvec_t = ChessBoard::varvec_t;
       static const varvec_t& permutation() noexcept { return random_permutation; }
+      static void init(varvec_t P) noexcept {
+        random_permutation = P;
+      }
     private :
       static varvec_t random_permutation;
     };

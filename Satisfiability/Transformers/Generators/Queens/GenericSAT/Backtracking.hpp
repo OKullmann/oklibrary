@@ -55,6 +55,10 @@ namespace Backtracking {
 
     CountSat(const ChessBoard::coord_t N) { Branching::init(N); }
     template <class Binit>
+    CountSat(Binit bi) {
+      Branching::init(bi);
+    }
+    template <class Binit>
     CountSat(const ChessBoard::coord_t N, const Binit& bi) {
       Branching::init(N,bi);
     }
