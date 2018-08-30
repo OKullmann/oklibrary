@@ -487,7 +487,7 @@ namespace NQueens {
       }
     }
 
-    // All the fields propagated by alo constraints pushed into place vector, falsified_ is updated if found.
+    // All the fields propagated by alo constraints pushed into place vector.
     // Only one field is pushed in place (even if different alo propagation trigger the same field):
     void alo() noexcept {
       for (coord_t i = 1 ; i <= N ; ++i) {
@@ -509,7 +509,7 @@ namespace NQueens {
       }
     }
 
-    // All the fields propagated by alo constraints (Var v) pushed into placed , falsified_ is updated if found:
+    // All the fields propagated by alo constraints (Var v) pushed into placed:
     void alo(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
