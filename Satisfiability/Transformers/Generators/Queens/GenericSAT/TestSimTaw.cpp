@@ -197,4 +197,52 @@ int main() {
     const varvec_t V{{1,1},{2,1},{2,2},{1,2},{3,1},{3,2},{3,3},{2,3},{1,3}};
     assert(enum_square(3) == V);
   }
+  {
+    PhasedAmoAlo_board F(1);
+    assert(F.N == 1);
+    assert(F.satisfied());
+    assert(not F.falsified());
+    assert(F.n() == 1);
+    assert(F.nset() == 1);
+    assert(F.t_rank().o == 0);
+    assert(F.t_rank().p == 1);
+    assert(F.t_rank().f == 0);
+    assert(not F.open({1,1}));
+    const PhasedAmoAlo_board::Board b {{State::open, State::open}, {State::open, State::placed}};
+    assert(F.board() == b);
+    {
+      const PhasedAmoAlo_board FC(F);
+      assert(FC.board({1,1}) == State::placed);
+    }
+  }
+  {
+    // Falsified due to amo propagation:
+    PhasedAmoAlo_board F(3);
+    const Var v{2,2};
+    F.set(v,true);
+    assert(F.falsified());
+    assert(((const PhasedAmoAlo_board) F).board(v) == State::placed);
+    {const TotalRank t{0,1,8}; assert(F.t_rank() == t);}
+    assert(F.r_rank(2).p == 1);
+    assert(F.r_rank(2).f == 2);
+    assert(F.c_rank(2).p == 1);
+    assert(F.c_rank(2).f == 2);
+    assert(F.d_rank(2).p == 1);
+    assert(F.d_rank(2).f == 2);
+    assert(F.ad_rank(2).p == 1);
+    assert(F.ad_rank(2).f == 2);
+  }
+  {
+    // Satisfied due to alo propagation:
+    PhasedAmoAlo_board F(4);
+    const Var v{1,2};
+    F.set(v,true);
+    assert(F.satisfied());
+  }
+  {
+    PhasedAmoAlo_board F(4);
+    assert(F.placed({1,1}) == false);
+    F.set({2,2},true);
+    assert(F.placed({3,3}) == true);
+  }
 }

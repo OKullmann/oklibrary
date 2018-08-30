@@ -461,7 +461,6 @@ namespace NQueens {
       assert(board(v) == State::forbidden);
       if (exclude != Line::r) {
         auto& rank = r_ranks[v.first];
-        assert(rank.p == 0);
         --rank.o; ++rank.f;
         if (exclude != Line::none and rank.o == 0) {
           falsified_ = true; return;
@@ -637,6 +636,7 @@ namespace NQueens {
             // Update tranks:
             assert(trank.o+trank.p+trank.f == n());
             ++trank.p; --trank.o;
+            // Update p-rank for falsification detection (while setting multiple fields at once):
             {auto& r = r_ranks[v.first]; r.p = 1;}
             {auto& c = c_ranks[v.second]; c.p = 1;}
             {const auto d = diagonal(v); auto& dr = d_ranks[d.i]; dr.p = 1;}
