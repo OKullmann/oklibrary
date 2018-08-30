@@ -345,10 +345,8 @@ namespace NQueens {
 
 /*
 Todos for PhasedAmoAlo_board:
-   (1) Have to handle same fields in place vector ( same feild triggered by different alo constraints).
-   (2) Change trank before propagation with odegree.
-   (3) Define invariants properly and add comments on all functions.
-   (4) TawHeuristics class has AmoAlo_board initialized by default discuss if we should add another class or change the existing class.
+   (1) Define invariants properly and add comments on all functions.
+   (2) TawHeuristics class has AmoAlo_board initialized by default discuss if we should add another class or change the existing class.
 */
 
   // Phased AmoALo propagation:
@@ -393,7 +391,10 @@ Todos for PhasedAmoAlo_board:
       if (val) { set_true(v); if(not falsified_) alo(); }
       else     { set_false(v); alo(v); }
       while(not falsified_ and not place.empty()) {
-        set_true(place); if (falsified_) break;
+        // Using single feild set_true function:
+        if (place.size() == 1) set_true(place.front());
+        else set_true(place);
+        if (falsified_) break;
         place.clear();
         alo();
       }
@@ -442,7 +443,7 @@ Todos for PhasedAmoAlo_board:
     }
     // The number of open fields on the four lines of v, excluding v;
     // o-ranks must be correct, except of possibly v having changed before
-    // from open to placed, which then must *not* have been updated:     XXX have to reword this.
+    // from open to placed, which then must *not* have been updated:
     Var_uint odegree(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
@@ -498,14 +499,17 @@ Todos for PhasedAmoAlo_board:
         if (rank.p == 0 and rank.o == 1) {
           const auto& R = b[i];
           for (coord_t j = 1; j <= N ; ++j)
-            if (R[j] == State::open) { place.push_back({i,j}); break;}
+            if (R[j] == State::open) {place.push_back({i,j}); break;}
         }
       }
       for (coord_t j = 1 ; j <= N ; ++j) {
         auto& rank = c_ranks[j];
         if (rank.p == 0 and rank.o == 1)
           for (coord_t i = 1; i <= N ; ++i)
-            if (open({i,j})) { place.push_back({i,j}); break; }
+            if (open({i,j})) {
+              if(not(std::find(place.begin(), place.end(), Var{i,j}) != place.end())) place.push_back({i,j});
+              break;
+            }
       }
     }
 
@@ -525,7 +529,7 @@ Todos for PhasedAmoAlo_board:
       assert(c_rank.p == 0);
       if (c_rank.o == 1) {
           for (coord_t i = 1; i <= N ; ++i)
-            if (open({i,v.second})) {place.push_back({i,v.second}); break;}
+            if (open({i,v.second})) {place.push_back({i, v.second}); break;}
       }
     }
     // The following four propagation-functions assume that cur_v is placed,
@@ -540,7 +544,6 @@ Todos for PhasedAmoAlo_board:
       for (coord_t j = 1 ; ro != 0 and j <= N ; ++j) {
         if (R[j] == State::open) {
           R[j] = State::forbidden; --ro;
-          ++trank.f; --trank.o;
           forbidden_forank_update({cur_v.first, j}, Line::r);
           if (falsified_) return;
         }
@@ -556,7 +559,6 @@ Todos for PhasedAmoAlo_board:
         const Var v = {i,cur_v.second};
         if (open(v)) {
           board(v) = State::forbidden; --ro;
-          ++trank.f; --trank.o;
           forbidden_forank_update(v, Line::c);
           if (falsified_) return;
         }
@@ -575,7 +577,6 @@ Todos for PhasedAmoAlo_board:
         const Var v = {d_v.first + i, d_v.second + i};
         if (open(v)) {
           board(v) = State::forbidden; --ro;
-          ++trank.f; --trank.o;
           forbidden_forank_update(v, Line::d);
           if (falsified_) return;
         }
@@ -594,7 +595,6 @@ Todos for PhasedAmoAlo_board:
         const Var v = {ad_v.first + i, ad_v.second - i};
         if (open(v)) {
           board(v) = State::forbidden; --ro;
-          ++trank.f; --trank.o;
           forbidden_forank_update(v, Line::ad);
           if (falsified_) return;
         }
@@ -610,7 +610,7 @@ Todos for PhasedAmoAlo_board:
       assert(trank.o+trank.p+trank.f == n());
       ++trank.p; --trank.o;
       // Using the "old" o-degree:
-      //{const auto deg = odegree(v); trank.o -= deg; trank.f += deg;}                XXX have to handle same fields in place vector.
+      {const auto deg = odegree(v); trank.o -= deg; trank.f += deg;}
       // Update o/p-ranks (to current state of board), while updating f-rank
       // in anticipation of amo-propagation:
       {auto& r = r_ranks[v.first]; --r.o; r.p = 1; r.f = N-1;}
@@ -644,7 +644,9 @@ Todos for PhasedAmoAlo_board:
         }
       }
       for (Var v : place) {
-        //{const auto deg = odegree(v); trank.o -= deg; trank.f += deg;}                XXX have to handle same fields in place vector.
+        {const auto deg = odegree(v); trank.o -= deg; trank.f += deg;}
+        // Update o/p-ranks (to current state of board), while updating f-rank
+        // in anticipation of amo-propagation:
         {auto& r = r_ranks[v.first]; --r.o; r.f = N-1;}
         {auto& c = c_ranks[v.second]; --c.o; c.f = N-1;}
         {const auto d = diagonal(v); auto& dr = d_ranks[d.i];
