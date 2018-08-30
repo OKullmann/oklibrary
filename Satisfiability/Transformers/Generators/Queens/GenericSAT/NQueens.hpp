@@ -285,6 +285,8 @@ namespace NQueens {
       }
     }
 
+    // Occupy field v and propagate amo,
+    // update falsified_ if found and return:
     void set_true(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
@@ -342,12 +344,6 @@ namespace NQueens {
       return b[v.first][v.second];
     }
   };
-
-/*
-Todos for PhasedAmoAlo_board:
-   (1) Define invariants properly and add comments on all functions.
-   (2) TawHeuristics class has AmoAlo_board initialized by default discuss if we should add another class or change the existing class.
-*/
 
   // Phased AmoALo propagation:
   class PhasedAmoAlo_board {
@@ -458,7 +454,7 @@ Todos for PhasedAmoAlo_board:
 
     enum class Line {r,c,d,ad,none};
     // f/o-ranks of forbidden v are updated for non-occupied lines (given by
-    // parameter exclude), with alo-falsification and alo-propagation detected:
+    // parameter exclude), with alo-falsification detected:
     void forbidden_forank_update(const Var v, const Line exclude) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
@@ -492,7 +488,8 @@ Todos for PhasedAmoAlo_board:
       }
     }
 
-    // All the fields propagated by alo constraints pushed into place vector, falsified_ is updated if found:
+    // All the fields propagated by alo constraints pushed into place vector, falsified_ is updated if found.
+    // Only one field is pushed in place (even if different alo propagation trigger the same field):
     void alo() noexcept {
       for (coord_t i = 1 ; i <= N ; ++i) {
         auto& rank = r_ranks[i];
@@ -601,6 +598,8 @@ Todos for PhasedAmoAlo_board:
       }
     }
 
+    // Occupy field v and propagate amo,
+    // update falsified_ if found and return:
     void set_true(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
@@ -624,6 +623,8 @@ Todos for PhasedAmoAlo_board:
       d_propagate(v); if (falsified_) return;
       ad_propagate(v);
     }
+    // Occupy fields in place, update falsified_ if found ( if already a field is placed in r,c,d or ad) and return.
+    // Propagate amo, update falsified_ if found and return:
     void set_true(const Place place) noexcept {
       for (Var v : place) {
         if(open(v)) {
@@ -645,7 +646,7 @@ Todos for PhasedAmoAlo_board:
       }
       for (Var v : place) {
         {const auto deg = odegree(v); trank.o -= deg; trank.f += deg;}
-        // Update o/p-ranks (to current state of board), while updating f-rank
+        // Update o-rank (to current state of board), while updating f-rank
         // in anticipation of amo-propagation:
         {auto& r = r_ranks[v.first]; --r.o; r.f = N-1;}
         {auto& c = c_ranks[v.second]; --c.o; c.f = N-1;}
