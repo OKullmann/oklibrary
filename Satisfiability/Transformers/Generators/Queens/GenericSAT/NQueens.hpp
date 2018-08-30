@@ -390,10 +390,10 @@ Todos for PhasedAmoAlo_board:
       assert(board(v) == State::open);
       assert(r_ranks[v.first].o >= 2);
       assert(c_ranks[v.second].o >= 2);
-      if (val) { set_true(v); alo(); }
+      if (val) { set_true(v); if(not falsified_) alo(); }
       else     { set_false(v); alo(v); }
-      while(not place.empty() and not falsified_) {
-        set_true(place);
+      while(not falsified_ and not place.empty()) {
+        set_true(place); if (falsified_) break;
         place.clear();
         alo();
       }
@@ -493,15 +493,6 @@ Todos for PhasedAmoAlo_board:
 
     // All the fields propagated by alo constraints pushed into place vector, falsified_ is updated if found:
     void alo() noexcept {
-      for (coord_t i = 1 ; i <= N ; ++i) {
-        auto& rank = r_ranks[i];
-        if (rank.p == 0 and rank.o == 0) { falsified_ = true; return; }
-      }
-      for (coord_t i = 1 ; i <= N ; ++i) {
-        auto& rank = c_ranks[i];
-        if (rank.p == 0 and rank.o == 0) { falsified_ = true; return; }
-      }
-
       for (coord_t i = 1 ; i <= N ; ++i) {
         auto& rank = r_ranks[i];
         if (rank.p == 0 and rank.o == 1) {
