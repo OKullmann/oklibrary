@@ -182,4 +182,19 @@ int main() {
     F.set({5,5}, true);
     assert(F.c_rank(5).o == 0);
   }
+  {
+    const Var v0{1,1};
+    assert(not singular(v0));
+    assert(enum_squarenumbering(1) == v0);
+    const Var_uint two64m1 = std::numeric_limits<Var_uint>::max();
+    const Var_uint two32m1 = std::numeric_limits<coord_t>::max();
+    const Var v{1,two32m1};
+    assert(not singular(v));
+    assert(enum_squarenumbering(two64m1 - 2*two32m1) == v);
+    const Var vmax{two32m1,two32m1};
+    assert(not singular(vmax));
+    assert(enum_squarenumbering(18446744060824649731ull) == vmax);
+    const varvec_t V{{1,1},{2,1},{2,2},{1,2},{3,1},{3,2},{3,3},{2,3},{1,3}};
+    assert(enum_square(3) == V);
+  }
 }

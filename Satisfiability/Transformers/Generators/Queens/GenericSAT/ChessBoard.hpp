@@ -12,9 +12,11 @@ License, or any later version. */
 #include <limits>
 #include <type_traits>
 #include <ostream>
+#include <vector>
 
 #include <cassert>
 #include <cstdint>
+#include <cmath>
 
 namespace ChessBoard {
 
@@ -128,6 +130,27 @@ namespace ChessBoard {
   }
 
   enum class State { open=0, placed, forbidden };
+
+  // As in ComputerAlgebra/NumberTheory/Lisp/Numbering.mac, the enumeration of
+  // all non-singular variables:
+  inline constexpr Var enum_squarenumbering(const Var_uint n) noexcept {
+#ifndef NDEBUG
+    {const Var_uint two64m1 = std::numeric_limits<Var_uint>::max();
+     const Var_uint two32m1 = std::numeric_limits<coord_t>::max();
+     assert(n <=  two64m1 - 2*two32m1);}
+#endif
+    const coord_t r = std::ceil(std::sqrt(n));
+    const coord_t d = Var_uint(r) * r - n;
+    return (d < r) ? Var{d+1, r} : Var{r, 2*r-d-1};
+  }
+  typedef std::vector<Var> varvec_t;
+  varvec_t enum_square(const coord_t N) {
+    varvec_t v;
+    const Var_uint NS = Var_uint(N) * N;
+    v.reserve(NS);
+    for (Var_uint i = 1; i <= NS; ++i) v.push_back(enum_squarenumbering(i));
+    return v;
+  }
 
 }
 

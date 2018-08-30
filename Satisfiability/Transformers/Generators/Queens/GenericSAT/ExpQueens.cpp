@@ -16,8 +16,8 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.3.4";
-const std::string date = "23.8.2018";
+const std::string version = "0.3.5";
+const std::string date = "29.8.2018";
 const std::string program = "ExpQueens"
 #ifndef NDEBUG
   "_debug"
@@ -69,7 +69,7 @@ int main(const int argc, const char* const argv[]) {
     std::cout << rFq;
     return 0;
   }
-  else {
+  else if (option == "r") {
     if (argc == 3) {
       Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpenRandom> B(N);
       const auto rFq = B(Fq);
@@ -84,5 +84,15 @@ int main(const int argc, const char* const argv[]) {
       std::cout << rFq;
       return 0;
     }
+  }
+  else if (option == "s") {
+    Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpenRandom> B(ChessBoard::enum_square(N));
+    const auto rFq = B(Fq);
+    std::cout << rFq;
+    return 0;
+  }
+  else {
+    std::cerr << error << "Uninterpreted argument \"" << option << "\".\n";
+    std::exit(InOut::code(InOut::Error::uninterpreted_argument));
   }
 }

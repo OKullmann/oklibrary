@@ -19,7 +19,8 @@ namespace InOut {
     missing_argument=1,
     conversion=2,
     too_big=3,
-    too_small=4
+    too_small=4,
+    uninterpreted_argument=5
   };
   /* Extracting the underlying code of enum-classes (scoped enums) */
   template <typename EC>
