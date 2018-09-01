@@ -34,7 +34,7 @@ int main() {
       assert(FC.board({1,1}) == State::placed);
     }
     {
-      TawHeuristics h(F);
+      TawHeuristics<> h(F);
       assert(h.weight(0) == 0.0);
       assert(h.weight(1) == 0.0);
       assert(h.weight(2) == 4.85);
@@ -53,8 +53,8 @@ int main() {
     assert(F.t_rank().f == 0);
     const Var v11{1,1};
     assert(F.odegree(v11) == 3);
-    TawHeuristics h(F);
-    assert(h.heuristics(v11) == TawHeuristics::Bp(3*4.85, 2*4.85));
+    TawHeuristics<> h(F);
+    assert(h.heuristics(v11) == TawHeuristics<>::Bp(3*4.85, 2*4.85));
   }
   {
     AmoAlo_board F(4);

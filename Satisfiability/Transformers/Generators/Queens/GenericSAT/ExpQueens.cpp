@@ -16,8 +16,8 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.3.5";
-const std::string date = "29.8.2018";
+const std::string version = "0.3.6";
+const std::string date = "1.9.2018";
 const std::string program = "ExpQueens"
 #ifndef NDEBUG
   "_debug"
@@ -58,7 +58,7 @@ int main(const int argc, const char* const argv[]) {
   const std::string option = (argc == 2) ? "" : argv[2];
   NQueens::AmoAlo_board Fq(N);
   if (option == "") {
-    Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::TawHeuristics> B;
+    Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::TawHeuristics<>> B;
     const auto rFq = B(Fq);
     std::cout << rFq;
     return 0;
@@ -87,6 +87,13 @@ int main(const int argc, const char* const argv[]) {
   }
   else if (option == "s") {
     Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpenRandom> B(ChessBoard::enum_square(N));
+    const auto rFq = B(Fq);
+    std::cout << rFq;
+    return 0;
+  }
+  else if (option == "p") {
+    NQueens::PhasedAmoAlo_board Fq(N);
+    Backtracking::CountSat<NQueens::PhasedAmoAlo_board, NQueens::TawHeuristics<NQueens::PhasedAmoAlo_board>> B;
     const auto rFq = B(Fq);
     std::cout << rFq;
     return 0;

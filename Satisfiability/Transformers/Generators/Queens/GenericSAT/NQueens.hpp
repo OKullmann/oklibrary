@@ -715,7 +715,9 @@ namespace NQueens {
      ID a227f64a6c66a817e4b53fa4c1a1244d530a25c5
   */
 
+  template <class AmoAloInference = AmoAlo_board>
   class TawHeuristics {
+    typedef AmoAloInference AmoAlo_board;
     using Var = ChessBoard::Var;
     using Var_uint = ChessBoard::Var_uint;
     using State = ChessBoard::State;
@@ -768,16 +770,17 @@ namespace NQueens {
     constexpr static Weight_t basis = 1.46;
 
   };
-  constexpr TawHeuristics::Weights TawHeuristics::weights;
-  static_assert(TawHeuristics::weight(0) == 0, "TawHeuristics: weight(0)");
-  static_assert(TawHeuristics::weight(1) == 0, "TawHeuristics: weight(1)");
-  static_assert(TawHeuristics::weight(2) == 4.85, "TawHeuristics: weight(2)");
-  static_assert(TawHeuristics::weight(3) == 1, "TawHeuristics: weight(3)");
-  static_assert(TawHeuristics::weight(4) == 0.354, "TawHeuristics: weight(4)");
-  static_assert(TawHeuristics::weight(5) == 0.11, "TawHeuristics: weight(5)");
-  static_assert(TawHeuristics::weight(6) == 0.0694, "TawHeuristics: weight(6)");
-  static_assert(TawHeuristics::weight(7) == 0.0694 * std::pow(1.46,-1), "TawHeuristics: weight(7)");
-  static_assert(TawHeuristics::weight(8) == 0.0694 * std::pow(1.46,-2), "TawHeuristics: weight(7)");
+  template <class AmoAloInference>
+  constexpr typename TawHeuristics<AmoAloInference>::Weights TawHeuristics<AmoAloInference>::weights;
+  static_assert(TawHeuristics<>::weight(0) == 0, "TawHeuristics: weight(0)");
+  static_assert(TawHeuristics<>::weight(1) == 0, "TawHeuristics: weight(1)");
+  static_assert(TawHeuristics<>::weight(2) == 4.85, "TawHeuristics: weight(2)");
+  static_assert(TawHeuristics<>::weight(3) == 1, "TawHeuristics: weight(3)");
+  static_assert(TawHeuristics<>::weight(4) == 0.354, "TawHeuristics: weight(4)");
+  static_assert(TawHeuristics<>::weight(5) == 0.11, "TawHeuristics: weight(5)");
+  static_assert(TawHeuristics<>::weight(6) == 0.0694, "TawHeuristics: weight(6)");
+  static_assert(TawHeuristics<>::weight(7) == 0.0694 * std::pow(1.46,-1), "TawHeuristics: weight(7)");
+  static_assert(TawHeuristics<>::weight(8) == 0.0694 * std::pow(1.46,-2), "TawHeuristics: weight(7)");
 
   // Choosing the first open variable:
     class FirstOpen {
