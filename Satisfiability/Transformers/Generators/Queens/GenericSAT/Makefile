@@ -24,7 +24,7 @@ program : Program.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp NQueensPartial
 program_debug : Program.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp NQueensPartial.hpp RandGen.hpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Debug_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-SimTaw : SimTaw.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp InOut.hpp RandGen.hpp
+SimTaw : SimTaw.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp InOut.hpp
 	$(CXX) $(Standard_options) $(Warning_options) -Wno-parentheses $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 SimTaw_debug : SimTaw.cpp Backtracking.hpp ChessBoard.hpp NQueens.hpp InOut.hpp RandGen.hpp
