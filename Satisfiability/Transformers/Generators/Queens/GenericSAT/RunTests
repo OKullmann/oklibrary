@@ -26,16 +26,20 @@ if [[ "$result" != "$expected" ]]; then
 fi
 
 # program1="valgrind -q --exit-on-first-error=yes ./SimTaw_debug"
-program1="./SimTaw"
-program2="valgrind -q ./SimTaw_debug"
-declare -a programs=("${program1}" "${program2}")
+program1="./SimTaw NA"
+program2="valgrind -q ./SimTaw_debug NA"
+program3="./SimTaw NA p"
+program4="valgrind -q ./SimTaw_debug NA p"
+declare -a programs=("${program1}" "${program2}" "${program3}" "${program4}")
 
 declare -a outcomes=(0 "1 1" "0 3" "0 5" "2 7" "10 19" "4 51" "40 155" "92 453")
 
 for S in "${programs[@]}"; do
+  echo $S
   for (( N=1; N<=maxN; ++N )); do
-    echo "Testcase: ${S} ${N}"
-    result="$(${S} ${N})"
+    solvercall="${S/ NA/ $N}"
+    echo "Testcase: ${solvercall}" > /dev/null
+    result="$(${solvercall} ${N})"
     expected="${outcomes[$N]}"
     if [[ "$result" != "$expected" ]]; then
       echo -e "${error}\"${S} ${N}\" yields \"${result}\", but should yield ${expected}."
