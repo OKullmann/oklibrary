@@ -345,7 +345,9 @@ namespace NQueens {
     }
   };
 
+
   // Phased AmoALo propagation:
+// BUG: We clearly said that the invariants are the basic --- but there are NONE.
   class PhasedAmoAlo_board {
     using coord_t = ChessBoard::coord_t;
     using Var = ChessBoard::Var;
@@ -386,8 +388,8 @@ namespace NQueens {
       assert(c_ranks[v.second].o >= 2);
       if (val) { set_true(v); if(not falsified_) alo(); }
       else     { set_false(v); alo(v); }
-      while(not falsified_ and not place.empty()) {
-        // Using single feild set_true function:
+      while (not falsified_ and not place.empty()) {
+        // Using single-field set_true function:
         if (place.size() == 1) set_true(place.front());
         else set_true(place);
         if (falsified_) break;
@@ -427,7 +429,7 @@ namespace NQueens {
       return ChessBoard::anti_diagonal(v, N);
     }
 
-    // Returns true if atleast one field is set to placed in corresponding r,c,d and ad:
+    // Returns true if at least one field is set to placed in corresponding r, c, d and ad:
     bool placed(const Var v) const noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
@@ -462,6 +464,7 @@ namespace NQueens {
       if (exclude != Line::r) {
         auto& rank = r_ranks[v.first];
         --rank.o; ++rank.f;
+// BUG: We clearly said *phased*, thus no such interleaved tests (also at any other similar place)
         if (exclude != Line::none and rank.o == 0) {
           falsified_ = true; return;
         }
@@ -487,8 +490,9 @@ namespace NQueens {
       }
     }
 
-    // All the fields propagated by alo constraints pushed into place vector.
+    // All the fields propagated by alo-constraints pushed into place-vector.
     // Only one field is pushed in place (even if different alo propagation trigger the same field):
+// BUG: The above explanations make no sense; one does not "push into a vector".
     void alo() noexcept {
       for (coord_t i = 1 ; i <= N ; ++i) {
         auto& rank = r_ranks[i];
@@ -503,13 +507,15 @@ namespace NQueens {
         if (rank.p == 0 and rank.o == 1)
           for (coord_t i = 1; i <= N ; ++i)
             if (open({i,j})) {
-              if(not(std::find(place.begin(), place.end(), Var{i,j}) != place.end())) place.push_back({i,j});
+// BUG: this is very inefficient, and a todo needs to be opened with the various alternative possibilities
+              if (std::find(place.begin(), place.end(), Var{i,j}) == place.end()) place.push_back({i,j});
               break;
             }
       }
     }
 
     // All the fields propagated by alo constraints (Var v) pushed into placed:
+// BUG: this explains nothing (which INVARIANT is established is the point)
     void alo(const Var v) noexcept {
       assert(v.first >= 1 and v.second >= 1);
       assert(v.first <= N and v.second <= N);
@@ -525,11 +531,13 @@ namespace NQueens {
       assert(c_rank.p == 0);
       if (c_rank.o == 1) {
           for (coord_t i = 1; i <= N ; ++i)
+// BUG: same as before
             if (open({i,v.second})) {place.push_back({i, v.second}); break;}
       }
     }
     // The following four propagation-functions assume that cur_v is placed,
     // and propagate amo to its row, column, diagonal and antidiagonal.
+// BUG: this should have been replaced / eliminated --- it is inappropropriate for the phased approach
     void r_propagate(const Var cur_v) noexcept {
       assert(cur_v.first >= 1 and cur_v.second >= 1);
       assert(cur_v.first <= N and cur_v.second <= N);
@@ -622,10 +630,11 @@ namespace NQueens {
       d_propagate(v); if (falsified_) return;
       ad_propagate(v);
     }
-    // Occupy fields in place, update falsified_ if found ( if already a field is placed in r,c,d or ad) and return.
+    // Occupy fields in place, update falsified_ if found (if already a field is placed in r, c, d or ad) and return.
     // Propagate amo, update falsified_ if found and return:
+// BUG: where are the invariants?? no design visible
     void set_true(const Place place) noexcept {
-      for (Var v : place) {
+      for (const Var v : place) {
         if(open(v)) {
           if (placed(v)) { falsified_ = true; return; }
           else {
@@ -644,7 +653,7 @@ namespace NQueens {
           }
         }
       }
-      for (Var v : place) {
+      for (const Var v : place) {
         {const auto deg = odegree(v); trank.o -= deg; trank.f += deg;}
         // Update o-rank (to current state of board), while updating f-rank
         // in anticipation of amo-propagation:
