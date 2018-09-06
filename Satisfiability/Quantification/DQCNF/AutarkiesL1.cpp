@@ -412,8 +412,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.12";
-const std::string date = "17.8.2018";
+const std::string version = "0.6.13";
+const std::string date = "6.9.2018";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -1823,9 +1823,9 @@ void version_information() noexcept {
 void output(const std::string filename, const ConformityLevel cl, const DClauseSet& F, const Encoding& enc, const Translation& trans, const CLS& G, const LogLevel ll) noexcept {
   logout <<
          "c Program information:\n"
-         "c created_by                            " << program << "\n"
-         "c version                               " << version << "\n"
-         "c date                                  " << date << "\n"
+         "c created_by                            \"" << program << "\"\n"
+         "c version                               \"" << version << "\"\n"
+         "c date                                  \"" << date << "\"\n"
          "c author                                " << author << "\n"
          "c url                                   " << url << "\n"
          "c Parameter (command line, file):\n"
