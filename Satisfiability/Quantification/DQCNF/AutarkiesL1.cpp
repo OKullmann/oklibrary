@@ -412,8 +412,8 @@ namespace {
 
 // --- General input and output ---
 
-const std::string version = "0.6.13";
-const std::string date = "6.9.2018";
+const std::string version = "0.6.14";
+const std::string date = "7.9.2018";
 
 const std::string program = "autL1"
 #ifndef NDEBUG
@@ -792,7 +792,9 @@ public :
 };
 static_assert(std::is_pod<Litc>::value, "Litc is not POD.");
 
-inline constexpr Litc bf(const bool b) { return (b) ? Litc(BFt::t) : Litc(BFt::f); }
+inline constexpr Litc bf(const bool b) noexcept {
+  return (b) ? Litc(BFt::t) : Litc(BFt::f);
+}
 
 static_assert(ALit(Litc()) == 0_l, "Default construction of Litc does not yield singular literal.");
 static_assert(BFt(Litc()) == BFt::nc, "Default construction of Litc is not nonconstant.");
@@ -902,10 +904,10 @@ typedef DCLS::const_iterator dclause_it;
 
 struct DClauseSet {
   DCLS F;
-  VTvector vt;
+  VTvector vt; // for each variable its type
   VarSetsystem dep_sets; // the occurring d-sets
   Dvector D; // for each variable its d-set
-  DepCounts dc; // how often each d-set occurs
+  DepCounts dc; // map dep-pointer -> how often each d-set occurs
   // Statistics:
   //   from the parameter line:
   Var n_pl;
@@ -1382,7 +1384,7 @@ public :
 ReadDimacs(std::istream& in, const ConformityLevel cl) noexcept :
   in(in), conlev(cl) {}
 
-DClauseSet operator()() noexcept {
+const DClauseSet& operator()() noexcept {
   read_header();
   if (in.eof()) return F;
   read_dependencies();
@@ -1930,7 +1932,7 @@ int main(const int argc, const char* const argv[]) {
   set_output(argc, argv);
   const Input in(filename);
   ReadDimacs rd(*in, conlev);
-  const DClauseSet F = rd();
+  const DClauseSet& F = rd();
 
   const Encoding enc(F);
 
