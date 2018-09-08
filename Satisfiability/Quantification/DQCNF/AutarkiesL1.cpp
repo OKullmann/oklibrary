@@ -67,6 +67,18 @@ the comments-section of the translated problem.
 
 BUGS:
 
+DQCNF> echo -e "p cnf 1 1\n1 0" | ./autL1_debug -cin
+/usr/local/lib64/gcc/x86_64-pc-linux-gnu/7.3.0/include/c++/debug/vector:417:
+Error: attempt to subscript container with out-of-bounds index 1, but
+container only holds 0 elements.
+
+Objects involved in the operation:
+    sequence "this" @ 0x0x7fff48b54300 {
+      type = std::__debug::vector<unsigned int, std::allocator<unsigned int> >;
+    }
+Aborted (core dumped)
+
+
 RESULTS:
 
 Running on the DQBF-instances from QBFEVAL18 on csverify, also solving the

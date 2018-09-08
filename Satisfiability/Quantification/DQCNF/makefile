@@ -15,7 +15,7 @@ CXX = g++
 Standard_options = --std=c++14 -pedantic
 Warning_options = -Wall -Wextra -Wno-misleading-indentation -Wno-dangling-else
 Optimisation_options = -Ofast -DNDEBUG
-debug_options = -g
+debug_options = -g -D_GLIBCXX_DEBUG
 
 main_target = autL1
 debug_main = autL1_debug
