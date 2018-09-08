@@ -10,7 +10,7 @@ CXX = g++
 Standard_options = --std=c++14 -pedantic
 Warning_options = -Wall -Wextra
 Optimisation_options = -Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fmodulo-sched -fmodulo-sched-allow-regmoves -ftree-loop-ivcanon -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity -static
-Debug_options = -g
+Debug_options = -g -D_GLIBCXX_DEBUG
 
 all : optimised debug test
 
