@@ -207,6 +207,34 @@ closure_3op_st(S) := block([oldlength:length(S)],
     oldlength : length(S)
   ))$
 
+/* The number of clauses (while the deficiency is length(T)): */
+sum_cycledesc(T) := sum_l(map(sum_l,T));
+
+/* Whether two cycle descriptions are equivalent: */
+equiv_cycledesc_p(T1,T2) := length(T1)=length(T2) and
+  sum_cycledesc(T1)=sum_cycledesc(T2) and
+  elementp(T2, closure_3op_st({T1}))$
+
+/* All triples with a given sum s: */
+all_triples(s) := setify(create_list([a,b,s-a-b], a,1,s-1, b,0,s-a-1))$
+
+/* The set of all partitions of length k of n with every element at least 2: */
+all_partitions_min2(n,k) :=
+ subset(integer_partitions(n,k), lambda([p], is(last(p) >= 2)))$
+/* The same with unordered partitions: */
+all_upartitions_min2(n,k) := lunion(
+ map(permutations,subset(integer_partitions(n,k), lambda([p], is(last(p) >= 2)))))$
+
+/* For a given tuple of triple-sums, all possible cycle descriptions: */
+all_cycledesc_ts(S) := apply(cartesian_product,map(all_triples, S))$
+
+/* All cycle descriptions with c clauses and deficiency k: */
+all_cycledesc(k,c) := lunion(map(all_cycledesc_ts, all_upartitions_min2(c,k)))$
+
+/* The equivalence-classes of cycle descriptions of deficiency k with c clauses: */
+equiv_cycle_desc(k,c) := equiv_classes(all_cycledesc(k,c), equiv_cycledesc_p)$
+/* Their number: */
+nequiv_cycle_desc(k,c) := length(equiv_cycle_desc(k,c))$
 
 /*!
 \endhtmlonly
