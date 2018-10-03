@@ -184,6 +184,29 @@ cycledesc2bmu_fcl(T) := block([c:sum_l(lappend(T)), k:length(T), n, F:[],
 
 cycledesc2bmu_cs(T) := fcl2cs(cycledesc2bmu_fcl(T))$
 
+/* Reversal of each triple ("point reflection"): */
+preflection_t(T) := map(reverse,T)$
+
+/* Reflection of a cycle description: */
+rotate_middle(T) := block([M:map(second,T)],
+  M : rotate(M,-1),
+  create_list([first(T[i]), M[i], third(T[i])], i, 1, length(T)))$
+reflection_t(T) := rotate_middle(reverse(T))$
+
+/* Rotation of a cycle description: */
+rotate_t(T) := block([R:rotate(T,1)],
+  append([reverse(first(R))], rest(R,1)))$
+
+/* Closure under the operations preflection_t, reflection_t, rotate_t for a set of tuples: */
+closure_3op_st(S) := block([oldlength:length(S)],
+  do (
+    S : union(S, map(preflection_t,S)),
+    S : union(S, map(reflection_t,S)),
+    S : union(S, map(rotate_t, S)),
+    if length(S) = oldlength then return(S),
+    oldlength : length(S)
+  ))$
+
 
 /*!
 \endhtmlonly
