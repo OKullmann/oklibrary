@@ -211,12 +211,9 @@ closure_3op_st(S) := block([oldlength:length(S)],
     oldlength : length(S)
   ))$
 
-/* The number of clauses (while the deficiency is length(T)): */
-sum_cycledesc(T) := sum_l(map(sum_l,T));
-
 /* Whether two cycle descriptions are equivalent: */
 equiv_cycledesc_p(T1,T2) := length(T1)=length(T2) and
-  sum_cycledesc(T1)=sum_cycledesc(T2) and
+  ncl_cycledesc(T1)=ncl_cycledesc(T2) and
   elementp(T2, closure_3op_st({T1}))$
 
 /* All triples with a given sum s: */
