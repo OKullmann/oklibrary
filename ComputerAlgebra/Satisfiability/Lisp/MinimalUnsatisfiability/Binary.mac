@@ -188,6 +188,8 @@ cycledesc2bmu_fcl(T) := block([c:sum_l(lappend(T)), k:length(T), n, F:[],
 
 cycledesc2bmu_cs(T) := fcl2cs(cycledesc2bmu_fcl(T))$
 
+/* From here on a complete REVISION is needed. */
+
 /* Reversal of each triple ("point reflection"): */
 preflection_t(T) := map(reverse,T)$
 
