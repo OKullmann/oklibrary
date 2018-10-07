@@ -63,9 +63,8 @@ okltest_deficiency_cycledesc(deficiency_cycledesc);
 okltest_ncl_cycledesc(ncl_cycledesc);
 okltest_nlitocc_cycledesc(nlitocc_cycledesc);
 
-
-okltest_cycledesc2bmu_fcl(cycledesc2bmu_fcl);
 okltest_cycledesc2bmu_cs(cycledesc2bmu_cs);
+okltest_cycledesc2bmu_fcl(cycledesc2bmu_fcl);
 
 /*!
 \endhtmlonly
