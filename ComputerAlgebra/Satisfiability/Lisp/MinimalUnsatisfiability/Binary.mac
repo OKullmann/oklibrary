@@ -31,10 +31,11 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability
    ****************************
 */
 
-/* All 2-uniform 2-CNF MUs over variables 1,...,n, n >= 2 (possibly not using
-  all variables):
+/* All 2-uniform 2-CNF MUs over variables 1,...,n, (possibly not using
+   all variables):
 */
-all_ubmu(n) := all_min_usat_cores_bydef_cs(all_ubin_cs(n))$
+all_ubmu(n) := if n<=1 then {} else
+ all_min_usat_cores_bydef_cs(all_ubin_cs(n))$
 /* Only those with exactly n variables: */
 all_ubmue(n) := subset(all_ubmu(n), lambda([F], is(nvar_cs(F) = n)))$
 
@@ -130,6 +131,9 @@ impl_cs(a,b) := setify(impl_cl(a,b))$
    ***********************
 */
 
+/* For n # 1 the up to isomorphism unique nonsingular 2-MUs with n variables;
+   since the general constructions fits also for n=1, also n=1 is included:
+*/
 nonsing_bmu_cl(n) := if n = 0 then [{}] else
  append(lappend(create_list(equiv_cl(i,i+1),i,1,n-1)), equiv_cl(1,-n))$
 nonsing_bmu_cs(n) := setify(nonsing_bmu_cl(n))$
