@@ -6,16 +6,19 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #include <iostream>
+#include <sstream>
 
 #include <cassert>
 
 #include "Backtracking.hpp"
 #include "NQueens.hpp"
+#include "Trees.hpp"
 
 int main() {
   using namespace NQueens;
   using namespace ChessBoard;
   using namespace Backtracking;
+  using namespace Trees;
   {
     AmoAlo_board F(1);
     assert(F.N == 1);
@@ -244,5 +247,87 @@ int main() {
     assert(F.placed({1,1}) == false);
     F.set({2,2},true);
     assert(F.placed({3,3}) == true);
+  }
+
+  {
+    assert(max_index >= 0xFFFFFFFFFFFFFFFF - 1);
+    assert(validindex(0));
+    assert(validindex(0xFFFFFFFFFFFFFFFF - 1));
+    assert(not validindex(std::numeric_limits<index_t>::max()));
+    assert(null(0));
+    assert(not null(1));
+    assert(not validnode(0));
+    assert(validnode(1));
+    assert(not validedge(0));
+    assert(not validedge(1));
+    assert(validedge(2));
+    TreeNode tn{1,1};
+    assert(valid(tn));
+    assert(not leaf(tn));
+    constexpr TreeNode tnz{};
+    assert(valid(tnz));
+    assert(tnz.l == 0);
+    assert(tnz.r == 0);
+    assert(tnz == tnz);
+    assert(not (tnz != tnz));
+    assert(tn != tnz);
+    assert(leaf(tnz));
+    assert(Tree(1)[0] == tnz);
+    assert(NodeType_v(1)[0] == NodeType::undef);
+    for (const NodeType t : {NodeType::undef, NodeType::ul, NodeType::sl, NodeType::ui, NodeType::si})
+     switch (t) {
+     case NodeType::undef :
+       assert(not leaf(t));
+       assert(not innernode(t));
+       assert(not satisfiable(t));
+       assert(not unsatisfiable(t));
+       break;
+     case NodeType::ul :
+       assert(leaf(t));
+       assert(not innernode(t));
+       assert(not satisfiable(t));
+       assert(unsatisfiable(t));
+       break;
+     case NodeType::sl :
+       assert(leaf(t));
+       assert(not innernode(t));
+       assert(satisfiable(t));
+       assert(not unsatisfiable(t));
+       break;
+     case NodeType::ui :
+       assert(not leaf(t));
+       assert(innernode(t));
+       assert(not satisfiable(t));
+       assert(unsatisfiable(t));
+       break;
+     case NodeType::si :
+       assert(not leaf(t));
+       assert(innernode(t));
+       assert(satisfiable(t));
+       assert(not unsatisfiable(t));
+       break;
+     }
+  }
+  {
+    BasicTree T;
+    assert(T.numver() == 0);
+    assert(T.index() == 0);
+    const auto i0 = T.next_index();
+    assert(i0 == 1);
+    const auto i1 = T.next_index();
+    assert(i1 == 2);
+    T.add(i1, NodeType::ul);
+    const auto i20 = T.index();
+    assert(i20 == 2);
+    T.add(i0, {i0+1,i20+1}, NodeType::si);
+    const auto i2 = T.next_index();
+    assert(i2 == 3);
+    T.add(i2, NodeType::sl);
+    const Tree Tstruct{{0,0},{2,3},{0,0},{0,0}};
+    assert(T.tree() == Tstruct);
+    const NodeType_v Ttypes{NodeType::undef, NodeType::si, NodeType::ul, NodeType::sl};
+    assert(T.nodetypes() == Ttypes);
+    std::stringstream out;
+    output(out, T, "OK", "Test");
   }
 }
