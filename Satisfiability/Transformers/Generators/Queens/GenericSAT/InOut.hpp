@@ -5,9 +5,13 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+#ifndef INOUT_MzYfhyYOcb
+#define INOUT_MzYfhyYOcb
+
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <chrono>
 
 #include <cstdlib>
 
@@ -53,4 +57,10 @@ namespace InOut {
     return N;
   }
 
+  auto timestamp() noexcept {
+    return std::chrono::system_clock::now().time_since_epoch().count();
+  }
+
 }
+
+#endif
