@@ -16,14 +16,32 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.3.6";
-const std::string date = "1.9.2018";
+const std::string version = "0.3.7";
+const std::string date = "13.10.2018";
 const std::string program = "ExpQueens"
 #ifndef NDEBUG
   "_debug"
 #endif
 ;
 const std::string error = "ERROR[" + program + "]: ";
+
+void show_usage() noexcept {
+  const std::string prompt = "\n> " + program;
+  std::cout << "USAGE in two information-only and three main forms:\n"
+    "\n> " << program << "\n"
+    " shows usage information and exists.\n"
+    "\n> " << program << " (-v | --version)\n"
+    " shows version informations and exits.\n"
+    "\n The following main usage-forms all start with N, the order of the square.\n"
+    " Round brackets \"()\" indicate a list of possible options (as characters), square brackets \"[]\" indicate optional arguments.\n"
+    "\n> " << program << " N\n"
+    " uses NQeens::TawHeuristics.\n"
+    "\n> " << program << " N (f,r,s)\n"
+    " uses first-open, random, or square for the branching heuristics.\n"
+    "\n> " << program << " N r [seed]\n"
+    " uses seed for the random form.\n";
+  std::exit(0);
+}
 
 void version_information() noexcept {
   std::cout << program << ":\n"
@@ -52,7 +70,7 @@ void version_information() noexcept {
 }
 
 int main(const int argc, const char* const argv[]) {
-
+  if (argc == 1) show_usage();
   if (argc == 2 and std::string(argv[1]) == "-v") version_information();
   const ChessBoard::coord_t N = InOut::interprete(argc, argv, error);
   const std::string option = (argc == 2) ? "" : argv[2];
