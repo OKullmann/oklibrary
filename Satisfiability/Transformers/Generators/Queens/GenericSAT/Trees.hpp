@@ -43,6 +43,8 @@ namespace Trees {
   inline constexpr bool validnode(const node_t v) noexcept { return v >= 1; }
   inline constexpr bool validedge(const edge_t e) noexcept { return e >= 2; }
 
+  typedef std::vector<node_t> node_vt;
+
   // Since the node-index itself is given, only the children are needed:
   struct TreeNode { node_t l, r; };
   static_assert(std::is_pod<TreeNode>::value, "TreeNode is not POD.");
@@ -99,14 +101,18 @@ namespace Trees {
     Tree T;
     NodeType_v nt;
     Colour::Colour_v col;
+    Colour::Colour_v coledg;
+    node_vt parent;
     node_t next = 0;
   public :
-    BasicTree() noexcept : T(1), nt(1), col(1) {
+    BasicTree() noexcept : T(1), nt(1), col(1), coledg(1), parent(1) {
       assert(T.size() == 1);
       assert(T[0] == TreeNode());
       assert(nt.size() == 1);
       assert(nt[0] == NodeType::undef);
       assert(col.size() == 1);
+      assert(coledg.size() == 1);
+      assert(parent.size() == 1);
     }
     node_t index() const noexcept { return next; }
     node_t next_index() noexcept {
@@ -122,9 +128,13 @@ namespace Trees {
       assert(leaf(t));
       assert(T.size() == nt.size());
       assert(col.size() == nt.size());
-      if (i >= nt.size()) { T.resize(i+1); nt.resize(i+1); col.resize(i+1); }
+      assert(coledg.size() == col.size());
+      if (i >= nt.size()) {
+        T.resize(i+1); nt.resize(i+1); col.resize(i+1); coledg.resize(i+1);
+      }
       nt[i] = t;
       col[i] = (satisfiable(t)) ? sat : unsat;
+      coledg[i] = col[i];
     }
     void add(const node_t i, const TreeNode v, const NodeType t) noexcept {
       assert(validnode(i));
@@ -133,22 +143,31 @@ namespace Trees {
       assert(not leaf(t));
       assert(T.size() == nt.size());
       assert(col.size() == nt.size());
+      assert(coledg.size() == col.size());
       assert(i < T.size());
       T[i] = v; nt[i] = t;
       col[i] = (satisfiable(t)) ? sat : unsat;
+      coledg[i] = col[i];
+      const auto max = std::max(v.l, v.r);
+      if (max >= parent.size()) parent.resize(max+1);
+      parent[v.l] = i; parent[v.r] = i;
     }
     const Tree& tree() const noexcept { return T; }
     const NodeType_v& nodetypes() const noexcept { return nt; }
     const Colour::Colour_v& colours() const noexcept { return col; }
+    const Colour::Colour_v& ecolours() const noexcept { return coledg; }
+    const node_vt& parents() const noexcept { return parent; }
 
     static constexpr Colour::Colour sat{255,255,0,255}; // yello
     static constexpr Colour::Colour unsat{0,0,0,255}; // black
   };
 
   // Outputting the tree-structure information, without closing bracket;
-  // due to Tulip-bug (version 5.2), the node-indices need to start with zero
-  // (these changes are emphasised by bracketing):
-  void output_tree(std::ostream& out, const Tree& T, const std::string& author, const std::string& comment) {
+  // due to Tulip-bug (version 5.2), the node-indices need to start with zero,
+  // as well as the edge-indices, so we subtrackt 1 resp. 2 (these changes
+  // are emphasised by bracketing); and also the output of edges must be
+  // sorted by edge-index:
+  void output_tree(std::ostream& out, const Tree& T, const node_vt& parent, const std::string& author, const std::string& comment) {
     out << "(tlp \"2.3\"\n";
     out << "(date \"" << InOut::timestamp() << "\")\n";
     out << "(author \"" << author << "\")\n";
@@ -157,12 +176,9 @@ namespace Trees {
     const auto numv = T.size()-1;
     out << "(nb_nodes " << numv << ")\n";
     out << "(nodes 0.." << (numv-1) << ")\n";
-    for (node_t i = 1; i < T.size(); ++i) {
-      const TreeNode v = T[i];
-      if (v.l != 0)
-        out << "(edge " << (v.l-1) << " " << (i-1) << " " << (v.l-1) << ")\n";
-      if (v.r != 0)
-        out << "(edge " << (v.r-1) << " " << (i-1) << " " << (v.r-1) << ")\n";
+    for (edge_t e = 2; e < T.size(); ++e) {
+      const node_t target = e, source = parent[target];
+      out << "(edge " << (e-2) << " " << (source-1) << " " << (target-1) << ")\n";
     }
   }
 
@@ -175,11 +191,22 @@ namespace Trees {
       out << "(node " << (i-1) << " \"" << V[i] << "\")\n";
     out << ")\n";
   }
+  template <class PropVec>
+  void output_prop(std::ostream& out, const std::string& proptype, const std::string propname, const PropVec& Vn, const PropVec& Ve) {
+    typedef typename PropVec::value_type prop_t;
+    out << "(property 0 " << proptype << " \"" << propname << "\"\n";
+    out << "(default \"" << prop_t() << "\" \"" << prop_t() << "\")\n";
+    for (node_t i = 1; i < Vn.size(); ++i)
+      out << "(node " << (i-1) << " \"" << Vn[i] << "\")\n";
+    for (edge_t i = 2; i < Ve.size(); ++i)
+      out << "(edge " << (i-2) << " \"" << Ve[i] << "\")\n";
+    out << ")\n";
+  }
 
   void output(std::ostream& out, const BasicTree& T, const std::string& author, const std::string comment) {
-    output_tree(out, T.tree(), author, comment);
+    output_tree(out, T.tree(), T.parents(), author, comment);
     output_nodeprop(out, "int", "type", T.nodetypes());
-    output_nodeprop(out, "color", "viewColor", T.colours());
+    output_prop(out, "color", "viewColor", T.colours(), T.ecolours());
     out << ")\n";
   }
 
