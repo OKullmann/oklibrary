@@ -188,10 +188,10 @@ namespace Trees {
   inline constexpr bool grey(const Colour c) noexcept {
     return c.r == c.g and c.g == c.b;
   }
-  inline constexpr bool white(const Colour c) noexcept {
+  inline constexpr bool black(const Colour c) noexcept {
     return c.r == 0 and c.g == 0 and c.b == 0;
   }
-  inline constexpr bool black(const Colour c) noexcept {
+  inline constexpr bool white(const Colour c) noexcept {
     return c.r == 0xFF and c.g == 0xFF and c.b == 0xFF;
   }
   inline constexpr bool red(const Colour c) noexcept {
