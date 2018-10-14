@@ -170,6 +170,22 @@ int main(const int argc, const char* const argv[]) {
       Trees::output(file, B.T, "ExpQueens, version = " + version, "EnumSquareHeuristics");
       return 0;
     }
+  }  else if (option == "bs") {
+    if (not tree_output) {
+      Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpenRandom> B(ChessBoard::enum_bwsquare(N));
+      const auto rFq = B(Fq);
+      std::cout << rFq;
+      return 0;
+    }
+    else {
+      Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpenRandom, Trees::BasicTree> B(ChessBoard::enum_bwsquare(N));
+      const auto rFq = B(Fq);
+      std::cout << rFq;
+      const std::string filename = "ExpQueens_" + std::to_string(N) + "_Black_White_Square.tlp";
+      std::ofstream file{filename};
+      Trees::output(file, B.T, "ExpQueens, version = " + version, "EnumBWSquareHeuristics");
+      return 0;
+    }
   }
   else if (option == "p") {
     NQueens::PhasedAmoAlo_board Fq(N);

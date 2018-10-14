@@ -151,7 +151,19 @@ namespace ChessBoard {
     for (Var_uint i = 1; i <= NS; ++i) v.push_back(enum_squarenumbering(i));
     return v;
   }
-
+    varvec_t enum_bwsquare(const coord_t N) {
+    varvec_t v;
+    varvec_t bw_v;
+    const Var_uint NS = Var_uint(N) * N;
+    v.reserve(NS);
+    bw_v.reserve(NS);
+    for (Var_uint i = 1; i <= NS; ++i) v.push_back(enum_squarenumbering(i));
+    for (auto i : v)
+      if ((i.first + i.second)%2 == 0) bw_v.push_back(i);
+    for (auto i : v)
+      if ((i.first + i.second)%2 == 1) bw_v.push_back(i);
+    return bw_v;
+  }
 }
 
 #endif
