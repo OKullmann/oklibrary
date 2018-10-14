@@ -13,6 +13,7 @@ License, or any later version. */
 #include <utility>
 #include <array>
 #include <random>
+#include <limits>
 
 #include <cassert>
 #include <cmath>
@@ -108,8 +109,45 @@ namespace Heuristics {
   static_assert(TawHeuristics<>::weight(7) == 0.0694 * std::pow(1.46,-1), "TawHeuristics: weight(7)");
   static_assert(TawHeuristics<>::weight(8) == 0.0694 * std::pow(1.46,-2), "TawHeuristics: weight(7)");
 
+
+  template <class AmoAloInference = NQueens::AmoAlo_board>
+  class AntiTaw : public TawHeuristics<AmoAloInference> {
+    using Base = TawHeuristics<AmoAloInference>;
+    typedef AmoAloInference AmoAlo_board;
+    using Var = ChessBoard::Var;
+    using State = ChessBoard::State;
+  public :
+    using Weight_t = typename Base::Weight_t;
+    using Bp = typename Base::Bp;
+    explicit AntiTaw(const AmoAlo_board& F) noexcept : Base(F) {}
+
+    Var operator()() const noexcept {
+      Weight_t min1 = std::numeric_limits<Weight_t>::infinity(), min2 = min1;
+      Var bv{0,0};
+      for (ChessBoard::coord_t i = 1; i <= Base::F.N; ++i) {
+        if (Base::F.r_rank(i).p != 0) continue;
+        const auto& R = Base::F.board()[i];
+        Var v; v.first = i;
+        for (ChessBoard::coord_t j = 1; j <= Base::F.N ; ++j) {
+          if (R[j] != State::open) continue;
+          v.second = j;
+          const Bp h = Base::heuristics(v);
+          const Weight_t prod = h.first * h.second;
+          if (prod > min1) continue;
+          const Weight_t sum = h.first + h.second;
+          if (prod < min1) min1 = prod;
+          else if (sum >= min2) continue;
+          min2 = sum;
+          bv = v;
+        }
+      }
+      return bv;
+    }
+  };
+
+
   // Choosing the first open variable:
-    class FirstOpen {
+  class FirstOpen {
     using Var = ChessBoard::Var;
     using State = ChessBoard::State;
     public :
@@ -130,40 +168,40 @@ namespace Heuristics {
   };
 
   // Fixing a random order of fields, and choosing the first open variable:
-    class FirstOpenRandom {
-      using Var = ChessBoard::Var;
-      using coord_t = ChessBoard::coord_t;
-      using Var_uint = ChessBoard::Var_uint;
-    public :
-      const NQueens::AmoAlo_board& F;
-      explicit FirstOpenRandom(const NQueens::AmoAlo_board& F) noexcept : F(F) {}
-      Var operator()() const noexcept {
-        assert(Var_uint(F.N) * Var_uint(F.N) == random_permutation.size());
-        for (const Var v : random_permutation) if (F.open(v)) return v;
-        assert(false);
-        return {};
+  class FirstOpenRandom {
+    using Var = ChessBoard::Var;
+    using coord_t = ChessBoard::coord_t;
+    using Var_uint = ChessBoard::Var_uint;
+  public :
+    const NQueens::AmoAlo_board& F;
+    explicit FirstOpenRandom(const NQueens::AmoAlo_board& F) noexcept : F(F) {}
+    Var operator()() const noexcept {
+      assert(Var_uint(F.N) * Var_uint(F.N) == random_permutation.size());
+      for (const Var v : random_permutation) if (F.open(v)) return v;
+      assert(false);
+      return {};
+    }
+    using seed_t = RandGen::seed_t;
+    using vec_seed_t = RandGen::vec_seed_t;
+    static void init(const coord_t N, const vec_seed_t s = vec_seed_t{}) {
+      random_permutation.resize(Var_uint(N) * Var_uint(N));
+      {varvec_t::size_type index = 0;
+       for (coord_t i = 1; i <= N; ++i)
+         for (coord_t j = 1; j <= N; ++j)
+           random_permutation[index++] = {i,j};
       }
-      using seed_t = RandGen::seed_t;
-      using vec_seed_t = RandGen::vec_seed_t;
-      static void init(const coord_t N, const vec_seed_t s = vec_seed_t{}) {
-        random_permutation.resize(Var_uint(N) * Var_uint(N));
-        {varvec_t::size_type index = 0;
-         for (coord_t i = 1; i <= N; ++i)
-           for (coord_t j = 1; j <= N; ++j)
-             random_permutation[index++] = {i,j};
-        }
-        std::seed_seq seq(s.begin(), s.end());
-        RandGen::shuffle(random_permutation.begin(), random_permutation.end(), RandGen::randgen_t(seq));
-      }
-      using varvec_t = ChessBoard::varvec_t;
-      static const varvec_t& permutation() noexcept { return random_permutation; }
-      static void init(varvec_t P) noexcept {
-        random_permutation = P;
-      }
-    private :
-      static varvec_t random_permutation;
-    };
-    FirstOpenRandom::varvec_t FirstOpenRandom::random_permutation;
+      std::seed_seq seq(s.begin(), s.end());
+      RandGen::shuffle(random_permutation.begin(), random_permutation.end(), RandGen::randgen_t(seq));
+    }
+    using varvec_t = ChessBoard::varvec_t;
+    static const varvec_t& permutation() noexcept { return random_permutation; }
+    static void init(varvec_t P) noexcept {
+      random_permutation = P;
+    }
+  private :
+    static varvec_t random_permutation;
+  };
+  FirstOpenRandom::varvec_t FirstOpenRandom::random_permutation;
 
 }
 

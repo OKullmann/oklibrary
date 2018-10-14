@@ -18,7 +18,7 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.4.3";
+const std::string version = "0.4.4";
 const std::string date = "14.10.2018";
 const std::string program = "ExpQueens"
 #ifndef NDEBUG
@@ -95,6 +95,23 @@ int main(const int argc, const char* const argv[]) {
       const std::string filename = "ExpQueens_" + std::to_string(N) + "_Taw_Basic.tlp";
       std::ofstream file{filename};
       Trees::output(file, B.T, "ExpQueens, version = " + version, "TawHeuristics");
+      return 0;
+    }
+  }
+  else if (option == "a") {
+    if (not tree_output) {
+      Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::AntiTaw<>> B;
+      const auto rFq = B(Fq);
+      std::cout << rFq;
+      return 0;
+    }
+    else {
+      Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::AntiTaw<>, Trees::BasicTree> B;
+      const auto rFq = B(Fq);
+      std::cout << rFq;
+      const std::string filename = "ExpQueens_" + std::to_string(N) + "_AntiTaw_Basic.tlp";
+      std::ofstream file{filename};
+      Trees::output(file, B.T, "ExpQueens, version = " + version, "AntiTaw");
       return 0;
     }
   }
