@@ -13,11 +13,12 @@ License, or any later version. */
 
 #include "Backtracking.hpp"
 #include "NQueens.hpp"
+#include "Heuristics.hpp"
 #include "InOut.hpp"
 
 namespace {
 
-const std::string version = "0.4.2";
+const std::string version = "0.4.3";
 const std::string date = "14.10.2018";
 const std::string program = "ExpQueens"
 #ifndef NDEBUG
@@ -82,13 +83,13 @@ int main(const int argc, const char* const argv[]) {
   NQueens::AmoAlo_board Fq(N);
   if (option == "") {
     if (not tree_output) {
-      Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::TawHeuristics<>> B;
+      Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::TawHeuristics<>> B;
       const auto rFq = B(Fq);
       std::cout << rFq;
       return 0;
     }
     else {
-      Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::TawHeuristics<>, Trees::BasicTree> B;
+      Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::TawHeuristics<>, Trees::BasicTree> B;
       const auto rFq = B(Fq);
       std::cout << rFq;
       const std::string filename = "ExpQueens_" + std::to_string(N) + "_Taw_Basic.tlp";
@@ -99,13 +100,13 @@ int main(const int argc, const char* const argv[]) {
   }
   else if (option == "f") {
     if (not tree_output) {
-      Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpen> B;
+      Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::FirstOpen> B;
       const auto rFq = B(Fq);
       std::cout << rFq;
       return 0;
     }
     else {
-      Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpen, Trees::BasicTree> B;
+      Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::FirstOpen, Trees::BasicTree> B;
       const auto rFq = B(Fq);
       std::cout << rFq;
       const std::string filename = "ExpQueens_" + std::to_string(N) + "_First_Basic.tlp";
@@ -117,15 +118,15 @@ int main(const int argc, const char* const argv[]) {
   else if (option == "r") {
     if (not tree_output) {
       if (argc == 3) {
-        Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpenRandom> B(N);
+        Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::FirstOpenRandom> B(N);
         const auto rFq = B(Fq);
         std::cout << rFq;
         return 0;
       } else {
-        typedef NQueens::FirstOpenRandom::seed_t seed_t;
+        typedef Heuristics::FirstOpenRandom::seed_t seed_t;
         const seed_t seed = std::stoul(argv[3]);
-        typedef NQueens::FirstOpenRandom::vec_seed_t vec_seed_t;
-        Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpenRandom> B(N,vec_seed_t{{seed}});
+        typedef Heuristics::FirstOpenRandom::vec_seed_t vec_seed_t;
+        Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::FirstOpenRandom> B(N,vec_seed_t{{seed}});
         const auto rFq = B(Fq);
         std::cout << rFq;
         return 0;
@@ -133,7 +134,7 @@ int main(const int argc, const char* const argv[]) {
     }
     else {
       if (argc == 3) {
-        Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpenRandom, Trees::BasicTree> B(N);
+        Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::FirstOpenRandom, Trees::BasicTree> B(N);
         const auto rFq = B(Fq);
         std::cout << rFq;
         const std::string filename = "ExpQueens_" + std::to_string(N) + "_Random_Basic.tlp";
@@ -141,10 +142,10 @@ int main(const int argc, const char* const argv[]) {
         Trees::output(file, B.T, "ExpQueens, version = " + version, "RandomHeuristics");
         return 0;
       } else {
-        typedef NQueens::FirstOpenRandom::seed_t seed_t;
+        typedef Heuristics::FirstOpenRandom::seed_t seed_t;
         const seed_t seed = std::stoul(argv[3]);
-        typedef NQueens::FirstOpenRandom::vec_seed_t vec_seed_t;
-        Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpenRandom, Trees::BasicTree> B(N,vec_seed_t{{seed}});
+        typedef Heuristics::FirstOpenRandom::vec_seed_t vec_seed_t;
+        Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::FirstOpenRandom, Trees::BasicTree> B(N,vec_seed_t{{seed}});
         const auto rFq = B(Fq);
         std::cout << rFq;
         const std::string filename = "ExpQueens_" + std::to_string(N) + "_Random_" + std::to_string(seed) + "_Basic.tlp";
@@ -156,13 +157,13 @@ int main(const int argc, const char* const argv[]) {
   }
   else if (option == "s") {
     if (not tree_output) {
-      Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpenRandom> B(ChessBoard::enum_square(N));
+      Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::FirstOpenRandom> B(ChessBoard::enum_square(N));
       const auto rFq = B(Fq);
       std::cout << rFq;
       return 0;
     }
     else {
-      Backtracking::CountSat<NQueens::AmoAlo_board, NQueens::FirstOpenRandom, Trees::BasicTree> B(ChessBoard::enum_square(N));
+      Backtracking::CountSat<NQueens::AmoAlo_board, Heuristics::FirstOpenRandom, Trees::BasicTree> B(ChessBoard::enum_square(N));
       const auto rFq = B(Fq);
       std::cout << rFq;
       const std::string filename = "ExpQueens_" + std::to_string(N) + "_Square_Basic.tlp";
@@ -173,7 +174,7 @@ int main(const int argc, const char* const argv[]) {
   }
   else if (option == "p") {
     NQueens::PhasedAmoAlo_board Fq(N);
-    Backtracking::CountSat<NQueens::PhasedAmoAlo_board, NQueens::TawHeuristics<NQueens::PhasedAmoAlo_board>> B;
+    Backtracking::CountSat<NQueens::PhasedAmoAlo_board, Heuristics::TawHeuristics<NQueens::PhasedAmoAlo_board>> B;
     const auto rFq = B(Fq);
     std::cout << rFq;
     return 0;
