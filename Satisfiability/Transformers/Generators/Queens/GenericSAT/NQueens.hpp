@@ -38,6 +38,9 @@ License, or any later version. */
 
 */
 
+#ifndef NQUEENS_4WuKbxqFgV
+#define NQUEENS_4WuKbxqFgV
+
 #include <stack>
 #include <vector>
 #include <utility>
@@ -849,3 +852,5 @@ namespace NQueens {
     FirstOpenRandom::varvec_t FirstOpenRandom::random_permutation;
 
 }
+
+#endif
