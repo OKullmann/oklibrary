@@ -21,8 +21,10 @@ License, or any later version. */
 #include <string>
 
 #include <cstdint>
+#include <cassert>
 
 #include "InOut.hpp"
+#include "Colour.hpp"
 
 namespace Trees {
 
@@ -96,13 +98,15 @@ namespace Trees {
   class BasicTree {
     Tree T;
     NodeType_v nt;
+    Colour::Colour_v col;
     node_t next = 0;
   public :
-    BasicTree() noexcept : T(1), nt(1) {
+    BasicTree() noexcept : T(1), nt(1), col(1) {
       assert(T.size() == 1);
       assert(T[0] == TreeNode());
       assert(nt.size() == 1);
       assert(nt[0] == NodeType::undef);
+      assert(col.size() == 1);
     }
     node_t index() const noexcept { return next; }
     node_t next_index() noexcept {
@@ -117,8 +121,10 @@ namespace Trees {
       assert(validnode(i));
       assert(leaf(t));
       assert(T.size() == nt.size());
-      if (i >= nt.size()) { T.resize(i+1); nt.resize(i+1); }
+      assert(col.size() == nt.size());
+      if (i >= nt.size()) { T.resize(i+1); nt.resize(i+1); col.resize(i+1); }
       nt[i] = t;
+      col[i] = (satisfiable(t)) ? sat : unsat;
     }
     void add(const node_t i, const TreeNode v, const NodeType t) noexcept {
       assert(validnode(i));
@@ -126,11 +132,17 @@ namespace Trees {
       assert(not leaf(v));
       assert(not leaf(t));
       assert(T.size() == nt.size());
+      assert(col.size() == nt.size());
       assert(i < T.size());
       T[i] = v; nt[i] = t;
+      col[i] = (satisfiable(t)) ? sat : unsat;
     }
     const Tree& tree() const noexcept { return T; }
     const NodeType_v& nodetypes() const noexcept { return nt; }
+    const Colour::Colour_v& colours() const noexcept { return col; }
+
+    static constexpr Colour::Colour sat{255,255,0,255}; // yello
+    static constexpr Colour::Colour unsat{0,0,0,255}; // black
   };
 
   // Outputting the tree-structure information, without closing bracket;
@@ -167,41 +179,8 @@ namespace Trees {
   void output(std::ostream& out, const BasicTree& T, const std::string& author, const std::string comment) {
     output_tree(out, T.tree(), author, comment);
     output_nodeprop(out, "int", "type", T.nodetypes());
+    output_nodeprop(out, "color", "viewColor", T.colours());
     out << ")\n";
-  }
-
-  // Colours with opacity as in Tulip
-
-  typedef std::uint8_t rgba_index;
-  struct Colour {
-    rgba_index r, g, b, a;
-  };
-  static_assert(std::is_pod<Colour>::value, "Colour is not POD.");
-
-  inline constexpr bool operator ==(const Colour lhs, const Colour rhs) noexcept {
-    return lhs.r == rhs.r and lhs.g == rhs.g and lhs.b == rhs.b and lhs.a == rhs.a;
-  }
-  inline constexpr bool operator !=(const Colour lhs, const Colour rhs) noexcept {
-    return lhs.r != rhs.r or lhs.g != rhs.g or lhs.b != rhs.b or lhs.a != rhs.a;
-  }
-
-  inline constexpr bool grey(const Colour c) noexcept {
-    return c.r == c.g and c.g == c.b;
-  }
-  inline constexpr bool black(const Colour c) noexcept {
-    return c.r == 0 and c.g == 0 and c.b == 0;
-  }
-  inline constexpr bool white(const Colour c) noexcept {
-    return c.r == 0xFF and c.g == 0xFF and c.b == 0xFF;
-  }
-  inline constexpr bool red(const Colour c) noexcept {
-    return c.r != 0 and c.g == 0 and c.b == 0;
-  }
-  inline constexpr bool green(const Colour c) noexcept {
-    return c.r == 0 and c.g != 0 and c.b == 0;
-  }
-  inline constexpr bool blue(const Colour c) noexcept {
-    return c.r == 0 and c.g == 0 and c.b != 0;
   }
 
 }
