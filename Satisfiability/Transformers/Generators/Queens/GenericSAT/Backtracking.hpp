@@ -23,6 +23,7 @@ License, or any later version. */
 #include <cassert>
 
 #include "ChessBoard.hpp"
+#include "Trees.hpp"
 
 namespace Backtracking {
 
@@ -47,8 +48,9 @@ namespace Backtracking {
          "c HortonStrahler                        " << stats.hs << "\n";
   }
 
-  template <class ActiveClauseSet, class Branching>
+  template <class ActiveClauseSet, class Branching, class Tree = Trees::NoOpTree>
   struct CountSat {
+    Tree T;
     using ACLS = ActiveClauseSet;
 
     CountSat() = default;
@@ -63,15 +65,19 @@ namespace Backtracking {
       Branching::init(N,bi);
     }
 
-    Statistics operator()(ACLS F) const {
+    Statistics operator()(ACLS F) {
+      const auto root_index = T.next_index();
+      using NT = Trees::NodeType;
       Statistics stats{0,1,0,0,0,0};
       if (F.satisfied()) {
         stats.solutions = std::pow(2, F.n() - F.nset());
         stats.maxsat_nodes = 1;
+        T.add(root_index, NT::sl);
         return stats;
       }
       if (F.falsified()) {
         stats.maxusat_nodes = 1;
+        T.add(root_index, NT::ul);
         return stats;
       }
       const ChessBoard::Var bv = Branching(F)();
@@ -79,16 +85,21 @@ namespace Backtracking {
       ACLS G(F); G.set(bv, false);
       const Statistics stats0 = operator()(std::move(G));
       stats.solutions += stats0.solutions;
-      stats.nodes +=stats0.nodes;
+      stats.nodes += stats0.nodes;
       F.set(bv, true);
+      const auto right_index = T.index()+1;
       const Statistics stats1 = operator()(std::move(F));
       stats.solutions += stats1.solutions;
       stats.nodes +=stats1.nodes;
       stats.height = std::max(stats0.height, stats1.height) + 1;
-      if (stats0.solutions == 0 and stats1.solutions == 0)
+      if (stats0.solutions == 0 and stats1.solutions == 0) {
         stats.maxusat_nodes = 1 + stats0.maxusat_nodes + stats1.maxusat_nodes;
-      else
+        T.add(root_index, {root_index+1, right_index}, NT::ui);
+      }
+      else {
         stats.maxusat_nodes = std::max(stats0.maxusat_nodes, stats1.maxusat_nodes);
+        T.add(root_index, {root_index+1, right_index}, NT::si);
+      }
       if (stats0.maxusat_nodes == 0 and stats1.maxusat_nodes == 0)
         stats.maxsat_nodes = 1 + stats0.maxsat_nodes + stats1.maxsat_nodes;
       else

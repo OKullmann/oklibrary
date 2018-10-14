@@ -160,7 +160,7 @@ namespace Trees {
     out << "(property 0 " << proptype << " \"" << propname << "\"\n";
     out << "(default \"" << prop_t() << "\" \"" << prop_t() << "\")\n";
     for (node_t i = 1; i < V.size(); ++i)
-      out << "(node " << i << " \"" << V[i] << "\")\n";
+      out << "(node " << (i-1) << " \"" << V[i] << "\")\n";
     out << ")\n";
   }
 
