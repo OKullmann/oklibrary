@@ -11,12 +11,13 @@ License, or any later version. */
 #include "ChessBoard.hpp"
 #include "Backtracking.hpp"
 #include "NQueens.hpp"
+#include "Heuristics.hpp"
 #include "InOut.hpp"
 
 namespace {
 
-const std::string version = "0.4.2";
-const std::string date = "1.9.2018";
+const std::string version = "0.4.3";
+const std::string date = "14.10.2018";
 const std::string program = "SimTaw"
 #ifndef NDEBUG
   "_debug"
@@ -28,21 +29,18 @@ const std::string error = "ERROR[" + program + "]: ";
 
 int main(const int argc, const char* const argv[]) {
 
-  using namespace ChessBoard;
-  using namespace NQueens;
-
-  const coord_t N = InOut::interprete(argc, argv, error);
+  const ChessBoard::coord_t N = InOut::interprete(argc, argv, error);
   if (argc == 2) {
-    typedef AmoAlo_board AmoAlo;
+    typedef NQueens::AmoAlo_board AmoAlo;
     AmoAlo Fq(N);
-    Backtracking::CountSat<AmoAlo, TawHeuristics<AmoAlo>> B;
+    Backtracking::CountSat<AmoAlo, Heuristics::TawHeuristics<AmoAlo>> B;
     const auto rFq = B(Fq);
     std::cout << rFq.solutions << " " << rFq.nodes << "\n";
     return 0;
   } else {
-    typedef PhasedAmoAlo_board AmoAlo;
+    typedef NQueens::PhasedAmoAlo_board AmoAlo;
     AmoAlo Fq(N);
-    Backtracking::CountSat<AmoAlo, TawHeuristics<AmoAlo>> B;
+    Backtracking::CountSat<AmoAlo, Heuristics::TawHeuristics<AmoAlo>> B;
     const auto rFq = B(Fq);
     std::cout << rFq.solutions << " " << rFq.nodes << "\n";
     return 0;

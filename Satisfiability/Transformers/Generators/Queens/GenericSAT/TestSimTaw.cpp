@@ -12,10 +12,12 @@ License, or any later version. */
 
 #include "Backtracking.hpp"
 #include "NQueens.hpp"
+#include "Heuristics.hpp"
 #include "Trees.hpp"
 
 int main() {
   using namespace NQueens;
+  using namespace Heuristics;
   using namespace ChessBoard;
   using namespace Backtracking;
   using namespace Trees;

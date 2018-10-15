@@ -12,6 +12,7 @@ License, or any later version. */
 
 #include "Backtracking.hpp"
 #include "NQueens.hpp"
+#include "Heuristics.hpp"
 #include "NQueensPartial.hpp"
 
 namespace {
@@ -22,7 +23,7 @@ namespace {
 }
 
 int main(const int argc, const char* const argv[]) {
-  typedef Backtracking::CountSat<NQueens::BasicACLS, NQueens::BasicBranching> Backtracking_q;
+  typedef Backtracking::CountSat<NQueens::BasicACLS, Heuristics::BasicBranching> Backtracking_q;
 
   const ChessBoard::coord_t N = interprete(argc, argv);
   NQueens::BasicACLS Fq(N);
