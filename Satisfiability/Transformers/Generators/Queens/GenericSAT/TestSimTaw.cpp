@@ -332,4 +332,76 @@ int main() {
     std::stringstream out;
     output(out, T, "OK", "Test");
   }
+  {
+    const AmoAlo_board F(3);
+    assert(F.N == 3);
+    assert(F.t_rank().o == 9);
+    assert(F.t_rank().p == 0);
+    assert(F.t_rank().f == 0);
+    const Var v11{1,1};
+    assert(F.odegree(v11) == 6);
+    AntiTaw<> h(F);
+    assert(h.heuristics(v11) == AntiTaw<>::Bp(6*4.85, 2*1));
+    const ChessBoard::Var bv = Heuristics::AntiTaw(F)();
+    assert(bv == v11);
+  }
+  {
+    AmoAlo_board F(3);
+    const Var v11{1,1};
+    F.set(v11,false);
+    AntiTaw<> h(F);
+    {const ChessBoard::Var bv = Heuristics::AntiTaw(F)();
+     assert(bv.first == 3 and bv.second == 3);
+     assert(h.heuristics(bv) == AntiTaw<>::Bp(5*4.85, 2*1));
+     F.set(bv,false);}
+    {const ChessBoard::Var bv = Heuristics::AntiTaw(F)();
+     assert(bv.first == 2 and bv.second == 2);
+     assert(h.heuristics(bv) == AntiTaw<>::Bp(6*4.85, 2*1));
+     F.set(bv,false);}
+    {const ChessBoard::Var bv = Heuristics::AntiTaw(F)();
+     assert(bv.first == 1 and bv.second == 3);
+     assert(h.heuristics(bv) == AntiTaw<>::Bp(3*4.85, 2*4.85));
+     F.set(bv,false);}
+    assert(F.falsified());
+    const AmoAlo_board FC(F);
+    assert(FC.board({1,1}) == State::forbidden);
+    assert(FC.board({1,2}) == State::forbidden);
+    assert(FC.board({1,3}) == State::forbidden);
+    assert(FC.board({2,1}) == State::forbidden);
+    assert(FC.board({2,2}) == State::forbidden);
+    assert(FC.board({2,3}) == State::placed);
+    assert(FC.board({3,1}) == State::open);
+    assert(FC.board({3,2}) == State::open);
+    assert(FC.board({3,3}) == State::forbidden);
+  }
+  {
+    AmoAlo_board F(4);
+    AntiTaw<> h(F);
+    {const ChessBoard::Var bv = Heuristics::AntiTaw(F)();
+     assert(bv.first == 1 and bv.second == 1);
+     assert(h.heuristics(bv) == AntiTaw<>::Bp(9*4.85, 2*0.354));
+     F.set(bv,true);}
+    {const ChessBoard::Var bv = Heuristics::AntiTaw(F)();
+     assert(bv.first == 2 and bv.second == 4);
+     assert(h.heuristics(bv) == AntiTaw<>::Bp(3*4.85, 2*4.85));
+     F.set(bv,true);}
+    assert(F.falsified());
+    const AmoAlo_board FC(F);
+    assert(FC.board({1,1}) == State::placed);
+    assert(FC.board({1,2}) == State::forbidden);
+    assert(FC.board({1,3}) == State::forbidden);
+    assert(FC.board({1,4}) == State::forbidden);
+    assert(FC.board({2,1}) == State::forbidden);
+    assert(FC.board({2,2}) == State::forbidden);
+    assert(FC.board({2,3}) == State::forbidden);
+    assert(FC.board({2,4}) == State::placed);
+    assert(FC.board({3,1}) == State::forbidden);
+    assert(FC.board({3,2}) == State::placed);
+    assert(FC.board({3,3}) == State::forbidden);
+    assert(FC.board({3,4}) == State::forbidden);
+    assert(FC.board({4,1}) == State::forbidden);
+    assert(FC.board({4,2}) == State::forbidden);
+    assert(FC.board({4,3}) == State::forbidden);
+    assert(FC.board({4,4}) == State::forbidden);
+  }
 }
