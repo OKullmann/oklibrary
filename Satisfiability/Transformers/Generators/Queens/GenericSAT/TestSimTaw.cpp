@@ -349,15 +349,18 @@ int main() {
     AmoAlo_board F(3);
     const Var v11{1,1};
     F.set(v11,false);
+    assert(not F.falsified());
     AntiTaw<> h(F);
     {const ChessBoard::Var bv = Heuristics::AntiTaw(F)();
      assert(bv.first == 3 and bv.second == 3);
      assert(h.heuristics(bv) == AntiTaw<>::Bp(5*4.85, 2*1));
      F.set(bv,false);}
+    assert(not F.falsified());
     {const ChessBoard::Var bv = Heuristics::AntiTaw(F)();
      assert(bv.first == 2 and bv.second == 2);
      assert(h.heuristics(bv) == AntiTaw<>::Bp(6*4.85, 2*1));
      F.set(bv,false);}
+    assert(not F.falsified());
     {const ChessBoard::Var bv = Heuristics::AntiTaw(F)();
      assert(bv.first == 1 and bv.second == 3);
      assert(h.heuristics(bv) == AntiTaw<>::Bp(3*4.85, 2*4.85));
@@ -381,6 +384,7 @@ int main() {
      assert(bv.first == 1 and bv.second == 1);
      assert(h.heuristics(bv) == AntiTaw<>::Bp(9*4.85, 2*0.354));
      F.set(bv,true);}
+     assert(not F.falsified());
     {const ChessBoard::Var bv = Heuristics::AntiTaw(F)();
      assert(bv.first == 2 and bv.second == 4);
      assert(h.heuristics(bv) == AntiTaw<>::Bp(3*4.85, 2*4.85));
