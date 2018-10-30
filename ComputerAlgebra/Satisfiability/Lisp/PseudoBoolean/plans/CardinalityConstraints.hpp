@@ -274,8 +274,8 @@ is(Csa);
        <li> So setting one x_i to true forces all s_j for i <= j <= n-1 to be
        true, while otherwise they are undetermined (up to monotonicity). </li>
        <li> Making it uep: for counting this is needed. Can happen by using
-         s_{i+1} = s_i v x_i, that is, adding the clauses
-         -s_{i+1} v s_i v x_i for (i <= i <= n-1).
+         s_{i+1} = s_i v x_{i+1}, that is, adding the clauses
+         -s_{i+1} v s_i v x_{i+1} for (i <= i <= n-1).
        </li>
        <li> One can save s_1, instead having
          -x_1 v -x_2
