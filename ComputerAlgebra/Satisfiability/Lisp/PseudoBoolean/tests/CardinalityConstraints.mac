@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 16.7.2009 (Swansea) */
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,25 +12,6 @@ License, or any later version. */
 Use by
 
 oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/tests/CardinalityConstraints.mac");
-
-  \bug DONE All tests regarding UCP (and unary encoding) must be removed.
-  <ul>
-   <li> MG : All tests? Or just those relating to the unproven
-   assertion that any forced assignment follows by UCP (and not just forced
-   assignments under partial assignments using only the original
-   variables)? </li>
-   <li> All tests: UCP has nothing to do with these functions. </li>
-  </ul>
-
-
-  \todo DONE The text below regarding unary encoding needs a complete update.
-  <ul>
-   <li> Tests are now in line with other tests and any specification
-   necessary is done in the main Cardinality.mac file. </li>
-  </ul>
-
-
-  \bug DONE okltest_unary_bb_totaliser_r_fcl_comb is a no-op
 
 */
 
@@ -111,6 +92,7 @@ okltest_direct_crd2cl_lt(f) := (
   assert(f([[1,2],[2,2]],3) = [{-1,-2}]),
   assert(f([[1,2],[2,2]],4) = [{-1,-2}]),
   assert(f([[1,2],[2,2]],5) = []),
+  assert(f([[1,1],[2,1],[3,1],[4,1],[5,1]],2) = [{-2,-1},{-3,-1},{-4,-1},{-5,-1},{-3,-2},{-4,-2},{-5,-2},{-4,-3},{-5,-3},{-5,-4}]),
   /* XXX */
   true)$
 
