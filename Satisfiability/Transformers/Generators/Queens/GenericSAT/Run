@@ -2,7 +2,7 @@ set -o errexit
 set -o nounset
 
 program="Run"
-version="0.2.4"
+version="0.2.5"
 
 scriptdir=$(dirname "$0")
 executable="${scriptdir}/ExpQueens"
@@ -10,14 +10,15 @@ numlines=6 # number of c-lines of $executable
 
 numargs=$#
 if (( numargs == 0 )); then
-  echo -e "USAGE:\n ${program} N [...]\n further parameters \"...\" passed to $executable"
+  echo -e "USAGE:\n ${program} N_i N_f [...]\n further parameters \"...\" passed to $executable"
   exit 0
 fi
 
-N=$1
+
+N_i=$1
 shift
-
-
+N_f=$1
+shift
 
 timestamp=$(date "+%F_%H-%M-%S")
 logfile="${program}_${timestamp}"
@@ -30,7 +31,8 @@ echo "${program} in version ${version}" > ${logfile}
 echo "pid=$$" >> ${logfile}
 
 echo "Parameters:" >> ${logfile}
-echo "  N=$N" >> ${logfile}
+echo "  N_i=$N_i" >> ${logfile}
+echo "  N_f=$N_f" >> ${logfile}
 if (( $# > 0 )); then
   echo "  Further parameters: \"$@\"" >> ${logfile}
 fi
@@ -39,7 +41,8 @@ echo "Executable: \"${executable}\"" >> ${logfile}
 ${executable} -v >> ${logfile}
 echo >> ${logfile}
 
-for ((i=1; i<=N; ++i)); do
+
+for ((i=N_i; i<=N_f; ++i)); do
   echo "c N $i" >> ${logfile}
   ${timingtool} ${executable} $i "$@" |& awk "${awkargument}" >> ${logfile}
   echo >> ${logfile}
