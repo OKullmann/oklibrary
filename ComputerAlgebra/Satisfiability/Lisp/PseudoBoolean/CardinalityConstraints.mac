@@ -26,6 +26,8 @@ oklib_load("OKlib/ComputerAlgebra/Satisfiability/Lisp/PseudoBoolean/CardinalityC
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/PrimeImplicatesImplicants.mac")$
 
 
 /*
@@ -37,7 +39,8 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
   A crd is "repetition-free", if no literal in L occurs more than once.
   A crd is "non-tautological", if there are no clashing literals.
-  A crd is "normal" if it is repetion-free and non-tautological.
+  A crd is "normal" if it is repetion-free and non-tautological; this is
+  the same as an ordered clause.
 
 */
 
@@ -290,9 +293,90 @@ direct_eo2cl(L) := append(direct_amo2cl(L), direct_alo2cl(L))$
    c=0,1,3,6 clauses.
 */
 
-/* length(V) >= length(L) - 2: */
-seq_amo2cl(L,V.k) := if length(L) <= k then direct_amo2cl(L) else
+/* Checking whether the clause-set F represents amo(L): */
+represents_amo_p(L,F) := block([L : setify(L), V], V:var_c(L),
+  is(subset(prime_clauses_cs(F), lambda([C], subsetp(var_c(C), V))) =
+     powerset(comp_sl(L), 2)))$
 
+/*
+  The following generalises the "commander encoding" together with the
+  "sequential encoding", obtaining only n/2 auxiliary variables as by the
+  first, and only 3n clauses as by the second. The first is improved by
+  noticing that we do not always need commander-variables ("w" in the
+  following), while the second is improved (and simplified) by just removing
+  repeatedly 3 literals from L, using only 1 auxiliary variable.
+
+  First some general theory, leading finally to the simple form (as such
+  apparently not in the literature) seq_amo2cl(L).
+
+  amo_u(L,w), for a normal list L of literals and a variable w not present
+  in L, asks for a representation of amo(L) such that for every total
+  assignment of L with exactly one true literal the literal w is forced
+  (to be true).
+  If we split L into L1, L2, then we have
+    - amo(L) is represented by
+        (amo_u(L1,w) and amo(append(L2,w)))
+    - amo_u(L,w) is represented by
+        (amo_u(L1,w1) and amo_u(L2,w2) and
+           (-w1 or -w2) and (w1 -> w) and (w2 -> w)).
+
+  As usual, the representations use disjoint auxiliary variables.
+
+  For small L the following representations are optimal w.r.t. the number
+  of clauses *and* the number of auxiliary variables (zero):
+   - L = [x] : amo(L) = {}, amo_u(L,w) = {{x -> w}}.
+   - L = [x,y]: amo(L) = {{-x,-y}},
+                amo_u(L,w) = {{-x,-y},{x->w},{y->w}}
+   - L = [x,y,z]: amo(L) = {{-x,-y},{-x,-z},{-y,-z}}
+                  amo_u(L,w) = amo(L) cup {{x->w},{y->w},{z->w}}.
+  For length(L)=4, the prime-implicates representation still is optimal in
+  both respects (6 clauses, 0 auxiliary variables), while for amo_u(L,w)
+  we have two choices:
+   1. Zero auxiliaries, 10 clauses: amo(L) + the four implications.
+   2. Two auxiliaries, 9 clauses, using the above splitting:
+
+        amo_u([a,b,c,d], w) is represented by
+          amo_u([a,b], w1) and amo_u([c,d],w2) and 3 clauses, making
+          3+3+3=9 clauses and two auxiliaries w1,w2.
+
+  A *proof* is needed that indeed these are the two minimal choices.
+
+*/
+
+/* Determining the number of clauses and variables, in principle in general: */
+
+crec_amo_2(n) := if n <= 4 then binomial(n,2) else
+ block([l : 3, r], r:n-l, crec_amou_2(l) + crec_amo_2(r+1))$
+/* This yields precisely 3n-6, and this seems independent of the
+   splitting strategy (say l : ceiling(n/2) or other choices). */
+crec_amou_2(n) := if n <= 4 then (n-1)*3 else
+ block([l : 3, r], r:n-l, crec_amou_2(l) + crec_amou_2(r) + 3)$
+/* This yields precisely (n-1)*3, again independently of the splitting
+   (but not used for the above). */
+
+/* The following is dependent on the splitting, and with the given choice
+   achieves less then n/2 (note that the clause-count is not affected): */
+nauxrec_amo_2(n) := if n <= 4 then 0 else
+ block([l : 3, r], r:n-l, nauxrec_amou_2(l) + nauxrec_amo_2(r+1))$
+/* This yields precisely floor((n-1)/2)-1. */
+nauxrec_amou_2(n) := if n <= 3 then 1 elseif n=4 then 3 else
+ block([l : 3, r], r:n-l, nauxrec_amou_2(l) + nauxrec_amou_2(r) + 1)$
+/* This yields precisely 2*floor((n+2)/3)-1 (but not used for the above). */
+
+/* The simplified "sequential+commander encoding of amo(L)": */
+naux_seqamo(n) := floor((n-1)/2)-1$
+/* Using a list V of auxiliary variables with length(V) >= naux_seqamo(n): */
+seq_amov2cl(L,V) := block([n : length(L), w, B],
+ if n <= 4 then return(direct_amo2cl(L)),
+ w : first(V), V : rest(V),
+ B : take_l(3, L), L : rest(L,3), L : cons(w,L),
+ append(direct_amo2cl(B), create_list({-x,w}, x,B), seq_amov2cl(L,V)))$
+/* Providing the list of auxiliary variables: */
+seq_amo2cl(L) := block([n : naux_seqamo(length(L)), V, v],
+ if n<=0 then return(seq_amov2cl(L,[])),
+ V : map(abs, sublist(L, integerp)),
+ if emptyp(V) then v:0 else v:lmax(V),
+ seq_amov2cl(L, create_list(v+i, i,1,n)))$
 
 /*!
 \endhtmlonly

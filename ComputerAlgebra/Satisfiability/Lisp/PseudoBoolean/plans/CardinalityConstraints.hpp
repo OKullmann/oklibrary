@@ -280,6 +280,7 @@ is(Csa);
        s_i -> s_{i+1} for k <= i <= n-2
        s_i -> -x_{i+1} for k <= i <= n-1
 
+     Call this L_k (with the above being L_1 resp. L_2).
      This makes n-k new variables and
        binomial(k,2) + (k-1) + (n-k)+(n-(k+1))+(n-k) = 3n + (k^2-5k-4)/2
      binary clauses. The values of k -> (k^2-5k-4)/2 are -4,-5,-5,-4,-2.
@@ -294,7 +295,46 @@ is(Csa);
        s_3 -> -x_4.
 
      </li>
-     <li> It is claimed that 3n-6 is possible.
+     <li> [Kuzera et al 2017] has a variation achieving 3n-6.
+      <ol>
+       <li> One can extract a general principle, a kind of divide-and-conquer,
+       as follows. </li>
+       <li> Consider a set V of variables, with a partitioning V = V_1+V_2.
+       Let n = |V|, n_i = |V_i|. </li>
+       <li> Let w a new variable. Let amo_u(V,w) ("u" for upper bound) mean
+       that V is amo (possibly via new variables) and w >= sup(V). </li>
+       <li> Now amo(V) is established by
+              amo_u(V_1,w) and amo(V_2 + w).
+       </li>
+       <li> Via L_k + 2 clauses we get amo_u with w=v_n, makes c=3n-3 (for k=
+       2 or 3), where n=n_1 (the w comes for "free"). </li>
+       <li> For amo(V_2_w) we use the direct form, with binomial(n_2+1,2)
+       many clauses. </li>
+       <li> So we get
+         (3 n_1 - 3) + binom(n_2 + 1, 2)
+       many clauses. Let k = n_2. So we have to minimise
+         (3 (n - k) - 3) + binom(k+1, 2) = 3n - 3k - 3 + k*(k+1)/2.
+       </li>
+       <li> The minimum of -3k-3+k(k+1)/2 is obtained for k=3, yielding -6.
+       So we get the desired 3n-6. </li>
+       <li> The number of additional variables is (n-k)-3+1 = n-5, which is
+       a bit better than their n-3. </li>
+       <li> To bring it all together:
+        <ol>
+         <li> For n <= 4 no auxiliary variables are used. </li>
+         <li> For n = 5 one auxiliary variable w is used, with amo(1+3) using
+         6 clauses, and amo_u(2,w) using 1+2=3 clauses, makes together 9
+         clauses. </li>
+         <li> For n = 6 again amo(1+3) is used, and amo_u(3,w), using e.g.
+         the direct translation with 3 clauses and 3 further clauses for w,
+         which makes altogether 6 + 6 = 12 clauses, and again only 1 auxilary
+         variable. </li>
+         <li> Finally for n >= 7 we use amo(1+3) and amo_u(n-3,w) with the
+         above L_3+w, yielding 3(n-3)-3+6 = 3n-6 clauses and n-3-2=n-5
+         auxiliary variables. </li>
+        </ol>
+       </li>
+      </ol>
      </li>
      <li> The meaning of the equivalent boolean function
      f(x_1,...,x_n, s_1,...,s_{n-1}) is
