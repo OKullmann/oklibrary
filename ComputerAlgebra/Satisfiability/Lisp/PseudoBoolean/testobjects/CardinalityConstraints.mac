@@ -1,5 +1,5 @@
 /* Matthew Gwynne, 16.7.2009 (Swansea) */
-/* Copyright 2009, 2010 Oliver Kullmann
+/* Copyright 2009, 2010, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -49,6 +49,15 @@ okltest_unary_bb_totaliser_fcl(unary_bb_totaliser_fcl);
 okltest_unary_bb_totaliser_r_fcl(unary_bb_totaliser_r_fcl);
 okltest_unary_bb_comparator_fcl(unary_bb_comparator_fcl);
 okltest_unary_bb_crd2fcl(unary_bb_crd2fcl);
+
+/* ********************
+   * AMO translations *
+   ********************
+*/
+
+okltest_direct_amo2cl(direct_amo2cl);
+okltest_direct_alo2cl(direct_alo2cl);
+okltest_direct_eo2cl(direct_eo2cl);
 
 /*!
 \endhtmlonly

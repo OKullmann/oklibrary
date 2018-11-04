@@ -257,6 +257,45 @@ is(Csa);
        <li> s_i -> -x_{i+1} for 1 <= i <= n-1. </li>
       </ol>
      </li>
+     <li> This makes n-1 new variables, and (n-1)+(n-2)+(n-1)=3n-4 binary
+     clauses, for n >= 2. </li>
+     <li> One can save s_1, instead having
+       -x_1 v -x_2
+       x_1 -> s_2
+       x_i -> s_i for 2 <= i <= n-1
+       s_i -> s_{i+1} for 2 <= i <= n-2
+       s_i -> -x_{i+1} for 2 <= i <= n-1
+       (plus -s_2 v x_1 v x_2 for uep; see below).
+
+       This makes n-2 new variables and 2+(n-2)+(n-3)+(n-2)=3n-5 binary
+       clauses, for n >= 3.
+     </li>
+     <li> More generally, we can use P(x_1,...,x_k) for the direct
+     representation via the prime implicates for the first k variables (the
+     above two forms use k=1 resp. k=2), using additional variables
+     s_k, ..., s_{n-1}, with the additional clauses
+
+       x_i -> s_k for 1 <= i <= k-1
+       x_i -> s_i for k <= i <= n-1
+       s_i -> s_{i+1} for k <= i <= n-2
+       s_i -> -x_{i+1} for k <= i <= n-1
+
+     This makes n-k new variables and
+       binomial(k,2) + (k-1) + (n-k)+(n-(k+1))+(n-k) = 3n + (k^2-5k-4)/2
+     binary clauses. The values of k -> (k^2-5k-4)/2 are -4,-5,-5,-4,-2.
+     So k=3 is optimal regarding clause-savings, makes 3n-5 clauses, for
+     n >= 4.
+     </li>
+     <li> For n=4 that makes 7 clauses, one more than directly: For n=4,k=3
+     we have
+
+       {-x_1,-x_2}, {-x_1,-x_3}, {-x_2,-x_3}
+       x_1 -> s_3, x_2 -> s_3, x_3 -> s_3
+       s_3 -> -x_4.
+
+     </li>
+     <li> It is claimed that 3n-6 is possible.
+     </li>
      <li> The meaning of the equivalent boolean function
      f(x_1,...,x_n, s_1,...,s_{n-1}) is
       <ol>
@@ -276,11 +315,6 @@ is(Csa);
        <li> Making it uep: for counting this is needed. Can happen by using
          s_{i+1} = s_i v x_{i+1}, that is, adding the clauses
          -s_{i+1} v s_i v x_{i+1} for (i <= i <= n-1).
-       </li>
-       <li> One can save s_1, instead having
-         -x_1 v -x_2
-         x_1 -> s_2, x_2 -> s_2 (for n >= 3)
-         plus -s_2 v x_1 v x_2 for uep.
        </li>
       </ol>
      </li>
