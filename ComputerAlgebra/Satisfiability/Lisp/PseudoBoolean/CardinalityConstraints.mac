@@ -281,6 +281,48 @@ unary_bb_comparator_fcl(S,p,q) :=
   antilexicographic, so that it is monotonic in L for amo and alo, while
   for eo the alo-clause is appended at the end.
 
+  Two representations are presented (using n := |L|), where for both the
+  amo-forms are uniform 2-CNFs, with the variables of L only occuring in one
+  polarity, namely the negation of what appears in l.
+  For alo just L as clause is used:
+
+   - The prime-implicates representation
+       direct_amo2cl(L), direct_eo2cl(L)
+     with tree-hardness zero, no new variables, and with
+     binomial(n,2) many clauses.
+     Naturally with uep (unique extension property).
+
+   - The "sequentail-commander" representation
+       seco_amo2cl(L), seco_eo2cl(L)
+     (an improvement created here), with propagation-hardness one,
+     naux_secoamo(n) < n/2 new variables, and with 3n-6 many clauses.
+
+     In the presentation from [Kucera et al 2017], Section 3.1, this can be
+     stated (the principle) via the recursive equations
+
+     Base case:
+       seco(x1,x2,x3,x4) = the six clauses of direct_amo2cl([x1,x2,x3,x4])
+     Recursion:
+       seco(x1,...,xn) = the three clauses of direct_amo2cl([x1,x2,x3])
+                        and x1->w, x2->w, x3->w for the commander-variable w
+                        and seco(w,x3,...,xn).
+
+     Has uep except when no literal of L is set to true, in which case
+     there are precisely naux_secoamo(n)+1 many solutions to seco_amo2cl(L),
+     namely setting an initial segment of the commander-variables to false,
+     and the remaining to true.
+     (If exactly one of L is true, then exactly from the "commander-variable"
+     covering this literal on all are true.)
+     If uep is needed, then for each new commander-variable w(x,y,z),
+     which in the above forms only fulfills
+       x v y v z -> w (i.e., the conjunction of x->w, y->w, z->w)
+     one has to introduce the reverse implication
+       w -> x v y v z (i.e., the 4-clause {-w,x,y,z}).
+
+  Via
+    represents_amo_p(L,F)
+  it can be tested whether F represents amo(L).
+
 */
 
 direct_amo2cl(L) := if length(L) <= 1 then [] else
@@ -307,7 +349,7 @@ represents_amo_p(L,F) := block([L : setify(L), V], V:var_c(L),
   repeatedly 3 literals from L, using only 1 auxiliary variable.
 
   First some general theory, leading finally to the simple form (as such
-  apparently not in the literature) seq_amo2cl(L).
+  apparently not in the literature) seco_amo2cl(L).
 
   amo_u(L,w), for a normal list L of literals and a variable w not present
   in L, asks for a representation of amo(L) such that for every total
@@ -363,20 +405,23 @@ nauxrec_amou_2(n) := if n <= 3 then 1 elseif n=4 then 3 else
  block([l : 3, r], r:n-l, nauxrec_amou_2(l) + nauxrec_amou_2(r) + 1)$
 /* This yields precisely 2*floor((n+2)/3)-1 (but not used for the above). */
 
+
 /* The simplified "sequential+commander encoding of amo(L)": */
-naux_seqamo(n) := floor((n-1)/2)-1$
-/* Using a list V of auxiliary variables with length(V) >= naux_seqamo(n): */
-seq_amov2cl(L,V) := block([n : length(L), w, B],
+naux_secoamo(n) := floor((n-1)/2)-1$
+/* Using a list V of auxiliary variables with length(V) >= naux_secoamo(n): */
+seco_amov2cl(L,V) := block([n : length(L), w, B],
  if n <= 4 then return(direct_amo2cl(L)),
  w : first(V), V : rest(V),
  B : take_l(3, L), L : rest(L,3), L : cons(w,L),
- append(direct_amo2cl(B), create_list({-x,w}, x,B), seq_amov2cl(L,V)))$
+ append(direct_amo2cl(B), create_list({-x,w}, x,B), seco_amov2cl(L,V)))$
 /* Providing the list of auxiliary variables: */
-seq_amo2cl(L) := block([n : naux_seqamo(length(L)), V, v],
- if n<=0 then return(seq_amov2cl(L,[])),
+seco_amo2cl(L) := block([n : naux_secoamo(length(L)), V, v],
+ if n<=0 then return(seco_amov2cl(L,[])),
  V : map(abs, sublist(L, integerp)),
  if emptyp(V) then v:0 else v:lmax(V),
- seq_amov2cl(L, create_list(v+i, i,1,n)))$
+ seco_amov2cl(L, create_list(v+i, i,1,n)))$
+
+seco_eo2cl(L) := append(seco_amo2cl(L), direct_alo2cl(L))$
 
 /*!
 \endhtmlonly
