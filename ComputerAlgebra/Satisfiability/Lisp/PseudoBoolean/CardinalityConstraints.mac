@@ -41,7 +41,7 @@ oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solver
 
   A crd is "repetition-free", if no literal in L occurs more than once.
   A crd is "non-tautological", if there are no clashing literals.
-  A crd is "normal" if it is repetion-free and non-tautological; this is
+  A crd is "normal" if it is repetition-free and non-tautological; this is
   the same as an ordered clause.
 
 */
@@ -284,7 +284,7 @@ unary_bb_comparator_fcl(S,p,q) :=
   for eo the alo-clause is appended at the end.
 
   Two representations are presented (using n := |L|), where for both the
-  amo-forms are uniform 2-CNFs, with the variables of L only occuring in one
+  amo-forms are uniform 2-CNFs, with the variables of L only occurring in one
   polarity, namely the negation of what appears in l.
   For alo just L as clause is used:
 
@@ -316,7 +316,7 @@ unary_bb_comparator_fcl(S,p,q) :=
      (If exactly one of L is true, then exactly from the "commander-variable"
      covering this literal on all are true.)
      If uep is needed, then for each new commander-variable w(x,y,z),
-     which in the above forms only fulfills
+     which in the above forms only fulfils
        x v y v z -> w (i.e., the conjunction of x->w, y->w, z->w)
      one has to introduce the reverse implication
        w -> x v y v z (i.e., the 4-clause {-w,x,y,z}).
@@ -355,7 +355,7 @@ amo_tass(L) := block([phi : comp_sl(setify(L))],
    more precisely, for clause-set F and normal L, return the list of
    pairs [phi,count], where phi is an amo-assignment for L, and
    the solution-count is # 1: */
-uep_amo_applp(L,F) := block([A : amo_tass(L), res : []],
+uep_amo_apply(L,F) := block([A : amo_tass(L), res : []],
  for phi in A do block([G : apply_pa_cs(phi,F), count],
   count : current_satsolver_count(cs2fcs(G)),
   if count # 1 then res : cons([phi,count], res)
