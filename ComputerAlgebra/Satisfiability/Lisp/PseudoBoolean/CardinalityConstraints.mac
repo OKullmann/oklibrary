@@ -28,6 +28,8 @@ oklib_include("OKlib/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Primality/PrimeImplicatesImplicants.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 
 
 /*
@@ -292,7 +294,7 @@ unary_bb_comparator_fcl(S,p,q) :=
      binomial(n,2) many clauses.
      Naturally with uep (unique extension property).
 
-   - The "sequentail-commander" representation
+   - The "sequential-commander" representation
        seco_amo2cl(L), seco_eo2cl(L)
      (an improvement created here), with propagation-hardness one,
      naux_secoamo(n) < n/2 new variables, and with 3n-6 many clauses.
@@ -310,7 +312,7 @@ unary_bb_comparator_fcl(S,p,q) :=
      Has uep except when no literal of L is set to true, in which case
      there are precisely naux_secoamo(n)+1 many solutions to seco_amo2cl(L),
      namely setting an initial segment of the commander-variables to false,
-     and the remaining to true.
+     and the remaining to true. So uep does not hold iff n >= 7.
      (If exactly one of L is true, then exactly from the "commander-variable"
      covering this literal on all are true.)
      If uep is needed, then for each new commander-variable w(x,y,z),
@@ -322,6 +324,11 @@ unary_bb_comparator_fcl(S,p,q) :=
   Via
     represents_amo_p(L,F)
   it can be tested whether F represents amo(L).
+  And via
+    uep_amo_apply(L,F)
+  the amo-assignments for L are applied to F, and sat-counts for the results
+  different from 1 are reported. So an amo-representation F has uep iff
+  uep_amo_apply(L,F) = [].
 
 */
 
@@ -339,6 +346,21 @@ direct_eo2cl(L) := append(direct_amo2cl(L), direct_alo2cl(L))$
 represents_amo_p(L,F) := block([L : setify(L), V], V:var_c(L),
   is(subset(prime_clauses_cs(F), lambda([C], subsetp(var_c(C), V))) =
      powerset(comp_sl(L), 2)))$
+
+/* The set of amo-assignments for L: */
+amo_tass(L) := block([phi : comp_sl(setify(L))],
+ adjoin(phi, setify(create_list(adjoin(-x,disjoin(x,phi)), x,listify(phi)))))$
+
+/* Checking whether clause-set F representing amo on L has the uep;
+   more precisely, for clause-set F and normal L, return the list of
+   pairs [phi,count], where phi is an amo-assignment for L, and
+   the solution-count is # 1: */
+uep_amo_applp(L,F) := block([A : amo_tass(L), res : []],
+ for phi in A do block([G : apply_pa_cs(phi,F), count],
+  count : current_satsolver_count(cs2fcs(G)),
+  if count # 1 then res : cons([phi,count], res)
+ ),
+ reverse(res))$
 
 /*
   The following generalises the "commander encoding" together with the
