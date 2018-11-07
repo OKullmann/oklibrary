@@ -358,9 +358,9 @@ amo_tass(L) := block([phi : comp_sl(setify(L))],
    more precisely, for clause-set F and normal L, return the list of
    pairs [phi,count], where phi is an amo-assignment for L, and
    the solution-count is # 1: */
-uep_amo_apply(L,F) := block([A : amo_tass(L), res : []],
- for phi in A do block([G : apply_pa_cs(phi,F), count],
-  count : current_satsolver_count(cs2fcs(G)),
+uep_amo_apply(L,F) := block([F : cs2fcs(F), A : amo_tass(L), res : []],
+ for phi in A do block([G : apply_pa_fcs(phi,F), count],
+  count : current_satsolver_count(G),
   if count # 1 then res : cons([phi,count], res)
  ),
  reverse(res))$
