@@ -346,6 +346,9 @@ direct_eo2cl(L) := append(direct_amo2cl(L), direct_alo2cl(L))$
 represents_amo_p(L,F) := block([L : setify(L), V], V:var_c(L),
   is(subset(prime_clauses_cs(F), lambda([C], subsetp(var_c(C), V))) =
      powerset(comp_sl(L), 2)))$
+represents_eo_p(L,F) := block([L : setify(L), V], V:var_c(L),
+  is(subset(prime_clauses_cs(F), lambda([C], subsetp(var_c(C), V))) =
+     adjoin(L,powerset(comp_sl(L), 2))))$
 
 /* The set of amo-assignments for L: */
 amo_tass(L) := block([phi : comp_sl(setify(L))],
@@ -361,6 +364,7 @@ uep_amo_apply(L,F) := block([A : amo_tass(L), res : []],
   if count # 1 then res : cons([phi,count], res)
  ),
  reverse(res))$
+uep_amo_p(L,F) := emptyp(uep_amo_apply(L,F))$
 
 /*
   The following generalises the "commander encoding" together with the
@@ -428,7 +432,9 @@ nauxrec_amou_2(n) := if n <= 3 then 1 elseif n=4 then 3 else
 /* This yields precisely 2*floor((n+2)/3)-1 (but not used for the above). */
 
 
-/* The simplified "sequential+commander encoding of amo(L)": */
+/* The simplified "sequential+commander" encoding of amo(L):
+   XXX specification of commander-variables
+*/
 naux_secoamo(n) := floor((n-1)/2)-1$
 /* Using a list V of auxiliary variables with length(V) >= naux_secoamo(n): */
 seco_amov2cl(L,V) := block([n : length(L), w, B],

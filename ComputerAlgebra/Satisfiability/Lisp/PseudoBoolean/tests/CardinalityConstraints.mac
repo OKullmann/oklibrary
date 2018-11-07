@@ -203,6 +203,49 @@ okltest_direct_eo2cl(f) := (
   assert(okltest_direct_amo2cl(buildq([f], lambda([L], rest(f(L),-1)))) = true),
   true)$
 
+okltest_represents_amo_p(f) := (
+  assert(f([], {}) = true),
+  assert(f([], {{}}) = false),
+  assert(f([], {{1}}) = true),
+  assert(f([], {{1,2}}) = true),
+  assert(f([1], {{1}}) = false),
+  assert(f([1], {}) = true),
+  assert(f([1], {{1,2}}) = true),
+  assert(f([1], {{-1,-2}}) = true),
+
+  true)$
+
+okltest_represents_eo_p(f) := (
+  assert(f([], {}) = false),
+  assert(f([], {{}}) = true),
+  assert(f([1], {{1}}) = true),
+
+  true)$
+
+okltest_amo_tass(f) := (
+  assert(f([]) = {{}}),
+  assert(f([1]) = {{-1},{1}}),
+  assert(f([1,-2]) = {{-1,2},{1,2},{-1,-2}}),
+  assert(f([-1,-2,3]) = {{1,2,-3},{-1,2,-3},{1,-2,-3},{1,2,3}}),
+  true)$
+
+okltest_uep_amo_apply(f) := (
+  assert(f([], {}) = []),
+  assert(f([], {{1},{2}}) = []),
+  assert(f([], {{1,2}}) = [[{}, 3]]),
+  assert(f([1], {{-1,-2}}) = [[{-1},2]]),
+
+  true)$
+
+okltest_uep_amo_p(f) := (
+  assert(f([], {}) = true),
+  assert(f([], {{1}}) = true),
+  assert(f([], {{1,2}}) = false),
+  assert(f([1], {}) = true),
+  assert(f([1], {{-1,-2}}) = false),
+
+  true)$
+
 /*!
 \endhtmlonly
 */

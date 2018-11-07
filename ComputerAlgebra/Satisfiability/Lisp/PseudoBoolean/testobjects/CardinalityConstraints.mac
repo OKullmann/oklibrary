@@ -59,6 +59,13 @@ okltest_direct_amo2cl(direct_amo2cl);
 okltest_direct_alo2cl(direct_alo2cl);
 okltest_direct_eo2cl(direct_eo2cl);
 
+okltest_represents_amo_p(represents_amo_p);
+okltest_represents_eo_p(represents_eo_p);
+
+okltest_amo_tass(amo_tass);
+okltest_uep_amo_apply(uep_amo_apply);
+okltest_uep_amo_p(uep_amo_p);
+
 /*!
 \endhtmlonly
 */
