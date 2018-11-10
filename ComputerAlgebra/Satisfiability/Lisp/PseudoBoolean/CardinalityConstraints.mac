@@ -413,14 +413,22 @@ uep_amo_p(L,F) := emptyp(uep_amo_apply(L,F))$
 
 /* Determining the number of clauses and variables, in principle in general: */
 
-crec_amo_2(n) := if n <= 4 then binomial(n,2) else
- block([l : 3, r], r:n-l, crec_amou_2(l) + crec_amo_2(r+1))$
-/* This yields precisely 3n-6, and this seems independent of the
+/* The number of clauses according to the amo-recursion, only using the special
+   case l := 3, for n >= 0:
+*/
+crec_amo(n) := if n <= 4 then binomial(n,2) else
+ block([l : 3, r], r:n-l, crec_amou_2(l) + crec_amo(r+1))$
+/* This yields precisely 3n-6 for n >= 3, and this seems independent of the
    splitting strategy (say l : ceiling(n/2) or other choices). */
+
+/* The number of clauses according to the amo_u-recursion, using for
+   n=4 the second case, for n >= 1:
+*/
 crec_amou_2(n) := if n <= 4 then (n-1)*3 else
  block([l : 3, r], r:n-l, crec_amou_2(l) + crec_amou_2(r) + 3)$
 /* This yields precisely (n-1)*3, again independently of the splitting
-   (but not used for the above). */
+   (the main function crec_amo(n) above actually does not use any splitting
+   for crec_amou_2, since only calling crec_amou_2(3)). */
 
 /* The following is dependent on the splitting, and with the given choice
    achieves less then n/2 (note that the clause-count is not affected): */
@@ -429,7 +437,7 @@ nauxrec_amo_2(n) := if n <= 4 then 0 else
 /* This yields precisely floor((n-1)/2)-1. */
 nauxrec_amou_2(n) := if n <= 3 then 1 elseif n=4 then 3 else
  block([l : 3, r], r:n-l, nauxrec_amou_2(l) + nauxrec_amou_2(r) + 1)$
-/* This yields precisely 2*floor((n+2)/3)-1 (but not used for the above). */
+/* This yields precisely 2*floor((n+2)/3)-1 (but not used in nauxrec_amo_2). */
 
 
 /* The simplified "sequential+commander" encoding of amo(L):

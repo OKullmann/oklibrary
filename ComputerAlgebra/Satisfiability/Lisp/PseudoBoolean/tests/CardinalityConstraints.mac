@@ -234,7 +234,8 @@ okltest_uep_amo_apply(f) := (
   assert(f([], {{1},{2}}) = []),
   assert(f([], {{1,2}}) = [[{}, 3]]),
   assert(f([1], {{-1,-2}}) = [[{-1},2]]),
-
+  assert(f([1,2], {{}}) = [[{-1,-2},0],[{1,-2},0],[{-1,2},0]]),
+  assert(f([1,2],{{-1,-2}}) = []),
   true)$
 
 okltest_uep_amo_p(f) := (
@@ -243,8 +244,23 @@ okltest_uep_amo_p(f) := (
   assert(f([], {{1,2}}) = false),
   assert(f([1], {}) = true),
   assert(f([1], {{-1,-2}}) = false),
-
+  assert(f([1,2],{{}}) = false),
+  assert(f([1,2],{{-1,-2}}) = true),
   true)$
+
+okltest_crec_amo(f) := (
+  assert(f(0) = 0),
+  assert(f(1) = 0),
+  assert(f(2) = 1),
+  for n : 3 thru 10 do
+    assert(f(n) = 3*n - 6),
+  true)$
+
+okltest_crec_amou_2(f) := (
+  for n : 1 thru 10 do
+    assert(f(n) = 3*n - 3),
+  true)$
+
 
 /*!
 \endhtmlonly

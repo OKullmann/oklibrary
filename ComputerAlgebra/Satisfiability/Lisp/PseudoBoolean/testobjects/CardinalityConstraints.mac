@@ -66,6 +66,9 @@ okltest_amo_tass(amo_tass);
 okltest_uep_amo_apply(uep_amo_apply);
 okltest_uep_amo_p(uep_amo_p);
 
+okltest_crec_amo(crec_amo);
+okltest_crec_amou_2(crec_amou_2);
+
 /*!
 \endhtmlonly
 */
