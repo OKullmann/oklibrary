@@ -342,6 +342,7 @@ direct_eo2cl(L) := append(direct_amo2cl(L), direct_alo2cl(L))$
    c=0,1,3,6 clauses.
 */
 
+
 /* Checking whether the clause-set F represents amo(L): */
 represents_amo_p(L,F) := block([L : setify(L), V], V:var_c(L),
   is(subset(prime_clauses_cs(F), lambda([C], subsetp(var_c(C), V))) =
@@ -350,12 +351,13 @@ represents_eo_p(L,F) := block([L : setify(L), V], V:var_c(L),
   is(subset(prime_clauses_cs(F), lambda([C], subsetp(var_c(C), V))) =
      adjoin(L,powerset(comp_sl(L), 2))))$
 
+/* The set of eo-assignments for L: */
+eo_tass(L) := block([phi : comp_sl(setify(L))],
+ setify(create_list(adjoin(-x,disjoin(x,phi)), x,listify(phi))))$
 /* The set of amo-assignments for L: */
-amo_tass(L) := block([phi : comp_sl(setify(L))],
- adjoin(phi, setify(create_list(adjoin(-x,disjoin(x,phi)), x,listify(phi)))))$
+amo_tass(L) := adjoin(comp_sl(setify(L)), eo_tass(L))$
 
-/* Checking whether clause-set F representing amo on L has the uep;
-   more precisely, for clause-set F and normal L, return the list of
+/* For clause-set F and normal L, return the list of
    pairs [phi,count], where phi is an amo-assignment for L, and
    the solution-count is # 1: */
 uep_amo_apply(L,F) := block([F : cs2fcs(F), A : amo_tass(L), res : []],
@@ -364,7 +366,22 @@ uep_amo_apply(L,F) := block([F : cs2fcs(F), A : amo_tass(L), res : []],
   if count # 1 then res : cons([phi,count], res)
  ),
  reverse(res))$
+/* Assuming represents_amo_p(L,F), checking the unique-extension
+   property:
+*/
 uep_amo_p(L,F) := emptyp(uep_amo_apply(L,F))$
+/* For clause-set F and normal L, return the list of
+   pairs [phi,count], where phi is an eo-assignment for L, and
+   the solution-count is # 1: */
+uep_eo_apply(L,F) := block([F : cs2fcs(F), A : eo_tass(L), res : []],
+ for phi in A do block([G : apply_pa_fcs(phi,F), count],
+  count : current_satsolver_count(G),
+  if count # 1 then res : cons([phi,count], res)
+ ),
+ reverse(res))$
+/* Assuming represents_eo_p(L,F), checking uep: */
+uep_eo_p(L,F) := emptyp(uep_eo_apply(L,F))$
+
 
 /*
   The following generalises the "commander encoding" together with the
@@ -430,34 +447,71 @@ crec_amou_2(n) := if n <= 4 then (n-1)*3 else
    (the main function crec_amo(n) above actually does not use any splitting
    for crec_amou_2, since only calling crec_amou_2(3)). */
 
-/* The following is dependent on the splitting, and with the given choice
-   achieves less then n/2 (note that the clause-count is not affected): */
-nauxrec_amo_2(n) := if n <= 4 then 0 else
- block([l : 3, r], r:n-l, nauxrec_amou_2(l) + nauxrec_amo_2(r+1))$
-/* This yields precisely floor((n-1)/2)-1. */
+/* The following two functions dependent on the splitting, and with the given
+   choice achieve less then n/2 (note that the clause-count is not affected).
+*/
+/* The number of variables according to the amo-recursion, again only using
+   the special case (which is implemented in seco_amo2cl below):
+*/
+nauxrec_amo(n) := if n <= 4 then 0 else
+ block([l : 3, r], r:n-l, nauxrec_amou_2(l) + nauxrec_amo(r+1))$
+/* This yields precisely floor((n-1)/2)-1 for n >= 3. */
+
+/* The number of variables for the amo_u-recursion, using for n=4 the
+   second case, for n >= 1:
+*/
 nauxrec_amou_2(n) := if n <= 3 then 1 elseif n=4 then 3 else
  block([l : 3, r], r:n-l, nauxrec_amou_2(l) + nauxrec_amou_2(r) + 1)$
-/* This yields precisely 2*floor((n+2)/3)-1 (but not used in nauxrec_amo_2). */
+/* This yields precisely 2*floor((n+2)/3)-1 (but not used in nauxrec_amo). */
 
 
 /* The simplified "sequential+commander" encoding of amo(L):
-   XXX specification of commander-variables
+   The "commander-variables" are
+     V=[w_1, ..., w_m]
+     for m = naux_secoamo(n), n := length(L).
+   The recursion is:
+    - Base: for n <= 4 use the prime implicates.
+    - Step: for n >= 5 take away the first three elements x1,x2,x3 of
+            L, let L' be the rest:
+        amo_u([x1,x2,x3], w_1) + seco_amov2cl([w] + L').
+
+      That is, use the three prime implicates for amo({x1,x2,x3}) plus the
+      three clauses xi -> w_1, and represent amo in this way recursively for
+      w_1 + remaining x.
+
+   So w_1 stands for x1,x2,x3, and w2 for w1,x4,x5, and w3 for w2,x6,x7,
+   and w4 for w3,x8,x9, and generally w_i for w_{i-1},x_{2i},x_{2i+1},
+   with a remaining "un-commanded" block of 3 variables for odd n, and
+   4 variables for even n (the prime-implicate-representation is used).
 */
-naux_secoamo(n) := floor((n-1)/2)-1$
+/* The number of auxiliary variables for n >= 0: */
+naux_secoamo(n) := if n <= 2 then 0 else floor((n-1)/2)-1$
 /* Using a list V of auxiliary variables with length(V) >= naux_secoamo(n): */
 seco_amov2cl(L,V) := block([n : length(L), w, B],
  if n <= 4 then return(direct_amo2cl(L)),
  w : first(V), V : rest(V),
  B : take_l(3, L), L : rest(L,3), L : cons(w,L),
  append(direct_amo2cl(B), create_list({-x,w}, x,B), seco_amov2cl(L,V)))$
-/* Providing the list of auxiliary variables: */
+/* Providing the list of auxiliary variables, using one plus the maximum
+   absolute value of an integer in L as the starting point of the list: */
 seco_amo2cl(L) := block([n : naux_secoamo(length(L)), V, v],
  if n<=0 then return(seco_amov2cl(L,[])),
  V : map(abs, sublist(L, integerp)),
  if emptyp(V) then v:0 else v:lmax(V),
  seco_amov2cl(L, create_list(v+i, i,1,n)))$
+nvar_seco_amo(L) := block([n : length(L)],
+ (if n=1 then 0 else n) + naux_secoamo(n))$
+ncl_seco_amo(L) := block([n : length(L)],
+ if n <= 2 then binomial(n,2) else 3*n-6)$
+ncl_list_seco_amo(L) := if length(L) <= 1 then [] else [[2,ncl_seco_amo(L)]]$
 
 seco_eo2cl(L) := append(seco_amo2cl(L), direct_alo2cl(L))$
+nvar_seco_eo(L) := if length(L) = 1 then 1 else nvar_seco_amo(L)$
+ncl_seco_eo(L) := ncl_seco_amo(L) + 1$
+ncl_list_seco_eo(L) := block([n : length(L)],
+ if n <= 1 then [[n,1]]
+ elseif n=2 then [[2,ncl_seco_amo(L)+1]]
+ else endcons([n,1], ncl_list_seco_amo(L)))$
 
 /*!
 \endhtmlonly

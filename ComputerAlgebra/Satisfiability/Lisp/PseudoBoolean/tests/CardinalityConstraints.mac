@@ -137,7 +137,7 @@ okltest_unary_bb_totaliser_fcl(f) := block([F],
 okltest_unary_bb_totaliser_r_fcl(f) := block(
   okltest_unary_bb_totaliser_fcl_comb(
     buildq([f],lambda([E,S], f(E,S,1,length(E))))),
-  
+  /* XXX */
   true)$
 
 okltest_unary_bb_comparator_fcl(f) := block(
@@ -219,7 +219,19 @@ okltest_represents_eo_p(f) := (
   assert(f([], {}) = false),
   assert(f([], {{}}) = true),
   assert(f([1], {{1}}) = true),
+  assert(f([-1], {{-1}}) = true),
+  assert(f([1,2], {{-1,-2},{1,2}}) = true),
+  assert(f([1,2], {{-1,-2}}) = false),
+  assert(f([1,2], {{-1,-2},{1,2},{3,4}}) = true),
+  assert(f([-1,2], {{-1,2},{1,-2},{1,3}}) = true),
+  assert(f([1,2], {{-1,-2},{1,2},{-1,2}}) = false),
+  true)$
 
+okltest_eo_tass(f) := (
+  assert(f([]) = {}),
+  assert(f([1]) = {{1}}),
+  assert(f([1,-2]) = {{1,2},{-1,-2}}),
+  assert(f([-1,-2,3]) = {{-1,2,-3},{1,-2,-3},{1,2,3}}),
   true)$
 
 okltest_amo_tass(f) := (
@@ -248,6 +260,22 @@ okltest_uep_amo_p(f) := (
   assert(f([1,2],{{-1,-2}}) = true),
   true)$
 
+okltest_uep_eo_apply(f) := (
+  assert(f([], {}) = []),
+  assert(f([], {{1},{2}}) = []),
+  assert(f([], {{1,2}}) = []),
+  assert(f([1], {{-1,-2}}) = []),
+  assert(f([1,2], {{}}) = [[{1,-2},0],[{-1,2},0]]),
+  assert(f([1,2],{{-1,-2}}) = []),
+  true)$
+
+okltest_uep_eo_p(f) := (
+  assert(f([], {{}}) = true),
+  assert(f([1], {{1}}) = true),
+  assert(f([1,2],{{-1,-2},{1,2}}) = true),
+  assert(f([1,2],{{-1,-2},{1,2},{3,4}}) = false),
+  true)$
+
 okltest_crec_amo(f) := (
   assert(f(0) = 0),
   assert(f(1) = 0),
@@ -261,6 +289,112 @@ okltest_crec_amou_2(f) := (
     assert(f(n) = 3*n - 3),
   true)$
 
+okltest_nauxrec_amo(f) := (
+  for n : 0 thru 10 do
+    assert(f(n) = max(0, floor((n-1)/2)-1)),
+  true)$
+
+okltest_nauxrec_amou_2(f) := (
+  for n : 1 thru 10 do
+    assert(f(n) = 2*floor((n+2)/3)-1),
+  true)$
+
+okltest_naux_secoamo(f) := (
+  for n : 0 thru 10 do
+    assert(f(n) = if n <= 4 then 0 else floor((n-1)/2)-1),
+  true)$
+
+okltest_seco_amov2cl(f) := (
+  assert(f([],[]) = []),
+  assert(f([1],[]) = []),
+  assert(f([1,2],[]) = [{-1,-2}]),
+  assert(f([1,2,3],[]) = [{-1,-2},{-1,-3},{-2,-3}]),
+  assert(f([1,2,3,4],[]) = [{-1,-2},{-1,-3},{-2,-3},{-1,-4},{-2,-4},{-3,-4}]),
+  assert(f([1,2,3,4,5],[6]) = [{-1,-2},{-1,-3},{-2,-3},{-1,6},{-2,6},{-3,6},{-6,-4},{-6,-5},{-4,-5}]),
+  assert(f([1,2,3,4,5,6],[7]) = [{-1,-2},{-1,-3},{-2,-3},{-1,7},{-2,7},{-3,7},{-7,-4},{-7,-5},{-4,-5},{-7,-6},{-4,-6},{-5,-6}]),
+  true)$
+
+okltest_seco_amo2cl(f) := (
+  for n : 0 thru 10 do block([L : create_list(i,i,1,n), F],
+    F : f(L),
+    assert(ncl_cl(F) = ncl_seco_amo(L)),
+    F : cl2cs(F),
+    assert(nvar_cs(F) = nvar_seco_amo(L)),
+    assert(ncl_cs(F) = ncl_seco_amo(L)),
+    assert(ncl_list_cs(F) = ncl_list_seco_amo(L)),
+    assert(represents_amo_p(L,F) = true),
+    assert(represents_eo_p(L,F) = false),
+    assert(uep_amo_apply(L,F) = if n <= 4 then [] else
+      [[comp_sl(setify(L)), naux_secoamo(n)+1]])
+  ),
+  true)$
+
+okltest_nvar_seco_amo(f) := (
+  assert(f([]) = 0),
+  assert(f([1]) = 0),
+  assert(f([-1,-2]) = 2),
+  assert(f([1,-2,3]) = 3),
+  assert(f([1,2,-3,4]) = 4),
+  assert(f([1,2,3,4,5]) = 6),
+  true)$
+
+okltest_ncl_seco_amo(f) := (
+  assert(f([]) = 0),
+  assert(f([1]) = 0),
+  assert(f([-1,-2]) = 1),
+  assert(f([1,-2,3]) = 3),
+  assert(f([1,2,-3,4]) = 6),
+  assert(f([1,2,3,4,5]) = 9),
+  true)$
+
+okltest_ncl_list_seco_amo(f) := (
+  assert(f([]) = []),
+  assert(f([1]) = []),
+  assert(f([-1,-2]) = [[2,1]]),
+  assert(f([1,-2,3]) = [[2,3]]),
+  assert(f([1,2,-3,4]) = [[2,6]]),
+  assert(f([1,2,3,4,5]) =[[2,9]]),
+  true)$
+
+okltest_seco_eo2cl(f) := (
+  for n : 0 thru 10 do block([L : create_list(i,i,1,n), F],
+    F : f(L),
+    assert(ncl_cl(F) = ncl_seco_eo(L)),
+    F : cl2cs(F),
+    assert(nvar_cs(F) = nvar_seco_eo(L)),
+    assert(ncl_cs(F) = ncl_seco_eo(L)),
+    assert(ncl_list_cs(F) = ncl_list_seco_eo(L)),
+    assert(represents_eo_p(L,F) = true),
+    assert(uep_eo_p(L,F) = true)
+  ),
+  true)$
+
+okltest_nvar_seco_eo(f) := (
+  assert(f([]) = 0),
+  assert(f([1]) = 1),
+  assert(f([-1,-2]) = 2),
+  assert(f([1,-2,3]) = 3),
+  assert(f([1,2,-3,4]) = 4),
+  assert(f([1,2,3,4,5]) = 6),
+  true)$
+
+okltest_ncl_seco_eo(f) := (
+  assert(f([]) = 1),
+  assert(f([1]) = 1),
+  assert(f([-1,-2]) = 2),
+  assert(f([1,-2,3]) = 4),
+  assert(f([1,2,-3,4]) = 7),
+  assert(f([1,2,3,4,5]) = 10),
+  true)$
+
+okltest_ncl_list_seco_eo(f) := (
+  assert(f([]) = [[0,1]]),
+  assert(f([1]) = [[1,1]]),
+  assert(f([-1,-2]) = [[2,2]]),
+  assert(f([1,-2,3]) = [[2,3],[3,1]]),
+  assert(f([1,2,-3,4]) = [[2,6],[4,1]]),
+  assert(f([1,2,3,4,5]) =[[2,9],[5,1]]),
+  true)$
 
 /*!
 \endhtmlonly
