@@ -84,6 +84,16 @@ okltest_seco_eo2cl(seco_eo2cl);
 okltest_nvar_seco_eo(nvar_seco_eo);
 okltest_ncl_seco_eo(ncl_seco_eo);
 okltest_ncl_list_seco_eo(ncl_list_seco_eo);
+okltest_seco_amovuep2cl(seco_amovuep2cl);
+okltest_seco_amouep2cl(seco_amouep2cl);
+okltest_seco_amouep_co(seco_amouep_co);
+okltest_nvar_seco_amouep(nvar_seco_amouep);
+okltest_ncl_seco_amouep(ncl_seco_amouep);
+okltest_ncl_list_seco_amouep(ncl_list_seco_amouep);
+okltest_seco_eouep2cl(seco_eouep2cl);
+okltest_nvar_seco_eouep(nvar_seco_eouep);
+okltest_ncl_seco_eouep(ncl_seco_eouep);
+okltest_ncl_list_seco_eouep(ncl_list_seco_eouep);
 
 /*!
 \endhtmlonly

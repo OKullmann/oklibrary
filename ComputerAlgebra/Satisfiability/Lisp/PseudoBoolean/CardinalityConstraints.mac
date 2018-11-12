@@ -279,8 +279,8 @@ unary_bb_comparator_fcl(S,p,q) :=
 
   So only L is the input. Different from
     direct_crd2cl(C)
-  with C one of the above three choices, now the output is sorted
-  antilexicographic, so that it is monotonic in L for amo and alo, while
+  (provided above), with C one of the above three choices, now the output is
+  sorted antilexicographic, so that it is monotonic in L for amo and alo, while
   for eo the alo-clause is appended at the end.
 
   Two representations are presented (using n := |L|), where for both the
@@ -298,6 +298,18 @@ unary_bb_comparator_fcl(S,p,q) :=
        seco_amo2cl(L), seco_eo2cl(L)
      (an improvement created here), with propagation-hardness one,
      naux_secoamo(n) < n/2 new variables, and with 3n-6 many clauses.
+     Basically this is all very close to [Klieber, Kwon, 2007], though
+     uep and eo is not discussed there explicitly.
+
+     The amo-form does not have uep on the all-zero-function, and so
+     uep-forms are created, with naux-secoamo(n) many additional clauses
+     of length 4, of the form w -> x v y v z, with w a commander-variable,
+     and x,y,z literals from L:
+        seco_amouep2cl(L).
+     The eo-form
+        seco_eouep2cl(L)
+     now does not use the disjunction over L, but the disjunction of the final
+     w with the 3 resp. 4 left-over "uncommanded" literals from L.
 
      In the presentation from [Kucera et al 2017], Section 3.1, this can be
      stated (the principle) via the recursive equations
@@ -309,21 +321,23 @@ unary_bb_comparator_fcl(S,p,q) :=
                         and x1->w, x2->w, x3->w for the commander-variable w
                         and seco(w,x3,...,xn).
 
-     Has uep except when no literal of L is set to true, in which case
+     We have uep except when no literal of L is set to true, in which case
      there are precisely naux_secoamo(n)+1 many solutions to seco_amo2cl(L),
      namely setting an initial segment of the commander-variables to false,
      and the remaining to true. So uep does not hold iff n >= 7.
      (If exactly one of L is true, then exactly from the "commander-variable"
      covering this literal on all are true.)
+
      If uep is needed, then for each new commander-variable w(x,y,z),
      which in the above forms only fulfils
        x v y v z -> w (i.e., the conjunction of x->w, y->w, z->w)
      one has to introduce the reverse implication
        w -> x v y v z (i.e., the 4-clause {-w,x,y,z}).
+     This is done in the above uep-forms.
 
   Via
-    represents_amo_p(L,F)
-  it can be tested whether F represents amo(L).
+    represents_amo_p(L,F), represents_eo_p(L,F)
+  it can be tested whether F represents amo(L) resp. eo(L).
   And via
     uep_amo_apply(L,F)
   the amo-assignments for L are applied to F, and sat-counts for the results
@@ -331,6 +345,9 @@ unary_bb_comparator_fcl(S,p,q) :=
   uep_amo_apply(L,F) = [].
 
 */
+
+
+/* The direct handling, via all the prime implicates: */
 
 direct_amo2cl(L) := if length(L) <= 1 then [] else
  block([x : last(L), Lr : rest(L,-1)],
@@ -495,7 +512,7 @@ seco_amov2cl(L,V) := block([n : length(L), w, B],
 /* Providing the list of auxiliary variables, using one plus the maximum
    absolute value of an integer in L as the starting point of the list: */
 seco_amo2cl(L) := block([n : naux_secoamo(length(L)), V, v],
- if n<=0 then return(seco_amov2cl(L,[])),
+ if n=0 then return(seco_amov2cl(L,[])),
  V : map(abs, sublist(L, integerp)),
  if emptyp(V) then v:0 else v:lmax(V),
  seco_amov2cl(L, create_list(v+i, i,1,n)))$
@@ -512,6 +529,45 @@ ncl_list_seco_eo(L) := block([n : length(L)],
  if n <= 1 then [[n,1]]
  elseif n=2 then [[2,ncl_seco_amo(L)+1]]
  else endcons([n,1], ncl_list_seco_amo(L)))$
+
+/* Now with uep, by adding reverse implications for the commander-variables: */
+seco_amovuep2cl(L,V) := block([n : length(L), w, B],
+ if n <= 4 then return(direct_amo2cl(L)),
+ w : first(V), V : rest(V),
+ B : take_l(3, L), L : rest(L,3), L : cons(w,L),
+ append(direct_amo2cl(B),
+        create_list({-x,w}, x,B),
+        [setify(cons(-w,B))],
+        seco_amovuep2cl(L,V)))$
+seco_amouep2cl(L) := block([n : naux_secoamo(length(L)), V, v],
+ if n=0 then return(seco_amov2cl(L,[])),
+ V : map(abs, sublist(L, integerp)),
+ if emptyp(V) then v:0 else v:lmax(V),
+ seco_amovuep2cl(L, create_list(v+i, i,1,n)))$
+/* Just computing the final commander-variable or 0: */
+seco_amouep_co(L) := block([n : naux_secoamo(length(L)), V],
+ if n=0 then return(0),
+ V : map(abs, sublist(L, integerp)),
+ if emptyp(V) then n else n+lmax(V))$
+nvar_seco_amouep(L) := nvar_seco_amo(L)$
+ncl_seco_amouep(L) := ncl_seco_amo(L) + naux_secoamo(length(L))$
+ncl_list_seco_amouep(L) := block([n : length(L), l],
+ l : ncl_list_seco_amo(L),
+ if n <= 4 then l else endcons([4,naux_secoamo(n)], l))$
+
+/* Now eo, using the final commander-variable: */
+seco_eouep2cl(L) := block(
+ [n : length(L), R : seco_amouep2cl(L), w : seco_amouep_co(L), C],
+  if w = 0 then return(append(R, direct_alo2cl(L))),
+  C : cons(w, take_l(2*n- (if oddp(n) then 2 else 3), L)),
+  endcons(setify(C), R))$
+nvar_seco_eouep(L) := nvar_seco_eo(L)$
+ncl_seco_eouep(L) := ncl_seco_amouep(L) + 1$
+ncl_list_seco_eouep(L) := block([n : length(L), l],
+ if n <= 4 then return(ncl_list_seco_eo(L)),
+ l : ncl_list_seco_amo(L),
+ if evenp(n) then endcons([4,naux_secoamo(n)+1], l)
+ else append(l, [[3,1],[4,naux_secoamo(n)]]))$
 
 /*!
 \endhtmlonly
