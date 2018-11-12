@@ -70,7 +70,7 @@ namespace Backtracking {
       using NT = Trees::NodeType;
       Statistics stats{0,1,0,0,0,0};
       if (F.satisfied()) {
-        stats.solutions = std::pow(2, F.n() - F.nset());
+        stats.solutions = std::pow(2, F.B.n() - F.B.nset());
         stats.maxsat_nodes = 1;
         T.add(root_index, NT::sl);
         return stats;
