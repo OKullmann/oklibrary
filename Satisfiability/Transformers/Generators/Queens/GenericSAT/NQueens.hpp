@@ -54,9 +54,12 @@ namespace NQueens {
   // The prototype:
   struct BasicACLS {
 
-    const ChessBoard::coord_t N;
+    using coord_t = ChessBoard::coord_t;
+    using Var = ChessBoard::Var;
 
-    explicit BasicACLS(const ChessBoard::coord_t N) : N(N) {}
+    const coord_t N;
+
+    explicit BasicACLS(const coord_t N) : N(N) {}
 
     // We declare the problem to be satisfied in order to run it without backtracking:
     bool satisfied() const noexcept { return true; }
@@ -68,14 +71,12 @@ namespace NQueens {
     ChessBoard::Var_uint nset() const noexcept { return 0; }
 
     // Occupy or forbid field v:
-    void set(const ChessBoard::Var, const bool) noexcept {}
+    void set(const Var, const bool) noexcept {}
 
   };
 
   // A concrete instance of BasicACLS:
   class AmoAlo_board {
-    using coord_t = ChessBoard::coord_t;
-    using Var = ChessBoard::Var;
     using Var_uint = ChessBoard::Var_uint;
     using Var_int = ChessBoard::Var_int;
     using Diagonal = ChessBoard::Diagonal;
@@ -84,6 +85,8 @@ namespace NQueens {
     using TotalRank = ChessBoard::TotalRank;
     using State = ChessBoard::State;
   public :
+    using coord_t = ChessBoard::coord_t;
+    using Var = ChessBoard::Var;
     const coord_t N;
 
     explicit AmoAlo_board(const coord_t N) :
@@ -345,8 +348,6 @@ namespace NQueens {
   // Phased AmoALo propagation:
 // BUG: We clearly said that the invariants are the basic --- but there are NONE.
   class PhasedAmoAlo_board {
-    using coord_t = ChessBoard::coord_t;
-    using Var = ChessBoard::Var;
     using Var_uint = ChessBoard::Var_uint;
     using Var_int = ChessBoard::Var_int;
     using Diagonal = ChessBoard::Diagonal;
@@ -355,6 +356,8 @@ namespace NQueens {
     using TotalRank = ChessBoard::TotalRank;
     using State = ChessBoard::State;
   public :
+    using coord_t = ChessBoard::coord_t;
+    using Var = ChessBoard::Var;
     const coord_t N;
 
     explicit PhasedAmoAlo_board(const coord_t N) :

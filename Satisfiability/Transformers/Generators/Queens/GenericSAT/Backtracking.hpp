@@ -77,16 +77,18 @@ namespace Backtracking {
   struct CountSat {
     Tree T;
     using ACLS = ActiveClauseSet;
+    using coord_t = typename ACLS::coord_t;
+    using Var = typename ACLS::Var;
 
     CountSat() = default;
 
-    CountSat(const ChessBoard::coord_t N) { Branching::init(N); }
+    CountSat(const coord_t N) { Branching::init(N); }
     template <class Binit>
     CountSat(Binit bi) {
       Branching::init(bi);
     }
     template <class Binit>
-    CountSat(const ChessBoard::coord_t N, const Binit& bi) {
+    CountSat(const coord_t N, const Binit& bi) {
       Branching::init(N,bi);
     }
 
@@ -105,7 +107,7 @@ namespace Backtracking {
         T.add(root_index, NT::ul);
         return stats;
       }
-      const ChessBoard::Var bv = Branching(F)();
+      const Var bv = Branching(F)();
       assert(not ChessBoard::singular(bv));
 
       ACLS G(F); G.set(bv, false);
