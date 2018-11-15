@@ -9,8 +9,33 @@ License, or any later version. */
 
 1. Add parallelisation
 
-   Simply using powers of 2 as the number of parallel computations, and
-   parallelising by depth accordingly.
+   1. Simply using powers of 2 as the number of parallel computations, and
+      parallelising by depth accordingly, that is the basic idea.
+
+      Basic code:
+
+        #include <future>
+
+        ACLS G(F); G.set(bv, false);
+        auto handle0 = std::async(std::launch::async, [&G, this](){ return this->operator()(std::move(G)); });
+        F.set(bv, true);
+        const Statistics stats1 = operator()(std::move(F));
+        const Statistics stats0 = handle0.get();
+
+        stats.solutions += stats0.solutions + stats1.solutions;
+
+   2. Currently the two branches actually have to be performed in order,
+      due to
+              const auto right_index = T.index()+1;
+      The main problem here is the access to the global variable T, which
+      needed synchronisation.
+   3. So first the output of the tree-information needs to be improved/changed,
+      so that parallel construction becomes possible.
+   4. Likely it is best to introduce a policy-argument (a template parameter)
+      about parallelisation. If turned on, then we assume that only relatively
+      small trees are handled, and then a different tree-handling might be
+      used, which uses a traditional node-based approach, which is inherently
+      parallelisable.
 
 */
 
@@ -82,15 +107,15 @@ namespace Backtracking {
       }
       const ChessBoard::Var bv = Branching(F)();
       assert(not ChessBoard::singular(bv));
+
       ACLS G(F); G.set(bv, false);
       const Statistics stats0 = operator()(std::move(G));
-      stats.solutions += stats0.solutions;
-      stats.nodes += stats0.nodes;
       F.set(bv, true);
       const auto right_index = T.index()+1;
       const Statistics stats1 = operator()(std::move(F));
-      stats.solutions += stats1.solutions;
-      stats.nodes +=stats1.nodes;
+
+      stats.solutions += stats0.solutions + stats1.solutions;
+      stats.nodes += stats0.nodes + stats1.nodes;
       stats.height = std::max(stats0.height, stats1.height) + 1;
       if (stats0.solutions == 0 and stats1.solutions == 0) {
         stats.maxusat_nodes = 1 + stats0.maxusat_nodes + stats1.maxusat_nodes;
