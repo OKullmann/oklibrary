@@ -7,34 +7,52 @@ License, or any later version. */
 
 /*!
   \file Part02_ThreadParallelism/Recursion.cpp
-  \brief Parallel recursion for Fibonacci-numbers
+  \brief Parallel recursion for Fibonacci-numbers, as simple and efficient as possible
 
   Usage:
 
-> Recursion [N=42] [num_threads=20]
+> Recursion [N=50] [mode=1] [max_depth=calculated]
 
-Prints the observed maximal number of parallel threads.
+The other mode is 0, without parallelism.
+
+In case of parallel computation, prints N and max_depth.
 
 */
 
 #include <string>
 #include <iostream>
 #include <future>
-#include <atomic>
-#include <algorithm>
 
+#include <cmath>
 #include <cstdint>
 
 namespace {
 
+  enum class Error {
+    nonpar=1,
+    par=2
+  };
+  template <typename EC>
+  inline constexpr int code(const EC e) noexcept {return static_cast<int>(e);}
+
+  enum class RecMode {
+    nonpar=0,
+    par=1
+  };
+  constexpr RecMode default_recmode = RecMode::par;
+  RecMode to_RecMode(const std::string& in) {
+    if (in == "0") return RecMode::nonpar;
+    else return default_recmode;
+  }
+
   typedef std::uint_fast64_t Result_t;
   typedef std::uint32_t Argument_t;
-  constexpr Argument_t default_N = 42;
+  constexpr Argument_t default_N = 50;
 
-  typedef std::uint32_t CountThreads_t;
-  constexpr CountThreads_t default_threads = 20;
-  typedef std::atomic<CountThreads_t> AtomicCountThreads_t;
-  static_assert(AtomicCountThreads_t::is_always_lock_free, "AtomicCountThreads is not lock-free.");
+  inline constexpr Argument_t depth(const Argument_t num_threads) noexcept {
+    if (num_threads <= 1) return 0; else
+    return std::ceil(std::log2(num_threads)) + 3;
+  }
 
   constexpr inline Result_t fibo_direct(Argument_t n) noexcept {
     if (n <= 1) return n;
@@ -47,28 +65,18 @@ namespace {
   }
   static_assert(fibo_direct(20) == 6765);
 
-  // Now the recursive function; inefficiently, each invocation queries the
-  // atomic counter cnt, so that we can compute observed_max -- in a real
-  // implementation, cnt should be guarded by for example an depth-guard:
+  // Now the recursive function:
   constexpr Argument_t threshold = 5;
-  Result_t fibo_rec(const Argument_t n, const CountThreads_t max, AtomicCountThreads_t& cnt, CountThreads_t& observed_max, const bool new_thread) noexcept {
-    class Dec { // RAII, decrementing cnt on exit
-      const bool nt; AtomicCountThreads_t& cnt; public :
-      Dec(const bool n, AtomicCountThreads_t& c) noexcept : nt(n), cnt(c) {}
-      ~Dec() noexcept { if (nt) --cnt; }
-    } dec(new_thread, cnt);
-    // The following just exemplifies how to avoid creating too small threads:
+  inline constexpr Result_t fibo_rec0(const Argument_t n) noexcept {
     if (n <= threshold) return fibo_direct(n);
-
-    const CountThreads_t num_threads = cnt;
-    observed_max = std::max(observed_max, num_threads);
-    if (num_threads < max) {
-      ++cnt;
-      auto handle1 = std::async(std::launch::async, fibo_rec, n-1, max, std::ref(cnt), std::ref(observed_max), true);
-      return fibo_rec(n-2, max, cnt, observed_max, false) + handle1.get();
+    else return fibo_rec0(n-2) + fibo_rec0(n-1);
+  }
+  static_assert(fibo_rec0(21) == 10946);
+  inline Result_t fibo_rec(const Argument_t n, const Argument_t depth, const Argument_t max_depth) noexcept {
+    if (depth >= max_depth) return fibo_rec0(n); else {
+      auto handle1 = std::async(std::launch::async, fibo_rec, n-1, depth+1, max_depth);
+      return fibo_rec(n-2, depth+1, max_depth) + handle1.get();
     }
-    else
-      return fibo_rec(n-2, max, cnt, observed_max, false) + fibo_rec(n-1, max, cnt, observed_max, false);
   }
 
 }
@@ -76,20 +84,24 @@ namespace {
 int main(const int argc, const char* const argv[]) {
   const Argument_t N = (argc > 1) ? std::stoul(argv[1]) : default_N;
   const Result_t F = fibo_direct(N);
-  const CountThreads_t num_threads = (argc > 2) ? std::stoul(argv[2]) : default_threads;
+  const RecMode recmode = (argc > 2) ? to_RecMode(argv[2]) : default_recmode;
 
-  AtomicCountThreads_t cnt_threads{1};
-  CountThreads_t observed_max = 0;
-  const Result_t F2 = fibo_rec(N, num_threads, cnt_threads, observed_max, false);
+  if (recmode == RecMode::nonpar) {
+    const Result_t F2 = fibo_rec0(N);
+    if (F != F2) {
+      std::cerr << "Error: Recursive result (non-parallel) is " << F2 << ", but should be " << F << "\n";
+      return code(Error::nonpar);
+    }
+    return 0;
+  }
+
+  const Argument_t max_depth = (argc > 3) ? std::stoul(argv[3]) : depth(std::thread::hardware_concurrency());
+  const Result_t F2 = fibo_rec(N, 0, max_depth);
 
   if (F != F2) {
-    std::cerr << "Error: Recursive result is " << F2 << ", but should be " << F << "\n";
-    return 1;
+    std::cerr << "Error: Recursive result (parallel) is " << F2 << ", but should be " << F << "\n";
+    return code(Error::par);
   }
-  if (cnt_threads != 1) {
-    std::cerr << "Error: cnt_threads = " << cnt_threads << ".\n";
-    return 1;
-  }
-  std::cout << observed_max << "\n";
+  std::cout << N << " " << max_depth << "\n";
 
 }
