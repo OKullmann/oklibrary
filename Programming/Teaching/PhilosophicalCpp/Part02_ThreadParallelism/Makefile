@@ -15,12 +15,16 @@ Standard_options = --std=c++17 -pedantic
 Warning_options = -Wall -Wextra
 Optimisation_options = -Ofast -DNDEBUG
 
-all : AtomicCounter
+all : AtomicCounter Recursion
 
 AtomicCounter : AtomicCounter.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) -pthread $< -o $@
 
+Recursion : Recursion.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) -pthread $< -o $@
+
+
 clean :
 
 cleanall :
-	- rm AtomicCounter
+	- rm AtomicCounter Recursion
