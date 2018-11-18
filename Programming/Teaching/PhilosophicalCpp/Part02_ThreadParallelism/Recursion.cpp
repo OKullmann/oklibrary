@@ -52,25 +52,23 @@ namespace {
   // implementation, cnt should be guarded by for example an depth-guard:
   constexpr Argument_t threshold = 5;
   Result_t fibo_rec(const Argument_t n, const CountThreads_t max, AtomicCountThreads_t& cnt, CountThreads_t& observed_max, const bool new_thread) noexcept {
+    class Dec { // RAII, decrementing cnt on exit
+      const bool nt; AtomicCountThreads_t& cnt; public :
+      Dec(const bool n, AtomicCountThreads_t& c) noexcept : nt(n), cnt(c) {}
+      ~Dec() noexcept { if (nt) --cnt; }
+    } dec(new_thread, cnt);
     // The following just exemplifies how to avoid creating too small threads:
-    if (n <= threshold) { if (new_thread) --cnt; return fibo_direct(n); }
+    if (n <= threshold) return fibo_direct(n);
 
     const CountThreads_t num_threads = cnt;
     observed_max = std::max(observed_max, num_threads);
     if (num_threads < max) {
       ++cnt;
       auto handle1 = std::async(std::launch::async, fibo_rec, n-1, max, std::ref(cnt), std::ref(observed_max), true);
-      const Result_t res0 = fibo_rec(n-2, max, cnt, observed_max, false);
-      const Result_t res1 = handle1.get();
-      if (new_thread) --cnt;
-      return res0 + res1;
+      return fibo_rec(n-2, max, cnt, observed_max, false) + handle1.get();
     }
-    else {
-      const Result_t res0 = fibo_rec(n-2, max, cnt, observed_max, false);
-      const Result_t res1 = fibo_rec(n-1, max, cnt, observed_max, false);
-      if (new_thread) --cnt;
-      return res0 + res1;
-    }
+    else
+      return fibo_rec(n-2, max, cnt, observed_max, false) + fibo_rec(n-1, max, cnt, observed_max, false);
   }
 
 }
