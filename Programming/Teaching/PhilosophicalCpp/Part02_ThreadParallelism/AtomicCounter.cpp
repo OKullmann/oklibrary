@@ -25,6 +25,7 @@ Prints the maximum number of threads which did run in parallel.
 #include <iostream>
 #include <thread>
 #include <atomic>
+#include <type_traits>
 
 namespace {
 
@@ -35,6 +36,9 @@ namespace {
 
   constexpr CountThreads_t default_threads = 20;
   constexpr Count_t default_iterations = 1'000'000;
+
+  typedef std::atomic<CountThreads_t> AtomicCountThreads_t;
+  static_assert(AtomicCountThreads_t::is_always_lock_free, "AtomicCountThreads is not lock-free.");
 
   typedef std::atomic<Count_t> AtomicCount_t;
   static_assert(AtomicCount_t::is_always_lock_free, "AtomicCount not lock-free.");
@@ -47,15 +51,18 @@ namespace {
     CountThreads_t count() const noexcept { return c; }
     CountThreads_t max() const noexcept { return m; }
   };
+  static_assert(std::is_trivially_copyable<MaxThreads>::value, "MaxThreads is not trivially copyable.");
+  static_assert(not std::is_pod<MaxThreads>::value, "MaxThreads is POD.");
   inline MaxThreads inc(MaxThreads m) noexcept { m.inc(); return m; }
   inline MaxThreads dec(MaxThreads m) noexcept { m.dec(); return m; }
   typedef std::atomic<MaxThreads> AtomicMaxThreads;
   static_assert(AtomicMaxThreads::is_always_lock_free, "AtomicMaxThreads not lock-free.");
 
 
-  inline void count(const Count_t N, AtomicCount_t& counter, AtomicMaxThreads& max) noexcept {
+  inline void count(const Count_t N, AtomicCount_t& counter, AtomicCountThreads_t& cnt_threads, AtomicMaxThreads& max) noexcept {
     for (Count_t i = 0; i < N;
          counter.fetch_add(1, std::memory_order_relaxed), ++i);
+    cnt_threads.fetch_add(1, std::memory_order_relaxed);
     for (auto m = max.load(); not max.compare_exchange_strong(m, dec(m)););
   }
 
@@ -66,10 +73,13 @@ int main(const int argc, const char* const argv[]) {
   const Count_t num_iterations = (argc > 2) ? std::stoull(argv[2]) : default_iterations;
 
   AtomicCount_t counter{0};
+  AtomicCountThreads_t cnt_threads{0};
   AtomicMaxThreads max;
+
   Thread_vt v; v.reserve(num_threads);
   for (CountThreads_t i = 0; i < num_threads; ++i) {
-    v.emplace_back(count, num_iterations, std::ref(counter), std::ref(max));
+    v.emplace_back(count, num_iterations, std::ref(counter), std::ref(cnt_threads), std::ref(max));
+    cnt_threads.fetch_sub(1, std::memory_order_relaxed);
     for (auto m = max.load(); not max.compare_exchange_strong(m, inc(m)););
   }
   for (auto& t : v) t.join();
@@ -77,6 +87,10 @@ int main(const int argc, const char* const argv[]) {
   const Count_t final = num_threads * num_iterations;
   if (counter != final) {
     std::cerr << "Error: counter = " << counter << " != final = " << final << ".\n";
+    return 1;
+  }
+  if (cnt_threads != 0) {
+    std::cerr << "Error: cnt_threads = " << cnt_threads << ".\n";
     return 1;
   }
   if (max.load().count() != 0) {
