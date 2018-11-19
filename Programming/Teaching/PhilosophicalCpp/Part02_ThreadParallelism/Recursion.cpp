@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Part02_ThreadParallelism/Recursion.cpp
+  \file PhilosophicalCpp/Part02_ThreadParallelism/Recursion.cpp
   \brief Parallel recursion for Fibonacci-numbers, as simple and efficient as possible
 
   Usage:
