@@ -24,6 +24,9 @@ License, or any later version. */
 
         stats.solutions += stats0.solutions + stats1.solutions;
 
+      In Programming/Teaching/PhilosophicalCpp/Part02_ThreadParallelism
+      examples for implementing parallelisms are given.
+
    2. Currently the two branches actually have to be performed in order,
       due to
               const auto right_index = T.index()+1;
@@ -63,6 +66,27 @@ namespace Backtracking {
     Var_uint hs;
   };
   static_assert(std::is_pod<Statistics>::value, "Statistics is not POD.");
+  inline constexpr Statistics operator +(const Statistics& s1, const Statistics& s2) noexcept {
+    Statistics s{};
+    s.solutions = s1.solutions + s2.solutions;
+    s.nodes = 1 + s1.nodes + s2.nodes;
+    s.height = std::max(s1.height, s2.height) + 1;
+    if (s1.solutions == 0 and s2.solutions == 0)
+      s.maxusat_nodes = 1 + s1.maxusat_nodes + s2.maxusat_nodes;
+    else
+      s.maxusat_nodes = std::max(s1.maxusat_nodes, s2.maxusat_nodes);
+    if (s1.maxusat_nodes == 0 and s2.maxusat_nodes == 0)
+      s.maxsat_nodes = 1 + s1.maxsat_nodes + s2.maxsat_nodes;
+    else
+      s.maxsat_nodes = std::max(s1.maxsat_nodes, s2.maxsat_nodes);
+    if (s1.hs == s2.hs) s.hs = s1.hs + 1;
+    else s.hs = std::max(s1.hs, s2.hs);
+    return s;
+  }
+  inline constexpr Statistics satstats(const Statistics::Var_uint n, const Statistics::Var_uint nset) noexcept {
+    return {Statistics::Count_t(std::pow(2, n - nset)), 1, 0, 0, 1, 0};
+  }
+  constexpr Statistics unsatstats{0, 1, 0, 1, 0, 0};
   std::ostream& operator <<(std::ostream& out, const Statistics& stats) {
     return out <<
          "c solutions                             " << stats.solutions << "\n"
@@ -95,17 +119,13 @@ namespace Backtracking {
     Statistics operator()(ACLS F) {
       const auto root_index = T.next_index();
       using NT = Trees::NodeType;
-      Statistics stats{0,1,0,0,0,0};
       if (F.satisfied()) {
-        stats.solutions = std::pow(2, F.n() - F.nset());
-        stats.maxsat_nodes = 1;
         T.add(root_index, NT::sl);
-        return stats;
+        return satstats(F.n(), F.nset());
       }
       if (F.falsified()) {
-        stats.maxusat_nodes = 1;
         T.add(root_index, NT::ul);
-        return stats;
+        return unsatstats;
       }
       const Var bv = Branching(F)();
       assert(not ChessBoard::singular(bv));
@@ -116,24 +136,11 @@ namespace Backtracking {
       const auto right_index = T.index()+1;
       const Statistics stats1 = operator()(std::move(F));
 
-      stats.solutions += stats0.solutions + stats1.solutions;
-      stats.nodes += stats0.nodes + stats1.nodes;
-      stats.height = std::max(stats0.height, stats1.height) + 1;
-      if (stats0.solutions == 0 and stats1.solutions == 0) {
-        stats.maxusat_nodes = 1 + stats0.maxusat_nodes + stats1.maxusat_nodes;
+      if (stats0.solutions == 0 and stats1.solutions == 0)
         T.add(root_index, {root_index+1, right_index}, NT::ui);
-      }
-      else {
-        stats.maxusat_nodes = std::max(stats0.maxusat_nodes, stats1.maxusat_nodes);
-        T.add(root_index, {root_index+1, right_index}, NT::si);
-      }
-      if (stats0.maxusat_nodes == 0 and stats1.maxusat_nodes == 0)
-        stats.maxsat_nodes = 1 + stats0.maxsat_nodes + stats1.maxsat_nodes;
       else
-        stats.maxsat_nodes = std::max(stats0.maxsat_nodes, stats1.maxsat_nodes);
-      if (stats0.hs == stats1.hs) stats.hs = stats0.hs + 1;
-      else stats.hs = std::max(stats0.hs, stats1.hs);
-      return stats;
+        T.add(root_index, {root_index+1, right_index}, NT::si);
+      return stats0 + stats1;
     }
 
   };
