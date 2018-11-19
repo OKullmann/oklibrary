@@ -49,18 +49,16 @@ namespace {
   typedef std::uint32_t Argument_t;
   constexpr Argument_t default_N = 50;
 
+  constexpr Argument_t add_depth = 3;
   inline constexpr Argument_t depth(const Argument_t num_threads) noexcept {
     if (num_threads <= 1) return 0; else
-    return std::ceil(std::log2(num_threads)) + 3;
+    return std::ceil(std::log2(num_threads)) + add_depth;
   }
 
-  constexpr inline Result_t fibo_direct(Argument_t n) noexcept {
+  inline constexpr Result_t fibo_direct(Argument_t n) noexcept {
     if (n <= 1) return n;
     Result_t a0=0, a1=1;
-    while (n-- > 1) {
-      const Result_t sum = a0 + a1;
-      a0 = a1; a1 = sum;
-    }
+    for (--n; n != 0; --n) { const auto old_a1 = a1; a1 += a0; a0 = old_a1; }
     return a1;
   }
   static_assert(fibo_direct(20) == 6765);
@@ -72,11 +70,10 @@ namespace {
     else return fibo_rec0(n-2) + fibo_rec0(n-1);
   }
   static_assert(fibo_rec0(21) == 10946);
-  inline Result_t fibo_rec(const Argument_t n, const Argument_t depth, const Argument_t max_depth) noexcept {
-    if (depth >= max_depth) return fibo_rec0(n); else {
-      auto handle1 = std::async(std::launch::async, fibo_rec, n-1, depth+1, max_depth);
-      return fibo_rec(n-2, depth+1, max_depth) + handle1.get();
-    }
+  inline Result_t fibo_rec(const Argument_t n, Argument_t max_depth) noexcept {
+    if (max_depth-- == 0) return fibo_rec0(n);
+    auto future = std::async(std::launch::async, fibo_rec, n-1, max_depth);
+    return fibo_rec(n-2, max_depth) + future.get();
   }
 
 }
@@ -92,11 +89,12 @@ int main(const int argc, const char* const argv[]) {
       std::cerr << "Error: Recursive result (non-parallel) is " << F2 << ", but should be " << F << "\n";
       return code(Error::nonpar);
     }
+    std::cout << N << "\n";
     return 0;
   }
 
   const Argument_t max_depth = (argc > 3) ? std::stoul(argv[3]) : depth(std::thread::hardware_concurrency());
-  const Result_t F2 = fibo_rec(N, 0, max_depth);
+  const Result_t F2 = fibo_rec(N, max_depth);
 
   if (F != F2) {
     std::cerr << "Error: Recursive result (parallel) is " << F2 << ", but should be " << F << "\n";
