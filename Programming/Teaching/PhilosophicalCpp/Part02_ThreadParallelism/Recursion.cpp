@@ -65,7 +65,7 @@ namespace {
 
   // Now the recursive function:
   constexpr Argument_t threshold = 5;
-  static_assert(threshold >= 1, "threshold too small");
+  static_assert(threshold >= 1);
   inline constexpr Result_t fibo_rec0(const Argument_t n) noexcept {
     return (n <= threshold) ? fibo_direct(n) : fibo_rec0(n-2) + fibo_rec0(n-1);
   }
