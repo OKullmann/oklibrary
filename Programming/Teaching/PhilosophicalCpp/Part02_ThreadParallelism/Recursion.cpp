@@ -67,15 +67,15 @@ namespace {
   constexpr Argument_t threshold = 5;
   static_assert(threshold >= 1, "threshold too small");
   inline constexpr Result_t fibo_rec0(const Argument_t n) noexcept {
-    if (n <= threshold) return fibo_direct(n);
-    else return fibo_rec0(n-2) + fibo_rec0(n-1);
+    return (n <= threshold) ? fibo_direct(n) : fibo_rec0(n-2) + fibo_rec0(n-1);
   }
   static_assert(fibo_rec0(21) == 10946);
   inline Result_t fibo_rec(const Argument_t n, Argument_t max_depth) noexcept {
     if (n <= threshold) return fibo_direct(n);
     if (max_depth-- == 0) return fibo_rec0(n);
     auto future = std::async(std::launch::async, fibo_rec, n-2, max_depth);
-    return fibo_rec(n-1, max_depth) + future.get();
+    const Result_t res = fibo_rec(n-1, max_depth);
+    return future.get() + res;
   }
 
 }
