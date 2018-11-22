@@ -13,7 +13,8 @@ CXX = g++
 
 Standard_options = --std=c++17 -pedantic
 Warning_options = -Wall -Wextra
-Optimisation_options = -Ofast -DNDEBUG
+Optimisation_options = -Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fmodulo-sched -fmodulo-sched-allow-regmoves -ftree-loop-ivcanon -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity
+# Remark: -static yields the compiler emitting crashing code for program Recursion, with gcc version 7.3.0.
 
 all : AtomicCounter Recursion
 
