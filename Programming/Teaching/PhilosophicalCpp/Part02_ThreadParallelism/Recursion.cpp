@@ -13,9 +13,11 @@ License, or any later version. */
 
 > Recursion [N=50] [mode=1] [max_depth=calculated]
 
-The other mode is 0, without parallelism.
+The other modes are 0, without parallelism, and -1, non-recursive computation.
 
 In case of parallel computation, prints N and max_depth.
+For non-parallel recursive computation, just prints N.
+And for non-recursive computation, prints fibonacci(N) mod 2^64.
 
 */
 
@@ -25,6 +27,7 @@ In case of parallel computation, prints N and max_depth.
 
 #include <cmath>
 #include <cstdint>
+#include <cassert>
 
 namespace {
 
@@ -37,15 +40,17 @@ namespace {
 
   enum class RecMode {
     nonpar=0,
-    par=1
+    par=1,
+    nonrec=-1
   };
   constexpr RecMode default_recmode = RecMode::par;
   RecMode to_RecMode(const std::string& in) {
     if (in == "0") return RecMode::nonpar;
+    else if (in == "-1") return RecMode::nonrec;
     else return default_recmode;
   }
 
-  typedef std::uint_fast64_t Result_t;
+  typedef std::uint64_t Result_t;
   typedef std::uint32_t Argument_t;
   constexpr Argument_t default_N = 50;
 
@@ -55,6 +60,11 @@ namespace {
     return std::ceil(std::log2(num_threads)) + add_depth;
   }
 
+  /* This faster, direct computation plays two roles:
+     1. Providing a means for checking.
+     2. Acting as role model for a faster special computation for small n
+        (as given by the threshold below).
+  */
   inline constexpr Result_t fibo_direct(Argument_t n) noexcept {
     if (n <= 1) return n;
     Result_t a0=0, a1=1;
@@ -62,8 +72,11 @@ namespace {
     return a1;
   }
   static_assert(fibo_direct(20) == 6765);
+  static_assert(fibo_direct(1000) == 817770325994397771L);
 
-  // Now the recursive function:
+  // Now the recursive function, with non-parallel version first.
+  // Remark: the distinction between non-parallel and parallel version seems
+  // important, otherwise the compiler seems not to be able to emit efficient code.
   constexpr Argument_t threshold = 5;
   static_assert(threshold >= 1);
   inline constexpr Result_t fibo_rec0(const Argument_t n) noexcept {
@@ -85,7 +98,12 @@ int main(const int argc, const char* const argv[]) {
   const Result_t F = fibo_direct(N);
   const RecMode recmode = (argc > 2) ? to_RecMode(argv[2]) : default_recmode;
 
-  if (recmode == RecMode::nonpar) {
+  if (recmode == RecMode::nonrec) {
+    std::cout << F << "\n";
+    return 0;
+  }
+
+  else if (recmode == RecMode::nonpar) {
     const Result_t F2 = fibo_rec0(N);
     if (F != F2) {
       std::cerr << "Error: Recursive result (non-parallel) is " << F2 << ", but should be " << F << "\n";
@@ -95,13 +113,14 @@ int main(const int argc, const char* const argv[]) {
     return 0;
   }
 
-  const Argument_t max_depth = (argc > 3) ? std::stoul(argv[3]) : depth(std::thread::hardware_concurrency());
-  const Result_t F2 = fibo_rec(N, max_depth);
-
-  if (F != F2) {
-    std::cerr << "Error: Recursive result (parallel) is " << F2 << ", but should be " << F << "\n";
-    return code(Error::par);
+  else {
+    assert(recmode == RecMode::par);
+    const Argument_t max_depth = (argc > 3) ? std::stoul(argv[3]) : depth(std::thread::hardware_concurrency());
+    const Result_t F2 = fibo_rec(N, max_depth);
+    if (F != F2) {
+      std::cerr << "Error: Recursive result (parallel) is " << F2 << ", but should be " << F << "\n";
+      return code(Error::par);
+    }
+    std::cout << N << " " << max_depth << "\n";
   }
-  std::cout << N << " " << max_depth << "\n";
-
 }
