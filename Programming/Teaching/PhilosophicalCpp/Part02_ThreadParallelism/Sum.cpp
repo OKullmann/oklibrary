@@ -63,6 +63,7 @@ namespace {
   constexpr Exponent_t exp_default = 6;
   static_assert(std::pow(10,6) == multiplier_default);
 
+  // Functors for performing the summation 1 + ... + multiplier*reps:
   class Task {
     static Result_t multiplier;
     const Result_t reps;
@@ -93,6 +94,7 @@ namespace {
 
   static_assert(std::is_pod<Task>::value);
 
+  // For the parallel evaluation, the vector of (task, slot for result):
   typedef std::vector<std::pair<const Task, Result_t>> TaskVector;
   typedef TaskVector::pointer TaskPointer;
   struct CompTaskPointer {
@@ -106,6 +108,7 @@ namespace {
   using seed_t = RandGen::seed_t;
   constexpr seed_t seed_default = 0;
   constexpr Result_t reps_default = 1000;
+  // Creating tasks many Task(i), for 0 <= i < max_reps, pseudo-random:
   TaskVector create_experiment(const NumThreads_t tasks, const Result_t max_reps, const seed_t s) {
     TaskVector v; v.reserve(tasks);
     RandGen::vec_seed_t sv{s};
@@ -138,6 +141,12 @@ namespace {
     for (TaskPointer p = begin; p != end; ++p) Q.push(p);
   }
 
+  /*
+    Wrapping a task, so that it can be executed in parallel (as detached
+    thread), delivers the result into its slot, finishes parallel_evaluation
+    once the last task is completed, and upon exit, runs a new wrapped task
+    in a new detached thread from one queue, if the queue is not empty:
+  */
   class WrapTask {
     const Task t;
     Result_t& r;
@@ -175,7 +184,7 @@ namespace {
       std::thread(WrapTask(p,Q,running,mQ,finished)).detach();
     }
     mQ.unlock();
-    {std::mutex m; std::unique_lock l(m); finished.wait(l);}
+    {std::mutex dummy; std::unique_lock l(dummy); finished.wait(l);}
     return recombine(tasks);
   }
 
@@ -185,6 +194,7 @@ int main(const int argc, const char* const argv[]) {
   const NumThreads_t num_tasks = (argc > 1) ? std::stoul(argv[1]) : tasks_default;
   const RecMode recmode = (argc > 2) ? to_RecMode(argv[2]) : recmode_default;
   const NumThreads_t num_threads = (argc > 3) ? std::stoul(argv[3]) : std::thread::hardware_concurrency();
+  assert(num_threads >= 1);
   const Result_t max_reps = (argc > 4) ? std::stoull(argv[4]) : reps_default;
   const seed_t seed = (argc > 5) ? std::stoul(argv[5]) : seed_default;
   if (argc > 6) {
@@ -193,20 +203,20 @@ int main(const int argc, const char* const argv[]) {
   }
 
   TaskVector tasks = create_experiment(num_tasks, max_reps, seed);
-  const Result_t total_sum = direct_evaluation(tasks);
+  const Result_t direct_sum = direct_evaluation(tasks);
 
   if (recmode == RecMode::nonpar) {
     const Result_t result = nonparallel_evaluation(tasks);
-    if (result != total_sum) {
-      std::cerr << "Error: Summation (non-parallel) is " << result << ", but should be " << total_sum << "\n";
+    if (result != direct_sum) {
+      std::cerr << "Error: Summation (non-parallel) is " << result << ", but should be " << direct_sum << "\n";
       return code(Error::nonpar);
     }
     return 0;
   }
 
   const Result_t result = parallel_evaluation(tasks, num_threads);
-  if (result != total_sum) {
-    std::cerr << "Error: Summation (parallel) is " << result << ", but should be " << total_sum << "\n";
+  if (result != direct_sum) {
+    std::cerr << "Error: Summation (parallel) is " << result << ", but should be " << direct_sum << "\n";
     return code(Error::par);
   }
 
