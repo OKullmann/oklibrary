@@ -58,34 +58,34 @@ namespace {
 
 
   typedef std::uint_fast64_t Result_t;
-  constexpr Result_t base_default = 1'000'000;
+  constexpr Result_t multiplier_default = 1'000'000;
   typedef std::uint8_t Exponent_t;
   constexpr Exponent_t exp_default = 6;
-  static_assert(std::pow(10,6) == base_default);
+  static_assert(std::pow(10,6) == multiplier_default);
 
   class Task {
-    static Result_t base;
+    static Result_t multiplier;
     const Result_t reps;
   public :
-    static void set_base(const Exponent_t e = exp_default) noexcept {
-      base = std::pow(10,e);
+    static void set_multiplier(const Exponent_t e = exp_default) noexcept {
+      multiplier = std::pow(10,e);
     }
-    static Result_t base_value() noexcept { return base; }
+    static Result_t multiplier_value() noexcept { return multiplier; }
     Task() = default;
     constexpr Task(const Result_t reps) noexcept : reps(reps) {}
     constexpr Result_t repetitions() const noexcept { return reps; }
     Result_t operator()() const noexcept {
       Result_t sum = 0;
-      const Result_t N = base * reps;
+      const Result_t N = multiplier * reps;
       for (Result_t i = 1; i <= N; ++i) sum += i;
       return sum;
     }
     Result_t fast() const noexcept {
-      const Result_t N = base * reps;
+      const Result_t N = multiplier * reps;
       return (N * (N+1)) / 2;
     }
   };
-  Result_t Task::base = base_default;
+  Result_t Task::multiplier = multiplier_default;
 
   inline constexpr bool operator <(const Task t1, const Task t2) noexcept {
     return t1.repetitions() < t2.repetitions();
@@ -138,13 +138,14 @@ namespace {
     for (TaskPointer p = begin; p != end; ++p) Q.push(p);
   }
 
-  struct WrapTask {
+  class WrapTask {
     const Task t;
     Result_t& r;
     TaskQueue& Q;
     NumThreads_t& run;
     std::mutex& mQ;
     std::condition_variable& f;
+  public :
     WrapTask(const TaskPointer p, TaskQueue& Q, NumThreads_t& run, std::mutex& mQ, std::condition_variable& f) noexcept : t(p->first), r(p->second), Q(Q), run(run), mQ(mQ), f(f) {}
     void operator()() {
       r = t();
@@ -188,7 +189,7 @@ int main(const int argc, const char* const argv[]) {
   const seed_t seed = (argc > 5) ? std::stoul(argv[5]) : seed_default;
   if (argc > 6) {
     const Exponent_t exp = std::stoul(argv[6]);
-    Task::set_base(exp);
+    Task::set_multiplier(exp);
   }
 
   TaskVector tasks = create_experiment(num_tasks, max_reps, seed);
