@@ -16,7 +16,7 @@ Warning_options = -Wall -Wextra
 Optimisation_options = -Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fmodulo-sched -fmodulo-sched-allow-regmoves -ftree-loop-ivcanon -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity
 # Remark: -static yields the compiler emitting crashing code for program Recursion, with gcc version 7.3.0.
 
-all : AtomicCounter Recursion
+all : AtomicCounter Recursion Sum
 
 AtomicCounter : AtomicCounter.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) -pthread $< -o $@
@@ -24,8 +24,11 @@ AtomicCounter : AtomicCounter.cpp
 Recursion : Recursion.cpp
 	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) -pthread $< -o $@
 
+Sum : Sum.cpp
+	$(CXX) $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) -pthread $< -o $@
+
 
 clean :
 
 cleanall :
-	- rm AtomicCounter Recursion
+	- rm AtomicCounter Recursion Sum
