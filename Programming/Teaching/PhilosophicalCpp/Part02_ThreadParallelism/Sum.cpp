@@ -44,7 +44,6 @@ TODOS:
 #include <condition_variable>
 #include <type_traits>
 #include <vector>
-#include <queue>
 #include <utility>
 #include <algorithm>
 
@@ -125,11 +124,6 @@ namespace {
   // The vector of (task, slot for result):
   typedef std::vector<std::pair<const Task, Result_t>> TaskVector;
   typedef TaskVector::pointer TaskPointer;
-  struct CompTaskPointer {
-    bool operator()(const TaskPointer p1, const TaskPointer p2) const noexcept {
-      return p1->first < p2->first;
-    }
-  };
 
   typedef std::uint32_t NumThreads_t;
   constexpr NumThreads_t tasks_default = 100;
@@ -165,14 +159,36 @@ namespace {
     return sum;
   }
 
-  typedef std::priority_queue<TaskPointer, std::vector<TaskPointer>, CompTaskPointer> TaskQueue;
+  class TaskQueue {
+    typedef std::vector<TaskPointer> vec_t;
+    vec_t q;
+    typedef vec_t::const_pointer pointer_t;
+    pointer_t top = nullptr, begin = nullptr;
+    bool empty_ = true;
+  public :
+    TaskQueue() = default;
+    TaskQueue(const TaskQueue&) = delete;
+    void initialise(const TaskVector& v) {
+      if (v.empty()) return;
+      const auto N = v.size();
+      q.reserve(N);
+      const auto v_begin = const_cast<TaskPointer>(v.data());
+      const auto v_end = v.data() + N;
+      for (TaskPointer p = v_begin; p != v_end; ++p) q.push_back(p);
+      std::sort(q.begin(), q.end(), [](const TaskPointer p1, const TaskPointer p2) noexcept {return p1->first < p2->first;});
+      begin = q.data();
+      empty_ = false;
+      top = begin + N - 1;
+    }
+    bool empty() const noexcept { return empty_; }
+    TaskPointer toppop() noexcept {
+      assert(not empty_);
+      const TaskPointer res = *top;
+      if (top == begin) empty_ = true; else --top;
+      return res;
+    }
+  };
   TaskQueue Q;
-
-  inline void create_queue(const TaskVector& v) {
-    const auto begin = const_cast<TaskPointer>(v.data());
-    const auto end = v.data() + v.size();
-    for (TaskPointer p = begin; p != end; ++p) Q.push(p);
-  }
 
   NumThreads_t running; // counter from num_threads to 0
   // Guard for parallel access to variables Q, running:
@@ -201,20 +217,20 @@ namespace {
       mQ.lock();
       if (--running == 0) { finished.notify_one(); return; }
       if (Q.empty()) {mQ.unlock(); return;}
-      const TaskPointer p = Q.top(); Q.pop();
+      const TaskPointer p = Q.toppop();
       mQ.unlock();
       std::thread(WrapTask(p,Q,running,mQ,finished)).detach();
     }
   };
 
   Result_t parallel_evaluation(TaskVector& tasks, const NumThreads_t num_threads) {
-    create_queue(tasks);
+    Q.initialise(tasks);
     const NumThreads_t N = tasks.size();
     mQ.lock();
     {running = N;
      const NumThreads_t run_now = std::min(num_threads, N);
      for (NumThreads_t i = 0; i < run_now; ++i) {
-       const TaskPointer p = Q.top(); Q.pop();
+       const TaskPointer p = Q.toppop();
        std::thread(WrapTask(p,Q,running,mQ,finished)).detach();
      }
     } mQ.unlock();
