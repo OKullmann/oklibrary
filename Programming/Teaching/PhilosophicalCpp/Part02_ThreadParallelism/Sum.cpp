@@ -80,7 +80,7 @@ namespace {
       for (Result_t i = 1; i <= N; ++i) sum += i;
       return sum;
     }
-    Result_t fast() const noexcept {
+    Result_t direct() const noexcept {
       const Result_t N = multiplier * reps;
       return (N * (N+1)) / 2;
     }
@@ -115,12 +115,12 @@ namespace {
     for (NumThreads_t i = 0; i < tasks; ++i) v.emplace_back(U(),0);
     return v;
   }
-  inline Result_t fast_evaluation(const TaskVector& v) noexcept {
+  inline Result_t direct_evaluation(const TaskVector& v) noexcept {
     Result_t sum = 0;
-    for (const auto& x : v) sum += x.first.fast();
+    for (const auto& x : v) sum += x.first.direct();
     return sum;
   }
-  inline Result_t slow_evaluation(const TaskVector& v) noexcept {
+  inline Result_t nonparallel_evaluation(const TaskVector& v) noexcept {
     Result_t sum = 0;
     for (const auto& x : v) sum += x.first();
     return sum;
@@ -193,10 +193,10 @@ int main(const int argc, const char* const argv[]) {
   }
 
   TaskVector tasks = create_experiment(num_tasks, max_reps, seed);
-  const Result_t total_sum = fast_evaluation(tasks);
+  const Result_t total_sum = direct_evaluation(tasks);
 
   if (recmode == RecMode::nonpar) {
-    const Result_t result = slow_evaluation(tasks);
+    const Result_t result = nonparallel_evaluation(tasks);
     if (result != total_sum) {
       std::cerr << "Error: Summation (non-parallel) is " << result << ", but should be " << total_sum << "\n";
       return code(Error::nonpar);
