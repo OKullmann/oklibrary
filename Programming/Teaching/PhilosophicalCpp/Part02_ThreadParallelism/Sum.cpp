@@ -79,9 +79,8 @@ namespace {
     }
   }
 
-  typedef std::uint32_t NumThreads_t;
-  constexpr NumThreads_t tasks_default = 100;
 
+  /* ****** The tasks ****** */
 
   typedef std::uint_fast64_t Result_t;
   constexpr Result_t multiplier_default = 1'000'000;
@@ -120,7 +119,10 @@ namespace {
 
   static_assert(std::is_pod<Task>::value);
 
-  // For the parallel evaluation, the vector of (task, slot for result):
+
+  /* ****** The parallel computation ****** */
+
+  // The vector of (task, slot for result):
   typedef std::vector<std::pair<const Task, Result_t>> TaskVector;
   typedef TaskVector::pointer TaskPointer;
   struct CompTaskPointer {
@@ -128,12 +130,14 @@ namespace {
       return p1->first < p2->first;
     }
   };
-  typedef std::priority_queue<TaskPointer, std::vector<TaskPointer>, CompTaskPointer> TaskQueue;
 
+  typedef std::uint32_t NumThreads_t;
+  constexpr NumThreads_t tasks_default = 100;
 
   using seed_t = RandGen::seed_t;
   constexpr seed_t seed_default = 0;
   constexpr Result_t reps_default = 1000;
+
   // Creating tasks many Task(i), for 0 <= i < max_reps, pseudo-random:
   TaskVector create_experiment(const NumThreads_t tasks, const Result_t max_reps, const seed_t s) {
     TaskVector v; v.reserve(tasks);
@@ -144,6 +148,7 @@ namespace {
     for (NumThreads_t i = 0; i < tasks; ++i) v.emplace_back(U(),0);
     return v;
   }
+
   inline Result_t direct_evaluation(const TaskVector& v) noexcept {
     Result_t sum = 0;
     for (const auto& x : v) sum += x.first.direct();
@@ -154,12 +159,14 @@ namespace {
     for (const auto& x : v) sum += x.first();
     return sum;
   }
+  inline Result_t recombine(const TaskVector& tasks) noexcept {
+    Result_t sum = 0;
+    for (const auto& x : tasks) sum += x.second;
+    return sum;
+  }
 
-
+  typedef std::priority_queue<TaskPointer, std::vector<TaskPointer>, CompTaskPointer> TaskQueue;
   TaskQueue Q;
-  NumThreads_t running;
-  std::mutex mQ;
-  std::condition_variable finished;
 
   inline void create_queue(const TaskVector& v) {
     const auto begin = const_cast<TaskPointer>(v.data());
@@ -167,49 +174,50 @@ namespace {
     for (TaskPointer p = begin; p != end; ++p) Q.push(p);
   }
 
+  NumThreads_t running; // counter from num_threads to 0
+  // Guard for parallel access to variables Q, running:
+  std::mutex mQ;
+
+  std::condition_variable finished; // channel for communicating with the master thread
+
   /*
     Wrapping a task, so that it can be executed in parallel (as detached
-    thread), delivers the result into its slot, finishes parallel_evaluation
+    thread); delivers the result into its slot, finishes parallel_evaluation
     once the last task is completed, and upon exit, runs a new wrapped task
-    in a new detached thread from one queue, if the queue is not empty:
+    in a new detached thread from the queue, if the queue is not empty:
   */
   class WrapTask {
     const Task t;
     Result_t& r;
     TaskQueue& Q;
-    NumThreads_t& run;
+    NumThreads_t& running;
     std::mutex& mQ;
-    std::condition_variable& f;
+    std::condition_variable& finished;
   public :
-    WrapTask(const TaskPointer p, TaskQueue& Q, NumThreads_t& run, std::mutex& mQ, std::condition_variable& f) noexcept : t(p->first), r(p->second), Q(Q), run(run), mQ(mQ), f(f) {}
+    WrapTask(const TaskPointer p, TaskQueue& Q, NumThreads_t& r, std::mutex& mQ, std::condition_variable& f) noexcept : t(p->first), r(p->second), Q(Q), running(r), mQ(mQ), finished(f) {}
+
     void operator()() {
       r = t();
       mQ.lock();
-      if (--run == 0) { f.notify_one(); return; }
+      if (--running == 0) { finished.notify_one(); return; }
       if (Q.empty()) {mQ.unlock(); return;}
       const TaskPointer p = Q.top(); Q.pop();
       mQ.unlock();
-      std::thread(WrapTask(p,Q,run,mQ,f)).detach();
+      std::thread(WrapTask(p,Q,running,mQ,finished)).detach();
     }
   };
-
-  Result_t recombine(const TaskVector& tasks) noexcept {
-    Result_t sum = 0;
-    for (const auto& x : tasks) sum += x.second;
-    return sum;
-  }
 
   Result_t parallel_evaluation(TaskVector& tasks, const NumThreads_t num_threads) {
     create_queue(tasks);
     const NumThreads_t N = tasks.size();
     mQ.lock();
-    running = N;
-    const NumThreads_t run_now = std::min(num_threads, N);
-    for (NumThreads_t i = 0; i < run_now; ++i) {
-      const TaskPointer p = Q.top(); Q.pop();
-      std::thread(WrapTask(p,Q,running,mQ,finished)).detach();
-    }
-    mQ.unlock();
+    {running = N;
+     const NumThreads_t run_now = std::min(num_threads, N);
+     for (NumThreads_t i = 0; i < run_now; ++i) {
+       const TaskPointer p = Q.top(); Q.pop();
+       std::thread(WrapTask(p,Q,running,mQ,finished)).detach();
+     }
+    } mQ.unlock();
     {std::mutex dummy; std::unique_lock l(dummy); finished.wait(l);}
     return recombine(tasks);
   }
@@ -246,11 +254,11 @@ int main(const int argc, const char* const argv[]) {
     }
     return 0;
   }
-
-  const Result_t result = parallel_evaluation(tasks, num_threads);
-  if (result != direct_sum) {
-    std::cerr << "Error: Summation (parallel) is " << result << ", but should be " << direct_sum << "\n";
-    return code(Error::par);
+  else {
+    const Result_t result = parallel_evaluation(tasks, num_threads);
+    if (result != direct_sum) {
+      std::cerr << "Error: Summation (parallel) is " << result << ", but should be " << direct_sum << "\n";
+      return code(Error::par);
+    }
   }
-
 }
