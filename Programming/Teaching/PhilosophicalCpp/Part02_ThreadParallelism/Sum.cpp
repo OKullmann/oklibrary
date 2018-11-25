@@ -240,9 +240,13 @@ namespace {
 
 
   void output_commandline(const NumThreads_t N, const RecMode r, const NumThreads_t T, const Result_t mr, const seed_t s, const Result_t res) {
-    std::cout << "N=" << N << ", mode=" << r;
-    if (r == RecMode::par) std::cout << ", num_threads=" << T;
-    std::cout << ", max_reps=" << mr << ", seed=" << s << ", multiplier=" << Task::multiplier_value() << ", result=" << res << "\n";
+    std::cout << "N=" << N << ", mode=" << r << "(" << code(r) << "), ";
+    if (r == RecMode::par) std::cout << "num_threads=" << T;
+    else std::cout << "(num_threads=" << T << ")";
+    std::cout << ", max_reps=" << mr << ", seed=" << s << ", multiplier=";
+    const auto mult = Task::multiplier_value();
+    const Result_t e = std::round(std::log10(mult));
+    std::cout << mult << "=10^" << e << ", result=" << res << "\n";
   }
 }
 
