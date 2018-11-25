@@ -9,11 +9,31 @@ License, or any later version. */
   \file PhilosophicalCpp/Part02_ThreadParallelism/Sum.cpp
   \brief Parallel summation
 
+  Computes N sums
+    1 + ... + reps*multiplier,
+  where 0 <= reps <= max_reps is pseudo-random, and the default for
+  multiplier is 10^exponent.
+  Using num_threads-many threads for the summations
+  (plus the  waiting master-thread). If a thread is finished, the replacement
+  is taking from the priority-queue of waiting tasks, choosing a task with
+  maximal reps.
+
   Usage:
 
-> Recursion [N=100] [mode=1] [num_threads=available] [max_reps=1000] [seed=0] [base=6]
+> Recursion [N=100] [mode=1] [num_threads=available] [max_reps=1000] [seed=0] [exponent=6]
 
 The other mode is 0, without parallelism.
+
+TODOS:
+
+1. Currently, in the callback of WrapTask, if one task is finished, and there
+   is a task on the queue, then a new detached thread is created.
+   Instead it should be more efficient, and easy to do, to have such a
+   wrapped task running a loop, where then the new task is run in the
+   same thread.
+
+   One needs first to establish the efficiency of the current method, and then
+   with the new method, to measure the difference.
 
 */
 
@@ -51,6 +71,12 @@ namespace {
   RecMode to_RecMode(const std::string& in) {
     if (in == "0") return RecMode::nonpar;
     else return recmode_default;
+  }
+  std::ostream& operator <<(std::ostream& out, const RecMode r) {
+    switch (r) {
+      case RecMode::nonpar : return out << "nonpar";
+      default : return out << "par";
+    }
   }
 
   typedef std::uint32_t NumThreads_t;
@@ -188,6 +214,12 @@ namespace {
     return recombine(tasks);
   }
 
+
+  void output_commandline(const NumThreads_t N, const RecMode r, const NumThreads_t T, const Result_t mr, const seed_t s, const Result_t res) {
+    std::cout << "N=" << N << ", mode=" << r;
+    if (r == RecMode::par) std::cout << ", num_threads=" << T;
+    std::cout << ", max_reps=" << mr << ", seed=" << s << ", multiplier=" << Task::multiplier_value() << ", result=" << res << "\n";
+  }
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -204,6 +236,7 @@ int main(const int argc, const char* const argv[]) {
 
   TaskVector tasks = create_experiment(num_tasks, max_reps, seed);
   const Result_t direct_sum = direct_evaluation(tasks);
+  output_commandline(num_tasks, recmode, num_threads, max_reps, seed, direct_sum);
 
   if (recmode == RecMode::nonpar) {
     const Result_t result = nonparallel_evaluation(tasks);
