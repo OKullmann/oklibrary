@@ -23,6 +23,7 @@ And for non-recursive computation, prints fibonacci(N) mod 2^64.
 
 #include <string>
 #include <iostream>
+#include <thread>
 #include <future>
 
 #include <cmath>
