@@ -1,1 +1,1 @@
-/home/kullmann/OKplatform/OKsystem/OKlib/Satisfiability/Transformers/Generators/Queens/GenericSAT/RandGen.hpp
+../../../../Satisfiability/Transformers/Generators/Queens/GenericSAT/RandGen.hpp
