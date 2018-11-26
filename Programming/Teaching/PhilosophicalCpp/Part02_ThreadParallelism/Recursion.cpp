@@ -45,7 +45,7 @@ namespace {
     nonrec=-1
   };
   constexpr RecMode default_recmode = RecMode::par;
-  RecMode to_RecMode(const std::string& in) {
+  RecMode to_RecMode(const std::string& in) noexcept {
     if (in == "0") return RecMode::nonpar;
     else if (in == "-1") return RecMode::nonrec;
     else return default_recmode;

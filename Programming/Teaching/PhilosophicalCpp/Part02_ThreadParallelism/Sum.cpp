@@ -67,7 +67,7 @@ namespace {
     par=1
   };
   constexpr RecMode recmode_default = RecMode::par;
-  RecMode to_RecMode(const std::string& in) {
+  RecMode to_RecMode(const std::string& in) noexcept {
     if (in == "0") return RecMode::nonpar;
     else return recmode_default;
   }
@@ -116,7 +116,7 @@ namespace {
     return t1.repetitions() < t2.repetitions();
   }
 
-  static_assert(std::is_pod<Task>::value);
+  static_assert(std::is_pod_v<Task>);
 
 
   /* ****** The parallel computation ****** */

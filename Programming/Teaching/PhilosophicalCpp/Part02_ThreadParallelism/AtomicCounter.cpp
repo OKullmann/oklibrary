@@ -38,10 +38,10 @@ namespace {
   constexpr Count_t default_iterations = 1'000'000;
 
   typedef std::atomic<CountThreads_t> AtomicCountThreads_t;
-  static_assert(AtomicCountThreads_t::is_always_lock_free, "AtomicCountThreads is not lock-free.");
+  static_assert(AtomicCountThreads_t::is_always_lock_free);
 
   typedef std::atomic<Count_t> AtomicCount_t;
-  static_assert(AtomicCount_t::is_always_lock_free, "AtomicCount not lock-free.");
+  static_assert(AtomicCount_t::is_always_lock_free);
 
   class MaxThreads {
     CountThreads_t c=0, m=0;
@@ -51,12 +51,12 @@ namespace {
     CountThreads_t count() const noexcept { return c; }
     CountThreads_t max() const noexcept { return m; }
   };
-  static_assert(std::is_trivially_copyable<MaxThreads>::value, "MaxThreads is not trivially copyable.");
-  static_assert(not std::is_pod<MaxThreads>::value, "MaxThreads is POD.");
+  static_assert(std::is_trivially_copyable_v<MaxThreads>);
+  static_assert(not std::is_pod_v<MaxThreads>);
   inline MaxThreads inc(MaxThreads m) noexcept { m.inc(); return m; }
   inline MaxThreads dec(MaxThreads m) noexcept { m.dec(); return m; }
   typedef std::atomic<MaxThreads> AtomicMaxThreads;
-  static_assert(AtomicMaxThreads::is_always_lock_free, "AtomicMaxThreads not lock-free.");
+  static_assert(AtomicMaxThreads::is_always_lock_free);
 
 
   inline void count(const Count_t N, AtomicCount_t& counter, AtomicCountThreads_t& cnt_threads, AtomicMaxThreads& max) noexcept {
