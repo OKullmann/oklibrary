@@ -169,7 +169,7 @@ namespace {
     TaskQueue() = default;
     TaskQueue(const TaskQueue&) = delete;
     void initialise(const TaskVector& v) {
-      if (v.empty()) return;
+      assert(not v.empty());
       const auto N = v.size();
       q.reserve(N);
       const auto v_begin = const_cast<TaskPointer>(v.data());
@@ -252,6 +252,7 @@ namespace {
 
 int main(const int argc, const char* const argv[]) {
   const NumThreads_t num_tasks = (argc > 1) ? std::stoul(argv[1]) : tasks_default;
+  assert(num_tasks >= 1);
   const RecMode recmode = (argc > 2) ? to_RecMode(argv[2]) : recmode_default;
   const NumThreads_t num_threads = (argc > 3) ? std::stoul(argv[3]) : std::thread::hardware_concurrency();
   assert(num_threads >= 1);
