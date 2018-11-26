@@ -73,8 +73,9 @@ void version_information() noexcept {
 }
 
 int main(const int argc, const char* const argv[]) {
+  using namespace std::string_literals;
   if (argc == 1) show_usage();
-  if (argc == 2 and std::string(argv[1]) == "-v") version_information();
+  if (argc == 2 and argv[1] == "-v"s) version_information();
 
   const ChessBoard::coord_t N = InOut::interprete(argc, argv, error);
   const bool tree_output = argv[1][0] == '+';

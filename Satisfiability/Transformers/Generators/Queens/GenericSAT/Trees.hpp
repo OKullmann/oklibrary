@@ -47,7 +47,7 @@ namespace Trees {
 
   // Since the node-index itself is given, only the children are needed:
   struct TreeNode { node_t l, r; };
-  static_assert(std::is_pod<TreeNode>::value, "TreeNode is not POD.");
+  static_assert(std::is_pod_v<TreeNode>);
 
   inline constexpr bool operator ==(const TreeNode lhs, const TreeNode rhs) noexcept {
     return lhs.l == rhs.l and lhs.r == rhs.r;

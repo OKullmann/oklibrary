@@ -33,11 +33,11 @@ namespace ChessBoard {
     coord_t first;
     coord_t second;
   };
-  static_assert(std::is_pod<Var>::value, "Var is not POD.");
-  inline constexpr bool operator ==(const Var lhs, const Var rhs) {
+  static_assert(std::is_pod_v<Var>);
+  inline constexpr bool operator ==(const Var lhs, const Var rhs) noexcept {
     return lhs.first == rhs.first and lhs.second == rhs.second;
   }
-  inline constexpr bool operator !=(const Var lhs, const Var rhs) {
+  inline constexpr bool operator !=(const Var lhs, const Var rhs) noexcept {
     return not (lhs == rhs);
   }
   inline constexpr bool singular(const Var v) noexcept {
@@ -76,8 +76,8 @@ namespace ChessBoard {
        N+N, and then we set i = (x+y) - 2.
     */
   };
-  static_assert(std::is_pod<Diagonal>::value, "Diagonal is not POD.");
-  static_assert(std::is_pod<AntiDiagonal>::value, "AntiDiagonal is not POD.");
+  static_assert(std::is_pod_v<Diagonal>);
+  static_assert(std::is_pod_v<AntiDiagonal>);
 
   inline constexpr Diagonal diagonal(const Var v, const coord_t N) noexcept {
     assert(v.first >= 1 and v.second >= 1);
@@ -107,7 +107,7 @@ namespace ChessBoard {
     Var_uint p;
     Var_uint f;
   };
-  static_assert(std::is_pod<Rank>::value, "Rank is not POD.");
+  static_assert(std::is_pod_v<Rank>);
   inline constexpr bool operator ==(const Rank& r1, const Rank& r2) noexcept {
     return r1.o==r2.o and r1.p==r2.p and r1.f==r2.f;
   }
@@ -121,7 +121,7 @@ namespace ChessBoard {
     Var_uint p;
     Var_uint f;
   };
-  static_assert(std::is_pod<TotalRank>::value, "TotalRank is not POD.");
+  static_assert(std::is_pod_v<TotalRank>);
   inline constexpr bool operator ==(const TotalRank& r1, const TotalRank& r2) noexcept {
     return r1.o==r2.o and r1.p==r2.p and r1.f==r2.f;
   }

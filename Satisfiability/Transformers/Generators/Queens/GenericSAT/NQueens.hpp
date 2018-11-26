@@ -192,7 +192,7 @@ namespace NQueens {
       }
       if (exclude != Line::c) {
         auto& rank = c_ranks[v.second];
-	assert(rank.p == 0);
+        assert(rank.p == 0);
         --rank.o; ++rank.f;
         if (exclude != Line::none and rank.o == 0) {
           falsified_ = true; return;

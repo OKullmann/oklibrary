@@ -65,7 +65,7 @@ namespace Backtracking {
     Count_t maxsat_nodes; // maximum size of subtree with no unsatisfiable node
     Var_uint hs;
   };
-  static_assert(std::is_pod<Statistics>::value, "Statistics is not POD.");
+  static_assert(std::is_pod_v<Statistics>);
   inline constexpr Statistics operator +(const Statistics& s1, const Statistics& s2) noexcept {
     Statistics s{};
     s.solutions = s1.solutions + s2.solutions;

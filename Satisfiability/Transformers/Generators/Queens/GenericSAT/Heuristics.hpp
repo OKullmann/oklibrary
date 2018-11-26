@@ -99,15 +99,15 @@ namespace Heuristics {
   };
   template <class AmoAloInference>
   constexpr typename TawHeuristics<AmoAloInference>::Weights TawHeuristics<AmoAloInference>::weights;
-  static_assert(TawHeuristics<>::weight(0) == 0, "TawHeuristics: weight(0)");
-  static_assert(TawHeuristics<>::weight(1) == 0, "TawHeuristics: weight(1)");
-  static_assert(TawHeuristics<>::weight(2) == 4.85, "TawHeuristics: weight(2)");
-  static_assert(TawHeuristics<>::weight(3) == 1, "TawHeuristics: weight(3)");
-  static_assert(TawHeuristics<>::weight(4) == 0.354, "TawHeuristics: weight(4)");
-  static_assert(TawHeuristics<>::weight(5) == 0.11, "TawHeuristics: weight(5)");
-  static_assert(TawHeuristics<>::weight(6) == 0.0694, "TawHeuristics: weight(6)");
-  static_assert(TawHeuristics<>::weight(7) == 0.0694 * std::pow(1.46,-1), "TawHeuristics: weight(7)");
-  static_assert(TawHeuristics<>::weight(8) == 0.0694 * std::pow(1.46,-2), "TawHeuristics: weight(7)");
+  static_assert(TawHeuristics<>::weight(0) == 0);
+  static_assert(TawHeuristics<>::weight(1) == 0);
+  static_assert(TawHeuristics<>::weight(2) == 4.85);
+  static_assert(TawHeuristics<>::weight(3) == 1);
+  static_assert(TawHeuristics<>::weight(4) == 0.354);
+  static_assert(TawHeuristics<>::weight(5) == 0.11);
+  static_assert(TawHeuristics<>::weight(6) == 0.0694);
+  static_assert(TawHeuristics<>::weight(7) == 0.0694 * std::pow(1.46,-1));
+  static_assert(TawHeuristics<>::weight(8) == 0.0694 * std::pow(1.46,-2));
 
 
   template <class AmoAloInference = NQueens::AmoAlo_board>

@@ -71,5 +71,4 @@ namespace RandGen {
 
 }
 
-
 #endif

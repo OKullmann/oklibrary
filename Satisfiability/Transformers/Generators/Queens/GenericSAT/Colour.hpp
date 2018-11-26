@@ -29,7 +29,7 @@ namespace Colour {
   struct Colour {
     rgba_index r, g, b, a=255;
   };
-  //static_assert(std::is_pod<Colour>::value, "Colour is not POD.");
+  static_assert(not std::is_pod_v<Colour>);
 
   typedef std::vector<Colour> Colour_v;
 
