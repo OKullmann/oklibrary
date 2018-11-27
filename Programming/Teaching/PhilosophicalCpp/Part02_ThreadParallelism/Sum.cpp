@@ -24,17 +24,6 @@ License, or any later version. */
 
 The other mode is 0, without parallelism.
 
-TODOS:
-
-1. Currently, in the callback of WrapTask, if one task is finished, and there
-   is a task on the queue, then a new detached thread is created.
-   Instead it should be more efficient, and easy to do, to have such a
-   wrapped task running a loop, where then the new task is run in the
-   same thread.
-
-   One needs first to establish the efficiency of the current method, and then
-   with the new method, to measure the difference.
-
 */
 
 #include <string>
@@ -207,23 +196,23 @@ namespace {
     in a new detached thread from the queue, if the queue is not empty:
   */
   class WrapTask {
-    const Task t;
-    Result_t& r;
+    TaskPointer p;
     TQ& Q;
     NumThreads_t& running;
     std::mutex& mQ;
     std::condition_variable& finished;
   public :
-    WrapTask(const TaskPointer p, TQ& Q, NumThreads_t& r, std::mutex& mQ, std::condition_variable& f) noexcept : t(p->first), r(p->second), Q(Q), running(r), mQ(mQ), finished(f) {}
+    WrapTask(const TaskPointer p, TQ& Q, NumThreads_t& r, std::mutex& mQ, std::condition_variable& f) noexcept : p(p), Q(Q), running(r), mQ(mQ), finished(f) {}
 
     void operator()() {
-      r = t();
-      mQ.lock();
-      if (--running == 0) { finished.notify_one(); return; }
-      if (Q.empty()) {mQ.unlock(); return;}
-      const TaskPointer p = Q.toppop();
-      mQ.unlock();
-      std::thread(WrapTask(p,Q,running,mQ,finished)).detach();
+      while (true) {
+        p->second = (p->first)();
+        mQ.lock();
+        if (--running == 0) { finished.notify_one(); return; }
+        if (Q.empty()) {mQ.unlock(); return;}
+        p = Q.toppop();
+        mQ.unlock();
+      }
     }
   };
 
