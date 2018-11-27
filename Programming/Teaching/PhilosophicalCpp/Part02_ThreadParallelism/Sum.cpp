@@ -159,36 +159,40 @@ namespace {
     return sum;
   }
 
+  template <typename T>
   class TaskQueue {
-    typedef std::vector<TaskPointer> vec_t;
+    typedef std::vector<T> vec_t;
     vec_t q;
-    typedef vec_t::const_pointer pointer_t;
+    typedef typename vec_t::const_pointer pointer_t;
     pointer_t top = nullptr, begin = nullptr;
     bool empty_ = true;
   public :
+    typedef T value_type;
     TaskQueue() = default;
     TaskQueue(const TaskQueue&) = delete;
-    void initialise(const TaskVector& v) {
+    template <class V>
+    void initialise(const V& v) {
       assert(not v.empty());
       const auto N = v.size();
       q.reserve(N);
-      const auto v_begin = const_cast<TaskPointer>(v.data());
+      const auto v_begin = const_cast<T>(v.data());
       const auto v_end = v.data() + N;
-      for (TaskPointer p = v_begin; p != v_end; ++p) q.push_back(p);
-      std::sort(q.begin(), q.end(), [](const TaskPointer p1, const TaskPointer p2) noexcept {return p1->first < p2->first;});
+      for (T p = v_begin; p != v_end; ++p) q.push_back(p);
+      std::sort(q.begin(), q.end(), [](const T p1, const T p2) noexcept {return p1->first < p2->first;});
       begin = q.data();
       empty_ = false;
       top = begin + N - 1;
     }
     bool empty() const noexcept { return empty_; }
-    TaskPointer toppop() noexcept {
+    T toppop() noexcept {
       assert(not empty_);
-      const TaskPointer res = *top;
+      const T res = *top;
       if (top == begin) empty_ = true; else --top;
       return res;
     }
   };
-  TaskQueue Q;
+  using TQ = TaskQueue<TaskPointer>;
+  TQ Q;
 
   NumThreads_t running; // counter from num_threads to 0
   // Guard for parallel access to variables Q, running:
@@ -205,12 +209,12 @@ namespace {
   class WrapTask {
     const Task t;
     Result_t& r;
-    TaskQueue& Q;
+    TQ& Q;
     NumThreads_t& running;
     std::mutex& mQ;
     std::condition_variable& finished;
   public :
-    WrapTask(const TaskPointer p, TaskQueue& Q, NumThreads_t& r, std::mutex& mQ, std::condition_variable& f) noexcept : t(p->first), r(p->second), Q(Q), running(r), mQ(mQ), finished(f) {}
+    WrapTask(const TaskPointer p, TQ& Q, NumThreads_t& r, std::mutex& mQ, std::condition_variable& f) noexcept : t(p->first), r(p->second), Q(Q), running(r), mQ(mQ), finished(f) {}
 
     void operator()() {
       r = t();
