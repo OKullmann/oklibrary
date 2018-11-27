@@ -112,6 +112,22 @@ namespace {
 
   // The vector of (task, slot for result):
   typedef std::vector<std::pair<const Task, Result_t>> TaskVector;
+  inline Result_t direct_evaluation(const TaskVector& v) noexcept {
+    Result_t sum = 0;
+    for (const auto& x : v) sum += x.first.direct();
+    return sum;
+  }
+  inline Result_t nonparallel_evaluation(const TaskVector& v) noexcept {
+    Result_t sum = 0;
+    for (const auto& x : v) sum += x.first();
+    return sum;
+  }
+  inline Result_t recombine(const TaskVector& tasks) noexcept {
+    Result_t sum = 0;
+    for (const auto& x : tasks) sum += x.second;
+    return sum;
+  }
+
   typedef TaskVector::pointer TaskPointer;
 
   typedef std::uint32_t NumThreads_t;
@@ -130,22 +146,6 @@ namespace {
     RandGen::Uniform U(g, max_reps);
     for (NumThreads_t i = 0; i < tasks; ++i) v.emplace_back(U(),0);
     return v;
-  }
-
-  inline Result_t direct_evaluation(const TaskVector& v) noexcept {
-    Result_t sum = 0;
-    for (const auto& x : v) sum += x.first.direct();
-    return sum;
-  }
-  inline Result_t nonparallel_evaluation(const TaskVector& v) noexcept {
-    Result_t sum = 0;
-    for (const auto& x : v) sum += x.first();
-    return sum;
-  }
-  inline Result_t recombine(const TaskVector& tasks) noexcept {
-    Result_t sum = 0;
-    for (const auto& x : tasks) sum += x.second;
-    return sum;
   }
 
   template <typename T>
