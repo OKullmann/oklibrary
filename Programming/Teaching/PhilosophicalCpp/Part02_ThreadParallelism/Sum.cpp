@@ -70,6 +70,25 @@ sys     0m0.015s
 Apparently a bad compilation regarding optimisation, due to the template
 introduced with the next commit 6e500509700b9f9dbfdfa6c4542d4c2b973ee72f.
 
+It seems that the optimisation-option "-march=native" solved the problem:
+> time ./Sum
+N=100, mode=par(1), num_threads=4, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m6.357s
+user    0m25.014s
+sys     0m0.023s
+> time ./Sum 100 0
+N=100, mode=nonpar(0), (num_threads=4), max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m20.961s
+user    0m20.910s
+sys     0m0.002s
+> time ./Sum 100 1 2
+N=100, mode=par(1), num_threads=2, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m10.343s
+user    0m20.609s
+sys     0m0.019s
+
+(A bit strange that now the non-parallel computation got a bit slower.)
+
 2. Running the default values, but with various seeds, reveals a large
 variation in runtime, nearly 30%, which is surprising.
 

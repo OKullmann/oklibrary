@@ -13,8 +13,8 @@ CXX = g++
 
 Standard_options = --std=c++17 -pedantic
 Warning_options = -Wall -Wextra
-Optimisation_options = -Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fmodulo-sched -fmodulo-sched-allow-regmoves -ftree-loop-ivcanon -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity
-# Remark: -static yields the compiler emitting crashing code for program Recursion, with gcc version 7.3.0.
+Optimisation_options = -Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity --param graphite-max-nb-scop-params=0 -march=native -fwhole-program
+# Remark: -static yields the compiler emitting crashing code for programs Recursion, Sum with gcc version 7.3.0.
 
 all : AtomicCounter Recursion Sum
 
