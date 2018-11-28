@@ -24,6 +24,56 @@ License, or any later version. */
 
 The other mode is 0, without parallelism.
 
+TODOS:
+
+1. Investigate efficiency problem (at least on csltok)
+
+The current version 391ef7e4080e7a2033300d4d8119b0a8c4bfdd55
+yields
+
+> time ./Sum
+N=100, mode=par(1), num_threads=4, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m10.484s
+user    0m41.416s
+sys     0m0.019s
+> time ./Sum 100 0
+N=100, mode=nonpar(0), (num_threads=4), max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m20.346s
+user    0m20.283s
+sys     0m0.013s
+> time ./Sum 100 1 2
+N=100, mode=par(1), num_threads=2, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m10.499s
+user    0m20.922s
+sys     0m0.022s
+
+while
+
+> git checkout 8aa1ade5657bd5ee6650dbe70345cb0153a18a37 Sum.cpp
+> make
+> time ./Sum
+N=100, mode=par(1), num_threads=4, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m6.638s
+user    0m26.114s
+sys     0m0.020s
+> time ./Sum 100 0
+N=100, mode=nonpar(0), (num_threads=4), max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m20.284s
+user    0m20.233s
+sys     0m0.003s
+> time ./Sum 100 1 2
+N=100, mode=par(1), num_threads=2, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m10.804s
+user    0m21.515s
+sys     0m0.015s
+
+Apparently a bad compilation regarding optimisation, due to the template
+introduced with the next commit 6e500509700b9f9dbfdfa6c4542d4c2b973ee72f.
+
+2. Running the default values, but with various seeds, reveals a large
+variation in runtime, nearly 30%, which is surprising.
+
+
 */
 
 #include <string>
