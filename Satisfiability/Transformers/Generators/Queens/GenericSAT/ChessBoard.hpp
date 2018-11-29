@@ -131,6 +131,110 @@ namespace ChessBoard {
 
   enum class State { open=0, placed, forbidden };
 
+  struct Board {
+    const coord_t N;
+
+    Board(const coord_t N) :
+      N(N), b{N+1, std::vector<State>(N+1)},
+      r_ranks{N+1, {N,0,0}}, c_ranks(r_ranks),
+      d_ranks(dad_init()), ad_ranks(d_ranks), trank{N*N,0,0} {
+        assert(N <= max_coord);
+        assert(b.size() == N+1);
+        assert(r_ranks.size() == N+1);
+        assert(c_ranks.size() == N+1);
+        assert(d_ranks.size() == 2*N-1);
+        assert(ad_ranks.size() == 2*N-1);
+        r_ranks[0].o = 0; c_ranks[0].o = 0;
+    }
+
+    typedef std::vector<std::vector<State>> Board_t;
+    typedef std::vector<Rank> Ranks;
+
+
+    Var_uint n() const noexcept { return N*N; }
+    Var_uint nset() const noexcept { return trank.p+trank.f; }
+
+    // The number of open fields on the four lines of v, excluding v;
+    // o-ranks must be correct, except of possibly v having changed before
+    // from open to placed, which then must *not* have been updated:
+    Var_uint odegree(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      const Diagonal d = diagonal(v,N);
+      const AntiDiagonal ad = anti_diagonal(v,N);
+      assert(d.i < d_ranks.size());
+      assert(ad.i < ad_ranks.size());
+      return r_ranks[v.first].o + c_ranks[v.second].o + d_ranks[d.i].o + ad_ranks[ad.i].o - 4;
+    }
+
+    // Returns true if at least one field is set to placed in corresponding r, c, d and ad:
+    bool placed(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      const Diagonal d = diagonal(v,N);
+      const AntiDiagonal ad = anti_diagonal(v,N);
+      assert(d.i < d_ranks.size());
+      assert(ad.i < ad_ranks.size());
+      return (r_ranks[v.first].p == 1 or c_ranks[v.second].p == 1 or d_ranks[d.i].p == 1 or ad_ranks[ad.i].p == 1);
+    }
+
+    State board(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      return b[v.first][v.second];
+    }
+    bool open(const Var v) const noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      return (board(v) == State::open);
+    }
+
+    const Ranks& r_rank() const noexcept { return r_ranks; }
+    const Rank& r_rank(const coord_t i) const noexcept { return r_ranks[i]; }
+    const Ranks& c_rank() const noexcept { return c_ranks; }
+    const Rank& c_rank(const coord_t j) const noexcept { return c_ranks[j]; }
+    const Ranks& d_rank() const noexcept { return d_ranks; }
+    const Rank& d_rank(const coord_t i) const noexcept { return d_ranks[i]; }
+    const Ranks& ad_rank() const noexcept { return ad_ranks; }
+    const Rank& ad_rank(const coord_t i) const noexcept { return ad_ranks[i]; }
+    const TotalRank& t_rank() const noexcept { return trank; }
+
+    Ranks& r_rank() noexcept { return r_ranks; }
+    Rank& r_rank(const coord_t i) noexcept { return r_ranks[i]; }
+    Ranks& c_rank() noexcept { return c_ranks; }
+    Rank& c_rank(const coord_t j) noexcept { return c_ranks[j]; }
+    Ranks& d_rank() noexcept { return d_ranks; }
+    Rank& d_rank(const coord_t i) noexcept { return d_ranks[i]; }
+    Ranks& ad_rank() noexcept { return ad_ranks; }
+    Rank& ad_rank(const coord_t i) noexcept { return ad_ranks[i]; }
+    TotalRank& t_rank() noexcept { return trank; }
+
+    const Board_t& board() const noexcept { return b; }
+    Board_t& board() noexcept { return b; }
+    State& board(const Var v) noexcept {
+      assert(v.first >= 1 and v.second >= 1);
+      assert(v.first <= N and v.second <= N);
+      return b[v.first][v.second];
+    }
+
+  private:
+    Board_t b;
+    Ranks r_ranks;
+    Ranks c_ranks;
+    Ranks d_ranks;
+    Ranks ad_ranks;
+    TotalRank trank;
+
+    Ranks dad_init() const {
+      Ranks ranks(2*N-1);
+      Var_uint i = 0;
+      for (Var_uint r = 1; r < N ; ++r) ranks[i++].o = r;
+      for (Var_uint r = N; r > 0 ; --r) ranks[i++].o = r;
+      return ranks;
+    }
+  };
+
+
   // As in ComputerAlgebra/NumberTheory/Lisp/Numbering.mac, the enumeration of
   // all non-singular variables:
   inline constexpr Var enum_squarenumbering(const Var_uint n) noexcept {
