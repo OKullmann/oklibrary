@@ -29,7 +29,7 @@ TODOS:
 1. Investigate efficiency problem (at least on csltok)
 
 The current version 391ef7e4080e7a2033300d4d8119b0a8c4bfdd55
-yields
+yields (csltok)
 
 > time ./Sum
 N=100, mode=par(1), num_threads=4, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
@@ -81,6 +81,11 @@ N=100, mode=nonpar(0), (num_threads=4), max_reps=1000, seed=0, multiplier=100000
 real    0m20.961s
 user    0m20.910s
 sys     0m0.002s
+> time ./Sum 100 1 1
+N=100, mode=par(1), num_threads=1, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m19.524s
+user    0m19.458s
+sys     0m0.022s
 > time ./Sum 100 1 2
 N=100, mode=par(1), num_threads=2, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
 real    0m10.343s
@@ -88,6 +93,62 @@ user    0m20.609s
 sys     0m0.019s
 
 (A bit strange that now the non-parallel computation got a bit slower.)
+
+On csverify:
+
+First old state:
+
+$ git checkout 8aa1ade5657bd5ee6650dbe70345cb0153a18a37
+$ make
+$ time ./Sum
+N=100, mode=par(1), num_threads=12, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m1.298s
+user    0m14.041s
+sys     0m0.004s
+$ time ./Sum 100 0
+N=100, mode=nonpar(0), (num_threads=12), max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m7.500s
+user    0m7.500s
+sys     0m0.000s
+$ time ./Sum 100 1 1
+N=100, mode=par(1), num_threads=1, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m9.579s
+user    0m9.579s
+sys     0m0.000s
+$ time ./Sum 100 1 2
+N=100, mode=par(1), num_threads=2, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m4.682s
+user    0m9.360s
+sys     0m0.000s
+
+Back to current state e6c2307e1814975dcacfb07aa1a676c1c6799ccf :
+$ time ./Sum
+N=100, mode=par(1), num_threads=12, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m0.631s
+user    0m6.882s
+sys     0m0.000s
+$ time ./Sum 100 0
+N=100, mode=nonpar(0), (num_threads=12), max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m6.613s
+user    0m6.609s
+sys     0m0.004s
+$ time ./Sum 100 1 1
+N=100, mode=par(1), num_threads=1, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m3.487s
+user    0m3.486s
+sys     0m0.001s
+$ time ./Sum 100 1 2
+N=100, mode=par(1), num_threads=2, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+real    0m1.765s
+user    0m3.527s
+sys     0m0.000s
+
+The -march=native options has improved the runtime by nearly 100%.
+But peculiar, that the direct computation improved much less, and is now
+slower than just using one thread (which is the same computation).
+Same effect also on csltok, but much weaker.
+Again a weak compilation.
+
 
 2. Running the default values, but with various seeds, reveals a large
 variation in runtime, nearly 30%, which is surprising.
