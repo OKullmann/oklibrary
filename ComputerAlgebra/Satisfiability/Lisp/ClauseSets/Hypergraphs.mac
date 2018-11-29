@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 31.12.2007 (Swansea) */
-/* Copyright 2007, 2008, 2009, 2010, 2011 Oliver Kullmann
+/* Copyright 2007, 2008, 2009, 2010, 2011, 2018 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -187,6 +187,7 @@ implication_dg_fcs(FF) := block(
   F2 : map(listify,listify(scls_k(FF[2],2)))],
   [literals_v(FF[1]), setify(append(create_list([-U[1],U[1]],U,F1), 
       create_list([-C[1],C[2]],C,F2), create_list([-C[2],C[1]],C,F2)))])$
+imp_fcs2dg(FF) := implication_dg_fcs(FF)$
 
 
 /* ************
