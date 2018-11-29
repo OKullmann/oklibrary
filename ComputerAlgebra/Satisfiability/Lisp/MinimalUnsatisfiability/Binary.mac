@@ -24,6 +24,7 @@ oklib_include("OKlib/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Cores.mac")$
+oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
 
 
 /* ****************************
@@ -187,6 +188,16 @@ cycledesc2bmu_fcl(T) := block([c:sum_l(lappend(T)), k:length(T), n, F:[],
  [create_list(i,i,1,n),F])$
 
 cycledesc2bmu_cs(T) := fcl2cs(cycledesc2bmu_fcl(T))$
+cycledesc2bmu_fcs(T) := fcl2fcs(cycledesc2bmu_fcl(T))$
+
+/* The implication digraph of a cycle-description: */
+cycledesc2dg(T) := imp_fcs2dg(cycledesc2bmu_fcs(T))$
+
+
+/* ********************************************
+   * Automorphisms of cycle descriptions etc. *
+   ********************************************
+*/
 
 /* From here on a complete REVISION is needed. */
 
