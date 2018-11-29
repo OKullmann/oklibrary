@@ -25,6 +25,7 @@ oklib_include("OKlib/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Cores.mac")$
 oklib_include("OKlib/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
+oklib_include("OKlib/ComputerAlgebra/Graphs/Lisp/Connectedness.mac")$
 
 
 /* ****************************
@@ -192,6 +193,15 @@ cycledesc2bmu_fcs(T) := fcl2fcs(cycledesc2bmu_fcl(T))$
 
 /* The implication digraph of a cycle-description: */
 cycledesc2dg(T) := imp_fcs2dg(cycledesc2bmu_fcs(T))$
+/* The set of all cycles for T: */
+cycledesc2allcycles(T) := allcycles_dg(cycledesc2dg(T))$
+/* Whether a cycle is contradictory: */
+cycleclashp(C) := block([L:lunion(map(setify,C))], clashp(L,L))$
+/* The set of contradictory cycles for T: */
+cycledesc2allcontrcycl(T) := subset(cycledesc2allcycles(T), cycleclashp)$
+/* The length of the fundamental cycle: */
+lengthfundcycl_cycledesc(T) := sum_l(map(first,T)) + sum_l(map(third,T)) +
+ 2 * sum_l(map(second,T))$
 
 
 /* ********************************************
