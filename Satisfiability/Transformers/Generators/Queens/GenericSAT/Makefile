@@ -9,7 +9,7 @@ CXX = g++
 
 Standard_options = --std=c++17 -pedantic
 Warning_options = -Wall -Wextra
-Optimisation_options = -Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fmodulo-sched -fmodulo-sched-allow-regmoves -ftree-loop-ivcanon -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity -static
+Optimisation_options = -Ofast -DNDEBUG -fstrict-aliasing -funroll-loops -fvariable-expansion-in-unroller -floop-nest-optimize -fgraphite-identity --param graphite-max-nb-scop-params=0 -march=native -fwhole-program -static
 Debug_options = -g -D_GLIBCXX_DEBUG
 
 all : optimised debug test
