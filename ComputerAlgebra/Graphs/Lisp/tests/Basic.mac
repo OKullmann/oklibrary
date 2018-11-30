@@ -1496,6 +1496,18 @@ okltest_sconnected_omudgl_p(f) := (
   assert(okltest_sconnected_mudgl_p(buildq([f], lambda([G], f(mudgl2omudgl(G))))) = true),
   true)$
 
+okltest_minsconnected_dg_p(f) := (
+  assert(f([{},{}]) = true),
+  assert(f([{1},{}]) = true),
+  assert(f([{1,2},{}]) = false),
+  assert(f([{1,2},{[1,2]}]) = false),
+  assert(f([{1,2},{[1,2],[2,1]}]) = true),
+  assert(f([{1,2,3},{[1,2],[2,3],[3,1]}]) = true),
+  assert(f([{1,2,3},{[1,2],[2,3],[3,1],[3,2]}]) = false),
+  assert(f([{1,2,3,4},{[1,2],[2,3],[3,4],[4,1]}]) = true),
+  assert(f([{1,2,3,4},{[1,2],[2,3],[3,4],[4,1],[2,4]}]) = false),
+  true)$
+
 okltest_tree_g_p(f) := (
   assert(f([{},{}]) = false),
   assert(f([{1},{}]) = true),

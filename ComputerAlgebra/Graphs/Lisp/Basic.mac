@@ -458,6 +458,15 @@ sconnected_odgl_p(G) := sconnected_odg_p(odgl2odg(G))$
 sconnected_mudgl_p(G) := sconnected_dgl_p(mudgl2dgl(G))$
 sconnected_omudgl_p(G) := sconnected_odgl_p(omudgl2odgl(G))$
 
+/* Tests whether a digraph is minimally strongly connected: */
+minsconnected_dg_p(G) := if not sconnected_dg_p(G) then false else
+ block([res : true],
+   for e in second(G) do
+     if sconnected_dg_p([first(G), disjoin(e,second(G))]) then
+       (res : false, return(done)),
+   res
+ )$
+
 
 /* Tests whether a graph is a tree: */
 tree_g_p(G) := is_tree(g2mg(G))$
