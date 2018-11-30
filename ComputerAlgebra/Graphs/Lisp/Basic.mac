@@ -508,6 +508,36 @@ completebipartite_gl_p(G) := irreflexive_gl_p(G) and completebipartite_g_p(G)$
 completebipartite_gg_p(G) := completebipartite_gl_p(gg2gl(G))$
 
 
+/* **************
+   * Symmetries *
+   **************
+*/
+
+/* Using the dreadnaut-tool, as part of nauty
+     http://users.cecs.anu.edu.au/~bdm/nauty/
+   to obtain information on the automorphism group:
+*/
+/* Printing a digraph G, vertices starting with 0, without gaps, in the
+   dreadnaut input-format:
+*/
+print_dreadnaut_std0dg(G) := block([n : lmax(first(G))+1],
+ print("+d"),
+ print(sconcat("n=", n, " g")),
+ for v : 0 thru n-1 do
+   print(sconcat(dimacs_c_string(outneighbours_dg(v,G)), if v#n-1 then ";" else ".")),
+ print("x")
+)$
+output_dreadnaut_std0dg(G,f) := with_stdout(f, print_dreadnaut_std0dg(G))$
+/* For example
+     output_dreadnaut_std0dg([{0,1,2},{[0,1],[1,2],[2,0]}], "Test.graph");
+$ cat Test.graph | ./dreadnaut
+(0 1 2)
+level 1:  1 orbit; 0 fixed; index 3
+1 orbit; grpsize=3; 1 gen; 3 nodes; maxlev=2
+cpu time = 0.00 seconds
+*/
+
+
 /* ********************************
    * Connections to Maxima-graphs *
    ********************************
