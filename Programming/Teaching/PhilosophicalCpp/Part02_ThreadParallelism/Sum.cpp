@@ -153,6 +153,8 @@ Again a weak compilation.
 2. Running the default values, but with various seeds, reveals a large
 variation in runtime, nearly 30%, which is surprising.
 
+That seems to just directly correleated with the average reps-value.
+
 
 */
 
@@ -277,6 +279,28 @@ namespace {
     for (NumThreads_t i = 0; i < tasks; ++i) v.emplace_back(U(),0);
     return v;
   }
+  struct Statistics {
+    double min, max, mean, sd;
+    Statistics(const TaskVector& v) noexcept : min(v.front().first.repetitions()), max(min), mean(0), sd(0) {
+      assert(not v.empty());
+      for (auto i = v.begin()+1; i != v.end(); ++i) {
+        const auto val = i->first.repetitions();
+	if (val > max) max = val;
+	else if (val < min) min = val;
+	mean += val;
+      }
+      mean /= v.size();
+      for (auto i = v.begin(); i != v.end(); ++i) {
+	const auto val = i->first.repetitions();
+	const auto diff = val - mean;
+	sd += diff*diff;
+      }
+      sd = std::sqrt(sd/(v.size() - 1));
+    }
+  };
+  std::ostream& operator <<(std::ostream& out, const Statistics& s) {
+    return out << "range = (" << s.min << ", " << s.mean << ", " << s.max << "), sd = " << s.sd;
+  }
 
   template <typename T>
   class TaskQueue {
@@ -389,6 +413,7 @@ int main(const int argc, const char* const argv[]) {
   TaskVector tasks = create_experiment(num_tasks, max_reps, seed);
   const Result_t direct_sum = direct_evaluation(tasks);
   output_commandline(num_tasks, recmode, num_threads, max_reps, seed, direct_sum);
+  std::cout << Statistics(tasks) << "\n";
 
   if (recmode == RecMode::nonpar) {
     const Result_t result = nonparallel_evaluation(tasks);
