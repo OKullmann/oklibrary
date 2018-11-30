@@ -160,6 +160,7 @@ valid_cycledesc_bmu(T) := listp(T) and length(T) >= 2
 
 deficiency_cycledesc(T) := length(T)$
 ncl_cycledesc(T) := sum_l(map(sum_l,T))$
+nvar_cycledesc(T) := ncl_cycledesc(T) - deficiency_cycledesc(T)$
 nlitocc_cycledesc(T) := 2 * ncl_cycledesc(T)$
 
 /* For inputs T which fulfill valid_cycledesc_bmu(T): */
@@ -203,6 +204,20 @@ cycledesc2allcontrcycl(T) := subset(cycledesc2allcycles(T), cycleclashp)$
 lengthfundcycl_cycledesc(T) := sum_l(map(first,T)) + sum_l(map(third,T)) +
  2 * sum_l(map(second,T))$
 
+/* The implication-digraph, with vertices starting with 0: */
+shift_vertex_0(v) := if v < 0 then v+n else v+(n-1)$
+shift_arc_0(e) := map(shift_vertex_0, e)$
+cycledesc2std0dg(T) := block([G : cycledesc2dg(T), n : nvar_cycledesc(T)],
+ [map(shift_vertex_0, first(G)), map(shift_arc_0, second(G))])$
+
+/* Testing properties of the implication-digraph (for automorphisms see
+   below):
+*/
+sconnected_cycledesc_p(T) := sconnected_dg_p(cycledesc2std0dg(T))$
+/* The conjecture is that T yields always an SD. */
+minsconnected_cycledesc_p(T) := minsconnected_dg_p(cycledesc2std0dg(T))$
+/* The conjecture is that T yields an MSD iff all a_i, c_i >= 2. */
+
 
 /* ********************************************
    * Automorphisms of cycle descriptions etc. *
@@ -233,6 +248,25 @@ closure_3op_st(S) := block([oldlength:length(S)],
     if length(S) = oldlength then return(S),
     oldlength : length(S)
   ))$
+/* So the orbit of a cycle-description T is
+   closure_3op_st({T});
+*/
+size_autg_cycledesc(T) := 4*length(T) / length(closure_3op_st({T}))$
+
+/* Output the graph to file f in the dreadnaut-format, plus instruction
+   to compute the automorphism-group:
+*/
+output_dreadnaut_cycledesc(T,f) := output_dreadnaut_std0dg(cycledesc2std0dg(T), f)$
+/* The conjecture is that the automorphism groups of
+     cycledesc2bmu_fcs(T) and cycledesc2dg(T)
+   are always canonically isomorphic.
+*/
+
+
+/* *************************************
+   * Determining all isomorphism types *
+   *************************************
+*/
 
 /* Whether two cycle descriptions are equivalent: */
 equiv_cycledesc_p(T1,T2) := length(T1)=length(T2) and
