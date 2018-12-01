@@ -89,10 +89,9 @@ namespace NQueens {
     using Var = ChessBoard::Var;
     const coord_t N;
 
-    explicit AmoAlo_board(const coord_t N) :
-      N(N), B(N) {
-        assert(N <= ChessBoard::max_coord);
-        if (N == 1) set_true({1,1});
+    explicit AmoAlo_board(const coord_t N) : N(N), B(N) {
+      assert(N <= ChessBoard::max_coord);
+      if (N == 1) set_true({1,1});
     }
 
     bool satisfied() const noexcept { return B.t_rank().p == N; }
@@ -298,10 +297,9 @@ namespace NQueens {
     using Var = ChessBoard::Var;
     const coord_t N;
 
-    explicit PhasedAmoAlo_board(const coord_t N) :
-      N(N), B(N) {
-        assert(N <= ChessBoard::max_coord);
-        if (N == 1) set_true({1,1});
+    explicit PhasedAmoAlo_board(const coord_t N) : N(N), B(N) {
+      assert(N <= ChessBoard::max_coord);
+      if (N == 1) set_true({1,1});
     }
 
     bool satisfied() const noexcept { return B.t_rank().p == N; }
@@ -566,7 +564,6 @@ namespace NQueens {
 
     Place place;
     bool falsified_ = false;
-
 
   };
 
