@@ -70,6 +70,32 @@ real    0m10.343s
 user    0m20.609s
 sys     0m0.019s
 
+> git checkout 0ef3e32b639cb957977b203efd9dfc3b94add67e Sum.cpp
+> time ./Sum
+N=100, mode=par(1), num_threads=4, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+range = (2, 516.94, 1000), sd = 283.575
+real    0m6.343s
+user    0m24.993s
+sys     0m0.007s
+> time ./Sum 100 0
+N=100, mode=nonpar(0), (num_threads=4), max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+range = (2, 516.94, 1000), sd = 283.575
+real    0m21.004s
+user    0m20.954s
+sys     0m0.002s
+> time ./Sum 100 1 1
+N=100, mode=par(1), num_threads=1, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+range = (2, 516.94, 1000), sd = 283.575
+real    0m19.636s
+user    0m19.586s
+sys     0m0.002s
+> time ./Sum 100 1 2
+N=100, mode=par(1), num_threads=2, max_reps=1000, seed=0, multiplier=1000000=10^6, result=17503680526003500000
+range = (2, 516.94, 1000), sd = 283.575
+real    0m10.292s
+user    0m20.522s
+sys     0m0.007s
+
 (A bit strange that now the non-parallel computation got a bit slower.)
 
 On csverify:
