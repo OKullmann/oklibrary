@@ -351,12 +351,8 @@ namespace {
   */
   class WrapTask {
     TaskPointer p;
-    TQ& Q;
-    NumThreads_t& running;
-    std::mutex& mQ;
-    std::condition_variable& finished;
   public :
-    WrapTask(const TaskPointer p, TQ& Q, NumThreads_t& r, std::mutex& mQ, std::condition_variable& f) noexcept : p(p), Q(Q), running(r), mQ(mQ), finished(f) {}
+    WrapTask(const TaskPointer p) noexcept : p(p) {}
 
     void operator()() {
       while (true) {
@@ -378,7 +374,7 @@ namespace {
      const NumThreads_t run_now = std::min(num_threads, N);
      for (NumThreads_t i = 0; i < run_now; ++i) {
        const TaskPointer p = Q.toppop();
-       std::thread(WrapTask(p,Q,running,mQ,finished)).detach();
+       std::thread(WrapTask(p)).detach();
      }
     } mQ.unlock();
     {std::mutex dummy; std::unique_lock l(dummy); finished.wait(l);}
