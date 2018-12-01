@@ -16,8 +16,8 @@ License, or any later version. */
 
 namespace {
 
-const std::string version = "0.4.5";
-const std::string date = "19.11.2018";
+const std::string version = "0.4.6";
+const std::string date = "1.12.2018";
 const std::string program = "SimTaw"
 #ifndef NDEBUG
   "_debug"
